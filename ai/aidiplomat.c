@@ -503,11 +503,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       continue;
     }
     /* Found someone! */
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    punit->goto_dest_x = destx;
-    punit->goto_dest_y = desty;
-    if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED
-        || punit->moves_left == 0) {
+    if (!ai_unit_goto(punit, destx, desty) || punit->moves_left <= 0) {
       return FALSE;
     }
     if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, x, y)) {
@@ -630,7 +626,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
 
   /* GOTO unless we want to stay */
   if (!same_pos(punit->x, punit->y, ctarget->x, ctarget->y)) {
-    if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+    if (!ai_unit_gothere(punit)) {
       return;
     } 
   }

@@ -332,20 +332,11 @@ bool ai_manage_explorer(struct unit *punit)
     } iterate_outward_end;
     
     if (bestcost <= maxmoves * SINGLE_MOVE) {
-      enum goto_result result;
-
       /* Go there! */
-      punit->goto_dest_x = best_x;
-      punit->goto_dest_y = best_y;
-      set_unit_activity(punit, ACTIVITY_GOTO);
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-      if (result == GR_DIED) {
+      if (!ai_unit_goto(punit, best_x, best_y)) {
         /* We're dead. */
         return FALSE;
       }
-      GOTO_LOG(LOG_DEBUG, punit, result, "exploring huts");
-
-      /* TODO: Take more advantage from the do_unit_goto() return value. */
 
       if (punit->moves_left > 0) {
         /* We can still move on... */
@@ -511,19 +502,10 @@ bool ai_manage_explorer(struct unit *punit)
     } whole_map_iterate_end;
 
     if (most_unknown > 0) {
-      enum goto_result result;
-
       /* Go there! */
-      punit->goto_dest_x = best_x;
-      punit->goto_dest_y = best_y;
-      handle_unit_activity_request(punit, ACTIVITY_GOTO);
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-      if (result == GR_DIED) {
+      if (!ai_unit_goto(punit, best_x, best_y)) {
         return FALSE;
       }
-      GOTO_LOG(LOG_DEBUG, punit, result, "exploring territory");
-
-      /* TODO: Take more advantage from the do_unit_goto() return value. */
       
       if (punit->moves_left > 0) {
         /* We can still move on... */
@@ -574,9 +556,7 @@ bool ai_manage_explorer(struct unit *punit)
           ai_military_gohome(pplayer, punit);
         } else {
           /* Also try take care of deliberately homeless units */
-          punit->goto_dest_x = pcity->x;
-          punit->goto_dest_y = pcity->y;
-          (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+          (void) ai_unit_goto(punit, pcity->x, pcity->y);
         }
       } else {
         /* Sea travel */
@@ -585,12 +565,8 @@ bool ai_manage_explorer(struct unit *punit)
           UNIT_LOG(LOG_DEBUG, punit, "exploring unit wants a boat, going home");
           ai_military_gohome(pplayer, punit); /* until then go home */
         } else {
-          enum goto_result result;
           UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by boat");
-          punit->goto_dest_x = x;
-          punit->goto_dest_y = y;
-          result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-          GOTO_LOG(LOG_DEBUG, punit, result, "explorer sail home");
+          (void) ai_unit_goto(punit, x, y);
         }
       }
     }
@@ -774,7 +750,6 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 			   int which)
 {
   int x, y;
-  bool want_attack = (dest || punit->activity != ACTIVITY_GOTO);
 
   if (dest) {
     x = punit->goto_dest_x;
@@ -789,7 +764,7 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 
     if (pcity && pplayers_at_war(city_owner(pcity), unit_owner(punit))
 	&& (pcity->ai.invasion & which) != which
-	&& (want_attack || !has_defense(pcity))) {
+	&& (dest || !has_defense(pcity))) {
       pcity->ai.invasion |= which;
     }
   } square_iterate_end;
@@ -1117,13 +1092,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 
   if (!same_pos(punit->x, punit->y, x, y)) {
     if (goto_is_sane(punit, x, y, TRUE)) {
-      enum goto_result result;
-      punit->goto_dest_x = x;
-      punit->goto_dest_y = y;
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-      if (result != GR_DIED) {
-        GOTO_LOG(LOGLEVEL_BODYGUARD, punit, result, "bodyguard meet");
-      }
+      (void) ai_unit_goto(punit, x, y);
     } else {
       /* can't possibly get there to help */
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
@@ -1269,10 +1238,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
       freelog(LOG_DEBUG, "%s: %d@(%d, %d): Looking for BOAT (id=%d).",
 		    pplayer->name, punit->id, punit->x, punit->y, boatid);
       if (!same_pos(x, y, bx, by)) {
-        punit->goto_dest_x = bx;
-        punit->goto_dest_y = by;
-	set_unit_activity(punit, ACTIVITY_GOTO);
-	if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+	if (!ai_unit_goto(punit, bx, by)) {
 	  return -1;		/* died */
 	}
       }
@@ -1288,7 +1254,6 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 /* the code that worked for settlers wasn't good for piles of cannons */
         if (find_beachhead(punit, dest_x, dest_y, &ferryboat->goto_dest_x,
                &ferryboat->goto_dest_y) != 0) {
-/*  set_unit_activity(ferryboat, ACTIVITY_GOTO);   -- Extremely bad!! -- Syela */
           punit->goto_dest_x = dest_x;
           punit->goto_dest_y = dest_y;
           set_unit_activity(punit, ACTIVITY_SENTRY); /* anything but GOTO!! */
@@ -1303,7 +1268,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
                 if (def) set_unit_activity(def, ACTIVITY_SENTRY);
               }
             unit_list_iterate_end; /* passengers are safely stowed away */
-	    if (do_unit_goto(ferryboat, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+	    if (!ai_unit_goto(ferryboat, dest_x, dest_y)) {
 	      return -1;	/* died */
 	    }
             set_unit_activity(punit, ACTIVITY_IDLE);
@@ -1349,8 +1314,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 		unit_type(punit)->name, punit->id,
 		punit->x, punit->y, dest_x, dest_y);
       }
-      set_unit_activity(punit, ACTIVITY_GOTO);
-      if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+      if (!ai_unit_goto(punit, dest_x, dest_y)) {
 	return -1;		/* died */
       }
       /* liable to bump into someone that will kill us.  Should avoid? */
@@ -1587,12 +1551,8 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
       /* aggro defense goes here -- Syela */
       punit = ai_military_rampage(punit, 2); /* 2 is better than pillage */
     } else {
-      freelog(LOG_DEBUG, "GOHOME(%d,%d)",
-		   punit->goto_dest_x, punit->goto_dest_y);
-      punit->goto_dest_x=pcity->x;
-      punit->goto_dest_y=pcity->y;
-      set_unit_activity(punit, ACTIVITY_GOTO);
-      (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      UNIT_LOG(LOG_DEBUG, punit, "GOHOME");
+      (void) ai_unit_goto(punit, pcity->x, pcity->y);
     }
   } else {
     handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
@@ -2030,7 +1990,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   if (is_sailing_unit(punit)
       && find_nearest_friendly_port(punit)) {
     /* Sail somewhere */
-    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+    (void) ai_unit_gothere(punit);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do. Worst case, this function
        will send us back home */
@@ -2082,10 +2042,10 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
         && unit_flag(punit, F_HELP_WONDER)
         && build_points_left(pcity) > (pcity->shield_surplus * 2)) {
       if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
-        if (punit->moves_left == 0) 
+        if (punit->moves_left == 0) {
           return;
-        auto_settler_do_goto(pplayer, punit, pcity->x, pcity->y);
-        handle_unit_activity_request(punit, ACTIVITY_IDLE);
+        }
+        (void) ai_unit_goto(punit, pcity->x, pcity->y);
       } else {
         /*
          * We really don't want to just drop all caravans in immediately.
@@ -2119,8 +2079,10 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 
        if (pcity) {
          if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
-           if (punit->moves_left == 0) return;
-           auto_settler_do_goto(pplayer, punit, pcity->x, pcity->y);
+           if (punit->moves_left == 0) {
+             return;
+           }
+           (void) ai_unit_goto(punit, pcity->x, pcity->y);
          } else {
            req.unit_id = punit->id;
            req.city_id = pcity->id;
@@ -2170,12 +2132,12 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (p != 0) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
 		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
-    if (punit->moves_left > 0 && n != 0)
-      (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-    else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
+    if (punit->moves_left > 0 && n != 0) {
+      (void) ai_unit_gothere(punit);
+    } else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
       x = punit->goto_dest_x; y = punit->goto_dest_y;
       if (find_nearest_friendly_port(punit)
-	  && do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+	  && !ai_unit_gothere(punit)) {
 	return;			/* oops! */
       }
       punit->goto_dest_x = x; punit->goto_dest_y = y;
@@ -2230,12 +2192,9 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     /* Pickup is within 4 turns to grab, so move it! */
     punit->goto_dest_x = x;
     punit->goto_dest_y = y;
-    set_unit_activity(punit, ACTIVITY_GOTO);
     UNIT_LOG(LOG_DEBUG, punit, "Found a friend and going to him @(%d, %d)",
              x, y);
-    if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) != GR_DIED) {
-      set_unit_activity(punit, ACTIVITY_IDLE);
-    }
+    (void) ai_unit_gothere(punit);
     return;
   }
 
@@ -2248,9 +2207,8 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
         unit_move_turns(punit, pcity->x, pcity->y) < p) {
       punit->goto_dest_x = pcity->x;
       punit->goto_dest_y = pcity->y;
-      set_unit_activity(punit, ACTIVITY_GOTO);
       UNIT_LOG(LOG_DEBUG, punit, "No friends.  Going home.");
-      (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      (void) ai_unit_gothere(punit);
       return;
     }
   }
@@ -2547,8 +2505,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
       && !same_pos(closest_unit->x, closest_unit->y, leader->x, leader->y)
       && (map_get_continent(leader->x, leader->y)
           == map_get_continent(closest_unit->x, closest_unit->y))) {
-    auto_settler_do_goto(pplayer, leader, closest_unit->x, closest_unit->y);
-    handle_unit_activity_request(leader, ACTIVITY_IDLE);
+    (void) ai_unit_goto(leader, closest_unit->x, closest_unit->y);
     return; /* sticks better to own units with this -- jk */
   }
 
@@ -2618,7 +2575,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
     freelog(LOG_DEBUG, "Fleeing to %d, %d.", safest_x, safest_y);
     last_x = leader->x;
     last_y = leader->y;
-    auto_settler_do_goto(pplayer, leader, safest_x, safest_y);
+    (void) ai_unit_goto(leader, safest_x, safest_y);
     if (same_pos(leader->x, leader->y, last_x, last_y)) {
       /* Deep inside the goto handling code, in 
 	 server/unithand.c::handle_unite_move_request(), the server

@@ -36,8 +36,9 @@
 #include "unittools.h"
 
 #include "aicity.h"
-#include "aiunit.h"
 #include "aidata.h"
+#include "ailog.h"
+#include "aiunit.h"
 #include "aitools.h"
 
 #include "settlers.h"
@@ -732,20 +733,14 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 void auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x,
 			  int y)
 {
-  enum goto_result gotores;
-
   CHECK_MAP_POS(x, y);
   punit->goto_dest_x = x;
   punit->goto_dest_y = y;
   set_unit_activity(punit, ACTIVITY_GOTO);
   send_unit_info(NULL, punit);
-  gotores = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-
-  if (gotores != GR_DIED) {
-    freelog(LOG_DEBUG, "%s: %s (%d@%d,%d) did settler goto to %s towards "
-            "(%d,%d) with result %d", pplayer->name, unit_type(punit)->name, 
-            punit->id, punit->x, punit->y, get_activity_text(punit->activity), 
-            x, y, gotores);
+  if (!ai_unit_gothere(punit)) {
+    UNIT_LOG(LOG_DEBUG, punit, "did settler goto to %s",
+             get_activity_text(punit->activity));
   }
 }
 

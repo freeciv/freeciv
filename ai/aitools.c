@@ -112,6 +112,46 @@ void destroy_unit_virtual(struct unit *punit)
 }
 
 /**************************************************************************
+  This will eventually become the ferry-enabled goto. For now, it just
+  wraps ai_unit_goto()
+**************************************************************************/
+bool ai_unit_gothere(struct unit *punit)
+{
+  assert(punit->goto_dest_x != -1 && punit->goto_dest_y != -1);
+  if (ai_unit_goto(punit, punit->goto_dest_x, punit->goto_dest_y)) {
+    return TRUE; /* ... and survived */
+  } else {
+    return FALSE; /* we died */
+  }
+}
+
+/**************************************************************************
+  Go to specified destination but do not disturb existing role or activity
+  and do not clear the role's destination. Return FALSE iff we died.
+
+  FIXME: add some logging functionality to replace GOTO_LOG()
+**************************************************************************/
+bool ai_unit_goto(struct unit *punit, int x, int y)
+{
+  enum goto_result result;
+  int oldx = punit->goto_dest_x, oldy = punit->goto_dest_y;
+  enum unit_activity activity = punit->activity;
+
+  /* TODO: log error on same_pos with punit->x|y */
+  punit->goto_dest_x = x;
+  punit->goto_dest_y = y;
+  handle_unit_activity_request(punit, ACTIVITY_GOTO);
+  result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+  if (result != GR_DIED) {
+    handle_unit_activity_request(punit, activity);
+    punit->goto_dest_x = oldx;
+    punit->goto_dest_y = oldy;
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
   Ensure unit sanity by telling charge that we won't bodyguard it anymore,
   add and remove city spot reservation, and set destination.
 **************************************************************************/
