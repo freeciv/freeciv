@@ -250,10 +250,14 @@ static int dangerfunct(int danger, int move_rate, int distance)
   int num = move_rate * 4;
   int denom = move_rate * 4;
 
+  if (move_rate == 0) {
+    return danger;
+  }
+
   danger *= 2;
 
   /* Turns to reach us.. */
-  while (distance >= move_rate && move_rate != 0) {
+  while (distance >= move_rate) {
     danger /= 2;
     distance -= move_rate;
   }
