@@ -14,18 +14,33 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # + '# ?'  markiert Stellen, die noch nicht übersetzt wurden.        +
 # + '# NN' markiert Kommentare des Übersetzers mit den Initialen NN. +
+# + Hinweis: Diese Kommentare sollten direkt über die mit '#:'       +
+# +          beginnenden Adressverweise gesetzt werden.              +
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# + ÄNDERUNGEN / ERGÄNZUNGEN / KORREKTUREN                           +
+# + Sollten Sie Rechtschreibfehler oder andere OFFENSICHTLICHE       +
+# + Fehler in der Übersetzung finden, senden Sie bitte einen mit     +
+# + 'diff -u' erstellten PATCH an die Mailingliste                   +
+# + <freeciv-de@ehinzen.de>.                                         +
+# + Sollte Ihnen "bessere" Übersetzungen einfallen, senden Sie bitte +
+# + KEINEN PATCH, sondern stellen Sie Ihren Vorschlag als TEXT in    +
+# + der Mailingliste zur Diskussion.                                 +
+# + Sie können die Liste mit einer Email an <Majordomo@ehinzen.de>   +
+# + (ohne Subject:) mit dem Text "subscribe freeciv-de" abonnieren.  + 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.9  1999/11/08 03:22:22  jjm
-# Updates to German translation.
-# Patch by Egbert Hinzen <garfy@ehinzen.de>.
+# Revision 1.10  1999/11/11 19:29:39  jjm
+# Update to de.po, and a patch to mark the "Loading rulesets" string.
+# Both submitted by Egbert Hinzen <garfy@ehinzen.de>.
 #
-# Revision 1.9.1.15  1999/11/06 17:21:00  egbert
-# small additions to add source changings
-# civ2 help about rivers is included but unused
-# look at #: data/civ2/terrain.ruleset:43 data/default/terrain.ruleset:43
+# Revision 1.9.1.17  1999/11/10 07:25:19  egbert
+# some bugs removed
+# hints for translators added
 #
+# Revision 1.9.1.16  1999/11/08 18:59:27  egbert
+# some bugs corrected
+# lines with "too many %s" translated, but they may cause trouble
 #
 # Revision 1.9.1.13  1999/11/02 04:33:23  egbert
 # improved translation completed
@@ -264,22 +279,22 @@ msgstr "Spiel: Die %s haben begonnen, %s in %s zu bauen."
 msgid "Game: %s is not a valid name."
 msgstr "Spiel: %s ist kein zulässiger Name."
 
-#: server/citytools.c:596 server/citytools.c:624
+#: server/citytools.c:603 server/citytools.c:632
 #, c-format
 msgid "Game: Transfered %s in %s from %s to %s."
 msgstr "Spiel: %s in %s von %s nach %s transportiert."
 
-#: server/citytools.c:616
+#: server/citytools.c:624
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Spiel: Heimatstadt von %s in %s geändert."
 
-#: server/citytools.c:639
+#: server/citytools.c:647
 #, c-format
 msgid "Game: Transfered %s at (%d, %d) from %s to %s."
 msgstr "Spiel: %s (%d, %d) von %s nach %s transportiert."
 
-#: server/citytools.c:889
+#: server/citytools.c:897
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -288,12 +303,12 @@ msgstr ""
 "Spiel: Die Nation wird vom Bürgerkrieg gespalten.\n"
 "       %s ist der Anführer der revoltierenden Provinzen."
 
-#: server/citytools.c:909
+#: server/citytools.c:917
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spiel: %s verkündet Allianz mit %s."
 
-#: server/citytools.c:938
+#: server/citytools.c:946
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -405,12 +420,12 @@ msgstr ""
 msgid "Game: Pollution near %s."
 msgstr "Spiel: Umweltverschmutzung bei %s."
 
-# ?
 #: server/cityturn.c:1311
 #, c-format
 msgid ""
 "Game: %s suggest throttling growth to use %s (being built) more effectively."
-msgstr ""
+msgstr "%s empfiehlt, das Wachstum zu beschleunigen, um %s (im Bau) besser"
+"nutzen zu können."
 
 #: server/cityturn.c:1327
 #, c-format
@@ -435,7 +450,7 @@ msgstr "Spiel: IMMER NOCH AUFRUHR in %s."
 #: server/cityturn.c:1372
 #, c-format
 msgid "Game: Order restored in %s."
-msgstr "Spiel: In % wurde die Ordnung wieder hergestellt."
+msgstr "Spiel: In %s wurde die Ordnung wieder hergestellt."
 
 #: server/cityturn.c:1381
 #, c-format
@@ -689,7 +704,7 @@ msgstr "%d andere Spieler sind anwesend:"
 
 #: server/civserver.c:1327
 msgid " (an AI player)"
-msgstr " (ein KI player)"
+msgstr " (ein KI-Spieler)"
 
 #: server/civserver.c:1358
 #, c-format
@@ -699,7 +714,7 @@ msgstr "%s ist als KI-Spieler dazu gekommen."
 #: server/civserver.c:1360
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Spiel: der KI-Spieler %s ist dazu gekommen."
+msgstr "Spiel: Der KI-Spieler %s ist dazu gekommen."
 
 #: server/civserver.c:1395
 #, c-format
@@ -972,50 +987,41 @@ msgstr "Herodots Bericht über die glücklichsten Nationen."
 msgid "Herodot's report on the LARGEST Civilizations in the World."
 msgstr "Herodots Bericht über die größten Nationen."
 
-# ? Großartig
 #: server/plrhand.c:86
 msgid "Magnificent"
-msgstr ""
+msgstr "großartigen"
 
-# ? Glorreich
 #: server/plrhand.c:86
 msgid "Glorious"
-msgstr ""
+msgstr "gloreichen"
 
-# ? Groß
 #: server/plrhand.c:86
 msgid "Great"
-msgstr ""
+msgstr "großen"
 
-# ? Bescheiden
 #: server/plrhand.c:86
 msgid "Decent"
-msgstr ""
+msgstr "bescheidenen"
 
-# ? Mittelmäßig
 #: server/plrhand.c:87
 msgid "Mediocre"
-msgstr ""
+msgstr "mittelmäßigen"
 
-# ? Lächerlich
 #: server/plrhand.c:87
 msgid "Hilarious"
-msgstr ""
+msgstr "lächerlichen"
 
-# ? Wertlos
 #: server/plrhand.c:87
 msgid "Worthless"
-msgstr ""
+msgstr "wertlosen"
 
-# ? Langweilig
 #: server/plrhand.c:87
 msgid "Pathetic"
-msgstr ""
+msgstr "langweiligen"
 
-# ? Nutzlos
 #: server/plrhand.c:88
 msgid "Useless"
-msgstr ""
+msgstr "nutzlosen"
 
 #: server/plrhand.c:128
 #, c-format
@@ -1029,7 +1035,7 @@ msgstr "Historiker veröffentlicht:"
 #: server/plrhand.c:175
 #, c-format
 msgid "%2d: The %s City of %s of size %d, with %d wonders\n"
-msgstr "%2d: (%s) %s, Größe %d mit %d Weltwunder(n)\n"
+msgstr "%2d: Die %se Stadt %s: Größe %d mit %d Weltwunder(n)\n"
 
 #: server/plrhand.c:182 server/plrhand.c:206
 msgid "Traveler's Report:"
@@ -1190,8 +1196,8 @@ msgstr "Spiel: Die %s existieren nicht mehr!"
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
 "Spiel: %s erforscht.\n"
-"       Unsere Wissenschaftler konzentrieren sich jetzt auf %s,\n"
-"       Ziel ist die Entwicklung von %s."
+"        Unsere Wissenschaftler konzentrieren sich jetzt auf %s,\n"
+"        Ziel ist die Entwicklung von %s."
 
 #: server/plrhand.c:1206
 #, c-format
@@ -1266,7 +1272,7 @@ msgstr "Spiel: %s regiert die %s jetzt als %s."
 #: server/plrhand.c:1458
 #, c-format
 msgid "Game: The %s have incited a revolt!"
-msgstr "Spiel: Die %s haben zu einer Revolte angestiftet!"
+msgstr "Spiel: Die %s haben ihre Regierung gestürzt!"
 
 #: server/plrhand.c:1492
 #, c-format
@@ -1338,6 +1344,10 @@ msgstr "unterstützte Optionen: %s"
 #: server/ruleset.c:119
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Ruleset-Datei benötigt Optionen, die nicht unterstützt werden:"
+
+#: server/ruleset.c:1881
+msgid "Loading rulesets"
+msgstr "Lade rulesets"
 
 #: server/spacerace.c:163
 msgid "Game: Your spaceship is already launched!"
@@ -2271,7 +2281,7 @@ msgstr "Diese Einstellung kann nach Spielstart nicht mehr geändert werden."
 #: server/stdinhand.c:1609 server/stdinhand.c:1612
 #, c-format
 msgid "Option: %s has been set to %d."
-msgstr "Option %s wurde auf %d gesetzt."
+msgstr "%s auf %d gesetzt."
 
 #: server/stdinhand.c:1619
 msgid "Value out of range.  Usage: set <option> <value>."
@@ -2280,7 +2290,7 @@ msgstr "Unzulässiger Wert. Anwendung: set <Option> <Wert>"
 #: server/stdinhand.c:1625 server/stdinhand.c:1628
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
-msgstr "Option %s wurde auf '%s' gesetzt."
+msgstr "%s auf '%s' gesetzt."
 
 #: server/stdinhand.c:1633
 msgid "String value too long.  Usage: set <option> <value>."
@@ -2530,7 +2540,7 @@ msgstr "Spiel: %s hat erfolgreich die Zukunftstechnologie %d von %s gestohlen."
 #: server/unitfunc.c:246
 #, c-format
 msgid "Game: A%s %s %s stole Future Tech. %d from %s."
-msgstr ""
+msgstr "Spiel: Ein %2$s %3$s hat Zukunftstechnologie %4$d von %5$s gestohlen."
 
 #: server/unitfunc.c:255
 #, c-format
@@ -2577,6 +2587,7 @@ msgstr "Spiel: %s wurde von einem Wächter (%s) in %s getötet."
 #, c-format
 msgid "Game: A%s %s %s was eliminated while infiltrating %s."
 msgstr ""
+"Spiel: Ein %2$s %3$s wurde bei dem Versuch %4$s zu unterwandern getötet."
 
 #: server/unitfunc.c:375
 #, c-format
@@ -2658,7 +2669,7 @@ msgstr "Spiel: %s wurde bei einem Sabotageversuch festgenommen!"
 #: server/unitfunc.c:613
 #, c-format
 msgid "Game: You caught a%s %s %s attempting sabotage in %s!"
-msgstr ""
+msgstr "Spiel: %2$s %3$s bei Sabotageversuch in %4$s gefaßt!"
 
 #: server/unitfunc.c:637
 #, c-format
@@ -2674,7 +2685,7 @@ msgstr "Spiel: %s wurde bei einem Sabotageversuch festgenommen!"
 #: server/unitfunc.c:654
 #, c-format
 msgid "Game: You caught a%s %s %s attempting to sabotage the %s in %s!"
-msgstr ""
+msgstr "Spiel: %2$s %3$s bei dem Versuch gefaßt, %4$s in %5$s zu sabotieren!"
 
 #: server/unitfunc.c:691
 #, c-format
@@ -2760,48 +2771,48 @@ msgstr "Spiel: %s entdeckte %s in der Stadt."
 #: server/unitfunc.c:1804
 #, c-format
 msgid "Game: You lost a%s %s when %s lost."
-msgstr ""
+msgstr "Spiel: %2$s beim Verlust von %3$s verloren."
 
 # ?Problem: %s zuviel
 #: server/unitfunc.c:1875
 #, c-format
 msgid "Game: You lost a%s %s under an attack from %s's %s%s."
-msgstr ""
+msgstr "Spiel: %2$s bei einem Angriff von %3$ss %4$s verloren."
 
 #: server/unitfunc.c:1890
 #, c-format
 msgid "Game: You lost %d units under an attack from %s's %s%s."
-msgstr "Spiel: %d Einheiten beim Angriff von %ss %s%s verloren."
+msgstr "Spiel: %d Einheiten beim Angriff von %ss %s verloren."
 
 # ?Problem: %s zuviel
 #: server/unitfunc.c:1897
 #, c-format
 msgid "Game: You lost a%s %s under an attack from %s's %s."
-msgstr ""
+msgstr "Spiel: %2$s beim Angriff von %3$ss %4$s verloren."
 
-# ?
+# ?Problem: %s zuviel
 #: server/unitfunc.c:1977
 #, c-format
 msgid "%sat %s"
-msgstr ""
+msgstr " bei %2$s"
 
-# ?
+# ?Problem: %s zuviel
 #: server/unitfunc.c:1979
 #, c-format
 msgid "%sin %s"
-msgstr ""
+msgstr " in %2$s"
 
-# ?
+# ?Problem: %s zuviel
 #: server/unitfunc.c:1985
 #, c-format
 msgid "%soutside %s"
-msgstr ""
+msgstr " außerhalb von %2$s"
 
-# ?
+# ?Problem: %s zuviel
 #: server/unitfunc.c:1987
 #, c-format
 msgid "%snear %s"
-msgstr ""
+msgstr " in der Nähe von %2$s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/unithand.c:82 server/unithand.c:131
@@ -2922,7 +2933,7 @@ msgstr ""
 #: server/unithand.c:585
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
-msgstr "Spiel: %s%s überlebten den Angriff von %ss %s."
+msgstr "Spiel: %s%s überlebte den Angriff von %ss %s."
 
 #: server/unithand.c:595
 #, c-format
@@ -3185,20 +3196,17 @@ msgstr "Verbindung zum Server beendet."
 msgid "Lost connection to server!"
 msgstr "Verbindung zum Server verloren!"
 
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/clinet.c:216
 msgid "Invalid $http_proxy value, must start with 'http://'"
-msgstr ""
+msgstr "Ungültiger Eintrag in $http_proxy: Muß mit 'http://' anfangen."
 
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/clinet.c:222
 msgid "Invalid metaserver URL, must start with 'http://'"
-msgstr ""
+msgstr "Ungültige Metaserver URL: Muß mit 'http://' anfangen."
 
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/clinet.c:250
 msgid "Invalid $http_proxy value, cannot find separating '/'"
-msgstr ""
+msgstr "Ungültiger Eintrag in $http_proxy: Muß '/' enthalten."
 
 #: client/control.c:227
 msgid "Game: You can only unload transporter units."
@@ -3272,6 +3280,7 @@ msgstr "Ermöglicht einer Stadt über die Größe %d hinaus zu wachsen. "
 #, c-format
 msgid "(A%s %s is also required for a city to grow larger than size %d.)  "
 msgstr ""
+"(%2$s wird auch benötigt, damit eine Stadt größer als %3$d werden kann.)"
 
 #: client/helpdata.c:564
 #, c-format
@@ -3687,10 +3696,9 @@ msgstr ""
 msgid "Cannot find your home directory"
 msgstr ""
 
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/options.c:171
 msgid "Settings file is "
-msgstr ""
+msgstr "Ihre Konfigurationsdatei ist "
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/options.c:174
@@ -4013,13 +4021,12 @@ msgstr ""
 "%s kostet %d Goldstücke.\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-# ?
 #: client/gui-gtk/citydlg.c:1467 client/gui-gtk/citydlg.c:1515
 #: client/gui-gtk/citydlg.c:1539 client/gui-gtk/dialogs.c:404
 #: client/gui-gtk/dialogs.c:921 data/Freeciv:2103 data/Freeciv:2305
 #: data/Freeciv:2335
 msgid "Darn"
-msgstr ""
+msgstr "Zurück"
 
 #. this shouldn't generally happen, but it is conceivable
 #: client/gui-gtk/citydlg.c:1513 client/gui-xaw/citydlg.c:1966
@@ -4217,7 +4224,7 @@ msgstr "Wirtschaft: Gold, Luxus, Forschung"
 
 #: client/gui-gtk/cityrep.c:235 client/gui-xaw/cityrep.c:259
 msgid "Number of Trade Routes"
-msgstr "H"
+msgstr "Anzahl der Handelswege"
 
 #: client/gui-gtk/cityrep.c:237 client/gui-gtk/repodlgs.c:763
 #: client/gui-xaw/cityrep.c:261
@@ -5056,7 +5063,7 @@ msgstr "Bericht des Nachrichtendienstes"
 #: client/gui-gtk/inteldlg.c:86 client/gui-xaw/inteldlg.c:94
 #, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr "Geheimdienstinformationen für das Imperium der %s"
+msgstr "Geheimdienstinformationen über das %se Imperium"
 
 #: client/gui-gtk/inteldlg.c:99 client/gui-xaw/inteldlg.c:103
 #, c-format
@@ -5638,7 +5645,7 @@ msgstr "Gebäude"
 
 #: client/gui-gtk/repodlgs.c:500
 msgid "Count"
-msgstr "Ertrag"
+msgstr "Anzahl"
 
 #: client/gui-gtk/repodlgs.c:501
 msgid "Cost"
@@ -5646,7 +5653,7 @@ msgstr "Kosten"
 
 #: client/gui-gtk/repodlgs.c:501
 msgid "U Total"
-msgstr "Unt. gesamt"
+msgstr "Kosten gesamt"
 
 #: client/gui-gtk/repodlgs.c:515 client/gui-gtk/repodlgs.c:675
 #: client/gui-xaw/repodlgs.c:614 client/gui-xaw/repodlgs.c:769
@@ -7215,7 +7222,7 @@ msgid ""
 "with City Walls built on a Forest tile."
 msgstr ""
 "Kanonen (Veteran, A:8, D:1, HP:20, F:1) mit 2/3 Bewegungspunkten greifen "
-"Musketiere (A:3, D:3, HP:20, F:1) in einer Stadt mit Stadtmauern im Wald an."
+"Schützen (A:3, D:3, HP:20, F:1) in einer Stadt mit Stadtmauern im Wald an."
 
 #: data/helpdata.txt:869
 msgid ""
@@ -8547,7 +8554,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:587 data/civ2/buildings.ruleset:636
 #: data/default/buildings.ruleset:636
 msgid "Apollo Program"
-msgstr "Apollo Programm"
+msgstr "das Apollo Programm"
 
 #: data/civ1/buildings.ruleset:594 data/civ2/buildings.ruleset:643
 #: data/default/buildings.ruleset:643
@@ -8602,7 +8609,7 @@ msgstr "Das Forschungstempo der Stadt wird um 50% gesteigert."
 #: data/civ1/buildings.ruleset:635 data/civ2/buildings.ruleset:688
 #: data/default/buildings.ruleset:688
 msgid "Cure For Cancer"
-msgstr "Krebs-Zentrum"
+msgstr "das Krebs-Zentrum"
 
 #: data/civ1/buildings.ruleset:642 data/civ2/buildings.ruleset:695
 #: data/default/buildings.ruleset:695
@@ -8627,12 +8634,12 @@ msgstr "2 sofortige Forschungsergebnisse"
 #: data/civ1/buildings.ruleset:662 data/civ2/buildings.ruleset:715
 #: data/default/buildings.ruleset:715
 msgid "Eiffel Tower"
-msgstr "Eiffelturm"
+msgstr "den Eiffelturm"
 
 #: data/civ1/buildings.ruleset:672 data/civ2/buildings.ruleset:725
 #: data/default/buildings.ruleset:725
 msgid "Great Library"
-msgstr "Große Bibliothek"
+msgstr "die Große Bibliothek"
 
 #: data/civ1/buildings.ruleset:679 data/civ2/buildings.ruleset:732
 #: data/default/buildings.ruleset:732
@@ -8646,7 +8653,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:685 data/civ2/buildings.ruleset:738
 #: data/default/buildings.ruleset:738
 msgid "Great Wall"
-msgstr "Große Mauer"
+msgstr "die Große Mauer"
 
 #: data/civ1/buildings.ruleset:692 data/civ2/buildings.ruleset:745
 #: data/default/buildings.ruleset:745
@@ -8656,7 +8663,7 @@ msgstr "Gilt als Stadtmauer für jede eigene Stadt."
 #: data/civ1/buildings.ruleset:697 data/civ2/buildings.ruleset:750
 #: data/default/buildings.ruleset:750
 msgid "Hanging Gardens"
-msgstr "Hängende Gärten"
+msgstr "die Hängenden Gärten"
 
 #: data/civ1/buildings.ruleset:704 data/civ2/buildings.ruleset:757
 #: data/default/buildings.ruleset:757
@@ -8677,7 +8684,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:713 data/civ2/buildings.ruleset:766
 #: data/default/buildings.ruleset:766
 msgid "Hoover Dam"
-msgstr "Hoover-Staudamm"
+msgstr "den Hoover-Staudamm"
 
 #: data/civ2/buildings.ruleset:773 data/default/buildings.ruleset:773
 msgid ""
@@ -8735,7 +8742,7 @@ msgstr "Modernisiert eine veraltete Einheit pro Runde."
 #: data/civ1/buildings.ruleset:781 data/civ2/buildings.ruleset:837
 #: data/default/buildings.ruleset:837
 msgid "Lighthouse"
-msgstr "Leuchtturm"
+msgstr "den Leuchtturm"
 
 #: data/civ1/buildings.ruleset:788 data/civ2/buildings.ruleset:844
 #: data/default/buildings.ruleset:844
@@ -8762,7 +8769,7 @@ msgstr "Alle Marineeinheiten erhalten 2 zusätzliche Bewegungspunkte."
 #: data/civ1/buildings.ruleset:808 data/civ2/buildings.ruleset:864
 #: data/default/buildings.ruleset:864
 msgid "Manhattan Project"
-msgstr "Manhattan Projekt"
+msgstr "das Manhattan Projekt"
 
 #: data/civ1/buildings.ruleset:818 data/civ2/buildings.ruleset:874
 #: data/default/buildings.ruleset:874
@@ -8788,7 +8795,7 @@ msgstr "Zählt als Kathedrale für alle eigenen Städte."
 #: data/civ1/buildings.ruleset:841 data/civ2/buildings.ruleset:900
 #: data/default/buildings.ruleset:900
 msgid "Oracle"
-msgstr "Orakel"
+msgstr "das Orakel"
 
 #: data/civ1/buildings.ruleset:848 data/civ2/buildings.ruleset:907
 #: data/default/buildings.ruleset:907
@@ -8798,7 +8805,7 @@ msgstr "In allen Städten verdoppelt sich der Effekt von Tempeln."
 #: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:912
 #: data/default/buildings.ruleset:912
 msgid "Pyramids"
-msgstr "Pyramiden"
+msgstr "die Pyramiden"
 
 #: data/civ2/buildings.ruleset:919 data/default/buildings.ruleset:919
 msgid "Counts as having a Granary in every city."
@@ -8807,7 +8814,7 @@ msgstr "Zählen als Kornspeicher in jeder eigenen Stadt."
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:928
 #: data/default/buildings.ruleset:928
 msgid "SETI Program"
-msgstr "SETI-Programm"
+msgstr "das SETI-Programm"
 
 #: data/civ2/buildings.ruleset:935 data/default/buildings.ruleset:935
 msgid ""
@@ -8828,7 +8835,7 @@ msgstr "Macht alle unzufriedenen Einwohner der Stadt zufrieden."
 #: data/civ1/buildings.ruleset:892 data/civ2/buildings.ruleset:953
 #: data/default/buildings.ruleset:953
 msgid "Statue of Liberty"
-msgstr "Freiheitsstatue"
+msgstr "die Freiheitsstatue"
 
 #: data/civ1/buildings.ruleset:860 data/civ1/buildings.ruleset:917
 #: data/civ2/buildings.ruleset:960 data/default/buildings.ruleset:960
@@ -8857,16 +8864,17 @@ msgstr ""
 #: data/civ1/buildings.ruleset:910 data/civ2/buildings.ruleset:982
 #: data/default/buildings.ruleset:982
 msgid "United Nations"
-msgstr "Vereinte Nationen"
+msgstr "die Vereinten Nationen"
 
+# EH: Im Original falsch
 #: data/civ2/buildings.ruleset:989 data/default/buildings.ruleset:989
 msgid "Units regain one extra hitpoint per turn."
-msgstr "Alle eigenen Einheiten erhalten 1? Trefferpunkt pro Runde zurück."
+msgstr "Alle eigenen Einheiten erhalten 2 Trefferpunkte pro Runde zurück."
 
 #: data/civ1/buildings.ruleset:931 data/civ2/buildings.ruleset:1004
 #: data/default/buildings.ruleset:1004
 msgid "Women's Suffrage"
-msgstr "Frauenstimmrecht"
+msgstr "das Frauenstimmrecht"
 
 #: data/civ2/buildings.ruleset:1011 data/default/buildings.ruleset:1011
 msgid ""
@@ -8878,7 +8886,7 @@ msgstr "Zählt als Polizeiwache in jeder eigenen Stadt."
 #: data/civ1/buildings.ruleset:946 data/civ2/buildings.ruleset:1023
 #: data/default/buildings.ruleset:1023
 msgid "Capitalization"
-msgstr "Kapitalisierung"
+msgstr "die Kapitalisierung"
 
 #: data/civ1/buildings.ruleset:953 data/civ2/buildings.ruleset:1030
 #: data/default/buildings.ruleset:1030
@@ -9907,11 +9915,10 @@ msgstr "Laser"
 msgid "Leadership"
 msgstr "Führerschaft"
 
-# ?
 #: data/civ1/techs.ruleset:306 data/civ2/techs.ruleset:306
 #: data/default/techs.ruleset:306
 msgid "Machine Tools"
-msgstr ""
+msgstr "Werkzeugmaschinen"
 
 #: data/civ1/techs.ruleset:312 data/civ2/techs.ruleset:312
 #: data/default/techs.ruleset:312
@@ -10503,7 +10510,7 @@ msgstr "Lanzenkämpfer"
 #: data/civ1/units.ruleset:253 data/civ2/units.ruleset:258
 #: data/default/units.ruleset:258
 msgid "Musketeers"
-msgstr "Musketiere"
+msgstr "Schützen"
 
 #: data/civ1/units.ruleset:276 data/civ2/units.ruleset:281
 #: data/default/units.ruleset:281

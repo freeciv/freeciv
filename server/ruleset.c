@@ -1878,7 +1878,7 @@ static void send_ruleset_cities(struct player *dest)
 **************************************************************************/
 void load_rulesets(void)
 {
-  freelog(LOG_NORMAL, "Loading rulesets");
+  freelog(LOG_NORMAL, _("Loading rulesets"));
   load_ruleset_techs(game.ruleset.techs);
   load_ruleset_cities(game.ruleset.cities);
   load_ruleset_governments(game.ruleset.governments);
