@@ -15,8 +15,6 @@
 
 #include "mapview_g.h"
 
-void put_one_tile_full(HDC hdc, int x, int y,
-		       int canvas_x, int canvas_y, int citymode);
 void check_mapstore(void);
 void map_resize(void);
 void init_map_win(void);

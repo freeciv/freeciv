@@ -36,8 +36,6 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p);
 
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p);
-void put_one_tile_full(GdkDrawable *pm, int x, int y,
-		       int canvas_x, int canvas_y, int citymode);
 
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);

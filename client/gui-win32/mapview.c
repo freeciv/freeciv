@@ -62,8 +62,6 @@ extern void do_mainwin_layout();
 extern int seconds_to_turndone;   
 void update_map_canvas_scrollbars_size(void);
 void refresh_overview_viewrect_real(HDC hdcp);
-void put_one_tile_full(HDC hdc, int x, int y,
-			      int canvas_x, int canvas_y, int citymode);
 static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 int canvas_x, int canvas_y,
                                 int citymode);
@@ -747,15 +745,6 @@ static void pixmap_put_overlay_tile_draw(HDC hdc,
     
   }
   
-}
-
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-void put_one_tile_full(HDC hdc, int x, int y,
-                       int canvas_x, int canvas_y, int citymode)
-{
-  pixmap_put_tile_iso(hdc, x, y, canvas_x, canvas_y, citymode);
 }
 
 /**************************************************************************

@@ -404,15 +404,6 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 }
 
 /**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-void put_one_tile_full(GdkDrawable *pm, int x, int y,
-		       int canvas_x, int canvas_y, int citymode)
-{
-  pixmap_put_tile_iso(pm, x, y, canvas_x, canvas_y, citymode);
-}
-
-/**************************************************************************
   Draw some or all of a tile onto the canvas.
 **************************************************************************/
 void put_one_tile_iso(struct canvas *pcanvas,
