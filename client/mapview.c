@@ -72,6 +72,7 @@
 #define F_TILE           12*20+19
 
 #define RAIL_TILES       13*20
+#define X_TILE           13*20+19
 #define FLAG_TILES       14*20
 #define CROSS_TILE       14*20+17
 #define AUTO_TILE        14*20+18
@@ -989,6 +990,9 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
       break;
     case ACTIVITY_IRRIGATE:
       tileno=I_TILE;
+      break;
+    case ACTIVITY_EXPLORE:
+      tileno=X_TILE;
       break;
     case ACTIVITY_FORTIFY:
     case ACTIVITY_FORTRESS:
