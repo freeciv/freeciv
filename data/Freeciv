@@ -3008,15 +3008,15 @@ Freeciv*cityoptionscommand.label:		_("City Options")
 
 ! dummy label:
 Freeciv*citybuildinglabel.label: \
-XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ! dummy label:
 Freeciv*cityprogresslabel.label: \
-8888/8888
+8888/8888 888 turns
 
 Freeciv*citybuycommand.label:			_(" Buy ")
 
-Freeciv*citychangecommand.label:		_(" Change ")
+Freeciv*citychangecommand.label:		_("Change")
 
 Freeciv*cityworklistcommand.label:		_(" Worklist ")
 

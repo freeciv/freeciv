@@ -436,7 +436,7 @@ static void city_map_canvas_expose(Widget w, XEvent *event, Region exposed,
 struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 {
   static char *dummy_improvement_list[]={ 
-    "XXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "2",
     "3",
     "4",
@@ -1383,14 +1383,19 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf[32], buf2[64], buf3[128];
+  int turns;
   struct city *pcity=pdialog->pcity;
   
   XtSetSensitive(pdialog->buy_command, !pcity->did_buy);
   XtSetSensitive(pdialog->sell_command, !pcity->did_sell);
 
   if(pcity->is_building_unit) {
-    my_snprintf(buf, sizeof(buf), "%3d/%3d", pcity->shield_stock, 
-		get_unit_type(pcity->currently_building)->build_cost);
+    turns = city_turns_to_build (pcity, pcity->currently_building, TRUE);
+    my_snprintf(buf, sizeof(buf),
+ 		turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+ 		pcity->shield_stock, 
+ 		get_unit_type(pcity->currently_building)->build_cost,
+ 		turns);
     sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
   }
   else {
@@ -1399,8 +1404,12 @@ void city_dialog_update_building(struct city_dialog *pdialog)
       my_snprintf(buf, sizeof(buf), "%3d/XXX", pcity->shield_stock);
       XtSetSensitive(pdialog->buy_command, False);
     } else {
-      my_snprintf(buf, sizeof(buf), "%3d/%3d", pcity->shield_stock, 
-	      get_improvement_type(pcity->currently_building)->build_cost);
+      turns = city_turns_to_build (pcity, pcity->currently_building, FALSE);
+      my_snprintf(buf, sizeof(buf),
+		  turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+		  pcity->shield_stock, 
+		  get_improvement_type(pcity->currently_building)->build_cost,
+		  turns);
     }
     sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }
@@ -2103,7 +2112,7 @@ static void change_help_callback(Widget w, XtPointer client_data,
 void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   static char *dummy_change_list[]={ 
-    "XXXXXXXXXXXXXXXXXXXXXXXXXX  888 turns",
+    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  888 turns",
     "2",
     "3",
     "4",
@@ -2125,7 +2134,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   Position x, y;
   Dimension width, height;
   struct city_dialog *pdialog;
-  int i, n;
+  int i, n, turns;
   
   pdialog=(struct city_dialog *)client_data;
   
@@ -2198,11 +2207,20 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   for(i=0, n=0; i<B_LAST; i++)
     if(can_build_improvement(pdialog->pcity, i)) {
-      my_snprintf(pdialog->change_list_names[n],
-		  sizeof(pdialog->change_list_names[n]),
-		  "%s (%d)", get_imp_name_ex(pdialog->pcity, i),
-		  get_improvement_type(i)->build_cost);
-      
+      if (i==B_CAPITAL) {
+	my_snprintf(pdialog->change_list_names[n],
+		    sizeof(pdialog->change_list_names[n]),
+		    "%s (XX)",
+		    get_imp_name_ex(pdialog->pcity, i));
+      } else {
+	turns = city_turns_to_build (pdialog->pcity, i, FALSE);
+	my_snprintf(pdialog->change_list_names[n],
+		    sizeof(pdialog->change_list_names[n]),
+		    turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
+		    get_imp_name_ex(pdialog->pcity, i),
+		    get_improvement_type(i)->build_cost,
+		    turns);
+      }
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }
@@ -2212,9 +2230,13 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   for(i=0; i<game.num_unit_types; i++)
     if(can_build_unit(pdialog->pcity, i)) {
+      turns = city_turns_to_build (pdialog->pcity, i, TRUE);
       my_snprintf(pdialog->change_list_names[n],
 		  sizeof(pdialog->change_list_names[n]),
-		  "%s (%d)", get_unit_name(i), get_unit_type(i)->build_cost);
+		  turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
+		  get_unit_name(i),
+		  get_unit_type(i)->build_cost,
+		  turns);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }

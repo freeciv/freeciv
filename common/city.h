@@ -270,6 +270,7 @@ int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id);
 int city_got_effect(struct city *pcity, enum improvement_type_id id);
 int city_got_citywalls(struct city *pcity);
 int wonder_replacement(struct city *pcity, enum improvement_type_id id);
+int city_turns_to_build(struct city *pcity, int id, int id_is_unit);
 
 /* textual representation of buildings */
 

@@ -308,6 +308,7 @@ void city_list_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
   struct city *pcity;
+  int turns;
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
@@ -331,9 +332,18 @@ void city_list_callback(Widget w, XtPointer client_data,
     for(i=0; i<B_LAST; i++)
       if(can_build_improvement(pcity, i)) {
 	Widget entry;
-	my_snprintf(buf, sizeof(buf), "%s (%d)",
-		    get_imp_name_ex(pcity, i),
-		    get_improvement_type(i)->build_cost);
+	if (i==B_CAPITAL) {
+	  my_snprintf(buf, sizeof(buf),
+		      "%s (XX)",
+		      get_imp_name_ex(pcity, i));
+	} else {
+	  turns = city_turns_to_build (pcity, i, FALSE);
+	  my_snprintf(buf, sizeof(buf),
+		      turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
+		      get_imp_name_ex(pcity, i),
+		      get_improvement_type(i)->build_cost,
+		      turns);
+	}
 	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, city_popupmenu, NULL);
 	XtAddCallback(entry, XtNcallback, city_change_callback, (XtPointer) i);
 	flag=1;
@@ -342,8 +352,12 @@ void city_list_callback(Widget w, XtPointer client_data,
     for(i=0; i<game.num_unit_types; i++)
       if(can_build_unit(pcity, i)) {
 	Widget entry;
-	my_snprintf(buf, sizeof(buf), "%s (%d)", 
-		    get_unit_name(i),get_unit_type(i)->build_cost);
+	turns = city_turns_to_build (pcity, i, TRUE);
+	my_snprintf(buf, sizeof(buf),
+		    turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
+		    get_unit_name(i),
+		    get_unit_type(i)->build_cost,
+		    turns);
 	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, 
 					city_popupmenu, NULL);
 	XtAddCallback(entry, XtNcallback, city_change_callback, 

@@ -952,14 +952,19 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf[32], buf2[64], buf3[128];
+  int turns;
   struct city *pcity=pdialog->pcity;
   
   gtk_widget_set_sensitive(pdialog->buy_command, !pcity->did_buy);
   gtk_widget_set_sensitive(pdialog->sell_command, !pcity->did_sell);
 
   if(pcity->is_building_unit) {
-    my_snprintf(buf, sizeof(buf), "%3d/%3d", pcity->shield_stock, 
-	    get_unit_type(pcity->currently_building)->build_cost);
+    turns = city_turns_to_build (pcity, pcity->currently_building, TRUE);
+    my_snprintf(buf, sizeof(buf),
+ 		turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+ 		pcity->shield_stock,
+ 		get_unit_type(pcity->currently_building)->build_cost,
+ 		turns);
     sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
   } else {
     if(pcity->currently_building==B_CAPITAL)  {
@@ -967,8 +972,12 @@ void city_dialog_update_building(struct city_dialog *pdialog)
       my_snprintf(buf, sizeof(buf), "%3d/XXX", pcity->shield_stock);
       gtk_widget_set_sensitive(pdialog->buy_command, FALSE);
     } else {
-      my_snprintf(buf, sizeof(buf), "%3d/%3d", pcity->shield_stock, 
-	     get_improvement_type(pcity->currently_building)->build_cost);
+      turns = city_turns_to_build (pcity, pcity->currently_building, FALSE);
+      my_snprintf(buf, sizeof(buf),
+		  turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+		  pcity->shield_stock, 
+		  get_improvement_type(pcity->currently_building)->build_cost,
+		  turns);
     }
     sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }    
@@ -1665,7 +1674,7 @@ void change_callback(GtkWidget *w, gpointer data)
 {
   GtkWidget *cshell, *button, *scrolled;
   struct city_dialog *pdialog;
-  int i, n;
+  int i, n, turns;
   static gchar *title_[1] = { N_("Select new production") };
   static gchar **title = NULL;
   GtkAccelGroup *accel=gtk_accel_group_new();
@@ -1689,7 +1698,7 @@ void change_callback(GtkWidget *w, gpointer data)
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(scrolled, 220, 350);
+  gtk_widget_set_usize(scrolled, 280, 350);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->vbox), scrolled,
 	TRUE, TRUE, 0);
   
@@ -1721,11 +1730,20 @@ void change_callback(GtkWidget *w, gpointer data)
 
   for(i=0, n=0; i<B_LAST; i++)
     if(can_build_improvement(pdialog->pcity, i)) {
-      my_snprintf(pdialog->change_list_names[n],
-		  sizeof(pdialog->change_list_names[n]), "%s (%d)",
-		  get_imp_name_ex(pdialog->pcity, i),
-		  get_improvement_type(i)->build_cost);
-      
+      if (i==B_CAPITAL) { /* Total and turns left meaningless for captialization */
+	my_snprintf(pdialog->change_list_names[n],
+		    sizeof(pdialog->change_list_names[n]),
+		    "%s (XX)",
+		    get_imp_name_ex(pdialog->pcity, i));
+      } else {
+	turns = city_turns_to_build (pdialog->pcity, i, FALSE);
+	my_snprintf(pdialog->change_list_names[n],
+		    sizeof(pdialog->change_list_names[n]),
+		    turns == 1 ? _("%s (%d) %3d turn") : _("%s (%d) %3d turns"),
+		    get_imp_name_ex(pdialog->pcity, i),
+		    get_improvement_type(i)->build_cost,
+		    turns);
+      }
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }
@@ -1735,10 +1753,13 @@ void change_callback(GtkWidget *w, gpointer data)
 
   for(i=0; i<game.num_unit_types; i++)
     if(can_build_unit(pdialog->pcity, i)) {
+      turns = city_turns_to_build (pdialog->pcity, i, TRUE);
       my_snprintf(pdialog->change_list_names[n],
-		  sizeof(pdialog->change_list_names[n]), "%s (%d)",
-		  get_unit_name(i), get_unit_type(i)->build_cost);
-
+		  sizeof(pdialog->change_list_names[n]),
+		  turns == 1 ? _("%s (%d) %3d turn") : _("%s (%d) %3d turns"),
+		  get_unit_name(i),
+		  get_unit_type(i)->build_cost,
+		  turns);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }

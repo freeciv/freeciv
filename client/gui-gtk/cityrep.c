@@ -246,7 +246,7 @@ append_imp_or_unit_to_menu_sub(GtkWidget *menu,
 	    }
 	  else
 	    {
-	      cost = get_improvement_type(i)->build_cost;
+	      cost = (i==B_CAPITAL) ? -1 : get_improvement_type(i)->build_cost;
 	      if(append_wonders)
 		{
 		  /* We need a city to get the right name for wonders */
@@ -260,7 +260,12 @@ append_imp_or_unit_to_menu_sub(GtkWidget *menu,
 
 	  if (change_prod)
 	    {
-	      gchar *label = g_strdup_printf("%s (%d)",name, cost);
+	      gchar *label;
+	      if (cost < 0) {
+		label = g_strdup_printf("%s (XX)",name);
+	      } else {
+		label = g_strdup_printf("%s (%d)",name, cost);
+	      }
 	      item=gtk_menu_item_new_with_label( label );
 	      g_free (label);
 	    }
