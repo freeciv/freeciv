@@ -91,7 +91,7 @@ BUILT_SOURCES = Freeciv.h
 
 libguiclient_a_DEPENDENCIES = ad2c
 
-libguiclient_a_SOURCES =  	ad2c			Freeciv.h		canvas.c		canvas.h		canvasp.h		chatline.c		chatline.h		citydlg.c		citydlg.h		cityrep.c		clinet.c		clinet.h		colors.c		colors.h		connectdlg.c		connectdlg.h		dialogs.c		dialogs.h		diplodlg.c		diplodlg.h		finddlg.c		gotodlg.c		gotodlg.h		graphics.c		graphics.h		gui_main.c		gui_main.h		gui_stuff.c		gui_stuff.h		helpdlg.c		inputdlg.c		inputdlg.h		inteldlg.c		mapctrl.c		mapctrl.h		mapview.c		mapview.h		menu.c			menu.h			messagedlg.c		messagewin.c		optiondlg.c		optiondlg.h		pixcomm.c		pixcomm.h		pixcommp.h		plrdlg.c		ratesdlg.c		repodlgs.c		repodlgs.h		resources.c		resources.h		spaceshipdlg.c		spaceshipdlg.h
+libguiclient_a_SOURCES =  	ad2c			Freeciv.h		canvas.c		canvas.h		canvasp.h		chatline.c		chatline.h		citydlg.c		citydlg.h		cityrep.c		cityrep.h		clinet.c		clinet.h		colors.c		colors.h		connectdlg.c		connectdlg.h		dialogs.c		dialogs.h		diplodlg.c		diplodlg.h		finddlg.c		gotodlg.c		gotodlg.h		graphics.c		graphics.h		gui_main.c		gui_main.h		gui_stuff.c		gui_stuff.h		helpdlg.c		helpdlg.h		inputdlg.c		inputdlg.h		inteldlg.c		mapctrl.c		mapctrl.h		mapview.c		mapview.h		menu.c			menu.h			messagedlg.c		messagewin.c		messagewin.h		optiondlg.c		optiondlg.h		pixcomm.c		pixcomm.h		pixcommp.h		plrdlg.c		plrdlg.h		ratesdlg.c		repodlgs.c		repodlgs.h		resources.c		resources.h		spaceshipdlg.c		spaceshipdlg.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h

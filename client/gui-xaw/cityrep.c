@@ -38,7 +38,6 @@
 
 #include "chatline.h"
 #include "citydlg.h"
-#include "gui_main.h"		/* FIXME; only for misplaced proto */
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"

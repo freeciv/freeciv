@@ -10,17 +10,14 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__MESWINDLG_H
-#define FC__MESWINDLG_H
+#ifndef FC__MESSAGEWIN_H
+#define FC__MESSAGEWIN_H
 
-#include "packets.h"
+#include <X11/Intrinsic.h>
 
-void popup_meswin_dialog(void);
-void update_meswin_dialog(void);
-void clear_notify_window(void);
-void add_notify_window(struct packet_generic_message *packet);
+#include "messagewin_g.h"
 
-void meswin_update_delay_on(void);
-void meswin_update_delay_off(void);
-     
-#endif  /* FC__MESWINDLG_H */
+void close_meswin_dialog_action(Widget w, XEvent *event, 
+				String *argv, Cardinal *argc);
+
+#endif  /* FC__MESSAGEWIN_H */

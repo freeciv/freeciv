@@ -32,7 +32,7 @@
 #include "mapview.h"
 #include "options.h"
 
-#include "meswindlg.h"
+#include "messagewin.h"
 
 extern GtkWidget *toplevel;
 

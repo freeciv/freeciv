@@ -10,16 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GUI_MAIN_H
-#define FC__GUI_MAIN_H
+#ifndef FC__MESSAGEWIN_G_H
+#define FC__MESSAGEWIN_G_H
 
-#include <X11/Intrinsic.h>
+#include "packets.h"
 
-#include "gui_main_g.h"
+void popup_meswin_dialog(void);
+void update_meswin_dialog(void);
+void clear_notify_window(void);
+void add_notify_window(struct packet_generic_message *packet);
 
-void setup_widgets(void);
-
-void quit_civ(Widget w, XtPointer client_data, XtPointer call_data);
-void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data);
-
-#endif  /* FC__GUI_MAIN_H */
+void meswin_update_delay_on(void);
+void meswin_update_delay_off(void);
+     
+#endif  /* FC__MESSAGEWIN_G_H */

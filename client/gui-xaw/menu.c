@@ -34,7 +34,7 @@
 #include "helpdlg.h"
 #include "mapctrl.h" 
 #include "messagedlg.h"
-#include "meswindlg.h"
+#include "messagewin.h"
 #include "optiondlg.h"
 #include "options.h"
 #include "plrdlg.h"

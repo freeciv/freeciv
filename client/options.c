@@ -24,7 +24,7 @@
 #include "version.h"
 
 #include "chatline_g.h"
-#include "cityrep.h"
+#include "cityrep_g.h"
 
 #include "options.h"
 

@@ -29,7 +29,7 @@ used throughout the client.
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
-#include "cityrep.h"
+#include "cityrep_g.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 

@@ -29,7 +29,6 @@
 #include "chatline.h"
 #include "clinet.h"
 #include "diplodlg.h"
-#include "gui_main.h"		/* FIXME; only for misplaced proto */
 #include "gui_stuff.h"
 #include "inteldlg.h"
 #include "spaceshipdlg.h"

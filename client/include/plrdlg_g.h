@@ -10,16 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GUI_MAIN_H
-#define FC__GUI_MAIN_H
+#ifndef FC__PLRDLG_G_H
+#define FC__PLRDLG_G_H
 
-#include <X11/Intrinsic.h>
+void popup_players_dialog(void);
+void update_players_dialog(void);
 
-#include "gui_main_g.h"
-
-void setup_widgets(void);
-
-void quit_civ(Widget w, XtPointer client_data, XtPointer call_data);
-void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data);
-
-#endif  /* FC__GUI_MAIN_H */
+#endif  /* FC__PLRDLG_G_H */

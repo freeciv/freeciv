@@ -7,7 +7,7 @@ noinst_HEADERS = \
 	goto_cursor_mask.xbm	\
 	chatline_g.h	\
 	citydlg_g.h	\
-	cityrep.h	\
+	cityrep_g.h	\
 	civclient.h	\
 	climisc.h	\
 	clinet_g.h	\
@@ -18,16 +18,16 @@ noinst_HEADERS = \
 	gotodlg_g.h	\
 	graphics_g.h	\
 	gui_main_g.h	\
-	helpdlg.h	\
+	helpdlg_g.h	\
 	inteldlg.h	\
 	mapctrl_g.h	\
 	mapview_g.h	\
 	menu_g.h	\
 	messagedlg.h	\
-	meswindlg.h	\
+	messagewin_g.h	\
 	options.h	\
 	packhand.h	\
-	plrdlg.h	\
+	plrdlg_g.h	\
 	ratesdlg.h	\
 	repodlgs_g.h	\
 	spaceshipdlg_g.h

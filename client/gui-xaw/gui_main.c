@@ -44,6 +44,7 @@
 
 #include "chatline.h"
 #include "citydlg.h"
+#include "cityrep.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
@@ -58,8 +59,10 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
+#include "messagewin.h"
 #include "optiondlg.h"
 #include "options.h"
+#include "plrdlg.h"
 #include "repodlgs.h"
 #include "resources.h"
 #include "spaceshipdlg.h"

@@ -28,6 +28,7 @@ libguiclient_a_SOURCES = \
 	citydlg.c	\
 	citydlg.h	\
 	cityrep.c	\
+	cityrep.h	\
 	clinet.c	\
 	clinet.h	\
 	colors.c	\
@@ -48,6 +49,7 @@ libguiclient_a_SOURCES = \
 	gui_stuff.c	\
 	gui_stuff.h	\
 	helpdlg.c	\
+	helpdlg.h	\
 	inputdlg.c	\
 	inputdlg.h	\
 	inteldlg.c	\
@@ -59,12 +61,14 @@ libguiclient_a_SOURCES = \
 	menu.h		\
 	messagedlg.c	\
 	messagewin.c	\
+	messagewin.h	\
 	optiondlg.c	\
 	optiondlg.h	\
 	pixcomm.c	\
 	pixcomm.h	\
 	pixcommp.h	\
 	plrdlg.c	\
+	plrdlg.h	\
 	ratesdlg.c	\
 	repodlgs.c	\
 	repodlgs.h	\

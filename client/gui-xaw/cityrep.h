@@ -13,17 +13,11 @@
 #ifndef FC__CITYREP_H
 #define FC__CITYREP_H
 
-struct city;
+#include <X11/Intrinsic.h>
 
-void popup_city_report_dialog(int make_modal);
-void city_report_dialog_update(void);
-void city_report_dialog_update_city(struct city *pcity);
+#include "cityrep_g.h"
 
-/* These are wanted to save/load options; use wrappers rather than
-   expose the grotty details of the city_report_spec:
-*/
-int num_city_report_spec(void);
-int *city_report_spec_show_ptr(int i);
-char *city_report_spec_tagname(int i);
+void close_city_report_action(Widget w, XEvent *event, 
+			      String *argv, Cardinal *argc);
 
 #endif  /* FC__CITYREP_H */

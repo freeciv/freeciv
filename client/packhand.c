@@ -27,20 +27,20 @@
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
-#include "cityrep.h"
+#include "cityrep_g.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet_g.h"		/* aconnection */
 #include "dialogs_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
-#include "helpdlg.h"		/* boot_help_texts */
+#include "helpdlg_g.h"		/* boot_help_texts */
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "menu_g.h"
-#include "meswindlg.h"
+#include "messagewin_g.h"
 #include "options.h"
-#include "plrdlg.h"
+#include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
 

@@ -10,16 +10,14 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GUI_MAIN_H
-#define FC__GUI_MAIN_H
+#ifndef FC__HELPDLG_H
+#define FC__HELPDLG_H
 
 #include <X11/Intrinsic.h>
 
-#include "gui_main_g.h"
+#include "helpdlg_g.h"
 
-void setup_widgets(void);
+void close_help_dialog_action(Widget w, XEvent *event, 
+			      String *argv, Cardinal *argc);
 
-void quit_civ(Widget w, XtPointer client_data, XtPointer call_data);
-void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data);
-
-#endif  /* FC__GUI_MAIN_H */
+#endif  /* FC__HELPDLG_H */

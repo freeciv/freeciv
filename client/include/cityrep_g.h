@@ -10,16 +10,20 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GUI_MAIN_H
-#define FC__GUI_MAIN_H
+#ifndef FC__CITYREP_G_H
+#define FC__CITYREP_G_H
 
-#include <X11/Intrinsic.h>
+struct city;
 
-#include "gui_main_g.h"
+void popup_city_report_dialog(int make_modal);
+void city_report_dialog_update(void);
+void city_report_dialog_update_city(struct city *pcity);
 
-void setup_widgets(void);
+/* These are wanted to save/load options; use wrappers rather than
+   expose the grotty details of the city_report_spec:
+*/
+int num_city_report_spec(void);
+int *city_report_spec_show_ptr(int i);
+char *city_report_spec_tagname(int i);
 
-void quit_civ(Widget w, XtPointer client_data, XtPointer call_data);
-void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data);
-
-#endif  /* FC__GUI_MAIN_H */
+#endif  /* FC__CITYREP_G_H */

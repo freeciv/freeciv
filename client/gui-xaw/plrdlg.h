@@ -13,7 +13,11 @@
 #ifndef FC__PLRDLG_H
 #define FC__PLRDLG_H
 
-void popup_players_dialog(void);
-void update_players_dialog(void);
+#include <X11/Intrinsic.h>
 
-#endif
+#include "plrdlg_g.h"
+
+void close_players_dialog_action(Widget w, XEvent *event, 
+				 String *argv, Cardinal *argc);
+
+#endif  /* FC__PLRDLG_H */
