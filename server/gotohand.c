@@ -705,7 +705,7 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 
 	/* We don't allow attacks during GOTOs here; you can almost
 	   always find a way around enemy units on sea */
-	if (x1 != dest_x && y1 != dest_y) {
+	if (x1 != dest_x || y1 != dest_y) {
 	  if (is_non_allied_unit_tile(pdesttile, punit->owner)
 	      || is_non_allied_city_tile(pdesttile, punit->owner))
 	    continue;
