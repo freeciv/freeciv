@@ -20,6 +20,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <signal.h>
+#include <assert.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -195,12 +196,84 @@ void disconnect_from_server(void)
 }  
 
 /**************************************************************************
- This function is called when the client received a
- new input from the server
+A wrapper around read_socket_data() which also handles the case the
+socket becomes writeable and there is still data which should be sent
+to the server.
+
+Returns:
+    -1  :  an error occured - you should close the socket
+    >0  :  number of bytes read
+    =0  :  no data read, would block
+**************************************************************************/
+static int read_from_connection(struct connection *pc)
+{
+  for (;;) {
+    fd_set readfs, writefs, exceptfs;
+    int socket_fd = pc->sock;
+    int have_data_for_server = (pc->used && pc->send_buffer
+				&& pc->send_buffer->ndata);
+    int n;
+    struct timeval tv;
+
+    tv.tv_sec = 0;
+    tv.tv_usec = 0;
+
+    MY_FD_ZERO(&readfs);
+    FD_SET(socket_fd, &readfs);
+
+    MY_FD_ZERO(&exceptfs);
+    FD_SET(socket_fd, &exceptfs);
+
+    if (have_data_for_server) {
+      MY_FD_ZERO(&writefs);
+      FD_SET(socket_fd, &writefs);
+      n = select(socket_fd + 1, &readfs, &writefs, &exceptfs, &tv);
+    } else {
+      n = select(socket_fd + 1, &readfs, NULL, &exceptfs, &tv);
+    }
+
+    /* the socket is neither readable, writeable nor got an
+       exception */
+    if (n == 0) {
+      return 0;
+    }
+
+    if (n == -1) {
+      if (errno == EINTR) {
+	freelog(LOG_DEBUG, "select() returned EINTR");
+	continue;
+      }
+
+      freelog(LOG_NORMAL, "error in select() return=%d errno=%d (%s)",
+	      n, errno, strerror(errno));
+      return -1;
+    }
+
+    if (FD_ISSET(socket_fd, &exceptfs)) {
+      return -1;
+    }
+
+    if (have_data_for_server && FD_ISSET(socket_fd, &writefs)) {
+      flush_connection_send_buffer_all(pc);
+      if (pc->notify_of_writable_data) {
+	pc->notify_of_writable_data(pc, pc->send_buffer
+				    && pc->send_buffer->ndata);
+      }
+    }
+
+    if (FD_ISSET(socket_fd, &readfs)) {
+      return read_socket_data(socket_fd, pc->buffer);
+    }
+  }
+}
+
+/**************************************************************************
+ This function is called when the client received a new input from the
+ server.
 **************************************************************************/
 void input_from_server(int fid)
 {
-  if(read_socket_data(fid, aconnection.buffer)>=0) {
+  if (read_from_connection(&aconnection) >= 0) {
     int type, result;
     char *packet;
 
@@ -212,8 +285,7 @@ void input_from_server(int fid)
 	break;
       }
     }
-  }
-  else {
+  } else {
     close_socket_callback(&aconnection);
   }
 }

@@ -753,14 +753,37 @@ static void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void set_wait_for_writable_socket(struct connection *pc,
+					 int socket_writable)
+{
+  static int previous_state = 0;
+
+  if (previous_state == socket_writable)
+    return;
+  freelog(LOG_DEBUG, "set_wait_for_writable_socket(%d)", socket_writable);
+  XtRemoveInput(x_input_id);
+  x_input_id = XtAppAddInput(app_context, aconnection.sock,
+			     (XtPointer) (XtInputReadMask |
+					  (socket_writable ?
+					   XtInputWriteMask : 0) |
+					  XtInputExceptMask),
+			     (XtInputCallbackProc) get_net_input, NULL);
+  previous_state = socket_writable;
+}
+
+/**************************************************************************
  This function is called after the client succesfully
  has connected to the server
 **************************************************************************/
 void add_net_input(int sock)
 {
-  x_input_id=XtAppAddInput(app_context, sock, 
-			   (XtPointer) XtInputReadMask,
-			   (XtInputCallbackProc) get_net_input, NULL);
+  x_input_id = XtAppAddInput(app_context, sock,
+			     (XtPointer) (XtInputReadMask |
+					  XtInputExceptMask),
+			     (XtInputCallbackProc) get_net_input, NULL);
+  aconnection.notify_of_writable_data = set_wait_for_writable_socket;
 }
 
 /**************************************************************************

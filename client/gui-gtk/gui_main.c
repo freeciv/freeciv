@@ -839,13 +839,35 @@ static void get_net_input(gpointer data, gint fid, GdkInputCondition condition)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void set_wait_for_writable_socket(struct connection *pc,
+					 int socket_writable)
+{
+  static int previous_state = 0;
+
+  if (previous_state == socket_writable)
+    return;
+  freelog(LOG_DEBUG, "set_wait_for_writable_socket(%d)", socket_writable);
+  gdk_input_remove(gdk_input_id);
+  gdk_input_id =
+      gdk_input_add(aconnection.sock,
+		    GDK_INPUT_READ | (socket_writable ? GDK_INPUT_WRITE :
+				      0) | GDK_INPUT_EXCEPTION,
+		    get_net_input, NULL);
+  previous_state = socket_writable;
+}
+
+/**************************************************************************
  This function is called after the client succesfully
  has connected to the server
 **************************************************************************/
 void add_net_input(int sock)
 {
   gdk_input_id = gdk_input_add(sock,
-	  GDK_INPUT_READ|GDK_INPUT_EXCEPTION, get_net_input, NULL);
+			       GDK_INPUT_READ | GDK_INPUT_EXCEPTION,
+			       get_net_input, NULL);
+  aconnection.notify_of_writable_data = set_wait_for_writable_socket;
 }
 
 /**************************************************************************

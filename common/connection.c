@@ -331,6 +331,10 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
       }
       flush_connection_send_buffer_all(pc);
     }
+    if (pc->notify_of_writable_data) {
+      pc->notify_of_writable_data(pc, pc->send_buffer
+				  && pc->send_buffer->ndata);
+    }
   }
   return 0;
 }

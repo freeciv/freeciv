@@ -189,15 +189,17 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
     len = swab_uint16(len);
   }
 
-  if(len > pc->buffer->ndata)
-    return NULL;           /* not all data has been read */
+  if (len > pc->buffer->ndata) {
+    return NULL;		/* not all data has been read */
+  }
 
   /* so the packet gets processed (removed etc) properly: */
   if(pc->byte_swap) {
     put_uint16(pc->buffer->data, len);
   }
 
-  freelog(LOG_DEBUG, "packet type %d len %d", type, len);
+  freelog(LOG_DEBUG, "packet type=%d len=%d buffer=%d", type, len,
+	  pc->buffer->ndata);
 
   *ptype=type;
   *presult = 1;
@@ -376,7 +378,6 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
 	    type, conn_description(pc));
     remove_packet_from_buffer(pc->buffer);
-    *presult = 0;
     return NULL;
   };
 }

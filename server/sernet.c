@@ -644,6 +644,7 @@ static int server_accept_connection(int sockfd)
       pconn->capability[0] = '\0';
       pconn->access_level = access_level_for_next_connection();
       pconn->delayed_disconnect = 0;
+      pconn->notify_of_writable_data = NULL;
 
       sz_strlcpy(pconn->name, makeup_connection_name(&pconn->id));
       sz_strlcpy(pconn->addr,

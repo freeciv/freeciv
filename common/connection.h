@@ -115,6 +115,8 @@ struct connection {
   int delayed_disconnect;
   /* Something has occured that means the connection should be closed, but
      the closing has been postponed. */
+  void (*notify_of_writable_data) (struct connection * pc,
+				   int data_available_and_socket_full);
 };
 
 
