@@ -49,7 +49,7 @@ int unit_move_rate(struct unit *punit)
       val+=SINGLE_MOVE;
     if(player_owns_active_wonder(pplayer, B_MAGELLAN)) 
       val += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
-    val += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST) * SINGLE_MOVE;
+    val += num_known_tech_with_flag(pplayer, TF_BOAT_FAST) * SINGLE_MOVE;
     if (val < 2 * SINGLE_MOVE)
       val = 2 * SINGLE_MOVE;
   }

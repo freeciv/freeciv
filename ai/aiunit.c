@@ -146,7 +146,7 @@ static int unit_move_turns(struct unit *punit, int x, int y)
       m += SINGLE_MOVE;
     if (player_owns_active_wonder(pplayer, B_MAGELLAN))
       m += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
-    m += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST) * SINGLE_MOVE;
+    m += num_known_tech_with_flag(pplayer, TF_BOAT_FAST) * SINGLE_MOVE;
   }
 
   if (unit_type(punit)->move_type == LAND_MOVING)

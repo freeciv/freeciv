@@ -231,9 +231,9 @@ static int pollution_benefit(struct player *pplayer, struct city *pcity,
 
   /* Count technologies which affect the pollution. */
   if (! city_got_building(pcity, B_MASS) && impr_type != B_MASS) {
-    pollution +=
-      (player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC) *
-       pcity->size) / 4;
+    pollution += (num_known_tech_with_flag(pplayer,
+					   TF_POPULATION_POLLUTION_INC) *
+		  pcity->size) / 4;
   }
   
   /* Heuristic? */

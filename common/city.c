@@ -1823,7 +1823,6 @@ static void unhappy_city_check(struct city *pcity)
 **************************************************************************/
 static void set_pollution(struct city *pcity)
 {
-  int poppul = 0;
   struct player *pplayer = city_owner(pcity);
 
   pcity->pollution = pcity->shield_prod;
@@ -1835,11 +1834,9 @@ static void set_pollution(struct city *pcity)
     pcity->pollution /= 2;
 
   if (!city_got_building(pcity, B_MASS)) {
-    int mod =
-	player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC);
-    /* was: A_INDUSTRIALIZATION, A_AUTOMOBILE, A_MASS, A_PLASTICS */
-    poppul = (pcity->size * mod) / 4;
-    pcity->pollution += poppul;
+    pcity->pollution += (pcity->size *
+			 num_known_tech_with_flag
+			 (pplayer, TF_POPULATION_POLLUTION_INC)) / 4;
   }
 
   pcity->pollution = MAX(0, pcity->pollution - 20);

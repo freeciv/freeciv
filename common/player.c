@@ -333,16 +333,25 @@ int player_owns_active_govchange_wonder(struct player *pplayer)
  flag. Needs to be optimized later (e.g. int tech_flags[TF_LAST] in
  struct player)
 **************************************************************************/
+int num_known_tech_with_flag(struct player *pplayer, enum tech_flag_id flag)
+{
+  int i, result = 0;
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
+    if (get_invention(pplayer, i) == TECH_KNOWN && tech_flag(i, flag)) {
+      result++;
+    }
+  }
+  return result;
+}
+
+/**************************************************************************
+ Returns TRUE iff the player knows at least one tech which has the
+ given flag.
+**************************************************************************/
 int player_knows_techs_with_flag(struct player *pplayer,
 				 enum tech_flag_id flag)
 {
-  int i;
-  int count=0;
-  for( i=A_FIRST; i<game.num_tech_types; i++ ) {
-    if((get_invention(pplayer, i) == TECH_KNOWN) && tech_flag(i,flag))
-      count++;
-  }
-  return count;
+  return num_known_tech_with_flag(pplayer, flag) > 0;
 }
 
 /**************************************************************************

@@ -1684,8 +1684,9 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
    * one time bonus is not affected by factors in
    * trade_between_cities() 
    */
-  for(i=0;i<player_knows_techs_with_flag(city_owner(pc1),TF_TRADE_REVENUE_REDUCE);i++) {
-    tb = (tb * 2)/3;
+  for (i = 0; i < num_known_tech_with_flag(city_owner(pc1),
+					   TF_TRADE_REVENUE_REDUCE); i++) {
+    tb = (tb * 2) / 3;
   }
   /* was: A_RAILROAD, A_FLIGHT */
   return tb;

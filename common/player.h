@@ -207,6 +207,7 @@ int player_knows_improvement_tech(struct player *pplayer,
 				   Impr_Type_id id);
 int player_knows_techs_with_flag(struct player *pplayer,
 				 enum tech_flag_id flag);
+int num_known_tech_with_flag(struct player *pplayer, enum tech_flag_id flag);
 
 void player_limit_to_government_rates(struct player *pplayer);
 
