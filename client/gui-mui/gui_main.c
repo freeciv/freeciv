@@ -549,10 +549,12 @@ static void control_callback(ULONG * value)
         request_unit_connect();
       break;
     case MENU_ORDER_POLLUTION:
-      if(can_unit_paradrop(get_unit_in_focus()))
-        key_unit_paradrop();
-      else
-        key_unit_pollution();
+      if (get_unit_in_focus()) {
+	if (can_unit_paradrop(get_unit_in_focus()))
+          key_unit_paradrop();
+	else
+          key_unit_pollution();
+      }
       break;
     case MENU_ORDER_FALLOUT:
       key_unit_fallout();
