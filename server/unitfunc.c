@@ -34,11 +34,9 @@
 #include <shared.h>
 #include <aiunit.h>
 #include <sys/time.h>
-#include <advmilitary.h>
+#include <gotohand.h>
 
 extern struct move_cost_map warmap;
-
-void do_unit_goto(struct player *pplayer, struct unit *punit);
 
 /******************************************************************************
   bribe an enemy unit
