@@ -308,7 +308,7 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
   assert(0 < ferryboat
 	 || FERRY_NONE == ferryboat
 	 || FERRY_WANTED == ferryboat);
-  UNIT_LOG(LOGLEVEL_FINDFERRY, punit, "asked find_ferry for a boat");
+  UNIT_LOG(LOGLEVEL_FINDFERRY, punit, "asked aiferry_find_boat for a boat");
 
   if (aiferry_avail_boats(unit_owner(punit)) <= 0 
       && ferryboat <= 0) {
@@ -347,9 +347,9 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
           
           if (turns < best_turns) {
             UNIT_LOG(LOGLEVEL_FINDFERRY, punit, 
-                     "Found a potential boat %s[%d](%d,%d)",
+                     "Found a potential boat %s[%d](%d,%d)(moves left: %d)",
                      unit_type(aunit)->name, aunit->id, aunit->tile->x,
-		     aunit->tile->y);
+		     aunit->tile->y, aunit->moves_left);
 	    if (path) {
 	      *path = pf_next_get_path(search_map);
 	    }
@@ -546,7 +546,8 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
       return FALSE;
     }
 
-    UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "Our boat has arrived");
+    UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "Our boat has arrived "
+	     "[%d](moves left: %d)", ferryboat->id, ferryboat->moves_left);
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
   }
 
@@ -828,7 +829,8 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
      return;
   }
 
-  UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is not carrying anyone.");
+  UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is not carrying anyone "
+	   "(moves left: %d).", punit->moves_left);
   aiferry_make_available(punit);
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
   ai_unit_new_role(punit, AIUNIT_NONE, NULL);
@@ -836,7 +838,8 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
   /* Try to find passengers */
   if (aiferry_findcargo(punit)) {
-    UNIT_LOG(LOGLEVEL_FERRY, punit, "picking up cargo");
+    UNIT_LOG(LOGLEVEL_FERRY, punit, "picking up cargo (moves left: %d)",
+	     punit->moves_left);
     ai_unit_goto(punit, punit->goto_tile);
     return;
   }
