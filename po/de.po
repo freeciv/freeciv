@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-06 21:39+0100\n"
+"POT-Creation-Date: 2005-02-07 09:42+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -8913,7 +8913,7 @@ msgstr "am Zug"
 #: client/gui-mui/plrdlg.c:127 client/gui-win32/plrdlg.c:163
 #: client/gui-xaw/plrdlg.c:235
 msgid "R.I.P"
-msgstr "R.I.P"
+msgstr "tot"
 
 #: client/plrdlg_common.c:222
 msgid "?Player:Name"
@@ -9504,7 +9504,7 @@ msgid "Missing base sprite tag \"%s1\"."
 msgstr "Missing base sprite tag \"%s1\"."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:3128
+#: client/tilespec.c:3129
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Couldn't load gfx file %s for sprite %s"
@@ -16958,8 +16958,8 @@ msgstr ""
 "\n"
 "- Kontrollzonen wirken nur für Landeinheiten.\n"
 "\n"
-"- Andere Einheiten errichten nur Kontrollzonen, wenn sie sich auf Landfeldern "
-"befinden (Schiffe innerhalb von Städten)\n"
+"- Andere Einheiten errichten nur Kontrollzonen, wenn sie sich auf "
+"Landfeldern befinden (Schiffe innerhalb von Städten)\n"
 "\n"
 "- Kontrollzonen verhindern keine Angriffe, sondern Bewegungen.\n"
 "\n"
