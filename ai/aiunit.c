@@ -1454,11 +1454,18 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 }
 
 /********************************************************************** 
-  Send a unit to its homecity. FIXME: Give it one if it has none.
+  Send a unit to its homecity.
 ***********************************************************************/
 static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 {
   struct city *pcity = find_city_by_id(punit->homecity);
+
+  if (!pcity) {
+    /* Try to find a place to rest. Sitting duck out in the wilderness
+     * is generally a bad idea, since we protect no cities that way, and
+     * it looks silly. */
+    pcity = find_closest_owned_city(pplayer, punit->x, punit->y, FALSE, NULL);
+  }
 
   CHECK_UNIT(punit);
 
