@@ -922,7 +922,7 @@ void player_restore_units(struct player *pplayer)
 	wipe_unit_safe(punit, &myiter);
       }
     } else if (unit_flag(punit->type, F_TRIREME)) {
-      if ((myrand(100) <= trireme_loss_pct(pplayer, punit->x, punit->y))) {
+      if ((myrand(100) < trireme_loss_pct(pplayer, punit->x, punit->y))) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			 _("Game: Your %s has been lost on the high seas."),
 			 unit_name(punit->type));
