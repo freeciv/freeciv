@@ -68,7 +68,9 @@ char *textyear(int year);
 int string_ptr_compare(const void *first, const void *second);
 
 char *skip_leading_spaces(char *s);
+void remove_leading_spaces(char *s);
 void remove_trailing_spaces(char *s);
+void remove_leading_trailing_spaces(char *s);
 void remove_trailing_char(char *s, char trailing);
 int wordwrap_string(char *s, int len);
 

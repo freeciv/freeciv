@@ -255,19 +255,54 @@ char *skip_leading_spaces(char *s)
 }
 
 /***************************************************************************
+  Removes leading spaces in string pointed to by 's'.
+  Note 's' must point to writeable memory!
+***************************************************************************/
+void remove_leading_spaces(char *s)
+{
+  char *t;
+  
+  assert(s!=NULL);
+  t = skip_leading_spaces(s);
+  if (t != s) {
+    while (*t) {
+      *s++ = *t++;
+    }
+    *s = '\0';
+  }
+}
+
+/***************************************************************************
   Terminates string pointed to by 's' to remove traling spaces;
   Note 's' must point to writeable memory!
 ***************************************************************************/
 void remove_trailing_spaces(char *s)
 {
   char *t;
+  size_t len;
   
   assert(s!=NULL);
-  t = s + strlen(s) -1;
-  while(t>=s && isspace(*t)) {
-    *t = '\0';
-    t--;
+  len = strlen(s);
+  if (len) {
+    t = s + len -1;
+    while(isspace(*t)) {
+      *t = '\0';
+      if (t == s) {
+	break;
+      }
+      t--;
+    }
   }
+}
+
+/***************************************************************************
+  Removes leading and trailing spaces in string pointed to by 's'.
+  Note 's' must point to writeable memory!
+***************************************************************************/
+void remove_leading_trailing_spaces(char *s)
+{
+  remove_leading_spaces(s);
+  remove_trailing_spaces(s);
 }
 
 /***************************************************************************

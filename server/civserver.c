@@ -1311,6 +1311,14 @@ static void handle_alloc_nation(struct player *pplayer,
   int i, nations_used;
   struct packet_generic_values select_nation; 
 
+  remove_leading_trailing_spaces(packet->name);
+
+  if (strlen(packet->name)==0) {
+    notify_player(pplayer, _("Please choose a non-blank name."));
+    send_select_nation(pplayer);
+    return;
+  }
+  
   for(i=0; i<game.nplayers; i++)
     if(game.players[i].nation==packet->nation_no) {
        send_select_nation(pplayer); /* it failed - nation taken */
@@ -1571,7 +1579,21 @@ static void handle_request_join_game(struct connection *pconn,
 {
   struct player *pplayer;
   char msg[MAX_LEN_MSG];
+  char orig_name[MAX_LEN_NAME];
   
+  sz_strlcpy(orig_name, req->name);
+  remove_leading_trailing_spaces(req->name);
+
+  /* Name-sanity check: could add more checks? */
+  if (strlen(req->name)==0) {
+    my_snprintf(msg, sizeof(msg), _("Invalid name '%s'"), orig_name);
+    reject_new_player(msg, pconn);
+    freelog(LOG_NORMAL, _("Rejected connection from %s with invalid name."),
+	    pconn->addr);
+    close_connection(pconn);
+    return;
+  }
+
   freelog(LOG_NORMAL,
 	  _("Connection request from %s with client version %d.%d.%d%s"),
 	  req->name, req->major_version, req->minor_version,
