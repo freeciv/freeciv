@@ -602,7 +602,6 @@ static void end_phase(void)
   nocity_send = FALSE;
   players_iterate(pplayer) {
     send_player_cities(pplayer);
-    ai_data_phase_done(pplayer);
   } players_iterate_end;
   flush_packets();  /* to curb major city spam */
 

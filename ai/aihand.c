@@ -398,6 +398,7 @@ void ai_do_last_activities(struct player *pplayer)
   ai_manage_cities(pplayer);
   ai_manage_tech(pplayer); 
   ai_manage_spaceship(pplayer);
+  ai_data_phase_done(pplayer);
 }
 
 /**************************************************************************
