@@ -847,7 +847,7 @@ static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
 {
   if(!dialog_list_list_has_been_initialised) {
     dialog_list_init(&dialog_list);
-    dialog_list_list_has_been_initialised = TUR;
+    dialog_list_list_has_been_initialised = TRUE;
   }
 
   dialog_list_iterate(dialog_list, pdialog) {
@@ -866,7 +866,7 @@ static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
 static struct Diplomacy_dialog *find_diplomacy_by_input(GtkWidget *w)
 {
   dialog_list_iterate(dialog_list, pdialog) {
-    if ((pdialog->dip_gold_input0 == w) || (pdialog->dip_gold_input1 == w)) {
+    if ((pdialog->dip_gold_entry0 == w) || (pdialog->dip_gold_entry1 == w)) {
       return pdialog;
     }
   } dialog_list_iterate_end;
