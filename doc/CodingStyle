@@ -16,9 +16,10 @@ nit-picky, but wars are fought over the silliest things...
   "indent -kr -i2 -l77").  However, do not re-indent areas of code you
   are not modifying or creating. Here are the most important properties:
     - lines are at most 77 chars long
-    - spaces are inserted before and after operators ("int i, j, k;"
-      instead of "int a,b,c;" and "if (foo <= bar) c = a + b;" instead
-      of "if(foo<=bar) c=a+b;")
+    - spaces are inserted before and after operators (instead of 
+      "int a,b,c;" use "int i, j, k;" and instead of "if(foo<=bar) c=a+b;"
+      use "if (foo <= bar) c = a + b;" -- note the space between "if" 
+      and the bracket)
     - function braces begin and end in the first column.
         int foo()
         {
@@ -77,7 +78,7 @@ int the_function_starts_here(int value)
 - Comments in conditionals. If you need a comment to show program flow,
   it should be below the if or else:
 
-  if(is_barbarian(pplayer)) {
+  if (is_barbarian(pplayer)) {
     x++;
   } else {
     /* If not barbarian, ... */
@@ -160,15 +161,35 @@ int foo(struct city *pcity)
 - If an empty block is needed you should put an explanatory comment in
   an empty block (i.e. {}):
 
-  while(*i++) {
+  while (*i++) {
     /* nothing */
   }
 
-- Order include files consistently:  First state all system include
-  files with <> in alphabetic order, then all Freeciv include files
-  with "", sorted by directory (common, server, ...) and then by
-  alphabetic order, with a blank line between the sections.  This helps
-  to avoid adding unnecessary or duplicated include files.
+- Use the postfix operator instead of the prefix operator when either will
+  work.  That is, write "a++" instead of "++a".
+
+- Order include files consistently: All includes are grouped
+  together. These groups are divided by an empty line. The order of
+  these groups are as follow:
+
+    1) config.h (see below)
+    2) system include files which are OS-independent (part of
+       C-standard or POSIX)
+    3) system include files which are OS-dependent or conditional
+       includes
+    4) include files from common/ and common/aicore
+    5) include files from client/, client/include and client/agents
+    6) include files from client/gui-*
+    7) include files from server/
+    8) include files from ai/
+
+  Each group is sorted in alphabetic order. This helps to avoid adding
+  unnecessary or duplicated include files.
+
+  It is very important that '#include <config.h>' be included at the top of
+  every .c file (it need not be included from .h files).  Some definitions in
+  config.h will affect how the code is compiled, without which you can end
+  up with bad and untraceable memory bugs.
 
 - If you use a system specific feature, don't add #ifdef __CRAY__ or
   something like that.  Rather write a check for that feature for
@@ -176,10 +197,11 @@ int foo(struct city *pcity)
   in the source.
 
 - Always prototype global functions in the appropriate header file.
-  Local functions should always be declared as static. To catch and
-  some other problems please use the following warning options "-Wall
-  -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations 
-  -Wstrict-prototypes -Wnested-externs" if you use gcc.
+  Local functions should always be declared as static. To catch these
+  and some other problems please use the following warning options
+  "-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes
+  -Wmissing-declarations -Wstrict-prototypes -Wnested-externs" if you
+  use gcc.
 
 - If you send patches, use "diff -u" (or "diff -r -u", or "cvs diff -u").
   For further information, see <http://www.freeciv.org/contribute.html>.
