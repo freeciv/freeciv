@@ -118,10 +118,22 @@ void gtk_clear_pixmap(GtkWidget *w)
 /**************************************************************************
 ...
 **************************************************************************/
+void gtk_destroyed_pixmap (gpointer data)
+{
+  gdk_pixmap_unref ((GdkPixmap *)data);
+}
+
 GtkWidget *gtk_new_pixmap(gint width, gint height)
 {
-  return gtk_pixmap_new(gdk_pixmap_new(root_window, width, height,-1),
-			gdk_pixmap_new(root_window, width, height, 1));
+  GtkWidget *ret;
+  GdkPixmap *p, *m;
+
+  ret=gtk_pixmap_new(p=gdk_pixmap_new(root_window, width, height,-1),
+		     m=gdk_pixmap_new(root_window, width, height, 1));
+  gtk_object_set_data_by_id_full (GTK_OBJECT (ret), 1, p, gtk_destroyed_pixmap);
+  gtk_object_set_data_by_id_full (GTK_OBJECT (ret), 2, m, gtk_destroyed_pixmap);
+
+  return ret;
 }
 
 
