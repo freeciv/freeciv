@@ -1115,6 +1115,12 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], FALSE);
       gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
   }
+
+
+  for(i=0; i<NUM_CITIZENS_SHOWN; i++) {
+      gtk_widget_hide(pdialog->citizen_pixmaps[i]);
+      gtk_widget_show(pdialog->citizen_pixmaps[i]);
+  }
 }
 
 /****************************************************************
@@ -1202,6 +1208,11 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     pdialog->support_unit_ids[i]=0;
     gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], FALSE);
   }
+
+  for(i=0; i<NUM_UNITS_SHOWN; i++) {
+    gtk_widget_hide(pdialog->support_unit_boxes[i]);
+    gtk_widget_show(pdialog->support_unit_boxes[i]);
+  }
 }
 
 /****************************************************************
@@ -1239,6 +1250,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 				  0, 0);   
 
     gtk_changed_pixmap(pdialog->present_unit_pixmaps[i]);
+
     pdialog->present_unit_ids[i]=punit->id;
 
     gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->present_unit_boxes[i]));
@@ -1254,6 +1266,11 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     gtk_clear_pixmap(pdialog->present_unit_pixmaps[i]);
     pdialog->present_unit_ids[i]=0;
     gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], FALSE);
+  }
+
+  for(i=0; i<NUM_UNITS_SHOWN; i++) {
+    gtk_widget_hide(pdialog->present_unit_boxes[i]);
+    gtk_widget_show(pdialog->present_unit_boxes[i]);
   }
 }
 
