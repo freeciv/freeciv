@@ -852,10 +852,10 @@ void center_on_unit(Widget w, XEvent *event, String *argv, Cardinal *argc)
 **************************************************************************/
 void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  int xtile, ytile;
   int x,y;
   XButtonEvent *ev=&event->xbutton;
   struct city *pcity;
+  struct tile *ptile;
   int i,j;
   static int color=COLOR_STD_WHITE;
   static enum city_tile_type last_t=-1;
@@ -864,11 +864,10 @@ void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
     return;
   
   x=ev->x/NORMAL_TILE_WIDTH; y=ev->y/NORMAL_TILE_HEIGHT;
-  xtile=map_adjust_x(map_view_x0+x); ytile=map_adjust_y(map_view_y0+y);
-
-  pcity=map_get_city(xtile, ytile);
-
-  if(!pcity || pcity->owner!=game.player_idx) return;
+  ptile=map_get_tile(map_adjust_x(map_view_x0+x), map_adjust_y(map_view_y0+y));
+  if(ptile->worked==NULL || 
+     (pcity=ptile->worked)->owner!=game.player_idx) return;
+  x=map_canvas_adjust_x(pcity->x); y=map_canvas_adjust_y(pcity->y);
 
   color = (color%3)+1;
   XSetForeground(display,fill_tile_gc,colors_standard[color]);
