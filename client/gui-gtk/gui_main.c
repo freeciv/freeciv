@@ -648,7 +648,8 @@ static void setup_widgets(void)
     gtk_signal_connect(GTK_OBJECT(ebox), "button_press_event",
                        GTK_SIGNAL_FUNC(taxrates_callback), GINT_TO_POINTER(i));
 
-    econ_label[i] = gtk_pixmap_new(get_citizen_pixmap(c, i, NULL), NULL);
+    econ_label[i] = gtk_pixmap_new(get_citizen_sprite(c, i, NULL)->pixmap,
+				   NULL);
     gtk_pixmap_set_build_insensitive(GTK_PIXMAP(econ_label[i]), FALSE);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
@@ -664,7 +665,8 @@ static void setup_widgets(void)
   gtk_pixmap_set_build_insensitive(GTK_PIXMAP(flake_label), FALSE);
 
   government_label
-    = gtk_pixmap_new(get_citizen_pixmap(CITIZEN_UNHAPPY, 0, NULL), NULL);
+    = gtk_pixmap_new(get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL)->pixmap,
+		     NULL);
   gtk_pixmap_set_build_insensitive(GTK_PIXMAP(government_label), FALSE);
 
   timeout_label = gtk_label_new("");
