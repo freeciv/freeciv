@@ -63,9 +63,8 @@ int gui_server_connect(void)
   connw=XtVaCreateManagedWidget("cconnectc", commandWidgetClass, form, NULL);   
   quitw=XtVaCreateManagedWidget("cquitc", commandWidgetClass, form, NULL); 
 
-#if MINOR_VERSION < 7
-  label2=XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form, NULL);   
-#endif
+  if (MINOR_VERSION < 7)
+    label2=XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form, NULL);
 
   XtAddCallback(connw, XtNcallback, connect_callback, NULL);
   XtAddCallback(quitw, XtNcallback, quit_callback, NULL);
