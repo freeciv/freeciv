@@ -286,7 +286,7 @@ void create_science_dialog(int make_modal)
   Widget  close_command;
   static char *tech_list_names_ptrs[A_LAST+1];
   static char tech_list_names[A_LAST+1][200];
-  int i, j, flag;
+  int i, j, flag, num_list;
   Dimension width;
   char current_text[512];
   char goal_text[512];
@@ -314,6 +314,8 @@ void create_science_dialog(int make_modal)
       j++;
     }
   tech_list_names_ptrs[j]=0;
+  num_list = j;
+  /* printf("science list num: %d\n", num_list); */
   
   science_dialog_shell = XtVaCreatePopupShell("sciencepopup", 
 					      make_modal ? 
@@ -424,6 +426,12 @@ void create_science_dialog(int make_modal)
   XtAddCallback(close_command, XtNcallback, science_close_callback, NULL);
   XtAddCallback(science_list, XtNcallback, science_help_callback, NULL);
   XtAddCallback(science_help_toggle, XtNcallback, toggle_callback, NULL);
+
+  if(num_list>60) {
+    int ncol;
+    XtVaGetValues(science_list, XtNdefaultColumns, &ncol, NULL);
+    XtVaSetValues(science_list, XtNdefaultColumns, ncol+1, NULL);
+  }
 
   XtRealizeWidget(science_dialog_shell);
 
