@@ -114,6 +114,7 @@ void assess_danger(struct city *pcity)
   for(i=0; i<game.nplayers; i++) {
     if (i != pcity->owner) {
       aplayer = &game.players[i];
+/* should I treat empty enemy cities as danger? */
       unit_list_iterate(aplayer->units, punit)
         v = get_unit_type(punit->type)->attack_strength * 10;
         if (punit->veteran) v *= 1.5;
@@ -146,12 +147,13 @@ int assess_defense(struct city *pcity)
   def = 0;
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     v = get_defense_power(punit) * punit->hp * get_unit_type(punit->type)->firepower;
-    def += v * v;
+    if (is_military_unit(punit)) def += v * v;
   unit_list_iterate_end;
   def *= 2.25; /* because we are in a city == fortified */ 
   if (city_got_citywalls(pcity)) def *= 9; /* walls rule */
   /* def is an estimate of our total defensive might */
   return(def);
+/* unclear whether this should treat settlers/caravans as defense -- Syela */
 }
 
 /********************************************************************** 
@@ -181,9 +183,10 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   if (danger > 1000) { /* might be able to wait a little longer to defend */
     if (danger >= def) danger = 101; /* > 100 means BUY RIGHT NOW */
     else { danger *= 100; danger /= def; }
-    if (pcity->ai.building_want[B_CITY]) { /* walls before a second defender */
+    if (pcity->ai.building_want[B_CITY] && def && def < 101) {
+/* walls before a second defender, unless we need it RIGHT NOW */
       choice->choice = B_CITY; /* great wall is under domestic */
-      choice->want = pcity->ai.building_want[B_CITY];
+      choice->want = danger + pcity->ai.building_want[B_CITY]; /* guessing! */
       choice->type = 0;
     } else {
       choice->choice = ai_choose_defender(pcity);
@@ -195,8 +198,11 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     }
   } /* ok, don't need to defend */
   acity = dist_nearest_enemy_city(pplayer, pcity->x, pcity->y);
-  if (acity && def) { /* stupid to build attackers if we have no def! */
-    v = ai_choose_attacker(pcity);
+  if (acity) { /* stupid to build attackers if we have no def! */
+    if (def) v = ai_choose_attacker(pcity);
+    else v = ai_choose_defender(pcity);
+/* otherwise the AI would never build the first military unit! */
+/* there may be a better solution but I don't want to unbalance anything. -- Syela */
     /* at this moment, we only choose ground units */
     if (get_unit_type(v)->flags & F_IGTER)
       dist = real_map_distance(pcity->x, pcity->y, acity->x, acity->y);

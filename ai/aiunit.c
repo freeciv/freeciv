@@ -64,7 +64,8 @@ void ai_manage_units(struct player *pplayer)
 
 void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 {
-  int i, j, d, f, x, y, con, best, dest_x, dest_y, cur, a, b;
+  int i, j, d, f, x, y, con, dest_x, dest_y, a, b, cur, best;
+  int my_x[10], my_y[10]; /* to prevent getting stuck */
   if (punit->activity == ACTIVITY_IDLE) {
     x = punit->x; y = punit->y;
     con = map_get_continent(x, y);
@@ -94,6 +95,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       for (d = 1; d <= 24; d++) {
   /* printf("Exploring: D = %d\n", d); */
         best = 0; dest_x = 0; dest_y = 0;
+        for (i = 0; i < 10; i++) { my_x[i] = x; my_y[i] = y; }
         for (i = 0 - d; i <= d; i++) {
           f = 1;
           if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
@@ -103,20 +105,25 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
               for (a = i - 1; a <= i + 1; a++)
                 for (b = j - 1; b <= j + 1; b++)
                   if (!map_get_known(x + a, y + b, pplayer)) cur++;
-              if (cur > best || (cur == best && myrand(2))) {
-                best = cur;
-                dest_x = map_adjust_x(x + i);
-                dest_y = y + j;
+              if ((my_x[cur] == x && my_y[cur] == y) || myrand(2)) {
+                my_x[cur] = map_adjust_x(x + i);
+                my_y[cur] = y + j;
+                if (cur > best) best = cur;
               }
             }
           } /* end j */
         } /* end i */
         if (best) {
-          punit->goto_dest_x = dest_x;
-          punit->goto_dest_y = dest_y;
-          punit->activity = ACTIVITY_GOTO;
-          if (d > 1) do_unit_goto(pplayer, punit); /* don't trust goto for d == 1 */
-          else handle_unit_move_request(pplayer, punit, dest_x, dest_y);
+          for (i = best; i; i--) {
+            if (my_x[i] != x || my_y[i] != y) {
+              punit->goto_dest_x = my_x[i];
+              punit->goto_dest_y = my_y[i];
+              punit->activity = ACTIVITY_GOTO;
+              if (d > 1) do_unit_goto(pplayer, punit); /* don't trust goto for d == 1 */
+              else handle_unit_move_request(pplayer, punit, dest_x, dest_y);
+              if (x != punit->x || y != punit->y) break; /* otherwise go elsewhere */
+            }
+          }
           if (x != punit->x || y != punit->y) break; /* this ought to work, I hope */
         } /* end if best */
       } /* end for D */
@@ -252,6 +259,9 @@ int ai_want_city(struct player *pplayer, struct unit *punit)
       return 0;
   }
   if (!is_free_work_tile(pplayer,
+			pplayer->ai.island_data[cont].cityspot.x, 
+			pplayer->ai.island_data[cont].cityspot.y)
+     && !same_pos(punit->x, punit->y, /* added by Syela for saved games */
 			pplayer->ai.island_data[cont].cityspot.x, 
 			pplayer->ai.island_data[cont].cityspot.y))
     return 0;
@@ -701,12 +711,12 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
   if (ai_want_city(pplayer, punit) && 
       ai_enough_auto_settlers(pplayer, 
 			      map_get_continent(punit->x, punit->y))) {
-    ai_do_move_build_city(pplayer, punit);
-     return;
+    ai_do_move_build_city(pplayer, punit); /* yes, this wastes a turn */
+    return;
   }
   if (ai_want_immigrate(pplayer, punit) > ai_want_work(pplayer, punit)) {
-      ai_do_immigrate(pplayer, punit);
-      return;
+    ai_do_immigrate(pplayer, punit);
+    return;
   } else {
     punit->ai.control = 1;
     punit->ai.ai_role = AIUNIT_AUTO_SETTLER;

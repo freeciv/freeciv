@@ -42,17 +42,12 @@ int ai_best_tile_value(struct city *pcity)
     best = 0;
     city_map_iterate(x, y) {
       if(can_place_worker_here(pcity, x, y)) {
-         if(bx==0 && by==0) {
-            bx=x;
-            by=y;
-          } else {
-            if ((cur = city_tile_value(pcity, x, y, food, 0)) > best) {
-              bx=x;
-              by=y;
-              best = cur;
-            }
-          }
+        if ((cur = city_tile_value(pcity, x, y, food, 0)) > best) {
+          bx=x;
+          by=y;
+          best = cur;
         }
+      }
     }
   } while(0);
   if (bx || by)
@@ -64,17 +59,22 @@ int building_value(int max, struct city *pcity, int val)
 {
   int i, j = 0;
   int elvis = pcity->ppl_elvis;
-  int sad = pcity->ppl_unhappy[4];
-  int bored = pcity->ppl_content[4];
-  i = max;
+  int sad = pcity->ppl_unhappy[0]; /* yes, I'm sure about that! */
+  int bored = pcity->ppl_content[4]; /* this I'm not sure of anymore */
 
+  i = pcity->ppl_unhappy[3] - pcity->ppl_unhappy[2];
+  sad += i; /* if units are making us unhappy, count that too. */
+/*  printf("In %s, unh[0] = %d, unh[4] = %d, sad = %d\n",
+       pcity->name, pcity->ppl_unhappy[0], pcity->ppl_unhappy[4], sad); */
+
+  i = max;
   while (i && elvis) { i--; elvis--; j += val; }
   while (i && sad) { i--; sad--; j += 16; }
   i -= MIN(pcity->ppl_content[0], i); /* prevent the happy overdose */
   while (i && bored) { i--; bored--; j += 16; } /* 16 is debatable value */
 /*  printf("%s: %d elvis %d sad %d bored %d size %d max %d val\n",
     pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
-    pcity->ppl_content[4], pcity->size, max, j); */
+    pcity->ppl_content[4], pcity->size, max, j);  */
 
 /* should be better now.  Problem was that the AI had MICHELANGELO keeping
 everyone content, and then built BACH anyway.  Now the AI should know that
@@ -136,6 +136,7 @@ void ai_eval_buildings(struct city *pcity)
   val = ai_best_tile_value(pcity);
   food = food_weighting[a] * 4 / pcity->size;  
   i = (pcity->size *2 - get_food_tile(2,2, pcity)) + settler_eats(pcity);
+  i -= pcity->food_prod; /* amazingly left out for a week! -- Syela */
   if (i > 0 && !pcity->ppl_scientist) hunger = i + 1; else hunger = 1;
 
   gov = get_government(pcity->owner);
@@ -312,8 +313,7 @@ void ai_eval_buildings(struct city *pcity)
         values[i] = building_value(get_cathedral_power(pcity), pcity, val);
       if (i == B_ORACLE)
         if (city_got_building(pcity, B_TEMPLE))
-          values[i] = building_value(get_temple_power(pcity) * 2, pcity, val) -
-                      building_value(get_temple_power(pcity), pcity, val);
+          values[i] = building_value(get_temple_power(pcity), pcity, val);
       if (i == B_PYRAMIDS && !city_got_building(pcity, B_GRANARY))
         values[i] = food * pcity->food_surplus; /* different tech req's */
       if (i == B_SETI && !city_got_building(pcity, B_RESEARCH))

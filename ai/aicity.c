@@ -169,7 +169,10 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
          pcity->shield_stock < city_buy_cost(pcity) / 3) ; /* too expensive */
       else if (pplayer->economic.gold >= city_buy_cost(pcity)) {
         really_handle_city_buy(pplayer, pcity); /* adequately tested now */
-      } 
+      }
+else printf("%s wants %s but can't afford to buy it (%d < %d).\n", pcity->name,
+(bestchoice.type ? unit_name(bestchoice.choice) : 
+get_improvement_name(bestchoice.choice)), pplayer->economic.gold, city_buy_cost(pcity));
     }
     return;
   } /* AI cheats -- no penalty for switching from unit to improvement, etc. */
@@ -403,6 +406,7 @@ void ai_sell_obsolete_buildings(struct city *pcity)
 
 void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
+  city_check_workers(pplayer, pcity); /* no reason not to, many reasons to do so! */
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity))
     ai_scientists_taxmen(pcity);
@@ -488,7 +492,7 @@ void make_elvises(struct city *pcity)
     return;
   if (city_got_building(pcity, B_SEWER))
     return;
-  while (1) {
+  while (pcity->food_surplus > 0 || !city_happy(pcity)) { /* scientists don't party */
     if (ai_find_elvis_pos(pcity, &xp, &yp)) {
       if (get_food_tile(xp, yp, pcity) > pcity->food_surplus)
 	break;
