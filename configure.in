@@ -329,8 +329,10 @@ if test x$client != xno; then
 
   dnl Win32-specific overrides
   if test "$client" = win32 || test "$client" = yes ; then
-    # ADD WIN32 TEST HERE
-
+    if test x"$MINGW32" = "xyes"; then
+      found_client=yes
+      CLIENT_LIBS="-lwsock32 -lcomctl32 -mwindows"
+    fi
     if test "x$found_client" = "xyes"; then
       client=win32
     elif test "$client" = "win32"; then
