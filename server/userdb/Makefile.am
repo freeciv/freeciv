@@ -8,5 +8,4 @@ libuserdb_a_SOURCES = \
 	lockfile.c	\
 	lockfile.h	\
 	user_db.c	\
-	user_db.h	\
-	user.h
+	user_db.h

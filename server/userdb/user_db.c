@@ -19,46 +19,52 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "connection.h"
 #include "registry.h"
 #include "shared.h"
 #include "support.h"
 
 #include "lockfile.h"
-#include "user.h"
 #include "user_db.h"
 
 #ifndef USER_DATABASE
 #define FC_USER_DATABASE "freeciv_user_database"
 #endif
 
-static void fill_entry(struct section_file *sf, struct user *puser, int no);
-static void fill_user(struct section_file *sf, struct user *puser, int no);
+static void fill_entry(struct section_file *sf, 
+                       struct connection *pconn, int no);
+
+static void fill_conn(struct section_file *sf, 
+                      struct connection *pconn, int no);
 
 /**************************************************************************
- helper function to retrieve a user struct from the database
+ helper function to fill the user and password in the connection struct 
+ from the database
 **************************************************************************/
-static void fill_user(struct section_file *sf, struct user *puser, int no)
+static void fill_conn(struct section_file *sf, 
+                      struct connection *pconn, int no)
 {
-  sz_strlcpy(puser->name, secfile_lookup_str(sf, "db.users%d.name", no));
-  sz_strlcpy(puser->password, secfile_lookup_str(sf, "db.users%d.pass", no));
+  sz_strlcpy(pconn->username, secfile_lookup_str(sf, "db.users%d.name", no));
+  sz_strlcpy(pconn->password, secfile_lookup_str(sf, "db.users%d.pass", no));
 }
 
 /**************************************************************************
- helper function to insert a user struct to the database
+ helper function to insert some fields of the connection struct to the database
 **************************************************************************/
-static void fill_entry(struct section_file *sf, struct user *puser, int no)
+static void fill_entry(struct section_file *sf, 
+                       struct connection *pconn, int no)
 {
-  secfile_insert_str(sf, puser->name, "db.users%d.name", no);
-  secfile_insert_str(sf, puser->password, "db.users%d.pass", no);
+  secfile_insert_str(sf, pconn->username, "db.users%d.name", no);
+  secfile_insert_str(sf, pconn->password, "db.users%d.pass", no);
 }
 
 /**************************************************************************
  Loads a user from the database.
 **************************************************************************/
-enum userdb_status user_db_load(struct user *puser)
+enum userdb_status user_db_load(struct connection *pconn)
 {
   struct section_file sf;
-  int i, num_users = 0;
+  int i, num_entries = 0;
   enum userdb_status result;
 
   if (!create_lock()) {
@@ -71,22 +77,23 @@ enum userdb_status user_db_load(struct user *puser)
     result = USER_DB_NOT_FOUND;
     goto unlock_end;
   } else {
-    num_users = secfile_lookup_int(&sf, "db.user_num");
+    num_entries = secfile_lookup_int(&sf, "db.num_entries");
   }
 
-  /* find the user in the database */
-  for (i = 0; i < num_users; i++) {
-    char *name = secfile_lookup_str(&sf, "db.users%d.name", i);
-    if (strncmp(name, puser->name, MAX_LEN_NAME) == 0) {
+  /* find the connection in the database */
+  for (i = 0; i < num_entries; i++) {
+    char *username = secfile_lookup_str(&sf, "db.users%d.name", i);
+    if (strncmp(username, pconn->username, MAX_LEN_NAME) == 0) {
       break;
     }
   }
 
-  /* if we couldn't find the user, return, else, fill the user struct */
-  if (i == num_users) {
+  /* if we couldn't find the connection, return, else,
+   * fill the connection struct */
+  if (i == num_entries) {
     result = USER_DB_NOT_FOUND;
   } else {
-    fill_user(&sf, puser, i);
+    fill_conn(&sf, pconn, i);
     result = USER_DB_SUCCESS;
   }
   section_file_free(&sf);
@@ -98,13 +105,14 @@ enum userdb_status user_db_load(struct user *puser)
 }
 
 /**************************************************************************
- Saves a user to the database. If the user already exists, replace the data.
+ Saves pconn fields to the database. If the username already exists, 
+ replace the data.
 **************************************************************************/
-enum userdb_status user_db_save(struct user *puser)
+enum userdb_status user_db_save(struct connection *pconn)
 {
   struct section_file old, new;
-  struct user entry; 
-  int i, num_users = 0, new_num = 1;
+  struct connection conn; 
+  int i, num_entries = 0, new_num = 1;
   enum userdb_status result;
 
   if (!create_lock()) {
@@ -114,28 +122,28 @@ enum userdb_status user_db_save(struct user *puser)
 
   section_file_init(&new);
 
-  /* add the pusers info to the database */
-  fill_entry(&new, puser, 0);
+  /* add the pconns info to the database */
+  fill_entry(&new, pconn, 0);
 
   /* load the file, and if it exists, save it to the new file */
   if (section_file_load(&old, FC_USER_DATABASE)) {
-    num_users = secfile_lookup_int(&old, "db.user_num");
+    num_entries = secfile_lookup_int(&old, "db.num_entries");
 
-    /* fill the new database with the old one. skip puser if he
+    /* fill the new database with the old one. skip pconn if he
      * exists, since we already inserted his new information */
   
-    for (i = 0; i < num_users; i++) {
-      fill_user(&old, &entry, i);
-      if (strncmp(entry.name, puser->name, MAX_LEN_NAME) != 0) {
-        fill_entry(&new, &entry, new_num++);
+    for (i = 0; i < num_entries; i++) {
+      fill_conn(&old, &conn, i);
+      if (strncmp(conn.username, pconn->username, MAX_LEN_NAME) != 0) {
+        fill_entry(&new, &conn, new_num++);
       }
     }
 
     section_file_free(&old);
   }
 
-  /* insert the number of users */
-  secfile_insert_int(&new, new_num, "db.user_num");
+  /* insert the number of connections */
+  secfile_insert_int(&new, new_num, "db.num_entries");
 
   /* save to file */
   if (!section_file_save(&new, FC_USER_DATABASE, 0)) {

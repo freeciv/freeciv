@@ -13,7 +13,7 @@
 #ifndef FC__USER_DB_H
 #define FC__USER_DB_H
 
-struct user;
+struct connection;
 
 /**************************************************
  The user db statuses are:
@@ -29,7 +29,7 @@ enum userdb_status {
   USER_DB_NOT_FOUND
 };
 
-enum userdb_status user_db_load(struct user *puser);
-enum userdb_status user_db_save(struct user *puser);
+enum userdb_status user_db_load(struct connection *pconn);
+enum userdb_status user_db_save(struct connection *pconn);
 
 #endif /* FC__USER_DB_H */

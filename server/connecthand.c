@@ -28,7 +28,6 @@
 #include "support.h"
 #include "version.h"
 
-#include "user.h"
 #include "user_db.h"
 #include "diplhand.h"
 #include "gamehand.h"
@@ -210,9 +209,7 @@ bool handle_login_request(struct connection *pconn,
                           struct packet_login_request *req)
 {
   char msg[MAX_LEN_MSG];
-  char orig_name[MAX_LEN_NAME];
   
-  sz_strlcpy(orig_name, req->username);
   remove_leading_trailing_spaces(req->username);
 
   /* Name-sanity check: could add more checks? */
@@ -308,14 +305,12 @@ bool handle_login_request(struct connection *pconn,
 
   if (has_capability("auth", req->capability) 
       && !is_guest_name(req->username)) {
-    struct user user;
     struct packet_authentication_request packet;
     char tmpname[MAX_LEN_NAME] = "\0";
 
-    sz_strlcpy(user.name, req->username);
     sz_strlcpy(pconn->username, req->username);
 
-    switch(user_db_load(&user)) {
+    switch(user_db_load(pconn)) {
     case USER_DB_ERROR:
 #ifdef GUESTS_ALLOWED
       sz_strlcpy(tmpname, pconn->username);
@@ -334,7 +329,6 @@ bool handle_login_request(struct connection *pconn,
       break;
     case USER_DB_SUCCESS:
       /* we found a user */
-      sz_strlcpy(pconn->password, user.password);
       packet.type = AUTH_LOGIN_FIRST;
       my_snprintf(packet.message, sizeof(packet.message),
                   _("Enter password for %s:"), pconn->username);
@@ -414,7 +408,6 @@ bool handle_authentication_reply(struct connection *pconn,
   char msg[MAX_LEN_MSG];
 
   if (pconn->server.status == AS_REQUESTING_NEW_PASS) {
-    struct user user;
 
     /* check if the new password is acceptable */
     if (!is_good_password(packet->password, msg)) {
@@ -432,10 +425,9 @@ bool handle_authentication_reply(struct connection *pconn,
 
     /* the new password is good, create a database entry for
      * this user; we establish the connection in handle_db_lookup */
-    sz_strlcpy(user.name, pconn->username);
-    sz_strlcpy(user.password, packet->password);
+    sz_strlcpy(pconn->password, packet->password);
 
-    switch(user_db_save(&user)) {
+    switch(user_db_save(pconn)) {
     case USER_DB_SUCCESS:
       break;
     case USER_DB_ERROR:
