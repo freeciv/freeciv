@@ -253,7 +253,6 @@ static GtkWidget* create_show_menu(void)
 void create_players_dialog(void)
 {
   int i;
-  GtkAccelGroup *accel = gtk_accel_group_new();
   GtkWidget *sep, *sw;
   GtkWidget *menubar, *menu, *item;
 
@@ -352,7 +351,6 @@ void create_players_dialog(void)
 
   menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  gtk_menu_set_accel_group(GTK_MENU(menu), accel);
 
   players_int_command = gtk_menu_item_new_with_mnemonic(_("_Intelligence"));
   gtk_widget_set_sensitive(players_int_command, FALSE);
@@ -385,19 +383,6 @@ void create_players_dialog(void)
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
 
-  gtk_widget_add_accelerator(players_int_command,
-    "activate", accel, GDK_I, 0, GTK_ACCEL_VISIBLE);
-  gtk_widget_add_accelerator(players_meet_command,
-    "activate", accel, GDK_M, 0, GTK_ACCEL_VISIBLE);
-  gtk_widget_add_accelerator(players_war_command,
-    "activate", accel, GDK_C, 0, GTK_ACCEL_VISIBLE);
-  gtk_widget_add_accelerator(players_vision_command,
-    "activate", accel, GDK_W, 0, GTK_ACCEL_VISIBLE);
-  gtk_widget_add_accelerator(players_sship_command,
-    "activate", accel, GDK_S, 0, GTK_ACCEL_VISIBLE);
-
-  gtk_window_add_accel_group(
-      GTK_WINDOW(gui_dialog_get_toplevel(players_dialog_shell)), accel);
   gui_dialog_show_all(players_dialog_shell);
 
   g_signal_connect(players_meet_command, "activate",
