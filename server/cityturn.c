@@ -48,7 +48,7 @@
 
 #include "cityturn.h"
 
-extern signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+extern signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
 static void set_tax_income(struct city *pcity);
 static void set_food_trade_shields(struct city *pcity);
