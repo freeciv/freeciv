@@ -83,7 +83,7 @@ tech_cost_double_year = 0
 ; See city_incite_cost() for more details
 [incite_cost]
 improvement_factor = 1
-unit_factor = 1
+unit_factor = 2
 total_factor = 100
 
 [combat_rules]
