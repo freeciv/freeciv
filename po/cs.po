@@ -12,13 +12,13 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-10-24 12:11+0200\n"
-"PO-Revision-Date: 2004-10-24 12:19+0200\n"
+"PO-Revision-Date: 2004-11-14 13:37+0100\n"
 "Last-Translator: Dušan Hokův <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 
 #: common/city.c:266
 msgid "?redundant:*"
@@ -8777,7 +8777,7 @@ msgstr "Daně:%d Luxus:%d Věda:%d"
 #: client/text.c:481
 #, c-format
 msgid "Turns to target: %d"
-msgstr ""
+msgstr "Tahů k cíli: %d"
 
 #: client/text.c:511
 #, c-format
@@ -12329,7 +12329,7 @@ msgstr ""
 #: client/gui-mui/diplodlg.c:626 client/gui-win32/diplodlg.c:617
 #: data/Freeciv.in:464
 msgid "Pacts"
-msgstr ""
+msgstr "Smlouvy"
 
 #: client/gui-gtk/diplodlg.c:500 client/gui-win32/diplodlg.c:623
 #: client/gui-xaw/diplodlg.c:538
@@ -12404,7 +12404,7 @@ msgstr "?techhelp:."
 
 #: client/gui-gtk/helpdlg.c:844 client/gui-win32/helpdlg.c:769
 msgid "Obsoletes "
-msgstr ""
+msgstr "Zastarává "
 
 #: client/gui-gtk/helpdlg.c:885 client/gui-gtk/helpdlg.c:900
 #: client/gui-mui/helpdlg.c:800 client/gui-mui/helpdlg.c:820
@@ -12832,7 +12832,7 @@ msgstr ""
 
 #: client/gui-mui/citydlg.c:1630
 msgid "C_hange permanent"
-msgstr ""
+msgstr "Z_měnit permanentně"
 
 #: client/gui-mui/citydlg.c:1661 client/gui-mui/citydlg.c:1662
 msgid "_Disband if build settler at size 1"
@@ -13964,7 +13964,7 @@ msgstr "Umožňuje %s.\n"
 #: client/gui-xaw/helpdlg.c:895
 #, c-format
 msgid "Obsoletes %s.\n"
-msgstr ""
+msgstr "Zastarává %s.\n"
 
 #: client/gui-xaw/helpdlg.c:911 client/gui-xaw/helpdlg.c:915
 #, c-format
@@ -14058,7 +14058,7 @@ msgstr "Hraní"
 
 #: client/gui-xaw/menu.c:238 data/helpdata.txt:902
 msgid "Combat"
-msgstr ""
+msgstr "Boj"
 
 #: client/gui-xaw/menu.c:239
 msgid "ZOC"
@@ -18631,7 +18631,7 @@ msgstr ""
 #: data/default/units.ruleset:1525 data/civ2/units.ruleset:1384
 #: data/civ1/units.ruleset:1338 data/history/units.ruleset:1451
 msgid "Transport"
-msgstr ""
+msgstr "Transport"
 
 #: data/default/units.ruleset:1553 data/civ2/units.ruleset:1412
 #: data/civ1/units.ruleset:1366 data/history/units.ruleset:1479
@@ -18872,11 +18872,11 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr ""
+msgstr "Afgánci"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
-msgstr ""
+msgstr "?plural:Afgánský"
 
 #: data/nation/afghani.ruleset:14 data/nation/australian.ruleset:15
 #: data/nation/canadian.ruleset:12 data/nation/danish.ruleset:26
@@ -19854,7 +19854,7 @@ msgstr ""
 
 #: data/nation/persian.ruleset:15
 msgid "Shah"
-msgstr ""
+msgstr "Šach"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
