@@ -502,11 +502,12 @@ void handle_unit_move_request(struct player *pplayer, struct unit *punit,
       unit_list_iterate_end;
     }
       
-    punit->x=dest_x;
-    punit->y=dest_y;
-    
     if((punit->moves_left-=map_move_cost(punit, dest_x, dest_y))<0)
       punit->moves_left=0;
+
+    punit->x=dest_x;
+    punit->y=dest_y;
+
     send_unit_info(0, punit, 1);
     
     unit_list_insert(&map_get_tile(dest_x, dest_y)->units, punit);
