@@ -196,6 +196,6 @@ void base_refresh_overview_canvas(struct canvas_store *pbacking_store);
 
 void get_mapview_corners(int overview_x_array[4], int overview_y_array[4]);
 
-extern int map_overview_x0;
+extern int map_overview_x0, map_overview_y0;
 
 #endif /* FC__MAPVIEW_COMMON_H */

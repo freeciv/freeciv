@@ -431,16 +431,20 @@ void refresh_overview_viewrect(void)
 {
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
-  int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
+  int y0 = OVERVIEW_TILE_HEIGHT * map_overview_y0;
+  int y1 = OVERVIEW_TILE_HEIGHT * (map.ysize - map_overview_y0);
   int gui_x[4], gui_y[4], i;
 
-  /* Copy the part of the overview to the right of map_overview_x0. */
+  /* (map_overview_x0, map_overview_y0) splits the map into four
+   * rectangles.  Draw each of these rectangles to the screen, in turn. */
   XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
-	    civ_gc, x0, 0, x1, dy, 0, 0);
-
-  /* Copy the part of the overview to the left of map_overview_x0. */
+	    civ_gc, x0, y0, x1, y1, 0, 0);
   XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
-	    civ_gc, 0, 0, x0, dy, x1, 0);
+	    civ_gc, 0, y0, x0, y1, x1, 0);
+  XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
+	    civ_gc, x0, 0, x1, y0, 0, y1);
+  XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
+	    civ_gc, 0, 0, x0, y0, x1, y1);
 
   /* Now draw the mapview window rectangle onto the overview. */
   XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);

@@ -38,8 +38,8 @@
 
 struct canvas mapview_canvas;
 
-/* Coordinates of the upper left corner of the map overview. */
-int map_overview_x0;
+/* Overview oordinates of the upper left corner of the map overview. */
+int map_overview_x0, map_overview_y0;
 
 static void center_tile_overviewcanvas(int map_x, int map_y);
 
@@ -1332,7 +1332,11 @@ static void center_tile_overviewcanvas(int map_x, int map_y)
   } else {
     map_overview_x0 = 0;
   }
-  /* TODO: Y-wrapping of overview */
+  if (topo_has_flag(TF_WRAPY)) {
+    map_overview_y0 = WRAP(map_y - map.ysize / 2, map.ysize);
+  } else {
+    map_overview_y0 = 0;
+  }
 }
 
 /**************************************************************************
@@ -1349,10 +1353,13 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
    * NOTE: this embeds the map wrapping in the overview code. */
   map_to_native_pos(&gui_x, &gui_y, map_x, map_y);
   gui_x -= map_overview_x0;
+  gui_y -= map_overview_y0;
   if (topo_has_flag(TF_WRAPX)) {
     gui_x = WRAP(gui_x, map.xsize);
   }
-  /* TODO: Y-wrapping of overview */
+  if (topo_has_flag(TF_WRAPY)) {
+    gui_y = WRAP(gui_y, map.ysize);
+  }
   *overview_x = OVERVIEW_TILE_WIDTH * gui_x;
   *overview_y = OVERVIEW_TILE_HEIGHT * gui_y;
 }
@@ -1364,8 +1371,7 @@ void overview_to_map_pos(int *map_x, int *map_y,
 			 int overview_x, int overview_y)
 {
   int nat_x = overview_x / OVERVIEW_TILE_WIDTH + map_overview_x0;
-  int nat_y = overview_y / OVERVIEW_TILE_HEIGHT;
-  /* TODO: Y-wrapping of overview */
+  int nat_y = overview_y / OVERVIEW_TILE_HEIGHT + map_overview_y0;
 
   native_to_map_pos(map_x, map_y, nat_x, nat_y);
   if (!normalize_map_pos(map_x, map_y)) {

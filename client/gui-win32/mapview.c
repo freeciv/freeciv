@@ -899,7 +899,8 @@ refresh_overview_viewrect_real(HDC hdcp)
 {
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
-  int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
+  int y0 = OVERVIEW_TILE_HEIGHT * map_overview_y0;
+  int y1 = OVERVIEW_TILE_HEIGHT * (map.ysize - map_overview_y0);
   int gui_x[4], gui_y[4];
   HDC hdc = hdcp;
   HPEN oldpen;
@@ -908,11 +909,12 @@ refresh_overview_viewrect_real(HDC hdcp)
     hdc = GetDC(root_window);
   }
 
-  /* Copy the part of the overview to the right of map_overview_x0. */
-  BitBlt(hdc, overview_win_x, overview_win_y, x1, dy, x0, 0);
-
-  /* Copy the part of the overview to the left of map_overview_x0. */
-  BitBlt(hdc, overview_win_x + x1, overview_win_y, x0, dy, 0, 0);
+  /* (map_overview_x0, map_overview_y0) splits the map into four
+   * rectangles.  Draw each of these rectangles to the screen, in turn. */
+  BitBlt(hdc, overview_win_x, overview_win_y, x1, y1, x0, y0);
+  BitBlt(hdc, overview_win_x + x1, overview_win_y, x0, y1, 0, y0);
+  BitBlt(hdc, overview_win_x, overview_win_y + y1, x1, y0, x0, 0);
+  BitBlt(hdc, overview_win_x + x1, overview_win_y + y1, x0, y0, 0, 0);
 
   /* Now draw the mapview window rectangle onto the overview. */
   oldpen = SelectObject(hdc, pen_std[COLOR_STD_WHITE]);

@@ -509,16 +509,20 @@ void refresh_overview_viewrect(void)
 {
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
-  int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
+  int y0 = OVERVIEW_TILE_HEIGHT * map_overview_y0;
+  int y1 = OVERVIEW_TILE_HEIGHT * (map.ysize - map_overview_y0);
   int gui_x[4], gui_y[4], i;
 
-  /* Copy the part of the overview to the right of map_overview_x0. */
+  /* (map_overview_x0, map_overview_y0) splits the map into four
+   * rectangles.  Draw each of these rectangles to the screen, in turn. */
   gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
-		    x0, 0, 0, 0, x1, dy);
-
-  /* Copy the part of the overview to the left of map_overview_x0. */
+		    x0, y0, 0, 0, x1, y1);
   gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
-		    0, 0, x1, 0, x0, dy);
+		    0, y0, x1, 0, x0, y1);
+  gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
+		    x0, 0, 0, y1, x1, y0);
+  gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
+		    0, 0, x1, y1, x0, y0);
 
   /* Now draw the mapview window rectangle onto the overview. */
   gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
