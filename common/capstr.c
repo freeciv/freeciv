@@ -70,7 +70,8 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.13.0 conn_info turn_founded unitbv +freeze_thaw"
+#define CAPABILITY "+1.13.0 conn_info turn_founded unitbv +freeze_thaw "\
+                   "+civ2happy"
   
 /* "+1.13.0" is protocol for 1.13.0 release.
   

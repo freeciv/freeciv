@@ -1661,22 +1661,39 @@ static void happy_copy(struct city *pcity, int i)
 }
 
 /**************************************************************************
-...
+  Create content, unhappy and angry citizens.
 **************************************************************************/
 static void citizen_happy_size(struct city *pcity)
 {
-  int workers, tmp;
+  /* Number of specialists in city */
+  int specialists = city_specialists(pcity);
 
-  workers = pcity->size - city_specialists(pcity);
-  tmp = content_citizens(city_owner(pcity));
-  pcity->ppl_content[0] = MAX(0, MIN(workers, tmp));
-  if (game.angrycitizen == 0)
+  /* This is the number of citizens that may start out content, depending
+   * on empire size and game's city unhappysize. This may be bigger than
+   * the size of the city, since this is a potential. */
+  int content = content_citizens(city_owner(pcity));
+
+  /* Create content citizens. Take specialists from their ranks. */
+  pcity->ppl_content[0] = MAX(0, MIN(pcity->size, content) - specialists);
+
+  /* Create angry citizens only if we have a negative number of possible
+   * content citizens. This happens when empires grow really big. */
+  if (game.angrycitizen == FALSE) {
     pcity->ppl_angry[0] = 0;
-  else
-    pcity->ppl_angry[0] = MIN(MAX(0, -tmp), workers);
-  pcity->ppl_unhappy[0] =
-      workers - pcity->ppl_content[0] - pcity->ppl_angry[0];
-  pcity->ppl_happy[0] = 0;	/* no one is born happy */
+  } else {
+    pcity->ppl_angry[0] = MIN(MAX(0, -content), pcity->size - specialists);
+  }
+
+  /* Create unhappy citizens. In the beginning, all who are not content,
+   * specialists or angry are unhappy. This is changed by luxuries and 
+   * buildings later. */
+  pcity->ppl_unhappy[0] = (pcity->size 
+                           - specialists 
+                           - pcity->ppl_content[0] 
+                           - pcity->ppl_angry[0]);
+
+  /* No one is born happy. */
+  pcity->ppl_happy[0] = 0;
 }
 
 /**************************************************************************

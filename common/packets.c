@@ -993,7 +993,7 @@ int send_packet_game_info(struct connection *pc,
   dio_put_uint8(&dout, pinfo->freecost);
   dio_put_uint8(&dout, pinfo->conquercost);
   dio_put_uint8(&dout, pinfo->unhappysize);
-  dio_put_uint8(&dout, pinfo->angrycitizen);
+  dio_put_bool8(&dout, pinfo->angrycitizen);
 
   for (i = 0; i < A_LAST /*game.num_tech_types */ ; i++)
     dio_put_uint8(&dout, pinfo->global_advances[i]);
@@ -1041,7 +1041,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   dio_get_uint8(&din, &pinfo->freecost);
   dio_get_uint8(&din, &pinfo->conquercost);
   dio_get_uint8(&din, &pinfo->unhappysize);
-  dio_get_uint8(&din, &pinfo->angrycitizen);
+  dio_get_bool8(&din, &pinfo->angrycitizen);
 
   for (i = 0; i < A_LAST /*game.num_tech_types */ ; i++)
     dio_get_uint8(&din, &pinfo->global_advances[i]);

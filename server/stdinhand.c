@@ -451,13 +451,12 @@ static struct settings_s settings[] = {
 	  GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE,
 	  GAME_DEFAULT_UNHAPPYSIZE)
 
-  GEN_INT("angrycitizen", game.angrycitizen, SSET_RULES, SSET_TO_CLIENT,
+  GEN_BOOL("angrycitizen", game.angrycitizen, SSET_RULES, SSET_TO_CLIENT,
 	  N_("Whether angry citizens are enabled"),
 	  N_("Introduces angry citizens like civilization II. Angry "
 	     "citizens have to become unhappy before any other class "
 	     "of citizens may be considered. See also unhappysize, "
 	     "cityfactor and governments."), NULL, 
-	  GAME_MIN_ANGRYCITIZEN, GAME_MAX_ANGRYCITIZEN,
 	  GAME_DEFAULT_ANGRYCITIZEN)
 
   GEN_INT("cityfactor", game.cityfactor, SSET_RULES, SSET_TO_CLIENT,

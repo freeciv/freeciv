@@ -823,7 +823,7 @@ struct packet_game_info {
   int cooling;
   int cityfactor;
   int unhappysize;
-  int angrycitizen;
+  bool angrycitizen;
   int diplcost,freecost,conquercost;
   int global_advances[A_LAST];
   int global_wonders[B_LAST];

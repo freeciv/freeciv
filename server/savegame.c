@@ -1752,7 +1752,7 @@ void game_load(struct section_file *file)
     game.notradesize   = secfile_lookup_int_default(file, 0, "game.notradesize");
     game.fulltradesize = secfile_lookup_int_default(file, 1, "game.fulltradesize");
     game.unhappysize   = secfile_lookup_int(file, "game.unhappysize");
-    game.angrycitizen  = secfile_lookup_int_default(file, 0, "game.angrycitizen");
+    game.angrycitizen  = secfile_lookup_bool_default(file, FALSE, "game.angrycitizen");
 
     if (game.version >= 10100) {
       game.cityfactor  = secfile_lookup_int(file, "game.cityfactor");
@@ -2133,7 +2133,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.notradesize, "game.notradesize");
   secfile_insert_int(file, game.fulltradesize, "game.fulltradesize");
   secfile_insert_int(file, game.unhappysize, "game.unhappysize");
-  secfile_insert_int(file, game.angrycitizen, "game.angrycitizen");
+  secfile_insert_bool(file, game.angrycitizen, "game.angrycitizen");
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
   secfile_insert_int(file, game.citymindist, "game.citymindist");
   secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");
