@@ -427,11 +427,22 @@ void handle_single_want_hack_req(struct connection *pc, int challenge)
   bool could_load = TRUE;
   bool you_have_hack = FALSE;
 
-  if (section_file_load_nodup(&file, challenge_filename)) {
-    entropy = secfile_lookup_int_default(&file, 0, "challenge.entropy");
-    section_file_free(&file);
+  if (is_reg_file_for_access(challenge_filename, FALSE)) {
+    if (section_file_load_nodup(&file, challenge_filename)) {
+      entropy = secfile_lookup_int_default(&file, 0, "challenge.entropy");
+      section_file_free(&file);
+    } else {
+      freelog(LOG_ERROR, "couldn't load temporary file: %s",
+              challenge_filename);
+      could_load = FALSE;
+    }
+
+    /* remove temp file */
+    if (remove(challenge_filename) != 0) {
+      freelog(LOG_ERROR, "couldn't remove temporary file: %s",
+              challenge_filename);
+    }
   } else {
-    freelog(LOG_ERROR, "couldn't load temporary file: %s", challenge_filename);
     could_load = FALSE;
   }
 
@@ -439,12 +450,6 @@ void handle_single_want_hack_req(struct connection *pc, int challenge)
 
   if (you_have_hack) {
     pc->access_level = ALLOW_HACK;
-  }
-
-  /* remove temp file */
-  if (remove(challenge_filename) != 0) {
-    freelog(LOG_ERROR, "couldn't remove temporary file: %s",
-            challenge_filename);
   }
 
   dsend_packet_single_want_hack_reply(pc, you_have_hack);
