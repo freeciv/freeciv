@@ -978,17 +978,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       choice->want = want;
       choice->type = CT_NONMIL;
       ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);
-      
-    } else if (want < 0) {
-      /* Negative value is a hack to tell us that we need boats to colonize.
-       * abs(want) is desire for the boats. */
-      CITY_LOG(LOG_DEBUG, pcity, "desires settlers with passion %d and asks"
-	       " for a boat", want);
-      choice->want = 0 - want;
-      choice->type = CT_NONMIL;
-      choice->choice = unit_type; /* default */
-      ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, -want);
     }
+    /* Terrain improvers don't use boats (yet) */
   }
 
   /* Find out desire for city founders */
@@ -1014,6 +1005,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       choice->want = 0 - want;
       choice->type = CT_NONMIL;
       choice->choice = unit_type; /* default */
+      choice->need_boat = TRUE;
       ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, -want);
     }
   }
