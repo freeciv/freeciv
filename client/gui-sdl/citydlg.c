@@ -5252,8 +5252,7 @@ void refresh_unit_city_dialogs(struct unit *pUnit)
       pCityDlg->pEndCityPanelWidgetList = NULL;
       FREE(pCityDlg->pPanelVscroll);
     }
-    
-    dirty_all();
+
     redraw_city_dialog(pCityDlg->pCity);
     flush_dirty();
   }

@@ -271,6 +271,15 @@ void dirty_all(void)
 }
 
 /**************************************************************************
+  flush entire screen.
+**************************************************************************/
+void flush_all(void)
+{
+  Main.rects_count = RECT_LIMIT;
+  flush_dirty();
+}
+
+/**************************************************************************
   Make "end" Flush "saved" parts/areas of the buffer(s) to the screen.
   Function is called in handle_procesing_finished and handle_thaw_hint
 **************************************************************************/

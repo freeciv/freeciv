@@ -600,7 +600,7 @@ void ui_init(void)
   
   set_video_mode(640, 480, iScreenFlags);
 
-  SDL_WM_SetCaption( "SDLClient of Freeciv", "FreeCiv" );
+  SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
 
   /* create label beackground */
   pTmp = create_surf(350, 50, SDL_SWSURFACE);
@@ -622,8 +622,7 @@ void ui_init(void)
 	     (Main.screen->w - pInit_String->size.w) / 2,
 	     (Main.screen->h - pInit_String->size.h) / 2);
 
-  dirty_all();
-  flush_dirty();
+  flush_all();
   
   FREE(pInit_String->string16->text);
   pInit_String->string16->text =
@@ -718,9 +717,8 @@ void ui_main(int argc, char *argv[])
   SDL_FillRect(Main.gui,
 	  &get_widget_pointer_form_main_list(ID_WAITING_LABEL)->size, 0x0 );
 	  
-  dirty_all();
-  flush_dirty();
-
+  flush_all();
+  
 #ifdef TIMERS
   game_timer_id = SDL_AddTimer(UNITS_TIMER_INTERVAL,
 					  game_timer_callback , NULL );

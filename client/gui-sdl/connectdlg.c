@@ -659,8 +659,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
 
   draw_frame_around_widget(pCancel);
 
-  dirty_all();
-  flush_dirty();
+  flush_all();
 
   /* ==================== Free Local Var ===================== */
   FREESTRING16(pPlayer_name);
@@ -806,10 +805,7 @@ void gui_server_connect(void)
   draw_frame(Main.gui, pFirst->size.x - FRAME_WH, pFirst->size.y - FRAME_WH ,
   	w + DOUBLE_FRAME_WH, (h*5) + DOUBLE_FRAME_WH);
 
-
-  dirty_all();
-  flush_dirty();
-  
+  flush_all();
 }
 
 /**************************************************************************

@@ -226,8 +226,7 @@ static int change_mode_callback(struct GUI *pWidget)
 
   }
   
-  dirty_all();
-  flush_dirty();
+  flush_all();
   return -1;
 }
 

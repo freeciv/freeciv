@@ -732,7 +732,6 @@ int map_event_handler(SDL_keysym Key)
 	prepare_show_city_descriptions();
       }
       dirty_all();
-      flush_dirty();
       return 0;
 
     case SDLK_p:
@@ -747,7 +746,6 @@ int map_event_handler(SDL_keysym Key)
 	prepare_show_city_descriptions();
       }
       dirty_all();
-      flush_dirty();
       return 0;
 
     case SDLK_t:
