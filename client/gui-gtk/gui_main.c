@@ -224,7 +224,7 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
     return keypress;
   }
 
-  if (is_isometric) {
+  if (is_isometric && !client_is_observer()) {
     switch (ev->keyval) {
       case GDK_Up:
       case GDK_KP_Up:
@@ -288,7 +288,7 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
       default:
         return FALSE;
     }
-  } else {
+  } else if (!client_is_observer()) {
     switch (ev->keyval) {
       case GDK_Up:
       case GDK_KP_Up:

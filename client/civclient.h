@@ -43,5 +43,6 @@ extern int server_port;
 extern bool auto_connect;
 
 void wait_till_request_got_processed(int request_id);
+bool client_is_observer(void);
 
 #endif  /* FC__CIVCLIENT_H */

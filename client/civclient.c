@@ -663,3 +663,11 @@ void wait_till_request_got_processed(int request_id)
   input_from_server_till_request_got_processed(aconnection.sock,
 					       request_id);
 }
+
+/**************************************************************************
+..
+**************************************************************************/
+bool client_is_observer(void)
+{
+  return aconnection.established && find_conn_by_id(game.conn_id)->observer;
+}

@@ -280,7 +280,9 @@ void handle_game_state(struct packet_generic_integer *packet)
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
     refresh_overview_canvas();
     refresh_overview_viewrect();
-    enable_turn_done_button();
+    if (!client_is_observer()) {
+      enable_turn_done_button();
+    }
     player_set_unit_focus_status(game.player_ptr);
 
     update_info_label();	/* get initial population right */
@@ -644,7 +646,9 @@ void handle_short_city(struct packet_short_city *packet)
 void handle_new_year(struct packet_new_year *ppacket)
 {
   update_turn_done_button(1);
-  enable_turn_done_button();
+  if (!client_is_observer()) {
+    enable_turn_done_button();
+  }
 
   game.year = ppacket->year;
   /*
@@ -1243,7 +1247,9 @@ void handle_player_info(struct packet_player_info *pinfo)
   if(pplayer==game.player_ptr) {
     if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
       if (!game.player_ptr->turn_done) {
-	enable_turn_done_button();
+	if (!client_is_observer()) {
+	  enable_turn_done_button();
+	}
       } else {
 	update_turn_done_button(1);
       }

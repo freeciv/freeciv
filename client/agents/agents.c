@@ -122,7 +122,9 @@ static void enqueue_call(struct my_agent *agent,
 {
   struct call *pcall2;
 
-  set_turn_done_button_state(FALSE);
+  if (client_is_observer()) {
+    return;
+  }
 
   call_list_iterate(agents.calls, pcall) {
     if (pcall->type == type && pcall->cb_type == cb_type
@@ -130,6 +132,8 @@ static void enqueue_call(struct my_agent *agent,
       return;
     }
   } call_list_iterate_end;
+
+  set_turn_done_button_state(FALSE);
 
   pcall2 = fc_malloc(sizeof(struct call));
 
@@ -231,7 +235,7 @@ static void call_handle_methods(void)
 
   currently_running = FALSE;
 
-  if (!agents_busy() && !game.player_ptr->turn_done) {
+  if (!agents_busy() && !game.player_ptr->turn_done && !client_is_observer()) {
     set_turn_done_button_state(TRUE);
   }
 }

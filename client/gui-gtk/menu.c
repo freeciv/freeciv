@@ -969,8 +969,13 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Reports", TRUE);
     menus_set_sensitive("<main>/_Kingdom", TRUE);
     menus_set_sensitive("<main>/_View", TRUE);
-    menus_set_sensitive("<main>/_Orders", TRUE);
-  
+    menus_set_sensitive("<main>/_Orders", !client_is_observer());
+
+    menus_set_sensitive("<main>/_Kingdom/_Tax Rates", !client_is_observer());
+    menus_set_sensitive("<main>/_Kingdom/Work_lists", !client_is_observer());
+    menus_set_sensitive("<main>/_Kingdom/_Revolution",
+			!client_is_observer());
+
     menus_set_sensitive("<main>/_Reports/S_paceship",
 			(game.player_ptr->spaceship.state!=SSHIP_NONE));
 
@@ -991,6 +996,12 @@ void update_menus(void)
     menus_set_active("<main>/_View/Focus Unit", draw_focus_unit);
     menus_set_sensitive("<main>/_View/Focus Unit", !draw_units);
     menus_set_active("<main>/_View/Fog of War", draw_fog_of_war);
+
+    /* Remaining part of this function: Update Orders menu */
+
+    if (client_is_observer()) {
+      return;
+    }
 
     if((punit=get_unit_in_focus())) {
       char *irrfmt = _("Change to %s (_I)");
