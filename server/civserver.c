@@ -1091,7 +1091,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
  
   case PACKET_CHAT_MSG:
-    handle_chat_msg(pplayer, (struct packet_generic_message *)packet);
+    handle_chat_msg(pconn, (struct packet_generic_message *)packet);
     break;
 
   case PACKET_CITY_SELL:

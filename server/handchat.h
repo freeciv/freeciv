@@ -13,11 +13,10 @@
 #ifndef FC__HANDCHAT_H
 #define FC__HANDCHAT_H
 
-#include "packets.h"
+struct connection;
+struct packet_generic_message;
 
-struct player;
-
-void handle_chat_msg(struct player *pplayer, 
+void handle_chat_msg(struct connection *pconn,
 		     struct packet_generic_message *packet);
 
 #endif  /* FC__HANDCHAT_H */

@@ -30,13 +30,24 @@
 #include "handchat.h"
 
 /**************************************************************************
-...
+  Handle a chat message packet from client:
+  - Work out whether it is a server command and if so run it;
+  - Otherwise work out whether it is directed to a single player,
+    and send there (all connections for that player);
+  - Else send to all connections (game.est_connections).
+  Fixme: There is currently no way to direct chat message to a single
+  connection for multi-connected players, or to non-player connections.
+  (May need to enforce tighter contraints on connection names to make this
+  unambiguous, or use a different/additional prefix/marker on chatline.)
+  Sent message is echoed back to sender (back to all player connections
+  for multi-connected player with message sent to single other player).
 **************************************************************************/
-void handle_chat_msg(struct player *pplayer, 
+void handle_chat_msg(struct connection *pconn,
 		     struct packet_generic_message *packet)
 {
-  int i;
+  struct player *pplayer = pconn->player;
   struct packet_generic_message genmsg;
+  char *sender_name = (pplayer ? pplayer->name : pconn->name);    /* ? */
   char *cp;
 
   /* this loop to prevent players from sending multiple lines
@@ -58,7 +69,9 @@ void handle_chat_msg(struct player *pplayer,
   */
   if (packet->message[0] == SERVER_COMMAND_PREFIX) {
     /* pass it to the command parser, which will chop the prefix off */
-    handle_stdin_input(pplayer, packet->message);
+    if (pplayer) { /* fixme */
+      handle_stdin_input(pplayer, packet->message);
+    }
     return;
   }
 
@@ -92,18 +105,27 @@ void handle_chat_msg(struct player *pplayer,
     pdest = find_player_by_name_prefix(name, &match_result);
     
     if(pdest && match_result < M_PRE_AMBIGUOUS) {
+      struct conn_list *echo_back_dest;
+      if (pconn->player) {
+	echo_back_dest = &pconn->player->connections;
+      } else {
+	echo_back_dest = &pconn->self;
+      }
       my_snprintf(genmsg.message, sizeof(genmsg.message),
 		  "->*%s* %s", pdest->name, cp+1+(*(cp+1)==' '));
-      send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
-      my_snprintf(genmsg.message, sizeof(genmsg.message),
-		  "*%s* %s", pplayer->name, cp+1+(*(cp+1)==' '));
-      send_packet_generic_message(pdest->conn, PACKET_CHAT_MSG, &genmsg);
+      lsend_packet_generic_message(echo_back_dest, PACKET_CHAT_MSG, &genmsg);
+      if (pdest != pconn->player) {   /* don't echo message to self twice */
+	my_snprintf(genmsg.message, sizeof(genmsg.message),
+		    "*%s* %s", sender_name, cp+1+(*(cp+1)==' '));
+	lsend_packet_generic_message(&pdest->connections, PACKET_CHAT_MSG,
+				     &genmsg);
+      }
       return;
     }
     if(match_result == M_PRE_AMBIGUOUS) {
       my_snprintf(genmsg.message, sizeof(genmsg.message),
 		  _("Game: %s is an ambiguous name-prefix."), name);
-      send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
+      send_packet_generic_message(pconn, PACKET_CHAT_MSG, &genmsg);
       return;
     }
     /* Didn't match; check heuristics to see if this is likely
@@ -113,14 +135,13 @@ void handle_chat_msg(struct player *pplayer,
     if (!cpblank || (cp < cpblank)) {
       my_snprintf(genmsg.message, sizeof(genmsg.message),
 		  _("Game: There's no player by the name %s."), name);
-      send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
+      send_packet_generic_message(pconn, PACKET_CHAT_MSG, &genmsg);
       return;
     }
   }
   /* global message: */
   my_snprintf(genmsg.message, sizeof(genmsg.message),
-	      "<%s> %s", pplayer->name, packet->message);
-  for(i=0; i<game.nplayers; i++)
-    send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, 
-				&genmsg);
+	      "<%s> %s", sender_name, packet->message);
+  lsend_packet_generic_message(&game.est_connections, PACKET_CHAT_MSG, 
+			       &genmsg);
 }
