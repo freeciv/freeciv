@@ -535,19 +535,24 @@ void update_unit_info_label(struct unit *punit)
 {
   if(punit) {
     char buffer[512];
-    struct city *pcity;
-    pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
+    struct city *pcity =
+	player_find_city_by_id(game.player_ptr, punit->homecity);
+    int infrastructure =
+	get_tile_infrastructure_set(map_get_tile(punit->x, punit->y));
 
     my_snprintf(buffer, sizeof(buffer), "%s %s", 
             unit_type(punit)->name,
             (punit->veteran) ? _("(veteran)") : "" );
     gtk_frame_set_label( GTK_FRAME(unit_info_frame), buffer);
 
-    my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s", 
-		(hover_unit == punit->id) ? 
-		_("Select destination") : unit_activity_text(punit), 
+
+    my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s",
+		(hover_unit == punit->id) ?
+		_("Select destination") : unit_activity_text(punit),
 		map_get_tile_info_text(punit->x, punit->y),
-            pcity ? pcity->name : "");
+		infrastructure ?
+		map_get_infrastructure_text(infrastructure) : "",
+		infrastructure ? "\n" : "", pcity ? pcity->name : "");
     gtk_set_label( unit_info_label, buffer);
 
     if (hover_unit != punit->id)
