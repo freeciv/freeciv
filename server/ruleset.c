@@ -786,9 +786,9 @@ static void load_ruleset_units(struct section_file *file)
       if(ival == F_PARATROOPERS) {
         u->paratroopers_range = secfile_lookup_int(file,
             "%s.paratroopers_range", sec[i]);
-        u->paratroopers_mr_req = 3*secfile_lookup_int(file,
+        u->paratroopers_mr_req = SINGLE_MOVE * secfile_lookup_int(file,
             "%s.paratroopers_mr_req", sec[i]);
-        u->paratroopers_mr_sub = 3*secfile_lookup_int(file,
+        u->paratroopers_mr_sub = SINGLE_MOVE * secfile_lookup_int(file,
             "%s.paratroopers_mr_sub", sec[i]);
       } else {
         u->paratroopers_range = 0;
