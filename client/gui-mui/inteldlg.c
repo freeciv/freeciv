@@ -17,7 +17,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 
 #include <libraries/mui.h>
 #include <mui/NListview_MCC.h>

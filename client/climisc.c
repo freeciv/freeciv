@@ -21,6 +21,7 @@ used throughout the client.
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
