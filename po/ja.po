@@ -41,7 +41,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-17 22:21-0700\n"
-"PO-Revision-Date: 2004-09-19 01:22+0900\n"
+"PO-Revision-Date: 2004-09-23 11:47+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -3900,9 +3900,8 @@ msgid "Scientific"
 msgstr "科学"
 
 #: server/settings.c:34
-#, fuzzy
 msgid "Internal"
-msgstr "インターナル"
+msgstr "内部設定"
 
 #: server/settings.c:35
 msgid "Networking"
@@ -3990,7 +3989,7 @@ msgstr "プレイヤー数が要求した値より大きいです。値を変更
 
 #: server/settings.c:226
 msgid "Map size in 1,000 tiles units"
-msgstr ""
+msgstr "地図の大きさ(1000タイル単位)"
 
 #: server/settings.c:227
 msgid ""
@@ -3998,6 +3997,9 @@ msgid ""
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
 "  size = 20 is a huge map of 20,000 tiles"
 msgstr ""
+"この値は xsize と ysize を決定するのに利用されます。\n"
+"  size = 4 は4,000タイルの通常のマップになります(デフォルト)\n"
+"  size = 20 は20,000タイルの大きなマップになります"
 
 #: server/settings.c:233
 msgid "The map topology index"
@@ -7720,12 +7722,9 @@ msgid "Allows all players with knowledge of %s to build %s units."
 msgstr "%sを知っている全てのプレイヤーが%s部隊を作れるようになります。"
 
 #: client/helpdata.c:537
-#, fuzzy, c-format
+#, c-format
 msgid "The discovery of %s will make %s obsolete."
-msgstr ""
-"\n"
-"\n"
-"%sが発見されると%sは古くなります。"
+msgstr "%sが発見されると%sは古くなります。"
 
 #: client/helpdata.c:605
 msgid "* May not be built in cities.\n"
@@ -7771,9 +7770,9 @@ msgid "* Can establish trade routes.\n"
 msgstr "* 交易路の確立が行なえます。\n"
 
 #: client/helpdata.c:645
-#, fuzzy, c-format
+#, c-format
 msgid "* Can help build wonders (adds %d production).\n"
-msgstr "* 不思議建築を手伝うことができます。\n"
+msgstr "* 不思議建築を手伝うことができます(生産物%dを加えます)。\n"
 
 # ntaka これでいいとは思うが
 #: client/helpdata.c:649
@@ -7811,9 +7810,9 @@ msgid "* Can build farmland.\n"
 msgstr "* 農地を作ることができます。\n"
 
 #: client/helpdata.c:677
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland (if %s is known).\n"
-msgstr "* 新しい都市を作ることができます。\n"
+msgstr "* 農地を作ることができます(%sが発見されていれば)。\n"
 
 #: client/helpdata.c:681
 #, c-format
@@ -7822,12 +7821,12 @@ msgstr ""
 
 #: client/helpdata.c:689
 msgid "* Can build fortresses.\n"
-msgstr "* 要塞を作れることができます。\n"
+msgstr "* 要塞を作ることができます。\n"
 
 #: client/helpdata.c:693
 #, c-format
 msgid "* Can build fortresses (if %s is known).\n"
-msgstr ""
+msgstr "* 要塞を作ることができます(%sが発見されていれば)。\n"
 
 #: client/helpdata.c:697
 #, c-format
@@ -7853,11 +7852,11 @@ msgstr "* 飛行場を作ることができます。\n"
 #: client/helpdata.c:715
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr ""
+msgstr "* 防御姿勢をとると、50%% 防御力が増加します。\n"
 
 #: client/helpdata.c:719
 msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr ""
+msgstr "* 略奪によりタイル上のインフラを破壊することができます。\n"
 
 #: client/helpdata.c:723
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
@@ -7897,9 +7896,9 @@ msgstr "* 船上から敵都市や陸上のマスを攻撃できます。"
 
 # yasu, ama
 #: client/helpdata.c:754
-#, fuzzy, c-format
+#, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
-msgstr "* 友好都市から落下傘降下できます。(範囲: %d)"
+msgstr "* 友好都市から落下傘降下できます。(範囲: %d)\n"
 
 #: client/helpdata.c:758
 msgid "* Gets double defense against units specified as 'mounted'.\n"
@@ -7926,7 +7925,7 @@ msgstr "* この部隊の攻撃は核爆発を引き起こします!\n"
 
 #: client/helpdata.c:778
 msgid "* Gets double firepower when attacking cities.\n"
-msgstr ""
+msgstr "* 都市を攻撃するときは火力が2倍になります。\n"
 
 #: client/helpdata.c:781
 msgid "* Ignores the effects of city walls.\n"
@@ -7965,11 +7964,11 @@ msgstr "* 戦闘部隊です。積極的に戦闘しなくても不幸市民が1
 
 #: client/helpdata.c:815
 msgid "* Will never achieve veteran status.\n"
-msgstr ""
+msgstr "* ベテランになることはありません。\n"
 
 #: client/helpdata.c:818
 msgid "* May become veteran through training or combat.\n"
-msgstr ""
+msgstr "* 訓練か戦闘を通じてベテランになることができます。\n"
 
 #: client/helpdata.c:824
 #, fuzzy, c-format
@@ -11134,14 +11133,12 @@ msgid "Sa_ve Settings"
 msgstr "設定を保存(_V)"
 
 #: client/gui-gtk-2.0/menu.c:617
-#, fuzzy
 msgid "_Initial Server Options"
-msgstr "サーバオプションを表示する。"
+msgstr "サーバの初期設定(_I)"
 
 #: client/gui-gtk-2.0/menu.c:619
-#, fuzzy
 msgid "Server O_ptions"
-msgstr "サーバオプションを表示する。"
+msgstr "サーバ設定(_P)"
 
 #: client/gui-gtk-2.0/menu.c:623
 msgid "_Save Game"
@@ -18928,7 +18925,6 @@ msgid "Magellan's Expedition"
 msgstr "マゼランの探検航海"
 
 #: data/default/buildings.ruleset:1825
-#, fuzzy
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "全ての海上部隊の移動ポイントを 2 増やします。"
 
@@ -22802,14 +22798,12 @@ msgid "Great Duchess"
 msgstr "女公"
 
 #: data/nation/malaysian.ruleset:3
-#, fuzzy
 msgid "Malaysian"
-msgstr "遊び方"
+msgstr "マレーシア人"
 
 #: data/nation/malaysian.ruleset:4
-#, fuzzy
 msgid "?plural:Malaysians"
-msgstr "イタリア民族"
+msgstr "マレーシア人"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -22877,14 +22871,12 @@ msgid "Dark Lord"
 msgstr "冥王"
 
 #: data/nation/nigerian.ruleset:3
-#, fuzzy
 msgid "Nigerian"
-msgstr "セルビア人"
+msgstr "ナイジェリア人"
 
 #: data/nation/nigerian.ruleset:4
-#, fuzzy
 msgid "?plural:Nigerians"
-msgstr "ペルシャ民族"
+msgstr "ナイジェリア人"
 
 #: data/nation/observer.ruleset:3
 #, fuzzy
