@@ -611,7 +611,7 @@ static bool make_river(int x, int y)
 	 generator select the direction. */
       freelog(LOG_DEBUG, "mapgen.c: Had to let the random number"
 	      " generator select a direction for a river.");
-      direction = myrand(num_valid_directions - 1);
+      direction = myrand(num_valid_directions);
       freelog(LOG_DEBUG, "mapgen.c: direction: %d", direction);
 
       /* Find the direction that the random number generator selected. */
@@ -629,6 +629,7 @@ static bool make_river(int x, int y)
 	  }
 	}
       }
+      assert(direction == 0);
       break;
     } /* end switch (rd_number_of_directions()) */
 
