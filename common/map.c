@@ -1312,7 +1312,8 @@ bool map_has_special(int x, int y, enum tile_special_type special)
 /***************************************************************
  Returns TRUE iff the given tile has the given special.
 ***************************************************************/
-bool tile_has_special(struct tile *ptile, enum tile_special_type special)
+bool tile_has_special(const struct tile *ptile,
+		      enum tile_special_type special)
 {
   return contains_special(ptile->special, special);
 }

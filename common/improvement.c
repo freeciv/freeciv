@@ -249,7 +249,7 @@ int improvement_variant(Impr_Type_id id)
 /**************************************************************************
  Returns 1 if the improvement is obsolete, now also works for wonders
 **************************************************************************/
-bool improvement_obsolete(struct player *pplayer, Impr_Type_id id) 
+bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id) 
 {
   if (!tech_exists(improvement_types[id].obsolete_by)) {
     return FALSE;

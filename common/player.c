@@ -324,7 +324,8 @@ bool can_player_see_city_internals(struct player *pplayer,
  return pointer to the city struct.  Else return NULL.
  Now always uses fast idex_lookup_city.
 ***************************************************************/
-struct city *player_find_city_by_id(struct player *pplayer, int city_id)
+struct city *player_find_city_by_id(const struct player *pplayer,
+				    int city_id)
 {
   struct city *pcity = idex_lookup_city(city_id);
   
@@ -340,7 +341,8 @@ struct city *player_find_city_by_id(struct player *pplayer, int city_id)
  return pointer to the unit struct.  Else return NULL.
  Uses fast idex_lookup_city.
 ***************************************************************/
-struct unit *player_find_unit_by_id(struct player *pplayer, int unit_id)
+struct unit *player_find_unit_by_id(const struct player *pplayer,
+				    int unit_id)
 {
   struct unit *punit = idex_lookup_unit(unit_id);
   

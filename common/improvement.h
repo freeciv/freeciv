@@ -144,7 +144,7 @@ const char *get_improvement_name_orig(Impr_Type_id id);
 /* FIXME: remove improvement_variant() when gen-impr obsoletes */
 int improvement_variant(Impr_Type_id id);  
 
-bool improvement_obsolete(struct player *pplayer, Impr_Type_id id);
+bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id);
 bool improvement_redundant(struct player *pplayer, const struct city *pcity,
                           Impr_Type_id id, bool want_to_build);
 bool wonder_obsolete(Impr_Type_id id);
