@@ -929,7 +929,8 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
   /** Decide whether to build a new city:
    ** if so, modify: gx, gy, best_newv, best_act */
   
-  if (pplayer->ai.control) { /* don't want to make cities otherwise */
+  if (pplayer->ai.control && 
+		ai_fuzzy(pplayer,1)) { /* don't want to make cities otherwise */
     if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
       remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
     }
