@@ -90,7 +90,7 @@
 #include "unittools.h"
 
 #include "advmilitary.h"
-#include "advdomestic.h"
+#include "aidata.h"
 #include "aihand.h"
 
 #include "srv_main.h"
@@ -397,7 +397,7 @@ static void begin_turn(void)
 	    pplayer->player_no, pplayer->name);
     begin_player_turn(pplayer);
     /* human players also need this for building advice */
-    ai_eval_threat_init(pplayer);
+    ai_data_turn_init(pplayer);
   } players_iterate_end;
 
   players_iterate(pplayer) {
@@ -448,7 +448,7 @@ static void end_turn(void)
   nocity_send = FALSE;
   players_iterate(pplayer) {
     send_player_cities(pplayer);
-    ai_eval_threat_done(pplayer);
+    ai_data_turn_done(pplayer);
   } players_iterate_end;
   flush_packets();  /* to curb major city spam */
 

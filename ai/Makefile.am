@@ -27,6 +27,8 @@ libcivai_a_SOURCES = \
 		advtrade.h	\
 		aicity.c	\
 		aicity.h	\
+		aidata.c	\
+		aidata.h	\
 		aihand.c	\
 		aihand.h	\
 		aitech.c	\

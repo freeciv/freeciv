@@ -113,19 +113,6 @@ struct player_score {
   int spaceship;
 };
 
-/* these variables are used for improvements evaluations in
- * ai/advdomestic.c, only valid between ai_eval_threat_init() 
- * and ai_eval_threat_done()
- */
-struct eval_threat_type {
-  bool invasions;   /* check if we need to consider invasions */
-  bool *continent;  /* non-allied cities on continent? */
-  bool sea;         /* check if exists non-allied offensive ships */
-  bool air;         /* check for non-allied offensive aircraft */
-  bool missile;     /* check for non-allied missiles */
-  int nuclear;      /* nuke check: 0=no, 1=capability, 2=built */
-};
-
 struct player_ai {
   bool control;
   int tech_goal;
@@ -139,7 +126,6 @@ struct player_ai {
   int expand;			/* percentage factor to value new cities */
   int warmth; /* threat of global warming */
   enum barbarian_type barbarian_type;
-  struct eval_threat_type eval_threat;
 };
 
 /* Diplomatic states (how one player views another).

@@ -41,7 +41,7 @@
 #include "unittools.h"
 
 #include "advmilitary.h"
-#include "advdomestic.h"
+#include "aidata.h"
 #include "aihand.h"
 #include "aitech.h"
 
@@ -1629,7 +1629,7 @@ struct player *split_player(struct player *pplayer)
   /* Not sure if this is necessary, but might be a good idea
      to avoid doing some ai calculations with bogus data:
   */
-  ai_eval_threat_init(cplayer);
+  ai_data_turn_init(cplayer);
   assess_danger_player(cplayer);
   if (pplayer->ai.control) {
     assess_danger_player(pplayer);

@@ -32,6 +32,7 @@
 
 #include "aicity.h"
 #include "aiunit.h"
+#include "aidata.h"
 
 #include "settlers.h"
 
@@ -1568,6 +1569,8 @@ void contemplate_terrain_improvements(struct city *pcity)
   struct unit virtualunit;
   int want;
   int best_act, gx, gy; /* dummies */
+  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+  struct ai_data *ai = ai_data_get(pplayer);
 
   memset(&virtualunit, 0, sizeof(struct unit));
   virtualunit.id = 0;
@@ -1590,6 +1593,12 @@ void contemplate_terrain_improvements(struct city *pcity)
       want = -199;
   } unit_list_iterate_end; 
 #endif
+
+  /* modify our desire based on available statistics to prevent
+   * overflooding with worker type units if they come cheap in
+   * the ruleset */
+  want /= MAX(1, ai->stats.workers[ptile->continent]
+                 / MAX(1, ai->stats.cities[ptile->continent]));
 
   assert(want >= 0);
   pcity->ai.settler_want = want;

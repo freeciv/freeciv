@@ -29,108 +29,9 @@
 #include "aicity.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "aidata.h"
 
 #include "advdomestic.h"
-
-/**************************************************************************
-  Make and cache lots of calculations needed for other functions, notably:
-  ai_eval_defense_land, ai_eval_defense_nuclear, ai_eval_defense_sea and 
-  ai_eval_defense_air.
-
-  FIXME: We should try to find the lowest common defence strength of our
-  defending units, and ignore enemy units that are incapable of harming 
-  us, instead of just checking attack strength > 1.
-**************************************************************************/
-void ai_eval_threat_init(struct player *pplayer) {
-  int i, nuke_units = num_role_units(F_NUCLEAR);
-  bool got_nukes = FALSE;
-  bool have_antisea = can_player_build_improvement(pplayer, B_COASTAL);
-  bool have_antiair =  can_player_build_improvement(pplayer, B_SAM);
-  bool have_antinuke = can_player_build_improvement(pplayer, B_SDI);
-  bool have_antimissile = can_player_build_improvement(pplayer, B_SDI);
-
-  pplayer->ai.eval_threat.continent = 
-                               fc_calloc(map.num_continents + 1, sizeof(bool));
-  pplayer->ai.eval_threat.invasions = FALSE;
-  pplayer->ai.eval_threat.air = FALSE;
-  pplayer->ai.eval_threat.nuclear = 0;
-  pplayer->ai.eval_threat.sea = FALSE;
-
-  players_iterate(aplayer) {
-    /* allies and ourselves we trust, we don't trust peace treaties that much */
-    if (pplayers_allied(pplayer, aplayer)) continue; 
-
-    /* The idea is that if there aren't any hostile cities on
-     * our continent, the danger of land attacks is not big
-     * enough to warrant city walls. Concentrate instead on 
-     * coastal fortresses and hunting down enemy transports. */
-    city_list_iterate(aplayer->cities, acity) {
-      int continent = map_get_continent(acity->x, acity->y);
-      pplayer->ai.eval_threat.continent[continent] = TRUE;
-    } city_list_iterate_end;
-
-    unit_list_iterate(aplayer->units, punit) {
-      if (is_sailing_unit(punit)) {
-
-        /* If the enemy has not started sailing yet, or we have total
-         * control over the seas, don't worry, keep attacking. */
-        if (is_ground_units_transport(punit)) {
-          pplayer->ai.eval_threat.invasions = TRUE;
-        }
-
-        /* The idea is that while our enemies don't have any offensive
-         * seaborne units, we don't have to worry. Go on the offensive! */
-        if (have_antisea && unit_type(punit)->attack_strength > 1) {
-          pplayer->ai.eval_threat.sea = TRUE;
-        }
-      }
-
-      /* The next idea is that if our enemies don't have any offensive
-       * airborne units, we don't have to worry. Go on the offensive! */
-      if (have_antiair && (is_air_unit(punit) || is_heli_unit(punit))
-           && unit_type(punit)->attack_strength > 1) {
-        pplayer->ai.eval_threat.air = TRUE;
-      }
-
-      /* If our enemy builds missiles, worry about missile defence. */
-      if (have_antimissile && unit_flag(punit, F_MISSILE)
-          && unit_type(punit)->attack_strength > 1) {
-        pplayer->ai.eval_threat.missile = TRUE;
-      }
-
-      /* If he builds nukes, worry a lot. */
-      if (have_antinuke && unit_flag(punit, F_NUCLEAR)) got_nukes = TRUE;
-
-      /* If all our darkest fears have come true, we're done here. It
-       * can't possibly get any worse! */
-      if ((pplayer->ai.eval_threat.air || !have_antiair) 
-          && (pplayer->ai.eval_threat.missile || !have_antimissile)
-          && (got_nukes || !have_antinuke)
-          && (pplayer->ai.eval_threat.sea || !have_antisea)
-          && pplayer->ai.eval_threat.invasions) {
-        break;
-      }
-    } unit_list_iterate_end;
-
-    /* Check for nuke capability */
-    for (i = 0; i < nuke_units; i++) {
-      Unit_Type_id nuke = get_role_unit(F_NUCLEAR, i);
-      if (can_player_build_unit_direct(aplayer, nuke)) { 
-        pplayer->ai.eval_threat.nuclear = 1;
-      }
-    }
-  } players_iterate_end;
-
-  /* Increase from fear to terror if opponent actually has nukes */
-  if (got_nukes) pplayer->ai.eval_threat.nuclear++; 
-}
-
-/**************************************************************************
-  Clean up our mess.
-**************************************************************************/
-void ai_eval_threat_done(struct player *pplayer) {
-  free(pplayer->ai.eval_threat.continent);
-}
 
 /**************************************************************************
   Calculate desire for land defense. First look for potentially hostile 
@@ -147,6 +48,7 @@ void ai_eval_threat_done(struct player *pplayer) {
 **************************************************************************/
 static int ai_eval_threat_land(struct player *pplayer, struct city *pcity)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   int continent;
   bool vulnerable;
 
@@ -156,9 +58,9 @@ static int ai_eval_threat_land(struct player *pplayer, struct city *pcity)
   }
 
   continent = map_get_continent(pcity->x, pcity->y);
-  vulnerable = pplayer->ai.eval_threat.continent[continent]
+  vulnerable = ai->threats.continent[continent]
                || city_got_building(pcity, B_PALACE)
-               || (pplayer->ai.eval_threat.invasions
+               || (ai->threats.invasions
                    && is_water_adjacent_to_tile(pcity->x, pcity->y));
 
   /* 40 is a magic number inherited from Syela */
@@ -170,13 +72,15 @@ static int ai_eval_threat_land(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static int ai_eval_threat_sea(struct player *pplayer, struct city *pcity)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
+
   /* make easy AI stay dumb */
   if (ai_handicap(pplayer, H_DEFENSIVE)) {
     return 40;
   }
 
   /* 40 is a magic number inherited from Syela */
-  return pplayer->ai.eval_threat.sea ? 40 : 1;
+  return ai->threats.sea ? 40 : 1;
 }
 
 /**************************************************************************
@@ -184,6 +88,7 @@ static int ai_eval_threat_sea(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   int continent;
   bool vulnerable;
 
@@ -193,8 +98,8 @@ static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
   }
 
   continent = map_get_continent(pcity->x, pcity->y);
-  vulnerable = pplayer->ai.eval_threat.air
-               && (pplayer->ai.eval_threat.continent[continent]
+  vulnerable = ai->threats.air
+               && (ai->threats.continent[continent]
                    || is_water_adjacent_to_tile(pcity->x, pcity->y) 
                    || city_got_building(pcity, B_PALACE));
 
@@ -212,6 +117,7 @@ static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   int continent;
   int vulnerable = 1;
 
@@ -221,10 +127,10 @@ static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
   }
 
   /* No non-allied player has nuclear capability yet. */
-  if (pplayer->ai.eval_threat.nuclear == 0) { return 0; }
+  if (ai->threats.nuclear == 0) { return 0; }
 
   continent = map_get_continent(pcity->x, pcity->y);
-  vulnerable += pplayer->ai.eval_threat.continent[continent]
+  vulnerable += ai->threats.continent[continent]
                 || is_water_adjacent_to_tile(pcity->x, pcity->y)
                 || city_got_building(pcity, B_PALACE);
 
@@ -232,7 +138,7 @@ static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
      in a vulnerable spot, and +20 if someone we are not allied
      with really have built nukes. This might be overkill, but
      at least it is not as bad as it used to be. */
-  return ((pplayer->ai.eval_threat.nuclear + vulnerable) * 20);
+  return ((ai->threats.nuclear + vulnerable) * 20);
 }
 
 /**************************************************************************
@@ -240,14 +146,15 @@ static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static int ai_eval_threat_missile(struct player *pplayer, struct city *pcity)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   int continent = map_get_continent(pcity->x, pcity->y);
   bool vulnerable = is_water_adjacent_to_tile(pcity->x, pcity->y)
-                    || pplayer->ai.eval_threat.continent[continent]
+                    || ai->threats.continent[continent]
                     || city_got_building(pcity, B_PALACE);
 
   /* Only build missile defence if opponent builds them, and we are in
      a vulnerable spot. FIXME: 10 is a totally arbitrary Syelaism. - Per */
-  return (pplayer->ai.eval_threat.missile && vulnerable) ? 10 : 0;
+  return (ai->threats.missile && vulnerable) ? 10 : 0;
 }
 
 /**************************************************************************

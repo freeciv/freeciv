@@ -44,6 +44,7 @@
 #include "aicity.h"
 #include "aihand.h"
 #include "aitools.h"
+#include "aidata.h"
 
 #include "aiunit.h"
 
@@ -265,6 +266,14 @@ bool ai_manage_explorer(struct unit *punit)
   int move_rate = unit_move_rate(punit);
   /* Range of unit's vision */
   int range;
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  /* (AI) Abort if all is explored on this continent */
+  if (pplayer->ai.control && is_ground_unit(punit) 
+      && map_get_terrain(x, y) != T_OCEAN
+      && !ai->explore.continent[map_get_continent(x, y)]) {
+    return FALSE;
+  }
 
   /* Get the range */
   /* FIXME: The vision range should NOT take into account watchtower benefit.
