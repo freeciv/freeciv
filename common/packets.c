@@ -435,7 +435,6 @@ void *get_packet_from_connection(struct connection *pc,
   case PACKET_PLAYER_GOVERNMENT:
   case PACKET_PLAYER_RESEARCH:
   case PACKET_PLAYER_TECH_GOAL:
-  case PACKET_PLAYER_WORKLIST:
   case PACKET_PLAYER_ATTRIBUTE_BLOCK:
     return receive_packet_player_request(pc);
 
@@ -1722,25 +1721,12 @@ int send_packet_player_request(struct connection *pc,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
-  /* can't modify the packet directly */
-  struct worklist copy;
-
-  if (req_type == PACKET_PLAYER_WORKLIST) {
-    /* packet->worklist.is_valid may be FALSE if the client want to
-       remove a worklist. */
-    copy_worklist(&copy, &packet->worklist);
-  } else {
-    copy.is_valid = FALSE;
-  }
-
   cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint8(cptr, packet->tax);
   cptr=put_uint8(cptr, packet->luxury);
   cptr=put_uint8(cptr, packet->science);
   cptr=put_uint8(cptr, packet->government);
   cptr=put_uint8(cptr, packet->tech);
-  cptr = put_worklist(pc, cptr, &copy, req_type == PACKET_PLAYER_WORKLIST);
-  cptr=put_uint8(cptr, packet->wl_idx);
 
   if (has_capability("attributes", pc->capability)) {
     cptr = put_bool8(cptr, req_type == PACKET_PLAYER_ATTRIBUTE_BLOCK);
@@ -1768,8 +1754,6 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->science);
   iget_uint8(&iter, &preq->government);
   iget_uint8(&iter, &preq->tech);
-  iget_worklist(pc, &iter, &preq->worklist);
-  iget_uint8(&iter, &preq->wl_idx);
   if (has_capability("attributes", pc->capability))
     iget_bool8(&iter, &preq->attribute_block);
   else
@@ -1900,10 +1884,6 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_bool8(cptr, pinfo->ai);
   cptr=put_uint8(cptr, pinfo->barbarian_type);
  
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    cptr = put_worklist(pc, cptr, &pinfo->worklists[i], TRUE);
-  }
-
   cptr=put_uint32(cptr, pinfo->gives_shared_vision);
 
   (void) put_uint16(buffer, cptr - buffer);
@@ -1962,10 +1942,6 @@ receive_packet_player_info(struct connection *pc)
   iget_bool8(&iter, &pinfo->ai);
   iget_uint8(&iter, &pinfo->barbarian_type);
  
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    iget_worklist(pc, &iter, &pinfo->worklists[i]);
-  }
-
   /* Unfortunately the second argument to iget_uint32 is int, not uint: */
   iget_uint32(&iter, &i);
   pinfo->gives_shared_vision = i;

@@ -73,7 +73,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.11.6 conn_info pop_cost +turn +attributes"\
 " new_bonus_tech fund_added +processing_packets angrycitizen +tile_trade"\
 " init_techs short_worklists tech_cost_style +short_city_tile_trade"\
-" +trade_size +new_nation_selection"
+" +trade_size +new_nation_selection +client_worklists"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -120,6 +120,8 @@ const char * const our_capability = our_capability_internal;
 
    "new_nation_selection" transfer array of used nations instead of
    bit mask
+
+   "client_worklists" the client keeps the global worklists not the server
 */
 
 void init_our_capability(void)

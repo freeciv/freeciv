@@ -1395,6 +1395,7 @@ void ui_main(int argc, char *argv[])
     {
       Object *econ_group;
 
+      /* we need to load options again after this to pick up worklists */
       load_options();
 
       /* must be after load_options */

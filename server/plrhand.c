@@ -692,22 +692,6 @@ void handle_player_tech_goal(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_player_worklist(struct player *pplayer,
-			    struct packet_player_request *preq)
-{
-  if (preq->wl_idx < 0 || preq->wl_idx >= MAX_NUM_WORKLISTS) {
-    freelog(LOG_ERROR, "Bad worklist index (%d) received from %s",
-	    preq->wl_idx, pplayer->name);
-    return;
-  }
-
-  copy_worklist(&pplayer->worklists[preq->wl_idx], &preq->worklist);
-  send_player_info(pplayer, pplayer);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq)
 {
@@ -1223,12 +1207,8 @@ static void package_player_info(struct player *plr,
 
   if (info_level >= INFO_FULL) {
     packet->tech_goal       = plr->ai.tech_goal;
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-      copy_worklist(&packet->worklists[i], &plr->worklists[i]);
   } else {
     packet->tech_goal       = A_NONE;
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-      init_worklist(&packet->worklists[i]);
   }
 }
 

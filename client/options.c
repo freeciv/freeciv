@@ -23,6 +23,7 @@
 #include "events.h"
 #include "fcintl.h"
 #include "log.h"
+#include "game.h"
 #include "registry.h"
 #include "shared.h"
 #include "support.h"
@@ -216,6 +217,12 @@ static void save_cma_preset(struct section_file *file, char *name,
 			    int inx);
 static void load_cma_preset(struct section_file *file, int inx);
 
+static void save_global_worklist(struct section_file *file, char *path, 
+                                 int wlinx, struct worklist *pwl);
+
+static void load_global_worklist(struct section_file *file, char *path, 
+                                 int wlinx, struct worklist *pwl);
+
 /**************************************************************************
   Returns the translated description of the given event.
 **************************************************************************/
@@ -296,7 +303,8 @@ void init_messages_where(void)
 
 /****************************************************************
  The "options" file handles actual "options", and also view options,
- message options, and city report settings
+ message options, city report settings, cma settings, and 
+ saved global worklists
 *****************************************************************/
 
 /****************************************************************
@@ -381,10 +389,21 @@ void load_options(void)
 				     city_report_spec_tagname(i));
   }
 
-  /* 
-   * Load cma presets. If cma.number_of_presets doesn't exist, don't
-   * load any, the order here should be reversed to keep the order the
-   * same */
+  /* load global worklists */
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+    game.player_ptr->worklists[i].is_valid =
+                secfile_lookup_int_default(&sf, FALSE,
+                                          "worklists.worklist%d.is_valid", i);
+    strcpy(game.player_ptr->worklists[i].name,
+           secfile_lookup_str_default(&sf, "",
+                                      "worklists.worklist%d.name", i));
+    load_global_worklist(&sf, "worklists.worklist%d", i, 
+                         &(game.player_ptr->worklists[i]));
+  }
+
+
+  /* Load cma presets. If cma.number_of_presets doesn't exist, don't load 
+   * any, the order here should be reversed to keep the order the same */
   num = secfile_lookup_int_default(&sf, 0, "cma.number_of_presets");
   for (i = num - 1; i >= 0; i--) {
     load_cma_preset(&sf, i);
@@ -444,6 +463,19 @@ void save_options(void)
 		       "client.city_report_%s",
 		       city_report_spec_tagname(i));
   }
+
+  /* insert global worklists */
+  for(i = 0; i < MAX_NUM_WORKLISTS; i++){
+    if (game.player_ptr->worklists[i].is_valid) {
+      secfile_insert_int(&sf, game.player_ptr->worklists[i].is_valid,
+                         "worklists.worklist%d.is_valid", i);
+      secfile_insert_str(&sf, game.player_ptr->worklists[i].name,
+                         "worklists.worklist%d.name", i);
+      save_global_worklist(&sf, "worklists.worklist%d", i, 
+                           &(game.player_ptr->worklists[i]));
+    }
+  }
+
 
   /* insert cma presets */
   secfile_insert_int_comment(&sf, cmafec_preset_num(),
@@ -517,4 +549,64 @@ static void save_cma_preset(struct section_file *file, char *name,
 		     "cma.preset%d.factortarget", inx);
   secfile_insert_int(file, pparam->happy_factor,
 		     "cma.preset%d.happyfactor", inx);
+}
+
+/****************************************************************
+ loads global worklist from rc file
+*****************************************************************/
+static void load_global_worklist(struct section_file *file, char *path, 
+                                  int wlinx, struct worklist *pwl)
+{
+  char efpath[64];
+  char idpath[64];
+  int i;
+  bool end = FALSE;
+
+  sz_strlcpy(efpath, path);
+  sz_strlcat(efpath, ".wlef%d");
+  sz_strlcpy(idpath, path);
+  sz_strlcat(idpath, ".wlid%d");
+
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    if (end) {
+      pwl->wlefs[i] = WEF_END;
+      pwl->wlids[i] = 0;
+      section_file_lookup(file, efpath, wlinx, i);
+      section_file_lookup(file, idpath, wlinx, i);
+    } else {
+      pwl->wlefs[i] =
+        secfile_lookup_int_default(file, WEF_END, efpath, wlinx, i);
+      pwl->wlids[i] =
+        secfile_lookup_int_default(file, 0, idpath,wlinx, i);
+
+      if ((pwl->wlefs[i] <= WEF_END) || (pwl->wlefs[i] >= WEF_LAST) ||
+          ((pwl->wlefs[i] == WEF_UNIT) && !unit_type_exists(pwl->wlids[i])) ||
+          ((pwl->wlefs[i] == WEF_IMPR) && !improvement_exists(pwl->wlids[i]))) {
+        pwl->wlefs[i] = WEF_END;
+        pwl->wlids[i] = 0;
+        end = TRUE;
+      }
+    }
+  }
+}
+
+/****************************************************************
+ saves global worklist to rc file
+*****************************************************************/
+static void save_global_worklist(struct section_file *file, char *path, 
+                                  int wlinx, struct worklist *pwl)
+{
+  char efpath[64];
+  char idpath[64];
+  int i;
+
+  sz_strlcpy(efpath, path);
+  sz_strlcat(efpath, ".wlef%d");
+  sz_strlcpy(idpath, path);
+  sz_strlcat(idpath, ".wlid%d");
+
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    secfile_insert_int(file, pwl->wlefs[i], efpath, wlinx, i);
+    secfile_insert_int(file, pwl->wlids[i], idpath, wlinx, i);
+  }
 }

@@ -559,7 +559,6 @@ ui_main(int argc, char *argv[])
   init_fog_bmp();
 
   freecivaccel=my_create_menu_acceltable();
-  load_options();
  
   set_client_state(CLIENT_PRE_GAME_STATE);
   

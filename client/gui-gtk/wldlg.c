@@ -190,7 +190,7 @@ void popup_worklists_report(struct player *pplr)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				 GTK_POLICY_AUTOMATIC,
 				 GTK_POLICY_AUTOMATIC);
-  /* gtk_widget_set_usize(scrolled, 220, 350); */
+  gtk_widget_set_usize(scrolled, 220, 250); 
 
   /* - Place the scrolly thing into the window. */
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(report_dialog->shell)->vbox),
@@ -611,16 +611,13 @@ static void global_rename_callback(GtkWidget * w, gpointer data)
 static void global_rename_sub_callback(GtkWidget * w, gpointer data)
 {
   struct worklist_report *preport = (struct worklist_report *) data;
-  struct packet_player_request packet;
 
   if (preport) {
-    packet.wl_idx = preport->wl_idx;
-    copy_worklist(&packet.worklist,
-		  &preport->pplr->worklists[preport->wl_idx]);
-    strncpy(packet.worklist.name, input_dialog_get_input(w), MAX_LEN_NAME);
-    packet.worklist.name[MAX_LEN_NAME - 1] = '\0';
-    send_packet_player_request(&aconnection, &packet,
-			       PACKET_PLAYER_WORKLIST);
+    strncpy(preport->pplr->worklists[preport->wl_idx].name, 
+            input_dialog_get_input(w), MAX_LEN_NAME);
+    preport->pplr->worklists[preport->wl_idx].name[MAX_LEN_NAME - 1] = '\0';
+
+    global_list_update(preport);
   }
 
   input_dialog_destroy(w);
@@ -632,9 +629,7 @@ static void global_rename_sub_callback(GtkWidget * w, gpointer data)
 static void global_insert_callback(GtkWidget * w, gpointer data)
 {
   struct worklist_report *preport = (struct worklist_report *) data;
-  struct packet_player_request packet;
   int j;
-
 
   /* Find the next free worklist for this player */
 
@@ -647,13 +642,11 @@ static void global_insert_callback(GtkWidget * w, gpointer data)
     return;
 
   /* Validate this slot. */
-  init_worklist(&packet.worklist);
-  packet.worklist.is_valid = TRUE;
-  strcpy(packet.worklist.name, _("empty worklist"));
-  packet.wl_idx = j;
+  init_worklist(&preport->pplr->worklists[j]);
+  preport->pplr->worklists[j].is_valid = TRUE;
+  strcpy(preport->pplr->worklists[j].name, _("empty worklist"));
 
-  send_packet_player_request(&aconnection, &packet,
-			     PACKET_PLAYER_WORKLIST);
+  global_list_update(preport);  
 }
 
 /****************************************************************
@@ -662,13 +655,9 @@ static void global_insert_callback(GtkWidget * w, gpointer data)
 *****************************************************************/
 static void global_delete_callback(GtkWidget * w, gpointer data)
 {
-  struct worklist_report *preport;
-  struct packet_player_request packet;
-  GList *selection;
+  struct worklist_report *preport = (struct worklist_report *) data;
+  GList *selection = GTK_CLIST(preport->list)->selection;
   int i, j;
-
-  preport = (struct worklist_report *) data;
-  selection = GTK_CLIST(preport->list)->selection;
 
   if (!selection)
     return;
@@ -679,19 +668,16 @@ static void global_delete_callback(GtkWidget * w, gpointer data)
       break;
 
   for (j = GPOINTER_TO_INT(selection->data); j < i - 1; j++) {
-    copy_worklist(&packet.worklist, &preport->pplr->worklists[j + 1]);
-    packet.wl_idx = j;
-
-    send_packet_player_request(&aconnection, &packet,
-			       PACKET_PLAYER_WORKLIST);
+    copy_worklist(&preport->pplr->worklists[j], 
+                  &preport->pplr->worklists[j + 1]);
   }
 
   /* The last worklist in the set is no longer valid -- it's been slid up
-     one slot. */
-  packet.worklist.is_valid = FALSE;
-  packet.wl_idx = i - 1;
-  send_packet_player_request(&aconnection, &packet,
-			     PACKET_PLAYER_WORKLIST);
+   * one slot. */
+  preport->pplr->worklists[i-1].is_valid = FALSE;
+  strcpy(preport->pplr->worklists[i-1].name, "\0");
+
+  global_list_update(preport);
 }
 
 /****************************************************************
@@ -714,16 +700,9 @@ static void global_select_list_callback(GtkWidget * w, gint row,
 *****************************************************************/
 static void global_commit_worklist(struct worklist *pwl, void *data)
 {
-  struct worklist_report *preport;
-  struct packet_player_request packet;
+  struct worklist_report *preport = (struct worklist_report *) data;
 
-  preport = (struct worklist_report *) data;
-
-  copy_worklist(&packet.worklist, pwl);
-  packet.wl_idx = preport->wl_idx;
-
-  send_packet_player_request(&aconnection, &packet,
-			     PACKET_PLAYER_WORKLIST);
+  copy_worklist(&preport->pplr->worklists[preport->wl_idx], pwl);
 }
 
 /****************************************************************

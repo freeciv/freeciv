@@ -739,10 +739,6 @@ bool handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_player_tech_goal(pplayer, (struct packet_player_request *)packet);
     break;
 
-  case PACKET_PLAYER_WORKLIST:
-    handle_player_worklist(pplayer, (struct packet_player_request *)packet);
-    break;
-
   case PACKET_UNIT_BUILD_CITY:
     handle_unit_build_city(pplayer, (struct packet_unit_request *)packet);
     break;

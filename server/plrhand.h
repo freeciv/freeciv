@@ -65,8 +65,6 @@ void handle_player_research(struct player *pplayer,
 			    struct packet_player_request *preq);
 void handle_player_tech_goal(struct player *pplayer,
                             struct packet_player_request *preq);
-void handle_player_worklist(struct player *pplayer,
-                            struct packet_player_request *preq);
 void handle_player_attribute_chunk(struct player *pplayer,
 				   struct packet_attribute_chunk *chunk);
 void handle_player_attribute_block(struct player *pplayer);

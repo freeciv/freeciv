@@ -59,7 +59,6 @@ enum packet_type {
   PACKET_PLAYER_REVOLUTION,
   PACKET_PLAYER_GOVERNMENT,
   PACKET_PLAYER_RESEARCH,
-  PACKET_PLAYER_WORKLIST,
   PACKET_UNIT_BUILD_CITY,
   PACKET_UNIT_DISBAND,
   PACKET_REMOVE_UNIT,
@@ -240,8 +239,6 @@ struct packet_player_request
   int tax, luxury, science;              /* rates */
   int government;                        /* government */
   int tech;                              /* research */
-  struct worklist worklist;              /* one worklist */
-  int wl_idx;                            /* which worklist */
   bool attribute_block;                   /* send attribute block as chunks */
 };
 
@@ -479,7 +476,6 @@ struct packet_player_info {
   int revolution;
   bool ai;
   int barbarian_type;
-  struct worklist worklists[MAX_NUM_WORKLISTS];
   unsigned int gives_shared_vision;
 };
 

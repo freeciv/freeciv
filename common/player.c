@@ -98,10 +98,7 @@ void player_init(struct player *plr)
   plr->research.changed_from = -1;
   player_limit_to_government_rates(plr);
   spaceship_init(&plr->spaceship);
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    init_worklist(&plr->worklists[i]);
-    plr->worklists[i].is_valid = FALSE;
-  }
+
   plr->gives_shared_vision = 0;
   plr->really_gives_vision = 0;
 

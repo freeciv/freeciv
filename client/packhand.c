@@ -1172,9 +1172,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   }
   pplayer->reputation = pinfo->reputation;
 
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-    copy_worklist(&pplayer->worklists[i], &pinfo->worklists[i]);
-
   for (i = 0; i < game.num_tech_types; i++) {
     pplayer->research.inventions[i].state = pinfo->inventions[i] - '0';
   }

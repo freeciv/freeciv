@@ -144,7 +144,7 @@
    and rulesets */
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
-"attributes watchtower rulesetdir"
+"attributes watchtower rulesetdir client_worklists"
 
 static const char hex_chars[] = "0123456789abcdef";
 static const char terrain_chars[] = "adfghjm prstu";
@@ -572,21 +572,6 @@ static void player_load(struct player *plr, int plrno,
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
   plr->city_style=secfile_lookup_int_default(file, get_nation_city_style(plr->nation),
                                              "player%d.city_style", plrno);
-
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    plr->worklists[i].is_valid =
-      secfile_lookup_bool_default(file, FALSE,
-				 "player%d.worklist%d.is_valid", plrno, i);
-    strcpy(plr->worklists[i].name,
-	   secfile_lookup_str_default(file, "",
-				      "player%d.worklist%d.name", plrno, i));
-    if (has_capability("worklists2", savefile_options)) {
-      worklist_load(file, "player%d.worklist%d", plrno, i, &(plr->worklists[i]));
-    } else {
-      worklist_load_old(file, "player%d.worklist%d.ids%d",
-			plrno, i, &(plr->worklists[i]));
-    }
-  }
 
   plr->nturns_idle=0;
   plr->is_male=secfile_lookup_bool_default(file, TRUE, "player%d.is_male", plrno);
@@ -1217,14 +1202,6 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->nation, "player%d.race", plrno);
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
-
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    secfile_insert_bool(file, plr->worklists[i].is_valid,
-		       "player%d.worklist%d.is_valid", plrno, i);
-    secfile_insert_str(file, plr->worklists[i].name,
-		       "player%d.worklist%d.name", plrno, i);
-    worklist_save(file, "player%d.worklist%d", plrno, i, &(plr->worklists[i]));
-  }
 
   secfile_insert_int(file, plr->city_style, "player%d.city_style", plrno);
   secfile_insert_bool(file, plr->is_male, "player%d.is_male", plrno);

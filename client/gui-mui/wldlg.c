@@ -92,7 +92,6 @@ HOOKPROTONH(worklist_report_display, void, char **array, APTR msg)
 static void worklist_report_insert( struct worklist_report_dialog **ppdialog)
 {
   struct worklist_report_dialog *pdialog = *ppdialog;
-  struct packet_player_request packet;
   int j;
 
   /* Find the next free worklist for this player */
@@ -105,12 +104,11 @@ static void worklist_report_insert( struct worklist_report_dialog **ppdialog)
     return;
 
   /* Validate this slot. */
-  init_worklist(&packet.worklist);
-  packet.worklist.is_valid = TRUE;
-  sz_strlcpy(packet.worklist.name, _("empty worklist"));
-  packet.wl_idx = j;
+  init_worklist(&pdialog->pplr->worklists[j]);
+  pdialog->pplr->worklists[j].is_valid = TRUE;
+  strcpy(pdialog->pplr->worklists[j].name, _("empty worklist"));
 
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+  update_worklist_report_dialog();
 }
 
 /****************************************************************
@@ -120,7 +118,6 @@ static void worklist_report_insert( struct worklist_report_dialog **ppdialog)
 static void worklist_report_delete( struct worklist_report_dialog **ppdialog)
 {
   struct worklist_report_dialog *pdialog = *ppdialog;
-  struct packet_player_request packet;
   int i, j, selection;
 
   DoMethod(pdialog->listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &selection);
@@ -135,17 +132,16 @@ static void worklist_report_delete( struct worklist_report_dialog **ppdialog)
       break;
 
   for (j = selection; j < i-1; j++) {
-    copy_worklist(&packet.worklist, &pdialog->pplr->worklists[j+1]);
-    packet.wl_idx = j;
-
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+    copy_worklist(&pdialog->pplr->worklists[j],
+                  &pdialog->pplr->worklists[j+1]);
   }
 
   /* The last worklist in the set is no longer valid -- it's been slid up
-     one slot. */
-  packet.worklist.is_valid = FALSE;
-  packet.wl_idx = i-1;
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+   * one slot. */
+  pdialog->pplr->worklists[i-1].is_valid = FALSE;
+  strcpy(pdialog->pplr->worklists[i-1].name, "\0");
+
+  update_worklist_report_dialog();
 }
 
 /****************************************************************
@@ -192,7 +188,6 @@ static void worklist_report_list( struct worklist_report_dialog **ppdialog)
 static void worklist_report_rename( struct worklist_report_dialog **ppdialog)
 {
   struct worklist_report_dialog *pdialog = *ppdialog;
-  struct packet_player_request packet;
   int selection;
 
   DoMethod(pdialog->listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &selection);
@@ -201,12 +196,10 @@ static void worklist_report_rename( struct worklist_report_dialog **ppdialog)
     return;
   selection--;
 
+  sz_strlcpy(pdialog->pplr->worklists[selection].name, 
+             getstring(pdialog->name_string));
 
-  packet.wl_idx = selection;
-  copy_worklist(&packet.worklist, 
-		&pdialog->pplr->worklists[selection]);
-  sz_strlcpy(packet.worklist.name, getstring(pdialog->name_string));
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+  update_worklist_report_dialog();
 }
 
 /****************************************************************
@@ -318,14 +311,10 @@ void update_worklist_report_dialog(void)
 static void commit_player_worklist(struct worklist *pwl, void *data)
 {
   struct worklist_report_dialog *pdialog;
-  struct packet_player_request packet;
 
   pdialog = (struct worklist_report_dialog *)data;
 
-  copy_worklist(&packet.worklist, pwl);
-  packet.wl_idx = pdialog->wl_idx;
-
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+  copy_worklist(&pdialog->pplr->worklists[pdialog->wl_idx], pwl);
 }
 
 /****************************************************************

@@ -629,17 +629,15 @@ void rename_worklist_sub_callback(Widget w, XtPointer client_data,
 				  XtPointer call_data)
 {
   struct worklist_report_dialog *pdialog;
-  struct packet_player_request packet;
 
   pdialog = (struct worklist_report_dialog *)client_data;
 
   if (pdialog) {
-    packet.wl_idx = pdialog->wl_idx;
-    copy_worklist(&packet.worklist, 
-		  &pdialog->pplr->worklists[pdialog->wl_idx]);
-    strncpy(packet.worklist.name, input_dialog_get_input(w), MAX_LEN_NAME);
-    packet.worklist.name[MAX_LEN_NAME-1] = '\0';
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+    strncpy(pdialog->pplr->worklists[pdialog->wl_idx].name,
+            input_dialog_get_input(w), MAX_LEN_NAME);
+    pdialog->pplr->worklists[pdialog->wl_idx].name[MAX_LEN_NAME - 1] = '\0';
+
+    update_worklist_report_dialog();
   }
   
   input_dialog_destroy(w);
@@ -652,7 +650,6 @@ void insert_worklist_callback(Widget w, XtPointer client_data,
 			      XtPointer call_data)
 {
   struct worklist_report_dialog *pdialog;
-  struct packet_player_request packet;
   int j;
 
   pdialog = (struct worklist_report_dialog *)client_data;
@@ -668,12 +665,11 @@ void insert_worklist_callback(Widget w, XtPointer client_data,
     return;
 
   /* Validate this slot. */
-  init_worklist(&packet.worklist);
-  packet.worklist.is_valid = TRUE;
-  strcpy(packet.worklist.name, _("empty worklist"));
-  packet.wl_idx = j;
+  init_worklist(&pdialog->pplr->worklists[j]);
+  pdialog->pplr->worklists[j].is_valid = TRUE;
+  strcpy(pdialog->pplr->worklists[j].name, _("empty worklist"));
 
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+  update_worklist_report_dialog();
 }
 
 /****************************************************************
@@ -684,7 +680,6 @@ void delete_worklist_callback(Widget w, XtPointer client_data,
 			      XtPointer call_data)
 {
   struct worklist_report_dialog *pdialog;
-  struct packet_player_request packet;
   XawListReturnStruct *retList;
   int i, j;
 
@@ -700,17 +695,16 @@ void delete_worklist_callback(Widget w, XtPointer client_data,
       break;
 
   for (j = retList->list_index; j < i-1; j++) {
-    copy_worklist(&packet.worklist, &pdialog->pplr->worklists[j+1]);
-    packet.wl_idx = j;
-
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+    copy_worklist(&pdialog->pplr->worklists[j], 
+                  &pdialog->pplr->worklists[j+1]);
   }
 
   /* The last worklist in the set is no longer valid -- it's been slid up
-     one slot. */
-  packet.worklist.is_valid = FALSE;
-  packet.wl_idx = i-1;
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+   * one slot. */
+  pdialog->pplr->worklists[i-1].is_valid = FALSE;
+  strcpy(pdialog->pplr->worklists[i-1].name, "\0");
+  
+  update_worklist_report_dialog();
 }
 
 /****************************************************************
@@ -741,16 +735,11 @@ void edit_worklist_callback(Widget w, XtPointer client_data,
 void commit_player_worklist(struct worklist *pwl, void *data)
 {
   struct worklist_report_dialog *pdialog;
-  struct packet_player_request packet;
 
   pdialog = (struct worklist_report_dialog *)data;
 
-  copy_worklist(&packet.worklist, pwl);
-  packet.wl_idx = pdialog->wl_idx;
-
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
+  copy_worklist(&pdialog->pplr->worklists[pdialog->wl_idx], pwl);
 }
-
 
 /****************************************************************
 
@@ -763,7 +752,6 @@ void close_worklistreport_callback(Widget w, XtPointer client_data,
   worklist_report_shell = NULL;
   report_dialog = NULL;
 }
-
 
 /****************************************************************
   Fill in the worklist arrays in the pdialog.

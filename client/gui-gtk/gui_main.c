@@ -860,8 +860,6 @@ void ui_main(int argc, char **argv)
                                       single_tile_pixmap_width,
                                       single_tile_pixmap_height, -1);
 
-  load_options();
-
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   gtk_main();

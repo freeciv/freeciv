@@ -452,8 +452,6 @@ void ui_main(int argc, char *argv[])
   XtOverrideTranslations(toplevel,
     XtParseTranslationTable ("<Message>WM_PROTOCOLS: msg-quit-freeciv()"));
 
-  load_options();
-
   XtSetSensitive(toplevel, FALSE);
 
   XtAppMainLoop(app_context);

@@ -131,10 +131,8 @@ static void global_list_update(struct worklist_report *preport)
   Remove the current worklist.  This request is made by sliding
   up all lower worklists to fill in the slot that's being deleted.
 *****************************************************************/
-static void global_delete_callback(struct worklist_report *preport,
-				   int sel)
+static void global_delete_callback(struct worklist_report *preport, int sel)
 {
-  struct packet_player_request packet;
   int i, j;
 
   /* Look for the last free worklist */
@@ -143,19 +141,16 @@ static void global_delete_callback(struct worklist_report *preport,
       break;
 
   for (j = sel; j < i - 1; j++) {
-    copy_worklist(&packet.worklist, &preport->pplr->worklists[j + 1]);
-    packet.wl_idx = j;
-
-    send_packet_player_request(&aconnection, &packet,
-                               PACKET_PLAYER_WORKLIST);
+    copy_worklist(&preport->pplr->worklists[j],
+                  &preport->pplr->worklists[j + 1]);
   }
 
   /* The last worklist in the set is no longer valid -- it's been slid up
-     one slot. */
-  packet.worklist.is_valid = FALSE;
-  packet.wl_idx = i - 1;
-  send_packet_player_request(&aconnection, &packet,
-                             PACKET_PLAYER_WORKLIST);
+   * one slot. */
+  preport->pplr->worklists[i-1].is_valid = FALSE;
+  strcpy(preport->pplr->worklists[i-1].name, "\0");
+
+  global_list_update(preport);
 }
 
 /****************************************************************
@@ -164,16 +159,13 @@ static void global_delete_callback(struct worklist_report *preport,
 static void global_rename_sub_callback(HWND w, void * data)
 {
   struct worklist_report *preport = (struct worklist_report *) data;
-  struct packet_player_request packet;
 
   if (preport) {
-    packet.wl_idx = preport->wl_idx;
-    copy_worklist(&packet.worklist,
-                  &preport->pplr->worklists[preport->wl_idx]);
-    strncpy(packet.worklist.name, input_dialog_get_input(w), MAX_LEN_NAME);
-    packet.worklist.name[MAX_LEN_NAME - 1] = '\0';
-    send_packet_player_request(&aconnection, &packet,
-                               PACKET_PLAYER_WORKLIST);
+    strncpy(preport->pplr->worklists[preport->wl_idx].name,
+            input_dialog_get_input(w), MAX_LEN_NAME);
+    preport->pplr->worklists[preport->wl_idx].name[MAX_LEN_NAME - 1] = '\0';
+
+    global_list_update(preport);
   }
 
   input_dialog_destroy(w);
@@ -184,9 +176,7 @@ static void global_rename_sub_callback(HWND w, void * data)
 *****************************************************************/
 static void global_insert_callback(struct worklist_report *preport)
 {
-  struct packet_player_request packet;
   int j;
-
 
   /* Find the next free worklist for this player */
 
@@ -199,13 +189,11 @@ static void global_insert_callback(struct worklist_report *preport)
     return;
 
   /* Validate this slot. */
-  init_worklist(&packet.worklist);
-  packet.worklist.is_valid = TRUE;
-  strcpy(packet.worklist.name, _("empty worklist"));
-  packet.wl_idx = j;
+  init_worklist(&preport->pplr->worklists[j]);
+  preport->pplr->worklists[j].is_valid = TRUE;
+  strcpy(preport->pplr->worklists[j].name, _("empty worklist"));
 
-  send_packet_player_request(&aconnection, &packet,
-                             PACKET_PLAYER_WORKLIST);
+  global_list_update(preport);
 }
 
 /****************************************************************
@@ -361,16 +349,9 @@ static void worklist_swap_entries(int i, int j,
 ****************************************************************/
 static void global_commit_worklist(struct worklist *pwl, void *data)
 {
-  struct worklist_report *preport;
-  struct packet_player_request packet;
+  struct worklist_report *preport = (struct worklist_report *) data;
 
-  preport = (struct worklist_report *) data;
-
-  copy_worklist(&packet.worklist, pwl);
-  packet.wl_idx = preport->wl_idx;
-
-  send_packet_player_request(&aconnection, &packet,
-                             PACKET_PLAYER_WORKLIST);
+  copy_worklist(&preport->pplr->worklists[preport->wl_idx], pwl);
 }
 
 /****************************************************************

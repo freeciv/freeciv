@@ -530,6 +530,7 @@ void set_client_state(enum client_states newstate)
     client_state=newstate;
 
     if(client_state==CLIENT_GAME_RUNNING_STATE) {
+      load_options();
       update_research(game.player_ptr);
       role_unit_precalcs();
       boot_help_texts();	/* reboot */
