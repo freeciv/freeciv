@@ -66,6 +66,7 @@ AC_ARG_ENABLE(client,
   no)	  client=no ;;
   xaw3d)  client=xaw
 	  WITH_XAW3D=1 ;;
+  ftwl)   client=ftwl ;;
   gtk)    client=gtk-2.0 ;;
   gtk2)   client=gtk-2.0 ;;
   gtk2.0) client=gtk-2.0 ;;

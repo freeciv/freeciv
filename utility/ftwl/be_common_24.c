@@ -28,7 +28,8 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#define DISABLE_TRANSPARENCY 0
+#define ENABLE_TRANSPARENCY	1
+#define DO_CYCLE_MEASUREMENTS	0
 
 /* Blend the RGB values of two pixel 3-byte pixel arrays
  * based on a source alpha value. */
@@ -68,34 +69,57 @@ static void set_color(be_color color, unsigned char *dest)
   MIN_OPACITY means the pixel should not be drawn.  MAX_OPACITY means
   the pixels should not be blended.
 *************************************************************************/
-static void image_blit_masked_trans(const struct ct_size *size,
-				    const struct image *src,
-				    const struct ct_point *src_pos,
-				    struct image *dest,
-				    const struct ct_point *dest_pos)
+/* non static to prevent inlining */
+void image_blit_masked_trans(const struct ct_size *size,
+			     const struct image *src,
+			     const struct ct_point *src_pos,
+			     struct image *dest,
+			     const struct ct_point *dest_pos);
+void image_blit_masked_trans(const struct ct_size *size,
+			     const struct image *src,
+			     const struct ct_point *src_pos,
+			     struct image *dest,
+			     const struct ct_point *dest_pos)
 {
   int x, y;
 
-  for (y = 0; y < size->height; y++) {
-    for (x = 0; x < size->width; x++) {
-      int src_x = x + src_pos->x;
-      int src_y = y + src_pos->y;
-      int dest_x = x + dest_pos->x;
-      int dest_y = y + dest_pos->y;
-      unsigned char *psrc = IMAGE_GET_ADDRESS(src, src_x, src_y);
-      unsigned char *pdest = IMAGE_GET_ADDRESS(dest, dest_x, dest_y);
+  unsigned char *psrc = IMAGE_GET_ADDRESS(src, src_pos->x,
+					  src_pos->y);
+  unsigned char *pdest = IMAGE_GET_ADDRESS(dest, dest_pos->x,
+					   dest_pos->y);
+  int w = size->width;
+  int h = size->height;
+  int extra_src = (src->width - size->width) * 4;
+  int extra_dest = (dest->width - size->width) * 4;
+
+  //printf("BLITTING %dx%d",size->width,size->height);
+
+  for (y = h; y > 0; y--) {
+    for (x = w; x > 0; x--) {
       unsigned char mask_value = psrc[3];
 
-      IMAGE_CHECK(src, src_x, src_y);
-      if (mask_value != MIN_OPACITY
-          && mask_value != MAX_OPACITY
-          && !DISABLE_TRANSPARENCY) {
-        /* We need to perform transparency */
-        ALPHA_BLEND(pdest, psrc[3], psrc);
-      } else if (mask_value != MIN_OPACITY) {
-        memcpy(pdest, psrc, 4);
-      } /* never copy MAX_OPACITY pixels - that is why they exist! */
+#if ENABLE_TRANSPARENCY
+      if(mask_value == MAX_OPACITY) {
+	memcpy(pdest, psrc, 4);
+      } else if(mask_value == MIN_OPACITY) {
+	/* 
+	 * Empty since we never copy MAX_OPACITY pixels - that is why
+	 * they exist! 
+	 */
+      } else {
+	/* We need to perform transparency */
+	ALPHA_BLEND(pdest, psrc[3], psrc);
+      }
+#else
+      if (mask_value != MIN_OPACITY) {
+	memcpy(pdest, psrc, 4);
+      }
+#endif
+      psrc += 4;
+      pdest += 4;
     }
+    psrc += extra_src;
+    pdest += extra_dest;
   }
 }
 
@@ -155,8 +179,31 @@ static void image_copy(struct image *dest,
 
   clip_two_regions(dest, src, &real_size, &real_dest_pos, &real_src_pos);
 
-  image_blit_masked_trans(&real_size, src, &real_src_pos, dest,
-                          &real_dest_pos);
+  if (DO_CYCLE_MEASUREMENTS) {
+#define rdtscll(val) __asm__ __volatile__ ("rdtsc" : "=A" (val))
+    unsigned long long start, end;
+    static unsigned long long total_clocks = 0, total_pixels = 0;
+    static int total_blits = 0;
+
+    rdtscll(start);
+
+    image_blit_masked_trans(&real_size, src, &real_src_pos, dest,
+			    &real_dest_pos);
+
+    rdtscll(end);
+    printf("BLITTING %dx%d %dx%d->%dx%d %lld %d\n", real_size.width,
+	   real_size.height, src->width, src->height, dest->width, dest->height,
+	   end - start, real_size.width * real_size.height);
+    total_clocks += (end - start);
+    total_pixels += (real_size.width * real_size.height);
+    total_blits++;
+    if ((total_blits % 1000) == 0) {
+      printf("%f cycles per pixel\n", (float) total_clocks / total_pixels);
+    }
+  } else {
+    image_blit_masked_trans(&real_size, src, &real_src_pos, dest,
+			    &real_dest_pos);
+  }
 }
 
 /*************************************************************************

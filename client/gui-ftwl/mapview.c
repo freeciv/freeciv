@@ -21,6 +21,7 @@
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "movement.h"
 #include "registry.h"
 #include "support.h"
 
@@ -72,18 +73,18 @@ static int drag_granularity = 0;
 
 static double min_drag_time = 1.0 / (float) MAX_DRAG_FPS;
 
-#define MAX_TILE_LIST_ITEMS	20
+#define MAX_TILE_LIST2_ITEMS	20
 #define MAX_ACTION_DEFS		60
 #define MAX_CITY_DESCR_STYLES	MAX_CITY_SIZE
 
-enum tile_list_item_type {
+enum tile_list2_item_type {
   TLI_TERRAIN,
   TLI_CITY,
   TLI_UNIT
 };
 
-struct tile_list_item {
-  enum tile_list_item_type type;
+struct tile_list2_item {
+  enum tile_list2_item_type type;
   struct osda *unselected;
   struct osda *selected;
   struct sw_widget *button;
@@ -93,11 +94,11 @@ struct tile_list_item {
   char *info_text;
 };
 
-static struct tile_list {
+static struct tile_list2 {
   int items;
   int selected;
-  struct tile_list_item item[MAX_TILE_LIST_ITEMS];
-} tile_list;
+  struct tile_list2_item item[MAX_TILE_LIST2_ITEMS];
+} tile_list2;
 
 static struct ct_tooltip *tooltip_template = NULL;
 
@@ -138,25 +139,7 @@ static struct {
   } style[MAX_CITY_DESCR_STYLES];
 } city_descr_styles;
 
-/**************************************************************************
-  Find the appropriate city description theme style.  This depends on 
-  the size of the city, and enables us to have different visual styles
-  for city descriptions depending on their sizes.
-**************************************************************************/
-static struct city_descr_style *find_city_descr_style(struct city *pcity)
-{
-  int i;
-
-  for (i = 0; i < city_descr_styles.styles; i++) {
-    if (pcity->size >= city_descr_styles.style[i].min_size &&
-	pcity->size <= city_descr_styles.style[i].max_size) {
-      return &city_descr_styles.style[i];
-    }
-  }
-  freelog(LOG_ERROR, "No matching city description style found for %s "
-          "which is of size %d", pcity->name, pcity->size);
-  return &city_descr_styles.style[0];
-}
+static struct ct_string *text_templates[FONT_COUNT];
 
 /**************************************************************************
   Typically an info box is provided to tell the player about the state
@@ -334,6 +317,39 @@ void refresh_overview_canvas(void)
 }
 #endif
 
+/* Disabled for now */
+#if 0
+/**************************************************************************
+  Find the appropriate city description theme style.  This depends on 
+  the size of the city, and enables us to have different visual styles
+  for city descriptions depending on their sizes.
+**************************************************************************/
+static struct city_descr_style *find_city_descr_style(struct city *pcity)
+{
+  int i;
+
+  for (i = 0; i < city_descr_styles.styles; i++) {
+    if (pcity->size >= city_descr_styles.style[i].min_size &&
+	pcity->size <= city_descr_styles.style[i].max_size) {
+      return &city_descr_styles.style[i];
+    }
+  }
+  freelog(LOG_ERROR, "No matching city description style found for %s "
+          "which is of size %d", pcity->name, pcity->size);
+  return &city_descr_styles.style[0];
+}
+
+/**************************************************************************
+  If necessary, clear the city descriptions out of the buffer.
+**************************************************************************/
+void prepare_show_city_descriptions(void)
+{
+  widget_list_iterate(city_descr_windows, widget) {
+    widget_list_unlink(city_descr_windows, widget);
+    sw_widget_destroy(widget);
+  } widget_list_iterate_end;
+}
+
 /**************************************************************************
   Draw a description for the given city.  (canvas_x, canvas_y) is the
   canvas position of the city itself.
@@ -422,6 +438,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
   widget_list_prepend(city_descr_windows, window);
   /* PORTME */
 }
+#endif
 
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
@@ -580,17 +597,6 @@ void update_city_descriptions(void)
 }
 
 /**************************************************************************
-  If necessary, clear the city descriptions out of the buffer.
-**************************************************************************/
-void prepare_show_city_descriptions(void)
-{
-  widget_list_iterate(city_descr_windows, widget) {
-    widget_list_unlink(city_descr_windows, widget);
-    sw_widget_destroy(widget);
-  } widget_list_iterate_end;
-}
-
-/**************************************************************************
   Draw a cross-hair overlay on a tile.
 **************************************************************************/
 void put_cross_overlay_tile(struct tile *ptile)
@@ -674,14 +680,14 @@ static struct osda *create_selected_osda(struct osda *osda)
   return result;
 }
 
-static void tile_list_select(int new_index);
+static void tile_list2_select(int new_index);
 
 /**************************************************************************
   ...
 **************************************************************************/
-static void tile_list_select_callback(struct sw_widget *widget, void *data)
+static void tile_list2_select_callback(struct sw_widget *widget, void *data)
 {
-    tile_list_select((int)data);
+    tile_list2_select((int)data);
 }
 
 /**************************************************************************
@@ -690,13 +696,13 @@ static void tile_list_select_callback(struct sw_widget *widget, void *data)
 
   FIXME: The number '35' below should be calculated from tile width.
 **************************************************************************/
-static void tile_list_select(int new_index)
+static void tile_list2_select(int new_index)
 {
   int i;
-  tile_list.selected = new_index;
+  tile_list2.selected = new_index;
 
-  for (i = 0; i < tile_list.items; i++) {
-    struct tile_list_item *item = &tile_list.item[i];
+  for (i = 0; i < tile_list2.items; i++) {
+    struct tile_list2_item *item = &tile_list2.item[i];
     struct osda *osda = i == new_index ? item->selected : item->unselected;
     struct osda *background_faces[4];
     int j;
@@ -715,7 +721,7 @@ static void tile_list_select(int new_index)
     sw_widget_set_position(item->button, detaildisplay_pos.x + i * 35,
                            detaildisplay_pos.y);
     sw_button_set_callback(item->button,
-			   tile_list_select_callback, (void *)i);
+			   tile_list2_select_callback, (void *)i);
     sw_widget_set_tooltip(item->button,
 			  ct_tooltip_clone1(tooltip_template,
 					    item->tooltip));
@@ -727,7 +733,7 @@ static void tile_list_select(int new_index)
 /**************************************************************************
   ...
 **************************************************************************/
-static void update_focus_tile_list(void)
+static void update_focus_tile_list2(void)
 {
   int i;
   struct tile *ptile;
@@ -742,19 +748,19 @@ static void update_focus_tile_list(void)
     }
   } unit_list_iterate_end;
 
-  for (i = 0; i < tile_list.items; i++) {
-    sw_widget_destroy(tile_list.item[i].button);
-    be_free_osda(tile_list.item[i].selected);
-    be_free_osda(tile_list.item[i].unselected);
+  for (i = 0; i < tile_list2.items; i++) {
+    sw_widget_destroy(tile_list2.item[i].button);
+    be_free_osda(tile_list2.item[i].selected);
+    be_free_osda(tile_list2.item[i].unselected);
   }
 
-  tile_list.items = 0;
-  tile_list.selected = -1;
+  tile_list2.items = 0;
+  tile_list2.selected = -1;
 
   {
-    struct tile_list_item *item = &tile_list.item[tile_list.items];
+    struct tile_list2_item *item = &tile_list2.item[tile_list2.items];
 
-    tile_list.items++;
+    tile_list2.items++;
 
     item->type = TLI_TERRAIN;
     item->unselected = terrain_to_osda(ptile);
@@ -766,9 +772,9 @@ static void update_focus_tile_list(void)
 
   if (map_get_city(ptile)) {
     struct city *pcity=map_get_city(ptile);
-    struct tile_list_item *item = &tile_list.item[tile_list.items];
+    struct tile_list2_item *item = &tile_list2.item[tile_list2.items];
 
-    tile_list.items++;
+    tile_list2.items++;
 
     item->type = TLI_CITY;
     item->unselected = city_to_osda(pcity);
@@ -780,9 +786,9 @@ static void update_focus_tile_list(void)
   }
 
   unit_list_iterate(ptile->units, punit) {
-    struct tile_list_item *item = &tile_list.item[tile_list.items];
+    struct tile_list2_item *item = &tile_list2.item[tile_list2.items];
 
-    tile_list.items++;
+    tile_list2.items++;
 
     item->type = TLI_UNIT;
     item->unselected = unit_to_osda(punit);
@@ -794,11 +800,11 @@ static void update_focus_tile_list(void)
     item->info_text = mystrdup(mapview_get_unit_info_text(punit));
   } unit_list_iterate_end;
 
-  if (tile_list.items > 1) {
+  if (tile_list2.items > 1) {
     /* Take the city or unit */
-    tile_list_select(1);
+    tile_list2_select(1);
   } else {
-    tile_list_select(0);
+    tile_list2_select(0);
   }
 }
 
@@ -831,7 +837,7 @@ static void canvas_mouse_press_callback(struct sw_widget *widget,
 
   if (button == BE_MB_LEFT) {
     set_focus_tile(ptile);
-    update_focus_tile_list();
+    update_focus_tile_list2();
   } else if (button == BE_MB_MIDDLE) {
     //popit(ev, xtile, ytile);
   } else if (button == BE_MB_RIGHT) {
@@ -1165,6 +1171,12 @@ static void read_properties(void)
 	     && max_size <= MAX_CITY_SIZE);
       assert(border_width >= 0 && border_width <= 1);
 
+      /* HACK */
+      if (i == 0) {
+	text_templates[FONT_CITY_NAME] = name;
+	text_templates[FONT_CITY_PROD] = prod;
+      }
+
       city_descr_styles.style[city_descr_styles.styles].min_size = min_size;
       city_descr_styles.style[city_descr_styles.styles].max_size = max_size;
       city_descr_styles.style[city_descr_styles.styles].border_width =
@@ -1215,7 +1227,7 @@ static const char *info_get_value(const char *id)
 	      game.player_ptr->economic.science);
       return buffer;
   } else if (strcmp(id, "focus_item") == 0) {
-      return tile_list.item[tile_list.selected].info_text;
+      return tile_list2.item[tile_list2.selected].info_text;
 #if 0      
       my_snprintf(buffer, sizeof(buffer),
 		  _("Population: %s "
@@ -1277,7 +1289,7 @@ void popup_mapcanvas(void)
 
   read_properties();
 
-  tile_list.items = 0;
+  tile_list2.items = 0;
   drag_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
 }
 
@@ -1375,7 +1387,7 @@ static const char *format_shortcut(const char *action)
 **************************************************************************/
 static void fill_actions(void)
 {
-  struct tile_list_item *item = &tile_list.item[tile_list.selected];  
+  struct tile_list2_item *item = &tile_list2.item[tile_list2.selected];  
 
   actions_shown.actions = 0;
 
@@ -1620,9 +1632,9 @@ void set_focus_tile(struct tile *ptile)
   focus_tile = ptile;
 
   if (old) {
-    refresh_tile_mapcanvas(old, TRUE);
+      refresh_tile_mapcanvas(old, FALSE, TRUE);
   }
-  refresh_tile_mapcanvas(focus_tile, TRUE);
+  refresh_tile_mapcanvas(focus_tile, FALSE, TRUE);
 }
 
 /****************************************************************************
@@ -1635,7 +1647,7 @@ void clear_focus_tile(void)
   focus_tile = NULL;
 
   if (map_exists() && old) {
-    refresh_tile_mapcanvas(old, TRUE);
+      refresh_tile_mapcanvas(old, FALSE, TRUE);
   }
 }
 
@@ -1645,4 +1657,52 @@ void clear_focus_tile(void)
 struct tile *get_focus_tile(void)
 {
   return focus_tile;
+}
+
+/****************************************************************************
+  Return the size of the given text in the given font.  This size should
+  include the ascent and descent of the text.  Either of width or height
+  may be NULL in which case those values simply shouldn't be filled out.
+****************************************************************************/
+void get_text_size(int *width, int *height,
+		   enum client_font font, const char *text)
+{
+  struct ct_size size;
+  struct ct_string *string = ct_string_clone3(text_templates[font], text);
+
+  be_string_get_size(&size, string);
+
+  if (width) {
+    *width = size.width;
+  }
+  if (height) {
+    *height = size.height;
+  }
+}
+
+/****************************************************************************
+  Draw the text onto the canvas in the given color and font.  The canvas
+  position does not account for the ascent of the text; this function must
+  take care of this manually.  The text will not be NULL but may be empty.
+****************************************************************************/
+void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		     enum client_font font, enum color_std color,
+		     const char *text)
+{
+    struct ct_point position={canvas_x, canvas_y};
+    struct ct_string *string=ct_string_clone4(text_templates[font],
+					      text,color);
+    tr_draw_string(pcanvas->osda,&position,string);
+    ct_string_destroy(string);
+}
+
+/****************************************************************************
+  Called by the tileset code to set the font size that should be used to
+  draw the city names and productions.
+****************************************************************************/
+void set_city_names_font_sizes(int my_city_names_font_size,
+			       int my_city_productions_font_size)
+{
+  freelog(LOG_ERROR, "Ignore set_city_names_font_sizes call.");
+  /* PORTME */
 }
