@@ -1248,12 +1248,11 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     center_tile_mapcanvas(pinfo->x, pinfo->y);
 
   if(!pinfo->carried && !was_teleported) {
-    int dx=pinfo->x - x;
-    if(dx>1) dx=-1;
-    else if(dx<-1)
-      dx=1;
+    int dx, dy;
+
+    map_distance_vector(&dx, &dy, punit->x, punit->y, pinfo->x, pinfo->y);
     if(smooth_move_units)
-      move_unit_map_canvas(punit, x, y, dx, pinfo->y - punit->y);
+      move_unit_map_canvas(punit, x, y, dx, dy);
     refresh_tile_mapcanvas(x, y, FALSE);
   }
     
