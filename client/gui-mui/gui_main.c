@@ -71,6 +71,7 @@
 #include "mapview.h"
 #include "menu_g.h"
 #include "messagedlg.h"
+#include "messagewin.h"
 #include "options.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
@@ -451,6 +452,7 @@ static void control_callback(ULONG * value)
       popup_players_dialog();
       break;
     case MENU_GAME_MESSAGES:
+      popup_meswin_dialog();
       break;
     case MENU_GAME_SERVER_OPTIONS1:
       send_report_request(REPORT_SERVER_OPTIONS1);
