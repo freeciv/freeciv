@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-01-07 15:41+0100\n"
+"POT-Creation-Date: 2003-01-14 15:04+0100\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -6164,7 +6164,7 @@ msgstr "Wzmacnia efekt koloseów.\n"
 
 #: client/helpdata.c:828
 msgid "Improves the effect of Temples.\n"
-msgstr "Wzmacnia efekt ko¶cio³ów.\n"
+msgstr "Wzmacnia efekt ¶wi±tyñ.\n"
 
 #: client/helpdata.c:832
 #, c-format
@@ -9235,38 +9235,38 @@ msgstr "_Rozkazy"
 msgid "Orders"
 msgstr "Rozkazy"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1070
-#: client/gui-gtk-2.0/menu.c:1073 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1097
+#: client/gui-gtk-2.0/menu.c:1100 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:1075 client/gui-gtk/menu.c:1078
 #: client/gui-win32/menu.c:320
 msgid "_Build City"
 msgstr "Z_buduj miasto"
 
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1083
-#: client/gui-gtk-2.0/menu.c:1089 client/gui-gtk/menu.c:644
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1110
+#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:644
 #: client/gui-gtk/menu.c:1088 client/gui-gtk/menu.c:1094
 #: client/gui-win32/menu.c:321
 msgid "Build _Road"
 msgstr "Zbuduj d_rogê"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1010
+#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1037
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1015
 #: client/gui-win32/menu.c:322
 msgid "Build _Irrigation"
 msgstr "Stwórz _nawodnienie"
 
-#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1011
+#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1038
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1016
 #: client/gui-win32/menu.c:323
 msgid "Build _Mine"
 msgstr "Zbuduj _kopalniê"
 
-#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1012
+#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1039
 #: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:1017
 msgid "Transf_orm Terrain"
 msgstr "Przekszta³æ _teren"
 
-#: client/gui-gtk-2.0/menu.c:653 client/gui-gtk-2.0/menu.c:1121
+#: client/gui-gtk-2.0/menu.c:653 client/gui-gtk-2.0/menu.c:1148
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1126
 #: client/gui-win32/menu.c:325
 msgid "Build _Fortress"
@@ -9277,7 +9277,7 @@ msgstr "Zbuduj _fortecê"
 msgid "Build Airbas_e"
 msgstr "Zbuduj bazê _lotnicz±"
 
-#: client/gui-gtk-2.0/menu.c:657 client/gui-gtk-2.0/menu.c:1126
+#: client/gui-gtk-2.0/menu.c:657 client/gui-gtk-2.0/menu.c:1153
 #: client/gui-gtk/menu.c:656 client/gui-gtk/menu.c:1131
 #: client/gui-win32/menu.c:327
 msgid "Clean _Pollution"
@@ -9308,7 +9308,7 @@ msgstr "_Wy³aduj"
 msgid "Wake up o_thers"
 msgstr "Obud¼ innych"
 
-#: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1131
+#: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1158
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
 msgid "_Auto Settler"
 msgstr "_Automatyczny osadnik"
@@ -9548,50 +9548,50 @@ msgstr "K_opiowanie"
 msgid "_About"
 msgstr "O progr_amie"
 
-#: client/gui-gtk-2.0/menu.c:1002 client/gui-gtk/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk/menu.c:1007
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Zm_ieñ na %s"
 
-#: client/gui-gtk-2.0/menu.c:1003 client/gui-gtk/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1030 client/gui-gtk/menu.c:1008
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Z_mieñ na %s"
 
-#: client/gui-gtk-2.0/menu.c:1004 client/gui-gtk/menu.c:1009
+#: client/gui-gtk-2.0/menu.c:1031 client/gui-gtk/menu.c:1009
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Przekszta³æ na %s"
 
-#: client/gui-gtk-2.0/menu.c:1065 client/gui-gtk/menu.c:1070
+#: client/gui-gtk-2.0/menu.c:1092 client/gui-gtk/menu.c:1070
 msgid "Help _Build Wonder"
 msgstr "Pomó¿ _budowaæ cud ¶wiata"
 
-#: client/gui-gtk-2.0/menu.c:1068 client/gui-gtk/menu.c:1073
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1073
 msgid "Add to City (_B)"
 msgstr "Dodaj do miasta (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1076 client/gui-gtk/menu.c:1081
+#: client/gui-gtk-2.0/menu.c:1103 client/gui-gtk/menu.c:1081
 msgid "Make Trade _Route"
 msgstr "Ustanów t_rasê handlow±"
 
-#: client/gui-gtk-2.0/menu.c:1079 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:1106 client/gui-gtk/menu.c:1084
 msgid "Build _Railroad"
 msgstr "Zbuduj kolej (_R)"
 
-#: client/gui-gtk-2.0/menu.c:1101 client/gui-gtk/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1128 client/gui-gtk/menu.c:1106
 msgid "Bu_ild Farmland"
 msgstr "Zbuduj farmê (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1119 client/gui-gtk/menu.c:1124
+#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
 msgstr "_Fortyfikuj"
 
-#: client/gui-gtk-2.0/menu.c:1124 client/gui-gtk/menu.c:1129
+#: client/gui-gtk-2.0/menu.c:1151 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
 msgstr "_Przerzuæ"
 
-#: client/gui-gtk-2.0/menu.c:1129 client/gui-gtk/menu.c:1134
+#: client/gui-gtk-2.0/menu.c:1156 client/gui-gtk/menu.c:1134
 msgid "_Auto Attack"
 msgstr "Automatyczny atak"
 
@@ -9682,8 +9682,8 @@ msgstr "Reputacja"
 msgid "Host"
 msgstr "Komputer"
 
-#: client/gui-gtk-2.0/plrdlg.c:193
 #
+#: client/gui-gtk-2.0/plrdlg.c:193
 msgid "Idle Turns"
 msgstr "Bezczynno¶æ"
 
@@ -13741,7 +13741,7 @@ msgid ""
 "effects on citizens' happiness (see the appropriate sections for details)."
 msgstr ""
 "Aby zmieniæ poziom zadowolenia mo¿esz:\n"
-" - budowaæ budynku (ko¶ció³, koloseum, katedra, s±d(dzia³a tylko podczas "
+" - budowaæ budynki (¶wi±tynia, koloseum, katedra, s±d(dzia³a tylko podczas "
 "demokracji),\n"
 " - budowaæ cuda ¶wiata,\n"
 " - zamieniaæ czê¶æ handlu na luksus(zmieniaj±c stawkê luksusow±)\n"
@@ -14449,7 +14449,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1311 data/civ2/buildings.ruleset:1099
 #: data/civ1/buildings.ruleset:1108 data/history/buildings.ruleset:1120
 msgid "Temple"
-msgstr "Ko¶ció³"
+msgstr "¦wi±tynia"
 
 #: data/default/buildings.ruleset:1331 data/civ2/buildings.ruleset:1119
 #: data/civ1/buildings.ruleset:1128 data/history/buildings.ruleset:1140
@@ -14459,7 +14459,7 @@ msgid ""
 "citizens are made content."
 msgstr ""
 "Czyni jednego niezadowolonego mieszkañca zadowolonym. Zarówno Mistycyzm "
-"(technologia) jak i Wyrocznia (cud) podwajaj± ten efekt. Ko¶ció³ razem z "
+"(technologia) jak i Wyrocznia (cud) podwajaj± ten efekt. ¦wi±tynia razem z "
 "mistycyzmem i wyroczni± czyni czterech mieszkañców zadowolonymi."
 
 #: data/default/buildings.ruleset:1338 data/civ2/buildings.ruleset:1126
