@@ -2254,18 +2254,7 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
       || is_non_allied_unit_tile(ptile, pplayer)) {
     int srange = unit_type(punit)->vision_range;
     show_area(pplayer, dest_x, dest_y, srange);
-    notify_player_ex(pplayer, dest_x, dest_y, E_UNIT_LOST_ATT,
-                     _("Game: Your %s was killed by enemy units at the "
-                       "paradrop destination."),
-                     unit_type(punit)->name);
-    server_remove_unit(punit);
-    return TRUE;
-  }
-
-  if (ptile->city && pplayers_no_contact(pplayer, city_owner(ptile->city))) {
-    int srange = unit_type(punit)->vision_range;
-    show_area(pplayer, dest_x, dest_y, srange);
-    make_contact(pplayer, city_owner(ptile->city), dest_x, dest_y);
+    maybe_make_first_contact(dest_x, dest_y, pplayer);
     notify_player_ex(pplayer, dest_x, dest_y, E_UNIT_LOST_ATT,
                      _("Game: Your %s was killed by enemy units at the "
                        "paradrop destination."),
