@@ -212,7 +212,7 @@ int map_build_mine_time(int x, int y);
 
 #define MAP_DEFAULT_GENERATOR    1
 #define MAP_MIN_GENERATOR        1
-#define MAP_MAX_GENERATOR        2
+#define MAP_MAX_GENERATOR        3
 
 #define GAME_DEFAULT_GOLD        50
 #define GAME_MIN_GOLD            0

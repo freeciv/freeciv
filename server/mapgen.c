@@ -24,6 +24,7 @@
 void make_huts(int number);
 void mapgenerator1(void);
 void mapgenerator2(void);
+void mapgenerator3(void);
 void spread(int spr);
 void smooth_map();
 void add_height(int x,int y, int radius);
@@ -569,10 +570,14 @@ void map_fractal_generate(void)
   
   init_workmap();
 
-  if (map.generator == 1 || (map.xsize < 80 || map.ysize < 50)) {
+  if (map.generator == 1 || 
+      (map.xsize < 40 || map.ysize < 40 || map.landpercent>50 )
+     ) {
     mapgenerator1();
-  } else {
+  } else if( map.generator == 2 || map.landpercent>40 ){
     mapgenerator2();
+  } else {
+    mapgenerator3();
   }
 
 
@@ -648,6 +653,7 @@ void init_workmap(void)
 int ymax = 20;
 int xmax = 20;
 int size = 100;
+int startsize = 100;
 int xs; 
 int ys;
 int dx;
@@ -666,20 +672,40 @@ int mini_map(int x, int y)
 **************************************************************************/
 void fillisland(int xp, int yp)
 {
+  int rivers = 1;
   int mountains = 3;
-  int hills = 7;
+  int hills = 6; 
   int forest = 10;
-  int mixed;
+  int mixed  = 5;
   int x,y;
   int dir;
-  mixed = 5 + size;
+
+
+  rivers   = (startsize*rivers   +20)/40;
+  mountains= (startsize*mountains)/40;
+  hills    = (startsize*hills    )/40;
+  forest   = (startsize*forest   )/40;
+  mixed    = (startsize*mixed    )/40;
+
+  mixed = mixed + size;
+
   if (mixed < 0) 
     mixed = 0;
   x = xp + xmax / 2;
   y = yp + ymax / 2;
 
-  dir = myrand(4);
-  map_set_terrain(x,y, T_RIVER);
+  while (rivers>0) {
+    x = myrand(xmax) + xp;
+    y = myrand(ymax) + yp;
+    if (map_get_terrain(x,y) == T_GRASSLAND &&
+	( !is_terrain_near_tile(x, y, T_OCEAN) || !myrand(6) )
+       ) {
+      dir = myrand(4);
+      map_set_terrain(x, y, T_RIVER); mixed--;
+      rivers--;
+    }  
+
+
   while (!is_terrain_near_tile(x, y, T_OCEAN)) {
     switch (dir) {
     case 0:
@@ -695,8 +721,12 @@ void fillisland(int xp, int yp)
       y++;
       break;
     }
-      
-    map_set_terrain(x,y, T_RIVER);
+    if (map_get_terrain(x,y) == T_GRASSLAND ){ 
+      map_set_terrain(x,y, T_RIVER); mixed--;
+    }
+    else 
+      break;
+
     if (is_terrain_near_tile(x, y, T_OCEAN)) 
       break;
 
@@ -713,47 +743,58 @@ void fillisland(int xp, int yp)
     case 3:
       y++;
     }
-    
-    map_set_terrain(x,y, T_RIVER);
+    if (map_get_terrain(x,y) == T_GRASSLAND ){
+      map_set_terrain(x,y, T_RIVER); mixed--;
+    }
+    else
+      break;
+   }
   }
 
 
   while (mountains) {
     x = myrand(xmax) + xp;
     y = myrand(ymax) + yp;
-    if (map_get_terrain(x,y) == T_GRASSLAND && !is_terrain_near_tile(x, y, T_OCEAN)) {
+    if (map_get_terrain(x,y) == T_GRASSLAND &&
+	( !is_terrain_near_tile(x, y, T_OCEAN) || !myrand(6) )
+       ) {
       map_set_terrain(x, y, T_MOUNTAINS);
       mountains--;
     }    
   }
+
   while (hills) {
     x = myrand(xmax) + xp;
     y = myrand(ymax) + yp;
-    if (map_get_terrain(x,y) == T_GRASSLAND && !is_terrain_near_tile(x, y, T_OCEAN)) {
+    if (map_get_terrain(x,y) == T_GRASSLAND &&
+	( !is_terrain_near_tile(x, y, T_OCEAN) || !myrand(6) )
+       ) {
       map_set_terrain(x, y, T_HILLS);
       hills--;
     }    
   }
+
   while (forest >0) {
     x = myrand(xmax-1) + xp;
     y = myrand(ymax-1) + yp;
     if (map_get_terrain(x,y) == T_GRASSLAND) {
       map_set_terrain(x, y, T_FOREST);
       forest--;
-      if (map_get_terrain(x+1,y) == T_GRASSLAND && myrand(3)) {
+      if (forest>0 && map_get_terrain(x+1,y) == T_GRASSLAND && myrand(3)) {
 	map_set_terrain(x+1, y, T_FOREST);
 	forest--;
       }
-      if (map_get_terrain(x,y+1) == T_GRASSLAND && myrand(3)) {
+      if (forest>0 && map_get_terrain(x,y+1) == T_GRASSLAND && myrand(3)) {
 	map_set_terrain(x, y+1, T_FOREST);
 	forest--;
       }
-      if (map_get_terrain(x+1,y+1) == T_GRASSLAND && myrand(3)) {
+      if (forest>0 && map_get_terrain(x+1,y+1) == T_GRASSLAND && myrand(3)) {
 	map_set_terrain(x+1, y+1, T_FOREST);
 	forest--;
       }
     }    
   }
+
   while (mixed > 0) {
     x = myrand(xmax) + xp;
     y = myrand(ymax) + yp;
@@ -764,16 +805,16 @@ void fillisland(int xp, int yp)
       } else if (desert_y(y) && is_terrain_near_tile(x, y, T_OCEAN)) {
 	map_set_terrain(x, y, T_DESERT);
 	mixed--;
-	if (map_get_terrain(x+1,y) == T_GRASSLAND && myrand(3)) {
-	  map_set_terrain(x, y, T_DESERT);
+	if (mixed>0 && map_get_terrain(x+1,y) == T_GRASSLAND && myrand(3)) {
+	  map_set_terrain(x+1, y, T_DESERT);
 	  mixed--;
 	}
-	if (map_get_terrain(x,y+1) == T_GRASSLAND && myrand(3)) {
-	  map_set_terrain(x, y, T_DESERT);
+	if (mixed>0 && map_get_terrain(x,y+1) == T_GRASSLAND && myrand(3)) {
+	  map_set_terrain(x, y+1, T_DESERT);
 	  mixed--;
 	}
-	if (map_get_terrain(x+1,y+1) == T_GRASSLAND && myrand(3)) {
-	  map_set_terrain(x, y, T_DESERT);
+	if (mixed>0 && map_get_terrain(x+1,y+1) == T_GRASSLAND && myrand(3)) {
+	  map_set_terrain(x+1, y+1, T_DESERT);
 	  mixed--;
 	}
       } else {
@@ -785,6 +826,7 @@ void fillisland(int xp, int yp)
       }
     }
   }
+
   for (y = 0; y < ymax; y++)
     for (x = 0; x < ymax; x++) {
       if (map_get_terrain(xp +x, yp+y) == T_GRASSLAND && !myrand(3)) {
@@ -857,6 +899,7 @@ void makeisland(void)
       height_map[y * xmax + x]=0;
     }
   }
+  startsize= size;
   height_map[(ymax/2)*xmax + xmax/2] = 1;
   while (size > 0) {
     x = myrand(dx) + xs;
@@ -900,12 +943,14 @@ void makeisland(void)
 /**************************************************************************
   this procedure finds a place to drop the current island
 **************************************************************************/
-void findislandspot(int *xplace, int *yplace)
+int findislandspot(int *xplace, int *yplace)
 {
   int x, y;
   int rx, ry;
   int taken;
-  while (1) {
+  int tries;
+  tries = 100;
+  while( tries-->0 ) {
     rx = myrand(map.xsize);
     ry = myrand(map.ysize-dy-6) + 3;
     taken = 0;
@@ -918,20 +963,35 @@ void findislandspot(int *xplace, int *yplace)
     if (!taken) {
       *xplace = rx;
       *yplace = ry;
-      return;
+      return 1;
     }
   }
+  return 0;
 }
 
 /**************************************************************************
   this is mapgenerators2. The highlevel routine that ties the knots together
 **************************************************************************/
 
-void mapgenerator2(void)
+void mapgenerator2()
 {
-  int i;
+  int i,j;
   int xp,yp;
   int x,y;
+  long int landmass;
+  long int islandmass;
+  int islands;
+
+  if( game.nplayers<=3 )
+    islands= 2*game.nplayers+1;
+  else 
+    islands= 7;
+
+  landmass= ( map.xsize * (map.ysize-6) * map.landpercent+50 )/100;
+  /* we need a factor of 7/10 or sth. like that because the coast
+     of islands actually takes up lots of space too */
+  islandmass= ( (landmass*7)/10+islands-1 )/islands;
+
   height_map =(int *) malloc (sizeof(int)*xmax*ymax);
   for (y = 0 ; y < map.ysize ; y++) 
     for (x = 0 ; x < map.xsize ; x++) {
@@ -945,18 +1005,96 @@ void mapgenerator2(void)
     if (myrand(100)>50) 
       map_set_terrain(x,map.ysize-2, T_ARCTIC);
   }
-    for (i=0;i<7;i++) {
-      size = 100;
-      makeisland();
-      findislandspot(&xp, &yp);
-      placeisland(xp, yp);
-      fillisland(xp, yp);
+  
+    i=0;
+    while( i<islands &&  j++<1000 ) {
+      size = islandmass;
+     makeisland();
+      if( findislandspot(&xp, &yp) )
+	{
+	  placeisland(xp, yp);
+	  fillisland(xp, yp);
+	  i++;
+	}
+      else
+	;
+	
     }
 
   
     /*  print_map();*/
   free(height_map);
 }
+
+/**************************************************************************
+  this is mapgenerators3. Works exactly as 2, but generates small islands 2
+**************************************************************************/
+void mapgenerator3()
+{
+  int i,j;
+  int xp,yp;
+  int x,y;
+  long int landmass;
+  long int islandmass;
+  int islands;
+
+  if( game.nplayers<=3 )
+    islands= 3*4;
+  else
+    islands= game.nplayers*4;
+
+  landmass= ( map.xsize * (map.ysize-6) * map.landpercent+50 )/100;
+
+  islandmass= ( (landmass*7)/10+islands-1 )/islands;
+
+  height_map =(int *) malloc (sizeof(int)*xmax*ymax);
+  for (y = 0 ; y < map.ysize ; y++) 
+    for (x = 0 ; x < map.xsize ; x++) {
+      map_set_terrain(x,y, T_OCEAN);
+    }
+  for (x = 0 ; x < map.xsize; x++) {
+    map_set_terrain(x,0, T_ARCTIC);
+    if (myrand(100)>50) 
+      map_set_terrain(x,1, T_ARCTIC);
+    map_set_terrain(x, map.ysize-1, T_ARCTIC);
+    if (myrand(100)>50) 
+      map_set_terrain(x,map.ysize-2, T_ARCTIC);
+  }
+  
+    i= islands/4;
+    while( i>0 && j++<1000 ) {
+      size = 3*islandmass;
+      makeisland();
+      if( findislandspot(&xp, &yp) )
+	{
+	  placeisland(xp, yp);
+	  fillisland(xp, yp);
+	  i--;
+	}
+      else
+	;
+    }
+
+    i= islands/3;
+    while( i>0 && j++< 2000 ) {
+      size = 1*islandmass;
+      makeisland();
+      if( findislandspot(&xp, &yp) )
+	{
+	  placeisland(xp, yp);
+	  fillisland(xp, yp);
+	  i--;
+	}
+      else
+	;
+    }
+  
+    /*  print_map();*/
+  free(height_map);
+}
+
+
+
 
 /**************************************************************************
   mapgenerator1, highlevel function, that calls all the previous functions
