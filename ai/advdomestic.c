@@ -150,7 +150,7 @@ void ai_eval_buildings(struct city *pcity)
 
   if (can_build_improvement(pcity, B_AQUEDUCT)) {
     values[B_AQUEDUCT] = food * (pcity->food_surplus + 2 * pcity->ppl_scientist) /
-                         (9 - pcity->size); /* guessing about food if we did farm */
+                         (9 - MIN(8, pcity->size)); /* guessing about food if we did farm */
     values[B_AQUEDUCT] *= 2; /* guessing about value of loving the president */
     if (city_happy(pcity)) values[B_AQUEDUCT] = (pcity->size * 
               (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
@@ -242,9 +242,8 @@ void ai_eval_buildings(struct city *pcity)
   
   if (can_build_improvement(pcity, B_SEWER)) {
     values[B_SEWER] = food * (pcity->food_surplus + 2 * pcity->ppl_scientist) /
-                      (13 - pcity->size); /* guessing about food if we did farm */
+                      (13 - MIN(12, pcity->size)); /* guessing about food if we did farm */
     values[B_SEWER] *= 3; /* guessing about value of loving the president */
-    values[B_SEWER] *= 2; /* guessing about value of loving the president */
     if (city_happy(pcity)) values[B_SEWER] = (pcity->size *
               (city_got_building(pcity,B_GRANARY) ? 3 : 2) * 
               game.foodbox / 2 - pcity->food_stock) * food / (13 - pcity->size); 

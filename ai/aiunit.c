@@ -50,7 +50,7 @@ void ai_manage_units(struct player *pplayer)
 /*  printf("Managing %s's %s\n", pplayer->name, unit_types[punit->type].name); */
       ai_manage_unit(pplayer, punit); 
   unit_list_iterate_end;
-/*  printf("Managed units successfully.\n");  */
+/*  printf("Managed units successfully.\n");   */
 #ifdef CHRONO
   gettimeofday(&tv, 0);
   printf("%s's units consumed %d microseconds.\n", pplayer->name,
@@ -64,7 +64,7 @@ void ai_manage_units(struct player *pplayer)
 
 void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 {
-  int i, j, d, f, x, y, con, dest_x, dest_y, a, b, cur, best;
+  int i, j, d, f, x, y, con, dest_x, dest_y, a, b, cur, best, ct = 10;
   int my_x[10], my_y[10]; /* to prevent getting stuck */
   if (punit->activity == ACTIVITY_IDLE) {
     x = punit->x; y = punit->y;
@@ -90,7 +90,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 /* my old code was dumb dumb dumb dumb dumb and I'm rewriting it -- Syela */
 
     d = 0; /* to allow the following important && - DUH */
-    while (punit->moves_left && d < 24) { /* that && is VERY important - DUH */
+    while (punit->moves_left && d < 24 && ct) { /* that && is VERY important - DUH */
       x = punit->x; y = punit->y;
       for (d = 1; d <= 24; d++) {
   /* printf("Exploring: D = %d\n", d); */
@@ -127,6 +127,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
           if (x != punit->x || y != punit->y) break; /* this ought to work, I hope */
         } /* end if best */
       } /* end for D */
+      ct--;
     } /* end while we can move */
   } /* end if not already doing something */
 }
@@ -493,7 +494,7 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
              get_total_defense_power(punit, pdef) * pdef->hp * 
                  get_unit_type(pdef->type)->firepower /
                  get_unit_type(pdef->type)->build_cost;
-        if (map_get_city(xx[i], yy[j])) v /= 2; /* prefer to bash cities */
+        if (map_get_city(xx[i], yy[j])) v /= 3; /* prefer to bash cities */
         if (map_get_city(x, y) && /* pikemen defend Knights, attack Catapults */
               get_total_defense_power(pdef, punit) *
               get_total_defense_power(punit, pdef) >
@@ -627,7 +628,7 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
 { /* rewritten by Syela - old way was crashy and not smart (nor is this) */
   int dest, dest_x, dest_y; 
   struct city *pcity;
-  int id, flag, went;
+  int id, flag, went, ct = 10;
 
   if (punit->activity!=ACTIVITY_GOTO) {
     id = punit->id;
@@ -654,7 +655,8 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
       }
       if (punit)
          if (should_unit_change_homecity(pplayer, punit)) return;
-    } while (flag); /* want units to attack multiple times */
+      ct--; /* infinite loops from railroads must be stopped */
+    } while (flag && ct); /* want units to attack multiple times */
   } /* end if */
 }
 
