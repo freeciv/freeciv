@@ -137,7 +137,9 @@ struct Sprite *crop_sprite(struct Sprite *source,
    * alpha of the mask.  Thus if the mask has 50% alpha the final image will
    * be reduced by 50% alpha.  Note that the mask offset is in coordinates
    * relative to the clipped image not the final image. */
-  if (mask) {
+  if (mask
+      && (mask_pixbuf = sprite_get_pixbuf(mask))
+      && gdk_pixbuf_get_has_alpha(mask_pixbuf)) {
     int x1, y1;
 
     /* The mask offset is the offset of the mask relative to the origin
@@ -151,10 +153,12 @@ struct Sprite *crop_sprite(struct Sprite *source,
     width = CLIP(0, width, mask->width + mask_offset_x);
     height = CLIP(0, height, mask->height + mask_offset_y);
 
-    mask_pixbuf = sprite_get_pixbuf(mask);
+    if (!gdk_pixbuf_get_has_alpha(mypixbuf)) {
+      GdkPixbuf *p2 = mypixbuf;
 
-    gdk_pixbuf_add_alpha(mypixbuf, FALSE, 0, 0, 0);
-    gdk_pixbuf_add_alpha(mask_pixbuf, FALSE, 0, 0, 0);
+      mypixbuf = gdk_pixbuf_add_alpha(mypixbuf, FALSE, 0, 0, 0);
+      g_object_unref(p2);
+    }
 
     for (x1 = 0; x1 < width; x1++) {
       for (y1 = 0; y1 < height; y1++) {
