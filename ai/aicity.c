@@ -177,12 +177,6 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     }
   }
   else {
-
-/* obsolete code destroyed */
-/*  military_advisor_choose_build(pplayer, pcity, &curchoice); */
-/* this is now handled in manage_city thanks to our friend ->ai.choice */
-/*  copy_if_better_choice(&curchoice, &bestchoice); */
-
     copy_if_better_choice(&pcity->ai.choice, &bestchoice);
 
     if (bestchoice.want <= 100 || pcity->ai.urgency == 0) { /* soldier at 101 cannot be denied */
@@ -204,7 +198,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
                    unit_name(bestchoice.choice) :
 		   get_improvement_name(bestchoice.choice)),
 		  bestchoice.want);
-    if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
+    if (!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
        (is_unit_choice_type(bestchoice.type) ||
         bestchoice.choice != pcity->currently_building))
       notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STOPPED,
