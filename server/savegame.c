@@ -1705,7 +1705,7 @@ void game_load(struct section_file *file)
       game.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
     game.timeout       = secfile_lookup_int(file, "game.timeout");
     game.end_year      = secfile_lookup_int(file, "game.end_year");
-    game.researchcost  = secfile_lookup_int(file, "game.researchcost");
+    game.researchcost  = secfile_lookup_int_default(file, 0, "game.researchcost");
     if (game.researchcost == 0)
       game.researchcost = secfile_lookup_int(file, "game.techlevel");
     game.year          = secfile_lookup_int(file, "game.year");
