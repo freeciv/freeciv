@@ -1744,7 +1744,9 @@ receive_packet_player_info(struct connection *pc)
   }
 
   if (pc && has_capability("shared_vision", pc->capability)) {
-    iget_uint32(&iter, &pinfo->gives_shared_vision);
+    /* Unfortunately the second argument to iget_uint32 is int, not uint: */
+    iget_uint32(&iter, &i);
+    pinfo->gives_shared_vision = i;
   } else {
     pinfo->gives_shared_vision = 0;
   }
