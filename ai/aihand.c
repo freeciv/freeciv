@@ -447,5 +447,14 @@ void ai_manage_government(struct player *pplayer)
       ai_government_change(pplayer, G_MONARCHY); /* better than despotism! -- Syela */
     break;
   }
+
+  if( pplayer->government == G_ANARCHY ){
+    /* if the ai ever intends to stay anarchy, */
+    /* change condition to if( (pplayer->revolution==0) && */
+    if( ((pplayer->revolution<=0) || (pplayer->revolution>5)) &&
+       can_change_to_government(pplayer, G_DESPOTISM) 
+       )
+      { ai_government_change(pplayer, G_DESPOTISM); }
+  }/* if ANARCHY */
 }
 
