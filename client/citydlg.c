@@ -209,6 +209,7 @@ void refresh_city_dialog(struct city *pcity)
       XtSetSensitive(pdialog->change_command, FALSE);
       XtSetSensitive(pdialog->sell_command, FALSE);
       XtSetSensitive(pdialog->rename_command, FALSE);
+      XtSetSensitive(pdialog->activate_command, FALSE);
     }
   }
 }
