@@ -104,9 +104,10 @@ static bool results_are_equal(struct city *pcity,
 
   T(disorder);
   T(happy);
-  T(specialists[SP_ELVIS]);
-  T(specialists[SP_SCIENTIST]);
-  T(specialists[SP_TAXMAN]);
+
+  specialist_type_iterate(sp) {
+    T(specialists[sp]);
+  } specialist_type_iterate_end;
 
   for (stat = 0; stat < NUM_STATS; stat++) {
     T(surplus[stat]);
@@ -194,7 +195,7 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
 static bool apply_result_on_server(struct city *pcity,
 				   const struct cm_result *const result)
 {
-  int first_request_id = 0, last_request_id = 0, i, sp;
+  int first_request_id = 0, last_request_id = 0, i;
   struct cm_result current_state;
   bool success;
 
@@ -233,24 +234,27 @@ static bool apply_result_on_server(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  /* Change the excess non-elvis specialists to elvises. */
-  assert(SP_ELVIS == 0);
-  for (sp = 1; sp < SP_COUNT; sp++) {
+  /* Change the excess non-default specialists to default. */
+  specialist_type_iterate(sp) {
+    if (sp == DEFAULT_SPECIALIST) {
+      continue;
+    }
     for (i = 0; i < pcity->specialists[sp] - result->specialists[sp]; i++) {
       freelog(APPLY_RESULT_LOG_LEVEL, "Change specialist from %d to %d.",
-	      sp, SP_ELVIS);
-      last_request_id = city_change_specialist(pcity, sp, SP_ELVIS);
+	      sp, DEFAULT_SPECIALIST);
+      last_request_id = city_change_specialist(pcity,
+					       sp, DEFAULT_SPECIALIST);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }
     }
-  }
+  } specialist_type_iterate_end;
 
   /* now all surplus people are enterainers */
 
   /* Set workers */
-  /* FIXME: This code assumes that any toggled worker will turn into an
-   * elvis! */
+  /* FIXME: This code assumes that any toggled worker will turn into a
+   * DEFAULT_SPECIALIST! */
   my_city_map_iterate(pcity, x, y) {
     if (result->worker_positions_used[x][y] &&
 	pcity->city_map[x][y] != C_TILE_WORKER) {
@@ -263,19 +267,22 @@ static bool apply_result_on_server(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  /* Set all specialists except SP_ELVIS (all the unchanged ones remain
-   * as elvises). */
-  assert(SP_ELVIS == 0);
-  for (sp = 1; sp < SP_COUNT; sp++) {
+  /* Set all specialists except DEFAULT_SPECIALIST (all the unchanged
+   * ones remain as DEFAULT_SPECIALIST). */
+  specialist_type_iterate(sp) {
+    if (sp == DEFAULT_SPECIALIST) {
+      continue;
+    }
     for (i = 0; i < result->specialists[sp] - pcity->specialists[sp]; i++) {
       freelog(APPLY_RESULT_LOG_LEVEL, "Changing specialist from %d to %d.",
-	      SP_ELVIS, sp);
-      last_request_id = city_change_specialist(pcity, SP_ELVIS, sp);
+	      DEFAULT_SPECIALIST, sp);
+      last_request_id = city_change_specialist(pcity,
+					       DEFAULT_SPECIALIST, sp);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }
     }
-  }
+  } specialist_type_iterate_end;
 
   if (last_request_id == 0 || ALWAYS_APPLY_AT_SERVER) {
       /*
