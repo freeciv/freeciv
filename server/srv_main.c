@@ -492,7 +492,7 @@ main_start_players:
 
     conn_list_do_unbuffer(&game.game_connections);
 
-    if (game.year>game.end_year || is_game_over()) 
+    if (is_game_over()) 
       server_state=GAME_OVER_STATE;
   }
 
@@ -520,6 +520,9 @@ static int is_game_over(void)
   int barbs = 0;
   int alive = 0;
   int i;
+
+  if (game.year > game.end_year)
+    return 1;
 
   for (i=0;i<game.nplayers; i++) {
     if (is_barbarian(&(game.players[i])))
