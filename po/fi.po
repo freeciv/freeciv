@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "POT-Creation-Date: 2002-10-04 20:30+0300\n"
-"PO-Revision-Date: 2002-10-04 22:00+0300\n"
+"PO-Revision-Date: 2002-10-05 01:18+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4053,7 +4053,7 @@ msgstr "Lataa peli annetusta tiedostosta."
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
-msgstr "Lataa peli <tiedostosta>. Nykytila, mukaanlukien pelaajat, sääntökokoelmat ja palvelinasetukset unohdetaan."
+msgstr "Lataa peli <tiedostosta>. Nykytila, mukaanlukien pelaajat, sääntökokoelmat ja palvelinasetukset unohdetaan.\n"
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1242
@@ -6130,8 +6130,8 @@ msgstr ", "
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
-msgstr[0] "* Yksikön tulee olla kaupungissa (%s riittää myös) %d vuoron jälkeen."
-msgstr[1] "* Yksikön tulee olla kaupungissa (%s riittää myös) %d vuoron jälkeen."
+msgstr[0] "* Yksikön tulee olla kaupungissa (%s riittää myös) %d vuoron jälkeen.\n"
+msgstr[1] "* Yksikön tulee olla kaupungissa (%s riittää myös) %d vuoron jälkeen.\n"
 
 #: client/helpdata.c:784
 #, c-format
