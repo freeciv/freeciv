@@ -367,9 +367,9 @@ extern bool is_server;
 #define GAME_MIN_CIVSTYLE            1
 #define GAME_MAX_CIVSTYLE            2
 
-#define GAME_DEFAULT_SCORELOG        0
-#define GAME_MIN_SCORELOG            0
-#define GAME_MAX_SCORELOG            1
+#define GAME_DEFAULT_SCORELOG        FALSE
+#define GAME_MIN_SCORELOG            FALSE
+#define GAME_MAX_SCORELOG            TRUE
 
 #define GAME_DEFAULT_SPACERACE       TRUE
 #define GAME_MIN_SPACERACE           FALSE
