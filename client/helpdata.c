@@ -189,10 +189,10 @@ void boot_help_texts(void)
   int nsec, npara;
 
   check_help_nodes_init();
-  
+
   /* need to do something like this or bad things happen */
   popdown_help_dialog();
-  
+
   if(!booted) {
     freelog(LOG_VERBOSE, "Booting help texts");
   } else {
@@ -200,13 +200,9 @@ void boot_help_texts(void)
     free_help_nodes();
     freelog(LOG_VERBOSE, "Rebooting help texts");
   }    
-  
+
   filename = datafilename("helpdata.txt");
   if (filename == NULL) {
-    freelog(LOG_ERROR, "Could not find readable helpdata.txt in data path");
-    freelog(LOG_ERROR, "The data path may be set via"
-	                " the environment variable FREECIV_PATH");
-    freelog(LOG_ERROR, "Current data path is: \"%s\"", datafilename(NULL));
     freelog(LOG_ERROR, "Did not read help texts");
     return;
   }
@@ -218,7 +214,7 @@ void boot_help_texts(void)
   }
 
   sec = secfile_get_secnames_prefix(sf, "help_", &nsec);
-  
+
   for(isec=0; isec<nsec; isec++) {
     char *gen_str =
       secfile_lookup_str_default(sf, NULL, "%s.generate", sec[isec]);

@@ -121,7 +121,6 @@ static char *tilespec_fullname(const char *tileset_name)
 {
   char *tileset_default;
   char *fname, *dname;
-  int level;
 
   if (isometric_view_supported()) {
     tileset_default = "hires";    /* Do not i18n! --dwp */
@@ -141,20 +140,11 @@ static char *tilespec_fullname(const char *tileset_name)
     return mystrdup(dname);
   }
 
-  if (strcmp(tileset_name, tileset_default)==0) {
-    level = LOG_FATAL;
-  } else {
-    level = LOG_ERROR;
-  }
-  freelog(level, _("Could not find readable file \"%s\" in data path."),
-	  fname);
-  freelog(level, _("The data path may be set via"
-		   " the environment variable FREECIV_PATH."));
-  freelog(level, _("Current data path is: \"%s\""), datafilename(NULL));
-  if (level == LOG_FATAL) {
+  if (strcmp(tileset_name, tileset_default) == 0) {
+    freelog(LOG_FATAL, _("No useable default tileset found, aborting!"));
     exit(1);
   }
-  freelog(level, _("Trying \"%s\" tileset."), tileset_default);
+  freelog(LOG_ERROR, _("Trying \"%s\" tileset."), tileset_default);
   free(fname);
   return tilespec_fullname(tileset_default);
 }

@@ -47,6 +47,7 @@
 #include "meta.h"
 #include "plrhand.h"
 #include "report.h"
+#include "ruleset.h"
 #include "rulesout.h"
 #include "sernet.h"
 #include "srv_main.h"
@@ -102,11 +103,11 @@ enum sset_to_client {
 struct settings_s {
   char *name;
   int *value;
-  /* if the function is non-NULL the value should be modified through it.
-     The function returns whether the change was legal. The char * is
-     for returning an error message in the case of reject. */
+  /* Validating function for integer settings.  If the function is non-NULL,
+     it is called with the new value, and returns whether the change is
+     legal.  The char * is an error message in the case of reject. */
   int (*func_change)(int, char **);
-  /* The same, just for string settings. The first char* is the new
+  /* The same, for string settings. The first char* is the new
      value as an argument, the second is for returning the error
      message. */
   int (*func_change_s)(char *, char **);
@@ -134,7 +135,48 @@ struct settings_s {
   size_t sz_svalue;		/* max size we can write into svalue */
 };
 
+/********************************************************************
+Triggers used in settings_s.  valid_ruleset() is clumsy because of
+the fixed number of arguments and the reject_message - change? - rp
+*********************************************************************/
+
 static int autotoggle(int value, char **reject_message);
+
+static int valid_ruleset(char *whichset, char *subdir, char **reject_message)
+{
+  static char buffer[MAX_LEN_CONSOLE_LINE];
+
+  assert(subdir != NULL);
+
+  *reject_message = buffer;
+
+  if (!valid_ruleset_filename(subdir,whichset)) {
+    my_snprintf(buffer, sizeof(buffer),
+	_("Invalid ruleset subdirectory, keeping old value."));
+    return 0;
+  }
+
+  buffer[0] = '\0';
+
+  return 1;
+}
+
+static int valid_techs_ruleset(char *v, char **r_m)
+  { return valid_ruleset("techs",v,r_m); }
+static int valid_governments_ruleset(char *v, char **r_m)
+  { return valid_ruleset("governments",v,r_m); }
+static int valid_units_ruleset(char *v, char **r_m)
+  { return valid_ruleset("units",v,r_m); }
+static int valid_buildings_ruleset(char *v, char **r_m)
+  { return valid_ruleset("buildings",v,r_m); }
+static int valid_terrain_ruleset(char *v, char **r_m)
+  { return valid_ruleset("terrain",v,r_m); }
+static int valid_nations_ruleset(char *v, char **r_m)
+  { return valid_ruleset("nations",v,r_m); }
+static int valid_cities_ruleset(char *v, char **r_m)
+  { return valid_ruleset("cities",v,r_m); }
+static int valid_game_ruleset(char *v, char **r_m)
+  { return valid_ruleset("game",v,r_m); }
 
 #define SETTING_IS_INT(s) ((s)->value!=NULL)
 #define SETTING_IS_STRING(s) ((s)->value==NULL)
@@ -298,7 +340,7 @@ static struct settings_s settings[] = {
     N_("Number of initial advances per player"), "" },
 
 /* Various rules: these cannot be changed once the game has started. */
-  { "techs", NULL, NULL, NULL,
+  { "techs", NULL, NULL, valid_techs_ruleset,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing techs.ruleset"),
@@ -310,7 +352,7 @@ static struct settings_s settings[] = {
     game.ruleset.techs, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.techs) },
 
-  { "governments", NULL, NULL, NULL,
+  { "governments", NULL, NULL, valid_governments_ruleset,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing governments.ruleset"),
@@ -322,7 +364,7 @@ static struct settings_s settings[] = {
     game.ruleset.governments, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.governments) },
 
-  { "units", NULL, NULL, NULL,
+  { "units", NULL, NULL, valid_units_ruleset,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing units.ruleset"),
@@ -334,7 +376,7 @@ static struct settings_s settings[] = {
     game.ruleset.units, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.units) },
 
-  { "buildings", NULL, NULL, NULL,
+  { "buildings", NULL, NULL, valid_buildings_ruleset,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing buildings.ruleset"),
@@ -346,7 +388,7 @@ static struct settings_s settings[] = {
     game.ruleset.buildings, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.buildings) },
 
-  { "terrain", NULL, NULL, NULL,
+  { "terrain", NULL, NULL, valid_terrain_ruleset,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing terrain.ruleset"),
@@ -358,7 +400,7 @@ static struct settings_s settings[] = {
     game.ruleset.terrain, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.terrain) },
 
-  { "nations", NULL, NULL, NULL,
+  { "nations", NULL, NULL, valid_nations_ruleset,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing nations.ruleset"),
@@ -370,7 +412,7 @@ static struct settings_s settings[] = {
     game.ruleset.nations, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.nations) },
 
-  { "cities", NULL, NULL, NULL,
+  { "cities", NULL, NULL, valid_cities_ruleset,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing cities.ruleset"),
@@ -381,7 +423,7 @@ static struct settings_s settings[] = {
     game.ruleset.cities, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.cities) },
 
-  { "game", NULL, NULL, NULL,
+  { "game", NULL, NULL, valid_game_ruleset,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing game.ruleset"),

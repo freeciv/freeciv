@@ -18,4 +18,8 @@ struct conn_list;
 void load_rulesets(void);
 void send_rulesets(struct conn_list *dest);
 
+char *valid_ruleset_filename(char *subdir, char *whichset);
+  /* used as a partial pre-check on ruleset validity */
+  /* doesn't try to fall back on a default           */
+
 #endif  /* FC__RULESET_H */

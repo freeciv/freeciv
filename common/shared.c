@@ -600,21 +600,25 @@ char *user_username(void)
 ***************************************************************************/
 char *datafilename(const char *filename)
 {
-  static int init = 0;
+  static char *path = NULL;
   static int num_dirs = 0;
   static char **dirs = NULL;
   static struct astring realfile = ASTRING_INIT;
   int i;
 
-  if (!init) {
+  if (path == NULL) {
     char *tok;
-    char *path = getenv("FREECIV_PATH");
+    char *path2;
+
+    path = getenv("FREECIV_PATH");
     if (!path) {
       path = DEFAULT_DATA_PATH;
     }
-    path = mystrdup(path);	/* something we can strtok */
+    assert(path != NULL);
+
+    path2 = mystrdup(path);	/* something we can strtok */
     
-    tok = strtok(path, PATH_SEPARATOR);
+    tok = strtok(path2, PATH_SEPARATOR);
     do {
       int i;			/* strlen(tok), or -1 as flag */
       
@@ -660,8 +664,7 @@ char *datafilename(const char *filename)
       tok = strtok(NULL, PATH_SEPARATOR);
     } while(tok != NULL);
 
-    free(path);
-    init = 1;
+    free(path2);
   }
 
   if (filename == NULL) {
@@ -693,6 +696,13 @@ char *datafilename(const char *filename)
       return realfile.str;
     }
   }
+
+  freelog(LOG_ERROR, _("Could not find readable file \"%s\" in data path."),
+	    filename);
+  freelog(LOG_ERROR, _("The data path may be set via"
+			 " the environment variable FREECIV_PATH."));
+  freelog(LOG_ERROR, _("Current data path is: \"%s\""), datafilename(NULL));
+
   return NULL;
 }
 
@@ -710,11 +720,8 @@ char *datafilename_required(const char *filename)
   if (dname) {
     return dname;
   } else {
-    freelog(LOG_FATAL, _("Could not find readable file \"%s\" in data path."),
-	    filename);
-    freelog(LOG_FATAL, _("The data path may be set via"
-			 " the environment variable FREECIV_PATH."));
-    freelog(LOG_FATAL, _("Current data path is: \"%s\""), datafilename(NULL));
+    freelog(LOG_FATAL,
+		 _("The \"%s\" file is required ... aborting!"), filename);
     exit(1);
   }
 }

@@ -368,7 +368,6 @@ static int section_file_load_dup(struct section_file *sf,
 
   inf = inf_open(filename, datafilename);
   if (!inf) {
-    freelog(LOG_ERROR, "Could not open file \"%s\"", filename);
     return 0;
   }
   section_file_init(sf);

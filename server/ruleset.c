@@ -94,6 +94,30 @@ static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
 
 /**************************************************************************
+  datafilename() wrapper: tries to match in two ways.
+  Returns NULL on failure, the (statically allocated) filename on success.
+**************************************************************************/
+char *valid_ruleset_filename(char *subdir, char *whichset)
+{
+  char filename1[512], filename2[512], *dfilename;
+
+  my_snprintf(filename1, sizeof(filename1), "%s/%s.ruleset", subdir, whichset);
+  dfilename = datafilename(filename1);
+  if (dfilename)
+    return dfilename;
+
+  freelog(LOG_ERROR, _("Trying alternative ruleset filename syntax."));
+
+  my_snprintf(filename2, sizeof(filename2), "%s_%s.ruleset", subdir, whichset);
+  dfilename = datafilename(filename2);
+
+  if (dfilename)
+    return dfilename;
+
+  return(NULL);
+}
+
+/**************************************************************************
   Do initial section_file_load on a ruleset file.
   "subdir" = "default", "civ1", "custom", ...
   "whichset" = "techs", "units", "buildings", "terrain", ...
@@ -101,29 +125,22 @@ static void send_ruleset_game(struct conn_list *dest);
   This no longer returns the full filename opened; used secfile_filename()
   if you want it.
 **************************************************************************/
+
 static void openload_ruleset_file(struct section_file *file,
 				  char *subdir, char *whichset)
 {
-  char filename1[512], filename2[512], *dfilename;
   char sfilename[512];
+  char *dfilename = valid_ruleset_filename(subdir, whichset);
 
-  my_snprintf(filename1, sizeof(filename1), "%s_%s.ruleset", subdir, whichset);
-  dfilename = datafilename(filename1);
   if (!dfilename) {
-    my_snprintf(filename2, sizeof(filename2), "%s/%s.ruleset", subdir, whichset);
-    dfilename = datafilename(filename2);
-    if (!dfilename) {
-      freelog(LOG_FATAL,
-	      _("Could not find readable ruleset"
-		" file \"%s\" or \"%s\" in data path."), filename1, filename2);
-      freelog(LOG_FATAL, _("The data path may be set via"
-			   " the environment variable FREECIV_PATH."));
-      freelog(LOG_FATAL, _("Current data path is: \"%s\""), datafilename(NULL));
-      exit(1);
-    }
+    freelog(LOG_FATAL,
+	_("Could not find a readable \"%s\" ruleset file."), whichset);
+    exit(1);
   }
+
   /* Need to save a copy of the filename for following message, since
      section_file_load() may call datafilename() for includes. */
+
   sz_strlcpy(sfilename, dfilename);
   
   if (!section_file_load(file,sfilename)) {
