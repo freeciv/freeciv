@@ -800,16 +800,10 @@ void undraw_segment(int src_x, int src_y, int dir)
     assert(0);
   }
 
-  if (is_isometric) {
-    /* somewhat inefficient */
-    update_map_canvas(MIN(src_x, dest_x), MIN(src_y, dest_y),
-		      src_x == dest_x ? 1 : 2,
-		      src_y == dest_y ? 1 : 2,
-		      FALSE);
-  } else {
-    refresh_tile_mapcanvas(src_x, src_y, FALSE);
-    refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
+  refresh_tile_mapcanvas(src_x, src_y, FALSE);
+  refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
 
+  if (!is_isometric) {
     if (NORMAL_TILE_WIDTH % 2 == 0 || NORMAL_TILE_HEIGHT % 2 == 0) {
       if (dir == DIR8_NORTHEAST) {
 	/* Since the tile doesn't have a middle we draw an extra pixel
