@@ -869,9 +869,11 @@ static void make_elvises(struct city *pcity)
  
   while (TRUE) {
     if ((elviscost = ai_find_elvis_pos(pcity, &xp, &yp)) != 0) {
-      if (city_get_food_tile(xp, yp, pcity) > pcity->food_surplus)
+      int food = city_get_food_tile(xp, yp, pcity);
+
+      if (food > pcity->food_surplus)
 	break;
-      if (city_get_food_tile(xp, yp, pcity) == pcity->food_surplus && city_happy(pcity))
+      if (food == pcity->food_surplus && city_happy(pcity))
 	break; /* scientists don't party */
       if (elviscost >= 24) /* doesn't matter if we wtbb or not! */
         break; /* no benefit here! */

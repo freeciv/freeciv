@@ -453,14 +453,16 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
 {
   struct unit *bestdef = NULL;
   int bestvalue = -1, count = 0, best_cost = 0, rating_of_best = 0;
+  struct player *att_owner = unit_owner(attacker);
 
   unit_list_iterate(map_get_tile(x, y)->units, defender) {
-    if (pplayers_allied(unit_owner(attacker), unit_owner(defender)))
+    if (pplayers_allied(att_owner, unit_owner(defender)))
       continue;
     count++;
     if (unit_can_defend_here(defender)) {
       bool change = FALSE;
       int build_cost = unit_type(defender)->build_cost;
+      int defense_rating = get_defense_rating(attacker, defender);
 
       /* This will make units roughly evenly good defenders look alike. */
       int unit_def = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
@@ -472,7 +474,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
 	if (build_cost < best_cost) {
 	  change = TRUE;
 	} else if (build_cost == best_cost) {
-	  if (rating_of_best < get_defense_rating(attacker, defender)) {	
+	  if (rating_of_best < defense_rating) {	
 	    change = TRUE;
 	  }
 	}
@@ -482,7 +484,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
 	bestvalue = unit_def;
 	bestdef = defender;
 	best_cost = build_cost;
-	rating_of_best = get_defense_rating(attacker, bestdef);
+	rating_of_best = defense_rating;
       }
     }
   } unit_list_iterate_end;
