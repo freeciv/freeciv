@@ -95,9 +95,7 @@ struct city_dialog {
   GtkWidget *shell;
   GtkWidget *citizen_pixmap;
   GdkPixmap *map_canvas_store;
-  GtkWidget *title_frame;
   GtkWidget *notebook;
-  GtkAccelGroup *accel;
 
   struct {
     GtkWidget *map_canvas;
@@ -174,7 +172,8 @@ struct city_dialog {
   } misc;
 
   GtkWidget *buy_shell, *sell_shell;
-  GtkWidget *change_shell, *change_list;
+  GtkWidget *change_shell;
+  GtkTreeSelection *change_selection;
   GtkWidget *rename_shell, *rename_input;
 
   GtkWidget *prev_command, *next_command;
@@ -276,13 +275,10 @@ static gint button_down_citymap(GtkWidget * w, GdkEventButton * ev);
 static void draw_map_canvas(struct city_dialog *pdialog);
 
 static void change_callback(GtkWidget * w, gpointer data);
-static gint change_deleted_callback(GtkWidget * w, GdkEvent * ev,
-				    gpointer data);
-static void change_no_callback(GtkWidget * w, gpointer data);
-static void change_yes_callback(GtkWidget * w, gpointer data);
-static void change_list_callback(GtkWidget * w, gint row, gint col,
-				 GdkEvent * ev, gpointer data);
-static void change_help_callback(GtkWidget * w, gpointer data);
+static void change_destroy_callback(GtkWidget *w, gpointer data);
+static void change_command_callback(GtkWidget *w, gint rid, gpointer data);
+static void change_list_callback(GtkTreeView *view, GtkTreePath *path,
+				 GtkTreeViewColumn *col, gpointer data);
 
 static void buy_callback(GtkWidget * w, gpointer data);
 static gint buy_callback_delete(GtkWidget * w, GdkEvent * ev,
@@ -599,7 +595,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 {
   int i;
   GtkWidget *halves, *hbox, *vbox, *page, *align;
-  GtkWidget *frame, *table, *label, *scrolledwin;
+  GtkWidget *frame, *table, *label, *sw;
 
   char *improvement_title[] = { N_("City improvements"),
     N_("Upkeep")
@@ -814,21 +810,19 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pdialog->overview.progress_label),
 	_("%d/%d %d turns"));
 
-  pdialog->overview.buy_command =
-      gtk_accelbutton_new(_("_Buy"), pdialog->accel);
+  pdialog->overview.buy_command = gtk_button_new_with_mnemonic(_("_Buy"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.buy_command,
 		     TRUE, TRUE, 0);
 
-  pdialog->overview.change_command =
-      gtk_accelbutton_new(_("_Change"), pdialog->accel);
+  pdialog->overview.change_command = gtk_button_new_with_mnemonic(_("Chang_e"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.change_command,
 		     TRUE, TRUE, 0);
 
   /* city improvements */
 
-  scrolledwin = gtk_scrolled_window_new(NULL, NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), scrolledwin, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwin),
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
   if (!improvement_clist_title) {
@@ -847,7 +841,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_clist_set_column_auto_resize(GTK_CLIST
 				   (pdialog->overview.improvement_list), 1,
 				   TRUE);
-  gtk_container_add(GTK_CONTAINER(scrolledwin),
+  gtk_container_add(GTK_CONTAINER(sw),
 		    pdialog->overview.improvement_list);
   gtk_clist_column_titles_show(GTK_CLIST
 			       (pdialog->overview.improvement_list));
@@ -1067,19 +1061,19 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
   gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, TRUE, 0);
 
   pdialog->unit.activate_command =
-      gtk_accelbutton_new(_("Acti_vate present units"), pdialog->accel);
+      gtk_button_new_with_mnemonic(_("Acti_vate present units"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->unit.activate_command, FALSE,
 		     TRUE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->unit.activate_command, GTK_CAN_DEFAULT);
 
   pdialog->unit.sentry_all_command =
-      gtk_accelbutton_new(_("_Sentry idle units"), pdialog->accel);
+      gtk_button_new_with_mnemonic(_("_Sentry idle units"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->unit.sentry_all_command,
 		     FALSE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->unit.sentry_all_command, GTK_CAN_DEFAULT);
 
   pdialog->unit.show_units_command =
-      gtk_accelbutton_new(_("_List present units"), pdialog->accel);
+      gtk_button_new_with_mnemonic(_("_List present units"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->unit.show_units_command,
 		     FALSE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->unit.show_units_command, GTK_CAN_DEFAULT);
@@ -1186,7 +1180,7 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  pdialog->cma_editor = create_cma_dialog(pdialog->pcity, pdialog->accel);
+  pdialog->cma_editor = create_cma_dialog(pdialog->pcity);
   gtk_box_pack_start(GTK_BOX(page), pdialog->cma_editor->shell, TRUE, TRUE, 0);
 
   gtk_widget_show(page);
@@ -1423,16 +1417,16 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 					     canvas_height, -1);
 
 
-  pdialog->shell = gtk_dialog_new();
-  pdialog->accel = gtk_accel_group_new();
+  pdialog->shell = gtk_dialog_new_with_buttons(pcity->name,
+	NULL,
+  	0,
+	NULL);
+
   gtk_signal_connect(GTK_OBJECT(pdialog->shell), "delete_event",
 		     GTK_SIGNAL_FUNC(city_dialog_delete_callback),
 		     (gpointer) pdialog);
   gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
-//  gtk_accel_group_attach(pdialog->accel, GTK_OBJECT(pdialog->shell));
   gtk_widget_set_name(pdialog->shell, "Freeciv");
-
-  gtk_window_set_title(GTK_WINDOW(pdialog->shell), pcity->name);
 
   gtk_widget_realize(pdialog->shell);
 
@@ -1444,20 +1438,13 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   gdk_window_set_icon(pdialog->shell->window, NULL, icon_bitmap,
 		      icon_bitmap);
 
-  gtk_window_set_title(GTK_WINDOW(pdialog->shell), _("City of %s"));
-
   /* Set old size. The size isn't saved in any way. */
   if (citydialog_width && citydialog_height) {
     gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
 				citydialog_width, citydialog_height);
   }
 
-  pdialog->title_frame = gtk_frame_new(_("City of %s"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->vbox),
-		     pdialog->title_frame, TRUE, TRUE, 0);
-
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(pdialog->title_frame), vbox);
+  vbox = GTK_DIALOG(pdialog->shell)->vbox;
 
   /**** Citizens bar here ****/
 
@@ -1510,27 +1497,21 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
   /* bottom buttons */
 
-  close_command = gtk_button_new_with_label(_("Close dialog"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
-		     close_command, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(close_command, GTK_CAN_DEFAULT);
-  gtk_widget_grab_default(close_command);
+  pdialog->prev_command = gtk_stockbutton_new(GTK_STOCK_GO_BACK,
+	_("_Prev city"));
+  gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
+			       pdialog->prev_command, 1);
 
-  pdialog->prev_command =
-      gtk_accelbutton_new(_("_Prev city"), pdialog->accel);
-  GTK_WIDGET_SET_FLAGS(pdialog->prev_command, GTK_CAN_DEFAULT);
-  if (pcity->owner != game.player_idx)
-    gtk_widget_set_sensitive(pdialog->prev_command, FALSE);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
-		     pdialog->prev_command, TRUE, TRUE, 0);
+  pdialog->next_command = gtk_stockbutton_new(GTK_STOCK_GO_FORWARD,
+	_("_Next city"));
+  gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
+			       pdialog->next_command, 2);
 
-  pdialog->next_command =
-      gtk_accelbutton_new(_("_Next city"), pdialog->accel);
-  GTK_WIDGET_SET_FLAGS(pdialog->next_command, GTK_CAN_DEFAULT);
-  if (pcity->owner != game.player_idx)
-    gtk_widget_set_sensitive(pdialog->next_command, FALSE);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
-		     pdialog->next_command, TRUE, TRUE, 0);
+  close_command = gtk_dialog_add_button(GTK_DIALOG(pdialog->shell),
+					GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+
+  gtk_dialog_set_default_response(GTK_DIALOG(pdialog->shell),
+	GTK_RESPONSE_CLOSE);
 
   gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
 		     GTK_SIGNAL_FUNC(close_callback), pdialog);
@@ -1540,11 +1521,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
   gtk_signal_connect(GTK_OBJECT(pdialog->next_command), "clicked",
 		     GTK_SIGNAL_FUNC(switch_city_callback), pdialog);
-
-  gtk_widget_add_accelerator(close_command, "clicked",
-			     pdialog->accel, GDK_Return, 0, 0);
-  gtk_widget_add_accelerator(close_command, "clicked",
-			     pdialog->accel, GDK_Escape, 0, 0);
 
   /* some other things we gotta do */
 
@@ -1596,7 +1572,6 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 
   now = GTK_WINDOW(pdialog->shell)->title;
   if (strcmp(now, buf) != 0) {
-    gtk_frame_set_label(GTK_FRAME(pdialog->title_frame), buf);
     gtk_window_set_title(GTK_WINDOW(pdialog->shell), buf);
   }
 }
@@ -2098,7 +2073,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     gtk_widget_set_sensitive(pdialog->unit.supported_unit_boxes[i], FALSE);
   }
 
-  my_snprintf(buf, sizeof(buf), _("Supported units (%d)"),
+  my_snprintf(buf, sizeof(buf), _("Supported units: %d"),
 	      num_supported_units_in_city(pdialog->pcity));
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.supported_units_frame),
 		      buf);
@@ -2213,7 +2188,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     gtk_widget_set_sensitive(pdialog->unit.present_unit_boxes[i], FALSE);
   }
 
-  my_snprintf(buf, sizeof(buf), _("Present units (%d)"),
+  my_snprintf(buf, sizeof(buf), _("Present units: %d"),
 	      num_present_units_in_city(pdialog->pcity));
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.present_units_frame),
 		      buf);
@@ -2906,117 +2881,120 @@ static void buy_callback_yes(GtkWidget * w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void change_callback(GtkWidget * w, gpointer data)
+static void change_callback(GtkWidget *w, gpointer data)
 {
-  GtkWidget *cshell, *button, *scrolled;
+  GtkWidget *cshell, *sw, *view;
   struct city_dialog *pdialog;
   int i;
-  static gchar *title_[4] =
+  static gchar *titles_[4] =
       { N_("Type"), N_("Info"), N_("Cost"), N_("Turns") };
-  static gchar **title = NULL;
-  GtkAccelGroup *accel = gtk_accel_group_new();
+  static gchar **titles = NULL;
   char *row[4];
   char buf[4][64];
   cid cids[U_LAST + B_LAST];
   int item, cids_used;
   struct item items[U_LAST + B_LAST];
+  GtkListStore *store;
 
-  if (!title) {
-    title = intl_slist(4, title_);
+  if (!titles) {
+    titles = intl_slist(4, titles_);
   }
 
   pdialog = (struct city_dialog *) data;
 
-  cshell = gtk_dialog_new();
-  gtk_signal_connect(GTK_OBJECT(cshell), "delete_event",
-		     GTK_SIGNAL_FUNC(change_deleted_callback), pdialog);
+  cshell = gtk_dialog_new_with_buttons(_("Change Production"),
+	GTK_WINDOW(pdialog->shell),
+	0,
+	GTK_STOCK_HELP,
+	GTK_RESPONSE_HELP,
+	GTK_STOCK_CANCEL,
+	GTK_RESPONSE_CANCEL,
+	GTK_STOCK_OK,
+	GTK_RESPONSE_OK,
+	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(cshell),
+	GTK_RESPONSE_OK);
+
+  g_signal_connect(cshell, "response",
+		   G_CALLBACK(change_command_callback), pdialog);
+  g_signal_connect(cshell, "destroy",
+		   G_CALLBACK(change_destroy_callback), pdialog);
   pdialog->change_shell = cshell;
 
   gtk_window_set_position(GTK_WINDOW(cshell), GTK_WIN_POS_MOUSE);
-//  gtk_accel_group_attach(accel, GTK_OBJECT(cshell));
-  gtk_window_set_title(GTK_WINDOW(cshell), _("Change Production"));
 
-  pdialog->change_list = gtk_clist_new_with_titles(4, title);
-  gtk_clist_column_titles_passive(GTK_CLIST(pdialog->change_list));
-  scrolled = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), pdialog->change_list);
+  /* list */
+  store = gtk_list_store_new(5, G_TYPE_INT,
+				G_TYPE_STRING,
+			        G_TYPE_STRING,
+			        G_TYPE_STRING,
+			        G_TYPE_STRING);
 
-  for (i = 0; i < 4; i++)
-    gtk_clist_set_column_auto_resize(GTK_CLIST(pdialog->change_list), i,
-				     TRUE);
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
+  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
+  pdialog->change_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
 
-  gtk_clist_set_column_justification(GTK_CLIST(pdialog->change_list), 2,
-				     GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_justification(GTK_CLIST(pdialog->change_list), 3,
-				     GTK_JUSTIFY_RIGHT);
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_widget_set_size_request(sw, -1, 350);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->vbox), sw, TRUE, TRUE, 0);
 
   /* Set up the doubleclick-on-list-item handler */
-  gtk_signal_connect(GTK_OBJECT(pdialog->change_list), "select_row",
-		     GTK_SIGNAL_FUNC(change_list_callback), pdialog);
-
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(scrolled, -2, 350);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->vbox), scrolled,
-		     TRUE, TRUE, 0);
-
-  button = gtk_accelbutton_new(_("_Change"), accel);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->action_area), button,
-		     TRUE, TRUE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(change_yes_callback), pdialog);
-
-  gtk_widget_add_accelerator(button, "clicked", accel, GDK_Return, 0, 0);
-
-  button = gtk_accelbutton_new(_("Ca_ncel"), accel);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->action_area), button,
-		     TRUE, TRUE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(change_no_callback), pdialog);
-
-  gtk_widget_add_accelerator(button, "clicked", accel, GDK_Escape, 0, 0);
-
-  button = gtk_accelbutton_new(_("_Help"), accel);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->action_area),
-		     button, TRUE, TRUE, 0);
-  gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		     GTK_SIGNAL_FUNC(change_help_callback), pdialog);
+  g_signal_connect(view, "row_activated",
+		   G_CALLBACK(change_list_callback), pdialog);
 
   gtk_widget_set_sensitive(pdialog->shell, FALSE);
 
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; i++) {
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *col;
+
+    renderer = gtk_cell_renderer_text_new();
+    col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+	"text", i+1, NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+
     row[i] = buf[i];
 
-  gtk_clist_freeze(GTK_CLIST(pdialog->change_list));
-  gtk_clist_clear(GTK_CLIST(pdialog->change_list));
+    if (i>= 2) {
+      g_object_set(G_OBJECT(renderer), "xalign", 1.0, NULL);
+      gtk_tree_view_column_set_alignment(col, 1.0);
+    }
+  }
 
   cids_used = collect_cids4(cids, pdialog->pcity, 0);
   name_and_sort_items(cids, cids_used, items, TRUE, pdialog->pcity);
 
   for (item = 0; item < cids_used; item++) {
     cid cid = items[item].cid;
-    int row_no;
+    GtkTreeIter it;
 
     get_city_dialog_production_row(row, sizeof(buf[0]),
     	                           cid_id(cid), cid_is_unit(cid),
     	                           pdialog->pcity);
-    row_no = gtk_clist_append(GTK_CLIST(pdialog->change_list), row);
-    gtk_clist_set_row_data(GTK_CLIST(pdialog->change_list),
-			   row_no, GINT_TO_POINTER(cid));
+
+    gtk_list_store_append(store, &it);
+    gtk_list_store_set(store, &it,
+	0, cid,
+	1, row[0],
+	2, row[1],
+	3, row[2],
+	4, row[3], -1);
   }
 
-  gtk_clist_thaw(GTK_CLIST(pdialog->change_list));
+  gtk_tree_view_focus(GTK_TREE_VIEW(view));
 
   gtk_widget_show_all(GTK_DIALOG(cshell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(cshell)->action_area);
-  gtk_widget_show(cshell);
+  gtk_window_present(GTK_WINDOW(cshell));
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static gint change_deleted_callback(GtkWidget * w, GdkEvent * ev,
-				    gpointer data)
+static void change_destroy_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
 
@@ -3024,83 +3002,63 @@ static gint change_deleted_callback(GtkWidget * w, GdkEvent * ev,
 
   pdialog->change_shell = NULL;
   gtk_widget_set_sensitive(pdialog->shell, TRUE);
-  return FALSE;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void change_no_callback(GtkWidget * w, gpointer data)
+static void change_command_callback(GtkWidget *w, gint rid, gpointer data)
 {
   struct city_dialog *pdialog;
+  GtkTreeModel *m;
+  GtkTreeIter it;
 
   pdialog = (struct city_dialog *) data;
 
-  gtk_widget_destroy(w->parent->parent->parent);
-  pdialog->change_shell = NULL;
-  gtk_widget_set_sensitive(pdialog->shell, TRUE);
-}
+  if (rid == GTK_RESPONSE_HELP) {
+    if (gtk_tree_selection_get_selected(pdialog->change_selection, &m, &it)) {
+      cid cid;
+      int id;
 
-/****************************************************************
-...
-*****************************************************************/
-static void change_yes_callback(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  GList *selection = GTK_CLIST(pdialog->change_list)->selection;
+      gtk_tree_model_get(m, &it, 0, &cid, -1);
+      id = cid_id(cid);
 
-  if (selection) {
-    struct packet_city_request packet;
-    cid cid = GPOINTER_TO_INT(
-		gtk_clist_get_row_data(GTK_CLIST(pdialog->change_list),
-				GPOINTER_TO_INT(selection->data)));
+      if (cid_is_unit(cid)) {
+        popup_help_dialog_typed(get_unit_type(id)->name, HELP_UNIT);
+      } else if (is_wonder(id)) {
+        popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
+      } else {
+        popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
+      }
+    } else {
+      popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
+    }
+    return;
+  } else if (rid == GTK_RESPONSE_OK) {
+    if (gtk_tree_selection_get_selected(pdialog->change_selection, &m, &it)) {
+      cid cid;
+      struct packet_city_request packet;
 
-    packet.city_id = pdialog->pcity->id;
-    packet.build_id = cid_id(cid);
-    packet.is_build_id_unit_id = cid_is_unit(cid);
+      gtk_tree_model_get(m, &it, 0, &cid, -1);
 
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+      packet.city_id = pdialog->pcity->id;
+      packet.build_id = cid_id(cid);
+      packet.is_build_id_unit_id = cid_is_unit(cid);
+
+      send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+    }
   }
-  gtk_widget_destroy(w->parent->parent->parent);
-  pdialog->change_shell = NULL;
-  gtk_widget_set_sensitive(pdialog->shell, TRUE);
+  gtk_widget_destroy(pdialog->change_shell);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void change_list_callback(GtkWidget * w, gint row, gint col,
-				 GdkEvent * ev, gpointer data)
+static void change_list_callback(GtkTreeView *view, GtkTreePath *path,
+				 GtkTreeViewColumn *col, gpointer data)
 {
   /* Allows new production options to be selected via a double-click */
-  if (ev && ev->type == GDK_2BUTTON_PRESS)
-    change_yes_callback(w, data);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void change_help_callback(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  GList *selection = GTK_CLIST(pdialog->change_list)->selection;
-
-  if (selection) {
-    cid cid = GPOINTER_TO_INT(
-		gtk_clist_get_row_data(GTK_CLIST(pdialog->change_list),
-				GPOINTER_TO_INT(selection->data)));
-    int id = cid_id(cid);
-
-    if (cid_is_unit(cid)) {
-      popup_help_dialog_typed(get_unit_type(id)->name, HELP_UNIT);
-    } else if (is_wonder(id)) {
-      popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
-    } else {
-      popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
-    }
-  } else {
-    popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
-  }
+  change_command_callback(NULL, GTK_RESPONSE_OK, data);
 }
 
 /****************************************************************
