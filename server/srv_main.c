@@ -1562,6 +1562,8 @@ static void main_loop(void)
    * This will thaw the reports and agents at the client.
    */
   lsend_packet_generic_empty(&game.game_connections, PACKET_THAW_HINT);
+
+  free_timer(eot_timer);
 }
 
 /**************************************************************************
