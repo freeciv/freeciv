@@ -292,7 +292,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
   gtk_signal_connect(GTK_OBJECT(pdialog->change_command), "clicked",
 		     GTK_SIGNAL_FUNC(cma_change_to_callback), pdialog);
 
-  pdialog->perm_command = gtk_accelbutton_new(_("_Control city"), accel);
+  pdialog->perm_command = gtk_accelbutton_new(_("Control c_ity"), accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->perm_command, TRUE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->perm_command, GTK_CAN_DEFAULT);
   gtk_signal_connect(GTK_OBJECT(pdialog->perm_command), "clicked",

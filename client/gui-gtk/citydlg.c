@@ -830,7 +830,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 		     TRUE, TRUE, 0);
 
   pdialog->overview.change_command =
-      gtk_accelbutton_new(_("C_hange"), pdialog->accel);
+      gtk_accelbutton_new(_("_Change"), pdialog->accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.change_command,
 		     TRUE, TRUE, 0);
 
