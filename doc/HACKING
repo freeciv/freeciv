@@ -128,30 +128,11 @@ disband a unit. In the server you would do this by calling
 wipe_unit(punit), which would then remove the unit node from all the
 relevant unit lists. But by the way unit_list_iterate works, if the removed
 unit was the following node unit_list_iterate will already have saved the
-pointer, and use it in a moment, with a segfault as the result.
-The way to avoid this is to use the function
-void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
-			 int wipe_cargo)
-and as the second argument write "myiter", a variable declared in the macro.
-The unit list will then automatically be kept sane.
+pointer, and use it in a moment, with a segfault as the result. To avoid 
+this, use unit_list_iterate_safe instead.
 
 You can also define your own lists with operations like iterating; read how
 in common/speclist.h.
-
-[There was a time before the macros were developed, and raw genlists were used.
-Then a unit iteration would look like
-{
-  struct unit_list *punit_list;
-  struct genlist_iterator myiter;
-  .....
-  
-  genlist_iterator_init(&myiter, &punit_list->list, 0);
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    punit=(struct unit *)ITERATOR_PTR(myiter);
-    /* do something with the unit */
-  }
-}
-There are still examples of this in the code]
 
 =========================================================================
 Network and Packets

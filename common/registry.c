@@ -619,7 +619,7 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
 {
   fz_FILE *fs = fz_from_file(filename, "w", FZ_ZLIB, compression_level);
 
-  struct genlist_iterator ent_iter, save_iter, col_iter;
+  struct genlist_link *ent_iter, *save_iter, *col_iter;
   struct entry *pentry, *col_pentry;
 
   if (!fs)
@@ -631,7 +631,7 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
     /* Following doesn't use entry_list_iterate() because we want to do
      * tricky things with the iterators...
      */
-    for(genlist_iterator_init(&ent_iter, &psection->entries.list, 0);
+    for(ent_iter = psection->entries.list.head_link;
 	(pentry = ITERATOR_PTR(ent_iter));
 	ITERATOR_NEXT(ent_iter)) {
 
