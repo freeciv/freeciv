@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.39-1.14-3\n"
 "POT-Creation-Date: 2002-12-16 03:52+0100\n"
-"PO-Revision-Date: 2002-12-16 03:54+0100\n"
+"PO-Revision-Date: 2002-12-16 03:57+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -9640,9 +9640,8 @@ msgid "Host"
 msgstr "Värd"
 
 #: client/gui-gtk-2.0/plrdlg.c:193
-#, fuzzy
 msgid "Idle Turns"
-msgstr "Omgångar"
+msgstr "Overksamma omgångar"
 
 #: client/gui-gtk-2.0/plrdlg.c:301 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
@@ -11962,7 +11961,7 @@ msgstr ""
 "Versionshistorik:\n"
 "=================\n"
 "Version 0.39-1.14-3; 2002-12-16\n"
-"  Rättelse.\n"
+"  Rättelse och uppdatering.\n"
 "Version 0.39-1.14-2; 2002-12-12\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.39; 2002-10-23\n"
