@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2000-08-21 12:57+0200\n"
+"POT-Creation-Date: 2000-08-21 14:05+0200\n"
 "PO-Revision-Date: 2000-08-21 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -6687,7 +6687,7 @@ msgstr "Verplaatsingskosten: %ld"
 #: client/gui-mui/helpdlg.c:858
 #, c-format
 msgid "Defense: %ld.%ld"
-msgstr "Verdediging: %ld.%ld" 
+msgstr "Verdediging: %ld.%ld"
 
 #: client/gui-mui/helpdlg.c:870 client/gui-mui/helpdlg.c:884 client/gui-mui/helpdlg.c:900
 #, c-format
@@ -9060,7 +9060,7 @@ msgstr ""
 msgid "Despotism"
 msgstr "Dictatuur"
 
-#: data/civ1/governments.ruleset:214 data/civ2/governments.ruleset:212 data/default/governments.ruleset:213
+#: data/civ1/governments.ruleset:214 data/civ2/governments.ruleset:212 data/default/governments.ruleset:213 data/nation/chinese.ruleset:13
 msgid "Emperor"
 msgstr "Regent"
 
@@ -9098,11 +9098,11 @@ msgstr ""
 msgid "Monarchy"
 msgstr "Monarchie"
 
-#: data/civ1/governments.ruleset:283 data/civ2/governments.ruleset:283 data/default/governments.ruleset:284
+#: data/civ1/governments.ruleset:283 data/civ2/governments.ruleset:283 data/default/governments.ruleset:284 data/nation/dunedain.ruleset:12
 msgid "King"
 msgstr "Koning"
 
-#: data/civ1/governments.ruleset:284 data/civ2/governments.ruleset:284 data/default/governments.ruleset:285
+#: data/civ1/governments.ruleset:284 data/civ2/governments.ruleset:284 data/default/governments.ruleset:285 data/nation/dunedain.ruleset:12
 msgid "Queen"
 msgstr "Koningin"
 
@@ -9228,7 +9228,7 @@ msgstr ""
 msgid "Democracy"
 msgstr "Democratie"
 
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505 data/civ2/governments.ruleset:562 data/civ2/governments.ruleset:563 data/default/governments.ruleset:512 data/default/governments.ruleset:513
+#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505 data/civ2/governments.ruleset:562 data/civ2/governments.ruleset:563 data/default/governments.ruleset:512 data/default/governments.ruleset:513 data/nation/catalan.ruleset:16 data/nation/chilean.ruleset:13 data/nation/finnish.ruleset:14
 msgid "President"
 msgstr "President"
 
@@ -10376,6 +10376,706 @@ msgstr ""
 msgid "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units."
 msgstr "Waneer een barbarenleider wordt gedood op een vlak zonder verdedigende eenheden, dan wordt het losgeld van 100 goud betaald, maar alleen aan landeenheden."
 
+#: data/nation/american.ruleset:3
+msgid "American"
+msgstr "Amerikaanse"
+
+#: data/nation/american.ruleset:4
+msgid "?plural:Americans"
+msgstr "?plural:Amerikanen"
+
+#: data/nation/american.ruleset:12 data/nation/scottish.ruleset:14
+msgid "Speaker"
+msgstr "Spreker"
+
+#: data/nation/american.ruleset:13
+msgid "Reverend"
+msgstr "Rechter"
+
+#: data/nation/arab.ruleset:3
+msgid "Arab"
+msgstr "Arabische"
+
+#: data/nation/arab.ruleset:4
+msgid "?plural:Arabs"
+msgstr "?plural:Arabieren"
+
+#: data/nation/arab.ruleset:12
+msgid "Caliph"
+msgstr "Kalief"
+
+#: data/nation/argentine.ruleset:3
+msgid "Argentine"
+msgstr "Argentijnse"
+
+#: data/nation/argentine.ruleset:4
+msgid "?plural:Argentines"
+msgstr "?plural:Argentijnen"
+
+#: data/nation/australian.ruleset:3
+msgid "Australian"
+msgstr "Australische"
+
+#: data/nation/australian.ruleset:4
+msgid "?plural:Australians"
+msgstr "?plural:Australiërs"
+
+#: data/nation/australian.ruleset:12 data/nation/brazilian.ruleset:15 data/nation/canadian.ruleset:11 data/nation/chilean.ruleset:13 data/nation/danish.ruleset:19 data/nation/dutch.ruleset:11 data/nation/english.ruleset:13 data/nation/finnish.ruleset:15 data/nation/greek.ruleset:11 data/nation/israeli.ruleset:12 data/nation/japanese.ruleset:13 data/nation/portuguese.ruleset:12 data/nation/scottish.ruleset:15 data/nation/silesian.ruleset:13 data/nation/singaporean.ruleset:13 data/nation/singaporean.ruleset:14 data/nation/spanish.ruleset:11 data/nation/swedish.ruleset:11 data/nation/welsh.ruleset:19
+msgid "Prime Minister"
+msgstr "Minister President"
+
+#: data/nation/aztec.ruleset:3
+msgid "Aztec"
+msgstr "Azteekse"
+
+#: data/nation/aztec.ruleset:4
+msgid "?plural:Aztecs"
+msgstr "?plural:Azteken"
+
+#: data/nation/babylonian.ruleset:3
+msgid "Babylonian"
+msgstr "Babylonische"
+
+#: data/nation/babylonian.ruleset:4
+msgid "?plural:Babylonians"
+msgstr "?plural:Babyloniërs"
+
+#: data/nation/bavarian.ruleset:3
+msgid "Bavarian"
+msgstr "Bavariaanse"
+
+#: data/nation/bavarian.ruleset:4
+msgid "?plural:Bavarians"
+msgstr "?plural:Baverianen"
+
+#: data/nation/boer.ruleset:3
+msgid "Boer"
+msgstr "Boer"
+
+#: data/nation/boer.ruleset:4
+msgid "?plural:Boers"
+msgstr "?plural:Boeren"
+
+#: data/nation/brazilian.ruleset:3
+msgid "Brazilian"
+msgstr "Brazilianen"
+
+#: data/nation/brazilian.ruleset:4
+msgid "?plural:Brazilians"
+msgstr "?plural:Brazilianen"
+
+#: data/nation/brazilian.ruleset:13 data/nation/roman.ruleset:12
+msgid "Dictator"
+msgstr "Dictator"
+
+#: data/nation/brazilian.ruleset:13 data/nation/roman.ruleset:12
+msgid "Dictatrix"
+msgstr "Dictator"
+
+#: data/nation/brazilian.ruleset:14 data/nation/roman.ruleset:13
+msgid "Imperator"
+msgstr "Imperator"
+
+#: data/nation/brazilian.ruleset:14 data/nation/roman.ruleset:13
+msgid "Imperatrix"
+msgstr "Imperatrix"
+
+#: data/nation/brazilian.ruleset:16 data/nation/chinese.ruleset:14
+msgid "Chairman"
+msgstr "Voorzitter"
+
+#: data/nation/brazilian.ruleset:16 data/nation/chinese.ruleset:14
+msgid "Chairperson"
+msgstr "Vice Voorzitter"
+
+#: data/nation/brazilian.ruleset:17
+msgid "Director-President"
+msgstr "President-Directeur"
+
+#: data/nation/canadian.ruleset:3
+msgid "Canadian"
+msgstr "Canadese"
+
+#: data/nation/canadian.ruleset:4
+msgid "?plural:Canadians"
+msgstr "?plural:Canadezen"
+
+#: data/nation/carthaginian.ruleset:3
+msgid "Carthaginian"
+msgstr "Carthagische"
+
+#: data/nation/carthaginian.ruleset:4
+msgid "?plural:Carthaginians"
+msgstr "?plural:Carthagen"
+
+#: data/nation/catalan.ruleset:3
+msgid "Catalan"
+msgstr "Catalaanse"
+
+#: data/nation/catalan.ruleset:4
+msgid "?plural:Catalans"
+msgstr "?plural:Catalanen"
+
+#: data/nation/catalan.ruleset:13
+msgid "Primer Ministre"
+msgstr "Premier"
+
+#: data/nation/catalan.ruleset:13
+msgid "Primera Ministre"
+msgstr "Premier"
+
+#: data/nation/catalan.ruleset:14
+msgid "Dictador"
+msgstr "Dictator"
+
+#: data/nation/catalan.ruleset:14
+msgid "Dictadora"
+msgstr "Dictator"
+
+#: data/nation/catalan.ruleset:15
+msgid "Rei"
+msgstr ""
+
+#: data/nation/catalan.ruleset:15
+msgid "Reina"
+msgstr ""
+
+#: data/nation/catalan.ruleset:17
+msgid "Arquebisbe"
+msgstr ""
+
+#: data/nation/catalan.ruleset:17
+msgid "Gran Bruixa"
+msgstr "Grote Bruixa"
+
+#: data/nation/chilean.ruleset:3
+msgid "Chilean"
+msgstr "Chileese"
+
+#: data/nation/chilean.ruleset:4
+msgid "?plural:Chileans"
+msgstr "?plural:Chilenen"
+
+#: data/nation/chilean.ruleset:14
+msgid "Capitan General"
+msgstr "Kapitein Generaal"
+
+#: data/nation/chilean.ruleset:14
+msgid "Primera Dama"
+msgstr "Eerste Dame"
+
+#: data/nation/chilean.ruleset:15
+msgid "Ayatollah"
+msgstr ""
+
+#: data/nation/chilean.ruleset:15
+msgid "Protector"
+msgstr "Beschermheer"
+
+#: data/nation/chinese.ruleset:3
+msgid "Chinese"
+msgstr "Chinese"
+
+#: data/nation/chinese.ruleset:4
+msgid "?plural:Chinese"
+msgstr "?plural:Chinezen"
+
+#: data/nation/chinese.ruleset:13
+msgid "Dowager"
+msgstr ""
+
+#: data/nation/cornish.ruleset:3
+msgid "Cornish"
+msgstr "Cornish"
+
+#: data/nation/cornish.ruleset:4
+msgid "?plural:Cornish"
+msgstr "?plural:Cornish"
+
+#: data/nation/czech.ruleset:3
+msgid "Czech"
+msgstr "Tsjechische"
+
+#: data/nation/czech.ruleset:4
+msgid "?plural:Czechs"
+msgstr "?plural:Tsjechen"
+
+#: data/nation/czech.ruleset:21
+msgid "Thane"
+msgstr "Thane"
+
+#: data/nation/czech.ruleset:21
+msgid "Prophetess"
+msgstr "Profetes"
+
+#: data/nation/danish.ruleset:3
+msgid "Danish"
+msgstr "Deense"
+
+#: data/nation/danish.ruleset:4
+msgid "?plural:Danes"
+msgstr "?plural:Denen"
+
+#: data/nation/dunedain.ruleset:3
+msgid "Dúnedain"
+msgstr "Dúnediaanse"
+
+#: data/nation/dunedain.ruleset:4
+msgid "?plural:Dúnedan"
+msgstr "?plural:Dúnedianen"
+
+#: data/nation/dutch.ruleset:3
+msgid "Dutch"
+msgstr "Nederlandse"
+
+#: data/nation/dutch.ruleset:4
+msgid "?plural:Dutch"
+msgstr "?plural:Nederlanders"
+
+#: data/nation/egyptian.ruleset:3
+msgid "Egyptian"
+msgstr "Egyptische"
+
+#: data/nation/egyptian.ruleset:4
+msgid "?plural:Egyptians"
+msgstr "?plural:Egyptenaren"
+
+#: data/nation/egyptian.ruleset:12
+msgid "Pharaoh"
+msgstr "Farao"
+
+#: data/nation/egyptian.ruleset:13
+msgid "Great Pharaoh"
+msgstr "Grote Farao"
+
+#: data/nation/english.ruleset:3
+msgid "English"
+msgstr "Engelse"
+
+#: data/nation/english.ruleset:4
+msgid "?plural:English"
+msgstr "?plural:Engelsen"
+
+#: data/nation/english.ruleset:14
+msgid "Lord Protector"
+msgstr "Heer Beschermer"
+
+#: data/nation/english.ruleset:14
+msgid "Lady Protector"
+msgstr "Vrouwe Beschermer"
+
+#: data/nation/estonian.ruleset:3
+msgid "Estonian"
+msgstr "Estoniaanse"
+
+#: data/nation/estonian.ruleset:4
+msgid "?plural:Estonians"
+msgstr "?plural:Estonianen"
+
+#: data/nation/filipino.ruleset:3
+msgid "Filipino"
+msgstr "Fillipijnse"
+
+#: data/nation/filipino.ruleset:4
+msgid "?plural:Filipinos"
+msgstr "?plural:Fillipijnen"
+
+#: data/nation/finnish.ruleset:3
+msgid "Finnish"
+msgstr "Finse"
+
+#: data/nation/finnish.ruleset:4
+msgid "?plural:Finns"
+msgstr "?plural:Finnen"
+
+#: data/nation/french.ruleset:3
+msgid "French"
+msgstr "Frans"
+
+#: data/nation/french.ruleset:4
+msgid "?plural:French"
+msgstr "?plural:Fransen"
+
+#: data/nation/french.ruleset:11
+msgid "Premier"
+msgstr "Premier"
+
+#: data/nation/french.ruleset:12 data/nation/german.ruleset:14
+msgid "Archbishop"
+msgstr "Aartsbisschop"
+
+#: data/nation/german.ruleset:3
+msgid "German"
+msgstr "Duitse"
+
+#: data/nation/german.ruleset:4
+msgid "?plural:Germans"
+msgstr "?plural:Duitsers"
+
+#: data/nation/german.ruleset:13
+msgid "Chancellor"
+msgstr "Kanselier"
+
+#: data/nation/greek.ruleset:3
+msgid "Greek"
+msgstr "Griekse"
+
+#: data/nation/greek.ruleset:4
+msgid "?plural:Greeks"
+msgstr "?plural:Grieken"
+
+#: data/nation/hungarian.ruleset:3
+msgid "Hungarian"
+msgstr "Hongaarse"
+
+#: data/nation/hungarian.ruleset:4
+msgid "?plural:Hungarians"
+msgstr "?plural:Hongaren"
+
+#: data/nation/inca.ruleset:3
+msgid "Inca"
+msgstr "Inca"
+
+#: data/nation/inca.ruleset:4
+msgid "?plural:Incas"
+msgstr "?plural:Incaas"
+
+#: data/nation/inca.ruleset:12
+msgid "Warlord"
+msgstr "Oorlogsheer"
+
+#: data/nation/indian.ruleset:3
+msgid "Indian"
+msgstr "Indische"
+
+#: data/nation/indian.ruleset:4
+msgid "?plural:Indians"
+msgstr "?plural:Indiërs"
+
+#: data/nation/indian.ruleset:12
+msgid "Maharaja"
+msgstr "Maharadja"
+
+#: data/nation/irish.ruleset:3
+msgid "Irish"
+msgstr "Ierse"
+
+#: data/nation/irish.ruleset:4
+msgid "?plural:Irish"
+msgstr "?plural:Ieren"
+
+#: data/nation/israeli.ruleset:3
+msgid "Israeli"
+msgstr "Israëlische"
+
+#: data/nation/israeli.ruleset:4
+msgid "?plural:Israelis"
+msgstr "?plural:Israëlieten"
+
+#: data/nation/italian.ruleset:3
+msgid "Italian"
+msgstr "Italiaanse"
+
+#: data/nation/italian.ruleset:4
+msgid "?plural:Italians"
+msgstr "?plural:Italianen"
+
+#: data/nation/japanese.ruleset:3
+msgid "Japanese"
+msgstr "Japanse"
+
+#: data/nation/japanese.ruleset:4
+msgid "?plural:Japanese"
+msgstr "?plural:Japanners"
+
+#: data/nation/japanese.ruleset:12
+msgid "Shogun"
+msgstr "Shogun"
+
+#: data/nation/kenyan.ruleset:3
+msgid "Kenyan"
+msgstr "Keniaans"
+
+#: data/nation/kenyan.ruleset:4
+msgid "?plural:Kenyans"
+msgstr "?plural:Kenianen"
+
+#: data/nation/korean.ruleset:3
+msgid "Korean"
+msgstr "Koreaanse"
+
+#: data/nation/korean.ruleset:4
+msgid "?plural:Koreans"
+msgstr "?plural:Koreanen"
+
+#: data/nation/krevi.ruleset:3
+msgid "Krevi"
+msgstr "Krevische"
+
+#: data/nation/krevi.ruleset:4
+msgid "?plural:Krevis"
+msgstr "?plural:Krevianen"
+
+#: data/nation/latvian.ruleset:3
+msgid "Latvian"
+msgstr "Latviaanse"
+
+#: data/nation/latvian.ruleset:4
+msgid "?plural:Latvians"
+msgstr "?plural:Latvianen"
+
+#: data/nation/lithuanian.ruleset:3
+msgid "Lithuanian"
+msgstr "Litouwse"
+
+#: data/nation/lithuanian.ruleset:4
+msgid "?plural:Lithuanians"
+msgstr "?plural:Litouwers"
+
+#: data/nation/lithuanian.ruleset:11
+msgid "Great Duke"
+msgstr "Groot Hertog"
+
+#: data/nation/lithuanian.ruleset:11
+msgid "Great Duchess"
+msgstr "Groot Hertogin"
+
+#: data/nation/mongol.ruleset:3
+msgid "Mongol"
+msgstr "Mongolië"
+
+#: data/nation/mongol.ruleset:4
+msgid "?plural:Mongols"
+msgstr "?plural:Mongolen"
+
+#: data/nation/mongol.ruleset:11
+msgid "Khan"
+msgstr "Khan"
+
+#: data/nation/mongol.ruleset:12
+msgid "Great Khan"
+msgstr "Grote Khan"
+
+#: data/nation/mordor.ruleset:3
+msgid "Mordor"
+msgstr "Mordorse"
+
+#: data/nation/mordor.ruleset:4
+msgid "?plural:Mordors"
+msgstr "?plural:Mordoren"
+
+#: data/nation/mordor.ruleset:12
+msgid "Overlord"
+msgstr "Opperheer"
+
+#: data/nation/mordor.ruleset:13
+msgid "Dark Lord"
+msgstr "Donkere Heer"
+
+#: data/nation/olympic.ruleset:3
+msgid "Olympic"
+msgstr "Olympische"
+
+#: data/nation/olympic.ruleset:4
+msgid "?plural:Olympians"
+msgstr "?plural:Olympianen"
+
+#: data/nation/persian.ruleset:3
+msgid "Persian"
+msgstr "Perzische"
+
+#: data/nation/persian.ruleset:4
+msgid "?plural:Persians"
+msgstr "?plural:Perzen"
+
+#: data/nation/persian.ruleset:12
+msgid "Shah"
+msgstr "Sjah"
+
+#: data/nation/polish.ruleset:3
+msgid "Polish"
+msgstr "Poolse"
+
+#: data/nation/polish.ruleset:4
+msgid "?plural:Polish"
+msgstr "?plural:Polen"
+
+#: data/nation/polish.ruleset:11
+msgid "Prymas"
+msgstr ""
+
+#: data/nation/portuguese.ruleset:3
+msgid "Portuguese"
+msgstr "Portugese"
+
+#: data/nation/portuguese.ruleset:4
+msgid "?plural:Portuguese"
+msgstr "?plural:Portugezen"
+
+#: data/nation/roman.ruleset:3
+msgid "Roman"
+msgstr "Romeinse"
+
+#: data/nation/roman.ruleset:4
+msgid "?plural:Romans"
+msgstr "?plural:Romeinen"
+
+#: data/nation/russian.ruleset:3
+msgid "Russian"
+msgstr "Russische"
+
+#: data/nation/russian.ruleset:4
+msgid "?plural:Russians"
+msgstr "?plural:Russen"
+
+#: data/nation/russian.ruleset:12
+msgid "Czar"
+msgstr "Tsaar"
+
+#: data/nation/russian.ruleset:12
+msgid "Czarina"
+msgstr "Tsarin"
+
+#: data/nation/russian.ruleset:13
+msgid "Patriarch"
+msgstr ""
+
+#: data/nation/russian.ruleset:13
+msgid "Matriarch"
+msgstr ""
+
+#: data/nation/scottish.ruleset:3
+msgid "Scottish"
+msgstr "Schotse"
+
+#: data/nation/scottish.ruleset:4
+msgid "?plural:Scots"
+msgstr "?plural:Schotten"
+
+#: data/nation/silesian.ruleset:3
+msgid "Silesian"
+msgstr "Silese"
+
+#: data/nation/silesian.ruleset:4
+msgid "?plural:Silesians"
+msgstr "?plural:Silezen"
+
+#: data/nation/silesian.ruleset:12 data/nation/welsh.ruleset:18
+msgid "Prince"
+msgstr "Prins"
+
+#: data/nation/silesian.ruleset:12 data/nation/welsh.ruleset:18
+msgid "Princess"
+msgstr "Prinses"
+
+#: data/nation/singaporean.ruleset:3
+msgid "Singaporean"
+msgstr "Singaporese"
+
+#: data/nation/singaporean.ruleset:4
+msgid "?plural:Singaporeans"
+msgstr "?plural:Singaporeanen"
+
+#: data/nation/singaporean.ruleset:12
+msgid "Ah"
+msgstr ""
+
+#: data/nation/sioux.ruleset:3
+msgid "Sioux"
+msgstr "Sioux"
+
+#: data/nation/sioux.ruleset:4
+msgid "?plural:Sioux"
+msgstr "?plural:Sioux"
+
+#: data/nation/sioux.ruleset:12
+msgid "Chief"
+msgstr "Opperhoofd"
+
+#: data/nation/sioux.ruleset:13
+msgid "Great Chief"
+msgstr "Groot Opperhoofd"
+
+#: data/nation/spanish.ruleset:3
+msgid "Spanish"
+msgstr "Spaanse"
+
+#: data/nation/spanish.ruleset:4
+msgid "?plural:Spanish"
+msgstr "?plural:Spanjaarden"
+
+#: data/nation/swedish.ruleset:3
+msgid "Swedish"
+msgstr "Zweedse"
+
+#: data/nation/swedish.ruleset:4
+msgid "?plural:Swedes"
+msgstr "?plural:Zweden"
+
+#: data/nation/thai.ruleset:3
+msgid "Thai"
+msgstr "Thaise"
+
+#: data/nation/thai.ruleset:4
+msgid "?plural:Thai"
+msgstr "?plural:Thai"
+
+#: data/nation/turk.ruleset:3
+msgid "Turk"
+msgstr "Turkse"
+
+#: data/nation/turk.ruleset:4
+msgid "?plural:Turks"
+msgstr "?plural:Turken"
+
+#: data/nation/turk.ruleset:14
+msgid "Sultan"
+msgstr "Sultan"
+
+#: data/nation/ukrainian.ruleset:3
+msgid "Ukrainian"
+msgstr "Oekraïense"
+
+#: data/nation/ukrainian.ruleset:4
+msgid "?plural:Ukrainians"
+msgstr "?plural:Oekraïniërs"
+
+#: data/nation/ukrainian.ruleset:11
+msgid "Hetman"
+msgstr ""
+
+#: data/nation/vietnamese.ruleset:3
+msgid "Vietnamese"
+msgstr "Vietnamese"
+
+#: data/nation/vietnamese.ruleset:4
+msgid "?plural:Vietnamese"
+msgstr "?plural:Vietnamezen"
+
+#: data/nation/viking.ruleset:3
+msgid "Viking"
+msgstr "Viking"
+
+#: data/nation/viking.ruleset:4
+msgid "?plural:Vikings"
+msgstr "?plural:Vikingen"
+
+#: data/nation/welsh.ruleset:3
+msgid "Welsh"
+msgstr "Welsh"
+
+#: data/nation/welsh.ruleset:4
+msgid "?plural:Welsh"
+msgstr "?plural:Welsh"
+
+#: data/nation/zulu.ruleset:3
+msgid "Zulu"
+msgstr "Zoeloe"
+
+#: data/nation/zulu.ruleset:4
+msgid "?plural:Zulus"
+msgstr "?plural:Zoeloes"
+
 #~ msgid "%s from %s"
 #~ msgstr "%s van %s"
 
@@ -10438,9 +11138,6 @@ msgstr "Waneer een barbarenleider wordt gedood op een vlak zonder verdedigende e
 
 #~ msgid "Game: The game is over..."
 #~ msgstr "Spel: Het spel is voorbij..."
-
-#~ msgid "Pregame"
-#~ msgstr "Voorspel"
 
 #~ msgid "Running"
 #~ msgstr "Draaiend"
@@ -10863,495 +11560,6 @@ msgstr "Waneer een barbarenleider wordt gedood op een vlak zonder verdedigende e
 
 #~ msgid "; Allows a city to grow larger than size 10.; "
 #~ msgstr "; Staat een stad toe voorbij grootte 10 te groeien."
-
-#~ msgid "American"
-#~ msgstr "Amerikaanse"
-
-#~ msgid "?plural:Americans"
-#~ msgstr "?plural:Amerikanen"
-
-#~ msgid "Speaker"
-#~ msgstr "Spreker"
-
-#~ msgid "Reverend"
-#~ msgstr "Rechter"
-
-#~ msgid "Arab"
-#~ msgstr "Arabische"
-
-#~ msgid "?plural:Arabs"
-#~ msgstr "?plural:Arabieren"
-
-#~ msgid "Caliph"
-#~ msgstr "Kalief"
-
-#~ msgid "Argentine"
-#~ msgstr "Argentijnse"
-
-#~ msgid "?plural:Argentines"
-#~ msgstr "?plural:Argentijnen"
-
-#~ msgid "Australian"
-#~ msgstr "Australische"
-
-#~ msgid "?plural:Australians"
-#~ msgstr "?plural:Australiërs"
-
-#~ msgid "Prime Minister"
-#~ msgstr "Minister President"
-
-#~ msgid "Aztec"
-#~ msgstr "Azteekse"
-
-#~ msgid "?plural:Aztecs"
-#~ msgstr "?plural:Azteken"
-
-#~ msgid "Babylonian"
-#~ msgstr "Babylonische"
-
-#~ msgid "?plural:Babylonians"
-#~ msgstr "?plural:Babyloniërs"
-
-#~ msgid "Bavarian"
-#~ msgstr "Bavariaanse"
-
-#~ msgid "?plural:Bavarians"
-#~ msgstr "?plural:Baverianen"
-
-#~ msgid "Boer"
-#~ msgstr "Boer"
-
-#~ msgid "?plural:Boers"
-#~ msgstr "?plural:Boeren"
-
-#~ msgid "Brazilian"
-#~ msgstr "Brazilianen"
-
-#~ msgid "?plural:Brazilians"
-#~ msgstr "?plural:Brazilianen"
-
-#~ msgid "Dictator"
-#~ msgstr "Dictator"
-
-#~ msgid "Dictatrix"
-#~ msgstr "Dictator"
-
-#~ msgid "Imperator"
-#~ msgstr "Imperator"
-
-#~ msgid "Imperatrix"
-#~ msgstr "Imperatrix"
-
-#~ msgid "Chairman"
-#~ msgstr "Voorzitter"
-
-#~ msgid "Chairperson"
-#~ msgstr "Vice Voorzitter"
-
-#~ msgid "Director-President"
-#~ msgstr "President-Directeur"
-
-#~ msgid "Canadian"
-#~ msgstr "Canadese"
-
-#~ msgid "?plural:Canadians"
-#~ msgstr "?plural:Canadezen"
-
-#~ msgid "Carthaginian"
-#~ msgstr "Carthagische"
-
-#~ msgid "?plural:Carthaginians"
-#~ msgstr "?plural:Carthagen"
-
-#~ msgid "Catalan"
-#~ msgstr "Catalaanse"
-
-#~ msgid "?plural:Catalans"
-#~ msgstr "?plural:Catalanen"
-
-#~ msgid "Primer Ministre"
-#~ msgstr "Premier"
-
-#~ msgid "Primera Ministre"
-#~ msgstr "Premier"
-
-#~ msgid "Dictador"
-#~ msgstr "Dictator"
-
-#~ msgid "Dictadora"
-#~ msgstr "Dictator"
-
-#~ msgid "Chilean"
-#~ msgstr "Chileese"
-
-#~ msgid "?plural:Chileans"
-#~ msgstr "?plural:Chilenen"
-
-#~ msgid "Capitan General"
-#~ msgstr "Kapitein Generaal"
-
-#~ msgid "Primera Dama"
-#~ msgstr "Eerste Dame"
-
-#~ msgid "Protector"
-#~ msgstr "Beschermheer"
-
-#~ msgid "Chinese"
-#~ msgstr "Chinese"
-
-#~ msgid "?plural:Chinese"
-#~ msgstr "?plural:Chinezen"
-
-#~ msgid "Cornish"
-#~ msgstr "Cornish"
-
-#~ msgid "?plural:Cornish"
-#~ msgstr "?plural:Cornish"
-
-#~ msgid "Czech"
-#~ msgstr "Tsjechische"
-
-#~ msgid "?plural:Czechs"
-#~ msgstr "?plural:Tsjechen"
-
-#~ msgid "Thane"
-#~ msgstr "Thane"
-
-#~ msgid "Prophetess"
-#~ msgstr "Profetes"
-
-#~ msgid "Danish"
-#~ msgstr "Deense"
-
-#~ msgid "?plural:Danes"
-#~ msgstr "?plural:Denen"
-
-#~ msgid "Dúnedain"
-#~ msgstr "Dúnediaanse"
-
-#~ msgid "?plural:Dúnedan"
-#~ msgstr "?plural:Dúnedianen"
-
-#~ msgid "Dutch"
-#~ msgstr "Nederlandse"
-
-#~ msgid "?plural:Dutch"
-#~ msgstr "?plural:Nederlanders"
-
-#~ msgid "Egyptian"
-#~ msgstr "Egyptische"
-
-#~ msgid "?plural:Egyptians"
-#~ msgstr "?plural:Egyptenaren"
-
-#~ msgid "Pharaoh"
-#~ msgstr "Farao"
-
-#~ msgid "Great Pharaoh"
-#~ msgstr "Grote Farao"
-
-#~ msgid "English"
-#~ msgstr "Engelse"
-
-#~ msgid "?plural:English"
-#~ msgstr "?plural:Engelsen"
-
-#~ msgid "Lord Protector"
-#~ msgstr "Heer Beschermer"
-
-#~ msgid "Lady Protector"
-#~ msgstr "Vrouwe Beschermer"
-
-#~ msgid "Estonian"
-#~ msgstr "Estoniaanse"
-
-#~ msgid "?plural:Estonians"
-#~ msgstr "?plural:Estonianen"
-
-#~ msgid "Filipino"
-#~ msgstr "Fillipijnse"
-
-#~ msgid "?plural:Filipinos"
-#~ msgstr "?plural:Fillipijnen"
-
-#~ msgid "Finnish"
-#~ msgstr "Finse"
-
-#~ msgid "?plural:Finns"
-#~ msgstr "?plural:Finnen"
-
-#~ msgid "French"
-#~ msgstr "Frans"
-
-#~ msgid "?plural:French"
-#~ msgstr "?plural:Fransen"
-
-#~ msgid "Archbishop"
-#~ msgstr "Aartsbisschop"
-
-#~ msgid "German"
-#~ msgstr "Duitse"
-
-#~ msgid "?plural:Germans"
-#~ msgstr "?plural:Duitsers"
-
-#~ msgid "Chancellor"
-#~ msgstr "Kanselier"
-
-#~ msgid "Greek"
-#~ msgstr "Griekse"
-
-#~ msgid "?plural:Greeks"
-#~ msgstr "?plural:Grieken"
-
-#~ msgid "Hungarian"
-#~ msgstr "Hongaarse"
-
-#~ msgid "?plural:Hungarians"
-#~ msgstr "?plural:Hongaren"
-
-#~ msgid "Inca"
-#~ msgstr "Inca"
-
-#~ msgid "?plural:Incas"
-#~ msgstr "?plural:Incaas"
-
-#~ msgid "Warlord"
-#~ msgstr "Oorlogsheer"
-
-#~ msgid "Indian"
-#~ msgstr "Indiaans"
-
-#~ msgid "?plural:Indians"
-#~ msgstr "?plural:Indiaanse"
-
-#~ msgid "Maharaja"
-#~ msgstr "Maharadja"
-
-#~ msgid "Irish"
-#~ msgstr "Ierse"
-
-#~ msgid "?plural:Irish"
-#~ msgstr "?plural:Ieren"
-
-#~ msgid "Israeli"
-#~ msgstr "Israëlische"
-
-#~ msgid "?plural:Israelis"
-#~ msgstr "?plural:Israëlische"
-
-#~ msgid "Italian"
-#~ msgstr "Italiaanse"
-
-#~ msgid "?plural:Italians"
-#~ msgstr "?plural:Italianen"
-
-#~ msgid "Japanese"
-#~ msgstr "Japanse"
-
-#~ msgid "?plural:Japanese"
-#~ msgstr "?plural:Japanners"
-
-#~ msgid "Shogun"
-#~ msgstr "Shogun"
-
-#~ msgid "Kenyan"
-#~ msgstr "Keniaans"
-
-#~ msgid "?plural:Kenyans"
-#~ msgstr "?plural:Kenianen"
-
-#~ msgid "Korean"
-#~ msgstr "Koreaanse"
-
-#~ msgid "?plural:Koreans"
-#~ msgstr "?plural:Koreanen"
-
-#~ msgid "Krevi"
-#~ msgstr "Krevische"
-
-#~ msgid "?plural:Krevis"
-#~ msgstr "?plural:Krevianen"
-
-#~ msgid "Latvian"
-#~ msgstr "Latviaanse"
-
-#~ msgid "?plural:Latvians"
-#~ msgstr "?plural:Latvianen"
-
-#~ msgid "Lithuanian"
-#~ msgstr "Litouwse"
-
-#~ msgid "?plural:Lithuanians"
-#~ msgstr "?plural:Litouwers"
-
-#~ msgid "Great Duke"
-#~ msgstr "Groot Hertog"
-
-#~ msgid "Great Duchess"
-#~ msgstr "Groot Hertogin"
-
-#~ msgid "Mongol"
-#~ msgstr "Mongolië"
-
-#~ msgid "?plural:Mongols"
-#~ msgstr "?plural:Mongolen"
-
-#~ msgid "Khan"
-#~ msgstr "Khan"
-
-#~ msgid "Great Khan"
-#~ msgstr "Grote Khan"
-
-#~ msgid "Mordor"
-#~ msgstr "Mordorse"
-
-#~ msgid "?plural:Mordors"
-#~ msgstr "?plural:Mordoren"
-
-#~ msgid "Overlord"
-#~ msgstr "Opperheer"
-
-#~ msgid "Dark Lord"
-#~ msgstr "Donkere Heer"
-
-#~ msgid "Olympic"
-#~ msgstr "Olympische"
-
-#~ msgid "?plural:Olympians"
-#~ msgstr "?plural:Olympianen"
-
-#~ msgid "Persian"
-#~ msgstr "Perzische"
-
-#~ msgid "?plural:Persians"
-#~ msgstr "?plural:Perzen"
-
-#~ msgid "Shah"
-#~ msgstr "Sjah"
-
-#~ msgid "Polish"
-#~ msgstr "Poolse"
-
-#~ msgid "?plural:Polish"
-#~ msgstr "?plural:Polen"
-
-#~ msgid "Portuguese"
-#~ msgstr "Portugese"
-
-#~ msgid "?plural:Portuguese"
-#~ msgstr "?plural:Portugezen"
-
-#~ msgid "Roman"
-#~ msgstr "Romeinse"
-
-#~ msgid "?plural:Romans"
-#~ msgstr "?plural:Romeinen"
-
-#~ msgid "Russian"
-#~ msgstr "Russische"
-
-#~ msgid "?plural:Russians"
-#~ msgstr "?plural:Russen"
-
-#~ msgid "Czar"
-#~ msgstr "Tsaar"
-
-#~ msgid "Czarina"
-#~ msgstr "Tsarin"
-
-#~ msgid "Scottish"
-#~ msgstr "Schotse"
-
-#~ msgid "?plural:Scots"
-#~ msgstr "?plural:Schotten"
-
-#~ msgid "Silesian"
-#~ msgstr "Silese"
-
-#~ msgid "?plural:Silesians"
-#~ msgstr "?plural:Silezen"
-
-#~ msgid "Prince"
-#~ msgstr "Prins"
-
-#~ msgid "Princess"
-#~ msgstr "Prinses"
-
-#~ msgid "Singaporean"
-#~ msgstr "Singaporese"
-
-#~ msgid "?plural:Singaporeans"
-#~ msgstr "?plural:Singaporeanen"
-
-#~ msgid "Sioux"
-#~ msgstr "Sioux"
-
-#~ msgid "?plural:Sioux"
-#~ msgstr "?plural:Sioux"
-
-#~ msgid "Chief"
-#~ msgstr "Opperhoofd"
-
-#~ msgid "Great Chief"
-#~ msgstr "Groot Opperhoofd"
-
-#~ msgid "Spanish"
-#~ msgstr "Spaanse"
-
-#~ msgid "?plural:Spanish"
-#~ msgstr "?plural:Spanjaarden"
-
-#~ msgid "Swedish"
-#~ msgstr "Zweedse"
-
-#~ msgid "?plural:Swedes"
-#~ msgstr "?plural:Zweden"
-
-#~ msgid "Thai"
-#~ msgstr "Thaise"
-
-#~ msgid "?plural:Thai"
-#~ msgstr "?plural:Thai"
-
-#~ msgid "Turk"
-#~ msgstr "Turkse"
-
-#~ msgid "?plural:Turks"
-#~ msgstr "?plural:Turken"
-
-#~ msgid "Sultan"
-#~ msgstr "Sultan"
-
-#~ msgid "Ukrainian"
-#~ msgstr "Oekraïense"
-
-#~ msgid "?plural:Ukrainians"
-#~ msgstr "?plural:Oekraïniërs"
-
-#~ msgid "Vietnamese"
-#~ msgstr "Vietnamese"
-
-#~ msgid "?plural:Vietnamese"
-#~ msgstr "?plural:Vietnamezen"
-
-#~ msgid "Viking"
-#~ msgstr "Viking"
-
-#~ msgid "?plural:Vikings"
-#~ msgstr "?plural:Vikingen"
-
-#~ msgid "Welsh"
-#~ msgstr "Welsh"
-
-#~ msgid "?plural:Welsh"
-#~ msgstr "?plural:Welsh"
-
-#~ msgid "Zulu"
-#~ msgstr "Zoeloe"
-
-#~ msgid "?plural:Zulus"
-#~ msgstr "?plural:Zoeloes"
 
 #~ msgid "Game full - %s was rejected."
 #~ msgstr "Spel vol - %s is geweigerd."
