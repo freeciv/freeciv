@@ -56,8 +56,7 @@
 
 static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
-static void update_unit_activity(struct player *pplayer, struct unit *punit,
-				 struct genlist_iterator *iter);
+static void update_unit_activity(struct unit *punit);
 static void wakeup_neighbor_sentries(struct unit *punit);
 static int upgrade_would_strand(struct unit *punit, int upgrade_type);
 static void handle_leonardo(struct player *pplayer);
@@ -748,9 +747,9 @@ static void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 void update_unit_activities(struct player *pplayer)
 {
-  unit_list_iterate(pplayer->units, punit)
-    update_unit_activity(pplayer, punit, &myiter);
-  unit_list_iterate_end;
+  unit_list_iterate_safe(pplayer->units, punit)
+    update_unit_activity(punit);
+  unit_list_iterate_safe_end;
 }
 
 /**************************************************************************
@@ -928,9 +927,9 @@ static enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
   also move units that is on a goto.
   restore unit move points (information needed for settler tasks)
 **************************************************************************/
-static void update_unit_activity(struct player *pplayer, struct unit *punit,
-				 struct genlist_iterator *iter)
+static void update_unit_activity(struct unit *punit)
 {
+  struct player *pplayer = unit_owner(punit);
   int id = punit->id;
   int mr = get_unit_type (punit->type)->move_rate;
   int unit_activity_done = 0;
@@ -949,6 +948,8 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
   if (punit->connecting && !can_unit_do_activity(punit, activity)) {
     punit->activity_count = 0;
     do_unit_goto(punit, get_activity_move_restriction(activity), 0);
+    if (!player_find_unit_by_id(pplayer, id))
+      return;
   }
 
   /* if connecting, automagically build prerequisities first */
@@ -987,10 +988,10 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	    (punit2->activity_target == what_pillaged)) {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2);
+	  send_unit_info(NULL, punit2);
 	}
       unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y);
+      send_tile_info(NULL, punit->x, punit->y);
     }
   }
 
@@ -1069,9 +1070,10 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
   }
 
   if (unit_activity_done) {
-    send_tile_info(0, punit->x, punit->y);
-    unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
+    send_tile_info(NULL, punit->x, punit->y);
+    unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2) {
       if (punit2->activity == activity) {
+	int id2 = punit2->id;
 	if (punit2->connecting) {
 	  punit2->activity_count = 0;
 	  do_unit_goto(punit2, get_activity_move_restriction(activity), 0);
@@ -1079,9 +1081,10 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 	else {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	}
-	send_unit_info(0, punit2);
+	if (find_unit_by_id(id2))
+	  send_unit_info(NULL, punit2);
       }
-    unit_list_iterate_end;
+    } unit_list_iterate_end;
   }
 
   if (activity==ACTIVITY_FORTIFYING) {
@@ -1100,10 +1103,13 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
     return;
   }
 
-  if (punit->activity == ACTIVITY_PATROL)
+  if (punit->activity == ACTIVITY_PATROL) {
     goto_route_execute(punit);
+    if (!player_find_unit_by_id(pplayer, id))
+      return;
+  }
 
-  send_unit_info(0, punit);
+  send_unit_info(NULL, punit);
 
   unit_list_iterate(ptile->units, punit2) {
     if (!can_unit_continue_current_activity(punit2))
@@ -1185,8 +1191,6 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 		      _("Game: Disbanded your %s due to changing"
 			" land to sea at (%d, %d)."),
 		      unit_name(punit2->type), punit2->x, punit2->y);
-	if (iter && ((struct unit*)ITERATOR_PTR((*iter))) == punit2)
-	  ITERATOR_NEXT((*iter));
 	wipe_unit_spec_safe(punit2, NULL, 0);
 	goto START;
       }
@@ -1246,8 +1250,6 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 		      _("Game: Disbanded your %s due to changing"
 			" sea to land at (%d, %d)."),
 		      unit_name(punit2->type), punit2->x, punit2->y);
-	if (iter && ((struct unit*)ITERATOR_PTR((*iter))) == punit2)
-	  ITERATOR_NEXT((*iter));
 	wipe_unit_spec_safe(punit2, NULL, 0);
 	goto START;
       }
