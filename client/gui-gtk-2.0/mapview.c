@@ -912,16 +912,13 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 
   tile_width = (ev->width + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
   tile_height = (ev->height + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
-
-  if (map_canvas_store) {
-    g_object_unref(map_canvas_store);
-  } else {
-    map_canvas_store_twidth  = -1;
-    map_canvas_store_theight = -1;
-  }
   
   if (map_canvas_store_twidth !=tile_width ||
       map_canvas_store_theight!=tile_height) { /* resized? */
+
+    if (map_canvas_store) {
+      g_object_unref(map_canvas_store);
+    }
 
     map_canvas_store_twidth  = tile_width;
     map_canvas_store_theight = tile_height;
