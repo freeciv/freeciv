@@ -101,7 +101,7 @@ gui_sources = @gui_sources@
 l = @l@
 
 noinst_LIBRARIES = libguiclient.a
-INCLUDES = -I. -I$(srcdir)/../include -I$(top_srcdir)/common -I../../intl @CLIENT_CFLAGS@
+INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common -I../../intl @CLIENT_CFLAGS@
 
 # The INCLUDES "-I." is so resources.c includes the locally generated 
 # Freeciv.h in the compliation dir, in preference to the one 

@@ -30,13 +30,21 @@ INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl @CLIENT_CFLAGS@
 
 civclient_SOURCES = \
 	civclient.c	\
+	civclient.h	\
 	climisc.c	\
+	climisc.h	\
 	clinet.c	\
+	clinet.h	\
 	control.c	\
+	control.h	\
 	helpdata.c	\
+	helpdata.h	\
 	packhand.c	\
+	packhand.h	\
 	options.c	\
-	tilespec.c
+	options.h	\
+	tilespec.c	\
+	tilespec.h
 
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLDEPS@
 civclient_LDADD        = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a ../common/libcivcommon.a @CLIENT_LIBS@
