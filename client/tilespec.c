@@ -1703,9 +1703,9 @@ A return of -1 means the tile should be black.
 
 The sprites are drawn in the following order:
  1) basic terrain type + irrigation/farmland (+ river hack)
- 2) mine
+ 2) road/railroad
  3) specials
- 4) road/railroad
+ 4) mine
  5) huts
 ***********************************************************************/
 int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
@@ -1805,31 +1805,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
         *sprs++ = sprites.tx.irrigation;
     }
   }
-
-  if (contains_special(tspecial, S_MINE) && draw_mines
-      && (ttype == T_HILLS || ttype == T_MOUNTAINS)) {
-    /* Oil mines come later. */
-    *sprs++ = sprites.tx.mine;
-  }
-
-  if (contains_special(tspecial, S_FORTRESS) && draw_fortress_airbase) {
-    *sprs++ = sprites.tx.fortress_back;
-  }
-
-  if (draw_specials) {
-    if (contains_special(tspecial, S_SPECIAL_1))
-      *sprs++ = tile_types[ttype].special[0].sprite;
-    else if (contains_special(tspecial, S_SPECIAL_2))
-      *sprs++ = tile_types[ttype].special[1].sprite;
-  }
-
-  if (contains_special(tspecial, S_MINE) && draw_mines
-      && ttype != T_HILLS && ttype != T_MOUNTAINS) {
-    /* Must be Glacier or Dessert. The mine sprite looks better on top
-       of special. */
-    *sprs++ = sprites.tx.oil_mine;
-  }
-
+  
   if (is_ocean(ttype)) {
     const int dirs[4] = {
       /* up */
@@ -1850,10 +1826,44 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 
       coasts[i] = sprites.tx.coast_cape_iso[array_index][i];
     }
+    
+    if (draw_specials) {
+      if (contains_special(tspecial, S_SPECIAL_1)) {
+	*sprs++ = tile_types[ttype].special[0].sprite;
+      } else if (contains_special(tspecial, S_SPECIAL_2)) {
+	*sprs++ = tile_types[ttype].special[1].sprite;
+      }
+    }
+    
   } else {
     sprs += fill_road_rail_sprite_array(sprs,
 					tspecial, tspecial_near, pcity);
 
+    if (draw_specials) {
+      if (contains_special(tspecial, S_SPECIAL_1)) {
+	*sprs++ = tile_types[ttype].special[0].sprite;
+      } else if (contains_special(tspecial, S_SPECIAL_2)) {
+	*sprs++ = tile_types[ttype].special[1].sprite;
+      }
+    }
+  
+    if (contains_special(tspecial, S_FORTRESS) && draw_fortress_airbase) {
+      *sprs++ = sprites.tx.fortress_back;
+    }
+   
+    if (contains_special(tspecial, S_MINE) && draw_mines
+	&& (ttype == T_HILLS || ttype == T_MOUNTAINS)) {
+      /* Oil mines come later. */
+      *sprs++ = sprites.tx.mine;
+    }
+    
+    if (contains_special(tspecial, S_MINE) && draw_mines
+	&& ttype != T_HILLS && ttype != T_MOUNTAINS) {
+      /* Must be Glacier or Dessert. The mine sprite looks better on top
+       * of special. */
+      *sprs++ = sprites.tx.oil_mine;
+    }
+    
     if (contains_special(tspecial, S_HUT) && draw_specials)
       *sprs++ = sprites.tx.village;
 
