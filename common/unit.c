@@ -1327,28 +1327,40 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
   return MR_OK;
 }
 
-/*
- * Triremes have a varying loss percentage. based on tech.
- * Seafaring reduces this to 25%, Navigation to 12.5%.  The Lighthouse
- * wonder reduces this to 0.  AJS 20010301
- */
-int trireme_loss_pct(struct player *pplayer, int x, int y) {
-  int losspct = 50;
-
+/**************************************************************************
+  Like base_trireme_loss_pct but take the position into account.
+**************************************************************************/
+int trireme_loss_pct(struct player *pplayer, int x, int y)
+{
   /*
    * If we are in a city or next to land, we have no chance of losing
-   * the ship.  To make this really useful for ai planning purposes, we'd
-   * need to confirm that we can exist/move at the x,y location we are given.
+   * the ship.  To make this really useful for ai planning purposes,
+   * we'd need to confirm that we can exist/move at the (x, y)
+   * location we are given.
    */
-  if (!is_ocean(map_get_terrain(x, y)) || is_coastline(x, y) ||
-      (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)))
-	losspct = 0;
-  else if (player_knows_techs_with_flag(pplayer,TF_REDUCE_TRIREME_LOSS2))
-	losspct /= 4;
-  else if (player_knows_techs_with_flag(pplayer,TF_REDUCE_TRIREME_LOSS1))
-	losspct /= 2;
+  if (map_get_terrain(x, y) != T_OCEAN || is_coastline(x, y)) {
+    return 0;
+  } else {
+    return base_trireme_loss_pct(pplayer);
+  }
+}
 
-  return losspct;
+/**************************************************************************
+ Triremes have a varying loss percentage. based on tech. Seafaring
+ reduces this to 25%, Navigation to 12.5%. The Lighthouse wonder
+ reduces this to 0.
+**************************************************************************/
+int base_trireme_loss_pct(struct player *pplayer)
+{
+  if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) {
+    return 0;
+  } else if (player_knows_techs_with_flag(pplayer, TF_REDUCE_TRIREME_LOSS2)) {
+    return 12;
+  } else if (player_knows_techs_with_flag(pplayer, TF_REDUCE_TRIREME_LOSS1)) {
+    return 25;
+  } else {
+    return 50;
+  }
 }
 
 /**************************************************************************

@@ -262,6 +262,9 @@ void map_clear_special(int x, int y, enum tile_special_type spe);
 bool is_real_map_pos(int x, int y);
 bool is_normal_map_pos(int x, int y);
 
+/* implemented in server/maphand.c and client/climisc.c */
+enum known_type map_get_known2(int x, int y, struct player *pplayer);
+
 /* special testing */
 bool map_has_special(int x, int y, enum tile_special_type to_test_for);
 bool tile_has_special(struct tile *ptile,

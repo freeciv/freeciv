@@ -1243,6 +1243,22 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   }
 }
 
+/*************************************************************************
+...
+*************************************************************************/
+enum known_type map_get_known2(int x, int y, struct player *pplayer)
+{
+  if (map_get_known(x, y, pplayer)) {
+    if (map_get_own_seen(x, y, pplayer) > 0) {
+      return TILE_KNOWN;
+    } else {
+      return TILE_KNOWN_FOGGED;
+    }
+  } else {
+    return TILE_UNKNOWN;
+  }
+}
+
 /***************************************************************
 ...
 ***************************************************************/
