@@ -337,9 +337,11 @@ void dio_put_string(struct data_out *dout, const char *value)
 **************************************************************************/
 void dio_put_bit_string(struct data_out *dout, const char *value)
 {
-  size_t bits = strlen(value), bytes = (bits - 1) / 8 + 1;
+  /* Note that size_t is often an unsigned type, so we must be careful
+   * with the math when calculating 'bytes'. */
+  size_t bits = strlen(value), bytes = (bits + 7) / 8;
 
-  assert(bytes < UCHAR_MAX);
+  assert(bits < UCHAR_MAX);
 
   if (enough_space(dout, bytes + 1)) {
     size_t i;
