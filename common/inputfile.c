@@ -100,6 +100,8 @@ struct inputfile {
   int in_string;		/* set when reading multi-line strings,
 				   to know not to handle *include at start
 				   of line as include mechanism */
+  int string_start_line;	/* when in_string is true, this is the
+				   start line of current string */
   struct inputfile *included_from; /* NULL for toplevel file, otherwise
 				      points back to files which this one
 				      has been included from */
@@ -154,6 +156,7 @@ static void init_zeros(struct inputfile *inf)
   inf->datafn = NULL;
   inf->included_from = NULL;
   inf->line_num = inf->at_eof = inf->cur_line_pos = inf->in_string = 0;
+  inf->string_start_line = 0;
   astr_init(&inf->cur_line);
   astr_init(&inf->copy_line);
   astr_init(&inf->token);
@@ -174,6 +177,7 @@ static void assert_sanity(struct inputfile *inf)
   assert(inf->at_eof==0 || inf->at_eof==1);
   assert(inf->in_string==0 || inf->in_string==1);
 #ifdef DEBUG
+  assert(inf->string_start_line >= 0);
   assert(inf->cur_line.n >= 0);
   assert(inf->copy_line.n >= 0);
   assert(inf->token.n >= 0);
@@ -420,11 +424,13 @@ static int read_a_line(struct inputfile *inf)
       }
       line->str[0] = '\0';
       line->n = 0;
-      if (inf->included_from && !inf->in_string) {
-	/* Pop the include, and get next line from file above instead;
-	 * For in_string, gets too messy, so just leave this file at eol
-	 * to let caller die with more information (starting line number).
-	 */
+      if (inf->in_string) {
+	/* Note: Don't allow multi-line strings to cross "include"
+	   boundaries */
+	inf_die(inf, "Multi-line string went to end-of-file");
+      }
+      if (inf->included_from) {
+	/* Pop the include, and get next line from file above instead. */
 	struct inputfile *inc = inf->included_from;
 	inf_close_partial(inf);
 	*inf = *inc;		/* so the user pointer in still valid
@@ -497,6 +503,10 @@ static void inf_log(struct inputfile *inf, int loglevel,
   }
   if (inf->copy_line.str && inf->copy_line.n) {
     freelog(loglevel, "  original line: '%s'", inf->copy_line.str);
+  }
+  if (inf->in_string) {
+    freelog(loglevel, "  processing string starting at line %d",
+	    inf->string_start_line);
   }
   while ((inf=inf->included_from)) {    /* local pointer assignment */
     freelog(loglevel, "  included from file \"%s\", line %d",
@@ -725,7 +735,6 @@ static const char *get_token_value(struct inputfile *inf)
   struct astring *partial;
   char *c, *start;
   char trailing;
-  int start_line;
   int has_i18n_marking = 0;
   
   assert(have_line(inf));
@@ -788,7 +797,7 @@ static const char *get_token_value(struct inputfile *inf)
   */
 
   /* prepare for possibly multi-line string: */
-  start_line = inf->line_num;
+  inf->string_start_line = inf->line_num;
   inf->in_string = 1;
 
   partial = &inf->partial;	/* abbreviation */
@@ -821,10 +830,8 @@ static const char *get_token_value(struct inputfile *inf)
     strcpy(partial->str + partial->n - 2, "\n");
     
     if (!read_a_line(inf)) {
-      /* inf_warn etc should be varargs... */
-      freelog(LOG_FATAL, "Multi-line string went to end-of-file"
-	      " (string started at line %d)", start_line);
-      inf_die(inf, NULL);
+      /* shouldn't happen */
+      inf_die(inf, "Bad return for multi-line string from read_a_line");
     }
     c = start = inf->cur_line.str;
   }
