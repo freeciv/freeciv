@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.37\n"
+"Project-Id-Version: 0.39\n"
 "POT-Creation-Date: 2002-10-21 06:04+0200\n"
-"PO-Revision-Date: 2002-10-21 17:39+0200\n"
+"PO-Revision-Date: 2002-10-23 11:21+0200\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -2488,7 +2488,7 @@ msgstr "%s avvisades: ingent iakttagande av barbarer."
 
 #: server/srv_main.c:1296
 msgid "Sorry, no observation of dead players in this game."
-msgstr "Ledsen, inget iakttagande av döda spelare in detta spel."
+msgstr "Ledsen, inget iakttagande av döda spelare i detta spel."
 
 #: server/srv_main.c:1299
 #, c-format
@@ -11942,7 +11942,7 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Detta är version 0.38 av den svenska översättningen av Freeciv. Den "
+"Detta är version 0.39 av den svenska översättningen av Freeciv. Den "
 "innehåller vissa fel som ännu inte kunna rättas till, eftersom det kräver "
 "omfattande arbete på programmeringssidan, utanför den svenska "
 "översättningen. Exempel på sådana fel äro versal/gemen och böjningsformer av "
@@ -11956,6 +11956,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.39; 2002-10-23\n"
+"  Rättelse.\n"
 "Version 0.38; 2002-10-21\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.37; 2002-10-09\n"
