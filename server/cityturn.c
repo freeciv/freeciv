@@ -619,8 +619,10 @@ static void advisor_choose_build(struct player *pplayer, struct city *pcity)
   int want=0;
 
   init_choice(&choice);
-  if (!city_owner(pcity)->ai.control)
-    ai_eval_buildings(pcity); /* so that ai_advisor is smart even for humans */
+  if (!city_owner(pcity)->ai.control) {
+    /* so that ai_advisor is smart even for humans */
+    ai_eval_buildings(pcity);
+  }
   ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
   freelog(LOG_DEBUG, "Advisor_choose_build got %d/%d"
 	  " from ai_advisor_choose_building.",
@@ -628,20 +630,21 @@ static void advisor_choose_build(struct player *pplayer, struct city *pcity)
   id = choice.choice;
   want = choice.want;
 
-  if (id!=-1 && id != B_LAST && want > 0) {
+  if (id >= 0 && id < B_LAST && want > 0) {
     change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
-    /* making something. */    
+    /* making something. */
     return;
   }
 
+  /* Emergency. I have never seen that this code has been called. -- Per */
   impr_type_iterate(i) {
-    if(can_build_improvement(pcity, i) && i != B_PALACE) { /* build something random, undecided */
-      pcity->currently_building=i;
+    if (can_build_improvement(pcity, i) && i != B_PALACE) {
+      /* build something random, undecided */
+      pcity->currently_building = i;
       pcity->is_building_unit = FALSE;
       return;
     }
   } impr_type_iterate_end;
-
 }
 
 /**************************************************************************
@@ -801,10 +804,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 ...
 **************************************************************************/
 static void obsolete_building_test(struct city *pcity, int b1, int b2)
-{ 
-  if (pcity->currently_building==b1 && 
-      can_build_improvement(pcity, b2))
-    pcity->currently_building=b2;
+{
+  if (pcity->currently_building == b1
+      && !pcity->is_building_unit
+      && can_build_improvement(pcity, b2)) {
+    pcity->currently_building = b2;
+  }
 }
 
 /**************************************************************************
