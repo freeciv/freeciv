@@ -65,7 +65,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
 static void ai_military_findjob(struct player *pplayer,struct unit *punit);
 static void ai_military_gohome(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
-static struct unit *ai_military_rampage(struct unit *punit, int threshold);
+static bool ai_military_rampage(struct unit *punit, int threshold);
 
 static int unit_move_turns(struct unit *punit, int x, int y);
 static bool unit_role_defender(Unit_Type_id type);
@@ -1054,19 +1054,22 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
   Find and kill anything adjacent to us that we don't like with a 
   given threshold until we have run out of juicy targets or movement. 
   Wraps ai_military_findvictim().
+  Returns TRUE if survived the rampage session.
 **************************************************************************/
-static struct unit *ai_military_rampage(struct unit *punit, int threshold)
+static bool ai_military_rampage(struct unit *punit, int threshold)
 {
-  int x, y, id = punit->id;
+  int x, y;
   int count = punit->moves_left + 1; /* break any infinite loops */
 
-  while (punit && punit->moves_left > 0 && count-- > 0
+  while (punit->moves_left > 0 && count-- > 0
          && ai_military_findvictim(punit, &x, &y) >= threshold) {
-    ai_unit_attack(punit, x, y);
-    punit = find_unit_by_id(id);
+    if (!ai_unit_attack(punit, x, y)) {
+      /* Died */
+      return FALSE;
+    }
   }
   assert(count >= 0);
-  return punit;
+  return TRUE;
 }
 
 /*************************************************************************
@@ -1109,7 +1112,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     }
   } else {
     /* I had these guys set to just fortify, which is so dumb. -- Syela */
-    punit = ai_military_rampage(punit, 40 * SHIELD_WEIGHTING);
+    (void) ai_military_rampage(punit, 40 * SHIELD_WEIGHTING);
   }
 
   /* is this insanity supposed to be a sanity check? -- per */
@@ -1568,7 +1571,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
       freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
       /* aggro defense goes here -- Syela */
-      punit = ai_military_rampage(punit, 2); /* 2 is better than pillage */
+      (void) ai_military_rampage(punit, 2); /* 2 is better than pillage */
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "GOHOME");
       (void) ai_unit_goto(punit, pcity->x, pcity->y);
@@ -1961,7 +1964,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   /* Main attack loop */
   do {
     /* First find easy adjacent enemies; 2 is better than pillage */
-    if (!(punit = ai_military_rampage(punit, 2))) {
+    if (!ai_military_rampage(punit, 2)) {
       return; /* we died */
     }
 
@@ -1975,28 +1978,32 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     /* Then find enemies the hard way */
     find_something_to_kill(pplayer, punit, &dest_x, &dest_y);
     if (!same_pos(punit->x, punit->y, dest_x, dest_y)) {
-     int repeat = 0;
-     while (repeat < 2) {
-      repeat++;
+     int repeat;
+
+     for(repeat = 0; repeat < 2; repeat++) {
+
       if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)
           || !can_unit_attack_tile(punit, dest_x, dest_y)
-          || could_unit_move_to_tile(punit, dest_x, dest_y) == 0) {
+          || !(could_unit_move_to_tile(punit, dest_x, dest_y) == 0)) {
         /* Can't attack or move usually means we are adjacent but
          * on a ferry. This fixes the problem (usually). */
-        int i = ai_military_gothere(pplayer, punit, dest_x, dest_y);
-        if (i <= 0) {
-          return; /* dead or stuck */
-        } else {
-          UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> %d, %d", 
-                   dest_x, dest_y);
+        UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> %d, %d", 
+                 dest_x, dest_y);
+        if (ai_military_gothere(pplayer, punit, dest_x, dest_y) <= 0) {
+          /* Died or got stuck */
+          return;
         }
       } else {
         /* Close combat. fstk sometimes want us to attack an adjacent
          * enemy that rampage wouldn't */
         UNIT_LOG(LOG_DEBUG, punit, "mil att bash -> %d, %d", dest_x, dest_y);
-        ai_unit_attack(punit, dest_x, dest_y);
+        if (!ai_unit_attack(punit, dest_x, dest_y)) {
+          /* Died */
+          return;
+        }
       }
-     } /* while */
+
+     } /* for-loop */
     } else {
       /* FIXME: This happens a bit too often! */
       UNIT_LOG(LOG_DEBUG, punit, "fstk didn't find us a worthy target!");
@@ -2004,9 +2011,6 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
       ct = 0;
     }
 
-    if (!(punit = find_unit_by_id(id))) {
-      return; /* we died */
-    }
     ct--; /* infinite loops from railroads must be stopped */
   } while (punit->moves_left > 0 && ct > 0);
 
@@ -2272,7 +2276,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
   if (pcity) {
     /* rest in city until the hitpoints are recovered, but attempt
        to protect city from attack */
-    if ((punit = ai_military_rampage(punit, 2))) {
+    if (ai_military_rampage(punit, 2)) {
       freelog(LOG_DEBUG, "%s's %s(%d) at (%d, %d) recovering hit points.",
               pplayer->name, unit_type(punit)->name, punit->id, punit->x,
               punit->y);
@@ -2282,7 +2286,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
   } else {
     /* goto to nearest city to recover hit points */
     /* just before, check to see if we can occupy at enemy city undefended */
-    if (!(punit = ai_military_rampage(punit, 99999))) { 
+    if (!ai_military_rampage(punit, 99999)) { 
       return; /* oops, we died */
     }
 

@@ -37,7 +37,7 @@ bool ai_unit_goto(struct unit *punit, int x, int y);
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y);
 
 bool ai_unit_make_homecity(struct unit *punit, struct city *pcity);
-void ai_unit_attack(struct unit *punit, int x, int y);
+bool ai_unit_attack(struct unit *punit, int x, int y);
 bool ai_unit_move(struct unit *punit, int x, int y);
 
 struct city *dist_nearest_city(struct player *pplayer, int x, int y,

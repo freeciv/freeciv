@@ -270,10 +270,11 @@ static bool has_bodyguard(struct unit *punit)
 /**************************************************************************
   Move and attack with an ai unit. We do not wait for server reply.
 **************************************************************************/
-void ai_unit_attack(struct unit *punit, int x, int y)
+bool ai_unit_attack(struct unit *punit, int x, int y)
 {
   struct packet_move_unit pmove;
   int sanity = punit->id;
+  bool alive;
 
   assert(punit != NULL);
   assert(unit_owner(punit)->ai.control);
@@ -285,12 +286,16 @@ void ai_unit_attack(struct unit *punit, int x, int y)
   pmove.unid = punit->id;
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
   handle_move_unit(unit_owner(punit), &pmove);
+  alive = (find_unit_by_id(sanity) != NULL);
 
-  if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
-    if (has_bodyguard(punit)) {
-      ai_unit_bodyguard_move(punit->ai.bodyguard, x, y);
-    }
+  if (alive && same_pos(x, y, punit->x, punit->y)
+      && has_bodyguard(punit)) {
+    ai_unit_bodyguard_move(punit->ai.bodyguard, x, y);
+    /* Clumsy bodyguard might trigger an auto-attack */
+    alive = (find_unit_by_id(sanity) != NULL);
   }
+
+  return alive;
 }
 
 /**************************************************************************
