@@ -697,7 +697,7 @@ static void init_danger_node(struct pf_map *pf_map,
 }
 
 /***********************************************************************
-  Creating path segment going back to a safe tile.
+  Creating path segment going back from d_node1 to a safe tile.
 ***********************************************************************/
 static void create_danger_segment(struct pf_map *pf_map, enum direction8 dir,
                                   struct danger_node *d_node1, int length)
@@ -887,6 +887,9 @@ static bool danger_iterate_map(struct pf_map *pf_map)
             /* We don't consider waiting to get to a safe tile as 
              * "real" waiting */
 	    d_node1->waited = FALSE;
+            if (pf_map->status[pf_map->index] == NS_WAITING) {
+              d_node1->step--;
+            }
 	  }
 	  pf_map->status[index1] = NS_NEW;
 	  pq_insert(pf_map->queue, index1, -cost_of_path);
