@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-30 14:08+0100\n"
+"PO-Revision-Date: 2005-01-30 15:35+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5393,9 +5393,9 @@ msgid "%s already controls %s"
 msgstr "%s již ovládá %s"
 
 #: server/stdinhand.c:2881
-#, fuzzy, c-format
+#, c-format
 msgid "being detached from %s."
-msgstr "Hra: %s získali %s od %s."
+msgstr "byl odpojen od %s."
 
 #: server/stdinhand.c:2934
 #, c-format
@@ -6051,9 +6051,9 @@ msgstr "Hra: %s ztracena při útoku %s %s%s."
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Hra: Ztratili jsme %d jednotku při útoku %s %s%s."
+msgstr[1] "Hra: Ztratili jsme %d jednotky při útoku %s %s%s."
+msgstr[2] "Hra: Ztratili jsme %d jednotek při útoku %s %s%s."
 
 #: server/unittools.c:1753
 #, c-format
@@ -7194,7 +7194,7 @@ msgstr[2] "* Může vézt %d pozemních jednotek přes vodu.\n"
 #: client/helpdata.c:694
 #, c-format
 msgid "* Can establish trade routes (must travel to target city and must be at least 9 tiles [in Manhattan distance] from this unit's home city).\n"
-msgstr ""
+msgstr "* Může zřizovat obchodní cesty (musí se přesunout do cílového města a musí být minimálně 9 polí od svého domovského města).\n"
 
 #: client/helpdata.c:701
 #, c-format
@@ -8436,9 +8436,9 @@ msgstr "Šance na vítězství: Ú:%d%% O:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #: client/text.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s"
-msgstr "HP Mini"
+msgstr "Ú:%d O:%d PS:%d HS:%d/%d%s"
 
 #: client/text.c:295
 msgid " V"
@@ -12239,7 +12239,7 @@ msgstr "Typ jednotky"
 #: client/gui-mui/repodlgs.c:664
 #: client/gui-win32/repodlgs.c:659
 msgid "U"
-msgstr ""
+msgstr "V"
 
 #: client/gui-gtk-2.0/repodlgs.c:936
 #: client/gui-gtk/repodlgs.c:842
@@ -13275,9 +13275,8 @@ msgid "Reset Tree"
 msgstr "Obnovit strom"
 
 #: client/gui-gtk/helpdlg.c:592
-#, fuzzy
 msgid "Expand Unknown"
-msgstr "Neznámá technologie (%s)"
+msgstr "Rozšířit neznámé "
 
 #: client/gui-gtk/helpdlg.c:833
 #: client/gui-gtk/helpdlg.c:858
@@ -14476,14 +14475,14 @@ msgid "Unit: %s(%s%s)"
 msgstr "Jednotka: %s(%s%s)"
 
 #: client/gui-mui/mapclass.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-msgstr "HP Mini"
+msgstr "Ú:%d O:%d PS:%d HS:%d/%d%s%s"
 
 #: client/gui-mui/mapclass.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
-msgstr "Ovladače pro tiskárny HP."
+msgstr "Ú:%d O:%d PS:%d HS:%d0%%"
 
 #: client/gui-mui/mapclass.c:1633
 #, c-format
@@ -21727,7 +21726,7 @@ msgstr "?plural:Švédi"
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
-msgstr "Švýcar"
+msgstr "Švýcarský"
 
 #: data/nation/swiss.ruleset:4
 msgid "?plural:Swiss"
