@@ -1828,7 +1828,16 @@ Now.. Go give'em hell!",
    Shift<Key>n:       key-unit-nuke()       \\n\
    <Key>o:            key-unit-transform()  \\n\
    <Key>l:            key-goto-dialog()     \\n\
-   <Key>t:            key-city-workers()",
+   <Key>t:            key-city-workers()    \\n\
+   <Key>9:            key-unit-north-east() \\n\
+   <Key>8:            key-unit-north()      \\n\
+   <Key>7:            key-unit-north-west() \\n\
+   <Key>6:            key-unit-east()       \\n\
+   <Key>5:            focus-to-next-unit()  \\n\
+   <Key>4:            key-unit-west()       \\n\
+   <Key>3:            key-unit-south-east() \\n\
+   <Key>2:            key-unit-south()      \\n\
+   <Key>1:            key-unit-south-west()",
 "Freeciv*overviewcanvas.translations:\
    <BtnDown>:         select-overviewcanvas() \\n\
    <Key>g:            key-unit-goto()       \\n\

@@ -351,23 +351,32 @@ gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
 
     switch (event->keyval)
     {
+    case GDK_8:
     case GDK_KP_8:
     case GDK_KP_Up:		key_unit_north();		break;
+    case GDK_9:
     case GDK_KP_9:
     case GDK_KP_Page_Up:	key_unit_north_east();		break;
+    case GDK_6:
     case GDK_KP_6:
     case GDK_KP_Right:		key_unit_east();		break;
+    case GDK_3:
     case GDK_KP_3:
     case GDK_KP_Page_Down:	key_unit_south_east();		break;
+    case GDK_2:
     case GDK_KP_2:
     case GDK_KP_Down:		key_unit_south();		break;
+    case GDK_1:
     case GDK_KP_1:
     case GDK_KP_End:		key_unit_south_west();		break;
+    case GDK_4:
     case GDK_KP_4:
     case GDK_KP_Left:		key_unit_west();		break;
+    case GDK_7:
     case GDK_KP_7:
     case GDK_KP_Home:		key_unit_north_west();		break;
     case GDK_KP_Begin:
+    case GDK_5:
     case GDK_KP_5:		focus_to_next_unit();		break;
 
     case GDK_e:			key_end_turn();			break;

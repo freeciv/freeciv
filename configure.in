@@ -235,6 +235,7 @@ dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(gethostname select strerror strstr)
+AC_CHECK_FUNC(usleep,AC_DEFINE(HAVE_USLEEP))
 
 dnl autoscan also recommends gettimeofday in AC_CHECK_FUNCS, but in the code
 dnl that is already protected by ifdef CHRONO, and is for selective
