@@ -183,8 +183,9 @@ void request_unit_build_city(struct unit *punit)
 **************************************************************************/
 void request_move_unit_direction(struct unit *punit, int dx, int dy)
 {
-  int dest_x, dest_y;
+  int dest_x, dest_y, i;
   struct unit req_unit;
+  char buf[512];
 
   dest_x=map_adjust_x(punit->x+dx);
   dest_y=punit->y+dy;   /* not adjusting on purpose*/
@@ -198,7 +199,27 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
 	 unit_can_help_build_wonder(punit, pcity)) {
 	popup_caravan_dialog(punit, phomecity, pcity);
 	return;
-      }
+      } else if (game.player_idx != pcity->owner) {  
+                append_output_window("Game: You cannot establish a trade route here.");
+                for (i=0;i<4;i++)
+                    if (phomecity->trade[i]==pcity->id) {
+                       sprintf(buf, "      A traderoute already exists between %s and %s!",
+                                    phomecity->name, pcity->name);
+                       append_output_window(buf);
+                       return;
+                    }
+                if (city_num_trade_routes(phomecity)==4) {
+                   sprintf(buf, "      The city of %s has already 4 trade routes!",phomecity->name);
+                   append_output_window(buf);
+                   return;
+                } 
+                if (city_num_trade_routes(pcity)==4) {
+                   sprintf(buf, "      The city of %s has already 4 trade routes!",pcity->name);
+                   append_output_window(buf);
+                   return;
+                }
+                return;
+             }
     }
   }
   else if(unit_flag(punit->type, F_DIPLOMAT) &&

@@ -956,24 +956,26 @@ void handle_unit_establish_trade(struct player *pplayer,
     pcity_dest=find_city_by_id(req->city_id);
     
     if(unit_flag(punit->type, F_CARAVAN) && pcity_homecity && pcity_dest && 
-       is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y) &&
-       can_establish_trade_route(pcity_homecity, pcity_dest)) {
-      int revenue;
+       is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)) 
+          if (can_establish_trade_route(pcity_homecity, pcity_dest)) {
+             int revenue;
 
-      revenue=establish_trade_route(pcity_homecity, pcity_dest);
-      connection_do_buffer(pplayer->conn);
-      notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+             revenue=establish_trade_route(pcity_homecity, pcity_dest);
+             connection_do_buffer(pplayer->conn);
+             notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
 		       "Game: Your %s has arrived in %s, and revenues amount to %d in gold.", 
 		       unit_name(punit->type), pcity_dest->name, revenue);
-      wipe_unit(0, punit);
-      pplayer->economic.gold+=revenue;
-      send_player_info(pplayer, pplayer);
-      city_refresh(pcity_homecity);
-      city_refresh(pcity_dest);
-      send_city_info(pplayer, pcity_homecity, 0);
-      send_city_info(city_owner(pcity_dest), pcity_dest, 0);
-      connection_do_unbuffer(pplayer->conn);
-    }
+             wipe_unit(0, punit);
+             pplayer->economic.gold+=revenue;
+             send_player_info(pplayer, pplayer);
+             city_refresh(pcity_homecity);
+             city_refresh(pcity_dest);
+             send_city_info(pplayer, pcity_homecity, 0);
+             send_city_info(city_owner(pcity_dest), pcity_dest, 0);
+             connection_do_unbuffer(pplayer->conn);
+          } else 
+             notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+                    "Game: Sorry. Your %s cannot establish a trade route here!", unit_name(punit->type));
   }
 }
 /**************************************************************************
