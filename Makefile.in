@@ -110,9 +110,9 @@ gui_sources = @gui_sources@
 @MAKE_DATA_TRUE@DSUBDIRS = data
 @MAKE_DATA_FALSE@DSUBDIRS = 
 
-SUBDIRS = $(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc vms
+SUBDIRS = $(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc
 
-EXTRA_DIST = PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt 		README.AI README.rulesets README.graphics 		civ ser config.mac.h diff_ignore
+EXTRA_DIST = PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt 		README.AI README.rulesets README.graphics 		civ ser config.mac.h diff_ignore 		amiga/amigaclient.c    		amiga/amigaserver.c    		amiga/config.h         		amiga/gettext.c        		amiga/libintl.h        		amiga/ReadMe           		amiga/ReadMe.2Amigas   		amiga/ReadMe.developer 		amiga/SDI_compiler.h   		amiga/smakefile        		amiga/vmakefile        		amiga/vsnprintf.c      		vms/config.h_vms       		vms/freeciv_h.vms      		vms/imlib_config.h_vms 		vms/readme.vms         		vms/vms_build.com
 
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -128,7 +128,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DIST_SUBDIRS =  data intl common ai server client po doc vms
+DIST_SUBDIRS =  data intl common ai server client po doc
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
@@ -308,6 +308,7 @@ distdir: $(DISTFILES)
 	distdir=`cd $(distdir) && pwd`; \
 	cd $(top_srcdir) \
 	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu Makefile
+	$(mkinstalldirs) $(distdir)/amiga $(distdir)/vms
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \

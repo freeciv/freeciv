@@ -19,8 +19,26 @@ DSUBDIRS =
 endif
 
 
-SUBDIRS=	$(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc vms
+SUBDIRS=	$(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc
 
 EXTRA_DIST=	PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt \
 		README.AI README.rulesets README.graphics \
-		civ ser config.mac.h diff_ignore
+		civ ser config.mac.h diff_ignore \
+		amiga/amigaclient.c    \
+		amiga/amigaserver.c    \
+		amiga/config.h         \
+		amiga/gettext.c        \
+		amiga/libintl.h        \
+		amiga/ReadMe           \
+		amiga/ReadMe.2Amigas   \
+		amiga/ReadMe.developer \
+		amiga/SDI_compiler.h   \
+		amiga/smakefile        \
+		amiga/vmakefile        \
+		amiga/vsnprintf.c      \
+		vms/config.h_vms       \
+		vms/freeciv_h.vms      \
+		vms/imlib_config.h_vms \
+		vms/readme.vms         \
+		vms/vms_build.com
+
