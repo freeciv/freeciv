@@ -1166,10 +1166,9 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   }
 
   if (aunit) {
-    freelog(LOG_DEBUG, "%s#%d@(%d,%d) to meet charge %s#%d@(%d,%d)[body=%d]",
-	    unit_type(punit)->name, punit->id, punit->x, punit->y,
-	    unit_type(aunit)->name, aunit->id, aunit->x, aunit->y,
-	    aunit->ai.bodyguard);
+    UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "to meet charge %s#%d@(%d,%d){%d}",
+             unit_type(aunit)->name, aunit->id, aunit->x, aunit->y,
+             aunit->ai.bodyguard);
   }
 
   if (!same_pos(punit->x, punit->y, x, y)) {
@@ -1358,8 +1357,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
   if (!goto_is_sane(punit, dest_x, dest_y, TRUE) 
       || (ferryboat && goto_is_sane(ferryboat, dest_x, dest_y, TRUE))) {
     punit->ai.ferryboat = boatid;
-    freelog(LOG_DEBUG, "%s: %d@(%d, %d): Looking for BOAT (id=%d).",
-            pplayer->name, punit->id, punit->x, punit->y, boatid);
+    UNIT_LOG(LOG_DEBUG, punit, "Looking for boat[%d].", boatid);
     if (boatid > 0 && !same_pos(x, y, bx, by)) {
       /* Go to the boat */
       /* FIXME: this can lose bodyguard */
@@ -1375,19 +1373,20 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
                       || ferryboat->ai.passenger == punit->id)) {
       int boat_x, boat_y;
 
-      freelog(LOG_DEBUG, "We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d, %d).",
-              punit->id, ferryboat->id, punit->x, punit->y, dest_x, dest_y);
+      UNIT_LOG(LOG_DEBUG, punit, "Found boat[%d], going (%d,%d)",
+               ferryboat->id, dest_x, dest_y);
       handle_unit_activity_request(punit, ACTIVITY_SENTRY);
       ferryboat->ai.passenger = punit->id;
 
       /* Last ingredient: a beachhead. */
       if (find_beachhead(punit, dest_x, dest_y, &boat_x, &boat_y)) {
+        UNIT_LOG(LOG_DEBUG, punit, "Found beachhead (%d,%d)", boat_x, boat_y);
 	set_goto_dest(ferryboat, boat_x, boat_y);
 	set_goto_dest(punit, dest_x, dest_y);
         if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer)
             <= 0) {
           /* FIXME: perhaps we should only require only two passengers */
-          freelog(LOG_DEBUG, "All aboard!");
+          UNIT_LOG(LOG_DEBUG, ferryboat, "All aboard!");
           unit_list_iterate(ptile->units, mypass) {
             if (mypass->ai.ferryboat == ferryboat->id
                 && punit->owner == mypass->owner) {
@@ -1435,8 +1434,9 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
           if (aunit->ai.charge != punit->id || punit->owner != aunit->owner) {
             continue;
           }
-          freelog(LOG_DEBUG, "Bodyguard at (%d, %d) is adjacent to (%d, %d)",
-                  i, j, punit->x, punit->y);
+          UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
+                   "our bodyguard %s[%d] is next to us at (%d, %d)",
+                   unit_type(aunit)->name, aunit->id, i, j);
           /* FIXME: What is happening here? */
           if (aunit->moves_left > 0) {
             return 0;
@@ -1448,17 +1448,13 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
     }
     /* end 'short leash' subroutine */
     
-    freelog(LOG_DEBUG, "GOTHERE: %s#%d@(%d,%d)->(%d,%d)", 
-            unit_type(punit)->name, punit->id,
-            punit->x, punit->y, dest_x, dest_y);
+    UNIT_LOG(LOG_DEBUG, punit, "Attempt to walk to (%d,%d)", dest_x, dest_y);
     if (!ai_unit_goto(punit, dest_x, dest_y)) {
       return -1;		/* died */
     }
     /* liable to bump into someone that will kill us.  Should avoid? */
   } else {
-    freelog(LOG_DEBUG, "%s#%d@(%d,%d) not moving -> (%d, %d)",
-            unit_type(punit)->name, punit->id,
-            punit->x, punit->y, dest_x, dest_y);
+    UNIT_LOG(LOG_DEBUG, punit, "Not moving");
   }
   
   /* Dead unit shouldn't reach this point */
@@ -1546,10 +1542,9 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
    } city_list_iterate_end;
   }
 
-  freelog(LOG_DEBUG, "%s: %s (%d@%d,%d) looking for charge; %d/%d",
-	  pplayer->name, unit_type(punit)->name, punit->id,
-	  punit->x, punit->y, best, best * 100 / toughness);
-
+  UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "was looking for charge, best want %d",
+           best * 100 / toughness);
+  
   return ((best * 100) / toughness);
 }
 
@@ -1704,17 +1699,16 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
   CHECK_UNIT(punit);
 
   if (pcity) {
-    freelog(LOG_DEBUG, "GOHOME (%d)(%d,%d)C(%d,%d)",
-		 punit->id,punit->x,punit->y,pcity->x,pcity->y); 
+    UNIT_LOG(LOG_DEBUG, punit, "go home to %s(%d,%d)",
+             pcity->name, pcity->x, pcity->y); 
     if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
-      freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
+      UNIT_LOG(LOG_DEBUG, punit, "go home successful; role AI_NONE");
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
       /* aggro defense goes here -- Syela */
       /* Attack anything that won't kill us */
       (void) ai_military_rampage(punit, RAMPAGE_ANYTHING, 
                                  RAMPAGE_ANYTHING);
     } else {
-      UNIT_LOG(LOG_DEBUG, punit, "GOHOME");
       (void) ai_unit_goto(punit, pcity->x, pcity->y);
     }
   }
@@ -2127,12 +2121,11 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       /* END STEAM-ENGINES KLUGE */
       
       if (punit->id != 0 && ferryboat && is_ground_unit(punit)) {
-        freelog(LOG_DEBUG, "%s@(%d, %d) -> %s@(%d, %d) -> %s@(%d, %d)"
-                " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
-                unit_type(punit)->name, punit->x, punit->y,
-                unit_type(ferryboat)->name, bx, by,
-                acity->name, acity->x, acity->y, 
-                go_by_boat, move_time, want, best);
+        UNIT_LOG(LOG_DEBUG, punit, "in fstk with boat %s@(%d, %d) -> %s@(%d, %d)"
+                 " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
+                 unit_type(ferryboat)->name, bx, by,
+                 acity->name, acity->x, acity->y, 
+                 go_by_boat, move_time, want, best);
       }
       
       if (want > best && ai_fuzzy(pplayer, TRUE)) {
@@ -2546,8 +2539,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   }
 
   if (p != 0) {
-    freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
-		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
+    UNIT_LOG(LOG_DEBUG, punit, "in manage_ferryboat p=%d, n=%d", p, n);
     if (is_goto_dest_set(punit) && punit->moves_left > 0 && n != 0) {
       (void) ai_unit_gothere(punit);
     } else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
@@ -2658,7 +2650,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
        to protect city from attack (and be opportunistic too)*/
     if (ai_military_rampage(punit, RAMPAGE_ANYTHING, 
                             RAMPAGE_FREE_CITY_OR_BETTER)) {
-      freelog(LOG_DEBUG, "%s's %s(%d) at (%d, %d) recovering hit points.",
+      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "recovering hit points.",
               pplayer->name, unit_type(punit)->name, punit->id, punit->x,
               punit->y);
     } else {
@@ -2975,7 +2967,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
     return; /* sticks better to own units with this -- jk */
   }
 
-  freelog(LOG_DEBUG, "Barbarian leader needs to flee");
+  UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader needs to flee");
   mindist = 1000000;
   closest_unit = NULL;
 
@@ -3000,7 +2992,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   /* Disappearance - 33% chance on coast, when older than barbarian life span */
   if (is_at_coast(leader->x, leader->y) && leader->fuel == 0) {
     if(myrand(3) == 0) {
-      freelog(LOG_DEBUG, "Barbarian leader disappeared at %d %d", leader->x, leader->y);
+      UNIT_LOG(LOG_DEBUG, leader, "barbarian leader disappearing...");
       wipe_unit(leader);
       return;
     }
@@ -3008,7 +3000,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
   if (!closest_unit) {
     handle_unit_activity_request(leader, ACTIVITY_IDLE);
-    freelog(LOG_DEBUG, "Barbarian leader: No enemy.");
+    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: no enemy.");
     return;
   }
 
@@ -3016,8 +3008,8 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
   do {
     int last_x, last_y;
-    freelog(LOG_DEBUG, "Barbarian leader: moves left: %d\n",
-	    leader->moves_left);
+    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: moves left: %d.",
+             leader->moves_left);
 
     square_iterate(leader->x, leader->y, 1, x, y) {
       if (WARMAP_COST(x, y) > safest
@@ -3032,13 +3024,15 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
     } 
     square_iterate_end;
 
+    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: fleeing to (%d,%d).", 
+             safest_x, safest_y);
     if (same_pos(leader->x, leader->y, safest_x, safest_y)) {
-      freelog(LOG_DEBUG, "Barbarian leader reached the safest position.");
+      UNIT_LOG(LOG_DEBUG, leader, 
+               "Barbarian leader: reached the safest position.");
       handle_unit_activity_request(leader, ACTIVITY_IDLE);
       return;
     }
 
-    freelog(LOG_DEBUG, "Fleeing to %d, %d.", safest_x, safest_y);
     last_x = leader->x;
     last_y = leader->y;
     (void) ai_unit_goto(leader, safest_x, safest_y);
