@@ -24,37 +24,45 @@
  */
 #define POWER_FACTOR	10
 
-bool can_player_attack_tile(struct player *pplayer,
+bool can_player_attack_tile(const struct player *pplayer,
 			    const struct tile *ptile);
-bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
+bool can_unit_attack_unit_at_tile(const struct unit *punit,
+				  const struct unit *pdefender,
 				  const struct tile *dest_tile);
-bool can_unit_attack_all_at_tile(struct unit *punit,
+bool can_unit_attack_all_at_tile(const struct unit *punit,
 				 const struct tile *ptile);
-bool can_unit_attack_tile(struct unit *punit, const struct tile *ptile);
+bool can_unit_attack_tile(const struct unit *punit,
+			  const struct tile *ptile);
 
 double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp);
 
-void get_modified_firepower(struct unit *attacker, struct unit *defender,
+void get_modified_firepower(const struct unit *attacker,
+			    const struct unit *defender,
 			    int *att_fp, int *def_fp);
-double unit_win_chance(struct unit *attacker, struct unit *defender);
+double unit_win_chance(const struct unit *attacker,
+		       const struct unit *defender);
 
-bool unit_really_ignores_citywalls(struct unit *punit);
-bool unit_on_fortress(struct unit *punit);
-struct city *sdi_defense_close(struct player *owner,
+bool unit_really_ignores_citywalls(const struct unit *punit);
+bool unit_on_fortress(const struct unit *punit);
+struct city *sdi_defense_close(const struct player *owner,
 			       const struct tile *ptile);
 
-int get_attack_power(struct unit *punit);
+int get_attack_power(const struct unit *punit);
 int base_get_attack_power(Unit_Type_id type, int veteran, int moves_left);
-int base_get_defense_power(struct unit *punit);
-int get_defense_power(struct unit *punit);
-int get_total_defense_power(struct unit *attacker, struct unit *defender);
+int base_get_defense_power(const struct unit *punit);
+int get_defense_power(const struct unit *punit);
+int get_total_defense_power(const struct unit *attacker,
+			    const struct unit *defender);
 int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
 			      const struct tile *ptile,
 			      bool fortified, int veteran);
-int get_total_attack_power(struct unit *attacker, struct unit *defender);
+int get_total_attack_power(const struct unit *attacker,
+			   const struct unit *defender);
 
-struct unit *get_defender(struct unit *attacker, const struct tile *ptile);
-struct unit *get_attacker(struct unit *defender, const struct tile *ptile);
+struct unit *get_defender(const struct unit *attacker,
+			  const struct tile *ptile);
+struct unit *get_attacker(const struct unit *defender,
+			  const struct tile *ptile);
 
 bool is_stack_vulnerable(const struct tile *ptile);
 #endif /* FC__COMBAT_H */
