@@ -700,7 +700,8 @@ void map_fractal_generate(void)
     filter_land();
   }
 
-  add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
+  if(game.scenario!=1) /* type 1 scenarios already provide specials */
+    add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
   
   /* print_map(); */
   make_huts(map.huts);

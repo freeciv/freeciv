@@ -272,9 +272,6 @@ int main(int argc, char *argv[])
     }
    /* game.scenario: 0=normal savegame, 1=everything but players,
        2=just tile map and startpositions, 3=just tile map
-       (Except that actually game_load returns 0 for a pre-start
-       savegame and 1 for a normal savegame.  This whole thing
-       needs an overhaul  --dwp)
    */
     if (game.scenario) { /* we may have a scenario here */
       if(game.nplayers) { /* no, it's just a normal savegame */

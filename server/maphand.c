@@ -283,9 +283,12 @@ void map_save(struct section_file *file)
    */
   secfile_insert_int(file, map.is_earth, "map.is_earth");
 
-  for(i=0; i<R_LAST; i++) {
-    secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
-    secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
+  /* don't save start positions in a type 3 scenario */
+  if(game.scenario!=3) {
+    for(i=0; i<R_LAST; i++) {
+      secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
+      secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
+    }
   }
     
   /* put the terrain type */
@@ -295,6 +298,12 @@ void map_save(struct section_file *file)
     pbuf[x]='\0';
 
     secfile_insert_str(file, pbuf, "map.t%03d", y);
+  }
+
+  /* don't save specials in scenarios of types 2 and 3 */
+  if((game.scenario==3) || (game.scenario==2)) {
+    free(pbuf);
+    return;
   }
 
   /* get lower 4 bits of special flags */

@@ -335,19 +335,18 @@ int game_load(struct section_file *file)
     if (game.version >= 10300) {
       game.settlers = secfile_lookup_int(file, "game.settlers");
       game.explorer = secfile_lookup_int(file, "game.explorer");
-      
+
       map.riches = secfile_lookup_int(file, "map.riches");
       map.huts = secfile_lookup_int(file, "map.huts");
       map.generator = secfile_lookup_int(file, "map.generator");
-      if (tmp_server_state==PRE_GAME_STATE &&
-	  map.generator == 0) { /* generator 0 = map done with map editor */
-        map_tiles_load(file);
-        if (has_capability("startpos",savefile_options)) {
-          map_startpos_load(file);
-          return 2; /* make this a scenario */
-        }
-	return 3; /* make this some kind of scenario */
-      }
+      map.seed = secfile_lookup_int(file, "map.seed");
+      map.landpercent = secfile_lookup_int(file, "map.landpercent");
+      map.swampsize = secfile_lookup_int(file, "map.swampsize");
+      map.deserts = secfile_lookup_int(file, "map.deserts");
+      map.riverlength = secfile_lookup_int(file, "map.riverlength");
+      map.mountains = secfile_lookup_int(file, "map.mountains");
+      map.forestsize = secfile_lookup_int(file, "map.forestsize");
+
       if (has_capability("startoptions", savefile_options)) {
 	map.xsize = secfile_lookup_int(file, "map.width");
 	map.ysize = secfile_lookup_int(file, "map.height");
@@ -356,13 +355,22 @@ int game_load(struct section_file *file)
 	map.xsize = secfile_lookup_int(file, "map.xsize");
 	map.ysize = secfile_lookup_int(file, "map.ysize");
       }
-      map.seed = secfile_lookup_int(file, "map.seed");
-      map.landpercent = secfile_lookup_int(file, "map.landpercent");
-      map.swampsize = secfile_lookup_int(file, "map.swampsize");
-      map.deserts = secfile_lookup_int(file, "map.deserts");
-      map.riverlength = secfile_lookup_int(file, "map.riverlength");
-      map.mountains = secfile_lookup_int(file, "map.mountains");
-      map.forestsize = secfile_lookup_int(file, "map.forestsize");
+
+      if (tmp_server_state==PRE_GAME_STATE &&
+	  map.generator == 0) { /* generator 0 = map done with map editor */
+        if (has_capability("specials",savefile_options)) {
+          map_load(file);
+          section_file_check_unused(file, NULL);
+          section_file_free(file);
+          return 1; /* make this a type 1 scenario */
+        }
+        map_tiles_load(file);
+        if (has_capability("startpos",savefile_options)) {
+          map_startpos_load(file);
+          return 2; /* make this a type 2 scenario */
+        }
+	return 3; /* make this a type 3 scenario */
+      }
     }
     if(tmp_server_state==PRE_GAME_STATE) {
       return 0;
@@ -407,15 +415,38 @@ void game_save(struct section_file *file)
 {
   int i;
   int version;
-  char name[20],temp[100];
+  char name[20],temp[100], temp1[100], *temp2;
 
   version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION; 
   secfile_insert_int(file, version, "game.version");
   secfile_insert_int(file, (int) server_state, "game.server_state");
   secfile_insert_str(file, metaserver_info_line, "game.metastring");
-  secfile_insert_str(file, SAVEFILE_OPTIONS, "savefile.options");
 
-  
+  if(server_state!=PRE_GAME_STATE) {
+    secfile_insert_str(file, SAVEFILE_OPTIONS, "savefile.options");
+  } else { /* cut out unirandom, and insert startpos if necessary */
+    strcpy(temp, SAVEFILE_OPTIONS);
+    temp2=strtok(temp," ");
+    *temp1='\0';
+    while(temp2 != NULL) {
+      /* we don't have unirandom in settings and scenarios */
+      if(strcmp(temp2,"unirandom")!=0) {
+        strcat(temp1," ");
+        strcat(temp1,temp2);
+      }
+      temp2=strtok(NULL," ");
+    }
+    if(game.scenario==2) {
+      /* we have start positions in type 2 scenarios */
+      strcat(temp1," startpos");
+    } else
+    if(game.scenario==1) {
+      /* we have start positions and specials in type 1 scenarios */
+      strcat(temp1," specials");
+    }
+    secfile_insert_str(file, temp1+1, "savefile.options");
+  }
+
   secfile_insert_int(file, game.gold, "game.gold");
   secfile_insert_int(file, game.tech, "game.tech");
   secfile_insert_int(file, game.skill_level, "game.skill_level");
@@ -473,10 +504,10 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.huts, "map.huts");
     secfile_insert_int(file, map.generator, "map.generator");
   } 
-  if (server_state==PRE_GAME_STATE) {
-    return;
-  } else {
-
+  if ((server_state==PRE_GAME_STATE) && (game.scenario==0)) {
+    return; /* want to save scenarios as well */
+  }
+  if (server_state!=PRE_GAME_STATE) {
     secfile_insert_int(file,iRandJ,"random.index_J");
     secfile_insert_int(file,iRandK,"random.index_K");
     secfile_insert_int(file,iRandX,"random.index_X");

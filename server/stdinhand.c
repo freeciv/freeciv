@@ -590,8 +590,7 @@ void save_command(char *arg)
 {
   struct section_file file;
   
-  if (server_state==SELECT_RACES_STATE || 
-      (server_state == PRE_GAME_STATE && !map_is_empty()))
+  if (server_state==SELECT_RACES_STATE)
     {
       printf("Please wait until the game has started to save.\n");
       return;
