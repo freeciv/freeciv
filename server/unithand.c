@@ -559,7 +559,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y)
 {
   int unit_id;
-  struct unit *pdefender;
+  struct unit *pdefender, *ferryboat, *bodyguard;
   struct unit_list cargolist;
   
   unit_id=punit->id;
@@ -579,6 +579,8 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			 "Game: Aborting GOTO for AI attack procedures.");
         return 0;
       } else {
+if (pplayer->ai.control && get_transporter_capacity(punit))
+printf("Hey, idiot! What's wrong with you?? %s\n", unit_types[99999999].name);
 	handle_unit_attack_request(pplayer, punit, pdefender);
         return 1;
       };
@@ -587,6 +589,10 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 		       "Game: You can't attack there.");
       return 0;
     };
+  } else if (punit->ai.bodyguard > 0 && (bodyguard = unit_list_find(&map_get_tile(punit->x,
+      punit->y)->units, punit->ai.bodyguard)) && !bodyguard->moves_left) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+       "Game: %s doesn't want to leave its bodyguard.", unit_types[punit->type].name);
   } else if(can_unit_move_to_tile(punit, dest_x, dest_y) && try_move_unit(punit, dest_x, dest_y)) {
     int src_x, src_y;
     struct city *pcity;
@@ -610,6 +616,16 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 		 get_unit_type(punit->type)->vision_range);
     
     /* ok now move the unit */
+
+    if (punit->ai.ferryboat) {
+      ferryboat = unit_list_find(&map_get_tile(punit->x, punit->y)->units,
+                  punit->ai.ferryboat);
+      if (ferryboat) {
+/*printf("%d disembarking from ferryboat %d\n", punit->id, punit->ai.ferryboat);*/
+        ferryboat->ai.passenger = 0;
+        punit->ai.ferryboat = 0;
+      }
+    } /* just clearing that up */
 
     src_x=punit->x;
     src_y=punit->y;
@@ -650,6 +666,23 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
       handle_unit_enter_hut(punit);
     
     connection_do_unbuffer(pplayer->conn);
+
+/* bodyguard code */
+    if(unit_list_find(&pplayer->units, unit_id)) {
+      if (punit->ai.bodyguard > 0) {
+        bodyguard = unit_list_find(&(map_get_tile(src_x, src_y)->units),
+                    punit->ai.bodyguard);
+        if (bodyguard) {
+          handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_IDLE);
+/* may be fortifying, have to FIX this eventually -- Syela */
+/*printf("Dragging %s from (%d,%d)->(%d,%d) (Success=%d)\n",
+unit_types[bodyguard->type].name, src_x, src_y, dest_x, dest_y,
+handle_unit_move_request(pplayer, bodyguard, dest_x, dest_y));*/
+          handle_unit_move_request(pplayer, bodyguard, dest_x, dest_y);
+          handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_FORTIFY);
+        }
+      }
+    }
     return 1;
   }
   return 0;
@@ -786,7 +819,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     for (i = 0; i < B_LAST; i++) {
       if (is_wonder(i) && city_got_building(pnewcity, i))
         game.global_wonders[i] = pnewcity->id;
-    }
+    } /* Once I added this block, why was the below for() needed? -- Syela */
     pnewcity->owner=pplayer->player_no;
 
     unit_list_init(&pnewcity->units_supported);
