@@ -80,7 +80,7 @@ static struct unit *search_best_target(struct player *pplayer,
 	  range, punit->moves_left, pcity->city_options);
   
   square_iterate(punit->x, punit->y, range, x, y) {
-    if (x == punit->x && y == punit->y)
+    if (same_pos(punit->x, punit->y, x, y))
       continue;
 
     if (map_get_city(x, y)) continue;

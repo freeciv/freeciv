@@ -19,6 +19,7 @@
 
 #include "fcintl.h"
 #include "log.h"
+#include "map.h"
 #include "mem.h"
 
 #include "chatline_g.h"
@@ -1265,7 +1266,7 @@ void do_unit_goto(int x, int y)
       int dest_x, dest_y;
       draw_line(x, y);
       get_line_dest(&dest_x, &dest_y);
-      if (dest_x == x && dest_y == y) {
+      if (same_pos(dest_x, dest_y, x, y)) {
 	send_goto_route(punit);
       } else {
 	append_output_window(_("Game: Didn't find a route to the destination!"));
@@ -1314,7 +1315,7 @@ void do_unit_patrol_to(struct unit *punit, int x, int y)
     int dest_x, dest_y;
     draw_line(x, y);
     get_line_dest(&dest_x, &dest_y);
-    if (dest_x == x && dest_y == y) {
+    if (same_pos(dest_x, dest_y, x, y)) {
       send_patrol_route(punit);
     } else {
       append_output_window(_("Game: Didn't find a route to the destination!"));

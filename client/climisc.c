@@ -237,7 +237,9 @@ void client_remove_unit(int unit_id)
     }
     else {
       /* calculate before punit disappears, use after punit removed: */
-      bool update = (ufocus && ufocus->x==punit->x && ufocus->y==punit->y);
+      bool update = (ufocus
+		     && same_pos(ufocus->x, ufocus->y, punit->x, punit->y));
+
       game_remove_unit(punit);
       punit = NULL;
       if (update) {

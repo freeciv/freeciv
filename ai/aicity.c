@@ -926,8 +926,10 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     bool is_valid;
 
     if(acity && acity!=pcity && acity->owner==pcity->owner)  {
-      if(acity->x==x && acity->y==y) /* can't stop working city center */
-	continue;  
+      if (same_pos(acity->x, acity->y, x, y)) {
+	/* can't stop working city center */
+	continue;
+      }
       freelog(LOG_DEBUG, "Availing square in %s", acity->name);
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, x, y);
       assert(is_valid);

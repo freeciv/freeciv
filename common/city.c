@@ -1370,7 +1370,7 @@ may_be_on_center determines if a city at x,y counts
 bool city_exists_within_city_radius(int x, int y, bool may_be_on_center)
 {
   map_city_radius_iterate(x, y, x1, y1) {
-    if (may_be_on_center || x != x1 || y != y1) {
+    if (may_be_on_center || !same_pos(x, y, x1, y1)) {
       if (map_get_city(x1, y1)) {
 	return TRUE;
       }

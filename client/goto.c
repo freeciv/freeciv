@@ -347,7 +347,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
                                         SINGLE_MOVE;
 	  move_cost = igter ? MOVE_COST_ROAD 
                             : MIN(base_cost, unit_type(punit)->move_rate);
-	  if (src_x != x || src_y != y) {
+	  if (!same_pos(src_x, src_y, x, y)) {
 	    /* Attempting to make a path through a sea transporter */
 	    move_cost += MOVE_COST_ROAD; /* Rather arbitrary deterrent */
 	  }
@@ -461,7 +461,7 @@ static void goto_array_insert(int x, int y)
    * 0 and the waypoint had our current position, which doesn't seem
    * too unreasonable.
    */
-  assert(!(old_x == x && old_y == y));
+  assert(!same_pos(old_x, old_y, x, y));
 
   dir = get_direction_for_step(old_x, old_y, x, y);
 
@@ -739,12 +739,12 @@ static int find_route(int x, int y)
 
   first_index = waypoint_list[waypoint_list_index-1].goto_array_start;
 
-  if (x == last_x && y == last_y)
+  if (same_pos(last_x, last_y, x, y))
     return first_index;
 
   /* Try to see of we can find this position in the goto array */
   for (i = goto_array_index - 1; i >= first_index; i--) {
-    if (x == goto_array[i].x && y == goto_array[i].y) {
+    if (same_pos(goto_array[i].x, goto_array[i].y, x, y)) {
       return i+1; /* found common point */
     }
   }

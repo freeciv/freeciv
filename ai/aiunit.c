@@ -344,14 +344,14 @@ bool ai_manage_explorer(struct unit *punit)
       if (punit->moves_left > 0) {
         /* We can still move on... */
 
-        if (punit->x == best_x && punit->y == best_y) {
+        if (same_pos(punit->x, punit->y, best_x, best_y)) {
           /* ...and got into desired place. */
-          return ai_manage_explorer(punit);
-  
+          return ai_manage_explorer(punit);  
         } else {
           /* Something went wrong. This should almost never happen. */
-          if (punit->x != x || punit->y != y)
-            generate_warmap(map_get_city(punit->x, punit->y), punit);
+	  if (!same_pos(punit->x, punit->y, x, y)) {
+	    generate_warmap(map_get_city(punit->x, punit->y), punit);
+	  }
           
           x = punit->x;
           y = punit->y;
@@ -522,10 +522,9 @@ bool ai_manage_explorer(struct unit *punit)
       if (punit->moves_left > 0) {
         /* We can still move on... */
 
-        if (punit->x == best_x && punit->y == best_y) {
+        if (same_pos(punit->x, punit->y, best_x, best_y)) {
           /* ...and got into desired place. */
-          return ai_manage_explorer(punit);
-          
+          return ai_manage_explorer(punit);          
         } else {
           /* Something went wrong. What to do but return? */
           handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -1219,7 +1218,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
   if (is_ground_unit(punit)) boatid = find_boat(pplayer, &bx, &by, 2);
   ferryboat = unit_list_find(&(map_get_tile(x, y)->units), boatid);
 
-  if (!(dest_x == x && dest_y == y)) {
+  if (!same_pos(dest_x, dest_y, x, y)) {
 
 /* do we require protection? */
     d_val = stack_attack_value(dest_x, dest_y);
@@ -1355,7 +1354,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
   /* in case we need to change */
   punit->ai.ai_role = AIUNIT_NONE; /* this can't be right -- Per */
 
-  if (x != punit->x || y != punit->y) {
+  if (!same_pos(punit->x, punit->y, x, y)) {
     return 1;			/* moved */
   } else {
     return 0;			/* didn't move, didn't die */
@@ -1451,7 +1450,8 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   if (punit->homecity != 0 && (pcity = find_city_by_id(punit->homecity))) {
     if (pcity->ai.danger != 0) { /* otherwise we can attack */
       def = assess_defense(pcity);
-      if (punit->x == pcity->x && punit->y == pcity->y) { /* I'm home! */
+      if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+        /* I'm home! */
         val = assess_defense_unit(pcity, punit, FALSE); 
         def -= val; /* old bad kluge fixed 980803 -- Syela */
 /* only the least defensive unit may leave home */
@@ -1571,7 +1571,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
     pcity=find_city_by_id(punit->homecity);
     freelog(LOG_DEBUG, "GOHOME (%d)(%d,%d)C(%d,%d)",
 		 punit->id,punit->x,punit->y,pcity->x,pcity->y); 
-    if ((punit->x == pcity->x)&&(punit->y == pcity->y)) {
+    if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
       ai_unit_new_role(punit, AIUNIT_NONE);
       /* aggro defense goes here -- Syela */
@@ -2746,7 +2746,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
     last_x = leader->x;
     last_y = leader->y;
     auto_settler_do_goto(pplayer, leader, safest_x, safest_y);
-    if (leader->x == last_x && leader->y == last_y) {
+    if (same_pos(leader->x, leader->y, last_x, last_y)) {
       /* Deep inside the goto handling code, in 
 	 server/unithand.c::handle_unite_move_request(), the server
 	 may decide that a unit is better off not moving this turn,

@@ -201,7 +201,7 @@ void handle_unit_upgrade_request(struct player *pplayer,
     return;
   }
 
-  if(punit->x!=pcity->x || punit->y!=pcity->y)  {
+  if(!same_pos(punit->x, punit->y, pcity->x, pcity->y))  {
     notify_player(pplayer, _("Game: Illegal move, unit not in city!"));
     return;
   }
@@ -968,8 +968,8 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       return FALSE;
     }
 
-    if (punit->activity == ACTIVITY_GOTO &&
- 	(dest_x != punit->goto_dest_x || dest_y != punit->goto_dest_y)) {
+    if (punit->activity == ACTIVITY_GOTO && 
+        !same_pos(punit->goto_dest_x, punit->goto_dest_y, dest_x, dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
  		       _("Game: %s aborted GOTO as there are units in the way."),
  		       unit_type(punit)->name);

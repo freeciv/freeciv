@@ -495,10 +495,11 @@ static bool goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 
   /* If we just started the GOTO the enemy unit blocking ZOC on the tile
      we come from is still alive. */
-  if (src_x == punit->x && src_y == punit->y
+  if (same_pos(src_x, src_y, punit->x, punit->y)
       && !is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
-				  unit_owner(punit)))
+				  unit_owner(punit))) {
     return FALSE;
+  }
 
   {
     struct player *owner = unit_owner(punit);
@@ -735,7 +736,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	}
 
 	/* See previous comment on pcargo */
-	if (x1 == dest_x && y1 == dest_y && pcargo
+	if (same_pos(x1, y1, dest_x, dest_y) && pcargo
 	    && move_cost < 20 * SINGLE_MOVE
 	    && !is_my_zoc(unit_owner(pcargo), x, y)) {
 	  move_cost = 20 * SINGLE_MOVE;

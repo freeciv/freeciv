@@ -333,7 +333,7 @@ void update_line(int window_x, int window_y)
     get_map_xy(window_x, window_y, &x, &y);
 
     get_line_dest(&old_x, &old_y);
-    if (old_x != x || old_y != y) {
+    if (!same_pos(old_x, old_y, x, y)) {
       draw_line(x, y);
     }
   }

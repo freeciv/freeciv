@@ -891,7 +891,8 @@ void handle_unit_info(struct packet_unit_info *packet)
       repaint_unit = TRUE;
     }
 
-    if(punit->x!=packet->x || punit->y!=packet->y) { /* change position */
+    if (!same_pos(punit->x, punit->y, packet->x, packet->y)) { 
+      /* change position */
       struct city *pcity;
       pcity=map_get_city(punit->x, punit->y);
       
@@ -993,10 +994,11 @@ void handle_unit_info(struct packet_unit_info *packet)
     agents_unit_new(punit);
   }
 
-  if(punit && punit==get_unit_in_focus())
+  if (punit && punit == get_unit_in_focus()) {
     update_unit_info_label(punit);
-  else if(get_unit_in_focus() && get_unit_in_focus()->x==punit->x &&
-	  get_unit_in_focus()->y==punit->y) {
+  } else if (get_unit_in_focus()
+	     && same_pos(get_unit_in_focus()->x, get_unit_in_focus()->y,
+			 punit->x, punit->y)) {
     update_unit_info_label(get_unit_in_focus());
   }
 

@@ -107,11 +107,11 @@ static void check_map(void)
     }
 
     if (pcity) {
-      assert(pcity->x == x && pcity->y == y);
+      assert(same_pos(pcity->x, pcity->y, x, y));
     }
 
     unit_list_iterate(ptile->units, punit) {
-      assert(punit->x == x && punit->y == y);
+      assert(same_pos(punit->x, punit->y, x, y));
     } unit_list_iterate_end;
   } whole_map_iterate_end;
 }

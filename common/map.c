@@ -1523,7 +1523,7 @@ bool base_get_direction_for_step(int start_x, int start_y, int end_x,
 				int end_y, int *dir)
 {
   adjc_dir_iterate(start_x, start_y, x1, y1, dir2) {
-    if (x1 == end_x && y1 == end_y) {
+    if (same_pos(x1, y1, end_x, end_y)) {
       *dir = dir2;
       return TRUE;
     }
