@@ -75,7 +75,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx " \
-                   "city_struct_minor_cleanup obsolete_last class_legend" \
+                   "city_struct_minor_cleanup obsolete_last class_legend " \
                    "+impr_req +waste +fastfocus +continent"
   
 /* "+1.14.0" is protocol for 1.14.0 release.
