@@ -486,15 +486,17 @@ Main update loop, for each player at end of turn.
 
 void update_player_activities(struct player *pplayer) 
 {
-  if (pplayer->ai.control)
+  if (pplayer->ai.control) {
+    calculate_tech_turns(pplayer);
     ai_do_last_activities(pplayer); /* why was this AFTER aliveness? */
+  }
   notify_player(pplayer, "Year: %s", textyear(game.year)); 
   great_library(pplayer);
   update_revolution(pplayer);
   player_restore_units(pplayer);
-  if (city_list_size(&pplayer->cities)) 
-    update_tech(pplayer, city_list_size(&pplayer->cities));
   update_city_activities(pplayer);
+  if (city_list_size(&pplayer->cities)) /* has to be below the above for got_tech */ 
+    update_tech(pplayer, city_list_size(&pplayer->cities));
   update_unit_activities(pplayer);
   update_player_aliveness(pplayer);
 }
@@ -597,7 +599,10 @@ int choose_goal_tech(struct player *plr)
   if (plr->research.researched >0)
     plr->research.researched = 0;
   update_research(plr);
-  sub_goal = get_next_tech(plr, plr->ai.tech_goal);
+  if (plr->ai.control) {
+    ai_next_tech_goal(plr); /* tech-AI has been changed */
+    sub_goal = get_next_tech(plr, plr->ai.tech_goal); /* should be changed */
+  } else sub_goal = get_next_tech(plr, plr->ai.tech_goal);
   if (!sub_goal) {
     if (plr->ai.control || plr->research.researchpoints == 1) {
       ai_next_tech_goal(plr);
@@ -739,7 +744,7 @@ void handle_player_government(struct player *pplayer,
   pplayer->government=preq->government;
   notify_player(pplayer, "Game: %s now governs the %s as a %s.", 
 		pplayer->name, 
-		races[pplayer->race].name, 
+  	        get_race_name_plural(pplayer->race),
 		get_government_name(preq->government));  
   send_player_info(pplayer, pplayer);
 }
