@@ -2343,7 +2343,9 @@ void unqueue_mapview_updates(void)
 	} tile_list_iterate_end;
       }
 
-      update_map_canvas(min_x, min_y, max_x - min_x, max_y - min_y);
+      if (min_x < max_x && min_y < max_y) {
+	update_map_canvas(min_x, min_y, max_x - min_x, max_y - min_y);
+      }
     }
   }
   if (tile_updates) {
