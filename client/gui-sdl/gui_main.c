@@ -345,7 +345,8 @@ void add_autoconnect_to_timer(void)
 /**************************************************************************
 ...
 **************************************************************************/
-Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
+Uint16 gui_event_loop(void *pData,
+	void (*loop_action)(void *pData),
 	Uint16 (*key_down_handler)(SDL_keysym Key, void *pData),
         Uint16 (*key_up_handler)(SDL_keysym Key, void *pData),
 	Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
@@ -677,9 +678,7 @@ void ui_main(int argc, char *argv[])
   tilespec_setup_anim();
   tilespec_setup_city_icons();
   finish_loading_sprites();
-  
-  init_options_button();
-  
+      
   clear_double_messages_call();
     
   create_units_order_widgets();
@@ -713,7 +712,9 @@ void ui_main(int argc, char *argv[])
 
   /* this need correct Main.screen size */
   Init_MapView();
-
+  init_options_button();
+  set_new_order_widgets_dest_buffers();
+  
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   /* Main game loop */

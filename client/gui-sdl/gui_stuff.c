@@ -1560,14 +1560,14 @@ static void inside_scroll_up_loop(void *pData)
 static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
 {
   struct UP_DOWN *pMotion = (struct UP_DOWN *)pData;
-  int count;
-  div_t tmp;
-
+    
   if (pMotion && pMotionEvent->yrel &&
     /*(old_y >= pMotion->pVscroll->min) && (old_y <= pMotion->pVscroll->max) &&*/
     (pMotionEvent->y >= pMotion->pVscroll->min) &&
     (pMotionEvent->y <= pMotion->pVscroll->max)) {
-
+    int count;
+    div_t tmp;
+      
     /* draw bcgd */
     blit_entire_src(pMotion->pVscroll->pScrollBar->gfx,
        			pMotion->pVscroll->pScrollBar->dst,
@@ -3443,21 +3443,21 @@ static void redraw_edit_chain(struct EDIT *pEdt)
       Dest = Dest_Copy;
       SDL_BlitSurface(pInputChain_TMP->pTsurf, NULL,
 			  			pEdt->pWidget->dst, &Dest);
-   }
+    }
 
-   iStart_Mod_X = pInputChain_TMP->pTsurf->w;
+    iStart_Mod_X = pInputChain_TMP->pTsurf->w;
 
-   /* draw cursor */
-   if (pInputChain_TMP == pEdt->pInputChain) {
-     putline(pEdt->pWidget->dst, Dest_Copy.x - 1,
+    /* draw cursor */
+    if (pInputChain_TMP == pEdt->pInputChain) {
+      putline(pEdt->pWidget->dst, Dest_Copy.x - 1,
 		  Dest_Copy.y + (pEdt->pBg->h / 8), Dest_Copy.x - 1,
 		  Dest_Copy.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
 		  0xff0088ff);
-     /* save active element position */
-     pEdt->InputChain_X = Dest_Copy.x;
-   }
+      /* save active element position */
+      pEdt->InputChain_X = Dest_Copy.x;
+    }
 	
-   pInputChain_TMP = pInputChain_TMP->next;
+    pInputChain_TMP = pInputChain_TMP->next;
   }	/* while - draw loop */
 
   flush_rect(pEdt->pWidget->size);
@@ -3475,17 +3475,16 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
     case SDLK_ESCAPE:
       /* exit from loop without changes */
       return MAX_ID;
-    break;
     case SDLK_RETURN:
     case SDLK_KP_ENTER:
       /* exit from loop */
       return ID_EDIT;
-    break;
     case SDLK_KP6:
       if(Key.mod & KMOD_NUM) {
 	goto INPUT;
       }
     case SDLK_RIGHT:
+    {
       /* move cursor right */
       if (pEdt->pInputChain->next) {
 	
@@ -3497,12 +3496,14 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	pEdt->pInputChain = pEdt->pInputChain->next;
 	Redraw = TRUE;
       }
-      break;
+    }
+    break;
     case SDLK_KP4:
       if(Key.mod & KMOD_NUM) {
 	goto INPUT;
       }
     case SDLK_LEFT:
+    {
       /* move cursor left */
       if (pEdt->pInputChain->prev) {
         pEdt->pInputChain = pEdt->pInputChain->prev;
@@ -3516,23 +3517,26 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	}
 	Redraw = TRUE;
       }
-      break;
+    }
+    break;
     case SDLK_KP7:
       if(Key.mod & KMOD_NUM) {
 	goto INPUT;
       }  
     case SDLK_HOME:
+    {
       /* move cursor to begin of chain (and edit field) */
       pEdt->pInputChain = pEdt->pBeginTextChain;
       Redraw = TRUE;
       pEdt->Start_X = 5;
-
+    }
     break;
     case SDLK_KP1:
       if(Key.mod & KMOD_NUM) {
 	goto INPUT;
       }
     case SDLK_END:
+    {
 	/* move cursor to end of chain (and edit field) */
       pEdt->pInputChain = pEdt->pEndTextChain;
       Redraw = TRUE;
@@ -3540,8 +3544,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       if (pEdt->pWidget->size.w - pEdt->Truelength < 0) {
 	  pEdt->Start_X = pEdt->pWidget->size.w - pEdt->Truelength - 5;
       }
+    }
     break;
     case SDLK_BACKSPACE:
+    {
 	/* del element of chain (and move cursor left) */
       if (pEdt->pInputChain->prev) {
 
@@ -3566,15 +3572,18 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	  FREE(pEdt->pInputChain->prev);
 	  pEdt->pBeginTextChain = pEdt->pInputChain;
 	}
+	
 	pEdt->ChainLen--;
 	Redraw = TRUE;
       }
+    }
     break;
     case SDLK_KP_PERIOD:
       if(Key.mod & KMOD_NUM) {
 	goto INPUT;
       }  
     case SDLK_DELETE:
+    {
 	/* del element of chain */
       if (pEdt->pInputChain->next && pEdt->pInputChain->prev) {
 	pEdt->pInputChain->prev->next = pEdt->pInputChain->next;
@@ -3597,9 +3606,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	pEdt->ChainLen--;
 	Redraw = TRUE;
       }
-
+    }
     break;
     default:
+    {
 INPUT:/* add new element of chain (and move cursor right) */
       if (Key.unicode) {
 	if (pEdt->pInputChain != pEdt->pBeginTextChain) {
@@ -3654,12 +3664,13 @@ INPUT:/* add new element of chain (and move cursor right) */
 	pEdt->ChainLen++;
 	Redraw = TRUE;
       }
-      break;
-    }				/* key pressed switch */
-    
-    if (Redraw) {
-      redraw_edit_chain(pEdt);
     }
+    break;
+  }				/* key pressed switch */
+    
+  if (Redraw) {
+    redraw_edit_chain(pEdt);
+  }
     
   return ID_ERROR;
 }
