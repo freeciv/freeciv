@@ -2226,8 +2226,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
 
-      if (!(aunit == get_defender(punit, aunit->x, aunit->y))) {
-        /* It's not the main defender */
+      if (!can_unit_attack_unit_at_tile(punit, aunit, aunit->x, aunit->y)
+          || !(aunit == get_defender(punit, aunit->x, aunit->y))) {
+        /* We cannot attack it, or it is not the main defender. */
         continue;
       }
 
