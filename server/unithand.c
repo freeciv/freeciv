@@ -1499,8 +1499,11 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 ****************************************************************************/
 void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
 {
+  /* A player may only load their units, but they may be loaded into
+   * other players transporters (depending on the rules in
+   * can_unit_load). */
   struct unit *pcargo = player_find_unit_by_id(pplayer, cargo_id);
-  struct unit *ptrans = player_find_unit_by_id(pplayer, trans_id);
+  struct unit *ptrans = find_unit_by_id(trans_id);
 
   if (!pcargo || !ptrans) {
     return;

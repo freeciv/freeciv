@@ -461,8 +461,10 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
       (void) ai_unit_move(punit, ferryboat->tile);
     }
 
-    if (!same_pos(punit->tile, ferryboat->tile)) {
+    if (!can_unit_load(punit, ferryboat)) {
       /* Something prevented us from boarding */
+      /* FIXME: this is probably a serious bug, but we just skip past
+       * it and continue. */
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "couldn't board boat[%d](%d,%d)",
 	       ferryboat->id, ferryboat->tile);
       return FALSE;
