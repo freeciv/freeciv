@@ -283,14 +283,31 @@ char *textyear(int year)
 }
 
 /**************************************************************************
-string_ptr_compare() - fiddles with pointers to do a simple string compare
-                       when passed pointers to two strings -- called from
-                       qsort().
+  Compares two strings, in the collating order of the current locale,
+  given pointers to the two strings (i.e., given "char *"s).
+  Case-sensitive.  Designed to be called from qsort().
 **************************************************************************/
-
-int string_ptr_compare(const void *first, const void *second)
+int compare_strings(const void *first, const void *second)
 {
-   return mystrcasecmp(*((const char **)first), *((const char **)second));
+#if defined(ENABLE_NLS) && defined(HAVE_STRCOLL)
+  return strcoll((const char *)first, (const char *)second);
+#else
+  return strcmp((const char *)first, (const char *)second);
+#endif
+}
+
+/**************************************************************************
+  Compares two strings, in the collating order of the current locale,
+  given pointers to the two string pointers (i.e., given "char **"s).
+  Case-sensitive.  Designed to be called from qsort().
+**************************************************************************/
+int compare_strings_ptrs(const void *first, const void *second)
+{
+#if defined(ENABLE_NLS) && defined(HAVE_STRCOLL)
+  return strcoll(*((const char **)first), *((const char **)second));
+#else
+  return strcmp(*((const char **)first), *((const char **)second));
+#endif
 }
 
 /***************************************************************************

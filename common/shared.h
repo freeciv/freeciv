@@ -65,7 +65,8 @@ int is_option(const char *option_name,char *option);
 char *int_to_text(int nr);
 char *get_sane_name(char *name);
 char *textyear(int year);
-int string_ptr_compare(const void *first, const void *second);
+int compare_strings(const void *first, const void *second);
+int compare_strings_ptrs(const void *first, const void *second);
 
 char *skip_leading_spaces(char *s);
 void remove_leading_spaces(char *s);

@@ -435,6 +435,7 @@ AC_STRUCT_TM
 
 dnl Checks for library functions.
 AC_TYPE_SIGNAL
+AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(fdopen gethostname getpwuid gettimeofday select \
                snooze strerror strcasecmp strncasecmp strlcat \

@@ -153,7 +153,7 @@ static struct help_item *new_help_item(int type)
 }
 
 /****************************************************************
- for genlist_sort(); sort by topic via strcmp
+ for genlist_sort(); sort by topic via compare_strings()
  (sort topics with more leading spaces after those with fewer)
 *****************************************************************/
 static int help_item_compar(const void *a, const void *b)
@@ -171,7 +171,7 @@ static int help_item_compar(const void *a, const void *b)
       break;
     }
   }
-  return strcmp(ta, tb);
+  return compare_strings(ta, tb);
 }
 
 /****************************************************************

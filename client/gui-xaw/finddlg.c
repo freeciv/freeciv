@@ -162,7 +162,7 @@ void update_find_dialog(Widget find_list)
   }
   
   if(ncities_total) {
-    qsort(city_name_ptrs,ncities_total,sizeof(char *),string_ptr_compare);
+    qsort(city_name_ptrs, ncities_total, sizeof(char *), compare_strings_ptrs);
     XawListChange(find_list, city_name_ptrs, ncities_total, 0, True);
   }
 }

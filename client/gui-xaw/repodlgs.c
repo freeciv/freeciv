@@ -235,7 +235,7 @@ void create_science_dialog(int make_modal)
       j++;
     }
   tech_list_names_ptrs[j]=0;
-  qsort(tech_list_names_ptrs, j, sizeof(char *), string_ptr_compare);
+  qsort(tech_list_names_ptrs, j, sizeof(char *), compare_strings_ptrs);
   num_list = j;
   /* printf("science list num: %d\n", num_list); */
   
@@ -527,7 +527,7 @@ void science_dialog_update(void)
 	j++;
       }
     tech_list_names_ptrs[j]=0;
-    qsort(tech_list_names_ptrs, j, sizeof(char *), string_ptr_compare);
+    qsort(tech_list_names_ptrs, j, sizeof(char *), compare_strings_ptrs);
 
     XawListChange(science_list, tech_list_names_ptrs, 0/*j*/, 0, 1);
 
