@@ -361,7 +361,7 @@ void process_caravan_arrival(struct unit *punit)
   re-checking that a popup is appropriate.
   If punit is NULL, just do for the next arrival in the queue.
 **************************************************************************/
-void process_diplomat_arrival(struct unit *punit, struct city *pcity)
+void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 {
   static struct genlist arrival_queue;
   static int is_init_arrival_queue = 0;
@@ -375,10 +375,10 @@ void process_diplomat_arrival(struct unit *punit, struct city *pcity)
     is_init_arrival_queue = 1;
   }
 
-  if (punit && pcity) {
+  if (pdiplomat && victim_id) {
     p_ids = fc_malloc(2*sizeof(int));
-    p_ids[0] = punit->id;
-    p_ids[1] = pcity->id;
+    p_ids[0] = pdiplomat->id;
+    p_ids[1] = victim_id;
     genlist_insert(&arrival_queue, p_ids, -1);
   }
 
@@ -388,22 +388,35 @@ void process_diplomat_arrival(struct unit *punit, struct city *pcity)
   }
 
   while (genlist_size(&arrival_queue)) {
-    int unit_id, city_id;
+    int diplomat_id, victim_id;
+    struct city *pcity;
+    struct unit *punit;
 
     p_ids = genlist_get(&arrival_queue, 0);
     genlist_unlink(&arrival_queue, p_ids);
-    unit_id = p_ids[0];
-    city_id = p_ids[1];
+    diplomat_id = p_ids[0];
+    victim_id = p_ids[1];
     free(p_ids);
-    punit = player_find_unit_by_id(game.player_ptr, unit_id);
-    pcity = find_city_by_id(city_id);
+    pdiplomat = player_find_unit_by_id(game.player_ptr, diplomat_id);
+    pcity = find_city_by_id(victim_id);
+    punit = find_unit_by_id(victim_id);
 
-    if(punit && pcity && unit_flag(punit->type, F_DIPLOMAT) &&
-       is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
-				    pcity->x, pcity->y) &&
-       diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-			      pcity->x, pcity->y)) {
-      popup_diplomat_dialog(punit, pcity->x, pcity->y);
+    if (!pdiplomat || !unit_flag(pdiplomat->type, F_DIPLOMAT))
+      continue;
+
+    if (punit
+	&& is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
+					punit->x, punit->y)
+	&& diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
+				  punit->x, punit->y)) {
+      popup_diplomat_dialog(pdiplomat, punit->x, punit->y);
+      return;
+    } else if (pcity
+	       && is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
+					       pcity->x, pcity->y)
+	       && diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
+					 pcity->x, pcity->y)) {
+      popup_diplomat_dialog(pdiplomat, pcity->x, pcity->y);
       return;
     }
   }
@@ -501,27 +514,30 @@ void request_unit_build_city(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  This function is called whenever the player pressed an arrow key.
 
-  No need to do caravan-specific stuff here any more: server does trade
-  routes to enemy cities automatically, and for friendly cities we wait
-  for the unit to enter the city.  --dwp
-
-  No need to do diplomat-specific stuff here any more: server notifies
-  client whenever diplomat attempts to enter enemy city.  --jjm
-
+  We do NOT take into account that punit might be a caravan or a diplomat
+  trying to move into a city, or a diplomat going into a tile with a unit;
+  the server will catch those cases and send the client a package to pop up
+  a dialog. (the server code has to be there anyway as goto's are entirely
+  in the server)
 **************************************************************************/
 void request_move_unit_direction(struct unit *punit, int dx, int dy)
 {
   int dest_x, dest_y;
   struct unit req_unit;
 
-  dest_x=map_adjust_x(punit->x+dx);
-  dest_y=punit->y+dy;   /* not adjusting on purpose*/   /* why? --dwp */
+  dest_x = map_adjust_x(punit->x+dx);
+  dest_y = punit->y+dy; /* Not adjusted since if it needed to be adjusted it
+			   would mean that we tried to move off the map... */
 
-  req_unit=*punit;
-  req_unit.x=dest_x;
-  req_unit.y=dest_y;
+  /* Catches attempts to move off map */
+  if (!is_real_tile(dest_x, dest_y))
+    return;
+
+  req_unit = *punit;
+  req_unit.x = dest_x;
+  req_unit.y = dest_y;
   send_move_unit(&req_unit);
 }
 

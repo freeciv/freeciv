@@ -1547,7 +1547,6 @@ void handle_city_name_suggestion(struct packet_city_name_suggestion *packet)
 void handle_diplomat_action(struct packet_diplomat_action *packet)
 {
   struct unit *pdiplomat=player_find_unit_by_id(game.player_ptr, packet->diplomat_id);
-  struct city *pcity=find_city_by_id(packet->target_id);
 
   if (!pdiplomat) {
     freelog(LOG_NORMAL, "Received bad diplomat id %d in handle_diplomat_action()",
@@ -1555,15 +1554,9 @@ void handle_diplomat_action(struct packet_diplomat_action *packet)
     return;
   }
 
-  if (!pcity) {
-    freelog(LOG_NORMAL, "Received bad city id %d in handle_diplomat_action()",
-	    packet->target_id);
-    return;
-  }
-
   switch(packet->action_type) {
   case DIPLOMAT_CLIENT_POPUP_DIALOG:
-    process_diplomat_arrival(pdiplomat, pcity);
+    process_diplomat_arrival(pdiplomat, packet->target_id);
     break;
   default:
     freelog(LOG_NORMAL, "Received bad action %d in handle_diplomat_action()",

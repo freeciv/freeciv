@@ -799,7 +799,8 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y, int igzoc)
 {
   int unit_id, transport_units = 1, ok;
-  struct unit *pdefender, *ferryboat, *bodyguard, *passenger;
+  struct unit *pdefender = get_defender(pplayer, punit, dest_x, dest_y);
+  struct unit *ferryboat, *bodyguard, *passenger;
   struct unit_list cargolist;
   struct city *pcity;
 
@@ -827,18 +828,28 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     return handle_unit_establish_trade(pplayer, &req);
   }
   
-  if (is_diplomat_unit(punit) && (pcity = map_get_city(dest_x, dest_y)))
-    if (city_owner(pcity) != unit_owner(punit)) {
-      struct packet_diplomat_action packet;
-      send_unit_info(unit_owner(punit), punit);
-      packet.target_id = pcity->id;
-      packet.diplomat_id = punit->id;
-      packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
-      send_packet_diplomat_action(unit_owner(punit)->conn, &packet);
-      return 0;
-    }
+  if (is_diplomat_unit(punit)
+      && is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
+    struct packet_diplomat_action packet;
+    /* If we didn't send_unit_info the client would sometimes think that
+       the diplomat didn't have any moves left and so don't pop up the box.
+       (We are in the middle of the unit restore cycle when doing goto's, and
+       the unit's movepoints have been restored, but we only send the unit
+       info at the end of the function. */
+    send_unit_info(unit_owner(punit), punit);
 
-  pdefender = get_defender(pplayer, punit, dest_x, dest_y);
+    /* if is_diplomat_action_available() then there must be a city or a unit */
+    if ((pcity = map_get_city(dest_x,dest_y)))
+      packet.target_id = pcity->id;
+    else if (pdefender)
+      packet.target_id = pdefender->id;
+    else
+      freelog(LOG_FATAL, "Bug in unithand.c");
+    packet.diplomat_id = punit->id;
+    packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
+    send_packet_diplomat_action(unit_owner(punit)->conn, &packet);
+    return 0;
+  }
 
   if(pdefender && pdefender->owner!=punit->owner) {
     if(can_unit_attack_tile(punit,dest_x , dest_y)) {

@@ -440,7 +440,7 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -462,7 +462,7 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -501,7 +501,7 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -523,7 +523,7 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -546,7 +546,7 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -560,7 +560,7 @@ static void spy_close_tech_callback(GtkWidget *w, gpointer data)
    gtk_widget_destroy(spy_tech_shell);
    spy_tech_shell=0;
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -574,7 +574,7 @@ static void spy_close_sabotage_callback(GtkWidget *w, gpointer data)
    gtk_widget_destroy(spy_sabotage_shell);
    spy_sabotage_shell=0;
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -626,7 +626,7 @@ static void spy_steal_callback(GtkWidget *w, gpointer data)
   
   if(!steal_advance){
     freelog(LOG_NORMAL,"Bug in spy steal tech code.");
-    process_diplomat_arrival(NULL, NULL);
+    process_diplomat_arrival(NULL, 0);
     return;
   }
   
@@ -642,7 +642,7 @@ static void spy_steal_callback(GtkWidget *w, gpointer data)
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -655,7 +655,7 @@ static void spy_sabotage_callback(GtkWidget *w, gpointer data)
   
   if(!sabotage_improvement){
     freelog(LOG_NORMAL, "Bug in spy sabotage code");
-    process_diplomat_arrival(NULL, NULL);
+    process_diplomat_arrival(NULL, 0);
     return;
   }
   
@@ -671,7 +671,7 @@ static void spy_sabotage_callback(GtkWidget *w, gpointer data)
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -938,7 +938,7 @@ static void diplomat_incite_yes_callback(GtkWidget *w, gpointer data)
   
   destroy_message_dialog(w);
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -948,7 +948,7 @@ static void diplomat_incite_no_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 
@@ -1005,7 +1005,7 @@ static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 
