@@ -10,10 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -161,10 +166,13 @@ int wonder_replacement(struct city *pcity, enum improvement_type_id id)
   return 0;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id)
 {
   static char buffer[256];
-  char state ='w';
+  char *state = Q_("?wonder:w");
   if (wonder_replacement(pcity, id)) {
     sprintf(buffer, "%s(*)", get_improvement_type(id)->name);
     return buffer;
@@ -172,9 +180,9 @@ char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id)
   if (!is_wonder(id)) 
     return get_improvement_name(id);
 
-  if (game.global_wonders[id]) state='B';
-  if (wonder_obsolete(id)) state='O';
-  sprintf(buffer, "%s(%c)", get_improvement_type(id)->name, state); 
+  if (game.global_wonders[id]) state = Q_("?built:B");
+  if (wonder_obsolete(id)) state = Q_("?obsolete:O");
+  sprintf(buffer, "%s(%s)", get_improvement_type(id)->name, state); 
   return buffer;
 }
 
