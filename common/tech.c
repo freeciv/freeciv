@@ -46,9 +46,8 @@ static const char *flag_names[] = {
 **************************************************************************/
 enum tech_state get_invention(struct player *pplayer, Tech_Type_id tech)
 {
-  if (!tech_exists(tech)) {
-    return TECH_UNKNOWN;
-  }
+  assert(tech >= 0 || tech < game.num_tech_types);
+
   return pplayer->research.inventions[tech].state;
 }
 
