@@ -258,7 +258,6 @@ static int get_lanservers(gpointer data)
 
     server_list_iterate(*server_list, pserver) {
       GtkTreeIter it;
-      int i;
 
       row[0] = pserver->name;
       row[1] = pserver->port;
@@ -271,10 +270,6 @@ static int get_lanservers(gpointer data)
       gtk_list_store_set(storelan, &it,
 		         0, row[0], 1, row[1], 2, row[2],
 		         3, row[3], 4, row[4], 5, row[5], -1);
-
-      for (i = 0; i < 6; i++) {
-	g_free(row[i]);
-      }
     } server_list_iterate_end;
   }
 
