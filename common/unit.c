@@ -168,6 +168,7 @@ int is_diplomat_action_available(struct unit *pdiplomat,
       if(action==DIPLOMAT_SABOTAGE)
         return 1;
       if(action==DIPLOMAT_EMBASSY &&
+	 !is_barbarian(&game.players[pcity->owner]) &&
 	 !player_has_embassy(&game.players[pdiplomat->owner], 
 			     &game.players[pcity->owner]))
 	return 1;
@@ -177,7 +178,7 @@ int is_diplomat_action_available(struct unit *pdiplomat,
         return 1;
       if(action==DIPLOMAT_INVESTIGATE)
         return 1;
-      if(action==DIPLOMAT_STEAL)
+      if(action==DIPLOMAT_STEAL && !is_barbarian(&game.players[pcity->owner]))
         return 1;
       if(action==DIPLOMAT_INCITE)
         return 1;
