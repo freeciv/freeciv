@@ -466,7 +466,14 @@ void handle_game_load(struct packet_game_load *packet)
     char *buf = current_filename;
     
     buf = strrchr(current_filename, '/');
-    gtk_window_set_title(GTK_WINDOW(dialog), ++buf);
+    if (buf) {
+      /* First character after separator. */
+      buf++;
+    } else {
+      /* No separator. */
+      buf = current_filename;
+    }
+    gtk_window_set_title(GTK_WINDOW(dialog), buf);
   }
 
   game.nplayers = packet->nplayers;
