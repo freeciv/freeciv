@@ -371,23 +371,23 @@ void rates_scroll_scroll_callback(Widget w, XtPointer client_data,
   
   if(w==rates_tax_scroll) {
     if(pos<0)
-      val=MIN(rates_tax_value+10, 100);
-    else
       val=MAX(rates_tax_value-10, 0);
+    else
+      val=MIN(rates_tax_value+10, 100);
     rates_set_values(val,0, rates_lux_value,0, rates_sci_value,0);
   }
   else if(w==rates_lux_scroll) {
     if(pos<0)
-      val=MIN(rates_lux_value+10, 100);
-    else
       val=MAX(rates_lux_value-10, 0);
+    else
+      val=MIN(rates_lux_value+10, 100);
     rates_set_values(rates_tax_value,0, val,0, rates_sci_value,0);
   }
   else {
     if(pos<0)
-      val=MIN(rates_sci_value+10, 100);
-    else
       val=MAX(rates_sci_value-10, 0);
+    else
+      val=MIN(rates_sci_value+10, 100);
     rates_set_values(rates_tax_value,0, rates_lux_value,0, val,0);
   }
 }
