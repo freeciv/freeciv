@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <game.h>
 #include <player.h>
 #include <unitfunc.h>
 #include <civserver.h>
@@ -52,6 +53,7 @@ static void citizen_happy_units(struct city *pcity, int unhap);
 static void citizen_happy_buildings(struct city *pcity);
 static void citizen_happy_wonders(struct city *pcity);
 static void unhappy_city_check(struct city *pcity);
+static int unit_being_aggressive(struct unit *punit);
 
 static void city_populate(struct city *pcity);
 static void city_settlersupport(struct city *pcity);
@@ -400,6 +402,30 @@ void city_settlersupport(struct city *pcity)
 }
 
 /**************************************************************************
+An "aggressive" unit is a unit which may cause unhappiness
+under a Republic or Democracy.
+A unit is *not* aggressive if one or more of following is true:
+- zero attack strength
+- inside a city
+- inside a fortress within 3 squares of a friendly city (new)
+**************************************************************************/
+static int unit_being_aggressive(struct unit *punit)
+{
+  if (get_unit_type(punit->type)->attack_strength==0)
+    return 0;
+  if (map_get_city(punit->x,punit->y))
+    return 0;
+  if (map_get_special(punit->x,punit->y)&S_FORTRESS) {
+    city_list_iterate(get_player(punit->owner)->cities, pcity) {
+      if (real_map_distance(punit->x, punit->y, pcity->x, pcity->y)<=3)
+	return 0;
+    }
+    city_list_iterate_end;
+  }
+  return 1;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void city_support(struct city *pcity)
@@ -444,8 +470,7 @@ void city_support(struct city *pcity)
       case G_REPUBLIC:
 	pcity->shield_surplus--;
 	this_unit->upkeep=1;
-	if(get_unit_type(this_unit->type)->attack_strength && 
-	    !map_get_city(this_unit->x ,this_unit->y )) {
+	if (unit_being_aggressive(this_unit)) {
 	  if (unhap)
 	    this_unit->unhappiness=1;
 	  unhap++;
@@ -458,8 +483,7 @@ void city_support(struct city *pcity)
       case G_DEMOCRACY:
 	pcity->shield_surplus--;
 	this_unit->upkeep=1;
-	if (get_unit_type(this_unit->type)->attack_strength &&
-	    !map_get_city(this_unit->x, this_unit->y)) {
+	if (unit_being_aggressive(this_unit)) {
 	  unhap+=2;
 	  this_unit->unhappiness=2;
 	} else if (is_field_unit(this_unit)) {
