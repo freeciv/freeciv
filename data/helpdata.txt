@@ -519,7 +519,6 @@ building, then it'll be automatically sold.
 Allows a city to produce veteran air units.  Also, damaged air units
 which stay in town for one turn are completely restored.
 
-
 Two cities with airports can airlift one unit per turn. 
 Airlifting instantly transports the unit from one city to another
 and will use all of the unit's MP.  A unit must have some MP left
@@ -1190,6 +1189,9 @@ is only available near the very end of the technology tree.
 # Nuclear
 %% If a Nuclear unit is unable to end its turn in a city or on a
 %% Carrier or Submarine unit, it runs out of fuel and is lost.
+You can build Nuclear units when you have the required advance, and
+the Manhattan Project wonder has been built by any player.
+
 On impact, the blast will destroy any unit in a 3x3-square area,
 including friendly units.  When striking a city, the city size is
 halved, and the surrounding squares are polluted.
@@ -1345,10 +1347,10 @@ random number between 1 and the sum of the attacker's and defender's
 strengths is generated.  If this number is greater than the
 defender's strength, the defender loses hit points equal to the
 attacker's firepower.  Otherwise, the attacker loses hit points
-equal to the defender's firepower (unless the defender is a ship, in
-which case the attacker loses 1 hit point -- ships in a harbor
-aren't able to maneuver effectively).  The first unit to reach 0 hit
-points (or negative hit points) loses.
+equal to the defender's firepower (unless the defender is a ship
+inside a city, in which case the attacker loses 1 hit point -- ships
+in a harbor aren't able to maneuver effectively).  The first unit to
+reach 0 hit points (or negative hit points) loses.
 %% Actually, that's a little white lie.  The random number is really
 %% from 0 to (A+D-1), and the comparison is ">=D", not ">D".  The
 %% odds are the same both ways, but I think my explanation may be a
