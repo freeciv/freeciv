@@ -879,9 +879,11 @@ void do_nuke_tile(int x, int y)
   }
 
   if((pcity=game_find_city_by_coor(x,y))) {
-    pcity->size/=2;
-    auto_arrange_workers(pcity);
-    send_city_info(0, pcity, 0);
+    if (pcity->size > 1) { /* size zero cities are ridiculous -- Syela */
+      pcity->size/=2;
+      auto_arrange_workers(pcity);
+      send_city_info(0, pcity, 0);
+    }
   }
   else if ((map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
            (!(map_get_special(x,y)&S_POLLUTION)) && myrand(2)) { 
