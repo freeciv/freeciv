@@ -39,6 +39,8 @@
 #include "shared.h"		/* for MIN() */
 #include "support.h"
 #include "timing.h"
+#include "citydlg_g.h"
+#include "cityrep_g.h"
 
 #include "cma_core.h"
 
@@ -704,6 +706,8 @@ void cma_put_city_under_agent(struct city *pcity,
 void cma_release_city(struct city *pcity)
 {
   release_city(pcity->id);
+  refresh_city_dialog(pcity);
+  city_report_dialog_update_city(pcity);
 }
 
 /****************************************************************************
