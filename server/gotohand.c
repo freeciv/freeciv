@@ -774,19 +774,12 @@ static bool find_the_shortest_path(struct unit *punit,
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 
-	/* This should probably use airspace_looks_safe instead. */
-	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
-	  if (x1 != dest_x || y1 != dest_y) {
-	    continue;
-	  }
-	} else {
-	  struct city *pcity =
-	      is_non_allied_city_tile(pdesttile, unit_owner(punit));
-	  if (pcity
-	      && (pplayers_non_attack(unit_owner(punit), city_owner(pcity))
-		  || !is_heli_unit(punit)))
-	    continue;
-	}
+        if (x1 != dest_x && y1 != dest_y) {
+          /* If it's not our destination, we check if it's safe */
+          if (!airspace_looks_safe(x1, y1, pplayer)) {
+            continue;
+          }
+        }
 
 	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
 	  move_cost /= SINGLE_MOVE;
