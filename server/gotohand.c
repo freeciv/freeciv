@@ -65,25 +65,11 @@ static void get_from_warstack(unsigned int i, int *x, int *y)
 
 void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
 {
-  int x, y, i, j;
-  int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
-  for (x = 0; x < map.xsize; x++) {
-    if (x > orig_x)
-      i = MIN(x - orig_x, orig_x + map.xsize - x);
-    else
-      i = MIN(orig_x - x, x + map.xsize - orig_x);      
-    for (y = 0; y < map.ysize; y++) {
-      if (y > orig_y)
-        j = MAX(y - orig_y, i);
-      else
-        j = MAX(orig_y - y, i);
-      j *= 3; /* can be speed up */
-      if (j < maxcost) j = maxcost;
-      if (j > 255) j = 255;
-      if (which == LAND_MOVING) warmap.cost[x][y] = j; /* one if by land */
-      else warmap.seacost[x][y] = j;
-    }
-  }
+  int x, y;
+  for (x = 0; x < map.xsize; x++) 
+    for (y = 0; y < map.ysize; y++) 
+      if (which == LAND_MOVING) warmap.cost[x][y] = 255; /* one if by land */
+      else warmap.seacost[x][y] = 255;
   if (which == LAND_MOVING) warmap.cost[orig_x][orig_y] = 0;
   else warmap.seacost[orig_x][orig_y] = 0;
 }  
