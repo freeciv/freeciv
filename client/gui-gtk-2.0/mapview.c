@@ -681,7 +681,6 @@ void canvas_put_sprite(struct canvas *pcanvas,
 
 	src = sprite_get_pixbuf(sprite);
 	dst = pcanvas->v.pixbuf;
-	assert(offset_x == 0 && offset_y == 0);
 	gdk_pixbuf_composite(src, dst, canvas_x, canvas_y,
 	    MIN(width,
 	      MIN(gdk_pixbuf_get_width(dst), gdk_pixbuf_get_width(src))),
