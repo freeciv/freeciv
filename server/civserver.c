@@ -696,12 +696,22 @@ void ai_start_turn()
 int end_turn()
 {
   int i;
+  
   nocity_send = 1;
 
   for(i=0; i<game.nplayers; i++) {
-/*    printf("updating player activities for #%d\n", i); */
-    update_player_activities(shuffled[i]); /* ai unit activity has been moved UP -- Syela */
-    shuffled[i]->turn_done=0;
+    /* game.nplayers may increase during this loop, due to
+       goto-ing units causing a civil war.  Thus shuffled[i]
+       may be NULL; we do any new players in non-shuffled order
+       at the end.  --dwp
+    */
+    struct player *pplayer = shuffled[i];
+    if (pplayer==NULL) pplayer = &game.players[i];
+    flog(LOG_DEBUG, "updating player activities for #%d (%s)",
+	 i, pplayer->name);
+    update_player_activities(pplayer);
+         /* ai unit activity has been moved UP -- Syela */
+    pplayer->turn_done=0;
   }
   nocity_send = 0;
   for (i=0; i<game.nplayers;i++) {
