@@ -161,7 +161,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
       if (pc->compression.frozen_level == 0) {
 	long int compressed_size = 12 + pc->compression.queue_size * 1.001;
 	int error;
-	void *compressed = fc_malloc(compressed_size);
+	char compressed[compressed_size];
 
 	error =
 	    compress2(compressed, &compressed_size,
