@@ -196,6 +196,8 @@ static void update_player_aliveness(struct player *pplayer)
 	if (pplayer->gives_shared_vision & (1<<pplayer2->player_no))
 	  remove_shared_vision(pplayer, pplayer2);
       } players_iterate_end;
+
+      cancel_all_meetings(pplayer);
       map_know_and_see_all(pplayer);
     }
   }

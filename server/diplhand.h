@@ -32,5 +32,6 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 				    struct packet_diplomacy_info *packet);
 
 void send_diplomatic_meetings(struct connection *dest);
+void cancel_all_meetings(struct player *pplayer);
 
 #endif  /* FC__DIPLHAND_H */

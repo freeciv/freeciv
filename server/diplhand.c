@@ -438,6 +438,35 @@ void handle_diplomacy_create_clause(struct player *pplayer,
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static void really_diplomacy_cancel_meeting(struct player *pplayer,
+					    struct player *pplayer2)
+{
+  struct Treaty *ptreaty = find_treaty(pplayer, pplayer2);
+  struct packet_diplomacy_info packet;
+
+  if (ptreaty) {
+    packet.plrno0 = pplayer->player_no;
+    packet.plrno1 = pplayer2->player_no;
+    packet.plrno_from = pplayer->player_no;
+
+    lsend_packet_diplomacy_info(&pplayer2->connections, 
+			       PACKET_DIPLOMACY_CANCEL_MEETING, 
+			       &packet);
+    notify_player(pplayer2, _("Game: %s canceled the meeting!"), 
+		  pplayer->name);
+    /* Need to send to pplayer too, for multi-connects: */
+    lsend_packet_diplomacy_info(&pplayer->connections, 
+			       PACKET_DIPLOMACY_CANCEL_MEETING, 
+			       &packet);
+    notify_player(pplayer, _("Game: Meeting with %s canceled."), 
+		  pplayer2->name);
+    genlist_unlink(&treaties, ptreaty);
+    free(ptreaty);
+  }
+}
 
 /**************************************************************************
 ...
@@ -445,29 +474,14 @@ void handle_diplomacy_create_clause(struct player *pplayer,
 void handle_diplomacy_cancel_meeting(struct player *pplayer, 
 				     struct packet_diplomacy_info *packet)
 {
-  struct Treaty *ptreaty;
   struct player *plr0, *plr1, *theother;
-  
+
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
   
-  theother=(pplayer==plr0) ? plr1 : plr0;
-  
-  if((ptreaty=find_treaty(pplayer, theother))) {
-    lsend_packet_diplomacy_info(&theother->connections, 
-			       PACKET_DIPLOMACY_CANCEL_MEETING, 
-			       packet);
-    notify_player(theother, _("Game: %s canceled the meeting!"), 
-		  pplayer->name);
-    /* Need to send to pplayer too, for multi-connects: */
-    lsend_packet_diplomacy_info(&pplayer->connections, 
-			       PACKET_DIPLOMACY_CANCEL_MEETING, 
-			       packet);
-    notify_player(pplayer, _("Game: Meeting with %s canceled."), 
-		  theother->name);
-    genlist_unlink(&treaties, ptreaty);
-    free(ptreaty);
-  }
+  theother = (pplayer==plr0) ? plr1 : plr0;
+
+  really_diplomacy_cancel_meeting(pplayer, theother);
 }
 
 /**************************************************************************
@@ -546,6 +560,18 @@ void send_diplomatic_meetings(struct connection *dest)
 	send_packet_diplomacy_info(dest, PACKET_DIPLOMACY_CREATE_CLAUSE,
 				   &packet);
       }
+    }
+  } players_iterate_end;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void cancel_all_meetings(struct player *pplayer)
+{
+  players_iterate(pplayer2) {
+    if (find_treaty(pplayer, pplayer2)) {
+      really_diplomacy_cancel_meeting(pplayer, pplayer2);
     }
   } players_iterate_end;
 }
