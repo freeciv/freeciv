@@ -16,6 +16,7 @@ pkgdata_DATA =          \
 	canadian.ruleset	\
 	carthaginian.ruleset	\
 	chinese.ruleset		\
+	cornish.ruleset		\
 	czech.ruleset		\
 	danish.ruleset		\
 	dunedain.ruleset	\
@@ -29,7 +30,9 @@ pkgdata_DATA =          \
 	hungarian.ruleset	\
 	inca.ruleset		\
 	indian.ruleset		\
+	irish.ruleset		\
 	israeli.ruleset		\
+	italian.ruleset		\
 	japanese.ruleset	\
 	kenyan.ruleset		\
 	korean.ruleset		\

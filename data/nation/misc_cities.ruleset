@@ -6,7 +6,7 @@
 ;/* collection of towns aroud the world */
 ;/* from xconq-7, distributed under the GNU GPL */
 ;/* Copyright (C) 1991-1997 Stanley T. Shebs <shebs@cygnus.com> */
-;  ( Plus some additions by the Freeciv folk. )
+;  ( Plus some additions/deletions by the Freeciv folk. )
 
 cities =
 ;  /* Soviet Union */
@@ -257,8 +257,6 @@ cities =
   "Rimbo", "Kukkola",
   "Guderup", "Grindsted", "Store Andst", "Odder", 
   "Vrigstad", "Trollhaetten", "Kinsarvik", "Grimstad", 
-; Ireland 
-  "Ballybunion", "Banagher", "Carncastle",
 ; Belgium 
   "Lisp", "Knokke", "Bialy", "Bor",
   "Hel", "Puck",
@@ -289,6 +287,27 @@ cities =
   "Pocklington", "Robin Hood's Bay", "West Kilbride",
   "Inchnadamph", "North Tolsta", "Oykel Bridge",
   "Pangbourne", "Moreton-in-Marsh", "Wye", "Congresbury",
+  "Westward Ho!", "Hoo St. Werburgh", "Bovey Tracey",
+  "Ashby-de-la-Zouch", "Milton Keynes", "Newcastle-under-Lyme",
+  "Stow-on-the-Wold", "Moreton-in-Marsh", "Chapel-en-le-Frith",
+  "Blandford", "Chipping Norton", "Woodstock", "Bicester", "Towcester", 
+  "Grange-over-Sands", "Church Stretton", "Sutton Coldfield", "Stroud", 
+  "Chipping Campden", "Berwick-upon-Tweed", "Midsomer Norton", 
+  "Shepton Mallet", "Hatch Beauchamp", "Bury St. Edmunds", 
+  "Walton-on-the-Naze",  "Houghton-le-Spring", "Richmond-upon-Thames", 
+  "Little Torrington", "Princes Risborough", "Congleton", 
+  "Englefield Green", "Stockton-on-Tees", "Leighton Buzzard", 
+  "Welwyn Garden City", "Goffs Oak", "Thorpe Willoughby", 
+  "Wells-next-the-Sea", "Ditchingham", "Itteringham", 
+  "Godmanchester", "Swaffham Bulbeck", "Tresco", "Weston-super-Mare",
+  "Farrington Gurney", "Royal Leamington Spa", "Binley Woods", 
+  "Bognor Regis", "Burley in Wharfedale", "Wootton Basset",
+  "Llanrhaeadr-ym-Mochnant", "Blaenau Ffestiniog",
+  "Clachan of Glendaruel", "Ferryden by Montrose",
+  "Kinloch Rannoch", "Groft", "Cosby", "Earl Shilton", 
 ; Poland
   "Szczebrzeszyn", "Ustrzyki Dolne", "Ciemnogród",
-  "Gniewomierowice", "Budziwojów", "Trzcianki"
+  "Gniewomierowice", "Budziwojów", "Trzcianki",
+; random things
+  "Monaco", "San Marino", "Andorra", "Geneva", "Zurich",
+  "Bedford Falls"

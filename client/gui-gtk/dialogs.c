@@ -1723,7 +1723,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 *****************************************************************/
 void create_races_dialog(void)
 {
-  int       per_row = 4;
+  int       per_row = 5;
   int       i, leader_num;
   GSList    *group = NULL;
   GSList    *sgroup = NULL;

@@ -4,12 +4,12 @@ name=_("Roman")
 plural=_("?plural:Romans")
 leader="Caesar", "August", "Livia", "Trajan", "Constantin"
 leader_sex="Male", "Male", "Female", "Male", "Male"
-flag = "f.italy"
-flag_alt = "-"
+flag = "f.rome"
+flag_alt = "f.italy"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Dictator"),     _("Dictator")
+                 "Despotism",       _("Dictator"),     _("Dictatrix")
                  "Monarchy",        _("Imperator"),    _("Imperatrix")
 }
 

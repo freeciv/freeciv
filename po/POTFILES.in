@@ -110,6 +110,7 @@ data/nation/brazilian.ruleset
 data/nation/canadian.ruleset
 data/nation/carthaginian.ruleset
 data/nation/chinese.ruleset
+data/nation/cornish.ruleset
 data/nation/czech.ruleset
 data/nation/danish.ruleset
 data/nation/dunedain.ruleset
@@ -123,7 +124,9 @@ data/nation/greek.ruleset
 data/nation/hungarian.ruleset
 data/nation/inca.ruleset
 data/nation/indian.ruleset
+data/nation/irish.ruleset
 data/nation/israeli.ruleset
+data/nation/italian.ruleset
 data/nation/japanese.ruleset
 data/nation/kenyan.ruleset
 data/nation/korean.ruleset

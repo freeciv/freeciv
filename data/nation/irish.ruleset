@@ -1,0 +1,24 @@
+[nation_irish]
+
+name = _("Irish")
+plural = _("?plural:Irish")
+leader = "Patrick", "Ollam Fodla", "Lugh"
+leader_sex = "Male", "Male", "Male"
+flag="f.ireland"
+flag_alt = "-"
+city_style = "European"
+
+attack=2
+expand=2
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "Engineering", "Gunpowder", "Explosives"
+wonder = "Marco Polo's Embassy"
+government = "Democracy"
+
+cities =
+  "Dublin", "Belfast", "Cork", "Galway", "Lifford", "Drogheda", "Killarney",
+  "Sligo", "Wicklow", "Waterford", "Shannon", "Castlebar", "Foynes",
+  "Tullamore", "Derry", "Armagh", "Glenarm", "Ballina", "Dunglow",
+  "Tuam", "Ballycastle", "Ballinasloe", "Keady", "Portlaoise", "Bantry",
+  "Kenmare", "Edenderry", "Ballybunion", "Banagher", "Carncastle"

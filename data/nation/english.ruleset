@@ -3,9 +3,9 @@
 name=_("English")
 plural=_("?plural:English")
 leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII",
-       "Victoria"
+       "Victoria", "Winston Churchill"
 leader_sex="Female", "Male", "Male", "Male",
-           "Female"
+           "Female", "Male"
 flag="f.england"
 flag_alt = "f.united_kingdom"
 city_style = "European"
@@ -38,6 +38,6 @@ cities =
   "Oakham", "Peterborough", "Pickering", "Preston", "Poole", "Rochester",
   "Ramsgate", "Southend", "Stevenage", "Ashford", "Swindon", "Torquay",
   "Wolverhampton", "Weymouth", "Yeovil", "Halifax", "Oldham",
-  "Rochdale", "Blackburn", "Burnley", "Lancaster", "Northampton"
-
+  "Rochdale", "Blackburn", "Burnley", "Lancaster", "Northampton",
+  "Salisbury", "Cowes"
 

@@ -12,7 +12,7 @@ artists = "
     Jerzy Klek <qpkjeek@epk.ericsson.se> (more flags added)
     Reineir Post <rp@win.tue.nl> (Sweden, Holland)
     Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
-    Robert Brady <rwb197@ecs.soton.ac.uk> (England... Krevi)
+    Robert Brady <rwb197@ecs.soton.ac.uk> (more flags)
     Tomasz Wegrzanowski <maniek@beer.com> (more flags added)
     Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
     Jan Heidefuss <jan_heidefuss@yahoo.de> (Bavarian)
@@ -99,4 +99,6 @@ tiles = { "row", "column", "tag"
   4, 10, "f.boer"         ; old south african
   4, 11, "f.mordor"
   4, 12, "f.bavarian"
+  4, 13, "f.rome"         ; Roman republic flag
+  5,  0, "f.cornwall"
 }

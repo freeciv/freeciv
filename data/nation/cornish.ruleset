@@ -1,0 +1,27 @@
+[nation_cornish]
+
+name = _("Cornish")
+plural = _("?plural:Cornish")
+leader = "Arthur", "Jonathen Trelawny", "Thomas Flamank", "Michael Joseph"
+leader_sex = "Male", "Male", "Male", "Male"
+flag = "f.cornwall"
+flag_alt = "f.england"
+city_style = "European"
+
+attack=1
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy", "Iron Working", "Feudalism", "Invention"
+wonder = "King Richard's Crusade"
+government = "Republic"
+
+cities =
+  "Truro", "Newquay", "Falmouth", "Penzance", "Bodmin",
+  "St. Ives", "Redruth", "Helston", "Saltash", "Wadebridge",
+  "St. Austell", "Penryn", "Torpoint", "St. Keverne", "St. Mewan",
+  "St. Dennis", "Bugle", "St. Stephen", "Grampound", "Trewoon",
+  "Tregony", "Polmassick", "Ladock", "Coombe", "St. Mawes",
+  "Bissom", "Swanpool", "Halvosso", "Newlyn", "Mousehole",
+  "Marazion", "Madron", "Crowlas", "Reawla", "Hellesveor",
+  "Trink", "Lelant", "Gwithian"

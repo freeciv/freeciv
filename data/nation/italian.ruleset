@@ -1,0 +1,25 @@
+[nation_italian]
+
+name = _("Italian")
+plural = _("?plural:Italians")
+leader = "Garibaldi", "Mazzini", "Palmiro Togliatti", "Giacomo Matteotti"
+leader_sex = "Male", "Male", "Male", "Male"
+flag = "f.italy"
+flag_alt = "-"
+city_style = "European"
+
+attack=1
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "The Wheel", "Iron Working", "Construction",
+             "Railroad"
+wonder = "Leonardo's Workshop"
+government = "Republic"
+
+cities =
+  "Roma", "Milano", "Napoli", "Venizia", "Genova", "Modena",
+  "Foggia", "Bari", "Lecce", "Perugia", "Rimini", "Bolzano",
+  "Chioggia", "Udine", "Bergamo", "Cremona", "Ferrara",
+  "Prato", "Grossetto", "Latina", "Trani", "Lecce", "Salerno",
+  "Crotone"

@@ -1711,7 +1711,7 @@ void popdown_races_dialog(void)
 *****************************************************************/
 void create_races_dialog(void)
 {
-  int per_row = 4;
+  int per_row = 5;
   int i, j, len, maxracelen, index;
   char maxracename[MAX_LEN_NAME];
   char namebuf[64];

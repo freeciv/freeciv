@@ -100,4 +100,6 @@ tiles = { "row", "column", "tag"
   4, 10, "f.boer"         ; old south african
   4, 11, "f.mordor"
   4, 12, "f.bavarian"
+  4, 13, "f.rome"         ; Roman republic flag
+  5,  0, "f.cornwall"
 }

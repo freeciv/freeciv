@@ -10,7 +10,7 @@ flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Dictator"),     _("Dictator")
+                 "Despotism",       _("Dictator"),     _("Dictatrix")
                  "Monarchy",        _("Imperator"),    _("Imperatrix")
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                  "Communism",       _("Chairman"),     _("Chairperson")
