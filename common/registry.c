@@ -237,8 +237,21 @@ section_file_insert_internal(struct section_file *my_section_file,
 /**************************************************************************
 ...
 **************************************************************************/
+static const char *secfile_filename(const struct section_file *file)
+{
+  if (file->filename) {
+    return file->filename;
+  } else {
+    return "(anonymous)";
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void section_file_init(struct section_file *file)
 {
+  file->filename = NULL;
   file->sections = fc_malloc(sizeof(struct section_list));
   section_list_init(file->sections);
   file->num_entries = 0;
@@ -271,6 +284,7 @@ void section_file_free(struct section_file *file)
   
   /* free the real data: */
   sbuf_free(file->sb);
+  free(file->filename);
 
   file->sb = NULL;
 }
@@ -356,6 +370,7 @@ int section_file_load(struct section_file *sf, const char *filename)
     return 0;
   }
   section_file_init(sf);
+  sf->filename = mystrdup(filename);
   ath_init(&columns_tab, sizeof(struct astring));
   sb = sf->sb;
 
@@ -365,7 +380,7 @@ int section_file_load(struct section_file *sf, const char *filename)
     if (inf_token(inf, INF_TOK_EOL))
       continue;
     if (inf_at_eof(inf)) {
-      /* may only realise at eof after trying to real eol above */
+      /* may only realise at eof after trying to read eol above */
       break;
     }
     tok = inf_token(inf, INF_TOK_SECTION_NAME);
@@ -591,8 +606,8 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 	  /* break out of tabular if doesn't match: */
 	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
 	    if(icol != 0) {
-	      freelog(LOG_NORMAL, "unexpected exit from tabular at %s",
-		   pentry->name);
+	      freelog(LOG_NORMAL, "unexpected exit from tabular at %s (%s)",
+		      pentry->name, filename);
 	      fprintf(fs, "\n");
 	    }
 	    fprintf(fs, "}\n");
@@ -651,12 +666,14 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    freelog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
+    freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
+	    secfile_filename(my_section_file), buf);
     exit(1);
   }
 
   if(!pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile entry '%s' doesn't contain a string", buf);
+    freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain a string",
+	    secfile_filename(my_section_file), buf);
     exit(1);
   }
   
@@ -681,7 +698,8 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    freelog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
+    freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
+	    secfile_filename(my_section_file), buf);
     exit(1);
   }
 
@@ -749,12 +767,14 @@ int secfile_lookup_int(struct section_file *my_section_file,
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    freelog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
+    freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
+	    secfile_filename(my_section_file), buf);
     exit(1);
   }
 
   if(pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile entry '%s' doesn't contain an integer", buf);
+    freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain an integer",
+	    secfile_filename(my_section_file), buf);
     exit(1);
   }
   
@@ -781,7 +801,8 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
     return def;
   }
   if(pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile contains a '%s', but string not integer", buf);
+    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but string not integer",
+	    secfile_filename(my_section_file), buf);
     exit(1);
   }
   return pentry->ivalue;
@@ -807,7 +828,8 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
   }
 
   if(!pentry->svalue) {
-    freelog(LOG_FATAL, "sectionfile contains a '%s', but integer not string", buf);
+    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but integer not string",
+	    secfile_filename(my_section_file), buf);
     exit(1);
   }
   
@@ -982,11 +1004,13 @@ int secfilehash_hashash(struct section_file *file)
 static void secfilehash_check(struct section_file *file)
 {
   if (!secfilehash_hashash(file)) {
-    freelog(LOG_FATAL, "hash operation before setup" );
+    freelog(LOG_FATAL, "sectionfile %s hash operation before setup",
+	    secfile_filename(file));
     exit(1);
   }
   if (file->num_entries != file->hashd->num_entries_hashbuild) {
-    freelog(LOG_FATAL, "section_file has more entries than when hash built" );
+    freelog(LOG_FATAL, "sectionfile %s has more entries than when hash built",
+	    secfile_filename(file));
     exit(1);
   }
 }
@@ -1026,7 +1050,8 @@ static struct hash_entry *secfilehash_lookup(struct section_file *file,
       i=0;
     }
   } while (i!=hash_val);	/* catch loop all the way round  */
-  freelog(LOG_FATAL, "Full hash table??");
+  freelog(LOG_FATAL, "Full hash table?? (sectionfile %s)",
+	  secfile_filename(file));
   exit(1);
 }
 
@@ -1043,7 +1068,8 @@ static void secfilehash_insert(struct section_file *file,
 
   hentry = secfilehash_lookup(file, key, &hash_val);
   if (hentry->key_val != NULL) {
-    freelog(LOG_FATAL, "Tried to insert same value twice: %s", key );
+    freelog(LOG_FATAL, "Tried to insert same value twice: %s (sectionfile %s)",
+	    key, secfile_filename(file));
     exit(1);
   }
   hentry->data = data;

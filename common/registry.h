@@ -20,6 +20,7 @@ struct hash_data;
 struct section_list;
 
 struct section_file {
+  char *filename;
   int num_entries;
   struct section_list *sections;
   struct hash_data *hashd;
