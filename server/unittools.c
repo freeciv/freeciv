@@ -198,7 +198,7 @@ static void handle_leonardo(struct player *pplayer)
             get_location_str_in(pplayer, punit->x, punit->y));
       punit->veteran = FALSE;
       assert(test_unit_upgrade(punit, TRUE) == UR_OK);
-      upgrade_unit(punit, upgrade_type, FALSE);
+      upgrade_unit(punit, upgrade_type, TRUE);
     }
     i++;
   } unit_list_iterate_end;
