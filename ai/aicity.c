@@ -282,7 +282,7 @@ unit_types[punit->type].name, unit_types[id].name); */
             bestchoice.choice == U_PHALANX) || (punit->type == U_PHALANX &&
             bestchoice.choice == U_MUSKETEERS))  {
           if (!did_upgrade) { /* might want to disband */
-            build = pcity->shield_stock + get_unit_type(punit->type)->build_cost / 2;
+            build = pcity->shield_stock + (get_unit_type(punit->type)->build_cost>>1);
             total = get_unit_type(id)->build_cost;
             cost=(total-build)*2+(total-build)*(total-build)/20;
             if ((bestchoice.want <= 100 && build >= total) ||
@@ -305,7 +305,7 @@ unit_types[punit->type].name, unit_types[id].name); */
           F_SETTLERS) && !city_got_building(pcity, B_GRANARY) && (pcity->size < 2 ||
           pcity->food_stock < (pcity->size - 1) * game.foodbox)) ;
       else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
-        pcity->shield_stock < buycost / 3) ; /* too expensive */
+        pcity->shield_stock * 3 < buycost) ; /* too expensive */
       else if (bestchoice.type == 3 && pcity->size == 1 && pcity->ai.grave_danger &&
               pcity->ai.danger > (assess_defense(pcity) +
   ai_city_defender_value(pcity, pcity->ai.grave_danger->type, bestchoice.choice)) * 2 &&
@@ -543,7 +543,7 @@ int ai_choose_defender_limited(struct city *pcity, int n)
         (m == LAND_MOVING || m == SEA_MOVING)) {
       j = unit_desirability(i, 1);
       j *= j;
-      if (unit_flag(i, F_FIELDUNIT)) j /= 2; /* WAG, but I need something -- Syela */
+      if (unit_flag(i, F_FIELDUNIT)) j >>= 1; /* WAG, but I need something -- Syela */
       if (walls && m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
       if (j > best || (j == best && get_unit_type(i)->build_cost <=
                                get_unit_type(bestid)->build_cost)) {

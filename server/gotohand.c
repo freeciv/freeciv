@@ -87,7 +87,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
   add_to_stack(orig_x, orig_y);
 
   if (punit && unit_flag(punit->type, F_IGTER)) igter++;
-  if (punit && punit->type == U_SETTLERS) maxcost /= 2;
+  if (punit && punit->type == U_SETTLERS) maxcost >>= 1;
 
   do {
     x = warstack[warnodes].x;

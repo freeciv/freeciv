@@ -207,6 +207,15 @@ int can_place_worker_here(struct city *pcity, int x, int y)
     && !is_worked_here(map_adjust_x(pcity->x+x-2), pcity->y+y-2));
 }
 
+int food_weighting(int n)
+{
+  static int value[56] = { -1, 57, 38, 25, 19, 15, 12, 10, 9, 8, 7,
+                         6, 6, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3,
+                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+  return(value[n]);
+}
+
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed)
 { /* by Syela, unifies best_tile, best_food_tile, worst_elvis_tile */
   int a;
@@ -220,8 +229,7 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
   i = get_food_tile(x, y, pcity);
   if (foodneed > 0) i += 9 * (MIN(i, foodneed));
 /* *= 10 led to stupidity with foodneed = 1, mine, and farmland -- Syela */
-  i *= FOOD_WEIGHTING;
-  i *= 4; i /= MAX(2,pcity->size);
+  i *= food_weighting(MAX(2,pcity->size));
   
   j = get_shields_tile(x, y, pcity) * SHIELD_WEIGHTING *
       city_shield_bonus(pcity);

@@ -97,7 +97,7 @@ often everyone was stuck farming grassland. */
       if (is_worker_here(pcity, x, y)) i++;
     }
   }
-  return(i / 2);
+  return(i>>1);
 }
 
 int railroad_trade(struct city *pcity)
@@ -139,15 +139,15 @@ void ai_eval_buildings(struct city *pcity)
   tax *= t;
 #else
 /* better might be a longterm weighted average, this is a quick-n-dirty fix -- Syela */
-  sci = (sci + pcity->trade_prod) * t / 2;
-  tax = (tax + pcity->trade_prod) * t / 2;
+  sci = ((sci + pcity->trade_prod) * t)>>1;
+  tax = ((tax + pcity->trade_prod) * t)>>1;
 #endif
   prod = pcity->shield_prod * 100 / city_shield_bonus(pcity) * SHIELD_WEIGHTING;
   needpower = (city_got_building(pcity, B_MFG) ? 2 :
               (city_got_building(pcity, B_FACTORY) ? 1 : 0));
   val = ai_best_tile_value(pcity);
-  food = FOOD_WEIGHTING * 4 / MAX(2,pcity->size);
-  grana = FOOD_WEIGHTING * 4 / MAX(3,pcity->size + 1);
+  food = food_weighting(MAX(2,pcity->size));
+  grana = food_weighting(MAX(3,pcity->size + 1));
 /* because the benefit doesn't come immediately, and to stop stupidity */
 /* the AI used to really love granaries for nascent cities, which is OK */
 /* as long as they aren't rated above Settlers and Laws is above Pottery -- Syela*/
@@ -165,17 +165,17 @@ void ai_eval_buildings(struct city *pcity)
   } /* rewrite by Syela - old values seemed very random */
 
   if (could_build_improvement(pcity, B_AQUEDUCT)) {
-    values[B_AQUEDUCT] = food * est_food * 8 * game.foodbox /
-           MAX(1, ((9 - MIN(8, pcity->size)) * MAX(8, pcity->size) *
-           game.foodbox - pcity->food_stock));
     if (city_happy(pcity) && pcity->size > 4 && est_food > 0)
       values[B_AQUEDUCT] = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
-      game.foodbox / 2 - pcity->food_stock) * food / (9 - MIN(8, pcity->size));
+      (game.foodbox>>1) - pcity->food_stock) * food / (9 - MIN(8, pcity->size));
+    else values[B_AQUEDUCT] = food * est_food * 8 * game.foodbox /
+           MAX(1, ((9 - MIN(8, pcity->size)) * MAX(8, pcity->size) *
+           game.foodbox - pcity->food_stock));
   }
 
 
   if (could_build_improvement(pcity, B_BANK))
-    values[B_BANK] = tax / 2;
+    values[B_BANK] = tax>>1;
   
   j = 0; k = 0;
   city_list_iterate(pplayer->cities, acity)
@@ -233,12 +233,12 @@ void ai_eval_buildings(struct city *pcity)
     values[B_COLOSSEUM] = building_value(4, pcity, val) - building_value(3, pcity, val);
   
   if (could_build_improvement(pcity, B_COURTHOUSE)) {
-    values[B_COURTHOUSE] = pcity->corruption * t / 2;
+    values[B_COURTHOUSE] = (pcity->corruption * t)>>1;
     if (gov == G_DEMOCRACY) values[B_COLOSSEUM] += building_value(1, pcity, val);
   }
   
   if (could_build_improvement(pcity, B_FACTORY))
-    values[B_FACTORY] = prod / 2;
+    values[B_FACTORY] = prod>>1;
   
   if (could_build_improvement(pcity, B_GRANARY) && !built_elsewhere(pcity, B_PYRAMIDS))
     values[B_GRANARY] = grana * pcity->food_surplus;
@@ -247,47 +247,47 @@ void ai_eval_buildings(struct city *pcity)
     values[B_HARBOUR] = food * ocean_workers(pcity) * hunger;
 
   if (could_build_improvement(pcity, B_HYDRO) && !built_elsewhere(pcity, B_HOOVER))
-    values[B_HYDRO] = needpower * prod / 4;
+    values[B_HYDRO] = (needpower * prod)>>2;
 
   if (could_build_improvement(pcity, B_LIBRARY))
-    values[B_LIBRARY] = sci / 2;
+    values[B_LIBRARY] = sci>>1;
 
   if (could_build_improvement(pcity, B_MARKETPLACE))
-    values[B_MARKETPLACE] = tax / 2;
+    values[B_MARKETPLACE] = tax>>1;
 
   if (could_build_improvement(pcity, B_MFG))
     values[B_MFG] = ((city_got_building(pcity, B_HYDRO) ||
                      city_got_building(pcity, B_NUCLEAR) ||
                      city_got_building(pcity, B_POWER) ||
                      city_affected_by_wonder(pcity, B_HOOVER)) ?
-                     prod * 3 / 4 : prod / 2);
+                     (prod * 3)>>2 : prod>>1);
 
   if (could_build_improvement(pcity, B_NUCLEAR))
-    values[B_NUCLEAR] = needpower * prod / 4;
+    values[B_NUCLEAR] = (needpower * prod)>>2;
 
   if (could_build_improvement(pcity, B_OFFSHORE))
     values[B_OFFSHORE] = ocean_workers(pcity) * SHIELD_WEIGHTING;
 
   if (could_build_improvement(pcity, B_POWER))
-    values[B_POWER] = needpower * prod / 4;
+    values[B_POWER] = (needpower * prod)>>2;
 
   if (could_build_improvement(pcity, B_RESEARCH) && !built_elsewhere(pcity, B_SETI))
-    values[B_RESEARCH] = sci / 2;
+    values[B_RESEARCH] = sci>>1;
 
   if (could_build_improvement(pcity, B_SDI))
     values[B_SDI] = 50; /* WAG */
   
   if (could_build_improvement(pcity, B_SEWER)) {
-    values[B_SEWER] = food * est_food * 12 * game.foodbox /
-          MAX(1, ((13 - MIN(12, pcity->size)) * MAX(12, pcity->size) *
-          game.foodbox - pcity->food_stock));
     if (city_happy(pcity) && pcity->size > 4 && est_food > 0)
        values[B_SEWER] = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) * 
-       game.foodbox / 2 - pcity->food_stock) * food / (13 - MIN(12, pcity->size)); 
+       (game.foodbox>>1) - pcity->food_stock) * food / (13 - MIN(12, pcity->size)); 
+    else values[B_SEWER] = food * est_food * 12 * game.foodbox /
+          MAX(1, ((13 - MIN(12, pcity->size)) * MAX(12, pcity->size) *
+          game.foodbox - pcity->food_stock));
   }
 
   if (could_build_improvement(pcity, B_STOCK))
-    values[B_STOCK] = tax / 2;
+    values[B_STOCK] = tax>>1;
 
   if (could_build_improvement(pcity, B_SUPERHIGHWAYS))
     values[B_SUPERHIGHWAYS] = railroad_trade(pcity) * t;
@@ -299,7 +299,7 @@ void ai_eval_buildings(struct city *pcity)
     values[B_TEMPLE] = building_value(get_temple_power(pcity), pcity, val);
 
   if (could_build_improvement(pcity, B_UNIVERSITY))
-    values[B_UNIVERSITY] = sci / 2;
+    values[B_UNIVERSITY] = sci>>1;
 
 /* ignored: AIRPORT, MASS, PALACE, POLICE, PORT, */
 /* RECYCLING, and any effects of pollution. -- Syela */
@@ -314,7 +314,7 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_COLLOSSUS)
         values[i] = (pcity->size + 1) * t; /* probably underestimates the value */
       if (i == B_COPERNICUS)
-        values[i] = sci / 2;
+        values[i] = sci>>1;
       if (i == B_CURE)
         values[i] = building_value(1, pcity, val);
       if (i == B_DARWIN) /* this is a one-time boost, not constant */
@@ -322,8 +322,8 @@ void ai_eval_buildings(struct city *pcity)
                     pplayer->research.researched * t - /* Have to time it right */
                     400 * SHIELD_WEIGHTING; /* rough estimate at best */
       if (i == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
-        values[i] = (research_time(pplayer) * (100 - game.freecost)) * t / 100 *
-                    (game.nplayers - 2) / (game.nplayers); /* guessing */
+        values[i] = (research_time(pplayer) * (100 - game.freecost)) * t *
+                    (game.nplayers - 2) / (game.nplayers * 100); /* guessing */
 
       if (i == B_WALL && !city_got_citywalls(pcity))
 /* allowing B_CITY when B_WALL exists, don't like B_WALL when B_CITY exists. */
@@ -334,7 +334,7 @@ void ai_eval_buildings(struct city *pcity)
                     building_value(1, pcity, val);
       if (i == B_HOOVER && !city_got_building(pcity, B_HYDRO) &&
      !city_got_building(pcity, B_NUCLEAR) && !city_got_building(pcity, B_POWER))
-        values[i] = needpower * prod / 4;
+        values[i] = (needpower * prod)>>2;
       if (i == B_ISAAC)
         values[i] = sci;
       if (i == B_LEONARDO) {
@@ -370,7 +370,7 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_PYRAMIDS && !city_got_building(pcity, B_GRANARY))
         values[i] = food * pcity->food_surplus; /* different tech req's */
       if (i == B_SETI && !city_got_building(pcity, B_RESEARCH))
-        values[i] = sci / 2;
+        values[i] = sci>>1;
       if (i == B_SHAKESPEARE)
         values[i] = building_value(pcity->size, pcity, val);
       if (i == B_SUNTZU)
@@ -458,7 +458,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
           if (can_build_unit(pcity, U_FREIGHT)) choice->choice = U_FREIGHT;
           else {
             choice->choice = U_CARAVAN;
-            pplayer->ai.tech_want[A_CORPORATION] += i / 2;
+            pplayer->ai.tech_want[A_CORPORATION] += i>>1;
           }
           choice->want = want;
           choice->type = 1;

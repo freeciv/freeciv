@@ -418,18 +418,18 @@ int reinforcements_value(struct unit *punit, struct unit *pdef)
   return(val);
 }
 
-int ai_military_findvictim(struct player *pplayer,struct unit *punit)
+void ai_military_findvictim(struct player *pplayer, struct unit *punit, int *dest_x, int *dest_y)
 { /* work of Syela - mostly to fix the ZOC/goto strangeness */
   int xx[3], yy[3], x, y;
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int i, j, k, weakest, v;
-  int dest;
   struct unit *pdef;
   struct city *pcity;
   x = punit->x;
   y = punit->y;
-  dest = y * map.xsize + x;
+  *dest_y = y;
+  *dest_x = x;
   weakest = unit_belligerence(punit);
   if (punit->unhappiness) weakest = 2000000000; /* desperation */
 
@@ -459,7 +459,7 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
         else if (v < weakest + reinforcements_value(punit, pdef)) {
 /*          printf("Better than %d is %d (%s)\n", weakest, v,
              unit_types[pdef->type].name);  */
-          weakest = v; dest = yy[j] * map.xsize + xx[i];
+          weakest = v; *dest_y = yy[j]; *dest_x = xx[i];
          } /* else printf("NOT better than %d is %d (%s)\n", weakest, v,
              unit_types[pdef->type].name); */
       }
@@ -467,17 +467,16 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
       pcity = map_get_city(xx[i], yy[j]);
       if (pcity) {
         if (pcity->owner != pplayer->player_no) { /* free goodies */
-          weakest = -1; dest = yy[j] * map.xsize + xx[i];
+          weakest = -1; *dest_y = yy[j]; *dest_x = xx[i];
         }
       }
       if (map_get_tile(xx[i], yy[j])->special & S_HUT && weakest > 0 &&
           zoc_ok_move(punit, xx[i], yy[j]) &&
           punit->ai.ai_role != AIUNIT_DEFEND_HOME) { /* Oops! -- Syela */
-        weakest = 0; dest = yy[j] * map.xsize + xx[i];
+        weakest = 0; *dest_y = yy[j]; *dest_x = xx[i];
       }
     }
   }
-  return(dest);
 }
  
 int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, int dest_y)
@@ -505,8 +504,9 @@ int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, 
 int unit_defensiveness(struct unit *punit)
 {
 /* assert get_attack_power(punit); */
-  return get_defense_power(punit) * punit->hp / MAX(get_attack_power(punit),1) /
-    get_unit_type(punit->type)->move_rate / (unit_flag(punit->type, F_IGTER) ? 3 : 1);
+  return get_defense_power(punit) * punit->hp / (MAX(get_attack_power(punit),1) *
+   (unit_flag(punit->type, F_IGTER) ? 3 * get_unit_type(punit->type)->move_rate :
+   get_unit_type(punit->type)->move_rate));
 }
 
 void ai_military_findjob(struct player *pplayer,struct unit *punit)
@@ -539,7 +539,7 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
       unit_list_iterate_end; /* was getting confused without the is_military part in */
       if (val > 0 || pcity->ai.danger > def * 
           unit_types[punit->type].attack_strength /
-          unit_types[punit->type].defense_strength / 2) { /* Guess I better stay */
+          (unit_types[punit->type].defense_strength<<1)) { /* Guess I better stay */
 /* units leave too eagerly if I use just d * d.  This is somewhat of a WAG -- Syela */
         punit->ai.ai_role=AIUNIT_DEFEND_HOME;
         return;
@@ -589,10 +589,8 @@ if (punit->homecity)
       {
 /*      printf("INHOUSE. GOTO AI_NONE(%d)\n", punit->id); */
 /* aggro defense goes here -- Syela */
-      dest = ai_military_findvictim(pplayer, punit);
+      ai_military_findvictim(pplayer, punit, &dest_x, &dest_y);
       punit->ai.ai_role=AIUNIT_NONE;
-      dest_x = dest % map.xsize;
-      dest_y = dest / map.xsize;
       handle_unit_move_request(pplayer, punit, dest_x, dest_y); /* might bash someone */
       }
    else
@@ -701,7 +699,7 @@ nearest vulnerable enemy unit or city */
 
 void ai_military_attack(struct player *pplayer,struct unit *punit)
 { /* rewritten by Syela - old way was crashy and not smart (nor is this) */
-  int dest, dest_x, dest_y; 
+  int dest_x, dest_y; 
   struct city *pcity;
   int id, flag, went, ct = 10;
 
@@ -709,9 +707,7 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
     id = punit->id;
     do {
       flag = 0;
-      dest = ai_military_findvictim(pplayer, punit);  
-      dest_x = dest % map.xsize;
-      dest_y = dest / map.xsize;
+      ai_military_findvictim(pplayer, punit, &dest_x, &dest_y);  
       if (dest_x == punit->x && dest_y == punit->y) {
 /* no one to bash here.  Will try to move onward */
         find_something_to_kill(pplayer, punit, &dest_x, &dest_y);
@@ -767,7 +763,6 @@ int amortize(int b, int d)
 {
   int num = MORT - 1;
   int denom;
-  int i = 0;
   int s = 1;
   assert(d >= 0);
   if (b < 0) { s = -1; b *= s; }
@@ -776,18 +771,15 @@ int amortize(int b, int d)
     while (d >= 12 && !(b>>28) && !(denom>>27)) {
       b *= 3;          /* this is a kluge but it is 99.9% accurate and saves time */
       denom *= 5;      /* as long as MORT remains 24! -- Syela */
-      i++;
       d -= 12;
     }
     while (!(b>>25) && d && !(denom>>25)) {
       b *= num;
       denom *= MORT;
-      i++;
       d--;
     }
-    if (i) {
+    if (denom > 1) {
       b = (b + (denom>>1)) / denom;
-      i = 0;
     }
   }
   return(b * s);
@@ -827,13 +819,12 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
   int g = 1;
   struct tile *ptile;
   int con, con2;
-  int har, t, ff, sh;
+  int har, t, sh;
   struct tile_type *ptype;
   struct city *pcity;
   
   har = is_terrain_near_tile(x, y, T_OCEAN);
 
-  ff = FOOD_WEIGHTING * MORT;
   sh = SHIELD_WEIGHTING * MORT;
   t = 8 * MORT - (8 * MORT * dist * 3 / (20 * 10));
 
@@ -863,14 +854,14 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
       ptile = map_get_tile(x+i-2, y+j-2);
       con2 = ptile->continent;
       ptype = get_tile_type(ptile->terrain);
-      food[i][j] = ((ptile->special&S_SPECIAL ? ptype->food_special : ptype->food) - 2) * ff;
-      if (i == 2 && j == 2) food[i][j] += 2 * ff;
+      food[i][j] = ((ptile->special&S_SPECIAL ? ptype->food_special : ptype->food) - 2) * MORT;
+      if (i == 2 && j == 2) food[i][j] += 2 * MORT;
       if (ptype->irrigation_result == ptile->terrain && con2 == con) {
-        if (ptile->special&S_IRRIGATION || (i == 2 && j == 2)) irrig[i][j] = ff;
+        if (ptile->special&S_IRRIGATION || (i == 2 && j == 2)) irrig[i][j] = MORT;
         else if (is_water_adjacent_to_tile(x+i-2, y+j-2) &&
-                 ptile->terrain != T_HILLS) irrig[i][j] = ff - 165; /* KLUGE */
+                 ptile->terrain != T_HILLS) irrig[i][j] = MORT - 9; /* KLUGE */
 /* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
-      } else if (ptile->terrain == T_OCEAN && har) food[i][j] += ff; /* harbor */
+      } else if (ptile->terrain == T_OCEAN && har) food[i][j] += MORT; /* harbor */
       shield[i][j] = (ptile->special&S_SPECIAL ? ptype->shield_special : ptype->shield) * sh;
       if (i == 2 && j == 2 && !shield[i][j]) shield[i][j] = sh;
       if (ptile->special&S_MINE) mine[i][j] = (ptile->terrain == T_HILLS ? sh * 3 : sh);
@@ -891,14 +882,14 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
     n = pcity->size;
     best = 0;
     city_map_iterate(i, j) {
-      cur = (food[i][j] + 0 * irrig[i][j]) * 4 / n +
+      cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
             (shield[i][j] + mine[i][j]) +
             (trade[i][j] + road[i][j]);
       if (cur > best && (i != 2 || j != 2)) { best = cur; ii = i; jj = j; }
     }
     if (!best) return(0);
     val = (shield[ii][jj] + mine[ii][jj]) +
-          (food[ii][jj] + irrig[ii][jj]) + /* seems to be needed */
+          (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
           (trade[ii][jj] + road[ii][jj]);
 /*printf("Desire to immigrate to %s = %d -> %d\n", pcity->name, val,
 (val * 100) / MORT / 70);*/
@@ -907,7 +898,7 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
 
   f = food[2][2] + irrig[2][2];
   if (!f) return(0); /* no starving cities, thank you! -- Syela */
-  val = food[2][2] + irrig[2][2] + /* this feels wrong but works better */
+  val = f * FOOD_WEIGHTING + /* this needs to be here, strange as it seems */
           (shield[2][2] + mine[2][2]) +
           (trade[2][2] + road[2][2]);
   taken[2][2]++;
@@ -923,7 +914,7 @@ printf("City value (%d, %d) = %d, har = %d, f = %d\n", x, y, val, har, f);
     for (a = 1; a; a--) {
       best = 0; worst = -1; b2 = 0;
       city_map_iterate(i, j) {
-        cur = (food[i][j] + 0 * irrig[i][j]) * 4 / n +
+        cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
               (shield[i][j] + mine[i][j]) +
               (trade[i][j] + road[i][j]);
         if (!taken[i][j]) {
@@ -935,14 +926,14 @@ printf("City value (%d, %d) = %d, har = %d, f = %d\n", x, y, val, har, f);
       }
       if (!best) break;
       cur = amortize((shield[ii][jj] + mine[ii][jj]) +
-            (food[ii][jj] + irrig[ii][jj]) + /* seems to be needed */
+            (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
             (trade[ii][jj] + road[ii][jj]), d);
       f += food[ii][jj] + irrig[ii][jj];
       if (cur > 0) val += cur;
       taken[ii][jj]++;
 if (debug)
 printf("Value of (%d, %d) = %d food = %d, type = %s, n = %d, d = %d\n",
- ii, jj, cur, (food[ii][jj] + irrig[ii][jj]) / FOOD_WEIGHTING,
+ ii, jj, cur, (food[ii][jj] + irrig[ii][jj]),
 get_tile_type(map_get_tile(x + ii - 2, y + jj - 2)->terrain)->terrain_name, n, d);
 
 /* I hoped to avoid the following, but it seems I can't take ANY shortcuts
@@ -951,18 +942,18 @@ get this EXACTLY right instead of just reasonably close. -- Syela */
       if (worst < b2 && worst >= 0) {
         cur = amortize((shield[i0][j0] + mine[i0][j0]) +
               (trade[i0][j0] + road[i0][j0]), d);
-        f -= (food[i0][j0] + irrig[i0][j0]) / FOOD_WEIGHTING;
+        f -= (food[i0][j0] + irrig[i0][j0]);
         val -= cur;
         taken[i0][j0]--;
         a++;
 if (debug)
 printf("REJECTING Value of (%d, %d) = %d food = %d, type = %s, n = %d, d = %d\n",
- i0, j0, cur, (food[i0][j0] + irrig[i0][j0]) / FOOD_WEIGHTING,
+ i0, j0, cur, (food[i0][j0] + irrig[i0][j0]),
 get_tile_type(map_get_tile(x + i0 - 2, y + j0 - 2)->terrain)->terrain_name, n, d);
       }
     }
     if (!best) break;
-    if (f > 0) d += (game.foodbox * MORT * n * FOOD_WEIGHTING + (f*g) - 1) / (f*g);
+    if (f > 0) d += (game.foodbox * MORT * n + (f*g) - 1) / (f*g);
     if (n == 4) {
       val -= amortize(40 * SHIELD_WEIGHTING + (50 - 20 * g) * FOOD_WEIGHTING, d); /* lers */
       temp = amortize(40 * SHIELD_WEIGHTING, d); /* temple */

@@ -1107,6 +1107,7 @@ our own cities.  The old method wasted billions of CPU cycles and led to
 AI settlers improving enemy cities. */ /* arguably should include city_spot */
   generate_warmap(mycity, punit);
   food = (get_government(pplayer->player_no) > G_COMMUNISM ? 2 : 1);
+  if (punit->id && !punit->homecity) food = 0; /* thanks, Peter */
   city_list_iterate(pplayer->cities, pcity)
     w = worst_worker_tile_value(pcity);
     city_map_iterate(i, j) {
@@ -1123,9 +1124,9 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
 /* perhaps I should just subtract w rather than val but I prefer this -- Syela */
 
 	v2 = ai_calc_irrigate(pcity, pplayer, i, j);
-        d = (map_build_irrigation_time(x, y) * 3 + m - 1) / m + z;
         b = (v2 - val)<<6; /* arbitrary, for rounding errors */
         if (b > 0) {
+          d = (map_build_irrigation_time(x, y) * 3 + m - 1) / m + z;
           a = amortize(b, d);
           v2 = ((a * b) / (MAX(1, b - a)))>>6;
         } else v2 = 0;
@@ -1137,9 +1138,9 @@ gx, gy, v, x, y, v2, d, b);*/
         }
 
 	v2 = ai_calc_mine(pcity, pplayer, i, j);
-        d = (map_build_mine_time(x, y) * 3 + m - 1) / m + z;
         b = (v2 - val)<<6; /* arbitrary, for rounding errors */
         if (b > 0) {    
+          d = (map_build_mine_time(x, y) * 3 + m - 1) / m + z;
           a = amortize(b, d);
           v2 = ((a * b) / (MAX(1, b - a)))>>6;
         } else v2 = 0;
@@ -1154,9 +1155,9 @@ gx, gy, v, x, y, v2, d, b);*/
   	  v2 = ai_calc_road(pcity, pplayer, i, j);
           if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
 /* guessing about the weighting based on unit upkeeps; * 11 was too high! -- Syela */
-          d = (map_build_road_time(x, y) * 3 + 3 + m - 1) / m + z; /* uniquely weird! */
           b = (v2 - val)<<6; /* arbitrary, for rounding errors */
           if (b > 0) {    
+            d = (map_build_road_time(x, y) * 3 + 3 + m - 1) / m + z; /* uniquely weird! */
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
           } else v2 = 0;
@@ -1169,9 +1170,9 @@ gx, gy, v, x, y, v2, d, b);*/
 
 	  v2 = ai_calc_railroad(pcity, pplayer, i, j);
           if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
-          d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + m - 1) / m + z;
           b = (v2 - val)<<6; /* arbitrary, for rounding errors */
           if (b > 0) {    
+            d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + m - 1) / m + z;
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
           } else v2 = 0;
@@ -1182,9 +1183,9 @@ gx, gy, v, x, y, v2, d, b);*/
         } else {
 	  v2 = ai_calc_railroad(pcity, pplayer, i, j);
           if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
-          d = (3 * 3 + m - 1) / m + z;
           b = (v2 - val)<<6; /* arbitrary, for rounding errors */
           if (b > 0) {    
+            d = (3 * 3 + m - 1) / m + z;
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
           } else v2 = 0;
@@ -1195,9 +1196,9 @@ gx, gy, v, x, y, v2, d, b);*/
         } /* end else */
 
 	v2 = ai_calc_pollution(pcity, pplayer, i, j);
-        d = (3 * 3 + z + m - 1) / m + z;
         b = (v2 - val)<<6; /* arbitrary, for rounding errors */
         if (b > 0) {    
+          d = (3 * 3 + z + m - 1) / m + z;
           a = amortize(b, d);
           v2 = ((a * b) / (MAX(1, b - a)))>>6;
         } else v2 = 0;

@@ -237,15 +237,13 @@ void ai_manage_taxes(struct player *pplayer)
   int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   int hhjj[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-/* NOTE: 8 is the default ai.trade_want; that's where that comes from -- Syela */
- 
   pplayer->economic.science += pplayer->economic.luxury;
 /* without the above line, auto_arrange does strange things we must avoid -- Syela */
   pplayer->economic.luxury = 0;
   city_list_iterate(pplayer->cities, pcity) 
     auto_arrange_workers(pcity); /* I hate doing this but I need to stop the flipflop */
     sad += pcity->ppl_unhappy[4];
-    trade += pcity->trade_prod;
+    trade += pcity->trade_prod * city_tax_bonus(pcity) / 100;
 /*    printf("%s has %d trade.\n", pcity->name, pcity->trade_prod); */
     for (i = 0; i < B_LAST; i++)
       if (city_got_building(pcity, i)) expense += improvement_upkeep(pcity,i);
@@ -270,37 +268,28 @@ void ai_manage_taxes(struct player *pplayer)
     if (pcity->size > 4 && pplayer->government >= G_REPUBLIC &&
         !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity)) {
 /*      printf("%d happy people in %s\n", pcity->ppl_happy[4], pcity->name); */
-      n = ((pcity->size + 1) / 2 - pcity->ppl_happy[4]) * 20;
+      n = (((pcity->size + 1)>>1) - pcity->ppl_happy[4]) * 20;
       if (n > pcity->ppl_content[1] * 20) n += (n - pcity->ppl_content[1] * 20);
       for (i = 0; i <= 10; i++) {
-        if (pcity->trade_prod * i >= n && pcity->food_surplus > 0) {
-          hhjj[i] += (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
-              game.foodbox / 2 - pcity->food_stock) *
-              FOOD_WEIGHTING / pcity->size *
-              (pcity->was_happy ? 4 : 2); /* maybe should be ? 4 : 2 */
-/* was ? 4 : 3, which led to FAR too many short celebrations -- Syela */
+        if (pcity->trade_prod * i * city_tax_bonus(pcity) >= n * 100 &&
+                  pcity->food_surplus > 0) {
+          m = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
+              (game.foodbox>>1) - pcity->food_stock) *
+              food_weighting(pcity->size);
+          hhjj[i] += (pcity->was_happy ? m : m>>1);
         }
       }
     } /* hhjj[i] is (we think) the desirability of partying with lux = 10 * i */
 /* end elevated code block */
 
     n = (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]) * 20; /* need this much lux */
-#ifdef SIMPLISTIC
-    best = ai_best_tile_value(pcity);
-    for (i = 0; i <= 10; i++) {
-      m = ((n - pcity->trade_prod * i + 19) / 20);
-      elvises[i] += MAX(m, 0) * best;
-    }
-#else
-/* I couldn't do this when I wrote the above code because
-   ai_find_elvis_pos didn't return anything useful -- Syela */
 
 /* this could be an unholy CPU glutton; it's only really useful when we need
    lots of luxury, like with pcity->size = 12 and only a temple */
 
     memset(waste, 0, sizeof(waste));
-    tot = pcity->food_prod * FOOD_WEIGHTING * 4 /
-            pcity->size + pcity->trade_prod * pcity->ai.trade_want +
+    tot = pcity->food_prod * food_weighting(pcity->size) +
+            pcity->trade_prod * pcity->ai.trade_want +
             pcity->shield_prod * SHIELD_WEIGHTING;
 
     for (i = 1; i <= pcity->size; i++) {
@@ -315,19 +304,18 @@ void ai_manage_taxes(struct player *pplayer)
       }
     }
     for (i = 0; i <= 10; i++) {
-      m = ((n - pcity->trade_prod * i + 19) / 20);
+      m = ((n * 100 - pcity->trade_prod * city_tax_bonus(pcity) + 1999) / 2000);
       elvises[i] += waste[m];
     }
-#endif
   city_list_iterate_end;
     
-  for (i = 0; i <= 10; i++) elvises[i] += (trade * i) / 10 * 8;
+  for (i = 0; i <= 10; i++) elvises[i] += (trade * i) / 10 * TRADE_WEIGHTING;
   /* elvises[i] is the production + income lost to elvises with lux = i * 10 */
   n = 0; /* default to 0 lux */
   for (i = 1; i <= 10; i++) if (elvises[i] < elvises[n]) n = i;
 /* two thousand zero zero party over it's out of time */
   for (i = 0; i <= 10; i++) {
-    hhjj[i] -= (trade * i) / 10 * 8; /* hhjj is now our bonus */
+    hhjj[i] -= (trade * i) / 10 * TRADE_WEIGHTING; /* hhjj is now our bonus */
 /*    printf("hhjj[%d] = %d for %s.\n", i, hhjj[i], pplayer->name);  */
   }
 
@@ -339,7 +327,7 @@ void ai_manage_taxes(struct player *pplayer)
   } else { /* have to balance things logically */
 /* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
 /*    n = ((expense - gnow) * 20 + trade) / trade / 2;   My goof-up.  -- Syela */
-    n = ((expense - gnow) * 20 + (trade * 2 - 1)) / trade / 2;
+    n = ((expense - gnow) * 20 + (trade<<1) - 1) / (trade<<1);
 /* was failing to upkeep buildings during love-in; found, fixed. -- Syela */
     if (n < 0) n = 0;
     while (n > 10 - (pplayer->economic.luxury / 10)) n--;
@@ -354,7 +342,7 @@ void ai_manage_taxes(struct player *pplayer)
   } else { /* have to balance things logically */
 /* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
 /*  n = ((ai_gold_reserve(pplayer) - gnow - expense) ... I hate typos. -- Syela */
-    n = ((ai_gold_reserve(pplayer) - gnow + expense) * 20 + trade * 2 - 1) / trade / 2;
+    n = ((ai_gold_reserve(pplayer) - gnow + expense) * 20 + (trade<<1) - 1) / (trade<<1);
 /* same bug here as above, caused us not to afford city walls we needed. -- Syela */
     if (n < 0) n = 0; /* shouldn't allow 0 tax? */
     while (n > 10 - (pplayer->economic.luxury / 10)) n--;

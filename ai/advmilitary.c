@@ -109,13 +109,15 @@ int assess_danger(struct city *pcity)
         v *= punit->hp * get_unit_type(punit->type)->firepower;
         if (unit_ignores_citywalls(punit) || 
             (!is_heli_unit(punit) && !is_ground_unit(punit))) igwall++;
-        if (city_got_building(pcity, B_COASTAL) && is_sailing_unit(punit)) v /= 2;
-        if (city_got_building(pcity, B_SAM) && is_air_unit(punit)) v /= 2;
+        if (city_got_building(pcity, B_COASTAL) && is_sailing_unit(punit)) v >>= 1;
+        if (city_got_building(pcity, B_SAM) && is_air_unit(punit)) v >>= 1;
 
-        dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * 3;
-        if (unit_flag(punit->type, F_IGTER)) dist /= 3;
-        else if (is_ground_unit(punit)) dist = warmap.cost[punit->x][punit->y];
-        else if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
+        if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
+        else if (!is_ground_unit(punit))
+          dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * 3;
+        else if (unit_flag(punit->type, F_IGTER))
+          dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
+        else dist = warmap.cost[punit->x][punit->y];
 
         m = get_unit_type(punit->type)->move_rate;
 /* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
@@ -125,9 +127,9 @@ int assess_danger(struct city *pcity)
         if (dist <= m && v) pcity->ai.grave_danger = punit;
 
         if (unit_flag(punit->type, F_HORSE)) {
-          if (pikemen) v /= 2;
+          if (pikemen) v >>= 1;
           else if (get_invention(pplayer, A_FEUDALISM) != TECH_KNOWN)
-            pplayer->ai.tech_want[A_FEUDALISM] += v * m / 2 / dist;
+            pplayer->ai.tech_want[A_FEUDALISM] += v * m / (dist<<1);
         }
 
         v /= 30; /* rescaling factor to stop the overflow nonsense */
@@ -170,30 +172,30 @@ unit_types[punit->type].name, punit->x, punit->y, dist);  */
   if (pcity->ai.building_want[B_CITY] > 0 && danger2) {
     i = assess_defense(pcity);
     if (!i) pcity->ai.building_want[B_CITY] = 100 + urgency;
-    else if (danger2 > i * 3 / 2) pcity->ai.building_want[B_CITY] = 200 + urgency;
+    else if (danger2 > i + (i>>1)) pcity->ai.building_want[B_CITY] = 200 + urgency;
     else pcity->ai.building_want[B_CITY] += danger2 * 100 / i;
   }
 /* My first attempt to allow ng_wa >= 200 led to stupidity in cities with
 no defenders and danger = 0 but danger > 0.  Capping ng_wa at 100 + urgency
 led to a failure to buy walls as required.  This is the latest attempt,
-not thoroughly tested. -- Syela */
+which seems to work acceptably. -- Syela */
   if (pcity->ai.building_want[B_COASTAL] > 0 && danger3) {
     i = assess_defense_igwall(pcity);
     if (!i) pcity->ai.building_want[B_COASTAL] = 100 + urgency;
-    else if (danger3 > i * 3 / 2) pcity->ai.building_want[B_COASTAL] = 200 + urgency;
+    else if (danger3 > i + (i>>1)) pcity->ai.building_want[B_COASTAL] = 200 + urgency;
     else pcity->ai.building_want[B_COASTAL] += danger3 * 100 / i;
   }
 /* COASTAL and SAM are TOTALLY UNTESTED and could be VERY WRONG -- Syela */
   if (pcity->ai.building_want[B_SAM] > 0 && danger4) {
     i = assess_defense_igwall(pcity);
     if (!i) pcity->ai.building_want[B_SAM] = 100 + urgency;
-    else if (danger4 > i * 3 / 2) pcity->ai.building_want[B_SAM] = 200 + urgency;
+    else if (danger4 > i + (i>>1)) pcity->ai.building_want[B_SAM] = 200 + urgency;
     else pcity->ai.building_want[B_SAM] += danger4 * 100 / i;
   }
   if (pcity->ai.building_want[B_SDI] > 0 && danger5) {
     i = assess_defense_igwall(pcity);
     if (!i) pcity->ai.building_want[B_SDI] = 100 + urgency;
-    else if (danger5 > i * 3 / 2) pcity->ai.building_want[B_SDI] = 200 + urgency;
+    else if (danger5 > i + (i>>1)) pcity->ai.building_want[B_SDI] = 200 + urgency;
     else pcity->ai.building_want[B_SDI] += danger5 * 100 / i;
   }
   return(urgency);
@@ -211,7 +213,7 @@ int unit_desirability(int i, int def)
   d = get_unit_type(i)->defense_strength;
   if (def) cur *= d;
   else if (d > a) return(0);
-  else if (d == 1) { cur *= (a + d); cur /= 2; }
+  else if (d < 2) cur = (cur * (a + d))>>1;
   else cur *= a; /* wanted to rank Legion > Catapult > Archer */
   if (unit_flag(i, F_IGTER) && !def) cur *= 3;
   if (unit_flag(i, F_PIKEMEN) && def) cur *= 1.5;
@@ -290,8 +292,9 @@ void process_attacker_want(struct player *pplayer, struct city *pcity, int b, in
     if ((m == LAND_MOVING || (m == SEA_MOVING && shore)) && j != A_LAST && k &&
          unit_types[i].attack_strength && /* otherwise we get SIGFPE's */
          m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
-      l = k * (k + pplayer->research.researchpoints) * game.techlevel /
-         (game.year > 0 ? 2 : 4); /* cost (shield equiv) of gaining these techs */
+      l = k * (k + pplayer->research.researchpoints) * game.techlevel;
+      if (game.year > 0) l >>= 1;
+      else l >>= 2; /* cost (shield equiv) of gaining these techs */
       l /= city_list_size(&pplayer->cities);
 /* Katvrr advises that with danger high, l should be weighted more heavily */
 
@@ -395,10 +398,10 @@ void kill_something_with(struct player *pplayer, struct city *pcity,
       else dist = real_map_distance(pcity->x, pcity->y, x, y);
       dist *= unit_types[pdef->type].move_rate;
       if (unit_flag(pdef->type, F_IGTER)) dist *= 3;
-      if (get_unit_type(v)->flags & F_IGTER) dist /= 3; /* not quite right */
       if (!dist) dist = 1;
 
       m = unit_types[v].move_rate;
+      if (get_unit_type(v)->flags & F_IGTER) m *= 3; /* not quite right */
       c = ((dist + m - 1) / m);
 
       n = pdef->type;

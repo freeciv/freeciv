@@ -16,6 +16,10 @@
 #include "packets.h"
 #include "city.h"
 
+#define FOOD_WEIGHTING 19
+#define SHIELD_WEIGHTING 17
+#define TRADE_WEIGHTING 8
+
 int city_got_barracks(struct city *pcity);
 int can_sell_building(struct city *pcity, int id);
 enum city_tile_type get_worker_city(struct city *pcity, int x, int y);
@@ -29,6 +33,7 @@ int get_cathedral_power(struct city *pcity);
 int get_colosseum_power(struct city *pcity);
 int is_worked_here(int x, int y);
 int can_place_worker_here(struct city *pcity, int x, int y);
+int food_weighting(int n);
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
 int better_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed);
 int best_tile(struct city *pcity, int x, int y, int bx, int by);
