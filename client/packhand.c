@@ -542,6 +542,9 @@ void handle_city_info(struct packet_city_info *packet)
     update_city_description(pcity);
   }
 
+  /* Update the panel text (including civ population). */
+  update_info_label();
+
   try_update_effects(need_effect_update);
 }
 
