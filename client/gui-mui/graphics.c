@@ -1022,19 +1022,19 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
   }
 
   /*** Map grid ***/
-/*  if (draw_map_grid) {
+  if (draw_map_grid) {
     /* we draw the 2 lines on top of the tile; the buttom lines will be
        drawn by the tiles underneath. */
-    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_BLACK]);
-    if (draw & D_M_R)
-      gdk_draw_line(pm, thin_line_gc,
-		    canvas_x+NORMAL_TILE_WIDTH/2, canvas_y,
-		    canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
-    if (draw & D_M_L)
-      gdk_draw_line(pm, thin_line_gc,
-		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
-		    canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
-  }*/
+    SetAPen(rp,1);
+    if (draw & D_M_R) {
+      Move(rp,canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+      Draw(rp,canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
+    }
+    if (draw & D_M_L) {
+      Move(rp, canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2);
+      Draw(rp, canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+    }
+  }
 
 /*  if (draw_coastline && !draw_terrain) {
     enum tile_terrain_type t1 = map_get_terrain(x, y), t2;

@@ -1308,69 +1308,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       if (data->update == 2)
       {
 	Map_Priv_MoveUnit(o,data);
-      	
-	/* Move the Unit Smoothly (from mapview.c) */
-/*	int map_view_x0 = data->horiz_first;
-	int map_view_y0 = data->vert_first;
-	int i, x, y, x0 = data->x0, y0 = data->y0, dx = data->dx, dy = data->dy;
-	struct unit *punit = data->punit;
-
-	if (x0 >= map_view_x0)
-	  x = (x0 - map_view_x0) * get_normal_tile_width();
-	else
-	  x = (map.xsize - map_view_x0 + x0) * get_normal_tile_width();
-
-	y = (y0 - map_view_y0) * get_normal_tile_height();
-
-	for (i = 0; i < get_normal_tile_width() / 2; i++)
-	{
-	  LONG x1, y1, w, h, ox, oy;
-	  TimeDelay(0, 0, 1000000 / 65);
-
-	  x += dx * 2;
-	  y += dy * 2;
-
-	  x1 = x - 2;
-	  y1 = y - 2;
-	  w = get_normal_tile_width() + 4;
-	  h = get_normal_tile_height() + 4;
-	  ox = oy = 0;
-
-	  if (x1 < 0)
-	  {
-	    ox = -x1;
-	    w += x1;
-	    x1 = 0;
-	  }
-
-	  if (y1 < 0)
-	  {
-	    oy = -y1;
-	    h += y1;
-	    y1 = 0;
-	  }
-
-	  if (x1 + w > _mwidth(o))
-	    w = _mwidth(o) - x1;
-	  if (y1 + h > _mheight(o))
-	    h = _mheight(o) - y1;
-
-	  if (w > 0 && h > 0)
-	  {
-	    BltBitMapRastPort(data->map_bitmap, x1, y1,
-			      data->unit_layer->rp, ox, oy, w, h, 0xc0);
-
-	    put_unit_tile(data->unit_layer->rp, punit, 2, 2);
-
-	    BltBitMapRastPort(data->unit_bitmap, ox, oy,
-			 _rp(o), _mleft(o) + x1, _mtop(o) + y1, w, h, 0xc0);
-	  }
-	}*/
-
-
       }
-/*      else
-	drawmap = TRUE;*/
 
       if (data->update == 3) drawmap = TRUE;
       else if (data->update == 1) drawmap = TRUE;
@@ -1379,6 +1317,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
     if (drawmap)
     {
       int x,y,width,height,write_to_screen;
+      int blit_all = 0; /* blt the whole map */
 
       if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 1))
       {
@@ -1403,77 +1342,71 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  width = height = width + height;
 	}
 
-	if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 3))
+	if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 3) && !is_isometric)
 	{
-	  /* Map has been scrolled */
-/*	  int dx = data->horiz_first - data->old_horiz_first;
+	  /* Map has been scrolled (non isometric only atm), drawing can be optimized */
+	  int dx = data->horiz_first - data->old_horiz_first;
 	  int dy = data->vert_first - data->old_vert_first;
 
 	  if (abs(dx) < width && abs(dy) < height && data->map_shown)
 	  {
-	    ScrollRaster(data->map_layer->rp, dx * get_normal_tile_width(), dy * get_normal_tile_height(),
+	    ScrollRaster(data->map_layer->rp,
+	    		 dx * NORMAL_TILE_WIDTH, dy * NORMAL_TILE_HEIGHT,
 			 0, 0, _mwidth(o) - 1, _mheight(o) - 1);
-
-	    bltall = TRUE;
 
 	    if (abs(dx) < width && dx)
 	    {
 	      if (dx > 0)
 	      {
-		tile_x = width - dx - 1;
-		if (tile_x < 0)
-		  tile_x = 0;
+	      	int map_view_x0 = xget(o,MUIA_Map_HorizFirst);
+		x = xget(o,MUIA_Map_HorizVisible) + map_view_x0 - dx - 1;
+		if (x < map_view_x0) x = map_view_x0;
 		width = dx + 1;
-	      }
-	      else
-		width = -dx;
+	      } else width = -dx;
 	    }
 
 	    if (abs(dy) < height && dy)
 	    {
 	      if (dy > 0)
 	      {
-		tile_y = height - dy - 1;
-		if (tile_y < 0)
-		  tile_y = 0;
+	      	int map_view_y0 = xget(o,MUIA_Map_VertFirst);
+		y = xget(o,MUIA_Map_VertVisible) + map_view_y0 - dy - 1;
+		if (y < map_view_y0) y = map_view_y0;
 		height = dy + 1;
-	      }
-	      else
-		height = -dy;
+	      } else height = -dy;
 	    }
 
 	    if (dx && dy && abs(dx) < xget(o, MUIA_Map_HorizVisible) && abs(dy) < xget(o, MUIA_Map_VertVisible))
 	    {
-	      LONG newwidth = xget(o, MUIA_Map_HorizVisible);
-	      need_put = FALSE;
+	      /* A diagonal scrolling has happened */
+	      int newwidth = xget(o, MUIA_Map_HorizVisible);
+	      int newheight = xget(o, MUIA_Map_VertVisible);
+	      int x_itr,y_itr,map_x,map_y,canvas_x,canvas_y;
 
-	      if ((dy > 0 && dx > 0) || (dy < 0 && dx > 0))	/* dy > 0 = Nach unten */
-	      {
-		for (y = tile_y; y < tile_y + height; y++)
-		{
-		  for (x = 0; x < newwidth - width; x++)
-		    put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
-		}
-	      }
-	      else
-	      {
-		for (y = tile_y; y < tile_y + height; y++)
-		{
-		  for (x = tile_x; x < newwidth; x++)
-		    put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
+	      /* Draw the upper or lower complete free horiz space */
+	      for (y_itr = y; y_itr < y + height; y_itr++) {
+		for (x_itr = data->horiz_first; x_itr < x + newwidth; x_itr++) {
+		  map_x = map_adjust_x(x_itr);
+		  map_y = y_itr;
+ 
+		  get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y);
+		  put_tile(data->map_layer->rp, map_x,map_y,canvas_x,canvas_y,0);
 		}
 	      }
 
-	      height = xget(o, MUIA_Map_VertVisible);
-
-	      for (y = 0; y < height; y++)
-		for (x = tile_x; x < tile_x + width; x++)
-		  put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
+	      /* Set the values for the rest (done below) */
+	      if (dy < 0)
+	      {
+	      	y = data->vert_first - dy;
+	      	height = newheight + dy;
+	      } else
+	      {
+	      	y = data->vert_first;
+	      	height = newheight - dy;
+	      }
 	    }
-	  } else
-	  {
-	    data->map_shown = TRUE;
-	  }*/
+	    blit_all = 1;
+	  } else data->map_shown = TRUE;
 	}
       }
 
@@ -1559,6 +1492,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
         /*** Lastly draw our changes to the screen. ***/
         if (write_to_screen) {
           int canvas_start_x, canvas_start_y;
+          int w,h;
+
           get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y); /* top left corner */
           /* top left corner in isometric view */
           canvas_start_x -= height * NORMAL_TILE_WIDTH/2;
@@ -1569,20 +1504,29 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
           /* And because units fill a little extra */
           canvas_start_y -= NORMAL_TILE_HEIGHT/2;
 
-          /* here we draw a rectangle that includes the updated tiles. */
-/*          gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-		      canvas_start_x, canvas_start_y,
-		      canvas_start_x, canvas_start_y,
-		      (height + width) * NORMAL_TILE_WIDTH/2,
-		      (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2);*/
-/*	  BltBitMapRastPort(data->map_bitmap, canvas_start_x, canvas_start_y,
-			      _rp(o), _mleft(o) + canvas_start_x, _mtop(o) + canvas_start_y,
-			      (height + width) * NORMAL_TILE_WIDTH/2,
-			      (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2, 0xc0);*/
+	  w = (height + width) * NORMAL_TILE_WIDTH/2;
+	  h = (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2;
 
-	  BltBitMapRastPort(data->map_bitmap, 0, 0,
-			      _rp(o), _mleft(o), _mtop(o),
-			      _mwidth(o),_mheight(o), 0xc0);
+	  if (canvas_start_x <0)
+	  {
+	    w += canvas_start_x;
+	    canvas_start_x = 0;
+	  }
+
+	  if (canvas_start_y <0)
+	  {
+	    h += canvas_start_y;
+	    canvas_start_y = 0;
+	  }
+
+	  if (w > _mwidth(o)) w = _mwidth(o);
+	  if (h > _mheight(o)) h = _mheight(o);
+
+          /* here we draw a rectangle that includes the updated tiles. */
+	  MyBltBitMapRastPort(data->map_bitmap, canvas_start_x, canvas_start_y,
+			      _rp(o), _mleft(o) + canvas_start_x, _mtop(o) + canvas_start_y,
+			      w,h, 0xc0);
+
 	}
       } else
       {
@@ -1601,13 +1545,15 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  }
 	}
 
+        if (blit_all) {
+          BltBitMapRastPort(data->map_bitmap,0,0,_rp(o),_mleft(o),_mtop(o),_mwidth(o),_mheight(o),0xc0);
+        } else
 	if (write_to_screen) {
 	  LONG pix_width = width * get_normal_tile_width();
 	  LONG pix_height = height * get_normal_tile_height();
 
 	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
 
-	  /* Should create a SafeBltBitMapRastPort() function */
           if (canvas_x < 0) {
             pix_width += canvas_x;
             canvas_x = 0;
@@ -1626,180 +1572,6 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  }
 	}
       }
-
-
-/*
-      LONG tile_x;
-      LONG tile_y;
-      LONG width;
-      LONG height;
-
-      LONG map_view_x0 = xget(o, MUIA_Map_HorizFirst);
-      LONG map_view_y0 = xget(o, MUIA_Map_VertFirst);
-
-      int x, y;
-      BOOL bltall = FALSE;
-      BOOL citynames = FALSE;
-      BOOL need_put = TRUE;
-
-      if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 1))
-      {
-	tile_x = data->tilex;
-	tile_y = data->tiley;
-	width = data->width;
-	height = data->height;
-
-	if (tile_x < 0)
-	{
-	  width += tile_x;
-	  tile_x = 0;
-	}
-
-	if (tile_y < 0)
-	{
-	  height += tile_y;
-	  tile_y = 0;
-	}
-
-	if (width > 1 && height > 1)
-	  citynames = TRUE;
-      }
-      else
-      {
-	tile_x = 0;
-	tile_y = 0;
-	width = xget(o, MUIA_Map_HorizVisible);
-	height = xget(o, MUIA_Map_VertVisible);
-
-	citynames = TRUE;
-
-	if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 3))
-	{
-	  LONG dx = data->horiz_first - data->old_horiz_first;
-	  LONG dy = data->vert_first - data->old_vert_first;
-	  if (abs(dx) < width && abs(dy) < height && data->map_shown)
-	  {
-	    ScrollRaster(data->map_layer->rp, dx * get_normal_tile_width(), dy * get_normal_tile_height(),
-			 0, 0, _mwidth(o) - 1, _mheight(o) - 1);
-
-	    bltall = TRUE;
-
-	    if (abs(dx) < width && dx)
-	    {
-	      if (dx > 0)
-	      {
-		tile_x = width - dx - 1;
-		if (tile_x < 0)
-		  tile_x = 0;
-		width = dx + 1;
-	      }
-	      else
-		width = -dx;
-	    }
-
-	    if (abs(dy) < height && dy)
-	    {
-	      if (dy > 0)
-	      {
-		tile_y = height - dy - 1;
-		if (tile_y < 0)
-		  tile_y = 0;
-		height = dy + 1;
-	      }
-	      else
-		height = -dy;
-	    }
-
-	    if (dx && dy && abs(dx) < xget(o, MUIA_Map_HorizVisible) && abs(dy) < xget(o, MUIA_Map_VertVisible))
-	    {
-	      LONG newwidth = xget(o, MUIA_Map_HorizVisible);
-	      need_put = FALSE;
-
-	      if ((dy > 0 && dx > 0) || (dy < 0 && dx > 0))	/* dy > 0 = Nach unten */
-	      {
-		for (y = tile_y; y < tile_y + height; y++)
-		{
-		  for (x = 0; x < newwidth - width; x++)
-		    put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
-		}
-	      }
-	      else
-	      {
-		for (y = tile_y; y < tile_y + height; y++)
-		{
-		  for (x = tile_x; x < newwidth; x++)
-		    put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
-		}
-	      }
-
-	      height = xget(o, MUIA_Map_VertVisible);
-
-	      for (y = 0; y < height; y++)
-		for (x = tile_x; x < tile_x + width; x++)
-		  put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
-	    }
-	  } else
-	  {
-	    data->map_shown = TRUE;
-	  }
-	}
-      }
-
-
-      if (need_put)
-      {
-	for (y = tile_y; y < tile_y + height; y++)
-	  for (x = tile_x; x < tile_x + width; x++)
-	    put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
-      }
-
-      x = tile_x * get_normal_tile_width();
-      y = tile_y * get_normal_tile_height();
-
-      if (!(data->update == 1 && !data->write_to_screen) || data->update != 4)
-      {
-	if (bltall)
-	{
-	  BltBitMapRastPort(data->map_bitmap, 0, 0,
-		_rp(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o), 0xc0);
-	}
-	else
-	{
-	  /* Own simple cliping is a lot of faster */
-	  LONG pix_width = width * get_normal_tile_width();
-	  LONG pix_height = height * get_normal_tile_height();
-
-	  /* Should create a SafeBltBitMapRastPort() function */
-          if (x < 0)
-          {
-            pix_width += x;
-            x = 0;
-          }
-
-          if (y < 0)
-          {
-            pix_height += y;
-            y = 0;
-          }
-
-	  if (pix_width + x > _mwidth(o))
-	    pix_width = _mwidth(o) - x;
-	  if (pix_height + y > _mheight(o))
-	    pix_height = _mheight(o) - y;
-
-	  if (pix_width > 0 && pix_height > 0)
-	  {
-	    BltBitMapRastPort(data->map_bitmap, x, y,
-			      _rp(o), _mleft(o) + x, _mtop(o) + y,
-			      pix_width, pix_height, 0xc0);
-	  }
-	}
-      }
-
-      if (citynames)
-      {
-      	Map_ReallyShowCityDescriptions(o,data);
-      }*/
     }
 
     data->update = 0;
@@ -3155,8 +2927,8 @@ static ULONG Unit_Cleanup(struct IClass * cl, Object * o, Msg msg)
 static ULONG Unit_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   struct Unit_Data *data = (struct Unit_Data *) INST_DATA(cl, o);
-  LONG w = get_normal_tile_width();
-  LONG h = get_normal_tile_height();
+  LONG w = UNIT_TILE_WIDTH;
+  LONG h = UNIT_TILE_HEIGHT;
   DoSuperMethodA(cl, o, (Msg) msg);
 
   if (data->upkeep)
