@@ -420,7 +420,7 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
 
     /* the new password is good, create a database entry for
      * this user; we establish the connection in handle_db_lookup */
-    sz_strlcpy(pconn->password, password);
+    sz_strlcpy(pconn->server.password, password);
 
     switch(user_db_save(pconn)) {
     case USER_DB_SUCCESS:
@@ -437,7 +437,7 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
 
     establish_new_connection(pconn);
   } else if (pconn->server.status == AS_REQUESTING_OLD_PASS) { 
-    if (strncmp(pconn->password, password, MAX_LEN_NAME) == 0) {
+    if (strncmp(pconn->server.password, password, MAX_LEN_NAME) == 0) {
       pconn->server.status = AS_ESTABLISHED;
       establish_new_connection(pconn);
     } else {
