@@ -111,6 +111,35 @@ struct tile_type *get_tile_type(enum tile_terrain_type type)
 /***************************************************************
 ...
 ***************************************************************/
+int real_map_distance(int x0, int y0, int x1, int y1)
+{
+  int tmp;
+  x0=map_adjust_x(x0);
+  x1=map_adjust_x(x1);
+  if(x0>x1)
+    tmp=x0, x0=x1, x1=tmp;
+  if(y0>y1)
+    tmp=y0, y0=y1, y1=tmp;
+  return MAX(y1 - y0, MIN(x1-x0, map.xsize-x1+x0));
+}
+/***************************************************************
+...
+***************************************************************/
+int sq_map_distance(int x0, int y0, int x1, int y1)
+{
+  int tmp;
+  x0=map_adjust_x(x0);
+  x1=map_adjust_x(x1);
+  if(x0>x1)
+    tmp=x0, x0=x1, x1=tmp;
+  if(y0>y1)
+    tmp=y0, y0=y1, y1=tmp;
+  return (((y1 - y0) * (y1 - y0)) +
+         (MIN(x1 - x0, map.xsize - x1 + x0) * MIN(x1 - x0, map.xsize - x1 + x0)));
+}
+/***************************************************************
+...
+***************************************************************/
 int map_distance(int x0, int y0, int x1, int y1)
 {
   int tmp;
@@ -192,7 +221,7 @@ int is_starter_close(int x, int y, int nr, int dist)
 						    on the poles */
   for (i=0;i<nr;i++) 
     if ( same_island(x,y, map.start_positions[i].x, map.start_positions[i].y) 
-	 && map_distance(x, y, map.start_positions[i].x, map.start_positions[i].y) < dist) 
+	 && real_map_distance(x, y, map.start_positions[i].x, map.start_positions[i].y) < dist) 
       return 1;
   return 0;
 }
@@ -351,17 +380,17 @@ void map_mine_tile(int x, int y)
   map_clear_special(x,y, S_IRRIGATION);
 }
 
-/***************************************************************
-  The cost to move punit from x1,y1 to x2,y2
-  The tiles are assumed to be adjacent
-***************************************************************/
-int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2)
-{
-  struct tile *t1=map_get_tile(x1,y1);
-  struct tile *t2=map_get_tile(x2,y2);
 
-  if (!is_ground_unit(punit))
-    return 3;
+
+/***************************************************************
+...
+***************************************************************/
+
+int tile_move_cost(struct unit *punit, int x, int y)
+{
+  struct tile *t1=map_get_tile(punit->x,punit->y);
+  struct tile *t2=map_get_tile(x,y);
+
   if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
     return 0;
   if(unit_flag(punit->type, F_IGTER)) 
@@ -374,12 +403,13 @@ int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2)
 }
 
 /***************************************************************
-  The cost to move punit from where it is to tile x1,y1.
-  It is assumed the move is a valid one, e.g. the tiles are adjacent
+...
 ***************************************************************/
 int map_move_cost(struct unit *punit, int x1, int y1)
 {
-  return tile_move_cost(punit, punit->x, punit->y, x1, y1);
+  if (!is_ground_unit(punit))
+    return 3;
+  return tile_move_cost(punit, x1, y1);
 }
 
 /***************************************************************
@@ -417,7 +447,7 @@ void tile_init(struct tile *ptile)
 struct tile *map_get_tile(int x, int y)
 {
   if(y<0 || y>=map.ysize)
-    return map.tiles; /* fix needed */
+    return map.tiles+map.xsize*map.ysize; /* fix by Syela */
   else
     return map.tiles+map_adjust_x(x)+y*map.xsize;
 }

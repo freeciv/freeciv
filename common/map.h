@@ -105,6 +105,8 @@ int map_is_empty(void);
 void map_fractal_create(void);
 struct tile *map_get_tile(int x, int y);
 int map_distance(int x0, int y0, int x1, int y1);
+int real_map_distance(int x0, int y0, int x1, int y1);
+int sq_map_distance(int x0, int y0, int x1, int y1);
 
 #define map_adjust_x(X) \
  (((X)<0) ?  (X)+map.xsize : (((X)>=map.xsize) ? (X)-map.xsize : (X)))
