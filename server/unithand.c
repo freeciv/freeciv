@@ -981,7 +981,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
   /* If there is a city it is empty.
      If not it would have been caught in the attack case. */
   if(pcity && !players_allied(pcity->owner, punit->owner)) {
-    if (is_air_unit(punit) || !is_military_unit(punit)) {
+    if (is_air_unit(punit) || !is_military_unit(punit) || is_sailing_unit(punit)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       _("Game: Only ground troops can take over "
 			 "a city."));
