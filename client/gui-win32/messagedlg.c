@@ -96,7 +96,9 @@ static void create_messageopt_dialog()
 				 _("Message Options"),
 				 WS_OVERLAPPEDWINDOW,
 				 CW_USEDEFAULT, CW_USEDEFAULT,
-				 root_window,NULL,NULL);
+				 root_window,NULL,
+				 JUST_CLEANUP,
+				 NULL);
   
   vbox=fcwin_vbox_new(messageopt_dialog,FALSE);
   hbox=fcwin_hbox_new(messageopt_dialog,FALSE);

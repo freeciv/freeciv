@@ -1175,7 +1175,7 @@ void change_callback(struct city_dialog *pdialog)
   int i,n;
 
   dlg=fcwin_create_layouted_window(changedlg_proc,_("Change Production"),
-				   WS_OVERLAPPEDWINDOW,CW_USEDEFAULT,CW_USEDEFAULT,pdialog->mainwindow,NULL,pdialog);
+				   WS_OVERLAPPEDWINDOW,CW_USEDEFAULT,CW_USEDEFAULT,pdialog->mainwindow,NULL,REAL_CHILD,pdialog);
   if (dlg)
     {
       struct fcwin_box *hbox;
@@ -1998,6 +1998,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			   20,20,
 			   root_window,
 			   NULL,
+			   JUST_CLEANUP,
 			   pdialog);
 
 

@@ -122,7 +122,9 @@ HWND input_dialog_create(HWND parent, char *dialogname,
   dlg=fcwin_create_layouted_window(inputdlg_proc,dialogname,
 				   WS_OVERLAPPEDWINDOW,
 				   CW_USEDEFAULT,CW_USEDEFAULT,
-				   parent,NULL,idnew);
+				   parent,NULL,
+				   REAL_CHILD,
+				   idnew);
   
   hbox=fcwin_hbox_new(dlg,TRUE);
   fcwin_box_add_button(hbox,_("OK"),ID_INPUT_OK,0,TRUE,TRUE,5);

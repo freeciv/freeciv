@@ -296,6 +296,7 @@ void popup_worklists_report(struct player *pplr)
 						  CW_USEDEFAULT,
 						  root_window,
 						  NULL,
+						  JUST_CLEANUP,
 						  report_dialog);
   vbox=fcwin_vbox_new(report_dialog->win,FALSE);
   hbox=fcwin_hbox_new(report_dialog->win,TRUE);
@@ -997,6 +998,7 @@ void popup_worklist(struct worklist_window_init *init)
 				   CW_USEDEFAULT,
 				   init->parent,
 				   NULL,
+				   FAKE_CHILD,
 				   init);
   ShowWindow(win, SW_SHOWNORMAL); 
 }

@@ -262,7 +262,9 @@ popup_science_dialog(bool make_modal)
 					       WS_OVERLAPPEDWINDOW,
 					       CW_USEDEFAULT,CW_USEDEFAULT,
 					       root_window,
-					       NULL,NULL);
+					       NULL,
+					       JUST_CLEANUP,
+					       NULL);
       vbox=fcwin_vbox_new(science_dlg,FALSE);
       fcwin_box_add_static(vbox,"",ID_SCIENCE_TOP,SS_CENTER,FALSE,FALSE,15);
       hbox=fcwin_hbox_new(science_dlg,FALSE);
@@ -449,10 +451,12 @@ popup_economy_report_dialog(bool make_modal)
     HWND lv;
     LV_COLUMN lvc;
     economy_dlg=fcwin_create_layouted_window(economy_proc,_("Trade Report"),
-					   WS_OVERLAPPEDWINDOW,
-					   CW_USEDEFAULT,CW_USEDEFAULT,
-					   root_window,
-					   NULL,NULL);
+					     WS_OVERLAPPEDWINDOW,
+					     CW_USEDEFAULT,CW_USEDEFAULT,
+					     root_window,
+					     NULL,
+					     JUST_CLEANUP,
+					     NULL);
     vbox=fcwin_vbox_new(economy_dlg,FALSE);
     hbox=fcwin_hbox_new(economy_dlg,TRUE);
     fcwin_box_add_static(vbox,"",ID_TRADEREP_TOP,SS_CENTER,
@@ -703,7 +707,9 @@ popup_activeunits_report_dialog(bool make_modal)
 						   WS_OVERLAPPEDWINDOW,
 						   CW_USEDEFAULT,
 						   CW_USEDEFAULT,
-						   root_window,NULL,NULL);
+						   root_window,NULL,
+						   JUST_CLEANUP,
+						   NULL);
       vbox=fcwin_vbox_new(activeunits_dlg,FALSE);
       hbox=fcwin_hbox_new(activeunits_dlg,TRUE);
       fcwin_box_add_static(vbox,get_report_title(_("Units")),

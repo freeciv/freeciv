@@ -85,7 +85,9 @@ static void intel_create_dialog(struct player *p)
 					    _("Foreign Intelligence Report"),
 					    WS_OVERLAPPEDWINDOW,
 					    CW_USEDEFAULT,CW_USEDEFAULT,
-					    root_window,NULL,NULL);
+					    root_window,NULL,
+					    JUST_CLEANUP,
+					    NULL);
   vbox=fcwin_vbox_new(intel_dialog,FALSE);
 
   my_snprintf(buf, sizeof(buf),

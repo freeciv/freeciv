@@ -170,7 +170,9 @@ popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
   dlg=fcwin_create_layouted_window(notify_goto_proc,
 				   headline,WS_OVERLAPPEDWINDOW,
 				   CW_USEDEFAULT,CW_USEDEFAULT,
-				   root_window,NULL,pt);
+				   root_window,NULL,
+				   REAL_CHILD,
+				   pt);
   vbox=fcwin_vbox_new(dlg,FALSE);
   fcwin_box_add_static(vbox,lines,0,SS_LEFT,
 		       TRUE,TRUE,10);
@@ -223,7 +225,9 @@ popup_notify_dialog(char *caption, char *headline, char *lines)
   HWND dlg;
   dlg=fcwin_create_layouted_window(notify_proc,caption,WS_OVERLAPPEDWINDOW,
 				   CW_USEDEFAULT,CW_USEDEFAULT,
-				   root_window,NULL,NULL);
+				   root_window,NULL,
+				   REAL_CHILD,
+				   NULL);
   if (dlg)
     {
       HWND edit;
@@ -466,7 +470,9 @@ void popup_races_dialog(void)
 					 CW_USEDEFAULT,
 					 CW_USEDEFAULT,
 					 root_window,
-					 NULL,NULL);
+					 NULL,
+					 REAL_CHILD,
+					 NULL);
   vbox=fcwin_vbox_new(races_dlg,FALSE);
   grp_box=fcwin_vbox_new(races_dlg,FALSE);
   fcwin_box_add_groupbox(vbox,_("Select nation and name"),
@@ -1277,7 +1283,9 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 						 CW_USEDEFAULT,
 						 CW_USEDEFAULT,
 						 root_window,
-						 NULL,NULL);
+						 NULL,
+						 REAL_CHILD,
+						 NULL);
     hbox=fcwin_hbox_new(spy_tech_dialog,TRUE);
     vbox=fcwin_vbox_new(spy_tech_dialog,FALSE);
     fcwin_box_add_static(vbox,_("Select Advance to Steal"),
@@ -1489,7 +1497,9 @@ void popup_sabotage_dialog(struct city *pcity)
 						     CW_USEDEFAULT,
 						     CW_USEDEFAULT,
 						     root_window,
-						     NULL,NULL);
+						     NULL,
+						     REAL_CHILD,
+						     NULL);
     hbox=fcwin_hbox_new(spy_sabotage_dialog,TRUE);
     vbox=fcwin_vbox_new(spy_sabotage_dialog,FALSE);
     fcwin_box_add_static(vbox,_("Select Improvement to Sabotage"),
@@ -1747,7 +1757,9 @@ void popup_pillage_dialog(struct unit *punit,
     dlg=fcwin_create_layouted_window(pillage_proc,_("What To Pillage"),
 				     WS_OVERLAPPEDWINDOW,
 				     CW_USEDEFAULT,CW_USEDEFAULT,
-				     root_window,NULL,NULL);
+				     root_window,NULL,
+				     REAL_CHILD,
+				     NULL);
     vbox=fcwin_vbox_new(dlg,FALSE);
     fcwin_box_add_static(vbox,_("Select what to pillage:"),0,SS_LEFT,
 			 FALSE,FALSE,10);
@@ -1783,6 +1795,7 @@ HWND popup_message_dialog(HWND parent,char *dialogname, char *text, ...)
 					      CW_USEDEFAULT,
 					      parent,
 					      NULL,
+					      REAL_CHILD,
 					      NULL)))
     {
       free(md);
@@ -1953,7 +1966,9 @@ popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   hdlg=fcwin_create_layouted_window(connectDialogProc,_("Connect"),
 				    WS_OVERLAPPEDWINDOW,
 				    CW_USEDEFAULT,CW_USEDEFAULT,
-				    root_window,NULL,NULL);
+				    root_window,NULL,
+				    REAL_CHILD,
+				    NULL);
   vbox=fcwin_vbox_new(hdlg,FALSE);
   fcwin_box_add_static(vbox,_("Choose unit activity:"),
 		       0,SS_LEFT,FALSE,FALSE,10);

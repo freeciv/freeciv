@@ -397,6 +397,7 @@ void create_help_dialog()
 					   CW_USEDEFAULT,CW_USEDEFAULT,
 					   root_window,
 					   NULL,
+					   JUST_CLEANUP,
 					   NULL);
   
   helpdlg_hbox=fcwin_hbox_new(helpdlg_win,FALSE);

@@ -24,6 +24,12 @@ typedef void (*t_fcdelwidget)(void *);
 
 /* has to be called once */
 void init_layoutwindow();
+enum childwin_mode {
+  REAL_CHILD,
+  JUST_CLEANUP,
+  FAKE_CHILD
+};
+
 /* handle windows with layout management */
 HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
 				  LPCTSTR lpWindowName,
@@ -32,6 +38,7 @@ HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
 				  int y, 
 				  HWND hWndParent,
 				  HMENU hMenu,
+				  enum childwin_mode child_mode,
 				  void *user_data);
 void * fcwin_get_user_data(HWND hWnd);
 void fcwin_set_user_data(HWND hWnd,void *data);

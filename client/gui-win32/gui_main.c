@@ -370,6 +370,7 @@ void create_main_window()
 					   CW_USEDEFAULT,
 					   (HWND) NULL,
 					   NULL,
+					   FAKE_CHILD,
 					   NULL);
   main_win_box=fcwin_vbox_new(root_window,FALSE);
   upper=fcwin_hbox_new(root_window,FALSE);

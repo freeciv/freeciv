@@ -358,7 +358,9 @@ void create_players_dialog()
   players_dialog=fcwin_create_layouted_window(players_proc,_("Players"),
 					      WS_OVERLAPPEDWINDOW,
 					      CW_USEDEFAULT,CW_USEDEFAULT,
-					      root_window,NULL,NULL);
+					      root_window,NULL,
+					      JUST_CLEANUP,
+					      NULL);
   hbox=fcwin_hbox_new(players_dialog,FALSE);
   vbox=fcwin_vbox_new(players_dialog,FALSE);
   fcwin_box_add_listview(vbox,5,ID_PLAYERS_LIST,LVS_REPORT | LVS_SINGLESEL,

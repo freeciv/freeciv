@@ -129,6 +129,7 @@ static void popit(int x, int y, int xtile, int ytile)
   
   popup=fcwin_create_layouted_window(popit_proc,NULL,WS_POPUP|WS_BORDER,
 				     0,0,root_window,NULL,
+				     FAKE_CHILD,
 				     cross_head);
   vbox=fcwin_vbox_new(popup,FALSE);
   

@@ -376,7 +376,9 @@ gui_server_connect_real(void)
 					   _("Connect to Freeciv Server"),
 					   WS_OVERLAPPEDWINDOW,
 					   CW_USEDEFAULT,CW_USEDEFAULT,
-					   root_window,NULL,NULL);
+					   root_window,NULL,
+					   REAL_CHILD,
+					   NULL);
   main_vbox=fcwin_vbox_new(connect_dlg,FALSE);
   tab_ctrl=fcwin_box_add_tab(main_vbox,wndprocs,tab_childs,
 			     titles,user_data,2,
@@ -736,7 +738,9 @@ static void create_server_window()
 					     _("Game Control"),
 					     WS_OVERLAPPEDWINDOW,
 					     CW_USEDEFAULT,CW_USEDEFAULT,
-					     root_window,NULL,NULL);
+					     root_window,NULL,
+					     FAKE_CHILD,
+					     NULL);
   vbox=fcwin_vbox_new(server_window,FALSE);
   server_output=CreateWindowEx(WS_EX_CLIENTEDGE,
 			       "EDIT",
@@ -914,7 +918,9 @@ static void get_player_name()
   win=fcwin_create_layouted_window(playername_proc,_("Select connection"),
 				   WS_OVERLAPPEDWINDOW,
 				   0,0,root_window,
-				   NULL,NULL);
+				   NULL,
+				   REAL_CHILD,
+				   NULL);
   vbox=fcwin_vbox_new(win,FALSE);
   fcwin_box_add_static(vbox,_("Choose player to be"),0,SS_LEFT,TRUE,FALSE,5);
   fcwin_box_add_checkbox(vbox,_("Start game automatically?"),IDYES,0,TRUE,FALSE,5);
@@ -1132,7 +1138,9 @@ static void new_game_callback(HWND w,void * data)
   win=fcwin_create_layouted_window(new_game_proc,_("Start New Game"),
 				   WS_OVERLAPPEDWINDOW,
 				   10,10,
-				   root_window,NULL,NULL);
+				   root_window,NULL,
+				   FAKE_CHILD,
+				   NULL);
   vbox=fcwin_vbox_new(win,FALSE);
   hbox=fcwin_hbox_new(win,FALSE);
   fcwin_box_add_static(hbox,_("Your name:"),0,SS_LEFT,FALSE,FALSE,5);

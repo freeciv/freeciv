@@ -115,7 +115,9 @@ popup_find_dialog(void)
     finddialog=fcwin_create_layouted_window(find_city_proc,_("Find City"),
 					    WS_OVERLAPPEDWINDOW,
 					    CW_USEDEFAULT,CW_USEDEFAULT,
-					    root_window,NULL,NULL);
+					    root_window,NULL,
+					    REAL_CHILD,
+					    NULL);
     vbox=fcwin_vbox_new(finddialog,FALSE);
     fcwin_box_add_static(vbox,_("Select a city:"),0,SS_LEFT,FALSE,FALSE,5);
     fcwin_box_add_list(vbox,20,ID_FINDCITY_LIST,LBS_HASSTRINGS | LBS_STANDARD,

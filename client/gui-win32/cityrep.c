@@ -102,6 +102,7 @@ static void popup_city_report_config_dialog()
 				     WS_MINIMIZEBOX,
 				     20,20,
 				     hCityRep,NULL,
+				     REAL_CHILD,
 				     NULL);
 				  
       ShowWindow(hCityRepConfig,SW_SHOWNORMAL);
@@ -750,7 +751,9 @@ static void cityrep_changeall(HWND hWnd)
 				    _("Change Production Everywhere"),
 				    WS_OVERLAPPEDWINDOW,
 				    CW_USEDEFAULT,CW_USEDEFAULT,
-				    hCityRep,NULL,NULL);
+				    hCityRep,NULL,
+				    REAL_CHILD,
+				    NULL);
   hbox=fcwin_hbox_new(hDlg,TRUE);
   vbox=fcwin_vbox_new(hDlg,FALSE);
   fcwin_box_add_static(vbox,_("From:"),0,SS_LEFT,FALSE,FALSE,5);
@@ -1083,6 +1086,7 @@ popup_city_report_dialog(bool make_modal)
 				 WS_MAXIMIZEBOX | WS_THICKFRAME,
 				 CW_USEDEFAULT,CW_USEDEFAULT,
 				 root_window,NULL,
+				 JUST_CLEANUP,
 				 NULL);
   
   hChangeAll=NULL;

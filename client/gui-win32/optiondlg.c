@@ -81,7 +81,9 @@ static void create_option_dialog(void)
 					     _("Set local options"),
 					     WS_OVERLAPPEDWINDOW,
 					     CW_USEDEFAULT,CW_USEDEFAULT,
-					     root_window,NULL,NULL);
+					     root_window,NULL,
+					     JUST_CLEANUP,
+					     NULL);
 
   hbox=fcwin_hbox_new(option_dialog,FALSE);
   vbox=fcwin_vbox_new(option_dialog,TRUE);

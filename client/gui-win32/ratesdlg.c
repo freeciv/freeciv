@@ -304,7 +304,9 @@ popup_rates_dialog(void)
 					  CW_USEDEFAULT,
 					  CW_USEDEFAULT,
 					  root_window,
-					  NULL,NULL);
+					  NULL,
+					  JUST_CLEANUP,
+					  NULL);
     
     vbox=fcwin_vbox_new(ratesdlg,FALSE);
     fcwin_box_add_static(vbox,"",ID_RATES_MAX,SS_CENTER,

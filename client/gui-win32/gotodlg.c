@@ -150,7 +150,9 @@ popup_goto_dialog(void)
 					   _("Goto/Airlift Unit"),
 					   WS_OVERLAPPEDWINDOW,
 					   CW_USEDEFAULT,CW_USEDEFAULT,
-					   root_window,NULL,NULL);
+					   root_window,NULL,
+					   REAL_CHILD,
+					   NULL);
   vbox=fcwin_vbox_new(goto_dialog,FALSE);
   hbox=fcwin_hbox_new(goto_dialog,TRUE);
   fcwin_box_add_static(vbox,_("Goto/Airlift Unit"),

@@ -596,7 +596,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						_("Diplomacy meeting"),
 						WS_OVERLAPPEDWINDOW,
 						CW_USEDEFAULT,CW_USEDEFAULT,
-						root_window,NULL,pdialog);
+						root_window,NULL,
+						FAKE_CHILD,
+						pdialog);
   vbox=fcwin_vbox_new(pdialog->mainwin,FALSE);
   my_snprintf(buf, sizeof(buf),
               _("The %s offerings"), get_nation_name(plr0->nation));

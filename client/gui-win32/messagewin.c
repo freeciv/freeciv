@@ -186,6 +186,7 @@ static void create_meswin_dialog(void)
 					  CW_USEDEFAULT,
 					  root_window,
 					  NULL,
+					  REAL_CHILD,
 					  NULL);
   meswin_list=CreateWindow("LISTBOX",NULL,
 			   WS_CHILD | WS_VISIBLE | 

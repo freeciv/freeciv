@@ -219,7 +219,9 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   pdialog->mainwin=fcwin_create_layouted_window(spaceship_proc,pplayer->name,
 						WS_OVERLAPPEDWINDOW,
 						CW_USEDEFAULT,CW_USEDEFAULT,
-						root_window,NULL,pdialog);
+						root_window,NULL,
+						JUST_CLEANUP,
+						pdialog);
   vbox=fcwin_vbox_new(pdialog->mainwin,FALSE);
   hbox=fcwin_hbox_new(pdialog->mainwin,FALSE);
   fcwin_box_add_generic(hbox,image_minsize,image_setsize,NULL,

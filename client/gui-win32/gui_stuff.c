@@ -57,6 +57,7 @@ struct fcwin_win_data {
   HWND parent;
   struct fcwin_box *full;
   bool size_set;
+  enum childwin_mode child_mode;
   bool is_child;
   struct genlist childs;
   void *user_data;
@@ -236,7 +237,8 @@ static LONG APIENTRY layout_wnd_proc(HWND hWnd,
 	childs=get_childlist(win_data->parent);
 	if (childs)
 	  genlist_unlink(childs,hWnd);
-	SetFocus(win_data->parent);
+	if (win_data->child_mode==FAKE_CHILD)
+	  SetFocus(win_data->parent);
       }
       fcwin_close_all_childs(hWnd);
       free(win_data);
@@ -295,6 +297,7 @@ HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
 				  int y, 
 				  HWND hWndParent,
 				  HMENU hMenu,
+				  enum childwin_mode child_mode,
 				  void *user_data)
 {
 
@@ -306,11 +309,15 @@ HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
   win_data->parent=hWndParent;
   win_data->full=NULL;
   win_data->size_set=0;
+  win_data->child_mode = child_mode;
   win_data->is_child=dwStyle&WS_CHILD;
   genlist_init(&win_data->childs);
+  if ((!win_data->is_child) && (win_data->child_mode != REAL_CHILD)) {
+    hWndParent=NULL;
+  }
   win=CreateWindow(CLASSNAME,lpWindowName,dwStyle,
 		   x,y,40,40,
-		   win_data->is_child?hWndParent:NULL,
+		   hWndParent,
 		   hMenu,freecivhinst,win_data);
   if ((win_data->parent)&&(!win_data->is_child)) {
     struct genlist *childs;
@@ -907,7 +914,8 @@ HWND fcwin_box_add_tab(struct fcwin_box *box,
     tci.mask=TCIF_TEXT | TCIF_PARAM;
     tci.pszText=titles[i];
     wnds[i]=fcwin_create_layouted_window(wndprocs[i],NULL,WS_CHILD,
-					 0,0,box->owner,NULL,user_data[i]);
+					 0,0,box->owner,NULL,REAL_CHILD,
+					 user_data[i]);
     tci.lParam=(LPARAM)wnds[i];
     TabCtrl_InsertItem(td->win,i,&tci);
     genlist_insert(&td->tabslist,wnds[i],-1);
