@@ -48,7 +48,6 @@ static struct section_file tagstruct, *tagfile = &tagstruct;
 static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
 static int selected_plugin = -1;
-static bool audio_off = FALSE;
 
 /**************************************************************************
   Add a plugin.
@@ -128,15 +127,18 @@ void audio_real_init(const char *const spec_name,
   char *filename, *file_capstr;
   char us_capstr[] = "+soundspec";
 
-  if (spec_name == NULL) {
+  if (!spec_name) {
     freelog(LOG_FATAL, _("No audio ruleset given!"));
     exit(EXIT_FAILURE);
   }
   filename = datafilename(spec_name);
-  if (filename == NULL) {
-    freelog(LOG_ERROR, _("Cannot find audio spec-file %s"), spec_name);
-    freelog(LOG_ERROR, _("To get sound you need to download a sound pack!"));
-    audio_off = TRUE;
+  if (!filename) {
+    freelog(LOG_ERROR, _("Cannot find audio spec-file \"%s\"."), spec_name);
+    freelog(LOG_ERROR, _("To get sound you need to download a sound set!"));
+    freelog(LOG_ERROR, _("Get sound sets from <%s>."),
+	    "ftp://ftp.freeciv.org/freeciv/contrib/sounds/sets");
+    freelog(LOG_ERROR, _("Will continue with disabled sounds."));
+    tagfile = NULL;
     return;
   }
   if (!section_file_load(tagfile, filename)) {
@@ -182,22 +184,22 @@ void audio_real_init(const char *const spec_name,
 **************************************************************************/
 static bool audio_play_tag(const char *tag, bool repeat)
 {
-  char *soundfile;
-  char *fullpath;
+  char *soundfile, *fullpath = NULL;
 
-  if (audio_off || !tag || strcmp(tag, "-") == 0) {
+  if (!tag || strcmp(tag, "-") == 0) {
     return FALSE;
   }
 
-  soundfile = secfile_lookup_str_default(tagfile, "-", "files.%s", tag);
-  if (strcmp(soundfile, "-") == 0) {
-    freelog(LOG_VERBOSE, _("No sound file for tag %s (file %s)"), tag,
-	    soundfile);
-    fullpath = NULL;
-  } else {
-    fullpath = datafilename(soundfile);
-    if (fullpath == NULL) {
-      freelog(LOG_ERROR, _("Cannot find audio file %s"), soundfile);
+  if (tagfile) {
+    soundfile = secfile_lookup_str_default(tagfile, "-", "files.%s", tag);
+    if (strcmp(soundfile, "-") == 0) {
+      freelog(LOG_VERBOSE, _("No sound file for tag %s (file %s)"), tag,
+	      soundfile);
+    } else {
+      fullpath = datafilename(soundfile);
+      if (!fullpath) {
+	freelog(LOG_ERROR, _("Cannot find audio file %s"), soundfile);
+      }
     }
   }
 
@@ -209,14 +211,16 @@ static bool audio_play_tag(const char *tag, bool repeat)
 **************************************************************************/
 void audio_play_sound(const char *const tag, char *const alt_tag)
 {
-  char *tag2 = alt_tag ? alt_tag : "(null)";
+  char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
+
   assert(tag);
 
-  freelog(LOG_DEBUG, "audio_play_sound('%s', '%s')", tag, tag2);
+  freelog(LOG_DEBUG, "audio_play_sound('%s', '%s')", tag, pretty_alt_tag);
 
   /* try playing primary tag first, if not go to alternative tag */
   if (!audio_play_tag(tag, FALSE) && !audio_play_tag(alt_tag, FALSE)) {
-    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag, tag2);
+    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag,
+	    pretty_alt_tag);
   }
 }
 
@@ -225,14 +229,15 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 **************************************************************************/
 void audio_play_music(const char *const tag, char *const alt_tag)
 {
-  char *tag2 = alt_tag ? alt_tag : "(null)";
+  char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
   assert(tag);
 
-  freelog(LOG_DEBUG, "audio_play_music('%s', '%s')", tag, tag2);
+  freelog(LOG_DEBUG, "audio_play_music('%s', '%s')", tag, pretty_alt_tag);
 
   /* try playing primary tag first, if not go to alternative tag */
   if (!audio_play_tag(tag, TRUE) && !audio_play_tag(alt_tag, TRUE)) {
-    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag, tag2);
+    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag,
+	    pretty_alt_tag);
   }
 }
 
@@ -255,7 +260,9 @@ void audio_shutdown()
   audio_play_sound("e_game_quit", NULL);
   plugins[selected_plugin].wait();
   plugins[selected_plugin].shutdown();
-  section_file_free(tagfile);
+  if (tagfile) {
+    section_file_free(tagfile);
+  }
 }
 
 /**************************************************************************
