@@ -149,12 +149,6 @@ void gui_put_sprite(struct canvas_store *pCanvas_store,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
-  /* 
-   *  
-   *
-   *
-   *
-   */
   SDL_Rect src = {offset_x, offset_y, width, height};
   SDL_Rect dst = {canvas_x + offset_x, canvas_y + offset_y, 0, 0};
   SDL_BlitSurface(GET_SURF(sprite), &src, pCanvas_store->map, &dst);
@@ -645,12 +639,22 @@ void redraw_unit_info_label(struct unit *pUnit)
       area.y = sy + (pInfo_Window->dst->h - sy - FRAME_WH - pBuf_Surf->h)/2;
 
       area.x += (pInfo_Window->dst->w - area.x - FRAME_WH - pBuf_Surf->w)/2;
-      SDL_SetAlpha(pBuf_Surf, 0x0 , 0x0);
+      SDL_SetAlpha(pBuf_Surf, 0x0, 0x0);
       
       /* blit unit info text */
       SDL_BlitSurface(pBuf_Surf, NULL, pInfo_Window->dst, &area);
-    } /* pUnit */
- 
+      FREESURFACE(pBuf_Surf);
+    } else { /* pUnit */
+      change_ptsize16(pInfo_Window->string16, 14);
+      FREE(pInfo_Window->string16->text);
+      pInfo_Window->string16->text = convert_to_utf16(_("End of Turn\n(Press Enter)"));
+      pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
+      SDL_SetAlpha(pBuf_Surf, 0x0, 0x0);
+      area.x = pInfo_Window->size.x + len + (pInfo_Window->size.w - len - pBuf_Surf->w)/2;
+      area.y = pInfo_Window->size.y + (pInfo_Window->size.h - pBuf_Surf->h)/2;
+      SDL_BlitSurface(pBuf_Surf, NULL, pInfo_Window->dst, &area);
+      FREESURFACE(pBuf_Surf);
+    }
 
     /* ID_ECONOMY */
     pInfo_Window = pInfo_Window->prev;
@@ -1118,9 +1122,6 @@ void set_overview_dimensions(int w, int h)
   if(is_isometric) {  
     free_dither_tiles();
     init_dither_tiles();
-
-
-
   }
   
   draw_city_names = TRUE;

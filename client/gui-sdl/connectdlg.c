@@ -54,6 +54,9 @@
 #include "optiondlg.h"
 #include "connectdlg.h"
 
+
+static struct GUI *pUser = NULL, *pServer = NULL, *pPort = NULL;
+static struct GUI *pConnect = NULL, *pMeta = NULL, *pCancel = NULL;
 static struct ADVANCED_DLG *pMeta_Severs = NULL;
 static struct server_list *pServer_list = NULL;
 
@@ -83,13 +86,14 @@ static int connect_callback(struct GUI *pWidget)
     sdl_dirty_rect(*((SDL_Rect *)pWidget->data.ptr));
     FREE(pWidget->data.ptr);
 			  
-    /* destroy connect dlg. widgets */
-    del_widget_from_gui_list(pWidget);
-    del_ID_from_gui_list(ID_META_SERVERS_BUTTON);
-    del_ID_from_gui_list(ID_CANCEL_BUTTON);
-    del_ID_from_gui_list(ID_PLAYER_NAME_EDIT);
-    del_ID_from_gui_list(ID_SERVER_NAME_EDIT);
-    del_ID_from_gui_list(ID_PORT_EDIT);
+    /* destroy widgets */
+    del_widget_from_gui_list(pConnect);
+    del_widget_from_gui_list(pServer);
+    del_widget_from_gui_list(pUser);
+    del_widget_from_gui_list(pPort);
+    del_widget_from_gui_list(pCancel);
+    del_widget_from_gui_list(pMeta);
+    
 
     /* setup Option Icon */
     pSellected_Widget =
@@ -193,13 +197,13 @@ static int meta_severs_callback(struct GUI *pWidget)
   flush_rect(*((SDL_Rect *)pWidget->data.ptr));
   FREE(pWidget->data.ptr);
 			  
-  /* destroy connect dlg. widgets */
-  del_widget_from_gui_list(pWidget);
-  del_ID_from_gui_list(ID_CONNECT_BUTTON);
-  del_ID_from_gui_list(ID_CANCEL_BUTTON);
-  del_ID_from_gui_list(ID_PLAYER_NAME_EDIT);
-  del_ID_from_gui_list(ID_SERVER_NAME_EDIT);
-  del_ID_from_gui_list(ID_PORT_EDIT);
+  /* destroy widgets */
+  del_widget_from_gui_list(pConnect);
+  del_widget_from_gui_list(pServer);
+  del_widget_from_gui_list(pUser);
+  del_widget_from_gui_list(pPort);
+  del_widget_from_gui_list(pCancel);
+  del_widget_from_gui_list(pMeta);
   
   pServer_list = create_server_list(errbuf, sizeof(errbuf));
   
@@ -404,14 +408,18 @@ static int convert_portnr_callback(struct GUI *pWidget)
 
 static int cancel_connect_dlg_callback(struct GUI *pWidget)
 {
-  
-  struct GUI *pEnd = pWidget->next->next->next->next->next;
-    
+      
   SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data.ptr, 0x0);
   
   FREE(pWidget->data.ptr);
   
-  del_group_of_widgets_from_gui_list(pWidget,pEnd);
+  /* destroy widgets */
+  del_widget_from_gui_list(pConnect);
+  del_widget_from_gui_list(pServer);
+  del_widget_from_gui_list(pUser);
+  del_widget_from_gui_list(pPort);
+  del_widget_from_gui_list(pCancel);
+  del_widget_from_gui_list(pMeta);
   
   gui_server_connect();
   return -1;
@@ -421,8 +429,6 @@ static int cancel_connect_dlg_callback(struct GUI *pWidget)
 static int popup_join_game_callback(struct GUI *pWidget)
 {
   char pCharPort[6];
-  struct GUI *pUser = NULL, *pServer = NULL, *pPort = NULL;
-  struct GUI *pConnect = NULL, *pMeta = NULL, *pCancel = NULL;
   SDL_String16 *pPlayer_name = NULL;
   SDL_String16 *pServer_name = NULL;
   SDL_String16 *pPort_nr = NULL;
@@ -497,7 +503,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
 					 WF_DRAW_THEME_TRANSPARENT);
   pUser->action = convert_playername_callback;
   set_wstate(pUser, FC_WS_NORMAL);
-  add_to_gui_list(ID_PLAYER_NAME_EDIT, pUser );
+  add_to_gui_list(ID_PLAYER_NAME_EDIT, pUser);
 
   /* ------------------------------ */
 

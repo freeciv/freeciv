@@ -685,7 +685,8 @@ void ui_main(int argc, char *argv[])
   create_units_order_widgets();
 
   setup_auxiliary_tech_icons();
-    
+  unload_unused_graphics();
+  
   if((SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) == CF_TOGGLED_FULLSCREEN) {
     set_video_mode(800, 600, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
     SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;

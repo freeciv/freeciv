@@ -3462,6 +3462,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       /* exit from loop */
       return ID_EDIT;
     break;
+    case SDLK_KP6:
+      if(Key.mod & KMOD_NUM) {
+	goto INPUT;
+      }
     case SDLK_RIGHT:
       /* move cursor right */
       if (pEdt->pInputChain->next) {
@@ -3475,6 +3479,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	Redraw = TRUE;
       }
       break;
+    case SDLK_KP4:
+      if(Key.mod & KMOD_NUM) {
+	goto INPUT;
+      }
     case SDLK_LEFT:
       /* move cursor left */
       if (pEdt->pInputChain->prev) {
@@ -3490,6 +3498,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	Redraw = TRUE;
       }
       break;
+    case SDLK_KP7:
+      if(Key.mod & KMOD_NUM) {
+	goto INPUT;
+      }  
     case SDLK_HOME:
       /* move cursor to begin of chain (and edit field) */
       pEdt->pInputChain = pEdt->pBeginTextChain;
@@ -3497,6 +3509,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       pEdt->Start_X = 5;
 
     break;
+    case SDLK_KP1:
+      if(Key.mod & KMOD_NUM) {
+	goto INPUT;
+      }
     case SDLK_END:
 	/* move cursor to end of chain (and edit field) */
       pEdt->pInputChain = pEdt->pEndTextChain;
@@ -3535,6 +3551,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	Redraw = TRUE;
       }
     break;
+    case SDLK_KP_PERIOD:
+      if(Key.mod & KMOD_NUM) {
+	goto INPUT;
+      }  
     case SDLK_DELETE:
 	/* del element of chain */
       if (pEdt->pInputChain->next && pEdt->pInputChain->prev) {
@@ -3561,7 +3581,7 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 
     break;
     default:
-      /* add new element of chain (and move cursor right) */
+INPUT:/* add new element of chain (and move cursor right) */
       if (Key.unicode) {
 	if (pEdt->pInputChain != pEdt->pBeginTextChain) {
 	  pInputChain_TMP = pEdt->pInputChain->prev;
@@ -3702,7 +3722,6 @@ bool edit_field(struct GUI *pEdit_Widget)
     pInputChain_TMP->next = pEdt->pInputChain;
     pEdt->pInputChain->prev = pInputChain_TMP;
     pInputChain_TMP = NULL;
-    pEdt->pInputChain = pEdt->pBeginTextChain;
   } else {
     pEdt->pBeginTextChain = pEdt->pInputChain;
   }

@@ -173,5 +173,6 @@ void tilespec_setup_city_icons(void);
 void tilespec_free_city_icons(void);
 void reload_citizens_icons(int style);
 SDL_Surface * get_citizen_surface(enum citizen_type type, int citizen_index);
+void unload_unused_graphics(void);
 
 #endif  /* FC__GUI_TILESPEC_H */

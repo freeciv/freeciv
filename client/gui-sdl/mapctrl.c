@@ -1125,7 +1125,7 @@ void Init_MapView(void)
   pIcon_theme = create_surf(pTheme->UNITS_Icon->w,
 			    pTheme->UNITS_Icon->h, SDL_SWSURFACE);
   SDL_BlitSurface(pTheme->UNITS_Icon, NULL, pIcon_theme, NULL);
-  SDL_BlitSurface(pTheme->L_ARROW_Icon, NULL, pIcon_theme, NULL);
+  SDL_BlitSurface(pTheme->R_ARROW_Icon, NULL, pIcon_theme, NULL);
   SDL_SetColorKey(pIcon_theme, SDL_SRCCOLORKEY, 0x0);
 
   pBuf = create_themeicon(pIcon_theme, Main.gui,
@@ -1145,7 +1145,7 @@ void Init_MapView(void)
   pBuf->size.x = 0;
   pBuf->size.y = pBuf->dst->h - MINI_MAP_H;
   
-  pIcon_theme = create_surf(MINI_MAP_W , MINI_MAP_H , SDL_SWSURFACE);
+  pIcon_theme = create_surf(MINI_MAP_W, MINI_MAP_H, SDL_SWSURFACE);
   pBuf->theme = SDL_DisplayFormatAlpha(pIcon_theme);
   FREESURFACE(pIcon_theme);
      

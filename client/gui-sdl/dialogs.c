@@ -4507,7 +4507,7 @@ static void create_nations_dialog(void)
   pNations->nation = -1;
   
   pNations->title_str =
-      convert_to_utf16(_("Nation Wizzard : Nation Settings"));
+      convert_to_utf16(_("Nation Wizard : Nation Settings"));
 
   pNations->nation_name_str16 = create_string16(NULL, 24);
   pNations->nation_name_str16->forecol =
@@ -4516,7 +4516,7 @@ static void create_nations_dialog(void)
   /* create window widget */
   pWindow =
      create_window(Main.gui, create_str16_from_char
-	(_("Nation Wizzard : What nation will you be?"), 12), w, h, 0);
+	(_("Nation Wizard : What nation will you be?"), 12), w, h, 0);
   pWindow->string16->style |= TTF_STYLE_BOLD;
   
   pWindow->action = nations_dialog_callback;

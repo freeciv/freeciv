@@ -642,3 +642,33 @@ SDL_Surface * get_citizen_surface(enum citizen_type type, int citizen_index)
   citizen_index %= sprites.citizen[type].count;
   return citizen[type].surface[citizen_index];
 }
+
+void unload_unused_graphics(void)
+{
+  unload_sprite("treaty.disagree_thumb_down");
+  unload_sprite("treaty.agree_thumb_up");
+  unload_sprite("spaceship.solar_panels");
+  unload_sprite("spaceship.life_support");
+  unload_sprite("spaceship.habitation");
+  unload_sprite("spaceship.structural");
+  unload_sprite("spaceship.fuel");
+  unload_sprite("spaceship.propulsion");
+  unload_sprite("citizen.entertainer");
+  unload_sprite("citizen.scientist");
+  unload_sprite("citizen.tax_collector");
+  unload_sprite("citizen.content_0");
+  unload_sprite("citizen.content_1");
+  unload_sprite("citizen.happy_0");
+  unload_sprite("citizen.happy_1");
+  unload_sprite("citizen.unhappy_0");
+  unload_sprite("citizen.unhappy_1");
+  unload_sprite("citizen.angry_0");
+  unload_sprite("citizen.angry_1");
+  unload_sprite("s.right_arrow");
+  unload_sprite("t.coast_color");
+  unload_sprite("upkeep.food");
+  unload_sprite("upkeep.food2");
+  unload_sprite("upkeep.unhappy");
+  unload_sprite("upkeep.unhappy2");
+  unload_sprite("upkeep.shield");
+}
