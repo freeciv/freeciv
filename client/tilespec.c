@@ -169,26 +169,22 @@ static struct hash_table *sprite_hash = NULL;
 /* This hash table maps terrain graphic strings to drawing data. */
 static struct hash_table *terrain_hash;
 
-#define TILESPEC_CAPSTR "+tilespec2 duplicates_ok roadstyle +terrain_grid"
+#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok"
 /*
-   Tilespec capabilities acceptable to this program:
-   +tilespec2     -  basic format, required
-   duplicates_ok  -  we can handle existence of duplicate tags
-                     (lattermost tag which appears is used; tilesets which
-		     have duplicates should specify "+duplicates_ok")
-   roadstyle      -  Allow the use of tilespec.roadstyle to control which
-                     style of road drawing to use.  Tilesets which rely on
-                     this (those that have roadstyle != is_isometric ? 0 : 1)
-                     should specify "+roadstyle".
-   terrain_grid   -  The basic terrain grid information in the top-level
-                     tilespec file is required.
-*/
+ * Tilespec capabilities acceptable to this program:
+ *
+ * +tilespec3     -  basic format; required
+ *
+ * duplicates_ok  -  we can handle existence of duplicate tags
+ *                   (lattermost tag which appears is used; tilesets which
+ *		     have duplicates should specify "+duplicates_ok")
+ */
 
-#define SPEC_CAPSTR "+spec2"
+#define SPEC_CAPSTR "+spec3"
 /*
-   Individual spec file capabilities acceptable to this program:
-   +spec2          -  basic format, required
-*/
+ * Individual spec file capabilities acceptable to this program:
+ * +spec3          -  basic format, required
+ */
 
 
 /*

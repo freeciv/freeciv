@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec2 +duplicates_ok +terrain_grid"
+options = "+tilespec3"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident w/Shields"
