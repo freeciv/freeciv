@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-06-09 04:47+0200\n"
+"POT-Creation-Date: 2002-06-09 18:04+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -2250,10 +2250,9 @@ msgid ""
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
 msgstr ""
-"Die Karte wurde nicht komplett gespeichert. Das kann entwedder daran "
-"liegen, daﬂ es sich um eine ‰ltere Sicherung handelt oder daﬂ die "
-"Sicherungsdatei besch‰digt ist. Wenn Sie weitermachen wollen: Auf "
-"eigene Gefahr!"
+"Die Karte wurde nicht komplett gespeichert. Das kann entwedder daran liegen, "
+"daﬂ es sich um eine ‰ltere Sicherung handelt oder daﬂ die Sicherungsdatei "
+"besch‰digt ist. Wenn Sie weitermachen wollen: Auf eigene Gefahr!"
 
 #: server/savegame.c:277
 #, c-format
@@ -5403,12 +5402,12 @@ msgid "?filler:XXX/XXX XXX turns"
 msgstr "?filler:XXX/XXX XXX Runden"
 
 #: client/citydlg_common.c:123
-#, c-format, ycp-format
+#, c-format
 msgid "%3d gold per turn"
 msgstr "%3d Goldst¸cke pro Runde"
 
 #: client/citydlg_common.c:133
-#, c-format, ycp-format
+#, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "1 Runde"
@@ -5770,7 +5769,7 @@ msgstr ""
 "Ankunftsjahr:               1234 AD"
 
 #: client/climisc.c:1112
-#, c-format, ycp-format
+#, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Reisezeit:       %5.1f Jahre"
 
@@ -5779,7 +5778,7 @@ msgid "Travel time:        N/A     "
 msgstr "Reisezeit:          ?       "
 
 #: client/climisc.c:1127
-#, c-format, ycp-format
+#, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Gewicht:           %5d t"
@@ -6057,7 +6056,7 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
 
 #: client/helpdata.c:694
-#, c-format, ycp-format
+#, c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -9870,7 +9869,7 @@ msgstr "Ausverkauf:"
 #: client/gui-gtk-2.0/repodlgs.c:747 client/gui-gtk/repodlgs.c:757
 #: client/gui-mui/repodlgs.c:638 client/gui-win32/repodlgs.c:356
 #: client/gui-xaw/repodlgs.c:815
-#, c-format, ycp-format
+#, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
 
@@ -10962,7 +10961,7 @@ msgid "_Launch"
 msgstr "_Start"
 
 #: client/gui-mui/spaceshipdlg.c:264
-#, c-format, ycp-format
+#, c-format
 msgid ""
 "%5d\n"
 "%5d %%\n"
@@ -11031,7 +11030,7 @@ msgid "Name of Worklist"
 msgstr "Name der Arbeitsliste"
 
 #: client/gui-win32/citydlg.c:371
-#, c-format, ycp-format
+#, c-format
 msgid "Pollution:   %3d"
 msgstr "Verschmutzung: %3d"
 
@@ -11301,7 +11300,7 @@ msgid "Remove"
 msgstr "Entfernen"
 
 #: client/gui-xaw/citydlg.c:195
-#, c-format, ycp-format
+#, c-format
 msgid "Pollution:    %3d"
 msgstr "Umweltverschmutzung: %3d"
 
@@ -11346,7 +11345,7 @@ msgid "These trade routes have been established with %s:\n"
 msgstr "Diese Handelswege wurden mit %s eingerichtet:\n"
 
 #: client/gui-xaw/citydlg.c:1431 client/gui-xaw/citydlg.c:1435
-#, c-format, ycp-format
+#, c-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Handel/Jahr\n"
 
@@ -11556,7 +11555,7 @@ msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
 
 #: client/gui-xaw/repodlgs.c:1129
-#, c-format, ycp-format
+#, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Gesamt:                     %9d%9d%9d%9d"
 
