@@ -852,7 +852,7 @@ static void menus_set_sensitive(const char *path, int sensitive)
   path = translate_menu_path(path);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_VERBOSE,
+    freelog(LOG_ERROR,
 	    "Can't set sensitivity for non-existent menu %s.", path);
     return;
   }
@@ -872,7 +872,7 @@ static void menus_set_active(const char *path, int active)
   path = translate_menu_path(path);
 
   if (!(item = gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_VERBOSE,
+    freelog(LOG_ERROR,
 	    "Can't set active for non-existent menu %s.", path);
     return;
   }
@@ -893,7 +893,7 @@ static void menus_set_shown(const char *path, int shown)
   path = translate_menu_path(path);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_VERBOSE, "Can't show non-existent menu %s.", path);
+    freelog(LOG_ERROR, "Can't show non-existent menu %s.", path);
     return;
   }
 
@@ -917,7 +917,7 @@ static void menus_rename(const char *path, char *s)
   path = translate_menu_path(path);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_VERBOSE, "Can't rename non-existent menu %s.", path);
+    freelog(LOG_ERROR, "Can't rename non-existent menu %s.", path);
     return;
   }
 
