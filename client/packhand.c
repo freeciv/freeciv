@@ -12,6 +12,7 @@
 #include <dialogs.h>
 #include <citydlg.h>
 #include <repodlgs.h>
+#include <cityrep.h>
 #include <xmain.h>
 #include <log.h>
 #include <meswindlg.h>

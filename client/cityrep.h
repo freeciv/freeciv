@@ -10,19 +10,18 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __REPODLGS_H
-#define __REPODLGS_H
+#ifndef __CITYREP_H
+#define __CITYREP_H
 
-void report_update_delay_on();
-void report_update_delay_off();
-char *get_report_title(char *report_name);
-void update_report_dialogs();
+void popup_city_report_dialog(int make_modal);
+void city_report_dialog_update();
+void city_report_dialog_update_city(struct city *pcity);
 
-void science_dialog_update(void);
-void popup_science_dialog(int make_modal);
-void trade_report_dialog_update();
-void popup_trade_report_dialog(int make_modal);
-void activeunits_report_dialog_update();
-void popup_activeunits_report_dialog(int make_modal);
+/* These are wanted to save/load options; use wrappers rather than
+   expose the grotty details of the city_report_spec:
+*/
+int num_city_report_spec(void);
+int *city_report_spec_show_ptr(int i);
+char *city_report_spec_tagname(int i);
 
 #endif

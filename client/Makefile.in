@@ -87,6 +87,8 @@ civclient_SOURCES = \
 		chatline.h	\
 		citydlg.c	\
 		citydlg.h	\
+		cityrep.c	\
+		cityrep.h	\
 		civclient.c	\
 		civclient.h	\
 		climisc.c	\
@@ -158,11 +160,12 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-civclient_OBJECTS =  canvas.o chatline.o citydlg.o civclient.o climisc.o \
-clinet.o colors.o connectdlg.o dialogs.o diplodlg.o finddlg.o gotodlg.o \
-graphics.o helpdlg.o inputdlg.o inteldlg.o mapctrl.o mapview.o menu.o \
-messagedlg.o messagewin.o optiondlg.o packhand.o pixcomm.o plrdlg.o \
-ratesdlg.o repodlgs.o resources.o spaceshipdlg.o xmain.o xstuff.o
+civclient_OBJECTS =  canvas.o chatline.o citydlg.o cityrep.o civclient.o \
+climisc.o clinet.o colors.o connectdlg.o dialogs.o diplodlg.o finddlg.o \
+gotodlg.o graphics.o helpdlg.o inputdlg.o inteldlg.o mapctrl.o \
+mapview.o menu.o messagedlg.o messagewin.o optiondlg.o packhand.o \
+pixcomm.o plrdlg.o ratesdlg.o repodlgs.o resources.o spaceshipdlg.o \
+xmain.o xstuff.o
 civclient_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -175,11 +178,11 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP = --best
 DEP_FILES =  .deps/canvas.P .deps/chatline.P .deps/citydlg.P \
-.deps/civclient.P .deps/climisc.P .deps/clinet.P .deps/colors.P \
-.deps/connectdlg.P .deps/dialogs.P .deps/diplodlg.P .deps/finddlg.P \
-.deps/gotodlg.P .deps/graphics.P .deps/helpdlg.P .deps/inputdlg.P \
-.deps/inteldlg.P .deps/mapctrl.P .deps/mapview.P .deps/menu.P \
-.deps/messagedlg.P .deps/messagewin.P .deps/optiondlg.P \
+.deps/cityrep.P .deps/civclient.P .deps/climisc.P .deps/clinet.P \
+.deps/colors.P .deps/connectdlg.P .deps/dialogs.P .deps/diplodlg.P \
+.deps/finddlg.P .deps/gotodlg.P .deps/graphics.P .deps/helpdlg.P \
+.deps/inputdlg.P .deps/inteldlg.P .deps/mapctrl.P .deps/mapview.P \
+.deps/menu.P .deps/messagedlg.P .deps/messagewin.P .deps/optiondlg.P \
 .deps/packhand.P .deps/pixcomm.P .deps/plrdlg.P .deps/ratesdlg.P \
 .deps/repodlgs.P .deps/resources.P .deps/spaceshipdlg.P .deps/xmain.P \
 .deps/xstuff.P

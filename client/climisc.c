@@ -31,7 +31,7 @@ used throughout the client.
 #include <map.h>
 #include <chatline.h>
 #include <log.h>
-#include <repodlgs.h>
+#include <cityrep.h>
 
 char *tile_set_dir=NULL;
 

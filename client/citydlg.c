@@ -49,6 +49,7 @@
 #include <graphics.h>
 #include <optiondlg.h>		/* for toggle_callback */
 #include <clinet.h>		/* server_has_autoattack */
+#include <cityrep.h>
 
 extern Display	*display;
 extern Widget toplevel, main_form, map_canvas;

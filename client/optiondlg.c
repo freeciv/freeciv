@@ -38,7 +38,7 @@
 #include <events.h>
 #include <chatline.h>
 #include <messagedlg.h>
-#include <repodlgs.h>
+#include <cityrep.h>
 #include <log.h>
 
 extern Widget toplevel, main_form;

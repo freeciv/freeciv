@@ -25,6 +25,7 @@
 #include <meswindlg.h>
 #include <mapctrl.h> 
 #include <repodlgs.h>
+#include <cityrep.h>
 #include <ratesdlg.h>
 #include <optiondlg.h>
 #include <messagedlg.h>

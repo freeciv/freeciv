@@ -24,6 +24,8 @@ civclient_SOURCES = \
 		chatline.h	\
 		citydlg.c	\
 		citydlg.h	\
+		cityrep.c	\
+		cityrep.h	\
 		civclient.c	\
 		civclient.h	\
 		climisc.c	\

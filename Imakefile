@@ -40,7 +40,7 @@ SERVER_OBJS= server/civserver.o server/sernet.o server/unithand.o \
 	     server/gotohand.o server/diplhand.o server/meta.o \
 	     server/registry.o server/mapgen.o server/cityturn.o \
 	     server/citytools.o server/settlers.o server/gamelog.o \
-	     server/ruleset.o \
+	     server/ruleset.o server/spacerace.o \
 	     ai/aihand.o ai/aitools.o ai/aicity.o ai/aiunit.o ai/aitech.o \
 	     ai/advleader.o ai/advmilitary.o ai/advtrade.o ai/advscience.o \
 	     ai/advdomestic.o ai/advforeign.o ai/advattitude.o ai/advisland.o
@@ -54,11 +54,13 @@ CLIENT_OBJS= client/civclient.o client/xmain.o client/canvas.o client/menu.o \
 	     client/diplodlg.o client/pixcomm.o client/optiondlg.o \
 	     client/messagedlg.o client/messagewin.o client/inteldlg.o \
 	     client/resources.o client/climisc.o client/packhand.o \
-	     client/gotodlg.o client/connectdlg.o client/spaceshipdlg.o
+	     client/gotodlg.o client/connectdlg.o client/spaceshipdlg.o \
+	     client/cityrep.o
 
 COMMON_OBJS= common/log.o common/map.o common/packets.o common/shared.o \
              common/unit.o common/player.o common/game.o common/genlist.o \
-	     common/tech.o common/city.o common/diptreaty.o common/capability.o
+	     common/tech.o common/city.o common/diptreaty.o \
+	     common/capability.o common/spaceship.o
 
 
 OBJS1 = $(CLIENT_OBJS) $(COMMON_OBJS)
