@@ -575,8 +575,9 @@ static void list_coastal_select(HWND hLst)
   for (i=0;i<num;i++)
     {
       pcity=(struct city *)ListBox_GetItemData(hLst,i);
-      if (is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) 
+      if (is_ocean_near_tile(pcity->x, pcity->y)) {
 	ListBox_SetSel(hLst,TRUE,i);
+      }
     }
 }
 

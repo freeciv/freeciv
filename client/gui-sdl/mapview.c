@@ -1051,7 +1051,7 @@ void overview_update_tile(int col, int row)
     SDL_FillRect(pMMap->theme, &cell_size, 0);
     return;
   } else {
-    if (map_get_terrain(col, row) == T_OCEAN) {
+    if (is_ocean(map_get_terrain(col, row))) {
       color = get_game_color(COLOR_STD_OCEAN);
     } else {
       pCity = map_get_city(col, row);
@@ -1102,7 +1102,7 @@ void refresh_overview_canvas(void)
     if (tile_get_known(col, row) == TILE_UNKNOWN) {
       SDL_FillRect(pMMap->theme, &cell_size, 0);
     } else {
-      if (map_get_terrain(col, row) == T_OCEAN) {
+      if (is_ocean(map_get_terrain(col, row))) {
 	SDL_FillRect(pMMap->theme, &cell_size, ocean_color);
       } else {
 	pCity = map_get_city(col, row);
@@ -1520,7 +1520,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   
   if (draw_terrain) {
    if (citymode) {	  
-    if (map_get_terrain(map_col, map_row) == T_OCEAN) {	/* coasts */
+    if (is_ocean(map_get_terrain(map_col, map_row))) {	/* coasts */
       /* top */
       des.x += NORMAL_TILE_WIDTH / 4;
       SDL_BlitSurface(pCoasts[0], NULL, pBufSurface, &des);
@@ -1620,20 +1620,22 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     y1 = y - 1;
     if (normalize_map_pos(&x1, &y1)) {
       t2 = map_get_terrain(x1, y1);
-      if (draw & D_M_R && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)))
+      if (draw & D_M_R && (is_ocean(t1) ^ is_ocean(t2))) {
 	gdk_draw_line(pm, thin_line_gc,
 		      canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y,
 		      canvas_x + NORMAL_TILE_WIDTH,
 		      canvas_y + NORMAL_TILE_HEIGHT / 2);
+      }
     }
     x1 = x - 1;
     y1 = y;
     if (normalize_map_pos(&x1, &y1)) {
       t2 = map_get_terrain(x1, y1);
-      if (draw & D_M_L && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)))
+      if (draw & D_M_L && (is_ocean(t1) ^ is_ocean(t2))) {
 	gdk_draw_line(pm, thin_line_gc,
 		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2,
 		      canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y);
+      }
     }
 #endif
   }
@@ -2800,12 +2802,12 @@ static void rebuild_coast_tile( SDL_Surface **pCoastBuffers , int blend )
 	  
     /* put coasts */
     for (i = 0; i < 4; i++) {
-      array_index = ((ttype_near[dir_ccw(dirs[i])] != T_OCEAN ? 1 : 0)
-			 + (ttype_near[dirs[i]] != T_OCEAN ? 2 : 0)
-			 + (ttype_near[dir_cw(dirs[i])] != T_OCEAN ? 4 : 0));
+      array_index = ((!is_ocean(ttype_near[dir_ccw(dirs[i])]) ? 1 : 0)
+			 + (!is_ocean(ttype_near[dirs[i]]) ? 2 : 0)
+			 + (!is_ocean(ttype_near[dir_cw(dirs[i])]) ? 4 : 0));
 
-	    
-	    
+      
+      
       coasts[i] = (SDL_Surface *)sprites.tx.coast_cape_iso[array_index][i];
     }
     
@@ -2864,17 +2866,18 @@ void init_cells_sprites(void)
 	pT2_TERRAIN = (SDL_Surface *)sprites.black_tile;
       if ( t1 <= t2 )
       {
-	if ( t1 != T_OCEAN && t2 != T_OCEAN )
+	if (!is_ocean(t1) && !is_ocean(t2)) {
           rebuild_blending_tile( pDither , pT2_TERRAIN );
+	}
 	for ( blend = 0; blend < MAX_BLEND; blend++ )
         {
-	  if ( t1 == T_OCEAN || t2 == T_OCEAN )	
+	  if (is_ocean(t1) || is_ocean(t2)) {
 	    rebuild_coast_tile( pDither , blend );
+	  }
 	  for ( corner = 0 ; corner < MAX_CORNER ; corner++ )
 	  {
 	    pBuf = create_surf( w , h , SDL_SWSURFACE );
-	    if ( t1 != T_OCEAN && t2 != T_OCEAN )
-	    {
+	    if (!is_ocean(t1) && !is_ocean(t2)) {
 	      t1_src.x = (!corner || corner == 2) ?  0 : w;
 	      t1_src.y = ( corner > 1 ) ?  h : 0;
 	
@@ -2885,10 +2888,9 @@ void init_cells_sprites(void)
 	      SDL_BlitSurface( pT2_TERRAIN , &t2_src , pBuf , NULL );	    
 	      SDL_BlitSurface( pDither[blend] , &t1_src , pBuf , NULL );
 	    }
-	  else
-	  { /* t1 == T_OCEAN || t2 == T_OCEAN */
-	    if ( t1 == T_OCEAN && t2 == T_UNKNOWN )
-	    {
+	  else {
+	    /* is_ocean(t1) || is_ocean(t2) */
+	    if (is_ocean(t1) && t2 == T_UNKNOWN) {
               t1_src.x = ((corner % 2) == 0) * w - w / 2 ;
 	      t1_src.y = 0;
 	      SDL_BlitSurface( 
@@ -2903,10 +2905,9 @@ void init_cells_sprites(void)
 		
               t1_src.w = w;
               t1_src.h = h;		    
-	    }/* t1 == T_OCEAN && t2 == T_UNKNOWN */
+	    } /* is_ocean(t1) && t2 == T_UNKNOWN */
 	    
-            if ( t1 == T_OCEAN && t2 != T_OCEAN && t2 != T_UNKNOWN )
-	    {	  
+            if (is_ocean(t1) && !is_ocean(t2) && t2 != T_UNKNOWN) {
 	      t2_src.x = w - ((corner % 2) > 0) * w;
 	      t2_src.y = h - ( corner > 1 ) * h;
 	      SDL_BlitSurface( pT2_TERRAIN , &t2_src , pBuf , NULL );
@@ -2932,10 +2933,9 @@ void init_cells_sprites(void)
 	      t1_src.y = ( corner > 1 ) ?  h : 0;
 	      SDL_BlitSurface( pDither[corner] , &t1_src , pBuf , NULL );
 	      
-	    } /* t1 == T_OCEAN && t2 != T_OCEAN */
+	    } /* is_ocean(t1) && !is_ocean(t2) */
 	    
-	    if ( t1 != T_OCEAN && t2 == T_OCEAN )
-	    {	  
+	    if (!is_ocean(t1) && is_ocean(t2)) {
 	      t1_src.x = ((corner % 2) > 0) * w;
 	      t1_src.y = ( corner > 1 ) * h;
 	      SDL_BlitSurface( pT1_TERRAIN , &t1_src , pBuf , NULL );
@@ -2959,12 +2959,10 @@ void init_cells_sprites(void)
 	      t2_src.y = ( corner > 1 ) ?  0 : h;    
 	      SDL_BlitSurface( pDither[corner] , &t2_src , pBuf , NULL );
 	      
-          }/* t1 != T_OCEAN && t2 == T_OCEAN */
+	    } /* !is_ocean(t1) && is_ocean(t2) */
 	  
-	    if ( t1 == T_OCEAN && t2 == T_OCEAN )
-	    {	  
-	      if ( !corner )
-	      {
+	    if (is_ocean(t1) && is_ocean(t2)) {	  
+	      if (!corner) {
 	        t2_src.x = w / 2 ;
 	        t2_src.y = 0;
 	        SDL_BlitSurface( 
@@ -2996,9 +2994,9 @@ void init_cells_sprites(void)
 		pBuf = cells[t1][t2][blend][0];
 	      }
 	      
-            }/* t1 == T_OCEAN && t2 == T_OCEAN */
+	    } /* is_ocean(t1) && is_ocean(t2) */
 	    
-          } /* t1 == T_OCEAN || t2 == T_OCEAN */
+	  } /* is_ocean(t1) || is_ocean(t2) */
 	  
 	  cells[t1][t2][blend][corner] = pBuf;
 	} /* for */

@@ -755,7 +755,7 @@ static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
     itree_get(&it, 0, &res, -1);
     pcity = res;
 
-    if (is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) {
+    if (is_ocean_near_tile(pcity->x, pcity->y)) {
       itree_select(city_selection, &it);
     }
   }

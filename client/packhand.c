@@ -1589,7 +1589,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* update continents */
   if ((packet->known >= TILE_KNOWN_FOGGED &&
        old_known == TILE_UNKNOWN && !is_ocean(ptile->terrain)) ||
-      ((is_ocean(old_terrain)) && (!is_ocean(ptile->terrain)))) {
+      (is_ocean(old_terrain) && !is_ocean(ptile->terrain))) {
     /* new knowledge or new land -- update can handle incrementally */
     update_continents(packet->x, packet->y, game.player_ptr);
     map.num_continents = game.player_ptr->num_continents;

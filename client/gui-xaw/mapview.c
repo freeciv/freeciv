@@ -924,19 +924,21 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y,
       if (normalize_map_pos(&x1, &y1)) {
 	t2 = map_get_terrain(x1, y1);
 	/* left side */
-	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+	if (is_ocean(t1) ^ is_ocean(t2)) {
 	  XDrawLine(display, pm, civ_gc,
 		    canvas_x, canvas_y,
 		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+	}
       }
       /* top side */
       x1 = x; y1 = y-1;
       if (normalize_map_pos(&x1, &y1)) {
 	t2 = map_get_terrain(x1, y1);
-	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+	if (is_ocean(t1) ^ is_ocean(t2)) {
 	  XDrawLine(display, pm, civ_gc,
 		    canvas_x, canvas_y,
 		    canvas_x + NORMAL_TILE_WIDTH, canvas_y);
+	}
       }
     }
   } else {

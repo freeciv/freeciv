@@ -180,8 +180,7 @@ static LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
       }
       else
       {
-	if (ptile->terrain == T_OCEAN)
-	{
+	if (is_ocean(ptile->terrain)) {
 	  return data->pen_ocean;
 	}
 	else

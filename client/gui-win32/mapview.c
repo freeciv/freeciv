@@ -336,17 +336,16 @@ void pixmap_put_tile(HDC hdc, int x, int y,
       if (normalize_map_pos(&x1, &y1)) {
         t2 = map_get_terrain(x1, y1);
         /* left side */
-        if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)) {
+        if (is_ocean(t1) ^ is_ocean(t2)) {
 	  MoveToEx(hdc,canvas_x,canvas_y,NULL);
 	  LineTo(hdc,canvas_x,canvas_y+NORMAL_TILE_HEIGHT);
-          
 	}
       }
       /* top side */
       x1 = x; y1 = y-1;
       if (normalize_map_pos(&x1, &y1)) {
         t2 = map_get_terrain(x1, y1);
-        if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)) {
+        if (is_ocean(t1) ^ is_ocean(t2)) {
 	  MoveToEx(hdc,canvas_x,canvas_y,NULL);
 	  LineTo(hdc,canvas_x+NORMAL_TILE_WIDTH,canvas_y);
 	}
@@ -1594,7 +1593,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
     SelectObject(hdc,oldbrush);
   }
   if (draw_terrain) {
-    if (map_get_terrain(x, y) == T_OCEAN) { /* coasts */
+    if (is_ocean(map_get_terrain(x, y))) { /* coasts */
       int dx, dy;
       /* top */
       dx = offset_x-NORMAL_TILE_WIDTH/4;
@@ -1685,7 +1684,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
     y1=y-1;
     if (normalize_map_pos(&x1,&y1)) { 
       t2=map_get_terrain(x1,y1);
-      if (draw & D_M_R && ((t1==T_OCEAN) ^ (t2==T_OCEAN))) {
+      if (draw & D_M_R && (is_ocean(t1) ^ is_ocean(t2))) {
 	MoveToEx(hdc,canvas_x+NORMAL_TILE_WIDTH/2,canvas_y,NULL);
 	LineTo(hdc,canvas_x+NORMAL_TILE_WIDTH,
 	       canvas_y+NORMAL_TILE_HEIGHT/2);
@@ -1695,7 +1694,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
     y1=y;
     if (normalize_map_pos(&x1, &y1)) {
       t2 = map_get_terrain(x1, y1);
-      if (draw & D_M_L && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))){
+      if (draw & D_M_L && (is_ocean(t1) ^ is_ocean(t2))) {
 	MoveToEx(hdc,canvas_x,canvas_y+NORMAL_TILE_HEIGHT/2,NULL);
 	LineTo(hdc,canvas_x+NORMAL_TILE_WIDTH/2,canvas_y); 
       }

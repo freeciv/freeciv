@@ -767,12 +767,12 @@ city_select_coastal_callback(GtkWidget *w, gpointer data)
 
   gtk_clist_unselect_all( GTK_CLIST(city_list));
 
-  for(i = 0; i < GTK_CLIST(city_list)->rows; i++)
-  {
-      struct city* pcity = gtk_clist_get_row_data(GTK_CLIST(city_list),i);
-
-      if (is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN))
-	gtk_clist_select_row(GTK_CLIST(city_list),i,0);
+  for (i = 0; i < GTK_CLIST(city_list)->rows; i++) {
+    struct city* pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), i);
+    
+    if (is_ocean_near_tile(pcity->x, pcity->y)) {
+      gtk_clist_select_row(GTK_CLIST(city_list), i, 0);
+    }
   }
 
   return TRUE;
