@@ -525,6 +525,7 @@ void setup_widgets(void)
       }
 
   turn_done_button = gtk_button_new_with_label( "Turn Done" );
+  gtk_widget_set_style(turn_done_button, gtk_style_copy(turn_done_button->style));
   gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 5, 1, 2);
   }
 

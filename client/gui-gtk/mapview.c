@@ -219,11 +219,11 @@ void update_turn_done_button(int do_restore)
    if((do_restore && flip) || !do_restore)
    { 
 	
-	fore = turn_done_button->style->fg_gc[GTK_STATE_NORMAL];
-	back = turn_done_button->style->mid_gc[GTK_STATE_NORMAL];
+	fore = turn_done_button->style->bg_gc[GTK_STATE_NORMAL];
+	back = turn_done_button->style->light_gc[GTK_STATE_NORMAL];
 
-	turn_done_button->style->fg_gc[GTK_STATE_NORMAL] = back;
-	turn_done_button->style->mid_gc[GTK_STATE_NORMAL] = fore;
+	turn_done_button->style->bg_gc[GTK_STATE_NORMAL] = back;
+	turn_done_button->style->light_gc[GTK_STATE_NORMAL] = fore;
 
 	gtk_expose_now(turn_done_button);
 
