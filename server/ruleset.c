@@ -719,15 +719,7 @@ static void load_ruleset_units(struct section_file *file)
       if(strcmp(sval,"")==0) {
 	continue;
       }
-      if (strcmp(sval, "Submarine")==0) {
-	/* Backwards compatibility */
-	freelog(LOG_NORMAL, "Old-style \"Submarine\" flag in %s (ok)", filename);
-	BV_SET(u->flags, F_NO_LAND_ATTACK);
-	BV_SET(u->flags, F_MISSILE_CARRIER);
-	ival = F_PARTIAL_INVIS;
-      } else {
 	ival = unit_flag_from_str(sval);
-      }
       if (ival==F_LAST) {
 	freelog(LOG_ERROR, "for unit_type \"%s\": bad flag name \"%s\" (%s)",
 	     u->name, sval, filename);
