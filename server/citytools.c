@@ -1088,8 +1088,7 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
 
   /* Catch fortress building, transforming into ocean, etc. */
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (punit->activity != ACTIVITY_FORTIFIED
-	&& !can_unit_do_activity(punit, punit->activity))
+    if (!can_unit_continue_current_activity(punit))
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
   } unit_list_iterate_end;
 }

@@ -1383,6 +1383,11 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 
   send_unit_info(0, punit);
 
+  unit_list_iterate(ptile->units, punit2) {
+    if (!can_unit_continue_current_activity(punit2))
+      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+  } unit_list_iterate_end;
+
   /* Any units that landed in water or boats that landed on land as a
      result of settlers changing terrain must be moved back into their
      right environment.

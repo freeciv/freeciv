@@ -140,6 +140,7 @@ int can_unit_paradrop(struct unit *punit);
 int can_unit_change_homecity(struct unit *punit);
 int can_unit_do_connect(struct unit *punit, enum unit_activity activity);
 char* get_activity_text (int activity);
+int can_unit_continue_current_activity(struct unit *punit);
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity);
 int can_unit_do_activity_targeted(struct unit *punit,
 				  enum unit_activity activity, int target);

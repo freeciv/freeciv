@@ -1122,13 +1122,13 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   } /* end if we have a home */
 
   /* keep barbarians aggresive and primitive */
-  if( is_barbarian(pplayer) ) {
-     if( get_tile_infrastructure_set(map_get_tile(punit->x,punit->y)) &&
-         is_land_barbarian(pplayer) )
-       punit->ai.ai_role = AIUNIT_PILLAGE;  /* land barbarians pillage */
-     else
-       punit->ai.ai_role = AIUNIT_ATTACK;
-     return;
+  if (is_barbarian(pplayer)) {
+    if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)
+	&& is_land_barbarian(pplayer))
+      punit->ai.ai_role = AIUNIT_PILLAGE;  /* land barbarians pillage */
+    else
+      punit->ai.ai_role = AIUNIT_ATTACK;
+    return;
   }
 
   if (punit->ai.charge) { /* I am a bodyguard */

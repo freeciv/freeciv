@@ -597,6 +597,30 @@ static int can_channel_land(int x, int y)
 }
 
 /**************************************************************************
+Check if the unit's current activity is actually legal.
+**************************************************************************/
+int can_unit_continue_current_activity(struct unit *punit)
+{
+  enum unit_activity current = punit->activity;
+  int target = punit->activity_target;
+  int current2 = current == ACTIVITY_FORTIFIED ? ACTIVITY_FORTIFYING : current;
+  int result;
+
+  if (punit->connecting)
+    return can_unit_do_connect(punit, current);
+
+  punit->activity = ACTIVITY_IDLE;
+  punit->activity_target = 0;
+
+  result = can_unit_do_activity_targeted(punit, current2, target);
+
+  punit->activity = current;
+  punit->activity_target = target;
+
+  return result;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
@@ -728,8 +752,14 @@ int can_unit_do_activity_targeted(struct unit *punit,
       pspresent = get_tile_infrastructure_set(ptile);
       if (pspresent && is_ground_unit(punit)) {
 	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
-	if (target == S_NO_SPECIAL)
-	  return ((pspresent & (~psworking)) != 0);
+	if (ptile->city && (target & (S_ROAD | S_RAILROAD)))
+	    return 0;
+	if (target == S_NO_SPECIAL) {
+	  if (ptile->city)
+	    return ((pspresent & (~(psworking | S_ROAD |S_RAILROAD))) != 0);
+	  else
+	    return ((pspresent & (~psworking)) != 0);
+	}
 	else if ((!game.rgame.pillage_select) &&
 		 (target != get_preferred_pillage(pspresent)))
 	  return 0;
