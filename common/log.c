@@ -226,7 +226,7 @@ void vreal_freelog(int level, const char *message, va_list ap)
 {
   static char bufbuf[2][MAX_LEN_LOG_LINE];
   char buf[MAX_LEN_LOG_LINE];
-  static int whichbuf=0;
+  static bool bufbuf1 = FALSE;
   static unsigned int repeated=0; /* total times current message repeated */
   static unsigned int next=2;	/* next total to print update */
   static unsigned int prev=0;	/* total on last update */
@@ -244,7 +244,7 @@ void vreal_freelog(int level, const char *message, va_list ap)
     }
     else fs=stderr;
 
-    my_vsnprintf(bufbuf[whichbuf], MAX_LEN_LOG_LINE, message, ap);
+    my_vsnprintf(bufbuf1 ? bufbuf[1] : bufbuf[0], MAX_LEN_LOG_LINE, message, ap);
     
     if(level==prev_level && 0==strncmp(bufbuf[0],bufbuf[1],MAX_LEN_LOG_LINE-1)){
       repeated++;
@@ -262,7 +262,7 @@ void vreal_freelog(int level, const char *message, va_list ap)
       if(repeated>0 && repeated!=prev){
 	if(repeated==1) {
 	  /* just repeat the previous message: */
-	  log_write(fs, prev_level, bufbuf[!whichbuf]);
+	  log_write(fs, prev_level, bufbuf1 ? bufbuf[0] : bufbuf[1]);
 	} else {
 	  if(repeated-prev==1) {
 	    sz_strlcpy(buf, _("last message repeated once"));
@@ -280,9 +280,9 @@ void vreal_freelog(int level, const char *message, va_list ap)
       repeated=0;
       next=2;
       prev=0;
-      log_write(fs, level, bufbuf[whichbuf]);
+      log_write(fs, level, bufbuf1 ? bufbuf[1] : bufbuf[0]);
     }
-    whichbuf= !whichbuf;
+    bufbuf1 = !bufbuf1;
     fflush(fs);
     if(log_filename)
       fclose(fs);

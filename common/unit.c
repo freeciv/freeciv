@@ -168,7 +168,7 @@ bool unit_can_airlift_to(struct unit *punit, struct city *pcity)
     return FALSE;
   if(city1->owner != pcity->owner) 
     return FALSE;
-  if (city1->airlift + pcity->airlift < 2) 
+  if (!city1->airlift || !pcity->airlift) 
     return FALSE;
   if (!is_ground_unit(punit))
     return FALSE;
@@ -637,7 +637,7 @@ bool can_unit_do_activity_targeted(struct unit *punit,
   case ACTIVITY_ROAD:
     return (terrain_control.may_road &&
 	    unit_flag(punit, F_SETTLERS) &&
-	    !tile_has_special(ptile, S_ROAD) && type->road_time &&
+	    !tile_has_special(ptile, S_ROAD) && type->road_time != 0 &&
 	    ((ptile->terrain != T_RIVER && !tile_has_special(ptile, S_RIVER))
 	     || player_knows_techs_with_flag(pplayer, TF_BRIDGE)));
 
@@ -717,7 +717,7 @@ bool can_unit_do_activity_targeted(struct unit *punit,
 	    unit_flag(punit, F_SETTLERS) &&
 	    (tile_has_special(ptile, S_ROAD) ||
 	     (punit->connecting &&
-	      (type->road_time &&
+	      (type->road_time != 0 &&
 	       ((ptile->terrain!=T_RIVER && !tile_has_special(ptile, S_RIVER))
 		|| player_knows_techs_with_flag(pplayer, TF_BRIDGE))))) &&
 	    !tile_has_special(ptile, S_RAILROAD) &&
@@ -728,7 +728,7 @@ bool can_unit_do_activity_targeted(struct unit *punit,
       int pspresent;
       int psworking;
       pspresent = get_tile_infrastructure_set(ptile);
-      if (pspresent && is_ground_unit(punit)) {
+      if (pspresent != S_NO_SPECIAL && is_ground_unit(punit)) {
 	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
 	if (ptile->city && (contains_special(target, S_ROAD) ||
 			    contains_special(target, S_RAILROAD)))

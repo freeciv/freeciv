@@ -480,7 +480,7 @@ int total_bulbs_required_for_goal(struct player *pplayer,
  Returns number of requirements for the given tech. To not count techs
  double a memory (the counted array) is needed.
 **************************************************************************/
-static int precalc_tech_data_helper(Tech_Type_id tech, char *counted)
+static int precalc_tech_data_helper(Tech_Type_id tech, bool *counted)
 {
   if (tech == A_NONE || !tech_exists(tech) || counted[tech]) {
     return 0;
@@ -499,7 +499,7 @@ static int precalc_tech_data_helper(Tech_Type_id tech, char *counted)
 void precalc_tech_data()
 {
   Tech_Type_id tech;
-  char counted[A_LAST];
+  bool counted[A_LAST];
 
   for (tech = A_FIRST; tech < game.num_tech_types; tech++) {
     memset(counted, 0, sizeof(counted));

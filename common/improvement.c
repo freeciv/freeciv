@@ -283,7 +283,7 @@ bool improvement_obsolete(struct player *pplayer, Impr_Type_id id)
   if (improvement_types[id].is_wonder) {
     /* a wonder is obsolette, as soon as *any* player researched the
        obsolete tech */
-   return BOOL_VAL(game.global_advances[improvement_types[id].obsolete_by]);
+   return game.global_advances[improvement_types[id].obsolete_by] != 0;
   }
 
   return (get_invention(pplayer, improvement_types[id].obsolete_by)

@@ -1170,7 +1170,7 @@ static void iget_string(struct pack_iter *piter, char *mystring, int navail)
   }
   
   /* avoid using strlen (or strcpy) on an (unsigned char*)  --dwp */
-  for(c=piter->ptr; *c && (c-piter->base) < piter->len; c++) ;
+  for (c = piter->ptr; *c != '\0' && (c - piter->base) < piter->len; c++);
 
   if ((c-piter->base) >= piter->len) {
     ps_len = pack_iter_remaining(piter);
@@ -1778,7 +1778,7 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint16(cptr, packet->city_id);
   cptr=put_uint8(cptr, packet->build_id);
-  cptr=put_uint8(cptr, packet->is_build_id_unit_id?1:0);
+  cptr=put_bool8(cptr, packet->is_build_id_unit_id);
   cptr=put_uint8(cptr, packet->worker_x);
   cptr=put_uint8(cptr, packet->worker_y);
   cptr=put_uint8(cptr, packet->specialist_from);
@@ -1841,9 +1841,9 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_uint32(cptr, pinfo->embassy);
   cptr=put_uint8(cptr, pinfo->city_style);
   cptr=put_uint8(cptr, pinfo->nation);
-  cptr=put_uint8(cptr, pinfo->turn_done?1:0);
+  cptr=put_bool8(cptr, pinfo->turn_done);
   cptr=put_uint16(cptr, pinfo->nturns_idle);
-  cptr=put_uint8(cptr, pinfo->is_alive?1:0);
+  cptr=put_bool8(cptr, pinfo->is_alive);
 
   cptr=put_uint32(cptr, pinfo->reputation);
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -1864,11 +1864,11 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_bit_string(cptr, (char*)pinfo->inventions);
   cptr=put_uint16(cptr, pinfo->future_tech);
   
-  cptr=put_uint8(cptr, pinfo->is_connected?1:0);
+  cptr=put_bool8(cptr, pinfo->is_connected);
   
   cptr=put_uint8(cptr, pinfo->revolution);
   cptr=put_uint8(cptr, pinfo->tech_goal);
-  cptr=put_uint8(cptr, pinfo->ai?1:0);
+  cptr=put_bool8(cptr, pinfo->ai);
   cptr=put_uint8(cptr, pinfo->barbarian_type);
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
@@ -2140,7 +2140,7 @@ int send_packet_map_info(struct connection *pc,
   cptr=put_uint8(buffer+2, PACKET_MAP_INFO);
   cptr=put_uint8(cptr, pinfo->xsize);
   cptr=put_uint8(cptr, pinfo->ysize);
-  cptr=put_uint8(cptr, pinfo->is_earth?1:0);
+  cptr=put_bool8(cptr, pinfo->is_earth);
   put_uint16(buffer, cptr-buffer);
 
   return send_packet_data(pc, buffer, cptr-buffer);
@@ -2400,7 +2400,7 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_uint8(cptr, req->city_options);
   
   for (data = 0; data < NUM_TRADEROUTES; data++) {
-    if(req->trade[data])  {
+    if(req->trade[data] != 0)  {
       cptr=put_uint16(cptr, req->trade[data]);
       cptr=put_uint8(cptr,req->trade_value[data]);
     }
@@ -2797,12 +2797,12 @@ receive_packet_req_join_game(struct connection *pc)
   iget_uint32(&iter, &packet->minor_version);
   iget_uint32(&iter, &packet->patch_version);
   iget_string(&iter, packet->capability, sizeof(packet->capability));
-  if (pack_iter_remaining(&iter)) {
+  if (pack_iter_remaining(&iter) > 0) {
     iget_string(&iter, packet->name, sizeof(packet->name));
   } else {
     sz_strlcpy(packet->name, packet->short_name);
   }
-  if (pack_iter_remaining(&iter)) {
+  if (pack_iter_remaining(&iter) > 0) {
     iget_string(&iter, packet->version_label, sizeof(packet->version_label));
   } else {
     packet->version_label[0] = '\0';
@@ -3170,7 +3170,7 @@ receive_packet_ruleset_unit(struct connection *pc)
   }  
 
   len = pack_iter_remaining(&iter);
-  if (len) {
+  if (len > 0) {
     packet->helptext = fc_malloc(len);
     iget_string(&iter, packet->helptext, len);
   } else {
@@ -3235,7 +3235,7 @@ receive_packet_ruleset_tech(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   len = pack_iter_remaining(&iter);
-  if (len) {
+  if (len > 0) {
     packet->helptext = fc_malloc(len);
     iget_string(&iter, packet->helptext, len);
   } else {
@@ -3345,7 +3345,7 @@ receive_packet_ruleset_building(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   len = pack_iter_remaining(&iter);
-  if (len) {
+  if (len > 0) {
     packet->helptext = fc_malloc(len);
     iget_string(&iter, packet->helptext, len);
   } else {
@@ -3458,7 +3458,7 @@ receive_packet_ruleset_terrain(struct connection *pc)
   }
 
   len = pack_iter_remaining(&iter);
-  if (len) {
+  if (len > 0) {
     packet->helptext = fc_malloc(len);
     iget_string(&iter, packet->helptext, len);
   } else {
@@ -3546,7 +3546,7 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_uint16(&iter, &packet->fallout_trade_penalty);
 
   len = pack_iter_remaining(&iter);
-  if (len) {
+  if (len > 0) {
     packet->river_help_text = fc_malloc(len);
     iget_string(&iter, packet->river_help_text, len);
   } else {
@@ -3720,7 +3720,7 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
   
   len = pack_iter_remaining(&iter);
-  if (len) {
+  if (len > 0) {
     packet->helptext = fc_malloc(len);
     iget_string(&iter, packet->helptext, len);
   } else {

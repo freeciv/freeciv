@@ -510,11 +510,11 @@ static void inf_log(struct inputfile *inf, int loglevel,
   freelog(loglevel, "  file \"%s\", line %d, pos %d%s",
 	  inf->filename, inf->line_num, inf->cur_line_pos,
 	  (inf->at_eof ? ", EOF" : ""));
-  if (inf->cur_line.str && inf->cur_line.n) {
+  if (inf->cur_line.str && inf->cur_line.n > 0) {
     freelog(loglevel, "  looking at: '%s'",
 	    inf->cur_line.str+inf->cur_line_pos);
   }
-  if (inf->copy_line.str && inf->copy_line.n) {
+  if (inf->copy_line.str && inf->copy_line.n > 0) {
     freelog(loglevel, "  original line: '%s'", inf->copy_line.str);
   }
   if (inf->in_string) {

@@ -170,7 +170,7 @@ bool fc_lookup_host(const char *hostname, struct sockaddr_in *sock)
   sock->sin_family = AF_INET;
 
 #ifdef HAVE_INET_ATON
-  if (inet_aton(hostname, &sock->sin_addr)) {
+  if (inet_aton(hostname, &sock->sin_addr) != 0) {
     return TRUE;
   }
 #else
