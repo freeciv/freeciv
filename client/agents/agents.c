@@ -314,7 +314,6 @@ void agents_free(void)
    * for a simple disconnect and a client quit. for right now, we just
    * let the OS free the memory on exit instead of doing it ourselves. */
   /* cmafec_free(); */
-  cm_free();
 
   for (;;) {
     struct call *pcall = remove_and_return_a_call();

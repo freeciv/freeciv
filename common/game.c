@@ -22,6 +22,7 @@
 
 #include "capstr.h"
 #include "city.h"
+#include "cm.h"
 #include "connection.h"
 #include "fcintl.h"
 #include "government.h"
@@ -294,6 +295,7 @@ void game_init(void)
   init_our_capability();    
   map_init();
   idex_init();
+  cm_init();
   
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
     player_init(&game.players[i]);
@@ -328,6 +330,7 @@ void game_free(void)
   map_free();
   idex_free();
   ruleset_data_free();
+  cm_free();
 }
 
 /***************************************************************

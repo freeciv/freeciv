@@ -92,8 +92,6 @@
 #include "unithand.h"
 #include "unittools.h"
 
-#include "cm.h"
-
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aidata.h"
@@ -1620,7 +1618,6 @@ void srv_main(void)
 
   /* Run server loop */
   while (TRUE) {
-    cm_init(); /* initialize CM */
     srv_loop();
     if (game.timeout == -1) {
       server_quit();
@@ -1842,7 +1839,6 @@ main_start_players:
 **************************************************************************/
 void server_game_free()
 {
-  cm_free();
   players_iterate(pplayer) {
     player_map_free(pplayer);
   } players_iterate_end;

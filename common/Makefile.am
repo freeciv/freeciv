@@ -4,7 +4,7 @@ SUBDIRS=	aicore
 
 noinst_LIBRARIES = libcivcommon.a
 
-INCLUDES = -I../intl
+INCLUDES = -I../intl -Iaicore
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
