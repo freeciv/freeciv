@@ -620,7 +620,7 @@ static void setup_widgets(void)
   int i;
   struct Sprite *sprite;
 
-  GtkWidget *notebook, *messages;
+  GtkWidget *notebook, *messages, *statusbar;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -628,7 +628,12 @@ static void setup_widgets(void)
   notebook = gtk_notebook_new();
   toplevel_tabs = notebook;
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
-  gtk_container_add(GTK_CONTAINER(toplevel), notebook);
+  gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), FALSE);
+  box = gtk_vbox_new(FALSE, 4);
+  gtk_container_add(GTK_CONTAINER(toplevel), box);
+  gtk_box_pack_start(GTK_BOX(box), notebook, TRUE, TRUE, 0);
+  statusbar = create_statusbar();
+  gtk_box_pack_start(GTK_BOX(box), statusbar, FALSE, FALSE, 0);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
       create_main_page(), NULL);
@@ -642,7 +647,6 @@ static void setup_widgets(void)
       create_network_page(), NULL);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
       create_nation_page(), NULL);
-
 
   main_tips = gtk_tooltips_new();
 
@@ -954,7 +958,7 @@ static void setup_widgets(void)
 
   /* Other things to take care of */
 
-  gtk_widget_show_all(toplevel_tabs);
+  gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
   gtk_widget_hide(more_arrow_pixmap);
 
   if (!map_scrollbars) {

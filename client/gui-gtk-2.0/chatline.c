@@ -114,6 +114,9 @@ void real_append_output_window(const char *astring, int conn_id)
 
 
   gtk_text_buffer_delete_mark(buf, mark);
+
+
+  append_network_statusbar(astring, FALSE);
 }
 
 /**************************************************************************
