@@ -69,6 +69,7 @@
 #include "dialogs_g.h"		/* popdown_races_dialog() */
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
 #include "messagewin_g.h"
+#include "options.h"
 #include "packhand.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
@@ -589,13 +590,14 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 #endif /* HAVE_UNAME */
 
   my_snprintf(str,sizeof(str),
-              "GET %s%s%s HTTP/1.0\r\nUser-Agent: Freeciv/%s %s %s\r\n\r\n",
+              "GET %s%s%s HTTP/1.0\r\nUser-Agent: Freeciv/%s %s %s %s\r\n\r\n",
               proxy_url ? "" : "/",
               urlpath,
               proxy_url ? metaserver : "",
               VERSION_STRING,
               client_string,
-              machine_string);
+              machine_string,
+              default_tile_set_name);
 
 #ifdef HAVE_FDOPEN
   f=fdopen(s,"r+");
