@@ -85,6 +85,13 @@ struct isledata {
 };
 static struct isledata *islands;
 
+#define T_NOT_PLACED T_UNKNOWN
+
+/**************************************************************************
+  Checks if land has not yet been placed on tile at (x, y) 
+ **************************************************************************/
+#define not_placed(x, y) (map_get_terrain(x, y) == T_NOT_PLACED)
+
 /* this is the maximal temperature at equators returned by map_temperature */
 #define MAX_TEMP 1000
 
@@ -367,9 +374,9 @@ static void make_polar_land(void)
     T = map_temperature(map_x, map_y);	/* temperature parameter */
     ptile = map_get_tile(map_x, map_y);
     if (T < 1.5 * ICE_BASE_LEVEL) {
-      ptile->terrain = T_GRASSLAND;
+      ptile->terrain = T_NOT_PLACED;
     } else if ((T <= 2 * ICE_BASE_LEVEL) && myrand(10) > 4 ) { 
-      ptile->terrain = T_GRASSLAND;
+      ptile->terrain = T_NOT_PLACED;
     }
   } whole_map_iterate_end;
 }
@@ -384,7 +391,7 @@ static void make_tundra(void)
   whole_map_iterate(x, y) {
     int T = map_temperature(x, y);
 
-    if (map_get_terrain(x, y) == T_GRASSLAND 
+    if (not_placed(x,y) 
 	&& (2 * ICE_BASE_LEVEL > T || myrand(MAX_TEMP/5) > T)) {
       map_set_terrain(x, y, T_TUNDRA);
     }
@@ -399,7 +406,7 @@ static void make_arctic(void)
   whole_map_iterate(x, y) {
     int T = map_temperature(x, y);
 
-    if (map_get_terrain(x, y) == T_GRASSLAND 
+    if (not_placed(x,y) 
 	&& myrand(15 * MAX_TEMP / 100) > T -  ICE_BASE_LEVEL 
 	&& T <= 3 * ICE_BASE_LEVEL) {
       map_set_terrain(x, y, T_ARCTIC);
@@ -422,7 +429,7 @@ static void make_desert(int x, int y, int height, int diff, int base_T)
   const int DeltaT = MAX_TEMP / (3 * SQSIZE);
 
   if (abs(hmap(x, y) - height) < diff 
-      && map_get_terrain(x, y) == T_GRASSLAND) {
+      && not_placed(x,y)) {
     map_set_terrain(x, y, T_DESERT);
     cardinal_adjc_iterate(x, y, x1, y1) {
       make_desert(x1, y1, height,
@@ -445,7 +452,7 @@ static void make_forest(int map_x, int map_y, int height, int diff)
 
   map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
   T = map_temperature(map_x, map_y);
-  if (map_get_terrain(map_x, map_y) == T_GRASSLAND) {
+  if (not_placed(map_x, map_y)) {
     if (T > 8 * MAX_TEMP / 10 
 	&& myrand(1000) > 500 - 300 * (T * 1000 / MAX_TEMP - 800)) {
       map_set_terrain(map_x, map_y, T_JUNGLE);
@@ -464,7 +471,7 @@ static void make_forest(int map_x, int map_y, int height, int diff)
 }
 
 /**************************************************************************
-  makeforest calls make_forest with random grassland locations until there
+  makeforest calls make_forest with random unplaced locations until there
   has been made enough forests. (the map.forestsize value controls this) 
 **************************************************************************/
 static void make_forests(void)
@@ -478,7 +485,7 @@ static void make_forests(void)
     /* Place one forest clump anywhere. */
     if (rand_map_pos_temperature(&x, &y,
 				 MAX_TEMP / 10, MAX_TEMP,
-				 T_GRASSLAND)) {
+				 T_NOT_PLACED)) {
       make_forest(x, y, hmap(x, y), 25);
     } else { 
       /* If rand_map_pos_temperature returns FALSE we may as well stop
@@ -489,14 +496,14 @@ static void make_forests(void)
     /* Now add another tropical forest clump (70-100% temperature). */
     if (rand_map_pos_temperature(&x, &y,
 				 7 *MAX_TEMP / 10, MAX_TEMP,
-				 T_GRASSLAND)) {
+				 T_NOT_PLACED)) {
       make_forest(x, y, hmap(x, y), 25);
     }
 
     /* And add a cold forest clump (10%-30% temperature). */
     if (rand_map_pos_temperature(&x, &y,
 				 1 * MAX_TEMP / 10, 3 * MAX_TEMP / 10,
-				 T_GRASSLAND)) {
+				 T_NOT_PLACED)) {
       make_forest(x, y, hmap(x, y), 25);
     }
   } while (forests < forestsize);
@@ -519,7 +526,7 @@ static void make_swamps(void)
       return;
     }
     rand_map_pos(&x, &y);
-    if (map_get_terrain(x, y) == T_GRASSLAND
+    if (not_placed(x, y)
 	&& hmap(x, y) < (maxval * 60) / 100) {
       map_set_terrain(x, y, T_SWAMP);
       cardinal_adjc_iterate(x, y, x1, y1) {
@@ -551,7 +558,7 @@ static void make_deserts(void)
      * them). */
     if (rand_map_pos_temperature(&x, &y,
 				 65 * MAX_TEMP / 100, 80 * MAX_TEMP / 100,
-				 T_GRASSLAND)){
+				 T_NOT_PLACED)){
       make_desert(x, y, hmap(x, y), 50, map_temperature(x, y));
       i--;
     } else {
@@ -1026,14 +1033,19 @@ static void make_rivers(void)
 }
 
 /**************************************************************************
-  make_plains converts 50% of the remaining grassland to plains, this should
-  maybe be lowered to 30% or done in batches, like the swamps?
+  make_plains converts 50% of the remaining terrains to plains and 50%
+  grassland,
 **************************************************************************/
 static void make_plains(void)
 {
   whole_map_iterate(x, y) {
-    if (map_get_terrain(x, y) == T_GRASSLAND && myrand(100) > 50)
-      map_set_terrain(x, y, T_PLAINS);
+    if (not_placed(x, y)) {
+      if(myrand(100) > 50) {
+	  map_set_terrain(x, y, T_GRASSLAND);
+      } else {
+	  map_set_terrain(x, y, T_PLAINS);
+      }
+    }
   } whole_map_iterate_end;
 }
 /****************************************************************************
@@ -1140,7 +1152,7 @@ static void make_land(void)
       if (hmap(x, y) < tres)
 	map_set_terrain(x, y, T_OCEAN);
       else {
-	map_set_terrain(x, y, T_GRASSLAND);
+	map_set_terrain(x, y, T_NOT_PLACED);
 	count++;
       }
     } whole_map_iterate_end;
@@ -1446,6 +1458,7 @@ void create_start_positions(void)
       data.count++;
 
     } else {
+      
       data.dist--;
       if (data.dist == 0) {
 	die(_("The server appears to have gotten into an infinite loop "
@@ -1901,7 +1914,7 @@ static void fill_island(int coast, long int *bucket,
     get_random_map_position_from_state(&x, &y, pstate);
 
     if (map_get_continent(x, y) == pstate->isleindex &&
-	map_get_terrain(x, y) == T_GRASSLAND) {
+	not_placed(x, y)) {
 
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
@@ -1923,7 +1936,7 @@ static void fill_island(int coast, long int *bucket,
 			  ? warm0 : warm1);
 	}
       }
-      if (map_get_terrain(x,y) != T_GRASSLAND) i--;
+      if (!not_placed(x,y)) i--;
     }
   }
 }
@@ -1950,7 +1963,7 @@ static void fill_island_rivers(int coast, long int *bucket,
   while (i > 0 && (failsafe--) > 0) {
     get_random_map_position_from_state(&x, &y, pstate);
     if (map_get_continent(x, y) == pstate->isleindex &&
-	map_get_terrain(x, y) == T_GRASSLAND) {
+	not_placed(x, y)) {
 
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
@@ -2053,7 +2066,7 @@ static bool place_island(struct gen234_state *pstate)
 	  return i != 0;
 	}
 
-        map_set_terrain(map_x, map_y, T_GRASSLAND);
+        map_set_terrain(map_x, map_y, T_NOT_PLACED);
 	map_set_continent(map_x, map_y, pstate->isleindex);
         i++;
       }
