@@ -311,9 +311,10 @@ static void do_apollo_program(void)
 	} city_list_iterate_end;
       } players_iterate_end;
     } else {
+      /* map_know_all will mark all unknown tiles as known and send
+       * tile, unit, and city updates as necessary.  No other actions are
+       * needed. */
       map_know_all(pplayer);
-      send_all_known_tiles(&pplayer->connections);
-      send_all_known_cities(&pplayer->connections);
     }
   }
 }
