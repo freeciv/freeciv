@@ -902,7 +902,9 @@ void handle_unit_info(struct packet_unit_info *packet)
       punit->hp=packet->hp;
       repaint_unit = TRUE;
     }
+
     if (punit->type!=packet->type) {
+      /* Unit type has changed (been upgraded) */
       struct city *pcity = map_get_city(punit->x, punit->y);
       
       punit->type=packet->type;
@@ -910,6 +912,10 @@ void handle_unit_info(struct packet_unit_info *packet)
       repaint_city = TRUE;
       if (pcity && (pcity->id != punit->homecity)) {
 	refresh_city_dialog(pcity);
+      }
+      if(punit == get_unit_in_focus()) {
+        /* Update the orders menu -- the unit might have new abilities */
+        update_menus();
       }
     }
 
