@@ -1,22 +1,79 @@
-Welcome to Freeciv 1.9!
+=======================
+Welcome to Freeciv 1.10
+=======================
 
-This is release 1.9.0.
+This is release 1.10.0.
 
-With this release the Freeciv maintainership has changed again, 
-with David Pfitzner resigning and being replaced by Jeff Mallatt.
-We also farewell Martin Willemoes Hansen as webmaster, replaced
-by Paul Zastoupil.  Thanks again to all our developers, who continue 
-to work so hard.
+Thanks again to all our developers, who continue to work so hard.
 
-This release includes lots of changes, outlined below.  Those who 
-are interested in seeing the detailed changes should check the 
+This release includes lots of changes, outlined below.  Those who
+are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.9.0:
+
+ - Ported to Amiga.
+ - Internationalization extended.  Still needs improvement.
+   New ./doc directory for localized versions of README and INSTALL.
+   Current localizations: de en_GB es fr hu no pl pt pt_BR ru.
+ - Added Civ1/2-like Barbarians.  Controlled by two server options.
+ - Many more nations added.
+ - Worklists -- Players can now specify a list of things to be built in
+   a city.
+ - The AI now utilizes diplomats/spies aggressively.
+ - Added a variant (1) of Michelangelo's Chapel.
+ - Initial rates after Revolution will try to maximize Science.
+ - Rapture-triggered city growth will no longer empty the foodbox.
+ - Map generator improvements:
+   - Gen 1 hills more uniform north/south.
+   - Gen 2+ will tend to make fewer length-one rivers.
+ - Added unit-death explosion animation.
+ - No longer will cities with exactly 0 (zero) production surplus be given
+   a "free" shield every turn.
+ - Command-line arguments made more consistent between server and client.
+ - Caravans now provide a research benefit when initially establishing a
+   trade route, equal to the monetary benefit.
+ - Diplomat/Spy changes:
+   - Changed all actions to more closely conform to Civ2 rules.
+   - Changed "diplchance" to be %-chance of success.  Used in many ways.
+   - Diplomat/Spy may attempt action with any movement left.
+   - Added "At Spy's Discretion" selection to steal and sabotage dialogs.
+   - Allow Spies to steal tech from a city more than once (gets harder).
+   - May only poison towns of size greater than 1 (one).
+   - May only sabotage units that are alone on a square.
+   - When a city is subverted, only nearby units change sides.
+   - Veteran status improves defense against other Diplomats/Spies.
+ - Added production display of number of turns remaining to build.
+ - Small, shield-like flags tilesets (trident_shields, engels_shields).
+ - Airbase changes (for Civ2 compliance):
+   - Ground units can attack Air units when they are parked on an Airbase.
+   - Units are defeated only singly when on an Airbase (like a Fortress).
+ - Revised and improved the server 'help' command.
+ - New intro graphics.
+ - Ships may now have their movement reduced after a combat in which they
+   are damaged.
+ - Added display of production values to main map "city tiles" display.
+ - Increased the Add-To City size limit to 9 to conform to Civ2.
+ - Settler's "Connect" feature -- Automatically connect two points with
+   Road, Railroad, Irrigate or Fortress.
+ - Several AI improvements.
+ - New ruleset support for CITIES, most notably cities are now drawn in
+   different sizes and styles.
+ - Allow specifying unambiguous player name prefix, instead of full 
+   player name, for server commands taking a player name argument.
+ - Added multi-client configuration support.
+ - Added 'read' and 'write' server commands.
+ - Added "best nation" column to Demographics report.
+ - Changed Fighters and Stealth Fighters to not cause unhappiness (Civ2).
+ - Cities on mountains will produce an extra food (Civ2).
+ - Fixed bug where Lighthouse was not producing veteran sea units.
+ - Lots of bug fixes, code cleanups, and help-text improvements.
 
 WHAT'S CHANGED SINCE 1.8.1:
 
  - Internationalization added.  Some aspects still need improvement,
-   and in particular currently only works well if client and server 
-   both use the same language.  Initial (partial) translations 
+   and in particular currently only works well if client and server
+   both use the same language.  Initial (partial) translations
    included are: de es fr hu pl pt pt_BR.
  - Improvements to "trident" tileset, and this set is now the default.
  - New ruleset support for NATIONS, and many new nations added --
@@ -34,7 +91,7 @@ WHAT'S CHANGED SINCE 1.8.1:
  - Changes to city graphics: can now see cities grow.  Also, code
    support for different city styles for different nations, and for
    technology dependent styles, but lacking good graphics except for
-   the default style.  Cities show a small flag when occupied by one 
+   the default style.  Cities show a small flag when occupied by one
    or more units.
  - From Civ2, added Paratroopers unit and Airbase infrastructure.
  - Initial window size of Gtk+ client is smaller, to fit better on
@@ -49,7 +106,7 @@ WHAT'S CHANGED SINCE 1.8.1:
    as well as new farmland and airbase infrastructure items.
  - More fields added to Demographics Report, and now configurable from
    a server option.
- - Added more information to "Active Units Report", and renamed to 
+ - Added more information to "Active Units Report", and renamed to
    "Military Report".
  - New cursors added for Goto, Nuke and Paradrop modes; <Escape> key
    cancels Go-To/Paradrop/nuke mode; pollution on city squares is now
@@ -90,23 +147,23 @@ WHAT'S CHANGED SINCE 1.8.1:
 
 WHAT'S CHANGED SINCE 1.8.0:
 
- - The biggest change is a new client which uses the popular Gtk+ 
+ - The biggest change is a new client which uses the popular Gtk+
    toolkit.  The old Xaw client is still included as well.
  - A new alternate (30x30) tileset: the "trident" tileset.
    Start the client with "--tiles trident" to try it out.
-   (This replaces the "classic/brunus" tileset, which is still 
+   (This replaces the "classic/brunus" tileset, which is still
    available separately from the Freeciv ftp site.)
  - In the Gtk+ client, parts of the main window can be detached.
    Detaching them all allows a full-screen map window!
- - The data directory can now be specified as a "path" ($FREECIV_PATH), 
-   instead of a single directory.  By default, ~/.freeciv is now in 
-   the path, so if you download new tiles, modpacks, etc, you can now 
+ - The data directory can now be specified as a "path" ($FREECIV_PATH),
+   instead of a single directory.  By default, ~/.freeciv is now in
+   the path, so if you download new tiles, modpacks, etc, you can now
    simply put them in ~/.freeciv
- - Server console improvements: can abbreviate server command names, 
-   and server option names.  Better prompt handling - eg, server no 
+ - Server console improvements: can abbreviate server command names,
+   and server option names.  Better prompt handling - eg, server no
    longer prints an unnecessary prompt each turn.
- - Server commands can now be issued from the client chatline. 
-   There is a new server command "cmdlevel", to control access to 
+ - Server commands can now be issued from the client chatline.
+   There is a new server command "cmdlevel", to control access to
    this feature on a per-player basis.
  - Some of the "small" graphics have been improved.
  - Added a nice cursor for selecting the destination for "goto".
@@ -120,43 +177,43 @@ WHAT'S CHANGED SINCE 1.8.0:
  - Minor "Zone of Control" (ZOC) rules changes to better match Civ2.
  - Improved debug logging.
  - Server will refuse to run as root, as a security measure.
- - As always: lots of bug fixes, code cleanups, and help-text 
+ - As always: lots of bug fixes, code cleanups, and help-text
    improvements.
 
 WHAT'S CHANGED SINCE 1.7.2:
 
- - Space race!  Be the first player to build a space ship and colonize 
-   Alpha Centauri. 
- - Civil war!  Capturing the enemy capital may split his empire.  Half 
+ - Space race!  Be the first player to build a space ship and colonize
+   Alpha Centauri.
+ - Civil war!  Capturing the enemy capital may split his empire.  Half
    of his towns will join a new AI leader!
- - Two tile sets in this release! The "big" ones are from Ralph Engels.  
-   I hope you will enjoy them.  The second set is an enhancement of the 
-   classic tiles.  The server option -tiles allows to choose a subdirectory 
-   of the data directory to use different tiles.  (The data directory can 
-   be set with the DATADIR environment variable.)  Also, diagonal roads 
-   and railroads are now drawn.  Changed some of the national flags 
+ - Two tile sets in this release! The "big" ones are from Ralph Engels.
+   I hope you will enjoy them.  The second set is an enhancement of the
+   classic ones.  The server option -tiles allows to choose a subdirectory
+   of the data directory to use different tiles.  (The data directory can
+   be set with the DATADIR environment variable.)  Also, diagonal roads
+   and railroads are now drawn.  Changed some of the national flags
    (especially changed Soviet flag to the Russian flag for Russians).
- - Rulesets can be used to customise units, advances, wonders, and 
+ - Rulesets can be used to customise units, advances, wonders, and
    improvements without recompiling -- see README.rulesets.
- - Units in a town can be put in auto-attack mode.  In this mode, they 
+ - Units in a town can be put in auto-attack mode.  In this mode, they
    will attack any enemy units which come nearby.
- - New city options for each city, controlling whether new citizens are 
-   workers or specialists, whether to allow disbanding a size 1 city by 
-   building a settler, and options for units on auto-attack mode in the 
+ - New city options for each city, controlling whether new citizens are
+   workers or specialists, whether to allow disbanding a size 1 city by
+   building a settler, and options for units on auto-attack mode in the
    city.
- - Mapgen 4 (selected with the server command "set generator 4") is a new 
+ - Mapgen 4 (selected with the server command "set generator 4") is a new
    map generator which generates a map with 2 players on each island.
- - Cities can be a traded in diplomatic treaties.  This effectively allows 
-   you to exchange, sell or buy cities. 
+ - Cities can be a traded in diplomatic treaties.  This effectively
+   allows you to exchange, sell or buy cities.
  - The AI now builds diplomats to defend against enemy diplomats.
- - Settlers and engineers can do teamwork.  With enough manpower, all 
+ - Settlers and engineers can do teamwork.  With enough manpower, all
    terrain improvements can be done fast!
  - With engineers, the terrain type can be changed using the new Transform
    command ('O').  For example, hills can be turned into plains.
- - Units only regenerate hit points if they have not moved at all for a 
+ - Units only regenerate hit points if they have not moved at all for a
    full turn.
- - Gamelog option.  The whole history of a game can be stored in the 
-   gamelog file. 
+ - Gamelog option.  The whole history of a game can be stored in the
+   gamelog file.
  - One can select a unit with 0 moves left from the main map.
  - City workers can be adjusted from the main map, with shift+button1.
  - Changed the order of libraries to fix problems on IRIX and Cygwin.
@@ -166,22 +223,24 @@ WHAT'S CHANGED SINCE 1.7.2:
 WHAT'S CHANGED SINCE 1.7.1:
 
  - Improvements to the configure script, so it should now work
-   properly on all systems.  
+   properly on all systems.
  - Ability to configure to use Xaw3d instead of the normal Xaw.
  - New "easy" AI mode, which is now the default.
  - Improved "City Report" dialog, with configurable columns.
- - Improved "Message Options" dialog, with customizable filtering and 
+ - Improved "Message Options" dialog, with customizable filtering and
    selection for the different message types.
- - Improved "Messages" dialog, with a scrollbar, and a "Popup City" button.
- - Improved multi-column "Unit Select" dialog when there are lots of units.
+ - Improved "Messages" dialog, with a scrollbar, and a "Popup City"
+   button.
+ - Improved multi-column "Unit Select" dialog when there are lots of
+   units.
  - In city dialog, middle-click unit icons to "activate and close".
  - New client command "t" to show tiles used by city under mouse.
  - New metaserver dialog to make connecting to metaserver games easier.
  - Ability to save and re-load client settings.
  - Clearer Yes/No toggle buttons in various places in the client.
- - Reduced color usage (but looks almost identical), so the client should 
+ - Reduced color usage (but looks almost identical), so the client should
    now work fine on systems with 8 bit color displays.
- - Ability to use "scenarios", that is, pre-designed maps.  Scenarios 
+ - Ability to use "scenarios", that is, pre-designed maps.  Scenarios
    for Earth and Europe games are included in the data directory.
    (Use them with the server command-line option -f, like savegames.)
  - More city names, so you're less likely to see "City 41" etc.
@@ -191,13 +250,14 @@ WHAT'S CHANGED SINCE 1.7.1:
  - Detect repeated log messages and print repeat counts.
  - New server options randseed and aqueductloss.
  - Many other enhancements and bug fixes.
-  
+
 WHAT'S CHANGED SINCE 1.7.0:
 
  - Removed two C++-style comments, the most reported problem with 1.7.0!
- - Tweaks to the configure script for Solaris, although it's still not perfect.
+ - Tweaks to the configure script for Solaris, although it's still not
+   perfect.
  - Spy and diplomat improvements.
- - Added the "W" command, which Wakes up sentried units, 
+ - Added the "W" command, which Wakes up sentried units.
  - Added the "scorelog" command, which can be read by a script to generate
    power graphs after the game.
  - Loading games is now MUCH faster.
@@ -208,7 +268,7 @@ WHAT'S CHANGED SINCE 1.7.0:
 
 WHAT'S CHANGED SINCE 1.6.3:
 
- - Massive AI changes. It plays smarter, and the AI uses seagoing vessels.  
+ - Massive AI changes. It plays smarter, and the AI uses seagoing vessels.
  - The contents of the help system have been improved substantially.
  - Many bugs fixed.
  - We now recommend you use "configure" instead of Imake.
@@ -229,6 +289,5 @@ WHAT'S CHANGED SINCE 1.6.3:
  - Tracy Reed (who provides www.freeciv.org) reports that our site is
    getting over 6,000 hits per month.  He was quoted as saying "Cool!
    Now my computer is doing something!"
- - Lots, and Lots, and Lots of donated patches. Thanks guys, keep 'em 
+ - Lots, and Lots, and Lots of donated patches. Thanks guys, keep 'em
    coming!
-
