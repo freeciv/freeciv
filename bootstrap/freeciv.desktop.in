@@ -1,0 +1,22 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Freeciv
+Name[ca]=Freeciv
+Name[es]=Freeciv
+Name[fr]=Freeciv
+Name[no]=Freeciv
+Name[pt]=Freeciv
+Comment=Civilization(TM)-like game
+Comment[ca]=Joc similar a Civilization(TM)
+Comment[es]=Juego similar a Civilization(TM)
+Comment[fr]=Jeu similaire à Civilization(TM)
+Comment[nl]=Civilization(TM)-achtig spel
+Comment[pl]=Gra strategiczna podobna do Cywilizacji(TM)
+Comment[pt]=Jogo similar ao Civilization(TM)
+Exec=civclient
+Icon=gnome-globe.png
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GNOME;Application;Game;Strategy
+StartupNotify=true

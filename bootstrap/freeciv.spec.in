@@ -181,6 +181,7 @@ for client in %clients_list; do
 		     datadir=$RPM_BUILD_ROOT%{_gamesdatadir} \
 		     localedir=$RPM_BUILD_ROOT%{_datadir}/locale \
 		     mandir=$RPM_BUILD_ROOT%{_mandir} \
+		     prefix=$RPM_BUILD_ROOT/usr \
 		     -C build-$client
 	%__mv $RPM_BUILD_ROOT%{_gamesbindir}/civclient \
 		$RPM_BUILD_ROOT%{_gamesbindir}/civclient-$client
@@ -191,6 +192,7 @@ done
 		     datadir=$RPM_BUILD_ROOT%{_gamesdatadir} \
 		     localedir=$RPM_BUILD_ROOT%{_datadir}/locale \
 		     mandir=$RPM_BUILD_ROOT%{_mandir} \
+		     prefix=$RPM_BUILD_ROOT/usr \
 		     -C build-server
 %find_lang %{name}
 
@@ -282,6 +284,7 @@ rm -fr %buildroot
 %{_gamesdatadir}/%{name}/helpdata.txt
 %{_gamesdatadir}/%{name}/*.tilespec
 %{_mandir}/man6/civclient.6
+/usr/share/applications/freeciv.desktop
 %defattr(755, root, games, 0755)
 
 %if_with gtk2

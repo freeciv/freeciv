@@ -405,6 +405,7 @@ if test x$client != xno; then
 
   gui_sources="gui-$client"
 fi
+
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
 AC_SUBST(CLIENT_LIBS)
@@ -667,7 +668,8 @@ AC_CONFIG_FILES([Makefile
 	  doc/nl/Makefile
 	  doc/sv/Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
-	  bootstrap/undep.sh])
+	  bootstrap/undep.sh
+	  client/freeciv.desktop:bootstrap/freeciv.desktop.in])
 AC_CONFIG_FILES([civ:bootstrap/civ.in], [chmod +x civ])
 AC_CONFIG_FILES([ser:bootstrap/ser.in], [chmod +x ser])
 AC_CONFIG_COMMANDS([default],[[ chmod +x bootstrap/undep.sh ; bootstrap/undep.sh ]],[[]])
