@@ -1379,7 +1379,7 @@ static void meta_command(struct connection *caller, char *arg)
 **************************************************************************/
 static void metainfo_command(struct connection *caller, char *arg)
 {
-  mystrlcpy(srvarg.metaserver_info_line, arg, 256);
+  sz_strlcpy(srvarg.metaserver_info_line, arg);
   if (send_server_info_to_metaserver(1,0) == 0) {
     cmd_reply(CMD_META, caller, C_METAERROR,
 	      _("Not reporting to the metaserver."));
@@ -1398,7 +1398,7 @@ static void metaserver_command(struct connection *caller, char *arg)
 {
   close_metaserver_connection(caller);
 
-  mystrlcpy(srvarg.metaserver_addr, arg, 256);
+  sz_strlcpy(srvarg.metaserver_addr, arg);
   meta_addr_split();
 
   notify_player(0, _("Metaserver is now [%s]."),

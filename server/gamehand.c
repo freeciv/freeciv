@@ -313,15 +313,12 @@ void game_load(struct section_file *file)
   tmp_server_state = (enum server_states)
     secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
 
-  /* grr, hardcoded sizes --dwp */
-  mystrlcpy(srvarg.metaserver_info_line,
-	    secfile_lookup_str_default(file, DEFAULT_META_SERVER_INFO_STRING,
-				       "game.metastring"),
-	    256);
-  mystrlcpy(srvarg.metaserver_addr,
-	    secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
-				       "game.metaserver"),
-	    256);
+  sz_strlcpy(srvarg.metaserver_info_line,
+	     secfile_lookup_str_default(file, DEFAULT_META_SERVER_INFO_STRING,
+					"game.metastring"));
+  sz_strlcpy(srvarg.metaserver_addr,
+	     secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
+					"game.metaserver"));
   meta_addr_split();
 
   game.gold          = secfile_lookup_int(file, "game.gold");
