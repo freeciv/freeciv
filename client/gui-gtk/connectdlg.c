@@ -180,8 +180,8 @@ void gui_server_connect(void)
     GtkStyle *style;
 
     label2=gtk_label_new (_("THIS IS A BETA RELEASE\n"
-			  "Freeciv 1.8 will be released third\n"
-			  "week of March at http://www.freeciv.org"));
+			  "Freeciv 1.9 will be released early\n"
+			  "October, at http://www.freeciv.org"));
 
     style=gtk_style_copy (label2->style);
     style->fg[GTK_STATE_NORMAL]=*colors_standard[COLOR_STD_RED];
