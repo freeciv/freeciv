@@ -69,6 +69,9 @@ enum tech_flag_id {
   TF_LAST
 };
 
+/* TECH_KNOWN is self-explanatory, TECH_REACHABLE are those for which all 
+ * requirements are fulfilled; all others (including those which can never 
+ * be reached) are TECH_UNKNOWN */
 enum tech_state {
   TECH_UNKNOWN = 0,
   TECH_KNOWN = 1,

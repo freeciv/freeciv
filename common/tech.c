@@ -224,10 +224,10 @@ void update_research(struct player *pplayer)
 }
 
 /**************************************************************************
-...don't use this function directly, call get_next_tech instead.
+  Return the next tech we should research to advance towards our goal.
+  Returns A_UNSET if nothing is available or the goal is already known.
 **************************************************************************/
-static Tech_Type_id get_next_tech_rec(const struct player *pplayer,
-				      Tech_Type_id goal)
+Tech_Type_id get_next_tech(const struct player *pplayer, Tech_Type_id goal)
 {
   Tech_Type_id sub_goal;
 
@@ -238,27 +238,12 @@ static Tech_Type_id get_next_tech_rec(const struct player *pplayer,
   if (get_invention(pplayer, goal) == TECH_REACHABLE) {
     return goal;
   }
-  sub_goal = get_next_tech_rec(pplayer, advances[goal].req[0]);
+  sub_goal = get_next_tech(pplayer, advances[goal].req[0]);
   if (sub_goal != A_UNSET) {
     return sub_goal;
   } else {
-    return get_next_tech_rec(pplayer, advances[goal].req[1]);
+    return get_next_tech(pplayer, advances[goal].req[1]);
   }
-}
-
-/**************************************************************************
-... this could be simpler, but we might have or get loops in the tech tree
-    so i try to avoid endless loops.
-    if return value > A_LAST then we have a bug
-    caller should do something in that case.
-**************************************************************************/
-Tech_Type_id get_next_tech(const struct player *pplayer, Tech_Type_id goal)
-{
-  if (!tech_is_available(pplayer, goal)
-      || get_invention(pplayer, goal) == TECH_KNOWN) {
-    return A_UNSET;
-  }
-  return (get_next_tech_rec(pplayer, goal));
 }
 
 /**************************************************************************
