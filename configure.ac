@@ -80,6 +80,20 @@ AC_ARG_ENABLE(client,
 esac], [client=yes])
 AM_CONDITIONAL(CLIENT, test x$client != xno)
 
+dnl You MUST build ftwl to use the ftwl client
+AC_ARG_ENABLE(ftwl,
+[  --enable-ftwl[=no/x11/sdl]
+                          compile ftwl [default=no]],
+[case "${enableval}" in
+  x11)	  ftwl=x11 ;;
+  sdl)    ftwl=sdl ;;
+  *)	  AC_MSG_ERROR(bad value ${enableval} for --enable-ftwl) ;;
+esac], [ftwl=no])
+AM_CONDITIONAL(FTWL, test x$ftwl != xno)
+if test "$ftwl" = no && test "$client" = ftwl ; then
+  AC_MSG_ERROR(You must use --enable-ftwl to use the ftwl client)
+fi
+
 AC_ARG_WITH(xaw,
 [  --with-xaw              use the Xaw widget set for the xaw client],
 WITH_XAW=1
@@ -306,6 +320,17 @@ AC_CHECK_HEADER(zlib.h, ,
   AC_MSG_ERROR([zlib found but not zlib.h.  
 You may need to install a zlib \"development\" package.]))
 
+dnl Check and compile ftwl
+if test "$ftwl" = x11 ; then
+     FTWL_CFLAGS=`freetype-config --cflags`
+     FTWL_LIBS="-L/usr/X11R6/lib -lX11 -lpng "`freetype-config --libs`
+fi
+
+if test "$ftwl" = sdl ; then
+     FTWL_CFLAGS=`sdl-config --cflags`" "`freetype-config --cflags`
+     FTWL_LIBS=`sdl-config --libs`" -lpng "`freetype-config --libs`
+fi
+
 dnl Check and choose clients
 if test x$client != xno; then
 
@@ -332,6 +357,11 @@ if test x$client != xno; then
 
   dnl Xaw-specific overrides
   FC_XAW_CLIENT
+
+  if test "$client" = ftwl ; then
+      CLIENT_CFLAGS="$CLIENT_FLAGS $FTWL_FLAGS"
+      CLIENT_LIBS="$CLIENT_LIBS $FTWL_LIBS"
+  fi
 
   dnl BeOS-specific overrides
   if test "$client" = beos || test "$client" = yes ; then
@@ -389,6 +419,10 @@ AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")
 AM_CONDITIONAL(CLIENT_GUI_BEOS, test "$gui_sources" = "gui-beos")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "$gui_sources" = "gui-stub")
 AM_CONDITIONAL(CLIENT_GUI_WIN32, test "$gui_sources" = "gui-win32")
+dnl AM_CONDITIONAL(CLIENT_GUI_FTWL, test "$gui_sources" = "gui-ftwl")
+AM_CONDITIONAL(FTWL, test "$ftwl" != "no")
+AM_CONDITIONAL(FTWL_X11, test "$ftwl" = "x11")
+AM_CONDITIONAL(FTWL_SDL, test "$ftwl" = "sdl")
 
 dnl Checks for additional server libraries:
 if test x$server = xtrue; then
@@ -591,6 +625,7 @@ AC_CONFIG_FILES([Makefile
 	  data/nation/Makefile 
 	  data/history/Makefile 
 	  utility/Makefile
+	  utility/ftwl/Makefile
 	  common/Makefile 
 	  common/aicore/Makefile 
 	  ai/Makefile 
