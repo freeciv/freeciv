@@ -27,6 +27,8 @@
 
 extern char metaserver_info_line[];
 
+#define SAVEFILE_OPTIONS "1.6"
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -138,6 +140,7 @@ int game_load(struct section_file *file)
 {
   int i;
   enum server_states tmp_server_state;
+  char *savefile_options=" ";
 
   if (section_file_lookup_internal(file, "game.version")) {
     game.version = secfile_lookup_int(file, "game.version");
@@ -187,6 +190,19 @@ int game_load(struct section_file *file)
     game.civstyle = secfile_lookup_int(file, "game.civstyle");
     game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
   }
+
+  if (game.version >= 10604) {
+    savefile_options = secfile_lookup_str(file,"savefile.options");    
+  }
+
+  /* Note -- as of v1.6.4 you should use savefile_options (instead of
+     game.version) to determine which variables you can expect to 
+     find in a savegame file */
+
+  if (has_capability("1.6",savefile_options)) {
+    game.aifill = secfile_lookup_int(file, "game.aifill");
+  }
+
   game.heating=0;
   if(tmp_server_state==PRE_GAME_STATE) {
     if (game.version >= 10300) {
@@ -240,6 +256,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, version, "game.version");
   secfile_insert_int(file, (int) server_state, "game.server_state");
   secfile_insert_str(file, metaserver_info_line, "game.metastring");
+  secfile_insert_str(file, SAVEFILE_OPTIONS, "savefile.options");
 
   
   secfile_insert_int(file, game.gold, "game.gold");
@@ -267,7 +284,8 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.razechance, "game.razechance");
   secfile_insert_int(file, game.civstyle, "game.civstyle");
   secfile_insert_int(file, game.save_nturns, "game.save_nturns");
- 
+  secfile_insert_int(file, game.aifill, "game.aifill");
+
   if(server_state==PRE_GAME_STATE) {
     secfile_insert_int(file, game.settlers, "game.settlers");
     secfile_insert_int(file, game.explorer, "game.explorer");
