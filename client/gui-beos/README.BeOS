@@ -1,0 +1,69 @@
+================
+Freeciv for BeOS
+================
+Last updated:  2000-06-19
+
+Just a quick note for all you BeOS folks looking forward to your own FreeCiv.
+
+
+------
+Server 
+------
+
+The server compiles from the CVS repository just fine on R4.5 and R5, at least
+for X86;  use `./configure --enable-server`.  It appears to execute cleanly,
+though whether it can actually host a game has not been verified.  
+
+
+------
+Client
+------
+
+The initial client groundwork is being laid.  At least at first, it will be 
+painfully apparent that this is a work in progress -- missing files,
+unresponsive UI elements, and other subtle ;-) clues.
+
+For those who want to live dangerously, compile it straight.
+You will need the latest R4.5 GeekGadgets.  Note that if you use 'autoconf'
+on the sources, there's a bug in its version from GNU.  To work around it,
+change lines 476 and 477 of freeciv's aclocal.m4 to remove the third arguments
+to AC_DEFINE_UNQUOTED.  Otherwise, you'll get an integer one where a string
+is supposed to be, and compiles will bomb out.
+========
+./configure --enable-client=beos
+make 
+## delete client/Makefile refs to "-Lgui-beos/lib -lBdh -lBdhGame"
+cd client/gui-beos ; make all
+cd .. ; make
+cd gui-beos ; make FreeCiv
+========
+Note the extra fiddling required.  The first will bomb out in client/ needing
+gui-beos/libguiclient.a.  The second creates it.  The third completes building.
+This will be folded back into the configuration and make-structure later.
+
+For the rest of you, hang around for a zipfile from a developer, or someone
+else who lives dangerously. :-)
+
+Keep that upper lip stiff, though.  Testers are needed to try out even the
+most rudimentary progress, and to catch the inevitable slipups in gameplay.
+The first client release will not occur before 1.10.0.
+
+
+------------
+Contributing
+------------
+
+At present the coordinator is Joseph Beckenbach <jrb3@bdhsw.com>.
+Contact him with questions, offers of assistance or testing, ideas, or
+whatever else is supportive of FreeCiv work.
+
+Once the initial groundwork is laid, a call will be made for other developers
+to dive in and help speed up the work of creating and polishing the client and
+server.
+
+Testers are welcome at any stage.
+
+
+Coordinator				Joseph Beckenbach		jrb3@bdhsw.com
+
+

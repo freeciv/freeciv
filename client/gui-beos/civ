@@ -1,0 +1,7 @@
+## Fetch binary into place
+make FreeCiv data
+
+## Trigger
+log=BEOS.civ
+echo > $log
+./FreeCiv --log=$log --debug=2

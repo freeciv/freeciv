@@ -1,2 +1,5 @@
-/Makefile
 /.deps
+/obj.x86
+/obj.ppc
+/BEOS.civ
+/FreeCiv
