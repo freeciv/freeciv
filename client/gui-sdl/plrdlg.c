@@ -107,20 +107,89 @@ static int players_window_dlg_callback(struct GUI *pWindow)
   return -1;
 }
 
+static int toggle_draw_war_status_callback(struct GUI *pWidget)
+{
+  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+  SDL_Client_Flags ^= CF_DRAW_PLAYERS_WAR_STATUS;
+  do{
+    pPlayer = pPlayer->prev;
+    FREESURFACE(pPlayer->gfx);
+  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+  update_players_dialog();
+  return -1;
+}
+
+static int toggle_draw_ceasefire_status_callback(struct GUI *pWidget)
+{
+  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+  SDL_Client_Flags ^= CF_DRAW_PLAYERS_CEASEFIRE_STATUS;
+  do{
+    pPlayer = pPlayer->prev;
+    FREESURFACE(pPlayer->gfx);
+  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+  update_players_dialog();
+  return -1;
+}
+
+static int toggle_draw_pease_status_callback(struct GUI *pWidget)
+{
+  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+  SDL_Client_Flags ^= CF_DRAW_PLAYERS_PEACE_STATUS;
+  do{
+    pPlayer = pPlayer->prev;
+    FREESURFACE(pPlayer->gfx);
+  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+  update_players_dialog();
+  return -1;
+}
+
+static int toggle_draw_alliance_status_callback(struct GUI *pWidget)
+{
+  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+  SDL_Client_Flags ^= CF_DRAW_PLAYERS_ALLIANCE_STATUS;
+  do{
+    pPlayer = pPlayer->prev;
+    FREESURFACE(pPlayer->gfx);
+  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+  update_players_dialog();
+  return -1;
+}
+
+static int toggle_draw_neutral_status_callback(struct GUI *pWidget)
+{
+  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+  
+  SDL_Client_Flags ^= CF_DRAW_PLAYERS_NEUTRAL_STATUS;
+  do{
+    pPlayer = pPlayer->prev;
+    FREESURFACE(pPlayer->gfx);
+  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+  update_players_dialog();
+  return -1;
+}
+
+
 /**************************************************************************
   Update all information in the player list dialog.
 **************************************************************************/
 void update_players_dialog(void)
 {
   if(pPlayers_Dlg) {
-    struct GUI *pPlayer0 = pPlayers_Dlg->pEndWidgetList->prev, *pPlayer1 = NULL;
+    struct GUI *pPlayer0, *pPlayer1;
     struct player *pPlayer;
     char cBuf[128], *state, *team;
-    int idle, x0 , y0, x1, y1;
+    int idle, x0, y0, x1, y1;
           
     /* redraw window */
     redraw_widget(pPlayers_Dlg->pEndWidgetList);
     
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    pPlayer0 = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
     do{
       pPlayer0 = pPlayer0->prev;
       pPlayer1 = pPlayer0;
@@ -132,8 +201,7 @@ void update_players_dialog(void)
       } else {
         team = _("none");
       }
-      
-      
+            
       if(pPlayer->is_alive) {
         if (pPlayer->ai.control) {
 	  state = _("AI");
@@ -179,25 +247,35 @@ void update_players_dialog(void)
           x1 = pPlayer1->size.x + pPlayer1->size.w / 2;
           y1 = pPlayer1->size.y + pPlayer1->size.h / 2;
           switch (pplayer_get_diplstate(pPlayer, pPlayer1->data.player)->type) {
+	    case DS_NEUTRAL:
+	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
+	        putline(pPlayer1->dst, x0, y0, x1, y1, 0xFF000000);
+	      }
+	    break;
             case DS_WAR:
-	      putline(pPlayer1->dst, x0, y0, x1, y1,
+	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
+	        putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		get_game_color(COLOR_STD_RED, pPlayer1->dst));
+	      }
             break;
 	    case DS_CEASEFIRE:
-	      putline(pPlayer1->dst, x0, y0, x1, y1,
+	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
+	        putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		get_game_color(COLOR_STD_YELLOW, pPlayer1->dst));
+	      }
             break;
             case DS_PEACE:
-	      putline(pPlayer1->dst, x0, y0, x1, y1,
+	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
+	        putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		get_game_color(COLOR_STD_GROUND, pPlayer1->dst));
+	      }
             break;
 	    case DS_ALLIANCE:
-	      putline(pPlayer1->dst, x0, y0, x1, y1,
+	      if(SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
+	        putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		get_game_color(COLOR_STD_CITY_GOLD, pPlayer1->dst));
+	      }
             break;
-	    case DS_NEUTRAL:
-	      putline(pPlayer1->dst, x0, y0, x1, y1, 0xFF000000);
-	    break;
             default:
 	      /* no contact */
             break;
@@ -205,7 +283,7 @@ void update_players_dialog(void)
         } while(pPlayer1 != pPlayers_Dlg->pBeginWidgetList);
       }
       
-    } while(pPlayer0 != pPlayers_Dlg->pBeginWidgetList);  
+    } while(pPlayer0 != pPlayers_Dlg->pBeginWidgetList);
     
     /* -------------------- */
     /* redraw */
@@ -233,10 +311,22 @@ void popup_players_dialog(void)
   if (pPlayers_Dlg) {
     return;
   }
-          
+  
+  n = 0;
+  for(i=0; i<game.nplayers; i++) {
+    if(is_barbarian(get_player(i))) {
+      continue;
+    }
+    n++;
+  }
+
+  if(n < 2) {
+    return;
+  }
+    
   pPlayers_Dlg = MALLOC(sizeof(struct SMALL_DLG));
   
-  pStr = create_str16_from_char(_("Players") , 12);
+  pStr = create_str16_from_char(_("Players"), 12);
   pStr->style |= TTF_STYLE_BOLD;
   
   pWindow = create_window(NULL, pStr, 10, 10, WF_DRAW_THEME_TRANSPARENT);
@@ -260,13 +350,52 @@ void popup_players_dialog(void)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ---------- */
   
-  n = 0;
-  for(i=0; i<game.nplayers; i++) {
-    if(is_barbarian(get_player(i))) {
-      continue;
+  for(i = 0; i<DS_LAST; i++) {
+    switch (i) {
+      case DS_NEUTRAL:
+	pBuf = create_checkbox(pWindow->dst,
+		(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
+      						WF_DRAW_THEME_TRANSPARENT);
+	pBuf->action = toggle_draw_neutral_status_callback;
+	pBuf->key = SDLK_n;
+      break;
+      case DS_WAR:
+	pBuf = create_checkbox(pWindow->dst,
+		(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS),
+      						WF_DRAW_THEME_TRANSPARENT);
+	pBuf->action = toggle_draw_war_status_callback;
+	pBuf->key = SDLK_w;
+      break;
+      case DS_CEASEFIRE:
+	pBuf = create_checkbox(pWindow->dst,
+		(SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
+      						WF_DRAW_THEME_TRANSPARENT);
+	pBuf->action = toggle_draw_ceasefire_status_callback;
+	pBuf->key = SDLK_c;
+      break;
+      case DS_PEACE:
+	pBuf = create_checkbox(pWindow->dst,
+		(SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS),
+      						WF_DRAW_THEME_TRANSPARENT);
+	pBuf->action = toggle_draw_pease_status_callback;
+	pBuf->key = SDLK_p;
+      break;
+      case DS_ALLIANCE:
+	pBuf = create_checkbox(pWindow->dst,
+		(SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
+      						WF_DRAW_THEME_TRANSPARENT);
+	pBuf->action = toggle_draw_alliance_status_callback;
+	pBuf->key = SDLK_a;
+      break;
+      default:
+	 /* no contact */
+	 continue;
+      break;
     }
-    n++;
-  }
+    set_wstate(pBuf, FC_WS_NORMAL);
+    add_to_gui_list(ID_CHECKBOX, pBuf);
+  } 
+  /* ---------- */
   
   for(i=0; i<game.nplayers; i++) {
     pPlayer = get_player(i);
@@ -325,20 +454,24 @@ void popup_players_dialog(void)
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
   
-  resize_window(pWindow , NULL, NULL, w, h);
-  		  
-  dst.x = 5;
-  dst.y = WINDOW_TILE_HIGH + 4;
+  resize_window(pWindow, NULL, NULL, w, h);
+  
+  /* exit button */
+  pBuf = pWindow->prev;
+  
+  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
+  pBuf->size.y = pWindow->size.y;
+    
+  n = WINDOW_TILE_HIGH + 4;
   pStr = create_string16(NULL , 10);
   pStr->style |= TTF_STYLE_BOLD;
   pStr->render = 3;
   pStr->backcol.unused = 128;
-  for(i = 1; i<DS_LAST; i++) {
-      if(i==DS_NO_CONTACT) {
-	continue;
-      }
-      pStr->text = convert_to_utf16(diplstate_text(i));
+  for(i = 0; i<DS_LAST; i++) {
       switch (i) {
+	case DS_NEUTRAL:
+	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_BLACK));
+	break;
         case DS_WAR:
 	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_RED));
 	break;
@@ -351,30 +484,31 @@ void popup_players_dialog(void)
 	case DS_ALLIANCE:
 	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_CITY_GOLD));
 	break;
-	case DS_NEUTRAL:
-	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_BLACK));
-	break;
         default:
-	      /* no contact */
+	   /* no contact */
+	   continue;
         break;
       }
-            
+      
+      pStr->text = convert_to_utf16(diplstate_text(i));      
       pLogo = create_text_surf_from_str16(pStr);
       FREE(pStr->text);
       SDL_SetAlpha(pLogo, 0x0, 0x0);
+  
+      pBuf = pBuf->prev;
+      h = MAX(pBuf->size.h, pLogo->h);
+      pBuf->size.x = pWindow->size.x + 5;
+      pBuf->size.y = pWindow->size.y + n + (h - pBuf->size.h) / 2;
       
+      dst.x = 5 + pBuf->size.w + 6;
+      dst.y = n + (h - pLogo->h) / 2;
       SDL_BlitSurface(pLogo, NULL, pWindow->theme, &dst);
-      dst.y += pLogo->h;
+      n += h;
       FREESURFACE(pLogo);
   }
   FREESTRING16(pStr);
-  
-  /* exit button */
-  pBuf = pWindow->prev;
-  
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
-  
+     
+  /* first player shield */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 - pBuf->size.w / 2;
   pBuf->size.y = pWindow->size.y + pWindow->size.h / 2 - r;

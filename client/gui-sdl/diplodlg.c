@@ -128,17 +128,41 @@ void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
   struct GUI *pBuf, *pWindow = pClauses_Dlg->pEndWidgetList;
   char cBuf[64];
   struct Clause Cl;
-  bool redraw_all,scroll = pClauses_Dlg->pActiveWidgetList == NULL;
+  bool redraw_all, scroll = pClauses_Dlg->pActiveWidgetList == NULL;
   int len = pClauses_Dlg->pScroll->pUp_Left_Button->size.w;
-  
+     
   Cl.type = pa->clause_type;
   Cl.from = &game.players[pa->plrno_from];
   Cl.value = pa->value;
   
   client_diplomacy_clause_string(cBuf, sizeof(cBuf), &Cl);
   
+  /* find existing gold clause and update value */
+  if(pa->clause_type == CLAUSE_GOLD && pClauses_Dlg->pScroll->count) {
+    pBuf = pClauses_Dlg->pEndActiveWidgetList;
+    while(pBuf) {
+      
+      if(pBuf->data.cont->id0 == pa->plrno_from &&
+	pBuf->data.cont->id1 == (int)pa->clause_type) {
+	if(pBuf->data.cont->value != pa->value) {
+	  pBuf->data.cont->value = pa->value;
+	  FREE(pBuf->string16->text);
+	  pBuf->string16->text = convert_to_utf16(cBuf);
+	  if(redraw_widget(pBuf) == 0) {
+	    flush_rect(pBuf->size);
+	  }
+	}
+	return;
+      }
+      
+      if(pBuf == pClauses_Dlg->pBeginActiveWidgetList) {
+	break;
+      }
+      pBuf = pBuf->prev;
+    }
+  }
+  
   pStr = create_str16_from_char(cBuf, 12);
-            
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 	(WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT));
       
@@ -209,7 +233,7 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
             pBuf->data.cont->value == pa->value)) {
      return;
   }
-  
+    
   scroll = pClauses_Dlg->pActiveWidgetList != NULL;
   del_widget_from_vertical_scroll_widget_list(pClauses_Dlg, pBuf);
 
@@ -369,6 +393,51 @@ static int techs_callback(struct GUI *pWidget)
   return -1;
 }
 
+static int gold_callback(struct GUI *pWidget)
+{
+  int amount;
+  
+  if(pWidget->string16->text) {
+    char cBuf[16];
+    
+    convertcopy_to_chars(cBuf, pWidget->string16->text);
+    sscanf(cBuf, "%d", &amount);
+    
+    if(amount > pWidget->data.cont->value) {
+      /* max player gold */
+      amount = pWidget->data.cont->value;
+    }
+    
+  } else {
+    amount = 0;
+  }
+  
+  if (amount > 0) {
+    struct packet_diplomacy_info pa;
+    
+    pa.clause_type = CLAUSE_GOLD;
+    pa.plrno0 = pWidget->data.cont->id0;
+    pa.plrno1 = pWidget->data.cont->id1;
+    pa.plrno_from = pa.plrno0;
+    pa.value = amount;
+    send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE, &pa);
+    
+  } else {
+    append_output_window(_("Game: Invalid amount of gold specified."));
+  }
+  
+  if(amount || !pWidget->string16->text) {
+    FREE(pWidget->string16->text);
+    pWidget->string16->text = convert_to_utf16("0");
+    
+    redraw_widget(pWidget);
+    flush_rect(pWidget->size);
+  }
+  
+  return -1;
+}
+
+
 static int cities_callback(struct GUI *pWidget)
 {
   struct packet_diplomacy_info pa;
@@ -394,7 +463,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 {
   struct ADVANCED_DLG *pDlg = MALLOC(sizeof(struct ADVANCED_DLG));
   struct CONTAINER *pCont = MALLOC(sizeof(struct CONTAINER));
-  int hh, ww = 0, width = 0, count = 0, scroll_w = 0;
+  int hh, ww = 0, width, height, count = 0, scroll_w = 0;
   char cBuf[128];
   struct GUI *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
@@ -421,6 +490,9 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   add_to_gui_list(ID_WINDOW, pWindow);
 
   /* ============================================================= */
+  width = 0;
+  height = 0;
+  
   /* Pacts. */
   if (game.player_ptr == pPlayer0 && type != DS_ALLIANCE) {
     
@@ -429,6 +501,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf->string16->forecol = color_t;
     pBuf->string16->style &= ~SF_CENTER;
     width = pBuf->size.w;
+    height = pBuf->size.h;
     add_to_gui_list(ID_LABEL, pBuf);
     count++;
     
@@ -440,6 +513,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       pBuf->string16->forecol = color;
       pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
+      height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
       pBuf->data.cont = pCont;
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -455,6 +529,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       pBuf->string16->forecol = color;
       pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
+      height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
       pBuf->data.cont = pCont;
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -470,6 +545,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       pBuf->string16->forecol = color;
       pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
+      height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
       pBuf->data.cont = pCont;
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -488,6 +564,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf->string16->forecol = color;
     pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
+    height = MAX(height, pBuf->size.h);
     pBuf->action = vision_callback;
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -501,6 +578,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf->string16->forecol = color_t;
     pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
+    height = MAX(height, pBuf->size.h);
     add_to_gui_list(ID_LABEL, pBuf);
     count++;
     
@@ -512,6 +590,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf->string16->forecol = color;
     pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
+    height = MAX(height, pBuf->size.h);
     pBuf->action = maps_callback;
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -526,6 +605,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf->string16->forecol = color;
     pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
+    height = MAX(height, pBuf->size.h);
     pBuf->action = maps_callback;
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -534,13 +614,26 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   }
   /* ---------------------------- */
   if(pPlayer0->economic.gold > 0) {
+    pCont->value = pPlayer0->economic.gold;
+    
     my_snprintf(cBuf, sizeof(cBuf), _("Gold(max %d)"), pPlayer0->economic.gold);
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	cBuf, 12, (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    pBuf->string16->forecol = color;
-    pBuf->data.cont = pCont;
+			  cBuf, 12, WF_DRAW_THEME_TRANSPARENT);
+    pBuf->string16->forecol = color_t;
     pBuf->string16->style &= ~SF_CENTER;
     width = MAX(width, pBuf->size.w);
+    height = MAX(height, pBuf->size.h);
+    add_to_gui_list(ID_LABEL, pBuf);
+    count++;
+    
+    pBuf = create_edit(NULL, pWindow->dst,
+    	create_str16_from_char("0", 10), 0,
+    		(WF_DRAW_THEME_TRANSPARENT|WF_FREE_STRING));
+    pBuf->data.cont = pCont;
+    pBuf->action = gold_callback;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    width = MAX(width, pBuf->size.w);
+    height = MAX(height, pBuf->size.h);
     add_to_gui_list(ID_LABEL, pBuf);
     count++;
   }
@@ -561,8 +654,9 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
              pBuf->string16->forecol = color_t;
 	     pBuf->string16->style &= ~SF_CENTER;
 	     width = MAX(width, pBuf->size.w);
+	     height = MAX(height, pBuf->size.h);
              add_to_gui_list(ID_LABEL, pBuf);
-	     count++; 
+	     count++;
 	     
 	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advances[i].name);
   
@@ -571,6 +665,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
              pBuf->string16->forecol = color;
 	     pBuf->string16->style &= ~SF_CENTER;
 	     width = MAX(width, pBuf->size.w);
+	     height = MAX(height, pBuf->size.h);
 	     pBuf->action = techs_callback;
 	     set_wstate(pBuf, FC_WS_NORMAL);
 	     pBuf->data.cont = pCont;
@@ -595,6 +690,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
              pBuf->string16->forecol = color;
 	     pBuf->string16->style &= ~SF_CENTER;
 	     width = MAX(width, pBuf->size.w);
+	     height = MAX(height, pBuf->size.h);
 	     pBuf->action = techs_callback;
 	     set_wstate(pBuf, FC_WS_NORMAL);
              pBuf->data.cont = pCont;
@@ -638,6 +734,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       pBuf->string16->forecol = color_t;
       pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
+      height = MAX(height, pBuf->size.h);
       add_to_gui_list(ID_LABEL, pBuf);
       count++;
       
@@ -651,6 +748,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
         pBuf->string16->forecol = color;
 	pBuf->string16->style &= ~SF_CENTER;
 	width = MAX(width, pBuf->size.w);
+	height = MAX(height, pBuf->size.h);
         pBuf->data.cont = pCont;
 	pBuf->action = cities_callback;
 	set_wstate(pBuf, FC_WS_NORMAL);
@@ -670,13 +768,14 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pDlg->pScroll = NULL;
   
   hh = (Main.screen->h - 100 - WINDOW_TILE_HIGH - 4 - FRAME_WH);
-  ww = hh < (count * pBuf->size.h);
+  ww = hh < (count * height);
   
   if(ww) {
     pDlg->pActiveWidgetList = pWindow->prev;
-    count = hh / pBuf->size.h;
+    count = hh / height;
     scroll_w = create_vertical_scrollbar(pDlg, 1, count, TRUE, TRUE);
     pBuf = pWindow;
+    /* hide not seen widgets */
     do {
       pBuf = pBuf->prev;
       if(count) {
@@ -702,11 +801,11 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
   setup_vertical_vidgets_position(1,
      pWindow->size.x + FRAME_WH + 2, pWindow->size.y + WINDOW_TILE_HIGH + 2,
-	width, 0, pDlg->pBeginWidgetList, pDlg->pEndWidgetList->prev);
+	width, height, pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
   
   if(pDlg->pScroll) {
     setup_vertical_scrollbar_area(pDlg->pScroll,
-	pWindow->size.x + pWindow->size.w,
+	pWindow->size.x + pWindow->size.w - FRAME_WH,
     	pWindow->size.y + WINDOW_TILE_HIGH + 1,
     	pWindow->size.h - WINDOW_TILE_HIGH - FRAME_WH - 1, TRUE);
   }

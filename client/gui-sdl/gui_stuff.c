@@ -1097,7 +1097,7 @@ void show_group(struct GUI *pBeginGroupWidgetList,
 **************************************************************************/
 int redraw_widget(struct GUI *pWidget)
 {
-  if (!pWidget) {
+  if (!pWidget && (get_wflags(pWidget) & WF_HIDDEN)) {
     return -1;
   }
 
@@ -1127,7 +1127,7 @@ int redraw_widget(struct GUI *pWidget)
   case WT_HSCROLLBAR:
     return redraw_horiz(pWidget);
   default:
-    return 0;
+    return -2;
   }
   return 0;
 }

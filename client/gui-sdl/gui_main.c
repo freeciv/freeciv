@@ -569,8 +569,13 @@ void ui_init(void)
     FREESURFACE(pBgd);
     SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
   } else {
-    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT);
-    SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));   
+    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
+    SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
+    if(!SDL_GetVideoInfo()->wm_available) {
+      SDL_Client_Flags |= CF_TOGGLED_FULLSCREEN;
+    } else {
+      SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
+    }
   }
 
   /* create label beackground */
@@ -657,7 +662,14 @@ void ui_main(int argc, char *argv[])
   draw_city_names = FALSE;
   draw_city_productions = FALSE;
   is_unit_move_blocked = FALSE;
-  
+  SDL_Client_Flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS|
+  		       CF_DRAW_PLAYERS_WAR_STATUS|
+                       CF_DRAW_PLAYERS_CEASEFIRE_STATUS|
+                       CF_DRAW_PLAYERS_PEACE_STATUS|
+                       CF_DRAW_PLAYERS_ALLIANCE_STATUS|
+		       CF_CIV3_CITY_TEXT_STYLE|
+		       CF_DRAW_MAP_DITHER);
+		       
   tilespec_load_tiles();
   
   load_cursors();
@@ -758,6 +770,7 @@ void add_net_input(int sock)
   net_socket = sock;
   autoconnect = FALSE;
   enable_focus_animation();
+  SDL_Client_Flags |= CF_REVOLUTION; /* force update revolution icon */
 }
 
 /**************************************************************************

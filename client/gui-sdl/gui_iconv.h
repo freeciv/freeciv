@@ -26,9 +26,10 @@
 #ifndef FC__GUI_ICONV_H
 #define FC__GUI_ICONV_H
 
-Uint16 *convertcopy_to_utf16(Uint16 *pToString, const char *pFromString);
-char *convert_to_chars(const Uint16 *pUniString);
+Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, const char *pFromString);
+char *convertcopy_to_chars(char *pToString, const Uint16 *pFromUniString);
 
 #define convert_to_utf16(pFromString) convertcopy_to_utf16(NULL, pFromString)
+#define convert_to_chars(pFromString) convertcopy_to_chars(NULL, pFromString)
 
 #endif

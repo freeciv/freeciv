@@ -1278,9 +1278,8 @@ void Init_MapView(void)
   
   tmp_map_surfaces_init();
 
-  SDL_Client_Flags |= (CF_REVOLUTION | CF_MAP_UNIT_W_CREATED | 
-  	CF_CIV3_CITY_TEXT_STYLE | CF_UNIT_INFO_SHOW |
-		CF_MINI_MAP_SHOW | CF_DRAW_MAP_DITHER);
+  SDL_Client_Flags |= (CF_MAP_UNIT_W_CREATED | CF_UNIT_INFO_SHOW |
+							  CF_MINI_MAP_SHOW);
 }
 
 struct GUI * get_unit_info_window_widget(void)
