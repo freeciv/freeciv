@@ -396,7 +396,7 @@ void update_unit_pix_label(struct unit *punit)
 **************************************************************************/
 Pixmap get_thumb_pixmap(int onoff)
 {
-  return sprites.treaty_thumb[!!onoff]->pixmap;
+  return sprites.treaty_thumb[BOOL_VAL(onoff)]->pixmap;
 }
 
 /**************************************************************************

@@ -849,7 +849,7 @@ int section_file_lookup(struct section_file *my_section_file,
   vsprintf(buf, path, ap);
   va_end(ap);
 
-  return !!section_file_lookup_internal(my_section_file, buf);
+  return BOOL_VAL(section_file_lookup_internal(my_section_file, buf));
 }
 
 

@@ -45,7 +45,10 @@
 #define CLIP(lower,this,upper) \
     ((this)<(lower)?(lower):(this)>(upper)?(upper):(this))
 
-#define WIPEBIT(val, no) ((~(-1<<no))&val)  |   ((  (-1<<(no+1)) &val) >>1)
+#define BOOL_VAL(x) ((x)!=0)
+
+#define WIPEBIT(val, no) ( ((~(-1<<(no)))&(val)) \
+                           | (( (-1<<((no)+1)) & (val)) >>1) )
 
 /* This is duplicated in rand.h to avoid extra includes: */
 #define MAX_UINT32 0xFFFFFFFF

@@ -27,6 +27,7 @@
 #include "map.h"
 #include "mem.h"
 #include "player.h"
+#include "shared.h"
 #include "support.h"
 #include "tech.h"
 
@@ -597,7 +598,7 @@ int is_hiding_unit(struct unit *punit)
 int unit_flag(Unit_Type_id id, int flag)
 {
   assert(flag>=0 && flag<F_LAST);
-  return unit_types[id].flags & (1<<flag);
+  return BOOL_VAL(unit_types[id].flags & (1<<flag));
 }
 
 /**************************************************************************
@@ -606,7 +607,7 @@ int unit_flag(Unit_Type_id id, int flag)
 int unit_has_role(Unit_Type_id id, int role)
 {
   assert(role>=L_FIRST && role<L_LAST);
-  return unit_types[id].roles & (1<<(role-L_FIRST));
+  return BOOL_VAL(unit_types[id].roles & (1<<(role-L_FIRST)));
 }
 
 /**************************************************************************

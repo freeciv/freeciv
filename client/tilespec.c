@@ -382,8 +382,8 @@ static char *nsew_str(int idx)
 {
   static char c[] = "n0s0e0w0";
 
-  sprintf(c, "n%ds%de%dw%d", !!(idx&BIT_NORTH), !!(idx&BIT_SOUTH),
-     	                     !!(idx&BIT_EAST), !!(idx&BIT_WEST));
+  sprintf(c, "n%ds%de%dw%d", BOOL_VAL(idx&BIT_NORTH), BOOL_VAL(idx&BIT_SOUTH),
+     	                     BOOL_VAL(idx&BIT_EAST),  BOOL_VAL(idx&BIT_WEST));
   return c;
 }
      
@@ -991,31 +991,31 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
   if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
     int n, s, e, w;
     
-    n = !!(tspecial_north&S_RAILROAD);
-    s = !!(tspecial_south&S_RAILROAD);
-    e = !!(tspecial_east&S_RAILROAD);
-    w = !!(tspecial_west&S_RAILROAD);
+    n = BOOL_VAL(tspecial_north&S_RAILROAD);
+    s = BOOL_VAL(tspecial_south&S_RAILROAD);
+    e = BOOL_VAL(tspecial_east&S_RAILROAD);
+    w = BOOL_VAL(tspecial_west&S_RAILROAD);
     rail_card_count = n + s + e + w;
     rail_card_tileno = INDEX_NSEW(n,s,e,w);
     
-    n = !!(tspecial_north&S_ROAD);
-    s = !!(tspecial_south&S_ROAD);
-    e = !!(tspecial_east&S_ROAD);
-    w = !!(tspecial_west&S_ROAD);
+    n = BOOL_VAL(tspecial_north&S_ROAD);
+    s = BOOL_VAL(tspecial_south&S_ROAD);
+    e = BOOL_VAL(tspecial_east&S_ROAD);
+    w = BOOL_VAL(tspecial_west&S_ROAD);
     road_card_count = n + s + e + w;
     road_card_tileno = INDEX_NSEW(n,s,e,w);
     
-    n = !!(tspecial_north_east&S_RAILROAD);
-    s = !!(tspecial_south_west&S_RAILROAD);
-    e = !!(tspecial_south_east&S_RAILROAD);
-    w = !!(tspecial_north_west&S_RAILROAD);
+    n = BOOL_VAL(tspecial_north_east&S_RAILROAD);
+    s = BOOL_VAL(tspecial_south_west&S_RAILROAD);
+    e = BOOL_VAL(tspecial_south_east&S_RAILROAD);
+    w = BOOL_VAL(tspecial_north_west&S_RAILROAD);
     rail_semi_count = n + s + e + w;
     rail_semi_tileno = INDEX_NSEW(n,s,e,w);
     
-    n = !!(tspecial_north_east&S_ROAD);
-    s = !!(tspecial_south_west&S_ROAD);
-    e = !!(tspecial_south_east&S_ROAD);
-    w = !!(tspecial_north_west&S_ROAD);
+    n = BOOL_VAL(tspecial_north_east&S_ROAD);
+    s = BOOL_VAL(tspecial_south_west&S_ROAD);
+    e = BOOL_VAL(tspecial_south_east&S_ROAD);
+    w = BOOL_VAL(tspecial_north_west&S_ROAD);
     road_semi_count = n + s + e + w;
     road_semi_tileno = INDEX_NSEW(n,s,e,w);
 
