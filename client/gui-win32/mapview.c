@@ -1093,7 +1093,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
     bool stacked = (unit_list_size(&map_get_tile(x, y)->units) > 1);
     bool backdrop = !pcity;
 
-    put_unit(punit, &canvas_store,
+    put_unit(punit, stacked, backdrop, &canvas_store,
              canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
              offset_x, offset_y_unit,
              width, height_unit);
