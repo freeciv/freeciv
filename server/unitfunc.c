@@ -1368,7 +1368,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		       klaf, dest->name, unit_name(pkiller->type));
       unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
 	notify_player_ex(&game.players[punit2->owner], 
-			 punit->x, punit->y, E_UNIT_LOST,
+			 punit2->x, punit2->y, E_UNIT_LOST,
 			 "Game: You lost a%s %s under an attack from %s's %s",
 			 n_if_vowel(get_unit_type(punit2->type)->name[0]),
 			 get_unit_type(punit2->type)->name, dest->name,
