@@ -9,6 +9,8 @@ noinst_HEADERS = \
 	goto_cursor_mask.xbm	\
 	nuke_cursor.xbm	\
 	nuke_cursor_mask.xbm	\
+	patrol_cursor.xbm	\
+	patrol_cursor_mask.xbm	\
 	chatline_g.h	\
 	citydlg_g.h	\
 	cityrep_g.h	\
