@@ -15,9 +15,7 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <assert.h>
 
 #include "city.h"
 #include "game.h"

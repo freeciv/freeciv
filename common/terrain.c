@@ -15,7 +15,10 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+
 #include "map.h"
+#include "mem.h"		/* free */
 #include "rand.h"
 #include "shared.h"
 #include "support.h"

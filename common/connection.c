@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <string.h>
+#include <time.h>
 
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>

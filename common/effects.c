@@ -15,7 +15,6 @@
 #endif
 
 #include <assert.h>
-#include <string.h>
 
 #include "effects.h"
 #include "game.h"

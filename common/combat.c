@@ -17,7 +17,6 @@
 
 #include <assert.h>
 #include <math.h>
-#include <stdio.h>
 
 #include "log.h"
 #include "map.h"

@@ -15,7 +15,7 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
+#include <assert.h>
 #include <string.h>
 
 #include "combat.h"

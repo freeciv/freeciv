@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+
 #include "combat.h"
 #include "log.h"
 #include "map.h"

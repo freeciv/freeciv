@@ -20,8 +20,6 @@
 #endif
 
 #include <assert.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "fcintl.h"
 #include "game.h"

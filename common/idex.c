@@ -33,7 +33,6 @@
 #endif
 
 #include <assert.h>
-#include <stdlib.h>
 
 #include "city.h"
 #include "hash.h"

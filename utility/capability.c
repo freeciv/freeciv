@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
 #include <string.h>
 
 #include "shared.h"		/* TRUE, FALSE */

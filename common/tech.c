@@ -16,15 +16,15 @@
 #endif
 
 #include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>		/* exit */
 #include <string.h>
 
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
+#include "mem.h"		/* free */
 #include "player.h"
-#include "shared.h" /* ARRAY_SIZE */
+#include "shared.h"		/* ARRAY_SIZE */
 #include "support.h"
 
 #include "tech.h"

@@ -16,7 +16,6 @@
 #endif
 
 #include <stdlib.h>		/* getenv() */
-#include <string.h>
 
 #include "connection.h"		/* MAX_LEN_CAPSTR */
 #include "support.h"
