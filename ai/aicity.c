@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include "city.h"
+#include "combat.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"

@@ -16,6 +16,8 @@ libcivcommon_a_SOURCES = \
 		capstr.h	\
 		city.c		\
 		city.h		\
+		combat.c	\
+		combat.h	\
 		connection.c	\
 		connection.h	\
 		create_lsend.pl	\

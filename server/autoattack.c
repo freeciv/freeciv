@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "combat.h"
 #include "events.h"
 #include "game.h"
 #include "log.h"
@@ -86,7 +87,7 @@ static struct unit *search_best_target(struct player *pplayer,
       continue;
 
     freelog(LOG_DEBUG,  "found enemy unit/stack at %d,%d", x, y);
-    enemy = get_defender(pplayer, punit, x, y);
+    enemy = get_defender(punit, x, y);
     freelog(LOG_DEBUG,  "defender is %s", unit_name(enemy->type));
 
     if (!(pcity->city_options

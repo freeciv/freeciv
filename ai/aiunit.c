@@ -17,6 +17,7 @@
 #include <assert.h>
 
 #include "city.h"
+#include "combat.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -679,9 +680,9 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
     if (!normalize_map_pos(&x1, &y1))
       continue;
 
-    pdef = get_defender(pplayer, punit, x1, y1);
+    pdef = get_defender(punit, x1, y1);
     if (pdef) {
-      patt = get_attacker(pplayer, punit, x1, y1);
+      patt = get_attacker(punit, x1, y1);
 /* horsemen in city refused to attack phalanx just outside that was
 bodyguarding catapult - patt will resolve this bug nicely -- Syela */
       if (can_unit_attack_tile(punit, x1, y1)) { /* thanks, Roar */
@@ -1315,7 +1316,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
           ((ferryboat || harborcity) &&
                       warmap.seacost[acity->x][acity->y] <= 6 * THRESHOLD))) ||
           (is_sailing_unit(punit) && warmap.seacost[acity->x][acity->y] < maxd))) {
-          if ((pdef = get_defender(pplayer, punit, acity->x, acity->y))) {
+          if ((pdef = get_defender(punit, acity->x, acity->y))) {
             d = unit_vulnerability(punit, pdef);
             b = unit_types[pdef->type].build_cost + 40;
           } else { d = 0; b = 40; }
@@ -1440,7 +1441,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
         if (handicap && !map_get_known(aunit->x, aunit->y, pplayer)) continue;
         if (unit_flag(aunit->type, F_CARAVAN) && !punit->id) continue; /* kluge */
         if (ai_fuzzy(pplayer,1) &&
-	    (aunit == get_defender(pplayer, punit, aunit->x, aunit->y) &&
+	    (aunit == get_defender(punit, aunit->x, aunit->y) &&
            ((is_ground_unit(punit) &&
                 map_get_continent(aunit->x, aunit->y) == con &&
                 warmap.cost[aunit->x][aunit->y] < maxd) ||

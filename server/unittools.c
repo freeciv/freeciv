@@ -20,6 +20,7 @@
 #include <assert.h>
 
 #include "city.h"
+#include "combat.h"
 #include "events.h"
 #include "fcintl.h"
 #include "government.h"
@@ -69,223 +70,6 @@ static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 							struct unit *punit2);
 int is_airunit_refuel_point(int x, int y, int playerid,
 			    Unit_Type_id type, int unit_is_on_tile);
-
-/**************************************************************************
-  used to find the best defensive unit on a square
-**************************************************************************/
-static int rate_unit_d(struct unit *punit, struct unit *against)
-{
-  int val;
-
-  if(!punit) return 0;
-  val = get_total_defense_power(against,punit);
-
-/*  return val*100+punit->hp;       This is unnecessarily crude. -- Syela */
-  val *= punit->hp;
-  val *= val;
-  val /= get_unit_type(punit->type)->build_cost;
-  return val; /* designed to minimize expected losses */
-}
-
-/**************************************************************************
-get best defending unit which is NOT owned by pplayer
-**************************************************************************/
-struct unit *get_defender(struct player *pplayer, struct unit *aunit, 
-			  int x, int y)
-{
-  struct unit *bestdef = NULL, *debug_unit = NULL;
-  int unit_d, bestvalue=-1, ct=0;
-
-  unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    debug_unit = punit;
-    if (players_allied(pplayer->player_no, punit->owner))
-      continue;
-    ct++;
-    if (unit_can_defend_here(punit)) {
-      unit_d = rate_unit_d(punit, aunit);
-      if (unit_d > bestvalue) {
-	bestvalue = unit_d;
-	bestdef = punit;
-      }
-    }
-  }
-  unit_list_iterate_end;
-  if(ct&&!bestdef)
-    freelog(LOG_ERROR, "Get_def bugged at (%d,%d). The most likely course"
-	    " is a unit on an ocean square without a transport. The owner"
-	    " of the unit is %s", x, y, game.players[debug_unit->owner].name);
-  return bestdef;
-}
-
-/**************************************************************************
-  used to find the best offensive unit on a square
-**************************************************************************/
-static int rate_unit_a(struct unit *punit, struct unit *against)
-{
-  int val;
-
-  if(!punit) return 0;
-  val = unit_types[punit->type].attack_strength *
-        (punit->veteran ? 15 : 10);
-
-  val *= punit->hp;
-  val *= val;
-  val /= get_unit_type(punit->type)->build_cost;
-  return val; /* designed to minimize expected losses */
-}
-
-/**************************************************************************
- get unit at (x, y) that wants to kill aunit
-**************************************************************************/
-struct unit *get_attacker(struct player *pplayer, struct unit *aunit, 
-			  int x, int y)
-{
-  struct unit *bestatt = 0;
-  int bestvalue=-1, unit_a;
-  unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (players_allied(pplayer->player_no, punit->owner))
-      return 0;
-    unit_a=rate_unit_a(punit, aunit);
-    if(unit_a>bestvalue) {
-      bestvalue=unit_a;
-      bestatt=punit;
-    }
-  }
-  unit_list_iterate_end;
-  return bestatt;
-}
-
-/**************************************************************************
- returns the attack power, modified by moves left, and veteran status.
-**************************************************************************/
-int get_attack_power(struct unit *punit)
-{
-  int power;
-  power=get_unit_type(punit->type)->attack_strength*10;
-  if (punit->veteran) {
-    power *= 3;
-    power /= 2;
-  }
-  if (unit_flag(punit->type, F_IGTIRED)) return power;
-  if ( punit->moves_left < SINGLE_MOVE )
-     return (power*punit->moves_left)/SINGLE_MOVE;
-    return power;
-}
-
-/**************************************************************************
-  returns the defense power, modified by terrain and veteran status
-**************************************************************************/
-int get_defense_power(struct unit *punit)
-{
-  int power;
-  int terra;
-  int db;
-
-  if (!punit || punit->type<0 || punit->type>=U_LAST
-      || punit->type>=game.num_unit_types)
-    abort();
-  power=get_unit_type(punit->type)->defense_strength*10;
-  if (punit->veteran) {
-    power *= 3;
-    power /= 2;
-  }
-  terra=map_get_terrain(punit->x, punit->y);
-  db = get_tile_type(terra)->defense_bonus;
-  if (map_get_special(punit->x, punit->y) & S_RIVER)
-    db += (db * terrain_control.river_defense_bonus) / 100;
-  power=(power*db)/10;
-
-  return power;
-}
-
-/**************************************************************************
-  a wrapper that returns whether or not a unit ignores citywalls
-**************************************************************************/
-int unit_ignores_citywalls(struct unit *punit)
-{
-  return (unit_flag(punit->type, F_IGWALL));
-}
-
-/**************************************************************************
-  Takes into account unit move_type as well, and Walls variant.
-**************************************************************************/
-int unit_really_ignores_citywalls(struct unit *punit)
-{
-  return unit_ignores_citywalls(punit)
-    || is_air_unit(punit)
-    || (is_sailing_unit(punit) && !(improvement_variant(B_CITY)==1));
-}
-
-/**************************************************************************
- a wrapper function that returns whether or not the unit is on a citysquare
- with citywalls
-**************************************************************************/
-int unit_behind_walls(struct unit *punit)
-{
-  struct city *pcity;
-  
-  if((pcity=map_get_city(punit->x, punit->y)))
-    return city_got_citywalls(pcity);
-  
-  return 0;
-}
-
-/**************************************************************************
- a wrapper function returns 1 if the unit is on a square with fortress
-**************************************************************************/
-int unit_on_fortress(struct unit *punit)
-{
-  return (map_get_special(punit->x, punit->y)&S_FORTRESS);
-}
-
-/**************************************************************************
- a wrapper function returns 1 if the unit is on a square with coastal defense
-**************************************************************************/
-int unit_behind_coastal(struct unit *punit)
-{
-  struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)))
-    return city_got_building(pcity, B_COASTAL);
-  return 0;
-}
-
-/**************************************************************************
- a wrapper function returns 1 if the unit is on a square with sam site
-**************************************************************************/
-int unit_behind_sam(struct unit *punit)
-{
-  struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)))
-    return city_got_building(pcity, B_SAM);
-  return 0;
-}
-
-/**************************************************************************
- a wrapper function returns 1 if the unit is on a square with sdi defense
-**************************************************************************/
-int unit_behind_sdi(struct unit *punit)
-{
-  struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)))
-    return city_got_building(pcity, B_SDI);
-  return 0;
-}
-
-/**************************************************************************
-  a wrapper function returns 1 if there is a sdi-defense close to the square
-**************************************************************************/
-struct city *sdi_defense_close(int owner, int x, int y)
-{
-  struct city *pcity;
-  int lx, ly;
-  for (lx=x-2;lx<x+3;lx++)
-    for (ly=y-2;ly<y+3;ly++) {
-      pcity=map_get_city(lx,ly);
-      if (pcity && (pcity->owner!=owner) && city_got_building(pcity, B_SDI))
-	return pcity;
-    }
-  return NULL;
-}
 
 /**************************************************************************
   returns a unit type with a given role, use -1 if you don't want a tech 
@@ -374,7 +158,7 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
 int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
 {
   struct unit *pdefender;
-  pdefender=get_defender(&game.players[punit->owner], punit, dest_x, dest_y);
+  pdefender=get_defender(punit, dest_x, dest_y);
   return(can_unit_attack_unit_at_tile(punit, pdefender, dest_x, dest_y));
 }
 
@@ -393,129 +177,6 @@ void maybe_make_veteran(struct unit *punit)
       punit->veteran=myrand(2);
 }
 
-/***************************************************************************
- return the modified attack power of a unit.  Currently they aren't any
- modifications...
-***************************************************************************/
-int get_total_attack_power(struct unit *attacker, struct unit *defender)
-{
-  int attackpower=get_attack_power(attacker);
-
-  return attackpower;
-}
-
-/***************************************************************************
- Like get_virtual_defense_power, but don't include most of the modifications.
- (For calls which used to be g_v_d_p(U_HOWITZER,...))
- Specifically, include:
- unit def, terrain effect, fortress effect, ground unit in city effect
-***************************************************************************/
-int get_simple_defense_power(int d_type, int x, int y)
-{
-  int defensepower=unit_types[d_type].defense_strength;
-  struct city *pcity = map_get_city(x, y);
-  enum tile_terrain_type t = map_get_terrain(x, y);
-  int db;
-
-  if (unit_types[d_type].move_type == LAND_MOVING && t == T_OCEAN) return 0;
-/* I had this dorky bug where transports with mech inf aboard would go next
-to enemy ships thinking the mech inf would defend them adequately. -- Syela */
-
-  db = get_tile_type(t)->defense_bonus;
-  if (map_get_special(x, y) & S_RIVER)
-    db += (db * terrain_control.river_defense_bonus) / 100;
-  defensepower *= db;
-
-  if (map_get_special(x, y)&S_FORTRESS && !pcity)
-    defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
-  if (pcity && unit_types[d_type].move_type == LAND_MOVING)
-    defensepower*=1.5;
-
-  return defensepower;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int get_virtual_defense_power(int a_type, int d_type, int x, int y)
-{
-  int defensepower=unit_types[d_type].defense_strength;
-  int m_type = unit_types[a_type].move_type;
-  struct city *pcity = map_get_city(x, y);
-  enum tile_terrain_type t = map_get_terrain(x, y);
-  int db;
-
-  if (unit_types[d_type].move_type == LAND_MOVING && t == T_OCEAN) return 0;
-/* I had this dorky bug where transports with mech inf aboard would go next
-to enemy ships thinking the mech inf would defend them adequately. -- Syela */
-
-  db = get_tile_type(t)->defense_bonus;
-  if (map_get_special(x, y) & S_RIVER)
-    db += (db * terrain_control.river_defense_bonus) / 100;
-  defensepower *= db;
-
-  if (unit_flag(d_type, F_PIKEMEN) && unit_flag(a_type, F_HORSE)) 
-    defensepower*=2;
-  if (unit_flag(d_type, F_AEGIS) &&
-       (m_type == AIR_MOVING || m_type == HELI_MOVING)) defensepower*=5;
-  if (m_type == AIR_MOVING && pcity) {
-    if (city_got_building(pcity, B_SAM))
-      defensepower*=2;
-    if (city_got_building(pcity, B_SDI) && unit_flag(a_type, F_MISSILE))
-      defensepower*=2;
-  } else if (m_type == SEA_MOVING && pcity) {
-    if (city_got_building(pcity, B_COASTAL))
-      defensepower*=2;
-  }
-  if (!unit_flag(a_type, F_IGWALL)
-      && (m_type == LAND_MOVING || m_type == HELI_MOVING
-	  || (improvement_variant(B_CITY)==1 && m_type == SEA_MOVING))
-      && pcity && city_got_citywalls(pcity)) {
-    defensepower*=3;
-  }
-  if (map_get_special(x, y)&S_FORTRESS && !pcity)
-    defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
-  if (pcity && unit_types[d_type].move_type == LAND_MOVING)
-    defensepower*=1.5;
-
-  return defensepower;
-}
-
-/***************************************************************************
- return the modified defense power of a unit.
- An veteran aegis cruiser in a mountain city with SAM and SDI defense 
- being attacked by a missile gets defense 288.
-***************************************************************************/
-int get_total_defense_power(struct unit *attacker, struct unit *defender)
-{
-  int defensepower=get_defense_power(defender);
-  if (unit_flag(defender->type, F_PIKEMEN) && unit_flag(attacker->type, F_HORSE)) 
-    defensepower*=2;
-  if (unit_flag(defender->type, F_AEGIS) && (is_air_unit(attacker) || is_heli_unit(attacker)))
-    defensepower*=5;
-  if (is_air_unit(attacker)) {
-    if (unit_behind_sam(defender))
-      defensepower*=2;
-    if (unit_behind_sdi(defender) && unit_flag(attacker->type, F_MISSILE))
-      defensepower*=2;
-  } else if (is_sailing_unit(attacker)) {
-    if (unit_behind_coastal(defender))
-      defensepower*=2;
-  }
-  if (!unit_really_ignores_citywalls(attacker)
-      && unit_behind_walls(defender)) 
-    defensepower*=3;
-  if (unit_on_fortress(defender) && 
-      !map_get_city(defender->x, defender->y)) 
-    defensepower*=2;
-  if ((defender->activity == ACTIVITY_FORTIFIED || 
-       map_get_city(defender->x, defender->y)) && 
-      is_ground_unit(defender))
-    defensepower*=1.5;
-
-  return defensepower;
-}
-
 /**************************************************************************
   This is the basic unit versus unit combat routine.
   1) ALOT of modifiers bonuses etc is added to the 2 units rates.
@@ -527,20 +188,10 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
 {
   int attackpower = get_total_attack_power(attacker,defender);
   int defensepower = get_total_defense_power(attacker,defender);
-  int attack_firepower = get_unit_type(attacker->type)->firepower;
-  int defense_firepower = get_unit_type(defender->type)->firepower;
 
-  /* pearl harbour */
-  if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
-    defense_firepower = 1;
-
-  /* In land bombardment both units have their firepower reduced to 1 */
-  if (is_sailing_unit(attacker)
-      && map_get_terrain(defender->x, defender->y) != T_OCEAN
-      && is_ground_unit(defender)) {
-    attack_firepower = 1;
-    defense_firepower = 1;
-  }
+  int attack_firepower, defense_firepower;
+  get_modified_firepower(attacker, defender,
+			 &attack_firepower, &defense_firepower);
 
   freelog(LOG_VERBOSE, "attack:%d, defense:%d, attack firepower:%d, defense firepower:%d",
 	  attackpower, defensepower, attack_firepower, defense_firepower);
@@ -3151,7 +2802,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
   }
   /* A transporter should not take units with it when on an attack goto -- fisch */
   if ((punit->activity == ACTIVITY_GOTO) &&
-      get_defender(pplayer, punit, punit->goto_dest_x, punit->goto_dest_y) &&
+      get_defender(punit, punit->goto_dest_x, punit->goto_dest_y) &&
       psrctile->terrain != T_OCEAN) {
     transport_units = 0;
   }

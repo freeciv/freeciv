@@ -18,28 +18,10 @@ struct player;
 struct unit;
 
 /* battle related */
-struct unit *get_defender(struct player *pplayer, struct unit *aunit, 
-			  int x, int y);
-struct unit *get_attacker(struct player *pplayer, struct unit *aunit, 
-			  int x, int y);
-int get_attack_power(struct unit *punit);
-int get_defense_power(struct unit *punit);
-int unit_ignores_citywalls(struct unit *punit);
-int unit_really_ignores_citywalls(struct unit *punit);
-int unit_behind_walls(struct unit *punit);
-int unit_on_fortress(struct unit *punit);
-int unit_behind_coastal(struct unit *punit);
-int unit_behind_sam(struct unit *punit);
-int unit_behind_sdi(struct unit *punit);
-struct city *sdi_defense_close(int owner, int x, int y);
 int find_a_unit_type(int role, int role_tech);
 int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int dest_x, int dest_y);
 int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
 void maybe_make_veteran(struct unit *punit);
-int get_total_defense_power(struct unit *attacker, struct unit *defender);
-int get_simple_defense_power(int d_type, int x, int y);
-int get_virtual_defense_power(int a_type, int d_type, int x, int y);
-int get_total_attack_power(struct unit *attacker, struct unit *defender);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
 
 

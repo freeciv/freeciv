@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "combat.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -22,7 +23,6 @@
 #include "cityturn.h"
 #include "gotohand.h"		/* warmap has been redeployed */
 #include "settlers.h"
-#include "unittools.h"		/* for get_defender, amazingly */
 
 #include "aicity.h"
 #include "aitools.h"
@@ -677,7 +677,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   fstk = find_something_to_kill(pplayer, myunit, &x, &y);
 
   acity = map_get_city(x, y);
-  if (!acity) aunit = get_defender(pplayer, myunit, x, y);
+  if (!acity) aunit = get_defender(myunit, x, y);
   else aunit = 0;
   if (acity && acity->owner == pplayer->player_no) acity = 0;
 
@@ -697,7 +697,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
     a *= a;
 
     if (acity) {
-      pdef = get_defender(pplayer, myunit, x, y);
+      pdef = get_defender(myunit, x, y);
 
       m = unit_types[v].move_rate;
       if (unit_flag(v, F_IGTER)) m *= 3; /* not quite right */

@@ -21,6 +21,7 @@
 
 #include "barbarian.h"
 #include "city.h"
+#include "combat.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -905,7 +906,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   struct player *pplayer = unit_owner(punit);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
   struct tile *psrctile = map_get_tile(punit->x, punit->y);
-  struct unit *pdefender = get_defender(pplayer, punit, dest_x, dest_y);
+  struct unit *pdefender = get_defender(punit, dest_x, dest_y);
   struct city *pcity = pdesttile->city;
 
   /* barbarians shouldn't enter huts */
