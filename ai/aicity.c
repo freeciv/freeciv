@@ -514,7 +514,7 @@ static void ai_manage_buildings(struct player *pplayer)
       continue;
     }
     city_list_iterate(pplayer->cities, pcity) {
-      if (pcity->ai.next_recalc > game.turn) {
+      if (pplayer->ai.control && pcity->ai.next_recalc > game.turn) {
         continue; /* do not recalc yet */
       } else {
         pcity->ai.building_want[id] = 0; /* do recalc */
