@@ -614,7 +614,9 @@ static char *nsew_str(int idx)
 /* Not very safe, but convenient: */
 #define SET_SPRITE(field, tag) do { \
        sprites.field = hash_lookup_data(sprite_hash, tag);\
-       assert(sprites.field != NULL);\
+       if (!sprites.field) {                              \
+         die("Sprite tag %s missing.", buffer);           \
+       }                                                  \
     } while(FALSE)
 
 /* Sets sprites.field to tag or (if tag isn't available) to alt */
@@ -623,7 +625,9 @@ static char *nsew_str(int idx)
        if (!sprites.field) {                                   \
            sprites.field = hash_lookup_data(sprite_hash, alt); \
        }                                                       \
-       assert(sprites.field != NULL);                          \
+       if (!sprites.field) {                                   \
+         die("Sprite tag %s and alternate %s are both missing.", tag, alt); \
+       }                                                       \
     } while(FALSE)
 
 /* Sets sprites.field to tag, or NULL if not available */
