@@ -51,6 +51,7 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_string.h"
+#include "gui_zoom.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "optiondlg.h"
@@ -58,6 +59,188 @@
 
 #include "repodlgs_common.h"
 #include "repodlgs.h"
+
+
+static SDL_Surface *pNone_Tech_Icon;
+
+
+/* ============================================================= */
+
+void setup_auxiliary_tech_icons(void)
+{
+  SDL_Surface *pSurf;
+  SDL_String16 *pStr = create_str16_from_char(_("None"), 10);
+  
+  /* create "None" icon */
+  pNone_Tech_Icon = create_surf( 50 , 50 , SDL_SWSURFACE );
+  SDL_FillRect(pNone_Tech_Icon, NULL,
+	  SDL_MapRGB(pNone_Tech_Icon->format, 255 , 255 , 255 ));
+  putframe(pNone_Tech_Icon, 0 , 0,
+	  pNone_Tech_Icon->w - 1, pNone_Tech_Icon->h - 1 , 0x0 );
+  
+  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
+  
+  pSurf = create_text_surf_from_str16(pStr);
+    
+  blit_entire_src(pSurf, pNone_Tech_Icon ,
+	  (50 - pSurf->w) / 2 , (50 - pSurf->h) / 2 );
+    
+  FREESURFACE(pSurf);
+  FREESTRING16(pStr);
+}
+
+void free_auxiliary_tech_icons(void)
+{
+  FREESURFACE(pNone_Tech_Icon);
+}
+
+SDL_Surface * create_sellect_tech_icon( SDL_String16 *pStr, int tech_id )
+{
+  char cBuf[128], *pTmp = NULL;
+  struct impr_type *pImpr = NULL;
+  struct unit_type *pUnit = NULL;
+  SDL_Surface *pSurf, *pText;
+  SDL_Surface *Surf_Array[5], **pBuf_Array;
+  SDL_Rect src, dst;
+  int w, h;
+  
+  pSurf = create_surf( 100 , 200 , SDL_SWSURFACE );
+  pText = SDL_DisplayFormatAlpha(pSurf);
+  FREESURFACE(pSurf);
+  pSurf = pText;
+      
+  if (game.player_ptr->research.researching == tech_id)
+  {
+    SDL_FillRect(pSurf, NULL,
+		   SDL_MapRGBA(pSurf->format, 255, 255, 255, 180));
+  } else {
+    SDL_FillRect(pSurf, NULL,
+		   SDL_MapRGBA(pSurf->format, 255, 255, 255, 128));
+  }
+
+  if (!pStr->text) {
+    pStr->text = convert_to_utf16(advances[tech_id].name);
+  }
+
+  pText = create_text_surf_from_str16(pStr);
+
+  if (pText->w >= 100) {
+    FREE(pStr->text);
+    FREESURFACE(pText);
+
+    pTmp = cBuf;
+    my_snprintf(cBuf, sizeof(cBuf), advances[tech_id].name);
+
+    while (*pTmp != 0 && *pTmp != 32) {
+      /* Inefficient and dangerous! */
+     /* Make Better */
+     pTmp++;
+    }
+
+    if (*pTmp == 32) {
+	*pTmp = 10;/*"\n"*/
+    }
+
+    pStr->text = convert_to_utf16(cBuf);
+    pText = create_text_surf_from_str16(pStr);
+  }/* pText->w >= 100 */
+
+  FREE(pStr->text);
+
+  /* draw name tech text */
+  dst.x = (100 - pText->w) / 2;
+  dst.y = 25;
+  SDL_BlitSurface(pText, NULL, pSurf, &dst);
+
+  dst.y += pText->h + 10;
+
+  FREESURFACE(pText);
+
+  /* draw tech icon */
+  pText = GET_SURF(advances[tech_id].sprite);
+  dst.x = (100 - pText->w) / 2;
+  SDL_BlitSurface(pText, NULL, pSurf, &dst);
+
+  dst.y += pText->w + 10;
+
+  /* fill array with iprvm. icons */
+  w = 0;
+  impr_type_iterate(imp) {
+    pImpr = get_improvement_type(imp);
+    if (pImpr->tech_req == tech_id) {
+      Surf_Array[w++] = GET_SURF(pImpr->sprite);
+    }
+  } impr_type_iterate_end;
+
+  if (w) {
+    if (w >= 2) {
+      dst.x = (100 - 2 * Surf_Array[0]->w) / 2;
+    } else {
+      dst.x = (100 - Surf_Array[0]->w) / 2;
+    }
+
+    /* draw iprvm. icons */
+    pBuf_Array = Surf_Array;
+    h = 0;
+    while (w) {
+      SDL_BlitSurface(*pBuf_Array, NULL, pSurf, &dst);
+      dst.x += (*pBuf_Array)->w;
+      w--;
+      h++;
+      if (h == 2) {
+        if (w >= 2) {
+          dst.x = (100 - 2 * (*pBuf_Array)->w) / 2;
+        } else {
+          dst.x = (100 - (*pBuf_Array)->w) / 2;
+        }
+        dst.y += (*pBuf_Array)->h;
+        h = 0;
+      }	/* h == 2 */
+      pBuf_Array++;
+    }	/* while */
+    dst.y += Surf_Array[0]->h + 10;
+  } /* if (w) */
+  
+  w = 0;
+  unit_type_iterate(un) {
+    pUnit = get_unit_type(un);
+    if (pUnit->tech_requirement == tech_id) {
+      Surf_Array[w++] = GET_SURF(pUnit->sprite);
+    }
+  } unit_type_iterate_end;
+
+  if (w) {
+    src = get_smaller_surface_rect(Surf_Array[0]);
+    if (w >= 2) {
+      dst.x = (100 - 2 * src.w) / 2;
+    } else {
+      dst.x = (100 - src.w) / 2;
+    }
+
+    pBuf_Array = Surf_Array;
+    h = 0;
+    while (w) {
+      src = get_smaller_surface_rect(*pBuf_Array);
+      SDL_BlitSurface(*pBuf_Array, &src, pSurf, &dst);
+      dst.x += src.w + 2;
+      w--;
+      h++;
+      if (h == 2) {
+        if (w >= 2) {
+          dst.x = (100 - 2 * src.w) / 2;
+        } else {
+          dst.x = (100 - src.w) / 2;
+        }
+        dst.y += src.h + 2;
+        h = 0;
+      }	/* h == 2 */
+      pBuf_Array++;
+    }	/* while */
+  }/* if (w) */
+  
+  
+  return pSurf;
+}
 
 #if 0
 /**************************************************************************
@@ -157,9 +340,16 @@ void science_dialog_update(void)
 
   pEndScienceDlg->prev->theme =
     GET_SURF(advances[game.player_ptr->research.researching].sprite);
-  pEndScienceDlg->prev->prev->theme =
-    GET_SURF(advances[game.player_ptr->ai.tech_goal].sprite);
-
+  
+  if ( game.player_ptr->ai.tech_goal != A_UNSET )
+  {
+    pEndScienceDlg->prev->prev->theme =
+      GET_SURF(advances[game.player_ptr->ai.tech_goal].sprite);
+  } else {
+    /* add "None" icon */
+    pEndScienceDlg->prev->prev->theme = pNone_Tech_Icon;
+  }
+  
   redraw_group(pBeginScienceDlg, pEndScienceDlg, 0);
   /* ------------------------------------- */
 
@@ -195,7 +385,7 @@ void science_dialog_update(void)
 
   pStr = create_str16_from_char(cBuf, 12);
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
-
+    
   pSurf = create_text_surf_from_str16(pStr);
 
   FREE(pStr->text);
@@ -294,8 +484,7 @@ void science_dialog_update(void)
 		    &dest);
     dest.x += src.w + 2;
   } unit_type_iterate_end;
-
-
+  
   /* -------------------------------- */
   /* draw separator line */
   dest.x = pEndScienceDlg->prev->size.x;
@@ -306,56 +495,56 @@ void science_dialog_update(void)
   dest.y += 10;
   /* -------------------------------- */
   /* Goals */
-
-  steps =
+  if ( game.player_ptr->ai.tech_goal != A_UNSET )
+  {
+    steps =
       num_unknown_techs_for_goal(game.player_ptr,
 				 game.player_ptr->ai.tech_goal);
-  my_snprintf(cBuf, sizeof(cBuf), "%s ( %d %s )",
+    my_snprintf(cBuf, sizeof(cBuf), "%s ( %d %s )",
 	      get_tech_name(game.player_ptr,
 			    game.player_ptr->ai.tech_goal), steps,
 	      PL_("step", "steps", steps));
 
-  pStr->text = convert_to_utf16(cBuf);
+    pStr->text = convert_to_utf16(cBuf);
 
-  pSurf = create_text_surf_from_str16(pStr);
+    pSurf = create_text_surf_from_str16(pStr);
 
-  FREE(pStr->text);
+    FREE(pStr->text);
 
-  dest.x =
+    dest.x =
       pEndScienceDlg->prev->size.x + pEndScienceDlg->prev->size.w + 10;
-  SDL_BlitSurface(pSurf, NULL, Main.screen, &dest);
+    SDL_BlitSurface(pSurf, NULL, Main.screen, &dest);
 
-  dest.y += pSurf->h + 4;
-  FREESURFACE(pSurf);
+    dest.y += pSurf->h + 4;
+    FREESURFACE(pSurf);
 
-  impr_type_iterate(imp) {
-    pImpr = get_improvement_type(imp);
-    if (pImpr->tech_req == game.player_ptr->ai.tech_goal) {
-      SDL_BlitSurface(GET_SURF(pImpr->sprite), NULL, Main.screen,
-		      &dest);
-      dest.x += GET_SURF(pImpr->sprite)->w + 1;
-    }
-  } impr_type_iterate_end;
+    impr_type_iterate(imp) {
+      pImpr = get_improvement_type(imp);
+      if (pImpr->tech_req == game.player_ptr->ai.tech_goal) {
+        SDL_BlitSurface(GET_SURF(pImpr->sprite), NULL, Main.screen, &dest);
+        dest.x += GET_SURF(pImpr->sprite)->w + 1;
+      }
+    } impr_type_iterate_end;
 
-  dest.x += 5;
+    dest.x += 5;
 
-  unit_type_iterate(un) {
-    pUnit = get_unit_type(un);
-    if (pUnit->tech_requirement == game.player_ptr->ai.tech_goal) {
-      src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
-      SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, Main.screen,
-		      &dest);
-      dest.x += src.w + 2;
-    }
-  } unit_type_iterate_end;
-  /* -------------------------------- */
-  dest.x = pEndScienceDlg->size.x + FRAME_WH;
-  dest.y =
-      pEndScienceDlg->size.y + pEndScienceDlg->size.h -
-      pBeginScienceDlg->size.h - FRAME_WH - 1;
+    unit_type_iterate(un) {
+      pUnit = get_unit_type(un);
+      if (pUnit->tech_requirement == game.player_ptr->ai.tech_goal) {
+        src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
+        SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, Main.screen, &dest);
+        dest.x += src.w + 2;
+      }
+    } unit_type_iterate_end;
+    /* -------------------------------- */
+    dest.x = pEndScienceDlg->size.x + FRAME_WH;
+    dest.y = pEndScienceDlg->size.y + pEndScienceDlg->size.h -
+      			pBeginScienceDlg->size.h - FRAME_WH - 1;
 
-  putline(Main.screen, dest.x, dest.y,
+    putline(Main.screen, dest.x, dest.y,
 	  dest.x + pEndScienceDlg->size.w - DOUBLE_FRAME_WH, dest.y, 0x0);
+  }
+  
   /* -------------------------------- */
   refresh_rect(pEndScienceDlg->size);
 
@@ -392,18 +581,24 @@ static int change_research_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
+static int exit_change_research_callback(struct GUI *pWidget)
+{
+  popdown_window_group_dialog(pBeginChangeTechDlg, pEndChangeTechDlg);
+  pEndChangeTechDlg = NULL;
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static int change_research(struct GUI *pWidget)
 {
-  char cBuf[100], *pTmp;
-  struct impr_type *pImpr;
-  struct unit_type *pUnit;
   struct GUI *pBuf = NULL; /* FIXME: possibly uninitialized */
   struct GUI *pWindow;
   SDL_String16 *pStr;
-  SDL_Surface *pSurf, *pText;
-  SDL_Surface *Surf_Array[5], **pBuf_Array;
-  SDL_Rect src, dst;
-  int i, count = 0, w, h;
+  SDL_Surface *pSurf;
+  
+  int i, count = 0, w = 0, h;
 
   redraw_icon2(pWidget);
   refresh_rect(pWidget->size);
@@ -413,11 +608,27 @@ static int change_research(struct GUI *pWidget)
 
   pWindow = create_window(pStr, 40, 30, 0);
   pEndChangeTechDlg = pWindow;
-
+  w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, WS_NORMAL);
 
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_WINDOW, pWindow);
+  /* ------------------------- */
+    /* exit button */
+  pBuf = create_themeicon(ResizeSurface( pTheme->CANCEL_Icon ,
+			  pTheme->CANCEL_Icon->w - 4,
+			  pTheme->CANCEL_Icon->h - 4, 1) ,
+  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
+  SDL_SetColorKey( pBuf->theme ,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL , getpixel( pBuf->theme , 0 ,0 ));
+  
+  w += pBuf->size.w + 10;
+  pBuf->action = exit_change_research_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  pBuf->key = SDLK_ESCAPE;
+  
+  add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
 
+  /* ------------------------- */
   pStr = create_string16(NULL, 10);
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
@@ -426,132 +637,8 @@ static int change_research(struct GUI *pWidget)
       if (get_invention(game.player_ptr, i) != TECH_REACHABLE) {
 	continue;
       }
-      /* create surface with alpha chanell -> RGBA */
-      pSurf = SDL_CreateRGBSurface(SDL_SWSURFACE, 100, 200,
-				   32, 0x000000ff, 0x0000ff00, 0x00ff0000,
-				   0xff000000);
-
-      SDL_FillRect(pSurf, NULL,
-		   SDL_MapRGBA(pSurf->format, 255, 255, 255, 128));
-
-      pStr->text = convert_to_utf16(advances[i].name);
-
-      pText = create_text_surf_from_str16(pStr);
-
-      if (pText->w >= 100) {
-	FREE(pStr->text);
-	FREESURFACE(pText);
-
-	pTmp = cBuf;
-	my_snprintf(cBuf, sizeof(cBuf), advances[i].name);
-
-	while (*pTmp != 0 && *pTmp != 32) {
-	  /* Inefficient and dangerous! */
-	  pTmp++;
-	}
-
-	if (*pTmp == 32) {
-	  *pTmp = 10;
-	}
-
-	pStr->text = convert_to_utf16(cBuf);
-	pText = create_text_surf_from_str16(pStr);
-      }
-
-      FREE(pStr->text);
-
-      /* draw name tech text */
-      dst.x = (100 - pText->w) / 2;
-      dst.y = 25;
-      SDL_BlitSurface(pText, NULL, pSurf, &dst);
-
-      dst.y += pText->h + 10;
-
-      FREESURFACE(pText);
-
-      /* draw tech icon */
-      pText = GET_SURF(advances[i].sprite);
-      dst.x = (100 - pText->w) / 2;
-      SDL_BlitSurface(pText, NULL, pSurf, &dst);
-
-      dst.y += pText->w + 10;
-
-      /* fill array with iprvm. icons */
-      w = 0;
-      impr_type_iterate(imp) {
-	pImpr = get_improvement_type(imp);
-	if (pImpr->tech_req == i) {
-	  Surf_Array[w++] = GET_SURF(pImpr->sprite);
-	}
-      } impr_type_iterate_end;
-
-      if (w) {
-	if (w >= 2) {
-	  dst.x = (100 - 2 * Surf_Array[0]->w) / 2;
-	} else {
-	  dst.x = (100 - Surf_Array[0]->w) / 2;
-	}
-
-	/* draw iprvm. icons */
-	pBuf_Array = Surf_Array;
-	h = 0;
-	while (w) {
-	  SDL_BlitSurface(*pBuf_Array, NULL, pSurf, &dst);
-	  dst.x += (*pBuf_Array)->w;
-	  w--;
-	  h++;
-	  if (h == 2) {
-	    if (w >= 2) {
-	      dst.x = (100 - 2 * (*pBuf_Array)->w) / 2;
-	    } else {
-	      dst.x = (100 - (*pBuf_Array)->w) / 2;
-	    }
-	    dst.y += (*pBuf_Array)->h;
-	    h = 0;
-	  }			/* h == 2 */
-	  pBuf_Array++;
-	}			/* while */
-	dst.y += Surf_Array[0]->h + 10;
-      }
-      /* w */
-      w = 0;
-      unit_type_iterate(un) {
-	pUnit = get_unit_type(un);
-	if (pUnit->tech_requirement == i) {
-	  Surf_Array[w++] = GET_SURF(pUnit->sprite);
-	}
-      } unit_type_iterate_end;
-
-      if (w) {
-	src = get_smaller_surface_rect(Surf_Array[0]);
-	if (w >= 2) {
-	  dst.x = (100 - 2 * src.w) / 2;
-	} else {
-	  dst.x = (100 - src.w) / 2;
-	}
-
-	pBuf_Array = Surf_Array;
-	h = 0;
-	while (w) {
-	  src = get_smaller_surface_rect(*pBuf_Array);
-	  SDL_BlitSurface(*pBuf_Array, &src, pSurf, &dst);
-	  dst.x += src.w + 2;
-	  w--;
-	  h++;
-	  if (h == 2) {
-	    if (w >= 2) {
-	      dst.x = (100 - 2 * src.w) / 2;
-	    } else {
-	      dst.x = (100 - src.w) / 2;
-	    }
-	    dst.y += src.h + 2;
-	    h = 0;
-	  }			/* h == 2 */
-	  pBuf_Array++;
-	}			/* while */
-
-      }
-      /* ------------------------------ */
+      
+      pSurf = create_sellect_tech_icon( pStr, i );
       pBuf =
 	  create_icon2(pSurf, WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
 
@@ -568,7 +655,10 @@ static int change_research(struct GUI *pWidget)
   if ( count > 10 )
   {
     i = 6;
-    if ( count > 12 ) abort();
+    if (count > 12)
+    {
+      freelog( LOG_FATAL , "If you see this msg please contact me on bursig@poczta.fm and give me this : Tech12 Err");
+    }
   }
   else
   {
@@ -591,16 +681,22 @@ static int change_research(struct GUI *pWidget)
   
   if (count > i) {
     count = (count + (i-1)) / i;
-    w = i * 102 + 2 + DOUBLE_FRAME_WH;
+    w = MAX( w, (i * 102 + 2 + DOUBLE_FRAME_WH));
     h = WINDOW_TILE_HIGH + 1 + count * 202 + 2 + FRAME_WH;
   } else {
-    w = count * 102 + 2 + DOUBLE_FRAME_WH;
+    w = MAX( w , (count * 102 + 2 + DOUBLE_FRAME_WH));
     h = WINDOW_TILE_HIGH + 1 + 202 + 2 + FRAME_WH;
   }
 
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
 
+  /* redraw change button before window take background buffer */
+  set_wstate(pWidget, WS_NORMAL);
+  pSellected_Widget = NULL;
+  redraw_icon2(pWidget);
+  
+  /* alloca window theme and win background buffer */
   pSurf = get_logo_gfx();
 #if 0
   resize_window(pWindow, NULL,
@@ -609,13 +705,19 @@ static int change_research(struct GUI *pWidget)
   resize_window(pWindow, pSurf, NULL, w, h);
   FREESURFACE(pSurf);
 
+    /* exit button */
   pBuf = pWindow->prev;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
+  pBuf->size.y = pWindow->size.y;
+  
+  /* techs widgets*/
+  pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH;
   pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1;
   pBuf = pBuf->prev;
 
   w = 0;
-  while (1) {
+  while (pBuf) {
     pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w - 2;
     pBuf->size.y = pBuf->next->size.y;
     w++;
@@ -632,12 +734,7 @@ static int change_research(struct GUI *pWidget)
     pBuf = pBuf->prev;
   }
 
-  set_wstate(pWidget, WS_NORMAL);
-  pSellected_Widget = NULL;
-
-  redraw_icon2(pWidget);
-
-  redraw_group(pBeginChangeTechDlg, pEndChangeTechDlg, 0);
+  redraw_group(pBeginChangeTechDlg, pWindow, 0);
 
   refresh_rect(pWindow->size);
 
@@ -757,7 +854,8 @@ static int change_research_goal(struct GUI *pWidget)
       pStr->style |= TTF_STYLE_BOLD;
       pStr->backcol.unused = 128;
 
-      pBuf = create_iconlabel(NULL, pStr, WF_DRAW_THEME_TRANSPARENT);
+      pBuf = create_iconlabel(NULL, pStr, 
+	  	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       pBuf->size.h += 2;
 
@@ -924,10 +1022,16 @@ void popup_science_dialog(bool make_modal)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pBuf);
 
   /* ------ */
-  pBuf = create_icon2(GET_SURF(advances[game.player_ptr->
+  if ( game.player_ptr->ai.tech_goal != A_UNSET )
+  {
+    pBuf = create_icon2(GET_SURF(advances[game.player_ptr->
 					ai.tech_goal].sprite),
 		      WF_DRAW_THEME_TRANSPARENT);
-
+  } else {
+    /* "None" icon */
+    pBuf = create_icon2(pNone_Tech_Icon, WF_DRAW_THEME_TRANSPARENT);
+  }
+  
   pBuf->action = change_research_goal;
   set_wstate(pBuf, WS_NORMAL);
 

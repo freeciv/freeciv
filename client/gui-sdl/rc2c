@@ -15,7 +15,7 @@
 #		Modified to convert Gtk+ resource files instead of
 #		X app-default files.
 #
-
+#       Current rather not used by SDLClient.
 sed '
 /^!/d
 /^$/d

@@ -109,6 +109,12 @@ struct GUI {
   Uint16 ID;			/* ID in widget list */
 };
 
+/* Struct to basic window group dialog ( without scrollbar ) */
+struct SMALL_DLG {
+  struct GUI *pBeginWidgetList;
+  struct GUI *pEndWidgetList;	/* window */
+};
+
 SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, SDL_bool transp,
 			       Uint8 state, Uint16 Width, Uint16 High);
 

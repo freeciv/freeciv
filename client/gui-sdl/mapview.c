@@ -86,6 +86,8 @@ static int map_view_x0, map_view_y0;
 
 static Uint8 Mini_map_cell_w, Mini_map_cell_h;
 
+static Uint32 Amask;
+
 static SDL_Surface *pFogSurface;
 static SDL_Surface *pTmpSurface;
 
@@ -331,12 +333,12 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   flake = CLIP(0, flake, NUM_TILES_PROGRESS - 1);
 
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-  pBuf->theme = (SDL_Surface *) sprites.warming[sol];
+  pBuf->theme = GET_SURF(sprites.warming[sol]);
   redraw_label(pBuf);
   add_refresh_rect(pBuf->size);
 
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
-  pBuf->theme = (SDL_Surface *) sprites.cooling[flake];
+  pBuf->theme = GET_SURF(sprites.cooling[flake]);
   redraw_label(pBuf);
   add_refresh_rect(pBuf->size);
 
@@ -356,8 +358,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
     }
 
     pBuf = get_widget_pointer_form_main_list(ID_REVOLUTION);
-    set_new_icon_theme(pBuf,
-		       create_icon_theme_surf((SDL_Surface *) sprite));
+    set_new_icon_theme(pBuf, create_icon_theme_surf(GET_SURF(sprite)));
     SDL_Client_Flags &= ~CF_REVOLUTION;
   }
 #if 0
@@ -368,8 +369,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   
   pBuf = get_widget_pointer_form_main_list(ID_RESEARCH);
   set_new_icon_theme(pBuf,
-		     create_icon_theme_surf((SDL_Surface *) sprites.
-					    bulb[bulb]));
+  		create_icon_theme_surf(GET_SURF(sprites.bulb[bulb])));
 }
 
 /**************************************************************************
@@ -1052,10 +1052,6 @@ void refresh_overview_canvas(void)
   SDL_Rect cell_size = { FRAME_WH, FRAME_WH,
 				    Mini_map_cell_w, Mini_map_cell_h };
 
-  /* Uint32 ocean_color;
-  Uint32 terran_color;
-
-  Uint32 color;*/
   SDL_Color std_color;
   Uint16 col = 0, row = 0;
 
@@ -1435,7 +1431,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     				     
 
   if (count == -1) { /* tile is unknown */
-    SDL_BlitSurface((SDL_Surface *) sprites.black_tile,
+    SDL_BlitSurface(GET_SURF(sprites.black_tile),
 		    NULL, Main.screen, &des);
   
     return;
@@ -1602,7 +1598,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   /*** City and various terrain improvements ***/
   /*if (contains_special(special, S_FORTRESS) && draw_fortress_airbase) {*/
   if ((special & S_FORTRESS) && draw_fortress_airbase) {
-    SDL_BlitSurface((SDL_Surface *) sprites.tx.fortress_back,
+    SDL_BlitSurface(GET_SURF(sprites.tx.fortress_back),
 		    NULL, pBufSurface, &des);
     des = dst;	  
   }
@@ -1614,21 +1610,21 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
   /*if (contains_special(special, S_AIRBASE) && draw_fortress_airbase) {*/
   if ((special & S_AIRBASE) && draw_fortress_airbase) {
-    SDL_BlitSurface((SDL_Surface *) sprites.tx.airbase,
+    SDL_BlitSurface(GET_SURF(sprites.tx.airbase),
 		    NULL, pBufSurface, &des);
     des = dst;
   }
 
   /*if (contains_special(special, S_FALLOUT) && draw_pollution) {*/
   if ((special & S_FALLOUT) && draw_pollution) {
-    SDL_BlitSurface((SDL_Surface *) sprites.tx.fallout,
+    SDL_BlitSurface(GET_SURF(sprites.tx.fallout),
 		    NULL, pBufSurface, &des);
     des = dst;
   }
 
   /*if (contains_special(special, S_POLLUTION) && draw_pollution) {*/
   if ((special & S_POLLUTION) && draw_pollution) {
-    SDL_BlitSurface((SDL_Surface *) sprites.tx.pollution,
+    SDL_BlitSurface(GET_SURF(sprites.tx.pollution),
 		    NULL, pBufSurface, &des);
     des = dst;	  
   }
@@ -1638,13 +1634,12 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   if ( !( SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE ) &&
 				     pCity && draw_cities) {
     if (pCity->size >= 10) {
-      SDL_BlitSurface((SDL_Surface *) sprites.city.
-		      size_tens[pCity->size / 10], NULL, pBufSurface,
-		      &des);
+      SDL_BlitSurface(GET_SURF(sprites.city.size_tens[pCity->size / 10]),
+	      NULL, pBufSurface, &des);
       des = dst;	    
     }
 
-    SDL_BlitSurface((SDL_Surface *) sprites.city.size[pCity->size % 10],
+    SDL_BlitSurface(GET_SURF(sprites.city.size[pCity->size % 10]),
 		    NULL, pBufSurface, &des);
     des = dst;    
   }
@@ -1658,7 +1653,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     if (!pCity
 	&& unit_list_size( &(pTile->units) ) > 1) {
       des.y -= NORMAL_TILE_HEIGHT / 2;	  
-      SDL_BlitSurface((SDL_Surface *) sprites.unit.stack, NULL,
+      SDL_BlitSurface(GET_SURF(sprites.unit.stack), NULL,
 		      pBufSurface, &des);
       des = dst;		
     }
@@ -1666,8 +1661,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
   /*if (contains_special(special, S_FORTRESS) && draw_fortress_airbase) {*/
   if ((special & S_FORTRESS) && draw_fortress_airbase) {
-/*    assert((SDL_Surface *) sprites.tx.fortress);*/
-    SDL_BlitSurface((SDL_Surface *) sprites.tx.fortress,
+    SDL_BlitSurface(GET_SURF(sprites.tx.fortress),
 		    NULL, pBufSurface, &des);
     des = dst;	  
   }
@@ -1684,10 +1678,10 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     /* clear pBufSurface */
     /* if BytesPerPixel == 4 and Amask == 0 ( 24 bit coding ) alpha blit 
      * functions Set A = 255 in all pixels and then pixel val 
-     * ( r=0, g=0, b=0) != 0.  Real val of this pixel is 0xff000000. */
+     * ( r=0, g=0, b=0) != 0. Real val of this pixel is 0xff000000/0x000000ff.*/
     if (pBufSurface->format->BytesPerPixel == 4
 	&& !pBufSurface->format->Amask) {
-      SDL_FillRect(pBufSurface, NULL, 0xff000000 );
+      SDL_FillRect(pBufSurface, NULL, Amask );
     } else {
       SDL_FillRect(pBufSurface, NULL, 0x0 );
     }
@@ -1904,7 +1898,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       /* blit explosion */
       dest.x = canvas_x + NORMAL_TILE_WIDTH / 4;
 
-      SDL_BlitSurface((SDL_Surface *) sprites.explode.unit[i],
+      SDL_BlitSurface(GET_SURF(sprites.explode.unit[i]),
 		      NULL, Main.screen, &dest);
       refresh_rect(dest);
 
@@ -1921,7 +1915,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   /* clear pTmpSurface */
   if ((pTmpSurface->format->BytesPerPixel == 4) &&
       (!pTmpSurface->format->Amask)) {
-    SDL_FillRect(pTmpSurface, NULL, 0xff000000);
+    SDL_FillRect(pTmpSurface, NULL, Amask);
   } else {
     SDL_FillRect(pTmpSurface, NULL, 0x0);
   }
@@ -2025,7 +2019,7 @@ SDL_Surface *create_city_map(struct city *pCity)
 	    (col == CITY_MAP_SIZE - 1 && row == CITY_MAP_SIZE - 1)) {
 	  /* draw black corners */
 
-	  SDL_BlitSurface((SDL_Surface *) sprites.black_tile,
+	  SDL_BlitSurface(GET_SURF(sprites.black_tile),
 			  NULL, pDest, &dest);
 	} else {
 	  /* draw map cell */
@@ -2034,7 +2028,7 @@ SDL_Surface *create_city_map(struct city *pCity)
 	      map_get_terrain(real_col, real_row) != T_UNKNOWN) {
 	    if (!pTile) {
 	      /* make mask */
-	      SDL_BlitSurface((SDL_Surface *) sprites.black_tile,
+	      SDL_BlitSurface(GET_SURF(sprites.black_tile),
 			      NULL, pTmpSurface, NULL);
 
 	      SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY,
@@ -2043,6 +2037,7 @@ SDL_Surface *create_city_map(struct city *pCity)
 	      /* create pTile */
 	      pTile = create_surf(NORMAL_TILE_WIDTH,
 				  NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
+	      
 	      /* fill pTile with RED */
 	      SDL_FillRect(pTile, NULL,
 			   SDL_MapRGBA(pTile->format, 255, 0, 0, 96));
@@ -2058,8 +2053,8 @@ SDL_Surface *create_city_map(struct city *pCity)
 	      /* clear pTmpSurface */
 	      if (pTmpSurface->format->BytesPerPixel == 4 &&
 		  !pTmpSurface->format->Amask) {
-		SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, 0xff000000);
-		SDL_FillRect(pTmpSurface, NULL, 0xff000000);
+		SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, Amask);
+		SDL_FillRect(pTmpSurface, NULL, Amask);
 	      } else {
 		SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, 0x0);
 		SDL_FillRect(pTmpSurface, NULL, 0);
@@ -2157,10 +2152,10 @@ static SDL_Surface * create_ocean_tile(void)
   SDL_Rect des = { 0 , 0 , 0, 0 };
   SDL_Surface *pBuf[4];
   
-  pBuf[0] = (SDL_Surface *)sprites.tx.coast_cape_iso[0][0];
-  pBuf[1] = (SDL_Surface *)sprites.tx.coast_cape_iso[0][1];
-  pBuf[2] = (SDL_Surface *)sprites.tx.coast_cape_iso[0][2];
-  pBuf[3] = (SDL_Surface *)sprites.tx.coast_cape_iso[0][3];
+  pBuf[0] = GET_SURF(sprites.tx.coast_cape_iso[0][0]);
+  pBuf[1] = GET_SURF(sprites.tx.coast_cape_iso[0][1]);
+  pBuf[2] = GET_SURF(sprites.tx.coast_cape_iso[0][2]);
+  pBuf[3] = GET_SURF(sprites.tx.coast_cape_iso[0][3]);
   
   /* top */
   des.y = 0;
@@ -2246,7 +2241,7 @@ static void init_dither_tiles(void)
       continue;
     }
       
-    pTerrain_Surface = (SDL_Surface *)get_tile_type(terrain)->sprite[0];
+    pTerrain_Surface = GET_SURF(get_tile_type(terrain)->sprite[0]);
     
     for( i = 0; i < 4; i++ )
     {
@@ -2330,18 +2325,32 @@ static void clear_dither_tiles(void)
 void tmp_map_surfaces_init(void)
 {
   SDL_Color fog = *(get_game_colorRGB( COLOR_STD_FOG_OF_WAR ));
+
+  #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    Amask = 0x000000ff;
+  #else
+    Amask = 0xff000000;
+  #endif
   
   clear_dither_tiles();
   
   pFogSurface = create_surf(UNIT_TILE_WIDTH,
 			    UNIT_TILE_HEIGHT ,
 			    SDL_SWSURFACE);
-	
+
+  if (Main.screen->format->BytesPerPixel == 4 )
+  {
+    pTmpSurface = SDL_DisplayFormatAlpha(pFogSurface);
+    FREESURFACE(pFogSurface);
+    pFogSurface = pTmpSurface;
+  }
+  
   SDL_FillRect(pFogSurface, NULL,
 	     SDL_MapRGBA(pFogSurface->format, fog.r, fog.g, fog.b, fog.unused));
 	
   SDL_SetAlpha(pFogSurface, SDL_SRCALPHA, fog.unused);
 
+  /* =========================== */
   pTmpSurface = create_surf(UNIT_TILE_WIDTH,
 			    UNIT_TILE_HEIGHT,
 			    SDL_SWSURFACE);
@@ -2349,10 +2358,10 @@ void tmp_map_surfaces_init(void)
 
   /* if BytesPerPixel == 4 and Amask == 0 ( 24 bit coding ) alpha blit
    * functions; Set A = 255 in all pixels and then pixel val
-   *  ( r=0, g=0, b=0) != 0.  Real val this pixel is 0xff000000. */
+   *  ( r=0, g=0, b=0) != 0.  Real val this pixel is 0xff000000/0x000000ff. */
   if (pTmpSurface->format->BytesPerPixel == 4
       && !pTmpSurface->format->Amask) {
-    SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, 0xff000000);
+    SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, Amask);
   } else {
     SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, 0x0);
   }

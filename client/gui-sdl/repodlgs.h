@@ -16,6 +16,8 @@
 
 #include "repodlgs_g.h"
 
-
+void free_auxiliary_tech_icons(void);
+void setup_auxiliary_tech_icons(void);
+SDL_Surface * create_sellect_tech_icon( SDL_String16 *pStr, int tech_id );
 
 #endif				/* FC__REPODLGS_H */

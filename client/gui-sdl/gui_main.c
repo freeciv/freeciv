@@ -79,6 +79,8 @@
 #include "tilespec.h"
 #include "gui_tilespec.h"
 
+#include "repodlgs.h"
+
 #include "gui_main.h"
 
 /*#include "freeciv.ico"*/
@@ -533,6 +535,8 @@ void ui_main(int argc, char *argv[])
 
   create_units_order_widgets();
 
+  setup_auxiliary_tech_icons();
+
   draw_intro_gfx();
   Redraw_Log_Window(2);
 
@@ -542,6 +546,7 @@ void ui_main(int argc, char *argv[])
 
   gui_main_loop();
 
+  free_auxiliary_tech_icons();
   tilespec_unload_theme();
   unload_cursors();
 

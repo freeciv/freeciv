@@ -17,6 +17,7 @@ Requirements:
 SDL
 SDL_ttf ( req: freetype2 lib )
 SDL_image ( req: libpng )
+iconv
 
 To compile use:
 
@@ -27,6 +28,10 @@ and pray :)
 
 Please copy "theme" dir from test-cvs (freeciv-test.sourceforge.net) to game
 data dir.
+
+Current there is problem with black(r=0,g=0,b=0 which SDLClinet use 
+as transparent color) color on 16bit modes.
+Make correct tilesets to New_Black (r=4 , b=4 g=4) or use 24bit mode.
 
 In Game:
     - use <Right Shift>+Enter to show input dialog.
