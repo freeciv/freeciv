@@ -159,13 +159,13 @@ static void initialize_city_dialogs(void)
   assert(!city_dialogs_have_been_initialised);
 
   genlist_init(&dialog_list);
-#ifdef ISOMETRIC
-  canvas_width = 4 * NORMAL_TILE_WIDTH;
-  canvas_height = 4 * NORMAL_TILE_HEIGHT;
-#else
-  canvas_width = 5 * NORMAL_TILE_WIDTH;
-  canvas_height = 5 * NORMAL_TILE_HEIGHT;
-#endif
+  if (is_isometric) {
+    canvas_width = 4 * NORMAL_TILE_WIDTH;
+    canvas_height = 4 * NORMAL_TILE_HEIGHT;
+  } else {
+    canvas_width = 5 * NORMAL_TILE_WIDTH;
+    canvas_height = 5 * NORMAL_TILE_HEIGHT;
+  }
   city_dialogs_have_been_initialised=1;
 }
 
@@ -1207,21 +1207,25 @@ static void city_dialog_update_output(struct city_dialog *pdialog)
   gtk_set_label(pdialog->output_label, buf);
 }
 
-#ifdef ISOMETRIC
 /**************************************************************************
 ...
 **************************************************************************/
 static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
 {
-  int diff_xy;
+  if (is_isometric) {
+    int diff_xy;
 
-  /* The line at y=0 isometric has constant x+y=1(tiles) */
-  diff_xy = (map_x + map_y) - (1);
-  *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
+    /* The line at y=0 isometric has constant x+y=1(tiles) */
+    diff_xy = (map_x + map_y) - (1);
+    *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
 
-  /* The line at x=0 isometric has constant x-y=-3(tiles) */
-  diff_xy = map_x - map_y;
-  *canvas_x = (diff_xy + 3) * NORMAL_TILE_WIDTH/2;
+    /* The line at x=0 isometric has constant x-y=-3(tiles) */
+    diff_xy = map_x - map_y;
+    *canvas_x = (diff_xy + 3) * NORMAL_TILE_WIDTH/2;
+  } else {
+    *canvas_x = map_x * NORMAL_TILE_WIDTH;
+    *canvas_y = map_y * NORMAL_TILE_HEIGHT;
+  }
 }
 
 /**************************************************************************
@@ -1229,31 +1233,36 @@ static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_
 **************************************************************************/
 static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 {
-  *map_x = -2;
-  *map_y = 2;
+  if (is_isometric) {
+    *map_x = -2;
+    *map_y = 2;
 
-  /* first find an equivalent position on the left side of the screen. */
-  *map_x += canvas_x/NORMAL_TILE_WIDTH;
-  *map_y -= canvas_x/NORMAL_TILE_WIDTH;
-  canvas_x %= NORMAL_TILE_WIDTH;
+    /* first find an equivalent position on the left side of the screen. */
+    *map_x += canvas_x/NORMAL_TILE_WIDTH;
+    *map_y -= canvas_x/NORMAL_TILE_WIDTH;
+    canvas_x %= NORMAL_TILE_WIDTH;
 
-  /* Then move op to the top corner. */
-  *map_x += canvas_y/NORMAL_TILE_HEIGHT;
-  *map_y += canvas_y/NORMAL_TILE_HEIGHT;
-  canvas_y %= NORMAL_TILE_HEIGHT;
+    /* Then move op to the top corner. */
+    *map_x += canvas_y/NORMAL_TILE_HEIGHT;
+    *map_y += canvas_y/NORMAL_TILE_HEIGHT;
+    canvas_y %= NORMAL_TILE_HEIGHT;
 
-  assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
-  canvas_y *= 2; /* now we have a square. */
-  if (canvas_x + canvas_y > NORMAL_TILE_WIDTH/2) (*map_x)++;
-  if (canvas_x + canvas_y > 3 * NORMAL_TILE_WIDTH/2) (*map_x)++;
-  if (canvas_x - canvas_y > NORMAL_TILE_WIDTH/2)  (*map_y)--;
-  if (canvas_y - canvas_x > NORMAL_TILE_WIDTH/2)  (*map_y)++;
+    assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
+    canvas_y *= 2; /* now we have a square. */
+    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH/2) (*map_x)++;
+    if (canvas_x + canvas_y > 3 * NORMAL_TILE_WIDTH/2) (*map_x)++;
+    if (canvas_x - canvas_y > NORMAL_TILE_WIDTH/2)  (*map_y)--;
+    if (canvas_y - canvas_x > NORMAL_TILE_WIDTH/2)  (*map_y)++;
+  } else {
+    *map_x = canvas_x/NORMAL_TILE_WIDTH;
+    *map_y = canvas_y/NORMAL_TILE_HEIGHT;
+  }
 }
 
 /****************************************************************
-...
+Isometric.
 *****************************************************************/
-static void city_dialog_update_map(struct city_dialog *pdialog)
+static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 {
   int x, y;
   struct city *pcity = pdialog->pcity;
@@ -1320,31 +1329,11 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
   gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,
 		  0, 0, 0, 0, canvas_width, canvas_height);
 }
-#else
-#ifdef UNUSED
-/**************************************************************************
-...
-**************************************************************************/
-static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
-{
-  *canvas_x = map_x * NORMAL_TILE_WIDTH;
-  *canvas_y = map_y * NORMAL_TILE_HEIGHT;
-}
-#endif
-
-/**************************************************************************
-...
-**************************************************************************/
-static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
-{
-  *map_x = canvas_x/NORMAL_TILE_WIDTH;
-  *map_y = canvas_y/NORMAL_TILE_HEIGHT;
-}
 
 /****************************************************************
-...
+Non-isometric
 *****************************************************************/
-void city_dialog_update_map(struct city_dialog *pdialog)
+static void city_dialog_update_map_ovh(struct city_dialog *pdialog)
 {
   int x, y;
   struct city *pcity=pdialog->pcity;
@@ -1366,7 +1355,8 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 			       city_get_shields_tile(x, y, pcity), 
 			       city_get_trade_tile(x, y, pcity));
 	else if(pcity->city_map[x][y]==C_TILE_UNAVAILABLE)
-	  pixmap_frame_tile_red(pdialog->map_canvas_store, x, y);
+	  pixmap_frame_tile_red(pdialog->map_canvas_store,
+				x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
       }
       else {
 	pixmap_put_black_tile(pdialog->map_canvas_store,
@@ -1378,7 +1368,18 @@ void city_dialog_update_map(struct city_dialog *pdialog)
   gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,
 		  0, 0, 0, 0, canvas_width, canvas_height);
 }
-#endif
+
+/****************************************************************
+...
+*****************************************************************/
+static void city_dialog_update_map(struct city_dialog *pdialog)
+{
+  if (is_isometric) {
+    city_dialog_update_map_iso(pdialog);
+  } else {
+    city_dialog_update_map_ovh(pdialog);
+  }
+}
 
 /****************************************************************
 ...

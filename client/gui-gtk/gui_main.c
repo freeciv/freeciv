@@ -169,12 +169,11 @@ static void parse_options(int argc, char **argv)
 **************************************************************************/
 static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
 {
-    if (GTK_WIDGET_HAS_FOCUS(inputline))
-	return FALSE;
+  if (GTK_WIDGET_HAS_FOCUS(inputline))
+    return FALSE;
 
-    switch (event->keyval)
-    {
-#ifdef ISOMETRIC
+  if (is_isometric) {
+    switch (event->keyval) {
     case GDK_Up:
     case GDK_8:
     case GDK_KP_8:
@@ -203,7 +202,21 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_7:
     case GDK_KP_7:
     case GDK_KP_Home:		key_move_west();		break;
-#else
+
+    case GDK_KP_Begin:
+    case GDK_5:
+    case GDK_KP_5:		focus_to_next_unit();		break;
+
+    case GDK_Return:
+    case GDK_KP_Enter:		key_end_turn();			break;
+
+    case GDK_Escape:		key_cancel_action();		break;
+
+    case GDK_t:			key_city_workers(widget,event);	break;
+    default:							return FALSE;
+    }
+  } else {
+    switch (event->keyval) {
     case GDK_Up:
     case GDK_8:
     case GDK_KP_8:
@@ -232,7 +245,6 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_7:
     case GDK_KP_7:
     case GDK_KP_Home:		key_move_north_west();		break;
-#endif
     case GDK_KP_Begin:
     case GDK_5:
     case GDK_KP_5:		focus_to_next_unit();		break;
@@ -245,9 +257,10 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_t:			key_city_workers(widget,event);	break;
     default:							return FALSE;
     }
+  }
 
-    gtk_signal_emit_stop_by_name(GTK_OBJECT(widget), "key_press_event");
-    return TRUE;
+  gtk_signal_emit_stop_by_name(GTK_OBJECT(widget), "key_press_event");
+  return TRUE;
 }
 
 static gint tearoff_delete(GtkWidget *w, GdkEvent *ev, GtkWidget *box)
@@ -668,20 +681,20 @@ void ui_main(int argc, char **argv)
   }
 
   fill_bg_gc = gdk_gc_new(root_window);
-#ifdef ISOMETRIC
-  thin_line_gc = gdk_gc_new(root_window);
-  thick_line_gc = gdk_gc_new(root_window);
-  gdk_gc_set_line_attributes(thin_line_gc,
-			     1,
-			     GDK_LINE_SOLID,
-			     GDK_CAP_NOT_LAST,
-			     GDK_JOIN_MITER);
-  gdk_gc_set_line_attributes(thick_line_gc,
-			     2,
-			     GDK_LINE_SOLID,
-			     GDK_CAP_NOT_LAST,
-			     GDK_JOIN_MITER);
-#endif
+  if (is_isometric) {
+    thin_line_gc = gdk_gc_new(root_window);
+    thick_line_gc = gdk_gc_new(root_window);
+    gdk_gc_set_line_attributes(thin_line_gc,
+			       1,
+			       GDK_LINE_SOLID,
+			       GDK_CAP_NOT_LAST,
+			       GDK_JOIN_MITER);
+    gdk_gc_set_line_attributes(thick_line_gc,
+			       2,
+			       GDK_LINE_SOLID,
+			       GDK_CAP_NOT_LAST,
+			       GDK_JOIN_MITER);
+  }
 
   fill_tile_gc = gdk_gc_new(root_window);
   gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);

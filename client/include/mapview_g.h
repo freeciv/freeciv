@@ -32,7 +32,7 @@ void overview_update_tile(int x, int y);
 void center_tile_mapcanvas(int x, int y);
 void get_center_tile_mapcanvas(int *x, int *y);
 
-void update_map_canvas(int tile_x, int tile_y, int width, int height,
+void update_map_canvas(int x, int y, int width, int height,
 		       int write_to_screen);
 void update_map_canvas_visible(void);
 void update_map_canvas_scrollbars(void);
@@ -49,13 +49,7 @@ void refresh_overview_canvas(void);
 void refresh_overview_viewrect(void);
 void refresh_tile_mapcanvas(int x, int y, int write_to_screen);
 
-  
-#ifdef ISOMETRIC
-void draw_segment(int src_x, int src_y, int dir,
-		  int write_to_screen);
-#else
 void draw_segment(int src_x, int src_y, int dir);
-#endif
 void undraw_segment(int src_x, int src_y, int dir);
 
 #endif  /* FC__MAPVIEW_G_H */

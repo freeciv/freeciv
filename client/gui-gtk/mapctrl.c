@@ -411,11 +411,11 @@ gint butt_down_overviewcanvas(GtkWidget *widget, GdkEventButton *event)
   if (event->type != GDK_BUTTON_PRESS)
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
 
-#ifdef ISOMETRIC
-  xtile=event->x/2-(map.xsize/2-(map_view_x0+(map_canvas_store_twidth+map_canvas_store_theight)/2));
-#else
-  xtile=event->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
-#endif
+  if (is_isometric) {
+    xtile=event->x/2-(map.xsize/2-(map_view_x0+(map_canvas_store_twidth+map_canvas_store_theight)/2));
+  } else {
+    xtile=event->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
+  }
   ytile=event->y/2;
   
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)

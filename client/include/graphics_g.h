@@ -13,6 +13,9 @@
 #ifndef FC__GRAPHICS_G_H
 #define FC__GRAPHICS_G_H
 
+int isometric_view_supported(void);
+int overhead_view_supported(void);
+
 void load_intro_gfx(void);
 void load_cursors(void);
 
