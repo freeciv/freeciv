@@ -1266,14 +1266,9 @@ static void tilespec_lookup_sprite_tags(void)
   if (roadstyle == 0) {
     /* Roadstyle 0 has just 8 additional sprites for both road and rail:
      * one for the road/rail going off in each direction. */
-    for (i = 0; i < 8; i++) {
-      const char *s = dir_get_name(i);
-      char dir_name[3];
-
-      assert(strlen(s) == 1 || strlen(s) == 2);
-      dir_name[0] = my_tolower(s[0]);
-      dir_name[1] = my_tolower(s[1]);
-      dir_name[2] = my_tolower(s[2]);
+    for (i = 0; i < num_valid_tileset_dirs; i++) {
+      enum direction8 dir = valid_tileset_dirs[i];
+      const char *dir_name = dir_get_tileset_name(dir);
 
       my_snprintf(buffer, sizeof(buffer), "r.road_%s", dir_name);
       SET_SPRITE(road.dir[i], buffer);
@@ -2209,21 +2204,22 @@ static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
     /* With roadstyle 0, we simply draw one road/rail for every connection.
      * This means we only need a few sprites, but a lot of drawing is
      * necessary and it generally doesn't look very good. */
+    int i;
 
     /* First raw roads under rails. */
     if (road) {
-      for (dir = 0; dir < 8; dir++) {
-	if (draw_road[dir]) {
-	  ADD_SPRITE_SIMPLE(sprites.road.dir[dir]);
+      for (i = 0; i < num_valid_tileset_dirs; i++) {
+	if (draw_road[valid_tileset_dirs[i]]) {
+	  ADD_SPRITE_SIMPLE(sprites.road.dir[i]);
 	}
       }
     }
 
     /* Then draw rails over roads. */
     if (rail) {
-      for (dir = 0; dir < 8; dir++) {
-	if (draw_rail[dir]) {
-	  ADD_SPRITE_SIMPLE(sprites.rail.dir[dir]);
+      for (i = 0; i < num_valid_tileset_dirs; i++) {
+	if (draw_rail[valid_tileset_dirs[i]]) {
+	  ADD_SPRITE_SIMPLE(sprites.rail.dir[i]);
 	}
       }
     }
