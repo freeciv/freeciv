@@ -310,25 +310,6 @@ if test x$client != xno; then
     AC_CHECKING([for which client to compile:])
   fi
 
-  dnl Gtk-specific overrides
-  if test "$client" = gtk || test "$client" = yes ; then
-    AM_PATH_GTK(1.2.5, gtk_found="yes", gtk_found="", imlib_found="")
-    if test "x$gtk_found" = "xyes"; then
-      AM_PATH_GDK_IMLIB(1.9.2, imlib_found="yes", imlib_found="")
-      if test "x$imlib_found" = "xyes"; then
-        CLIENT_CFLAGS="$GDK_IMLIB_CFLAGS"
-        CLIENT_LIBS="$GDK_IMLIB_LIBS"
-	found_client=yes
-      fi
-    fi
-
-    if test "x$found_client" = "xyes"; then
-      client=gtk
-    elif test "$client" = "gtk"; then
-      AC_MSG_ERROR(specified client 'gtk' not configurable)
-    fi
-  fi
-
   dnl Gtk-2.0-specific overrides
   if test "$client" = "gtk-2.0" || test "$client" = yes ; then
     AM_PATH_GTK_2_0(2.0.0, gtk_2_0_found="yes", gtk2_0_found="")
@@ -346,6 +327,25 @@ if test x$client != xno; then
       client="gtk-2.0"
     elif test "$client" = "gtk-2.0"; then
       AC_MSG_ERROR(specified client 'gtk-2.0' not configurable)
+    fi
+  fi
+
+  dnl Gtk-specific overrides
+  if test "$client" = gtk || test "$client" = yes ; then
+    AM_PATH_GTK(1.2.5, gtk_found="yes", gtk_found="", imlib_found="")
+    if test "x$gtk_found" = "xyes"; then
+      AM_PATH_GDK_IMLIB(1.9.2, imlib_found="yes", imlib_found="")
+      if test "x$imlib_found" = "xyes"; then
+        CLIENT_CFLAGS="$GDK_IMLIB_CFLAGS"
+        CLIENT_LIBS="$GDK_IMLIB_LIBS"
+	found_client=yes
+      fi
+    fi
+
+    if test "x$found_client" = "xyes"; then
+      client=gtk
+    elif test "$client" = "gtk"; then
+      AC_MSG_ERROR(specified client 'gtk' not configurable)
     fi
   fi
 
