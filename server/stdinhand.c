@@ -435,6 +435,16 @@ static struct settings_s settings[] = {
     "  2 - frequent barbarian uprising \n"
     "  3 - raging hordes, lots of barbarians") },
 
+  { "occupychance", &game.occupychance,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, GAME_DEFAULT_OCCUPYCHANCE,
+    N_("Chance of moving into tile after attack"),
+    N_("  If set to 0, combat is Civ1/2-style (when you attack, you remain in\n"
+       "  place).  If set to 100, attacking units will always move into the\n"
+       "  tile they attacked if they win the combat (and no enemy units remain\n"
+       "  in the tile).  If set to a value between 0 and 100, this will be used\n"
+       "  as the percent chance of \"occupying\" territory.") },
+
 /* Flexible rules: these can be changed after the game has started.
  * Should such flexible rules exist?  diplchance is included here
  * to duplicate its previous behaviour (and note diplchance is only used

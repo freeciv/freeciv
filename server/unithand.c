@@ -516,8 +516,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   struct packet_unit_combat combat;
   struct unit *plooser, *pwinner;
   struct city *pcity;
-  struct city *incity, *nearcity1, *nearcity2;
-  incity = map_get_city(pdefender->x, pdefender->y);
+  struct city *nearcity1, *nearcity2;
+  int def_x = pdefender->x, def_y = pdefender->y;
   
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
 	  pplayer->name, unit_types[punit->type].name, 
@@ -527,14 +527,14 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   if(unit_flag(punit->type, F_NUCLEAR)) {
     struct packet_nuke_tile packet;
     
-    packet.x=pdefender->x;
-    packet.y=pdefender->y;
-    if ((pcity=sdi_defense_close(punit->owner, pdefender->x, pdefender->y))) {
+    packet.x=def_x;
+    packet.y=def_y;
+    if ((pcity=sdi_defense_close(punit->owner, def_x, def_y))) {
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST_ATT,
 		       _("Game: Your Nuclear missile was shot down by"
 			 " SDI defences, what a waste."));
       notify_player_ex(&game.players[pcity->owner], 
-		       pdefender->x, pdefender->y, E_UNIT_WIN, 
+		       def_x, def_y, E_UNIT_WIN, 
 		       _("Game: The nuclear attack on %s was avoided by"
 			 " your SDI defense."),
 		       pcity->name); 
@@ -545,7 +545,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     for(o=0; o<game.nplayers; o++)
       send_packet_nuke_tile(game.players[o].conn, &packet);
     
-    do_nuclear_explosion(pdefender->x, pdefender->y);
+    do_nuclear_explosion(def_x, def_y);
     return;
   }
   
@@ -558,7 +558,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   if(punit->moves_left<0)
     punit->moves_left=0;
 
-  if (punit->hp && (pcity=map_get_city(pdefender->x, pdefender->y)) && pcity->size>1 && !city_got_citywalls(pcity) && is_ground_unit(punit)) {
+  if (punit->hp && (pcity=map_get_city(def_x, def_y)) && pcity->size>1 && !city_got_citywalls(pcity) && is_ground_unit(punit)) {
     pcity->size--;
     city_auto_remove_worker(pcity);
     city_refresh(pcity);
@@ -577,11 +577,11 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   
   for(o=0; o<game.nplayers; o++)
     if(map_get_known(punit->x, punit->y, &game.players[o]) ||
-       map_get_known(pdefender->x, pdefender->y, &game.players[o]))
+       map_get_known(def_x, def_y, &game.players[o]))
       send_packet_unit_combat(game.players[o].conn, &combat);
 
-  nearcity1 = dist_nearest_city(get_player(pwinner->owner), pdefender->x, pdefender->y, 0, 0);
-  nearcity2 = dist_nearest_city(get_player(plooser->owner), pdefender->x, pdefender->y, 0, 0);
+  nearcity1 = dist_nearest_city(get_player(pwinner->owner), def_x, def_y, 0, 0);
+  nearcity2 = dist_nearest_city(get_player(plooser->owner), def_x, def_y, 0, 0);
   
   if(punit==plooser) {
     /* The attacker lost */
@@ -601,7 +601,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 		     unit_name(plooser->type));
     
     notify_player_ex(get_player(plooser->owner),
-		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
+		     def_x, def_y, E_UNIT_LOST_ATT, 
 		     _("Game: Your attacking %s failed against %s's %s%s!"),
 		     unit_name(plooser->type),
 		     get_player(pwinner->owner)->name,
@@ -635,6 +635,31 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     wipe_unit(pplayer, pwinner);
     return;
   }
+
+  /* If attacker wins, and occupychance > 0, it might move in.  Don't move in
+     if there are enemy units in the tile (a fortress or city with multiple
+     defenders and unstacked combat).  Note that this could mean capturing (or
+     destroying) a city. -GJW */
+
+  if (pwinner == punit && myrand(100) < game.occupychance &&
+      !is_enemy_unit_tile (def_x, def_y, punit->owner)) {
+
+    /* Hack: make sure the unit has enough moves_left for the move to succeed,
+       and adjust moves_left to afterward (if successful). */
+
+    int old_moves = punit->moves_left;
+    int full_moves = unit_move_rate (punit);
+    punit->moves_left = full_moves;
+    if (handle_unit_move_request (pplayer, punit, def_x, def_y)) {
+      punit->moves_left = old_moves - (full_moves - punit->moves_left);
+      if (punit->moves_left < 0) {
+	punit->moves_left = 0;
+      }
+    } else {
+      punit->moves_left = old_moves;
+    }
+  }
+
   send_unit_info(0, pwinner, 0);
 }
 

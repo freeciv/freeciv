@@ -55,6 +55,7 @@ struct civ_game {
   int min_players, max_players, nplayers;
   int aifill;
   int barbarians;
+  int occupychance;
   int unhappysize;
   char *startmessage;
   int player_idx;
@@ -256,6 +257,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_BARBARIAN       1
 #define GAME_MIN_BARBARIAN           0
 #define GAME_MAX_BARBARIAN           3
+
+#define GAME_DEFAULT_OCCUPYCHANCE    0
+#define GAME_MIN_OCCUPYCHANCE        0
+#define GAME_MAX_OCCUPYCHANCE        100
 
 #define GAME_DEFAULT_RULESET         "default"
 

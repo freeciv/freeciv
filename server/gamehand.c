@@ -346,6 +346,8 @@ int game_load(struct section_file *file)
                          "game.turnblock");
   game.barbarians = secfile_lookup_int_default(file, game.barbarians,
                                                "game.barbarians");
+  game.occupychance = secfile_lookup_int_default(file, game.occupychance,
+  						 "game.occupychance");
   
   if(has_capability("unirandom", savefile_options)) {
     RANDOM_STATE rstate;
@@ -543,6 +545,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.turnblock, "game.turnblock");
   secfile_insert_int(file, game.barbarians, "game.barbarians");
+  secfile_insert_int(file, game.occupychance, "game.occupychance");
   secfile_insert_str(file, game.ruleset.techs, "game.ruleset.techs");
   secfile_insert_str(file, game.ruleset.units, "game.ruleset.units");
   secfile_insert_str(file, game.ruleset.buildings, "game.ruleset.buildings");
