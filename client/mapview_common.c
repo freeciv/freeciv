@@ -163,8 +163,40 @@ static void map_to_gui_pos(int *gui_x, int *gui_y, int map_x, int map_y)
 static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
 {
   const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+  const int HH = hex_height, HW = hex_width;
 
-  if (is_isometric) {
+  if (HH > 0 || HW > 0) {
+    /* To handle hexagonal cases we have to revert to a less elegant method
+     * of calculation. */
+    int x, y, dx, dy;
+    int xmult, ymult, mod, compar;
+
+    assert(is_isometric);
+
+    x = DIVIDE(gui_x, W);
+    y = DIVIDE(gui_y, H);
+    dx = gui_x - x * W;
+    dy = gui_y - y * H;
+    assert(dx >= 0 && dx < W);
+    assert(dy >= 0 && dy < H);
+
+    /* Now fold so we consider only one-quarter tile. */
+    xmult = (dx >= W / 2) ? -1 : 1;
+    ymult = (dy >= H / 2) ? -1 : 1;
+    dx = (dx >= W / 2) ? (W - 1 - dx) : dx;
+    dy = (dy >= H / 2) ? (H - 1 - dy) : dy;
+
+    /* Next compare to see if we're across onto the next tile. */
+    if (HW > 0) {
+      compar = (dx - HW / 2) * (H / 2) - (H / 2 - 1 - dy) * (W / 2 - HW);
+    } else {
+      compar = (dy - HH / 2) * (W / 2) - (W / 2 - 1 - dx) * (H / 2 - HH);
+    }
+    mod = (compar < 0) ? -1 : 0;
+
+    *map_x = (x + y) + mod * (xmult + ymult) / 2;
+    *map_y = (y - x) + mod * (ymult - xmult) / 2;
+  } else if (is_isometric) {
     /* The basic operation here is a simple pi/4 rotation; however, we
      * have to first scale because the tiles have different width and
      * height.  Mathematically, this looks like
