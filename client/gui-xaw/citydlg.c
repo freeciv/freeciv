@@ -1889,8 +1889,9 @@ void citydlg_btn_select_citymap(Widget w, XEvent *event)
     if (!cma_is_city_under_agent(pcity, NULL)) {
       int xtile, ytile;
 
-      canvas_pos_to_city_pos(ev->x, ev->y, &xtile, &ytile);
-      city_toggle_worker(pcity, xtile, ytile);
+      if (canvas_to_city_pos(&xtile, &ytile, ev->x, ev->y)) {
+	city_toggle_worker(pcity, xtile, ytile);
+      }
     }
   }
 }

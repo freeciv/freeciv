@@ -1371,30 +1371,29 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
      to avoid using any iterator macro. */
   for (city_x = 0; city_x<CITY_MAP_SIZE; city_x++)
     for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
-      int map_x, map_y;
+      int map_x, map_y, canvas_x, canvas_y;
+
       if (is_valid_city_coords(city_x, city_y)
-	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
-	if (tile_get_known(map_x, map_y)) {
-	  int canvas_x, canvas_y;
-	  city_pos_to_canvas_pos(city_x, city_y, &canvas_x, &canvas_y);
-	  put_one_tile_full(pdialog->map_canvas_store, map_x, map_y,
-			    canvas_x, canvas_y, 1);
-	}
+	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)
+	  && tile_get_known(map_x, map_y)
+	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
+	put_one_tile_full(pdialog->map_canvas_store, map_x, map_y,
+			  canvas_x, canvas_y, 1);
       }
     }
 
   /* We have to put the output afterwards or it will be covered. */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    if (tile_get_known(map_x, map_y)) {
-      int canvas_x, canvas_y;
-      city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
-      if (pcity->city_map[x][y] == C_TILE_WORKER) {
-	put_city_tile_output(pdialog->map_canvas_store,
-			     canvas_x, canvas_y,
-			     city_get_food_tile(x, y, pcity),
-			     city_get_shields_tile(x, y, pcity),
-			     city_get_trade_tile(x, y, pcity));
-      }
+    int canvas_x, canvas_y;
+
+    if (tile_get_known(map_x, map_y)
+	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
+	&& pcity->city_map[x][y] == C_TILE_WORKER) {
+      put_city_tile_output(pdialog->map_canvas_store,
+			   canvas_x, canvas_y,
+			   city_get_food_tile(x, y, pcity),
+			   city_get_shields_tile(x, y, pcity),
+			   city_get_trade_tile(x, y, pcity));
     }
   }
   city_map_checked_iterate_end;
@@ -1404,13 +1403,12 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
      to fix this, but maybe it wouldn't be a good idea because the
      lines would get obscured. */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    if (tile_get_known(map_x, map_y)) {
-      int canvas_x, canvas_y;
-      city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
-      if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
-	pixmap_frame_tile_red(pdialog->map_canvas_store,
-			      canvas_x, canvas_y);
-      }
+    int canvas_x, canvas_y;
+
+    if (tile_get_known(map_x, map_y)
+	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
+	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
+      pixmap_frame_tile_red(pdialog->map_canvas_store, canvas_x, canvas_y);
     }
   }
   city_map_checked_iterate_end;
@@ -2328,8 +2326,9 @@ static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev)
   if (pcity) {
     int xtile, ytile;
 
-    canvas_pos_to_city_pos(ev->x, ev->y, &xtile, &ytile);
-    city_toggle_worker(pcity, xtile, ytile);
+    if (canvas_to_city_pos(&xtile, &ytile, ev->x, ev->y)) {
+      city_toggle_worker(pcity, xtile, ytile);
+    }
   }
   return TRUE;
 }

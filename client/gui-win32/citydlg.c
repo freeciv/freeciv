@@ -501,30 +501,28 @@ static void city_dialog_update_map_iso(HDC hdc,struct city_dialog *pdialog)
      to avoid using any iterator macro. */
   for (city_x = 0; city_x<CITY_MAP_SIZE; city_x++)
     for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
-      int map_x, map_y;
+      int map_x, map_y, canvas_x, canvas_y;
+
       if (is_valid_city_coords(city_x, city_y)
-          && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
-        if (tile_get_known(map_x, map_y)) {
-          int canvas_x, canvas_y;
-          city_pos_to_canvas_pos(city_x, city_y, &canvas_x, &canvas_y);
-          put_one_tile_full(hdc, map_x, map_y,
-                            canvas_x, canvas_y, 1);
-        }
+          && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)
+	  && tile_get_known(map_x, map_y)
+          && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
+	put_one_tile_full(hdc, map_x, map_y, canvas_x, canvas_y, 1);
       }
     }
   
   /* We have to put the output afterwards or it will be covered. */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    if (tile_get_known(map_x, map_y)) {
-      int canvas_x, canvas_y;
-      city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
-      if (pcity->city_map[x][y]==C_TILE_WORKER) {
-        put_city_tile_output(hdc,
-                             canvas_x, canvas_y,
-                             city_get_food_tile(x, y, pcity),
-                             city_get_shields_tile(x, y, pcity), 
-                             city_get_trade_tile(x, y, pcity));
-      }
+    int canvas_x, canvas_y;
+
+    if (tile_get_known(map_x, map_y)
+	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
+	&& pcity->city_map[x][y] == C_TILE_WORKER) {
+      put_city_tile_output(hdc,
+			   canvas_x, canvas_y,
+			   city_get_food_tile(x, y, pcity),
+			   city_get_shields_tile(x, y, pcity), 
+			   city_get_trade_tile(x, y, pcity));
     }
   } city_map_checked_iterate_end;
 
@@ -533,13 +531,12 @@ static void city_dialog_update_map_iso(HDC hdc,struct city_dialog *pdialog)
      to fix this, but maybe it wouldn't be a good idea because the
      lines would get obscured. */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    if (tile_get_known(map_x, map_y)) {
-      int canvas_x, canvas_y;
-      city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
-      if (pcity->city_map[x][y]==C_TILE_UNAVAILABLE) {
-        pixmap_frame_tile_red(hdc,
-			      canvas_x, canvas_y);
-      }
+    int canvas_x, canvas_y;
+
+    if (tile_get_known(map_x, map_y)
+	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
+	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
+      pixmap_frame_tile_red(hdc, canvas_x, canvas_y);
     }
   } city_map_checked_iterate_end;
 
@@ -1727,10 +1724,11 @@ static void city_dlg_mouse(struct city_dialog *pdialog, int x, int y,
       if ((x>=pdialog->map.x)&&(x<(pdialog->map.x+pdialog->map_w)))
 	{
 	  int tile_x,tile_y;
-	  xr=x-pdialog->map.x;
-	  yr=y-pdialog->map.y;
-	  canvas_pos_to_city_pos(xr,yr,&tile_x,&tile_y);
-	  city_toggle_worker(pdialog->pcity, tile_x, tile_y);
+
+	  if (canvas_to_city_pos(&tile_x, &tile_y,
+				 pdialog->map.x, pdialog->map.y)) {
+	    city_toggle_worker(pdialog->pcity, tile_x, tile_y);
+	  }
 	}
     }
   xr=x-pdialog->pop_x;
@@ -2241,10 +2239,11 @@ static  LONG CALLBACK happiness_proc(HWND win, UINT message,
       if ((x>=pdialog->maph.x)&&(x<(pdialog->maph.x+pdialog->map_w))&&
 	  (y>=pdialog->maph.y)&&(y<(pdialog->maph.y+pdialog->map_h))) {
 	int tile_x,tile_y;
-	canvas_pos_to_city_pos(x-pdialog->maph.x,
-			       y-pdialog->maph.y,
-			       &tile_x,&tile_y);
-	city_toggle_worker(pdialog->pcity, tile_x, tile_y);
+
+	if (canvas_to_city_pos(&tile_x, &tile_y,
+			       x-pdialog->maph.x, y-pdialog->maph.y)) {
+	  city_toggle_worker(pdialog->pcity, tile_x, tile_y);
+	}
       }
       break;
     case WM_PAINT:

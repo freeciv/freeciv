@@ -2141,26 +2141,28 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
          the city radius can be fogged. */
 
       city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-	if (tile_get_known(map_x, map_y)) {
-	  int canvas_x, canvas_y;
-	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
-	  put_one_tile_full(_rp(o), map_x, map_y, canvas_x + _mleft(o), canvas_y + _mtop(o), 1);
+	int canvas_x, canvas_y;
+
+	if (tile_get_known(map_x, map_y)
+	    && city_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+	  put_one_tile_full(_rp(o), map_x, map_y, canvas_x + _mleft(o),
+			    canvas_y + _mtop(o), 1);
 	}
       } city_map_checked_iterate_end;
 
       /* We have to put the output afterwards or it will be covered. */
       city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-	if (tile_get_known(map_x, map_y)) {
-	  int canvas_x, canvas_y;
-	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
-	  if (pcity->city_map[x][y]==C_TILE_WORKER) {
-	    put_city_output_tile(_rp(o),
-			     city_get_food_tile(x, y, pcity),
-			     city_get_shields_tile(x, y, pcity), 
-			     city_get_trade_tile(x, y, pcity),
-			     _mleft(o) + canvas_x, _mtop(o) + canvas_y,0,0);
-          }
-        }
+	int canvas_x, canvas_y;
+
+	if (tile_get_known(map_x, map_y)
+	    && city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
+	    && pcity->city_map[x][y]==C_TILE_WORKER) {
+	  put_city_output_tile(_rp(o),
+			       city_get_food_tile(x, y, pcity),
+			       city_get_shields_tile(x, y, pcity), 
+			       city_get_trade_tile(x, y, pcity),
+			       _mleft(o) + canvas_x, _mtop(o) + canvas_y,0,0);
+	}
       } city_map_checked_iterate_end;
 
       /* This sometimes will draw one of the lines on top of a city or
@@ -2168,29 +2170,35 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
          to fix this, but maybe it wouldn't be a good idea because the
          lines would get obscured. */
       city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-	if (tile_get_known(map_x, map_y))
-	{
-	  int canvas_x, canvas_y;
-	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
+	int canvas_x, canvas_y;
 
-          canvas_x += _mleft(o);
-          canvas_y += _mtop(o);
-	  if(pcity->city_map[x][y]==C_TILE_UNAVAILABLE)
-	  {
-	    SetAPen(rp, data->red_color);
-            Move(rp,canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y); /* top --> right */
-            Draw(rp,canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+	if (tile_get_known(map_x, map_y)
+	    && city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
+	    && pcity->city_map[x][y]==C_TILE_UNAVAILABLE) {
+	  canvas_x += _mleft(o);
+	  canvas_y += _mtop(o);
 
-            Move(rp,canvas_x+NORMAL_TILE_WIDTH/2, canvas_y); /* top --> left */
-            Draw(rp,canvas_x, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+	  /* top --> right */
+	  SetAPen(rp, data->red_color);
+	  Move(rp, canvas_x + NORMAL_TILE_WIDTH / 2 - 1, canvas_y);
+	  Draw(rp, canvas_x + NORMAL_TILE_WIDTH - 1,
+	       canvas_y + NORMAL_TILE_HEIGHT / 2 - 1);
 
-            Move(rp,canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y+NORMAL_TILE_HEIGHT-1); /* bottom --> right */
-            Draw(rp,canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2);
+	  /* top --> left */
+	  Move(rp, canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y);
+	  Draw(rp, canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1);
 
-            Move(rp,canvas_x+NORMAL_TILE_WIDTH/2, canvas_y+NORMAL_TILE_HEIGHT-1); /* bottom --> left */
-            Draw(rp,canvas_x, canvas_y+NORMAL_TILE_HEIGHT/2);
-          }
-        }
+	  /* bottom --> right */
+	  Move(rp, canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
+	       canvas_y + NORMAL_TILE_HEIGHT - 1);
+	  Draw(rp, canvas_x + NORMAL_TILE_WIDTH - 1,
+	       canvas_y + NORMAL_TILE_HEIGHT / 2);
+
+	  /* bottom --> left */
+	  Move(rp, canvas_x + NORMAL_TILE_WIDTH / 2,
+	       canvas_y + NORMAL_TILE_HEIGHT - 1);
+	  Draw(rp, canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2);
+	}
       } city_map_checked_iterate_end;
     } else
     {
@@ -2258,10 +2266,13 @@ static ULONG CityMap_HandleInput(struct IClass * cl, Object * o, struct MUIP_Han
 	if (_isinobject(msg->imsg->MouseX, msg->imsg->MouseY))
 	{
 	  int x,y;
-	  canvas_pos_to_city_pos(msg->imsg->MouseX - _mleft(o), msg->imsg->MouseY - _mtop(o), &x, &y);
-	  data->click.x = x;
-	  data->click.y = y;
-	  set(o, MUIA_CityMap_Click, &data->click);
+	  if (canvas_to_city_pos(&x, &y,
+				 msg->imsg->MouseX - _mleft(o),
+				 msg->imsg->MouseY - _mtop(o))) {
+	    data->click.x = x;
+	    data->click.y = y;
+	    set(o, MUIA_CityMap_Click, &data->click);
+	  }
 	}
       }
       break;

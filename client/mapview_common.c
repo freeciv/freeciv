@@ -190,8 +190,7 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
   }
 
   if (is_isometric) {
-    /* For a simpler example of this math, see
-       city_pos_to_canvas_pos(). */
+    /* For a simpler example of this math, see city_to_canvas_pos(). */
     int iso_x, iso_y;
 
     /*
@@ -272,7 +271,7 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
      * only use integer math, and C integer division rounds toward zero
      * instead of rounding down.
      *
-     * For another example of this math, see canvas_pos_to_city_pos().
+     * For another example of this math, see canvas_to_city_pos().
      */
     *map_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
     *map_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);

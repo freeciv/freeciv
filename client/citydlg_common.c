@@ -55,8 +55,7 @@ int get_citydlg_canvas_height(void)
 This converts a city coordinate position to citymap canvas coordinates
 (either isometric or overhead).  It should be in cityview.c instead.
 **************************************************************************/
-void city_pos_to_canvas_pos(int city_x, int city_y, int *canvas_x,
-			    int *canvas_y)
+bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
 {
   if (is_isometric) {
     /*
@@ -74,13 +73,19 @@ void city_pos_to_canvas_pos(int city_x, int city_y, int *canvas_x,
     *canvas_x = city_x * NORMAL_TILE_WIDTH;
     *canvas_y = city_y * NORMAL_TILE_HEIGHT;
   }
+
+  if (!is_valid_city_coords(city_x, city_y)) {
+    assert(FALSE);
+    return FALSE;
+  }
+  return TRUE;
 }
 
 /**************************************************************************
 This converts a citymap canvas position to a city coordinate position
 (either isometric or overhead).  It should be in cityview.c instead.
 **************************************************************************/
-void canvas_pos_to_city_pos(int canvas_x, int canvas_y, int *map_x, int *map_y)
+bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 {
   int orig_canvas_x = canvas_x, orig_canvas_y = canvas_y;
 
@@ -93,19 +98,21 @@ void canvas_pos_to_city_pos(int canvas_x, int canvas_y, int *map_x, int *map_y)
 
     /* Perform a pi/4 rotation, with scaling.  See canvas_pos_to_map_pos
        for a full explanation. */
-    *map_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
-    *map_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
+    *city_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
+    *city_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
 
     /* Add on the offset of the top-left corner to get the final
-       coordinates (like in canvas_pos_to_map_pos). */
-    *map_x -= 2;
-    *map_y += 2;
+     * coordinates (like in canvas_to_map_pos). */
+    *city_x -= 2;
+    *city_y += 2;
   } else {
-    *map_x = canvas_x / NORMAL_TILE_WIDTH;
-    *map_y = canvas_y / NORMAL_TILE_HEIGHT;
+    *city_x = canvas_x / NORMAL_TILE_WIDTH;
+    *city_y = canvas_y / NORMAL_TILE_HEIGHT;
   }
-  freelog(LOG_DEBUG, "canvas_pos_to_city_pos(pos=(%d,%d))=(%d,%d)",
-	  orig_canvas_x, orig_canvas_y, *map_x, *map_y);
+  freelog(LOG_DEBUG, "canvas_to_city_pos(pos=(%d,%d))=(%d,%d)",
+	  orig_canvas_x, orig_canvas_y, *city_x, *city_y);
+
+  return is_valid_city_coords(*city_x, *city_y);
 }
 
 /**************************************************************************
