@@ -2186,16 +2186,17 @@ static void mapgenerator5(void)
     }
   }
 
+  /* put in some random fuzz */
+  whole_map_iterate(x, y) {
+    hmap(x, y) = 8 * hmap(x, y) + myrand(4) - 2;
+  } whole_map_iterate_end;
+
+  /* and calibrate maxval and minval */
   maxval = hmap(0, 0);
   minval = hmap(0, 0);
   whole_map_iterate(x, y) {
-    /* put in some random fuzz */
-    hmap(x, y) = 8 * hmap(x, y) + myrand(4) - 2;
-    /* and calibrate maxval and minval */
-    if (hmap(x, y) > maxval)
-      maxval = hmap(x, y);
-    if (hmap(x, y) < minval)
-      minval = hmap(x, y);
+    maxval = MAX(maxval, hmap(x, y));
+    minval = MIN(minval, hmap(x, y));
   } whole_map_iterate_end;
   maxval -= minval;
   adjust_map(minval);
