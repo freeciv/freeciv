@@ -223,7 +223,7 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
   i = food_weighting[a];
   i *= get_food_tile(x, y, pcity);
   if (foodneed > 0) i *= 10; /* all else is secondary until we are fed */
-  else { i *= 4; i /= pcity->size; }
+  else { i *= 4; i /= MAX(2,pcity->size); }
   
   j = get_shields_tile(x, y, pcity) * shield_weighting[a] *
       city_shield_bonus(pcity);
