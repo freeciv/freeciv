@@ -1101,6 +1101,69 @@ static void send_select_nation(struct player *pplayer)
 }
 
 /**************************************************************************
+  If all players have chosen the same nation class, return
+  this class, otherwise return NULL.
+**************************************************************************/  
+static char* find_common_class(void) 
+{
+  char* class = NULL;
+  struct nation_type* nation;
+
+  players_iterate(pplayer) {
+    if (pplayer->nation == MAX_NUM_NATIONS) {
+      /* still undecided */
+      continue;  
+    }
+    nation = get_nation_by_idx(pplayer->nation);
+    assert(nation->class != NULL);
+    if (class == NULL) {
+       /* Set the class. */
+      class = nation->class;
+    } else if (strcmp(nation->class, class) != 0) {
+      /* Multiple classes are already being used. */
+      return NULL;
+    }
+  } players_iterate_end;
+
+  return class;
+}
+
+/**************************************************************************
+  Select a random available nation.  If 'class' is non-NULL, then choose
+  a nation from that class if possible.
+**************************************************************************/
+static Nation_Type_id select_random_nation(const char* class)
+{
+  Nation_Type_id* nations, selected;
+  int i, j;
+  
+  if (class == NULL) {
+    return nations_avail[myrand(num_nations_avail)];
+  }
+  
+  nations = fc_malloc(num_nations_avail * sizeof(*nations));
+  for (j = i = 0; i < num_nations_avail; i++) {
+    struct nation_type* nation = get_nation_by_idx(nations_avail[i]);
+
+    assert(nation->class != NULL);
+    if (strcmp(nation->class, class) == 0) {
+      nations[j++] = nations_avail[i];
+    }
+  }
+
+  if (j == 0) {
+    /* Pick any available nation. */
+    selected = nations_avail[myrand(num_nations_avail)];
+  } else {
+    selected = nations[myrand(j)];
+    assert(strcmp(get_nation_by_idx(selected)->class, class) == 0);
+  }
+
+  free(nations);
+  return selected;
+}
+
+/**************************************************************************
 generate_ai_players() - Selects a nation for players created with
    server's "create <PlayerName>" command.  If <PlayerName> matches
    one of the leader names for some nation, we choose that nation.
@@ -1112,6 +1175,10 @@ generate_ai_players() - Selects a nation for players created with
    than the number of players currently connected.  If so, we create the
    appropriate number of players (game.aifill - game.nplayers) from
    scratch, choosing a random nation and appropriate name for each.
+   
+   When we choose a nation randomly we try to consider only nations
+   that are in the same class as nations choosen by other players.
+   (I.e., if human player decides to play English, AI won't use Mordorians.)
 
    If the AI player name is one of the leader names for the AI player's
    nation, the player sex is set to the sex for that leader, else it
@@ -1124,10 +1191,12 @@ static void generate_ai_players(void)
   char player_name[MAX_LEN_NAME];
   struct player *pplayer;
   int i, old_nplayers;
+  char* common_class;
 
   /* Select nations for AI players generated with server
    * 'create <name>' command
    */
+  common_class = find_common_class();
   for (i=0; i<game.nplayers; i++) {
     pplayer = &game.players[i];
     
@@ -1162,13 +1231,20 @@ static void generate_ai_players(void)
 
     if (nation == game.playable_nation_count) {
       pplayer->nation =
-	mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
+	mark_nation_as_used(select_random_nation(common_class));
       pplayer->city_style = get_nation_city_style(pplayer->nation);
       pplayer->is_male = (myrand(2) == 1);
     }
 
     announce_ai_player(pplayer);
   }
+  
+  /* We do this again, because user could type:
+   * >create Hammurabi
+   * >set aifill 5
+   * Now we are sure that all AI-players will use historical class
+   */
+  common_class = find_common_class();
 
   /* Create and pick nation and name for AI players needed to bring the
    * total number of players to equal game.aifill
@@ -1189,7 +1265,7 @@ static void generate_ai_players(void)
   }
 
   for(;game.nplayers < game.aifill;) {
-    nation = mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
+    nation = mark_nation_as_used(select_random_nation(common_class));
     pick_ai_player_name(nation, player_name);
 
     old_nplayers = game.nplayers;
