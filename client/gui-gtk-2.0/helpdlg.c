@@ -475,7 +475,7 @@ static void create_help_dialog(void)
   help_view_sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_view_sw),
   			  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_size_request(help_view_sw, 230, -1);
+  gtk_widget_set_size_request(help_view_sw, 200, -1);
   gtk_container_add(GTK_CONTAINER(help_view_sw), help_view);
   gtk_widget_show(help_view);
   gtk_box_pack_start(GTK_BOX(hbox), help_view_sw, FALSE, FALSE, 0);
@@ -483,7 +483,7 @@ static void create_help_dialog(void)
 
   help_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(hbox), help_frame, TRUE, TRUE, 0);
-  gtk_widget_set_size_request(help_frame, 480, 350);
+  gtk_widget_set_size_request(help_frame, 510, 350);
   gtk_widget_show(help_frame);
 
   help_box = gtk_vbox_new(FALSE, 5);
@@ -580,14 +580,14 @@ static void create_help_dialog(void)
   text = gtk_text_view_new();
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_set_border_width(GTK_CONTAINER(text), 5);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_NONE);
   gtk_widget_set_name(text, "help text");
   help_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));
   gtk_widget_show(text);
 
   help_text_sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_text_sw),
-  			  GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(help_text_sw), text);
   gtk_box_pack_start(GTK_BOX(help_box), help_text_sw, TRUE, TRUE, 0);
 
@@ -860,7 +860,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     my_chomp(buf, len);
 
     w = gtk_text_view_new();
-    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(w), GTK_WRAP_WORD);
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(w), GTK_WRAP_NONE);
     gtk_widget_set_name(w, "help text");
     gtk_container_set_border_width(GTK_CONTAINER(w), 5);
     gtk_text_view_set_editable(GTK_TEXT_VIEW(w), FALSE);
