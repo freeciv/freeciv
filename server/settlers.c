@@ -787,7 +787,7 @@ bool is_ok_city_spot(int x, int y)
 **************************************************************************/
 bool auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int y)
 {
-  nearest_real_pos(&x, &y);
+  CHECK_MAP_POS(x, y);
   punit->goto_dest_x = x;
   punit->goto_dest_y = y;
   set_unit_activity(punit, ACTIVITY_GOTO);

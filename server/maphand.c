@@ -943,10 +943,6 @@ static void player_tile_init(int x, int y, struct player *pplayer)
 struct player_tile *map_get_player_tile(int x, int y,
 					struct player *pplayer)
 {
-  if (!is_real_tile(x, y)) {
-    freelog(LOG_ERROR, "Trying to get nonexistant tile at %i,%i", x, y);
-  }
-  nearest_real_pos(&x, &y);
   return pplayer->private_map + map_inx(x, y);
 }
  
