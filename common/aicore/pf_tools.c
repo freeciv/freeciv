@@ -106,7 +106,7 @@ static int normal_move_unit(int x, int y, enum direction8 dir,
 			    int x1, int y1, struct pf_parameter *param)
 {
   struct tile *ptile = map_get_tile(x, y);
-  int terrain1 = map_get_terrain(x1, y1);
+  enum tile_terrain_type terrain1 = map_get_terrain(x1, y1);
   int move_cost;
 
   if (terrain1 == T_OCEAN) {
@@ -204,7 +204,7 @@ static int land_overlap_move(int x, int y, enum direction8 dir,
 			     int x1, int y1, struct pf_parameter *param)
 {
   struct tile *ptile = map_get_tile(x, y);
-  int terrain1 = map_get_terrain(x1, y1);
+  enum tile_terrain_type terrain1 = map_get_terrain(x1, y1);
   int move_cost;
 
   if (terrain1 == T_OCEAN) {
