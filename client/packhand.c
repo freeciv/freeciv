@@ -951,10 +951,12 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
     }
 
     if (punit->activity != packet_unit->activity
-        || punit->activity_target != packet_unit->activity_target
+	|| punit->activity_target != packet_unit->activity_target
 	|| punit->has_orders != packet_unit->has_orders
 	|| punit->orders.repeat != packet_unit->orders.repeat
-	|| punit->orders.vigilant != packet_unit->orders.vigilant) {
+	|| punit->orders.vigilant != packet_unit->orders.vigilant
+	|| punit->orders.index != packet_unit->orders.index) {
+
       /*** Change in activity or activity's target. ***/
 
       /* May change focus if focus unit gets a new activity.
