@@ -604,6 +604,10 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
       best->overseas = TRUE;
       best->virt_boat = (ferry->id == 0);
     }
+
+    if (ferry->id == 0) {
+      destroy_unit_virtual(ferry);
+    }
   }
   /* If we use a virtual boat, we must have permission and be emigrating: */
   assert(!best->virt_boat || use_virt_boat);
