@@ -1783,7 +1783,7 @@ bool read_init_script(struct connection *caller, char *script_filename)
 
   freelog(LOG_NORMAL, _("Loading script file: %s"), script_filename);
  
-  if (is_reg_file(script_filename)
+  if (is_reg_file_for_access(script_filename, FALSE)
       && (script_file = fopen(script_filename, "r"))) {
     char buffer[MAX_LEN_CONSOLE_LINE];
     /* the size is set as to not overflow buffer in handle_stdin_input */
@@ -1817,9 +1817,8 @@ static void write_init_script(char *script_filename)
 {
   FILE *script_file;
 
-  script_file = fopen(script_filename,"w");
-
-  if (script_file) {
+  if (is_reg_file_for_access(script_filename, TRUE)
+      && (script_file = fopen(script_filename, "w"))) {
 
     int i;
 

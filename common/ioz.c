@@ -74,7 +74,7 @@ fz_FILE *fz_fopen(const char *filename, const char *in_mode,
   fz_FILE *fp;
   char mode[64];
 
-  if (!is_reg_file(filename)) {
+  if (!is_reg_file_for_access(filename, in_mode[0] == 'w')) {
     return NULL;
   }
 

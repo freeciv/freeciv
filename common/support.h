@@ -56,6 +56,6 @@ void my_init_console(void);
 char *my_read_console(void);
 #endif
 
-bool is_reg_file(const char *name);
+bool is_reg_file_for_access(const char *name, bool write_access);
 
 #endif  /* FC__SUPPORT_H */

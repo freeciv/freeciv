@@ -478,11 +478,15 @@ char *my_read_console(void)
 
 /**********************************************************************
   Returns TRUE iff the file is a regular file or a link to a regular
-  file.
+  file or write_access is TRUE and the file doesn't exists yet.
 ***********************************************************************/
-bool is_reg_file(const char *name)
+bool is_reg_file_for_access(const char *name, bool write_access)
 {
   struct stat tmp;
 
-  return stat(name, &tmp) == 0 && S_ISREG(tmp.st_mode);
+  if (stat(name, &tmp) == 0) {
+    return S_ISREG(tmp.st_mode);
+  } else {
+    return write_access && errno == ENOENT;
+  }
 }
