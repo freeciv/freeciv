@@ -915,7 +915,7 @@ units (including missiles and Helicopters), the defense is \
 quintupled.\
 "), _("\
  - The defender's strength is doubled again if it is in a city with \
-a SAM Battery and the attacker is an air unit (other than a \
+a SAM Battery and the attacker is an air unit (other than an \
 Helicopter) or a missile.\
 "), _("\
  - An SDI Defense doubles the defender's strength yet again against \
@@ -938,19 +938,25 @@ If, after these modifications, the attacker has a strength of 0, it \
 automatically loses.  Otherwise, if the defender has a strength of \
 0, the defender loses.\
 "), _("\
+The firepower of the attacker and defender are also modified.\
+"), _("\
+ - If the defender is a ship and is inside a city the firepower of \
+the attacker is doubled and the firepower of the ship is set to 1.\
+"), _("\
+ - If a Fighter is attacking an Helicopter the firepower of the \
+Helicopter is set to 1.\
+"), _("\
+ - If a ship is attacking a ground unit on land the firepower of both \
+is set to 1.\
+"), _("\
 After these preliminaries, combat occurs, as long as both units are \
 still alive (i.e., hit points are greater than 0).  Each round, a \
 random number between 1 and the sum of the attacker's and defender's \
 strengths is generated.  If this number is greater than the \
 defender's strength, the defender loses hit points equal to the \
-attacker's firepower (unless the attacker is a ship bombarding a \
-ground unit, then the defender loses only one hitpoint).  Otherwise, \
-the attacker loses hit points equal to the defender's firepower \
-(unless the defender is a ship inside a city --ships in a harbor \
-aren't able to maneuver effectively-- or unless the attacker is a \
-ship bombarding a ground unit; in both cases the attacker loses 1 hit \
-point).  The first unit to reach 0 hit points (or negative hit \
-points) loses. \
+attacker's firepower.  Otherwise, the attacker loses hit points \
+equal to the defender's firepower. The first unit to reach 0 hit \
+points (or negative hit points) loses. \
 "),
 ; /* Actually, that's a little white lie.  The random number is really
 ; from 0 to (A+D-1), and the comparison is ">=D", not ">D".  The
@@ -990,6 +996,8 @@ strength is increased to 20.25.\
 Strength values inside the game are actually multiplied by 10, with \
 fractions dropped, so the attacker's strength is 80, and the \
 defender's strength is 202.\
+"), _("\
+Both units keep their firepower of 1 unchanged.\
 "), ; /* xgettext:no-c-format */
 _("\
 Each round of combat, a random number between 1 and 282 is \
@@ -1030,29 +1038,27 @@ unit inside a city, so its total strength is 22.5.\
 "), _("\
 Internally, the values used for attacker and defender strength are \
 180 and 225, respectively.\
+"), _("\
+The firepower of the Battleship is set from 2 to 1.\
 "), ; /* xgettext:no-c-format */
 _("\
 Each round, a random number from 1 to 405 is generated.  If it is \
-greater than 225 (about a 44% chance) the defender loses 2 hit \
-points (the attacker's firepower is 2).  Otherwise, the attacker \
-loses 1 hit point.\
+greater than 225 (about a 44% chance) the defender loses 1 hit \
+point.  Otherwise, the attacker loses 1 hit point.\
 "), 
 ; /* Please, someone double-check my probability computations! :-(
-; Consider 22 rounds of combat: the Battleship should win 10 of
-; them, and the Alpine Troops 12.  That's enough to kill the Alpine
-; Troops (precisely to 0 hit points), and inflict 12 hit points on
+; Consider 44 rounds of combat: the Battleship should win 20 of
+; them, and the Alpine Troops 24.  That's enough to kill the Alpine
+; Troops (precisely to 0 hit points), and inflict 24 hit points on
 ; the Battleship's 40 HP total. */
 ; /* xgettext:no-c-format */
 _("\
 In this case, the odds greatly favor the attacker winning.  The \
 Battleship is 25% less likely to score a hit in any given round, \
-but when it does, it does twice as much damage to the enemy.  Also, \
-the Battleship has twice as many hit points.  The Battleship should \
-expect to lose about 30% of its hit points during the fight... after \
-which it will still have 2 movement points left.\
+but the Battleship has twice as many hit points. The Battleship should \
+expect to lose about 60% of its hit points during the fight, and should \
+expect to have no movement points left.\
 ")
-; In Civ2, movement points are re-evaluated after a sea unit is
-; damaged in battle, so those 2 MP may vanish!
 
 [help_zones_of_control]
 name = _("Zones of Control")
