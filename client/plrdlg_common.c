@@ -269,7 +269,7 @@ void init_player_dlg_common()
   kept as a blank address if no one is controlling a player, but there are
   observers.
 **************************************************************************/
-const char *player_addr_hack(struct player *pplayer)
+const char *player_addr_hack(const struct player *pplayer)
 { 
   conn_list_iterate(pplayer->connections, pconn) {
     if (!pconn->observer) {

@@ -115,7 +115,7 @@ const char *get_nation_name_orig(Nation_Type_id nation);
 struct leader *get_nation_leaders(Nation_Type_id nation, int *dim);
 Nation_Type_id *get_nation_civilwar(Nation_Type_id nation);
 bool get_nation_leader_sex(Nation_Type_id nation, const char *name);
-struct nation_type *get_nation_by_plr(struct player *plr);
+struct nation_type *get_nation_by_plr(const struct player *plr);
 struct nation_type *get_nation_by_idx(Nation_Type_id nation);
 bool check_nation_leader_name(Nation_Type_id nation, const char *name);
 void nations_alloc(int num);

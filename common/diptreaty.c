@@ -26,7 +26,8 @@
   Returns TRUE iff pplayer could do diplomancy in the game at all.
   These values are set by player in stdinhand.c.
 **************************************************************************/
-bool diplomacy_possible(struct player *pplayer, struct player *aplayer)
+bool diplomacy_possible(const struct player *pplayer,
+			const struct player *aplayer)
 {
   return  (game.diplomacy == 0      /* Unlimited diplomacy */
 	   || (game.diplomacy == 1  /* Human diplomacy only */
@@ -42,7 +43,8 @@ bool diplomacy_possible(struct player *pplayer, struct player *aplayer)
 /**************************************************************************
   Returns TRUE iff pplayer could do diplomatic meetings with aplayer.
 **************************************************************************/
-bool could_meet_with_player(struct player *pplayer, struct player *aplayer)
+bool could_meet_with_player(const struct player *pplayer,
+			    const struct player *aplayer)
 {
   return (pplayer->is_alive
           && aplayer->is_alive
@@ -59,7 +61,8 @@ bool could_meet_with_player(struct player *pplayer, struct player *aplayer)
 /**************************************************************************
   Returns TRUE iff pplayer could do diplomatic meetings with aplayer.
 **************************************************************************/
-bool could_intel_with_player(struct player *pplayer, struct player *aplayer)
+bool could_intel_with_player(const struct player *pplayer,
+			     const struct player *aplayer)
 {
   return (pplayer->is_alive
           && aplayer->is_alive

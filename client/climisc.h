@@ -29,8 +29,10 @@ void client_remove_unit(struct unit *punit);
 
 void client_change_all(cid x, cid y);
 
-const char *get_embassy_status(struct player *me, struct player *them);
-const char *get_vision_status(struct player *me, struct player *them);
+const char *get_embassy_status(const struct player *me,
+				const struct player *them);
+const char *get_vision_status(const struct player *me,
+				const struct player *them);
 void client_diplomacy_clause_string(char *buf, int bufsiz,
 				    struct Clause *pclause);
 

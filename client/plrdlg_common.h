@@ -45,6 +45,6 @@ extern const int num_player_dlg_columns;
 void init_player_dlg_common(void);
 int player_dlg_default_sort_column(void);
 
-const char *player_addr_hack(struct player *pplayer);
+const char *player_addr_hack(const struct player *pplayer);
 
 #endif  /* FC__PLRDLG_COMMON_H */

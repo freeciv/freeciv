@@ -661,7 +661,7 @@ bool can_client_issue_orders(void)
   Returns TRUE iff the client can do diplomatic meetings with another 
   given player.
 **************************************************************************/
-bool can_meet_with_player(struct player *pplayer)
+bool can_meet_with_player(const struct player *pplayer)
 {
   return (could_meet_with_player(game.player_ptr, pplayer)
           && can_client_issue_orders());
@@ -671,7 +671,7 @@ bool can_meet_with_player(struct player *pplayer)
   Returns TRUE iff the client can get intelligence from another 
   given player.
 **************************************************************************/
-bool can_intel_with_player(struct player *pplayer)
+bool can_intel_with_player(const struct player *pplayer)
 {
   return could_intel_with_player(game.player_ptr, pplayer);
 }

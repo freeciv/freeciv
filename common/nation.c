@@ -178,7 +178,7 @@ const char *get_nation_name_plural(Nation_Type_id nation)
 /***************************************************************
 Returns pointer to a nation 
 ***************************************************************/
-struct nation_type *get_nation_by_plr(struct player *plr)
+struct nation_type *get_nation_by_plr(const struct player *plr)
 {
   assert(plr != NULL);
   if (!bounds_check_nation_id(plr->nation, LOG_FATAL, "get_nation_by_plr")) {
