@@ -3121,6 +3121,13 @@ static char *cmdlevel_generator(char *text, int state)
 }
 
 /**************************************************************************
+Additional 'help' options
+**************************************************************************/
+char *help_general_options[] = {
+  "commands", "options", NULL
+};
+
+/**************************************************************************
 ...
 **************************************************************************/
 static char *help_generator(char *text, int state)
@@ -3138,7 +3145,7 @@ static char *help_generator(char *text, int state)
   }
 
   /* Return the next name which partially matches from the command list. */
-  if (try_commands) {
+  if (try_commands > 0) {
     while (list_index < CMD_NUM) {
       name = commands[list_index].name;
       list_index++;
@@ -3157,6 +3164,19 @@ static char *help_generator(char *text, int state)
 
       if (mystrncasecmp (name, text, len) == 0)
 	return mystrdup(name);
+    }
+    try_commands = -1;
+    list_index = 0;
+  }
+  
+  if (try_commands < 0) {
+  /* Return the 'commands' or 'options' which partially matches. */
+    while ((name = help_general_options[list_index])) {
+      list_index++;
+
+      if (mystrncasecmp (name, text, len) == 0) {
+	return mystrdup(name);
+      }
     }
   }
 
