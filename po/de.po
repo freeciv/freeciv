@@ -39,7 +39,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2001-08-23 06:50+0200\n"
+"POT-Creation-Date: 2001-08-24 04:24+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -181,62 +181,62 @@ msgstr "Fallout"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Out of memory trying to %s %lu bytes at line %d of %s."
 
-#: common/player.c:420
+#: common/player.c:421
 msgid "Spotless"
 msgstr "makellos"
 
-#: common/player.c:422
+#: common/player.c:423
 msgid "Excellent"
 msgstr "ausgezeichnet"
 
-#: common/player.c:424
+#: common/player.c:425
 msgid "Honorable"
 msgstr "ehrenwert"
 
-#: common/player.c:426
+#: common/player.c:427
 msgid "Questionable"
 msgstr "fragwürdig"
 
-#: common/player.c:428
+#: common/player.c:429
 msgid "Dishonorable"
 msgstr "unehrenhaft"
 
-#: common/player.c:430
+#: common/player.c:431
 msgid "Poor"
 msgstr "schlecht"
 
-#: common/player.c:432
+#: common/player.c:433
 msgid "Despicable"
 msgstr "verachtenswert"
 
-#: common/player.c:434
+#: common/player.c:435
 msgid "Atrocious"
 msgstr "verbrecherisch"
 
-#: common/player.c:444
+#: common/player.c:445
 msgid "?diplomatic_state:Neutral"
 msgstr "?diplomatic_state:Neutral"
 
-#: common/player.c:445
+#: common/player.c:446
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Krieg"
 
 #: client/gui-gtk/diplodlg.c:442 client/gui-mui/diplodlg.c:627
-#: client/gui-xaw/diplodlg.c:512 common/player.c:446
+#: client/gui-xaw/diplodlg.c:512 common/player.c:447
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Waffenstillstand"
 
 #: client/gui-gtk/diplodlg.c:447 client/gui-mui/diplodlg.c:631
-#: client/gui-xaw/diplodlg.c:516 common/player.c:447
+#: client/gui-xaw/diplodlg.c:516 common/player.c:448
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Frieden"
 
 #: client/gui-gtk/diplodlg.c:452 client/gui-mui/diplodlg.c:635
-#: client/gui-xaw/diplodlg.c:520 common/player.c:448
+#: client/gui-xaw/diplodlg.c:520 common/player.c:449
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Allianz"
 
-#: common/player.c:449
+#: common/player.c:450
 msgid "?diplomatic_state:No Contact"
 msgstr "?diplomatic_state:Kein Kontakt"
 
@@ -968,8 +968,8 @@ msgstr ""
 "verlangt wird."
 
 #: server/diplhand.c:182
-msgid "Game: You don't have enought gold, you can't accept treaty."
-msgstr "Spiel: Nicht genug Gold, um dem Abkommen zuzustimmen."
+msgid "Game: You don't have enough gold, you can't accept treaty."
+msgstr "Spiel: Nicht genug Gold, um dem Abkommen zustimmen zu können."
 
 #: server/diplhand.c:214 server/diplhand.c:217
 #, c-format
@@ -3094,8 +3094,8 @@ msgid ""
 "timeout of -1 sets the autogame test mode."
 msgstr ""
 "Nach Ablauf dieser Zeit endet die Runde unabhängig davon, ob alle Spieler "
-"fertig sind. 0 deaktiviert diese Option. Bei Servern im DEBUG Modus wird "
-"mit -1 ein 'vollautomatisches' Testspiel gestartet."
+"fertig sind. 0 deaktiviert diese Option. Bei Servern im DEBUG Modus wird mit "
+"-1 ein 'vollautomatisches' Testspiel gestartet."
 
 #: server/stdinhand.c:673
 msgid ""
