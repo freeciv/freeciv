@@ -366,11 +366,6 @@ void initialize_globals()
   struct player *plr;
   for (j=0;j<game.nplayers;j++) {
     plr=&game.players[j];
-    for (i=0;i<A_LAST; i++) {
-      if (get_invention(plr, i)==TECH_KNOWN)
-	game.global_advances[i]++;
-    }
-    
     city_list_iterate(plr->cities, pcity) {
       for (i=0;i<B_LAST;i++) {
 	if (city_got_building(pcity, i) && is_wonder(i))
