@@ -36,11 +36,9 @@ void handle_unit_disband_safe(struct player *pplayer,
 void handle_unit_build_city(struct player *pplayer, 
 			    struct packet_unit_request *req);
 void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo);
-void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
-				struct unit *pdefender);
 int handle_unit_enter_hut(struct unit *punit);
-int handle_unit_move_request(struct player *pplayer, struct unit *punit,
-			      int dest_x, int dest_y, int igzoc);
+int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
+			     int igzoc);
 void handle_unit_help_build_wonder(struct player *pplayer, 
 				   struct packet_unit_request *req);
 int handle_unit_establish_trade(struct player *pplayer, 

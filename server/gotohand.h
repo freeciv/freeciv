@@ -19,13 +19,11 @@ enum goto_move_restriction {
   GOTO_MOVE_ANY, GOTO_MOVE_CARDINAL_ONLY, GOTO_MOVE_STRAIGHTEST
 };
 
-void do_unit_goto(struct player *pplayer, struct unit *punit,
-		  enum goto_move_restriction restriction);
+void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction);
 void generate_warmap(struct city *pcity, struct unit *punit);
 void really_generate_warmap(struct city *pcity, struct unit *punit,
 			    enum unit_move_type which);
-int calculate_move_cost(struct player *pplayer, struct unit *punit,
-			int dest_x, int dest_y);
+int calculate_move_cost(struct unit *punit, int dest_x, int dest_y);
 int air_can_move_between(int moves, int src_x, int src_y,
 			 int dest_x, int dest_y, int playerid);
 
@@ -34,7 +32,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 #define THRESHOLD 12
 
 
-int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni);
+int goto_is_sane(struct unit *punit, int x, int y, int omni);
 
 struct move_cost_map {
   unsigned char *cost[MAP_MAX_WIDTH];

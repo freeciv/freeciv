@@ -806,7 +806,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   punit->goto_dest_y=map_adjust_y(y);
   set_unit_activity(punit, ACTIVITY_GOTO);
   send_unit_info(0, punit);
-  do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
+  do_unit_goto(punit, GOTO_MOVE_ANY);
   return 1;
 }
 
@@ -1122,7 +1122,7 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 	      mv_cost = warmap.seacost[x][y] * mv_rate /
 		    unit_types[ferryboat->type].move_rate;
 	    }
-          } else if (!goto_is_sane(pplayer, punit, x, y, 1) ||
+          } else if (!goto_is_sane(punit, x, y, 1) ||
 		     warmap.cost[x][y] > THRESHOLD * mv_rate) {
 				/* for Rome->Carthage */
 	    if (!is_terrain_near_tile(x, y, T_OCEAN)) {
@@ -1247,9 +1247,9 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
       punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
     }
     if (!same_pos(gx, gy, punit->x, punit->y)) {
-      if (!goto_is_sane(pplayer, punit, gx, gy, 1)
+      if (!goto_is_sane(punit, gx, gy, 1)
 	  || (ferryboat
-	      && goto_is_sane(pplayer, ferryboat, gx, gy, 1)
+	      && goto_is_sane(ferryboat, gx, gy, 1)
 	      && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		 || !could_unit_move_to_tile(punit, punit->x, punit->y,
 					     gx, gy)))) {
@@ -1276,7 +1276,7 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
           set_unit_activity(punit, ACTIVITY_IDLE);
         } /* need to zero pass & ferryboat at some point. */
       }
-      if (goto_is_sane(pplayer, punit, gx, gy, 1)
+      if (goto_is_sane(punit, gx, gy, 1)
 	  && punit->moves_left
 	  && ((!ferryboat)
 	      || (is_tiles_adjacent(punit->x, punit->y, gx, gy)

@@ -554,10 +554,11 @@ be _very_ expensive in CPU).
 FIXME: this is a bit of a mess in not respecting FoW, and only sometimes
 respecting if a square is known. (not introduced by me though) -Thue
 **************************************************************************/
-static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
+static int find_the_shortest_path(struct unit *punit,
 				  int dest_x, int dest_y,
 				  enum goto_move_restriction restriction)
 {
+  struct player *pplayer = unit_owner(punit);
   static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int igter, x, y, x1, y1, dir;
   int orig_x, orig_y;
@@ -1000,8 +1001,9 @@ static int find_a_direction(struct unit *punit,
 /**************************************************************************
 Basic checks as to whether a GOTO is possible.
 **************************************************************************/
-int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni)
+int goto_is_sane(struct unit *punit, int x, int y, int omni)
 {  
+  struct player *pplayer = unit_owner(punit);
   int k, possible = 0;
   if (same_pos(punit->x, punit->y, x, y)) return 1;
   if (is_ground_unit(punit) && 
@@ -1048,9 +1050,9 @@ find_air_first_destination(punit, &waypoint_x, &waypoint_y)
 to get a waypoint to goto. The actual goto is still done with
 find_the_shortest_path(pplayer, punit, waypoint_x, waypoint_y, restriction)
 **************************************************************************/
-void do_unit_goto(struct player *pplayer, struct unit *punit,
-		  enum goto_move_restriction restriction)
+void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
 {
+  struct player *pplayer = unit_owner(punit);
   int x, y, dir;
   static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int unit_id, dest_x, dest_y, waypoint_x, waypoint_y;
@@ -1061,7 +1063,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
   dest_y = waypoint_y = punit->goto_dest_y;
 
   if (same_pos(punit->x, punit->y, dest_x, dest_y) ||
-      !goto_is_sane(pplayer, punit, dest_x, dest_y, 0)) {
+      !goto_is_sane(punit, dest_x, dest_y, 0)) {
     punit->activity = ACTIVITY_IDLE;
     punit->connecting = 0;
     send_unit_info(0, punit);
@@ -1087,8 +1089,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
   }
 
   /* This has the side effect of marking the warmap with the possible paths */
-  if (find_the_shortest_path(pplayer, punit,
-			     waypoint_x, waypoint_y, restriction)) {
+  if (find_the_shortest_path(punit, waypoint_x, waypoint_y, restriction)) {
     do { /* move the unit along the path chosen by find_the_shortest_path() while we can */
       if (!punit->moves_left)
 	return;
@@ -1108,7 +1109,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
 
       if (!punit->moves_left)
 	return;
-      if (!handle_unit_move_request(pplayer, punit, x, y, FALSE)) {
+      if (!handle_unit_move_request(punit, x, y, FALSE)) {
 	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if (punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;
@@ -1173,8 +1174,8 @@ Calculate and return cost (in terms of move points) for unit to move
 to specified destination.
 Currently only used in autoattack.c
 **************************************************************************/
-int calculate_move_cost(struct player *pplayer, struct unit *punit,
-			int dest_x, int dest_y) {
+int calculate_move_cost(struct unit *punit, int dest_x, int dest_y)
+{
   /* perhaps we should do some caching -- fisch */
 
   if (is_air_unit(punit) || is_heli_unit(punit)) {

@@ -492,7 +492,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Now, try to move the briber onto the victim's square. */
   diplomat_id = pdiplomat->id;
-  if (!handle_unit_move_request (pplayer, pdiplomat, victim_x, victim_y, FALSE)) {
+  if (!handle_unit_move_request(pdiplomat, victim_x, victim_y, FALSE)) {
     pdiplomat->moves_left = 0;
   }
   if (player_find_unit_by_id(pplayer, diplomat_id)) {
@@ -1502,7 +1502,7 @@ void player_restore_units(struct player *pplayer)
 	      punit->goto_dest_x = x_itr;
 	      punit->goto_dest_y = y_itr;
 	      set_unit_activity(punit, ACTIVITY_GOTO);
-	      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
+	      do_unit_goto(punit, GOTO_MOVE_ANY);
 	      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
 			       _("Game: Your %s has returned to refuel."),
 			       unit_name(punit->type));
@@ -2107,7 +2107,7 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 
   if (punit->connecting && !can_unit_do_activity(punit, activity)) {
     punit->activity_count = 0;
-    do_unit_goto (pplayer, punit, get_activity_move_restriction(activity));
+    do_unit_goto(punit, get_activity_move_restriction(activity));
   }
 
   /* if connecting, automagically build prerequisities first */
@@ -2233,8 +2233,7 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
       if (punit2->activity == activity) {
 	if (punit2->connecting) {
 	  punit2->activity_count = 0;
-	  do_unit_goto(get_player (punit2->owner), punit2,
-		       get_activity_move_restriction(activity));
+	  do_unit_goto(punit2, get_activity_move_restriction(activity));
 	}
 	else {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
@@ -2255,7 +2254,7 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
        punit->ai.passenger || !pplayer->ai.control)) {
 /* autosettlers otherwise waste time; idling them breaks assignment */
 /* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
-      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
+      do_unit_goto(punit, GOTO_MOVE_ANY);
     }
     return;
   }

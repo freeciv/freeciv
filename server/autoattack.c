@@ -103,7 +103,7 @@ static struct unit *search_best_target(struct player *pplayer,
 	continue;
       }
    
-      mv_cost = calculate_move_cost(pplayer, punit, x, y);
+      mv_cost = calculate_move_cost(punit, x, y);
       if (mv_cost > range) {
         if(debug) freelog(LOG_DEBUG, "too far away: %d", mv_cost);
         continue;
@@ -171,7 +171,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   punit->goto_dest_y=enemy->y;
   
   send_unit_info(0,punit);
-  do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
+  do_unit_goto(punit, GOTO_MOVE_ANY);
   
   punit = find_unit_by_id(id);
   
@@ -181,7 +181,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
     punit->goto_dest_y=pcity->y;
     send_unit_info(0,punit);
     
-    do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
+    do_unit_goto(punit, GOTO_MOVE_ANY);
     
     if (unit_list_find(&map_get_tile(pcity->x, pcity->y)->units, id)) {
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -227,7 +227,7 @@ static void auto_attack_player(struct player *pplayer)
        && is_military_unit(punit)
        && punit->activity == ACTIVITY_GOTO
        && punit->moves_left == get_unit_type(punit->type)->move_rate) {
-      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
+      do_unit_goto(punit, GOTO_MOVE_ANY);
     }
   }
   unit_list_iterate_end;

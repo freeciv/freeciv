@@ -671,7 +671,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
       m = unit_types[v].move_rate;
       if (unit_flag(v, F_IGTER)) m *= 3; /* not quite right */
 
-      sanity = (goto_is_sane(pplayer, myunit, acity->x, acity->y, 1) &&
+      sanity = (goto_is_sane(myunit, acity->x, acity->y, 1) &&
               warmap.cost[x][y] <= (MIN(6, m) * THRESHOLD));
 
       if (is_ground_unit(myunit)) {

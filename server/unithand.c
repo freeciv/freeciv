@@ -73,7 +73,7 @@ void handle_unit_goto_tile(struct player *pplayer,
     if (get_transporter_capacity(punit))
       assign_units_to_transporter(punit, 1);
 
-    do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);  
+    do_unit_goto(punit, GOTO_MOVE_ANY);  
   }
 }
 
@@ -99,9 +99,8 @@ void handle_unit_connect(struct player *pplayer,
 
       /* avoid wasting first turn if unit cannot do the activity
 	 on the starting tile */
-      if (! can_unit_do_activity (punit, req->activity_type)) 
-	do_unit_goto (pplayer, punit,
-		      get_activity_move_restriction(req->activity_type));
+      if (! can_unit_do_activity(punit, req->activity_type)) 
+	do_unit_goto(punit, get_activity_move_restriction(req->activity_type));
     }
   }
 }
@@ -454,7 +453,7 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
   if(punit) {
     if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
       punit->ai.control=0;
-      handle_unit_move_request(pplayer, punit, pinfo->x, pinfo->y, FALSE);
+      handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE);
     }
     else if(punit->activity!=pinfo->activity ||
 	    punit->activity_target!=pinfo->activity_target ||
@@ -480,7 +479,7 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 
   punit=player_find_unit_by_id(pplayer, pmove->unid);
   if(punit)  {
-    handle_unit_move_request(pplayer, punit, pmove->x, pmove->y, FALSE);
+    handle_unit_move_request(punit, pmove->x, pmove->y, FALSE);
   }
 }
 
@@ -488,10 +487,10 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 This function assumes the attack is legal. The calling function should have
 already made all neccesary checks.
 **************************************************************************/
-void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
-				struct unit *pdefender)
+static void handle_unit_attack_request(struct unit *punit, struct unit *pdefender)
 {
   int o;
+  struct player *pplayer = unit_owner(punit);
   struct packet_unit_combat combat;
   struct unit *plooser, *pwinner;
   struct unit old_punit = *punit;	/* Used for new ship algorithm. -GJW */
@@ -661,7 +660,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     int old_moves = punit->moves_left;
     int full_moves = unit_move_rate (punit);
     punit->moves_left = full_moves;
-    if (handle_unit_move_request (pplayer, punit, def_x, def_y, FALSE)) {
+    if (handle_unit_move_request(punit, def_x, def_y, FALSE)) {
       punit->moves_left = old_moves - (full_moves - punit->moves_left);
       if (punit->moves_left < 0) {
 	punit->moves_left = 0;
@@ -812,9 +811,9 @@ int handle_unit_enter_hut(struct unit *punit)
   Will try to move to/attack the tile dest_x,dest_y.  Returns true if this
   could be done, false if it couldn't for some reason.
 **************************************************************************/
-int handle_unit_move_request(struct player *pplayer, struct unit *punit,
-			      int dest_x, int dest_y, int igzoc)
+int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y, int igzoc)
 {
+  struct player *pplayer = unit_owner(punit);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
   struct tile *psrctile = map_get_tile(punit->x, punit->y);
   struct unit *pdefender = get_defender(pplayer, punit, dest_x, dest_y);
@@ -940,7 +939,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
       return 0;
     }
 
-    handle_unit_attack_request(pplayer, punit, pdefender);
+    handle_unit_attack_request(punit, pdefender);
     return 1;
   } /* End attack case */
  
@@ -1022,7 +1021,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 	/* FIXME: it is stupid to set to ACTIVITY_IDLE if the unit is
 	   ACTIVITY_FORTIFIED and the unit has no chance of moving anyway */
 	handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
-	success = handle_unit_move_request(pplayer, bodyguard,
+	success = handle_unit_move_request(bodyguard,
 					   dest_x, dest_y, igzoc);
 	freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
 		unit_types[bodyguard->type].name, src_x, src_y,
@@ -1375,7 +1374,7 @@ void handle_unit_nuke(struct player *pplayer,
   struct unit *punit;
   
   if((punit=player_find_unit_by_id(pplayer, req->unit_id)))
-    handle_unit_attack_request(pplayer, punit, punit);
+    handle_unit_attack_request(punit, punit);
 }
 
 /**************************************************************************
