@@ -87,12 +87,17 @@ Configuring server without readline support.)
                dnl We give them a hand by trying to guess what might be needed.
                dnl
                dnl Some older Unices may need both -lcurses and -ltermlib,
-               dnl but we don't support that just yet....
-
-               AC_CHECK_LIB(termlib, tgetent, HAVE_TERMCAP="-ltermlib")
-               AC_CHECK_LIB(termcap, tgetent, HAVE_TERMCAP="-ltermcap")
-               AC_CHECK_LIB(curses, tgetent, HAVE_TERMCAP="-lcurses")
-               AC_CHECK_LIB(ncurses, tgetent, HAVE_TERMCAP="-lncurses")
+               dnl but we don't support that just yet.  This check will take
+               dnl the first lib that it finds and just link to that.
+               AC_CHECK_LIB(tinfo, tgetent, HAVE_TERMCAP="-ltinfo",
+                 AC_CHECK_LIB(ncurses, tgetent, HAVE_TERMCAP="-lncurses",
+                   AC_CHECK_LIB(curses, tgetent, HAVE_TERMCAP="-lcurses",
+                     AC_CHECK_LIB(termcap, tgetent, HAVE_TERMCAP="-ltermcap",
+                       AC_CHECK_LIB(termlib, tgetent, HAVE_TERMCAP="-ltermlib")
+                     )
+                   )
+                 )
+               )
 
                if test x"$HAVE_TERMCAP" != "x"; then
                    dnl We can't check for completion_matches() again,
