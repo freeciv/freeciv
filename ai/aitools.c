@@ -727,9 +727,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   city_list_iterate_end;
 
   impr_type_iterate(i) {
-    if (!plr->ai.control
-        && (get_building_for_effect(EFT_CAPITAL_CITY) == i
-            || is_wonder(i))) {
+    if (!plr->ai.control && is_wonder(i)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
     if (!is_wonder(i)

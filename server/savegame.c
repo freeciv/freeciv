@@ -2124,8 +2124,9 @@ static void player_load(struct player *plr, int plrno,
 
     /* Initialise list of improvements with City- and Building-wide
        equiv_ranges */
-    improvement_status_init(pcity->improvements,
-			    ARRAY_SIZE(pcity->improvements));
+    for (k = 0; k < ARRAY_SIZE(pcity->improvements); k++) {
+      pcity->improvements[k] = I_NONE;
+    }
 
     p = secfile_lookup_str_default(file, NULL,
 				   "player%d.c%d.improvements_new",
@@ -3422,12 +3423,6 @@ void game_load(struct section_file *file)
   game.is_new_game = !secfile_lookup_bool_default(file, TRUE,
 						  "game.save_players");
 
-  if (!game.is_new_game) { /* If new game, this is done in srv_main.c */
-    /* Initialise lists of improvements with World and Island equiv_ranges */
-    improvement_status_init(game.improvements,
-			    ARRAY_SIZE(game.improvements));
-  }
-
   map_load(file);
 
   if (!game.is_new_game) {
@@ -3443,7 +3438,7 @@ void game_load(struct section_file *file)
 	  name = old_impr_type_name(k);
 	  id = find_improvement_by_name_orig(name);
 	  if (id != -1) {
-	    game.global_wonders[id] = -1;
+	    game.great_wonders[id] = -1;
 	  }
 	}
       }
@@ -3452,15 +3447,11 @@ void game_load(struct section_file *file)
         if (string[k] == '1') {
 	  id = find_improvement_by_name_orig(improvement_order[k]);
 	  if (id != -1) {
-            game.global_wonders[id] = -1;
+            game.great_wonders[id] = -1;
 	  }
 	}
       }
     }
-
-    /* This is done after continents are assigned, but before effects 
-     * are added. */
-    allot_island_improvs();
 
     for (i = 0; i < game.nplayers; i++) {
       player_load(&game.players[i], i, file, improvement_order,
@@ -3545,11 +3536,6 @@ void game_load(struct section_file *file)
     /* No shuffled players included, so shuffle them (this may include
      * scenarios). */
     shuffle_players();
-  }
-
-  if (!game.is_new_game) {
-    /* Set active city improvements/wonders and their effects */
-    improvements_update_obsolete();
   }
 
   game.player_idx=0;
@@ -3790,8 +3776,8 @@ void game_save(struct section_file *file)
      */
     init_old_improvement_bitvector(temp);
     impr_type_iterate(id) {
-      if (is_wonder(id) && game.global_wonders[id] != 0
-	  && !find_city_by_id(game.global_wonders[id])) {
+      if (is_great_wonder(id) && great_wonder_was_built(id)
+	  && !find_city_from_great_wonder(id)) {
         add_improvement_into_old_bitvector(temp, id);
       } 
     } impr_type_iterate_end;
@@ -3801,8 +3787,8 @@ void game_save(struct section_file *file)
      * is saved in savefile.improvement_order
      */
     impr_type_iterate(id) {
-      if (is_wonder(id) && game.global_wonders[id] != 0
-	  && !find_city_by_id(game.global_wonders[id])) {
+      if (is_great_wonder(id) && great_wonder_was_built(id)
+	  && !find_city_from_great_wonder(id)) {
 	temp[id] = '1';
       } else {
         temp[id] = '0';

@@ -730,7 +730,7 @@ static void economy_selection_callback(GtkTreeSelection *selection,
   if (row >= 0) {
     if (economy_row_type[row].is_impr == TRUE) {
       /* The user has selected an improvement type. */
-      bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
+      bool is_sellable = (improvement_exists(i) && can_sell_improvement(i));
 
       gtk_widget_set_sensitive(sellobsolete_command, is_sellable
 			       && can_client_issue_orders()

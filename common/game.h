@@ -105,10 +105,9 @@ struct civ_game {
   struct conn_list est_connections;        /* all established client conns */
   struct conn_list game_connections;       /* involved in game; send map etc */
   int global_advances[A_LAST];             /* a counter */
-  int global_wonders[B_LAST];              /* contains city id's */
-         /* global_wonders[] may also be (-1), or the id of a city
+  int great_wonders[B_LAST];              /* contains city id's */
+         /* great_wonders[] may also be (-1), or the id of a city
 	    which no longer exists, if the wonder has been destroyed */
-  Impr_Status improvements[B_LAST];        /* impr. with equiv_range==World */
 
   int heating; /* Number of polluted squares. */
   int globalwarming; /* Total damage done. (counts towards a warming event.) */

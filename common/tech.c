@@ -71,7 +71,6 @@ void set_invention(struct player *pplayer, Tech_Type_id tech,
 
   if (value == TECH_KNOWN) {
     game.global_advances[tech]++;
-    improvements_update_obsolete();
   }
 }
 

@@ -248,9 +248,6 @@ void init_new_game(void)
       place_starting_unit(ptile, pplayer, game.start_units[i]);
     }
   } players_iterate_end;
-
-  /* Initialise list of improvements with world-wide equiv_range */
-  improvement_status_init(game.improvements, ARRAY_SIZE(game.improvements));
 }
 
 /**************************************************************************
@@ -336,7 +333,7 @@ void send_game_info(struct conn_list *dest)
   for (i = 0; i < A_LAST /*game.num_tech_types */ ; i++)
     ginfo.global_advances[i] = game.global_advances[i];
   for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++)
-    ginfo.global_wonders[i] = game.global_wonders[i];
+    ginfo.great_wonders[i] = game.great_wonders[i];
   /* the following values are computed every
      time a packet_game_info packet is created */
   if (game.timeout != 0) {

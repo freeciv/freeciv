@@ -288,7 +288,7 @@ void game_init(void)
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
     game.global_advances[i]=0;
   for (i=0; i<B_LAST; i++)      /* game.num_impr_types = 0 here */
-    game.global_wonders[i]=0;
+    game.great_wonders[i]=0;
   game.player_idx=0;
   game.player_ptr=&game.players[0];
   terrain_control.river_help_text[0] = '\0';
@@ -344,8 +344,11 @@ void initialize_globals(void)
   players_iterate(plr) {
     city_list_iterate(plr->cities, pcity) {
       built_impr_iterate(pcity, i) {
-	if (is_wonder(i))
-	  game.global_wonders[i] = pcity->id;
+	if (is_great_wonder(i)) {
+	  game.great_wonders[i] = pcity->id;
+	} else if (is_small_wonder(i)) {
+	  plr->small_wonders[i] = pcity->id;
+	}
       } built_impr_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
@@ -437,11 +440,6 @@ void game_remove_player(struct player *pplayer)
   if (pplayer->attribute_block.data) {
     free(pplayer->attribute_block.data);
     pplayer->attribute_block.data = NULL;
-  }
-
-  if (pplayer->island_improv) {
-    free(pplayer->island_improv);
-    pplayer->island_improv = NULL;
   }
 
   conn_list_unlink_all(&pplayer->connections);

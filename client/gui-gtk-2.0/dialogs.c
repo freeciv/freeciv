@@ -1554,7 +1554,7 @@ static void create_races_dialog(void)
   shell =
     gtk_dialog_new_with_buttons(_("What Nation Will You Be?"),
 				NULL,
-				GTK_DIALOG_MODAL,
+				0,
 				_("_Disconnect"),
 				GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK,

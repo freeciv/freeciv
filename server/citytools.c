@@ -449,22 +449,6 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
   return tempname;
 }
 
-/****************************************************************************
-  Return TRUE iff the city can sell the given improvement.
-****************************************************************************/
-bool can_sell_building(struct city *pcity, Impr_Type_id id)
-{
-  return (city_got_building(pcity, id) ? !is_wonder(id) : FALSE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct city *find_city_wonder(Impr_Type_id id)
-{
-  return (find_city_by_id(game.global_wonders[id]));
-}
-
 /**************************************************************************
   calculate the remaining build points 
 **************************************************************************/
@@ -665,17 +649,19 @@ static void raze_city(struct city *pcity)
 {
   int razechance = game.razechance;
 
-  /* We don't use city_remove_improvement here as the global effects
-     stuff has already been handled by transfer_city */
-  pcity->improvements[game.palace_building] = I_NONE;
-
   /* land barbarians are more likely to destroy city improvements */
   if (is_land_barbarian(city_owner(pcity)))
     razechance += 30;
 
   built_impr_iterate(pcity, i) {
-    if (!is_wonder(i) && (myrand(100) < razechance)) {
-      pcity->improvements[i]=I_NONE;
+    if (is_small_wonder(i)) {
+      /* small wonders are always razed
+       * This is not strictly necessary as transfer_city()
+       * would remove small wonders anyway. */
+      pcity->improvements[i] = I_NONE;
+    }
+    if (is_improvement(i) && (myrand(100) < razechance)) {
+      pcity->improvements[i] = I_NONE;
     }
   } built_impr_iterate_end;
 
@@ -759,7 +745,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   struct unit_list old_city_units;
   struct player *pgiver = city_owner(pcity);
   int old_trade_routes[NUM_TRADEROUTES];
-  bool had_palace = pcity->improvements[game.palace_building] != I_NONE;
+  bool had_palace = is_capital(pcity);
   char old_city_name[MAX_LEN_NAME];
 
   assert(pgiver != ptaker);
@@ -782,7 +768,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
      global effects for the new city owner) */
   built_impr_iterate(pcity, i) {
     city_remove_improvement(pcity, i);
-    pcity->improvements[i] = I_ACTIVE;
+    if (!is_small_wonder(i)) {
+      pcity->improvements[i] = I_ACTIVE;
+    }
   } built_impr_iterate_end;
 
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
@@ -1037,7 +1025,7 @@ void remove_city(struct city *pcity)
   int o;
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
-  bool had_palace = pcity->improvements[game.palace_building] != I_NONE;
+  bool had_palace = is_capital(pcity);
   char *city_name = mystrdup(pcity->name);
 
   built_impr_iterate(pcity, i) {
@@ -1734,7 +1722,7 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
 void do_sell_building(struct player *pplayer, struct city *pcity,
 		      Impr_Type_id id)
 {
-  if (!is_wonder(id)) {
+  if (can_sell_building(pcity, id)) {
     pplayer->economic.gold += impr_sell_gold(id);
     building_lost(pcity, id);
   }
@@ -1775,8 +1763,8 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   }
 
   /* Is the city no longer building a wonder? */
-  if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
-     (event != E_IMP_AUTO && event != E_WORKLIST)) {
+  if (!pcity->is_building_unit && is_great_wonder(pcity->currently_building) &&
+      (event != E_IMP_AUTO && event != E_WORKLIST)) {
     /* If the build target is changed because of an advisor's suggestion or
        because the worklist advances, then the wonder was completed -- 
        don't announce that the player has *stopped* building that wonder. 
@@ -1827,7 +1815,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */
-  if (!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
+  if (!pcity->is_building_unit && is_great_wonder(pcity->currently_building)) {
     notify_player_ex(NULL, pcity->tile, E_WONDER_STARTED,
 		     _("Game: The %s have started building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
@@ -2063,7 +2051,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
       built_impr_iterate(pcity, impr) {
         int i = 0;
 
-        if (is_wonder(impr)) {
+        if (!can_sell_building(pcity, impr)) {
           continue;
         }
 

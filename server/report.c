@@ -214,7 +214,7 @@ static int nr_wonders(struct city *pcity)
   int result = 0;
 
   built_impr_iterate(pcity, i) {
-    if (is_wonder(i)) {
+    if (is_great_wonder(i)) {
       result++;
     }
   } built_impr_iterate_end;
@@ -292,14 +292,14 @@ void report_wonders_of_the_world(struct conn_list *dest)
   buffer[0] = '\0';
 
   impr_type_iterate(i) {
-    if (is_wonder(i)) {
-      struct city *pcity = find_city_wonder(i);
+    if (is_great_wonder(i)) {
+      struct city *pcity = find_city_from_great_wonder(i);
 
       if (pcity) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
 		     get_impr_name_ex(pcity, i), pcity->name,
 		     get_nation_name(city_owner(pcity)->nation));
-      } else if(game.global_wonders[i] != 0) {
+      } else if(great_wonder_was_built(i)) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
 		     get_improvement_type(i)->name);
       }
@@ -307,7 +307,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
   } impr_type_iterate_end;
 
   impr_type_iterate(i) {
-    if (is_wonder(i)) {
+    if (is_great_wonder(i)) {
       players_iterate(pplayer) {
 	city_list_iterate(pplayer->cities, pcity) {
 	  if (pcity->currently_building == i && !pcity->is_building_unit) {

@@ -289,7 +289,7 @@ void boot_help_texts(void)
 	  } government_iterate_end;
 	} else if (current_type == HELP_IMPROVEMENT) {
 	  impr_type_iterate(i) {
-	    if (improvement_exists(i) && !is_wonder(i)) {
+	    if (improvement_exists(i) && !is_great_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
 			  improvement_types[i].name);
@@ -300,7 +300,7 @@ void boot_help_texts(void)
 	  } impr_type_iterate_end;
 	} else if (current_type == HELP_WONDER) {
 	  impr_type_iterate(i) {
-	    if (improvement_exists(i) && is_wonder(i)) {
+	    if (improvement_exists(i) && is_great_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
 			  improvement_types[i].name);

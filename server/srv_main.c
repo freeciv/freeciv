@@ -1812,8 +1812,6 @@ main_start_players:
     /* Before the player map is allocated (and initiailized)! */
     game.fogofwar_old = game.fogofwar;
 
-    allot_island_improvs();
-
     players_iterate(pplayer) {
       player_map_allocate(pplayer);
       init_tech(pplayer, game.tech);

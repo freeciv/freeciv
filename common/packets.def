@@ -177,6 +177,7 @@ type REPORT_TYPE	= uint8(enum report_type)
 type AUTH_TYPE		= uint8(enum authentication_type)
 type CITY_MAP		= uint8(enum city_tile_type)
 type IMPR_RANGE		= uint8(enum impr_range)
+type IMPR_GENUS		= uint8(enum impr_genus_id)
 type DIRECTION		= uint8(enum direction8)
 type ORDERS		= uint8(enum unit_orders)
 type SSET_TYPE		= uint8(enum sset_type)
@@ -355,7 +356,7 @@ PACKET_GAME_INFO=15; is-info,sc
   BOOL spacerace;
 
   UINT8 global_advances[A_LAST]; diff
-  UINT16 global_wonders[B_LAST]; diff
+  UINT16 great_wonders[B_LAST]; diff
 end
 
 PACKET_MAP_INFO=16; is-info,sc,lsend
@@ -568,6 +569,8 @@ PACKET_PLAYER_INFO=39; is-info,sc
   uint32(unsigned int) gives_shared_vision;
   BIT_STRING inventions[A_LAST+1];
   SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+
+  UINT16 small_wonders[B_LAST]; diff
 end
 
 PACKET_PLAYER_TURN_DONE=40;cs
@@ -1112,13 +1115,12 @@ end
 
 PACKET_RULESET_BUILDING=104;sc,lsend
   IMPROVEMENT id;
+  IMPR_GENUS genus;
   STRING name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
   TECH tech_req, obsolete_by;
   IMPROVEMENT bldg_req, replaced_by;
-  BOOL is_wonder;
-  IMPR_RANGE equiv_range;
   UINT16 build_cost;
   UINT8 upkeep, sabotage;
   STRING soundtag[MAX_LEN_NAME];

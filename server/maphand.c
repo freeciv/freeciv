@@ -1486,7 +1486,6 @@ enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
 
   if (change_type != OLC_NONE) {
     assign_continent_numbers(FALSE);
-    allot_island_improvs();
 
     /* New continent numbers for all tiles to all players */
     send_all_known_tiles(NULL);

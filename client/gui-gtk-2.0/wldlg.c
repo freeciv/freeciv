@@ -972,7 +972,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     if (!is_unit && *pcity) {
       plr = city_owner(*pcity);
       useless = improvement_obsolete(plr, id)
-	|| improvement_redundant(plr, *pcity, id, FALSE);
+	|| is_building_replaced(*pcity, id);
       g_object_set(rend, "strikethrough", useless, NULL);
     } else {
       g_object_set(rend, "strikethrough", FALSE, NULL);

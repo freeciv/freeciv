@@ -568,7 +568,7 @@ Impr_Type_id ai_find_source_building(struct player *pplayer,
   building_vector_iterate(get_buildings_with_effect(effect_type), pbldg) {
     if (can_player_build_improvement(pplayer, *pbldg)
 	&& !improvement_obsolete(pplayer, *pbldg)
-	&& !is_wonder(*pbldg)) {
+	&& is_improvement(*pbldg)) {
       return *pbldg;
     }
   } building_vector_iterate_end;

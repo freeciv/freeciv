@@ -26,6 +26,8 @@ options="1.10.1"
 ; Notes:
 ;
 ; name		= name as seen by user 
+; genus	        = genus; one of:
+;                 "GreatWonder", "SmallWonder", "Improvement", "Special".
 ; tech_req	= advance required to build; special value "None"
 ;		  means no requirement, special value "Never"
 ;		  means building is never available
@@ -43,9 +45,6 @@ options="1.10.1"
 ;		  list means always allowed to build if nothing in terr_gate
 ;		  is given (that means only if both terr_gate and spec_gate
 ;		  are empty the building can be built everywhere)
-; equiv_range	= range for which this may be equivalent to another
-;		  building; one of:
-;		    "None", "Local", "City", "Island", "Player", "World"
 ; equiv_dupl	= list of buildings that duplicate this building if
 ;		  this city is within that building's range (may
 ;		  still build this, but will have no effect)
@@ -54,7 +53,6 @@ options="1.10.1"
 ;		  allowed to build this)
 ; obsolete_by	= advance which makes building obsolete; special
 ;		  value "None" means does not become obsolete
-; is_wonder	= 1 for wonders (only one instance can ever be built)
 ; build_cost	= production shields required to build
 ; upkeep	= monetary upkeep value
 ; sabotage	= percent chance of diplomat sabotage being successful
@@ -138,17 +136,16 @@ elements	=
 
 [building_airport]
 name		= _("Airport")
+genus		= "Improvement"
 tech_req	= "Radio"
 bldg_req	= "None"
 graphic	= "b.airport"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
@@ -173,17 +170,16 @@ Two cities with Airports can airlift one unit per turn. \
 
 [building_aqueduct]
 name		= _("Aqueduct")
+genus		= "Improvement"
 tech_req	= "Construction"
 bldg_req	= "None"
 graphic	= "b.aqueduct"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 60
 upkeep		= 2
 sabotage	= 100
@@ -200,17 +196,16 @@ Allows a city to grow larger than size 8.  A Sewer System is also\
 
 [building_bank]
 name		= _("Bank")
+genus		= "Improvement"
 tech_req	= "Banking"
 bldg_req	= "Marketplace"
 graphic	= "b.bank"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 80
 upkeep		= 2
 sabotage	= 100
@@ -229,18 +224,17 @@ Together with the Marketplace improvement, a Bank increases the\
 
 [building_barracks]
 name		= _("Barracks")
+genus		= "Improvement"
 tech_req	= "None"
 bldg_req	= "None"
 graphic	= "b.barracks"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	= 
 equiv_repl	= "Sun Tzu's War Academy","Barracks II", "Barracks III"
 obsolete_by	= "Gunpowder"
 replaced_by	= "Barracks II"
-is_wonder	= 0
 build_cost	= 30
 upkeep		= 1
 sabotage	= 100
@@ -261,18 +255,17 @@ With a Barracks, each new land unit built in a city will\
 
 [building_barracks_ii]
 name		= _("Barracks II")
+genus		= "Improvement"
 tech_req	= "Gunpowder"
 bldg_req	= "None"
 graphic	= "b.barracks"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 equiv_repl	= "Sun Tzu's War Academy", "Barracks III"
 obsolete_by	= "Mobile Warfare"
 replaced_by	= "Barracks III"
-is_wonder	= 0
 build_cost	= 30
 upkeep		= 1
 sabotage	= 100
@@ -293,17 +286,16 @@ With a Barracks, each new land unit built in a city will\
 
 [building_barracks_iii]
 name		= _("Barracks III")
+genus		= "Improvement"
 tech_req	= "Mobile Warfare"
 bldg_req	= "None"
 graphic	= "b.barracks"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 equiv_repl	= "Sun Tzu's War Academy"
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 30
 upkeep		= 1
 sabotage	= 100
@@ -324,17 +316,16 @@ With a Barracks, each new land unit built in a city will\
 
 [building_cathedral]
 name		= _("Cathedral")
+genus		= "Improvement"
 tech_req	= "Monotheism"
 bldg_req	= "Temple"
 graphic	= "b.cathedral"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 equiv_repl	= "Michelangelo's Chapel"
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 80
 upkeep		= 3
 sabotage	= 100
@@ -357,17 +348,16 @@ A Cathedral makes 3 unhappy citizens content in a city, making it\
 
 [building_city_walls]
 name		= _("City Walls")
+genus		= "Improvement"
 tech_req	= "Masonry"
 bldg_req	= "None"
 graphic	= "b.city_walls"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 equiv_dupl	= "Great Wall"
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 60
 upkeep		= 0
 sabotage	= 50
@@ -388,17 +378,16 @@ City Walls make it easier to defend a city.  They triple the defence\
 
 [building_coastal_defense]
 name		= _("Coastal Defense")
+genus		= "Improvement"
 tech_req	= "Metallurgy"
 bldg_req	= "None"
 graphic	= "b.coastal_defense"
 graphic_alt	= "-"
 terr_gate	= "Ocean"
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 60
 upkeep		= 1
 sabotage	= 100
@@ -415,17 +404,16 @@ Increases the defence strength of units within a city by a factor\
 
 [building_colosseum]
 name		= _("Colosseum")
+genus		= "Improvement"
 tech_req	= "Construction"
 bldg_req	= "None"
 graphic	= "b.colosseum"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 70
 upkeep		= 4
 sabotage	= 100
@@ -445,17 +433,16 @@ Entertains the citizens of a city, making 3 unhappy citizens content. \
 
 [building_courthouse]
 name		= _("Courthouse")
+genus		= "Improvement"
 tech_req	= "Code of Laws"
 bldg_req	= "None"
 graphic	= "b.courthouse"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 60
 upkeep		= 1
 sabotage	= 100
@@ -477,17 +464,16 @@ Reduces the corruption and waste in a city by 50%.  Under a Democracy, a\
 
 [building_factory]
 name		= _("Factory")
+genus		= "Improvement"
 tech_req	= "Industrialization"
 bldg_req	= "None"
 graphic	= "b.factory"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 140
 upkeep		= 4
 sabotage	= 100
@@ -504,17 +490,16 @@ Increases the shield production in a city by 50%.  This increase may\
 
 [building_granary]
 name		= _("Granary")
+genus		= "Improvement"
 tech_req	= "Pottery"
 bldg_req	= "None"
 graphic	= "b.granary"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 equiv_repl	= "Pyramids"
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 40
 upkeep		= 1
 sabotage	= 100
@@ -535,17 +520,16 @@ The amount of stored food will be set to half full whenever a city\
 
 [building_harbour]
 name		= _("Harbour")
+genus		= "Improvement"
 tech_req	= "Seafaring"
 bldg_req	= "None"
 graphic	= "b.harbour"
 graphic_alt	= "-"
 terr_gate	= "Ocean"
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 40
 upkeep		= 1
 sabotage	= 100
@@ -562,17 +546,16 @@ Gives one extra food resource on all Ocean squares.  The city needs\
 
 [building_hydro_plant]
 name		= _("Hydro Plant")
+genus		= "Improvement"
 tech_req	= "Electronics"
 bldg_req	= "Factory"
 graphic	= "b.hydro_plant"
 graphic_alt	= "-"
 terr_gate	= "Mountains"
 spec_gate	= "River"
-equiv_range	= "City"
 ;equiv_dupl	=
 equiv_repl	= "Hoover Dam", "Power Plant", "Nuclear Plant", "Solar Plant"
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 180
 upkeep		= 4
 sabotage	= 100
@@ -605,17 +588,16 @@ A city can only have one Hydro Plant, Power Plant, or\
 
 [building_library]
 name		= _("Library")
+genus		= "Improvement"
 tech_req	= "Writing"
 bldg_req	= "None"
 graphic	= "b.library"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 60
 upkeep		= 1
 sabotage	= 100
@@ -632,17 +614,16 @@ Increases the science output in a city by 100%.\
 
 [building_marketplace]
 name		= _("Marketplace")
+genus		= "Improvement"
 tech_req	= "Currency"
 bldg_req	= "None"
 graphic	= "b.marketplace"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 60
 upkeep		= 0
 sabotage	= 100
@@ -660,17 +641,16 @@ Increases the luxury and tax output in a city by 50%.\
 
 [building_mass_transit]
 name		= _("Mass Transit")
+genus		= "Improvement"
 tech_req	= "Mass Production"
 bldg_req	= "None"
 graphic	= "b.mass_transit"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 120
 upkeep		= 4
 sabotage	= 100
@@ -688,17 +668,16 @@ Neutralizes the pollution generated by the population. \
 
 [building_mfg_plant]
 name		= _("Mfg. Plant")
+genus		= "Improvement"
 tech_req	= "Robotics"
 bldg_req	= "Factory"
 graphic	= "b.mfg_plant"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 220
 upkeep		= 6
 sabotage	= 100
@@ -716,17 +695,16 @@ Together with a Factory, a Manufacturing Plant increases the shield\
 
 [building_nuclear_plant]
 name		= _("Nuclear Plant")
+genus		= "Improvement"
 tech_req	= "Nuclear Power"
 bldg_req	= "Factory"
 graphic	= "b.nuclear_plant"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 equiv_repl	= "Hoover Dam", "Power Plant", "Hydro Plant", "Solar Plant"
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 120
 upkeep		= 2
 sabotage	= 100
@@ -760,17 +738,16 @@ A city can only have one Hydro Plant, Power Plant, or\
 
 [building_offshore_platform]
 name		= _("Offshore Platform")
+genus		= "Improvement"
 tech_req	= "Miniaturization"
 bldg_req	= "None"
 graphic	= "b.offshore_platform"
 graphic_alt	= "-"
 terr_gate	= "Ocean"
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
@@ -787,17 +764,16 @@ Adds 1 extra shield resource on all Ocean squares in a city.  The\
 
 [building_palace]
 name		= _("Palace")
+genus		= "SmallWonder"
 tech_req	= "Masonry"
 bldg_req	= "None"
 graphic	= "b.palace"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 70
 upkeep		= 0
 sabotage	= 0
@@ -826,17 +802,16 @@ Take good care of your capital, as its loss may result in your\
 
 [building_police_station]
 name		= _("Police Station")
+genus		= "Improvement"
 tech_req	= "Communism"
 bldg_req	= "None"
 graphic	= "b.police_station"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 equiv_repl	= "Women's Suffrage"
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 50
 upkeep		= 2
 sabotage	= 100
@@ -858,17 +833,16 @@ Reduces the unhappiness caused by military units outside the city\
 
 [building_port_facility]
 name		= _("Port Facility")
+genus		= "Improvement"
 tech_req	= "Amphibious Warfare"
 bldg_req	= "None"
 graphic	= "b.port_facility"
 graphic_alt	= "-"
 terr_gate	= "Ocean"
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 60
 upkeep		= 3
 sabotage	= 100
@@ -887,17 +861,16 @@ Allows a city to build veteran sea units.  Also, damaged sea units\
 
 [building_power_plant]
 name		= _("Power Plant")
+genus		= "Improvement"
 tech_req	= "Refining"
 bldg_req	= "Factory"
 graphic	= "b.power_plant"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	= 
 equiv_repl	= "Hoover Dam", "Nuclear Plant", "Hydro Plant", "Solar Plant"
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 130
 upkeep		= 4
 sabotage	= 100
@@ -925,17 +898,16 @@ A city can only have one Hydro Plant, Power Plant, or\
 
 [building_recycling_center]
 name		= _("Recycling Center")
+genus		= "Improvement"
 tech_req	= "Recycling"
 bldg_req	= "None"
 graphic	= "b.recycling_center"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 140
 upkeep		= 2
 sabotage	= 100
@@ -953,17 +925,16 @@ Building a Recycling Center reduces the amount of pollution\
 
 [building_research_lab]
 name		= _("Research Lab")
+genus		= "Improvement"
 tech_req	= "Computers"
 bldg_req	= "University"
 graphic	= "b.research_lab"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	= 
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
@@ -983,17 +954,16 @@ Together with a Library and a University, a Research Lab increases\
 
 [building_sam_battery]
 name		= _("SAM Battery")
+genus		= "Improvement"
 tech_req	= "Rocketry"
 bldg_req	= "None"
 graphic	= "b.sam_battery"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 70
 upkeep		= 2
 sabotage	= 100
@@ -1010,17 +980,16 @@ Doubles the defense of all units inside the city when attacked by\
 
 [building_sdi_defense]
 name		= _("SDI Defense")
+genus		= "Improvement"
 tech_req	= "Laser"
 bldg_req	= "None"
 graphic	= "b.sdi_defense"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 140
 upkeep		= 4
 sabotage	= 100
@@ -1041,17 +1010,16 @@ Protects a city from attacks from Nuclear units.  Nuclear attacks\
 
 [building_sewer_system]
 name		= _("Sewer System")
+genus		= "Improvement"
 tech_req	= "Sanitation"
 bldg_req	= "Aqueduct"
 graphic	= "b.sewer_system"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 80
 upkeep		= 2
 sabotage	= 100
@@ -1068,17 +1036,16 @@ Allows a city to grow larger than size 12.  An Aqueduct is first\
 
 [building_solar_plant]
 name		= _("Solar Plant")
+genus		= "Improvement"
 tech_req	= "Never"		; "Environmentalism"
 bldg_req	= "Factory"
 graphic	= "b.solar_plant"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 equiv_repl	= "Hoover Dam", "Power Plant", "Hydro Plant", "Nuclear Plant"
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 220
 upkeep		= 4
 sabotage	= 100
@@ -1104,17 +1071,16 @@ A city can only have one Solar Plant, Hydro Plant, Power Plant, or\
 
 [building_space_component]
 name		= _("Space Component")
+genus		= "Special"
 tech_req	= "Plastics"
 bldg_req	= "Factory"
 graphic	= "b.space_component"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 160
 upkeep		= 0
 sabotage	= 100
@@ -1135,17 +1101,16 @@ Before you can build any spaceship parts, the Apollo Program wonder\
 
 [building_space_module]
 name		= _("Space Module")
+genus		= "Special"
 tech_req	= "Superconductors"
 bldg_req	= "Factory"
 graphic	= "b.space_modules"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 320
 upkeep		= 0
 sabotage	= 100
@@ -1175,17 +1140,16 @@ Before you can build any spaceship parts, the Apollo Program wonder\
 
 [building_space_structural]
 name		= _("Space Structural")
+genus		= "Special"
 tech_req	= "Space Flight"
 bldg_req	= "Factory"
 graphic	= "b.space_structural"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 80
 upkeep		= 0
 sabotage	= 100
@@ -1206,17 +1170,16 @@ Before you can build any spaceship parts, the Apollo Program wonder\
 
 [building_stock_exchange]
 name		= _("Stock Exchange")
+genus		= "Improvement"
 tech_req	= "Economics"
 bldg_req	= "Bank"
 graphic	= "b.stock_exchange"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
@@ -1235,17 +1198,16 @@ Together with a Marketplace and a Bank, a Stock Exchange boosts\
 
 [building_super_highways]
 name		= _("Super Highways")
+genus		= "Improvement"
 tech_req	= "Automobile"
 bldg_req	= "None"
 graphic	= "b.super_highways"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
@@ -1265,17 +1227,16 @@ Increases trade resources by 50% on all squares with roads or\
 
 [building_supermarket]
 name		= _("Supermarket")
+genus		= "Improvement"
 tech_req	= "Refrigeration"
 bldg_req	= "None"
 graphic	= "b.supermarket"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 80
 upkeep		= 3
 sabotage	= 100
@@ -1294,17 +1255,16 @@ Increases the food resources by 50% on each farmland square which\
 
 [building_temple]
 name		= _("Temple")
+genus		= "Improvement"
 tech_req	= "Ceremonial Burial"
 bldg_req	= "None"
 graphic	= "b.temple"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 30
 upkeep		= 1
 sabotage	= 100
@@ -1323,17 +1283,16 @@ Makes one unhappy citizen content.  Both the Mysticism advance\
 
 [building_university]
 name		= _("University")
+genus		= "Improvement"
 tech_req	= "University"
 bldg_req	= "Library"
 graphic	= "b.university"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 120
 upkeep		= 3
 sabotage	= 100
@@ -1351,17 +1310,16 @@ Together with a Library, a University increases the science\
 
 [building_apollo_program]
 name		= _("Apollo Program")
+genus		= "GreatWonder"
 tech_req	= "Space Flight"
 bldg_req	= "None"
 graphic	= "b.apollo_program"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
@@ -1380,17 +1338,16 @@ Entire map becomes visible for the player who owns it. \
 
 [building_asmiths_trading_co]
 name		= _("A.Smith's Trading Co.")
+genus		= "GreatWonder"
 tech_req	= "Economics"
 bldg_req	= "None"
 graphic	= "b.asmiths_trading_co"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
@@ -1407,17 +1364,16 @@ City improvements which would normally have an upkeep of 1 are free\
 
 [building_colossus]
 name		= _("Colossus")
+genus		= "GreatWonder"
 tech_req	= "Bronze Working"
 bldg_req	= "None"
 graphic	= "b.colossus"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Flight"
-is_wonder	= 1
 build_cost	= 100
 upkeep		= 0
 sabotage	= 0
@@ -1434,17 +1390,16 @@ Each square around the city where this wonder is built that is already\
 
 [building_copernicus_observatory]
 name		= _("Copernicus' Observatory")
+genus		= "GreatWonder"
 tech_req	= "Astronomy"
 bldg_req	= "None"
 graphic	= "b.copernicus_observatory"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
@@ -1461,17 +1416,16 @@ Boosts science production by 100% in the city where it is built.\
 
 [building_cure_for_cancer]
 name		= _("Cure For Cancer")
+genus		= "GreatWonder"
 tech_req	= "Genetic Engineering"
 bldg_req	= "None"
 graphic	= "b.cure_for_cancer"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
@@ -1490,17 +1444,16 @@ This stunning technological achievement makes one unhappy\
 
 [building_darwins_voyage]
 name		= _("Darwin's Voyage")
+genus		= "GreatWonder"
 tech_req	= "Railroad"
 bldg_req	= "None"
 graphic	= "b.darwins_voyage"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
@@ -1518,17 +1471,16 @@ Charles Darwin's voyage sparked the discovery of the evolution\
 
 [building_eiffel_tower]
 name		= _("Eiffel Tower")
+genus		= "GreatWonder"
 tech_req	= "Steam Engine"
 bldg_req	= "None"
 graphic	= "b.eiffel_tower"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 100
 upkeep		= 0
 sabotage	= 0
@@ -1548,17 +1500,16 @@ Your reputation and goodwill among other nations is increased\
 
 [building_great_library]
 name		= _("Great Library")
+genus		= "GreatWonder"
 tech_req	= "Literacy"
 bldg_req	= "None"
 graphic	= "b.great_library"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Electricity"
-is_wonder	= 1
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
@@ -1575,17 +1526,16 @@ The civilization which builds the Great Library gets every advance\
 
 [building_great_wall]
 name		= _("Great Wall")
+genus		= "GreatWonder"
 tech_req	= "Masonry"
 bldg_req	= "None"
 graphic	= "b.great_wall"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Metallurgy"
-is_wonder	= 1
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
@@ -1605,17 +1555,16 @@ Works as a City Wall in all your cities.\
 
 [building_hanging_gardens]
 name		= _("Hanging Gardens")
+genus		= "GreatWonder"
 tech_req	= "Pottery"
 bldg_req	= "None"
 graphic	= "b.hanging_gardens"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Railroad"
-is_wonder	= 1
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
@@ -1636,17 +1585,16 @@ Makes one content citizen happy in every city. Makes two extra\
 
 [building_hoover_dam]
 name		= _("Hoover Dam")
+genus		= "GreatWonder"
 tech_req	= "Electronics"
 bldg_req	= "None"
 graphic	= "b.hoover_dam"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
@@ -1666,17 +1614,16 @@ Works as if you had a Hydro Plant in every city.  (This reduces\
 
 [building_isaac_newtons_college]
 name		= _("Isaac Newton's College")
+genus		= "GreatWonder"
 tech_req	= "Theory of Gravity"
 bldg_req	= "None"
 graphic	= "b.isaac_newtons_college"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
@@ -1694,17 +1641,16 @@ Boosts science production by 100% in every city you control that\
 
 [building_js_bachs_cathedral]
 name		= _("J.S. Bach's Cathedral")
+genus		= "GreatWonder"
 tech_req	= "Theology"
 bldg_req	= "None"
 graphic	= "b.js_bachs_cathedral"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
@@ -1720,17 +1666,16 @@ Makes two unhappy citizens content in every city.\
 
 [building_king_richards_crusade]
 name		= _("King Richard's Crusade")
+genus		= "GreatWonder"
 tech_req	= "Engineering"
 bldg_req	= "None"
 graphic	= "b.king_richards_crusade"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Robotics"
-is_wonder	= 1
 build_cost	= 150
 upkeep		= 0
 sabotage	= 0
@@ -1747,17 +1692,16 @@ Adds one extra shield resource on every square around the city\
 
 [building_leonardos_workshop]
 name		= _("Leonardo's Workshop")
+genus		= "GreatWonder"
 tech_req	= "Invention"
 bldg_req	= "None"
 graphic	= "b.leonardos_workshop"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Automobile"
-is_wonder	= 1
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
@@ -1773,17 +1717,16 @@ Upgrades one obsolete unit per game turn.\
 
 [building_lighthouse]
 name		= _("Lighthouse")
+genus		= "GreatWonder"
 tech_req	= "Map Making"
 bldg_req	= "None"
 graphic	= "b.lighthouse"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Magnetism"
-is_wonder	= 1
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
@@ -1803,17 +1746,16 @@ Gives all your sea units 1 additional movement point and eliminates the\
 
 [building_magellans_expedition]
 name		= _("Magellan's Expedition")
+genus		= "GreatWonder"
 tech_req	= "Navigation"
 bldg_req	= "None"
 graphic	= "b.magellans_expedition"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
@@ -1829,17 +1771,16 @@ Gives all your sea units 2 additional movement points.\
 
 [building_manhattan_project]
 name		= _("Manhattan Project")
+genus		= "GreatWonder"
 tech_req	= "Nuclear Fission"
 bldg_req	= "None"
 graphic	= "b.manhattan_project"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
@@ -1854,17 +1795,16 @@ sound_alt	= "w_generic"
 
 [building_marco_polos_embassy]
 name		= _("Marco Polo's Embassy")
+genus		= "GreatWonder"
 tech_req	= "Trade"
 bldg_req	= "None"
 graphic	= "b.marco_polos_embassy"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Communism"
-is_wonder	= 1
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
@@ -1880,17 +1820,16 @@ The player who owns it gets an embassy with all players.\
 
 [building_michelangelos_chapel]
 name		= _("Michelangelo's Chapel")
+genus		= "GreatWonder"
 tech_req	= "Monotheism"
 bldg_req	= "None"
 graphic	= "b.michelangelos_chapel"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
@@ -1913,17 +1852,16 @@ Counts as having a Cathedral in each of your cities.  This makes 3\
 
 [building_oracle]
 name		= _("Oracle")
+genus		= "GreatWonder"
 tech_req	= "Mysticism"
 bldg_req	= "None"
 graphic	= "b.oracle"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Theology"
-is_wonder	= 1
 build_cost	= 100
 upkeep		= 0
 sabotage	= 0
@@ -1940,17 +1878,16 @@ Makes two of your unhappy citizens content in every city with a temple.\
 
 [building_pyramids]
 name		= _("Pyramids")
+genus		= "GreatWonder"
 tech_req	= "Masonry"
 bldg_req	= "None"
 graphic	= "b.pyramids"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
@@ -1966,17 +1903,16 @@ Counts as having a Granary in every city.\
 
 [building_seti_program]
 name		= _("SETI Program")
+genus		= "GreatWonder"
 tech_req	= "Computers"
 bldg_req	= "None"
 graphic	= "b.seti_program"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
@@ -1992,17 +1928,16 @@ Boosts science production in each city with a Research Lab by 100%. \
 
 [building_shakespeares_theatre]
 name		= _("Shakespeare's Theatre")
+genus		= "GreatWonder"
 tech_req	= "Medicine"
 bldg_req	= "None"
 graphic	= "b.shakespeares_theatre"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
@@ -2018,17 +1953,16 @@ Makes all unhappy citizens content, in the city where it is located.\
 
 [building_statue_of_liberty]
 name		= _("Statue of Liberty")
+genus		= "GreatWonder"
 tech_req	= "Democracy"
 bldg_req	= "None"
 graphic	= "b.statue_of_liberty"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "None"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 400
 upkeep		= 0
 sabotage	= 0
@@ -2047,17 +1981,16 @@ Allows you to choose any government, including those that have not yet\
 
 [building_sun_tzus_war_academy]
 name		= _("Sun Tzu's War Academy")
+genus		= "GreatWonder"
 tech_req	= "Feudalism"
 bldg_req	= "None"
 graphic	= "b.sun_tzus_war_academy"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "Mobile Warfare"
-is_wonder	= 1
 build_cost	= 300
 upkeep		= 0
 sabotage	= 0
@@ -2076,17 +2009,16 @@ All your new ground units start at the first veteran level. The \
 
 [building_united_nations]
 name		= _("United Nations")
+genus		= "GreatWonder"
 tech_req	= "Communism"
 bldg_req	= "None"
 graphic	= "b.united_nations"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
@@ -2110,17 +2042,16 @@ All your units regain two extra hitpoints per turn.\
 
 [building_womens_suffrage]
 name		= _("Women's Suffrage")
+genus		= "GreatWonder"
 tech_req	= "Industrialization"
 bldg_req	= "None"
 graphic	= "b.womens_suffrage"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "Player"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 1
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
@@ -2148,17 +2079,16 @@ Counts as a Police Station in every city.  (That is, for each city,\
 ;tech_req	= "The Corporation"
 ; */
 name		= _("Coinage")
+genus		= "Special"
 tech_req	= "None"
 bldg_req	= "None"
 graphic	= "b.capitalization"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
-is_wonder	= 0
 build_cost	= 999
 upkeep		= 0
 sabotage	= 0

@@ -292,9 +292,9 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 
     /* Alert the owners of any wonders that have been made obsolete */
     impr_type_iterate(id) {
-      if (game.global_wonders[id] != 0 && is_wonder(id) &&
+      if (is_great_wonder(id) && great_wonder_was_built(id) &&
 	  improvement_types[id].obsolete_by == tech_found &&
-	  (pcity = find_city_by_id(game.global_wonders[id]))) {
+	  (pcity = find_city_from_great_wonder(id))) {
 	notify_player_ex(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
 	                 _("Game: Discovery of %s OBSOLETES %s in %s!"), 
 	                 get_tech_name(city_owner(pcity), tech_found),
@@ -1478,6 +1478,10 @@ static void package_player_common(struct player *plr,
 
   packet->turn_done=plr->turn_done;
   packet->nturns_idle=plr->nturns_idle;
+
+  for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++) {
+    packet->small_wonders[i] = plr->small_wonders[i];
+  }
 }
 
 /**************************************************************************

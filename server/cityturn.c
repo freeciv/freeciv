@@ -114,7 +114,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
   bool sold = FALSE;
 
   built_impr_iterate(pcity, i) {
-    if (!is_wonder(i) && improvement_obsolete(pplayer, i)) {
+    if (can_sell_building(pcity, i) && improvement_obsolete(pplayer, i)) {
       do_sell_building(pplayer, pcity, i);
       notify_player_ex(pplayer, pcity->tile, E_IMP_SOLD, 
 		       _("Game: %s is selling %s (obsolete) for %d."),
@@ -317,7 +317,7 @@ void send_global_city_turn_notifications(struct conn_list *dest)
     city_list_iterate(pplayer->cities, pcity) {
       /* can_player_build_improvement() checks whether wonder is build
 	 elsewhere (or destroyed) */
-      if (!pcity->is_building_unit && is_wonder(pcity->currently_building)
+      if (!pcity->is_building_unit && is_great_wonder(pcity->currently_building)
 	  && (city_turns_to_build(pcity, pcity->currently_building, FALSE, TRUE)
 	      <= 1)
 	  && can_player_build_improvement(city_owner(pcity), pcity->currently_building)) {
@@ -916,6 +916,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
   bool space_part;
   int mod;
+  Impr_Type_id id = pcity->currently_building;
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     assert(pcity->surplus[O_SHIELD] >= 0);
@@ -926,21 +927,18 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     pcity->shield_stock = 0;
   }
   upgrade_building_prod(pcity);
-  if (!can_build_improvement(pcity, pcity->currently_building)) {
+  if (!can_build_improvement(pcity, id)) {
     notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 		     _("Game: %s is building %s, which "
 		       "is no longer available."),
-		     pcity->name, get_impr_name_ex(pcity,
-						   pcity->
-						   currently_building));
+		     pcity->name, get_impr_name_ex(pcity, id));
     return TRUE;
   }
-  if (pcity->shield_stock
-      >= impr_build_shield_cost(pcity->currently_building)) {
-    if (pcity->currently_building == game.palace_building) {
-      city_list_iterate(pplayer->cities, palace) {
-	if (city_got_building(palace, game.palace_building)) {
-	  city_remove_improvement(palace, game.palace_building);
+  if (pcity->shield_stock >= impr_build_shield_cost(id)) {
+    if (is_small_wonder(id)) {
+      city_list_iterate(pplayer->cities, wcity) {
+	if (city_got_building(wcity, id)) {
+	  city_remove_improvement(wcity, id);
 	  break;
 	}
       } city_list_iterate_end;
@@ -955,21 +953,27 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       pplayer->spaceship.modules++;
     } else {
       space_part = FALSE;
-      city_add_improvement(pcity, pcity->currently_building);
+      city_add_improvement(pcity, id);
     }
-    pcity->before_change_shields -=
-	impr_build_shield_cost(pcity->currently_building);
-    pcity->shield_stock -= impr_build_shield_cost(pcity->currently_building);
+    pcity->before_change_shields -= impr_build_shield_cost(id);
+    pcity->shield_stock -= impr_build_shield_cost(id);
     pcity->turn_last_built = game.turn;
     /* to eliminate micromanagement */
-    if (is_wonder(pcity->currently_building)) {
-      game.global_wonders[pcity->currently_building] = pcity->id;
+    if (is_great_wonder(id)) {
+      game.great_wonders[id] = pcity->id;
+
       notify_player_ex(NULL, pcity->tile, E_WONDER_BUILD,
 		       _("Game: The %s have finished building %s in %s."),
 		       get_nation_name_plural(pplayer->nation),
-		       get_impr_name_ex(pcity, pcity->currently_building),
+		       get_impr_name_ex(pcity, id),
 		       pcity->name);
-      /* TODO: if wonders become just-another-building, remove this */
+
+    } else if (is_small_wonder(id)) {
+      pplayer->small_wonders[id] = pcity->id;
+    }
+
+    /* TODO: if wonders become just-another-building, remove this */
+    if (is_great_wonder(id)) {
       gamelog(GAMELOG_WONDER, pcity);
     } else {
       gamelog(GAMELOG_BUILD, pcity);
@@ -977,7 +981,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
     notify_player_ex(pplayer, pcity->tile, E_IMP_BUILD,
 		     _("Game: %s has finished building %s."), pcity->name,
-		     improvement_types[pcity->currently_building].name);
+		     get_improvement_name(id));
 
 
     if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH))) {
@@ -988,7 +992,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 				 "Game: %s boosts research; "
 			         "you gain %d immediate advances.",
 				 mod),
-		    improvement_types[pcity->currently_building].name, mod);
+		    get_improvement_name(id), mod);
 
       for (i = 0; i < mod; i++) {
 	Tech_Type_id tech = pplayer->research.researching;
@@ -1005,7 +1009,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 	    _("Game: The %s have acquired %s from %s."),
 	    get_nation_name_plural(pplayer->nation),
 	    get_tech_name(pplayer, tech),
-	    improvement_types[pcity->currently_building].name);
+	    get_improvement_name(id));
       }
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
@@ -1140,7 +1144,7 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   built_impr_iterate(pcity, i) {
-    if (!is_wonder(i)
+    if (can_sell_building(pcity, i)
 	&& pplayer->government != game.government_when_anarchy) {
       if (pplayer->economic.gold - improvement_upkeep(pcity, i) < 0) {
 	notify_player_ex(pplayer, pcity->tile, E_IMP_AUCTIONED,

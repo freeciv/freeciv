@@ -133,7 +133,7 @@ struct packet_game_info {
   int diplomacy;
   bool spacerace;
   int global_advances[A_LAST];
-  int global_wonders[B_LAST];
+  int great_wonders[B_LAST];
 };
 
 struct packet_map_info {
@@ -334,6 +334,7 @@ struct packet_player_info {
   unsigned int gives_shared_vision;
   char inventions[A_LAST+1];
   int love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  int small_wonders[B_LAST];
 };
 
 struct packet_player_turn_done {
@@ -853,6 +854,7 @@ struct packet_ruleset_city {
 
 struct packet_ruleset_building {
   Impr_Type_id id;
+  enum impr_genus_id genus;
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -860,8 +862,6 @@ struct packet_ruleset_building {
   int obsolete_by;
   Impr_Type_id bldg_req;
   Impr_Type_id replaced_by;
-  bool is_wonder;
-  enum impr_range equiv_range;
   int build_cost;
   int upkeep;
   int sabotage;

@@ -48,7 +48,7 @@ void get_economy_report_data(struct improvement_entry *entries,
   *total_cost = 0;
 
   impr_type_iterate(impr_id) {
-    if (!is_wonder(impr_id)) {
+    if (is_improvement(impr_id)) {
       int count = 0, cost = 0;
       city_list_iterate(game.player_ptr->cities, pcity) {
 	if (city_got_building(pcity, impr_id)) {

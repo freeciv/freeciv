@@ -179,15 +179,24 @@ static int base_want(struct player *pplayer, struct city *pcity,
   struct ai_data *ai = ai_data_get(pplayer);
   int final_want = 0;
   struct city *capital = find_palace(pplayer);
+  int great_wonders_tmp = 0, small_wonders_tmp = 0;
 
   if (ai->impr_calc[id] == AI_IMPR_ESTIMATE) {
     return 0; /* Nothing to calculate here. */
   }
 
+  if (!can_build_improvement(pcity, id)) {
+    return 0;
+  }
+
   /* Add the improvement */
   city_add_improvement(pcity, id);
-  if (is_wonder(id)) {
-    game.global_wonders[id] = pcity->id;
+  if (is_great_wonder(id)) {
+    great_wonders_tmp = game.great_wonders[id];
+    game.great_wonders[id] = pcity->id;
+  } else if (is_small_wonder(id)) {
+    small_wonders_tmp = pplayer->small_wonders[id];
+    pplayer->small_wonders[id] = pcity->id;
   }
 
   /* Stir, then compare notes */
@@ -197,14 +206,14 @@ static int base_want(struct player *pplayer, struct city *pcity,
 
   /* Restore */
   city_remove_improvement(pcity, id);
-  if (is_wonder(id)) {
-    game.global_wonders[id] = 0;
+  if (is_great_wonder(id)) {
+    game.great_wonders[id] = great_wonders_tmp;
+  } else if (is_small_wonder(id)) {
+    pplayer->small_wonders[id] = small_wonders_tmp;
   }
 
   /* Ensure that we didn't inadvertantly move our palace */
-  if (find_palace(pplayer) != capital) {
-    city_add_improvement(capital, get_building_for_effect(EFT_CAPITAL_CITY));
-  }
+  assert(find_palace(pplayer) == capital);
 
   return final_want;
 }
@@ -565,7 +574,7 @@ void ai_manage_buildings(struct player *pplayer)
       if (city_got_building(pcity, id)
           || pcity->surplus[O_SHIELD] == 0
           || !can_build_improvement(pcity, id)
-          || improvement_redundant(pplayer, pcity, id, FALSE)) {
+          || is_building_replaced(pcity, id)) {
         continue; /* Don't build redundant buildings */
       }
       adjust_building_want_by_effects(pcity, id);
@@ -733,7 +742,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 	      get_improvement_name(pcity->ai.choice.choice)),
 	     pcity->ai.choice.want);
     
-    if (!pcity->is_building_unit && is_wonder(pcity->currently_building) 
+    if (!pcity->is_building_unit && is_great_wonder(pcity->currently_building) 
 	&& (is_unit_choice_type(pcity->ai.choice.type) 
 	    || pcity->ai.choice.choice != pcity->currently_building))
       notify_player_ex(NULL, pcity->tile, E_WONDER_STOPPED,
@@ -746,11 +755,13 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 	&& is_wonder(pcity->ai.choice.choice)
 	&& (pcity->is_building_unit 
 	    || pcity->currently_building != pcity->ai.choice.choice)) {
-      notify_player_ex(NULL, pcity->tile, E_WONDER_STARTED,
-		       _("Game: The %s have started building The %s in %s."),
-		       get_nation_name_plural(city_owner(pcity)->nation),
-		       get_impr_name_ex(pcity, pcity->ai.choice.choice),
-		       pcity->name);
+      if (is_great_wonder(pcity->ai.choice.choice)) {
+	notify_player_ex(NULL, pcity->tile, E_WONDER_STARTED,
+			 _("Game: The %s have started building The %s in %s."),
+			 get_nation_name_plural(city_owner(pcity)->nation),
+			 get_impr_name_ex(pcity, pcity->ai.choice.choice),
+			 pcity->name);
+      }
       pcity->currently_building = pcity->ai.choice.choice;
       pcity->is_building_unit = is_unit_choice_type(pcity->ai.choice.type);
 
@@ -1034,7 +1045,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
 
   built_impr_iterate(pcity, i) {
-    if(!is_wonder(i) 
+    if(can_sell_building(pcity, i) 
        && !building_has_effect(i, EFT_LAND_DEFEND)
 	      /* selling city walls is really, really dumb -- Syela */
        && (is_building_replaced(pcity, i)

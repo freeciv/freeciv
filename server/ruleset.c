@@ -1225,6 +1225,15 @@ static void load_ruleset_buildings(struct section_file *file)
   for (i = 0; i < nval; i++) {
     b = &improvement_types[i];
 
+    item = secfile_lookup_str(file, "%s.genus", sec[i]);
+    b->genus = impr_genus_from_str(item);
+    if (b->genus == IG_LAST) {
+      freelog(LOG_ERROR,
+	      "for %s genus couldn't match genus \"%s\" (%s)",
+	      b->name, item, filename);
+      exit(EXIT_FAILURE);
+    }
+
     b->tech_req = lookup_tech(file, sec[i], "tech_req", FALSE, filename, b->name);
 
     b->bldg_req = lookup_impr_type(file, sec[i], "bldg_req", FALSE, filename, b->name);
@@ -1260,15 +1269,6 @@ static void load_ruleset_buildings(struct section_file *file)
     }
     b->spec_gate[k] = S_NO_SPECIAL;
     free(list);
-
-    item = secfile_lookup_str(file, "%s.equiv_range", sec[i]);
-    b->equiv_range = impr_range_from_str(item);
-    if (b->equiv_range == IR_LAST) {
-      freelog(LOG_ERROR,
-	      "for %s equiv_range couldn't match range \"%s\" (%s)",
-	      b->name, item, filename);
-      b->equiv_range = IR_NONE;
-    }
 
     list = secfile_lookup_str_vec(file, &count, "%s.equiv_dupl", sec[i]);
     b->equiv_dupl = fc_malloc((count + 1) * sizeof(b->equiv_dupl[0]));
@@ -1316,8 +1316,6 @@ static void load_ruleset_buildings(struct section_file *file)
 
     b->replaced_by = lookup_impr_type(file, sec[i], "replaced_by",
 				      FALSE, filename, b->name);
-
-    b->is_wonder = secfile_lookup_bool(file, "%s.is_wonder", sec[i]);
 
     b->build_cost = secfile_lookup_int(file, "%s.build_cost", sec[i]);
 
@@ -2417,7 +2415,7 @@ static void load_ruleset_nations(struct section_file *file)
     } else if(!improvement_exists(val)) {
       freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s doesn't exist", temp_name, pl->name);
       val = B_LAST;
-    } else if(!is_wonder(val)) {
+    } else if(!is_great_wonder(val)) {
       freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s not a wonder", temp_name, pl->name);
       val = B_LAST;
     }
@@ -2869,15 +2867,14 @@ static void send_ruleset_buildings(struct conn_list *dest)
     struct packet_ruleset_building packet;
 
     packet.id = i;
+    packet.genus = b->genus;
     sz_strlcpy(packet.name, b->name_orig);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     packet.tech_req = b->tech_req;
     packet.bldg_req = b->bldg_req;
-    packet.equiv_range = b->equiv_range;
     packet.obsolete_by = b->obsolete_by;
     packet.replaced_by = b->replaced_by;
-    packet.is_wonder = b->is_wonder;
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
     packet.sabotage = b->sabotage;

@@ -587,7 +587,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 	pitem->section = 1;
       } else {
 	cost = impr_build_shield_cost(id);
-	if (is_wonder(id)) {
+	if (is_great_wonder(id)) {
       	  pitem->section = 4;
         } else {
 	  pitem->section = 0;

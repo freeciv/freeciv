@@ -35,8 +35,6 @@
 typedef unsigned char Impr_Status;
 #define I_NONE       0   /* Improvement not built */
 #define I_ACTIVE     1   /* Improvement built, and having its effect */
-#define I_OBSOLETE   2   /* Built, but obsoleted by a tech */
-#define I_REDUNDANT  3   /* Built, but replaced by wonder/other building */
 
 
 /* B_LAST is a value which is guaranteed to be larger than all
@@ -56,8 +54,18 @@ enum impr_range {
   IR_LAST      /* keep this last */
 };
 
+enum impr_genus_id {
+  IG_GREAT_WONDER,
+  IG_SMALL_WONDER,
+  IG_IMPROVEMENT,
+  IG_SPECIAL,
+  IG_LAST
+};
+
+
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
+  enum impr_genus_id genus;		/* genus; e.g. GreatWonder */
   const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];		/* untranslated */
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
@@ -66,12 +74,10 @@ struct impr_type {
   Impr_Type_id bldg_req;		/* B_LAST = none required */
   Terrain_type_id *terr_gate;	/* list; T_NONE terminated */
   enum tile_special_type *spec_gate;	/* list; S_NO_SPECIAL terminated */
-  enum impr_range equiv_range;
   Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */
   Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
   Tech_Type_id obsolete_by;		/* A_LAST = never obsolete */
   Impr_Type_id replaced_by;		/* B_LAST = never replaced */
-  bool is_wonder;
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
@@ -88,6 +94,9 @@ extern struct impr_type improvement_types[B_LAST];
 enum impr_range impr_range_from_str(const char *str);
 const char *impr_range_name(enum impr_range id);
 
+/* impr genus id/string converters */
+enum impr_genus_id impr_genus_from_str(const char *s);
+
 /* improvement functions */
 void improvements_free(void);
 struct impr_type *get_improvement_type(Impr_Type_id id);
@@ -102,25 +111,14 @@ const char *get_improvement_name(Impr_Type_id id);
 const char *get_improvement_name_orig(Impr_Type_id id);
 
 bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id);
-bool improvement_redundant(struct player *pplayer, const struct city *pcity,
-                          Impr_Type_id id, bool want_to_build);
-bool wonder_obsolete(Impr_Type_id id);
 Impr_Type_id find_improvement_by_name(const char *s);
 Impr_Type_id find_improvement_by_name_orig(const char *s);
-void improvement_status_init(Impr_Status * improvements, size_t elements);
 
 /* player related improvement and unit functions */
 bool can_player_build_improvement_direct(struct player *p, Impr_Type_id id);
 bool can_player_build_improvement(struct player *p, Impr_Type_id id);
 bool can_player_eventually_build_improvement(struct player *p,
 					     Impr_Type_id id);
-
-/* city related improvement functions */
-void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status);
-void allot_island_improvs(void);
-void improvements_update_obsolete(void);
-void improvements_update_redundant(struct player *pplayer, struct city *pcity,
-                                   Continent_id cont, enum impr_range range);
 
 /* Iterates over all improvements. Creates a new variable names m_i
  * with type Impr_Type_id which holds the id of the current improvement. */
@@ -133,4 +131,18 @@ void improvements_update_redundant(struct player *pplayer, struct city *pcity,
   }                                                                           \
 }
 
+bool can_sell_building(struct city *pcity, Impr_Type_id id);
+
+bool is_great_wonder(Impr_Type_id id);
+bool is_small_wonder(Impr_Type_id id);
+bool is_improvement(Impr_Type_id id);
+
+struct city *find_city_from_great_wonder(Impr_Type_id id);
+struct city *find_city_from_small_wonder(const struct player *pplayer,
+					 Impr_Type_id id);
+
+bool great_wonder_was_built(Impr_Type_id id);
+bool can_sell_improvement(Impr_Type_id id);
+
 #endif  /* FC__IMPROVEMENT_H */
+

@@ -2397,7 +2397,7 @@ static void sell_callback(Impr_Type_id id, gpointer data)
     return;
   }
   
-  if (!city_got_building(pdialog->pcity, id) || is_wonder(id)) {
+  if (!can_sell_building(pdialog->pcity, id)) {
     return;
   }
 

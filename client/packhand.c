@@ -329,16 +329,6 @@ static void update_improvement_from_packet(struct city *pcity,
 }
 
 /**************************************************************************
-  Possibly update city improvement effects.
-**************************************************************************/
-static void try_update_effects(bool need_update)
-{
-  if (need_update) {
-    /* nothing yet... */
-  }
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void handle_game_state(int value)
@@ -478,9 +468,9 @@ void handle_city_info(struct packet_city_info *packet)
   if (city_is_new) {
     init_worklist(&pcity->worklist);
 
-    /* Initialise list of improvements with city/building wide equiv_range. */
-    improvement_status_init(pcity->improvements,
-			    ARRAY_SIZE(pcity->improvements));
+    for (i = 0; i < ARRAY_SIZE(pcity->improvements); i++) {
+      pcity->improvements[i] = I_NONE;
+    }
   }
   copy_worklist(&pcity->worklist, &packet->worklist);
   pcity->did_buy=packet->did_buy;
@@ -562,8 +552,6 @@ void handle_city_info(struct packet_city_info *packet)
 
   /* Update the panel text (including civ population). */
   update_info_label();
-
-  try_update_effects(need_effect_update);
 }
 
 /**************************************************************************
@@ -712,6 +700,14 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->ppl_content[4] = pcity->size;
   }
 
+  if (city_is_new) {
+    int i;
+
+    for (i = 0; i < ARRAY_SIZE(pcity->improvements); i++) {
+      pcity->improvements[i] = I_NONE;
+    }
+  }
+
   update_improvement_from_packet(pcity, game.palace_building,
 				 packet->capital, &need_effect_update);
   update_improvement_from_packet(pcity, game.land_defend_building,
@@ -764,8 +760,6 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   if (update_descriptions) {
     update_city_description(pcity);
   }
-
-  try_update_effects(need_effect_update);
 }
 
 /**************************************************************************
@@ -1334,7 +1328,7 @@ void handle_map_info(int xsize, int ysize, int topology_id)
 void handle_game_info(struct packet_game_info *pinfo)
 {
   int i;
-  bool boot_help, need_effect_update = FALSE;
+  bool boot_help;
 
   game.gold=pinfo->gold;
   game.tech=pinfo->tech;
@@ -1368,33 +1362,14 @@ void handle_game_info(struct packet_game_info *pinfo)
       freelog(LOG_FATAL, "Cannot find any land defend building");
     }
 
-    improvement_status_init(game.improvements,
-			    ARRAY_SIZE(game.improvements));
-
     game.player_idx = pinfo->player_idx;
     game.player_ptr = &game.players[game.player_idx];
   }
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     game.global_advances[i]=pinfo->global_advances[i];
   for(i=0; i<B_LAST/*game.num_impr_types*/; i++) {
-     game.global_wonders[i]=pinfo->global_wonders[i];
-/* Only add in the improvement if it's in a "foreign" (i.e. unknown) city
-   and has equiv_range==World - otherwise we deal with it in its home
-   city anyway */
-    if (is_wonder(i) && improvement_types[i].equiv_range == REQ_RANGE_WORLD
-        && !find_city_by_id(game.global_wonders[i])) {
-      if (game.global_wonders[i] <= 0 && game.improvements[i] != I_NONE) {
-        game.improvements[i] = I_NONE;
-        need_effect_update = TRUE;
-      } else if (game.global_wonders[i] > 0 && game.improvements[i] == I_NONE) {
-        game.improvements[i] = I_ACTIVE;
-        need_effect_update = TRUE;
-      }
-    }
+     game.great_wonders[i]=pinfo->great_wonders[i];
   }
-
-  /* Only update effects if a new wonder appeared or was destroyed */
-  try_update_effects(need_effect_update);
 
   if (get_client_state() == CLIENT_SELECT_RACE_STATE) {
     popdown_races_dialog();
@@ -1439,7 +1414,6 @@ static bool read_player_info_techs(struct player *pplayer,
   } tech_type_iterate_end;
 
   if (need_effect_update) {
-    improvements_update_obsolete();
     update_menus();
   }
 
@@ -1511,6 +1485,10 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->reputation = pinfo->reputation;
 
   pplayer->is_connected = pinfo->is_connected;
+
+  for (i = 0; i < B_LAST/*game.num_impr_types*/; i++) {
+     pplayer->small_wonders[i] = pinfo->small_wonders[i];
+  }
 
   /* If the server sends out player information at the wrong time, it is
    * likely to give us inconsistent player tech information, causing a
@@ -1975,7 +1953,6 @@ void handle_tile_info(struct packet_tile_info *packet)
 
   if (ptile->continent > map.num_continents) {
     map.num_continents = ptile->continent;
-    allot_island_improvs();
   }
 
   if (known_changed || tile_changed) {
@@ -2253,15 +2230,14 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   }
   b = &improvement_types[p->id];
 
+  b->genus = p->genus;
   sz_strlcpy(b->name_orig, p->name);
   b->name = b->name_orig;
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   b->tech_req = p->tech_req;
   b->bldg_req = p->bldg_req;
-  b->equiv_range = p->equiv_range;
   b->obsolete_by = p->obsolete_by;
-  b->is_wonder = p->is_wonder;
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
@@ -2308,8 +2284,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 	freelog(LOG_DEBUG, "    %2d/%s",
 		b->spec_gate[inx], get_special_name(b->spec_gate[inx]));
       }
-      freelog(LOG_DEBUG, "  equiv_range %2d/%d",
-	      b->equiv_range, b->equiv_range);
       freelog(LOG_DEBUG, "  equiv_dupl...");
       for (inx = 0; b->equiv_dupl[inx] != B_LAST; inx++) {
 	freelog(LOG_DEBUG, "    %2d/%s",
@@ -2327,7 +2301,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       } else {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/Never", b->obsolete_by);
       }
-      freelog(LOG_DEBUG, "  is_wonder   %2d", b->is_wonder);
       freelog(LOG_DEBUG, "  build_cost %3d", b->build_cost);
       freelog(LOG_DEBUG, "  upkeep      %2d", b->upkeep);
       freelog(LOG_DEBUG, "  sabotage   %3d", b->sabotage);

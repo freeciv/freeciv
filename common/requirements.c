@@ -263,8 +263,8 @@ static bool is_target_possible(enum target_type target,
 ****************************************************************************/
 static int num_world_buildings_total(Impr_Type_id building)
 {
-  if (is_wonder(building)) {
-    return (game.global_wonders[building] != 0) ? 1 : 0;
+  if (is_great_wonder(building)) {
+    return (great_wonder_was_built(building) ? 1 : 0);
   } else {
     freelog(LOG_ERROR,
 	    /* TRANS: Obscure ruleset error. */
@@ -278,13 +278,38 @@ static int num_world_buildings_total(Impr_Type_id building)
 ****************************************************************************/
 static int num_world_buildings(Impr_Type_id id)
 {
-  if (is_wonder(id)) {
-    return find_city_by_id(game.global_wonders[id]) ? 1 : 0;
+  if (is_great_wonder(id)) {
+    return (find_city_from_great_wonder(id) ? 1 : 0);
   } else {
     freelog(LOG_ERROR,
 	    /* TRANS: Obscure ruleset error. */
 	    _("World-ranged requirements are only supported for wonders."));
     return 0;
+  }
+}
+
+/**************************************************************************
+  Returns the player city with the given wonder.
+**************************************************************************/
+static struct city *player_find_city_from_wonder(const struct player *plr,
+						 Impr_Type_id id)
+{
+  int city_id;
+  struct city *pcity;
+
+  if (is_great_wonder(id)) {
+    city_id = game.great_wonders[id];
+  } else if (is_small_wonder(id)) {
+    city_id = plr->small_wonders[id];
+  } else {
+    return NULL;
+  }
+
+  pcity = find_city_by_id(city_id);
+  if (pcity && (city_owner(pcity) == plr)) {
+    return pcity;
+  } else {
+    return NULL;
   }
 }
 
@@ -295,11 +320,7 @@ static int num_player_buildings(const struct player *pplayer,
 				Impr_Type_id building)
 {
   if (is_wonder(building)) {
-    if (player_find_city_by_id(pplayer, game.global_wonders[building])) {
-      return 1;
-    } else {
-      return 0;
-    }
+    return (player_find_city_from_wonder(pplayer, building) ? 1 : 0);
   } else {
     freelog(LOG_ERROR,
 	    /* TRANS: Obscure ruleset error. */
@@ -317,7 +338,7 @@ static int num_continent_buildings(const struct player *pplayer,
   if (is_wonder(building)) {
     const struct city *pcity;
 
-    pcity = player_find_city_by_id(pplayer, game.global_wonders[building]);
+    pcity = player_find_city_from_wonder(pplayer, building);
     if (pcity && map_get_continent(pcity->tile) == continent) {
       return 1;
     }

@@ -327,13 +327,15 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
     }
     my_snprintf(buf[2], column_size, "%d", unit_build_shield_cost(id));
   } else {
+    struct player *pplayer = city_owner(pcity);
+
     /* Total & turns left meaningless on capitalization */
     if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
-      my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
+      my_snprintf(buf[0], column_size, get_improvement_name(id));
       buf[1][0] = '\0';
       my_snprintf(buf[2], column_size, "---");
     } else {
-      my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
+      my_snprintf(buf[0], column_size, get_improvement_name(id));
 
       /* from city.c get_impr_name_ex() */
       if (pcity && is_building_replaced(pcity, id)) {
@@ -341,12 +343,21 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
       } else {
 	const char *state = "";
 
-	if (is_wonder(id)) {
-	  state = _("Wonder");
-	  if (game.global_wonders[id] != 0) {
+	if (is_great_wonder(id)) {
+          if (improvement_obsolete(pplayer, id)) {
+            state = _("Obsolete");
+          } else if (great_wonder_was_built(id)) {
+            state = _("Built");
+          } else {
+            state = _("Great Wonder");
+          }
+	}
+	if (is_small_wonder(id)) {
+	  state = _("Small Wonder");
+	  if (find_city_from_small_wonder(city_owner(pcity), id)) {
 	    state = _("Built");
 	  }
-	  if (wonder_obsolete(id)) {
+	  if (improvement_obsolete(pplayer, id)) {
 	    state = _("Obsolete");
 	  }
 	}

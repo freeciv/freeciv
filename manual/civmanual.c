@@ -295,7 +295,7 @@ static bool manual_command(void)
 	struct impr_type *pimpr = get_improvement_type(id);
 	char buf[64000];
 
-	if (pimpr->is_wonder) {
+	if (is_great_wonder(id)) {
 	  continue;
 	}
 
@@ -324,7 +324,7 @@ static bool manual_command(void)
 	struct impr_type *pimpr = get_improvement_type(id);
 	char buf[64000];
 
-	if (!pimpr->is_wonder) {
+	if (!is_great_wonder(id)) {
 	  continue;
 	}
 

@@ -318,19 +318,22 @@ const char *get_impr_name_ex(const struct city *pcity, Impr_Type_id id)
   const char *state = NULL;
 
   if (pcity) {
-    switch (pcity->improvements[id]) {
-    case I_REDUNDANT:	state = Q_("?redundant:*");	break;
-    case I_OBSOLETE:	state = Q_("?obsolete:O");	break;
-    default:						break;
+    struct player *pplayer = city_owner(pcity);
+
+    if (improvement_obsolete(pplayer, id)) {
+      state = Q_("?obsolete:O");
+    } else if (is_building_replaced(pcity, id)) {
+      state = Q_("?redundant:*");
     }
-  } else if (is_wonder(id)) {
-    if (game.global_wonders[id] != 0) {
+  }
+  if (is_great_wonder(id)) {
+    if (great_wonder_was_built(id)) {
       state = Q_("?built:B");
     } else {
       state = Q_("?wonder:w");
     }
   }
-  
+
   if (state) {
     my_snprintf(buffer, sizeof(buffer), "%s(%s)",
 		get_improvement_name(id), state); 
@@ -424,7 +427,7 @@ bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id)
     return FALSE;
   }
 
-  return !improvement_redundant(city_owner(pcity),pcity, id, TRUE);
+  return TRUE;
 }
 
 /**************************************************************************
@@ -2359,42 +2362,22 @@ const char *specialists_string(const int *specialists)
 }
 
 /**************************************************************************
- Adds an improvement (and its effects) to a city, and sets the global
- arrays if the improvement has effects and/or an equiv_range that
- extend outside of the city.
+ Adds an improvement (and its effects) to a city.
 **************************************************************************/
 void city_add_improvement(struct city *pcity, Impr_Type_id impr)
 {
-  struct player *pplayer = city_owner(pcity);
-
-  if (improvement_obsolete(pplayer, impr)) {
-    mark_improvement(pcity, impr, I_OBSOLETE);
-  } else {
-    mark_improvement(pcity, impr, I_ACTIVE);
-  }
-
-  improvements_update_redundant(pplayer, pcity, 
-                                map_get_continent(pcity->tile),
-                                improvement_types[impr].equiv_range);
+  pcity->improvements[impr] = I_ACTIVE;
 }
 
 /**************************************************************************
- Removes an improvement (and its effects) from a city, and updates the global
- arrays if the improvement has effects and/or an equiv_range that
- extend outside of the city.
+ Removes an improvement (and its effects) from a city.
 **************************************************************************/
-void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
+void city_remove_improvement(struct city *pcity, Impr_Type_id impr)
 {
-  struct player *pplayer = city_owner(pcity);
-  
   freelog(LOG_DEBUG,"Improvement %s removed from city %s",
           improvement_types[impr].name, pcity->name);
   
-  mark_improvement(pcity, impr, I_NONE);
-
-  improvements_update_redundant(pplayer, pcity,
-                                map_get_continent(pcity->tile),
-                                improvement_types[impr].equiv_range);
+  pcity->improvements[impr] = I_NONE;
 }
 
 /**************************************************************************
@@ -2477,8 +2460,9 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   pcity->original = pplayer->player_no;
 
   /* Initialise improvements list */
-  improvement_status_init(pcity->improvements,
-                          ARRAY_SIZE(pcity->improvements));
+  for (i = 0; i < ARRAY_SIZE(pcity->improvements); i++) {
+    pcity->improvements[i] = I_NONE;
+  }
 
   /* Set up the worklist */
   init_worklist(&pcity->worklist);
