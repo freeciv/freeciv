@@ -28,6 +28,7 @@ enum goto_result {
   GR_FAILED              /* failed for some other reason, has moves */
 };
 
+bool is_dist_finite(int dist);
 enum goto_result do_unit_goto(struct unit *punit,
 			      enum goto_move_restriction restriction,
 			      bool trigger_special_ability);

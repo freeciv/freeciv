@@ -297,28 +297,201 @@ static int unit_move_turns(struct unit *punit, int x, int y)
   }
   return move_time;
 }
-
+ 
 /**************************************************************************
-  is there any hope of reaching this tile without violating ZOC? 
+  Determine if a tile is likely to be water, given information that
+  the player actually has. Return the % certainty that it's water
+  (100 = certain, 50 = no idea, 0 = certainly not).
 **************************************************************************/
-static bool tile_is_accessible(struct unit *punit, int x, int y)
+static int likely_ocean(int x, int y, struct player *pplayer)
 {
-  CHECK_UNIT(punit);
+  int sum;
 
-  if (unit_type_really_ignores_zoc(punit->type))
-    return TRUE;
-  if (is_my_zoc(unit_owner(punit), x, y))
-    return TRUE;
+  if (map_get_known(x, y, pplayer)) {
+    /* we've seen the tile already. */
+    return (is_ocean(map_get_terrain(x,y)) ? 100 : 0);
+  }
+  
+  /* Now we're going to do two things at once. We're going to see if
+   * we know any cardinally adjacent tiles, since knowing one will
+   * give a guaranteed value for the centre tile. Also, we're going
+   * to count the non-cardinal (diagonal) tiles, and see how many
+   * of them are ocean, which gives a guess for the ocean-ness of 
+   * the centre tile. */
+  sum = 50;
+  adjc_dir_iterate(x, y, x1, y1, dir) {
+    if (map_get_known(x1, y1, pplayer)) {
+      if (DIR_IS_CARDINAL(dir)) {
+	/* If a tile is cardinally adjacent, we can tell if the 
+	 * central tile is ocean or not by the appearance of
+	 * the adjacent tile. So, given that we can tell, 
+	 * it's fair to look at the actual tile. */
+        return (is_ocean(map_get_terrain(x, y)) ? 100 : 0);
+      } else {
+	/* We're diagonal to the tile in question. So we can't
+	 * be sure what the central tile is, but the central
+	 * tile is likely to be the same as the nearby tiles. 
+	 * If all 4 are water, return 90; if all 4 are land, 
+	 * return 10. */
+        sum += (is_ocean(map_get_terrain(x1, y1)) ? 10 : -10);
+      }
+    }
+  } adjc_dir_iterate_end;
+
+  return sum;
+}
+
+/***************************************************************
+Is a tile likely to be coastline, given information that the 
+player actually has.
+***************************************************************/
+bool is_likely_coastline(int x, int y, struct player *pplayer)
+{
+  int likely = 50;
+  int t;
 
   adjc_iterate(x, y, x1, y1) {
-    if (!is_ocean(map_get_terrain(x1, y1))
-	&& is_my_zoc(unit_owner(punit), x1, y1))
+    if ((t = likely_ocean(x1, y1, pplayer)) == 0) {
       return TRUE;
+    }
+    /* If all t values are 50, likely stays at 50. If all approach zero,
+     * ie are unlikely to be ocean, the tile is likely to be coastline, so
+     * likely will approach 100. If all approach 100, likely will 
+     * approach zero. */
+    likely += (50 - t) / 8;
+    
   } adjc_iterate_end;
 
-  return FALSE;
+  return (likely > 50);
 }
- 
+
+/***************************************************************
+Is there a chance that a trireme would be lost, given information that 
+the player actually has.
+***************************************************************/
+bool is_likely_trireme_loss(struct player *pplayer, int x, int y) 
+{
+  /*
+   * If we are in a city or next to land, we have no chance of losing
+   * the ship.  To make this really useful for ai planning purposes, we'd
+   * need to confirm that we can exist/move at the x,y location we are given.
+   */
+  if ((likely_ocean(x, y, pplayer) < 50) || 
+      is_likely_coastline(x, y, pplayer) ||
+      (player_owns_active_wonder(pplayer, B_LIGHTHOUSE))) {
+    return FALSE;
+  } else {
+    return TRUE;
+  }
+}
+
+/**************************************************************************
+Return a value indicating how desirable it is to explore the given tile.
+In general, we want to discover unknown terrain of the opposite kind to
+our natural terrain, i.e. pedestrians like ocean and boats like land.
+Even if terrain is known, but of opposite kind, we still want it
+-- so that we follow the shoreline.
+We also would like discovering tiles which can be harvested by our cities -- 
+because that improves citizen placement. We do not currently do this, see
+comment below.
+**************************************************************************/
+#define SAME_TER_SCORE         21
+#define DIFF_TER_SCORE         81
+#define KNOWN_SAME_TER_SCORE   0
+#define KNOWN_DIFF_TER_SCORE   51
+#define OWN_CITY_SCORE         18100
+#define HUT_SCORE              200000
+static int explorer_desirable(int x, int y, struct player *pplayer, 
+                              struct unit *punit)
+{
+  int land_score, ocean_score, known_land_score, known_ocean_score;
+  int range = unit_type(punit)->vision_range;
+  int desirable = 0;
+  int unknown = 0;
+  int continent;
+
+  /* Localize the unit */
+  
+  if (is_ground_unit(punit)) {
+    continent = map_get_continent(x, y, NULL);
+  } else {
+    continent = 0;
+  }
+
+  /* First do some checks that would make a tile completely non-desirable.
+   * If we're a trireme and we could die at the given tile, or if there
+   * is a city on the tile, or if the tile is not accessible, or if the 
+   * tile is on a different continent, or if we're a barbarian and
+   * the tile has a hut, don't go there. */
+  if ((unit_flag(punit, F_TRIREME) && 
+       is_likely_trireme_loss(pplayer, x, y))
+      || map_get_city(x, y)
+      || map_get_continent(x, y, NULL) != continent
+      || (is_barbarian(pplayer) && map_has_special(x, y, S_HUT))) {
+    return 0;
+  }
+
+  /* What value we assign to the number of land and water tiles
+   * depends on if we're a land or water unit. */
+  if (is_ground_unit(punit)) {
+    land_score = SAME_TER_SCORE;
+    ocean_score = DIFF_TER_SCORE;
+    known_land_score = KNOWN_SAME_TER_SCORE;
+    known_ocean_score = KNOWN_DIFF_TER_SCORE;
+  } else {
+    land_score = DIFF_TER_SCORE;
+    ocean_score = SAME_TER_SCORE;
+    known_land_score = KNOWN_DIFF_TER_SCORE;
+    known_ocean_score = KNOWN_SAME_TER_SCORE;
+  }
+
+  square_iterate(x, y, range, x1, y1) {
+    int ocean = likely_ocean(x1, y1, pplayer);
+
+    if (!map_get_known(x1, y1, pplayer)) {
+      unknown++;
+
+      /* FIXME: we should add OWN_CITY_SCORE to desirable if the tile 
+       * can be harvested by a city of ours. Just calculating this each
+       * time becomes rather expensive. Jason Short suggests:
+       * It should be easy to generate this information once, for
+       * the entire world.  It can be used by everyone and only 
+       * sometimes needs to be recalculated (actually all changes 
+       * only require local recalculation, but that could be unstable). */
+
+      desirable += (ocean * ocean_score + (100 - ocean) * land_score);
+    } else {
+      if(is_tiles_adjacent(x, y, x1, y1)) {
+	/* we don't value staying offshore from land,
+	 * only adjacent. Otherwise destroyers do the wrong thing. */
+	desirable += (ocean * known_ocean_score 
+                      + (100 - ocean) * known_land_score);
+      }
+    }
+  } square_iterate_end;
+
+  if (unknown <= 0) {
+    /* We make sure we'll uncover at least one unexplored tile. */
+    desirable = 0;
+  }
+
+  if ((!pplayer->ai.control || !ai_handicap(pplayer, H_HUTS))
+      && map_get_known(x, y, pplayer)
+      && map_has_special(x, y, S_HUT)) {
+    /* we want to explore huts whenever we can,
+     * even if doing so will not uncover any tiles. */
+    desirable += HUT_SCORE;
+  }
+
+  return desirable;
+}
+#undef SAME_TER_SCORE
+#undef DIFF_TER_SCORE
+#undef KNOWN_SAME_TER_SCORE
+#undef KNOWN_DIFF_TER_SCORE
+#undef OWN_CITY_SCORE
+#undef HUT_SCORE
+
 /**************************************************************************
 Handle eXplore mode of a unit (explorers are always in eXplore mode for AI) -
 explores unknown territory, finds huts.
@@ -330,160 +503,58 @@ bool ai_manage_explorer(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   /* The position of the unit; updated inside the function */
   int x = punit->x, y = punit->y;
-  /* Continent the unit is on */
-  int continent;
-  /* Unit's speed */
-  int move_rate = unit_move_rate(punit);
-  /* Range of unit's vision */
-  int range;
 
-  CHECK_UNIT(punit);
-
-  /* Get the range */
-  /* FIXME: The vision range should NOT take into account watchtower benefit.
-   * Now it is done in a wrong way: the watchtower bonus is computed locally,
-   * at the point where the unit is, and then it is applied at a faraway
-   * location, as if there is a watchtower there too. --gb */
-
-  if (unit_profits_of_watchtower(punit)
-      && map_has_special(punit->x, punit->y, S_FORTRESS)) {
-    range = get_watchtower_vision(punit);
-  } else {
-    range = unit_type(punit)->vision_range;
-  }
-
-  /* Localize the unit */
-  
-  if (is_ground_unit(punit)) {
-    continent = map_get_continent(x, y, NULL);
-  } else {
-    continent = 0;
-  }
-
-  /*
-   * PART 1: Look for huts
-   * Non-Barbarian Ground units ONLY.
-   */
-
-  if (!is_barbarian(pplayer)
-      && is_ground_unit(punit)) {
-    /* Maximal acceptable _number_ of moves to the target */
-    int maxmoves = pplayer->ai.control ? 2 * THRESHOLD : 3;
-    /* Move _cost_ to the best target (=> lower is better) */
-    int bestcost = maxmoves * SINGLE_MOVE + 1;
-    /* Desired destination */
-    int best_x = -1, best_y = -1;
-
-    /* CPU-expensive but worth it -- Syela */
-    generate_warmap(map_get_city(x, y), punit);
-  
-    /* We're iterating outward so that with two tiles with the same movecost
-     * the nearest is used. */
-    iterate_outward(x, y, maxmoves, x1, y1) {
-      if (map_has_special(x1, y1, S_HUT)
-          && WARMAP_COST(x1, y1) < bestcost
-          && (!ai_handicap(pplayer, H_HUTS) || map_get_known(x1, y1, pplayer))
-          && tile_is_accessible(punit, x1, y1)
-          && ai_fuzzy(pplayer, TRUE)) {
-        best_x = x1;
-        best_y = y1;
-        bestcost = WARMAP_COST(best_x, best_y);
-      }
-    } iterate_outward_end;
-    
-    if (bestcost <= maxmoves * SINGLE_MOVE) {
-      /* Go there! */
-      if (!ai_unit_goto(punit, best_x, best_y)) {
-        /* We're dead. */
-        return FALSE;
-      }
-
-      if (punit->moves_left > 0) {
-        /* We can still move on... */
-
-        if (same_pos(punit->x, punit->y, best_x, best_y)) {
-          /* ...and got into desired place. */
-          return ai_manage_explorer(punit);  
-        } else {
-          /* Something went wrong. This should almost never happen. */
-	  if (!same_pos(punit->x, punit->y, x, y)) {
-	    generate_warmap(map_get_city(punit->x, punit->y), punit);
-	  }
-          
-          x = punit->x;
-          y = punit->y;
-          /* Fallthrough to next part. */
-        }
-
-      } else {
-        return TRUE;
-      }
-    }
+  /* Idle unit, since otherwise handle_unit_move_request fails!
+   * TODO: Fix it and remove this idling */
+  if (punit->activity != ACTIVITY_IDLE) {
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
   }
 
   /* 
-   * PART 2: Move into unexplored territory
+   * PART 1: Move into unexplored territory
    * Move the unit as long as moving will unveil unknown territory
    */
   
   while (punit->moves_left > 0) {
-    /* Best (highest) number of unknown tiles adjacent (in vision range) */
-    int most_unknown = 0;
-    /* Desired destination */
-    int best_x = -1, best_y = -1;
+    /* How desirable the most desirable tile is, given nearby water, 
+     * cities, etc. */
+    int most_desirable = 0; 
+    /* coordinates of most desirable tile */
+    int best_x, best_y;
 
     /* Evaluate all adjacent tiles. */
-    
-    square_iterate(x, y, 1, x1, y1) {
-      /* Number of unknown tiles in vision range around this tile */
-      int unknown = 0;
-      
-      square_iterate(x1, y1, range, x2, y2) {
-        if (!map_get_known(x2, y2, pplayer))
-          unknown++;
-      } square_iterate_end;
+    adjc_iterate(x, y, x1, y1) {
+      int desirable;
 
-      if (unknown > most_unknown) {
-        if (unit_flag(punit, F_TRIREME)
-            && trireme_loss_pct(pplayer, x1, y1) != 0)
-          continue;
-        
-        if (map_get_continent(x1, y1, NULL) != continent)
-          continue;
-        
-        if (could_unit_move_to_tile(punit, x1, y1) == 0) {
-          continue;
-        }
-
-        /* We won't travel into cities, unless we are able to do so - diplomats
-         * and caravans can. */
-        /* FIXME/TODO: special flag for this? --pasky */
-        /* FIXME: either comment or code is wrong here :-) --pasky */
-        if (map_get_city(x1, y1) && (unit_flag(punit, F_DIPLOMAT) 
-                                     || unit_flag(punit, F_TRADE_ROUTE)))
-          continue;
-
-        if (is_barbarian(pplayer) && map_has_special(x1, y1, S_HUT))
-          continue;
-          
-        most_unknown = unknown;
-        best_x = x1;
-        best_y = y1;
+      if (could_unit_move_to_tile(punit, x1, y1) != 1) {
+        /* we can't move there anyway, don't consider how good it might be. */
+	continue;
       }
-    } square_iterate_end;
 
-    if (most_unknown > 0) {
-      /* We can die because easy AI may stumble on huts and so disappear in the
-       * wilderness - unit_id is used to check this */
+      desirable = explorer_desirable(x1, y1, pplayer, punit);
+
+      if ((desirable > most_desirable) &&
+	  (is_my_zoc(pplayer, x,y) || 
+	   unit_type_really_ignores_zoc(punit->type))) {
+	most_desirable = desirable;
+	best_x = x1;
+	best_y = y1;
+      }
+    } adjc_iterate_end;
+
+    if (most_desirable > 0) {
+      /* We can die because easy AI may stumble on huts and so disappear 
+       * in the wilderness - unit_id is used to check this */
       int unit_id = punit->id;
       bool broken = TRUE; /* failed movement */
-      
-      /* Some tile have unexplored territory adjacent, let's move there. */
 
+      /* Some tile has unexplored territory adjacent, let's move there. */
+      
       /* ai_unit_move for AI players, handle_unit_move_request for humans */
       if ((pplayer->ai.control && ai_unit_move(punit, best_x, best_y))
           || (!pplayer->ai.control 
-              && handle_unit_move_request(punit, best_x, best_y, FALSE, FALSE))) {
+              && handle_unit_move_request(punit, best_x, best_y, 
+                                          FALSE, FALSE))) {
         x = punit->x;
         y = punit->y;
         broken = FALSE;
@@ -507,65 +578,59 @@ bool ai_manage_explorer(struct unit *punit)
   }
 
   /* 
-   * PART 3: Go towards unexplored territory
+   * PART 2: Go towards unexplored territory
    * No adjacent squares help us to explore - really slow part follows.
    */
 
   {
-    /* Best (highest) number of unknown tiles adjectent (in vision range) */
-    int most_unknown = 0;
-    /* Desired destination */
-    int best_x = -1, best_y = -1;
+    /* most desirable tile, given nearby water, cities, etc. */
+    float most_desirable = 0;
+    /* coordinates of most desirable tile */
+    int best_x, best_y;
   
     generate_warmap(map_get_city(x, y), punit);
 
-    /* XXX: There's some duplicate code here, but it's several tiny pieces,
-     * impossible to group together and not worth their own function
-     * separately. --pasky */
-    
     whole_map_iterate(x1, y1) {
-      /* The actual map tile */
-      struct tile *ptile = map_get_tile(x1, y1);
-      
-      if (ptile->continent == continent
-          && !is_non_allied_unit_tile(ptile, pplayer)
-          && !is_non_allied_city_tile(ptile, pplayer)
-          && tile_is_accessible(punit, x1, y1)) {
-        /* Number of unknown tiles in vision range around this tile */
-        int unknown = 0;
-        
-        square_iterate(x1, y1, range, x2, y2) {
-          if (!map_get_known(x2, y2, pplayer))
-            unknown++;
-        } square_iterate_end;
-        
-        if (unknown > 0) {
-#define COSTWEIGHT 9
-          /* How far it's worth moving away */
-          int threshold = THRESHOLD * move_rate;
-          
-          if (is_sailing_unit(punit))
-            unknown += COSTWEIGHT * (threshold - WARMAP_SEACOST(x1, y1));
-          else
-            unknown += COSTWEIGHT * (threshold - WARMAP_COST(x1, y1));
-          
-          /* FIXME? Why we don't do same tests like in part 2? --pasky */
-          if (((unknown > most_unknown) ||
-               (unknown == most_unknown && myrand(2) == 1))
-              && !(is_barbarian(pplayer) && tile_has_special(ptile, S_HUT))) {
-            best_x = x1;
-            best_y = y1;
-            most_unknown = unknown;
+      float desirable;
+      int dist = (is_sailing_unit(punit) ?
+                  WARMAP_SEACOST(x1, y1) : WARMAP_COST(x1,y1));
+
+      if (!is_dist_finite(dist)) {
+        /* This position is unreachable anyway */
+        continue;
+      }
+
+      desirable = explorer_desirable(x1, y1, pplayer, punit);
+
+      if (desirable > 0) {
+	/* add some "noise" to the signal so equally desirable tiles
+	 * will be selected randomly. The noise has an amplitude
+	 * of 0.1, so a far-away tile with a higher score will still
+	 * usually be selected over a nearby tile with a high noise 
+	 * value. */
+	desirable += myrand(100) * 0.001;
+
+	/* now we want to reduce the desirability of far-away
+	 * tiles, without reducing it to zero, regardless how
+	 * far away it is. */
+#define DIST_FACTOR   0.8
+	desirable *= pow(DIST_FACTOR, dist);
+#undef DIST_FACTOR
+
+	if (desirable > most_desirable) {
+	  best_x = x1;
+	  best_y = y1;
+	  if (desirable > most_desirable) {
+	    most_desirable = desirable;
           }
-#undef COSTWEIGHT
         }
       }
     } whole_map_iterate_end;
 
-    if (most_unknown > 0) {
+    if (most_desirable > 0) {
       /* Go there! */
       if (!ai_unit_goto(punit, best_x, best_y)) {
-        return FALSE;
+	return FALSE;
       }
       
       if (punit->moves_left > 0) {
@@ -573,31 +638,43 @@ bool ai_manage_explorer(struct unit *punit)
 
         if (same_pos(punit->x, punit->y, best_x, best_y)) {
           /* ...and got into desired place. */
-          return ai_manage_explorer(punit);          
+	  return ai_manage_explorer(punit);          
         } else {
-          /* Something went wrong. What to do but return? */
+          /* Something went wrong. What to do but return? 
+	   * Answer: if we're a trireme we could get to this point,
+	   * but only with a non-full complement of movement points, 
+	   * in which case the goto code is simply requesting a
+	   * one turn delay (the next tile we would occupy is not safe). 
+	   * In that case, we should just wait. */
           if (punit->activity == ACTIVITY_EXPLORE) {
-            handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	    if(unit_flag(punit, F_TRIREME) &&
+	       (punit->moves_left != unit_move_rate(punit))) {
+	      /* we're a trireme with non-full complement of movement points,
+	       * so wait until next turn. */
+	      return TRUE;
+	    }
+	    handle_unit_activity_request(punit, ACTIVITY_IDLE);
           }
-          return FALSE;
+	  return FALSE;
         }
-        
       } else {
         return TRUE;
       }
     }
-    
     /* No candidates; fall-through. */
   }
 
-  /* We have nothing to explore, so we can go idle. */
+  /* We have nothing to explore, so we can go idle. 
+   * Do we need this idle? It seems to me that we'll never get to part 3,
+   * so AI explorers will never go home. --CJM
+   */
   UNIT_LOG(LOG_DEBUG, punit, "failed to explore more");
   if (punit->activity == ACTIVITY_EXPLORE) {
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
   }
   
   /* 
-   * PART 4: Go home
+   * PART 3: Go home
    * If we are AI controlled _military_ unit (so Explorers don't count, why?
    * --pasky), we will return to our homecity, maybe even to another continent.
    */
@@ -607,7 +684,10 @@ bool ai_manage_explorer(struct unit *punit)
     struct city *pcity = find_city_by_id(punit->homecity);
     /* No homecity? Find one! */
     if (!pcity) {
-      pcity = find_closest_owned_city(pplayer, punit->x, punit->y, FALSE, NULL);
+      bool sea_required = is_sailing_unit(punit);
+
+      pcity = find_closest_owned_city(pplayer, punit->x, punit->y, 
+                                      sea_required, NULL);
       if (pcity && ai_unit_make_homecity(punit, pcity)) {
         CITY_LOG(LOG_DEBUG, pcity, "we became home to an exploring %s",
                  unit_name(punit->type));
@@ -615,7 +695,10 @@ bool ai_manage_explorer(struct unit *punit)
     }
 
     if (pcity && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
-      if (map_get_continent(pcity->x, pcity->y, NULL) == continent) {
+      if (map_get_continent(pcity->x, pcity->y, NULL) 
+          == map_get_continent(x, y, NULL)
+          || (is_sailing_unit(punit) 
+              && is_ocean_near_tile(pcity->x, pcity->y))) {
         UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by foot");
         if (punit->homecity != 0) {
           ai_military_gohome(pplayer, punit);
