@@ -1600,6 +1600,16 @@ main_start_players:
   test_random1(200000);
 #endif
     
+  if (topo_has_flag(TF_ISO) && topo_has_flag(TF_WRAPY)
+      && (map.ysize % 2 == 1)) {
+    /* To wrap north-south an iso-map must have even Y dimension.  Since the
+     * X dimension is compressed this isn't an issue for east-west
+     * wrapping. */
+    /* TODO: if an init_topology() function is written this should go inside
+     * it. */
+    map.ysize++;
+  }
+
   if (game.is_new_game) {
     generate_ai_players();
   }
