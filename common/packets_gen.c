@@ -23155,7 +23155,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_control_100_fields, 21);
+BV_DEFINE(packet_ruleset_control_100_fields, 22);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct connection *pc, enum packet_type type)
 {
@@ -23170,6 +23170,341 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
 
   if (!*hash) {
     *hash = hash_new(hash_packet_ruleset_control_100, cmp_packet_ruleset_control_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    dio_get_uint8(&din, (int *) &real_packet->aqueduct_size);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_uint8(&din, (int *) &real_packet->sewer_size);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_get_uint8(&din, (int *) &real_packet->add_to_size_limit);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_get_uint8(&din, (int *) &real_packet->notradesize);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_get_uint8(&din, (int *) &real_packet->fulltradesize);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_get_uint8(&din, (int *) &real_packet->num_unit_types);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_get_uint8(&din, (int *) &real_packet->num_impr_types);
+  }
+  if (BV_ISSET(fields, 7)) {
+    dio_get_uint8(&din, (int *) &real_packet->num_tech_types);
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_get_uint8(&din, (int *) &real_packet->rtech_cathedral_plus);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_get_uint8(&din, (int *) &real_packet->rtech_cathedral_minus);
+  }
+  if (BV_ISSET(fields, 10)) {
+    dio_get_uint8(&din, (int *) &real_packet->rtech_colosseum_plus);
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_get_uint8(&din, (int *) &real_packet->rtech_temple_plus);
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_get_tech_list(&din, real_packet->rtech_partisan_req);
+  }
+  if (BV_ISSET(fields, 13)) {
+    dio_get_uint8(&din, (int *) &real_packet->government_when_anarchy);
+  }
+  if (BV_ISSET(fields, 14)) {
+    dio_get_uint8(&din, (int *) &real_packet->default_government);
+  }
+  if (BV_ISSET(fields, 15)) {
+    dio_get_uint8(&din, (int *) &real_packet->government_count);
+  }
+  if (BV_ISSET(fields, 16)) {
+    dio_get_uint8(&din, (int *) &real_packet->nation_count);
+  }
+  if (BV_ISSET(fields, 17)) {
+    dio_get_uint8(&din, (int *) &real_packet->playable_nation_count);
+  }
+  if (BV_ISSET(fields, 18)) {
+    dio_get_uint8(&din, (int *) &real_packet->style_count);
+  }
+  if (BV_ISSET(fields, 19)) {
+    dio_get_uint8(&din, (int *) &real_packet->borders);
+  }
+  real_packet->slow_invasions = BV_ISSET(fields, 20);
+  if (BV_ISSET(fields, 21)) {
+    
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_TEAMS; i++) {
+        dio_get_string(&din, real_packet->team_name[i], sizeof(real_packet->team_name[i]));
+      }
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_control_100(struct connection *pc, const struct packet_ruleset_control *packet)
+{
+  const struct packet_ruleset_control *real_packet = packet;
+  packet_ruleset_control_100_fields fields;
+  struct packet_ruleset_control *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_CONTROL];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_CONTROL);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_control_100, cmp_packet_ruleset_control_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->aqueduct_size != real_packet->aqueduct_size);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (old->sewer_size != real_packet->sewer_size);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = (old->add_to_size_limit != real_packet->add_to_size_limit);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (old->notradesize != real_packet->notradesize);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = (old->fulltradesize != real_packet->fulltradesize);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  differ = (old->num_unit_types != real_packet->num_unit_types);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
+
+  differ = (old->num_impr_types != real_packet->num_impr_types);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 6);}
+
+  differ = (old->num_tech_types != real_packet->num_tech_types);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
+  differ = (old->rtech_cathedral_plus != real_packet->rtech_cathedral_plus);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
+
+  differ = (old->rtech_cathedral_minus != real_packet->rtech_cathedral_minus);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 9);}
+
+  differ = (old->rtech_colosseum_plus != real_packet->rtech_colosseum_plus);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 10);}
+
+  differ = (old->rtech_temple_plus != real_packet->rtech_temple_plus);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 11);}
+
+
+    {
+      differ = (MAX_NUM_TECH_LIST != MAX_NUM_TECH_LIST);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+          if (old->rtech_partisan_req[i] != real_packet->rtech_partisan_req[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 12);}
+
+  differ = (old->government_when_anarchy != real_packet->government_when_anarchy);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 13);}
+
+  differ = (old->default_government != real_packet->default_government);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 14);}
+
+  differ = (old->government_count != real_packet->government_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 15);}
+
+  differ = (old->nation_count != real_packet->nation_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 16);}
+
+  differ = (old->playable_nation_count != real_packet->playable_nation_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 17);}
+
+  differ = (old->style_count != real_packet->style_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 18);}
+
+  differ = (old->borders != real_packet->borders);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 19);}
+
+  differ = (old->slow_invasions != real_packet->slow_invasions);
+  if(differ) {different++;}
+  if(packet->slow_invasions) {BV_SET(fields, 20);}
+
+
+    {
+      differ = (MAX_NUM_TEAMS != MAX_NUM_TEAMS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_TEAMS; i++) {
+          if (strcmp(old->team_name[i], real_packet->team_name[i]) != 0) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 21);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->aqueduct_size);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_uint8(&dout, real_packet->sewer_size);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_uint8(&dout, real_packet->add_to_size_limit);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_uint8(&dout, real_packet->notradesize);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_uint8(&dout, real_packet->fulltradesize);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_put_uint8(&dout, real_packet->num_unit_types);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_put_uint8(&dout, real_packet->num_impr_types);
+  }
+  if (BV_ISSET(fields, 7)) {
+    dio_put_uint8(&dout, real_packet->num_tech_types);
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_put_uint8(&dout, real_packet->rtech_cathedral_plus);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_put_uint8(&dout, real_packet->rtech_cathedral_minus);
+  }
+  if (BV_ISSET(fields, 10)) {
+    dio_put_uint8(&dout, real_packet->rtech_colosseum_plus);
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_put_uint8(&dout, real_packet->rtech_temple_plus);
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_put_tech_list(&dout, real_packet->rtech_partisan_req);
+  }
+  if (BV_ISSET(fields, 13)) {
+    dio_put_uint8(&dout, real_packet->government_when_anarchy);
+  }
+  if (BV_ISSET(fields, 14)) {
+    dio_put_uint8(&dout, real_packet->default_government);
+  }
+  if (BV_ISSET(fields, 15)) {
+    dio_put_uint8(&dout, real_packet->government_count);
+  }
+  if (BV_ISSET(fields, 16)) {
+    dio_put_uint8(&dout, real_packet->nation_count);
+  }
+  if (BV_ISSET(fields, 17)) {
+    dio_put_uint8(&dout, real_packet->playable_nation_count);
+  }
+  if (BV_ISSET(fields, 18)) {
+    dio_put_uint8(&dout, real_packet->style_count);
+  }
+  if (BV_ISSET(fields, 19)) {
+    dio_put_uint8(&dout, real_packet->borders);
+  }
+  /* field 20 is folded into the header */
+  if (BV_ISSET(fields, 21)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_TEAMS; i++) {
+        dio_put_string(&dout, real_packet->team_name[i]);
+      }
+    } 
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+#define hash_packet_ruleset_control_101 hash_const
+
+#define cmp_packet_ruleset_control_101 cmp_const
+
+BV_DEFINE(packet_ruleset_control_101_fields, 21);
+
+static struct packet_ruleset_control *receive_packet_ruleset_control_101(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_control_101_fields fields;
+  struct packet_ruleset_control *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_control *clone;
+  RECEIVE_PACKET_START(packet_ruleset_control, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_control_101, cmp_packet_ruleset_control_101);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -23260,10 +23595,10 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_ruleset_control_100(struct connection *pc, const struct packet_ruleset_control *packet)
+static int send_packet_ruleset_control_101(struct connection *pc, const struct packet_ruleset_control *packet)
 {
   const struct packet_ruleset_control *real_packet = packet;
-  packet_ruleset_control_100_fields fields;
+  packet_ruleset_control_101_fields fields;
   struct packet_ruleset_control *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
   struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_CONTROL];
@@ -23271,7 +23606,7 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
   SEND_PACKET_START(PACKET_RULESET_CONTROL);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_control_100, cmp_packet_ruleset_control_100);
+    *hash = hash_new(hash_packet_ruleset_control_101, cmp_packet_ruleset_control_101);
   }
   BV_CLR_ALL(fields);
 
@@ -23489,8 +23824,10 @@ static void ensure_valid_variant_packet_ruleset_control(struct connection *pc)
   }
 
   if(FALSE) {
-  } else if(TRUE) {
+  } else if((has_capability("slow_invasions", pc->capability) && has_capability("slow_invasions", our_capability))) {
     variant = 100;
+  } else if(!(has_capability("slow_invasions", pc->capability) && has_capability("slow_invasions", our_capability))) {
+    variant = 101;
   } else {
     die("unknown variant");
   }
@@ -23507,6 +23844,7 @@ struct packet_ruleset_control *receive_packet_ruleset_control(struct connection 
 
   switch(pc->phs.variant[PACKET_RULESET_CONTROL]) {
     case 100: return receive_packet_ruleset_control_100(pc, type);
+    case 101: return receive_packet_ruleset_control_101(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
@@ -23521,6 +23859,7 @@ int send_packet_ruleset_control(struct connection *pc, const struct packet_rules
 
   switch(pc->phs.variant[PACKET_RULESET_CONTROL]) {
     case 100: return send_packet_ruleset_control_100(pc, packet);
+    case 101: return send_packet_ruleset_control_101(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }

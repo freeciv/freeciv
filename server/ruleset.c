@@ -1949,6 +1949,7 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.num_impr_types = game.num_impr_types;
   packet.num_tech_types = game.num_tech_types;
   packet.borders = game.borders;
+  packet.slow_invasions = game.slow_invasions;
 
   packet.nation_count = game.nation_count;
   packet.playable_nation_count = game.playable_nation_count;
@@ -2663,6 +2664,11 @@ static void load_ruleset_game()
     secfile_lookup_int_default(&file, 1, "incite_cost.unit_factor");
   game.incite_cost.total_factor = 
     secfile_lookup_int_default(&file, 100, "incite_cost.total_factor");
+
+  /* Slow invasions */
+  game.slow_invasions = 
+    secfile_lookup_bool_default(&file, GAME_DEFAULT_SLOW_INVASIONS,
+                                "global_unit_options.slow_invasions");
   
   /*
    * Load global initial techs

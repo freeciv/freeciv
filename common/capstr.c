@@ -77,7 +77,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
                    "+starter +union +iso_maps +orders2client " \
                    "+change_production +tilespec1 +no_earth +trans " \
-                   "+want_hack"
+                   "+want_hack invasions"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -107,6 +107,9 @@ const char * const our_capability = our_capability_internal;
  * "trans" means that the transported_by field is sent to the client.
  *
  * "want_hack" means that the client is capable of asking for hack properly.
+ * 
+ * "invasions" means ground units moving from ocean to land now lose all
+ * their movement; changable by ruleset option.
  */
 
 void init_our_capability(void)

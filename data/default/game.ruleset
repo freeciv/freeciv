@@ -84,3 +84,11 @@ tech_leakage = 0
 improvement_factor = 1
 unit_factor = 1
 total_factor = 100
+
+; Shore landing style
+;  0 - normal movement
+;  1 - (default) slow invasions by removing all
+;      movement points from ground units moving
+;      from ocean tile to land
+[global_unit_options]
+slow_invasions = 1

@@ -889,6 +889,15 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 {
   bool cardinal_move;
 
+  if (game.slow_invasions
+      && punit 
+      && is_ground_unit(punit) 
+      && is_ocean(t1->terrain)
+      && !is_ocean(t2->terrain)) {
+    /* Ground units moving from sea to land lose all their movement
+     * if "slowinvasions" server option is turned on. */
+    return punit->moves_left;
+  }
   if (punit && !is_ground_unit(punit))
     return SINGLE_MOVE;
   if (tile_has_special(t1, S_RAILROAD) && tile_has_special(t2, S_RAILROAD))
