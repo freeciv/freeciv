@@ -643,26 +643,26 @@ void create_economy_report_dialog(bool make_modal)
 
 
 /****************************************************************
-...
+  Called when a building type is selected in the economy list.
 *****************************************************************/
 static void economy_selection_callback(GtkTreeSelection *selection,
 				       gpointer data)
 {
-  gint row;
-  int i;
+  gint row = gtk_tree_selection_get_row(selection);
 
-  if((row = gtk_tree_selection_get_row(selection)) == -1) {
+  if (row >= 0) {
+    /* The user has selected an improvement type. */
+    int i = economy_improvement_type[row];
+    bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
+
+    gtk_widget_set_sensitive(sellobsolete_command, is_sellable
+			     && improvement_obsolete(game.player_ptr, i));
+    gtk_widget_set_sensitive(sellall_command, is_sellable);
+  } else {
+    /* No selection has been made. */
     gtk_widget_set_sensitive(sellobsolete_command, FALSE);
     gtk_widget_set_sensitive(sellall_command, FALSE);
-    return;
   }
-
-  i = economy_improvement_type[row];
-
-  if(i>=0 && i<game.num_impr_types && !is_wonder(i)) {
-    gtk_widget_set_sensitive(sellobsolete_command, TRUE);
-  }
-  gtk_widget_set_sensitive(sellall_command, TRUE);
 }
 
 /****************************************************************
