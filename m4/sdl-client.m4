@@ -55,6 +55,7 @@ AC_DEFUN(FC_SDL_CLIENT,
       AM_ICONV
       AM_LIBCHARSET
       AM_LANGINFO_CODESET
+      CLIENT_LIBS="$LIBICONV $CLIENT_LIBS"
 
       dnl Check for some other libraries - needed under BeOS for instance.
       dnl These should perhaps be checked for in all cases?
