@@ -357,9 +357,10 @@ Right-click:                                 p: clean (p)ollution
                                              s: (S)entry
                                              u: (U)nload
 Shift-click:                                 w: (W)ait
-             Wake up sentried units on tile  W: (W)akeup sentried units
+             Wake up sentried units on tile  W: (W)akeup sentries
                                          space: Stay put
                                         return: Turn done
+                                    arrow keys: Move unit
  
 ---
 #Strategy and tactics
