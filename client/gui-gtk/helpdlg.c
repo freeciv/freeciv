@@ -39,11 +39,15 @@
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "helpdata.h"
+#include "tilespec.h"
 
 #include "helpdlg.h"
 
+#define TECH_TREE_DEPTH         20
+#define TECH_TREE_EXPANDED_DEPTH 2
 
 extern GtkWidget *toplevel;
+extern GdkGC *civ_gc;
 
 extern char long_buffer[64000];	      /* helpdata.c */
 
@@ -58,6 +62,9 @@ GtkWidget *		help_text;
 GtkWidget *		help_text_scrolled;
 GtkWidget *		help_vbox;
 GtkWidget *		unit_tile;
+GtkWidget *             terrain_tile;
+GtkWidget *             terrain_special_1_tile;
+GtkWidget *             terrain_special_2_tile;
 GtkWidget *		help_box;
 GtkWidget *		help_itable;
 GtkWidget *		help_wtable;
@@ -65,10 +72,20 @@ GtkWidget *		help_utable;
 GtkWidget *		help_ttable;
 GtkWidget *		help_tree;
 GtkWidget *		help_tree_scrolled;
+GtkWidget *             help_tree_expand;
+GtkWidget *             help_tree_expand_unknown;
+GtkWidget *             help_tree_collapse;
+GtkWidget *             help_tree_reset;
+GtkWidget *             help_tree_buttons_hbox;
 GtkWidget *		help_ilabel	[6];
 GtkWidget *		help_wlabel	[6];
 GtkWidget *		help_ulabel	[5][5];
 GtkWidget *		help_tlabel	[4][5];
+
+typedef struct help_tree_node {
+  int tech;
+  int turns_to_tech;
+} help_tndata;
 
 char *help_ilabel_name[6] =
 { N_("Cost:"), "", N_("Upkeep:"), "", N_("Requirement:"), "" };
@@ -162,28 +179,59 @@ void popup_help_dialog_string(char *item)
   popup_help_dialog_typed(_(item), HELP_ANY);
 }
 
+/****************************************************************
+Called when destroying a node in the help_tree
+*****************************************************************/
+static void destroy_help_tndata(gpointer data) {
+  if (data != NULL)
+    free(data);
+}
 
+/****************************************************************
+Called when creating a node in the help_tree to ensure that no
+duplicate subtrees are generated.
+*****************************************************************/
+static int help_tndata_compare(gpointer d1, gpointer d2) {
+  help_tndata *a = (help_tndata *)d1;
+  help_tndata *b = (help_tndata *)d2;
+  if (a == NULL)
+    return (b != NULL);
+  if (a->tech == b->tech)
+    return FALSE;
+  else /* a->tech != b->tech */
+    return TRUE;
+}      
 
 /**************************************************************************
-...
+Called by help_update_tech and itself
+Creates a node in the given tree for the given tech, and creates child
+nodes for any children it has up to levels deep. These are then expanded
+if they are less than expanded_levels deep. Avoids generating redundant
+subtrees, so that if Literacy occurs twice in a tech tree, only the first
+will have children. Color codes the node based on when it will be
+discovered: red >2 turns, yellow 1 turn, green 0 turns (discovered).
 **************************************************************************/
 static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
-			     GtkCTreeNode *parent)
+			     int expanded_levels, GtkCTreeNode *parent)
 {
   GtkCTreeNode *l;
   gchar        *text[1];
   int	        bg;
   char          label [MAX_LEN_NAME+3];
   gboolean      leaf;
-  
-  text[0] = label;
+  help_tndata  *d = fc_malloc(sizeof(help_tndata));
+  int           original;
 
+  text[0] = label;
   if ( advances[tech].req[0] == A_LAST && advances[tech].req[1] == A_LAST )
   {
     sz_strlcpy(label, _("Removed"));
     bg = COLOR_STD_RED;
     l = gtk_ctree_insert_node(ctree, parent, NULL, text, 10,
 				NULL, NULL, NULL, NULL, TRUE, TRUE);
+    d->tech = tech;
+    d->turns_to_tech = -1;
+    gtk_ctree_node_set_row_data_full(ctree, l, d, destroy_help_tndata);
     gtk_ctree_node_set_background(ctree, l, colors_standard[bg]);
     return;
   }
@@ -195,25 +243,135 @@ static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
   case TECH_REACHABLE:        bg = COLOR_STD_YELLOW;	      break;
   default:		      bg = COLOR_STD_WHITE;	      break;
   }
-
+  d->tech = tech;
+  d->turns_to_tech = tech_goal_turns(game.player_ptr, tech);
+  l = gtk_ctree_find_by_row_data_custom(ctree, NULL, d, (GCompareFunc)help_tndata_compare);
+  if (l != NULL) {
+    /* l is the original in the tree. */
+    original = FALSE;
+  } else {
+    original = TRUE;
+  }
   my_snprintf(label, sizeof(label), "%s:%d", advances[tech].name,
-	      tech_goal_turns(game.player_ptr, tech));
+	      d->turns_to_tech);
 
   leaf = (advances[tech].req[0] == A_NONE && advances[tech].req[1] == A_NONE);
 
   l = gtk_ctree_insert_node(ctree, parent, NULL, text, 10,
 				 NULL, NULL, NULL, NULL, leaf, TRUE);
+  gtk_ctree_node_set_row_data_full(ctree, l, d, destroy_help_tndata);
   gtk_ctree_node_set_background(ctree, l, colors_standard[bg]);
+
+  if (d->turns_to_tech <= 1) {
+    expanded_levels = 0;
+  }
+
+  if (expanded_levels > 0) {
+    gtk_ctree_expand(ctree, l);
+    expanded_levels--;
+  } else {
+    gtk_ctree_collapse(ctree, l);
+  }
 
   if ( --levels <= 0 )
       return;
 
-  if ( advances[tech].req[0] != A_NONE )
-    create_tech_tree(ctree, advances[tech].req[0], levels, l);
-  if ( advances[tech].req[1] != A_NONE )
-    create_tech_tree(ctree, advances[tech].req[1], levels, l);
+  if (original) {
+    /* only add children to orginals */
+    if ( advances[tech].req[0] != A_NONE )
+      create_tech_tree(ctree, advances[tech].req[0], levels, expanded_levels, l);
+    if ( advances[tech].req[1] != A_NONE )
+      create_tech_tree(ctree, advances[tech].req[1], levels, expanded_levels, l);
+  }
   return;
 }
+
+/**************************************************************************
+Selects the help page for the tech in the tree that was double clicked.
+As a ctree eats the GDK_2BUTTON_PRESS events that would normally go through
+to the clist parent (it turns them into "ctree_expand" or "ctree_collapse"
+events), we have to register a "button_press_event" callback instead.
+**************************************************************************/
+static int help_tech_tree_mouse_callback(GtkWidget *w, GdkEventButton *ev)
+{
+  GtkCTree *ctree = GTK_CTREE(w);
+  GtkCList *clist = GTK_CLIST(w);
+  GtkCTreeNode *node;
+  help_tndata *d;
+  int row;
+  int col;
+  /* check we have an event for the ctree */
+  if ((ev == NULL) || (ev->window != clist->clist_window))
+    return FALSE;
+  /* check there is a row where the user clicked */
+  if (gtk_clist_get_selection_info(clist, ev->x, ev->y, &row, &col) == FALSE)
+    return FALSE;
+  /* grab the double click */
+  if (ev->type == GDK_2BUTTON_PRESS) {
+    node = gtk_ctree_node_nth(ctree, row);
+    d = (help_tndata *)gtk_ctree_node_get_row_data(ctree, node);
+    select_help_item_string(advances[d->tech].name, HELP_TECH);
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+Called when "Expand All" button is clicked
+**************************************************************************/
+static void help_tech_tree_expand_callback(GtkWidget *w, gpointer data)
+{
+  GtkCTree *ctree = GTK_CTREE(data);
+  gtk_ctree_expand_recursive(ctree, gtk_ctree_node_nth(ctree, 0));
+}
+
+/**************************************************************************
+Called when "Collapse All" button is clicked
+**************************************************************************/
+static void help_tech_tree_collapse_callback(GtkWidget *w, gpointer data)
+{
+  GtkCTree *ctree = GTK_CTREE(data);
+  gtk_ctree_collapse_recursive(ctree, gtk_ctree_node_nth(ctree, 0));
+}
+
+/**************************************************************************
+Called by "Reset Tree" and "Expand Unknown" button callbacks
+**************************************************************************/
+static void help_tech_tree_node_expand(GtkCTree *ctree, GtkCTreeNode *node,
+				       gpointer data)
+{
+   help_tndata *d = (help_tndata *)gtk_ctree_node_get_row_data(ctree, node);
+  if (d->turns_to_tech > 1)
+    gtk_ctree_expand(ctree, node);
+}
+
+/**************************************************************************
+Called when "Reset tree" button is clicked
+**************************************************************************/
+static void help_tech_tree_reset_callback(GtkWidget *w, gpointer data)
+{
+  GtkCTree *ctree = GTK_CTREE(data);
+  /* Collapse the whole tree */
+  gtk_ctree_collapse_recursive(ctree, gtk_ctree_node_nth(ctree, 0));
+  /* Expand the deserving */
+  gtk_ctree_pre_recursive_to_depth(ctree, gtk_ctree_node_nth(ctree, 0), 
+				   TECH_TREE_EXPANDED_DEPTH,
+				   help_tech_tree_node_expand, NULL);
+}
+
+/**************************************************************************
+Called when "Expand Unknown" button is clicked
+**************************************************************************/
+static void help_tech_tree_expand_unknown_callback(GtkWidget *w, gpointer data)
+{
+  GtkCTree *ctree = GTK_CTREE(data);
+  /* Collapse the whole tree */
+  gtk_ctree_collapse_recursive(ctree, gtk_ctree_node_nth(ctree, 0));
+  /* Expand the deserving */
+  gtk_ctree_pre_recursive(ctree, gtk_ctree_node_nth(ctree, 0), 
+			  help_tech_tree_node_expand, NULL);
+}
+
 
 /**************************************************************************
 ...
@@ -329,6 +487,8 @@ static void create_help_dialog(void)
   unit_tile = gtk_pixmap_new( create_overlay_unit( -1 ), NULL );
   gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
 
+  terrain_tile = gtk_pixmap_new(create_overlay_unit(-1), NULL);
+  gtk_box_pack_start(GTK_BOX(help_box), terrain_tile, FALSE, FALSE, 0);
 
   help_itable = gtk_table_new(6, 1, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_itable, FALSE, FALSE, 0);
@@ -388,19 +548,35 @@ static void create_help_dialog(void)
     }
 
 
-  help_ttable = gtk_table_new(5, 4, FALSE);
+  help_ttable = gtk_table_new(5, 5, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_ttable, FALSE, FALSE, 0);
 
-  for (i=0; i<5; i++)
-    for (j=0; j<4; j++)
+  for (i=0; i<5; i++) {
+    help_tlabel[0][i] = gtk_label_new(_(help_tlabel_name[0][i]));
+    gtk_widget_set_name(help_tlabel[0][i], "help label");
+
+    gtk_table_attach_defaults(GTK_TABLE(help_ttable),
+			      help_tlabel[0][i], i, i+1, 0, 1);
+  }
+
+  terrain_special_1_tile = gtk_pixmap_new(create_overlay_unit(-1), NULL);
+  terrain_special_2_tile = gtk_pixmap_new(create_overlay_unit(-1), NULL);
+
+  gtk_table_attach_defaults(GTK_TABLE(help_ttable),
+			    terrain_special_1_tile, 0, 2, 1, 2);
+  gtk_table_attach_defaults(GTK_TABLE(help_ttable),
+			    terrain_special_2_tile, 3, 5, 1, 2);
+
+  for (i=0; i<5; i++) {
+    for (j=2; j<5; j++)
     {
-      help_tlabel[j][i] = gtk_label_new(_(help_tlabel_name[j][i]));
-      gtk_widget_set_name(help_tlabel[j][i], "help label");
+      help_tlabel[j-1][i] = gtk_label_new(_(help_tlabel_name[j-1][i]));
+      gtk_widget_set_name(help_tlabel[j-1][i], "help label");
 
       gtk_table_attach_defaults(GTK_TABLE(help_ttable),
-					  help_tlabel[j][i], i, i+1, j, j+1);
+					  help_tlabel[j-1][i], i, i+1, j, j+1);
     }
-
+  }
 
   help_vbox=gtk_vbox_new(FALSE, 1);
   gtk_box_pack_start( GTK_BOX(help_box), help_vbox, FALSE, FALSE, 0 );
@@ -421,12 +597,43 @@ static void create_help_dialog(void)
   gtk_ctree_set_expander_style(GTK_CTREE(help_tree),
   				  GTK_CTREE_EXPANDER_CIRCULAR);
 
+  gtk_signal_connect(GTK_OBJECT(help_tree), "button_press_event",
+		     GTK_SIGNAL_FUNC(help_tech_tree_mouse_callback),
+		     NULL);
   help_tree_scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(help_tree_scrolled), help_tree);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_tree_scrolled),
   			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
 
   gtk_box_pack_start( GTK_BOX( help_box ), help_tree_scrolled, TRUE, TRUE, 0 );
+
+  help_tree_expand = gtk_button_new_with_label(_("Expand All"));
+  help_tree_collapse = gtk_button_new_with_label(_("Collapse All"));
+  help_tree_reset = gtk_button_new_with_label(_("Reset Tree"));
+  help_tree_expand_unknown = gtk_button_new_with_label(_("Expand Unknown"));
+  gtk_signal_connect(GTK_OBJECT(help_tree_expand), "clicked",
+		     GTK_SIGNAL_FUNC(help_tech_tree_expand_callback),
+		     help_tree);
+  gtk_signal_connect(GTK_OBJECT(help_tree_collapse), "clicked",
+		     GTK_SIGNAL_FUNC(help_tech_tree_collapse_callback),
+		     help_tree);
+  gtk_signal_connect(GTK_OBJECT(help_tree_reset), "clicked",
+		     GTK_SIGNAL_FUNC(help_tech_tree_reset_callback),
+		     help_tree);
+  gtk_signal_connect(GTK_OBJECT(help_tree_expand_unknown), "clicked",
+		     GTK_SIGNAL_FUNC(help_tech_tree_expand_unknown_callback),
+		     help_tree);
+  help_tree_buttons_hbox = gtk_hbox_new(FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox), help_tree_expand,
+		     FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox), help_tree_collapse,
+		     FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox), help_tree_reset,
+		     FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox),
+		     help_tree_expand_unknown, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(help_box), help_tree_buttons_hbox,
+		     FALSE, FALSE, 0);
 
   button = gtk_button_new_with_label( _("Close") );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(help_dialog_shell)->action_area ),
@@ -621,9 +828,11 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
     gtk_clist_freeze(GTK_CLIST(help_tree));
     gtk_clist_clear(GTK_CLIST(help_tree));
-    create_tech_tree(GTK_CTREE(help_tree), i, 3, NULL);
+    create_tech_tree(GTK_CTREE(help_tree), i, TECH_TREE_DEPTH,
+		     TECH_TREE_EXPANDED_DEPTH, NULL);
     gtk_clist_thaw(GTK_CLIST(help_tree));
     gtk_widget_show_all(help_tree_scrolled);
+    gtk_widget_show_all(help_tree_buttons_hbox);
 
     helptext_tech(buf, i, pitem->text);
     if (advances[i].helptext) {
@@ -726,11 +935,17 @@ static void help_update_terrain(const struct help_item *pitem,
 				char *title, int i)
 {
   char *buf = &long_buffer[0];
+  int swidth, sheight;
 
   create_help_page(HELP_TERRAIN);
-
+  
   if (i < T_COUNT)
     {
+      gtk_pixmap_set(GTK_PIXMAP(terrain_tile),
+		     tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->pixmap,
+		     NULL);
+      gtk_widget_show(terrain_tile);
+
       sprintf (buf, "%d/%d.%d",
 	       tile_types[i].movement_cost,
 	       (int)(tile_types[i].defense_bonus/10), tile_types[i].defense_bonus%10);
@@ -744,6 +959,21 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (*(tile_types[i].special_1_name))
 	{
+	  /* draw the tile */
+	  swidth = tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->width;
+	  sheight = tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->height;
+
+	  gdk_draw_pixmap(GTK_PIXMAP(terrain_special_1_tile)->pixmap, civ_gc,
+			  tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->pixmap,
+			  0, 0, 0, 0, swidth, sheight);
+	  gdk_gc_set_clip_origin(civ_gc, 0, 0);
+	  gdk_gc_set_clip_mask(civ_gc, tile_types[i].special[0].sprite->mask);
+
+	  gdk_draw_pixmap(GTK_PIXMAP(terrain_special_1_tile)->pixmap, civ_gc,
+			  tile_types[i].special[0].sprite->pixmap,
+			  0, 0, 0, 0, swidth, sheight);
+	  gdk_gc_set_clip_mask(civ_gc, NULL);
+
 	  sprintf (buf, "%s F/R/T:",
 		   tile_types[i].special_1_name);
 	  gtk_set_label (help_tlabel[1][0], buf);
@@ -759,6 +989,21 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (*(tile_types[i].special_2_name))
 	{
+	  /* draw the tile */
+	  swidth = tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->width;
+	  sheight = tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->height;
+
+	  gdk_draw_pixmap(GTK_PIXMAP(terrain_special_2_tile)->pixmap, civ_gc,
+			  tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->pixmap,
+			  0, 0, 0, 0, swidth, sheight);
+	  gdk_gc_set_clip_origin(civ_gc, 0, 0);
+	  gdk_gc_set_clip_mask(civ_gc, tile_types[i].special[1].sprite->mask);
+
+	  gdk_draw_pixmap(GTK_PIXMAP(terrain_special_2_tile)->pixmap, civ_gc,
+			  tile_types[i].special[1].sprite->pixmap,
+			  0, 0, 0, 0, swidth, sheight);
+	  gdk_gc_set_clip_mask(civ_gc, NULL);
+
 	  sprintf (buf, "%s F/R/T:",
 		   tile_types[i].special_2_name);
 	  gtk_set_label (help_tlabel[1][3], buf);
