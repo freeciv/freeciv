@@ -32,5 +32,4 @@ HeightOf( const BFont *font )
     font_height fh;
     font->GetHeight(&fh);
     return (fh.ascent + fh.descent + fh.leading);
-} 
-
+}

@@ -29,4 +29,3 @@ extern "C" {
 }
 
 #endif // APP_HPP
-

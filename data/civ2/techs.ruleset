@@ -572,4 +572,3 @@ name     = _("Writing")
 req1     = "Alphabet"
 req2     = "None"
 flags    = ""
-

@@ -62,4 +62,3 @@ handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)	// HOOK
 // UI_HANDLE_DIPLO_CREATE_CLAUSE,
 // UI_HANDLE_DIPLO_CANCEL_MEETING,
 // UI_HANDLE_DIPLO_REMOVE_CLAUSE,
-

@@ -1916,4 +1916,3 @@ void popup_upgrade_dialog(struct unit *punit)
     }
   }
 }
-

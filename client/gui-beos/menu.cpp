@@ -10,4 +10,3 @@ update_menus(void)	// HOOK
 {
 	ui->PostMessage( UI_UPDATE_MENUS );
 }
-

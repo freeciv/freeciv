@@ -86,6 +86,3 @@ MapView::MessageReceived( BMessage *msg )
 			break;
 		}
 }
- 
-
-

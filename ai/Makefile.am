@@ -35,5 +35,3 @@ libcivai_a_SOURCES = \
 		aitools.h	\
 		aiunit.c	\
 		aiunit.h
-
-

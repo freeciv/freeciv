@@ -863,4 +863,3 @@ static const char *get_token_value(struct inputfile *inf)
   inf->in_string = 0;
   return inf->token.str;
 }
-

@@ -42,4 +42,3 @@ repeatedly detached with DetachCurrentMessage(), its 'what' member modified,
 and then posted or passed to the next function.  This is used to preserve data
 across rejections and retries (eg connectdlg.cpp).  Successful completion
 or (usually) cancellation of the dialog stops the chain of reposts.
-

@@ -26,4 +26,3 @@ extern unsigned long colors_standard[COLOR_STD_LAST];
 extern Colormap cmap;
 
 #endif  /* FC__COLORS_H */
-

@@ -43,4 +43,3 @@ RadarView::MessageReceived( BMessage *msg )
 			break;
 		}
 }
- 

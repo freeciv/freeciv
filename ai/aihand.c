@@ -522,4 +522,3 @@ int is_unit_choice_type(enum choice_type type)
 {
    return type == CT_NONMIL || type == CT_ATTACKER || type == CT_DEFENDER;
 }
-

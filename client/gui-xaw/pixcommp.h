@@ -110,5 +110,3 @@ typedef struct _PixcommRec {
 } PixcommRec;
 
 #endif
-
-

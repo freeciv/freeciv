@@ -122,4 +122,3 @@ char *real_mystrdup(const char *str,
   strcpy(dest, str);
   return dest;
 }
-

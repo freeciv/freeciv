@@ -317,4 +317,3 @@ int stricmp(const char *a, const char *b)
   return (tolower(*a) - tolower(*b));
 }
 #endif
-

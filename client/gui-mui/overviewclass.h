@@ -44,4 +44,3 @@ VOID delete_overview_class(void);
 Object *MakeOverview(LONG width, LONG height);
 
 #endif /* FC__OVERVIEWCLASS_H */
-

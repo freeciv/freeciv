@@ -27,4 +27,3 @@ BOOL create_worklist_class(void);
 VOID delete_worklist_class(void);
 
 #endif  /* FC__WORKLISTCLASS_H */
-

@@ -42,4 +42,3 @@ StatusView::MessageReceived( BMessage *msg )
 			break;
 		}
 }
- 

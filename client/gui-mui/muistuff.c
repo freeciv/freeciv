@@ -285,4 +285,3 @@ void init_civstandard_hook(void)
 {
   civstandard_hook.h_Entry = (HOOKFUNC) Standard_Hook_Func;
 }
-

@@ -223,5 +223,3 @@ void canvas_hide(Widget w)
   cw->canvas.is_visible=0;
   xaw_expose_now(w);
 }
-
-

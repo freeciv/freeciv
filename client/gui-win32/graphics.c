@@ -601,4 +601,3 @@ overhead_view_supported(void)
 {
   return 1;
 }
-    

@@ -253,4 +253,3 @@ void genlist_sort(struct genlist *pgenlist,
      ITERATOR_PTR(myiter) = sortbuf[i];
   }
 }
-

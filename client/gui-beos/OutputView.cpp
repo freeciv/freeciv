@@ -118,5 +118,3 @@ OutputView::MessageReceived( BMessage *msg )
 			break;
 		}
 }
- 
-

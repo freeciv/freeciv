@@ -757,9 +757,3 @@ popup_activeunits_report_dialog(int make_modal)
   activeunits_report_dialog_update();
   ShowWindow(activeunits_dlg,SW_SHOWNORMAL);
 }
-
-
-
-
-
-

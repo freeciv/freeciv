@@ -504,4 +504,3 @@ void popup_city_report_dialog(int make_modal)
     set(cityrep_wnd, MUIA_Window_Open, TRUE);
   }
 }
-

@@ -32,4 +32,3 @@ popup_connect_dialog( BMessage *specMsg )	// MainWindow thread
 			specMsg, BDH_ICON_APP );
 	cd->Go( backend );
 }
-

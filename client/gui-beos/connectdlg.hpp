@@ -7,5 +7,3 @@ extern "C" {
 }
 
 extern void popup_connect_dialog( BMessage *specMsg );
-
-

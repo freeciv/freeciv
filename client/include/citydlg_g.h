@@ -26,4 +26,3 @@ void refresh_unit_city_dialogs(struct unit *punit);
 int city_dialog_is_open(struct city *pcity);
 
 #endif  /* FC__CITYDLG_G_H */
-

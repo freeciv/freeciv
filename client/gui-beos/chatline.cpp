@@ -26,6 +26,3 @@ clear_output_window(void)		// HOOK
 {
 	ui->PostMessage( UI_CLEAR_OUTPUT_WINDOW );
 }
-
-
-

@@ -28,4 +28,3 @@ void island_adjust_build_choice(struct player *pplayer,
   adjust_choice(100, choice);
   /* this function haven't been implemented yet */
 }
-

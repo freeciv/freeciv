@@ -107,4 +107,3 @@ int num_present_units_in_city(struct city* pcity);
 int num_supported_units_in_city(struct city* pcity);	
 
 #endif  /* FC__CLIMISC_H */
-

@@ -354,4 +354,3 @@ void lsend_packet_generic_empty(struct conn_list *dest, int type)
     send_packet_generic_empty(pconn, type);
   conn_list_iterate_end;
 }
-

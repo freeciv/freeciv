@@ -13,4 +13,3 @@ char *setlocale(int a, char *b);
 /* This is actually really dangerous, but if we keep track of changes,
 it will work. As the Amiga does not have the gettext system and it
 is too much work to port global gettext support it must be enough. */
-

@@ -353,4 +353,3 @@ static void populate_worklist_report_list(struct worklist_report_dialog *pdialog
       MUIA_NList_Quiet, FALSE,
       TAG_DONE);
 }
-

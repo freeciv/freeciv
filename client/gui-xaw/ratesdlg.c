@@ -387,4 +387,3 @@ void rates_scroll_scroll_callback(Widget w, XtPointer client_data,
     rates_set_values(rates_tax_value,0, rates_lux_value,0, val,0);
   }
 }
-

@@ -219,4 +219,3 @@ void messageopt_ok_command_callback(Widget w, XtPointer client_data,
 
   XtDestroyWidget((Widget)client_data);
 }
-

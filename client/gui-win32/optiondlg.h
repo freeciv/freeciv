@@ -16,4 +16,4 @@
  
 void popup_option_dialog(void);
  
-#endif  /* FC__OPTIONDLG_H */                                                                                                                      
+#endif  /* FC__OPTIONDLG_H */

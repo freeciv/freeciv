@@ -44,4 +44,3 @@ SummaryView::MessageReceived( BMessage *msg )
 			break;
 		}
 }
- 

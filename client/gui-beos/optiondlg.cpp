@@ -12,4 +12,3 @@ popup_option_dialog(void)	// CONVENIENCE HOOK
 //---------------------------------------------------------------------
 // Work functions
 // @@@@
-

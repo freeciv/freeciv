@@ -159,4 +159,3 @@ struct unit *idex_lookup_unit(int id)
 {
   return hash_lookup_data(idex_unit_hash, &id);
 }
-

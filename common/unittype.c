@@ -561,4 +561,3 @@ Unit_Type_id best_role_unit(struct city *pcity, int role)
   }
   return U_LAST;
 }
-

@@ -32,4 +32,3 @@ BOOL create_objecttree_class(void);
 VOID delete_objecttree_class(void);
 
 #endif  /* FC__OBJECTTREECLASS_H */
-

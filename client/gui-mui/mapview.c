@@ -641,4 +641,3 @@ void undraw_segment(int src_x, int src_y, int dir)
 {
   DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dir);
 }
-

@@ -26,4 +26,3 @@ BOOL create_autogroup_class(void);
 VOID delete_autogroup_class(void);
 
 #endif  /* FC__AUTOGROUPCLASS_H */
-

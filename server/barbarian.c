@@ -424,4 +424,3 @@ void summon_barbarians(void)
   for( i=0; i < n*(game.barbarianrate-1); i++)
     try_summon_barbarians();
 }
-

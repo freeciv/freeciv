@@ -805,4 +805,4 @@ close_all_diplomacy_dialogs(void)
     DestroyWindow(pdialog->mainwin);
   }
 
-}        
+}

@@ -2856,4 +2856,3 @@ void popdown_cityopt_dialog(void)
     cityopt_shell = 0;
   }
 }
-

@@ -52,4 +52,4 @@ update_worklist_report_dialog(void)	// HOOK
 #include <Alert.h>
 
 // UI_POPUP_WORKLISTS_DIALOG,
-// UI_UPDATE_WORKLIST_REPORT_DIALOG, 
+// UI_UPDATE_WORKLIST_REPORT_DIALOG,

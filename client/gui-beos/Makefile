@@ -139,4 +139,3 @@ pkg : $(BEOS_DOCS) $(BEOS_LIBS) $(BEOS_EXES) $(BEOS_DATA)
 	find $(PKGDIR) -type f -print | \
 		sed -e 's:$(PKGDIR)/::' > $(PKGDIR)/MANIFEST
 	zip -r $(HOME)/$(PKGDIR).zip $(PKGDIR)
-

@@ -108,4 +108,3 @@ Backend::QuitRequested( void )
 {
 	return true;
 }
-

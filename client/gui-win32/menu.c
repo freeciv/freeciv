@@ -1039,5 +1039,3 @@ update_menus(void)
       
     }
 }
-
-

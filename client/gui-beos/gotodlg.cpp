@@ -17,4 +17,3 @@ void popup_goto_dialog(void)	// HOOK
 #include <Alert.h>
 
 // UI_POPUP_GOTO_DIALOG
-

@@ -128,4 +128,3 @@ void popup_find_dialog(void)
     set(find_wnd, MUIA_Window_Open, TRUE);
   }
 }
-

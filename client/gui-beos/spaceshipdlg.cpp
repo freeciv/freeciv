@@ -44,4 +44,4 @@ refresh_spaceship_dialog(struct player *pplayer)
 
 // UI_POPUP_SPACESHIP_DIALOG,
 // UI_POPDOWN_SPACESHIP_DIALOG,
-// UI_REFRESH_SPACESHIP_DIALOG, 
+// UI_REFRESH_SPACESHIP_DIALOG,

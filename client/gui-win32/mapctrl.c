@@ -204,4 +204,4 @@ void focus_to_next_unit(void)
 void create_line_at_mouse_pos(void)
 {
         /* PORTME */
-}        
+}

@@ -16,4 +16,3 @@
 void update_menus(void);
 
 #endif  /* FC__MENU_G_H */
-

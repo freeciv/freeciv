@@ -20,4 +20,3 @@
 void setup_menus(GtkWidget *window, GtkWidget **menubar);
 
 #endif  /* FC__MENU_H */
-

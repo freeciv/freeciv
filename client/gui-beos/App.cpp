@@ -146,4 +146,3 @@ app_main( int argc, char** argv )
 	backend = NULL;
     delete app;
 }
-

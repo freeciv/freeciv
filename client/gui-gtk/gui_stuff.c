@@ -136,4 +136,3 @@ char **intl_slist(int n, char **s)
   }
   return ret;
 }
-

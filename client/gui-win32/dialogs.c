@@ -1960,4 +1960,3 @@ popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   fcwin_set_box(hdlg,vbox);
   ShowWindow(hdlg,SW_SHOWNORMAL);
 }
-

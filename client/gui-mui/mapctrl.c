@@ -131,4 +131,3 @@ void create_line_at_mouse_pos(void)
 {
   update_line(xget(main_map_area,MUIA_Map_MouseX),xget(main_map_area,MUIA_Map_MouseY));
 }
-

@@ -209,4 +209,3 @@ popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)	// HOOK
 // BACKEND_PROCESS_CARAVAN_ARRIVAL,
 // UI_POPUP_SABOTAGE_DIALOG,
 // UI_POPUP_UNIT_CONNECT_DIALOG,
-

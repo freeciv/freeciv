@@ -21,4 +21,3 @@ BOOL create_historystring_class(void);
 VOID delete_historystring_class(void);
 
 #endif  /* FC__HISTORYSTRINGCLASS_H */
-

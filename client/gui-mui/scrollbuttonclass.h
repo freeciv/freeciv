@@ -25,4 +25,3 @@ int create_scrollbutton_class(void);
 void delete_scrollbutton_class(void);
 
 #endif  /* FC__SCROLLBUTTONCLASS_H */
-

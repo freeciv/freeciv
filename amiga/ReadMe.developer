@@ -96,4 +96,3 @@ Problems:
 - Starting server from WB is nearly useless as it misses the input and
   output dialog.
 - Starting client from WB misses the output dialog (client uses no input).
-

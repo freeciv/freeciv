@@ -81,4 +81,3 @@ enum MenuID {
   MENU_HELP_COPYING,
   MENU_HELP_ABOUT,
 };
-

@@ -195,5 +195,3 @@ void free_colors(unsigned long *pixels, int ncols)
 {
   XFreeColors(display, cmap, pixels, ncols, 0);
 }
-
-

@@ -24,4 +24,3 @@ int create_transparentstring_class(void);
 void delete_transparentstring_class(void);
 
 #endif  /* FC__TRANSPARENTSTRINGCLASS_H */
-

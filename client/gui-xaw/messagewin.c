@@ -436,5 +436,3 @@ void meswin_popcity_callback(Widget w, XtPointer client_data,
     }
   }
 }
-
-

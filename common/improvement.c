@@ -470,4 +470,3 @@ void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status)
     improvements[id] = status;
   }
 }
-

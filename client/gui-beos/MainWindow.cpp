@@ -810,4 +810,3 @@ MainWindow::update_menus(void)
 {
 	NOT_FINISHED( "update_menus" );
 }
-

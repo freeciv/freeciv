@@ -364,4 +364,3 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   clear_timer_start(time_since_last_send);
   return send_to_metaserver(desc, info);
 }
-

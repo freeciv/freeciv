@@ -391,4 +391,3 @@ void update_players_dialog(void)
   }
   set(player_players_listview, MUIA_NList_Quiet, FALSE);
 }
-

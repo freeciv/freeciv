@@ -42,4 +42,3 @@ UnitInfoView::MessageReceived( BMessage *msg )
 			break;
 		}
 }
- 

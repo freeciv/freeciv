@@ -38,4 +38,3 @@ void init_color_system(void);
 void color_error(void);
 
 #endif  /* FC__COLORS_G_H */
-

@@ -12,4 +12,3 @@ extern char logfile[];
 #ifdef __cplusplus
 }
 #endif
-

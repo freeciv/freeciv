@@ -154,5 +154,3 @@ void ath_free(struct athing *ath)
   }
   ath_init(ath, size);
 }
-
-

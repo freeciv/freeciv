@@ -245,4 +245,3 @@ char *city_report_spec_tagname(int i)
 {
   return city_report_specs[i].tagname;
 }
-

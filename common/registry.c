@@ -1338,5 +1338,3 @@ char **secfile_get_secnames_prefix(struct section_file *my_section_file,
   section_list_iterate_end;
   return ret;
 }
-
-

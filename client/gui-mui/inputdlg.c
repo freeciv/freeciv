@@ -100,4 +100,3 @@ void *ok_callback, APTR ok_data, void *cancel_callback, APTR cancel_data)
   }
   return wnd;
 }
-

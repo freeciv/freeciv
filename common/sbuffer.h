@@ -30,4 +30,3 @@ char *sbuf_strdup(struct sbuffer *sb, const char *str);
 void sbuf_free(struct sbuffer *sb);
 
 #endif /* FC__SBUFFER_H */
-

@@ -149,4 +149,3 @@ void clear_output_window(void)
 {
   XtVaSetValues(outputwindow_text, XtNstring, _("Cleared output window."), NULL);
 }
-

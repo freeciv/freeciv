@@ -179,4 +179,3 @@ static void intel_create_dialog(struct player *p)
     DoMethod(app, OM_ADDMEMBER, intel_wnd);
   }
 }
-

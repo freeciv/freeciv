@@ -300,4 +300,3 @@ void close_spaceship_dialog(struct spaceship_dialog *pdialog)
     FreeVec(pdialog);
   }
 }
-

@@ -1494,4 +1494,3 @@ void put_one_tile_full(struct RastPort *rp, int x, int y, int canvas_x, int canv
 	       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, UNIT_TILE_HEIGHT,
 	       D_FULL);
 }
-

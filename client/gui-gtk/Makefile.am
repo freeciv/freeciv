@@ -75,4 +75,3 @@ libguiclient_a_SOURCES = \
 	spaceshipdlg.h  \
 	wldlg.c		\
 	wldlg.h
-
