@@ -5,7 +5,7 @@
 ! none widgets resources
 ! gotAppDefFile MUST be the first entry!
 Freeciv*gotAppDefFile:                       True
-Freeciv*version:                             1.12.7
+Freeciv*version:                             1.13.0
 Freeciv.title:                               Freeciv
 Freeciv.iconName:                            Freeciv
 Freeciv*borderColor:                         black

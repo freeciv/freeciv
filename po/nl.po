@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.4\n"
-"POT-Creation-Date: 2002-07-14 14:43+0200\n"
+"POT-Creation-Date: 2002-07-14 16:00+0200\n"
 "PO-Revision-Date: 2002-07-09 12:35+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -162,7 +162,7 @@ msgstr "Radioaktief"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Te weinig geheugen bij proberen om %s %lu bytes op regel %d van %s."
 
-#: common/packets.c:4482
+#: common/packets.c:4368
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -2146,7 +2146,7 @@ msgstr "ondersteunde opties: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Spelregelbestand bevat vereiste optie(s) die wij niet ondersteunen:"
 
-#: server/ruleset.c:2737
+#: server/ruleset.c:2734
 msgid "Loading rulesets"
 msgstr "Laad spelregels"
 
@@ -4066,7 +4066,7 @@ msgstr "Dit is zeer bruikbaar voor debugging doeleinden."
 msgid "(ambiguous)"
 msgstr "(dubbelzinnig)"
 
-#: client/packhand.c:1002 server/stdinhand.c:1303
+#: client/packhand.c:999 server/stdinhand.c:1303
 msgid "(unknown)"
 msgstr "(onbekend)"
 
@@ -6617,44 +6617,44 @@ msgstr "Opslaan mislukt, kan niet schrijven naar bestand %s"
 msgid "Saved settings to file %s"
 msgstr "Instellingen opgeslagen in bestand %s"
 
-#: client/packhand.c:130
+#: client/packhand.c:129
 #, c-format
 msgid "You were rejected from the game: %s"
 msgstr "U werd uit het spel gezet: %s"
 
-#: client/packhand.c:141
+#: client/packhand.c:140
 #, c-format
 msgid "Client capability string: %s"
 msgstr "Client capaciteits string: %s"
 
-#: client/packhand.c:144
+#: client/packhand.c:143
 #, c-format
 msgid "Server capability string: %s"
 msgstr "Server capaciteits string: %s"
 
-#: client/packhand.c:677
+#: client/packhand.c:675
 #, c-format
 msgid "Start of turn %d"
 msgstr "Begin van beurt %d"
 
-#: client/packhand.c:748
+#: client/packhand.c:745
 msgid "Popup Request"
 msgstr "Popup Verzoek"
 
-#: client/packhand.c:1221
+#: client/packhand.c:1218
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI-modus is nu %s."
 
-#: client/packhand.c:1222
+#: client/packhand.c:1219
 msgid "ON"
 msgstr "AAN"
 
-#: client/packhand.c:1222
+#: client/packhand.c:1219
 msgid "OFF"
 msgstr "UIT"
 
-#: client/packhand.c:1232
+#: client/packhand.c:1229
 msgid "Game: Revolution finished"
 msgstr "Spel: Revolutie beëindigd"
 
