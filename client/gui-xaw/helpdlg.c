@@ -606,7 +606,7 @@ static void create_help_page(enum help_page_type type)
 			      XtNeditType, XawtextRead,
 			      XtNscrollVertical, XawtextScrollAlways, 
 			      XtNwidth, w2,
-			      XtNheight, 70,
+			      XtNheight, 95,
 			      NULL);
 
     XtVaGetValues(help_text, XtNy, &ay, XtNheight, &ah, NULL);
@@ -915,6 +915,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     for(j=0; j<B_LAST; ++j) {
       if(i==improvement_types[j].tech_requirement) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"),
+		improvement_types[j].name);
+      if(i==improvement_types[j].obsolete_by)
+	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
 		improvement_types[j].name);
     }
     for(j=0; j<game.num_unit_types; ++j) {

@@ -638,16 +638,28 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_container_add(GTK_CONTAINER(help_vbox), w);
 
     for(j=0; j<B_LAST; ++j) {
-      if(i!=improvement_types[j].tech_requirement) continue;
-      hbox = gtk_hbox_new(FALSE, 0);
-      gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
-      w = gtk_label_new(_("Allows "));
-      gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-      w = help_slink_new(improvement_types[j].name,
-			is_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
-      gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-      w = gtk_label_new(".");
-      gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+      if(i==improvement_types[j].tech_requirement) {
+        hbox = gtk_hbox_new(FALSE, 0);
+        gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+        w = gtk_label_new(_("Allows "));
+        gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+        w = help_slink_new(improvement_types[j].name,
+			  is_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
+        gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+        w = gtk_label_new(".");
+        gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+      }
+      if(i==improvement_types[j].obsolete_by) {
+        hbox = gtk_hbox_new(FALSE, 0);
+        gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+        w = gtk_label_new(_("Obsoletes "));
+        gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+        w = help_slink_new(improvement_types[j].name,
+			  is_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
+        gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+        w = gtk_label_new(".");
+        gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+      }
     }
     for(j=0; j<game.num_unit_types; ++j) {
       if(i!=get_unit_type(j)->tech_requirement) continue;
