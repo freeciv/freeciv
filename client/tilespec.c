@@ -2638,7 +2638,6 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
   struct drawn_sprite *save_sprs = sprs;
 
   if (ptile && tile_get_known(ptile) == TILE_UNKNOWN) {
-    ADD_BG(COLOR_STD_BLACK);
     return sprs - save_sprs;
   }
 
