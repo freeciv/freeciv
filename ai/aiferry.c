@@ -715,7 +715,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   }
 
   /* Check if we are an empty barbarian boat and so not needed */
-  if (is_barbarian(pplayer) && !punit->occupy) {
+  if (is_barbarian(pplayer) && get_transporter_occupancy(punit) == 0) {
     wipe_unit(punit);
     return;
   }
@@ -728,9 +728,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       struct unit *psngr = find_unit_by_id(punit->ai.passenger);
       
       /* If the passenger-in-charge is adjacent, we should wait for it to 
-       * board.  We will pass control to it later.
-       * FIXME: A possible side-effect: a boat will linger near a passenger 
-       * which already landed. */
+       * board.  We will pass control to it later. */
       if (!psngr 
 	  || real_map_distance(punit->x, punit->y, psngr->x, psngr->y) > 1) {
 	UNIT_LOG(LOGLEVEL_FERRY, punit, 
@@ -787,16 +785,21 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       if (!find_unit_by_id(id) || punit->moves_left <= 0) {
         return;
       }
-      if (find_unit_by_id(bossid) 
-	  && same_pos(punit->x, punit->y, boss->x, boss->y)) {
-	/* The boss decided to stay put on the ferry. We aren't moving. */
-	return;
+      if (find_unit_by_id(bossid)) {
+	if (same_pos(punit->x, punit->y, boss->x, boss->y)) {
+	  /* The boss decided to stay put on the ferry. We aren't moving. */
+	  return;
+	} else if (get_transporter_occupancy(punit) != 0) {
+	  /* The boss isn't on the ferry, and we have other passengers?
+	   * Forget about him. */
+	  punit->ai.passenger = 0;
+	}
       }
     } else {
       /* Cannot select a passenger-in-charge */
       break;
     }
-  } while (punit->occupy != 0);
+  } while (get_transporter_occupancy(punit) != 0);
 
   /* Not carrying anyone, even the ferryman */
 
