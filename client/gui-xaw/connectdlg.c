@@ -26,6 +26,7 @@
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/List.h>
 
+#include "fcintl.h"
 #include "mem.h"     /* mystrdup() */
 #include "support.h"
 #include "version.h"
@@ -189,15 +190,16 @@ void create_meta_dialog(Widget caller)
   Widget shell, form, label, list, update, close;
   Dimension width;
 
-  shell=XtCreatePopupShell("metadialog", transientShellWidgetClass,
-			   toplevel, NULL, 0);
+  I_T(shell=XtCreatePopupShell("metadialog", transientShellWidgetClass,
+			       toplevel, NULL, 0));
   meta_dialog_shell=shell;
 
   form=XtVaCreateManagedWidget("metaform", formWidgetClass, shell, NULL);
 
   I_L(label=XtVaCreateManagedWidget("legend", labelWidgetClass, form, NULL));
   list=XtVaCreateManagedWidget("metalist", listWidgetClass, form, NULL);
-  update=XtVaCreateManagedWidget("update", commandWidgetClass, form, NULL);
+  I_L(update=XtVaCreateManagedWidget("update", commandWidgetClass,
+				     form, NULL));
   I_L(close=XtVaCreateManagedWidget("closecommand", commandWidgetClass,
 				    form, NULL));
 
@@ -292,9 +294,9 @@ static int get_meta_list(char **list, char *errbuf, int n_errbuf)
   if(!server_list) return -1;
 
   server_list_iterate(*server_list,pserver)
-    my_snprintf(line, sizeof(line), "%-35s %-5s %-7s %-9s %2s   %s",
+    my_snprintf(line, sizeof(line), "%-35s %-5s %-11s %-11s %2s   %s",
 		pserver->name, pserver->port, pserver->version,
-		pserver->status, pserver->players, pserver->metastring);
+		_(pserver->status), pserver->players, pserver->metastring);
     if(*list) free(*list);
     *list=mystrdup(line);
     list++;

@@ -272,7 +272,7 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
     sz_strlcpy(buf[0], pserver->name);
     sz_strlcpy(buf[1], pserver->port);
     sz_strlcpy(buf[2], pserver->version);
-    sz_strlcpy(buf[3], pserver->status);
+    sz_strlcpy(buf[3], _(pserver->status));
     sz_strlcpy(buf[4], pserver->players);
     sz_strlcpy(buf[5], pserver->metastring);
 

@@ -621,19 +621,22 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   
   cat_snprintf(desc, sizeof(desc), "Freeciv\n");
   cat_snprintf(desc, sizeof(desc), VERSION_STRING"\n");
+  /* note: the following strings are not translated here;
+     we mark them so they may be translated when received by a client */
   switch(server_state) {
   case PRE_GAME_STATE:
-    cat_snprintf(desc, sizeof(desc), "Pregame\n");
+    cat_snprintf(desc, sizeof(desc), N_("Pregame"));
     break;
   case RUN_GAME_STATE:
-    cat_snprintf(desc, sizeof(desc), "Running\n");
+    cat_snprintf(desc, sizeof(desc), N_("Running"));
     break;
   case GAME_OVER_STATE:
-    cat_snprintf(desc, sizeof(desc), "Game over\n");
+    cat_snprintf(desc, sizeof(desc), N_("Game over"));
     break;
   default:
-    cat_snprintf(desc, sizeof(desc), "Waiting\n");
+    cat_snprintf(desc, sizeof(desc), N_("Waiting"));
   }
+  cat_snprintf(desc, sizeof(desc), "\n");
   cat_snprintf(desc, sizeof(desc), "%s\n",metaserver_servername);
   cat_snprintf(desc, sizeof(desc), "%d\n", port);
   cat_snprintf(desc, sizeof(desc), "%d\n", num_nonbarbarians);

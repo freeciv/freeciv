@@ -113,11 +113,11 @@ Freeciv*connectdialog.*.cbetaline.width: 300
 !
 ! Metaserver dialog
 !
-Freeciv*metadialog.title: Metaserver List
+Freeciv*metadialog.title: _("Metaserver List")
 Freeciv*metadialog.allowShellResize: True
 
 Freeciv*metadialog.*.legend.label: _("\
-Server Name                         Port  Version Status Players Comment")
+Server Name                         Port  Version     Status  Players  Comment")
 Freeciv*metadialog.*.legend.justify:		  Left
 Freeciv*metadialog.*.legend.left:		  ChainLeft
 Freeciv*metadialog.*.legend.right:		  ChainLeft
@@ -135,7 +135,7 @@ Freeciv*metadialog.*.metalist.bottom:		  ChainBottom
 Freeciv*metadialog.*.metalist.fromVert:	  legend
 Freeciv*metadialog.*.metalist.resizable:         True
 
-Freeciv*metadialog.*.update.label:		  Update
+Freeciv*metadialog.*.update.label:		  _("Update")
 Freeciv*metadialog.*.update.left:		  ChainLeft
 Freeciv*metadialog.*.update.right:		  ChainLeft
 Freeciv*metadialog.*.update.top:		  ChainBottom
