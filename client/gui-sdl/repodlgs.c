@@ -1880,7 +1880,7 @@ void popup_economy_report_dialog(bool make_modal)
       SDL_SetAlpha(pText_Name, 0x0, 0x0);
             
       my_snprintf(cBuf, sizeof(cBuf), "%s %d\n%s %d",
-			_("Builded"), p->count, _("U Total"),p->total_cost);
+			_("Built"), p->count, _("U Total"),p->total_cost);
       copy_chars_to_string16(pStr, cBuf);
       pStr->style &= ~TTF_STYLE_BOLD;
   
@@ -2026,7 +2026,7 @@ void popup_economy_report_dialog(bool make_modal)
   w = MAX(w, pBuf->size.w + pSurf->w);
   
   /* total cost */
-  my_snprintf(cBuf, sizeof(cBuf), _("Total Costs: "));
+  my_snprintf(cBuf, sizeof(cBuf), _("Total Cost: "));
   copy_chars_to_string16(pStr, cBuf);
   pZoom = create_text_surf_from_str16(pStr);
     

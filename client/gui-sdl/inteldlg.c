@@ -196,7 +196,7 @@ void popup_intel_dialog(struct player *pPlayer)
     
     w = MAX(w, col * pBuf->size.w + count + DOUBLE_FRAME_WH);
     
-    my_snprintf(cBuf, sizeof(cBuf), _("They techs that we don't have :"));
+    my_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
     copy_chars_to_string16(pStr, cBuf);
     pStr->style |= TTF_STYLE_BOLD;
     pText2 = create_text_surf_from_str16(pStr);

@@ -1821,7 +1821,7 @@ void popup_caravan_dialog(struct unit *pUnit,
   is_unit_move_blocked = TRUE;
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
       
-  my_snprintf(cBuf, sizeof(cBuf), _("Your Caravan Has Arrived to city %s"),
+  my_snprintf(cBuf, sizeof(cBuf), _("Your caravan has arrived at %s"),
 							  pDestcity->name);
   
   /* window */

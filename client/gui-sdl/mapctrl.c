@@ -631,7 +631,7 @@ static void popup_minimap_scall_dialog(void)
   pScall_MiniMap_Dlg = MALLOC(sizeof(struct SMALL_DLG));
     
   /* create window */
-  pStr = create_str16_from_char(_("Scall Minimap"), 12);
+  pStr = create_str16_from_char(_("Scale Minimap"), 12);
   pStr->style |= TTF_STYLE_BOLD;
   pWindow = create_window(NULL, pStr, 10, 10, 0);
   pWindow->action = move_scall_minmap_dlg_callback;

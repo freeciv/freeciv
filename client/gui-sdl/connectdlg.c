@@ -406,7 +406,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
 
   pPlayer_name = create_str16_from_char(_("Player Name :"), 10);
   pPlayer_name->fgcol = color;
-  pServer_name = create_str16_from_char(_("Freeciv Serwer :"), 10);
+  pServer_name = create_str16_from_char(_("Freeciv Server :"), 10);
   pServer_name->fgcol = color;
   pPort_nr = create_str16_from_char(_("Port :"), 10);
   pPort_nr->fgcol = color;
@@ -1070,7 +1070,7 @@ void gui_server_connect(void)
   draw_frame(pFirst->dst, pFirst->size.x - FRAME_WH, pFirst->size.y - FRAME_WH ,
   	w + DOUBLE_FRAME_WH, (h*count) + DOUBLE_FRAME_WH);
 
-  set_output_window_text(_("SDLClient welcome you..."));
+  set_output_window_text(_("SDLClient welcomes you..."));
 
   set_output_window_text(_("Freeciv is free software and you are welcome "
 			   "to distribute copies of "
