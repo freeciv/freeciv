@@ -1,5 +1,5 @@
 Hinweis:	Dies ist *KEINE* Übersetzung der Datei README!
-Stand: 		02.06.00
+Stand: 		09.01.01
 
 			==============================
 			Deutsche Freeciv Dokumentation
@@ -163,8 +163,6 @@ Bitte teilen Sie uns mit, wenn Sie Programmfehler finden!
 In der Datei BUGS finden Sie eine Liste der uns bekannten Fehler und
 Informationen darüber, wie Sie neue Fehler melden können.
 
-Übersetzungsfehler mailen Sie bitte an <freeciv-de@ehinzen.de>.
-
 
 Mailinglisten
 ==============
@@ -182,15 +180,6 @@ schreiben. Beispiel:
 
 	Wenn Sie z.B. die Liste <freeciv@freeciv.org> abonnieren möchten,
 	schreiben Sie einfach "subscribe freeciv".
-
-Zusätzlich gibt es eine deutschsprachige Mailingliste, die sich
-ausschließlich mit der Übersetzung beschäftigt:
-
-	<freeciv.de@listbot.com>
-
-Sie kann mit einer Email an <freeciv.de-subscribe@listbot.com> abonniert
-werden.
-
 
 Neue Versionen
 ==============
