@@ -230,7 +230,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city *pcity_sup, *pcity_pre;
   struct city_dialog *pdialog;
 
-  pcity_sup=city_list_find_id(&game.player_ptr->cities, punit->homecity);
+  pcity_sup=player_find_city_by_id(game.player_ptr, punit->homecity);
   pcity_pre=map_get_city(punit->x, punit->y);
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))
@@ -665,7 +665,7 @@ static void present_units_activate_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)))
     activate_unit(punit);
   destroy_message_dialog(w);
 }
@@ -681,7 +681,7 @@ static void present_units_activate_close_callback(GtkWidget *w, gpointer data)
 
   destroy_message_dialog(w);
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))  {
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
     activate_unit(punit);
     if((pcity=map_get_city(punit->x, punit->y)))
       if((pdialog=get_city_dialog(pcity)))
@@ -696,7 +696,7 @@ static void present_units_sentry_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)))
     request_unit_sentry(punit);
   destroy_message_dialog(w);
 }
@@ -708,7 +708,7 @@ static void present_units_fortify_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)))
     request_unit_fortify(punit);
   destroy_message_dialog(w);
 }
@@ -724,9 +724,9 @@ static void supported_units_activate_close_callback(GtkWidget *w, gpointer data)
 
   destroy_message_dialog(w);
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))  {
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
     activate_unit(punit);
-    if((pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity)))
+    if((pcity=player_find_city_by_id(game.player_ptr, punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
   }
@@ -739,7 +739,7 @@ static void present_units_disband_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)))
     request_unit_disband(punit);
 
   destroy_message_dialog(w);
@@ -752,7 +752,7 @@ static void present_units_homecity_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
   
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)))
     request_unit_change_homecity(punit);
 
   destroy_message_dialog(w);
@@ -775,7 +775,7 @@ gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   struct city *pcity;
   struct city_dialog *pdialog;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)) &&
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)) &&
      (pcity=map_get_city(punit->x, punit->y)) &&
      (pdialog=get_city_dialog(pcity)) && ev->button==2) {
     activate_unit(punit);
@@ -794,7 +794,7 @@ gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   struct city *pcity;
   struct city_dialog *pdialog;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)) &&
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)) &&
      (pcity=find_city_by_id(punit->homecity)) &&
      (pdialog=get_city_dialog(pcity)) && ev->button==2) {
     activate_unit(punit);
@@ -814,7 +814,7 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   struct city_dialog *pdialog;
   GtkWidget *wd;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)) &&
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)) &&
      (pcity=map_get_city(punit->x, punit->y)) &&
      (pdialog=get_city_dialog(pcity))) {
 
@@ -1220,7 +1220,7 @@ static gint support_units_callback(GtkWidget *w, GdkEventButton *ev,
   struct city *pcity;
   struct city_dialog *pdialog;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)) &&
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)) &&
      (pcity=find_city_by_id(punit->homecity)) &&
      (pdialog=get_city_dialog(pcity))) {
 
@@ -1576,7 +1576,7 @@ void unitupgrade_callback_yes(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data))) {
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
     request_unit_upgrade(punit);
   }
   destroy_message_dialog(w);
@@ -1602,7 +1602,7 @@ void upgrade_callback(GtkWidget *w, gpointer data)
   int ut1,ut2;
   int value;
 
-  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data))) {
+  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
     ut1=punit->type;
     /* printf("upgrade_callback for %s\n", unit_types[ut1].name); */
 

@@ -631,7 +631,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       is_terrain_near_tile(myunit->x, myunit->y, T_OCEAN))
     harborcity++;
 
-  ferryboat = unit_list_find(&pplayer->units, boatid);
+  ferryboat = player_find_unit_by_id(pplayer, boatid);
   if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
   else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN ? 6 : 12);
 

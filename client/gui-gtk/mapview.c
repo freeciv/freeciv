@@ -323,7 +323,7 @@ void update_unit_info_label(struct unit *punit)
   if(punit) {
     char buffer[512];
     struct city *pcity;
-    pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
+    pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
 
     my_snprintf(buffer, sizeof(buffer), "%s %s", 
             get_unit_type(punit->type)->name,

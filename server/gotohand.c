@@ -898,7 +898,7 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
       } else {
 	freelog(LOG_DEBUG, "Handled.");
       }
-      if(!unit_list_find(&pplayer->units, id))
+      if(!player_find_unit_by_id(pplayer, id))
 	return; /* unit died during goto! */
 
       if(punit->x!=x || punit->y!=y) {

@@ -162,7 +162,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       cn[0]='\0';
       if(punit->owner==game.player_idx) {
 	struct city *pcity;
-	pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
+	pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
 	if(pcity)
 	  my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
       }

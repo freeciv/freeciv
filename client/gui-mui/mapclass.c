@@ -715,7 +715,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	if (punit->owner == game.player_idx)
 	{
 	  struct city *pcity;
-	  pcity = city_list_find_id(&game.player_ptr->cities, punit->homecity);
+	  pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 	  if (pcity)
 	    sprintf(cn, "/%s", pcity->name);
 	}

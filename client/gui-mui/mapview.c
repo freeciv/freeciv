@@ -270,7 +270,7 @@ void update_unit_info_label(struct unit *punit)
   if (punit)
   {
     struct city *pcity;
-    pcity = city_list_find_id(&game.player_ptr->cities, punit->homecity);
+    pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 
     settextf(main_unitname_text, "%s%s", get_unit_type(punit->type)->name, (punit->veteran) ? " (veteran)" : "");
     settext(main_moves_text, (goto_state == punit->id) ? "Select destination" : unit_activity_text(punit));

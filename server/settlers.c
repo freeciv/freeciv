@@ -1196,7 +1196,7 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
 		      punit->id, punit->x, punit->y);
         if (!same_pos(x, y, punit->x, punit->y)) {
           auto_settler_do_goto(pplayer, punit, x, y);
-          if (!unit_list_find(&pplayer->units, save_id)) return(0); /* died */
+          if (!player_find_unit_by_id(pplayer, save_id)) return(0); /* died */
         }
         ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
 				   punit->ai.ferryboat);
@@ -1221,7 +1221,7 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
 		  && could_unit_move_to_tile(punit, punit->x, punit->y,
 					     gx, gy)))) {
         auto_settler_do_goto(pplayer, punit, gx, gy);
-        if (!unit_list_find(&pplayer->units, save_id)) return(0); /* died */
+        if (!player_find_unit_by_id(pplayer, save_id)) return(0); /* died */
         punit->ai.ferryboat = 0;
       }
     }

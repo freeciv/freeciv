@@ -1555,7 +1555,7 @@ void popup_unit_select_dialog(struct tile *ptile)
         Object *o;
         Object *unit_obj;
 
-        pcity = city_list_find_id(&game.player_ptr->cities, punit->homecity);
+        pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 
         my_snprintf(buffer, sizeof(buffer),"%s%s\n%s\n%s", punittemp->name,
                (punit->veteran) ? " (veteran)" : "", unit_activity_text(punit),pcity ? pcity->name : "");

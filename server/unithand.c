@@ -59,7 +59,7 @@ void handle_unit_goto_tile(struct player *pplayer,
 {
   struct unit *punit;
   
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     punit->goto_dest_x=req->x;
     punit->goto_dest_y=req->y;
 
@@ -81,7 +81,7 @@ void handle_unit_connect(struct player *pplayer,
 {
   struct unit *punit;
 
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     if (can_unit_do_connect (punit, req->activity_type)) {
       punit->goto_dest_x=req->dest_x;
       punit->goto_dest_y=req->dest_y;
@@ -149,7 +149,7 @@ void handle_unit_upgrade_request(struct player *pplayer,
   struct unit *punit;
   struct city *pcity;
   
-  if(!(punit=unit_list_find(&pplayer->units, packet->unit_id))) return;
+  if(!(punit=player_find_unit_by_id(pplayer, packet->unit_id))) return;
   if(!(pcity=find_city_by_id(packet->city_id))) return;
 
   if(punit->x!=pcity->x || punit->y!=pcity->y)  {
@@ -209,7 +209,7 @@ void handle_incite_inq(struct player *pplayer,
 void handle_diplomat_action(struct player *pplayer, 
 			    struct packet_diplomat_action *packet)
 {
-  struct unit *pdiplomat=unit_list_find(&pplayer->units, packet->diplomat_id);
+  struct unit *pdiplomat=player_find_unit_by_id(pplayer, packet->diplomat_id);
   struct unit *pvictim=find_unit_by_id(packet->target_id);
   struct city *pcity=find_city_by_id(packet->target_id);
 
@@ -287,12 +287,12 @@ void handle_unit_change_homecity(struct player *pplayer,
 {
   struct unit *punit;
   
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     struct city *pcity;
-    if((pcity=city_list_find_id(&pplayer->cities, req->city_id))) {
+    if((pcity=player_find_city_by_id(pplayer, req->city_id))) {
       unit_list_insert(&pcity->units_supported, punit);
       
-      if((pcity=city_list_find_id(&pplayer->cities, punit->homecity)))
+      if((pcity=player_find_city_by_id(pplayer, punit->homecity)))
 	unit_list_unlink(&pcity->units_supported, punit);
       
       punit->homecity=req->city_id;
@@ -312,7 +312,7 @@ void handle_unit_disband_safe(struct player *pplayer,
 {
   struct unit *punit;
   struct city *pcity;
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     if ((pcity=map_get_city(punit->x, punit->y))) {
       pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
       send_city_info(pplayer, pcity);
@@ -341,7 +341,7 @@ void handle_unit_build_city(struct player *pplayer,
   struct city *pcity;
   char *name;
   
-  punit = unit_list_find(&pplayer->units, req->unit_id) ;
+  punit = player_find_unit_by_id(pplayer, req->unit_id) ;
   if(!punit)
     return;
   
@@ -438,7 +438,7 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 {
   struct unit *punit;
 
-  punit=unit_list_find(&pplayer->units, pinfo->id);
+  punit=player_find_unit_by_id(pplayer, pinfo->id);
 
   if(punit) {
     if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
@@ -464,7 +464,7 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 {
   struct unit *punit;
 
-  punit=unit_list_find(&pplayer->units, pmove->unid);
+  punit=player_find_unit_by_id(pplayer, pmove->unid);
   if(punit)  {
     handle_unit_move_request(pplayer, punit, pmove->x, pmove->y, FALSE);
   }
@@ -946,7 +946,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       }
     }
 
-    if(!unit_list_find(&pplayer->units, unit_id))
+    if(!player_find_unit_by_id(pplayer, unit_id))
       return 0; /* diplomat or caravan action killed unit */
 
     connection_do_buffer(pplayer->conn);
@@ -1032,7 +1032,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     
     /* bodyguard code */
     if(pplayer->ai.control &&
-       unit_list_find(&pplayer->units, unit_id)) {
+       player_find_unit_by_id(pplayer, unit_id)) {
       if (punit->ai.bodyguard > 0) {
         bodyguard = unit_list_find(&(map_get_tile(src_x, src_y)->units),
                     punit->ai.bodyguard);
@@ -1066,7 +1066,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
   struct unit *punit;
   struct city *pcity_dest;
     
-  punit = unit_list_find(&pplayer->units, req->unit_id);
+  punit = player_find_unit_by_id(pplayer, req->unit_id);
   if (!punit || !unit_flag(punit->type, F_CARAVAN))
     return;
 
@@ -1112,11 +1112,11 @@ int handle_unit_establish_trade(struct player *pplayer,
   struct city *pcity_homecity, *pcity_dest;
   int revenue;
   
-  punit = unit_list_find(&pplayer->units, req->unit_id);
+  punit = player_find_unit_by_id(pplayer, req->unit_id);
   if (!punit || !unit_flag(punit->type, F_CARAVAN))
     return 0;
     
-  pcity_homecity=city_list_find_id(&pplayer->cities, punit->homecity);
+  pcity_homecity=player_find_city_by_id(pplayer, punit->homecity);
   pcity_dest=find_city_by_id(req->city_id);
   if(!pcity_homecity || !pcity_dest)
     return 0;
@@ -1285,7 +1285,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 void handle_unit_auto_request(struct player *pplayer, 
 			      struct packet_unit_request *req)
 {
-  struct unit *punit = unit_list_find(&pplayer->units, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
 
   if (punit==NULL || !can_unit_do_auto(punit))
     return;
@@ -1356,7 +1356,7 @@ void handle_unit_unload_request(struct player *pplayer,
 				struct packet_unit_request *req)
 {
   struct unit *punit;
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
       if(punit2->activity==ACTIVITY_SENTRY) {
 	set_unit_activity(punit2, ACTIVITY_IDLE);
@@ -1375,7 +1375,7 @@ void handle_unit_nuke(struct player *pplayer,
 {
   struct unit *punit;
   
-  if((punit=unit_list_find(&pplayer->units, req->unit_id)))
+  if((punit=player_find_unit_by_id(pplayer, req->unit_id)))
     handle_unit_attack_request(pplayer, punit, punit);
 }
 
@@ -1387,7 +1387,7 @@ void handle_unit_paradrop_to(struct player *pplayer,
 {
   struct unit *punit;
   
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     do_paradrop(pplayer,punit,req->x, req->y);
   }
 }

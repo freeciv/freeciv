@@ -338,7 +338,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city *pcity_sup, *pcity_pre;
   struct city_dialog *pdialog;
 
-  pcity_sup = city_list_find_id(&game.player_ptr->cities, punit->homecity);
+  pcity_sup = player_find_city_by_id(game.player_ptr, punit->homecity);
   pcity_pre = map_get_city(punit->x, punit->y);
 
   if (pcity_sup && (pdialog = get_city_dialog(pcity_sup)))

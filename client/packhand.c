@@ -411,7 +411,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 
   repaint_unit = 0;
   repaint_city = 0;
-  punit = unit_list_find(&game.players[packet->owner].units, packet->id);
+  punit = player_find_unit_by_id(&game.players[packet->owner], packet->id);
 
   if(punit) {
     int dest_x,dest_y;
@@ -1492,7 +1492,7 @@ void handle_city_name_suggestion(struct packet_city_name_suggestion *packet)
 {
   struct unit *punit;
   
-  punit = unit_list_find(&game.player_ptr->units, packet->id);
+  punit = player_find_unit_by_id(game.player_ptr, packet->id);
   if (punit) {
     popup_newcity_dialog(punit, packet->name);
     return;
@@ -1505,7 +1505,7 @@ void handle_city_name_suggestion(struct packet_city_name_suggestion *packet)
 **************************************************************************/
 void handle_diplomat_action(struct packet_diplomat_action *packet)
 {
-  struct unit *pdiplomat=unit_list_find(&game.player_ptr->units, packet->diplomat_id);
+  struct unit *pdiplomat=player_find_unit_by_id(game.player_ptr, packet->diplomat_id);
   struct city *pcity=find_city_by_id(packet->target_id);
 
   if (!pdiplomat) {
@@ -1536,7 +1536,7 @@ void handle_diplomat_action(struct packet_diplomat_action *packet)
 **************************************************************************/
 void handle_sabotage_list(struct packet_sabotage_list *packet)
 {
-  struct unit *punit = unit_list_find(&game.player_ptr->units, packet->diplomat_id);
+  struct unit *punit = player_find_unit_by_id(game.player_ptr, packet->diplomat_id);
   struct city *pcity = find_city_by_id(packet->city_id);
 
   if (punit && pcity) {

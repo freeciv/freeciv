@@ -1549,7 +1549,7 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     {
       int id=pcity->id;
       city_populate(pcity);
-      if(!city_list_find_id(&pplayer->cities, id))
+      if(!player_find_city_by_id(pplayer, id))
 	return 0;
     }
 

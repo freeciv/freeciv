@@ -207,7 +207,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     } /* end i */
     if (best) {
       handle_unit_move_request(pplayer, punit, dest_x, dest_y, FALSE);
-      if(!unit_list_find(&pplayer->units, id)) return; /* died */
+      if(!player_find_unit_by_id(pplayer, id)) return; /* died */
     }
     ct--; /* trying to avoid loops */
   }
@@ -304,7 +304,7 @@ static int should_unit_change_homecity(struct player *pplayer,
       punit->ai.charge = 0; /* Very important, or will not stay -- Syela */
 /* change homecity to this city */
       unit_list_insert(&pcity->units_supported, punit);
-      if ((pcity=city_list_find_id(&pplayer->cities, punit->homecity)))
+      if ((pcity=player_find_city_by_id(pplayer, punit->homecity)))
             unit_list_unlink(&pcity->units_supported, punit);
 
       punit->homecity = map_get_city(punit->x, punit->y)->id;
@@ -590,7 +590,7 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
 
 static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 {
-  struct unit *aunit = unit_list_find(&pplayer->units, punit->ai.charge);
+  struct unit *aunit = player_find_unit_by_id(pplayer, punit->ai.charge);
   struct city *acity = find_city_by_id(punit->ai.charge);
   int x, y, id = punit->id, i;
 
@@ -746,7 +746,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
         punit->goto_dest_y = by;
 	set_unit_activity(punit, ACTIVITY_GOTO);
         do_unit_goto(pplayer,punit, GOTO_MOVE_ANY);
-        if (!unit_list_find(&pplayer->units, id)) return(-1); /* died */
+        if (!player_find_unit_by_id(pplayer, id)) return(-1); /* died */
       }
       ptile = map_get_tile(punit->x, punit->y);
       ferryboat = unit_list_find(&ptile->units, punit->ai.ferryboat);
@@ -775,7 +775,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
               }
             unit_list_iterate_end; /* passengers are safely stowed away */
             do_unit_goto(pplayer, ferryboat, GOTO_MOVE_ANY);
-	    if (!unit_list_find(&pplayer->units, boatid)) return(-1); /* died */
+	    if (!player_find_unit_by_id(pplayer, boatid)) return(-1); /* died */
             set_unit_activity(punit, ACTIVITY_IDLE);
           } /* else wait, we can GOTO later. */
         }
@@ -831,7 +831,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 		    punit->x, punit->y, dest_x, dest_y);
     }
   }
-  if (unit_list_find(&pplayer->units, id)) { /* didn't die */
+  if (player_find_unit_by_id(pplayer, id)) { /* didn't die */
     punit->ai.ai_role = AIUNIT_NONE; /* in case we need to change */
     if (x != punit->x || y != punit->y) return 1; /* moved */
     else return 0; /* didn't move, didn't die */
@@ -941,7 +941,7 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
   }
 
   if (punit->ai.charge) { /* I am a bodyguard */
-    aunit = unit_list_find(&pplayer->units, punit->ai.charge);
+    aunit = player_find_unit_by_id(pplayer, punit->ai.charge);
     acity = find_city_by_id(punit->ai.charge);
 
     if ((aunit && aunit->ai.bodyguard && unit_vulnerability_virtual(punit) >
@@ -1113,7 +1113,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 		punit->x, punit->y, a);
 
   if (is_ground_unit(punit)) boatid = find_boat(pplayer, &bx, &by, 2);
-  if (boatid) ferryboat = unit_list_find(&pplayer->units, boatid);
+  if (boatid) ferryboat = player_find_unit_by_id(pplayer, boatid);
   if (ferryboat) really_generate_warmap(map_get_city(ferryboat->x, ferryboat->y),
                        ferryboat, SEA_MOVING);
 
@@ -1441,7 +1441,7 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
     }
      else {
        /* A caravan without a home?  Kinda strange, but it might happen.  */
-       pcity=city_list_find_id(&pplayer->cities, punit->homecity);
+       pcity=player_find_city_by_id(pplayer, punit->homecity);
        city_list_iterate(pplayer->cities,pdest)
          if (pcity && can_establish_trade_route(pcity,pdest) &&
             map_same_continent(pcity->x, pcity->y, pdest->x, pdest->y)) {
@@ -1454,7 +1454,7 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
            }
          }
        city_list_iterate_end;
-       pcity=city_list_find_id(&pplayer->cities, best_city);
+       pcity=player_find_city_by_id(pplayer, best_city);
        if (pcity) {
          if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
            if (!punit->moves_left) return;
@@ -1516,7 +1516,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       x = punit->goto_dest_x; y = punit->goto_dest_y;
       if (find_nearest_friendly_port(punit))
 	do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
-      if (!unit_list_find(&pplayer->units, id)) return; /* oops! */
+      if (!player_find_unit_by_id(pplayer, id)) return; /* oops! */
       punit->goto_dest_x = x; punit->goto_dest_y = y;
       send_unit_info(pplayer, punit); /* to get the crosshairs right -- Syela */
     } else {
@@ -1568,7 +1568,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     punit->goto_dest_y = y;
     set_unit_activity(punit, ACTIVITY_GOTO);
     do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
-    if ((punit = unit_list_find(&pplayer->units, id)))
+    if ((punit = player_find_unit_by_id(pplayer, id)))
       set_unit_activity(punit, ACTIVITY_IDLE);
     return;
   }
@@ -1786,7 +1786,7 @@ void ai_manage_units(struct player *pplayer)
     unit_list_iterate_end;
 
     for (index = 0; index < count; index++) {
-      punit = unit_list_find(&pplayer->units, unitids[index]);
+      punit = player_find_unit_by_id(pplayer, unitids[index]);
       if (!punit) {
 	freelog(LOG_DEBUG, "Can't manage %s's dead unit %d", pplayer->name,
 		unitids[index]);

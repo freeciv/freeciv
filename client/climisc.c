@@ -97,7 +97,7 @@ void client_remove_unit(int unit_id)
 	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
     }
     
-    if((pcity=city_list_find_id(&game.player_ptr->cities, hc)))
+    if((pcity=player_find_city_by_id(game.player_ptr, hc)))
       refresh_city_dialog(pcity);
 
     if (pcity) {

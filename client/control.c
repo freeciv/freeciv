@@ -330,7 +330,7 @@ void process_caravan_arrival(struct unit *punit)
     genlist_unlink(&arrival_queue, p_id);
     id = *p_id;
     free(p_id);
-    punit = unit_list_find(&game.player_ptr->units, id);
+    punit = player_find_unit_by_id(game.player_ptr, id);
 
     if (punit && (unit_can_help_build_wonder_here(punit)
 		  || unit_can_est_traderoute_here(punit))
@@ -385,7 +385,7 @@ void process_diplomat_arrival(struct unit *punit, struct city *pcity)
     unit_id = p_ids[0];
     city_id = p_ids[1];
     free(p_ids);
-    punit = unit_list_find(&game.player_ptr->units, unit_id);
+    punit = player_find_unit_by_id(game.player_ptr, unit_id);
     pcity = find_city_by_id(city_id);
 
     if(punit && pcity && unit_flag(punit->type, F_DIPLOMAT) &&
@@ -808,7 +808,7 @@ int do_goto(int xtile, int ytile)
   if(goto_state) {
     struct unit *punit;
 
-    if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
+    if((punit=player_find_unit_by_id(game.player_ptr, goto_state))) {
       struct packet_unit_request req;
       req.unit_id=punit->id;
       req.name[0]='\0';
@@ -841,7 +841,7 @@ void do_map_click(int xtile, int ytile)
   if(goto_state) { 
     struct unit *punit;
 
-    if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
+    if((punit=player_find_unit_by_id(game.player_ptr, goto_state))) {
       struct packet_unit_request req;
 
       if(paradrop_state) {
@@ -982,7 +982,7 @@ void key_cancel_action(void)
   if(goto_state) {
     struct unit *punit;
 
-    punit=unit_list_find(&game.player_ptr->units, goto_state);
+    punit=player_find_unit_by_id(game.player_ptr, goto_state);
 
     goto_state=0;
     nuke_state=0;

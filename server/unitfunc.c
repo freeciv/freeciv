@@ -438,7 +438,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   if (!handle_unit_move_request (pplayer, pdiplomat, victim_x, victim_y, FALSE)) {
     pdiplomat->moves_left = 0;
   }
-  if (unit_list_find (&pplayer->units, diplomat_id)) {
+  if (player_find_unit_by_id(pplayer, diplomat_id)) {
     send_unit_info (pplayer, pdiplomat);
   }
 
@@ -1825,7 +1825,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
 
   if (activity == ACTIVITY_EXPLORE) {
     ai_manage_explorer(pplayer, punit);
-    if (unit_list_find(&pplayer->units, id))
+    if (player_find_unit_by_id(pplayer, id))
       handle_unit_activity_request(pplayer, punit, ACTIVITY_EXPLORE);
     else return;
   }
