@@ -26,7 +26,7 @@
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      int map_x, int map_y)
+			      struct tile *ptile)
 {
   /* PORTME */
 }
@@ -112,7 +112,7 @@ bool caravan_dialog_is_open(void)
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
-void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
+void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
 {
   /* PORTME */
 }
