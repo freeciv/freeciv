@@ -3521,7 +3521,7 @@ msgid ""
 msgstr ""
 "Uten noen argument kommer det innledende hjelp. Med argumentet \"commands\" "
 "eller \"options\" kommer det en liste over alle kommandoer med respektive "
-"valgmuligheter.Ellers tolkes argumentet som et kommandonavn eller "
+"argumenter. Ellers tolkes argumentet som et kommandonavn eller "
 "alternativsnavn, og hjelp gis da for denne kommandoen eller alternativet. "
 "For alternativer inneholder hjelpen informasjon om den nåværende verdien og "
 "standardverdien. Forkortelser for argument kan benyttes dersom det ikke er "
@@ -3586,7 +3586,7 @@ msgid ""
 msgstr ""
 "Kommandoen \"explain\" har en delmengde av funksjonaliteten til kommandoen "
 "\"help\", og er til for bakoverkompabilitet. Uten argument gir det en liste "
-"over valgmuligheter (som \"hjelp options\"), og med et argument gir det "
+"over argument (som \"hjelp options\"), og med et argument gir det "
 "hjelp for en valgmulighet (som \"help <alternativsnavn>\")."
 
 #. TRANS: translate text between <> only
@@ -4648,17 +4648,17 @@ msgid ""
 msgstr ""
 "Velkommen - dette er den innledende hjelpeteksten for Freecivserveren.\n"
 "\n"
-"2 Viktige serverbegrep er kommandoer og valgmuligheter.\n"
+"2 Viktige serverbegrep er kommandoer og argumenter.\n"
 "Kommandoen, f.eks \"help\", brukes for å kommunisere med serveren.\n"
 "Visse kommandoer tar ett eller flere argument, adskilt av mellomrom.\n"
-"I mange tilfeller kan kommandoen og argumentet forkortes.Valgmuligheter er "
+"I mange tilfeller kan kommandoen og argumentet forkortes. Argumenter er "
 "innstillinger som styrer serveren mens den er i gang.\n"
 "\n"
 "For å finne ut hvordan man får mer informasjon om kommandoen og \n"
-"valgmuligheter, bruk \"help help\"\n"
+"argumenter, bruk \"help help\"\n"
 "\n"
 "De viktigste kommandoene er:\n"
-"  show   -  se nåværende valgmuligheter\n"
+"  show   -  se nåværende argument\n"
 "  set    -  sett valmuligheter\n"
 "  start  -  sett i gang spillet når spillerne er tilkoblet\n"
 "  save   -  lagre det nåværende spillet\n"
@@ -10889,9 +10889,9 @@ msgid ""
 "%s of the %s\n"
 "%s %s: %s"
 msgstr ""
-"%s\n"
-"%s av %s\n"
-"%s %s: %s"
+"%1$s\n"
+"%3$ss %2$s\n"
+"%4$s %5$s: %6$s"
 
 #: client/gui-mui/repodlgs.c:146 client/gui-mui/repodlgs.c:372
 #, c-format
@@ -12208,7 +12208,7 @@ msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
 msgstr ""
-"Disse stegene kan variere i forhold til serverens valgmuligheter, men "
+"Disse stegene kan variere i forhold til serverens alternativer, men "
 "generelt er stegene:"
 
 #: data/helpdata.txt:539
@@ -17705,117 +17705,3 @@ msgstr "zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:zuluene"
-
-#~ msgid "+1 tech to 1st"
-#~ msgstr "+1 tekn. for første"
-
-#~ msgid "boats move +1"
-#~ msgstr "båter flytter +1"
-
-#~ msgid "bridges"
-#~ msgstr "broer"
-
-#~ msgid "railroads"
-#~ msgstr "jernbane"
-
-#~ msgid "fortresses"
-#~ msgstr "festningsverk"
-
-#~ msgid "pop. pollution"
-#~ msgstr "befolkn. forurensning"
-
-#~ msgid "trade reduced"
-#~ msgstr "handel redusert"
-
-#~ msgid "airbases"
-#~ msgstr "flystriper"
-
-#~ msgid "farmland"
-#~ msgstr "dyrket land"
-
-#~ msgid "rulesout <rules-type> <file-name>"
-#~ msgstr "rulesout <regel-type> <filnavn>"
-
-#~ msgid "Write selected rules information to file."
-#~ msgstr "Skriv valgte regler til fil."
-
-#~ msgid ""
-#~ "Write a file with information from currently loaded ruleset data.  "
-#~ "Requires that the ruleset data has been loaded (e.g., after 'start').  "
-#~ "Currently the only option for <rules-type> is 'techs', which writes "
-#~ "information about all the advances (technologies).  This can be used by "
-#~ "the 'techtree' utility program to produce a graph of the advances."
-#~ msgstr ""
-#~ "Lager en fil med informasjon om det nåværende regeloppsettet. Krever at "
-#~ "regeloppsettet er lastet inn (feks. etter 'start'). Det eneste "
-#~ "alternativet for <regeltype> er 'techs', som skriver informasjon om alle "
-#~ "de (teknologiske) fremskrittene. Dette kan brukes av 'techtree' "
-#~ "programmet for å lage diagrammer over fremskrittene."
-
-#~ msgid "Change server output style to 'RFC-style'."
-#~ msgstr "Endre server-utskrifter til 'RFC-stil'."
-
-#~ msgid "Cannot output rules: ruleset data not loaded (e.g., use '%sstart')."
-#~ msgstr ""
-#~ "Kunne ikke vise reglene: regeloppsettet er ikke lastet inn (f.eks., bruk "
-#~ "'%sstart')."
-
-#~ msgid "Bad rulesout type: '%s' (%s).  Try '%shelp rulesout'."
-#~ msgstr "Feil rulesout-type: \"%s\" (%s). Prøv \"%shelp rulesout\"."
-
-#~ msgid "Saved techs rules data to '%s'."
-#~ msgstr "Lagret teknologi-regeloppsett til '%s'."
-
-#~ msgid "Failed saving techs rules data to '%s'."
-#~ msgstr "Klarte ikke å lagre regeloppsett for teknologi til '%s'."
-
-#~ msgid "Usage: rulesout <ruletype> <filename>.  Try '%shelp rulesout'."
-#~ msgstr "Bruk: rulesout <regeltype> <filnavn>. Prøv \"%shelp rulesout\"."
-
-#~ msgid "Game: Aborting GOTO for AI attack procedures."
-#~ msgstr "Spill: Avslutter GOTO for AI angrepsprosedyrer."
-
-#~ msgid "Game: A %s cannot attack other units."
-#~ msgstr "Spill: En %s kan ikke angripe andre enheter."
-
-#~ msgid "Game: %s doesn't want to leave its bodyguard."
-#~ msgstr "Spill: %s vil ikke forlate sin livvakt."
-
-#~ msgid "Game: %s ending move early to stay out of trouble."
-#~ msgstr ""
-#~ "Spill: %s avslutter flyttet sitt tidlig for å holde seg unna trøbbel."
-
-#~ msgid ""
-#~ "Makes a city the capital and the center of your government.  Corruption "
-#~ "in other cities is related to how far away from the capital they are, "
-#~ "except when the government is Democracy or Communism.  The cost of "
-#~ "inciting a revolt in a city also depends upon the city's distance from "
-#~ "the capital (under all forms of government).\n"
-#~ "\n"
-#~ "Take good care of your capital, as it's loss may result in your empire "
-#~ "plunging into civil war."
-#~ msgstr ""
-#~ "Gjør byen til hovedstad og sentrum for din regjering. Korrupsjon i andre "
-#~ "byer er avhengig av hvor langt de ligger fra hovedstaden, unntatt når "
-#~ "styresettet er demokrati eller kommunisme. Kostnaden av å skape opprør i "
-#~ "en by avhenger også av hvor langt byen ligger fra hovedstaden. (under "
-#~ "alle styresett).\n"
-#~ "\n"
-#~ "Pass godt på hovedstaden, dersom du mister den kan hele riket ditt bli i "
-#~ "borgerkrig."
-
-#~ msgid "Double effects of Cathedrals."
-#~ msgstr "Dobler effekten av katedraler."
-
-#~ msgid "Krevi"
-#~ msgstr "krevisk"
-
-#~ msgid "?plural:Krevis"
-#~ msgstr "?plural:krevisk"
-
-#~ msgid "Olympic"
-#~ msgstr "olympisk"
-
-#~ msgid "?plural:Olympians"
-#~ msgstr "?plural:olympierne"
-
