@@ -789,10 +789,26 @@ static struct player *split_player(struct player *pplayer)
   cplayer->government = game.government_when_anarchy;  
   pplayer->revolution = 1;
   cplayer->capital = 1;
-  for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    cplayer->diplstates[i].type = DS_NEUTRAL;
-    cplayer->diplstates[i].has_reason_to_cancel = 0;
+
+  /* This should probably be DS_NEUTRAL when AI knows about diplomacy,
+   * but for now AI players are always at war.
+   */
+  players_iterate(other_player) {
+    cplayer->diplstates[other_player->player_no].type = DS_WAR;
+    cplayer->diplstates[other_player->player_no].has_reason_to_cancel = 0;
+    cplayer->diplstates[other_player->player_no].turns_left = 0;
+    other_player->diplstates[cplayer->player_no].type = DS_WAR;
+    other_player->diplstates[cplayer->player_no].has_reason_to_cancel = 0;
+    other_player->diplstates[cplayer->player_no].turns_left = 0;
+    
+    /* Send so that other_player sees updated diplomatic info;
+     * cplayer and pplayer will be sent later anyway
+     */
+    if (other_player != cplayer && other_player != pplayer) {
+      send_player_info(other_player, other_player);
+    }
   }
+  players_iterate_end;
 
   /* Split the resources */
   
