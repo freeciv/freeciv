@@ -607,9 +607,10 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		   get_tech_name(pplayer, i),
 		   get_nation_name_plural(target->nation));
 
-  notify_player(target, _("Game: The %s stole %s from you!"),
-		get_nation_name_plural(pplayer->nation),
-		get_tech_name(pplayer, i));
+  notify_player_ex(target, -1, -1, E_ENEMY_DIPLOMAT_THEFT,
+                   _("Game: The %s stole %s from you!"),
+		   get_nation_name_plural(pplayer->nation),
+		   get_tech_name(pplayer, i));
 
   notify_embassies(pplayer, target,
 		   _("Game: The %s have stolen %s from the %s."),
