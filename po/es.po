@@ -106,7 +106,7 @@ msgstr "Sin memoria al intentar %s %lu bytes en la línea %d de %s."
 #: common/shared.c:147
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr "Falta argumento par \"%s\".\n"
+msgstr "Falta argumento para \"%s\".\n"
 
 #: common/shared.c:287
 #, c-format
@@ -116,7 +116,7 @@ msgstr "error %d (compilado sin stderror)"
 #: client/tilespec.c:152 common/shared.c:678
 #, c-format
 msgid "Could not find readable file \"%s\" in data path."
-msgstr "No puedo encontrar el archivo \"%s\" para leerlo en el path."
+msgstr "No puedo encontrar el archivo \"%s\" para leerlo en la ruta del directorio."
 
 #: client/tilespec.c:154 common/shared.c:680 server/ruleset.c:87
 msgid "The data path may be set via the environment variable FREECIV_PATH."
@@ -136,7 +136,7 @@ msgstr "%s: Error fatal: me estas intentando ejecutar como superusario!\n"
 
 #: common/shared.c:719
 msgid "Use a non-privileged account instead.\n"
-msgstr "Usa una cuenta si privilegios especiales.\n"
+msgstr "Usa una cuenta sin privilegios especiales.\n"
 
 #: common/unit.c:662
 msgid " and "
@@ -187,7 +187,7 @@ msgstr "ciudad %d"
 
 #: server/cityhand.c:292
 msgid "Game: you don't have a worker here."
-msgstr "Juego: No tienes suficientes unidades de movimiento"
+msgstr "Juego: No tienes un trabajador aquí."
 
 #: server/cityhand.c:358
 msgid "Game: You have already sold something here this turn."
@@ -204,7 +204,7 @@ msgstr "Juego: DYa has comprado en este turno."
 
 #: server/cityhand.c:401
 msgid "Game: Cannot buy in city created this turn."
-msgstr "Juego:  No puedes comprar en una ciudad creada este turno."
+msgstr "Juego: No puedes comprar en una ciudad creada este turno."
 
 #: server/cityhand.c:407
 #, c-format
@@ -218,7 +218,7 @@ msgstr "Juego: No puedes comprar unidades cuando la ciudad está amotinada."
 #: server/cityhand.c:439
 #, c-format
 msgid "Game: %s bought in %s for %d gold."
-msgstr "Juego: %s vendido en %s por %d oro"
+msgstr "Juego: %s comprado en %s por %d oro"
 
 #: server/cityhand.c:487
 msgid "Game: You have bought this turn, can't change."
@@ -279,8 +279,9 @@ msgid ""
 msgstr ""
 "Juego: La captura de la capital de los %s y la destrucción de las "
 "estructuras administrativas de su imperio\n"
-"Los oportunistas has crecido y se han aliado a la causa revelde, los "
-"insurgentes %s han tomado el poder de %d provincias."
+"      has causado un guerra civil."
+"Los oportunistas has crecido y se han aliado a la causa revelde,\n"
+"      los insurgentes %s han tomado el poder de %d provincias."
 
 #: server/cityturn.c:548
 #, c-format
@@ -295,7 +296,7 @@ msgstr "Juego: ¡ATENCIÓN, estamos casí sin DINERO¡"
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr ""
-"Juego: %s  necesita %s (que se está construyendo) para poder crecer más."
+"Juego: %s necesita %s (que se está construyendo) para poder crecer más."
 
 #: server/cityturn.c:779
 #, c-format
@@ -310,7 +311,7 @@ msgstr "Juego: %s crece a tamaño %d."
 #: server/cityturn.c:854
 #, c-format
 msgid "Game: Famine feared in %s."
-msgstr "Juego: Hambruna en %s."
+msgstr "Juego: Hambruna está temido en %s."
 
 #: server/cityturn.c:878
 #, c-format
@@ -350,7 +351,7 @@ msgstr "Juego: %s aumenta la investigación, ganas dos descubrimiento."
 #: server/cityturn.c:1073
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
-msgstr "Juego: Los %s hanempezado a construir la nave espacial."
+msgstr "Juego: Los %s han empezado a construir la nave espacial."
 
 #: server/cityturn.c:1085
 #, c-format
@@ -382,13 +383,13 @@ msgstr "Juego: Contaminación cerca de %s."
 msgid ""
 "Game: %s suggest throttling growth to use %s (being built) more effectively."
 msgstr ""
-"Juego: %s sugiere el acelerar el crecimiento para usar %s (que se está "
-"construyendo)más efectivamente) "
+"Juego: %s sugiere a acelerar el crecimiento, para usar %s (que se está "
+"construyendo) más efectivamente."
 
 #: server/cityturn.c:1327
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
-msgstr "Juego: ¡Viva las celebraciones del %s celebrado en %s¡"
+msgstr "Juego: ¡Vivan las celebraciones del %s celebrado en %s¡"
 
 #: server/cityturn.c:1333
 #, c-format
@@ -419,7 +420,7 @@ msgstr "Juego: Tu pueblo ha derrocado tu %s, tu pais esta sumido en el caos."
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
-"Juego:%s no puede construir %s aun, y no podemos licenciar nuestra unica "
+"Juego: %s no puede construir %s aun, y no podemos licenciar nuestra unica "
 "ciudad."
 
 #: server/cityturn.c:1430
@@ -450,7 +451,7 @@ msgstr "Para más información sobre Freeciv visita %s"
 
 #: server/civserver.c:239
 msgid "  -f, --file F\t\tLoad saved game F\n"
-msgstr "  -f, --file F\t\t Carga el juego salvado F\n"
+msgstr "  -f, --file F\t\tCarga el juego salvado F\n"
 
 #: server/civserver.c:240
 msgid "  -g, --gamelog F\tUse F as game logfile\n"
@@ -482,7 +483,7 @@ msgstr "  -r, --read\t\tLee el script de inicio\n"
 
 #: server/civserver.c:247
 msgid "  -s, --server H\tList this server as host H\n"
-msgstr "  -s, --server S\tSe conecta al servidor S\n"
+msgstr "  -s, --server S\tLista esta servidor como sistema S\n"
 
 #: server/civserver.c:249
 msgid ""
@@ -531,7 +532,7 @@ msgstr "Aceptando nuevas conexiones."
 
 #: server/civserver.c:379
 msgid "Last player has disconnected: will need to restart."
-msgstr "El último jugador se ha desconectado: es necesario reinciar. "
+msgstr "El último jugador se ha desconectado: es necesario relanzar."
 
 #: server/civserver.c:505
 msgid "Game: The game is over..."
@@ -570,7 +571,7 @@ msgstr "El juego ya está ejecutandose."
 
 #: server/civserver.c:833
 msgid "Starting game."
-msgstr "Empezando la partida."
+msgstr "Empezando el juego."
 
 #: server/civserver.c:1145
 #, c-format
@@ -584,7 +585,7 @@ msgstr ""
 #: server/civserver.c:1151
 #, fuzzy, c-format
 msgid "%s is the %s ruler %s."
-msgstr "Este es el servidor de %s"
+msgstr "%s es el %s gobernante %s"
 
 #: server/civserver.c:1178
 msgid "Sorry, you can't play.  There are no nations left."
@@ -593,7 +594,7 @@ msgstr "Lo siento, no puedes jugar. No queda ninguna nación disponible."
 #: server/civserver.c:1181 server/civserver.c:1452
 #, c-format
 msgid "Game full - %s was rejected."
-msgstr "Juego completo -%s ha sido rechazado-"
+msgstr "Juego lleno - %s ha sido rechazado."
 
 #: server/civserver.c:1233
 #, c-format
@@ -634,15 +635,15 @@ msgstr ""
 #: server/civserver.c:1302
 #, c-format
 msgid "There are currently %d players connected:"
-msgstr "Actualmente hay %d jugadores conectados."
+msgstr "Actualmente hay %d jugadores conectados:"
 
 #: server/civserver.c:1305
 msgid "There is currently 1 player connected:"
-msgstr "Actualmente hay un sólo jugador conectado"
+msgstr "Actualmente hay un sólo jugador conectado:"
 
 #: server/civserver.c:1311 server/civserver.c:1326
 msgid " (R.I.P.)"
-msgstr " (R.I.P)"
+msgstr " (R.I.P.)"
 
 #: server/civserver.c:1312
 msgid " (AI mode)"
@@ -650,12 +651,12 @@ msgstr "  (Modo IA)"
 
 #: server/civserver.c:1318
 msgid "There is 1 other player:"
-msgstr "Hay otro jugador:"
+msgstr "Hay sólo un otro jugador:"
 
 #: server/civserver.c:1320
 #, c-format
 msgid "There are %d other players:"
-msgstr "Hay %d jugadores más:"
+msgstr "Hay %d otros jugadores:"
 
 #: server/civserver.c:1327
 msgid " (an AI player)"
@@ -674,7 +675,7 @@ msgstr "Juego: %s ha sido añadido como un jugador controlado por IA."
 #: server/civserver.c:1395
 #, c-format
 msgid "Connection request from %s with client version %d.%d.%d%s"
-msgstr ""
+msgstr "Petición de conexión de %s con la versión del cliente %d.%d.%d%s"
 
 #: server/civserver.c:1404
 #, c-format
@@ -682,11 +683,14 @@ msgid ""
 "The client is missing a capability that this server needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
+"El cliente está faltando una capacidad que este servidor necesite.\n"
+"Versión del servidor: %d.%d.%d%s Versión del cliente %d.%d.%d%s.  "
+"¡Aumentando puede ayudar!"
 
 #: server/civserver.c:1411
 #, c-format
 msgid "%s was rejected: mismatched capabilities."
-msgstr ""
+msgstr "%s fue rechazado: capacidades no emparejan."
 
 #: server/civserver.c:1419
 #, c-format
@@ -694,15 +698,18 @@ msgid ""
 "The server is missing a capability that the client needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
+"El servidor está faltando una capacidad que este servidor necesite.\n"
+"Versión del servidor: %d.%d.%d%s Versión del cliente %d.%d.%d%s.  "
+"¡Aumentando puede ayudar!"
 
 #: server/civserver.c:1426
 #, c-format
 msgid "%s was rejected: mismatched capabilities"
-msgstr ""
+msgstr "%s fue rechazado: capacidades no emparejan"
 
 #: server/civserver.c:1451 server/civserver.c:1493
 msgid "Sorry, you can't join.  The game is full."
-msgstr ""
+msgstr "Lo siento, no puedes unir.  El juego esta lleno."
 
 #. Used to have here: accept_new_player(req->name, pconn);
 #. * but duplicate names cause problems even in PRE_GAME_STATE
@@ -711,86 +718,86 @@ msgstr ""
 #.
 #: server/civserver.c:1462
 msgid "Sorry, someone else already has that name."
-msgstr ""
+msgstr "Lo siento, alguien ya tiene ese nombre."
 
 #: server/civserver.c:1464
 #, c-format
 msgid "%s was rejected, name already used."
-msgstr ""
+msgstr "%s fue rechazado, nombre ya esta usado."
 
 #: server/civserver.c:1471
 #, c-format
 msgid "You can't join the game.  %s is already connected."
-msgstr ""
+msgstr "No puedes unir.  %s ya está connectado."
 
 #: server/civserver.c:1474
 #, c-format
 msgid "%s was rejected."
-msgstr ""
+msgstr "%s fue rechazado."
 
 #: server/civserver.c:1483
 msgid "Sorry, you can't join.  The game is already running."
-msgstr ""
+msgstr "Lo siento, no puedes unir.  El juego ya está ejecutandose."
 
 #: server/civserver.c:1485
 #, c-format
 msgid "Game running - %s was rejected."
-msgstr ""
+msgstr "Juego está ejecutandose - %s fue rechazado."
 
 #: server/civserver.c:1494
 #, c-format
 msgid "game full - %s was rejected."
-msgstr ""
+msgstr "Juego lleno - %s fue rechazado."
 
 #: server/civserver.c:1516
 #, fuzzy, c-format
 msgid "Lost connection to %s."
-msgstr "¡Se ha perdido la conexión con el servidor!"
+msgstr "Se ha perdido la conexión con %s"
 
 #: server/civserver.c:1518
 #, fuzzy, c-format
 msgid "Game: Lost connection to %s."
-msgstr "¡Se ha perdido la conexión con el servidor!"
+msgstr "Juego: Se ha perdido la conexión con %s."
 
 #: server/civserver.c:1527
 #, fuzzy
 msgid "Lost connection to <unknown>."
-msgstr "¡Se ha perdido la conexión con el servidor!"
+msgstr "Se ha perdido la conexión con <desconocido>."
 
 #: server/civserver.c:1564
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
-msgstr ""
+msgstr "No hay mas naciones.  Jugador controlado por IA %s no fue creado."
 
 #: server/civserver.c:1596
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
-msgstr ""
+msgstr "Cuenta de las naciones está más pequeño de aifill; aifill reducido a %d"
 
 #: server/civserver.c:1618
 #, c-format
 msgid "Error creating new ai player: %s\n"
-msgstr ""
+msgstr "Error creando nuevo jugador IA: %s\n"
 
 #: server/civserver.c:1655
 #, fuzzy, c-format
 msgid "Player %d"
-msgstr "Jugadores"
+msgstr "Jugador %d"
 
 #. no more unused nation
 #: server/civserver.c:1671
 msgid "Argh! ran out of nations!"
-msgstr ""
+msgstr "¡Aye carumba, no hay más naciones!"
 
 #: server/civserver.c:1688
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
-msgstr ""
+msgstr "IA está controlando el %s gobernado por %s."
 
 #: server/civserver.c:1694
 #, c-format
 msgid "Game: %s rules the %s."
-msgstr ""
+msgstr "Juego: %s gobierna el %s."
 
 #: server/console.c:161
 msgid "Ok. RFC-style set."
@@ -3723,7 +3730,7 @@ msgstr "Finalizar turno"
 #: client/gui-gtk/citydlg.c:899
 #, c-format
 msgid "Pollution:   %3d"
-msgstr "Contaminación: %3d"
+msgstr "Contaminación:  %3d"
 
 #: client/gui-gtk/citydlg.c:924
 #, c-format
