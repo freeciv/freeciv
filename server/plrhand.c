@@ -1388,6 +1388,9 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
 		     get_nation_name_plural(pplayer1->nation), pplayer1->name);
     send_player_info(pplayer1, pplayer2);
     send_player_info(pplayer2, pplayer1);
+    send_player_info(pplayer1, pplayer1);
+    send_player_info(pplayer2, pplayer2);
+    return;
   }
   if (player_has_embassy(pplayer1, pplayer2)
       || player_has_embassy(pplayer2, pplayer1)) {
@@ -1561,7 +1564,7 @@ static struct player *split_player(struct player *pplayer)
   for(i = 0; i<game.num_tech_types ; i++)
     cplayer->research.inventions[i] = pplayer->research.inventions[i];
   cplayer->turn_done = TRUE; /* Have other things to think about - paralysis*/
-  cplayer->embassy = 0;   /* all embassys destroyed */
+  cplayer->embassy = 0;   /* all embassies destroyed */
 
   /* Do the ai */
 
