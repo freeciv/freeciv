@@ -245,9 +245,23 @@ void auto_arrange_workers(struct city *pcity)
       cm_query_result(pcity, &cmp, &cmr);
 
       if (!cmr.found_a_valid) {
-	/* Emergency management.  Get _some_ result. */
-        cm_init_emergency_parameter(&cmp);
+	/* Emergency management.  Get _some_ result.  This doesn't use
+	 * cm_init_emergency_parameter so we can keep the factors from
+	 * above. */
+	output_type_iterate(o) {
+	  cmp.minimal_surplus[o] = MIN(cmp.minimal_surplus[o],
+				       MIN(pcity->surplus[o], 0));
+	} output_type_iterate_end;
+	cmp.require_happy = FALSE;
+	cmp.allow_disorder = TRUE;
 	cm_query_result(pcity, &cmp, &cmr);
+
+	if (!cmr.found_a_valid) {
+	  /* Should never happen. */
+	  CITY_LOG(LOG_ERROR, pcity, "emergency management");
+	  cm_init_emergency_parameter(&cmp);
+	  cm_query_result(pcity, &cmp, &cmr);
+	}
       }
     } else {
       cmp.minimal_surplus[O_FOOD] = 0;
@@ -262,9 +276,23 @@ void auto_arrange_workers(struct city *pcity)
       }
 
       if (!cmr.found_a_valid) {
-	CITY_LOG(LOG_DEBUG, pcity, "emergency management");
-        cm_init_emergency_parameter(&cmp);
+	/* Emergency management.  Get _some_ result.  This doesn't use
+	 * cm_init_emergency_parameter so we can keep the factors from
+	 * above. */
+	output_type_iterate(o) {
+	  cmp.minimal_surplus[o] = MIN(cmp.minimal_surplus[o],
+				       MIN(pcity->surplus[o], 0));
+	} output_type_iterate_end;
+	cmp.require_happy = FALSE;
+	cmp.allow_disorder = TRUE;
 	cm_query_result(pcity, &cmp, &cmr);
+
+	if (!cmr.found_a_valid) {
+	  /* Should never happen. */
+	  CITY_LOG(LOG_ERROR, pcity, "emergency management");
+	  cm_init_emergency_parameter(&cmp);
+	  cm_query_result(pcity, &cmp, &cmr);
+	}
       }
     }
   }
