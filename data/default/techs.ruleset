@@ -9,7 +9,7 @@
 
 [datafile]
 description="Default technology data for Freeciv (as Civ2, minus a few)"
-options="1.8.2a"
+options="1.8.2a +no_a_none"
 
 ; Below: The individual advances, one per section.
 ; For now, the number of such sections must be kept the same (=89).
@@ -43,13 +43,6 @@ options="1.8.2a"
 ; "Trade_Revenue_Reduce" = When known by the player establishing a trade
 ;                          route reduces the initial revenue by cumulative
 ;                          factors of 2/3
-
-
-[advance_none]		; Don't change this one, and leave it first!
-name     = "None"
-req1     = "None"
-req2     = "None"
-flags    = ""
 
 [advance_advanced_flight]
 name     = "Advanced Flight"

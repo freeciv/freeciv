@@ -25,10 +25,13 @@ typedef int Tech_Type_id;
 */
 
 #define A_NONE 0
+#define A_FIRST 1
 #define A_LAST 89
 /*
    A_NONE is a special tech value, used as a flag in various
    cases where no tech is required.
+
+   A_FIRST is the first real tech id value
 
    A_LAST is a value which is guaranteed to be larger than all
    actual tech id values.  It is used as a flag value; it can

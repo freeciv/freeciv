@@ -341,31 +341,40 @@ static void load_ruleset_techs(char *ruleset_subdir)
   char *filename, *datafile_options;
   char **sec;
   struct advance *a;
-  int i, nval;
+  int num_techs; /* number of techs in the ruleset (means without A_NONE)*/
+  int i;
   
   filename = openload_ruleset_file(&file, ruleset_subdir, "techs");
-  datafile_options = check_ruleset_capabilities(&file, "+1.8.2a", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.8.2a +no_a_none", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* The names: */
-  sec = secfile_get_secnames_prefix(&file, "advance_", &nval);
-  if(nval != A_LAST) {
+  sec = secfile_get_secnames_prefix(&file, "advance_", &num_techs);
+  if(num_techs + A_FIRST != A_LAST) {
     /* sometime this restriction should be removed */
-    freelog(LOG_FATAL, "Bad number of techs %d (%s)", nval, filename);
+    freelog(LOG_FATAL, "Bad number of techs %d (%s)", num_techs, filename);
     exit(1);
   }
 
-  /* have to read all names first, so can lookup names for reqs! */
-  for( i=0; i<A_LAST; i++ ) {
-    a = &advances[i];
-    strcpy(a->name, secfile_lookup_str(&file, "%s.name", sec[i]));
-  }
-  
-  for( i=0; i<A_LAST; i++ ) {
-    char *sval, **slist;
-    int j,ival;
+  /* Initialize dummy tech A_NONE */
+  strcpy(advances[A_NONE].name, "None");
+  advances[A_NONE].req[0] = A_NONE;
+  advances[A_NONE].req[1] = A_NONE;
+  advances[A_NONE].flags = 0;
 
-    a = &advances[i];
+  a = &advances[A_FIRST];
+
+  /* have to read all names first, so can lookup names for reqs! */
+  for( i=0; i<num_techs; i++ ) {
+    strcpy(a->name, secfile_lookup_str(&file, "%s.name", sec[i]));
+    a++;
+  }
+
+  a = &advances[A_FIRST];
+  
+  for( i=0; i<num_techs; i++ ) {
+    char *sval, **slist;
+    int j,ival,nval;
 
     a->req[0] = lookup_tech(&file, sec[i], "req1", 0, filename, a->name);
     a->req[1] = lookup_tech(&file, sec[i], "req2", 0, filename, a->name);
@@ -399,6 +408,8 @@ static void load_ruleset_techs(char *ruleset_subdir)
       a->flags |= (1<<ival);
     }
     free(slist);
+
+    a++;
   }
 
   /* Some more consistency checking: 

@@ -9,7 +9,7 @@
 
 [datafile]
 description="Civ1-style technology data for Freeciv"
-options="1.8.2a"
+options="1.8.2a +no_a_none"
 
 ; Below: The individual advances, one per section.
 ; For now, the number of such sections must be kept the same (=89).
@@ -29,12 +29,6 @@ options="1.8.2a"
 ; Special values for req1 and req2 are "None" (first section below) 
 ; and "Never" (never available).  If only one tech is required, 
 ; it should be listed as req1.
-
-[advance_none]		; Don't change this one, and leave it first!
-name     = "None"
-req1     = "None"
-req2     = "None"
-flags    = ""
 
 [advance_advanced_flight]
 name     = "Advanced Flight"
