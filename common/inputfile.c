@@ -151,6 +151,7 @@ static void assert_sanity(struct inputfile *inf)
   assert(inf->line_num >= 0);
   assert(inf->cur_line_pos >= 0);
   assert(inf->at_eof==0 || inf->at_eof==1);
+#ifdef DEBUG
   assert(inf->cur_line.n >= 0);
   assert(inf->copy_line.n >= 0);
   assert(inf->token.n >= 0);
@@ -159,6 +160,7 @@ static void assert_sanity(struct inputfile *inf)
   assert(inf->copy_line.n_alloc >= 0);
   assert(inf->token.n_alloc >= 0);
   assert(inf->partial.n_alloc >= 0);
+#endif
 }
 
 /********************************************************************** 
@@ -263,6 +265,9 @@ static int read_a_line(struct inputfile *inf)
   astr_minsize(line, 80);
   pos = 0;
 
+  /* don't print "orig line" in warnings until we have it: */
+  inf->copy_line.n = 0;
+  
   /* Read until we get a full line:
    * At start of this loop, pos is index to trailing null
    * (or first position) in line.
@@ -291,7 +296,9 @@ static int read_a_line(struct inputfile *inf)
       line->n--;
       break;
     }
-    assert(line->n == line->n_alloc);
+    if (line->n != line->n_alloc) {
+      freelog(LOG_VERBOSE, "inputfile: expect missing newline at EOF");
+    }
     astr_minsize(line, line->n*2);
   }
   inf->line_num++;

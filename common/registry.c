@@ -406,7 +406,7 @@ int section_file_load(struct section_file *sf, char *filename)
 	sf->num_entries++;
       } while(inf_token(inf, INF_TOK_COMMA));
       
-      inf_token(inf, INF_TOK_EOL);
+      inf_token_required(inf, INF_TOK_EOL);
       table_lineno++;
       continue;
     }
@@ -441,7 +441,7 @@ int section_file_load(struct section_file *sf, char *filename)
 	
       } while(inf_token(inf, INF_TOK_COMMA));
       
-      inf_token(inf, INF_TOK_EOL);
+      inf_token_required(inf, INF_TOK_EOL);
       table_state=1;
       table_lineno=0;
       continue;
@@ -462,6 +462,7 @@ int section_file_load(struct section_file *sf, char *filename)
       entry_list_insert_back(&psection->entries, pentry);
       sf->num_entries++;
     } while(inf_token(inf, INF_TOK_COMMA));
+    inf_token_required(inf, INF_TOK_EOL);
   }
   
   if (table_state) {
