@@ -43,7 +43,6 @@
 #include "options.h"
 #include "repodlgs.h"
 #include "climisc.h"
-#include "log.h"
 
 #include "cityrep.h"
 
