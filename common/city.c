@@ -862,7 +862,8 @@ int can_build_improvement(struct city *pcity, enum improvement_type_id id)
 }
 
 /****************************************************************
-...
+Whether given city can build given unit,
+ignoring whether unit is obsolete.
 *****************************************************************/
 int can_build_unit_direct(struct city *pcity, enum unit_type_id id)
 {  
@@ -878,16 +879,13 @@ int can_build_unit_direct(struct city *pcity, enum unit_type_id id)
   return 1;
 }
 
+/****************************************************************
+Whether given city can build given unit;
+returns 0 if unit is obsolete.
+*****************************************************************/
 int can_build_unit(struct city *pcity, enum unit_type_id id)
 {  
-  struct player *p=city_owner(pcity);
-  if (!unit_type_exists(id))
-    return 0;
-  if (unit_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
-    return 0;
-  if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
-    return 0;
-  if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
+  if (!can_build_unit_direct(pcity, id))
     return 0;
   if (can_build_unit_direct(pcity, unit_types[id].obsoleted_by))
     return 0;
