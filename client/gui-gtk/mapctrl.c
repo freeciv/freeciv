@@ -373,6 +373,9 @@ gint butt_down_overviewcanvas(GtkWidget *widget, GdkEventButton *event)
 {
   int xtile, ytile;
 
+  if (event->type != GDK_BUTTON_PRESS)
+    return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
+
   xtile=event->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
   ytile=event->y/2;
   
