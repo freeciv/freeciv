@@ -645,7 +645,7 @@ void put_unit(struct unit *punit, struct canvas *pcanvas,
       canvas_put_sprite(pcanvas, canvas_x + ox, canvas_y + oy,
 			drawn_sprites[i].sprite,
 			unit_offset_x - ox, unit_offset_y - oy,
-			unit_width - ox, unit_height - oy);
+			unit_width, unit_height);
     }
   }
 
