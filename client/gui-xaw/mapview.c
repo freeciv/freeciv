@@ -102,9 +102,9 @@ static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
   *canvas_y *= NORMAL_TILE_HEIGHT;
 
   return *canvas_x >= 0
-    && *canvas_x < map_canvas_store_twidth*NORMAL_TILE_WIDTH
-    && *canvas_y >= 0
-    && *canvas_y < map_canvas_store_twidth*NORMAL_TILE_HEIGHT;
+      && *canvas_x < map_canvas_store_twidth * NORMAL_TILE_WIDTH
+      && *canvas_y >= 0
+      && *canvas_y < map_canvas_store_theight * NORMAL_TILE_HEIGHT;
 }
 
 /**************************************************************************

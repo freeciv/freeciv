@@ -308,9 +308,9 @@ static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
     *canvas_y *= NORMAL_TILE_HEIGHT;
 
     return *canvas_x >= 0
-      && *canvas_x < map_canvas_store_twidth*NORMAL_TILE_WIDTH
-      && *canvas_y >= 0
-      && *canvas_y < map_canvas_store_twidth*NORMAL_TILE_HEIGHT;
+	&& *canvas_x < map_canvas_store_twidth * NORMAL_TILE_WIDTH
+	&& *canvas_y >= 0
+	&& *canvas_y < map_canvas_store_theight * NORMAL_TILE_HEIGHT;
   }
 }
 
@@ -1551,7 +1551,7 @@ static void show_city_descriptions(void)
     int x1, y1;
     for (x1 = 0; x1 < map_canvas_store_twidth; x1++) {
       x = (map_view_x0 + x1) % map.xsize;
-      for (y1 = 0; y1 < map_canvas_store_twidth; y1++) {
+      for (y1 = 0; y1 < map_canvas_store_theight; y1++) {
 	y = map_view_y0 + y1;
 	if (normalize_map_pos(&x, &y)) {
 	  show_desc_at_tile(x, y);
