@@ -50,20 +50,32 @@ static int get_meta_list(char *errbuf, int n_errbuf);
 /**************************************************************************
 ...
 **************************************************************************/
+static gchar *ntoh_str(const gchar *netstr)
+{
+  return g_convert(netstr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void connect_callback(GtkWidget *w, gpointer data)
 {
   char errbuf [512];
+  gchar *local_server_host;
 
   sz_strlcpy(player_name, gtk_entry_get_text(GTK_ENTRY(iname)));
   sz_strlcpy(server_host, gtk_entry_get_text(GTK_ENTRY(ihost)));
-  sscanf(gtk_entry_get_text(GTK_ENTRY(iport)), "%d", &server_port);
-  
+
+  local_server_host = g_locale_from_utf8(server_host, -1, NULL, NULL, NULL);
+  server_port = atoi(gtk_entry_get_text(GTK_ENTRY(iport)));
+
   if(connect_to_server(player_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1) {
     gtk_widget_destroy(dialog);
-  }
-  else
+  } else {
     append_output_window(errbuf);
+  }
+  g_free(local_server_host);
 }
 
 /**************************************************************************
@@ -287,12 +299,12 @@ static int get_meta_list(char *errbuf, int n_errbuf)
     GtkTreeIter it;
     int i;
 
-    row[0] = g_convert(pserver->name, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-    row[1] = g_convert(pserver->port, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-    row[2] = g_convert(pserver->version, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-    row[3] = g_convert(_(pserver->status), -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-    row[4] = g_convert(pserver->players, -1,"UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-    row[5] = g_convert(pserver->metastring, -1,"UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+    row[0] = ntoh_str(pserver->name);
+    row[1] = ntoh_str(pserver->port);
+    row[2] = ntoh_str(pserver->version);
+    row[3] = _(pserver->status);
+    row[4] = ntoh_str(pserver->players);
+    row[5] = ntoh_str(pserver->metastring);
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,

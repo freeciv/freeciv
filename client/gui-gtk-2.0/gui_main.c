@@ -732,13 +732,17 @@ static unsigned char *put_conv(unsigned char *dst, const char *src)
   gsize len;
   gchar *out = g_convert(src, -1, "ISO-8859-1", "UTF-8", NULL, &len, NULL);
 
-  assert(out != NULL);
+  if (out) {
+    memcpy(dst, out, len);
+    g_free(out);
+    dst[len] = '\0';
 
-  memcpy(dst, out, len);
-  dst[len] = '\0';
-  g_free(out);
+    return dst + len + 1;
+  } else {
+    dst[0] = '\0';
 
-  return dst + len + 1;
+    return dst + 1;
+  }
 }
 
 /**************************************************************************
@@ -770,6 +774,43 @@ static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
 }
 
 /**************************************************************************
+ called from main().
+**************************************************************************/
+void ui_init(void)
+{
+#ifdef ENABLE_NLS
+  bind_textdomain_codeset(PACKAGE, "UTF-8");
+#endif
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void setup_conv(void)
+{
+  gchar *s;
+
+  /* set networking string conversion callbacks */
+  set_put_conv_callback(put_conv);
+  set_iget_conv_callback(iget_conv);
+
+  /* convert inputs */
+  s = g_locale_to_utf8(player_name, -1, NULL, NULL, NULL);
+  sz_strlcpy(player_name, s);
+  g_free(s);
+
+  /* this is silly, but i don't want the UI to barf on erroneous input */
+  s = g_locale_to_utf8(metaserver, -1, NULL, NULL, NULL);
+  sz_strlcpy(metaserver, s);
+  g_free(s);
+
+  s = g_locale_to_utf8(server_host, -1, NULL, NULL, NULL);
+  sz_strlcpy(server_host, s);
+  g_free(s);
+}
+
+
+/**************************************************************************
  called from main(), is what it's named.
 **************************************************************************/
 void ui_main(int argc, char **argv)
@@ -777,16 +818,13 @@ void ui_main(int argc, char **argv)
   GdkBitmap *icon_bitmap;
   GtkStyle *has_resources;
   PangoLanguage *lang;
-       
-  /* set networking string conversion callbacks */
-  set_put_conv_callback(put_conv);
-  set_iget_conv_callback(iget_conv);
 
+  setup_conv();
   parse_options(argc, argv);
 
   /* GTK withdraw gtk options. Process GTK arguments */
   gtk_init(&argc, &argv);
-
+  
   lang = gtk_get_default_language();
   freelog(LOG_NORMAL, "LANGUAGE=\"%s\"", pango_language_to_string(lang));
 
@@ -816,15 +854,9 @@ void ui_main(int argc, char **argv)
 
   civ_gc = gdk_gc_new(root_window);
 
-  if (!(main_font = pango_font_description_from_string("Sans Bold 13"))) {
-    freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
-    exit(EXIT_FAILURE);
-  }
-
-  if (!(city_productions_font=pango_font_description_from_string("Serif 11"))) {
-    freelog(LOG_FATAL, "failed loading font: %s", city_productions_font_name);
-    exit(EXIT_FAILURE);
-  }
+  /* font names shouldn't be in spec files! */
+  main_font = pango_font_description_from_string("Sans Bold 13");
+  city_productions_font = pango_font_description_from_string("Serif 11");
 
   fill_bg_gc = gdk_gc_new(root_window);
 
