@@ -77,7 +77,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
                    "+starter +union +iso_maps +orders2client " \
                    "+change_production +tilespec1 +no_earth +trans " \
-                   "+want_hack invasions"
+                   "+want_hack invasions killstack"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -110,6 +110,8 @@ const char * const our_capability = our_capability_internal;
  * 
  * "invasions" means ground units moving from ocean to land now lose all
  * their movement; changable by ruleset option.
+ * 
+ * "killstack" means ruleset option to ignore unit killstack effect
  */
 
 void init_our_capability(void)

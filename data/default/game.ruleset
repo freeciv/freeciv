@@ -92,3 +92,11 @@ total_factor = 100
 ;      from ocean tile to land
 [global_unit_options]
 slow_invasions = 1
+
+[combat_rules]
+; If this is set to 1, all units in the same tile of a killed unit will
+; be killed (unless they are on a fortress, airbase or city). This is the
+; freeciv default.
+; If this options is set to 0, units are killed one by one,
+; except by nuclear weapons, of course.
+killstack = 1

@@ -751,6 +751,7 @@ struct packet_ruleset_game {
   int tech_cost_style;
   int tech_leakage;
   int global_init_techs[MAX_NUM_TECH_LIST];
+  int killstack;
   int trireme_loss_chance[MAX_VET_LEVELS];
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];

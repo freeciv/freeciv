@@ -2662,6 +2662,7 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.granary_food_inc = packet->granary_food_inc;
   game.rgame.tech_cost_style = packet->tech_cost_style;
   game.rgame.tech_leakage = packet->tech_leakage;
+  game.rgame.killstack = packet->killstack;
 
   for (i = 0; i < MAX_VET_LEVELS; i++) {
     game.trireme_loss_chance[i] = packet->trireme_loss_chance[i];

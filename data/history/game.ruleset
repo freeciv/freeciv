@@ -84,3 +84,11 @@ tech_leakage = 0
 improvement_factor = 1
 unit_factor = 1
 total_factor = 100
+
+[combat_rules]
+;If this is set to 1, all units in the same tile of a killed unit will
+;be killed (unless they are on a fortress, airbase or city). This is the
+;freeciv default.
+;If this options is set to 0, units are killed one by one,
+;except by nuclear weapons, of course.
+killstack               = 1

@@ -2676,6 +2676,15 @@ static void load_ruleset_game()
   lookup_tech_list(&file, "options", "global_init_techs",
 		   game.rgame.global_init_techs, filename);
 
+  /* Enable/Disable killstack */
+  game.rgame.killstack = secfile_lookup_int(&file, "combat_rules.killstack");
+  if (game.rgame.killstack != 0 && game.rgame.killstack != 1) {
+    freelog(LOG_ERROR, "Bad value %i for killstack. Using 1.",
+	    game.rgame.killstack);
+    game.rgame.killstack = 1;
+  }
+   
+	
   section_file_check_unused(&file, filename);
   section_file_free(&file);
 }
@@ -3084,6 +3093,7 @@ static void send_ruleset_game(struct conn_list *dest)
   memcpy(misc_p.global_init_techs, game.rgame.global_init_techs,
 	 sizeof(misc_p.global_init_techs));
 
+  misc_p.killstack = game.rgame.killstack;
   lsend_packet_ruleset_game(dest, &misc_p);
 }
 

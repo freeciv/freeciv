@@ -899,6 +899,9 @@ generate = "Units"
 [help_combat]
 name = _("Combat")
 text = _("\
+Default Combat Rules
+--------------------- \
+"), _("\
 When one unit attacks another unit, either the attacker will be \
 destroyed, or the defender will be destroyed -- never both (unless \
 the attacker was a missile).  The outcome depends on several \
@@ -991,6 +994,19 @@ city without City Walls, the city is reduced in size by 1.\
 If the defender loses, and is not inside a city or fortress, all \
 other units at the defender's location are destroyed along with the \
 defender.\
+")
+
+[help_combat_modifying]
+name = _(" Modifying Combat Rules")
+text = _("
+Modifying Combat Rules
+--------------------- \
+"), _("\
+The combat rules described before can be modified by changing the \
+following modifiers in game.ruleset, section combat_rules: \
+"), _("\
+ - killstack. (default: 1) If set to 0, units in the same tile of a \
+lost defender are not destroyed. \
 ")
 
 [help_combat_example_1]
