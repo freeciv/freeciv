@@ -169,11 +169,23 @@ if test x$client = xtrue; then
     FC_CHECK_X_LIB(Xmu, main)
     FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , 
         AC_MSG_ERROR(Need Xpm library; perhaps try/adjust --with-xpm-lib))
-    if test x$WITH_XAW3D = x; then
-	FC_CHECK_X_LIB(Xaw, main)
+
+    dnl Xaw or Xaw3d:
+    dnl If we specified Xaw or Xaw3d explicitly, check and require that.
+    dnl Else: Check Xaw3d first, in case Xaw is linked there.
+    dnl       If didn't find Xaw3d, check Xaw, and complain if neither.
+    if test -n "$WITH_XAW3D"; then
+	FC_CHECK_X_LIB(Xaw3d, main, , AC_MSG_ERROR(Did not find Xaw3d library))
+    elif test -n "$WITH_XAW"; then
+	FC_CHECK_X_LIB(Xaw, main, , AC_MSG_ERROR(Did not find Xaw library))
     else
-	FC_CHECK_X_LIB(Xaw3d, main)
+	FC_CHECK_X_LIB(Xaw3d, main, ,[NO_XAW3D=1])
+        if test -n "$NO_XAW3D"; then
+	    FC_CHECK_X_LIB(Xaw, main, , 
+               AC_MSG_ERROR(Did not find either Xaw or Xaw3d library))
+        fi
     fi
+
     dnl Don't do following because don't want server to link with X:
     dnl LIBS="$LIBS $X_LIBS $X_EXTRA_LIBS"
     CLIENT_CFLAGS="$X_CFLAGS"
