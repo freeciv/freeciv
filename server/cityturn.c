@@ -1377,10 +1377,10 @@ static bool disband_city(struct city *pcity)
 		     do_make_unit_veteran(pcity, pcity->currently_building),
 		     pcity->id, -1);
 
-  /* shift all the units supported by pcity (including the new unit)
-     to rcity.  transfer_city_units does not make sure no units are
-     left floating without a transport, but since all units are
-     transfered this is not a problem. */
+  /* Shift all the units supported by pcity (including the new unit)
+   * to rcity.  transfer_city_units does not make sure no units are
+   * left floating without a transport, but since all units are
+   * transferred this is not a problem. */
   transfer_city_units(pplayer, pplayer, &pcity->units_supported, rcity, pcity, -1, TRUE);
 
   notify_player_ex(pplayer, x, y, E_UNIT_BUILD,

@@ -713,7 +713,7 @@ buying and selling.\
      Of course, the owner of that city can still give it to \
 you, in which case the area around the city is shown \
 on your map.  One important thing to note: any units \
-in the field and supported by that city are also transfered \
+in the field and supported by that city are also transferred \
 (but not those sitting in other cities).  So make sure the \
 other player isn't getting a better deal than you expect.\
 ")

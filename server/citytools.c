@@ -615,10 +615,10 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 
 pplayer: The player recieving the units if they are not disbanded and
          are not in a city
-pvictim: The owner of the city the units are transfered from.
-units:   A list of units to be transfered, typically a cities unit list.
-pcity:   Default city the units are transfered to.
-exclude_city: The units cannot be transfered to this city.
+pvictim: The owner of the city the units are transferred from.
+units:   A list of units to be transferred, typically a cities unit list.
+pcity:   Default city the units are transferred to.
+exclude_city: The units cannot be transferred to this city.
 kill_outside: Units outside this range are deleted. -1 means no units
               are deleted.
 verbose: Messages are sent to the involved parties.
@@ -668,7 +668,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       transfer_unit(vunit, pcity, verbose);
     }
 
-    /* not deleting cargo as it may be carried by units transfered later.
+    /* not deleting cargo as it may be carried by units transferred later.
        no cargo deletion => no trouble with "units" list.
        In cases where the cargo can be left without transport the calling
        function should take that into account. */
@@ -765,7 +765,7 @@ static void build_free_palace(struct player *pplayer,
   struct city *pnew_capital;
 
   if (size == 0) {
-    /* The last city was removed or transfered to the enemy. R.I.P. */
+    /* The last city was removed or transferred to the enemy. R.I.P. */
     return;
   }
 
@@ -899,7 +899,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /*
    * Give the new owner infos about all cities which have a traderoute
-   * with the transfered city.
+   * with the transferred city.
    */
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     struct city *pother_city = find_city_by_id(pcity->trade[i]);
