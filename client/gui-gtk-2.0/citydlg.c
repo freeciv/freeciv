@@ -523,12 +523,12 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   GtkCellRenderer *rend;
   GtkListStore *store;
 
-  char *tab_title = _("Overview");
+  char *tab_title = _("_Overview");
 
   page = gtk_vbox_new(FALSE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
 
-  label = gtk_label_new(tab_title);
+  label = gtk_label_new_with_mnemonic(tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -738,8 +738,8 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
 *****************************************************************/
 static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
-  char *tab_title = _("Production");
-  GtkWidget *label = gtk_label_new(tab_title);
+  char *tab_title = _("Pro_duction");
+  GtkWidget *label = gtk_label_new_with_mnemonic(tab_title);
   GtkWidget *page, *hbox, *editor, *bar;
 
   page = gtk_vbox_new(FALSE, 0);
@@ -789,12 +789,12 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *vbox, *label, *table, *align;
-  char *tab_title = _("Happiness");
+  char *tab_title = _("_Happiness");
 
   page = gtk_hbox_new(FALSE, 6);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
 
-  label = gtk_label_new(tab_title);
+  label = gtk_label_new_with_mnemonic(tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -840,11 +840,11 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 static void create_and_append_cma_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *label;
-  char *tab_title = _("CMA");
+  char *tab_title = _("C_MA");
 
   page = gtk_vbox_new(FALSE, 0);
 
-  label = gtk_label_new(tab_title);
+  label = gtk_label_new_with_mnemonic(tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -860,11 +860,11 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 static void create_and_append_trade_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *label;
-  char *tab_title = _("Trade Routes");
+  char *tab_title = _("_Trade Routes");
 
   page = gtk_hbox_new(TRUE, 0);
 
-  label = gtk_label_new(tab_title);
+  label = gtk_label_new_with_mnemonic(tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -886,7 +886,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   GtkSizeGroup *size;
   GSList *group;
 
-  char *tab_title = _("Settings");
+  char *tab_title = _("_Settings");
 
   static char *new_citizens_label[] = {
     N_("Entertainers"),
@@ -926,7 +926,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   
   size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
   
-  label = gtk_label_new(tab_title);
+  label = gtk_label_new_with_mnemonic(tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
