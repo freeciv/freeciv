@@ -2049,12 +2049,14 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.c%d.turn_last_built", plrno, i);
     secfile_insert_bool(file, pcity->changed_from_is_unit,
 		       "player%d.c%d.changed_from_is_unit", plrno, i);
-    secfile_insert_int(file, pcity->changed_from_id,
-		       "player%d.c%d.changed_from_id", plrno, i);
     if (pcity->changed_from_is_unit) {
+      secfile_insert_int(file, old_unit_type_id(pcity->changed_from_id),
+		         "player%d.c%d.changed_from_id", plrno, i);
       secfile_insert_str(file, unit_name_orig(pcity->changed_from_id),
                          "player%d.c%d.changed_from_name", plrno, i);
     } else {
+      secfile_insert_int(file, old_impr_type_id(pcity->changed_from_id),
+		         "player%d.c%d.changed_from_id", plrno, i);    
       secfile_insert_str(file, get_improvement_name_orig(
                                  pcity->changed_from_id),
                          "player%d.c%d.changed_from_name", plrno, i);
