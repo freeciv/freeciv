@@ -269,6 +269,8 @@ struct player *get_player(int player_id);
 bool is_valid_player_id(int player_id);
 int get_num_human_and_ai_players(void);
 
+const char *population_to_text(int thousand_citizen);
+
 extern struct civ_game game;
 extern bool is_server;
 

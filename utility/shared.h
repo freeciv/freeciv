@@ -170,8 +170,9 @@ char * get_option(const char *option_name,char **argv,int *i,int argc);
 bool is_option(const char *option_name,char *option);
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
 	       const char *delimiterset);
-const char *int_to_text(int nr);
-const char *population_to_text(int thousand_citizen);
+
+const char *big_int_to_text(unsigned int mantissa, unsigned int exponent);
+const char *int_to_text(unsigned int number);
 
 bool is_sane_name(const char *name);
 const char *textyear(int year);

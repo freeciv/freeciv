@@ -277,44 +277,51 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
 /***************************************************************
   Returns a statically allocated string containing a nicely-formatted
   version of the given number according to the user's locale.  (Only
-  works for numbers >= zero.) The actually number used for the
-  formatting is: nr*10^decade_exponent
+  works for numbers >= zero.)  The number is given in scientific notation
+  as mantissa * 10^exponent.
 ***************************************************************/
-static const char *general_int_to_text(int nr, int decade_exponent)
+const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
 {
   static char buf[64]; /* Note that we'll be filling this in right to left. */
   char *grp = grouping;
   char *ptr;
-  int cnt;
+  unsigned int cnt = 0;
 
-  assert(nr >= 0);
-  assert(decade_exponent >= 0);
+#if 0 /* Not needed while the values are unsigned. */
+  assert(mantissa >= 0);
+  assert(exponent >= 0);
+#endif
 
-  if (nr == 0) {
+  if (mantissa == 0) {
     return "0";
   }
 
+  /* We fill the string in backwards, starting from the right.  So the first
+   * thing we do is terminate it. */
   ptr = &buf[sizeof(buf)];
   *(--ptr) = '\0';
 
-  cnt = 0;
-  while (nr != 0 && decade_exponent >= 0) {
+  while (mantissa != 0 && exponent >= 0) {
     int dig;
 
-    assert(ptr > buf);
-
-    if (decade_exponent > 0) {
-      dig = 0;
-      decade_exponent--;
-    } else {
-      dig = nr % 10;
-      nr /= 10;
+    if (ptr <= buf + grouping_sep_len) {
+      /* Avoid a buffer overflow. */
+      assert(ptr > buf + grouping_sep_len);
+      return ptr;
     }
 
+    /* Add on another character. */
+    if (exponent > 0) {
+      dig = 0;
+      exponent--;
+    } else {
+      dig = mantissa % 10;
+      mantissa /= 10;
+    }
     *(--ptr) = '0' + dig;
 
     cnt++;
-    if (nr != 0 && cnt == *grp) {
+    if (mantissa != 0 && cnt == *grp) {
       /* Reached count of digits in group: insert separator and reset count. */
       cnt = 0;
       if (*grp == CHAR_MAX) {
@@ -336,20 +343,12 @@ static const char *general_int_to_text(int nr, int decade_exponent)
 }
 
 
-/***************************************************************
-...
-***************************************************************/
-const char *int_to_text(int nr)
+/****************************************************************************
+  Return a prettily formatted string containing the given number.
+****************************************************************************/
+const char *int_to_text(unsigned int number)
 {
-  return general_int_to_text(nr, 0);
-}
-
-/***************************************************************
-...
-***************************************************************/
-const char *population_to_text(int thousand_citizen)
-{
-  return general_int_to_text(thousand_citizen, 3);
+  return big_int_to_text(number, 0);
 }
 
 /***************************************************************

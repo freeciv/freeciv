@@ -590,3 +590,16 @@ void translate_data_names(void)
 #undef name_strlcpy
 
 }
+
+/****************************************************************************
+  Return a prettily formatted string containing the population text.  The
+  population is passed in as the number of citizens, in thousands.
+****************************************************************************/
+const char *population_to_text(int thousand_citizen)
+{
+  /* big_int_to_text can't handle negative values, and in any case we'd
+   * better not have a negative population. */
+  assert(thousand_citizen >= 0);
+  return big_int_to_text(thousand_citizen, 3);
+}
+
