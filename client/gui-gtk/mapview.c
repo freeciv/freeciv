@@ -183,9 +183,9 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y,
       }
 
       if (pplayer) {
-        gdk_gc_set_foreground(thin_line_gc,
+        gdk_gc_set_foreground(fill_bg_gc,
 			      colors_standard[player_color(pplayer)]);
-        gdk_draw_rectangle(pm, thin_line_gc, TRUE,
+        gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
 			   canvas_x, canvas_y,
 			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
       }
