@@ -292,7 +292,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
 {
   int i;
   struct unit_list *plist;
-  struct genlist_iterator myiter;
+  struct genlist_link *myiter;
   struct unit *punit;
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
@@ -307,8 +307,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
   } else {
     plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
   }
-  
-  genlist_iterator_init(&myiter, &(plist->list), 0);
+  myiter = plist->list.head_link; 
   
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++)
     {
@@ -348,7 +347,7 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
 {
   int i;
   struct unit_list *plist;
-  struct genlist_iterator myiter;
+  struct genlist_link *myiter;
   struct unit *punit;    
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
@@ -362,7 +361,7 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
   } else {
     plist = &(pdialog->pcity->units_supported);
   }      
-  genlist_iterator_init(&myiter, &(plist->list), 0); 
+  myiter = plist->list.head_link;
      
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++)
     {
@@ -1110,7 +1109,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	case ID_PRODCHANGE_CHANGE:
 	  if (sel>=0)
 	    {
-	      city_change_production(pdialog->pcidy, is_unit, idx);
+	      city_change_production(pdialog->pcity, is_unit, idx);
 	      DestroyWindow(hWnd);
 	    }
 	  break;
@@ -1960,11 +1959,10 @@ static void initialize_city_dialogs(void)
 
 struct city_dialog *get_city_dialog(struct city *pcity)
 {   
-  struct genlist_iterator myiter;
+  struct genlist_link *myiter;
   if (!city_dialogs_have_been_initialised)
     initialize_city_dialogs();
-    
-  genlist_iterator_init(&myiter, &dialog_list, 0);
+  myiter = dialog_list.head_link;  
   
   for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
     if(((struct city_dialog *)ITERATOR_PTR(myiter))->pcity==pcity)
@@ -2034,15 +2032,14 @@ popdown_all_city_dialogs(void)
 **************************************************************************/
 void citydlg_tileset_change(void)
 {
-  
-  struct genlist_iterator myiter;
+  struct genlist_link *myiter;
   if (!city_dialogs_have_been_initialised)
     initialize_city_dialogs();
 
   city_map_width = get_citydlg_canvas_width();
   city_map_height = get_citydlg_canvas_height();
 
-  genlist_iterator_init(&myiter, &dialog_list, 0);
+  myiter = dialog_list.head_link;
   for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     HDC hdc;
     struct city_dialog *pdialog = (struct city_dialog *)ITERATOR_PTR(myiter);

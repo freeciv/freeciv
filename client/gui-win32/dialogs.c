@@ -450,7 +450,7 @@ static void add_nations(struct fcwin_box *vbox)
   struct fcwin_box *hbox;
   struct fcwin_box *vboxes[NATIONS_PER_ROW];
   struct genlist nation_list;
-  struct genlist_iterator myiter;
+  struct genlist_link *myiter;
   genlist_init(&nation_list);
   for(i=0; i<game.playable_nation_count; i++) { 
     /* Don't use a NULL pointer */
@@ -460,7 +460,7 @@ static void add_nations(struct fcwin_box *vbox)
   for(i=0;i<NATIONS_PER_ROW;i++) {  
     vboxes[i]=fcwin_vbox_new(races_dlg,TRUE);
   }
-  genlist_iterator_init(&myiter,&nation_list,0);
+  myiter = nation_list.head_link;
   i=0;
   for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter),i++) {
     int id;
