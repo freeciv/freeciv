@@ -850,13 +850,7 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   /* Make sure to set this back to NULL before leaving this function: */
   pplayer->current_conn = pconn;
 
-  switch (type) {
-    /* 
-     * We now include a number of case statements. Each statement
-     * calls the corresponding handle_packet_* function. 
-     */
-#include "srv_main_gen.c"
-  default:
+  if (!server_handle_packet(type, packet, pplayer, pconn)) {
     freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	    type, conn_description(pconn));
   }

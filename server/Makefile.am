@@ -42,6 +42,7 @@ libcivserver_a_SOURCES = \
 		handchat.c	\
 		handchat.h	\
 		hand_gen.h	\
+		hand_gen.c	\
 		mapgen.c	\
 		mapgen.h	\
 		maphand.c	\
@@ -74,10 +75,6 @@ libcivserver_a_SOURCES = \
 		unithand.h	\
 		unittools.c	\
 		unittools.h
-
-# HACK HACK HACK: this is not really a .c file, so we can't add it to the
-# SOURCES list.  It should be a .h file.  See also civclient_gen.c.
-EXTRA_DIST = srv_main_gen.c
 
 civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a ../common/aicore/libaicore.a $(USER_DB_DEP)
 civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLLIBS@ ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a ../common/aicore/libaicore.a $(USER_DB_LIB) $(SERVER_LIBS)

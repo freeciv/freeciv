@@ -10,6 +10,15 @@
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
 
+struct player;
+struct connection;
+
+#include "packets.h"
+#include "shared.h"
+
+bool server_handle_packet(enum packet_type type, void *packet,
+			  struct player *pplayer, struct connection *pconn);
+
 void handle_nation_select_req(struct player *pplayer, Nation_Type_id nation_no, bool is_male, char *name, int city_style);
 void handle_chat_msg_req(struct connection *pc, char *message);
 void handle_city_sell(struct player *pplayer, int city_id, int build_id);

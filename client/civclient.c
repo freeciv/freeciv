@@ -270,16 +270,9 @@ void ui_exit(void)
 **************************************************************************/
 void handle_packet_input(void *packet, int type)
 {
-  switch(type) {
-    /* 
-     * We now include a number of case statements. Each statement
-     * calls the corresponding handle_packet_* function. 
-     */
-#include "civclient_gen.c"
-
-  default:
-    freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
-    break;
+  if (!client_handle_packet(type, packet)) {
+    freelog(LOG_ERROR, "Received unknown packet (type %d) from server!",
+	    type);
   }
 
   free(packet);

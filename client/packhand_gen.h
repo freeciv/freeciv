@@ -6,6 +6,15 @@
  *                       DO NOT CHANGE THIS FILE                             *
  ****************************************************************************/
 
+
+#ifndef FC__PACKHAND_GEN_H
+#define FC__PACKHAND_GEN_H
+
+#include "packets.h"
+#include "shared.h"
+
+bool client_handle_packet(enum packet_type type, void *packet);
+
 void handle_processing_started(void);
 void handle_processing_finished(void);
 void handle_freeze_hint(void);
@@ -83,3 +92,5 @@ struct packet_ruleset_terrain;
 void handle_ruleset_terrain(struct packet_ruleset_terrain *packet);
 struct packet_ruleset_control;
 void handle_ruleset_control(struct packet_ruleset_control *packet);
+
+#endif /* FC__PACKHAND_GEN_H */

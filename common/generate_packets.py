@@ -1422,6 +1422,15 @@ static int stats_total_sent;
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
 
+struct player;
+struct connection;
+
+#include "packets.h"
+#include "shared.h"
+
+bool server_handle_packet(enum packet_type type, void *packet,
+			  struct player *pplayer, struct connection *pconn);
+
 ''')
     
     for p in packets:
@@ -1447,6 +1456,16 @@ static int stats_total_sent;
     f.close()
 
     f=my_open("../client/packhand_gen.h")
+    f.write('''
+#ifndef FC__PACKHAND_GEN_H
+#define FC__PACKHAND_GEN_H
+
+#include "packets.h"
+#include "shared.h"
+
+bool client_handle_packet(enum packet_type type, void *packet);
+
+''')
     for p in packets:
         if "sc" not in p.dirs: continue
 
@@ -1462,9 +1481,23 @@ static int stats_total_sent;
             f.write('void handle_%s(struct %s *packet);\n'%(a,p.name))
         else:
             f.write('void handle_%s(%s);\n'%(a,b))
+    f.write('''
+#endif /* FC__PACKHAND_GEN_H */
+''')
     f.close()
 
-    f=my_open("../server/srv_main_gen.c")
+    f=my_open("../server/hand_gen.c")
+    f.write('''
+
+#include "packets.h"
+
+#include "hand_gen.h"
+    
+bool server_handle_packet(enum packet_type type, void *packet,
+			  struct player *pplayer, struct connection *pconn)
+{
+  switch(type) {
+''')
     for p in packets:
         if "cs" not in p.dirs: continue
         if p.no_handle: continue
@@ -1490,12 +1523,27 @@ static int stats_total_sent;
 
         f.write('''  case %s:
     handle_%s(%s);
-    break;
+    return TRUE;
 
 '''%(p.type,a,args))
+    f.write('''  default:
+    return FALSE;
+  }
+}
+''')
     f.close()
 
-    f=my_open("../client/civclient_gen.c")
+    f=my_open("../client/packhand_gen.c")
+    f.write('''
+
+#include "packets.h"
+
+#include "packhand_gen.h"
+    
+bool client_handle_packet(enum packet_type type, void *packet)
+{
+  switch(type) {
+''')
     for p in packets:
         if "sc" not in p.dirs: continue
         if p.no_handle: continue
@@ -1518,9 +1566,14 @@ static int stats_total_sent;
 
         f.write('''  case %s:
     handle_%s(%s);
-    break;
+    return TRUE;
 
 '''%(p.type,a,args))
+    f.write('''  default:
+    return FALSE;
+  }
+}
+''')
     f.close()
 
 main()
