@@ -108,7 +108,7 @@ SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE)
 
 bin_PROGRAMS = civclient
 
-INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl @CLIENT_CFLAGS@
+INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl
 
 civclient_SOURCES =  	civclient.c		civclient.h		climisc.c		climisc.h		clinet.c		clinet.h		control.c		control.h		helpdata.c		helpdata.h		packhand.c		packhand.h		options.c		options.h		tilespec.c		tilespec.h
 
