@@ -592,10 +592,12 @@ static inline bool DIR_IS_CARDINAL(enum direction8 dir)
     return TRUE;
   case DIR8_SOUTHEAST:
   case DIR8_NORTHWEST:
-    return !(topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO));
+    /* These directions are cardinal in hexagonal topologies. */
+    return topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO);
   case DIR8_NORTHEAST:
   case DIR8_SOUTHWEST:
-    return !(topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO));
+    /* These directions are cardinal in iso-hex topologies. */
+    return topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO);
   }
   return FALSE;
 }
