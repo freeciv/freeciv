@@ -11,6 +11,11 @@
 ; work against the AI, since it knows all. It does not know anything 
 ; about air units at all. It does not build No_Land_Attack, Missile 
 ; or Nuclear units.
+;
+; You should sort role units from worst to better, as often the best
+; available role unit of a given sort will be picked by choosing
+; the first available (not obsolete) such unit, or by picking the last
+; such unit directly.
 
 [datafile]
 description="Default unit_type data for Freeciv"
@@ -55,6 +60,7 @@ firepower_factor=1     ; Multiply firepower by this value. Set it
 ; fuel          = number of turns air units can fly before they crash. For
 ;                 barbarians this is used as lifetime instead
 ; uk_*          = upkeep costs, these are used as base values in the game
+;		  (NOTE: gold upkeep is still not implemented)
 ; flags         = special flag strings
 ; roles         = special role strings
 ; sound_move	= optional sound effect when the unit moves
@@ -68,7 +74,8 @@ firepower_factor=1     ; Multiply firepower by this value. Set it
 ;
 ; ** Flags **
 ;
-; "Caravan"	= can establish trade routes and help build wonders
+; "HelpWonder"	= can help build wonders
+; "TradeRoute"	= can establish trade routes
 ; "Missile"	= (air only) some buildings and units have higher defence 
 ;                  against these
 ; "IgZOC"	= (land only) ignore Zones of Control (ZOC)
@@ -111,8 +118,7 @@ firepower_factor=1     ; Multiply firepower by this value. Set it
 ;
 ; ** Roles **
 ;
-; "FirstBuild"	= first unit to be built when city founded (only one unit can
-;                 have this flag)
+; "FirstBuild"	= first to be built when city founded
 ; "Explorer"	= initial explorer unit (only one unit can have this flag)
 ; "Hut"		= can be found in a hut
 ; "HutTech"	= can be found in a hut, but its techs required
