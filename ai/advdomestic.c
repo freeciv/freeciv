@@ -429,6 +429,9 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     virtualunit.moves_left = unit_types[virtualunit.type].move_rate;
     virtualunit.hp = 20;
     want = auto_settler_findwork(pplayer, &virtualunit);
+    unit_list_iterate(pplayer->units, qpass)
+      if (qpass->ai.ferryboat == pcity->id) want = -199;
+    unit_list_iterate_end;
 
     if (want > 0) {
 /*      printf("%s (%d, %d) desires settlers with passion %d\n", pcity->x, pcity->y, pcity->name, want);*/
@@ -439,6 +442,26 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       }
       choice->want = want;
       choice->type = 1;
+    } else if (want < 0) { /* need boats to colonize! */
+      choice->want = 0 - want;
+      choice->type = 1;
+      if (can_build_unit(pcity, U_TRANSPORT)) choice->choice = U_TRANSPORT;
+      else {
+        pplayer->ai.tech_want[A_INDUSTRIALIZATION] += choice->want;
+        if (can_build_unit(pcity, U_GALLEON)) choice->choice = U_GALLEON;
+        else {
+          pplayer->ai.tech_want[A_MAGNETISM] += choice->want;
+          if (can_build_unit(pcity, U_CARAVEL)) choice->choice = U_CARAVEL;
+          else {
+            pplayer->ai.tech_want[A_NAVIGATION] += choice->want;
+            if (can_build_unit(pcity, U_TRIREME)) choice->choice = U_TRIREME;
+            else {
+              pplayer->ai.tech_want[A_MAPMAKING] += choice->want;
+              choice->choice = U_SETTLERS;
+            }
+          }
+        }
+      } /* yeah, this is ugly code.  Thbbbbbbpt. -- Syela */
     }
   }
 
