@@ -1044,7 +1044,7 @@ void update_menus(void)
                           can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menus_set_sensitive("<main>/Orders/Connect",
                           can_unit_do_connect(punit, ACTIVITY_IDLE));
-      menus_set_sensitive("<main>/Orders/Patrol",
+      menus_set_sensitive("<main>/Orders/Patrol (Q)",
                           can_unit_do_activity(punit, ACTIVITY_PATROL)
                           && has_capability("activity_patrol", aconnection.capability));
       menus_set_sensitive("<main>/Orders/Diplomat|Spy Actions",
