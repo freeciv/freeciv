@@ -901,6 +901,7 @@ void handle_unit_establish_trade(struct player *pplayer,
       int revenue;
 
       revenue=establish_trade_route(pcity_homecity, pcity_dest);
+      connection_do_buffer(pplayer->conn);
       notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
 		       "Game: Your %s has arrived in %s, and revenues amount to %d in gold.", 
 		       unit_name(punit->type), pcity_dest->name, revenue);
@@ -911,6 +912,7 @@ void handle_unit_establish_trade(struct player *pplayer,
       city_refresh(pcity_dest);
       send_city_info(pplayer, pcity_homecity, 0);
       send_city_info(city_owner(pcity_dest), pcity_dest, 0);
+      connection_do_unbuffer(pplayer->conn);
     }
   }
 }
