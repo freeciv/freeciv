@@ -220,8 +220,6 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 **************************************************************************/
 void set_overview_dimensions(int x, int y)
 {
-  gtk_widget_set_usize(overview_canvas, 2*x, 2*y);
-
   overview_canvas_store_width=2*x;
   overview_canvas_store_height=2*y;
 
@@ -232,6 +230,12 @@ void set_overview_dimensions(int x, int y)
 			  overview_canvas_store_width,
 			  overview_canvas_store_height, -1);
 
+  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
+		     0, 0,
+		     overview_canvas_store_width, overview_canvas_store_height);
+
+  gtk_widget_set_usize(overview_canvas, 2*x, 2*y);
   update_map_canvas_scrollbars_size();
 }
 
@@ -793,10 +797,11 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
   		    tile_height*NORMAL_TILE_HEIGHT,
   		    -1 );
   				 
-    gdk_draw_rectangle( map_canvas_store, fill_bg_gc, TRUE,
-  		    0, 0,
-  		    NORMAL_TILE_WIDTH*map_canvas_store_twidth,
-  		    NORMAL_TILE_HEIGHT*map_canvas_store_theight );
+    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE,
+		       0, 0,
+		       NORMAL_TILE_WIDTH*map_canvas_store_twidth,
+		       NORMAL_TILE_HEIGHT*map_canvas_store_theight );
     update_map_canvas_scrollbars_size();
     map_resized=TRUE;
   }
@@ -977,12 +982,12 @@ static void show_city_descriptions(void)
 
 	  if (pcity->is_building_unit) {
 	    punit_type = get_unit_type(pcity->currently_building);
-	    my_snprintf(buffer, sizeof(buffer), "%s %d",
+	    my_snprintf(buffer, sizeof(buffer), "(%s %d)",
 			punit_type->name, turns);
 	  } else {
 	    pimprovement_type =
 		get_improvement_type(pcity->currently_building);
-	    my_snprintf(buffer, sizeof(buffer), "%s %d",
+	    my_snprintf(buffer, sizeof(buffer), "(%s %d)",
 			pimprovement_type->name, turns);
 	  }
 	  if (draw_city_names)
