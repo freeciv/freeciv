@@ -44,7 +44,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "worklist.h"
-
+#include "climisc.h"
 #include "clinet.h"
 
 #include "wldlg.h"
@@ -837,19 +837,11 @@ void worklist_avail_callback(Widget w, XtPointer client_data,
 /****************************************************************
 
 *****************************************************************/
-void insert_into_worklist(struct worklist_dialog *pdialog, 
-			  int before, int id)
+void insert_into_worklist(struct worklist_dialog *pdialog,
+			  int before, cid cid)
 {
   int i, first_free;
-  int target, is_unit;
-
-  if (id >= B_LAST) {
-    target = id - B_LAST;
-    is_unit = 1;
-  } else {
-    target = id;
-    is_unit = 0;
-  }
+  int target = cid_id(cid), is_unit = cid_is_unit(cid);
 
   /* If this worklist is a city worklist, double check that the city
      really can (eventually) build the target.  We've made sure that
@@ -893,7 +885,7 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
   pdialog->worklist_ids[first_free] = WORKLIST_END;
   pdialog->worklist_names_ptrs[first_free] = NULL;
 
-  pdialog->worklist_ids[before] = id;
+  pdialog->worklist_ids[before] = cid;
   
   worklist_id_to_name(pdialog->worklist_names[before],
 		      target, is_unit, pdialog->pcity);
@@ -969,11 +961,11 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
   } else if (retAvail->list_index >= 
 	     pdialog->worklist_avail_num_improvements) {
     /* target is an improvement or wonder */
-    insert_into_worklist(pdialog, where, target+B_LAST);
+    insert_into_worklist(pdialog, where, cid_encode(1, target));
     where++;
   } else {
     /* target is a unit */
-    insert_into_worklist(pdialog, where, target);
+    insert_into_worklist(pdialog, where, cid_encode(0, target));
     where++;
   }
 
@@ -1177,13 +1169,9 @@ void worklist_worklist_help_callback(Widget w, XtPointer client_data,
 
   ret = XawListShowCurrent(pdialog->worklist);
   if(ret->list_index!=XAW_LIST_NONE) {
-    id = pdialog->worklist_ids[ret->list_index];
-    if (id >= B_LAST) {
-      id -= B_LAST;
-      is_unit = 1;
-    } else {
-      is_unit = 0;
-    }
+    cid cid = pdialog->worklist_ids[ret->list_index];
+    is_unit = cid_is_unit(cid);
+    id = cid_id(cid);
   } else {
     id = -1;
   }

@@ -175,52 +175,6 @@ LONG APIENTRY ConfigCityRepProc(HWND hWnd,
 /**************************************************************************
 
 **************************************************************************/
-
-static int city_can_build_impr_or_unit(struct city *pcity, int number)
-{
-  if(number >= B_LAST)
-    return can_build_unit(pcity, number - B_LAST);
-  else
-    return can_build_improvement(pcity, number);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-static int
-city_unit_supported(struct city *pcity, int unit)
-{
-  struct unit_list *punit_list = &pcity->units_supported;
- 
-  unit_list_iterate((*punit_list), punit)
-  {
-      if(punit->type == unit - B_LAST)
-        return TRUE;
-    } unit_list_iterate_end;
-  return FALSE;
-}
- 
-/**************************************************************************
-
-**************************************************************************/
-static int 
-city_unit_present(struct city *pcity, int unit)
-{
-  struct unit_list *punit_list = &map_get_tile(pcity->x,pcity->y)->units;
- 
-  unit_list_iterate((*punit_list), punit)
-  {
-      if(punit->type == unit - B_LAST)
-        return TRUE;
-    } unit_list_iterate_end;
-  return FALSE;
-}
-           
-
-   
-/**************************************************************************
-
-**************************************************************************/
 static void
 append_impr_or_unit_to_menu_sub(HMENU menu,
 				char *nothing_appended_text,
@@ -232,7 +186,7 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
 				int selcount, int *idcount)
 {  
   char label[512];
-  int i;
+  int cid;
   int first = append_units ? B_LAST : 0;
   int last = append_units ? game.num_unit_types + B_LAST : B_LAST;
   int something_appended = FALSE; 
@@ -240,19 +194,20 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
   MENUITEMINFO iteminfo;
   
   
-  for(i=first; i<last; i++)
+  for(cid=first; cid<last; cid++)
     {
       int append = FALSE;
+      int id = cid_id(cid);
 
       /* Those many ! are to ensure TRUE is 1 and FALSE is 0 */
-      if( !append_units && ( !append_wonders != !is_wonder(i) ) )
+      if( !append_units && ( !append_wonders != !is_wonder(id) ) )
         continue;
 
       if(!change_prod)
         {  
           city_list_iterate(game.player_ptr->cities, pcity) 
             {
-              append |= test_func(pcity, i);    
+              append |= test_func(pcity, cid);
             } city_list_iterate_end;
         }
       else
@@ -263,7 +218,7 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
 	      struct city *pcity;
 	      pcity=(struct city *)ListBox_GetItemData(hList,
 						       selitems[j]);
-	      append|=test_func(pcity,i);
+	      append|=test_func(pcity,cid);
 	    }
         }
       if(append) 
@@ -273,21 +228,23 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
           
           if(append_units)
             {
-              cost = get_unit_type(i-B_LAST)->build_cost;
-              name = get_unit_name(i-B_LAST);
+              cost = get_unit_type(id)->build_cost;
+              name = get_unit_name(id);
             }
           else
             {
-              cost = (i==B_CAPITAL) ? -1 : get_improvement_type(i)->build_cost;
+	      cost =
+		  (id ==
+		   B_CAPITAL) ? -1 : get_improvement_type(id)->build_cost;
               if(append_wonders)
                 {
                   /* We need a city to get the right name for wonders */
                   struct city *pcity = (struct city *)
 		    ListBox_GetItemData(hList,0);
-                  name = get_impr_name_ex(pcity, i);
+                  name = get_impr_name_ex(pcity, id);
                 }
               else
-                name = get_improvement_name(i);
+                name = get_improvement_name(id);
             }
           something_appended = TRUE;
 
@@ -304,7 +261,7 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
           else
             AppendMenu(menu,MF_STRING,(*idcount),name);
           
-          iteminfo.dwItemData=i;
+	  iteminfo.dwItemData = cid;
 	  iteminfo.fMask=MIIM_DATA;
 	  iteminfo.cbSize=sizeof(MENUITEMINFO);
 	  SetMenuItemInfo(menu,(*idcount),FALSE,&iteminfo);
@@ -596,16 +553,15 @@ static void cityrep_select(HWND hWnd)
 /**************************************************************************
 
 **************************************************************************/
-static void cityrep_change_menu(HWND hWnd,int number)
+static void cityrep_change_menu(HWND hWnd, cid cid)
 {  
   int cityids[256];
   int selcount;
   int i;
   struct city *pcity; 
-  int is_unit = number >= B_LAST; 
+  int is_unit = cid_is_unit(cid);
+  int number = cid_id(cid);
   
-  if (is_unit)
-    number -= B_LAST;   
   selcount=ListBox_GetSelCount(GetDlgItem(hWnd,ID_CITYREP_LIST));
   if (selcount==LB_ERR) return;
   selcount=MIN(256,selcount);
@@ -789,7 +745,8 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
 	  break;
 	case ID_PRODCHANGE_CHANGE:
 	  {
-	    int from,to,id;
+	    int id;
+	    cid from, to;
 	    char buf[512];
 	    id=ListBox_GetCurSel(GetDlgItem(hWnd,ID_PRODCHANGE_FROM));
 	    if (id==LB_ERR)
@@ -812,14 +769,13 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
 	      append_output_window(_("Game: That's the same thing!"));
 	      break;
 	    }        
-	    my_snprintf(buf, sizeof(buf),
-			_("Game: Changing production of every %s into %s."),
-			(from >= B_LAST) ?
-			get_unit_type(from-B_LAST)->name :
-			get_improvement_name(from),
-			(to >= B_LAST) ?
-			get_unit_type(to-B_LAST)->name : 
-			get_improvement_name(to));
+	    my_snprintf(buf, sizeof(buf), _("Game: Changing production "
+					    "of every %s into %s."),
+			cid_is_unit(from) ?
+			get_unit_type(cid_id(from))->name :
+			get_improvement_name(cid_id(from)),
+			cid_is_unit(to) ? get_unit_type(cid_id(to))->name :
+			get_improvement_name(cid_id(to)));
 	    
 	    append_output_window(buf);    
 	    client_change_all(from,to);

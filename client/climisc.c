@@ -263,36 +263,14 @@ void climap_update_continents(int x, int y)
 }
 
 /**************************************************************************
-Change all cities building X to building Y, if possible.
-X and Y could be improvements or units; improvements are
-specified by the id, units are specified by unit id + B_LAST
+Change all cities building X to building Y, if possible.  X and Y
+could be improvements or units. X and Y are compound ids.
 **************************************************************************/
-void client_change_all(int x, int y)
+void client_change_all(cid x, cid y)
 {
-  int fr_id, to_id, fr_is_unit, to_is_unit;
+  int fr_id = cid_id(x), to_id = cid_id(y);
+  int fr_is_unit = cid_is_unit(x), to_is_unit = cid_is_unit(y);
   struct packet_city_request packet;
-
-  if (x < B_LAST)
-    {
-      fr_id = x;
-      fr_is_unit = FALSE;
-    }
-  else
-    {
-      fr_id = x - B_LAST;
-      fr_is_unit = TRUE;
-    }
-
-  if (y < B_LAST)
-    {
-      to_id = y;
-      to_is_unit = FALSE;
-    }
-  else
-    {
-      to_id = y - B_LAST;
-      to_is_unit = TRUE;
-    }
 
   city_list_iterate (game.player_ptr->cities, pcity) {
     if (((fr_is_unit &&
@@ -601,4 +579,75 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
   }
 
   return num_activities;
+}
+
+cid cid_encode(int is_unit, int id)
+{
+  return id + (is_unit ? B_LAST : 0);
+}
+
+cid cid_encode_from_city(struct city * pcity)
+{
+  return cid_encode(pcity->is_building_unit, pcity->currently_building);
+}
+
+void cid_decode(cid cid, int *is_unit, int *id)
+{
+  *is_unit = cid_is_unit(cid);
+  *id = cid_id(cid);
+}
+
+int cid_is_unit(cid cid)
+{
+  return (cid >= B_LAST);
+}
+
+int cid_id(cid cid)
+{
+  return (cid >= B_LAST) ? (cid - B_LAST) : cid;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+int city_can_build_impr_or_unit(struct city *pcity, cid cid)
+{
+  if (cid_is_unit(cid))
+    return can_build_unit(pcity, cid_id(cid));
+  else
+    return can_build_improvement(pcity, cid_id(cid));
+}
+
+/****************************************************************
+...
+*****************************************************************/
+int city_unit_supported(struct city *pcity, cid cid)
+{
+  if (cid_is_unit(cid)) {
+    int unit_type = cid_id(cid);
+
+    unit_list_iterate(pcity->units_supported, punit) {
+      if (punit->type == unit_type)
+	return 1;
+    }
+    unit_list_iterate_end;
+  }
+  return 0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+int city_unit_present(struct city *pcity, cid cid)
+{
+  if (cid_is_unit(cid)) {
+    int unit_type = cid_id(cid);
+
+    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+      if (punit->type == unit_type)
+	return 1;
+    }
+    unit_list_iterate_end;
+  }
+  return 0;
 }

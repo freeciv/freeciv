@@ -31,7 +31,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "worklist.h"
-
+#include "climisc.h"
 #include "clinet.h"
 
 #include "wldlg.h"
@@ -824,18 +824,10 @@ void worklist_avail_callback(GtkWidget *w, gint row, gint column,
 
 *****************************************************************/
 void insert_into_worklist(struct worklist_dialog *pdialog, 
-			  int before, int id)
+			  int before, int cid)
 {
   int i, first_free;
-  int target, is_unit;
-
-  if (id >= B_LAST) {
-    target = id - B_LAST;
-    is_unit = 1;
-  } else {
-    target = id;
-    is_unit = 0;
-  }
+  int target = cid_id(cid), is_unit = cid_is_unit(cid);
 
   /* If this worklist is a city worklist, double check that the city
      really can (eventually) build the target.  We've made sure that
@@ -879,7 +871,7 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
   pdialog->worklist_ids[first_free] = WORKLIST_END;
   pdialog->worklist_names_ptrs[first_free] = NULL;
 
-  pdialog->worklist_ids[before] = id;
+  pdialog->worklist_ids[before] = cid;
   
   worklist_id_to_name(pdialog->worklist_names[before],
 		      target, is_unit, pdialog->pcity);
@@ -952,12 +944,12 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
 	where++;
     }
   } else if (idx >= pdialog->worklist_avail_num_improvements) {
-    /* target is an improvement or wonder */
-    insert_into_worklist(pdialog, where, target+B_LAST);
+    /* target is a unit */
+    insert_into_worklist(pdialog, where, cid_encode(1, target));
     where++;
   } else {
-    /* target is a unit */
-    insert_into_worklist(pdialog, where, target);
+    /* target is an improvement or wonder */
+    insert_into_worklist(pdialog, where, cid_encode(0, target));
     where++;
   }
 
@@ -1165,14 +1157,10 @@ void worklist_worklist_help_callback(GtkWidget *w, gpointer data)
   pdialog=(struct worklist_dialog *)data;
 
   selection = GTK_CLIST(pdialog->worklist)->selection;
-  if(selection) {
-    id = pdialog->worklist_ids[(int)selection->data];
-    if (id >= B_LAST) {
-      id -= B_LAST;
-      is_unit = 1;
-    } else {
-      is_unit = 0;
-    }
+  if (selection) {
+    cid cid = pdialog->worklist_ids[(int) selection->data];
+    id = cid_id(cid);
+    is_unit = cid_is_unit(cid);
   } else {
     id = -1;
   }
@@ -1244,13 +1232,11 @@ void worklist_populate_worklist(struct worklist_dialog *pdialog)
   n = 0;
   if (pdialog->pcity) {
     /* First element is the current build target of the city. */
-    id = pdialog->pcity->currently_building;
-
     worklist_id_to_name(pdialog->worklist_names[n],
-			id, pdialog->pcity->is_building_unit, pdialog->pcity);
+			pdialog->pcity->currently_building,
+			pdialog->pcity->is_building_unit, pdialog->pcity);
+    id = cid_encode_from_city(pdialog->pcity);
 
-    if (pdialog->pcity->is_building_unit)
-      id += B_LAST;
     pdialog->worklist_names_ptrs[n] = pdialog->worklist_names[n];
     pdialog->worklist_ids[n] = id;
     n++;

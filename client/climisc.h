@@ -22,7 +22,7 @@ void client_remove_unit(int unit_id);
 
 void climap_init_continents(void);
 void climap_update_continents(int x, int y);
-void client_change_all(int x, int y);
+void client_change_all(cid x, cid y);
 
 void format_duration(char *buffer, int buffer_size, int duration);
 
@@ -40,6 +40,23 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2);
 void center_on_something(void);
 
 int concat_tile_activity_text(char *buf, int buf_size, int x, int y);
+
+/* 
+ * A compound id (cid) can hold all objects a city can build:
+ * improvements (with wonders) and units. This is achieved by
+ * seperation the value set: a cid < B_LAST denotes a improvement
+ * (including wonders). A cid >= B_LAST denotes a unit with the
+ * unit_type_id of (cid - B_LAST).
+ */
+cid cid_encode(int is_unit, int id);
+cid cid_encode_from_city(struct city *pcity);
+void cid_decode(cid cid, int *is_unit, int *id);
+int cid_is_unit(cid cid);
+int cid_id(cid cid);
+
+int city_can_build_impr_or_unit(struct city *pcity, cid cid);
+int city_unit_supported(struct city *pcity, cid cid);
+int city_unit_present(struct city *pcity, cid cid);
 
 #endif  /* FC__CLIMISC_H */
 

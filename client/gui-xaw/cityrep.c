@@ -341,7 +341,8 @@ void city_list_callback(Widget w, XtPointer client_data,
 		      turns);
 	}
 	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, city_popupmenu, NULL);
-	XtAddCallback(entry, XtNcallback, city_change_callback, (XtPointer) i);
+	XtAddCallback(entry, XtNcallback, city_change_callback,
+		      (XtPointer) (cid_encode(0, i)));
 	flag=1;
       }
 
@@ -356,8 +357,8 @@ void city_list_callback(Widget w, XtPointer client_data,
 		    turns);
 	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, 
 					city_popupmenu, NULL);
-	XtAddCallback(entry, XtNcallback, city_change_callback, 
-		      (XtPointer) (i+B_LAST));
+	XtAddCallback(entry, XtNcallback, city_change_callback,
+		      (XtPointer) (cid_encode(1, i)));
 	flag = 1;
       }
 
@@ -385,17 +386,12 @@ void city_change_callback(Widget w, XtPointer client_data,
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
     struct packet_city_request packet;
-    int build_nr;
+    cid my_cid = (cid) client_data;
     Boolean unit;
+    int build_nr;
       
-    build_nr = (size_t) client_data;
-
-    if (build_nr >= B_LAST) {
-      build_nr -= B_LAST;
-      unit = TRUE;
-    } else {
-      unit = FALSE;
-    }
+    unit = cid_is_unit(my_cid);
+    build_nr = cid_id(my_cid);
 
     packet.city_id=pcity->id;
     packet.name[0]='\0';
@@ -1117,7 +1113,7 @@ static void chgall_refresh_command_callback (Widget w, XtPointer client_data,
       if (state->is_bldg_impv[i])
 	{
 	  state->fr_list[n] = (get_improvement_type (i))->name;
-	  state->fr_idents[n] = i;
+	  state->fr_idents[n] = cid_encode(0, i);
 	  n++;
 	}
     }
@@ -1126,7 +1122,7 @@ static void chgall_refresh_command_callback (Widget w, XtPointer client_data,
       if (state->is_bldg_unit[i])
 	{
 	  state->fr_list[n] = (get_unit_type (i))->name;
-	  state->fr_idents[n] = i + B_LAST;
+	  state->fr_idents[n] = cid_encode(1, i);
 	  n++;
 	}
     }
@@ -1138,7 +1134,7 @@ static void chgall_refresh_command_callback (Widget w, XtPointer client_data,
       if (can_player_build_improvement (game.player_ptr, i))
 	{
 	  state->to_list[n] = (get_improvement_type (i))->name;
-	  state->to_idents[n] = i;
+	  state->to_idents[n] = cid_encode(0, i);
 	  n++;
 	}
     }
@@ -1147,7 +1143,7 @@ static void chgall_refresh_command_callback (Widget w, XtPointer client_data,
       if (can_player_build_unit (game.player_ptr, i))
 	{
 	  state->to_list[n] = (get_unit_type (i))->name;
-	  state->to_idents[n] = i + B_LAST;
+	  state->to_idents[n] = cid_encode(1, i);
 	  n++;
 	}
     }

@@ -184,13 +184,6 @@ city_from_glist(GList* list)
 *****************************************************************/
 typedef gboolean TestCityFunc(struct city *, gint);
 
-static gboolean city_can_build_impr_or_unit(struct city *pcity, gint number)
-{
-  if(number >= B_LAST)
-    return can_build_unit(pcity, number - B_LAST);
-  else
-    return can_build_improvement(pcity, number);
-}
 /****************************************************************
 ...
 *****************************************************************/
@@ -202,25 +195,26 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget *menu,
 					    TestCityFunc test_func,
 					    GtkSignalFunc callback)
 {  
-  gint i;
+  gint cid;
   gint first = append_units ? B_LAST : 0;
   gint last = append_units ? game.num_unit_types + B_LAST : B_LAST;
   gboolean something_appended = FALSE;
   GtkWidget *item; 
 
-  for(i=first; i<last; i++)
+  for (cid = first; cid < last; cid++)
     {
       gboolean append = FALSE;
+      int id = cid_id(cid);
 
       /* Those many ! are to ensure TRUE is 1 and FALSE is 0 */
-      if( !append_units && ( !append_wonders != !is_wonder(i) ) )
+      if (!append_units && (!append_wonders != !is_wonder(id)))
 	continue;
 
       if(!change_prod)
 	{  
 	  city_list_iterate(game.player_ptr->cities, pcity) 
 	    {
-	      append |= test_func(pcity, i);    
+	      append |= test_func(pcity, cid);
 	    } city_list_iterate_end;
 	}
       else
@@ -230,7 +224,7 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget *menu,
 	  g_assert (GTK_CLIST(city_list)->selection);
 	  selection = GTK_CLIST(city_list)->selection;
 	  for(; selection; selection = g_list_next(selection))
-	    append |= test_func(city_from_glist(selection), i);
+	    append |= test_func(city_from_glist(selection), cid);
 	}
     
       if(append) 
@@ -240,20 +234,22 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget *menu,
 	  
 	  if(append_units)
 	    {
-	      cost = get_unit_type(i-B_LAST)->build_cost;
-	      name = get_unit_name(i-B_LAST);
+	      cost = get_unit_type(id)->build_cost;
+	      name = get_unit_name(id);
 	    }
 	  else
 	    {
-	      cost = (i==B_CAPITAL) ? -1 : get_improvement_type(i)->build_cost;
+	      cost =
+		  (id ==
+		   B_CAPITAL) ? -1 : get_improvement_type(id)->build_cost;
 	      if(append_wonders)
 		{
 		  /* We need a city to get the right name for wonders */
 		  struct city *pcity = GTK_CLIST(city_list)->row_list->data;
-		  name = get_impr_name_ex(pcity, i);
+		  name = get_impr_name_ex(pcity, id);
 		}
 	      else
-		name = get_improvement_name(i);
+		name = get_improvement_name(id);
 	    }
 	  something_appended = TRUE;
 
@@ -274,7 +270,7 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget *menu,
 	  gtk_menu_append(GTK_MENU(menu),item);
 	  
 	  gtk_signal_connect(GTK_OBJECT(item),"activate", callback, 
-			     GINT_TO_POINTER(i));
+			     GINT_TO_POINTER(cid));
 	}
     }
 
@@ -291,7 +287,7 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget *menu,
 *****************************************************************/
 static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 {
-  gint number = GPOINTER_TO_INT(data);
+  cid cid = GPOINTER_TO_INT(data);
   gint i;
   GtkObject *parent = GTK_OBJECT(w->parent);
   TestCityFunc *test_func = gtk_object_get_data(parent, "freeciv_test_func");
@@ -306,20 +302,18 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
       for(i = 0; i < GTK_CLIST(city_list)->rows; i++)
 	{
 	  struct city* pcity = gtk_clist_get_row_data(GTK_CLIST(city_list),i);
-	  if (test_func(pcity, number))
+	  if (test_func(pcity, cid))
 	    gtk_clist_select_row(GTK_CLIST(city_list),i,0);
 	}
     }
   else
     {
-      gboolean is_unit = number >= B_LAST;
+      gboolean is_unit = cid_is_unit(cid);
+      int id = cid_id(cid);
       GList* selection = GTK_CLIST(city_list)->selection;
 
       g_assert(selection);
   
-      if (is_unit)
-	number -= B_LAST;
-	  
       for(; selection; selection = g_list_next(selection))
 	{
 	  struct packet_city_request packet;
@@ -327,7 +321,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 	  packet.city_id=city_from_glist(selection)->id;
 	  packet.name[0]='\0';
 	  packet.worklist.name[0] = '\0';
-	  packet.build_id=number;
+	  packet.build_id=id;
 	  packet.is_build_id_unit_id=is_unit;
 	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
 	}
@@ -652,38 +646,6 @@ city_select_same_island_callback(GtkWidget *w, gpointer data)
   g_list_free(copy);
   return TRUE;
 }
-
-/****************************************************************
-...
-*****************************************************************/
-static gboolean
-city_unit_supported(struct city *pcity, gint unit)
-{
-  struct unit_list *punit_list = &pcity->units_supported;
-
-  unit_list_iterate((*punit_list), punit) 
-  {
-      if(punit->type == unit - B_LAST)
-	return TRUE;
-    } unit_list_iterate_end;
-  return FALSE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static gboolean
-city_unit_present(struct city *pcity, gint unit)
-{
-  struct unit_list *punit_list = &map_get_tile(pcity->x,pcity->y)->units;
-
-  unit_list_iterate((*punit_list), punit) 
-  {
-      if(punit->type == unit - B_LAST)
-	return TRUE;
-    } unit_list_iterate_end;
-  return FALSE;
-}
       
 /****************************************************************
 ...
@@ -836,10 +798,11 @@ static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
       }
       my_snprintf(buf, sizeof(buf),
 		  _("Game: Changing production of every %s into %s."),
-		  (from >= B_LAST) ?
-  		  get_unit_type(from-B_LAST)->name : get_improvement_name(from),
-		  (to >= B_LAST) ?
-		  get_unit_type(to-B_LAST)->name : get_improvement_name(to));
+		  cid_is_unit(from) ?
+		  get_unit_type(cid_id(from))->
+		  name : get_improvement_name(cid_id(from)),
+		  cid_is_unit(to) ? get_unit_type(cid_id(to))->
+		  name : get_improvement_name(cid_id(to)));
 
       append_output_window(buf);
       client_change_all(from, to);
