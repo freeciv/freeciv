@@ -388,8 +388,7 @@ static void map_load(struct section_file *file)
    */
 
   map_tiles_load(file);
-  if (secfile_lookup_bool_default(file, TRUE, "game.save_starts")
-      && game.load_options.load_starts) {
+  if (secfile_lookup_bool_default(file, TRUE, "game.save_starts")) {
     map_startpos_load(file);
   } else {
     map.num_start_positions = 0;
@@ -410,8 +409,7 @@ static void map_load(struct section_file *file)
 		secfile_lookup_str_default(file, NULL, "map.f%03d", nat_y),
 		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 3));
 
-  if (secfile_lookup_bool_default(file, TRUE, "game.save_known")
-      && game.load_options.load_known) {
+  if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
 
     /* get 4-bit segments of the first half of the 32-bit "known" field */
     LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
@@ -1280,8 +1278,7 @@ static void player_map_load(struct player *plr, int plrno,
   if (secfile_lookup_int_default(file, -1, "game.fogofwar") != -1
       && game.fogofwar == TRUE
       && secfile_lookup_int_default(file, -1,"player%d.total_ncities", plrno) != -1
-      && secfile_lookup_bool_default(file, TRUE, "game.save_private_map")
-      && game.load_options.load_private_map) {
+      && secfile_lookup_bool_default(file, TRUE, "game.save_private_map")) {
     LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
 		  secfile_lookup_str(file, "player%d.map_t%03d",
 				     plrno, nat_y),
@@ -1954,7 +1951,7 @@ void game_load(struct section_file *file)
     exit(EXIT_FAILURE);
   }
 
-  if (game.load_options.load_settings) {
+  {
     sz_strlcpy(srvarg.metaserver_info_line,
 	       secfile_lookup_str_default(file, default_meta_server_info_string(),
 					  "game.metastring"));
@@ -2173,7 +2170,7 @@ void game_load(struct section_file *file)
 
   {
     if (game.version >= 10300) {
-      if (game.load_options.load_settings) {
+      {
 	game.settlers = secfile_lookup_int(file, "game.settlers");
 	game.explorer = secfile_lookup_int(file, "game.explorer");
 	game.dispersion =
@@ -2234,8 +2231,7 @@ void game_load(struct section_file *file)
      1) if the block exists at all.
      2) if it is saved. */
   if (section_file_lookup(file, "random.index_J")
-      && secfile_lookup_bool_default(file, TRUE, "game.save_random")
-      && game.load_options.load_random) {
+      && secfile_lookup_bool_default(file, TRUE, "game.save_random")) {
     RANDOM_STATE rstate;
     rstate.j = secfile_lookup_int(file,"random.index_J");
     rstate.k = secfile_lookup_int(file,"random.index_K");
@@ -2266,7 +2262,7 @@ void game_load(struct section_file *file)
 
   map_load(file);
 
-  if (!game.is_new_game && game.load_options.load_players) {
+  if (!game.is_new_game) {
     /* destroyed wonders: */
     string = secfile_lookup_str_default(file, "", "game.destroyed_wonders");
     impr_type_iterate(i) {

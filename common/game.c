@@ -290,13 +290,6 @@ void game_init(void)
   game.save_options.save_starts = TRUE;
   game.save_options.save_private_map = TRUE;
 
-  game.load_options.load_random = TRUE;
-  game.load_options.load_players = TRUE;
-  game.load_options.load_known = TRUE;
-  game.load_options.load_starts = TRUE;
-  game.load_options.load_private_map = TRUE;
-  game.load_options.load_settings = TRUE;
-
   init_our_capability();    
   map_init();
   idex_init();

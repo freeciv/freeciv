@@ -225,15 +225,6 @@ struct civ_game {
     bool save_starts; /* start positions will be auto generated */
     bool save_private_map; /* FoW map; will be created if not saved */
   } save_options;
-  /* Used by mapeditor to load only the map */
-  struct {
-    bool load_random;
-    bool load_players;
-    bool load_known; /* Only makes sense if the players are loaded. */
-    bool load_starts; /* Should be done if the players are loaded. */
-    bool load_private_map; /* Only makes sense if the players are loaded. */
-    bool load_settings;
-  } load_options;
 
   int trireme_loss_chance[MAX_VET_LEVELS];
   int work_veteran_chance[MAX_VET_LEVELS];
