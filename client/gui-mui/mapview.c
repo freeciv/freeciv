@@ -434,7 +434,7 @@ int tile_visible_and_not_on_border_mapcanvas(int x, int y)
 **************************************************************************/
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
-  int dest_x, dest_y;
+  int dest_x, dest_y, is_real;
   /* only works for adjacent-square moves */
   if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
       ((dx == 0) && (dy == 0))) {
@@ -446,8 +446,10 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
     update_unit_info_label(punit);
   }
 
-  dest_x = map_adjust_x(x0+dx);
-  dest_y = map_adjust_y(y0+dy);
+  dest_x = x0 + dx;
+  dest_y = y0 + dy;
+  is_real = normalize_map_pos(&dest_x, &dest_y);
+  assert(is_real);
 
   if (player_can_see_unit(game.player_ptr, punit) &&
       (tile_visible_mapcanvas(x0, y0) ||

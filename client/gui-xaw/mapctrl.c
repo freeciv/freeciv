@@ -238,16 +238,18 @@ void popupinfo_popdown_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 void mapctrl_btn_wakeup(XEvent *event)
 {
-  int xtile, ytile;
+  int map_x, map_y, is_real;
   XButtonEvent *ev=&event->xbutton;
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
 
-  xtile=map_adjust_x(map_view_x0+ev->x/NORMAL_TILE_WIDTH);
-  ytile=map_adjust_y(map_view_y0+ev->y/NORMAL_TILE_HEIGHT);
+  map_x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
+  map_y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
+  is_real = normalize_map_pos(&map_x, &map_y);
+  assert(is_real);
 
-  wakeup_sentried_units(xtile,ytile);
+  wakeup_sentried_units(map_x, map_y);
 }
 
 /**************************************************************************
@@ -276,12 +278,13 @@ void mapctrl_btn_mapcanvas(XEvent *event)
 **************************************************************************/
 void update_line(int window_x, int window_y)
 {
-  int x, y, old_x, old_y;
- 
   if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
       && draw_goto_line) {
-    x = map_adjust_x(map_view_x0 + window_x/NORMAL_TILE_WIDTH);
-    y = map_adjust_y(map_view_y0 + window_y/NORMAL_TILE_HEIGHT);
+    int old_x, old_y;
+    int x = map_view_x0 + window_x/NORMAL_TILE_WIDTH;
+    int y = map_view_y0 + window_y/NORMAL_TILE_HEIGHT;
+    int is_real = normalize_map_pos(&x, &y);
+    assert(is_real);
  
     get_line_dest(&old_x, &old_y);
     if (old_x != x || old_y != y) {
@@ -326,10 +329,10 @@ void mapctrl_btn_adjust_workers(XEvent *event)
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
 
-  map_x = ev->x / NORMAL_TILE_WIDTH;
-  map_y = ev->y / NORMAL_TILE_HEIGHT;
-  map_x = map_adjust_x(map_view_x0 + map_x);
-  map_y = map_adjust_y(map_view_y0 + map_y);
+  map_x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
+  map_y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
+  is_valid = normalize_map_pos(&map_x, &map_y);
+  assert(is_valid);
 
   if (!(pcity = find_city_near_tile(map_x, map_y)))
     return;
@@ -362,15 +365,17 @@ void mapctrl_btn_adjust_workers(XEvent *event)
 **************************************************************************/
 void mapctrl_key_city_workers(XEvent *event)
 {
-  int x,y;
+  int x,y, is_real;
   XButtonEvent *ev=&event->xbutton;
   struct city *pcity;
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
 
-  x=ev->x/NORMAL_TILE_WIDTH; y=ev->y/NORMAL_TILE_HEIGHT;
-  x=map_adjust_x(map_view_x0+x); y=map_adjust_y(map_view_y0+y);
+  x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
+  y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
+  is_real = normalize_map_pos(&x, &y);
+  assert(is_real);
 
   pcity = find_city_near_tile(x,y);
   if(pcity==NULL) return;

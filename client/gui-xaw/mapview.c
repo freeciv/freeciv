@@ -387,7 +387,7 @@ Note: Works only for adjacent-square moves.
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
   static struct timer *anim_timer = NULL; 
-  int dest_x, dest_y;
+  int dest_x, dest_y, is_real;
 
   /* only works for adjacent-square moves */
   if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
@@ -395,8 +395,10 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
     return;
   }
 
-  dest_x = map_adjust_x(x0+dx);
-  dest_y = map_adjust_y(y0+dy);
+  dest_x = x0 + dx;
+  dest_y = y0 + dy;
+  is_real = normalize_map_pos(&dest_x, &dest_y);
+  assert(is_real);
 
   if (player_can_see_unit(game.player_ptr, punit) &&
       (tile_visible_mapcanvas(x0, y0) ||
@@ -451,8 +453,12 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 **************************************************************************/
 void get_center_tile_mapcanvas(int *x, int *y)
 {
-  *x = map_adjust_x(map_view_x0+map_canvas_store_twidth/2);
-  *y = map_adjust_y(map_view_y0+map_canvas_store_theight/2);
+  int is_real;
+
+  *x = map_view_x0 + map_canvas_store_twidth / 2;
+  *y = map_view_y0 + map_canvas_store_theight / 2;
+  is_real = normalize_map_pos(x, y);
+  assert(is_real);
 }
 
 /**************************************************************************
@@ -679,24 +685,27 @@ void map_canvas_resize(void)
 void update_map_canvas(int x, int y, int width, int height, 
 		       int write_to_screen)
 {
-  int x_itr, y_itr;
-  int canvas_x, canvas_y;
+  int map_x, map_y;
 
-  for (y_itr=y; y_itr<y+height; y_itr++) {
-    for (x_itr=x; x_itr<x+width; x_itr++) {
-      int map_x = map_adjust_x(x_itr);
-      int map_y = y_itr;
-      get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y);
+  for (map_y = y; map_y < y + height; map_y++) {
+    for (map_x = x; map_x < x + width; map_x++) {
+      int canvas_x, canvas_y;
 
-      if (tile_visible_mapcanvas(map_x, map_y)) {
+      /*
+       * We don't normalize until later because we want to draw
+       * black tiles for unreal positions.
+       */
+      if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
 	pixmap_put_tile(map_canvas_store, map_x, map_y,
 			canvas_x, canvas_y, 0);
       }
     }
   }
 
-  get_canvas_xy(x, y, &canvas_x, &canvas_y);
   if (write_to_screen) {
+    int canvas_x, canvas_y;
+
+    get_canvas_xy(x, y, &canvas_x, &canvas_y);
     XCopyArea(display, map_canvas_store, XtWindow(map_canvas), 
 	      civ_gc, 
 	      canvas_x, canvas_y,
@@ -1094,12 +1103,10 @@ static void pixmap_put_overlay_tile(Pixmap pixmap, int canvas_x, int canvas_y,
 **************************************************************************/
 void put_cross_overlay_tile(int x,int y)
 {
-  int canvas_x, canvas_y;
-  x=map_adjust_x(x);
-  y=map_adjust_y(y);
-  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+  int canvas_x, canvas_y, is_real = normalize_map_pos(&x, &y);
+  assert(is_real);
 
-  if (tile_visible_mapcanvas(x, y)) {
+  if (get_canvas_xy(x, y, &canvas_x, &canvas_y)) {
     pixmap_put_overlay_tile(XtWindow(map_canvas), canvas_x, canvas_y,
 			    sprites.user.attention);
   }
@@ -1188,7 +1195,7 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
 void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 			     XtPointer position_val)
 {
-  int position=(int)position_val;
+  int position = (int) position_val, is_real;
 
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
@@ -1207,9 +1214,8 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
       map_view_y0--;
   }
 
-  map_view_x0=map_adjust_x(map_view_x0);
-  map_view_y0=map_adjust_y(map_view_y0);
-
+  is_real = normalize_map_pos(&map_view_x0, &map_view_y0);
+  assert(is_real);
 
   update_map_canvas_visible();
   update_map_canvas_scrollbars();

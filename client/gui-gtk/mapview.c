@@ -584,7 +584,7 @@ one go.
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
   static struct timer *anim_timer = NULL; 
-  int dest_x, dest_y;
+  int dest_x, dest_y, is_real;
 
   /* only works for adjacent-square moves */
   if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
@@ -597,8 +597,10 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
     update_unit_info_label(punit);
   }
 
-  dest_x = map_adjust_x(x0+dx);
-  dest_y = map_adjust_y(y0+dy);
+  dest_x = x0 + dx;
+  dest_y = y0 + dy;
+  is_real = normalize_map_pos(&dest_x, &dest_y);
+  assert(is_real);
 
   if (player_can_see_unit(game.player_ptr, punit) &&
       (tile_visible_mapcanvas(x0, y0) ||
@@ -1252,24 +1254,26 @@ void update_map_canvas(int x, int y, int width, int height,
     }
 
   } else { /* is_isometric */
-    int x_itr, y_itr;
-    int canvas_x, canvas_y;
+    int map_x, map_y;
 
-    for (y_itr=y; y_itr<y+height; y_itr++) {
-      for (x_itr=x; x_itr<x+width; x_itr++) {
-	int map_x = map_adjust_x(x_itr);
-	int map_y = y_itr; /* not adjusted;, we want to draw black tiles */
+    for (map_y = y; map_y < y + height; map_y++) {
+      for (map_x = x; map_x < x + width; map_x++) {
+	int canvas_x, canvas_y;
 
-	get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y);
-	if (tile_visible_mapcanvas(map_x, map_y)) {
+	/*
+	 * We don't normalize until later because we want to draw
+	 * black tiles for unreal positions.
+	 */
+	if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
 	  pixmap_put_tile(map_canvas_store,
-			  map_x, map_y,
-			  canvas_x, canvas_y, 0);
+			  map_x, map_y, canvas_x, canvas_y, 0);
 	}
       }
     }
 
     if (write_to_screen) {
+      int canvas_x, canvas_y;
+
       get_canvas_xy(x, y, &canvas_x, &canvas_y);
       gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
 		      canvas_x, canvas_y,

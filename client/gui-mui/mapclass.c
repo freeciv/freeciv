@@ -1409,16 +1409,22 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	      /* A diagonal scrolling has happened */
 	      int newwidth = xget(o, MUIA_Map_HorizVisible);
 	      int newheight = xget(o, MUIA_Map_VertVisible);
-	      int x_itr,y_itr,map_x,map_y,canvas_x,canvas_y;
+	      int map_x,map_y;
 
 	      /* Draw the upper or lower complete free horiz space */
-	      for (y_itr = y; y_itr < y + height; y_itr++) {
-		for (x_itr = data->horiz_first; x_itr < x + newwidth; x_itr++) {
-		  map_x = map_adjust_x(x_itr);
-		  map_y = y_itr;
- 
-		  get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y);
-		  put_tile(data->map_layer->rp, map_x,map_y,canvas_x,canvas_y,0);
+	      for (map_y = y; map_y < y + height; map_y++) {
+		for (map_x = data->horiz_first; map_x < x + newwidth;
+		     map_x++) {
+		  int canvas_x, canvas_y;
+
+		  /*
+		   * We don't normalize until later because we want to
+		   * draw black tiles for unreal positions.
+		   */
+		  if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
+		    put_tile(data->map_layer->rp, map_x, map_y, canvas_x,
+			     canvas_y, 0);
+		  }
 		}
 	      }
 
@@ -1556,17 +1562,19 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	}
       } else
       {
-	int x_itr, y_itr;
-	int canvas_x, canvas_y;
+        int map_x, map_y;
 
-	for (y_itr=y; y_itr<y+height; y_itr++) {
-	  for (x_itr=x; x_itr<x+width; x_itr++) {
-	    int map_x = map_adjust_x(x_itr);
-	    int map_y = y_itr; /* not adjusted;, we want to draw black tiles */
+	for (map_y = y; map_y < y + height; map_y++) {
+	  for (map_x = x; map_x < x + width; map_x++) {
+	    int canvas_x, canvas_y;
 
-	    get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y);
-	    if (tile_visible_mapcanvas(map_x, map_y)) {
-	      put_tile(data->map_layer->rp,map_x, map_y, canvas_x, canvas_y, 0);
+	    /*
+	     * We don't normalize until later because we want to draw
+	     * black tiles for unreal positions.
+	     */
+	    if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
+	      put_tile(data->map_layer->rp, map_x, map_y, canvas_x,
+		       canvas_y, 0);
 	    }
 	  }
 	}
