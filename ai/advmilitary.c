@@ -329,18 +329,29 @@ content to let it remain that way for now. -- Syela 980805 */
   if (pcity->ai.building_want[B_CITY] > 0 && danger2) {
     i = assess_defense(pcity);
     if (!i) pcity->ai.building_want[B_CITY] = 100 + urgency;
-    else if (danger2 > i + (i>>1)) pcity->ai.building_want[B_CITY] = 200 + urgency;
-    else pcity->ai.building_want[B_CITY] += danger2 * 100 / i;
+    else if (urgency) {
+      if (danger2 > i + (i>>1)) pcity->ai.building_want[B_CITY] = 200 + urgency;
+      else pcity->ai.building_want[B_COASTAL] += danger2 * 100 / i;
+    } else {
+      if (danger2 > (i>>1)) pcity->ai.building_want[B_CITY] = 100;
+      else pcity->ai.building_want[B_COASTAL] += danger2 * 100 / i;
+    }
   }
 /* My first attempt to allow ng_wa >= 200 led to stupidity in cities with
 no defenders and danger = 0 but danger > 0.  Capping ng_wa at 100 + urgency
-led to a failure to buy walls as required.  This is the latest attempt,
-which seems to work acceptably. -- Syela */
+led to a failure to buy walls as required.  Allowing want > 100 with !urgency
+led to the AI spending too much gold and falling behind on science.  I'm
+trying again, but this will require yet more tedious observation -- Syela */
   if (pcity->ai.building_want[B_COASTAL] > 0 && danger3) {
     i = assess_defense_igwall(pcity);
     if (!i) pcity->ai.building_want[B_COASTAL] = 100 + urgency;
-    else if (danger3 > i + (i>>1)) pcity->ai.building_want[B_COASTAL] = 200 + urgency;
-    else pcity->ai.building_want[B_COASTAL] += danger3 * 100 / i;
+    else if (urgency) {
+      if (danger3 > i + (i>>1)) pcity->ai.building_want[B_COASTAL] = 200 + urgency;
+      else pcity->ai.building_want[B_COASTAL] += danger3 * 100 / i;
+    } else {
+      if (danger3 > (i>>1)) pcity->ai.building_want[B_COASTAL] = 100;
+      else pcity->ai.building_want[B_COASTAL] += danger3 * 100 / i;
+    }
   }
 /* COASTAL and SAM are TOTALLY UNTESTED and could be VERY WRONG -- Syela */
 /* update 980803; COASTAL seems to work; still don't know about SAM. -- Syela */
@@ -498,7 +509,8 @@ it some more variables for it to meddle with -- Syela */
       m *= m;
       d = m;
 
-      if (unit_types[i].move_type == LAND_MOVING && acity && c > 2 &&
+      if (unit_types[i].move_type == LAND_MOVING && acity &&
+          c > (get_invention(get_player(acity->owner), A_MASONRY) == TECH_KNOWN ? 2 : 4) &&
           !unit_flag(i, F_IGWALL) && !city_got_citywalls(acity)) d *= 9; 
 
       f = unit_types[i].build_cost;
@@ -643,7 +655,8 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       }
       if (!is_ground_unit(myunit) && !is_heli_unit(myunit) &&
          (!(acity->ai.invasion&1))) b -= 40; /* boats can't conquer cities */
-      if (!myunit->id && (is_ground_unit(myunit) || is_heli_unit(myunit)) && c > 2 &&
+      if (!myunit->id && (is_ground_unit(myunit) || is_heli_unit(myunit)) &&
+          c > (get_invention(get_player(acity->owner), A_MASONRY) == TECH_KNOWN ? 2 : 4) &&
           !unit_flag(myunit->type, F_IGWALL) && !city_got_citywalls(acity)) d *= 9;
     } /* end dealing with cities */
 
@@ -722,7 +735,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((fprime + needferry) * MORT);
     } else e = 0;  
 
-if (e != fstk && acity) {
+/*if (e != fstk && acity) {
 printf("%s (%d, %d), %s#%d -> %s[%d] (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]\n",
 pcity->name, pcity->x, pcity->y, unit_types[v].name, myunit->id,
 acity->name, acity->ai.invasion, acity->x, acity->y, a, b, c, d, e, fstk, f);
@@ -730,7 +743,7 @@ acity->name, acity->ai.invasion, acity->x, acity->y, a, b, c, d, e, fstk, f);
 printf("%s (%d, %d), %s#%d -> %s (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]\n", 
 pcity->name, pcity->x, pcity->y, unit_types[v].name, myunit->id,
 unit_types[pdef->type].name, pdef->x, pdef->y, a, b, c, d, e, fstk, f);
-}
+}*/
 
     if (!myunit->id) {  /* I don't want to know what happens otherwise -- Syela */
       if (sanity)
@@ -777,6 +790,17 @@ unit_types[pdef->type].name, pdef->x, pdef->y, a, b, c, d, e, fstk, f);
   } 
 }
 
+int port_is_within(struct player *pplayer, int d)
+{
+  city_list_iterate(pplayer->cities, pcity)
+    if (city_got_building(pcity, B_PORT) &&
+        warmap.seacost[pcity->x][pcity->y] <= d) return 1;
+    if (!pcity->is_building_unit && pcity->currently_building == B_PORT &&
+        pcity->shield_stock >= improvement_value(B_PORT) &&
+        warmap.seacost[pcity->x][pcity->y] <= d) return 1;
+  city_list_iterate_end;
+  return 0;
+}
 
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, 
@@ -893,7 +917,9 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
   else {
 /*printf("Killing with virtual unit in %s\n", pcity->name);*/
     v = ai_choose_attacker_sailing(pcity);
-    if (v > 0) { /* have to put sailing first before we mung the seamap */
+    if (v > 0 && /* have to put sailing first before we mung the seamap */
+      (city_got_building(pcity, B_PORT) || /* only need a few ports */
+      !port_is_within(pplayer, 18))) { /* using move_rate is quirky -- Syela */
       virtualunit.type = v;
 /*     virtualunit.veteran = do_make_unit_veteran(pcity, v); */
       virtualunit.veteran = (get_invention(pplayer, A_AMPHIBIOUS) == TECH_KNOWN);
