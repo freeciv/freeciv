@@ -24,6 +24,14 @@
  */
 #define POWER_DIVIDER 	(POWER_FACTOR * 3)
 
+/* Simple military power macros */
+#define DEFENCE_POWER(punit) \
+ (unit_type(punit)->defense_strength * unit_type(punit)->hp \
+  * unit_type(punit)->firepower)
+#define ATTACK_POWER(punit) \
+ (unit_type(punit)->attack_strength * unit_type(punit)->hp \
+  * unit_type(punit)->firepower)
+
 struct player;
 struct city;
 struct unit;

@@ -40,7 +40,7 @@ enum barbarian_type {
 
 enum handicap_type {
   H_NONE=0, /* no handicaps */
-  H_RIGIDPROD=1, /* can't switch to/from building_unit without penalty */
+  H_DIPLOMAT=1, /* can't build offensive diplomats */
   H_MAP=2, /* only knows map_get_known tiles */
   H_LIMITEDHUTS=4, /* Can get only 25 gold and barbs from huts */
   H_CITYBUILDINGS=8, /* doesn't know what buildings are in enemy cities */

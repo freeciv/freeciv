@@ -40,4 +40,6 @@ libcivai_a_SOURCES = \
 		aitools.c	\
 		aitools.h	\
 		aiunit.c	\
-		aiunit.h
+		aiunit.h	\
+		aidiplomat.c	\
+		aidiplomat.h

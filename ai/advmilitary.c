@@ -31,6 +31,7 @@
 
 #include "aiair.h"
 #include "aicity.h"
+#include "aidiplomat.h"
 #include "aihand.h"
 #include "ailog.h"
 #include "aitools.h"
@@ -1334,6 +1335,9 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   freelog(LOG_DEBUG, "Assessed danger for %s = %d, Def = %d",
           pcity->name, danger, def);
 
+  ai_choose_diplomat_defensive(pplayer, pcity, choice, def);
+
+
   if (danger != 0) { /* otherwise might be able to wait a little longer to defend */
     if (danger >= def) {
       if (urgency == 0) danger = 100; /* don't waste money otherwise */
@@ -1398,6 +1402,9 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
              choice->want);
     return;
   }
+
+  /* Consider making an offensive diplomat */
+  ai_choose_diplomat_offensive(pplayer, pcity, choice);
 
   /* Consider making a sea bodyguard */
   unit_type = ai_choose_bodyguard(pcity, SEA_MOVING, L_DEFEND_GOOD);

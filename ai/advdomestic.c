@@ -1021,11 +1021,6 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     /* Oh dear, better think of something! */
     unit_type = best_role_unit(pcity, F_TRADE_ROUTE);
     
-    if (unit_type == U_LAST) {
-      unit_type = best_role_unit(pcity, F_DIPLOMAT);
-      /* Someday, real diplomat code will be here! */
-    }
-    
     if (unit_type != U_LAST) {
       choice->want = 1;
       choice->type = CT_NONMIL;
