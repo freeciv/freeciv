@@ -442,11 +442,32 @@ struct BltMaskHook
   LONG destx,desty;
 };
 
-static VOID MyBltMaskBitMap( CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct BitMap *destBitMap,
-LONG xDest, LONG yDest, LONG xSize, LONG ySize, struct BitMap *maskBitMap )
+struct ExtBltMaskHook
+{
+  struct Hook hook;
+  struct BitMap maskBitMap;
+  struct BitMap *srcBitMap;
+  LONG srcx,srcy;
+  LONG maskx,masky;
+  LONG destx,desty;
+};
+
+/* Simliar to BltMaskBitMapRastPort but for BitMaps only */
+static VOID MyBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct BitMap *destBitMap,
+                            LONG xDest, LONG yDest, LONG xSize, LONG ySize, struct BitMap *maskBitMap )
 {
   BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
   BltBitMap(maskBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
+  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+}
+
+/* Simliar to BltMaskBitMapRastPort but for BitMaps only and Mask can have differnt dimensions/offsets than Source BitMap */
+static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct BitMap *destBitMap,
+                               LONG xDest, LONG yDest, LONG xSize, LONG ySize, 
+                               struct BitMap *maskBitMap, LONG xMask, LONG yMask)
+{
+  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+  BltBitMap(maskBitMap,xMask,yMask,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
   BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
 }
 
@@ -461,6 +482,21 @@ HOOKPROTO(HookFunc_BltMask, void, struct RastPort *rp, struct LayerHookMsg *msg)
 
   MyBltMaskBitMap( h->srcBitMap, offsetx, offsety, rp->BitMap, msg->bounds.MinX,
   msg->bounds.MinY, width, height, &h->maskBitMap);
+}
+
+HOOKPROTO(HookFunc_ExtBltMask, void, struct RastPort *rp, struct LayerHookMsg *msg)
+{
+  struct ExtBltMaskHook *h = (struct ExtBltMaskHook*)hook;
+
+  LONG width = msg->bounds.MaxX - msg->bounds.MinX+1;
+  LONG height = msg->bounds.MaxY - msg->bounds.MinY+1;
+  LONG offsetx = h->srcx + msg->offsetx - h->destx;
+  LONG offsety = h->srcy + msg->offsety - h->desty;
+  LONG maskoffsetx = h->maskx + msg->offsetx - h->destx;
+  LONG maskoffsety = h->masky + msg->offsety - h->desty;
+
+  MyExtBltMaskBitMap( h->srcBitMap, offsetx, offsety, rp->BitMap, msg->bounds.MinX,
+  msg->bounds.MinY, width, height, &h->maskBitMap, maskoffsetx, maskoffsety);
 }
 
 VOID MyBltMaskBitMapRastPort(struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct RastPort *destRP, LONG xDest, LONG yDest, LONG xSize, LONG ySize, ULONG minterm, APTR bltMask)
@@ -496,6 +532,65 @@ VOID MyBltMaskBitMapRastPort(struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, str
   } else
   {
     BltMaskBitMapRastPort(srcBitMap, xSrc, ySrc, destRP, xDest, yDest, xSize, ySize, minterm, bltMask);
+  }
+}
+
+/****************************************************************
+ Draw the sprite on position x,y in the Rastport (with a mask of
+ a differnt sprite) restricted to height and width with offset
+*****************************************************************/
+void put_sprite_overlay_total_with_different_mask(struct RastPort *rp, struct Sprite *sprite, struct Sprite *masksprite, LONG x, LONG y, LONG ox, LONG oy, LONG width, LONG height)
+{
+  struct BitMap *bmap;
+  struct BitMap *maskbmap;
+  APTR mask;
+
+  if (!sprite || !masksprite)
+    return;
+
+  if (!(bmap = (struct BitMap *) sprite->bitmap))
+    bmap = (struct BitMap *) sprite->parent->bitmap;
+
+  if (!(maskbmap = (struct BitMap*) masksprite->bitmap))
+    maskbmap = (struct BitMap*) masksprite->parent->bitmap;
+
+  if (!(mask = (APTR)masksprite->mask))
+    mask = masksprite->parent->mask;
+
+  if (bmap && mask)
+  {
+    int w = MIN(width,sprite->width);
+    int h = MIN(height,sprite->height);
+
+    if (w > 0 && h > 0)
+    {
+      struct ExtBltMaskHook hook;
+      struct Rectangle rect;
+      LONG src_depth = GetBitMapAttr(bmap,BMA_DEPTH);
+
+      /* Initialize a bitmap where all plane pointers points to the mask */
+      InitBitMap(&hook.maskBitMap,src_depth,GetBitMapAttr(maskbmap,BMA_WIDTH),GetBitMapAttr(maskbmap,BMA_HEIGHT));
+      while (src_depth)
+        hook.maskBitMap.Planes[--src_depth] = mask;
+
+      hook.srcBitMap = bmap;
+      hook.srcx = sprite->offx + ox;
+      hook.srcy = sprite->offy + oy;
+      hook.maskx = masksprite->offx + ox;
+      hook.masky = masksprite->offy + oy;
+      hook.destx = x;
+      hook.desty = y;
+      hook.hook.h_Entry = (HOOKFUNC)HookFunc_ExtBltMask;
+
+      /* Define the destination rectangle in the rastport */
+      rect.MinX = x;
+      rect.MinY = y;
+      rect.MaxX = x + w - 1;
+      rect.MaxY = y + h - 1;
+
+      /* Blit onto the Rastport */
+      DoHookClipRects(&hook.hook,rp,&rect);
+    }
   }
 }
 
@@ -890,6 +985,93 @@ static void put_unit_draw(struct unit *punit, struct RastPort *rp,
   }
 }
 
+/**************************************************************************
+Blend the tile with neighboring tiles.
+Only used for isometric view.
+**************************************************************************/
+static void dither_tile(struct RastPort *rp, struct Sprite **dither,
+			int canvas_x, int canvas_y,
+			int offset_x, int offset_y,
+			int width, int height, int fog)
+{
+  if (!width || !height)
+    return;
+
+/*  gdk_gc_set_clip_mask(civ_gc, sprites.dither_tile->mask);
+  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
+*/  assert(offset_x == 0 || offset_x == NORMAL_TILE_WIDTH/2);
+  assert(offset_y == 0 || offset_y == NORMAL_TILE_HEIGHT/2);
+  assert(width == NORMAL_TILE_WIDTH || width == NORMAL_TILE_WIDTH/2);
+  assert(height == NORMAL_TILE_HEIGHT || height == NORMAL_TILE_HEIGHT/2);
+
+  /* north */
+  if (dither[0]
+      && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
+      && (offset_y == 0)) {
+    put_sprite_overlay_total_with_different_mask(rp, dither[0], sprites.dither_tile, canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y,
+    			     NORMAL_TILE_WIDTH/2,0,NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+
+/*    gdk_draw_pixmap(pixmap, civ_gc, dither[0]->pixmap,
+		    NORMAL_TILE_WIDTH/2, 0,
+		    canvas_x + NORMAL_TILE_WIDTH/2, canvas_y,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+*/  }
+
+  /* south */
+  if (dither[1] && offset_x == 0
+      && (offset_y == NORMAL_TILE_HEIGHT/2 || height == NORMAL_TILE_HEIGHT)) {
+
+    put_sprite_overlay_total_with_different_mask(rp, dither[1], sprites.dither_tile, canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
+    			     0,NORMAL_TILE_HEIGHT/2,NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+
+/*    gdk_draw_pixmap(pixmap, civ_gc, dither[1]->pixmap,
+		    0, NORMAL_TILE_HEIGHT/2,
+		    canvas_x,
+		    canvas_y + NORMAL_TILE_HEIGHT/2,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+*/  }
+
+  /* east */
+  if (dither[2]
+      && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
+      && (offset_y != 0 || height == NORMAL_TILE_HEIGHT)) {
+    put_sprite_overlay_total_with_different_mask(rp,dither[2],sprites.dither_tile,canvas_x+NORMAL_TILE_WIDTH/2,canvas_y+NORMAL_TILE_HEIGHT/2,
+    			     NORMAL_TILE_WIDTH/2,NORMAL_TILE_HEIGHT/2,NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+/*    gdk_draw_pixmap(pixmap, civ_gc, dither[2]->pixmap,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
+		    canvas_x + NORMAL_TILE_WIDTH/2,
+		    canvas_y + NORMAL_TILE_HEIGHT/2,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+*/
+  }
+
+  /* west */
+  if (dither[3] && offset_x == 0 && offset_y == 0) {
+    put_sprite_overlay_total_with_different_mask(rp,dither[3],sprites.dither_tile,canvas_x,canvas_y,0,0,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+/*    gdk_draw_pixmap(pixmap, civ_gc, dither[3]->pixmap,
+		    0, 0,
+		    canvas_x,
+		    canvas_y,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+*/
+  }
+
+/*  gdk_gc_set_clip_mask(civ_gc, NULL);
+
+  if (fog) {
+    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_tile_gc, sprites.dither_tile->mask);
+    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_gc_set_stipple(fill_tile_gc, black50);
+
+    gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
+		       canvas_x+offset_x, canvas_y+offset_y,
+		       MIN(width, MAX(0, NORMAL_TILE_WIDTH-offset_x)),
+		       MIN(height, MAX(0, NORMAL_TILE_HEIGHT-offset_y)));
+    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+  }*/
+}
 
 /**************************************************************************
 Only used for isometric view.
@@ -1007,9 +1189,9 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
     }
 
     /*** Dither base terrain ***/
-/*    if (draw_terrain)
-      dither_tile(pm, dither, canvas_x, canvas_y,
-		  offset_x, offset_y, width, height, fog);*/
+    if (draw_terrain)
+      dither_tile(rp, dither, canvas_x, canvas_y,
+		  offset_x, offset_y, width, height, fog);
   }
 
   /*** Rest of terrain and specials ***/
@@ -1036,27 +1218,27 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
     }
   }
 
-/*  if (draw_coastline && !draw_terrain) {
+  if (draw_coastline && !draw_terrain) {
     enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
     int x1, y1;
-    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_OCEAN]);
+    SetAPen(rp,3); /* OCEAN */
     x1 = x; y1 = y-1;
     if (normalize_map_pos(&x1, &y1)) {
       t2 = map_get_terrain(x1, y1);
-      if (draw & D_M_R && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)))
-	gdk_draw_line(pm, thin_line_gc,
-		      canvas_x+NORMAL_TILE_WIDTH/2, canvas_y,
-		      canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
+      if (draw & D_M_R && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))) {
+      	Move(rp, canvas_x + NORMAL_TILE_WIDTH/2, canvas_y);
+      	Draw(rp, canvas_x + NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
+      }
     }
     x1 = x-1; y1 = y;
     if (normalize_map_pos(&x1, &y1)) {
       t2 = map_get_terrain(x1, y1);
-      if (draw & D_M_L && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)))
-	gdk_draw_line(pm, thin_line_gc,
-		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
-		      canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+      if (draw & D_M_L && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))) {
+      	Move(rp, canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2);
+      	Draw(rp, canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+      }
     }
-  }*/
+  }
 
   /*** City and various terrain improvements ***/
   if (pcity && draw_cities) {
