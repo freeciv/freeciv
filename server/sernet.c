@@ -328,6 +328,34 @@ int sniff_packets(void)
     }
 
 
+    /* quit server if no players for 'srvarg.reboot' seconds */
+    if (srvarg.reboot && server_state != PRE_GAME_STATE) {
+      static time_t last_noplayers;
+      if(conn_list_size(&game.est_connections) == 0) {
+	if (last_noplayers) {
+	  if (time(NULL)>last_noplayers + srvarg.reboot) {
+	    sz_strlcpy(srvarg.metaserver_info_line,
+		       "restarting for lack of players");
+	    freelog(LOG_NORMAL, srvarg.metaserver_info_line);
+	    send_server_info_to_metaserver(1,0);
+
+	    quit_game(NULL);
+	  }
+	} else {
+	  last_noplayers = time(NULL);
+	  
+	  my_snprintf(srvarg.metaserver_info_line,
+		      sizeof(srvarg.metaserver_info_line),
+		      "restarting in %d seconds for lack of players",
+		      srvarg.reboot);
+	  freelog(LOG_NORMAL, srvarg.metaserver_info_line);
+	  send_server_info_to_metaserver(1,0);
+	}
+      } else {
+        last_noplayers = 0;
+      }
+    }
+
     /* send PACKET_CONN_PING & cut mute players */
     if ((time(NULL)>game.last_ping + game.pingtimeout)) {
       for(i=0; i<MAX_NUM_CONNECTIONS; i++) {

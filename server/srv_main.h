@@ -36,6 +36,8 @@ struct server_arguments {
   char *script_filename;
   /* server name for metaserver to use for us */
   char metaserver_servername[64];
+  /* quit if there no players after a given time interval */
+  int reboot;
 };
 
 void srv_init(void);
