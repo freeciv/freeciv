@@ -1,32 +1,40 @@
 Welcome to Freeciv 1.8!
 
-This is pre-release 1.8.0.
+This is release 1.8.0.
 
-Thanks again to all our developers, who continue to work so hard.
-My extra-special huge steaming thanks to David Pfitzner. It was already
-true for 1.7.2. David is keeping on the real good work. The Freeciv
-team salutes you.
+Freeciv is under new leadership!  After leading the freeciv project 
+from around version 1.5.2 through to version 1.7.2, Mitch Davis has 
+handed over the reins.  Mitch writes:
 
-In this pre-1.8.0, they are many enhancements: civil war, space race,
-log of the game, and many other pleasant things.
+   I will be cutting way back on my Freeciv activities, to have 
+   more time for my family, and for another project.  Please welcome 
+   Nicolas Brunel, who has offered to lead the Freeciv project.  
+   Nicolas will be sharing the work with stalwart David Pfitzner.
 
-Those who are interested in seeing the detailed changes should check
-the ChangeLog file.
+Thanks heaps Mitch, for all your work!  Thanks again also to all our 
+developers, who continue to work so hard.
 
-We have tried to improve the graphics of freeciv with 2 beautiful
-tiles sets.  In the next version, we hope to include:
-- Gtk+ client, as well as the current Xaw client. (certain)
-- Improved server commands. (certain)
-- Configurable races. (possible)
-- Wonders tiles. (Already drawn but not used yet)
-- For other projects see <http://www.freeciv.org>.
+Other general news since the previous release:
 
-Freeciv has a new manual!  The manual is too big to include in the
+- The Freeciv website has been completely re-done ("FWNG"), and is 
+now being frequently updated.
+
+- Freeciv has a new manual.  The manual is too big to include in the
 freeciv distribution, so it is available separately at the Freeciv 
 web site and by ftp.
 
-Freeciv also has a map editor!  It is called Civworld, and is also
+- Freeciv now has a map editor.  It is called Civworld, and is also
 available separately at the freeciv ftp site.
+
+Release news:
+
+In this release, there are many enhancements, including civil war, 
+space race, and a log of the game.  We have also tried to improve 
+the graphics of freeciv with 2 beautiful tile sets.  And, as usual,
+there are lots of bug fixes!
+
+Those who are interested in seeing the detailed changes should check
+the ChangeLog file.
 
 WHAT'S CHANGED SINCE 1.7.2:
 
@@ -160,9 +168,17 @@ KNOWN BUGS:
    are not quite right.  (In particular when you first reload a game
    they don't appear straight away.)
  - A new server prompt is unnecessarily displayed for every turn.
+ - Units on goto can attack enemy units and cities unintentionally;
+   this can be especially a problem with ships attacking cities.
 
 THINGS TO DO:
 
-As well as the plans mentioned above for the next release, other
-projects in the pipeline are:  Alliances, Internationalisation
+In the next version, we hope to include:
+- Gtk+ client, as well as the current Xaw client. (certain)
+- Improved server commands. (certain)
+- Configurable races. (possible)
+- Wonders tiles. (Already drawn but not used yet.)
+
+Other projects in the pipeline are:  Alliances, Internationalisation
 (that is, multi-language support), City Plans, and more!
+Some other projects are listed at <http://www.freeciv.org>.
