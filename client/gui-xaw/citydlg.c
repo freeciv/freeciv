@@ -59,15 +59,15 @@ extern int map_view_x0, map_view_y0;
 extern int flags_are_transparent;
 extern GC fill_bg_gc;
 
-#define NO_UNITS_SHOWN  12
-#define NO_CITIZENS_SHOWN 25
+#define NUM_UNITS_SHOWN  12
+#define NUM_CITIZENS_SHOWN 25
 
 struct city_dialog {
   struct city *pcity;
   Widget shell;
   Widget main_form;
   Widget cityname_label;
-  Widget citizen_labels[NO_CITIZENS_SHOWN];
+  Widget citizen_labels[NUM_CITIZENS_SHOWN];
   Widget production_label;
   Widget output_label;
   Widget storage_label;
@@ -80,24 +80,24 @@ struct city_dialog {
   Widget building_label, progress_label, buy_command, change_command;
   Widget improvement_viewport, improvement_list;
   Widget support_unit_label;
-  Widget support_unit_pixcomms[NO_UNITS_SHOWN];
+  Widget support_unit_pixcomms[NUM_UNITS_SHOWN];
   Widget present_unit_label;
-  Widget present_unit_pixcomms[NO_UNITS_SHOWN];
+  Widget present_unit_pixcomms[NUM_UNITS_SHOWN];
   Widget change_list;
   Widget rename_input;
   
   enum improvement_type_id sell_id;
   
-  int citizen_type[NO_CITIZENS_SHOWN];
-  int support_unit_ids[NO_UNITS_SHOWN];
-  int present_unit_ids[NO_UNITS_SHOWN];
+  int citizen_type[NUM_CITIZENS_SHOWN];
+  int support_unit_ids[NUM_UNITS_SHOWN];
+  int present_unit_ids[NUM_UNITS_SHOWN];
   char improvlist_names[B_LAST+1][64];
   char *improvlist_names_ptrs[B_LAST+1];
   
   char *change_list_names_ptrs[B_LAST+1+U_LAST+1+1];
   char change_list_names[B_LAST+1+U_LAST+1][200];
   int change_list_ids[B_LAST+1+U_LAST+1];
-  int change_list_no_improvements;
+  int change_list_num_improvements;
 
   int is_modal;
 };
@@ -360,7 +360,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    NULL);
 
 
-  for(i=1; i<NO_CITIZENS_SHOWN; i++)
+  for(i=1; i<NUM_CITIZENS_SHOWN; i++)
     pdialog->citizen_labels[i]=
     XtVaCreateManagedWidget("citizenlabels",
 			    commandWidgetClass,
@@ -512,7 +512,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   pdialog->support_unit_ids[0]=-1;
 
 
-  for(i=1; i<NO_UNITS_SHOWN; i++) {
+  for(i=1; i<NUM_UNITS_SHOWN; i++) {
     pdialog->support_unit_pixcomms[i]=
       XtVaCreateManagedWidget("supportunitcanvas",
 			      pixcommWidgetClass,
@@ -546,7 +546,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    NULL);
   pdialog->present_unit_ids[0]=-1;
 
-  for(i=1; i<NO_UNITS_SHOWN; i++) {
+  for(i=1; i<NUM_UNITS_SHOWN; i++) {
     pdialog->present_unit_pixcomms[i]=
       XtVaCreateManagedWidget("presentunitcanvas",
 			      pixcommWidgetClass,
@@ -650,7 +650,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   for(i=0; i<B_LAST+1; i++)
     pdialog->improvlist_names_ptrs[i]=0;
 
-  for(i=0; i<NO_CITIZENS_SHOWN; i++)
+  for(i=0; i<NUM_CITIZENS_SHOWN; i++)
     pdialog->citizen_type[i]=-1;
 
   
@@ -1095,7 +1095,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
   int i, n;
   struct city *pcity=pdialog->pcity;
     
-  for(i=0, n=0; n<pcity->ppl_happy[4] && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(i=0, n=0; n<pcity->ppl_happy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=5 &&  pdialog->citizen_type[i]!=6) {
       pdialog->citizen_type[i]=5+i%2;
       xaw_set_bitmap(pdialog->citizen_labels[i], 
@@ -1104,7 +1104,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
     }
 
-  for(n=0; n<pcity->ppl_content[4] && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_content[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=3 && pdialog->citizen_type[i]!=4) {
       pdialog->citizen_type[i]=3+i%2;
       xaw_set_bitmap(pdialog->citizen_labels[i], 
@@ -1113,7 +1113,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
     }
       
-  for(n=0; n<pcity->ppl_unhappy[4] && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_unhappy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=7) {
       xaw_set_bitmap(pdialog->citizen_labels[i], get_citizen_pixmap(7));
       pdialog->citizen_type[i]=7;
@@ -1121,7 +1121,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       XtSetSensitive(pdialog->citizen_labels[i], FALSE);
     }
       
-  for(n=0; n<pcity->ppl_elvis && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_elvis && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=0) {
       xaw_set_bitmap(pdialog->citizen_labels[i], get_citizen_pixmap(0));
       pdialog->citizen_type[i]=0;
@@ -1132,7 +1132,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     }
 
   
-  for(n=0; n<pcity->ppl_scientist && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_scientist && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=1) {
       xaw_set_bitmap(pdialog->citizen_labels[i], get_citizen_pixmap(1));
       pdialog->citizen_type[i]=1;
@@ -1142,7 +1142,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       XtSetSensitive(pdialog->citizen_labels[i], TRUE);
     }
   
-  for(n=0; n<pcity->ppl_taxman && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_taxman && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=2) {
       xaw_set_bitmap(pdialog->citizen_labels[i], get_citizen_pixmap(2));
       pdialog->citizen_type[i]=2;
@@ -1152,7 +1152,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       XtSetSensitive(pdialog->citizen_labels[i], TRUE);
     }
   
-  for(; i<NO_CITIZENS_SHOWN; i++) {
+  for(; i<NUM_CITIZENS_SHOWN; i++) {
     xaw_set_bitmap(pdialog->citizen_labels[i], None);
     XtSetSensitive(pdialog->citizen_labels[i], FALSE);
     XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
@@ -1199,16 +1199,16 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   struct unit *punit;
 
   if(unitid) {
-    for(i=0; i<NO_UNITS_SHOWN; i++)
+    for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->support_unit_ids[i]==unitid)
 	break;
-    if(i==NO_UNITS_SHOWN)
+    if(i==NUM_UNITS_SHOWN)
       unitid=0;
   }
   
   genlist_iterator_init(&myiter, &pdialog->pcity->units_supported.list, 0);
 
-  for(i=0; i<NO_UNITS_SHOWN && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
+  for(i=0; i<NUM_UNITS_SHOWN && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
         
     if(unitid && punit->id!=unitid)
@@ -1231,7 +1231,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     XtSetSensitive(pdialog->support_unit_pixcomms[i], TRUE);
   }
     
-  for(; i<NO_UNITS_SHOWN; i++) {
+  for(; i<NUM_UNITS_SHOWN; i++) {
     XawPixcommClear(pdialog->support_unit_pixcomms[i]);
     pdialog->support_unit_ids[i]=0;
     XtSetSensitive(pdialog->support_unit_pixcomms[i], FALSE);
@@ -1248,17 +1248,17 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   struct unit *punit;
   
   if(unitid) {
-    for(i=0; i<NO_UNITS_SHOWN; i++)
+    for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->present_unit_ids[i]==unitid)
 	break;
-    if(i==NO_UNITS_SHOWN)
+    if(i==NUM_UNITS_SHOWN)
       unitid=0;
   }
 
   genlist_iterator_init(&myiter, 
 	&map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units.list, 0);
   
-  for(i=0; i<NO_UNITS_SHOWN && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
+  for(i=0; i<NUM_UNITS_SHOWN && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
     
     if(unitid && punit->id!=unitid)
@@ -1282,7 +1282,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     XtSetSensitive(pdialog->present_unit_pixcomms[i], TRUE);
   }
 
-  for(; i<NO_UNITS_SHOWN; i++) {
+  for(; i<NUM_UNITS_SHOWN; i++) {
     XawPixcommClear(pdialog->present_unit_pixcomms[i]);
     pdialog->present_unit_ids[i]=0;
     XtSetSensitive(pdialog->present_unit_pixcomms[i], FALSE);
@@ -1586,7 +1586,7 @@ void change_to_callback(Widget w, XtPointer client_data, XtPointer call_data)
     packet.name[0]='\0';
     packet.build_id=pdialog->change_list_ids[ret->list_index];
     packet.is_build_id_unit_id=
-      (ret->list_index >= pdialog->change_list_no_improvements);
+      (ret->list_index >= pdialog->change_list_num_improvements);
     
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
   }
@@ -1621,7 +1621,7 @@ void change_help_callback(Widget w, XtPointer client_data, XtPointer call_data)
   ret=XawListShowCurrent(pdialog->change_list);
   if(ret->list_index!=XAW_LIST_NONE) {
     int idx = pdialog->change_list_ids[ret->list_index];
-    int is_unit = (ret->list_index >= pdialog->change_list_no_improvements);
+    int is_unit = (ret->list_index >= pdialog->change_list_num_improvements);
 
     if (is_unit) {
       popup_help_dialog_typed(get_unit_type(idx)->name, HELP_UNIT);
@@ -1724,7 +1724,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
       pdialog->change_list_ids[n++]=i;
     }
   
-  pdialog->change_list_no_improvements=n;
+  pdialog->change_list_num_improvements=n;
 
 
   for(i=0; i<U_LAST; i++)

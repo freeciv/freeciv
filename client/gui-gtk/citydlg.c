@@ -47,8 +47,8 @@ extern int flags_are_transparent;
 extern GdkGC *fill_bg_gc;
 extern GdkGC *civ_gc;
 
-#define NO_UNITS_SHOWN  12
-#define NO_CITIZENS_SHOWN 25
+#define NUM_UNITS_SHOWN  12
+#define NUM_CITIZENS_SHOWN 25
 
 #define FIXED_10_BFONT  "-b&h-lucidatypewriter-bold-r-normal-*-10-*-*-*-*-*-*-*"
 
@@ -57,8 +57,8 @@ struct city_dialog {
   GtkWidget *shell;
   GtkWidget *main_form;
   GtkWidget *cityname_label;
-  GtkWidget *citizen_boxes		[NO_CITIZENS_SHOWN];
-  GtkWidget *citizen_pixmaps		[NO_CITIZENS_SHOWN];
+  GtkWidget *citizen_boxes		[NUM_CITIZENS_SHOWN];
+  GtkWidget *citizen_pixmaps		[NUM_CITIZENS_SHOWN];
   GtkWidget *production_label;
   GtkWidget *output_label;
   GtkWidget *storage_label;
@@ -71,26 +71,26 @@ struct city_dialog {
   GtkWidget *building_label, *progress_label, *buy_command, *change_command;
   GtkWidget *improvement_viewport, *improvement_list;
   GtkWidget *support_unit_label;
-  GtkWidget *support_unit_boxes		[NO_UNITS_SHOWN];
-  GtkWidget *support_unit_pixmaps	[NO_UNITS_SHOWN];
+  GtkWidget *support_unit_boxes		[NUM_UNITS_SHOWN];
+  GtkWidget *support_unit_pixmaps	[NUM_UNITS_SHOWN];
   GtkWidget *present_unit_label;
-  GtkWidget *present_unit_boxes		[NO_UNITS_SHOWN];
-  GtkWidget *present_unit_pixmaps	[NO_UNITS_SHOWN];
+  GtkWidget *present_unit_boxes		[NUM_UNITS_SHOWN];
+  GtkWidget *present_unit_pixmaps	[NUM_UNITS_SHOWN];
   GtkWidget *change_list;
   GtkWidget *rename_input;
   
   enum improvement_type_id sell_id;
   
-  int citizen_type[NO_CITIZENS_SHOWN];
-  int support_unit_ids[NO_UNITS_SHOWN];
-  int present_unit_ids[NO_UNITS_SHOWN];
+  int citizen_type[NUM_CITIZENS_SHOWN];
+  int support_unit_ids[NUM_UNITS_SHOWN];
+  int present_unit_ids[NUM_UNITS_SHOWN];
   char improvlist_names[B_LAST+1][64];
   char *improvlist_names_ptrs[B_LAST+1];
   
   char *change_list_names_ptrs[B_LAST+1+U_LAST+1+1];
   char change_list_names[B_LAST+1+U_LAST+1][200];
   int change_list_ids[B_LAST+1+U_LAST+1];
-  int change_list_no_improvements;
+  int change_list_num_improvements;
 
   int is_modal;
 };
@@ -330,7 +330,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   box=gtk_hbox_new(FALSE, 1);
   gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
   
-  for(i=0; i<NO_CITIZENS_SHOWN; i++) {
+  for(i=0; i<NUM_CITIZENS_SHOWN; i++) {
     pdialog->citizen_boxes[i]=gtk_event_box_new();
     gtk_box_pack_start(GTK_BOX(box), pdialog->citizen_boxes[i], FALSE, FALSE,0);
 
@@ -438,7 +438,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   gtk_container_add(GTK_CONTAINER(pdialog->support_unit_label),box);
   gtk_widget_realize(box);
 
-  for(i=0; i<NO_UNITS_SHOWN; i++) {
+  for(i=0; i<NUM_UNITS_SHOWN; i++) {
     pdialog->support_unit_boxes[i]=gtk_event_box_new();
     gtk_box_pack_start(GTK_BOX(box), pdialog->support_unit_boxes[i],
 		       TRUE, FALSE, 0);
@@ -469,7 +469,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   gtk_container_add(GTK_CONTAINER(pdialog->present_unit_label),box);
   gtk_widget_realize(box);
 
-  for(i=0; i<NO_UNITS_SHOWN; i++) {
+  for(i=0; i<NUM_UNITS_SHOWN; i++) {
     pdialog->present_unit_boxes[i]=gtk_event_box_new();
     gtk_box_pack_start(GTK_BOX(box), pdialog->present_unit_boxes[i],
 		       TRUE, FALSE, 0);
@@ -552,7 +552,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   for(i=0; i<B_LAST+1; i++)
     pdialog->improvlist_names_ptrs[i]=0;
 
-  for(i=0; i<NO_CITIZENS_SHOWN; i++)
+  for(i=0; i<NUM_CITIZENS_SHOWN; i++)
     pdialog->citizen_type[i]=-1;
 
   refresh_city_dialog(pdialog->pcity);
@@ -988,7 +988,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
   int i, n;
   struct city *pcity=pdialog->pcity;
     
-  for(i=0, n=0; n<pcity->ppl_happy[4] && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(i=0, n=0; n<pcity->ppl_happy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=5 && pdialog->citizen_type[i]!=6) {
       pdialog->citizen_type[i]=5+i%2;
 
@@ -999,7 +999,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
     }
 
-  for(n=0; n<pcity->ppl_content[4] && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_content[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=3 && pdialog->citizen_type[i]!=4) {
       pdialog->citizen_type[i]=3+i%2;
 
@@ -1010,7 +1010,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
     }
       
-  for(n=0; n<pcity->ppl_unhappy[4] && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_unhappy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=7) {
 
       gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
@@ -1022,7 +1022,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], FALSE);
     }
       
-  for(n=0; n<pcity->ppl_elvis && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_elvis && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=0) {
 
       gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
@@ -1038,7 +1038,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     }
 
   
-  for(n=0; n<pcity->ppl_scientist && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_scientist && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=1) {
 
       gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
@@ -1053,7 +1053,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
     }
   
-  for(n=0; n<pcity->ppl_taxman && i<NO_CITIZENS_SHOWN; n++, i++)
+  for(n=0; n<pcity->ppl_taxman && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=2) {
 
       gtk_pixmap_set(GTK_PIXMAP(pdialog->citizen_pixmaps[i]),
@@ -1068,7 +1068,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
     }
   
-  for(; i<NO_CITIZENS_SHOWN; i++) {
+  for(; i<NUM_CITIZENS_SHOWN; i++) {
       gdk_draw_rectangle(GTK_PIXMAP(pdialog->citizen_pixmaps[i])->pixmap,
 	toplevel->style->bg_gc[GTK_STATE_NORMAL], TRUE,
 	0, 0,
@@ -1124,16 +1124,16 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   struct unit *punit;
 
   if(unitid) {
-    for(i=0; i<NO_UNITS_SHOWN; i++)
+    for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->support_unit_ids[i]==unitid)
 	break;
-    if(i==NO_UNITS_SHOWN)
+    if(i==NUM_UNITS_SHOWN)
       unitid=0;
   }
   
   genlist_iterator_init(&myiter, &pdialog->pcity->units_supported.list, 0);
 
-  for(i=0; i<NO_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
+  for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
         
     if(unitid && punit->id!=unitid)
@@ -1157,7 +1157,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], TRUE);
   }
     
-  for(; i<NO_UNITS_SHOWN; i++) {
+  for(; i<NUM_UNITS_SHOWN; i++) {
     gtk_clear_pixmap(pdialog->support_unit_pixmaps[i]);
     pdialog->support_unit_ids[i]=0;
     gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], FALSE);
@@ -1174,17 +1174,17 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   struct unit *punit;
   
   if(unitid) {
-    for(i=0; i<NO_UNITS_SHOWN; i++)
+    for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->present_unit_ids[i]==unitid)
 	break;
-    if(i==NO_UNITS_SHOWN)
+    if(i==NUM_UNITS_SHOWN)
       unitid=0;
   }
 
   genlist_iterator_init(&myiter, 
 	&map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units.list, 0);
   
-  for(i=0; i<NO_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
+  for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
     
     if(unitid && punit->id!=unitid)
@@ -1207,7 +1207,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 	GTK_SIGNAL_FUNC(present_units_callback), (gpointer)punit->id);
     gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], TRUE);
   }
-  for(; i<NO_UNITS_SHOWN; i++) {
+  for(; i<NUM_UNITS_SHOWN; i++) {
     gtk_clear_pixmap(pdialog->present_unit_pixmaps[i]);
     pdialog->present_unit_ids[i]=0;
     gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], FALSE);
@@ -1519,7 +1519,7 @@ void change_to_callback(GtkWidget *w, gpointer data)
     packet.name[0]='\0';
     packet.build_id=pdialog->change_list_ids[row];
     packet.is_build_id_unit_id=
-      (row >= pdialog->change_list_no_improvements);
+      (row >= pdialog->change_list_num_improvements);
     
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
   }
@@ -1554,7 +1554,7 @@ void change_help_callback(GtkWidget *w, gpointer data)
     char *text;
     gint row = (gint)selection->data;
     int idx = pdialog->change_list_ids[row];
-    int is_unit = (row >= pdialog->change_list_no_improvements);
+    int is_unit = (row >= pdialog->change_list_num_improvements);
     
     gtk_clist_get_text(GTK_CLIST(pdialog->change_list), row, 0, &text);
 
@@ -1650,7 +1650,7 @@ void change_callback(GtkWidget *w, gpointer data)
       pdialog->change_list_ids[n++]=i;
     }
   
-  pdialog->change_list_no_improvements=n;
+  pdialog->change_list_num_improvements=n;
 
 
   for(i=0; i<U_LAST; i++)

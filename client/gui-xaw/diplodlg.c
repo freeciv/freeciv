@@ -45,7 +45,7 @@
 
 extern Widget toplevel;
 
-#define MAX_NO_CLAUSES 64
+#define MAX_NUM_CLAUSES 64
 
 struct Diplomacy_dialog {
   struct Treaty treaty;
@@ -82,8 +82,8 @@ struct Diplomacy_dialog {
 
   Widget dip_erase_clause_command;
   
-  char clauselist_strings[MAX_NO_CLAUSES+1][64];
-  char *clauselist_strings_ptrs[MAX_NO_CLAUSES+1];
+  char clauselist_strings[MAX_NUM_CLAUSES+1][64];
+  char *clauselist_strings_ptrs[MAX_NUM_CLAUSES+1];
 };
 
 char *dummy_clause_list_strings[]={ "\n", "\n", "\n", "\n", "\n", "\n", 0};
@@ -564,7 +564,7 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   
   genlist_iterator_init(&myiter, &pdialog->treaty.clauses, 0);
   
-  for(i=0; i<MAX_NO_CLAUSES && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+  for(i=0; i<MAX_NUM_CLAUSES && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
     
     switch(pclause->type) {

@@ -32,7 +32,7 @@
 
 extern GtkWidget *toplevel;
 
-#define MAX_NO_CLAUSES 64
+#define MAX_NUM_CLAUSES 64
 
 struct Diplomacy_dialog {
   struct Treaty treaty;
@@ -487,7 +487,7 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 
   genlist_iterator_init(&myiter, &pdialog->treaty.clauses, 0);
   
-  for(i=0; i<MAX_NO_CLAUSES && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+  for(i=0; i<MAX_NUM_CLAUSES && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
     
     switch(pclause->type) {
