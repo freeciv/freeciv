@@ -201,7 +201,9 @@ void refresh_city_dialog(struct city *pcity)
   if (pcity->owner==game.player_idx) {
     city_report_dialog_update_city(pcity);
     economy_report_dialog_update();   
-    update_worklist_editor_win(pdialog->tab_childs[PAGE_WORKLIST]);
+    if (pdialog != NULL) {
+      update_worklist_editor_win(pdialog->tab_childs[PAGE_WORKLIST]);
+    }
   }
   else if (pdialog) {
       EnableWindow(pdialog->buy_but,FALSE);
