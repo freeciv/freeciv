@@ -1311,6 +1311,18 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 	  "update_map_canvas(pos=(%d,%d), size=(%d,%d))",
 	  canvas_x, canvas_y, width, height);
 
+  /* Clear the area.  This is necessary since some parts of the rectangle
+   * may not actually have any tiles drawn on them.  This will happen when
+   * the mapview is large enough so that the tile is visible in multiple
+   * locations.  In this case it will only be drawn in one place.
+   *
+   * Of course it's necessary to draw to the whole area to cover up any old
+   * drawing that was done there. */
+  canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
+		       canvas_x, canvas_y, width, height);
+
+  /* FIXME: we don't have to draw black (unknown) tiles since they're already
+   * cleared. */
   if (is_isometric) {
     gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
       put_tile_iso(map_x, map_y, draw);
@@ -1349,15 +1361,6 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 void update_map_canvas_visible(void)
 {
   dirty_all();
-
-  /* Clear the entire mapview.  This is necessary since if the mapview is
-   * large enough duplicated tiles will not be drawn twice.  Those areas of
-   * the mapview aren't updated at all and can be cluttered with city names
-   * and other junk. */
-  /* FIXME: we don't have to draw black (unknown) tiles since they're already
-   * cleared. */
-  canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
-		       0, 0, mapview_canvas.width, mapview_canvas.height);
   update_map_canvas(0, 0, mapview_canvas.width, mapview_canvas.height);
 }
 
