@@ -17,6 +17,4 @@
 
 #include "spaceshipdlg_g.h"
 
-void close_spaceship_dialog_action(GtkWidget *w, gpointer data);
-
 #endif  /* FC__SPACESHIPDLG_H */
