@@ -15,6 +15,7 @@
 
 #include "unit.h"
 #include "packets.h"		/* enum unit_info_use */
+#include "gotohand.h"
 
 struct city;
 struct player;
