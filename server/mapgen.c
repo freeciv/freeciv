@@ -1697,11 +1697,9 @@ static void adjust_hmap(void)
 static void mapgenerator1(void)
 {
   int i;
-  height_map=fc_malloc (sizeof(int)*map.xsize*map.ysize);
+  height_map = fc_malloc (sizeof(int) * MAX_MAP_INDEX);
 
-  whole_map_iterate(x, y) {
-    hmap(x, y) = myrand(40) + ((500 - abs(map.ysize / 2 - y)) / 10);
-  } whole_map_iterate_end;
+  INITIALIZE_ARRAY(height_map, MAX_MAP_INDEX, myrand(40) );
 
   for (i=0;i<1500;i++) {
     int x, y;
@@ -2677,12 +2675,10 @@ static void mapgenerator5(void)
   /* edges are avoided more strongly as this increases */
   int avoidedge = (50 - map.landpercent) * step / 100 + step / 3; 
 
-  height_map = fc_malloc(sizeof(int) * map.xsize * map.ysize);
+  height_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
 
-  /* initialize map */
-  whole_map_iterate(x, y) {
-    hmap(x, y) = 0;
-  } whole_map_iterate_end;
+ /* initialize map */
+  INITIALIZE_ARRAY(height_map, MAX_MAP_INDEX, 0);
 
   /* set initial points */
   for (xn = 0; xn < xdiv2; xn++) {
