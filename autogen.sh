@@ -86,7 +86,7 @@ version_check ()
   elif [ "$pkg_major" -eq "$MAJOR" ]; then
     if [ "$pkg_minor" -lt "$MINOR" ]; then
       WRONG=1
-    elif [ "$pkg_minor" -eq "$MINOR" -a "$pkg_minor" -lt "$MINOR" ]; then
+    elif [ "$pkg_minor" -eq "$MINOR" -a "$pkg_micro" -lt "$MICRO" ]; then
       WRONG=1
     fi
   fi
