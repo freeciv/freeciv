@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-10-20 12:57-0400\n"
+"POT-Creation-Date: 2003-10-21 12:38+0200\n"
 "PO-Revision-Date: 2003-05-14 12:45+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -2434,9 +2434,8 @@ msgid "Please choose a non-blank name."
 msgstr "Kies alstublieft een niet-lege naam."
 
 #: server/srv_main.c:1012
-#, fuzzy
 msgid "Please choose a legal name."
-msgstr "Kies alstublieft een niet-lege naam."
+msgstr "Kies alstublieft een geldige naam."
 
 #: server/srv_main.c:1036
 #, c-format
@@ -5418,7 +5417,7 @@ msgstr ""
 
 #: client/attribute.c:277
 msgid "Old attributes detected and removed."
-msgstr ""
+msgstr "Oude attributen gezien en verwijderd."
 
 #: client/audio.c:132
 #, c-format
@@ -6409,18 +6408,16 @@ msgid "End Turn when done moving"
 msgstr "Einde Beurt als klaar met verplaatsen"
 
 #: client/options.c:109
-#, fuzzy
 msgid "Use Alt/Meta for accelerators (GTK+ only)"
-msgstr "Gebruik Alt/Meta voor sneltoetsen (alleen GTK)"
+msgstr "Gebruik Alt/Meta voor sneltoetsen (alleen GTK+)"
 
 #: client/options.c:110
-#, fuzzy
 msgid "Show Map Scrollbars (GTK+ only)"
-msgstr "Toon kaartscrollbars (alleen GTK)"
+msgstr "Toon kaartscrollbars (alleen GTK+)"
 
 #: client/options.c:111
 msgid "Keep dialogs on top (GTK+ 2.0 only)"
-msgstr ""
+msgstr "Houd dialogen bovenop (alleen GTK+ 2.0)"
 
 #: client/options.c:178
 msgid "City: Building Unavailable Item"
@@ -7039,9 +7036,8 @@ msgid "Pollution:"
 msgstr "Verontreiniging:"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-#, fuzzy
 msgid "_Overview"
-msgstr "Overzicht"
+msgstr "_Overzicht"
 
 #: client/gui-gtk-2.0/citydlg.c:554 client/gui-gtk-2.0/wldlg.c:822
 #: client/gui-gtk/citydlg.c:2954 client/gui-gtk/wldlg.c:310
@@ -7076,9 +7072,8 @@ msgid "_Improvements:"
 msgstr "Verbeter_ingen:"
 
 #: client/gui-gtk-2.0/citydlg.c:741
-#, fuzzy
 msgid "Pro_duction"
-msgstr "Productie"
+msgstr "Pro_ductie"
 
 #: client/gui-gtk-2.0/citydlg.c:770 client/gui-gtk-2.0/cityrep.c:679
 #: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
@@ -7091,18 +7086,16 @@ msgid "_Happiness"
 msgstr "_Geluk"
 
 #: client/gui-gtk-2.0/citydlg.c:843
-#, fuzzy
 msgid "C_MA"
-msgstr "Burgemeester"
+msgstr "Burge_meester"
 
 #: client/gui-gtk-2.0/citydlg.c:863 client/gui-gtk/citydlg.c:1210
 msgid "_Trade Routes"
 msgstr "_Handelsroutes"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-#, fuzzy
 msgid "_Settings"
-msgstr "Instellingen"
+msgstr "In_stellingen"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
 msgid "Entertainers"
@@ -8204,7 +8197,7 @@ msgstr "_Goud:"
 
 #: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
 msgid "_Add Clause..."
-msgstr ""
+msgstr "Nieuwe cl_ausule..."
 
 #: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
@@ -9763,9 +9756,8 @@ msgid "_Add Global Worklist"
 msgstr "_Nieuwe Algemene Werklijst"
 
 #: client/gui-gtk-2.0/wldlg.c:988
-#, fuzzy
 msgid "Chan_ge Production"
-msgstr "Verander Productie"
+msgstr "Verander _Productie"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -15612,7 +15604,6 @@ msgid "Comrade"
 msgstr "Kameraad"
 
 #: data/default/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15654,7 +15645,7 @@ msgstr ""
 "waren wanneer de kosten van het starten van een revolutie moeten worden "
 "berekend (zie Eenheden, Diplomaat).\n"
 "\n"
-"Kolonisten verbruiken 2 voeding per beurt onder Communisme.\n"
+"Kolonisten verbruiken 1 voeding per beurt onder Communisme.\n"
 "\n"
 "Als een stad onder Communisme iets viert, dan ontvangt zij een bonus van 1 "
 "handelspunt per vlak waar al tenminste 1 handelspunt wordt verdient. Zie "
@@ -15667,7 +15658,7 @@ msgstr ""
 "\n"
 "Onder Communisme kunnen uw steden drie militaire eenheden ondersteunen "
 "zonder onderhoud te hoeven betalen. (Alle extra eenheden gebruiken elk 1 "
-"voedingspunt per beurt.)\n"
+"productiepunt per beurt.)\n"
 "\n"
 "U legt een beperkte maar efficiënte krijgstucht op onder Communisme. Elke "
 "militaire eenheid in een stad, tot een maximum van 3, houdt 2 ontevreden "
@@ -16012,7 +16003,6 @@ msgstr ""
 "zullen zich tevreden gedragen en zullen geen wanorde veroorzaken.)"
 
 #: data/civ1/governments.ruleset:286
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -16046,14 +16036,13 @@ msgstr ""
 "\n"
 "Onder Monarchie kunnen uw steden drie militaire eenheden ondersteunen zonder "
 "onderhoud te hoeven betalen. (Alle extra eenheden gebruiken elk 1 "
-"voedingspunt per beurt.)\n"
+"productiepunt per beurt.)\n"
 "\n"
 "U legt een beperkte maar efficiënte krijgstucht op onder Monarchie. Elke "
 "militaire eenheid in een stad, tot een maximum van 3, houdt 1 ontevreden "
 "burger tevreden."
 
 #: data/civ1/governments.ruleset:353
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16093,7 +16082,7 @@ msgstr ""
 "waren wanneer de kosten van het starten van een revolutie moeten worden "
 "berekend (zie Eenheden, Diplomaat).\n"
 "\n"
-"Kolonisten verbruiken 2 voeding per beurt onder Communisme.\n"
+"Kolonisten verbruiken 1 voeding per beurt onder Communisme.\n"
 "\n"
 "Als een stad onder Communisme iets viert, dan ontvangt zij een bonus van 1 "
 "handelspunt per vlak waar al tenminste 1 handelspunt wordt verdient. Zie "
@@ -16104,7 +16093,7 @@ msgstr ""
 "\n"
 "Onder Communisme kunnen uw steden drie militaire eenheden ondersteunen "
 "zonder onderhoud te hoeven betalen. (Alle extra eenheden gebruiken elk 1 "
-"voedingspunt per beurt.)\n"
+"productiepunt per beurt.)\n"
 "\n"
 "U legt een beperkte maar efficiënte krijgstucht op onder Communisme. Elke "
 "militaire eenheid in een stad, tot een maximum van 3, houdt 2 ontevreden "
