@@ -423,10 +423,15 @@ void get_city_dialog_output_text(const struct city *pcity,
 
     for (i = 0; i < NUM_TRADEROUTES; i++) {
       if (pcity->trade[i] != 0 && pcity->trade_value[i] != 0) {
+	/* There have been bugs causing the trade city to not be sent
+	 * properly to the client.  If this happens we trust the
+	 * trade_value[] array and simply don't give the name of the
+	 * city. */
 	struct city *trade_city = find_city_by_id(pcity->trade[i]);
+	char *name = trade_city ? trade_city->name : _("(unknown)");
 
 	cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
-		     pcity->trade_value[i], trade_city->name);
+		     pcity->trade_value[i], name);
 	total += pcity->trade_value[i];
       }
     }
