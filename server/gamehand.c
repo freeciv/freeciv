@@ -24,6 +24,7 @@
 #include <packets.h>
 #include <map.h>
 #include <meta.h>
+#include <capability.h>
 
 extern char metaserver_info_line[];
 
