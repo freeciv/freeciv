@@ -229,7 +229,7 @@ void initialize_move_costs(void);
 void reset_move_costs(int x, int y);
 
 /* Maximum value of index (for sanity checks and allocations) */
-#define MAX_MAP_INDEX map.xsize * map.ysize
+#define MAX_MAP_INDEX (map.xsize * map.ysize)
 
 #ifdef DEBUG
 #define CHECK_MAP_POS(x,y) assert(is_normal_map_pos((x),(y)))
