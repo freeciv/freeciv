@@ -140,7 +140,7 @@ void load_intro_gfx(void)
 		  (tot - rect.width) / 2, y, layout);
 
   /* done */
-  g_object_unref(G_OBJECT(layout));
+  g_object_unref(layout);
   return;
 }
 
@@ -317,7 +317,7 @@ struct Sprite *load_gfxfile(const char *filename)
   mysprite->width     = w;
   mysprite->height    = h;
 
-  g_object_unref(G_OBJECT(im));
+  g_object_unref(im);
 
   return mysprite;
 }
@@ -328,9 +328,9 @@ struct Sprite *load_gfxfile(const char *filename)
 void free_sprite(SPRITE *s)
 {
   if (s->pixmap)
-    g_object_unref(G_OBJECT(s->pixmap));
+    g_object_unref(s->pixmap);
   if (s->mask)
-    g_object_unref(G_OBJECT(s->mask));
+    g_object_unref(s->mask);
   free(s);
   return;
 }

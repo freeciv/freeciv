@@ -387,8 +387,8 @@ static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
   button = gtk_button_new();
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   gtk_container_add(GTK_CONTAINER(button), label);
-  g_signal_connect_swapped(G_OBJECT(button), "clicked",
-  	  G_CALLBACK(help_hyperlink_callback), G_OBJECT(label));
+  g_signal_connect_swapped(button, "clicked",
+			   G_CALLBACK(help_hyperlink_callback), label);
   g_object_set_data(G_OBJECT(label), "page_type", GUINT_TO_POINTER(type));
   return button;
 }
@@ -401,8 +401,8 @@ static GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
   label = gtk_label_new(txt);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   gtk_container_add(GTK_CONTAINER(button), label);
-  g_signal_connect_swapped(G_OBJECT(button), "clicked",
-  	  G_CALLBACK(help_hyperlink_callback), G_OBJECT(label));
+  g_signal_connect_swapped(button, "clicked",
+			   G_CALLBACK(help_hyperlink_callback), label);
   g_object_set_data(G_OBJECT(label), "page_type", GUINT_TO_POINTER(type));
   return button;
 }
@@ -436,8 +436,8 @@ static void create_help_dialog(void)
   help_dialog_shell = gtk_dialog_new();
   gtk_widget_set_name(help_dialog_shell, "Freeciv");
 
-  g_signal_connect( G_OBJECT( help_dialog_shell ), "destroy",
-  	  G_CALLBACK( gtk_widget_destroyed ), &help_dialog_shell );
+  g_signal_connect(help_dialog_shell, "destroy",
+		   G_CALLBACK(gtk_widget_destroyed), &help_dialog_shell);
 
   gtk_window_set_title( GTK_WINDOW( help_dialog_shell ), _("Freeciv Help Browser") );
   gtk_container_border_width( GTK_CONTAINER( help_dialog_shell ), 5 );
@@ -477,6 +477,7 @@ static void create_help_dialog(void)
 
   /* create tree view. */
   help_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(help_view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(help_view), FALSE);
 
@@ -606,9 +607,8 @@ static void create_help_dialog(void)
   gtk_ctree_set_expander_style(GTK_CTREE(help_tree),
   				  GTK_CTREE_EXPANDER_CIRCULAR);
 
-  g_signal_connect(G_OBJECT(help_tree), "button_press_event",
-		     G_CALLBACK(help_tech_tree_mouse_callback),
-		     NULL);
+  g_signal_connect(help_tree, "button_press_event",
+		   G_CALLBACK(help_tech_tree_mouse_callback), NULL);
   help_tree_scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(help_tree_scrolled), help_tree);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_tree_scrolled),
@@ -620,18 +620,15 @@ static void create_help_dialog(void)
   help_tree_collapse = gtk_button_new_with_label(_("Collapse All"));
   help_tree_reset = gtk_button_new_with_label(_("Reset Tree"));
   help_tree_expand_unknown = gtk_button_new_with_label(_("Expand Unknown"));
-  g_signal_connect(G_OBJECT(help_tree_expand), "clicked",
-		     G_CALLBACK(help_tech_tree_expand_callback),
-		     help_tree);
-  g_signal_connect(G_OBJECT(help_tree_collapse), "clicked",
-		     G_CALLBACK(help_tech_tree_collapse_callback),
-		     help_tree);
-  g_signal_connect(G_OBJECT(help_tree_reset), "clicked",
-		     G_CALLBACK(help_tech_tree_reset_callback),
-		     help_tree);
-  g_signal_connect(G_OBJECT(help_tree_expand_unknown), "clicked",
-		     G_CALLBACK(help_tech_tree_expand_unknown_callback),
-		     help_tree);
+  g_signal_connect(help_tree_expand, "clicked",
+		   G_CALLBACK(help_tech_tree_expand_callback), help_tree);
+  g_signal_connect(help_tree_collapse, "clicked",
+		   G_CALLBACK(help_tech_tree_collapse_callback), help_tree);
+  g_signal_connect(help_tree_reset, "clicked",
+		   G_CALLBACK(help_tech_tree_reset_callback), help_tree);
+  g_signal_connect(help_tree_expand_unknown, "clicked",
+		   G_CALLBACK(help_tech_tree_expand_unknown_callback),
+		   help_tree);
   help_tree_buttons_hbox = gtk_hbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox), help_tree_expand,
 		     FALSE, FALSE, 0);
@@ -650,8 +647,8 @@ static void create_help_dialog(void)
   GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( button );
 
-  g_signal_connect_swapped(G_OBJECT(button), "clicked",
-  	  G_CALLBACK(popdown_help_dialog), G_OBJECT(help_dialog_shell));
+  g_signal_connect_swapped(button, "clicked",
+			   G_CALLBACK(popdown_help_dialog), help_dialog_shell);
 
   gtk_widget_show_all( GTK_DIALOG(help_dialog_shell)->vbox );
   gtk_widget_hide_all( help_box );

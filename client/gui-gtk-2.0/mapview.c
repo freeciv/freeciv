@@ -1422,7 +1422,7 @@ static void show_city_descriptions(GdkRectangle *area)
 
   gdk_gc_set_clip_rectangle(toplevel->style->black_gc, NULL);
   gdk_gc_set_clip_rectangle(toplevel->style->white_gc, NULL);
-  g_object_unref(G_OBJECT(layout));
+  g_object_unref(layout);
 }
 
 /**************************************************************************

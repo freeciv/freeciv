@@ -16,6 +16,7 @@
 #include <gtk/gtk.h>
 
 GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel);
+GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text);
 void gtk_set_label(GtkWidget *w, char *text);
 void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm);
 void gtk_expose_now(GtkWidget *w);
@@ -46,5 +47,8 @@ void tstore_remove(ITree *it);
 gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it);
 void itree_select(GtkTreeSelection *selection, ITree *it);
 void itree_unselect(GtkTreeSelection *selection, ITree *it);
+
+gint gtk_tree_selection_get_row(GtkTreeSelection *selection);
+void gtk_tree_view_focus(GtkTreeView *view);
 
 #endif  /* FC__GUI_STUFF_H */

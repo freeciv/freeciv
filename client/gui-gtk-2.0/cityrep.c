@@ -179,8 +179,8 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
 
   gtk_menu_item_remove_submenu(parent_item);
   menu = gtk_menu_new();
-  gtk_widget_set_name(menu, "prodmenu");
   gtk_menu_item_set_submenu(parent_item, menu);
+  gtk_widget_set_name(menu, "Freeciv");
 
   if (change_prod) {
     struct pcity_vector selected;
@@ -234,6 +234,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
     my_snprintf(txt, sizeof(txt), "%-30s %-12s %4s", row[0], row[1], row[2]);
 
     menu_item = gtk_menu_item_new_with_label(txt);
+    gtk_widget_set_name(menu_item, "monomenu");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
     g_signal_connect(menu_item, "activate", callback,
 		     GINT_TO_POINTER(items[item].cid));
@@ -380,13 +381,14 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
 
   gtk_menu_item_remove_submenu(parent_item);
   menu = gtk_menu_new();
-  gtk_widget_set_name(menu, "prodmenu");
   gtk_menu_item_set_submenu(parent_item, menu);
+  gtk_widget_set_name(menu, "Freeciv");
 
   if (change_cma) {
     for (i = -1; i < cmafec_preset_num(); i++) {
       w = (i == -1 ? gtk_menu_item_new_with_label(_("none"))
 	   : gtk_menu_item_new_with_label(cmafec_preset_get_descr(i)));
+      gtk_widget_set_name(w, "monomenu");
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
 		       GINT_TO_POINTER(i));
@@ -405,6 +407,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
 
     if (found) {
       w = gtk_menu_item_new_with_label(_("none"));
+      gtk_widget_set_name(w, "monomenu");
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
 		       GINT_TO_POINTER(CMA_NONE));
@@ -426,6 +429,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     if (found) {
       /* we found city that's under agent but not a preset */
       w = gtk_menu_item_new_with_label(_("custom"));
+      gtk_widget_set_name(w, "monomenu");
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate",
@@ -445,6 +449,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
       } city_list_iterate_end;
       if (found) {
 	w = gtk_menu_item_new_with_label(cmafec_preset_get_descr(i));
+        gtk_widget_set_name(w, "monomenu");
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
 	g_signal_connect(w, "activate",
@@ -624,7 +629,6 @@ static void create_city_report_dialog(bool make_modal)
   city_model_init();
 
   city_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(city_model));
-  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(city_view), TRUE);
   g_object_unref(city_model);
   city_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(city_view));
   gtk_tree_selection_set_mode(city_selection, GTK_SELECTION_MULTIPLE);
@@ -639,8 +643,8 @@ static void create_city_report_dialog(bool make_modal)
     col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
 	"text", i, NULL);
     gtk_tree_view_column_set_visible(col, spec->show);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(city_view), col);
     gtk_tree_view_column_set_sort_column_id(col, i);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(city_view), col);
   }
 
   sw = gtk_scrolled_window_new(NULL, NULL);

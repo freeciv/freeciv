@@ -1306,35 +1306,26 @@ void popup_government_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-static void revolution_callback_yes(GtkWidget *w, gpointer data)
-{
-  struct packet_player_request packet;
-
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_REVOLUTION);
-  
-  destroy_message_dialog(w);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void revolution_callback_no(GtkWidget *w, gpointer data)
-{
-  destroy_message_dialog(w);
-}
-
-
-
-/****************************************************************
-...
-*****************************************************************/
 void popup_revolution_dialog(void)
 {
-  popup_message_dialog(top_vbox, /*"revolutiondialog"*/_("Revolution!"), 
-		       _("You say you wanna revolution?"),
-		       _("_Yes"),revolution_callback_yes, 0,
-		       _("_No"),revolution_callback_no, 0, 
-		       0);
+  GtkWidget *shell;
+  gint       res;
+
+  shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+				 GTK_DIALOG_MODAL,
+				 GTK_MESSAGE_WARNING,
+				 GTK_BUTTONS_YES_NO,
+				 _("You say you wanna revolution?"));
+  gtk_window_set_title(GTK_WINDOW(shell), _("Revolution!"));
+
+  res = gtk_dialog_run(GTK_DIALOG(shell));
+
+  if (res == GTK_RESPONSE_YES) {
+    struct packet_player_request packet;
+
+    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_REVOLUTION);
+  }
+  gtk_widget_destroy(shell);
 }
 
 

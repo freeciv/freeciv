@@ -75,15 +75,15 @@ static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
 static void create_activeunits_report_dialog(bool make_modal);
-static void activeunits_close_callback(GtkWidget * w, gpointer data);
-static void activeunits_upgrade_callback(GtkWidget * w, gpointer data);
-static void activeunits_refresh_callback(GtkWidget * w, gpointer data);
-static void activeunits_list_callback(GtkWidget * w, gint row, gint column);
-static void activeunits_list_ucallback(GtkWidget * w, gint row, gint column);
+static void activeunits_command_callback(GtkWidget *w, gint response_id);
+static void activeunits_destroy_callback(GtkWidget *w, gpointer data);
+static void activeunits_selection_callback(GtkTreeSelection *selection,
+					   gpointer data);
 static int activeunits_type[U_LAST];
 static GtkWidget *activeunits_dialog_shell = NULL;
-static GtkWidget *activeunits_label2;
-static GtkWidget *activeunits_list;
+static GtkListStore *activeunits_store;
+static GtkTreeSelection *activeunits_selection;
+
 static GtkWidget *upgrade_command;
 
 static int activeunits_dialog_shell_is_modal;
@@ -220,7 +220,7 @@ void create_science_dialog(bool make_modal)
     view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(science_model[i]));
     gtk_box_pack_start(GTK_BOX(hbox), view, TRUE, TRUE, 0);
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-    g_object_unref(G_OBJECT(science_model[i]));
+    g_object_unref(science_model[i]);
     gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
     gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
@@ -766,184 +766,212 @@ void economy_report_dialog_update(void)
 void popup_activeunits_report_dialog(bool make_modal)
 {
   if(!activeunits_dialog_shell) {
-      activeunits_dialog_shell_is_modal=make_modal;
+    activeunits_dialog_shell_is_modal = make_modal;
     
-      if(make_modal)
-	gtk_widget_set_sensitive(top_vbox, FALSE);
-      
-      create_activeunits_report_dialog(make_modal);
-      gtk_set_relative_position(toplevel, activeunits_dialog_shell, 10, 10);
+    create_activeunits_report_dialog(make_modal);
+    gtk_set_relative_position(toplevel, activeunits_dialog_shell, 10, 10);
 
-      gtk_widget_show(activeunits_dialog_shell);
-   }
+    gtk_window_present(GTK_WINDOW(activeunits_dialog_shell));
+  }
 }
 
 
+/****************************************************************
+...
+*****************************************************************/
+static void activeunits_cell_data_func(GtkTreeViewColumn *col,
+				       GtkCellRenderer *cell,
+				       GtkTreeModel *model, GtkTreeIter *it,
+				       gpointer data)
+{
+  gboolean  b;
+  gchar    *s;
+
+  if (!it)
+    return;
+
+  gtk_tree_model_get(model, it, 0, &s, -1);
+  gtk_tree_model_get(model, it, 6, &b, -1);
+
+  if (!b && (*s == '\0' || GPOINTER_TO_INT(data) == 1)) {
+    g_object_set(cell, "visible", (gboolean)FALSE, (gchar *)0);
+  } else 
+    g_object_set(cell, "visible", (gboolean)TRUE,  (gchar *)0);
+}
+					     
 /****************************************************************
 ...
 *****************************************************************/
 void create_activeunits_report_dialog(bool make_modal)
 {
-  GtkWidget *close_command, *refresh_command;
-  static gchar *titles_[AU_COL]
-    = { N_("Unit Type"), N_("U"), N_("In-Prog"), N_("Active"),
-	N_("Shield"), N_("Food") };
+  static gchar *titles_[AU_COL] = {
+    N_("Unit Type"),
+    N_("U"),
+    N_("In-Prog"),
+    N_("Active"),
+    N_("Shield"),
+    N_("Food")
+  };
   static gchar **titles;
   int    i;
-  GtkAccelGroup *accel=gtk_accel_group_new();
 
-  if (!titles) titles = intl_slist(AU_COL, titles_);
+  GType model_types[AU_COL+1] = {
+    G_TYPE_STRING,
+    G_TYPE_BOOLEAN,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_BOOLEAN
+  };
+  GtkWidget *view;
+  GtkWidget *refresh_command;
 
-  activeunits_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(activeunits_dialog_shell),"delete_event",
-        GTK_SIGNAL_FUNC(activeunits_close_callback),NULL );
-//  gtk_accel_group_attach(accel, GTK_OBJECT(activeunits_dialog_shell));
+  if (!titles)
+    titles = intl_slist(AU_COL, titles_);
 
-  gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),_("Units"));
+  activeunits_dialog_shell = gtk_dialog_new_with_buttons(_("Units"),
+  	GTK_WINDOW(toplevel),
+	0,
+	GTK_STOCK_CLOSE,
+	GTK_RESPONSE_CLOSE,
+	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(activeunits_dialog_shell),
+	GTK_RESPONSE_CLOSE);
+  gtk_window_set_modal(GTK_WINDOW(activeunits_dialog_shell), make_modal);
 
-  activeunits_list = gtk_clist_new_with_titles( AU_COL, titles );
-  gtk_clist_column_titles_passive(GTK_CLIST(activeunits_list));
-  for ( i = 0; i < AU_COL; i++ ) {
-    gtk_clist_set_column_auto_resize(GTK_CLIST(activeunits_list),i,TRUE);
-    if (i > 1) {
-      gtk_clist_set_column_justification (GTK_CLIST(activeunits_list),
-					  i, GTK_JUSTIFY_RIGHT);
+  g_signal_connect(activeunits_dialog_shell, "response",
+		   G_CALLBACK(activeunits_command_callback), NULL);
+  g_signal_connect(activeunits_dialog_shell, "destroy",
+		   G_CALLBACK(activeunits_destroy_callback), NULL);
+
+  activeunits_store = gtk_list_store_newv(AU_COL+1, model_types);
+  activeunits_report_dialog_update();
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(activeunits_store));
+  g_object_unref(activeunits_store);
+  activeunits_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+  g_signal_connect(activeunits_selection, "changed",
+	G_CALLBACK(activeunits_selection_callback), NULL);
+
+  for (i=0; i<AU_COL; i++) {
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *col;
+
+    if (model_types[i] == G_TYPE_BOOLEAN) {
+      renderer = gtk_cell_renderer_toggle_new();
+      
+      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+	"active", i, NULL);
+    } else {
+      renderer = gtk_cell_renderer_text_new();
+      
+      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+	"text", i, NULL);
     }
+
+    if (i > 0) {
+      g_object_set(renderer, "xalign", (gfloat)1.0, (gchar *)0);
+      gtk_tree_view_column_set_alignment(col, 1.0);
+
+      gtk_tree_view_column_set_cell_data_func(col, renderer,
+	activeunits_cell_data_func, GINT_TO_POINTER(i), NULL);
+    }
+
+
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+  }
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(activeunits_dialog_shell)->vbox),
+	view, TRUE, TRUE, 0);
+
+  upgrade_command = gtk_button_new_with_mnemonic(_("_Upgrade"));
+  gtk_widget_set_sensitive(upgrade_command, FALSE);
+  gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
+			       upgrade_command, 1);
+
+  refresh_command = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
+  gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
+			       refresh_command, 2);
+
+  gtk_widget_show_all(GTK_DIALOG(activeunits_dialog_shell)->vbox);
+  gtk_widget_show_all(GTK_DIALOG(activeunits_dialog_shell)->action_area);
+  gtk_tree_view_focus(GTK_TREE_VIEW(view));
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void activeunits_selection_callback(GtkTreeSelection *selection,
+					   gpointer data)
+{
+  gint row, n;
+
+  if ((row = gtk_tree_selection_get_row(selection)) == -1) {
+    gtk_widget_set_sensitive(upgrade_command, FALSE);
+    return;
   }
 
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
-        activeunits_list, TRUE, TRUE, 0 );
+  n = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(activeunits_store), NULL);
 
-  activeunits_label2 = gtk_label_new(_("Totals: ..."));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
-        activeunits_label2, FALSE, FALSE, 0 );
-
-  close_command = gtk_button_new_with_label(_("Close"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->action_area ),
-        close_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( close_command, GTK_CAN_DEFAULT );
-  gtk_widget_grab_default( close_command );
-
-  upgrade_command = gtk_button_new_with_label(_("Upgrade"));
-  gtk_widget_set_sensitive(upgrade_command, FALSE);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->action_area ),
-        upgrade_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( upgrade_command, GTK_CAN_DEFAULT );
-
-  refresh_command = gtk_button_new_with_label(_("Refresh"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->action_area ),
-        refresh_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( refresh_command, GTK_CAN_DEFAULT );
-
-  gtk_signal_connect(GTK_OBJECT(activeunits_list), "select_row",
-	GTK_SIGNAL_FUNC(activeunits_list_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(activeunits_list), "unselect_row",
-	GTK_SIGNAL_FUNC(activeunits_list_ucallback), NULL);
-  gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
-	GTK_SIGNAL_FUNC(activeunits_close_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(upgrade_command), "clicked",
-	GTK_SIGNAL_FUNC(activeunits_upgrade_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(refresh_command), "clicked",
-	GTK_SIGNAL_FUNC(activeunits_refresh_callback), NULL);
-
-  gtk_widget_show_all( GTK_DIALOG(activeunits_dialog_shell)->vbox );
-  gtk_widget_show_all( GTK_DIALOG(activeunits_dialog_shell)->action_area );
-
-  gtk_widget_add_accelerator(close_command, "clicked",
-	accel, GDK_Escape, 0, GTK_ACCEL_VISIBLE);
-
-  activeunits_report_dialog_update();
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void activeunits_list_callback(GtkWidget *w, gint row, gint column)
-{
-  if ((unit_type_exists(activeunits_type[row])) &&
-      (can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1))
+  if (row < n-2 &&
+      unit_type_exists(activeunits_type[row]) &&
+      can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1) {
     gtk_widget_set_sensitive(upgrade_command, TRUE);
+  } else {
+    gtk_widget_set_sensitive(upgrade_command, FALSE);
+  }
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void activeunits_list_ucallback(GtkWidget *w, gint row, gint column)
+static void activeunits_command_callback(GtkWidget *w, gint response_id)
 {
-  gtk_widget_set_sensitive(upgrade_command, FALSE);
-}
+  int        ut1, ut2;
+  gint       row;
+  GtkWidget *shell;
+  gint       res;
 
-/****************************************************************
-...
-*****************************************************************/
-static void upgrade_callback_yes(GtkWidget *w, gpointer data)
-{
-  send_packet_unittype_info(&aconnection, (size_t)data,PACKET_UNITTYPE_UPGRADE);
-  destroy_message_dialog(w);
-}
+  switch (response_id) {
+    default:	gtk_widget_destroy(activeunits_dialog_shell);	return;
+    case 2:	activeunits_report_dialog_update();		return;
+    case 1:
+  }
 
-/****************************************************************
-...
-*****************************************************************/
-static void upgrade_callback_no(GtkWidget *w, gpointer data)
-{
-  destroy_message_dialog(w);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
-{
-  char buf[512];
-  int ut1,ut2;
-  GList              *selection;
-  gint                row;
-
-  if ( !( selection = GTK_CLIST( activeunits_list )->selection ) )
-      return;
-
-  row = GPOINTER_TO_INT(selection->data);
+  /* upgrade command. */
+  row = gtk_tree_selection_get_row(activeunits_selection);
 
   ut1 = activeunits_type[row];
-  if (!(unit_type_exists (ut1)))
+  if (!unit_type_exists(ut1))
     return;
-  /* puts(unit_types[ut1].name); */
 
   ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
 
-  my_snprintf(buf, sizeof(buf),
-	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
-	    "Treasury contains %d gold."),
-	  unit_types[ut1].name, unit_types[ut2].name,
-	  unit_upgrade_price(game.player_ptr, ut1, ut2),
-	  game.player_ptr->economic.gold);
+  shell = gtk_message_dialog_new(
+	GTK_WINDOW(activeunits_dialog_shell),
+	GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+	GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+	_("Upgrade as many %s to %s as possible for %d gold each?\n"
+	  "Treasury contains %d gold."),
+	unit_types[ut1].name, unit_types[ut2].name,
+	unit_upgrade_price(game.player_ptr, ut1, ut2),
+	game.player_ptr->economic.gold);
+  gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
 
-  popup_message_dialog(top_vbox, /*"upgradedialog" */
-		       _("Upgrade Obsolete Units"), buf, _("Yes"),
-		       upgrade_callback_yes,
-		       GINT_TO_POINTER(activeunits_type[row]), _("No"),
-		       upgrade_callback_no, 0, 0);
+  res = gtk_dialog_run(GTK_DIALOG(shell));
+
+  if (res == GTK_RESPONSE_YES) {
+    send_packet_unittype_info(&aconnection, ut1, PACKET_UNITTYPE_UPGRADE);
+  }
+  gtk_widget_destroy(shell);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void activeunits_close_callback(GtkWidget *w, gpointer data)
+static void activeunits_destroy_callback(GtkWidget *w, gpointer data)
 {
-
-  if(activeunits_dialog_shell_is_modal)
-     gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(activeunits_dialog_shell);
   activeunits_dialog_shell = NULL;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void activeunits_refresh_callback(GtkWidget *w, gpointer data)
-{
-  activeunits_report_dialog_update();
 }
 
 /****************************************************************
@@ -958,21 +986,17 @@ void activeunits_report_dialog_update(void)
     /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
     int building_count;
   };
-  if(delay_report_update) return;
-  if(activeunits_dialog_shell) {
-    int    i, k, can;
+
+  if (delay_report_update)
+    return;
+
+  if (activeunits_dialog_shell) {
+    int    k, can;
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;
-    char   activeunits_total[100];
-    gchar *row[AU_COL];
-    char   buf[AU_COL][64];
+    GtkTreeIter it;
 
-    gtk_clist_freeze(GTK_CLIST(activeunits_list));
-    gtk_clist_clear(GTK_CLIST(activeunits_list));
-
-    for (i = 0; i < ARRAY_SIZE(row); i++) {
-      row[i] = buf[i];
-    }
+    gtk_list_store_clear(activeunits_store);
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {
@@ -993,16 +1017,19 @@ void activeunits_report_dialog_update(void)
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
     unit_type_iterate(i) {
+    
       if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
 	can = (can_upgrade_unittype(game.player_ptr, i) != -1);
-        my_snprintf(buf[0], sizeof(buf[0]), "%-27s", unit_name(i));
-	my_snprintf(buf[1], sizeof(buf[1]), "%c", can ? '*': '-');
-        my_snprintf(buf[2], sizeof(buf[2]), "%9d", unitarray[i].building_count);
-        my_snprintf(buf[3], sizeof(buf[3]), "%9d", unitarray[i].active_count);
-        my_snprintf(buf[4], sizeof(buf[4]), "%9d", unitarray[i].upkeep_shield);
-        my_snprintf(buf[5], sizeof(buf[5]), "%9d", unitarray[i].upkeep_food);
-
-	gtk_clist_append( GTK_CLIST( activeunits_list ), row );
+	
+        gtk_list_store_append(activeunits_store, &it);
+	gtk_list_store_set(activeunits_store, &it,
+		0, unit_name(i),
+		1, can,
+		2, unitarray[i].building_count,
+		3, unitarray[i].active_count,
+		4, unitarray[i].upkeep_shield,
+		5, unitarray[i].upkeep_food,
+		6, TRUE, -1);
 
 	activeunits_type[k]=(unitarray[i].active_count > 0) ? i : U_LAST;
 	k++;
@@ -1013,18 +1040,24 @@ void activeunits_report_dialog_update(void)
       }
     } unit_type_iterate_end;
 
-    /* horrible kluge, but I can't get gtk_label_set_justify() to work --jjm */
-    my_snprintf(activeunits_total, sizeof(activeunits_total),
-	    _("Totals:                     %s%9d%s%9d%s%9d%s%9d"),
-	    "        ", unittotals.building_count,
-	    " ", unittotals.active_count,
-	    " ", unittotals.upkeep_shield,
-	    " ", unittotals.upkeep_food);
-    gtk_set_label(activeunits_label2, activeunits_total); 
+    gtk_list_store_append(activeunits_store, &it);
+    gtk_list_store_set(activeunits_store, &it,
+	    0, "",
+	    1, FALSE,
+	    2, 0,
+	    3, 0,
+	    4, 0,
+	    5, 0,
+	    6, FALSE, -1);
 
-    gtk_widget_show_all(activeunits_list);
-    gtk_clist_thaw(GTK_CLIST(activeunits_list));
-
-    activeunits_list_ucallback(NULL, 0, 0);
+    gtk_list_store_append(activeunits_store, &it);
+    gtk_list_store_set(activeunits_store, &it,
+    	    0, "Totals:",
+	    1, FALSE,
+    	    2, unittotals.building_count,
+    	    3, unittotals.active_count,
+    	    4, unittotals.upkeep_shield,
+    	    5, unittotals.upkeep_food,
+	    6, FALSE, -1);
   }
 }

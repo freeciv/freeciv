@@ -27,6 +27,7 @@
 
 #include "dialogs.h"
 #include "gui_main.h"
+#include "gui_stuff.h"
 #include "mapview.h"
 
 #include "finddlg.h"
@@ -49,15 +50,14 @@ popup the dialog 10% inside the main-window
 void popup_find_dialog(void)
 {
   GtkWidget         *label;
-  GtkWidget         *scrolled;
+  GtkWidget         *sw;
   GtkListStore      *store;
   GtkTreeSelection  *selection;
   GtkCellRenderer   *renderer;
   GtkTreeViewColumn *column;
-  GtkTreePath       *path;
 
   if (find_dialog_shell) {
-    gtk_widget_show(find_dialog_shell);
+    gtk_window_present(GTK_WINDOW(find_dialog_shell));
     return;
   }
 
@@ -91,7 +91,7 @@ void popup_find_dialog(void)
 
   find_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(find_view));
-  g_object_unref(G_OBJECT(store));
+  g_object_unref(store);
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(find_view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(find_view), FALSE);
 
@@ -101,25 +101,21 @@ void popup_find_dialog(void)
   gtk_tree_view_column_set_sort_order(column, GTK_SORT_ASCENDING);
   gtk_tree_view_append_column(GTK_TREE_VIEW(find_view), column);
 
-  scrolled = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), find_view);
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(sw), find_view);
 
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                           GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_widget_set_usize(scrolled, -1, 200);
-  gtk_container_add(GTK_CONTAINER(label),scrolled);
+  gtk_widget_set_usize(sw, -1, 200);
+  gtk_container_add(GTK_CONTAINER(label), sw);
 
   g_signal_connect(selection, "changed",
 		   G_CALLBACK(find_selection_callback), store);
 
   update_find_dialog(store);
+  gtk_tree_view_focus(GTK_TREE_VIEW(find_view));
 
-  path = gtk_tree_path_new_first();
-  gtk_tree_view_set_cursor(GTK_TREE_VIEW(find_view), path, NULL, FALSE);
-  gtk_tree_path_free(path);
-  gtk_widget_grab_focus(find_view);
-
-  gtk_widget_show_all(scrolled);
+  gtk_widget_show_all(sw);
   gtk_widget_show(find_dialog_shell);
 }
 

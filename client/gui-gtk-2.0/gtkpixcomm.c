@@ -99,10 +99,10 @@ gtk_pixcomm_destroy(GtkObject *object)
 
   g_object_freeze_notify(G_OBJECT(pixcomm));
   if (pixcomm->pixmap)
-    g_object_unref(G_OBJECT(pixcomm->pixmap));
+    g_object_unref(pixcomm->pixmap);
   pixcomm->pixmap = NULL;
   if (pixcomm->mask)
-    g_object_unref(G_OBJECT(pixcomm->mask));
+    g_object_unref(pixcomm->mask);
   pixcomm->mask = NULL;
   g_object_thaw_notify(G_OBJECT(pixcomm));
 

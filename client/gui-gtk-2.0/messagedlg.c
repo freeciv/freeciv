@@ -55,7 +55,6 @@ static GtkWidget *create_messageopt_dialog(void)
 {
   GtkWidget *shell, *form, *explanation;
   int n, i, j;
-  GtkTreePath *path;
   
   shell = gtk_dialog_new_with_buttons(_("Message Options"),
   	GTK_WINDOW(toplevel),
@@ -107,7 +106,7 @@ static GtkWidget *create_messageopt_dialog(void)
     gint col;
 
     view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model[n]));
-    g_object_unref(G_OBJECT(model[n]));
+    g_object_unref(model[n]);
 
     renderer = gtk_cell_renderer_text_new();
     col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
@@ -115,24 +114,21 @@ static GtkWidget *create_messageopt_dialog(void)
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(0));
-    g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(item_toggled),
-		     model[n]);
+    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
 
     col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
 	-1, _("Out"), renderer, "active", 0, NULL);
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(1));
-    g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(item_toggled),
-		     model[n]);
+    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
 
     col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
   	-1, _("Mes"), renderer, "active", 1, NULL);
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(2));
-    g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(item_toggled),
-		     model[n]);
+    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
 
     col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
   	-1, _("Pop"), renderer, "active", 2, NULL);
@@ -145,10 +141,7 @@ static GtkWidget *create_messageopt_dialog(void)
     gtk_widget_set_usize(sw, -1, 425);
     gtk_box_pack_start(GTK_BOX(form), sw, TRUE, TRUE, 0);
 
-    path = gtk_tree_path_new_first();
-    gtk_tree_view_set_cursor(GTK_TREE_VIEW(view), path, NULL, FALSE);
-    gtk_tree_path_free(path);
-    gtk_widget_grab_focus(view);
+    gtk_tree_view_focus(GTK_TREE_VIEW(view));
   }
 
   g_signal_connect(shell, "response",

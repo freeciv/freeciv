@@ -2044,9 +2044,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
     pdialog->overview.supported_unit_ids[i] = punit->id;
 
-    g_signal_handlers_destroy(G_OBJECT
-				(pdialog->
-				 overview.supported_unit_boxes[i]));
+    g_signal_handlers_destroy(pdialog->overview.supported_unit_boxes[i]);
     gtk_signal_connect(GTK_OBJECT
 		       (pdialog->overview.supported_unit_boxes[i]),
 		       "button_press_event",
@@ -2095,7 +2093,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
     pdialog->unit.supported_unit_ids[i] = punit->id;
 
-    g_signal_handlers_destroy(G_OBJECT(pdialog->unit.supported_unit_boxes[i]));
+    g_signal_handlers_destroy(pdialog->unit.supported_unit_boxes[i]);
     gtk_signal_connect(GTK_OBJECT(pdialog->unit.supported_unit_boxes[i]),
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC(supported_unit_callback),
@@ -2185,8 +2183,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
     pdialog->overview.present_unit_ids[i] = punit->id;
 
-    g_signal_handlers_destroy(G_OBJECT
-				(pdialog->overview.present_unit_boxes[i]));
+    g_signal_handlers_destroy(pdialog->overview.present_unit_boxes[i]);
     gtk_signal_connect(GTK_OBJECT
 		       (pdialog->overview.present_unit_boxes[i]),
 		       "button_press_event",
@@ -2230,7 +2227,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
     pdialog->unit.present_unit_ids[i] = punit->id;
 
-    g_signal_handlers_destroy(G_OBJECT(pdialog->unit.present_unit_boxes[i]));
+    g_signal_handlers_destroy(pdialog->unit.present_unit_boxes[i]);
     gtk_signal_connect(GTK_OBJECT(pdialog->unit.present_unit_boxes[i]),
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC(present_unit_callback),

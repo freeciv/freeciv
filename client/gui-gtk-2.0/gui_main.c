@@ -393,7 +393,7 @@ static void tearoff_callback(GtkToggleButton *b, gpointer data)
   if (gtk_toggle_button_get_active(b)) {
     w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
-    g_signal_connect(G_OBJECT(w), "destroy", G_CALLBACK(tearoff_destroy), box);
+    g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
 
     g_object_set_data(G_OBJECT(w), "prev_parent", box->parent);
     gtk_widget_reparent(box, w);
@@ -422,7 +422,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
 
   b = gtk_toggle_button_new();
   gtk_box_pack_start(GTK_BOX(ahbox), b, FALSE, FALSE, 0);
-  g_signal_connect(G_OBJECT(b), "toggled", G_CALLBACK(tearoff_callback), ahbox);
+  g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), ahbox);
 
   /* cosmetic effects */
   sep = gtk_vseparator_new();
@@ -552,7 +552,12 @@ static void setup_widgets(void)
       case 3: w = government_label;   break;
     }
 
-    g_object_set(w, "xalign", 0.0, "yalign", 0.0, "xpad", 0, "ypad", 0, NULL);
+    g_object_set(w,
+		 "xalign", (gfloat)0.0,
+		 "yalign", (gfloat)0.0,
+		 "xpad",   (gint)0,
+		 "ypad",   (gint)0,
+		 NULL);
     gtk_widget_set_size_request(w, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
     gtk_table_attach_defaults(GTK_TABLE(table), w, i, i + 1, 1, 2);
   }
@@ -691,7 +696,7 @@ static void setup_widgets(void)
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_widget_realize(text);
 
-  g_object_set(text, "left-margin", 5, NULL);
+  g_object_set(text, "left-margin", (gint)5, NULL);
 
   main_message_area = GTK_TEXT_VIEW(text);
 
@@ -706,10 +711,10 @@ static void setup_widgets(void)
 
   g_signal_connect(inputline, "activate", G_CALLBACK(inputline_return), NULL);
 
-  g_signal_connect(G_OBJECT(inputline), "focus_in_event",
+  g_signal_connect(inputline, "focus_in_event",
 		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(1));
 
-  g_signal_connect(G_OBJECT(inputline), "focus_out_event",
+  g_signal_connect(inputline, "focus_out_event",
 		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(0));
 
 
