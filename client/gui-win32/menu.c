@@ -903,11 +903,11 @@ update_menus(void)
 	
         my_enable_menu(menu,IDM_ORDERS_AUTOSETTLER,
                           (can_unit_do_auto(punit)
-                           && unit_flag(punit->type, F_SETTLERS)));
+                           && unit_flag(punit, F_SETTLERS)));
 	
 	my_enable_menu(menu,IDM_ORDERS_AUTOATTACK,
 		       (can_unit_do_auto(punit)
-			&& !unit_flag(punit->type, F_SETTLERS)));
+			&& !unit_flag(punit, F_SETTLERS)));
 	
 	my_enable_menu(menu,IDM_ORDERS_BUILDCITY,
 		       ((punit) || unit_can_help_build_wonder_here(punit) || 
@@ -932,8 +932,8 @@ update_menus(void)
 		       unit_can_help_build_wonder_here(punit));       
 	my_enable_menu(menu,IDM_ORDERS_TROUTE,
 		       unit_can_est_traderoute_here(punit));
-	if (unit_flag(punit->type,F_CITIES)
-	    && map_get_city(punit->x,punit->y))
+	if (unit_flag(punit, F_CITIES)
+	    && map_get_city(punit->x, punit->y))
 	  {
 	    my_rename_menu(menu,IDM_ORDERS_BUILDCITY,_("Add to City"));
 	  }
@@ -963,7 +963,7 @@ update_menus(void)
 	    my_snprintf (transtext, sizeof(transtext), transfmt,
 			 (get_tile_type(tinfo->transform_result))->terrain_name);
 	  }
-	if (unit_flag(punit->type, F_PARATROOPERS)) {
+	if (unit_flag(punit, F_PARATROOPERS)) {
 	  my_rename_menu(menu,IDM_ORDERS_POLLUTION, _("Paradrop"));
 	} else {
 	  my_rename_menu(menu,IDM_ORDERS_POLLUTION, _("Clean Pollution"));
@@ -998,7 +998,7 @@ update_menus(void)
 	my_enable_menu(menu,IDM_ORDERS_HOME,
 		       can_unit_change_homecity(punit));
 	my_enable_menu(menu,IDM_ORDERS_EXPLODE,
-		       unit_flag(punit->type, F_NUCLEAR));
+		       unit_flag(punit, F_NUCLEAR));
 	my_enable_menu(menu,IDM_ORDERS_UNLOAD,
 		       get_transporter_capacity(punit)>0);
       }

@@ -73,7 +73,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "poison: unit: %d", pdiplomat->id);
 
   /* If not a Spy, can't poison. */
-  if (!unit_flag (pdiplomat->type, F_SPY))
+  if (!unit_flag (pdiplomat, F_SPY))
     return;
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
@@ -180,7 +180,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(DIPLOMAT_INVESTIGATE, pplayer, NULL, pcity);
 
   /* Spies always survive. Diplomats never do. */
-  if (!unit_flag (pdiplomat->type, F_SPY)) {
+  if (!unit_flag (pdiplomat, F_SPY)) {
     wipe_unit (pdiplomat);
   } else {
     send_unit_info (pplayer, pdiplomat);
@@ -304,7 +304,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(DIPLOMAT_EMBASSY, pplayer, NULL, pcity);
 
   /* Spies always survive. Diplomats never do. */
-  if (!unit_flag (pdiplomat->type, F_SPY)) {
+  if (!unit_flag (pdiplomat, F_SPY)) {
     wipe_unit (pdiplomat);
   } else {
     send_unit_info (pplayer, pdiplomat);
@@ -340,7 +340,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "sabotage-unit: unit: %d", pdiplomat->id);
 
   /* If not a Spy, can't sabotage unit. */
-  if (!unit_flag (pdiplomat->type, F_SPY))
+  if (!unit_flag (pdiplomat, F_SPY))
     return;
 
   /* If unit has too few hp, can't sabotage. */
@@ -509,7 +509,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "steal-tech: unit: %d", pdiplomat->id);
 
   /* If not a Spy, do something random. */
-  if (!unit_flag (pdiplomat->type, F_SPY))
+  if (!unit_flag (pdiplomat, F_SPY))
     technology = game.num_tech_types;
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
@@ -521,7 +521,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
-  if ((pcity->steal > 0) && (!unit_flag (pdiplomat->type, F_SPY))) {
+  if ((pcity->steal > 0) && (!unit_flag (pdiplomat, F_SPY))) {
     /* Already stolen from: Diplomat always fails! */
     count = 1;
     freelog (LOG_DEBUG, "steal-tech: difficulty: impossible");
@@ -860,7 +860,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "sabotage: unit: %d", pdiplomat->id);
 
   /* If not a Spy, do something random. */
-  if (!unit_flag (pdiplomat->type, F_SPY))
+  if (!unit_flag (pdiplomat, F_SPY))
     improvement = B_LAST;
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
@@ -1081,7 +1081,7 @@ static int diplomat_success_vs_defender (struct unit *pdefender)
 {
   int success = game.diplchance;
 
-  if (unit_flag (pdefender->type, F_SPY)) {
+  if (unit_flag (pdefender, F_SPY)) {
     if (success > 66) {
       success -= (100 - success);
     } else {
@@ -1112,7 +1112,7 @@ static int diplomat_infiltrate_city (struct player *pplayer, struct player *cpla
 			      struct unit *pdiplomat, struct city *pcity)
 {
   unit_list_iterate ((map_get_tile (pcity->x, pcity->y))->units, punit)
-    if (unit_flag (punit->type, F_DIPLOMAT)) {
+    if (unit_flag (punit, F_DIPLOMAT)) {
       if (diplomat_success_vs_defender (punit)) {
 	/* Defending Spy/Diplomat dies. */
 
@@ -1162,7 +1162,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 {
   int x, y;
 
-  if (unit_flag (pdiplomat->type, F_SPY)) {
+  if (unit_flag (pdiplomat, F_SPY)) {
     if (pcity) {
       x = pcity->x;
       y = pcity->y;
@@ -1350,7 +1350,7 @@ int unit_bribe_cost(struct unit *punit)
     dist = MIN(g->fixed_corruption_distance, dist);
   cost=(cost/(dist+2))*(unit_type(punit)->build_cost/10);
   /* FIXME: This is a weird one - should be replaced */
-  if (unit_flag(punit->type, F_CITIES)) 
+  if (unit_flag(punit, F_CITIES)) 
     cost/=2;
 
   /* Cost now contains the basic bribe cost.  We now reduce it by:
@@ -1372,7 +1372,7 @@ int count_diplomats_on_tile(int x, int y)
   int count = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, punit)
-    if (unit_flag(punit->type, F_DIPLOMAT))
+    if (unit_flag(punit, F_DIPLOMAT))
       count++;
   unit_list_iterate_end;
   return count;

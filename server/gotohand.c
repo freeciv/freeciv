@@ -295,14 +295,14 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   init_warmap(orig_x, orig_y, move_type);
   add_to_mapqueue(0, orig_x, orig_y);
 
-  if (punit && unit_flag(punit->type, F_IGTER))
+  if (punit && unit_flag(punit, F_IGTER))
     igter = 1;
   else
     igter = 0;
 
   /* FIXME: Should this apply only to F_CITIES units? -- jjm */
   if (punit
-      && unit_flag(punit->type, F_SETTLERS)
+      && unit_flag(punit, F_SETTLERS)
       && unit_type(punit)->move_rate==3)
     maxcost /= 2;
   /* (?) was punit->type == U_SETTLERS -- dwp */
@@ -647,7 +647,7 @@ static int find_the_shortest_path(struct unit *punit,
   init_gotomap(punit->x, punit->y, move_type);
   add_to_mapqueue(0, orig_x, orig_y);
 
-  if (punit && unit_flag(punit->type, F_IGTER))
+  if (punit && unit_flag(punit, F_IGTER))
     igter = 1;
   else
     igter = 0;
@@ -664,7 +664,7 @@ static int find_the_shortest_path(struct unit *punit,
 				   unit_owner(pcargo))
 	  || is_allied_city_tile(map_get_tile(dest_x, dest_y),
 				 unit_owner(pcargo))
-	  || unit_flag(pcargo->type, F_MARINES)
+	  || unit_flag(pcargo, F_MARINES)
 	  || is_my_zoc(unit_owner(pcargo), dest_x, dest_y))
 	pcargo = NULL;
   } else
@@ -713,7 +713,7 @@ static int find_the_shortest_path(struct unit *punit,
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
-	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
+	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  }
 
@@ -733,7 +733,7 @@ static int find_the_shortest_path(struct unit *punit,
 	    move_cost = SINGLE_MOVE;
 	  }
 	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
-	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
+	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  }
 
@@ -777,7 +777,7 @@ static int find_the_shortest_path(struct unit *punit,
 	if (psrctile->move_cost[dir] != -3 /* is -3 if sea units can move between */
 	    && (dest_x != x1 || dest_y != y1)) /* allow ships to target a shore */
 	  continue;
-	else if (unit_flag(punit->type, F_TRIREME)
+	else if (unit_flag(punit, F_TRIREME)
 		 && trireme_loss_pct(unit_owner(punit), x1, y1) > 0) {
 	  move_cost = 2*SINGLE_MOVE+1;
 	} else {
@@ -988,7 +988,7 @@ static int find_a_direction(struct unit *punit,
       if (is_ground_unit(punit))
         c = map_get_tile(punit->x, punit->y)->move_cost[k];
       else c = 3;
-      if (unit_flag(punit->type, F_IGTER) && c) c = 1;
+      if (unit_flag(punit, F_IGTER) && c) c = 1;
       x = map_adjust_x(punit->x + DIR_DX[k]);
       y = map_adjust_y(punit->y + DIR_DY[k]);
       if (passenger) {
@@ -1047,7 +1047,7 @@ static int find_a_direction(struct unit *punit,
         } /* end this-tile-is-seen else */
       } /* end tiles-adjacent-to-dest for */
  
-      if (unit_flag(punit->type, F_TRIREME) && !nearland) {
+      if (unit_flag(punit, F_TRIREME) && !nearland) {
         if (punit->moves_left < 6) d[k] = -1; /* Tired of Kaput!! -- Syela */
         else if (punit->moves_left == 6) {
           for (n = 0; n < 8; n++) {

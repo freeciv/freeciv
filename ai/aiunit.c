@@ -139,7 +139,7 @@ static int unit_move_turns(struct unit *punit, int x, int y)
 {
   int m, d;
   m = unit_type(punit)->move_rate;
-  if (unit_flag(punit->type, F_IGTER)) m *= SINGLE_MOVE;
+  if (unit_flag(punit, F_IGTER)) m *= SINGLE_MOVE;
   if(is_sailing_unit(punit)) {
     struct player *pplayer = unit_owner(punit);
     if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
@@ -265,14 +265,14 @@ int ai_manage_explorer(struct unit *punit)
 	  unknown++;
       } square_iterate_end;
 
-      if (unknown > most_unknown && (!unit_flag(punit->type, F_TRIREME)
+      if (unknown > most_unknown && (!unit_flag(punit, F_TRIREME)
 				     || trireme_loss_pct(pplayer, x1,
 							 y1) == 0)
 	  && map_get_continent(x1, y1) == con
 	  && can_unit_move_to_tile_with_notify(punit, x1, y1, 0)
 	  && !((pcity = map_get_city(x1,y1))
-	       && (unit_flag(punit->type, F_DIPLOMAT)
-		   || unit_flag(punit->type, F_CARAVAN)))
+	       && (unit_flag(punit, F_DIPLOMAT)
+		   || unit_flag(punit, F_CARAVAN)))
 	  && !(is_barbarian(pplayer) && map_get_special(x1, y1) & S_HUT)) {
 	most_unknown = unknown;
 	best_x = x1;
@@ -833,7 +833,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
       d_val += j;
     }
     d_val /= (unit_type(punit)->move_rate / SINGLE_MOVE);
-    if (unit_flag(punit->type, F_IGTER)) d_val /= 1.5;
+    if (unit_flag(punit, F_IGTER)) d_val /= 1.5;
     freelog(LOG_DEBUG,
 	    "%s@(%d,%d) looking for bodyguard, d_val=%d, my_val=%d",
 	    unit_type(punit)->name, punit->x, punit->y, d_val,
@@ -1034,10 +1034,10 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 /* only the least defensive unit may leave home */
 /* and only if this does not jeopardize the city */
 /* def is the defense of the city without punit */
-        if (unit_flag(punit->type, F_FIELDUNIT)) val = -1;
+        if (unit_flag(punit, F_FIELDUNIT)) val = -1;
         unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef)
           if (is_military_unit(pdef) && pdef != punit &&
-              !unit_flag(pdef->type, F_FIELDUNIT)) {
+              !unit_flag(pdef, F_FIELDUNIT)) {
             if (assess_defense_unit(pcity, pdef, 0) >= val) val = 0;
           }
         unit_list_iterate_end; /* was getting confused without the is_military part in */
@@ -1227,7 +1227,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   ab = unit_belligerence_basic(punit);
   if (!ab) return(0); /* don't want to deal with SIGFPE's -- Syela */
   m = unit_type(punit)->move_rate;
-  if (unit_flag(punit->type, F_IGTER)) m *= SINGLE_MOVE;
+  if (unit_flag(punit, F_IGTER)) m *= SINGLE_MOVE;
   maxd = MIN(6, m) * THRESHOLD + 1;
   f = unit_type(punit)->build_cost;
   fprime = f * 2 * unit_type(punit)->attack_strength /
@@ -1245,7 +1245,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   if (ferryboat) really_generate_warmap(map_get_city(ferryboat->x, ferryboat->y),
                        ferryboat, SEA_MOVING);
 
-  if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
+  if (ferryboat) boatspeed = (unit_flag(ferryboat, F_TRIREME) ? 6 : 12);
   else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN ? 6 : 12);
 
   if (is_ground_unit(punit) && !punit->id &&
@@ -1275,7 +1275,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
               if (boatspeed < 9 && c > 2) c = 999; /* tired of Kaput! -- Syela */
               if (ferryboat) c += (warmap.cost[bx][by] + m - 1) / m + 1;
               else c += 1;
-              if (unit_flag(punit->type, F_MARINES)) c -= 1;
+              if (unit_flag(punit, F_MARINES)) c -= 1;
             } else c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
           } else if (is_sailing_unit(punit))
              c = (warmap.seacost[acity->x][acity->y] + m - 1) / m;
@@ -1329,7 +1329,7 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
             else e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (fprime * MORT);
             if (e > bk) {
               if (punit->id && is_ground_unit(punit) &&
-                       !unit_flag(punit->type, F_MARINES) &&
+                       !unit_flag(punit, F_MARINES) &&
                        map_get_continent(acity->x, acity->y) != con) {
                 if (find_beachhead(punit, acity->x, acity->y, &xx, &yy)) {
                   *x = acity->x;
@@ -1355,7 +1355,7 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
 
           if (e > best && ai_fuzzy(pplayer,1)) {
             if (punit->id && is_ground_unit(punit) &&
-                !unit_flag(punit->type, F_MARINES) &&
+                !unit_flag(punit, F_MARINES) &&
                 map_get_continent(acity->x, acity->y) != con) {
 /* a non-virtual ground unit is trying to attack something on another continent */
 /* need a beachhead which is adjacent to the city and an available ocean tile */
@@ -1387,7 +1387,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
       unit_list_iterate(aplayer->units, aunit)
         if (map_get_city(aunit->x, aunit->y)) continue; /* already dealt with it */
         if (handicap && !map_get_known(aunit->x, aunit->y, pplayer)) continue;
-        if (unit_flag(aunit->type, F_CARAVAN) && !punit->id) continue; /* kluge */
+        if (unit_flag(aunit, F_CARAVAN) && !punit->id) continue; /* kluge */
         if (ai_fuzzy(pplayer,1) &&
 	    (aunit == get_defender(punit, aunit->x, aunit->y) &&
            ((is_ground_unit(punit) &&
@@ -1404,7 +1404,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
           else n = real_map_distance(punit->x, punit->y, aunit->x, aunit->y) * 3;
           if (n > m) { /* if n <= m, it can't run away -- Syela */
             n *= unit_type(aunit)->move_rate;
-            if (unit_flag(aunit->type, F_IGTER)) n *= 3;
+            if (unit_flag(aunit, F_IGTER)) n *= 3;
           }
           c = (n + m - 1) / m;
           if (!is_ground_unit(punit) && !d) b0 = 0;
@@ -1748,7 +1748,7 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
 #ifdef DEBUG
   {
     struct city *pcity;
-    if (unit_flag(punit->type, F_FIELDUNIT)
+    if (unit_flag(punit, F_FIELDUNIT)
 	&& (pcity = map_get_city(punit->x, punit->y))) {
       freelog(LOG_DEBUG, "%s in %s is going to %d", unit_name(punit->type),
 	      pcity->name, punit->ai.ai_role);
@@ -1850,8 +1850,8 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     }
   }
 
-  if ((unit_flag(punit->type, F_DIPLOMAT))
-      || (unit_flag(punit->type, F_SPY))) {
+  if ((unit_flag(punit, F_DIPLOMAT))
+      || (unit_flag(punit, F_SPY))) {
     ai_manage_diplomat(pplayer, punit);
     /* the right test if the unit is in a city and 
        there is no other diplomat it musn't move.
@@ -1859,12 +1859,12 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
        Right now I don't know how to use bodyguards! (17/12/98) (--NB)
     */
     return;
-  } else if (unit_flag(punit->type, F_SETTLERS)
-	     ||unit_flag(punit->type, F_CITIES)) {
+  } else if (unit_flag(punit, F_SETTLERS)
+	     ||unit_flag(punit, F_CITIES)) {
     if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_settler(pplayer, punit);
     return;
-  } else if (unit_flag(punit->type, F_CARAVAN)) {
+  } else if (unit_flag(punit, F_CARAVAN)) {
     ai_manage_caravan(pplayer, punit);
     return;
   } else if (unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
@@ -2012,9 +2012,9 @@ int is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base)
 **************************************************************************/
 int is_ai_simple_military(Unit_Type_id type)
 {
-  return !unit_flag(type, F_NONMIL)
-    && !unit_flag(type, F_MISSILE)
-    && !unit_flag(type, F_NO_LAND_ATTACK)
+  return !unit_type_flag(type, F_NONMIL)
+    && !unit_type_flag(type, F_MISSILE)
+    && !unit_type_flag(type, F_NO_LAND_ATTACK)
     && !(get_unit_type(type)->transport_capacity >= 8);
 }
 

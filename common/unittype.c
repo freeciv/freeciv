@@ -163,10 +163,18 @@ int utype_gold_cost(struct unit_type *ut, struct government *g)
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_flag(Unit_Type_id id, int flag)
+int unit_type_flag(Unit_Type_id id, int flag)
 {
   assert(flag>=0 && flag<F_LAST);
   return BOOL_VAL(unit_types[id].flags & (1<<flag));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int unit_flag(struct unit *punit, enum unit_flag_id flag)
+{
+  return unit_type_flag(punit->type, flag);
 }
 
 /**************************************************************************
@@ -410,9 +418,9 @@ int can_player_build_unit_direct(struct player *p, Unit_Type_id id)
 {
   if (!unit_type_exists(id))
     return 0;
-  if (unit_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
+  if (unit_type_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
     return 0;
-  if (unit_flag(id, F_FANATIC)
+  if (unit_type_flag(id, F_FANATIC)
       && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS))
     return 0;
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
@@ -505,7 +513,7 @@ void role_unit_precalcs(void)
   }
 
   for(i=0; i<F_LAST; i++) {
-    precalc_one(i, unit_flag);
+    precalc_one(i, unit_type_flag);
   }
   for(i=L_FIRST; i<L_LAST; i++) {
     precalc_one(i, unit_has_role);

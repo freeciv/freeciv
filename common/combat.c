@@ -153,7 +153,7 @@ double unit_win_chance(struct unit *attacker, struct unit *defender)
 **************************************************************************/
 int unit_ignores_citywalls(struct unit *punit)
 {
-  return (unit_flag(punit->type, F_IGWALL));
+  return (unit_flag(punit, F_IGWALL));
 }
 
 /**************************************************************************
@@ -246,7 +246,7 @@ int get_attack_power(struct unit *punit)
     power *= 3;
     power /= 2;
   }
-  if (unit_flag(punit->type, F_IGTIRED)) return power;
+  if (unit_flag(punit, F_IGTIRED)) return power;
   if ( punit->moves_left < SINGLE_MOVE )
      return (power*punit->moves_left)/SINGLE_MOVE;
     return power;
@@ -339,20 +339,20 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
     db += (db * terrain_control.river_defense_bonus) / 100;
   defensepower *= db;
 
-  if (unit_flag(d_type, F_PIKEMEN) && unit_flag(a_type, F_HORSE)) 
+  if (unit_type_flag(d_type, F_PIKEMEN) && unit_type_flag(a_type, F_HORSE)) 
     defensepower*=2;
-  if (unit_flag(d_type, F_AEGIS) &&
+  if (unit_type_flag(d_type, F_AEGIS) &&
        (m_type == AIR_MOVING || m_type == HELI_MOVING)) defensepower*=5;
   if (m_type == AIR_MOVING && pcity) {
     if (city_got_building(pcity, B_SAM))
       defensepower*=2;
-    if (city_got_building(pcity, B_SDI) && unit_flag(a_type, F_MISSILE))
+    if (city_got_building(pcity, B_SDI) && unit_type_flag(a_type, F_MISSILE))
       defensepower*=2;
   } else if (m_type == SEA_MOVING && pcity) {
     if (city_got_building(pcity, B_COASTAL))
       defensepower*=2;
   }
-  if (!unit_flag(a_type, F_IGWALL)
+  if (!unit_type_flag(a_type, F_IGWALL)
       && (m_type == LAND_MOVING || m_type == HELI_MOVING
 	  || (improvement_variant(B_CITY)==1 && m_type == SEA_MOVING))
       && pcity && city_got_citywalls(pcity)) {
@@ -374,14 +374,15 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
 int get_total_defense_power(struct unit *attacker, struct unit *defender)
 {
   int defensepower=get_defense_power(defender);
-  if (unit_flag(defender->type, F_PIKEMEN) && unit_flag(attacker->type, F_HORSE)) 
+  if (unit_flag(defender, F_PIKEMEN) && unit_flag(attacker, F_HORSE)) 
     defensepower*=2;
-  if (unit_flag(defender->type, F_AEGIS) && (is_air_unit(attacker) || is_heli_unit(attacker)))
-    defensepower*=5;
+  if (unit_flag(defender, F_AEGIS)
+      && (is_air_unit(attacker) || is_heli_unit(attacker)))
+    defensepower *= 5;
   if (is_air_unit(attacker)) {
     if (unit_behind_sam(defender))
       defensepower*=2;
-    if (unit_behind_sdi(defender) && unit_flag(attacker->type, F_MISSILE))
+    if (unit_behind_sdi(defender) && unit_flag(attacker, F_MISSILE))
       defensepower*=2;
   } else if (is_sailing_unit(attacker)) {
     if (unit_behind_coastal(defender))

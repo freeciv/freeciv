@@ -1044,10 +1044,10 @@ void update_menus(void)
                            && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
 						     punit->x, punit->y)));
       menus_set_sensitive("<main>/_Orders/Explode Nuclear",
-			  unit_flag(punit->type, F_NUCLEAR));
-      if (unit_flag(punit->type, F_CARAVAN))
+			  unit_flag(punit, F_NUCLEAR));
+      if (unit_flag(punit, F_CARAVAN))
 	menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
-      else if (unit_flag(punit->type, F_CITIES)) {
+      else if (unit_flag(punit, F_CITIES)) {
 	if (map_get_city(punit->x, punit->y))
 	  menus_rename("<main>/_Orders/_Build City", _("Add to City (_B)"));
 	else
@@ -1056,9 +1056,9 @@ void update_menus(void)
       else 
 	menus_rename("<main>/_Orders/_Build City", _("_Build City"));
  
-      if (unit_flag(punit->type, F_CARAVAN))
+      if (unit_flag(punit, F_CARAVAN))
 	menus_rename("<main>/_Orders/Build _Road", _("Make Trade _Route"));
-      else if (unit_flag(punit->type, F_SETTLERS)) {
+      else if (unit_flag(punit, F_SETTLERS)) {
 	if (map_get_tile(punit->x,punit->y)->special&S_ROAD) {
 	  roadtext = _("Build _Railroad");
 	  road_activity=ACTIVITY_RAILROAD;  
@@ -1104,12 +1104,12 @@ void update_menus(void)
       else
 	menus_rename("<main>/_Orders/Build _Fortress", _("Build _Fortress"));
 
-      if (unit_flag(punit->type, F_PARATROOPERS))
+      if (unit_flag(punit, F_PARATROOPERS))
 	menus_rename("<main>/_Orders/Clean _Pollution", _("_Paradrop"));
       else
 	menus_rename("<main>/_Orders/Clean _Pollution", _("Clean _Pollution"));
 
-      if (!unit_flag(punit->type, F_SETTLERS))
+      if (!unit_flag(punit, F_SETTLERS))
 	menus_rename("<main>/_Orders/_Auto Settler", _("_Auto Attack"));
       else
 	menus_rename("<main>/_Orders/_Auto Settler", _("_Auto Settler"));

@@ -126,12 +126,12 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
     return 0;
 
   /* only fighters can attack planes, except for city or airbase attacks */
-  if (!unit_flag(punit->type, F_FIGHTER) && is_air_unit(pdefender) &&
+  if (!unit_flag(punit, F_FIGHTER) && is_air_unit(pdefender) &&
       !(map_get_city(dest_x, dest_y) || map_get_special(dest_x, dest_y)&S_AIRBASE)) {
     return 0;
   }
   /* can't attack with ground unit from ocean, except for marines */
-  if(fromtile==T_OCEAN && is_ground_unit(punit) && !unit_flag(punit->type, F_MARINES)) {
+  if(fromtile==T_OCEAN && is_ground_unit(punit) && !unit_flag(punit, F_MARINES)) {
     return 0;
   }
 
@@ -139,7 +139,7 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
     return 0;
   }
 
-  if (unit_flag(punit->type, F_NO_LAND_ATTACK) && totile!=T_OCEAN)  {
+  if (unit_flag(punit, F_NO_LAND_ATTACK) && totile!=T_OCEAN)  {
     return 0;
   }
   
@@ -234,8 +234,8 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
 
   /* With weird non-standard unit types, upgrading these could
      cause air units to run out of fuel; too bad. */
-  if (unit_flag(punit->type, F_CARRIER)
-      || unit_flag(punit->type, F_MISSILE_CARRIER))
+  if (unit_flag(punit, F_CARRIER)
+      || unit_flag(punit, F_MISSILE_CARRIER))
     return 0;
 
   old_cap = get_transporter_capacity(punit);
@@ -350,7 +350,7 @@ static struct unit *find_best_air_unit_to_refuel(struct player *pplayer,
   struct unit *best_unit=NULL;
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if ((unit_owner(punit) == pplayer) && is_air_unit(punit) && 
-        (!missile || unit_flag(punit->type, F_MISSILE))) {
+        (!missile || unit_flag(punit, F_MISSILE))) {
       /* We must check that it isn't already refuelled. */ 
       if (punit->fuel < unit_type(punit)->fuel) { 
         if (!best_unit) 
@@ -380,10 +380,10 @@ static void refuel_air_units_from_carriers(struct player *pplayer)
      of numbers of supported Air Units:   --dwp */
 
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit->type, F_CARRIER)) {
+    if (unit_flag(punit, F_CARRIER)) {
       unit_list_insert(&carriers, punit);
       punit->fuel = unit_type(punit)->transport_capacity;
-    } else if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
+    } else if (unit_flag(punit, F_MISSILE_CARRIER)) {
       unit_list_insert(&missile_carriers, punit);
       punit->fuel = unit_type(punit)->transport_capacity;
     }
@@ -470,7 +470,7 @@ void player_restore_units(struct player *pplayer)
     }
 
     /* 4) Check that triremes are near coastline, otherwise... */
-    if (unit_flag(punit->type, F_TRIREME)
+    if (unit_flag(punit, F_TRIREME)
 	&& myrand(100) < trireme_loss_pct(pplayer, punit->x, punit->y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 		       _("Game: Your %s has been lost on the high seas."),
@@ -1551,7 +1551,7 @@ static int is_airunit_refuel_point(int x, int y, struct player *pplayer,
 	  && !is_non_allied_unit_tile(map_get_tile(x, y), pplayer)))
     return 1;
 
-  if (unit_flag(type, F_MISSILE)) {
+  if (unit_type_flag(type, F_MISSILE)) {
     int cap = missile_carrier_capacity(x, y, pplayer, 0);
     if (unit_is_on_tile)
       cap++;
@@ -1655,7 +1655,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
      See if this is a spy that has been moved (corrupt and therefore unable 
      to establish an embassy.
   */
-  if(moves_left != -1 && unit_flag(punit->type, F_SPY))
+  if(moves_left != -1 && unit_flag(punit, F_SPY))
     punit->foul=1;
   else
     punit->foul=0;
@@ -2213,7 +2213,7 @@ barbarians in a hut
 **************************************************************************/
 int do_paradrop(struct unit *punit, int dest_x, int dest_y)
 {
-  if (!unit_flag(punit->type, F_PARATROOPERS)) {
+  if (!unit_flag(punit, F_PARATROOPERS)) {
     notify_player_ex(unit_owner(punit), punit->x, punit->y, E_NOEVENT,
 		     _("Game: This unit type can not be paradropped."));
     return 0;
@@ -2570,8 +2570,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	|| (plrtile->special & S_AIRBASE
 	    && !is_non_allied_unit_tile(map_get_tile(x, y),
 					unit_owner(ptrans)));
-    int missiles_only = unit_flag(ptrans->type, F_MISSILE_CARRIER)
-      && !unit_flag(ptrans->type, F_CARRIER);
+    int missiles_only = unit_flag(ptrans, F_MISSILE_CARRIER)
+      && !unit_flag(ptrans, F_CARRIER);
 
     /* Make sure we can transport the units marked as being transported by ptrans */
     unit_list_iterate(ptile->units, pcargo) {
@@ -2579,7 +2579,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	if (pcargo->owner == playerid
 	    && pcargo->id != ptrans->id
 	    && (!is_sailing_unit(pcargo))
-	    && (unit_flag(pcargo->type, F_MISSILE) || !missiles_only)
+	    && (unit_flag(pcargo, F_MISSILE) || !missiles_only)
 	    && !(is_ground_unit(ptrans) && ptile->terrain == T_OCEAN)
 	    && (capacity > 0)) {
 	  if (is_air_unit(pcargo))
@@ -2599,7 +2599,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	    && pcargo->id != ptrans->id
 	    && pcargo->transported_by != ptrans->id
 	    && pcargo->activity == ACTIVITY_SENTRY
-	    && (unit_flag(pcargo->type, F_MISSILE) || !missiles_only)
+	    && (unit_flag(pcargo, F_MISSILE) || !missiles_only)
 	    && pcargo->owner == playerid) {
 	  int has_trans = 0;
 	  unit_list_iterate(ptile->units, ptrans2) {
@@ -2628,7 +2628,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	    if (is_air_unit(pcargo)
 		&& pcargo->id != ptrans->id
 		&& pcargo->transported_by != ptrans->id
-		&& !unit_flag(pcargo->type, F_MISSILE)
+		&& !unit_flag(pcargo, F_MISSILE)
 		&& pcargo->owner == playerid) {
 	      capacity--;
 	      pcargo->transported_by = ptrans->id;
@@ -2644,7 +2644,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	  if (is_air_unit(pcargo)
 	      && pcargo->id != ptrans->id
 	      && pcargo->transported_by != ptrans->id
-	      && (!missiles_only || unit_flag(pcargo->type, F_MISSILE))
+	      && (!missiles_only || unit_flag(pcargo, F_MISSILE))
 	      && pcargo->owner == playerid) {
 	    capacity--;
 	    pcargo->transported_by = ptrans->id;

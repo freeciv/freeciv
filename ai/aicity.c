@@ -415,12 +415,12 @@ static void ai_new_spend_gold(struct player *pplayer)
       if (!pcity->shield_stock) ;
       else if (!bestchoice.type && is_wonder(bestchoice.choice) &&
                buycost >= 200) ; /* wait for more vans */
-      else if (bestchoice.type && unit_flag(bestchoice.choice, F_CITIES) &&
+      else if (bestchoice.type && unit_type_flag(bestchoice.choice, F_CITIES) &&
           !city_got_effect(pcity, B_GRANARY) && (pcity->size < 2 ||
          pcity->food_stock < city_granary_size(pcity->size-1))) ;
       else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
         buycost > unit_types[bestchoice.choice].build_cost * 2) { /* too expensive */
-        if (unit_flag(bestchoice.choice, F_CARAVAN) &&
+        if (unit_type_flag(bestchoice.choice, F_CARAVAN) &&
             pplayer->ai.maxbuycost < 100) pplayer->ai.maxbuycost = 100;
       }
 #ifdef GRAVEDANGERWORKS
@@ -446,7 +446,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 		      (bestchoice.type ? unit_name(bestchoice.choice)
 		       : get_improvement_name(bestchoice.choice)),
 		      pplayer->economic.gold, buycost);
-        if (bestchoice.type && !unit_flag(bestchoice.choice, F_NONMIL)) {
+        if (bestchoice.type && !unit_type_flag(bestchoice.choice, F_NONMIL)) {
           if (pcity->ai.grave_danger && !assess_defense(pcity)) { /* oh dear */
             try_to_sell_stuff(pplayer, pcity);
             if ((pplayer->economic.gold-pplayer->ai.est_upkeep) >= buycost)
@@ -458,7 +458,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 /* possibly upgrade units here */
         } /* end panic subroutine */
         if (is_unit_choice_type(bestchoice.type) &&
-            unit_flag(bestchoice.choice, F_CARAVAN)) {
+            unit_type_flag(bestchoice.choice, F_CARAVAN)) {
           if (buycost > pplayer->ai.maxbuycost)
             pplayer->ai.maxbuycost = buycost;
 /* Gudy reminded me AI was slow to build wonders, I thought of the above -- Syela */
@@ -738,7 +738,7 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
         (m == which || !which)) {
       j = unit_desirability(i, 1);
       j *= j;
-      if (unit_flag(i, F_FIELDUNIT) && !isdef) j = 0; /* This is now confirmed */
+      if (unit_type_flag(i, F_FIELDUNIT) && !isdef) j = 0; /* This is now confirmed */
       if (walls && m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
       if (j > best || (j == best && get_unit_type(i)->build_cost <=
                                get_unit_type(bestid)->build_cost)) {

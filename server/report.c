@@ -1248,7 +1248,7 @@ static void log_civ_score(void)
 	      fom = 0;
 	      /* count up settlers */
 	      unit_list_iterate (game.players[n].units, punit)
-		if (unit_flag (punit->type, F_CITIES))
+		if (unit_flag (punit, F_CITIES))
 		  fom++;
 	      unit_list_iterate_end;
 	      break;

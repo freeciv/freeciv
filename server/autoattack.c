@@ -62,7 +62,7 @@ static struct unit *search_best_target(struct player *pplayer,
      range is larger, because they are not going to return this turn anyways
   */
 
-  range = unit_flag(punit->type,F_ONEATTACK) ?
+  range = unit_flag(punit, F_ONEATTACK) ?
       punit->moves_left :
       punit->moves_left/2;
 

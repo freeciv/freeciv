@@ -883,7 +883,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 	else
 	  refresh_city_dialog(pcity);
 	
-	if(unit_flag(punit->type, F_CARAVAN)
+	if(unit_flag(punit, F_CARAVAN)
 	   && (!game.player_ptr->ai.control || ai_popup_windows)
 	   && punit->owner==game.player_idx
 	   && (punit->activity!=ACTIVITY_GOTO ||

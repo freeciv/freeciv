@@ -1051,7 +1051,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name(punit->type), pcity->name);
 
-    if(!unit_flag(punit->type, F_SPY)){
+    if(!unit_flag(punit, F_SPY)){
       shl=popup_message_dialog(top_vbox, /*"diplomatdialog"*/
 			       _(" Choose Your Diplomat's Strategy"), buf,
          		     _("Establish _Embassy"), diplomat_embassy_callback, 0,
@@ -1112,7 +1112,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
        diplomat_target_id=ptunit->id;
  
        shl=popup_message_dialog(top_vbox, /*"spybribedialog"*/_("Subvert Enemy Unit"),
-                              (!unit_flag(punit->type, F_SPY))?
+                              (!unit_flag(punit, F_SPY))?
  			      _("Sir, the diplomat is waiting for your command"):
  			      _("Sir, the spy is waiting for your command"),
  			      _("_Bribe Enemy Unit"), diplomat_bribe_callback, 0,

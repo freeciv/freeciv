@@ -447,7 +447,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     pcity = find_city_by_id(victim_id);
     punit = find_unit_by_id(victim_id);
 
-    if (!pdiplomat || !unit_flag(pdiplomat->type, F_DIPLOMAT))
+    if (!pdiplomat || !unit_flag(pdiplomat, F_DIPLOMAT))
       continue;
 
     if (punit
@@ -790,7 +790,7 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 **************************************************************************/
 void request_unit_nuke(struct unit *punit)
 {
-  if(!unit_flag(punit->type, F_NUCLEAR)) {
+  if(!unit_flag(punit, F_NUCLEAR)) {
     append_output_window(_("Game: Only nuclear units can do this."));
     return;
   }
@@ -807,7 +807,7 @@ void request_unit_nuke(struct unit *punit)
 **************************************************************************/
 void request_unit_paradrop(struct unit *punit)
 {
-  if(!unit_flag(punit->type, F_PARATROOPERS)) {
+  if(!unit_flag(punit, F_PARATROOPERS)) {
     append_output_window(_("Game: Only paratrooper units can do this."));
     return;
   }
@@ -1067,7 +1067,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
       continue;
     for(x=punit->x-2; x<punit->x+3; ++x) { 
       unit_list_iterate(map_get_tile(x, y)->units, pu)
-	if(unit_flag(pu->type, F_PARTIAL_INVIS)) {
+	if(unit_flag(pu, F_PARTIAL_INVIS)) {
 	  refresh_tile_mapcanvas(map_adjust_x(pu->x), y, 1);
 	}
       unit_list_iterate_end
@@ -1560,7 +1560,7 @@ void key_unit_airbase(void)
 void key_unit_auto_attack(void)
 {
   if(get_unit_in_focus())
-    if(!unit_flag(punit_focus->type, F_SETTLERS) &&
+    if(!unit_flag(punit_focus, F_SETTLERS) &&
        can_unit_do_auto(punit_focus))
       request_unit_auto(punit_focus);
 }
@@ -1581,7 +1581,7 @@ void key_unit_auto_explore(void)
 void key_unit_auto_settle(void)
 {
   if(get_unit_in_focus())
-    if(unit_flag(punit_focus->type, F_SETTLERS) &&
+    if(unit_flag(punit_focus, F_SETTLERS) &&
        can_unit_do_auto(punit_focus))
       request_unit_auto(punit_focus);
 }
@@ -1601,7 +1601,7 @@ void key_unit_build_city(void)
 void key_unit_build_wonder(void)
 {
   if(get_unit_in_focus())
-    if(unit_flag(punit_focus->type, F_CARAVAN))
+    if(unit_flag(punit_focus, F_CARAVAN))
       request_unit_caravan_action(punit_focus, PACKET_UNIT_HELP_BUILD_WONDER);
 }
 
@@ -1792,7 +1792,7 @@ void key_unit_sentry(void)
 void key_unit_traderoute(void)
 {
   if(get_unit_in_focus())
-    if(unit_flag(punit_focus->type, F_CARAVAN))
+    if(unit_flag(punit_focus, F_CARAVAN))
       request_unit_caravan_action(punit_focus, PACKET_UNIT_ESTABLISH_TRADE);
 }
 

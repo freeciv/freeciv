@@ -396,7 +396,7 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer, int 
       if (myunit==punit) continue;
       if (punit->owner!=pplayer->player_no)
         return 1;
-      if (unit_flag(punit->type, F_SETTLERS) && unit_flag(myunit->type, F_SETTLERS))
+      if (unit_flag(punit, F_SETTLERS) && unit_flag(myunit, F_SETTLERS))
         return 1;
     unit_list_iterate_end;
     return 0;
@@ -1096,7 +1096,7 @@ static int evaluate_improvements(struct unit *punit,
 				&best_newv, &best_oldv, best_act, gx, gy,
 				x, y);
 
-	if (unit_flag(punit->type, F_TRANSFORM)) {
+	if (unit_flag(punit, F_TRANSFORM)) {
 	  time = (map_transform_time(x, y)*SINGLE_MOVE + mv_rate - 1)/mv_rate +
 	    mv_turns;
 	  consider_settler_action(pplayer, ACTIVITY_TRANSFORM, -1,
@@ -1257,7 +1257,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   /* First find the best square to upgrade,
    * results in: gx, gy, best_newv, best_act
    */  
-  if (unit_flag(punit->type, F_SETTLERS)) {
+  if (unit_flag(punit, F_SETTLERS)) {
     best_newv = evaluate_improvements(punit, &best_act,&gx, &gy);
   }
 
@@ -1270,7 +1270,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   /* Decide whether to build a new city:
    * if so, modify: gx, gy, best_newv, best_act
    */
-  if (unit_flag(punit->type, F_CITIES) &&
+  if (unit_flag(punit, F_CITIES) &&
       pplayer->ai.control &&
       ai_fuzzy(pplayer,1)) {    /* don't want to make cities otherwise */
     int nx, ny;
@@ -1304,7 +1304,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   }
 
   /* If we intent on building a city then reserve the square. */
-  if (unit_flag(punit->type, F_CITIES) &&
+  if (unit_flag(punit, F_CITIES) &&
       best_act == ACTIVITY_UNKNOWN /* flag */) {
     punit->ai.ai_role = AIUNIT_BUILD_CITY;
     /* FIXME: is the unit taken off the minimap if it dies? */
@@ -1382,8 +1382,8 @@ static void auto_settlers_player(struct player *pplayer)
 	  pplayer->ai.warmth, game.globalwarming);
   unit_list_iterate(pplayer->units, punit) {
     if (punit->ai.control
-	&& (unit_flag(punit->type, F_SETTLERS)
-	    || unit_flag(punit->type, F_CITIES))) {
+	&& (unit_flag(punit, F_SETTLERS)
+	    || unit_flag(punit, F_CITIES))) {
       freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",
 	      pplayer->name, punit->x, punit->y); 
       if(punit->activity == ACTIVITY_SENTRY)
@@ -1407,8 +1407,8 @@ static void assign_settlers_player(struct player *pplayer)
   int i = 1<<pplayer->player_no;
   struct tile *ptile;
   unit_list_iterate(pplayer->units, punit)
-    if (unit_flag(punit->type, F_SETTLERS)
-	|| unit_flag(punit->type, F_CITIES)) {
+    if (unit_flag(punit, F_SETTLERS)
+	|| unit_flag(punit, F_CITIES)) {
       if (punit->activity == ACTIVITY_GOTO) {
         ptile = map_get_tile(punit->goto_dest_x, punit->goto_dest_y);
         ptile->assigned = ptile->assigned | i; /* assigned for us only */
@@ -1456,7 +1456,7 @@ static void assign_territory_player(struct player *pplayer)
         assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 1);
       } else if (is_ground_unit(punit)) {
         assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate /
-             (unit_flag(punit->type, F_IGTER) ? 1 : 3), 0);
+             (unit_flag(punit, F_IGTER) ? 1 : 3), 0);
 /* I realize this is not the most accurate, but I don't want to iterate
 road networks 100 times/turn, and I can't justifiably abort when I encounter
 already assigned territory.  If anyone has a reasonable alternative that won't

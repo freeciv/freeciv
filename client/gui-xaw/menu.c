@@ -343,10 +343,10 @@ void update_menus(void)
 				punit->x,punit->y));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_SETTLER,
 			   (can_unit_do_auto(punit)
-			    && unit_flag(punit->type, F_SETTLERS)));
+			    && unit_flag(punit, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_ATTACK, 
 			   (can_unit_do_auto(punit)
-			    && !unit_flag(punit->type, F_SETTLERS)));
+			    && !unit_flag(punit, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT, 
@@ -364,9 +364,9 @@ void update_menus(void)
 			    && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
 						      punit->x, punit->y)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_NUKE,
-                           unit_flag(punit->type, F_NUCLEAR));
+                           unit_flag(punit, F_NUCLEAR));
 
-      if (unit_flag(punit->type, F_CITIES) && map_get_city(punit->x, punit->y)) {
+      if (unit_flag(punit, F_CITIES) && map_get_city(punit->x, punit->y)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
 			  TEXT_ORDER_CITY_ADD_TO, NULL);
       } else {
@@ -406,7 +406,7 @@ void update_menus(void)
 			  TEXT_ORDER_TRANSFORM_TERRAIN, NULL);
       }
 
-      if (unit_flag(punit->type, F_PARATROOPERS)) {
+      if (unit_flag(punit, F_PARATROOPERS)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_POLLUTION,
 			  TEXT_ORDER_POLLUTION_PARADROP, NULL);
       } else {
@@ -583,7 +583,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_ORDER_POLLUTION: /* or MENU_ORDER_PARADROP */
     if((punit = get_unit_in_focus())) {
-      if (unit_flag(punit->type, F_SETTLERS))
+      if (unit_flag(punit, F_SETTLERS))
 	key_unit_pollution();
       else
 	key_unit_paradrop();

@@ -419,7 +419,7 @@ void eval_buildings(struct city *pcity,int *values)
 **************************************************************************/
 int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
 {
-  if (unit_flag(id,F_DIPLOMAT))
+  if (unit_type_flag(id, F_DIPLOMAT))
     return government_has_flag(get_gov_pcity(pcity), G_BUILD_VETERAN_DIPLOMAT);
 
   if (is_ground_unittype(id) || improvement_variant(B_BARRACKS)==1)

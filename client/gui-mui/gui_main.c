@@ -1298,19 +1298,19 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_HOMECITY, can_unit_change_homecity(punit));
       menu_entry_sensitive(MENU_ORDER_UNLOAD, get_transporter_capacity(punit) > 0);
       menu_entry_sensitive(MENU_ORDER_WAKEUP_OTHERS, is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->x, punit->y));
-      menu_entry_sensitive(MENU_ORDER_AUTO_SETTLER, (can_unit_do_auto(punit) && unit_flag(punit->type, F_SETTLERS)));
-      menu_entry_sensitive(MENU_ORDER_AUTO_ATTACK, (can_unit_do_auto(punit) && !unit_flag(punit->type, F_SETTLERS)));
+      menu_entry_sensitive(MENU_ORDER_AUTO_SETTLER, (can_unit_do_auto(punit) && unit_flag(punit, F_SETTLERS)));
+      menu_entry_sensitive(MENU_ORDER_AUTO_ATTACK, (can_unit_do_auto(punit) && !unit_flag(punit, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER_AUTO_EXPLORE, can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER_CONNECT, can_unit_do_connect(punit, ACTIVITY_IDLE));
       menu_entry_sensitive(MENU_ORDER_PATROL, can_unit_do_activity(punit, ACTIVITY_PATROL));
       menu_entry_sensitive(MENU_ORDER_GOTO_CITY, any_cities);
       menu_entry_sensitive(MENU_ORDER_BUILD_WONDER, unit_can_help_build_wonder_here(punit));
       menu_entry_sensitive(MENU_ORDER_TRADEROUTE, unit_can_est_traderoute_here(punit));
-      menu_entry_sensitive(MENU_ORDER_NUKE, unit_flag(punit->type, F_NUCLEAR));
+      menu_entry_sensitive(MENU_ORDER_NUKE, unit_flag(punit, F_NUCLEAR));
       menu_entry_sensitive(MENU_ORDER_DIPLOMAT_DLG, is_diplomat_unit(punit) &&
         diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, punit->x, punit->y));
 
-      if (unit_flag(punit->type, F_CITIES) && map_get_city(punit->x, punit->y))
+      if (unit_flag(punit, F_CITIES) && map_get_city(punit->x, punit->y))
       {
 	menu_entry_rename(MENU_ORDER_BUILD_CITY, _("Add to City"), FALSE);
       }

@@ -1078,7 +1078,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name(punit->type), pcity->name);
 
-    if(!unit_flag(punit->type, F_SPY)){
+    if(!unit_flag(punit, F_SPY)){
       shl=popup_message_dialog(toplevel, "diplomatdialog", buf,
 			       diplomat_embassy_callback, 0, 1,
 			       diplomat_investigate_callback, 0, 1,
@@ -1134,7 +1134,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
       /* Spy/Diplomat acting against a unit */
       
-      char *message = (!unit_flag(punit->type, F_SPY))?
+      char *message = (!unit_flag(punit, F_SPY))?
 	_("Sir, the diplomat is waiting for your command"):
 	_("Sir, the spy is waiting for your command");
       

@@ -2955,7 +2955,7 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
-  if(unit_flag(packet->id, F_PARATROOPERS)) {
+  if(unit_type_flag(packet->id, F_PARATROOPERS)) {
     cptr=put_uint16(cptr, packet->paratroopers_range);
     cptr=put_uint8(cptr, packet->paratroopers_mr_req);
     cptr=put_uint8(cptr, packet->paratroopers_mr_sub);

@@ -272,7 +272,7 @@ Can we move between for ZOC? (only for land units).
 static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 		       int dest_x, int dest_y)
 {
-  if (unit_flag(punit->type, F_IGZOC))
+  if (unit_flag(punit, F_IGZOC))
     return 1;
   if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), unit_owner(punit)))
     return 1;
@@ -310,7 +310,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
   struct tile *psrctile, *pdesttile;
   enum unit_move_type move_type = unit_type(punit)->move_type;
   int move_cost, total_cost;
-  int igter = unit_flag(punit->type, F_IGTER);
+  int igter = unit_flag(punit, F_IGTER);
   int add_to_queue;
 
   init_queue();
@@ -363,14 +363,14 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  /* Don't go into the unknown. * 3 is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 3 * SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
-	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
+	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
 	    add_to_queue = 0;
 	    move_cost = SINGLE_MOVE;
 	  }
 	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
-	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit->type, F_MARINES)) {
+	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
 	    add_to_queue = 0;
@@ -403,7 +403,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  move_cost = SINGLE_MOVE;
 	} else if (psrctile->move_cost[dir] != -3) {/*is -3 if sea units can move between*/
 	  continue;
-	} else if (unit_flag(punit->type, F_TRIREME) 
+	} else if (unit_flag(punit, F_TRIREME) 
 		   && trireme_loss_pct(unit_owner(punit), x1, y1) > 0) {
 	  move_cost = 2*SINGLE_MOVE+1;
 	} else {

@@ -239,10 +239,10 @@ void ai_eval_buildings(struct city *pcity)
   j = 0; k = 0;
   city_list_iterate(pplayer->cities, acity)
     if (acity->is_building_unit) {
-      if (!unit_flag(acity->currently_building, F_NONMIL) &&
+      if (!unit_type_flag(acity->currently_building, F_NONMIL) &&
           unit_types[acity->currently_building].move_type == LAND_MOVING)
         j += prod;
-      else if (unit_flag(acity->currently_building, F_CARAVAN) &&
+      else if (unit_type_flag(acity->currently_building, F_CARAVAN) &&
         built_elsewhere(acity, B_SUNTZU)) j += prod; /* this also stops flip-flops */
     } else if (acity->currently_building == B_BARRACKS || /* this stops flip-flops */
              acity->currently_building == B_BARRACKS2 ||
@@ -598,12 +598,12 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   }
 
   unit_list_iterate(pplayer->units, punit)
-    if (unit_flag(punit->type, F_CARAVAN) &&
+    if (unit_flag(punit, F_CARAVAN) &&
         map_get_continent(punit->x, punit->y) == con) vans++;
   unit_list_iterate_end;
   city_list_iterate(pplayer->cities, acity)
     if (acity->is_building_unit && acity->shield_stock >= 50 &&
-        unit_flag(acity->currently_building, F_CARAVAN) &&
+        unit_type_flag(acity->currently_building, F_CARAVAN) &&
         map_get_continent(acity->x, acity->y) == con) vans++;
   city_list_iterate_end;
 

@@ -162,7 +162,7 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
   int v, sailing;
   struct unit_type *ptype;
 
-  if (unit_flag(punit->type, F_NO_LAND_ATTACK)) return(0);
+  if (unit_flag(punit, F_NO_LAND_ATTACK)) return(0);
   sailing = is_sailing_unit(punit);
   if (sailing && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) return(0);
 
@@ -191,7 +191,7 @@ static int assess_distance(struct city *pcity, struct unit *punit, int m,
   else if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
   else if (!is_ground_unit(punit))
     dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * SINGLE_MOVE;
-  else if (unit_flag(punit->type, F_IGTER))
+  else if (unit_flag(punit, F_IGTER))
     dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
   else dist = warmap.cost[punit->x][punit->y];
 /* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
@@ -256,8 +256,8 @@ int assess_danger(struct city *pcity)
   pcity->ai.diplomat_threat = 0;
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    if (unit_flag(punit->type, F_PIKEMEN)) pikemen++;
-    if (unit_flag(punit->type, F_DIPLOMAT)) diplomat++;
+    if (unit_flag(punit, F_PIKEMEN)) pikemen++;
+    if (unit_flag(punit, F_DIPLOMAT)) diplomat++;
   unit_list_iterate_end;
 
   for(i=0; i<game.nplayers; i++) {
@@ -300,22 +300,22 @@ the release.  The AI is in fact vulnerable to gang-attacks, but I'm
 content to let it remain that way for now. -- Syela 980805 */
           }
 
-          if (unit_flag(funit->type, F_HORSE)) {
+          if (unit_flag(funit, F_HORSE)) {
             if (pikemen) v /= 2;
             else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
 				    (v * m / (dist*2)));
           }
 
-        if (unit_flag(funit->type, F_DIPLOMAT) && (dist <= 2 * m)) 
+        if (unit_flag(funit, F_DIPLOMAT) && (dist <= 2 * m)) 
 	     pcity->ai.diplomat_threat = !diplomat;
 
           v *= v;
 
           if (!igwall) danger2 += v * m / dist;
           else if (is_sailing_unit(funit)) danger3 += v * m / dist;
-          else if (is_air_unit(funit) && !unit_flag(funit->type, F_NUCLEAR)) danger4 += v * m / dist;
-          if (unit_flag(funit->type, F_MISSILE)) danger5 += v * m / MAX(m, dist);
-          if (!unit_flag(funit->type, F_NUCLEAR)) { /* only SDI helps against NUCLEAR */
+          else if (is_air_unit(funit) && !unit_flag(funit, F_NUCLEAR)) danger4 += v * m / dist;
+          if (unit_flag(funit, F_MISSILE)) danger5 += v * m / MAX(m, dist);
+          if (!unit_flag(funit, F_NUCLEAR)) { /* only SDI helps against NUCLEAR */
             v = dangerfunct(v, m, dist);
             danger += v;
             if (igwall) badmojo += v;
@@ -342,22 +342,22 @@ the release.  The AI is in fact vulnerable to gang-attacks, but I'm
 content to let it remain that way for now. -- Syela 980805 */
         }
 
-        if (unit_flag(punit->type, F_HORSE)) {
+        if (unit_flag(punit, F_HORSE)) {
           if (pikemen) v /= 2;
 	  else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
 				  (v * m / (dist*2)));
         }
 
-        if (unit_flag(punit->type, F_DIPLOMAT) && (dist <= 2 * m))
+        if (unit_flag(punit, F_DIPLOMAT) && (dist <= 2 * m))
 	     pcity->ai.diplomat_threat = !diplomat;
 
         v *= v;
 
         if (!igwall) danger2 += v * m / dist;
         else if (is_sailing_unit(punit)) danger3 += v * m / dist;
-        else if (is_air_unit(punit) && !unit_flag(punit->type, F_NUCLEAR)) danger4 += v * m / dist;
-        if (unit_flag(punit->type, F_MISSILE)) danger5 += v * m / MAX(m, dist);
-        if (!unit_flag(punit->type, F_NUCLEAR)) { /* only SDI helps against NUCLEAR */
+        else if (is_air_unit(punit) && !unit_flag(punit, F_NUCLEAR)) danger4 += v * m / dist;
+        if (unit_flag(punit, F_MISSILE)) danger5 += v * m / MAX(m, dist);
+        if (!unit_flag(punit, F_NUCLEAR)) { /* only SDI helps against NUCLEAR */
           v = dangerfunct(v, m, dist);
           danger += v;
           if (igwall) badmojo += v;
@@ -451,8 +451,8 @@ int unit_desirability(Unit_Type_id i, int def)
 /*  else if (d < 2) cur = (cur * (a + d))/2; Don't believe in this anymore */
   else cur *= a; /* wanted to rank Legion > Catapult > Archer */
 /* which we will do by munging f in the attacker want equations */
-  if (unit_flag(i, F_IGTER) && !def) cur *= 3;
-  if (unit_flag(i, F_PIKEMEN) && def) cur *= 1.5;
+  if (unit_type_flag(i, F_IGTER) && !def) cur *= 3;
+  if (unit_type_flag(i, F_PIKEMEN) && def) cur *= 1.5;
   if (unit_types[i].move_type == LAND_MOVING && def) cur *= 1.5;
   return(cur);  
 }
@@ -485,7 +485,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
     if ((m == LAND_MOVING || m == SEA_MOVING)) {
       k = pplayer->ai.tech_turns[unit_types[i].tech_requirement];
       j = unit_desirability(i, 1);
-      if (!isdef && unit_flag(i, F_FIELDUNIT)) j = 0;
+      if (!isdef && unit_type_flag(i, F_FIELDUNIT)) j = 0;
       j /= 15; /* good enough, no rounding errors */
       j *= j;
       if (can_build_unit(pcity, i)) {
@@ -576,13 +576,13 @@ static void process_attacker_want(struct player *pplayer,
       /* b is unchanged */
 
       m = unit_types[i].move_rate;
-      q = (acity ? 1 : unit_types[n].move_rate * (unit_flag(n, F_IGTER) ? 3 : 1));
-      if (unit_flag(i, F_IGTER)) m *= SINGLE_MOVE; /* not quite right */
+      q = (acity ? 1 : unit_types[n].move_rate * (unit_type_flag(n, F_IGTER) ? 3 : 1));
+      if (unit_type_flag(i, F_IGTER)) m *= SINGLE_MOVE; /* not quite right */
       if (unit_types[i].move_type == LAND_MOVING) {
         if (boatspeed) { /* has to be a city, so don't bother with q */
           c = (warmap.cost[bx][by] + m - 1) / m + 1 +
                 warmap.seacost[x][y] / boatspeed; /* kluge */
-          if (unit_flag(i, F_MARINES)) c -= 1;
+          if (unit_type_flag(i, F_MARINES)) c -= 1;
         } else if (warmap.cost[x][y] <= m) c = 1;
         else c = (warmap.cost[x][y] * q + m - 1) / m;
       } else if (unit_types[i].move_type == SEA_MOVING) {
@@ -601,7 +601,7 @@ static void process_attacker_want(struct player *pplayer,
       if (unit_types[i].move_type == LAND_MOVING && acity &&
           c > (player_knows_improvement_tech(city_owner(acity),
 					     B_CITY) ? 2 : 4) &&
-          !unit_flag(i, F_IGWALL) && !city_got_citywalls(acity)) d *= 9; 
+          !unit_type_flag(i, F_IGWALL) && !city_got_citywalls(acity)) d *= 9; 
 
       f = unit_types[i].build_cost;
       fprime = f * 2 * unit_types[i].attack_strength /
@@ -673,7 +673,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   ferryboat = player_find_unit_by_id(pplayer, boatid);
   /* FIXME: hardcoded boat speed */
- if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME)
+ if (ferryboat) boatspeed = (unit_flag(ferryboat, F_TRIREME)
 			     ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
   else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN
 		    ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
@@ -704,7 +704,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
       pdef = get_defender(myunit, x, y);
 
       m = unit_types[v].move_rate;
-      if (unit_flag(v, F_IGTER)) m *= 3; /* not quite right */
+      if (unit_type_flag(v, F_IGTER)) m *= 3; /* not quite right */
 
       sanity = (goto_is_sane(myunit, acity->x, acity->y, 1) &&
               warmap.cost[x][y] <= (MIN(6, m) * THRESHOLD));
@@ -714,7 +714,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
           if (boatid) c = (warmap.cost[bx][by] + m - 1) / m + 1 +
                 warmap.seacost[acity->x][acity->y] / boatspeed; /* kluge */
           else c = warmap.seacost[acity->x][acity->y] / boatspeed + 1;
-          if (unit_flag(myunit->type, F_MARINES)) c -= 1;
+          if (unit_flag(myunit, F_MARINES)) c -= 1;
 	  freelog(LOG_DEBUG, "%s attempting to attack via ferryboat"
 			" (boatid = %d, c = %d)", unit_types[v].name, boatid, c);
         } else c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
@@ -774,12 +774,12 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       else dist = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE;
       if (dist > m) {
         dist *= unit_type(pdef)->move_rate;
-        if (unit_flag(pdef->type, F_IGTER)) dist *= 3;
+        if (unit_flag(pdef, F_IGTER)) dist *= 3;
       }
       if (!dist) dist = 1;
 
       m = unit_types[v].move_rate;
-      if (unit_flag(v, F_IGTER)) m *= 3; /* not quite right */
+      if (unit_type_flag(v, F_IGTER)) m *= 3; /* not quite right */
       c = ((dist + m - 1) / m);
 
       n = pdef->type;
@@ -1045,7 +1045,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     if (((unit_type(punit)->attack_strength * 4 >
         unit_type(punit)->defense_strength * 5) ||
-        unit_flag(punit->type, F_FIELDUNIT)) &&
+        unit_flag(punit, F_FIELDUNIT)) &&
         punit->activity != ACTIVITY_GOTO) /* very important clause, this -- Syela */
      myunit = punit;
   unit_list_iterate_end;

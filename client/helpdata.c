@@ -588,10 +588,10 @@ void helptext_unit(char *buf, int i, const char *user_text)
   
   buf[0] = '\0';
   if (utype->transport_capacity>0) {
-    if (unit_flag(i, F_CARRIER)) {
+    if (unit_type_flag(i, F_CARRIER)) {
       sprintf(buf+strlen(buf), _("* Can carry and refuel %d air units.\n"),
 	      utype->transport_capacity);
-    } else if (unit_flag(i, F_MISSILE_CARRIER)) {
+    } else if (unit_type_flag(i, F_MISSILE_CARRIER)) {
       sprintf(buf+strlen(buf), _("* Can carry and refuel %d missile units.\n"),
 	      utype->transport_capacity);
     } else {
@@ -599,87 +599,87 @@ void helptext_unit(char *buf, int i, const char *user_text)
 	      utype->transport_capacity);
     }
   }
-  if (unit_flag(i, F_CARAVAN)) {
+  if (unit_type_flag(i, F_CARAVAN)) {
     sprintf(buf+strlen(buf),
 	    _("* Can establish trade routes and help build wonders.\n"));
   }
-  if (unit_flag(i, F_CITIES)) {
+  if (unit_type_flag(i, F_CITIES)) {
     sprintf(buf+strlen(buf), _("* Can build new cities.\n"));
   }
-  if (unit_flag(i, F_SETTLERS)) {
+  if (unit_type_flag(i, F_SETTLERS)) {
     sprintf(buf+strlen(buf), _("* Can perform settler actions.\n"));
   }
-  if (unit_flag(i, F_DIPLOMAT)) {
-    if (unit_flag(i, F_SPY)) 
+  if (unit_type_flag(i, F_DIPLOMAT)) {
+    if (unit_type_flag(i, F_SPY)) 
       sprintf(buf+strlen(buf), _("* Can perform diplomatic actions,"
 				 " plus special spy abilities.\n"));
     else 
       sprintf(buf+strlen(buf), _("* Can perform diplomatic actions.\n"));
   }
-  if (unit_flag(i, F_FIGHTER)) {
+  if (unit_type_flag(i, F_FIGHTER)) {
     sprintf(buf+strlen(buf), _("* Can attack enemy air units.\n"));
   }
-  if (unit_flag(i, F_PARTIAL_INVIS)) {
+  if (unit_type_flag(i, F_PARTIAL_INVIS)) {
     sprintf(buf+strlen(buf), _("* Is invisible except when next to an"
 			       " enemy unit or city.\n"));
   }
-  if (unit_flag(i, F_NO_LAND_ATTACK)) {
+  if (unit_type_flag(i, F_NO_LAND_ATTACK)) {
     sprintf(buf+strlen(buf), _("* Can only attack units on ocean squares"
 			       " (no land attacks).\n"));
   }
-  if (unit_flag(i, F_MARINES)) {
+  if (unit_type_flag(i, F_MARINES)) {
     sprintf(buf+strlen(buf), _("* Can attack from aboard sea units: against"
 			       " enemy cities and onto land squares."));
   }
-  if (unit_flag(i, F_PARATROOPERS)) {
+  if (unit_type_flag(i, F_PARATROOPERS)) {
     sprintf(buf+strlen(buf), _("* Can be paradropped from a friendly city"
 			       " (Range: %d)."), utype->paratroopers_range);
   }
-  if (unit_flag(i, F_PIKEMEN)) {
+  if (unit_type_flag(i, F_PIKEMEN)) {
     sprintf(buf+strlen(buf), _("* Gets double defense against units"
 			       " specified as 'mounted'.\n"));
   }
-  if (unit_flag(i, F_HORSE)) {
+  if (unit_type_flag(i, F_HORSE)) {
     sprintf(buf+strlen(buf),
 	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
-  if (unit_flag(i, F_MISSILE)) {
+  if (unit_type_flag(i, F_MISSILE)) {
     sprintf(buf+strlen(buf),
 	    _("* A missile unit: gets used up in making an attack.\n"));
-  } else if(unit_flag(i, F_ONEATTACK)) {
+  } else if(unit_type_flag(i, F_ONEATTACK)) {
     sprintf(buf+strlen(buf), _("* Making an attack ends this unit's turn.\n"));
   }
-  if (unit_flag(i, F_NUCLEAR)) {
+  if (unit_type_flag(i, F_NUCLEAR)) {
     sprintf(buf+strlen(buf),
 	    _("* This unit's attack causes a nuclear explosion!\n"));
   }
-  if (unit_flag(i, F_IGWALL)) {
+  if (unit_type_flag(i, F_IGWALL)) {
     sprintf(buf+strlen(buf), _("* Ignores the effects of city walls.\n"));
   }
-  if (unit_flag(i, F_AEGIS)) {
+  if (unit_type_flag(i, F_AEGIS)) {
     sprintf(buf+strlen(buf),
 	    _("* Gets quintuple defence against missiles and aircraft.\n"));
   }
-  if (unit_flag(i, F_IGTER)) {
+  if (unit_type_flag(i, F_IGTER)) {
     sprintf(buf+strlen(buf),
 	    _("* Ignores terrain effects (treats all squares as roads).\n"));
   }
-  if (unit_flag(i, F_IGTIRED)) {
+  if (unit_type_flag(i, F_IGTIRED)) {
     sprintf(buf+strlen(buf),
 	    _("* Attacks with full strength even if less than one movement left.\n"));
   }
-  if (unit_flag(i, F_IGZOC)) {
+  if (unit_type_flag(i, F_IGZOC)) {
     sprintf(buf+strlen(buf), _("* Ignores zones of control.\n"));
   }
-  if (unit_flag(i, F_NONMIL)) {
+  if (unit_type_flag(i, F_NONMIL)) {
     sprintf(buf+strlen(buf), _("* A non-military unit"
 			       " (cannot attack; no martial law).\n"));
   }
-  if (unit_flag(i, F_FIELDUNIT)) {
+  if (unit_type_flag(i, F_FIELDUNIT)) {
     sprintf(buf+strlen(buf), _("* A field unit: one unhappiness applies"
 			       " even when non-aggressive.\n"));
   }
-  if (unit_flag(i, F_TRIREME)) {
+  if (unit_type_flag(i, F_TRIREME)) {
     sprintf(buf+strlen(buf),
 	    _("* Must end turn in a city or next to land,"
 	      " or has a 50%% risk of being lost at sea."));
@@ -695,7 +695,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
     }
     /* FIXME: should use something like get_units_with_flag_string() */
     sprintf(buf+strlen(buf), _("turn in a city, or on a Carrier"));
-    if (unit_flag(i, F_MISSILE) &&
+    if (unit_type_flag(i, F_MISSILE) &&
 	num_role_units(F_MISSILE_CARRIER)>0 &&
 	get_unit_type(get_role_unit(F_MISSILE_CARRIER,0))->transport_capacity) {
       sprintf(buf+strlen(buf), _(" or Submarine"));

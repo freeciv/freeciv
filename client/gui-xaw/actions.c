@@ -308,7 +308,7 @@ static void xaw_key_unit_auto_attack_or_settle(Widget w, XEvent *event, String *
 {
   struct unit *punit = get_unit_in_focus();
   if(punit) {
-    if (unit_flag(punit->type, F_SETTLERS)) {
+    if (unit_flag(punit, F_SETTLERS)) {
       if(is_menu_item_active(MENU_ORDER, MENU_ORDER_AUTO_SETTLER))
 	key_unit_auto_settle();
     } else {
@@ -340,7 +340,7 @@ static void xaw_key_unit_build_city_or_wonder(Widget w, XEvent *event, String *a
 {
   struct unit *punit = get_unit_in_focus();
   if(punit) {
-    if (unit_flag(punit->type, F_SETTLERS)) {
+    if (unit_flag(punit, F_SETTLERS)) {
       if(is_menu_item_active(MENU_ORDER, MENU_ORDER_BUILD_CITY))
 	key_unit_build_city();
     } else {
@@ -396,7 +396,7 @@ static void xaw_key_unit_fortify_or_fortress(Widget w, XEvent *event, String *ar
 {
   struct unit *punit = get_unit_in_focus();
   if(punit) {
-    if (unit_flag(punit->type, F_SETTLERS)) {
+    if (unit_flag(punit, F_SETTLERS)) {
       if(is_menu_item_active(MENU_ORDER, MENU_ORDER_FORTRESS))
 	key_unit_fortress();
     } else {
@@ -452,7 +452,7 @@ static void xaw_key_unit_paradrop_or_pollution(Widget w, XEvent *event, String *
 {
   struct unit *punit = get_unit_in_focus();
   if(punit) {
-    if (unit_flag(punit->type, F_SETTLERS)) {
+    if (unit_flag(punit, F_SETTLERS)) {
       if(is_menu_item_active(MENU_ORDER, MENU_ORDER_POLLUTION))
 	key_unit_pollution();
     } else {
@@ -490,7 +490,7 @@ static void xaw_key_unit_road_or_traderoute(Widget w, XEvent *event, String *arg
 {
   struct unit *punit = get_unit_in_focus();
   if(punit) {
-    if (unit_flag(punit->type, F_SETTLERS)) {
+    if (unit_flag(punit, F_SETTLERS)) {
       if(is_menu_item_active(MENU_ORDER, MENU_ORDER_ROAD))
 	key_unit_road();
     } else {

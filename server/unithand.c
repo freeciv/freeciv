@@ -262,7 +262,7 @@ void handle_diplomat_action(struct player *pplayer,
   struct city *pcity=find_city_by_id(packet->target_id);
 
   if (!pdiplomat) return;
-  if (!unit_flag(pdiplomat->type, F_DIPLOMAT)) 
+  if (!unit_flag(pdiplomat, F_DIPLOMAT)) 
     return;
 
   if(pdiplomat->moves_left) {
@@ -643,14 +643,14 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     abort();
   }
   if (pplayers_allied(unit_owner(punit), unit_owner(pdefender))
-      && !(unit_flag(punit->type, F_NUCLEAR) && punit == pdefender)) {
+      && !(unit_flag(punit, F_NUCLEAR) && punit == pdefender)) {
     freelog(LOG_FATAL,
 	    "Trying to attack a unit with which you have alliance at %i, %i",
 	    def_x, def_y);
     abort();
   }
 
-  if(unit_flag(punit->type, F_NUCLEAR)) {
+  if(unit_flag(punit, F_NUCLEAR)) {
     struct packet_nuke_tile packet;
     
     packet.x=def_x;
@@ -702,7 +702,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     city_refresh(pcity);
     send_city_info(0, pcity);
   }
-  if (unit_flag(punit->type, F_ONEATTACK)) 
+  if (unit_flag(punit, F_ONEATTACK)) 
     punit->moves_left = 0;
   pwinner=(punit->hp) ?     punit : pdefender;
   plooser=(pdefender->hp) ? punit : pdefender;
@@ -767,7 +767,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     kill_unit(pwinner, plooser);
                /* no longer pplayer - want better msgs -- Syela */
   }
-  if (pwinner == punit && unit_flag(punit->type, F_MISSILE)) {
+  if (pwinner == punit && unit_flag(punit, F_MISSILE)) {
     wipe_unit(pwinner);
     return;
   }
@@ -842,7 +842,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y))
     return 0;
 
-  if (unit_flag(punit->type, F_CARAVAN)
+  if (unit_flag(punit, F_CARAVAN)
       && pcity
       && pcity->owner != punit->owner
       && !pplayers_allied(city_owner(pcity), unit_owner(punit))
@@ -1075,7 +1075,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
   struct city *pcity_dest;
 
   punit = player_find_unit_by_id(pplayer, req->unit_id);
-  if (!punit || !unit_flag(punit->type, F_CARAVAN))
+  if (!punit || !unit_flag(punit, F_CARAVAN))
     return;
 
   pcity_dest = find_city_by_id(req->city_id);
@@ -1119,7 +1119,7 @@ int handle_unit_establish_trade(struct player *pplayer,
   int revenue;
   
   punit = player_find_unit_by_id(pplayer, req->unit_id);
-  if (!punit || !unit_flag(punit->type, F_CARAVAN))
+  if (!punit || !unit_flag(punit, F_CARAVAN))
     return 0;
     
   pcity_homecity=player_find_city_by_id(pplayer, punit->homecity);
@@ -1298,12 +1298,12 @@ void handle_unit_unload_request(struct player *pplayer,
 	    wakeup = 1;
 	}
 
-	if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
-	  if (unit_flag(punit2->type, F_MISSILE))
+	if (unit_flag(punit, F_MISSILE_CARRIER)) {
+	  if (unit_flag(punit2, F_MISSILE))
 	    wakeup = 1;
 	}
 
-	if (unit_flag(punit->type, F_CARRIER)) {
+	if (unit_flag(punit, F_CARRIER)) {
 	  if (is_air_unit(punit2))
 	    wakeup = 1;
 	}

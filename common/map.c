@@ -953,7 +953,7 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
   if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
     return MOVE_COST_RAIL;
 /* return (unit_move_rate(punit)/RAIL_MAX) */
-  if (punit && unit_flag(punit->type, F_IGTER))
+  if (punit && unit_flag(punit, F_IGTER))
     return SINGLE_MOVE/3;
   if( (t1->special&S_ROAD) && (t2->special&S_ROAD) )
     return MOVE_COST_ROAD;

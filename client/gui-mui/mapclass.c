@@ -1841,15 +1841,15 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		  Map_InsertCommand(&list, _("Sentry"), PACK_USERDATA(punit, MENU_ORDER_SENTRY));
 		if (can_unit_do_activity(punit, ACTIVITY_PILLAGE))
 		  Map_InsertCommand(&list, _("Pillage"), PACK_USERDATA(punit, MENU_ORDER_PILLAGE));
-		if (can_unit_do_auto(punit) && unit_flag(punit->type, F_SETTLERS))
+		if (can_unit_do_auto(punit) && unit_flag(punit, F_SETTLERS))
 		  Map_InsertCommand(&list, _("Auto Settler"), PACK_USERDATA(punit, MENU_ORDER_AUTO_SETTLER));
-		if (can_unit_do_auto(punit) && !unit_flag(punit->type, F_SETTLERS))
+		if (can_unit_do_auto(punit) && !unit_flag(punit, F_SETTLERS))
 		  Map_InsertCommand(&list, _("Auto Attack"), PACK_USERDATA(punit, MENU_ORDER_AUTO_ATTACK));
 		if (can_unit_do_activity(punit, ACTIVITY_EXPLORE))
 		  Map_InsertCommand(&list, _("Auto Explore"), PACK_USERDATA(punit, MENU_ORDER_AUTO_EXPLORE));
 		if (can_unit_paradrop(punit))
 		  Map_InsertCommand(&list, _("Paradrop"), PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
-		if (unit_flag(punit->type, F_NUCLEAR))
+		if (unit_flag(punit, F_NUCLEAR))
 		  Map_InsertCommand(&list, _("Explode Nuclear"), PACK_USERDATA(punit, MENU_ORDER_NUKE));
 		if (get_transporter_capacity(punit) > 0)
 		  Map_InsertCommand(&list, _("Unload"), PACK_USERDATA(punit, MENU_ORDER_UNLOAD));
