@@ -16,19 +16,75 @@ of this file.
 Compiling freeciv
 =================
 
-  NOTE FOR FREECIV 1.6.x:
+1. Generating the Makefile.
 
-  We are currently trialling a new system based on the GNU "configure"
-  system, which does not use Imake.  Until all bugs in this are ironed
-  out, the recommended way of building Freeciv is still as described
-  below.  Volunteers to debug the "configure" are needed.
+Before you compile Freeciv, you must generate a Makefile.  There are
+two ways to do this.  The first is using the GNU "configure" system,
+which does not use Imake.  If this does not work for you, try using
+the Imake approach, as described below.
 
-Freeciv uses "Imake", which comes with the X Window system.  This is
-driven by a file called "Imakefile".  In this file, there are a few
-parameters which you might want to alter.
+To use "configure", cd into the top directory containing the Freeciv files,
+and type:
 
-When you've finished, type 'xmkmf' and then 'make'.
+  ./configure
 
+This script will then attempt to determine the relevant features (and
+misfeatures!!) of your system.
+
+Note, you must have GNU make installed on your system to use this method.
+You can check this by typing:
+
+  make -v                            [and if this doesn't work, try "gmake -v"]
+
+If the output doesn't include "GNU Make", then you must use the Imake
+method described below.
+
+If you want to change the compile options, set the CFLAGS variable before
+running "configure".  For example:
+
+  setenv CFLAGS "-O -g -pipe"
+  ./configure                        [for people using C shell or tcsh]
+
+or
+
+  CFLAGS="-O -g -pipe" ./configure   [for people using Bourne shell or bash]
+
+If you want to submit a bug report with a core dump, we suggest that you use
+a value of "-g" for CFLAGS.
+
+
+If for some reason using "configure" gives you trouble, follow these steps:
+
+First, let us know, so that we can fix it for the next release!!  Send mail
+to freeciv@freeciv.midsun.com telling us what you did, and what the result
+is.  Note, you MUST have both the Xpm and Xaw libraries installed on your
+system, in a place where "configure" can find them.
+
+Second, use the "xmkmf" program to generate the Makefile.  Behind the scenes,
+this uses Imake.  Note, that we no longer really support the Imake-based
+approach, so you are less likely to get help with a problem you report.
+
+To do this, cd into the top directory containing the Freeciv files,
+and type:
+
+  xmkmf
+
+This should generate the Makefile you need.
+
+NOTE: If you use "configure", the client and server executables
+will be placed in the "client" and "server" directories, respectively.  
+If you use Imake, the client and server executables will be placed in
+the Freeciv top-level directory.  We suggest you use the "civ" and "ser"
+scripts to run Freeciv - that way, the executables will be found regardless
+of which method you used to generate the Makefile.
+
+2. Compiling
+
+To compile, type:
+
+  make                               [or possibly gmake]
+
+This should completely build the Freeciv binaries from the source code.
 
 When it doesn't compile:
 ========================
@@ -75,12 +131,12 @@ Installing the Xpm library
 If you find that you don't have the Xpm library installed, then follow the
 following instructions:
 
- - FTP the source from ftp://koala.inria.fr/pub/xpm/xpm-3.4j.tar.gz
-   (Or you can try ftp://ftp.x.org/contrib/libraries/xpm-3.4j.tar.gz )
+ - FTP the source from ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz
+   (Or you can try ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz )
 
  - Use gunzip uncompress the file, and tar to extract the contents, eg, 
 
-        gunzip < xpm-3.4j.tar.gz | tar -xvf -
+        gunzip < xpm-3.4k.tar.gz | tar -xvf -
 
  - Build the makefile using the command 'xmkmf -a'.
 
