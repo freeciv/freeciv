@@ -256,6 +256,10 @@ command, like so:
 
   |  > save mygame.sav
 
+(If your server is compiled with compression support, and the
+'compress' server option is set to other than 0 (zero), then the
+file written may be compressed and called 'mygame.sav.gz'.)
+
 The Freeciv client works pretty much as you would expect from a
 multiplayer civilization game.  That is, the human players all move
 at the same time, then all the AI players move when all the human
@@ -332,6 +336,10 @@ Restoring games:
 You can restore a saved game by using the '-f' server option, eg:
 
   |  % civserver -f oursave2001.sav
+
+or, if the save-file was created by a server that compressed it:
+
+  |  % civserver -f oursave2001.sav.gz
 
 Now the players can rejoin the game:
 

@@ -19,6 +19,7 @@ aclocal.m4
 cat-id-tbl.c
 civclient
 civgame*.sav
+civgame*.sav.gz
 civgame.log
 civserver
 config.cache
