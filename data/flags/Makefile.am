@@ -16,6 +16,7 @@ pkgdata_DATA =				\
 		bavarian.png		\
 		belgium.png		\
 		boer.png		\
+		bosnia.png		\
 		brasil.png		\
 		bulgaria.png		\
 		canada.png		\
