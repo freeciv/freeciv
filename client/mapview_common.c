@@ -622,14 +622,16 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
   in iso-view to draw only part of the tile.  Non-iso view should use
   put_unit_full instead.
 **************************************************************************/
-void put_unit(struct unit *punit, struct canvas *pcanvas,
+void put_unit(struct unit *punit, bool stacked, bool backdrop,
+	      struct canvas *pcanvas,
 	      int canvas_x, int canvas_y,
 	      int unit_offset_x, int unit_offset_y,
 	      int unit_width, int unit_height)
 {
   struct drawn_sprite drawn_sprites[40];
   bool solid_bg;
-  int count = fill_unit_sprite_array(drawn_sprites, punit, &solid_bg, FALSE);
+  int count = fill_unit_sprite_array(drawn_sprites, punit, &solid_bg,
+				     stacked, backdrop);
   int i;
 
   if (!is_isometric && solid_bg) {
@@ -663,7 +665,7 @@ void put_unit(struct unit *punit, struct canvas *pcanvas,
 void put_unit_full(struct unit *punit, struct canvas *pcanvas,
 		   int canvas_x, int canvas_y)
 {
-  put_unit(punit, pcanvas, canvas_x, canvas_y,
+  put_unit(punit, FALSE, TRUE, pcanvas, canvas_x, canvas_y,
 	   0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 }
 

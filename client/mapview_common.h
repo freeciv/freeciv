@@ -159,7 +159,8 @@ void center_tile_mapcanvas(int map_x, int map_y);
 bool tile_visible_mapcanvas(int map_x, int map_y);
 bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y);
 
-void put_unit(struct unit *punit, struct canvas *pcanvas,
+void put_unit(struct unit *punit, bool stacked, bool backdrop,
+	      struct canvas *pcanvas,
 	      int canvas_x, int canvas_y,
 	      int unit_offset_x, int unit_offset_y,
 	      int unit_width, int unit_height);

@@ -1185,16 +1185,13 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 
   /*** Unit ***/
   if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
-    put_unit(punit, &canvas_store,
+    bool stacked = (unit_list_size(&map_get_tile(x, y)->units) > 1);
+    bool backdrop = !pcity;
+
+    put_unit(punit, stacked, backdrop, &canvas_store,
 	     canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
 	     offset_x, offset_y_unit,
 	     width, height_unit);
-    if (!pcity && unit_list_size(&map_get_tile(x, y)->units) > 1)
-      pixmap_put_overlay_tile_draw(pm,
-				   canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-				   sprites.unit.stack,
-				   offset_x, offset_y_unit,
-				   width, height_unit, fog);
   }
 
   if (contains_special(special, S_FORTRESS) && draw_fortress_airbase)

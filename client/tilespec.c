@@ -186,11 +186,6 @@ static struct hash_table *terrain_hash;
 */
 static bool focus_unit_hidden = FALSE;
 
-/*
-  If no_backdrop is true, then no color/flag is drawn behind the city/unit.
-*/
-static bool no_backdrop = FALSE;
-
 /**********************************************************************
   Returns a static list of tilesets available on the system by
   searching all data directories for files matching TILESPEC_SUFFIX.
@@ -1456,13 +1451,12 @@ static int fill_city_sprite_array(struct drawn_sprite *sprs,
   struct drawn_sprite *save_sprs = sprs;
 
   *solid_bg = FALSE;
-  if (!no_backdrop) {
-    if(!solid_color_behind_units) {
-      ADD_SPRITE(get_city_nation_flag_sprite(pcity),
-		 flag_offset_x, flag_offset_y);
-    } else {
-      *solid_bg = TRUE;
-    }
+
+  if (!solid_color_behind_units) {
+    ADD_SPRITE(get_city_nation_flag_sprite(pcity),
+	       flag_offset_x, flag_offset_y);
+  } else {
+    *solid_bg = TRUE;
   }
 
   if (pcity->client.occupied) {
@@ -1512,10 +1506,8 @@ int fill_city_sprite_array_iso(struct drawn_sprite *sprs, struct city *pcity)
 {
   struct drawn_sprite *save_sprs = sprs;
 
-  if (!no_backdrop) {
-    ADD_SPRITE(get_city_nation_flag_sprite(pcity),
-	       flag_offset_x, flag_offset_y);
-  }
+  ADD_SPRITE(get_city_nation_flag_sprite(pcity),
+	     flag_offset_x, flag_offset_y);
 
   if (pcity->client.occupied) {
     ADD_SPRITE_SIMPLE(get_city_occupied_sprite(pcity));
@@ -1571,19 +1563,19 @@ static void build_tile_data(int map_x, int map_y,
   Fill in the sprite array for the unit
 ***********************************************************************/
 int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
-			   bool *solid_bg, bool stack)
+			   bool *solid_bg, bool stack, bool backdrop)
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
   *solid_bg = FALSE;
 
   if (is_isometric) {
-    if (!no_backdrop) {
+    if (backdrop) {
       ADD_SPRITE(get_unit_nation_flag_sprite(punit),
 		 flag_offset_x, flag_offset_y);
     }
   } else {
-    if (!no_backdrop) {
+    if (backdrop) {
       if (!solid_color_behind_units) {
 	ADD_SPRITE(get_unit_nation_flag_sprite(punit),
 		   flag_offset_x, flag_offset_y);
@@ -1668,7 +1660,7 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
     }
   }
 
-  if (stack) {
+  if (stack || punit->occupy) {
     ADD_SPRITE_SIMPLE(sprites.unit.stack);
   } else {
     ADD_SPRITE_SIMPLE(sprites.unit.vet_lev[punit->veteran]);
@@ -2303,12 +2295,11 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
   if (solid_color_behind_units) {
     punit = get_drawable_unit(abs_x0, abs_y0, citymode);
     if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
-      if (unit_list_size(&ptile->units) > 1
-	  || unit_list_get(&ptile->units, 0)->occupy) {
-        sprs += fill_unit_sprite_array(sprs, punit, solid_bg, TRUE);
-      } else {
-        sprs += fill_unit_sprite_array(sprs, punit, solid_bg, FALSE);
-      }
+      bool stacked = (unit_list_size(&ptile->units) > 1);
+
+      sprs += fill_unit_sprite_array(sprs, punit, solid_bg,
+				     stacked, TRUE);
+
       *pplayer = unit_owner(punit);
       return sprs - save_sprs;
     }
@@ -2396,15 +2387,11 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 	  (draw_units || (draw_focus_unit && !focus_unit_hidden
 			  && punit == pfocus))) {
 	bool dummy;
+	bool stacked = (unit_list_size(&ptile->units) > 1);
+	bool backdrop = !pcity;
 
-	no_backdrop = (pcity != NULL);
-	no_backdrop = FALSE;
-	if (unit_list_size(&ptile->units) > 1
-	    || unit_list_get(&ptile->units, 0)->occupy) {
-          sprs += fill_unit_sprite_array(sprs, punit, &dummy, TRUE);
-	} else {
-          sprs += fill_unit_sprite_array(sprs, punit, &dummy, FALSE);
-        }
+	sprs += fill_unit_sprite_array(sprs, punit, &dummy,
+				       stacked, backdrop);
       }
     }
   }
