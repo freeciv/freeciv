@@ -1024,8 +1024,8 @@ Style Guide
 See CodingStyle in this directory.
 
 - If you send patches, use "diff -u" (or "diff -r -u").  For further
-  information, see <http://www.freeciv.org/contribute.html>.  Also,
-  name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
+  information, see <http://www.freeciv.org/index.php/How_to_Contribute>.
+  Also, name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
   but "freeciv.diff" is not).
 
 - When doing a "diff" for a patch, be sure to exclude unnecessary files

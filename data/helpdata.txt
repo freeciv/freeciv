@@ -57,9 +57,9 @@ the extinction of all other civilizations.\
 If you find any bugs, then please send us a bug report.  This is \
 best done by visiting the Freeciv Bug Tracking System, at:\
 \n\n\
-  http://www.freeciv.org/cgi-bin/bugs\
+  http://bugs.freeciv.org/\
 \n\n\
-or by sending email to:  bugs@cvs.freeciv.org\
+or by sending email to:  bugs@freeciv.org\
 "), _("\
 For more information about submitting bug reports see the file BUGS \
 in the Freeciv distribution.  For more information in general, \
@@ -387,7 +387,7 @@ on how to use one of these languages.\
 If you would like to add a localization (translation) for your \
 language, please see the instructions at:\
 \n\n\
-  http://www.freeciv.org/l10n.phtml\
+  http://www.freeciv.org/index.php/Localization\
 \n\n\
 (Check here first to see if a localization is already in progress \
 for your language.)\
@@ -406,7 +406,7 @@ by supplying its hostname and port number (5555 by default). \
 If the server is started with the -m flag, it will report to \
 the metaserver,\
 "), "\
-  http://meta.freeciv.org/metaserver/\
+  http://meta.freeciv.org/metaserver.phtml\
 ", _("\
 The client can fetch this page, too: use the Metaserver button \
 in the connection dialog.  If it never shows any results, check \

@@ -2,7 +2,7 @@
 BUGS
 ====
 
-Freeciv 1.14.0 is a "stable" release and is considered bug-free enough
+Freeciv 2.0.0 is a "stable" release and is considered bug-free enough
 for everyday use.  However if you do find a bug, we would really like to
 know, so that we can fix it.  This file lists known bugs in this release,
 and gives information about reporting new bugs.
@@ -76,8 +76,8 @@ REPORTING A BUG:
 ================
 
 (If it is a bug in a translation, it should be mailed to the Primary
-Contact for the language.  See <http://www.freeciv.org/l10n.phtml> for
-the names and addresses of these people.)
+Contact for the language.  See <http://www.freeciv.org/index.php/Localization>
+for the names and addresses of these people.)
 
 Here's what to do:
 
