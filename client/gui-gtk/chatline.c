@@ -67,14 +67,23 @@ void inputline_return(GtkWidget *w, gpointer data)
 **************************************************************************/
 void real_append_output_window(const char *astring)
 {
+  bool scroll;
+  GtkAdjustment *slider =
+    gtk_range_get_adjustment(GTK_RANGE(text_scrollbar));
+
+  /* scroll forward only if slider is near the bottom */
+  scroll = ((slider->value + slider->page_size) >=
+	    (slider->upper - slider->step_increment));
+
   gtk_text_freeze(GTK_TEXT(main_message_area));
   gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, "\n", -1);
   gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, astring,
 		  -1);
   gtk_text_thaw(GTK_TEXT(main_message_area));
 
-  /* move the scrollbar forward by a ridiculous amount */
-  gtk_range_default_vmotion(GTK_RANGE(text_scrollbar), 0, 10000);
+  if (scroll) {
+    gtk_range_default_vmotion(GTK_RANGE(text_scrollbar), 0, 10000);
+  }
 }
 
 /**************************************************************************
