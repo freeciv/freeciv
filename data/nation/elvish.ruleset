@@ -4,9 +4,10 @@
 name=_("Elves")
 plural=_("?plural:Elves")
 class=_("Fictional")
+; /* <-- avoid gettext warnings
 ; Starting with the six High Kings of the Noldor, folowed by other kings (some are not real Kings, but in the Third Age it's close enough :-)
 ; Elrond COULD have been High King, but never made claim to the Kingship, so I include him as well (and most people know him)
-; Melian is a Maia, but as Queen of Doriath I found it good to include her as well.
+; Melian is a Maia, but as Queen of Doriath I found it good to include her as well. */
 leader="Ingwë", "Fëanor", "Fingolfin", "Fingon", "Turgon",
    "Ereinion Gil-galad", "Thingol", "Melian", "Finwë", "Finarfin",
    "Celeborn", "Elrond"
@@ -28,11 +29,12 @@ tech_goals = ""
 wonder="Great Wall"
 government="Monarchy"
 
+; /* <-- avoid gettext warnings
 ; Cities in order of seeing them on the map :-)
 ; (Rivendel and Lothlorien are 2nd and 3rd Age, but they are quite well-known)
 ; Caras Galadhon is the capital of Lothlorien; so techically I shouldn't include Lothlorien. (but I do :P)
 ; I also included a lot of place-names and 'countries'(wich are no cities!) because there aren't enough Elven-cities. If anyone fins more cities, please replace the places with cities :-)
-; It is possible that I have, in my infinite distraction, have misplaced a city: a human/other city. Please correct them if you find them
+; It is possible that I have, in my infinite distraction, have misplaced a city: a human/other city. Please correct them if you find them */
 
 cities =
   "Ost-in-Edhil", "Gondolin", "Menegroth", "Nagrothrond", "Rivendell", 
