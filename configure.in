@@ -267,7 +267,7 @@ AC_STRUCT_TM
 dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(gethostname select strerror strstr usleep gettimeofday)
+AC_CHECK_FUNCS(gethostname getpwuid select strerror strstr usleep gettimeofday)
 
 dnl We would AC_CHECK_FUNCS for socket as well, except it is complicated
 dnl by the fact that the -lsocket is in X_EXTRA_LIBS and/or SERVER_LIBS,

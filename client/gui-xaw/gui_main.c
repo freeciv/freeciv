@@ -18,10 +18,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef HAVE_PWD_H
-#include <pwd.h>
-#endif
-
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 
@@ -333,17 +329,8 @@ void ui_main(int argc, char *argv[])
 
   if(appResources.name) {
     strcpy(name, appResources.name);
-  }
-  else {
-    struct passwd *password;
-    password=getpwuid(getuid());
-    if (password)
-      strcpy(name, password->pw_name);
-    else {
-      freelog(LOG_NORMAL, "Your getpwuid call failed.  Please report this.");
-      strcpy(name, "operator 00000");
-      sprintf(name+9, "%05i", (int)getuid());
-    }
+  } else {
+    strcpy(name, user_username());
   }
 
   if(appResources.server)

@@ -23,6 +23,10 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#ifdef HAVE_PWD_H
+#include <pwd.h>
+#endif
+
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
@@ -470,8 +474,7 @@ int wordwrap_string(char *s, int len)
   Returns string which gives users home dir, as specified by $HOME.
   Gets value once, and then caches result.
   If $HOME is not set, give a log message and returns NULL.
-  Note the caller should not mess with the returned pointer or
-  the string pointed to.
+  Note the caller should not mess with the returned string.
 ***************************************************************************/
 char *user_home_dir(void)
 {
@@ -490,6 +493,44 @@ char *user_home_dir(void)
     init = 1;
   }
   return home_dir;
+}
+
+/***************************************************************************
+  Returns string which gives user's username, as specified by $USER or
+  as given in password file for this user's uid, or a made up name if
+  we can't get either of the above. 
+  Gets value once, and then caches result.
+  Note the caller should not mess with returned string.
+***************************************************************************/
+char *user_username(void)
+{
+  static char *username = NULL;	  /* allocated once, never free()d */
+
+  if (username)
+    return username;
+
+  {
+    char *env = getenv("USER");
+    if (env) {
+      username = mystrdup(env);
+      freelog(LOG_VERBOSE, "USER username is %s", username);
+      return username;
+    }
+  }
+#ifdef HAVE_GETPWUID
+  {
+    struct passwd *pwent = getpwuid(getuid());
+    if (pwent) {
+      username = mystrdup(pwent->pw_name);
+      freelog(LOG_VERBOSE, "getpwuid username is %s", username);
+      return username;
+    }
+  }
+#endif
+  username = fc_malloc(30);
+  sprintf(username, "name%d", (int)getuid());
+  freelog(LOG_VERBOSE, "fake username is %s", username);
+  return username;
 }
 
 /***************************************************************************

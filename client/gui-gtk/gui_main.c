@@ -19,9 +19,6 @@
 #include <string.h>
 #include <time.h>
 
-#ifdef HAVE_PWD_H
-#include <pwd.h>
-#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -190,23 +187,9 @@ static void parse_options(int argc, char **argv)
 
   /* set default argument values */
   loglevel=LOG_NORMAL;
-
-  {
-    struct passwd *password=getpwuid(getuid());
-
-    if (password)
-      strcpy(name, password->pw_name);
-    else {
-      /* freelog not yet initialised here --dwp */
-      fprintf(stderr, "Your getpwuid call failed.  Please report this.");
-      strcpy(name, "operator 00000");
-      sprintf(name+9, "%05i",(int)getuid());
-   }
-  }
-
   server_port=DEFAULT_SOCK_PORT;
-
   strcpy(server_host, "localhost");
+  name[0] = '\0';
 
   i = 1;
   while (i < argc)
@@ -242,6 +225,11 @@ static void parse_options(int argc, char **argv)
   }
 
   log_init(logfile, loglevel, NULL);
+
+  /* after log_init: */
+  if (name[0] == '\0') {
+    strcpy(name, user_username());
+  }
 }
 
 

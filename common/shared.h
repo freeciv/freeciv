@@ -68,6 +68,7 @@ void remove_trailing_char(char *s, char trailing);
 int wordwrap_string(char *s, int len);
 
 char *user_home_dir(void);
+char *user_username(void);
 char *datafilename(char *filename);
 char *datafilename_required(char *filename);
 
