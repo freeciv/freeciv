@@ -852,11 +852,6 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 			     canvas_x - rect.width / 2,
 			     canvas_y + PANGO_ASCENT(rect), layout);
   }
-
-#if 0
-  gdk_gc_set_clip_rectangle(toplevel->style->black_gc, NULL);
-  gdk_gc_set_clip_rectangle(toplevel->style->white_gc, NULL);
-#endif
 }
 
 /**************************************************************************
