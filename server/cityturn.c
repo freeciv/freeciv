@@ -27,6 +27,7 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
@@ -902,7 +903,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
   struct government *g = get_gov_pplayer(pplayer);
 
   if (pcity->shield_surplus < 0) {
-    unit_list_iterate(pcity->units_supported, punit) {
+    unit_list_iterate_safe(pcity->units_supported, punit) {
       if (utype_shield_cost(unit_type(punit), g) > 0
 	  && pcity->shield_surplus < 0
           && !unit_flag(punit, F_UNDISBANDABLE)) {
@@ -915,7 +916,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
         handle_unit_disband(pplayer, &packet);
 	/* pcity->shield_surplus is automatically updated. */
       }
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   }
 
   if (pcity->shield_surplus < 0) {
@@ -923,7 +924,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
      * It'd rather make the citizens pay in blood for their failure to upkeep
      * it! If we make it here all normal units are already disbanded, so only
      * undisbandable ones remain. */
-    unit_list_iterate(pcity->units_supported, punit) {
+    unit_list_iterate_safe(pcity->units_supported, punit) {
       int upkeep = utype_shield_cost(unit_type(punit), g);
 
       if (upkeep > 0 && pcity->shield_surplus < 0) {
@@ -938,7 +939,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 	/* No upkeep for the unit this turn. */
 	pcity->shield_surplus += upkeep;
       }
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   }
 
   /* Now we confirm changes made last turn. */
