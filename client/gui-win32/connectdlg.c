@@ -155,20 +155,20 @@ void handle_game_load(struct packet_game_load *packet)
   int i;
 
   if (!connect_dlg) {
-    return;
+    /* Create the window if it isn't there, in case a foreign server
+     * loads a game */
+    gui_server_connect();
   }
 
   /* we couldn't load the savegame, we could have gotten the name wrong, etc */
-  if (!packet->load_successful
-      || strcmp(current_filename, packet->load_filename) != 0) {
-
+  if (!packet->load_successful) {
     SetWindowText(connect_dlg, _("Couldn't load the savegame"));
     return;
   } else {
-    char *buf = strrchr(current_filename, '/');
+    char *buf = strrchr(packet->load_filename, '/');
 
     if (buf == NULL) {
-      buf = current_filename;
+      buf = packet->load_filename;
     } else {
       buf++;
     }
@@ -216,6 +216,7 @@ void really_close_connection_dialog(void)
 {
   if (connect_dlg) {
     DestroyWindow(connect_dlg);
+    connect_dlg = NULL;
   }
 }
 
