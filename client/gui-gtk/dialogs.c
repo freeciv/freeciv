@@ -815,7 +815,7 @@ static int create_improvements_list(struct player *pplayer,
 
   for(i=0; i<B_LAST; i++) {
     if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
-      row[0] = get_imp_name_ex(pcity, i);
+      row[0] = get_impr_name_ex(pcity, i);
       gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
       improvement_type[j++] = i;
     }  

@@ -335,12 +335,12 @@ void city_list_callback(Widget w, XtPointer client_data,
 	if (i==B_CAPITAL) {
 	  my_snprintf(buf, sizeof(buf),
 		      "%s (XX)",
-		      get_imp_name_ex(pcity, i));
+		      get_impr_name_ex(pcity, i));
 	} else {
 	  turns = city_turns_to_build (pcity, i, FALSE);
 	  my_snprintf(buf, sizeof(buf),
 		      turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
-		      get_imp_name_ex(pcity, i),
+		      get_impr_name_ex(pcity, i),
 		      get_improvement_type(i)->build_cost,
 		      turns);
 	}
@@ -429,7 +429,7 @@ void city_buy_callback(Widget w, XtPointer client_data,
       if(pcity->is_building_unit)
 	name=get_unit_type(pcity->currently_building)->name;
       else
-	name=get_imp_name_ex(pcity, pcity->currently_building);
+	name=get_impr_name_ex(pcity, pcity->currently_building);
 
       if (game.player_ptr->economic.gold >= value)
 	{

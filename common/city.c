@@ -124,7 +124,7 @@ int map_to_city_y(struct city *pcity, int y)
 /****************************************************************
 ...
 *****************************************************************/
-int wonder_replacement(struct city *pcity, enum improvement_type_id id)
+int wonder_replacement(struct city *pcity, Impr_Type_id id)
 {
   if(is_wonder(id)) return 0;
   switch (id) {
@@ -171,7 +171,7 @@ int wonder_replacement(struct city *pcity, enum improvement_type_id id)
 /****************************************************************
 ...
 *****************************************************************/
-char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id)
+char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
 {
   static char buffer[256];
   char *state = Q_("?wonder:w");
@@ -194,7 +194,7 @@ char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id)
 ...
 *****************************************************************/
 
-char *get_improvement_name(enum improvement_type_id id)
+char *get_improvement_name(Impr_Type_id id)
 {
   return get_improvement_type(id)->name; 
 }
@@ -203,7 +203,7 @@ char *get_improvement_name(enum improvement_type_id id)
 ...
 **************************************************************************/
 
-int improvement_value(enum improvement_type_id id)
+int improvement_value(Impr_Type_id id)
 {
   return (improvement_types[id].build_cost);
 }
@@ -212,7 +212,7 @@ int improvement_value(enum improvement_type_id id)
 ...
 **************************************************************************/
 
-int is_wonder(enum improvement_type_id id)
+int is_wonder(Impr_Type_id id)
 {
   return (improvement_types[id].is_wonder);
 }
@@ -226,7 +226,7 @@ An improvement_type doesn't exist if one of:
 - it is a space part, and the spacerace is not enabled.
 Arguably this should be called improvement_type_exists, but that's too long.
 **************************************************************************/
-int improvement_exists(enum improvement_type_id id)
+int improvement_exists(Impr_Type_id id)
 {
   if (id<0 || id>=B_LAST)
     return 0;
@@ -242,7 +242,7 @@ int improvement_exists(enum improvement_type_id id)
 Does a linear search of improvement_types[].name
 Returns B_LAST if none match.
 **************************************************************************/
-enum improvement_type_id find_improvement_by_name(char *s)
+Impr_Type_id find_improvement_by_name(char *s)
 {
   int i;
 
@@ -256,7 +256,7 @@ enum improvement_type_id find_improvement_by_name(char *s)
 /**************************************************************************
 ...
 **************************************************************************/
-int improvement_variant(enum improvement_type_id id)
+int improvement_variant(Impr_Type_id id)
 {
   return improvement_types[id].variant;
 }
@@ -264,7 +264,7 @@ int improvement_variant(enum improvement_type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-int improvement_obsolete(struct player *pplayer, enum improvement_type_id id) 
+int improvement_obsolete(struct player *pplayer, Impr_Type_id id) 
 {
   if (improvement_types[id].obsolete_by==A_NONE) 
     return 0;
@@ -303,7 +303,7 @@ int city_buy_cost(struct city *pcity)
 ...
 **************************************************************************/
 
-int wonder_obsolete(enum improvement_type_id id)
+int wonder_obsolete(Impr_Type_id id)
 { 
   if (improvement_types[id].obsolete_by==A_NONE)
     return 0;
@@ -314,7 +314,7 @@ int wonder_obsolete(enum improvement_type_id id)
 ...
 **************************************************************************/
 
-struct improvement_type *get_improvement_type(enum improvement_type_id id)
+struct improvement_type *get_improvement_type(Impr_Type_id id)
 {
   return &improvement_types[id];
 }
@@ -332,7 +332,7 @@ struct player *city_owner(struct city *pcity)
 ...
 *****************************************************************/
 
-int could_build_improvement(struct city *pcity, enum improvement_type_id id)
+int could_build_improvement(struct city *pcity, Impr_Type_id id)
 { /* modularized so the AI can choose the tech it wants -- Syela */
   if (!improvement_exists(id))
     return 0;
@@ -393,7 +393,7 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
   the tech req, and assuming a city with the right pre-reqs etc.
 *****************************************************************/
 int could_player_eventually_build_improvement(struct player *p,
-					      enum improvement_type_id id)
+					      Impr_Type_id id)
 {
   if (!improvement_exists(id))
     return 0;
@@ -424,7 +424,7 @@ int could_player_eventually_build_improvement(struct player *p,
   return 1;
 }
 
-int could_player_build_improvement(struct player *p, enum improvement_type_id id)
+int could_player_build_improvement(struct player *p, Impr_Type_id id)
 {
   if (!could_player_eventually_build_improvement(p, id))
     return 0;
@@ -441,7 +441,7 @@ int could_player_build_improvement(struct player *p, enum improvement_type_id id
 Can this improvement get built in this city, by the player
 who owns the city?
 *****************************************************************/
-int can_build_improvement(struct city *pcity, enum improvement_type_id id)
+int can_build_improvement(struct city *pcity, Impr_Type_id id)
 {
   struct player *p=city_owner(pcity);
   if (!improvement_exists(id))
@@ -454,7 +454,7 @@ int can_build_improvement(struct city *pcity, enum improvement_type_id id)
 /****************************************************************
 Will this city ever be able to build this improvement?
 *****************************************************************/
-int can_eventually_build_improvement(struct city *pcity, enum improvement_type_id id)
+int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
 {
   /* Can the _player_ ever build the improvement? */
   if (!could_player_eventually_build_improvement(city_owner(pcity), id))
@@ -505,7 +505,7 @@ int can_eventually_build_improvement(struct city *pcity, enum improvement_type_i
 Can a player build this improvement somewhere?  Ignores the
 fact that player may not have a city with appropriate prereqs.
 *****************************************************************/
-int can_player_build_improvement(struct player *p, enum improvement_type_id id)
+int can_player_build_improvement(struct player *p, Impr_Type_id id)
 {
   if (!improvement_exists(id))
     return 0;
@@ -627,7 +627,7 @@ int city_population(struct city *pcity)
 ...
 **************************************************************************/
 
-int city_got_building(struct city *pcity,  enum improvement_type_id id) 
+int city_got_building(struct city *pcity,  Impr_Type_id id) 
 {
   if (!improvement_exists(id))
     return 0;
@@ -894,7 +894,7 @@ int city_gold_surplus(struct city *pcity)
  (The improvement_type_id should be an improvement, not a wonder.)
  Note also: city_got_citywalls(), and server/citytools:city_got_barracks()
 **************************************************************************/
-int city_got_effect(struct city *pcity, enum improvement_type_id id)
+int city_got_effect(struct city *pcity, Impr_Type_id id)
 {
   return city_got_building(pcity, id) || wonder_replacement(pcity, id);
 }
@@ -914,7 +914,7 @@ int city_got_citywalls(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id) /*FIX*/
+int city_affected_by_wonder(struct city *pcity, Impr_Type_id id) /*FIX*/
 {
   struct city *tmp;
   if (!improvement_exists(id))

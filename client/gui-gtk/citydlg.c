@@ -91,7 +91,7 @@ struct city_dialog {
   GtkWidget *rename_input;
   GtkWidget *worklist_shell;
   
-  enum improvement_type_id sell_id;
+  Impr_Type_id sell_id;
   
   int citizen_type[NUM_CITIZENS_SHOWN];
   int support_unit_ids[NUM_UNITS_SHOWN];
@@ -1035,7 +1035,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 	    (get_improvement_type(pcity->currently_building)->build_cost + 0.1);
       pct = CLAMP(pct, 0.0, 1.0);		
     }
-    sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
+    sz_strlcpy(buf2, get_impr_name_ex(pcity, pcity->currently_building));
   }    
 
   gtk_frame_set_label(GTK_FRAME(pdialog->building_label), buf2);
@@ -1378,10 +1378,10 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     if(pdialog->pcity->improvements[i]) {
       if(!pdialog->improvlist_names_ptrs[n] ||
 	 strcmp(pdialog->improvlist_names_ptrs[n],
-		get_imp_name_ex(pdialog->pcity, i)))
+		get_impr_name_ex(pdialog->pcity, i)))
 	flag=1;
       sz_strlcpy(pdialog->improvlist_names[n],
-		 get_imp_name_ex(pdialog->pcity, i));
+		 get_impr_name_ex(pdialog->pcity, i));
       pdialog->improvlist_names_ptrs[n]=pdialog->improvlist_names[n];
       n++;
     }
@@ -1545,7 +1545,7 @@ void buy_callback(GtkWidget *w, gpointer data)
     name=get_unit_type(pdialog->pcity->currently_building)->name;
   }
   else {
-    name=get_imp_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
+    name=get_impr_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
   }
   value=city_buy_cost(pdialog->pcity);
 
@@ -1835,7 +1835,7 @@ void change_callback(GtkWidget *w, gpointer data)
 	turns = city_turns_to_build (pdialog->pcity, i, FALSE);
 	my_snprintf(buf[0], sizeof(buf[0]), get_improvement_type(i)->name);
 
-        /* from city.c get_imp_name_ex() */
+        /* from city.c get_impr_name_ex() */
         if (wonder_replacement(pdialog->pcity, i))
         {
 	  my_snprintf(buf[1], sizeof(buf[1]), "*");
@@ -2033,7 +2033,7 @@ void sell_callback(GtkWidget *w, gpointer data)
 	  
 	  pdialog->sell_id=i;
 	  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"), 
-		  get_imp_name_ex(pdialog->pcity, i),
+		  get_impr_name_ex(pdialog->pcity, i),
 		  improvement_value(i));
 
 	  popup_message_dialog(pdialog->shell, /*"selldialog"*/ _("Sell It!"), buf,

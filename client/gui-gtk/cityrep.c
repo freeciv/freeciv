@@ -187,7 +187,7 @@ city_from_glist(GList* list)
 
 typedef gboolean TestCityFunc(struct city *, gint);
 
-static gboolean city_can_build_imp_or_unit(struct city *pcity, gint number)
+static gboolean city_can_build_impr_or_unit(struct city *pcity, gint number)
 {
   if(number >= B_LAST)
     return can_build_unit(pcity, number - B_LAST);
@@ -196,7 +196,7 @@ static gboolean city_can_build_imp_or_unit(struct city *pcity, gint number)
 }
 
 static void
-append_imp_or_unit_to_menu_sub(GtkWidget *menu,
+append_impr_or_unit_to_menu_sub(GtkWidget *menu,
 			       gchar *nothing_appended_text,
 			       gboolean append_units,
 			       gboolean append_wonders,
@@ -252,7 +252,7 @@ append_imp_or_unit_to_menu_sub(GtkWidget *menu,
 		{
 		  /* We need a city to get the right name for wonders */
 		  struct city *pcity = GTK_CLIST(city_list)->row_list->data;
-		  name = get_imp_name_ex(pcity, i);
+		  name = get_impr_name_ex(pcity, i);
 		}
 	      else
 		name = get_improvement_name(i);
@@ -289,7 +289,7 @@ append_imp_or_unit_to_menu_sub(GtkWidget *menu,
 }
 
 static
-void select_imp_or_unit_callback(GtkWidget *w, gpointer data)
+void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 {
   gint number = GPOINTER_TO_INT(data);
   gint i;
@@ -335,7 +335,7 @@ void select_imp_or_unit_callback(GtkWidget *w, gpointer data)
 }
 
 static void
-append_imp_or_unit_to_menu(GtkWidget *menu,
+append_impr_or_unit_to_menu(GtkWidget *menu,
 			   gboolean change_prod,
 			   gboolean append_improvements,
 			   gboolean append_units,
@@ -344,20 +344,20 @@ append_imp_or_unit_to_menu(GtkWidget *menu,
   if(append_improvements)
     {
       /* Add all buildings */
-      append_imp_or_unit_to_menu_sub(menu, _("No Buildings Available"),
+      append_impr_or_unit_to_menu_sub(menu, _("No Buildings Available"),
 				     FALSE, FALSE, change_prod,
 				     (gboolean (*)(struct city*,gint))
 				     test_func,
-				     select_imp_or_unit_callback);
+				     select_impr_or_unit_callback);
       /* Add a separator */
       gtk_menu_append(GTK_MENU(menu),gtk_menu_item_new ());  
   
       /* Add all wonders */
-      append_imp_or_unit_to_menu_sub(menu, _("No Wonders Available"),
+      append_impr_or_unit_to_menu_sub(menu, _("No Wonders Available"),
 				     FALSE, TRUE, change_prod,
 				     (gboolean (*)(struct city*,gint))
 				     test_func,
-				     select_imp_or_unit_callback);
+				     select_impr_or_unit_callback);
       /* Add a separator */
       if(append_units)
 	gtk_menu_append(GTK_MENU(menu),gtk_menu_item_new ());   
@@ -366,10 +366,10 @@ append_imp_or_unit_to_menu(GtkWidget *menu,
   if(append_units)
     {
       /* Add all units */
-      append_imp_or_unit_to_menu_sub(menu, _("No Units Available"),
+      append_impr_or_unit_to_menu_sub(menu, _("No Units Available"),
 				     TRUE, FALSE, change_prod,
 				     test_func,
-				     select_imp_or_unit_callback);
+				     select_impr_or_unit_callback);
     }
   
   gtk_object_set_data(GTK_OBJECT(menu), "freeciv_test_func", test_func);
@@ -397,8 +397,8 @@ city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
   
   menu=gtk_menu_new();
   
-  append_imp_or_unit_to_menu(menu, TRUE, TRUE, TRUE, 
-			     city_can_build_imp_or_unit);
+  append_impr_or_unit_to_menu(menu, TRUE, TRUE, TRUE, 
+			     city_can_build_impr_or_unit);
 
   gtk_widget_show_all(menu);
   
@@ -727,26 +727,26 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
   gtk_menu_append(GTK_MENU(menu),item);  
   submenu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
-  append_imp_or_unit_to_menu(submenu, FALSE, FALSE, TRUE, city_unit_supported);
+  append_impr_or_unit_to_menu(submenu, FALSE, FALSE, TRUE, city_unit_supported);
 
   item=gtk_menu_item_new_with_label( _("Units Present") );
   gtk_menu_append(GTK_MENU(menu),item);  
   submenu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
-  append_imp_or_unit_to_menu(submenu, FALSE, FALSE, TRUE, city_unit_present);
+  append_impr_or_unit_to_menu(submenu, FALSE, FALSE, TRUE, city_unit_present);
 
   item=gtk_menu_item_new_with_label( _("Available To Build") );
   gtk_menu_append(GTK_MENU(menu),item);  
   submenu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
-  append_imp_or_unit_to_menu(submenu, FALSE, TRUE, TRUE,
-			     city_can_build_imp_or_unit);
+  append_impr_or_unit_to_menu(submenu, FALSE, TRUE, TRUE,
+			     city_can_build_impr_or_unit);
 
   item=gtk_menu_item_new_with_label( _("Improvements in City") );
   gtk_menu_append(GTK_MENU(menu),item);  
   submenu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
-  append_imp_or_unit_to_menu(submenu, FALSE, TRUE, FALSE,
+  append_impr_or_unit_to_menu(submenu, FALSE, TRUE, FALSE,
 			     (TestCityFunc*)city_got_building);
 
   gtk_widget_show_all(menu);
@@ -1022,7 +1022,7 @@ void city_buy_callback(GtkWidget *w, gpointer data)
       if(pcity->is_building_unit)
 	name=get_unit_type(pcity->currently_building)->name;
       else
-	name=get_imp_name_ex(pcity, pcity->currently_building);
+	name=get_impr_name_ex(pcity, pcity->currently_building);
 
       if (game.player_ptr->economic.gold >= value)
 	{

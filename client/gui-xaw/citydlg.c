@@ -117,7 +117,7 @@ struct city_dialog {
   Widget rename_input;
   Widget worklist_shell;
   
-  enum improvement_type_id sell_id;
+  Impr_Type_id sell_id;
   
   int *citizen_type;
   int support_unit_base;
@@ -1509,7 +1509,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   xaw_set_label(pdialog->building_label,
 		pcity->is_building_unit ?
 		  get_unit_type(pcity->currently_building)->name :
-		  get_imp_name_ex(pcity, pcity->currently_building));
+		  get_impr_name_ex(pcity, pcity->currently_building));
 
   get_contents_of_progress(pdialog, buf, sizeof(buf));
   xaw_set_label(pdialog->progress_label, buf);
@@ -1868,10 +1868,10 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   for(i=0, n=0, flag=0; i<B_LAST; ++i)
     if(pdialog->pcity->improvements[i]) {
       if(!pdialog->improvlist_names_ptrs[n] ||
-	 strcmp(pdialog->improvlist_names_ptrs[n], get_imp_name_ex(pdialog->pcity, i)))
+	 strcmp(pdialog->improvlist_names_ptrs[n], get_impr_name_ex(pdialog->pcity, i)))
 	flag=1;
       sz_strlcpy(pdialog->improvlist_names[n],
-		 get_imp_name_ex(pdialog->pcity, i));
+		 get_impr_name_ex(pdialog->pcity, i));
       pdialog->improvlist_names_ptrs[n]=pdialog->improvlist_names[n];
       n++;
     }
@@ -2033,7 +2033,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
     name=get_unit_type(pdialog->pcity->currently_building)->name;
   }
   else {
-    name=get_imp_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
+    name=get_impr_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
   }
   value=city_buy_cost(pdialog->pcity);
  
@@ -2311,13 +2311,13 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	my_snprintf(pdialog->change_list_names[n],
 		    sizeof(pdialog->change_list_names[n]),
 		    "%s (XX)",
-		    get_imp_name_ex(pdialog->pcity, i));
+		    get_impr_name_ex(pdialog->pcity, i));
       } else {
 	turns = city_turns_to_build (pdialog->pcity, i, FALSE);
 	my_snprintf(pdialog->change_list_names[n],
 		    sizeof(pdialog->change_list_names[n]),
 		    turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
-		    get_imp_name_ex(pdialog->pcity, i),
+		    get_impr_name_ex(pdialog->pcity, i),
 		    get_improvement_type(i)->build_cost,
 		    turns);
       }
@@ -2489,7 +2489,7 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	  
 	  pdialog->sell_id=i;
 	  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"), 
-		      get_imp_name_ex(pdialog->pcity, i),
+		      get_impr_name_ex(pdialog->pcity, i),
 		      improvement_value(i));
 
 	  popup_message_dialog(pdialog->shell, "selldialog", buf,

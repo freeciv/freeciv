@@ -162,10 +162,10 @@ int player_owns_city(struct player *pplayer, struct city *pcity);
 struct city *player_find_city_by_id(struct player *pplayer, int city_id);
 int player_in_city_radius(struct player *pplayer, int x, int y);
 int player_owns_active_wonder(struct player *pplayer,
-			      enum improvement_type_id id);
+			      Impr_Type_id id);
 int player_owns_active_govchange_wonder(struct player *pplayer);
 int player_knows_improvement_tech(struct player *pplayer,
-				   enum improvement_type_id id);
+				   Impr_Type_id id);
 int player_knows_techs_with_flag(struct player *pplayer, int flag);
 
 void player_limit_to_government_rates(struct player *pplayer);

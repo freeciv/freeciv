@@ -1028,7 +1028,7 @@ static int worklist_change_build_target(struct player *pplayer, struct city *pci
 			 _("Game: %s can't build %s from the worklist.  "
 			   "Purging..."),
 			 pcity->name,
-			 get_imp_name_ex(pcity, target));
+			 get_impr_name_ex(pcity, target));
 
 	/* Purge this worklist item. */
 	worklist_remove(pcity->worklist, i-1);
@@ -1047,14 +1047,14 @@ static int worklist_change_build_target(struct player *pplayer, struct city *pci
 			 _("Game: %s can't build %s from the worklist; "
 			   "tech not yet available.  Postponing..."),
 			 pcity->name,
-			 get_imp_name_ex(pcity, target));
+			 get_impr_name_ex(pcity, target));
 	continue;
       } else {
 	/* Hey, we can upgrade the improvement!  */
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_WORKLIST,
 			 _("Game: Production of %s is upgraded to %s in %s."),
-			 get_imp_name_ex(pcity, target), 
-			 get_imp_name_ex(pcity, new_target),
+			 get_impr_name_ex(pcity, target), 
+			 get_impr_name_ex(pcity, new_target),
 			 pcity->name);
 	target = new_target;
       }
@@ -1193,7 +1193,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
     if (!can_build_improvement(pcity, pcity->currently_building)) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
 		    _("Game: %s is building %s, which is no longer available."),
-	pcity->name,get_imp_name_ex(pcity, pcity->currently_building));
+	pcity->name,get_impr_name_ex(pcity, pcity->currently_building));
       return 1;
     }
     if (pcity->shield_stock>=improvement_value(pcity->currently_building)) {
@@ -1225,17 +1225,17 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	notify_player_ex(0, pcity->x, pcity->y, E_WONDER_BUILD,
 		      _("Game: The %s have finished building %s in %s."),
 		      get_nation_name_plural(pplayer->nation),
-		      get_imp_name_ex(pcity, pcity->currently_building),
+		      get_impr_name_ex(pcity, pcity->currently_building),
 		      pcity->name);
         gamelog(GAMELOG_WONDER,"%s build %s in %s",
                 get_nation_name_plural(pplayer->nation),
-                get_imp_name_ex(pcity, pcity->currently_building),
+                get_impr_name_ex(pcity, pcity->currently_building),
                 pcity->name);
 
       } else 
 	gamelog(GAMELOG_IMP, "%s build %s in %s",
                 get_nation_name_plural(pplayer->nation),
-                get_imp_name_ex(pcity, pcity->currently_building),
+                get_impr_name_ex(pcity, pcity->currently_building),
                 pcity->name);
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_BUILD,

@@ -194,7 +194,7 @@ void wonders_of_the_world(struct player *pplayer)
     if(is_wonder(i) && game.global_wonders[i]) {
       if((pcity=find_city_by_id(game.global_wonders[i]))) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
-		     get_imp_name_ex(pcity, i), pcity->name,
+		     get_impr_name_ex(pcity, i), pcity->name,
 		     get_nation_name(game.players[pcity->owner].nation));
       } else {
 	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),

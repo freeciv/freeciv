@@ -522,7 +522,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
     notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
 		     _("Game: The %s have stopped building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
-		     get_imp_name_ex(pcity, pcity->currently_building),
+		     get_impr_name_ex(pcity, pcity->currently_building),
 		     pcity->name);
   }
 
@@ -572,7 +572,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
     notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
 		     _("Game: The %s have started building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
-		     get_imp_name_ex(pcity, pcity->currently_building),
+		     get_impr_name_ex(pcity, pcity->currently_building),
 		     pcity->name);
 }
 

@@ -567,7 +567,7 @@ void worklist_id_to_name(char buf[], int id, int is_unit,
 	    get_unit_name(id), get_unit_type(id)->build_cost);
   else if (pcity)
     sprintf(buf, "%s (%d)",
-	    get_imp_name_ex(pcity, id), get_improvement_type(id)->build_cost);
+	    get_impr_name_ex(pcity, id), get_improvement_type(id)->build_cost);
   else
     sprintf(buf, "%s (%d)",
 	    get_improvement_name(id), get_improvement_type(id)->build_cost);

@@ -148,7 +148,7 @@ static char *cr_entry_building(struct city *pcity)
 
   if(pcity->currently_building==B_CAPITAL) {
     my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",
-		get_imp_name_ex(pcity, pcity->currently_building),
+		get_impr_name_ex(pcity, pcity->currently_building),
 		pcity->shield_stock,
 		from_worklist);
   } else {
@@ -157,7 +157,7 @@ static char *cr_entry_building(struct city *pcity)
       cost = get_unit_type(pcity->currently_building)->build_cost;
       turns = city_turns_to_build(pcity, pcity->currently_building, TRUE);
     } else {
-      name = get_imp_name_ex(pcity, pcity->currently_building);
+      name = get_impr_name_ex(pcity, pcity->currently_building);
       cost = get_improvement_type(pcity->currently_building)->build_cost;
       turns = city_turns_to_build(pcity, pcity->currently_building, FALSE);
     }

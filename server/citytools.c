@@ -73,7 +73,7 @@ int can_sell_building(struct city *pcity, int id)
 ...
 **************************************************************************/
 
-struct city *find_city_wonder(enum improvement_type_id id)
+struct city *find_city_wonder(Impr_Type_id id)
 {
   return (find_city_by_id(game.global_wonders[id]));
 }

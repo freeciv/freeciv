@@ -518,7 +518,7 @@ __asm __saveds static int city_prod_display(register __a0 struct Hook *h, regist
       info[0] = 0;
 
       {
-	/* from city.c get_imp_name_ex() */
+	/* from city.c get_impr_name_ex() */
 	if (wonder_replacement(pdialog->pcity, which))
 	{
 	  strcpy(info, "*");
@@ -575,7 +575,7 @@ __asm __saveds static int city_imprv_display(register __a0 struct Hook *h, regis
   {
     struct city_dialog *pdialog = (struct city_dialog *) h->h_Data;
     which--;
-    sprintf(name, "%s", get_imp_name_ex(pdialog->pcity, which), get_improvement_type(which)->build_cost);
+    sprintf(name, "%s", get_impr_name_ex(pdialog->pcity, which), get_improvement_type(which)->build_cost);
     sprintf(cost, "%d", improvement_upkeep(pdialog->pcity, which));
     *array++ = name;
     *array++ = cost;
@@ -1044,7 +1044,7 @@ static int city_buy(struct city_dialog **ppdialog)
   }
   else
   {
-    name = get_imp_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
+    name = get_impr_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
   }
 
   value = city_buy_cost(pdialog->pcity);
@@ -1092,7 +1092,7 @@ static int city_sell(struct city_dialog **ppdialog)
     if (is_wonder(i))
       return 0;
 
-    my_snprintf(buf, sizeof(buf), "Sell %s for %d gold?", get_imp_name_ex(pdialog->pcity, i),
+    my_snprintf(buf, sizeof(buf), "Sell %s for %d gold?", get_impr_name_ex(pdialog->pcity, i),
 	    improvement_value(i));
 
     pdialog->sell_id = i;
@@ -1454,7 +1454,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 
     }
 
-    sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
+    sz_strlcpy(buf2, get_impr_name_ex(pcity, pcity->currently_building));
   }
 
   if (!worklist_is_empty(pcity->worklist))

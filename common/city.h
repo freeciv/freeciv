@@ -38,6 +38,9 @@ enum improvement_type_id {
   B_CAPITAL, B_LAST
 };
 
+typedef enum improvement_type_id Impr_Type_id;
+/* This will later not be an enum */
+
 struct improvement_type {
   char name[MAX_LEN_NAME];
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
@@ -249,20 +252,20 @@ int city_rapture_grow(struct city *pcity);
 
 /* improvement functions */
 
-int improvement_value(enum improvement_type_id id);
-int improvement_obsolete(struct player *pplayer, enum improvement_type_id id);
-struct improvement_type *get_improvement_type(enum improvement_type_id id);
-int wonder_obsolete(enum improvement_type_id id);
-int is_wonder(enum improvement_type_id id);
-int improvement_exists(enum improvement_type_id id);
-enum improvement_type_id find_improvement_by_name(char *s);
-int improvement_variant(enum improvement_type_id id);
+int improvement_value(Impr_Type_id id);
+int improvement_obsolete(struct player *pplayer, Impr_Type_id id);
+struct improvement_type *get_improvement_type(Impr_Type_id id);
+int wonder_obsolete(Impr_Type_id id);
+int is_wonder(Impr_Type_id id);
+int improvement_exists(Impr_Type_id id);
+Impr_Type_id find_improvement_by_name(char *s);
+int improvement_variant(Impr_Type_id id);
 
 /* player related improvement and unit functions */
 
-int could_player_eventually_build_improvement(struct player *p, enum improvement_type_id id);
-int could_player_build_improvement(struct player *p, enum improvement_type_id id);
-int can_player_build_improvement(struct player *p, enum improvement_type_id id);
+int could_player_eventually_build_improvement(struct player *p, Impr_Type_id id);
+int could_player_build_improvement(struct player *p, Impr_Type_id id);
+int can_player_build_improvement(struct player *p, Impr_Type_id id);
 int can_player_build_unit_direct(struct player *p, Unit_Type_id id);
 int can_player_build_unit(struct player *p, Unit_Type_id id);
 int can_player_eventually_build_unit(struct player *p, Unit_Type_id id);
@@ -271,23 +274,23 @@ int can_player_eventually_build_unit(struct player *p, Unit_Type_id id);
 /* city related improvement and unit functions */
 
 int improvement_upkeep(struct city *pcity, int i); 
-int could_build_improvement(struct city *pcity, enum improvement_type_id id);
-int can_build_improvement(struct city *pcity, enum improvement_type_id id);
-int can_eventually_build_improvement(struct city *pcity, enum improvement_type_id id);
+int could_build_improvement(struct city *pcity, Impr_Type_id id);
+int can_build_improvement(struct city *pcity, Impr_Type_id id);
+int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id);
 int can_build_unit(struct city *pcity, Unit_Type_id id);
 int can_build_unit_direct(struct city *pcity, Unit_Type_id id);
 int can_eventually_build_unit(struct city *pcity, Unit_Type_id id);
-int city_got_building(struct city *pcity,  enum improvement_type_id id); 
-int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id);
-int city_got_effect(struct city *pcity, enum improvement_type_id id);
+int city_got_building(struct city *pcity,  Impr_Type_id id); 
+int city_affected_by_wonder(struct city *pcity, Impr_Type_id id);
+int city_got_effect(struct city *pcity, Impr_Type_id id);
 int city_got_citywalls(struct city *pcity);
-int wonder_replacement(struct city *pcity, enum improvement_type_id id);
+int wonder_replacement(struct city *pcity, Impr_Type_id id);
 int city_turns_to_build(struct city *pcity, int id, int id_is_unit);
 
 /* textual representation of buildings */
 
-char *get_improvement_name(enum improvement_type_id id);
-char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id);
+char *get_improvement_name(Impr_Type_id id);
+char *get_impr_name_ex(struct city *pcity, Impr_Type_id id);
 
 /* city map functions */
 

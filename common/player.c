@@ -222,7 +222,7 @@ int player_in_city_radius(struct player *pplayer, int x, int y)
  and it is not obsolete.
 **************************************************************************/
 int player_owns_active_wonder(struct player *pplayer,
-			      enum improvement_type_id id)
+			      Impr_Type_id id)
 {
   return (improvement_exists(id)
 	  && is_wonder(id)
@@ -320,7 +320,7 @@ struct city *find_palace(struct player *pplayer)
 ...
 **************************************************************************/
 int player_knows_improvement_tech(struct player *pplayer,
-				   enum improvement_type_id id)
+				   Impr_Type_id id)
 {
   int t;
   if (!improvement_exists(id)) return 0;

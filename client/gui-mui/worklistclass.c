@@ -80,7 +80,7 @@ __asm __saveds static void worklistview_destruct(register __a2 APTR pool, regist
 *****************************************************************/
 char *get_improvement_info(int id, struct city *pcity)
 {
-  /* from city.c get_imp_name_ex() */
+  /* from city.c get_impr_name_ex() */
   if (pcity)
   {
     if (wonder_replacement(pcity, id))

@@ -130,7 +130,7 @@ static int farmland_food(struct city *pcity)
 }
 
 static int pollution_cost(struct player *pplayer, struct city *pcity,
-			  enum improvement_type_id id)
+			  Impr_Type_id id)
 {
   int p, mod = 0, poppul = 0, a, b, c, x, y, tmp = 0;
   p = 0;
