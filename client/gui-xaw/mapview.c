@@ -95,23 +95,26 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   } while (punit0->hp > hp0 || punit1->hp > hp1);
 
-  get_canvas_xy(losing_unit->x, losing_unit->y, &canvas_x, &canvas_y);
-  for (i = 0; i < num_tiles_explode_unit; i++) {
-    struct canvas_store store = {single_tile_pixmap};
+  if (map_to_canvas_pos(&canvas_x, &canvas_y,
+			losing_unit->x, losing_unit->y)) {
+    for (i = 0; i < num_tiles_explode_unit; i++) {
+      struct canvas_store store = {single_tile_pixmap};
 
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
-    put_one_tile(&store, 0, 0, losing_unit->x, losing_unit->y, FALSE);
-    put_unit_full(losing_unit, &store, 0, 0);
-    pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, sprites.explode.unit[i]);
+      put_one_tile(&store, 0, 0, losing_unit->x, losing_unit->y, FALSE);
+      put_unit_full(losing_unit, &store, 0, 0);
+      pixmap_put_overlay_tile(single_tile_pixmap, 0, 0,
+			      sprites.explode.unit[i]);
 
-    XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
-	      0, 0,
-	      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
-	      canvas_x, canvas_y);
+      XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
+		0, 0,
+		UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
+		canvas_x, canvas_y);
 
-    XSync(display, 0);
-    usleep_since_timer_start(anim_timer, 20000);
+      XSync(display, 0);
+      usleep_since_timer_start(anim_timer, 20000);
+    }
   }
 
   set_units_in_combat(NULL, NULL);
@@ -499,8 +502,9 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 		 event->xexpose.width, event->xexpose.height,
 		 event->xexpose.x, event->xexpose.y);
 
-    if(map_canvas_store_twidth !=tile_width ||
-       map_canvas_store_theight!=tile_height) { /* resized? */
+    /* resized? */
+    if (mapview_canvas.tile_width != tile_width
+	|| mapview_canvas.tile_height != tile_height) {
       map_canvas_resize();
     }
     return;
@@ -511,13 +515,14 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
   }
 
   if (map_exists()) { /* do we have a map at all */
-    if(map_canvas_store_twidth !=tile_width ||
-       map_canvas_store_theight!=tile_height) { /* resized? */
+    /* resized? */
+    if (mapview_canvas.tile_width != tile_width
+	|| mapview_canvas.tile_height!=tile_height) {
       map_canvas_resize();
 
       XFillRectangle(display, map_canvas_store, fill_bg_gc, 0, 0, 
-		     NORMAL_TILE_WIDTH*map_canvas_store_twidth,
-		     NORMAL_TILE_HEIGHT*map_canvas_store_theight);
+		     NORMAL_TILE_WIDTH * mapview_canvas.tile_width,
+		     NORMAL_TILE_HEIGHT * mapview_canvas.tile_height);
 
       update_map_canvas_visible();
 
@@ -549,13 +554,13 @@ void map_canvas_resize(void)
   mapview_canvas.width = width;
   mapview_canvas.height = height;
 
-  map_canvas_store_twidth=((width-1)/NORMAL_TILE_WIDTH)+1;
-  map_canvas_store_theight=((height-1)/NORMAL_TILE_HEIGHT)+1;
+  mapview_canvas.tile_width = ((width - 1) / NORMAL_TILE_WIDTH) + 1;
+  mapview_canvas.tile_height = ((height - 1) / NORMAL_TILE_HEIGHT) + 1;
 
   map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas),
-				 map_canvas_store_twidth*NORMAL_TILE_WIDTH,
-				 map_canvas_store_theight*NORMAL_TILE_HEIGHT,
-				 display_depth);
+			mapview_canvas.tile_width * NORMAL_TILE_WIDTH,
+			mapview_canvas.tile_height * NORMAL_TILE_HEIGHT,
+			display_depth);
 
   if (!mapview_canvas.store) {
     mapview_canvas.store = fc_malloc(sizeof(*mapview_canvas.store));
@@ -903,7 +908,9 @@ void put_nuke_mushroom_pixmaps(int x, int y)
 	int canvas_x, canvas_y;
 	struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
 
-	get_canvas_xy(x1, y1, &canvas_x, &canvas_y);
+	if (!map_to_canvas_pos(&canvas_x, &canvas_y, x1, y1)) {
+	  continue;
+	}
 	XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
 		  canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 		  0, 0);
@@ -968,10 +975,9 @@ static void pixmap_put_overlay_tile(Pixmap pixmap, int canvas_x, int canvas_y,
 **************************************************************************/
 void put_cross_overlay_tile(int x,int y)
 {
-  int canvas_x, canvas_y, is_real = normalize_map_pos(&x, &y);
-  assert(is_real);
+  int canvas_x, canvas_y;
 
-  if (get_canvas_xy(x, y, &canvas_x, &canvas_y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
     pixmap_put_overlay_tile(XtWindow(map_canvas), canvas_x, canvas_y,
 			    sprites.user.attention);
   }
@@ -993,11 +999,12 @@ void put_city_workers(struct city *pcity, int color)
   }
 
   XSetForeground(display, fill_tile_gc, colors_standard[color]);
-  get_canvas_xy(pcity->x, pcity->y, &canvas_x, &canvas_y);
   city_map_checked_iterate(pcity->x, pcity->y, i, j, x, y) {
     enum city_tile_type worked = get_worker_city(pcity, i, j);
 
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+    if (!map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+      continue;
+    }
     if (!is_city_center(i, j)) {
       if (worked == C_TILE_EMPTY) {
 	XSetStipple(display, fill_tile_gc, gray25);
@@ -1092,7 +1099,7 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 static void put_line(Pixmap pm, int x, int y, int dir)
 {
   int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
-  get_canvas_xy(x, y, &canvas_src_x, &canvas_src_y);
+  (void) map_to_canvas_pos(&canvas_src_x, &canvas_src_y, x, y);
   canvas_src_x += NORMAL_TILE_WIDTH/2;
   canvas_src_y += NORMAL_TILE_HEIGHT/2;
   canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
