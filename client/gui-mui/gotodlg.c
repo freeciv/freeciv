@@ -113,11 +113,7 @@ VOID goto_airlift(void)
     struct unit *punit = get_unit_in_focus();
     if (punit)
     {
-      struct unit req_unit;
-      req_unit = *punit;
-      req_unit.x = pcity->x;
-      req_unit.y = pcity->y;
-      send_unit_info(&req_unit);
+      request_unit_airlift(punit, pcity);
     }
   }
   set(goto_wnd, MUIA_Window_Open, FALSE);

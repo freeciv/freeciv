@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include "barbarian.h"
+#include "capability.h"
 #include "city.h"
 #include "combat.h"
 #include "events.h"
@@ -78,6 +79,25 @@ void handle_unit_goto_tile(struct player *pplayer,
       assign_units_to_transporter(punit, 1);
 
     do_unit_goto(punit, GOTO_MOVE_ANY, 1);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_unit_airlift(struct player *pplayer,
+			 struct packet_unit_request *req)
+{
+  struct unit *punit;
+  struct city *pcity;
+
+  if (!check_coords(&req->x, &req->y))
+    return;
+
+  punit = player_find_unit_by_id(pplayer, req->unit_id);
+  pcity = map_get_city(req->x, req->y);
+  if (punit && pcity) {
+    do_airline(punit, pcity);
   }
 }
 
@@ -494,10 +514,17 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 
   if(punit) {
     if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
+      int capability = 1;
       if (!check_coords(&pinfo->x, &pinfo->y))
 	return;
 
-      if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)) {
+      conn_list_iterate(pplayer->connections, pconn) {
+	if (!has_capability("new_airlift", pconn->capability))
+	  capability = 0;
+      } conn_list_iterate_end;
+
+      if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)
+	  || !capability) {
 	punit->ai.control = 0;
 	handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
       } else {
@@ -766,7 +793,9 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   if (!check_coords(&dest_x, &dest_y))
     return 0;
 
-  if (do_airline(punit, dest_x, dest_y))
+  /* Remove when removing capability "new_airlift".
+     has_capability (so a grep will show this reference :) ) */
+  if (pcity && do_airline(punit, pcity))
     return 1;
 
   /* this occurs often during lag, and to the AI due to some quirks -- Syela */

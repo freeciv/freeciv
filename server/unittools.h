@@ -77,7 +77,7 @@ void send_all_known_units(struct conn_list *dest);
 /* doing a unit activity */
 void do_nuclear_explosion(int x, int y);
 int try_move_unit(struct unit *punit, int dest_x, int dest_y); 
-int do_airline(struct unit *punit, int dest_x, int dest_y);
+int do_airline(struct unit *punit, struct city *city2);
 int do_paradrop(struct unit *punit, int dest_x, int dest_y);
 void assign_units_to_transporter(struct unit *ptrans, int take_from_land);
 int move_unit(struct unit *punit, int dest_x, int dest_y,

@@ -369,6 +369,9 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
   case PACKET_PATROL_ROUTE:
     return receive_packet_goto_route(pc);
 
+  case PACKET_UNIT_AIRLIFT:
+    return receive_packet_unit_request(pc);
+
   default:
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
 	    type, conn_description(pc));

@@ -2245,27 +2245,26 @@ int try_move_unit(struct unit *punit, int dest_x, int dest_y)
   go by airline, if both cities have an airport and neither has been used this
   turn the unit will be transported by it and have it's moves set to 0
 **************************************************************************/
-int do_airline(struct unit *punit, int dest_x, int dest_y)
+int do_airline(struct unit *punit, struct city *city2)
 {
-  struct city *city1, *city2;
+  struct city *city1;
   int src_x = punit->x;
   int src_y = punit->y;
 
   if (!(city1=map_get_city(src_x, src_y)))
-    return 0;
-  if (!(city2=map_get_city(dest_x, dest_y)))
     return 0;
   if (!unit_can_airlift_to(punit, city2))
     return 0;
   city1->airlift=0;
   city2->airlift=0;
 
-  notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
+  notify_player_ex(unit_owner(punit), city2->x, city2->y, E_NOEVENT,
 		   _("Game: %s transported succesfully."),
 		   unit_name(punit->type));
 
-  move_unit(punit, dest_x, dest_y, 0, 0, punit->moves_left);
+  move_unit(punit, city2->x, city2->y, 0, 0, punit->moves_left);
 
+  /* airlift fields have changed. */
   send_city_info(city_owner(city1), city1);
   send_city_info(city_owner(city2), city2);
 

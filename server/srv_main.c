@@ -827,6 +827,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_CONN_PONG:
     pconn->ponged = 1;
     break;
+  case PACKET_UNIT_AIRLIFT:
+    handle_unit_airlift(pplayer, (struct packet_unit_request *)packet);
+    break;
   default:
     freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	    type, conn_description(pconn));

@@ -246,14 +246,10 @@ static void goto_list_ucallback(GtkWidget *w, gint row, gint column)
 static void goto_airlift_command_callback(GtkWidget *w, gpointer data)
 {
   struct city *pdestcity=get_selected_city();
-  if(pdestcity) {
+  if (pdestcity) {
     struct unit *punit=get_unit_in_focus();
-    if(punit) {
-      struct unit req_unit;
-      req_unit=*punit;
-      req_unit.x=pdestcity->x;
-      req_unit.y=pdestcity->y;
-      send_unit_info(&req_unit);
+    if (punit) {
+      request_unit_airlift(punit, pdestcity);
     }
   }
   popdown_goto_dialog();

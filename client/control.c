@@ -529,6 +529,26 @@ void request_unit_unload(struct unit *punit)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+void request_unit_airlift(struct unit *punit, struct city *pcity)
+{
+  if (has_capability("new_airlift", aconnection.capability)) {
+    struct packet_unit_request p;
+    p.unit_id = punit->id;
+    p.x = pcity->x;
+    p.y = pcity->y;
+    send_packet_unit_request(&aconnection, &p, PACKET_UNIT_AIRLIFT);
+  } else {
+    struct unit req_unit;
+    req_unit = *punit;
+    req_unit.x = pcity->x;
+    req_unit.y = pcity->y;
+    send_unit_info(&req_unit);
+  }
+}
+
+/**************************************************************************
 (RP:) un-sentry all my own sentried units on punit's tile
 **************************************************************************/
 void request_unit_wakeup(struct unit *punit)

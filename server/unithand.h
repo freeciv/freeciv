@@ -18,6 +18,8 @@
 
 void handle_unit_goto_tile(struct player *pplayer, 
 			   struct packet_unit_request *req);
+void handle_unit_airlift(struct player *pplayer,
+			 struct packet_unit_request *req);
 void handle_unit_connect(struct player *pplayer, 
 		          struct packet_unit_connect *req);
 void handle_upgrade_unittype_request(struct player *pplayer, 

@@ -117,6 +117,7 @@ enum packet_type {
   PACKET_PATROL_ROUTE,
   PACKET_CONN_PING,
   PACKET_CONN_PONG,
+  PACKET_UNIT_AIRLIFT,
   PACKET_LAST  /* leave this last */
 };
 

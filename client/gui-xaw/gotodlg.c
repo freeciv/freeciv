@@ -278,11 +278,7 @@ void goto_airlift_command_callback(Widget w, XtPointer client_data,
   if(pdestcity) {
     struct unit *punit=get_unit_in_focus();
     if(punit) {
-      struct unit req_unit;
-      req_unit=*punit;
-      req_unit.x=pdestcity->x;
-      req_unit.y=pdestcity->y;
-      send_unit_info(&req_unit);
+      request_unit_airlift(punit, pdestcity);
     }
   }
   popdown_goto_dialog();
