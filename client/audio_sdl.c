@@ -172,6 +172,7 @@ static void my_shutdown(void)
       Mix_FreeChunk(samples[i].wave);
     }
   }
+  Mix_HaltMusic();
   Mix_FreeMusic(mus);
 
   Mix_CloseAudio();
