@@ -57,7 +57,8 @@
 
 #define CITY_EMERGENCY(pcity)                        \
  (pcity->shield_surplus < 0 || city_unhappy(pcity)   \
-  || pcity->food_stock + pcity->food_surplus < 0)    \
+  || pcity->food_stock + pcity->food_surplus < 0)
+#define LOG_BUY LOG_DEBUG
 
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
 static void ai_manage_city(struct player *pplayer, struct city *pcity);
@@ -302,7 +303,15 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
   } impr_type_iterate_end;
 }
 
-#define LOG_BUY LOG_DEBUG
+/************************************************************************** 
+  Increase maxbuycost.  This variable indicates (via ai_gold_reserve) to 
+  the tax selection code how much money do we need for buying stuff.
+**************************************************************************/
+static void increase_maxbuycost(struct player *pplayer, int new_value)
+{
+  pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, new_value);
+}
+
 /************************************************************************** 
   Try to upgrade a city's units. limit is the last amount of gold we can
   end up with after the upgrade. military is if we want to upgrade non-
@@ -337,7 +346,7 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
                  military ? "military" : "civilian");
         handle_unit_upgrade_request(city_owner(pcity), &packet);
       } else {
-        pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, cost);
+        increase_maxbuycost(pplayer, cost);
       }
     }
   } unit_list_iterate_end;
@@ -351,16 +360,15 @@ static void ai_spend_gold(struct player *pplayer)
   struct ai_choice bestchoice;
   int cached_limit = ai_gold_reserve(pplayer);
 
-  /* Disband troops that are at home but don't serve a purpose. */
+  /* Disband explorers that are at home but don't serve a purpose. 
+   * FIXME: This is a hack, and should be removed once we
+   * learn how to ferry explorers to new land. */
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *ptile = map_get_tile(pcity->x, pcity->y);
     unit_list_iterate(ptile->units, punit) {
-      if (((unit_types[punit->type].shield_cost > 0
-            && pcity->shield_prod == 0)
-           || unit_has_role(punit->type, L_EXPLORER))
+      if (unit_has_role(punit->type, L_EXPLORER)
           && pcity->id == punit->homecity
-          && pcity->ai.urgency == 0
-          && is_ground_unit(punit)) {
+          && pcity->ai.urgency == 0) {
         struct packet_unit_request packet;
         packet.unit_id = punit->id;
         CITY_LOG(LOG_BUY, pcity, "disbanding %s to increase production",
@@ -379,7 +387,6 @@ static void ai_spend_gold(struct player *pplayer)
     /* Find highest wanted item on the buy list */
     init_choice(&bestchoice);
     city_list_iterate(pplayer->cities, acity) {
-      if (acity->anarchy != 0) continue;
       if (acity->ai.choice.want > bestchoice.want && ai_fuzzy(pplayer, TRUE)) {
         bestchoice.choice = acity->ai.choice.choice;
         bestchoice.want = acity->ai.choice.want;
@@ -389,7 +396,9 @@ static void ai_spend_gold(struct player *pplayer)
     } city_list_iterate_end;
 
     /* We found nothing, so we're done */
-    if (bestchoice.want == 0) break;
+    if (bestchoice.want == 0) {
+      break;
+    }
 
     /* Not dealing with this city a second time */
     pcity->ai.choice.want = 0;
@@ -397,7 +406,7 @@ static void ai_spend_gold(struct player *pplayer)
     ASSERT_REAL_CHOICE_TYPE(bestchoice.type);
 
     /* Try upgrade units at danger location (high want is usually danger) */
-    if (pcity->ai.danger > 1) {
+    if (pcity->ai.urgency > 1) {
       if (bestchoice.type == CT_BUILDING && is_wonder(bestchoice.choice)) {
         CITY_LOG(LOG_BUY, pcity, "Wonder being built in dangerous position!");
       } else {
@@ -409,6 +418,10 @@ static void ai_spend_gold(struct player *pplayer)
         /* Upgrade only military units now */
         ai_upgrade_units(pcity, upgrade_limit, TRUE);
       }
+    }
+
+    if (pcity->anarchy != 0 && bestchoice.type != CT_BUILDING) {
+      continue; /* Nothing we can do */
     }
 
     /* Cost to complete production */
@@ -449,15 +462,6 @@ static void ai_spend_gold(struct player *pplayer)
        continue;
     }
 
-    if (!expensive && bestchoice.type != CT_BUILDING
-        && (unit_type_flag(bestchoice.choice, F_TRADE_ROUTE) 
-            || unit_type_flag(bestchoice.choice, F_HELP_WONDER))
-        && buycost < unit_types[bestchoice.choice].build_cost * 2) {
-      /* We need more money for buying caravans. Increasing
-         maxbuycost will increase taxes */
-      pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, buycost);
-    }
-
     /* FIXME: Here Syela wanted some code to check if
      * pcity was doomed, and we should therefore attempt
      * to sell everything in it of non-military value */
@@ -483,10 +487,7 @@ static void ai_spend_gold(struct player *pplayer)
         CITY_LOG(LOG_BUY, pcity, "now we can afford it (sold something)");
         really_handle_city_buy(pplayer, pcity);
       }
-      if (buycost > pplayer->ai.maxbuycost) {
-        /* Consequently we need to raise more money through taxes */
-        pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, buycost);
-      }
+      increase_maxbuycost(pplayer, buycost);
     }
   } while (TRUE);
 
@@ -495,15 +496,9 @@ static void ai_spend_gold(struct player *pplayer)
     ai_upgrade_units(pcity, cached_limit, FALSE);
   } city_list_iterate_end;
 
-  if (pplayer->economic.gold + cached_limit < pplayer->ai.maxbuycost) {
-    /* We have too much gold! Don't raise taxes */
-    pplayer->ai.maxbuycost = 0;
-  }
-
   freelog(LOG_BUY, "%s wants to keep %d in reserve (tax factor %d)", 
           pplayer->name, cached_limit, pplayer->ai.maxbuycost);
 }
-#undef LOG_BUY
 
 /**************************************************************************
  cities, build order and worker allocation stuff here..
