@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 bin_PROGRAMS = civserver
-INCLUDES = -I $(srcdir)/../common -I $(srcdir)/../ai
+INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai
 
 civserver_SOURCES = \
 		cityhand.c	\
@@ -19,8 +19,8 @@ civserver_SOURCES = \
 		gotohand.c	\
 		gotohand.h	\
 		handchat.c	\
-		mapgen.c		\
-		mapgen.h		\
+		mapgen.c	\
+		mapgen.h	\
 		maphand.c	\
 		maphand.h	\
 		meta.c		\
@@ -29,8 +29,8 @@ civserver_SOURCES = \
 		plrhand.h	\
 		registry.c	\
 		registry.h	\
-		sernet.c		\
-		sernet.h		\
+		sernet.c	\
+		sernet.h	\
 		settlers.c	\
 		settlers.h	\
 		stdinhand.c	\

@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 bin_PROGRAMS = civclient
-INCLUDES = -I $(srcdir)/../common -I .
+INCLUDES = -I$(srcdir)/../common -I.
 
 BUILT_SOURCES = Freeciv.h
 
