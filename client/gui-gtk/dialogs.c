@@ -2050,6 +2050,8 @@ void create_races_dialog(void)
   select_random_race();
   select_random_leader();
 
+  gtk_widget_grab_default(races_ok_command);
+
   gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->action_area );
 }
