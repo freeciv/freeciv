@@ -64,6 +64,7 @@
 #include <autoattack.h>
 #include <spacerace.h>
 #include <console.h>
+#include <capstr.h>
 
 void show_ending();
 void end_game();
@@ -274,10 +275,7 @@ int main(int argc, char *argv[])
 #endif
   con_flush();
 
-  strcpy(our_capability, CAPABILITY);
-  if (getenv("FREECIV_CAPS"))
-    strcpy(our_capability, getenv("FREECIV_CAPS"));
-
+  init_our_capability();
   game_init();
   initialize_city_cache();
 

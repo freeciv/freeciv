@@ -767,10 +767,6 @@ int ui_main(int argc, char **argv)
   single_tile_pixmap	      = gdk_pixmap_new(root_window, 
         			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
 
-  strcpy(our_capability, CAPABILITY);
-  if (getenv("FREECIV_CAPS"))
-      strcpy(our_capability, getenv("FREECIV_CAPS"));
-
   load_options();
 
   /* This seed is not saved anywhere; randoms in the client should

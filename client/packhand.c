@@ -41,6 +41,7 @@
 #include <spaceship.h>
 #include <spaceshipdlg.h>
 #include <mem.h>
+#include <capstr.h>
 
 extern int seconds_to_turndone;
 extern int turn_gold_difference;

@@ -40,6 +40,7 @@
 #include <connectdlg.h>
 #include <helpdlg.h>
 #include <options.h>
+#include <capstr.h>
 
 char server_host[512];
 char name[512];
@@ -107,6 +108,7 @@ int main(int argc, char *argv[])
 
   /*  audio_init(); */
   init_messages_where();
+  init_our_capability();
   game_init();
   ui_main(argc, argv);
   return 0;

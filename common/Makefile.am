@@ -8,6 +8,8 @@ libcivcommon_a_SOURCES = \
 		attribute.h	\
 		capability.c	\
 		capability.h	\
+		capstr.c	\
+		capstr.h	\
 		city.c		\
 		city.h		\
 		diptreaty.c	\

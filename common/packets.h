@@ -20,8 +20,7 @@
 #define NAME_SIZE           10
 #define MSG_SIZE          1536
 #define ADDR_LENGTH         32
-
-extern char our_capability[MSG_SIZE];
+#define MAX_CAPSTR_LEN     512
 
 enum packet_type {
   PACKET_REQUEST_JOIN_GAME,
@@ -302,7 +301,7 @@ struct packet_req_join_game {
   int major_version;
   int minor_version;
   int patch_version;
-  char capability[MSG_SIZE];
+  char capability[MAX_CAPSTR_LEN];
 };
 
 
@@ -312,7 +311,7 @@ struct packet_req_join_game {
 struct packet_join_game_reply {
   int you_can_join;             /* true/false */
   char message[MSG_SIZE];
-  char capability[MSG_SIZE];
+  char capability[MAX_CAPSTR_LEN];
 };
 
 
@@ -367,7 +366,7 @@ struct packet_player_info {
   char addr[MAX_LENGTH_ADDRESS];
   int revolution;
   int ai;
-  char capability[MSG_SIZE];
+  char capability[MAX_CAPSTR_LEN];
 };
 
 /*********************************************************
@@ -523,7 +522,7 @@ struct connection {
   struct socket_packet_buffer buffer;
   struct socket_packet_buffer send_buffer;
   char addr[ADDR_LENGTH];
-  char capability[MSG_SIZE];
+  char capability[MAX_CAPSTR_LEN];
   /* "capability" gives the capability string of the executable (be it
    * a client or server) at the other end of the connection.
    */

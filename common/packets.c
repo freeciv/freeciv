@@ -24,8 +24,6 @@
 #include <capability.h>
 #include <mem.h>
 
-char our_capability[MSG_SIZE];
-
 /**************************************************************************
 Swap bytes on an integer considered as 16 bits
 **************************************************************************/

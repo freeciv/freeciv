@@ -51,6 +51,7 @@
 #include <gui_main.h>
 #include <game.h>
 #include <packhand.h>
+#include <capstr.h>
 
 struct connection aconnection;
 

@@ -51,6 +51,7 @@
 #include <game.h>
 #include <packhand.h>
 #include <mem.h>
+#include <capstr.h>
 
 extern Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
 

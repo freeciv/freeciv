@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __SHARED_H
-#define __SHARED_H
+#ifndef FC__SHARED_H
+#define FC__SHARED_H
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -38,53 +38,8 @@
 #define WORD_VERSION "version"
 #endif
 
-/* Capabilities: Author: Mitch Davis (mjd@alphalink.com.au)
- *
- * Here's the string a client and server trade to find out if they can talk
- * to each other, and using which protocol version.  The string is a list
- * of words, separated by whitespace and/or commas, where each word
- * indicates a capability that this version of Freeciv understands.
- * If a capability word is mandatory, it should start with a "+".
- *
- * eg, #define CAPABILITY "+1.6, MapScroll, +AutoSettlers"
- *
- * (Following para replaces previous c_capability and s_capability. --dwp)
- * There is a string our_capability, which gives the capabilities of
- * the running executable, be it client or server.
- * Each "struct connection" also has a capability string, which gives the
- * capability of the executable at the other end of the connection.
- * So for the client, the capability of the server is in
- * aconnection.capability, and for the server, the capabilities of 
- * connected clients are in game.players[i]->conn.capability
- *
- * Client and server software can test these strings for a capability by
- * calling the has_capability fn in capability.c.
- *
- * Note the connection struct is a parameter to the functions to send and
- * receive packets, which may be convenient for adjusting how a packet is
- * sent or interpreted based on the capabilities of the connection.
- *
- * A note to whoever increments the capability string for a new release:
- * It is your responsibility to search the Freeciv code, and look for places
- * where people are using has_capability.  If you're taking a capability out
- * of the string, because now every client and server supports it, then
- * you should take out the if(has_capability( code so that this code is
- * always executed.
- */
+/* Note: the capability string is now in capstr.c --dwp */
 
-#define CAPABILITY "+1.8 caravan1 nuke clientcommands"
-/* caravan1 means to server automatically established a traderoute
-   when a caravan type unit moves into an enemy city.  For older
-   servers the client has to explicitly ask for a trade route.
-
-   "nuke" means that it is possible to explode nuclear
-   at a tile without enemy units. Maybe it should be mandatory
-   because it improves player's fighting capabilities.
-
-   "clientcommands" indicates that the server supports server commands
-   sent by clients.
-*/
-  
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2
 
@@ -128,4 +83,4 @@ char *user_home_dir(void);
 char *datafilename(char *filename);
 char *datafilename_required(char *filename);
 
-#endif
+#endif  /* FC__SHARED_H */
