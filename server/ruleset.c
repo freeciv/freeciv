@@ -1010,12 +1010,6 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     freelog(LOG_FATAL, "No role=firstbuild units? (%s)", filename);
     exit(EXIT_FAILURE);
   }
-  u = &unit_types[get_role_unit(L_FIRSTBUILD,0)];
-  if(u->tech_requirement!=A_NONE) {
-    freelog(LOG_FATAL, "First role=firstbuild unit (%s) should have req None (%s)",
-	 u->name, filename);
-    exit(EXIT_FAILURE);
-  }
   if(num_role_units(L_BARBARIAN)==0) {
     freelog(LOG_FATAL, "No role=barbarian units? (%s)", filename);
     exit(EXIT_FAILURE);
