@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-25 09:29+0100\n"
+"PO-Revision-Date: 2005-01-26 07:27+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -13539,7 +13539,7 @@ msgstr[2] "(nečinný %d tahů)"
 #: client/gui-win32/plrdlg.c:72
 #: client/gui-xaw/plrdlg.c:355
 msgid "Game: You need an embassy to establish a diplomatic meeting."
-msgstr ""
+msgstr "Hra: Potřebujeme ambasádu pro diplomatická setkání."
 
 #: client/gui-gtk/repodlgs.c:626
 #: client/gui-win32/repodlgs.c:429
@@ -13567,7 +13567,7 @@ msgstr "?timeout:vyp"
 #: client/gui-xaw/repodlgs.c:793
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
-msgstr ""
+msgstr "Příjmy:%6d    Celkem výdaje: %6d"
 
 #: client/gui-gtk/repodlgs.c:870
 #: client/gui-xaw/repodlgs.c:898
@@ -15041,7 +15041,7 @@ msgstr "Číslo verze ve zdrojích chybí."
 
 #: client/gui-xaw/gui_main.c:303
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
-msgstr ""
+msgstr "Nejspíše máte někde starší (asi v1.0) soubor s Freeciv zdroji."
 
 #: client/gui-xaw/gui_main.c:311
 msgid "Game version does not match Resource version."
@@ -15054,7 +15054,7 @@ msgstr "Verze hry: %s - Verze zdroje: %s"
 
 #: client/gui-xaw/gui_main.c:314
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
-msgstr ""
+msgstr "Možná máte starší Freeciv soubor se zdroji v /usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:320
 msgid "Using fallback resources - which is OK"
