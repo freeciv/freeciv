@@ -80,7 +80,7 @@ gui_sources = @gui_sources@
 
 pkgdatadir = $(datadir)/@PACKAGE@/civ1
 
-pkgdata_DATA =  	techs.ruleset		units.ruleset		buildings.ruleset
+pkgdata_DATA =  	terrain.ruleset		techs.ruleset		units.ruleset		buildings.ruleset
 
 
 EXTRA_DIST = $(pkgdata_DATA)

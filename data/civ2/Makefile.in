@@ -78,9 +78,9 @@ SERVER_LIBS = @SERVER_LIBS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
 
-pkgdatadir = $(datadir)/@PACKAGE@/default
+pkgdatadir = $(datadir)/@PACKAGE@/civ2
 
-pkgdata_DATA =  	terrain.ruleset		techs.ruleset		units.ruleset		buildings.ruleset 	flags.xpm		roads.xpm		small.xpm		space.xpm		tiles.xpm		treaty.xpm		units.xpm
+pkgdata_DATA =  	terrain.ruleset
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -99,7 +99,7 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu data/default/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu data/civ2/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
@@ -130,14 +130,14 @@ TAGS:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = data/default
+subdir = data/civ2
 
 distdir: $(DISTFILES)
 	here=`cd $(top_builddir) && pwd`; \
 	top_distdir=`cd $(top_distdir) && pwd`; \
 	distdir=`cd $(distdir) && pwd`; \
 	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu data/default/Makefile
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu data/civ2/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \

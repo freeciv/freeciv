@@ -15,6 +15,7 @@ set railtrade 50
 set civstyle 1
 #
 # Rulesets:
+set terrain civ1
 set techs civ1
 set units civ1
 set buildings civ1

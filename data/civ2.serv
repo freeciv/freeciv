@@ -1,0 +1,13 @@
+# Server commands to make rules similar to Civ2.
+#
+# Use this as, eg, "./ser -r data/civ2.serv" 
+#
+# Civ2 start:
+set settlers 2
+set explorer 0
+#
+# Minor civ2 rules:
+set civstyle 2
+#
+# Rulesets:
+set terrain civ2

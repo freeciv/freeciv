@@ -280,6 +280,7 @@ AC_OUTPUT(Makefile
           data/Makefile 
 	  data/default/Makefile 
 	  data/civ1/Makefile 
+	  data/civ2/Makefile 
 	  data/trident/Makefile 
 	  common/Makefile 
 	  ai/Makefile 

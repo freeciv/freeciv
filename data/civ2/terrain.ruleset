@@ -1,0 +1,63 @@
+
+; Modifying this file:
+; You shouldn't modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "set terrain <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well with anything more
+; than minor changes.
+
+[datafile]
+description="Civ2 tile_type data for Freeciv"
+options="1.8.2"
+
+[options]
+river_style=2        ; 1 means Civ1-style, 2 means Civ2-style
+may_road=1           ; 0 means no, 1 means yes
+may_irrigate=1       ; 0 means no, 1 means yes
+may_mine=1           ; 0 means no, 1 means yes
+may_transform=1      ; 0 means no, 1 means yes
+
+[graphics]
+border_base=260      ; 999 means no such tiles
+corner_base=0        ; 999 means no such tiles
+river_base=360       ; 999 means no such tiles
+outlet_base=176      ; 999 means no such tiles
+denmark_base=212     ; 999 means no such tiles
+
+[terrains]
+
+; Tile_type list:
+;
+; Tile terrains should be in the same order as defined in common/map.h
+; and have similar roles/effects, as some things are still hardwired.
+;
+; Special terrain_name value: "unused" -- terrain type is not used.
+; The defense_bonus value is 10 times the actual defense bonus.
+; Special special_#_name value: "none" -- special type is not used.
+; Special *_time value: 0 -- operation is not allowed.
+; Special *_result value: "no" -- operation is not allowed.
+; Special *_result value: "yes" -- operation is permitted, but it doesn't change the terrain type.
+
+t={ "terrain_name", "graphic_base", "graphic_count", "movement_cost", "defense_bonus", "food", "shield", "trade", "special_1_name", "graphic_special_1", "food_special_1", "shield_special_1", "trade_special_1", "special_2_name", "graphic_special_2", "food_special_2", "shield_special_2", "trade_special_2", "road_trade_incr", "road_time", "irrigation_result", "irrigation_food_incr", "irrigation_time", "mining_result", "mining_shield_incr", "mining_time", "transform_result", "transform_time"
+
+; "Name",      gb,gc, mc, db,  f,s,t,  "Sp1 Name",  gs1, f,s,t,  "Sp2 Name",  gs2, f,s,t, rti, rt,  "Irig Rslt", ifi, it,  "Mnig Rslt", msi, mt,  "Trns Rslt", tt
+;                              (nrm)                     (sp1)                     (sp2)
+
+"Glacier",     60,16,  2, 10,  0,0,0,  "Ivory",     119, 1,1,4,  "Oil",       230, 0,4,0,   0,  4,  "no",          0,  0,  "yes",         1, 10,  "Tundra",    24
+"Desert",      40,16,  1, 10,  0,1,0,  "Oasis",     221, 3,1,0,  "Oil",       230, 0,4,0,   1,  2,  "yes",         1,  5,  "yes",         1,  5,  "Plains",    24
+"Forest",     204, 4,  2, 15,  1,2,0,  "Phesant",   156, 3,2,0,  "Silk",      158, 1,2,3,   0,  4,  "Plains",      0,  5,  "no",          0,  0,  "Grassland", 24
+"Grassland",   20,16,  1, 10,  2,0,0,  "Resources", 223, 2,1,0,  "Resources", 223, 2,1,0,   1,  2,  "yes",         1,  5,  "Forest",      0, 10,  "Hills",     24
+"Hills",      200, 4,  2, 20,  1,0,0,  "Coal",      224, 1,2,0,  "Wine",      159, 1,0,4,   0,  4,  "yes",         1, 10,  "yes",         3, 10,  "Plains",    24
+"Jungle",      80,16,  2, 15,  1,0,0,  "Gems",      225, 1,0,4,  "Fruit",     136, 4,0,1,   0,  4,  "Grassland",   0, 15,  "Forest",      0, 15,  "Plains",    24
+"Mountains",  208, 4,  3, 30,  0,1,0,  "Gold",      226, 0,1,6,  "Iron",      137, 0,4,0,   0,  6,  "no",          0,  0,  "yes",         1, 10,  "Hills",     24
+"Ocean",      180,16,  1, 10,  1,0,2,  "Fish",      227, 3,0,2,  "Whales",    138, 2,2,3,   0,  0,  "no",          0,  0,  "no",          0,  0,  "no",         0
+"Plains",     100,16,  1, 10,  1,1,0,  "Buffalo",   157, 1,3,0,  "Wheat",     139, 3,1,0,   1,  2,  "yes",         1,  5,  "Forest",      0, 15,  "Grassland", 24
+"unused",     000, 0,  0, 00,  0,0,0,  "none",      000, 0,0,0,  "none",      000, 0,0,0,   0,  0,  "no",          0,  0,  "no",          0,  0,  "no",         0
+"Swamp",      120,16,  2, 15,  1,0,0,  "Peat",      118, 1,4,0,  "Spice",     116, 3,0,4,   0,  4,  "Grassland",   0, 15,  "Forest",      0, 15,  "Plains",    24
+"Tundra",     140,16,  1, 10,  1,0,0,  "Game",      231, 3,1,0,  "Furs",      117, 2,0,3,   0,  2,  "yes",         1,  5,  "no",          0,  0,  "Desert",    24
+
+}

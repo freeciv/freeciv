@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/@PACKAGE@/default
 
 pkgdata_DATA =          \
+	terrain.ruleset	\
 	techs.ruleset	\
 	units.ruleset	\
 	buildings.ruleset \
