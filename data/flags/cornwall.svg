@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="england"
+   sodipodi:version="0.34"
+   width="234mm"
+   height="140mm"
+   sodipodi:docbase="/home/vasco/dev/HEAD/freeciv/data/flags"
+   sodipodi:docname="/home/vasco/dev/HEAD/freeciv/data/flags/cornwall.svg">
+  <defs
+     id="defs550" />
+  <sodipodi:namedview
+     id="base" />
+  <g
+     id="g898">
+    <rect
+       style="font-size:12;fill-rule:evenodd;stroke:none;stroke-width:0;"
+       id="background"
+       width="829.133850"
+       height="496.062988"
+       x="0.000000"
+       y="556.299164"
+       transform="matrix(1.000004,0,0,1,0,-556.2992)" />
+    <g
+       id="g554"
+       transform="matrix(1.000004,0,0,1,0,-556.2992)"
+       style="font-size:12;fill:#ffffff;stroke:none;">
+      <rect
+         style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:0pt;fill-opacity:1;stroke:none;stroke-opacity:1;"
+         id="horizontal"
+         width="829.133862"
+         height="99.212601"
+         x="0.000000"
+         y="754.724457" />
+      <rect
+         style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:0pt;fill-opacity:1;stroke:none;stroke-opacity:1;"
+         id="vertical"
+         width="99.212601"
+         height="496.062988"
+         x="364.960632"
+         y="556.299194" />
+    </g>
+  </g>
+</svg>

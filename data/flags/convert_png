@@ -1,0 +1,50 @@
+#!/bin/sh
+
+files="$@"
+
+# Renderer: inkscape or sodipodi.  Inkscape seems slightly better.
+#SODIPODI="sodipodi"
+RENDERER="inkscape"
+
+# Target width: 28 for trident/isotrident (height is then calculated
+# automatically).
+TARGET_WIDTH=28
+
+which $RENDERER >/dev/null \
+  || (echo "You need $RENDERER to render the SVG files.")
+(which convert >/dev/null && which composite >/dev/null) \
+  || (echo "You need ImageMagick to manipulate the images."; err=yes)
+which pngquant >/dev/null \
+  || echo "You need pngquant to convert the images to indexed PNGs."
+
+for file0 in $files; do
+  filebase=`echo $file0 | sed s/.svg$//i`
+
+  file1="$filebase-1.png"
+  file2="$filebase-2.png"
+  file3="$filebase-3.png"
+  file4="$filebase-4.png"
+  file5="$filebase.png"
+  echo "Converting $file0 to $file5"
+
+  # This is actually necessary for rendering
+  rm -f $file1 $file2 $file3 $file4 $file5
+
+  $RENDERER -f "$file0" -w $(($TARGET_WIDTH - 2)) -e "$file1" >/dev/null
+
+  # Ugly way to determine width and height.  There must be a better way!
+  SIZE=`identify "$file1" | sed "s/^.*PNG //" | sed "s/ .*\$//"`
+  WIDTH=`echo $SIZE | sed "s/x.*\$//"`
+  HEIGHT=`echo $SIZE | sed "s/^.*x//"`
+
+  # This complicated code puts a 1-pixel black border around the image.
+  convert -resize $((2*$WIDTH))x$((2*$HEIGHT)) -fill black -draw "rectangle 0,0 $((2*$WIDTH)),$((2*$HEIGHT))" $file1 $file2
+  convert -crop $((2+$WIDTH))x$((2+$HEIGHT))+0x0 $file2 $file3
+  composite -geometry 0x0+1+1 $file1 $file3 $file4
+
+  which pngquant >/dev/null \
+    && (pngquant 256 $file4; \
+        mv "$filebase-4-fs8.png" $file5)
+
+  rm -f $file1 $file2 $file3 $file4 "$filebase-4-fs8.png"
+done

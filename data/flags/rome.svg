@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg554"
+   sodipodi:version="0.34"
+   width="165mm"
+   height="143mm"
+   sodipodi:docbase="/home/vasco/dev/HEAD/freeciv/data/flags/"
+   sodipodi:docname="/home/vasco/dev/HEAD/freeciv/data/flags/rome.svg">
+  <defs
+     id="defs556" />
+  <sodipodi:namedview
+     id="base" />
+  <g
+     id="g671">
+    <rect
+       style="font-size:12;fill:#cc0000;fill-rule:evenodd;stroke-width:1;"
+       id="rect559"
+       width="165mm"
+       height="143mm"
+       x="0.23795798"
+       y="0.71368894" />
+    <g
+       id="g658"
+       transform="translate(-13.9617,-6.980835)">
+      <text
+         style="font-size:72;font-weight:bold;fill:#ffd90c;stroke-width:1;font-family:Nimbus Roman No9 L;font-style:italic;text-anchor:start;writing-mode:lr;"
+         x="64.3870659"
+         y="96.8453445"
+         id="text670"
+         sodipodi:linespacing="100%"
+         xml:space="default"
+         sodipodi:fill-cmyk="(0 0.15 0.95 0)"
+         transform="scale(2,2)">
+        <tspan
+           x="64.3870697"
+           y="96.8453445"
+           sodipodi:role="line"
+           id="tspan654">S</tspan>
+      </text>
+      <text
+         style="font-size:72;font-weight:bold;fill:#ffd90c;stroke-width:1;font-family:Nimbus Roman No9 L;font-style:italic;text-anchor:start;writing-mode:lr;"
+         x="107.490303"
+         y="130.719711"
+         id="text673"
+         sodipodi:linespacing="100%"
+         xml:space="default"
+         sodipodi:fill-cmyk="(0 0.15 0.95 0)"
+         transform="scale(2,2)">
+        <tspan
+           x="107.490303"
+           y="130.719711"
+           sodipodi:role="line"
+           id="tspan652">P</tspan>
+      </text>
+      <text
+         style="font-size:72;font-weight:bold;fill:#ffd90c;stroke-width:1;font-family:Nimbus Roman No9 L;font-style:italic;text-anchor:start;writing-mode:lr;"
+         x="140.091774"
+         y="166.715218"
+         id="text676"
+         sodipodi:linespacing="100%"
+         xml:space="default"
+         sodipodi:fill-cmyk="(0 0.15 0.95 0)"
+         transform="scale(2,2)">
+        <tspan
+           x="140.091782"
+           y="166.715225"
+           sodipodi:role="line"
+           id="tspan650">Q</tspan>
+      </text>
+      <text
+         style="font-size:72;font-weight:bold;fill:#ffd90c;stroke-width:1;font-family:Nimbus Roman No9 L;font-style:italic;text-anchor:start;writing-mode:lr;"
+         x="195.813536"
+         y="213.476082"
+         id="text679"
+         sodipodi:linespacing="100%"
+         xml:space="default"
+         sodipodi:fill-cmyk="(0 0.15 0.95 0)"
+         transform="scale(2,2)">
+        <tspan
+           x="195.813538"
+           y="213.476089"
+           sodipodi:role="line"
+           id="tspan656">R</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

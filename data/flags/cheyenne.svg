@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   id="svg1055"
+   sodipodi:version="0.32"
+   inkscape:version="0.39"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   width="300.00000pt"
+   height="150.00000pt"
+   sodipodi:docbase="/home/jdorje/src/freeciv/freeciv/data/flags"
+   sodipodi:docname="cheyenne.svg">
+  <defs
+     id="defs1057" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.8266664"
+     inkscape:cx="150.00002"
+     inkscape:cy="74.999995"
+     inkscape:window-width="640"
+     inkscape:window-height="529"
+     inkscape:window-x="128"
+     inkscape:window-y="98" />
+  <metadata
+     id="metadata1058">
+    <rdf:RDF
+       id="RDF1059">
+      <cc:Work
+         rdf:about=""
+         id="Work1060">
+        <dc:format
+           id="format1061">image/svg+xml</dc:format>
+        <dc:type
+           id="type1063"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="g1074"
+     transform="matrix(2.939815,0.000000,0.000000,2.939815,0.000000,4.701672e-6)">
+    <g
+       id="g1068">
+      <rect
+         style="font-size:12.000000;fill:#0053ff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt;"
+         id="rect1221"
+         width="127.55907"
+         height="63.779522"
+         x="0.0000000"
+         y="0.0000000"
+         ry="0.0000000" />
+      <path
+         style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;"
+         d="M 63.779500,7.0866000 L 53.149600,17.716500 L 42.519700,7.0866000 L 38.976400,10.629900 L 49.606300,21.259800 L 38.976400,31.889800 L 49.606300,42.519700 L 38.976400,53.149600 L 42.519700,56.692900 L 53.149600,46.063000 L 63.779500,56.692900 L 74.409400,46.063000 L 85.039400,56.692900 L 88.582700,53.149600 L 77.952800,42.519700 L 88.582700,31.889800 L 77.952800,21.259800 L 88.582700,10.629900 L 85.039400,7.0866000 L 74.409400,17.716500 L 63.779500,7.0866000 z "
+         id="path1222"
+         sodipodi:nodetypes="ccccccccccccccccccccc" />
+    </g>
+    <path
+       style="fill:#0053ff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;"
+       d="M 46.063000,31.889800 L 63.779500,14.173200 L 81.496100,31.889800 L 63.779500,49.606300 L 46.063000,31.889800 z "
+       id="path1223"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

@@ -3,7 +3,7 @@
 ## Override automake so that "make install" puts these in proper place:
 pkgdatadir = $(datadir)/@PACKAGE@/flags
 
-pkgdata_DATA =				\
+png_files =				\
 		afghanistan.png		\
 		arab.png		\
 		argentina.png		\
@@ -106,4 +106,109 @@ pkgdata_DATA =				\
 		vietnam.png		\
 		wales.png
 
-EXTRA_DIST = $(pkgdata_DATA)
+svg_files = 				\
+		afghanistan.svg		\
+		arab.svg		\
+		argentina.svg		\
+		armenia.svg		\
+		assyria.svg		\
+		australia.svg		\
+		austria.svg		\
+		azerbaijan.svg		\
+		barbarian.svg		\
+		bavarian.svg		\
+		belgium.svg		\
+		boer.svg		\
+		bosnia.svg		\
+		brasil.svg		\
+		bulgaria.svg		\
+		canada.svg		\
+		catalan.svg		\
+		cheyenne.svg		\
+		chile.svg		\
+		china.svg		\
+		columbia.svg		\
+		cornwall.svg		\
+		croatia.svg		\
+		cuba.svg		\
+		czech.svg		\
+		denmark.svg		\
+		dunedain.svg		\
+		egypt.svg		\
+		elves.svg		\
+		england.svg		\
+		estonia.svg		\
+		ethiopia.svg		\
+		europe.svg		\
+		finland.svg		\
+		france.svg		\
+		galicia.svg		\
+		germany.svg		\
+		greece.svg		\
+		greenland.svg		\
+		hobbits.svg		\
+		hungary.svg		\
+		iceland.svg		\
+		india.svg		\
+		indonesia.svg		\
+		iran.svg		\
+		iraq_old.svg		\
+		ireland.svg		\
+		israel.svg		\
+		italy.svg		\
+		japan.svg		\
+		kampuchea.svg		\
+		kenya.svg		\
+		korea.svg		\
+		krev.svg		\
+		latvia.svg		\
+		lithuania.svg		\
+		macedonia.svg		\
+		malaysia.svg		\
+		mars.svg		\
+		mexico.svg		\
+		mongolia.svg		\
+		mordor.svg		\
+		nato.svg		\
+		netherlands.svg		\
+		nigeria.svg		\
+		norway.svg		\
+		observer.svg		\
+		pakistan.svg		\
+		peru.svg		\
+		philippines.svg		\
+		phoenicia.svg		\
+		poland.svg		\
+		portugal.svg		\
+		quebec.svg		\
+		rome.svg		\
+		russia.svg		\
+		rwanda.svg		\
+		scotland.svg		\
+		serbia.svg		\
+		silesia.svg		\
+		singapore.svg		\
+		slovenia.svg		\
+		south_africa.svg	\
+		soviet.svg		\
+		spain.svg		\
+		stpatrick.svg		\
+		sumeria.svg		\
+		sweden.svg		\
+		swiss.svg		\
+		syria.svg		\
+		taiwan.svg		\
+		thailand.svg		\
+		tunisia.svg		\
+		turkey.svg		\
+		ukraine.svg		\
+		united_kingdom.svg	\
+		united_nations.svg	\
+		unknown.svg		\
+		usa.svg			\
+		vietnam.svg		\
+		wales.svg
+
+pkgdata_DATA = $(png_files)
+
+EXTRA_DIST = $(pkgdata_DATA) $(svg_files) credits convert_png
