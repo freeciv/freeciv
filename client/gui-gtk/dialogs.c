@@ -1689,8 +1689,6 @@ void popup_unit_select_dialog(struct tile *ptile)
 }
 
 
-
-
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
@@ -1715,12 +1713,12 @@ void popdown_races_dialog(void)
   } /* else there is no dialog shell to destroy */
 }
 
-
 /****************************************************************
 ...
 *****************************************************************/
 void create_races_dialog(void)
 {
+  int       per_row = 4;
   int       i, leader_num;
   GSList    *group = NULL;
   GSList    *sgroup = NULL;
@@ -1741,7 +1739,8 @@ void create_races_dialog(void)
 
   /* ------- nation name toggles ------- */
 
-  races_toggles_form = gtk_table_new( 3, (game.playable_nation_count+2)/3, FALSE );
+  races_toggles_form =
+    gtk_table_new( per_row, ((game.playable_nation_count-1)/per_row)+1, FALSE );
   gtk_container_add( GTK_CONTAINER( f ), races_toggles_form );
 
   free(races_toggles);
@@ -1752,7 +1751,7 @@ void create_races_dialog(void)
     gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_toggles[i] ), FALSE );
     group = gtk_radio_button_group( GTK_RADIO_BUTTON( races_toggles[i] ) );
     gtk_table_attach_defaults( GTK_TABLE(races_toggles_form), races_toggles[i],
-			i%3,i%3+1,i/3,i/3+1 );
+			i%per_row,i%per_row+1,i/per_row,i/per_row+1 );
   }
 
   /* ------- nation leader combo ------- */
@@ -1812,7 +1811,8 @@ void create_races_dialog(void)
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->vbox ),
                       fa, FALSE, FALSE, 0 );
-  city_style_toggles_form = gtk_table_new( 3, (b_s_num+2)/3, FALSE );
+  city_style_toggles_form =
+    gtk_table_new( per_row, ((b_s_num-1)/per_row)+1, FALSE );
   gtk_container_add( GTK_CONTAINER( fa ), city_style_toggles_form ); 
 
   for(i=0; i<b_s_num; i++) {
@@ -1820,8 +1820,9 @@ void create_races_dialog(void)
                                            cgroup, city_styles[city_style_idx[i]].name);
       gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( city_style_toggles[i] ), FALSE );
       cgroup = gtk_radio_button_group( GTK_RADIO_BUTTON( city_style_toggles[i] ) );
-      gtk_table_attach_defaults( GTK_TABLE(city_style_toggles_form), city_style_toggles[i],
-                                 i%3, i%3+1, i/3, i/3+1 );
+      gtk_table_attach_defaults( GTK_TABLE(city_style_toggles_form),
+				 city_style_toggles[i],
+                                 i%per_row, i%per_row+1, i/per_row, i/per_row+1 );
   }
 
   /* ------- OK/Disc/Quit buttons ------- */

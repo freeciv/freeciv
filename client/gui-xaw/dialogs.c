@@ -1677,11 +1677,8 @@ void unit_select_callback(Widget w, XtPointer client_data,
 }
 
 
-
-
-
 /****************************************************************
-popup the dialog 10% inside the main-window 
+popup the dialog 5% inside the main-window 
 *****************************************************************/
 void popup_races_dialog(void)
 {
@@ -1694,7 +1691,7 @@ void popup_races_dialog(void)
 
   XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
 
-  XtTranslateCoords(toplevel, (Position) width/10, (Position) height/10,
+  XtTranslateCoords(toplevel, (Position) width/20, (Position) height/20,
 		    &x, &y);
   XtVaSetValues(races_dialog_shell, XtNx, x, XtNy, y, NULL);
 
@@ -1713,14 +1710,15 @@ void popdown_races_dialog(void)
   } /* else there is no dialog shell to destroy */
 }
 
-
 /****************************************************************
 ...
 *****************************************************************/
 void create_races_dialog(void)
 {
-  int i, j, len, maxracelen;
+  int per_row = 4;
+  int i, j, len, maxracelen, index;
   char maxracename[MAX_LEN_NAME];
+  char namebuf[64];
   int space;
   XtWidgetGeometry geom;
   XtTranslations textfieldtranslations;
@@ -1754,58 +1752,58 @@ void create_races_dialog(void)
   free(races_toggles);
   races_toggles = fc_calloc(game.playable_nation_count,sizeof(Widget));
 
-  races_toggles[0]=XtVaCreateManagedWidget("racestoggle0", 
-					   toggleWidgetClass, 
-					   races_toggles_form,
-					   XtNlabel, maxracename,
-					   NULL);
-  if( (game.playable_nation_count) > 1 )
-    races_toggles[1]=XtVaCreateManagedWidget("racestoggle1", 
-					     toggleWidgetClass, 
-					     races_toggles_form,
-					     XtNradioGroup, 
-					     races_toggles[0],
-					     XtNfromHoriz,
-					     races_toggles[0],
-					     XtNlabel, maxracename,
-					     NULL);
-  if( (game.playable_nation_count) > 2 )
-    races_toggles[2]=XtVaCreateManagedWidget("racestoggle2", 
-					     toggleWidgetClass, 
-					     races_toggles_form,
-					     XtNradioGroup, 
-					     races_toggles[1],
-					     XtNfromHoriz,
-					     races_toggles[1],
-					     XtNlabel, maxracename,
-					     NULL);
+  for( i = 0; i < ((game.playable_nation_count-1)/per_row)+1; i++) {
+    index = i * per_row;
+    my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
+    if( i == 0 ) {
+      races_toggles[index] =
+	XtVaCreateManagedWidget(namebuf,
+				toggleWidgetClass,
+				races_toggles_form,
+				XtNlabel, maxracename,
+				NULL);
+    } else {
+      races_toggles[index] =
+	XtVaCreateManagedWidget(namebuf,
+				toggleWidgetClass,
+				races_toggles_form,
+				XtNradioGroup,
+				races_toggles[index-1],
+				XtNfromVert,
+				races_toggles[index-per_row],
+				XtNlabel, maxracename,
+				NULL);
+    }
 
-  for( i = 1; i < (game.playable_nation_count+2)/3; i++) {
-    int idx = i*3;
-    char buf[64];
-    my_snprintf(buf, sizeof(buf), "racestoggle%d", idx);
-    races_toggles[idx]=XtVaCreateManagedWidget(buf, 
-					       toggleWidgetClass, 
-					       races_toggles_form,
-					       XtNradioGroup, 
-					       races_toggles[idx-1],
-					       XtNfromVert,
-					       races_toggles[idx-3],
-					       XtNlabel, maxracename,
-					       NULL);
-    for( j=0,idx=i*3+1; (j<2) && (idx<game.playable_nation_count); idx++,j++) {
-      my_snprintf(buf, sizeof(buf), "racestoggle%d", idx);
-      races_toggles[idx]=XtVaCreateManagedWidget(buf,
-						 toggleWidgetClass, 
-						 races_toggles_form,
-						 XtNradioGroup, 
-						 races_toggles[idx-1],
-						 XtNfromVert,
-						 races_toggles[idx-3],
-						 XtNfromHoriz,
-						 races_toggles[idx-1],
-						 XtNlabel, maxracename,
-					         NULL);
+    for( j = 1; j < per_row; j++) {
+      index = i * per_row + j;
+      if( index >= game.playable_nation_count ) break;
+      my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
+      if( i == 0 ) {
+	races_toggles[index] =
+	  XtVaCreateManagedWidget(namebuf,
+				  toggleWidgetClass,
+				  races_toggles_form,
+				  XtNradioGroup,
+				  races_toggles[index-1],
+				  XtNfromHoriz,
+				  races_toggles[index-1],
+				  XtNlabel, maxracename,
+				  NULL);
+      } else {
+	races_toggles[index] =
+	  XtVaCreateManagedWidget(namebuf,
+				  toggleWidgetClass,
+				  races_toggles_form,
+				  XtNradioGroup,
+				  races_toggles[index-1],
+				  XtNfromVert,
+				  races_toggles[index-per_row],
+				  XtNfromHoriz,
+				  races_toggles[index-1],
+				  XtNlabel, maxracename,
+				  NULL);
+      }
     }
   }
 
@@ -1887,61 +1885,60 @@ void create_races_dialog(void)
   free(races_style_toggles);
   races_style_toggles = fc_calloc(b_s_num,sizeof(Widget));
 
-  races_style_toggles[0]=XtVaCreateManagedWidget("racesstyle0", 
-					   toggleWidgetClass, 
-					   races_style_form,
-					   XtNlabel, maxracename,
-					   NULL);
-  if( b_s_num > 1 )
-    races_style_toggles[1]=XtVaCreateManagedWidget("racesstyle1", 
-					     toggleWidgetClass, 
-					     races_style_form,
-					     XtNradioGroup, 
-					     races_style_toggles[0],
-					     XtNfromHoriz,
-					     races_style_toggles[0],
-					     XtNlabel, maxracename,
-					     NULL);
-  if( b_s_num > 2 )
-    races_style_toggles[2]=XtVaCreateManagedWidget("racesstyle2", 
-					     toggleWidgetClass, 
-					     races_style_form,
-					     XtNradioGroup, 
-					     races_style_toggles[1],
-					     XtNfromHoriz,
-					     races_style_toggles[1],
-					     XtNlabel, maxracename,
-					     NULL);
+  for( i = 0; i < ((b_s_num-1)/per_row)+1; i++) {
+    index = i * per_row;
+    my_snprintf(namebuf, sizeof(namebuf), "racesstyle%d", index);
+    if( i == 0 ) {
+      races_style_toggles[index] =
+	XtVaCreateManagedWidget(namebuf,
+				toggleWidgetClass,
+				races_style_form,
+				XtNlabel, maxracename,
+				NULL);
+    } else {
+      races_style_toggles[index] =
+	XtVaCreateManagedWidget(namebuf,
+				toggleWidgetClass,
+				races_style_form,
+				XtNradioGroup,
+				races_style_toggles[index-1],
+				XtNfromVert,
+				races_style_toggles[index-per_row],
+				XtNlabel, maxracename,
+				NULL);
+    }
 
-  for( i = 1; i < (b_s_num+2)/3; i++) {
-    int idx = i*3;
-    char buf[64];
-    my_snprintf(buf, sizeof(buf), "racesstyle%d", idx);
-    races_style_toggles[idx]=XtVaCreateManagedWidget(buf, 
-					       toggleWidgetClass, 
-					       races_style_form,
-					       XtNradioGroup, 
-					       races_style_toggles[idx-1],
-					       XtNfromVert,
-					       races_style_toggles[idx-3],
-					       XtNlabel, maxracename,
-					       NULL);
-    for( j=0,idx=i*3+1; (j<2) && (idx<b_s_num); idx++,j++) {
-      my_snprintf(buf, sizeof(buf), "racesstyle%d", idx);
-      races_style_toggles[idx]=XtVaCreateManagedWidget(buf,
-						 toggleWidgetClass, 
-						 races_style_form,
-						 XtNradioGroup, 
-						 races_style_toggles[idx-1],
-						 XtNfromVert,
-						 races_style_toggles[idx-3],
-						 XtNfromHoriz,
-						 races_style_toggles[idx-1],
-						 XtNlabel, maxracename,
-					         NULL);
+    for( j = 1; j < per_row; j++) {
+      index = i * per_row + j;
+      if( index >= b_s_num ) break;
+      my_snprintf(namebuf, sizeof(namebuf), "racesstyle%d", index);
+      if( i == 0 ) {
+	races_style_toggles[index] =
+	  XtVaCreateManagedWidget(namebuf,
+				  toggleWidgetClass,
+				  races_style_form,
+				  XtNradioGroup,
+				  races_style_toggles[index-1],
+				  XtNfromHoriz,
+				  races_style_toggles[index-1],
+				  XtNlabel, maxracename,
+				  NULL);
+      } else {
+	races_style_toggles[index] =
+	  XtVaCreateManagedWidget(namebuf,
+				  toggleWidgetClass,
+				  races_style_form,
+				  XtNradioGroup,
+				  races_style_toggles[index-1],
+				  XtNfromVert,
+				  races_style_toggles[index-per_row],
+				  XtNfromHoriz,
+				  races_style_toggles[index-1],
+				  XtNlabel, maxracename,
+				  NULL);
+      }
     }
   }
-
 
   races_action_form = XtVaCreateManagedWidget("racesactionform",
 					      formWidgetClass,
