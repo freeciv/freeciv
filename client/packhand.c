@@ -119,17 +119,30 @@ void handle_nuke_tile(struct packet_nuke_tile *packet)
 }
 
 /**************************************************************************
-this piece of code below is about as bad as it can get
+...
 **************************************************************************/
 void handle_unit_combat(struct packet_unit_combat *packet)
 {
-  struct unit *punit0=find_unit_by_id(packet->attacker_unit_id);
-  struct unit *punit1=find_unit_by_id(packet->defender_unit_id);
+  int show_combat = FALSE;
+  struct unit *punit0 = find_unit_by_id(packet->attacker_unit_id);
+  struct unit *punit1 = find_unit_by_id(packet->defender_unit_id);
 
-  if(punit0 && tile_visible_mapcanvas(punit0->x, punit0->y) &&
-     punit1 && tile_visible_mapcanvas(punit1->x, punit1->y)) {
-    decrease_unit_hp_smooth(punit0, packet->attacker_hp,
-			    punit1, packet->defender_hp);
+  if (punit0 && punit1) {
+    if (tile_visible_mapcanvas(punit0->x, punit0->y) &&
+	tile_visible_mapcanvas(punit1->x, punit1->y)) {
+      show_combat = TRUE;
+    } else if (auto_center_on_combat) {
+      if (punit0->owner == game.player_idx)
+	center_tile_mapcanvas(punit0->x, punit0->y);
+      else
+	center_tile_mapcanvas(punit1->x, punit1->y);
+      show_combat = TRUE;
+    }
+
+    if (show_combat) {
+      decrease_unit_hp_smooth(punit0, packet->attacker_hp,
+			      punit1, packet->defender_hp);
+    }
   }
 }
 

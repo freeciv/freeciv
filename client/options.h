@@ -23,6 +23,7 @@ extern int do_combat_animation;
 extern int ai_popup_windows;
 extern int ai_manual_turn_done;
 extern int auto_center_on_unit;
+extern int auto_center_on_combat;
 extern int wakeup_focus;
 extern int draw_diagonal_roads;
 extern int center_when_popup_city;

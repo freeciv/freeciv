@@ -42,6 +42,7 @@ int do_combat_animation=1;
 int ai_popup_windows=0;
 int ai_manual_turn_done=1;
 int auto_center_on_unit=1;
+int auto_center_on_combat=0;
 int wakeup_focus=1;
 int draw_diagonal_roads=1;
 int center_when_popup_city=1;
@@ -60,6 +61,7 @@ client_option options[] = {
   GEN_OPTION(ai_popup_windows,		N_("Popup dialogs in AI Mode   "), COT_BOOL),
   GEN_OPTION(ai_manual_turn_done,	N_("Manual Turn Done in AI Mode"), COT_BOOL),
   GEN_OPTION(auto_center_on_unit,	N_("Auto Center on Units       "), COT_BOOL),
+  GEN_OPTION(auto_center_on_combat,	N_("Auto Center on Combat      "), COT_BOOL),
   GEN_OPTION(wakeup_focus,		N_("Focus on Awakened Units    "), COT_BOOL),
   GEN_OPTION(draw_diagonal_roads,	N_("Draw Diagonal Roads/Rails  "), COT_BOOL),
   GEN_OPTION(center_when_popup_city,	N_("Center map when Popup city "), COT_BOOL),
