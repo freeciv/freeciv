@@ -114,10 +114,15 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
         if (map_get_terrain(xx[i], yy[j]) == T_OCEAN) {
           if (punit && is_transporter_with_free_space(pplayer, xx[i], yy[j])) c = 3;
           else c = maxcost;
-        }
+        } else if (tile0->terrain == T_OCEAN) c = 3;
         else if (igter) c = 3; /* NOT c = 1 */
         else if (punit) c = MIN(tile0->move_cost[k], unit_types[punit->type].move_rate);
-        else c = tile0->move_cost[k];
+/*        else c = tile0->move_cost[k]; 
+This led to a bad bug where a unit in a swamp was considered too far away */
+        else {
+          tm = map_get_tile(xx[i], yy[j])->move_cost[7-k];
+          c = (tile0->move_cost[k] + tm + (tile0->move_cost[k] > tm ? 1 : 0))>>1;
+        }
         
         tm = warmap.cost[x][y] + c;
         if (warmap.cost[xx[i]][yy[j]] > tm && tm < maxcost) {
@@ -162,9 +167,13 @@ pcity->name : "NULL"), (punit ? unit_types[punit->type].name : "NULL"));*/
       init_warmap(punit->x, punit->y, SEA_MOVING);
       really_generate_warmap(pcity, punit, LAND_MOVING);
     }
+    warmap.orig_x = punit->x;
+    warmap.orig_y = punit->y;
   } else {
     really_generate_warmap(pcity, punit, LAND_MOVING);
     really_generate_warmap(pcity, punit, SEA_MOVING);
+    warmap.orig_x = pcity->x;
+    warmap.orig_y = pcity->y;
   }
 }
 
