@@ -405,13 +405,18 @@ static void setup_widgets(void)
               GTK_SIGNAL_FUNC(taxrates_callback), (gpointer)i);
 
           econ_label[i] = gtk_pixmap_new(get_citizen_pixmap(i<5?1:2), NULL);
+	  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(econ_label[i]), FALSE);
           gtk_container_add( GTK_CONTAINER( ebox ), econ_label[i] );
       }
 
       bulb_label      = gtk_pixmap_new(sprites.bulb[0]->pixmap, NULL);
+      gtk_pixmap_set_build_insensitive(GTK_PIXMAP(bulb_label), FALSE);
       sun_label       = gtk_pixmap_new(sprites.warming[0]->pixmap, NULL);
+      gtk_pixmap_set_build_insensitive(GTK_PIXMAP(sun_label), FALSE);
       flake_label     = gtk_pixmap_new(sprites.cooling[0]->pixmap, NULL);
+      gtk_pixmap_set_build_insensitive(GTK_PIXMAP(flake_label), FALSE);
       government_label= gtk_pixmap_new(sprites.citizen[7]->pixmap, NULL);
+      gtk_pixmap_set_build_insensitive(GTK_PIXMAP(government_label), FALSE);
       timeout_label   = gtk_label_new("");
 
       for (i=0; i<5; i++)
@@ -490,6 +495,7 @@ static void setup_widgets(void)
     }
 
     more_arrow_pixmap=gtk_pixmap_new(sprites.right_arrow->pixmap, NULL);
+    gtk_pixmap_set_build_insensitive(GTK_PIXMAP(more_arrow_pixmap), FALSE);
     gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
   }
 

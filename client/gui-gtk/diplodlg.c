@@ -482,6 +482,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,0,1);
 
   pdialog->dip_acceptthumb0=gtk_pixmap_new(get_thumb_pixmap(0),NULL);
+  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(pdialog->dip_acceptthumb0),FALSE);
   gtk_table_attach_defaults(GTK_TABLE(table),pdialog->dip_acceptthumb0,1,2,0,1);
   gtk_widget_show(pdialog->dip_acceptthumb0);
 
@@ -490,6 +491,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_table_attach_defaults(GTK_TABLE(table),label,2,3,0,1);
 
   pdialog->dip_acceptthumb1=gtk_pixmap_new(get_thumb_pixmap(0),NULL);
+  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(pdialog->dip_acceptthumb1),FALSE);
   gtk_table_attach_defaults(GTK_TABLE(table),pdialog->dip_acceptthumb1,3,4,0,1);
   gtk_widget_show(pdialog->dip_acceptthumb1);
   

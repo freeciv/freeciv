@@ -481,6 +481,7 @@ static void create_help_dialog(void)
 
 
   unit_tile = gtk_pixmap_new( create_overlay_unit( -1 ), NULL );
+  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(unit_tile), FALSE);
   gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
 
   help_itable = gtk_table_new(6, 1, FALSE);
