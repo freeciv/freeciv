@@ -3061,6 +3061,17 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 	     unit_type(punit)->vision_range);
   }
 
+  /*
+   * Let the unit goes out of sight for the players which doesn't see
+   * the unit anymore.
+   */
+  players_iterate(pplayer) {
+    if (can_player_see_unit_at2(pplayer, punit, src_x, src_y)
+	&& !can_player_see_unit_at2(pplayer, punit, dest_x, dest_y)) {
+      unit_goes_out_of_sight(pplayer, punit);
+    }
+  } players_iterate_end;
+
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
   wakeup_neighbor_sentries(punit);
   maybe_make_contact(dest_x, dest_y, unit_owner(punit));
