@@ -38,14 +38,6 @@ enum bodyguard_enum {
   BODYGUARD_NONE
 };
 
-#define FERRY_WANTED      -1      /* For passengers in need of a boat */
-#define FERRY_AVAILABLE   -1      /* For boats looking for a passenger */
-/* The below is used by both passengers and ferries.  Passengers use it to 
- * say they don't have a ferry and don't need one.  Ferries use it to say 
- * that they do not have a passenger-in-charge, but are not available for 
- * bookings yet (might carry some passengers still). */
-#define FERRY_NONE         0
-
 int military_amortize(struct player *pplayer, struct city *pcity, 
                       int value, int delay, int build_cost);
 int stack_cost(struct unit *pdef);

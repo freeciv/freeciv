@@ -506,7 +506,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       struct pf_path *path;
 
       MAPSTEP(x, y, pos.x, pos.y, DIR_REVERSE(pos.dir_to_here));
-      path = pf_get_path(map, pos.x, pos.y);
+      path = pf_get_path(map, x, y);
       if (!path || !ai_unit_execute_path(punit, path) 
           || punit->moves_left <= 0) {
         pf_destroy_path(path);

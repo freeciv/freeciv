@@ -50,6 +50,9 @@ struct pf_path;
 extern Unit_Type_id simple_ai_types[U_LAST];
 
 void ai_manage_units(struct player *pplayer); 
+void ai_manage_unit(struct player *pplayer, struct unit *punit);
+void ai_manage_military(struct player *pplayer,struct unit *punit);
+struct city *find_nearest_safe_city(struct unit *punit);
 int could_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);

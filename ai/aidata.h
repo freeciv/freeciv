@@ -135,10 +135,5 @@ void ai_data_done(struct player *pplayer);
 
 struct ai_data *ai_data_get(struct player *pplayer);
 
-void ai_set_passenger(struct unit *punit, struct unit *passenger);
-void ai_set_ferry(struct unit *punit, struct unit *ferry);
-void ai_clear_ferry(struct unit *punit);
-int ai_available_boats(struct player *pplayer);
-
 
 #endif

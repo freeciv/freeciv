@@ -21,6 +21,8 @@ libcivai_a_SOURCES = \
 		aicity.h	\
 		aidata.c	\
 		aidata.h	\
+		aiferry.c	\
+		aiferry.h	\
 		aihand.c	\
 		aihand.h	\
 		aihunt.c	\

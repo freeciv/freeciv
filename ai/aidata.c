@@ -37,6 +37,7 @@
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aicity.h"
+#include "aiferry.h"
 #include "aihand.h"
 #include "ailog.h"
 #include "aitools.h"
@@ -191,10 +192,7 @@ void ai_data_turn_init(struct player *pplayer)
 
   ai->stats.workers = fc_calloc(ai->num_continents + 1, sizeof(int));
   ai->stats.cities = fc_calloc(ai->num_continents + 1, sizeof(int));
-  ai->stats.passengers = 0;
   ai->stats.average_production = 0;
-  ai->stats.boats = 0;
-  ai->stats.available_boats = 0;
   city_list_iterate(pplayer->cities, pcity) {
     ai->stats.cities[(int)map_get_continent(pcity->x, pcity->y)]++;
     ai->stats.average_production += pcity->shield_surplus;
@@ -204,16 +202,6 @@ void ai_data_turn_init(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = map_get_tile(punit->x, punit->y);
 
-    if (is_sailing_unit(punit) && is_ground_units_transport(punit)) {
-      ai->stats.boats++;
-      if (punit->ai.passenger == FERRY_AVAILABLE) {
-        ai->stats.available_boats++;
-      }
-    }
-    if (punit->ai.ferryboat == FERRY_WANTED) {
-      UNIT_LOG(LOG_DEBUG, punit, "want a boat.");
-      ai->stats.passengers++;
-    }
     if (!is_ocean(ptile->terrain) && unit_flag(punit, F_SETTLERS)) {
       ai->stats.workers[(int)map_get_continent(punit->x, punit->y)]++;
     }
@@ -226,6 +214,7 @@ void ai_data_turn_init(struct player *pplayer)
       }
     }
   } unit_list_iterate_end;
+  aiferry_init_stats(pplayer);
 
   /*** Diplomacy ***/
 
@@ -392,104 +381,6 @@ void ai_data_init(struct player *pplayer)
     ai->diplomacy.player_intel[i].asked_about_ceasefire = 0;
     ai->diplomacy.player_intel[i].warned_about_space = 0;
   }
-}
-
-/**************************************************************************
-  Use this wrapper to correctly update the statistics. Use ferry=NULL to
-  request a ferry.  Should be used in conjunction with ai_set_passenger
-  if ferry!=NULL.
-**************************************************************************/
-void ai_set_ferry(struct unit *punit, struct unit *ferry)
-{
-  /* First delete unit from the list of passengers and release its ferry */
-  ai_clear_ferry(punit);
-
-  if (!ferry) {
-    struct ai_data *ai = ai_data_get(unit_owner(punit));
-
-    UNIT_LOG(LOG_DEBUG, punit, "requests a boat.");
-    ai->stats.passengers++;
-    punit->ai.ferryboat = FERRY_WANTED;
-  } else {
-    punit->ai.ferryboat = ferry->id;
-  }
-}
-
-/**************************************************************************
-  Use this wrapper to correctly update the statistics.  Should be used 
-  before a unit stops to wait for a boat.
-**************************************************************************/
-void ai_clear_ferry(struct unit *punit)
-{
-  if (punit->ai.ferryboat == FERRY_WANTED) {
-    struct ai_data *ai = ai_data_get(unit_owner(punit));
-
-    ai->stats.passengers--;
-  } else {
-    struct unit *ferry = find_unit_by_id(punit->ai.ferryboat);
-    
-    if (ferry && ferry->ai.passenger == punit->id) {
-      struct ai_data *ai = ai_data_get(unit_owner(punit));
-
-      /* punit doesn't want us anymore */
-      ferry->ai.passenger = FERRY_AVAILABLE;
-      ai->stats.available_boats++;
-    }
-  }
-
-  punit->ai.ferryboat = FERRY_NONE;
-}
-
-
-/**************************************************************************
-  Use this wrapper to correctly update the statistics. Use NULL to
-  unregister any passenger that might be there.
-**************************************************************************/
-void ai_set_passenger(struct unit *punit, struct unit *passenger)
-{
-  if (!passenger && punit->ai.passenger != FERRY_AVAILABLE) {
-    struct ai_data *ai = ai_data_get(unit_owner(punit));
-
-    ai->stats.available_boats++;
-    punit->ai.passenger = FERRY_AVAILABLE;
-  } else if (passenger) {
-    if (punit->ai.passenger == FERRY_AVAILABLE) {
-      struct ai_data *ai = ai_data_get(unit_owner(punit));
-      ai->stats.available_boats--;
-    }
-    punit->ai.passenger = passenger->id;
-  }
-}
-
-/**************************************************************************
-  Returns the number of available boats.  A simple accessor made to perform 
-  debug checks.
-**************************************************************************/
-int ai_available_boats(struct player *pplayer)
-{
-  struct ai_data *ai = ai_data_get(pplayer);
-
-  /* To developer: Switch this checking on when testing some new 
-   * ferry code. */
-#if 0
-  int boats = 0;
-
-  unit_list_iterate(pplayer->units, punit) {
-    struct tile *ptile = map_get_tile(punit->x, punit->y);
-
-    if (is_sailing_unit(punit) && is_ground_units_transport(punit) 
-	&& punit->ai.passenger == FERRY_AVAILABLE) {
-      boats++;
-    }
-  } unit_list_iterate_end;
-
-  if (boats != ai->stats.available_boats) {
-    freelog(LOG_ERROR, "Boats miscounted: recorded %d but in reality %d",
-	    ai->stats.available_boats, boats);
-  }
-#endif
-
-  return ai->stats.available_boats;
 }
 
 /**************************************************************************
