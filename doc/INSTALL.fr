@@ -451,7 +451,7 @@ La procédure :
      % ./configure --with-xpm-prefix=$MYXPMDEST
 
    qui ajoutera les options -I/-L/-R qui conviennent aux commandes de
-   compilations et de linkage.
+   compilations et d'édition de liens.
 
 
 7. Localisation :
