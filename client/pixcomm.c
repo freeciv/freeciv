@@ -60,6 +60,7 @@ extern Display	*display;
 extern Window root_window;
 extern int display_depth;
 
+static void Notify();
 static void ClassInitialize();
 
 static void Realize(Widget w, Mask *valueMask,
@@ -67,6 +68,9 @@ static void Realize(Widget w, Mask *valueMask,
 static void Resize(Widget w);
 static void Destroy(Widget w);
 
+static XtActionsRec actionsList[] = {
+  {"notify",		Notify}
+};
 
 #define Superclass ((CommandWidgetClass)&commandClassRec)
  
@@ -89,8 +93,8 @@ PixcommClassRec pixcommClassRec = {
     NULL,				/* initialize		  */
     NULL,				/* initialize_hook	  */
     Realize,			        /* realize		  */
-    NULL,		                /* actions		  */
-    0,	                                /* num_actions		  */
+    actionsList,	                /* actions		  */
+    XtNumber(actionsList),              /* num_actions		  */
     NULL,			        /* resources		  */
     0,		                        /* resource_count	  */
     NULLQUARK,				/* xrm_class		  */
@@ -135,6 +139,23 @@ PixcommClassRec pixcommClassRec = {
   /* for public consumption */
 WidgetClass pixcommWidgetClass = (WidgetClass) &pixcommClassRec;
 
+/* ARGSUSED */
+static void 
+Notify(w,event,params,num_params)
+Widget w;
+XEvent *event;
+String *params;         /* unused */
+Cardinal *num_params;   /* unused */
+{
+  PixcommWidget pw = (PixcommWidget)w; 
+
+  /* check to be sure state is still Set so that user can cancel
+     the action (e.g. by moving outside the window, in the default
+     bindings.
+  */
+  if (pw->command.set)
+    XtCallCallbackList(w, pw->command.callbacks, (XtPointer) event);
+}
 
 static void Realize(Widget w, Mask *valueMask,
 		    XSetWindowAttributes *attributes)
