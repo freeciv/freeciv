@@ -259,6 +259,8 @@ void set_overview_dimensions(int x, int y)
   overview_canvas_store	= gdk_pixmap_new(root_window,
 			  overview_canvas_store_width,
 			  overview_canvas_store_height, -1);
+
+  update_map_canvas_scrollbars_size();
 }
 
 
