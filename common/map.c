@@ -1065,7 +1065,8 @@ signed short map_get_continent(int x, int y)
 ***************************************************************/
 void map_set_continent(int x, int y, int val)
 {
-    (map.tiles + map_adjust_x(x) + y * map.xsize)->continent=val;
+  assert(normalize_map_pos(&x, &y));
+  (map.tiles + map_adjust_x(x) + y * map.xsize)->continent=val;
 }
 
 

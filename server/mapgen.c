@@ -1571,22 +1571,33 @@ static int placeisland(void)
   int x, y, xo, yo, i=0;
   yo = myrand(map.ysize)+n-s;
   xo = myrand(map.xsize)+w-e;
-  y = n + s / 2;
-  x = w + e / 2;
 
   /* this helps a lot for maps with high landmass */
-  for (y = n, x = w ; y < s && x < e ; y++, x++)
-    if (hmap(x, y) && is_coastline(x + xo - w, y + yo - n))
+  for (y = n, x = w ; y < s && x < e ; y++, x++) {
+    int map_x = x + xo - w;
+    int map_y = y + yo - n;
+    if (!normalize_map_pos(&map_x, &map_y))
       return 0;
+    if (hmap(x, y) && is_coastline(map_x, map_y))
+      return 0;
+  }
 		       
   for (y = n ; y < s ; y++)
-    for (x = w ; x < e ; x++)
-      if (hmap(x, y) && is_coastline(x + xo - w, y + yo - n))
-        return 0;
+    for (x = w ; x < e ; x++) {
+      int map_x = x + xo - w;
+      int map_y = y + yo - n;
+      if (!normalize_map_pos(&map_x, &map_y))
+	return 0;
+      if (hmap(x, y) && is_coastline(map_x, map_y))
+	return 0;
+    }
 
   for (y = n ; y < s ; y++) 
     for (x = w ; x < e ; x++) {
       if (hmap(x, y)) {
+	int map_x = x + xo - w;
+	int map_y = y + yo - n;
+	assert(normalize_map_pos(&map_x, &map_y));
 
 	checkmass--; 
 	if(checkmass<=0) {
@@ -1594,8 +1605,8 @@ static int placeisland(void)
 	  return i;
 	}
 
-        map_set_terrain(xo + x - w, yo + y - n, T_GRASSLAND);
-        map_set_continent(xo + x - w, yo + y - n, isleindex);
+        map_set_terrain(map_x, map_y, T_GRASSLAND);
+        map_set_continent(map_x, map_y, isleindex);
         i++;
       }
     }
