@@ -230,11 +230,11 @@ GtkWidget *create_main_page(void)
 /**************************************************************************
                                  NETWORK PAGE
 **************************************************************************/
-static GtkWidget *network_login;
-static GtkWidget *network_host;
-static GtkWidget *network_port;
-static GtkWidget *network_password;
-static GtkWidget *network_confirm_password;
+static GtkWidget *network_login_label, *network_login;
+static GtkWidget *network_host_label, *network_host;
+static GtkWidget *network_port_label, *network_port;
+static GtkWidget *network_password_label, *network_password;
+static GtkWidget *network_confirm_password_label, *network_confirm_password;
 
 static GtkWidget *network_statusbar;
 
@@ -360,7 +360,9 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_set_sensitive(network_host, TRUE);
     gtk_widget_set_sensitive(network_port, TRUE);
     gtk_widget_set_sensitive(network_login, TRUE);
+    gtk_widget_set_sensitive(network_password_label, FALSE);
     gtk_widget_set_sensitive(network_password, FALSE);
+    gtk_widget_set_sensitive(network_confirm_password_label, FALSE);
     gtk_widget_set_sensitive(network_confirm_password, FALSE);
     break;
   case NEW_PASSWORD_TYPE:
@@ -370,7 +372,9 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_set_sensitive(network_host, FALSE);
     gtk_widget_set_sensitive(network_port, FALSE);
     gtk_widget_set_sensitive(network_login, FALSE);
+    gtk_widget_set_sensitive(network_password_label, TRUE);
     gtk_widget_set_sensitive(network_password, TRUE);
+    gtk_widget_set_sensitive(network_confirm_password_label, TRUE);
     gtk_widget_set_sensitive(network_confirm_password, TRUE);
 
     gtk_widget_grab_focus(network_password);
@@ -382,7 +386,9 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_set_sensitive(network_host, FALSE);
     gtk_widget_set_sensitive(network_port, FALSE);
     gtk_widget_set_sensitive(network_login, FALSE);
+    gtk_widget_set_sensitive(network_password_label, TRUE);
     gtk_widget_set_sensitive(network_password, TRUE);
+    gtk_widget_set_sensitive(network_confirm_password_label, FALSE);
     gtk_widget_set_sensitive(network_confirm_password, FALSE);
 
     gtk_widget_grab_focus(network_password);
@@ -393,7 +399,9 @@ static void set_connection_state(enum connection_state state)
     }
 
     gtk_widget_set_sensitive(network_login, FALSE);
+    gtk_widget_set_sensitive(network_password_label, FALSE);
     gtk_widget_set_sensitive(network_password, FALSE);
+    gtk_widget_set_sensitive(network_confirm_password_label, FALSE);
     gtk_widget_set_sensitive(network_confirm_password, FALSE);
     break;
   }
@@ -529,12 +537,12 @@ static void update_network_page(void)
 {
   char buf[256];
 
-  set_connection_state(LOGIN_TYPE);
-
   gtk_entry_set_text(GTK_ENTRY(network_login), user_name);
   gtk_entry_set_text(GTK_ENTRY(network_host), server_host);
   my_snprintf(buf, sizeof(buf), "%d", server_port);
   gtk_entry_set_text(GTK_ENTRY(network_port), buf);
+
+  set_connection_state(LOGIN_TYPE);
 }
 
 /**************************************************************************
@@ -662,6 +670,7 @@ GtkWidget *create_network_page(void)
 		       "xalign", 0.0,
 		       "yalign", 0.5,
 		       NULL);
+  network_host_label = label;
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
@@ -678,6 +687,7 @@ GtkWidget *create_network_page(void)
 		       "xalign", 0.0,
 		       "yalign", 0.5,
 		       NULL);
+  network_port_label = label;
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
@@ -694,6 +704,7 @@ GtkWidget *create_network_page(void)
 		       "xalign", 0.0,
 		       "yalign", 0.5,
 		       NULL);
+  network_login_label = label;
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 3, 4,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
@@ -711,6 +722,7 @@ GtkWidget *create_network_page(void)
 		       "xalign", 0.0,
 		       "yalign", 0.5,
 		       NULL);
+  network_password_label = label;
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 4, 5,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
@@ -728,6 +740,7 @@ GtkWidget *create_network_page(void)
 		       "xalign", 0.0,
 		       "yalign", 0.5,
 		       NULL);
+  network_confirm_password_label = label;
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 5, 6,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
@@ -1524,6 +1537,7 @@ void set_client_page(enum client_pages page)
   case PAGE_NETWORK:
     update_network_lists();
     gtk_widget_grab_focus(network_login);
+    gtk_editable_set_position(GTK_EDITABLE(network_login), 0);
     break;
   }
 
