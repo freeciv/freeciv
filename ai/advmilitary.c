@@ -210,6 +210,7 @@ int assess_danger(struct city *pcity)
   int danger2 = 0; /* linear for walls */
   int danger3 = 0; /* linear for coastal */
   int danger4 = 0; /* linear for SAM */
+  int danger5 = 0; /* linear for SDI */
   struct player *aplayer, *pplayer;
   int pikemen = 0;
   int urgency = 0;
@@ -252,12 +253,7 @@ int assess_danger(struct city *pcity)
         m = get_unit_type(punit->type)->move_rate;
 /* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
 /* Samarkand bug should be obsoleted by re-ordering of events */
-        if (!dist) { /* Discovered the obvious that railroads are to blame! -- Syela */
-/*          printf("Dist = 0: %s's %s at (%d, %d), %s at (%d, %d)\n",
-             game.players[punit->owner].name, unit_types[punit->type].name,
-             punit->x, punit->y, pcity->name, pcity->x, pcity->y); */
-          dist = 1;
-        }
+        if (dist < 3) dist = 3;
         if (dist <= m * 3 && v) urgency++;
         if (dist <= m && v) pcity->ai.grave_danger = punit;
 
@@ -273,10 +269,13 @@ int assess_danger(struct city *pcity)
         if (!igwall) danger2 += v * m / dist;
         else if (is_sailing_unit(punit)) danger3 += v * m / dist;
         else if (is_air_unit(punit)) danger4 += v * m / dist;
-        if (dist * dist < m * 3) { v *= m; v /= 3; } /* knights can't attack more than twice */
-        else { v *= m * m; v /= dist * dist; }
-        danger += v;
-        if (igwall) badmojo += v;
+        if (unit_flag(punit->type, F_MISSILE)) danger5 += v * m / MAX(m, dist);
+        if (punit->type != U_NUCLEAR) { /* only SDI helps against NUCLEAR */
+          if (dist * dist < m * 3) { v *= m; v /= 3; } /* knights can't attack more than twice */
+          else { v *= m * m; v /= dist * dist; }
+          danger += v;
+          if (igwall) badmojo += v;
+        }
 
 /* if (v > 1000 || (v > 100 && !city_got_citywalls(pcity)))
 printf("%s sees %d danger from %s at (%d, %d) [%d]\n", pcity->name, v,
@@ -297,6 +296,8 @@ unit_types[punit->type].name, punit->x, punit->y, dist);  */
     printf("Dangerous danger3 (%d) in %s.  Beware of overflow.\n", danger3, pcity->name);
   if (danger4 < 0 || danger4 > 1<<24) /* I hope never to see this! */
     printf("Dangerous danger4 (%d) in %s.  Beware of overflow.\n", danger4, pcity->name);
+  if (danger5 < 0 || danger5 > 1<<24) /* I hope never to see this! */
+    printf("Dangerous danger5 (%d) in %s.  Beware of overflow.\n", danger5, pcity->name);
   if (pcity->ai.grave_danger) urgency += 10; /* really, REALLY urgent to defend */
   pcity->ai.danger = danger;
   if (pcity->ai.building_want[B_CITY] > 0 && danger2) {
@@ -316,6 +317,11 @@ no defenders and danger = 0 but danger2 > 0 -- Syela */
     i = assess_defense_igwall(pcity);
     if (danger4 > i * 1 / 2) pcity->ai.building_want[B_SAM] = 100 + urgency;
     else pcity->ai.building_want[B_SAM] += danger4 * 100 / i;
+  }
+  if (pcity->ai.building_want[B_SDI] > 0 && danger5) {
+    i = assess_defense_igwall(pcity);
+    if (danger5 > i * 1 / 2) pcity->ai.building_want[B_SDI] = 100 + urgency;
+    else pcity->ai.building_want[B_SDI] += danger5 * 100 / i;
   }
   return(urgency);
 }
@@ -409,6 +415,7 @@ void process_attacker_want(struct player *pplayer, struct city *pcity, int b, in
     j = unit_types[i].tech_requirement;
     if (j != A_LAST) k = pplayer->ai.tech_turns[j];
     if ((m == LAND_MOVING || (m == SEA_MOVING && shore)) && j != A_LAST && k &&
+         unit_types[i].attack_strength && /* otherwise we get SIGFPE's */
          m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
       l = k * (k + pplayer->research.researchpoints) * game.techlevel /
          (game.year > 0 ? 2 : 4); /* cost (shield equiv) of gaining these techs */
