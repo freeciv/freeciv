@@ -254,9 +254,11 @@ gint gtk_tree_selection_get_row(GtkTreeSelection *selection)
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
     GtkTreePath *path;
+    gint *idx;
 
     path = gtk_tree_model_get_path(model, &it);
-    row = gtk_tree_path_get_indices(path)[0];
+    idx = gtk_tree_path_get_indices(path);
+    row = idx[0];
     gtk_tree_path_free(path);
   }
   return row;
