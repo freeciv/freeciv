@@ -517,18 +517,13 @@ const char *get_unit_info_label_text2(struct unit *punit)
       add_line(" ");
     }
     if (pcity) {
-#ifdef DEBUG
-      add_line("%s (Unit ID %d)", pcity->name, punit->id);
-#else
       add_line("%s", pcity->name);
-#endif
     } else {
-#ifdef DEBUG
-      add_line("(Unit ID %d)", punit->id);
-#else
       add_line(" ");
-#endif
     }
+#ifdef DEBUG
+    add_line("(Unit ID %d)", punit->id);
+#endif
   } else {
     add("\n\n\n");
   }
