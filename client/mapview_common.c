@@ -1395,14 +1395,14 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 
   canvas_x = MAX(canvas_x, 0);
   canvas_y = MAX(canvas_y, 0);
-  width = MIN(mapview_canvas.width - canvas_x, width);
-  height = MIN(mapview_canvas.height - canvas_y, height);
+  width = MIN(mapview_canvas.store_width - canvas_x, width);
+  height = MIN(mapview_canvas.store_height - canvas_y, height);
 
   gui_x0 = mapview_canvas.gui_x0 + canvas_x;
   gui_y0 = mapview_canvas.gui_y0 + canvas_y;
   full = (canvas_x == 0 && canvas_y == 0
-	  && width == mapview_canvas.width
-	  && height == mapview_canvas.height);
+	  && width == mapview_canvas.store_width
+	  && height == mapview_canvas.store_height);
 
   freelog(LOG_DEBUG,
 	  "update_map_canvas(pos=(%d,%d), size=(%d,%d))",
@@ -1510,7 +1510,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 void update_map_canvas_visible(void)
 {
   dirty_all();
-  update_map_canvas(0, 0, mapview_canvas.width, mapview_canvas.height);
+  update_map_canvas(0, 0, mapview_canvas.store_width,
+		    mapview_canvas.store_height);
 }
 
 /* The maximum city description width and height.  This gives the dimensions
