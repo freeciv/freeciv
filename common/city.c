@@ -256,6 +256,27 @@ char **race_default_city_names[R_LAST]={
   default_mongol_city_names
 };
 
+
+/**************************************************************************
+...
+**************************************************************************/
+enum city_tile_type get_worker_city(struct city *pcity, int x, int y)
+{
+  if ((x==0 || x==4) && (y == 0 || y == 4)) 
+    return C_TILE_UNAVAILABLE;
+  return(pcity->city_map[x][y]);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_worker_here(struct city *pcity, int x, int y) 
+{
+  if (x < 0 || x > 4 || y < 0 || y > 4 || ((x == 0 || x == 4) && (y == 0|| y==4))) {
+    return 0;
+  }
+  return (get_worker_city(pcity,x,y)==C_TILE_WORKER); 
+}
 /****************************************************************
 ...
 *****************************************************************/
@@ -950,4 +971,3 @@ void city_list_insert_back(struct city_list *This, struct city *pcity)
 {
   genlist_insert(&This->list, pcity, -1);
 }
-

@@ -24,8 +24,6 @@
 
 int city_got_barracks(struct city *pcity);
 int can_sell_building(struct city *pcity, int id);
-enum city_tile_type get_worker_city(struct city *pcity, int x, int y);
-int is_worker_here(struct city *pcity, int x, int y); 
 struct city *find_city_wonder(enum improvement_type_id id);
 struct city *find_palace(struct player *pplayer);
 int city_specialists(struct city *pcity);                 /* elv+tax+scie */

@@ -200,6 +200,8 @@ char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id);
 int get_shields_tile(int x, int y, struct city *pcity); /* shield on spot */
 int get_trade_tile(int x, int y, struct city *pcity);   /* trade  on spot */
 int get_food_tile(int x, int y, struct city *pcity);    /* food   on spot */
+enum city_tile_type get_worker_city(struct city *pcity, int x, int y);
+int is_worker_here(struct city *pcity, int x, int y);
 
 /* trade functions */
 int can_establish_trade_route(struct city *pc1, struct city *pc2);

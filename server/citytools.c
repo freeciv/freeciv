@@ -58,28 +58,6 @@ int can_sell_building(struct city *pcity, int id)
 ...
 **************************************************************************/
 
-enum city_tile_type get_worker_city(struct city *pcity, int x, int y)
-{
-  if ((x==0 || x==4) && (y == 0 || y == 4)) 
-    return C_TILE_UNAVAILABLE;
-  return(pcity->city_map[x][y]);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int is_worker_here(struct city *pcity, int x, int y) 
-{
-  if (x < 0 || x > 4 || y < 0 || y > 4 || ((x == 0 || x == 4) && (y == 0|| y==4))) {
-    return 0;
-  }
-  return (get_worker_city(pcity,x,y)==C_TILE_WORKER); 
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-
 struct city *find_city_wonder(enum improvement_type_id id)
 {
   return (find_city_by_id(game.global_wonders[id]));
