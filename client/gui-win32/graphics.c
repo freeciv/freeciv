@@ -34,6 +34,15 @@
 #include "mapview_g.h"
 #include "tilespec.h"   
 
+#include "drop_cursor.xbm"
+#include "drop_cursor_mask.xbm"
+#include "goto_cursor.xbm"
+#include "goto_cursor_mask.xbm"
+#include "nuke_cursor.xbm"
+#include "nuke_cursor_mask.xbm"
+#include "patrol_cursor.xbm"
+#include "patrol_cursor_mask.xbm"
+
 #include "graphics.h"
 #define CACHE_SIZE 32
 
@@ -43,6 +52,8 @@ struct Sprite_cache {
   HBITMAP mask;
 };
 
+extern HINSTANCE freecivhinst;
+
 static struct Sprite_cache sprite_cache[CACHE_SIZE];
 static int cache_id_count=0;
 static SPRITE *sprcache;
@@ -51,6 +62,14 @@ SPRITE *intro_gfx_sprite=NULL;
 SPRITE *radar_gfx_sprite=NULL;
 static HBITMAP stipple;
 static HBITMAP fogmask;
+
+HCURSOR goto_cursor;
+HCURSOR drop_cursor;
+HCURSOR nuke_cursor;
+HCURSOR patrol_cursor;
+
+static void scale_cursor(int old_w, int old_h, int new_w, int new_h,
+			 char *old_bits, char *new_bits, bool flip);
 
 /**************************************************************************
 
@@ -63,12 +82,112 @@ load_intro_gfx(void)
 }
 
 /**************************************************************************
+  Scales and converts an .xbm cursor so win32 can use it.
+**************************************************************************/
+static void scale_cursor(int old_w, int old_h, int new_w, int new_h,
+			 char *old_bits, char *new_bits, bool flip)
+{
+  int x, y;
+  int bytew;
+
+  bytew = 1;
+  while(bytew < old_w) {
+    bytew <<= 1;
+  }
+  for (x = 0; x < new_w * new_h / 8; x++) {
+    new_bits[x] = 0;
+  }
+
+  for (y = 0; y < old_h; y++) {
+    for (x = 0; x < old_w; x++) {
+      int old_byte_pos, old_bit_pos;
+      int new_byte_pos, new_bit_pos;
+
+      old_byte_pos = (x + y * bytew) / 8;
+      old_bit_pos  = (x + y * bytew) % 8;
+      new_byte_pos = (x + y * new_w) / 8;
+      new_bit_pos  = (x + y * new_w) % 8;
+
+      if (old_bits[old_byte_pos] & (1 << old_bit_pos)) {
+	new_bits[new_byte_pos] |= (128 >> new_bit_pos);
+      }
+    }
+  }
+  if (flip) {
+    for (x = 0; x < new_w * new_h / 8; x++) {
+      new_bits[x] = ~new_bits[x];
+    }
+  }
+}
+
+/**************************************************************************
 
 **************************************************************************/
 void
 load_cursors(void)
 {
-	/* PORTME */
+  /* For some reason win32 lets you enter a cursor size, which
+   * only works as long as it's this size. */
+  int width = GetSystemMetrics(SM_CXCURSOR);
+  int height = GetSystemMetrics(SM_CYCURSOR);
+
+  char *new_bits = fc_malloc(width * height / 8);
+  char *new_mask_bits = fc_malloc(width * height / 8);
+
+  scale_cursor(goto_cursor_width, goto_cursor_height,
+	       width, height,
+	       goto_cursor_mask_bits, new_mask_bits, TRUE);
+  scale_cursor(goto_cursor_width, goto_cursor_height,
+	       width, height,
+	       goto_cursor_bits, new_bits, FALSE);
+
+  goto_cursor = CreateCursor(freecivhinst,
+			     goto_cursor_x_hot, goto_cursor_y_hot,
+			     width, height,
+			     new_mask_bits,
+			     new_bits);
+
+  scale_cursor(drop_cursor_width, drop_cursor_height,
+	       width, height,
+	       drop_cursor_mask_bits, new_mask_bits, TRUE);
+  scale_cursor(drop_cursor_width, drop_cursor_height,
+	       width, height,
+	       drop_cursor_bits, new_bits, FALSE);
+
+  drop_cursor = CreateCursor(freecivhinst,
+			     drop_cursor_x_hot, drop_cursor_y_hot,
+			     width, height,
+			     new_mask_bits,
+			     new_bits);
+
+  scale_cursor(nuke_cursor_width, nuke_cursor_height,
+	       width, height,
+	       nuke_cursor_mask_bits, new_mask_bits, TRUE);
+  scale_cursor(nuke_cursor_width, nuke_cursor_height,
+	       width, height,
+	       nuke_cursor_bits, new_bits, FALSE);
+
+  nuke_cursor = CreateCursor(freecivhinst,
+			     nuke_cursor_x_hot, nuke_cursor_y_hot,
+			     width, height,
+			     new_mask_bits,
+			     new_bits);
+
+  scale_cursor(patrol_cursor_width, patrol_cursor_height,
+	       width, height,
+	       patrol_cursor_mask_bits, new_mask_bits, TRUE);
+  scale_cursor(patrol_cursor_width, patrol_cursor_height,
+	       width, height,
+	       patrol_cursor_bits, new_bits, FALSE);
+
+  patrol_cursor = CreateCursor(freecivhinst,
+			       patrol_cursor_x_hot, patrol_cursor_y_hot,
+			       width, height,
+			       new_mask_bits,
+			       new_bits);
+
+  free(new_bits);
+  free(new_mask_bits);
 }
 
 /**************************************************************************

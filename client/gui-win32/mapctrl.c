@@ -51,6 +51,11 @@
 #include "mapctrl.h"
 #include "gui_main.h"
 
+extern HCURSOR goto_cursor;
+extern HCURSOR drop_cursor;
+extern HCURSOR nuke_cursor;
+extern HCURSOR patrol_cursor;
+
 HWND popit_popup=NULL;
 static bool popit_is_orders;
 /*************************************************************************
@@ -216,6 +221,26 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       DestroyWindow(popit_popup);
       popit_popup=NULL;
       SetFocus(root_window);
+    }
+    break;
+  case WM_SETCURSOR:
+    switch (hover_state) {
+    case HOVER_NONE:
+      SetCursor (LoadCursor(NULL, IDC_ARROW));
+      break;
+    case HOVER_PATROL:
+      SetCursor (patrol_cursor);
+      break;
+    case HOVER_GOTO:
+    case HOVER_CONNECT:
+      SetCursor (goto_cursor);
+      break;
+    case HOVER_NUKE:
+      SetCursor (nuke_cursor);
+      break;
+    case HOVER_PARADROP:
+      SetCursor (drop_cursor);
+      break;
     }
     break;
   case WM_MOUSEMOVE:

@@ -556,6 +556,7 @@ ui_main(int argc, char *argv[])
   UpdateWindow(root_window);
   tilespec_load_tiles();
   init_fog_bmp();
+  load_cursors();
 
   freecivaccel=my_create_menu_acceltable();
  
