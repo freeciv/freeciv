@@ -691,21 +691,6 @@ char *get_units_with_flag_string(int flag)
 /**************************************************************************
 ...
 **************************************************************************/
-void raise_unit_top(struct unit *punit)
-{
-  struct tile *ptile;
-
-  ptile=map_get_tile(punit->x, punit->y);
-
-  unit_list_unlink(&ptile->units, punit);
-  unit_list_insert(&ptile->units, punit);
-
-  unit_list_get(&ptile->units, 0);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 int can_unit_build_city(struct unit *punit)
 {
   int x, y;

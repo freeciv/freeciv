@@ -71,7 +71,6 @@ void set_unit_focus(struct unit *punit)
   punit_focus=punit;
 
   if(punit) {
-    raise_unit_top(punit);
     if(auto_center_on_unit && 
        !tile_visible_and_not_on_border_mapcanvas(punit->x, punit->y))
       center_tile_mapcanvas(punit->x, punit->y);
@@ -103,7 +102,6 @@ void set_unit_focus_no_center(struct unit *punit)
   punit_focus=punit;
 
   if(punit) {
-    raise_unit_top(punit);
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
     punit->focus_status=FOCUS_AVAIL;
   }
