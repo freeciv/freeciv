@@ -139,7 +139,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 /**************************************************************************
   Create a canvas of the given size.
 **************************************************************************/
-struct canvas *canvas_store_create(int width, int height)
+struct canvas *canvas_create(int width, int height)
 {
   /* PORTME */
   return NULL;
@@ -149,7 +149,7 @@ struct canvas *canvas_store_create(int width, int height)
   Free any resources associated with this canvas and the canvas struct
   itself.
 **************************************************************************/
-void canvas_store_free(struct canvas *store)
+void canvas_free(struct canvas *store)
 {
   /* PORTME */
 }
@@ -169,7 +169,7 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(struct canvas *pcanvas,
+void canvas_put_sprite(struct canvas *pcanvas,
 		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
@@ -180,7 +180,7 @@ void gui_put_sprite(struct canvas *pcanvas,
 /**************************************************************************
   Draw a full sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite_full(struct canvas *pcanvas,
+void canvas_put_sprite_full(struct canvas *pcanvas,
 			 int canvas_x, int canvas_y,
 			 struct Sprite *sprite)
 {
@@ -190,7 +190,7 @@ void gui_put_sprite_full(struct canvas *pcanvas,
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_rectangle(struct canvas *pcanvas,
+void canvas_put_rectangle(struct canvas *pcanvas,
 		       enum color_std color,
 		       int canvas_x, int canvas_y, int width, int height)
 {
@@ -200,7 +200,7 @@ void gui_put_rectangle(struct canvas *pcanvas,
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_line(struct canvas *pcanvas, enum color_std color,
+void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
 {
@@ -210,7 +210,7 @@ void gui_put_line(struct canvas *pcanvas, enum color_std color,
 /**************************************************************************
   Copies an area from the source canvas to the destination canvas.
 **************************************************************************/
-void gui_copy_canvas(struct canvas *dest, struct canvas *src,
+void canvas_copy(struct canvas *dest, struct canvas *src,
 		     int src_x, int src_y, int dest_x, int dest_y, int width,
 		     int height)
 {

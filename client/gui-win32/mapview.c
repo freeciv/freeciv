@@ -87,7 +87,7 @@ static void draw_rates(HDC hdc);
 /***************************************************************************
  ...
 ***************************************************************************/
-struct canvas *canvas_store_create(int width, int height)
+struct canvas *canvas_create(int width, int height)
 {
   struct canvas *result = fc_malloc(sizeof(*result));
   HDC hdc;
@@ -101,7 +101,7 @@ struct canvas *canvas_store_create(int width, int height)
 /***************************************************************************
   ...
 ***************************************************************************/
-void canvas_store_free(struct canvas *store)
+void canvas_free(struct canvas *store)
 {
   DeleteObject(store->bitmap);
   free(store);
@@ -120,9 +120,9 @@ struct canvas *get_overview_window(void)
 /***************************************************************************
    ...
 ***************************************************************************/
-void gui_copy_canvas(struct canvas *dest, struct canvas *src,
-		                     int src_x, int src_y, int dest_x, int dest_y, int width,
-				                          int height)
+void canvas_copy(struct canvas *dest, struct canvas *src,
+		 int src_x, int src_y, int dest_x, int dest_y,
+		 int width, int height)
 {
   HDC hdcsrc = NULL;
   HDC hdcdst = NULL;
@@ -1031,10 +1031,10 @@ void put_one_tile_iso(struct canvas *pcanvas,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(struct canvas *pcanvas,
-		    int canvas_x, int canvas_y,
-		    struct Sprite *sprite,
-		    int offset_x, int offset_y, int width, int height)
+void canvas_put_sprite(struct canvas *pcanvas,
+		       int canvas_x, int canvas_y,
+		       struct Sprite *sprite,
+		       int offset_x, int offset_y, int width, int height)
 {
   HDC hdc;
   HBITMAP old = NULL; /*Remove warning*/
@@ -1058,20 +1058,20 @@ void gui_put_sprite(struct canvas *pcanvas,
 /**************************************************************************
   Draw a full sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite_full(struct canvas *pcanvas,
-			 int canvas_x, int canvas_y,
-			 struct Sprite *sprite)
+void canvas_put_sprite_full(struct canvas *pcanvas,
+			    int canvas_x, int canvas_y,
+			    struct Sprite *sprite)
 {
-  gui_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
-		 0, 0, sprite->width, sprite->height);
+  canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
+		    0, 0, sprite->width, sprite->height);
 }
 
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_rectangle(struct canvas *pcanvas,
-		       enum color_std color,
-		       int canvas_x, int canvas_y, int width, int height)
+void canvas_put_rectangle(struct canvas *pcanvas,
+			  enum color_std color,
+			  int canvas_x, int canvas_y, int width, int height)
 {
   HDC hdc;
   HBITMAP old = NULL; /*Remove warning*/
@@ -1099,9 +1099,9 @@ void gui_put_rectangle(struct canvas *pcanvas,
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_line(struct canvas *pcanvas, enum color_std color,
-		  enum line_type ltype, int start_x, int start_y,
-		  int dx, int dy)
+void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+		     enum line_type ltype, int start_x, int start_y,
+		     int dx, int dy)
 {
   HDC hdc;
   HBITMAP old = NULL; /*Remove warning*/

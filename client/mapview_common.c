@@ -632,8 +632,9 @@ void put_unit(struct unit *punit, struct canvas *pcanvas,
   int i;
 
   if (!is_isometric && solid_bg) {
-    gui_put_rectangle(pcanvas, player_color(unit_owner(punit)),
-		      canvas_x, canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    canvas_put_rectangle(pcanvas, player_color(unit_owner(punit)),
+			 canvas_x, canvas_y,
+			 UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
   }
 
   for (i = 0; i < count; i++) {
@@ -641,17 +642,17 @@ void put_unit(struct unit *punit, struct canvas *pcanvas,
       int ox = drawn_sprites[i].offset_x, oy = drawn_sprites[i].offset_y;
 
       /* units are never fogged */
-      gui_put_sprite(pcanvas, canvas_x + ox, canvas_y + oy,
-		     drawn_sprites[i].sprite,
-		     unit_offset_x - ox, unit_offset_y - oy,
-		     unit_width - ox, unit_height - oy);
+      canvas_put_sprite(pcanvas, canvas_x + ox, canvas_y + oy,
+			drawn_sprites[i].sprite,
+			unit_offset_x - ox, unit_offset_y - oy,
+			unit_width - ox, unit_height - oy);
     }
   }
 
   if (punit->occupy) {
-    gui_put_sprite(pcanvas, canvas_x, canvas_y,
-		   sprites.unit.stack,
-		   unit_offset_x, unit_offset_y, unit_width, unit_height);
+    canvas_put_sprite(pcanvas, canvas_x, canvas_y,
+		      sprites.unit.stack,
+		      unit_offset_x, unit_offset_y, unit_width, unit_height);
   }
 }
 
@@ -691,12 +692,12 @@ void put_city_tile_output(struct city *pcity, int city_x, int city_y,
     canvas_y -= NORMAL_TILE_HEIGHT / 3;
   }
 
-  gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
-		      sprites.city.tile_foodnum[food]);
-  gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
-		      sprites.city.tile_shieldnum[shields]);
-  gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
-		      sprites.city.tile_tradenum[trade]);
+  canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
+			 sprites.city.tile_foodnum[food]);
+  canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
+			 sprites.city.tile_shieldnum[shields]);
+  canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
+			 sprites.city.tile_tradenum[trade]);
 }
 
 /****************************************************************************
@@ -716,20 +717,20 @@ void put_unit_city_overlays(struct unit *punit,
 
   /* draw overlay pixmaps */
   if (punit->upkeep > 0) {
-    gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			sprites.upkeep.shield);
+    canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
+			   sprites.upkeep.shield);
   }
   if (upkeep_food > 0) {
-    gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			sprites.upkeep.food[upkeep_food - 1]);
+    canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
+			   sprites.upkeep.food[upkeep_food - 1]);
   }
   if (upkeep_gold > 0) {
-    gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			sprites.upkeep.gold[upkeep_gold - 1]);
+    canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
+			   sprites.upkeep.gold[upkeep_gold - 1]);
   }
   if (unhappy > 0) {
-    gui_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			sprites.upkeep.unhappy[unhappy - 1]);
+    canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
+			   sprites.upkeep.unhappy[unhappy - 1]);
   }
 }
 
@@ -740,31 +741,31 @@ void put_red_frame_tile(struct canvas *pcanvas,
 			int canvas_x, int canvas_y)
 {
   if (is_isometric) {
-    gui_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
-		 canvas_x + NORMAL_TILE_WIDTH / 2 - 1, canvas_y,
-		 NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2 - 1);
-    gui_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
-		 canvas_x + NORMAL_TILE_WIDTH - 1,
-		 canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
-		 -NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
-    gui_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
-		 canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
-		 canvas_y + NORMAL_TILE_HEIGHT - 1,
-		 -(NORMAL_TILE_WIDTH / 2 - 1), -NORMAL_TILE_HEIGHT / 2);
-    gui_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
-		 canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
-		 NORMAL_TILE_WIDTH / 2 - 1, -(NORMAL_TILE_HEIGHT / 2 - 1));
+    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
+		    canvas_x + NORMAL_TILE_WIDTH / 2 - 1, canvas_y,
+		    NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2 - 1);
+    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
+		    canvas_x + NORMAL_TILE_WIDTH - 1,
+		    canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
+		    -NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
+    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
+		    canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
+		    canvas_y + NORMAL_TILE_HEIGHT - 1,
+		    -(NORMAL_TILE_WIDTH / 2 - 1), -NORMAL_TILE_HEIGHT / 2);
+    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
+		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
+		    NORMAL_TILE_WIDTH / 2 - 1, -(NORMAL_TILE_HEIGHT / 2 - 1));
   } else {
-    gui_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
-		 canvas_x, canvas_y, NORMAL_TILE_WIDTH - 1, 0);
-    gui_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
-		 canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
-		 0, NORMAL_TILE_HEIGHT - 1);
-    gui_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
-		 canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT - 1);
-    gui_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
-		 canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
-		 NORMAL_TILE_WIDTH - 1, 0);
+    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
+		    canvas_x, canvas_y, NORMAL_TILE_WIDTH - 1, 0);
+    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
+		    canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
+		    0, NORMAL_TILE_HEIGHT - 1);
+    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
+		    canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT - 1);
+    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
+		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
+		    NORMAL_TILE_WIDTH - 1, 0);
   }
 }
 
@@ -785,7 +786,7 @@ void put_nuke_mushroom_pixmaps(int map_x, int map_y)
   canvas_x += (NORMAL_TILE_WIDTH - width) / 2;
   canvas_y += (NORMAL_TILE_HEIGHT - height) / 2;
 
-  gui_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y, mysprite);
+  canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y, mysprite);
   dirty_rect(canvas_x, canvas_y, width, height);
 
   /* Make sure everything is flushed and synced before proceeding. */
@@ -817,9 +818,8 @@ static void tile_draw_borders(struct canvas *pcanvas,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)
       && this_owner) {
-    gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		 canvas_x + 1, canvas_y + 1,
-		 0, NORMAL_TILE_HEIGHT - 1);
+    canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
+		    canvas_x + 1, canvas_y + 1, 0, NORMAL_TILE_HEIGHT - 1);
   }
 
   /* top side */
@@ -827,8 +827,8 @@ static void tile_draw_borders(struct canvas *pcanvas,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)
       && this_owner) {
-    gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		 canvas_x + 1, canvas_y + 1, NORMAL_TILE_WIDTH - 1, 0);
+    canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
+		    canvas_x + 1, canvas_y + 1, NORMAL_TILE_WIDTH - 1, 0);
   }
 
   /* right side */
@@ -836,9 +836,9 @@ static void tile_draw_borders(struct canvas *pcanvas,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)
       && this_owner) {
-    gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		 canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y + 1,
-		 0, NORMAL_TILE_HEIGHT - 1);
+    canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
+		    canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y + 1,
+		    0, NORMAL_TILE_HEIGHT - 1);
   }
 
   /* bottom side */
@@ -846,9 +846,9 @@ static void tile_draw_borders(struct canvas *pcanvas,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)
       && this_owner) {
-    gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		 canvas_x + 1, canvas_y + NORMAL_TILE_HEIGHT - 1,
-		 NORMAL_TILE_WIDTH - 1, 0);
+    canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
+		    canvas_x + 1, canvas_y + NORMAL_TILE_HEIGHT - 1,
+		    NORMAL_TILE_WIDTH - 1, 0);
   }
 }
 
@@ -872,16 +872,16 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
     if (solid_bg) {
       enum color_std color = pplayer ? player_color(pplayer)
 	      : COLOR_STD_BACKGROUND;
-      gui_put_rectangle(pcanvas, color, canvas_x, canvas_y,
-			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      canvas_put_rectangle(pcanvas, color, canvas_x, canvas_y,
+			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
 
     for (i = 0; i < count; i++) {
       if (tile_sprs[i].sprite) {
-	gui_put_sprite_full(pcanvas,
-			    canvas_x + tile_sprs[i].offset_x,
-			    canvas_y + tile_sprs[i].offset_y,
-			    tile_sprs[i].sprite);
+	canvas_put_sprite_full(pcanvas,
+			       canvas_x + tile_sprs[i].offset_x,
+			       canvas_y + tile_sprs[i].offset_y,
+			       tile_sprs[i].sprite);
       }
     }
 
@@ -892,39 +892,37 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 
       if (!draw_map_grid) { /* it would be overwritten below */
         /* left side... */
-        gui_put_line(pcanvas, hilitecolor, LINE_NORMAL,
-            canvas_x, canvas_y,
-            0, NORMAL_TILE_HEIGHT - 1);
+        canvas_put_line(pcanvas, hilitecolor, LINE_NORMAL,
+			canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT - 1);
 
         /* top side... */
-        gui_put_line(pcanvas, hilitecolor, LINE_NORMAL,
-            canvas_x, canvas_y,
-            NORMAL_TILE_WIDTH - 1, 0);
+        canvas_put_line(pcanvas, hilitecolor, LINE_NORMAL,
+			canvas_x, canvas_y, NORMAL_TILE_WIDTH - 1, 0);
       }
 
       /* right side... */
-      gui_put_line(pcanvas, hilitecolor, LINE_NORMAL,
-          canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
-          0, NORMAL_TILE_HEIGHT - 1);
+      canvas_put_line(pcanvas, hilitecolor, LINE_NORMAL,
+		      canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
+		      0, NORMAL_TILE_HEIGHT - 1);
 
       /* bottom side... */
-      gui_put_line(pcanvas, hilitecolor, LINE_NORMAL,
-          canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
-          NORMAL_TILE_WIDTH - 1, 0);
+      canvas_put_line(pcanvas, hilitecolor, LINE_NORMAL,
+		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
+		      NORMAL_TILE_WIDTH - 1, 0);
     }
 
     if (draw_map_grid && !citymode) {
       /* left side... */
-      gui_put_line(pcanvas,
-		   get_grid_color(map_x, map_y, map_x - 1, map_y),
-		   LINE_NORMAL,
-		   canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
+      canvas_put_line(pcanvas,
+		      get_grid_color(map_x, map_y, map_x - 1, map_y),
+		      LINE_NORMAL,
+		      canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
 
       /* top side... */
-      gui_put_line(pcanvas,
-		   get_grid_color(map_x, map_y, map_x, map_y - 1),
-		   LINE_NORMAL,
-		   canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
+      canvas_put_line(pcanvas,
+		      get_grid_color(map_x, map_y, map_x, map_y - 1),
+		      LINE_NORMAL,
+		      canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
     }
 
     /* Draw national borders. */
@@ -938,8 +936,8 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
       if (MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)) {
 	t2 = map_get_terrain(x1, y1);
 	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  gui_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
-		       canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
+	  canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
+			  canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
 	}
       }
 
@@ -947,16 +945,16 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
       if (MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)) {
 	t2 = map_get_terrain(x1, y1);
 	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  gui_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
-		       canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
+	  canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
+			  canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
 	}
       }
     }
   } else {
     /* tile is unknown */
-    gui_put_rectangle(pcanvas, COLOR_STD_BLACK,
-		      canvas_x, canvas_y,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    canvas_put_rectangle(pcanvas, COLOR_STD_BLACK,
+			 canvas_x, canvas_y,
+			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   }
 
   if (!citymode && goto_is_active()) {
@@ -1021,18 +1019,14 @@ void tile_draw_borders_iso(struct canvas *pcanvas,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)) {
     if (adjc_owner) {
-      gui_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
-		   canvas_x,
-		   canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
-		   NORMAL_TILE_WIDTH / 2,
-                   -NORMAL_TILE_HEIGHT / 2);
+      canvas_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
+		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
+		      NORMAL_TILE_WIDTH / 2, -NORMAL_TILE_HEIGHT / 2);
     }
     if (this_owner) {
-      gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		   canvas_x,
-		   canvas_y + NORMAL_TILE_HEIGHT / 2 + 1,
-		   NORMAL_TILE_WIDTH / 2,
-                   -NORMAL_TILE_HEIGHT / 2);
+      canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
+		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 + 1,
+		      NORMAL_TILE_WIDTH / 2, -NORMAL_TILE_HEIGHT / 2);
     }
   }
 
@@ -1041,18 +1035,14 @@ void tile_draw_borders_iso(struct canvas *pcanvas,
       && this_owner != (adjc_owner = map_get_owner(x1, y1))
       && tile_get_known(x1, y1)) {
     if (adjc_owner) {
-      gui_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
-		   canvas_x + NORMAL_TILE_WIDTH / 2,
-		   canvas_y - 1,
-		   NORMAL_TILE_WIDTH / 2,
-		   NORMAL_TILE_HEIGHT / 2);
+      canvas_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
+		      canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y - 1,
+		      NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
     }
     if (this_owner) {
-      gui_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		   canvas_x + NORMAL_TILE_WIDTH / 2,
-		   canvas_y + 1,
-		   NORMAL_TILE_WIDTH / 2,
-		   NORMAL_TILE_HEIGHT / 2);
+      canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
+		      canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y + 1,
+		      NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
     }
   }
 }
@@ -1115,8 +1105,9 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
 		       width, height, height_unit,
 		       draw, FALSE);
     } else {
-      gui_put_sprite(mapview_canvas.store, canvas_x, canvas_y,
-		     sprites.black_tile, offset_x, offset_y, width, height);
+      canvas_put_sprite(mapview_canvas.store, canvas_x, canvas_y,
+			sprites.black_tile,
+			offset_x, offset_y, width, height);
     }
   }
 }
@@ -1277,8 +1268,8 @@ void update_map_canvas_visible(void)
    * and other junk. */
   /* FIXME: we don't have to draw black (unknown) tiles since they're already
    * cleared. */
-  gui_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
-		    0, 0, mapview_canvas.width, mapview_canvas.height);
+  canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
+		       0, 0, mapview_canvas.width, mapview_canvas.height);
 
   if (is_isometric) {
     /* just find a big rectangle that includes the whole visible area. The
@@ -1464,9 +1455,9 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       && map_to_canvas_pos(&canvas_x, &canvas_y,
 			   losing_unit->x, losing_unit->y)) {
     refresh_tile_mapcanvas(losing_unit->x, losing_unit->y, FALSE);
-    gui_copy_canvas(mapview_canvas.single_tile, mapview_canvas.store,
-		    canvas_x, canvas_y, 0, 0,
-		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    canvas_copy(mapview_canvas.single_tile, mapview_canvas.store,
+		canvas_x, canvas_y, 0, 0,
+		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
     for (i = 0; i < num_tiles_explode_unit; i++) {
       int w, h;
@@ -1477,13 +1468,13 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       /* We first draw the explosion onto the unit and draw draw the
        * complete thing onto the map canvas window. This avoids
        * flickering. */
-      gui_copy_canvas(mapview_canvas.store, mapview_canvas.single_tile,
-		      0, 0, canvas_x, canvas_y,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      gui_put_sprite_full(mapview_canvas.store,
-			  canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
-			  canvas_y + NORMAL_TILE_HEIGHT / 2 - h / 2,
-			  sprites.explode.unit[i]);
+      canvas_copy(mapview_canvas.store, mapview_canvas.single_tile,
+		  0, 0, canvas_x, canvas_y,
+		  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      canvas_put_sprite_full(mapview_canvas.store,
+			     canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			     canvas_y + NORMAL_TILE_HEIGHT / 2 - h / 2,
+			     sprites.explode.unit[i]);
       dirty_rect(canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
       flush_dirty();
@@ -1798,10 +1789,10 @@ static void redraw_overview(void)
     int ix = overview.width - x;
     int iy = overview.height - y;
 
-    gui_copy_canvas(dest, src, 0, 0, ix, iy, x, y);
-    gui_copy_canvas(dest, src, 0, y, ix, 0, x, iy);
-    gui_copy_canvas(dest, src, x, 0, 0, iy, ix, y);
-    gui_copy_canvas(dest, src, x, y, 0, 0, ix, iy);
+    canvas_copy(dest, src, 0, 0, ix, iy, x, y);
+    canvas_copy(dest, src, 0, y, ix, 0, x, iy);
+    canvas_copy(dest, src, x, 0, 0, iy, ix, y);
+    canvas_copy(dest, src, x, y, 0, 0, ix, iy);
   }
 
   {
@@ -1816,8 +1807,8 @@ static void redraw_overview(void)
       int dest_x = x[(i + 1) % 4];
       int dest_y = y[(i + 1) % 4];
 
-      gui_put_line(dest, COLOR_STD_WHITE, LINE_NORMAL, src_x, src_y,
-		   dest_x - src_x, dest_y - src_y);
+      canvas_put_line(dest, COLOR_STD_WHITE, LINE_NORMAL, src_x, src_y,
+		      dest_x - src_x, dest_y - src_y);
     }
   }
 
@@ -1992,9 +1983,9 @@ void overview_update_tile(int map_x, int map_y)
   base_x *= OVERVIEW_TILE_WIDTH;
   base_y *= OVERVIEW_TILE_HEIGHT;
 
-  gui_put_rectangle(overview.store,
-		    overview_tile_color(map_x, map_y), base_x, base_y,
-		    OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
+  canvas_put_rectangle(overview.store,
+		       overview_tile_color(map_x, map_y), base_x, base_y,
+		       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
   dirty_overview();
 }
 
@@ -2007,11 +1998,11 @@ void set_overview_dimensions(int width, int height)
   overview.height = OVERVIEW_TILE_HEIGHT * height;
 
   if (overview.store) {
-    canvas_store_free(overview.store);
+    canvas_free(overview.store);
   }
-  overview.store = canvas_store_create(overview.width, overview.height);
-  gui_put_rectangle(overview.store, COLOR_STD_BLACK, 0, 0, overview.width,
-		    overview.height);
+  overview.store = canvas_create(overview.width, overview.height);
+  canvas_put_rectangle(overview.store, COLOR_STD_BLACK,
+		       0, 0, overview.width, overview.height);
   update_map_canvas_scrollbars_size();
 
   /* Call gui specific function. */
@@ -2043,13 +2034,13 @@ bool map_canvas_resized(int width, int height)
   mapview_canvas.height = mapview_canvas.tile_height * NORMAL_TILE_HEIGHT;
 
   if (mapview_canvas.store) {
-    canvas_store_free(mapview_canvas.store);
+    canvas_free(mapview_canvas.store);
   }
   
   mapview_canvas.store =
-      canvas_store_create(mapview_canvas.width, mapview_canvas.height);
-  gui_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK, 0, 0,
-		    mapview_canvas.width, mapview_canvas.height);
+      canvas_create(mapview_canvas.width, mapview_canvas.height);
+  canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK, 0, 0,
+		       mapview_canvas.width, mapview_canvas.height);
 
   if (map_exists() && can_client_change_view()) {
     update_map_canvas_visible();
@@ -2071,9 +2062,9 @@ void init_mapcanvas_and_overview(void)
   mapview_canvas.tile_height = 0;
   mapview_canvas.width = 0;
   mapview_canvas.height = 0;
-  mapview_canvas.store = canvas_store_create(1, 1);
+  mapview_canvas.store = canvas_create(1, 1);
   mapview_canvas.single_tile
-    = canvas_store_create(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    = canvas_create(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
   overview.map_x0 = 0;
   overview.map_y0 = 0;

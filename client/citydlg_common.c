@@ -128,8 +128,9 @@ void city_dialog_redraw_map(struct city *pcity,
   int city_x, city_y;
 
   /* First make it all black. */
-  gui_put_rectangle(pcanvas, COLOR_STD_BLACK, 0, 0,
-		    get_citydlg_canvas_width(), get_citydlg_canvas_height());
+  canvas_put_rectangle(pcanvas, COLOR_STD_BLACK, 0, 0,
+		       get_citydlg_canvas_width(),
+		       get_citydlg_canvas_height());
 
   /* We have to draw the tiles in a particular order, so its best
      to avoid using any iterator macro. */

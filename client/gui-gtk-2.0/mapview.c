@@ -359,7 +359,7 @@ void map_size_changed(void)
 /**************************************************************************
 ...
 **************************************************************************/
-struct canvas *canvas_store_create(int width, int height)
+struct canvas *canvas_create(int width, int height)
 {
   struct canvas *result = fc_malloc(sizeof(*result));
 
@@ -371,7 +371,7 @@ struct canvas *canvas_store_create(int width, int height)
 /**************************************************************************
 ...
 **************************************************************************/
-void canvas_store_free(struct canvas *store)
+void canvas_free(struct canvas *store)
 {
   g_object_unref(store->pixmap);
   assert(store->pixcomm == NULL);
@@ -775,10 +775,10 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(struct canvas *pcanvas,
-		    int canvas_x, int canvas_y,
-		    struct Sprite *sprite,
-		    int offset_x, int offset_y, int width, int height)
+void canvas_put_sprite(struct canvas *pcanvas,
+		       int canvas_x, int canvas_y,
+		       struct Sprite *sprite,
+		       int offset_x, int offset_y, int width, int height)
 {
   if (pcanvas->pixmap) {
     pixmap_put_sprite(pcanvas->pixmap, canvas_x, canvas_y,
@@ -791,14 +791,13 @@ void gui_put_sprite(struct canvas *pcanvas,
 /**************************************************************************
   Draw a full sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite_full(struct canvas *pcanvas,
-			 int canvas_x, int canvas_y,
-			 struct Sprite *sprite)
+void canvas_put_sprite_full(struct canvas *pcanvas,
+			    int canvas_x, int canvas_y,
+			    struct Sprite *sprite)
 {
-    assert(sprite->pixmap);
-  gui_put_sprite(pcanvas, canvas_x, canvas_y,
-		 sprite,
-		 0, 0, sprite->width, sprite->height);
+  assert(sprite->pixmap);
+  canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
+		    0, 0, sprite->width, sprite->height);
 }
 
 /**************************************************************************
@@ -815,9 +814,9 @@ void pixmap_put_sprite_full(GdkDrawable *pixmap,
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_rectangle(struct canvas *pcanvas,
-		       enum color_std color,
-		       int canvas_x, int canvas_y, int width, int height)
+void canvas_put_rectangle(struct canvas *pcanvas,
+			  enum color_std color,
+			  int canvas_x, int canvas_y, int width, int height)
 {
   if (pcanvas->pixmap) {
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
@@ -831,9 +830,9 @@ void gui_put_rectangle(struct canvas *pcanvas,
 /**************************************************************************
   Draw a colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_line(struct canvas *pcanvas, enum color_std color,
-		  enum line_type ltype, int start_x, int start_y,
-		  int dx, int dy)
+void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+		     enum line_type ltype, int start_x, int start_y,
+		     int dx, int dy)
 {
   GdkGC *gc = NULL;
 
@@ -857,9 +856,9 @@ void gui_put_line(struct canvas *pcanvas, enum color_std color,
 /**************************************************************************
 ...
 **************************************************************************/
-void gui_copy_canvas(struct canvas *dest, struct canvas *src,
-		     int src_x, int src_y, int dest_x, int dest_y, int width,
-		     int height)
+void canvas_copy(struct canvas *dest, struct canvas *src,
+		 int src_x, int src_y, int dest_x, int dest_y,
+		 int width, int height)
 {
   gdk_draw_drawable(dest->pixmap, fill_bg_gc, src->pixmap,
 		    src_x, src_y, dest_x, dest_y, width, height);

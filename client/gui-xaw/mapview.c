@@ -85,7 +85,7 @@ void map_size_changed(void)
 /**************************************************************************
 ...
 **************************************************************************/
-struct canvas *canvas_store_create(int width, int height)
+struct canvas *canvas_create(int width, int height)
 {
   struct canvas *result = fc_malloc(sizeof(*result));
 
@@ -97,7 +97,7 @@ struct canvas *canvas_store_create(int width, int height)
 /**************************************************************************
 ...
 **************************************************************************/
-void canvas_store_free(struct canvas *store)
+void canvas_free(struct canvas *store)
 {
   XFreePixmap(display, store->pixmap);
   free(store);
@@ -350,9 +350,9 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 /**************************************************************************
 ...
 **************************************************************************/
-void gui_copy_canvas(struct canvas *dest, struct canvas *src,
-		     int src_x, int src_y, int dest_x, int dest_y, int width,
-		     int height)
+void canvas_copy(struct canvas *dest, struct canvas *src,
+		 int src_x, int src_y, int dest_x, int dest_y,
+		 int width, int height)
 {
   XCopyArea(display, src->pixmap, dest->pixmap, civ_gc, src_x, src_y, width,
 	    height, dest_x, dest_y);
@@ -454,10 +454,10 @@ static void pixmap_put_sprite(Pixmap pixmap,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(struct canvas *pcanvas,
-		    int canvas_x, int canvas_y,
-		    struct Sprite *sprite,
-		    int offset_x, int offset_y, int width, int height)
+void canvas_put_sprite(struct canvas *pcanvas,
+		       int canvas_x, int canvas_y,
+		       struct Sprite *sprite,
+		       int offset_x, int offset_y, int width, int height)
 {
   pixmap_put_sprite(pcanvas->pixmap, canvas_x, canvas_y,
 		    sprite, offset_x, offset_y, width, height);
@@ -466,20 +466,20 @@ void gui_put_sprite(struct canvas *pcanvas,
 /**************************************************************************
   Draw a full sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite_full(struct canvas *pcanvas,
-			 int canvas_x, int canvas_y,
-			 struct Sprite *sprite)
+void canvas_put_sprite_full(struct canvas *pcanvas,
+			    int canvas_x, int canvas_y,
+			    struct Sprite *sprite)
 {
-  gui_put_sprite(pcanvas, canvas_x, canvas_y,
-		 sprite, 0, 0, sprite->width, sprite->height);
+  canvas_put_sprite(pcanvas, canvas_x, canvas_y,
+		    sprite, 0, 0, sprite->width, sprite->height);
 }
 
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_rectangle(struct canvas *pcanvas,
-		       enum color_std color,
-		       int canvas_x, int canvas_y, int width, int height)
+void canvas_put_rectangle(struct canvas *pcanvas,
+			  enum color_std color,
+			  int canvas_x, int canvas_y, int width, int height)
 {
   XSetForeground(display, fill_bg_gc, colors_standard[color]);
   XFillRectangle(display, pcanvas->pixmap, fill_bg_gc,
@@ -489,9 +489,9 @@ void gui_put_rectangle(struct canvas *pcanvas,
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_line(struct canvas *pcanvas, enum color_std color,
-		  enum line_type ltype, int start_x, int start_y,
-		  int dx, int dy)
+void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+		     enum line_type ltype, int start_x, int start_y,
+		     int dx, int dy)
 {
   GC gc;
 

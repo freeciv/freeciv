@@ -29,8 +29,8 @@ void update_city_descriptions(void);
 void set_indicator_icons(int bulb, int sol, int flake, int gov);
 
 void map_size_changed(void);
-struct canvas *canvas_store_create(int width, int height);
-void canvas_store_free(struct canvas *store);
+struct canvas *canvas_create(int width, int height);
+void canvas_free(struct canvas *store);
 struct canvas *get_overview_window(void);
 
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
@@ -42,23 +42,21 @@ void put_one_tile_iso(struct canvas *pcanvas,
 		      int offset_x, int offset_y, int offset_y_unit,
 		      int width, int height, int height_unit,
 		      enum draw_type draw, bool citymode);
-void gui_put_sprite(struct canvas *pcanvas,
-		    int canvas_x, int canvas_y,
-		    struct Sprite *sprite,
-		    int offset_x, int offset_y,
-		    int width, int height);
-void gui_put_sprite_full(struct canvas *pcanvas,
-			 int canvas_x, int canvas_y,
-			 struct Sprite *sprite);
-void gui_put_rectangle(struct canvas *pcanvas,
-		       enum color_std color,
-		       int canvas_x, int canvas_y, int width, int height);
-void gui_put_line(struct canvas *pcanvas, enum color_std color,
-		  enum line_type ltype, int start_x, int start_y,
-		  int dx, int dy);
-void gui_copy_canvas(struct canvas *dest, struct canvas *src,
-		     int src_x, int src_y, int dest_x, int dest_y, int width,
-		     int height);
+void canvas_put_sprite(struct canvas *pcanvas,
+		       int canvas_x, int canvas_y, struct Sprite *sprite,
+		       int offset_x, int offset_y, int width, int height);
+void canvas_put_sprite_full(struct canvas *pcanvas, 
+			    int canvas_x, int canvas_y,
+			    struct Sprite *sprite);
+void canvas_put_rectangle(struct canvas *pcanvas,
+			  enum color_std color,
+			  int canvas_x, int canvas_y, int width, int height);
+void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+		     enum line_type ltype, int start_x, int start_y,
+		     int dx, int dy);
+void canvas_copy(struct canvas *dest, struct canvas *src,
+		 int src_x, int src_y, int dest_x, int dest_y,
+		 int width, int height);
 
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height);
