@@ -2323,6 +2323,19 @@ static void draw_map_canvas(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
+static void buy_callback_response(GtkWidget *w, gint response, gpointer data)
+{
+  struct city_dialog *pdialog = data;
+
+  if (response == GTK_RESPONSE_YES) {
+    city_buy_production(pdialog->pcity);
+  }
+  gtk_widget_destroy(w);
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static void buy_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
@@ -2343,18 +2356,16 @@ static void buy_callback(GtkWidget *w, gpointer data)
 
   if (game.player_ptr->economic.gold >= value) {
     shell = gtk_message_dialog_new(NULL,
-        GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_DIALOG_DESTROY_WITH_PARENT,
         GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
         _("Buy %s for %d gold?\nTreasury contains %d gold."),
         name, value, game.player_ptr->economic.gold);
     setup_dialog(shell, pdialog->shell);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
-
-    if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-      city_buy_production(pdialog->pcity);
-    }
-    gtk_widget_destroy(shell);
+    g_signal_connect(shell, "response", G_CALLBACK(buy_callback_response),
+	pdialog);
+    gtk_window_present(GTK_WINDOW(shell));
   } else {
     shell = gtk_message_dialog_new(NULL,
         GTK_DIALOG_DESTROY_WITH_PARENT,
