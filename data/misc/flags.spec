@@ -61,6 +61,7 @@ sprites =
 		"f.iran", "flags/iran"
 		"f.iraq_old", "flags/iraq_old"
 		"f.ireland", "flags/ireland"
+;		"f.ireland", "flags/stpatrick"
 		"f.israel", "flags/israel"
 		"f.italy", "flags/italy"
 		"f.japan", "flags/japan"

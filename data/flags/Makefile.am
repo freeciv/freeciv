@@ -76,6 +76,7 @@ pkgdata_DATA =				\
 		south_africa.png	\
 		soviet.png		\
 		spain.png		\
+		stpatrick.png		\
 		sweden.png		\
 		swiss.png		\
 		syria.png		\
