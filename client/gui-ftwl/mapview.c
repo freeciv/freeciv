@@ -31,6 +31,7 @@
 #include "combat.h"
 #include "control.h"
 #include "mapctrl_common.h"
+#include "overview_common.h"
 #include "text.h"
 
 #include "widget.h"
