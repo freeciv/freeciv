@@ -13,8 +13,7 @@
 #ifndef FC__REGISTRY_H
 #define FC__REGISTRY_H
 
-#include "attribute.h"
-#include "shared.h"		/* bool type */
+#include "shared.h"		/* bool type and fc__attribute */
 
 struct sbuffer;
 struct hash_data;

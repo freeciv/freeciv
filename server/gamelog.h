@@ -14,7 +14,7 @@
 #ifndef FC__GAMELOG_H
 #define FC__GAMELOG_H
 
-#include "attribute.h"
+#include "shared.h"		/* fc__attribute */
 
 #define GAMELOG_FATAL  0
 #define GAMELOG_NORMAL 1

@@ -13,8 +13,8 @@
 #ifndef FC__PLRHAND_H
 #define FC__PLRHAND_H
 
-#include "attribute.h"
 #include "packets.h"
+#include "shared.h"		/* fc__attribute */
 
 struct player;
 struct packet_player_request;

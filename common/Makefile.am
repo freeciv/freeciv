@@ -9,7 +9,6 @@ INCLUDES = -I../intl
 libcivcommon_a_SOURCES = \
 		astring.c       \
 		astring.h       \
-		attribute.h	\
 		capability.c	\
 		capability.h	\
 		capstr.c	\

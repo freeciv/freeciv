@@ -29,7 +29,6 @@
 #endif
 
 #include "astring.h"
-#include "attribute.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -38,7 +37,7 @@
 #include "mem.h"
 #include "player.h"
 #include "registry.h"
-#include "shared.h"
+#include "shared.h"		/* fc__attribute, bool type, etc. */
 #include "support.h"
 #include "version.h"
 

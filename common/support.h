@@ -27,8 +27,7 @@
 #include <sys/types.h>
 #endif
 
-#include "attribute.h"
-#include "shared.h"		/* bool type */
+#include "shared.h"		/* bool type and fc__attribute */
 
 int mystrcasecmp(const char *str0, const char *str1);
 int mystrncasecmp(const char *str0, const char *str1, size_t n);

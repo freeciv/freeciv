@@ -15,8 +15,7 @@
 
 #include <stdarg.h>
 
-#include "attribute.h"
-#include "shared.h"		/* bool type */
+#include "shared.h"		/* bool type and fc__attribute */
 
 #define LOG_FATAL   0
 #define LOG_ERROR   1		/* non-fatal errors */

@@ -19,7 +19,7 @@
   (Currently only "required" functionality is supported.)
 ***********************************************************************/
 
-#include "attribute.h"
+#include "shared.h"		/* fc__attribute */
 
 struct fz_FILE_s;		  /* opaque */
 typedef struct fz_FILE_s fz_FILE;

@@ -15,7 +15,20 @@
 
 #include <stdlib.h>		/* size_t */
 
-#include "attribute.h"
+
+/* Want to use GCC's __attribute__ keyword to check variadic
+ * parameters to printf-like functions, without upsetting other
+ * compilers: put any required defines magic here.
+ * If other compilers have something equivalent, could also
+ * work that out here.   Should this use configure stuff somehow?
+ * --dwp
+ */
+#if defined(__GNUC__)
+#define fc__attribute(x)  __attribute__(x)
+#else
+#define fc__attribute(x)
+#endif
+
 
 /* Note: the capability string is now in capstr.c --dwp */
 /* Version stuff is now in version.h --dwp */
