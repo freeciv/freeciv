@@ -322,32 +322,6 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 
 
 /****************************************************************
-...
-*****************************************************************/
-static void diplomat_bribe_yes_callback(GtkWidget *w, gpointer data)
-{
-  struct packet_diplomat_action req;
-
-  req.action_type=DIPLOMAT_BRIBE;
-  req.diplomat_id=diplomat_id;
-  req.target_id=diplomat_target_id;
-
-  send_packet_diplomat_action(&aconnection, &req);
-  
-  destroy_message_dialog(w);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void diplomat_bribe_no_callback(GtkWidget *w, gpointer data)
-{
-  destroy_message_dialog(w);
-}
-
-
-
-/****************************************************************
 ...  Ask the server how much the bribe is
 *****************************************************************/
 static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
@@ -369,24 +343,35 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void popup_bribe_dialog(struct unit *punit)
 {
-  char buf[128];
+  GtkWidget *shell;
   
   if(game.player_ptr->economic.gold>=punit->bribe_cost) {
-    my_snprintf(buf, sizeof(buf),
-		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-		punit->bribe_cost, game.player_ptr->economic.gold);
-    popup_message_dialog(top_vbox, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"), buf,
-			_("_Yes"), diplomat_bribe_yes_callback, 0,
-			_("_No"), diplomat_bribe_no_callback, 0, 0);
+    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+      GTK_DIALOG_MODAL,
+      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+      _("Bribe unit for %d gold?\nTreasury contains %d gold."),
+      punit->bribe_cost, game.player_ptr->economic.gold);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Bribe Enemy Unit"));
   } else {
-    my_snprintf(buf, sizeof(buf),
-		_("Bribing the unit costs %d gold.\n"
-		  "Treasury contains %d gold."), 
-		punit->bribe_cost, game.player_ptr->economic.gold);
-    popup_message_dialog(top_vbox, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
-			_("Darn"), diplomat_bribe_no_callback, 0, 
-			0);
+    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+      GTK_DIALOG_MODAL,
+      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+      _("Bribing the unit costs %d gold.\nTreasury contains %d gold."),
+      punit->bribe_cost, game.player_ptr->economic.gold);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
   }
+
+  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+    struct packet_diplomat_action req;
+
+    req.action_type=DIPLOMAT_BRIBE;
+    req.diplomat_id=diplomat_id;
+    req.target_id=diplomat_target_id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+  gtk_widget_destroy(shell);
 }
 
 /****************************************************************
@@ -893,35 +878,6 @@ void popup_sabotage_dialog(struct city *pcity)
 }
 
 /****************************************************************
-...
-*****************************************************************/
-static void diplomat_incite_yes_callback(GtkWidget *w, gpointer data)
-{
-  struct packet_diplomat_action req;
-
-  req.action_type=DIPLOMAT_INCITE;
-  req.diplomat_id=diplomat_id;
-  req.target_id=diplomat_target_id;
-
-  send_packet_diplomat_action(&aconnection, &req);
-  
-  destroy_message_dialog(w);
-
-  process_diplomat_arrival(NULL, 0);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void diplomat_incite_no_callback(GtkWidget *w, gpointer data)
-{
-  destroy_message_dialog(w);
-
-  process_diplomat_arrival(NULL, 0);
-}
-
-
-/****************************************************************
 ...  Ask the server how much the revolt is going to cost us
 *****************************************************************/
 static void diplomat_incite_callback(GtkWidget *w, gpointer data)
@@ -944,30 +900,44 @@ Popup the yes/no dialog for inciting, since we know the cost now
 *****************************************************************/
 void popup_incite_dialog(struct city *pcity)
 {
-  char buf[128];
-
+  GtkWidget *shell;
+  
   if (pcity->incite_revolt_cost == INCITE_IMPOSSIBLE_COST) {
-    my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
-		pcity->name);
-    popup_message_dialog(top_vbox, _("City can't be incited!"), buf,
-			 _("Darn"), diplomat_incite_no_callback, 0, 0);
+    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+      GTK_DIALOG_MODAL,
+      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+      _("You can't incite a revolt in %s."),
+      pcity->name);
+    gtk_window_set_title(GTK_WINDOW(shell), _("City can't be incited!"));
   } else if (game.player_ptr->economic.gold >= pcity->incite_revolt_cost) {
-    my_snprintf(buf, sizeof(buf),
-		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
-   diplomat_target_id = pcity->id;
-   popup_message_dialog(top_vbox, /*"diplomatrevoltdialog"*/_("Incite a Revolt!"), buf,
-		       _("_Yes"), diplomat_incite_yes_callback, 0,
-		       _("_No"), diplomat_incite_no_callback, 0, 0);
+    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+      GTK_DIALOG_MODAL,
+      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+      _("Incite a revolt for %d gold?\nTreasury contains %d gold."),
+      pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Incite a Revolt!"));
   } else {
-    my_snprintf(buf, sizeof(buf),
-		_("Inciting a revolt costs %d gold.\n"
-		  "Treasury contains %d gold."), 
-		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
-   popup_message_dialog(top_vbox, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
-		       _("Darn"), diplomat_incite_no_callback, 0, 
-		       0);
+    shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
+      GTK_DIALOG_MODAL,
+      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+      _("Inciting a revolt costs %d gold.\nTreasury contains %d gold."),
+      pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
   }
+
+  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+    struct packet_diplomat_action req;
+
+    req.action_type=DIPLOMAT_INCITE;
+    req.diplomat_id=diplomat_id;
+    req.target_id=diplomat_target_id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+  gtk_widget_destroy(shell);
+
+  process_diplomat_arrival(NULL, 0);
 }
 
 
@@ -1229,7 +1199,6 @@ static void government_callback(GtkWidget *w, gpointer data)
   packet.government=GPOINTER_TO_INT(data);
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
 
-  destroy_message_dialog(w);
   is_showing_government_dialog=0;
 }
 
@@ -1240,15 +1209,18 @@ static void government_callback(GtkWidget *w, gpointer data)
 void popup_government_dialog(void)
 {
   int i;
-  GtkWidget *dshell, *button, *dlabel, *vbox;
+  GtkWidget *dshell, *dlabel, *vbox;
 
   if(!is_showing_government_dialog) {
     is_showing_government_dialog=1;
   
-    gtk_widget_set_sensitive(top_vbox, FALSE);
-  
     dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
+    gtk_window_set_transient_for(GTK_WINDOW(dshell), GTK_WINDOW(toplevel));
+    g_object_set(GTK_WINDOW(dshell),
+      "title", _("Choose Your New Government"),
+      "window-position", GTK_WIN_POS_CENTER_ON_PARENT,
+      "modal", TRUE,
+      NULL);
 
     gtk_signal_connect(
       GTK_OBJECT(dshell),
@@ -1257,39 +1229,60 @@ void popup_government_dialog(void)
       GINT_TO_POINTER(toplevel)
     );
 
-    gtk_window_set_title(GTK_WINDOW(dshell), _("Choose Your New Government"));
-#if 0
-    gtk_widget_realize(dshell);
-    gdk_window_set_decorations(dshell->window, GDK_DECOR_BORDER);
-#endif
+    dlabel = gtk_frame_new(_("Select government type:"));
+    gtk_container_add(GTK_CONTAINER(dshell), dlabel);
 
-    vbox = gtk_vbox_new(0,TRUE);
-    gtk_container_add(GTK_CONTAINER(dshell),vbox);
-
-    gtk_container_border_width(GTK_CONTAINER(vbox),5);
-
-    dlabel = gtk_label_new(_("Select government type:"));
-    gtk_box_pack_start(GTK_BOX(vbox), dlabel, TRUE, FALSE, 0);
-
-    gtk_object_set_data(GTK_OBJECT(vbox), "parent",(gpointer) top_vbox);
+    vbox = gtk_vbutton_box_new();
+    gtk_container_add(GTK_CONTAINER(dlabel), vbox);
+    gtk_container_border_width(GTK_CONTAINER(vbox), 5);
 
     for (i=0; i<game.government_count; ++i) {
       struct government *g = &governments[i];
 
-      if (i == game.government_when_anarchy) continue;
-      button=gtk_button_new_with_label(g->name);
-      gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, FALSE, 0);
-      gtk_signal_connect(
-        GTK_OBJECT(button),
-        "clicked",
-        GTK_SIGNAL_FUNC(government_callback),
-        GINT_TO_POINTER(g->index)
-      );
-      if(!can_change_to_government(game.player_ptr, i))
-	gtk_widget_set_sensitive(button, FALSE);
+      if (i != game.government_when_anarchy) {
+        GtkWidget *label, *image, *hbox, *align, *button;
+	struct Sprite *gsprite;
+
+      	/* create button. */
+        button = gtk_button_new();
+
+        label = gtk_label_new_with_mnemonic(g->name);
+        gtk_label_set_mnemonic_widget(GTK_LABEL(label), button);
+
+      	gsprite = get_government(g->index)->sprite;
+
+        image = gtk_image_new_from_pixmap(gsprite->pixmap, gsprite->mask);
+        hbox = gtk_hbox_new(FALSE, 2);
+
+      	align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+
+        gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(hbox), align, TRUE, FALSE, 5);
+
+        gtk_container_add(GTK_CONTAINER(align), label);
+        gtk_container_add(GTK_CONTAINER(button), hbox);
+
+      	/* tidy up. */
+        gtk_container_add(GTK_CONTAINER(vbox), button);
+        g_signal_connect(
+          button,
+          "clicked",
+          G_CALLBACK(government_callback),
+          GINT_TO_POINTER(g->index)
+        );
+        g_signal_connect_swapped(
+          button,
+          "clicked",
+          G_CALLBACK(gtk_widget_destroy),
+          dshell
+        );
+
+        if (!can_change_to_government(game.player_ptr, i))
+    	  gtk_widget_set_sensitive(button, FALSE);
+      }
     }
  
-    gtk_widget_show_all( vbox );
+    gtk_widget_show_all(dlabel);
     gtk_widget_show(dshell);  
   }
 }
@@ -1302,18 +1295,15 @@ void popup_government_dialog(void)
 void popup_revolution_dialog(void)
 {
   GtkWidget *shell;
-  gint       res;
 
   shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
-				 GTK_DIALOG_MODAL,
-				 GTK_MESSAGE_WARNING,
-				 GTK_BUTTONS_YES_NO,
-				 _("You say you wanna revolution?"));
+    GTK_DIALOG_MODAL,
+    GTK_MESSAGE_WARNING,
+    GTK_BUTTONS_YES_NO,
+    _("You say you wanna revolution?"));
   gtk_window_set_title(GTK_WINDOW(shell), _("Revolution!"));
 
-  res = gtk_dialog_run(GTK_DIALOG(shell));
-
-  if (res == GTK_RESPONSE_YES) {
+  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
     struct packet_player_request packet;
 
     send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_REVOLUTION);
@@ -1630,9 +1620,7 @@ static void unit_select_all_callback(GtkWidget *w, gpointer data)
 {
   int i;
 
-  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(unit_select_dialog_shell);
-  unit_select_dialog_shell = NULL;
   
   for(i=0; i<unit_select_no; i++) {
     struct unit *punit = player_find_unit_by_id(game.player_ptr,
@@ -1656,9 +1644,7 @@ static void unit_select_callback(GtkWidget *w, int id)
     set_unit_focus(punit);
   }
 
-  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(unit_select_dialog_shell);
-  unit_select_dialog_shell = NULL;
 }
 
 static int number_of_columns(int n)
@@ -1685,7 +1671,7 @@ static int number_of_rows(int n)
 }
 
 /****************************************************************
-popup the dialog 10% inside the main-window 
+...
 *****************************************************************/
 void popup_unit_select_dialog(struct tile *ptile)
 {
@@ -1695,15 +1681,15 @@ void popup_unit_select_dialog(struct tile *ptile)
   GtkWidget *unit_select_all_command, *unit_select_close_command;
 
   if (!unit_select_dialog_shell){
-  gtk_widget_set_sensitive(top_vbox, FALSE);
+  unit_select_dialog_shell = gtk_dialog_new_with_buttons(_("Unit selection"),
+    GTK_WINDOW(toplevel),
+    GTK_DIALOG_MODAL,
+    NULL);
 
-  unit_select_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect(GTK_OBJECT(unit_select_dialog_shell), "delete_event",
-		     G_CALLBACK(unit_select_callback), NULL);
-  gtk_window_set_position (GTK_WINDOW(unit_select_dialog_shell), GTK_WIN_POS_MOUSE);
-
-  gtk_window_set_title(GTK_WINDOW(unit_select_dialog_shell),
-	_("Unit selection") );
+  g_signal_connect(unit_select_dialog_shell, "destroy",
+    G_CALLBACK(gtk_widget_destroyed), &unit_select_dialog_shell);
+  gtk_window_set_position(GTK_WINDOW(unit_select_dialog_shell),
+    GTK_WIN_POS_MOUSE);
 
   n = MIN(MAX_SELECT_UNITS, unit_list_size(&ptile->units));
   r = number_of_rows(n);
@@ -1749,32 +1735,31 @@ void popup_unit_select_dialog(struct tile *ptile)
     gtk_box_pack_start(GTK_BOX(hbox),unit_select_labels[i],
        FALSE, FALSE, 0);
 
-    gtk_signal_connect(GTK_OBJECT(unit_select_commands[i]), "clicked",
-       GTK_SIGNAL_FUNC(unit_select_callback), GINT_TO_POINTER(punit->id));
+    g_signal_connect(unit_select_commands[i], "clicked",
+      G_CALLBACK(unit_select_callback), GINT_TO_POINTER(punit->id));
   }
   unit_select_no=i;
 
 
-  unit_select_close_command=gtk_button_new_with_label(_("Close"));
-  gtk_box_pack_start( GTK_BOX(GTK_DIALOG(unit_select_dialog_shell)->action_area),
-	unit_select_close_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( unit_select_close_command, GTK_CAN_DEFAULT );
-  gtk_widget_grab_default( unit_select_close_command );
+  unit_select_all_command =
+  gtk_dialog_add_button(GTK_DIALOG(unit_select_dialog_shell),
+    _("Ready all"), GTK_RESPONSE_NONE);
 
-  unit_select_all_command=gtk_button_new_with_label(_("Ready all"));
-  gtk_box_pack_start( GTK_BOX(GTK_DIALOG(unit_select_dialog_shell)->action_area),
-	unit_select_all_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( unit_select_all_command, GTK_CAN_DEFAULT );
+  unit_select_close_command =
+  gtk_dialog_add_button(GTK_DIALOG(unit_select_dialog_shell),
+    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
-  gtk_signal_connect(GTK_OBJECT(unit_select_close_command), "clicked",
-	GTK_SIGNAL_FUNC(unit_select_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(unit_select_all_command), "clicked",
-	GTK_SIGNAL_FUNC(unit_select_all_callback), NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(unit_select_dialog_shell),
+    GTK_RESPONSE_CLOSE);
 
-  gtk_widget_show_all( GTK_DIALOG(unit_select_dialog_shell)->vbox );
-  gtk_widget_show_all( GTK_DIALOG(unit_select_dialog_shell)->action_area );
+  g_signal_connect(unit_select_all_command, "clicked",
+    G_CALLBACK(unit_select_all_callback), NULL);
+  g_signal_connect_swapped(unit_select_close_command, "clicked",
+    G_CALLBACK(gtk_widget_destroy), unit_select_dialog_shell);
 
-  gtk_set_relative_position(toplevel, unit_select_dialog_shell, 15, 10);
+  gtk_widget_show_all(GTK_DIALOG(unit_select_dialog_shell)->vbox);
+  gtk_widget_show_all(GTK_DIALOG(unit_select_dialog_shell)->action_area);
+
   gtk_widget_show(unit_select_dialog_shell);
   }
 }
@@ -1911,8 +1896,6 @@ void create_races_dialog(void)
 	_(" What Nation Will You Be?"),
 	GTK_WINDOW(toplevel),
 	GTK_DIALOG_MODAL,
-	GTK_STOCK_OK,
-	GTK_RESPONSE_OK,
 	NULL);
 
   g_signal_connect(races_dialog_shell, "response",
@@ -2050,6 +2033,9 @@ void create_races_dialog(void)
   quit_command = gtk_button_new_from_stock(GTK_STOCK_QUIT);
   gtk_dialog_add_action_widget(GTK_DIALOG(races_dialog_shell),
 			       quit_command, GTK_RESPONSE_CLOSE);
+
+  gtk_dialog_add_button(GTK_DIALOG(races_dialog_shell),
+      	      	      	GTK_STOCK_OK, GTK_RESPONSE_OK);
 
   /* ------- connect callback functions ------- */
 
