@@ -960,9 +960,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 				 packet_unit->id);
 
   if (punit) {
+    const int old_transported_by = punit->transported_by;
+
     ret = TRUE;
     punit->activity_count = packet_unit->activity_count;
-    punit->transported_by = packet_unit->transported_by;
     punit->occupy = packet_unit->occupy;
     if (punit->ai.control != packet_unit->ai.control) {
       punit->ai.control = packet_unit->ai.control;
@@ -1033,22 +1034,22 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       if (punit->owner == game.player_idx) {
         refresh_unit_city_dialogs(punit);
       }
+    } /*** End of Change in activity or activity's target. ***/
 
-      if (punit->transported_by != packet_unit->transported_by) {
-	struct unit *ptrans;
+    punit->transported_by = packet_unit->transported_by;
+    if (old_transported_by != packet_unit->transported_by) {
+      struct unit *ptrans;
 
-	if (punit->transported_by != -1
-	    && (ptrans = find_unit_by_id(punit->transported_by))) {
-	  refresh_unit_city_dialogs(ptrans);
-	}
-
-	if (packet_unit->transported_by != -1
-	    && (ptrans = find_unit_by_id(packet_unit->transported_by))) {
-	  refresh_unit_city_dialogs(ptrans);
-	}
+      if (old_transported_by != -1
+	  && (ptrans = find_unit_by_id(old_transported_by))) {
+	refresh_unit_city_dialogs(ptrans);
       }
 
-    } /*** End of Change in activity or activity's target. ***/
+      if (packet_unit->transported_by != -1
+          && (ptrans = find_unit_by_id(packet_unit->transported_by))) {
+	refresh_unit_city_dialogs(ptrans);
+      }
+    }
     
     /* These two lines force the menus to be updated as appropriate when
      * the focus unit changes. */
