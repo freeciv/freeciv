@@ -48,8 +48,8 @@ firepower_factor=10             ; Means effective hitpoints=1
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)
 ; fuel          = number of turns, for air units
 ; uk_*          = upkeep costs, these are used as base values in the game
-; flags         = special flag strings, as in common/unit.h,unit.c
-; roles         = special role strings, as in common/unit.h,unit.c
+; flags         = special flag strings, as in common/unittype.h,unittype.c
+; roles         = special role strings, as in common/unittype.h,unittype.c
 ; helptext	= optional help text string; should escape all raw newlines 
 ;		  so that xgettext parsing works
 ;
