@@ -423,6 +423,15 @@ static char *nsew_str(int idx)
        assert(sprites.field != NULL);\
     } while(FALSE)
 
+/* Sets sprites.field to tag or (if tag isn't available) to alt */
+#define SET_SPRITE_ALT(field, tag, alt) do {                   \
+       sprites.field = hash_lookup_data(sprite_hash, tag);     \
+       if (!sprites.field) {                                   \
+           sprites.field = hash_lookup_data(sprite_hash, alt); \
+       }                                                       \
+       assert(sprites.field != NULL);                          \
+    } while(FALSE)
+
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which
   freeciv always requires. 
@@ -592,9 +601,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.farmland,   "tx.farmland");
   SET_SPRITE(tx.irrigation, "tx.irrigation");
   SET_SPRITE(tx.mine,       "tx.mine");
-  if (!is_isometric) {
-    SET_SPRITE(tx.oil_mine,   "tx.oil_mine");
-  }
+  SET_SPRITE_ALT(tx.oil_mine, "tx.oil_mine", "tx.mine");
   SET_SPRITE(tx.pollution,  "tx.pollution");
   SET_SPRITE(tx.village,    "tx.village");
   SET_SPRITE(tx.fortress,   "tx.fortress");
@@ -1198,9 +1205,10 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
         *sprs++ = sprites.tx.irrigation;
     }
   }
-   
-  if (contains_special(tspecial, S_MINE) && draw_mines) {
-    /* We do not have an oil tower in isometric view yet... */
+
+  if (contains_special(tspecial, S_MINE) && draw_mines
+      && (ttype == T_HILLS || ttype == T_MOUNTAINS)) {
+    /* Oil mines come later. */
     *sprs++ = sprites.tx.mine;
   }
 
@@ -1209,6 +1217,13 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       *sprs++ = tile_types[ttype].special[0].sprite;
     else if (contains_special(tspecial, S_SPECIAL_2))
       *sprs++ = tile_types[ttype].special[1].sprite;
+  }
+
+  if (contains_special(tspecial, S_MINE) && draw_mines
+      && ttype != T_HILLS && ttype != T_MOUNTAINS) {
+    /* Must be Glacier or Dessert. The mine sprite looks better on top
+       of special. */
+    *sprs++ = sprites.tx.oil_mine;
   }
 
   if (ttype == T_OCEAN) {
