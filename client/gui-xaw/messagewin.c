@@ -103,11 +103,17 @@ bool is_meswin_open(void)
   return meswin_dialog_shell != NULL;
 }
 
+/* This is set when we are creating the message window and it is not popped
+ * up yet.  We can't scroll, since Xaw may crash - see PR#2794. */
+static bool creating = FALSE;
+
 /****************************************************************
 ...
 *****************************************************************/
 static void create_meswin_dialog(void)
 {
+  creating = TRUE;
+
   meswin_dialog_shell =
     I_IN(I_T(XtCreatePopupShell("meswinpopup", topLevelShellWidgetClass,
 				toplevel, NULL, 0)));
@@ -169,6 +175,7 @@ static void create_meswin_dialog(void)
   XtOverrideTranslations(meswin_dialog_shell,
       XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-messages()"));
 
+  creating = FALSE;
 }
 
 /**************************************************************************
@@ -185,8 +192,9 @@ static void meswin_scroll_down(void)
   Dimension height;
   int pos;
   
-  if (!meswin_dialog_shell)
+  if (!meswin_dialog_shell || creating) {
     return;
+  }
   if (get_num_messages() <= N_MSG_VIEW) {
     return;
   }
