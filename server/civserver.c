@@ -1796,8 +1796,10 @@ static void handle_request_join_game(struct connection *pconn,
 void lost_connection_to_client(struct connection *pconn)
 {
   struct player *pplayer = pconn->player;
+  const char *desc = conn_description(pconn);
 
-  freelog(LOG_NORMAL, _("Lost connection: %s."), conn_description(pconn));
+  freelog(LOG_NORMAL, _("Lost connection: %s."), desc);
+  notify_player(0, _("Game: Lost connection: %s."), desc);
   
   if (pplayer == NULL) {
     /* This happens eg if the player has not yet joined properly. */
@@ -1815,16 +1817,16 @@ void lost_connection_to_client(struct connection *pconn)
   pconn->established = 0;
   
   send_player_info(pplayer, 0);
-  notify_player(0, _("Game: Lost connection to %s."), pplayer->name);
 
-  if (game.is_new_game && (server_state==PRE_GAME_STATE ||
-			   server_state==SELECT_RACES_STATE)) {
+  if (game.is_new_game
+      && !pplayer->is_connected /* eg multiple controllers */
+      && (server_state==PRE_GAME_STATE || server_state==SELECT_RACES_STATE)) {
     server_remove_player(pplayer);
   }
   else {
     if (game.auto_ai_toggle
 	&& !pplayer->ai.control
-	&& !pplayer->is_connected /* eg multiple */) {
+	&& !pplayer->is_connected /* eg multiple controllers */) {
       toggle_ai_player_direct(NULL, pplayer);
     }
     check_for_full_turn_done();

@@ -122,7 +122,7 @@ static void handle_readline_input_callback(char *line)
     if (*line)
       add_history(line);
     con_prompt_enter();		/* just got an 'Enter' hit */
-    handle_stdin_input((struct player *)NULL, line);
+    handle_stdin_input((struct connection*)NULL, line);
   }
   readline_handled_input = 1;
 }
@@ -337,7 +337,7 @@ int sniff_packets(void)
       }
       *(buf+didget)='\0';
       con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input((struct player *)NULL, buf);
+      handle_stdin_input((struct connection *)NULL, buf);
 #endif
     }
 #else
@@ -348,7 +348,7 @@ int sniff_packets(void)
           if (*bufptr == '\0') {
               bufptr = buf;
               con_prompt_enter(); /* will need a new prompt, regardless */
-              handle_stdin_input((struct player *)NULL, buf);
+              handle_stdin_input((struct connection *)NULL, buf);
               break;
           }
           if ((bufptr-buf) <= BUF_SIZE) bufptr++; /* prevent overrun */

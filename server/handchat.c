@@ -69,9 +69,7 @@ void handle_chat_msg(struct connection *pconn,
   */
   if (packet->message[0] == SERVER_COMMAND_PREFIX) {
     /* pass it to the command parser, which will chop the prefix off */
-    if (pplayer) { /* fixme */
-      handle_stdin_input(pplayer, packet->message);
-    }
+    handle_stdin_input(pconn, packet->message);
     return;
   }
 

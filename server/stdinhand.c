@@ -65,13 +65,13 @@ enum cmdlevel_id   first_access_level = ALLOW_INFO;
 
 extern int force_end_of_sniff;
 
-static void cut_player_connection(struct player *caller, char *playername);
-static void quit_game(struct player *caller);
-static void show_help(struct player *caller, char *arg);
-static void show_list(struct player *caller, char *arg);
-static void show_players(struct player *caller);
-static void show_connections(struct player *caller);
-static void set_ai_level(struct player *caller, char *name, int level);
+static void cut_client_connection(struct connection *caller, char *playername);
+static void quit_game(struct connection *caller);
+static void show_help(struct connection *caller, char *arg);
+static void show_list(struct connection *caller, char *arg);
+static void show_players(struct connection *caller);
+static void show_connections(struct connection *caller);
+static void set_ai_level(struct connection *caller, char *name, int level);
 
 static char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -877,8 +877,12 @@ static struct command commands[] = {
   },
   {"cut",	ALLOW_CTRL,
    /* translate <> only */
-   N_("cut <player-name>"),
-   N_("Cut connection to player.")
+   N_("cut <connection-name>"),
+   N_("Cut a client's connection to server."),
+   N_("Cut specified client's connection to the server, removing that client "
+      "from the game.  If the game has not yet started that client's player "
+      "is removed from the game, otherwise there is no effect on the player.  "
+      "Note that this command now takes connection names, not player names.")
   },
   {"explain",	ALLOW_INFO,
    /* translate <> only */
@@ -978,7 +982,7 @@ static struct command commands[] = {
       "cmdlevel <level>\n"
       "cmdlevel <level> new\n"
       "cmdlevel <level> first\n"
-      "cmdlevel <level> <player-name>"),
+      "cmdlevel <level> <connection-name>"),
    N_("Query or set command-level access."),
    N_("The command-level controls which server commands are available to "
       "users via the client chatline.  The available levels are:\n"
@@ -989,13 +993,16 @@ static struct command commands[] = {
       "With no arguments, the current command-levels are reported.\n"
       "With a single argument, the level is set for all existing "
       "connections, and the default is set for future connections.\n"
-      "If 'new' is specified, the level is set for newly connecting players.\n"
-      "If 'first' is specified, the level is set for the first player connected.\n"
-      "If a player name is specified, the level is set for that player only.\n"
-      "Command-levels do not persist if a player disconnects, "
-      "because some untrusted person could reconnect as that player.\n"
-      "If the first player to connect disconnects, then the next player "
-      "to connect receives 'first' status.")
+      "If 'new' is specified, the level is set for newly connecting clients.\n"
+      "If 'first' is specified, the level is set for the first client connected.\n"
+      "If a connection name is specified, the level is set for that "
+      "connection only.\n"
+      "Command-levels do not persist if a client disconnects, "
+      "because some untrusted person could reconnect with the same name.  "
+      "If the first client to connect disconnects, then the next client "
+      "to connect receives 'first' status.  "
+      "Note that this command now takes connection names, not player names."
+      )
   },
 
   {"end",	ALLOW_CTRL,
@@ -1091,81 +1098,68 @@ static enum command_id command_named(const char *token, int accept_ambiguity)
 }
 
 /**************************************************************************
-  Return current command access level for this player, or default if the
-  player is not connected.
+  Whether the caller can use the specified command.
+  caller == NULL means console.
 **************************************************************************/
-static enum cmdlevel_id access_level(struct player *pplayer)
+static int may_use(struct connection *caller, enum command_id cmd)
 {
-  if (pplayer->conn) {
-    return pplayer->conn->access_level;
-  } else {
-    return default_access_level;
-  }
-}
-
-/**************************************************************************
-  Whether the player can use the specified command.
-  pplayer == NULL means console.
-**************************************************************************/
-static int may_use(struct player *pplayer, enum command_id cmd)
-{
-  if (pplayer == NULL) {
+  if (caller == NULL) {
     return 1;  /* on the console, everything is allowed */
   }
-  return (access_level(pplayer) >= commands[cmd].level);
+  return (caller->access_level >= commands[cmd].level);
 }
 
 /**************************************************************************
-  Whether the player cannot use any commands at all.
-  pplayer == NULL means console.
+  Whether the caller cannot use any commands at all.
+  caller == NULL means console.
 **************************************************************************/
-static int may_use_nothing(struct player *pplayer)
+static int may_use_nothing(struct connection *caller)
 {
-  if (pplayer == NULL) {
+  if (caller == NULL) {
     return 0;  /* on the console, everything is allowed */
   }
-  return (access_level(pplayer) == ALLOW_NONE);
+  return (caller->access_level == ALLOW_NONE);
 }
 
 /**************************************************************************
-  Whether the player can set the specified option (assuming that
+  Whether the caller can set the specified option (assuming that
   the state of the game would allow changing the option at all).
-  pplayer == NULL means console.
+  caller == NULL means console.
 **************************************************************************/
-static int may_set_option(struct player *pplayer, int option_idx)
+static int may_set_option(struct connection *caller, int option_idx)
 {
-  if (pplayer == NULL) {
+  if (caller == NULL) {
     return 1;  /* on the console, everything is allowed */
   } else {
-    int level = access_level(pplayer);
+    int level = caller->access_level;
     return ((level == ALLOW_HACK)
 	    || (level == ALLOW_CTRL && sset_is_to_client(option_idx)));
   }
 }
 
 /**************************************************************************
-  Whether the player can set the specified option, taking into account
-  both access and the game state.  pplayer == NULL means console.
+  Whether the caller can set the specified option, taking into account
+  both access and the game state.  caller == NULL means console.
 **************************************************************************/
-static int may_set_option_now(struct player *pplayer, int option_idx)
+static int may_set_option_now(struct connection *caller, int option_idx)
 {
-  return (may_set_option(pplayer, option_idx)
+  return (may_set_option(caller, option_idx)
 	  && sset_is_changeable(option_idx));
 }
 
 /**************************************************************************
-  Whether the player can SEE the specified option.
-  pplayer == NULL means console, which can see all.
+  Whether the caller can SEE the specified option.
+  caller == NULL means console, which can see all.
   client players can see "to client" options, or if player
   has command level to change option.
 **************************************************************************/
-static int may_view_option(struct player *pplayer, int option_idx)
+static int may_view_option(struct connection *caller, int option_idx)
 {
-  if (pplayer == NULL) {
+  if (caller == NULL) {
     return 1;  /* on the console, everything is allowed */
   } else {
     return sset_is_to_client(option_idx)
-      || may_set_option(pplayer, option_idx);
+      || may_set_option(caller, option_idx);
   }
 }
 
@@ -1177,7 +1171,7 @@ static int may_view_option(struct player *pplayer, int option_idx)
 
   This lowlevel function takes a single line; prefix is prepended to line.
 **************************************************************************/
-static void cmd_reply_line(enum command_id cmd, const struct player *caller,
+static void cmd_reply_line(enum command_id cmd, struct connection *caller,
 			   int console_id, const char *prefix, const char *line)
 {
   char *cmdname = cmd < CMD_NUM ? commands[cmd].name :
@@ -1186,7 +1180,7 @@ static void cmd_reply_line(enum command_id cmd, const struct player *caller,
 			"(?!?)";  /* this case is a bug! */
 
   if (caller) {
-    notify_player(caller, "/%s: %s%s", cmdname, prefix, line);
+    notify_conn(&caller->self, "/%s: %s%s", cmdname, prefix, line);
     /* cc: to the console - testing has proved it's too verbose - rp
     con_write(console_id, "%s/%s: %s%s", caller->name, cmdname, prefix, line);
     */
@@ -1198,7 +1192,7 @@ static void cmd_reply_line(enum command_id cmd, const struct player *caller,
   va_list version which allow embedded newlines, and each line is sent
   separately. 'prefix' is prepended to every line _after_ the first line.
 **************************************************************************/
-static void vcmd_reply_prefix(enum command_id cmd, const struct player *caller,
+static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
 			      int console_id, const char *prefix,
 			      const char *format, va_list ap)
 {
@@ -1219,11 +1213,11 @@ static void vcmd_reply_prefix(enum command_id cmd, const struct player *caller,
   var-args version of above
   duplicate declaration required for attribute to work...
 **************************************************************************/
-static void cmd_reply_prefix(enum command_id cmd, const struct player *caller,
+static void cmd_reply_prefix(enum command_id cmd, struct connection *caller,
 			     int console_id, const char *prefix,
 			     const char *format, ...)
      fc__attribute((format (printf, 5, 6)));
-static void cmd_reply_prefix(enum command_id cmd, const struct player *caller,
+static void cmd_reply_prefix(enum command_id cmd, struct connection *caller,
 			     int console_id, const char *prefix,
 			     const char *format, ...)
 {
@@ -1235,10 +1229,10 @@ static void cmd_reply_prefix(enum command_id cmd, const struct player *caller,
 /**************************************************************************
   var-args version as above, no prefix
 **************************************************************************/
-static void cmd_reply(enum command_id cmd, const struct player *caller,
+static void cmd_reply(enum command_id cmd, struct connection *caller,
 		      int console_id, const char *format, ...)
      fc__attribute((format (printf, 4, 5)));
-static void cmd_reply(enum command_id cmd, const struct player *caller,
+static void cmd_reply(enum command_id cmd, struct connection *caller,
 		      int console_id, const char *format, ...)
 {
   va_list ap;
@@ -1251,7 +1245,7 @@ static void cmd_reply(enum command_id cmd, const struct player *caller,
 ...
 **************************************************************************/
 static void cmd_reply_no_such_player(enum command_id cmd,
-				     struct player *caller,
+				     struct connection *caller,
 				     char *name,
 				     enum m_pre_result match_result)
 {
@@ -1285,7 +1279,42 @@ static void cmd_reply_no_such_player(enum command_id cmd,
 /**************************************************************************
 ...
 **************************************************************************/
-static void open_metaserver_connection(struct player *caller)
+static void cmd_reply_no_such_conn(enum command_id cmd,
+				   struct connection *caller,
+				   const char *name,
+				   enum m_pre_result match_result)
+{
+  switch(match_result) {
+  case M_PRE_EMPTY:
+    cmd_reply(cmd, caller, C_SYNTAX,
+	      _("Name is empty, so cannot be a connection."));
+    break;
+  case M_PRE_LONG:
+    cmd_reply(cmd, caller, C_SYNTAX,
+	      _("Name is too long, so cannot be a connection."));
+    break;
+  case M_PRE_AMBIGUOUS:
+    cmd_reply(cmd, caller, C_FAIL,
+	      _("Connection name prefix '%s' is ambiguous."), name);
+    break;
+  case M_PRE_FAIL:
+    cmd_reply(cmd, caller, C_FAIL,
+	      _("No connection by the name of '%s'."), name);
+    break;
+  default:
+    cmd_reply(cmd, caller, C_FAIL,
+	      _("Unexpected match_result %d (%s) for '%s'."),
+	      match_result, _(m_pre_description(match_result)), name);
+    freelog(LOG_NORMAL,
+	    "Unexpected match_result %d (%s) for '%s'.",
+	    match_result, m_pre_description(match_result), name);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void open_metaserver_connection(struct connection *caller)
 {
   server_open_udp();
   if (send_server_info_to_metaserver(1,0)) {
@@ -1299,7 +1328,7 @@ static void open_metaserver_connection(struct player *caller)
 /**************************************************************************
 ...
 **************************************************************************/
-static void close_metaserver_connection(struct player *caller)
+static void close_metaserver_connection(struct connection *caller)
 {
   if (send_server_info_to_metaserver(1,1)) {
     server_close_udp();
@@ -1313,7 +1342,7 @@ static void close_metaserver_connection(struct player *caller)
 /**************************************************************************
 ...
 **************************************************************************/
-static void meta_command(struct player *caller, char *arg)
+static void meta_command(struct connection *caller, char *arg)
 {
   if ((*arg == '\0') ||
       (0 == strcmp (arg, "?"))) {
@@ -1349,7 +1378,7 @@ static void meta_command(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void metainfo_command(struct player *caller, char *arg)
+static void metainfo_command(struct connection *caller, char *arg)
 {
   mystrlcpy(metaserver_info_line, arg, 256);
   if (send_server_info_to_metaserver(1,0) == 0) {
@@ -1366,7 +1395,7 @@ static void metainfo_command(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void metaserver_command(struct player *caller, char *arg)
+static void metaserver_command(struct connection *caller, char *arg)
 {
   close_metaserver_connection(caller);
 
@@ -1444,7 +1473,7 @@ static int expansionism_of_skill_level(int level)
 For command "save foo";
 Save the game, with filename=arg, provided server state is ok.
 **************************************************************************/
-static void save_command(struct player *caller, char *arg)
+static void save_command(struct connection *caller, char *arg)
 {
   if (server_state==SELECT_RACES_STATE) {
     cmd_reply(CMD_SAVE, caller, C_SYNTAX,
@@ -1457,7 +1486,7 @@ static void save_command(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-void toggle_ai_player_direct(struct player *caller, struct player *pplayer)
+void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 {
   assert(pplayer);
   if (is_barbarian(pplayer)) {
@@ -1496,7 +1525,7 @@ void toggle_ai_player_direct(struct player *caller, struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-static void toggle_ai_player(struct player *caller, char *arg)
+static void toggle_ai_player(struct connection *caller, char *arg)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
@@ -1513,7 +1542,7 @@ static void toggle_ai_player(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void create_ai_player(struct player *caller, char *arg)
+static void create_ai_player(struct connection *caller, char *arg)
 {
   struct player *pplayer;
   PlayerNameStatus PNameStatus;
@@ -1571,7 +1600,7 @@ static void create_ai_player(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void remove_player(struct player *caller, char *arg)
+static void remove_player(struct connection *caller, char *arg)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
@@ -1593,14 +1622,16 @@ static void remove_player(struct player *caller, char *arg)
 
   sz_strlcpy(name, pplayer->name);
   server_remove_player(pplayer);
-  cmd_reply(CMD_REMOVE, caller, C_OK,
-	    _("Removed player %s from the game."), name);
+  if (caller==NULL || caller->used) {     /* may have removed self */
+    cmd_reply(CMD_REMOVE, caller, C_OK,
+	      _("Removed player %s from the game."), name);
+  }
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void generic_not_implemented(struct player *caller, char *cmd)
+static void generic_not_implemented(struct connection *caller, char *cmd)
 {
   cmd_reply(CMD_RENAME, caller, C_FAIL,
 	    _("Sorry, the '%s' command is not implemented yet."), cmd);
@@ -1609,13 +1640,14 @@ static void generic_not_implemented(struct player *caller, char *cmd)
 /**************************************************************************
 ...
 **************************************************************************/
-static void rename_player(struct player *caller, char *arg)
+static void rename_player(struct connection *caller, char *arg)
 {
   generic_not_implemented(caller, "rename");
 }
 
 /**************************************************************************
 ...
+(Should this take a 'caller' argument for output? --dwp)
 **************************************************************************/
 void read_init_script(char *script_filename)
 {
@@ -1628,7 +1660,7 @@ void read_init_script(char *script_filename)
 
     /* the size 511 is set as to not overflow buffer in handle_stdin_input */
     while(fgets(buffer,511,script_file))
-      handle_stdin_input((struct player *)NULL, buffer);
+      handle_stdin_input((struct connection *)NULL, buffer);
     fclose(script_file);
 
   } else {
@@ -1639,8 +1671,9 @@ void read_init_script(char *script_filename)
 
 /**************************************************************************
 ...
+('caller' argument is unused)
 **************************************************************************/
-static void read_command(struct player *caller, char *arg)
+static void read_command(struct connection *caller, char *arg)
 {
   /* warning: there is no recursion check! */
   read_init_script(arg);
@@ -1648,6 +1681,7 @@ static void read_command(struct player *caller, char *arg)
 
 /**************************************************************************
 ...
+(Should this take a 'caller' argument for output? --dwp)
 **************************************************************************/
 static void write_init_script(char *script_filename)
 {
@@ -1711,8 +1745,9 @@ static void write_init_script(char *script_filename)
 
 /**************************************************************************
 ...
+('caller' argument is unused)
 **************************************************************************/
-static void write_command(struct player *caller, char *arg)
+static void write_command(struct connection *caller, char *arg)
 {
   write_init_script(arg);
 }
@@ -1728,7 +1763,7 @@ static const char *rulesout_accessor(int i) {
   Only rules currently available is "techs".
   Modifies string pointed to by arg.
 **************************************************************************/
-static void rulesout_command(struct player *caller, char *arg)
+static void rulesout_command(struct connection *caller, char *arg)
 {
   char *rules, *filename, *s;	/* all point into arg string */
   enum m_pre_result result;
@@ -1789,30 +1824,30 @@ static void rulesout_command(struct player *caller, char *arg)
 }
 
 /**************************************************************************
- set pplayer's cmdlevel to level if caller is allowed to do so 
+ set ptarget's cmdlevel to level if caller is allowed to do so
 **************************************************************************/
-static int set_cmdlevel(struct player *caller, struct player *pplayer,
+static int set_cmdlevel(struct connection *caller,
+			struct connection *ptarget,
 			enum cmdlevel_id level)
 {
-  assert(pplayer && pplayer->conn);
-    /* only ever call me for specific, connected players */
+  assert(ptarget);    /* only ever call me for specific connection */
 
-  if (caller && access_level(pplayer) > access_level(caller)) {
+  if (caller && ptarget->access_level > caller->access_level) {
     /* Can this happen?  Caller must already have ALLOW_HACK
        to even use the cmdlevel command.  Hmm, someone with
        ALLOW_HACK can take away ALLOW_HACK from others... --dwp
     */
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-	      _("Cannot decrease command level '%s' for player '%s';"
+	      _("Cannot decrease command level '%s' for connection '%s';"
 		" you only have '%s'."),
-	      cmdlevel_name(access_level(pplayer)),
-	      pplayer->name,
-	      cmdlevel_name(access_level(caller)));
+	      cmdlevel_name(ptarget->access_level),
+	      ptarget->name,
+	      cmdlevel_name(caller->access_level));
     return 0;
   } else {
-    pplayer->conn->access_level = level;
-    notify_player(pplayer, _("Game: You now have access level '%s'."),
-		  cmdlevel_name(level));
+    ptarget->access_level = level;
+    notify_conn(&ptarget->self, _("Game: You now have access level '%s'."),
+		cmdlevel_name(level));
     return 1;
   }
 }
@@ -1820,7 +1855,7 @@ static int set_cmdlevel(struct player *caller, struct player *pplayer,
 /**************************************************************************
  Change command level for individual player, or all, or new.
 **************************************************************************/
-static void cmdlevel_command(struct player *caller, char *str)
+static void cmdlevel_command(struct connection *caller, char *str)
 {
   char arg_level[MAX_LEN_CMD+1]; /* info, ctrl etc */
   char arg_name[MAX_LEN_CMD+1];	 /* a player name, or "new" */
@@ -1828,7 +1863,7 @@ static void cmdlevel_command(struct player *caller, char *str)
 
   enum m_pre_result match_result;
   enum cmdlevel_id level;
-  struct player *pplayer;
+  struct connection *ptarget;
 
   /* find the start of the level: */
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
@@ -1841,22 +1876,14 @@ static void cmdlevel_command(struct player *caller, char *str)
   
   if (!arg_level[0]) {
     /* no level name supplied; list the levels */
-    int i;
 
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, _("Command levels in effect:"));
 
-    for (i = 0; i < game.nplayers; ++i) {
-      struct player *pplayer = &game.players[i];
-      if (pplayer->conn) {
-	cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
-		  "cmdlevel %s %s",
-		  cmdlevel_name(access_level(pplayer)), pplayer->name);
-      } else {
-	cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
-		  "cmdlevel %s %s (not connected)",
-		  cmdlevel_name(ALLOW_NONE), pplayer->name);
-      }
+    conn_list_iterate(game.est_connections, pconn) {
+      cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, "cmdlevel %s %s",
+		cmdlevel_name(pconn->access_level), pconn->name);
     }
+    conn_list_iterate_end;
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
 	      _("Command level for new connections: %s"),
 	      cmdlevel_name(default_access_level));
@@ -1873,11 +1900,11 @@ static void cmdlevel_command(struct player *caller, char *str)
 	      _("Error: command level must be one of"
 		" 'none', 'info', 'ctrl', or 'hack'."));
     return;
-  } else if (caller && level > access_level(caller)) {
+  } else if (caller && level > caller->access_level) {
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 	      _("Cannot increase command level to '%s';"
 		" you only have '%s' yourself."),
-	      arg_level, cmdlevel_name(access_level(caller)));
+	      arg_level, cmdlevel_name(caller->access_level));
     return;
   }
 
@@ -1893,26 +1920,21 @@ static void cmdlevel_command(struct player *caller, char *str)
   *cptr_d='\0';
  
   if (!arg_name[0]) {
-    /* no playername supplied: set for all connected players,
-     * and set the default
-     */
-    int i;
-    for (i = 0; i < game.nplayers; ++i) {
-      struct player *pplayer = &game.players[i];
-      if (pplayer->conn) {
-	if (set_cmdlevel(caller, pplayer, level)) {
-	  cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	    _("Command access level set to '%s' for player %s."),
-	    cmdlevel_name(level),
-	    pplayer->name);
-	} else {
-	  cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	    _("Command access level could not be set to '%s' for player %s."),
-	    cmdlevel_name(level),
-	    pplayer->name);
-	}
+    /* no playername supplied: set for all connections, and set the default */
+    conn_list_iterate(game.est_connections, pconn) {
+      if (set_cmdlevel(caller, pconn, level)) {
+	cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+		  _("Command access level set to '%s' for connection %s."),
+		  cmdlevel_name(level), pconn->name);
+      } else {
+	cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+		  _("Command access level could not be set to '%s' for "
+		    "connection %s."),
+		  cmdlevel_name(level), pconn->name);
       }
     }
+    conn_list_iterate_end;
+    
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 	      _("default command access level set to '%s'"),
@@ -1954,27 +1976,19 @@ static void cmdlevel_command(struct player *caller, char *str)
 		cmdlevel_name(level));
     }
   }
-  else if ((pplayer=find_player_by_name_prefix(arg_name,&match_result))) {
-    if (!pplayer->conn) {
-      cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-		_("Cannot change the command access for unconnected player '%s'."),
-		pplayer->name);
-      return;
-    }
-    if (set_cmdlevel(caller,pplayer,level)) {
+  else if ((ptarget=find_conn_by_name_prefix(arg_name,&match_result))) {
+    if (set_cmdlevel(caller, ptarget, level)) {
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Command access level set to '%s' for player %s."),
-		cmdlevel_name(level),
-		pplayer->name);
+		_("Command access level set to '%s' for connection %s."),
+		cmdlevel_name(level), ptarget->name);
     } else {
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 		_("Command access level could not be set to '%s'"
-		  " for player %s."),
-		cmdlevel_name(level),
-		pplayer->name);
+		  " for connection %s."),
+		cmdlevel_name(level), ptarget->name);
     }
   } else {
-    cmd_reply_no_such_player(CMD_CMDLEVEL, caller, arg_name, match_result);
+    cmd_reply_no_such_conn(CMD_CMDLEVEL, caller, arg_name, match_result);
   }
 }
 
@@ -2004,7 +2018,7 @@ static int lookup_option(const char *name)
  help_cmd is the command the player used.
  Only show option values for options which the caller can SEE.
 **************************************************************************/
-static void show_help_option(struct player *caller,
+static void show_help_option(struct connection *caller,
 			     enum command_id help_cmd,
 			     int id)
 {
@@ -2051,7 +2065,7 @@ static void show_help_option(struct player *caller,
  help_cmd is the command the player used.
  Only show options which the caller can SEE.
 **************************************************************************/
-static void show_help_option_list(struct player *caller,
+static void show_help_option_list(struct connection *caller,
 				  enum command_id help_cmd)
 {
   int i, j;
@@ -2085,7 +2099,7 @@ static void show_help_option_list(struct player *caller,
 /**************************************************************************
  ...
 **************************************************************************/
-static void explain_option(struct player *caller, char *str)
+static void explain_option(struct connection *caller, char *str)
 {
   char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int cmd;
@@ -2173,7 +2187,7 @@ void set_ai_level_direct(struct player *pplayer, int level)
 /******************************************************************
   Handle a user command to set an AI level.
 ******************************************************************/
-static void set_ai_level(struct player *caller, char *name, int level)
+static void set_ai_level(struct connection *caller, char *name, int level)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
@@ -2213,7 +2227,7 @@ static void set_ai_level(struct player *caller, char *name, int level)
   }
 }
 
-static void crash_and_burn(struct player *caller)
+static void crash_and_burn(struct connection *caller)
 {
   cmd_reply(CMD_CRASH, caller, C_GENFAIL, _("Crashing and burning."));
   /* Who is General Failure and why is he crashing and
@@ -2227,7 +2241,7 @@ Note that most values are at most 4 digits, except seeds,
 which we let overflow their columns, plus a sign character.
 Only show options which the caller can SEE.
 ******************************************************************/
-static void show_command(struct player *caller, char *str)
+static void show_command(struct connection *caller, char *str)
 {
   char buf[MAX_LEN_CMD+1];
   char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
@@ -2312,7 +2326,7 @@ static void show_command(struct player *caller, char *str)
 #undef OPTION_NAME_SPACE
 }
 
-static void set_command(struct player *caller, char *str) 
+static void set_command(struct connection *caller, char *str) 
 {
   char command[MAX_LEN_CMD+1], arg[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int val, cmd;
@@ -2394,9 +2408,12 @@ static void set_command(struct player *caller, char *str)
 }
 
 /**************************************************************************
-...
+  Handle "command input", which could really come from stdin on console,
+  or from client chat command, or read from file with -r, etc.
+  caller==NULL means console, str is the input, which may optionally
+  start with SERVER_COMMAND_PREFIX character.
 **************************************************************************/
-void handle_stdin_input(struct player *caller, char *str)
+void handle_stdin_input(struct connection *caller, char *str)
 {
   char command[MAX_LEN_CMD+1], arg[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int i;
@@ -2508,7 +2525,7 @@ void handle_stdin_input(struct player *caller, char *str)
     quit_game(caller);
     break;
   case CMD_CUT:
-    cut_player_connection(caller,arg);
+    cut_client_connection(caller, arg);
     break;
   case CMD_SHOW:
     show_command(caller,arg);
@@ -2571,7 +2588,7 @@ void handle_stdin_input(struct player *caller, char *str)
       }
 
       for (i=0;i<game.nplayers;i++) {
-        if (game.players[i].conn || game.players[i].ai.control) plrs++ ;
+        if (game.players[i].is_connected || game.players[i].ai.control) plrs++ ;
       }
 
       if (plrs<game.min_players) {
@@ -2607,35 +2624,28 @@ void handle_stdin_input(struct player *caller, char *str)
 /**************************************************************************
 ...
 **************************************************************************/
-static void cut_player_connection(struct player *caller, char *playername)
+static void cut_client_connection(struct connection *caller, char *name)
 {
   enum m_pre_result match_result;
-  struct player *pplayer;
-  struct connection *pc;
+  struct connection *ptarget;
 
-  pplayer=find_player_by_name_prefix(playername, &match_result);
+  ptarget=find_conn_by_name_prefix(name, &match_result);
 
-  if (!pplayer) {
-    cmd_reply_no_such_player(CMD_CUT, caller, playername, match_result);
+  if (!ptarget) {
+    cmd_reply_no_such_conn(CMD_CUT, caller, name, match_result);
     return;
   }
 
-  if((pc=pplayer->conn)) {
-    cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
-	       _("Cutting connection to %s."), pplayer->name);
-    lost_connection_to_client(pc);
-    close_connection(pc);
-  }
-  else {
-    cmd_reply(CMD_CUT, caller, C_FAIL, _("Sorry, %s is not connected."),
-	      pplayer->name);
-  }
+  cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
+	    _("Cutting connection %s."), ptarget->name);
+  lost_connection_to_client(ptarget);
+  close_connection(ptarget);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void quit_game(struct player *caller)
+static void quit_game(struct connection *caller)
 {
   struct packet_generic_message gen_packet;
   gen_packet.message[0]='\0';
@@ -2651,7 +2661,7 @@ static void quit_game(struct player *caller)
  Show caller introductory help about the server.
  help_cmd is the command the player used.
 **************************************************************************/
-static void show_help_intro(struct player *caller, enum command_id help_cmd)
+static void show_help_intro(struct connection *caller, enum command_id help_cmd)
 {
   /* This is formated like extra_help entries for settings and commands: */
   const char *help =
@@ -2682,7 +2692,7 @@ static void show_help_intro(struct player *caller, enum command_id help_cmd)
  Show the caller detailed help for the single COMMAND given by id.
  help_cmd is the command the player used.
 **************************************************************************/
-static void show_help_command(struct player *caller,
+static void show_help_command(struct connection *caller,
 			      enum command_id help_cmd,
 			      enum command_id id)
 {
@@ -2724,7 +2734,7 @@ static void show_help_command(struct player *caller,
  Show the caller list of COMMANDS.
  help_cmd is the command the player used.
 **************************************************************************/
-static void show_help_command_list(struct player *caller,
+static void show_help_command_list(struct connection *caller,
 				  enum command_id help_cmd)
 {
   enum command_id i;
@@ -2789,7 +2799,7 @@ static const char *helparg_accessor(int i) {
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_help(struct player *caller, char *arg)
+static void show_help(struct connection *caller, char *arg)
 {
   enum m_pre_result match_result;
   int ind;
@@ -2926,7 +2936,7 @@ static void show_help(struct player *caller, char *arg)
   added, especially if become non-unique with first letter, should
   use m_pre matching code.
 **************************************************************************/
-static void show_list(struct player *caller, char *arg)
+static void show_list(struct connection *caller, char *arg)
 {
   if (arg) {
     arg = skip_leading_spaces(arg);
@@ -2949,7 +2959,7 @@ static void show_list(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_players(struct player *caller)
+static void show_players(struct connection *caller)
 {
   char buf[512], buf2[512];
   int i, n;
@@ -2966,7 +2976,7 @@ static void show_players(struct player *caller)
 
       /* Low access level callers don't get to see barbarians in list: */
       if (is_barbarian(pplayer) && (caller!=NULL)
-	  && (access_level(caller) < ALLOW_CTRL)) {
+	  && (caller->access_level < ALLOW_CTRL)) {
 	continue;
       }
 
@@ -3029,7 +3039,7 @@ static void show_players(struct player *caller)
 /**************************************************************************
   List connections; initially mainly for debugging
 **************************************************************************/
-static void show_connections(struct player *caller)
+static void show_connections(struct connection *caller)
 {
   char buf[512];
   
