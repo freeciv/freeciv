@@ -530,6 +530,30 @@ void send_unit_info(struct unit *punit)
 {
   struct packet_unit_info info;
 
+  /* 
+   * Initialize unused fields.  The content is ignored by the server
+   * but they are part of the packet.  Initialized for completness
+   * here since we don't want to send uninitialized data over the
+   * network.  Note we could just use memset instead.  They're set
+   * above the applicable fields for safety.
+   */
+  info.carried = FALSE;
+  info.ai = FALSE;
+  info.paradropped = FALSE;
+  info.connecting = FALSE;
+  info.hp = 0;
+  info.upkeep = 0;
+  info.upkeep_food = 0;
+  info.upkeep_gold = 0;
+  info.unhappiness = 0;
+  info.activity_count = 0;
+  info.goto_dest_x = 0;
+  info.goto_dest_y = 0;
+  info.info_city_id = 0;
+  info.serial_num = 0;
+  info.fuel = 0;
+
+  /* These fields are used. */
   info.id=punit->id;
   info.owner=punit->owner;
   info.x=punit->x;
