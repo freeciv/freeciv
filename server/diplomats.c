@@ -458,11 +458,17 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   vet = maybe_make_veteran(pdiplomat);
   
   /* Notify everybody involved. */
-  notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT_BRIBE,
-		   _("Game: Your %s succeeded in bribing %s's %s%s"),
-		   unit_name(pdiplomat->type),
-		   unit_owner(pvictim)->name, unit_name(pvictim->type),
-		   vet ? " and became more experienced." : ".");
+  if (vet) {
+    notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT_BRIBE,
+		     _("Game: Your %s succeeded in bribing %s's %s"
+		        " and became more experienced."),
+		     unit_name(pdiplomat->type),
+		     unit_owner(pvictim)->name, unit_name(pvictim->type));
+  } else {
+    notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT_BRIBE,
+		     _("Game: Your %s succeeded in bribing %s's %s."),		     unit_name(pdiplomat->type),
+		     unit_owner(pvictim)->name, unit_name(pvictim->type));
+  }
   notify_player_ex(uplayer, pvictim->x, pvictim->y, E_ENEMY_DIPLOMAT_BRIBE,
 		   _("Game: Your %s was bribed by %s."),
 		   unit_name(pvictim->type), pplayer->name);
@@ -1182,14 +1188,22 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			 _("Game: Your %s was eliminated"
 			   " by a defending %s."),
 			 unit_name(pdiplomat->type), unit_name(punit->type));
-	notify_player_ex(cplayer, x, y,
-			 E_ENEMY_DIPLOMAT_FAILED,
-			 _("Game: Eliminated %s %s while infiltrating %s%s"),
-			 get_nation_name(pplayer->nation),
-			 unit_name(pdiplomat->type),
-			 (pcity ? pcity->name : _("our troops")),
-			 vet ? ". The defender became more experienced" : ".");
-
+	if (vet) {
+	  notify_player_ex(cplayer, x, y,
+			   E_ENEMY_DIPLOMAT_FAILED,
+			   _("Game: Eliminated %s %s while infiltrating %s. "
+			     "The defender became more experienced"),
+			   get_nation_name(pplayer->nation),
+			   unit_name(pdiplomat->type),
+			   (pcity ? pcity->name : _("our troops")));
+        } else {
+	  notify_player_ex(cplayer, x, y,
+			   E_ENEMY_DIPLOMAT_FAILED,
+			   _("Game: Eliminated %s %s while infiltrating %s."),
+			   get_nation_name(pplayer->nation),
+			   unit_name(pdiplomat->type),
+			   (pcity ? pcity->name : _("our troops")));
+	}
 	wipe_unit(pdiplomat);
 	return FALSE;
       }
@@ -1235,12 +1249,18 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 
     /* may become a veteran */
     vet = maybe_make_veteran(pdiplomat);
-    
-    notify_player_ex(pplayer, x, y, E_MY_DIPLOMAT_ESCAPE,
+    if (vet) {
+      notify_player_ex(pplayer, x, y, E_MY_DIPLOMAT_ESCAPE,
 		       _("Game: Your %s has successfully completed"
-			 " her mission and returned unharmed to %s%s"),
-		       unit_name(pdiplomat->type), spyhome->name,
-		       vet ? " and has become more experienced." : ".");
+			 " her mission and returned unharmed to %s "
+			 " and has become more experienced."),
+		       unit_name(pdiplomat->type), spyhome->name);
+    } else {
+      notify_player_ex(pplayer, x, y, E_MY_DIPLOMAT_ESCAPE,
+		       _("Game: Your %s has successfully completed"
+			 " her mission and returned unharmed to %s."),
+		       unit_name(pdiplomat->type), spyhome->name);
+    }
 
     /* being teleported costs all movement */
     if (!teleport_unit_to_city (pdiplomat, spyhome, -1, FALSE)) {

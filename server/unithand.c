@@ -759,15 +759,25 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	    pplayer->name, unit_type(punit)->name,
 	    unit_owner(pdefender)->name, unit_type(pdefender)->name);
 
-    notify_player_ex(unit_owner(pwinner),
-		     pwinner->x, pwinner->y, E_UNIT_WIN,
-		     _("Game: Your %s%s survived the pathetic attack"
-		       " from %s's %s%s"),
-		     unit_name(pwinner->type),
-		     get_location_str_in(unit_owner(pwinner),
-					 pwinner->x, pwinner->y),
-		     unit_owner(plooser)->name, unit_name(plooser->type),
-		     vet ? " and became more experienced!" : ".");
+    if (vet) {
+      notify_player_ex(unit_owner(pwinner),
+		       pwinner->x, pwinner->y, E_UNIT_WIN,
+		       _("Game: Your %s%s survived the pathetic attack"
+		         " from %s's %s and became more experienced!"),
+		       unit_name(pwinner->type),
+		       get_location_str_in(unit_owner(pwinner),
+					   pwinner->x, pwinner->y),
+		       unit_owner(plooser)->name, unit_name(plooser->type));
+    } else {
+      notify_player_ex(unit_owner(pwinner),
+		       pwinner->x, pwinner->y, E_UNIT_WIN,
+		       _("Game: Your %s%s survived the pathetic attack"
+		         " from %s's %s."),
+		       unit_name(pwinner->type),
+		       get_location_str_in(unit_owner(pwinner),
+					   pwinner->x, pwinner->y),
+		       unit_owner(plooser)->name, unit_name(plooser->type));
+    }
     
     notify_player_ex(unit_owner(plooser),
 		     def_x, def_y, E_UNIT_LOST_ATT,
@@ -785,15 +795,25 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	    unit_owner(pdefender)->name, unit_type(pdefender)->name);
 
     punit->moved = TRUE;	/* We moved */
-
-    notify_player_ex(unit_owner(pwinner), punit->x, punit->y,
-		     E_UNIT_WIN_ATT,
-		     _("Game: Your attacking %s succeeded"
-		       " against %s's %s%s%s"), unit_name(pwinner->type),
-		     unit_owner(plooser)->name, unit_name(plooser->type),
-		     get_location_str_at(unit_owner(pwinner),
-		     plooser->x, plooser->y),
-		     vet ? " and became more experienced!" : "!");
+    if (vet) {
+      notify_player_ex(unit_owner(pwinner), punit->x, punit->y,
+		       E_UNIT_WIN_ATT,
+		       _("Game: Your attacking %s succeeded"
+		         " against %s's %s%s and became more experienced!"),
+		       unit_name(pwinner->type),
+		       unit_owner(plooser)->name, unit_name(plooser->type),
+		       get_location_str_at(unit_owner(pwinner),
+		       plooser->x, plooser->y));
+    } else {
+      notify_player_ex(unit_owner(pwinner), punit->x, punit->y,
+		       E_UNIT_WIN_ATT,
+		       _("Game: Your attacking %s succeeded"
+		         " against %s's %s%s!"),
+		       unit_name(pwinner->type),
+		       unit_owner(plooser)->name, unit_name(plooser->type),
+		       get_location_str_at(unit_owner(pwinner),
+		       plooser->x, plooser->y));
+    }
     kill_unit(pwinner, plooser);
                /* no longer pplayer - want better msgs -- Syela */
   }
