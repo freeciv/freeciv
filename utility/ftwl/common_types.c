@@ -339,7 +339,16 @@ void ct_clip_rect(struct ct_rect *to_draw, const struct ct_rect *available)
   ct_clip_point(&p1, available);
   ct_clip_point(&p2, available);
 
-  ct_rect_fill_on_2_points(to_draw, &p1, &p2);
+  /* If after clipping the points are outside we have an empty area */
+  if (!ct_point_in_rect(&p1, to_draw) || !ct_point_in_rect(&p2, to_draw)) {
+    to_draw->x = 0;
+    to_draw->y = 0;
+    to_draw->width = 0;
+    to_draw->height = 0;
+  } else {
+    ct_rect_fill_on_2_points(to_draw, &p1, &p2);
+  }
+
   assert(ct_rect_in_rect(to_draw, available));
 }
 
