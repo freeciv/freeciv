@@ -1980,6 +1980,8 @@ static void city_support(struct city *pcity)
 **************************************************************************/
 void generic_city_refresh(struct city *pcity)
 {
+  int prev_tile_trade = pcity->tile_trade;
+
   set_food_trade_shields(pcity);
   citizen_happy_size(pcity);
   set_tax_income(pcity);	/* calc base luxury, tax & bulbs */
@@ -1990,6 +1992,18 @@ void generic_city_refresh(struct city *pcity)
   city_support(pcity);		/* manage settlers, and units */
   citizen_happy_wonders(pcity);	/* happy wonders & fundamentalism */
   unhappy_city_check(pcity);
+
+  if (pcity->tile_trade != prev_tile_trade) {
+    int i;
+
+    for (i = 0; i < NUM_TRADEROUTES; i++) {
+      struct city *pcity2 = find_city_by_id(pcity->trade[i]);
+
+      if (pcity2) {
+	generic_city_refresh(pcity2);
+      }
+    }
+  }
 }
 
 /**************************************************************************
