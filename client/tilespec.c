@@ -1427,12 +1427,13 @@ static void tilespec_lookup_sprite_tags(void)
   /* We use direction-specific irrigation and farmland graphics, if they
    * are available.  If not, we just fall back to the basic irrigation
    * graphics. */
-  for (i = 0; i < NUM_DIRECTION_NSEW; i++) {
-    my_snprintf(buffer, sizeof(buffer), "tx.s_irrigation_%s", nsew_str(i));
+  for (i = 0; i < num_index_cardinal; i++) {
+    my_snprintf(buffer, sizeof(buffer), "tx.s_irrigation_%s",
+		cardinal_str(i));
     SET_SPRITE_ALT(tx.irrigation[i], buffer, "tx.irrigation");
   }
-  for (i = 0; i < NUM_DIRECTION_NSEW; i++) {
-    my_snprintf(buffer, sizeof(buffer), "tx.s_farmland_%s", nsew_str(i));
+  for (i = 0; i < num_index_cardinal; i++) {
+    my_snprintf(buffer, sizeof(buffer), "tx.s_farmland_%s", cardinal_str(i));
     SET_SPRITE_ALT(tx.farmland[i], buffer, "tx.farmland");
   }
 
@@ -2322,13 +2323,18 @@ static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
 **************************************************************************/
 static int get_irrigation_index(enum tile_special_type *tspecial_near)
 {
-  /* A tile with S_FARMLAND will also have S_IRRIGATION set. */
-  bool n = contains_special(tspecial_near[DIR8_NORTH], S_IRRIGATION);
-  bool s = contains_special(tspecial_near[DIR8_SOUTH], S_IRRIGATION);
-  bool e = contains_special(tspecial_near[DIR8_EAST], S_IRRIGATION);
-  bool w = contains_special(tspecial_near[DIR8_WEST], S_IRRIGATION);
+  int tileno = 0, i;
 
-  return INDEX_NSEW(n, s, e, w);
+  for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+    enum direction8 dir = cardinal_tileset_dirs[i];
+
+    /* A tile with S_FARMLAND will also have S_IRRIGATION set. */
+    if (contains_special(tspecial_near[dir], S_IRRIGATION)) {
+      tileno |= 1 << i;
+    }
+  }
+
+  return tileno;
 }
 
 /**************************************************************************

@@ -260,8 +260,8 @@ struct named_sprites {
   } user;
   struct {
     struct Sprite
-      *farmland[NUM_DIRECTION_NSEW],
-      *irrigation[NUM_DIRECTION_NSEW],
+      *farmland[MAX_INDEX_CARDINAL],
+      *irrigation[MAX_INDEX_CARDINAL],
       *pollution,
       *village,
       *fortress,
