@@ -671,10 +671,10 @@ activeunits_report_dialog_update(void)
 
     my_snprintf(buf[0],sizeof(buf[0]),"%s",_("Totals"));
     buf[1][0]='\0';
-    my_snprintf(buf[1],sizeof(buf[1]),"%d",unittotals.building_count);
-    my_snprintf(buf[2],sizeof(buf[2]),"%d",unittotals.active_count);
-    my_snprintf(buf[3],sizeof(buf[3]),"%d",unittotals.upkeep_shield);
-    my_snprintf(buf[4],sizeof(buf[4]),"%d",unittotals.upkeep_food);  
+    my_snprintf(buf[2],sizeof(buf[2]),"%d",unittotals.building_count);
+    my_snprintf(buf[3],sizeof(buf[3]),"%d",unittotals.active_count);
+    my_snprintf(buf[4],sizeof(buf[4]),"%d",unittotals.upkeep_shield);
+    my_snprintf(buf[5],sizeof(buf[5]),"%d",unittotals.upkeep_food);  
     fcwin_listview_add_row(lv,k,AU_COL,row);
     EnableWindow(GetDlgItem(activeunits_dlg,ID_MILITARY_UPGRADE),FALSE);
     ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);
