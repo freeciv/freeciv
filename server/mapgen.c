@@ -1121,7 +1121,7 @@ static void fillisland(int coast, long int *bucket,
 	     || is_terrain_near_tile(x,y,cold0) 
 	     || is_terrain_near_tile(x,y,cold1) 
 	     )
-	  &&( !is_terrain_near_tile(x, y, T_OCEAN) || myrand(100) < coast )) {
+	   &&( !is_at_coast(x, y) || myrand(100) < coast )) {
         if (cold1 != T_RIVER) {
           if ( is_cold(x,y) )
             map_set_terrain(x, y, (myrand(cold0_weight+cold1_weight)<cold0_weight) 
@@ -1131,9 +1131,10 @@ static void fillisland(int coast, long int *bucket,
 			    ? warm0 : warm1);
         } else {
           if (is_water_adjacent_to_tile(x, y) &&
-            count_terrain_near_tile(x, y, T_RIVER) < 3)
-              map_set_terrain(x, y, T_RIVER);
-	    }
+	      count_terrain_near_tile(x, y, T_OCEAN) < 4 &&
+	      count_terrain_near_tile(x, y, T_RIVER) < 3)
+	    map_set_terrain(x, y, T_RIVER);
+	}
       }
       if (map_get_terrain(x,y) != T_GRASSLAND) i--;
     }
@@ -1170,8 +1171,9 @@ static void fillislandrivers(int coast, long int *bucket)
 	     || is_special_type_close(x,y,S_RIVER)
 	     || myrand(100)<50 
 	     )
-	  &&( !is_terrain_near_tile(x, y, T_OCEAN) || myrand(100) < coast )) {
+	   &&( !is_at_coast(x, y) || myrand(100) < coast )) {
 	if (is_water_adjacent_to_tile(x, y) &&
+	    count_terrain_near_tile(x, y, T_OCEAN) < 4 &&
             count_special_near_tile(x, y, S_RIVER) < 3) {
 	  map_set_special(x, y, S_RIVER);
 	  i--;
@@ -1350,6 +1352,10 @@ static void makeisland(int islemass, int starters)
 		 1,1,1,1,
 		 T_RIVER, T_RIVER, T_RIVER, T_RIVER);
     }
+    if (terrain_control.river_style==R_AS_SPECIAL) {
+      riverbuck += map.riverlength / 10 * i;
+      fillislandrivers(1, &riverbuck);
+    }
     mountbuck += map.mountains * i;
     fillisland(20, &mountbuck,
 	       3,1, 3,1,
@@ -1366,10 +1372,6 @@ static void makeisland(int islemass, int starters)
     fillisland(80, &swampbuck,
 	       map.swampsize, map.swampsize, map.swampsize, map.swampsize,
 		T_SWAMP, T_SWAMP, T_SWAMP, T_SWAMP);
-    if (terrain_control.river_style==R_AS_SPECIAL) {
-      riverbuck += map.riverlength / 10 * i;
-      fillislandrivers(1, &riverbuck);
-    }
 
     isleindex++;
     map.num_continents++;
