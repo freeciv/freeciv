@@ -1,10 +1,10 @@
                           Freeciv Hacker's Guide
-			  
+
 This guide is intended to be a help for developers, wanting to mess with
-Freeciv program. 
+Freeciv program.
 
 Here and there, you'll see some comments marked as [...], containing more
-personal thoughts on the design, why it looks like it does, and sometimes what 
+personal thoughts on the design, why it looks like it does, and sometimes what
 went wrong. I hope developers will find that interesting too.
 
 To read about the AI, see README.AI
@@ -17,10 +17,10 @@ The client is pretty dumb. Almost all calculations is performed on the
 server.
 
 [It wasn't like this always. Originally more code was placed in the
-common/ dir, allowing the client to do some of the world updates itself. 
-The end_of_turn city-refresh was for example performed both on the server 
+common/ dir, allowing the client to do some of the world updates itself.
+The end_of_turn city-refresh was for example performed both on the server
 and on the client. However things got quite complex, more and more info
-was needed on the client-side(security problem). Little by little we moved 
+was needed on the client-side(security problem). Little by little we moved
 more code to the server, and as of 1.5 the client is quite dumb -PU]
 
 The source code has the following important directories:
@@ -67,7 +67,7 @@ civ.serv) with lines such as the following:
 set timeout -1          # run a server only autogame
 set aifill 7            # fill to 7 players
 hard                    # make the AI do complex things
-create Caesar           # first player (with known name) created and 
+create Caesar           # first player (with known name) created and
                         # toggled to AI mode
 start
 
@@ -89,7 +89,7 @@ watch the show.
 Note, that the server will eventually flood a client with updates
 faster than they can be drawn to the screen, thus it should always be
 throttled by setting a timeout value high enough to allow processing
-of the large update loads near the end of the game. 
+of the large update loads near the end of the game.
 
 The autogame mode with timeout -1 is only available in DEBUG versions
 and should not be used with clients as it removes virtually all the
@@ -111,7 +111,7 @@ unit_list_iterate(ptile->units, punit) {
 } unit_list_iterate_end;
 
 Note that the macro itself declares the variable punit.
-Similarly there is a 
+Similarly there is a
 
 city_list_iterate(pplayer->cities, pcity) {
 /* Do something with pcity, the pointer to a city struct */
@@ -131,7 +131,7 @@ unit was the following node unit_list_iterate will already have saved the
 pointer, and use it in a moment, with a segfault as the result.
 The way to avoid this is to use the function
 void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
-			 int wipe_cargo)
+                         int wipe_cargo)
 and as the second argument write "myiter", a variable declared in the macro.
 The unit list will then automatically be kept sane.
 
@@ -144,7 +144,7 @@ Then a unit iteration would look like
   struct unit_list *punit_list;
   struct genlist_iterator myiter;
   .....
-  
+
   genlist_iterator_init(&myiter, &punit_list->list, 0);
   for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     punit=(struct unit *)ITERATOR_PTR(myiter);
@@ -164,9 +164,9 @@ These are defined in common/packets.h.
 
 For each 'foo' packet structure, there is one send and one receive function:
 
-int		    send_packet_foo	(struct connection *pc,
-					 struct packet_foo *packet);
-struct packet_foo * receive_packet_foo	(struct connection *pc);
+int                 send_packet_foo    (struct connection *pc,
+                                        struct packet_foo *packet);
+struct packet_foo * receive_packet_foo (struct connection *pc);
 
 The send_packet_foo() function serializes a structure into a bytestream
 and adds this to the send buffer in the connection struct.
@@ -182,8 +182,8 @@ functions like dio_get_uint32().
 A packet is constituted by header followed by the serialized structure
 data. The header contains the following fields:
 
-uint16	:	length		(the length of the entire packet)
-uint8	:	type		(e.g. PACKET_TILE_INFO)
+uint16  :       length          (the length of the entire packet)
+uint8   :       type            (e.g. PACKET_TILE_INFO)
 
 To demonstrate the route for a packet through the system, here's how
 a unit disband is performed:
@@ -193,13 +193,13 @@ a unit disband is performed:
     packet layer function send_packet_unit_request() with this structure and
     packet type: PACKET_UNIT_DISBAND.
 3)  The packet layer serializes the structure, wraps it up in a packet
-    containing the packetlength, type and the serialized data. Finally 
+    containing the packetlength, type and the serialized data. Finally
     the data is send to the server.
 4)  On the server the packet is read. Based on the type, the corresponding
-    de-serialize function is called is called by get_packet_from_connection(). 
+    de-serialize function is called is called by get_packet_from_connection().
 5)  A packet_unit_request is initialized with the bytestream.
-6)  Since the incoming packet is a request (a request in this context 
-    is every packet sent from the client to the server) the server sends a 
+6)  Since the incoming packet is a request (a request in this context
+    is every packet sent from the client to the server) the server sends a
     PACKET_PROCESSING_STARTED packet to the client.
 7)  Finally the corresponding packet-handler, handle_unit_disband() function,
     is called with the newly constructed structure.
@@ -210,11 +210,11 @@ a unit disband is performed:
     wrapped into a packet along with the type PACKET_REMOVE_UNIT:
     send_packet_generic_integer().
 11) The packet is serialized and send across the network.
-12) The packet-handler returns and the end of the processing is 
+12) The packet-handler returns and the end of the processing is
     announced to the client with a PACKET_PROCESSING_FINISHED packet.
-13) On the client the PACKET_REMOVE_UNIT packet is deserialized into 
+13) On the client the PACKET_REMOVE_UNIT packet is deserialized into
     a packet_generic_integer structure.
-14) The corresponding client handler function is now called 
+14) The corresponding client handler function is now called
     handle_remove_unit(), and finally the unit is disbanded.
 
 Notice that the two packets (PACKET_UNIT_DISBAND and
@@ -264,9 +264,9 @@ PACKET_THAW_HINT:
 
 The Xaw client uses XtAppAddInput() to tell Xt to call the callback
 functions, when something happens on the client socket.
-The Gtk+ client uses a similar gdk_input_add() call.
+The GTK+ client uses a similar gdk_input_add() call.
 
-[The packet system started out as a pain and it stayed that way all the time. 
+[The packet system started out as a pain and it stayed that way all the time.
 After using Java's object serialize system, this handcoded serialize
 code really feels like the stoneage. That said, I fear it requires some
 advanced pre-processing system etc to automate the task for C structures. -PU]
@@ -324,7 +324,7 @@ forests and rivers are treated in special cases.
 
 [IMO we should have gotten rid of libxpm long ago. The graphics should
 be drawn in 24bit, and then quantized runtime, if the client is displayed
-on a pseudocolor display. 
+on a pseudocolor display.
 The current tile system should be converted to something like civ2's.
 They get away with drawing way less tiles, and it looks better. -PU]
 
@@ -510,9 +510,9 @@ can ask me on <thue@diku.dk>.
 -Thue
 
 =========================================================================
-Client GUI- Athena 
+Client GUI- Athena
 =========================================================================
-One client GUI is written using athena-widgets. A few comments on this 
+One client GUI is written using athena-widgets. A few comments on this
 could prove useful for anyone wishing to write new dialogs or improve
 on the current ones.
 
@@ -520,9 +520,9 @@ Widgets:
 --------
 When you create new widgets for a dialog, like:
 
-  players_form = XtVaCreateManagedWidget("playersform", 
-				       formWidgetClass, 
-				       players_dialog_shell, NULL);
+  players_form = XtVaCreateManagedWidget("playersform",
+                                         formWidgetClass,
+                                         players_dialog_shell, NULL);
 
 then put the widget properties in the app-default file 'Freeciv', instead
 of hardcoding them. For the widget created above, the following entries
@@ -540,7 +540,7 @@ Pixcomm and Canvas:
 The Pixcomm is a subclassed Command-widget, which can displays a Pixmap
 instead of a string, on top of a button(command). The Pixcomm widget
 should be used all places where this kind of high-level functionality
-is required. 
+is required.
 
 The Canvas widget is more low-level. One have to write an expose(redraw)
 event-handler for each widget. The widget generates events on resize
@@ -555,7 +555,7 @@ widgets to libXaw. In hindsight I should just subclassed the Canvas
 widget and add more highlevel functionality. -PU]
 
 ===========================================================================
-Misc - The idea trashcan 
+Misc - The idea trashcan
 ===========================================================================
 [Currently all of the major entities - units, cities, players, contains
 an unique id. This id is really only required when a reference to an entity
@@ -590,7 +590,7 @@ There are four player-related entities:
 
 + nation
   A type of civilization (except that very little actually depends on
-  nation, and the oddity exists that each player must be of different 
+  nation, and the oddity exists that each player must be of different
   nation)
 
 + user
@@ -598,8 +598,8 @@ There are four player-related entities:
   (this is the plan; it is not yet implemented).
 
 + connection
-  Records a client connection; like a user, but disappears when the user 
-  disconnects, whereas for real users we may want to remember them between 
+  Records a client connection; like a user, but disappears when the user
+  disconnects, whereas for real users we may want to remember them between
   connections.  See Connections section below.
 
 Where do these entities exist?
@@ -649,24 +649,24 @@ users and unprotected ones.
 ----
   THE PRESENT IMPLEMENTATION:
 
-Currently access levels are stored in the connection struct.  This allows 
-access levels to be assigned to each individual connected player, which 
-would not be the case if they were directly assigned to the player struct 
-(due to the fact that the players array changes when players are added or 
+Currently access levels are stored in the connection struct.  This allows
+access levels to be assigned to each individual connected player, which
+would not be the case if they were directly assigned to the player struct
+(due to the fact that the players array changes when players are added or
 removed).
 
 But that's it.
 
 Players are still created before the game is started, and player names
-still belong to players.  Access levels exist in client and server, 
+still belong to players.  Access levels exist in client and server,
 but only the server uses them.  User ids are not yet implemented;
 Server ids do not exist at all.
 
-Commands to protect/unprotect users do not yet exist; they would serve 
+Commands to protect/unprotect users do not yet exist; they would serve
 no useful purpose.
 
-Access levels can set for individual users, including AI players with 
-a connected observer, but only while someone is connected; they will not 
+Access levels can set for individual users, including AI players with
+a connected observer, but only while someone is connected; they will not
 be remembered when the user disconnects.
 
 ===========================================================================
@@ -709,7 +709,7 @@ Connections can be classified as follows:  (first match applies)
 2. (pconn->established == 0) TCP connection has been made, but initial
    Freeciv packets have not yet been negotiated (join_game etc).
    Exists in game.all_connections only.  Should not be sent any
-   information except directly as result of join_game etc packets, 
+   information except directly as result of join_game etc packets,
    or server shutdown, or connection close, etc.
 
 (All following cases exist in game.est_connections.)

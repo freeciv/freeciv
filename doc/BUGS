@@ -14,12 +14,12 @@ This lists only the most obvious bugs.  For a complete list, see:
 KNOWN BUGS:
 ===========
 
- - In the XAW/XAW3d client, the -t options for the tileset to use
-   sometimes does not work. In this case, use --tiles instead.
+ - In the Xaw client, the -t options for the tileset to use sometimes
+   does not work. In this case, use --tiles instead.
 
- - The display of units in the field left below the turn done button 
-   is a little bit buggy. The AI can move units without an update of 
-   the field. So you see 3-4 units on the field on the left side but 
+ - The display of units in the field left below the turn done button
+   is a little bit buggy. The AI can move units without an update of
+   the field. So you see 3-4 units on the field on the left side but
    only 1 is there. See issue PR#2625 for more info.
 
  - Your CMA settings are only sent to the server when you press
@@ -57,7 +57,7 @@ KNOWN BUGS:
    after. Fx when building the lighthouse some triremes will only get
    the movement bonus the next turn.
 
- - The XAW client can only display 25 citizens in the city dialog.
+ - The Xaw client can only display 25 citizens in the city dialog.
 
  - The autoattack generally doesn't work very well.
 
@@ -67,7 +67,7 @@ KNOWN BUGS:
  - The science dialog is not updated when you gain a tech. You need to
    close and open it.
 
- - In the gtk client, sometimes the area near the minimap contains
+ - In the GTK+ client, sometimes the area near the minimap contains
    garbage.
 
  - Automate routines like auto explore don't handle triremes very well.
@@ -84,12 +84,12 @@ KNOWN BUGS:
    and after the human player each turn. This will sometimes give the
    impression that the AI moves twice.
 
- - The xaw client does not work well with the KDE window manager.
-   Try using the gtk client or another window manager.
+ - The Xaw client does not work well with the KDE window manager.
+   Try using the GTK+ client or another window manager.
 
  - All options given to the client will also be passed to the UI. This means
    when there are identical options they will conflict. It is a problem for
-   the -d and sometimes -t options using the XAW client. One workaround is
+   the -d and sometimes -t options using the Xaw client. One workaround is
    to use long versions of the options instead (--debug and --tiles, in this
    case). See PR#1752.
 
@@ -135,7 +135,7 @@ Here's what to do:
 
    - Describe the problem, including any messages that were displayed.
 
-   - Indicate which client(s) you are using (Gtk+ or Xaw).
+   - Indicate which client(s) you are using (GTK+ or Xaw).
 
    - Tell us the name and version of:
 
@@ -144,8 +144,8 @@ Here's what to do:
 
        - The version number of Freeciv.
 
-       - If you are using the Gtk+ client, the version numbers
-         (if you know them) of your Gtk+, glib, and imlib libraries.
+       - If you are using the GTK+ client, the version numbers
+         (if you know them) of your GTK+, GLib, and imlib libraries.
 
        - If you are using the Xaw client, the version numbers (if you
          know them) of the X libraries, the Xpm library, and the Xaw

@@ -26,12 +26,12 @@ Translations:
 You may find a translated version of this file, as well as of other parts
 of the Freeciv documentation, in the following places:
 
-	Dutch			./doc/nl
-	French			./doc/fr
-	German			./doc/de
-	Italian			./doc/it
-	Japanese		./doc/ja
-	Swedish			./doc/sv
+        Dutch                   ./doc/nl
+        French                  ./doc/fr
+        German                  ./doc/de
+        Italian                 ./doc/it
+        Japanese                ./doc/ja
+        Swedish                 ./doc/sv
 
 Even if there is no translation for your language, the game itself may be
 support it. Please see "Native Language Support" below.
@@ -166,15 +166,15 @@ Client:
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
   distribution comes with 2 main tilesets:
-  - isotrident: An isometric tileset similar in shape to the one in civ 2. 
-    (not yet supported by the xaw client.)
+  - isotrident: An isometric tileset similar in shape to the one in civ 2.
+    (not yet supported by the Xaw client.)
   - trident: a civ1-style tileset with 30x30 tiles.
     The trident tileset has a variant called "trident_shields".
 
-  In this release the isotrident tileset is the default in the gtk, amiga,
-  and win32 clients, while the xaw client has trident as default. 
-  The "_shields" variants use a shield-shaped flag, which is smaller and 
-  may be less obscured. 
+  In this release the isotrident tileset is the default in the GTK+,
+  amiga, and win32 clients, while the Xaw client has trident as default.
+  The "_shields" variants use a shield-shaped flag, which is smaller and
+  may be less obscured.
   try them both and decide for yourself -- to use the trident tileset
   start the client with:
 
@@ -254,7 +254,7 @@ Caveats:
     to http://proxy.myisp.com:8888/ before starting the client.
 
  3) Sometimes there are no games on the metaserver.  That happens.
-    The number of players there vary with the time of the day. Try 
+    The number of players there vary with the time of the day. Try
     starting one yourself!
 
 
@@ -389,9 +389,9 @@ Both the client and server print messages known as "log messages".
 There are five categories of log messages: "fatal", "error", "normal",
 "verbose", and "debug".
 
-By default, fatal, error and normal messages are printed to standard 
-output where the client or server was started.  You can direct log 
-messages to a file instead of the screen with the "--log filename", 
+By default, fatal, error and normal messages are printed to standard
+output where the client or server was started.  You can direct log
+messages to a file instead of the screen with the "--log filename",
 or "-l filename" command line options.
 
 You can change the level of log messages displayed with "--debug
@@ -512,7 +512,7 @@ Internet Relay Chat (IRC)
 Several players and developers hang out on #freeciv on the
 Open Projects network. Try connecting to the server
 
-	irc.openprojects.net
+        irc.openprojects.net
 
 
 New Releases:
