@@ -207,7 +207,10 @@ int is_starter_close(int x, int y, int nr, int dist)
 {
   int i;
 
-  if (map_get_terrain(x, y)!=T_PLAINS && map_get_terrain(x, y)!=T_GRASSLAND)
+  if (map_get_terrain(x, y)!=T_PLAINS && 
+      map_get_terrain(x, y)!=T_GRASSLAND &&
+      map_get_terrain(x, y)!=T_RIVER
+      )
     return 1;
   /* don't start on a hut */
   if (map_get_tile(x, y)->special&S_HUT)
@@ -227,16 +230,30 @@ int is_good_tile(int x, int y)
   c=map_get_terrain(x,y);
   switch (c) {
 
+    /* range 0 .. 5 , 2 standard */
+
   case T_FOREST:
+    if (map_get_tile(x, y)->special) return 5;
+    return 3;
+  case T_RIVER:
+    if (map_get_tile(x, y)->special) return 4;
+    return 3;
   case T_GRASSLAND:
   case T_PLAINS:
-  case T_RIVER:
-    if (map_get_tile(x, y)->special) return 2;
-    return 1;
   case T_HILLS:
+    if (map_get_tile(x, y)->special) return 4;
+    return 2;
+  case T_DESERT:
+  case T_OCEAN:/* must be called with usable seas */    
+    if (map_get_tile(x, y)->special) return 3;
+    return 1;
+  case T_SWAMP:
+  case T_JUNGLE:
   case T_MOUNTAINS:
     if (map_get_tile(x, y)->special) return 3;
     return 0;
+  /* case T_ARCTIC: */
+  /* case T_TUNDRA: */
   default:
     if (map_get_tile(x,y)->special) return 1;
     break;
@@ -272,9 +289,20 @@ int is_special_close(int x, int y)
 {
   int x1,y1;
   for (x1=x-1;x1<x+2;x1++)
-    for (y1=y-1;y1<=y;y1++) 
+    for (y1=y-1;y1<=y+2;y1++) 
       if(map_get_tile(x1,y1)->special)
 	return 1;
+  return 0;
+}
+
+int is_sea_usable(int x, int y)
+{
+  int x1,y1;
+  for (x1=x-2;x1<x+3;x1++)
+    for (y1=y-2;y1<=y+3;y1++) 
+      if( !( (x==x1-2||x==x1+2) && (y==y1-2||y==y1+2) ) )
+	if(map_get_terrain(x1,y1)!=T_OCEAN)
+	  return 1;
   return 0;
 }
 
