@@ -36,15 +36,15 @@ This function should only be called by the Q_() macro.  This macro also
 should, if NLS is enabled, have called gettext() to get the argument
 to pass to this function.
 ***********************************************************************/
-char *skip_intl_qualifier_prefix(const char *str)
+const char *skip_intl_qualifier_prefix(const char *str)
 {
-  char *ptr;
+  const char *ptr;
 
   if (*str != '?') {
-    return (char*)str;
+    return str;
   } else if ((ptr = strchr(str, ':'))) {
     return (ptr + 1);
   } else {
-    return (char*)str;		/* may be something wrong */
+    return str;			/* may be something wrong */
   }
 }
