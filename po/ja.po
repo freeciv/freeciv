@@ -16,9 +16,9 @@
 # メールをお待ちしています。
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.11.7-devel\n"
-"POT-Creation-Date: 2001-08-03 20:24+0200\n"
-"PO-Revision-Date: 2001-07-29 03:48+09:00\n"
+"Project-Id-Version: Freeciv 1.11.11-devel\n"
+"POT-Creation-Date: 2001-08-05 02:53+0900\n"
+"PO-Revision-Date: 2001-08-05 04:21+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "MIME-Version: 1.0\n"
@@ -5735,7 +5735,7 @@ msgstr "新型にする(_U)"
 #: client/gui-mui/dialogs.c:1228 client/gui-mui/dialogs.c:1318
 #: client/gui-mui/finddlg.c:110 client/gui-mui/gamedlgs.c:238
 #: client/gui-mui/gamedlgs.c:330 client/gui-mui/gotodlg.c:166
-#: client/gui-mui/inputdlg.c:81 client/gui-mui/messagedlg.c:89
+#: client/gui-mui/inputdlg.c:81 client/gui-mui/messagedlg.c:91
 #: client/gui-mui/worklistclass.c:672
 msgid "_Cancel"
 msgstr "取り消し(_C)"
@@ -7556,17 +7556,17 @@ msgstr ""
 "出:出力  メ:メッセージ  ポ:個々にポップアップ"
 
 #: client/gui-gtk/messagedlg.c:110 client/gui-gtk/messagedlg.c:116
-#: client/gui-mui/messagedlg.c:99
+#: client/gui-mui/messagedlg.c:101
 msgid "Out:"
 msgstr "出"
 
 #: client/gui-gtk/messagedlg.c:112 client/gui-gtk/messagedlg.c:118
-#: client/gui-mui/messagedlg.c:100
+#: client/gui-mui/messagedlg.c:102
 msgid "Mes:"
 msgstr "メ"
 
 #: client/gui-gtk/messagedlg.c:114 client/gui-gtk/messagedlg.c:120
-#: client/gui-mui/messagedlg.c:101
+#: client/gui-mui/messagedlg.c:103
 msgid "Pop:"
 msgstr "ポ"
 
@@ -8079,7 +8079,7 @@ msgstr "ヘリコプターに対して自動攻撃(_H)"
 #: client/gui-mui/dialogs.c:1778 client/gui-mui/finddlg.c:109
 #: client/gui-mui/gamedlgs.c:237 client/gui-mui/gamedlgs.c:329
 #: client/gui-mui/gotodlg.c:164 client/gui-mui/inputdlg.c:80
-#: client/gui-mui/messagedlg.c:88 client/gui-mui/wldlg.c:258
+#: client/gui-mui/messagedlg.c:90 client/gui-mui/wldlg.c:258
 #: client/gui-mui/worklistclass.c:671
 msgid "_Ok"
 msgstr "了解(_O)"
@@ -10663,7 +10663,7 @@ msgid ""
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
 "civil war.  However, this is a server option, and may vary upwards from a "
 "minimum of 6."
-msgstr ""
+msgstr "内戦が起こるには、デフォルト最低で 10 以上の都市を持っていることが条件です。即ち10未満の都市を備えた国家は、内戦に対して免疫があります。この数字はサーバ・オプションで、 6 以上の数に変更できます。"
 
 #: data/helpdata.txt:1195
 msgid ""
@@ -12024,6 +12024,7 @@ msgid "Queen"
 msgstr "女王"
 
 #: data/civ2/governments.ruleset:286 data/default/governments.ruleset:287
+#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -12046,6 +12047,11 @@ msgid ""
 "You may impose limited martial law under Monarchy: each military unit in a "
 "city, up to a maximum of 3, will keep one unhappy citizen content."
 msgstr ""
+"君主制下では、世襲の王もしくは王女が名目上の頭首として治めます。\n"
+"\n"
+"君主制は、共和制と同じ小さな汚職を被ります。\n"
+"\n"
+"開拓者は、君主制下ではターンごとに食料 1 を消費します。"
 
 #: data/civ1/governments.ruleset:311 data/civ1/techs.ruleset:139
 #: data/civ2/governments.ruleset:313 data/civ2/techs.ruleset:139
@@ -13066,7 +13072,6 @@ msgid "Engineers"
 msgstr "エンジニア"
 
 #: data/civ2/units.ruleset:124 data/default/units.ruleset:124
-#, fuzzy
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -13080,13 +13085,15 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
 "upgraded for free."
 msgstr ""
-"エンジニアは開拓者に似ていますが、二倍働き二倍速く動き、また大胆な地形(例えば"
-"ツンドラから砂漠)の変更も行なえます。\n"
+"エンジニアは開拓者に似ていますが、二倍働き二倍速く動きます。エンジニアはま"
+"た、大幅な地形(例えばツンドラから砂漠)の変更も行なえます。大幅な地形の変更"
+"は、開拓者では行なえません。\n"
 "\n"
 "ヒント 1:  できるだけ開拓者をエンジニアへアップグレードしましょう。エンジニア"
 "は開拓者と同じ資源しか必要ありません。\n"
 "\n"
-"ヒント 2:  "
+"ヒント 2:  レオナルドの工房を建築できるなら、工房が古くなる前に爆薬を研究しま"
+"しよう。この方法で、開拓者をタダでアップグレードできます。"
 
 #: data/civ2/units.ruleset:139 data/default/units.ruleset:139
 msgid "Warriors"
@@ -13871,12 +13878,11 @@ msgstr "デンマーク民族"
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xFA.
 #: data/nation/dunedain.ruleset:7
 msgid "Dunedain"
-msgstr ""
+msgstr "デュネダイン"
 
 #: data/nation/dunedain.ruleset:8
-#, fuzzy
 msgid "?plural:Dunedan"
-msgstr "インド民族"
+msgstr "デュネダン"
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -13967,9 +13973,8 @@ msgid "Chancellor"
 msgstr "首相"
 
 #: data/nation/german.ruleset:14
-#, fuzzy
 msgid "Princebishop"
-msgstr "王女"
+msgstr ""
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -14156,14 +14161,12 @@ msgid "?plural:Polish"
 msgstr "ポーランド民族"
 
 #: data/nation/polish.ruleset:15
-#, fuzzy
 msgid "Dyktator"
-msgstr "独裁者"
+msgstr ""
 
 #: data/nation/polish.ruleset:15
-#, fuzzy
 msgid "Dyktatorka"
-msgstr "独裁者"
+msgstr ""
 
 #: data/nation/polish.ruleset:16
 msgid "Prymas"
@@ -14174,9 +14177,8 @@ msgid "Pierwszy Sekretarz"
 msgstr ""
 
 #: data/nation/polish.ruleset:19 data/nation/polish.ruleset:20
-#, fuzzy
 msgid "Prezydent"
-msgstr "大統領"
+msgstr ""
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
@@ -14227,9 +14229,8 @@ msgid "?plural:Scots"
 msgstr "スコットランド民族"
 
 #: data/nation/scottish.ruleset:15
-#, fuzzy
 msgid "First Minister"
-msgstr "首相"
+msgstr ""
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -14269,7 +14270,7 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:27 data/nation/turk.ruleset:14
 msgid "Sultan"
-msgstr "スルタン"
+msgstr "サルタン"
 
 #: data/nation/singaporean.ruleset:28
 msgid "Encik"
@@ -14308,19 +14309,16 @@ msgid "?plural:Spanish"
 msgstr "スペイン民族"
 
 #: data/nation/spanish.ruleset:13
-#, fuzzy
 msgid "Caudillo"
-msgstr "無線"
+msgstr ""
 
 #: data/nation/spanish.ruleset:13
-#, fuzzy
 msgid "Caudilla"
-msgstr "カナダ人"
+msgstr ""
 
 #: data/nation/spanish.ruleset:14
-#, fuzzy
 msgid "Cardinal"
-msgstr "ツァーリーネ"
+msgstr ""
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -14453,6 +14451,3 @@ msgstr "ズールー族"
 
 #~ msgid "%s (AI, difficulty level %s) is being observed from %s"
 #~ msgstr "%s (AI, 難易度 %s) は %s から観察されています"
-
-#~ msgid "%s (AI, difficulty level %s) is not being observed"
-#~ msgstr "%s (AI, 難易度 %s) は観察されていません"
