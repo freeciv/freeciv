@@ -115,6 +115,7 @@ struct player {
   struct player_score score;
   struct player_economic economic;
   struct player_research research;
+  int future_tech;
   struct player_ai ai;
   int is_connected;
   struct connection *conn;

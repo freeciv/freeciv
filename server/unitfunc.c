@@ -99,8 +99,16 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       j++;
     }
   }
-  if (!j) 
-    return;
+  if (!j)
+    if (target->future_tech > pplayer->future_tech) {
+      notify_player_ex(pplayer, city->x, city->y, E_NOEVENT,
+                      "Game: Your diplomat stole Future Tech. %d from %s",
+                      ++(pplayer->future_tech), target->name);
+      notify_player_ex(target, city->x, city->y, E_DIPLOMATED,
+                      "Game: %s diplomat stole Future Tech. %d in %s.", 
+                      pplayer->name, pplayer->future_tech, city->name);
+      return;
+    }
   if (city->steal) {
     notify_player_ex(pplayer, city->x, city->y, E_NOEVENT,
 		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", city->name);
@@ -121,16 +129,27 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
   city->steal=1;
-  set_invention(pplayer, i, TECH_KNOWN);
-  update_research(pplayer);
-  do_tech_cost(pplayer);
-  pplayer->research.researchpoints++;
   notify_player_ex(pplayer, city->x, city->y, E_NOEVENT,
 		   "Game: Your diplomat stole %s from %s",
 		   advances[i].name, target->name); 
   notify_player_ex(target, city->x, city->y, E_DIPLOMATED,
 		   "Game: %s diplomat stole %s in %s.", 
 		   pplayer->name, advances[i].name, city->name); 
+  if (i==A_RAILROAD) {
+    struct city_list cl=pplayer->cities;
+    struct genlist_iterator myiter;
+    genlist_iterator_init(&myiter, &pplayer->cities.list, 0);
+    notify_player(pplayer, "Game: The people are pleased to hear that youre scientists finally know about railroads.\n      Workers spontaneously gather and upgrade all cities with railroads.",city->name);
+    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+      struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
+      map_set_special(pcity->x, pcity->y, S_RAILROAD);
+      send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
+    }
+  }
+  set_invention(pplayer, i, TECH_KNOWN);
+  update_research(pplayer);
+  do_conquer_cost(pplayer);
+  pplayer->research.researchpoints++;
   if (pplayer->research.researching==i) {
     tec=pplayer->research.researched;
     if (!choose_goal_tech(pplayer))
@@ -201,6 +220,13 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
   unit_list_init(&pnewcity->units_supported);
   city_list_insert(&pplayer->cities, pnewcity);
   map_set_city(pnewcity->x, pnewcity->y, pnewcity);
+  if ((get_invention(pplayer,A_RAILROAD)==TECH_KNOWN) &&
+      (get_invention(cplayer, A_RAILROAD)!=TECH_KNOWN) &&
+      (!(map_get_special(pnewcity->x, pnewcity->y)&S_RAILROAD))) {
+    notify_player(pplayer, "Game: The people in %s are stunned by youre technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
+    map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
+    send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
+  }
   raze_city(pcity);
   city_refresh(pnewcity);
   send_city_info(0, pnewcity, 0);
@@ -372,6 +398,8 @@ void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
     
   if(punit->hp>get_unit_type(punit->type)->hp)
     punit->hp=get_unit_type(punit->type)->hp;
+  if(punit->hp<0)
+    punit->hp=0;
 }
   
 
@@ -766,8 +794,14 @@ void get_a_tech(struct player *pplayer, struct player *target)
       j++;
     }
   }
-  if (!j) 
-    return;
+  if (!j)
+    if (target->future_tech > pplayer->future_tech) {
+      notify_player(pplayer, "Game: You acquire Future Tech %d from %s",
+                   ++(pplayer->future_tech), target->name);
+      notify_player(target, "Game: %s discovered Future Tech. %d in the city.", 
+                   pplayer->name, pplayer->future_tech);
+    }
+  return;
   j=myrand(j)+1;
   for (i=0;i<A_LAST;i++) {
     if (get_invention(pplayer, i)!=TECH_KNOWN && 
@@ -779,7 +813,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
     printf("Bug in get_a_tech\n");
   set_invention(pplayer, i, TECH_KNOWN);
   update_research(pplayer);
-  do_tech_cost(pplayer);
+  do_conquer_cost(pplayer);
   pplayer->research.researchpoints++;
   notify_player(pplayer, "Game: You acquired %s from %s",
 		advances[i].name, target->name); 
@@ -942,6 +976,7 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
   info.upkeep=punit->upkeep;
   info.bribe_cost=punit->bribe_cost;
   info.ai=punit->ai.control;
+  info.fuel=punit->fuel;
   info.goto_dest_x=punit->goto_dest_x;
   info.goto_dest_y=punit->goto_dest_y;
     

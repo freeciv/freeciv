@@ -83,7 +83,7 @@ void historian_advanced()
   struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
-    size[i].value=game.players[i].score.techs;
+    size[i].value=game.players[i].score.techs+game.players[i].future_tech;
     size[i].idx=i;
   }
   qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
@@ -325,11 +325,18 @@ char *number_to_string(int x)
   return buf;
 }
 
-void do_tech_cost(struct player *pplayer)
+void do_dipl_cost(struct player *pplayer)
 {
-  pplayer->research.researched -=(research_time(pplayer)*game.techcost)/100;
+  pplayer->research.researched -=(research_time(pplayer)*game.diplcost)/100;
 }
-
+void do_free_cost(struct player *pplayer)
+{
+  pplayer->research.researched -=(research_time(pplayer)*game.freecost)/100;
+}
+void do_conquer_cost(struct player *pplayer)
+{
+  pplayer->research.researched -=(research_time(pplayer)*game.conquercost)/100;
+}
 
 
 void demographics_report(struct player *pplayer)
@@ -441,7 +448,7 @@ void great_library(struct player *pplayer)
 	  notify_player_ex(pplayer,0,0, E_TECH_GAIN, "Game: %s acquired from The Great Library!", advances[i].name);
 	  set_invention(pplayer, i, TECH_KNOWN);
 	  update_research(pplayer);	
-	  do_tech_cost(pplayer);
+	  do_free_cost(pplayer);
 	  remove_obsolete_buildings(pplayer);
 	  pplayer->research.researchpoints++;
 	  break;
@@ -455,10 +462,7 @@ void great_library(struct player *pplayer)
 	
       } else {
 	choose_random_tech(pplayer);
-	if (pplayer->research.researching == A_NONE) 
-	  notify_player(pplayer, "Game: Our scientist are researching future technology");
-	else
-	  notify_player(pplayer, "Game: Our scientist has choosen to research %s",       advances[pplayer->research.researching].name);
+	notify_player(pplayer, "Game: Our scientist has choosen to research %s",       advances[pplayer->research.researching].name);
       }
     }
   }
@@ -543,23 +547,45 @@ int update_tech(struct player *plr, int bulbs)
 		  advances[plr->ai.tech_goal].name);
   } else {
     choose_random_tech(plr);
-    if (plr->research.researching == A_NONE) 
-      notify_player(plr, "Game: Our scientists are researching future technology");
-    else
+    if (plr->research.researching!=A_NONE)
       notify_player(plr, "Game: Learned %s. Scientists choose to research %s",
 		    advances[old].name,
 		    advances[plr->research.researching].name);
+    else {
+      plr->future_tech++;
+      notify_player(plr,
+                   "Game: Learned Future Tech. %d. Researching Future Tech. %d.", plr->future_tech,(plr->future_tech)+1);
+    }
+
   }
   for (i = 0; i<game.nplayers;i++) {
     if (player_has_embassy(&game.players[i], plr))
-      notify_player(&game.players[i], "Game: The %s have researched %s.", 
-		   get_race_name_plural(plr->race),
-		    advances[old].name);
+      if (plr->research.researching!=A_NONE)
+       notify_player(&game.players[i], "Game: The %s has Researched %s.", 
+                     get_race_name(plr->race),
+                     advances[old].name);
+      else
+       notify_player(&game.players[i],
+                     "Game: the %s has Researched Future Tech. %d.", 
+                     get_race_name(plr->race),
+                     plr->future_tech);
   }
 
   if (philohack) {
     notify_player(plr, "Game: Great philosophers from all the world joins your civilization, you get an immediate advance");
     update_tech(plr, 1000000);
+  }
+
+  if (old==A_RAILROAD) {
+    struct city_list cl=plr->cities;
+    struct genlist_iterator myiter;
+    genlist_iterator_init(&myiter, &plr->cities.list, 0);
+    notify_player(plr, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
+    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+      struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
+      map_set_special(pcity->x, pcity->y, S_RAILROAD);
+      send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
+    }
   }
   return 1;
 }
@@ -835,6 +861,7 @@ void send_player_info(struct player *src, struct player *dest)
              for(j=0; j<A_LAST; j++)
                info.inventions[j]=game.players[i].research.inventions[j]+'0';
              info.inventions[j]='\0';
+             info.future_tech=game.players[i].future_tech;
              info.turn_done=game.players[i].turn_done;
              info.nturns_idle=game.players[i].nturns_idle;
              info.is_alive=game.players[i].is_alive;
@@ -877,6 +904,8 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   plr->economic.tax=secfile_lookup_int(file, "player%d.tax", plrno);
   plr->economic.science=secfile_lookup_int(file, "player%d.science", plrno);
   plr->economic.luxury=secfile_lookup_int(file, "player%d.luxury", plrno);
+
+  plr->future_tech=secfile_lookup_int(file, "player%d.futuretech", plrno);
 
   plr->research.researched=secfile_lookup_int(file, 
 					     "player%d.researched", plrno);
@@ -1052,6 +1081,8 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_int(file, plr->economic.tax, "player%d.tax", plrno);
   secfile_insert_int(file, plr->economic.science, "player%d.science", plrno);
   secfile_insert_int(file, plr->economic.luxury, "player%d.luxury", plrno);
+
+  secfile_insert_int(file,plr->future_tech,"player%d.futuretech", plrno);
 
   secfile_insert_int(file, plr->research.researched, 
 		     "player%d.researched", plrno);

@@ -340,6 +340,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->moves_left=packet->movesleft;
     punit->bribe_cost=packet->bribe_cost;
     punit->ai.control=packet->ai;
+    punit->fuel=packet->fuel;
     punit->goto_dest_x=packet->goto_dest_x;
     punit->goto_dest_y=packet->goto_dest_y;
   }
@@ -492,6 +493,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->research.researched=pinfo->researched;
   pplayer->research.researchpoints=pinfo->researchpoints;
   pplayer->research.researching=pinfo->researching;
+  pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
 
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {

@@ -123,9 +123,20 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	 case CLAUSE_ADVANCE:
 	  notify_player(pdest, "Game: You are taught the knowledge of %s",
 			advances[pclause->value].name);
+	  if (pclause->value==A_RAILROAD) {
+	    struct city_list cl=pdest->cities;
+	    struct genlist_iterator myiter;
+	    genlist_iterator_init(&myiter, &pdest->cities.list, 0);
+	    notify_player(pplayer, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
+	    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+	      struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
+	      map_set_special(pcity->x, pcity->y, S_RAILROAD);
+	      send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
+	    }
+	  }
 	  set_invention(pdest, pclause->value, TECH_KNOWN);
 	  update_research(pdest);
-	  do_tech_cost(pdest);
+	  do_dipl_cost(pdest);
 	  pdest->research.researchpoints++;
 	  break;
 	 case CLAUSE_GOLD:

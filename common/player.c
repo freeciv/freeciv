@@ -247,6 +247,7 @@ void player_init(struct player *plr)
   plr->embassy=0;
   plr->ai.control=0;
   plr->ai.tech_goal = A_NONE;
+  plr->future_tech=0;
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
   plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;

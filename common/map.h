@@ -248,9 +248,17 @@ int map_build_mine_time(int x, int y);
 #define GAME_MIN_RESEARCHLEVEL       4
 #define GAME_MAX_RESEARCHLEVEL       20
 
-#define GAME_DEFAULT_TECHCOST        25
-#define GAME_MIN_TECHCOST            0
-#define GAME_MAX_TECHCOST            100
+#define GAME_DEFAULT_DIPLCOST        100
+#define GAME_MIN_DIPLCOST            0
+#define GAME_MAX_DIPLCOST            100
+
+#define GAME_DEFAULT_FREECOST        0
+#define GAME_MIN_FREECOST            0
+#define GAME_MAX_FREECOST            100
+
+#define GAME_DEFAULT_CONQUERCOST     0
+#define GAME_MIN_CONQUERCOST         0
+#define GAME_MAX_CONQUERCOST         100
 
 #define GAME_DEFAULT_CITYFACTOR      14
 #define GAME_MIN_CITYFACTOR          6

@@ -284,8 +284,8 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_DARWIN) /* this is a one-time boost, not constant */
         values[i] = (research_time(plr) * 2 + game.techlevel) * t -
                     400 * shield_weighting[a]; /* rough estimate at best */
-      if (i == B_GREAT) /* basically (100 - techcost)% of a free tech per turn */
-        values[i] = (research_time(plr) * (100 - game.techcost)) * t / 100 *
+      if (i == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
+        values[i] = (research_time(plr) * (100 - game.freecost)) * t / 100 *
                     (game.nplayers - 2) / (game.nplayers); /* guessing */
 
       if (i == B_WALL)

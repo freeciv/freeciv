@@ -210,10 +210,16 @@ void create_science_dialog(int make_modal)
   char goal_text[512];
   char *report_title;
   
-  sprintf(current_text, "Researching %s: %d/%d",
-	  advances[game.player_ptr->research.researching].name,
-	  game.player_ptr->research.researched,
-	  research_time(game.player_ptr));
+  if (game.player_ptr->research.researching!=A_NONE)
+    sprintf(current_text, "Researching %s: %d/%d",
+           advances[game.player_ptr->research.researching].name,
+           game.player_ptr->research.researched,
+           research_time(game.player_ptr));
+  else
+    sprintf(current_text, "Researching Future Tech. %d: %d/%d",
+           ((game.player_ptr->future_tech)+1),
+           game.player_ptr->research.researched,
+           research_time(game.player_ptr));
 
   sprintf(goal_text, "Goal: %s (%d steps)",
 	  advances[game.player_ptr->ai.tech_goal].name,
@@ -385,11 +391,11 @@ void science_goal_callback(Widget w, XtPointer client_data,
     popup_help_dialog_string(advances[to].name);
   else {  
     sprintf(goal_text, "Goal: %s (%d steps)",
-	advances[to].name, tech_goal_turns(game.player_ptr, to),
-	  tech_goal_turns(game.player_ptr, to));
+	    advances[to].name, tech_goal_turns(game.player_ptr, to),
+	    tech_goal_turns(game.player_ptr, to));
 
     XtVaSetValues(science_goal_label, XtNlabel, goal_text, NULL);
-  
+
     packet.tech=to;
     send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_TECH_GOAL);
   }
@@ -446,10 +452,17 @@ void science_dialog_update(void)
     free(report_title);
 
     
-    sprintf(text, "Researching %s: %d/%d",
-	    advances[game.player_ptr->research.researching].name,
-	    game.player_ptr->research.researched,
-	    research_time(game.player_ptr));
+    if (game.player_ptr->research.researching!=A_NONE)
+      sprintf(text, "Researching %s: %d/%d",
+	      advances[game.player_ptr->research.researching].name,
+	      game.player_ptr->research.researched,
+	      research_time(game.player_ptr));
+    else
+      sprintf(text, "Researching Future Tech. %d: %d/%d",
+             ((game.player_ptr->future_tech)+1),
+             game.player_ptr->research.researched,
+             research_time(game.player_ptr));
+
     
     xaw_set_label(science_current_label, text);
 

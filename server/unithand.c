@@ -233,6 +233,9 @@ void handle_unit_build_city(struct player *pplayer,
 
       send_remove_unit(0, req->unit_id);
       map_set_special(punit->x, punit->y, S_ROAD);
+      map_set_special(punit->x, punit->y, S_IRRIGATION);
+      if (get_invention(pplayer, A_RAILROAD)==TECH_KNOWN)
+	map_set_special(punit->x, punit->y, S_RAILROAD);
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
       create_city(pplayer, punit->x, punit->y, name);
       game_remove_unit(req->unit_id);
@@ -396,10 +399,29 @@ void handle_unit_enter_hut(struct unit *punit)
       choose_random_tech(pplayer);
  
       pplayer->research.researchpoints++;
-      set_invention(pplayer, pplayer->research.researching, TECH_KNOWN);
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       "Game: You gain knowledge about %s.", 
-		       advances[pplayer->research.researching].name); 
+      if (pplayer->research.researching!=A_NONE) {
+       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                        "Game: You gain knowledge about %s.", 
+                        advances[pplayer->research.researching].name);
+       if (pplayer->research.researching==A_RAILROAD) {
+         struct city_list cl=pplayer->cities;
+         struct genlist_iterator myiter;
+         genlist_iterator_init(&myiter, &pplayer->cities.list, 0);
+         notify_player(pplayer, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
+         for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+           struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
+           map_set_special(pcity->x, pcity->y, S_RAILROAD);
+           send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
+         }
+       }
+       set_invention(pplayer, pplayer->research.researching, TECH_KNOWN);
+      }
+      else {
+       pplayer->future_tech++;
+       notify_player(pplayer,
+                     "Game: You gain knowledge about Future Tech. %d.",
+                     pplayer->future_tech);
+      }
       remove_obsolete_buildings(pplayer);
       
       if (get_invention(pplayer,wasres)==TECH_KNOWN) {
@@ -410,7 +432,7 @@ void handle_unit_enter_hut(struct unit *punit)
 	pplayer->research.researched=res;
 	pplayer->research.researching=wasres;
       }
-     do_tech_cost(pplayer);
+     do_free_cost(pplayer);
     }
     break;
   case 8:
@@ -668,6 +690,13 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     city_list_insert(&pplayer->cities, pnewcity);
     
     map_set_city(pnewcity->x, pnewcity->y, pnewcity);
+    if ((get_invention(pplayer, A_RAILROAD)==TECH_KNOWN) &&
+       (get_invention(cplayer, A_RAILROAD)!=TECH_KNOWN) &&
+       (!(map_get_special(pcity->x,pcity->y)&S_RAILROAD))) {
+      notify_player(pplayer, "Game: The people in %s are stunned by youre technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
+      map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
+      send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
+    }
     raze_city(pnewcity);
     city_refresh(pnewcity);
     send_city_info(0, pnewcity, 0);

@@ -171,7 +171,9 @@ int game_load(struct section_file *file)
 
   if (game.version >= 10100) {
     game.cityfactor = secfile_lookup_int(file, "game.cityfactor");
-    game.techcost   = secfile_lookup_int(file, "game.techcost");
+    game.diplcost   = secfile_lookup_int(file, "game.diplcost");
+    game.freecost   = secfile_lookup_int(file, "game.freecost");
+    game.conquercost   = secfile_lookup_int(file, "game.conquercost");
     game.rail_food  = secfile_lookup_int(file, "game.rail_food");
     game.rail_prod  = secfile_lookup_int(file, "game.rail_prod");
     game.rail_trade = secfile_lookup_int(file, "game.rail_trade");
@@ -253,7 +255,9 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.warminglevel, "game.warminglevel");
   secfile_insert_int(file, game.unhappysize, "game.unhappysize");
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
-  secfile_insert_int(file, game.techcost, "game.techcost");
+  secfile_insert_int(file, game.diplcost, "game.diplcost");
+  secfile_insert_int(file, game.freecost, "game.freecost");
+  secfile_insert_int(file, game.conquercost, "game.conquercost");
   secfile_insert_int(file, game.rail_food, "game.rail_food");
   secfile_insert_int(file, game.rail_prod, "game.rail_prod");
   secfile_insert_int(file, game.rail_trade, "game.rail_trade");

@@ -553,6 +553,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int32(cptr, pinfo->researchpoints);
   cptr=put_int32(cptr, pinfo->researching);
   cptr=put_string(cptr, (char*)pinfo->inventions);
+  cptr=put_int32(cptr, pinfo->future_tech);
   
   cptr=put_int32(cptr, pinfo->is_connected);
   cptr=put_string(cptr, pinfo->addr);
@@ -597,7 +598,8 @@ recieve_packet_player_info(struct connection *pc)
   cptr=get_int32(cptr, &pinfo->researchpoints);
   cptr=get_int32(cptr, &pinfo->researching);
   cptr=get_string(cptr, (char*)pinfo->inventions);
-  
+  cptr=get_int32(cptr, &pinfo->future_tech);
+
   cptr=get_int32(cptr,  &pinfo->is_connected);
   cptr=get_string(cptr, pinfo->addr);
   cptr=get_int32(cptr,  &pinfo->revolution);
@@ -639,7 +641,9 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int32(cptr, pinfo->globalwarming);
   cptr=put_int32(cptr, pinfo->heating);
   cptr=put_int32(cptr, pinfo->cityfactor);
-  cptr=put_int32(cptr, pinfo->techcost);
+  cptr=get_int32(cptr, &pinfo->diplcost);
+  cptr=get_int32(cptr, &pinfo->freecost);
+  cptr=get_int32(cptr, &pinfo->conquercost);
   cptr=put_int32(cptr, pinfo->unhappysize);
   cptr=put_int32(cptr, pinfo->rail_food);
   cptr=put_int32(cptr, pinfo->rail_prod);
@@ -686,7 +690,9 @@ struct packet_game_info *recieve_packet_game_info(struct connection *pc)
   cptr=get_int32(cptr, &pinfo->heating);
 
   cptr=get_int32(cptr, &pinfo->cityfactor);
-  cptr=get_int32(cptr, &pinfo->techcost);
+  cptr=get_int32(cptr, &pinfo->diplcost);
+  cptr=get_int32(cptr, &pinfo->freecost);
+  cptr=get_int32(cptr, &pinfo->conquercost);
   cptr=get_int32(cptr, &pinfo->unhappysize);
   cptr=get_int32(cptr, &pinfo->rail_food);
   cptr=get_int32(cptr, &pinfo->rail_prod);
@@ -873,6 +879,7 @@ int send_packet_unit_info(struct connection *pc,
   cptr=put_int32(cptr, req->unhappiness);
   cptr=put_int32(cptr, req->bribe_cost);
   cptr=put_int32(cptr, req->ai);
+  cptr=put_int32(cptr, req->fuel);
   cptr=put_int32(cptr, req->goto_dest_x);
   cptr=put_int32(cptr, req->goto_dest_y);
   
@@ -1028,6 +1035,7 @@ recieve_packet_unit_info(struct connection *pc)
   cptr=get_int32(cptr, &packet->unhappiness);
   cptr=get_int32(cptr, &packet->bribe_cost);
   cptr=get_int32(cptr, &packet->ai);
+  cptr=get_int32(cptr, &packet->fuel);
   cptr=get_int32(cptr, &packet->goto_dest_x);
   cptr=get_int32(cptr, &packet->goto_dest_y);
 

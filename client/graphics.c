@@ -16,7 +16,7 @@
 #include <ctype.h>
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
-#include <xpm.h>
+#include <X11/xpm.h>
 
 #include <shared.h>
 #include <log.h>

@@ -226,6 +226,7 @@ struct packet_unit_info {
   int upkeep;
   int bribe_cost;
   int ai;
+  int fuel;
   int goto_dest_x, goto_dest_y;
 };
 
@@ -333,6 +334,7 @@ struct packet_player_info {
   int researched;
   int researchpoints;
   int researching;
+  int future_tech;
   int tech_goal;
   unsigned char inventions[A_LAST+1];
   int is_connected;
@@ -359,7 +361,7 @@ struct packet_game_info {
   int heating;
   int cityfactor;
   int unhappysize;
-  int techcost;
+  int diplcost,freecost,conquercost;
   int rail_food, rail_trade, rail_prod; 
   int global_advances[A_LAST];
   int global_wonders[B_LAST];

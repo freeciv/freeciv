@@ -187,6 +187,7 @@ int civ_score(struct player *pplayer)
   for (i=0;i<A_LAST;i++) 
     if (get_invention(pplayer, i)==TECH_KNOWN) 
       pplayer->score.techs++;
+  pplayer->score.techs+=(((pplayer->future_tech)*5)/2);
   
   unit_list_iterate(pplayer->units, punit) 
     if (is_military_unit(punit)) pplayer->score.units++;
@@ -331,7 +332,9 @@ void game_init(void)
   game.max_players = GAME_DEFAULT_MAX_PLAYERS;
   game.nplayers=0;
   game.techlevel   = GAME_DEFAULT_RESEARCHLEVEL;
-  game.techcost    = GAME_DEFAULT_TECHCOST;
+  game.diplcost    = GAME_DEFAULT_DIPLCOST;
+  game.freecost    = GAME_DEFAULT_FREECOST;
+  game.conquercost = GAME_DEFAULT_CONQUERCOST;
   game.settlers    = GAME_DEFAULT_SETTLERS;
   game.cityfactor  = GAME_DEFAULT_CITYFACTOR;
   game.explorer    = GAME_DEFAULT_EXPLORER;

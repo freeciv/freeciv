@@ -51,7 +51,7 @@ struct unit_type unit_types[U_LAST]={
   {"Howitzer", 1,  LAND_MOVING,  70,  F_IGWALL, 12,  2,  2*3, A_ROBOTICS,    1,  0, 30, 2, -1, 0},
   {"Fighter",   12, AIR_MOVING,   60,  F_FIGHTER  | F_FIELDUNIT,  4,  3, 10*3, A_FLIGHT, 1,  0, 20, 2, U_SFIGHTER, 1},
   {"Bomber",    3,  AIR_MOVING,  120,  F_FIELDUNIT|F_ONEATTACK, 12,  1,  8*3, A_ADVANCED,    2,  0, 20, 2, U_SBOMBER, 2},
-  {"Helicopter", 44, HELI_MOVING,  100,  F_ONEATTACK |F_FIELDUNIT,  10,  3, 6*3, A_COMBINED, 1, 0, 20, 2, -1, 6},
+  {"Helicopter", 44, HELI_MOVING,  100,  F_ONEATTACK |F_FIELDUNIT,  10,  3, 6*3, A_COMBINED, 1, 0, 20, 2, -1, 0},
   {"Stealth Fighter",47, AIR_MOVING,   80,  F_FIELDUNIT| F_FIGHTER,  8,  4, 14*3, A_STEALTH,1,  0, 20, 2, -1, 1},
   {"Stealth Bomber", 46, AIR_MOVING,  160, F_FIELDUNIT|F_ONEATTACK, 14,  5,  8*3, A_STEALTH, 2,  0, 20, 2, -1, 2},
   {"Trireme",   27, SEA_MOVING,   40,  F_FIELDUNIT,  1,  1,  3*3, A_MAPMAKING, 1,  2, 10, 1, U_CARAVEL, 0},
@@ -85,7 +85,13 @@ char *get_unit_name(enum unit_type_id id)
   struct unit_type *ptype;
   static char buffer[256];
   ptype =get_unit_type(id);
-  sprintf(buffer,"%s [%d/%d/%d]", ptype->name, ptype->attack_strength, ptype->defense_strength, ptype->move_rate/3); 
+  if (ptype->fuel)
+    sprintf(buffer,"%s [%d/%d/%d(%d)]", ptype->name, ptype->attack_strength,
+	    ptype->defense_strength,
+	    ptype->move_rate/3,(ptype->move_rate/3)*ptype->fuel);
+  else
+    sprintf(buffer,"%s [%d/%d/%d]", ptype->name, ptype->attack_strength,
+	    ptype->defense_strength, ptype->move_rate/3);
   return buffer;
 }
 
@@ -621,16 +627,36 @@ char *unit_activity_text(struct unit *punit)
    
   switch(punit->activity) {
    case ACTIVITY_IDLE:
-    if(punit->moves_left%3) {
-      if(punit->moves_left/3>0)
-	sprintf(text, "Moves: %d %d/3", punit->moves_left/3, 
-		punit->moves_left%3);
-      else
-	sprintf(text, "Moves: %d/3", punit->moves_left%3);
-    }
-    else
-      sprintf(text, "Moves: %d", punit->moves_left/3);
-    return text;
+     if(is_air_unit(punit)) {
+       int rate,f;
+       rate=get_unit_type(punit->type)->move_rate/3;
+       f=((punit->fuel)-1);
+       if(punit->moves_left%3) {
+        if(punit->moves_left/3>0)
+          sprintf(text, "Moves: (%d)%d %d/3",
+                  ((rate*f)+(punit->moves_left/3)),
+                  punit->moves_left/3, punit->moves_left%3);
+        else
+          sprintf(text, "Moves: (%d)%d/3",
+                  ((rate*f)+(punit->moves_left/3)),
+                  punit->moves_left%3);
+       }
+       else
+        sprintf(text, "Moves: (%d)%d", rate*f+punit->moves_left/3,
+                punit->moves_left/3);
+     }
+     else {
+       if(punit->moves_left%3) {
+        if(punit->moves_left/3>0)
+          sprintf(text, "Moves: %d %d/3", punit->moves_left/3, 
+                  punit->moves_left%3);
+        else
+          sprintf(text, "Moves: %d/3", punit->moves_left%3);
+       }
+       else
+        sprintf(text, "Moves: %d", punit->moves_left/3);
+     }
+     return text;
    case ACTIVITY_POLLUTION:
     return "Pollution";
    case ACTIVITY_ROAD:

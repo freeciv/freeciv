@@ -134,10 +134,14 @@ void intel_create_dialog(struct player *p)
 			  XtNlabel, buf,
 			  NULL);   
 
-  sprintf(buf, "Researching: %s(%d/%d)", 
-  	  advances[p->research.researching].name,
-	  p->research.researched, 
-	  research_time(p));
+  if (game.player_ptr->research.researching!=A_NONE)
+    sprintf(buf, "Researching: %s(%d/%d)", 
+           advances[p->research.researching].name,
+           p->research.researched, 
+           research_time(p));
+  else
+    sprintf(buf, "Researching Future Tech. %d: %d/%d",
+           ((p->future_tech)+1),p->research.researched,research_time(p));
 
   XtVaCreateManagedWidget("intelreslabel", 
 			  labelWidgetClass, 

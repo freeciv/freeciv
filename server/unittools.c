@@ -207,7 +207,7 @@ int zoc_ok_move(struct unit *punit,int x, int y)
 
 /**************************************************************************
  calculate how expensive it is to bribe the unit
- depends on distance to the capital, and goverment form
+ depends on distance to the capital, and government form
  settlers are half price
 **************************************************************************/
 int unit_bribe_cost(struct unit *punit)
@@ -252,10 +252,12 @@ int diplomat_on_tile(int x, int y)
 ***************************************************************************/
 int hp_gain_coord(struct unit *punit)
 {
-  int hp=1;
+  int hp;
   struct city *pcity;
   if (unit_on_fortress(punit))
     hp=get_unit_type(punit->type)->hp/4;
+  else
+    hp=0;
   if((pcity=game_find_city_by_coor(punit->x,punit->y))) {
     if ((city_got_barracks(pcity) && is_ground_unit(punit)) ||
 	(city_got_building(pcity, B_AIRPORT) && is_air_unit(punit)) || 
@@ -263,15 +265,14 @@ int hp_gain_coord(struct unit *punit)
 	(city_got_building(pcity, B_PORT) && is_sailing_unit(punit))) {
       hp=get_unit_type(punit->type)->hp;
     }
-    else if (is_ground_unit(punit)) 
-      hp=get_unit_type(punit->type)->hp/3;
-    else if (is_heli_unit(punit)) {
-      if (hp>1) 
-	hp--;
-    }
     else
-      hp++; 
+      hp=get_unit_type(punit->type)->hp/3;
   }
+  else if (is_heli_unit(punit))
+    hp-=(get_unit_type(punit->type)->hp/10);
+  else
+    hp++;
+
   if(punit->activity==ACTIVITY_FORTIFY)
     hp++;
   
@@ -744,7 +745,7 @@ int ai_calc_road(struct unit *punit, struct player *pplayer, int x, int y)
 }
 
 /*************************************************************************
-  returns the food production of a square without taking concern of goverment
+  returns the food production of a square without taking concern of government
 **************************************************************************/
 int get_food_tile_bc(int xp, int yp)
 {
@@ -825,7 +826,7 @@ int in_city_radius(struct player *pplayer, int x, int y)
   returns the value of irrigating this square
   1) 0 if it's a city square
   2) 0 if there is already a settler working here
-  3) 0 if the goverment form is despotism or anarchy
+  3) 0 if the government form is despotism or anarchy
   4) 0 if it's not in the range of a city
   multiplied with 133% if there is actually worked on the square
 **************************************************************************/

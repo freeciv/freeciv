@@ -108,9 +108,18 @@ struct proto_settings settings[] = {
   { "researchspeed", "How fast do players gain technology.",
     &game.techlevel, 0,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL},
-  { "techcost", "How many % of the price of researching a tech, does a tech cost when you get it for free.",
-    &game.techcost, 0,
-    GAME_MIN_TECHCOST, GAME_MAX_TECHCOST, GAME_DEFAULT_TECHCOST},
+
+  { "diplcost", "How many % of the price of researching a tech, does a tech cost when you exchange it in a diplomatic treaty.",
+    &game.diplcost, 0,
+    GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST},
+
+  { "freecost", "How many % of the price of researching a tech, does a tech cost when you get it for free.",
+    &game.freecost, 0,
+    GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST},
+
+  { "conquercost", "How many % of the price of researching a tech, does a tech cost when you get it by military force.",
+    &game.conquercost, 0,
+    GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST, GAME_DEFAULT_CONQUERCOST},
   
   { "unhappysize", "When do people get angry in a city.",
     &game.unhappysize, 0,

@@ -46,7 +46,7 @@ struct civ_game {
   int end_year;
   int year;
   int techlevel;
-  int techcost;
+  int diplcost, freecost, conquercost;
   int cityfactor;
   int min_players, max_players, nplayers;
   int unhappysize;

@@ -309,6 +309,8 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     
   punit->x=pinfo->x;
   punit->y=pinfo->y;
+  punit->fuel=pinfo->fuel;
+  punit->hp=pinfo->hp;
   unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
   for(y=punit->y-2; y<punit->y+3; ++y) { 

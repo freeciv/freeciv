@@ -36,14 +36,14 @@ void handle_chat_msg(struct player *pplayer,
   genmsg.y = -1;
   genmsg.event =-1;
   for(cp=packet->message; *cp; ++cp)
-    if(!isprint(*cp)) {
+    if(!isprint(*cp & 0x7f)) {
       *cp='\0';
       break;
     }
   
   cp=strchr(packet->message, ':');
   
-  if(cp && *(cp+1)!=')') { /* msg someone mode */
+  if (cp && *(cp-1)!=' ') {
     struct player *pdest=0;
     int nlen, nmatches=0;
     char name[MAX_LENGTH_NAME];
