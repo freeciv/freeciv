@@ -24,10 +24,57 @@
 #include "chatline_common.h"	/* for append_output_window */
 #include "civclient.h"
 #include "clinet.h"		/* for get_server_address */
+#include "connectdlg_g.h"
 
 #include "connectdlg.h"
 
 static void try_to_autoconnect(void);
+
+
+/**************************************************************************
+ close and destroy the dialog.
+**************************************************************************/
+void close_connection_dialog()
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+ configure the dialog depending on what type of authentication request the
+ server is making.
+**************************************************************************/
+void handle_authentication_request(struct packet_authentication_request *
+                                   packet)
+{
+  switch (packet->type) {
+  case AUTH_NEWUSER_FIRST:
+     /* PORTME: switch configs if need be */
+    break;
+  case AUTH_NEWUSER_RETRY:
+     /* PORTME: switch configs if need be */
+    break;
+  case AUTH_LOGIN_FIRST:
+    /* if we magically have a password already present in 'password'
+     * then, use that and skip the password entry dialog */
+    if (password[0] != '\0') {
+      struct packet_authentication_reply reply;
+
+      sz_strlcpy(reply.password, password);
+      send_packet_authentication_reply(&aconnection, &reply);
+      return;
+    } else {
+     /* PORTME: switch configs if need be */
+    }
+    break;
+  case AUTH_LOGIN_RETRY:
+     /* PORTME: switch configs if need be */
+    break;
+  default:
+    assert(0);
+  }
+
+  /* PORTME etc. */
+}
 
 /**************************************************************************
   Provide an interface for connecting to a FreeCiv server.
