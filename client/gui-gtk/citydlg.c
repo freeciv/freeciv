@@ -1772,7 +1772,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
       int map_x, map_y;
       if (is_valid_city_coords(city_x, city_y)
 	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
-	if (tile_is_known(map_x, map_y)) {
+	if (tile_get_known(map_x, map_y)) {
 	  int canvas_x, canvas_y;
 	  city_pos_to_canvas_pos(city_x, city_y, &canvas_x, &canvas_y);
 	  put_one_tile_full(pdialog->map_canvas_store, map_x, map_y,
@@ -1783,7 +1783,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 
   /* We have to put the output afterwards or it will be covered. */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    if (tile_is_known(map_x, map_y)) {
+    if (tile_get_known(map_x, map_y)) {
       int canvas_x, canvas_y;
       city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
       if (pcity->city_map[x][y] == C_TILE_WORKER) {
@@ -1802,7 +1802,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
      to fix this, but maybe it wouldn't be a good idea because the
      lines would get obscured. */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    if (tile_is_known(map_x, map_y)) {
+    if (tile_get_known(map_x, map_y)) {
       int canvas_x, canvas_y;
       city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
       if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
@@ -1827,7 +1827,7 @@ static void city_dialog_update_map_ovh(struct city_dialog *pdialog)
 
       if (is_valid_city_coords(x, y)
 	  && city_map_to_map(&map_x, &map_y, pcity, x, y)
-	  && tile_is_known(map_x, map_y)) {
+	  && tile_get_known(map_x, map_y)) {
 	pixmap_put_tile(pdialog->map_canvas_store, map_x, map_y,
 			x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT, 1);
 	if (pcity->city_map[x][y] == C_TILE_WORKER)

@@ -13,8 +13,11 @@
 #ifndef FC__CLIMISC_H
 #define FC__CLIMISC_H
 
+#include "shared.h" /* MAX_LEN_NAME */
+
 struct city;
 struct Clause;
+struct player;
 typedef int cid;
 typedef int wid;
 
@@ -37,6 +40,7 @@ int client_research_sprite(void);
 int client_warming_sprite(void);
 int client_cooling_sprite(void);
 
+enum known_type tile_get_known(int x, int y);
 void center_on_something(void);
 
 int concat_tile_activity_text(char *buf, int buf_size, int x, int y);

@@ -43,6 +43,7 @@
 #include "support.h"
 #include "unit.h"
 
+#include "climisc.h" /* for tile_get_known() */
 #include "control.h" /* for fill_xxx */
 #include "graphics_g.h"
 #include "options.h" /* for fill_xxx */
@@ -904,7 +905,7 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
   if(city_unhappy(pcity))
     *sprs++ = sprites.city.disorder;
 
-  if(tile_is_known(pcity->x, pcity->y) == TILE_KNOWN_FOGGED && draw_fog_of_war)
+  if(tile_get_known(pcity->x, pcity->y) == TILE_KNOWN_FOGGED && draw_fog_of_war)
     *sprs++ = sprites.tx.fog;
 
   /* Put the size sprites last, so that they are not obscured
@@ -1114,7 +1115,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 
   *solid_bg = 0;
 
-  if (!tile_is_known(x, y))
+  if (!tile_get_known(x, y))
     return -1;
 
   pcity = map_get_city(x, y);
@@ -1292,7 +1293,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     dither[dir] = get_dither(ttype, T_UNKNOWN);
   }
   adjc_dir_iterate(x, y, x1, y1, dir8) {
-    if (!DIR_IS_CARDINAL(dir8) || !tile_is_known(x1, y1)) {
+    if (!DIR_IS_CARDINAL(dir8) || !tile_get_known(x1, y1)) {
       continue;
     }
 
@@ -1342,7 +1343,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 
   ptile=map_get_tile(abs_x0, abs_y0);
 
-  if (tile_is_known(abs_x0,abs_y0) == TILE_UNKNOWN) {
+  if (tile_get_known(abs_x0,abs_y0) == TILE_UNKNOWN) {
     return 0;
   }
 
@@ -1559,7 +1560,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   if(tspecial & S_AIRBASE && draw_fortress_airbase) *sprs++ = sprites.tx.airbase;
   if(tspecial & S_POLLUTION && draw_pollution) *sprs++ = sprites.tx.pollution;
   if(tspecial & S_FALLOUT && draw_pollution) *sprs++ = sprites.tx.fallout;
-  if(tile_is_known(abs_x0,abs_y0) == TILE_KNOWN_FOGGED && draw_fog_of_war) 
+  if(tile_get_known(abs_x0,abs_y0) == TILE_KNOWN_FOGGED && draw_fog_of_war)
     *sprs++ = sprites.tx.fog;
 
   if(!citymode) {
@@ -1572,7 +1573,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     adjc_dir_iterate(abs_x0, abs_y0, x, y, dir8) {
       if (!DIR_IS_CARDINAL(dir8))
 	continue;
-      known[dir8_to_dir4(dir8)] = (tile_is_known(x, y) != TILE_UNKNOWN);
+      known[dir8_to_dir4(dir8)] = (tile_get_known(x, y) != TILE_UNKNOWN);
     } adjc_dir_iterate_end;
 
     tileno =
@@ -1761,7 +1762,7 @@ enum color_std overview_tile_color(int x, int y)
   struct unit *punit;
   struct city *pcity;
 
-  if(!tile_is_known(x, y)) {
+  if(!tile_get_known(x, y)) {
     color=COLOR_STD_BLACK;
   } else if((pcity=map_get_city(x, y))) {
     if(pcity->owner==game.player_idx)

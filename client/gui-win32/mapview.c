@@ -274,7 +274,7 @@ void pixmap_put_tile(HDC hdc, int x, int y,
   int fill_bg;
   struct player *pplayer;
 
-  if (normalize_map_pos(&x, &y) && tile_is_known(x, y)) {
+  if (normalize_map_pos(&x, &y) && tile_get_known(x, y)) {
     int count = fill_tile_sprite_array(tile_sprs, x, y, citymode, &fill_bg, &pplayer);
 
 
@@ -1729,7 +1729,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   }
   is_real = normalize_map_pos(&x, &y);
   assert(is_real);
-  fog = tile_is_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
+  fog = tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
   pcity = map_get_city(x, y);
   punit = get_drawable_unit(x, y, citymode);
   pfocus = get_unit_in_focus();

@@ -875,7 +875,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       struct city *pcity;
       pcity=map_get_city(punit->x, punit->y);
       
-      if(tile_is_known(packet->x, packet->y) == TILE_KNOWN) {
+      if(tile_get_known(packet->x, packet->y) == TILE_KNOWN) {
 	do_move_unit(punit, packet);
 	update_unit_focus();
       }
@@ -946,7 +946,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     dest_x = packet->x;
     dest_y = packet->y;
     /*fog of war*/
-    if (!(tile_is_known(punit->x,punit->y) == TILE_KNOWN)) {
+    if (!(tile_get_known(punit->x,punit->y) == TILE_KNOWN)) {
       client_remove_unit(packet->id);
       refresh_tile_mapcanvas(dest_x, dest_y, 1);
     }
@@ -1474,7 +1474,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     whole_map_iterate_end;
     climap_init_continents();
     whole_map_iterate(x, y) {
-      if ((tile_is_known(x, y) >= TILE_KNOWN_FOGGED) &&
+      if ((tile_get_known(x, y) >= TILE_KNOWN_FOGGED) &&
 	  (map_get_terrain(x, y) != T_OCEAN))
 	climap_update_continents(x, y);
     }
@@ -1493,7 +1493,7 @@ void handle_tile_info(struct packet_tile_info *packet)
        have changed it affects the adjacent tiles */
     if (tile_changed) {
       adjc_iterate(x, y, x1, y1) {
-	if (tile_is_known(x1, y1) >= TILE_KNOWN_FOGGED)
+	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
 	  refresh_tile_mapcanvas(x1, y1, 1);
       }
       adjc_iterate_end;
@@ -1504,7 +1504,7 @@ void handle_tile_info(struct packet_tile_info *packet)
        removed here */
     if (old_known == TILE_UNKNOWN && packet->known >= TILE_KNOWN_FOGGED) {     
       cartesian_adjacent_iterate(x, y, x1, y1) {
-	if (tile_is_known(x1, y1) >= TILE_KNOWN_FOGGED)
+	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
 	  refresh_tile_mapcanvas(x1, y1, 1);
       }
       cartesian_adjacent_iterate_end;

@@ -1217,22 +1217,12 @@ struct city *map_get_city(int x, int y)
   return MAP_TILE(x, y)->city;
 }
 
-
 /***************************************************************
 ...
 ***************************************************************/
 void map_set_city(int x, int y, struct city *pcity)
 {
   MAP_TILE(x, y)->city = pcity;
-}
-
-
-/***************************************************************
-Only for use on the client side
-***************************************************************/
-enum known_type tile_is_known(int x, int y)
-{
-  return (enum known_type) (MAP_TILE(x, y)->known);
 }
 
 /***************************************************************

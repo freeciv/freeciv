@@ -272,7 +272,6 @@ void map_set_terrain(int x, int y, enum tile_terrain_type ter);
 void map_set_special(int x, int y, enum tile_special_type spe);
 void map_clear_special(int x, int y, enum tile_special_type spe);
 void tile_init(struct tile *ptile);
-enum known_type tile_is_known(int x, int y);
 int is_real_tile(int x, int y);
 int is_normal_map_pos(int x, int y);
 

@@ -108,7 +108,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
   struct unit *punit;
   struct tile *ptile=map_get_tile(xtile, ytile);
 
-  if(ptile->known>=TILE_KNOWN_FOGGED) {
+  if(tile_get_known(xtile, ytile) >= TILE_KNOWN_FOGGED) {
     p=gtk_window_new(GTK_WINDOW_POPUP);
     b=gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(p), b);

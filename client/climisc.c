@@ -205,13 +205,13 @@ static void climap_renumber_continent(int x, int y, int newnumber)
   old = map_get_continent(x,y);
 
   /* some sanity checks: */
-  assert(tile_is_known(x,y) >= TILE_KNOWN_FOGGED);
+  assert(tile_get_known(x,y) >= TILE_KNOWN_FOGGED);
   assert(map_get_terrain(x,y) != T_OCEAN);
   assert(old>0 && old<=max_cont_used);
   
   map_set_continent(x,y,newnumber);
   adjc_iterate(x, y, i, j) {
-    if (tile_is_known(i, j) >= TILE_KNOWN_FOGGED
+    if (tile_get_known(i, j) >= TILE_KNOWN_FOGGED
 	&& map_get_terrain(i, j) != T_OCEAN
 	&& map_get_continent(i, j) == old) {
       climap_renumber_continent(i, j, newnumber);
@@ -237,7 +237,7 @@ void climap_update_continents(int x, int y)
 
   this_con = -1;
   adjc_iterate(x, y, i, j) {
-    if (tile_is_known(i, j) >= TILE_KNOWN_FOGGED
+    if (tile_get_known(i, j) >= TILE_KNOWN_FOGGED
 	&& map_get_terrain(i, j) != T_OCEAN) {
       con = map_get_continent(i, j);
       if (con > 0) {
@@ -465,6 +465,20 @@ int client_cooling_sprite(void)
   return index;
 }
 
+/************************************************************************
+ A tile's "known" field is used by the server to store whether _each_
+ player knows the tile.  Client-side, it's used as an enum known_type
+ to track whether the tile is known/fogged/unknown.
+
+ Judicious use of this function also makes things very convenient for
+ civworld, since it uses both client and server-style storage; since it
+ uses the stock tilespec.c file this function serves as a wrapper.
+*************************************************************************/
+enum known_type tile_get_known(int x, int y)
+{
+  return (enum known_type) map_get_tile(x, y)->known;
+}
+
 /**************************************************************************
 Find something sensible to display. This is used to overwrite the
 intro gfx.
@@ -497,7 +511,7 @@ void center_on_something(void)
     /* Just any known tile will do; search near the middle first. */
     iterate_outward(map.xsize / 2, map.ysize / 2,
 		    MAX(map.xsize / 2, map.ysize / 2), x, y) {
-      if (tile_is_known(x, y)) {
+      if (tile_get_known(x, y)) {
 	center_tile_mapcanvas(x, y);
 	goto OUT;
       }

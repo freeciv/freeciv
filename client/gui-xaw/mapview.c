@@ -986,7 +986,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y,
   int fill_bg;
   struct player *pplayer;
 
-  if (normalize_map_pos(&x, &y) && tile_is_known(x, y)) {
+  if (normalize_map_pos(&x, &y) && tile_get_known(x, y)) {
     int count = fill_tile_sprite_array(tile_sprs, x, y, citymode, &fill_bg, &pplayer);
     int i = 0;
 

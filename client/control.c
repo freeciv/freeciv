@@ -23,6 +23,7 @@
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
+#include "climisc.h"
 #include "dialogs_g.h"
 #include "gui_main_g.h"
 #include "mapctrl_g.h"
@@ -1071,7 +1072,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     }
   } square_iterate_end;
   
-  if(!pinfo->carried && tile_is_known(punit->x,punit->y) == TILE_KNOWN)
+  if(!pinfo->carried && tile_get_known(punit->x,punit->y) == TILE_KNOWN)
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
 
   if(get_unit_in_focus()==punit) update_menus();

@@ -2300,7 +2300,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
          the city radius can be fogged. */
 
       city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-	if (tile_is_known(map_x, map_y)) {
+	if (tile_get_known(map_x, map_y)) {
 	  int canvas_x, canvas_y;
 	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
 	  put_one_tile_full(_rp(o), map_x, map_y, canvas_x + _mleft(o), canvas_y + _mtop(o), 1);
@@ -2309,7 +2309,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 
       /* We have to put the output afterwards or it will be covered. */
       city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-	if (tile_is_known(map_x, map_y)) {
+	if (tile_get_known(map_x, map_y)) {
 	  int canvas_x, canvas_y;
 	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
 	  if (pcity->city_map[x][y]==C_TILE_WORKER) {
@@ -2327,7 +2327,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
          to fix this, but maybe it wouldn't be a good idea because the
          lines would get obscured. */
       city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-	if (tile_is_known(map_x, map_y))
+	if (tile_get_known(map_x, map_y))
 	{
 	  int canvas_x, canvas_y;
 	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
@@ -2367,7 +2367,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	    LONG tilex, tiley;
 
 	    if (city_map_to_map(&tilex, &tiley, pcity, x, y)
-		&& tile_is_known(tilex, tiley)) {
+		&& tile_get_known(tilex, tiley)) {
 	      put_tile(_rp(o), tilex, tiley, x1, y1, 1);
 
 	      if (pcity->city_map[x][y] == C_TILE_WORKER) {
