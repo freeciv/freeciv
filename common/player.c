@@ -366,6 +366,17 @@ int player_owns_active_wonder(struct player *pplayer,
 	  && player_find_city_by_id(pplayer, game.global_wonders[id]));
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+int player_knows_improvement_tech(struct player *pplayer,
+				   enum improvement_type_id id)
+{
+  int t;
+  if (!improvement_exists(id)) return 0;
+  t = get_improvement_type(id)->tech_requirement;
+  return (get_invention(pplayer, t) == TECH_KNOWN);
+}
 
 /**************************************************************************
 ...

@@ -168,6 +168,9 @@ struct city *player_find_city_by_id(struct player *pplayer, int city_id);
 int player_owns_active_wonder(struct player *pplayer,
 			      enum improvement_type_id id);
 
+int player_knows_improvement_tech(struct player *pplayer,
+				  enum improvement_type_id id);
+
 int ai_handicap(struct player *pplayer, enum handicap_type htype);
 int ai_fuzzy(struct player *pplayer, int normal_decision);
 

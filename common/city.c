@@ -913,7 +913,7 @@ int can_build_improvement(struct city *pcity, enum improvement_type_id id)
   struct player *p=city_owner(pcity);
   if (!improvement_exists(id))
     return 0;
-  if (get_invention(p,improvement_types[id].tech_requirement)!=TECH_KNOWN)
+  if (!player_knows_improvement_tech(p,id))
     return 0;
   return(could_build_improvement(pcity, id));
 }

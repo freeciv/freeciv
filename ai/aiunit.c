@@ -1006,9 +1006,11 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
           } /* let's hope this works! */
           if (!is_ground_unit(punit) && !is_heli_unit(punit) &&
               (!(acity->ai.invasion&1))) b -= 40; /* boats can't conquer cities */
-          if (!punit->id && (is_ground_unit(punit) || is_heli_unit(punit)) &&
-              c > (get_invention(aplayer, A_MASONRY) == TECH_KNOWN ? 2 : 4) &&
-              !unit_flag(punit->type, F_IGWALL) && !city_got_citywalls(acity)) d *= 9;
+          if (!punit->id
+	      && !unit_really_ignores_citywalls(punit)
+	      && c > (player_knows_improvement_tech(aplayer, B_CITY) ? 2 : 4)
+	      && !city_got_citywalls(acity))
+	    d *= 9;
 
           a = (ab + acity->ai.a) * (ab + acity->ai.a);
 /* Avoiding handling upkeep aggregation this way -- Syela */

@@ -489,7 +489,7 @@ it some more variables for it to meddle with -- Syela */
 /* Katvrr advises that with danger high, l should be weighted more heavily */
 
       a = unit_types[i].attack_strength *  ((m == LAND_MOVING ||
-          get_invention(pplayer, A_AMPHIBIOUS) == TECH_KNOWN) ? 15 : 10) *
+          player_knows_improvement_tech(pplayer, B_PORT)) ? 15 : 10) *
              unit_types[i].firepower * unit_types[i].hp;
       a /= 30; /* scaling factor to prevent integer overflows */
       if (acity) a += acity->ai.a;
@@ -520,7 +520,8 @@ it some more variables for it to meddle with -- Syela */
       d = m;
 
       if (unit_types[i].move_type == LAND_MOVING && acity &&
-          c > (get_invention(get_player(acity->owner), A_MASONRY) == TECH_KNOWN ? 2 : 4) &&
+          c > (player_knows_improvement_tech(city_owner(acity),
+					     B_CITY) ? 2 : 4) &&
           !unit_flag(i, F_IGWALL) && !city_got_citywalls(acity)) d *= 9; 
 
       f = unit_types[i].build_cost;
@@ -665,9 +666,10 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       }
       if (!is_ground_unit(myunit) && !is_heli_unit(myunit) &&
          (!(acity->ai.invasion&1))) b -= 40; /* boats can't conquer cities */
-      if (!myunit->id && (is_ground_unit(myunit) || is_heli_unit(myunit)) &&
-          c > (get_invention(get_player(acity->owner), A_MASONRY) == TECH_KNOWN ? 2 : 4) &&
-          !unit_flag(myunit->type, F_IGWALL) && !city_got_citywalls(acity)) d *= 9;
+      if (!myunit->id && (!unit_really_ignores_citywalls(myunit)) &&
+          c > (player_knows_improvement_tech(city_owner(acity),
+					     B_CITY) ? 2 : 4) &&
+          !city_got_citywalls(acity)) d *= 9;
     } /* end dealing with cities */
 
     else {
@@ -769,9 +771,9 @@ unit_types[pdef->type].name, pdef->x, pdef->y, a, b, c, d, e, fstk, f);
     if (e > choice->want && /* Without this &&, the AI will try to make attackers */
         choice->want <= 100) { /* instead of defenders when being attacked -- Syela */
       if (!city_got_barracks(pcity) && is_ground_unit(myunit)) {
-        if (get_invention(pplayer, A_COMBUSTION) == TECH_KNOWN)
+        if (player_knows_improvement_tech(pplayer, B_BARRACKS3))
           choice->choice = B_BARRACKS3;
-        else if (get_invention(pplayer, A_GUNPOWDER) == TECH_KNOWN)
+        else if (player_knows_improvement_tech(pplayer, B_BARRACKS2))
           choice->choice = B_BARRACKS2;
         else choice->choice = B_BARRACKS;
         choice->want = e;
@@ -809,7 +811,7 @@ int port_is_within(struct player *pplayer, int d)
     if (!pcity->is_building_unit && pcity->currently_building == B_PORT &&
         pcity->shield_stock >= improvement_value(B_PORT) &&
         warmap.seacost[pcity->x][pcity->y] <= d) return 1;
-    if (get_invention(pplayer, A_AMPHIBIOUS) != TECH_KNOWN &&
+    if (!player_knows_improvement_tech(pplayer, B_PORT) &&
         pcity->is_building_unit &&
         is_water_unit(pcity->currently_building) &&
         unit_types[pcity->currently_building].attack_strength >
@@ -968,7 +970,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
       !port_is_within(pplayer, 18))) { /* using move_rate is quirky -- Syela */
       virtualunit.type = v;
 /*     virtualunit.veteran = do_make_unit_veteran(pcity, v); */
-      virtualunit.veteran = (get_invention(pplayer, A_AMPHIBIOUS) == TECH_KNOWN);
+      virtualunit.veteran = (player_knows_improvement_tech(pplayer, B_PORT));
       virtualunit.hp = unit_types[v].hp;
       kill_something_with(pplayer, pcity, &virtualunit, choice);
     } /* ok.  can now mung seamap for ferryboat code.  Proceed! */
