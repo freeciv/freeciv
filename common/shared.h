@@ -65,7 +65,7 @@ RANDOM_TYPE myrand(RANDOM_TYPE size);
 void mysrand(RANDOM_TYPE seed);
 void save_restore_random(void);
 
-char *remove_leading_spaces(char *s);
+char *skip_leading_spaces(char *s);
 void remove_trailing_spaces(char *s);
 void remove_trailing_char(char *s, char trailing);
 int wordwrap_string(char *s, int len);

@@ -387,7 +387,7 @@ void save_restore_random(void)
 /***************************************************************************
   Returns 's' incremented to first non-space character.
 ***************************************************************************/
-char *remove_leading_spaces(char *s)
+char *skip_leading_spaces(char *s)
 {
   assert(s!=NULL);
   while(*s && isspace(*s)) {
@@ -575,7 +575,7 @@ char *datafilename(const char *filename)
     do {
       int i;			/* strlen(tok), or -1 as flag */
       
-      tok = remove_leading_spaces(tok);
+      tok = skip_leading_spaces(tok);
       remove_trailing_spaces(tok);
       if (strcmp(tok, "/")!=0) {
 	remove_trailing_char(tok, '/');
