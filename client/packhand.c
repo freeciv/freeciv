@@ -717,7 +717,7 @@ int spaceship_autoplace(struct player *pplayer, struct player_spaceship *ship)
     
     int nice = (pplayer->government >= G_REPUBLIC);
     /* "nice" governments prefer to keep success 100%;
-     * others build habitation first (for score?)  (Thanks Lalo.)
+     * others build habitation first (for score?)  (Thanks Massimo.)
      */
 
     packet.action =
