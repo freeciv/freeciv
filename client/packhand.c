@@ -449,7 +449,8 @@ void handle_city_info(struct packet_city_info *packet)
       (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
 
   popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
-           pcity->owner==game.player_idx) || packet->diplomat_investigate;
+           pcity->owner==game.player_idx && popup_new_cities) 
+          || packet->diplomat_investigate;
 
   if (city_is_new && !city_has_changed_owner) {
     agents_city_new(pcity);
@@ -2243,7 +2244,15 @@ void handle_city_name_suggestion(struct packet_city_name_suggestion *packet)
   
   punit = player_find_unit_by_id(game.player_ptr, packet->id);
   if (punit) {
-    popup_newcity_dialog(punit, packet->name);
+    if (ask_city_name) {
+      popup_newcity_dialog(punit, packet->name);
+    } else {
+      struct packet_unit_request req;
+
+      req.unit_id = packet->id;
+      sz_strlcpy(req.name, packet->name);
+      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
+    }
     return;
   }
   /* maybe unit died; ignore */
