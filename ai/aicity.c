@@ -336,8 +336,7 @@ unit_types[punit->type].name, unit_types[id].name); */
       else if (!bestchoice.type && is_wonder(bestchoice.choice) &&
                buycost >= 200) ; /* wait for more vans */
       else if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
-          !city_affected_by_wonder(pcity, B_PYRAMIDS) &&
-          !city_got_building(pcity, B_GRANARY) && (pcity->size < 2 ||
+          !city_got_effect(pcity, B_GRANARY) && (pcity->size < 2 ||
           pcity->food_stock < (pcity->size - 1) * game.foodbox)) ;
       else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
         buycost > unit_types[bestchoice.choice].build_cost * 2) { /* too expensive */

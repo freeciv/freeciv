@@ -214,8 +214,7 @@ void ai_eval_buildings(struct city *pcity)
 
   if (could_build_improvement(pcity, B_AQUEDUCT)) {
     if (city_happy(pcity) && pcity->size > 7 && est_food > 0)
-      values[B_AQUEDUCT] = (((((city_got_building(pcity, B_GRANARY) ||
-         city_affected_by_wonder(pcity, B_PYRAMIDS)) ? 3 : 2) *
+      values[B_AQUEDUCT] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
          pcity->size * game.foodbox)>>1) - pcity->food_stock) * food;
     else values[B_AQUEDUCT] = food * est_food * 8 * game.foodbox /
            MAX(1, ((9 - MIN(8, pcity->size)) * MAX(8, pcity->size) *
@@ -331,8 +330,7 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
   
   if (could_build_improvement(pcity, B_SEWER)) {
     if (city_happy(pcity) && pcity->size > 11 && est_food > 0)
-      values[B_SEWER] = (((((city_got_building(pcity, B_GRANARY) ||
-         city_affected_by_wonder(pcity, B_PYRAMIDS)) ? 3 : 2) *
+      values[B_SEWER] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
          pcity->size * game.foodbox)>>1) - pcity->food_stock) * food;
     else values[B_SEWER] = food * est_food * 12 * game.foodbox /
           MAX(1, ((13 - MIN(12, pcity->size)) * MAX(12, pcity->size) *

@@ -555,7 +555,7 @@ int set_city_science_bonus(struct city *pcity)
     if (city_got_building(pcity, B_UNIVERSITY)) {
       science_bonus+=50;
     }
-    if ((city_affected_by_wonder(pcity, B_SETI) || city_got_building(pcity, B_RESEARCH)))
+    if (city_got_effect(pcity, B_RESEARCH))
       science_bonus+=50;
   }
   if (city_affected_by_wonder(pcity, B_COPERNICUS)) 

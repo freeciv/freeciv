@@ -194,7 +194,7 @@ void citizen_happy_luxury(struct city *pcity)
 **************************************************************************/
 void citizen_happy_units(struct city *pcity, int unhap)
 {
-  if (city_affected_by_wonder(pcity, B_WOMENS) || city_got_building(pcity, B_POLICE)) {
+  if (city_got_effect(pcity, B_POLICE)) {
     if (get_government(pcity->owner)==G_DEMOCRACY)
       unhap-=2;
     else
@@ -239,7 +239,7 @@ void citizen_happy_buildings(struct city *pcity)
 
   if (city_got_building(pcity, B_COLOSSEUM)) 
     faces+=get_colosseum_power(pcity);
-  if (city_got_building(pcity, B_CATHEDRAL) || city_affected_by_wonder(pcity, B_MICHELANGELO))  
+  if (city_got_effect(pcity, B_CATHEDRAL))
     faces+=get_cathedral_power(pcity);
   while (faces && pcity->ppl_unhappy[2]) {
     pcity->ppl_unhappy[2]--;
@@ -743,8 +743,7 @@ void city_auto_remove_worker(struct city *pcity)
 **************************************************************************/
 void city_increase_size(struct city *pcity)
 {
-  int has_granary = (city_got_building(pcity, B_GRANARY) || 
-		    city_affected_by_wonder(pcity, B_PYRAMIDS));
+  int has_granary = city_got_effect(pcity, B_GRANARY);
   
   if (!city_got_building(pcity, B_AQUEDUCT) && pcity->size>=8) {/* need aqueduct */
     notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
@@ -794,7 +793,7 @@ void city_reduce_size(struct city *pcity)
   pcity->size--;
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
 		   "Game: Famine feared in %s", pcity->name);
-  if (city_got_building(pcity, B_GRANARY) || city_affected_by_wonder(pcity, B_PYRAMIDS)) 
+  if (city_got_effect(pcity, B_GRANARY))
     pcity->food_stock=(pcity->size+1)*(game.foodbox/2);
   else
     pcity->food_stock=0;
@@ -816,7 +815,7 @@ void city_populate(struct city *pcity)
 	wipe_unit(0, punit);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST, "Game: Famine feared in %s, Settlers dies!", 
 			 pcity->name);
-	if (city_got_building(pcity, B_GRANARY) || city_affected_by_wonder(pcity, B_PYRAMIDS)) 
+	if (city_got_effect(pcity, B_GRANARY))
 	  pcity->food_stock=(pcity->size+1)*(game.foodbox/2);
 	else
 	  pcity->food_stock=0;

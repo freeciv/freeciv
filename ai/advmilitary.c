@@ -708,8 +708,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
           unhap++;
         }
       unit_list_iterate_end;
-      if (city_affected_by_wonder(pcity, B_WOMENS) ||
-          city_got_building(pcity, B_POLICE)) unhap--;
+      if (city_got_effect(pcity, B_POLICE)) unhap--;
     } /* handle other governments later */
 
     if (is_ground_unit(myunit) && !sanity && !boatid)

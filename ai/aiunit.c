@@ -937,8 +937,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
         unhap++;   
       }
     unit_list_iterate_end;
-    if (city_affected_by_wonder(pcity, B_WOMENS) ||
-        city_got_building(pcity, B_POLICE)) unhap--;   
+    if (city_got_effect(pcity, B_POLICE)) unhap--;   
   } /* handle other governments later */
 
   *x = punit->x; *y = punit->y;

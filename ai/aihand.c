@@ -266,8 +266,8 @@ void ai_manage_taxes(struct player *pplayer)
 /*      printf("%d happy people in %s\n", pcity->ppl_happy[4], pcity->name);*/
       n = (((pcity->size + 1)>>1) - pcity->ppl_happy[4]) * 20;
       if (n > pcity->ppl_content[1] * 20) n += (n - pcity->ppl_content[1] * 20);
-      m = (((((city_got_building(pcity, B_GRANARY) || city_affected_by_wonder(pcity,
-           B_PYRAMIDS)) ? 3 : 2) * pcity->size * game.foodbox)>>1) -
+      m = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
+	     pcity->size * game.foodbox)>>1) -
            pcity->food_stock) * food_weighting(pcity->size);
 /*printf("Checking HHJJ for %s, m = %d\n", pcity->name, m);*/
       tot = 0;

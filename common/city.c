@@ -857,7 +857,18 @@ int city_gold_surplus(struct city *pcity)
 
 
 /**************************************************************************
-...
+ Whether a city has an improvement, or the same effect via a wonder.
+ (The improvement_type_id should be an improvement, not a wonder.)
+ Note also: city_got_citywalls(), and server/citytools:city_got_barracks()
+**************************************************************************/
+int city_got_effect(struct city *pcity, enum improvement_type_id id)
+{
+  return city_got_building(pcity, id) || wonder_replacement(pcity, id);
+}
+
+
+/**************************************************************************
+ Whether a city has its own City Walls, or the same effect via a wonder.
 **************************************************************************/
 int city_got_citywalls(struct city *pcity)
 {

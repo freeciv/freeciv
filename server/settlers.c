@@ -724,8 +724,7 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   else {
     if (mycity->size == 1) fu = 20;
     else fu = 40 * (mycity->size - 1) / mycity->size;
-    if (city_got_building(mycity, B_GRANARY) ||
-        city_affected_by_wonder(mycity, B_PYRAMIDS)) fu -= 20;
+    if (city_got_effect(mycity, B_GRANARY)) fu -= 20;
   }
 
   gx=-1;
