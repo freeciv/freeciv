@@ -368,7 +368,7 @@ void ui_main(int argc, char *argv[])
 			    GCForeground|GCBackground|GCFont|GCGraphicsExposures,
 			    &values);
 
-    values.line_width = 2;
+    values.line_width = BORDER_WIDTH;
     values.line_style = LineOnOffDash;
     values.cap_style = CapNotLast;
     values.join_style = JoinMiter;

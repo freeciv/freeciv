@@ -738,37 +738,164 @@ void put_unit_city_overlays(struct unit *punit,
 }
 
 /****************************************************************************
+  Return the vertices of the given edge of the tile.  This will return
+  FALSE if the edge doesn't exist (or if it does exist but is part of an
+  adjacent tile).
+
+  The result is intended to be used to draw lines via canvas_put_line.
+
+  inset specifies how many pixels inward the boundary is to be inset.  This
+  is generally 0 or 1.  (Note that this doesn't work particularly well in
+  iso-view.)
+
+  width specifies the width of the boundary - generally 1 or 2.  For
+  instance if the boundary is 2 pixels wide then the right and bottom
+  positions must be translated so it's drawn in the right location.
+****************************************************************************/
+static bool get_tile_boundaries(enum direction8 dir,
+				int inset, int width, enum draw_type draw,
+				int *start_x, int *start_y,
+				int *end_x, int *end_y)
+{
+  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+  const int overlap = (width > 1) ? 1 : 0;
+
+  assert(inset >= 0);
+  assert(width >= 1);
+
+  width--;
+
+  /* Note that the boundary (with inset 0) may actually cover some adjacent
+   * tiles, since the left boundary for this tile is equivalent to the right
+   * boundary for the tile to our left.  The north and west boundaries will
+   * be on this tile while the south and east boundaries must be drawn as
+   * part of the adjacent tiles. */
+
+  /* "Width" and the "overlap" value: if a width of 1 is specified, then
+   * boundaries of adjacent tiles are assumed to overlap and no extra
+   * adjustment need be done.  However if width > 1 then not only do we have
+   * to account for the width in calculating the position, but we also
+   * assume that the caller does *not* want the boundaries to overlap with
+   * adjacent tiles (note that if they did then individual lines would
+   * cover multiple tiles, which would be tricky).
+   *
+   * The answer is to use two variables: width and overlap.
+   *
+   * width is the offset that must be done to account for the width of the
+   * line.  Since lines are drawn upward and to the left of their origin,
+   * we must displace the line by (width - 1) pixels in this direction.  And
+   * for national borders we must do this in a consistent way, so that
+   * adjacent borders will line up.  Thus in iso-view this displacement is
+   * done entirely in the Y dimension.
+   *
+   * overlap is a value that accountes for the non-overlapping of the
+   * boundaries.  If boundaries don't overlap then we have to pull the
+   * bottom and right boundaries off by 1 pixel.  Like the width adjustment
+   * this must be done in a consistent way in iso-view.
+   *
+   * As long as width==2 this difference is negligible, since the width
+   * adjustment and the overlap adjustment are both 1.
+   */
+
+  if (is_isometric) {
+    switch (dir) {
+    case DIR8_NORTH:
+      /* Top right. */
+      *start_x = W / 2;
+      *end_x = W - inset;
+      *start_y = inset + width;
+      *end_y = H / 2 + width;
+      return (draw & D_M_R);
+    case DIR8_SOUTH:
+      /* Bottom left. */
+      *start_x = inset;
+      *end_x = W / 2;
+      *start_y = H / 2 - overlap;
+      *end_y = H - inset - overlap;
+      return (draw & D_B_L) && (inset + overlap) > 0;
+    case DIR8_EAST:
+      /* Bottom right. */
+      *start_x = W - inset;
+      *end_x = W / 2;
+      *start_y = H / 2 - overlap;
+      *end_y = H - inset - overlap;
+      return (draw & D_B_R) && (inset + overlap) > 0;
+    case DIR8_WEST:
+      /* Top left. */
+      *start_x = inset;
+      *end_x = W / 2;
+      *start_y = H / 2 + width;
+      *end_y = inset + width;
+      return (draw & D_M_L);
+    case DIR8_NORTHEAST:
+    case DIR8_SOUTHEAST:
+    case DIR8_SOUTHWEST:
+    case DIR8_NORTHWEST:
+      return FALSE;
+    }
+  } else {
+    switch (dir) {
+    case DIR8_NORTH:
+      *start_x = inset;
+      *end_x = W - inset;
+      *start_y = *end_y = inset + width;
+      return TRUE;
+    case DIR8_SOUTH:
+      *start_x = inset;
+      *end_x = W - inset;
+      *start_y = *end_y = H - inset - overlap;
+      return inset + overlap > 0;
+    case DIR8_EAST:
+      *start_x = *end_x = W - inset - overlap;
+      *start_y = inset;
+      *end_y = H - inset;
+      return inset + overlap > 0;
+    case DIR8_WEST:
+      *start_x = *end_x = inset + width;
+      *start_y = inset;
+      *end_y = H - inset;
+      return TRUE;
+    case DIR8_NORTHEAST:
+    case DIR8_SOUTHEAST:
+    case DIR8_SOUTHWEST:
+    case DIR8_NORTHWEST:
+      return FALSE;
+    }
+  }
+
+  assert(0);
+  return FALSE;
+}
+
+
+/****************************************************************************
   Draw a red frame around the tile.  (canvas_x, canvas_y) is the tile origin.
 ****************************************************************************/
 void put_red_frame_tile(struct canvas *pcanvas,
 			int canvas_x, int canvas_y)
 {
-  if (is_isometric) {
-    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
-		    canvas_x + NORMAL_TILE_WIDTH / 2 - 1, canvas_y,
-		    NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2 - 1);
-    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
-		    canvas_x + NORMAL_TILE_WIDTH - 1,
-		    canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
-		    -NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
-    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
-		    canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
-		    canvas_y + NORMAL_TILE_HEIGHT - 1,
-		    -(NORMAL_TILE_WIDTH / 2 - 1), -NORMAL_TILE_HEIGHT / 2);
-    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_TILE_FRAME,
-		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
-		    NORMAL_TILE_WIDTH / 2 - 1, -(NORMAL_TILE_HEIGHT / 2 - 1));
-  } else {
-    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
-		    canvas_x, canvas_y, NORMAL_TILE_WIDTH - 1, 0);
-    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
-		    canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
-		    0, NORMAL_TILE_HEIGHT - 1);
-    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
-		    canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT - 1);
-    canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
-		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
-		    NORMAL_TILE_WIDTH - 1, 0);
+  enum direction8 dir;
+
+  for (dir = 0; dir < 8; dir++) {
+    int start_x, start_y, end_x, end_y;
+
+    /* We just draw an extra red line with an inset of 1 from the tile
+     * boundary.  If the map grid is also drawn, it will be red as well
+     * giving a width-2 frame (it may not line up perfectly in iso-view).
+     * If not then the inset allows the user to distinguish which tile
+     * is unavailable.
+     *
+     * Since the frames are drawn only for the citydlg and are put on
+     * top of everything else, we don't have to worry about overlapping
+     * tiles covering them up even in iso-view.  (See comments in
+     * city_dialog_redraw_map and tile_draw_borders.) */
+    if (get_tile_boundaries(dir, 1, 1, D_FULL,
+			    &start_x, &start_y, &end_x, &end_y)) {
+      canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
+		      canvas_x + start_x, canvas_y + start_y,
+		      end_x - start_x, end_y - start_y);
+
+    }
   }
 }
 
@@ -802,56 +929,58 @@ void put_nuke_mushroom_pixmaps(int map_x, int map_y)
 }
 
 /**************************************************************************
-   Draw the borders of the given map tile at the given canvas position
-   in non-isometric view.
+   Draw the borders of the given map tile at the given canvas position.
 **************************************************************************/
 static void tile_draw_borders(struct canvas *pcanvas,
 			      int map_x, int map_y,
-			      int canvas_x, int canvas_y)
+			      int canvas_x, int canvas_y,
+			      enum draw_type draw)
 {
   struct player *this_owner = map_get_owner(map_x, map_y), *adjc_owner;
-  int x1, y1;
+  int start_x, start_y, end_x, end_y;
 
-  if (!draw_borders || game.borders == 0) {
+  if (!draw_borders || game.borders == 0 || !this_owner) {
     return;
   }
 
-  /* left side */
-  if (MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)
-      && this_owner != (adjc_owner = map_get_owner(x1, y1))
-      && tile_get_known(x1, y1)
-      && this_owner) {
-    canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		    canvas_x + 1, canvas_y + 1, 0, NORMAL_TILE_HEIGHT - 1);
-  }
-
-  /* top side */
-  if (MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)
-      && this_owner != (adjc_owner = map_get_owner(x1, y1))
-      && tile_get_known(x1, y1)
-      && this_owner) {
-    canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		    canvas_x + 1, canvas_y + 1, NORMAL_TILE_WIDTH - 1, 0);
-  }
-
-  /* right side */
-  if (MAPSTEP(x1, y1, map_x, map_y, DIR8_EAST)
-      && this_owner != (adjc_owner = map_get_owner(x1, y1))
-      && tile_get_known(x1, y1)
-      && this_owner) {
-    canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		    canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y + 1,
-		    0, NORMAL_TILE_HEIGHT - 1);
-  }
-
-  /* bottom side */
-  if (MAPSTEP(x1, y1, map_x, map_y, DIR8_SOUTH)
-      && this_owner != (adjc_owner = map_get_owner(x1, y1))
-      && tile_get_known(x1, y1)
-      && this_owner) {
-    canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		    canvas_x + 1, canvas_y + NORMAL_TILE_HEIGHT - 1,
-		    NORMAL_TILE_WIDTH - 1, 0);
+  if (is_isometric) {
+    /* Isometric must be done differently or the borders will get overwritten
+     * by other terrain graphics.  (This is because the tileset sprites'
+     * edges don't line up exactly with the mathematical calculation of the
+     * edges of the tiles.)  Of course this means the borders may
+     * themselves overwrite units and cities.  The only real solution is
+     * to do the drawing in layers rather than per-tile.  In the meantime
+     * we use this hack. */
+    adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
+      if (dir < 4
+	  && get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
+				  &start_x, &start_y, &end_x, &end_y)
+	  && tile_get_known(adjc_x, adjc_y)
+	  && this_owner != (adjc_owner = map_get_owner(adjc_x, adjc_y))) {
+	if (this_owner) {
+	  canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
+			  canvas_x + start_x, canvas_y + start_y,
+			  end_x - start_x, end_y - start_y);
+	}
+	if (adjc_owner) {
+	  canvas_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
+			  canvas_x + start_x,
+			  canvas_y + start_y - BORDER_WIDTH,
+			  end_x - start_x, end_y - start_y);
+	}
+      }
+    } adjc_dir_iterate_end;
+  } else {
+    adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
+      if (get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
+			      &start_x, &start_y, &end_x, &end_y)
+	  && tile_get_known(adjc_x, adjc_y)
+	  && this_owner != (adjc_owner = map_get_owner(adjc_x, adjc_y))) {
+	canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
+			canvas_x + start_x, canvas_y + start_y,
+			end_x - start_x, end_y - start_y);
+      }
+    } adjc_dir_iterate_end;
   }
 }
 
@@ -888,71 +1017,9 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
       }
     }
 
-    /** Area Selection hiliting **/
-    if (!citymode &&
-        map_get_tile(map_x, map_y)->client.hilite == HILITE_CITY) {
-      const enum color_std hilitecolor = COLOR_STD_YELLOW;
-
-      if (!draw_map_grid) { /* it would be overwritten below */
-        /* left side... */
-        canvas_put_line(pcanvas, hilitecolor, LINE_NORMAL,
-			canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT - 1);
-
-        /* top side... */
-        canvas_put_line(pcanvas, hilitecolor, LINE_NORMAL,
-			canvas_x, canvas_y, NORMAL_TILE_WIDTH - 1, 0);
-      }
-
-      /* right side... */
-      canvas_put_line(pcanvas, hilitecolor, LINE_NORMAL,
-		      canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
-		      0, NORMAL_TILE_HEIGHT - 1);
-
-      /* bottom side... */
-      canvas_put_line(pcanvas, hilitecolor, LINE_NORMAL,
-		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
-		      NORMAL_TILE_WIDTH - 1, 0);
-    }
-
-    if (draw_map_grid && !citymode) {
-      /* left side... */
-      canvas_put_line(pcanvas,
-		      get_grid_color(map_x, map_y, map_x - 1, map_y),
-		      LINE_NORMAL,
-		      canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
-
-      /* top side... */
-      canvas_put_line(pcanvas,
-		      get_grid_color(map_x, map_y, map_x, map_y - 1),
-		      LINE_NORMAL,
-		      canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
-    }
-
-    /* Draw national borders. */
-    tile_draw_borders(pcanvas, map_x, map_y, canvas_x, canvas_y);
-
-    if (draw_coastline && !draw_terrain) {
-      enum tile_terrain_type t1 = map_get_terrain(map_x, map_y), t2;
-      int x1, y1;
-
-      /* left side */
-      if (MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)) {
-	t2 = map_get_terrain(x1, y1);
-	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
-			  canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
-	}
-      }
-
-      /* top side */
-      if (MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)) {
-	t2 = map_get_terrain(x1, y1);
-	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
-			  canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
-	}
-      }
-    }
+    /*** Grid (map grid, borders, coastline, etc.) ***/
+    tile_draw_grid(pcanvas, map_x, map_y, canvas_x, canvas_y,
+		   D_FULL, citymode);
   } else {
     /* tile is unknown */
     canvas_put_rectangle(pcanvas, COLOR_STD_BLACK,
@@ -1002,128 +1069,118 @@ static void put_tile(int map_x, int map_y)
 }
 
 /****************************************************************************
-   Draw the map grid around the given map tile at the given canvas position
-   in isometric view.
+   Draw the map grid around the given map tile at the given canvas position.
 ****************************************************************************/
-static void tile_draw_map_grid_iso(struct canvas *pcanvas,
-				   int map_x, int map_y,
-				   int canvas_x, int canvas_y,
-				   enum draw_type draw)
+static void tile_draw_map_grid(struct canvas *pcanvas,
+			       int map_x, int map_y,
+			       int canvas_x, int canvas_y,
+			       enum draw_type draw)
 {
-  if (!draw_map_grid
-      || map_get_tile(map_x, map_y)->client.hilite != HILITE_NONE) {
+  enum direction8 dir;
+
+  if (!draw_map_grid) {
     return;
   }
 
-  /* we draw the 2 lines on top of the tile; the buttom lines will be
-   * drawn by the tiles underneath. */
-  if (draw & D_M_R) {
-    canvas_put_line(pcanvas, get_grid_color(map_x, map_y, map_x, map_y - 1),
-		    LINE_NORMAL, canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y,
-		    NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
-  }
+  for (dir = 0; dir < 8; dir++) {
+    int start_x, start_y, end_x, end_y, dx, dy;
 
-  if (draw & D_M_L) {
-    canvas_put_line(pcanvas, get_grid_color(map_x, map_y, map_x - 1, map_y),
-		    LINE_NORMAL, canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2,
-		    NORMAL_TILE_WIDTH / 2, -NORMAL_TILE_HEIGHT / 2);
-  }
-}
-
-/**************************************************************************
-   Draw the borders of the given map tile at the given canvas position
-   in isometric view.
-**************************************************************************/
-static void tile_draw_borders_iso(struct canvas *pcanvas,
-				  int map_x, int map_y,
-				  int canvas_x, int canvas_y,
-				  enum draw_type draw)
-{
-  struct player *this_owner = map_get_owner(map_x, map_y), *adjc_owner;
-  int x1, y1;
-
-  if (!draw_borders || game.borders == 0) {
-    return;
-  }
-
-  /* left side */
-  if ((draw & D_M_L) && MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)
-      && this_owner != (adjc_owner = map_get_owner(x1, y1))
-      && tile_get_known(x1, y1)) {
-    if (adjc_owner) {
-      canvas_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
-		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
-		      NORMAL_TILE_WIDTH / 2, -NORMAL_TILE_HEIGHT / 2);
-    }
-    if (this_owner) {
-      canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 + 1,
-		      NORMAL_TILE_WIDTH / 2, -NORMAL_TILE_HEIGHT / 2);
-    }
-  }
-
-  /* top side */
-  if ((draw & D_M_R) && MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)
-      && this_owner != (adjc_owner = map_get_owner(x1, y1))
-      && tile_get_known(x1, y1)) {
-    if (adjc_owner) {
-      canvas_put_line(pcanvas, player_color(adjc_owner), LINE_BORDER,
-		      canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y - 1,
-		      NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
-    }
-    if (this_owner) {
-      canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
-		      canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y + 1,
-		      NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
+    if (get_tile_boundaries(dir, 0, 1, draw,
+			    &start_x, &start_y, &end_x, &end_y)) {
+      DIRSTEP(dx, dy, dir);
+      canvas_put_line(pcanvas,
+		      get_grid_color(map_x, map_y, map_x + dx, map_y + dy),
+		      LINE_NORMAL,
+		      canvas_x + start_x, canvas_y + start_y,
+		      end_x - start_x, end_y - start_y);
     }
   }
 }
 
 /****************************************************************************
-   Draw the coastline of the given map tile at the given canvas position
-   in isometric view.
+  Draw the coastline of the given map tile at the given canvas position.
+
+  If the map grid is drawn this will cover it up.
 ****************************************************************************/
-static void tile_draw_coastline_iso(struct canvas *pcanvas,
-				    int map_x, int map_y,
-				    int canvas_x, int canvas_y,
-				    enum draw_type draw)
+static void tile_draw_coastline(struct canvas *pcanvas,
+				int map_x, int map_y,
+				int canvas_x, int canvas_y,
+				enum draw_type draw)
 {
   enum tile_terrain_type t1 = map_get_terrain(map_x, map_y), t2;
-  int adjc_x, adjc_y;
 
   if (!draw_coastline || draw_terrain || t1 == T_UNKNOWN) {
     return;
   }
 
-  if ((draw & D_M_R) && MAPSTEP(adjc_x, adjc_y, map_x, map_y, DIR8_NORTH)) {
-    t2 = map_get_terrain(adjc_x, adjc_y);
-    if (t2 != T_UNKNOWN	&& (is_ocean(t1) ^ is_ocean(t2))) {
-      canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
-		      canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y,
-		      NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
+  adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
+    int start_x, start_y, end_x, end_y;
+
+    if (get_tile_boundaries(dir, 0, 1, draw,
+			    &start_x, &start_y, &end_x, &end_y)) {
+      t2 = map_get_terrain(adjc_x, adjc_y);
+      if (t2 != T_UNKNOWN && (is_ocean(t1) ^ is_ocean(t2))) {
+	canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
+			canvas_x + start_x, canvas_y + start_y,
+			end_x - start_x, end_y - start_y);
+      }
     }
+  } adjc_dir_iterate_end;
+}
+
+/****************************************************************************
+   Draw the selection rectangle the given map tile at the given canvas
+   position.
+****************************************************************************/
+static void tile_draw_selection(struct canvas *pcanvas,
+				int map_x, int map_y,
+				int canvas_x, int canvas_y,
+				enum draw_type draw, bool citymode)
+{
+  const int inset = (is_isometric ? 0 : 1);
+  enum direction8 dir;
+
+  if (citymode) {
+    return;
   }
 
-  if ((draw & D_M_L) && MAPSTEP(adjc_x, adjc_y, map_x, map_y, DIR8_WEST)) {
-    t2 = map_get_terrain(adjc_x, adjc_y);
-    if (t2 != T_UNKNOWN	&& (is_ocean(t1) ^ is_ocean(t2))) {
-      canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
-		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2,
-		      NORMAL_TILE_WIDTH / 2, -NORMAL_TILE_HEIGHT / 2);
+  for (dir = 0; dir < 8; dir++) {
+    int start_x, start_y, end_x, end_y, adjc_x, adjc_y;
+
+    /* In non-iso view we draw the rectangle with an inset of 1.  This makes
+     * it easy to distinguish from the map grid.
+     *
+     * In iso-view the inset doesn't work perfectly (see comments about
+     * this elsewhere) so we draw without an inset.  This may cover up the
+     * map grid if it is drawn. */
+    if (get_tile_boundaries(dir, inset, 1, draw,
+			    &start_x, &start_y, &end_x, &end_y)) {
+      if (map_get_tile(map_x, map_y)->client.hilite == HILITE_CITY
+	  || (is_isometric
+	      && MAPSTEP(adjc_x, adjc_y, map_x, map_y, dir)
+	      && map_get_tile(adjc_x, adjc_y)->client.hilite == HILITE_CITY)) {
+	canvas_put_line(pcanvas, COLOR_STD_YELLOW, LINE_NORMAL,
+			canvas_x + start_x, canvas_y + start_y,
+			end_x - start_x, end_y - start_y);
+      }
     }
   }
 }
+
 
 /****************************************************************************
    Draw the grid lines of the given map tile at the given canvas position
    in isometric view.  (This include the map grid, borders, and coastline).
 ****************************************************************************/
-void tile_draw_grid_iso(struct canvas *pcanvas, int map_x, int map_y,
-			int canvas_x, int canvas_y, enum draw_type draw)
+void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
+			int canvas_x, int canvas_y,
+		    enum draw_type draw, bool citymode)
 {
-  tile_draw_map_grid_iso(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
-  tile_draw_borders_iso(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
-  tile_draw_coastline_iso(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
+  tile_draw_map_grid(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
+  tile_draw_borders(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
+  tile_draw_coastline(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
+  tile_draw_selection(pcanvas, map_x, map_y, canvas_x, canvas_y,
+		      draw, citymode);
 }
 
 /**************************************************************************

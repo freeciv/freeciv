@@ -1002,7 +1002,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   }
 
   /*** Grid (map grid, borders, coastline, etc.) ***/
-  tile_draw_grid_iso(&canvas_store, x, y, canvas_x, canvas_y, draw);
+  tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y, draw, citymode);
 
   if (draw_coastline && !draw_terrain) {
     enum tile_terrain_type t1 = map_get_terrain(x, y), t2;

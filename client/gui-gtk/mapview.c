@@ -1055,44 +1055,8 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
       freelog(LOG_ERROR, "sprite is NULL");
   }
 
-  /*** Area Selection hiliting ***/
-  if (tile_hilited) {
-    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_YELLOW]);
-
-    if (draw & D_M_R) {
-      gdk_draw_line(pm, thin_line_gc,
-            canvas_x + NORMAL_TILE_WIDTH / 2,
-            canvas_y,
-            canvas_x + NORMAL_TILE_WIDTH - 1,
-            canvas_y + NORMAL_TILE_HEIGHT / 2 - 1);
-    }
-    if (draw & D_M_L) {
-      gdk_draw_line(pm, thin_line_gc,
-            canvas_x,
-            canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
-            canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
-            canvas_y);
-    }
-    /* The lower lines do not quite reach the tile's bottom;
-     * they would be too obscured by overlapping tiles' terrain. */
-    if (draw & D_B_R) {
-      gdk_draw_line(pm, thin_line_gc,
-            canvas_x + NORMAL_TILE_WIDTH / 2,
-            canvas_y + NORMAL_TILE_HEIGHT - 3,
-            canvas_x + NORMAL_TILE_WIDTH - 1,
-            canvas_y + NORMAL_TILE_HEIGHT / 2 - 1);
-    }
-    if (draw & D_B_L) {
-      gdk_draw_line(pm, thin_line_gc,
-            canvas_x,
-            canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
-            canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
-            canvas_y + NORMAL_TILE_HEIGHT - 3);
-    }
-  }
-
   /*** Grid (map grid, borders, coastline, etc.) ***/
-  tile_draw_grid_iso(&canvas_store, x, y, canvas_x, canvas_y, draw);
+  tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y, draw, citymode);
 
   /*** City and various terrain improvements ***/
   if (pcity && draw_cities) {

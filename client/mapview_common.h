@@ -132,6 +132,8 @@ enum draw_type {
   D_MB_LR = D_M_L | D_M_R | D_B_L | D_B_R
 };
 
+#define BORDER_WIDTH 2
+
 enum update_type {
   /* Masks */
   UPDATE_NONE = 0,
@@ -180,8 +182,9 @@ void put_nuke_mushroom_pixmaps(int map_x, int map_y);
 
 void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode);
-void tile_draw_grid_iso(struct canvas *pcanvas, int map_x, int map_y,
-			int canvas_x, int canvas_y, enum draw_type draw);
+void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
+		    int canvas_x, int canvas_y,
+		    enum draw_type draw, bool citymode);
 
 void update_map_canvas(int x, int y, int width, int height,
 		       bool write_to_screen);

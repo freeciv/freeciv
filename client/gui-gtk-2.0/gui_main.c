@@ -1140,7 +1140,7 @@ void ui_main(int argc, char **argv)
 			     GDK_LINE_SOLID,
 			     GDK_CAP_NOT_LAST,
 			     GDK_JOIN_MITER);
-  gdk_gc_set_line_attributes(border_line_gc, 2,
+  gdk_gc_set_line_attributes(border_line_gc, BORDER_WIDTH,
 			     GDK_LINE_ON_OFF_DASH,
 			     GDK_CAP_NOT_LAST,
 			     GDK_JOIN_MITER);
