@@ -964,10 +964,18 @@ void create_city(struct player *pplayer, struct tile *ptile,
    * status and so must be done after the above. */
   map_update_borders_city_change(pcity);
 
+  /* Place a worker at the city center; this is the free-worked tile.
+   * This must be done before the city refresh (below) so that the city
+   * is in a sane state. */
   server_set_tile_city(pcity, CITY_MAP_SIZE/2, CITY_MAP_SIZE/2, C_TILE_WORKER);
-  auto_arrange_workers(pcity);
 
+  /* Refresh the city.  First a city refresh is done (this shouldn't
+   * send any packets to the client because the city has no supported units)
+   * then rearrange the workers.  Note that auto_arrange_workers does its
+   * own refresh call; it is safest to do our own controlled city_refresh
+   * first. */
   city_refresh(pcity);
+  auto_arrange_workers(pcity);
 
   /* Put vision back to normal, if fortress acted as a watchtower */
   if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)
