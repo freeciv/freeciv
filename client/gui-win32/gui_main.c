@@ -580,14 +580,13 @@ ui_main(int argc, char *argv[])
   while (!quit) {
     socket_timer(NULL, 0, 0, 0);
     while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+      if (msg.message == WM_QUIT) {
+	quit = TRUE;
+      }
       if (!((msg.hwnd == root_window)
 	  && (TranslateAccelerator(root_window, freecivaccel, &msg)))) {
 	TranslateMessage(&msg);
 	DispatchMessage(&msg);   
-      } else {
-  	if ((msg.hwnd == root_window) && (msg.message == WM_QUIT)) {
-	  quit = TRUE;
-	}
       }
     }
   }
