@@ -32,6 +32,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
+#include "rand.h"
 #include "support.h"
 
 #include "chatline.h"
@@ -68,6 +69,11 @@ GtkWidget	**races_toggles=NULL,		/* toggle race */
                 **city_style_toggles = NULL,
 		*races_name;			/* leader name */
 GList           *leader_strings = NULL;
+GList           *sorted_races_list = NULL; /* contains a list of race
+					      ids sorted by the race
+					      name. Is valid as long
+					      as the races_dialog is
+					      poped up. */
 /******************************************************************/
 GtkWidget *spy_tech_shell;
 GtkWidget *spy_advances_list, *spy_advances_list_label;
@@ -107,6 +113,7 @@ void races_name_callback	( GtkWidget *w, gpointer data );
 void city_style_toggles_callback ( GtkWidget *w, gpointer data );
 
 int selected_nation;
+int selected_leader;
 int selected_sex;
 int selected_city_style;
 int city_style_idx[64];        /* translation table basic style->city_style  */
@@ -1341,7 +1348,7 @@ handle buttons in unit connect dialog
 static void unit_connect_callback (GtkWidget *w, gpointer data)
 {
   struct unit *punit;
-  int activity = (int)data;
+  int activity = GPOINTER_TO_INT(data);
 
   if (!is_showing_unit_connect_dialog) {
     destroy_message_dialog(w);
@@ -1715,7 +1722,66 @@ void popdown_races_dialog(void)
 *****************************************************************/
 static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 {
-  return strcmp(get_nation_name((int)a_p),get_nation_name((int)b_p));
+  return strcmp(get_nation_name(GPOINTER_TO_INT(a_p)),
+		get_nation_name(GPOINTER_TO_INT(b_p)));
+}
+
+/****************************************************************
+Selectes a leader and the appropriate sex.
+Updates the gui elements and the selected_* variables.
+*****************************************************************/
+static void select_random_leader()
+{
+  int j, leader_num;
+  char **leaders;
+
+  g_list_free(leader_strings);
+  leader_strings = NULL;
+
+  /* fill leader names combo box */
+  leaders = get_nation_leader_names( selected_nation, &leader_num);
+  for( j=0; j<leader_num; j++) {
+    leader_strings = g_list_append(leader_strings, leaders[j]);
+  }
+  gtk_combo_set_value_in_list( GTK_COMBO(races_name), FALSE, FALSE);
+  gtk_combo_set_popdown_strings( GTK_COMBO(races_name), leader_strings);
+
+  /* initalize leader names */
+  selected_leader = myrand(leader_num);
+  gtk_entry_set_text( GTK_ENTRY(GTK_COMBO(races_name)->entry),
+		      leaders[selected_leader]);
+
+  /* initalize leader sex */
+  selected_sex = get_nation_leader_sex(selected_nation,
+				       leaders[selected_leader]);
+  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
+			races_sex_toggles[selected_sex?0:1]), TRUE);
+}
+
+/****************************************************************
+Selectes a random race and the appropriate city style.
+Updates the gui elements and the selected_* variables.
+*****************************************************************/
+static void select_random_race()
+{
+  /* try to find a free nation */
+  while(1) {
+    selected_nation = myrand(game.playable_nation_count);
+    if(GTK_WIDGET_SENSITIVE(races_toggles[g_list_index(sorted_races_list,
+				       GINT_TO_POINTER(selected_nation))]))
+      break;
+  }
+
+  /* initalize nation toggle array */
+  gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON(
+		 races_toggles[g_list_index(sorted_races_list,
+			    GINT_TO_POINTER(selected_nation))] ), TRUE );
+
+  /* initalize city style */
+  selected_city_style =
+    city_style_ridx[get_nation_city_style(selected_nation)];
+  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
+			city_style_toggles[selected_city_style] ), TRUE );
 }
 
 /****************************************************************
@@ -1724,13 +1790,11 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 void create_races_dialog(void)
 {
   int       per_row = 5;
-  int       i, leader_num;
+  int       i;
   GSList    *group = NULL;
   GSList    *sgroup = NULL;
   GSList    *cgroup = NULL;
   GtkWidget *f, *fs, *fa;
-  char **leaders;
-  GList *sorted_races_list=NULL;
 
   races_dialog_shell = gtk_dialog_new();
     gtk_signal_connect( GTK_OBJECT(races_dialog_shell),"delete_event",
@@ -1753,11 +1817,11 @@ void create_races_dialog(void)
   races_toggles = fc_calloc( game.playable_nation_count, sizeof(GtkWidget*) );
 
   for(i=0; i<game.playable_nation_count; i++) {
-    sorted_races_list=g_list_append(sorted_races_list,(gpointer)i);
+    sorted_races_list=g_list_append(sorted_races_list,GINT_TO_POINTER(i));
   }
   sorted_races_list=g_list_sort(sorted_races_list,cmp_func);
   for(i=0; i<g_list_length(sorted_races_list); i++) {
-    int nat_id=(gint)g_list_nth_data(sorted_races_list, i);
+    gint nat_id=GPOINTER_TO_INT(g_list_nth_data(sorted_races_list,i));
     races_toggles[i]=gtk_radio_button_new_with_label(group,
 						     get_nation_name(nat_id));
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(races_toggles[i]), FALSE);
@@ -1769,16 +1833,6 @@ void create_races_dialog(void)
   /* ------- nation leader combo ------- */
 
   races_name = gtk_combo_new();
-
-  leaders = get_nation_leader_names(0, &leader_num);
-  g_list_free(leader_strings);
-  leader_strings = 0;
-  for(i=0; i<leader_num; i++)
-    leader_strings = g_list_append(leader_strings, leaders[i]);
-
-  gtk_combo_set_value_in_list( GTK_COMBO(races_name), FALSE, FALSE);
-  gtk_combo_set_popdown_strings( GTK_COMBO(races_name), leader_strings);
-  gtk_entry_set_text( GTK_ENTRY(GTK_COMBO(races_name)->entry), leaders[0]);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->vbox ),
 	races_name, FALSE, FALSE, 0 );
@@ -1795,19 +1849,21 @@ void create_races_dialog(void)
   gtk_container_add( GTK_CONTAINER( fs ), races_sex_toggles_form ); 
 
   races_sex_toggles[0]= gtk_radio_button_new_with_label( sgroup, _("Male") );
-  gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_sex_toggles[0] ), FALSE );
+  gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_sex_toggles[0] ),
+			       FALSE );
   sgroup = gtk_radio_button_group( GTK_RADIO_BUTTON( races_sex_toggles[0] ) );
-  gtk_table_attach_defaults( GTK_TABLE(races_sex_toggles_form), races_sex_toggles[0],
-			     0,1,0,1); 
+  gtk_table_attach_defaults( GTK_TABLE(races_sex_toggles_form),
+			     races_sex_toggles[0],0,1,0,1); 
   races_sex_toggles[1]= gtk_radio_button_new_with_label( sgroup, _("Female") );
-  gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_sex_toggles[1] ), FALSE );
+  gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_sex_toggles[1] ),
+			       FALSE );
   sgroup = gtk_radio_button_group( GTK_RADIO_BUTTON( races_sex_toggles[1] ) );
-  gtk_table_attach_defaults( GTK_TABLE(races_sex_toggles_form), races_sex_toggles[1],
-			     1,2,0,1); 
+  gtk_table_attach_defaults( GTK_TABLE(races_sex_toggles_form),
+			     races_sex_toggles[1],1,2,0,1); 
 
   /* ------- city style toggles ------- */
 
-/* find out styles that can be used at the game beginning */
+  /* find out styles that can be used at the game beginning */
    
   for(i=0,b_s_num=0; i<game.styles_count && i<64; i++) {
     if(city_styles[i].techreq == A_NONE) {
@@ -1828,9 +1884,11 @@ void create_races_dialog(void)
   gtk_container_add( GTK_CONTAINER( fa ), city_style_toggles_form ); 
 
   for(i=0; i<b_s_num; i++) {
-      city_style_toggles[i] = gtk_radio_button_new_with_label(
-                                           cgroup, city_styles[city_style_idx[i]].name);
-      gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( city_style_toggles[i] ), FALSE );
+      city_style_toggles[i] =
+	gtk_radio_button_new_with_label(cgroup,
+					city_styles[city_style_idx[i]].name);
+      gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( city_style_toggles[i] ),
+				   FALSE );
       cgroup = gtk_radio_button_group( GTK_RADIO_BUTTON( city_style_toggles[i] ) );
       gtk_table_attach_defaults( GTK_TABLE(city_style_toggles_form),
 				 city_style_toggles[i],
@@ -1843,18 +1901,16 @@ void create_races_dialog(void)
   GTK_WIDGET_SET_FLAGS( races_ok_command, GTK_CAN_DEFAULT );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
 	races_ok_command, TRUE, TRUE, 0 );
-  
-  /* if(has_capability("dconn_in_sel_nat", aconnection.capability)) */
-  {
-    races_disc_command = gtk_button_new_with_label( "Disconnect" );
-    GTK_WIDGET_SET_FLAGS( races_disc_command, GTK_CAN_DEFAULT );
-    gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
- 			races_disc_command, TRUE, TRUE, 0 );
-    races_quit_command = gtk_button_new_with_label( "Quit" );
-    GTK_WIDGET_SET_FLAGS( races_quit_command, GTK_CAN_DEFAULT );
-    gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
- 			races_quit_command, TRUE, TRUE, 0 );
-  }
+
+  races_disc_command = gtk_button_new_with_label( "Disconnect" );
+  GTK_WIDGET_SET_FLAGS( races_disc_command, GTK_CAN_DEFAULT );
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
+		      races_disc_command, TRUE, TRUE, 0 );
+
+  races_quit_command = gtk_button_new_with_label( "Quit" );
+  GTK_WIDGET_SET_FLAGS( races_quit_command, GTK_CAN_DEFAULT );
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
+		      races_quit_command, TRUE, TRUE, 0 );
 
   /* ------- connect callback functions ------- */
 
@@ -1871,42 +1927,27 @@ void create_races_dialog(void)
         gtk_signal_connect( GTK_OBJECT( city_style_toggles[i] ), "toggled",
 	    GTK_SIGNAL_FUNC( city_style_toggles_callback ), NULL );
 
-  gtk_signal_connect( GTK_OBJECT( GTK_COMBO(races_name)->list ), "selection_changed",
-                      GTK_SIGNAL_FUNC( races_name_callback ), NULL );
+  gtk_signal_connect( GTK_OBJECT( GTK_COMBO(races_name)->list ), 
+		      "selection_changed",
+		      GTK_SIGNAL_FUNC( races_name_callback ), NULL );
 
   gtk_signal_connect( GTK_OBJECT( races_ok_command ), "clicked",
 			GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
-  
-  /* if(has_capability("dconn_in_sel_nat", aconnection.capability)) */
-  {
-    gtk_signal_connect( GTK_OBJECT( races_disc_command ), "clicked",
-			GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
-    gtk_signal_connect( GTK_OBJECT( races_quit_command ), "clicked",
-			GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
-  }
+
+  gtk_signal_connect( GTK_OBJECT( races_disc_command ), "clicked",
+		      GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
+
+  gtk_signal_connect( GTK_OBJECT( races_quit_command ), "clicked",
+		      GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
 
   /* ------- set initial selections ------- */
 
-  selected_nation = (int)(g_list_nth_data(sorted_races_list, 0));
-  gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_toggles[0] ), TRUE );
-
-  selected_sex = get_nation_leader_sex( 0, leaders[0]); 
-  gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( 
-                               races_sex_toggles[selected_sex?0:1]), TRUE); 
-
-  selected_city_style = city_style_ridx[get_nation_city_style(0)];
-  gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( 
-                               city_style_toggles[selected_city_style] ), TRUE );
+  select_random_race();
+  select_random_leader();
 
   gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->action_area );
-
-  /* ------- cleanup ------- */
- 
-  g_list_free(sorted_races_list);
-  sorted_races_list = NULL; 
 }
-
 
 /****************************************************************
 ...
@@ -1924,30 +1965,37 @@ void races_dialog_returnkey(Widget w, XEvent *event, String *params,
 **************************************************************************/
 void races_toggles_set_sensitive(int bits1, int bits2)
 {
-  int i, selected, mybits;
+  int i, mybits;
 
   mybits=bits1;
 
   for(i=0; i<game.playable_nation_count && i<32; i++) {
-    if(mybits&1)
-      gtk_widget_set_sensitive( races_toggles[i], FALSE );
-    else
-      gtk_widget_set_sensitive( races_toggles[i], TRUE );
+    if(mybits&1) {
+      gtk_widget_set_sensitive( races_toggles[g_list_index(sorted_races_list,
+						   GINT_TO_POINTER(i))], FALSE );
+      if(i==selected_nation)
+	select_random_race();
+    } else {
+      gtk_widget_set_sensitive( races_toggles[g_list_index(sorted_races_list,
+						   GINT_TO_POINTER(i))], TRUE );
+    }
     mybits>>=1;
   }
 
   mybits=bits2;
 
   for(i=32; i<game.playable_nation_count; i++) {
-    if(mybits&1)
-      gtk_widget_set_sensitive( races_toggles[i], FALSE );
-    else
-      gtk_widget_set_sensitive( races_toggles[i], TRUE );
+    if(mybits&1) {
+      gtk_widget_set_sensitive( races_toggles[g_list_index(sorted_races_list,
+						   GINT_TO_POINTER(i))], FALSE );
+      if(i==selected_nation)
+	select_random_race();
+    } else {
+      gtk_widget_set_sensitive( races_toggles[g_list_index(sorted_races_list,
+						   GINT_TO_POINTER(i))], TRUE );
+    }
     mybits>>=1;
   }
-
-  if((selected=races_buttons_get_current())==-1)
-     return;
 }
 
 /**************************************************************************
@@ -1970,27 +2018,13 @@ void races_name_callback( GtkWidget *w, gpointer data )
 **************************************************************************/
 void races_toggles_callback( GtkWidget *w, gpointer race_id_p )
 {
-  int j, leader_count,race_id=(int)race_id_p;
-  char **leaders;
+  selected_nation = GPOINTER_TO_INT(race_id_p);
 
-  g_list_free(leader_strings);
-  leader_strings = 0;
+  select_random_leader();
 
-  leaders = get_nation_leader_names( race_id, &leader_count);
-  for( j=0; j<leader_count; j++) {
-    leader_strings = g_list_append(leader_strings, leaders[j]);
-  }
-  gtk_combo_set_value_in_list( GTK_COMBO(races_name), FALSE, FALSE);
-  gtk_combo_set_popdown_strings( GTK_COMBO(races_name), leader_strings);
-  gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(races_name)->entry), leaders[0]);
-  selected_nation = race_id;
-  selected_sex = get_nation_leader_sex(race_id,leaders[0]);
-  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON( 
-			      races_sex_toggles[selected_sex?0:1]), TRUE);
-  selected_city_style = city_style_ridx[get_nation_city_style(race_id)];
+  selected_city_style = city_style_ridx[get_nation_city_style(selected_nation)];
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
-			      city_style_toggles[selected_city_style] ), TRUE );
-      return;
+				city_style_toggles[selected_city_style] ), TRUE );
 }
 
 /**************************************************************************
@@ -2049,6 +2083,9 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
   if(w==races_quit_command) {
     exit(0);
   } else if(w==races_disc_command) {
+    g_list_free(sorted_races_list);
+    sorted_races_list = NULL;
+
     popdown_races_dialog();
     disconnect_from_server();
     return;
@@ -2082,11 +2119,15 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
     return;
   }
 
+  /* ------- cleanup ------- */
+ 
+  g_list_free(sorted_races_list);
+  sorted_races_list = NULL;
+
   packet.name[0]=toupper(packet.name[0]);
 
   send_packet_alloc_nation(&aconnection, &packet);
 }
-
 
 
 /**************************************************************************
@@ -2097,6 +2138,7 @@ void destroy_me_callback( GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(w);
 }
+
 
 /**************************************************************************
   Adjust tax rates from main window
