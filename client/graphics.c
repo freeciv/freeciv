@@ -101,11 +101,11 @@ void load_tile_gfx(void)
   struct Sprite *roads_sprite;
   int row;
 
-  big_sprite  = load_xpmfile(datafilename("tiles.xpm"));
-  unit_sprite = load_xpmfile(datafilename("units.xpm"));
-  small_sprite= load_xpmfile(datafilename("small.xpm"));
-  treaty_sprite=load_xpmfile(datafilename("treaty.xpm"));
-  roads_sprite=load_xpmfile(datafilename("roads.xpm"));
+  big_sprite   = load_xpmfile(tilefilename("tiles.xpm"));
+  unit_sprite  = load_xpmfile(tilefilename("units.xpm"));
+  small_sprite = load_xpmfile(tilefilename("small.xpm"));
+  treaty_sprite= load_xpmfile(tilefilename("treaty.xpm"));
+  roads_sprite = load_xpmfile(tilefilename("roads.xpm"));
 
   ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4);
 
@@ -142,6 +142,14 @@ void load_tile_gfx(void)
       XFreeGC(display, plane_gc);
     }
 
+  if(small_sprite->width != SMALL_TILE_WIDTH*31 ||
+     small_sprite->height != SMALL_TILE_HEIGHT*1)  {
+    flog(LOG_FATAL, "XPM file small.xpm is the wrong size!");
+    flog(LOG_FATAL, "Expected %dx%d, got %dx%d",
+         SMALL_TILE_WIDTH*31,SMALL_TILE_HEIGHT*1,
+	 small_sprite->width, small_sprite->height);
+    exit(1);
+  }
   for(x=0, y=0; x<small_sprite->width; x+=SMALL_TILE_WIDTH) {
     Pixmap mypixmap;
     
@@ -170,6 +178,15 @@ void load_tile_gfx(void)
     tile_sprites[i++]=ctor_sprite(mypixmap, 300,30); */
   }
 
+  if(unit_sprite->width != NORMAL_TILE_WIDTH*20 ||
+     unit_sprite->height != NORMAL_TILE_HEIGHT*3)  {
+    flog(LOG_FATAL, "XPM file units.xpm is the wrong size!");
+    flog(LOG_FATAL, "Expected %dx%d, got %dx%d",
+         NORMAL_TILE_WIDTH*20,NORMAL_TILE_HEIGHT*3,
+	 unit_sprite->width, unit_sprite->height);
+    exit(1);
+  }
+
   UNIT_TILES = i;
   for(y=0; y<unit_sprite->height; y+=NORMAL_TILE_HEIGHT)
     for(x=0; x<unit_sprite->width; x+=NORMAL_TILE_WIDTH) {
@@ -196,6 +213,14 @@ void load_tile_gfx(void)
       XFreeGC(display, plane_gc);
     }
 
+  if(roads_sprite->width != NORMAL_TILE_WIDTH*16 ||
+     roads_sprite->height != NORMAL_TILE_HEIGHT*4)  {
+    flog(LOG_FATAL, "XPM file roads.xpm is the wrong size!");
+    flog(LOG_FATAL, "Expected %dx%d, got %dx%d",
+         NORMAL_TILE_WIDTH*16,NORMAL_TILE_HEIGHT*4,
+	 roads_sprite->width, roads_sprite->height);
+    exit(1);
+  }
   /* jjm@codewell.com 30dec1998a */
   for(y=0, row=0; y<roads_sprite->height; y+=NORMAL_TILE_HEIGHT, row++) {
     if (row==0) ROAD_TILES = i;
