@@ -2000,59 +2000,106 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
 }
 
 /**************************************************************************
-  Notify player of an event, specifying event type (from events.h) and
-  (x,y) coords associated with the event.  Coords will only apply if game
-  has started and the player knows that tile.  If coords are not required,
+  This is the basis for following notify_conn* and notify_player* functions.
+  Notify specified connections of an event of specified type (from events.h)
+  and specified (x,y) coords associated with the event.  Coords will only
+  apply if game has started and the conn's player knows that tile (or
+  pconn->player==NULL && pconn->observer).  If coords are not required,
   caller should specify (x,y) = (-1,-1).  For generic event use E_NOEVENT.
-  (Although current clients do not use (x,y) data for E_NOEVENT events...)
-  (If both coords and event are not required, use notify_player() instead.)
+  (But current clients do not use (x,y) data for E_NOEVENT events.)
+**************************************************************************/
+static void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
+			    const char *format, va_list vargs) 
+{
+  struct packet_generic_message genmsg;
+  
+  my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, vargs);
+  genmsg.event = event;
+
+  conn_list_iterate(*dest, pconn) {
+    if (y >= 0 && y < map.ysize && server_state >= RUN_GAME_STATE
+	&& ((pconn->player==NULL && pconn->observer)
+	    || (pconn->player!=NULL && map_get_known(x, y, pconn->player)))) {
+      genmsg.x = x;
+      genmsg.y = y;
+    } else {
+      genmsg.x = -1;
+      genmsg.y = -1;
+    }
+    send_packet_generic_message(pconn, PACKET_CHAT_MSG, &genmsg);
+  }
+  conn_list_iterate_end;
+}
+
+/**************************************************************************
+  See vnotify_conn_ex - this is just the "non-v" version, with varargs.
+**************************************************************************/
+void notify_conn_ex(struct conn_list *dest, int x, int y, int event,
+		    const char *format, ...) 
+{
+  va_list args;
+  va_start(args, format);
+  vnotify_conn_ex(dest, x, y, event, format, args);
+  va_end(args);
+}
+
+/**************************************************************************
+  See vnotify_conn_ex - this is varargs, and cannot specify (x,y), event.
+**************************************************************************/
+void notify_conn(struct conn_list *dest, const char *format, ...) 
+{
+  va_list args;
+  va_start(args, format);
+  vnotify_conn_ex(dest, -1, -1, E_NOEVENT, format, args);
+  va_end(args);
+}
+
+/**************************************************************************
+  Similar to vnotify_conn_ex (see also), but takes player as "destination".
+  If player != NULL, sends to all connections for that player.
+  If player == NULL, sends to all established connections, to support
+  old code, but this feature may go away - should use notify_conn with
+  explicitly game.est_connections or game.game_connections as dest.
 **************************************************************************/
 void notify_player_ex(const struct player *pplayer, int x, int y,
 		      int event, const char *format, ...) 
 {
-  int i;
-  struct packet_generic_message genmsg;
+  struct conn_list *dest;
   va_list args;
+
+  if (pplayer) {
+    dest = (struct conn_list*)&pplayer->connections;
+  } else {
+    dest = &game.est_connections;
+  }
+  
   va_start(args, format);
-  my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, args);
+  vnotify_conn_ex(dest, x, y, event, format, args);
   va_end(args);
-  genmsg.event = event;
-  for(i=0; i<game.nplayers; i++)
-    if(!pplayer || pplayer==&game.players[i]) {
-      if (y >= 0 && y < map.ysize && server_state >= RUN_GAME_STATE
-	  && map_get_known(x, y, &game.players[i])) {
-	genmsg.x = x;
-	genmsg.y = y;
-      } else {
-	genmsg.x = -1;
-	genmsg.y = -1;
-      }
-      send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, &genmsg);
-    }
 }
 
-
 /**************************************************************************
-...
+  Just like notify_player_ex, but no (x,y) nor event type.
 **************************************************************************/
 void notify_player(const struct player *pplayer, const char *format, ...) 
 {
-  int i;
-  struct packet_generic_message genmsg;
+  struct conn_list *dest;
   va_list args;
+
+  if (pplayer) {
+    dest = (struct conn_list*)&pplayer->connections;
+  } else {
+    dest = &game.est_connections;
+  }
+  
   va_start(args, format);
-  my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, args);
+  vnotify_conn_ex(dest, -1, -1, E_NOEVENT, format, args);
   va_end(args);
-  genmsg.x = -1;
-  genmsg.y = -1;
-  genmsg.event = -1;
-  for(i=0; i<game.nplayers; i++)
-    if(!pplayer || pplayer==&game.players[i])
-      send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, &genmsg);
 }
 
 /**************************************************************************
-...
+  Send message to all players who have an embassy with pplayer,
+  but excluding specified player.
 **************************************************************************/
 void notify_embassies(struct player *pplayer, struct player *exclude,
 		      const char *format, ...) 
@@ -2066,9 +2113,13 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
   genmsg.x = -1;
   genmsg.y = -1;
   genmsg.event = E_NOEVENT;
-  for(i=0; i<game.nplayers; i++)
-    if(player_has_embassy(&game.players[i],pplayer)&&exclude!=&game.players[i])
-      send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, &genmsg);
+  for(i=0; i<game.nplayers; i++) {
+    if(player_has_embassy(&game.players[i], pplayer)
+       && exclude != &game.players[i]) {
+      lsend_packet_generic_message(&game.players[i].connections,
+				   PACKET_CHAT_MSG, &genmsg);
+    }
+  }
 }
 
 /**************************************************************************

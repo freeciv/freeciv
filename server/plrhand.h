@@ -40,6 +40,12 @@ void page_player(struct player *pplayer, char *caption, char *headline,
 		 char *lines);
 void page_player_generic(struct player *pplayer, char *caption, char *headline,
 			 char *lines, int event);
+
+void notify_conn_ex(struct conn_list *dest, int x, int y, int event,
+		    const char *format, ...) 
+                    fc__attribute((format (printf, 5, 6)));
+void notify_conn(struct conn_list *dest, const char *format, ...) 
+                 fc__attribute((format (printf, 2, 3)));
 void notify_player_ex(const struct player *pplayer, int x, int y,
 		      int event, const char *format, ...)
                       fc__attribute((format (printf, 5, 6)));
@@ -48,6 +54,7 @@ void notify_player(const struct player *pplayer, const char *format, ...)
 void notify_embassies(struct player *pplayer, struct player *exclude,
 		      const char *format, ...)
 		      fc__attribute((format (printf, 3, 4)));
+		      
 void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq);
 void handle_player_research(struct player *pplayer,
