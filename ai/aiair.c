@@ -388,7 +388,6 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity, 
 			    struct ai_choice *choice)
 {
-  Unit_Type_id u_type;
   bool want_something = FALSE;
 
   /* This AI doesn't know to build planes */
@@ -405,8 +404,8 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
   if (!player_knows_techs_with_flag(pplayer, TF_BUILD_AIRBORNE)) {
     return FALSE;
   }
-  /* TODO: unit_types_iterate */
-  for (u_type = 0; u_type < game.num_unit_types; u_type++) {
+
+  unit_type_iterate(u_type) {
     if (get_unit_type(u_type)->move_type != AIR_MOVING) continue;
     if (can_build_unit(pcity, u_type)) {
       struct unit *virtual_unit = 
@@ -426,7 +425,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
       }
       destroy_unit_virtual(virtual_unit);
     }
-  }
+  } unit_type_iterate_end;
 
   return want_something;
 }
