@@ -205,14 +205,14 @@ const char *popup_info_text(struct tile *ptile)
 		 turns);
       } else {
         /* TRANS: "City: Warsaw (Polish,friendly)" */
-        add_line(_("City: %s (%s,%s)"), pcity->name,
+        add_line(_("City: %s (%s, %s)"), pcity->name,
 		 get_nation_name(owner->nation),
 		 diplo_city_adjectives[ds[owner->player_no].type]);
       }
     }
     if (city_got_citywalls(pcity)) {
       /* TRANS: previous lines gave other information about the city. */
-      add("%s",_(" with City Walls"));
+      add(" %s", _("with City Walls"));
     }
 
     if ((apunit = get_unit_in_focus())) {
@@ -265,7 +265,7 @@ const char *popup_info_text(struct tile *ptile)
 		 turns);
       } else {
 	/* TRANS: "Unit: Musketeers (Polish,friendly)" */
-	add_line(_("Unit: %s (%s,%s)"), ptype->name,
+	add_line(_("Unit: %s (%s, %s)"), ptype->name,
 		 get_nation_name(owner->nation),
 		 diplo_city_adjectives[ds[owner->player_no].type]);
       }
