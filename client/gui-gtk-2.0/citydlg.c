@@ -1636,6 +1636,11 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 		       get_citizen_sprite(7 + i % 2), i * width, 0);
   }
 
+  for (n = 0; n < pcity->ppl_angry[4]; n++, i++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+		       get_citizen_sprite(9 + i % 2), i * width, 0);
+  }
+
   pdialog->first_elvis = i;
   for (n = 0; n < pcity->ppl_elvis; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
