@@ -101,10 +101,14 @@ test -f $srcfile || {
 	exit 1
 }
 
-# We need to move configure.in out of the way in case we have autoconf > 2.13
-# since that would cause lots of spurious warnings
+# We need to move configure.in out of the way in case we have autoconf
+# > 2.13 since that would cause lots of spurious warnings. Same goes
+# for acconfig.h
 test -f configure.in && {
 	mv configure.in configure.old
+}
+test -f acconfig.h && {
+	mv acconfig.h acconfig.old
 }
 
 # x.252 is autoconf 2.52 compatible version of this macro, while x.213 is
@@ -113,6 +117,7 @@ cp m4/x.252 m4/x.m4
 
 version_check 0 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 52 || {
   mv configure.old configure.in
+  mv acconfig.old acconfig.h
   cp m4/x.213 m4/x.m4
   version_check 1 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 13 || DIE=1
 }
