@@ -276,6 +276,8 @@ void ai_manage_tech(struct player *pplayer)
   int penalty;
 
   penalty = (pplayer->got_tech ? 0 : pplayer->research.researched);
+  if (penalty + pplayer->research.researched > research_time(pplayer))
+    return; /* this is a kluge */
 
   ai_select_tech(pplayer, &choice);
   if (choice.choice != pplayer->research.researching) {
