@@ -476,10 +476,6 @@ const char *get_unit_info_label_text1(struct unit *punit)
     struct unit_type *ptype = unit_type(punit);
 
     add("%s", ptype->name);
-
-    if (ptype->veteran[punit->veteran].name[0] != '\0') {
-      add(" (%s)", _(ptype->veteran[punit->veteran].name));
-    }
   }
   RETURN;
 }
