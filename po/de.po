@@ -6,17 +6,7 @@
 # # Copyright (C) 2000 Free Software Foundation, Inc. #
 # # Egbert Hinzen <garfy@ehinzen.de>, 2000            #
 # #####################################################
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: 1.10\n"
-"POT-Creation-Date: 2000-02-10 17:44-0500\n"
-"Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
-"Language-Team: German <freeciv-de@ehinzen.de>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
-
+#
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # + '# ?'  markiert Stellen, die noch nicht übersetzt wurden.        +
 # + '# NN' markiert Kommentare des Übersetzers mit den Initialen NN. +
@@ -36,25 +26,24 @@ msgstr ""
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.30  2000/02/10 23:55:33  jjm
-# Second beta release (1.9.4) leading to version 1.10.0.
-#
-# Revision 1.29  2000/02/10 15:23:06  jjm
+# Revision 1.31  2000/02/14 14:06:08  jjm
 # Update German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
 #
-# Revision 1.9.1.38  2000/02/10 14:41:59  egbert
-# includes patches until 00/02/10
-# xgettext header added
-#
 # Revision 1.9.1.21  1999/11/19 20:25:32  egbert
 # German translation is BETA now
-# error messages NOT translated to allow better bug-support
 #
 # ###################################
 # ## The real PO file starts here: ##
 # ###################################
-#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.10.0\n"
+"POT-Creation-Date: 2000-02-11 12:41+0100\n"
+"Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
+"Language-Team: German <freeciv-de@ehinzen.de>\n"
+
 #: common/city.c:177
 msgid "?wonder:w"
 msgstr "?wonder:+"
@@ -492,11 +481,9 @@ msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Spiel: In %s wird eine Hungersnot befürchtet, %s verloren!"
 
 #: server/cityturn.c:988 server/cityturn.c:1028
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
-msgstr ""
-"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da notwenige Kenntnisse "
-"fehlen."
+msgstr "Spiel: %s kann %s aus der Arbeitsliste nicht bauen."
 
 #: server/cityturn.c:1007 server/cityturn.c:1047
 #, c-format
@@ -504,7 +491,7 @@ msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
-"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da notwenige Kenntnisse "
+"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da notwendige Kenntnisse "
 "fehlen."
 
 #: server/cityturn.c:1015 server/cityturn.c:1055 server/cityturn.c:1156
