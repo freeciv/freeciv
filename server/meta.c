@@ -274,7 +274,7 @@ bool send_server_info_to_metaserver(bool do_send, bool reset_timer)
 {
   static struct timer *time_since_last_send = NULL;
   char desc[4096], info[4096];
-  int num_nonbarbarians = 0;
+  int num_nonbarbarians = get_num_human_and_ai_players();
 
   if (reset_timer && time_since_last_send)
   {
@@ -292,12 +292,6 @@ bool send_server_info_to_metaserver(bool do_send, bool reset_timer)
   if (!time_since_last_send) {
     time_since_last_send = new_timer(TIMER_USER, TIMER_ACTIVE);
   }
-
-  players_iterate(pplayer) {
-    if (!is_barbarian(pplayer)) {
-      ++num_nonbarbarians;
-    }
-  } players_iterate_end;
 
   /* build description block */
   desc[0]='\0';

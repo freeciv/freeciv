@@ -2237,7 +2237,6 @@ bool is_ai_simple_military(Unit_Type_id type)
  */
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 {
-  int i;
   bool handicap, has_emb;
   int continent, dist, rmd, oic, did;
   struct packet_unit_request req;
@@ -2245,7 +2244,6 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
   struct city *pcity, *ctarget;
   struct tile *ptile;
   struct unit *ptres;
-  struct player *aplayer = NULL;
 
   if (pdiplomat->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(pdiplomat, ACTIVITY_IDLE);
@@ -2299,8 +2297,7 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
     dist=MAX(map.xsize, map.ysize);
     continent=map_get_continent(pdiplomat->x, pdiplomat->y);
     handicap = ai_handicap(pplayer, H_TARGETS);
-    for( i = 0; i < game.nplayers; i++) {
-      aplayer = &game.players[i];
+    players_iterate(aplayer) {
       if (aplayer == pplayer) continue;
       /* sneaky way of avoiding foul diplomat capture  -AJS */
       has_emb=player_has_embassy(pplayer, aplayer) || pdiplomat->foul;
@@ -2321,10 +2318,11 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 	  }
 	}
       city_list_iterate_end;
-    }
-    if (!ctarget && aplayer) {
+    } players_iterate_end;
+
+    if (!ctarget) {
       /* No enemy cities are useful.  Check our own. -AJS */
-      city_list_iterate(aplayer->cities, acy)
+      city_list_iterate(pplayer->cities, acy)
 	if (continent != map_get_continent(acy->x, acy->y)) continue;
 	if (!count_diplomats_on_tile(acy->x, acy->y)) {
 	  ctarget=acy;

@@ -238,17 +238,16 @@ static void send_all_info(struct conn_list *dest)
 **************************************************************************/
 static void do_apollo_program(void)
 {
-  int cityid;
-  struct player *pplayer;
-  struct city *pcity;
-  if ((cityid=game.global_wonders[B_APOLLO]) && 
-      (pcity=find_city_by_id(cityid))) {
-    pplayer=city_owner(pcity);
+  struct city *pcity = find_city_wonder(B_APOLLO);
+
+  if (pcity) {
+    struct player *pplayer = city_owner(pcity);
+
     if (game.civstyle == 1) {
       players_iterate(other_player) {
-	city_list_iterate(other_player->cities, pcity)
+	city_list_iterate(other_player->cities, pcity) {
 	  show_area(pplayer, pcity->x, pcity->y, 0);
-	city_list_iterate_end;
+	} city_list_iterate_end;
       } players_iterate_end;
     } else {
       map_know_all(pplayer);
@@ -263,12 +262,13 @@ static void do_apollo_program(void)
 **************************************************************************/
 static void marco_polo_make_contact(void)
 {
-  int cityid  = game.global_wonders[B_MARCO];
-  int o;
-  struct city *pcity;
-  if (cityid && (pcity = find_city_by_id(cityid)))
-    for (o = 0; o < game.nplayers; o++)
-      make_contact(city_owner(pcity), get_player(o), pcity->x, pcity->y);
+  struct city *pcity = find_city_wonder(B_MARCO);
+
+  if (pcity) {
+    players_iterate(pplayer) {
+      make_contact(city_owner(pcity), pplayer, pcity->x, pcity->y);
+    } players_iterate_end;
+  }
 }
 
 /**************************************************************************
@@ -311,38 +311,38 @@ static void update_environmental_upset(enum tile_special_type cause,
 **************************************************************************/
 static void update_diplomatics(void)
 {
-  int p, p2;
+  players_iterate(player1) {
+    players_iterate(player2) {
+      struct player_diplstate *pdiplstate =
+	  &player1->diplstates[player2->player_no];
 
-  for(p = 0; p < game.nplayers; p++) {
-    for(p2 = 0; p2 < game.nplayers; p2++) {
-      game.players[p].diplstates[p2].has_reason_to_cancel =
-	MAX(game.players[p].diplstates[p2].has_reason_to_cancel - 1, 0);
+      pdiplstate->has_reason_to_cancel =
+	  MAX(pdiplstate->has_reason_to_cancel - 1, 0);
 
-      if(game.players[p].diplstates[p2].type == DS_CEASEFIRE) {
-	switch(--game.players[p].diplstates[p2].turns_left) {
+      if(pdiplstate->type == DS_CEASEFIRE) {
+	switch(--pdiplstate->turns_left) {
 	case 1:
-	  notify_player(&game.players[p],
+	  notify_player(player1,
 			_("Game: Concerned citizens point "
-			  "out that the cease-fire with %s will run out soon."),
-			game.players[p2].name);
-	  break;
-	case -1:
-	  notify_player(&game.players[p],
-			_("Game: The cease-fire with %s has "
-			  "run out. You are now neutral towards the %s."),
-			game.players[p2].name,
-			get_nation_name_plural(game.players[p2].nation));
-	  game.players[p].diplstates[p2].type = DS_NEUTRAL;
-	  check_city_workers(&game.players[p]);
-	  check_city_workers(&game.players[p2]);
-	  break;
-	}
-      }
-      game.players[p].reputation =
-	MIN(game.players[p].reputation + GAME_REPUTATION_INCR,
-	    GAME_MAX_REPUTATION);
-    }
-  }
+  			  "out that the cease-fire with %s will run out soon."),
+			player2->name);
+  	  break;
+  	case -1:
+	  notify_player(player1,
+  			_("Game: The cease-fire with %s has "
+  			  "run out. You are now neutral towards the %s."),
+			player2->name,
+			get_nation_name_plural(player2->nation));
+	  pdiplstate->type = DS_NEUTRAL;
+	  check_city_workers(player1);
+	  check_city_workers(player2);
+  	  break;
+  	}
+        }
+      player1->reputation = MIN(player1->reputation + GAME_REPUTATION_INCR,
+				GAME_MAX_REPUTATION);
+    } players_iterate_end;
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -1860,22 +1860,27 @@ main_start_players:
    * in generate_ai_players() later
    */
   server_state = RUN_GAME_STATE;
-  for(i=0; i<game.nplayers; i++) {
-    if (game.players[i].nation == MAX_NUM_NATIONS && !game.players[i].ai.control) {
-      send_select_nation(&game.players[i]);
+  players_iterate(pplayer) {
+    if (pplayer->nation == MAX_NUM_NATIONS && !pplayer->ai.control) {
+      send_select_nation(pplayer);
       server_state = SELECT_RACES_STATE;
     }
-  }
+  } players_iterate_end;
 
   while(server_state==SELECT_RACES_STATE) {
+    bool flag = FALSE;
+
     sniff_packets();
-    for(i=0; i<game.nplayers; i++) {
-      if (game.players[i].nation == MAX_NUM_NATIONS && !game.players[i].ai.control) {
+
+    players_iterate(pplayer) {
+      if (pplayer->nation == MAX_NUM_NATIONS && !pplayer->ai.control) {
+	flag = TRUE;
 	break;
       }
-    }
-    if(i==game.nplayers) {
-      if(i>0) {
+    } players_iterate_end;
+
+    if(!flag) {
+      if (game.nplayers > 0) {
 	server_state=RUN_GAME_STATE;
       } else {
 	con_write(C_COMMENT,

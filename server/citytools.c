@@ -1185,7 +1185,6 @@ void remove_city(struct city *pcity)
 **************************************************************************/
 void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 {
-  int i, n;
   bool do_civil_war = FALSE;
   int coins;
   struct player *pplayer = unit_owner(punit);
@@ -1207,16 +1206,13 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     spaceship_lost(cplayer);
   }
   
-  if(city_got_building(pcity, B_PALACE) 
-     && city_list_size(&cplayer->cities) >= game.civilwarsize 
-     && game.nplayers < game.nation_count
-     && game.civilwarsize < GAME_MAX_CIVILWARSIZE) {
-    n = 0;
-    for( i = 0; i < game.nplayers; i++ )
-      if(!is_barbarian(&game.players[i]))
-	n++;
-    if(n < MAX_NUM_PLAYERS && civil_war_triggered(cplayer))
-      do_civil_war = TRUE;
+  if (city_got_building(pcity, B_PALACE)
+      && city_list_size(&cplayer->cities) >= game.civilwarsize
+      && game.nplayers < game.nation_count
+      && game.civilwarsize < GAME_MAX_CIVILWARSIZE
+      && get_num_human_and_ai_players() < MAX_NUM_PLAYERS
+      && civil_war_triggered(cplayer)) {
+    do_civil_war = TRUE;
   }
 
   /* 
