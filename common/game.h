@@ -99,6 +99,8 @@ void set_civ_style(int style);
 
 int city_name_compare(const void *first, const void *second);
 
+struct player *get_player(int player_id);
+
 extern struct civ_game game;
 
 #endif

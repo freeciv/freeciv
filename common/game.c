@@ -483,3 +483,15 @@ int city_name_compare(const void *first,const void *second)
     return mystrcasecmp((game_find_city_by_id(*(int *)first))->name,
                   (game_find_city_by_id(*(int *)second))->name);
 }
+
+
+/**************************************************************************
+get_player() - Return player struct pointer corresponding to player_id.
+               Eg: player_id = punit->owner, or pcity->owner
+**************************************************************************/
+struct player *get_player(int player_id)
+{
+    return &game.players[player_id];
+}
+
+
