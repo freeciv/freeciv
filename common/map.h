@@ -645,7 +645,7 @@ extern const int CAR_DIR_DY[4];
 
 #define MAP_DEFAULT_GENERATOR    1
 #define MAP_MIN_GENERATOR        1
-#define MAP_MAX_GENERATOR        4
+#define MAP_MAX_GENERATOR        5
 
 #define MAP_DEFAULT_TINYISLES    FALSE
 #define MAP_MIN_TINYISLES        FALSE

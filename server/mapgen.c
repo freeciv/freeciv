@@ -40,6 +40,7 @@ static void mapgenerator1(void);
 static void mapgenerator2(void);
 static void mapgenerator3(void);
 static void mapgenerator4(void);
+static void mapgenerator5(void);
 static void smooth_map(void);
 static void adjust_map(int minval);
 
@@ -908,7 +909,7 @@ static void assign_continent_flood(int x, int y, int nr)
  map.generator != 0; otherwise are not special.
  Also sets map.num_continents (note 0 is ocean, and continents
  have numbers 1 to map.num_continents _inclusive_).
- Note this is not used by generators>1 at map creation
+ Note this is not used by generators 2,3 or 4 at map creation
  time, as these assign their own continent numbers.
 **************************************************************************/
 void assign_continent_numbers(void)
@@ -1121,7 +1122,7 @@ void create_start_positions(void)
   int x, y, j=0, k, sum;
   int counter = 0;
 
-  if (!islands)		/* already setup for generator>1 */
+  if (!islands)		/* already setup for generators 2,3, and 4 */
     setup_isledata();
 
   if(dist>= map.xsize/2)
@@ -1195,6 +1196,8 @@ void map_fractal_generate(void)
     map_allocate();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
+    if (map.generator == 5 )
+      mapgenerator5();
     if (map.generator == 4 )
       mapgenerator4();
     if (map.generator == 3 )
@@ -2051,4 +2054,153 @@ static void mapgenerator4(void)
   if(checkmass>map.xsize+map.ysize+totalweight) {
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
   }
+}
+
+/**************************************************************************
+Recursive function which does the work for generator 5
+**************************************************************************/
+static void gen5rec(int step, int x0, int y0, int x1, int y1)
+{
+  int val[2][2];
+  int x1wrap = x1; /* to wrap correctly */ 
+  int y1wrap = y1; 
+
+  if (((y1 - y0 <= 0) || (x1 - x0 <= 0)) 
+      || ((y1 - y0 == 1) && (x1 - x0 == 1))) {
+    return;
+  }
+
+  if (x1 == map.xsize)
+    x1wrap = 0;
+  if (y1 == map.ysize)
+    y1wrap = 0;
+
+  val[0][0] = hmap(x0, y0);
+  val[0][1] = hmap(x0, y1wrap);
+  val[1][0] = hmap(x1wrap, y0);
+  val[1][1] = hmap(x1wrap, y1wrap);
+
+  /* set midpoints of sides to avg of side's vertices plus a random factor */
+  /* unset points are zero, don't reset if set */
+  if (hmap((x0 + x1)/2, y0) == 0) {
+    hmap((x0 + x1)/2, y0) = (val[0][0] + val[1][0])/2 + myrand(step) - step/2;
+  }
+  if (hmap((x0 + x1)/2, y1wrap) == 0) {
+    hmap((x0 + x1)/2, y1wrap) = (val[0][1] + val[1][1])/2 
+      + myrand(step)- step/2;
+  }
+  if (hmap(x0, (y0 + y1)/2) == 0) {
+    hmap(x0, (y0 + y1)/2) = (val[0][0] + val[0][1])/2 + myrand(step) - step/2;
+  }
+  if (hmap(x1wrap, (y0 + y1)/2) == 0) {
+    hmap(x1wrap, (y0 + y1)/2) = (val[1][0] + val[1][1])/2 
+      + myrand(step) - step/2;
+  }
+
+  /* set middle to average of midpoints plus a random factor, if not set */
+  if (hmap((x0 + x1)/2, (y0 + y1)/2) == 0) {
+    hmap((x0 + x1)/2, (y0 + y1)/2) = (val[0][0] + val[0][1] + val[1][0] 
+				      + val[1][1])/4 + myrand(step) - step/2;
+  }
+
+  /* now call recursively on the four subrectangles */
+  gen5rec(2 * step / 3, x0, y0, (x1 + x0) / 2, (y1 + y0) / 2);
+  gen5rec(2 * step / 3, x0, (y1 + y0) / 2, (x1 + x0) / 2, y1);
+  gen5rec(2 * step / 3, (x1 + x0) / 2, y0, x1, (y1 + y0) / 2);
+  gen5rec(2 * step / 3, (x1 + x0) / 2, (y1 + y0) / 2, x1, y1);
+}
+
+/**************************************************************************
+Generator 5 makes earthlike worlds with one or more large continents and
+a scattering of smaller islands. It does so by dividing the world into
+blocks and on each block raising or lowering the corners, then the 
+midpoints and middle and so on recursively.  Fiddling with 'xdiv' and 
+'ydiv' will change the size of the initial blocks and, if the map does not 
+wrap in at least one direction, fiddling with 'avoidedge' will change the 
+liklihood of continents butting up to non-wrapped edges.
+**************************************************************************/
+static void mapgenerator5(void)
+{
+  int x, y;
+  int xnowrap = 0; /* could come from topology */
+  int ynowrap = 1; /* could come from topology */
+  int xmax = map.xsize - xnowrap;
+  int ymax = map.ysize - ynowrap;
+  int xdiv = 6; /* how many blocks should the x and y directions be */
+  int ydiv = 5; /* divided into initially */
+  int minval;
+  /* just need something > log(max(xsize, ysize)) for the recursion */
+  int step = map.xsize + map.ysize; 
+  /* edges are avoided more strongly as this increases */
+  int avoidedge = (50 - map.landpercent) * step / 100 + step / 3; 
+
+  height_map = fc_malloc(sizeof(int) * map.xsize * map.ysize);
+
+  adjust_terrain_param();
+
+  /* initialize map */
+  whole_map_iterate(x, y) {
+    hmap(x, y) = 0;
+  } whole_map_iterate_end;
+
+  /* set initial points */
+  for (x = 0; x < xdiv + xnowrap; x++) {
+    for (y = 0; y < ydiv + ynowrap; y++) {
+      hmap(x * xmax / xdiv, y * ymax / ydiv) =  myrand(2*step) - (2*step)/2;
+    }
+  }
+
+  /* if we aren't wrapping stay away from edges to some extent, try
+     even harder to avoid the edges naturally if separatepoles is true */
+  if (xnowrap) {
+    for (y = 0; y < ydiv + ynowrap; y++) {
+      hmap(0, y * ymax / ydiv) -= avoidedge;
+      hmap(xmax, y * ymax / ydiv) -= avoidedge;
+      if (map.separatepoles) {
+	hmap(2, y * ymax / ydiv) = hmap(0, y * ymax / ydiv) 
+	                                                - myrand(3*avoidedge);
+	hmap(xmax - 2, y * ymax / ydiv) 
+	                  = hmap(xmax, y * ymax / ydiv) - myrand(3*avoidedge);
+      }
+    }
+  }
+
+  if (ynowrap) {
+    for (x = 0; x < xdiv + xnowrap; x++) {
+      hmap(x * xmax / xdiv, 0) -= avoidedge;
+      hmap(x * xmax / xdiv, ymax) -= avoidedge;
+      if (map.separatepoles){
+	hmap(x * xmax / xdiv, 2) = hmap(x * xmax / xdiv, 0) 
+                                                       - myrand(3*avoidedge);
+	hmap(x * xmax / xdiv, ymax - 2) 
+                         = hmap(x * xmax / xdiv, ymax) - myrand(3*avoidedge);
+      }
+    }
+  }
+
+  /* calculate recursively on each block */
+  for (x = 0; x < xdiv; x++) {
+    for (y = 0; y < ydiv; y++) {
+      gen5rec(step, x * xmax / xdiv, y * ymax / ydiv, 
+	      (x + 1) * xmax / xdiv,(y + 1) * ymax / ydiv);
+    }
+  }
+
+  maxval = hmap(0, 0);
+  minval = hmap(0, 0);
+  whole_map_iterate(x, y) {
+    /* put in some random fuzz */
+    hmap(x, y) = 8 * hmap(x, y) + myrand(4) - 2;
+    /* and calibrate maxval and minval */
+    if (hmap(x, y) > maxval)
+      maxval = hmap(x, y);
+    if (hmap(x, y) < minval)
+      minval = hmap(x, y);
+  } whole_map_iterate_end;
+  maxval -= minval;
+  adjust_map(minval);
+  
+  make_land();
+  free(height_map);
+  height_map = NULL;
 }

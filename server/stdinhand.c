@@ -235,6 +235,7 @@ static struct settings_s settings[] = {
        "    with three players for an odd number of players), and "
        "additional\n"
        "    smaller islands.\n"
+       "5 = one or more large earthlike continents with some scatter.\n"
        "Note: values 2,3 and 4 generate \"fairer\" (but more boring) "
        "maps.\n"
        "(Zero indicates a scenario map.)"), NULL,
