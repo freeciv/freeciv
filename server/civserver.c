@@ -64,6 +64,7 @@ void send_all_info(struct player *dest);
 void shuffle_players(void);
 void ai_start_turn(void);
 int is_game_over();
+void read_init_script(char *script_filename);
 
 extern struct connection connections[];
 
@@ -403,8 +404,7 @@ int is_game_over()
 /**************************************************************************
 ...
 **************************************************************************/
-
-read_init_script(char *script_filename)
+void read_init_script(char *script_filename)
 {
   FILE *script_file;
   char buffer[512];
