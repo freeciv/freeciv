@@ -418,10 +418,6 @@ int is_starter_close(int x, int y, int nr, int dist)
   if (map_get_tile(x, y)->special&S_HUT)
     return 1;
   
-  /* don't start on a river: */
-  if (map_get_tile(x, y)->special&S_RIVER)
-    return 1;
-  
   /* don't want them starting on the poles: */
   if (map_get_continent(x, y)<=2)
     return 1;

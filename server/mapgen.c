@@ -729,32 +729,30 @@ static void setup_isledata(void)
   where do the different races start on the map? well this function tries
   to spread them out on the different islands.
 **************************************************************************/
-
+#define MAXTRIES 1000000
 void create_start_positions(void)
 {
   int nr=0;
   int dist=40;
-  int x, y, j=0;
+  int x, y, j=0, k, sum;
+  int counter = 0;
 
   if (islands==NULL)		/* already setup for generator>1 */
     setup_isledata();
-  
+
   if(dist>= map.xsize/2)
     dist= map.xsize/2;
   if(dist>= map.ysize/2)
     dist= map.ysize/2;
 
-  {
-    int sum,k;
-    sum=0;
-    for(k=0;k<=map.num_continents;k++){
-      sum+= islands[k].starters;
-      if(islands[k].starters!=0) {
-	freelog(LOG_VERBOSE, "starters on isle %i", k);
-      }
+  sum=0;
+  for (k=0; k<=map.num_continents; k++) {
+    sum += islands[k].starters;
+    if (islands[k].starters!=0) {
+      freelog(LOG_VERBOSE, "starters on isle %i", k);
     }
-    assert(game.nplayers<=nr+sum);
   }
+  assert(game.nplayers<=nr+sum);
 
   while (nr<game.nplayers) {
     x=myrand(map.xsize);
@@ -774,8 +772,17 @@ void create_start_positions(void)
 	}
       }
     }
+    counter++;
+    if (counter > MAXTRIES) {
+      freelog(LOG_FATAL,
+	      "The server appears to have gotten into an infinite loop "
+	      "in the allocation of starting positions, and will abort.\n"
+	      "Please report this bug at " WEBSITE_URL);
+      abort();
+    }
   }
   map.num_start_positions = game.nplayers;
+
   free(islands);
   islands = NULL;
 }
