@@ -10,6 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifndef FC__CMA_FE_H
+#define FC__CMA_FE_H
 LONG CALLBACK cma_proc(HWND win, UINT message,
 		       WPARAM wParam, LPARAM lParam);
 struct cma_dialog;
@@ -27,3 +29,4 @@ enum cma_refresh {
 
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh);
 struct cma_dialog *get_cma_dialog(struct city *pcity);
+#endif
