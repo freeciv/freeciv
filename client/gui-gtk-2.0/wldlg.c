@@ -977,9 +977,9 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
       g_object_set(rend, "pixbuf", pix, NULL);
       g_object_unref(pix);
     } else {
-      struct impr_type *impr = get_improvement_type(id);
+      struct sprite *sprite = get_building_sprite(tileset, id);
 
-      pix = sprite_get_pixbuf(impr->sprite);
+      pix = sprite_get_pixbuf(sprite);
       g_object_set(rend, "pixbuf", pix, NULL);
     }
   } else {

@@ -129,6 +129,7 @@ struct named_sprites {
   } mask;
 
   struct sprite *tech[A_LAST];
+  struct sprite *building[B_LAST];
 
   struct citizen_graphic {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
@@ -2233,10 +2234,11 @@ void tileset_setup_impr_type(struct tileset *t, int id)
 {
   struct impr_type *pimpr = get_improvement_type(id);
 
-  pimpr->sprite = lookup_sprite_tag_alt(t, pimpr->graphic_str,
-					pimpr->graphic_alt,
-					FALSE, "impr_type",
-					pimpr->name);
+  assert(id >= 0 && id < game.num_impr_types);
+  t->sprites.building[id] = lookup_sprite_tag_alt(t, pimpr->graphic_str,
+						  pimpr->graphic_alt,
+						  FALSE, "impr_type",
+						  pimpr->name);
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -4205,6 +4207,18 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech)
     return NULL;
   }
   return t->sprites.tech[tech];
+}
+
+/**************************************************************************
+  Return the sprite for the building/improvement.
+**************************************************************************/
+struct sprite *get_building_sprite(const struct tileset *t, Impr_Type_id b)
+{
+  if (b <= 0 || b >= game.num_impr_types) {
+    assert(0);
+    return NULL;
+  }
+  return t->sprites.building[b];
 }
 
 /**************************************************************************

@@ -1579,10 +1579,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 	name = unit_type->name;
 	sprite = unit_type->sprite;
       } else {
-        struct impr_type *impr;
-        impr = get_improvement_type(id);
-	name = impr->name;
-	sprite = impr->sprite;
+	name = get_improvement_name(id);
+	sprite = get_building_sprite(tileset, id);
       }
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, sprite_get_pixbuf(sprite),
@@ -1619,17 +1617,17 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   for (item = 0; item < cids_used; item++) {
     GtkTreeIter it;
     int id, upkeep;
-    struct impr_type *impr;
+    struct sprite *sprite;
    
     id = cid_id(items[item].cid);
-    impr = get_improvement_type(id);
     /* This takes effects (like Adam Smith's) into account. */
     upkeep = improvement_upkeep(pdialog->pcity, id);
+    sprite = get_building_sprite(tileset, id);
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
 	0, id,
-	1, sprite_get_pixbuf(impr->sprite),
+		       1, sprite_get_pixbuf(sprite),
 	2, items[item].descr,
 	3, upkeep,
 	-1);

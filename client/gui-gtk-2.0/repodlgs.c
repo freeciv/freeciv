@@ -835,16 +835,16 @@ void economy_report_dialog_update(void)
 
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
-      struct impr_type *impr = get_improvement_type(p->type);
+      struct sprite *sprite = get_building_sprite(tileset, p->type);
 
       gtk_list_store_append(economy_store, &it);
       gtk_list_store_set(economy_store, &it,
-	0, sprite_get_pixbuf(impr->sprite),
+			 0, sprite_get_pixbuf(sprite),
 	2, p->count,
 	3, p->cost,
 	4, p->total_cost, -1);
       g_value_init(&value, G_TYPE_STRING);
-      g_value_set_static_string(&value, impr->name);
+      g_value_set_static_string(&value, get_improvement_name(p->type));
       gtk_list_store_set_value(economy_store, &it, 1, &value);
       g_value_unset(&value);
 
