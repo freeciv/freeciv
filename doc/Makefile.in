@@ -104,7 +104,7 @@ USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
 
-EXTRA_DIST =  	INSTALL.de		README.de		INSTALL.it		README.it		NEWS.ja
+EXTRA_DIST =  	BUGS.sv			HOWTOPLAY.de		HOWTOPLAY.fr		HOWTOPLAY.it		HOWTOPLAY.sv		INSTALL.de		INSTALL.debian.de 	INSTALL.fr		INSTALL.it		NEWS.de			NEWS.ja			README.de		README.fr		README.it		README.ja		README.rulesets.de 	README.sv
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h

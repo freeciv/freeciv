@@ -2,8 +2,20 @@
 
 
 EXTRA_DIST =		\
+	BUGS.sv		\
+	HOWTOPLAY.de	\
+	HOWTOPLAY.fr	\
+	HOWTOPLAY.it	\
+	HOWTOPLAY.sv	\
 	INSTALL.de	\
-	README.de	\
+	INSTALL.debian.de \
+	INSTALL.fr	\
 	INSTALL.it	\
+	NEWS.de		\
+	NEWS.ja		\
+	README.de	\
+	README.fr	\
 	README.it	\
-	NEWS.ja
+	README.ja	\
+	README.rulesets.de \
+	README.sv
