@@ -1429,9 +1429,12 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
   else
     range = unit_type(punit)->vision_range;
 
-  if (punit->hp==unit_type(punit)->hp) {
-    punit->hp=get_unit_type(to_unit)->hp;
-  }
+  /* Scale HP and MP, rounding down.  Be careful with integer arithmetic,
+   * and don't kill the unit. */
+  punit->hp = MAX(punit->hp * get_unit_type(to_unit)->hp
+		  / unit_type(punit)->hp, 1);
+  punit->moves_left = (punit->moves_left * get_unit_type(to_unit)->move_rate
+		       / unit_type(punit)->move_rate);
 
   conn_list_do_buffer(&pplayer->connections);
   punit->type = to_unit;
