@@ -1147,13 +1147,12 @@ static void city_cma_changed(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog; 
   struct cm_parameter param;
-  int i;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     param.minimal_surplus[i] = (int)xget(pdialog->minimal_surplus_slider[i],MUIA_Numeric_Value);
     param.factor[i] = (int)xget(pdialog->factor_slider[i],MUIA_Numeric_Value);
-  }
+  } output_type_iterate_end;
   param.require_happy = xget(pdialog->celebrate_check, MUIA_Selected);
   param.happy_factor = xget(pdialog->factor_slider[6],MUIA_Numeric_Value);
 
@@ -2154,11 +2153,10 @@ static void refresh_cma_dialog(struct city_dialog *pdialog)
 
   
   /* if called from a hscale, we _don't_ want to do this */
-  for (i = 0; i < O_COUNT; i++)
-  {
+  output_type_iterate(i) {
     nnset(pdialog->minimal_surplus_slider[i],MUIA_Numeric_Value,param.minimal_surplus[i]);
     nnset(pdialog->factor_slider[i],MUIA_Numeric_Value,param.factor[i]);
-  }
+  } output_type_iterate_end;
   nnset(pdialog->celebrate_check, MUIA_Selected,param.require_happy);
   nnset(pdialog->factor_slider[6], MUIA_Numeric_Value, param.happy_factor);
 

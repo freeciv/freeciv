@@ -100,8 +100,6 @@ static bool results_are_equal(struct city *pcity,
 			     const struct cm_result *const result1,
 			     const struct cm_result *const result2)
 {
-  Output_type_id stat;
-
   T(disorder);
   T(happy);
 
@@ -109,9 +107,9 @@ static bool results_are_equal(struct city *pcity,
     T(specialists[sp]);
   } specialist_type_iterate_end;
 
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     T(surplus[stat]);
-  }
+  } output_type_iterate_end;
 
   my_city_map_iterate(pcity, x, y) {
     if (result1->worker_positions_used[x][y] !=
@@ -571,7 +569,7 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   size_t len;
   char buffer[SAVED_PARAMETER_SIZE];
   struct data_in din;
-  int i, version, dummy;
+  int version, dummy;
 
   /* Changing this function is likely to break compatability with old
    * savegames that store these values. */
@@ -587,10 +585,10 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   dio_get_uint8(&din, &version);
   assert(version == 2);
 
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     dio_get_sint16(&din, &parameter->minimal_surplus[i]);
     dio_get_sint16(&din, &parameter->factor[i]);
-  }
+  } output_type_iterate_end;
 
   dio_get_sint16(&din, &parameter->happy_factor);
   dio_get_uint8(&din, &dummy); /* Dummy value; used to be factor_target. */
@@ -610,7 +608,6 @@ void cma_set_parameter(enum attr_city attr, int city_id,
 {
   char buffer[SAVED_PARAMETER_SIZE];
   struct data_out dout;
-  int i;
 
   /* Changing this function is likely to break compatability with old
    * savegames that store these values. */
@@ -619,10 +616,10 @@ void cma_set_parameter(enum attr_city attr, int city_id,
 
   dio_put_uint8(&dout, 2);
 
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     dio_put_sint16(&dout, parameter->minimal_surplus[i]);
     dio_put_sint16(&dout, parameter->factor[i]);
-  }
+  } output_type_iterate_end;
 
   dio_put_sint16(&dout, parameter->happy_factor);
   dio_put_uint8(&dout, 0); /* Dummy value; used to be factor_target. */

@@ -383,13 +383,11 @@ static void tile_type_vector_free_all(struct tile_type_vector *vec)
 static bool tile_type_equal(const struct cm_tile_type *a,
 			    const struct cm_tile_type *b)
 {
-  Output_type_id stat;
-
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     if (a->production[stat] != b->production[stat])  {
       return FALSE;
     }
-  }
+  } output_type_iterate_end;
 
   if (a->is_specialist != b->is_specialist) {
     return FALSE;
@@ -407,13 +405,11 @@ static bool tile_type_equal(const struct cm_tile_type *a,
 static bool tile_type_better(const struct cm_tile_type *a,
 			     const struct cm_tile_type *b)
 {
-  Output_type_id stat;
-
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     if (a->production[stat] < b->production[stat])  {
       return FALSE;
     }
-  }
+  } output_type_iterate_end;
 
   if (a->is_specialist && !b->is_specialist) {
     /* If A is a specialist and B isn't, and all of A's production is at
@@ -538,18 +534,17 @@ static struct cm_fitness compute_fitness(const int surplus[],
 					 bool disorder, bool happy,
 					const struct cm_parameter *parameter)
 {
-  Output_type_id stat;
   struct cm_fitness fitness;
 
   fitness.sufficient = TRUE;
   fitness.weighted = 0;
 
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     fitness.weighted += surplus[stat] * parameter->factor[stat];
     if (surplus[stat] < parameter->minimal_surplus[stat]) {
       fitness.sufficient = FALSE;
     }
-  }
+  } output_type_iterate_end;
 
   if (happy) {
     fitness.weighted += parameter->happy_factor;
@@ -766,8 +761,6 @@ static void convert_solution_to_result(struct cm_state *state,
 static int compare_tile_type_by_lattice_order(const struct cm_tile_type *a,
 					      const struct cm_tile_type *b)
 {
-  Output_type_id stat;
-
   if (a == b) {
     return 0;
   }
@@ -778,11 +771,11 @@ static int compare_tile_type_by_lattice_order(const struct cm_tile_type *a,
   }
 
   /* With equal depth, break ties arbitrarily, more production first. */
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     if (a->production[stat] != b->production[stat]) {
       return b->production[stat] - a->production[stat];
     }
-  }
+  } output_type_iterate_end;
 
   /* If we get here, then we have two copies of identical types, an error */
   assert(0);
@@ -1202,7 +1195,6 @@ static void add_workers(struct partial_solution *soln,
 			int itype, int number,
 			const struct cm_state *state)
 {
-  Output_type_id stat;
   const struct cm_tile_type *ptype = tile_type_get(state, itype);
   int newcount;
   int old_worker_count = soln->worker_counts[itype];
@@ -1241,11 +1233,11 @@ static void add_workers(struct partial_solution *soln,
   }
 
   /* update production */
-  for (stat = 0 ; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     newcount = soln->production[stat] + number * ptype->production[stat];
     assert(newcount >= 0);
     soln->production[stat] = newcount;
-  }
+  } output_type_iterate_end;
 }
 
 /****************************************************************************
@@ -1464,7 +1456,6 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
 					int production[],
 					int check_choice)
 {
-  Output_type_id stat;
   struct partial_solution solnplus; /* will be soln, plus some tiles */
 
   /* Production is whatever the solution produces, plus the
@@ -1474,20 +1465,19 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
   if (soln->idle == 1) {
     /* Then the total solution is soln + this new worker.  So we know the
        production exactly, and can shortcut the later code. */
-    Output_type_id stat;
     const struct cm_tile_type *ptype = tile_type_get(state, check_choice);
 
     memcpy(production, soln->production, sizeof(soln->production));
-    for (stat = 0; stat < O_COUNT; stat++) {
+    output_type_iterate(stat) {
       production[stat] += ptype->production[stat];
-    }
+    } output_type_iterate_end;
     return;
   }
 
   /* initialize solnplus here, after the shortcut check */
   init_partial_solution(&solnplus, num_types(state), state->pcity->size);
 
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     /* compute the solution that has soln, then the check_choice,
        then complete it with the best available tiles for the stat. */
     copy_partial_solution(&solnplus, soln, state);
@@ -1495,7 +1485,7 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
     complete_solution(&solnplus, state, &state->lattice_by_prod[stat]);
 
     production[stat] = solnplus.production[stat];
-  }
+  } output_type_iterate_end;
 
   destroy_partial_solution(&solnplus);
 }
@@ -1509,12 +1499,11 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
 static bool choice_is_promising(struct cm_state *state, int newchoice)
 {
   int production[O_COUNT];
-  Output_type_id stat;
   bool beats_best = FALSE;
 
   compute_max_stats_heuristic(state, &state->current, production, newchoice);
 
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     if (production[stat] < state->min_production[stat]) {
       freelog(LOG_PRUNE_BRANCH, "--- pruning: insufficient %s (%d < %d)",
 	      cm_get_stat_name(stat), production[stat],
@@ -1526,7 +1515,7 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
       /* may still fail to meet min at another production type, so
        * don't short-circuit */
     }
-  }
+  } output_type_iterate_end;
   if (!beats_best) {
     freelog(LOG_PRUNE_BRANCH, "--- pruning: best is better in all ways");
   }
@@ -1615,13 +1604,12 @@ static double estimate_fitness(const struct cm_state *state,
 			       const int production[]) {
   const struct city *pcity = state->pcity;
   const struct player *pplayer = get_player(pcity->owner);
-  Output_type_id stat;
   double estimates[O_COUNT];
   double sum = 0;
 
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     estimates[stat] = production[stat];
-  }
+  } output_type_iterate_end;
 
   /* sci/lux/gold get benefit from the tax rates (in percentage) */
   estimates[O_SCIENCE]
@@ -1639,9 +1627,9 @@ static double estimate_fitness(const struct cm_state *state,
 
   /* finally, sum it all up, weighted by the parameter, but give additional
    * weight to luxuries to take account of disorder/happy constraints */
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     sum += estimates[stat] * state->parameter.factor[stat];
-  }
+  } output_type_iterate_end;
   sum += estimates[O_LUXURY];
   return sum;
 }
@@ -1699,7 +1687,6 @@ static bool bb_next(struct cm_state *state)
 struct cm_state *cm_init_state(struct city *pcity)
 {
   int numtypes;
-  Output_type_id stat;
   struct cm_state *state = fc_malloc(sizeof(*state));
 
   freelog(LOG_CM_STATE, "creating cm_state for %s (size %d)",
@@ -1714,14 +1701,14 @@ struct cm_state *cm_init_state(struct city *pcity)
   numtypes = tile_type_vector_size(&state->lattice);
 
   /* For the heuristic, make sorted copies of the lattice */
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     tile_type_vector_init(&state->lattice_by_prod[stat]);
     tile_type_vector_copy(&state->lattice_by_prod[stat], &state->lattice);
     compare_key = stat;
     qsort(state->lattice_by_prod[stat].p, state->lattice_by_prod[stat].size,
 	  sizeof(*state->lattice_by_prod[stat].p),
 	  compare_tile_type_by_stat);
-  }
+  } output_type_iterate_end;
 
   /* We have no best solution yet, so its value is the worst possible. */
   init_partial_solution(&state->best, numtypes, pcity->size);
@@ -1784,12 +1771,10 @@ static void end_search(struct cm_state *state)
 ****************************************************************************/
 void cm_free_state(struct cm_state *state)
 {
-  Output_type_id stat;
-
   tile_type_vector_free_all(&state->lattice);
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     tile_type_vector_free(&state->lattice_by_prod[stat]);
-  }
+  } output_type_iterate_end;
   destroy_partial_solution(&state->best);
   destroy_partial_solution(&state->current);
   free(state->choice.stack);
@@ -1865,16 +1850,14 @@ const char *cm_get_stat_name(Output_type_id stat)
 bool cm_are_parameter_equal(const struct cm_parameter *const p1,
 			    const struct cm_parameter *const p2)
 {
-  int i;
-
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     if (p1->minimal_surplus[i] != p2->minimal_surplus[i]) {
       return FALSE;
     }
     if (p1->factor[i] != p2->factor[i]) {
       return FALSE;
     }
-  }
+  } output_type_iterate_end;
   if (p1->require_happy != p2->require_happy) {
     return FALSE;
   }
@@ -1905,12 +1888,10 @@ void cm_copy_parameter(struct cm_parameter *dest,
 **************************************************************************/
 void cm_init_parameter(struct cm_parameter *dest)
 {
-  Output_type_id stat;
-
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     dest->minimal_surplus[stat] = 0;
     dest->factor[stat] = 1;
-  }
+  } output_type_iterate_end;
 
   dest->happy_factor = 1;
   dest->require_happy = FALSE;
@@ -1924,12 +1905,10 @@ void cm_init_parameter(struct cm_parameter *dest)
 ***************************************************************************/
 void cm_init_emergency_parameter(struct cm_parameter *dest)
 {
-  Output_type_id stat;
-
-  for (stat = 0; stat < O_COUNT; stat++) {
+  output_type_iterate(stat) {
     dest->minimal_surplus[stat] = -FC_INFINITY;
     dest->factor[stat] = 1;
-  }
+  } output_type_iterate_end;
 
   dest->happy_factor = 1;
   dest->require_happy = FALSE;
@@ -2146,7 +2125,8 @@ void cm_print_city(const struct city *pcity)
 void cm_print_result(const struct city *pcity,
 		     const struct cm_result *result)
 {
-  int y, i, worker = cm_count_worker(pcity, result);
+  int y, worker = cm_count_worker(pcity, result);
+
   freelog(LOG_NORMAL, "print_result(result=%p)", result);
   freelog(LOG_NORMAL,
       "print_result:  found_a_valid=%d disorder=%d happy=%d",
@@ -2182,8 +2162,8 @@ void cm_print_result(const struct city *pcity,
       "print_result:  people: (workers/specialists) %d/%s",
       worker, specialists_string(result->specialists));
 
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     freelog(LOG_NORMAL, "print_result:  %10s surplus=%d",
         cm_get_stat_name(i), result->surplus[i]);
-  }
+  } output_type_iterate_end;
 }

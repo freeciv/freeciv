@@ -599,8 +599,7 @@ static void set_cma_hscrollbars(void)
   
   /* exit button */
   pBuf = pCma->pDlg->pEndWidgetList->prev;
-  for (i = 0; i < O_COUNT; i++) {
-    
+  output_type_iterate(i) {
     /* min label */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
@@ -621,7 +620,7 @@ static void set_cma_hscrollbars(void)
     pBuf->size.x = pBuf->next->size.x 
     		+ pBuf->next->size.w + 5 + *(int *)pBuf->data.ptr - 1;
     
-  }
+  } output_type_iterate_end;
   
   /* happy factor label */
   pBuf = pBuf->prev;
@@ -857,8 +856,7 @@ void popup_city_cma_dialog(struct city *pCity)
   pFactor = create_text_surf_from_str16(pStr);
     
   /* ---------- */
-  for (i = 0; i < O_COUNT; i++) {
-    
+  output_type_iterate(i) {
     copy_chars_to_string16(pStr, cm_get_stat_name(i));
     pText[i] = create_text_surf_from_str16(pStr);
     text_w = MAX(text_w, pText[i]->w);
@@ -899,7 +897,7 @@ void popup_city_cma_dialog(struct city *pCity)
     set_wstate(pBuf, FC_WS_NORMAL);
 
     add_to_gui_list(ID_SCROLLBAR, pBuf);
-  }
+  } output_type_iterate_end;
   
   copy_chars_to_string16(pStr, _("Celebrate"));
   pText[O_COUNT] = create_text_surf_from_str16(pStr);
@@ -1039,9 +1037,7 @@ void popup_city_cma_dialog(struct city *pCity)
   SDL_BlitSurface(pCity_Map, NULL, pWindow->theme, &area);
   FREESURFACE(pCity_Map);
   
-  
-  for (i = 0; i < O_COUNT; i++) {
-            
+  output_type_iterate(i) {
     /* min label */
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + dst.x + text_w + 10;
@@ -1082,7 +1078,7 @@ void popup_city_cma_dialog(struct city *pCity)
     dst.y += pText[i]->h + 6;
     FREESURFACE(pText[i]);
     
-  }
+  } output_type_iterate_end;
   
   /* happy factor label */
   pBuf = pBuf->prev;

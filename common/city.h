@@ -543,6 +543,18 @@ int city_pollution(struct city *pcity, int shield_total);
 #define built_impr_iterate_end                                                \
   } impr_type_iterate_end;
 
+
+/* Iterates over all output types in the game. */
+#define output_type_iterate(output)					    \
+{									    \
+  Output_type_id output;						    \
+									    \
+  for (output = 0; output < O_COUNT; output++) {
+
+#define output_type_iterate_end						    \
+  }									    \
+}
+
 /**************************************************************************
   Return TRUE iff the given city coordinate pair is the center tile of
   the citymap.

@@ -656,16 +656,15 @@ static void load_cma_preset(struct section_file *file, int inx)
 {
   struct cm_parameter parameter;
   const char *name;
-  int i;
 
   name = secfile_lookup_str_default(file, "preset", 
 				    "cma.preset%d.name", inx);
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     parameter.minimal_surplus[i] =
 	secfile_lookup_int_default(file, 0, "cma.preset%d.minsurp%d", inx, i);
     parameter.factor[i] =
 	secfile_lookup_int_default(file, 0, "cma.preset%d.factor%d", inx, i);
-  }
+  } output_type_iterate_end;
   parameter.require_happy =
       secfile_lookup_bool_default(file, FALSE, "cma.preset%d.reqhappy", inx);
   parameter.happy_factor =
@@ -683,15 +682,13 @@ static void save_cma_preset(struct section_file *file, char *name,
 			    const struct cm_parameter *const pparam,
 			    int inx)
 {
-  int i;
-
   secfile_insert_str(file, name, "cma.preset%d.name", inx);
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     secfile_insert_int(file, pparam->minimal_surplus[i],
 		       "cma.preset%d.minsurp%d", inx, i);
     secfile_insert_int(file, pparam->factor[i],
 		       "cma.preset%d.factor%d", inx, i);
-  }
+  } output_type_iterate_end;
   secfile_insert_bool(file, pparam->require_happy,
 		      "cma.preset%d.reqhappy", inx);
   secfile_insert_int(file, pparam->happy_factor,

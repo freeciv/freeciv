@@ -203,8 +203,8 @@ static void create_cma_sliders(struct cma_dialog *pdialog,
 			       HWND win, struct fcwin_box *box)
 {
   struct fcwin_box *hbox = fcwin_hbox_new(win, FALSE);
-  int i;
   struct fcwin_box *vbox[3];
+
   fcwin_box_add_box(box, hbox, FALSE,FALSE, 0);
   for (i = 0; i < 3; i++) {
     vbox[i] = fcwin_vbox_new(win, TRUE);
@@ -213,9 +213,9 @@ static void create_cma_sliders(struct cma_dialog *pdialog,
   fcwin_box_add_static(vbox[0], " ",0, SS_LEFT,TRUE, TRUE, 0);
   fcwin_box_add_static(vbox[1], _("Minimal Surplus"), 0, SS_LEFT, TRUE, TRUE, 0);
   fcwin_box_add_static(vbox[2], _("Factor"), 0, SS_LEFT, TRUE, TRUE, 0);
-  for (i = 0; i< O_COUNT; i++) {
+  output_type_iterate(i) {
     cmagui_add_slider(pdialog, win, vbox, FALSE, cm_get_stat_name(i), i);
-  } 
+  } output_type_iterate_end;
   cmagui_add_slider(pdialog, win, vbox, TRUE, _("Celebrate"), i);
 }
 
@@ -226,14 +226,13 @@ static void create_cma_sliders(struct cma_dialog *pdialog,
 static void set_hscales(const struct cm_parameter *const parameter,
                         struct cma_dialog *pdialog)
 {
-  int i;
   allow_refreshes = 0;
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     handle_hscroll(pdialog->mainwin, pdialog->minimal_surplus[i],
 		   SB_THUMBTRACK, parameter->minimal_surplus[i]);
     handle_hscroll(pdialog->mainwin, pdialog->factor[i],
 		   SB_THUMBTRACK, parameter->factor[i]);
-  }
+  } output_type_iterate_end;
   Button_SetCheck(pdialog->happy,
 		  parameter->require_happy ? BST_CHECKED : BST_UNCHECKED);
   handle_hscroll(pdialog->mainwin, pdialog->factor[i],
@@ -508,17 +507,16 @@ static struct cma_dialog * create_cma_gui(HWND win)
 static void hscale_changed(struct cma_dialog *pdialog)
 {
   struct cm_parameter param;
-  int i;
 
   if (!allow_refreshes) {
     return;
   }
   
   cmafec_get_fe_parameter(pdialog->pcity, &param);
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     param.minimal_surplus[i] = ScrollBar_GetPos(pdialog->minimal_surplus[i]);
     param.factor[i] = ScrollBar_GetPos(pdialog->factor[i]);
-  }
+  } output_type_iterate_end;
   
   param.require_happy = (Button_GetCheck(pdialog->happy) == BST_CHECKED) ? 1 : 0;
   param.happy_factor = ScrollBar_GetPos(pdialog->factor[O_COUNT]);

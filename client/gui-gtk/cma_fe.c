@@ -223,7 +223,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
   gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0.5);
   gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 0, 1);
 
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     label = gtk_label_new(cm_get_stat_name(i));
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i + 1, i + 2);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
@@ -250,7 +250,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
 
     gtk_signal_connect(GTK_OBJECT(pdialog->factor[i]), "value_changed",
 		       GTK_SIGNAL_FUNC(hscale_changed), pdialog);
-  }
+  } iterate_type_iterate_end;
 
   /* Happy Surplus and Factor */
 
@@ -640,14 +640,12 @@ static void cma_release_callback(GtkWidget *w, gpointer data)
 static void set_hscales(const struct cm_parameter *const parameter,
 			struct cma_dialog *pdialog)
 {
-  int i;
-
   allow_refreshes = 0;
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     gtk_adjustment_set_value(pdialog->minimal_surplus[i],
 			     parameter->minimal_surplus[i]);
     gtk_adjustment_set_value(pdialog->factor[i], parameter->factor[i]);
-  }
+  } output_type_iterate_end;
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->happy_button),
 			       parameter->require_happy);
   gtk_adjustment_set_value(pdialog->factor[O_COUNT],
@@ -662,17 +660,16 @@ static void hscale_changed(GtkAdjustment *get, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   struct cm_parameter param;
-  int i;
 
   if (!allow_refreshes) {
     return;
   }
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
-  for (i = 0; i < O_COUNT; i++) {
+  output_type_iterate(i) {
     param.minimal_surplus[i] = (int) (pdialog->minimal_surplus[i]->value);
     param.factor[i] = (int) (pdialog->factor[i]->value);
-  }
+  } output_type_iterate_end;
   param.require_happy =
       (GTK_TOGGLE_BUTTON(pdialog->happy_button)->active ? 1 : 0);
   param.happy_factor = (int) (pdialog->factor[O_COUNT]->value);

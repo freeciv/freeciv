@@ -333,9 +333,9 @@ const char *cmafec_get_result_descr(struct city *pcity,
     for (j = 0; j < RESULT_COLUMNS; j++)
       my_snprintf(buf[j], BUFFER_SIZE, "---");
   } else {
-    for (j = 0; j < O_COUNT; j++) {
+    output_type_iterate(j) {
       my_snprintf(buf[j], BUFFER_SIZE, "%+3d", result->surplus[j]);
-    }
+    } output_type_iterate_end;
 
     my_snprintf(buf[6], BUFFER_SIZE, "%d/%s%s",
 		pcity->size - cm_count_specialist(pcity, result),
