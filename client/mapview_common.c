@@ -41,6 +41,51 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 
   if (tile_visible_mapcanvas(x, y)) {
     update_map_canvas(x, y, 1, 1, write_to_screen);
+
+    if (write_to_screen && (draw_city_names || draw_city_productions)) {
+      /* FIXME: update_map_canvas() will overwrite the city descriptions.
+       * This is a workaround that redraws the city descriptions (most of
+       * the time).  Although it seems inefficient to redraw the
+       * descriptions for so many tiles, remember that most of them don't
+       * have cities on them. */
+      int iter, canvas_x, canvas_y;
+      struct city *pcity;
+
+      if (is_isometric) {
+	/* We assume the city description will be directly below the city,
+	 * with a width of 1-2 tiles and a height of less than one tile.
+	 * Remember that units are 50% taller than the normal tile height.
+	 *      9
+	 *     7 8
+	 *    6 4 5
+	 *     2 3
+	 *      1
+	 * Tile 1 is the one being updated; we redraw the city description
+	 * for tiles 2-8 (actually we end up drawing 1 as well). */
+	square_iterate(x - 1, y - 1, 1, city_x, city_y) {
+	  if ((pcity = map_get_city(city_x, city_y))) {
+	    get_canvas_xy(city_x, city_y, &canvas_x, &canvas_y);
+	    show_city_desc(pcity, canvas_x, canvas_y);
+	  }
+	} square_iterate_end;
+      } else {
+	/* We assume the city description will be held in the three tiles
+	 * right below the city.
+	 *       234
+	 *        1
+	 * Tile 1 is the one being updated; we redraw the city description
+	 * for tiles 2, 3, and 4. */
+	for (iter = -1; iter <= 1; iter++) {
+	  int city_x = x + iter, city_y = y - 1;
+
+	  if (normalize_map_pos(&city_x, &city_y)
+	      && (pcity = map_get_city(city_x, city_y))) {
+	    get_canvas_xy(city_x, city_y, &canvas_x, &canvas_y);
+	    show_city_desc(pcity, canvas_x, canvas_y);
+	  }
+	}
+      }
+    }
   }
   overview_update_tile(x, y);
 }
