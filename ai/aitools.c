@@ -139,6 +139,8 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
 ****************************************************************************/
 static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
 {
+  struct player *pplayer = unit_owner(punit);
+  struct ai_data *ai = ai_data_get(pplayer);
   int danger = 0;
   struct city *dcity;
   struct tile *ptile;
@@ -151,9 +153,12 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
 
   /* Estimate enemy attack power. */
   unit_list_iterate(map_get_tile(dest_x, dest_y)->units, aunit) {
-    danger += unit_att_rating(aunit);
+    if (HOSTILE_PLAYER(pplayer, ai, unit_owner(aunit))) {
+      danger += unit_att_rating(aunit);
+    }
   } unit_list_iterate_end;
-  if ((dcity = map_get_city(dest_x, dest_y))) {
+  dcity = map_get_city(dest_x, dest_y);
+  if (dcity && HOSTILE_PLAYER(pplayer, ai, city_owner(dcity))) {
     /* Assume enemy will build another defender, add it's attack strength */
     int d_type = ai_choose_defender_versus(dcity, punit->type);
     danger += 
@@ -178,7 +183,8 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
     /* FIXME: danger is multiplied by POWER_FACTOR, my_def isn't. */
     if (danger >= my_def) {
       UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
-               "wants a bodyguard, danger=%d, my_def=%d", danger, my_def);
+               "want bodyguard @(%d, %d) danger=%d, my_def=%d", 
+               dest_x, dest_y, danger, my_def);
       punit->ai.bodyguard = BODYGUARD_WANTED;
     } else {
       punit->ai.bodyguard = BODYGUARD_NONE;
