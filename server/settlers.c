@@ -468,6 +468,23 @@ static int is_wet(struct player *pplayer, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
+static int is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
+					    int y)
+{
+  if (is_wet(pplayer, x, y))
+    return 1;
+
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (is_wet(pplayer, x1, y1))
+      return 1;
+  } cartesian_adjacent_iterate_end;
+
+  return 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 			    int i, int j)
 {
@@ -497,8 +514,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
   } else if((ptile->terrain==type->irrigation_result &&
      !(ptile->special&S_IRRIGATION) &&
      !(ptile->special&S_MINE) && !(ptile->city) &&
-     (is_wet(pplayer,x,y) || is_wet(pplayer,x,y-1) || is_wet(pplayer,x,y+1) ||
-     is_wet(pplayer,x-1,y) || is_wet(pplayer,x+1,y)))) {
+     (is_wet_or_is_wet_cardinal_around(pplayer, x, y)))) {
     map_set_special(x, y, S_IRRIGATION);
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_IRRIGATION);
@@ -507,8 +523,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
      (ptile->special&S_IRRIGATION) && !(ptile->special&S_FARMLAND) &&
      player_knows_techs_with_flag(pplayer, TF_FARMLAND) &&
      !(ptile->special&S_MINE) && !(ptile->city) &&
-     (is_wet(pplayer,x,y) || is_wet(pplayer,x,y-1) || is_wet(pplayer,x,y+1) ||
-     is_wet(pplayer,x-1,y) || is_wet(pplayer,x+1,y)))) {
+     (is_wet_or_is_wet_cardinal_around(pplayer, x, y)))) {
     map_set_special(x, y, S_FARMLAND);
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_FARMLAND);
