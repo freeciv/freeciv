@@ -1868,13 +1868,14 @@ build_cost	= 300
 upkeep		= 0
 sabotage	= 0
 effect		=
-    { "name", "value", "req_type", "req"
-      "Make_Content", 2, "Building", "Temple"
+    { "name", "range", "value", "req_type", "req"
+; Note this is not exactly the same as doubling the effect of temples
+      "Make_Content", "Player", 2, "Building", "Temple"
     }
 sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
-Doubles the effect of Temples, in all cities.\
+Makes two of your unhappy citizens content in every city with a temple.\
 ")
 
 [building_pyramids]
