@@ -272,7 +272,6 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	  && get_invention(plr, tech_found) != TECH_KNOWN)
 	 || tech_found == A_FUTURE);
   assert(tech_is_available(plr, tech_found) || tech_found == A_FUTURE);
-  assert(plr->research.researching != A_UNSET);
 
   plr->got_tech = TRUE;
   plr->research.techs_researched++;
