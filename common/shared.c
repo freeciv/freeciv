@@ -520,8 +520,17 @@ char *user_home_dir(void)
       home_dir = mystrdup(env);	        /* never free()d */
       freelog(LOG_VERBOSE, "HOME is %s", home_dir);
     } else {
+#ifdef WIN32_NATIVE
+      home_dir=fc_malloc(PATH_MAX);
+      if (!getcwd(home_dir,PATH_MAX)) {
+	free(home_dir);
+	freelog(LOG_ERROR, "Could not find home directory (HOME is not set)");
+	home_dir=NULL;
+      }
+#else
       freelog(LOG_ERROR, "Could not find home directory (HOME is not set)");
       home_dir = NULL;
+#endif
     }
     init = 1;
   }
