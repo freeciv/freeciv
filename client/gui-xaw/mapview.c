@@ -902,8 +902,8 @@ void update_map_canvas_scrollbars(void)
 {
   float shown_h=(float)map_canvas_store_twidth/(float)map.xsize;
   float top_h=(float)map_view_x0/(float)map.xsize;
-  float shown_v=(float)map_canvas_store_theight/(float)map.ysize+EXTRA_BOTTOM_ROW;
-  float top_v=(float)map_view_y0/(float)map.ysize+EXTRA_BOTTOM_ROW;
+  float shown_v=(float)map_canvas_store_theight/((float)map.ysize+EXTRA_BOTTOM_ROW);
+  float top_v=(float)map_view_y0/((float)map.ysize+EXTRA_BOTTOM_ROW);
 
   XawScrollbarSetThumb(map_horizontal_scrollbar, top_h, shown_h);
   XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
@@ -1318,7 +1318,7 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
   if(w==map_horizontal_scrollbar)
     map_view_x0=percent*map.xsize;
   else {
-    map_view_y0=percent*map.ysize+EXTRA_BOTTOM_ROW;
+    map_view_y0=percent*(map.ysize+EXTRA_BOTTOM_ROW);
     map_view_y0=(map_view_y0<0) ? 0 : map_view_y0;
     map_view_y0=
       (map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight) ? 
