@@ -13,7 +13,8 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
- 
+
+#include <ctype.h> 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>  
@@ -382,6 +383,7 @@ static struct my_menu main_menu[]={
   {"",IDM_SEPARATOR},
   {N_("_Copying"),IDM_HELP_COPYING},
   {N_("_About"),IDM_HELP_ABOUT},
+  {NULL,0},
   {NULL,0}};
 
 /**************************************************************************
