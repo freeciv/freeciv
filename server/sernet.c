@@ -137,6 +137,8 @@ static char *history_file = NULL;
 
 static int readline_handled_input = 0;
 
+static int readline_initialized = 0;
+
 /*****************************************************************************
 ...
 *****************************************************************************/
@@ -187,7 +189,13 @@ void close_connection(struct connection *pconn)
 void close_connections_and_socket(void)
 {
   int i;
-  
+
+  struct packet_generic_message gen_packet;
+  gen_packet.message[0]='\0';
+
+  lsend_packet_generic_message(&game.all_connections, PACKET_SERVER_SHUTDOWN,
+			       &gen_packet);
+
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
     if(connections[i].used) {
       close_connection(&connections[i]);
@@ -200,7 +208,14 @@ void close_connections_and_socket(void)
     write_history(history_file);
     history_truncate_file(history_file, HISTORY_LENGTH);
   }
+  if (readline_initialized) {
+    rl_callback_handler_remove();
+  }
 #endif
+
+  server_close_udp();
+
+  my_shutdown_network();
 }
 
 /*****************************************************************************
@@ -310,8 +325,6 @@ int sniff_packets(void)
 
 #ifdef HAVE_LIBREADLINE
   {
-    static int readline_initialized = 0;
-
     if (!no_input && !readline_initialized) {
       char *home_dir = user_home_dir();
       if (home_dir) {
@@ -362,7 +375,8 @@ int sniff_packets(void)
 	    freelog(LOG_NORMAL, srvarg.metaserver_info_line);
 	    send_server_info_to_metaserver(1,0);
 
-	    quit_game(NULL);
+	    close_connections_and_socket();
+	    exit(0);
 	  }
 	} else {
 	  last_noplayers = time(NULL);

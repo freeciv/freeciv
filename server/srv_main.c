@@ -1980,9 +1980,5 @@ main_start_players:
     sniff_packets();
   }
 
-  server_close_udp();
-
-  my_shutdown_network();
-
-  return;
+  close_connections_and_socket();
 }

@@ -2994,12 +2994,7 @@ static void cut_client_connection(struct connection *caller, char *name)
 **************************************************************************/
 void quit_game(struct connection *caller)
 {
-  struct packet_generic_message gen_packet;
-  gen_packet.message[0]='\0';
-  
   cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
-  lsend_packet_generic_message(&game.all_connections, PACKET_SERVER_SHUTDOWN,
-			       &gen_packet);
   close_connections_and_socket();
   exit(0);
 }
