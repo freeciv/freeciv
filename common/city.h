@@ -64,6 +64,8 @@ enum city_options {
    Some places in the code hardcodes this number (yet). */
 #define CITY_MAP_SIZE 5
 
+#define INCITE_IMPOSSIBLE_COST (1000 * 1000 * 1000)
+
 /* Iterate a city map */
 
 #define city_map_iterate(x, y)                     \
@@ -234,7 +236,8 @@ struct city {
   int food_stock;
   int shield_stock;
   int pollution;
-  int incite_revolt_cost;
+  /* city can't be incited if INCITE_IMPOSSIBLE_COST */
+  int incite_revolt_cost;      
    
   int is_building_unit;    /* boolean unit/improvement */
   int currently_building;

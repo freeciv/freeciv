@@ -1153,7 +1153,7 @@ static void sanity_check_city(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Sets the incite_revolt_cost field in the given city.
 **************************************************************************/
 void city_incite_cost(struct city *pcity)
 {
@@ -1161,9 +1161,9 @@ void city_incite_cost(struct city *pcity)
   struct city *capital;
   int dist;
   
-  if (city_got_building(pcity, B_PALACE)) 
-    pcity->incite_revolt_cost=1000000;
-  else {
+  if (city_got_building(pcity, B_PALACE)) {
+    pcity->incite_revolt_cost = INCITE_IMPOSSIBLE_COST;
+  } else {
     pcity->incite_revolt_cost=city_owner(pcity)->economic.gold +1000;
     capital=find_palace(city_owner(pcity));
     if (capital) {
