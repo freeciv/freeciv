@@ -449,15 +449,18 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
     city_workers_display=NULL;
   }
 
-  if (city_dialog_is_open(pcity)) {
-    refresh_city_dialog(pcity);
-  } else {
-    if (popup &&
-	(!game.player_ptr->ai.control || ai_popup_windows)) {
+  if (popup &&
+      (!game.player_ptr->ai.control || ai_popup_windows)) {
+    update_menus();
+    if (!city_dialog_is_open(pcity)) {
       popup_city_dialog(pcity, 0);
     }
   }
 
+  if (!is_new && (pcity->owner==game.player_idx
+		  || popup)) {
+    refresh_city_dialog(pcity);
+  }
 
   /* update menus if the focus unit is on the tile. */
   {
