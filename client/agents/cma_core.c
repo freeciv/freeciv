@@ -225,6 +225,7 @@ static bool apply_result_on_server(struct city *pcity,
   my_city_map_iterate(pcity, x, y) {
     if ((pcity->city_map[x][y] == C_TILE_WORKER) &&
 	!result->worker_positions_used[x][y]) {
+      freelog(APPLY_RESULT_LOG_LEVEL, "Removing worker at %d,%d.", x, y);
       last_request_id = city_toggle_worker(pcity, x, y);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
@@ -236,6 +237,8 @@ static bool apply_result_on_server(struct city *pcity,
   assert(SP_ELVIS == 0);
   for (sp = 1; sp < SP_COUNT; sp++) {
     for (i = 0; i < pcity->specialists[sp] - result->specialists[sp]; i++) {
+      freelog(APPLY_RESULT_LOG_LEVEL, "Change specialist from %d to %d.",
+	      sp, SP_ELVIS);
       last_request_id = city_change_specialist(pcity, sp, SP_ELVIS);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
@@ -252,6 +255,7 @@ static bool apply_result_on_server(struct city *pcity,
     if (result->worker_positions_used[x][y] &&
 	pcity->city_map[x][y] != C_TILE_WORKER) {
       assert(pcity->city_map[x][y] == C_TILE_EMPTY);
+      freelog(APPLY_RESULT_LOG_LEVEL, "Putting worker at %d,%d.", x, y);
       last_request_id = city_toggle_worker(pcity, x, y);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
@@ -264,6 +268,8 @@ static bool apply_result_on_server(struct city *pcity,
   assert(SP_ELVIS == 0);
   for (sp = 1; sp < SP_COUNT; sp++) {
     for (i = 0; i < result->specialists[sp] - pcity->specialists[sp]; i++) {
+      freelog(APPLY_RESULT_LOG_LEVEL, "Changing specialist from %d to %d.",
+	      SP_ELVIS, sp);
       last_request_id = city_change_specialist(pcity, SP_ELVIS, sp);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
