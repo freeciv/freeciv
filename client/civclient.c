@@ -600,6 +600,7 @@ void client_game_init()
   game_init();
   attribute_init();
   agents_init();
+  cm_init();
 }
 
 /**************************************************************************
@@ -607,6 +608,7 @@ void client_game_init()
 **************************************************************************/
 void client_game_free()
 {
+  cm_free();
   client_remove_all_cli_conn();
   free_client_goto();
   free_help_texts();

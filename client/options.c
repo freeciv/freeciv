@@ -288,7 +288,7 @@ static struct {
 static int event_to_index[E_LAST];
 
 static void save_cma_preset(struct section_file *file, char *name,
-			    const struct cma_parameter *const pparam,
+			    const struct cm_parameter *const pparam,
 			    int inx);
 static void load_cma_preset(struct section_file *file, int inx);
 
@@ -606,7 +606,7 @@ void save_options(void)
 *****************************************************************/
 static void load_cma_preset(struct section_file *file, int inx)
 {
-  struct cma_parameter parameter;
+  struct cm_parameter parameter;
   const char *name;
   int i;
 
@@ -632,7 +632,7 @@ static void load_cma_preset(struct section_file *file, int inx)
  Does heavy lifting for inserting a preset.
 *****************************************************************/
 static void save_cma_preset(struct section_file *file, char *name,
-			    const struct cma_parameter *const pparam,
+			    const struct cm_parameter *const pparam,
 			    int inx)
 {
   int i;

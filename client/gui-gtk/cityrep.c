@@ -394,7 +394,7 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
   GtkObject *parent = GTK_OBJECT(w->parent);
   bool change_cma =
       GPOINTER_TO_INT(gtk_object_get_data(parent, "freeciv_change_cma"));
-  struct cma_parameter parameter;
+  struct cm_parameter parameter;
 
   /* If this is not the change button but the select cities button. */
   if (!change_cma) {
@@ -411,7 +411,7 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
       } else if (index == CMA_NONE && !controlled) {
 	select = 1;
       } else if (index >= 0 && controlled &&
-		 cma_are_parameter_equal(&parameter,
+		 cm_are_parameter_equal(&parameter,
 					 cmafec_preset_get_parameter(index))) {
 	select = 1;
       }
@@ -457,7 +457,7 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
 static void append_cma_to_menu(GtkWidget * menu, bool change_cma)
 {
   int i;
-  struct cma_parameter parameter;
+  struct cm_parameter parameter;
   GtkWidget *w;
 
   if (change_cma) {
@@ -514,8 +514,8 @@ static void append_cma_to_menu(GtkWidget * menu, bool change_cma)
       found = 0;
       city_list_iterate(game.player_ptr->cities, pcity) {
 	if (cma_is_city_under_agent(pcity, &parameter) &&
-	    cma_are_parameter_equal(&parameter,
-				    cmafec_preset_get_parameter(i))) {
+	    cm_are_parameter_equal(&parameter,
+				   cmafec_preset_get_parameter(i))) {
 	  found = 1;
 	  break;
 	}

@@ -1,0 +1,92 @@
+/********************************************************************** 
+ Freeciv - Copyright (C) 2002 - The Freeciv Project
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+
+#ifndef FC__CM_H
+#define FC__CM_H
+
+/*
+ * The purpose of this module is to manage the citizens of a city. The
+ * caller has to provide a goal (struct cm_parameter) which determines
+ * in which way the citizens are allocated and placed. The module will
+ * also avoid disorder.
+ *
+ * The plan defines a minimal surplus. The module will try to get the
+ * required surplus. If there are citizens free after allocation of
+ * the minimal surplus these citizens will get arranged to maximize
+ * the sum over base*factor. The base depends upon the factor_target.
+ */
+
+#include "city.h"		/* CITY_MAP_SIZE */
+#include "shared.h"		/* bool type */
+
+enum factor_target {
+  FT_SURPLUS,			/* will use the surplus as base */
+  FT_EXTRA			/* will use (minimal_surplus-surplus) as base */
+};
+
+enum cm_stat { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, NUM_STATS };
+
+/* A description of the goal. */
+struct cm_parameter {
+  int minimal_surplus[NUM_STATS];
+  bool require_happy;
+
+  enum factor_target factor_target;
+
+  int factor[NUM_STATS];
+  int happy_factor;
+};
+
+/* A result which can examined. */
+struct cm_result {
+  bool found_a_valid, disorder, happy;
+
+  int production[NUM_STATS];
+  int surplus[NUM_STATS];
+
+  char worker_positions_used[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  int entertainers, scientists, taxmen;
+};
+
+/*
+ * ...
+ */
+void cm_init(void);
+
+/*
+ * ...
+ */
+void cm_free(void);
+
+/*
+ * Will try to meet the requirements and fill out the result. Caller
+ * should test result->found_a_valid. cm_query_result will not change
+ * the actual city setting.
+ */
+void cm_query_result(struct city *pcity,
+		     const struct cm_parameter *const parameter,
+		     struct cm_result *result);
+
+/*
+ * Call this function if the city has changed. To be safe call it
+ * everytime before you call cm_query_result.
+ */
+void cm_clear_cache(struct city *pcity);
+
+/***************** utility methods *************************************/
+const char *cm_get_stat_name(enum cm_stat stat);
+bool cm_are_parameter_equal(const struct cm_parameter *const p1,
+			    const struct cm_parameter *const p2);
+void cm_copy_parameter(struct cm_parameter *dest,
+		       const struct cm_parameter *const src);
+#endif

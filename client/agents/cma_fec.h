@@ -20,27 +20,27 @@ void cmafec_init(void);
 void cmafec_free(void);
 
 void cmafec_set_fe_parameter(struct city *pcity,
-			     const struct cma_parameter *const parameter);
+			     const struct cm_parameter *const parameter);
 void cmafec_get_fe_parameter(struct city *pcity,
-			     struct cma_parameter *dest);
+			     struct cm_parameter *dest);
 
-const char *cmafec_get_short_descr(const struct cma_parameter *const
+const char *cmafec_get_short_descr(const struct cm_parameter *const
 				   parameter);
 const char *cmafec_get_short_descr_of_city(struct city *pcity);
 const char *cmafec_get_result_descr(struct city *pcity,
-				    const struct cma_result *const result,
-				    const struct cma_parameter *const
+				    const struct cm_result *const result,
+				    const struct cm_parameter *const
 				    parameter);
 
 /*
  * Preset handling
  */
-void cmafec_preset_add(const char *descr_name, struct cma_parameter *pparam);
+void cmafec_preset_add(const char *descr_name, struct cm_parameter *pparam);
 void cmafec_preset_remove(int index);
-int cmafec_preset_get_index_of_parameter(const struct cma_parameter
+int cmafec_preset_get_index_of_parameter(const struct cm_parameter
 					 *const parameter);
 char *cmafec_preset_get_descr(int index);
-const struct cma_parameter *cmafec_preset_get_parameter(int index);
+const struct cm_parameter *cmafec_preset_get_parameter(int index);
 int cmafec_preset_num(void);
 
 #endif

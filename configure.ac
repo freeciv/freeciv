@@ -721,6 +721,7 @@ AC_CONFIG_FILES([Makefile
 	  data/nation/Makefile 
 	  data/history/Makefile 
 	  common/Makefile 
+	  common/aicore/Makefile 
 	  ai/Makefile 
 	  client/Makefile 
 	  client/agents/Makefile

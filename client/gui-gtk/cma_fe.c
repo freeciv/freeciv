@@ -78,7 +78,7 @@ static void cma_select_preset_callback(GtkWidget *w, gint row, gint col,
 				       GdkEvent *ev, gpointer data);
 
 static void hscale_changed(GtkAdjustment *get, gpointer data);
-static void set_hscales(const struct cma_parameter *const parameter,
+static void set_hscales(const struct cm_parameter *const parameter,
 			struct cma_dialog *pdialog);
 
 /**************************************************************************
@@ -135,7 +135,7 @@ struct cma_dialog *get_cma_dialog(struct city *pcity)
 struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
 {
   struct cma_dialog *pdialog;
-  struct cma_parameter param;
+  struct cm_parameter param;
   GtkWidget *frame, *page, *hbox, *label, *table;
   GtkWidget *vbox, *scrolledwindow, *hscale;
   static const char *preset_title_[] = { N_("Presets") };
@@ -227,7 +227,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
   gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 0, 1);
 
   for (i = 0; i < NUM_STATS; i++) {
-    label = gtk_label_new(cma_get_stat_name(i));
+    label = gtk_label_new(cm_get_stat_name(i));
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i + 1, i + 2);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
@@ -330,8 +330,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
 **************************************************************************/
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
 {
-  struct cma_result result;
-  struct cma_parameter param;
+  struct cm_result result;
+  struct cm_parameter param;
   struct cma_dialog *pdialog = get_cma_dialog(pcity);
   int controlled = cma_is_city_under_agent(pcity, NULL);
   int preset_index;
@@ -339,7 +339,7 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   cmafec_get_fe_parameter(pcity, &param);
 
   /* fill in result label */
-  cma_query_result(pcity, &param, &result);
+  cm_query_result(pcity, &param, &result);
   gtk_set_label(pdialog->result_label,
 		(char *) cmafec_get_result_descr(pcity, &result, &param));
 
@@ -421,7 +421,7 @@ static void cma_select_preset_callback(GtkWidget *w, gint row, gint col,
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   GList *selection = GTK_CLIST(pdialog->preset_list)->selection;
   int preset_index;
-  const struct cma_parameter *pparam;
+  const struct cm_parameter *pparam;
 
   if (!selection) {
     return;
@@ -498,7 +498,7 @@ static void cma_preset_add_callback_no(gpointer data)
 static void cma_preset_add_callback_yes(const char *input, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  struct cma_parameter param;
+  struct cm_parameter param;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
   cmafec_preset_add(input, &param);
@@ -599,12 +599,12 @@ static void cma_preset_remove_callback_yes(gpointer data)
 **************************************************************************/
 static void cma_change_to_callback(GtkWidget *w, gpointer data)
 {
-  struct cma_result result;
+  struct cm_result result;
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  struct cma_parameter param;
+  struct cm_parameter param;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
-  cma_query_result(pdialog->pcity, &param, &result);
+  cm_query_result(pdialog->pcity, &param, &result);
   cma_apply_result(pdialog->pcity, &result);
 }
 
@@ -615,7 +615,7 @@ static void cma_change_to_callback(GtkWidget *w, gpointer data)
 static void cma_change_permanent_to_callback(GtkWidget *w, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  struct cma_parameter param;
+  struct cm_parameter param;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
   cma_put_city_under_agent(pdialog->pcity, &param);
@@ -637,7 +637,7 @@ static void cma_release_callback(GtkWidget *w, gpointer data)
  called to adjust the sliders when a preset is selected
  notice that we don't want to call update_result here. 
 *****************************************************************/
-static void set_hscales(const struct cma_parameter *const parameter,
+static void set_hscales(const struct cm_parameter *const parameter,
 			struct cma_dialog *pdialog)
 {
   int i;
@@ -661,7 +661,7 @@ static void set_hscales(const struct cma_parameter *const parameter,
 static void hscale_changed(GtkAdjustment *get, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  struct cma_parameter param;
+  struct cm_parameter param;
   int i;
 
   if (!allow_refreshes) {

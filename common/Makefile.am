@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS=	aicore
+
 noinst_LIBRARIES = libcivcommon.a
 
 INCLUDES = -I../intl
