@@ -329,7 +329,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
     }
     my_snprintf(buf[2], column_size, "%d", unit_build_shield_cost(id));
   } else {
-    struct player *pplayer = city_owner(pcity);
+    struct player *pplayer = game.player_ptr;
 
     /* Total & turns left meaningless on capitalization */
     if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
@@ -356,7 +356,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
 	}
 	if (is_small_wonder(id)) {
 	  state = _("Small Wonder");
-	  if (find_city_from_small_wonder(city_owner(pcity), id)) {
+	  if (find_city_from_small_wonder(pplayer, id)) {
 	    state = _("Built");
 	  }
 	  if (improvement_obsolete(pplayer, id)) {
