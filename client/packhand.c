@@ -1229,6 +1229,7 @@ void handle_map_info(struct packet_map_info *pinfo)
 {
   map.xsize=pinfo->xsize;
   map.ysize=pinfo->ysize;
+  map.topology_id = pinfo->topology_id;
   map.is_earth=pinfo->is_earth;
 
   map_allocate();

@@ -175,6 +175,7 @@ bool map_is_empty(void)
 ***************************************************************/
 void map_init(void)
 {
+  map.topology_id = MAP_DEFAULT_TOPO;
   map.xsize                 = MAP_DEFAULT_WIDTH;
   map.ysize                 = MAP_DEFAULT_HEIGHT;
   map.seed                  = MAP_DEFAULT_SEED;

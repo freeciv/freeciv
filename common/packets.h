@@ -921,6 +921,7 @@ struct packet_game_info {
 *********************************************************/
 struct packet_map_info {
   int xsize, ysize;
+  int topology_id;
   bool is_earth;
 };
 

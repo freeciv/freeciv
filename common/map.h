@@ -155,7 +155,8 @@ struct tile_type {
 };
 
 struct civ_map { 
-  int xsize, ysize;
+  int topology_id;
+  int xsize, ysize; /* native dimensions */
   int seed;
   int riches;
   bool is_earth;
@@ -189,7 +190,7 @@ enum topo_flag {
   TF_ISO = 4
 };
 
-#define CURRENT_TOPOLOGY (TF_WRAPX)
+#define CURRENT_TOPOLOGY (map.topology_id)
 
 #define topo_has_flag(flag) ((CURRENT_TOPOLOGY & (flag)) != 0)
 
@@ -658,6 +659,11 @@ extern const int CAR_DIR_DY[4];
 #define MAP_DEFAULT_HEIGHT       50
 #define MAP_MIN_HEIGHT           25
 #define MAP_MAX_HEIGHT           100
+
+#define MAP_ORIGINAL_TOPO        TF_WRAPX
+#define MAP_DEFAULT_TOPO         TF_WRAPX
+#define MAP_MIN_TOPO             0
+#define MAP_MAX_TOPO             3
 
 #define MAP_DEFAULT_SEED         0
 #define MAP_MIN_SEED             0

@@ -1145,6 +1145,7 @@ int send_packet_map_info(struct connection *pc,
 
   dio_put_uint8(&dout, pinfo->xsize);
   dio_put_uint8(&dout, pinfo->ysize);
+  dio_put_uint8(&dout, pinfo->topology_id);
   dio_put_bool8(&dout, pinfo->is_earth);
 
   SEND_PACKET_END;
@@ -1159,6 +1160,7 @@ struct packet_map_info *receive_packet_map_info(struct connection *pc)
 
   dio_get_uint8(&din, &pinfo->xsize);
   dio_get_uint8(&din, &pinfo->ysize);
+  dio_get_uint8(&din, &pinfo->topology_id);
   dio_get_bool8(&din, &pinfo->is_earth);
 
   RECEIVE_PACKET_END(pinfo);

@@ -322,6 +322,9 @@ load the tile map from a savegame file
 ***************************************************************/
 static void map_tiles_load(struct section_file *file)
 {
+  map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
+					       "map.topology_id");
+
   map.is_earth=secfile_lookup_bool(file, "map.is_earth");
 
   /* In some cases we read these before, but not always, and
@@ -2378,6 +2381,7 @@ void game_save(struct section_file *file)
      * The first two used to be saved as "map.xsize" and "map.ysize"
      * when PRE_GAME_STATE, but I'm standardizing on width,height --dwp
      */
+    secfile_insert_int(file, map.topology_id, "map.topology_id");
     secfile_insert_int(file, map.xsize, "map.width");
     secfile_insert_int(file, map.ysize, "map.height");
     secfile_insert_int(file, game.settlers, "game.settlers");

@@ -81,7 +81,7 @@ const char * const our_capability = our_capability_internal;
                    "+diplomacy2 +citizens_style +root_tech auth " \
                    "+nat_ulimit +retake +goto_pack borders dip " \
                    "+packet_short_unit +unit_occupied endgame_rep " \
-                   "+terr_flags"
+                   "+terr_flags +topo_id"
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -158,6 +158,9 @@ const char * const our_capability = our_capability_internal;
  *
  * "terr_flags" means terrain flags (with the TER_NO_BARBS flag) have been
  * added.
+ *
+ * "topo_id" means there is a topology_id map value that controls which
+ * topology is in use.  This value is sent to the client.
  */
 
 void init_our_capability(void)

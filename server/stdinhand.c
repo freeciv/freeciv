@@ -232,6 +232,18 @@ static struct settings_s settings[] = {
 	  N_("Map height in squares"), "", NULL,
 	  MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT)
 
+  GEN_INT("topology", map.topology_id, SSET_MAP_SIZE, SSET_TO_CLIENT,
+	  N_("The map topology index"),
+	  N_("Two-dimensional maps can wrap at the north-south or \n"
+	     "east-west edges, and use a cartesian or isometric \n"
+	     "rectangular grid.  See the manual for further explanation.\n"
+             "  0 Flat Earth (unwrapped)          4 Flat Earth (isometric)\n"
+             "  1 Earth (wraps E-W)               5 Earth (isometric)\n"
+             "  2 Uranus (wraps N-S)              6 Uranus (isometric)\n"
+             "  3 Donut World (wraps N-S, E-W)    7 Donut World (isometric)"
+          ), NULL, 
+	  MAP_MIN_TOPO, MAP_MAX_TOPO, MAP_DEFAULT_TOPO)
+
 /* Map generation parameters: once we have a map these are of historical
  * interest only, and cannot be changed.
  */

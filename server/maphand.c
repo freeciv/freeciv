@@ -601,7 +601,7 @@ void fog_area(struct player *pplayer, int x, int y, int len)
 }
 
 /**************************************************************************
-  Send basic map information: map size, and is_earth.
+  Send basic map information: map size, topology, and is_earth.
 **************************************************************************/
 void send_map_info(struct conn_list *dest)
 {
@@ -609,6 +609,7 @@ void send_map_info(struct conn_list *dest)
 
   minfo.xsize=map.xsize;
   minfo.ysize=map.ysize;
+  minfo.topology_id = map.topology_id;
   minfo.is_earth=map.is_earth;
  
   lsend_packet_map_info(dest, &minfo);
