@@ -1279,13 +1279,10 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 
 static void rename_city_callback(HWND w, void * data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
+  struct city_dialog *pdialog = data;
  
-  if((pdialog=(struct city_dialog *)data)) {
-    packet.city_id=pdialog->pcity->id;
-    sz_strlcpy(packet.name, input_dialog_get_input(w));
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+  if (pdialog) {
+    city_rename(pdialog->pcity, input_dialog_get_input(w));
   }
  
   input_dialog_destroy(w);

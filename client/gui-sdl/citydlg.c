@@ -2115,11 +2115,8 @@ static int new_name_city_dlg_callback(struct GUI *pEdit)
   }
   
   if(strcmp(tmp, pCityDlg->pCity->name)) {
-    struct packet_city_request packet;
-    packet.city_id = pCityDlg->pCity->id;
-    sz_strlcpy(packet.name, tmp);
     SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+    city_rename(pCityDlg->pCity, tmp);
   }
   
   FREE(tmp);

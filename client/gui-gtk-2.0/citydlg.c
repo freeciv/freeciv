@@ -2539,13 +2539,10 @@ static void rename_callback_no(GtkWidget * w, gpointer data)
 *****************************************************************/
 static void rename_callback_yes(GtkWidget * w, gpointer data)
 {
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  struct packet_city_request packet;
+  struct city_dialog *pdialog = data;
 
   if (pdialog) {
-    packet.city_id = pdialog->pcity->id;
-    sz_strlcpy(packet.name, input_dialog_get_input(w));
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+    city_rename(pdialog->pcity, input_dialog_get_input(w));
 
     pdialog->rename_shell = NULL;
   }

@@ -3303,12 +3303,10 @@ static void rename_callback_no(gpointer data)
 *****************************************************************/
 static void rename_callback_yes(const char *input, gpointer data)
 {
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  struct packet_city_request packet;
+  struct city_dialog *pdialog = data;
 
-  packet.city_id = pdialog->pcity->id;
-  sz_strlcpy(packet.name, input);
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+  city_rename(pdialog->pcity, input);
+
   pdialog->rename_shell = NULL;
 }
 

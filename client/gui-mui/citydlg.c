@@ -776,14 +776,13 @@ static void misc_next_callback(struct city_dialog **ppdialog)
 /****************************************************************
  Callback for the City Name String
 *****************************************************************/
-static void city_rename(struct city_dialog **ppdialog)
+static void city_rename_callback(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
-  struct packet_city_request packet;
+  char *name = (char*)xget(pdialog->name_transparentstring,
+			   MUIA_TransparentString_Contents);
 
-  packet.city_id=pdialog->pcity->id;
-  sz_strlcpy(packet.name, (char*)xget(pdialog->name_transparentstring, MUIA_TransparentString_Contents));
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+  city_rename(pdialog->pcity, name);
 }
 
 /**************************************************************************
@@ -1715,7 +1714,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
     if (pdialog->name_transparentstring)
     {
-      DoMethod(pdialog->name_transparentstring, MUIM_Notify, MUIA_TransparentString_Acknowledge, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_rename, pdialog);
+      DoMethod(pdialog->name_transparentstring, MUIM_Notify,
+	       MUIA_TransparentString_Acknowledge, MUIV_EveryTime, app, 4,
+	       MUIM_CallHook, &civstandard_hook, city_rename_callback,
+	       pdialog);
     }
 
     for (i=0;i<6;i++)

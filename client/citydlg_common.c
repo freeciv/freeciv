@@ -467,3 +467,22 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 
   return send_packet_city_request(&aconnection, &packet, ptype);
 }
+
+/**************************************************************************
+  Tell the server to rename the city.  Return the request ID.
+**************************************************************************/
+int city_rename(struct city *pcity, const char *name)
+{
+  struct packet_city_request packet;
+
+  packet.city_id = pcity->id;
+  sz_strlcpy(packet.name, name);
+
+  /* Fill out unused fields. */
+  packet.build_id = -1;
+  packet.is_build_id_unit_id = FALSE;
+  packet.worker_x = packet.worker_y = -1;
+  packet.specialist_from = packet.specialist_to = -1;
+
+  return send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+}

@@ -1365,13 +1365,10 @@ void present_units_callback(Widget w, XtPointer client_data,
 static void rename_city_callback(Widget w, XtPointer client_data, 
 				 XtPointer call_data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
+  struct city_dialog *pdialog = client_data;
 
-  if((pdialog=(struct city_dialog *)client_data)) {
-    packet.city_id=pdialog->pcity->id;
-     sz_strlcpy(packet.name, input_dialog_get_input(w));
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+  if (pdialog) {
+    city_rename(pdialog->pcity, input_dialog_get_input(w));
   }
   input_dialog_destroy(w);
 }
