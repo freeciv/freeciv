@@ -818,6 +818,10 @@ void handle_start_phase(int phase)
   game.phase = phase;
 
   if (is_player_phase(game.player_ptr, phase)) {
+    /* HACK: this is updated by the player packet too; we update it here
+     * so the turn done button state will be set properly. */
+    game.player_ptr->phase_done = FALSE;
+
     agents_start_turn();
     non_ai_unit_focus = FALSE;
 
