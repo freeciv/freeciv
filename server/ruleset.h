@@ -13,7 +13,7 @@
 #ifndef FC__RULESET_H
 #define FC__RULESET_H
 
-#include "player.h"
+struct player;
 
 void load_rulesets(void);
 void send_rulesets(struct player *dest);

@@ -13,7 +13,9 @@
 #ifndef FC__SETTLERS_H
 #define FC__SETTLERS_H
 
-#include "unit.h"
+struct player;
+struct unit;
+struct city;
 
 int auto_settler_do_goto(struct player *pplayer, struct unit *punit, 
 			 int x, int y);

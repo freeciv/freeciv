@@ -13,8 +13,9 @@
 #ifndef FC__UNITTOOLS_H
 #define FC__UNITTOOLS_H
 
-#include "packets.h"
-#include "unit.h"
+struct city;
+struct player;
+struct unit;
 
 int can_unit_move_to_tile(struct unit *punit, int x, int y, int igzoc);
 int is_enemy_city_tile(int x, int y, int owner);

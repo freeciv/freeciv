@@ -13,10 +13,10 @@
 #ifndef FC__AITOOLS_H
 #define FC__AITOOLS_H
 
-#include "city.h"		/* ai_choice */
-#include "player.h"
-
+struct ai_choice;
+struct city;
 struct government;
+struct player;
 
 struct city *dist_nearest_city(struct player *pplayer, int x, int y,
                                int everywhere, int enemy);

@@ -11,6 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+#include "city.h"
+#include "tech.h"
+
 #include "aitools.h"
 
 #include "advforeign.h"

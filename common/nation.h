@@ -13,7 +13,7 @@
 #ifndef FC__NATION_H
 #define FC__NATION_H
 
-#include "player.h"
+#include "shared.h"		/* MAX_LEN_NAME */
 
 #define MAX_NUM_TECH_GOALS 10
 #define MAX_NUM_NATIONS  63
@@ -22,6 +22,7 @@
 typedef int Nation_Type_id;
 
 struct Sprite;			/* opaque; client-gui specific */
+struct player;
 
 enum advisor_type {ADV_ISLAND, ADV_MILITARY, ADV_TRADE, ADV_SCIENCE, ADV_FOREIGN, 
                    ADV_ATTITUDE, ADV_DOMESTIC, ADV_LAST};

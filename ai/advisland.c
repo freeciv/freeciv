@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
+#include "city.h"
+#include "tech.h"
+
 #include "aitools.h"
 
 #include "advisland.h"

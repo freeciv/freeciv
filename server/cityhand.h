@@ -14,7 +14,9 @@
 #define FC__CITYHAND_H
 
 #include "packets.h"
-#include "city.h"
+
+struct player;
+struct city;
 
 void create_city(struct player *pplayer, int x, int y, char *name);
 void remove_city(struct city *pcity);

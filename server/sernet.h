@@ -13,7 +13,7 @@
 #ifndef FC__SERNET_H
 #define FC__SERNET_H
 
-#include "packets.h"
+struct connection;
 
 #define MAX_NUM_CONNECTIONS 16
 #define DEFAULT_SOCK_PORT 5555
