@@ -218,6 +218,8 @@ struct hash_data {
   int num_buckets;
   int num_entries_hashbuild;
   int num_collisions;
+  int allow_duplicates;
+  int num_duplicates;
 };
 
 static int hashfunc(char *name, int num_buckets);
@@ -505,7 +507,7 @@ int section_file_load(struct section_file *sf, const char *filename)
   ath_free(&columns_tab);
   
   if(DO_HASH) {
-    secfilehash_build(sf);
+    secfilehash_build(sf, 0);
   }
     
   return 1;
@@ -921,7 +923,8 @@ section_file_lookup_internal(struct section_file *my_section_file,
 
 /**************************************************************************
  The caller should ensure that "fullpath" should not refer to an entry
- which already exists in "my_section_file".
+ which already exists in "my_section_file".  (Actually, in some cases
+ now it is ok to have duplicate entries, but be careful...)
 **************************************************************************/
 static struct entry*
 section_file_insert_internal(struct section_file *my_section_file, 
@@ -1084,9 +1087,15 @@ static void secfilehash_insert(struct section_file *file,
 
   hentry = secfilehash_lookup(file, key, &hash_val);
   if (hentry->key_val != NULL) {
-    freelog(LOG_FATAL, "Tried to insert same value twice: %s (sectionfile %s)",
-	    key, secfile_filename(file));
-    exit(1);
+    if (file->hashd->allow_duplicates) {
+      file->hashd->num_duplicates++;
+      /* Fall-through, to replace entry; could 'return' here and
+	 then first entry would be used and following ones ignored. */
+    } else {
+      freelog(LOG_FATAL, "Tried to insert same value twice: %s (sectionfile %s)",
+	      key, secfile_filename(file));
+      exit(1);
+    }
   }
   hentry->data = data;
   hentry->key_val = sbuf_strdup(file->sb, key);
@@ -1096,8 +1105,11 @@ static void secfilehash_insert(struct section_file *file,
 /**************************************************************************
  Build a hash table for the file.  Note that the section_file should
  not be modified (except to free it) subsequently.
+ If allow_duplicates is true, then relax normal condition that
+ all entries must have unique names; in this case for duplicates
+ the hash ref will be to the _last_ entry.
 **************************************************************************/
-void secfilehash_build(struct section_file *file)
+void secfilehash_build(struct section_file *file, int allow_duplicates)
 {
   struct hash_data *hashd;
   char buf[256];
@@ -1119,6 +1131,8 @@ void secfilehash_build(struct section_file *file)
   hashd->num_buckets = pow2;
   hashd->num_entries_hashbuild = file->num_entries;
   hashd->num_collisions = 0;
+  hashd->allow_duplicates = allow_duplicates;
+  hashd->num_duplicates = 0;
   
   hashd->table = fc_malloc(hashd->num_buckets*sizeof(struct hash_entry));
 
@@ -1138,8 +1152,13 @@ void secfilehash_build(struct section_file *file)
   section_list_iterate_end;
   
   if (HASH_DEBUG>=1) {
-    freelog(LOG_DEBUG, "Hash collisions during build: %d (%d entries, %d buckets)",
-	hashd->num_collisions, file->num_entries, hashd->num_buckets );
+    freelog(LOG_DEBUG, "Hash collisions during build: "
+	    "%d (%d entries, %d buckets)",
+	    hashd->num_collisions, file->num_entries, hashd->num_buckets );
+    if (hashd->allow_duplicates) {
+      freelog(LOG_DEBUG, "Hash duplicates during build: %d",
+	      hashd->num_duplicates);
+    }
   }
 }
 

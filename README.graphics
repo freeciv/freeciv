@@ -35,8 +35,8 @@ conveniently provide additional graphics.
 
 There are two layers to the tilespec files:
 
-The top-level file is named, eg: 'default.tilespec'.  The basename of
-this file (here, 'default') corresponds to the parameter of the
+The top-level file is named, eg: 'trident.tilespec'.  The basename of
+this file (here, 'trident') corresponds to the parameter of the
 '--tiles' command-line argument for the Freeciv client, as described
 above.
 
@@ -80,17 +80,19 @@ column), and a single tile may have multiple tags (eg, to use the same
 graphic for multiple purposes in the game): just specify a list of
 comma-separated strings.
 
-----------------------------------------------------------------------
-Tag uniqueness and tag prefixes:
---------------------------------
+If a given tag appears multiple times in the spec files, the *last*
+such tag is used.  (That is, in the order of files listed in the
+tilespec file, and order within each file.)  This allows selected
+graphics to be "overridden" by listing a replacement spec file near
+the end of the 'files' list in the toplevel tilespec file, without
+having to modify earlier files in the list.
 
-An important requirement is that there must be no duplicated tags
-across all the graphics files (those referenced from the top-level
-tilespec file).  That is, each tag must be unique.  (This is because
-the tags are used to reference the graphics, and for non-unique tags
-Freeciv would not know which graphic to use.)  To assist in
-maintaining this uniqueness, there is a rough prefix system used for
-standard tags:
+----------------------------------------------------------------------
+Tag prefixes:
+-------------
+
+To help keep the tags organised, there is a rough prefix system used 
+for standard tags:
 
   f.	      national flags
   r.	      road/rail

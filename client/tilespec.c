@@ -87,6 +87,23 @@ static struct athing atile_sprites;   /* .ptr is tile_sprites */
 */
 static struct section_file tag_sf;
 
+
+#define TILESPEC_CAPSTR "+tilespec2 duplicates_ok"
+/*
+   Tilespec capabilities acceptable to this program:
+   +tilespec2     -  basic format, required
+   duplicates_ok  -  we can handle existence of duplicate tags
+                     (lattermost tag which appears is used; tilesets which
+		     have duplicates should specify "+duplicates_ok")
+*/
+
+#define SPEC_CAPSTR "+spec2"
+/*
+   Individual spec file capabilities acceptable to this program:
+   +spec2          -  basic format, required
+*/
+
+
 /***************************************************************************
   Crop sprite for source and store in gloabl tile_sprites.
   Reallocates tile_sprites as required, using an athing to
@@ -238,7 +255,7 @@ void tilespec_read_toplevel(const char *tileset_name)
     freelog(LOG_FATAL, _("Could not open \"%s\"."), fname);
     exit(1);
   }
-  check_tilespec_capabilities(file, "tilespec", "+tilespec2", fname);
+  check_tilespec_capabilities(file, "tilespec", TILESPEC_CAPSTR, fname);
 
   section_file_lookup(file, "tilespec.name"); /* currently unused */
 
@@ -306,7 +323,7 @@ static void tilespec_load_one(const char *spec_filename)
     freelog(LOG_FATAL, _("Could not open \"%s\"."), spec_filename);
     exit(1);
   }
-  check_tilespec_capabilities(file, "spec", "+spec2", spec_filename);
+  check_tilespec_capabilities(file, "spec", SPEC_CAPSTR, spec_filename);
 
   section_file_lookup(file, "info.artists"); /* currently unused */
 
@@ -558,7 +575,7 @@ void tilespec_load_tiles(void)
   }
   final_realloc_tile_sprites();
 
-  secfilehash_build(&tag_sf);
+  secfilehash_build(&tag_sf, 1);
   /* section_file_save(&tag_sf, "_debug_tilespec"); */
 
   tilespec_lookup_sprite_tags();
