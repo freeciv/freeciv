@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-27 07:30+0100\n"
+"PO-Revision-Date: 2005-01-27 08:40+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr " (pozorovatel)"
 #: common/effects.c:547
 #, c-format
 msgid "for building %s: bad effect requirement data '%s'"
-msgstr ""
+msgstr "pro stavbu %s: špatná data efektu předpokladů '%s'"
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:795
@@ -81,7 +81,7 @@ msgstr "Ostrovní efekty jsou podporovány pouze pro divy světa."
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:925
 msgid "Surviving effects are only supported at world range."
-msgstr ""
+msgstr "Přežívací efekty jsou podporovány pouze v rozsahu světa."
 
 #: common/map.c:62
 msgid "Special1"
@@ -1707,7 +1707,7 @@ msgstr "odpojit od hráče."
 
 #: server/commands.c:206
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to detach from a player."
-msgstr ""
+msgstr "Pouze konzole a spojení s příkazovou úrovní 'hack' může ostatní spojení odpojit od hráče."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:211
@@ -1907,7 +1907,7 @@ msgstr "Ukončí hru.  Když jsou vypsáni hráči, tak tito vyhrají hru."
 
 #: server/commands.c:316
 msgid "This command ends the game immediately and credits the given players, if any, with winning it."
-msgstr ""
+msgstr "Tento příkaz okamžitě ukončí hru a blahopřeje vybraným hráčům, když něajcí jsou, výhrou."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:321
@@ -2041,7 +2041,7 @@ msgstr "Přihlásili jste se jako '%s' připojeni k %s."
 #: server/connecthand.c:167
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
-msgstr ""
+msgstr "Hra s blokováním tahu: čeká se na %s pro dokončení tahu..."
 
 #: server/connecthand.c:201
 #, c-format
@@ -3320,7 +3320,7 @@ msgstr "Stavba %s obsahuje šaptný rozsah: \"%s\" (%s)"
 #: server/ruleset.c:1376
 #, c-format
 msgid "Building %s lists bad effect group: \"%s\" (%s)"
-msgstr ""
+msgstr "Stavba %s obsahuje špatnou skupinu efektu: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1391
@@ -5363,7 +5363,7 @@ msgstr "Hra: Globální pozorovatel vytvořen "
 #: server/stdinhand.c:2687
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
-msgstr ""
+msgstr "%s již ovládá %s. Použití 'observe' odebere %s"
 
 #: server/stdinhand.c:2695
 #, c-format
@@ -20723,7 +20723,7 @@ msgstr "Předseda"
 #: data/nation/brazilian.ruleset:20
 #: data/nation/chinese.ruleset:22
 msgid "Chairperson"
-msgstr ""
+msgstr "Předseda"
 
 #: data/nation/brazilian.ruleset:21
 #, fuzzy
@@ -21136,7 +21136,7 @@ msgstr "?plural:Hobitové"
 
 #: data/nation/hobbits.ruleset:17
 msgid "Mayor of the Shire"
-msgstr ""
+msgstr "Hrabě"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -21168,7 +21168,7 @@ msgstr ""
 
 #: data/nation/inca.ruleset:18
 msgid "Warlord"
-msgstr ""
+msgstr "Válečník"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
@@ -21204,7 +21204,7 @@ msgstr ""
 
 #: data/nation/irish.ruleset:37
 msgid "Chieftain"
-msgstr ""
+msgstr "Náčelník"
 
 #: data/nation/irish.ruleset:38
 msgid "High King"
@@ -21717,7 +21717,7 @@ msgstr "Ukrajina je veliká oblast západní části bývalého Sovětského sva
 
 #: data/nation/ukrainian.ruleset:15
 msgid "Hetman"
-msgstr ""
+msgstr "Hejtman"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
