@@ -762,7 +762,7 @@ static void update_environmental_upset(enum tile_special_type cause,
  check for cease-fires running out; update reputation; update cancelling
  reasons
 **************************************************************************/
-static void update_diplomatics()
+static void update_diplomatics(void)
 {
   int p, p2;
 

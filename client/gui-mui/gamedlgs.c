@@ -35,6 +35,7 @@
 #include "cityrep.h"
 #include "clinet.h"
 #include "dialogs.h"
+#include "mapview.h"
 #include "options.h"
 
 #include "ratesdlg.h"
@@ -297,6 +298,8 @@ static void option_ok(void)
     if (obj)
       *(o->p_value) = xget(obj, MUIA_Selected);
   }
+
+  update_map_canvas_visible();
 }
 
 /****************************************************************

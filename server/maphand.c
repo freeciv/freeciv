@@ -1119,7 +1119,7 @@ void player_map_allocate(struct player *pplayer)
 We need to use use fogofwar_old here, so the player's tiles get
 in the same state as th other players' tiles.
 ***************************************************************/
-void player_tile_init(struct player_tile *plrtile)
+static void player_tile_init(struct player_tile *plrtile)
 {
   plrtile->terrain = T_UNKNOWN;
   plrtile->special = S_NO_SPECIAL;
@@ -1166,7 +1166,7 @@ void update_player_tile_last_seen(struct player *pplayer, int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-void give_tile_info_from_player_to_player(struct player *pfrom,
+static void give_tile_info_from_player_to_player(struct player *pfrom,
 					  struct player *pdest, int x, int y)
 {
   struct dumb_city *from_city, *dest_city;

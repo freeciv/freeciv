@@ -1000,7 +1000,7 @@ This fills out a package from a players dumb_city.
 FIXME: we should make a new package and let the client fill in the dummy
 info itself
 **************************************************************************/
-void package_dumb_city(struct player* pplayer, int x, int y,
+static void package_dumb_city(struct player* pplayer, int x, int y,
 		       struct packet_city_info *packet)
 {
   int i;

@@ -3102,7 +3102,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 For all units which are transported by the given unit and that are
 currently idle, sentry them.
 **************************************************************************/
-void sentry_transported_idle_units(struct unit *ptrans)
+static void sentry_transported_idle_units(struct unit *ptrans)
 {
   int x = ptrans->x;
   int y = ptrans->y;

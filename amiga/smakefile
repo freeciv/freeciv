@@ -39,7 +39,7 @@ FREECIV_DIR = /
 OBJDIR1 = sas_68k
 
 # Additional flags
-CCFLAGS = RESOPT ANSI IDLEN=40 NOLINK MCCONS COMMENTNEST DATA=FAR NOSTKCHK IGNORE=63\
+CCFLAGS = ANSI IDLEN=40 NOLINK MCCONS COMMENTNEST DATA=FAR NOSTKCHK IGNORE=63\
 DEF=HAVE_CONFIG_H $(DEBFLAGS) $(OPTFLAGS) $(CPU_MATH) $(TCPSDK)
 
 # Additional linker flags
@@ -53,7 +53,7 @@ TO = OBJNAME=
 OBJDIR  = ${OBJDIR1}/
 
 COMMONOBJS = $(OBJDIR)common/astring.o $(OBJDIR)common/capability.o $(OBJDIR)common/capstr.o \
- $(OBJDIR)common/city.o $(OBJDIR)common/diptreaty.o $(OBJDIR)common/fcintl.o $(OBJDIR)common/game.o \
+ $(OBJDIR)common/city.o $(OBJDIR)common/connection.o $(OBJDIR)common/diptreaty.o $(OBJDIR)common/fcintl.o $(OBJDIR)common/game.o \
  $(OBJDIR)common/genlist.o $(OBJDIR)common/government.o $(OBJDIR)common/hash.o $(OBJDIR)common/idex.o \
  $(OBJDIR)common/inputfile.o $(OBJDIR)common/ioz.o $(OBJDIR)common/log.o $(OBJDIR)common/map.o \
  $(OBJDIR)common/nation.o $(OBJDIR)common/packets.o $(OBJDIR)common/player.o $(OBJDIR)common/mem.o \
@@ -204,6 +204,9 @@ ${OBJDIR}common/capstr.o: ${FREECIV_DIR}common/capstr.c
 
 ${OBJDIR}common/city.o: ${FREECIV_DIR}common/city.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/city.c ${COMMONDIRS} ${TO}$@
+
+${OBJDIR}common/connection.o: ${FREECIV_DIR}common/connection.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}common/connection.c ${COMMONDIRS} ${TO}$@
 
 ${OBJDIR}common/diptreaty.o: ${FREECIV_DIR}common/diptreaty.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/diptreaty.c ${COMMONDIRS} ${TO}$@

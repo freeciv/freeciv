@@ -210,11 +210,17 @@ void update_turn_done_button(int do_restore)
 }
 
 /**************************************************************************
-...
+ Update the timeout label
 **************************************************************************/
 void update_timeout_label(void)
 {
-  settextf(main_timeout_text, "%d", seconds_to_turndone);
+  char buffer[64];
+  if (game.timeout <= 0)
+    sz_strlcpy(buffer, "off");
+  else
+    format_duration(buffer, sizeof(buffer), seconds_to_turndone);
+
+  settext(main_timeout_text, buffer);
 }
 
 /**************************************************************************
@@ -251,7 +257,15 @@ void update_info_label(void)
 }
 
 /**************************************************************************
-...
+ Update the information label which gives info on the current unit and the
+ square under the current unit, for specified unit.  Note that in practice
+ punit is almost always (or maybe strictly always?) the focus unit.
+ Clears label if punit is NULL.
+ Also updates the cursor for the map_canvas (this is related because the
+ info label includes a "select destination" prompt etc).
+ Also calls update_unit_pix_label() to update the icons for units on this
+ square.
+ (Note, that in the Mui client the last part is handled different)
 **************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {

@@ -453,6 +453,7 @@ static void control_callback(ULONG * value)
       send_report_request(REPORT_SERVER_OPTIONS2);
       break;
     case MENU_GAME_OUTPUT_LOG:
+      log_output_window();
       break;
     case MENU_GAME_CLEAR_OUTPUT:
       clear_output_window();
@@ -1365,3 +1366,23 @@ void ui_main(int argc, char *argv[])
   }
 }
 
+/**************************************************************************
+  Set one of the unit icons in information area based on punit.
+  Use punit==NULL to clear icon.
+  Index 'idx' is -1 for "active unit", or 0 to (num_units_below-1) for
+  units below.  Also updates unit_ids[idx] for idx>=0.
+  No real function for the Mui client.
+**************************************************************************/
+void set_unit_icon(int idx, struct unit *punit)
+{
+}
+
+/**************************************************************************
+  Set the "more arrow" for the unit icons to on(1) or off(0).
+  Maintains a static record of current state to avoid unnecessary redraws.
+  Note initial state should match initial gui setup (off).
+  No real function for the Mui client.
+**************************************************************************/
+void set_unit_icons_more_arrow(int onoff)
+{
+}

@@ -838,6 +838,8 @@ struct Map_Data
   LONG old_horiz_first;		/* Drawing (3) */
   LONG old_vert_first;		/* Drawing (3) */
   struct unit *explode_unit; /* Drawing (5) */
+  LONG mushroom_x0; /* Mushroom(6) */
+  LONG mushroom_y0; /* Mushroom(6) */
 };
 
 struct NewPosData
@@ -1492,6 +1494,36 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       	return NULL;
       }
 
+      if (data->update == 6)
+      {
+      	/* Draw Mushroom */
+	int x, y;
+
+	for(y=0; y<3; y++) {
+	  for(x=0; x<3; x++) {
+	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) *NORMAL_TILE_WIDTH;
+	    int map_y = map_canvas_adjust_y(y - 1 + data->mushroom_y0) * NORMAL_TILE_HEIGHT;
+	    struct Sprite *mysprite = sprites.explode.nuke[y][x];
+
+	    printf("%ld %ld\n",map_x,map_y);
+
+/*	    BltBitMapRastPort( data->map_layer->rp, 
+
+	    gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
+		      map_x, map_y, 0, 0,
+		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	    pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, mysprite);
+	    gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
+		      0, 0, map_x, map_y,
+		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);*/
+	  }
+	}
+
+	TimeDelay( UNIT_VBLANK, 1,0);
+
+      	return NULL;
+      }
+
       if (data->update == 2)
       {
 /*	Move the Unit Smoothly (from mapview.c) */
@@ -1754,7 +1786,7 @@ STATIC ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
   }
 
 
-  if (msg->imsg)
+  if (msg->imsg && (get_client_state() == CLIENT_GAME_RUNNING_STATE))
   {
     UWORD qual = msg->imsg->Qualifier;
 
@@ -2107,6 +2139,16 @@ STATIC ULONG Map_PutCrossTile(struct IClass * cl, Object * o, struct MUIP_Map_Pu
   return NULL;
 }
 
+STATIC ULONG Map_DrawMushroom(struct IClass * cl, Object *o, struct MUIP_Map_DrawMushroom *msg)
+{
+  struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
+  data->update = 6;
+  data->mushroom_x0 = msg->abs_x0;
+  data->mushroom_y0 = msg->abs_y0;
+  MUI_Redraw(o, MADF_DRAWUPDATE);
+  return 0;
+}
+
 STATIC ULONG Map_ExplodeUnit(struct IClass * cl, Object * o, struct MUIP_Map_ExplodeUnit * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
@@ -2159,6 +2201,8 @@ STATIC __asm __saveds ULONG Map_Dispatcher(register __a0 struct IClass * cl, reg
     return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);
   case MUIM_Map_ExplodeUnit:
     return Map_ExplodeUnit(cl, obj, (struct MUIP_Map_ExplodeUnit *) msg);
+  case MUIM_Map_DrawMushroom:
+    return Map_DrawMushroom(cl, obj, (struct MUIP_Map_DrawMushroom *)msg);
   }
 
   return (DoSuperMethodA(cl, obj, msg));

@@ -119,7 +119,6 @@ STATIC Object *cityrep_popup_button;
 STATIC Object *cityrep_buy_button;
 STATIC Object *cityrep_change_button;
 STATIC Object *cityrep_refresh_button;
-STATIC Object *cityrep_configure_button;
 
 /****************************************************************
 ...
@@ -313,6 +312,25 @@ static int cityrep_change(void)
 }
 
 /****************************************************************
+ Callback for the Refresh Button
+*****************************************************************/
+static int cityrep_refresh(void)
+{
+  struct city *pcity;
+  struct packet_generic_integer packet;
+
+  DoMethod(cityrep_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &pcity);
+
+  if(pcity) {
+    packet.value = pcity->id;
+    send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, 
+				&packet);
+  }
+
+  return NULL;
+}
+
+/****************************************************************
  Create and initialize the city report window
 *****************************************************************/
 void create_city_report_dialog(int make_modal)
@@ -345,7 +363,6 @@ void create_city_report_dialog(int make_modal)
 	    Child, cityrep_buy_button = MakeButton("_Buy"),
 	    Child, cityrep_change_button = MakeButton("Chan_ge"),
 	    Child, cityrep_refresh_button = MakeButton("_Refresh"),
-	    Child, cityrep_configure_button = MakeButton("Con_figure"),
 	    End,
 	End,
     End;
@@ -370,6 +387,7 @@ void create_city_report_dialog(int make_modal)
     DoMethod(cityrep_popup_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_popup);
     DoMethod(cityrep_buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_buy);
     DoMethod(cityrep_change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_change);
+    DoMethod(cityrep_refresh_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_refresh);
     DoMethod(cityrep_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, cityrep_active);
     DoMethod(cityrep_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, app, 3, MUIM_CallHook, &standart_hook, cityrep_center);
 

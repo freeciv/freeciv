@@ -26,6 +26,8 @@
 
 #include "fcintl.h"
 
+#include "muistuff.h"
+
 IMPORT Object *main_output_listview;
 
 void append_output_window(char *astring)
@@ -41,13 +43,19 @@ void append_output_window(char *astring)
 **************************************************************************/
 void log_output_window(void)
 { 
-  char *theoutput="Sorry, no log yet";
+	char *str;
+	int i,entries = xget(main_output_listview, MUIA_NList_Entries);
   FILE *fp;
   
   append_output_window(_("Exporting output window to civgame.log ..."));
-/*  theoutput = gtk_editable_get_chars(GTK_EDITABLE(main_message_area), 0, -1); */
   fp = fopen("civgame.log", "w"); /* should allow choice of name? */
-  fprintf(fp, "%s", theoutput);
+
+  for (i=0;i<entries;i++)
+  {
+  	DoMethod(main_output_listview, MUIM_NList_GetEntry, i, &str);
+  	fprintf(fp,"%s\n",str);
+  }
+
   fclose(fp);
   append_output_window(_("Export complete."));
 }

@@ -72,7 +72,7 @@ void popup_messageopt_dialog(void)
           "Out = Output window, Mes = Messages window, Pop = Popup individual window",
           MUIA_Text_PreParse, "\33c",
           End,
-        Child, HGroup,
+        Child, HGroupV,
           Child, HGroup,
             Child, HSpace(0),
             Child, group[0] = ColGroup(4), End,
