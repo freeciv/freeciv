@@ -205,6 +205,12 @@ void handle_unit_build_city(struct player *pplayer,
 		    "Game: You need a settler to build a city.");
       return;
     }  
+
+    if(!punit->moves_left)  {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                       "Game: Settler has no moves left to build city.");
+      return;
+    }
     
     if ((pcity=map_get_city(punit->x, punit->y))) {
       if (pcity->size>8) {
