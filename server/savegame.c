@@ -956,9 +956,9 @@ static void player_load(struct player *plr, int plrno,
     punit->activity_count=secfile_lookup_int(file, 
 					     "player%d.u%d.activity_count",
 					     plrno, i);
-    punit->activity_target=secfile_lookup_int_default(file, 0,
-						"player%d.u%d.activity_target",
-						plrno, i);
+    punit->activity_target =
+	secfile_lookup_int_default(file, (int) S_NO_SPECIAL,
+				   "player%d.u%d.activity_target", plrno, i);
 
     punit->connecting=secfile_lookup_bool_default(file, FALSE,
 						"player%d.u%d.connecting",

@@ -619,7 +619,7 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
   struct unit req_unit;
   req_unit=*punit;
   req_unit.activity=act;
-  req_unit.activity_target=0;
+  req_unit.activity_target = S_NO_SPECIAL;
   send_unit_info(&req_unit);
 }
 
@@ -627,7 +627,7 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 ...
 **************************************************************************/
 void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity act,
-					int tgt)
+					enum tile_special_type tgt)
 {
   struct unit req_unit;
   req_unit=*punit;
@@ -652,7 +652,7 @@ void request_unit_selected(struct unit *punit)
   info.type=punit->type;
   info.movesleft=punit->moves_left;
   info.activity=ACTIVITY_IDLE;
-  info.activity_target=0;
+  info.activity_target = S_NO_SPECIAL;
   info.select_it = TRUE;
   info.packet_use = UNIT_INFO_IDENTITY;
 
@@ -684,17 +684,14 @@ void request_unit_fortify(struct unit *punit)
 **************************************************************************/
 void request_unit_pillage(struct unit *punit)
 {
-  struct tile * ptile;
-  int pspresent;
-  int psworking;
-  int what;
-  int would;
-
-  ptile = map_get_tile(punit->x, punit->y);
-  pspresent = get_tile_infrastructure_set(ptile);
-  psworking = get_unit_tile_pillage_set(punit->x, punit->y);
-  what = get_preferred_pillage(pspresent & (~psworking));
-  would = what | map_get_infrastructure_prerequisite (what);
+  struct tile *ptile = map_get_tile(punit->x, punit->y);
+  enum tile_special_type pspresent = get_tile_infrastructure_set(ptile);
+  enum tile_special_type psworking =
+      get_unit_tile_pillage_set(punit->x, punit->y);
+  enum tile_special_type what =
+      get_preferred_pillage(pspresent & (~psworking));
+  enum tile_special_type would =
+      what | map_get_infrastructure_prerequisite(what);
 
   if ((game.rgame.pillage_select) &&
       ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {

@@ -653,15 +653,12 @@ static int total_activity (int x, int y, enum unit_activity act)
   Calculate the total amount of activity performed by all units on a tile
   for a given task and target.
 **************************************************************************/
-static int total_activity_targeted (int x, int y,
-				    enum unit_activity act,
-				    int tgt)
+static int total_activity_targeted(int x, int y, enum unit_activity act,
+				   enum tile_special_type tgt)
 {
-  struct tile *ptile;
   int total = 0;
 
-  ptile = map_get_tile (x, y);
-  unit_list_iterate (ptile->units, punit)
+  unit_list_iterate (map_get_tile (x, y)->units, punit)
     if ((punit->activity == act) && (punit->activity_target == tgt))
       total += punit->activity_count;
   unit_list_iterate_end;
@@ -811,7 +808,7 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity==ACTIVITY_PILLAGE) {
-    if (punit->activity_target == 0) {     /* case for old save files */
+    if (punit->activity_target == S_NO_SPECIAL) {	/* case for old save files */
       if (punit->activity_count >= 1) {
 	int what =
 	  get_preferred_pillage(
@@ -842,7 +839,7 @@ static void update_unit_activity(struct unit *punit)
     }
     else if (total_activity_targeted (punit->x, punit->y,
 				      ACTIVITY_PILLAGE, punit->activity_target) >= 1) {
-      int what_pillaged = punit->activity_target;
+      enum tile_special_type what_pillaged = punit->activity_target;
       map_clear_special(punit->x, punit->y, what_pillaged);
       unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
         if ((punit2->activity == ACTIVITY_PILLAGE) &&

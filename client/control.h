@@ -40,8 +40,9 @@ void handle_advance_focus(struct packet_generic_integer *packet);
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
-void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity act,
-					int tgt);
+void request_new_unit_activity_targeted(struct unit *punit,
+					enum unit_activity act,
+					enum tile_special_type tgt);
 void request_unit_auto(struct unit *punit);
 void request_unit_build_city(struct unit *punit);
 void request_unit_caravan_action(struct unit *punit, enum packet_type action);

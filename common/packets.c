@@ -2636,7 +2636,7 @@ receive_packet_unit_info(struct connection *pc)
   iget_uint8(&iter, &packet->activity_count);
   iget_uint8(&iter, &packet->goto_dest_x);
   iget_uint8(&iter, &packet->goto_dest_y);
-  iget_uint16(&iter, &packet->activity_target);
+  iget_uint16(&iter, (int *) &packet->activity_target);
   iget_uint8(&iter, &packet->packet_use);
   iget_uint16(&iter, &packet->info_city_id);
   iget_uint16(&iter, &packet->serial_num);

@@ -52,7 +52,8 @@ void handle_unit_activity_request(struct unit *punit,
 				  enum unit_activity new_activity);
 void handle_unit_activity_request_targeted(struct unit *punit,
 					   enum unit_activity new_activity,
-					   int new_target, bool select_unit);
+					   enum tile_special_type new_target,
+					   bool select_unit);
 void handle_unit_unload_request(struct player *pplayer, 
 				struct packet_unit_request *req);
 void handle_unit_nuke(struct player *pplayer, 

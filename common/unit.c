@@ -580,7 +580,7 @@ Check if the unit's current activity is actually legal.
 bool can_unit_continue_current_activity(struct unit *punit)
 {
   enum unit_activity current = punit->activity;
-  int target = punit->activity_target;
+  enum tile_special_type target = punit->activity_target;
   int current2 = current == ACTIVITY_FORTIFIED ? ACTIVITY_FORTIFYING : current;
   bool result;
 
@@ -588,7 +588,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
     return can_unit_do_connect(punit, current);
 
   punit->activity = ACTIVITY_IDLE;
-  punit->activity_target = 0;
+  punit->activity_target = S_NO_SPECIAL;
 
   result = can_unit_do_activity_targeted(punit, current2, target);
 
@@ -603,7 +603,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
 **************************************************************************/
 bool can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 {
-  return can_unit_do_activity_targeted(punit, activity, 0);
+  return can_unit_do_activity_targeted(punit, activity, S_NO_SPECIAL);
 }
 
 /**************************************************************************
@@ -612,7 +612,8 @@ autosettlers in server/settler.c. The code there does not use this function
 as it would be a ajor CPU hog.
 **************************************************************************/
 bool can_unit_do_activity_targeted(struct unit *punit,
-				  enum unit_activity activity, int target)
+				   enum unit_activity activity,
+				   enum tile_special_type target)
 {
   struct player *pplayer;
   struct tile *ptile;
@@ -778,7 +779,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 {
   punit->activity=new_activity;
   punit->activity_count=0;
-  punit->activity_target=0;
+  punit->activity_target = S_NO_SPECIAL;
   punit->connecting = FALSE;
 }
 
@@ -786,7 +787,8 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   assign a new targeted task to a unit.
 **************************************************************************/
 void set_unit_activity_targeted(struct unit *punit,
-				enum unit_activity new_activity, int new_target)
+				enum unit_activity new_activity,
+				enum tile_special_type new_target)
 {
   punit->activity=new_activity;
   punit->activity_count=0;
@@ -811,7 +813,7 @@ bool is_unit_activity_on_tile(enum unit_activity activity, int x, int y)
 **************************************************************************/
 int get_unit_tile_pillage_set(int x, int y)
 {
-  int tgt_ret = S_NO_SPECIAL;
+  enum tile_special_type tgt_ret = S_NO_SPECIAL;
   unit_list_iterate(map_get_tile(x, y)->units, punit)
     if(punit->activity==ACTIVITY_PILLAGE)
       tgt_ret |= punit->activity_target;
@@ -903,7 +905,7 @@ char *unit_activity_text(struct unit *punit)
    case ACTIVITY_PATROL:
      return get_activity_text (punit->activity);
    case ACTIVITY_PILLAGE:
-     if(punit->activity_target == 0) {
+     if(punit->activity_target == S_NO_SPECIAL) {
        return get_activity_text (punit->activity);
      } else {
        my_snprintf(text, sizeof(text), "%s: %s",

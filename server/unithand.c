@@ -1280,8 +1280,9 @@ static void handle_unit_activity_dependencies(struct unit *punit,
   switch (punit->activity) {
   case ACTIVITY_IDLE:
     if (old_activity == ACTIVITY_PILLAGE) {
-      int prereq = map_get_infrastructure_prerequisite(old_target);
-      if (prereq != 0) {
+      enum tile_special_type prereq =
+	  map_get_infrastructure_prerequisite(old_target);
+      if (prereq != S_NO_SPECIAL) {
 	unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
 	  if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	      (punit2->activity_target == prereq)) {
@@ -1317,7 +1318,7 @@ void handle_unit_activity_request(struct unit *punit,
 {
   if (can_unit_do_activity(punit, new_activity)) {
     enum unit_activity old_activity = punit->activity;
-    int old_target = punit->activity_target;
+    enum tile_special_type old_target = punit->activity_target;
     set_unit_activity(punit, new_activity);
     if (punit->pgr) {
       free(punit->pgr->pos);
@@ -1332,13 +1333,14 @@ void handle_unit_activity_request(struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_activity_request_targeted(struct unit *punit, 
+void handle_unit_activity_request_targeted(struct unit *punit,
 					   enum unit_activity new_activity,
-					   int new_target, bool select_unit)
+					   enum tile_special_type new_target,
+					   bool select_unit)
 {
   if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
     enum unit_activity old_activity = punit->activity;
-    int old_target = punit->activity_target;
+    enum tile_special_type old_target = punit->activity_target;
     set_unit_activity_targeted(punit, new_activity, new_target);
 
     if (punit->pgr) {

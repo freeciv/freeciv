@@ -309,7 +309,7 @@ struct packet_unit_info {
   bool ai;
   int fuel;
   int goto_dest_x, goto_dest_y;
-  int activity_target;
+  enum tile_special_type activity_target;
   bool paradropped;
   bool connecting;
   /* in packet only, not in unit struct */

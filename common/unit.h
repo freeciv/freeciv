@@ -123,7 +123,7 @@ struct unit {
   enum unit_activity activity;
   int goto_dest_x, goto_dest_y;
   int activity_count;
-  int activity_target;
+  enum tile_special_type activity_target;
   enum unit_focus_status focus_status;
   int ord_map, ord_city;
   /* ord_map and ord_city are the order index of this unit in tile.units
@@ -196,10 +196,12 @@ char* get_activity_text (int activity);
 bool can_unit_continue_current_activity(struct unit *punit);
 bool can_unit_do_activity(struct unit *punit, enum unit_activity activity);
 bool can_unit_do_activity_targeted(struct unit *punit,
-				  enum unit_activity activity, int target);
+				   enum unit_activity activity,
+				   enum tile_special_type target);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
-				enum unit_activity new_activity, int new_target);
+				enum unit_activity new_activity,
+				enum tile_special_type new_target);
 bool can_unit_do_auto(struct unit *punit); 
 bool is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 int get_unit_tile_pillage_set(int x, int y);
