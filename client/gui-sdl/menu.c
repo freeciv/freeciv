@@ -399,6 +399,17 @@ void create_units_order_widgets(void)
   pBuf->key = SDLK_d;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_DISBAND, pBuf);
+
+  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Return to nearest city"), " (Shift + G)");
+  pBuf = create_themeicon(pTheme->OReturn_Icon, Main.gui,
+			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
+			   WF_WIDGET_HAS_INFO_LABEL));
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->action = unit_order_callback;
+  pBuf->string16 = create_str16_from_char(cBuf, 10);
+  pBuf->key = SDLK_g;
+  pBuf->mod = KMOD_SHIFT;
+  add_to_gui_list(ID_UNIT_ORDER_RETURN, pBuf);
   
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Goto City"), " (L)");
   pBuf = create_themeicon(pTheme->OGotoCity_Icon, Main.gui,
@@ -429,17 +440,6 @@ void create_units_order_widgets(void)
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_g;
   add_to_gui_list(ID_UNIT_ORDER_GOTO, pBuf);
-
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Return to nearest city"), " (Shift + G)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
-			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
-			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, 10);
-  pBuf->key = SDLK_g;
-  pBuf->mod = KMOD_SHIFT;
-  add_to_gui_list(ID_UNIT_ORDER_RETURN, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Patrol"), " (Q)");
   pBuf = create_themeicon(pTheme->OPatrol_Icon, Main.gui,

@@ -394,7 +394,7 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!sprite_exists("theme.SAVE_button")) {
+  if(!sprite_exists("theme.order_return")) {
     freelog(LOG_FATAL, "Your current tileset don't contains GUI theme graphic\n"
     "Please use other tileset with GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
@@ -489,6 +489,7 @@ void tilespec_setup_theme(void)
   load_order_theme_surface(pBuf, OTrade_Icon, "theme.order_carravan_traderoute");
   load_order_theme_surface(pBuf, OSpy_Icon, "theme.order_spying");
   load_order_theme_surface(pBuf, OWakeUp_Icon, "theme.order_wakeup");
+  load_order_theme_surface(pBuf, OReturn_Icon, "theme.order_return");
   /* ------------------------------ */
     
   /* Map Dithering */
@@ -623,7 +624,8 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->OTrade_Icon);
   FREESURFACE(pTheme->OSpy_Icon);
   FREESURFACE(pTheme->OWakeUp_Icon);
-      
+  FREESURFACE(pTheme->OReturn_Icon);
+
   /* Map Dithering */
    
   FREESURFACE(pDitherMask);

@@ -110,6 +110,7 @@ struct Theme {
 	SDL_Surface *OTrade_Icon;
 	SDL_Surface *OSpy_Icon;
 	SDL_Surface *OWakeUp_Icon;
+	SDL_Surface *OReturn_Icon;
 			
 } *pTheme;
 
