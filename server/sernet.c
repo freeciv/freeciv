@@ -94,7 +94,7 @@ int sniff_packets(void)
   
   if(year!=game.year) {
     time_at_turn_end = time(NULL) + game.timeout;
-    year=game.year;
+    if (server_state == RUN_GAME_STATE) year=game.year;
   }
   
   while(1) {
@@ -119,7 +119,9 @@ int sniff_packets(void)
     
     if(select(max_desc+1, &readfs, NULL, NULL, &tv)==0) { /* timeout */
       send_server_info_to_metaserver(0);
-      if(game.timeout && time(NULL)>time_at_turn_end) {
+      if((game.timeout) 
+	&& (time(NULL)>time_at_turn_end)
+	&& (server_state == RUN_GAME_STATE)){
 	return 0;
       }
       continue;
@@ -161,7 +163,9 @@ int sniff_packets(void)
     }
     break;
   }
-  if(game.timeout && time(NULL)>time_at_turn_end) return 0;
+  if((game.timeout) 
+    && (time(NULL)>time_at_turn_end)
+    && (game.timeout)) return 0;
   return 1;
 }
   
