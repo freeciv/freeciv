@@ -1173,6 +1173,38 @@ void create_start_positions(void)
 }
 
 /**************************************************************************
+  Debugging function to print information about the map that's been
+  generated.
+**************************************************************************/
+static void print_mapgen_map(void)
+{
+  const int loglevel = LOG_DEBUG;
+  int terrain_count[T_COUNT];
+  int total = 0;
+  int t;
+
+  for (t = 0; t < T_COUNT; t++) {
+    terrain_count[t] = 0;
+  }
+
+  whole_map_iterate(x, y) {
+    t = map_get_terrain(x, y);
+
+    assert(t >= 0 && t < T_COUNT);
+    terrain_count[t]++;
+    if (t != T_OCEAN) {
+      total++;
+    }
+  } whole_map_iterate_end;
+
+  for (t = 0; t < T_COUNT; t++) {
+    freelog(loglevel, "%20s : %4d %d%%  ",
+	    get_terrain_name(t), terrain_count[t],
+	    (terrain_count[t] * 100 + 50) / total);
+  }
+}
+
+/**************************************************************************
   See stdinhand.c for information on map generation methods.
 
 FIXME: Some continent numbers are unused at the end of this function, fx
@@ -1224,6 +1256,8 @@ void map_fractal_generate(void)
 
   if (map.num_continents>0)
     update_island_impr_effect(-1, map.num_continents);
+
+  print_mapgen_map();
 }
 
 /**************************************************************************
