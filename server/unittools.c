@@ -74,6 +74,21 @@ static void pull_unit_from_transporter(struct unit *punit,
 				       struct unit *ptrans);
 
 /**************************************************************************
+  Handle changes to (unit) vision range, usually caused by watchtower.
+**************************************************************************/
+static void change_vision_range(struct player *pplayer, struct tile *ptile,
+                                int old_range, int new_range)
+{
+  if (new_range != old_range) {
+    /* Make sure that area that is unfogged both before and after is
+       not even temporarily fogged. Unfog (increase seen counter) first,
+       fog (decrease seen counter) later. */
+    unfog_area(pplayer, ptile, new_range);
+    fog_area(pplayer, ptile, old_range);
+  }
+}
+
+/**************************************************************************
   returns a unit type with a given role, use -1 if you don't want a tech 
   role. Always try tech role and only if not available, return role unit.
 **************************************************************************/
@@ -621,12 +636,10 @@ static void update_unit_activity(struct unit *punit)
 	  freelog(LOG_VERBOSE, "Watchtower pillaged!");
 	  unit_list_iterate(punit->tile->units,
 			    punit2) {
-	    if (is_ground_unit(punit2)) {
-	      unfog_area(pplayer, punit2->tile,
-			 unit_type(punit2)->vision_range);
-	      fog_area(pplayer, punit2->tile,
-		       get_watchtower_vision(punit2));
-	    }
+            if (is_ground_unit(punit2)) {
+              change_vision_range(pplayer, punit2->tile, get_watchtower_vision(punit2),
+                                  unit_type(punit2)->vision_range);
+            }
 	  }
 	  unit_list_iterate_end;
 	}
@@ -651,12 +664,10 @@ static void update_unit_activity(struct unit *punit)
 	  && player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
 	freelog(LOG_VERBOSE, "Watchtower(2) pillaged!");
 	unit_list_iterate(punit->tile->units, punit2) {
-	  if (is_ground_unit(punit2)) {
-	    unfog_area(pplayer, punit2->tile,
-		       unit_type(punit2)->vision_range);
-	    fog_area(pplayer, punit2->tile,
-		     get_watchtower_vision(punit2));
-	  }
+          if (is_ground_unit(punit2)) {
+            change_vision_range(pplayer, punit->tile, get_watchtower_vision(punit2),
+                                unit_type(punit2)->vision_range);
+          }
 	}
 	unit_list_iterate_end;
       }
@@ -687,12 +698,10 @@ static void update_unit_activity(struct unit *punit)
       /* watchtower becomes effective */
       if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
 	unit_list_iterate(ptile->units, punit) {
-	  if (is_ground_unit(punit)) {
-	    fog_area(pplayer, punit->tile,
-		     unit_type(punit)->vision_range);
-	    unfog_area(pplayer, punit->tile,
-		       get_watchtower_vision(punit));
-	  }
+          if (is_ground_unit(punit)) {
+            change_vision_range(pplayer, punit->tile, unit_type(punit)->vision_range,
+                                get_watchtower_vision(punit));
+          }
 	}
 	unit_list_iterate_end;
       }
@@ -1378,13 +1387,11 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
 
   /* apply new vision range */
   if (map_has_special(punit->tile, S_FORTRESS)
-      && unit_profits_of_watchtower(punit))
-    unfog_area(pplayer, punit->tile, get_watchtower_vision(punit));
-  else
-    unfog_area(pplayer, punit->tile,
-	       get_unit_type(to_unit)->vision_range);
-
-  fog_area(pplayer, punit->tile, range);
+      && unit_profits_of_watchtower(punit)) {
+    change_vision_range(pplayer, punit->tile, range, get_watchtower_vision(punit));
+  } else {
+    change_vision_range(pplayer, punit->tile, range, get_unit_type(to_unit)->vision_range);
+  }
 
   send_unit_info(NULL, punit);
   conn_list_do_unbuffer(&pplayer->connections);
