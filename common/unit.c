@@ -520,7 +520,7 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
       return 1;
 
     if(activity==ACTIVITY_PILLAGE) {
-      if (is_ground_unit(punit) && (!is_military_unit(punit)))
+      if (is_ground_unit(punit))
         if((ptile->special&S_ROAD) || (ptile->special&S_RAILROAD) ||
 	   (ptile->special&S_IRRIGATION) || (ptile->special&S_MINE))
 	   if(!is_unit_activity_on_tile(ACTIVITY_PILLAGE, punit->x, punit->y))
