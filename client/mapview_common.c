@@ -72,55 +72,6 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
     canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
     update_map_canvas(canvas_x, canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
-    if (update_city_text_in_refresh_tile
-	&& (draw_city_names || draw_city_productions)) {
-      /* FIXME: update_map_canvas() will overwrite the city descriptions.
-       * This is a workaround that redraws the city descriptions (most of
-       * the time).  Although it seems inefficient to redraw the
-       * descriptions for so many tiles, remember that most of them don't
-       * have cities on them.
-       *
-       * This workaround is unnecessary for clients that use a separate
-       * buffer for the city descriptions, and will not work well for
-       * anti-aliased text (since it uses partial transparency).  Thus some
-       * clients may turn it off by setting
-       * update_city_text_in_refresh_tile. */
-      int canvas_x, canvas_y;
-      struct city *pcity;
-
-      if (is_isometric) {
-	/* We assume the city description will be directly below the city,
-	 * with a width of 1-2 tiles and a height of less than one tile.
-	 * Remember that units are 50% taller than the normal tile height.
-	 *      9
-	 *     7 8
-	 *    6 4 5
-	 *     2 3
-	 *      1
-	 * Tile 1 is the one being updated; we redraw the city description
-	 * for tiles 2-8 (actually we end up drawing 1 as well). */
-	rectangle_iterate(x - 2, y - 2, 3, 3, city_x, city_y) {
-	  if ((pcity = map_get_city(city_x, city_y))) {
-	    map_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y);
-	    show_city_desc(pcity, canvas_x, canvas_y);
-	  }
-	} rectangle_iterate_end;
-      } else {
-	/* We assume the city description will be held in the three tiles
-	 * right below the city.
-	 *       234
-	 *        1
-	 * Tile 1 is the one being updated; we redraw the city description
-	 * for tiles 2, 3, and 4. */
-	rectangle_iterate(x - 1, y - 1, 3, 1, city_x, city_y) {
-	  if ((pcity = map_get_city(city_x, city_y))) {
-	    map_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y);
-	    show_city_desc(pcity, canvas_x, canvas_y);
-	  }
-	} rectangle_iterate_end;
-      }
-    }
-
     if (write_to_screen) {
       flush_dirty();
     }
@@ -445,7 +396,6 @@ void set_mapview_origin(int gui_x0, int gui_y0)
 	update_map_canvas(update_x0 - gui_x0, common_y0 - gui_y0,
 			  update_x1 - update_x0, common_y1 - common_y0);
       }
-      show_city_descriptions();
     } else {
       update_map_canvas_visible();
     }
@@ -1388,6 +1338,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
     } gui_rect_iterate_end;
   }
 
+  show_city_descriptions(canvas_x, canvas_y, width, height);
+
   dirty_rect(canvas_x, canvas_y, width, height);
 }
 
@@ -1407,13 +1359,13 @@ void update_map_canvas_visible(void)
   canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
 		       0, 0, mapview_canvas.width, mapview_canvas.height);
   update_map_canvas(0, 0, mapview_canvas.width, mapview_canvas.height);
-  show_city_descriptions();
 }
 
 /**************************************************************************
   Show descriptions for all cities visible on the map canvas.
 **************************************************************************/
-void show_city_descriptions(void)
+void show_city_descriptions(int canvas_x, int canvas_y,
+			    int width, int height)
 {
   const int dx = MAX(MAX_CITY_DESC_WIDTH - NORMAL_TILE_WIDTH, 0);
   const int dy = MAX_CITY_DESC_HEIGHT;
@@ -1442,10 +1394,9 @@ void show_city_descriptions(void)
    * We must draw H2 extra pixels above and (W2 - W1) / 2 extra pixels
    * to each side of the mapview.
    */
-  gui_rect_iterate(mapview_canvas.gui_x0 - dx / 2,
-		   mapview_canvas.gui_y0 - dy,
-		   mapview_canvas.width + dx,
-		   mapview_canvas.height + dy,
+  gui_rect_iterate(mapview_canvas.gui_x0 + canvas_x - dx / 2,
+		   mapview_canvas.gui_y0 + canvas_y - dy,
+		   width + dx, height + dy,
 		   map_x, map_y, draw) {
     int canvas_x, canvas_y;
     struct city *pcity;
