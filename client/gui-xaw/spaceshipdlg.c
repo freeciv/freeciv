@@ -183,8 +183,7 @@ static void spaceship_image_canvas_expose(Widget w, XEvent *event,
 struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 {
   struct spaceship_dialog *pdialog;
-  XtTranslations textfieldtranslations;
-  
+
   pdialog=fc_malloc(sizeof(struct spaceship_dialog));
   pdialog->pplayer=pplayer;
 
@@ -248,9 +247,6 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   XtOverrideTranslations(pdialog->shell, 
     XtParseTranslationTable ("<Message>WM_PROTOCOLS: msg-close-spaceship()"));
 
-  textfieldtranslations = 
-    XtParseTranslationTable("<Key>Return: key-dialog-spaceship-return()");
-  XtOverrideTranslations(pdialog->close_command, textfieldtranslations);
   XtSetKeyboardFocus(pdialog->shell, pdialog->close_command);
 
   return pdialog;
@@ -379,7 +375,7 @@ void close_spaceship_dialog(struct spaceship_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void spaceshipdlg_key_return(Widget w)
+void spaceshipdlg_key_close(Widget w)
 {
   spaceshipdlg_msg_close(XtParent(XtParent(w)));
 }

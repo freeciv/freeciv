@@ -2529,7 +2529,7 @@ void close_city_dialog(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void citydlg_key_return(Widget w)
+void citydlg_key_close(Widget w)
 {
   citydlg_msg_close(XtParent(XtParent(w)));
 }

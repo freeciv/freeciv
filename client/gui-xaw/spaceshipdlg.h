@@ -18,7 +18,7 @@
 #include "spaceshipdlg_g.h"
 
 
-void spaceshipdlg_key_return(Widget w);
+void spaceshipdlg_key_close(Widget w);
 void spaceshipdlg_msg_close(Widget w);
 
 

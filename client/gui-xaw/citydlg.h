@@ -20,7 +20,7 @@
 
 
 void citydlg_btn_select_citymap(Widget w, XEvent *event);
-void citydlg_key_return(Widget w);
+void citydlg_key_close(Widget w);
 void citydlg_msg_close(Widget w);
 
 

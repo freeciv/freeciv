@@ -79,8 +79,6 @@ void gui_server_connect(void)
   Widget shell, form;
   char buf[512];
 
-  XtTranslations textfieldtranslations;
-
   XtSetSensitive(turn_done_button, FALSE);
   XtSetSensitive(toplevel, FALSE);
 
@@ -121,22 +119,15 @@ void gui_server_connect(void)
   XtAddCallback(metaw, XtNcallback, connect_meta_callback, (XtPointer)shell);
 
   xaw_set_relative_position(toplevel, shell, 30, 0);
+
   XtPopup(shell, XtGrabNone);
-
-  textfieldtranslations = 
-    XtParseTranslationTable("<Key>Return: key-dialog-connect-return()");
-  XtOverrideTranslations(form, textfieldtranslations);
-  XtOverrideTranslations(iname, textfieldtranslations);
-  XtOverrideTranslations(ihost, textfieldtranslations);
-  XtOverrideTranslations(iport, textfieldtranslations);
-
   XtSetKeyboardFocus(toplevel, shell);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void connectdlg_key_return(Widget w)
+void connectdlg_key_connect(Widget w)
 {
   x_simulate_button_click(connw);
 }

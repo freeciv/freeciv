@@ -18,7 +18,7 @@
 #include "chatline_g.h"
 
 
-void chatline_key_return(Widget w);
+void chatline_key_send(Widget w);
 
 
 #endif  /* FC__CHATLINE_H */

@@ -59,11 +59,10 @@ void input_dialog_destroy(Widget button)
 /****************************************************************
 ...
 *****************************************************************/
-void inputdlg_key_return(Widget w)
+void inputdlg_key_ok(Widget w)
 {
   x_simulate_button_click(XtNameToWidget(XtParent(w), "iokcommand"));
 }
-
 
 
 /****************************************************************
@@ -75,8 +74,7 @@ Widget input_dialog_create(Widget parent, char *dialogname,
 			   void *cancel_callback, XtPointer cancel_cli_data)
 {
   Widget shell, form, label, input, ok, cancel;
-  XtTranslations textfieldtranslations;
-  
+
   XtSetSensitive(parent, FALSE);
   
   I_T(shell=XtCreatePopupShell(dialogname, transientShellWidgetClass,
@@ -117,12 +115,7 @@ Widget input_dialog_create(Widget parent, char *dialogname,
   XtAddCallback(ok, XtNcallback, ok_callback, ok_cli_data);
   XtAddCallback(cancel, XtNcallback, cancel_callback, 
 		cancel_cli_data);
-  
-  textfieldtranslations = 
-    XtParseTranslationTable("<Key>Return: key-dialog-input-return()");
 
-  XtOverrideTranslations(input, textfieldtranslations);
-  
   XtSetKeyboardFocus(parent, input);
     
   return shell;

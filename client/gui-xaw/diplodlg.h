@@ -18,7 +18,7 @@
 #include "diplodlg_g.h"
 
 
-void diplodlg_key_return(Widget w);
+void diplodlg_key_gold(Widget w);
 
 
 #endif  /* FC__DIPLODLG_H */

@@ -25,7 +25,7 @@ Widget input_dialog_create(Widget parent, char *dialogname,
 void input_dialog_destroy(Widget button);
 char *input_dialog_get_input(Widget button);
 
-void inputdlg_key_return(Widget w);
+void inputdlg_key_ok(Widget w);
 
 
 #endif  /* FC__INPUTDLG_H */

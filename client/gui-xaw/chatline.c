@@ -40,7 +40,7 @@ extern Widget inputline_text, outputwindow_text;
 /**************************************************************************
 ...
 **************************************************************************/
-void chatline_key_return(Widget w)
+void chatline_key_send(Widget w)
 {
   struct packet_generic_message apacket;
   String theinput;

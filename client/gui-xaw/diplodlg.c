@@ -289,8 +289,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   Dimension width, height, maxwidth;
   Widget popupmenu;
   Widget entry;
-  XtTranslations textfieldtranslations;
-  
+
   pdialog=fc_malloc(sizeof(struct Diplomacy_dialog));
   genlist_insert(&diplomacy_dialogs, pdialog, 0);
   
@@ -550,15 +549,10 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 		diplomacy_dialog_erase_clause_callback, (XtPointer)pdialog);
   XtAddCallback(pdialog->dip_accept_command, XtNcallback, 
 		diplomacy_dialog_accept_callback, (XtPointer)pdialog);
-  
 
-  textfieldtranslations = 
-  XtParseTranslationTable("<Key>Return: key-dialog-diplo-return()");
-  XtOverrideTranslations(pdialog->dip_gold_input0, textfieldtranslations);
-  XtOverrideTranslations(pdialog->dip_gold_input1, textfieldtranslations);
-  
+
   XtRealizeWidget(pdialog->dip_dialog_shell);
-  
+
 
   XtVaGetValues(pdialog->dip_map_menubutton0, XtNwidth, &maxwidth, NULL);
   XtVaGetValues(pdialog->dip_tech_menubutton0, XtNwidth, &width, NULL);
@@ -574,9 +568,8 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtVaGetValues(pdialog->dip_formm, XtNheight, &height, NULL);
   XtVaSetValues(pdialog->dip_form0, XtNheight, height, NULL); 
   XtVaSetValues(pdialog->dip_form1, XtNheight, height, NULL); 
-  
-  
-  
+
+
   free(pheadlinem);
 
   update_diplomacy_dialog(pdialog);
@@ -871,7 +864,7 @@ static struct Diplomacy_dialog *find_diplomacy_by_input(Widget w)
 /*****************************************************************
 ...
 *****************************************************************/
-void diplodlg_key_return(Widget w)
+void diplodlg_key_gold(Widget w)
 {
   struct Diplomacy_dialog *pdialog;
   

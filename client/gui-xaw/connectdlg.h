@@ -18,7 +18,7 @@
 #include "connectdlg_g.h"
 
 
-void connectdlg_key_return(Widget w);
+void connectdlg_key_connect(Widget w);
 
 
 #endif  /* FC__CONNECTDLG_H */

@@ -6,10 +6,14 @@
 ! gotAppDefFile MUST be the first entry!
 Freeciv*gotAppDefFile:                       True
 Freeciv*version:                             1.10.1-devel
+Freeciv.title:                               Freeciv
+Freeciv.iconName:                            Freeciv
+Freeciv*borderColor:                         black
 !Freeciv*logLevel:                            1
 !Freeciv*port:                                5555
 !Freeciv*server:                              localhost
 !Freeciv*metaserver:                          http://meta.freeciv.org/metaserver/
+
 
 !
 ! Default colors, by widget type
@@ -52,10 +56,14 @@ Freeciv*Pixcomm.background: White
 ! The pixcomm widget does not look good with 3d borders
 Freeciv*Pixcomm.shadowWidth: 0
 
+
 !
 ! The Connect dialog
 !
 Freeciv*.connectdialog.title: _("Connect to Freeciv Server")
+
+Freeciv*connectdialog*translations:	#override \
+			<Key>Return: key-dialog-connect-connect()
 
 Freeciv*connectdialog.*.cheadline.label: _("Freeciv Server Selection")
 Freeciv*connectdialog.*.cheadline.width: 300
@@ -187,13 +195,6 @@ Freeciv*inteltechlist.resizable:           true
 Freeciv*intelclosecommand.label:             _("Close")
 Freeciv*intelclosecommand.fromVert:          inteltechlist
 
-!*.font:            *-courier-bold-r-normal--12-*
-!*.Font:            *-courier-bold-r-normal--12-*
-
-Freeciv.title: Freeciv
-Freeciv.iconName: Freeciv
-Freeciv*borderColor: black
-
 
 !
 ! tile info popup dialog
@@ -208,6 +209,7 @@ Freeciv*popupinfo.*.borderWidth:                 3
 !
 Freeciv*dlabel.background: lightblue
 
+
 !
 ! generic input dialog
 !
@@ -215,6 +217,9 @@ Freeciv*iform.borderWidth: 0
 Freeciv*iform.ilabel.borderWidth: 0
 Freeciv*iform.background: lightblue
 Freeciv*iform.ilabel.background: lightblue
+Freeciv*iinput.translations:	#override \
+		<Key>Return: key-dialog-input-ok()
+
 
 !
 ! Player to player diplomacy meeting dialog
@@ -387,6 +392,8 @@ Freeciv*dipgoldinput0.left:              chainLeft
 Freeciv*dipgoldinput0.right:             chainLeft
 Freeciv*dipgoldinput0.Width:             60
 Freeciv*dipgoldinput0.*.editType:        edit
+Freeciv*dipgoldinput0.translations:	#override \
+			<Key>Return: key-dialog-diplo-gold()
 
 Freeciv*dipgoldinput1.foreground:        black
 Freeciv*dipgoldinput1.background:        white
@@ -397,6 +404,8 @@ Freeciv*dipgoldinput1.left:              chainLeft
 Freeciv*dipgoldinput1.right:             chainLeft
 Freeciv*dipgoldinput1.Width:             60
 Freeciv*dipgoldinput1.*.editType:        edit
+Freeciv*dipgoldinput1.translations:	#override \
+			<Key>Return: key-dialog-diplo-gold()
 
 ! Freeciv*dipgoldlabel0.label:             Gold(max 100)
 Freeciv*dipgoldlabel0.borderWidth:       0
@@ -1178,8 +1187,6 @@ Freeciv*supportunitsdialog.*.button3.label:     _("Cancel")
 Freeciv*supportunitsdialog.*.button3.fromVert:  button2
 
 
-
-
 !
 ! The options dialog
 !
@@ -1335,9 +1342,7 @@ Freeciv*ratescancelcommand.fromHoriz:  ratesokcommand
 
 
 !
-!
 ! Science report dialog
-!
 !
 Freeciv*sciencepopup.title:   _("Science Report")
 Freeciv*sciencepopup.allowShellResize: True
@@ -1485,9 +1490,7 @@ Freeciv*cityoptcancelcommand.fromHoriz:  cityoptokcommand
 
 
 !
-!
 ! City report dialog
-!
 !
 Freeciv*reportcitypopup.title:  _("City Report")
 Freeciv*reportcitypopup.allowShellResize: True
@@ -1602,6 +1605,8 @@ Freeciv*spaceshipmainform.*.left:                   chainLeft
 Freeciv*spaceshipmainform.*.right:                  chainLeft
 Freeciv*spaceshipmainform.resizable:                True
 Freeciv*spaceshipmainform.background:		White
+Freeciv*spaceshipmainform*translations:		#override \
+			<Key>Return: key-dialog-spaceship-close()
 
 !Freeciv*spaceshipplayerlabel.fromVert:    spaceshipimagecanvas
 Freeciv*spaceshipplayerlabel.top:         chainBottom
@@ -1740,9 +1745,7 @@ Freeciv*chgalldialog.*.chgallcancelcommand.left:	chainLeft
 Freeciv*chgalldialog.*.chgallcancelcommand.right:	chainLeft
 
 !
-!
 ! Trade report dialog
-!
 !
 Freeciv*reporttradepopup.title: _("Trade Report")
 Freeciv*reporttradepopup.allowShellResize: True
@@ -1817,9 +1820,7 @@ Freeciv*reporttradesellallcommand.left:        chainLeft
 Freeciv*reporttradesellallcommand.right:       chainLeft
 
 !
-!
 ! Active units report dialog
-!
 !
 Freeciv*reportactiveunitspopup.title:              _("Military Report")
 Freeciv*reportactiveunitspopup.allowShellResize:   True
@@ -2153,7 +2154,7 @@ Freeciv*citytradedialog.*.button0.label:     Done
 Freeciv*citytradedialog.*.button0.fromVert:  dlabel
 
 !
-!
+! sell dialog
 !
 Freeciv*selldialog.title: _("Sell It!")
 Freeciv*selldialog.*.dlabel.borderWidth:  0
@@ -2164,7 +2165,7 @@ Freeciv*selldialog.*.button1.fromVert:  dlabel
 Freeciv*selldialog.*.button1.fromHoriz: button0
 
 !
-!
+! buy dialog
 !
 Freeciv*buynodialog.title: _("Buy It!")
 Freeciv*buynodialog.*.dlabel.borderWidth:  0
@@ -2213,7 +2214,6 @@ Freeciv*diplomatdialog.*.button5.fromHoriz: button4
 !
 ! Spy Dialog
 !
-
 Freeciv*spydialog.title: _("Choose Your Spy's Strategy")
 Freeciv*spydialog.dform.*.justify: Center
 Freeciv*spydialog.dform.*.width:   170
@@ -2246,7 +2246,6 @@ Freeciv*spydialog.*.button6.fromVert:  button4
 !
 ! Spy Steal Tech Dialog
 !
-
 Freeciv*spystealtechpopup.title: _("Steal Technology")
 Freeciv*spystealtechpopup.allowShellResize: True
 Freeciv*spystealtechform.resizable:           true
@@ -2289,7 +2288,6 @@ Freeciv*spystealtechcommand.right:       chainLeft
 !
 ! Spy Sabotage Dialog
 !
-
 Freeciv*spysabotageimprovementspopup.title:  _("Sabotage Improvements")
 Freeciv*spysabotageimprovementspopup.allowShellResize: True
 Freeciv*spysabotageimprovementsform.resizable:           true
@@ -2343,7 +2341,6 @@ Freeciv*diplomatbribedialog.*.button1.fromHoriz: button0
 !
 ! Spy Bribe Dialog
 !
-
 Freeciv*spybribedialog.title: _("Subvert Enemy Unit")
 Freeciv*spybribedialog.*.dlabel.borderWidth:  0
 Freeciv*spybribedialog.*.button0.label:     _("Bribe Enemy Unit")
@@ -2396,7 +2393,7 @@ Freeciv*upgradedialog.*.button1.fromVert:  dlabel
 Freeciv*upgradedialog.*.button1.fromHoriz: button0
 
 !
-!
+! upgrade unit dialog
 !
 Freeciv*upgradenodialog.title: _("Upgrade Unit!")
 Freeciv*upgradenodialog.*.dlabel.borderWidth:  0
@@ -2725,6 +2722,8 @@ Freeciv*inputlinetext.left:                      chainLeft
 Freeciv*inputlinetext.right:                     chainRight
 Freeciv*inputlinetext.top:                       chainBottom
 Freeciv*inputlinetext.bottom:                    chainBottom
+Freeciv*inputlinetext.translations:		#override \
+				<Key>Return: key-chatline-send()
 
 
 !
@@ -2917,8 +2916,8 @@ Freeciv*citysellcommand.label:			_(" Sell ")
 
 Freeciv*cityclosecommand.label:			_("Close")
 Freeciv*cityclosecommand.translations:		#override \n\
-  <Key>Return:	key-dialog-city-return() \n\
-  <Key>Escape:	key-dialog-city-return()
+	<Key>Return:	key-dialog-city-close() \n\
+	<Key>Escape:	key-dialog-city-close()
 
 Freeciv*cityrenamecommand.label:		_("Rename")
 
@@ -2987,6 +2986,9 @@ Freeciv*citymapcanvas.translations: \
 ! the race selection dialog
 !
 Freeciv*racespopup.title:		_("What Nation Will You Be?")
+
+Freeciv*racespopup*translations:	#override \
+			<Key>Return: key-dialog-races-ok()
 
 Freeciv*raceslabel.label:		_("Select nation and name:")
 Freeciv*raceslabel.borderWidth:		0
@@ -3160,4 +3162,3 @@ Freeciv*meswinpopcitycommand.top:             chainBottom
 Freeciv*meswinpopcitycommand.bottom:          chainBottom
 Freeciv*meswinpopcitycommand.left:            chainLeft
 Freeciv*meswinpopcitycommand.right:           chainLeft
-

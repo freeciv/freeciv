@@ -76,9 +76,9 @@ static void xaw_key_center_on_unit(Widget w, XEvent *event, String *argv, Cardin
   center_on_unit();
 }
 
-static void xaw_key_chatline_return(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_chatline_send(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  chatline_key_return(w);
+  chatline_key_send(w);
 }
 
 static void xaw_key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -86,34 +86,34 @@ static void xaw_key_city_workers(Widget w, XEvent *event, String *argv, Cardinal
   mapctrl_key_city_workers(event);
 }
 
-static void xaw_key_dialog_city_return(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_dialog_city_close(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  citydlg_key_return(w);
+  citydlg_key_close(w);
 }
 
-static void xaw_key_dialog_connect_return(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_dialog_connect_connect(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  connectdlg_key_return(w);
+  connectdlg_key_connect(w);
 }
 
-static void xaw_key_dialog_diplo_return(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_dialog_diplo_gold(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  diplodlg_key_return(w);
+  diplodlg_key_gold(w);
 }
 
-static void xaw_key_dialog_input_return(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_dialog_input_ok(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  inputdlg_key_return(w);
+  inputdlg_key_ok(w);
 }
 
-static void xaw_key_dialog_races_return(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_dialog_races_ok(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  racesdlg_key_return(w);
+  racesdlg_key_ok(w);
 }
 
-static void xaw_key_dialog_spaceship_return(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_dialog_spaceship_close(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  spaceshipdlg_key_return(w);
+  spaceshipdlg_key_close(w);
 }
 
 static void xaw_key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -563,14 +563,14 @@ static XtActionsRec Actions[] = {
   { "btn-show-info-popup",  xaw_btn_show_info_popup },
   { "key-cancel-action", xaw_key_cancel_action },
   { "key-center-on-unit", xaw_key_center_on_unit },
-  { "key-chatline-return", xaw_key_chatline_return },
+  { "key-chatline-send", xaw_key_chatline_send },
   { "key-city-workers", xaw_key_city_workers },
-  { "key-dialog-city-return", xaw_key_dialog_city_return },
-  { "key-dialog-connect-return", xaw_key_dialog_connect_return },
-  { "key-dialog-diplo-return", xaw_key_dialog_diplo_return },
-  { "key-dialog-input-return", xaw_key_dialog_input_return },
-  { "key-dialog-races-return", xaw_key_dialog_races_return },
-  { "key-dialog-spaceship-return", xaw_key_dialog_spaceship_return },
+  { "key-dialog-city-close", xaw_key_dialog_city_close },
+  { "key-dialog-connect-connect", xaw_key_dialog_connect_connect },
+  { "key-dialog-diplo-gold", xaw_key_dialog_diplo_gold },
+  { "key-dialog-input-ok", xaw_key_dialog_input_ok },
+  { "key-dialog-races-ok", xaw_key_dialog_races_ok },
+  { "key-dialog-spaceship-close", xaw_key_dialog_spaceship_close },
   { "key-end-turn", xaw_key_end_turn },
   { "key-focus-to-next-unit", xaw_key_focus_to_next_unit },
   { "key-map-grid-toggle", xaw_key_map_grid_toggle },

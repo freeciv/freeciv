@@ -23,7 +23,7 @@ Widget popup_message_dialog(Widget parent, char *shellname, char *text, ...);
 void destroy_message_dialog(Widget button);
 
 void popup_about_dialog(void);
-void racesdlg_key_return(Widget w);
+void racesdlg_key_ok(Widget w);
 
 enum help_type_dialog {HELP_COPYING_DIALOG, HELP_KEYS_DIALOG};
 

@@ -1696,6 +1696,7 @@ void popup_races_dialog(void)
   XtVaSetValues(races_dialog_shell, XtNx, x, XtNy, y, NULL);
 
   XtPopup(races_dialog_shell, XtGrabNone);
+  XtSetKeyboardFocus(toplevel, races_dialog_shell);
 }
 
 /****************************************************************
@@ -1721,7 +1722,6 @@ void create_races_dialog(void)
   char namebuf[64];
   int space;
   XtWidgetGeometry geom;
-  XtTranslations textfieldtranslations;
 
   maxracelen = 0;
   for(i=0; i<game.playable_nation_count; i++) {
@@ -1986,10 +1986,6 @@ void create_races_dialog(void)
   XtAddCallback(races_ok_command, XtNcallback,
 		races_ok_command_callback, NULL);
 
-  textfieldtranslations = 
-    XtParseTranslationTable("<Key>Return: key-dialog-races-return()");
-  XtOverrideTranslations(races_leader, textfieldtranslations);
-
 
   XtSetKeyboardFocus(races_form, races_leader);
 
@@ -2016,7 +2012,7 @@ void create_races_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void racesdlg_key_return(Widget w)
+void racesdlg_key_ok(Widget w)
 {
   Widget ok = XtNameToWidget(XtParent(XtParent(w)), "*racesokcommand");
   if (ok)

@@ -265,7 +265,6 @@ void ui_main(int argc, char *argv[])
 {
   int i;
   Pixmap icon_pixmap; 
-  XtTranslations TextFieldTranslations;
 
   parse_options(argc, argv);
 
@@ -386,10 +385,6 @@ void ui_main(int argc, char *argv[])
 
   XtSetKeyboardFocus(bottom_form, inputline_text);
   XtSetKeyboardFocus(below_menu_form, map_canvas);
-  
-  TextFieldTranslations = XtParseTranslationTable  /*BLAH!*/
-		("<Key>Return: key-chatline-return()");
-  XtOverrideTranslations(inputline_text, TextFieldTranslations);
 
   InitializeActions(app_context);
 
