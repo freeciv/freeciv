@@ -1336,19 +1336,21 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    refresh_tile_mapcanvas(src_x, src_y, 1); /* !! */
 	    refresh_tile_mapcanvas(dest_x, dest_y, 1); /* !! */
 	    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
+	      int is_real;
+
 	      if (dir == DIR8_NORTHEAST) {
 		/* Since the tile doesn't have a middle we draw an extra pixel
 		   on the adjacent tile when drawing in this direction. */
 		dest_x = src_x + 1;
 		dest_y = src_y;
-		assert(is_real_tile(dest_x, dest_y));
-		normalize_map_pos(&dest_x, &dest_y);
+		is_real = normalize_map_pos(&dest_x, &dest_y);
+		assert(is_real);
 		refresh_tile_mapcanvas(dest_x, dest_y, 1);	/* !! */
 	      } else if (dir == DIR8_SOUTHWEST) {	/* the same */
 		dest_x = src_x;
 		dest_y = src_y + 1;
-		assert(is_real_tile(dest_x, dest_y));
-		normalize_map_pos(&dest_x, &dest_y);
+		is_real = normalize_map_pos(&dest_x, &dest_y);
+		assert(is_real);
 		refresh_tile_mapcanvas(dest_x, dest_y, 1);	/* !! */
 	      }
 	    }
