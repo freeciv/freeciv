@@ -4361,8 +4361,8 @@ msgstr ""
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
-"'%s' へコマンド利用権レベルを上げれません; あなたは利用権 '%2$s' しか持ってい"
-"ません。"
+"'%1$s' へコマンド利用権レベルを上げれません; あなたは利用権 '%2$s' しか持って"
+"いません。"
 
 #: server/stdinhand.c:2114 server/stdinhand.c:2171
 #, c-format
