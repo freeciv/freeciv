@@ -88,7 +88,6 @@ int map_view_height;
 
 extern int seconds_to_turndone;   
 void update_map_canvas_scrollbars_size(void);
-static void show_city_descriptions(HDC hdc);     
 void refresh_overview_viewrect_real(HDC hdcp);
 void set_overview_win_dim(int w,int h);
 static void put_one_tile(HDC mapstoredc,int x, int y, enum draw_type draw);
@@ -202,7 +201,7 @@ void map_expose(HDC hdc)
 	     mapstoredc,0,0,SRCCOPY);
       SelectObject(mapstoredc,old);
       DeleteDC(mapstoredc);
-      show_city_descriptions(hdc);
+      show_city_descriptions();
     }
 } 
 
@@ -766,7 +765,7 @@ update_map_canvas(int x, int y, int width, int height,
 	       scr_x,
 	       scr_y,
 	       SRCCOPY);
-	show_city_descriptions(whdc);
+	show_city_descriptions();	/* is this necessary? */
 	ReleaseDC(map_window,whdc);
       }
   } else {
@@ -861,7 +860,7 @@ update_map_canvas(int x, int y, int width, int height,
 	     (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2,
 	     mapstoredc,
 	     canvas_start_x,canvas_start_y,SRCCOPY);
-      show_city_descriptions(hdc);
+      show_city_descriptions(); /* is this necessary? */
       ReleaseDC(map_window,hdc);
     }
 
@@ -869,29 +868,6 @@ update_map_canvas(int x, int y, int width, int height,
   }
   SelectObject(mapstoredc,old);
   DeleteDC(mapstoredc);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void
-update_map_canvas_visible(void)
-{
-  if (is_isometric)
-    {
-      int width,height;
-      width=height=map_view_width+map_view_height;
-      update_map_canvas(map_view_x,
-			map_view_y-map_view_width,
-			width,height, TRUE); 
-      /*
-	update_map_canvas(0,0,map.xsize,map.ysize,1); */
-    }
-  else
-    {
-      update_map_canvas(map_view_x,map_view_y,
-			map_view_width,map_view_height, TRUE);
-    }
 }
 
 /**************************************************************************
@@ -984,10 +960,15 @@ static void show_desc_at_tile(HDC hdc,int x, int y)
 /**************************************************************************
 
 **************************************************************************/
-static void show_city_descriptions(HDC hdc)
+void show_city_descriptions(void)
 {
+  HDC hdc;
+
   if (!draw_city_names && !draw_city_productions)
     return;
+
+  /* TODO: hdc should be stored statically */
+  hdc = GetDC(map_window);
   SetBkMode(hdc,TRANSPARENT);
 
   if (is_isometric ) {
@@ -1018,7 +999,8 @@ static void show_city_descriptions(HDC hdc)
       }
     }
   }
-  
+
+  ReleaseDC(map_window, hdc);
 }
 
 /**************************************************************************

@@ -294,6 +294,35 @@ void base_center_tile_mapcanvas(int map_x, int map_y,
 }
 
 /**************************************************************************
+ Update (only) the visible part of the map
+**************************************************************************/
+void update_map_canvas_visible(void)
+{
+  int map_view_x0, map_view_y0, map_win_width, map_win_height;
+  int map_tile_width, map_tile_height;
+
+  get_mapview_dimensions(&map_view_x0, &map_view_y0,
+			 &map_win_width, &map_win_height);
+  map_tile_width = (map_win_width - 1) / NORMAL_TILE_WIDTH + 1;
+  map_tile_height = (map_win_height - 1) / NORMAL_TILE_HEIGHT + 1;
+
+  if (is_isometric) {
+    /* just find a big rectangle that includes the whole visible area. The
+       invisible tiles will not be drawn. */
+    int width, height;
+
+    width = height = map_tile_width + map_tile_height;
+    update_map_canvas(map_view_x0, map_view_y0 - map_tile_width, width,
+		      height, TRUE);
+  } else {
+    update_map_canvas(map_view_x0, map_view_y0, map_tile_width,
+		      map_tile_height, TRUE);
+  }
+
+  show_city_descriptions();
+}
+
+/**************************************************************************
   Find the "best" city to associate with the selected tile.
     a.  A city working the tile is the best
     b.  If another player is working the tile, return NULL.

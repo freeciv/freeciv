@@ -519,7 +519,7 @@ void refresh_overview_viewrect(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_city_descriptions(void)
+void show_city_descriptions(void)
 {
   if (!draw_city_names && !draw_city_productions)
     return;
@@ -543,33 +543,6 @@ void update_map_canvas(int x, int y, int width, int height,
 		       bool write_to_screen)
 {
   DoMethod(main_map_area, MUIM_Map_Refresh, x, y, width, height, write_to_screen);
-}
-
-/**************************************************************************
- Update (only) the visible part of the map
-**************************************************************************/
-void update_map_canvas_visible(void)
-{
-  int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
-  int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
-  int map_canvas_store_twidth = get_map_x_visible();
-  int map_canvas_store_theight = get_map_y_visible();
-
-  if (is_isometric) {
-    /* just find a big rectangle that includes the whole visible area. The
-       invisible tiles will not be drawn. */
-    int width, height;
-
-    width = height = map_canvas_store_twidth + map_canvas_store_theight;
-    update_map_canvas(map_view_x0,
-		      map_view_y0 - map_canvas_store_twidth,
-		      width, height, TRUE);
-  } else {
-    update_map_canvas(map_view_x0, map_view_y0,
-		      map_canvas_store_twidth,map_canvas_store_theight, TRUE);
-  }
-
-  show_city_descriptions();
 }
 
 /**************************************************************************

@@ -55,7 +55,6 @@ int map_view_x0, map_view_y0;
 
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct Sprite *ssprite);
-static void show_city_descriptions(void);
 static void put_line(Pixmap pm, int x, int y, int dir);
 
 /* the intro picture is held in this pixmap, which is scaled to
@@ -703,16 +702,6 @@ void update_map_canvas(int x, int y, int width, int height,
 }
 
 /**************************************************************************
- Update (only) the visible part of the map
-**************************************************************************/
-void update_map_canvas_visible(void)
-{
-  update_map_canvas(map_view_x0, map_view_y0,
-		    map_canvas_store_twidth, map_canvas_store_theight, 1);
-  show_city_descriptions();
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void update_map_canvas_scrollbars(void)
@@ -756,7 +745,7 @@ static void draw_shadowed_string(XFontStruct * font, GC font_gc,
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_city_descriptions(void)
+void show_city_descriptions(void)
 {
   int x, y;
 

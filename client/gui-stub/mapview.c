@@ -88,15 +88,17 @@ get_center_tile_mapcanvas(int *x, int *y)
 	/* PORTME */
 }
 
-void
-update_map_canvas(int tile_x, int tile_y, int width, int height,
-		  bool write_to_screen)
+/**************************************************************************
+  Show descriptions for all cities visible on the map canvas.
+**************************************************************************/
+void show_city_descriptions(void)
 {
 	/* PORTME */
 }
 
 void
-update_map_canvas_visible(void)
+update_map_canvas(int tile_x, int tile_y, int width, int height,
+		  bool write_to_screen)
 {
 	/* PORTME */
 }

@@ -40,9 +40,10 @@ void overview_update_tile(int x, int y);
 void center_tile_mapcanvas(int x, int y);
 void get_center_tile_mapcanvas(int *x, int *y);
 
+void show_city_descriptions(void);
+
 void update_map_canvas(int x, int y, int width, int height,
 		       bool write_to_screen);
-void update_map_canvas_visible(void);
 void update_map_canvas_scrollbars(void);
 
 void put_cross_overlay_tile(int x,int y);

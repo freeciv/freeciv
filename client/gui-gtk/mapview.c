@@ -90,7 +90,6 @@ static void put_overlay_tile_gpixmap(GtkPixcomm *p,
 static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
 			    int canvas_x, int canvas_y);
 static void put_line(GdkDrawable *pm, int x, int y, int dir);
-static void show_city_descriptions(void);
 
 static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
 				 int canvas_x, int canvas_y,
@@ -1273,28 +1272,6 @@ void update_map_canvas(int x, int y, int width, int height,
 }
 
 /**************************************************************************
- Update (only) the visible part of the map
-**************************************************************************/
-void update_map_canvas_visible(void)
-{
-  if (is_isometric) {
-    /* just find a big rectangle that includes the whole visible area. The
-       invisible tiles will not be drawn. */
-    int width, height;
-
-    width = height = map_canvas_store_twidth + map_canvas_store_theight;
-    update_map_canvas(map_view_x0,
-		      map_view_y0 - map_canvas_store_twidth,
-		      width, height, TRUE);
-  } else {
-    update_map_canvas(map_view_x0, map_view_y0,
-		      map_canvas_store_twidth,map_canvas_store_theight, TRUE);
-  }
-
-  show_city_descriptions();
-}
-
-/**************************************************************************
  Update display of descriptions associated with cities on the main map.
 **************************************************************************/
 void update_city_descriptions(void)
@@ -1349,7 +1326,7 @@ static void show_desc_at_tile(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_city_descriptions(void)
+void show_city_descriptions(void)
 {
   if (!draw_city_names && !draw_city_productions)
     return;
