@@ -281,6 +281,7 @@ rm -fr %buildroot
 %{_gamesdatadir}/%{name}/isotrident
 %{_gamesdatadir}/%{name}/misc
 %{_gamesdatadir}/%{name}/trident
+%{_gamesdatadir}/%{name}/isophex
 %{_gamesdatadir}/%{name}/helpdata.txt
 %{_gamesdatadir}/%{name}/*.tilespec
 %{_mandir}/man6/civclient.6
