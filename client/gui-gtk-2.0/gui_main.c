@@ -574,7 +574,7 @@ static void setup_widgets(void)
   overview_canvas = gtk_drawing_area_new();
 
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
-        			       | GDK_BUTTON_PRESS_MASK );
+        			       | GDK_BUTTON_PRESS_MASK);
 
   gtk_widget_set_size_request(overview_canvas, 160, 100);
   gtk_box_pack_start(GTK_BOX(avbox), overview_canvas, FALSE, FALSE, 0);
@@ -740,6 +740,8 @@ static void setup_widgets(void)
   map_canvas = gtk_drawing_area_new();
   
   for (i = 0; i < 5; i++) {
+    gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
+			 colors_standard[COLOR_STD_BLACK]);
     gtk_widget_modify_bg(GTK_WIDGET(map_canvas), i,
 			 colors_standard[COLOR_STD_BLACK]);
   }
