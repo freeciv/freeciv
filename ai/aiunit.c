@@ -419,7 +419,8 @@ bool ai_manage_explorer(struct unit *punit)
 
       /* ai_unit_move for AI players, handle_unit_move_request for humans */
       if ((pplayer->ai.control && ai_unit_move(punit, best_x, best_y))
-          || (handle_unit_move_request(punit, best_x, best_y, FALSE, FALSE))) {
+          || (!pplayer->ai.control 
+              && handle_unit_move_request(punit, best_x, best_y, FALSE, FALSE))) {
         x = punit->x;
         y = punit->y;
         broken = FALSE;
