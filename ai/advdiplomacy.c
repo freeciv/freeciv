@@ -1081,7 +1081,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
       adip->asked_about_ceasefire = !aplayer->ai.control ? 9 : 0;
       notify(aplayer, _("*%s (AI)* %s is threatening us both, may we "
-             " suggest a cessation of hostilities?"), pplayer->name,
+             "suggest a cessation of hostilities?"), pplayer->name,
              target->name);
       break;
     default:
