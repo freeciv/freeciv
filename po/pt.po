@@ -1270,7 +1270,7 @@ msgstr "Os Traidores Exigem Demasiado!"
 
 #: client/gui-gtk/dialogs.c:616
 msgid "Bug in spy sabotage code\n"
-msgstr "Bug no código de sabotagem do espião"
+msgstr "Bug no código de sabotagem do espião\n"
 
 #: client/gui-gtk/dialogs.c:641 data/Freeciv:2197
 msgid "Select Advance to Steal"
