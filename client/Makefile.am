@@ -1,6 +1,24 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = @gui_sources@
+## Below used to be just 
+##    SUBDIRS = @gui_sources@
+## but that doesn't work properly for "make dist"
+
+if CLIENT_GUI_GTK
+GUI_SUBDIR = gui-gtk
+else
+GUI_SUBDIR = gui-xaw
+endif
+
+## This is always false, so "include" is never recursed into 
+## by 'make', but is included in the dist.
+if CLIENT_INCLUDE_DIST
+CLI_INCLUDE = include
+else
+CLI_INCLUDE = 
+endif
+
+SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE)
 
 bin_PROGRAMS = civclient
 

@@ -41,6 +41,7 @@ libguiclient_a_SOURCES = \
 	menu.h		\
 	messagedlg.c	\
 	messagewin.c	\
+	optiondlg.h	\
 	plrdlg.c	\
 	repodlgs.c	\
 	repodlgs.h	\

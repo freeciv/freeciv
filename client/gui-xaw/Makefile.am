@@ -63,6 +63,7 @@ libguiclient_a_SOURCES = \
 	optiondlg.h	\
 	pixcomm.c	\
 	pixcomm.h	\
+	pixcommp.h	\
 	plrdlg.c	\
 	ratesdlg.c	\
 	repodlgs.c	\

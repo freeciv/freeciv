@@ -80,7 +80,13 @@ SERVER_LIBS = @SERVER_LIBS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
 
-SUBDIRS = @gui_sources@
+@CLIENT_GUI_GTK_TRUE@GUI_SUBDIR = gui-gtk
+@CLIENT_GUI_GTK_FALSE@GUI_SUBDIR = gui-xaw
+
+@CLIENT_INCLUDE_DIST_TRUE@CLI_INCLUDE = include
+@CLIENT_INCLUDE_DIST_FALSE@CLI_INCLUDE = 
+
+SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE)
 
 bin_PROGRAMS = civclient
 
@@ -120,6 +126,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
+DIST_SUBDIRS =  gui-gtk gui-xaw include
 DEP_FILES =  .deps/civclient.P .deps/climisc.P .deps/options.P \
 .deps/packhand.P
 SOURCES = $(civclient_SOURCES)
@@ -263,7 +270,7 @@ distdir: $(DISTFILES)
 	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$d/$$file $(distdir)/$$file; \
 	done
-	for subdir in $(SUBDIRS); do \
+	for subdir in $(DIST_SUBDIRS); do \
 	  test -d $(distdir)/$$subdir \
 	  || mkdir $(distdir)/$$subdir \
 	  || exit 1; \
