@@ -1236,7 +1236,7 @@ void make_history_report(void)
 
 void show_ending(void)
 {
-  int i;
+  int i,j=0;
   char buffer[4096];
   char buf2[4096];
 
@@ -1250,11 +1250,13 @@ void show_ending(void)
   qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
-    if( is_barbarian(&game.players[i]) ) continue;
-    sprintf(buf2, _("%2d: The %s %s scored %d points\n"), i+1, _(greatness[i]),
-	    get_nation_name_plural(game.players[size[i].idx].nation),
-	    size[i].value);
-    strcat(buffer,buf2);
+    if( !is_barbarian(&game.players[size[i].idx]) ) {
+      sprintf(buf2, _("%2d: The %s %s scored %d points\n"), j+1, _(greatness[j]),
+	      get_nation_name_plural(game.players[size[i].idx].nation),
+	      size[i].value);
+      strcat(buffer,buf2);
+      j++;
+    }
   }
   free(size);
   page_player(0, _("Final Report:"),
