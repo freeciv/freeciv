@@ -92,7 +92,7 @@ XtResource resources[] = {
       XtOffset(AppResources *,gotAppDefFile), XtRImmediate, (XtPointer)False},
     { "log", "Log", XtRString, sizeof(String),
       XtOffset(AppResources *,logfile), XtRImmediate, (XtPointer)False},
-    { "name", "Name", XtRString, sizeof(String),
+    { "name", "name", XtRString, sizeof(String),
       XtOffset(AppResources *,name), XtRImmediate, (XtPointer)False},
     { "port", "Port", XtRInt, sizeof(int),
       XtOffset(AppResources *,port), XtRImmediate, (XtPointer)False},
@@ -118,7 +118,7 @@ XtResource resources[] = {
 static XrmOptionDescRec cmd_options[] = {
 /* { "-help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },*/
  { "-log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
- { "-Name",    ".Name",        XrmoptionSepArg, (XPointer)"True" },
+ { "-name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
  { "-port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "-server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
  { "-debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
@@ -126,7 +126,7 @@ static XrmOptionDescRec cmd_options[] = {
 /* { "-version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" },*/
 /* { "--help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },*/
  { "--log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
- { "--Name",    ".Name",        XrmoptionSepArg, (XPointer)"True" },
+ { "--name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
  { "--port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "--debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "--server",  ".server",      XrmoptionSepArg, (XPointer)"True" },

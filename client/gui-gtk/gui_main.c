@@ -222,7 +222,7 @@ static void parse_options(int argc, char **argv)
       }
     else if ((option = get_option("--log",argv,&i,argc)) != NULL)
       strcpy(logfile,option);
-    else if ((option = get_option("--Name",argv,&i,argc)) != NULL)
+    else if ((option = get_option("--name",argv,&i,argc)) != NULL)
       strcpy(name, option);
     else if ((option = get_option("--port",argv,&i,argc)) != NULL)
       server_port=atoi(option);
@@ -599,10 +599,10 @@ void ui_main(int argc, char **argv)
   GdkBitmap	      *icon_bitmap;
 
 
+  parse_options(argc, argv);
+  /* GTK withdraw gtk options */
   /* Process GTK arguments */
   gtk_init(&argc, &argv);
-  /* GTK withdraw gtk options */
-  parse_options(argc, argv);
 
   boot_help_texts();	       /* after log_init */
 
