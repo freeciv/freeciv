@@ -446,7 +446,7 @@ static void ensure_big_sprite(struct specfile *sf)
   positions of the sprites in the big_sprite are saved in the
   small_sprite structs.
 **************************************************************************/
-static void scan_specfile(struct specfile *sf)
+static void scan_specfile(struct specfile *sf, bool duplicates_ok)
 {
   struct section_file the_file, *file = &the_file;
   char **gridnames;
@@ -517,12 +517,18 @@ static void scan_specfile(struct specfile *sf)
 
       small_sprite_list_insert(&ss->sf->small_sprites, ss);
 
-      for (k = 0; k < num_tags; k++) {
-	if (!hash_insert(sprite_hash, mystrdup(tags[k]), ss)) {
-	  freelog(LOG_ERROR, "warning: already have a sprite for %s",
-		  tags[k]);
-	}
+      if (!duplicates_ok) {
+        for (k = 0; k < num_tags; k++) {
+          if (!hash_insert(sprite_hash, mystrdup(tags[k]), ss)) {
+	    freelog(LOG_ERROR, "warning: already have a sprite for %s", tags[k]);
+          }
+        }
+      } else {
+        for (k = 0; k < num_tags; k++) {
+      (void) hash_replace(sprite_hash, mystrdup(tags[k]), ss);
+        }
       }
+
       free(tags);
       tags = NULL;
     }
@@ -575,6 +581,8 @@ void tilespec_read_toplevel(const char *tileset_name)
   int i;
   int num_spec_files;
   char **spec_filenames;
+  char *file_capstr;
+  bool duplicates_ok;
 
   fname = tilespec_fullname(tileset_name);
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
@@ -584,6 +592,9 @@ void tilespec_read_toplevel(const char *tileset_name)
     exit(EXIT_FAILURE);
   }
   check_tilespec_capabilities(file, "tilespec", TILESPEC_CAPSTR, fname);
+
+  file_capstr = secfile_lookup_str(file, "%s.options", "tilespec");
+  duplicates_ok = has_capabilities("+duplicates_ok", file_capstr);
 
   (void) section_file_lookup(file, "tilespec.name"); /* currently unused */
 
@@ -665,7 +676,7 @@ void tilespec_read_toplevel(const char *tileset_name)
     sf->big_sprite = NULL;
     sf->file_name = mystrdup(datafilename_required(spec_filenames[i]));
     small_sprite_list_init(&sf->small_sprites);
-    scan_specfile(sf);
+    scan_specfile(sf, duplicates_ok);
 
     specfile_list_insert(&specfiles, sf);
   }
