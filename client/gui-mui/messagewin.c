@@ -213,6 +213,17 @@ static void mes_popcity(void)
 /**************************************************************************
 ...
 **************************************************************************/
+static void mes_doubleclick(void)
+{
+  if (!xget(mes_popcity_button,MUIA_Disabled))
+    mes_popcity();
+  else
+    mes_goto();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void create_meswin_dialog(void)
 {
   if (mes_wnd)
@@ -251,6 +262,7 @@ static void create_meswin_dialog(void)
     DoMethod(mes_popcity_button, MUIM_Notify, MUIA_Pressed, FALSE, mes_wnd, 3, MUIM_CallHook, &civstandard_hook, mes_popcity);
 
     DoMethod(mes_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, mes_active);
+    DoMethod(mes_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, app, 3, MUIM_CallHook, &civstandard_hook, mes_doubleclick);
 
     DoMethod(app, OM_ADDMEMBER, mes_wnd);
   }
