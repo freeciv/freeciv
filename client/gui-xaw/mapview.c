@@ -844,8 +844,8 @@ void update_map_canvas_scrollbars(void)
   float shown_v=(float)map_canvas_store_theight/(float)map.ysize;
   float top_v=(float)map_view_y0/(float)map.ysize;
 
-  my_XawScrollbarSetThumb(map_horizontal_scrollbar, top_h, shown_h);
-  my_XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
+  XawScrollbarSetThumb(map_horizontal_scrollbar, top_h, shown_h);
+  XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
 }
 
 
@@ -1532,15 +1532,4 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
   update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight, 1);
   update_map_canvas_scrollbars();
   refresh_overview_viewrect();
-}
-
-
-
-/**************************************************************************
-couldn't get the usual XawScrollbarSetThumb to work. tried everything.
-someone please tell me why - pu
-**************************************************************************/
-void my_XawScrollbarSetThumb(Widget w, float top, float shown)
-{
-    XawScrollbarSetThumb(w, top, shown);
 }
