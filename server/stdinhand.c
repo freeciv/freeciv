@@ -119,10 +119,14 @@ struct settings_s settings[] = {
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR,
     "Method used to generate map",
-    "  1 = standard,\n"
-    "  2 = equally sized large islands with one player each.\n"
-    "  3 = equally sized large islands plus small islands.\n"
-    "  4 = equally sized large islands with two players on every island.\n"
+    "  1 = standard, with random continents;\n"
+    "  2 = equally sized large islands with one player each, and twice\n"
+    "      that many smaller islands;\n"
+    "  3 = equally sized large islands with one player each, and a number\n"
+    "      of other islands of similar size;\n"
+    "  4 = equally sized large islands with two players on every island\n"
+    "      (or one with three players for an odd number of players), and\n"
+    "      additional smaller islands.\n"
     "  Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
     "  (Zero indicates a scenario map.)" },
 
