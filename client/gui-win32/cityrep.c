@@ -347,7 +347,7 @@ static void cityrep_popup(HWND hWnd)
 /**************************************************************************
 
 **************************************************************************/
-static void cityrep_buy(HWND hWnd)
+static void cityrep_do_buy(HWND hWnd)
 {
   int cityids[256];
   int i;
@@ -999,7 +999,7 @@ static LONG APIENTRY city_report_proc(HWND hWnd,
 	  cityrep_popup(hWnd);
 	  break;
 	case ID_CITYREP_BUY:
-	  cityrep_buy(hWnd);
+	  cityrep_do_buy(hWnd);
 	  break;
 	case ID_CITYREP_CHANGE:
 	  cityrep_change(hWnd);
