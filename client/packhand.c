@@ -156,8 +156,10 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->ppl_elvis=packet->ppl_elvis;
   pcity->ppl_scientist=packet->ppl_scientist;
   pcity->ppl_taxman=packet->ppl_taxman;
-  for (i=0;i<4;i++)
+  for (i=0;i<4;i++)  {
     pcity->trade[i]=packet->trade[i];
+    pcity->trade_value[i]=packet->trade_value[i];
+  }
   
   pcity->food_prod=packet->food_prod;
   pcity->food_surplus=packet->food_surplus;

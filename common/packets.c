@@ -977,6 +977,7 @@ int send_packet_unit_info(struct connection *pc,
 int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
 {
   unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  int data;
   cptr=put_int8(buffer+2, PACKET_CITY_INFO);
   cptr=put_int16(cptr, req->id);
   cptr=put_int8(cptr, req->owner);
@@ -992,8 +993,8 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   cptr=put_int8(cptr, req->ppl_scientist);
   cptr=put_int8(cptr, req->ppl_taxman);
 
-  cptr=put_int16(cptr, req->food_prod);
-  cptr=put_int16(cptr, req->food_surplus);
+  cptr=put_int8(cptr, req->food_prod);
+  cptr=put_int8(cptr, req->food_surplus);
   cptr=put_int16(cptr, req->shield_prod);
   cptr=put_int16(cptr, req->shield_surplus);
   cptr=put_int16(cptr, req->trade_prod);
@@ -1007,22 +1008,24 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   cptr=put_int16(cptr, req->shield_stock);
   cptr=put_int16(cptr, req->pollution);
   cptr=put_int32(cptr, req->incite_revolt_cost);
-
-  cptr=put_int8(cptr, req->is_building_unit?1:0);
   cptr=put_int8(cptr, req->currently_building);
 
-  cptr=put_int8(cptr, req->did_buy?1:0);
-  cptr=put_int8(cptr, req->did_sell?1:0);
+  data=req->is_building_unit?1:0;
+  data|=req->did_buy?2:0;
+  data|=req->did_sell?4:0;
+  data|=req->was_happy?8:0;
+  data|=req->airlift?16:0;
+  cptr=put_int8(cptr, data);
 
-  cptr=put_int16(cptr, req->trade[0]);
-  cptr=put_int16(cptr, req->trade[1]);
-  cptr=put_int16(cptr, req->trade[2]);
-  cptr=put_int16(cptr, req->trade[3]);
-  cptr=put_int8(cptr, req->was_happy?1:0);
-  cptr=put_int8(cptr, req->airlift?1:0);
-  
   cptr=put_city_map(cptr, (char*)req->city_map);
   cptr=put_bit_string(cptr, (char*)req->improvements);
+
+  for(data=0;data<4;data++)  {
+    if(req->trade[data])  {
+      cptr=put_int16(cptr, req->trade[data]);
+      cptr=put_int8(cptr,req->trade_value[data]);
+    }
+  }
 
   put_int16(buffer, cptr-buffer);
 
@@ -1038,8 +1041,9 @@ recieve_packet_city_info(struct connection *pc)
   unsigned char *cptr;
   struct packet_city_info *packet=
     malloc(sizeof(struct packet_city_info));
+  int length,data;
 
-  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int16(pc->buffer.data, &length);
   cptr=get_int8(cptr, NULL);
   cptr=get_int16(cptr, &packet->id);
   cptr=get_int8(cptr, &packet->owner);
@@ -1055,9 +1059,9 @@ recieve_packet_city_info(struct connection *pc)
   cptr=get_int8(cptr, &packet->ppl_scientist);
   cptr=get_int8(cptr, &packet->ppl_taxman);
   
-  cptr=get_int16(cptr, &packet->food_prod);
-  cptr=get_int16(cptr, &packet->food_surplus);
-  if(packet->food_surplus > 32767) packet->food_surplus-=65536;
+  cptr=get_int8(cptr, &packet->food_prod);
+  cptr=get_int8(cptr, &packet->food_surplus);
+  if(packet->food_surplus > 127) packet->food_surplus-=256;
   cptr=get_int16(cptr, &packet->shield_prod);
   cptr=get_int16(cptr, &packet->shield_surplus);
   if(packet->shield_surplus > 32767) packet->shield_surplus-=65536;
@@ -1072,22 +1076,24 @@ recieve_packet_city_info(struct connection *pc)
   cptr=get_int16(cptr, &packet->shield_stock);
   cptr=get_int16(cptr, &packet->pollution);
   cptr=get_int32(cptr, &packet->incite_revolt_cost);
-  
-  cptr=get_int8(cptr, &packet->is_building_unit);
   cptr=get_int8(cptr, &packet->currently_building);
 
-  cptr=get_int8(cptr, &packet->did_buy);
-  cptr=get_int8(cptr, &packet->did_sell);
-
-  cptr=get_int16(cptr, &packet->trade[0]);
-  cptr=get_int16(cptr, &packet->trade[1]);
-  cptr=get_int16(cptr, &packet->trade[2]);
-  cptr=get_int16(cptr, &packet->trade[3]);
-  cptr=get_int8(cptr, &packet->was_happy);
-  cptr=get_int8(cptr, &packet->airlift);
+  cptr=get_int8(cptr, &data);
+  packet->is_building_unit = data&1;
+  packet->did_buy = (data>>=1)&1;
+  packet->did_sell = (data>>=1)&1;
+  packet->was_happy = (data>>=1)&1;
+  packet->airlift = (data>>=1)&1;
   
   cptr=get_city_map(cptr, (char*)packet->city_map);
   cptr=get_bit_string(cptr, (char*)packet->improvements);
+
+  for(data=0;data<4;data++)  {
+    if(pc->buffer.data+length-cptr < 3)  break;
+    cptr=get_int16(cptr, &packet->trade[data]);
+    cptr=get_int8(cptr, &packet->trade_value[data]);
+  }
+  for(;data<4;data++) packet->trade_value[data]=packet->trade[data]=0;
 
   remove_packet_from_buffer(&pc->buffer);
 

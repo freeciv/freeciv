@@ -131,7 +131,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->was_happy=0;
   pcity->steal=0;
   for (i=0;i<4;i++)
-    pcity->trade[i]=0;
+    pcity->trade_value[i]=pcity->trade[i]=0;
   pcity->food_stock=0;
   pcity->shield_stock=0;
   pcity->trade_prod=0;
@@ -583,8 +583,10 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   packet.ppl_elvis=pcity->ppl_elvis;
   packet.ppl_scientist=pcity->ppl_scientist;
   packet.ppl_taxman=pcity->ppl_taxman;
-  for (i=0;i<4;i++)
+  for (i=0;i<4;i++)  {
     packet.trade[i]=pcity->trade[i];
+    packet.trade_value[i]=pcity->trade_value[i];
+  }
 
   packet.food_prod=pcity->food_prod;
   packet.food_surplus=pcity->food_surplus;

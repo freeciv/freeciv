@@ -704,7 +704,7 @@ int trade_between_cities(struct city *pc1, struct city *pc2)
   int bonus=0;
 
   if (pc2 && pc1) {
-    bonus=(pc1->trade_prod+pc2->trade_prod+4)/8;
+    bonus=(pc1->tile_trade+pc2->tile_trade+4)/8;
     if (map_get_continent(pc1->x, pc1->y) == map_get_continent(pc2->x, pc2->y))
       bonus/=2;
 	

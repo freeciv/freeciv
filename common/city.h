@@ -113,12 +113,12 @@ struct city {
   int ppl_elvis, ppl_scientist, ppl_taxman;
 
   /* trade routes */
-  int trade[4];
+  int trade[4],trade_value[4];
 
   /* the productions */
   int food_prod, food_surplus;
   int shield_prod, shield_surplus;
-  int trade_prod, corruption;
+  int trade_prod, corruption, tile_trade;
   int shield_bonus, tax_bonus, science_bonus; /* more CPU savings! */
 
   /* the totals */

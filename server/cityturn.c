@@ -74,7 +74,8 @@ void set_trade_prod(struct city *pcity)
 {
   int i;
   for (i=0;i<4;i++) {
-    pcity->trade_prod+=trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
+    pcity->trade_value[i]=trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
+    pcity->trade_prod+=pcity->trade_value[i];
   }
   pcity->corruption = city_corruption(pcity, pcity->trade_prod);
   pcity->ai.trade_want = 8 - city_corruption(pcity, 8);
@@ -352,6 +353,7 @@ void set_food_trade_shields(struct city *pcity)
       pcity->trade_prod+=get_trade_tile(x, y, pcity);
     }
   }
+  pcity->tile_trade=pcity->trade_prod;
   
   pcity->food_surplus=pcity->food_prod-pcity->size*2;
   set_trade_prod(pcity);

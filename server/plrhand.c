@@ -1014,7 +1014,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 						 plrno, i);
     pcity->shield_stock=secfile_lookup_int(file, "player%d.c%d.shield_stock", 
 						   plrno, i);
-    pcity->trade_prod=0;
+    pcity->tile_trade=pcity->trade_prod=0;
     pcity->anarchy=secfile_lookup_int(file, "player%d.c%d.anarchy", plrno,i);
     pcity->was_happy=secfile_lookup_int(file, "player%d.c%d.was_happy", plrno,i);
     pcity->is_building_unit=secfile_lookup_int(file, 

@@ -772,30 +772,32 @@ void trade_message_dialog_callback(Widget w, XtPointer client_data,
 void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   int i;
-  int x=0;
-  char buf[512];
+  int x=0,total=0;
+  char buf[512],*bptr=buf;
   struct city_dialog *pdialog;
 
   pdialog=(struct city_dialog *)client_data;
 
-  sprintf(buf, "These trade routes have been established with %s:\n",
-	  pdialog->pcity->name);
+  bptr+=sprintf(buf, "These trade routes have been established with %s:\n",
+	        pdialog->pcity->name);
   
   for(i=0; i<4; i++)
     if(pdialog->pcity->trade[i]) {
       struct city *pcity;
       x=1;
+      total+=pdialog->pcity->trade_value[i];
       if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
-	sprintf(buf+strlen(buf), "%32s: %2d gold/year\n",
-		pcity->name, 
-		trade_between_cities(pdialog->pcity, pcity));
+	bptr+=sprintf(bptr, "%32s: %2d Gold/Year\n",
+		      pcity->name, pdialog->pcity->trade_value[i]);
       } else {
-	sprintf(buf+strlen(buf), "%32s: %2s Gold/Year\n","Unknown","??");
+	bptr+=sprintf(bptr, "%32s: %2d Gold/Year\n","Unknown",
+	              pdialog->pcity->trade_value[i]);
       }
-
     }
   if (!x)
-    sprintf(buf+strlen(buf), "No trade routes exist.\n");
+    sprintf(bptr, "No trade routes exist.\n");
+  else
+    sprintf(bptr, "\nTotal trade %d Gold/Year\n",total);
   
   popup_message_dialog(pdialog->shell, 
 		       "citytradedialog", 
