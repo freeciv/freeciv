@@ -976,9 +976,7 @@ msgstr ""
 #: client/civclient.c:128 server/civserver.c:131
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
-msgstr ""
-"  -d, --debug NUM\tNaplózási szint beállítása (0-tól 4-ig, vagy 4:file1,min,"
-"max:...)\n"
+msgstr "  -d, --debug NUM\tNaplózási szint beállítása (0-tól 4-ig, vagy 4:file1,min,max:...)\n"
 
 #: client/civclient.c:131 server/civserver.c:134
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
@@ -1356,9 +1354,7 @@ msgstr ""
 #: server/diplomats.c:773
 #, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
-msgstr ""
-"Játék: Elfogtál egy %1$s diplomatát, miközben lázadást próbált kirobbantani %"
-"3$s városában!"
+msgstr "Játék: Elfogtál egy %1$s diplomatát, miközben lázadást próbált kirobbantani %3$s városában!"
 
 #: server/diplomats.c:795
 #, c-format
@@ -1402,9 +1398,7 @@ msgstr "Játék: A kémed nem tudta szabotálni a(z) %2$s épületet %3$s városában."
 #: server/diplomats.c:991
 #, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
-msgstr ""
-"Játék: A diplomatádnak sikerült megsemmisítenie a(z) épülõ %2$s egységet/"
-"épületet %3$s városában."
+msgstr "Játék: A diplomatádnak sikerült megsemmisítenie a(z) épülõ %2$s egységet/épületet %3$s városában."
 
 #: server/diplomats.c:995
 #, c-format
@@ -2271,9 +2265,7 @@ msgstr ""
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
-msgstr ""
-"Figyelmeztetés: Néhány szabálykészlet ('%s' és '%s') már nem támogatott. '%"
-"s' használata."
+msgstr "Figyelmeztetés: Néhány szabálykészlet ('%s' és '%s') már nem támogatott. '%s' használata."
 
 #: server/sernet.c:123
 msgid "Server cannot read standard input. Ignoring input."
@@ -2382,9 +2374,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
-msgstr ""
-"Játék: Lejárt a(z) %s játékossal kötött tûzszünet. Mostantól semleges vagy a"
-"(z) %s felé."
+msgstr "Játék: Lejárt a(z) %s játékossal kötött tûzszünet. Mostantól semleges vagy a(z) %s felé."
 
 #: server/srv_main.c:505
 #, c-format
@@ -2483,9 +2473,7 @@ msgstr "A(z) '%s' érvénytelen név"
 #: server/srv_main.c:1233
 #, c-format
 msgid "Rejected connection from %s with invalid name."
-msgstr ""
-"A szerver érvénytelen név miatt visszautasított egy kapcsolódási kísérletet a"
-"(z) %s címrõl."
+msgstr "A szerver érvénytelen név miatt visszautasított egy kapcsolódási kísérletet a(z) %s címrõl."
 
 #: server/srv_main.c:1239
 #, c-format
@@ -2809,10 +2797,7 @@ msgstr "Általános \"random seed\" érték"
 
 #: server/stdinhand.c:301
 msgid "For zero (the default) a seed will be chosen based on the time."
-msgstr ""
-"Ha nullát állítunk be \"seed\" értéknek (ez az alapértelmezés), akkor a "
-"szerver az aktuális rendszeridõ alapján kisorsol helyette egy pozitív \"seed"
-"\"-et."
+msgstr "Ha nullát állítunk be \"seed\" értéknek (ez az alapértelmezés), akkor a szerver az aktuális rendszeridõ alapján kisorsol helyette egy pozitív \"seed\"-et."
 
 #: server/stdinhand.c:306
 msgid "Amount of \"special\" resource squares"
@@ -3146,9 +3131,7 @@ msgid ""
 "  4 = heli\n"
 "  8 = air"
 msgstr ""
-"Ezek a jelzõbitek határozzák meg, hogy milyen típusú egységek okozzanak "
-"városcsökkenést sikeres támadás után. (A számok összeadásával a bitek VAGY-"
-"kapcsolatba hozhatók.)\n"
+"Ezek a jelzõbitek határozzák meg, hogy milyen típusú egységek okozzanak városcsökkenést sikeres támadás után. (A számok összeadásával a bitek VAGY-kapcsolatba hozhatók.)\n"
 "  1 = szárazföldi\n"
 "  2 = tengeri\n"
 "  4 = helikopter\n"
@@ -3258,14 +3241,7 @@ msgid ""
 "diplchance percent.  (Diplomats never return.)  Also, a basic chance of "
 "success for Diplomats and Spies. Defending Spys are generally twice as "
 "capable as Diplomats, veteran units 50% more capable than non-veteran ones."
-msgstr ""
-"Ha egy Diplomata/Kém olyan város ellen próbál akciót végrehajtani, amelyben "
-"egy vagy több védõ Diplomata/Kém tartózkodik, akkor minden védõ Diplomata/"
-"Kém ellen diplchance százalék esélye van a gyõzelemre.  A Kémek diplchance "
-"százalékkal térnek vissza a sikeres küldetésekbõl.  (A Diplomaták soha sem "
-"térnek vissza.)  Az esélyszámításba még két módosító tényezõ is beleszól: a "
-"védõ Kémek kétszer olyan erõsek mint a védõ Diplomaták, a veterán egységek "
-"50%-kal erõsebbek a nem veterán egységeknél."
+msgstr "Ha egy Diplomata/Kém olyan város ellen próbál akciót végrehajtani, amelyben egy vagy több védõ Diplomata/Kém tartózkodik, akkor minden védõ Diplomata/Kém ellen diplchance százalék esélye van a gyõzelemre.  A Kémek diplchance százalékkal térnek vissza a sikeres küldetésekbõl.  (A Diplomaták soha sem térnek vissza.)  Az esélyszámításba még két módosító tényezõ is beleszól: a védõ Kémek kétszer olyan erõsek mint a védõ Diplomaták, a veterán egységek 50%-kal erõsebbek a nem veterán egységeknél."
 
 #: server/stdinhand.c:618
 msgid "Whether to allow space race"
@@ -3562,13 +3538,10 @@ msgstr "Játékosstatisztika naplózása"
 
 #: server/stdinhand.c:809
 msgid ""
-"If this is set to 1, player statistics are appended to the file \"civscore."
-"log\" every turn.  These statistics can be used to create power graphs after "
+"If this is set to 1, player statistics are appended to the file \"civscore.log\" "
+"every turn.  These statistics can be used to create power graphs after "
 "the game."
-msgstr ""
-"Ha értéke 1, akkor a játékosokról minden kör végén statisztika íródik a "
-"\"civscore.log\" fájl végére.  Ezek a statisztikák fejlõdési grafikonok "
-"készítéséhez használhatók fel a játék után."
+msgstr "Ha értéke 1, akkor a játékosokról minden kör végén statisztika íródik a \"civscore.log\" fájl végére.  Ezek a statisztikák fejlõdési grafikonok készítéséhez használhatók fel a játék után."
 
 #: server/stdinhand.c:815
 msgid "Detail level for logging game events"
@@ -3634,14 +3607,7 @@ msgid ""
 "is given for that command or option.  For options, the help information "
 "includes the current and default values for that option.  The argument may "
 "be abbreviated where unambiguous."
-msgstr ""
-"Argumentumok nélkül kiadva egy rövid bevezetõ súgószöveget ír ki.  \"commands"
-"\" ill. \"options\" argumentum hatására megjeleníti a lehetséges parancsok "
-"ill. beállítások listáját.  Egyébként az argumentum egy parancs vagy egy "
-"beállítás neve, ilyenkor ehhez a parancshoz vagy beállításhoz ír ki "
-"segítséget.  Beállítások esetén a segítség tartalmazza a beállítás jelenlegi "
-"és alapértelmezett értékét is.  Az argumentum megadásánál rövidíthetünk, "
-"feltéve hogy ez nem okoz kétértelmûséget."
+msgstr "Argumentumok nélkül kiadva egy rövid bevezetõ súgószöveget ír ki.  \"commands\" ill. \"options\" argumentum hatására megjeleníti a lehetséges parancsok ill. beállítások listáját.  Egyébként az argumentum egy parancs vagy egy beállítás neve, ilyenkor ehhez a parancshoz vagy beállításhoz ír ki segítséget.  Beállítások esetén a segítség tartalmazza a beállítás jelenlegi és alapértelmezett értékét is.  Az argumentum megadásánál rövidíthetünk, feltéve hogy ez nem okoz kétértelmûséget."
 
 #: server/stdinhand.c:1021
 msgid "Show a list of players or connections."
@@ -4077,18 +4043,13 @@ msgstr "Játékállás elmentése fájlba."
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
-"To reload a savegame created by 'save', start the server with the command-"
-"line argument:\n"
+"To reload a savegame created by 'save', start the server with the command-line argument:\n"
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
-"Aktuális játékállás elmentése a <fájlnév> fájlba.  Ha nem adunk meg fájlnév "
-"argumentumot, akkor a mentés az \"<automatikus mentés elõtagja><év>m.sav[.gz]"
-"\" fájlba történik.  Egy 'save' paranccsal elmentett játékállás betöltéséhez "
-"a szervert a\n"
+"Aktuális játékállás elmentése a <fájlnév> fájlba.  Ha nem adunk meg fájlnév argumentumot, akkor a mentés az \"<automatikus mentés elõtagja><év>m.sav[.gz]\" fájlba történik.  Egy 'save' paranccsal elmentett játékállás betöltéséhez a szervert a\n"
 "    --file <fájlnév>\n"
-"parancssori kapcsolóval kell elindítani, majd ki kell adni a 'start' "
-"parancsot, miután a játékosok csatlakoztak."
+"parancssori kapcsolóval kell elindítani, majd ki kell adni a 'start' parancsot, miután a játékosok csatlakoztak."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1230
@@ -4340,9 +4301,7 @@ msgstr "Nem sikerült elkészíteni a(z) '%s' parancsfájlt."
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
-msgstr ""
-"Nem sikerült csökkenteni a(z) '%2$s' kapcsolat parancselérési szintjét ('%1"
-"$s'); csak '%3$s' szinttel rendelkezel."
+msgstr "Nem sikerült csökkenteni a(z) '%2$s' kapcsolat parancselérési szintjét ('%1$s'); csak '%3$s' szinttel rendelkezel."
 
 #: server/stdinhand.c:1978
 #, c-format
@@ -5973,11 +5932,8 @@ msgstr "Játék: Csak szállító egységek tudnak kirakodni."
 
 #: client/control.c:779
 msgid ""
-"Game: Only settler units and military units in cities can be put in auto-"
-"mode."
-msgstr ""
-"Játék: Csak telepesek és városban lévõ katonai egységek tehetõk automata "
-"módba."
+"Game: Only settler units and military units in cities can be put in auto-mode."
+msgstr "Játék: Csak telepesek és városban lévõ katonai egységek tehetõk automata módba."
 
 #: client/control.c:812
 msgid "Game: Only nuclear units can do this."
@@ -6037,10 +5993,8 @@ msgstr "Lehetõvé teszi, hogy a város mérete %d fölé növekedjen.  "
 #: client/helpdata.c:512
 #, c-format
 msgid ""
-"(The %s improvement is also required for a city to grow larger than size %"
-"d.)  "
-msgstr ""
-"(Egy %s is szükséges ahhoz, hogy a város %d méretûnél nagyobbra nõhessen.)  "
+"(The %s improvement is also required for a city to grow larger than size %d.)  "
+msgstr "(Egy %s is szükséges ahhoz, hogy a város %d méretûnél nagyobbra nõhessen.)  "
 
 #: client/helpdata.c:528
 #, c-format
@@ -7903,8 +7857,7 @@ msgid ""
 "Error contacting server \"%s\" at port %d as \"%s\":\n"
 " %s\n"
 msgstr ""
-"Nem sikerült kapcsolódni a(z) \"%s\" szerverhez a(z) %d porton \"%s\" "
-"néven:\n"
+"Nem sikerült kapcsolódni a(z) \"%s\" szerverhez a(z) %d porton \"%s\" néven:\n"
 " %s\n"
 
 #: client/gui-gtk-2.0/connectdlg.c:374 client/gui-gtk/connectdlg.c:355
@@ -7914,9 +7867,7 @@ msgstr ""
 msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d second(s) "
 "for %d times"
-msgstr ""
-"Automatikus kapcsolódás a(z) \"%s\" szerverhez a(z) %d porton \"%s\" néven %"
-"d.%d másodpercenként (%d kísérlet)"
+msgstr "Automatikus kapcsolódás a(z) \"%s\" szerverhez a(z) %d porton \"%s\" néven %d.%d másodpercenként (%d kísérlet)"
 
 #: client/gui-gtk-2.0/dialogs.c:285 client/gui-gtk/dialogs.c:316
 msgid "Message:"
@@ -13471,7 +13422,7 @@ msgstr "Bank"
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
-msgstr "A Bank és a Piac együtt 100%-kal növeli a város luxus- és adótermelését."
+msgstr "Piaccal együtt a Bank 100%-kal növeli a város luxus- és adótermelését."
 
 #: data/civ1/buildings.ruleset:115 data/civ2/buildings.ruleset:116
 #: data/default/buildings.ruleset:307
@@ -13510,7 +13461,7 @@ msgid ""
 "of a Cathedral, making an additional unhappy citizen content.  The discovery "
 "of Communism lessens the effect of a Cathedral, reducing by one the number "
 "of unhappy citizens made content."
-msgstr ""
+msgstr "A Katedrális 3 boldogtalan lakost tesz elégedetté a városban, megkönnyítve ezzel a rend fenntartását.  A Teológia felfedezése növeli a Katedrálisok hatását: plusz egy boldogtalan lakost tesznek elégedetté.  A Kommunizmus felfedezése csökkenti a Katedrálisok hatását: eggyel csökken az elégedetté tett lakosok száma."
 
 #: data/civ1/buildings.ruleset:252 data/civ2/buildings.ruleset:234
 #: data/default/buildings.ruleset:425
@@ -13524,7 +13475,7 @@ msgid ""
 "are ineffective against airborne and sea units as well as Howitzers.  City "
 "Walls also prevent the loss of population which occurs when a defending unit "
 "is destroyed by a land unit."
-msgstr ""
+msgstr "A Városfal megkönnyíti a város megvédését.  Megháromszorozza a városban tartózkodó egységek védõerejét a szárazföldi egységek és a helikopterek ellen.  A Városfal hatástalan a légi és tengeri egységek, valamint a Gépágyúk ellen.  Ha egy városban van Városfal, akkor nincs lakosságcsökkenés a szárazföldi egységektõl elszenvedett vereségek esetén."
 
 #: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:265
 #: data/default/buildings.ruleset:456
@@ -13536,7 +13487,7 @@ msgstr "Partmenti védelem"
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
-msgstr ""
+msgstr "2-es szorzóval megnöveli a városban tartózkodó egységek védõerejét az ellenséges hajók ellen."
 
 #: data/civ1/buildings.ruleset:309 data/civ2/buildings.ruleset:290
 #: data/default/buildings.ruleset:481
@@ -13560,7 +13511,7 @@ msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
-msgstr ""
+msgstr "50%-kal csökkenti a korrupciót a városban, és felezi a fõvárostól való távolságot a város fellázítási költségének számításakor.  Demokrácia államforma esetén a Bíróság elégedetté tesz 1 boldogtalan lakost."
 
 #: data/civ1/buildings.ruleset:362 data/civ2/buildings.ruleset:345
 #: data/default/buildings.ruleset:538
@@ -13572,7 +13523,7 @@ msgstr "Gyár"
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
-msgstr ""
+msgstr "50%-kal növeli a város pajzstermelését, emellett jelentõsen növeli a szennyezést is."
 
 #: data/civ1/buildings.ruleset:387 data/civ2/buildings.ruleset:370
 #: data/default/buildings.ruleset:563
@@ -13585,7 +13536,7 @@ msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
-msgstr ""
+msgstr "Ha egy városban van Magtár, akkor az élelemraktár félig tele lesz a város növekedése vagy csökkenése után. Magtár segítségével a város gyorsabban növekszik, és jobban viseli az élelemhiányt."
 
 #: data/civ1/buildings.ruleset:416 data/civ2/buildings.ruleset:399
 #: data/default/buildings.ruleset:592
@@ -13597,7 +13548,7 @@ msgstr "Kikötõ"
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
-msgstr ""
+msgstr "Egy extra élelmet ad az Óceáni mezõkön.  Csak tengerparti városok építhetik meg."
 
 #: data/civ1/buildings.ruleset:441 data/civ2/buildings.ruleset:424
 #: data/default/buildings.ruleset:617
@@ -13616,6 +13567,9 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
+"50%-kal csökkenti a város termelésbõl származó szennyezését, emellett növeli a Gyár és a Gyártósor pajzstermelését is: a Gyár és a Vízierõmû együtt 75%-os, a Gyár, a Gyártósor és a Vízierõmû pedig együtt 150%-os pajzstermelési bónuszt ad.\n"
+"\n"
+"Egy városban csak egy féle erõmûvet lehet építeni: Vízierõmûvet, Hõerõmûvet vagy Atomerõmûvet.  Vízierõmûvet csak olyan város építhet, amely Folyó vagy Hegység típusú mezõn, vagy közvetlenül a mezõ mellett van."
 
 #: data/civ1/buildings.ruleset:476 data/civ2/buildings.ruleset:461
 #: data/default/buildings.ruleset:658
@@ -13662,7 +13616,7 @@ msgstr "Gyártósor"
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
-msgstr ""
+msgstr "Gyárral együtt a Gyártósor 100%-kal növeli a város pajzstermelését."
 
 #: data/civ1/buildings.ruleset:579 data/civ2/buildings.ruleset:564
 #: data/default/buildings.ruleset:761
@@ -13679,6 +13633,9 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"50%-kal csökkenti a város termelésbõl származó szennyezését, emellett növeli a Gyár és a Gyártósor pajzstermelését is: a Gyár és az Atomerõmû együtt 75%-os, a Gyár, a Gyártósor és az Atomerõmû pedig együtt 150%-os pajzstermelési bónuszt ad.\n"
+"\n"
+"Egy városban csak egy féle erõmûvet lehet építeni: Vízierõmûvet, Hõerõmûvet vagy Atomerõmûvet."
 
 #: data/civ1/buildings.ruleset:616 data/civ2/buildings.ruleset:603
 #: data/default/buildings.ruleset:803
@@ -13722,7 +13679,7 @@ msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
 "governments."
-msgstr ""
+msgstr "Csökkenti a városon kívül tartózkodó katonai egységek hatására fellépõ boldogtalanságot.  Demokrácia alatt 2-vel, Köztársaság alatt 1-gyel.  Más államformák esetén az épületnek nincs hatása."
 
 #: data/civ1/buildings.ruleset:702 data/civ2/buildings.ruleset:690
 #: data/default/buildings.ruleset:893
@@ -13734,7 +13691,7 @@ msgstr "Kikötõi berendezés"
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
-msgstr ""
+msgstr "Engedélyezi a veterán tengeri egységek gyártását.  Ezen felül, ha egy megrongálódott tengeri egység egy teljes kört a városban tölt, teljesen kijavítódik."
 
 #: data/civ1/buildings.ruleset:729 data/civ2/buildings.ruleset:717
 #: data/default/buildings.ruleset:920
@@ -13751,6 +13708,9 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Növeli a Gyár és a Gyártósor pajzstermelését: a Gyár és a Hõerõmû együtt 75%-os, a Gyár, a Gyártósor és a Hõerõmû pedig együtt 150%-os pajzstermelési bónuszt ad.  Ez a plusz termelés nagyobb szennyezést eredményezhet. \n"
+"\n"
+"Egy városban csak egy féle erõmûvet lehet építeni: Vízierõmûvet, Hõerõmûvet vagy Atomerõmûvet."
 
 #: data/civ1/buildings.ruleset:761 data/civ2/buildings.ruleset:749
 #: data/default/buildings.ruleset:956
@@ -13763,7 +13723,7 @@ msgstr "Újrahasznosító központ"
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
 "production in a city by 66%."
-msgstr ""
+msgstr "66%-kal csökkenti a város termelésbõl származó szennyezését."
 
 #: data/civ1/buildings.ruleset:787 data/civ2/buildings.ruleset:775
 #: data/default/buildings.ruleset:982
@@ -13776,7 +13736,7 @@ msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
-msgstr ""
+msgstr "Könyvtárral együtt a Kutatólaboratórium 100%-kal növeli a város tudománytermelését. Könyvtárral és Egyetemmel együtt a Kutatólaboratórium 150%-kal növeli a város tudománytermelését."
 
 #: data/civ1/buildings.ruleset:814 data/civ2/buildings.ruleset:802
 #: data/default/buildings.ruleset:1009
@@ -13786,9 +13746,8 @@ msgstr "Légvédelmi Üteg"
 #: data/civ1/buildings.ruleset:834 data/civ2/buildings.ruleset:822
 #: data/default/buildings.ruleset:1029
 msgid ""
-"Doubles the defense of all units inside the city when attacked by non-"
-"nuclear air units."
-msgstr ""
+"Doubles the defense of all units inside the city when attacked by non-nuclear air units."
+msgstr "Megduplázza a városban tartózkodó egységek védõerejét a nem nukleáris légi egységek ellen."
 
 #: data/civ1/buildings.ruleset:840 data/civ2/buildings.ruleset:828
 #: data/default/buildings.ruleset:1035
@@ -13801,7 +13760,7 @@ msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
 "missiles."
-msgstr ""
+msgstr "Megvédi a várost a nukleáris egységek támadásaitól.  Az Atomtámadásoknak egyszerûen nem lesz hatása a városra.  Megduplázza a nem nukleáris rakéták elleni védelmet is."
 
 #: data/civ1/buildings.ruleset:869 data/civ2/buildings.ruleset:857
 #: data/default/buildings.ruleset:1064
@@ -13824,6 +13783,9 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
+"Teljesen megszünteti a város termelésbõl származó szennyezését, emellett növeli a Gyár és a Gyártósor pajzstermelését is: a Gyár és a Naperõmû együtt 75%-os, a Gyár, a Gyártósor és a Naperõmû pedig együtt 150%-os pajzstermelési bónuszt ad.\n"
+"\n"
+"Egy városban csak egy féle erõmûvet lehet építeni: Naperõmûvet, Vízierõmûvet, Hõerõmûvet vagy Atomerõmûvet."
 
 #: data/civ1/buildings.ruleset:931 data/civ2/buildings.ruleset:922
 #: data/default/buildings.ruleset:1133
@@ -13893,7 +13855,7 @@ msgstr "Tõzsde"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr "A Tõzsde, a Bank és a Piac együtt 150%-kal növeli a város adó- és luxustermelését."
+msgstr "Bankkal és Piaccal együtt a Tõzsde 150%-kal növeli a város adó- és luxustermelését."
 
 #: data/civ1/buildings.ruleset:1054 data/civ2/buildings.ruleset:1045
 #: data/default/buildings.ruleset:1256
@@ -13946,7 +13908,7 @@ msgstr "Egyetem"
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
-msgstr "Az Egyetem és a Könyvtár együtt 100%-kal növeli a város tudománytermelését."
+msgstr "Könyvtárral együtt az Egyetem 100%-kal növeli a város tudománytermelését."
 
 #: data/civ1/buildings.ruleset:1161 data/civ2/buildings.ruleset:1152
 #: data/default/buildings.ruleset:1364
@@ -13982,7 +13944,7 @@ msgstr "Kolosszus"
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
-msgstr ""
+msgstr "A világcsodát megépítõ város körül minden mezõ plusz egy kereskedelmet termel, ha már eddig is termelt valamennyi kereskedelmet."
 
 #: data/civ1/buildings.ruleset:1236 data/civ2/buildings.ruleset:1229
 #: data/default/buildings.ruleset:1441
@@ -13993,7 +13955,7 @@ msgstr "Kopernikusz csillagv."
 #: data/default/buildings.ruleset:1461
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
-msgstr ""
+msgstr "A megépítõ városban 50%-kal növeli a tudománytermelést."
 
 #: data/civ1/buildings.ruleset:1261 data/civ2/buildings.ruleset:1254
 #: data/default/buildings.ruleset:1466
@@ -14030,7 +13992,7 @@ msgstr "Eiffel torony"
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
-msgstr ""
+msgstr "Amikor megépül, minden civilizáció diplomáciai hozzáállása 25%-kal javul feléd."
 
 #: data/civ1/buildings.ruleset:1340 data/civ2/buildings.ruleset:1333
 #: data/default/buildings.ruleset:1547
@@ -14042,7 +14004,7 @@ msgstr "Nagy Könyvtár"
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
-msgstr ""
+msgstr "Ha egy civilizáció megépíti a Nagy Könyvtárat, akkor minden olyan tudományt automatikusan megkap, amelyet legalább két másik civilizáció ismer."
 
 #: data/civ1/buildings.ruleset:1365 data/civ2/buildings.ruleset:1358
 #: data/default/buildings.ruleset:1572
@@ -14067,18 +14029,18 @@ msgid ""
 "of 3).  In the unlikely event where there are no content citizens to get the "
 "effect of Hanging Gardens, the wonder applies to unhappy citizens (making "
 "them content instead)."
-msgstr ""
+msgstr "A játékos minden városában boldoggá tesz egy elégedett lakost. A világcsodát megépítõ városban még plusz két elégedett lakost tesz boldoggá (tehát összesen hármat).  Azokban a ritka esetekben, amikor nincs elégedett lakos, akin a Függõkertek kifejthetné hatását, a világcsoda a boldogtalan lakosokra hat (elégedetté teszi õket)."
 
 #: data/civ1/buildings.ruleset:1422 data/civ2/buildings.ruleset:1415
 #: data/default/buildings.ruleset:1629
 msgid "Hoover Dam"
-msgstr ""
+msgstr "Hoover Gát"
 
 #: data/civ2/buildings.ruleset:1436 data/default/buildings.ruleset:1651
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
-msgstr ""
+msgstr "Olyan a hatása, mintha Vízierõmû lenne a játékos összes városában.  (Ez csökkenti a szennyezést, és növeli a Gyárak és Gyártósorok hatását.)"
 
 #: data/civ1/buildings.ruleset:1452 data/civ2/buildings.ruleset:1442
 #: data/default/buildings.ruleset:1657
@@ -14089,7 +14051,7 @@ msgstr "Isaac Newton Fõiskolája"
 #: data/default/buildings.ruleset:1677
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
-msgstr ""
+msgstr "A megépítõ városban 100%-kal növeli a tudománytermelést."
 
 #: data/civ1/buildings.ruleset:1477 data/civ2/buildings.ruleset:1467
 #: data/default/buildings.ruleset:1682
@@ -14098,7 +14060,7 @@ msgstr "J.S. Bach Katedrálisa"
 
 #: data/civ2/buildings.ruleset:1486 data/default/buildings.ruleset:1701
 msgid "Makes two unhappy citizens content in every city."
-msgstr ""
+msgstr "A játékos minden városában elégedetté tesz két boldogtalan lakost."
 
 #: data/civ1/buildings.ruleset:1503 data/civ2/buildings.ruleset:1491
 #: data/default/buildings.ruleset:1706
@@ -14110,7 +14072,7 @@ msgstr "Richard király keresztesh."
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
-msgstr ""
+msgstr "Minden mezõn plusz egy pajzsot ad a világcsodát megépítõ város körül."
 
 #: data/civ1/buildings.ruleset:1528 data/civ2/buildings.ruleset:1516
 #: data/default/buildings.ruleset:1731
@@ -14133,7 +14095,7 @@ msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
 "cities)."
-msgstr ""
+msgstr "Minden tengeri egységnek plusz 1 lépéspontot ad, és megszünteti az Evezõs Gályák elsüllyedésének kockázatát a nyílt tengeren.  A játékos újonnan épített tengeri egységei veteránok lesznek (minden városban)."
 
 #: data/civ1/buildings.ruleset:1582 data/civ2/buildings.ruleset:1568
 #: data/default/buildings.ruleset:1783
@@ -14157,7 +14119,7 @@ msgstr "Marco Polo Követsége"
 #: data/civ1/buildings.ruleset:1649 data/civ2/buildings.ruleset:1634
 #: data/default/buildings.ruleset:1849
 msgid "The player who owns it gets an embassy with all players."
-msgstr ""
+msgstr "A világcsoda birtokosának nagykövetsége lesz az összes játékosnál."
 
 #: data/civ1/buildings.ruleset:1654 data/civ2/buildings.ruleset:1639
 #: data/default/buildings.ruleset:1854
@@ -14171,7 +14133,7 @@ msgid ""
 "effect of a Cathedral, making an additional unhappy citizen content.  The "
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
-msgstr ""
+msgstr "Katedrálisnak számít a játékos összes városában, és ezzel 3 boldogtalan lakost tesz elégedetté.  A Teológia felfedezése növeli a Katedrálisok hatását: plusz egy boldogtalan lakost tesznek elégedetté.  A Kommunizmus felfedezése csökkenti a Katedrálisok hatását: eggyel csökken az elégedetté tett lakosok száma."
 
 #: data/civ1/buildings.ruleset:1679 data/civ2/buildings.ruleset:1670
 #: data/default/buildings.ruleset:1885
@@ -14348,7 +14310,7 @@ msgstr ""
 msgid ""
 "A Cathedral makes 4 unhappy citizens content in a city, making it easier to "
 "maintain order in that city."
-msgstr ""
+msgstr "A Katedrális 3 boldogtalan lakost tesz elégedetté a városban, megkönnyítve ezzel a rend fenntartását."
 
 #: data/civ1/buildings.ruleset:275
 msgid ""
@@ -14357,7 +14319,7 @@ msgid ""
 "units.  They are ineffective against non-helicopter airborne units as well "
 "as Artillery.  City Walls also prevent the loss of population which occurs "
 "when a defending unit is destroyed by a land unit."
-msgstr ""
+msgstr "A Városfal megkönnyíti a város megvédését.  Megháromszorozza a városban tartózkodó egységek védõerejét a szárazföldi egységek és a helikopterek ellen.  A Városfal hatástalan a légi és tengeri egységek, valamint a Gépágyúk ellen.  Ha egy városban van Városfal, akkor nincs lakosságcsökkenés a szárazföldi egységektõl elszenvedett vereségek esetén."
 
 #: data/civ1/buildings.ruleset:328
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
