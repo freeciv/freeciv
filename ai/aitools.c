@@ -277,9 +277,17 @@ int myreturn=0;
 int agression=0;
 int closestcity;
 int closestunit;
+int power;
 
 /* Pick out units that have attack=defense or better */
+/* Get_defense_power takes into account terrain and thus is higher on mountains
 agression=10*(get_attack_power(punit)/10+1-get_defense_power(punit)/10);
+   and our units would no longer be agressive!  How ridiculous! -- Syela */
+
+  power=get_unit_type(punit->type)->defense_strength;
+  if (punit->veteran) power*=1.5;
+
+agression=10*(get_attack_power(punit)/10+1-power);
 if (agression<=0) { agression=0; }
 /* was <0, thus pikemen became aggressive? -- Syela */
 else { agression+=5; }
