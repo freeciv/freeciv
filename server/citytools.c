@@ -715,8 +715,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
      Only relevant if we are transfering to another player. */
   if (pplayer != pvictim) {
     unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
-      /* Dont transfer units already owned by new city-owner --wegge */ 
-      if (unit_owner(vunit) == pvictim && pcity) {
+      /* Don't transfer units already owned by new city-owner --wegge */ 
+      if (unit_owner(vunit) == pvictim) {
 	transfer_unit(vunit, pcity, verbose);
 	wipe_unit_safe(vunit, &myiter);
 	unit_list_unlink(units, vunit);
@@ -863,7 +863,7 @@ struct city *transfer_city(struct player *ptaker,
   if (resolve_stack) {
     no_units = unit_list_size(&old_city_units);
     if (no_units > 0) {
-      resolve_list = fc_malloc(no_units * sizeof(struct map_position));
+      resolve_list = fc_malloc((no_units + 1) * sizeof(struct map_position));
       if (resolve_list) {
 	i = 0;
 	unit_list_iterate(old_city_units, punit) {
@@ -871,6 +871,8 @@ struct city *transfer_city(struct player *ptaker,
 	  resolve_list[i].y = punit->y;
 	  i++;
 	} unit_list_iterate_end;
+	resolve_list[i].x = pcity->x;
+	resolve_list[i].y = pcity->y;
 	assert(i == no_units);
       }
     }
@@ -884,7 +886,7 @@ struct city *transfer_city(struct player *ptaker,
   reset_move_costs(pcity->x, pcity->y);
 
   if (resolve_stack && (no_units > 0) && resolve_list) {
-    for (i = 0; i < no_units ; i++)
+    for (i = 0; i < no_units+1 ; i++)
       resolve_unit_stack(resolve_list[i].x, resolve_list[i].y,
 			 transfer_unit_verbose);
     free(resolve_list);

@@ -1697,6 +1697,12 @@ void civil_war(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) 
     resolve_unit_stack(punit->x, punit->y, 0);
   unit_list_iterate_end;
+  city_list_iterate(pplayer->cities, pcity) {
+    resolve_unit_stack(pcity->x, pcity->y, 0);
+  } city_list_iterate_end;
+  city_list_iterate(cplayer->cities, pcity) {
+    resolve_unit_stack(pcity->x, pcity->y, 0);
+  } city_list_iterate_end;
 
 
   notify_player(0,
