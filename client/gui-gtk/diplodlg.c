@@ -443,17 +443,17 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   pdialog->dip_pact_menu=gtk_menu_new();
 
-  item=gtk_menu_item_new_with_label(_("Cease-fire"));
+  item=gtk_menu_item_new_with_label(Q_("?diplomatic_state:Cease-fire"));
   gtk_menu_append(GTK_MENU(pdialog->dip_pact_menu),item);
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_ceasefire_callback),(gpointer)pdialog);
 
-  item=gtk_menu_item_new_with_label(_("Peace"));
+  item=gtk_menu_item_new_with_label(Q_("?diplomatic_state:Peace"));
   gtk_menu_append(GTK_MENU(pdialog->dip_pact_menu),item);
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_peace_callback),(gpointer)pdialog);
 
-  item=gtk_menu_item_new_with_label(_("Alliance"));
+  item=gtk_menu_item_new_with_label(Q_("?diplomatic_state:Alliance"));
   gtk_menu_append(GTK_MENU(pdialog->dip_pact_menu),item);
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_alliance_callback),(gpointer)pdialog);

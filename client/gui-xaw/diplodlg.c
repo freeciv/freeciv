@@ -513,16 +513,16 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 simpleMenuWidgetClass, 
 				 pdialog->dip_pact_menubutton, 
 				 NULL);
-  entry=XtVaCreateManagedWidget(_("Cease-fire"), smeBSBObjectClass, popupmenu,
-				NULL);
+  entry=XtVaCreateManagedWidget(Q_("?diplomatic_state:Cease-fire"),
+				smeBSBObjectClass, popupmenu, NULL);
   XtAddCallback(entry, XtNcallback, diplomacy_dialog_ceasefire_callback,
 		(XtPointer)pdialog);
-  entry=XtVaCreateManagedWidget(_("Peace"), smeBSBObjectClass, popupmenu,
-				NULL);
+  entry=XtVaCreateManagedWidget(Q_("?diplomatic_state:Peace"),
+				smeBSBObjectClass, popupmenu, NULL);
   XtAddCallback(entry, XtNcallback, diplomacy_dialog_peace_callback,
 		(XtPointer)pdialog);
-  entry=XtVaCreateManagedWidget(_("Alliance"), smeBSBObjectClass, popupmenu,
-				NULL);
+  entry=XtVaCreateManagedWidget(Q_("?diplomatic_state:Alliance"),
+				smeBSBObjectClass, popupmenu, NULL);
   XtAddCallback(entry, XtNcallback, diplomacy_dialog_alliance_callback,
 		(XtPointer)pdialog);
   

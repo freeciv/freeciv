@@ -435,16 +435,16 @@ const char *diplstate_text(const enum diplstate_type type)
 {
   static const char *ds_names[DS_LAST] = 
   {
-    N_("Neutral"),
-    N_("War"), 
-    N_("Cease-fire"),
-    N_("Peace"),
-    N_("Alliance"),
-    N_("No Contact")
+    N_("?diplomatic_state:Neutral"),
+    N_("?diplomatic_state:War"), 
+    N_("?diplomatic_state:Cease-fire"),
+    N_("?diplomatic_state:Peace"),
+    N_("?diplomatic_state:Alliance"),
+    N_("?diplomatic_state:No Contact")
   };
 
   if (type < DS_LAST)
-    return _(ds_names[type]);
+    return Q_(ds_names[type]);
   freelog(LOG_FATAL, "Bad diplstate_type in diplstate_text: %d", type);
   abort();
 }

@@ -629,15 +629,15 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     if(menu_strip)
     {
       Object *entry;
-      entry = MUI_MakeObject(MUIO_Menuitem,_("Cease-fire"),NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem, Q_("?diplomatic_state:Cease-fire"), NULL,0,0);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &civstandard_hook, diplomacy_ceasefire, pdialog);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
 
-      entry = MUI_MakeObject(MUIO_Menuitem,_("Peace"),NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,Q_("?diplomatic_state:Peace"),NULL,0,0);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &civstandard_hook, diplomacy_peace, pdialog);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
 
-      entry = MUI_MakeObject(MUIO_Menuitem,_("Alliance"),NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,Q_("?diplomatic_state:Alliance"),NULL,0,0);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &civstandard_hook, diplomacy_alliance, pdialog);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
       set(pdialog->plr0_pacts_button,MUIA_ContextMenu, menu_strip);

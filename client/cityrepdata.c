@@ -65,8 +65,9 @@ static char *cr_entry_hstate_verbose(struct city *pcity)
 {
   static char buf[16];
   my_snprintf(buf, sizeof(buf), "%s",
-	      (city_celebrating(pcity) ? _("Rapture") :
-	       (city_unhappy(pcity) ? _("Disorder") : _("Peace"))));
+	      (city_celebrating(pcity) ? Q_("?city_state:Rapture") :
+	       (city_unhappy(pcity) ? Q_("?city_state:Disorder") :
+		Q_("?city_state:Peace"))));
   return buf;
 }
 
