@@ -558,7 +558,10 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   size_t len;
   char buffer[SAVED_PARAMETER_SIZE];
   struct data_in din;
-  int i, version;
+  int i, version, dummy;
+
+  /* Changing this function is likely to break compatability with old
+   * savegames that store these values. */
 
   len = attr_city_get(attr, city_id, sizeof(buffer), buffer);
   if (len == 0) {
@@ -577,6 +580,7 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   }
 
   dio_get_sint16(&din, &parameter->happy_factor);
+  dio_get_uint8(&din, &dummy); /* Dummy value; used to be factor_target. */
   dio_get_bool8(&din, &parameter->require_happy);
   /* These options are only for server-AI use. */
   parameter->allow_disorder = FALSE;
@@ -595,6 +599,9 @@ void cma_set_parameter(enum attr_city attr, int city_id,
   struct data_out dout;
   int i;
 
+  /* Changing this function is likely to break compatability with old
+   * savegames that store these values. */
+
   dio_output_init(&dout, buffer, sizeof(buffer));
 
   dio_put_uint8(&dout, 2);
@@ -605,6 +612,7 @@ void cma_set_parameter(enum attr_city attr, int city_id,
   }
 
   dio_put_sint16(&dout, parameter->happy_factor);
+  dio_put_uint8(&dout, 0); /* Dummy value; used to be factor_target. */
   dio_put_bool8(&dout, parameter->require_happy);
 
   assert(dio_output_used(&dout) == SAVED_PARAMETER_SIZE);
