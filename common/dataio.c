@@ -53,10 +53,6 @@
 
 #include "dataio.h"
 
-static const int city_map_index[20] = {
-  1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23
-};
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -403,22 +399,6 @@ void dio_put_worklist(struct data_out *dout, const struct worklist *pwl)
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_city_map(struct data_out *dout, const char *value)
-{
-  int i;
-
-  for (i = 0; i < 20; i += 5) {
-    dio_put_uint8(dout, (value[city_map_index[i]] - '0') * 81 +
-		  (value[city_map_index[i + 1]] - '0') * 27 +
-		  (value[city_map_index[i + 2]] - '0') * 9 +
-		  (value[city_map_index[i + 3]] - '0') * 3 +
-		  (value[city_map_index[i + 4]] - '0') * 1);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void dio_get_uint8(struct data_in *din, int *dest)
 {
   if (enough_data(din, 1)) {
@@ -625,55 +605,6 @@ void dio_get_bit_string(struct data_in *din, char *dest,
 
   if (din->too_short) {
     din->bad_bit_string = TRUE;
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void dio_get_city_map(struct data_in *din, char *dest, size_t max_dest_size)
-{
-  int i;
-
-  if (dest) {
-    assert(max_dest_size >= 26);
-    dest[0] = '2';
-    dest[4] = '2';
-    dest[12] = '1';
-    dest[20] = '2';
-    dest[24] = '2';
-    dest[25] = '\0';
-  }
-
-  if (!enough_data(din, 4)) {
-    if (dest) {
-      for (i = 0; i < 20;) {
-	int j;
-
-	for (j = 0; j < 5; j++) {
-	  dest[city_map_index[i++]] = '0';
-	}
-      }
-    }
-    return;
-  }
-
-  for (i = 0; i < 20;) {
-    int j;
-
-    dio_get_uint8(din, &j);
-
-    if (dest) {
-      dest[city_map_index[i++]] = '0' + j / 81;
-      j %= 81;
-      dest[city_map_index[i++]] = '0' + j / 27;
-      j %= 27;
-      dest[city_map_index[i++]] = '0' + j / 9;
-      j %= 9;
-      dest[city_map_index[i++]] = '0' + j / 3;
-      j %= 3;
-      dest[city_map_index[i++]] = '0' + j;
-    }
   }
 }
 

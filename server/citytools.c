@@ -1730,23 +1730,23 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   copy_worklist(&packet->worklist, &pcity->worklist);
   packet->diplomat_investigate=dipl_invest;
 
-  packet->airlift=pcity->airlift;
-  packet->did_buy=pcity->did_buy;
-  packet->did_sell=pcity->did_sell;
-  packet->was_happy=pcity->was_happy;
-  p=packet->city_map;
-  for(y=0; y<CITY_MAP_SIZE; y++)
-    for(x=0; x<CITY_MAP_SIZE; x++)
-      *p++=get_worker_city(pcity, x, y)+'0';
-  *p='\0';
+  packet->airlift = pcity->airlift;
+  packet->did_buy = pcity->did_buy;
+  packet->did_sell = pcity->did_sell;
+  packet->was_happy = pcity->was_happy;
+  for (y = 0; y < CITY_MAP_SIZE; y++) {
+    for (x = 0; x < CITY_MAP_SIZE; x++) {
+      packet->city_map[x + y * CITY_MAP_SIZE] = get_worker_city(pcity, x, y);
+    }
+  }
 
-  p=packet->improvements;
+  p = packet->improvements;
 
   impr_type_iterate(i) {
     *p++ = (city_got_building(pcity, i)) ? '1' : '0';
   } impr_type_iterate_end;
 
-  *p='\0';
+  *p = '\0';
 }
 
 /**************************************************************************

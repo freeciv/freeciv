@@ -381,7 +381,7 @@ void handle_game_state(int value)
 **************************************************************************/
 void handle_city_info(struct packet_city_info *packet)
 {
-  int i, x, y;
+  int i;
   bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
   struct city *pcity;
   bool popup, update_descriptions = FALSE;
@@ -487,18 +487,16 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->caravan_shields=packet->caravan_shields;
   pcity->last_turns_shield_surplus = packet->last_turns_shield_surplus;
 
-  i=0;
-  for(y=0; y<CITY_MAP_SIZE; y++) {
-    for(x=0; x<CITY_MAP_SIZE; x++) {
-      if (city_is_new) {
-	/* Need to pre-initialize before set_worker_city()  -- dwp */
-	pcity->city_map[x][y] =
-	    is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
-      }
-      if (is_valid_city_coords(x, y)) {
-	set_worker_city(pcity, x, y, packet->city_map[i] - '0');
-      }
-      i++;
+  for (i = 0; i < CITY_MAP_SIZE * CITY_MAP_SIZE; i++) {
+    const int x = i % CITY_MAP_SIZE, y = i / CITY_MAP_SIZE;
+
+    if (city_is_new) {
+      /* Need to pre-initialize before set_worker_city()  -- dwp */
+      pcity->city_map[x][y] =
+	is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
+    }
+    if (is_valid_city_coords(x, y)) {
+      set_worker_city(pcity, x, y, packet->city_map[i]);
     }
   }
   

@@ -199,7 +199,7 @@ struct packet_city_info {
   int last_turns_shield_surplus;
   struct worklist worklist;
   char improvements[B_LAST+1];
-  char city_map[CITY_MAP_SIZE*CITY_MAP_SIZE+1];
+  enum city_tile_type city_map[CITY_MAP_SIZE * CITY_MAP_SIZE];
   bool did_buy;
   bool did_sell;
   bool was_happy;

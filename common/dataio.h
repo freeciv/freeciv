@@ -68,7 +68,6 @@ void dio_get_memory(struct data_in *din, void *dest, size_t dest_size);
 void dio_get_string(struct data_in *din, char *dest, size_t max_dest_size);
 void dio_get_bit_string(struct data_in *din, char *dest,
 			size_t max_dest_size);
-void dio_get_city_map(struct data_in *din, char *dest, size_t max_dest_size);
 void dio_get_tech_list(struct data_in *din, int *dest);
 void dio_get_worklist(struct data_in *din, struct worklist *pwl);
 void dio_get_diplstate(struct data_in *din, struct player_diplstate *pds);

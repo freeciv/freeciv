@@ -151,7 +151,6 @@ type FLOAT		= float10000(float)
 type MEMORY		= memory(unsigned char)
 type STRING		= string(char)
 type BIT_STRING		= bit_string(char)
-type CITY_MAP		= city_map(char)
 type WORKLIST		= worklist(struct worklist)
 type TECH_LIST		= tech_list(int)
 type EFFECT		= effect(struct impr_effect)
@@ -169,6 +168,7 @@ type PLACE_TYPE		= uint8(enum spaceship_place_type)
 type RIVER_MOVE		= uint8(enum special_river_move)
 type REPORT_TYPE	= uint8(enum report_type)
 type AUTH_TYPE		= uint8(enum authentication_type)
+type CITY_MAP		= uint8(enum city_tile_type)
 type IMPR_RANGE		= uint8(enum impr_range)
 type DIRECTION		= uint8(enum direction8)
 type ORDERS		= uint8(enum unit_orders)
@@ -408,7 +408,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
   WORKLIST worklist;
 
   BIT_STRING improvements[B_LAST+1];
-  CITY_MAP city_map[CITY_MAP_SIZE*CITY_MAP_SIZE+1];
+  CITY_MAP city_map[CITY_MAP_SIZE * CITY_MAP_SIZE];
 
   BOOL did_buy, did_sell, was_happy, airlift, diplomat_investigate;
 

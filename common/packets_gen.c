@@ -4808,7 +4808,14 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
     dio_get_bit_string(&din, real_packet->improvements, sizeof(real_packet->improvements));
   }
   if (BV_ISSET(fields, 37)) {
-    dio_get_city_map(&din, real_packet->city_map, sizeof(real_packet->city_map));
+    
+    {
+      int i;
+    
+      for (i = 0; i < CITY_MAP_SIZE * CITY_MAP_SIZE; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->city_map[i]);
+      }
+    }
   }
   real_packet->did_buy = BV_ISSET(fields, 38);
   real_packet->did_sell = BV_ISSET(fields, 39);
@@ -5089,10 +5096,10 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
 
 
     {
-      differ = (CITY_MAP_SIZE*CITY_MAP_SIZE+1 != CITY_MAP_SIZE*CITY_MAP_SIZE+1);
+      differ = (CITY_MAP_SIZE * CITY_MAP_SIZE != CITY_MAP_SIZE * CITY_MAP_SIZE);
       if(!differ) {
         int i;
-        for (i = 0; i < CITY_MAP_SIZE*CITY_MAP_SIZE+1; i++) {
+        for (i = 0; i < CITY_MAP_SIZE * CITY_MAP_SIZE; i++) {
           if (old->city_map[i] != real_packet->city_map[i]) {
             differ = TRUE;
             break;
@@ -5295,7 +5302,14 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
     dio_put_bit_string(&dout, real_packet->improvements);
   }
   if (BV_ISSET(fields, 37)) {
-    dio_put_city_map(&dout, real_packet->city_map);
+  
+    {
+      int i;
+
+      for (i = 0; i < CITY_MAP_SIZE * CITY_MAP_SIZE; i++) {
+        dio_put_uint8(&dout, real_packet->city_map[i]);
+      }
+    } 
   }
   /* field 38 is folded into the header */
   /* field 39 is folded into the header */
