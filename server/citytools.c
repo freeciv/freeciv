@@ -1197,18 +1197,19 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   struct player *cplayer = city_owner(pcity);
 
   /* if not at war, may peacefully enter city */
-  if (!pplayers_at_war(pplayer, cplayer))
+  if (!pplayers_at_war(pplayer, cplayer)) {
     return;
+  }
 
-  /* okay, we're at war - invader captures/destroys city... */
+  /* Okay, we're at war - invader captures/destroys city... */
   
   /* If a capital is captured, then spark off a civil war 
      - Kris Bubendorfer
      Also check spaceships --dwp
   */
-  if(city_got_building(pcity, B_PALACE)
-     && ((cplayer->spaceship.state == SSHIP_STARTED)
-	 || (cplayer->spaceship.state == SSHIP_LAUNCHED))) {
+  if (city_got_building(pcity, B_PALACE)
+      && (cplayer->spaceship.state == SSHIP_STARTED
+          || cplayer->spaceship.state == SSHIP_LAUNCHED)) {
     spaceship_lost(cplayer);
   }
   
@@ -1225,7 +1226,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
    * We later remove a citizen. Lets check if we can save this since
    * the city will be destroyed.
    */
-  if (pcity->size<=1) {
+  if (pcity->size <= 1) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     _("Game: You destroy %s completely."), pcity->name);
     notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
@@ -1236,16 +1237,17 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 	    get_nation_name_plural(pplayer->nation));
     remove_city_from_minimap(pcity->x, pcity->y);
     remove_city(pcity);
-    if (do_civil_war)
+    if (do_civil_war) {
       civil_war(cplayer);
+    }
     return;
   }
 
   city_reduce_size(pcity, 1);
-  coins=cplayer->economic.gold;
-  coins=myrand((coins/20)+1)+(coins*(pcity->size))/200;
-  pplayer->economic.gold+=coins;
-  cplayer->economic.gold-=coins;
+  coins = cplayer->economic.gold;
+  coins = myrand((coins / 20) + 1) + (coins * (pcity->size)) / 200;
+  pplayer->economic.gold += coins;
+  cplayer->economic.gold -= coins;
   send_player_info(cplayer, cplayer);
   if (pcity->original != pplayer->player_no) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
@@ -1280,8 +1282,9 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE);
   send_player_info(pplayer, pplayer); /* Update techs */
 
-  if (do_civil_war)
+  if (do_civil_war) {
     civil_war(cplayer);
+  }
 }
 
 /**************************************************************************
