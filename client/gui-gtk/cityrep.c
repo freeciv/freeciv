@@ -554,7 +554,7 @@ void city_list_callback(GtkWidget *w, gint row, gint column)
         flag=1;
       }
 
-    for(i=0; i<U_LAST; i++)
+    for(i=0; i<game.num_unit_types; i++)
       if(can_build_unit(pcity, i)) {
         GtkWidget *item;
 

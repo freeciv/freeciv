@@ -68,7 +68,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.8 caravan1 nuke clientcommands +terrainrulesets1 +governmentrulesets1"
+#define CAPABILITY "+1.8 caravan1 nuke clientcommands +terrainrulesets1 +governmentrulesets1 +num_units"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -86,6 +86,8 @@ const char * const our_capability = our_capability_internal;
 
    "governmentrulesets1" is for the new government.ruleset packages;
    includes unit upkeep changes.
+  
+    "num_units" means the number of unit types is variable.
 */
 
 void init_our_capability(void)

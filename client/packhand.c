@@ -627,6 +627,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.rtech.cathedral_plus = pinfo->rtech.cathedral_plus;
   game.rtech.cathedral_minus = pinfo->rtech.cathedral_minus;
   game.rtech.colosseum_plus = pinfo->rtech.colosseum_plus;
+  game.num_unit_types = pinfo->num_unit_types;
 
   game.government_when_anarchy = pinfo->government_when_anarchy;
   game.default_government = pinfo->default_government;
@@ -1003,7 +1004,15 @@ void handle_select_race(struct packet_generic_integer *packet)
 **************************************************************************/
 void handle_ruleset_unit(struct packet_ruleset_unit *p)
 {
-  struct unit_type *u = &unit_types[p->id];
+  struct unit_type *u;
+
+  if(p->id < 0 || p->id >= U_LAST) {
+    /*  Don't check game.num_unit_types because don't have it yet... */
+    freelog(LOG_NORMAL, "Received bad unit_type id %d in handle_ruleset_unit()",
+	    p->id);
+    return;
+  }
+  u = get_unit_type(p->id);
 
   strcpy(u->name, p->name);
   u->graphics           = p->graphics;

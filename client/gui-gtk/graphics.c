@@ -424,7 +424,7 @@ GdkPixmap *create_overlay_unit(int i)
   }
 
   /* Finally, put a picture of the unit in the tile */
-  if(i<U_LAST) {
+  if(i<game.num_unit_types) {
     struct Sprite *s=get_tile_sprite(get_unit_type(i)->graphics+UNIT_TILES);
 
     gdk_gc_set_clip_origin(civ_gc, 0, 0);

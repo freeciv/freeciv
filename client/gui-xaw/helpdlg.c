@@ -794,7 +794,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   char *buf = &long_buffer[0];
   
   create_help_page(HELP_UNIT);
-  if (i<U_LAST) {
+  if (i<game.num_unit_types) {
     struct unit_type *utype = get_unit_type(i);
     sprintf(buf, "%d ", utype->build_cost);
     xaw_set_label(help_unit_cost_data, buf);
@@ -864,7 +864,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	sprintf(buf+strlen(buf), "Allows %s.\n",
 		improvement_types[j].name);
     }
-    for(j=0; j<U_LAST; ++j) {
+    for(j=0; j<game.num_unit_types; ++j) {
       if(i==get_unit_type(j)->tech_requirement) 
 	sprintf(buf+strlen(buf), "Allows %s.\n", 
 		get_unit_type(j)->name);

@@ -1136,6 +1136,8 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->default_government);
   cptr=put_int8(cptr, pinfo->government_when_anarchy);
   
+  cptr=put_int8(cptr, pinfo->num_unit_types);
+  
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1190,6 +1192,8 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_int8(&iter, &pinfo->rtech.colosseum_plus);
   iget_int8(&iter, &pinfo->default_government);
   iget_int8(&iter, &pinfo->government_when_anarchy);
+  
+  iget_int8(&iter, &pinfo->num_unit_types);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

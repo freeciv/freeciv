@@ -427,7 +427,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   int isdef = has_a_normal_defender(pcity);
 
   memset(desire, 0, sizeof(desire));
-  for (i = 0; i < U_LAST; i++) {
+  for (i = 0; i < game.num_unit_types; i++) {
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     if ((m == LAND_MOVING || m == SEA_MOVING)) {
@@ -461,7 +461,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   } /* was getting four-figure desire for battleships otherwise. -- Syela */
 /* Phalanx would be 16 * danger / 20.  Pikemen would be 36 * danger / (20 + l) */
 /* multiply by unit_types[bestid].build_cost / best */
-  for (i = 0; i < U_LAST; i++) {
+  for (i = 0; i < game.num_unit_types; i++) {
     if (desire[i] && is_ai_simple_military(i)) {
       j = unit_types[i].tech_requirement;
       n = desire[i] * unit_types[bestid].build_cost / best;
@@ -491,7 +491,7 @@ it some more variables for it to meddle with -- Syela */
   struct city *acity = map_get_city(x, y);
   int movetype = unit_types[*v].move_type;
 
-  for (i = 0; i < U_LAST; i++) {
+  for (i = 0; i < game.num_unit_types; i++) {
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     j = unit_types[i].tech_requirement;

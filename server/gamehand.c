@@ -167,6 +167,7 @@ void send_game_info(struct player *dest)
   ginfo.rtech.cathedral_plus = game.rtech.cathedral_plus;
   ginfo.rtech.cathedral_minus = game.rtech.cathedral_minus;
   ginfo.rtech.colosseum_plus = game.rtech.colosseum_plus;
+  ginfo.num_unit_types = game.num_unit_types;
 
   ginfo.government_when_anarchy = game.government_when_anarchy;
   ginfo.default_government = game.default_government;

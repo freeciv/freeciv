@@ -592,6 +592,7 @@ struct packet_game_info {
   int spacerace;
   int aqueduct_size;
   int sewer_size;
+  int num_unit_types;
   struct {
     int get_bonus_tech;
     int boat_fast;

@@ -324,12 +324,19 @@ static void load_ruleset_units(char *ruleset_subdir)
 
   /* The names: */
   sec = secfile_get_secnames_prefix(file, "unit_", &nval);
-  if(nval != U_LAST) {
-    /* sometime this restriction should be removed */
-    freelog(LOG_FATAL, "Bad number of units %d (%s)", nval, filename);
+  freelog(LOG_VERBOSE, "%d unit types (including possibly unused)", nval);
+  if(nval == 0) {
+    freelog(LOG_FATAL, "No units?! (%s)", filename);
     exit(1);
   }
-  for( i=0; i<U_LAST; i++ ) {
+  if(nval > U_LAST) {
+    freelog(LOG_FATAL, "Too many units (%d, max %d) (%s)",
+	    nval, U_LAST, filename);
+    exit(1);
+  }
+  game.num_unit_types = nval;
+  
+  for( i=0; i<game.num_unit_types; i++ ) {
     u = &unit_types[i];
     strcpy(u->name, secfile_lookup_str(file, "%s.name", sec[i]));
   }
@@ -338,12 +345,12 @@ static void load_ruleset_units(char *ruleset_subdir)
      we might want to know for other fields.  After this we
      can use unit_type_exists()
   */
-  for( i=0; i<U_LAST; i++ ) {
+  for( i=0; i<game.num_unit_types; i++ ) {
     u = &unit_types[i];
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
 				      0, filename, u->name);
   }
-  for( i=0; i<U_LAST; i++ ) {
+  for( i=0; i<game.num_unit_types; i++ ) {
     u = &unit_types[i];
     if (unit_type_exists(i)) {
       u->obsoleted_by = lookup_unit_type(file, sec[i],
@@ -355,7 +362,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   }
 
   /* main stats: */
-  for( i=0; i<U_LAST; i++ ) {
+  for( i=0; i<game.num_unit_types; i++ ) {
     u = &unit_types[i];
     
     sval = secfile_lookup_str(file, "%s.move_type", sec[i]);
@@ -398,7 +405,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   }
   
   /* flags */
-  for(i=0; i<U_LAST; i++) {
+  for(i=0; i<game.num_unit_types; i++) {
     u = &unit_types[i];
     u->flags = 0;
     
@@ -419,7 +426,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   }
     
   /* roles */
-  for(i=0; i<U_LAST; i++) {
+  for(i=0; i<game.num_unit_types; i++) {
     u = &unit_types[i];
     u->roles = 0;
     
@@ -444,7 +451,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   section_file_free(file);
 
   /* Some more consistency checking: */
-  for( i=0; i<U_LAST; i++ ) {
+  for( i=0; i<game.num_unit_types; i++ ) {
     if (unit_type_exists(i)) {
       u = &unit_types[i];
       if (!tech_exists(u->tech_requirement)) {
@@ -1053,7 +1060,7 @@ static void send_ruleset_units(struct player *dest)
   struct unit_type *u;
   int to;
 
-  for(u=unit_types; u<unit_types+U_LAST; u++) {
+  for(u=unit_types; u<unit_types+game.num_unit_types; u++) {
     packet.id = u-unit_types;
     strcpy(packet.name, u->name);
     packet.graphics = u->graphics;

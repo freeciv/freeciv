@@ -286,6 +286,7 @@ void game_init(void)
   strcpy(game.ruleset.terrain, GAME_DEFAULT_RULESET);
   strcpy(game.ruleset.governments, GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
+  game.num_unit_types = 0;
 
   game.government_count = 0;
   game.default_government = G_MAGIC;        /* flag */

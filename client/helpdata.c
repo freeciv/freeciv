@@ -238,7 +238,7 @@ void boot_help_texts(void)
 	}
 	/* add defaults for those not seen: */
 	if(current_type==HELP_UNIT) {
-	  for(i=0; i<U_LAST; i++) {
+ 	  for(i=0; i<game.num_unit_types; i++) {
 	    if(!seen[i] && unit_type_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      sprintf(name, " %s", unit_name(i));
@@ -631,7 +631,7 @@ void helptext_wonder(char *buf, int which,
   if(which==B_MANHATTEN && num_role_units(F_NUCLEAR)>0) {
     int u, t;
     u = get_role_unit(F_NUCLEAR, 0);
-    assert(u<U_LAST);
+    assert(u<game.num_unit_types);
     t = get_unit_type(u)->tech_requirement;
     assert(t<A_LAST);
     sprintf(buf+strlen(buf),

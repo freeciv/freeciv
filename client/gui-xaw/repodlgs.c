@@ -1023,14 +1023,14 @@ void activeunits_report_dialog_update(void)
     report_title=get_report_title("Active Units");
     xaw_set_label(activeunits_label, report_title);
     free(report_title);
-    for (i=0;i <U_LAST;i++) 
+    for (i=0;i <game.num_unit_types;i++) 
       unit_count[i]=0;
     unit_list_iterate(game.player_ptr->units, punit) 
       unit_count[punit->type]++;
     unit_list_iterate_end;
     k = 0;
     total = 0;
-    for (i=0;i<U_LAST;i++) {
+    for (i=0;i<game.num_unit_types;i++) {
       if (unit_count[i] > 0) {
 	sprintf(activeunits_list_names[k], "%-27s%c%5d", unit_name(i), can_upgrade_unittype(game.player_ptr, i) != -1 ? '*': '-', unit_count[i]);
 	activeunits_list_names_ptrs[k]=activeunits_list_names[k];

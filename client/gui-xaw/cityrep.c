@@ -547,7 +547,7 @@ void city_list_callback(Widget w, XtPointer client_data,
 	flag=1;
       }
 
-    for(i=0; i<U_LAST; i++)
+    for(i=0; i<game.num_unit_types; i++)
       if(can_build_unit(pcity, i)) {
 	Widget entry;
 	sprintf(buf,"%s (%d)", 

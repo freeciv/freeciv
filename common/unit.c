@@ -1019,7 +1019,7 @@ A unit_type doesn't exist if one of:
 **************************************************************************/
 int unit_type_exists(enum unit_type_id id)
 {
-  if (id<0 || id>=U_LAST)
+  if (id<0 || id>=U_LAST || id>=game.num_unit_types)
     return 0;
   else 
     return unit_types[id].tech_requirement!=A_LAST;
@@ -1033,7 +1033,7 @@ enum unit_type_id find_unit_type_by_name(char *s)
 {
   int i;
 
-  for( i=0; i<U_LAST; i++ ) {
+  for( i=0; i<game.num_unit_types; i++ ) {
     if (strcmp(unit_types[i].name, s)==0)
       return i;
   }
@@ -1062,14 +1062,14 @@ static void precalc_one(int i, int (*func_has)(enum unit_type_id, int))
   int j;
 
   /* Count: */
-  for(u=0; u<U_LAST; u++) {
+  for(u=0; u<game.num_unit_types; u++) {
     if(unit_type_exists(u) && func_has(u, i)) {
       n_with_role[i]++;
     }
   }
   if(n_with_role[i] > 0) {
     with_role[i] = fc_malloc(n_with_role[i]*sizeof(enum unit_type_id));
-    for(j=0, u=0; u<U_LAST; u++) {
+    for(j=0, u=0; u<game.num_unit_types; u++) {
       if(unit_type_exists(u) && func_has(u, i)) {
 	with_role[i][j++] = u;
       }

@@ -906,14 +906,14 @@ void activeunits_report_dialog_update(void)
     row[0] = buf0;
     row[2] = buf2;
 
-    for (i=0;i <U_LAST;i++) 
+    for (i=0;i <game.num_unit_types;i++) 
       unit_count[i]=0;
     unit_list_iterate(game.player_ptr->units, punit) 
       unit_count[punit->type]++;
     unit_list_iterate_end;
     k = 0;
     total = 0;
-    for (i=0;i<U_LAST;i++) {
+    for (i=0;i<game.num_unit_types;i++) {
       if (unit_count[i] > 0) {
         sprintf( buf0, "%-27s", unit_name(i) );
 	row[1] = can_upgrade_unittype(game.player_ptr, i) != -1 ? "*": "-";

@@ -592,7 +592,8 @@ static int ai_choose_attacker(struct city *pcity, enum unit_move_type which)
   int best = 0;
   int bestid = 0;
   int cur;
-  for (i = 0; i < U_LAST; i++) { /* not dealing with planes yet */
+  for (i = 0; i < game.num_unit_types; i++) {
+    /* not dealing with planes yet */
     if (!is_ai_simple_military(i)) continue;
     cur = unit_attack_desirability(i);
     if (which == unit_types[i].move_type) {
@@ -622,7 +623,7 @@ int ai_choose_defender_versus(struct city *pcity, int v)
   int best= 0;
   int bestid = 0;
 
-  for (i = 0; i < U_LAST; i++) {
+  for (i = 0; i < game.num_unit_types; i++) {
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && (m == LAND_MOVING || m == SEA_MOVING)) {
@@ -676,7 +677,7 @@ int ai_choose_defender_limited(struct city *pcity, int n, enum unit_move_type wh
   int walls = 1; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
   int isdef = has_a_normal_defender(pcity);
 
-  for (i = 0; i < U_LAST; i++) {
+  for (i = 0; i < game.num_unit_types; i++) {
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && get_unit_type(i)->build_cost <= n &&

@@ -1737,7 +1737,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   pdialog->change_list_num_improvements=n;
 
 
-  for(i=0; i<U_LAST; i++)
+  for(i=0; i<game.num_unit_types; i++)
     if(can_build_unit(pdialog->pcity, i)) {
       sprintf(pdialog->change_list_names[n],"%s (%d)", get_unit_name(i), get_unit_type(i)->build_cost);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];

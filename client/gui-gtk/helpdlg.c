@@ -543,7 +543,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   
   create_help_page(HELP_UNIT);
 
-  if (i<U_LAST) {
+  if (i<game.num_unit_types) {
     struct unit_type *utype = get_unit_type(i);
     sprintf(buf, "%d", utype->build_cost);
     gtk_set_label(help_ulabel[0][1], buf);
@@ -647,7 +647,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       w = gtk_label_new(".");
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
     }
-    for(j=0; j<U_LAST; ++j) {
+    for(j=0; j<game.num_unit_types; ++j) {
       if(i!=get_unit_type(j)->tech_requirement) continue;
       hbox = gtk_hbox_new(FALSE, 0);
       gtk_container_add(GTK_CONTAINER(help_vbox), hbox);

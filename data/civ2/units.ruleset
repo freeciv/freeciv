@@ -20,11 +20,16 @@ max_firepower=0                 ; 0 means no max
 firepower_factor=1              ; convenient for Civ1
 
 ; Below: The individual units, one per section.
-; For now, the number of such sections must be kept the same (=51).
-; Also, the order matters: later units are considered "better" for
+;
+; The number can be variable, up to 200.  
+; However for the "official" rulesets, units should not be removed 
+; because that would break backward compatability with savegames.
+;
+; The order here matters: later units are considered "better" for
 ; a given flag or role.  
+;
 ; The actual tag used (the * in [unit_*]) doesn't matter, except 
-; it must be unique for each unit, and it may be used in debug 
+; it must be unique within this file, and it may be used in debug 
 ; output when reading this file.
 ;
 ; Notes:

@@ -403,7 +403,8 @@ int get_defense_power(struct unit *punit)
   int terra;
   int db;
 
-  if (!punit || punit->type<0 || punit->type>=U_LAST)
+  if (!punit || punit->type<0 || punit->type>=U_LAST
+      || punit->type>=game.num_unit_types)
     abort();
   power=get_unit_type(punit->type)->defense_strength*10;
   if (punit->veteran)

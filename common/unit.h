@@ -20,59 +20,15 @@ struct player;
 struct city;
 struct government;
 
-enum unit_type_id { 
-  U_SETTLERS, 
-  U_ENGINEERS, 
-  U_WARRIORS,
-  U_PHALANX, 
-  U_ARCHERS,
-  U_LEGION, 
-  U_PIKEMEN, 
-  U_MUSKETEERS, 
-  U_FANATICS, 
-  U_PARTISAN,
-  U_ALPINE, 
-  U_RIFLEMEN,  
-  U_MARINES, 
-  U_PARATROOPERS, 
-  U_MECH, 
-  U_HORSEMEN, 
-  U_CHARIOT, 
-  U_ELEPHANT,
-  U_CRUSADERS, 
-  U_KNIGHTS, 
-  U_DRAGOONS, 
-  U_CAVALRY, 
-  U_ARMOR, 
-  U_CATAPULT,
-  U_CANNON, 
-  U_ARTILLERY, 
-  U_HOWITZER, 
-  U_FIGHTER, 
-  U_BOMBER, 
-  U_HELICOPTER, 
-  U_SFIGHTER, 
-  U_SBOMBER,
-  U_TRIREME, 
-  U_CARAVEL, 
-  U_GALLEON, 
-  U_FRIGATE, 
-  U_IRONCLAD, 
-  U_DESTROYER, 
-  U_CRUISER, 
-  U_AEGIS, 
-  U_BATTLESHIP, 
-  U_SUBMARINE, 
-  U_CARRIER, 
-  U_TRANSPORT, 
-  U_CRUISERMIS, 
-  U_NUCLEAR, 
-  U_DIPLOMAT, 
-  U_SPY,
-  U_CARAVAN, 
-  U_FREIGHT, 
-  U_EXPLORER, 
-  U_LAST
+enum unit_type_id {
+  U_FIRST=0,
+  U_LAST=MAX_NUM_ITEMS
+  /*
+     U_LAST is a value which is guaranteed to be larger than all
+     actual unit_type values.  It is used as a flag value; it can
+     also be used for fixed allocations to ensure able to hold
+     full number of unit types.
+  */
 };
 
 enum unit_activity {
