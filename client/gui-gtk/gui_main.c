@@ -215,6 +215,28 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
       }
     }
 
+    if (ev->keyval == GDK_Page_Up) {
+      GtkAdjustment *adj;
+      gint nval;
+
+      keypress = TRUE;
+
+      adj = gtk_range_get_adjustment(GTK_RANGE(text_scrollbar));
+      nval = adj->value - adj->page_increment;
+      gtk_adjustment_set_value(adj, nval);
+    }
+
+    if(ev->keyval == GDK_Page_Down) {
+      GtkAdjustment *adj;
+      gint nval;
+
+      keypress = TRUE;
+
+      adj = gtk_range_get_adjustment(GTK_RANGE(text_scrollbar));
+      nval = adj->value + adj->page_increment;
+      gtk_adjustment_set_value(adj, nval);
+    }
+		
     if (data)
       gtk_entry_set_text(GTK_ENTRY(inputline), data);
 
