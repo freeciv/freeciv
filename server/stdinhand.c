@@ -973,7 +973,7 @@ static struct command commands[] = {
       "cmdlevel <level> <player-name>"),
    N_("Query or set command-level access."),
    N_("The command-level controls which server commands are available to "
-      "players via the client chatline.  The available levels are:\n"
+      "users via the client chatline.  The available levels are:\n"
       "    none  -  no commands\n"
       "    info  -  informational commands only\n"
       "    ctrl  -  commands that affect the game and users\n"
@@ -1549,7 +1549,7 @@ static void create_ai_player(struct player *caller, char *arg)
   if (!pplayer)
   {
     cmd_reply(CMD_CREATE, caller, C_FAIL,
-	      _("Error creating new ai player: %s."), arg);
+	      _("Error creating new AI player: %s."), arg);
     return;
   }
 
@@ -1579,7 +1579,7 @@ static void remove_player(struct player *caller, char *arg)
   if (!(game.is_new_game && (server_state==PRE_GAME_STATE ||
 			     server_state==SELECT_RACES_STATE))) {
     cmd_reply(CMD_REMOVE, caller, C_FAIL,
-	      _("Players cannot be removed once the game has started"));
+	      _("Players cannot be removed once the game has started."));
     return;
   }
 
@@ -1949,7 +1949,7 @@ static void cmdlevel_command(struct player *caller, char *str)
   else if ((pplayer=find_player_by_name_prefix(arg_name,&match_result))) {
     if (!pplayer->conn) {
       cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-		_("Cannot change command access for unconnected player '%s'."),
+		_("Cannot change the command access for unconnected player '%s'."),
 		pplayer->name);
       return;
     }
@@ -2541,7 +2541,7 @@ void handle_stdin_input(struct player *caller, char *str)
 
       /* Sanity check scenario */
       if (map.fixed_start_positions && game.max_players > map.num_start_positions) {
-	freelog(LOG_VERBOSE, _("Reduced maxplayers from %i to %i to fit"
+	freelog(LOG_VERBOSE, _("Reduced maxplayers from %i to %i to fit "
 			       "to the number of start positions."),
 		game.max_players, map.num_start_positions);
 	game.max_players = map.num_start_positions;
@@ -2650,7 +2650,7 @@ static void show_help_intro(struct player *caller, enum command_id help_cmd)
     _("Welcome - this is the introductory help text for the Freeciv server.\n\n"
       "Two important server concepts are Commands and Options.\n"
       "Commands, such as 'help', are used to interact with the server.\n"
-      "Some commands take one or more parameters, separated by spaces.\n"
+      "Some commands take one or more arguments, separated by spaces.\n"
       "In many cases commands and command arguments may be abbreviated.\n"
       "Options are settings which control the server as it is running.\n\n"
       "To find out how to get more information about commands and options,\n"
