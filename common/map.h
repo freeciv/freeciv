@@ -146,6 +146,8 @@ struct civ_map {
   int topology_id;
   enum direction8 valid_dirs[8], cardinal_dirs[8];
   int num_valid_dirs, num_cardinal_dirs;
+  struct iter_index *iterate_outwards_indices;
+  int num_iterate_outwards_indices;
   int size; /* used to calculate [xy]size */
   int xsize, ysize; /* native dimensions */
   int seed;
@@ -410,70 +412,31 @@ extern struct civ_map map;
 
 extern struct terrain_misc terrain_control;
 
-/* This iterates outwards from the starting point (Duh?).
-   Every tile within max_dist will show up exactly once. (even takes
-   into account wrap). All positions given correspond to real tiles.
-   The values given are adjusted.
-   You should make sure that the arguments passed to the macro are adjusted,
-   or you could have some very nasty intermediate errors.
+/* This iterates outwards from the starting point. Every tile within max_dist
+ * will show up exactly once, in an outward (based on real map distance)
+ * order.  The returned values are always real and are normalized.  The
+ * starting position must be normal. */
+#define iterate_outward(start_x, start_y, max_dist, x_itr, y_itr)	    \
+{									    \
+  int _start_x = (start_x), _start_y = (start_y), _max_dist = (max_dist);   \
+  bool _is_border = IS_BORDER_MAP_POS(_start_x, _start_y, _max_dist);	    \
+  int x_itr, y_itr, _dx_itr, _dy_itr, _index;				    \
+									    \
+  CHECK_MAP_POS(_start_x, _start_y);					    \
+  for (_index = 0; _index < map.num_iterate_outwards_indices; _index++) {   \
+    if (map.iterate_outwards_indices[_index].dist > _max_dist) {	    \
+      break;								    \
+    }									    \
+    _dx_itr = map.iterate_outwards_indices[_index].dx;			    \
+    _dy_itr = map.iterate_outwards_indices[_index].dy;			    \
+    x_itr = _dx_itr + _start_x;						    \
+    y_itr = _dy_itr + _start_y;						    \
+    if (_is_border && !normalize_map_pos(&x_itr, &y_itr)) {		    \
+      continue;								    \
+    }
 
-   Internally it works by for a given distance
-   1) assume y positive and iterate over x
-   2) assume y negative and iterate over x
-   3) assume x positive and iterate over y
-   4) assume x negative and iterate over y
-   Where in this we are is decided by the variables xcycle and positive.
-   each of there distances give a box of tiles; to ensure each tile is only
-   returned once we only return the corner when iterating over x.
-   As a special case positive is initialized as 0 (ie we start in step 2) ),
-   as the center tile would else be returned by both step 1) and 2).
-*/
-#define iterate_outward(ARG_start_x, ARG_start_y, ARG_max_dist, ARG_x_itr, ARG_y_itr) \
-{                                                                             \
-  int ARG_x_itr, ARG_y_itr;                                                   \
-  int MACRO_max_dx = map.xsize/2;                                             \
-  int MACRO_min_dx = -MACRO_max_dx - 1 + (map.xsize % 2);                     \
-  bool MACRO_xcycle = TRUE;                                                   \
-  bool MACRO_positive = FALSE;                                                \
-  bool MACRO_is_border = IS_BORDER_MAP_POS(ARG_start_x, ARG_start_y,          \
-                                           ARG_max_dist);                     \
-  int MACRO_dxy = 0, MACRO_do_xy;                                             \
-  CHECK_MAP_POS(ARG_start_x, ARG_start_y);                                    \
-  while(MACRO_dxy <= (ARG_max_dist)) {                                        \
-    for (MACRO_do_xy = -MACRO_dxy; MACRO_do_xy <= MACRO_dxy; MACRO_do_xy++) { \
-      if (MACRO_xcycle) {                                                     \
-	ARG_x_itr = (ARG_start_x) + MACRO_do_xy;                              \
-	if (MACRO_positive)                                                   \
-	  ARG_y_itr = (ARG_start_y) + MACRO_dxy;                              \
-	else                                                                  \
-	  ARG_y_itr = (ARG_start_y) - MACRO_dxy;                              \
-      } else { /* ! MACRO_xcycle */                                           \
-        if (MACRO_dxy == MACRO_do_xy || MACRO_dxy == -MACRO_do_xy)            \
-          continue;                                                           \
-	ARG_y_itr = (ARG_start_y) + MACRO_do_xy;                              \
-	if (MACRO_positive)                                                   \
-	  ARG_x_itr = (ARG_start_x) + MACRO_dxy;                              \
-	else                                                                  \
-	  ARG_x_itr = (ARG_start_x) - MACRO_dxy;                              \
-      }                                                                       \
-      {                                                                       \
-	int MACRO_dx = (ARG_start_x) - ARG_x_itr;                             \
-	if (MACRO_dx > MACRO_max_dx || MACRO_dx < MACRO_min_dx)               \
-	  continue;                                                           \
-      }                                                                       \
-      if (MACRO_is_border && !normalize_map_pos(&ARG_x_itr, &ARG_y_itr)) {    \
-	continue;                                                             \
-      }
-
-#define iterate_outward_end                                                   \
-    }                                                                         \
-    if (!MACRO_positive) {                                                    \
-      if (!MACRO_xcycle)                                                      \
-	MACRO_dxy++;                                                          \
-      MACRO_xcycle = !MACRO_xcycle;                                           \
-    }                                                                         \
-    MACRO_positive = !MACRO_positive;                                         \
-  }                                                                           \
+#define iterate_outward_end						    \
+  }                                                                         \
 }
 
 #define rectangle_iterate(map_x0, map_y0, map_width, map_height,            \

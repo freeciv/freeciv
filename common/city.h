@@ -401,6 +401,9 @@ bool base_city_map_to_map(int *map_x, int *map_y, int city_center_x,
 			 int city_map_y);
 bool city_map_to_map(int *map_x, int *map_y, const struct city *const pcity,
 		    int city_map_x, int city_map_y);
+
+/* Initialization functions */
+int compare_iter_index(const void *a, const void *b);
 void generate_city_map_indices(void);
 
 /* shield on spot */

@@ -155,7 +155,7 @@ static int cmp(int v1, int v2)
   or the sort order will be left up to qsort and will be undefined.  This
   would mean that server execution would not be reproducable.
 ***************************************************************************/
-static int compare_index(const void *a, const void *b)
+int compare_iter_index(const void *a, const void *b)
 {
   const struct iter_index *index1 = a, *index2 = b;
   int value;
@@ -204,7 +204,7 @@ void generate_city_map_indices(void)
   }
   assert(i == CITY_TILES);
 
-  qsort(array, CITY_TILES, sizeof(*array), compare_index);
+  qsort(array, CITY_TILES, sizeof(*array), compare_iter_index);
 
 #ifdef DEBUG
   for (i = 0; i < CITY_TILES; i++) {

@@ -215,6 +215,98 @@ void map_init(void)
   map.have_huts             = FALSE;
 }
 
+/**************************************************************************
+  Fill the iterate_outwards_indices array.  This may depend on the topology.
+***************************************************************************/
+static void generate_map_indices(void)
+{
+  int i = 0, nat_x, nat_y, tiles;
+  struct iter_index *array = map.iterate_outwards_indices;
+  int nat_center_x, nat_center_y, nat_min_x, nat_min_y, nat_max_x, nat_max_y;
+  int map_center_x, map_center_y;
+
+  /* These caluclations are done via tricky native math.  We need to make
+   * sure that when "exploring" positions in the iterate_outward we hit each
+   * position within the distance exactly once.
+   *
+   * To do this we pick a center position (at the center of the map, for
+   * convenience).  Then we iterate over all of the positions around it,
+   * accounting for wrapping, in native coordinates.  Note that some of the
+   * positions iterated over before will not even be real; the point is to
+   * use the native math so as to get the right behavior under different
+   * wrapping conditions.
+   *
+   * Thus the "center" position below is just an arbitrary point.  We choose
+   * the center of the map to make the min/max values (below) simpler. */
+  nat_center_x = map.xsize / 2;
+  nat_center_y = map.ysize / 2;
+  native_to_map_pos(&map_center_x, &map_center_y,
+		    nat_center_x, nat_center_y);
+
+  /* If we wrap in a particular direction (X or Y) we only need to explore a
+   * half of a map-width in that direction before we hit the wrap point.  If
+   * not we need to explore the full width since we have to account for the
+   * worst-case where we start at one edge of the map.  Of course if we try
+   * to explore too far the extra steps will just be skipped by the
+   * normalize check later on.  So the purpose at this point is just to
+   * get the right set of positions, relative to the start position, that
+   * may be needed for the iteration.
+   *
+   * If the map does wrap, we go map.Nsize / 2 in each direction.  This
+   * gives a min value of 0 and a max value of Nsize-1, because of the
+   * center position chosen above.  This also avoids any off-by-one errors.
+   *
+   * If the map doesn't wrap, we go map.Nsize-1 in each direction.  In this
+   * case we're not concerned with going too far and wrapping around, so we
+   * just have to make sure we go far enough if we're at one edge of the
+   * map. */
+  nat_min_x = (topo_has_flag(TF_WRAPX) ? 0 : (nat_center_x - map.xsize + 1));
+  nat_min_y = (topo_has_flag(TF_WRAPY) ? 0 : (nat_center_y - map.ysize + 1));
+
+  nat_max_x = (topo_has_flag(TF_WRAPX)
+	       ? (map.xsize - 1)
+	       : (nat_center_x + map.xsize - 1));
+  nat_max_y = (topo_has_flag(TF_WRAPY)
+	       ? (map.ysize - 1)
+	       : (nat_center_y + map.ysize - 1));
+  tiles = (nat_max_x - nat_min_x + 1) * (nat_max_y - nat_min_y + 1);
+
+  array = fc_realloc(array, tiles * sizeof(*array));
+
+  for (nat_x = nat_min_x; nat_x <= nat_max_x; nat_x++) {
+    for (nat_y = nat_min_y; nat_y <= nat_max_y; nat_y++) {
+      int map_x, map_y, dx, dy;
+
+      /* Now for each position, we find the vector (in map coordinates) from
+       * the center position to that position.  Then we calculate the
+       * distance between the two points.  Wrapping is ignored at this
+       * point since the use of native positions means we should always have
+       * the shortest vector. */
+      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+      dx = map_x - map_center_x;
+      dy = map_y - map_center_y;
+
+      array[i].dx = dx;
+      array[i].dy = dy;
+      array[i].dist = map_vector_to_real_distance(dx, dy);
+      i++;
+    }
+  }
+  assert(i == tiles);
+
+  qsort(array, tiles, sizeof(*array), compare_iter_index);
+
+#if 0
+  for (i = 0; i < tiles; i++) {
+    freelog(LOG_DEBUG, "%5d : (%3d,%3d) : %d",
+	    i, array[i].dx, array[i].dy, array[i].dist);
+  }
+#endif
+
+  map.num_iterate_outwards_indices = tiles;
+  map.iterate_outwards_indices = array;
+}
+
 /****************************************************************************
   Set the map xsize and ysize based on a base size and ratio (in natural
   coordinates).
@@ -383,6 +475,7 @@ void map_allocate(void)
   } whole_map_iterate_end;
 
   generate_city_map_indices();
+  generate_map_indices();
 }
 
 /***************************************************************
