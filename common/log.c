@@ -101,8 +101,11 @@ int log_parse_level_str(char *level_str)
   
   dup = mystrdup(c+2);
   tok = strtok(dup, ":");
-  
-#define FRETURN(x) do { free(dup); return (x); } while(0)
+
+  /* In FRETURN below, "if (1)" is a hack to avoid spurious
+     warning from Solaris cc --dwp
+  */
+#define FRETURN(x) do { free(dup); if(1) return (x); } while(0)
   
   if (tok==NULL) {
     fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
