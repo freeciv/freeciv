@@ -1335,8 +1335,8 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
   int id, x, y, boatid = 0, bx = -1, by = -1;
   struct unit *ferryboat = NULL;
   struct unit *def;
-  struct city *dcity = map_get_city(dest_x, dest_y);
   struct tile *ptile;
+  bool boat_arrived;
 
   CHECK_UNIT(punit);
 
@@ -1407,18 +1407,20 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
     } 
   }
 
-  if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0 
-      && (!ferryboat 
-          || (real_map_distance(punit->x, punit->y, dest_x, dest_y) < 3 
-              && (punit->ai.bodyguard == BODYGUARD_NONE 
-                  || unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
-                                    punit->ai.bodyguard) 
-                  || (dcity && !has_defense(dcity)))))) {
-    /* if we are on a boat, disembark only if we are within two tiles of
-     * our target, and either 1) we don't need a bodyguard, 2) we have a
-     * bodyguard, or 3) we are going to an empty city.  Previously, cannons
-     * would disembark before the cruisers arrived and die. -- Syela */
+  if (ferryboat && is_goto_dest_set(ferryboat)) {
+    /* we are on a ferry! did we arrive? */
+    boat_arrived = same_pos(ferryboat->x, ferryboat->y,
+                            goto_dest_x(ferryboat), goto_dest_y(ferryboat))
+                   || is_tiles_adjacent(ferryboat->x, ferryboat->y,
+                            goto_dest_x(ferryboat), goto_dest_y(ferryboat));
+  } else {
+    boat_arrived = FALSE;
+  }
 
+  /* Go where we should be going if we can, and are at our destination 
+   * if we are on a ferry */
+  if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0
+      && (!ferryboat || boat_arrived)) {
     set_goto_dest(punit, dest_x, dest_y);
     
     /* The following code block is supposed to stop units from running away 
