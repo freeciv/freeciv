@@ -1262,6 +1262,11 @@ void popup_unit_select_dialog(struct tile *ptile)
 					     formWidgetClass, 
 					     unit_select_dialog_shell, NULL);
 
+  if(flags_are_transparent)  {
+    Pixel bg;
+    XtVaGetValues(unit_select_form, XtNbackground, &bg, NULL);
+    XSetForeground(display, fill_bg_gc, bg);
+  }
 
   for(i=0; i<unit_list_size(&ptile->units); i++) {
     struct unit *punit=unit_list_get(&ptile->units, i);
@@ -1281,9 +1286,6 @@ void popup_unit_select_dialog(struct tile *ptile)
 					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
 
     if (flags_are_transparent) {
-      Pixel bg;
-      XtVaGetValues(unit_select_form, XtNbackground, &bg, NULL);
-      XSetForeground(display, fill_bg_gc, bg);
       XFillRectangle(display, unit_select_pixmaps[i], fill_bg_gc,
 		     0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
@@ -1297,10 +1299,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 						      XtNbitmap,
 						      (XtArgVal)unit_select_pixmaps[i],
 						      XtNsensitive,
-						      punit->moves_left>0 &&
 						      can_unit_do_activity(punit, ACTIVITY_IDLE),
-						      XtNwidth, NORMAL_TILE_WIDTH+4,
-						      XtNheight, NORMAL_TILE_HEIGHT+4,
 						      NULL);
       XtAddCallback(unit_select_commands[0],
 		    XtNdestroyCallback,free_bitmap_destroy_callback,
@@ -1323,8 +1322,6 @@ void popup_unit_select_dialog(struct tile *ptile)
 						      XtNfromVert, unit_select_commands[i-1],
 						      XtNsensitive,
 						      can_unit_do_activity(punit, ACTIVITY_IDLE),
-						      XtNwidth, NORMAL_TILE_WIDTH+4,
-						      XtNheight, NORMAL_TILE_HEIGHT+4,
 						      NULL);
       XtAddCallback(unit_select_commands[i],
 		    XtNdestroyCallback,free_bitmap_destroy_callback,
