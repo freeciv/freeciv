@@ -85,7 +85,7 @@ char usage[] =
 
 int main(int argc, char *argv[])
 {
-  if(strstr(argv[1],"-help")) {
+  if(argc>1 && strstr(argv[1],"-help")) {
     fprintf(stderr, "This is the Freeciv client\n");
     fprintf(stderr, usage, argv[0]);
     fprintf(stderr, "  -help\t\t\tPrint a summary of the options\n");
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
     exit(0);
   }
   
-  if(strstr(argv[1],"-version")) {
+  if(argc>1 && strstr(argv[1],"-version")) {
     fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
     exit(0);
   }
