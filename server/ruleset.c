@@ -2520,6 +2520,12 @@ static void load_ruleset_cities(struct section_file *file)
     freelog(LOG_FATAL, "Forced taxes do not add up in ruleset!");
     exit(EXIT_FAILURE);
   }
+  if (game.rgame.min_size_elvis > 0 && game.rgame.min_size_taxman > 0
+      && game.rgame.min_size_scientist > 0) {
+    freelog(LOG_FATAL, "At least one specialist must be available without a "
+	    "city size restriction!");
+    exit(EXIT_FAILURE);
+  }
 
   /* City Parameters */
 
