@@ -8,7 +8,7 @@ leader_sex="Male", "Female", "Female", "Male", "Male", "Male",
            "Male", "Male", "Male"
 flag="f.china"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Asian"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Emperor"),      _("Dowager")
                  "Communism",       _("Chairman"),     _("Chairperson")

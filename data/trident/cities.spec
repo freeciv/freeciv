@@ -82,4 +82,15 @@ tiles = { "row", "column", "tag"
  4,  3, "city.postmodern_wall"
  4,  4, "city.postmodern_occupied"
 
+ 6,  0, "city.asian_0"
+ 6,  1, "city.asian_5"
+ 6,  2, "city.asian_10"
+ 6,  3, "city.asian_wall"
+ 6,  4, "city.asian_occupied"
+
+ 7,  0, "city.tropical_0"
+ 7,  1, "city.tropical_5"
+ 7,  2, "city.tropical_10"
+ 7,  3, "city.tropical_wall"
+ 7,  4, "city.tropical_occupied"
 }

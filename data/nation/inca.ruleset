@@ -6,7 +6,7 @@ leader="Tupac", "Manco Capac", "Atahualpa", "Pachacuti"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.peru"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Warlord"),      _("Warlord")

@@ -8,7 +8,7 @@ leader_sex = "Male", "Male", "Male", "Male",
              "Male", "Male"
 flag="f.thailand"
 flag_alt = "-"
-city_style = "European"
+city_style = "Asian"
 
 attack=1
 expand=2

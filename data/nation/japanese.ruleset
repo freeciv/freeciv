@@ -6,7 +6,7 @@ leader="Mutsuhito", "Jimmu Tenno", "Hirohito", "Tokugawa Ieyasu"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.japan"
 flag_alt = "-"
-city_style = "European"
+city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Shogun"),         _("Shogun")

@@ -6,7 +6,7 @@ leader="Sauron", "Angmar", "Gorthaur"
 leader_sex="Male", "Male", "Male"
 flag = "f.mordor"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Overlord"),     _("Overlord")

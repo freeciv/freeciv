@@ -6,7 +6,7 @@ leader="Montezuma", "Cuahtemoc", "Itzcoatl", "Axayacatl"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.mexico"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Tropical"
 
 attack=1
 expand=0

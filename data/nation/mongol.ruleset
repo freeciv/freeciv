@@ -6,7 +6,7 @@ leader="Genghis", "Ogodei", "Timur", "Batu", "Tokhtamysh"
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.mongolia"
 flag_alt = "-"
-city_style = "European"
+city_style = "Asian"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Khan"),         _("Khan")
                  "Monarchy",        _("Great Khan"),   _("Great Khan")

@@ -6,7 +6,7 @@ leader="Gandhi", "Ashoka", "Chandragupta", "Indhira Gandhi"
 leader_sex="Male", "Male", "Male", "Female"
 flag="f.india"
 flag_alt = "-"
-city_style = "European"
+city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Maharaja"),     _("Maharaja")

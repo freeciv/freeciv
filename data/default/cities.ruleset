@@ -36,6 +36,20 @@ graphic_alt = "-"
 tech        = "None"
 replaced_by = "Industrial"
 
+[citystyle_tropical]
+name        = _("Tropical")
+graphic     = "city.tropical"
+graphic_alt = "city.european"
+tech        = "None"
+replaced_by = "Industrial"
+
+[citystyle_asian]
+name        = _("Asian")
+graphic     = "city.asian"
+graphic_alt = "city.classical"
+tech        = "None"
+replaced_by = "Industrial"
+
 [citystyle_industrial]
 name        = _("Industrial")
 graphic     = "city.industrial"

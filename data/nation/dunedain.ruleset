@@ -10,7 +10,7 @@ leader="Elros", "Tar-Ancalimë", "Míriel", "Elendil", "Isildur", "Aragorn"
 leader_sex="Male", "Female", "Female", "Male", "Male", "Male"
 flag = "f.dunedain"
 flag_alt = "-"
-city_style = "European"
+city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("King"),         _("Queen")

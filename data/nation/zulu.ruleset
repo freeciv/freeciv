@@ -6,7 +6,7 @@ leader="Shaka"
 leader_sex="Male"
 flag="f.south_africa"
 flag_alt = "f.rwanda"  ; used previously
-city_style = "European"
+city_style = "Tropical"
 
 attack=2
 expand=1
