@@ -1881,8 +1881,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     send_player_info(destroyer,0);   /* let me see my new money :-) */
   }
 
-  if( (incity) || 
-      (map_get_special(punit->x, punit->y)&S_FORTRESS) || 
+  if( (incity) ||
+      (map_get_special(punit->x, punit->y)&S_FORTRESS) ||
+      (map_get_special(punit->x, punit->y)&S_AIRBASE) ||
       (num_killed == 1)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
 		     _("Game: You lost a%s %s under an attack from %s's %s%s."),

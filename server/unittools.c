@@ -567,11 +567,12 @@ int find_a_unit_type(int role, int role_tech)
 /**************************************************************************
   unit can't attack if :
  1) it don't have any attack power
- 2) it's not a fighter and the defender is a flying unit
+ 2) it's not a fighter and the defender is a flying unit (except city/airbase)
  3) if it's not a marine (and ground unit) and it attacks from ocean
- 4) a ground unit can't attack a ship on an ocean square
+ 4) a ground unit can't attack a ship on an ocean square (except marines)
 **************************************************************************/
-int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int dest_x, int dest_y)
+int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
+				 int dest_x, int dest_y)
 {
   int fromtile=map_get_terrain(punit->x, punit->y);
   int totile=map_get_terrain(dest_x, dest_y);
@@ -579,11 +580,12 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int
   if(!is_military_unit(punit))
     return 0;
 
-  /*only fighters can attack planes, except for city attacks */
-  if (!unit_flag(punit->type, F_FIGHTER) && is_air_unit(pdefender) && !map_get_city(dest_x, dest_y)) {
+  /* only fighters can attack planes, except for city or airbase attacks */
+  if (!unit_flag(punit->type, F_FIGHTER) && is_air_unit(pdefender) &&
+      !(map_get_city(dest_x, dest_y) || map_get_special(dest_x, dest_y)&S_AIRBASE)) {
     return 0;
   }
-  /* can't attack with ground unit from ocean */
+  /* can't attack with ground unit from ocean, except for marines */
   if(fromtile==T_OCEAN && is_ground_unit(punit) && !unit_flag(punit->type, F_MARINES)) {
     return 0;
   }
