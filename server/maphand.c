@@ -1004,6 +1004,56 @@ void player_map_allocate(struct player *pplayer)
 }
 
 /***************************************************************
+...
+****************************************************************/
+static void player_map_deallocate(int playerid)
+{
+  int x,y;
+
+  if (player_tiles[playerid]) {
+    for (y=0; y<map.ysize; y++)
+      for (x=0; x<map.xsize; x++) {
+	struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
+	if (plrtile->city)
+	  free(plrtile->city);
+      }
+
+    free(player_tiles[playerid]);
+    player_tiles[playerid] = NULL;
+  }
+}
+
+/***************************************************************
+...
+****************************************************************/
+void player_map_renumber(int deleted_player)
+{
+  int o, x, y;
+
+  if (player_tiles[deleted_player])
+    player_map_deallocate(deleted_player);
+
+  for (o = deleted_player; o < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS-1; o++) {
+    player_tiles[o] = player_tiles[o+1];
+  }
+  player_tiles[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS-1] = NULL;
+
+  for (o = 0; o < game.nplayers; o++)
+    if (player_tiles[o])
+      for (y=0; y<map.ysize; ++y)
+	for (x=0; x<map.xsize; ++x) {
+	  struct player_tile *plrtile = map_get_player_tile(x, y, o);
+	  struct dumb_city *dcity = plrtile->city;
+	  if (dcity && dcity->owner == deleted_player) {
+	    reality_check_city(get_player(o), x, y);
+	  }
+	  if (dcity && dcity->owner > deleted_player) {
+	    dcity->owner--;
+	  }
+	}
+}
+
+/***************************************************************
 We need to use use fogofwar_old here, so the player's tiles get
 in the same state as th other players' tiles.
 ***************************************************************/

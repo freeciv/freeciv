@@ -2822,13 +2822,15 @@ void server_remove_player(struct player *pplayer)
 
   game_remove_player(pplayer->player_no);
   game_renumber_players(pplayer->player_no);
+  player_map_renumber(idx);
 
-  if(map.tiles) {
+  if (map.tiles) {
     for(y=0; y<map.ysize; ++y)
       for(x=0; x<map.xsize; ++x) {
-	struct tile *ptile=map_get_tile(x, y);
-	if(ptile)
-	  ptile->known=WIPEBIT(ptile->known, idx);
+	struct tile *ptile = map_get_tile(x, y);
+	ptile->known = WIPEBIT(ptile->known, idx);
+	ptile->sent = WIPEBIT(ptile->sent, idx);
+	ptile->assigned = WIPEBIT(ptile->assigned, idx);
       }
   }
 }
