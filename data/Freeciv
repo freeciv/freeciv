@@ -1520,7 +1520,7 @@ Freeciv*reportactiveunitslistlabel.bottom:             chainTop
 Freeciv*reportactiveunitslistlabel.left:               chainLeft
 Freeciv*reportactiveunitslistlabel.right:              chainRight
 Freeciv*reportactiveunitslistlabel.fromVert:           reportactiveunitslabel
-Freeciv*reportactiveunitslistlabel.label:Unit Type                    Total
+Freeciv*reportactiveunitslistlabel.label:Unit Type                  U Total
 Freeciv*reportactiveunitslist.fromVert:            reportactiveunitslistlabel
 Freeciv*reportactiveunitslist.forceColumns:        true
 Freeciv*reportactiveunitslist.defaultColumns:      1

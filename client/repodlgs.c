@@ -883,9 +883,10 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(activeunits_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    if (can_upgrade_unittype(game.player_ptr, activeunits_type[ret->list_index]) != -1) 
+    if (can_upgrade_unittype(game.player_ptr, activeunits_type[ret->list_index]) != -1) {
       XtSetSensitive(upgrade_command, TRUE);
-    return;
+      return;
+    }
   }
   XtSetSensitive(upgrade_command, FALSE);
 }
