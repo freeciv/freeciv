@@ -959,7 +959,6 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
             freelog(LOG_DEBUG, "Better than %d is %d (%s)",
                           best, desire, unit_type(pdef)->name);
             SET_BEST(desire);
-            
           } else {
             freelog(LOG_DEBUG, "NOT better than %d is %d (%s)",
                     best, desire, unit_type(pdef)->name);
@@ -1766,14 +1765,14 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     /* dealing with invasion stuff */
     if (IS_ATTACKER(aunit)) {
       if (aunit->activity == ACTIVITY_GOTO) {
-        invasion_funct(aunit, TRUE, 0, (CAN_OCCUPY(aunit) ? 1 : 2));
+        invasion_funct(aunit, TRUE, 0, (COULD_OCCUPY(aunit) ? 1 : 2));
         if ((pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
           pcity->ai.attack += unit_belligerence_basic(aunit);
           pcity->ai.bcost += unit_type(aunit)->build_cost;
         } 
       }
       invasion_funct(aunit, FALSE, unit_type(aunit)->move_rate / SINGLE_MOVE,
-                     (CAN_OCCUPY(aunit) ? 1 : 2));
+                     (COULD_OCCUPY(aunit) ? 1 : 2));
     } else if (aunit->ai.passenger != 0 &&
                !same_pos(aunit->x, aunit->y, punit->x, punit->y)) {
       /* It's a transport with reinforcements */
@@ -1888,7 +1887,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         }
       }
 
-      if (CAN_OCCUPY(punit) || TEST_BIT(acity->ai.invasion, 0)) {
+      if (COULD_OCCUPY(punit) || TEST_BIT(acity->ai.invasion, 0)) {
         /* There are units able to occupy the city! */
         benefit += 40;
       }
@@ -1903,14 +1902,14 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       victim_count 
         = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
 
-      if (!CAN_OCCUPY(punit) && !pdef) {
+      if (!COULD_OCCUPY(punit) && !pdef) {
         /* Nothing there to bash and we can't occupy! 
          * Not having this check caused warships yoyoing */
         want = 0;
       } else if (move_time > THRESHOLD) {
         /* Too far! */
         want = 0;
-      } else if (CAN_OCCUPY(punit) && acity->ai.invasion == 2) {
+      } else if (COULD_OCCUPY(punit) && acity->ai.invasion == 2) {
         /* Units able to occupy really needed there! */
         want = bcost * SHIELD_WEIGHTING;
       } else {
@@ -2033,7 +2032,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       move_time = turns_to_enemy_unit(punit->type, move_rate, 
                                       aunit->x, aunit->y, aunit->type);
 
-      if (!CAN_OCCUPY(punit) && vuln == 0) {
+      if (!COULD_OCCUPY(punit) && vuln == 0) {
         /* FIXME: There is something with defence 0 there, maybe a diplomat.
          * What's wrong in killing a diplomat? -- GB */
         want = 0;
