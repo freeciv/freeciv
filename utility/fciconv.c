@@ -170,11 +170,14 @@ const char *get_internal_encoding(void)
   Convert the text.  Both 'from' and 'to' must be 8-bit charsets.  The
   result will be put into the buf buffer unless it is NULL, in which case it
   will be allocated on demand.
+
+  Don't use this function if you can avoid it.  Use one of the
+  xxx_to_yyy_string functions.
 ***************************************************************************/
-static char *convert_string(const char *text,
-			    const char *from,
-			    const char *to,
-			    char *buf, size_t bufsz)
+char *convert_string(const char *text,
+		     const char *from,
+		     const char *to,
+		     char *buf, size_t bufsz)
 {
 #ifdef HAVE_ICONV
   iconv_t cd = iconv_open(to, from);
