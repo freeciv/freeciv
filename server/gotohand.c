@@ -498,6 +498,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit)
      map_get_continent(punit->goto_dest_x, punit->goto_dest_y) && 
      map_get_known(punit->goto_dest_x, punit->goto_dest_y, pplayer) &&
      !map_get_city(punit->x, punit->y) &&
+     !is_tiles_adjacent(punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y) &&
      !map_get_city(punit->goto_dest_x, punit->goto_dest_y)) {
     punit->activity=ACTIVITY_IDLE;
     send_unit_info(0, punit, 0);
