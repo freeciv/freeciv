@@ -14,7 +14,7 @@
 #define FC__CLINET_H
 
 #define DEFAULT_SOCK_PORT 5555
-#define METALIST_ADDR "http://www.daimi.aau.dk/~lancelot/freeciv.html"
+#define METALIST_ADDR "http://www.freeciv.org/metaserver/"
 
 struct connection;
 
@@ -24,5 +24,26 @@ void disconnect_from_server(void);
 
 extern struct connection aconnection;
 /* this is the client's connection to the server */
+
+struct server
+{
+  char *name;
+  char *port;
+  char *version;
+  char *status;
+  char *players;
+  char *metastring;
+};
+
+#define SPECLIST_TAG server
+#define SPECLIST_TYPE struct server
+#include "speclist.h"
+
+#define server_list_iterate(serverlist, pserver) \
+  TYPED_LIST_ITERATE(struct server, serverlist, pserver)
+#define server_list_iterate_end  LIST_ITERATE_END
+
+struct server_list *create_server_list(char *errbuf);
+void delete_server_list(struct server_list *server_list);
 
 #endif  /* FC__CLINET_H */

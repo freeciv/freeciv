@@ -106,6 +106,9 @@
 /* Define if you have the dcgettext function.  */
 #undef HAVE_DCGETTEXT
 
+/* Define if you have the fdopen function.  */
+#undef HAVE_FDOPEN
+
 /* Define if you have the getcwd function.  */
 #undef HAVE_GETCWD
 

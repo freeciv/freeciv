@@ -75,6 +75,8 @@
 
 struct connection aconnection;
 
+extern char metaserver[];
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -181,5 +183,182 @@ void input_from_server(int fid)
     popdown_races_dialog(); 
     set_client_state(CLIENT_PRE_GAME_STATE);
   }
+}
+
+
+#define SPECLIST_TAG server
+#define SPECLIST_TYPE struct server
+#include "speclist_c.h"
+
+/**************************************************************************
+ Create the list of servers from the metaserver
+ The result must be free'd with delete_server_list() when no
+ longer used
+**************************************************************************/
+struct server_list *create_server_list(char *errbuf)
+{
+  struct server_list *server_list;
+  struct sockaddr_in addr;
+  struct hostent *ph;
+  int s;
+  FILE *f;
+  char *proxy_url;
+  char urlbuf[512];
+  char *urlpath;
+  char *server;
+  int port;
+  char str[512];
+
+  if ((proxy_url = getenv("http_proxy"))) {
+    if (strncmp(proxy_url,"http://",strlen("http://"))) {
+      strcpy(errbuf, "Invalid $http_proxy value, must start with 'http://'");
+      return NULL;
+    }
+    strncpy(urlbuf,proxy_url,511);
+  } else {
+    if (strncmp(metaserver,"http://",strlen("http://"))) {
+      strcpy(errbuf, "Invalid metaserver URL, must start with 'http://'");
+      return NULL;
+    }
+    strncpy(urlbuf,metaserver,511);
+  }
+  server = &urlbuf[strlen("http://")];
+
+  {
+    char *s;
+    if ((s = strchr(server,':'))) {
+      port = atoi(&s[1]);
+      if (!port) {
+        port = 80;
+      }
+      s[0] = '\0';
+      ++s;
+      while (isdigit(s[0])) {++s;}
+    } else {
+      port = 80;
+      if (!(s = strchr(server,'/'))) {
+        s = &server[strlen(server)];
+      }
+    }  /* s now points past the host[:port] part */
+
+    if (s[0] == '/') {
+      s[0] = '\0';
+      ++s;
+    } else if (s[0]) {
+      strcpy(errbuf, "Invalid $http_proxy value, cannot find separating '/'");
+      /* which is obligatory if more characters follow */
+      return NULL;
+    }
+    urlpath = s;
+  }
+
+  if ((ph = gethostbyname(server)) == NULL) {
+    strcpy(errbuf, "Failed looking up host");
+    return NULL;
+  } else {
+    addr.sin_family = ph->h_addrtype;
+    memcpy((char *) &addr.sin_addr, ph->h_addr, ph->h_length);
+  }
+  
+  addr.sin_port = htons(port);
+  
+  if((s = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
+    strcpy(errbuf, mystrerror(errno));
+    return NULL;
+  }
+  
+  if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
+    strcpy(errbuf, mystrerror(errno));
+    close(s);
+    return NULL;
+  }
+
+#ifdef HAVE_FDOPEN
+  f=fdopen(s,"r+");
+  fprintf(f,"GET %s%s%s HTTP/1.0\r\n\r\n",
+    proxy_url ? "" : "/",
+    urlpath,
+    proxy_url ? metaserver : "");
+  fflush(f);
+#else
+  {
+    int i;
+
+    f=tmpfile();
+    send(s,"GET ",4,0);
+    if(!proxy_url) send(s,"/",1,0);
+    send(s,urlpath,strlen(urlpath),0);
+    if(proxy_url) send(s,metaserver,strlen(metaserver),0);
+    send(s," HTTP/1.0\r\n\r\n", sizeof(" HTTP/1.0\r\n\r\n"),0);
+
+    while ((i = recv(s, str, sizeof(str), 0)) > 0)
+      fwrite(str,1,i,f);
+    fflush(f);
+
+    close(s);
+
+    fseek(f,0,SEEK_SET);
+  }
+#endif
+
+#define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;
+#define END_FIELD  p=strstr(p,"</TD>"); if(p==NULL) continue; *p++='\0';
+#define GET_FIELD(x) NEXT_FIELD (x)=p; END_FIELD
+
+  server_list = fc_malloc(sizeof(struct server_list));
+  server_list_init(server_list);
+
+  while(fgets(str,512,f)!=NULL)  {
+    if(!strncmp(str,"<TR BGCOLOR",11))  {
+      char *name,*port,*version,*status,*players,*metastring;
+      char *p;
+      struct server *pserver = (struct server*)fc_malloc(sizeof(struct server));
+
+      p=strstr(str,"<a"); if(p==NULL) continue;
+      p=strchr(p,'>');    if(p==NULL) continue;
+      name=++p;
+      p=strstr(p,"</a>"); if(p==NULL) continue;
+      *p++='\0';
+
+      GET_FIELD(port);
+      GET_FIELD(version);
+      GET_FIELD(status);
+      GET_FIELD(players);
+      GET_FIELD(metastring);
+
+      pserver->name = mystrdup(name);
+      pserver->port = mystrdup(port);
+      pserver->version = mystrdup(version);
+      pserver->status = mystrdup(status);
+      pserver->players = mystrdup(players);
+      pserver->metastring = mystrdup(metastring);
+
+      server_list_insert(server_list, pserver);
+    }
+  }
+  fclose(f);
+
+  return server_list;
+}
+
+/**************************************************************************
+ Frees everything associated with a server list including
+ the server list itself (so the server_list is no longer
+ valid after calling this function)
+**************************************************************************/
+void delete_server_list(struct server_list *server_list)
+{
+  server_list_iterate(*server_list, ptmp)
+    free(ptmp->name);
+    free(ptmp->port);
+    free(ptmp->version);
+    free(ptmp->status);
+    free(ptmp->players);
+    free(ptmp->metastring);
+    free(ptmp);
+  server_list_iterate_end;
+
+  server_list_unlink_all(server_list);
+	free(server_list);
 }
 

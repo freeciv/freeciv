@@ -17,33 +17,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* The following includes are (only) required for get_meta_list() */
-#include <errno.h>
-#include <ctype.h>
-#include <string.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
-#endif
-#ifdef HAVE_NETDB_H
-#include <netdb.h>
-#endif
-#ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
-#endif
-#ifdef HAVE_ARPA_INET_H
-#include <arpa/inet.h>
-#endif
-
 #include <gtk/gtk.h>
 
-#include "mem.h"		/* required by get_meta_list() */
-#include "shared.h"		/* required by get_meta_list() */
 #include "version.h"
 
 #include "chatline.h"
@@ -66,7 +41,6 @@ extern GtkWidget *toplevel;
 static GtkWidget *dialog;
 
 /* meta Server */
-extern char metaserver[];
 int  update_meta_dialog(GtkWidget *meta_list);
 void meta_list_callback(GtkWidget *w, gint row, gint column);
 void meta_update_callback(GtkWidget *w, gpointer data);
@@ -271,97 +245,14 @@ void gui_server_connect(void)
 
 /**************************************************************************
   Get the list of servers from the metaserver
-  Should be moved to clinet.c somewhen
 **************************************************************************/
 static int get_meta_list(GtkWidget *list, char *errbuf)
 {
-  struct sockaddr_in addr;
-  struct hostent *ph;
-  int s, i;
-  FILE *f;
+  int i;
   char *row[6];
   char  buf[6][64];
-  char *proxy_url = (char *)NULL;
-  char urlbuf[512];
-  char *urlpath;
-  char *server;
-  int port;
-  char str[512];
-
-  if ((proxy_url = getenv("http_proxy"))) {
-    if (strncmp(proxy_url,"http://",strlen("http://"))) {
-      strcpy(errbuf, "Invalid $http_proxy value, must start with 'http://'");
-      return -1;
-    }
-    strncpy(urlbuf,proxy_url,511);
-  } else {
-    if (strncmp(metaserver,"http://",strlen("http://"))) {
-      strcpy(errbuf, "Invalid metaserver URL, must start with 'http://'");
-      return -1;
-    }
-    strncpy(urlbuf,metaserver,511);
-  }
-  server = &urlbuf[strlen("http://")];
-
-  {
-    char *s;
-    if ((s = strchr(server,':'))) {
-      port = atoi(&s[1]);
-      if (!port) {
-        port = 80;
-      }
-      s[0] = '\0';
-      ++s;
-      while (isdigit(s[0])) {++s;}
-    } else {
-      port = 80;
-      if (!(s = strchr(server,'/'))) {
-        s = &server[strlen(server)];
-      }
-    }  /* s now points past the host[:port] part */
-
-    if (s[0] == '/') {
-      s[0] = '\0';
-      ++s;
-    } else if (s[0]) {
-      strcpy(errbuf, "Invalid $http_proxy value, cannot find separating '/'");
-      /* which is obligatory if more characters follow */
-      return -1;
-    }
-    urlpath = s;
-  }
-
-  if ((ph = gethostbyname(server)) == NULL) {
-    strcpy(errbuf, "Failed looking up host");
-    return -1;
-  } else {
-    addr.sin_family = ph->h_addrtype;
-    memcpy((char *) &addr.sin_addr, ph->h_addr, ph->h_length);
-  }
-  
-  addr.sin_port = htons(port);
-  
-  if((s = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-    strcpy(errbuf, mystrerror(errno));
-    return -1;
-  }
-  
-  if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
-    strcpy(errbuf, mystrerror(errno));
-    close(s);
-    return -1;
-  }
-
-  f=fdopen(s,"r+");
-  fprintf(f,"GET %s%s%s HTTP/1.0\r\n\r\n",
-    proxy_url ? "" : "/",
-    urlpath,
-    proxy_url ? metaserver : "");
-  fflush(f);
-
-#define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;
-#define END_FIELD  p=strstr(p,"</TD>"); if(p==NULL) continue; *p++='\0';
-#define GET_FIELD(x) NEXT_FIELD (x)=p; END_FIELD
+  struct server_list *server_list = create_server_list(errbuf);
+  if(!server_list) return -1;
 
   gtk_clist_freeze(GTK_CLIST(list));
   gtk_clist_clear(GTK_CLIST(list));
@@ -369,35 +260,19 @@ static int get_meta_list(GtkWidget *list, char *errbuf)
   for (i=0; i<6; i++)
     row[i]=buf[i];
 
-  while(fgets(str,512,f)!=NULL)  {
-    if(!strncmp(str,"<TR BGCOLOR",11))  {
-      char *name,*port,*version,*status,*players,*metastring;
-      char *p;
+  server_list_iterate(*server_list,pserver)
+    sprintf(row[0], "%.63s", pserver->name);
+    sprintf(row[1], "%.63s", pserver->port);
+    sprintf(row[2], "%.63s", pserver->version);
+    sprintf(row[3], "%.63s", pserver->status);
+    sprintf(row[4], "%.63s", pserver->players);
+    sprintf(row[5], "%.63s", pserver->metastring);
 
-      p=strstr(str,"<a"); if(p==NULL) continue;
-      p=strchr(p,'>');    if(p==NULL) continue;
-      name=++p;
-      p=strstr(p,"</a>"); if(p==NULL) continue;
-      *p++='\0';
+    gtk_clist_append(GTK_CLIST(list), row);
+  server_list_iterate_end
 
-      GET_FIELD(port);
-      GET_FIELD(version);
-      GET_FIELD(status);
-      GET_FIELD(players);
-      GET_FIELD(metastring);
-
-      sprintf(row[0], "%.63s", name);
-      sprintf(row[1], "%.63s", port);
-      sprintf(row[2], "%.63s", version);
-      sprintf(row[3], "%.63s", status);
-      sprintf(row[4], "%.63s", players);
-      sprintf(row[5], "%.63s", metastring);
-
-      gtk_clist_append(GTK_CLIST(list), row);
-    }
-  }
+  delete_server_list(server_list);
   gtk_clist_thaw(GTK_CLIST(list));
-  fclose(f);
 
   return 0;
 }

@@ -6199,7 +6199,7 @@ fi
 
 fi
 
-for ac_func in gethostname getpwuid select strerror strstr usleep gettimeofday
+for ac_func in gethostname getpwuid select strerror strstr usleep gettimeofday fdopen
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
 echo "configure:6206: checking for $ac_func" >&5
