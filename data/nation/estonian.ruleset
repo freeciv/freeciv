@@ -2,8 +2,10 @@
 
 name=_("Estonian")
 plural=_("?plural:Estonians")
-leader="Tunne Kelam", "Kelavipoeg", "Lembitu"
-leader_sex="Male", "Male", "Male"
+leader="Kalevipoeg", "Lembitu", "Carl Robert Jakobson", "Konstatin Päts",
+  "Tunne Kelam", "Lennart Meri"
+leader_sex="Male", "Male", "Male", "Male",
+  "Male", "Male"
 flag="f.estonia"
 flag_alt = "-"
 city_style = "European"
@@ -17,9 +19,10 @@ wonder="United Nations"
 government = "Democracy"
 
 cities =
-  "Tallinn", "Tartu", "Paarnu", "Tapa", "Tamsalu", "Rakvere",
-  "Kilingi-Noomme", "Kohtla-Jaarve", "Sillamaae", "Kuressaare",
-  "Kehra", "Maardu", "Loksa", "Kohila", "Paldiski", "Keila",
-  "Rapla", "Lihula", "Paide", "Vaandra", "Vohma", "Paide",
-  "Tuuri", "Maarjarnaa", "Kaardla", "Vosu", "Kunda", "Kivioli",
-  "Viivikonna", "Kallaste", "Rappina", "Voru", "Haapsalu"
+  "Tallinn", "Tartu", "Narva", "Kohtla-Järve", "Pärnu",
+  "Viljandi", "Rakvere", "Valga", "Võru", "Sillamäe",
+  "Kuressaare", "Haapsalu", "Kiviõli", "Tapa", "Paide",
+  "Maardu", "Paldiski", "Türi", "Keila", "Elva",
+  "Kunda", "Põltsamaa", "Sindi", "Kärdla", "Tõrva",
+  "Otepää", "Kilingi-Nõmme", "Mustvee", "Antsla", "Mõisaküla",
+  "Suure-Jaani", "Kallaste", "Mustla"
