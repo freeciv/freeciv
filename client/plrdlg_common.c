@@ -249,7 +249,7 @@ const int num_player_dlg_columns = ARRAY_SIZE(player_dlg_columns);
 *******************************************************************/
 int player_dlg_default_sort_column(void)
 {
-  return 2;
+  return 3;
 }
 
 /****************************************************************************
