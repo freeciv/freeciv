@@ -131,8 +131,6 @@ struct city_dialog {
     GtkWidget *info_label[NUM_INFO_FIELDS];
   } overview;
 
-  struct worklist_editor *wl_editor;
-
   struct {
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
@@ -255,7 +253,6 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 static void switch_page_callback(GtkNotebook * notebook,
 				 GtkNotebookPage * page, gint page_num,
 				 gpointer data);
-static void commit_city_worklist(struct worklist *pwl, void *data);
 
 static void rename_callback(GtkWidget * w, gpointer data);
 static gint rename_callback_delete(GtkWidget * widget, GdkEvent * event,
@@ -2692,79 +2689,6 @@ static void switch_page_callback(GtkNotebook * notebook,
 				 GtkNotebookPage * page, gint page_num,
 				 gpointer data)
 {
-#if 0
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  /* gtk_notebook_get_current_page() is actually the */
-  /* page from which we switched.                    */
-  if (gtk_notebook_get_current_page(notebook) == WORKLIST_PAGE) {
-    if (pdialog->pcity->owner == game.player_idx &&
-	pdialog->wl_editor->changed) {
-      commit_worklist(pdialog->wl_editor);
-    }
-  }
-#endif
-}
-
-/****************************************************************
-  Commit the changes to the worklist for the city.
-*****************************************************************/
-static void commit_city_worklist(struct worklist *pwl, void *data)
-{
-  struct packet_city_request packet;
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  int k, id;
-  bool is_unit;
-
-  /* Update the worklist.  Remember, though -- the current build
-     target really isn't in the worklist; don't send it to the server
-     as part of the worklist.  Of course, we have to search through
-     the current worklist to find the first _now_available_ build
-     target (to cope with players who try mean things like adding a
-     Battleship to a city worklist when the player doesn't even yet
-     have the Map Making tech).  */
-
-  for (k = 0; k < MAX_LEN_WORKLIST; k++) {
-    int same_as_current_build;
-    if (!worklist_peek_ith(pwl, &id, &is_unit, k))
-      break;
-
-    same_as_current_build = id == pdialog->pcity->currently_building
-	&& is_unit == pdialog->pcity->is_building_unit;
-
-    /* Very special case: If we are currently building a wonder we
-       allow the construction to continue, even if we the wonder is
-       finished elsewhere, ie unbuildable. */
-    if (k == 0 && !is_unit && is_wonder(id) && same_as_current_build) {
-      worklist_remove(pwl, k);
-      break;
-    }
-
-    /* If it can be built... */
-    if ((is_unit && can_build_unit(pdialog->pcity, id)) ||
-	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
-      /* ...but we're not yet building it, then switch. */
-      if (!same_as_current_build) {
-
-	/* Change the current target */
-	packet.city_id = pdialog->pcity->id;
-	packet.build_id = id;
-	packet.is_build_id_unit_id = is_unit;
-	send_packet_city_request(&aconnection, &packet,
-				 PACKET_CITY_CHANGE);
-      }
-
-      /* This item is now (and may have always been) the current
-         build target.  Drop it out of the worklist. */
-      worklist_remove(pwl, k);
-      break;
-    }
-  }
-
-  /* Send the rest of the worklist on its way. */
-  packet.city_id = pdialog->pcity->id;
-  copy_worklist(&packet.worklist, pwl);
-  packet.worklist.name[0] = '\0';
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
 }
 
 /******* Callbacks for stuff on the Misc. Settings page *********/
@@ -3046,9 +2970,6 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
 		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
   pdialog->cma_editor->pcity = new_pcity;
-  pdialog->wl_editor->pcity = new_pcity;
-  pdialog->wl_editor->pwl = &new_pcity->worklist;
-  pdialog->wl_editor->user_data = (void *) pdialog;
 
   center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);
   set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */
