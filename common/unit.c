@@ -249,7 +249,7 @@ int is_transporter_with_free_space(struct player *pplayer, int x, int y)
   }
   unit_list_iterate_end;
   
-  return total_capacity>none_transporters;
+  return(total_capacity>none_transporters ? total_capacity-none_transporters : 0);
 }
 
 
