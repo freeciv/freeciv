@@ -1,5 +1,5 @@
-Questo file si basa sulla versione cvs-1.10 di HOWTOPLAY.
-This file based on cvs-1.10's HOWTOPLAY.
+Questo file si basa sulla versione cvs-1.2 di doc/HOWTOPLAY.
+This file based on cvs-1.2's doc/HOWTOPLAY.
 
 ======================
 Come giocare a Freeciv
@@ -20,8 +20,7 @@ Per avere Freeciv funzionante vedi il file README (oppure doc/README.it Ndt).
 Se non hai mai giocato a giochi come Civilization, e' piu' facile cominciare
 leggendo il manuale di Freeciv, disponibile separatamente presso:
 
-     http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
+     http://www.freeciv.org/manual/
 
 Se stai cercando idee per giocare a Freeciv continua a leggere!!
 
@@ -160,7 +159,7 @@ D. Quali altre strategie esistono?
         Ci sono alcuni tutorial e guide strategiche disponibili presso le
 pagine web di Freeciv, presso:
 
-        http://www.freeciv.org/tutorials/tutorials.phtml
+        http://www.freeciv.org/tutorials/
 
 Inoltre la guida in linea di Freeciv descrive un'altra strategia.
 
@@ -264,7 +263,7 @@ D. Quali sono le unita' militari piu' utili?
 
 Ricorda: la miglior difesa e' un deciso attacco.
 
-<Aggiunte a questo documento (e alla sua versione inglese Ndt) sono benvenute>
+Aggiunte a questo documento (e alla sua versione inglese Ndt) sono benvenute!
 
 ===========================================================================
 Note per la traduzione in Italiano:
