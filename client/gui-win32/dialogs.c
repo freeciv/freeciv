@@ -336,10 +336,12 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 				   WPARAM wParam,
 				   LPARAM lParam)  
 {
+  static bool name_edited;
   int id;
   switch(message)
     {
     case WM_CREATE:
+      name_edited=FALSE;
       break;
     case WM_CLOSE:
       popdown_races_dialog();
@@ -360,6 +362,16 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	    selected_leader_sex=id;	    
 	    update_radio_buttons(id);
 	  break;
+	case ID_RACESDLG_LEADER:
+	  switch(HIWORD(wParam)) {
+	  case CBN_SELCHANGE:
+	    name_edited=FALSE;
+	    break; 
+	  case CBN_EDITCHANGE:
+	    name_edited=TRUE;
+	    break;
+	  }
+	  break;
 	case ID_RACESDLG_QUIT:
 	  exit(EXIT_SUCCESS);
 	  break;
@@ -379,7 +391,9 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	  } else if ((id>=ID_RACESDLG_NATION_BASE)&&
 		     (id<ID_RACESDLG_NATION_BASE+game.playable_nation_count)) {
 	    selected_nation=id-ID_RACESDLG_NATION_BASE;
-	    select_random_leader(hWnd);
+	    if (!name_edited) {
+	      select_random_leader(hWnd);
+	    }
 	    update_radio_buttons(id);
 	  }
 
