@@ -590,8 +590,7 @@ void update_map_canvas_scrollbars_size(void)
 {
   int xmin, ymin, xmax, ymax, xsize, ysize;
 
-  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
-
+  get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
   ScrollBar_SetRange(map_scroll_h, xmin, xmax, TRUE);
   ScrollBar_SetRange(map_scroll_v, ymin, ymax, TRUE);
 }
@@ -602,8 +601,11 @@ void update_map_canvas_scrollbars_size(void)
 void
 update_map_canvas_scrollbars(void)
 {
-  ScrollBar_SetPos(map_scroll_h,map_view_x,TRUE);
-  ScrollBar_SetPos(map_scroll_v,map_view_y,TRUE);
+  int scroll_x, scroll_y;
+
+  get_mapview_scroll_pos(&scroll_x, &scroll_y);
+  ScrollBar_SetPos(map_scroll_h, scroll_x, TRUE);
+  ScrollBar_SetPos(map_scroll_v, scroll_y, TRUE);
 }
 
 /**************************************************************************
@@ -1010,17 +1012,14 @@ void overview_expose(HDC hdc)
 **************************************************************************/
 void map_handle_hscroll(int pos)
 {
-  int xmin, ymin, xmax, ymax, xsize, ysize;
+  int scroll_x, scroll_y;
 
   if (!can_client_change_view()) {
     return;
   }
 
-  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
-  map_view_x = CLIP(xmin, pos, xmax - xsize);
-
-  update_map_canvas_visible();
-  refresh_overview_viewrect();                                                
+  set_mapview_scroll_pos(&scroll_x, &scroll_y);
+  set_mapview_scroll_pos(pos, scroll_y);
 }
 
 /**************************************************************************
@@ -1028,17 +1027,14 @@ void map_handle_hscroll(int pos)
 **************************************************************************/
 void map_handle_vscroll(int pos)
 {
-  int xmin, ymin, xmax, ymax, xsize, ysize;
+  int scroll_x, scroll_y;
 
   if (!can_client_change_view()) {
     return;
   }
 
-  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
-  map_view_y = CLIP(ymin, pos, ymax - ysize);
-
-  update_map_canvas_visible();
-  refresh_overview_viewrect();
+  set_mapview_scroll_pos(&scroll_x, &scroll_y);
+  set_mapview_scroll_pos(scroll_x, pos);
 }
 
 /**************************************************************************

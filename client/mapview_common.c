@@ -288,19 +288,49 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
   return normalize_map_pos(map_x, map_y);
 }
 
-/**************************************************************************
-  Return the range of values that the mapview origin can take.  Useful
-  for scrollbars or when manually clipping the window.
-**************************************************************************/
-void get_mapview_clipping_window(int *xmin, int *ymin,
-				 int *xmax, int *ymax,
-				 int *xsize, int *ysize)
+/****************************************************************************
+  Return the range of values that the mapview origin can take, in scroll
+  positions.  Useful for scrollbars or when manually clipping the window.
+****************************************************************************/
+void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
+			       int *xsize, int *ysize)
 {
   *xmin = *ymin = 0;
   *xmax = map.xsize;
   *ymax = map.ysize + EXTRA_BOTTOM_ROW;
   *xsize = mapview_canvas.tile_width;
   *ysize = mapview_canvas.tile_height;
+}
+
+/****************************************************************************
+  Find the current scroll position (origin) of the mapview.
+****************************************************************************/
+void get_mapview_scroll_pos(int *scroll_x, int *scroll_y)
+{
+  map_to_native_pos(scroll_x, scroll_y,
+		    mapview_canvas.map_x0, mapview_canvas.map_y0);
+}
+
+/****************************************************************************
+  Set the scroll position (origin) of the mapview, and update the GUI.
+****************************************************************************/
+void set_mapview_scroll_pos(int scroll_x, int scroll_y)
+{
+  int xmin, ymin, xmax, ymax, xsize, ysize, x0, y0;
+
+  get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+  native_to_map_pos(&x0, &y0, scroll_x, scroll_y);
+
+  x0 = CLIP(xmin, x0, xmax - xsize);
+  y0 = CLIP(ymin, y0, ymax - ysize);
+
+  if (x0 != mapview_canvas.map_x0 || y0 != mapview_canvas.map_y0) {
+    mapview_canvas.map_x0 = x0;
+    mapview_canvas.map_y0 = y0;
+
+    update_map_canvas_visible();
+    refresh_overview_viewrect();
+  }
 }
 
 /**************************************************************************

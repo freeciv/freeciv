@@ -1153,8 +1153,11 @@ void put_city_workers(struct city *pcity, int color)
 **************************************************************************/
 void update_map_canvas_scrollbars(void)
 {
-  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_hadj), map_view_x0);
-  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_vadj), map_view_y0);
+  int scroll_x, scroll_y;
+
+  get_mapview_scroll_pos(&scroll_x, &scroll_y);
+  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_hadj), scroll_x);
+  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_vadj), scroll_y);
 }
 
 /**************************************************************************
@@ -1164,7 +1167,7 @@ void update_map_canvas_scrollbars_size(void)
 {
   int xmin, ymin, xmax, ymax, xsize, ysize;
 
-  get_mapview_clipping_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+  get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
 
   map_hadj = gtk_adjustment_new(-1, xmin, xmax, 1, xsize, xsize);
   map_vadj = gtk_adjustment_new(-1, ymin, ymax, 1, ysize, ysize);
@@ -1187,28 +1190,21 @@ void update_map_canvas_scrollbars_size(void)
 **************************************************************************/
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 {
-  int last_map_view_x0;
-  int last_map_view_y0;
-
-  gfloat percent=adj->value;
+  int scroll_x, scroll_y;
 
   if (!can_client_change_view()) {
     return;
   }
 
-  last_map_view_x0=map_view_x0;
-  last_map_view_y0=map_view_y0;
+  get_mapview_scroll_pos(&scroll_x, &scroll_y);
 
-  if(hscrollbar)
-    map_view_x0=percent;
-  else {
-    map_view_y0=percent;
+  if (hscrollbar) {
+    scroll_x = adj->value;
+  } else {
+    scroll_y = adj->value;
   }
 
-  if (last_map_view_x0!=map_view_x0 || last_map_view_y0!=map_view_y0) {
-    update_map_canvas_visible();
-    refresh_overview_viewrect();
-  }
+  set_mapview_scroll_pos(scroll_x, scroll_y);
 }
 
   
