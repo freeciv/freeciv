@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.39-1.14-4\n"
-"POT-Creation-Date: 2002-12-21 10:07+0100\n"
+"POT-Creation-Date: 2003-01-17 10:37+0100\n"
 "PO-Revision-Date: 2002-12-17 16:51+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
@@ -4070,7 +4070,7 @@ msgstr "Ändra serverutdata mellan \"RFC-stil\" och vanlig stil."
 msgid "(ambiguous)"
 msgstr "(flertydigt)"
 
-#: server/stdinhand.c:1362 client/packhand.c:1007
+#: server/stdinhand.c:1362 client/packhand.c:1008
 msgid "(unknown)"
 msgstr "(okänd)"
 
@@ -4898,45 +4898,45 @@ msgstr "Spel: Vår angripande %s misslyckades mot %ss %s%s!"
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
 msgstr "Spel: Vår angripande %s lyckades mot %ss %s%s!"
 
-#: server/unithand.c:819
+#: server/unithand.c:823
 msgid "Game: Cancel treaty in the players dialog first (F3)."
 msgstr "Spel: Avbryt avtal i spearedialogen först (F3)."
 
-#: server/unithand.c:842
+#: server/unithand.c:846
 #, c-format
 msgid "Game: Only %s can attack from sea."
 msgstr "Spel: Endast %s kunna angripa från sjön."
 
-#: server/unithand.c:847
+#: server/unithand.c:851
 msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan inte angripa från sjön."
 
-#: server/unithand.c:852 server/unittools.c:2284
+#: server/unithand.c:856 server/unittools.c:2284
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spel: Kan inte angripa utan att förklara krig först."
 
-#: server/unithand.c:855
+#: server/unithand.c:859
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
 msgstr "Spel: %s kunna endast gå in i vårt eget kontrollområde."
 
-#: server/unithand.c:940
+#: server/unithand.c:944
 msgid "Game: Unit must be on land to perform diplomatic action."
 msgstr "Spel: Enheter måste vara på land för att utföra budbärarhandlingar."
 
-#: server/unithand.c:942
+#: server/unithand.c:946
 msgid "Game: No diplomat action possible."
 msgstr "Spel: Ingen budbärarhandling är möjlig."
 
-#: server/unithand.c:952
+#: server/unithand.c:956
 msgid "Game: You can't attack there."
 msgstr "Spel: Vi kunna ej angripa här."
 
-#: server/unithand.c:958
+#: server/unithand.c:962
 msgid "Game: This unit has no moves left."
 msgstr "spel: Denna enhet har inga drag kvar."
 
-#: server/unithand.c:964
+#: server/unithand.c:968
 #, c-format
 msgid ""
 "Game: Can't attack %s's unit in the city of %s because you are not at war "
@@ -4944,46 +4944,46 @@ msgid ""
 msgstr ""
 "Spel: Vi kunna ej angripa %ss enhet i staden %s, ty vi äro ej i krig mot %s."
 
-#: server/unithand.c:976
+#: server/unithand.c:980
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr "Spel: %s avbröt GÅTILL ty det finnas enheter i vägen."
 
-#: server/unithand.c:990
+#: server/unithand.c:994
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
 msgstr "Spel: Inget krig förklarat mot %s, kan inte angripa."
 
-#: server/unithand.c:1001
+#: server/unithand.c:1005
 msgid "Game: Only ground troops can take over a city."
 msgstr "Spel: Endast landenheter kunna ta över städer."
 
-#: server/unithand.c:1008
+#: server/unithand.c:1012
 #, c-format
 msgid "Game: No war declared against %s, cannot take over city."
 msgstr "Spel: Inget krig förklarat mot %s, kan inte ta över staden."
 
-#: server/unithand.c:1058
+#: server/unithand.c:1062
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr "Spel: Vår %s hjälper till att bygga %s i %s (%d återstår)."
 
-#: server/unithand.c:1100
+#: server/unithand.c:1104
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr "Spel: Ledsen, vår %s kan inte inrätta en handelsled hit!"
 
-#: server/unithand.c:1106
+#: server/unithand.c:1110
 #, c-format
 msgid "      A traderoute already exists between %s and %s!"
 msgstr "      Det finns redan en handelsled mellan %s och %s!"
 
-#: server/unithand.c:1113 server/unithand.c:1120
+#: server/unithand.c:1117 server/unithand.c:1124
 #, c-format
 msgid "      The city of %s already has %d trade routes!"
 msgstr "      Staden %s har redan %d handelsleder!"
 
-#: server/unithand.c:1131
+#: server/unithand.c:1135
 #, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
@@ -6649,29 +6649,29 @@ msgstr "Klientförmåga-sträng: %s"
 msgid "Server capability string: %s"
 msgstr "Serverförmåga-sträng: %s"
 
-#: client/packhand.c:673
+#: client/packhand.c:674
 #, c-format
 msgid "Start of turn %d"
 msgstr "Början av omgång %d"
 
-#: client/packhand.c:744
+#: client/packhand.c:745
 msgid "Popup Request"
 msgstr "Öppna förfrågan"
 
-#: client/packhand.c:1230
+#: client/packhand.c:1231
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "Datorstyrt läge är nu %s."
 
-#: client/packhand.c:1231
+#: client/packhand.c:1232
 msgid "ON"
 msgstr "PÅ"
 
-#: client/packhand.c:1231
+#: client/packhand.c:1232
 msgid "OFF"
 msgstr "AV"
 
-#: client/packhand.c:1241
+#: client/packhand.c:1242
 msgid "Game: Revolution finished"
 msgstr "Spel: Revolution avslutad"
 
@@ -9192,38 +9192,38 @@ msgstr "_Befallningar"
 msgid "Orders"
 msgstr "Befallningar"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1070
-#: client/gui-gtk-2.0/menu.c:1073 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1097
+#: client/gui-gtk-2.0/menu.c:1100 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:1075 client/gui-gtk/menu.c:1078
 #: client/gui-win32/menu.c:320
 msgid "_Build City"
 msgstr "_Bygg stad"
 
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1083
-#: client/gui-gtk-2.0/menu.c:1089 client/gui-gtk/menu.c:644
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1110
+#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:644
 #: client/gui-gtk/menu.c:1088 client/gui-gtk/menu.c:1094
 #: client/gui-win32/menu.c:321
 msgid "Build _Road"
 msgstr "Bygg _väg"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1010
+#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1037
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1015
 #: client/gui-win32/menu.c:322
 msgid "Build _Irrigation"
 msgstr "Bygg bevattn_ing"
 
-#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1011
+#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1038
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1016
 #: client/gui-win32/menu.c:323
 msgid "Build _Mine"
 msgstr "Bygg gruva (_M)"
 
-#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1012
+#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1039
 #: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:1017
 msgid "Transf_orm Terrain"
 msgstr "_Omvandla landskap"
 
-#: client/gui-gtk-2.0/menu.c:653 client/gui-gtk-2.0/menu.c:1121
+#: client/gui-gtk-2.0/menu.c:653 client/gui-gtk-2.0/menu.c:1148
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1126
 #: client/gui-win32/menu.c:325
 msgid "Build _Fortress"
@@ -9234,7 +9234,7 @@ msgstr "Bygg _fästning"
 msgid "Build Airbas_e"
 msgstr "Bygg flygbas (_E)"
 
-#: client/gui-gtk-2.0/menu.c:657 client/gui-gtk-2.0/menu.c:1126
+#: client/gui-gtk-2.0/menu.c:657 client/gui-gtk-2.0/menu.c:1153
 #: client/gui-gtk/menu.c:656 client/gui-gtk/menu.c:1131
 #: client/gui-win32/menu.c:327
 msgid "Clean _Pollution"
@@ -9265,7 +9265,7 @@ msgstr "Lasta _ur"
 msgid "Wake up o_thers"
 msgstr "Väck övriga (_T)"
 
-#: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1131
+#: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1158
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
 msgid "_Auto Settler"
 msgstr "Förbättr_a landskap självständigt"
@@ -9505,50 +9505,50 @@ msgstr "_Kopiering"
 msgid "_About"
 msgstr "_Om"
 
-#: client/gui-gtk-2.0/menu.c:1002 client/gui-gtk/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk/menu.c:1007
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Ändra till %s (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1003 client/gui-gtk/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1030 client/gui-gtk/menu.c:1008
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Ändra till %s (_M)"
 
-#: client/gui-gtk-2.0/menu.c:1004 client/gui-gtk/menu.c:1009
+#: client/gui-gtk-2.0/menu.c:1031 client/gui-gtk/menu.c:1009
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "_Omvandla till %s"
 
-#: client/gui-gtk-2.0/menu.c:1065 client/gui-gtk/menu.c:1070
+#: client/gui-gtk-2.0/menu.c:1092 client/gui-gtk/menu.c:1070
 msgid "Help _Build Wonder"
 msgstr "Hjälp till med världsunder_bygge"
 
-#: client/gui-gtk-2.0/menu.c:1068 client/gui-gtk/menu.c:1073
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1073
 msgid "Add to City (_B)"
 msgstr "Utöka stad (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1076 client/gui-gtk/menu.c:1081
+#: client/gui-gtk-2.0/menu.c:1103 client/gui-gtk/menu.c:1081
 msgid "Make Trade _Route"
 msgstr "In_rätta handelsväg"
 
-#: client/gui-gtk-2.0/menu.c:1079 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:1106 client/gui-gtk/menu.c:1084
 msgid "Build _Railroad"
 msgstr "Bygg jä_rnväg"
 
-#: client/gui-gtk-2.0/menu.c:1101 client/gui-gtk/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1128 client/gui-gtk/menu.c:1106
 msgid "Bu_ild Farmland"
 msgstr "Gör t_ill åkerland"
 
-#: client/gui-gtk-2.0/menu.c:1119 client/gui-gtk/menu.c:1124
+#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
 msgstr "Be_fäst"
 
-#: client/gui-gtk-2.0/menu.c:1124 client/gui-gtk/menu.c:1129
+#: client/gui-gtk-2.0/menu.c:1151 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
 msgstr "Ho_ppa fallskärm"
 
-#: client/gui-gtk-2.0/menu.c:1129 client/gui-gtk/menu.c:1134
+#: client/gui-gtk-2.0/menu.c:1156 client/gui-gtk/menu.c:1134
 msgid "_Auto Attack"
 msgstr "_Angrip självständigt"
 

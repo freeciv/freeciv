@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2002-12-21 10:07+0100\n"
+"POT-Creation-Date: 2003-01-17 10:37+0100\n"
 "PO-Revision-Date: 2000-01-26 14:00+0000\n"
 "Last-Translator: Vasco Costa <vasc@rnl.ist.utl.pt>\n"
 "Language-Team: \n"
@@ -3843,7 +3843,7 @@ msgstr ""
 msgid "(ambiguous)"
 msgstr "(ambíguo)"
 
-#: server/stdinhand.c:1362 client/packhand.c:1007
+#: server/stdinhand.c:1362 client/packhand.c:1008
 msgid "(unknown)"
 msgstr "(desconhecido)"
 
@@ -4661,93 +4661,93 @@ msgstr ""
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
 msgstr ""
 
-#: server/unithand.c:819
+#: server/unithand.c:823
 msgid "Game: Cancel treaty in the players dialog first (F3)."
 msgstr ""
 
-#: server/unithand.c:842
+#: server/unithand.c:846
 #, c-format
 msgid "Game: Only %s can attack from sea."
 msgstr ""
 
-#: server/unithand.c:847
+#: server/unithand.c:851
 msgid "Game: Cannot attack from sea."
 msgstr "Jogo: Não pode atacar a partir do mar."
 
-#: server/unithand.c:852 server/unittools.c:2284
+#: server/unithand.c:856 server/unittools.c:2284
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Jogo: Não pode atacar sem declarar guerra primeiro."
 
-#: server/unithand.c:855
+#: server/unithand.c:859
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
 msgstr ""
 
-#: server/unithand.c:940
+#: server/unithand.c:944
 #, fuzzy
 msgid "Game: Unit must be on land to perform diplomatic action."
 msgstr "* Pode executar acções diplomáticas.\n"
 
-#: server/unithand.c:942
+#: server/unithand.c:946
 #, fuzzy
 msgid "Game: No diplomat action possible."
 msgstr "* Pode executar acções diplomáticas.\n"
 
-#: server/unithand.c:952
+#: server/unithand.c:956
 msgid "Game: You can't attack there."
 msgstr ""
 
-#: server/unithand.c:958
+#: server/unithand.c:962
 msgid "Game: This unit has no moves left."
 msgstr "Jogo: Esta unidade não possui mais pontos de movimento"
 
-#: server/unithand.c:964
+#: server/unithand.c:968
 #, c-format
 msgid ""
 "Game: Can't attack %s's unit in the city of %s because you are not at war "
 "with %s."
 msgstr ""
 
-#: server/unithand.c:976
+#: server/unithand.c:980
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr ""
 
-#: server/unithand.c:990
+#: server/unithand.c:994
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
 msgstr ""
 
-#: server/unithand.c:1001
+#: server/unithand.c:1005
 msgid "Game: Only ground troops can take over a city."
 msgstr "Jogo: Apenas unidades terrestres podem invadir uma cidade."
 
-#: server/unithand.c:1008
+#: server/unithand.c:1012
 #, c-format
 msgid "Game: No war declared against %s, cannot take over city."
 msgstr "Jogo: Não declaramos guerra contra %s, não podemos invadir a cidade."
 
-#: server/unithand.c:1058
+#: server/unithand.c:1062
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr "Jogo: A sua %s ajuda a construir %s em %s (faltam %d)."
 
-#: server/unithand.c:1100
+#: server/unithand.c:1104
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr ""
 
-#: server/unithand.c:1106
+#: server/unithand.c:1110
 #, c-format
 msgid "      A traderoute already exists between %s and %s!"
 msgstr ""
 
-#: server/unithand.c:1113 server/unithand.c:1120
+#: server/unithand.c:1117 server/unithand.c:1124
 #, c-format
 msgid "      The city of %s already has %d trade routes!"
 msgstr ""
 
-#: server/unithand.c:1131
+#: server/unithand.c:1135
 #, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
@@ -6466,29 +6466,29 @@ msgstr "String de capacidade do cliente: %s"
 msgid "Server capability string: %s"
 msgstr "String de capacidade do servidor: %s"
 
-#: client/packhand.c:673
+#: client/packhand.c:674
 #, c-format
 msgid "Start of turn %d"
 msgstr ""
 
-#: client/packhand.c:744
+#: client/packhand.c:745
 msgid "Popup Request"
 msgstr ""
 
-#: client/packhand.c:1230
+#: client/packhand.c:1231
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "Modo IA agora está %s."
 
-#: client/packhand.c:1231
+#: client/packhand.c:1232
 msgid "ON"
 msgstr "LIGADO"
 
-#: client/packhand.c:1231
+#: client/packhand.c:1232
 msgid "OFF"
 msgstr "DESLIGADO"
 
-#: client/packhand.c:1241
+#: client/packhand.c:1242
 #, fuzzy
 msgid "Game: Revolution finished"
 msgstr "Jogo: Poluição perto de %s."
@@ -9035,38 +9035,38 @@ msgstr "_Ordens"
 msgid "Orders"
 msgstr "Ordens"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1070
-#: client/gui-gtk-2.0/menu.c:1073 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1097
+#: client/gui-gtk-2.0/menu.c:1100 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:1075 client/gui-gtk/menu.c:1078
 #: client/gui-win32/menu.c:320
 msgid "_Build City"
 msgstr "Funda Cidade (_B)"
 
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1083
-#: client/gui-gtk-2.0/menu.c:1089 client/gui-gtk/menu.c:644
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1110
+#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:644
 #: client/gui-gtk/menu.c:1088 client/gui-gtk/menu.c:1094
 #: client/gui-win32/menu.c:321
 msgid "Build _Road"
 msgstr "Constrói Est_rada"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1010
+#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1037
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1015
 #: client/gui-win32/menu.c:322
 msgid "Build _Irrigation"
 msgstr "Constrói _Irrigação"
 
-#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1011
+#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1038
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1016
 #: client/gui-win32/menu.c:323
 msgid "Build _Mine"
 msgstr "Constrói _Mina"
 
-#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1012
+#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1039
 #: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:1017
 msgid "Transf_orm Terrain"
 msgstr "Transf_orma Terreno"
 
-#: client/gui-gtk-2.0/menu.c:653 client/gui-gtk-2.0/menu.c:1121
+#: client/gui-gtk-2.0/menu.c:653 client/gui-gtk-2.0/menu.c:1148
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1126
 #: client/gui-win32/menu.c:325
 msgid "Build _Fortress"
@@ -9077,7 +9077,7 @@ msgstr "Constrói _Fortaleza"
 msgid "Build Airbas_e"
 msgstr "Constrói A_eroporto"
 
-#: client/gui-gtk-2.0/menu.c:657 client/gui-gtk-2.0/menu.c:1126
+#: client/gui-gtk-2.0/menu.c:657 client/gui-gtk-2.0/menu.c:1153
 #: client/gui-gtk/menu.c:656 client/gui-gtk/menu.c:1131
 #: client/gui-win32/menu.c:327
 msgid "Clean _Pollution"
@@ -9108,7 +9108,7 @@ msgstr "Desembarcar (_U)"
 msgid "Wake up o_thers"
 msgstr "Acorda os ou_tros"
 
-#: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1131
+#: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1158
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
 msgid "_Auto Settler"
 msgstr "Colono _Automático"
@@ -9351,50 +9351,50 @@ msgstr "_Licença"
 msgid "_About"
 msgstr "_Sobre"
 
-#: client/gui-gtk-2.0/menu.c:1002 client/gui-gtk/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk/menu.c:1007
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Mudar para %s (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1003 client/gui-gtk/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1030 client/gui-gtk/menu.c:1008
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Mudar para %s (_M)"
 
-#: client/gui-gtk-2.0/menu.c:1004 client/gui-gtk/menu.c:1009
+#: client/gui-gtk-2.0/menu.c:1031 client/gui-gtk/menu.c:1009
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Transf_orma em %s"
 
-#: client/gui-gtk-2.0/menu.c:1065 client/gui-gtk/menu.c:1070
+#: client/gui-gtk-2.0/menu.c:1092 client/gui-gtk/menu.c:1070
 msgid "Help _Build Wonder"
 msgstr "Ajudar a Construir a _Maravilha"
 
-#: client/gui-gtk-2.0/menu.c:1068 client/gui-gtk/menu.c:1073
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1073
 msgid "Add to City (_B)"
 msgstr "Junta à Cidade (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1076 client/gui-gtk/menu.c:1081
+#: client/gui-gtk-2.0/menu.c:1103 client/gui-gtk/menu.c:1081
 msgid "Make Trade _Route"
 msgstr "Estabelece _Rota Comercial"
 
-#: client/gui-gtk-2.0/menu.c:1079 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:1106 client/gui-gtk/menu.c:1084
 msgid "Build _Railroad"
 msgstr "Constrói Fe_rrovia"
 
-#: client/gui-gtk-2.0/menu.c:1101 client/gui-gtk/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1128 client/gui-gtk/menu.c:1106
 msgid "Bu_ild Farmland"
 msgstr "Constrói _Quinta"
 
-#: client/gui-gtk-2.0/menu.c:1119 client/gui-gtk/menu.c:1124
+#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
 msgstr "_Fortifica"
 
-#: client/gui-gtk-2.0/menu.c:1124 client/gui-gtk/menu.c:1129
+#: client/gui-gtk-2.0/menu.c:1151 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
 msgstr "Lança _Páraquedistas"
 
-#: client/gui-gtk-2.0/menu.c:1129 client/gui-gtk/menu.c:1134
+#: client/gui-gtk-2.0/menu.c:1156 client/gui-gtk/menu.c:1134
 msgid "_Auto Attack"
 msgstr "Ataca _Automáticamente"
 

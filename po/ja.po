@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.3-devel\n"
-"POT-Creation-Date: 2002-12-21 10:07+0100\n"
+"POT-Creation-Date: 2003-01-17 10:37+0100\n"
 "PO-Revision-Date: 2002-12-23 14:05-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -4137,7 +4137,7 @@ msgstr "サーバの出力を、'RFC-style' と通常の形式とで切り替えます。"
 msgid "(ambiguous)"
 msgstr "(あいまい)"
 
-#: server/stdinhand.c:1362 client/packhand.c:1007
+#: server/stdinhand.c:1362 client/packhand.c:1008
 msgid "(unknown)"
 msgstr "(不明)"
 
@@ -4969,92 +4969,92 @@ msgstr "Game: %1$sは%4$s%2$sの%3$sを攻撃し、失敗しました。"
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
 msgstr "Game: %1$sは%4$s%2$sの%3$sを攻撃し、成功しました。"
 
-#: server/unithand.c:819
+#: server/unithand.c:823
 msgid "Game: Cancel treaty in the players dialog first (F3)."
 msgstr "Game: まずプレイヤー・ダイアログ(F3)で条約を破棄して下さい。"
 
-#: server/unithand.c:842
+#: server/unithand.c:846
 #, c-format
 msgid "Game: Only %s can attack from sea."
 msgstr "Game: %sだけが海から攻撃できます。"
 
-#: server/unithand.c:847
+#: server/unithand.c:851
 msgid "Game: Cannot attack from sea."
 msgstr "Game: 海から攻撃できません。"
 
-#: server/unithand.c:852 server/unittools.c:2284
+#: server/unithand.c:856 server/unittools.c:2284
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Game: 戦争を宣言しなければ攻撃できません。"
 
-#: server/unithand.c:855
+#: server/unithand.c:859
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
 msgstr "Game: %sはあなたのゾーンコントロールへだけ移動できます。"
 
-#: server/unithand.c:940
+#: server/unithand.c:944
 msgid "Game: Unit must be on land to perform diplomatic action."
 msgstr "Game: 部隊が外交行為を行なうには地上にいなければなりません。"
 
-#: server/unithand.c:942
+#: server/unithand.c:946
 msgid "Game: No diplomat action possible."
 msgstr "Game: 外交行為を行なえません。"
 
-#: server/unithand.c:952
+#: server/unithand.c:956
 msgid "Game: You can't attack there."
 msgstr "Game: そこへ攻撃できません。"
 
-#: server/unithand.c:958
+#: server/unithand.c:962
 msgid "Game: This unit has no moves left."
 msgstr "Game: この部隊はもう移動できません。"
 
-#: server/unithand.c:964
+#: server/unithand.c:968
 #, c-format
 msgid ""
 "Game: Can't attack %s's unit in the city of %s because you are not at war "
 "with %s."
 msgstr "Game: %3$sと戦闘を行なっていないので、都市%2$sの%1$sを攻撃できません。"
 
-#: server/unithand.c:976
+#: server/unithand.c:980
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr "Game: 道をふさいでいる部隊がいるので、%sは移動を中断しました。"
 
-#: server/unithand.c:990
+#: server/unithand.c:994
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
 msgstr "Game: %sに対して戦争が宣言されていないので、攻撃できません。"
 
-#: server/unithand.c:1001
+#: server/unithand.c:1005
 msgid "Game: Only ground troops can take over a city."
 msgstr "Game: 地上の軍隊だけが都市を占領できます。"
 
-#: server/unithand.c:1008
+#: server/unithand.c:1012
 #, c-format
 msgid "Game: No war declared against %s, cannot take over city."
 msgstr "Game: %sに対して戦争が宣言されていないので、都市を占領できません。"
 
-#: server/unithand.c:1058
+#: server/unithand.c:1062
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr "Game: %1$sは%3$sの%2$s建築を手伝いました(残り %4$d)。"
 
-#: server/unithand.c:1100
+#: server/unithand.c:1104
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr "Game: 残念ながら、%sはここに交易路を確立できません!"
 
-#: server/unithand.c:1106
+#: server/unithand.c:1110
 #, c-format
 msgid "      A traderoute already exists between %s and %s!"
 msgstr "      %sと%s間には交易路が既に存在します!"
 
-#: server/unithand.c:1113 server/unithand.c:1120
+#: server/unithand.c:1117 server/unithand.c:1124
 #, c-format
 msgid "      The city of %s already has %d trade routes!"
 msgstr "      都市%sには既に %dの交易路があります!"
 
 # ama, clefs
-#: server/unithand.c:1131
+#: server/unithand.c:1135
 #, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
@@ -6702,29 +6702,29 @@ msgstr "クライアントの機能: %s"
 msgid "Server capability string: %s"
 msgstr "サーバの機能: %s"
 
-#: client/packhand.c:673
+#: client/packhand.c:674
 #, c-format
 msgid "Start of turn %d"
 msgstr "ターン%d の開始"
 
-#: client/packhand.c:744
+#: client/packhand.c:745
 msgid "Popup Request"
 msgstr "ポップアップ要求"
 
-#: client/packhand.c:1230
+#: client/packhand.c:1231
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "AI モードは%sです。"
 
-#: client/packhand.c:1231
+#: client/packhand.c:1232
 msgid "ON"
 msgstr "オン"
 
-#: client/packhand.c:1231
+#: client/packhand.c:1232
 msgid "OFF"
 msgstr "オフ"
 
-#: client/packhand.c:1241
+#: client/packhand.c:1242
 msgid "Game: Revolution finished"
 msgstr "Game: 革命が終了しました"
 
@@ -9260,38 +9260,38 @@ msgstr "命令(_O)"
 msgid "Orders"
 msgstr "命令(O)"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1070
-#: client/gui-gtk-2.0/menu.c:1073 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:1097
+#: client/gui-gtk-2.0/menu.c:1100 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:1075 client/gui-gtk/menu.c:1078
 #: client/gui-win32/menu.c:320
 msgid "_Build City"
 msgstr "都市を作る(_B)"
 
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1083
-#: client/gui-gtk-2.0/menu.c:1089 client/gui-gtk/menu.c:644
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:1110
+#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:644
 #: client/gui-gtk/menu.c:1088 client/gui-gtk/menu.c:1094
 #: client/gui-win32/menu.c:321
 msgid "Build _Road"
 msgstr "道路を作る(_R)"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1010
+#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk-2.0/menu.c:1037
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1015
 #: client/gui-win32/menu.c:322
 msgid "Build _Irrigation"
 msgstr "灌漑を行なう(_I)"
 
-#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1011
+#: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:1038
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1016
 #: client/gui-win32/menu.c:323
 msgid "Build _Mine"
 msgstr "資源化する(_M)"
 
-#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1012
+#: client/gui-gtk-2.0/menu.c:651 client/gui-gtk-2.0/menu.c:1039
 #: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:1017
 msgid "Transf_orm Terrain"
 msgstr "地形を変える(_O)"
 
-#: client/gui-gtk-2.0/menu.c:653 client/gui-gtk-2.0/menu.c:1121
+#: client/gui-gtk-2.0/menu.c:653 client/gui-gtk-2.0/menu.c:1148
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1126
 #: client/gui-win32/menu.c:325
 msgid "Build _Fortress"
@@ -9302,7 +9302,7 @@ msgstr "要塞を築く(_F)"
 msgid "Build Airbas_e"
 msgstr "飛行場を作る(_E)"
 
-#: client/gui-gtk-2.0/menu.c:657 client/gui-gtk-2.0/menu.c:1126
+#: client/gui-gtk-2.0/menu.c:657 client/gui-gtk-2.0/menu.c:1153
 #: client/gui-gtk/menu.c:656 client/gui-gtk/menu.c:1131
 #: client/gui-win32/menu.c:327
 msgid "Clean _Pollution"
@@ -9333,7 +9333,7 @@ msgstr "降ろす(_U)"
 msgid "Wake up o_thers"
 msgstr "他を起こす(_t)"
 
-#: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1131
+#: client/gui-gtk-2.0/menu.c:677 client/gui-gtk-2.0/menu.c:1158
 #: client/gui-gtk/menu.c:676 client/gui-gtk/menu.c:1136
 msgid "_Auto Settler"
 msgstr "自動開拓(_A)"
@@ -9573,51 +9573,51 @@ msgstr "著作権(_C)"
 msgid "_About"
 msgstr "Freeciv について(_A)"
 
-#: client/gui-gtk-2.0/menu.c:1002 client/gui-gtk/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk/menu.c:1007
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "%sに変える(_I)"
 
-#: client/gui-gtk-2.0/menu.c:1003 client/gui-gtk/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1030 client/gui-gtk/menu.c:1008
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "%sに変える(_M)"
 
-#: client/gui-gtk-2.0/menu.c:1004 client/gui-gtk/menu.c:1009
+#: client/gui-gtk-2.0/menu.c:1031 client/gui-gtk/menu.c:1009
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "%sに変える(_O)"
 
-#: client/gui-gtk-2.0/menu.c:1065 client/gui-gtk/menu.c:1070
+#: client/gui-gtk-2.0/menu.c:1092 client/gui-gtk/menu.c:1070
 msgid "Help _Build Wonder"
 msgstr "不思議建築を手伝う(_B)"
 
-#: client/gui-gtk-2.0/menu.c:1068 client/gui-gtk/menu.c:1073
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1073
 msgid "Add to City (_B)"
 msgstr "都市に加える(_B)"
 
-#: client/gui-gtk-2.0/menu.c:1076 client/gui-gtk/menu.c:1081
+#: client/gui-gtk-2.0/menu.c:1103 client/gui-gtk/menu.c:1081
 msgid "Make Trade _Route"
 msgstr "交易路を確立する(_R)"
 
-#: client/gui-gtk-2.0/menu.c:1079 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:1106 client/gui-gtk/menu.c:1084
 msgid "Build _Railroad"
 msgstr "鉄道を作る(_R)"
 
-#: client/gui-gtk-2.0/menu.c:1101 client/gui-gtk/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1128 client/gui-gtk/menu.c:1106
 msgid "Bu_ild Farmland"
 msgstr "農地を作る(_I)"
 
 # yasu
-#: client/gui-gtk-2.0/menu.c:1119 client/gui-gtk/menu.c:1124
+#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk/menu.c:1124
 msgid "_Fortify"
 msgstr "防御姿勢(_F)"
 
-#: client/gui-gtk-2.0/menu.c:1124 client/gui-gtk/menu.c:1129
+#: client/gui-gtk-2.0/menu.c:1151 client/gui-gtk/menu.c:1129
 msgid "_Paradrop"
 msgstr "落下傘降下(_P)"
 
-#: client/gui-gtk-2.0/menu.c:1129 client/gui-gtk/menu.c:1134
+#: client/gui-gtk-2.0/menu.c:1156 client/gui-gtk/menu.c:1134
 msgid "_Auto Attack"
 msgstr "自動攻撃(_A)"
 
