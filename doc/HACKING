@@ -431,13 +431,13 @@ The values TILE_UNKNOWN, TILE_KNOWN are straightforward. TILE_FOGGED
 is a tile of which the user knows the terrain (inclusive cities, roads,
 etc...).
 
-Because of how the tile-drawing system works, the client has to know the
-terrain and specials of tiles adjacent to TILE_KNOWN and TILE_KNOWN_FOGGED
-tiles. This is done by sending the adjacent tiles with the value
-TILE_UNKNOWN. To keep track of which tiles have been sent and for fast
-lookup the server has a bitvector sent similar to known. [You could do
-this by seeing if the tile in question already have a known tile adjacent,
-in which case the value would already would have been sent.]
+TILE_UNKNOWN tiles are (or should be) never sent to the client.  In the past
+UNKNOWN tiles that were adjacent to FOGGED or KNOWN ones were sent to make
+the drawing process easier, but this has now been removed.  This means
+exploring new land may sometimes change the appearance of existing land (but
+this is not fundamentally different from what might happen when you
+transform land).  Sending the extra info, however, not only confused the
+goto code but allowed cheating.
 
 Fog of war is the fact that even when you have seen a tile once you are
 not sent updates unless it is inside the sight range of one of your units

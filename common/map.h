@@ -55,9 +55,6 @@ struct tile {
   unsigned int known;   /* A bitvector on the server side, an
 			   enum known_type on the client side.
 			   Player_no is index */
-  unsigned int sent;    /* Indicates if  the client know the tile
-			   as TILE_KNOWN_NODRAW. A bitvector like known.
-			   Not used on the client side. */
   int assigned; /* these can save a lot of CPU usage -- Syela */
   struct city *worked;      /* city working tile, or NULL if none */
   unsigned short continent;

@@ -47,12 +47,6 @@ static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 int x, int y);
 static void send_tile_info_always(struct player *pplayer,
 				  struct conn_list *dest, int x, int y);
-static void send_NODRAW_tiles(struct player *pplayer,
-			      struct conn_list *dest, int x, int y, int len);
-static bool map_get_sent(int x, int y, struct player *pplayer);
-static void map_set_sent(int x, int y, struct player *pplayer);
-static void map_clear_sent(int x, int y, struct player *pplayer);
-static void set_unknown_tiles_to_unsent(struct player *pplayer);
 static void shared_vision_change_seen(int x, int y, struct player *pplayer, int change);
 static int map_get_seen(int x, int y, struct player *pplayer);
 static void map_change_own_seen(int x, int y, struct player *pplayer,
@@ -293,12 +287,6 @@ void send_all_known_tiles(struct conn_list *dest)
   int tiles_sent;
 
   if (!dest) dest = &game.game_connections;
-  
-  conn_list_iterate(*dest, pconn) {
-    if (pconn->player) {
-      set_unknown_tiles_to_unsent(pconn->player);
-    }
-  } conn_list_iterate_end;
 
   /* send whole map piece by piece to each player to balance the load
      of the send buffers better */
@@ -323,7 +311,6 @@ void send_all_known_tiles(struct conn_list *dest)
       if (!pplayer) {
 	send_tile_info_always(pplayer, &pconn->self, x, y);
       } else if (map_get_known(x, y, pplayer)) {
-	send_NODRAW_tiles(pplayer, &pconn->self, x, y, 0);
 	send_tile_info_always(pplayer, &pconn->self, x, y);
       }
     } conn_list_iterate_end;
@@ -489,7 +476,6 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
   bool old_known = map_get_known(x, y, pplayer);
 
   freelog(LOG_DEBUG, "really unfogging %d,%d\n", x, y);
-  send_NODRAW_tiles(pplayer, &pplayer->connections, x, y, 0);
 
   map_set_known(x, y, pplayer);
 
@@ -551,24 +537,6 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 
   reveal_pending_seen(pplayer, x, y, len);
   unbuffer_shared_vision(pplayer);
-}
-
-/**************************************************************************
-  Send KNOWN_NODRAW tiles as required by pplayer, to specified connections.
-  We send only the unknown tiles around the square with length len.
-  pplayer must not be NULL.
-**************************************************************************/
-static void send_NODRAW_tiles(struct player *pplayer, struct conn_list *dest,
-			      int x, int y, int len)
-{
-  conn_list_do_buffer(dest);
-  square_iterate(x, y, len+1, abs_x, abs_y) {
-    if (!map_get_sent(abs_x, abs_y, pplayer)) {
-      send_tile_info_always(pplayer, dest, abs_x, abs_y);
-      map_set_sent(abs_x, abs_y, pplayer);
-    }
-  } square_iterate_end;
-  conn_list_do_unbuffer(dest);
 }
 
 /**************************************************************************
@@ -731,7 +699,6 @@ static void really_show_area(struct player *pplayer, int x, int y)
 
   freelog(LOG_DEBUG, "Showing %i,%i", x, y);
 
-  send_NODRAW_tiles(pplayer, &pplayer->connections, x, y, 0);
   if (!map_get_known_and_seen(x, y, pplayer)) {
     map_set_known(x, y, pplayer);
 
@@ -897,40 +864,6 @@ void show_map_to_all(void)
 }
 
 /***************************************************************
-...
-***************************************************************/
-static void map_set_sent(int x, int y, struct player *pplayer)
-{
-  map_get_tile(x, y)->sent |= (1u<<pplayer->player_no);
-}
-
-/***************************************************************
-...
-***************************************************************/
-static void map_clear_sent(int x, int y, struct player *pplayer)
-{
-  map_get_tile(x, y)->sent &= ~(1u<<pplayer->player_no);
-}
-
-/***************************************************************
-...
-***************************************************************/
-static bool map_get_sent(int x, int y, struct player *pplayer)
-{
-  return TEST_BIT(map_get_tile(x, y)->sent, pplayer->player_no);
-}
-
-/***************************************************************
-...
-***************************************************************/
-static void set_unknown_tiles_to_unsent(struct player *pplayer)
-{
-  whole_map_iterate(x, y) {
-    map_clear_sent(x, y, pplayer);
-  } whole_map_iterate_end;
-}
-
-/***************************************************************
   Allocate space for map, and initialise the tiles.
   Uses current map.xsize and map.ysize.
 ****************************************************************/
@@ -1047,7 +980,6 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->terrain = from_tile->terrain;
       dest_tile->special = from_tile->special;
       dest_tile->last_updated = from_tile->last_updated;
-      send_NODRAW_tiles(pdest, &pdest->connections, x, y, 0);
       send_tile_info_always(pdest, &pdest->connections, x, y);
 	
       /* update and send city knowledge */

@@ -393,12 +393,6 @@ static void map_load(struct section_file *file)
 
 
   map.have_specials = TRUE;
-
-  /* Should be handled as part of send_all_know_tiles,
-     but do it here too for safety */
-  whole_map_iterate(x, y) {
-    map_get_tile(x, y)->sent = 0;
-  } whole_map_iterate_end;
 }
 
 /***************************************************************

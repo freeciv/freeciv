@@ -1341,7 +1341,8 @@ static void build_tile_data(int map_x, int map_y,
   for (dir = 0; dir < 8; dir++) {
     int x1, y1;
 
-    if (MAPSTEP(x1, y1, map_x, map_y, dir)) {
+    if (MAPSTEP(x1, y1, map_x, map_y, dir)
+	&& tile_get_known(x1, y1) != TILE_UNKNOWN) {
       tspecial_near[dir] = map_get_special(x1, y1);
       ttype_near[dir] = map_get_terrain(x1, y1);
 
@@ -1351,7 +1352,7 @@ static void build_tile_data(int map_x, int map_y,
 	ttype_near[dir] = T_GRASSLAND;
       }
     } else {
-      /* We draw the edges of the map as if the same terrain just
+      /* We draw the edges of the (known) map as if the same terrain just
        * continued off the edge of the map. */
       tspecial_near[dir] = S_NO_SPECIAL;
       ttype_near[dir] = *ttype;
