@@ -13,8 +13,6 @@
 #ifndef FC__MAPCTRL_G_H
 #define FC__MAPCTRL_G_H
 
-#include <X11/Intrinsic.h>
-
 #include "unit.h"
 #include "packets.h"
 
