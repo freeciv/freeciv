@@ -249,7 +249,6 @@ Freeciv*dipacceptlabel0.fromVert:         dipview
 Freeciv*dipacceptlabel0.borderWidth:      0
 Freeciv*dipacceptlabel0.background:       lightgrey
 Freeciv*dipacceptlabel0.foreground:       black
-Freeciv*dipacceptlabel0.borderWidth:      0
 
 Freeciv*dipacceptthumb0.fromVert:         dipview
 Freeciv*dipacceptthumb0.fromHoriz:        dipacceptlabel0
@@ -1087,7 +1086,7 @@ Freeciv*sciencegoallabel.fromVert:	sciencecurrentlabel
 Freeciv*sciencegoallabel.resizable:	True
 Freeciv*sciencegoallabel.top:		chainTop
 Freeciv*sciencegoallabel.bottom:	chainTop
-Freeciv*sciencegoallabel.left		chainLeft
+Freeciv*sciencegoallabel.left:		chainLeft
 Freeciv*sciencegoallabel.right:	chainLeft
 
 Freeciv*sciencegoalmenubutton.label:		Goal
@@ -1408,6 +1407,9 @@ Freeciv*buydialog.title: Buy It!
 Freeciv*buydialog.*.dlabel.borderWidth:  0
 Freeciv*buydialog.*.button0.label:     Yes
 Freeciv*buydialog.*.button0.fromVert:  dlabel
+Freeciv*buydialog.*.button1.label:     No
+Freeciv*buydialog.*.button1.fromVert:  dlabel
+Freeciv*buydialog.*.button1.fromHoriz: button0
 
 !
 ! trade dialog
@@ -1424,23 +1426,9 @@ Freeciv*selldialog.title: Sell It!
 Freeciv*selldialog.*.dlabel.borderWidth:  0
 Freeciv*selldialog.*.button0.label:     Yes
 Freeciv*selldialog.*.button0.fromVert:  dlabel
-
-!
-!
-!
-Freeciv*selldialog.title: Sell It!
 Freeciv*selldialog.*.button1.label:     No
 Freeciv*selldialog.*.button1.fromVert:  dlabel
 Freeciv*selldialog.*.button1.fromHoriz: button0
-
-
-!
-!
-!
-Freeciv*buydialog.title: Buy It!
-Freeciv*buydialog.*.button1.label:     No
-Freeciv*buydialog.*.button1.fromVert:  dlabel
-Freeciv*buydialog.*.button1.fromHoriz: button0
 
 !
 !
