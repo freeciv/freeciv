@@ -303,7 +303,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
   }
 
   cfood = food[2][2] + irrig[2][2];
-  if (cfood < 2) {
+  if (cfood < 2 * FOOD_WEIGHTING) {
     /* no starving cities, thank you! -- Syela */
     /* This used to be zero, but I increased the limit to two to avoid
      * some common pathological behaviour. An optimal algorithm should
