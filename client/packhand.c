@@ -255,7 +255,8 @@ void handle_game_state(struct packet_generic_integer *packet)
       /* If we get here we didn't find a known tile.
 	 Refresh a random place to clear the intro gfx. */
       center_tile_mapcanvas(map.xsize/2, map.ysize/2);
-    OUT: /* do nothing */
+    OUT:
+      ; /* do nothing */
     }
     
     free_intro_radar_sprites();
