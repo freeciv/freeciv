@@ -314,20 +314,13 @@ void init_mapwindow(void)
 void overview_handle_rbut(int x, int y)
 {
  int xtile, ytile;        
- if (is_isometric) {
-   xtile = x / OVERVIEW_TILE_WIDTH
-	   - (map.xsize / 2 - (map_view_x + (map_view_width
-					     + map_view_height) / 2));
- } else {
-   xtile = x / OVERVIEW_TILE_WIDTH
-	   - (map.xsize / 2 - (map_view_x + map_view_width / 2));
- }
-
- ytile = y / OVERVIEW_TILE_HEIGHT;
 
  if (!can_client_change_view()) {
    return;
  }
+
+ overview_to_map_pos(&xtile, &ytile, x, y);
+
  center_tile_mapcanvas(xtile,ytile); 
 
 }

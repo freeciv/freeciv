@@ -314,16 +314,12 @@ void mapctrl_key_city_workers(XEvent *event)
 void mapctrl_btn_overviewcanvas(XEvent *event)
 {
   int xtile, ytile;
-  XButtonEvent *ev=&event->xbutton;
-
-  xtile = ev->x / OVERVIEW_TILE_WIDTH - (map.xsize / 2
-					 - (map_view_x0
-					    + map_canvas_store_twidth / 2));
-  ytile=ev->y / OVERVIEW_TILE_HEIGHT;
 
   if (!can_client_change_view()) {
     return;
   }
+
+  overview_to_map_pos(&xtile, &ytile, event->xbutton.x, event->xbutton.y);
 
   if(ev->button==Button1)
     do_unit_goto(xtile,ytile);

@@ -413,11 +413,9 @@ void refresh_overview_canvas(void)
 **************************************************************************/
 void overview_update_tile(int x, int y)
 {
-  int pos = x + map.xsize/2 - (map_view_x0 + map_canvas_store_twidth/2);
-  
-  pos %= map.xsize;
-  if (pos < 0)
-    pos += map.xsize;
+  int overview_x, overview_y;
+
+  map_to_overview_pos(&overview_x, &overview_y, x, y);
   
   set_overview_tile_foreground_color(x, y);
   XFillRectangle(display, overview_canvas_store, fill_bg_gc,
@@ -425,7 +423,7 @@ void overview_update_tile(int x, int y)
 		 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
   
   XFillRectangle(display, XtWindow(overview_canvas), fill_bg_gc, 
-		 OVERVIEW_TILE_WIDTH * pos, OVERVIEW_TILE_HEIGHT * y,
+		 overview_x, overview_y,
 		 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 }
 

@@ -174,4 +174,9 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 void queue_mapview_update(enum update_type update);
 void unqueue_mapview_updates(void);
 
+void map_to_overview_pos(int *overview_x, int *overview_y,
+			 int map_x, int map_y);
+void overview_to_map_pos(int *map_x, int *map_y,
+			 int overview_x, int overview_y);
+
 #endif /* FC__MAPVIEW_COMMON_H */

@@ -1111,3 +1111,44 @@ void get_city_mapview_name_and_growth(struct city *pcity,
     *growth_color = COLOR_STD_WHITE;
   }
 }
+
+/**************************************************************************
+  Return the map coordinates of the origin (top-left) corner of the
+  overview window.  Currently this is calculated on demand.
+**************************************************************************/
+static int get_overview_x0(void)
+{
+  int screen_width;
+
+  if (is_isometric) {
+    screen_width = mapview_canvas.tile_width + mapview_canvas.tile_height;
+  } else {
+    screen_width = mapview_canvas.tile_width;
+  }
+
+  return (mapview_canvas.map_x0 + screen_width / 2) - map.xsize / 2;
+}
+
+/**************************************************************************
+  Finds the overview (canvas) coordinates for a given map position.
+**************************************************************************/
+void map_to_overview_pos(int *overview_x, int *overview_y,
+			 int map_x, int map_y)
+{
+  int overview_x0 = get_overview_x0();
+
+  *overview_x = OVERVIEW_TILE_WIDTH * map_adjust_x(map_x - overview_x0);
+  *overview_y = OVERVIEW_TILE_HEIGHT * map_y;
+}
+
+/**************************************************************************
+  Finds the map coordinates for a given overview (canvas) position.
+**************************************************************************/
+void overview_to_map_pos(int *map_x, int *map_y,
+			 int overview_x, int overview_y)
+{
+  int overview_x0 = get_overview_x0();
+
+  *map_x = map_adjust_x(overview_x / OVERVIEW_TILE_WIDTH + overview_x0);
+  *map_y = overview_y / OVERVIEW_TILE_HEIGHT;
+}

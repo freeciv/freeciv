@@ -465,13 +465,9 @@ overview_update_tile(int x, int y)
 {
   HDC hdc;
   RECT rc;
-  int screen_width=is_isometric?map_view_width+map_view_height:map_view_width;
-  int pos = x + map.xsize/2 - (map_view_x + screen_width/2);
-  
-  pos %= map.xsize;
-  if (pos < 0)
-    pos += map.xsize;
-  
+  int overview_x, overview_y;
+
+  map_to_overview_pos(&overview_x, &overview_y, x, y);
  
   rc.left = OVERVIEW_TILE_WIDTH * x;
   rc.right = rc.left + OVERVIEW_TILE_WIDTH;
@@ -480,8 +476,8 @@ overview_update_tile(int x, int y)
   FillRect(overviewstoredc,&rc,brush_std[overview_tile_color(x, y)]);
 
   hdc=GetDC(root_window);
-  rc.left = OVERVIEW_TILE_WIDTH * pos + overview_win_x;
-  rc.top = OVERVIEW_TILE_HEIGHT * y + overview_win_y;
+  rc.left = overview_x + overview_win_x;
+  rc.top = overview_y + overview_win_y;
   rc.right = rc.left + OVERVIEW_TILE_WIDTH;
   rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
   FillRect(hdc,&rc,brush_std[overview_tile_color(x,y)]);
@@ -883,7 +879,7 @@ void
 refresh_overview_canvas(void)
 {
   HDC hdc=GetDC(root_window);
-  int pos;
+  int overview_x, overview_y;
   RECT rc;
 
   whole_map_iterate(x, y) {
@@ -893,13 +889,11 @@ refresh_overview_canvas(void)
     rc.bottom = rc.top + OVERVIEEW_TILE_HEIGHT;
     FillRect(overviewstoredc, &rc, brush_std[overview_tile_color(x, y)]);
 
-    pos = x + map.xsize / 2 - (map_view_x + map_win_width / 2);
-    pos %= map.xsize;
-    if (pos < 0)
-      pos += map.xsize;
-    rc.left = overview_win_x + OVERVIEW_TILE_WIDTH * pos;
+    map_to_overview_pos(&overview_x, &overview_y, x, y);
+
+    rc.left = overview_win_x + overview_x;
     rc.right = rc.left + OVERVIEW_TILE_WIDTH;
-    rc.top = overview_win_y + OVERVIEW_TILE_HEIGHT * y;
+    rc.top = overview_win_y + overview_y;
     rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
     FillRect(hdc, &rc, brush_std[overview_tile_color(x, y)]);
   } whole_map_iterate_end;

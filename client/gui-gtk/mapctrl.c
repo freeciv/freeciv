@@ -361,17 +361,7 @@ gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev)
   if (ev->type != GDK_BUTTON_PRESS)
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
 
-  if (is_isometric) {
-    xtile = ev->x / OVERVIEW_TILE_WIDTH - (map.xsize / 2 -
-					   (map_view_x0 +
-					    (map_canvas_store_twidth +
-					     map_canvas_store_theight) / 2));
-  } else {
-    xtile = ev->x / OVERVIEW_TILE_WIDTH - (map.xsize / 2 -
-					   (map_view_x0
-					    + map_canvas_store_twidth / 2));
-  }
-  ytile = ev->y / OVERVIEW_TILE_HEIGHT;
+  overview_to_map_pos(&xtile, &ytile, ev->x, ev->y);
   
   if (can_client_change_view() && ev->button == 3) {
     center_tile_mapcanvas(xtile, ytile);
