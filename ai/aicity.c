@@ -633,13 +633,34 @@ int ai_choose_defender_versus(struct city *pcity, int v)
   return bestid;
 }
 
+/* I'm not sure how to generalize this for rulesets, because I
+   don't understand what its trying to return.  A military ground
+   unit with hp>10 could be a Cannon, which doesn't seem like
+   a "normal defender" to me...   But I think I have to do something,
+   because for the Civ1 ruleset, all units have hp==10, so this
+   would return 0.  Hence this strange a+2*d formula, which gives
+   the same results as (hp>10) for the default set, and does
+   _something_ for other sets.  This should be revisited.  --dwp
+*/
 int has_a_normal_defender(struct city *pcity)
 {
+#if 0 /* pre-rulesets */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     if (is_military_unit(punit) && is_ground_unit(punit) &&
         unit_types[punit->type].hp > 10 && /* for when we don't get Feudalism */
         can_build_unit(pcity, punit->type)) return 1;
   unit_list_iterate_end;
+#else
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
+    if (is_military_unit(punit)
+	&& is_ground_unit(punit)
+	&& (unit_types[punit->type].attack_strength
+	    + 2*unit_types[punit->type].defense_strength) >= 9
+	&& can_build_unit(pcity, punit->type)) {
+      return 1;
+    }
+  unit_list_iterate_end;
+#endif
   return 0;
 }
 
