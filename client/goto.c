@@ -342,6 +342,30 @@ static enum tile_behavior get_TB_aggr(int x, int y, enum known_type known,
 }
 
 /********************************************************************** 
+  PF callback for caravans. Caravans doesn't go into the unknown and
+  don't attack enemy units but enter enemy cities.
+***********************************************************************/
+static enum tile_behavior get_TB_caravan(int x, int y, enum known_type known,
+					 struct pf_parameter *param)
+{
+  struct tile *ptile = map_get_tile(x, y);
+
+  if (known == TILE_UNKNOWN) {
+    return TB_IGNORE;
+  } else if (is_non_allied_city_tile(ptile, param->owner)) {
+    /* F_TRADE_ROUTE units can travel to, but not through, enemy cities.
+     * FIXME: F_HELP_WONDER units cannot.  */
+    return TB_DONT_LEAVE;
+  } else if (is_non_allied_unit_tile(ptile, param->owner)) {
+    /* Note this must be below the city check. */
+    return TB_IGNORE;
+  }
+
+  /* Includes empty, allied, or allied-city tiles. */
+  return TB_NORMAL;
+}
+
+/********************************************************************** 
   Fill the PF parameter with the correct client-goto values.
 ***********************************************************************/
 static void fill_client_goto_parameter(struct unit *punit,
@@ -354,6 +378,9 @@ static void fill_client_goto_parameter(struct unit *punit,
   assert(parameter->get_TB == NULL);
   if (unit_type(punit)->attack_strength > 0 || unit_flag(punit, F_DIPLOMAT)) {
     parameter->get_TB = get_TB_aggr;
+  } else if (unit_flag(punit, F_TRADE_ROUTE)
+	     || unit_flag(punit, F_HELP_WONDER)) {
+    parameter->get_TB = get_TB_caravan;
   } else {
     parameter->get_TB = no_fights_or_unknown;
   }
