@@ -723,43 +723,19 @@ bool is_sea_usable(const struct tile *ptile)
   return FALSE;
 }
 
-/***************************************************************
-...
-***************************************************************/
-int get_tile_food_base(const struct tile *ptile)
+/****************************************************************************
+  Return the output of this type provided by the tile.  This includes base
+  terrain plus S_SPECIAL_1 and S_SPECIAL_2, but not any other specials
+  (river/road/irrigation/etc).
+****************************************************************************/
+int get_tile_output_base(const struct tile *ptile, Output_type_id output)
 {
   if (tile_has_special(ptile, S_SPECIAL_1)) 
-    return tile_types[ptile->terrain].special[0].output[O_FOOD];
+    return tile_types[ptile->terrain].special[0].output[output];
   else if (tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].special[1].output[O_FOOD];
+    return tile_types[ptile->terrain].special[1].output[output];
   else
-    return tile_types[ptile->terrain].output[O_FOOD];
-}
-
-/***************************************************************
-...
-***************************************************************/
-int get_tile_shield_base(const struct tile *ptile)
-{
-  if (tile_has_special(ptile, S_SPECIAL_1))
-    return tile_types[ptile->terrain].special[0].output[O_SHIELD];
-  else if(tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].special[1].output[O_SHIELD];
-  else
-    return tile_types[ptile->terrain].output[O_SHIELD];
-}
-
-/***************************************************************
-...
-***************************************************************/
-int get_tile_trade_base(const struct tile *ptile)
-{
-  if (tile_has_special(ptile, S_SPECIAL_1))
-    return tile_types[ptile->terrain].special[0].output[O_TRADE];
-  else if (tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].special[1].output[O_TRADE];
-  else
-    return tile_types[ptile->terrain].output[O_TRADE];
+    return tile_types[ptile->terrain].output[output];
 }
 
 /***************************************************************

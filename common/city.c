@@ -582,7 +582,7 @@ static int base_get_shields_tile(const struct tile *ptile,
 {
   enum tile_special_type spec_t = map_get_special(ptile);
   Terrain_type_id tile_t = ptile->terrain;
-  int s = get_tile_shield_base(ptile);
+  int s = get_tile_output_base(ptile, O_SHIELD);
 
   if (contains_special(spec_t, S_MINE)) {
     s += get_tile_type(tile_t)->mining_shield_incr;
@@ -679,7 +679,7 @@ static int base_get_trade_tile(const struct tile *ptile,
 {
   enum tile_special_type spec_t = map_get_special(ptile);
   Terrain_type_id tile_t = ptile->terrain;
-  int t = get_tile_trade_base(ptile);
+  int t = get_tile_output_base(ptile, O_TRADE);
 
   if (contains_special(spec_t, S_RIVER) && !is_ocean(tile_t)) {
     t += terrain_control.river_trade_incr;
@@ -782,7 +782,7 @@ static int base_get_food_tile(const struct tile *ptile,
   const Terrain_type_id tile_t = ptile->terrain;
   struct tile_type *type = get_tile_type(tile_t);
   struct tile tile;
-  int f = get_tile_food_base(ptile);
+  int f = get_tile_output_base(ptile, O_FOOD);
   const bool auto_water = (pcity && is_city_center(city_x, city_y)
 			   && tile_t == type->irrigation_result
 			   && terrain_control.may_irrigate);
