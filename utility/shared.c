@@ -351,22 +351,14 @@ const char *int_to_text(unsigned int number)
   return big_int_to_text(number, 0);
 }
 
-/***************************************************************
-  Check whether or not the given char is a valid,
-  printable ISO 8859-1 character.
-***************************************************************/
-static bool is_iso_latin1(char ch)
+/****************************************************************************
+  Check whether or not the given char is a valid ascii character.  The
+  character can be in any charset so long as it is a superset of ascii.
+****************************************************************************/
+static bool is_ascii(char ch)
 {
-   int i=ch;
-   
-  /* this works with both signed and unsignd char */
-  if (i>=0) {
-    if (ch < ' ')  return FALSE;
-    if (ch <= '~')  return TRUE;
-  }
-  if (ch < '¡')  return FALSE; /* FIXME: Is it really a good idea to
-				 use 8 bit characters in source code? */
-  return TRUE;
+  /* this works with both signed and unsigned char's. */
+  return ch >= ' ' && ch <= '~';
 }
 
 /***************************************************************
@@ -377,7 +369,8 @@ static bool is_iso_latin1(char ch)
 ***************************************************************/
 bool is_sane_name(const char *name)
 {
-  const char *cp;
+  const char illegal_chars[] = {'|', '%', '"', ',', '*', '\0'};
+  int i, j;
 
   /* must not be NULL or empty */
   if (!name || *name == '\0') {
@@ -389,14 +382,17 @@ bool is_sane_name(const char *name)
     return FALSE;
   }
 
-  /* must be composed entirely of printable ISO 8859-1 characters,
-   * and no illegal characters which can break ranking scripts */
-  for (cp = name; is_iso_latin1(*cp) && *cp != '|' && *cp != '%' 
-       && *cp != '"' && *cp != ',' && *cp != '*'; cp++) {
-    /* nothing */
-  }
-  if (*cp != '\0') {
-    return FALSE; 
+  /* must be composed entirely of printable ascii characters,
+   * and no illegal characters which can break ranking scripts. */
+  for (i = 0; name[i]; i++) {
+    if (!is_ascii(name[i])) {
+      return FALSE;
+    }
+    for (j = 0; illegal_chars[j]; j++) {
+      if (name[i] == illegal_chars[j]) {
+	return FALSE;
+      }
+    }
   }
 
   /* otherwise, it's okay... */
