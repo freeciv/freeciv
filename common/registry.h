@@ -26,42 +26,39 @@ struct section_file {
   struct sbuffer *sb;
 };
 
-
-struct section {
-  char *name;
-  struct genlist entry_list;
-};
-
-
-struct section_entry {
-  char *name;
-  int  ivalue;
-  char *svalue;
-  int  used;			/* number of times entry looked up */
-};
+void section_file_init(struct section_file *file);
+int section_file_load(struct section_file *my_section_file, char *filename);
+int section_file_save(struct section_file *my_section_file, char *filename);
+void section_file_free(struct section_file *file);
+void section_file_check_unused(struct section_file *file, char *filename);
 
 void secfile_insert_int(struct section_file *my_section_file, 
 			int val, char *path, ...)
                         fc__attribute((format (printf, 3, 4)));
-     
+			
 void secfile_insert_str(struct section_file *my_section_file, 
 			char *sval, char *path, ...)
                         fc__attribute((format (printf, 3, 4)));
 
-int section_file_load(struct section_file *my_section_file, char *filename);
-int section_file_save(struct section_file *my_section_file, char *filename);
-void section_file_free(struct section_file *file);
-
-void section_file_init(struct section_file *file);
-void section_file_check_unused(struct section_file *file, char *filename);
+int section_file_lookup(struct section_file *my_section_file, 
+			char *path, ...)
+                        fc__attribute((format (printf, 2, 3)));
 
 int secfile_lookup_int(struct section_file *my_section_file, 
 		       char *path, ...)
                        fc__attribute((format (printf, 2, 3)));
-
+		       
 char *secfile_lookup_str(struct section_file *my_section_file, 
 			 char *path, ...)
                          fc__attribute((format (printf, 2, 3)));
+
+int secfile_lookup_int_default(struct section_file *my_section_file,
+                               int def, char *path, ...)
+                               fc__attribute((format (printf, 3, 4)));
+
+char *secfile_lookup_str_default(struct section_file *my_section_file, 
+                                 char *def, char *path, ...)
+                                 fc__attribute((format (printf, 3, 4)));
 
 int secfile_lookup_vec_dimen(struct section_file *my_section_file, 
 			     char *path, ...)
@@ -72,27 +69,6 @@ int *secfile_lookup_int_vec(struct section_file *my_section_file,
 char **secfile_lookup_str_vec(struct section_file *my_section_file,
 			      int *dimen, char *path, ...)
                               fc__attribute((format (printf, 3, 4)));
-
-int secfile_lookup_int_default(struct section_file *my_section_file,
-                               int def, char *path, ...)
-                               fc__attribute((format (printf, 3, 4)));
-
-char *secfile_lookup_str_default(struct section_file *my_section_file, 
-                                 char *def, char *path, ...)
-                                 fc__attribute((format (printf, 3, 4)));
-
-int section_file_lookup(struct section_file *my_section_file, 
-			char *path, ...)
-                        fc__attribute((format (printf, 2, 3)));
-
-struct section_entry *section_file_lookup_internal(struct section_file 
-						   *my_section_file,  
-						   char *fullpath);
- 
-
-struct section_entry *section_file_insert_internal(struct section_file 
-						   *my_section_file, 
-						   char *fullpath);
 
 #endif  /* FC__REGISTRY_H */
 

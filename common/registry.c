@@ -114,6 +114,17 @@
   
 ***************************************************************************/
 
+/**************************************************************************
+  Hashing registry lookups: (by dwp)
+  - Have a hash table direct to entries, bypassing sections division.
+  - For convenience, store the key (the full section+entry name)
+    in the hash table (some memory overhead).
+  - The number of entries is fixed when the hash table is built.
+  - Use closed hashing with simple collision resolution.
+  - Should have implemented abstract hash table and used it here,
+    rather than tie hashing closely to section_file...
+**************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -126,20 +137,21 @@
 
 #include "registry.h"
 
-/**************************************************************************
-  Hashing registry lookups: (by dwp)
-  - Have a hash table direct to entries, bypassing sections division.
-  - For convenience, store the key (the full section+entry name)
-    in the hash table (some memory overhead).
-  - The number of entries is fixed when the hash table is built.
-  - Use closed hashing with simple collision resolution.
-  - Should have implemented abstract hash table and used it here,
-    rather than tie hashing closely to section_file...
-**************************************************************************/
 #define DO_HASH 1
 #define HASH_DEBUG 1		/* 0,1,2 */
-
 #define SAVE_TABLES 1		/* set to 0 for old-style savefiles */
+
+struct section {
+  char *name;
+  struct genlist entry_list;
+};
+
+struct section_entry {
+  char *name;
+  int  ivalue;
+  char *svalue;
+  int  used;			/* number of times entry looked up */
+};
 
 struct hash_entry {
   struct section_entry *data;
@@ -155,6 +167,12 @@ struct hash_data {
   int num_collisions;
 };
 
+struct flat_entry_list {
+  struct section_entry **plist;	/* list of pointers to individual mallocs */
+  int n;			/* number used */
+  int n_alloc;			/* number allocated */
+};
+
 static int hashfunc(char *name, int num_buckets);
 static int secfilehash_hashash(struct section_file *file);
 static void secfilehash_check(struct section_file *file);
@@ -164,20 +182,19 @@ static void secfilehash_insert(struct section_file *file,
 			       char *key, struct section_entry *data);
 static void secfilehash_build(struct section_file *file);
 static void secfilehash_free(struct section_file *file);
+
 static char *minstrdup(struct sbuffer *sb, char *str);
 static char *moutstr(char *str);
-
-
-struct flat_entry_list {
-  struct section_entry **plist;	/* list of pointers to individual mallocs */
-  int n;			/* number used */
-  int n_alloc;			/* number allocated */
-};
-
 
 static void parse_commalist(struct flat_entry_list *entries, char *buffer,
 			    char *filename, int lineno, struct sbuffer *sb);
 
+static struct section_entry*
+section_file_lookup_internal(struct section_file  *my_section_file,  
+			     char *fullpath);
+static struct section_entry*
+section_file_insert_internal(struct section_file *my_section_file, 
+			     char *fullpath);
 
 /**************************************************************************
 ...
@@ -189,7 +206,6 @@ void section_file_init(struct section_file *file)
   file->hashd = NULL;
   file->sb = sbuf_new();
 }
-
 
 /**************************************************************************
 ...
@@ -749,7 +765,6 @@ void secfile_insert_str(struct section_file *my_section_file,
 }
 
 
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -847,16 +862,12 @@ int section_file_lookup(struct section_file *my_section_file,
 }
 
 
-
-
-
 /**************************************************************************
 ...
 **************************************************************************/
-struct section_entry *section_file_lookup_internal(struct section_file 
-						   *my_section_file,  
-						   char *fullpath) 
-						   
+static struct section_entry*
+section_file_lookup_internal(struct section_file *my_section_file,  
+			     char *fullpath) 
 {
   char *pdelim;
   char sec_name[512];
@@ -918,9 +929,9 @@ struct section_entry *section_file_lookup_internal(struct section_file
  The caller should ensure that "fullpath" should not refer to an entry
  which already exists in "my_section_file".
 **************************************************************************/
-struct section_entry *section_file_insert_internal(struct section_file 
-						   *my_section_file, 
-						   char *fullpath)
+static struct section_entry*
+section_file_insert_internal(struct section_file *my_section_file, 
+			     char *fullpath)
 {
   char *pdelim;
   char sec_name[512];
