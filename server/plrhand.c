@@ -240,7 +240,6 @@ void report_wonders_of_the_world(struct conn_list *dest)
   for (i=0;i<B_LAST;i++) {
     if (is_wonder(i)) {
       if (!game.global_wonders[i]) {
-	struct player *pplayer;
 	players_iterate(pplayer) {
 	  city_list_iterate(pplayer->cities, pcity2) {
 	    if (pcity2->currently_building == i && !pcity2->is_building_unit) {

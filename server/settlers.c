@@ -127,7 +127,6 @@ int amortize(int benefit, int delay)
 void generate_minimap(void)
 {
   int x_itr, y_itr;
-  struct player *pplayer;
 
   memset(minimap, 0, sizeof(minimap));
   players_iterate(pplayer) {

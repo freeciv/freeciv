@@ -209,6 +209,7 @@ int is_barbarian(const struct player *pplayer);
 
 #define players_iterate(PI_player)                                            \
 {                                                                             \
+  struct player *PI_player;                                                   \
   int PI_p_itr;                                                               \
   for (PI_p_itr = 0; PI_p_itr < game.nplayers; PI_p_itr++) {                  \
     PI_player = get_player(PI_p_itr);
