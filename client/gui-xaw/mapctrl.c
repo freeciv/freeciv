@@ -200,8 +200,8 @@ void mapctrl_btn_wakeup(XEvent *event)
 **************************************************************************/
 void mapctrl_btn_mapcanvas(XEvent *event)
 {
-  struct tile *ptile = canvas_pos_to_tile(ev->x, ev->y);
   XButtonEvent *ev=&event->xbutton;
+  struct tile *ptile = canvas_pos_to_tile(ev->x, ev->y);
 
   if (!can_client_change_view()) {
     return;
