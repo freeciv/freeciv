@@ -76,7 +76,7 @@ static GtkWidget  *spy_sabotage_shell;
 static int         sabotage_improvement;
 
 /******************************************************************/
-#define NUM_SELECT_UNIT_COLS 4
+#define NUM_SELECT_UNIT_COLS 6
 #define SELECT_UNIT_READY  1
 #define SELECT_UNIT_SENTRY 2
 
@@ -1576,8 +1576,10 @@ static void refresh_unit_select_dialog(void)
       gtk_container_add(GTK_CONTAINER(cmd), pix);
       gtk_table_attach_defaults(GTK_TABLE(unit_select_table),
                                 cmd,
-				(i/r), (i/r)+1,
-				(i%r), (i%r)+1);
+				(i % NUM_SELECT_UNIT_COLS), 
+				(i % NUM_SELECT_UNIT_COLS) + 1,
+				(i / NUM_SELECT_UNIT_COLS),
+				(i / NUM_SELECT_UNIT_COLS) + 1);
     }
 
     gtk_tooltips_disable(unit_select_tips);
