@@ -65,66 +65,6 @@ int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
 
 /**************************************************************************
- This function is called to decrease a unit's HP smoothly in battle
- when combat_animation is turned on.
-**************************************************************************/
-void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
-			     struct unit *punit1, int hp1)
-{
-  static struct timer *anim_timer = NULL; 
-  struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
-  int i;
-  int canvas_x, canvas_y;
-
-  set_units_in_combat(punit0, punit1);
-
-  do {
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-    if (punit0->hp > hp0
-	&& myrand((punit0->hp - hp0) + (punit1->hp - hp1)) < punit0->hp - hp0)
-      punit0->hp--;
-    else if (punit1->hp > hp1)
-      punit1->hp--;
-    else
-      punit0->hp--;
-
-    refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
-    refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
-
-    XSync(display, 0);
-    usleep_since_timer_start(anim_timer, 10000);
-
-  } while (punit0->hp > hp0 || punit1->hp > hp1);
-
-  if (map_to_canvas_pos(&canvas_x, &canvas_y,
-			losing_unit->x, losing_unit->y)) {
-    for (i = 0; i < num_tiles_explode_unit; i++) {
-      struct canvas_store store = {single_tile_pixmap};
-
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-      put_one_tile(&store, 0, 0, losing_unit->x, losing_unit->y, FALSE);
-      put_unit_full(losing_unit, &store, 0, 0);
-      pixmap_put_overlay_tile(single_tile_pixmap, 0, 0,
-			      sprites.explode.unit[i]);
-
-      XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
-		0, 0,
-		UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
-		canvas_x, canvas_y);
-
-      XSync(display, 0);
-      usleep_since_timer_start(anim_timer, 20000);
-    }
-  }
-
-  set_units_in_combat(NULL, NULL);
-  refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
-  refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void map_size_changed(void)

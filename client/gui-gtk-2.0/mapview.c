@@ -85,80 +85,6 @@ static GtkObject *map_hadj, *map_vadj;
 
 
 /**************************************************************************
- This function is called to decrease a unit's HP smoothly in battle
- when combat_animation is turned on.
-**************************************************************************/
-void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
-			     struct unit *punit1, int hp1)
-{
-  static struct timer *anim_timer = NULL; 
-  struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
-  int canvas_x, canvas_y, i;
-
-  set_units_in_combat(punit0, punit1);
-
-  do {
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-    if (punit0->hp > hp0
-	&& myrand((punit0->hp - hp0) + (punit1->hp - hp1)) < punit0->hp - hp0)
-      punit0->hp--;
-    else if (punit1->hp > hp1)
-      punit1->hp--;
-    else
-      punit0->hp--;
-
-    refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
-    refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
-
-    gdk_flush();
-    usleep_since_timer_start(anim_timer, 10000);
-
-  } while (punit0->hp > hp0 || punit1->hp > hp1);
-
-  if (map_to_canvas_pos(&canvas_x, &canvas_y,
-			losing_unit->x, losing_unit->y)) {
-    for (i = 0; i < num_tiles_explode_unit; i++) {
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-      if (is_isometric) {
-	/* We first draw the explosion onto the unit and draw draw the
-	 * complete thing onto the map canvas window. This avoids
-	 * flickering. */
-	gdk_draw_drawable(single_tile_pixmap, civ_gc, map_canvas_store,
-			  canvas_x, canvas_y, 0, 0,
-			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-	pixmap_put_overlay_tile(single_tile_pixmap,
-				NORMAL_TILE_WIDTH / 4, 0,
-				sprites.explode.unit[i]);
-	gdk_draw_drawable(map_canvas->window, civ_gc, single_tile_pixmap,
-			  0, 0, canvas_x, canvas_y,
-			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      } else {
-	/* Not isometric. */
-	/* FIXME: maybe do as described in the above comment. */
-	struct canvas_store store = {single_tile_pixmap};
-
-	put_one_tile(&store, losing_unit->x, losing_unit->y,
-		     0, 0, FALSE);
-	put_unit_full(losing_unit, &store, 0, 0);
-	pixmap_put_overlay_tile(single_tile_pixmap, 0, 0,
-				sprites.explode.unit[i]);
-
-	gdk_draw_drawable(map_canvas->window, civ_gc, single_tile_pixmap,
-			  0, 0, canvas_x, canvas_y,
-			  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-      }
-      gdk_flush();
-      usleep_since_timer_start(anim_timer, 20000);
-    }
-  }
-
-  set_units_in_combat(NULL, NULL);
-  refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
-  refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
-}
-
-/**************************************************************************
   If do_restore is FALSE it will invert the turn done button style. If
   called regularly from a timer this will give a blinking turn done
   button. If do_restore is TRUE this will reset the turn done button
@@ -1604,9 +1530,4 @@ void tileset_changed(void)
 {
   reset_city_dialogs();
   reset_unit_table();
-
-  /* single_tile is originally allocated in gui_main.c. */
-  g_object_unref(single_tile_pixmap);
-  single_tile_pixmap = gdk_pixmap_new(root_window, 
-				      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, -1);
 }

@@ -80,9 +80,6 @@ GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store
 int overview_canvas_store_width = 2 * 80;
 int overview_canvas_store_height = 2 * 50;
 
-GdkPixmap *single_tile_pixmap;          /* this pixmap is used when 
-                                         * moving units etc */
-
 GtkWidget *toplevel;
 GtkWidget *top_vbox;
 GdkWindow *root_window;
@@ -1193,9 +1190,6 @@ void ui_main(int argc, char **argv)
   timer_id = gtk_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
   init_mapcanvas_and_overview();
-
-  single_tile_pixmap = gdk_pixmap_new(root_window, 
-				      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, -1);
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 

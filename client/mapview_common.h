@@ -26,7 +26,7 @@ struct canvas {
   int map_x0, map_y0;
   int width, height;		/* Size in pixels. */
   int tile_width, tile_height;	/* Size in tiles. Rounded up. */
-  struct canvas_store *store;
+  struct canvas_store *store, *single_tile;
 };
 
 /* Holds all information about the overview aka minimap. */
@@ -190,6 +190,8 @@ bool show_unit_orders(struct unit *punit);
 
 void undraw_segment(int src_x, int src_y, int dir);
 
+void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
+			     struct unit *punit1, int hp1);
 void move_unit_map_canvas(struct unit *punit,
 			  int map_x, int map_y, int dx, int dy);
 				

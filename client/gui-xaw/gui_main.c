@@ -198,9 +198,6 @@ Pixmap unit_below_pixmap[MAX_NUM_UNITS_BELOW];
 Widget more_arrow_label;
 Window root_window;
 
-/* this pixmap is used when moving units etc */
-Pixmap single_tile_pixmap;
-
 XtInputId x_input_id;
 XtIntervalId x_interval_id;
 Atom wm_delete_window;
@@ -444,11 +441,6 @@ void ui_main(int argc, char *argv[])
 				  timer_callback, NULL);
 
   init_mapcanvas_and_overview();
-
-  single_tile_pixmap=XCreatePixmap(display, XtWindow(overview_canvas), 
-				   UNIT_TILE_WIDTH,
-				   UNIT_TILE_HEIGHT,
-				   display_depth);
 
   for(i=0; i<num_units_below; i++)
     unit_below_pixmap[i]=XCreatePixmap(display, XtWindow(overview_canvas), 

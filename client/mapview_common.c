@@ -19,6 +19,7 @@
 
 #include "log.h"
 #include "map.h"
+#include "rand.h"
 #include "support.h"
 #include "timing.h"
 
@@ -1427,6 +1428,76 @@ void undraw_segment(int src_x, int src_y, int dir)
   }
 }
 
+/****************************************************************************
+  This function is called to decrease a unit's HP smoothly in battle
+  when combat_animation is turned on.
+****************************************************************************/
+void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
+			     struct unit *punit1, int hp1)
+{
+  static struct timer *anim_timer = NULL; 
+  struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
+  int canvas_x, canvas_y, i;
+
+  set_units_in_combat(punit0, punit1);
+
+  while (punit0->hp > hp0 || punit1->hp > hp1) {
+    const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
+
+    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+    if (myrand(diff0 + diff1) < diff0) {
+      punit0->hp--;
+      refresh_tile_mapcanvas(punit0->x, punit0->y, FALSE);
+    } else {
+      punit1->hp--;
+      refresh_tile_mapcanvas(punit1->x, punit1->y, FALSE);
+    }
+
+    flush_dirty();
+    gui_flush();
+
+    usleep_since_timer_start(anim_timer, 10000);
+  }
+
+  if (num_tiles_explode_unit > 0
+      && map_to_canvas_pos(&canvas_x, &canvas_y,
+			   losing_unit->x, losing_unit->y)) {
+    refresh_tile_mapcanvas(losing_unit->x, losing_unit->y, FALSE);
+    gui_copy_canvas(mapview_canvas.single_tile, mapview_canvas.store,
+		    canvas_x, canvas_y, 0, 0,
+		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+
+    for (i = 0; i < num_tiles_explode_unit; i++) {
+      int w, h;
+
+      get_sprite_dimensions(sprites.explode.unit[i], &w, &h);
+      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+      /* We first draw the explosion onto the unit and draw draw the
+       * complete thing onto the map canvas window. This avoids
+       * flickering. */
+      gui_copy_canvas(mapview_canvas.store, mapview_canvas.single_tile,
+		      0, 0, canvas_x, canvas_y,
+		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      gui_put_sprite_full(mapview_canvas.store,
+			  canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			  canvas_y + NORMAL_TILE_HEIGHT / 2 - h / 2,
+			  sprites.explode.unit[i]);
+      dirty_rect(canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+
+      flush_dirty();
+      gui_flush();
+
+      usleep_since_timer_start(anim_timer, 20000);
+    }
+  }
+
+  set_units_in_combat(NULL, NULL);
+  refresh_tile_mapcanvas(punit0->x, punit0->y, FALSE);
+  refresh_tile_mapcanvas(punit1->x, punit1->y, FALSE);
+}
+
 /**************************************************************************
   Animates punit's "smooth" move from (x0, y0) to (x0+dx, y0+dy).
   Note: Works only for adjacent-tile moves.
@@ -2001,6 +2072,8 @@ void init_mapcanvas_and_overview(void)
   mapview_canvas.width = 0;
   mapview_canvas.height = 0;
   mapview_canvas.store = canvas_store_create(1, 1);
+  mapview_canvas.single_tile
+    = canvas_store_create(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
   overview.map_x0 = 0;
   overview.map_y0 = 0;

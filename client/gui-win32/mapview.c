@@ -56,7 +56,7 @@ HBITMAP mapstorebitmap;
 
 static HBITMAP intro_gfx;
 
-static HBITMAP single_tile_pixmap;
+#define single_tile_pixmap (mapview_canvas.single_tile->bitmap)
 
 extern HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
 
@@ -203,9 +203,6 @@ void init_map_win()
   HDC hdc;
   hdc=GetDC(root_window);
   overviewstoredc=CreateCompatibleDC(hdc);
-  single_tile_pixmap=CreateCompatibleBitmap(hdc,
-					    UNIT_TILE_WIDTH,
-					    UNIT_TILE_HEIGHT);
   ReleaseDC(root_window,hdc);
   mapstorebitmap=NULL;
   overviewstorebitmap=NULL;
@@ -723,85 +720,6 @@ void draw_unit_animation_frame(struct unit *punit,
     SelectObject(mapstoredc, old);
     DeleteDC(mapstoredc);
   }
-}
-
-/**************************************************************************
- This function is called to decrease a unit's HP smoothly in battle
- when combat_animation is turned on.
-**************************************************************************/
-void
-decrease_unit_hp_smooth(struct unit *punit0, int hp0,
-                             struct unit *punit1, int hp1)
-{
-  HDC mapstoredc;
-  HDC hdc,hdcwin;
-  HBITMAP oldbmp,old_mapbmp;
-  static struct timer *anim_timer = NULL; 
-  struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
-  int i;
-  
-  set_units_in_combat(punit0, punit1);
-
-  do {
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-    
-    if (punit0->hp > hp0
-        && myrand((punit0->hp - hp0) + (punit1->hp - hp1)) < punit0->hp - hp0)
-      punit0->hp--;
-    else if (punit1->hp > hp1)
-      punit1->hp--;
-    else
-      punit0->hp--;
-    
-    refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
-    refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
-    GdiFlush();
-    
-    usleep_since_timer_start(anim_timer, 10000);
-    
-  } while (punit0->hp > hp0 || punit1->hp > hp1);
-
-  mapstoredc=CreateCompatibleDC(NULL);
-  old_mapbmp=SelectObject(mapstoredc,mapstorebitmap);
-  hdc=CreateCompatibleDC(NULL);
-  hdcwin=GetDC(map_window);
-  oldbmp=SelectObject(hdc,single_tile_pixmap);
-  for (i = 0; i < num_tiles_explode_unit; i++) {
-    int canvas_x, canvas_y;
-    get_canvas_xy(losing_unit->x, losing_unit->y, &canvas_x, &canvas_y);
-    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-    if (is_isometric) {
-      /* We first draw the explosion onto the unit and draw draw the
-         complete thing onto the map canvas window. This avoids flickering. */
-      BitBlt(hdc,0,0,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
-	     mapstoredc,canvas_x,canvas_y,SRCCOPY);
-      draw_sprite(sprites.explode.unit[i],hdc,NORMAL_TILE_WIDTH/4,0);
-      BitBlt(hdcwin,canvas_x,canvas_y,
-	     NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
-	     hdc,0,0,SRCCOPY);
-    } else {
-      struct canvas_store store = {NULL, single_tile_pixmap};
-
-      put_one_tile(&store, losing_unit->x, losing_unit->y, 0, 0, FALSE);
-      put_unit_full(losing_unit, &store, 0, 0);
-      draw_sprite(sprites.explode.unit[i],hdc,NORMAL_TILE_WIDTH/4,0);
-      BitBlt(hdcwin,canvas_x,canvas_y,
-	     NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
-	     hdc,0,0,SRCCOPY);
-    }
-    GdiFlush();
-    usleep_since_timer_start(anim_timer, 20000);
-  }
-  
-  SelectObject(hdc,oldbmp);
-  DeleteDC(hdc);
-  ReleaseDC(map_window,hdcwin);
-  SelectObject(mapstoredc,old_mapbmp);
-  DeleteDC(mapstoredc);
-  set_units_in_combat(NULL, NULL);
-  refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
-  refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
-  
 }
 
 /**************************************************************************

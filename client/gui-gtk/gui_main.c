@@ -74,9 +74,6 @@ GtkWidget *map_vertical_scrollbar;
 
 GtkWidget *overview_canvas;             /* GtkDrawingArea */
 
-GdkPixmap *single_tile_pixmap;          /* this pixmap is used when 
-                                         * moving units etc */
-
 GtkWidget *toplevel;
 GtkWidget *top_vbox;
 GdkWindow *root_window;
@@ -947,8 +944,6 @@ void ui_main(int argc, char **argv)
 
   init_mapcanvas_and_overview();
 
-  single_tile_pixmap = gdk_pixmap_new(root_window, 
-				      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, -1);
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 

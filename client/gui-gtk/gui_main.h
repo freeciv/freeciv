@@ -38,7 +38,7 @@ extern GdkPixmap *      gray50;
 extern GdkPixmap *      gray25;
 extern GdkPixmap *      black50;
 extern GdkPixmap *      mask_bitmap;
-extern GdkPixmap *      single_tile_pixmap;
+#define single_tile_pixmap (mapview_canvas.single_tile->pixmap)
 extern GtkText *        main_message_area;
 extern GtkWidget *      text_scrollbar;
 extern GtkWidget *      toplevel;

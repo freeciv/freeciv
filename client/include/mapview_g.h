@@ -78,8 +78,6 @@ void draw_unit_animation_frame(struct unit *punit,
 			       bool first_frame, bool last_frame,
 			       int old_canvas_x, int old_canvas_y,
 			       int new_canvas_x, int new_canvas_y);
-void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
-			     struct unit *punit1, int hp1);
 
 void draw_segment(int src_x, int src_y, int dir);
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h);
