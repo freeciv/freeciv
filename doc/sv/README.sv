@@ -1,5 +1,5 @@
 ====================
-Freeciv Version 1.12
+Freeciv Version 1.13
 ====================
 
 Välkommen till Freeciv!
@@ -155,32 +155,23 @@ Klient:
 
   |  % civclient &
 
-  En annan valmöjlighet är "--tiles" som används för att köra klienten med en
-  annan uppsättning rutbilder för landskap, enheter med mera. Utgåvan
-  innehåller flera olika uppsättningar rutbilder. Denna utgåva
-  innehåller 3 uppsättningar rutbilder:
-  - hires: En isometrisk rutbildsuppsättning som liknar den i
-           Civilization 2. (Fungerar inte i XAW-klienten.)
-  - trident: En Civilization-1-liknande rutbildsuppsättning
-             rutstorleken 30x30 bildpunkter.
-  - engels: En Civilization-1-liknande rutbildsuppsättning
-            rutstorleken 30x30 bildpunkter.
-  Det finns varianter av trident och engels som heter trident_shields
-  och engels_shields.
-  I denna utgåva är hires förval i GTK- och Amikaklienterna och
-  trident är förval i XAW-klienten. (I vissa tidigare utgåvor var
-  engels förval.)
-  Rutbildsuppsättningarna har ganska olika stilar; man kan ha
-  personliga uppfattningar om dem. "_shields"-varianterna använder
-  sköldformade flaggor, vilket är mindre och diskretare. Trident har
-  mindre rutor vilket kan vara bra om man har liten skärm. Prova dem
-  alla och bestäm dig vilken du vill använda.
+  En annan valmöjlighet är "--tiles" som används för att köra klienten
+  med en annan uppsättning rutbilder för landskap, enheter med mera.
+  Utgåvan innehåller 2 uppsättningar rutbilder:
+  - isotrident: Isometrisk, liknar Civilization 2. (Stöds ännu inte av
+    xaw-klienten.)
+  - trident: Liknar Civilization 1, rutstorlek 30x30 bildpunkter.
+  Trident har en variant som heter "trident_shields".
 
-  Kör klienten med följande kommando för att använda trident:
+  I denna utgåva är isotrident förval i GTK- och Amiga- och
+  win32klienterna emedan trident är förval i XAW-klienten.
+  "_shields"-varianterna använder sköldformade flaggor, vilka är
+  mindre och diskretare. Prova dem båda och bestäm dig vilken du vill
+  använda.Kör klienten med följande kommando för att använda trident:
 
   |  % civclient --tiles trident
 
-  Andra uppsättningar kan finnas på Freecivs FTP-server.
+  Andra uppsättningar kan finnas på Freecivs FTP- och webserver.
 
 
   Klienter kan ges tillåtelse att utföra serverkommandon. Skriv
@@ -246,11 +237,8 @@ sig där kör man civserver med kommandoradsargumentet "--meta" eller
 Varningar:
 
  1) På grund av nya funktioner är olika versioner av server och klient
-    ofta oförenliga. Inte alla oförenligheter kan upptäckas och
-    meddelas på ett lämpligt sätt. Ett exempel är en klient av version
-    1.8.0 (eller senare) som ansluter till en server av version 1.7.2:
-    klienten verkar ansluta men får aldrig några meddelanden från
-    servern.
+    ofta oförenliga. Versionen 1.13.0 är till exempel oförenlig med
+    1.12.0 och tidigare versioner.
 
  2) Om metaserverknappen i anslutningsdialogen inte fungerar, undersök
     om internetanslutningen kräver en WWW-proxy, och se till att
@@ -259,13 +247,8 @@ Varningar:
     $http_proxy till http://proxy.minanslutning.se:8888/ innan
     klienten startas.
 
- 3) Ibland finns det inga spel på metaservern. Detta kan delvis bero
-    på att metaservern har bytt värdar och att tidigare
-    freecivversioner inte känner till den nya adressen. Det kan även
-    bero på att spel inte längre anmäls till metaservern som standard,
-    utan att man måste använda kommandoradsargumentet "--meta". Om man
-    vill spela ett spel på metaservern och det inte finns några där
-    kan man skapa ett.
+ 3) Ibland finns det inga spel på metaservern. Antalet spelare där
+    växlar under dygnets tider. Försök att skapa ett spel där själv!
 
 
 Under spelets gång:
@@ -474,6 +457,7 @@ Vi har 6 sändlistor:
   freeciv-java     Utveckling av en javaklient (Java är ett annat
                    programmeringsspråk än det som Freeciv är skrivet
                    i).
+  freeciv-ai       Utvecklign av datorstyrning av spelare.
   freeciv-cvs      Kungörelser om ändringar i CVS-förvaret.
                    Denna lista kan endast läsas och sprider
                    automatiska meddelanden. Man kan alltså inte skicka
@@ -506,6 +490,16 @@ Använd följande adresser för att skicka brev till sändlistorna:
   <freeciv-dev@freeciv.org>.
   <freeciv-data@freeciv.org>.
   <freeciv-java@freeciv.org>.
+  <freeciv-ai@freeciv.org>.
+
+
+Internet Relay Chat (IRC)
+=========================
+
+Flera spelare och utvecklare håller till på #freeciv på Open Projects
+network. Försök ansluta till servern
+
+	irc.openprojects.net
 
 
 Nya utgåvor:

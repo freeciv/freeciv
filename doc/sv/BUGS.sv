@@ -2,7 +2,7 @@
 PROGRAMFEL
 ==========
 
-Freeciv 1.11.4 är en "driftssäker" utgåva och anses var tillräckligt
+Freeciv 1.13.0 är en "driftssäker" utgåva och anses vara tillräckligt
 fri från programfel för dagligt bruk. Om man ändå hittar ett
 programfel skulle vi vilja få reda på det så att vi kan rätta
 det. Denna fil listar kända programfel i denna utgåva och ger
@@ -15,6 +15,19 @@ fullständig lista, se:
 
 KÄNDA PROGRAMFEL:
 =================
+
+ - Vissa rader som innehåller särskilda tecken visas tomma om
+   systemets locale är satt till "C". Sätt då locale till någonging
+   annat, till exempel "sv".
+
+ - Stadsförvaltningsinställningarna skickas endast till servern när
+   man trycker på "Avsluta omgång". Ändringarna som man gör i
+   stadsförvaltningsinställningarna samma omgång som man sparar går
+   därför förlorade.
+
+ - Om man använder stadsförvaltningen så blir de sparade spelen inte
+   endian- och 64-bitarssäkra, så man kan inte använda filerna på
+   datorer med annan arkitektur.
 
  - De enkla datorstyrda fienderna är inte tillräckligt enkla för
    nybörjare. Om de datorstyrda spelarna besegrar dig tidigt i spelet,
@@ -31,11 +44,11 @@ KÄNDA PROGRAMFEL:
    forskningsredogörelsen så att menyn sträcker sig utanför skärmens
    underkant så att man inte kan välja alla framsteg. 
 
- - Servern visar inte hela namnet på värdar med mycket långa namn.
-
- - Världsundret "Stora Muren", vilket verkar som en stadsmur i varje
-   stad, förhindrar byggandet av riktiga stadsmurar som inte
-   försvinner när världsundret blir föråldrat.
+ - I bland kan man få meddelandena
+   {ss} player for sample <01> not found
+	 {ss} player for sample <01> not found
+   när man använder ljuddrivrutinen esound. Detta är inget att oroa
+   sig för.
 
  - Vissa världsunder börjar inte verka förrän omgången efter att de
    har färdigställts. När man till exempel färdigställer Fyrtornet får
@@ -73,6 +86,9 @@ KÄNDA PROGRAMFEL:
    spelaren varje omgång. Detta ger i bland sken av att datorn gör 2
    drag.
 
+ - Xaw-klienten fungerar inte bra ben KDEs fönsterhanterare. Försök
+   med gtk-klienten eller en annan fönsterhanterare.
+
 ANMÄLA PROGRAMFEL
 =================
 
@@ -101,7 +117,7 @@ Så här gör man:
 
   för att se om programfelet redan har anmälts.
 
-- Anmäl programfelet!
+- Anmäler programfelet
 
    Man kan änmäla ett programfel genom att skicka epost till
     <bugs@freeciv.freeciv.org> eller på väven vid

@@ -9,7 +9,6 @@ Om man aldrig har spelat civilisationsspel är det enklast om man börjar
 med att läsa Freecivs handbok som är tillgänglig vid:
 
      http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
 
 För upplysningar om hur man spelar Freeciv, fortsätt läsa!
 
@@ -151,7 +150,7 @@ Fråga: Vilka andra strategier finns det?
 	Det finns ett antal handledningar och strategianvisningar
 tillgängliga vid Freecivs webplats vid:
 
-	 http://www.freeciv.org/tutorials/tutorials.phtml
+	 http://www.freeciv.org/tutorials/
 
 Dessutom beskriver Freecivs inbyggda hjälp en annan strategi.
 
@@ -254,4 +253,4 @@ Fråga: Vilka krigsenheter är bäst?
 
 Kom i håg att det bästa försvaret är ett kraftfullt angrepp.
 
-<Tillägg till detta dokument är välkomna>
+Tillägg till detta dokument är välkomna!
