@@ -35,6 +35,7 @@
 #include <advmilitary.h>
 #include <gotohand.h>
 #include <citytools.h>
+#include <assert.h>
 
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 int unit_defensiveness(struct unit *punit);
@@ -768,16 +769,17 @@ int amortize(int b, int d)
   int denom;
   int i = 0;
   int s = 1;
+  assert(d >= 0);
   if (b < 0) { s = -1; b *= s; }
   while (d && b) {
     denom = 1;
-    while (d >= 12 && !(b>>29) && !(denom>>28)) {
+    while (d >= 12 && !(b>>28) && !(denom>>27)) {
       b *= 3;          /* this is a kluge but it is 99.9% accurate and saves time */
       denom *= 5;      /* as long as MORT remains 24! -- Syela */
       i++;
       d -= 12;
     }
-    while (!(b>>26) && d && !(denom>>26)) {
+    while (!(b>>25) && d && !(denom>>25)) {
       b *= num;
       denom *= MORT;
       i++;
