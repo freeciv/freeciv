@@ -1883,6 +1883,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   if(strcmp(now, buf)) {
     XtVaSetValues(pdialog->cityname_label, XtNlabel, (XtArgVal)buf, NULL);
     xaw_horiz_center(pdialog->cityname_label);
+    XtVaSetValues(pdialog->shell, XtNtitle, (XtArgVal)pdialog->pcity->name, NULL);
   }
 }
 
