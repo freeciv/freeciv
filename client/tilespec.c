@@ -1881,16 +1881,28 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
 }
 
 #define ADD_SPRITE(s, draw_style, draw_fog, x_offset, y_offset)	\
-  (assert(s != NULL),                     \
-   sprs->type = DRAWN_SPRITE,             \
-   sprs->style = draw_style,              \
-   sprs->sprite = s,                      \
-   sprs->foggable = draw_fog,             \
-   sprs->offset_x = x_offset,             \
-   sprs->offset_y = y_offset,             \
+  (assert(s != NULL),						\
+   sprs->type = DRAWN_SPRITE,					\
+   sprs->data.sprite.style = draw_style,			\
+   sprs->data.sprite.sprite = s,				\
+   sprs->data.sprite.foggable = draw_fog,			\
+   sprs->data.sprite.offset_x = x_offset,			\
+   sprs->data.sprite.offset_y = y_offset,			\
    sprs++)
 #define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, DRAW_NORMAL, TRUE, 0, 0)
 #define ADD_SPRITE_FULL(s) ADD_SPRITE(s, DRAW_FULL, TRUE, 0, 0)
+
+#define ADD_GRID(x, y, mode)						    \
+  (sprs->type = DRAWN_GRID,						    \
+   sprs->data.grid.map_x = (x),						    \
+   sprs->data.grid.map_y = (y),						    \
+   sprs->data.grid.citymode = (mode),					    \
+   sprs++)
+
+#define ADD_BG(bg_color)						    \
+  (sprs->type = DRAWN_BG,						    \
+   sprs->data.bg.color = (bg_color),					    \
+   sprs++)
 
 /**************************************************************************
   Assemble some data that is used in building the tile sprite arrays.
@@ -1933,11 +1945,10 @@ static void build_tile_data(int map_x, int map_y,
   Fill in the sprite array for the unit
 ***********************************************************************/
 int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
-			   bool *solid_bg, bool stack, bool backdrop)
+			   bool stack, bool backdrop)
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
-  *solid_bg = FALSE;
 
   if (is_isometric) {
     if (backdrop) {
@@ -1950,7 +1961,7 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
 	ADD_SPRITE(get_unit_nation_flag_sprite(punit),
 		   DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
       } else {
-	*solid_bg = TRUE;
+	ADD_BG(player_color(unit_owner(punit)));
       }
     }
   }
@@ -2608,7 +2619,6 @@ The sprites are drawn in the following order:
  5) huts
 ***********************************************************************/
 int fill_tile_sprite_array(struct drawn_sprite *sprs,
-			   bool *solid_bg, enum color_std *bg_color,
 			   int map_x, int map_y, bool citymode)
 {
   Terrain_type_id ttype, ttype_near[8];
@@ -2622,24 +2632,19 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
   bool unit_only = FALSE, city_only = FALSE;
 
   if (tile_get_known(map_x, map_y) == TILE_UNKNOWN) {
-    *solid_bg = TRUE;
-    *bg_color = COLOR_STD_BLACK;
-    return 0;
+    ADD_BG(COLOR_STD_BLACK);
+    return sprs - save_sprs;
   }
 
   /* Set up background color. */
-  *solid_bg = FALSE;
   if (solid_color_behind_units) {
     if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
-      *solid_bg = unit_only = TRUE;
-      *bg_color = player_color(unit_owner(punit));
+      ADD_BG(player_color(unit_owner(punit)));
     } else if (pcity && draw_cities) {
-      *solid_bg = city_only = TRUE;
-      *bg_color = player_color(city_owner(pcity));
+      ADD_BG(player_color(city_owner(pcity)));
     }
   } else if (!draw_terrain) {
-    *solid_bg = TRUE;
-    *bg_color = COLOR_STD_BACKGROUND;
+    ADD_BG(COLOR_STD_BACKGROUND);
   }
 
   build_tile_data(map_x, map_y,
@@ -2704,8 +2709,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
 
   if (is_isometric) {
     /* Add grid.  In classic view this is done later. */
-    sprs->type = DRAWN_GRID;
-    sprs++;
+    ADD_GRID(map_x, map_y, citymode);
   }
 
   /* City.  Some city sprites are drawn later. */
@@ -2760,9 +2764,8 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
       && (draw_units || (punit == pfocus && draw_focus_unit))) {
     bool stacked = (unit_list_size(&map_get_tile(map_x, map_y)->units) > 1);
     bool backdrop = !pcity && !unit_only;
-    bool dummy;
 
-    sprs += fill_unit_sprite_array(sprs, punit, &dummy, stacked, backdrop);
+    sprs += fill_unit_sprite_array(sprs, punit, stacked, backdrop);
   }
 
   if (!unit_only && !city_only) {
@@ -2776,8 +2779,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
 
   if (!is_isometric) {
     /* Add grid.  In iso-view this is done earlier. */
-    sprs->type = DRAWN_GRID;
-    sprs++;
+    ADD_GRID(map_x, map_y, citymode);
   }
 
   return sprs - save_sprs;

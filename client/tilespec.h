@@ -29,20 +29,32 @@ struct Sprite;			/* opaque; gui-dep */
 struct drawn_sprite {
   enum {
     DRAWN_SPRITE,	/* Draw a sprite. */
-    DRAWN_GRID		/* Draw the map grid now. */
+    DRAWN_GRID,		/* Draw the map grid now. */
+    DRAWN_BG            /* Draw a solid BG. */
   } type;
 
-  enum {
-    /* Only applicable in iso-view.  "Full" sprites overlap into the top
-     * half-tile of UNIT_TILE_HEIGHT. */
-    DRAW_NORMAL,
-    DRAW_FULL
-  } style;
+  union {
+    struct {
+      enum {
+	/* Only applicable in iso-view.  "Full" sprites overlap into the top
+	 * half-tile of UNIT_TILE_HEIGHT. */
+	DRAW_NORMAL,
+	DRAW_FULL
+      } style;
+      bool foggable;	/* Set to FALSE for sprites that are never fogged. */
+      struct Sprite *sprite;
+      int offset_x, offset_y;	/* offset from tile origin */
+    } sprite;
 
-  /* These files only apply for DRAWN_SPRITE. */
-  bool foggable;	/* Set to FALSE for sprites that are never fogged. */
-  struct Sprite *sprite;
-  int offset_x, offset_y;	/* offset from tile origin */
+    struct {
+      int map_x, map_y;
+      bool citymode;
+    } grid;
+
+    struct {
+      enum color_std color;
+    } bg;
+  } data;
 };
 
 const char **get_tileset_list(void);
@@ -68,10 +80,9 @@ void tilespec_free_city_tiles(int count);
 /* Gfx support */
 
 int fill_tile_sprite_array(struct drawn_sprite *sprs,
-			   bool *solid_bg, enum color_std *bg_color,
 			   int map_x, int map_y, bool citymode);
 int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
-			   bool *solid_bg, bool stack, bool backdrop);
+			   bool stack, bool backdrop);
 
 enum color_std player_color(struct player *pplayer);
 enum color_std overview_tile_color(int x, int y);

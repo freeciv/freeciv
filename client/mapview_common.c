@@ -755,32 +755,85 @@ static void put_path_length(void)
 }
 
 /**************************************************************************
+  Draw an array of drawn sprites onto the canvas.
+**************************************************************************/
+static void put_drawn_sprites(struct canvas *pcanvas,
+			      int canvas_x, int canvas_y,
+			      int count, struct drawn_sprite *pdrawn,
+			      bool fog)
+{
+  int i;
+
+  for (i = 0; i < count; i++) {
+    int ox, oy, dx, dy;
+
+    switch (pdrawn[i].type) {
+    case DRAWN_SPRITE:
+      if (!pdrawn[i].data.sprite.sprite) {
+	/* This can happen, although it should probably be avoided. */
+	break;
+      }
+      ox = pdrawn[i].data.sprite.offset_x;
+      oy = pdrawn[i].data.sprite.offset_y;
+      if (pdrawn[i].data.sprite.style == DRAW_FULL) {
+	dx = UNIT_TILE_WIDTH - NORMAL_TILE_WIDTH;
+	dy = UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT;
+      } else {
+	dx = dy = 0;
+      }
+      if (fog && pdrawn[i].data.sprite.foggable) {
+	canvas_put_sprite_fogged(pcanvas,
+				 canvas_x + ox - dx, canvas_y + oy - dy,
+				 pdrawn[i].data.sprite.sprite,
+				 TRUE,
+				 canvas_x, canvas_y);
+      } else {
+	/* We avoid calling canvas_put_sprite_fogged, even though it
+	 * should be a valid thing to do, because gui-gtk-2.0 doesn't have
+	 * a full implementation. */
+	canvas_put_sprite_full(pcanvas,
+			       canvas_x + ox - dx, canvas_y + oy - dy,
+			       pdrawn[i].data.sprite.sprite);
+      }
+      break;
+    case DRAWN_GRID:
+      /*** Grid (map grid, borders, coastline, etc.) ***/
+      tile_draw_grid(pcanvas,
+		     pdrawn[i].data.grid.map_x, pdrawn[i].data.grid.map_y,
+		     canvas_x, canvas_y,
+		     pdrawn[i].data.grid.citymode);
+      break;
+    case DRAWN_BG:
+      /*** Background color. ***/
+      if (is_isometric) {
+	canvas_fill_sprite_area(pcanvas, sprites.black_tile, COLOR_STD_BLACK,
+			    canvas_x, canvas_y);
+	if (fog) {
+	  canvas_fog_sprite_area(pcanvas, sprites.black_tile,
+				 canvas_x, canvas_y);
+	}
+      } else {
+	canvas_put_rectangle(pcanvas, pdrawn[i].data.bg.color,
+			     canvas_x, canvas_y,
+			     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      }
+      break;
+    }
+  }
+}
+
+/**************************************************************************
   Draw the given unit onto the canvas store at the given location.
 **************************************************************************/
 void put_unit(struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
-  bool solid_bg;
-  int count = fill_unit_sprite_array(drawn_sprites, punit, &solid_bg,
-				     FALSE, TRUE);
-  int i;
+  int count = fill_unit_sprite_array(drawn_sprites, punit, FALSE, TRUE);
 
-  if (!is_isometric && solid_bg) {
-    canvas_put_rectangle(pcanvas, player_color(unit_owner(punit)),
-			 canvas_x, canvas_y,
-			 UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-  }
-
-  for (i = 0; i < count; i++) {
-    if (drawn_sprites[i].sprite) {
-      int ox = drawn_sprites[i].offset_x, oy = drawn_sprites[i].offset_y;
-
-      /* units are never fogged */
-      canvas_put_sprite_full(pcanvas, canvas_x + ox, canvas_y + oy,
-			     drawn_sprites[i].sprite);
-    }
-  }
+  canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
+  put_drawn_sprites(pcanvas, canvas_x, canvas_y,
+		    count, drawn_sprites, FALSE);
 }
 
 /****************************************************************************
@@ -1175,76 +1228,19 @@ static void tile_draw_borders(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Draw an array of drawn sprites onto the canvas.
-**************************************************************************/
-static void put_drawn_sprites(struct canvas *pcanvas,
-			      int canvas_x, int canvas_y,
-			      int count, struct drawn_sprite *pdrawn,
-			      bool fog, int map_x, int map_y, bool citymode)
-{
-  int i;
-
-  for (i = 0; i < count; i++) {
-    int ox = pdrawn[i].offset_x, oy = pdrawn[i].offset_y, dx, dy;
-
-    switch (pdrawn[i].type) {
-    case DRAWN_SPRITE:
-      if (pdrawn[i].style == DRAW_FULL) {
-	dx = UNIT_TILE_WIDTH - NORMAL_TILE_WIDTH;
-	dy = UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT;
-      } else {
-	dx = dy = 0;
-      }
-      canvas_put_sprite_fogged(pcanvas,
-			       canvas_x + ox - dx, canvas_y + oy - dy,
-			       pdrawn[i].sprite,
-			       fog && pdrawn[i].foggable,
-			       canvas_x, canvas_y);
-      break;
-    case DRAWN_GRID:
-      /*** Grid (map grid, borders, coastline, etc.) ***/
-      tile_draw_grid(pcanvas, map_x, map_y, canvas_x, canvas_y, citymode);
-      break;
-    }
-  }
-}
-
-/**************************************************************************
   Draw the given map tile at the given canvas position in non-isometric
   view.
 **************************************************************************/
 void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode)
 {
-  struct drawn_sprite tile_sprs[80];
-  bool solid_bg;
-  enum color_std bg_color;
-  bool is_real = normalize_map_pos(&map_x, &map_y);
+  if (normalize_map_pos(&map_x, &map_y)
+      && tile_get_known(map_x, map_y) != TILE_UNKNOWN) {
+    struct drawn_sprite tile_sprs[80];
+    int count = fill_tile_sprite_array(tile_sprs, map_x, map_y, citymode);
 
-  if (is_real && tile_get_known(map_x, map_y) != TILE_UNKNOWN) {
-    int count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
-				       map_x, map_y, citymode);
-    int i = 0;
-
-    if (solid_bg) {
-      canvas_put_rectangle(pcanvas, bg_color, canvas_x, canvas_y,
-			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
-
-    for (i = 0; i < count; i++) {
-      switch (tile_sprs[i].type) {
-      case DRAWN_SPRITE:
-	canvas_put_sprite_full(pcanvas,
-			       canvas_x + tile_sprs[i].offset_x,
-			       canvas_y + tile_sprs[i].offset_y,
-			       tile_sprs[i].sprite);
-	break;
-      case DRAWN_GRID:
-	/*** Grid (map grid, borders, coastline, etc.) ***/
-	tile_draw_grid(pcanvas, map_x, map_y, canvas_x, canvas_y, citymode);
-	break;
-      }
-    }
+    put_drawn_sprites(pcanvas, canvas_x, canvas_y,
+		      count, tile_sprs, FALSE);
   } else {
     /* tile is unknown */
     canvas_put_rectangle(pcanvas, COLOR_STD_BLACK,
@@ -1389,11 +1385,9 @@ void put_one_tile_iso(struct canvas *pcanvas, int map_x, int map_y,
 {
   struct drawn_sprite tile_sprs[80];
   int count;
-  bool solid_bg, fog;
-  enum color_std bg_color;
+  bool fog;
 
-  count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
-				 map_x, map_y, citymode);
+  count = fill_tile_sprite_array(tile_sprs, map_x, map_y, citymode);
 
   if (count == -1) { /* tile is unknown */
     canvas_fill_sprite_area(pcanvas, sprites.black_tile, COLOR_STD_BLACK,
@@ -1409,18 +1403,8 @@ void put_one_tile_iso(struct canvas *pcanvas, int map_x, int map_y,
 
   fog = tile_get_known(map_x, map_y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
 
-  if (solid_bg) {
-    canvas_fill_sprite_area(pcanvas, sprites.black_tile, COLOR_STD_BLACK,
-			    canvas_x, canvas_y);
-    if (fog) {
-      canvas_fog_sprite_area(pcanvas, sprites.black_tile,
-			     canvas_x, canvas_y);
-    }
-  }
-
   /*** Draw terrain and specials ***/
-  put_drawn_sprites(pcanvas, canvas_x, canvas_y,
-		    count, tile_sprs, fog, map_x, map_y, citymode);
+  put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);
 }
 
 /**************************************************************************
