@@ -101,6 +101,14 @@ void close_cma_dialog(struct city *pcity)
 
   dialog_list_unlink(&dialog_list, pdialog);
 
+  if (pdialog->name_shell) {
+    gtk_widget_destroy(pdialog->name_shell);
+  }
+
+  if (pdialog->preset_remove_shell) {
+    gtk_widget_destroy(pdialog->preset_remove_shell);
+  }
+
   gtk_widget_destroy(pdialog->shell);
   free(pdialog);
 }
@@ -138,6 +146,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
   pdialog = fc_malloc(sizeof(struct cma_dialog));
   pdialog->pcity = pcity;
   pdialog->shell = gtk_vbox_new(FALSE, 0);
+  pdialog->name_shell = NULL;
+  pdialog->preset_remove_shell = NULL;
 
   if (!preset_title) {
     preset_title = intl_slist(1, preset_title_);
@@ -581,6 +591,7 @@ static void cma_preset_remove_callback_yes(gpointer data)
   refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
   /* if this or other cities have this set, reset to "custom" */
   city_report_dialog_update();
+  pdialog->preset_remove_shell = NULL;
 }
 
 /**************************************************************************
