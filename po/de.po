@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-21 20:56-0500\n"
+"POT-Creation-Date: 2005-02-22 14:59+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -7728,9 +7728,8 @@ msgstr "Server nicht gefunden"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/clinet.c:658
-#, fuzzy
 msgid "Failed querying socket"
-msgstr "Failed creating PNG struct"
+msgstr "Failed querying socket"
 
 #: client/connectdlg_common.c:78
 msgid "novice"
