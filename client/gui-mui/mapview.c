@@ -448,19 +448,6 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 /**************************************************************************
 ...
 **************************************************************************/
-void get_center_tile_mapcanvas(int *x, int *y)
-{
-  int width, height;
-  width = _mwidth(main_map_area);
-  height = _mheight(main_map_area);
-
-  /* This sets the pointers x and y */
-  get_map_xy(width/2, height/2, x, y);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void set_map_xy_start(int new_map_view_x0, int new_map_view_y0)
 {
   SetAttrs(main_map_area,

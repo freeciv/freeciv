@@ -38,7 +38,6 @@ void set_overview_dimensions(int x, int y);
 void overview_update_tile(int x, int y);
 
 void center_tile_mapcanvas(int x, int y);
-void get_center_tile_mapcanvas(int *x, int *y);
 
 void show_city_descriptions(void);
 

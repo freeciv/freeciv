@@ -253,6 +253,20 @@ void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 }
 
 /**************************************************************************
+  Finds the current center tile of the mapcanvas.
+**************************************************************************/
+void get_center_tile_mapcanvas(int *map_x, int *map_y)
+{
+  int map_view_x0, map_view_y0, map_win_width, map_win_height;
+
+  get_mapview_dimensions(&map_view_x0, &map_view_y0,
+			 &map_win_width, &map_win_height);
+
+  /* This sets the pointers map_x and map_y */
+  get_map_xy(map_win_width / 2, map_win_height / 2, map_x, map_y);
+}
+
+/**************************************************************************
   Centers the mapview around (map_x, map_y).  (map_view_x0,
   map_view_y0) is the upper-left coordinates of the mapview; these
   should be (but aren't) stored globally - each GUI has separate

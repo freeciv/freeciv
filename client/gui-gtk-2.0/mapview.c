@@ -693,18 +693,6 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-void get_center_tile_mapcanvas(int *x, int *y)
-{
-  int width, height;
-  gdk_window_get_size(map_canvas->window, &width, &height);
-
-  /* This sets the pointers x and y */
-  get_map_xy(width/2, height/2, x, y);
-}
-
-/**************************************************************************
 Centers the mapview around (x, y).
 
 This function is almost identical between all GUI's.

@@ -719,15 +719,6 @@ void center_tile_mapcanvas(int x, int y)
 
 **************************************************************************/
 void
-get_center_tile_mapcanvas(int *x, int *y)
-{
-  get_map_xy(map_win_width/2,map_win_height/2,x,y);    
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void
 update_map_canvas(int x, int y, int width, int height,
 		  bool write_to_screen)
 {

@@ -82,12 +82,6 @@ center_tile_mapcanvas(int x, int y)
 	/* PORTME */
 }
 
-void
-get_center_tile_mapcanvas(int *x, int *y)
-{
-	/* PORTME */
-}
-
 /**************************************************************************
   Show descriptions for all cities visible on the map canvas.
 **************************************************************************/
