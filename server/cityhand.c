@@ -730,7 +730,7 @@ void send_player_cities(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-void send_adjacent_cities(struct city *pcity)
+static void send_adjacent_cities(struct city *pcity)
 {
   int x1,x2,y1,y2;
   int i;

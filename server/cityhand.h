@@ -28,7 +28,6 @@ void remove_city(struct city *pcity);
 void send_city_info(struct player *dest, struct city *pcity);
 void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 			    struct city *pcity, int x, int y);
-void send_adjacent_cities(struct city *pcity);
 
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
 
