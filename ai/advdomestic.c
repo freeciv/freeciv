@@ -403,6 +403,8 @@ void ai_eval_buildings(struct city *pcity)
   int tprod, prod, sci, tax, t, val, wwtv;
   int j, k;
   int values[B_LAST];
+  int nplayers = game.nplayers 
+                 - team_count_members_alive(pplayer->team);
 
   /* --- initialize control parameters --- */
   t = pcity->ai.trade_want;  /* trade_weighting */
@@ -673,7 +675,7 @@ void ai_eval_buildings(struct city *pcity)
     case B_GREAT:
       /* basically (100 - freecost)% of a free tech per 2 turns */
       values[id] = (total_bulbs_required(pplayer) * (100 - game.freecost) * t
-                 * (game.nplayers - 2)) / (game.nplayers * 2 * 100);
+                 * (nplayers - 2)) / (nplayers * 2 * 100);
       break;
     case B_WALL:
       if (!city_got_citywalls(pcity)) {

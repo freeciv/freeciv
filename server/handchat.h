@@ -16,7 +16,9 @@
 struct connection;
 struct packet_generic_message;
 
-void handle_chat_msg(struct connection *pconn,
-		     struct packet_generic_message *packet);
+#define ALLIESCHAT_COMMAND_PREFIX '.'
+
+void handle_chat_msg(struct connection *pconn, 
+                   struct packet_generic_message *packet);
 
 #endif  /* FC__HANDCHAT_H */

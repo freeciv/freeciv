@@ -20,6 +20,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
+#include "nation.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -1247,6 +1248,11 @@ void handle_player_remove_vision(struct player *pplayer,
   pplayer2 = get_player(packet->value);
   if (pplayer == pplayer2 || !pplayer2->is_alive
       || !gives_shared_vision(pplayer, pplayer2)) {
+    return;
+  }
+
+  /* Do not allow team mates to backstab */
+  if (pplayer->team != TEAM_NONE && pplayer->team == pplayer2->team) {
     return;
   }
 

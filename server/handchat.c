@@ -133,7 +133,8 @@ static void chat_msg_to_player_multi(struct connection *sender,
   2. Otherwise work out whether it is directed to a single player, or
      to a single connection, and send there.  (For a player, send to
      all clients connected as that player, in multi-connect case);
-  3. Else send to all connections (game.est_connections).
+  3. Or it may be intended for all allied players.
+  4. Else send to all connections (game.est_connections).
 
   In case 2, there can sometimes be ambiguity between player and
   connection names.  By default this tries to match player name first,
@@ -149,8 +150,8 @@ static void chat_msg_to_player_multi(struct connection *sender,
   avoiding sending both original and echo if sender is in destination
   set.
 **************************************************************************/
-void handle_chat_msg(struct connection *pconn,
-		     struct packet_generic_message *packet)
+void handle_chat_msg(struct connection *pconn, 
+                     struct packet_generic_message *packet)
 {
   struct packet_generic_message genmsg;
   char sender_name[MAX_LEN_CHAT_NAME];
@@ -177,6 +178,27 @@ void handle_chat_msg(struct connection *pconn,
   if (packet->message[0] == SERVER_COMMAND_PREFIX) {
     /* pass it to the command parser, which will chop the prefix off */
     handle_stdin_input(pconn, packet->message);
+    return;
+  }
+
+  /* Send to allies command */
+  if (packet->message[0] == ALLIESCHAT_COMMAND_PREFIX) {
+    char sender_name[MAX_LEN_CHAT_NAME];
+    struct packet_generic_message genmsg;
+
+    genmsg.x = genmsg.y = genmsg.event = -1;
+    packet->message[0] = ' '; /* replace command prefix */
+    form_chat_name(pconn, sender_name, sizeof(sender_name));
+    my_snprintf(genmsg.message, sizeof(genmsg.message),
+                _("%s to allies: %s"), sender_name,
+                skip_leading_spaces(packet->message));
+    players_iterate(aplayer) {
+      if (!pplayers_allied(pconn->player, aplayer)) {
+        continue;
+      }
+      lsend_packet_generic_message(&aplayer->connections, 
+                                   PACKET_CHAT_MSG, &genmsg);
+    } players_iterate_end;
     return;
   }
 

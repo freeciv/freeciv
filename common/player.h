@@ -161,6 +161,7 @@ struct player {
   bool is_male;
   int government;
   Nation_Type_id nation;
+  Team_Type_id team;
   bool turn_done;
   int nturns_idle;
   bool is_alive;

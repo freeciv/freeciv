@@ -70,7 +70,7 @@ static void players_list_callback(GtkWidget *w, gint row, gint column);
 static void players_list_ucallback(GtkWidget *w, gint row, gint column);
 static void players_sship_callback(GtkWidget *w, gpointer data);
 
-#define NUM_COLUMNS 11    /* number of columns in total */
+#define NUM_COLUMNS 12    /* number of columns in total */
 #define DEF_SORT_COLUMN 2 /* default sort column (1 = nation) */
 
 /****************************************************************
@@ -120,7 +120,7 @@ static void sort_players_callback(GtkButton *button, gpointer *data)
 void create_players_dialog(void)
 {
   static const char *titles_[NUM_COLUMNS] =
-      { N_("Name"), N_("Flag"), N_("Nation"), N_("Ai"),
+      { N_("Name"), N_("Flag"), N_("Nation"), N_("Team"), N_("Ai"),
 	N_("Embassy"), N_("Dipl.State"), N_("Vision"), N_("Reputation"),
 	N_("State"), N_("Host"), N_("Idle")
   };
@@ -250,7 +250,7 @@ static void build_row(const char **row, int i, int update)
       repbuf[32], statebuf[32], idlebuf[32];
   const struct player_diplstate *pds;
 
-  /* we cassume that neither name nor the nation of a player changes */
+  /* we assume that neither name, team nor the nation of a player changes */
   if (update == 0) {
     /* the playername */
     my_snprintf(namebuf, sizeof(namebuf), "%-16s", game.players[i].name);
@@ -262,6 +262,13 @@ static void build_row(const char **row, int i, int update)
 
     /* the nation */
     row[2] = (char *) get_nation_name(game.players[i].nation);
+
+    /* the team */
+    if (game.players[i].team != TEAM_NONE) {
+      row[3] = (char *) team_get_by_id(game.players[i].team)->name;
+    } else {
+      row[3] = (char *) "";
+    }
   }
 
   /* text for name, plus AI marker */
@@ -311,14 +318,14 @@ static void build_row(const char **row, int i, int update)
 	      reputation_text(game.players[i].reputation));
 
   /* assemble the whole lot */
-  row[3] = aibuf;
-  row[4] = get_embassy_status(game.player_ptr, &game.players[i]);
-  row[5] = dsbuf;
-  row[6] = get_vision_status(game.player_ptr, &game.players[i]);
-  row[7] = repbuf;
-  row[8] = statebuf;
-  row[9] = (char *) player_addr_hack(&game.players[i]);	/* Fixme */
-  row[10] = idlebuf;
+  row[4] = aibuf;
+  row[5] = get_embassy_status(game.player_ptr, &game.players[i]);
+  row[6] = dsbuf;
+  row[7] = get_vision_status(game.player_ptr, &game.players[i]);
+  row[8] = repbuf;
+  row[9] = statebuf;
+  row[10] = (char *) player_addr_hack(&game.players[i]);	/* Fixme */
+  row[11] = idlebuf;
 }
 
 #define MIN_DIMENSION 5
@@ -415,7 +422,7 @@ void update_players_dialog(void)
 	 * The nation already had a row in the player report. In that
 	 * case we just update the row. 
 	 */
-	for (j = 3; j < NUM_COLUMNS; j++) {
+	for (j = 4; j < NUM_COLUMNS; j++) {
 	  gtk_clist_set_text(GTK_CLIST(players_list), row, j,
 			     row_texts[j]);
 	}

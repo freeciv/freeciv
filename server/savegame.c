@@ -577,6 +577,17 @@ static void player_load(struct player *plr, int plrno,
   sz_strlcpy(plr->username,
 	     secfile_lookup_str_default(file, "", "player%d.username", plrno));
   plr->nation=secfile_lookup_int(file, "player%d.race", plrno);
+
+  /* not all players have teams */
+  if (section_file_lookup(file, "player%d.team", plrno)) {
+    char tmp[MAX_LEN_NAME];
+
+    sz_strlcpy(tmp, secfile_lookup_str(file, "player%d.team", plrno));
+    team_add_player(plr, tmp);
+    plr->team = team_find_by_name(tmp);
+  } else {
+    plr->team = TEAM_NONE;
+  }
   if (is_barbarian(plr)) {
     plr->nation=game.nation_count-1;
   }
@@ -1221,6 +1232,10 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
   secfile_insert_int(file, plr->nation, "player%d.race", plrno);
+  if (plr->team != TEAM_NONE) {
+    secfile_insert_str(file, (char *) team_get_by_id(plr->team)->name, 
+                       "player%d.team", plrno);
+  }
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
 
