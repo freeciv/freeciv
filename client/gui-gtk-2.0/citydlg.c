@@ -93,7 +93,7 @@ enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 #define NUM_CITIZENS_SHOWN 25
 #define NUM_CITY_OPTS 5
 #define NUM_INFO_FIELDS 11      /* number of fields in city_info */
-#define NUM_PAGES 7             /* the number of pages in city dialog notebook 
+#define NUM_PAGES 6             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
 
@@ -114,7 +114,6 @@ struct city_dialog {
   struct {
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
-    GtkWidget *tradelist;
     GtkWidget *production_bar;
     GtkWidget *production_combo;
     GtkWidget *buy_command;
@@ -198,7 +197,6 @@ static void create_and_append_overview_page(struct city_dialog *pdialog);
 static void create_and_append_worklist_page(struct city_dialog *pdialog);
 static void create_and_append_happiness_page(struct city_dialog *pdialog);
 static void create_and_append_cma_page(struct city_dialog *pdialog);
-static void create_and_append_trade_page(struct city_dialog *pdialog);
 static void create_and_append_settings_page(struct city_dialog *pdialog);
 
 static struct city_dialog *create_city_dialog(struct city *pcity,
@@ -216,7 +214,6 @@ static void city_dialog_update_improvement_list(struct city_dialog
 static void city_dialog_update_supported_units(struct city_dialog
 					       *pdialog);
 static void city_dialog_update_present_units(struct city_dialog *pdialog);
-static void city_dialog_update_tradelist(struct city_dialog *pdialog);
 static void city_dialog_update_prev_next(void);
 
 static void show_units_callback(GtkWidget * w, gpointer data);
@@ -376,7 +373,6 @@ void refresh_city_dialog(struct city *pcity)
   city_dialog_update_improvement_list(pdialog);
   city_dialog_update_supported_units(pdialog);
   city_dialog_update_present_units(pdialog);
-  city_dialog_update_tradelist(pdialog);
 
   if (city_owner(pcity) == game.player_ptr) {
     bool have_present_units =
@@ -1024,28 +1020,6 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 }
 
 /****************************************************************
-                       **** Trade Page **** 
-*****************************************************************/
-static void create_and_append_trade_page(struct city_dialog *pdialog)
-{
-  GtkWidget *page, *label;
-  const char *tab_title = _("Trade Ro_utes");
-
-  page = gtk_hbox_new(TRUE, 0);
-
-  label = gtk_label_new_with_mnemonic(tab_title);
-
-  gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
-
-  pdialog->overview.tradelist = gtk_label_new("Uninitialized.");
-  gtk_label_set_justify(GTK_LABEL(pdialog->overview.tradelist),
-			GTK_JUSTIFY_LEFT);
-  gtk_container_add(GTK_CONTAINER(page), pdialog->overview.tradelist);
-
-  gtk_widget_show_all(page);
-}
-
-/****************************************************************
                     **** Misc. Settings Page **** 
 *****************************************************************/
 static void create_and_append_settings_page(struct city_dialog *pdialog)
@@ -1075,7 +1049,6 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
     N_("Production page"),
     N_("Happiness page"),
     N_("CMA page"),
-    N_("Trade Routes page"),
     N_("This Settings page"),
     N_("Last active page")
   };
@@ -1290,8 +1263,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
     create_and_append_happiness_page(pdialog);
     create_and_append_cma_page(pdialog);
   }
-
-  create_and_append_trade_page(pdialog);
 
   if (pcity->owner == game.player_idx) {
     create_and_append_settings_page(pdialog);
@@ -1895,43 +1866,6 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
   my_snprintf(buf, sizeof(buf), _("Present units %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.present_units_frame), buf);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void city_dialog_update_tradelist(struct city_dialog *pdialog)
-{
-  int i, x = 0, total = 0;
-
-  char cityname[64], buf[512];
-
-  buf[0] = '\0';
-
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
-    if (pdialog->pcity->trade[i]) {
-      struct city *pcity;
-      x = 1;
-      total += pdialog->pcity->trade_value[i];
-
-      if ((pcity = find_city_by_id(pdialog->pcity->trade[i]))) {
-	my_snprintf(cityname, sizeof(cityname), "%s", pcity->name);
-      } else {
-	my_snprintf(cityname, sizeof(cityname), _("%s"), _("Unknown"));
-      }
-      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		  _("Trade with %s gives %d trade.\n"),
-		  cityname, pdialog->pcity->trade_value[i]);
-    }
-  }
-  if (!x) {
-    my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		_("No trade routes exist."));
-  } else {
-    my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		_("Total trade from trade route %d"), total);
-  }
-  gtk_label_set_text(GTK_LABEL(pdialog->overview.tradelist), buf);
 }
 
 /****************************************************************
