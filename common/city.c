@@ -407,8 +407,9 @@ bool can_build_unit_direct(struct city *pcity, Unit_Type_id id)
 {
   if (!can_player_build_unit_direct(city_owner(pcity), id))
     return FALSE;
-  if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
+  if (!is_ocean_near_tile(pcity->x, pcity->y) && is_water_unit(id)) {
     return FALSE;
+  }
   return TRUE;
 }
 
@@ -438,8 +439,9 @@ bool can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
 
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
-  if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
+  if (!is_ocean_near_tile(pcity->x, pcity->y) && is_water_unit(id)) {
     return FALSE;
+  }
 
   return TRUE;
 }
@@ -573,8 +575,9 @@ int base_city_get_shields_tile(int x, int y, struct city *pcity,
     s+=(s*terrain_control.rail_shield_bonus)/100;
   if (city_affected_by_wonder(pcity, B_RICHARDS))
     s++;
-  if (tile_t==T_OCEAN && city_got_building(pcity, B_OFFSHORE))
+  if (is_ocean(tile_t) && city_got_building(pcity, B_OFFSHORE)) {
     s++;
+  }
   /* government shield bonus & penalty */
   if (s > 0)
     s += (is_celebrating ? g->celeb_shield_bonus : g->shield_bonus);
@@ -607,7 +610,7 @@ int get_trade_tile(int x, int y)
   else
     t = get_tile_type(tile_t)->trade;
 
-  if (contains_special(spec_t, S_RIVER) && tile_t != T_OCEAN) {
+  if (contains_special(spec_t, S_RIVER) && !is_ocean(tile_t)) {
     t += terrain_control.river_trade_incr;
   }
   if (contains_special(spec_t, S_ROAD)) {
@@ -658,7 +661,7 @@ int base_city_get_trade_tile(int x, int y, struct city *pcity,
   else
     t=get_tile_type(tile_t)->trade;
 
-  if (contains_special(spec_t, S_RIVER) && tile_t != T_OCEAN) {
+  if (contains_special(spec_t, S_RIVER) && !is_ocean(tile_t)) {
     t += terrain_control.river_trade_incr;
   }
   if (contains_special(spec_t, S_ROAD)) {
@@ -783,8 +786,9 @@ int base_city_get_food_tile(int x, int y, struct city *pcity,
     }
   }
 
-  if (tile_t==T_OCEAN && city_got_building(pcity, B_HARBOUR))
+  if (is_ocean(tile_t) && city_got_building(pcity, B_HARBOUR)) {
     f++;
+  }
 
   if (contains_special(spec_t, S_RAILROAD))
     f+=(f*terrain_control.rail_food_bonus)/100;
@@ -810,8 +814,9 @@ int base_city_get_food_tile(int x, int y, struct city *pcity,
 **************************************************************************/
 bool city_can_be_built_here(int x, int y)
 {
-  if (map_get_terrain(x, y) == T_OCEAN)
+  if (is_ocean(map_get_terrain(x, y))) {
     return FALSE;
+  }
 
   /* game.rgame.min_dist_bw_cities minimum is 1, which means adjacent is okay */
   square_iterate(x, y, game.rgame.min_dist_bw_cities-1, x1, y1) {

@@ -75,4 +75,12 @@ enum known_type {
  TILE_UNKNOWN, TILE_KNOWN_FOGGED, TILE_KNOWN
 };
 
+/* These gets used very commonly, but we might change the definition of
+ * ocean at a later date, and then we'll need to change only these
+ * defines. */
+#define is_ocean(x) ((x) == T_OCEAN)
+#define is_ocean_near_tile(x, y) is_terrain_near_tile(x, y, T_OCEAN)
+#define adjacent_ocean_tiles4(x, y) adjacent_terrain_tiles4(x, y, T_OCEAN)
+#define count_ocean_near_tile(x,y) count_terrain_near_tile(x,y, T_OCEAN)
+
 #endif  /* FC__TERRAIN_H */

@@ -299,8 +299,10 @@ static bool goto_zoc_ok(struct unit *punit, int src_x, int src_y,
     return TRUE;
   if (map_get_city(src_x, src_y) || map_get_city(dest_x, dest_y))
     return TRUE;
-  if (map_get_terrain(src_x,src_y)==T_OCEAN || map_get_terrain(dest_x,dest_y)==T_OCEAN)
+  if (is_ocean(map_get_terrain(src_x,src_y))
+      || is_ocean(map_get_terrain(dest_x,dest_y))) {
     return TRUE;
+  }
   return is_my_zoc(unit_owner(punit), src_x, src_y)
       || is_my_zoc(unit_owner(punit), dest_x, dest_y);
 }
@@ -360,13 +362,13 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 
       switch (move_type) {
       case LAND_MOVING:
-	if (pdesttile->terrain == T_OCEAN) {
+	if (is_ocean(pdesttile->terrain)) {
 	  if (ground_unit_transporter_capacity(x1, y1, unit_owner(punit))
 	      <= 0)
 	    continue;
 	  else
 	    move_cost = SINGLE_MOVE;
-	} else if (psrctile->terrain == T_OCEAN) {
+	} else if (is_ocean(psrctile->terrain)) {
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * 
                                         SINGLE_MOVE;
 	  move_cost = igter ? MOVE_COST_ROAD 
@@ -387,14 +389,14 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE 
                                                              : 3 * SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
-	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
+	  if (is_ocean(psrctile->terrain) && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
 	    add_to_queue = FALSE;
 	    move_cost = SINGLE_MOVE;
 	  }
 	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
-	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
+	  if (is_ocean(psrctile->terrain) && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
 	    add_to_queue = FALSE;

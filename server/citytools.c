@@ -690,7 +690,7 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
   struct city *rcity = NULL;
   city_list_iterate(pplayer->cities, pcity)
     if ((real_map_distance(x, y, pcity->x, pcity->y) < dist || dist == -1) && 
-	(!sea_required || is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) &&
+	(!sea_required || is_ocean_near_tile(pcity->x, pcity->y)) &&
 	(!pexclcity || (pexclcity != pcity))) {
       dist = real_map_distance(x, y, pcity->x, pcity->y);
       rcity = pcity;
@@ -1177,7 +1177,7 @@ void remove_city(struct city *pcity)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
     moved = FALSE;
     adjc_iterate(x, y, x1, y1) {
-      if (map_get_terrain(x1, y1) == T_OCEAN) {
+      if (is_ocean(map_get_terrain(x1, y1))) {
 	if (could_unit_move_to_tile(punit, x1, y1) == 1) {
 	  moved = handle_unit_move_request(punit, x1, y1, FALSE, TRUE);
 	  if (moved) {
@@ -2091,7 +2091,7 @@ void city_landlocked_sell_coastal_improvements(int x, int y)
   adjc_iterate(x, y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
 
-    if (pcity && !is_terrain_near_tile(x1, y1, T_OCEAN)) {
+    if (pcity && !is_ocean_near_tile(x1, y1)) {
       struct player *pplayer = city_owner(pcity);
 
       /* Sell all buildings (but not Wonders) that must be next to the ocean */
@@ -2102,12 +2102,12 @@ void city_landlocked_sell_coastal_improvements(int x, int y)
           continue;
         }
 
-        while (improvement_types[impr].terr_gate[i] != T_OCEAN
+        while (!is_ocean(improvement_types[impr].terr_gate[i])
                && improvement_types[impr].terr_gate[i] != T_LAST) {
           i++;
         }
 
-        if (improvement_types[impr].terr_gate[i] == T_OCEAN
+        if (is_ocean(improvement_types[impr].terr_gate[i])
             && !city_has_terr_spec_gate(pcity, impr)) {
           do_sell_building(pplayer, pcity, impr);
           notify_player_ex(pplayer, x1, y1, E_IMP_SOLD,

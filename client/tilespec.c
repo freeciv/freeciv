@@ -1361,11 +1361,13 @@ static struct Sprite *get_dither(int ttype, int ttype_other)
   if (ttype_other == T_UNKNOWN)
     return sprites.black_tile;
 
-  if (ttype == T_OCEAN || ttype == T_JUNGLE)
+  if (is_ocean(ttype) || ttype == T_JUNGLE) {
     return NULL;
+  }
 
-  if (ttype_other == T_OCEAN)
+  if (is_ocean(ttype_other)) {
     return sprites.coast_color;
+  }
 
   if (ttype_other != T_UNKNOWN && ttype_other != T_LAST)
     return get_tile_type(ttype_other)->sprite[0];
@@ -1538,7 +1540,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   build_tile_data(x, y, &ttype, &tspecial, ttype_near, tspecial_near);
 
   if (draw_terrain) {
-    if (ttype == T_OCEAN) {
+    if (is_ocean(ttype)) {
       /* painted via coasts. */
 
       for (dir = 0; dir < 4; dir++) {
@@ -1594,13 +1596,13 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
  
       if (contains_special(tspecial, S_RIVER)) {
 	tileno = INDEX_NSEW(contains_special(tspecial_near[DIR8_NORTH], S_RIVER)
-      	      	      	    || ttype_near[DIR8_NORTH] == T_OCEAN,
+      	      	      	    || is_ocean(ttype_near[DIR8_NORTH]),
 			    contains_special(tspecial_near[DIR8_SOUTH], S_RIVER)
-			    || ttype_near[DIR8_SOUTH] == T_OCEAN,
+			    || is_ocean(ttype_near[DIR8_SOUTH]),
 			    contains_special(tspecial_near[DIR8_EAST], S_RIVER)
-			    || ttype_near[DIR8_EAST] == T_OCEAN,
+			    || is_ocean(ttype_near[DIR8_EAST]),
 			    contains_special(tspecial_near[DIR8_WEST], S_RIVER)
-			    || ttype_near[DIR8_WEST] == T_OCEAN);
+			    || is_ocean(ttype_near[DIR8_WEST]));
       	*sprs++ = sprites.tx.spec_river[tileno];
       }
     }
@@ -1639,7 +1641,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     *sprs++ = sprites.tx.oil_mine;
   }
 
-  if (ttype == T_OCEAN) {
+  if (is_ocean(ttype)) {
     const int dirs[4] = {
       /* up */
       DIR8_NORTHWEST,
@@ -1653,9 +1655,9 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 
     /* put coasts */
     for (i = 0; i < 4; i++) {
-      int array_index = ((ttype_near[dir_ccw(dirs[i])] != T_OCEAN ? 1 : 0)
-			 + (ttype_near[dirs[i]] != T_OCEAN ? 2 : 0)
-			 + (ttype_near[dir_cw(dirs[i])] != T_OCEAN ? 4 : 0));
+      int array_index = ((!is_ocean(ttype_near[dir_ccw(dirs[i])]) ? 1 : 0)
+			 + (!is_ocean(ttype_near[dirs[i]]) ? 2 : 0)
+			 + (!is_ocean(ttype_near[dir_cw(dirs[i])]) ? 4 : 0));
 
       coasts[i] = sprites.tx.coast_cape_iso[array_index][i];
     }
@@ -1809,10 +1811,10 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 			ttype_near[DIR8_EAST] == ttype,
 			ttype_near[DIR8_WEST] == ttype);
     if(ttype==T_RIVER) {
-      tileno |= INDEX_NSEW(ttype_near[DIR8_NORTH] == T_OCEAN,
-			   ttype_near[DIR8_SOUTH] == T_OCEAN,
-			   ttype_near[DIR8_EAST] == T_OCEAN,
-			   ttype_near[DIR8_WEST] == T_OCEAN);
+      tileno |= INDEX_NSEW(is_ocean(ttype_near[DIR8_NORTH]),
+			   is_ocean(ttype_near[DIR8_SOUTH]),
+			   is_ocean(ttype_near[DIR8_EAST]),
+			   is_ocean(ttype_near[DIR8_WEST]));
     }
     mysprite = get_tile_type(ttype)->sprite[tileno];
   }
@@ -1822,21 +1824,21 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   else
     *solid_bg = 1;
 
-  if(ttype==T_OCEAN && draw_terrain) {
+  if(is_ocean(ttype) && draw_terrain) {
     int dir;
 
-    tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_OCEAN
-			&& ttype_near[DIR8_EAST] == T_OCEAN
-			&& ttype_near[DIR8_NORTHEAST] != T_OCEAN,
-			ttype_near[DIR8_SOUTH] == T_OCEAN
-			&& ttype_near[DIR8_WEST] == T_OCEAN
-			&& ttype_near[DIR8_SOUTHWEST] != T_OCEAN,
-			ttype_near[DIR8_EAST] == T_OCEAN
-			&& ttype_near[DIR8_SOUTH] == T_OCEAN
-			&& ttype_near[DIR8_SOUTHEAST] != T_OCEAN,
-			ttype_near[DIR8_NORTH] == T_OCEAN
-			&& ttype_near[DIR8_WEST] == T_OCEAN
-			&& ttype_near[DIR8_NORTHWEST] != T_OCEAN);
+    tileno = INDEX_NSEW(is_ocean(ttype_near[DIR8_NORTH])
+			&& is_ocean(ttype_near[DIR8_EAST])
+			&& !is_ocean(ttype_near[DIR8_NORTHEAST]),
+			is_ocean(ttype_near[DIR8_SOUTH])
+			&& is_ocean(ttype_near[DIR8_WEST])
+			&& !is_ocean(ttype_near[DIR8_SOUTHWEST]),
+			is_ocean(ttype_near[DIR8_EAST])
+			&& is_ocean(ttype_near[DIR8_SOUTH])
+			&& !is_ocean(ttype_near[DIR8_SOUTHEAST]),
+			is_ocean(ttype_near[DIR8_NORTH])
+			&& is_ocean(ttype_near[DIR8_WEST])
+			&& !is_ocean(ttype_near[DIR8_NORTHWEST]));
     if(tileno!=0)
       *sprs++ = sprites.tx.coast_cape[tileno];
 
@@ -1850,13 +1852,13 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 
   if (contains_special(tspecial, S_RIVER) && draw_terrain) {
     tileno = INDEX_NSEW(contains_special(tspecial_near[DIR8_NORTH], S_RIVER)
-			|| ttype_near[DIR8_NORTH] == T_OCEAN,
+			|| is_ocean(ttype_near[DIR8_NORTH]),
 			contains_special(tspecial_near[DIR8_SOUTH], S_RIVER)
-			|| ttype_near[DIR8_SOUTH] == T_OCEAN,
+			|| is_ocean(ttype_near[DIR8_SOUTH]),
 			contains_special(tspecial_near[DIR8_EAST], S_RIVER)
-			|| ttype_near[DIR8_EAST] == T_OCEAN,
+			|| is_ocean(ttype_near[DIR8_EAST]),
 			contains_special(tspecial_near[DIR8_WEST], S_RIVER)
-			|| ttype_near[DIR8_WEST] == T_OCEAN);
+			|| is_ocean(ttype_near[DIR8_WEST]));
     *sprs++=sprites.tx.spec_river[tileno];
   }
 
@@ -2206,7 +2208,7 @@ enum color_std overview_tile_color(int x, int y)
       color=COLOR_STD_YELLOW;
     else
       color=COLOR_STD_RED;
-  } else if(ptile->terrain==T_OCEAN) {
+  } else if (is_ocean(ptile->terrain)) {
     if (tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
       color = COLOR_STD_RACE4;
     } else {

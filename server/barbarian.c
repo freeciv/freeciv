@@ -154,7 +154,7 @@ Check if a tile is land and free of enemy units
 **************************************************************************/
 static bool is_free_land(int x, int y, struct player *who)
 {
-  return (is_real_tile(x, y) && map_get_terrain(x, y) != T_OCEAN
+  return (is_real_tile(x, y) && !is_ocean(map_get_terrain(x, y))
 	  && !is_non_allied_unit_tile(map_get_tile(x, y), who));
 }
 
@@ -163,7 +163,7 @@ Check if a tile is sea and free of enemy units
 **************************************************************************/
 static bool is_free_sea(int x, int y, struct player *who)
 {
-  return (is_real_tile(x, y) && map_get_terrain(x, y) == T_OCEAN
+  return (is_real_tile(x, y) && is_ocean(map_get_terrain(x, y))
 	  && !is_non_allied_unit_tile(map_get_tile(x, y), who));
 }
 
@@ -270,8 +270,9 @@ Is sea not further than a couple of tiles away from land
 static bool is_near_land(int x0, int y0)
 {
   square_iterate(x0, y0, 4, x, y) {
-    if (map_get_terrain(x,y) != T_OCEAN)
+    if (!is_ocean(map_get_terrain(x,y))) {
       return TRUE;
+    }
   } square_iterate_end;
 
   return FALSE;
@@ -336,10 +337,12 @@ static void try_summon_barbarians(void)
     return;
 
   /* I think Sea Raiders can come out of unknown sea territory */
-  if( !find_empty_tile_nearby(x,y,&xu,&yu) ||
-      (!map_get_known(xu, yu, victim) && map_get_terrain(xu, yu) != T_OCEAN) ||
-      !is_near_land(xu, yu) )
+  if (!find_empty_tile_nearby(x,y,&xu,&yu)
+      || (!map_get_known(xu, yu, victim)
+	  && !is_ocean(map_get_terrain(xu, yu)))
+      || !is_near_land(xu, yu) ) {
     return;
+  }
 
   /* do not harass small civs - in practice: do not uprise at the beginning */
   if( (int)myrand(UPRISE_CIV_MORE) >
@@ -354,7 +357,8 @@ static void try_summon_barbarians(void)
     send_tile_info(NULL, x, y);
   }
 
-  if( map_get_terrain(xu,yu) != T_OCEAN ) {        /* land barbarians */
+  if (!is_ocean(map_get_terrain(xu,yu))) {
+    /* land (disembark) barbarians */
     barbarians = create_barbarian_player(TRUE);
     if( city_list_size(&victim->cities) > UPRISE_CIV_MOST )
       uprise = 3;

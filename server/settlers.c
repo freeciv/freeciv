@@ -217,13 +217,15 @@ static int city_desirability(struct player *pplayer, int x, int y)
     return 0;
   
   ptile = map_get_tile(x, y);
-  if (ptile->terrain == T_OCEAN) return 0;
+  if (is_ocean(ptile->terrain)) {
+    return 0;
+  }
   pcity = map_get_city(x, y);
   if (pcity && pcity->size >= game.add_to_size_limit) return 0;
   if (!pcity && minimap[x][y] < 0) return 0;
   if (!pcity && minimap[x][y] > 0) return minimap[x][y];
 
-  harbour = is_terrain_near_tile(x, y, T_OCEAN);
+  harbour = is_ocean_near_tile(x, y);
 
   continent = ptile->continent;
 
@@ -257,17 +259,24 @@ static int city_desirability(struct player *pplayer, int x, int y)
                  ptile->terrain != T_HILLS)
 	  irrig[i][j] = MORT * ptype->irrigation_food_incr - 9; /* KLUGE */
 /* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
-      } else if (ptile->terrain == T_OCEAN && harbour) food[i][j] += MORT;
+      } else if (harbour && is_ocean(ptile->terrain)) {
+	food[i][j] += MORT;
+      }
       shield[i][j] = get_tile_shield_base(ptile) * cshields;
       if (is_city_center(i, j) && shield[i][j] == 0) {
 	shield[i][j] = cshields;
       }
-/*      if (ptile->terrain == T_OCEAN && harbour) shield[i][j] += cshields; */
-/* above line is not sufficiently tested.  AI was building on shores, but not
-as far out in the ocean as possible, which limits growth in the very long
-term (after SEWER).  These cities will all eventually have OFFSHORE, and
-I need to acknowledge that.  I probably shouldn't treat it as free, but
-that's the easiest, and I doubt pathological behavior will result. -- Syela */
+#if 0
+      if (harbour && is_ocean(ptile->terrain)) {
+	shield[i][j] += cshields;
+      }
+      /* above line is not sufficiently tested.  AI was building on shores, 
+       * but not as far out in the ocean as possible, which limits growth in
+       * the very long term (after SEWER).  These cities will all eventually
+       * have OFFSHORE, and I need to acknowledge that.  I probably shouldn't
+       * treat it as free, but that's the easiest, and I doubt pathological
+       * behavior will result. -- Syela */
+#endif
       if (tile_has_special(ptile, S_MINE)) {
 	mine[i][j] = cshields * ptype->mining_shield_incr;
       } else if (ptile->terrain == T_HILLS && continent2 == continent) {
@@ -510,7 +519,9 @@ static bool is_wet(struct player *pplayer, int x, int y)
   if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) return FALSE;
 
   t=map_get_terrain(x,y);
-  if (t == T_OCEAN || t == T_RIVER) return TRUE;
+  if (is_ocean(t) || t == T_RIVER) {
+    return TRUE;
+  }
   s=map_get_special(x,y);
   if (contains_special(s, S_RIVER) || contains_special(s, S_IRRIGATION)) return TRUE;
   return FALSE;
@@ -548,8 +559,9 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 
   if (ptile->terrain != type->irrigation_result &&
       type->irrigation_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
-    if (ptile->city && type->irrigation_result == T_OCEAN)
+    if (ptile->city && is_ocean(type->irrigation_result)) {
       return -1;
+    }
     ptile->terrain = type->irrigation_result;
     map_clear_special(mx, my, S_MINE);
     m = city_tile_value(pcity, cx, cy, 0, 0);
@@ -607,15 +619,18 @@ static int ai_calc_transform(struct city *pcity, int cx, int cy, int mx,
   enum tile_special_type s = ptile->special;
   enum tile_terrain_type r = type->transform_result;
 
-  if (t == T_OCEAN && !can_reclaim_ocean(mx, my))
+  if (is_ocean(t) && !can_reclaim_ocean(mx, my)) {
     return -1;
-  if (r == T_OCEAN && !can_channel_land(mx, my))
+  }
+  if (is_ocean(r) && !can_channel_land(mx, my)) {
     return -1;
+  }
 
   if ((t == T_ARCTIC || t == T_DESERT || t == T_JUNGLE || t == T_SWAMP  || 
        t == T_TUNDRA || t == T_MOUNTAINS) && r != T_LAST) {
-    if (r == T_OCEAN && ptile->city)
+    if (is_ocean(r) && ptile->city) {
       return -1;
+    }
 
     ptile->terrain = r;
 
@@ -660,7 +675,7 @@ static int road_bonus(int x, int y, enum tile_special_type spc)
     } else {
       ptile = map_get_tile(x1, y1);
       rd[k] = tile_has_special(ptile, spc);
-      te[k] = (ptile->terrain == T_MOUNTAINS || ptile->terrain == T_OCEAN);
+      te[k] = (ptile->terrain == T_MOUNTAINS || is_ocean(ptile->terrain));
       if (!rd[k]) {
 	unit_list_iterate(ptile->units, punit) {
 	  if (punit->activity == ACTIVITY_ROAD 
@@ -697,7 +712,7 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
   int m;
   struct tile *ptile = map_get_tile(mx, my);
 
-  if (ptile->terrain != T_OCEAN &&
+  if (!is_ocean(ptile->terrain) &&
       (((ptile->terrain != T_RIVER) && !tile_has_special(ptile, S_RIVER)) ||
        player_knows_techs_with_flag(pplayer, TF_BRIDGE)) &&
       !tile_has_special(ptile, S_ROAD)) {
@@ -718,7 +733,7 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
   enum tile_special_type spe_sav;
   struct tile *ptile = map_get_tile(mx, my);
 
-  if (ptile->terrain != T_OCEAN &&
+  if (!is_ocean(ptile->terrain) &&
       player_knows_techs_with_flag(pplayer, TF_RAILROAD) &&
       !tile_has_special(ptile, S_RAILROAD)) {
     spe_sav = ptile->special;
@@ -916,7 +931,7 @@ static int evaluate_city_building(struct unit *punit,
     int b, mv_cost, newv, moves = 0;
 
     if (!is_already_assigned(punit, pplayer, x, y)
-	&& map_get_terrain(x, y) != T_OCEAN
+	&& !is_ocean(map_get_terrain(x, y))
 	&& !BV_CHECK_MASK(territory[x][y], my_enemies)
 	/* pretty good, hope it's enough! -- Syela */
 	&& (near < 8 || map_get_continent(x, y, pplayer) != ucont)
@@ -926,7 +941,7 @@ static int evaluate_city_building(struct unit *punit,
       /* potential target, calculate mv_cost: */
       if (*ferryboat) {
 	/* already aboard ship, can use real warmap */
-	if (!is_terrain_near_tile(x, y, T_OCEAN)) {
+	if (!is_ocean_near_tile(x, y)) {
 	  mv_cost = 9999;
 	} else {
 	  mv_cost = warmap.seacost[x][y] * mv_rate /
@@ -935,7 +950,7 @@ static int evaluate_city_building(struct unit *punit,
       } else if (!goto_is_sane(punit, x, y, TRUE) ||
 		 warmap.cost[x][y] > THRESHOLD * mv_rate) {
 	/* for Rome->Carthage */
-	if (!is_terrain_near_tile(x, y, T_OCEAN)) {
+	if (!is_ocean_near_tile(x, y)) {
 	  mv_cost = 9999;
 	} else if (boatid != 0) {
 	  if (punit->id == 0 && mycity->id == boatid) {
@@ -944,7 +959,7 @@ static int evaluate_city_building(struct unit *punit,
 	  mv_cost = warmap.cost[bx][by] + real_map_distance(bx, by, x, y)
 	    + mv_rate; 
 	} else if (punit->id != 0 ||
-		   !is_terrain_near_tile(mycity->x, mycity->y, T_OCEAN)) {
+		   !is_ocean_near_tile(mycity->x, mycity->y)) {
 	  mv_cost = 9999;
 	} else {
 	  mv_cost = warmap.seacost[x][y] * mv_rate / 9;
@@ -1448,7 +1463,7 @@ static void assign_settlers(void)
 static void assign_region(int x, int y, int player_no, int distance, int s)
 {
   square_iterate(x, y, distance, x1, y1) {
-    if (s == 0 || is_terrain_near_tile(x1, y1, T_OCEAN))
+    if (s == 0 || is_ocean_near_tile(x1, y1))
       BV_SET(territory[x1][y1], player_no);
   } square_iterate_end;
 }

@@ -137,7 +137,7 @@ void get_modified_firepower(struct unit *attacker, struct unit *defender,
 
   /* In land bombardment both units have their firepower reduced to 1 */
   if (is_sailing_unit(attacker)
-      && map_get_terrain(defender->x, defender->y) != T_OCEAN
+      && !is_ocean(map_get_terrain(defender->x, defender->y))
       && is_ground_unit(defender)) {
     *att_fp = 1;
     *def_fp = 1;
@@ -396,7 +396,7 @@ int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
   enum tile_terrain_type t = map_get_terrain(x, y);
   int db;
 
-  if (unit_types[def_type].move_type == LAND_MOVING && t == T_OCEAN) {
+  if (unit_types[def_type].move_type == LAND_MOVING && is_ocean(t)) {
     /* Ground units on ship doesn't defend. */
     return 0;
   }

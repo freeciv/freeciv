@@ -130,15 +130,17 @@ bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
     return FALSE;
   }
   /* can't attack with ground unit from ocean, except for marines */
-  if(fromtile==T_OCEAN && is_ground_unit(punit) && !unit_flag(punit, F_MARINES)) {
+  if (is_ocean(fromtile)
+      && is_ground_unit(punit)
+      && !unit_flag(punit, F_MARINES)) {
     return FALSE;
   }
 
-  if(totile==T_OCEAN && is_ground_unit(punit)) {
+  if (is_ocean(totile) && is_ground_unit(punit)) {
     return FALSE;
   }
 
-  if (unit_flag(punit, F_NO_LAND_ATTACK) && totile!=T_OCEAN)  {
+  if (unit_flag(punit, F_NO_LAND_ATTACK) && !is_ocean(totile)) {
     return FALSE;
   }
   
@@ -146,8 +148,9 @@ bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
     return FALSE;
 
   /* Shore bombardement */
-  if (fromtile==T_OCEAN && is_sailing_unit(punit) && totile!=T_OCEAN)
+  if (is_ocean(fromtile) && is_sailing_unit(punit) && !is_ocean(totile)) {
     return (get_attack_power(punit)>0);
+  }
 
   return TRUE;
 }
@@ -237,8 +240,9 @@ static bool upgrade_would_strand(struct unit *punit, int upgrade_type)
   
   if (!is_sailing_unit(punit))
     return FALSE;
-  if (map_get_terrain(punit->x, punit->y) != T_OCEAN)
+  if (!is_ocean(map_get_terrain(punit->x, punit->y))) {
     return FALSE;
+  }
 
   /* With weird non-standard unit types, upgrading these could
      cause air units to run out of fuel; too bad. */
@@ -958,7 +962,7 @@ static void update_unit_activity(struct unit *punit)
 	/* look for nearby land */
 	adjc_iterate(punit->x, punit->y, x, y) {
 	  struct tile *ptile2 = map_get_tile(x, y);
-	  if (ptile2->terrain != T_OCEAN
+	  if (!is_ocean(ptile2->terrain)
 	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
 	    if (get_transporter_capacity(punit2) > 0)
 	      sentry_transported_idle_units(punit2);
@@ -980,7 +984,7 @@ static void update_unit_activity(struct unit *punit)
 	/* look for nearby transport */
 	adjc_iterate(punit->x, punit->y, x, y) {
 	  struct tile *ptile2 = map_get_tile(x, y);
-	  if (ptile2->terrain == T_OCEAN
+	  if (is_ocean(ptile2->terrain)
 	      && ground_unit_transporter_capacity(x, y,
 						  unit_owner(punit2)) > 0) {
 	    if (get_transporter_capacity(punit2) > 0)
@@ -1021,7 +1025,7 @@ static void update_unit_activity(struct unit *punit)
 	/* look for nearby water */
 	adjc_iterate(punit->x, punit->y, x, y) {
 	  struct tile *ptile2 = map_get_tile(x, y);
-	  if (ptile2->terrain == T_OCEAN
+	  if (is_ocean(ptile2->terrain)
 	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
 	    if (get_transporter_capacity(punit2) > 0)
 	      sentry_transported_idle_units(punit2);
@@ -1193,8 +1197,9 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
   map_city_radius_iterate(pcity->x, pcity->y, x1, y1) {
     struct tile *ptile = map_get_tile(x1, y1);
     int value;
-    if (ptile->terrain == T_OCEAN)
+    if (is_ocean(ptile->terrain)) {
       continue;
+    }
     if (ptile->city)
       continue;
     if (unit_list_size(&ptile->units) > 0)
@@ -1453,7 +1458,7 @@ void resolve_unit_stack(int x, int y, bool verbose)
      city. */
   punit = unit_list_get(&(ptile->units), 0);
 
-  if (ptile->terrain == T_OCEAN) {
+  if (is_ocean(ptile->terrain)) {
   START:
     unit_list_iterate(ptile->units, vunit) {
       if (ground_unit_transporter_capacity(x, y, unit_owner(punit)) < 0) {
@@ -1742,7 +1747,7 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 {
   /* No need to remove air units as they can still fly away */
   if (is_ground_units_transport(punit)
-      && map_get_terrain(punit->x, punit->y)==T_OCEAN
+      && is_ocean(map_get_terrain(punit->x, punit->y))
       && wipe_cargo) {
     int x = punit->x;
     int y = punit->y;
@@ -2088,7 +2093,7 @@ static void do_nuke_tile(struct player *pplayer, int x, int y)
     }
   }
 
-  if (map_get_terrain(x, y) != T_OCEAN && myrand(2) == 1) {
+  if (!is_ocean(map_get_terrain(x, y)) && myrand(2) == 1) {
     if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!map_has_special(x, y, S_POLLUTION)) {
 	map_set_special(x, y, S_POLLUTION);
@@ -2189,7 +2194,7 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return FALSE;
   }
 
-  if (map_get_player_tile(dest_x, dest_y, pplayer)->terrain == T_OCEAN) {
+  if (is_ocean(map_get_player_tile(dest_x, dest_y, pplayer)->terrain)) {
     notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
                      _("Game: Cannot paradrop into ocean."));
     return FALSE;    
@@ -2215,7 +2220,7 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     }
   }
 
-  if (map_get_terrain(dest_x, dest_y) == T_OCEAN) {
+  if (is_ocean(map_get_terrain(dest_x, dest_y))) {
     int srange = unit_type(punit)->vision_range;
     show_area(pplayer, dest_x, dest_y, srange);
 
@@ -2469,7 +2474,7 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
     } unit_list_iterate_end;
 
     unit_list_iterate(ptile->units, pcargo) {
-      if ((ptile->terrain == T_OCEAN || pcargo->activity == ACTIVITY_SENTRY)
+      if ((is_ocean(ptile->terrain) || pcargo->activity == ACTIVITY_SENTRY)
 	  && capacity > 0
 	  && is_ground_unit(pcargo)
 	  && pcargo->owner == playerid) {
@@ -2490,20 +2495,23 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
       if (pcargo->transported_by == ptrans->id) {
 	if (is_ground_unit(pcargo)
 	    && capacity > 0
-	    && (ptile->terrain == T_OCEAN || pcargo->activity == ACTIVITY_SENTRY)
+	    && (is_ocean(ptile->terrain)
+		|| pcargo->activity == ACTIVITY_SENTRY)
 	    && (pcargo->owner == playerid
                 || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))
 	    && pcargo->id != ptrans->id
 	    && !(is_ground_unit(ptrans)
-            && (ptile->terrain == T_OCEAN || is_ground_units_transport(pcargo))))
+            && (is_ocean(ptile->terrain)
+		|| is_ground_units_transport(pcargo)))) {
 	  capacity--;
-	else
+	} else {
 	  pcargo->transported_by = -1;
+	}
       }
     } unit_list_iterate_end;
 
     /** We are on an ocean tile. All units must get a transport **/
-    if (ptile->terrain == T_OCEAN) {
+    if (is_ocean(ptile->terrain)) {
       /* While the transport is not full and units will strand if we don't take
 	 them with we us dedicate them to this transport. */
       if (available - capacity < 0 && !is_ground_unit(ptrans)) {
@@ -2532,7 +2540,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	      && pcargo->id != ptrans->id
 	      && pcargo->owner == playerid
 	      && !(is_ground_unit(ptrans)
-      	      && (ptile->terrain == T_OCEAN || is_ground_units_transport(pcargo)))) {
+      	      && (is_ocean(ptile->terrain)
+		  || is_ground_units_transport(pcargo)))) {
 	    bool has_trans = FALSE;
 
 	    unit_list_iterate(ptile->units, ptrans2) {
@@ -2568,7 +2577,7 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	    && pcargo->id != ptrans->id
 	    && (!is_sailing_unit(pcargo))
 	    && (unit_flag(pcargo, F_MISSILE) || !missiles_only)
-	    && !(is_ground_unit(ptrans) && ptile->terrain == T_OCEAN)
+	    && !(is_ground_unit(ptrans) && is_ocean(ptile->terrain))
 	    && (capacity > 0)) {
 	  if (is_air_unit(pcargo))
 	    capacity--;
@@ -2608,7 +2617,7 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 
       /* Not enough capacity. Take anything we can */
       if ((aircap < capacity || miscap < capacity)
-	  && !(is_ground_unit(ptrans) && ptile->terrain == T_OCEAN)) {
+	  && !(is_ground_unit(ptrans) && is_ocean(ptile->terrain))) {
 	/* We first take nonmissiles, as missiles can be transported on anything,
 	   but nonmissiles can not */
 	if (!missiles_only) {
@@ -2675,7 +2684,8 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 	if (has_trans
 	    && is_ground_unit(pcargo2)) {
 	  if (totcap > 0
-	      && (ptile->terrain == T_OCEAN || pcargo2->activity == ACTIVITY_SENTRY)
+	      && (is_ocean(ptile->terrain)
+		  || pcargo2->activity == ACTIVITY_SENTRY)
 	      && (pcargo2->owner == playerid
                   || pplayers_allied(unit_owner(pcargo2), unit_owner(ptrans)))
 	      && pcargo2 != ptrans) {
@@ -2688,7 +2698,7 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
 
       /* Uh oh. Not enough space on the square we leave if we don't
 	 take extra units with us */
-      if (totcap > available && ptile->terrain == T_OCEAN) {
+      if (totcap > available && is_ocean(ptile->terrain)) {
 	unit_list_iterate(ptile->units, pcargo2) {
 	  if (is_ground_unit(pcargo2)
 	      && totcap > 0
@@ -2737,7 +2747,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 	  && range >= real_map_distance(punit->x, punit->y, x, y)
 	  && player_can_see_unit(unit_owner(penemy), punit)
 	  /* on board transport; don't awaken */
-	  && !(move_type == LAND_MOVING && terrain == T_OCEAN)) {
+	  && !(move_type == LAND_MOVING && is_ocean(terrain))) {
 	set_unit_activity(penemy, ACTIVITY_IDLE);
 	send_unit_info(NULL, penemy);
       }
@@ -2911,14 +2921,14 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   /* A transporter should not take units with it when on an attack goto -- fisch */
   if ((punit->activity == ACTIVITY_GOTO) &&
       get_defender(punit, punit->goto_dest_x, punit->goto_dest_y) &&
-      psrctile->terrain != T_OCEAN) {
+      !is_ocean(psrctile->terrain)) {
     transport_units = FALSE;
   }
 
   /* A ground unit cannot hold units on an ocean tile */
   if (transport_units
       && is_ground_unit(punit)
-      && pdesttile->terrain == T_OCEAN)
+      && is_ocean(pdesttile->terrain))
     transport_units = FALSE;
 
   /* Make sure we don't accidentally insert units into a transporters list */
@@ -2983,7 +2993,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   /* set activity to sentry if boarding a ship unless the unit is just 
      passing through the ship on its way somewhere else */
   if (is_ground_unit(punit)
-      && pdesttile->terrain == T_OCEAN
+      && is_ocean(pdesttile->terrain)
       && !(pplayer->ai.control)
       && !(punit->activity == ACTIVITY_GOTO      /* if unit is GOTOing and the ship */ 
 	   && (dest_x != punit->goto_dest_x      /* isn't the final destination */

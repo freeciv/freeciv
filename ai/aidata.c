@@ -149,7 +149,7 @@ void ai_data_turn_init(struct player *pplayer)
     struct tile *ptile = map_get_tile(x, y);
     int continent = (int)map_get_continent(x, y, NULL);
 
-    if (ptile->terrain == T_OCEAN) {
+    if (is_ocean(ptile->terrain)) {
       if (ai->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 
           && !map_get_known(x, y, pplayer)) {
         ai->explore.sea_done = FALSE; /* we're not done there */
@@ -190,7 +190,7 @@ void ai_data_turn_init(struct player *pplayer)
   ai->stats.average_production /= MAX(1, city_list_size(&pplayer->cities));
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = map_get_tile(punit->x, punit->y);
-    if (ptile->terrain != T_OCEAN && unit_flag(punit, F_SETTLERS)) {
+    if (!is_ocean(ptile->terrain) && unit_flag(punit, F_SETTLERS)) {
       ai->stats.workers[(int)map_get_continent(punit->x, punit->y, NULL)]++;
     }
   } unit_list_iterate_end;

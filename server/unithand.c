@@ -969,7 +969,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       return FALSE;
     } else if (!can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       map_get_terrain(punit->x, punit->y) == T_OCEAN
+		       is_ocean(map_get_terrain(punit->x, punit->y))
 		       ? _("Game: Unit must be on land to "
 			   "perform diplomatic action.")
 		       : _("Game: No diplomat action possible."));

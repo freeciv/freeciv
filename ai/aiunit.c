@@ -108,7 +108,7 @@ static bool could_be_my_zoc(struct unit *myunit, int x0, int y0)
     return FALSE;
 
   adjc_iterate(x0, y0, ax, ay) {
-    if (map_get_terrain(ax, ay) != T_OCEAN
+    if (!is_ocean(map_get_terrain(ax, ay))
 	&& is_non_allied_unit_tile(map_get_tile(ax, ay),
 				   unit_owner(myunit))) return FALSE;
   } adjc_iterate_end;
@@ -250,7 +250,7 @@ static bool tile_is_accessible(struct unit *punit, int x, int y)
     return TRUE;
 
   adjc_iterate(x, y, x1, y1) {
-    if (map_get_terrain(x1, y1) != T_OCEAN
+    if (!is_ocean(map_get_terrain(x1, y1))
 	&& is_my_zoc(unit_owner(punit), x1, y1))
       return TRUE;
   } adjc_iterate_end;
@@ -975,7 +975,7 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
       /* ...and free foreign city waiting for us. Who would resist! */
       if (pcity && pplayers_at_war(pplayer, city_owner(pcity))
           && is_ground_unit(punit)
-          && map_get_terrain(punit->x, punit->y) != T_OCEAN) {
+          && !is_ocean(map_get_terrain(punit->x, punit->y))) {
         SET_BEST(99999);
         continue;
       }
@@ -1094,10 +1094,10 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
   adjc_iterate(dest_x, dest_y, x1, y1) {
     ok = 0;
     t = map_get_terrain(x1, y1);
-    if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && t != T_OCEAN) {
+    if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && !is_ocean(t)) {
       /* accessible beachhead */
       adjc_iterate(x1, y1, x2, y2) {
-	if (map_get_terrain(x2, y2) == T_OCEAN
+	if (is_ocean(map_get_terrain(x2, y2))
 	    && is_my_zoc(unit_owner(punit), x2, y2)) {
 	  ok++;
 	  goto OK;
@@ -1826,7 +1826,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   }
 
   if (is_ground_unit(punit) && punit->id == 0 
-      && is_terrain_near_tile(punit->x, punit->y, T_OCEAN)) {
+      && is_ocean_near_tile(punit->x, punit->y)) {
     harbor = TRUE;
   }
 
@@ -2192,7 +2192,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     struct city *pc;
     int fx, fy;
     if ((pc = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, TRUE))) {
-      if (map_get_terrain(punit->x,punit->y) != T_OCEAN) {
+      if (!is_ocean(map_get_terrain(punit->x, punit->y))) {
         UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
         ai_military_gothere(pplayer, punit, pc->x, pc->y);
       } else {
@@ -2393,7 +2393,10 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       y = aunit->y;
       best = warmap.seacost[x][y];
     }
-    if (is_sailing_unit(aunit) && map_get_terrain(aunit->x, aunit->y) == T_OCEAN) p++;
+    if (is_sailing_unit(aunit)
+	&& is_ocean(map_get_terrain(aunit->x, aunit->y))) {
+      p++;
+    }
   } unit_list_iterate_end;
   if (best < 4 * unit_type(punit)->move_rate) {
     /* Pickup is within 4 turns to grab, so move it! */
@@ -2420,7 +2423,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       return;
     }
   }
-  if (map_get_terrain(punit->x, punit->y) == T_OCEAN) {
+  if (is_ocean(map_get_terrain(punit->x, punit->y))) {
     /* thanks, Tony */
     (void) ai_manage_explorer(punit);
   }
@@ -2703,7 +2706,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   CHECK_UNIT(leader);
 
   if (leader->moves_left == 0 || 
-      (map_get_terrain(leader->x, leader->y) != T_OCEAN &&
+      (!is_ocean(map_get_terrain(leader->x, leader->y)) &&
        unit_list_size(&(map_get_tile(leader->x, leader->y)->units)) > 1) ) {
       handle_unit_activity_request(leader, ACTIVITY_SENTRY);
       return;

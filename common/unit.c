@@ -128,8 +128,10 @@ bool is_diplomat_action_available(struct unit *pdiplomat,
 {
   struct city *pcity=map_get_city(destx, desty);
 
-  if (action!=DIPLOMAT_MOVE && map_get_terrain(pdiplomat->x, pdiplomat->y)==T_OCEAN)
+  if (action!=DIPLOMAT_MOVE
+      && is_ocean(map_get_terrain(pdiplomat->x, pdiplomat->y))) {
     return FALSE;
+  }
 
   if (pcity) {
     if(pcity->owner!=pdiplomat->owner &&
@@ -249,8 +251,10 @@ bool unit_can_est_traderoute_here(struct unit *punit)
 **************************************************************************/
 bool unit_can_defend_here(struct unit *punit)
 {
-  if(is_ground_unit(punit) && map_get_terrain(punit->x, punit->y)==T_OCEAN)
+  if (is_ground_unit(punit)
+      && is_ocean(map_get_terrain(punit->x, punit->y))) {
     return FALSE;
+  }
   
   return TRUE;
 }
@@ -267,10 +271,11 @@ int ground_unit_transporter_capacity(int x, int y, struct player *pplayer)
     if (unit_owner(punit) == pplayer
         || pplayers_allied(unit_owner(punit), pplayer)) {
       if (is_ground_units_transport(punit)
-	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN))
+	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
 	availability += get_transporter_capacity(punit);
-      else if (is_ground_unit(punit))
+      } else if (is_ground_unit(punit)) {
 	availability--;
+      }
     }
   }
   unit_list_iterate_end;
@@ -670,11 +675,11 @@ bool can_unit_do_activity_targeted(struct unit *punit,
 	   !tile_has_special(ptile, S_MINE)) ||
 	  (ptile->terrain!=type->mining_result &&
 	   type->mining_result!=T_LAST &&
-	   (ptile->terrain!=T_OCEAN || type->mining_result==T_OCEAN ||
+	   (!is_ocean(ptile->terrain) || is_ocean(type->mining_result) ||
 	    can_reclaim_ocean(punit->x, punit->y)) &&
-	   (ptile->terrain==T_OCEAN || type->mining_result!=T_OCEAN ||
+	   (is_ocean(ptile->terrain) || !is_ocean(type->mining_result) ||
 	    can_channel_land(punit->x, punit->y)) &&
-	   (type->mining_result!=T_OCEAN ||
+	   (!is_ocean(type->mining_result) ||
 	    !(map_get_city(punit->x, punit->y)))) )) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_IRRIGATE) return FALSE;
@@ -695,11 +700,11 @@ bool can_unit_do_activity_targeted(struct unit *punit,
 	   is_water_adjacent_to_tile(punit->x, punit->y)) ||
 	  (ptile->terrain!=type->irrigation_result &&
 	   type->irrigation_result!=T_LAST &&
-	   (ptile->terrain!=T_OCEAN || type->irrigation_result==T_OCEAN ||
+	   (!is_ocean(ptile->terrain) || is_ocean(type->irrigation_result) ||
 	    can_reclaim_ocean(punit->x, punit->y)) &&
-	   (ptile->terrain==T_OCEAN || type->irrigation_result!=T_OCEAN ||
+	   (is_ocean(ptile->terrain) || !is_ocean(type->irrigation_result) ||
 	    can_channel_land(punit->x, punit->y)) &&
-	   (type->irrigation_result!=T_OCEAN ||
+	   (!is_ocean(type->irrigation_result) ||
 	    !(map_get_city(punit->x, punit->y)))) )) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_MINE) return FALSE;
@@ -712,7 +717,7 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     return (is_ground_unit(punit) &&
 	    (punit->activity != ACTIVITY_FORTIFIED) &&
 	    !unit_flag(punit, F_SETTLERS) &&
-	    ptile->terrain != T_OCEAN);
+	    !is_ocean(ptile->terrain));
 
   case ACTIVITY_FORTIFIED:
     return FALSE;
@@ -721,12 +726,12 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     return (unit_flag(punit, F_SETTLERS) &&
 	    !map_get_city(punit->x, punit->y) &&
 	    player_knows_techs_with_flag(pplayer, TF_FORTRESS) &&
-	    !tile_has_special(ptile, S_FORTRESS) && ptile->terrain!=T_OCEAN);
+	    !tile_has_special(ptile, S_FORTRESS) && !is_ocean(ptile->terrain));
 
   case ACTIVITY_AIRBASE:
     return (unit_flag(punit, F_AIRBASE) &&
 	    player_knows_techs_with_flag(pplayer, TF_AIRBASE) &&
-	    !tile_has_special(ptile, S_AIRBASE) && ptile->terrain!=T_OCEAN);
+	    !tile_has_special(ptile, S_AIRBASE) && !is_ocean(ptile->terrain));
 
   case ACTIVITY_SENTRY:
     return TRUE;
@@ -776,11 +781,11 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     return (terrain_control.may_transform &&
 	    (type->transform_result!=T_LAST) &&
 	    (ptile->terrain!=type->transform_result) &&
-	    (ptile->terrain!=T_OCEAN || type->transform_result==T_OCEAN ||
+	    (!is_ocean(ptile->terrain) || is_ocean(type->transform_result) ||
 	     can_reclaim_ocean(punit->x, punit->y)) &&
-	    (ptile->terrain==T_OCEAN || type->transform_result!=T_OCEAN ||
+	    (is_ocean(ptile->terrain) || !is_ocean(type->transform_result) ||
 	     can_channel_land(punit->x, punit->y)) &&
-	    (type->transform_result!=T_OCEAN ||
+	    (!is_ocean(type->transform_result) ||
 	     !(map_get_city(punit->x, punit->y))) &&
 	    unit_flag(punit, F_TRANSFORM));
 
@@ -1002,12 +1007,12 @@ int missile_carrier_capacity(int x, int y, struct player *pplayer,
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (unit_owner(punit) == pplayer) {
       if (unit_flag(punit, F_CARRIER)
-	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
+	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
 	airall += get_transporter_capacity(punit);
 	continue;
       }
       if (unit_flag(punit, F_MISSILE_CARRIER)
-	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
+	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
 	misonly += get_transporter_capacity(punit);
 	continue;
       }
@@ -1045,12 +1050,12 @@ int airunit_carrier_capacity(int x, int y, struct player *pplayer,
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (unit_owner(punit) == pplayer) {
       if (unit_flag(punit, F_CARRIER)
-	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
+	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
 	airall += get_transporter_capacity(punit);
 	continue;
       }
       if (unit_flag(punit, F_MISSILE_CARRIER)
-	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
+	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
 	misonly += get_transporter_capacity(punit);
 	continue;
       }
@@ -1149,7 +1154,7 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile,
 bool is_my_zoc(struct player *unit_owner, int x0, int y0)
 {
   square_iterate(x0, y0, 1, x1, y1) {
-    if ((map_get_terrain(x1, y1) != T_OCEAN)
+    if (!is_ocean(map_get_terrain(x1, y1))
 	&& is_non_allied_unit_tile(map_get_tile(x1, y1), unit_owner))
       return FALSE;
   } square_iterate_end;
@@ -1186,9 +1191,10 @@ bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
     return TRUE;
   if (map_get_city(src_x, src_y) || map_get_city(dest_x, dest_y))
     return TRUE;
-  if (map_get_terrain(src_x, src_y) == T_OCEAN ||
-      map_get_terrain(dest_x, dest_y) == T_OCEAN)
+  if (is_ocean(map_get_terrain(src_x, src_y)) ||
+      is_ocean(map_get_terrain(dest_x, dest_y))) {
     return TRUE;
+  }
   return (is_my_zoc(unit_owner, src_x, src_y) ||
 	  is_my_zoc(unit_owner, dest_x, dest_y));
 }
@@ -1276,13 +1282,13 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 
   if (unit_types[type].move_type == LAND_MOVING) {
     /* 5) */
-    if (ptotile->terrain == T_OCEAN &&
+    if (is_ocean(ptotile->terrain) &&
 	ground_unit_transporter_capacity(dest_x, dest_y, unit_owner) <= 0) {
       return MR_NO_SEA_TRANSPORTER_CAPACITY;
     }
 
     /* Moving from ocean */
-    if (pfromtile->terrain == T_OCEAN) {
+    if (is_ocean(pfromtile->terrain)) {
       /* 6) */
       if (!unit_type_flag(type, F_MARINES)
 	  && is_enemy_city_tile(ptotile, unit_owner)) {
@@ -1291,7 +1297,7 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
     }
   } else if (unit_types[type].move_type == SEA_MOVING) {
     /* 7) */
-    if (ptotile->terrain != T_OCEAN
+    if (!is_ocean(ptotile->terrain)
 	&& ptotile->terrain != T_UNKNOWN
 	&& !is_allied_city_tile(ptotile, unit_owner)) {
       return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY;
@@ -1333,7 +1339,7 @@ int trireme_loss_pct(struct player *pplayer, int x, int y) {
    * the ship.  To make this really useful for ai planning purposes, we'd
    * need to confirm that we can exist/move at the x,y location we are given.
    */
-  if ((map_get_terrain(x, y) != T_OCEAN) || is_coastline(x, y) ||
+  if (!is_ocean(map_get_terrain(x, y)) || is_coastline(x, y) ||
       (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)))
 	losspct = 0;
   else if (player_knows_techs_with_flag(pplayer,TF_REDUCE_TRIREME_LOSS2))

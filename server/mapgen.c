@@ -91,7 +91,7 @@ static void make_mountains(int thill)
   }
   
   whole_map_iterate(x, y) {
-    if (hmap(x, y)>thill &&map_get_terrain(x,y)!=T_OCEAN) { 
+    if (hmap(x, y) > thill && !is_ocean(map_get_terrain(x,y))) { 
       if (myrand(100)>75) 
 	map_set_terrain(x, y, T_MOUNTAINS);
       else if (myrand(100)>25) 
@@ -138,10 +138,10 @@ static void make_polar(void)
      since the first lines has already been set to all arctic above. */
   for (x=0;x<map.xsize;x++) {
     if (map_get_terrain(x, 1)!=T_ARCTIC &&
-	map_get_terrain(x, 1)!=T_OCEAN)
+	!is_ocean(map_get_terrain(x, 1)))
       map_set_terrain(x, 1, T_TUNDRA);
     if (map_get_terrain(x, map.ysize-2)!=T_ARCTIC && 
-	map_get_terrain(x, map.ysize-2)!=T_OCEAN)
+	!is_ocean(map_get_terrain(x, map.ysize-2)))
       map_set_terrain(x, map.ysize-2, T_TUNDRA);
   }
 }
@@ -233,8 +233,9 @@ static void make_swamps(void)
     if (map_get_terrain(x, y)==T_GRASSLAND && hmap(x, y)<(maxval*60)/100) {
       map_set_terrain(x, y, T_SWAMP);
       cartesian_adjacent_iterate(x, y, x1, y1) {
- 	if (myrand(10)>5 && map_get_terrain(x1, y1) != T_OCEAN) 
+ 	if (myrand(10) > 5 && !is_ocean(map_get_terrain(x1, y1))) { 
  	  map_set_terrain(x1, y1, T_SWAMP);
+	}
  	/* maybe this should increment i too? */
       } cartesian_adjacent_iterate_end;
       swamps++;
@@ -346,7 +347,7 @@ static int river_test_highlands(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_ocean(int x, int y)
 {
-  return 4 - adjacent_terrain_tiles4(x, y, T_OCEAN);
+  return 4 - adjacent_ocean_tiles4(x, y);
 }
 
 /*********************************************************************
@@ -536,7 +537,7 @@ static bool make_river(int x, int y)
 
     /* Test if the river is done. */
     if (adjacent_river_tiles4(x, y) != 0||
-	adjacent_terrain_tiles4(x, y, T_OCEAN) != 0) {
+	adjacent_ocean_tiles4(x, y) != 0) {
       freelog(LOG_DEBUG,
 	      "The river ended at (%d, %d).\n", x, y);
       return TRUE;
@@ -681,7 +682,7 @@ static void make_rivers(void)
      */
     if (
 	/* Don't start a river on ocean. */
-	map_get_terrain(x, y) != T_OCEAN &&
+	!is_ocean(map_get_terrain(x, y)) &&
 
 	/* Don't start a river on river. */
 	map_get_terrain(x, y) != T_RIVER &&
@@ -690,7 +691,7 @@ static void make_rivers(void)
 	/* Don't start a river on a tile is surrounded by > 1 river +
 	   ocean tile. */
 	adjacent_river_tiles4(x, y) +
-	adjacent_terrain_tiles4(x, y, T_OCEAN) <= 1 &&
+	adjacent_ocean_tiles4(x, y) <= 1 &&
 
 	/* Don't start a river on a tile that is surrounded by hills or
 	   mountains unless it is hard to find somewhere else to start
@@ -807,7 +808,7 @@ static void make_fair(void)
 	}
 	cartesian_adjacent_iterate(x, y, x1, y1) {
 	  if (myrand(100) > 66 &&
-	      map_get_terrain(x1, y1) != T_OCEAN
+	      !is_ocean(map_get_terrain(x1, y1))
 	      && map_get_terrain(x1, y1) != T_RIVER
 	      && !map_has_special(x1, y1, S_RIVER)) {
 	    map_set_terrain(x1, y1, T_HILLS);
@@ -865,10 +866,14 @@ static void make_land(void)
 **************************************************************************/
 static bool is_tiny_island(int x, int y) 
 {
-  if (map_get_terrain(x,y) == T_OCEAN) return FALSE;
+  if (is_ocean(map_get_terrain(x,y))) {
+    return FALSE;
+  }
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
-    if (map_get_terrain(x1, y1) != T_OCEAN) return FALSE;
+    if (!is_ocean(map_get_terrain(x1, y1))) {
+      return FALSE;
+    }
   } cartesian_adjacent_iterate_end;
 
   return TRUE;
@@ -896,7 +901,9 @@ static void assign_continent_flood(int x, int y, int nr)
 {
   if (y<0 || y>=map.ysize)              return;
   if (map_get_continent(x, y, NULL) != 0)     return;
-  if (map_get_terrain(x, y) == T_OCEAN) return;
+  if (is_ocean(map_get_terrain(x, y))) {
+    return;
+  }
 
   map_set_continent(x, y, NULL, nr);
 
@@ -930,7 +937,7 @@ void assign_continent_numbers(void)
       
   whole_map_iterate(x, y) {
     if (map_get_continent(x, y, NULL) == 0 
-        && map_get_terrain(x, y) != T_OCEAN) {
+        && !is_ocean(map_get_terrain(x, y))) {
       assign_continent_flood(x, y, isle++);
     }
   } whole_map_iterate_end;
@@ -1333,7 +1340,7 @@ static void make_huts(int number)
   while (number * map_num_tiles() >= 2000 && count++ < map_num_tiles() * 2) {
     rand_map_pos(&x, &y);
     l=myrand(6);
-    if (map_get_terrain(x, y)!=T_OCEAN && 
+    if (!is_ocean(map_get_terrain(x, y)) && 
 	( map_get_terrain(x, y)!=T_ARCTIC || l<3 )
 	) {
       if (!is_hut_close(x,y)) {
@@ -1354,7 +1361,7 @@ static void add_specials(int prob)
   for (y=1;y<map.ysize-1;y++) {
     for (x=0;x<map.xsize; x++) {
       ttype = map_get_terrain(x, y);
-      if ((ttype==T_OCEAN && is_coastline(x,y)) || (ttype!=T_OCEAN)) {
+      if ((is_ocean(ttype) && is_coastline(x,y)) || !is_ocean(ttype)) {
 	if (myrand(1000)<prob) {
 	  if (!is_special_close(x,y)) {
 	    if (tile_types[ttype].special_1_name[0] != '\0' &&
@@ -1464,7 +1471,7 @@ static void fill_island(int coast, long int *bucket,
 			    ? warm0 : warm1);
         } else {
           if (is_water_adjacent_to_tile(x, y) &&
-	      count_terrain_near_tile(x, y, T_OCEAN) < 4 &&
+	      count_ocean_near_tile(x, y) < 4 &&
 	      count_terrain_near_tile(x, y, T_RIVER) < 3)
 	    map_set_terrain(x, y, T_RIVER);
 	}
@@ -1506,7 +1513,7 @@ static void fill_island_rivers(int coast, long int *bucket,
 	     )
 	   &&( !is_at_coast(x, y) || myrand(100) < coast )) {
 	if (is_water_adjacent_to_tile(x, y) &&
-	    count_terrain_near_tile(x, y, T_OCEAN) < 4 &&
+	    count_ocean_near_tile(x, y) < 4 &&
             count_special_near_tile(x, y, S_RIVER) < 3) {
 	  map_set_special(x, y, S_RIVER);
 	  i--;

@@ -436,13 +436,13 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
   /* Check ALL possible targets */
   whole_map_iterate(x, y) {
     ptile = map_get_tile(x, y);
-    if (warmap.cost[x][y] > move_rate && ptile->terrain != T_OCEAN) {
+    if (warmap.cost[x][y] > move_rate && !is_ocean(ptile->terrain)) {
       /* Can't get there */
       continue;
     }
     destx = x;
     desty = y;
-    if (ptile->terrain == T_OCEAN) {
+    if (is_ocean(ptile->terrain)) {
       /* Try to bribe a ship on the coast */
       int best = 9999;
       adjc_iterate(x, y, x2, y2) {

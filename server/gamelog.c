@@ -99,7 +99,7 @@ void gamelog_map(void)
   for (y = 0; y < map.ysize; y++) {
     for (x = 0; x < map.xsize; x++) {
       if (regular_map_pos_is_normal(x, y)) {
-	hline[x] = (map_get_terrain(x, y) == T_OCEAN) ? ' ' : '.';
+	hline[x] = is_ocean(map_get_terrain(x, y)) ? ' ' : '.';
       } else {
 	hline[x] = '#';
       }

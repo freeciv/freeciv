@@ -1579,13 +1579,13 @@ void handle_tile_info(struct packet_tile_info *packet)
 
   /* update continents */
   if ((packet->known >= TILE_KNOWN_FOGGED &&
-       old_known == TILE_UNKNOWN && ptile->terrain != T_OCEAN) ||
-      ((old_terrain == T_OCEAN) && (ptile->terrain != T_OCEAN))) {
+       old_known == TILE_UNKNOWN && !is_ocean(ptile->terrain)) ||
+      ((is_ocean(old_terrain)) && (!is_ocean(ptile->terrain)))) {
     /* new knowledge or new land -- update can handle incrementally */
     update_continents(packet->x, packet->y, game.player_ptr);
     map.num_continents = game.player_ptr->num_continents;
   } else if (old_known >= TILE_KNOWN_FOGGED &&
-	     ((old_terrain != T_OCEAN) && (ptile->terrain == T_OCEAN))) {
+	     (!is_ocean(old_terrain) && is_ocean(ptile->terrain))) {
     /* land changed into ocean -- rebuild continents map from scratch */
     whole_map_iterate(x, y) {
       map_set_continent(x, y, NULL, 0);
@@ -1593,7 +1593,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     map.num_continents = game.player_ptr->num_continents = 0;
     whole_map_iterate(x, y) {
       if ((tile_get_known(x, y) >= TILE_KNOWN_FOGGED) &&
-	  (map_get_terrain(x, y) != T_OCEAN))
+	  !is_ocean(map_get_terrain(x, y)))
 	update_continents(x, y, game.player_ptr);
     }
     whole_map_iterate_end;

@@ -232,7 +232,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
     pclaim = &(pcmap->claims[i]);
     ptile = &(map.tiles[i]);
 
-    if (ptile->terrain == T_OCEAN) {
+    if (is_ocean(ptile->terrain)) {
       /* pclaim->when = 0; */
       pclaim->whom = no_owner;
       /* pclaim->know = 0; */

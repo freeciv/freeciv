@@ -100,13 +100,14 @@ static void check_map(void)
     struct tile *ptile = map_get_tile(x, y);
     struct city *pcity = map_get_city(x, y);
     int cont = map_get_continent(x, y, NULL);
-    if (map_get_terrain(x, y) == T_OCEAN) {
+    if (is_ocean(map_get_terrain(x, y))) {
       assert(cont == 0);
     } else {
       assert(cont != 0);
       adjc_iterate(x, y, x1, y1) {
-	if (map_get_terrain(x1, y1) != T_OCEAN)
+	if (!is_ocean(map_get_terrain(x1, y1))) {
 	  assert(map_get_continent(x1, y1, NULL) == cont);
+	}
       } adjc_iterate_end;
     }
 
@@ -136,7 +137,7 @@ static void check_cities(void)
       } unit_list_iterate_end;
 
       assert(is_normal_map_pos(pcity->x, pcity->y));
-      assert(map_get_terrain(pcity->x, pcity->y) != T_OCEAN);
+      assert(!is_ocean(map_get_terrain(pcity->x, pcity->y)));
 
       city_map_iterate(x, y) {
 	int map_x,map_y;
@@ -239,8 +240,9 @@ static void check_units(void) {
 	assert(pplayers_allied(city_owner(pcity), pplayer));
       }
 
-      if (map_get_terrain(x, y) == T_OCEAN)
+      if (is_ocean(map_get_terrain(x, y))) {
 	assert(ground_unit_transporter_capacity(x, y, pplayer) >= 0);
+      }
 
       assert(punit->moves_left >= 0);
       assert(punit->hp > 0);

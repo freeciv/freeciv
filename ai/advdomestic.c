@@ -262,7 +262,7 @@ static int ocean_workers(struct city *pcity)
   int i = 0;
 
   city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
-    if (map_get_terrain(mx, my) == T_OCEAN) {
+    if (is_ocean(map_get_terrain(mx, my))) {
       /* This is a kluge; wasn't getting enough harbors because often
        * everyone was stuck farming grassland. */
       i++;

@@ -65,7 +65,7 @@ static bool is_terrain_ecologically_wet(int x, int y)
 {
   return (map_get_terrain(x, y) == T_RIVER
 	  || map_has_special(x, y, S_RIVER)
-	  || is_terrain_near_tile(x, y, T_OCEAN)
+	  || is_ocean_near_tile(x, y)
 	  || is_terrain_near_tile(x, y, T_RIVER)
 	  || is_special_near_tile(x, y, S_RIVER));
 }
@@ -82,7 +82,7 @@ void global_warming(int effect)
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
     rand_map_pos(&x, &y);
-    if (map_get_terrain(x, y) != T_OCEAN) {
+    if (!is_ocean(map_get_terrain(x, y))) {
       if (is_terrain_ecologically_wet(x, y)) {
 	switch (map_get_terrain(x, y)) {
 	case T_FOREST:
@@ -138,7 +138,7 @@ void nuclear_winter(int effect)
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
     rand_map_pos(&x, &y);
-    if (map_get_terrain(x, y) != T_OCEAN) {
+    if (!is_ocean(map_get_terrain(x, y))) {
       switch (map_get_terrain(x, y)) {
       case T_JUNGLE:
       case T_SWAMP:
@@ -259,8 +259,9 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 {
   buffer_shared_vision(pdest);
   whole_map_iterate(x, y) {
-    if (map_get_terrain(x, y) == T_OCEAN)
+    if (is_ocean(map_get_terrain(x, y))) {
       give_tile_info_from_player_to_player(pfrom, pdest, x, y);
+    }
   } whole_map_iterate_end;
   unbuffer_shared_vision(pdest);
 }
@@ -1003,7 +1004,7 @@ void update_tile_knowledge(struct player *pplayer, int x, int y)
 {
   struct tile *ptile = map_get_tile(x, y);
   struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
-  bool was_land = (plrtile->terrain != T_OCEAN && 
+  bool was_land = (!is_ocean(plrtile->terrain) && 
                    plrtile->terrain != T_UNKNOWN);
 
   plrtile->terrain = ptile->terrain;
@@ -1014,7 +1015,7 @@ void update_tile_knowledge(struct player *pplayer, int x, int y)
    * this will only be a problem if we now have two continents where
    * we only had one before the transform. the check is nasty and the
    * case is rare, so simply renumber everything. */
-  if (was_land && ptile->terrain == T_OCEAN &&
+  if (was_land && is_ocean(ptile->terrain) &&
       map_get_known_and_seen(x, y, pplayer)) {
     whole_map_iterate(x1, y1) {
       map_set_continent(x1, y1, pplayer, 0);
@@ -1347,7 +1348,7 @@ bool is_coast_seen(int x, int y, struct player *pplayer)
   bool ai_always_see_map = !ai_handicap(pplayer, H_MAP);
 
   square_iterate(x, y, 1, x1, y1) {
-    if (map_get_terrain(x1, y1) == T_OCEAN) {
+    if (is_ocean(map_get_terrain(x1, y1))) {
       continue;
     }
     /* Found land next to (x,y).  Can we see it? */
@@ -1415,7 +1416,7 @@ static void ocean_to_land_fix_rivers(int x, int y)
     if (map_has_special(x1, y1, S_RIVER)) {
       bool ocean_near = FALSE;
       cartesian_adjacent_iterate(x1, y1, x2, y2) {
-        if (map_get_terrain(x2, y2) == T_OCEAN)
+        if (is_ocean(map_get_terrain(x2, y2)))
           ocean_near = TRUE;
       } cartesian_adjacent_iterate_end;
       if (!ocean_near) {
@@ -1436,7 +1437,7 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
 {
   enum tile_terrain_type newter = map_get_terrain(x, y);
 
-  if ((oldter == T_OCEAN) && (newter != T_OCEAN)) {
+  if (is_ocean(oldter) && !is_ocean(newter)) {
     /* ocean to land ... */
     ocean_to_land_fix_rivers(x, y);
     city_landlocked_sell_coastal_improvements(x, y);
@@ -1451,7 +1452,7 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
 
     gamelog(GAMELOG_MAP, _("(%d,%d) land created from ocean"), x, y);
     return OLC_OCEAN_TO_LAND;
-  } else if ((oldter != T_OCEAN) && (newter == T_OCEAN)) {
+  } else if (!is_ocean(oldter) && is_ocean(newter)) {
     /* land to ocean ... */
 
     /* player-specific continent update is taken 

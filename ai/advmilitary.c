@@ -288,7 +288,9 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
   if (unit_flag(punit, F_NO_LAND_ATTACK)) return 0;
 
   sailing = is_sailing_unit(punit);
-  if (sailing && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) return 0;
+  if (sailing && !is_ocean_near_tile(pcity->x, pcity->y)) {
+    return 0;
+  }
 
   danger = unit_belligerence_basic(punit);
   if (sailing && city_got_building(pcity, B_COASTAL)) danger /= 2;
@@ -691,7 +693,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
                                   int danger, struct ai_choice *choice)
 {
   bool walls = city_got_citywalls(pcity);
-  bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
+  bool shore = is_ocean_near_tile(pcity->x, pcity->y);
   /* Technologies we would like to have. */
   int tech_desire[U_LAST];
   /* Our favourite unit. */
@@ -816,7 +818,7 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
 { 
   /* The enemy city.  acity == NULL means stray enemy unit */
   struct city *acity = map_get_city(x, y);
-  bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
+  bool shore = is_ocean_near_tile(pcity->x, pcity->y);
   int orig_move_type = unit_types[*best_choice].move_type;
   int victim_count = 1;
 
