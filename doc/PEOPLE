@@ -11,7 +11,7 @@ contributions to the Freeciv project.
   Present administrators:
 
      Tony Stuckey <stuckey@jaka.ece.uiuc.edu> (since Jul 1999 [from 1.8.1])
-     Raimar Falke <rf13@mail.inf.tu-dresden.de> (since Aug 2001 [from 1.12.0])
+     Raimar Falke <rf13@inf.tu-dresden.de> (since Aug 2001 [from 1.12.0])
      Mike Kaufman <kaufman@orion.physics.wisc.edu> (since Dec 2001 
        [from 1.12.0])
      Per I. Mathisen <per@leftist.net> (since April 17 2002 [from 1.12.0])
@@ -27,7 +27,7 @@ contributions to the Freeciv project.
 
   Coders since 1.12.0 release:
      
-     Raimar Falke <rf13@mail.inf.tu-dresden.de> 
+     Raimar Falke <rf13@inf.tu-dresden.de> 
 	(co-admin, nation limit, code cleanup, CMA, events
 	generalisation, bools, gettext fixes, tech and trade 
 	cleanup, agents)
@@ -383,7 +383,7 @@ contributions to the Freeciv project.
 
      Helge Arne Gudmestad <gudmesta@kallesol.pvv.ntnu.no> (New earth map)
      Martin McMahon <martin.mcmahon@ukonline.co.uk> (British Isles)
-     Miguel Farah <miguel@antonia.nn.cl> (Iberian peninsula)
+     Miguel Farah <miguel@farah.cl> (Iberian peninsula)
      Christian Grothoff <ma0035@stud.uni-wuppertal.de> (Europe v1.0)
      Daniel Gudlat <gudlat@informatik.hu-berlin.de> (Earth)
      Jerzy Klek <qpkjeek@epk.ericsson.se> (Europe v1.1)
@@ -392,14 +392,14 @@ contributions to the Freeciv project.
 
      Martins Untals <M.Untals@datapro.lv> (nations)
      Takacs Gabor <tg330@hszk.bme.hu> (nations)
-     Miguel Farah <miguel@antonia.lj.cl> (nations, scenarios)
+     Miguel Farah <miguel@farah.cl> (nations, scenarios)
      Eduardo M Kalinowski <ekalin@bol.com.br> (nations)
      Thanasis Kinias <tkinias@optimalco.com> (nations)
      Niels Weber <nath@snafu.de> (nations)
 
   Ruleset data since 1.11.4 release:
 
-     Miguel Farah <miguel@antonia.nn.cl> (nations)
+     Miguel Farah <miguel@farah.cl> (nations)
      Juan Cortes <cortes@astro.yale.edu> (nations)
      Ivan Kosak <ivan.kosak@sk.tel.hr> (nation)
      Tomasz Wegrzanowski <maniek@beer.com> (nations)
