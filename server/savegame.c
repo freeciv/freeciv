@@ -843,8 +843,12 @@ static void player_load(struct player *plr, int plrno,
       for(x=0; x<CITY_MAP_SIZE; x++) {
 	pcity->city_map[x][y] =
 	    is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
-        if (*p=='0') {
-	  set_worker_city(pcity, x, y, C_TILE_EMPTY);
+	if (*p == '0') {
+	  int map_x, map_y;
+
+	  set_worker_city(pcity, x, y,
+			  city_map_to_map(&map_x, &map_y, pcity, x, y) ?
+			  C_TILE_EMPTY : C_TILE_UNAVAILABLE);
 	} else if (*p=='1') {
 	  int map_x, map_y, is_real;
 
