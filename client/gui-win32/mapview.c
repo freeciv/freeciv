@@ -328,7 +328,7 @@ set_indicator_icons(int bulb, int sol, int flake, int gov)
      * when we don't know any better. */
     struct citizen_type c = {.type = CITIZEN_UNHAPPY};
 
-    gov_sprite = get_citizen_sprite(c, 0, NULL);
+    indicator_sprite[3] = get_citizen_sprite(c, 0, NULL);
   } else {
     indicator_sprite[3] = get_government(gov)->sprite;    
   }

@@ -97,7 +97,6 @@ struct city_dialog {
   int present_y;
   Impr_Type_id sell_id;
   
-  struct citizen_type citizen_type[NUM_CITIZENS_SHOWN];
   int support_unit_ids[NUM_UNITS_SHOWN];
   int present_unit_ids[NUM_UNITS_SHOWN];
   int change_list_ids[B_LAST+1+U_LAST+1];
@@ -533,11 +532,8 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
   get_city_citizen_types(pcity, 4, citizens);
 
   for (i = 0; i < pcity->size && i < NUM_CITIZENS_SHOWN; i++) {
-    if (pdialog->citizen_type[i] != citizens[i]) {
-      pdialog->citizen_type[i] = citizens[i];
       draw_sprite(get_citizen_sprite(citizens[i], i, pcity), citydlgdc,
 		  SMALL_TILE_WIDTH * i, 0);
-    }
   }
 
   if (i<NUM_CITIZENS_SHOWN) {
@@ -550,11 +546,7 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
     FrameRect(citydlgdc,&rc,
 	      (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
   }
-  
-  for(; i<NUM_CITIZENS_SHOWN; i++) {
-    pdialog->citizen_type[i] = CITIZEN_LAST;    
-  }   
-  
+    
   BitBlt(hdc,pdialog->pop_x,pdialog->pop_y,
 	 NUM_CITIZENS_SHOWN*SMALL_TILE_WIDTH,
 	 SMALL_TILE_HEIGHT,
@@ -724,10 +716,7 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 					      SMALL_TILE_WIDTH,
 					      SMALL_TILE_HEIGHT);
   ReleaseDC(pdialog->mainwindow,hdc);
-  for (i=0;i<NUM_CITIZENS_SHOWN;i++)
-    {
-      pdialog->citizen_type[i]=-1;
-    }
+
   pdialog->full_win=fcwin_vbox_new(hWnd,FALSE);
   fcwin_box_add_generic(pdialog->full_win,upper_min,upper_set,NULL,NULL,
 			FALSE,FALSE,0);
@@ -1554,31 +1543,7 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
 **************************************************************************/
 static void city_dlg_click_citizens(struct city_dialog *pdialog, int n)
 {
-  enum specialist_type from, to;
-
-  if (pdialog->citizen_type[n] < 0
-      || pdialog->citizen_type[n] > 2) {
-    return;
-  }
-
-  switch (pdialog->citizen_type[n]) {
-  case 0: /* elvis */
-    from = SP_ELVIS;
-    to = SP_SCIENTIST;
-    break;
-  case 1: /* scientist */
-    from = SP_SCIENTIST;
-    to = SP_TAXMAN;
-    break;
-  case 2: /* taxman */
-    from = SP_TAXMAN;
-    to = SP_ELVIS;
-    break;
-  default:
-    return;
-  }
-
-  city_change_specialist(pdialog->pcity, from, to);
+  city_rotate_specialist(pdialog->pcity, n);
 }
 
 /**************************************************************************
