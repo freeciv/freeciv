@@ -1612,8 +1612,6 @@ static void optimize_final(struct city *pcity,
   /* Just for the compiler. Guarded by best_result->found_a_valid */
   int best_major_fitness = 0, best_minor_fitness = 0;
 
-  assert(pcity->size < MAX_CITY_SIZE);
-
   build_cache3(pcity);
 
   best_result->found_a_valid = FALSE;
