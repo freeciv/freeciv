@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-09-12 14:12+0100\n"
-"PO-Revision-Date: 2003-09-12 14:50+0000\n"
+"POT-Creation-Date: 2003-09-12 19:02+0100\n"
+"PO-Revision-Date: 2003-09-12 19:10+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5353,6 +5353,10 @@ msgstr ""
 "Jogo: Os seus %s cancelaram a ordem de patrulha pois encontraram uma unidade "
 "inimiga."
 
+#: client/attribute.c:277
+msgid "Old attributes detected and removed."
+msgstr "Atributos antigos detectados e removidos."
+
 #: client/audio.c:132
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
@@ -6141,6 +6145,10 @@ msgstr "%s%d descontente(es)"
 #, c-format
 msgid "%s%d gold"
 msgstr "%s%d moeda(s)"
+
+#: client/messagewin_common.c:109
+msgid "Game: "
+msgstr "Jogo: "
 
 #: client/options.c:83
 msgid "Default player's username"
@@ -15881,7 +15889,7 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose martial law under Anarchy: each military unit inside a city "
+"You may impose martial law under Communism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
@@ -15910,8 +15918,8 @@ msgstr ""
 "\n"
 "Você pode impor uma lei marcial sob o Comunismo: cada unidade militar no "
 "interior de uma cidade manterá contente 1 cidadão descontente. (ou pelo "
-"menos, cidadãos descontentes comportar-se-ão como contentes, não "
-"causando desordens.)"
+"menos, cidadãos descontentes comportar-se-ão como contentes, não causando "
+"desordens.)"
 
 #: data/civ1/governments.ruleset:429
 msgid ""
@@ -18373,9 +18381,6 @@ msgstr "?plural:Zulus"
 #~ msgstr[1] ""
 #~ "\n"
 #~ "(%d turnos/avanço)"
-
-#~ msgid "Game: "
-#~ msgstr "Jogo: "
 
 #~ msgid "Chang_e"
 #~ msgstr "Alt_erar"
