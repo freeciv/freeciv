@@ -369,7 +369,7 @@ static struct settings_s settings[] = {
 
   GEN_INT("grass", map.grasssize,
 	  SSET_MAP_GEN, SSET_ECOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Amount of grass squares"), "", NULL,
+	  N_("Amount of grass and plains squares"), "", NULL,
 	  MAP_MIN_GRASS, MAP_MAX_GRASS, MAP_DEFAULT_GRASS)
 
   GEN_INT("forests", map.forestsize,

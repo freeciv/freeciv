@@ -21,6 +21,10 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <string.h>
 #include <time.h>
 
+#ifdef WIN32_NATIVE
+#include <windows.h>
+#endif
+
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>		/* fchmod */
 #endif
