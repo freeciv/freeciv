@@ -225,7 +225,7 @@ cities =
   "Atlanta", "Chicago", "Buffalo", "St. Louis", "Detroit",
   "New Orleans", "Baltimore", "Denver", "Cincinnati", "Dallas",
   "Minneapolis", "Houston", "San Antonio", "San Francisco", "Seattle",
-  "Portland", "Miami", "Cleveland", "Buffalo", "Pittsburgh",
+  "Portland", "Miami", "Cleveland", "Pittsburgh",
   "Salt Lake City", "San Diego", "Phoenix", "Kansas City", "Indianapolis",
   "Orlando", "Milwaukee", "Honolulu", "Boise", "Las Vegas", "Springfield",
   "Nashville", "Hartford", "Charlotte", "El Paso", "Anchorage",
@@ -511,13 +511,13 @@ cities =
   "Brighton", "Portsmouth", "Hull", "Leicester", "Plymouth", "Bournemouth",
   "Sunderland", "Stoke-on-Trent", "Bolton", "Norwich", "Oxford", "Colchester",
   "Reading", "Cambridge", "Gloucester", "Blackpool", "Stratford-upon-Avon",
-  "Durham", "Eastleigh", "Winchester", "Norwich", "Folkestone", "Dover",
+  "Durham", "Eastleigh", "Winchester", "Folkestone", "Dover",
   "Huntingdon", "Hereford", "Ipswich", "Kettering", "King's Lynn",
   "Kidderminster", "Leek", "Lincoln", "Lutterworth", "Macclesfield",
   "Market Bosworth", "Market Harborough", "Melton Mowbray", "Nuneaton",
   "Oakham", "Peterborough", "Pickering", "Preston", "Poole", "Rochester",
   "Ramsgate", "Southend", "Stevenage", "Ashford", "Swindon", "Torquay",
-  "Wolverhampton", "Weymouth", "Winchester", "Yeovil", "Halifax", "Oldham",
+  "Wolverhampton", "Weymouth", "Yeovil", "Halifax", "Oldham",
   "Rochdale", "Blackburn", "Burnley", "Lancaster", "Northampton"
 
 
@@ -878,7 +878,7 @@ cities =
   "Frederikshavn", "Helsingør", "Roskilde", "Slagelse", "Sønderborg",
   "Åbenrå", "Haderslev", "Vejle", "Holstebro", "Hirtshals", "Tylstrup",
   "Skagen", "Hjørring", "Blokhus", "Nørresundby", "Hanstholm", "Thisted",
-  "Løgstør", "Thyborøn", "Skive", "Hadsund", "Ålestrup", "Hadsund", "Grenå",
+  "Løgstør", "Thyborøn", "Skive", "Hadsund", "Ålestrup", "Grenå",
   "Struer", "Herning", "Silkeborg", "Yding", "Skovhøj", "Give", "Tarm",
   "Varde", "Assens", "Nyborg", "Fåborg", "Korsør", "Næstved", "Vordingborg",
   "Nakskov", "Rødby", "Birkerød", "Nykøbing", "Rønne", "Allinge", "Neksø"
@@ -958,7 +958,7 @@ cities =
  "Halmstad", "Östersund", "Nyköping", "Söderhamn", "Sundsvall",
  "Piteå", "Skellefteå", "Umeå", "Jönköping", "Kristianstad",
  "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun",
- "Vyborg", "Holmgard", "Västerås"
+ "Vyborg", "Holmgard"
 
 
 [nation26]
@@ -1345,7 +1345,7 @@ cities =
   "Rishon Le-Zion", "Beit-Shemen", "Rehovot", "Hadera", "Tel Aviv",
   "Petach-Tikva", "Ashdod", "Lod", "Eilat", "Ashqelon", "Herzliah",
   "Netania", "Afulla", "Metula", "Dimona", "Carmiel", "Nazareth",
-  "Ra'anana", "Rehovot", "Eilat", "Ramat-Gav", "Holon"
+  "Ra'anana", "Ramat-Gav", "Holon"
 
 
 [nation36]
@@ -1399,7 +1399,7 @@ cities =
   "Ottawa", "Toronto", "Vancouver", "Montreal", "Quebec", "Winnipeg",
   "Calgary", "Edmonton", "Victoria", "Yellowknife", "Fredericton",
   "Charlottetown", "Regina", "Saskatoon", "Whitehorse", "Iqaluit",
-  "Hamilton", "Kelowna", "Moose Jaw", "Brandon", " Sudbury", "St. John",
+  "Hamilton", "Kelowna", "Moose Jaw", "Brandon", "Sudbury", "St. John",
   "St. John's", "Sault Ste. Marie", "Thunder Bay", "Red Deer", "Jasper",
   "Prince Rupert", "Windsor", "Prince George", "Kamloops", "Lethbridge",
   "Medicine Hat", "Prince Albert", "Thompson", "Timmins", "Sarnia",
