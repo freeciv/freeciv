@@ -887,7 +887,7 @@ msgstr "%s (%s) (%i,%i) захвачено %s"
 #: server/citytools.c:1287
 #, c-format
 msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
-msgstr "Игра: Вы освободили %s!! Добыча составила %d золотых."
+msgstr "Игра: Вы освободили %s! Добыча составила %d золотых."
 
 #: server/citytools.c:1292
 #, c-format
@@ -999,7 +999,7 @@ msgstr ""
 #: server/cityturn.c:667 server/cityturn.c:724 server/cityturn.c:835
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
-msgstr "Игра: Производство %s переключено на %s в %s."
+msgstr "Игра: Производство %s модернизировано до %s в %s."
 
 #: server/cityturn.c:706
 #, c-format
@@ -1069,9 +1069,9 @@ msgid "Game: The %s have started building a spaceship!"
 msgstr "Игра: %s начали строительство космического корабля!"
 
 #: server/cityturn.c:1039
-#, fuzzy, c-format
+#, c-format
 msgid "%s's %s tried build %s, which is not available"
-msgstr "Игра: %s строит здание %s, которое более не доступно."
+msgstr "%s, %s пытается создать соединение %s, которое не доступно."
 
 #: server/cityturn.c:1053
 #, c-format
@@ -1384,7 +1384,6 @@ msgid "Enter a password (and remember it)."
 msgstr "Введите пароль (и запомните его)."
 
 #: server/connecthand.c:346
-#, fuzzy
 msgid "This server allows only preregistered users. Sorry."
 msgstr ""
 "На этом сервере разрешены только уже зарегистрированные пользователи. "
@@ -1396,12 +1395,16 @@ msgid ""
 "Warning: your non-authenticating client is logging into an authenticating "
 "server, logging in as guest connection '%s'."
 msgstr ""
+"Предупреждение: Ваш неавторизующийся клиент регистрируется на сервере с "
+"авторизацией, регистрируемся как гостевое соединение '%s'."
 
 #: server/connecthand.c:366
 msgid ""
 "Your non-authenticating client is logging into an authenticating server. "
 "Guest logins are not allowed. Sorry"
 msgstr ""
+"Ваш неавторизующийся клиент регистрируется на сервере с авторизацией. "
+"Гостевые регистрации не разрешены. Извините"
 
 #: server/connecthand.c:389 server/connecthand.c:415
 msgid "Sorry, too many wrong tries..."
@@ -5526,16 +5529,16 @@ msgstr ""
 #: server/unithand.c:165
 #, c-format
 msgid "Game: Illegal packet, can't upgrade %s (yet)."
-msgstr "Игра: Неправильный пакет, невозможно улучшить %s (пока)."
+msgstr "Игра: Неправильный пакет, невозможно модернизировать %s (пока)."
 
 #: server/unithand.c:197
 #, c-format
 msgid "Game: %d %s upgraded to %s for %d gold."
-msgstr "Игра: %d %s обновлен до %s в за %d кредитов."
+msgstr "Игра: %d %s модернизировано до %s за %d золота."
 
 #: server/unithand.c:203
 msgid "Game: No units could be upgraded."
-msgstr "Игра: Нет соединений для обновления."
+msgstr "Игра: Нет соединений для модернизации."
 
 #: server/unithand.c:225
 msgid "Game: Illegal move, unit not in city!"
@@ -5544,17 +5547,17 @@ msgstr "Игра: Неправильный ход, соединение не в городе!"
 #: server/unithand.c:230
 #, c-format
 msgid "Game: Illegal package, can't upgrade %s (yet)."
-msgstr "Игра: Неправильный пакет, невозможно улучшить %s (пока)."
+msgstr "Игра: Неправильный пакет, невозможно модернизировать %s (пока)."
 
 #: server/unithand.c:236
 #, c-format
 msgid "Game: Insufficient funds, upgrade costs %d."
-msgstr "Игра: Недостаточно денег, обновление стоит %d."
+msgstr "Игра: Недостаточно денег, модернизация стоит %d."
 
 #: server/unithand.c:243
 #, c-format
 msgid "Game: %s upgraded to %s for %d gold."
-msgstr "Игра: %s обновлен до %s за %d кредитов."
+msgstr "Игра: %s модернизирован до %s за %d золота."
 
 #: server/unithand.c:417
 #, fuzzy, c-format
@@ -5740,12 +5743,12 @@ msgstr ""
 #: server/unittools.c:246
 #, c-format
 msgid "Game: %s has upgraded %s to %s%s."
-msgstr "Игра: %s обновил %s до %s%s."
+msgstr "Игра: %s модернизировал %s до %s%s."
 
 #: server/unittools.c:305
 #, c-format
 msgid "Not enough gold. %s disbanded"
-msgstr ""
+msgstr "Недостаточно золота. %s распущены"
 
 #: server/unittools.c:430
 #, c-format
@@ -7775,7 +7778,7 @@ msgstr "Соединение: Выжило в защите"
 
 #: client/options.c:279
 msgid "Unit: Production Upgraded"
-msgstr "Соединение: Производство обновлено"
+msgstr "Соединение: Производство модернизировано"
 
 #: client/options.c:280
 msgid "Unit: Relocated"
@@ -8329,14 +8332,14 @@ msgstr "Сменить домашний город"
 #: client/gui-gtk-2.0/citydlg.c:2030 client/gui-gtk/citydlg.c:2516
 #: client/gui-win32/citydlg.c:1632
 msgid "_Upgrade unit"
-msgstr "Обновить соед."
+msgstr "Модернизировать соед."
 
 #: client/gui-gtk-2.0/citydlg.c:2221 client/gui-gtk/citydlg.c:2692
 #: client/gui-mui/dialogs.c:1803 client/gui-sdl/dialogs.c:433
 #: client/gui-win32/citydlg.c:1538 client/gui-xaw/citydlg.c:2034
 #, c-format
 msgid "Sorry: cannot upgrade %s."
-msgstr "Извините, невозможно обновить %s."
+msgstr "Извините, невозможно модернизировать %s."
 
 #: client/gui-gtk-2.0/citydlg.c:2223 client/gui-gtk-2.0/citydlg.c:2262
 #: client/gui-gtk/citydlg.c:2694 client/gui-gtk/citydlg.c:2717
@@ -8344,7 +8347,7 @@ msgstr "Извините, невозможно обновить %s."
 #: client/gui-win32/citydlg.c:1539 client/gui-win32/citydlg.c:1563
 #: data/Freeciv:2475
 msgid "Upgrade Unit!"
-msgstr "Oбновить соединение!"
+msgstr "Модернизировать соединение!"
 
 #: client/gui-gtk-2.0/citydlg.c:2238 client/gui-gtk/citydlg.c:2701
 #: client/gui-mui/dialogs.c:1813 client/gui-sdl/dialogs.c:420
@@ -8354,7 +8357,7 @@ msgid ""
 "Upgrade %s to %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
-"Oбновить %s до %s за %d золота?\n"
+"Модернизировать %s до %s за %d золота?\n"
 "В казне %d золота."
 
 #: client/gui-gtk-2.0/citydlg.c:2242 client/gui-gtk-2.0/repodlgs.c:1052
@@ -8364,7 +8367,7 @@ msgstr ""
 #: client/gui-win32/citydlg.c:1551 client/gui-win32/repodlgs.c:580
 #: data/Freeciv:2464
 msgid "Upgrade Obsolete Units"
-msgstr "Oбновить устаревшие войска"
+msgstr "Модернизировать устаревшие войска"
 
 #: client/gui-gtk-2.0/citydlg.c:2257 client/gui-gtk/citydlg.c:2713
 #: client/gui-mui/dialogs.c:1823 client/gui-sdl/dialogs.c:426
@@ -8374,7 +8377,7 @@ msgid ""
 "Upgrading %s to %s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"Oбновление %s до %s стоит %d золота.\n"
+"Модернизация %s до %s стоит %d золота.\n"
 "В казне %d золота."
 
 #: client/gui-gtk-2.0/citydlg.c:2373 client/gui-gtk/citydlg.c:2872
@@ -10751,7 +10754,7 @@ msgstr "Актив."
 
 #: client/gui-gtk-2.0/repodlgs.c:969 client/gui-mui/repodlgs.c:810
 msgid "_Upgrade"
-msgstr "Обновить"
+msgstr "Модернизировать"
 
 #: client/gui-gtk-2.0/repodlgs.c:1047 client/gui-gtk/repodlgs.c:946
 #: client/gui-mui/repodlgs.c:764 client/gui-sdl/repodlgs.c:201
@@ -10761,7 +10764,7 @@ msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
 msgstr ""
-"Обновить так много %s до %s как только возможно за %d золотых каждый?\n"
+"Модернизировать так много %s до %s как только возможно за %d золота каждый?\n"
 "В казне %d золота."
 
 #: client/gui-gtk-2.0/repodlgs.c:1153
@@ -11588,7 +11591,7 @@ msgstr "Итого: ..."
 #: client/gui-sdl/dialogs.c:478 client/gui-sdl/menu.c:421
 #: client/gui-win32/repodlgs.c:717 data/Freeciv:1942
 msgid "Upgrade"
-msgstr "Обновить"
+msgstr "Модернизировать"
 
 #: client/gui-gtk/repodlgs.c:871 client/gui-sdl/connectdlg.c:186
 #: client/gui-win32/cityrep.c:881 client/gui-win32/repodlgs.c:719
@@ -12694,14 +12697,16 @@ msgstr "Расформировать соединение"
 
 #: client/gui-sdl/citydlg.c:550 data/Freeciv:1182
 msgid "Upgrade unit"
-msgstr "Обновить соединение"
+msgstr "Модернизировать соединение"
 
 #: client/gui-sdl/citydlg.c:717 client/gui-sdl/mapview.c:878
 #, fuzzy
 msgid ""
 "\n"
 "veteran"
-msgstr "(ветеран)"
+msgstr ""
+"\n"
+"ветеран"
 
 #: client/gui-sdl/citydlg.c:953
 #, fuzzy
@@ -12731,9 +12736,8 @@ msgid ""
 msgstr "Распустить если строим колон. при разм. 1"
 
 #: client/gui-sdl/citydlg.c:1221
-#, fuzzy
 msgid "Sorry, You have already bought here in this turn"
-msgstr "Игра: Вы уже покупали на этом ходу."
+msgstr "Игра: Вы уже покупали в этом городе на этом ходу."
 
 #: client/gui-sdl/citydlg.c:1225
 #, fuzzy
@@ -12771,24 +12775,22 @@ msgid "Info Panel"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:2099
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution : %d"
-msgstr "Загрязнения:   %3d"
+msgstr "Загрязнения : %d"
 
 #: client/gui-sdl/citydlg.c:2127
-#, fuzzy
 msgid "Pollution : none"
-msgstr "Загрязнение:"
+msgstr "Загрязнения : нет"
 
 #: client/gui-sdl/citydlg.c:2140
-#, fuzzy
 msgid "Trade routes : "
-msgstr "Торговые пути"
+msgstr "Торговые пути : "
 
 #: client/gui-sdl/citydlg.c:2189
-#, fuzzy, c-format
+#, c-format
 msgid "Trade : +%d"
-msgstr "+%d Торговли / %d"
+msgstr "Торговля : +%d"
 
 #: client/gui-sdl/citydlg.c:2233 client/gui-sdl/citydlg.c:3714
 #, fuzzy
@@ -12801,24 +12803,24 @@ msgid "Citizens"
 msgstr "Города"
 
 #: client/gui-sdl/citydlg.c:2612
-#, fuzzy, c-format
+#, c-format
 msgid "Food : %d per turn"
-msgstr "%3d золота за ход"
+msgstr "Пища : %d за ход"
 
 #: client/gui-sdl/citydlg.c:2648
-#, fuzzy, c-format
+#, c-format
 msgid "?food:Surplus : %d"
-msgstr "?Избыток еды:Е+"
+msgstr "?food:Избыток : %d"
 
 #: client/gui-sdl/citydlg.c:2696
 #, c-format
 msgid "Production : %d (%d) per turn"
-msgstr ""
+msgstr "Производство : %d (%d) за ход"
 
 #: client/gui-sdl/citydlg.c:2742
 #, c-format
 msgid "?production:Support : %d"
-msgstr ""
+msgstr "?production:Поддержка : %d"
 
 #: client/gui-sdl/citydlg.c:2779
 #, fuzzy, c-format
@@ -14484,9 +14486,9 @@ msgstr ""
 "Всего торговли %d Торговли/Год\n"
 
 #: client/gui-xaw/citydlg.c:1824
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens  CMA: %s"
-msgstr "%s - %s граждан%s"
+msgstr "%s - %s граждан  АУГ: %s"
 
 #: client/gui-xaw/cma_fe.c:434
 #, fuzzy
@@ -14496,7 +14498,7 @@ msgstr "Как назвать пре-установку?"
 #: client/gui-xaw/cma_fe.c:451
 #, c-format
 msgid "Do you really want to remove %s?"
-msgstr ""
+msgstr "Вы действительно хотите удалить %s?"
 
 #: client/gui-xaw/connectdlg.c:148
 #, fuzzy
@@ -14832,7 +14834,7 @@ msgstr "Здание              К-во  Стои Всего "
 
 #: data/Freeciv:1913
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr "Тип соед.            Обновить В-процес  Активно  Щитов      Еда"
+msgstr "Тип соед.            Модерниз В-процес  Активно  Щитов      Еда"
 
 #: data/Freeciv:1997
 msgid "Rename worklist"
@@ -17708,7 +17710,7 @@ msgstr "Мастерская Леонардо"
 #: data/civ1/buildings.ruleset:1655 data/civ2/buildings.ruleset:1643
 #: data/default/buildings.ruleset:1714 data/history/buildings.ruleset:1667
 msgid "Upgrades one obsolete unit per game turn."
-msgstr "Обновляет одно устаревшее соединение за ход игры."
+msgstr "Модернизирует одно устаревшее соединение за ход игры."
 
 #: data/civ1/buildings.ruleset:1660 data/civ2/buildings.ruleset:1648
 #: data/default/buildings.ruleset:1719 data/history/buildings.ruleset:1672
@@ -19838,11 +19840,11 @@ msgstr ""
 "Инженеры двигаются и строят вдвое быстрее колонистов, а так же могут "
 "выполнять преобразование ландшафта\n"
 "\n"
-"Совет: Обновите колонистов до инженеров как можно быстрее, т.к. они "
+"Совет: Модернизируйте колонистов до инженеров как можно быстрее, т.к. они "
 "потребляют пищи столько-же, а работают быстрее.\n"
 "\n"
 "Совет: Если Вы построили Мастерскую Леонардо, исследуйте Взрывчатые Вещества "
-"прежде, чем мастерская устареет. Вам обновят колонистов бесплатно."
+"прежде, чем мастерская устареет. Вам бесплатно модернизируют колонистов."
 
 #: data/civ2/units.ruleset:151 data/default/units.ruleset:241
 #: data/history/units.ruleset:224
