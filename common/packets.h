@@ -108,6 +108,7 @@ enum packet_type {
   PACKET_RULESET_CITY,
   PACKET_UNIT_CONNECT,
   PACKET_SABOTAGE_LIST,
+  PACKET_ADVANCE_FOCUS,
   PACKET_LAST  /* leave this last */
 };
 

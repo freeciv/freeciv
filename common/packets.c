@@ -235,6 +235,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_CITY_REFRESH:
   case PACKET_INCITE_INQ:
   case PACKET_CITY_NAME_SUGGEST_REQ:
+  case PACKET_ADVANCE_FOCUS:
     return receive_packet_generic_integer(pc);
     
   case PACKET_ALLOC_NATION:

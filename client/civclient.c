@@ -338,6 +338,10 @@ void handle_packet_input(char *packet, int type)
   case PACKET_DIPLOMAT_ACTION:
     handle_diplomat_action((struct packet_diplomat_action *)packet);
     break;
+
+  case PACKET_ADVANCE_FOCUS:
+    handle_advance_focus((struct packet_generic_integer *)packet);
+    break;
     
   default:
     freelog(LOG_FATAL, _("Received unknown packet from server!"));

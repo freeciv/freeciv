@@ -22,6 +22,7 @@ void do_unit_connect(struct unit *punit, int x, int y);
 int do_goto(int xtile, int ytile);
 void do_map_click(int xtile, int ytile);
 
+void handle_advance_focus(struct packet_generic_integer *packet);
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dx, int dy); /* used by key_xxx */
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);

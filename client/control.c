@@ -60,6 +60,16 @@ static struct unit *punit_defending;
 static struct unit *find_best_focus_candidate(void);
 
 /**************************************************************************
+...
+**************************************************************************/
+void handle_advance_focus(struct packet_generic_integer *packet)
+{
+  struct unit *punit = find_unit_by_id(packet->value);
+  if (punit && punit_focus == punit)
+    advance_unit_focus();
+}
+
+/**************************************************************************
 note: punit can be NULL
 We make sure that the previous focus unit is refreshed, if necessary,
 _after_ setting the new focus unit (otherwise if the previous unit is
