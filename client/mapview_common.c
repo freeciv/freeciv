@@ -781,7 +781,7 @@ static void put_path_length(void)
 
     if (length >= 100) {
       freelog(LOG_ERROR, _("Paths longer than 99 turns are not supported.\n"
-			   "Report this bug to bugs@freeciv.freeciv.org."));
+			   "Report this bug to bugs@freeciv.org."));
     }
 
     if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
