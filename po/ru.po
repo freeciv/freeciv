@@ -7,7 +7,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: FreeCiv-1.14\n"
+"Project-Id-Version: Freeciv-2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-10-12 15:38-0400\n"
 "PO-Revision-Date: 2004-10-09 18:47+0300\n"
@@ -2882,17 +2882,17 @@ msgstr "Игра: Ваш %s был пойман после окончания своей миссии."
 #: server/diplomats.c:1334
 #, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
-msgstr "Игра: Вы произвели инцидент во время подкупа %s %s."
+msgstr "Игра: Вы вызвали инцидент при попытке подкупа %s %s."
 
 #: server/diplomats.c:1339
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
-msgstr "Игра: %s произвели инцидент во время подкупа Ваших %s."
+msgstr "Игра: %s вызвали инцидент при попытке подкупа Ваших %s."
 
 #: server/diplomats.c:1346
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
-msgstr "Игра: Вы произвели инцидент при попытке похитить технологию из %s."
+msgstr "Игра: Вы вызвали инцидент при попытке похитить технологию из %s."
 
 #: server/diplomats.c:1350
 #, c-format
@@ -14368,7 +14368,7 @@ msgstr "Не удалось прочесть PNG-файл: %s"
 
 #: client/gui-xaw/graphics.c:389 client/gui-xaw/graphics.c:395
 msgid "Failed creating PNG struct"
-msgstr "Не удалось прочесть PNG-структуру"
+msgstr "Не удалось создать PNG-структуру"
 
 #: client/gui-xaw/graphics.c:400
 #, c-format
@@ -19805,7 +19805,7 @@ msgstr "Teopия гpaвитaции"
 #: data/default/techs.ruleset:752 data/civ2/techs.ruleset:565
 #: data/civ1/techs.ruleset:565 data/history/techs.ruleset:574
 msgid "Warrior Code"
-msgstr "Koдeкс вoйнa"
+msgstr "Koдeкс вoинa"
 
 #: data/default/techs.ruleset:760 data/civ2/techs.ruleset:571
 #: data/civ1/techs.ruleset:571 data/history/techs.ruleset:62
