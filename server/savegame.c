@@ -1534,19 +1534,19 @@ static void player_load(struct player *plr, int plrno,
   plr->ai.control = secfile_lookup_bool(file, "player%d.ai.control", plrno);
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
     plr->ai.love[i]
-         = secfile_lookup_int_default(file, 1, "player%d.ai.love%d", plrno, i);
+         = secfile_lookup_int_default(file, 1, "player%d.ai%d.love", plrno, i);
     ai->diplomacy.player_intel[i].spam 
-         = secfile_lookup_int_default(file, 0, "player%d.ai.spam%d", plrno, i);
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.spam", plrno, i);
     ai->diplomacy.player_intel[i].ally_patience
-         = secfile_lookup_int_default(file, 0, "player%d.ai.patience%d", plrno, i);
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.patience", plrno, i);
     ai->diplomacy.player_intel[i].warned_about_space
-         = secfile_lookup_int_default(file, 0, "player%d.ai.warn_space%d", plrno, i);
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.warn_space", plrno, i);
     ai->diplomacy.player_intel[i].asked_about_peace
-         = secfile_lookup_int_default(file, 0, "player%d.ai.ask_peace%d", plrno, i);
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_peace", plrno, i);
     ai->diplomacy.player_intel[i].asked_about_alliance
-         = secfile_lookup_int_default(file, 0, "player%d.ai.ask_alliance%d", plrno, i);
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_alliance", plrno, i);
     ai->diplomacy.player_intel[i].asked_about_ceasefire
-         = secfile_lookup_int_default(file, 0, "player%d.ai.ask_ceasefire%d", plrno, i);
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_ceasefire", plrno, i);
   }
   plr->ai.tech_goal = load_technology(file, "player%d.ai.tech_goal", plrno);
   if (plr->ai.tech_goal == A_NONE) {
@@ -2245,19 +2245,19 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_bool(file, plr->ai.control, "player%d.ai.control", plrno);
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
     secfile_insert_int(file, plr->ai.love[i],
-                       "player%d.ai.love%d", plrno, i);
+                       "player%d.ai%d.love", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].spam, 
-                       "player%d.ai.spam%d", plrno, i);
+                       "player%d.ai%d.spam", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].ally_patience, 
-                       "player%d.ai.patience%d", plrno, i);
+                       "player%d.ai%d.patience", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].warned_about_space, 
-                       "player%d.ai.warn_space%d", plrno, i);
+                       "player%d.ai%d.warn_space", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_peace, 
-                       "player%d.ai.ask_peace%d", plrno, i);
+                       "player%d.ai%d.ask_peace", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_alliance, 
-                       "player%d.ai.ask_alliance%d", plrno, i);
+                       "player%d.ai%d.ask_alliance", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_ceasefire, 
-                       "player%d.ai.ask_ceasefire%d", plrno, i);
+                       "player%d.ai%d.ask_ceasefire", plrno, i);
   }
   save_technology(file, "player%d.ai.tech_goal", plrno, plr->ai.tech_goal);
   secfile_insert_int(file, plr->ai.skill_level,
