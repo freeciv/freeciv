@@ -238,6 +238,11 @@ static void nation_free(Nation_Type_id nation)
     p->civilwar_nations = NULL;
   }
 
+  if (p->parent_nations) {
+    free(p->parent_nations);
+    p->parent_nations = NULL;
+  }
+
   nation_city_names_free(p->city_names);
   p->city_names = NULL;
 }
