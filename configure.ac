@@ -338,6 +338,9 @@ dnl don't rely on that (since we use it ourselves).
 AM_ICONV
 AM_LIBCHARSET
 AM_LANGINFO_CODESET
+if test "$am_cv_func_iconv" != yes; then
+  AC_MSG_ERROR([Iconv is missing.  You can get it from http://gnu.org/.])
+fi
 LIBS="$LIBS $LIBICONV"
 
 dnl Check and choose clients
