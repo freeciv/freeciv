@@ -1028,7 +1028,7 @@ void popup_revolution_dialog(int government)
 {
   static GtkWidget *shell = NULL;
 
-  if (game.player_ptr->revolution_finishes < game.turn) {
+  if (game.player_ptr->revolution_finishes == -1) {
     if (!shell) {
       shell = gtk_message_dialog_new(NULL,
 	  0,
