@@ -42,7 +42,6 @@
 
 static GtkWidget *dshell;
 static GtkWidget *view;
-static GtkWidget *airlift_cmd;
 static GtkWidget *all_toggle;
 static GtkListStore *store;
 static GtkTreeSelection *selection;
@@ -116,7 +115,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 **************************************************************************/
 static void create_goto_dialog(void)
 {
-  GtkWidget *sw, *label, *vbox, *button;
+  GtkWidget *sw, *label, *vbox;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
 
@@ -125,13 +124,11 @@ static void create_goto_dialog(void)
     0,
     GTK_STOCK_CANCEL,
     GTK_RESPONSE_CANCEL,
+    _("Air_lift"),
+    CMD_AIRLIFT,
+    ("_Goto"),
+    CMD_GOTO,
     NULL);
-
-  button = gtk_dialog_add_button(GTK_DIALOG(dshell),
-    _("Air_lift"), CMD_AIRLIFT);
-  airlift_cmd = button;
-  button = gtk_dialog_add_button(GTK_DIALOG(dshell),
-    _("_Goto"), CMD_GOTO);
 
   gtk_window_set_position(GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
   gtk_dialog_set_default_response(GTK_DIALOG(dshell), CMD_GOTO);
@@ -170,7 +167,7 @@ static void create_goto_dialog(void)
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_widget_set_usize(sw, -1, 300);
+  gtk_widget_set_usize(sw, -1, 200);
 
   label = g_object_new(GTK_TYPE_LABEL,
     "use-underline", TRUE,
@@ -275,9 +272,9 @@ static void goto_selection_callback(GtkTreeSelection *selection, gpointer data)
     struct unit *punit = get_unit_in_focus();
     center_tile_mapcanvas(pdestcity->x, pdestcity->y);
     if(punit && unit_can_airlift_to(punit, pdestcity)) {
-      gtk_widget_set_sensitive(airlift_cmd, TRUE);
+      gtk_dialog_set_response_sensitive(GTK_DIALOG(dshell), CMD_AIRLIFT, TRUE);
       return;
     }
   }
-  gtk_widget_set_sensitive(airlift_cmd, FALSE);
+  gtk_dialog_set_response_sensitive(GTK_DIALOG(dshell), CMD_AIRLIFT, FALSE);
 }

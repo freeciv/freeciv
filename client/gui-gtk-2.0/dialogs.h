@@ -19,10 +19,10 @@
 
 struct tile;
 
-void message_dialog_button_set_sensitive(GtkWidget *shl, char *bname, int state);
-GtkWidget *popup_message_dialog(GtkWidget * parent, const char *dialogname,
-				const char *text, ...);
-void destroy_message_dialog(GtkWidget *button);
+void message_dialog_button_set_sensitive(GtkWidget *shl, int button,
+					 gboolean state);
+GtkWidget *popup_message_dialog(GtkWindow *parent, const gchar *dialogname,
+				const gchar *text, ...);
 
 gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 

@@ -280,10 +280,7 @@ static void change_list_callback(GtkTreeView *view, GtkTreePath *path,
 static void buy_callback(GtkWidget * w, gpointer data);
 
 static void sell_callback(GtkWidget * w, gpointer data);
-static gint sell_callback_delete(GtkWidget * w, GdkEvent * ev,
-				 gpointer data);
-static void sell_callback_no(GtkWidget * w, gpointer data);
-static void sell_callback_yes(GtkWidget * w, gpointer data);
+static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
 static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
 				      GdkEventButton * event,
 				      gpointer data);
@@ -3162,7 +3159,7 @@ static void sell_callback(GtkWidget * w, gpointer data)
   struct city_dialog *pdialog = (struct city_dialog *) data;
   GList *selection;
   int id;
-  char buf[512];
+  GtkWidget *shl;
 
   selection = GTK_CLIST(pdialog->overview.improvement_list)->selection;
   if (!selection)
@@ -3176,55 +3173,42 @@ static void sell_callback(GtkWidget * w, gpointer data)
     return;
 
   pdialog->sell_id = id;
-  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
-	      get_impr_name_ex(pdialog->pcity, id), improvement_value(id));
 
-  pdialog->sell_shell = popup_message_dialog(pdialog->shell,
-					     _("Sell It!"), buf,
-					     _("_Yes"), sell_callback_yes,
-					     pdialog, _("_No"),
-					     sell_callback_no, pdialog, 0);
+  shl = gtk_message_dialog_new(GTK_WINDOW(pdialog->shell),
+    GTK_DIALOG_DESTROY_WITH_PARENT,
+    GTK_MESSAGE_QUESTION,
+    GTK_BUTTONS_YES_NO,
+    _("Sell %s for %d gold?"),
+    get_impr_name_ex(pdialog->pcity, id), improvement_value(id));
+  pdialog->sell_shell = shl;
+  
+  gtk_window_set_title(GTK_WINDOW(shl), _("Sell It!"));
+  gtk_window_set_position(GTK_WINDOW(shl), GTK_WIN_POS_CENTER_ON_PARENT);
 
-  gtk_signal_connect(GTK_OBJECT(pdialog->sell_shell), "delete_event",
-		     GTK_SIGNAL_FUNC(sell_callback_delete), data);
+  g_signal_connect(shl, "response",
+		   G_CALLBACK(sell_callback_response), pdialog);
+  
+  gtk_window_present(GTK_WINDOW(shl));
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static gint sell_callback_delete(GtkWidget * w, GdkEvent * ev,
-				 gpointer data)
+static void sell_callback_response(GtkWidget *w, gint response, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  pdialog->sell_shell = NULL;
-  return FALSE;
-}
 
-/****************************************************************
-...
-*****************************************************************/
-static void sell_callback_no(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  destroy_message_dialog(w);
-  pdialog->sell_shell = NULL;
-}
+  if (response == GTK_RESPONSE_YES) {
+    struct packet_city_request packet;
 
-/****************************************************************
-...
-*****************************************************************/
-static void sell_callback_yes(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
+    pdialog = (struct city_dialog *) data;
 
-  pdialog = (struct city_dialog *) data;
-
-  packet.city_id = pdialog->pcity->id;
-  packet.build_id = pdialog->sell_id;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
-
-  destroy_message_dialog(w);
+    packet.city_id = pdialog->pcity->id;
+    packet.build_id = pdialog->sell_id;
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+  }
+  gtk_widget_destroy(w);
+  
   pdialog->sell_shell = NULL;
 }
 

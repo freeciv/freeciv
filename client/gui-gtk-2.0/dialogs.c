@@ -50,8 +50,13 @@
 #include "dialogs.h"
 
 /******************************************************************/
-static gint popup_mes_del_callback(GtkWidget *widget, GdkEvent *event,
-				   gpointer data);
+GtkWidget *message_dialog_start(GtkWindow *parent, const gchar *name,
+				const gchar *text);
+void message_dialog_add(GtkWidget *dshell, const gchar *label,
+			GCallback handler, gpointer data);
+void message_dialog_end(GtkWidget *dshell);
+
+void message_dialog_set_hide(GtkWidget *dshell, gboolean setting);
 
 /******************************************************************/
 static GtkWidget  *races_dialog_shell=NULL;
@@ -71,21 +76,11 @@ static GList      *sorted_races_list = NULL; /* contains a list of race
 					      poped up. */
 /******************************************************************/
 static GtkWidget  *spy_tech_shell;
-static GtkWidget  *spy_advances_list;
-static GtkWidget  *spy_steal_command;
-
-static int         spy_tech_shell_is_modal;
-static int         advance_type[A_LAST+1];
-static int         steal_advance = 0;
+static int         steal_advance;
 
 /******************************************************************/
 static GtkWidget  *spy_sabotage_shell;
-static GtkWidget  *spy_improvements_list;
-static GtkWidget  *spy_sabotage_command;
-
-static int         spy_sabotage_shell_is_modal;
-static int         improvement_type[B_LAST+1];
-static int         sabotage_improvement = 0;
+static int         sabotage_improvement;
 
 /******************************************************************/
 #define NUM_SELECT_UNIT_COLS 4
@@ -134,7 +129,7 @@ static int unit_to_use_to_pillage;
 static int caravan_city_id;
 static int caravan_unit_id;
 
-static int diplomat_dialog_open = 0;
+static GtkWidget *diplomat_dialog;
 static int diplomat_id;
 static int diplomat_target_id;
 
@@ -152,8 +147,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
   GtkWidget *shell, *label, *headline_label, *sw;
 
-  shell = gtk_dialog_new_with_buttons(
-	caption,
+  shell = gtk_dialog_new_with_buttons(caption,
 	GTK_WINDOW(toplevel),
 	0,
 	GTK_STOCK_CLOSE,
@@ -196,7 +190,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
 /****************************************************************
 ...
 *****************************************************************/
-static void notify_goto_callback(GtkWidget *w, gint response_id)
+static void notify_goto_response(GtkWidget *w, gint response)
 {
   struct city *pcity = NULL;
   int x, y;
@@ -204,7 +198,7 @@ static void notify_goto_callback(GtkWidget *w, gint response_id)
   x = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(w), "x"));
   y = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(w), "y"));
 
-  switch (response_id) {
+  switch (response) {
   case 1:
     center_tile_mapcanvas(x, y);
     break;
@@ -268,10 +262,28 @@ void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
   g_object_set_data(G_OBJECT(shell), "x", GINT_TO_POINTER(x));
   g_object_set_data(G_OBJECT(shell), "y", GINT_TO_POINTER(y));
 
-  g_signal_connect(shell, "response", G_CALLBACK(notify_goto_callback), NULL);
+  g_signal_connect(shell, "response", G_CALLBACK(notify_goto_response), NULL);
   gtk_widget_show(shell);
 }
 
+
+/****************************************************************
+...
+*****************************************************************/
+static void bribe_response(GtkWidget *w, gint response)
+{
+  if (response == GTK_RESPONSE_YES) {
+    struct packet_diplomat_action req;
+
+    req.action_type=DIPLOMAT_BRIBE;
+    req.diplomat_id=diplomat_id;
+    req.target_id=diplomat_target_id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+  gtk_widget_destroy(w);
+  gtk_widget_destroy(diplomat_dialog);
+}
 
 /****************************************************************
 ...  Ask the server how much the bribe is
@@ -280,15 +292,13 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 {
   struct packet_generic_integer packet;
 
-  destroy_message_dialog(w);
-  
   if(find_unit_by_id(diplomat_id) && 
      find_unit_by_id(diplomat_target_id)) { 
     packet.value = diplomat_target_id;
     send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
    }
 }
- 
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -298,31 +308,22 @@ void popup_bribe_dialog(struct unit *punit)
   
   if(game.player_ptr->economic.gold>=punit->bribe_cost) {
     shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
-      GTK_DIALOG_MODAL,
+      0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
       _("Bribe unit for %d gold?\nTreasury contains %d gold."),
       punit->bribe_cost, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Bribe Enemy Unit"));
   } else {
     shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
-      GTK_DIALOG_MODAL,
+      0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("Bribing the unit costs %d gold.\nTreasury contains %d gold."),
       punit->bribe_cost, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
   }
-
-  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_BRIBE;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
-  }
-
-  gtk_widget_destroy(shell);
+  gtk_window_present(GTK_WINDOW(shell));
+  
+  g_signal_connect(shell, "response", G_CALLBACK(bribe_response), NULL);
 }
 
 /****************************************************************
@@ -330,9 +331,6 @@ void popup_bribe_dialog(struct unit *punit)
 *****************************************************************/
 static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 {
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
     struct packet_diplomat_action req;
@@ -344,8 +342,7 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-
-  process_diplomat_arrival(NULL, 0);
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -353,9 +350,6 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 {
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
     struct packet_diplomat_action req;
@@ -366,8 +360,7 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-
-  process_diplomat_arrival(NULL, 0);
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -375,7 +368,6 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
-
   struct packet_diplomat_action req;
   
   req.action_type=SPY_SABOTAGE_UNIT;
@@ -383,8 +375,8 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
   req.target_id=diplomat_target_id;
   
   send_packet_diplomat_action(&aconnection, &req);
-  
-  destroy_message_dialog(w);
+
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -392,9 +384,6 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 {
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
     struct packet_diplomat_action req;
@@ -405,8 +394,7 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-
-  process_diplomat_arrival(NULL, 0);
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -414,9 +402,6 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void spy_poison_callback(GtkWidget *w, gpointer data)
 {
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
     struct packet_diplomat_action req;
@@ -427,8 +412,7 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-
-  process_diplomat_arrival(NULL, 0);
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -436,9 +420,6 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 {
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
     struct packet_diplomat_action req;
@@ -450,317 +431,294 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-
-  process_diplomat_arrival(NULL, 0);
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void spy_close_tech_callback(GtkWidget *w, gpointer data)
+static void spy_advances_response(GtkWidget *w, gint response, gpointer data)
 {
+  if (response == GTK_RESPONSE_ACCEPT && steal_advance > 0) {
+    if (find_unit_by_id(diplomat_id) && 
+        find_city_by_id(diplomat_target_id)) { 
+      struct packet_diplomat_action req;
+    
+      req.action_type = DIPLOMAT_STEAL;
+      req.value = steal_advance;
+      req.diplomat_id = diplomat_id;
+      req.target_id = diplomat_target_id;
 
-  if(spy_tech_shell_is_modal)
-     gtk_widget_set_sensitive(top_vbox, TRUE);
+      send_packet_diplomat_action(&aconnection, &req);
+    }
+  }
   gtk_widget_destroy(spy_tech_shell);
   spy_tech_shell = NULL;
 
-  process_diplomat_arrival(NULL, 0);
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void spy_close_sabotage_callback(GtkWidget *w, gpointer data)
+static void spy_advances_callback(GtkTreeSelection *select, gpointer data)
 {
+  GtkTreeModel *model;
+  GtkTreeIter it;
 
-  if(spy_sabotage_shell_is_modal)
-     gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(spy_sabotage_shell);
-  spy_sabotage_shell = NULL;
-
-  process_diplomat_arrival(NULL, 0);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void spy_select_tech_callback(GtkWidget *w, gint row, gint column)
-{
-  if (advance_type[row] != -1){
-    steal_advance = advance_type[row];
-    gtk_widget_set_sensitive(spy_steal_command, TRUE);
-    return;
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void spy_uselect_tech_callback(GtkWidget *w, gint row, gint column)
-{
-  gtk_widget_set_sensitive(spy_steal_command, FALSE);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void spy_select_improvement_callback(GtkWidget *w, gint row,
-					    gint column)
-{
-  sabotage_improvement = improvement_type[row];
-  gtk_widget_set_sensitive(spy_sabotage_command, TRUE);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void spy_uselect_improvement_callback(GtkWidget *w, gint row,
-					     gint column)
-{
-  gtk_widget_set_sensitive(spy_sabotage_command, FALSE);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void spy_steal_callback(GtkWidget *w, gpointer data)
-{  
-  gtk_widget_destroy(spy_tech_shell);
-  spy_tech_shell = NULL;
-  
-  if(!steal_advance){
-    freelog(LOG_ERROR, "Bug in spy steal tech code.");
-    process_diplomat_arrival(NULL, 0);
-    return;
-  }
-  
-  if(find_unit_by_id(diplomat_id) && 
-     find_city_by_id(diplomat_target_id)) { 
-    struct packet_diplomat_action req;
+  if (gtk_tree_selection_get_selected(select, &model, &it)) {
+    gtk_tree_model_get(model, &it, 1, &steal_advance, -1);
     
-    req.action_type=DIPLOMAT_STEAL;
-    req.value=steal_advance;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
+      GTK_RESPONSE_ACCEPT, TRUE);
+  } else {
+    steal_advance = 0;
+	  
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
+      GTK_RESPONSE_ACCEPT, FALSE);
   }
-
-  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void spy_sabotage_callback(GtkWidget *w, gpointer data)
+static void create_advances_list(struct player *pplayer,
+				 struct player *pvictim)
 {  
-  gtk_widget_destroy(spy_sabotage_shell);
-  spy_sabotage_shell = NULL;
-  
-  if(!sabotage_improvement){
-    freelog(LOG_ERROR, "Bug in spy sabotage code");
-    process_diplomat_arrival(NULL, 0);
-    return;
-  }
-  
-  if(find_unit_by_id(diplomat_id) && 
-     find_city_by_id(diplomat_target_id)) { 
-    struct packet_diplomat_action req;
-    
-    req.action_type=DIPLOMAT_SABOTAGE;
-    req.value=sabotage_improvement+1;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
-  }
-
-  process_diplomat_arrival(NULL, 0);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static int create_advances_list(struct player *pplayer,
-				struct player *pvictim, bool make_modal)
-{  
-  GtkWidget *close_command, *scrolled;
+  GtkWidget *sw, *label, *vbox, *view;
   int i, j;
-  static char *title[1] = { N_("Select Advance to Steal") };
-  static bool title_done;
-  GtkAccelGroup *accel=gtk_accel_group_new();
+  GtkListStore *store;
+  GtkCellRenderer *rend;
+  GtkTreeViewColumn *col;
 
-  intl_slist(ARRAY_SIZE(title), title, &title_done);
+  spy_tech_shell = gtk_dialog_new_with_buttons(_("Steal Technology"),
+    GTK_WINDOW(toplevel),
+    0,
+    GTK_STOCK_CANCEL,
+    GTK_RESPONSE_CANCEL,
+    _("_Steal"),
+    GTK_RESPONSE_ACCEPT,
+    NULL);
+  gtk_window_set_position(GTK_WINDOW(spy_tech_shell), GTK_WIN_POS_MOUSE);
+
+  gtk_dialog_set_default_response(GTK_DIALOG(spy_tech_shell),
+				  GTK_RESPONSE_ACCEPT);
+
+  label = gtk_frame_new(_("Select Advance to Steal"));
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(spy_tech_shell)->vbox), label);
+
+  vbox = gtk_vbox_new(FALSE, 6);
+  gtk_container_add(GTK_CONTAINER(label), vbox);
+      
+  store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+
+  rend = gtk_cell_renderer_text_new();
+  col = gtk_tree_view_column_new_with_attributes(NULL, rend,
+						 "text", 0, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+    "use-underline", TRUE,
+    "mnemonic-widget", view,
+    "label", _("_Advances:"),
+    "xalign", 0.0,
+    "yalign", 0.5,
+    NULL);
+  gtk_container_add(GTK_CONTAINER(vbox), label);
   
-  spy_tech_shell = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(spy_tech_shell),_("Steal Technology"));
-  gtk_window_set_position (GTK_WINDOW(spy_tech_shell), GTK_WIN_POS_MOUSE);
-//  gtk_accel_group_attach(accel, GTK_OBJECT(spy_tech_shell));
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+    GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+  gtk_widget_set_size_request(sw, -1, 200);
   
-  spy_advances_list = gtk_clist_new_with_titles(1, title);
-  gtk_clist_column_titles_passive(GTK_CLIST(spy_advances_list));
-
-  scrolled = gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled),spy_advances_list);
-
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_widget_set_usize( scrolled, 180, 250 );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(spy_tech_shell)->vbox ),
-	scrolled, TRUE, TRUE, 0 );
-  gtk_clist_set_column_width(GTK_CLIST(spy_advances_list), 0,
-        GTK_CLIST(spy_advances_list)->clist_window_width);
-
-  close_command = gtk_button_new_with_label(_("Close"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(spy_tech_shell)->action_area ),
-	close_command, TRUE, TRUE, 0 );
-  gtk_widget_add_accelerator(close_command, "clicked", accel, GDK_Escape, 0, 0);
-
-  spy_steal_command = gtk_button_new_with_label(_("Steal"));
-  gtk_widget_set_sensitive(spy_steal_command, FALSE);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(spy_tech_shell)->action_area ),
-	spy_steal_command, TRUE, TRUE, 0 );
-
-
-  gtk_signal_connect(GTK_OBJECT(spy_advances_list), "select_row",
-	GTK_SIGNAL_FUNC(spy_select_tech_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(spy_advances_list), "unselect_row",
-	GTK_SIGNAL_FUNC(spy_uselect_tech_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
-	GTK_SIGNAL_FUNC(spy_close_tech_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(spy_steal_command), "clicked",
-	GTK_SIGNAL_FUNC(spy_steal_callback), NULL);
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   /* Now populate the list */
-  gtk_clist_freeze(GTK_CLIST(spy_advances_list));
-
   j = 0;
-  advance_type[j] = -1;
 
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
-    gchar *row[1];
+    GtkTreeIter it;
+    GValue value = { 0, };
 
     for(i=A_FIRST; i<game.num_tech_types; i++) {
       if(get_invention(pvictim, i)==TECH_KNOWN && 
 	 (get_invention(pplayer, i)==TECH_UNKNOWN || 
 	  get_invention(pplayer, i)==TECH_REACHABLE)) {
+	gtk_list_store_append(store, &it);
 
-	row[0] = advances[i].name;
-	gtk_clist_append(GTK_CLIST(spy_advances_list), row);
-        advance_type[j++] = i;
+	g_value_init(&value, G_TYPE_STRING);
+	g_value_set_static_string(&value, advances[i].name);
+	gtk_list_store_set_value(store, &it, 0, &value);
+	g_value_unset(&value);
+	gtk_list_store_set(store, &it, 1, i, -1);
+        j++;
       }
     }
 
     if(j > 0) {
-      row[0] = _("At Spy's Discretion");
-      gtk_clist_append(GTK_CLIST(spy_advances_list), row);
-      advance_type[j++] = game.num_tech_types;
+      gtk_list_store_append(store, &it);
+
+      g_value_init(&value, G_TYPE_STRING);
+      g_value_set_static_string(&value, _("At Spy's Discretion"));
+      gtk_list_store_set_value(store, &it, 0, &value);
+      g_value_unset(&value);
+      gtk_list_store_set(store, &it, 1, game.num_tech_types, -1);
     }
   }
 
-  if(j == 0) {
-    static char *row[1] = { N_("NONE") };
-    static bool row_done;
-    
-    intl_slist(ARRAY_SIZE(row), row, &row_done);
-  
-    gtk_clist_append(GTK_CLIST(spy_advances_list), row);
-    j++;
-  }
-  gtk_clist_thaw(GTK_CLIST(spy_advances_list));
-
-  gtk_widget_set_sensitive(spy_steal_command, FALSE);
+  gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
+    GTK_RESPONSE_ACCEPT, FALSE);
   
   gtk_widget_show_all(GTK_DIALOG(spy_tech_shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(spy_tech_shell)->action_area);
-  return j;
+
+  g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
+		   G_CALLBACK(spy_advances_callback), NULL);
+  g_signal_connect(spy_tech_shell, "response",
+		   G_CALLBACK(spy_advances_response), NULL);
+  
+  steal_advance = 0;
+
+  gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static int create_improvements_list(struct player *pplayer,
-				    struct city *pcity, bool make_modal)
+static void spy_improvements_response(GtkWidget *w, gint response, gpointer data)
+{
+  if (response == GTK_RESPONSE_ACCEPT && sabotage_improvement > -2) {
+    if (find_unit_by_id(diplomat_id) && 
+        find_city_by_id(diplomat_target_id)) { 
+      struct packet_diplomat_action req;
+    
+      req.action_type = DIPLOMAT_SABOTAGE;
+      req.value = sabotage_improvement+1;
+      req.diplomat_id = diplomat_id;
+      req.target_id = diplomat_target_id;
+
+      send_packet_diplomat_action(&aconnection, &req);
+    }
+  }
+  gtk_widget_destroy(spy_sabotage_shell);
+  spy_sabotage_shell = NULL;
+
+  gtk_widget_destroy(diplomat_dialog);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+
+  if (gtk_tree_selection_get_selected(select, &model, &it)) {
+    gtk_tree_model_get(model, &it, 1, &sabotage_improvement, -1);
+    
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
+      GTK_RESPONSE_ACCEPT, TRUE);
+  } else {
+    sabotage_improvement = -2;
+	  
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
+      GTK_RESPONSE_ACCEPT, FALSE);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void create_improvements_list(struct player *pplayer,
+				     struct city *pcity)
 {  
-  GtkWidget *close_command, *scrolled;
-  int j;
-  gchar *row[1];
-  static char *title[1] = { N_("Select Improvement to Sabotage") };
-  static bool title_done;
-  GtkAccelGroup *accel=gtk_accel_group_new();
-
-  intl_slist(ARRAY_SIZE(title), title, &title_done);
+  GtkWidget *sw, *label, *vbox, *view;
+  GtkListStore *store;
+  GtkCellRenderer *rend;
+  GtkTreeViewColumn *col;
+  GtkTreeIter it;
   
-  spy_sabotage_shell = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(spy_sabotage_shell),_("Sabotage Improvements"));
-  gtk_window_set_position (GTK_WINDOW(spy_sabotage_shell), GTK_WIN_POS_MOUSE);
-//  gtk_accel_group_attach(accel, GTK_OBJECT(spy_sabotage_shell));
-  
-  spy_improvements_list = gtk_clist_new_with_titles(1, title);
-  gtk_clist_column_titles_passive(GTK_CLIST(spy_improvements_list));
-  scrolled = gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), spy_improvements_list);
+  spy_sabotage_shell = gtk_dialog_new_with_buttons(_("Sabotage Improvements"),
+    GTK_WINDOW(toplevel),
+    0,
+    GTK_STOCK_CANCEL,
+    GTK_RESPONSE_CANCEL,
+    _("_Sabotage"), 
+    GTK_RESPONSE_ACCEPT,
+    NULL);
+  gtk_window_set_position(GTK_WINDOW(spy_sabotage_shell), GTK_WIN_POS_MOUSE);
 
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_widget_set_usize( scrolled, 180, 250 );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(spy_sabotage_shell)->vbox ),
-	scrolled, TRUE, TRUE, 0 );
-  gtk_clist_set_column_width(GTK_CLIST(spy_improvements_list), 0,
-        GTK_CLIST(spy_improvements_list)->clist_window_width);
+  gtk_dialog_set_default_response(GTK_DIALOG(spy_sabotage_shell),
+				  GTK_RESPONSE_ACCEPT);
 
-  close_command = gtk_button_new_with_label(_("Close"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(spy_sabotage_shell)->action_area ),
-	close_command, TRUE, TRUE, 0 );
-  gtk_widget_add_accelerator(close_command, "clicked", accel, GDK_Escape, 0, 0);
-  
-  spy_sabotage_command = gtk_button_new_with_label(_("Sabotage"));
-  gtk_widget_set_sensitive(spy_sabotage_command, FALSE);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(spy_sabotage_shell)->action_area ),
-	spy_sabotage_command, TRUE, TRUE, 0 );
-  
+  label = gtk_frame_new(_("Select Improvement to Sabotage"));
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(spy_sabotage_shell)->vbox), label);
 
-  gtk_signal_connect(GTK_OBJECT(spy_improvements_list), "select_row",
-	GTK_SIGNAL_FUNC(spy_select_improvement_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(spy_improvements_list), "unselect_row",
-	GTK_SIGNAL_FUNC(spy_uselect_improvement_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
-	GTK_SIGNAL_FUNC(spy_close_sabotage_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(spy_sabotage_command), "clicked",
-	GTK_SIGNAL_FUNC(spy_sabotage_callback), NULL);
+  vbox = gtk_vbox_new(FALSE, 6);
+  gtk_container_add(GTK_CONTAINER(label), vbox);
+      
+  store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+
+  rend = gtk_cell_renderer_text_new();
+  col = gtk_tree_view_column_new_with_attributes(NULL, rend,
+						 "text", 0, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+    "use-underline", TRUE,
+    "mnemonic-widget", view,
+    "label", _("_Improvements:"),
+    "xalign", 0.0,
+    "yalign", 0.5,
+    NULL);
+  gtk_container_add(GTK_CONTAINER(vbox), label);
+  
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+    GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+  gtk_widget_set_size_request(sw, -1, 200);
+  
+  gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   /* Now populate the list */
-  gtk_clist_freeze(GTK_CLIST(spy_improvements_list));
-
-  j = 0;
-  row[0] = _("City Production");
-  gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
-  improvement_type[j++] = -1;
+  gtk_list_store_append(store, &it);
+  gtk_list_store_set(store, &it, 0, _("City Production"), 1, -1, -1);
 
   built_impr_iterate(pcity, i) {
-    if(i != B_PALACE && !is_wonder(i)) {
-      row[0] = (char *) get_impr_name_ex(pcity, i);
-      gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
-      improvement_type[j++] = i;
+    if (i != B_PALACE && !is_wonder(i)) {
+      gtk_list_store_append(store, &it);
+      gtk_list_store_set(store, &it, 0, get_impr_name_ex(pcity, i), 1, i, -1);
     }  
   } built_impr_iterate_end;
 
-  if(j > 1) {
-    row[0] = _("At Spy's Discretion");
-    gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
-    improvement_type[j++] = B_LAST;
-  } else {
-    improvement_type[0] = B_LAST; /* fake "discretion", since must be production */
-  }
+  gtk_list_store_append(store, &it);
+  gtk_list_store_set(store, &it, 0, _("At Spy's Discretion"), 1, B_LAST, -1);
 
-  gtk_clist_thaw(GTK_CLIST(spy_improvements_list));
-
-  gtk_widget_set_sensitive(spy_sabotage_command, FALSE);
-
+  gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
+    GTK_RESPONSE_ACCEPT, FALSE);
+  
   gtk_widget_show_all(GTK_DIALOG(spy_sabotage_shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(spy_sabotage_shell)->action_area);
-  return j;
+
+  g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
+		   G_CALLBACK(spy_improvements_callback), NULL);
+  g_signal_connect(spy_sabotage_shell, "response",
+		   G_CALLBACK(spy_improvements_response), NULL);
+
+  sabotage_improvement = -2;
+	  
+  gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
 /****************************************************************
@@ -778,16 +736,9 @@ static void spy_steal_popup(GtkWidget *w, gpointer data)
 has happened to the city during latency.  Therefore we must initialize
 pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
   if(!spy_tech_shell){
-    spy_tech_shell_is_modal=1;
-
-    create_advances_list(game.player_ptr, pvictim, spy_tech_shell_is_modal);
-    gtk_set_relative_position (toplevel, spy_tech_shell, 10, 10);
-
-    gtk_widget_show(spy_tech_shell);
+    create_advances_list(game.player_ptr, pvictim);
+    gtk_window_present(GTK_WINDOW(spy_tech_shell));
   }
 }
 
@@ -797,9 +748,6 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 *****************************************************************/
 static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 {
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
     struct packet_diplomat_action req;
@@ -819,12 +767,8 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 void popup_sabotage_dialog(struct city *pcity)
 {
   if(!spy_sabotage_shell){
-    spy_sabotage_shell_is_modal=1;
-
-    create_improvements_list(game.player_ptr, pcity, spy_sabotage_shell_is_modal);
-    gtk_set_relative_position (toplevel, spy_sabotage_shell, 10, 10);
-
-    gtk_widget_show(spy_sabotage_shell);
+    create_improvements_list(game.player_ptr, pcity);
+    gtk_window_present(GTK_WINDOW(spy_sabotage_shell));
   }
 }
 
@@ -836,14 +780,29 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
   struct city *pcity;
   struct packet_generic_integer packet;
 
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-  
   if(find_unit_by_id(diplomat_id) && 
      (pcity=find_city_by_id(diplomat_target_id))) { 
     packet.value = diplomat_target_id;
     send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
   }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void incite_response(GtkWidget *w, gint response)
+{
+  if (response == GTK_RESPONSE_YES) {
+    struct packet_diplomat_action req;
+
+    req.action_type=DIPLOMAT_INCITE;
+    req.diplomat_id=diplomat_id;
+    req.target_id=diplomat_target_id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+  gtk_widget_destroy(w);
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -855,40 +814,29 @@ void popup_incite_dialog(struct city *pcity)
   
   if (pcity->incite_revolt_cost == INCITE_IMPOSSIBLE_COST) {
     shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
-      GTK_DIALOG_MODAL,
+      0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("You can't incite a revolt in %s."),
       pcity->name);
     gtk_window_set_title(GTK_WINDOW(shell), _("City can't be incited!"));
   } else if (game.player_ptr->economic.gold >= pcity->incite_revolt_cost) {
     shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
-      GTK_DIALOG_MODAL,
+      0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
       _("Incite a revolt for %d gold?\nTreasury contains %d gold."),
       pcity->incite_revolt_cost, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Incite a Revolt!"));
   } else {
     shell = gtk_message_dialog_new(GTK_WINDOW(toplevel),
-      GTK_DIALOG_MODAL,
+      0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
       _("Inciting a revolt costs %d gold.\nTreasury contains %d gold."),
       pcity->incite_revolt_cost, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
   }
-
-  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_INCITE;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
-  }
-
-  gtk_widget_destroy(shell);
-
-  process_diplomat_arrival(NULL, 0);
+  gtk_window_present(GTK_WINDOW(shell));
+  
+  g_signal_connect(shell, "response", G_CALLBACK(incite_response), NULL);
 }
 
 
@@ -901,9 +849,6 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
   struct unit *punit;
   struct city *pcity;
   
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
   if( (punit=find_unit_by_id(diplomat_id))
       && (pcity=find_city_by_id(diplomat_target_id))
       && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
@@ -913,20 +858,26 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
     req.target_id = diplomat_target_id;
     send_packet_diplomat_action(&aconnection, &req);
   }
+  gtk_widget_destroy(diplomat_dialog);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void diplomat_destroy_callback(GtkWidget *w, gpointer data)
+{
+  diplomat_dialog = NULL;
   process_diplomat_arrival(NULL, 0);
 }
+
 
 /****************************************************************
 ...
 *****************************************************************/
 static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
 {
-  destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-
-  process_diplomat_arrival(NULL, 0);
+  gtk_widget_destroy(diplomat_dialog);
 }
-
 
 /****************************************************************
 ...
@@ -938,89 +889,106 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
   GtkWidget *shl;
   char buf[128];
 
-  diplomat_id=punit->id;
+  diplomat_id = punit->id;
 
-  if((pcity=map_get_city(dest_x, dest_y))){
+  if ((pcity = map_get_city(dest_x, dest_y))) {
     /* Spy/Diplomat acting against a city */
 
-    diplomat_target_id=pcity->id;
+    diplomat_target_id = pcity->id;
     my_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name(punit->type), pcity->name);
 
-    if(!unit_flag(punit, F_SPY)){
-      shl=popup_message_dialog(top_vbox, /*"diplomatdialog"*/
-			       _(" Choose Your Diplomat's Strategy"), buf,
-         		     _("Establish _Embassy"), diplomat_embassy_callback, 0,
-         		     _("_Investigate City"), diplomat_investigate_callback, 0,
-         		     _("_Sabotage City"), diplomat_sabotage_callback, 0,
-         		     _("Steal _Technology"), diplomat_steal_callback, 0,
-         		     _("Incite a _Revolt"), diplomat_incite_callback, 0,
-         		     _("_Keep moving"), diplomat_keep_moving_callback, 0,
-         		     _("_Cancel"), diplomat_cancel_callback, 0,
-         		     0);
-      
-      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button0",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button1",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button2",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button3",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button4",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button5",FALSE);
-    }else{
-       shl=popup_message_dialog(top_vbox, /*"spydialog"*/
-				_("Choose Your Spy's Strategy"), buf,
- 			      _("Establish _Embassy"), diplomat_embassy_callback, 0,
- 			      _("_Investigate City (free)"), diplomat_investigate_callback, 0,
- 			      _("_Poison City"), spy_poison_callback,0,
- 			      _("Industrial _Sabotage"), spy_request_sabotage_list, 0,
- 			      _("Steal _Technology"), spy_steal_popup, 0,
- 			      _("Incite a _Revolt"), diplomat_incite_callback, 0,
- 			      _("_Keep moving"), diplomat_keep_moving_callback, 0,
- 			      _("_Cancel"), diplomat_cancel_callback, 0,
- 			      0);
- 
-      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button0",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button1",FALSE);
-      if(!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button2",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button3",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button4",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button5",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
-       message_dialog_button_set_sensitive(shl,"button6",FALSE);
+    if (!unit_flag(punit, F_SPY)){
+      shl = popup_message_dialog(GTK_WINDOW(toplevel),
+	_(" Choose Your Diplomat's Strategy"), buf,
+	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
+	_("_Investigate City"), diplomat_investigate_callback, NULL,
+	_("_Sabotage City"), diplomat_sabotage_callback, NULL,
+	_("Steal _Technology"), diplomat_steal_callback, NULL,
+	_("Incite a _Revolt"), diplomat_incite_callback, NULL,
+	_("_Keep moving"), diplomat_keep_moving_callback, NULL,
+	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
+	NULL);
+
+      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 0, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 1, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 2, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 3, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 4, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 5, FALSE);
+    } else {
+       shl = popup_message_dialog(GTK_WINDOW(toplevel),
+	_("Choose Your Spy's Strategy"), buf,
+	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
+	_("_Investigate City (free)"), diplomat_investigate_callback, NULL,
+	_("_Poison City"), spy_poison_callback, NULL,
+	_("Industrial _Sabotage"), spy_request_sabotage_list, NULL,
+	_("Steal _Technology"), spy_steal_popup, NULL,
+	_("Incite a _Revolt"), diplomat_incite_callback, NULL,
+	_("_Keep moving"), diplomat_keep_moving_callback, NULL,
+	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
+	NULL);
+
+      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 0, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 1, FALSE);
+      if (!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 2, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 3, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 4, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 5, FALSE);
+      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
+	message_dialog_button_set_sensitive(shl, 6, FALSE);
      }
 
-    diplomat_dialog_open=1;
-   }else{ 
-     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
-       /* Spy/Diplomat acting against a unit */ 
+    diplomat_dialog = shl;
+
+    message_dialog_set_hide(shl, TRUE);
+    g_signal_connect(shl, "destroy",
+		     G_CALLBACK(diplomat_destroy_callback), NULL);
+    g_signal_connect(shl, "delete_event",
+		     G_CALLBACK(diplomat_cancel_callback), NULL);
+  } else { 
+    if ((ptunit = unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
+      /* Spy/Diplomat acting against a unit */ 
        
-       diplomat_target_id=ptunit->id;
+      diplomat_target_id = ptunit->id;
  
-       shl=popup_message_dialog(top_vbox, /*"spybribedialog"*/_("Subvert Enemy Unit"),
-                              (!unit_flag(punit, F_SPY))?
- 			      _("Sir, the diplomat is waiting for your command"):
- 			      _("Sir, the spy is waiting for your command"),
- 			      _("_Bribe Enemy Unit"), diplomat_bribe_callback, 0,
- 			      _("_Sabotage Enemy Unit"), spy_sabotage_unit_callback, 0,
- 			      _("_Cancel"), diplomat_cancel_callback, 0,
- 			      0);
-        
-       if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
-        message_dialog_button_set_sensitive(shl,"button0",FALSE);
-       if(!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y))
-        message_dialog_button_set_sensitive(shl,"button1",FALSE);
+      shl = popup_message_dialog(GTK_WINDOW(toplevel),
+	_("Subvert Enemy Unit"),
+	(!unit_flag(punit, F_SPY))?
+	_("Sir, the diplomat is waiting for your command"):
+	_("Sir, the spy is waiting for your command"),
+	_("_Bribe Enemy Unit"), diplomat_bribe_callback, NULL,
+	_("_Sabotage Enemy Unit"), spy_sabotage_unit_callback, NULL,
+	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
+	NULL);
+
+      if (!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y)) {
+	message_dialog_button_set_sensitive(shl, 0, FALSE);
+      }
+      if (!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y)) {
+	message_dialog_button_set_sensitive(shl, 1, FALSE);
+      }
+
+      diplomat_dialog = shl;
+
+      message_dialog_set_hide(shl, TRUE);
+      g_signal_connect(shl, "destroy",
+		       G_CALLBACK(diplomat_destroy_callback), NULL);
+      g_signal_connect(shl, "delete_event",
+		       G_CALLBACK(diplomat_cancel_callback), NULL);
     }
   }
 }
@@ -1030,7 +998,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 *****************************************************************/
 bool diplomat_dialog_is_open(void)
 {
-  return diplomat_dialog_open;
+  return diplomat_dialog != NULL;
 }
 
 /****************************************************************
@@ -1043,10 +1011,6 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
   req.city_id=caravan_city_id;
   req.name[0]='\0';
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
-    
-  destroy_message_dialog(w);
-  caravan_dialog = NULL;
-  process_caravan_arrival(NULL);
 }
 
 
@@ -1060,34 +1024,14 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
   req.city_id=caravan_city_id;
   req.name[0]='\0';
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
-
-  destroy_message_dialog(w);
-  caravan_dialog = NULL;
-  process_caravan_arrival(NULL);
 }
 
 
 /****************************************************************
 ...
 *****************************************************************/
-static void caravan_keep_moving_callback(GtkWidget *w, gpointer data)
+static void caravan_destroy_callback(GtkWidget *w, gpointer data)
 {
-#if 0   /* Now don't want to move at all in this case --dwp */
-  struct unit *punit;
-  struct city *pcity;
-  
-  if((punit=find_unit_by_id(caravan_unit_id)) && 
-     (pcity=find_city_by_id(caravan_city_id))) {
-    struct unit req_unit;
-
-    req_unit=*punit;
-    req_unit.x=pcity->x;
-    req_unit.y=pcity->y;
-    send_unit_info(&req_unit);
-  }
-#endif
-  
-  destroy_message_dialog(w);
   caravan_dialog = NULL;
   process_caravan_arrival(NULL);
 }
@@ -1100,7 +1044,6 @@ static void caravan_keep_moving_callback(GtkWidget *w, gpointer data)
 void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity)
 {
-  GtkWidget *b;
   char buf[128];
   
   my_snprintf(buf, sizeof(buf),
@@ -1110,24 +1053,23 @@ void popup_caravan_dialog(struct unit *punit,
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;
   
-  caravan_dialog=popup_message_dialog(top_vbox,
-			   /*"caravandialog"*/_("Your Caravan Has Arrived"), 
-			   buf,
-			   _("Establish _Traderoute"),caravan_establish_trade_callback, 0,
-			   _("Help build _Wonder"),caravan_help_build_wonder_callback, 0,
-			   _("_Keep moving"),caravan_keep_moving_callback, 0,
-			   0);
+  caravan_dialog = popup_message_dialog(GTK_WINDOW(toplevel),
+    _("Your Caravan Has Arrived"), 
+    buf,
+    _("Establish _Traderoute"),caravan_establish_trade_callback, NULL,
+    _("Help build _Wonder"),caravan_help_build_wonder_callback, NULL,
+    _("_Keep moving"), NULL, NULL,
+    NULL);
+
+  g_signal_connect(caravan_dialog, "destroy",
+		   G_CALLBACK(caravan_destroy_callback), NULL);
   
-  if(!can_establish_trade_route(phomecity, pdestcity))
-  {
-    b = gtk_object_get_data( GTK_OBJECT( caravan_dialog ), "button0" );
-    gtk_widget_set_sensitive( b, FALSE );
+  if (!can_establish_trade_route(phomecity, pdestcity)) {
+    message_dialog_button_set_sensitive(caravan_dialog, 0, FALSE);
   }
   
-  if(!unit_can_help_build_wonder(punit, pdestcity))
-  {
-    b = gtk_object_get_data( GTK_OBJECT( caravan_dialog ), "button1" );
-    gtk_widget_set_sensitive( b, FALSE );
+  if (!unit_can_help_build_wonder(punit, pdestcity)) {
+    message_dialog_button_set_sensitive(caravan_dialog, 1, FALSE);
   }
 }
 
@@ -1268,32 +1210,22 @@ void popup_revolution_dialog(void)
 *****************************************************************/
 static void pillage_callback(GtkWidget *w, gpointer data)
 {
-  if (!is_showing_pillage_dialog) {
-    destroy_message_dialog (w);
-    return;
-  }
-
   if (data) {
-    struct unit *punit = find_unit_by_id (unit_to_use_to_pillage);
+    struct unit *punit = find_unit_by_id(unit_to_use_to_pillage);
     if (punit) {
-      request_new_unit_activity_targeted (punit,
-					  ACTIVITY_PILLAGE,
-					  GPOINTER_TO_INT(data));
+      request_new_unit_activity_targeted(punit,
+					 ACTIVITY_PILLAGE,
+					 GPOINTER_TO_INT(data));
     }
   }
-
-  destroy_message_dialog (w);
-  is_showing_pillage_dialog = FALSE;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static gint pillage_del_callback(GtkWidget *widget, GdkEvent *event,
-				 gpointer data)
+static void pillage_destroy_callback(GtkWidget *w, gpointer data)
 {
-  pillage_callback((GtkWidget *)data, NULL);
-  return FALSE;
+  is_showing_pillage_dialog = FALSE;
 }
 
 /****************************************************************
@@ -1302,74 +1234,41 @@ static gint pillage_del_callback(GtkWidget *widget, GdkEvent *event,
 void popup_pillage_dialog(struct unit *punit,
 			  enum tile_special_type may_pillage)
 {
-  GtkWidget *dshell, *button, *dlabel, *vbox;
+  GtkWidget *shl;
 
   if (!is_showing_pillage_dialog) {
     is_showing_pillage_dialog = TRUE;
     unit_to_use_to_pillage = punit->id;
 
-    gtk_widget_set_sensitive (top_vbox, FALSE);
-
-    dshell = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
-    gtk_window_set_title (GTK_WINDOW(dshell), _("What To Pillage"));
-
-    vbox = gtk_vbox_new (0,TRUE);
-    gtk_container_add (GTK_CONTAINER (dshell), vbox);
-
-    gtk_container_border_width (GTK_CONTAINER (vbox), 5);
-
-    dlabel = gtk_label_new (_("Select what to pillage:"));
-    gtk_box_pack_start (GTK_BOX (vbox), dlabel, TRUE, FALSE, 0);
-
-    gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)top_vbox);
+    shl = message_dialog_start(GTK_WINDOW(toplevel),
+			       _("What To Pillage"),
+			       _("Select what to pillage:"));
 
     while (may_pillage != S_NO_SPECIAL) {
-      enum tile_special_type what = get_preferred_pillage (may_pillage);
+      enum tile_special_type what = get_preferred_pillage(may_pillage);
 
-      button = gtk_button_new_with_label (map_get_infrastructure_text (what));
-      gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
-      gtk_signal_connect (
-        GTK_OBJECT (button),
-        "clicked",
-        GTK_SIGNAL_FUNC (pillage_callback),
-        GINT_TO_POINTER(what)
-      );
-      may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
+      message_dialog_add(shl, map_get_infrastructure_text(what),
+			 G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
+
+      may_pillage &= (~(what | map_get_infrastructure_prerequisite(what)));
     }
-    button = gtk_button_new_with_label (_("Cancel"));
-    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
-    gtk_signal_connect (
-      GTK_OBJECT (button),
-      "clicked",
-      GTK_SIGNAL_FUNC (pillage_callback),
-      NULL
-    );
 
-    gtk_signal_connect (
-      GTK_OBJECT (dshell),
-      "delete_event",
-      GTK_SIGNAL_FUNC (pillage_del_callback),
-      (gpointer)button
-    );
+    message_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0);
 
-    gtk_widget_show_all (vbox);
-    gtk_widget_show (dshell);
+    message_dialog_end(shl);
+
+    g_signal_connect(shl, "destroy", G_CALLBACK(pillage_destroy_callback),
+		     NULL);   
   }
 }
 
 /****************************************************************
 handle buttons in unit connect dialog
 *****************************************************************/
-static void unit_connect_callback (GtkWidget *w, gpointer data)
+static void unit_connect_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
   int activity = GPOINTER_TO_INT(data);
-
-  if (!is_showing_unit_connect_dialog) {
-    destroy_message_dialog(w);
-    return;
-  }
 
   punit = find_unit_by_id(unit_to_use_to_connect);
 
@@ -1386,19 +1285,14 @@ static void unit_connect_callback (GtkWidget *w, gpointer data)
       update_unit_info_label(punit);
     }
   }
-
-  destroy_message_dialog(w);
-  is_showing_unit_connect_dialog = FALSE;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static gint unit_connect_del_callback(GtkWidget *widget, GdkEvent *event,
-				      gpointer data)
+static void unit_connect_destroy_callback(GtkWidget *w, gpointer data)
 {
-  unit_connect_callback((GtkWidget *)data, GINT_TO_POINTER(ACTIVITY_IDLE));
-  return FALSE;
+  is_showing_unit_connect_dialog = FALSE;
 }
 
 /****************************************************************
@@ -1406,7 +1300,7 @@ popup dialog which prompts for activity type (unit connect)
 *****************************************************************/
 void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
 {
-  GtkWidget *dshell, *button, *dlabel, *vbox;
+  GtkWidget *shl;
   int activity;
 
   if (is_showing_unit_connect_dialog) 
@@ -1417,150 +1311,173 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   connect_unit_x = dest_x;
   connect_unit_y = dest_y;
 
-  gtk_widget_set_sensitive (top_vbox, FALSE);
-
-  dshell = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
-
-  gtk_window_set_title (GTK_WINDOW(dshell), _("Connect"));
-
-  vbox = gtk_vbox_new (0,TRUE);
-  gtk_container_add (GTK_CONTAINER (dshell), vbox);
-
-  gtk_container_border_width (GTK_CONTAINER (vbox), 5);
-
-  dlabel = gtk_label_new (_("Choose unit activity:"));
-  gtk_box_pack_start (GTK_BOX (vbox), dlabel, TRUE, FALSE, 0);
-
-  gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)top_vbox);
+  shl = message_dialog_start(GTK_WINDOW(toplevel),
+			     _("Connect"),
+			     _("Choose unit activity:"));
 
   for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
     if (! can_unit_do_connect (punit, activity)) continue;
 
-    button = gtk_button_new_with_label (get_activity_text (activity));
-    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
-    gtk_signal_connect (
-      GTK_OBJECT (button),
-      "clicked",
-      GTK_SIGNAL_FUNC (unit_connect_callback),
-      GINT_TO_POINTER(activity)
-      );
+    message_dialog_add(shl, get_activity_text(activity),
+		       G_CALLBACK(unit_connect_callback),
+		       GINT_TO_POINTER(activity));
   }
-  button = gtk_button_new_with_label (_("Cancel"));
-  gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
-  gtk_signal_connect (
-    GTK_OBJECT (button),
-    "clicked",
-    GTK_SIGNAL_FUNC (unit_connect_callback),
-    GINT_TO_POINTER(ACTIVITY_IDLE)
-    );
 
-  gtk_signal_connect (
-    GTK_OBJECT (dshell),
-    "delete_event",
-    GTK_SIGNAL_FUNC (unit_connect_del_callback),
-    (gpointer)button
-  );
+  message_dialog_add(shl, GTK_STOCK_CANCEL, 
+		     G_CALLBACK(unit_connect_callback),
+		     GINT_TO_POINTER(ACTIVITY_IDLE));
 
-  gtk_widget_show_all (vbox);
-  gtk_widget_show (dshell);
+  message_dialog_end(shl);
+
+  g_signal_connect(shl, "destroy",
+		   G_CALLBACK(unit_connect_destroy_callback), NULL);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static gint popup_mes_del_callback(GtkWidget *widget, GdkEvent *event,
-				   gpointer data)
+void message_dialog_button_set_sensitive(GtkWidget *shl, int button,
+					 gboolean state)
 {
-  gtk_widget_set_sensitive( (GtkWidget *)data, TRUE );
-  return FALSE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void message_dialog_button_set_sensitive(GtkWidget *shl, char *bname,int state)
-{
+  char button_name[512];
   GtkWidget *b;
 
-  b = gtk_object_get_data( GTK_OBJECT( shl ), bname );
-  gtk_widget_set_sensitive( b, state );
+  my_snprintf(button_name, sizeof(button_name), "button%d", button);
+
+  b = g_object_get_data(G_OBJECT(shl), button_name);
+  gtk_widget_set_sensitive(b, state);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-GtkWidget *popup_message_dialog(GtkWidget *parent, const char *dialogname,
-				const char *text, ...)
+GtkWidget *message_dialog_start(GtkWindow *parent, const gchar *name,
+				const gchar *text)
 {
-  va_list args;
-  GtkWidget *dshell, *button, *dlabel, *vbox;
-  GtkAccelGroup *accel = gtk_accel_group_new();
-  void (*fcb)(GtkWidget *, gpointer);
-  gpointer data;
-  char *name;
-  char button_name[512];
-  int i;
+  GtkWidget *dshell, *dlabel, *vbox, *bbox;
 
-  gtk_widget_set_sensitive(parent, FALSE);
-  
-  dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  dshell = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
-//  gtk_accel_group_attach(accel, GTK_OBJECT(dshell));
 
-  gtk_signal_connect( GTK_OBJECT(dshell),"delete_event",
-	GTK_SIGNAL_FUNC(popup_mes_del_callback),(gpointer)parent );
-  gtk_window_set_title( GTK_WINDOW(dshell), dialogname );
+  gtk_window_set_title(GTK_WINDOW(dshell), name);
 
-  vbox = gtk_vbox_new(0,TRUE);
+  gtk_window_set_transient_for(GTK_WINDOW(dshell), parent);
+  gtk_window_set_destroy_with_parent(GTK_WINDOW(dshell), TRUE);
+
+  vbox = gtk_vbox_new(FALSE, 5);
   gtk_container_add(GTK_CONTAINER(dshell),vbox);
 
-  gtk_container_border_width(GTK_CONTAINER(vbox),5);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
 
   dlabel = gtk_label_new(text);
-  gtk_box_pack_start( GTK_BOX( vbox ), dlabel, TRUE, FALSE, 0 );
+  gtk_container_add(GTK_CONTAINER(vbox), dlabel);
 
-  gtk_object_set_data(GTK_OBJECT(vbox), "parent",(gpointer)parent);
-
-  i=0;
-  va_start(args, text);
+  bbox = gtk_vbutton_box_new();
+  gtk_box_set_spacing(GTK_BOX(bbox), 2);
+  gtk_container_add(GTK_CONTAINER(vbox), bbox);
   
-  while((name=va_arg(args, char *))) {
-    fcb=va_arg(args, void *);
-    data=va_arg(args, gpointer);
-    my_snprintf(button_name, sizeof(button_name), "button%d", i++);
-    
-    button=gtk_accelbutton_new(name, accel);
-    gtk_box_pack_start( GTK_BOX( vbox ), button, TRUE, FALSE, 0 );
-    
-    gtk_object_set_data( GTK_OBJECT( dshell ), button_name, button );
-
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(fcb),data );
-
-    if (i==1)
-      gtk_widget_grab_focus(button);
-  }
+  g_object_set_data(G_OBJECT(dshell), "bbox", bbox);
+  g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(0));
+  g_object_set_data(G_OBJECT(dshell), "hide", GINT_TO_POINTER(FALSE));
   
-  va_end(args);
-
-  gtk_widget_show_all( vbox );
-
-  gtk_widget_show(dshell);  
-
+  gtk_widget_show(vbox);
+  gtk_widget_show(dlabel);
+  
   return dshell;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void destroy_message_dialog(GtkWidget *button)
+static void message_dialog_clicked(GtkWidget *w, gpointer data)
 {
-  GtkWidget *parent;
+  if (g_object_get_data(G_OBJECT(data), "hide")) {
+    gtk_widget_hide(GTK_WIDGET(data));
+  } else {
+    gtk_widget_destroy(GTK_WIDGET(data));
+  }
+}
 
-  parent = gtk_object_get_data(GTK_OBJECT(button->parent),"parent");
-  gtk_widget_set_sensitive(parent, TRUE);
+/****************************************************************
+...
+*****************************************************************/
+void message_dialog_add(GtkWidget *dshell, const gchar *label,
+			GCallback handler, gpointer data)
+{
+  GtkWidget *button, *bbox;
+  char name[512];
+  int nbuttons;
 
-  gtk_widget_destroy(button->parent->parent);
+  bbox = g_object_get_data(G_OBJECT(dshell), "bbox");
+  nbuttons = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dshell), "nbuttons"));
+  g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(nbuttons+1));
+
+  my_snprintf(name, sizeof(name), "button%d", nbuttons);
+
+  button = gtk_button_new_from_stock(label);
+  gtk_container_add(GTK_CONTAINER(bbox), button);
+  g_object_set_data(G_OBJECT(dshell), name, button);
+
+  if (handler) {
+    g_signal_connect(button, "clicked", handler, data);
+  }
+
+  g_signal_connect_after(button, "clicked",
+			 G_CALLBACK(message_dialog_clicked), dshell);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void message_dialog_end(GtkWidget *dshell)
+{
+  GtkWidget *bbox;
+  
+  bbox = g_object_get_data(G_OBJECT(dshell), "bbox");
+  
+  gtk_widget_show_all(bbox);
+  gtk_widget_show(dshell);  
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void message_dialog_set_hide(GtkWidget *dshell, gboolean setting)
+{
+  g_object_set_data(G_OBJECT(dshell), "hide", GINT_TO_POINTER(setting));
+}
+
+/****************************************************************
+...
+*****************************************************************/
+GtkWidget *popup_message_dialog(GtkWindow *parent, const gchar *dialogname,
+				const gchar *text, ...)
+{
+  GtkWidget *dshell;
+  va_list args;
+  gchar *name;
+  int i;
+
+  dshell = message_dialog_start(parent, dialogname, text);
+  
+  i = 0;
+  va_start(args, text);
+
+  while ((name = va_arg(args, gchar *))) {
+    GCallback handler;
+    gpointer data;
+
+    handler = va_arg(args, GCallback);
+    data = va_arg(args, gpointer);
+
+    message_dialog_add(dshell, name, handler, data);
+  }
+
+  va_end(args);
+
+  message_dialog_end(dshell);
+
+  return dshell;
 }
 
 /**************************************************************************

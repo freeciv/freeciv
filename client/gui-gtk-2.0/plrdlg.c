@@ -225,7 +225,7 @@ void create_players_dialog(void)
 
   int i;
   GtkAccelGroup *accel = gtk_accel_group_new();
-  GtkWidget *sep;
+  GtkWidget *sep, *sw;
 
   model_types[1] = GDK_TYPE_PIXBUF;
   model_types[COLOR_COLUMN] = GDK_TYPE_COLOR;
@@ -289,9 +289,14 @@ void create_players_dialog(void)
 
   gtk_tree_view_set_search_column(GTK_TREE_VIEW(players_list), DEF_SORT_COLUMN);
 
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(players_dialog_shell)->vbox),
-    players_list);
-  gtk_widget_show_all(players_list);
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(players_dialog_shell)->vbox), sw);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+		                 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+  gtk_widget_set_size_request(sw, -1, 200);
+
+  gtk_container_add(GTK_CONTAINER(sw), players_list);
+  gtk_widget_show_all(sw);
 
   players_menu = gtk_menu_new();
   gtk_menu_set_accel_group(GTK_MENU(players_menu), accel);
