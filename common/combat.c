@@ -24,6 +24,10 @@
 Returns the chance of the attacker winning, a number between 0 and 1.
 If you want the chance that the defender wins just use 1-chance(...)
 
+NOTE: this number can be _very_ small, fx in a battle between an
+ironclad and a battleship the ironclad has less than 1/100000 chance of
+winning.
+
 The algoritm calculates the probability of each possible number of HP's
 the attacker has left. Maybe that info should be preserved for use in
 the AI.
@@ -397,6 +401,25 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
   return defensepower;
 }
 
+/**************************************************************************
+A number indicating the defense strength.
+Unlike the one got from win chance this doesn't potentially get insanely
+small if the units are unevenly matched, unlike win_chance.
+**************************************************************************/
+static int get_defense_rating(struct unit *attacker, struct unit *defender)
+{
+  int afp, dfp;
+
+  int rating = get_total_defense_power(attacker, defender);
+  get_modified_firepower(attacker, defender, &afp, &dfp);
+
+  /* How many rounds the defender will last */
+  rating *= (defender->hp + afp-1)/afp;
+
+  rating *= dfp;
+
+  return rating;
+}
 
 /**************************************************************************
 Finds the best defender on the square, given an attacker.
@@ -415,22 +438,37 @@ could be more valuable later.
 struct unit *get_defender(struct unit *attacker, int x, int y)
 {
   struct unit *bestdef = NULL;
-  int bestvalue = -1, count = 0, best_cost = 0;
+  int bestvalue = -1, count = 0, best_cost = 0, rating_of_best = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, defender) {
     if (players_allied(attacker->owner, defender->owner))
       continue;
     count++;
     if (unit_can_defend_here(defender)) {
-      /* convert chance (int [0;1]) to an integer */
+      int change = 0;
       int build_cost = get_unit_type(defender->type)->build_cost;
+
+      /* This will make units roughly evenly good defenders look alike. */
       int unit_def = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
       assert(unit_def >= 0);
-      if (unit_def > bestvalue ||
-	  (unit_def == bestvalue && build_cost < best_cost)) {
+
+      if (unit_def > bestvalue) {
+	change = 1;
+      } else if (unit_def == bestvalue) {
+	if (build_cost < best_cost) {
+	  change = 1;
+	} else if (build_cost == best_cost) {
+	  if (rating_of_best < get_defense_rating(attacker, defender)) {	
+	    change = 1;
+	  }
+	}
+      }
+
+      if (change) {
 	bestvalue = unit_def;
 	bestdef = defender;
 	best_cost = build_cost;
+	rating_of_best = get_defense_rating(attacker, bestdef);
       }
     }
   } unit_list_iterate_end;
