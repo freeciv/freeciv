@@ -583,19 +583,14 @@ int wants_to_be_bigger(struct city *pcity)
  * supported by the city, but held in other cities are updated to
  * reflect those cities as their new homecity.  Units supported 
  * by the bought city, that are not in a city square may be deleted.
- * This depends on the value of kill_outside.  Just in case the
- * supported units are in an unexplored part of the map, the 
- * area around them is lightened.
+ * This depends on the value of kill_outside.  If the units are in
+ * an unexplored square the area is automatically reveiled when the
+ * unit if created.
  *
  * - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
  *
  * If verbose is true, send extra messages to players detailing what
  * happens to all the units.  --dwp
- *
- * "if" statement added to see if the owner of pcity is the same as vcity. If so,
- * then the city is disbanded and not bought, and we only need to evaluate the
- * units supported by the city, and not those actually present.
- * - Thue <thue.kristensen@get2net.dk>
  *
  * Interpretation of kill_outside changed to mean the radius outside
  * of which supported units are killed.  If 0, all supported units not
@@ -608,9 +603,10 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   int x = vcity->x;
   int y = vcity->y;
 
-  if (city_owner(pcity)!=city_owner(vcity)) { /* true=>bought, false =>disbanded */
-    /* Transfer units in the city to the new owner */
-    unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
+  /* Transfer enemy units in the city to the new owner */
+  unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
+    /* 000608 wegge Dont transfer units already owned by new city-owner */ 
+    if (unit_owner(vunit) != pplayer) {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
       if (verbose) {
@@ -618,11 +614,12 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 		      unit_name(vunit->type), vcity->name,
 		      pvictim->name, pplayer->name);
       }
+      
       create_unit_full(pplayer, x, y, vunit->type, vunit->veteran,
 		       pcity->id, vunit->moves_left, vunit->hp);
       wipe_unit(0, vunit);
-    } unit_list_iterate_end;
-  }
+    }
+  } unit_list_iterate_end;
 
   /* Any remaining units supported by the city are either given new home
    * cities or maybe destroyed */
