@@ -36,6 +36,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#ifdef HAVE_WINSOCK
+# include <winsock.h>
+#endif
 
 #include "ioz.h"
 #include "shared.h"		/* bool type */

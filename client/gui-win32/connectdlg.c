@@ -849,7 +849,7 @@ static void start_server(char *cmdline)
 static void start_server_for_new_game(void)
 {
   char cmdline[512];
-  server_port=min_free_port();
+  server_port = find_next_free_port(DEFAULT_SOCK_PORT);
   my_snprintf(cmdline,sizeof(cmdline),"civserver -p %d",server_port);
   start_server(cmdline);   
 }
@@ -937,7 +937,7 @@ static void get_user_name()
 static void start_server_load_game(char *filename)
 {
   char cmdline[512];
-  server_port=min_free_port();
+  server_port = find_next_free_port(DEFAULT_SOCK_PORT);
   my_snprintf(cmdline,sizeof(cmdline),"civserver -p %d -f \"%s\"",
 	      server_port,filename);
   start_server(cmdline);

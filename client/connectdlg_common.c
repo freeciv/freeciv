@@ -145,7 +145,7 @@ bool client_start_server(void)
   append_output_window(_("Starting server..."));
 
   /* find a free port */ 
-  server_port = find_next_free_port(5555);
+  server_port = find_next_free_port(DEFAULT_SOCK_PORT);
 
   server_pid = fork();
   

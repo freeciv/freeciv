@@ -23,8 +23,6 @@ bool client_start_server(void);
 void client_kill_server(void);
 bool is_server_running(void);
 
-int min_free_port(void);
-
 void send_client_wants_hack(char *filename);
 void send_start_saved_game(void);
 void send_save_game(char *filename);
