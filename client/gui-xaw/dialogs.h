@@ -19,6 +19,7 @@
 
 struct tile;
 
+void popup_revolution_dialog(void);
 Widget popup_message_dialog(Widget parent, const char *shellname,
 			    const char *text, ...);
 void destroy_message_dialog(Widget button);
