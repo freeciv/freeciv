@@ -1346,6 +1346,9 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     return;
   }
 
+  pplayer1->diplstates[player2].contact_turns_left = game.contactturns;
+  pplayer2->diplstates[player1].contact_turns_left = game.contactturns;
+
   /* FIXME: Always declaring war for the AI is a kludge until AI
      diplomacy is implemented. */
   if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
@@ -1367,8 +1370,6 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
       || player_has_embassy(pplayer2, pplayer1)) {
     return; /* Avoid sending too much info over the network */
   }
-  pplayer1->diplstates[player2].contact_turns_left = game.contactturns;
-  pplayer2->diplstates[player1].contact_turns_left = game.contactturns;
   send_player_info(pplayer1, pplayer1);
   send_player_info(pplayer2, pplayer2);
 }
