@@ -40,12 +40,14 @@ extern Display	*display;
 extern int use_solid_color_behind_units;
 extern int sound_bell_at_new_turn;
 extern int smooth_move_units;
+extern int flags_are_transparent;
 
 /******************************************************************/
 Widget option_dialog_shell;
 Widget option_bg_toggle;
 Widget option_bell_toggle;
 Widget option_move_toggle;
+Widget option_flag_toggle;
 
 /******************************************************************/
 void create_option_dialog(void);
@@ -62,6 +64,7 @@ void popup_option_dialog(void)
   XtVaSetValues(option_bg_toggle, XtNstate, use_solid_color_behind_units, NULL);
   XtVaSetValues(option_bell_toggle, XtNstate, sound_bell_at_new_turn, NULL);
   XtVaSetValues(option_move_toggle, XtNstate, smooth_move_units, NULL);
+  XtVaSetValues(option_flag_toggle, XtNstate, flags_are_transparent, NULL);
   
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
   XtPopup(option_dialog_shell, XtGrabNone);
@@ -115,6 +118,13 @@ void create_option_dialog(void)
 						toggleWidgetClass, 
 						option_form,
 						NULL);
+  XtVaCreateManagedWidget("optionflaglabel",
+                          labelWidgetClass,
+			  option_form, NULL);
+  option_flag_toggle = XtVaCreateManagedWidget("optionflagtoggle",
+					       toggleWidgetClass,
+					       option_form,
+					       NULL);
   
   option_ok_command = XtVaCreateManagedWidget("optionokcommand", 
 					      commandWidgetClass,
@@ -150,4 +160,6 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   sound_bell_at_new_turn=b;
   XtVaGetValues(option_move_toggle, XtNstate, &b, NULL);
   smooth_move_units=b;
+  XtVaGetValues(option_flag_toggle, XtNstate, &b, NULL);
+  flags_are_transparent=b;
 }
