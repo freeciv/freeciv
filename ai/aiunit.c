@@ -618,17 +618,37 @@ static int stack_attack_value(int x, int y)
   return(val);
 }
 
-static void invasion_funct(struct unit *punit, bool dest, int n, int which)
-{ 
+/*************************************************************************
+  Mark an invasion threat of punit in the surrounding cities. The
+  given radius limites the area which is searched for cities. The
+  center of the area is either the unit itself (dest == FALSE) or the
+  destiniation of the current goto (dest == TRUE). The invasion threat
+  is marked in pcity->ai.invasion via ORing the "which" argument (to
+  tell attack from sea apart from ground unit attacks). Note that
+  "which" should only have one bit set.
+**************************************************************************/
+static void invasion_funct(struct unit *punit, bool dest, int radius,
+			   int which)
+{
   int x, y;
-  if (dest) { x = punit->goto_dest_x; y = punit->goto_dest_y; }
-  else { x = punit->x; y = punit->y; }
+  bool want_attack = (dest || punit->activity != ACTIVITY_GOTO);
 
-  square_iterate(x, y, n, i, j) {
-    struct city *pcity = map_get_city(i, j);
-    if (pcity && pcity->owner != punit->owner)
-      if (dest || punit->activity != ACTIVITY_GOTO || !has_defense(pcity))
-	pcity->ai.invasion |= which;
+  if (dest) {
+    x = punit->goto_dest_x;
+    y = punit->goto_dest_y;
+  } else {
+    x = punit->x;
+    y = punit->y;
+  }
+
+  square_iterate(x, y, radius, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+
+    if (pcity && pcity->owner != punit->owner
+	&& (pcity->ai.invasion & which) != which
+	&& (want_attack || !has_defense(pcity))) {
+      pcity->ai.invasion |= which;
+    }
   } square_iterate_end;
 }
 
