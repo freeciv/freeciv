@@ -1,13 +1,29 @@
 Welcome to Freeciv 1.7!
 
+This is release 1.7.1.
+
 Thanks again to all our developers, who continue to work so hard.
 
 For 1.7, a _lot_ of bugs have been fixed, new features added, and thanks
 to John Stonebraker, the AI is now so powerful that you'll probably want
-to handicap it. :-)
+to handicap it with the "normal" command. :-)
 
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.7.0:
+
+ - Removed two C++-style comments, the most reported problem with 1.7.0!
+ - Tweaks to the configure script for Solaris, although it's still not perfect.
+ - Spy and diplomat improvements.
+ - Added the "W" command, which Wakes up sentried units, 
+ - Added the "scorelog" command, which can be read by a script to generate
+   power graphs after the game.
+ - Loading games is now MUCH faster.
+ - AI improvements from John Stonebraker.
+ - Visual improvements to dialogs and the map screen.
+ - Settlers may not fortify.
+ - Numerous bug fixes.
 
 WHAT'S CHANGED SINCE 1.6.3:
 
