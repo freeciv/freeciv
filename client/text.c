@@ -455,8 +455,9 @@ const char *get_info_label_text(void)
 
   add_line(_("Population: %s"),
 	     population_to_text(civ_population(game.player_ptr)));
-  add_line(_("Year: %s"), textyear(game.year));
-  add_line(_("Gold: %d"), game.player_ptr->economic.gold);
+  add_line(_("Year: %s (T%d)"), textyear(game.year), game.turn);
+  add_line(_("Gold: %d (%+d)"), game.player_ptr->economic.gold,
+	   player_get_expected_income(game.player_ptr));
   add_line(_("Tax: %d Lux: %d Sci: %d"), game.player_ptr->economic.tax,
 	   game.player_ptr->economic.luxury,
 	   game.player_ptr->economic.science);
