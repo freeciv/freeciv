@@ -1,8 +1,9 @@
 ============================
 Die Installation von Freeciv
 ============================
+
 Diese Datei beschreibt die Compilierung und Installation von Freeciv.
-Stand: 04.07.01
+Stand: 09.07.01
 
 0. Voraussetzungen:
 ===================
@@ -373,7 +374,7 @@ ausprobieren:
      % make
 
 2. Falls sie ein eingedeutschtes Freeciv möchten, können sie es mit dem
-   von Freeciv mitgebrachten "gettext" versuchen, mittels
+   von Freeciv mitgelieferten "gettext" versuchen, mittels
    "--with-included-gettext" beim Aufruf von configure:
 
      % ./configure --with-included-gettext
@@ -382,7 +383,7 @@ ausprobieren:
 3. Schließlich können sie noch versuchen, die neueste Version von GNU
    gettext zu installieren. Sie können diese Version hier downloaden:
 
-     ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
+     ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.38.tar.gz
 
 6. Unterstützung von Readline
 =============================
@@ -418,6 +419,15 @@ benutzen musste, damit readline funktioniert. Diese Warnung sollte harmlos sein,
 sie ist nur als Erinnerung für die Leute gedacht, die für die Installation von
 readline verantwortlich sind, sprich Admins oder Paketersteller der
 Distributionen.
+
+Es ist aber auch möglich, Freeciv mit readline der Version < 4.2, (aber nicht
+mit 4.2) zum Laufen zu bekommen. Dazu muß in configure.in und in
+server/stdinhand.c "rl_filename_completion_function" mit
+"filename_completion_function" und "rl_completion_matches" mit
+"completion_matches" ersetzt werden, sowie das "const" vor dem 1. Argument von
+server/stdinhand.c:freeciv_completion() entfernt werden. Danach autoconf
+aufrufen und Freeciv neu übersetzen.
+ 
 
 7. Reiniers Hinweise zur Installation unter Solaris
 ===================================================
@@ -516,8 +526,8 @@ Der Ablauf:
   Dies bewirkt, daß bei den Aufrufen von Compiler und Linker die
   Optionen -I/-L/-R entsprechend gesetzt werden.
 
-9. Hinweise zu Mac OS X/Darwin
-==============================
+9. Hinweise zu Mac OS X/Darwin:
+===============================
 
 Apples Version des GCC benutzt sog. "precompiled headers" die das 
 vararg-Macro (eine GCC-Erweiterung) nicht unterstützen. Dies führt
@@ -543,3 +553,37 @@ ausprobieren, und sehen, welche funktioniert).
 
 <...> steht dabei für welche zusätzlichen Parameter sie auch immer
 an configure übergeben wollen.
+
+10. Hinweise zu Debian GNU/Linux:
+=================================
+
+Um Freeciv auf deinem Debian-System zu kompilieren benötigt man folgende
+Pakete:
+
+  Allgemein:
+    gcc
+    libc6-dev
+    libreadline4-dev >= 4.2 (optional, see readline section)
+    zlib1g-dev
+    xlib6g-dev
+ 
+  GTK-Client:
+    gdk-imlib-dev
+    libglib1.2-dev
+    libgtk1.2-dev
+    imlib-progs
+ 
+  xaw-Client:
+    xaw3dg-dev
+    libxpm4-dev
+
+Falls der xaw-Client kompiliert werden soll, sollte configure mit der Option
+--with-xaw3d aufgerufen werden, z.B.:
+
+   % ./configure --with-xaw3d
+
+Falls ein Aufruf von aclocal notwendig werden sollte (wenn nicht bekannt ist,
+was aclocal macht, benötigt man es auch nicht), wird auch imlib-dev benötigt,
+um das Makro AM_PATH_GDK_IMLIB zu bekommen. Dies ist ein Fehler in Debian,
+das dieses Makro nicht in gdk-imlib-dev definiert ist und wird hoffentlich in
+zukünftigen Debian-Releases gefixt.
