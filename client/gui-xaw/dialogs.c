@@ -469,7 +469,7 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -492,7 +492,7 @@ static void diplomat_embassy_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -515,7 +515,7 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -555,7 +555,7 @@ static void spy_poison_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -579,7 +579,7 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -593,7 +593,7 @@ static void spy_close_tech_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(spy_tech_shell);
   spy_tech_shell=0;
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -607,7 +607,7 @@ static void spy_close_sabotage_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(spy_sabotage_shell);
   spy_sabotage_shell=0;
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -655,7 +655,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
   
   if(!steal_advance){
     freelog(LOG_NORMAL, "Bug in spy steal tech code");
-    process_diplomat_arrival(NULL, NULL);
+    process_diplomat_arrival(NULL, 0);
     return;
   }
   
@@ -671,7 +671,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -685,7 +685,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
   
   if(!sabotage_improvement){
     freelog(LOG_NORMAL, "Bug in spy sabotage code");
-    process_diplomat_arrival(NULL, NULL);
+    process_diplomat_arrival(NULL, 0);
     return;
   }
   
@@ -701,7 +701,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -972,7 +972,7 @@ static void diplomat_incite_yes_callback(Widget w, XtPointer client_data,
   
   destroy_message_dialog(w);
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -983,7 +983,7 @@ static void diplomat_incite_no_callback(Widget w, XtPointer client_data,
 {
   destroy_message_dialog(w);
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 
@@ -1043,7 +1043,7 @@ static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 

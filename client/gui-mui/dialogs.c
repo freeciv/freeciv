@@ -299,7 +299,7 @@ static void advance_steal(struct spy_data *data)
   }
 
   spy_close(data);
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -400,7 +400,7 @@ static void imprv_sabotage(struct spy_data *data)
   }
 
   spy_close(data);
-  process_diplomat_arrival(NULL, NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 
@@ -488,7 +488,7 @@ static void diplomat_incite_yes(struct popup_message_data *data)
   send_packet_diplomat_action(&aconnection, &req);
   
   message_close(data);
-  process_diplomat_arrival(NULL,NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -497,7 +497,7 @@ static void diplomat_incite_yes(struct popup_message_data *data)
 static void diplomat_incite_no(struct popup_message_data *data)
 {
   message_close(data);
-  process_diplomat_arrival(NULL,NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -546,7 +546,7 @@ static void diplomat_embassy(struct popup_message_data *data)
     
     send_packet_diplomat_action(&aconnection, &req);
   }
-  process_diplomat_arrival(NULL,NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -567,7 +567,7 @@ static void diplomat_investigate(struct popup_message_data *data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-  process_diplomat_arrival(NULL,NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -589,7 +589,7 @@ static void diplomat_sabotage(struct popup_message_data *data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-  process_diplomat_arrival(NULL,NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -611,7 +611,7 @@ static void diplomat_steal(struct popup_message_data *data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-  process_diplomat_arrival(NULL,NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -657,7 +657,7 @@ static void diplomat_cancel(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open=0;
 
-  process_diplomat_arrival(NULL,NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
@@ -678,7 +678,7 @@ static void spy_poison(struct popup_message_data *data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-  process_diplomat_arrival(NULL,NULL);
+  process_diplomat_arrival(NULL, 0);
 }
 
 /****************************************************************
