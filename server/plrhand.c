@@ -195,6 +195,16 @@ void kill_player(struct player *pplayer) {
 
   pplayer->is_alive = FALSE;
 
+  /* Remove shared vision. Do it for both for completeness. */
+  players_iterate(aplayer) {
+    if (gives_shared_vision(pplayer, aplayer)) {
+      remove_shared_vision(pplayer, aplayer);
+    }
+    if (gives_shared_vision(aplayer, pplayer)) {
+      remove_shared_vision(aplayer, pplayer);
+    }
+  } players_iterate_end;
+    
   cancel_all_meetings(pplayer);
   map_know_and_see_all(pplayer);
 
@@ -234,13 +244,6 @@ void kill_player(struct player *pplayer) {
   } city_list_iterate_end;
   game.savepalace = palace;
 
-  players_iterate(aplayer) {
-    /* Remove shared vision */  
-    if (gives_shared_vision(pplayer, aplayer)) {
-      remove_shared_vision(pplayer, aplayer);
-    }
-  } players_iterate_end;
-    
   /* Ensure this dead player doesn't win with a spaceship.
    * Now that would be truly unbelievably dumb - Per */
   spaceship_init(&pplayer->spaceship);
