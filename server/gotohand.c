@@ -1174,45 +1174,65 @@ static int find_a_direction(struct unit *punit,
 }
 
 /**************************************************************************
-Basic checks as to whether a GOTO is possible.
+  Basic checks as to whether a GOTO is possible. The target (x,y) should
+  be on the same continent as punit is, up to embarkation/disembarkation.
 **************************************************************************/
 bool goto_is_sane(struct unit *punit, int x, int y, bool omni)
 {  
   struct player *pplayer = unit_owner(punit);
-  int possible = 0;
 
   if (same_pos(punit->x, punit->y, x, y)) {
     return TRUE;
   }
-  if (is_ground_unit(punit) &&
-      (omni || map_get_known_and_seen(x, y, pplayer))) {
+
+  if (!(omni || map_get_known_and_seen(x, y, pplayer))) {
+    /* The destination is in unknown -- assume sane */
+    return TRUE;
+  }
+
+  switch (unit_type(punit)->move_type) {
+
+  case LAND_MOVING:
     if (map_get_terrain(x, y) == T_OCEAN) {
+      /* Going to a sea tile, the target should be next to our continent 
+       * and with a boat */
       if (ground_unit_transporter_capacity(x, y, pplayer) > 0) {
-	adjc_iterate(punit->x, punit->y, tmp_x, tmp_y) {
-	  if (map_get_continent(tmp_x, tmp_y) == map_get_continent(x, y))
-	    possible++;
-	} adjc_iterate_end;
+        adjc_iterate(x, y, tmp_x, tmp_y) {
+          if (map_get_continent(tmp_x, tmp_y) == 
+              map_get_continent(punit->x, punit->y))
+            /* The target is adjacent to our continent! */
+            return TRUE;
+        } adjc_iterate_end;
       }
-    } else { /* going to a land tile */
-      if (map_get_continent(punit->x, punit->y) ==
-            map_get_continent(x, y))
-         possible++;
-      else {
+    } else {
+      /* Going to a land tile: better be our continent */
+      if (map_get_continent(punit->x, punit->y) == map_get_continent(x, y)) {
+        return TRUE;
+      } else {
+        /* Well, it's not our continent, but maybe we are on a boat
+         * adjacent to the target continent? */
 	adjc_iterate(punit->x, punit->y, tmp_x, tmp_y) {
-	  if (map_get_continent(tmp_x, tmp_y) == map_get_continent(x, y))
-	    possible++;
+	  if (map_get_continent(tmp_x, tmp_y) == map_get_continent(x, y)) {
+	    return TRUE;
+          }
 	} adjc_iterate_end;
       }
     }
-    return possible > 0;
-  } else if (is_sailing_unit(punit) &&
-	     (omni || map_get_known_and_seen(x, y, pplayer)) &&
-	     map_get_terrain(x, y) != T_OCEAN && !map_get_city(x, y) &&
-	     !is_terrain_near_tile(x, y, T_OCEAN)) {
+      
     return FALSE;
-  }
 
-  return TRUE;
+  case SEA_MOVING:
+    if (map_get_terrain(x, y) == T_OCEAN 
+        && is_terrain_near_tile(x, y, T_OCEAN)) {
+      /* The target is sea or is accessible from sea 
+       * (allow for bombardment and visiting ports) */
+      return TRUE;
+    }
+    return FALSE;
+
+  default:
+    return TRUE;
+  }
 }
 
 
