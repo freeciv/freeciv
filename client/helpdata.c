@@ -561,6 +561,10 @@ void helptext_unit(char *buf, int i, const char *user_text)
   utype = get_unit_type(i);
   
   buf[0] = '\0';
+  if (utype->pop_cost > 0) {
+    sprintf(buf + strlen(buf), _("* Requires %d population to build.\n"),
+	    utype->pop_cost);
+  }
   if (utype->transport_capacity>0) {
     if (unit_type_flag(i, F_CARRIER)) {
       sprintf(buf + strlen(buf),
