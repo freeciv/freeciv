@@ -73,12 +73,14 @@ void get_mapview_dimensions(int *map_view_topleft_map_x,
 			    int *map_view_pixel_width,
 			    int *map_view_pixel_height)
 {
+  Dimension width, height;
+
   *map_view_topleft_map_x = map_view_x0;
   *map_view_topleft_map_y = map_view_y0;
-  XtVaGetValues(map_canvas,
-		XtNwidth, map_view_pixel_width,
-		XtNheight, map_view_pixel_height,
-		NULL);
+  XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
+
+  *map_view_pixel_width = (Dimension)width;
+  *map_view_pixel_height = (Dimension)height;
 }
 
 /**************************************************************************
