@@ -51,6 +51,85 @@
 
 #include "support.h"
 
+/**********************************************************************
+ mystrlcpy() and mystrlcat() provide (non-standard) functions
+ strlcpy() and strlcat(), with semantics following OpenBSD (and
+ maybe others).  They are intended as more user-friendly
+ versions of stncpy and strncat, in particular easier to
+ use safely and correctly, and ensuring nul-terminated results
+ while being able to detect truncation.
+
+ n is the full size of the destination buffer, including
+ space for trailing nul, and including the pre-existing
+ string for mystrlcat().  Thus can eg use sizeof(buffer),
+ or exact size malloc-ed.
+
+ Result is always nul-terminated, whether or not truncation occurs,
+ and the return value is the strlen the destination would have had
+ without truncation.  Ie, a return value >= input n indicates
+ truncation occured.
+
+ Will assume that if configure found strlcpy/strlcat they are ok.
+ For replacement implementations, will keep it simple rather
+ than try for super-efficiency.
+
+ Not sure about the asserts below, but they are easier than
+ trying to ensure correct behaviour on strange inputs.
+ In particular note that n==0 is prohibited (eg, since there
+ must at least be room for a nul); could consider other options.
+***********************************************************************/
+size_t mystrlcpy(char *dest, const char *src, size_t n)
+{
+  assert(dest);
+  assert(src);
+  assert(n>0);
+#ifdef HAVE_STRLCPY
+  return strlcpy(dest, src, n);
+#else
+  {
+    size_t len = strlen(src);
+    size_t num_to_copy = (len >= n) ? n-1 : len;
+    if (num_to_copy>0)
+      memcpy(dest, src, num_to_copy);
+    dest[num_to_copy] = '\0';
+    return len;
+  }
+#endif
+}
+
+size_t mystrlcat(char *dest, const char *src, size_t n)
+{
+  assert(dest);
+  assert(src);
+  assert(n>0);
+#ifdef HAVE_STRLCAT
+  return strlcat(dest, src, n);
+#else
+  {
+    size_t num_to_copy, len_dest, len_src;
+    
+    len_dest = strlen(dest);
+    assert(len_dest<n);
+    /* Otherwise have bad choice of leaving dest not nul-terminated
+     * within the specified length n (which should be assumable as
+     * a post-condition of mystrlcat), or modifying dest before end
+     * of existing string (which breaks strcat semantics).
+     */
+       
+    dest += len_dest;
+    n -= len_dest;
+    
+    len_src = strlen(src);
+    num_to_copy = (len_src >= n) ? n-1 : len_src;
+    if (num_to_copy>0)
+      memcpy(dest, src, num_to_copy);
+    dest[num_to_copy] = '\0';
+    return len_dest + len_src;
+  }
+#endif
+}
+
+
 #ifdef HAVE_VSNPRINTF
 /**********************************************************************
  Convenience function used by check_native_vsnprintf() below.

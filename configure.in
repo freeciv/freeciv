@@ -361,7 +361,7 @@ dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(fdopen gethostname getpwuid gettimeofday select \
-               snooze strerror strstr usleep vsnprintf)
+               snooze strerror strlcat strlcpy strstr usleep vsnprintf)
 
 dnl We would AC_CHECK_FUNCS for socket as well, except it is complicated
 dnl by the fact that the -lsocket is in X_EXTRA_LIBS and/or SERVER_LIBS,

@@ -6255,7 +6255,7 @@ fi
 fi
 
 for ac_func in fdopen gethostname getpwuid gettimeofday select \
-               snooze strerror strstr usleep vsnprintf
+               snooze strerror strlcat strlcpy strstr usleep vsnprintf
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
 echo "configure:6262: checking for $ac_func" >&5

@@ -27,6 +27,9 @@
 
 #include "attribute.h"
 
+size_t mystrlcpy(char *dest, const char *src, size_t n);
+size_t mystrlcat(char *dest, const char *src, size_t n);
+
 int my_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((format (printf, 3, 4)));
 
