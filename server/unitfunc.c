@@ -269,11 +269,13 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     
   pcity->steal=1;
   notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		   "Game: Your diplomat stole %s from %s",
+		   "Game: Your %s stole %s from %s",
+		   unit_name(pdiplomat->type),
 		   advances[i].name, target->name); 
   notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
-		   "Game: %s's diplomat stole %s from %s.", 
-		   pplayer->name, advances[i].name, pcity->name); 
+		   "Game: %s's %s stole %s from %s.", 
+		   pplayer->name, unit_name(pdiplomat->type),
+		   advances[i].name, pcity->name); 
   if (i==A_RAILROAD) {
     /*    struct city_list cl=pplayer->cities;*/
     struct genlist_iterator myiter;
