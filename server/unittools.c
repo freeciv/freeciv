@@ -840,3 +840,31 @@ void resolve_unit_stack(int x, int y, int verbose)
     }
   }
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_airunit_refuel_point(int x, int y, int playerid,
+			    Unit_Type_id type, int unit_is_on_tile)
+{
+  struct player_tile *plrtile = map_get_player_tile(&game.players[playerid],x,y);
+
+  if (is_friendly_city_tile(x, y, playerid)
+      || (plrtile->special&S_AIRBASE
+	  && !is_enemy_unit_tile(x, y, playerid)))
+    return 1;
+
+  if (unit_flag(type, F_MISSILE)) {
+    int cap = missile_carrier_capacity(x, y, playerid);
+    if (unit_is_on_tile)
+      cap++;
+    return cap>0;
+  } else {
+    int cap = airunit_carrier_capacity(x, y, playerid);
+    if (unit_is_on_tile)
+      cap++;
+    return cap>0;
+  }
+
+  return 0;
+}

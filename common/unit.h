@@ -296,6 +296,8 @@ int is_transporter_with_free_space(struct player *pplayer, int x, int y);
 int is_enough_transporter_space(struct player *pplayer, int x, int y);
 int get_transporter_capacity(struct unit *punit);
 int is_ground_units_transport(struct unit *punit);
+int missile_carrier_capacity(int x, int y, int playerid);
+int airunit_carrier_capacity(int x, int y, int playerid);
 
 int utype_shield_cost(struct unit_type *ut, struct government *g);
 int utype_food_cost(struct unit_type *ut, struct government *g);

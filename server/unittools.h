@@ -55,5 +55,7 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost,
 			  int verbose);
 struct unit *is_enemy_unit_on_tile(int x, int y, int owner);
 void resolve_unit_stack(int x, int y, int verbose);
+int is_airunit_refuel_point(int x, int y, int playerid,
+			    Unit_Type_id type, int unit_is_on_tile);
 
 #endif  /* FC__UNITTOOLS_H */

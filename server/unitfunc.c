@@ -1319,8 +1319,29 @@ void player_restore_units(struct player *pplayer)
 	      get_nation_name_plural(pplayer->nation),
 	      unit_name(punit->type));
       wipe_unit_safe(0, punit, &myiter);
-    }
-    else if(is_air_unit(punit)) {
+    } else if (is_air_unit(punit)) {
+      /* Shall we emergency return home on the last vapors? */
+      if (punit->fuel == 1
+	  && !is_airunit_refuel_point(punit->x, punit->y,
+				      punit->owner, punit->type, 1)) {
+	int x_itr, y_itr;
+	iterate_outward(punit->x, punit->y, punit->moves_left/3, x_itr, y_itr) {
+	  if (is_airunit_refuel_point(x_itr, y_itr, punit->owner, punit->type, 0)
+	      && naive_air_can_move_between(punit->moves_left/3, punit->x, punit->y,
+					    x_itr, y_itr, punit->owner)) {
+	      punit->goto_dest_x = x_itr;
+	      punit->goto_dest_y = y_itr;
+	      set_unit_activity(punit, ACTIVITY_GOTO);
+	      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
+	      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+			       _("Game: Your %s has returned to refuel."),
+			       unit_name(punit->type));
+	      goto OUT;
+	    }
+	} iterate_outward_end;
+      }
+    OUT:
+
       punit->fuel--;
       if(map_get_city(punit->x, punit->y) ||
          map_get_special(punit->x, punit->y)&S_AIRBASE)

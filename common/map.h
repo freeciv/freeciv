@@ -261,6 +261,72 @@ extern struct civ_map map;
 extern struct terrain_misc terrain_control;
 extern struct tile_type tile_types[T_LAST];
 
+/* This iterates outwards from the starting point (Duh?).
+   Every tile within max_dist will show up exactly once. (even takes
+   into account wrap). All positions given correspond to real tiles.
+   The values given are adjusted.
+   You should make sure that the arguments passed to the macro are adjusted,
+   or you could have some very nasty intermediate errors.
+   The results are returned through ARG_x_itr and ARG_y_itr,
+   which must already be defined.
+
+   Internally it works by for a given distance
+   1) assume y positive and iterate over x
+   2) assume y negative and iterate over x
+   3) assume x positive and iterate over y
+   4) assume x negative and iterate over y
+   Where in this we are is decided by the variables xcycle and positive.
+   each of there distances give a box of tiles; to ensure each tile is only
+   returned once we only return the corner when iterating over x.
+   As a special case positive is initialized as 0 (ie we start in step 2) ),
+   as the center tile would else be returned by both step 1) and 2).
+*/
+#define iterate_outward(ARG_start_x, ARG_start_y, ARG_max_dist, ARG_x_itr, ARG_y_itr) \
+{                                                                             \
+  int MACRO_max_dx = map.xsize/2;                                             \
+  int MACRO_min_dx = -(MACRO_max_dx - (map.xsize%2 ? 0 : 1));                 \
+  int MACRO_xcycle = 1;                                                       \
+  int MACRO_positive = 0;                                                     \
+  int MACRO_dxy = 0, MACRO_do_xy;                                             \
+  while(MACRO_dxy <= ARG_max_dist) {                                          \
+    for (MACRO_do_xy = -MACRO_dxy; MACRO_do_xy <= MACRO_dxy; MACRO_do_xy++) { \
+      if (MACRO_xcycle) {                                                     \
+	ARG_x_itr = ARG_start_x + MACRO_do_xy;                                \
+	if (MACRO_positive)                                                   \
+	  ARG_y_itr = ARG_start_y + MACRO_dxy;                                \
+	else                                                                  \
+	  ARG_y_itr = ARG_start_y - MACRO_dxy;                                \
+      } else { /* ! MACRO_xcycle */                                           \
+        if (MACRO_dxy == MACRO_do_xy || MACRO_dxy == -MACRO_do_xy)            \
+          continue;                                                           \
+	ARG_y_itr = ARG_start_y + MACRO_do_xy;                                \
+	if (MACRO_positive)                                                   \
+	  ARG_x_itr = ARG_start_x + MACRO_dxy;                                \
+	else                                                                  \
+	  ARG_x_itr = ARG_start_x - MACRO_dxy;                                \
+      }                                                                       \
+      if (ARG_y_itr<0 || ARG_y_itr >= map.ysize)                              \
+	continue;                                                             \
+      {                                                                       \
+	int MACRO_dx = ARG_start_x - ARG_x_itr;                               \
+	if (MACRO_dx > MACRO_max_dx || MACRO_dx < MACRO_min_dx)               \
+	  continue;                                                           \
+      }                                                                       \
+      if (ARG_x_itr > map.xsize)                                              \
+	ARG_x_itr -= map.xsize;                                               \
+      else if (ARG_x_itr < 0)                                                 \
+	ARG_x_itr += map.xsize;
+
+#define iterate_outward_end                                                   \
+    }                                                                         \
+    if (!MACRO_positive) {                                                    \
+      if (!MACRO_xcycle)                                                      \
+	MACRO_dxy++;                                                          \
+      MACRO_xcycle = !MACRO_xcycle;                                           \
+    }                                                                         \
+    MACRO_positive = !MACRO_positive;                                         \
+  }                                                                           \
+}
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0

@@ -1458,3 +1458,75 @@ struct player *unit_owner(struct unit *punit)
 {
   return (&game.players[punit->owner]);
 }
+
+/**************************************************************************
+Returns the number of free spaces for missiles. Can be 0 or negative.
+**************************************************************************/
+int missile_carrier_capacity(int x, int y, int playerid)
+{
+  int misonly = 0;
+  int airall = 0;
+  int totalcap;
+
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    if (punit->owner == playerid) {
+      if (unit_flag(punit->type, F_CARRIER)) {
+	airall += get_transporter_capacity(punit);
+	continue;
+      }
+      if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
+	misonly += get_transporter_capacity(punit);
+	continue;
+      }
+      if (is_air_unit(punit)) {
+	if (unit_flag(punit->type, F_MISSILE))
+	  misonly--;
+	else
+	  airall--;
+      }
+    }
+  }
+  unit_list_iterate_end;
+
+  if (airall < 0)
+    airall = 0;
+
+  totalcap = airall + misonly;
+
+  return totalcap;
+}
+
+/**************************************************************************
+Returns the number of free spaces for airunits (includes missiles).
+Can be 0 or negative.
+**************************************************************************/
+int airunit_carrier_capacity(int x, int y, int playerid)
+{
+  int misonly = 0;
+  int airall = 0;
+
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    if (punit->owner == playerid) {
+      if (unit_flag(punit->type, F_CARRIER)) {
+	airall += get_transporter_capacity(punit);
+	continue;
+      }
+      if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
+	misonly += get_transporter_capacity(punit);
+	continue;
+      }
+      if (is_air_unit(punit)) {
+	if (unit_flag(punit->type, F_MISSILE))
+	  misonly--;
+	else
+	  airall--;
+      }
+    }
+  }
+  unit_list_iterate_end;
+
+  if (misonly < 0)
+    airall += misonly;
+
+  return airall;
+}

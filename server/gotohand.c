@@ -74,8 +74,6 @@ static unsigned int refuelstacksize;
 static void make_list_of_refuel_points(struct player *pplayer);
 static void dealloc_refuel_stack();
 static int find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y);
-static int naive_air_can_move_between(int moves, int src_x, int src_y,
-				      int dest_x, int dest_y, int playerid);
 
 /**************************************************************************
 ...
@@ -1399,8 +1397,8 @@ Try to quickly verify in O(moves) time                    else
 Create a movemap to decide with certainty in O(moves2) time.
 Each step should catch the vast majority of tries.
 **************************************************************************/
-static int naive_air_can_move_between(int moves, int src_x, int src_y,
-				      int dest_x, int dest_y, int playerid)
+int naive_air_can_move_between(int moves, int src_x, int src_y,
+			       int dest_x, int dest_y, int playerid)
 {
   int x, y, go_x, go_y, i, movescount;
   struct tile *ptile;
