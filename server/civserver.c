@@ -332,6 +332,9 @@ int main(int argc, char *argv[])
 /* printf("Autosettlers\n"); */
     auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
 /* moved after sniff_packets for even more efficiency.  What a guy I am. -- Syela */
+/* and now, we must manage our remaining units BEFORE the cities that are
+empty get to refresh and defend themselves.  How totally stupid. */
+    ai_start_turn(); /* Misleading name for manage_units -- Syela */
 /* printf("Endturn\n"); */
     end_turn();
 /* printf("Gamenextyear\n"); */
