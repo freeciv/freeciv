@@ -1371,7 +1371,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   page_labels[1] = _("Units");
   page_labels[2] = _("Worklist");
   page_labels[3] = _("Happiness");
-  page_labels[4] = _("CMA");
+  page_labels[4] = _("Citizen Governor");
   page_labels[5] = _("Trade Routes");
   page_labels[6] = _("Misc. Settings");
 
@@ -1379,7 +1379,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   misc_whichtab_label[1] = _("Units page");
   misc_whichtab_label[2] = _("Worklist page");
   misc_whichtab_label[3] = _("Happiness page");
-  misc_whichtab_label[4] = _("CMA page");
+  misc_whichtab_label[4] = _("Governor page");
   misc_whichtab_label[5] = _("Trade Routes page");
   misc_whichtab_label[6] = _("This Misc. Settings page");
   misc_whichtab_label[7] = _("Last active page");

@@ -1770,7 +1770,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   char buf[512];
   String now;
   
-  my_snprintf(buf, sizeof(buf), _("%s - %s citizens  CMA: %s"),
+  my_snprintf(buf, sizeof(buf), _("%s - %s citizens  Governor: %s"),
 	      pdialog->pcity->name,
 	      population_to_text(city_population(pdialog->pcity)),
                    cmafec_get_short_descr_of_city(pdialog->pcity));

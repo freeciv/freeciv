@@ -560,7 +560,7 @@ static gint city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
   append_impr_or_unit_to_menu(menu, _("Wonders"), TRUE, FALSE, FALSE, TRUE,
                               city_can_build_impr_or_unit, TRUE);
 
-  item = gtk_menu_item_new_with_label(_("CMA"));
+  item = gtk_menu_item_new_with_label(_("Citizen Governor"));
   gtk_menu_append(GTK_MENU(menu), item);
   submenu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
@@ -937,7 +937,7 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 			      FALSE, TRUE, city_can_build_impr_or_unit,
 			      FALSE);
 
-  item=gtk_menu_item_new_with_label( _("CMA") );
+  item=gtk_menu_item_new_with_label( _("Citizen Governor") );
   gtk_menu_append(GTK_MENU(menu),item);  
   submenu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);

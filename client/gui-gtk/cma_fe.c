@@ -149,7 +149,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
     preset_title = intl_slist(1, preset_title_);
   }
 
-  frame = gtk_frame_new(_("Citizen Management Agent"));
+  frame = gtk_frame_new(_("Citizen Governor"));
   gtk_box_pack_start(GTK_BOX(pdialog->shell), frame, TRUE, TRUE, 0);
 
   page = gtk_hbox_new(FALSE, 0);
@@ -390,11 +390,11 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
       gtk_clist_insert(GTK_CLIST(pdialog->preset_list), i, row);
     }
   } else {
-    static const char *info_message_[4] = {
-      N_("For information on:"),
-      N_("CMA and presets"),
-      N_("including sample presets,"),
-      N_("see README.cma.")
+    static const char *info_message_ = {
+      N_("For information on\n"
+	 "the citizen governor and governor presets,\n"
+	 "including sample presets,\n"
+	 "see README.cma.")),
     };
     static char **info_message = NULL;
 

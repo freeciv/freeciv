@@ -177,9 +177,6 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
 
   if (city_owner(pcity) != game.player_ptr) {
     cma_release_city(pcity);
-    create_event(pcity->tile, E_CITY_CMA_RELEASE,
-		 _("CMA: You lost control of %s. Detaching from city."),
-		 pcity->name);
     return FALSE;
   }
 
@@ -402,7 +399,7 @@ static void handle_city(struct city *pcity)
       cma_release_city(pcity);
 
       create_event(pcity->tile, E_CITY_CMA_RELEASE,
-		   _("CMA: The agent can't fulfill the requirements "
+		   _("The citizen governor can't fulfill the requirements "
 		     "for %s. Passing back control."), pcity->name);
       handled = TRUE;
       break;
@@ -411,8 +408,8 @@ static void handle_city(struct city *pcity)
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  doesn't cleanly apply");
 	if (check_city(city_id, NULL) && i == 0) {
 	  create_event(pcity->tile, E_NOEVENT,
-		       _("CMA: %s has changed and the calculated "
-			 "result can't be applied. Will retry."),
+		       _("The citizen governor has gotten confused dealing "
+			 "with %s.  You may want to have a look."),
 		       pcity->name);
 	}
       } else {
@@ -430,10 +427,10 @@ static void handle_city(struct city *pcity)
     assert(pcity != NULL);
     freelog(HANDLE_CITY_LOG_LEVEL2, "  not handled");
 
-    create_event(pcity->tile, E_CITY_CMA_RELEASE,
-		 _("CMA: %s has changed multiple times. This may be "
-		   "an error in Freeciv or bad luck. The CMA will detach "
-		   "itself from the city now."), pcity->name);
+    create_event(pcity->tile, E_NOEVENT,
+		 _("The citizen governor has gotten confused dealing "
+		   "with %s.  You may want to have a look."),
+		 pcity->name);
 
     cma_release_city(pcity);
 

@@ -286,7 +286,7 @@ static struct {
   GEN_EV(N_("City: Needs Aqueduct Being Built"),      E_CITY_AQ_BUILDING),
   GEN_EV(N_("City: Normal"),                          E_CITY_NORMAL),
   GEN_EV(N_("City: Nuked"),                           E_CITY_NUKED),
-  GEN_EV(N_("City: Released from CMA"),               E_CITY_CMA_RELEASE),
+  GEN_EV(N_("City: Released from citizen governor"),  E_CITY_CMA_RELEASE),
   GEN_EV(N_("City: Suggest Growth Throttling"),       E_CITY_GRAN_THROTTLE),
   GEN_EV(N_("City: Transfer"),                        E_CITY_TRANSFER),
   GEN_EV(N_("City: Was Built"),                       E_CITY_BUILD),

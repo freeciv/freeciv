@@ -1202,7 +1202,7 @@ static void create_change_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_improvements_item);
   change_wonders_item = gtk_menu_item_new_with_label(_("Wonders"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_wonders_item);
-  change_cma_item = gtk_menu_item_new_with_label(_("CMA"));
+  change_cma_item = gtk_menu_item_new_with_label(_("Citizen Governor"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_cma_item);
 }
 
@@ -1475,7 +1475,7 @@ static void create_select_menu(GtkWidget *item)
 	gtk_menu_item_new_with_label(_("Available Wonders"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_wonders_item);
   select_cma_item =
-	gtk_menu_item_new_with_label(_("CMA"));
+	gtk_menu_item_new_with_label(_("Citizen Governor"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_cma_item);
 }
 

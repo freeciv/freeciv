@@ -239,7 +239,7 @@ static bool unserialize_hash(struct hash_table *hash, void *data,
        * value_length (above) is set to a random value, which can also
        * cause a bug. */
       freelog(LOG_ERROR, _("There has been a CMA error.  "
-			   "Your CMA settings may be broken."));
+			   "Your citizen governor settings may be broken."));
       free(pvalue);
       free(pkey);
       hash_delete_all_entries(hash);

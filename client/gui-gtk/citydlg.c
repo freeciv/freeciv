@@ -1281,7 +1281,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
     N_("Units page"),
     N_("Worklist page"),
     N_("Happiness page"),
-    N_("CMA page"),
+    N_("Governor page"),
     N_("Trade Routes page"),
     N_("This Misc. Settings page"),
     N_("Last active page")

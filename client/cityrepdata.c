@@ -491,7 +491,7 @@ static const struct city_report_spec base_city_report_specs[] = {
     NULL, FUNC_TAG(corruption) },
   { FALSE,  3, 1, NULL, N_("?waste:Was"), N_("Waste"),
     NULL, FUNC_TAG(waste) },
-  { TRUE,  15, 1, NULL, N_("CMA"),	      N_("City Management Agent"),
+  { TRUE,  15, 1, NULL, N_("Governor"),	      N_("Citizen Governor"),
     NULL, FUNC_TAG(cma) },
   { TRUE,   0, 1, N_("Currently Building"), N_("(Stock,Target,Turns,Buy)"),
                                             N_("Currently Building"),

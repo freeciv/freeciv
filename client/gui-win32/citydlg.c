@@ -707,7 +707,7 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   struct worklist_window_init wl_init;
   void *user_data[NUM_TABS];
   static char *titles_[NUM_TABS]={N_("City Overview"),N_("Worklist"),
-				  N_("Happiness"),  N_("CMA"), 
+				  N_("Happiness"),  N_("Citizen Governor"), 
 				  N_("Trade Routes"),
 				  N_("Misc. Settings")};
   static char *titles[NUM_TABS];

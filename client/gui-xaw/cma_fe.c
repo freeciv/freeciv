@@ -74,16 +74,10 @@ Widget surplus_slider[O_MAX], factor_slider[O_MAX + 1];
 
 int minimal_surplus[O_MAX], factors[O_MAX + 1];
 struct city *current_city;
-char *initial_preset_list[] = {
-      N_("For information on:"),
-      N_("CMA and presets"),
-      N_("including sample presets,"),
-      N_("see README.cma."),
-      "                  ",
-      "                  ",
-      "                  ",
-      "                  ",
-      0};
+char *initial_preset_list = N_("For information on\n"
+			       "the citizen governor and governor presets,\n"
+			       "including sample presets,\n"
+			       "see README.cma.")),
 
 
 static void update_cma_preset_list(void);

@@ -1006,7 +1006,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 static void create_and_append_cma_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *label;
-  const char *tab_title = _("C_MA");
+  const char *tab_title = _("_Governor");
 
   page = gtk_vbox_new(FALSE, 0);
 
@@ -1049,7 +1049,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
     N_("Overview page"),
     N_("Production page"),
     N_("Happiness page"),
-    N_("CMA page"),
+    N_("Governor page"),
     N_("This Settings page"),
     N_("Last active page")
   };

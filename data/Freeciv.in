@@ -1483,13 +1483,13 @@ Freeciv*scienceclosecommand.right:       chainLeft
 !
 ! Citizen Management Agent dialog 
 !
-Freeciv*cmapopup.title:                   _("Citizen Management Agent")
+Freeciv*cmapopup.title:                   _("Citizen Governor")
 Freeciv*cmapresetviewport.allowVert:      True
 Freeciv*cmapresetlist.defaultColumns:     1
 Freeciv*cmapresetlist.forceColumns:       true
 Freeciv*cmapresetlist.background:         white
 
-Freeciv*cmacommand.label:                 _("CMA...")
+Freeciv*cmacommand.label:                 _("Citizen governor...")
 Freeciv*cmahelpbutton.label:              _("Help")
 Freeciv*cmaclosebutton.label:             _("Close")
 Freeciv*cmaaddbutton.label:               _("Add Preset")

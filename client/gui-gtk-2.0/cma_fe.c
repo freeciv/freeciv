@@ -246,8 +246,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
       		   G_CALLBACK(button_press_callback), pdialog);
 
   gtk_tooltips_set_tip(pdialog->tips, view,
-		       _("For information on:\n"
-		         "CMA and presets\n"
+		       _("For information on\n"
+		         "the citizen governor and governor presets,\n"
 			 "including sample presets,\n"
 		         "see README.cma."),
 		       "");
@@ -456,12 +456,12 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
     gtk_image_set_from_stock(GTK_IMAGE(pdialog->active_image),
 	GTK_STOCK_YES, GTK_ICON_SIZE_DND);
     gtk_label_set_text_with_mnemonic(GTK_LABEL(pdialog->active_label),
-	_("CMA Enabl_ed"));
+	_("Governor Enabl_ed"));
   } else {
     gtk_image_set_from_stock(GTK_IMAGE(pdialog->active_image),
 	GTK_STOCK_NO, GTK_ICON_SIZE_DND);
     gtk_label_set_text_with_mnemonic(GTK_LABEL(pdialog->active_label),
-	_("CMA Disabl_ed"));
+	_("Governor Disabl_ed"));
   }
   gtk_widget_set_sensitive(pdialog->result_label, controlled);
 }
