@@ -327,7 +327,7 @@ static int assess_distance(struct city *pcity, struct unit *punit,
   if (distance < SINGLE_MOVE) distance = SINGLE_MOVE;
 
   if (is_ground_unit(punit) && boatid != 0
-      && find_beachhead(punit, pcity->x, pcity->y, &x, &y) != 0) {
+      && find_beachhead(punit, pcity->x, pcity->y, &x, &y)) {
     /* Sea travellers. */
 
     y = WARMAP_SEACOST(punit->x, punit->y);

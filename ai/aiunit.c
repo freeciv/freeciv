@@ -1225,9 +1225,12 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 }
 
 /*************************************************************************
-...
+  Tries to find a land tile adjacent to water and to our target 
+  (dest_x, dest_y).  Prefers tiles which are more defensible and/or
+  where we will have moves left.
+  FIXME: It checks if the ocean tile is in our Zone of Control?!
 **************************************************************************/
-int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
+bool find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 {
   int ok, best = 0;
   enum tile_terrain_type t;
@@ -1270,7 +1273,7 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
     }
   } adjc_iterate_end;
 
-  return best;
+  return (best > 0);
 }
 
 /**************************************************************************
@@ -1374,7 +1377,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
         ferryboat->ai.passenger = punit->id;
 /* the code that worked for settlers wasn't good for piles of cannons */
         if (find_beachhead(punit, dest_x, dest_y, &ferryboat->goto_dest_x,
-               &ferryboat->goto_dest_y) != 0) {
+               &ferryboat->goto_dest_y)) {
           punit->goto_dest_x = dest_x;
           punit->goto_dest_y = dest_y;
           handle_unit_activity_request(punit, ACTIVITY_SENTRY);
@@ -2120,7 +2123,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
            * to the city and an available ocean tile */
           int xx, yy;
 
-          if (find_beachhead(punit, acity->x, acity->y, &xx, &yy) != 0) { 
+          if (find_beachhead(punit, acity->x, acity->y, &xx, &yy)) { 
             best = want;
             *x = acity->x;
             *y = acity->y;
@@ -2350,7 +2353,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
         ai_military_gothere(pplayer, punit, pc->x, pc->y);
       } else {
         /* sometimes find_beachhead is not enough */
-        if (find_beachhead(punit, pc->x, pc->y, &fx, &fy) == 0) {
+        if (!find_beachhead(punit, pc->x, pc->y, &fx, &fy)) {
           find_city_beach(pc, punit, &fx, &fy);
           freelog(LOG_DEBUG, "Barbarian sailing to city");
           ai_military_gothere(pplayer, punit, fx, fy);

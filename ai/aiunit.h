@@ -58,7 +58,8 @@ int turns_to_enemy_unit(Unit_Type_id our_type, int speed, int x, int y,
                         Unit_Type_id enemy_type);
 int find_something_to_kill(struct player *pplayer, struct unit *punit, 
                             int *x, int *y);
-int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y);
+bool find_beachhead(struct unit *punit, int dest_x, int dest_y, 
+                    int *x, int *y);
 
 int build_cost_balanced(Unit_Type_id type);
 int base_unit_belligerence_primitive(Unit_Type_id type, bool veteran,
