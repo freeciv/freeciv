@@ -845,7 +845,7 @@ msgstr "Spill: %s har fullført byggingen av %s."
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr ""
 "Spill: %s gir kjempeøkning av forskningen.\n"
-"       Du får 2 umiddelbare framskritt."
+"       Du får 2 umiddelbare fremskritt."
 
 #: server/cityturn.c:992
 #, c-format
@@ -1804,7 +1804,7 @@ msgstr "Spill: Ditt rykte er nå %s."
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
-msgstr "Spill: Senatet oppløser seg selv framfor å støtte dine handlinger."
+msgstr "Spill: Senatet oppløser seg selv framfor å støtte dine forhandlinger."
 
 #: server/plrhand.c:916
 #, c-format
@@ -2967,7 +2967,7 @@ msgstr ""
 "Når en spiller grunnlegger en ny by kontrolleres det om det finnes en by i "
 "avstand citymindist. For eksempel hvis citymindist er 3 så må det være minst "
 "2 ruter mellom 2 byer. Hvis det er satt til 0 (standard) så benyttes verdien "
-"i regensettet i stedet."
+"i regelsettet i stedet."
 
 #: server/stdinhand.c:484
 msgid "Number of turns between rapture effect"
@@ -4366,7 +4366,7 @@ msgstr "kan endres"
 
 #: server/stdinhand.c:2303
 msgid "fixed"
-msgstr "fikset"
+msgstr "fastsatt"
 
 #: server/stdinhand.c:2309
 #, c-format
@@ -4911,7 +4911,7 @@ msgstr "Spill: %s kan kun bevege seg i din kontrollsone."
 
 #: server/unithand.c:938
 msgid "Game: Unit must be on land to perform diplomatic action."
-msgstr "Spill: Enheten må være på land for å utføre diplomatiske handlinger."
+msgstr "Spill: Enheten må være på land for å utføre diplomatiske forhandlinger."
 
 #: server/unithand.c:940
 msgid "Game: No diplomat action possible."
@@ -5957,11 +5957,11 @@ msgstr "* Kan utføre nybygger-egenskaper.\n"
 
 #: client/helpdata.c:624
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
-msgstr "* Kan utføre diplomatiske handlinger, samt spesielle spion-egenskaper.\n"
+msgstr "* Kan utføre diplomatiske forhandlinger, samt spesielle spion-egenskaper.\n"
 
 #: client/helpdata.c:627
 msgid "* Can perform diplomatic actions.\n"
-msgstr "* Kan utføre diplomatiske handlinger.\n"
+msgstr "* Kan utføre diplomatiske forhandlinger.\n"
 
 #: client/helpdata.c:630
 msgid "* Can attack enemy air units.\n"
@@ -6085,7 +6085,7 @@ msgstr "Tillater å endre styreform til %s.\n"
 #: client/helpdata.c:814
 #, c-format
 msgid "The first player to research %s gets an immediate advance.\n"
-msgstr "Den første spilleren som forsker på %s får et umiddelbart framskritt.\n"
+msgstr "Den første spilleren som forsker på %s får et umiddelbart fremskritt.\n"
 
 #: client/helpdata.c:818
 msgid "Gives sea units one extra move.\n"
@@ -9290,7 +9290,7 @@ msgstr "Oppløs enhet"
 
 #: client/gui-gtk-2.0/menu.c:693
 msgid "Diplomat\\/Spy Actions"
-msgstr "Diplomat\\/Spion - Handlinger"
+msgstr "Diplomat\\/Spion - Forhandlinger"
 
 #: client/gui-gtk-2.0/menu.c:695 client/gui-gtk/menu.c:694
 #: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1809
@@ -9724,8 +9724,8 @@ msgstr "Forskingstempo: ingen forskning"
 #, c-format
 msgid "Research speed: %d turn/advance"
 msgid_plural "Research speed: %d turns/advance"
-msgstr[0] "Forskningsfart: %d runder/framskritt"
-msgstr[1] "Forskningsfart: %d runder/framskritt"
+msgstr[0] "Forskningsfart: %d runder/fremskritt"
+msgstr[1] "Forskningsfart: %d runder/fremskritt"
 
 #: client/gui-gtk-2.0/repodlgs.c:543 client/gui-gtk/repodlgs.c:545
 #: client/gui-mui/repodlgs.c:476 client/gui-win32/repodlgs.c:474
@@ -10061,7 +10061,7 @@ msgstr "Gå|Flytransport til b_y"
 
 #: client/gui-gtk/menu.c:692
 msgid "Diplomat|Spy Actions"
-msgstr "Diplomat|Spion Handlinger"
+msgstr "Diplomat|Spion Forhandlinger"
 
 #: client/gui-gtk/menu.c:864
 msgid "Go/Air_lift to City"
@@ -10069,7 +10069,7 @@ msgstr "Gå/F_ly til by"
 
 #: client/gui-gtk/menu.c:865
 msgid "_Diplomat/Spy Actions"
-msgstr "_Diplomat/Spion - Handlinger"
+msgstr "_Diplomat/Spion - Forhandlinger"
 
 #: client/gui-gtk/messagedlg.c:81
 msgid ""
@@ -10649,7 +10649,7 @@ msgstr "Lag handelsrute"
 
 #: client/gui-mui/gui_main.c:265 client/gui-xaw/menu.c:187
 msgid "Diplomat/Spy Actions"
-msgstr "Diplomat/Spion - Handlinger"
+msgstr "Diplomat/Spion - Forhandlinger"
 
 #: client/gui-mui/gui_main.c:268 client/gui-xaw/menu.c:190
 msgid "Wait"
@@ -10921,10 +10921,10 @@ msgid_plural ""
 "(%d turns/advance)"
 msgstr[0] ""
 "%s\n"
-"(%d runder/framskritt)"
+"(%d runder/fremskritt)"
 msgstr[1] ""
 "%s\n"
-"(%d runder/framskritt)"
+"(%d runder/fremskritt)"
 
 #: client/gui-mui/repodlgs.c:343 client/gui-mui/repodlgs.c:344
 msgid "_Goal"
@@ -11314,10 +11314,10 @@ msgid_plural ""
 "(%d turns/advance)"
 msgstr[0] ""
 "\n"
-"(%d runder/framskritt)"
+"(%d runder/fremskritt)"
 msgstr[1] ""
 "\n"
-"(%d runder/framskritt)"
+"(%d runder/fremskritt)"
 
 #: client/gui-win32/repodlgs.c:164 client/gui-win32/repodlgs.c:223
 #, c-format
@@ -12069,7 +12069,7 @@ msgstr ""
 "  b: hjelp til å (b)ygge underverk (karavanneenheter)\n"
 "  c: sentrere fokus på enheten\n"
 "  C: forbind (venstreklikk for å velge destinasjon)\n"
-"  d: (d)iplomat/spion handlinger  (diplomat/spion enheter)\n"
+"  d: (d)iplomat/spion forhandlinger  (diplomat/spion enheter)\n"
 "  D: Oppløs enhet\n"
 "  e: bygg flybase (flybase enheter)\n"
 "  f: befest enhet (krigsenheter)\n"
@@ -12200,7 +12200,7 @@ msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
 msgstr ""
-"Selv om alle spill er forskjellige så er der en enkel strategi som de fleste "
+"Selv om alle spill er forskjellige så er det en grunnleggende strategi som de fleste "
 "spillere følger, spesielt i begynnelsen av spillet."
 
 #: data/helpdata.txt:536
@@ -12542,7 +12542,7 @@ msgid ""
 "city for gold - you can can consider this buying and selling."
 msgstr ""
 "    Man behøver ikke bytte likt mot likt, man kan for eksempel handle et "
-"framskritt eller en by mot gull - man kan betrakte det som kjøp og salg."
+"fremskritt eller en by mot gull - man kan betrakte det som kjøp og salg."
 
 #: data/helpdata.txt:703
 msgid ""
