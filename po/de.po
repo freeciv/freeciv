@@ -33,9 +33,9 @@ msgstr ""
 "Project-Id-Version: 1.12.0\n"
 "POT-Creation-Date: 2001-06-11 06:09+0200\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
-"Language-Team: German <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: common/city.c:208
 msgid "?wonder:w"
