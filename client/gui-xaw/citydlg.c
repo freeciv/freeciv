@@ -494,7 +494,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   Dimension widthPrev, borderPrev, internalPrev, spacePrev;
   Widget relative;
   struct citizen_type c = {.type = CITIZEN_SPECIALIST,
-			   .spec_type = SP_TAXMAN};
+			   .spec_type = DEFAULT_SPECIALIST};
 
   if (NORMAL_TILE_HEIGHT<45) dummy_improvement_list[5]=0;
 
