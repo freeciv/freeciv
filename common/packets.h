@@ -23,7 +23,7 @@
 
 #define MAX_LEN_USERNAME        10        /* see below */
 #define MAX_LEN_MSG             1536
-#define MAX_ATTRIBUTE_BLOCK     (1024*64) /* largest attribute block */
+#define MAX_ATTRIBUTE_BLOCK     (256*1024)	/* largest attribute block */
 #define ATTRIBUTE_CHUNK_SIZE    (1024*2)  /* attribute chunk size to use */
 
 /* Note that MAX_LEN_USERNAME cannot be expanded, because it
