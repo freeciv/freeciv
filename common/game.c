@@ -276,7 +276,7 @@ void game_init(void)
   game.ai_goal_government = G_MAGIC;        /* flag */
 
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
-  sz_strlcpy(game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT);
+  sz_strlcpy(game.allow_take, GAME_DEFAULT_ALLOW_TAKE);
 
   game.save_options.save_random = TRUE;
   game.save_options.save_players = TRUE;

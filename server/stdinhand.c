@@ -74,6 +74,9 @@ static void show_connections(struct connection *caller);
 static void set_ai_level(struct connection *caller, char *name, int level);
 static void set_away(struct connection *caller, char *name);
 
+static bool is_allowed_to_take(struct player *pplayer, bool will_obs, 
+                               char *msg);
+
 static void fix_command(struct connection *caller, char *str, int cmd_enum);
 static void observe_command(struct connection *caller, char *name);
 static void take_command(struct connection *caller, char *name);
@@ -171,8 +174,7 @@ struct settings_s {
 static bool valid_notradesize(int value, char **reject_message);
 static bool valid_fulltradesize(int value, char **reject_message);
 static bool autotoggle(bool value, char **reject_message);
-static bool is_valid_allowconnect(const char *allow_connect,
-				  char **error_string);
+static bool is_valid_allowtake(const char *allow_take, char **error_string);
 
 static bool valid_max_players(int v, char **r_m)
 {
@@ -673,36 +675,38 @@ static struct settings_s settings[] = {
  * affect what happens in the game, it just determines when the
  * players stop playing and look at the score.)
  */
-  GEN_STRING("allowconnect", game.allow_connect, SSET_META, SSET_TO_CLIENT,
-	     N_("What connections are allowed"),
-	     N_("This should be a string of characters, each of which "
-		"specifies a type or status of a civilization, or "
-		"\"player\".  Clients will only be permitted to connect "
-		"to those players which match one of the specified "
-		"letters.  This only affects future connections, and "
-		"existing connections are unchanged.  "
-		"The characters and their meanings are:\n"
-		"    N   = New players (only applies pre-game)\n"
-		"    H,h = Human players (pre-existing)\n"
-		"    A,a = AI players\n"
-		"    d   = Dead players\n"
-		"    b   = Barbarian players\n"
-		"The first description from the _bottom_ which matches a "
-		"player is the one which applies.  Thus 'd' does not "
-		"include Barbarians, 'a' does not include dead AI "
-		"players, and so on.  Upper case letters apply before "
-		"the game has started, lower case letters afterwards.\n"
-		"Each character above may be followed by one of the "
-		"following special characters to allow or restrict "
-		"multiple and observer connections:\n"
-		"   * = Multiple controlling connections allowed;\n"
-		"   + = One controller and multiple observers allowed;\n"
-		"   = = Multiple observers allowed, no controllers;\n"
-		"   - = Single observer only, no controllers;\n"
-		"   (none) = Single controller only.\n"
-		"Multiple connections and observer connections are "
-		"currently EXPERIMENTAL."), is_valid_allowconnect,
-	     GAME_DEFAULT_ALLOW_CONNECT)
+  GEN_STRING("allowtake", game.allow_take, SSET_META, SSET_TO_CLIENT,
+             N_("Players that users are allowed to take"),
+             N_("This should be a string of characters, each of which "
+                "specifies a type or status of a civilization, or "
+                "\"player\".  Clients will only be permitted to take "
+                "or observe those players which match one of the specified "
+                "letters.  This only affects future uses of the take or "
+                "observe command.  The characters and their meanings are:\n"
+                "    H,h = Human players\n"
+                "    A,a = AI players\n"
+                "    d   = Dead players\n"
+                "    b   = Barbarian players\n"
+                "The first description from the _bottom_ which matches a "
+                "player is the one which applies.  Thus 'd' does not "
+                "include Barbarians, 'a' does not include dead AI "
+                "players, and so on.  Upper case letters apply before "
+                "the game has started, lower case letters afterwards.\n"
+                "Each character above may be followed by one of the "
+                "following numbers to allow or restrict the manner "
+                "of connection:\n"
+                "  (none) = Controller allowed, observers allowed,\n"
+                "           can displace connections.\n"
+                "  1 = Controller allowed, observers allowed,\n"
+                "      can't displace connections;\n"
+                "  2 = Controller allowed, no observers allowed,\n"
+                "      can displace connections;\n"
+                "  3 = Controller allowed, no observers allowed,\n"
+                "      can't displace connections;\n"
+                "  4 = No controller allowed, observers allowed;\n"
+                "\"Displacing a connection\" means that you may take over "
+                "a player that another user already has control of."),
+                is_valid_allowtake, GAME_DEFAULT_ALLOW_TAKE)
 
   GEN_BOOL("autotoggle", game.auto_ai_toggle, SSET_META, SSET_TO_CLIENT,
 	   N_("Whether AI-status toggles with connection"),
@@ -3087,6 +3091,84 @@ static void fix_command(struct connection *caller, char *str, int cmd_enum)
   }
 }
 
+
+/**************************************************************************
+ check game.allow_take for permission to take or observe a player
+**************************************************************************/
+static bool is_allowed_to_take(struct player *pplayer, bool will_obs, 
+                               char *msg)
+{
+  const char *allow;
+
+  if (is_barbarian(pplayer)) {
+    if (!(allow = strchr(game.allow_take, 'b'))) {
+      if (will_obs) {
+        mystrlcpy(msg, _("Sorry, you can't observe barbarians in this game."),
+                  MAX_LEN_MSG);
+      } else {
+        mystrlcpy(msg, _("Sorry, you can't take barbarians in this game."),
+                  MAX_LEN_MSG);
+      }
+      return FALSE;
+    }
+  } else if (!pplayer->is_alive) {
+    if (!(allow = strchr(game.allow_take, 'd'))) {
+      if (will_obs) {
+        mystrlcpy(msg, _("Sorry, you can't observe dead players in this game."),
+                  MAX_LEN_MSG);
+      } else {
+        mystrlcpy(msg, _("Sorry, you can't take dead players in this game."),
+                  MAX_LEN_MSG);
+      }
+      return FALSE;
+    }
+  } else if (pplayer->ai.control) {
+    if (!(allow = strchr(game.allow_take, (game.is_new_game ? 'A' : 'a')))) {
+      if (will_obs) {
+        mystrlcpy(msg, _("Sorry, you can't observe AI players in this game."),
+                  MAX_LEN_MSG);
+      } else {
+        mystrlcpy(msg, _("Sorry, you can't take AI players in this game."),
+                  MAX_LEN_MSG);
+      }
+      return FALSE;
+    }
+  } else { 
+    if (!(allow = strchr(game.allow_take, (game.is_new_game ? 'H' : 'h')))) {
+      if (will_obs) {
+        mystrlcpy(msg, 
+                  _("Sorry, you can't observe human players in this game."),
+                  MAX_LEN_MSG);
+      } else {
+        mystrlcpy(msg, _("Sorry, you can't take human players in this game."),
+                  MAX_LEN_MSG);
+      }
+      return FALSE;
+    }
+  }
+
+  allow++;
+
+  if (will_obs && (*allow == '2' || *allow == '3')) {
+    mystrlcpy(msg, _("Sorry, you can't observe in this game."), MAX_LEN_MSG);
+    return FALSE;
+  }
+
+  if (!will_obs && *allow == '4') {
+    mystrlcpy(msg, _("Sorry, you can't take players in this game."),
+              MAX_LEN_MSG);
+    return FALSE;
+  }
+
+  if (!will_obs && pplayer->is_connected && (*allow == '1' || *allow == '3')) {
+    mystrlcpy(msg, _("Sorry, you can't take players already connected "
+                     "in this game."), MAX_LEN_MSG);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 /**************************************************************************
  Observe another player. If we were already attached, detach 
  (see detach_command()). The console and those with ALLOW_HACK can
@@ -3095,7 +3177,7 @@ static void fix_command(struct connection *caller, char *str, int cmd_enum)
 static void observe_command(struct connection *caller, char *str)
 {
   int i = 0, ntokens = 0;
-  char buf[MAX_LEN_CONSOLE_LINE], *arg[2];  
+  char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];  
   bool is_newgame = (server_state == PRE_GAME_STATE || 
                      server_state == SELECT_RACES_STATE) && game.is_new_game;
   
@@ -3165,6 +3247,12 @@ static void observe_command(struct connection *caller, char *str)
 #endif
 
   /******** PART II: do the observing ********/
+
+  /* check allowtake for permission */
+  if (!is_allowed_to_take(pplayer, TRUE, msg)) {
+    cmd_reply(CMD_OBSERVE, caller, C_FAIL, msg);
+    goto end;
+  }
 
   /* observing your own player (during pregame) makes no sense. */
   if (pconn->player == pplayer && !pconn->observer
@@ -3238,7 +3326,7 @@ static void observe_command(struct connection *caller, char *str)
 static void take_command(struct connection *caller, char *str)
 {
   int i = 0, ntokens = 0;
-  char buf[MAX_LEN_CONSOLE_LINE], *arg[2];
+  char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];
   bool is_newgame = (server_state == PRE_GAME_STATE || 
                      server_state == SELECT_RACES_STATE) && game.is_new_game;
 
@@ -3290,6 +3378,12 @@ static void take_command(struct connection *caller, char *str)
   }
 
   /******** PART II: do the attaching ********/
+
+  /* check allowtake for permission */
+  if (!is_allowed_to_take(pplayer, FALSE, msg)) {
+    cmd_reply(CMD_TAKE, caller, C_FAIL, msg);
+    goto end;
+  }
 
   /* taking your own player makes no sense. */
   if (pconn->player == pplayer && !pconn->observer) {
@@ -4292,13 +4386,12 @@ static bool autotoggle(bool value, char **reject_message)
 }
 
 /*************************************************************************
-  Verify that a given allowconnect string is valid.  See
-  game.allow_connect.
+  Verify that a given allowtake string is valid.  See
+  game.allow_take.
 *************************************************************************/
-static bool is_valid_allowconnect(const char *allow_connect,
-				  char **error_string)
+static bool is_valid_allowtake(const char *allow_take, char **error_string)
 {
-  int len = strlen(allow_connect), i;
+  int len = strlen(allow_take), i;
   bool havecharacter_state = FALSE;
 
   /* We check each character individually to see if it's valid.  This
@@ -4311,22 +4404,21 @@ static bool is_valid_allowconnect(const char *allow_connect,
 
   for (i = 0; i < len; i++) {
     /* Check to see if the character is a primary label. */
-    if (strchr("NHhAadb", allow_connect[i])) {
+    if (strchr("HhAadb", allow_take[i])) {
       havecharacter_state = TRUE;
       continue;
     }
 
     /* If we've already passed a primary label, check to see if the
      * character is a modifier. */
-    if (havecharacter_state
-	&& strchr("*+=-", allow_connect[i])) {
+    if (havecharacter_state && strchr("1234", allow_take[i])) {
       havecharacter_state = FALSE;
       continue;
     }
 
     /* Looks like the character was invalid. */
-    *error_string = _("Allowed connections string contains invalid\n"
-		      "characters.  Try \"help allowconnect\".");
+    *error_string = _("Allowed take string contains invalid\n"
+		      "characters.  Try \"help allowtake\".");
     return FALSE;
   }
 
