@@ -1070,10 +1070,6 @@ static int color_index = 0;
 ****************************************************************************/
 void toggle_city_color(struct city *pcity)
 {
-  int canvas_x, canvas_y;
-  int width = get_citydlg_canvas_width();
-  int height = get_citydlg_canvas_height();
-
   if (pcity->client.colored) {
     pcity->client.colored = FALSE;
   } else {
@@ -1082,10 +1078,7 @@ void toggle_city_color(struct city *pcity)
     color_index = (color_index + 1) % NUM_CITY_COLORS;
   }
 
-  tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
-  update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
-		    canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
-		    width, height);
+  refresh_city_mapcanvas(pcity, pcity->tile, TRUE, FALSE);
 }
 
 /****************************************************************************
@@ -1095,10 +1088,6 @@ void toggle_city_color(struct city *pcity)
 ****************************************************************************/
 void toggle_unit_color(struct unit *punit)
 {
-  int canvas_x, canvas_y;
-  int width = get_citydlg_canvas_width();
-  int height = get_citydlg_canvas_height();
-
   if (punit->client.colored) {
     punit->client.colored = FALSE;
   } else {
@@ -1107,10 +1096,7 @@ void toggle_unit_color(struct unit *punit)
     color_index = (color_index + 1) % NUM_CITY_COLORS;
   }
 
-  tile_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
-  update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
-		    canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
-		    width, height);
+  refresh_unit_mapcanvas(punit, punit->tile, FALSE);
 }
 
 /****************************************************************************
@@ -1871,21 +1857,14 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
 **************************************************************************/
 void undraw_segment(struct tile *src_tile, enum direction8 dir)
 {
-  int canvas_x, canvas_y, canvas_dx, canvas_dy;
+  struct tile *dst_tile = mapstep(src_tile, dir);
 
-  assert(!is_drawn_line(src_tile, dir));
-
-  /* Note that if source and dest tiles are not adjacent (because the
-   * mapview wraps around) this will not give the correct behavior.  This is
-   * consistent with the current design which fails when the size of the
-   * mapview approaches the size of the map. */
-  (void) tile_to_canvas_pos(&canvas_x, &canvas_y, src_tile);
-  map_to_gui_vector(&canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
-
-  update_map_canvas(MIN(canvas_x, canvas_x + canvas_dx),
-		    MIN(canvas_y, canvas_y + canvas_dy),
-		    ABS(canvas_dx) + NORMAL_TILE_WIDTH,
-		    ABS(canvas_dy) + NORMAL_TILE_HEIGHT);
+  if (is_drawn_line(src_tile, dir) || !dst_tile) {
+    assert(0);
+    return;
+  }
+  refresh_tile_mapcanvas(src_tile, FALSE);
+  refresh_tile_mapcanvas(dst_tile, FALSE);
 }
 
 /****************************************************************************
