@@ -255,10 +255,7 @@ bool handle_login_request(struct connection *pconn,
   remove_leading_trailing_spaces(req->username);
 
   /* Name-sanity check: could add more checks? */
-  if (strlen(req->username) == 0
-      || my_isdigit(req->username[0])
-      || !is_ascii_name(req->username)
-      || mystrcasecmp(req->username, ANON_USER_NAME) == 0) {
+  if (!is_valid_username(req->username)) {
     my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
     reject_new_connection(msg, pconn);
     freelog(LOG_NORMAL, _("Rejected connection from %s with invalid name."),

@@ -281,6 +281,17 @@ int main(int argc, char *argv[])
   /* after log_init: */
 
   sz_strlcpy(default_user_name, user_username());
+  if (!is_valid_username(default_user_name)) {
+    char buf[sizeof(default_user_name)];
+
+    my_snprintf(buf, sizeof(buf), "_%s", default_user_name);
+    if (is_valid_username(buf)) {
+      sz_strlcpy(default_user_name, buf);
+    } else {
+      my_snprintf(default_user_name, sizeof(default_user_name),
+		  "player%d", myrand(10000));
+    }
+  }
 
   /* initialization */
 

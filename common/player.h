@@ -307,4 +307,9 @@ bool gives_shared_vision(struct player *me, struct player *them);
 /* ai love values should be in range [-MAX_AI_LOVE..MAX_AI_LOVE] */
 #define MAX_AI_LOVE 1000
 
+
+/* User functions. */
+bool is_valid_username(const char *name);
+
+
 #endif  /* FC__PLAYER_H */
