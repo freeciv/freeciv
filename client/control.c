@@ -430,13 +430,7 @@ double blink_active_unit(void)
        * new blink_time on every update. */
       blink_timer = renew_timer_start(blink_timer, TIMER_USER, TIMER_ACTIVE);
 
-      /* HACK: since this is called so often we're careful to only do the
-       * minimal refresh. */
-      if (sprites.unit.select[0]) {
-	refresh_tile_mapcanvas(punit->tile, FALSE, TRUE);
-      } else {
-	refresh_unit_mapcanvas(punit, punit->tile, FALSE, TRUE);
-      }
+      refresh_unit_mapcanvas(punit, punit->tile, FALSE, TRUE);
     }
 
     return blink_time - read_timer_seconds(blink_timer);
