@@ -158,10 +158,9 @@ static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
   get_city_citizen_types(pcity, index, citizens);
 
   for (i = 0; i < num_citizens; i++) {
-    gdk_draw_pixmap(happiness_pixmap, civ_gc,
-		    get_citizen_pixmap(citizens[i], i, pcity),
-		    0, 0, i * offset, 0, SMALL_TILE_WIDTH,
-		    SMALL_TILE_HEIGHT);
+    pixmap_put_sprite_full(happiness_pixmap,
+			   i * offset, 0,
+			   get_citizen_sprite(citizens[i], i, pcity));
   }
 
   return happiness_pixmap;

@@ -357,20 +357,24 @@ void update_info_label( void )
 		      game.player_ptr->government);
 
   d=0;
-  for(;d<(game.player_ptr->economic.luxury)/10;d++)
+  for (; d < game.player_ptr->economic.luxury /10; d++) {
+    struct Sprite *sprite = get_citizen_sprite(CITIZEN_ELVIS, d, NULL);
     gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
-			      get_citizen_pixmap(CITIZEN_ELVIS, d, NULL),
-			      NULL);
+			      sprite->pixmap, sprite->mask);
+  }
  
-  for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
+  for (; d < (game.player_ptr->economic.science
+	     + game.player_ptr->economic.luxury) / 10; d++) {
+    struct Sprite *sprite = get_citizen_sprite(CITIZEN_SCIENTIST, d, NULL);
     gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
-			      get_citizen_pixmap(CITIZEN_SCIENTIST, d, NULL),
-			      NULL);
+			      sprite->pixmap, sprite->mask);
+  }
  
-   for(;d<10;d++)
+  for (; d < 10; d++) {
+    struct Sprite *sprite = get_citizen_sprite(CITIZEN_TAXMAN, d, NULL);
     gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
-			      get_citizen_pixmap(CITIZEN_TAXMAN, d, NULL),
-			      NULL);
+			      sprite->pixmap, sprite->mask);
+  }
  
   update_timeout_label();
 }
@@ -445,15 +449,6 @@ void update_unit_info_label(struct unit *punit)
 GdkPixmap *get_thumb_pixmap(int onoff)
 {
   return sprites.treaty_thumb[BOOL_VAL(onoff)]->pixmap;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-GdkPixmap *get_citizen_pixmap(enum citizen_type type, int cnum,
-			      struct city *pcity)
-{
-  return get_citizen_sprite(type, cnum, pcity)->pixmap;
 }
 
 /**************************************************************************
@@ -1257,6 +1252,40 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 }
 
 /**************************************************************************
+  Place part of a (possibly masked) sprite on a pixmap.
+**************************************************************************/
+static void pixmap_put_sprite(GdkDrawable *pixmap,
+			      int pixmap_x, int pixmap_y,
+			      struct Sprite *ssprite,
+			      int offset_x, int offset_y,
+			      int width, int height)
+{
+  if (ssprite->mask) {
+    gdk_gc_set_clip_origin(civ_gc, pixmap_x, pixmap_y);
+    gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
+  }
+
+  gdk_draw_pixmap(pixmap, civ_gc, ssprite->pixmap,
+		  offset_x, offset_y,
+		  pixmap_x + offset_x, pixmap_y + offset_y,
+		  MIN(width, MAX(0, ssprite->width - offset_x)),
+		  MIN(height, MAX(0, ssprite->height - offset_y)));
+
+  gdk_gc_set_clip_mask(civ_gc, NULL);
+}
+
+/**************************************************************************
+  Place a (possibly masked) sprite on a pixmap.
+**************************************************************************/
+void pixmap_put_sprite_full(GdkDrawable *pixmap,
+			    int pixmap_x, int pixmap_y,
+			    struct Sprite *ssprite)
+{
+  pixmap_put_sprite(pixmap, pixmap_x, pixmap_y, ssprite,
+		    0, 0, ssprite->width, ssprite->height);
+}
+
+/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
@@ -1269,15 +1298,8 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
   if (!ssprite || !width || !height)
     return;
 
-  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
-  gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
-
-  gdk_draw_pixmap(pixmap, civ_gc, ssprite->pixmap,
-		  offset_x, offset_y,
-		  canvas_x+offset_x, canvas_y+offset_y,
-		  MIN(width, MAX(0, ssprite->width-offset_x)),
-		  MIN(height, MAX(0, ssprite->height-offset_y)));
-  gdk_gc_set_clip_mask(civ_gc, NULL);
+  pixmap_put_sprite(pixmap, canvas_x, canvas_y, ssprite,
+		    offset_x, offset_y, width, height);
 
   /* I imagine this could be done more efficiently. Some pixels We first
      draw from the sprite, and then draw black afterwards. It would be much

@@ -642,6 +642,7 @@ static void setup_widgets(void)
   GtkWidget *frame, *table, *paned, *menubar, *sw, *text;
   GtkStyle *style;
   int i;
+  struct Sprite *sprite;
 
   /* the window is divided into two panes. "top" and "message window" */ 
   paned = gtk_vpaned_new();
@@ -730,8 +731,8 @@ static void setup_widgets(void)
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
-    econ_label[i] = gtk_image_new_from_pixmap(get_citizen_pixmap(c, i, NULL),
-					      NULL);
+    sprite = get_citizen_sprite(c, i, NULL);
+    econ_label[i] = gtk_image_new_from_pixmap(sprite->pixmap, sprite->mask);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
@@ -739,9 +740,8 @@ static void setup_widgets(void)
   bulb_label = gtk_image_new_from_pixmap(sprites.bulb[0]->pixmap, NULL);
   sun_label = gtk_image_new_from_pixmap(sprites.warming[0]->pixmap, NULL);
   flake_label = gtk_image_new_from_pixmap(sprites.cooling[0]->pixmap, NULL);
-  government_label
-    = gtk_image_new_from_pixmap(get_citizen_pixmap(CITIZEN_UNHAPPY, 0, NULL),
-				NULL);
+  sprite = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL);
+  government_label = gtk_image_new_from_pixmap(sprite->pixmap, sprite->mask);
 
   for (i = 0; i < 4; i++) {
     GtkWidget *w;

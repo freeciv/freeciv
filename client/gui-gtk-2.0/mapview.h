@@ -27,8 +27,6 @@ struct unit;
 struct city;
 
 GdkPixmap *get_thumb_pixmap(int onoff);
-GdkPixmap *get_citizen_pixmap(enum citizen_type type, int cnum,
-			      struct city *pcity);
 
 gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
 gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
@@ -48,6 +46,10 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y,
 		     int canvas_x, int canvas_y, int citymode);
 void pixmap_put_black_tile(GdkDrawable *pm,
 			   int canvas_x, int canvas_y);
+
+void pixmap_put_sprite_full(GdkDrawable *pixmap,
+			    int pixmap_x, int pixmap_y,
+			    struct Sprite *ssprite);
 
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
