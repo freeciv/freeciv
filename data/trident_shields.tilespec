@@ -65,72 +65,76 @@ files =
 
 ; Terrain info - see README.graphics
 
+[layer0]
+match_style = "BOOL"
+match_types = "arctic", "desert", "forest", "grassland", "hills", "jungle", "mountains", "ocean", "plains", "swamp", "tundra"
+
 [terrain_arctic]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 1
+layer0_match_type = "arctic"
 mine_sprite = "tx.oil_mine"
 
 [terrain_desert]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 2
+layer0_match_type = "desert"
 mine_sprite = "tx.oil_mine"
 
 [terrain_forest]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 3
+layer0_match_type = "forest"
 
 [terrain_grassland]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 3
+layer0_match_type = "grassland"
 
 [terrain_hills]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 4
+layer0_match_type = "hills"
 mine_sprite = "tx.mine"
 
 [terrain_jungle]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 5
+layer0_match_type = "jungle"
 
 [terrain_mountains]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 6
+layer0_match_type = "mountains"
 mine_sprite = "tx.mine"
 
 [terrain_ocean]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 7
+layer0_match_type = "ocean"
 
 [terrain_plains]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 8
+layer0_match_type = "plains"
 
 [terrain_swamp]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 9
+layer0_match_type = "swamp"
 
 [terrain_tundra]
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = 10
+layer0_match_type = "tundra"

@@ -85,6 +85,15 @@ int num_tiles_explode_unit=0;
 static int roadstyle;
 static int flag_offset_x, flag_offset_y;
 
+#define NUM_CORNER_DIRS 4
+#define TILES_PER_CORNER 4
+
+static struct {
+  enum match_style match_style;
+  int count;
+  char **match_types;
+} layers[MAX_NUM_LAYERS];
+
 /* Darkness style.  Don't reorder this enum since tilesets depend on it. */
 static enum {
   /* No darkness sprites are drawn. */
@@ -775,6 +784,26 @@ bool tilespec_read_toplevel(const char *tileset_name)
   minimap_intro_filename = tilespec_gfx_filename(c);
   freelog(LOG_DEBUG, "radar file %s", minimap_intro_filename);
 
+  /* Terrain layer info. */
+  for (i = 0; i < MAX_NUM_LAYERS; i++) {
+    char *style = secfile_lookup_str_default(file, "none",
+					     "layer%d.match_style", i);
+    int j;
+
+    if (mystrcasecmp(style, "full") == 0) {
+      layers[i].match_style = MATCH_FULL;
+    } else if (mystrcasecmp(style, "bool") == 0) {
+      layers[i].match_style = MATCH_BOOLEAN;
+    } else {
+      layers[i].match_style = MATCH_NONE;
+    }
+
+    layers[i].match_types = secfile_lookup_str_vec(file, &layers[i].count,
+						   "layer%d.match_types", i);
+    for (j = 0; j < layers[i].count; j++) {
+      layers[i].match_types[j] = mystrdup(layers[i].match_types[j]);
+    }
+  }
 
   /* Terrain drawing info. */
   terrains = secfile_get_secnames_prefix(file, "terrain_", &num_terrains);
@@ -789,7 +818,7 @@ bool tilespec_read_toplevel(const char *tileset_name)
   for (i = 0; i < num_terrains; i++) {
     struct terrain_drawing_data *terr = fc_malloc(sizeof(*terr));
     char *cell_type;
-    int l;
+    int l, j;
 
     memset(terr, 0, sizeof(*terr));
     terr->name = mystrdup(terrains[i] + strlen("terrain_"));
@@ -800,7 +829,7 @@ bool tilespec_read_toplevel(const char *tileset_name)
     terr->num_layers = CLIP(1, terr->num_layers, MAX_NUM_LAYERS);
 
     for (l = 0; l < terr->num_layers; l++) {
-      char *match_style;
+      char *match_type, *match_style;
 
       terr->layer[l].is_tall
 	= secfile_lookup_bool_default(file, FALSE, "%s.layer%d_is_tall",
@@ -814,16 +843,55 @@ bool tilespec_read_toplevel(const char *tileset_name)
       match_style = secfile_lookup_str_default(file, "none",
 					       "%s.layer%d_match_style",
 					       terrains[i], l);
-      if (mystrcasecmp(match_style, "bool") == 0) {
+      if (mystrcasecmp(match_style, "full") == 0) {
+	terr->layer[l].match_style = MATCH_FULL;
+      } else if (mystrcasecmp(match_style, "bool") == 0) {
 	terr->layer[l].match_style = MATCH_BOOLEAN;
       } else {
 	terr->layer[l].match_style = MATCH_NONE;
       }
 
-      if (terr->layer[l].match_style == MATCH_BOOLEAN) {
-	terr->layer[l].match_type
-	  = secfile_lookup_int_default(file, 0, "%s.layer%d_match_type",
-				       terrains[i], l);
+      match_type = secfile_lookup_str_default(file, NULL,
+					      "%s.layer%d_match_type",
+					      terrains[i], l);
+      if (match_type) {
+	/* Set match_count */
+	switch (terr->layer[l].match_style) {
+	case MATCH_NONE:
+	  terr->layer[l].match_count = 0;
+	  break;
+	case MATCH_FULL:
+	  terr->layer[l].match_count = layers[l].count;
+	  break;
+	case MATCH_BOOLEAN:
+	  terr->layer[l].match_count = 2;
+	  break;
+	}
+
+	/* Determine our match_type. */
+	for (j = 0; j < layers[l].count; j++) {
+	  if (mystrcasecmp(layers[l].match_types[j], match_type) == 0) {
+	    break;
+	  }
+	}
+	terr->layer[l].match_type = j;
+	if (j >= layers[l].count) {
+	  freelog(LOG_ERROR, "Invalid match type given for %s.", terrains[i]);
+	  terr->layer[l].match_type = 0;
+	  terr->layer[l].match_style = MATCH_NONE;
+	}
+      } else {
+	terr->layer[l].match_style = MATCH_NONE;
+	if (layers[l].match_style != MATCH_NONE) {
+	  freelog(LOG_ERROR, "Layer %d has a match_style set; all terrains"
+		  " must have a match_type.  %s doesn't.", l, terrains[i]);
+	}
+      }
+
+      if (terr->layer[l].match_style == MATCH_NONE
+	  && layers[l].match_style == MATCH_FULL) {
+	freelog(LOG_ERROR, "Layer %d has match_type full set; all terrains"
+		" must match this.  %s doesn't.", l, terrains[i]);
       }
 
       cell_type
@@ -1373,8 +1441,6 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
 						  "tile_type",
 						  tt->terrain_name);
     } else {
-      int j;
-
       switch (draw->layer[l].cell_type) {
       case CELL_SINGLE:
 	/* Load 16 cardinally-matched sprites. */
@@ -1388,16 +1454,101 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
 	draw->layer[l].base = draw->layer[l].match[0];
 	break;
       case CELL_RECT:
-	for (i = 0; i < 4; i++) { /* enum direction4 */
-	  for (j = 0; j < 8; j++) {
+	{
+	  const int count = draw->layer[l].match_count;
+	  /* N directions (NSEW) * 3 dimensions of matching */
+	  /* FIXME: should use exp() or expi() here. */
+	  const int number = NUM_CORNER_DIRS * count * count * count;
+
+	  draw->layer[l].cells
+	    = fc_malloc(number * sizeof(*draw->layer[l].cells));
+
+	  for (i = 0; i < number; i++) {
+	    int value = i / NUM_CORNER_DIRS;
+	    enum direction4 dir = i % NUM_CORNER_DIRS;
 	    const char dirs[4] = "udrl"; /* Matches direction4 ordering */
 
-	    my_snprintf(buffer1, sizeof(buffer1), "t.%s_cell_%c%d%d%d",
-			draw->name, dirs[i],
-			(j >> 2) & 1, (j >> 1) & 1, j & 1);
-	    draw->layer[l].cells[j][i]
-	      = lookup_sprite_tag_alt(buffer1, "", TRUE, "tile_type",
-				      tt->terrain_name);
+	    switch (draw->layer[l].match_style) {
+	    case MATCH_NONE:
+	      assert(0); /* Impossible. */
+	      break;
+	    case MATCH_BOOLEAN:
+	      my_snprintf(buffer1, sizeof(buffer1), "t.%s_cell_%c%d%d%d",
+			  draw->name, dirs[dir],
+			  (value >> 0) & 1,
+			  (value >> 1) & 1,
+			  (value >> 2) & 1);
+	      draw->layer[l].cells[i]
+		= lookup_sprite_tag_alt(buffer1, "", TRUE, "tile_type",
+					tt->terrain_name);
+	      break;
+	    case MATCH_FULL:
+	      {
+		int n = 0, s = 0, e = 0, w = 0;
+		int v1, v2, v3;
+		int this = draw->layer[l].match_type;
+		struct Sprite *sprite;
+
+		v1 = value % count;
+		value /= count;
+		v2 = value % count;
+		value /= count;
+		v3 = value % count;
+
+		assert(v1 < count && v2 < count && v3 < count);
+
+		/* Assume merged cells.  This should be a separate option. */
+		switch (dir) {
+		case DIR4_NORTH:
+		  s = this;
+		  w = v1;
+		  n = v2;
+		  e = v3;
+		  break;
+		case DIR4_EAST:
+		  w = this;
+		  n = v1;
+		  e = v2;
+		  s = v3;
+		  break;
+		case DIR4_SOUTH:
+		  n = this;
+		  e = v1;
+		  s = v2;
+		  w = v3;
+		  break;
+		case DIR4_WEST:
+		  e = this;
+		  s = v1;
+		  w = v2;
+		  n = v3;
+		  break;
+		}
+		my_snprintf(buffer1, sizeof(buffer1),
+			    "t.cellgroup_%s_%s_%s_%s",
+			    layers[l].match_types[n],
+			    layers[l].match_types[e],
+			    layers[l].match_types[s],
+			    layers[l].match_types[w]);
+		sprite = load_sprite(buffer1);
+
+		if (sprite) {
+		  /* Crop the sprite to separate this cell. */
+		  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+		  int x[4] = {W / 4, W / 4, 0, W / 2};
+		  int y[4] = {H / 2, 0, H / 4, H / 4};
+		  int xo[4] = {0, 0, -W / 2, W / 2};
+		  int yo[4] = {H / 2, -H / 2, 0, 0};
+
+		  sprite = crop_sprite(sprite,
+				       x[dir], y[dir], W / 2, H / 2,
+				       sprites.black_tile, xo[dir], yo[dir]);
+		}
+
+		draw->layer[l].cells[i] = sprite;
+		break;
+	      }
+	    }
 	  }
 	}
 	my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
@@ -2060,14 +2211,16 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
       int match_type = draw->layer[l].match_type;
 
 #define MATCH(dir)                                               \
-      ((sprites.terrain[ttype_near[(dir)]]->layer[l].match_type) \
-       == match_type)
+      (sprites.terrain[ttype_near[(dir)]]->layer[l].match_type)
 
       if (draw->layer[l].cell_type == CELL_SINGLE) {
 	int tileno;
 
-	tileno = INDEX_NSEW(MATCH(DIR8_NORTH), MATCH(DIR8_SOUTH),
-			    MATCH(DIR8_EAST), MATCH(DIR8_WEST));
+	assert(draw->layer[l].match_style == MATCH_BOOLEAN);
+	tileno = INDEX_NSEW(MATCH(DIR8_NORTH) == match_type,
+			    MATCH(DIR8_SOUTH) == match_type,
+			    MATCH(DIR8_EAST) == match_type,
+			    MATCH(DIR8_WEST) == match_type);
 
 	ADD_SPRITE(draw->layer[l].match[tileno],
 		   draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
@@ -2089,17 +2242,39 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 	};
 	int i;
 
-	/* put coasts */
-	for (i = 0; i < 4; i++) {
+	/* put corner cells */
+	for (i = 0; i < NUM_CORNER_DIRS; i++) {
+	  const int count = draw->layer[l].match_count;
+	  int array_index = 0;
 	  enum direction8 dir = dir_ccw(DIR4_TO_DIR8[i]);
-	  int array_index = ((!MATCH(dir_ccw(dir)) ? 4 : 0)
-			     + (!MATCH(dir) ? 2 : 0)
-			     + (!MATCH(dir_cw(dir)) ? 1 : 0));
 	  int x = (is_isometric ? iso_offsets[i][0] : noniso_offsets[i][0]);
 	  int y = (is_isometric ? iso_offsets[i][1] : noniso_offsets[i][1]);
+	  int m[3] = {MATCH(dir_ccw(dir)), MATCH(dir), MATCH(dir_cw(dir))};
+	  struct Sprite *s;
 
-	  ADD_SPRITE(draw->layer[l].cells[array_index][i],
-		     DRAW_NORMAL, TRUE, x, y);
+         switch (draw->layer[l].match_style) {
+	 case MATCH_NONE:
+	   /* Impossible */
+	   assert(0);
+	   break;
+	 case MATCH_BOOLEAN:
+	   assert(count == 2);
+	   array_index = array_index * count + (m[2] != match_type);
+	   array_index = array_index * count + (m[1] != match_type);
+	   array_index = array_index * count + (m[0] != match_type);
+	   break;
+	 case MATCH_FULL:
+	   array_index = array_index * count + m[2];
+	   array_index = array_index * count + m[1];
+	   array_index = array_index * count + m[0];
+	   break;
+	 }
+	 array_index = array_index * NUM_CORNER_DIRS + i;
+
+	 s = draw->layer[l].cells[array_index];
+	 if (s) {
+	   ADD_SPRITE(s, DRAW_NORMAL, TRUE, x, y);
+	 }
 	}
       }
 #undef MATCH

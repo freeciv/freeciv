@@ -105,7 +105,7 @@ enum direction4 {
 };
 
 enum match_style {
-  MATCH_NONE, MATCH_BOOLEAN
+  MATCH_NONE, MATCH_BOOLEAN, MATCH_FULL
 };
 
 enum cell_type {
@@ -124,13 +124,13 @@ struct terrain_drawing_data {
     int offset_x, offset_y;
 
     enum match_style match_style;
-    int match_type;
+    int match_type, match_count;
 
     enum cell_type cell_type;
 
     struct Sprite *base;
     struct Sprite *match[NUM_DIRECTION_NSEW];
-    struct Sprite *cells[8][4]; /* 4 = up down left right */
+    struct Sprite **cells;
   } layer[MAX_NUM_LAYERS];
 
   bool is_blended;
