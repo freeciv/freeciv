@@ -849,9 +849,10 @@ void canvas_put_rectangle(struct canvas *pcanvas,
     hdc = pcanvas->hdc;
   }
 
-  /*"+1"s are needed because FillRect doesn't fill bottom and right edges*/
-  SetRect(&rect, canvas_x, canvas_y, canvas_x + width + 1,
-		 canvas_y + height + 1);
+  /* FillRect doesn't fill bottom and right edges, however canvas_x + width
+   * and canvas_y + height are each 1 larger than necessary. */
+  SetRect(&rect, canvas_x, canvas_y, canvas_x + width,
+		 canvas_y + height);
 
   FillRect(hdc, &rect, brush_std[color]);
 
