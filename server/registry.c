@@ -769,6 +769,11 @@ void *strbuffermalloc(int len)
 {
   char *p;
 
+  /* align memory */
+  if(strbufferoffset % sizeof(void*))
+    strbufferoffset += sizeof(void*)-(strbufferoffset%sizeof(void*));
+
+  /* check for space */
   if(len > (65536 - strbufferoffset))  {
     alloc_strbuffer();
   }
