@@ -313,7 +313,8 @@ the city, that is - if there are defending diplomats/spies they have a
 n-1/n chance of defeating the infiltrator.
 **************************************************************************/
 
-int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer, struct unit *pdiplomat, struct city *pcity)
+int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
+			     struct unit *pdiplomat, struct city *pcity)
 {
   /* For EVERY diplomat/spy on a square, there is a 1/N chance of succeeding.
    * This needs to be changed to take into account veteran status.
@@ -325,12 +326,18 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer, str
 	/* Attacking Spy/Diplomat dies (N-1:N) */
 	
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-			 "Game: Your spy was eliminated by a defending spy in %s.", 
+			 "Game: Your %s was eliminated"
+			 " by a defending %s in %s.", 
+			 unit_name(pdiplomat->type),
+			 unit_name(punit->type),
 			 pcity->name);
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: A%s %s spy was eliminated while infiltrating %s.", 
+			 "Game: A%s %s %s was eliminated"
+			 " while infiltrating %s.", 
 			 n_if_vowel(get_race_name(cplayer->race)[0]), 
-			 get_race_name(cplayer->race), pcity->name);
+			 get_race_name(cplayer->race),
+			 unit_name(pdiplomat->type),
+			 pcity->name);
 	wipe_unit(0, pdiplomat);
 	return 0;
       } else {
@@ -338,7 +345,11 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer, str
 	/* Defending Spy/Diplomat dies (1:N) */
 	
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: Your spy has been eliminated defending against a spy in %s.", pcity->name);
+			 "Game: Your %s has been eliminated defending"
+			 " against a %s in %s.",
+			 unit_name(punit->type),
+			 unit_name(pdiplomat->type),
+			 pcity->name);
 	wipe_unit(0, punit);
       }
   
@@ -397,7 +408,8 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
  2) the attacker don't have enough credits
  3) 1/n probabilty of elminating a defending spy 
 **************************************************************************/
-void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city *pcity)
+void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
+		     struct city *pcity)
 {
   struct player *cplayer;
   struct city *pnewcity, *pc2;
@@ -420,6 +432,10 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
     
     return;
   }
+
+#if 0  /* Isn't this obsoleted by the check immediately following?? --dwp
+	* Plus the "spy" parts should be dynamically spy/diplomat.
+	*/ 
   if (diplomat_on_tile(pcity->x, pcity->y)) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 		     "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
@@ -430,6 +446,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
     wipe_unit(0, pdiplomat);
     return;
   }
+#endif
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats or Spies */
 
