@@ -379,6 +379,8 @@ void refresh_city_dialog(struct city *pcity)
     gtk_widget_set_sensitive(pdialog->show_units_command,
 			     can_client_issue_orders() &&
 			     have_present_units);
+    gtk_widget_set_sensitive(pdialog->overview.buy_command,
+			     city_buy_cost(pdialog->pcity) > 0);
   } else {
     /* Set the buttons we do not want live while a Diplomat investigates */
     gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
