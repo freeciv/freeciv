@@ -1,13 +1,70 @@
 ===========================
-Willkommen bei Freeciv 1.12
+Willkommen bei Freeciv 1.13
 ===========================
 
-Stand: 06.08.01
-
+Dies ist Version 1.13.
 
 Diese Version enthält eine Menge Änderungen, die unten skizziert sind. 
 Diejenigen, die an den Einzelheiten der Änderungen interessiert sind,
 sollten einen Blick in die ChangeLog Datei werfen.
+
+ÄNDERUNGEN SEIT VERSION 1.12.0
+
+ - Die Automatische Stadtverwaltung (ASV) verteilt selbständig die
+   Arbeiter und Spezialisten in den Städten.
+ - Soundunterstützung.
+ - Das neue 'isotrident' Grafikset ist jetzt Standard. Die Grafiksets
+   'hires' und 'engels' wurden aus der Distribution herausgenommen, können
+   aber von der Website heruntergeladen werden.
+ - Ein neuer Stadtdialog im GTK Client.
+ - Eine Windows-Version des Clients. Er hat einen verbesserten Verbindungs-
+   dialog und ermöglicht das Laden und Speichern vom Client aus.
+ - Eine GTK 2.0 Version des Clients.
+ - Bei einer Stadtgründung werden Namen vorgeschlagen, die zum Terrain
+   passen.
+ - Der Server unterstützt nicht mehr die '--server' Kommandozeilenoption,
+   stattdessen können Sie mit der '--info' Option den Ankündigungstext für
+   den Metaserver angeben. Die '-a' Option des Clients überspringt den Ver-
+   bindungsdialog.
+ - Das Serverkommando 'wall' sendet eine Nachricht an alle Spieler.
+ - Eine neue, flexible Rundenzeitvorgabe kann mit der 'timeoutinc' Server-
+   option eingestellt werden.
+ - Übriggebliebene Forschungspunkte werden für den nächsten Fortschritt
+   angerechnet.
+ - Handelswege bringen mehr ein.
+ - Einheiten erhalten doppelte Feuerkraft, wenn sie in Städten liegende
+   Schiffe angreifen; der Verteidiger hat nur Feuerkraft 1.
+ - Hubschrauber, die von Lufteinheiten angegriffen werden, erhalten 50 %
+   Abzug und haben gegen Jäger nur die Feuerkraft 1.
+ - Stadtmauern können auch gebaut werden, wenn man das Weltwunder "Die
+   große Mauer" besitzt.
+ - Im Kommunismus wurden die Nahrungskosten von Siedlern in den Standard-
+   regeln auf 1 geändert, unter den Civ2-Regeln betragen sie 2.
+ - In den Civ2-Regeln gibt es nun Fundamentalismus.
+ - Verbesserte Fähigkeiten vom Modpacks: Die Karavaneigenschaft wurde
+   geteilt. Neue Wege zur Bestimmung der Forschungskosten. Bessere Doku-
+   mentation. Die Regeln können Starttechnologien festlegen. Es ist mehr
+   als eine Bonustechnologie möglich. Siedlerfähigkeiten wurden geteilt.
+   Die Regelsyntax für Gebäude wurde deutlich erweitert, aber die Effekte
+   funktionieren noch nicht.
+ - Die Serveroption 'tiyisles' erlaubt 1x1 große Inseln;
+   'seperatepoles' erlaubt Polkontinente.
+ - 'citymindist' legt einen Minimalabstand zwischen Städten fest;
+   mit 'notradesize' und 'fulltradesize' kann der Handelsertrag von kleinen
+   Städten verringert werden.
+ - Die 'angrycitizens' Option können Bürger auch 'wütend' werden.
+ - Von 'Wachtürmen' (Befestigungen) aus kann man weiter sehen.
+   s. Wachtturm-Optionen.
+ - Wenn der Palast verlorengeht, erhalten Sie in einer zufällig ausge-
+   wählten Stadt einen neuen. Dieses Verhalten kann mit der Serveroption
+   'savepalace' ausgeschaltet werden.
+ - Regelsätze können nun mit dem Kommando "rulesetdir" in den Server
+   geladen werden. 
+ - Die Grenze für die mögliche Anzahl von Nationen in Freeciv wurde
+   entfernt.
+ - Das Format für die isometrische Grafik wurde geändert (spec-Datei).
+ - Der Code für die Karte und die KI wurde wesentlich bereinigt.
+ - Übersetzungen verbessert. Bessere Unterstützung für Pluralformen möglich.
 
 ÄNDERUNGEN SEIT VERSION 1.11.4
 
@@ -213,3 +270,5 @@ sollten einen Blick in die ChangeLog Datei werfen.
 
 Die ÄNDERUNGEN für die VERSIONEN 1.9.0 bis 1.6.3 finden Sie auf Englisch
 in der Datei NEWS.
+
+
