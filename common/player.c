@@ -263,18 +263,20 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit)
   A player can see a unit if he:
   (a) can see the tile AND
   (b) can see the unit at the tile (i.e. unit not invisible at this tile) AND
-  (c) the unit is not in an unallied city
+  (c) the unit is outside a city OR in an allied city
   
   TODO: the name is confusingly similar to player_can_see_unit_at_location
   But we need to rename p_c_s_u_a_t because it is really 
   is_unit_visible_to_player_at or player_ignores_unit_invisibility_at.
 **************************************************************************/
 bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
-                            int x, int y)
+			    int x, int y)
 {
+  struct city *pcity = map_get_city(x, y);
+
   return ((map_get_known(x, y, pplayer) == TILE_KNOWN)
-         && !(map_get_city(x, y) && !pplayers_allied(unit_owner(punit), pplayer))
-         && player_can_see_unit_at_location(pplayer, punit, x, y));
+	  && player_can_see_unit_at_location(pplayer, punit, x, y)
+	  && (!pcity || pplayers_allied(city_owner(pcity), pplayer)));
 }
 
 /***************************************************************
