@@ -61,6 +61,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, struct unit 
       
       create_unit(pplayer, pvictim->x, pvictim->y,
 		  pvictim->type, pvictim->veteran, pdiplomat->homecity);
+      light_square(pplayer, pvictim->x, pvictim->y,
+                   get_unit_type(pvictim->type)->vision_range);
       wipe_unit(0, pvictim);
       pdiplomat->moves_left=0;
       send_unit_info(pplayer, pdiplomat, 0);
