@@ -848,13 +848,19 @@ static void upgrade_building_prod(struct city *pcity)
 **************************************************************************/
 static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
 {
-  Unit_Type_id latest_ok = id;
+  Unit_Type_id check = id, latest_ok = id;
 
-  if (!can_build_unit_direct(pcity, id))
+  if (!can_build_unit_direct(pcity, check)) {
     return -1;
-  while(unit_type_exists(id = unit_types[id].obsoleted_by))
-    if (can_build_unit_direct(pcity, id))
-      latest_ok = id;
+  }
+  while(unit_type_exists(check = unit_types[check].obsoleted_by)) {
+    if (can_build_unit_direct(pcity, check)) {
+      latest_ok = check;
+    }
+  }
+  if (latest_ok == id) {
+    return -1; /* Can't upgrade */
+  }
 
   return latest_ok;
 }
