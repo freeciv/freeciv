@@ -287,12 +287,6 @@ bool ai_manage_explorer(struct unit *punit)
     range = unit_type(punit)->vision_range;
   }
 
-  /* Idle unit */
-
-  if (punit->activity != ACTIVITY_IDLE) {
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  }
-
   /* Localize the unit */
   
   if (is_ground_unit(punit)) {
@@ -517,7 +511,9 @@ bool ai_manage_explorer(struct unit *punit)
           return ai_manage_explorer(punit);          
         } else {
           /* Something went wrong. What to do but return? */
-          handle_unit_activity_request(punit, ACTIVITY_IDLE);
+          if (punit->activity == ACTIVITY_EXPLORE) {
+            handle_unit_activity_request(punit, ACTIVITY_IDLE);
+          }
           return FALSE;
         }
         
@@ -531,7 +527,9 @@ bool ai_manage_explorer(struct unit *punit)
 
   /* We have nothing to explore, so we can go idle. */
   UNIT_LOG(LOG_DEBUG, punit, "failed to explore more");
-  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  if (punit->activity == ACTIVITY_EXPLORE) {
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  }
   
   /* 
    * PART 4: Go home
@@ -1067,9 +1065,7 @@ static struct unit *ai_military_rampage(struct unit *punit, int threshold)
     ai_unit_attack(punit, x, y);
     punit = find_unit_by_id(id);
   }
-  if (count <= 0) {
-    UNIT_LOG(LOG_ERROR, punit, "infinite loop averted");
-  }
+  assert(count >= 0);
   return punit;
 }
 
@@ -1263,29 +1259,31 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 	freelog(LOG_DEBUG, "We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d, %d).",
 		punit->id, ferryboat->id, punit->x, punit->y,
 		dest_x, dest_y);
-        set_unit_activity(punit, ACTIVITY_SENTRY); /* kinda cheating -- Syela */ 
+        handle_unit_activity_request(punit, ACTIVITY_SENTRY);
         ferryboat->ai.passenger = punit->id;
 /* the code that worked for settlers wasn't good for piles of cannons */
         if (find_beachhead(punit, dest_x, dest_y, &ferryboat->goto_dest_x,
                &ferryboat->goto_dest_y) != 0) {
           punit->goto_dest_x = dest_x;
           punit->goto_dest_y = dest_y;
-          set_unit_activity(punit, ACTIVITY_SENTRY); /* anything but GOTO!! */
+          handle_unit_activity_request(punit, ACTIVITY_SENTRY);
 	  if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer)
 	      <= 0) {
 	    freelog(LOG_DEBUG, "All aboard!");
 	    /* perhaps this should only require two passengers */
             unit_list_iterate(ptile->units, mypass) {
               if (mypass->ai.ferryboat == ferryboat->id) {
-                set_unit_activity(mypass, ACTIVITY_SENTRY);
+                handle_unit_activity_request(mypass, ACTIVITY_SENTRY);
                 def = unit_list_find(&ptile->units, mypass->ai.bodyguard);
-                if (def) set_unit_activity(def, ACTIVITY_SENTRY);
+                if (def) {
+                  handle_unit_activity_request(def, ACTIVITY_SENTRY);
+                }
               }
             } unit_list_iterate_end; /* passengers are safely stowed away */
 	    if (!ai_unit_goto(ferryboat, dest_x, dest_y)) {
 	      return -1;	/* died */
 	    }
-            set_unit_activity(punit, ACTIVITY_IDLE);
+            handle_unit_activity_request(punit, ACTIVITY_IDLE);
           } /* else wait, we can GOTO later. */
         }
       } 
@@ -1575,8 +1573,6 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
       UNIT_LOG(LOG_DEBUG, punit, "GOHOME");
       (void) ai_unit_goto(punit, pcity->x, pcity->y);
     }
-  } else {
-    handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
   }
 }
 
@@ -1962,11 +1958,6 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   int ct = 10;
   struct city *pcity = NULL;
 
-  assert(punit != NULL);
-  if (punit->activity == ACTIVITY_GOTO) {
-    return;
-  }
-
   /* Main attack loop */
   do {
     /* First find easy adjacent enemies; 2 is better than pillage */
@@ -2070,8 +2061,6 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   struct packet_unit_request req;
   int tradeval, best_city = -1, best=0;
 
-  if (punit->activity != ACTIVITY_IDLE)
-    return;
   if (punit->ai.ai_role == AIUNIT_NONE) {
     if ((pcity = wonder_on_continent(pplayer, 
                                      map_get_continent(punit->x, punit->y))) 
@@ -2162,8 +2151,10 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 		  pcity->ai.invasion, aunit->ai.bodyguard);
 	}
         n++;
-        set_unit_activity(aunit, ACTIVITY_SENTRY);
-        if (bodyguard) set_unit_activity(bodyguard, ACTIVITY_SENTRY);
+        handle_unit_activity_request(aunit, ACTIVITY_SENTRY);
+        if (bodyguard) {
+          handle_unit_activity_request(bodyguard, ACTIVITY_SENTRY);
+        }
       }
     }
   unit_list_iterate_end;
@@ -2208,7 +2199,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   /* ok, not carrying anyone, even the ferryman */
   punit->ai.passenger = 0;
   UNIT_LOG(LOG_DEBUG, punit, "Ferryboat is lonely.");
-  set_unit_activity(punit, ACTIVITY_IDLE);
+  handle_unit_activity_request(punit, ACTIVITY_IDLE);
   punit->goto_dest_x = 0; /* FIXME: -1 */
   punit->goto_dest_y = 0; /* FIXME: -1 */
 
@@ -2327,9 +2318,6 @@ decides what to do with a military unit.
 static void ai_manage_military(struct player *pplayer, struct unit *punit)
 {
   int id = punit->id;
-
-  if (punit->activity != ACTIVITY_IDLE)
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
 
   /* was getting a bad bug where a settlers caused a defender to leave home */
   /* and then all other supported units went on DEFEND_HOME/goto */

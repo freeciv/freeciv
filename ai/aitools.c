@@ -159,6 +159,11 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 {
   struct unit *charge = find_unit_by_id(punit->ai.charge);
 
+  if (punit->activity == ACTIVITY_GOTO) {
+    /* It would indicate we're going somewhere otherwise */
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  }
+
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
     assert(is_normal_map_pos(punit->goto_dest_x, punit->goto_dest_y));
     remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
@@ -237,7 +242,6 @@ static void ai_unit_bodyguard_move(int unitid, int x, int y)
 
   handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
   (void) ai_unit_move(bodyguard, x, y);
-  handle_unit_activity_request(bodyguard, ACTIVITY_FORTIFYING);
 }
 
 /**************************************************************************
@@ -279,10 +283,7 @@ void ai_unit_attack(struct unit *punit, int x, int y)
   pmove.x = x;
   pmove.y = y;
   pmove.unid = punit->id;
-  if (punit->activity != ACTIVITY_IDLE
-      && punit->activity != ACTIVITY_GOTO) {
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  }
+  handle_unit_activity_request(punit, ACTIVITY_IDLE);
   handle_move_unit(unit_owner(punit), &pmove);
 
   if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
@@ -346,6 +347,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
   pmove.x = x;
   pmove.y = y;
   pmove.unid = punit->id;
+  handle_unit_activity_request(punit, ACTIVITY_IDLE);
   handle_move_unit(unit_owner(punit), &pmove);
 
   /* handle the results */
