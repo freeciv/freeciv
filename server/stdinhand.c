@@ -254,14 +254,12 @@ static struct settings_s settings[] = {
   /* These should be grouped by sclass */
   
 /* Map size parameters: adjustable if we don't yet have a map */  
-  GEN_INT("xsize", map.xsize, SSET_MAP_SIZE, SSET_GEOLOGY, SSET_TO_CLIENT,
-	  N_("Map width in squares"), "", NULL,
-	  MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH)
-    
-  GEN_INT("ysize", map.ysize, SSET_MAP_SIZE, SSET_GEOLOGY, SSET_TO_CLIENT,
-	  N_("Map height in squares"), "", NULL,
-	  MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT)
-
+  GEN_INT("size", map.size, SSET_MAP_SIZE, SSET_GEOLOGY, SSET_TO_CLIENT,
+          N_("Map size in 1,000 tiles units"),
+          N_("This value is used to determine xsize and ysize\n"
+             "  size = 4 is a normal map of 4,000 tiles (default)\n"
+             "  size = 20 is a huge map of 20,000 tiles"), NULL,
+          MAP_MIN_SIZE, MAP_MAX_SIZE, MAP_DEFAULT_SIZE)
   GEN_INT("topology", map.topology_id, SSET_MAP_SIZE, SSET_GEOLOGY, 
           SSET_TO_CLIENT,
 	  N_("The map topology index"),

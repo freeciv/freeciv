@@ -1538,6 +1538,7 @@ void map_fractal_generate(void)
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.generator != 0) {
+    map_init_topology(TRUE);  /* initialize map.xsize and map.ysize, etc */
     map_allocate();
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */

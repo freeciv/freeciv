@@ -177,8 +177,14 @@ bool map_is_empty(void)
 void map_init(void)
 {
   map.topology_id = MAP_DEFAULT_TOPO;
-  map.xsize                 = MAP_DEFAULT_WIDTH;
-  map.ysize                 = MAP_DEFAULT_HEIGHT;
+  map.size = MAP_DEFAULT_SIZE;
+
+  /* The [xy]size values are set in map_init_topology.  It is initialized
+   * to a non-zero value because some places erronously use these values
+   * before they're initialized. */
+  map.xsize = MAP_MIN_LINEAR_SIZE;  
+  map.ysize = MAP_MIN_LINEAR_SIZE;
+
   map.seed                  = MAP_DEFAULT_SEED;
   map.riches                = MAP_DEFAULT_RICHES;
   map.huts                  = MAP_DEFAULT_HUTS;
@@ -199,6 +205,110 @@ void map_init(void)
   map.have_specials         = FALSE;
   map.have_rivers_overlay   = FALSE;
   map.have_huts             = FALSE;
+}
+
+/****************************************************************************
+  Set the map xsize and ysize based on a base size and ratio (in natural
+  coordinates).
+
+  xsize and ysize are even numbers.  For iso-maps ysize%4 == 0.  This avoids
+  problems in current and future topologies.
+****************************************************************************/
+static void set_ratio(double base_size, int Xratio, int Yratio)
+{
+  /* In TF_ISO we need to double the map.ysize factor, since xsize is
+   * in native coordinates which are compressed 2x in the X direction. */ 
+  const int iso = topo_has_flag(TF_ISO) ? 2 : 1;
+
+  /* We have:
+   *
+   *   size = xsize * ysize
+   *
+   * And to satisfy the ratios and other constraints we set
+   *
+   *   xsize = 2 * isize * xratio
+   *   ysize = 2 * isize * yratio * iso
+   *
+   * For any value of "isize".  The factor of 2 is to ensure even dimensions
+   * (which are important for some topologies).  So with some substitution
+   *
+   *   size = 4 * isize * xratio * isize * yratio * iso
+   *   isize = sqrt(size / (4 * xratio * yratio * iso))
+   *
+   * Remember that size = base_size * 1000.  So this gives us
+   *
+   *   isize = sqrt(base_size * 250 / (xratio * yratio * iso))
+   */
+  int i_size = sqrt(250.0 * base_size / (Xratio * Yratio * iso)) + 0.49;
+
+  /* Make sure the linear size is large enough. */
+  while (MIN(Xratio, iso * Yratio) * 2 * i_size < MAP_MIN_LINEAR_SIZE) {
+    i_size++;
+  }
+
+  /* Now build xsize and ysize value as described above.  This gives and
+   * even xsize and ysize.  For iso maps ysize % 4 == 0. */
+  map.xsize =       2 * Xratio * i_size;
+  map.ysize = iso * 2 * Yratio * i_size;
+
+  /* Now make sure the linear size isn't too large.  If it is, the best thing
+   * we can do is decrease the base_size and try again. */
+  if (MAX(MAP_WIDTH, MAP_HEIGHT) - 1 > MAP_MAX_LINEAR_SIZE ) {
+      /* make a more litle map if possible */
+    assert(base_size > 0.1);
+    set_ratio(base_size - 0.1, Xratio, Yratio);
+    return;
+  }
+
+  if (map.size > base_size + 0.9) {
+    /* Warning when size is set uselessly big */ 
+    freelog(LOG_NORMAL,
+	    _("Requested size of %d is too big for this topology."),
+	    map.size);
+  }
+  freelog(LOG_VERBOSE,
+	  _("Creating a map of size of %2.1fk tiles"),
+	  base_size);
+  freelog(LOG_VERBOSE,
+	  "map.xsize and map.ysize are seted to %d and %d ",
+	  map.xsize, map.ysize);
+}
+
+/*
+ * The auto ratios for known topologies
+ */
+#define AUTO_RATIO_FLAT           {1, 1}
+#define AUTO_RATIO_CLASSIC        {8, 5} 
+#define AUTO_RATIO_URANUS         {5, 8} 
+#define AUTO_RATIO_TORUS          {1, 1}
+
+/****************************************************************************
+  map_init_topology needs to be called after map.topology_id is changed.
+
+  If map.size is changed, call map_init_topology(TRUE) to calculate map.xsize
+  and map.ysize based on the default ratio.
+
+  If map.xsize and map.ysize are changed, call map_init_topology(FALSE) to
+  calculate map.size.  This should be done in the client or when loading
+  savegames, since the [xy]size values are already known.
+****************************************************************************/
+void map_init_topology(bool set_sizes)
+{
+  /* Changing or reordering the topo_flag enum will break this code. */
+  const int default_ratios[4][2] =
+      {AUTO_RATIO_FLAT, AUTO_RATIO_CLASSIC,
+       AUTO_RATIO_URANUS, AUTO_RATIO_TORUS};
+  const int id = 0x3 & map.topology_id;
+  
+  assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
+
+  if (set_sizes) {
+    /* Set map.xsize and map.ysize based on map.size. */
+    set_ratio(map.size, default_ratios[id][0], default_ratios[id][1]);  
+  } else {
+    /* Set map.size based on map.xsize and map.ysize. */
+    map.size = (float)(map.xsize * map.ysize) / 1000.0 + 0.5;
+  }
 }
 
 /***************************************************************

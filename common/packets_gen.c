@@ -3781,10 +3781,10 @@ static struct packet_map_info *receive_packet_map_info_100(struct connection *pc
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->xsize);
+    dio_get_uint16(&din, (int *) &real_packet->xsize);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->ysize);
+    dio_get_uint16(&din, (int *) &real_packet->ysize);
   }
   if (BV_ISSET(fields, 2)) {
     dio_get_uint8(&din, (int *) &real_packet->topology_id);
@@ -3842,10 +3842,10 @@ static int send_packet_map_info_100(struct connection *pc, const struct packet_m
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->xsize);
+    dio_put_uint16(&dout, real_packet->xsize);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->ysize);
+    dio_put_uint16(&dout, real_packet->ysize);
   }
   if (BV_ISSET(fields, 2)) {
     dio_put_uint8(&dout, real_packet->topology_id);

@@ -189,6 +189,7 @@ type IMPROVEMENT	= uint8(Impr_Type_id)
 
 # other typedefs
 type COORD  		= UINT8
+type XYSIZE  		= UINT16
 type YEAR     		= SINT16
 type HP     		= UINT8
 type PERCENT  		= UINT8
@@ -349,8 +350,8 @@ PACKET_GAME_INFO=15; is-info,sc
 end
 
 PACKET_MAP_INFO=16; is-info,sc,lsend
-  COORD xsize;
-  COORD ysize;
+  XYSIZE xsize;
+  XYSIZE ysize;
   UINT8 topology_id;
 end
 

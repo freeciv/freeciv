@@ -75,7 +75,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
-                   "+starter +union +iso_maps +orders2client " \
+                   "+starter +union +iso_maps +big_map_size +orders2client " \
                    "+change_production +tilespec1 +no_earth +trans " \
                    "+want_hack invasions bombard +killstack2 spec +spec2 " \
                    "+city_map"
@@ -95,6 +95,8 @@ const char * const our_capability = our_capability_internal;
  * "union" is team research ability
  *
  * "iso_maps" means iso-maps are supported by both server and client!
+ *
+ * "big_map_size" means [xy]size info is sent as UINT16 
  *
  * "orders2client" means that the server sends back the orders to the client.
  *

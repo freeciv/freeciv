@@ -117,6 +117,7 @@ struct tile_type {
 
 struct civ_map { 
   int topology_id;
+  int size; /* used to calculate [xy]size */
   int xsize, ysize; /* native dimensions */
   int seed;
   int riches;
@@ -148,6 +149,7 @@ struct civ_map {
 
 enum topo_flag {
   /* Bit-values. */
+  /* Changing these values will break map_init_topology. */
   TF_WRAPX = 1,
   TF_WRAPY = 2,
   TF_ISO = 4
@@ -159,6 +161,7 @@ enum topo_flag {
 
 bool map_is_empty(void);
 void map_init(void);
+void map_init_topology(bool set_sizes);
 void map_allocate(void);
 void map_free(void);
 
@@ -261,6 +264,15 @@ void reset_move_costs(int x, int y);
 #define NATURAL_WIDTH (topo_has_flag(TF_ISO) ? 2 * map.xsize : map.xsize)
 #define NATURAL_HEIGHT map.ysize
 
+#define MAP_WIDTH \
+   (topo_has_flag(TF_ISO) \
+    ? (map.xsize + map.ysize / 2) \
+    : map.xsize)
+#define MAP_HEIGHT \
+(topo_has_flag(TF_ISO) \
+    ? (map.xsize + map.ysize / 2) \
+    : map.ysize)
+  
 static inline int map_pos_to_index(int map_x, int map_y);
 
 /* index_to_map_pos(int *, int *, int) inverts map_pos_to_index */
@@ -638,13 +650,18 @@ extern const int CAR_DIR_DY[4];
 #define MAP_MIN_HUTS             0
 #define MAP_MAX_HUTS             500
 
-#define MAP_DEFAULT_WIDTH        80
-#define MAP_MIN_WIDTH            40
-#define MAP_MAX_WIDTH            200
+/* Size of the map in thousands of tiles */
+#define MAP_DEFAULT_SIZE         4
+#define MAP_MIN_SIZE             1
+#define MAP_MAX_SIZE             29
 
-#define MAP_DEFAULT_HEIGHT       50
-#define MAP_MIN_HEIGHT           25
-#define MAP_MAX_HEIGHT           100
+/* This defines the maximum linear size in _map_ coordinates.
+ * This must be smaller than 255 because of the way coordinates are sent
+ * across the network. */
+#define MAP_MAX_LINEAR_SIZE      254
+#define MAP_MIN_LINEAR_SIZE      8
+#define MAP_MAX_WIDTH            MAP_MAX_LINEAR_SIZE
+#define MAP_MAX_HEIGHT           MAP_MAX_LINEAR_SIZE
 
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
 #define MAP_DEFAULT_TOPO         TF_WRAPX

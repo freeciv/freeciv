@@ -354,6 +354,9 @@ static void map_tiles_load(struct section_file *file)
   map.xsize=secfile_lookup_int(file, "map.width");
   map.ysize=secfile_lookup_int(file, "map.height");
 
+  /* With a FALSE parameter [xy]size are not changed by this call. */
+  map_init_topology(FALSE);
+
   map_allocate();
 
   /* get the terrain type */
