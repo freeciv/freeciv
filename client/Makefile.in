@@ -65,7 +65,7 @@ RANLIB = @RANLIB@
 VERSION = @VERSION@
 
 bin_PROGRAMS = civclient
-INCLUDES = -I $(srcdir)/../common -I $(srcdir)/../ai
+INCLUDES = -I $(srcdir)/../common
 
 BUILT_SOURCES = Freeciv.h
 

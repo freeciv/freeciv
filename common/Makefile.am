@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libcivcommon.a
 
-INCLUDES = -I $(srcdir)/../ai
+INCLUDES =
 
 libcivcommon_a_SOURCES = \
 		capability.c	\
