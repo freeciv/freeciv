@@ -676,16 +676,17 @@ update_map_canvas(int x, int y, int width, int height,
   mapstoredc=CreateCompatibleDC(NULL);
   old=SelectObject(mapstoredc,mapstorebitmap);
   if (!is_isometric) {
-    int x_itr, y_itr;
+    int map_x, map_y;
     int canvas_x,canvas_y;
     int old_x;
     old_x=-1;
-    for(y_itr=y; y_itr<y+height; y_itr++)
-      for(x_itr=x; x_itr<x+width; x_itr++) {
-	int map_x = map_adjust_x(x_itr);
-	int map_y = y_itr; /* not adjusted;, we want to draw black tiles */
-	get_canvas_xy(map_x,map_y,&canvas_x,&canvas_y);
-	if (tile_visible_mapcanvas(map_x,map_y))
+    for(map_y=y; map_y<y+height; map_y++)
+      for(map_x=x; map_x<x+width; map_x++) {
+	/*
+	 * We don't normalize until later because we want to draw
+	 * black tiles for unreal positions.
+	 */
+	if (get_canvas_xy(map_x,map_y,&canvas_x,&canvas_y))
 	  {
 	    old_x=map_x;
 	    pixmap_put_tile(mapstoredc, map_x, map_y,
@@ -1008,7 +1009,7 @@ move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
   HDC mapstoredc;
   HBITMAP old;
   static struct timer *anim_timer = NULL; 
-  int dest_x, dest_y;
+  int dest_x, dest_y, is_real;
   
   
   /* only works for adjacent-square moves */
@@ -1022,8 +1023,11 @@ move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
     update_unit_info_label(punit);
   }
   
-  dest_x = map_adjust_x(x0+dx);
-  dest_y = map_adjust_y(y0+dy);
+  dest_x = x0 + dx;
+  dest_y = y0 + dy;
+  is_real = normalize_map_pos(&dest_x, &dest_y);
+  assert(is_real);
+
   mapstoredc=CreateCompatibleDC(NULL);
   old=SelectObject(mapstoredc,mapstorebitmap);
   if (player_can_see_unit(game.player_ptr, punit) &&
