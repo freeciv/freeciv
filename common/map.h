@@ -244,6 +244,8 @@ void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);
 void change_terrain(int x, int y, enum tile_terrain_type type);
 void map_transform_tile(int x, int y);
+int can_reclaim_ocean(int x, int y);
+int can_channel_land(int x, int y);
 
 int map_build_road_time(int x, int y);
 int map_build_irrigation_time(int x, int y);

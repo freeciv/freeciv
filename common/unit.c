@@ -553,58 +553,6 @@ int can_unit_paradrop(struct unit *punit)
 }
 
 /**************************************************************************
-This function returns true if the tile at the given location can be
-"reclaimed" from ocean into land.  This is the case only when there are
-a sufficient number of adjacent tiles that are not ocean.
-**************************************************************************/
-static int can_reclaim_ocean(int x, int y)
-{
-  int landtiles;
-
-  if (terrain_control.ocean_reclaim_requirement >= 9)
-    return 0;
-  if (terrain_control.ocean_reclaim_requirement <= 0)
-    return 1;
-
-  landtiles = 0;
-  adjc_iterate(x, y, x1, y1) {
-    if (map_get_tile(x1, y1)->terrain != T_OCEAN) {
-      landtiles++;
-    }
-    if (landtiles >= terrain_control.ocean_reclaim_requirement)
-      return 1;
-  } adjc_iterate_end;
-
-  return 0;
-}
-
-/**************************************************************************
-This function returns true if the tile at the given location can be
-"channeled" from land into ocean.  This is the case only when there are
-a sufficient number of adjacent tiles that are ocean.
-**************************************************************************/
-static int can_channel_land(int x, int y)
-{
-  int oceantiles;
-
-  if (terrain_control.land_channel_requirement >= 9)
-    return 0;
-  if (terrain_control.land_channel_requirement <= 0)
-    return 1;
-
-  oceantiles = 0;
-  adjc_iterate(x, y, x1, y1) {
-    if (map_get_tile(x1, y1)->terrain == T_OCEAN) {
-      oceantiles++;
-    }
-    if (oceantiles >= terrain_control.land_channel_requirement)
-      return 1;
-  } adjc_iterate_end;
-
-  return 0;
-}
-
-/**************************************************************************
 Check if the unit's current activity is actually legal.
 **************************************************************************/
 int can_unit_continue_current_activity(struct unit *punit)

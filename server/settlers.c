@@ -586,7 +586,12 @@ static int ai_calc_transform(struct city *pcity, int i, int j)
   type = get_tile_type(t);
   s = ptile->special;
   r = type->transform_result;
-  
+
+  if (t == T_OCEAN && !can_reclaim_ocean(x, y))
+    return -1;
+  if (r == T_OCEAN && !can_channel_land(x, y))
+    return -1;
+
   if ((t == T_ARCTIC || t == T_DESERT || t == T_JUNGLE || t == T_SWAMP  || 
        t == T_TUNDRA || t == T_MOUNTAINS) && r != T_LAST) {
     if (r == T_OCEAN && ptile->city)
