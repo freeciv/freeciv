@@ -1344,7 +1344,9 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
     /* The player used to know what units were in these cities.  Now that he
      * doesn't, he needs to get a new short city packet updating the
      * occupied status. */
-    send_city_info(pplayer, pcity);
+    if (map_is_known_and_seen(pcity->x, pcity->y, pplayer)) {
+      send_city_info(pplayer, pcity);
+    }
   } city_list_iterate_end;
 }
 
