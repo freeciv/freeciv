@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-20 13:46+0100\n"
+"PO-Revision-Date: 2005-01-25 09:29+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15340,6 +15340,10 @@ msgid ""
 "<td valign=\"top\"><pre>Synopsis:</pre></td>\n"
 "<td>"
 msgstr ""
+"<table>\n"
+"<tr>\n"
+"<td valign=\"top\"><pre>Shrnutí:</pre></td>\n"
+"<td>"
 
 #: manual/civmanual.c:203
 #, c-format
@@ -20637,7 +20641,7 @@ msgstr "?plural:Babylóňané"
 
 #: data/nation/babylonian.ruleset:6
 msgid "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries BC under a succession of peoples including Amorites, Kassites, Assyrians, and Chaldeans."
-msgstr ""
+msgstr "Babylón byl dominantním městem Mezopotámie od 18-7.století před naším letopočtem a obyvatelé byli i Amorité, Kasité, Asyřané a Chaldeané."
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -20698,7 +20702,7 @@ msgstr "?plural:Brazilové"
 
 #: data/nation/brazilian.ruleset:6
 msgid "Brazil was founded as a colony of Portugal but became independent in 1822AD. It is the only country in the New World that has been the seat of a monarchy."
-msgstr ""
+msgstr "Brazílie vznikla jako Portugalská kolonie a stala se nezávislou v roce 1822. Je to jediná země v Novém Světě, která měla kořeny v monarchii."
 
 #: data/nation/brazilian.ruleset:17
 #: data/nation/roman.ruleset:19
@@ -20753,7 +20757,7 @@ msgstr "?plural:Kartagiňané"
 
 #: data/nation/carthaginian.ruleset:6
 msgid "The Carthaginians, descendants of Phoenician traders, ran a naval empire in the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed by Rome in 146BC."
-msgstr ""
+msgstr "Kartagiňané, následníci Fénických obchodníků, vládli námořnímu impériu ve Středozemním moři v 5-2. století před naším letopočtem. Kartágo bylo zničeno Římem v roce 146 př.n.l."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -21013,7 +21017,7 @@ msgstr "?plural:Estonci"
 
 #: data/nation/estonian.ruleset:6
 msgid "Estonia is a small country on the south shore of the eastern Baltic Sea.  Its people and language are closely related to those of Finland."
-msgstr ""
+msgstr "Estonsko je malá země u serverního pobřeží Baltského moře. Její obyvatelé a jazyk jsou příbuzné Finsku."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
@@ -21049,7 +21053,7 @@ msgstr "?plural:Finové"
 
 #: data/nation/finnish.ruleset:6
 msgid "Finland is a small, cold country on the northern fringe of Europe, noted for exporting timber, cellular phones, and world-class operating systems."
-msgstr ""
+msgstr "Finsko je malá, studená země na severním okraji Evropy, významný producent dřeva, mobilních telefonů a světově proslulých operačních systémů."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -21490,7 +21494,7 @@ msgstr "?plural:Římané"
 
 #: data/nation/roman.ruleset:6
 msgid "Rome was, in legend, founded by Romulus in 753 BC.  At its height, Rome controlled nearly all of Europe, northern Africa and Mesopotamia."
-msgstr ""
+msgstr "Řím podle legendy založil Romulus v roce 753 př.n.l. Jak rostl, Řím ovládal téměř celou Evropu, severní Afriku a Mezopotámii."
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
@@ -21546,7 +21550,7 @@ msgstr "?plural:Srbové"
 
 #: data/nation/serbian.ruleset:6
 msgid "Serbia is part of the region of the Southern Slavs that was conquered by the Ottomans after the collapse of the Byzantine Empire.  During most of the 20th century it was part of the Yugoslav Federation."
-msgstr ""
+msgstr "Srbsko je část regionu jižních Slovanů, které bylo součástí Turecké říše po rozpadu Byzantského impéria. Během 20.století bylo součástí Jugoslávské federace."
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
