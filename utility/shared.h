@@ -101,7 +101,8 @@ typedef unsigned int fc_bool;
      ? ((value) % (range) != 0 ? (value) % (range) + (range) : 0)           \
      : ((value) >= (range) ? (value) % (range) : (value)))
 
-#define BOOL_VAL(x) ((x)!=0)
+#define BOOL_VAL(x) ((x) != 0)
+#define XOR(p, q) (!(p) != !(q))
 
 /*
  * DIVIDE() divides and rounds down, rather than just divides and

@@ -49,6 +49,11 @@ struct player_tile {
   short last_updated;
 };
 
+/* The maximum number of continents and oceans. */
+#define MAP_NCONT 300
+
+void assign_continent_numbers(void);
+
 void global_warming(int effect);
 void nuclear_winter(int effect);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
