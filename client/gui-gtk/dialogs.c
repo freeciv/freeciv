@@ -312,7 +312,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
   GtkWidget *notify_dialog_shell, *notify_command, *notify_goto_command;
   GtkWidget *notify_label;
   
-  if (y < 0 || y >= map.ysize) {
+  if (!is_real_tile(x, y)) {
     popup_notify_dialog(_("Message:"), headline, lines);
     return;
   }

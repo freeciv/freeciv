@@ -311,7 +311,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
   Widget notify_headline, notify_label;
   Dimension width, width2, width_1, width_2;
   
-  if (y < 0 || y >= map.ysize) {
+  if (!is_real_tile(x, y)) {
     popup_notify_dialog("Message:", headline, lines);
     return;
   }

@@ -594,16 +594,13 @@ void request_unit_build_city(struct unit *punit)
 **************************************************************************/
 void request_move_unit_direction(struct unit *punit, int dx, int dy)
 {
-  int dest_x, dest_y;
+  int dest_x = punit->x + dx, dest_y = punit->y + dy;
   struct unit req_unit;
 
-  dest_x = map_adjust_x(punit->x+dx);
-  dest_y = punit->y+dy; /* Not adjusted since if it needed to be adjusted it
-			   would mean that we tried to move off the map... */
-
   /* Catches attempts to move off map */
-  if (!is_real_tile(dest_x, dest_y))
+  if (!normalize_map_pos(&dest_x, &dest_y)) {
     return;
+  }
 
   req_unit = *punit;
   req_unit.x = dest_x;
@@ -1062,17 +1059,19 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   punit->hp=pinfo->hp;
   unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
-  for(y=punit->y-2; y<punit->y+3; ++y) { 
-    if(y<0 || y>=map.ysize)
-      continue;
-    for(x=punit->x-2; x<punit->x+3; ++x) { 
-      unit_list_iterate(map_get_tile(x, y)->units, pu)
-	if(unit_flag(pu, F_PARTIAL_INVIS)) {
-	  refresh_tile_mapcanvas(map_adjust_x(pu->x), y, 1);
-	}
-      unit_list_iterate_end
+  square_iterate(punit->x, punit->y, 2, x, y) {
+    int refresh = 0;
+    unit_list_iterate(map_get_tile(x, y)->units, pu) {
+      if (unit_flag(pu, F_PARTIAL_INVIS)) {
+	refresh = 1;
+	goto out;
+      }
+    } unit_list_iterate_end;
+  out:
+    if (refresh) {
+      refresh_tile_mapcanvas(x, y, 1);
     }
-  }
+  } square_iterate_end;
   
   if(!pinfo->carried && tile_is_known(punit->x,punit->y) == TILE_KNOWN)
     refresh_tile_mapcanvas(punit->x, punit->y, 1);

@@ -562,12 +562,11 @@ static void Map_Priv_ShowCityDescriptions(Object *o, struct Map_Data *data)
         }
       }
     } else { /* is_isometric */
-      int x, y;
       int x1, y1;
       for (x1 = 0; x1 < map_canvas_store_twidth; x1++) {
-        x = (map_view_x0 + x1) % map.xsize;
         for (y1 = 0; y1 < map_canvas_store_theight; y1++) {
-	  y = map_view_y0 + y1;
+          int x = map_view_x0 + x1;
+	  int y = map_view_y0 + y1;
 	  if (normalize_map_pos(&x, &y)) {
 	    show_desc_at_tile(o, data, x, y);
 	  }

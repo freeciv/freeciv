@@ -372,16 +372,16 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
- GUI Independ (with new access functions)
+This function is now identical in all GUI's except BeOS.
 **************************************************************************/
 void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
 {
-  x = map_adjust_x(x);
-  y = map_adjust_y(y);
+  int is_real = normalize_map_pos(&x, &y);
 
-  if (tile_visible_mapcanvas(x, y))
-  {
-    update_map_canvas(x,y, 1, 1, write_to_screen);
+  assert(is_real);
+
+  if (tile_visible_mapcanvas(x, y)) {
+    update_map_canvas(x, y, 1, 1, write_to_screen);
   }
   overview_update_tile(x, y);
 }
@@ -490,15 +490,7 @@ void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 
     /* If we are outside the map find the nearest tile, with distance as
        seen on the map. */
-    if (*map_y < 0) {
-      *map_y = 0;
-    } else if (*map_y >= map.ysize) {
-      *map_y = map.ysize - 1;
-    }
-
-    *map_x %= map.xsize;
-    if (*map_x < 0)
-      *map_x += map.xsize;
+    nearest_real_pos(map_x, map_y);
   } else { /* is_isometric */
     *map_x = map_adjust_x(map_view_x0 + canvas_x/NORMAL_TILE_WIDTH);
     *map_y = map_adjust_y(map_view_y0 + canvas_y/NORMAL_TILE_HEIGHT);

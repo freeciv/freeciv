@@ -388,14 +388,15 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-...
+This function is now identical in all GUI's except BeOS.
 **************************************************************************/
 void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
 {
-  x=map_adjust_x(x);
-  y=map_adjust_y(y);
+  int is_real = normalize_map_pos(&x, &y);
 
-  if(tile_visible_mapcanvas(x, y)) {
+  assert(is_real);
+
+  if (tile_visible_mapcanvas(x, y)) {
     update_map_canvas(x, y, 1, 1, write_to_screen);
   }
   overview_update_tile(x, y);
@@ -820,13 +821,15 @@ static void show_city_descriptions(void)
   if (!draw_city_names && !draw_city_productions)
     return;
 
-  for(y=0; y<map_canvas_store_theight; ++y) { 
-    int ry=map_view_y0+y;
-    if (ry >= map.ysize)
-      break;
-    for(x=0; x<map_canvas_store_twidth; ++x) { 
-      int rx=(map_view_x0+x)%map.xsize;
+  for (y = 0; y < map_canvas_store_theight; ++y) {
+    for (x = 0; x < map_canvas_store_twidth; ++x) {
+      int rx = map_view_x0 + x;
+      int ry = map_view_y0 + y;
       struct city *pcity;
+
+      if (!normalize_map_pos(&rx, &ry))
+        continue;
+
       if((pcity=map_get_city(rx, ry))) {
 
 	if (draw_city_names) {
