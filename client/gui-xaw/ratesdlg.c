@@ -34,6 +34,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "gui_stuff.h"
 #include "mapview.h"
@@ -93,7 +94,7 @@ void popup_rates_dialog(void)
 		    &x, &y);
   XtVaSetValues(rates_dialog_shell, XtNx, x, XtNy, y, NULL);
 
-  sprintf(buf, "%s max rate: %d%%",
+  my_snprintf(buf, sizeof(buf), "%s max rate: %d%%",
 	  get_government_name(game.player_ptr->government),
 	  get_government_max_rate(game.player_ptr->government));
   xaw_set_label(rates_gov_label, buf);
@@ -303,7 +304,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
   
   if(tax!=rates_tax_value) {
-    sprintf(buf, _("Tax: %d%%"), tax);
+    my_snprintf(buf, sizeof(buf), _("Tax: %d%%"), tax);
     xaw_set_label(rates_tax_label, buf);
     if(!no_tax_scroll)
       XawScrollbarSetThumb(rates_tax_scroll, (tax/10)*1/11.0f, 1/11.0f);
@@ -311,7 +312,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(lux!=rates_lux_value) {
-    sprintf(buf, _("Luxury: %d%%"), lux);
+    my_snprintf(buf, sizeof(buf), _("Luxury: %d%%"), lux);
     xaw_set_label(rates_lux_label, buf);
     if(!no_lux_scroll)
       XawScrollbarSetThumb(rates_lux_scroll, (lux/10)*1/11.0f, 1/11.0f);
@@ -319,7 +320,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(sci!=rates_sci_value) {
-    sprintf(buf, _("Science: %d%%"), sci);
+    my_snprintf(buf, sizeof(buf), _("Science: %d%%"), sci);
     xaw_set_label(rates_sci_label, buf);
     if(!no_sci_scroll)
       XawScrollbarSetThumb(rates_sci_scroll, (sci/10)*1/11.0f, 1/11.0f);

@@ -29,7 +29,7 @@
 #include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "player.h"
-#include "support.h"		/* myusleep() */
+#include "support.h"
 
 #include "civclient.h"
 #include "colors.h"
@@ -240,7 +240,7 @@ void update_timeout_label(void)
 {
   char buffer[512];
 
-  sprintf(buffer, "%d", seconds_to_turndone);
+  my_snprintf(buffer, sizeof(buffer), "%d", seconds_to_turndone);
   gtk_set_label(timeout_label, buffer);
 }
 
@@ -254,7 +254,8 @@ void update_info_label( void )
 
   gtk_frame_set_label( GTK_FRAME( main_frame_civ_name ), get_nation_name(game.player_ptr->nation) );
 
-  sprintf( buffer, _("Population: %s\nYear: %s\nGold %d\nTax: %d Lux: %d Sci: %d"),
+  my_snprintf(buffer, sizeof(buffer),
+	  _("Population: %s\nYear: %s\nGold %d\nTax: %d Lux: %d Sci: %d"),
   	  int_to_text( civ_population( game.player_ptr ) ),
   	  textyear( game.year ),
   	  game.player_ptr->economic.gold,
@@ -297,12 +298,12 @@ void update_unit_info_label(struct unit *punit)
     struct city *pcity;
     pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
 
-    sprintf(buffer, "%s %s", 
+    my_snprintf(buffer, sizeof(buffer), "%s %s", 
             get_unit_type(punit->type)->name,
             (punit->veteran) ? _("(veteran)") : "" );
     gtk_frame_set_label( GTK_FRAME(unit_info_frame), buffer);
 
-    sprintf(buffer, "%s\n%s\n%s", 
+    my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s", 
             (goto_state==punit->id) ? 
             _("Select destination") : unit_activity_text(punit), 
             map_get_tile_info_text(punit->x, punit->y),

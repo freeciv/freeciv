@@ -42,6 +42,7 @@
 #include "mem.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "clinet.h"
@@ -324,14 +325,16 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 					       pdialog->dip_main_form, 
 					       NULL);
   
-  sprintf(buf, _("The %s offerings"), get_nation_name(plr0->nation));
+  my_snprintf(buf, sizeof(buf), _("The %s offerings"),
+	      get_nation_name(plr0->nation));
   pdialog->dip_headline0=XtVaCreateManagedWidget("dipheadline0", 
 						 labelWidgetClass, 
 						 pdialog->dip_form0, 
 						 XtNlabel, buf,
 						 NULL);   
 
-  sprintf(buf, _("The %s offerings"), get_nation_name(plr1->nation));
+  my_snprintf(buf, sizeof(buf), _("The %s offerings"),
+	      get_nation_name(plr1->nation));
   pdialog->dip_headline1=XtVaCreateManagedWidget("dipheadline1", 
 						 labelWidgetClass, 
 						 pdialog->dip_form1, 
@@ -444,14 +447,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						   pdialog->dip_form1,
 						   NULL);
   
-  sprintf(buf, _("Gold(max %d)"), plr0->economic.gold);
+  my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr0->economic.gold);
   pdialog->dip_gold_label0=XtVaCreateManagedWidget("dipgoldlabel0", 
 						   labelWidgetClass,
 						   pdialog->dip_form0,
 						   XtNlabel, buf,
 						   NULL);
 
-  sprintf(buf, _("Gold(max %d)"), plr1->economic.gold);
+  my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr1->economic.gold);
   pdialog->dip_gold_label1=XtVaCreateManagedWidget("dipgoldlabel1", 
 						   labelWidgetClass,
 						   pdialog->dip_form1,
@@ -459,7 +462,8 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						   NULL);
 
   
-  sprintf(buf, _("This Eternal Treaty\n"
+  my_snprintf(buf, sizeof(buf),
+	      _("This Eternal Treaty\n"
 		 "marks the results of the diplomatic work between\n"
 		 "The %s %s %s\nand\nThe %s %s %s"),
 	  get_nation_name(plr0->nation),
@@ -499,7 +503,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtVaSetValues(pdialog->dip_view, XtNwidth, width, NULL); 
   XtVaSetValues(pdialog->dip_clauselist, XtNwidth, width, NULL); 
 
-  sprintf(buf, _("%s view:"), get_nation_name(plr0->nation));
+  my_snprintf(buf, sizeof(buf), _("%s view:"), get_nation_name(plr0->nation));
   pdialog->dip_acceptlabel0=XtVaCreateManagedWidget("dipacceptlabel0",
 						    labelWidgetClass, 
 						    pdialog->dip_formm, 
@@ -510,7 +514,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						    pdialog->dip_formm, 
 						    XtNbitmap, get_thumb_pixmap(0),
 						    NULL);
-  sprintf(buf, _("%s view:"), get_nation_name(plr1->nation));
+  my_snprintf(buf, sizeof(buf), _("%s view:"), get_nation_name(plr1->nation));
   pdialog->dip_acceptlabel1=XtVaCreateManagedWidget("dipacceptlabel1",
 						    labelWidgetClass, 
 						    pdialog->dip_formm, 
@@ -588,6 +592,7 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
   int i;
   struct genlist_iterator myiter;
+  const int n = sizeof(pdialog->clauselist_strings[0]);
   
   genlist_iterator_init(&myiter, &pdialog->treaty.clauses, 0);
   
@@ -596,27 +601,29 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
     
     switch(pclause->type) {
      case CLAUSE_ADVANCE:
-      sprintf(pdialog->clauselist_strings[i], _("The %s give %s"),
+      my_snprintf(pdialog->clauselist_strings[i], n, _("The %s give %s"),
 	      get_nation_name_plural(pclause->from->nation),
 	      advances[pclause->value].name);
       break;
     case CLAUSE_CITY:
-      sprintf(pdialog->clauselist_strings[i], _("The %s give %s"),
+      my_snprintf(pdialog->clauselist_strings[i], n, _("The %s give %s"),
 	      get_nation_name_plural(pclause->from->nation),
 	      find_city_by_id(pclause->value)->name);
       break;
      case CLAUSE_GOLD:
-      sprintf(pdialog->clauselist_strings[i], _("The %s give %d gold"),
+      my_snprintf(pdialog->clauselist_strings[i], n, _("The %s give %d gold"),
 	      get_nation_name_plural(pclause->from->nation),
 	      pclause->value);
       break;
      case CLAUSE_MAP: 
-      sprintf(pdialog->clauselist_strings[i], _("The %s give their worldmap"),
-	      get_nation_name_plural(pclause->from->nation));
+      my_snprintf(pdialog->clauselist_strings[i], n,
+		  _("The %s give their worldmap"),
+		  get_nation_name_plural(pclause->from->nation));
       break;
      case CLAUSE_SEAMAP: 
-      sprintf(pdialog->clauselist_strings[i], _("The %s give their seamap"),
-	      get_nation_name_plural(pclause->from->nation));
+      my_snprintf(pdialog->clauselist_strings[i], n,
+		  _("The %s give their seamap"),
+		  get_nation_name_plural(pclause->from->nation));
       break;
     }
     pdialog->clauselist_strings_ptrs[i]=pdialog->clauselist_strings[i];

@@ -27,6 +27,7 @@
 #include <X11/Xaw/List.h>
 
 #include "mem.h"     /* mystrdup() */
+#include "support.h"
 #include "version.h"
 
 #include "chatline.h"
@@ -39,6 +40,8 @@
 
 /* extern AppResources appResources; */
 extern Widget toplevel;
+
+/* in civclient.c; FIXME hardcoded sizes */
 extern char name[];
 extern char server_host[];
 extern int  server_port;
@@ -65,7 +68,7 @@ void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data);
 void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void meta_close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
-static int get_meta_list(char **list, char *errbuf);
+static int get_meta_list(char **list, char *errbuf, int n_errbuf);
 
 /****************************************************************
 ...
@@ -94,7 +97,7 @@ void gui_server_connect(void)
   ihost=XtVaCreateManagedWidget("chosti", asciiTextWidgetClass, form, 
 			  XtNstring, server_host, NULL);
 
-  sprintf(buf, "%d", server_port);
+  my_snprintf(buf, sizeof(buf), "%d", server_port);
   
   I_L(XtVaCreateManagedWidget("cportl", labelWidgetClass, form, NULL));
   iport=XtVaCreateManagedWidget("cporti", asciiTextWidgetClass, form, 
@@ -152,13 +155,14 @@ void connect_callback(Widget w, XtPointer client_data,
   char errbuf[512];
   
   XtVaGetValues(iname, XtNstring, &dp, NULL);
-  strcpy(name, (char*)dp);
+  mystrlcpy(name, (char*)dp, 512);
   XtVaGetValues(ihost, XtNstring, &dp, NULL);
-  strcpy(server_host, (char*)dp);
+  mystrlcpy(server_host, (char*)dp, 512);
   XtVaGetValues(iport, XtNstring, &dp, NULL);
   sscanf((char*)dp, "%d", &server_port);
   
-  if(connect_to_server(name, server_host, server_port, errbuf)!=-1) {
+  if(connect_to_server(name, server_host, server_port,
+		       errbuf, sizeof(errbuf))!=-1) {
     XtDestroyWidget(XtParent(XtParent(w)));
     if(meta_dialog_shell) {
       XtDestroyWidget(meta_dialog_shell);
@@ -230,7 +234,7 @@ int update_meta_dialog(Widget meta_list)
 {
   char errbuf[128];
 
-  if(get_meta_list(server_list,errbuf)!=-1)  {
+  if(get_meta_list(server_list, errbuf, sizeof(errbuf))!=-1)  {
     XawListChange(meta_list,server_list,0,0,True);
     return 1;
   } else {
@@ -285,16 +289,16 @@ void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data)
 /**************************************************************************
   Get the list of servers from the metaserver
 **************************************************************************/
-static int get_meta_list(char **list, char *errbuf)
+static int get_meta_list(char **list, char *errbuf, int n_errbuf)
 {
   char line[256];
-  struct server_list *server_list = create_server_list(errbuf);
+  struct server_list *server_list = create_server_list(errbuf, n_errbuf);
   if(!server_list) return -1;
 
   server_list_iterate(*server_list,pserver)
-    sprintf(line,"%-35s %-5s %-7s %-9s %2s   %s",
-            pserver->name,pserver->port,pserver->version,
-            pserver->status,pserver->players,pserver->metastring);
+    my_snprintf(line, sizeof(line), "%-35s %-5s %-7s %-9s %2s   %s",
+		pserver->name, pserver->port, pserver->version,
+		pserver->status, pserver->players, pserver->metastring);
     if(*list) free(*list);
     *list=mystrdup(line);
     list++;

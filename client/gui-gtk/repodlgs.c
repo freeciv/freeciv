@@ -28,6 +28,7 @@
 #include "government.h"
 #include "packets.h"
 #include "shared.h"
+#include "support.h"
 
 #include "cityrep.h"
 #include "civclient.h"
@@ -132,7 +133,7 @@ char *get_report_title(char *report_name)
 {
   char buf[512];
   
-  sprintf(buf, _("%s\n%s of the %s\n%s %s: %s"),
+  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
 	  report_name,
 	  get_government_name(game.player_ptr->government),
 	  get_nation_name_plural(game.player_ptr->nation),
@@ -275,7 +276,7 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     science_dialog_update();
   }
   else {  
-      sprintf(text, "%d/%d",
+      my_snprintf(text, sizeof(text), "%d/%d",
 	      game.player_ptr->research.researched, 
 	      research_time(game.player_ptr));
       gtk_set_label(science_current_label,text);
@@ -303,7 +304,7 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
     science_dialog_update();
   }
   else {  
-    sprintf(text, _("(%d steps)"),
+    my_snprintf(text, sizeof(text), _("(%d steps)"),
 	    tech_goal_turns(game.player_ptr, to));
     gtk_set_label(science_goal_label,text);
 
@@ -390,8 +391,9 @@ void science_dialog_update(void)
   gtk_widget_destroy(popupmenu);
   popupmenu = gtk_menu_new();
 
-  sprintf(text, "%d/%d",
-	  game.player_ptr->research.researched, research_time(game.player_ptr));
+  my_snprintf(text, sizeof(text), "%d/%d",
+	      game.player_ptr->research.researched,
+	      research_time(game.player_ptr));
   gtk_set_label(science_current_label,text);
 
   hist=0;
@@ -415,8 +417,8 @@ void science_dialog_update(void)
   }
   else
   {
-    sprintf(text, _("Researching Future Tech. %d"),
-	((game.player_ptr->future_tech)+1));
+    my_snprintf(text, sizeof(text), _("Researching Future Tech. %d"),
+		((game.player_ptr->future_tech)+1));
 
     item = gtk_menu_item_new_with_label(text);
     gtk_menu_append(GTK_MENU(popupmenu), item);
@@ -429,8 +431,8 @@ void science_dialog_update(void)
   gtk_widget_destroy(goalmenu);
   goalmenu = gtk_menu_new();
 
-  sprintf(text, _("(%d steps)"),
-          tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
+  my_snprintf(text, sizeof(text), _("(%d steps)"),
+	      tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
   gtk_set_label(science_goal_label,text);
 
   if (game.player_ptr->ai.tech_goal==A_NONE)
@@ -642,14 +644,16 @@ void trade_selloff_callback(GtkWidget *w, gpointer data)
         packet.build_id=i;
         packet.name[0]='\0';
         send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
-    };
-  };
+    }
+  }
   if(count)  {
-    sprintf(str,_("Sold %d %s for %d gold"),count,get_improvement_name(i),gold);
+    my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
+		count, get_improvement_name(i), gold);
   } else {
-    sprintf(str,_("No %s could be sold"),get_improvement_name(i));
-  };
-    gtk_clist_unselect_row(GTK_CLIST(trade_list),row,0);
+    my_snprintf(str, sizeof(str), _("No %s could be sold"),
+		get_improvement_name(i));
+  }
+  gtk_clist_unselect_row(GTK_CLIST(trade_list),row,0);
   popup_notify_dialog(_("Sell-Off:"),_("Results"),str);
   }
   return;
@@ -697,10 +701,10 @@ void trade_report_dialog_update(void)
        city_list_iterate_end;
        if (!count) continue;
 	cost = count * improvement_upkeep(pcity, j);
-	sprintf( buf0, "%-20s", get_improvement_name(j) );
-	sprintf( buf1, "%5d", count );
-	sprintf( buf2, "%5d", improvement_upkeep(pcity, j) );
-	sprintf( buf3, "%6d", cost );
+	my_snprintf( buf0, sizeof(buf0), "%-20s", get_improvement_name(j) );
+	my_snprintf( buf1, sizeof(buf1), "%5d", count );
+	my_snprintf( buf2, sizeof(buf2), "%5d", improvement_upkeep(pcity, j) );
+	my_snprintf( buf3, sizeof(buf3), "%6d", cost );
 
 	gtk_clist_append( GTK_CLIST( trade_list ), row );
 
@@ -715,7 +719,8 @@ void trade_report_dialog_update(void)
 	 tax+=pcity->shield_surplus;
       } city_list_iterate_end;
     }
-    sprintf(trade_total, _("Income:%6d    Total Costs: %6d"), tax, total); 
+    my_snprintf(trade_total, sizeof(trade_total),
+		_("Income:%6d    Total Costs: %6d"), tax, total); 
     gtk_set_label(trade_label2, trade_total); 
 
     gtk_widget_show_all(trade_list);
@@ -891,7 +896,7 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
 
   ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
 
-  sprintf(buf,
+  my_snprintf(buf, sizeof(buf),
 	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 	    "Treasury contains %d gold."),
 	  unit_types[ut1].name, unit_types[ut2].name,
@@ -976,12 +981,12 @@ void activeunits_report_dialog_update(void)
     for (i=0;i<game.num_unit_types;i++) {
       if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
 	can = (can_upgrade_unittype(game.player_ptr, i) != -1);
-        sprintf( buf[0], "%-27s", unit_name(i) );
-	sprintf( buf[1], "%c", can ? '*': '-');
-        sprintf( buf[2], "%9d", unitarray[i].building_count );
-        sprintf( buf[3], "%9d", unitarray[i].active_count );
-        sprintf( buf[4], "%9d", unitarray[i].upkeep_shield );
-        sprintf( buf[5], "%9d", unitarray[i].upkeep_food );
+        my_snprintf(buf[0], sizeof(buf[0]), "%-27s", unit_name(i));
+	my_snprintf(buf[1], sizeof(buf[1]), "%c", can ? '*': '-');
+        my_snprintf(buf[2], sizeof(buf[2]), "%9d", unitarray[i].building_count);
+        my_snprintf(buf[3], sizeof(buf[3]), "%9d", unitarray[i].active_count);
+        my_snprintf(buf[4], sizeof(buf[4]), "%9d", unitarray[i].upkeep_shield);
+        my_snprintf(buf[5], sizeof(buf[5]), "%9d", unitarray[i].upkeep_food);
 
 	gtk_clist_append( GTK_CLIST( activeunits_list ), row );
 
@@ -995,7 +1000,7 @@ void activeunits_report_dialog_update(void)
     }
 
     /* horrible kluge, but I can't get gtk_label_set_justify() to work --jjm */
-    sprintf(activeunits_total,
+    my_snprintf(activeunits_total, sizeof(activeunits_total),
 	    _("Totals:                     %s%9d%s%9d%s%9d%s%9d"),
 	    "        ", unittotals.building_count,
 	    " ", unittotals.active_count,

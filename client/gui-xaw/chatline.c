@@ -26,6 +26,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "shared.h"		/* wordwrap_string() */
+#include "support.h"
 
 #include "clinet.h"
 #include "gui_stuff.h"
@@ -48,8 +49,7 @@ void chatline_key_return(Widget w)
   XtVaGetValues(w, XtNstring, &theinput, NULL);
   
   if(*theinput) {
-    strncpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME);
-    apacket.message[MAX_LEN_MSG-MAX_LEN_USERNAME]='\0';
+    mystrlcpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME+1);
     send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
   }
 
@@ -85,9 +85,7 @@ void append_output_window(char *astring)
   
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
   newout=fc_malloc(strlen(astring)+strlen(theoutput)+2);
-  strcpy(newout, theoutput);
-  strcat(newout, "\n");
-  strcat(newout, astring);
+  sprintf(newout, "%s\n%s", theoutput, astring);
 
   /* calc carret position - last line, first pos */ 
   for(rmcr=newout+strlen(newout); rmcr>newout; rmcr--)

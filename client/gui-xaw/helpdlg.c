@@ -38,6 +38,7 @@
 #include "tech.h"
 #include "unit.h"
 #include "map.h"
+#include "support.h"
 #include "version.h"
 
 #include "climisc.h"
@@ -271,7 +272,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   
   if(tech==A_LAST ||
      (advances[tech].req[0]==A_LAST && advances[tech].req[1]==A_LAST))  {
-    strcpy(label, _("Removed"));
+    sz_strlcpy(label, _("Removed"));
     bg=TREE_NODE_REMOVED_TECH_BG;
     l=XtVaCreateManagedWidget("treenode", commandWidgetClass, 
 			      tree,
@@ -282,9 +283,9 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
      return;
   }
   
-  sprintf(label,"%s:%d",advances[tech].name,
-                        tech_goal_turns(game.player_ptr,tech));
-  
+  my_snprintf(label, sizeof(label),
+	      "%s:%d",advances[tech].name,
+	      tech_goal_turns(game.player_ptr,tech));
 
   if(parent) {
     l=XtVaCreateManagedWidget("treenode", 

@@ -33,6 +33,7 @@
 #include "map.h"
 #include "mem.h"
 #include "registry.h"
+#include "support.h"
 #include "unit.h"
 
 #include "helpdata.h"
@@ -98,6 +99,7 @@ static void free_help_nodes(void)
 
 /****************************************************************
 ...
+ FIXME: check buffer length
 *****************************************************************/
 static void insert_generated_table(const char* name, char* outbuf)
 {
@@ -252,7 +254,7 @@ void boot_help_texts(void)
 	  for(i=0; i<game.num_unit_types; i++) {
 	    if(unit_type_exists(i)) {
 	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", unit_name(i));
+	      my_snprintf(name, sizeof(name), " %s", unit_name(i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
@@ -262,7 +264,7 @@ void boot_help_texts(void)
 	  for(i=A_FIRST; i<game.num_tech_types; i++) {  /* skip A_NONE */
 	    if(tech_exists(i)) {
 	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", advances[i].name);
+	      my_snprintf(name, sizeof(name), " %s", advances[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
@@ -272,7 +274,7 @@ void boot_help_texts(void)
 	  for(i=T_FIRST; i<T_COUNT; i++) {
 	    if(*(tile_types[i].terrain_name)) {
 	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", tile_types[i].terrain_name);
+	      my_snprintf(name, sizeof(name), " %s", tile_types[i].terrain_name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
@@ -290,7 +292,7 @@ void boot_help_texts(void)
 	} else if(current_type==HELP_GOVERNMENT) {
 	  for(i=0; i<game.government_count; i++) {
 	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", get_government(i)->name);
+	      my_snprintf(name, sizeof(name), " %s", get_government(i)->name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
@@ -299,7 +301,7 @@ void boot_help_texts(void)
 	  for(i=0; i<B_LAST; i++) {
 	    if(improvement_exists(i) && !is_wonder(i)) {
 	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", improvement_types[i].name);
+	      my_snprintf(name, sizeof(name), " %s", improvement_types[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
@@ -309,7 +311,7 @@ void boot_help_texts(void)
 	  for(i=0; i<B_LAST; i++) {
 	    if(improvement_exists(i) && is_wonder(i)) {
 	      pitem = new_help_item(current_type);
-	      sprintf(name, " %s", improvement_types[i].name);
+	      my_snprintf(name, sizeof(name), " %s", improvement_types[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
@@ -428,15 +430,17 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
   if(!pitem) {
     idx = -1;
     vitem.topic = vtopic;
-    strncpy(vtopic, name, sizeof(vtopic)-1);
+    sz_strlcpy(vtopic, name);
     vitem.text = vtext;
     if(htype==HELP_ANY || htype==HELP_TEXT) {
-      sprintf(vtext, _("Sorry, no help topic for %s.\n"), vitem.topic);
+      my_snprintf(vtext, sizeof(vtext),
+		  _("Sorry, no help topic for %s.\n"), vitem.topic);
       vitem.type = HELP_TEXT;
     } else {
-      sprintf(vtext, _("Sorry, no help topic for %s.\n"
-	      "This page was auto-generated.\n\n"),
-	      vitem.topic);
+      my_snprintf(vtext, sizeof(vtext),
+		  _("Sorry, no help topic for %s.\n"
+		    "This page was auto-generated.\n\n"),
+		  vitem.topic);
       vitem.type = htype;
     }
     pitem = &vitem;
@@ -473,6 +477,7 @@ const struct help_item *help_iter_next(void)
 
 
 /****************************************************************
+  FIXME:
   All these helptext_* functions have a pretty crappy interface:
   we just write to buf and hope that its long enough.
   But I'm not going to fix it right now --dwp.

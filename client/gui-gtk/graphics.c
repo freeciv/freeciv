@@ -27,6 +27,7 @@
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
+#include "support.h"
 #include "unit.h"
 #include "version.h"
 
@@ -90,8 +91,9 @@ void load_intro_gfx( void )
 
   y+=lin;
 
-  sprintf(s, "%d.%d.%d%s", MAJOR_VERSION, MINOR_VERSION,
-	  PATCH_VERSION, VERSION_LABEL);
+  my_snprintf(s, sizeof(s), "%d.%d.%d%s",
+	      MAJOR_VERSION, MINOR_VERSION,
+	      PATCH_VERSION, VERSION_LABEL);
   w = gdk_string_width( main_font, s );
   gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
 		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, s);

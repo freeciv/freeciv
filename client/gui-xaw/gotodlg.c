@@ -34,6 +34,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
+#include "support.h"
 #include "unit.h"
 
 #include "civclient.h"
@@ -180,14 +181,16 @@ void popup_goto_dialog(void)
 static struct city *get_selected_city(void)
 {
   XawListReturnStruct *ret;
+  int len;
+  
   ret=XawListShowCurrent(goto_list);
   if(ret->list_index==XAW_LIST_NONE)
     return 0;
-  
-  if(strlen(ret->string)>3 && strcmp(ret->string+strlen(ret->string)-3, "(A)")==0) {
+
+  len = strlen(ret->string);
+  if(len>3 && strcmp(ret->string+len-3, "(A)")==0) {
     char name[MAX_LEN_NAME];
-    strncpy(name, ret->string, strlen(ret->string)-3);
-    name[strlen(ret->string)-3]='\0';
+    mystrlcpy(name, ret->string, MIN(sizeof(name),len-2));
     return game_find_city_by_name(name);
   }
   return game_find_city_by_name(ret->string);
@@ -219,9 +222,9 @@ void update_goto_dialog(Widget goto_list)
     if(!all_cities && i!=game.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
       char name[MAX_LEN_NAME+3];
-      strcpy(name, pcity->name);
+      sz_strlcpy(name, pcity->name);
       if(pcity->improvements[B_AIRPORT]==1)
-	strcat(name, "(A)");
+	sz_strlcat(name, "(A)");
       city_name_ptrs[j++]=mystrdup(name);
     }
     city_list_iterate_end;

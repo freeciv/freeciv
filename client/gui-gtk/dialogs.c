@@ -32,6 +32,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "civclient.h"
@@ -396,14 +397,17 @@ void popup_bribe_dialog(struct unit *punit)
   char buf[128];
   
   if(game.player_ptr->economic.gold>=punit->bribe_cost) {
-    sprintf(buf, _("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-	   punit->bribe_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),
+		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
+		punit->bribe_cost, game.player_ptr->economic.gold);
     popup_message_dialog(toplevel, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"), buf,
 			_("Yes"), diplomat_bribe_yes_callback, 0,
 			_("No"), diplomat_bribe_no_callback, 0, 0);
   } else {
-    sprintf(buf, _("Bribing the unit costs %d gold.\nTreasury contains %d gold."), 
-	   punit->bribe_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),
+		_("Bribing the unit costs %d gold.\n"
+		  "Treasury contains %d gold."), 
+		punit->bribe_cost, game.player_ptr->economic.gold);
     popup_message_dialog(toplevel, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
 			_("Darn"), diplomat_bribe_no_callback, 0, 
 			0);
@@ -912,15 +916,18 @@ void popup_incite_dialog(struct city *pcity)
   char buf[128];
 
   if(game.player_ptr->economic.gold>=pcity->incite_revolt_cost) {
-   sprintf(buf, _("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-	  pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),
+		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
+		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
    diplomat_target_id = pcity->id;
    popup_message_dialog(toplevel, /*"diplomatrevoltdialog"*/_("Incite a Revolt!"), buf,
 		       _("Yes"), diplomat_incite_yes_callback, 0,
 		       _("No"), diplomat_incite_no_callback, 0, 0);
   } else {
-   sprintf(buf, _("Inciting a revolt costs %d gold.\nTreasury contains %d gold."), 
-	     pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),
+		_("Inciting a revolt costs %d gold.\n"
+		  "Treasury contains %d gold."), 
+		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
    popup_message_dialog(toplevel, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
 		       _("Darn"), diplomat_incite_no_callback, 0, 
 		       0);
@@ -1093,8 +1100,9 @@ void popup_caravan_dialog(struct unit *punit,
   GtkWidget *b;
   char buf[128];
   
-  sprintf(buf, _("Your caravan from %s reaches the city of %s.\nWhat now?"),
-	  phomecity->name, pdestcity->name);
+  my_snprintf(buf, sizeof(buf),
+	      _("Your caravan from %s reaches the city of %s.\nWhat now?"),
+	      phomecity->name, pdestcity->name);
   
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;
@@ -1473,7 +1481,7 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
   while((name=va_arg(args, char *))) {
     fcb=va_arg(args, void *);
     data=va_arg(args, gpointer);
-    sprintf(button_name, "button%d", i++);
+    my_snprintf(button_name, sizeof(button_name), "button%d", i++);
     
     button=gtk_button_new_with_label(name);
     gtk_box_pack_start( GTK_BOX( vbox ), button, TRUE, FALSE, 0 );
@@ -1607,7 +1615,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
 
-    sprintf(buffer, "%s(%s)\n%s",
+    my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 	    punittemp->name, 
 	    pcity ? pcity->name : "",
 	    unit_activity_text(punit));
@@ -2032,8 +2040,7 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
   packet.nation_no=selected;
   packet.is_male = selected_sex;
   packet.city_style = city_style_idx[selected_style];
-  strncpy(packet.name, (char*)s, MAX_LEN_NAME);
-  packet.name[MAX_LEN_NAME-1]='\0';
+  sz_strlcpy(packet.name, (char*)s);
   
   if(!get_sane_name(packet.name)) {
     append_output_window(_("You must type a legal name."));

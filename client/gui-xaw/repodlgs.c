@@ -40,6 +40,7 @@
 #include "government.h"
 #include "packets.h"
 #include "shared.h"
+#include "support.h"
 
 #include "cityrep.h"
 #include "dialogs.h"
@@ -152,7 +153,7 @@ char *get_report_title(char *report_name)
 {
   char buf[512];
   
-  sprintf(buf, _("%s\n%s of the %s\n%s %s: %s"),
+  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
 	  report_name,
 	  get_government_name(game.player_ptr->government),
 	  get_nation_name_plural(game.player_ptr->nation),
@@ -209,24 +210,28 @@ void create_science_dialog(int make_modal)
   char goal_text[512];
   char *report_title;
   
-  if (game.player_ptr->research.researching!=A_NONE)
-    sprintf(current_text, _("Researching %s: %d/%d"),
+  if (game.player_ptr->research.researching!=A_NONE) {
+    my_snprintf(current_text, sizeof(current_text),
+	   _("Researching %s: %d/%d"),
            advances[game.player_ptr->research.researching].name,
            game.player_ptr->research.researched,
            research_time(game.player_ptr));
-  else
-    sprintf(current_text, _("Researching Future Tech. %d: %d/%d"),
+  } else {
+    my_snprintf(current_text, sizeof(current_text),
+	   _("Researching Future Tech. %d: %d/%d"),
            ((game.player_ptr->future_tech)+1),
            game.player_ptr->research.researched,
            research_time(game.player_ptr));
+  }
 
-  sprintf(goal_text, _("Goal: %s (%d steps)"),
+  my_snprintf(goal_text, sizeof(goal_text),
+	  _("Goal: %s (%d steps)"),
 	  advances[game.player_ptr->ai.tech_goal].name,
           tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
   
   for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
     if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-      strcpy(tech_list_names[j], advances[i].name);
+      sz_strlcpy(tech_list_names[j], advances[i].name);
       tech_list_names_ptrs[j]=tech_list_names[j];
       j++;
     }
@@ -380,7 +385,8 @@ void science_change_callback(Widget w, XtPointer client_data,
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
   else
     {  
-      sprintf(current_text, _("Researching %s: %d/%d"),
+      my_snprintf(current_text, sizeof(current_text),
+	      _("Researching %s: %d/%d"),
 	      advances[to].name, game.player_ptr->research.researched, 
 	      research_time(game.player_ptr));
   
@@ -408,7 +414,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
   if (b == TRUE)
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
   else {  
-    sprintf(goal_text, _("Goal: %s (%d steps)"),
+    my_snprintf(goal_text, sizeof(goal_text), _("Goal: %s (%d steps)"),
 	    advances[to].name, tech_goal_turns(game.player_ptr, to));
 
     XtVaSetValues(science_goal_label, XtNlabel, goal_text, NULL);
@@ -481,21 +487,21 @@ void science_dialog_update(void)
     free(report_title);
 
     
-    if (game.player_ptr->research.researching!=A_NONE)
-      sprintf(text, _("Researching %s: %d/%d"),
+    if (game.player_ptr->research.researching!=A_NONE) {
+      my_snprintf(text, sizeof(text), _("Researching %s: %d/%d"),
 	      advances[game.player_ptr->research.researching].name,
 	      game.player_ptr->research.researched,
 	      research_time(game.player_ptr));
-    else
-      sprintf(text, _("Researching Future Tech. %d: %d/%d"),
+    } else {
+      my_snprintf(text, sizeof(text), _("Researching Future Tech. %d: %d/%d"),
              ((game.player_ptr->future_tech)+1),
              game.player_ptr->research.researched,
              research_time(game.player_ptr));
-
+    }
     
     xaw_set_label(science_current_label, text);
 
-    sprintf(text, _("Goal: %s (%d steps)"),
+    my_snprintf(text, sizeof(text), _("Goal: %s (%d steps)"),
 	    advances[game.player_ptr->ai.tech_goal].name,
             tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
 
@@ -503,7 +509,7 @@ void science_dialog_update(void)
 
     for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-	strcpy(tech_list_names[j], advances[i].name);
+	sz_strlcpy(tech_list_names[j], advances[i].name);
 	tech_list_names_ptrs[j]=tech_list_names[j];
 	j++;
       }
@@ -737,14 +743,15 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
         packet.build_id=i;
         packet.name[0]='\0';
         send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
-    };
-  };
+    }
+  }
   if(count)  {
-    sprintf(str, _("Sold %d %s for %d gold"), count,
-	    get_improvement_name(i), gold);
+    my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
+		count, get_improvement_name(i), gold);
   } else {
-    sprintf(str, _("No %s could be sold"), get_improvement_name(i));
-  };
+    my_snprintf(str, sizeof(str), _("No %s could be sold"),
+		get_improvement_name(i));
+  }
   popup_notify_dialog(_("Sell-Off:"), _("Results"), str);
   return;
 }
@@ -780,8 +787,9 @@ void trade_report_dialog_update(void)
 	city_list_iterate_end;
 	if (!count) continue;
 	cost = count * improvement_upkeep(pcity, j);
-	sprintf(trade_list_names[k], "%-20s%5d%5d%6d", get_improvement_name(j),
-		count, improvement_upkeep(pcity, j), cost);
+	my_snprintf(trade_list_names[k], sizeof(trade_list_names[k]),
+		    "%-20s%5d%5d%6d", get_improvement_name(j),
+		    count, improvement_upkeep(pcity, j), cost);
 	total+=cost;
 	trade_list_names_ptrs[k]=trade_list_names[k];
 	trade_improvement_type[k]=j;
@@ -796,13 +804,15 @@ void trade_report_dialog_update(void)
     }
     
     if(k==0) {
-      strcpy(trade_list_names[0], "                                          ");
+      sz_strlcpy(trade_list_names[0],
+		 "                                          ");
       trade_list_names_ptrs[0]=trade_list_names[0];
       k=1;
     }
     trade_list_names_ptrs[k]=NULL;
 
-    sprintf(trade_total, _("Income:%6d    Total Costs: %6d"), tax, total); 
+    my_snprintf(trade_total, sizeof(trade_total),
+		_("Income:%6d    Total Costs: %6d"), tax, total); 
     xaw_set_label(trade_label2, trade_total); 
     
     XawListChange(trade_list, trade_list_names_ptrs, 0, 0, 1);
@@ -996,7 +1006,7 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
     ut2 = can_upgrade_unittype(game.player_ptr,
 			       activeunits_type[ret->list_index]);
 
-    sprintf(buf,
+    my_snprintf(buf, sizeof(buf),
 	    _("Upgrade as many %s to %s as possible for %d gold each?\n"
 	      "Treasury contains %d gold."),
 	    unit_types[ut1].name, unit_types[ut2].name,
@@ -1088,9 +1098,10 @@ void activeunits_report_dialog_update(void)
     memset(&unittotals, '\0', sizeof(unittotals));
     for (i=0;i<game.num_unit_types;i++) {
       if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
-	sprintf
+	my_snprintf
 	  (
 	   activeunits_list_names[k],
+	   sizeof(activeunits_list_names[k]),
 	   "%-27s%c%9d%9d%9d%9d",
 	   unit_name(i),
 	   can_upgrade_unittype(game.player_ptr, i) != -1 ? '*': '-',
@@ -1109,12 +1120,12 @@ void activeunits_report_dialog_update(void)
       }
     }
     if (k==0) {
-      strcpy(activeunits_list_names[0], "                                ");
+      sz_strlcpy(activeunits_list_names[0], "                                ");
       activeunits_list_names_ptrs[0]=activeunits_list_names[0];
       k=1;
     }
 
-    sprintf(activeunits_total,
+    my_snprintf(activeunits_total, sizeof(activeunits_total),
 	    _("Totals:                     %9d%9d%9d%9d"),
 	    unittotals.building_count, unittotals.active_count,
 	    unittotals.upkeep_shield, unittotals.upkeep_food);

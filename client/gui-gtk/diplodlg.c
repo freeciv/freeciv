@@ -29,6 +29,7 @@
 #include "mem.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "clinet.h"
@@ -273,14 +274,16 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 	pdialog->dip_hbox);
 
 
-  sprintf(buf, _("The %s offerings"), get_nation_name(plr0->nation));
+  my_snprintf(buf, sizeof(buf),
+	      _("The %s offerings"), get_nation_name(plr0->nation));
   pdialog->dip_frame0=gtk_frame_new(buf);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_hbox),pdialog->dip_frame0, TRUE, FALSE, 2);
 
   pdialog->dip_vboxm = gtk_vbox_new(FALSE,0);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_hbox),pdialog->dip_vboxm, TRUE, FALSE, 2);
 
-  sprintf(buf, _("The %s offerings"), get_nation_name(plr1->nation));
+  my_snprintf(buf, sizeof(buf),
+	      _("The %s offerings"), get_nation_name(plr1->nation));
   pdialog->dip_frame1=gtk_frame_new(buf);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_hbox),pdialog->dip_frame1, TRUE, FALSE, 2);
 
@@ -385,14 +388,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   pdialog->dip_gold_entry1=gtk_entry_new();
   
-  sprintf(buf, _("Gold(max %d)"), plr0->economic.gold);
+  my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr0->economic.gold);
   pdialog->dip_gold_frame0=gtk_frame_new(buf);
   gtk_container_add(GTK_CONTAINER(pdialog->dip_gold_frame0),
 	pdialog->dip_gold_entry0);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox0),
 	pdialog->dip_gold_frame0, FALSE,FALSE,2);
 
-  sprintf(buf, _("Gold(max %d)"), plr1->economic.gold);
+  my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr1->economic.gold);
   pdialog->dip_gold_frame1=gtk_frame_new(buf);
   gtk_container_add(GTK_CONTAINER(pdialog->dip_gold_frame1),
 	pdialog->dip_gold_entry1);
@@ -400,7 +403,8 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 	pdialog->dip_gold_frame1, FALSE,FALSE,2);
 
   
-  sprintf(buf, _("This Eternal Treaty\n"
+  my_snprintf(buf, sizeof(buf),
+	       _("This Eternal Treaty\n"
 		 "marks the results of the diplomatic work between\n"
 		 "The %s %s %s\nand\nThe %s %s %s"),
 	  get_nation_name(plr0->nation),
@@ -430,7 +434,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   table=gtk_table_new(1,4,FALSE);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vboxm), table, TRUE, FALSE, 2);
 
-  sprintf(buf, _("%s view:"), get_nation_name(plr0->nation));
+  my_snprintf(buf, sizeof(buf), _("%s view:"), get_nation_name(plr0->nation));
   label=gtk_label_new(buf);
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,0,1);
 
@@ -438,7 +442,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_table_attach_defaults(GTK_TABLE(table),pdialog->dip_acceptthumb0,1,2,0,1);
   gtk_widget_show(pdialog->dip_acceptthumb0);
 
-  sprintf(buf, _("%s view:"), get_nation_name(plr1->nation));
+  my_snprintf(buf, sizeof(buf), _("%s view:"), get_nation_name(plr1->nation));
   label=gtk_label_new(buf);
   gtk_table_attach_defaults(GTK_TABLE(table),label,2,3,0,1);
 
@@ -506,26 +510,26 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
     
     switch(pclause->type) {
      case CLAUSE_ADVANCE:
-      sprintf(buf, _("The %s give %s"),
+      my_snprintf(buf, sizeof(buf), _("The %s give %s"),
 	      get_nation_name_plural(pclause->from->nation),
 	      advances[pclause->value].name);
       break;
     case CLAUSE_CITY:
-      sprintf(buf, _("The %s give %s"),
+      my_snprintf(buf, sizeof(buf), _("The %s give %s"),
 	      get_nation_name_plural(pclause->from->nation),
 	      find_city_by_id(pclause->value)->name);
       break;
      case CLAUSE_GOLD:
-      sprintf(buf, _("The %s give %d gold"),
+      my_snprintf(buf, sizeof(buf), _("The %s give %d gold"),
 	      get_nation_name_plural(pclause->from->nation),
 	      pclause->value);
       break;
      case CLAUSE_MAP: 
-      sprintf(buf, _("The %s give their worldmap"),
+      my_snprintf(buf, sizeof(buf), _("The %s give their worldmap"),
 	      get_nation_name_plural(pclause->from->nation));
       break;
      case CLAUSE_SEAMAP: 
-      sprintf(buf, _("The %s give their seamap"),
+      my_snprintf(buf, sizeof(buf), _("The %s give their seamap"),
 	      get_nation_name_plural(pclause->from->nation));
       break;
     }

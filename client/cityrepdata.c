@@ -20,6 +20,7 @@
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
+#include "support.h"
 
 #include "cityrepdata.h"
 
@@ -46,53 +47,54 @@ static char *cr_entry_cityname(struct city *pcity)
 static char *cr_entry_size(struct city *pcity)
 {
   static char buf[8];
-  sprintf(buf, "%2d", pcity->size);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->size);
   return buf;
 }
 
 static char *cr_entry_hstate_concise(struct city *pcity)
 {
   static char buf[4];
-  sprintf(buf, "%s", (city_celebrating(pcity) ? "*" :
-		      (city_unhappy(pcity) ? "X" : " ")));
+  my_snprintf(buf, sizeof(buf), "%s", (city_celebrating(pcity) ? "*" :
+				       (city_unhappy(pcity) ? "X" : " ")));
   return buf;
 }
 
 static char *cr_entry_hstate_verbose(struct city *pcity)
 {
   static char buf[16];
-  sprintf(buf, "%s", (city_celebrating(pcity) ? _("Rapture") :
-		      (city_unhappy(pcity) ? _("Disorder") : _("Peace"))));
+  my_snprintf(buf, sizeof(buf), "%s",
+	      (city_celebrating(pcity) ? _("Rapture") :
+	       (city_unhappy(pcity) ? _("Disorder") : _("Peace"))));
   return buf;
 }
 
 static char *cr_entry_workers(struct city *pcity)
 {
   static char buf[32];
-  sprintf(buf, "%d/%d/%d",
-	  pcity->ppl_happy[4],
-	  pcity->ppl_content[4],
-	  pcity->ppl_unhappy[4]);
+  my_snprintf(buf, sizeof(buf), "%d/%d/%d",
+	      pcity->ppl_happy[4],
+	      pcity->ppl_content[4],
+	      pcity->ppl_unhappy[4]);
   return buf;
 }
 
 static char *cr_entry_specialists(struct city *pcity)
 {
   static char buf[32];
-  sprintf(buf, "%d/%d/%d",
-  	  pcity->ppl_elvis,
-          pcity->ppl_scientist,
-          pcity->ppl_taxman);
+  my_snprintf(buf, sizeof(buf), "%d/%d/%d",
+	      pcity->ppl_elvis,
+	      pcity->ppl_scientist,
+	      pcity->ppl_taxman);
   return buf;
 }
 
 static char *cr_entry_resources(struct city *pcity)
 {
   static char buf[32];
-  sprintf(buf, "%d/%d/%d",
-	  pcity->food_surplus, 
-	  pcity->shield_surplus, 
-	  pcity->trade_prod);
+  my_snprintf(buf, sizeof(buf), "%d/%d/%d",
+	      pcity->food_surplus, 
+	      pcity->shield_surplus, 
+	      pcity->trade_prod);
   return buf;
 }
 
@@ -102,34 +104,34 @@ static char *cr_entry_output(struct city *pcity)
   int goldie;
 
   goldie = city_gold_surplus(pcity);
-  sprintf(buf, "%s%d/%d/%d",
-	  (goldie < 0) ? "-" : (goldie > 0) ? "+" : "",
-	  (goldie < 0) ? (-goldie) : goldie,
-	  pcity->luxury_total,
-	  pcity->science_total);
+  my_snprintf(buf, sizeof(buf), "%s%d/%d/%d",
+	      (goldie < 0) ? "-" : (goldie > 0) ? "+" : "",
+	      (goldie < 0) ? (-goldie) : goldie,
+	      pcity->luxury_total,
+	      pcity->science_total);
   return buf;
 }
 
 static char *cr_entry_food(struct city *pcity)
 {
   static char buf[32];
-  sprintf(buf,"%d/%d",
-	  pcity->food_stock,
-	  (pcity->size+1) * game.foodbox);
+  my_snprintf(buf, sizeof(buf), "%d/%d",
+	      pcity->food_stock,
+	      (pcity->size+1) * game.foodbox);
   return buf;
 }
 
 static char *cr_entry_pollution(struct city *pcity)
 {
   static char buf[8];
-  sprintf(buf,"%3d", pcity->pollution);
+  my_snprintf(buf, sizeof(buf), "%3d", pcity->pollution);
   return buf;
 }
 
 static char *cr_entry_num_trade(struct city *pcity)
 {
   static char buf[8];
-  sprintf(buf,"%d", city_num_trade_routes(pcity));
+  my_snprintf(buf, sizeof(buf), "%d", city_num_trade_routes(pcity));
   return buf;
 }
 
@@ -137,18 +139,18 @@ static char *cr_entry_building(struct city *pcity)
 {
   static char buf[64];
   if(pcity->is_building_unit)  {
-    sprintf(buf, "%s(%d/%d/%d)", 
+    my_snprintf(buf, sizeof(buf), "%s(%d/%d/%d)", 
             get_unit_type(pcity->currently_building)->name,
 	    pcity->shield_stock,
 	    get_unit_type(pcity->currently_building)->build_cost,
 	    city_buy_cost(pcity));
   } else {
     if(pcity->currently_building==B_CAPITAL)  {
-      sprintf(buf, "%s(%d/X/X)",
+      my_snprintf(buf, sizeof(buf), "%s(%d/X/X)",
               get_imp_name_ex(pcity, pcity->currently_building),
 	      pcity->shield_stock);
     } else {
-      sprintf(buf, "%s(%d/%d/%d)", 
+      my_snprintf(buf, sizeof(buf), "%s(%d/%d/%d)", 
 	      get_imp_name_ex(pcity, pcity->currently_building),
 	      pcity->shield_stock,
 	      get_improvement_type(pcity->currently_building)->build_cost,
@@ -161,7 +163,7 @@ static char *cr_entry_building(struct city *pcity)
 static char *cr_entry_corruption(struct city *pcity)
 {
   static char buf[8];
-  sprintf(buf,"%3d", pcity->corruption);
+  my_snprintf(buf, sizeof(buf), "%3d", pcity->corruption);
   return buf;
 }
 

@@ -33,6 +33,7 @@
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
+#include "support.h"
 #include "unit.h"
 #include "version.h"
 
@@ -96,8 +97,9 @@ void load_intro_gfx(void)
 
   y+=lin;
 
-  sprintf(s, "%d.%d.%d%s", MAJOR_VERSION, MINOR_VERSION,
-	  PATCH_VERSION, VERSION_LABEL);
+  my_snprintf(s, sizeof(s), "%d.%d.%d%s",
+	      MAJOR_VERSION, MINOR_VERSION,
+	      PATCH_VERSION, VERSION_LABEL);
   w=XTextWidth(main_font_struct, s, strlen(s));
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
   XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 

@@ -39,6 +39,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "shared.h"
+#include "support.h"
 #include "unit.h"
 
 #include "climisc.h"
@@ -115,22 +116,21 @@ static char *dummy_city_list[]={
 
 
 /****************************************************************
- Create the text for a line in the city report
+ Create the text for a line in the city report; n is size of buffer
 *****************************************************************/
-static void get_city_text(struct city *pcity, char *text)
+static void get_city_text(struct city *pcity, char *text, int n)
 {
   struct city_report_spec *spec;
   int i;
 
-  text[0] = '\0';		/* init for strlen */
+  text[0] = '\0';		/* init for strcat */
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     if(!spec->show) continue;
 
     if(spec->space>0)
-      sprintf(text+strlen(text), "%*s", spec->space, " ");
+      cat_snprintf(text, n, "%*s", spec->space, " ");
 
-    sprintf(text+strlen(text), "%*s",
-	    spec->width, (spec->func)(pcity));
+    cat_snprintf(text, n, "%*s", spec->width, (spec->func)(pcity));
   }
 }
 
@@ -143,18 +143,18 @@ static char *get_city_table_header(void)
   struct city_report_spec *spec;
   int i, j;
 
-  text[0] = '\0';		/* init for strlen */
+  text[0] = '\0';		/* init for strcat */
   for(j=0; j<=1; j++) {
     for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
       if(!spec->show) continue;
 
       if(spec->space>0)
-	sprintf(text+strlen(text), "%*s", spec->space, " ");
+	cat_snprintf(text, sizeof(text), "%*s", spec->space, " ");
 
-      sprintf(text+strlen(text), "%*s", spec->width,
-	      (j?_(spec->title2):_(spec->title1)));
+      cat_snprintf(text, sizeof(text), "%*s", spec->width,
+		   (j ? _(spec->title2) : _(spec->title1)));
     }
-    if (j==0) strcat(text, "\n");
+    if (j==0) sz_strlcat(text, "\n");
   }
   return text;
 }
@@ -331,7 +331,9 @@ void city_list_callback(Widget w, XtPointer client_data,
     for(i=0; i<B_LAST; i++)
       if(can_build_improvement(pcity, i)) {
 	Widget entry;
-	sprintf(buf,"%s (%d)", get_imp_name_ex(pcity, i),get_improvement_type(i)->build_cost);
+	my_snprintf(buf, sizeof(buf), "%s (%d)",
+		    get_imp_name_ex(pcity, i),
+		    get_improvement_type(i)->build_cost);
 	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, city_popupmenu, NULL);
 	XtAddCallback(entry, XtNcallback, city_change_callback, (XtPointer) i);
 	flag=1;
@@ -340,8 +342,8 @@ void city_list_callback(Widget w, XtPointer client_data,
     for(i=0; i<game.num_unit_types; i++)
       if(can_build_unit(pcity, i)) {
 	Widget entry;
-	sprintf(buf,"%s (%d)", 
-		get_unit_name(i),get_unit_type(i)->build_cost);
+	my_snprintf(buf, sizeof(buf), "%s (%d)", 
+		    get_unit_name(i),get_unit_type(i)->build_cost);
 	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, 
 					city_popupmenu, NULL);
 	XtAddCallback(entry, XtNcallback, city_change_callback, 
@@ -423,8 +425,9 @@ void city_buy_callback(Widget w, XtPointer client_data,
 	}
       else
 	{
-	  sprintf(buf, _("Game: %s costs %d gold and you only have %d gold."),
-		  name,value,game.player_ptr->economic.gold);
+	  my_snprintf(buf, sizeof(buf),
+		      _("Game: %s costs %d gold and you only have %d gold."),
+		      name,value,game.player_ptr->economic.gold);
 	  append_output_window(buf);
 	}
     }
@@ -523,6 +526,7 @@ void city_config_callback(Widget w, XtPointer client_data,
   popup_city_report_config_dialog();
 }
 
+#define MAX_LEN_CITY_TEXT 200
 /****************************************************************
 ...
 *****************************************************************/
@@ -547,7 +551,9 @@ void city_report_dialog_update(void)
       cities_in_list = fc_realloc(cities_in_list,
 				  n_alloc*sizeof(*cities_in_list));
       city_list_text = fc_realloc(city_list_text, n_alloc*sizeof(char*));
-      for(j=n_prev; j<n_alloc; j++)  city_list_text[j] = malloc(128);
+      for(j=n_prev; j<n_alloc; j++) {
+	city_list_text[j] = malloc(MAX_LEN_CITY_TEXT);
+      }
     }
        
     report_title=get_report_title(_("City Advisor"));
@@ -572,12 +578,13 @@ void city_report_dialog_update(void)
     assert(i==n);
     qsort(cities_in_list, n, sizeof(struct city*), city_name_compare);
     for(i=0; i<n; i++) {
-      get_city_text(cities_in_list[i], city_list_text[i]);
+      get_city_text(cities_in_list[i], city_list_text[i], MAX_LEN_CITY_TEXT);
     }
     i = n;
     if(!n) {
-      strcpy(city_list_text[0], 
-	     "                                                             ");
+      mystrlcpy(city_list_text[0], 
+		"                                                             ",
+		MAX_LEN_CITY_TEXT);
       i=1;
       cities_in_list[0]=NULL;
     }
@@ -616,16 +623,16 @@ void city_report_dialog_update_city(struct city *pcity)
       int n;
       String *list;
       Dimension w;
-      char new_city_line[200];
+      char new_city_line[MAX_LEN_CITY_TEXT];
 
       XtVaGetValues(city_list, XtNnumberStrings, &n, XtNlist, &list, NULL);
       if(strncmp(pcity->name,list[i],
 		 MIN(strlen(pcity->name),REPORT_CITYNAME_ABBREV-1))) {
 	 break;
       }
-      get_city_text(pcity,new_city_line);
+      get_city_text(pcity, new_city_line, sizeof(new_city_line));
       if(strcmp(new_city_line, list[i])==0) return; /* no change */
-      strcpy(list[i], new_city_line);
+      mystrlcpy(list[i], new_city_line, MAX_LEN_CITY_TEXT);
 
       /* It seems really inefficient to regenerate the whole list just to
          change one line.  It's also annoying to have to set the size
@@ -639,7 +646,7 @@ void city_report_dialog_update_city(struct city *pcity)
       XtVaSetValues(city_label, XtNwidth, w+15, NULL);
       XawFormDoLayout(city_form, True);
       return;
-    };
+    }
   }
   city_report_dialog_update();
 }
@@ -697,7 +704,7 @@ void create_city_report_config_dialog(void)
 					     config_form, NULL));
 
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
-    sprintf(buf, "%-32s", _(spec->explanation));
+    my_snprintf(buf, sizeof(buf), "%-32s", _(spec->explanation));
     above = (i==1)?config_label:config_optlabel;
 
     config_optlabel = XtVaCreateManagedWidget("cityconfiglabel", 
@@ -1058,7 +1065,7 @@ static void chgall_change_command_callback (Widget w, XtPointer client_data,
       return;
     }
 
-  sprintf (msgbuf,
+  my_snprintf (msgbuf, sizeof(msgbuf),
 	   _("Game: Changing production of every %s into %s."),
 	   state->fr_list[state->fr_index],
 	   state->to_list[state->to_index]);

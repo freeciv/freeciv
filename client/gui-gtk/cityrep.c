@@ -28,6 +28,7 @@
 #include "game.h"
 #include "packets.h"
 #include "shared.h"
+#include "support.h"
 #include "unit.h"
 
 #include "chatline.h"
@@ -112,7 +113,7 @@ static void sort_cities_callback( GtkButton *button, gpointer *data )
 /****************************************************************
  Create the text for a line in the city report
 *****************************************************************/
-static void get_city_text(struct city *pcity, char *buf[])
+static void get_city_text(struct city *pcity, char *buf[], int n)
 {
   struct city_report_spec *spec;
   int i;
@@ -121,20 +122,20 @@ static void get_city_text(struct city *pcity, char *buf[])
     buf[i][0]='\0';
     if(!spec->show) continue;
 
-    sprintf(buf[i], "%*s", NEG_VAL(spec->width), (spec->func)(pcity));
+    my_snprintf(buf[i], n, "%*s", NEG_VAL(spec->width), (spec->func)(pcity));
   }
 }
 
 /****************************************************************
  Return text line for the column headers for the city report
 *****************************************************************/
-static void get_city_table_header(char *text[])
+static void get_city_table_header(char *text[], int n)
 {
   struct city_report_spec *spec;
   int i;
 
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
-    sprintf(text[i], "%*s\n%*s",
+    my_snprintf(text[i], n, "%*s\n%*s",
             NEG_VAL(spec->width), _(spec->title1),
 	    NEG_VAL(spec->width), _(spec->title2));
   }
@@ -430,7 +431,7 @@ void create_city_report_dialog(int make_modal)
   for (i=0;i<NUM_CREPORT_COLS;i++)
     titles[i]=buf[i];
 
-  get_city_table_header(titles);
+  get_city_table_header(titles, sizeof(buf[0]));
 
   city_list = gtk_clist_new_with_titles(NUM_CREPORT_COLS,titles);
   gtk_clist_column_titles_active(GTK_CLIST(city_list));
@@ -783,8 +784,8 @@ void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 
     if (cmd != NULL) {
 	if ( !( selection = GTK_CLIST( city_change_all_from_list )->selection ) ) {
-	    sprintf(buf,_("Game: Select a unit or improvement to change production from."));
-	    append_output_window(buf);
+	    append_output_window(_("Game: Select a unit or improvement"
+				   " to change production from."));
 	    return;
 	}
 	else {
@@ -793,8 +794,8 @@ void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 					       row);
 	}
 	if ( !( selection = GTK_CLIST( city_change_all_to_list )->selection ) ) {
-	    sprintf(buf,_("Game: Select a unit or improvement to change production to."));
-	    append_output_window(buf);
+	    append_output_window(_("Game: Select a unit or improvement"
+				   " to change production to."));
 	    return;
 	}
 	else {
@@ -803,11 +804,11 @@ void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 					       row);
 	}
 	if (from==to) {
-	    sprintf(buf,_("Game: That's the same thing!"));
-	    append_output_window(buf);
+	    append_output_window(_("Game: That's the same thing!"));
 	    return;
 	}
-	sprintf(buf,_("Game: Changing production of every %s into %s."),
+	my_snprintf(buf, sizeof(buf),
+		    _("Game: Changing production of every %s into %s."),
 		(from >= B_LAST) ?
   		  get_unit_type(from-B_LAST)->name : get_improvement_name(from),
 		(to >= B_LAST) ?
@@ -825,6 +826,7 @@ void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 Change all cities building one type of thing to another thing.
 This is a callback for the "change all" button.
 *****************************************************************/
+#define MAX_LEN_BUF 256
 void city_change_all_callback(GtkWidget *w, gpointer data)
 {
     GList              *selection;
@@ -872,8 +874,8 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 					GTK_POLICY_AUTOMATIC );
 	gtk_widget_set_usize(city_change_all_from_list, 200, 200);
 	
-	buf[0] = (char *)g_malloc(256 * sizeof(char));
-	is_building = (int *)g_malloc0((B_LAST+U_LAST) * sizeof(int));
+	buf[0] = g_malloc(MAX_LEN_BUF);
+	is_building = g_malloc0((B_LAST+U_LAST) * sizeof(int));
 
 	city_list_iterate(game.player_ptr->cities, pcity) {
 	    if (pcity->is_building_unit)
@@ -896,7 +898,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 
 	for(i=0; i<B_LAST; i++)
 	    if (is_building[i]) {
-		sprintf(buf[0],"%s",get_improvement_name(i));
+		mystrlcpy(buf[0], get_improvement_name(i), MAX_LEN_BUF);
 		j = gtk_clist_append(GTK_CLIST(city_change_all_from_list), buf);
 		gtk_clist_set_row_data(GTK_CLIST(city_change_all_from_list),
 				       j, (gpointer)i);
@@ -908,7 +910,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 
 	for(i=0; i<U_LAST; i++)
 	    if (is_building[B_LAST+i]) {
-		sprintf(buf[0],"%s",get_unit_name(i));
+		mystrlcpy(buf[0], get_unit_name(i), MAX_LEN_BUF);
 		j = gtk_clist_append(GTK_CLIST(city_change_all_from_list), buf);
 		gtk_clist_set_row_data(GTK_CLIST(city_change_all_from_list),
 				       j, (gpointer)(i+B_LAST));
@@ -941,7 +943,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 
 	for(i=0; i<B_LAST; i++)
 	    if(can_player_build_improvement(game.player_ptr, i)) {
-		sprintf(buf[0], "%s (%d)",
+		my_snprintf(buf[0], MAX_LEN_BUF, "%s (%d)",
 			get_improvement_name(i),
 			get_improvement_type(i)->build_cost);
 		j = gtk_clist_append(GTK_CLIST(city_change_all_to_list), buf);
@@ -951,7 +953,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 
 	for(i=0; i<U_LAST; i++)
 	    if(can_player_build_unit(game.player_ptr, i)) {
-		sprintf(buf[0], "%s (%d)",
+		my_snprintf(buf[0], MAX_LEN_BUF, "%s (%d)",
 			get_unit_name(i),
 			get_unit_type(i)->build_cost);
 		j = gtk_clist_append(GTK_CLIST(city_change_all_to_list), buf);
@@ -1022,8 +1024,9 @@ void city_buy_callback(GtkWidget *w, gpointer data)
 	}
       else
 	{
-	  sprintf(buf, _("Game: %s costs %d gold and you only have %d gold."),
-		  name,value,game.player_ptr->economic.gold);
+	  my_snprintf(buf, sizeof(buf),
+		      _("Game: %s costs %d gold and you only have %d gold."),
+		      name,value,game.player_ptr->economic.gold);
 	  append_output_window(buf);
 	}
   }
@@ -1126,7 +1129,7 @@ void city_report_dialog_update(void)
     gtk_clist_clear(GTK_CLIST(city_list));
 
     city_list_iterate(game.player_ptr->cities, pcity) {
-      get_city_text(pcity,row);
+      get_city_text(pcity, row, sizeof(buf[0]));
       i=gtk_clist_append(GTK_CLIST(city_list), row);
       gtk_clist_set_row_data (GTK_CLIST(city_list), i, pcity);
       if(g_list_find(copy,pcity))
@@ -1168,7 +1171,7 @@ void city_report_dialog_update_city(struct city *pcity)
 
     gtk_clist_get_text(GTK_CLIST(city_list),i,0,&text);
 
-    get_city_text(pcity,row);
+    get_city_text(pcity, row, sizeof(buf[0]));
 
     gtk_clist_freeze(GTK_CLIST(city_list));
     gtk_clist_remove(GTK_CLIST(city_list),i);

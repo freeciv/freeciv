@@ -27,6 +27,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "gui_stuff.h"
 #include "mapview.h"
@@ -83,8 +84,9 @@ void intel_create_dialog(struct player *p)
 
   gtk_container_border_width(GTK_CONTAINER(intel_dialog_shell), 5);
 
-  sprintf(buf, _("Intelligence Information for the %s Empire"), 
-	  get_nation_name(p->nation));
+  my_snprintf(buf, sizeof(buf),
+	      _("Intelligence Information for the %s Empire"), 
+	      get_nation_name(p->nation));
 
   label=gtk_frame_new(buf);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->vbox),
@@ -96,51 +98,54 @@ void intel_create_dialog(struct player *p)
   hbox=gtk_hbox_new(FALSE,0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
-  sprintf(buf, _("Ruler: %s %s"), 
-	  get_ruler_title(p->government, p->is_male, p->nation), p->name);
+  my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"), 
+	      get_ruler_title(p->government, p->is_male, p->nation), p->name);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
   
-  sprintf(buf, _("Government: %s"), get_government_name(p->government));
+  my_snprintf(buf, sizeof(buf), _("Government: %s"),
+	      get_government_name(p->government));
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
   hbox=gtk_hbox_new(FALSE,5);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
-  sprintf(buf, _("Gold: %d"), p->economic.gold);
+  my_snprintf(buf, sizeof(buf), _("Gold: %d"), p->economic.gold);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
-  sprintf(buf, _("Tax: %d%%"), p->economic.tax);
+  my_snprintf(buf, sizeof(buf), _("Tax: %d%%"), p->economic.tax);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
-  sprintf(buf, _("Science: %d%%"), p->economic.science);
+  my_snprintf(buf, sizeof(buf), _("Science: %d%%"), p->economic.science);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
-  sprintf(buf, _("Luxury: %d%%"), p->economic.luxury);
+  my_snprintf(buf, sizeof(buf), _("Luxury: %d%%"), p->economic.luxury);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
   hbox=gtk_hbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
-  if (p->research.researching!=A_NONE)
-    sprintf(buf, _("Researching: %s(%d/%d)"), 
+  if (p->research.researching!=A_NONE) {
+    my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"), 
            advances[p->research.researching].name,
            p->research.researched, 
            research_time(p));
-  else
-    sprintf(buf, _("Researching Future Tech. %d: %d/%d"),
+  } else {
+    my_snprintf(buf, sizeof(buf), _("Researching Future Tech. %d: %d/%d"),
            ((p->future_tech)+1), p->research.researched,research_time(p));
+  }
 
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 2);
 
   pcity = find_palace(p);
-  sprintf(buf, _("Capital: %s"), (pcity==NULL)?_("(Unknown)"):pcity->name);
+  my_snprintf(buf, sizeof(buf), _("Capital: %s"),
+	      (pcity==NULL)?_("(Unknown)"):pcity->name);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 2);
 
@@ -158,10 +163,12 @@ void intel_create_dialog(struct player *p)
 
   for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
     if(get_invention(p, i)==TECH_KNOWN) {
-      if(get_invention(game.player_ptr, i)==TECH_KNOWN)
-	strcpy(tech_list_names[j], advances[i].name);
-      else
-	sprintf(tech_list_names[j], "%s*", advances[i].name);
+      if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
+	sz_strlcpy(tech_list_names[j], advances[i].name);
+      } else {
+	my_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),
+		    "%s*", advances[i].name);
+      }
       tech_list_names_ptrs[j]=tech_list_names[j];
       j++;
     }

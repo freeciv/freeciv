@@ -28,6 +28,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "colors.h"
 #include "dialogs.h"
@@ -264,10 +265,10 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
   struct player_spaceship *pship=&(pdialog->pplayer->spaceship);
 
   if (pship->state == SSHIP_LAUNCHED) {
-    strcpy(arrival, textyear((int) (pship->launch_year
-				    + (int) pship->travel_time)));
+    sz_strlcpy(arrival, textyear((int) (pship->launch_year
+					+ (int) pship->travel_time)));
   }
-  sprintf(buf,
+  my_snprintf(buf, sizeof(buf),
 	  _("Population:      %5d\n"
 	  "Support:         %5d %%\n"
 	  "Energy:          %5d %%\n"

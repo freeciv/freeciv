@@ -82,7 +82,8 @@ extern char metaserver[];
 /**************************************************************************
 ...
 **************************************************************************/
-int connect_to_server(char *name, char *hostname, int port, char *errbuf)
+int connect_to_server(char *name, char *hostname, int port,
+		      char *errbuf, int n_errbuf)
 {
   /* use name to find TCPIP address of server */
   struct sockaddr_in src;
@@ -98,14 +99,14 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   
   if(isdigit((size_t)*hostname)) {
     if((address = inet_addr(hostname)) == -1) {
-      strcpy(errbuf, _("Invalid hostname"));
+      mystrlcpy(errbuf, _("Invalid hostname"), n_errbuf);
       return -1;
     }
     src.sin_addr.s_addr = address;
     src.sin_family = AF_INET;
   }
   else if ((ph = gethostbyname(hostname)) == NULL) {
-    strcpy(errbuf, _("Failed looking up host"));
+    mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
     return -1;
   }
   else {
@@ -121,12 +122,12 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
 #endif
   
   if((aconnection.sock = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-    strcpy(errbuf, mystrerror(errno));
+    mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
     return -1;
   }
   
   if(connect(aconnection.sock, (struct sockaddr *) &src, sizeof (src)) < 0) {
-    strcpy(errbuf, mystrerror(errno));
+    mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
     close(aconnection.sock);
     return -1;
   }
@@ -139,14 +140,13 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
 
   /* now send join_request package */
 
-  strncpy(req.short_name, name, MAX_LEN_USERNAME);
-  req.short_name[MAX_LEN_USERNAME-1] = '\0';
+  mystrlcpy(req.short_name, name, MAX_LEN_USERNAME);
   req.major_version=MAJOR_VERSION;
   req.minor_version=MINOR_VERSION;
   req.patch_version=PATCH_VERSION;
-  strcpy(req.version_label, VERSION_LABEL);
-  strcpy(req.capability, our_capability);
-  strcpy(req.name, name);
+  sz_strlcpy(req.version_label, VERSION_LABEL);
+  sz_strlcpy(req.capability, our_capability);
+  sz_strlcpy(req.name, name);
 
   send_packet_req_join_game(&aconnection, &req);
   
@@ -198,7 +198,7 @@ void input_from_server(int fid)
  The result must be free'd with delete_server_list() when no
  longer used
 **************************************************************************/
-struct server_list *create_server_list(char *errbuf)
+struct server_list *create_server_list(char *errbuf, int n_errbuf)
 {
   struct server_list *server_list;
   struct sockaddr_in addr;
@@ -214,16 +214,19 @@ struct server_list *create_server_list(char *errbuf)
 
   if ((proxy_url = getenv("http_proxy"))) {
     if (strncmp(proxy_url,"http://",strlen("http://"))) {
-      strcpy(errbuf, _("Invalid $http_proxy value, must start with 'http://'"));
+      mystrlcpy(errbuf,
+		_("Invalid $http_proxy value, must start with 'http://'"),
+		n_errbuf);
       return NULL;
     }
-    strncpy(urlbuf,proxy_url,511);
+    sz_strlcpy(urlbuf, proxy_url);
   } else {
     if (strncmp(metaserver,"http://",strlen("http://"))) {
-      strcpy(errbuf, _("Invalid metaserver URL, must start with 'http://'"));
+      mystrlcpy(errbuf, _("Invalid metaserver URL, must start with 'http://'"),
+		n_errbuf);
       return NULL;
     }
-    strncpy(urlbuf,metaserver,511);
+    sz_strlcpy(urlbuf, metaserver);
   }
   server = &urlbuf[strlen("http://")];
 
@@ -248,7 +251,9 @@ struct server_list *create_server_list(char *errbuf)
       s[0] = '\0';
       ++s;
     } else if (s[0]) {
-      strcpy(errbuf, _("Invalid $http_proxy value, cannot find separating '/'"));
+      mystrlcpy(errbuf,
+		_("Invalid $http_proxy value, cannot find separating '/'"),
+		n_errbuf);
       /* which is obligatory if more characters follow */
       return NULL;
     }
@@ -256,7 +261,7 @@ struct server_list *create_server_list(char *errbuf)
   }
 
   if ((ph = gethostbyname(server)) == NULL) {
-    strcpy(errbuf, _("Failed looking up host"));
+    mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
     return NULL;
   } else {
     addr.sin_family = ph->h_addrtype;
@@ -266,12 +271,12 @@ struct server_list *create_server_list(char *errbuf)
   addr.sin_port = htons(port);
   
   if((s = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-    strcpy(errbuf, mystrerror(errno));
+    mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
     return NULL;
   }
   
   if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
-    strcpy(errbuf, mystrerror(errno));
+    mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
     close(s);
     return NULL;
   }

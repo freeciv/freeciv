@@ -43,6 +43,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "cityrep.h"
 #include "colors.h"
@@ -181,7 +182,7 @@ extern Atom wm_delete_window;
 ...
 *****************************************************************/
 static void get_contents_of_pollution(struct city_dialog *pdialog,
-				      char *retbuf)
+				      char *retbuf, int n)
 {
   struct city *pcity;
   int pollution=0;
@@ -191,16 +192,14 @@ static void get_contents_of_pollution(struct city_dialog *pdialog,
     pollution=pcity->pollution;
   }
 
-  sprintf(retbuf,
-	  _("Pollution:    %3d"),
-	  pollution);
+  my_snprintf(retbuf, n, _("Pollution:    %3d"), pollution);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
 static void get_contents_of_storage(struct city_dialog *pdialog,
-				    char *retbuf)
+				    char *retbuf, int n)
 {
   struct city *pcity;
   char granary='?';
@@ -214,18 +213,15 @@ static void get_contents_of_storage(struct city_dialog *pdialog,
     foodbox=game.foodbox*(pcity->size+1);
   }
 
-  sprintf(retbuf,
-	  _("Granary: %c%3d/%-3d"),
-	  granary,
-	  foodstock,
-	  foodbox);
+  my_snprintf(retbuf, n, _("Granary: %c%3d/%-3d"),
+	      granary, foodstock, foodbox);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
 static void get_contents_of_production(struct city_dialog *pdialog,
-				       char *retbuf)
+				       char *retbuf, int n)
 {
   struct city *pcity;
   int foodprod=0;
@@ -245,7 +241,7 @@ static void get_contents_of_production(struct city_dialog *pdialog,
     tradesurplus=pcity->trade_prod;
   }
 
-  sprintf(retbuf,
+  my_snprintf(retbuf, n,
 	  _("Food:  %3d (%+-4d)\n"
 	    "Prod:  %3d (%+-4d)\n"
 	    "Trade: %3d (%+-4d)"),
@@ -258,7 +254,7 @@ static void get_contents_of_production(struct city_dialog *pdialog,
 ...
 *****************************************************************/
 static void get_contents_of_output(struct city_dialog *pdialog,
-				   char *retbuf)
+				   char *retbuf, int n)
 {
   struct city *pcity;
   int goldtotal=0;
@@ -274,7 +270,7 @@ static void get_contents_of_output(struct city_dialog *pdialog,
     scitotal=pcity->science_total;
   }
 
-  sprintf(retbuf,
+  my_snprintf(retbuf, n, 
 	  _("Gold:  %3d (%+-4d)\n"
 	    "Lux:   %3d\n"
 	    "Sci:   %3d"),
@@ -520,7 +516,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    pdialog->sub_form, 
 			    NULL);
 
-  get_contents_of_production(NULL, lblbuf);
+  get_contents_of_production(NULL, lblbuf, sizeof(lblbuf));
   pdialog->production_label=
     XtVaCreateManagedWidget("cityprodlabel", 
 			    labelWidgetClass,
@@ -528,7 +524,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNlabel, lblbuf,
 			    NULL);
 
-  get_contents_of_output(NULL, lblbuf);
+  get_contents_of_output(NULL, lblbuf, sizeof(lblbuf));
   pdialog->output_label=
     XtVaCreateManagedWidget("cityoutputlabel", 
 			    labelWidgetClass,
@@ -538,7 +534,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    (XtArgVal)pdialog->production_label,
 			    NULL);
 
-  get_contents_of_storage(NULL, lblbuf);
+  get_contents_of_storage(NULL, lblbuf, sizeof(lblbuf));
   pdialog->storage_label=
     XtVaCreateManagedWidget("citystoragelabel", 
 			    labelWidgetClass,
@@ -548,7 +544,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    (XtArgVal)pdialog->output_label,
 			    NULL);
 
-  get_contents_of_pollution(NULL, lblbuf);
+  get_contents_of_pollution(NULL, lblbuf, sizeof(lblbuf));
   pdialog->pollution_label=
     XtVaCreateManagedWidget("citypollutionlabel", 
 			    labelWidgetClass,
@@ -1255,8 +1251,7 @@ static void rename_city_callback(Widget w, XtPointer client_data,
 
   if((pdialog=(struct city_dialog *)client_data)) {
     packet.city_id=pdialog->pcity->id;
-    strncpy(packet.name, input_dialog_get_input(w), MAX_LEN_NAME);
-    packet.name[MAX_LEN_NAME-1]='\0';
+    sz_strlcpy(packet.name, input_dialog_get_input(w));
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
   }
   input_dialog_destroy(w);
@@ -1299,14 +1294,16 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   int i;
   int x=0,total=0;
-  char buf[512],*bptr=buf;
+  char buf[512], *bptr=buf;
+  int nleft = sizeof(buf);
   struct city_dialog *pdialog;
 
   pdialog=(struct city_dialog *)client_data;
 
-  sprintf(buf, _("These trade routes have been established with %s:\n"),
-	  pdialog->pcity->name);
-  bptr += strlen(bptr);
+  my_snprintf(buf, sizeof(buf),
+	      _("These trade routes have been established with %s:\n"),
+	      pdialog->pcity->name);
+  bptr = end_of_strn(bptr, &nleft);
   
   for(i=0; i<4; i++)
     if(pdialog->pcity->trade[i]) {
@@ -1314,19 +1311,20 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       x=1;
       total+=pdialog->pcity->trade_value[i];
       if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
-       sprintf(bptr, _("%32s: %2d Trade/Year\n"),
-               pcity->name, pdialog->pcity->trade_value[i]);
-       bptr += strlen(bptr);
+	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
+		    pcity->name, pdialog->pcity->trade_value[i]);
+	bptr = end_of_strn(bptr, &nleft);
       } else {	
-       sprintf(bptr, _("%32s: %2d Trade/Year\n"), _("Unknown"),
-               pdialog->pcity->trade_value[i]);
-       bptr += strlen(bptr);
+	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"), _("Unknown"),
+		    pdialog->pcity->trade_value[i]);
+	bptr = end_of_strn(bptr, &nleft);
       }
     }
-  if (!x)
-    sprintf(bptr, _("No trade routes exist.\n"));
-  else
-    sprintf(bptr, _("\nTotal trade %d Trade/Year\n"), total);
+  if (!x) {
+    mystrlcpy(bptr, _("No trade routes exist.\n"), nleft);
+  } else {
+    my_snprintf(bptr, nleft, _("\nTotal trade %d Trade/Year\n"), total);
+  }
   
   popup_message_dialog(pdialog->shell, 
 		       "citytradedialog", 
@@ -1343,7 +1341,7 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
 {
   char buf[512];
 
-  get_contents_of_pollution(pdialog, buf);
+  get_contents_of_pollution(pdialog, buf, sizeof(buf));
   xaw_set_label(pdialog->pollution_label, buf);
 }
 
@@ -1354,7 +1352,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 {
   char buf[512];
 
-  get_contents_of_storage(pdialog, buf);
+  get_contents_of_storage(pdialog, buf, sizeof(buf));
   xaw_set_label(pdialog->storage_label, buf);
 }
 
@@ -1370,20 +1368,20 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   XtSetSensitive(pdialog->sell_command, !pcity->did_sell);
 
   if(pcity->is_building_unit) {
-    sprintf(buf, "%3d/%3d", pcity->shield_stock, 
-	    get_unit_type(pcity->currently_building)->build_cost);
-    strcpy(buf2, get_unit_type(pcity->currently_building)->name);
+    my_snprintf(buf, sizeof(buf), "%3d/%3d", pcity->shield_stock, 
+		get_unit_type(pcity->currently_building)->build_cost);
+    sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
   }
   else {
     if(pcity->currently_building==B_CAPITAL)  {
       /* Capitalization is special, you can't buy it or finish making it */
-      sprintf(buf,"%3d/XXX", pcity->shield_stock);
+      my_snprintf(buf, sizeof(buf), "%3d/XXX", pcity->shield_stock);
       XtSetSensitive(pdialog->buy_command, False);
     } else {
-      sprintf(buf, "%3d/%3d", pcity->shield_stock, 
+      my_snprintf(buf, sizeof(buf), "%3d/%3d", pcity->shield_stock, 
 	      get_improvement_type(pcity->currently_building)->build_cost);
     }
-    strcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
+    sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }
     
   xaw_set_label(pdialog->building_label, buf2);
@@ -1397,7 +1395,7 @@ void city_dialog_update_production(struct city_dialog *pdialog)
 {
   char buf[512];
 
-  get_contents_of_production(pdialog, buf);
+  get_contents_of_production(pdialog, buf, sizeof(buf));
   xaw_set_label(pdialog->production_label, buf);
 }
 
@@ -1408,7 +1406,7 @@ void city_dialog_update_output(struct city_dialog *pdialog)
 {
   char buf[512];
 
-  get_contents_of_output(pdialog, buf);
+  get_contents_of_output(pdialog, buf, sizeof(buf));
   xaw_set_label(pdialog->output_label, buf);
 }
 
@@ -1720,7 +1718,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   char buf[512];
   String now;
   
-  sprintf(buf, _("%s - %s citizens"),
+  my_snprintf(buf, sizeof(buf), _("%s - %s citizens"),
 	  pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
 
   XtVaGetValues(pdialog->cityname_label, XtNlabel, &now, NULL);
@@ -1742,7 +1740,8 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
       if(!pdialog->improvlist_names_ptrs[n] ||
 	 strcmp(pdialog->improvlist_names_ptrs[n], get_imp_name_ex(pdialog->pcity, i)))
 	flag=1;
-      strcpy(pdialog->improvlist_names[n], get_imp_name_ex(pdialog->pcity, i));
+      sz_strlcpy(pdialog->improvlist_names[n],
+		 get_imp_name_ex(pdialog->pcity, i));
       pdialog->improvlist_names_ptrs[n]=pdialog->improvlist_names[n];
       n++;
     }
@@ -1904,16 +1903,18 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   value=city_buy_cost(pdialog->pcity);
  
   if(game.player_ptr->economic.gold>=value) {
-    sprintf(buf, _("Buy %s for %d gold?\nTreasury contains %d gold."), 
-	    name, value, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),
+		_("Buy %s for %d gold?\nTreasury contains %d gold."), 
+		name, value, game.player_ptr->economic.gold);
     popup_message_dialog(pdialog->shell, "buydialog", buf,
 			 buy_callback_yes, pdialog, 0,
 			 buy_callback_no, 0, 0,
 			 NULL);
   }
   else {
-    sprintf(buf, _("%s costs %d gold.\nTreasury contains %d gold."), 
-	    name, value, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),
+		_("%s costs %d gold.\nTreasury contains %d gold."), 
+		name, value, game.player_ptr->economic.gold);
     popup_message_dialog(pdialog->shell, "buynodialog", buf,
 			 buy_callback_no, 0, 0,
 			 NULL);
@@ -1963,7 +1964,8 @@ void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
     if ( ut2 == -1 ) {
       /* this shouldn't generally happen, but it is conceivable */
-      sprintf(buf, _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
+      my_snprintf(buf, sizeof(buf),
+		  _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
       popup_message_dialog(toplevel, "upgradenodialog", buf,
                            unitupgrade_callback_no, 0, 0,
                            NULL);
@@ -1971,19 +1973,21 @@ void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       value=unit_upgrade_price(game.player_ptr, ut1, ut2);
 
       if(game.player_ptr->economic.gold>=value) {
-        sprintf(buf, _("Upgrade %s to %s for %d gold?\n"
-		       "Treasury contains %d gold."),
-		unit_types[ut1].name, unit_types[ut2].name,
-		value, game.player_ptr->economic.gold);
+        my_snprintf(buf, sizeof(buf),
+		    _("Upgrade %s to %s for %d gold?\n"
+		      "Treasury contains %d gold."),
+		    unit_types[ut1].name, unit_types[ut2].name,
+		    value, game.player_ptr->economic.gold);
         popup_message_dialog(toplevel, "upgradedialog", buf,
                              unitupgrade_callback_yes, (XtPointer)(punit->id), 0,
                              unitupgrade_callback_no, 0, 0,
                              NULL);
       } else {
-        sprintf(buf, _("Upgrading %s to %s costs %d gold.\n"
-		       "Treasury contains %d gold."),
-		unit_types[ut1].name, unit_types[ut2].name,
-		value, game.player_ptr->economic.gold);
+        my_snprintf(buf, sizeof(buf),
+		    _("Upgrading %s to %s costs %d gold.\n"
+		      "Treasury contains %d gold."),
+		    unit_types[ut1].name, unit_types[ut2].name,
+		    value, game.player_ptr->economic.gold);
         popup_message_dialog(toplevel, "upgradenodialog", buf,
                              unitupgrade_callback_no, 0, 0,
                              NULL);
@@ -2167,7 +2171,10 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   for(i=0, n=0; i<B_LAST; i++)
     if(can_build_improvement(pdialog->pcity, i)) {
-      sprintf(pdialog->change_list_names[n], "%s (%d)", get_imp_name_ex(pdialog->pcity, i),get_improvement_type(i)->build_cost);
+      my_snprintf(pdialog->change_list_names[n],
+		  sizeof(pdialog->change_list_names[n]),
+		  "%s (%d)", get_imp_name_ex(pdialog->pcity, i),
+		  get_improvement_type(i)->build_cost);
       
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
@@ -2178,7 +2185,9 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   for(i=0; i<game.num_unit_types; i++)
     if(can_build_unit(pdialog->pcity, i)) {
-      sprintf(pdialog->change_list_names[n],"%s (%d)", get_unit_name(i), get_unit_type(i)->build_cost);
+      my_snprintf(pdialog->change_list_names[n],
+		  sizeof(pdialog->change_list_names[n]),
+		  "%s (%d)", get_unit_name(i), get_unit_type(i)->build_cost);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }
@@ -2246,9 +2255,9 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	    return;
 	  
 	  pdialog->sell_id=i;
-	  sprintf(buf, _("Sell %s for %d gold?"), 
-		  get_imp_name_ex(pdialog->pcity, i),
-		  improvement_value(i));
+	  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"), 
+		      get_imp_name_ex(pdialog->pcity, i),
+		      improvement_value(i));
 
 	  popup_message_dialog(pdialog->shell, "selldialog", buf,
 			       sell_callback_yes, pdialog, 0,

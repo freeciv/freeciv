@@ -25,6 +25,7 @@
 #include "game.h"
 #include "map.h"
 #include "player.h"
+#include "support.h"
 #include "unit.h"
 
 #include "chatline.h"
@@ -68,8 +69,7 @@ static void name_new_city_callback(GtkWidget *w, gpointer data)
   if((unit_id=(size_t)data)) {
     struct packet_unit_request req;
     req.unit_id=unit_id;
-    strncpy(req.name, input_dialog_get_input(w), MAX_LEN_NAME);
-    req.name[MAX_LEN_NAME-1]='\0';
+    sz_strlcpy(req.name, input_dialog_get_input(w));
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
   }
   input_dialog_destroy(w);
@@ -120,7 +120,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     p=gtk_window_new(GTK_WINDOW_POPUP);
     b=gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(p), b);
-    sprintf(s, _("Terrain: %s"), map_get_tile_info_text(xtile, ytile));
+    my_snprintf(s, sizeof(s), _("Terrain: %s"),
+		map_get_tile_info_text(xtile, ytile));
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				   "GtkLabel::label", s,
 				   NULL);
@@ -134,8 +135,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     }
     
     if((pcity=map_get_city(xtile, ytile))) {
-      sprintf(s, "City: %s(%s)", pcity->name, 
-	      get_nation_name(game.players[pcity->owner].nation));
+      my_snprintf(s, sizeof(s), "City: %s(%s)", pcity->name, 
+		  get_nation_name(game.players[pcity->owner].nation));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);
@@ -150,8 +151,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     }
 
     if(get_tile_infrastructure_set(ptile)) {
-      strcpy(s, _("Infrastructure: "));
-      strcat(s, map_get_infrastructure_text(ptile->special));
+      sz_strlcpy(s, _("Infrastructure: "));
+      sz_strlcat(s, map_get_infrastructure_text(ptile->special));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);
@@ -166,9 +167,9 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	struct city *pcity;
 	pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
 	if(pcity)
-	  sprintf(cn, "/%s", pcity->name);
+	  my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
       }
-      sprintf(s, _("Unit: %s(%s%s)"), ptype->name, 
+      my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name, 
 	      get_nation_name(game.players[punit->owner].nation), cn);
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
@@ -177,11 +178,14 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 
       if(punit->owner==game.player_idx)  {
 	char uc[64] = "";
-	if(unit_list_size(&ptile->units)>=2)
-	  sprintf(uc, _("  (%d more)"), unit_list_size(&ptile->units) - 1);
-        sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s%s", ptype->attack_strength, 
-	        ptype->defense_strength, ptype->firepower, punit->hp, 
-	        ptype->hp, punit->veteran?" V":"", uc);
+	if(unit_list_size(&ptile->units)>=2) {
+	  my_snprintf(uc, sizeof(uc), _("  (%d more)"),
+		      unit_list_size(&ptile->units) - 1);
+	}
+        my_snprintf(s, sizeof(s), "A:%d D:%d FP:%d HP:%d/%d%s%s",
+		    ptype->attack_strength, 
+		    ptype->defense_strength, ptype->firepower, punit->hp, 
+		    ptype->hp, punit->veteran?" V":"", uc);
 
         if(punit->activity==ACTIVITY_GOTO || punit->connecting)  {
 	  cross_head->x = punit->goto_dest_x;
@@ -189,9 +193,10 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	  cross_head++;
         }
       } else {
-        sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength, 
-	  ptype->defense_strength, ptype->firepower, 
-	  (punit->hp*100/ptype->hp + 9)/10 );
+        my_snprintf(s, sizeof(s), "A:%d D:%d FP:%d HP:%d0%%",
+		    ptype->attack_strength, 
+		    ptype->defense_strength, ptype->firepower, 
+		    (punit->hp*100/ptype->hp + 9)/10 );
       }
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,

@@ -31,6 +31,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "spaceship.h"
+#include "support.h"
 #include "unit.h"
 
 #include "chatline_g.h"
@@ -69,19 +70,22 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   char msg[MAX_LEN_MSG];
   char *s_capability = aconnection.capability;
 
-  strcpy(s_capability, packet->capability);
+  mystrlcpy(s_capability, packet->capability, sizeof(aconnection.capability));
 
   if (packet->you_can_join) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
   } else {
-    sprintf(msg, _("You were rejected from the game: %s"), packet->message);
+    my_snprintf(msg, sizeof(msg),
+		_("You were rejected from the game: %s"), packet->message);
     append_output_window(msg);
   }
   if (strcmp(s_capability, our_capability)==0)
     return;
-  sprintf(msg, _("Client capability string: %s"), our_capability);
+  my_snprintf(msg, sizeof(msg),
+	      _("Client capability string: %s"), our_capability);
   append_output_window(msg);
-  sprintf(msg, _("Server capability string: %s"), s_capability);
+  my_snprintf(msg, sizeof(msg),
+	      _("Server capability string: %s"), s_capability);
   append_output_window(msg);
 }
 
@@ -183,7 +187,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->owner=packet->owner;
   pcity->x=packet->x;
   pcity->y=packet->y;
-  strcpy(pcity->name, packet->name);
+  sz_strlcpy(pcity->name, packet->name);
   
   pcity->size=packet->size;
   pcity->ppl_happy[4]=packet->ppl_happy;
@@ -667,7 +671,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   char msg[MAX_LEN_MSG];
   struct player *pplayer=&game.players[pinfo->playerno];
 
-  strcpy(pplayer->name, pinfo->name);
+  sz_strlcpy(pplayer->name, pinfo->name);
   pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
 
@@ -699,10 +703,10 @@ void handle_player_info(struct packet_player_info *pinfo)
     pplayer->conn->player = NULL;
   }
 
-  strcpy(pplayer->conn->capability, pinfo->capability);
+  sz_strlcpy(pplayer->conn->capability, pinfo->capability);
   
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
-    strcpy(name, pplayer->name);
+    sz_strlcpy(name, pplayer->name);
     if(poptechup) {
       if(!game.player_ptr->ai.control || ai_popup_windows)
 	popup_science_dialog(1);
@@ -716,14 +720,15 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_alive=pinfo->is_alive;
   
   pplayer->is_connected=pinfo->is_connected;
-  strcpy(pplayer->addr, pinfo->addr);
+  sz_strlcpy(pplayer->addr, pinfo->addr);
 
   pplayer->ai.is_barbarian=pinfo->is_barbarian;
   pplayer->revolution=pinfo->revolution;
   if(pplayer->ai.control!=pinfo->ai)  {
     pplayer->ai.control=pinfo->ai;
     if(pplayer==game.player_ptr)  {
-      sprintf(msg,_("AI Mode is now %s."),game.player_ptr->ai.control?_("ON"):_("OFF"));
+      my_snprintf(msg, sizeof(msg), _("AI Mode is now %s."),
+		  game.player_ptr->ai.control?_("ON"):_("OFF"));
       append_output_window(msg);
     }
   }
@@ -1087,9 +1092,9 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   }
   u = get_unit_type(p->id);
 
-  strcpy(u->name, p->name);
-  strcpy(u->graphic_str, p->graphic_str);
-  strcpy(u->graphic_alt, p->graphic_alt);
+  sz_strlcpy(u->name, p->name);
+  sz_strlcpy(u->graphic_str, p->graphic_str);
+  sz_strlcpy(u->graphic_alt, p->graphic_alt);
   u->move_type          = p->move_type;
   u->build_cost         = p->build_cost;
   u->attack_strength    = p->attack_strength;
@@ -1132,7 +1137,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   }
   a = &advances[p->id];
 
-  strcpy(a->name, p->name);
+  sz_strlcpy(a->name, p->name);
   a->req[0] = p->req[0];
   a->req[1] = p->req[1];
   a->flags = p->flags;
@@ -1156,7 +1161,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   }
   b = &improvement_types[p->id];
 
-  strcpy(b->name, p->name);
+  sz_strlcpy(b->name, p->name);
   b->is_wonder        = p->is_wonder;
   b->tech_requirement = p->tech_requirement;
   b->build_cost       = p->build_cost;      
@@ -1230,9 +1235,9 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->hints               = p->hints;
   gov->num_ruler_titles    = p->num_ruler_titles;
     
-  strcpy(gov->name, p->name);
-  strcpy(gov->graphic_str, p->graphic_str);
-  strcpy(gov->graphic_alt, p->graphic_alt);
+  sz_strlcpy(gov->name, p->name);
+  sz_strlcpy(gov->graphic_str, p->graphic_str);
+  sz_strlcpy(gov->graphic_alt, p->graphic_alt);
 
   gov->ruler_titles = fc_calloc(gov->num_ruler_titles,
 				sizeof(struct ruler_title));
@@ -1258,8 +1263,8 @@ void handle_ruleset_government_ruler_title
     return;
   }
   gov->ruler_titles[p->id].nation = p->nation;
-  strcpy(gov->ruler_titles[p->id].male_title, p->male_title);
-  strcpy(gov->ruler_titles[p->id].female_title, p->female_title);
+  sz_strlcpy(gov->ruler_titles[p->id].male_title, p->male_title);
+  sz_strlcpy(gov->ruler_titles[p->id].female_title, p->female_title);
 }
 
 /**************************************************************************
@@ -1278,26 +1283,26 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   }
   t = &(tile_types[p->id]);
 
-  strcpy(t->terrain_name, p->terrain_name);
-  strcpy(t->graphic_str, p->graphic_str);
-  strcpy(t->graphic_alt, p->graphic_alt);
+  sz_strlcpy(t->terrain_name, p->terrain_name);
+  sz_strlcpy(t->graphic_str, p->graphic_str);
+  sz_strlcpy(t->graphic_alt, p->graphic_alt);
   t->movement_cost = p->movement_cost;
   t->defense_bonus = p->defense_bonus;
   t->food = p->food;
   t->shield = p->shield;
   t->trade = p->trade;
-  strcpy(t->special_1_name, p->special_1_name);
+  sz_strlcpy(t->special_1_name, p->special_1_name);
   t->food_special_1 = p->food_special_1;
   t->shield_special_1 = p->shield_special_1;
   t->trade_special_1 = p->trade_special_1;
-  strcpy(t->special_2_name, p->special_2_name);
+  sz_strlcpy(t->special_2_name, p->special_2_name);
   t->food_special_2 = p->food_special_2;
   t->shield_special_2 = p->shield_special_2;
   t->trade_special_2 = p->trade_special_2;
 
   for(j=0; j<2; j++) {
-    strcpy(t->special[j].graphic_str, p->special[j].graphic_str);
-    strcpy(t->special[j].graphic_alt, p->special[j].graphic_alt);
+    sz_strlcpy(t->special[j].graphic_str, p->special[j].graphic_str);
+    sz_strlcpy(t->special[j].graphic_alt, p->special[j].graphic_alt);
   }
 
   t->road_time = p->road_time;
@@ -1358,14 +1363,13 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
   pl = get_nation_by_idx(p->id);
 
-  strcpy(pl->name, p->name);
-  strcpy(pl->name_plural, p->name_plural);
-  strcpy(pl->flag_graphic_str, p->graphic_str);
-  strcpy(pl->flag_graphic_alt, p->graphic_alt);
+  sz_strlcpy(pl->name, p->name);
+  sz_strlcpy(pl->name_plural, p->name_plural);
+  sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
+  sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
   pl->leader_count = p->leader_count;
   for( i=0; i<pl->leader_count; i++) {
-    pl->leader_name[i] = fc_calloc(strlen(p->leader_name[i])+1, sizeof(char));
-    strcpy(pl->leader_name[i], p->leader_name[i]);
+    pl->leader_name[i] = mystrdup(p->leader_name[i]);
     pl->leader_is_male[i] = p->leader_sex[i];
   }
   pl->city_style = p->city_style;
@@ -1379,14 +1383,22 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
 void handle_ruleset_city(struct packet_ruleset_city *packet)
 {
   int id;
+  struct citystyle *cs;
 
   id = packet->style_id;
-  city_styles[id].techreq = packet->techreq;
-  city_styles[id].replaced_by = packet->replaced_by;
+  if (id < 0 || id >= game.styles_count) {
+    freelog(LOG_NORMAL, "Received bad citystyle id %d in handle_ruleset_city()",
+	    id);
+    return;
+  }
+  cs = &city_styles[id];
+  
+  cs->techreq = packet->techreq;
+  cs->replaced_by = packet->replaced_by;
 
-  strcpy(city_styles[id].name, packet->name);
-  strcpy(city_styles[id].graphic, packet->graphic);
-  strcpy(city_styles[id].graphic_alt, packet->graphic_alt);
+  sz_strlcpy(cs->name, packet->name);
+  sz_strlcpy(cs->graphic, packet->graphic);
+  sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
 
   tilespec_setup_city_tiles(id);
 }

@@ -39,6 +39,7 @@
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "support.h"
 #include "version.h"
 
 #include "actions.h"
@@ -64,6 +65,8 @@
 AppResources appResources;
 
 extern String fallback_resources[];
+
+/* in civclient.c; FIXME hardcoded sizes */
 extern char name[];
 extern char server_host[];
 extern char metaserver[];
@@ -289,21 +292,21 @@ void ui_main(int argc, char *argv[])
   }
 
   if(appResources.name) {
-    strcpy(name, appResources.name);
+    mystrlcpy(name, appResources.name, 512);
   } else {
-    strcpy(name, user_username());
+    mystrlcpy(name, user_username(), 512);
   }
 
   if(appResources.server)
-    strcpy(server_host, appResources.server);
+    mystrlcpy(server_host, appResources.server, 512);
   else {
-    strcpy(server_host, "localhost");
+    mystrlcpy(server_host, "localhost", 512);
   }
 
   if(appResources.metaserver)
-    strcpy(metaserver, appResources.metaserver);
+    mystrlcpy(metaserver, appResources.metaserver, 256);
   else {
-    strcpy(metaserver, METALIST_ADDR);
+    mystrlcpy(metaserver, METALIST_ADDR, 256);
   }
     
   if(appResources.port)
@@ -586,8 +589,9 @@ void setup_widgets(void)
 					   NULL);
 
   for(i=0; i<num_units_below; i++) {
-    char unit_below_name[32] = "\0";
-    sprintf(unit_below_name, "unitbelowcanvas%ld", i);
+    char unit_below_name[32];
+    my_snprintf(unit_below_name, sizeof(unit_below_name),
+		"unitbelowcanvas%ld", i);
     unit_below_canvas[i] = XtVaCreateManagedWidget(unit_below_name,
 						   pixcommWidgetClass,
 						   left_column_form, 
@@ -658,7 +662,8 @@ void main_show_info_popup(XEvent *event)
     Dimension w, h;
     char buf[512];
 
-    sprintf(buf, _("%s People\n"
+    my_snprintf(buf, sizeof(buf),
+		 _("%s People\n"
 		   "Year: %s\n"
 		   "Gold: %d\n"
 		   "Net Income: %d\n"

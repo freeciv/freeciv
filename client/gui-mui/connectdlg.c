@@ -27,6 +27,7 @@
 #include "chatline.h"
 #include "clinet.h"
 
+/* in civclient.c; FIXME hardcoded sizes */
 extern char name[];
 extern char server_host[];
 extern int  server_port;
@@ -55,7 +56,8 @@ static void connect_connect(void)
 	strcpy(server_host, getstring(connect_host_string));
 	server_port = xget(connect_port_string, MUIA_String_Integer);
   
-  if(connect_to_server(name, server_host, server_port, errbuf)!=-1)
+  if(connect_to_server(name, server_host, server_port,
+		       errbuf, sizeof(errbuf))!=-1)
   {
   	set(connect_wnd,MUIA_Window_Open,FALSE);
 	}
@@ -75,7 +77,7 @@ static void connect_meta_page(void)
 
 	set(app,MUIA_Application_Sleep,TRUE);
 
-	if((slist = create_server_list(errbuf)))
+	if((slist = create_server_list(errbuf, sizeof(errbuf))))
 	{
 		DoMethod(connect_meta_listview, MUIM_NList_Clear);
 		server_list_iterate(*slist,pserver)

@@ -29,6 +29,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "cityrep.h"
@@ -121,7 +122,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(tax!=rates_tax_value) {
-    sprintf(buf,"%3d%%",tax);
+    my_snprintf(buf, sizeof(buf), "%3d%%", tax);
     if ( strcmp( buf, GTK_LABEL(rates_tax_label)->label) )
 	gtk_set_label(rates_tax_label,buf);
     if(!no_tax_scroll)
@@ -134,7 +135,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(lux!=rates_lux_value) {
-    sprintf(buf,"%3d%%",lux);
+    my_snprintf(buf, sizeof(buf), "%3d%%", lux);
     if ( strcmp( buf, GTK_LABEL(rates_lux_label)->label) )
 	gtk_set_label(rates_lux_label,buf);
     if(!no_lux_scroll)
@@ -147,7 +148,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(sci!=rates_sci_value) {
-    sprintf(buf,"%3d%%",sci);
+    my_snprintf(buf, sizeof(buf), "%3d%%", sci);
     if ( strcmp( buf, GTK_LABEL(rates_sci_label)->label) )
 	gtk_set_label(rates_sci_label,buf);
     if(!no_sci_scroll)
@@ -357,7 +358,7 @@ void popup_rates_dialog( void )
     gtk_widget_set_sensitive(toplevel, FALSE );
     create_rates_dialog();
 
-    sprintf(buf, _("%s max rate: %d%%"),
+    my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
 	get_government_name(game.player_ptr->government),
 	get_government_max_rate(game.player_ptr->government));
     gtk_set_label(rates_gov_label, buf);

@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 
 #include "fcintl.h"
+#include "support.h"
 #include "version.h"
 
 #include "chatline.h"
@@ -30,6 +31,7 @@
 
 #include "connectdlg.h"
 
+/* in civclient.c; FIXME hardcoded sizes */
 extern char name[];
 extern char server_host[];
 extern int  server_port;
@@ -46,7 +48,7 @@ int  update_meta_dialog(GtkWidget *meta_list);
 void meta_list_callback(GtkWidget *w, gint row, gint column);
 void meta_update_callback(GtkWidget *w, gpointer data);
 
-static int get_meta_list(GtkWidget *list, char *errbuf);
+static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf);
 
 /**************************************************************************
 ...
@@ -55,11 +57,12 @@ static void connect_callback(GtkWidget *w, gpointer data)
 {
   char errbuf [512];
 
-  strcpy(name, gtk_entry_get_text(GTK_ENTRY(iname)));
-  strcpy(server_host, gtk_entry_get_text(GTK_ENTRY(ihost)));
+  mystrlcpy(name, gtk_entry_get_text(GTK_ENTRY(iname)), 512);
+  mystrlcpy(server_host, gtk_entry_get_text(GTK_ENTRY(ihost)), 512);
   server_port=atoi(gtk_entry_get_text(GTK_ENTRY(iport)));
   
-  if(connect_to_server(name, server_host, server_port, errbuf)!=-1) {
+  if(connect_to_server(name, server_host, server_port,
+		       errbuf, sizeof(errbuf))!=-1) {
     gtk_widget_destroy(dialog);
     gtk_widget_set_sensitive(toplevel,TRUE);
   }
@@ -74,7 +77,7 @@ int update_meta_dialog(GtkWidget *meta_list)
 {
   char errbuf[128];
 
-  if(get_meta_list(meta_list,errbuf)!=-1)  {
+  if(get_meta_list(meta_list, errbuf, sizeof(errbuf))!=-1)  {
     return 1;
   } else {
     append_output_window(errbuf);
@@ -169,7 +172,7 @@ void gui_server_connect(void)
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3, 0, 0, 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
-  sprintf(buf, "%d", server_port);
+  my_snprintf(buf, sizeof(buf), "%d", server_port);
 
   iport=gtk_entry_new();
   gtk_entry_set_text(GTK_ENTRY(iport), buf);
@@ -250,12 +253,12 @@ void gui_server_connect(void)
 /**************************************************************************
   Get the list of servers from the metaserver
 **************************************************************************/
-static int get_meta_list(GtkWidget *list, char *errbuf)
+static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
 {
   int i;
   char *row[6];
   char  buf[6][64];
-  struct server_list *server_list = create_server_list(errbuf);
+  struct server_list *server_list = create_server_list(errbuf, n_errbuf);
   if(!server_list) return -1;
 
   gtk_clist_freeze(GTK_CLIST(list));
@@ -264,16 +267,17 @@ static int get_meta_list(GtkWidget *list, char *errbuf)
   for (i=0; i<6; i++)
     row[i]=buf[i];
 
-  server_list_iterate(*server_list,pserver)
-    sprintf(row[0], "%.63s", pserver->name);
-    sprintf(row[1], "%.63s", pserver->port);
-    sprintf(row[2], "%.63s", pserver->version);
-    sprintf(row[3], "%.63s", pserver->status);
-    sprintf(row[4], "%.63s", pserver->players);
-    sprintf(row[5], "%.63s", pserver->metastring);
+  server_list_iterate(*server_list,pserver) {
+    sz_strlcpy(buf[0], pserver->name);
+    sz_strlcpy(buf[1], pserver->port);
+    sz_strlcpy(buf[2], pserver->version);
+    sz_strlcpy(buf[3], pserver->status);
+    sz_strlcpy(buf[4], pserver->players);
+    sz_strlcpy(buf[5], pserver->metastring);
 
     gtk_clist_append(GTK_CLIST(list), row);
-  server_list_iterate_end
+  }
+  server_list_iterate_end;
 
   delete_server_list(server_list);
   gtk_clist_thaw(GTK_CLIST(list));

@@ -31,6 +31,7 @@
 #include "tech.h"
 #include "unit.h"
 #include "map.h"
+#include "support.h"
 #include "version.h"
 
 #include "climisc.h"
@@ -182,7 +183,7 @@ static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
 
   if ( advances[tech].req[0] == A_LAST && advances[tech].req[1] == A_LAST )
   {
-    strcpy(label, _("Removed"));
+    sz_strlcpy(label, _("Removed"));
     bg = COLOR_STD_RED;
     l = gtk_ctree_insert_node(ctree, parent, NULL, text, 10,
 				NULL, NULL, NULL, NULL, TRUE, TRUE);
@@ -198,8 +199,8 @@ static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
   default:		      bg = COLOR_STD_WHITE;	      break;
   }
 
-  sprintf(label, "%s:%d", advances[tech].name,
-        		   tech_goal_turns(game.player_ptr, tech));
+  my_snprintf(label, sizeof(label), "%s:%d", advances[tech].name,
+	      tech_goal_turns(game.player_ptr, tech));
 
   leaf = (advances[tech].req[0] == A_NONE && advances[tech].req[1] == A_NONE);
 

@@ -29,7 +29,7 @@
 #include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "player.h"
-#include "support.h"		/* myusleep() */
+#include "support.h"
 #include "unit.h"
 
 #include "civclient.h"
@@ -224,7 +224,7 @@ void update_timeout_label(void)
 {
   char buffer[512];
 
-  sprintf(buffer, "%d", seconds_to_turndone);
+  my_snprintf(buffer, sizeof(buffer), "%d", seconds_to_turndone);
   xaw_set_label(timeout_label, buffer);
 }
 
@@ -236,10 +236,11 @@ void update_info_label(void)
 {
   char buffer[512]; int d;
   
-  sprintf(buffer, _("%s People\n"
-		    "Year: %s\n"
-		    "Gold: %d\n"
-		    "Tax:%d Lux:%d Sci:%d"),
+  my_snprintf(buffer, sizeof(buffer),
+	      _("%s People\n"
+		"Year: %s\n"
+		"Gold: %d\n"
+		"Tax:%d Lux:%d Sci:%d"),
 	  int_to_text(civ_population(game.player_ptr)),
 	  textyear(game.year),
 	  game.player_ptr->economic.gold,
@@ -277,7 +278,7 @@ void update_unit_info_label(struct unit *punit)
     char buffer[512];
     struct city *pcity;
     pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
-    sprintf(buffer, "%s %s\n%s\n%s\n%s", 
+    my_snprintf(buffer, sizeof(buffer), "%s %s\n%s\n%s\n%s", 
 	    get_unit_type(punit->type)->name,
 	    (punit->veteran) ? _("(veteran)") : "",
 	    (goto_state==punit->id) ? 
@@ -746,7 +747,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
   if(scaled_intro_pixmap) {
     XFreePixmap(display, scaled_intro_pixmap);
     scaled_intro_pixmap=0; scaled_intro_pixmap_height=0;
-  };
+  }
   
   if(map.xsize) { /* do we have a map at all */
     int tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;

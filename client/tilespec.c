@@ -37,6 +37,7 @@
 #include "player.h"
 #include "registry.h"
 #include "shared.h"
+#include "support.h"
 #include "unit.h"
 
 #include "colors_g.h"
@@ -204,7 +205,7 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
 
   while((gfx_current_fileext = *gfx_fileexts++))
   {
-    full_name = (char*)fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
+    full_name = fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
     sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
 
     real_full_name = datafilename(full_name);
@@ -313,7 +314,7 @@ static void tilespec_load_one(const char *spec_filename)
   while((!big_sprite) && (gfx_current_fileext = *gfx_fileexts++))
   {
     char *full_name,*real_full_name;
-    full_name = (char*)fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
+    full_name = fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
     sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
 
     if((real_full_name = datafilename(full_name)))
@@ -407,9 +408,9 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(treaty_thumb[1], "treaty.agree_thumb_up");
 
   for(i=0; i<NUM_TILES_PROGRESS; i++) {
-    sprintf(buffer, "s.science_bulb_%d", i);
+    my_snprintf(buffer, sizeof(buffer), "s.science_bulb_%d", i);
     SET_SPRITE(bulb[i], buffer);
-    sprintf(buffer, "s.warming_sun_%d", i);
+    my_snprintf(buffer, sizeof(buffer), "s.warming_sun_%d", i);
     SET_SPRITE(warming[i], buffer);
   }
 
@@ -437,22 +438,22 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(rail.isolated, "r.rail_isolated");
   
   for(i=1; i<NUM_DIRECTION_NSEW; i++) {
-    sprintf(buffer, "r.c_road_%s", nsew_str(i));
+    my_snprintf(buffer, sizeof(buffer), "r.c_road_%s", nsew_str(i));
     SET_SPRITE(road.cardinal[i], buffer);
     
-    sprintf(buffer, "r.d_road_%s", nsew_str(i));
+    my_snprintf(buffer, sizeof(buffer), "r.d_road_%s", nsew_str(i));
     SET_SPRITE(road.diagonal[i], buffer);
     
-    sprintf(buffer, "r.c_rail_%s", nsew_str(i));
+    my_snprintf(buffer, sizeof(buffer), "r.c_rail_%s", nsew_str(i));
     SET_SPRITE(rail.cardinal[i], buffer);
     
-    sprintf(buffer, "r.d_rail_%s", nsew_str(i));
+    my_snprintf(buffer, sizeof(buffer), "r.d_rail_%s", nsew_str(i));
     SET_SPRITE(rail.diagonal[i], buffer);
   }
 
   for(i=0; i<3; i++) {
     for(j=0; j<3; j++) {
-      sprintf(buffer, "explode.nuke_%d%d", i, j);
+      my_snprintf(buffer, sizeof(buffer), "explode.nuke_%d%d", i, j);
       SET_SPRITE(explode.nuke[i][j], buffer);
     }
   }
@@ -475,24 +476,24 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(unit.connect,      "unit.connect");   
 
   for(i=0; i<NUM_TILES_HP_BAR; i++) {
-    sprintf(buffer, "unit.hp_%d", i*10);
+    my_snprintf(buffer, sizeof(buffer), "unit.hp_%d", i*10);
     SET_SPRITE(unit.hp_bar[i], buffer);
   }
 
   SET_SPRITE(city.disorder, "city.disorder");
 
   for(i=0; i<NUM_TILES_DIGITS; i++) {
-    sprintf(buffer, "city.size_%d", i);
+    my_snprintf(buffer, sizeof(buffer), "city.size_%d", i);
     SET_SPRITE(city.size[i], buffer);
     if(i!=0) {
-      sprintf(buffer, "city.size_%d", i*10);
+      my_snprintf(buffer, sizeof(buffer), "city.size_%d", i*10);
       SET_SPRITE(city.size_tens[i], buffer);
     }
-    sprintf(buffer, "city.t_food_%d", i);
+    my_snprintf(buffer, sizeof(buffer), "city.t_food_%d", i);
     SET_SPRITE(city.tile_foodnum[i], buffer);
-    sprintf(buffer, "city.t_shields_%d", i);
+    my_snprintf(buffer, sizeof(buffer), "city.t_shields_%d", i);
     SET_SPRITE(city.tile_shieldnum[i], buffer);
-    sprintf(buffer, "city.t_trade_%d", i);
+    my_snprintf(buffer, sizeof(buffer), "city.t_trade_%d", i);
     SET_SPRITE(city.tile_tradenum[i], buffer);
   }
 
@@ -514,22 +515,22 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.airbase,    "tx.airbase");
 
   for(i=0; i<NUM_DIRECTION_NSEW; i++) {
-    sprintf(buffer, "tx.s_river_%s", nsew_str(i));
+    my_snprintf(buffer, sizeof(buffer), "tx.s_river_%s", nsew_str(i));
     SET_SPRITE(tx.spec_river[i], buffer);
   }
   for(i=1; i<NUM_DIRECTION_NSEW; i++) {
-    sprintf(buffer, "tx.darkness_%s", nsew_str(i));
+    my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s", nsew_str(i));
     SET_SPRITE(tx.darkness[i], buffer);
-    sprintf(buffer, "tx.coast_cape_%s", nsew_str(i));
+    my_snprintf(buffer, sizeof(buffer), "tx.coast_cape_%s", nsew_str(i));
     SET_SPRITE(tx.coast_cape[i], buffer);
   }
   for(i=0; i<4; i++) {
-    sprintf(buffer, "tx.river_outlet_%c", dir_char[i]);
+    my_snprintf(buffer, sizeof(buffer), "tx.river_outlet_%c", dir_char[i]);
     SET_SPRITE(tx.river_outlet[i], buffer);
   }
   for(i=0; i<2; i++) {
     for(j=0; j<3; j++) {
-      sprintf(buffer, "tx.denmark_%d%d", i, j);
+      my_snprintf(buffer, sizeof(buffer), "tx.denmark_%d%d", i, j);
       SET_SPRITE(tx.denmark[i][j], buffer);
     }
   }
@@ -636,8 +637,8 @@ void tilespec_setup_tile_type(int id)
   }
   for(i=0; i<NUM_DIRECTION_NSEW; i++) {
     nsew = nsew_str(i);
-    sprintf(buffer1, "%s_%s", tt->graphic_str, nsew);
-    sprintf(buffer2, "%s_%s", tt->graphic_alt, nsew);
+    my_snprintf(buffer1, sizeof(buffer1), "%s_%s", tt->graphic_str, nsew);
+    my_snprintf(buffer2, sizeof(buffer1), "%s_%s", tt->graphic_alt, nsew);
     
     tt->sprite[i] = lookup_sprite_tag_alt(buffer1, buffer2, 1, "tile_type",
 					  tt->terrain_name);

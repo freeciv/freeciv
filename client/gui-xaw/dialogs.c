@@ -40,6 +40,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "civclient.h"
@@ -421,17 +422,19 @@ void popup_bribe_dialog(struct unit *punit)
   char buf[128];
   
   if(game.player_ptr->economic.gold>=punit->bribe_cost) {
-    sprintf(buf, _("Bribe unit for %d gold?\n"
-		   "Treasury contains %d gold."), 
-	    punit->bribe_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),
+		_("Bribe unit for %d gold?\n"
+		  "Treasury contains %d gold."), 
+		punit->bribe_cost, game.player_ptr->economic.gold);
     popup_message_dialog(toplevel, "diplomatbribedialog", buf,
 			 diplomat_bribe_yes_callback, 0, 0,
 			 diplomat_bribe_no_callback, 0, 0,
 			 NULL);
   } else {
-    sprintf(buf, _("Bribing the unit costs %d gold.\n"
-		   "Treasury contains %d gold."), 
-	    punit->bribe_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),
+		_("Bribing the unit costs %d gold.\n"
+		  "Treasury contains %d gold."), 
+		punit->bribe_cost, game.player_ptr->economic.gold);
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			 diplomat_bribe_no_callback, 0, 0,
 			 NULL);
@@ -953,18 +956,20 @@ void popup_incite_dialog(struct city *pcity)
   char buf[128];
 
   if(game.player_ptr->economic.gold>=pcity->incite_revolt_cost) {
-   sprintf(buf, _("Incite a revolt for %d gold?\n"
+    my_snprintf(buf, sizeof(buf),
+		_("Incite a revolt for %d gold?\n"
 		  "Treasury contains %d gold."), 
-	   pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
    diplomat_target_id = pcity->id;
    popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
 			diplomat_incite_yes_callback, 0, 0,
 			diplomat_incite_no_callback, 0, 0,
 			NULL);
   } else {
-   sprintf(buf, _("Inciting a revolt costs %d gold.\n"
-		  "Treasury contains %d gold."), 
-	   pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+   my_snprintf(buf, sizeof(buf),
+	       _("Inciting a revolt costs %d gold.\n"
+		 "Treasury contains %d gold."), 
+	       pcity->incite_revolt_cost, game.player_ptr->economic.gold);
    popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			diplomat_incite_no_callback, 0, 0,
 			NULL);
@@ -1141,8 +1146,9 @@ void popup_caravan_dialog(struct unit *punit,
 {
   char buf[128];
   
-  sprintf(buf, _("Your caravan from %s reaches the city of %s.\nWhat now?"),
-	  phomecity->name, pdestcity->name);
+  my_snprintf(buf, sizeof(buf),
+	      _("Your caravan from %s reaches the city of %s.\nWhat now?"),
+	      phomecity->name, pdestcity->name);
   
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;
@@ -1435,7 +1441,7 @@ Widget popup_message_dialog(Widget parent, char *dialogname, char *text, ...)
   while((fcb=va_arg(args, void *))) {
     client_data=va_arg(args, XtPointer);
     fixed_width=va_arg(args, int);
-    sprintf(button_name, "button%d", i++);
+    my_snprintf(button_name, sizeof(button_name), "button%d", i++);
     
     button=XtVaCreateManagedWidget(button_name, commandWidgetClass, 
 				   dform, NULL);
@@ -1541,7 +1547,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
     
-    sprintf(buffer, "%s(%s)\n%s", 
+    my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
 	    punittemp->name, 
 	    pcity ? pcity->name : "",
 	    unit_activity_text(punit));
@@ -1708,7 +1714,7 @@ void create_races_dialog(void)
     maxracelen = MAX(maxracelen, len);
   }
   maxracelen = MIN(maxracelen, MAX_LEN_NAME-1);
-  sprintf(maxracename, "%*s", maxracelen+2, "W");
+  my_snprintf(maxracename, sizeof(maxracename), "%*s", maxracelen+2, "W");
 
   races_dialog_shell = I_T(XtCreatePopupShell("racespopup", 
 					  transientShellWidgetClass,
@@ -1760,7 +1766,7 @@ void create_races_dialog(void)
   for( i = 1; i < (game.playable_nation_count+2)/3; i++) {
     int idx = i*3;
     char buf[64];
-    sprintf(buf, "racestoggle%d", idx);
+    my_snprintf(buf, sizeof(buf), "racestoggle%d", idx);
     races_toggles[idx]=XtVaCreateManagedWidget(buf, 
 					       toggleWidgetClass, 
 					       races_toggles_form,
@@ -1771,7 +1777,7 @@ void create_races_dialog(void)
 					       XtNlabel, maxracename,
 					       NULL);
     for( j=0,idx=i*3+1; (j<2) && (idx<game.playable_nation_count); idx++,j++) {
-      sprintf(buf, "racestoggle%d", idx);
+      my_snprintf(buf, sizeof(buf), "racestoggle%d", idx);
       races_toggles[idx]=XtVaCreateManagedWidget(buf,
 						 toggleWidgetClass, 
 						 races_toggles_form,
@@ -1893,7 +1899,7 @@ void create_races_dialog(void)
   for( i = 1; i < (b_s_num+2)/3; i++) {
     int idx = i*3;
     char buf[64];
-    sprintf(buf, "racesstyle%d", idx);
+    my_snprintf(buf, sizeof(buf), "racesstyle%d", idx);
     races_style_toggles[idx]=XtVaCreateManagedWidget(buf, 
 					       toggleWidgetClass, 
 					       races_style_form,
@@ -1904,7 +1910,7 @@ void create_races_dialog(void)
 					       XtNlabel, maxracename,
 					       NULL);
     for( j=0,idx=i*3+1; (j<2) && (idx<b_s_num); idx++,j++) {
-      sprintf(buf, "racesstyle%d", idx);
+      my_snprintf(buf, sizeof(buf), "racesstyle%d", idx);
       races_style_toggles[idx]=XtVaCreateManagedWidget(buf,
 						 toggleWidgetClass, 
 						 races_style_form,
@@ -2222,8 +2228,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
   packet.city_style = get_nation_city_style(packet.nation_no);
   packet.is_male = selected_sex? 0: 1;     /* first button is male */
   packet.city_style = city_style_idx[selected_style];
-  strncpy(packet.name, (char*)dp, MAX_LEN_NAME);
-  packet.name[MAX_LEN_NAME-1]='\0';
+  sz_strlcpy(packet.name, (char*)dp);
   
   if(!get_sane_name(packet.name)) {
     append_output_window(_("You must type a legal name."));

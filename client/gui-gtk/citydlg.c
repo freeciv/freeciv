@@ -31,6 +31,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "cityrep.h"
 #include "colors.h"
@@ -807,8 +808,7 @@ static void rename_city_callback(GtkWidget *w, gpointer data)
 
   if((pdialog=(struct city_dialog *)data)) {
     packet.city_id=pdialog->pcity->id;
-    strncpy(packet.name, input_dialog_get_input(w), MAX_LEN_NAME);
-    packet.name[MAX_LEN_NAME-1]='\0';
+    sz_strlcpy(packet.name, input_dialog_get_input(w));
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
   }
 
@@ -847,14 +847,16 @@ void trade_callback(GtkWidget *w, gpointer data)
 {
   int i;
   int x=0,total=0;
-  char buf[512],*bptr=buf;
+  char buf[512], *bptr=buf;
+  int nleft = sizeof(buf);
   struct city_dialog *pdialog;
 
   pdialog=(struct city_dialog *)data;
 
-  sprintf(buf, _("These trade routes have been established with %s:\n"),
-	  pdialog->pcity->name);
-  bptr += strlen(bptr);
+  my_snprintf(buf, sizeof(buf),
+	      _("These trade routes have been established with %s:\n"),
+	      pdialog->pcity->name);
+  bptr = end_of_strn(bptr, &nleft);
   
   for(i=0; i<4; i++)
     if(pdialog->pcity->trade[i]) {
@@ -862,21 +864,22 @@ void trade_callback(GtkWidget *w, gpointer data)
       x=1;
       total+=pdialog->pcity->trade_value[i];
       if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
-	sprintf(bptr, _("%32s: %2d Trade/Year\n"),
+	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
 		      pcity->name, pdialog->pcity->trade_value[i]);
-	bptr += strlen(bptr);
+	bptr = end_of_strn(bptr, &nleft);
       }
       else {
-	sprintf(bptr, _("%32s: %2d Trade/Year\n"), _("Unknown"),
+	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"), _("Unknown"),
 		      pdialog->pcity->trade_value[i]);
-	bptr += strlen(bptr);
+	bptr = end_of_strn(bptr, &nleft);
       }
 
     }
-  if(!x)
-    sprintf(bptr, _("No trade routes exist.\n"));
-  else
-    sprintf(bptr, _("\nTotal trade %d Trade/Year\n"),total);
+  if(!x) {
+    mystrlcpy(bptr, _("No trade routes exist.\n"), nleft);
+  } else {
+    my_snprintf(bptr, nleft, _("\nTotal trade %d Trade/Year\n"), total);
+  }
 
   popup_message_dialog(pdialog->shell, 
 		       /*"citytradedialog"*/ _("Trade Routes"), 
@@ -896,7 +899,7 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
   GtkStyle *s;
   int col;
 
-  sprintf(buf, _("Pollution:   %3d"), pcity->pollution);
+  my_snprintf(buf, sizeof(buf), _("Pollution:   %3d"), pcity->pollution);
 
   gtk_set_label(pdialog->pollution_label, buf);
 
@@ -921,7 +924,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
   char buf[512];
   struct city *pcity=pdialog->pcity;
   
-  sprintf(buf, _("Granary: %3d/%-3d"), pcity->food_stock,
+  my_snprintf(buf, sizeof(buf), _("Granary: %3d/%-3d"), pcity->food_stock,
 	  game.foodbox*(pcity->size+1));
 
   gtk_set_label(pdialog->storage_label, buf);
@@ -939,20 +942,19 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   gtk_widget_set_sensitive(pdialog->sell_command, !pcity->did_sell);
 
   if(pcity->is_building_unit) {
-    sprintf(buf, "%3d/%3d", pcity->shield_stock, 
+    my_snprintf(buf, sizeof(buf), "%3d/%3d", pcity->shield_stock, 
 	    get_unit_type(pcity->currently_building)->build_cost);
-    sprintf(buf2, "%s", get_unit_type(pcity->currently_building)->name);
+    sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
   } else {
     if(pcity->currently_building==B_CAPITAL)  {
       /* Capitalization is special, you can't buy it or finish making it */
-      sprintf(buf,"%3d/XXX", pcity->shield_stock);
+      my_snprintf(buf, sizeof(buf), "%3d/XXX", pcity->shield_stock);
       gtk_widget_set_sensitive(pdialog->buy_command, FALSE);
     } else {
-      sprintf(buf, "%3d/%3d", pcity->shield_stock, 
+      my_snprintf(buf, sizeof(buf), "%3d/%3d", pcity->shield_stock, 
 	     get_improvement_type(pcity->currently_building)->build_cost);
     }
-    sprintf(buf2, "%s", 
-	    get_imp_name_ex(pcity, pcity->currently_building));
+    sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }    
   gtk_frame_set_label(GTK_FRAME(pdialog->building_label), buf2);
   gtk_set_label(pdialog->progress_label, buf);
@@ -967,7 +969,8 @@ void city_dialog_update_production(struct city_dialog *pdialog)
   char buf[512];
   struct city *pcity=pdialog->pcity;
   
-  sprintf(buf, _("Food:    %2d (%+2d)\nProd:    %2d (%+2d)\nTrade:   %2d (%+2d)"),
+  my_snprintf(buf, sizeof(buf),
+	  _("Food:    %2d (%+2d)\nProd:    %2d (%+2d)\nTrade:   %2d (%+2d)"),
 	  pcity->food_prod, pcity->food_surplus,
 	  pcity->shield_prod, pcity->shield_surplus,
 	  pcity->trade_prod+pcity->corruption, pcity->trade_prod);
@@ -982,7 +985,8 @@ void city_dialog_update_output(struct city_dialog *pdialog)
   char buf[512];
   struct city *pcity=pdialog->pcity;
   
-  sprintf(buf, _("Gold:    %2d (%+2d)\nLuxury:  %2d\nScience: %2d"),
+  my_snprintf(buf, sizeof(buf),
+	  _("Gold:    %2d (%+2d)\nLuxury:  %2d\nScience: %2d"),
 	  pcity->tax_total, city_gold_surplus(pcity),
 	  pcity->luxury_total,
 	  pcity->science_total);
@@ -1266,7 +1270,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   char buf[512];
   char *now;
   
-  sprintf(buf, _("%s - %s citizens"),
+  my_snprintf(buf, sizeof(buf), _("%s - %s citizens"),
 	  pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
 
   now=GTK_FRAME(pdialog->cityname_label)->label;
@@ -1288,7 +1292,8 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 	 strcmp(pdialog->improvlist_names_ptrs[n],
 		get_imp_name_ex(pdialog->pcity, i)))
 	flag=1;
-      strcpy(pdialog->improvlist_names[n], get_imp_name_ex(pdialog->pcity, i));
+      sz_strlcpy(pdialog->improvlist_names[n],
+		 get_imp_name_ex(pdialog->pcity, i));
       pdialog->improvlist_names_ptrs[n]=pdialog->improvlist_names[n];
       n++;
     }
@@ -1452,7 +1457,8 @@ void buy_callback(GtkWidget *w, gpointer data)
   value=city_buy_cost(pdialog->pcity);
 
   if(game.player_ptr->economic.gold>=value) {
-    sprintf(buf, _("Buy %s for %d gold?\nTreasury contains %d gold."), 
+    my_snprintf(buf, sizeof(buf),
+	    _("Buy %s for %d gold?\nTreasury contains %d gold."), 
 	    name, value, game.player_ptr->economic.gold);
 
     popup_message_dialog(pdialog->shell, /*"buydialog"*/ _("Buy It!"), buf,
@@ -1460,7 +1466,8 @@ void buy_callback(GtkWidget *w, gpointer data)
 			 _("No"), buy_callback_no, 0, 0);
   }
   else {
-    sprintf(buf, _("%s costs %d gold.\nTreasury contains %d gold."), 
+    my_snprintf(buf, sizeof(buf),
+	    _("%s costs %d gold.\nTreasury contains %d gold."), 
 	    name, value, game.player_ptr->economic.gold);
 
     popup_message_dialog(pdialog->shell, /*"buynodialog"*/ _("Buy It!"), buf,
@@ -1510,7 +1517,8 @@ void upgrade_callback(GtkWidget *w, gpointer data)
 
     if (ut2==-1) {
       /* this shouldn't generally happen, but it is conceivable */
-      sprintf(buf, _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
+      my_snprintf(buf, sizeof(buf),
+		  _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
       popup_message_dialog(toplevel, /*"upgradenodialog"*/_("Upgrade Unit!"), buf,
 			   _("Darn"), unitupgrade_callback_no, 0,
 			   NULL);
@@ -1518,7 +1526,7 @@ void upgrade_callback(GtkWidget *w, gpointer data)
       value=unit_upgrade_price(game.player_ptr, ut1, ut2);
 
       if(game.player_ptr->economic.gold>=value) {
-	sprintf(buf, _("Upgrade %s to %s for %d gold?\n"
+	my_snprintf(buf, sizeof(buf), _("Upgrade %s to %s for %d gold?\n"
 	       "Treasury contains %d gold."),
 	       unit_types[ut1].name, unit_types[ut2].name,
 	       value, game.player_ptr->economic.gold);
@@ -1530,7 +1538,7 @@ void upgrade_callback(GtkWidget *w, gpointer data)
 			       unitupgrade_callback_no, 0,
 			     NULL);
       } else {
-	sprintf(buf, _("Upgrading %s to %s costs %d gold.\n"
+	my_snprintf(buf, sizeof(buf), _("Upgrading %s to %s costs %d gold.\n"
 	       "Treasury contains %d gold."),
 	       unit_types[ut1].name, unit_types[ut2].name,
 	       value, game.player_ptr->economic.gold);
@@ -1690,8 +1698,10 @@ void change_callback(GtkWidget *w, gpointer data)
 
   for(i=0, n=0; i<B_LAST; i++)
     if(can_build_improvement(pdialog->pcity, i)) {
-      sprintf(pdialog->change_list_names[n], "%s (%d)",
-	get_imp_name_ex(pdialog->pcity, i),get_improvement_type(i)->build_cost);
+      my_snprintf(pdialog->change_list_names[n],
+		  sizeof(pdialog->change_list_names[n]), "%s (%d)",
+		  get_imp_name_ex(pdialog->pcity, i),
+		  get_improvement_type(i)->build_cost);
       
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
@@ -1702,8 +1712,9 @@ void change_callback(GtkWidget *w, gpointer data)
 
   for(i=0; i<game.num_unit_types; i++)
     if(can_build_unit(pdialog->pcity, i)) {
-      sprintf(pdialog->change_list_names[n],"%s (%d)",
-	get_unit_name(i), get_unit_type(i)->build_cost);
+      my_snprintf(pdialog->change_list_names[n],
+		  sizeof(pdialog->change_list_names[n]), "%s (%d)",
+		  get_unit_name(i), get_unit_type(i)->build_cost);
 
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
@@ -1777,7 +1788,7 @@ void sell_callback(GtkWidget *w, gpointer data)
 	    return;
 	  
 	  pdialog->sell_id=i;
-	  sprintf(buf, _("Sell %s for %d gold?"), 
+	  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"), 
 		  get_imp_name_ex(pdialog->pcity, i),
 		  improvement_value(i));
 

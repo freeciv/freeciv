@@ -28,6 +28,7 @@
 #include "fcintl.h"
 #include "map.h"
 #include "mem.h"
+#include "support.h"
 #include "unit.h"
 
 #include "chatline.h"
@@ -837,11 +838,11 @@ char *menu_entry_text(enum MenuIndex menu, int ent, int var, char *terr)
   xlt=_(pmenu->entries[ent].text[var]);
 
   if (strstr(xlt, "%s")) {
-    sprintf(tmp, xlt, terr);
+    my_snprintf(tmp, sizeof(tmp), xlt, terr);
     xlt=tmp;
   }
 
-  sprintf(retbuf, "%*.*s%*.*s",
+  my_snprintf(retbuf, sizeof(retbuf), "%*.*s%*.*s",
 	  -pmenu->maxitemlen, pmenu->maxitemlen, xlt,
 	  pmenu->maxacellen, pmenu->maxacellen, pmenu->entries[ent].acel);
 

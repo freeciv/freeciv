@@ -187,7 +187,7 @@ static struct unit *find_best_focus_candidate(void)
     x=punit_focus->x; y=punit_focus->y;
   } else {
     get_center_tile_mapcanvas(&x,&y);
-  };
+  }
     
   best_candidate=NULL;
   unit_list_iterate(game.player_ptr->units, punit) {

@@ -18,7 +18,8 @@
 
 struct connection;
 
-int connect_to_server(char *name, char *hostname, int port, char *errbuf);
+int connect_to_server(char *name, char *hostname, int port,
+		      char *errbuf, int n_errbuf);
 void input_from_server(int fd);
 void disconnect_from_server(void);
 
@@ -43,7 +44,7 @@ struct server
   TYPED_LIST_ITERATE(struct server, serverlist, pserver)
 #define server_list_iterate_end  LIST_ITERATE_END
 
-struct server_list *create_server_list(char *errbuf);
+struct server_list *create_server_list(char *errbuf, int n_errbuf);
 void delete_server_list(struct server_list *server_list);
 
 #endif  /* FC__CLINET_H */

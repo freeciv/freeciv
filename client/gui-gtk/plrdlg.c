@@ -25,6 +25,7 @@
 #include "game.h"
 #include "packets.h"
 #include "player.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "clinet.h"
@@ -168,28 +169,30 @@ void update_players_dialog(void)
       
       if(is_barbarian(&game.players[i]))
         continue;
-      if(game.players[i].nturns_idle>3)
-	sprintf(idlebuf, _("(idle %d turns)"), game.players[i].nturns_idle-1);
-      else
+      if(game.players[i].nturns_idle>3) {
+	my_snprintf(idlebuf, sizeof(idlebuf), _("(idle %d turns)"),
+		    game.players[i].nturns_idle-1);
+      } else {
 	idlebuf[0]='\0';
+      }
       
       if(game.players[i].is_alive) {
 	if(game.players[i].is_connected) {
 	  if(game.players[i].turn_done)
-	    strcpy(statebuf, _("done"));
+	    sz_strlcpy(statebuf, _("done"));
 	  else
-	    strcpy(statebuf, _("moving"));
+	    sz_strlcpy(statebuf, _("moving"));
 	}
 	else
 	  statebuf[0]='\0';
       }
       else
-	strcpy(statebuf, _("R.I.P"));
+	sz_strlcpy(statebuf, _("R.I.P"));
 
       if(game.players[i].ai.control)
-	sprintf(namebuf,"*%-15s", game.players[i].name);
+	my_snprintf(namebuf, sizeof(namebuf), "*%-15s", game.players[i].name);
       else
-	sprintf(namebuf,"%-16s", game.players[i].name);
+	my_snprintf(namebuf, sizeof(namebuf), "%-16s", game.players[i].name);
 
       row[0] = namebuf;
       row[1] = get_nation_name(game.players[i].nation);

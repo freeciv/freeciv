@@ -26,6 +26,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "support.h"
 #include "unit.h"
 
 #include "chatline.h"
@@ -834,9 +835,9 @@ void update_menus(void)
       enum tile_terrain_type  ttype;
       struct tile_type *      tinfo;
 
-      strcpy(irrtext, _("Build Irrigation"));
-      strcpy(mintext, _("Build Mine"));
-      strcpy(transtext, _("Transform Terrain"));
+      sz_strlcpy(irrtext, _("Build Irrigation"));
+      sz_strlcpy(mintext, _("Build Mine"));
+      sz_strlcpy(transtext, _("Transform Terrain"));
       
       menus_set_sensitive("<main>/Orders/Auto Settler",
 			  (can_unit_do_auto(punit)
@@ -901,22 +902,22 @@ void update_menus(void)
       tinfo = get_tile_type(ttype);
       if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype))
 	{
-	  sprintf (irrtext, chgfmt,
+	  my_snprintf (irrtext, sizeof(irrtext), chgfmt,
 		   (get_tile_type(tinfo->irrigation_result))->terrain_name);
 	}
       else if ((map_get_tile(punit->x,punit->y)->special&S_IRRIGATION) &&
 	       improvement_exists(B_SUPERMARKET))
 	{
-	  strcpy (irrtext, _("Build Farmland"));
+	  sz_strlcpy (irrtext, _("Build Farmland"));
 	}
       if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
 	{
-	  sprintf (mintext, chgfmt,
+	  my_snprintf (mintext, sizeof(mintext), chgfmt,
 		   (get_tile_type(tinfo->mining_result))->terrain_name);
 	}
       if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype))
 	{
-	  sprintf (transtext, transfmt,
+	  my_snprintf (transtext, sizeof(transtext), transfmt,
 		   (get_tile_type(tinfo->transform_result))->terrain_name);
 	}
 

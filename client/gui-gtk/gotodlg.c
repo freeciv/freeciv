@@ -27,6 +27,7 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "support.h"
 #include "unit.h"
 
 #include "clinet.h"
@@ -156,16 +157,17 @@ static struct city *get_selected_city(void)
 {
   GList *selection;
   gchar *string;
+  int len;
 
   if (!(selection=GTK_CLIST(goto_list)->selection))
     return 0;
   
   gtk_clist_get_text(GTK_CLIST(goto_list), (gint)selection->data, 0, &string);
 
-  if(strlen(string)>3 && strcmp(string+strlen(string)-3, "(A)")==0) {
+  len = strlen(string);
+  if(len>3 && strcmp(string+len-3, "(A)")==0) {
     char name[MAX_LEN_NAME];
-    strncpy(name, string, strlen(string)-3);
-    name[strlen(string)-3]='\0';
+    mystrlcpy(name, string, MIN(sizeof(name),len-2));
     return game_find_city_by_name(name);
   }
   return game_find_city_by_name(string);
@@ -191,9 +193,9 @@ void update_goto_dialog(GtkWidget *goto_list)
   for(i=0, j=0; i<game.nplayers; i++) {
     if(!all_cities && i!=game.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
-      strcpy(name, pcity->name);
+      sz_strlcpy(name, pcity->name);
       if(pcity->improvements[B_AIRPORT]==1)
-	strcat(name, "(A)");
+	sz_strlcat(name, "(A)");
       gtk_clist_append( GTK_CLIST( goto_list ), row );
     }
     city_list_iterate_end;

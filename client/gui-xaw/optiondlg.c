@@ -34,6 +34,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "cityrep.h"
@@ -103,14 +104,10 @@ void create_option_dialog(void)
 				option_form, NULL));
   
   for (o=options; o->name; ++o) {
-    strcpy (res_name, "option_");
-    strcat (res_name, o->name);
-    strcat (res_name, "_label");
+    my_snprintf(res_name, sizeof(res_name), "option_%s_label", o->name);
     I_L(XtVaCreateManagedWidget(res_name, labelWidgetClass, option_form, NULL));
 
-    strcpy (res_name, "option_");
-    strcat (res_name, o->name);
-    strcat (res_name, "_toggle");
+    my_snprintf(res_name, sizeof(res_name), "option_%s_toggle", o->name);
     o->p_gui_data = (void *)XtVaCreateManagedWidget(res_name, toggleWidgetClass, option_form, NULL);
 
     XtAddCallback((Widget) o->p_gui_data, XtNcallback, toggle_callback, NULL);

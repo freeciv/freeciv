@@ -24,6 +24,7 @@
 #include "log.h"
 #include "registry.h"
 #include "shared.h"
+#include "support.h"
 #include "version.h"
 
 #include "chatline_g.h"
@@ -153,16 +154,15 @@ static char *option_file_name(void)
   name = getenv("FREECIV_OPT");
 
   if (name) {
-    strncpy(name_buffer, name, sizeof(name_buffer)-1);
+    sz_strlcpy(name_buffer, name);
   } else {
     name = user_home_dir();
     if (!name) {
       append_output_window(_("Cannot find your home directory"));
       return NULL;
     }
-    strncpy(name_buffer, name, 230);
-    name_buffer[230] = '\0';
-    strcat(name_buffer, "/.civclientrc");
+    mystrlcpy(name_buffer, name, 231);
+    sz_strlcat(name_buffer, "/.civclientrc");
   }
   freelog(LOG_VERBOSE, "settings file is %s", name_buffer);
   return name_buffer;
@@ -173,7 +173,6 @@ static char *option_file_name(void)
 *****************************************************************/
 static FILE *open_option_file(char *mode)
 {
-  char output_buffer[256];
   char *name;
   FILE *f;
 
@@ -184,14 +183,14 @@ static FILE *open_option_file(char *mode)
   f = fopen(name, mode);
 
   if(mode[0]=='w') {
+    char output_buffer[256];
     if (f) {
-      sprintf(output_buffer, _("Settings file is "));
-      strncat(output_buffer, name, 255-strlen(output_buffer));
+      my_snprintf(output_buffer, sizeof(output_buffer),
+		  _("Settings file is %s"), name);
     } else {
-      sprintf(output_buffer, _("Cannot write to file "));
-      strncat(output_buffer, name, 255-strlen(output_buffer));
+      my_snprintf(output_buffer, sizeof(output_buffer),
+		  _("Cannot write to file %s"), name);
     }
-    output_buffer[255] = '\0';
     append_output_window(output_buffer);
   }
   

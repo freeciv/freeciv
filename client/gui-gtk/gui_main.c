@@ -32,6 +32,7 @@
 #include "map.h"
 #include "mem.h"
 #include "shared.h"
+#include "support.h"
 #include "version.h"
 
 #include "chatline.h"
@@ -191,8 +192,8 @@ static void parse_options(int argc, char **argv)
   /* set default argument values */
   loglevel=LOG_NORMAL;
   server_port=DEFAULT_SOCK_PORT;
-  strcpy(server_host, "localhost");
-  strcpy(metaserver, METALIST_ADDR);
+  mystrlcpy(server_host, "localhost", 512);
+  mystrlcpy(metaserver, METALIST_ADDR, 256);
   name[0] = '\0';
 
   i = 1;
@@ -211,13 +212,13 @@ static void parse_options(int argc, char **argv)
     else if ((option = get_option("--log",argv,&i,argc)) != NULL)
       logfile = mystrdup(option); /* never free()d */
     else if ((option = get_option("--name",argv,&i,argc)) != NULL)
-      strcpy(name, option);
+      mystrlcpy(name, option, 512);
     else if ((option = get_option("--metaserver",argv,&i,argc)) != NULL)
-      strcpy(metaserver,option);
+      mystrlcpy(metaserver, option, 256);
     else if ((option = get_option("--port",argv,&i,argc)) != NULL)
       server_port=atoi(option);
     else if ((option = get_option("--server",argv,&i,argc)) != NULL)
-      strcpy(server_host, option);
+      mystrlcpy(server_host, option, 512);
     else if ((option = get_option("--debug",argv,&i,argc)) != NULL)
     {
       loglevel=log_parse_level_str(option);
@@ -234,7 +235,7 @@ static void parse_options(int argc, char **argv)
 
   /* after log_init: */
   if (name[0] == '\0') {
-    strcpy(name, user_username());
+    mystrlcpy(name, user_username(), 512);
   }
 }
 
@@ -765,7 +766,9 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
     GtkWidget *p;
     char buf[512];
     
-    sprintf(buf, _("%s People\nYear: %s\nGold: %d\nNet Income: %d\nTax:%d Lux:%d Sci:%d\nResearching %s: %d/%d"),
+    my_snprintf(buf, sizeof(buf),
+	    _("%s People\nYear: %s\nGold: %d\nNet Income: %d\n"
+	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/%d"),
 	    int_to_text(civ_population(game.player_ptr)),
 	    textyear(game.year),
 	    game.player_ptr->economic.gold,
