@@ -885,7 +885,7 @@ msgstr "Spill: Forurensning nær %s."
 #: server/cityturn.c:1273
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
-msgstr "Spill: Den nasjonale '%s-dagen' feires i %s."
+msgstr "Spill: Den nasjonale %s-dagen feires i %s."
 
 #: server/cityturn.c:1281
 #, c-format
@@ -4658,8 +4658,8 @@ msgstr ""
 "argumenter, bruk \"help help\"\n"
 "\n"
 "De viktigste kommandoene er:\n"
-"  show   -  se nåværende argument\n"
-"  set    -  sett valmuligheter\n"
+"  show   -  se nåværende alternativer\n"
+"  set    -  sett alternativ\n"
 "  start  -  sett i gang spillet når spillerne er tilkoblet\n"
 "  save   -  lagre det nåværende spillet\n"
 "  quit   -  avslutte"
@@ -5576,7 +5576,7 @@ msgstr "Korrupsjon"
 #: client/gui-gtk-2.0/cityrep.c:1230 client/gui-gtk/cityrep.c:522
 #: client/gui-gtk/cityrep.c:894 client/gui-mui/citydlg.c:1453
 msgid "CMA"
-msgstr "ByF"
+msgstr "Byforvaltning"
 
 #: client/cityrepdata.c:232
 msgid "City Management Agent"
@@ -5584,7 +5584,7 @@ msgstr "Byforvaltning"
 
 #: client/cityrepdata.c:234 client/cityrepdata.c:235
 msgid "Currently Building"
-msgstr "Bygger for øyeblikket"
+msgstr "Bygger nå"
 
 #: client/cityrepdata.c:234
 msgid "(Stock,Target,Turns,Buy)"
@@ -6186,7 +6186,7 @@ msgstr "Standard lydplugin"
 
 #: client/options.c:94
 msgid "Solid unit background color"
-msgstr "Helfarvet bakgrunn for enheter"
+msgstr "Helfarget bakgrunn for enheter"
 
 #: client/options.c:95
 msgid "Sound bell at new turn"
@@ -11932,8 +11932,8 @@ msgstr ""
 "Se på \"Native Language Support\" i README filen for instruksjoner for å "
 "bytte til et annet språk.\n"
 "\n"
-"Dersom du oppdager feil ved oversettelsen, så kan du rapportere de \n"
-"til den nåværende oversetteren: Andreas Røsdal <andrearo@stud.ntnu.no>.\n"
+"Dersom du oppdager feil ved oversettelsen, \nså kan du rapportere de "
+"til den nåværende oversetteren:\nAndreas Røsdal <andrearo@stud.ntnu.no>.\n"
 "\n"
 "For mer informasjon om oversettelser av Freeciv, gå til\n"
 "<http://www.freeciv.org/l10n.phtml>\n"
