@@ -122,7 +122,7 @@ struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y)
       city_list_iterate(pplay->cities, pcity) {
         if (map_distance(x, y, pcity->x, pcity->y)<dist 
          && map_get_continent(x, y)==map_get_continent(pcity->x, pcity->y)
-         && map_get_known(x,y,pplayer)) 
+         && (pplayer==NULL || map_get_known(x,y,pplayer))) 
            { 
            dist=map_distance(x, y, pcity->x, pcity->y);
            pc=pcity;
@@ -284,9 +284,9 @@ else { agression+=5; }
 
 pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y); 
 penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y); 
-closestcity=map_distance(punit->x,punit->y,pcity->x,pcity->y);
 if (pcity)
    {
+   closestcity=map_distance(punit->x,punit->y,pcity->x,pcity->y);
    if (closestcity < agression*2 )
       {
       myreturn=1;
