@@ -2096,21 +2096,24 @@ void server_set_worker_city(struct city *pcity, int city_x, int city_y)
   server_set_tile_city(pcity, city_x, city_y, C_TILE_WORKER);
 }
 
-/**************************************************************************
-Wrapper (using map positions) for update_city_tile_status (which uses
-city map positions).
+/****************************************************************************
+  Updates the worked status of the tile (in map coordinates) for the city.
+  If the status changes auto_arrange_workers may be called.  The caller needs
+  to call sync_cities afterward for the affected city to be synced with the
+  client.
 
-You need to call sync_cities for the affected cities to be synced with
-the client.
-**************************************************************************/
+  It is safe to pass an out-of-range tile to this function.  The function
+  returns TRUE if the tile is made unavailable.
+****************************************************************************/
 bool update_city_tile_status_map(struct city *pcity, int map_x, int map_y)
 {
   int city_x, city_y;
-  bool is_valid;
 
-  is_valid = map_to_city_map(&city_x, &city_y, pcity, map_x, map_y);
-  assert(is_valid);
-  return update_city_tile_status(pcity, city_x, city_y);
+  if (map_to_city_map(&city_x, &city_y, pcity, map_x, map_y)) {
+    return update_city_tile_status(pcity, city_x, city_y);
+  } else {
+    return FALSE;
+  }
 }
 
 /**************************************************************************

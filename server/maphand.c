@@ -1575,15 +1575,16 @@ static struct city *map_get_closest_city(int x, int y)
 /*************************************************************************
   Update tile worker states for all cities that have the given map tile
   within their radius. Does not sync with client.
+
+  This function is inefficient and so should only be called when the
+  owner actually changes.
 *************************************************************************/
 static void tile_update_owner(int x, int y)
 {
+  /* This implementation is horribly inefficient, but this doesn't cause
+   * problems since it's not called often. */
   cities_iterate(pcity) {
-    int cityx, cityy;
-
-    if (map_to_city_map(&cityx, &cityy, pcity, x, y)) {
-      update_city_tile_status_map(pcity, x, y);
-    }
+    update_city_tile_status_map(pcity, x, y);
   } cities_iterate_end;
 }
 
