@@ -1569,8 +1569,8 @@ static long int checkmass;
 static int placeisland(void)
 {
   int x, y, xo, yo, i=0;
-  yo = myrand(map.ysize)+n-s;
-  xo = myrand(map.xsize)+w-e;
+  yo = myrand(map.ysize);
+  xo = myrand(map.xsize);
 
   /* this helps a lot for maps with high landmass */
   for (y = n, x = w ; y < s && x < e ; y++, x++) {
