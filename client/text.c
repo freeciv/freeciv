@@ -236,18 +236,42 @@ const char *popup_info_text(struct tile *ptile)
     add_line(_("Activity: %s"), activity_text);
   }
   if (punit && !pcity) {
-    char tmp[64] = {0};
+    struct player *owner = unit_owner(punit);
+    struct player_diplstate *ds = game.player_ptr->diplstates;
     struct unit_type *ptype = unit_type(punit);
-    if (punit->owner == game.player_idx) {
-	struct city *pcity;
-	pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
-	if (pcity)
-	  my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
+
+    if (owner == game.player_ptr){
+      struct city *pcity;
+      char tmp[64] = {0};
+
+      pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
+      if (pcity) {
+	my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
       }
-    /* TRANS: "Unit: Musketeers(Polish,Warsaw)" */
-    add_line(_("Unit: %s(%s%s)"), ptype->name,
-	     get_nation_name(unit_owner(punit)->nation), tmp);
-    if (punit->owner != game.player_idx){
+      /* TRANS: "Unit: Musketeers (Polish/Warsaw)" */
+      add_line(_("Unit: %s (%s%s)"), ptype->name,
+	  get_nation_name(owner->nation),
+	  tmp);
+    } else if (owner) {
+      if (ds[owner->player_no].type == DS_CEASEFIRE) {
+	int turns = ds[owner->player_no].turns_left;
+
+	/* TRANS:  "Unit: Musketeers (Polish, 5 turn ceasefire)" */
+        add_line(PL_("Unit: %s (%s, %d turn ceasefire)",
+				       "Unit: %s (%s, %d turn ceasefire)",
+				       turns),
+		 ptype->name,
+		 get_nation_name(owner->nation),
+		 turns);
+      } else {
+	/* TRANS: "Unit: Musketeers (Polish,friendly)" */
+	add_line(_("Unit: %s (%s,%s)"), ptype->name,
+		 get_nation_name(owner->nation),
+		 diplo_city_adjectives[ds[owner->player_no].type]);
+      }
+    }
+
+    if (owner != game.player_ptr){
       struct unit *apunit;
       if ((apunit = get_unit_in_focus())) {
 	/* chance to win when active unit is attacking the selected unit */
@@ -269,7 +293,7 @@ const char *popup_info_text(struct tile *ptile)
 	     ptype->attack_strength, 
 	     ptype->defense_strength, ptype->firepower, punit->hp, 
 	     ptype->hp, punit->veteran ? _(" V") : "");
-    if (punit->owner == game.player_idx
+    if (owner == game.player_ptr
 	&& unit_list_size(&ptile->units) >= 2) {
       /* TRANS: "5 more" units on this tile */
       add(_("  (%d more)"), unit_list_size(&ptile->units) - 1);
