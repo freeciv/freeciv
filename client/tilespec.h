@@ -118,12 +118,13 @@ struct named_sprites {
   } spaceship;
   struct {
     struct Sprite
-      *isolated,
-      /* for isometric*/
-      *dir[8],     /* first used! */
-      /* for non-isometric */
+      /* for roadstyle 0 */
+      *dir[8],     /* all entries used */
+      /* for roadstyle 1 */
       *cardinal[NUM_DIRECTION_NSEW],     /* first unused */
       *diagonal[NUM_DIRECTION_NSEW],     /* first unused */
+      /* for roadstyle 0 and 1 */
+      *isolated,
       *corner[NUM_DIRECTION_NSEW]; /* only diagonal directions used */
   } road, rail;
   struct {

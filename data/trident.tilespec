@@ -21,6 +21,9 @@ is_isometric = 0
 ; Do not blend hills and mountains together.
 is_mountainous = 0
 
+; Use roadstyle 1 (old non-iso style)
+roadstyle = 1
+
 ; Font to use to draw city names:
 city_names_font = "9x15bold"
 
