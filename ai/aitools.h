@@ -38,15 +38,26 @@ enum bodyguard_enum {
   BODYGUARD_NONE
 };
 
+#define FERRY_WANTED      -1      /* For passengers in need of a boat */
+#define FERRY_AVAILABLE   -1      /* For boats looking for a passenger */
+/* The below is used by both passengers and ferries.  Passengers use it to 
+ * say they don't have a ferry and don't need one.  Ferries use it to say 
+ * that they do not have a passenger-in-charge, but are not available for 
+ * bookings yet (might carry some passengers still). */
+#define FERRY_NONE         0
+
 int military_amortize(struct player *pplayer, struct city *pcity, 
                       int value, int delay, int build_cost);
 int stack_cost(struct unit *pdef);
 
 bool ai_unit_execute_path(struct unit *punit, struct pf_path *path);
 bool ai_unit_gothere(struct unit *punit);
+bool ai_gothere(struct player *pplayer, struct unit *punit, 
+                int dest_x, int dest_y);
 bool ai_unit_goto(struct unit *punit, int x, int y);
-void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y);
 
+void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, 
+                      int x, int y);
 bool ai_unit_make_homecity(struct unit *punit, struct city *pcity);
 bool ai_unit_attack(struct unit *punit, int x, int y);
 bool ai_unit_move(struct unit *punit, int x, int y);

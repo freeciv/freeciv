@@ -61,6 +61,7 @@
 
 #define LOGLEVEL_RECOVERY LOG_DEBUG
 
+static void ai_manage_unit(struct player *pplayer, struct unit *punit);
 static void ai_manage_military(struct player *pplayer,struct unit *punit);
 static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 static void ai_manage_barbarian_leader(struct player *pplayer,
@@ -804,19 +805,6 @@ int unittype_def_rating_sq(Unit_Type_id att_type, Unit_Type_id def_type,
   return v * v;
 }
 
-/********************************************************************** 
-  Total attack power of the units in this square.
-***********************************************************************/
-static int stack_attack_value(int x, int y)
-{
-  int val = 0;
-  struct tile *ptile = map_get_tile(x, y);
-  unit_list_iterate(ptile->units, aunit)
-    val += unit_att_rating(aunit);
-  unit_list_iterate_end;
-  return val;
-}
-
 /**************************************************************************
 Compute how much we want to kill certain victim we've chosen, counted in
 SHIELDs.
@@ -1123,8 +1111,13 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 
   if (aunit && aunit->owner == punit->owner) {
     /* protect a unit */
-    x = aunit->x;
-    y = aunit->y;
+    if (is_sailing_unit(aunit)) {
+      x = goto_dest_x(aunit);
+      y = goto_dest_y(aunit);
+    } else {
+      x = aunit->x;
+      y = aunit->y;
+    }
   } else if (acity && acity->owner == punit->owner) {
     /* protect a city */
     x = acity->x;
@@ -1236,174 +1229,6 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
 
   *x = best_x;
   *y = best_y;
-}
-
-/**************************************************************************
-  A helper function for ai_military_gothere.  Estimates the dangers we will
-  be facing a out destination and tries to find/request a bodyguard if 
-  needed.
-**************************************************************************/
-static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
-{
-  int danger;
-  struct city *dcity;
-  struct tile *ptile;
-
-  
-  if (is_barbarian(unit_owner(punit)))  {
-    /* barbarians must have more courage (= less brains) */
-    punit->ai.bodyguard = BODYGUARD_NONE;
-    return;
-  }
-
-  /* Estimate enemy attack power. */
-  danger = stack_attack_value(dest_x, dest_y);
-  if ((dcity = map_get_city(dest_x, dest_y))) {
-    /* Assume enemy will build another defender, add it's attack strength */
-    int d_type = ai_choose_defender_versus(dcity, punit->type);
-    danger += 
-      unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
-                          SINGLE_MOVE, unit_types[d_type].hp);
-  }
-  danger *= POWER_DIVIDER;
-
-  /* If we are fast, there is less danger. */
-  danger /= (unit_type(punit)->move_rate / SINGLE_MOVE);
-  if (unit_flag(punit, F_IGTER)) {
-    danger /= 1.5;
-  }
-
-  ptile = map_get_tile(punit->x, punit->y);
-  /* We look for the bodyguard where we stand. */
-  if (!unit_list_find(&ptile->units, punit->ai.bodyguard)) {
-    int my_def = (punit->hp * (punit->veteran ? 15 : 10)
-                  * unit_type(punit)->defense_strength);
-    
-    /* FIXME: danger is multiplied by POWER_FACTOR, my_def isn't. */
-    if (danger >= my_def) {
-      UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
-               "wants a bodyguard, danger=%d, my_def=%d", danger, my_def);
-      punit->ai.bodyguard = BODYGUARD_WANTED;
-    } else {
-      punit->ai.bodyguard = BODYGUARD_NONE;
-    }
-  }
-
-  /* What if we have a bodyguard, but don't need one? */
-}
-
-/**************************************************************************
-  Return values: FALSE if died or stuck, TRUE otherwise. (This function
-  is not server-side autoattack safe.)
-**************************************************************************/
-static bool ai_military_gothere(struct player *pplayer, struct unit *punit,
-                                int dest_x, int dest_y)
-{
-  int id, x, y, boatid = 0, bx = -1, by = -1;
-  struct unit *ferryboat = NULL;
-  struct unit *def;
-  struct tile *ptile;
-  bool boat_arrived;
-
-  CHECK_UNIT(punit);
-
-  id = punit->id; x = punit->x; y = punit->y;
-
-  if (same_pos(dest_x, dest_y, x, y)) {
-    /* Nowhere to go */
-    return FALSE;
-  }
-
-  if (is_ground_unit(punit)) { 
-    boatid = find_boat(pplayer, &bx, &by, 2);
-    /* NB: ferryboat is set only if the boat is where we are */
-    ferryboat = unit_list_find(&(map_get_tile(x, y)->units), boatid);
-  }
-
-  /* See if we need a bodyguard at our destination */
-  ai_gothere_bodyguard(punit, dest_x, dest_y);
-  
-  if (!goto_is_sane(punit, dest_x, dest_y, TRUE) 
-      || (ferryboat && goto_is_sane(ferryboat, dest_x, dest_y, TRUE))) {
-    punit->ai.ferryboat = boatid;
-    UNIT_LOG(LOG_DEBUG, punit, "Looking for boat[%d].", boatid);
-    if (boatid > 0 && !same_pos(x, y, bx, by)) {
-      /* Go to the boat */
-      /* FIXME: this can lose bodyguard */
-      if (!ai_unit_goto(punit, bx, by)) {
-        /* Died. */
-        return FALSE;
-      }
-    }
-    ptile = map_get_tile(punit->x, punit->y);
-    ferryboat = unit_list_find(&ptile->units, punit->ai.ferryboat);
-
-    if (ferryboat && (ferryboat->ai.passenger == 0 
-                      || ferryboat->ai.passenger == punit->id)) {
-      int boat_x, boat_y;
-
-      UNIT_LOG(LOG_DEBUG, punit, "Found boat[%d], going (%d,%d)",
-               ferryboat->id, dest_x, dest_y);
-      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
-      ferryboat->ai.passenger = punit->id;
-
-      /* Last ingredient: a beachhead. */
-      if (find_beachhead(punit, dest_x, dest_y, &boat_x, &boat_y)) {
-        UNIT_LOG(LOG_DEBUG, punit, "Found beachhead (%d,%d), all aboard", 
-                 boat_x, boat_y);
-	set_goto_dest(ferryboat, boat_x, boat_y);
-	set_goto_dest(punit, dest_x, dest_y);
-        unit_list_iterate(ptile->units, mypass) {
-          if (mypass->ai.ferryboat == ferryboat->id
-              && punit->owner == mypass->owner) {
-            handle_unit_activity_request(mypass, ACTIVITY_SENTRY);
-            def = unit_list_find(&ptile->units, mypass->ai.bodyguard);
-            if (def) {
-              handle_unit_activity_request(def, ACTIVITY_SENTRY);
-            }
-          }
-        } unit_list_iterate_end; /* passengers are safely stowed away */
-        if (!ai_unit_goto(ferryboat, dest_x, dest_y)) {
-          return FALSE; /* died */
-        }
-      }
-    } 
-  }
-
-  if (ferryboat && is_goto_dest_set(ferryboat)) {
-    /* we are on a ferry! did we arrive? */
-    boat_arrived = same_pos(ferryboat->x, ferryboat->y,
-                            goto_dest_x(ferryboat), goto_dest_y(ferryboat))
-      || is_tiles_adjacent(ferryboat->x, ferryboat->y,
-                           goto_dest_x(ferryboat), goto_dest_y(ferryboat));
-  } else {
-    boat_arrived = FALSE;
-  }
-
-  if (boat_arrived) {
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    UNIT_LOG(LOG_DEBUG, punit, "Our boat has arrived");
-  }
-
-  /* Go where we should be going if we can, and are at our destination 
-   * if we are on a ferry */
-  if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0
-      && (!ferryboat || boat_arrived)) {
-    set_goto_dest(punit, dest_x, dest_y);
-    UNIT_LOG(LOG_DEBUG, punit, "Attempt to walk to (%d,%d)", dest_x, dest_y);
-    if (!ai_unit_goto(punit, dest_x, dest_y)) {
-      /* died */
-      return FALSE;
-    }
-    /* liable to bump into someone that will kill us.  Should avoid? */
-  } else {
-    UNIT_LOG(LOG_DEBUG, punit, "Not moving");
-  }
-  
-  /* Dead unit shouldn't reach this point */
-  CHECK_UNIT(punit);
-  
-  return (!same_pos(punit->x, punit->y, x, y));
 }
 
 /*************************************************************************
@@ -2231,14 +2056,23 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
 
   CHECK_UNIT(punit);
 
+  /* First find easy nearby enemies, anything better than pillage goes.
+   * NB: We do not need to repeat ai_military_rampage, it is repeats itself
+   * until it runs out of targets. */
+  /* FIXME: 1. ai_military_rampage never checks if it should defend newly
+   * conquered cities.
+   * FIXME: 2. would be more convenient if it returned FALSE if we run out 
+   * of moves too.*/
+  if (!ai_military_rampage(punit, RAMPAGE_ANYTHING, RAMPAGE_ANYTHING)) {
+    return; /* we died */
+  }
+  
+  if (punit->moves_left <= 0) {
+    return;
+  }
+
   /* Main attack loop */
   do {
-    /* First find easy nearby enemies, anything better than pillage goes */
-    if (!ai_military_rampage(punit, RAMPAGE_ANYTHING, 
-                             RAMPAGE_ANYTHING)) {
-      return; /* we died */
-    }
-
     if (stay_and_defend(punit)) {
       /* This city needs defending, don't go outside! */
       UNIT_LOG(LOG_DEBUG, punit, "stayed to defend %s", 
@@ -2249,32 +2083,31 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     /* Then find enemies the hard way */
     find_something_to_kill(pplayer, punit, &dest_x, &dest_y);
     if (!same_pos(punit->x, punit->y, dest_x, dest_y)) {
-     int repeat;
-
-     for(repeat = 0; repeat < 2; repeat++) {
 
       if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)
-          || !can_unit_attack_tile(punit, dest_x, dest_y)
-          || (could_unit_move_to_tile(punit, dest_x, dest_y) == 0)) {
-        /* Can't attack or move usually means we are adjacent but
-         * on a ferry. This fixes the problem (usually). */
+          || !can_unit_attack_tile(punit, dest_x, dest_y)) {
+        /* Adjacent and can't attack usually means we are not marines
+         * and on a ferry. This fixes the problem (usually). */
         UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> (%d,%d)", 
                  dest_x, dest_y);
-        if (!ai_military_gothere(pplayer, punit, dest_x, dest_y)) {
+        if (!ai_gothere(pplayer, punit, dest_x, dest_y)) {
           /* Died or got stuck */
           return;
         }
-      } else {
-        /* Close combat. fstk sometimes want us to attack an adjacent
-         * enemy that rampage wouldn't */
-        UNIT_LOG(LOG_DEBUG, punit, "mil att bash -> %d, %d", dest_x, dest_y);
-        if (!ai_unit_attack(punit, dest_x, dest_y)) {
-          /* Died */
+        if (punit->moves_left <= 0) {
           return;
         }
+        /* Must be adjacent now. */
+      }
+      
+      /* Close combat. fstk sometimes want us to attack an adjacent
+       * enemy that rampage wouldn't */
+      UNIT_LOG(LOG_DEBUG, punit, "mil att bash -> %d, %d", dest_x, dest_y);
+      if (!ai_unit_attack(punit, dest_x, dest_y)) {
+        /* Died */
+          return;
       }
 
-     } /* for-loop */
     } else {
       /* FIXME: This happens a bit too often! */
       UNIT_LOG(LOG_DEBUG, punit, "fstk didn't find us a worthy target!");
@@ -2304,14 +2137,14 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     if ((pc = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, TRUE))) {
       if (!is_ocean(map_get_terrain(punit->x, punit->y))) {
         UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
-        (void) ai_military_gothere(pplayer, punit, pc->x, pc->y);
+        (void) ai_gothere(pplayer, punit, pc->x, pc->y);
       } else {
         /* sometimes find_beachhead is not enough */
         if (!find_beachhead(punit, pc->x, pc->y, &fx, &fy)) {
           find_city_beach(pc, punit, &fx, &fy);
         }
         UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to %s", pc->name);
-        (void) ai_military_gothere(pplayer, punit, fx, fy);
+        (void) ai_gothere(pplayer, punit, fx, fy);
       }
     }
   }
@@ -2406,164 +2239,196 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   }
 }
 
-/**************************************************************************
-This seems to manage the ferryboat. When it carries units on their way
-to invade something, it goes there. If it carries other units, it returns home.
-When empty, it tries to find some units to carry or goes home or explores.
-Military units handled by ai_manage_military()
-**************************************************************************/
+#define LOGLEVEL_FERRY LOG_DEBUG
+/****************************************************************************
+  A helper for ai_manage_ferryboat.  Finds a passenger for the ferry.
+  Potential passengers signal the boats by setting their ai.ferry field to
+  FERRY_WANTED.
+
+  TODO: lift the path off the map
+****************************************************************************/
+static bool ai_ferry_findcargo(struct unit *punit)
+{
+  /* Path-finding stuff */
+  struct pf_map *map;
+  struct pf_parameter parameter;
+  int passengers = ai_data_get(unit_owner(punit))->stats.passengers;
+
+  if (passengers <= 0) {
+    /* No passangers anywhere */
+    return FALSE;
+  }
+
+  UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is looking for cargo.");
+
+  pft_fill_default_parameter(&parameter);
+  pft_fill_unit_overlap_param(&parameter, punit);
+  /* We are looking for our units, no need to look into the unknown */
+  parameter.get_TB = no_fights_or_unknown;
+  parameter.omniscience = FALSE;
+  
+  map = pf_create_map(&parameter);
+  while (pf_next(map)) {
+    struct pf_position pos;
+
+    pf_next_get_position(map, &pos);
+    
+    unit_list_iterate(map_get_tile(pos.x, pos.y)->units, aunit) {
+      if (aunit->ai.ferryboat == FERRY_WANTED) {
+        UNIT_LOG(LOGLEVEL_FERRY, punit, 
+                 "Found a potential cargo %s[%d](%d,%d), going there",
+                 unit_type(aunit)->name, aunit->id, aunit->x, aunit->y);
+        set_goto_dest(punit, aunit->x, aunit->y);
+        /* Exchange phone numbers */
+        ai_set_passenger(punit, aunit);
+        ai_set_ferry(aunit, punit);
+        pf_destroy_map(map);
+        return TRUE;
+      }
+    } unit_list_iterate_end;
+  }
+
+  freelog(LOG_ERROR, "AI Passengers counting reported false positive %d",
+          passengers);
+  pf_destroy_map(map);
+  return FALSE;
+}
+
+/****************************************************************************
+  It's about 12 feet square and has a capacity of almost 1000 pounds.
+  It is well constructed of teak, and looks seaworthy.
+
+  Manage ferryboat.  If there is a passenger-in-charge, we let it drive the 
+  boat.  If there isn't, appoint one from those we have on board.
+
+  If there is no one aboard, look for potential cargo.  If none found, 
+  explore and then go to the nearest port.
+****************************************************************************/
 static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
-{ /* It's about 12 feet square and has a capacity of almost 1000 pounds.
-     It is well constructed of teak, and looks seaworthy. */
+{
   struct city *pcity;
-  struct city *port = NULL;
-  struct unit *bodyguard = NULL;
-  struct unit_type *punittype = get_unit_type(punit->type);
-  int best = 4 * punittype->move_rate, x = punit->x, y = punit->y;
-  int n = 0, p = 0;
+  struct tile *ptile = map_get_tile(punit->x, punit->y);
 
   CHECK_UNIT(punit);
 
-  if (!unit_list_find(&map_get_tile(punit->x, punit->y)->units, punit->ai.passenger)) {
-    punit->ai.passenger = 0;
-  }
-
-  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit)
-    if (punit->owner != aunit->owner) {
-      continue;
-    }
-    if (aunit->ai.ferryboat == punit->id) {
-      if (punit->ai.passenger == 0) {
-        punit->ai.passenger = aunit->id; /* oops */
-      }
-      if (is_military_unit(aunit) && punit->ai.bodyguard == BODYGUARD_NONE) {
-        /* Acquire some protection as we deliver an invasion army */
-        UNIT_LOG(LOG_DEBUG, punit, "shout out for a bodyguard");
-        punit->ai.bodyguard = BODYGUARD_WANTED;
-      }
-      p++;
-      bodyguard = unit_list_find(&map_get_tile(punit->x, punit->y)->units, aunit->ai.bodyguard);
-      if (is_goto_dest_set(aunit)) { /* HACK */
-	pcity = map_get_city(goto_dest_x(aunit), goto_dest_y(aunit));
-      } else {
-	pcity = NULL;
-      }
-      if (aunit->ai.bodyguard == BODYGUARD_NONE || bodyguard ||
-         (pcity && pcity->ai.invasion >= 2)) {
-	if (pcity) {
-	  UNIT_LOG(LOG_DEBUG, punit, "Ferrying to %s to %s, invasion = %d, body = %d",
-		  unit_name(aunit->type), pcity->name,
-		  pcity->ai.invasion, aunit->ai.bodyguard);
-	}
-        n++;
-        handle_unit_activity_request(aunit, ACTIVITY_SENTRY);
-        if (bodyguard) {
-          handle_unit_activity_request(bodyguard, ACTIVITY_SENTRY);
-        }
-      }
-    }
-  unit_list_iterate_end;
-
-  /* we try to recover hitpoints if we are in a city, before we leave */
-  if (punit->hp < punittype->hp 
+  /* Try to recover hitpoints if we are in a city, before we do anything */
+  if (punit->hp < unit_type(punit)->hp 
       && (pcity = map_get_city(punit->x, punit->y))) {
-    /* Don't do anything, just wait in the city */
-    UNIT_LOG(LOG_DEBUG, punit, "waiting in %s to recover hitpoints "
-            "before ferrying", pcity->name);
+    UNIT_LOG(LOGLEVEL_FERRY, punit, "waiting in %s to recover hitpoints", 
+             pcity->name);
     return;
   }
 
-  if (p != 0) {
-    UNIT_LOG(LOG_DEBUG, punit, "in manage_ferryboat p=%d, n=%d", p, n);
-    if (is_goto_dest_set(punit) && punit->moves_left > 0 && n != 0) {
-      (void) ai_unit_gothere(punit);
-    } else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
-      port = find_nearest_safe_city(punit);
-      if (port && !ai_unit_goto(punit, port->x, port->y)) {
-        return; /* oops! */
-      }
-      send_unit_info(pplayer, punit); /* to get the crosshairs right -- Syela */
-    } else {
-      UNIT_LOG(LOG_DEBUG, punit, "Ferryboat %d@(%d,%d) stalling.",
-		    punit->id, punit->x, punit->y);
-      if(is_barbarian(pplayer)) /* just in case */
-        (void) ai_manage_explorer(punit);
-    }
-    return;
-  }
-
-  /* check if barbarian boat is empty and so not needed - the crew has landed */
-  if( is_barbarian(pplayer) && unit_list_size(&map_get_tile(punit->x, punit->y)->units)<2 ) {
+  /* Check if we are an empty barbarian boat and so not needed */
+  if (is_barbarian(pplayer) 
+      && unit_list_size(&ptile->units) < 2 ) {
     wipe_unit(punit);
     return;
   }
 
-  /* ok, not carrying anyone, even the ferryman */
-  punit->ai.passenger = 0;
-  UNIT_LOG(LOG_DEBUG, punit, "Ferryboat is lonely.");
-  handle_unit_activity_request(punit, ACTIVITY_IDLE);
-
-  /* Release bodyguard and let it roam */
-  ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
-  if (bodyguard) {
-    ai_military_attack(pplayer, bodyguard);
+  /* Do we have the passenger-in-charge on board? */
+  if (punit->ai.passenger > 0 
+      && !unit_list_find(&ptile->units, punit->ai.passenger)) {
+    UNIT_LOG(LOGLEVEL_FERRY, punit, "lost passenger-in-charge[%d], resetting",
+             punit->ai.passenger);
+    punit->ai.passenger = 0;
   }
 
-  if (IS_ATTACKER(punit)) {
-    if (punit->moves_left > 0) ai_manage_military(pplayer, punit);
-    return;
-  } /* AI used to build frigates to attack and then use them as ferries -- Syela */
-
-  /*** Find work ***/
-  CHECK_UNIT(punit);
-
-  generate_warmap(map_get_city(punit->x, punit->y), punit);
-  p = 0; /* yes, I know it's already zero. -- Syela */
-  best = 9999;
-  x = -1; y = -1;
-  unit_list_iterate(pplayer->units, aunit) {
-    if (aunit->ai.ferryboat != 0
-	&& WARMAP_SEACOST(aunit->x, aunit->y) < best
-	&& ground_unit_transporter_capacity(aunit->x, aunit->y, pplayer) <= 0
-        && is_at_coast(aunit->x, aunit->y)) {
-      UNIT_LOG(LOG_DEBUG, punit, "Found a potential pickup %d@(%d, %d)",
-		    aunit->id, aunit->x, aunit->y);
-      x = aunit->x;
-      y = aunit->y;
-      best = WARMAP_SEACOST(x, y);
+  if (punit->ai.passenger <= 0) {
+    struct unit *bodyguard = NULL;
+    
+    /* Try to select passanger-in-charge from among their passengers */
+    unit_list_iterate(ptile->units, aunit) {
+      if (aunit->ai.ferryboat != punit->id) {
+        continue;
+      }
+      
+      if (aunit->ai.ai_role != AIUNIT_ESCORT) {
+        /* Bodyguards shouldn't be in charge of boats... */
+        UNIT_LOG(LOGLEVEL_FERRY, punit, 
+                 "appointed %s[%d] our passenger-in-charge",
+                 unit_type(aunit)->name, aunit->id);
+        punit->ai.passenger = aunit->id;
+        break;
+      } else {
+        bodyguard = aunit;
+      }
+    } unit_list_iterate_end;
+    
+    if (punit->ai.passenger <= 0 && bodyguard) {
+      UNIT_LOG(LOGLEVEL_FERRY, punit, 
+               "has to take %s[%d] as our passenger-in-charge",
+               unit_type(bodyguard)->name, bodyguard->id);
+      punit->ai.passenger = bodyguard->id;
     }
-    if (is_sailing_unit(aunit)
-	&& is_ocean(map_get_terrain(aunit->x, aunit->y))) {
-      p++;
-    }
-  } unit_list_iterate_end;
-  if (best < 4 * unit_type(punit)->move_rate) {
-    /* Pickup is within 4 turns to grab, so move it! */
-    set_goto_dest(punit, x, y);
-    UNIT_LOG(LOG_DEBUG, punit, "Found a friend and going to him @(%d, %d)",
-             x, y);
-    (void) ai_unit_gothere(punit);
-    return;
   }
 
-  /* do cool stuff here */
-  CHECK_UNIT(punit);
+  if (punit->ai.passenger > 0) {
+    int bossid = punit->ai.passenger;    /* For reference */
+    struct unit *boss = find_unit_by_id(bossid);
+    int id = punit->id;                  /* To check if survived */
+    int moves_left = punit->moves_left;  /* Loop prevention */
 
-  if (punit->moves_left == 0) return;
-  pcity = find_city_by_id(punit->homecity);
-  if (pcity) {
-    if (!ai_handicap(pplayer, H_TARGETS) ||
-        unit_move_turns(punit, pcity->x, pcity->y) < p) {
-      set_goto_dest(punit, pcity->x, pcity->y);
-      UNIT_LOG(LOG_DEBUG, punit, "No friends.  Going home.");
-      (void) ai_unit_gothere(punit);
+    assert(boss);
+
+    if (unit_flag(boss, F_SETTLERS) || unit_flag(boss, F_CITIES)) {
+      /* Temporary hack: settlers all go in the end, forcing them 
+       * earlier might mean uninitialised cache, so just wait for them */
+      return;
+    }
+
+    UNIT_LOG(LOGLEVEL_FERRY, punit, "passing control to %s[%d]",
+             unit_type(boss)->name, bossid);
+    ai_manage_unit(pplayer, boss);
+    
+    if (!find_unit_by_id(id) || punit->moves_left < moves_left) {
+      return;
+    }
+    /* We are alive and didn't spend any moves.  We are stuck! 
+     * NB: it can be that punit->ai.passenger has changed by now,
+     * for example if the boss has landed */
+    UNIT_LOG(LOGLEVEL_FERRY, punit, "taking control back from [%d]", 
+             bossid);
+
+  } else {
+    /* Not carrying anyone, even the ferryman */
+
+   if (IS_ATTACKER(punit) && punit->moves_left > 0) {
+      /* AI used to build frigates to attack and then use them as ferries 
+       * -- Syela */
+      ai_manage_military(pplayer, punit);
+      return;
+    }
+
+    UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is not carrying anyone.");
+    ai_set_passenger(punit, NULL);
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    CHECK_UNIT(punit);
+
+    /* Try to find passengers */
+    if (ai_ferry_findcargo(punit)) {
+      ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
       return;
     }
   }
-  if (is_ocean(map_get_terrain(punit->x, punit->y))) {
-    /* thanks, Tony */
-    (void) ai_manage_explorer(punit);
+
+  CHECK_UNIT(punit);
+  
+  if (punit->moves_left == 0 
+      || !is_ocean(map_get_terrain(punit->x, punit->y))) {
+    return;
   }
+  
+  (void) ai_manage_explorer(punit);
+  if (punit->moves_left > 0) {
+    struct city *pcity = find_nearest_safe_city(punit);
+    if (pcity) {
+      set_goto_dest(punit, pcity->x, pcity->y);
+      UNIT_LOG(LOGLEVEL_FERRY, punit, "No work, going home");
+      (void) ai_unit_goto(punit, pcity->x, pcity->y);
+    }
+  }
+ 
   return;
 }
 
@@ -2753,6 +2618,8 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     /* Can do nothing */
     return;
   }
+
+  ai_clear_ferry(punit);
 
   if ((unit_flag(punit, F_DIPLOMAT))
       || (unit_flag(punit, F_SPY))) {

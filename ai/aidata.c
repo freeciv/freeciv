@@ -189,7 +189,10 @@ void ai_data_turn_init(struct player *pplayer)
 
   ai->stats.workers = fc_calloc(ai->num_continents + 1, sizeof(int));
   ai->stats.cities = fc_calloc(ai->num_continents + 1, sizeof(int));
+  ai->stats.passengers = 0;
   ai->stats.average_production = 0;
+  ai->stats.boats = 0;
+  ai->stats.available_boats = 0;
   city_list_iterate(pplayer->cities, pcity) {
     ai->stats.cities[(int)map_get_continent(pcity->x, pcity->y)]++;
     ai->stats.average_production += pcity->shield_surplus;
@@ -199,6 +202,15 @@ void ai_data_turn_init(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = map_get_tile(punit->x, punit->y);
 
+    if (is_sailing_unit(punit) && is_ground_units_transport(punit)) {
+      ai->stats.boats++;
+      if (punit->ai.passenger == FERRY_AVAILABLE) {
+        ai->stats.available_boats++;
+      }
+    }
+    if (punit->ai.ferryboat == FERRY_WANTED) {
+      ai->stats.passengers++;
+    }
     if (!is_ocean(ptile->terrain) && unit_flag(punit, F_SETTLERS)) {
       ai->stats.workers[(int)map_get_continent(punit->x, punit->y)]++;
     }
@@ -352,6 +364,63 @@ void ai_data_init(struct player *pplayer)
     ai->diplomacy.player_intel[i].asked_about_alliance = 0;
     ai->diplomacy.player_intel[i].asked_about_ceasefire = 0;
     ai->diplomacy.player_intel[i].warned_about_space = 0;
+  }
+}
+
+/**************************************************************************
+  Use this wrapper to correctly update the statistics. Use NULL to
+  unregister any ferry that might be there.
+**************************************************************************/
+void ai_set_ferry(struct unit *punit, struct unit *ferry)
+{
+  if (!ferry && punit->ai.ferryboat != FERRY_WANTED) {
+    struct ai_data *ai = ai_data_get(unit_owner(punit));
+
+    ai->stats.passengers++;
+    punit->ai.ferryboat = FERRY_WANTED;
+  } else if (ferry) {
+    /* Make sure we delete punit from the list of potential passengers */
+    ai_clear_ferry(punit);
+    punit->ai.ferryboat = ferry->id;
+  }
+}
+
+/**************************************************************************
+  Use this wrapper to correctly update the statistics.  Should be used 
+  before a unit stops to wait for a boat.
+**************************************************************************/
+void ai_clear_ferry(struct unit *punit)
+{
+  if (punit->ai.ferryboat == FERRY_WANTED) {
+    struct ai_data *ai = ai_data_get(unit_owner(punit));
+
+    ai->stats.passengers--;
+  } else {
+    struct unit *ferry = find_unit_by_id(punit->ai.ferryboat);
+    
+    if (ferry && ferry->ai.passenger == punit->id) {
+      /* punit doesn't want us anymore */
+      ferry->ai.passenger = FERRY_NONE;
+    }
+  }
+
+  punit->ai.ferryboat = FERRY_NONE;
+}
+
+
+/**************************************************************************
+  Use this wrapper to correctly update the statistics. Use NULL to
+  unregister any passenger that might be there.
+**************************************************************************/
+void ai_set_passenger(struct unit *punit, struct unit *passenger)
+{
+  if (!passenger && punit->ai.passenger != FERRY_AVAILABLE) {
+    struct ai_data *ai = ai_data_get(unit_owner(punit));
+
+    ai->stats.available_boats++;
+    punit->ai.passenger = FERRY_AVAILABLE;
+  } else if (passenger) {
+    punit->ai.passenger = passenger->id;
   }
 }
 

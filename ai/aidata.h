@@ -86,11 +86,14 @@ struct ai_data {
     bool sea_done;    /* nothing more to explore at sea */
   } explore;
 
-  /* This struct is used for statistical unit building, to ensure
-     that we don't build too few or too many units of a given type */
+  /* This struct is used for statistical unit building, eg to ensure
+   * that we don't build too few or too many units of a given type. */
   struct {
-    int *workers; /* cities to workers on continent*/
-    int *cities;  /* number of cities on continent */
+    int *workers;     /* cities to workers on continent*/
+    int *cities;      /* number of cities on continent */
+    int passengers;   /* number of passengers waiting for boats */
+    int boats;
+    int available_boats;
     int average_production;
     bv_id diplomat_reservations;
   } stats;
@@ -131,5 +134,10 @@ void ai_data_init(struct player *pplayer);
 void ai_data_done(struct player *pplayer);
 
 struct ai_data *ai_data_get(struct player *pplayer);
+
+void ai_set_passenger(struct unit *punit, struct unit *passenger);
+void ai_set_ferry(struct unit *punit, struct unit *ferry);
+void ai_clear_ferry(struct unit *punit);
+
 
 #endif

@@ -54,6 +54,8 @@ static nearness *territory;
 BV_DEFINE(enemy_mask, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 static enemy_mask enemies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
+static void auto_settler_findwork(struct player *pplayer, 
+                                  struct unit *punit);
 static void auto_settlers_player(struct player *pplayer); 
 static bool is_already_assigned(struct unit *myunit, struct player *pplayer,
 				int x, int y);
@@ -1188,75 +1190,6 @@ static int evaluate_improvements(struct unit *punit,
 }
 
 /**************************************************************************
-  Handles GOTO for settlers. Only ever used in auto_settler_findwork 
-  below.
-**************************************************************************/
-static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat)
-{
-  struct player *pplayer = unit_owner(punit);
-
-  if (same_pos(gx, gy, punit->x, punit->y)) {
-    return TRUE;
-  }
-
-  /*
-   * Go by boat if we can't go by foot, or we have already found a boat
-   * (since boat travel is usually faster). 
-   */
-  if (!goto_is_sane(punit, gx, gy, TRUE)
-      || (ferryboat
-          && goto_is_sane(ferryboat, gx, gy, TRUE)
-          && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
-              || could_unit_move_to_tile(punit, gx, gy) == 0))) {
-    int x, y;
-
-    punit->ai.ferryboat = find_boat(pplayer, &x, &y, 1);
-    /* TODO: check if we found a boat */
-    freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
-	    punit->id, punit->x, punit->y);
-    if (!same_pos(x, y, punit->x, punit->y)) {
-      if (!ai_unit_goto(punit, x, y)) {
-        return FALSE; /* died */
-      }
-    }
-    ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
-                               punit->ai.ferryboat);
-    set_goto_dest(punit, gx, gy);
-
-    if (ferryboat && (ferryboat->ai.passenger == 0
-                      || ferryboat->ai.passenger == punit->id)) {
-      UNIT_LOG(LOG_DEBUG, punit, "We have FOUND BOAT %d, ABOARD",
-               ferryboat->id);
-      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
-      ferryboat->ai.passenger = punit->id;
-      set_goto_dest(ferryboat, gx, gy);
-      if (!ai_unit_goto(ferryboat, gx, gy)) {
-        return FALSE; /* died */
-      }
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    } /* need to zero pass & ferryboat at some point. */
-  }
-
-  /*
-   * Now check if we can walk by foot to our destination
-   * (possibly exiting our ferry)
-   */
-  if (goto_is_sane(punit, gx, gy, TRUE)
-      && punit->moves_left > 0
-      && (!ferryboat
-          || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
-              && could_unit_move_to_tile(punit, gx, gy) != 0))) {
-    set_goto_dest(punit, gx, gy);
-    if (!ai_unit_goto(punit, gx, gy)) {
-      return FALSE; /* died */
-    }
-    punit->ai.ferryboat = 0;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   find some work for the settler
 **************************************************************************/
 static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
@@ -1311,8 +1244,8 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   }
 
   /* We've now worked out what to do; go to it! */
-  if (!ai_gothere(punit, gx, gy, ferryboat)) {
-    /* died */
+  if (!ai_gothere(pplayer, punit, gx, gy)) {
+    /* Died or got stuck */
     return;
   }
 
@@ -1384,7 +1317,7 @@ static void auto_settlers_player(struct player *pplayer)
   freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
 	  pplayer->ai.warmth, game.globalwarming);
   unit_list_iterate(pplayer->units, punit) {
-    if (punit->ai.control
+    if ((punit->ai.control || pplayer->ai.control)
 	&& (unit_flag(punit, F_SETTLERS)
 	    || unit_flag(punit, F_CITIES))) {
       freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",

@@ -137,6 +137,8 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
 /**************************************************************************
   This will eventually become the ferry-enabled goto. For now, it just
   wraps ai_unit_goto()
+
+  TODO: Kill me.  Use ai_gothere instead.
 **************************************************************************/
 bool ai_unit_gothere(struct unit *punit)
 {
@@ -146,6 +148,240 @@ bool ai_unit_gothere(struct unit *punit)
   } else {
     return FALSE; /* we died */
   }
+}
+
+/****************************************************************************
+  A helper function for ai_gothere.  Estimates the dangers we will
+  be facing at our destination and tries to find/request a bodyguard if 
+  needed.
+****************************************************************************/
+static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
+{
+  int danger = 0;
+  struct city *dcity;
+  struct tile *ptile;
+  
+  if (is_barbarian(unit_owner(punit))) {
+    /* barbarians must have more courage (ie less brains) */
+    punit->ai.bodyguard = BODYGUARD_NONE;
+    return;
+  }
+
+  /* Estimate enemy attack power. */
+  unit_list_iterate(map_get_tile(dest_x, dest_y)->units, aunit) {
+    danger += unit_att_rating(aunit);
+  } unit_list_iterate_end;
+  if ((dcity = map_get_city(dest_x, dest_y))) {
+    /* Assume enemy will build another defender, add it's attack strength */
+    int d_type = ai_choose_defender_versus(dcity, punit->type);
+    danger += 
+      unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
+                          SINGLE_MOVE, unit_types[d_type].hp);
+  }
+  danger *= POWER_DIVIDER;
+
+  /* If we are fast, there is less danger. */
+  danger /= (unit_type(punit)->move_rate / SINGLE_MOVE);
+  if (unit_flag(punit, F_IGTER)) {
+    danger /= 1.5;
+  }
+
+  ptile = map_get_tile(punit->x, punit->y);
+  /* We look for the bodyguard where we stand. */
+  if (!unit_list_find(&ptile->units, punit->ai.bodyguard)) {
+    int my_def = (punit->hp * (punit->veteran ? 15 : 10)
+                  * unit_type(punit)->defense_strength);
+    
+    /* FIXME: danger is multiplied by POWER_FACTOR, my_def isn't. */
+    if (danger >= my_def) {
+      UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
+               "wants a bodyguard, danger=%d, my_def=%d", danger, my_def);
+      punit->ai.bodyguard = BODYGUARD_WANTED;
+    } else {
+      punit->ai.bodyguard = BODYGUARD_NONE;
+    }
+  }
+
+  /* What if we have a bodyguard, but don't need one? */
+}
+
+#define LOGLEVEL_GOTHERE LOG_DEBUG
+/****************************************************************************
+  This is ferry-enabled goto.  Should not normally be used for non-ferried 
+  units (i.e. planes or ships), use ai_unit_goto instead.
+
+  Return values: TRUE if got to or next to our destination, FALSE otherwise. 
+
+  TODO: A big one is rendezvous points.  When this is implemented, we won't
+  have to be at the coast to ask for a boat to come to us.
+****************************************************************************/
+bool ai_gothere(struct player *pplayer, struct unit *punit,
+                int dest_x, int dest_y)
+{
+  struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
+
+  CHECK_UNIT(punit);
+
+  if (same_pos(dest_x, dest_y, punit->x, punit->y)) {
+    /* Nowhere to go */
+    return TRUE;
+  }
+
+  /* See if we need a bodyguard at our destination */
+  /* FIXME: If bodyguard is _really_ necessary, don't go anywhere */
+  ai_gothere_bodyguard(punit, dest_x, dest_y);
+
+  /* If we can, we will walk, take boat only if necessary */
+  if (punit->transported_by > 0 
+      || !goto_is_sane(punit, dest_x, dest_y, TRUE)) {
+    int boatid = punit->transported_by;
+    struct unit *ferryboat = NULL;
+
+    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "will have to go to (%d,%d) by boat",
+             dest_x, dest_y);
+
+    if (boatid <= 0) {
+      int bx, by;
+      boatid = find_boat(pplayer, &bx, &by, 2);
+    } 
+    ferryboat = find_unit_by_id(boatid);
+
+    if (!ferryboat) {
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "No boat found.");
+      if (is_at_coast(punit->x, punit->y)) {
+        ai_set_ferry(punit, NULL);
+      }
+      return FALSE;
+    } else {
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Found boat at (%d,%d)",
+               ferryboat->x, ferryboat->y);
+    }
+
+    punit->ai.ferryboat = boatid;
+    if (!same_pos(punit->x, punit->y, ferryboat->x, ferryboat->y)
+        && (!is_at_coast(punit->x, punit->y) 
+            || is_tiles_adjacent(punit->x, punit->y, 
+                                 ferryboat->x, ferryboat->y))) {
+      /* Go to the boat only if it cannot reach us or it's parked 
+       * next to us.  Otherwise just wait (boats are normally faster) */
+      /* FIXME: agree on a rendez-vous point */
+      /* FIXME: this can lose bodyguard */
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "going to boat[%d](%d,%d).", boatid,
+               ferryboat->x, ferryboat->y);
+      if (!ai_unit_goto(punit, ferryboat->x, ferryboat->y)) { 
+        /* Died. */
+        return FALSE;
+      }
+    }
+    
+    if (!same_pos(punit->x, punit->y, ferryboat->x, ferryboat->y)) {
+      /* Didn't get to the boat */
+      if (is_at_coast(punit->x, punit->y)) {
+        /* At least got to the coast, wave to the boats! */
+        UNIT_LOG(LOGLEVEL_GOTHERE, punit, "asking a boat to come nearer");
+        ai_set_ferry(punit, NULL);
+      }
+      return FALSE;
+    }
+
+    /* Check if we are the passenger-in-charge */
+    if (ferryboat->ai.passenger <= 0
+        || ferryboat->ai.passenger == punit->id) {
+      int beach_x, beach_y;     /* Destination for the boat */
+      struct tile *dest_tile = map_get_tile(dest_x, dest_y);
+
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "got boat[%d], going (%d,%d)",
+               ferryboat->id, dest_x, dest_y);
+      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+      ferryboat->ai.passenger = punit->id;
+
+      /* If the location is not accessible directly from sea
+       * or is defended and we are not marines, we will need a 
+       * landing beach */
+      if (!is_at_coast(dest_x, dest_y)
+          ||((is_non_allied_city_tile(dest_tile, pplayer) 
+              || is_non_allied_unit_tile(dest_tile, pplayer))
+             && !unit_flag(punit, F_MARINES))) {
+        if (!find_beachhead(punit, dest_x, dest_y, &beach_x, &beach_y)) {
+          /* Nowhere to go */
+          return FALSE;
+        }
+        UNIT_LOG(LOGLEVEL_GOTHERE, punit, 
+                 "Found beachhead (%d,%d)", beach_x, beach_y);
+      } else {
+        beach_x = dest_x;
+        beach_y = dest_y;
+      }
+
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "All aboard!");
+      set_goto_dest(ferryboat, beach_x, beach_y);
+      set_goto_dest(punit, dest_x, dest_y);
+      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+      /* Grab bodyguard */
+      if (bodyguard
+          && !same_pos(punit->x, punit->y, bodyguard->x, bodyguard->y)) {
+        if (!goto_is_sane(bodyguard, punit->x, punit->y, TRUE)
+            || !ai_unit_goto(punit, punit->x, punit->y)) {
+          /* Bodyguard can't get there or died en route */
+          punit->ai.bodyguard = BODYGUARD_WANTED;
+          bodyguard = NULL;
+        } else if (bodyguard->moves_left <= 0) {
+          /* Wait for me, I'm cooooming!! */
+          UNIT_LOG(LOGLEVEL_GOTHERE, punit, "waiting for bodyguard");
+          return TRUE;
+        } else {
+          /* Crap bodyguard. Got stuck somewhere. Ditch it! */
+          UNIT_LOG(LOGLEVEL_GOTHERE, punit, "ditching useless bodyguard");
+          punit->ai.bodyguard = BODYGUARD_WANTED;
+          ai_unit_new_role(bodyguard, AIUNIT_NONE, -1, -1);
+          bodyguard = NULL;
+        }
+      }
+      if (bodyguard) {
+        assert(same_pos(punit->x, punit->y, bodyguard->x, bodyguard->y));
+        handle_unit_activity_request(bodyguard, ACTIVITY_SENTRY);
+      }
+      if (!ai_unit_goto(ferryboat, beach_x, beach_y)) {
+        /* died */
+        return FALSE;
+      }
+      if (!is_tiles_adjacent(ferryboat->x, ferryboat->y, beach_x, beach_y)
+          && !same_pos(ferryboat->x, ferryboat->y, beach_x, beach_y)) {
+        /* We are in still transit */
+        return FALSE;
+      }
+    } else {
+      /* Waiting for the boss to load and move us */
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Cannot command boat [%d],"
+               " its boss is [%d]", 
+               ferryboat->id, ferryboat->ai.passenger);
+      return FALSE;
+    }
+
+    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Our boat has arrived");
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  }
+
+  /* Go where we should be going if we can, and are at our destination 
+   * if we are on a ferry */
+  if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0) {
+    set_goto_dest(punit, dest_x, dest_y);
+    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Walking to (%d,%d)", dest_x, dest_y);
+    if (!ai_unit_goto(punit, dest_x, dest_y)) {
+      /* died */
+      return FALSE;
+    }
+    /* liable to bump into someone that will kill us.  Should avoid? */
+  } else {
+    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Not moving");
+    return FALSE;
+  }
+  
+  /* Dead unit shouldn't reach this point */
+  CHECK_UNIT(punit);
+  
+  return (same_pos(punit->x, punit->y, dest_x, dest_y) 
+          || is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y));
 }
 
 /**************************************************************************
@@ -193,15 +429,9 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   struct unit *charge = find_unit_by_id(punit->ai.charge);
   struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
 
-  /* Free our ferry */
+  /* Free our ferry.  Most likely it has been done already. */
   if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {
-    struct unit *ferryboat = find_unit_by_id(punit->ai.ferryboat);
-
-    punit->ai.ferryboat = 0;
-    if (ferryboat && ferryboat->ai.passenger == punit->id) {
-      /* Do not free somebody else's ferry... */
-      ferryboat->ai.passenger = 0;
-    }
+    ai_clear_ferry(punit);
   }
 
   if (punit->activity == ACTIVITY_GOTO) {
