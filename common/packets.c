@@ -3126,7 +3126,8 @@ void connection_do_unbuffer(struct connection *pc)
  if this gives errors on very long blocks try lowering the max block
  size --vasc
 ********************************************************************/
-int write_socket_data(struct connection *pc, unsigned char *data, int len)
+static int write_socket_data(struct connection *pc,
+			     unsigned char *data, int len)
 {
   int start;
   int nput;

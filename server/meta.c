@@ -155,7 +155,7 @@ void server_close_udp(void)
 #endif
 }
 
-void metaserver_failed(void)
+static void metaserver_failed(void)
 {
   con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
   con_flush();
