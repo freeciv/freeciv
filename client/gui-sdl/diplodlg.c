@@ -87,7 +87,9 @@ struct Diplomacy_dialog {
 #endif
 };
 
+#if 0
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
+#endif
 
 /**************************************************************************
   Update a player's acceptance status of a treaty (traditionally shown
@@ -132,6 +134,7 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
   freelog(LOG_DEBUG, "handle_diplomacy_remove_clause : PORT ME");
 }
 
+#if 0
 /**************************************************************************
   ...
 **************************************************************************/
@@ -139,6 +142,7 @@ static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
   freelog(LOG_DEBUG, "close_diplomacy_dialog : PORT ME");
 }
+#endif
 
 /**************************************************************************
   Close all open diplomacy dialogs, for when client disconnects from game.
