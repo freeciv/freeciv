@@ -132,7 +132,7 @@ char *get_report_title(char *report_name)
 {
   char buf[512];
   
-  sprintf(buf, "%s\n%s of the %s\n%s %s: %s",
+  sprintf(buf, _("%s\n%s of the %s\n%s %s: %s"),
 	  report_name,
 	  get_government_name(game.player_ptr->government),
 	  get_nation_name_plural(game.player_ptr->nation),
