@@ -15,70 +15,69 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "mem.h"		/* mystrdup */
 #include "capability.h"
+
+#define	GET_TOKEN(start, end)	\
+  {									\
+    /* skip leading whitespace */					\
+    while (isspace(*start)) {						\
+      start++;								\
+    }									\
+    /* skip to end of token */						\
+    for (end = start; *end && !isspace(*end) && *end != ','; end++)	\
+      ;									\
+  }
 
 /* This routine returns true if the capability in cap appears
  * in the capability list in capstr.  The capabilities in capstr
  * are allowed to start with a "+", but the capability in cap must not.
- * Note that we copy capstr, because our tokenising modifies it.
- * Double note: You can't call strtok recursively, so I have to put my
- * own grokking in here.
+ */
+static int my_has_capability(const char *cap, const char *capstr,
+			     const size_t cap_len)
+{
+  const char *next;
+
+  for (;;) {
+    GET_TOKEN(capstr, next);
+
+    if (*capstr == '+') {
+      capstr++;
+    }
+    if ((next-capstr == cap_len) && strncmp(cap, capstr, cap_len)==0) {
+      return 1;
+    }
+    if (*next == '\0') {
+      return 0;
+    }
+
+    capstr = next+1;
+  }
+}
+
+/* Wrapper for my_has_capability() for NUL terminated strings.
  */
 int has_capability(const char *cap, const char *capstr)
 {
-  char *capstr_, *token, *next;
-  int res=0, finished=0;
-
-  token = capstr_ = mystrdup(capstr);
-  do {
-    /* skip leading whitespace */
-    while (isspace(*token))
-      token++;
-    
-    /* skip to end of token */
-    next = token;
-    while (*next && !(isspace(*next) || *next == ','))
-      next++;
-
-    if (*next == 0)
-      finished = 1;
-    
-    *next = 0;
-
-    if (*token == '+')
-      token++;
-    if (strcmp(token, cap)==0)
-      {
-	res = 1;
-	break;
-      }
-  } while (next++, token = next, !finished);
-
-  free(capstr_);
-  return res;
+  return my_has_capability(cap, capstr, strlen(cap));
 }
 
 /* This routine returns true if all the mandatory capabilities in
- * us appear in them.  Note that we copy us, because strtok modifies it.
+ * us appear in them.
  */
 int has_capabilities(const char *us, const char *them)
 {
-  char *us_, *token;
-  int res=1;
+  const char *next;
 
-  us_ = mystrdup(us);
-  token = strtok(us_, ", ");
-  while (token != NULL)
-  {
-    if (*token == '+' && !has_capability(token+1, them))
-    {
-      res = 0;
-      break;
+  for (;;) {
+    GET_TOKEN(us, next);
+
+    if (*us == '+' && !my_has_capability(us+1, them, next-(us+1))) {
+      return 0;
     }
-    token = strtok(NULL, ", ");
-  }
+    if (*next == '\0') {
+      return 1;
+    }
 
-  free(us_);
-  return res;
+    us = next+1;
+  }
 }
