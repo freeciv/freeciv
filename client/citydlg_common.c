@@ -20,6 +20,7 @@
 #include "log.h"
 #include "support.h"
 
+#include "citydlg_g.h"
 #include "mapview_g.h"
 
 #include "citydlg_common.h"
@@ -474,6 +475,57 @@ int city_set_worklist(struct city *pcity, struct worklist *pworklist)
   copy.name[0] = '\0';
 
   return dsend_packet_city_worklist(&aconnection, pcity->id, &copy);
+}
+
+/**************************************************************************
+  Get the city current production and the worklist, like it should be.
+**************************************************************************/
+void city_get_queue(struct city *pcity, struct worklist *pqueue)
+{
+  int id;
+  bool is_unit;
+
+  copy_worklist(pqueue, &pcity->worklist);
+
+  /* The GUI wants current production to be in the task list, but the
+     worklist API wants it out for reasons unknown. Perhaps someone enjoyed
+     making things more complicated than necessary? So I dance around it. */
+
+  /* We want the current production to be in the queue. Always. */
+  worklist_remove(pqueue, MAX_LEN_WORKLIST - 1);
+
+  id = pcity->currently_building;
+  is_unit = pcity->is_building_unit;
+  worklist_insert(pqueue, id, is_unit, 0);
+}
+
+/**************************************************************************
+  Set the city current production and the worklist, like it should be.
+**************************************************************************/
+void city_set_queue(struct city *pcity, struct worklist *pqueue)
+{
+  struct worklist copy;
+  int id;
+  bool is_unit;
+
+  copy_worklist(&copy, pqueue);
+
+  /* The GUI wants current production to be in the task list, but the
+     worklist API wants it out for reasons unknown. Perhaps someone enjoyed
+     making things more complicated than necessary? So I dance around it. */
+  if (worklist_peek(&copy, &id, &is_unit)) {
+    worklist_advance(&copy);
+
+    city_set_worklist(pcity, &copy);
+    city_change_production(pcity, is_unit, id);
+  } else {
+    /* You naughty boy, you can't erase the current production. Nyah! */
+    if (worklist_is_empty(&pcity->worklist)) {
+      refresh_city_dialog(pcity);
+    } else {
+      city_set_worklist(pcity, &copy);
+    }
+  }
 }
 
 /**************************************************************************

@@ -298,6 +298,7 @@ struct worklist_data {
   GtkTreeViewColumn *src_col, *dst_col;
 
   GtkWidget *add_cmd, *change_cmd, *help_cmd;
+  GtkWidget *up_cmd, *down_cmd, *prepend_cmd, *append_cmd;
 
   bool future;
 };
@@ -570,6 +571,131 @@ static void future_callback(GtkToggleButton *toggle, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
+static void queue_bubble_up(struct worklist_data *ptr)
+{
+  GtkTreePath *path;
+  GtkTreeViewColumn *col;
+  GtkTreeModel *model;
+
+  if (!GTK_WIDGET_IS_SENSITIVE(ptr->dst_view)) {
+    return;
+  }
+
+  model = GTK_TREE_MODEL(ptr->dst);
+  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view), &path, &col);
+  if (path) {
+    GtkTreeIter it, it_prev;
+
+    if (gtk_tree_path_prev(path)) {
+      gtk_tree_model_get_iter(model, &it_prev, path);
+      it = it_prev;
+      gtk_tree_model_iter_next(model, &it);
+
+      gtk_list_store_swap(GTK_LIST_STORE(model), &it, &it_prev);
+
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(ptr->dst_view), path, col, FALSE);
+      commit_worklist(ptr);
+    }
+  }
+  gtk_tree_path_free(path);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void queue_bubble_down(struct worklist_data *ptr)
+{
+  GtkTreePath *path;
+  GtkTreeViewColumn *col;
+  GtkTreeModel *model;
+
+  if (!GTK_WIDGET_IS_SENSITIVE(ptr->dst_view)) {
+    return;
+  }
+
+  model = GTK_TREE_MODEL(ptr->dst);
+  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view), &path, &col);
+  if (path) {
+    GtkTreeIter it, it_next;
+
+    gtk_tree_model_get_iter(model, &it, path);
+    it_next = it;
+    if (gtk_tree_model_iter_next(model, &it_next)) {
+      gtk_list_store_swap(GTK_LIST_STORE(model), &it, &it_next);
+
+      gtk_tree_path_next(path);
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(ptr->dst_view), path, col, FALSE);
+      commit_worklist(ptr);
+    }
+  }
+  gtk_tree_path_free(path);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void queue_insert(struct worklist_data *ptr, bool prepend)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  GtkTreePath *path;
+
+  GtkTreeModel *src_model, *dst_model;
+  GtkTreeIter src_it, dst_it;
+  gint i, ncols;
+
+  if (!GTK_WIDGET_IS_SENSITIVE(ptr->dst_view)) {
+    return;
+  }
+
+  if (!gtk_tree_selection_get_selected(ptr->src_selection, &model, &it)) {
+    return;
+  }
+
+  path = gtk_tree_model_get_path(model, &it);
+
+  src_model = GTK_TREE_MODEL(ptr->src);
+  dst_model = GTK_TREE_MODEL(ptr->dst);
+
+  gtk_tree_model_get_iter(src_model, &src_it, path);
+  if (prepend) {
+    gtk_list_store_prepend(GTK_LIST_STORE(dst_model), &dst_it);
+  } else {
+    gtk_list_store_append(GTK_LIST_STORE(dst_model), &dst_it);
+  }
+
+  ncols = gtk_tree_model_get_n_columns(src_model);
+
+  for (i = 0; i < ncols; i++) {
+    GValue value = { 0, };
+
+    gtk_tree_model_get_value(src_model, &src_it, i, &value);
+    gtk_list_store_set_value(GTK_LIST_STORE(dst_model), &dst_it, i, &value);
+  }
+  commit_worklist(ptr);
+
+  gtk_tree_path_free(path);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void queue_prepend(struct worklist_data *ptr)
+{
+  queue_insert(ptr, TRUE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void queue_append(struct worklist_data *ptr)
+{
+  queue_insert(ptr, FALSE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
 			     GtkTreeViewColumn *col, gpointer data)
 {
@@ -615,6 +741,7 @@ static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
   dst_model = GTK_TREE_MODEL(ptr->dst);
 
   gtk_tree_model_get_iter(dst_model, &it, path);
+
   gtk_list_store_remove(GTK_LIST_STORE(dst_model), &it);
   commit_worklist(ptr);
 }
@@ -633,18 +760,11 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
     return FALSE;
   }
   
-  if (ev->keyval == GDK_Insert) {
-    GtkTreeModel *model;
-    GtkTreeIter it;
-    GtkTreePath *path;
-
-    if (!gtk_tree_selection_get_selected(ptr->src_selection, &model, &it)) {
-      return FALSE;
-    }
-
-    path = gtk_tree_model_get_path(model, &it);
-    src_row_callback(NULL, path, NULL, ptr);
-    gtk_tree_path_free(path);
+  if ((ev->state & GDK_SHIFT_MASK) && ev->keyval == GDK_Insert) {
+    queue_prepend(ptr);
+    return TRUE;
+  } else if (ev->keyval == GDK_Insert) {
+    queue_append(ptr);
     return TRUE;
   } else {
     return FALSE;
@@ -665,9 +785,8 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
 
   if (ev->keyval == GDK_Delete) {
     GtkTreeIter it, it_next;
-    bool deleted;
+    bool deleted = FALSE;
 
-    deleted = FALSE;
     if (gtk_tree_model_get_iter_first(model, &it)) {
       bool more;
 
@@ -690,46 +809,11 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
     return TRUE;
 
   } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_Up) {
-    GtkTreePath *path;
-    GtkTreeViewColumn *col;
-
-    gtk_tree_view_get_cursor(GTK_TREE_VIEW(w), &path, &col);
-    if (path) {
-      GtkTreeIter it, it_prev;
-
-      if (gtk_tree_path_prev(path)) {
-	gtk_tree_model_get_iter(model, &it_prev, path);
-	it = it_prev;
-	gtk_tree_model_iter_next(model, &it);
-
-	gtk_list_store_swap(GTK_LIST_STORE(model), &it, &it_prev);
-
-	gtk_tree_view_set_cursor(GTK_TREE_VIEW(w), path, col, FALSE);
-	commit_worklist(ptr);
-      }
-    }
-    gtk_tree_path_free(path);
+    queue_bubble_up(ptr);
     return TRUE;
 
   } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_Down) {
-    GtkTreePath *path;
-    GtkTreeViewColumn *col;
-
-    gtk_tree_view_get_cursor(GTK_TREE_VIEW(w), &path, &col);
-    if (path) {
-      GtkTreeIter it, it_next;
-
-      gtk_tree_model_get_iter(model, &it, path);
-      it_next = it;
-      if (gtk_tree_model_iter_next(model, &it_next)) {
-	gtk_list_store_swap(GTK_LIST_STORE(model), &it, &it_next);
-
-	gtk_tree_path_next(path);
-	gtk_tree_view_set_cursor(GTK_TREE_VIEW(w), path, col, FALSE);
-	commit_worklist(ptr);
-      }
-    }
-    gtk_tree_path_free(path);
+    queue_bubble_down(ptr);
     return TRUE;
 
   } else {
@@ -751,13 +835,38 @@ static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
     if (can_client_issue_orders()
 	&& ptr->pcity && city_owner(ptr->pcity) == game.player_ptr) {
       gtk_widget_set_sensitive(ptr->change_cmd, TRUE);
+      gtk_widget_set_sensitive(ptr->prepend_cmd, TRUE);
+      gtk_widget_set_sensitive(ptr->append_cmd, TRUE);
     } else {
       gtk_widget_set_sensitive(ptr->change_cmd, FALSE);
+      gtk_widget_set_sensitive(ptr->prepend_cmd, FALSE);
+      gtk_widget_set_sensitive(ptr->append_cmd, FALSE);
     }
     gtk_widget_set_sensitive(ptr->help_cmd, TRUE);
   } else {
     gtk_widget_set_sensitive(ptr->change_cmd, FALSE);
     gtk_widget_set_sensitive(ptr->help_cmd, FALSE);
+    gtk_widget_set_sensitive(ptr->prepend_cmd, FALSE);
+    gtk_widget_set_sensitive(ptr->append_cmd, FALSE);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
+{
+  struct worklist_data *ptr;
+
+  ptr = data;
+
+  /* update widget sensitivity. */
+  if (gtk_tree_selection_count_selected_rows(selection) > 0) {
+    gtk_widget_set_sensitive(ptr->up_cmd, TRUE);
+    gtk_widget_set_sensitive(ptr->down_cmd, TRUE);
+  } else {
+    gtk_widget_set_sensitive(ptr->up_cmd, FALSE);
+    gtk_widget_set_sensitive(ptr->down_cmd, FALSE);
   }
 }
 
@@ -891,12 +1000,12 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
 /****************************************************************
   Worklist editor shell.
 *****************************************************************/
-GtkWidget *create_worklist()
+GtkWidget *create_worklist(void)
 {
   GtkWidget *editor, *table, *sw, *bbox;
   GtkWidget *src_view, *dst_view, *label, *button;
   GtkWidget *menubar, *item, *menu, *image;
-  GtkWidget *align, *arrow, *check;
+  GtkWidget *table2, *arrow, *check;
   GtkSizeGroup *group;
 
   GtkListStore *src_store, *dst_store;
@@ -958,12 +1067,55 @@ GtkWidget *create_worklist()
   g_signal_connect(check, "toggled", G_CALLBACK(future_callback), ptr);
 
 
-  align = gtk_alignment_new(0.5, 0.5, 6.0, 1.0);
-  gtk_table_attach(GTK_TABLE(table), align, 2, 3, 1, 2,
+  table2 = gtk_table_new(4, 1, FALSE);
+  gtk_table_attach(GTK_TABLE(table), table2, 2, 3, 1, 2,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
+  button = gtk_button_new();
+  ptr->prepend_cmd = button;
+  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 0, 1,
+      0, GTK_EXPAND|GTK_FILL, 0, 24);
+
   arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
-  gtk_container_add(GTK_CONTAINER(align), arrow);
+  gtk_container_add(GTK_CONTAINER(button), arrow);
+  g_signal_connect_swapped(button, "clicked",
+			   G_CALLBACK(queue_prepend), ptr);
+  gtk_widget_set_sensitive(ptr->prepend_cmd, FALSE);
+
+  button = gtk_button_new();
+  ptr->up_cmd = button;
+  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 1, 2, 0, 0, 0, 0);
+
+  arrow = gtk_arrow_new(GTK_ARROW_UP, GTK_SHADOW_NONE);
+  gtk_container_add(GTK_CONTAINER(button), arrow);
+  g_signal_connect_swapped(button, "clicked",
+			   G_CALLBACK(queue_bubble_up), ptr);
+  gtk_widget_set_sensitive(ptr->up_cmd, FALSE);
+
+  button = gtk_button_new();
+  ptr->down_cmd = button;
+  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 2, 3, 0, 0, 0, 0);
+
+  arrow = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_IN);
+  gtk_container_add(GTK_CONTAINER(button), arrow);
+  g_signal_connect_swapped(button, "clicked",
+			   G_CALLBACK(queue_bubble_down), ptr);
+  gtk_widget_set_sensitive(ptr->down_cmd, FALSE);
+
+  button = gtk_button_new();
+  ptr->append_cmd = button;
+  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 3, 4,
+      0, GTK_EXPAND|GTK_FILL, 0, 24);
+
+  arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
+  gtk_container_add(GTK_CONTAINER(button), arrow);
+  g_signal_connect_swapped(button, "clicked",
+			   G_CALLBACK(queue_append), ptr);
+  gtk_widget_set_sensitive(ptr->append_cmd, FALSE);
 
 
   sw = gtk_scrolled_window_new(NULL, NULL);
@@ -1048,6 +1200,9 @@ GtkWidget *create_worklist()
 
   g_signal_connect(ptr->src_selection, "changed",
       		   G_CALLBACK(src_selection_callback), ptr);
+  g_signal_connect(ptr->dst_selection, "changed",
+      		   G_CALLBACK(dst_selection_callback), ptr);
+
 
   gtk_widget_show_all(table);
   gtk_widget_show_all(bbox);
@@ -1096,7 +1251,7 @@ void reset_worklist(GtkWidget *editor, struct worklist *pwl, struct city *pcity)
 void refresh_worklist(GtkWidget *editor)
 {
   struct worklist_data *ptr;
-  struct worklist *pwl;
+  struct worklist *pwl, queue;
 
   cid cids[U_LAST + B_LAST];
   int i, cids_used;
@@ -1110,7 +1265,6 @@ void refresh_worklist(GtkWidget *editor)
 
   GtkTreeModel *model;
   gboolean exists;
-
 
   ptr = g_object_get_data(G_OBJECT(editor), "data");
   pwl = ptr->pwl;
@@ -1150,14 +1304,21 @@ void refresh_worklist(GtkWidget *editor)
   model = GTK_TREE_MODEL(ptr->dst);
   exists = gtk_tree_model_get_iter_first(model, &it);
 
+  /* dance around worklist braindamage. */
+  if (ptr->pcity) {
+    city_get_queue(ptr->pcity, &queue);
+  } else {
+    copy_worklist(&queue, pwl);
+  }
+
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     cid cid;
 
-    if (pwl->wlefs[i] == WEF_END) {
+    if (queue.wlefs[i] == WEF_END) {
       break;
     }
 
-    cid = cid_encode(pwl->wlefs[i] == WEF_UNIT, pwl->wlids[i]);
+    cid = cid_encode(queue.wlefs[i] == WEF_UNIT, queue.wlids[i]);
 
     if (!exists) {
       gtk_list_store_append(ptr->dst, &it);
@@ -1201,11 +1362,10 @@ void refresh_worklist(GtkWidget *editor)
 *****************************************************************/
 static void commit_worklist(struct worklist_data *ptr)
 {
-  struct worklist *pwl;
+  struct worklist *pwl, queue;
   GtkTreeModel *model;
   GtkTreeIter it;
   int i;
-  char name[MAX_LEN_NAME];
 
   pwl = ptr->pwl;
   
@@ -1215,31 +1375,31 @@ static void commit_worklist(struct worklist_data *ptr)
 
   model = GTK_TREE_MODEL(ptr->dst);
   
-  strcpy(name, pwl->name);
-  init_worklist(pwl);
+  init_worklist(&queue);
+  sz_strlcpy(queue.name, pwl->name);
 
   i = 0;
   if (gtk_tree_model_get_iter_first(model, &it)) {
     do {
       gint cid;
-      
-      gtk_tree_model_get(model, &it, 0, &cid, -1);
-      pwl->wlefs[i] = cid_is_unit(cid) ? WEF_UNIT : WEF_IMPR;
-      pwl->wlids[i] = cid_id(cid);
-
-      i++;
 
       /* oops, the player has a worklist longer than what we can store. */
-      if (i == MAX_LEN_WORKLIST) {
+      if (i >= MAX_LEN_WORKLIST) {
 	break;
       }
-      
+
+      gtk_tree_model_get(model, &it, 0, &cid, -1);
+      queue.wlefs[i] = cid_is_unit(cid) ? WEF_UNIT : WEF_IMPR;
+      queue.wlids[i] = cid_id(cid);
+
+      i++;
     } while (gtk_tree_model_iter_next(model, &it));
   }
 
-  strcpy(pwl->name, name);
-
+  /* dance around worklist braindamage. */
   if (ptr->pcity) {
-    city_set_worklist(ptr->pcity, pwl);
+    city_set_queue(ptr->pcity, &queue);
+  } else {
+    copy_worklist(pwl, &queue);
   }
 }

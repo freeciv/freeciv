@@ -111,8 +111,8 @@ struct city_dialog {
     GtkWidget *map_canvas_pixmap;
     GtkWidget *tradelist;
     GtkWidget *production_bar;
-    GtkWidget *improvement_list;
     GtkWidget *buy_command;
+    GtkWidget *improvement_list;
 
     GtkWidget *supported_units_frame;
     GtkWidget *supported_unit_table;
@@ -131,6 +131,7 @@ struct city_dialog {
  
   struct { 
     GtkWidget *production_bar;
+    GtkWidget *buy_command;
     GtkWidget *worklist;
   } production;
 
@@ -366,6 +367,7 @@ void refresh_city_dialog(struct city *pcity)
   if (city_owner(pcity) == game.player_ptr) {
     bool have_present_units =
 	(unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) > 0);
+    gboolean sensitive;
 
     refresh_worklist(pdialog->production.worklist);
 
@@ -377,12 +379,15 @@ void refresh_city_dialog(struct city *pcity)
     gtk_widget_set_sensitive(pdialog->show_units_command,
 			     can_client_issue_orders() &&
 			     have_present_units);
-    gtk_widget_set_sensitive(pdialog->overview.buy_command,
-			     city_buy_cost(pdialog->pcity) > 0 &&
-			     can_client_issue_orders());
+
+    sensitive = (city_buy_cost(pdialog->pcity) > 0
+	&& can_client_issue_orders());
+    gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
+    gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
   } else {
     /* Set the buttons we do not want live while a Diplomat investigates */
     gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
+    gtk_widget_set_sensitive(pdialog->production.buy_command, FALSE);
     gtk_widget_set_sensitive(pdialog->show_units_command, FALSE);
   }
 }
@@ -692,11 +697,23 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 		       "label", _("Production:"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-  
+
+
+  hbox = gtk_hbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+
   bar = gtk_progress_bar_new();
   pdialog->overview.production_bar = bar;
-  gtk_box_pack_start(GTK_BOX(vbox), bar, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), bar, TRUE, TRUE, 0);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
+
+  pdialog->overview.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
+						      _("_Buy"));
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.buy_command,
+		     FALSE, FALSE, 0);
+  g_signal_connect(pdialog->overview.buy_command, "clicked",
+		   G_CALLBACK(buy_callback), pdialog);
+
 
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
@@ -787,12 +804,12 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   g_signal_connect(bar, "drag_data_received",
 		   G_CALLBACK(target_drag_data_received), pdialog);
 
-  pdialog->overview.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
+  pdialog->production.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
 						      _("_Buy"));
-  gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.buy_command,
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->production.buy_command,
 		     FALSE, FALSE, 0);
 
-  g_signal_connect(pdialog->overview.buy_command, "clicked",
+  g_signal_connect(pdialog->production.buy_command, "clicked",
 		   G_CALLBACK(buy_callback), pdialog);
 
 
@@ -881,7 +898,7 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 static void create_and_append_trade_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *label;
-  char *tab_title = _("_Trade Routes");
+  char *tab_title = _("Trade Ro_utes");
 
   page = gtk_hbox_new(TRUE, 0);
 
@@ -1397,9 +1414,11 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   struct city *pcity = pdialog->pcity;
   gdouble pct;
   int cost;
+  gboolean sensitive;
 
-  gtk_widget_set_sensitive(pdialog->overview.buy_command,
-			   can_client_issue_orders() && !pcity->did_buy);
+  sensitive = (can_client_issue_orders() && !pcity->did_buy);
+  gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
+  gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
@@ -1410,6 +1429,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     if (pcity->currently_building == B_CAPITAL) {
       /* You can't buy capitalization */
       gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
+      gtk_widget_set_sensitive(pdialog->production.buy_command, FALSE);
       cost = 0;
     } else {
       cost = impr_build_shield_cost(pcity->currently_building);;
