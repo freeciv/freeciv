@@ -71,16 +71,51 @@ static SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
 /***************************************************************************
 ...
 ***************************************************************************/
+#define COLOR_MOTTO_FACE_R    0x2D
+#define COLOR_MOTTO_FACE_G    0x71
+#define COLOR_MOTTO_FACE_B    0xE3
+
 void load_intro_gfx( void )
 {
   int tot, lin, y, w;
   char s[64];
+  GdkColor face;
+  GdkGC *face_gc;
+  char *motto = freeciv_motto();
+
+  /* metrics */
+
+  lin=main_font->ascent+main_font->descent;
+
+  /* get colors */
+
+  face.red  = COLOR_MOTTO_FACE_R<<8;
+  face.green= COLOR_MOTTO_FACE_G<<8;
+  face.blue = COLOR_MOTTO_FACE_B<<8;
+
+  gdk_imlib_best_color_get (&face);
+
+  /* Main graphic */
 
   intro_gfx_sprite = load_gfxfile(main_intro_filename);
-  radar_gfx_sprite = load_gfxfile(minimap_intro_filename);
+  tot=intro_gfx_sprite->width;
 
+  face_gc = gdk_gc_new(root_window);
+
+  y=intro_gfx_sprite->height-(2*lin);
+
+  w = gdk_string_width(main_font, motto);
+  gdk_gc_set_foreground (face_gc, &face);
+  gdk_draw_string(intro_gfx_sprite->pixmap, main_font,
+		  face_gc, tot/2-w/2, y, motto);
+
+  gdk_gc_destroy (face_gc);
+
+  /* Minimap graphic */
+
+  radar_gfx_sprite = load_gfxfile(minimap_intro_filename);
   tot=radar_gfx_sprite->width;
-  lin=main_font->ascent+main_font->descent;
+
   y=radar_gfx_sprite->height-(lin+((int)(1.5*main_font->descent)));
 
   w = gdk_string_width(main_font, WORD_VERSION);
@@ -100,9 +135,10 @@ void load_intro_gfx( void )
   gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
 		  toplevel->style->white_gc, tot/2-w/2, y, s);
 
+  /* done */
+
   return;
 }
-
 
 /***************************************************************************
 return newly allocated sprite cropped from source

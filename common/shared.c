@@ -692,4 +692,10 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
   }
 }
 
-
+/***************************************************************************
+  Return the Freeciv motto.
+***************************************************************************/
+char *freeciv_motto(void)
+{
+  return _("'Cause civilization should be free!");
+}

@@ -73,16 +73,48 @@ static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask,
 /***************************************************************************
 ...
 ***************************************************************************/
+#define COLOR_MOTTO_FACE    "#2D71E3"
+
 void load_intro_gfx(void)
 {
   int tot, lin, y, w;
   char s[64];
+  XColor face;
+  int have_face;
+  char *motto = freeciv_motto();
+
+  /* metrics */
+
+  lin=main_font_struct->ascent+main_font_struct->descent;
+
+  /* get colors */
+
+  if(XParseColor(display, cmap, COLOR_MOTTO_FACE, &face) &&
+     XAllocColor(display, cmap, &face)) {
+    have_face = TRUE;
+  } else {
+    face.pixel = colors_standard[COLOR_STD_WHITE];
+    have_face = FALSE;
+  }
+
+  /* Main graphic */
 
   intro_gfx_sprite=load_gfxfile(main_intro_filename);
-  radar_gfx_sprite=load_gfxfile(minimap_intro_filename);
+  tot=intro_gfx_sprite->width;
 
+  y=intro_gfx_sprite->height-(2*lin);
+
+  w=XTextWidth(main_font_struct, motto, strlen(motto));
+  XSetForeground(display, font_gc, face.pixel);
+  XDrawString(display, intro_gfx_sprite->pixmap, font_gc, 
+	      tot/2-w/2, y, 
+	      motto, strlen(motto));
+
+  /* Minimap graphic */
+
+  radar_gfx_sprite=load_gfxfile(minimap_intro_filename);
   tot=radar_gfx_sprite->width;
-  lin=main_font_struct->ascent+main_font_struct->descent;
+
   y=radar_gfx_sprite->height-(lin+((int)(1.5*main_font_struct->descent)));
 
   w=XTextWidth(main_font_struct, WORD_VERSION, strlen(WORD_VERSION));
@@ -107,6 +139,15 @@ void load_intro_gfx(void)
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
   XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
 	      tot/2-w/2, y, s, strlen(s));
+
+  /* free colors */
+
+  if (have_face)
+    XFreeColors(display, cmap, &(face.pixel), 1, 0);
+
+  /* done */
+
+  return;
 }
 
 /***************************************************************************

@@ -107,6 +107,8 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 			       const char *prefix,
 			       int *ind_result);
 
+char *freeciv_motto(void);
+
 /*Mac constants-resource IDs*/
 enum DITL_ids{
   kChatDITL=133,
