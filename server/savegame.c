@@ -1884,7 +1884,6 @@ static void player_load(struct player *plr, int plrno,
               plr->name, aplayer->name);
       plr->diplstates[aplayer->player_no].type = DS_PEACE;
       aplayer->diplstates[plr->player_no].type = DS_PEACE;
-      resolve_unit_stacks(plr, aplayer, FALSE);
     }
   } players_iterate_end;
 
@@ -3544,6 +3543,15 @@ void game_load(struct section_file *file)
         bounce_unit(punit, TRUE);
       }
     } unit_list_iterate_safe_end;
+  } players_iterate_end;
+
+  /* Fix stacking issues.  We don't rely on the savegame preserving
+   * alliance invariants (old savegames often did not) so if there are any
+   * unallied units on the same tile we just bounce them. */
+  players_iterate(pplayer) {
+    players_iterate(aplayer) {
+      resolve_unit_stacks(pplayer, aplayer, TRUE);
+    } players_iterate_end;
   } players_iterate_end;
 
   players_iterate(pplayer) {
