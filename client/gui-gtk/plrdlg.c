@@ -350,6 +350,10 @@ static void build_flag(int playerindex)
   SPRITE *flag, *croped, *scaled;
 
   flag = get_nation_by_plr(&game.players[playerindex])->flag_sprite;
+  if (!flag) {
+    flags[playerindex] = NULL;
+    return;
+  }
 
   /* calculate the bounding box ... */
   sprite_get_bounding_box(flag, &start_x, &start_y, &end_x, &end_y);
@@ -415,8 +419,10 @@ void update_players_dialog(void)
 			       &(listindex_to_playerindex[row]));
 
 	build_flag(i);
-	gtk_clist_set_pixmap(GTK_CLIST(players_list), row, 1,
-			     flags[i]->pixmap, flags[i]->mask);
+	if (flags[i]) {
+	  gtk_clist_set_pixmap(GTK_CLIST(players_list), row, 1,
+			       flags[i]->pixmap, flags[i]->mask);
+	}
 
 	listindex_to_playerindex[row] = i;
 	playerindex_to_listindex[i] = row;
