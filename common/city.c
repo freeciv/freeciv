@@ -144,6 +144,8 @@ char *default_american_city_names[] = {
   "Minneapolis", "Houston", "San Antonio", "San Francisco", "Seattle",
   "Portland", "Miami", "Cleveland", "Buffalo", "Pittsburgh",
   "Salt Lake City", "San Diego", "Phoenix", "Kansas City", "Indianapolis",
+  "Orlando", "Milwaukee", "Honolulu", "Boise", "Las Vegas", "Springfield",
+  "Nashville", "Hartford", "Charlotte", "El Paso", "Anchorage",
   (char *)0
 };
 
