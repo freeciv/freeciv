@@ -710,6 +710,7 @@ void game_remove_city(struct city *pcity)
   city_list_unlink(&game.players[pcity->owner].cities, pcity);
   map_set_city(pcity->x, pcity->y, NULL);
   idex_unregister_city(pcity);
+  free(pcity->worklist);
   free(pcity);
 }
 
@@ -791,6 +792,7 @@ void game_init(void)
     game.global_wonders[i]=0;
   game.player_idx=0;
   game.player_ptr=&game.players[0];
+  terrain_control.river_help_text = NULL;
 }
 
 void initialize_globals(void)

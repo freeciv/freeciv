@@ -351,11 +351,13 @@ void boot_help_texts(void)
 	strcat(long_buffer, "\n\n");
       }
     }
+    free(paras);
     wordwrap_string(long_buffer, 68);
     pitem->text=mystrdup(long_buffer);
     genlist_insert(&help_nodes, pitem, -1);
   }
 
+  free(sec);
   section_file_check_unused(sf, sf->filename);
   section_file_free(sf);
   booted = 1;

@@ -1014,6 +1014,8 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 
   pnewcity=fc_malloc(sizeof(struct city));
   *pnewcity=*pcity;
+  pnewcity->worklist = fc_malloc(sizeof(struct worklist));
+  *pnewcity->worklist = *pcity->worklist;
 
   pnewcity->id=get_next_id_number();
   idex_register_city(pnewcity);

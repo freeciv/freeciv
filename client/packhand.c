@@ -1135,6 +1135,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   
   for(i=0; i<game.government_count; i++) {
     free(get_government(i)->ruler_titles);
+    free(get_government(i)->helptext);
   }
   free(governments);
       
@@ -1163,6 +1164,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   governments = fc_calloc(game.government_count, sizeof(struct government));
   for(i=0; i<game.government_count; i++) {
     get_government(i)->ruler_titles = NULL;
+    get_government(i)->helptext = NULL;
   }
 
   free_nations(game.nation_count);
@@ -1474,7 +1476,6 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->ruler_titles = fc_calloc(gov->num_ruler_titles,
 				sizeof(struct ruler_title));
   
-  free(gov->helptext);
   gov->helptext = p->helptext;	/* pointer assignment */
   
   tilespec_setup_government(p->id);
@@ -1568,8 +1569,8 @@ void handle_ruleset_terrain_control(struct terrain_misc *p)
   terrain_control.river_move_mode = p->river_move_mode;
   terrain_control.river_defense_bonus = p->river_defense_bonus;
   terrain_control.river_trade_incr = p->river_trade_incr;
-  terrain_control.river_help_text =
-    p->river_help_text ? mystrdup(p->river_help_text) : NULL;
+  free(terrain_control.river_help_text);
+  terrain_control.river_help_text = p->river_help_text; /* malloc'ed string */
   terrain_control.fortress_defense_bonus = p->fortress_defense_bonus;
   terrain_control.road_superhighway_trade_bonus = p->road_superhighway_trade_bonus;
   terrain_control.rail_food_bonus = p->rail_food_bonus;
