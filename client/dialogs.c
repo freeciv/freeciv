@@ -47,7 +47,7 @@ extern int flags_are_transparent;
 extern GC fill_bg_gc;
 
 /******************************************************************/
-Widget races_dialog_shell;
+Widget races_dialog_shell=NULL;
 Widget races_form, races_toggles_form, races_label;
 Widget races_ok_command;
 Widget races_toggles[14], races_name;
@@ -1450,8 +1450,11 @@ void popup_races_dialog(void)
 *****************************************************************/
 void popdown_races_dialog(void)
 {
+  if (races_dialog_shell) {
   XtSetSensitive(main_form, TRUE);
   XtDestroyWidget(races_dialog_shell);
+  races_dialog_shell = NULL;
+  } /* else there is no dialog shell to destroy */
 }
 
 
@@ -1459,6 +1462,7 @@ void popdown_races_dialog(void)
 ...
 *****************************************************************/
 void create_races_dialog(void)
+ 
 {
   int i;
   XtTranslations textfieldtranslations;
@@ -1466,7 +1470,6 @@ void create_races_dialog(void)
   races_dialog_shell = XtCreatePopupShell("racespopup", 
 					  transientShellWidgetClass,
 					  toplevel, NULL, 0);
-
 
   races_form = XtVaCreateManagedWidget("racesform", 
 				       formWidgetClass, 

@@ -11,4 +11,5 @@ void handle_city_options(struct packet_generic_values *preq);
 
 void handle_spaceship_info(struct packet_spaceship_info *packet);
 
+void popdown_races_dialog(void);
 #endif

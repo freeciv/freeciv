@@ -49,6 +49,7 @@
 #include <xmain.h>
 #include <chatline.h>
 #include <game.h>
+#include <packhand.h>
 extern Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
 
 struct connection aconnection;
@@ -153,6 +154,7 @@ void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
     freelog(LOG_NORMAL, "lost connection to server");
     close(*fid);
     remove_net_input();
+    popdown_races_dialog(); 
     set_client_state(CLIENT_PRE_GAME_STATE);
   }
 }
