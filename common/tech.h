@@ -42,7 +42,7 @@ typedef int Tech_Type_id;
 enum tech_flag_id {
   TF_BONUS_TECH, /* player gets extra tech if rearched first
                     Note: currently only one tech with this flag is supported */
-  TF_BOAT_FAST,  /* all see units get one extra move point */
+  TF_BOAT_FAST,  /* all sea units get one extra move point */
   TF_BRIDGE,    /* "Settler" unit types can build bridges over rivers */
   TF_RAILROAD,  /* "Settler" unit types can build rail roads */
   TF_FORTRESS,  /* "Settler" unit types can build fortress */

@@ -733,7 +733,7 @@ int is_ok_city_spot(int x, int y)
 }
 
 /*************************************************************************
-  return the city if any that is in range of this square.
+  return true if a city is in range of this square.
 **************************************************************************/
 int in_city_radius(int x, int y)
 {

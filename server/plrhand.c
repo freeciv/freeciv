@@ -2041,8 +2041,8 @@ void send_player_info(struct player *src, struct player *dest)
              info.tax=game.players[i].economic.tax;
              info.science=game.players[i].economic.science;
              info.luxury=game.players[i].economic.luxury;
-	     info.government=game.players[i].government;             
-	     info.embassy=game.players[i].embassy;             
+	     info.government=game.players[i].government;
+	     info.embassy=game.players[i].embassy;
              info.city_style=game.players[i].city_style;
 
 	     info.reputation=game.players[i].reputation;

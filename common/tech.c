@@ -30,7 +30,8 @@ static char *flag_names[] = {
   "Bonus_Tech","Boat_Fast","Bridge","Railroad","Fortress",
   "Population_Pollution_Inc","Trade_Revenue_Reduce","Airbase","Farmland"
 };
-
+/* Note that these strings must correspond with the enums in tech_flag_id,
+   in common/tech.h */
 
 /**************************************************************************
 ...
