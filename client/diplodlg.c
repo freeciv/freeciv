@@ -597,6 +597,11 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   XawListChange(pdialog->dip_clauselist, pdialog->clauselist_strings_ptrs, 
 		0, 0, False);
 
+/* force refresh of viewport so that scrollbar is added
+   sun seems to need this */ 
+  XtVaSetValues(pdialog->dip_view, XtNforceBars, False, NULL);
+  XtVaSetValues(pdialog->dip_view, XtNforceBars, True, NULL);
+
   xaw_set_bitmap(pdialog->dip_acceptthumb0,
 		 get_thumb_pixmap(pdialog->treaty.accept0));
   xaw_set_bitmap(pdialog->dip_acceptthumb1, 
