@@ -1971,12 +1971,15 @@ void handle_tile_info(struct packet_tile_info *packet)
   reset_move_costs(packet->x, packet->y);
 
   if (ptile->known <= TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {
+    /* This is an error.  So first we log the error, then make an assertion.
+     * But for NDEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
-      freelog(LOG_NORMAL, "%p %s at (%d,%d) %s", punit,
+      freelog(LOG_ERROR, "%p %s at (%d,%d) %s", punit,
 	      unit_type(punit)->name, punit->x, punit->y,
 	      unit_owner(punit)->name);
     } unit_list_iterate_end;
     assert(unit_list_size(&ptile->units) == 0);
+    unit_list_unlink_all(&ptile->units);
   }
 
   /* update continents */
