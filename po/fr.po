@@ -7,11 +7,12 @@
 # Freeciv french team <freeciv-fr@yahoogroupes.fr>, 2001-2004.
 #
 #
+#: client/messagewin_common.c:113
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-17 21:19+0100\n"
+"POT-Creation-Date: 2005-02-18 14:15-0500\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
 "Last-Translator: Genevieve Gracian <ggracian@free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -7643,28 +7644,28 @@ msgid "The %s gives an embassy"
 msgstr "Les %s donnent une ambassade"
 
 # AR
-#: client/climisc.c:896
+#: client/climisc.c:910
 msgid "Popup Request"
 msgstr "Ouverture de fenêtre"
 
-#: client/climisc.c:926
+#: client/climisc.c:940
 msgid "Exporting output window to civgame.log ..."
 msgstr "Fenêtre de sortie exportée vers civgame.log ..."
 
-#: client/climisc.c:930
+#: client/climisc.c:944
 msgid "Export complete."
 msgstr "Exportation achevée."
 
-#: client/climisc.c:932
+#: client/climisc.c:946
 msgid "Export failed, couldn't write to file."
 msgstr "L'exportation a échoué, impossible d'écrire dans le fichier %s."
 
-#: client/climisc.c:1047
+#: client/climisc.c:1061
 #, c-format
 msgid "You don't buy %s in %s!"
 msgstr "Vous n'achetez pas %s dans %s !"
 
-#: client/climisc.c:1067
+#: client/climisc.c:1081
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s coûte %d lingots et vous n'en avez que %d."
@@ -8597,7 +8598,7 @@ msgstr "Copie de %s vers le presse-papier"
 msgid "Clipboard is empty."
 msgstr "Le presse-papier est vide."
 
-#: client/mapview_common.c:839
+#: client/mapview_common.c:843
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -9930,7 +9931,7 @@ msgstr "Pas d'information graphique %s ou %s pour %s %s"
 msgid "Missing base sprite tag \"%s1\"."
 msgstr "Tag d'icône manquant \"%s1\"."
 
-#: client/tilespec.c:3322
+#: client/tilespec.c:3323
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Impossible de charger le fichier gfx %s pour l'icone %s"
@@ -11280,7 +11281,7 @@ msgid "Host:"
 msgstr "Hôte :"
 
 #: client/gui-gtk-2.0/gui_main.c:1418 client/gui-gtk/gui_main.c:1118
-#: client/gui-xaw/gui_main.c:732
+#: client/gui-xaw/gui_main.c:731
 #, c-format
 msgid ""
 "%s People\n"
@@ -15125,12 +15126,12 @@ msgstr "Utilisation des ressources par défaut - ce qui est OK"
 msgid "Only color displays are supported for now..."
 msgstr "Seul l'affichage en couleur est supporté pour l'instant..."
 
-#: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:395
+#: client/gui-xaw/gui_main.c:375 client/gui-xaw/gui_main.c:394
 #, c-format
 msgid "Unable to open fontset: %s"
 msgstr "Echec du chargement de la police de caractères : %s"
 
-#: client/gui-xaw/gui_main.c:381 client/gui-xaw/gui_main.c:400
+#: client/gui-xaw/gui_main.c:380 client/gui-xaw/gui_main.c:399
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr "Pas de police pour le jeu de caractères %s"
