@@ -38,7 +38,7 @@ name = _("About")
 text = _("\
 Freeciv is a turn-based strategy game, in which each player becomes \
 the leader of a civilization, fighting to obtain the ultimate goal: \
-The extinction of all other civilizations.\
+the extinction of all other civilizations.\
 "), _("\
   Original authors:\n\
     (they are no longer involved, please don't mail them!)\
@@ -518,12 +518,12 @@ general, the steps are: \
  1. Mapping the countryside.\n\
  2. Defending the cities.\n\
  3. Deciding which units to build first.\n\
- 4. Build agriculture improvements.\n\
+ 4. Building agriculture improvements.\n\
  5. Deciding where to build cities.\n\
  6. Taking care of the cities.\n\
  7. Exploring the world.\n\
  8. Things to keep in mind.\n\
- 9. Make your own strategy for the game.\n\
+ 9. Making your own strategy for the game.\n\
 10. Interacting with other players (Diplomacy).\n\
 "), _("\
  0. Choosing the first city site.\
@@ -533,9 +533,9 @@ to build the first city.  Don't feel tempted to investigate any \
 yellow-roofed villages yet - they might contain barbarian \
 tribes.  Build the city close to resources and perhaps close to \
 the sea.  Keep in mind that the city you build first will be \
-your capital!  The idea is to balance the time spent looking for \
-a good site, against getting your first city established as \
-early as possible.\
+your capital!  The idea is to balance the quality of the site you \
+find against getting your first city established as early \
+as possible.\
 "), _("\
  1. Mapping the countryside.\
 \n\n\
@@ -550,13 +550,13 @@ with an explorer unit, use that to explore, obviously!\
 \n\n\
     At this point, defend your cities by always leaving a warrior \
 unit in them.  As your civilization develops units with a \
-greater defence strength, replace the obsolete units with new \
-ones to ensure your cities have maximum defence.  The units most \
-often used for defence are (in order of strength):  Warrior, \
+greater defense strength, replace the obsolete units with new \
+ones to ensure your cities have maximum defense.  The units most \
+often used for defense are (in order of strength):  Warrior, \
 Phalanx, Pikemen, Musketeers, and Riflemen.\
 "), _("\
     Keep in mind that with some types of government, military units \
-inside or outside cities can create or reduce unhappiness. \
+inside or outside cities can reduce or create unhappiness. \
 Also remember that when a unit is inside a city, it gets a 50% \
 defensive bonus, as if fortified.  When a new city is built, \
 the city starts to build the best available defensive unit from \
@@ -573,7 +573,7 @@ improvements in the farmland around the cities.  Keep in mind \
 that a large population increases both the amount of \
 productivity and your civilization's research rate.\
 "), _("\
- 4. Build agriculture improvements.\
+ 4. Building agriculture improvements.\
 \n\n\
     Each city has an area of farmland around it that can be used \
 for growing food, producing goods, and generating trade.  This \
@@ -586,7 +586,7 @@ others.\
     The best location for a city is a matter of taste.  A city which \
 is placed near the sea is easier to spot by opponents, but can \
 also serve as a port for sea-going units.  (They also usually \
-need a coastal defence later on.)  The best strategy is to build \
+need a coastal defense later on.)  The best strategy is to build \
 a few of both, but keep in mind that your opponents will find it \
 harder to locate your city if you don't build it by the sea.\
 "), _("\
@@ -633,12 +633,12 @@ Diplomat units are very useful here, and WILL pay off later.\
 \n\n\
   - What your tax, luxury and research rates are currently set to.\
 \n\n\
-  - Treaties are often broken, so don't neglect defence...\
+  - Treaties are often broken, so don't neglect defense...\
 \n\n\
   - Some wonders can be made obsolete by the development of \
 certain advances.\
 "), _("\
- 9. Make your own strategy for the game.\
+ 9. Making your own strategy for the game.\
 \n\n\
     These basic concepts will allow you to play the game pretty \
 well, especially in the beginning of the game.  But to improve, \
@@ -685,7 +685,7 @@ buying and selling.\
 "), _("\
      Of course, the owner of that city can still give it to \
 you, in which case the area around the city is shown \
-on your map.  One important thing to note, any units \
+on your map.  One important thing to note: any units \
 in the field and supported by that city are also transfered \
 (but not those sitting in other cities).  So make sure the \
 other player isn't getting a better deal than you expect.\
@@ -695,7 +695,7 @@ other player isn't getting a better deal than you expect.\
 name = _("City Improvements")
 text = _("\
 City improvements are built in each of your cities to improve trade \
-revenue, science production, etc.  Each improvement requires you to \
+revenue, science production, etc.  Most improvements require you to \
 pay an upkeep every turn.  If you can't afford the upkeep for a \
 building, then it'll be automatically sold.\
 ")
@@ -1122,7 +1122,7 @@ text = _("\
 Your government type influences your cities' productivity and \
 commerce, your citizens' happiness, and many other game factors.\
 "), _("\
-Your civilization starts out under Despotism.  As your technology \
+Your civilization starts out under a Despotism.  As your technology \
 improves, you can select other forms of government (listed below). \
 In order to change your form of government, you must start a \
 revolution.  This will cause your civilization to undergo a period \
