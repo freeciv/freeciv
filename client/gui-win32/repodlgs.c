@@ -315,7 +315,7 @@ economy_report_dialog_update(void)
 {
    
   HWND lv;
-  int j, k, count, tax, cost, total;
+  int tax, total, i, entries_used;
   char  *report_title;
   char   buf0 [64];
   char   buf1 [64];
@@ -323,7 +323,8 @@ economy_report_dialog_update(void)
   char   buf3 [64];     
   char *row[4];   
   char economy_total[48];
-  struct city *pcity;    
+  struct improvement_entry entries[B_LAST];
+
   if(delay_report_update) return;      
   if(!economy_dlg) return;
   lv=GetDlgItem(economy_dlg,ID_TRADEREP_LIST);
@@ -331,42 +332,24 @@ economy_report_dialog_update(void)
   SetWindowText(GetDlgItem(economy_dlg,ID_TRADEREP_TOP),
 		report_title);
   ListView_DeleteAllItems(lv);
-  total = 0;
-  tax=0;
-  k = 0;
   row[0] = buf0;
   row[1] = buf1;
   row[2] = buf2;
   row[3] = buf3;
-  pcity = city_list_get(&game.player_ptr->cities,0);
-  if(pcity)  {
 
-    impr_type_iterate(j) {
-      if(!is_wonder(j)) {
-	count = 0;
-	city_list_iterate(game.player_ptr->cities,pcity)
-	  if (city_got_building(pcity, j)) count++;
-	city_list_iterate_end;
-	if (!count) continue;
-	cost = count * improvement_upkeep(pcity, j);
-	my_snprintf( buf0, sizeof(buf0), "%s", get_improvement_name(j) );
-	my_snprintf( buf1, sizeof(buf1), "%5d", count );
-	my_snprintf( buf2, sizeof(buf2), "%5d", improvement_upkeep(pcity, j) );
-	my_snprintf( buf3, sizeof(buf3), "%6d", cost );
-	fcwin_listview_add_row(lv,k,4,row);
-	
-	
-	total+=cost;
-	economy_improvement_type[k]=j;
-	k++;
-      }
-      city_list_iterate(game.player_ptr->cities,pcity) {
-	tax+=pcity->tax_total;
-	if (!pcity->is_building_unit &&
-	    pcity->currently_building==B_CAPITAL)
-	  tax+=pcity->shield_surplus;
-      } city_list_iterate_end;
-    } impr_type_iterate_end;
+  get_economy_report_data(entries, &entries_used, &total, &tax);
+
+  for (i = 0; i < entries_used; i++) {
+    struct improvement_entry *p = &entries[i];
+
+    my_snprintf(buf0, sizeof(buf0), "%s", get_improvement_name(p->type));
+    my_snprintf(buf1, sizeof(buf1), "%5d", p->count);
+    my_snprintf(buf2, sizeof(buf2), "%5d", p->cost);
+    my_snprintf(buf3, sizeof(buf3), "%6d", p->total_cost);
+
+    fcwin_listview_add_row(lv, k, 4, row);
+
+    economy_improvement_type[i] = p->type;
   }
   my_snprintf(economy_total, sizeof(economy_total),
 	      _("Income:%6d    Total Costs: %6d"), tax, total);

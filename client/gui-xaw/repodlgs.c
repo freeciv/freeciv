@@ -51,6 +51,7 @@
 #include "optiondlg.h"
 
 #include "repodlgs.h"
+#include "repodlgs_common.h"
 
 /******************************************************************/
 
@@ -778,56 +779,37 @@ void economy_report_dialog_update(void)
 {
   if(delay_report_update) return;
   if(economy_dialog_shell) {
-    int k, count, tax, cost, total;
+    int i, entries_used, tax, total;
     Dimension width; 
     static char *economy_list_names_ptrs[B_LAST+1];
     static char economy_list_names[B_LAST][200];
     char *report_title;
     char economy_total[48];
-    struct city *pcity;
+    struct improvement_entry entries[B_LAST];
     
     report_title=get_report_title(_("Economy"));
     xaw_set_label(economy_label, report_title);
     free(report_title);
-    total = 0;
-    tax=0;
-    k = 0;
-    pcity = city_list_get(&game.player_ptr->cities,0);
-    if(pcity) {
-      impr_type_iterate(j) {
-        if(!is_wonder(j)) {
-	  count = 0; 
-	  city_list_iterate(game.player_ptr->cities,pcity) {
-	    if (city_got_building(pcity, j)) count++;
-	  } city_list_iterate_end;
-	  if (!count) continue;
-	  cost = count * improvement_upkeep(pcity, j);
-	  my_snprintf(economy_list_names[k], sizeof(economy_list_names[k]),
-	              "%-20s%5d%5d%6d", get_improvement_name(j),
-                      count, improvement_upkeep(pcity, j), cost);
-          total += cost;
-          economy_list_names_ptrs[k] = economy_list_names[k];
-          economy_improvement_type[k] = j;
-          k++;
-        }
-      } impr_type_iterate_end;
 
-      city_list_iterate(game.player_ptr->cities,pcity) {
-        tax += pcity->tax_total;
-        if (!pcity->is_building_unit && 
-           pcity->currently_building == B_CAPITAL) {
-           tax += pcity->shield_surplus;
-        }
-      } city_list_iterate_end;
+    get_economy_report_data(entries, &entries_used, &total, &tax);
+
+    for (i = 0; i < entries_used; i++) {
+      struct improvement_entry *p = &entries[i];
+
+      my_snprintf(economy_list_names[i], sizeof(economy_list_names[i]),
+		  "%-20s%5d%5d%6d", get_improvement_name(p->type),
+		  p->count, p->cost, p->total_cost);
+      economy_list_names_ptrs[i] = economy_list_names[i];
+      economy_improvement_type[i] = p->type;
     }
     
-    if(k==0) {
+    if (entries_used == 0) {
       sz_strlcpy(economy_list_names[0],
 		 "                                          ");
-      economy_list_names_ptrs[0]=economy_list_names[0];
-      k=1;
+      economy_list_names_ptrs[0] = economy_list_names[0];
+      entries_used = 1;
     }
-    economy_list_names_ptrs[k]=NULL;
+    economy_list_names_ptrs[entries_used] = NULL;
 
     my_snprintf(economy_total, sizeof(economy_total),
 		_("Income:%6d    Total Costs: %6d"), tax, total); 

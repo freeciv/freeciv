@@ -128,6 +128,8 @@ civclient_SOURCES = \
 	packhand.h	\
 	options.c	\
 	options.h	\
+	repodlgs_common.c \
+	repodlgs_common.h \
 	tilespec.c	\
 	tilespec.h
 

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "repodlgs.h"
-
+#include "repodlgs_common.h"
 
 void
 report_update_delay_on(void)

@@ -41,6 +41,7 @@
 #include "helpdlg.h"
 #include "gui_main.h"
 #include "repodlgs.h"
+#include "repodlgs_common.h"
 
 /* Amiga Client stuff */
 
@@ -439,13 +440,6 @@ void science_dialog_update(void)
  
 ****************************************************************/
 
-struct trade_imprv_entry
-{
-  int type;
-  int count;
-  struct city *pcity;
-};
-
 static Object *trade_wnd;
 static Object *trade_title_text;
 static Object *trade_imprv_listview;
@@ -460,9 +454,9 @@ static Object *trade_sellall_button;
 /****************************************************************
  Constructor of a new entry in the trade listview
 *****************************************************************/
-HOOKPROTONHNO(trade_imprv_construct, struct trade_imprv_entry *, struct trade_imprv_entry *entry)
+HOOKPROTONHNO(trade_imprv_construct, struct improvement_entry *, struct improvement_entry *entry)
 {
-  struct trade_imprv_entry *newentry = (struct trade_imprv_entry *) AllocVec(sizeof(*newentry), 0);
+  struct improvement_entry *newentry = (struct improvement_entry *) AllocVec(sizeof(*newentry), 0);
   if (newentry)
   {
     *newentry = *entry;
@@ -473,7 +467,7 @@ HOOKPROTONHNO(trade_imprv_construct, struct trade_imprv_entry *, struct trade_im
 /****************************************************************
  Destructor of a entry in the trades listview
 *****************************************************************/
-HOOKPROTONHNO(trade_imprv_destruct, void, struct trade_imprv_entry *entry)
+HOOKPROTONHNO(trade_imprv_destruct, void, struct improvement_entry *entry)
 {
   FreeVec(entry);
 }
@@ -481,7 +475,7 @@ HOOKPROTONHNO(trade_imprv_destruct, void, struct trade_imprv_entry *entry)
 /****************************************************************
  Display function for the trade listview
 *****************************************************************/
-HOOKPROTONH(trade_imprv_render, void, char **array, struct trade_imprv_entry *entry)
+HOOKPROTONH(trade_imprv_render, void, char **array, struct improvement_entry *entry)
 {
   if (entry)
   {
@@ -489,15 +483,11 @@ HOOKPROTONH(trade_imprv_render, void, char **array, struct trade_imprv_entry *en
     static char coststr[16];
     static char utotal[16];
 
-    struct city *pcity = entry->pcity;
-    int j = entry->type;
-    int cost = entry->count * improvement_upkeep(pcity, j);
-
     my_snprintf(count, sizeof(count), "%5d", entry->count);
-    my_snprintf(coststr, sizeof(coststr), "%5d", improvement_upkeep(pcity, j));
-    my_snprintf(utotal, sizeof(utotal), "%6d", cost);
+    my_snprintf(coststr, sizeof(coststr), "%5d", entry->cost);
+    my_snprintf(utotal, sizeof(utotal), "%6d", entry->total_cost);
 
-    *array++ = get_improvement_name(j);
+    *array++ = get_improvement_name(entry->type);
     *array++ = count;
     *array++ = coststr;
     *array = utotal;
@@ -530,11 +520,11 @@ void popup_economy_report_dialog(bool make_modal)
 *****************************************************************/
 static void trade_sell(int *data)
 {
-  struct trade_imprv_entry *entry;
+  struct improvement_entry *entry;
   DoMethod(trade_imprv_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &entry);
   if (entry)
   {
-    int i = entry->type;
+    Impr_Type_id i = entry->type;
     int count = 0, gold = 0;
     char str[128];
 
@@ -618,8 +608,7 @@ void economy_report_dialog_update(void)
 {
   int tax, total;
   char *report_title;
-  struct city *pcity;
-  struct trade_imprv_entry entry;
+  struct improvement_entry entries[B_LAST];
 
   if (delay_report_update)
     return;
@@ -635,39 +624,12 @@ void economy_report_dialog_update(void)
 
   set(trade_imprv_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(trade_imprv_listview, MUIM_NList_Clear);
-  total = tax = 0;
 
-  if ((pcity = city_list_get(&game.player_ptr->cities, 0)))
-  {
-    impr_type_iterate(j) {
-      if (!is_wonder(j))
-      {
-	int cost, count = 0;
-	city_list_iterate(game.player_ptr->cities, pcity)
-	  if (city_got_building(pcity, j))
-	  count++;
-	city_list_iterate_end;
+  get_economy_report_data(entries, &entries_used, &total, &tax);
 
-	if (!count)
-	  continue;
-	cost = count * improvement_upkeep(pcity, j);
-
-	entry.type = j;
-	entry.count = count;
-	entry.pcity = pcity;
-
-	DoMethod(trade_imprv_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
-
-	total += cost;
-      }
-    } impr_type_iterate_end;
-
-
-    city_list_iterate(game.player_ptr->cities, pcity)
-      tax += pcity->tax_total;
-    if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL)
-      tax += pcity->shield_surplus;
-    city_list_iterate_end;
+  for (i = 0; i < entries_used; i++) {
+    DoMethod(trade_imprv_listview, MUIM_NList_InsertSingle, &entries[i],
+	     MUIV_NList_Insert_Bottom);
   }
 
   set(trade_imprv_listview, MUIA_NList_Quiet, FALSE);
