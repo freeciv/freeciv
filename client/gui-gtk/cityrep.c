@@ -48,41 +48,41 @@
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 
 /******************************************************************/
-GtkWidget *config_shell;
-GtkWidget *config_toggle[NUM_CREPORT_COLS];
+static GtkWidget *config_shell;
+static GtkWidget *config_toggle[NUM_CREPORT_COLS];
 
-void create_city_report_config_dialog(void);
-void popup_city_report_config_dialog(void);
-void config_ok_command_callback(GtkWidget *widget, gpointer data);
+static void create_city_report_config_dialog(void);
+static void popup_city_report_config_dialog(void);
+static void config_ok_command_callback(GtkWidget *widget, gpointer data);
 
 /******************************************************************/
-void create_city_report_dialog(int make_modal);
-void city_close_callback(GtkWidget *widget, gpointer data);
-void city_center_callback(GtkWidget *widget, gpointer data);
-void city_popup_callback(GtkWidget *widget, gpointer data);
-void city_buy_callback(GtkWidget *widget, gpointer data);
-void city_refresh_callback(GtkWidget *widget, gpointer data);
-void city_change_all_dialog_callback(GtkWidget *w, gpointer data);
-void city_change_all_callback(GtkWidget *w, gpointer data);
-void city_list_callback(GtkWidget *w, gint row, gint column);
-void city_config_callback(GtkWidget *widget, gpointer data);
+static void create_city_report_dialog(int make_modal);
+static void city_close_callback(GtkWidget *widget, gpointer data);
+static void city_center_callback(GtkWidget *widget, gpointer data);
+static void city_popup_callback(GtkWidget *widget, gpointer data);
+static void city_buy_callback(GtkWidget *widget, gpointer data);
+static void city_refresh_callback(GtkWidget *widget, gpointer data);
+static void city_change_all_dialog_callback(GtkWidget *w, gpointer data);
+static void city_change_all_callback(GtkWidget *w, gpointer data);
+static void city_list_callback(GtkWidget *w, gint row, gint column);
+static void city_config_callback(GtkWidget *widget, gpointer data);
 static gboolean city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data);
 static gboolean city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data);
 static void city_report_list_callback(GtkWidget *w, gint row, gint col, GdkEvent *ev, gpointer data);
 
-GtkWidget *city_dialog_shell=NULL;
-GtkWidget *city_label;
-GtkWidget *city_list;
-GtkWidget *city_center_command, *city_popup_command, *city_buy_command,
-	  *city_refresh_command, *city_config_command;
-GtkWidget *city_change_command;
-GtkWidget *city_change_all_command;
-GtkWidget *city_change_all_dialog_shell;
-GtkWidget *city_change_all_from_list;
-GtkWidget *city_change_all_to_list;
-GtkWidget *city_select_command;
+static GtkWidget *city_dialog_shell=NULL;
+static GtkWidget *city_label;
+static GtkWidget *city_list;
+static GtkWidget *city_center_command, *city_popup_command, *city_buy_command,
+  *city_refresh_command, *city_config_command;
+static GtkWidget *city_change_command;
+static GtkWidget *city_change_all_command;
+static GtkWidget *city_change_all_dialog_shell;
+static GtkWidget *city_change_all_from_list;
+static GtkWidget *city_change_all_to_list;
+static GtkWidget *city_select_command;
 
-int city_dialog_shell_is_modal;
+static int city_dialog_shell_is_modal;
 
 /*
  * Sort cities by column...
@@ -180,6 +180,9 @@ city_from_glist(GList* list)
   return retval;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 typedef gboolean TestCityFunc(struct city *, gint);
 
 static gboolean city_can_build_impr_or_unit(struct city *pcity, gint number)
@@ -189,15 +192,16 @@ static gboolean city_can_build_impr_or_unit(struct city *pcity, gint number)
   else
     return can_build_improvement(pcity, number);
 }
-
-static void
-append_impr_or_unit_to_menu_sub(GtkWidget *menu,
-			       gchar *nothing_appended_text,
-			       gboolean append_units,
-			       gboolean append_wonders,
-			       gboolean change_prod,
-			       TestCityFunc test_func,
-			       GtkSignalFunc callback)
+/****************************************************************
+...
+*****************************************************************/
+static void append_impr_or_unit_to_menu_sub(GtkWidget *menu,
+					    gchar *nothing_appended_text,
+					    gboolean append_units,
+					    gboolean append_wonders,
+					    gboolean change_prod,
+					    TestCityFunc test_func,
+					    GtkSignalFunc callback)
 {  
   gint i;
   gint first = append_units ? B_LAST : 0;
@@ -283,8 +287,10 @@ append_impr_or_unit_to_menu_sub(GtkWidget *menu,
     }
 }
 
-static
-void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
+/****************************************************************
+...
+*****************************************************************/
+static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 {
   gint number = GPOINTER_TO_INT(data);
   gint i;
@@ -329,6 +335,9 @@ void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
     }
 }
 
+/****************************************************************
+...
+*****************************************************************/
 static void
 append_impr_or_unit_to_menu(GtkWidget *menu,
 			   gboolean change_prod,
@@ -372,7 +381,9 @@ append_impr_or_unit_to_menu(GtkWidget *menu,
 		      GINT_TO_POINTER(change_prod));
 }
 
-
+/****************************************************************
+...
+*****************************************************************/
 static gint 
 city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 {
@@ -406,7 +417,7 @@ city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void create_city_report_dialog(int make_modal)
+static void create_city_report_dialog(int make_modal)
 {
   static char *titles	[NUM_CREPORT_COLS];
   static char  buf	[NUM_CREPORT_COLS][64];
@@ -540,7 +551,7 @@ void create_city_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void city_list_callback(GtkWidget *w, gint row, gint column)
+static void city_list_callback(GtkWidget *w, gint row, gint column)
 {
   if (GTK_CLIST(city_list)->selection)
   {
@@ -558,6 +569,9 @@ void city_list_callback(GtkWidget *w, gint row, gint column)
   }
 }
 
+/****************************************************************
+...
+*****************************************************************/
 static gboolean
 city_select_all_callback(GtkWidget *w, gpointer data)
 {
@@ -565,6 +579,9 @@ city_select_all_callback(GtkWidget *w, gpointer data)
   return TRUE;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 static gboolean
 city_unselect_all_callback(GtkWidget *w, gpointer data)
 {
@@ -572,6 +589,9 @@ city_unselect_all_callback(GtkWidget *w, gpointer data)
   return TRUE;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 static gboolean
 city_invert_selection_callback(GtkWidget *w, gpointer data)
 {
@@ -588,6 +608,9 @@ city_invert_selection_callback(GtkWidget *w, gpointer data)
   return TRUE;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 static gboolean
 city_select_coastal_callback(GtkWidget *w, gpointer data)
 {
@@ -606,6 +629,9 @@ city_select_coastal_callback(GtkWidget *w, gpointer data)
   return TRUE;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 static gboolean
 city_select_same_island_callback(GtkWidget *w, gpointer data)
 {
@@ -637,6 +663,9 @@ city_select_same_island_callback(GtkWidget *w, gpointer data)
   return TRUE;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 static gboolean
 city_unit_supported(struct city *pcity, gint unit)
 {
@@ -650,6 +679,9 @@ city_unit_supported(struct city *pcity, gint unit)
   return FALSE;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 static gboolean
 city_unit_present(struct city *pcity, gint unit)
 {
@@ -663,6 +695,9 @@ city_unit_present(struct city *pcity, gint unit)
   return FALSE;
 }
       
+/****************************************************************
+...
+*****************************************************************/
 static gboolean
 city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 {
@@ -755,7 +790,7 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void city_refresh_callback(GtkWidget *w, gpointer data)
+static void city_refresh_callback(GtkWidget *w, gpointer data)
 
 { /* added by Syela - I find this very useful */
   GList *selection = GTK_CLIST(city_list)->selection;
@@ -778,7 +813,7 @@ void city_refresh_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 Handle callbacks from the "change all" dialog.
 *****************************************************************/
-void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
+static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 {
   char *cmd = (char *)data;
 
@@ -829,7 +864,7 @@ Change all cities building one type of thing to another thing.
 This is a callback for the "change all" button.
 *****************************************************************/
 #define MAX_LEN_BUF 256
-void city_change_all_callback(GtkWidget *w, gpointer data)
+static void city_change_all_callback(GtkWidget *w, gpointer data)
 {
     GList              *selection;
     gint                row;
@@ -998,7 +1033,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void city_buy_callback(GtkWidget *w, gpointer data)
+static void city_buy_callback(GtkWidget *w, gpointer data)
 {
   GList *current = GTK_CLIST(city_list)->selection;
 
@@ -1038,7 +1073,7 @@ void city_buy_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void city_close_callback(GtkWidget *w, gpointer data)
+static void city_close_callback(GtkWidget *w, gpointer data)
 {
 
   if(city_dialog_shell_is_modal)
@@ -1050,7 +1085,7 @@ void city_close_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void city_center_callback(GtkWidget *w, gpointer data)
+static void city_center_callback(GtkWidget *w, gpointer data)
 {
   GList *current = GTK_CLIST(city_list)->selection;
   struct city        *pcity;
@@ -1065,7 +1100,7 @@ void city_center_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void city_popup_callback(GtkWidget *w, gpointer data)
+static void city_popup_callback(GtkWidget *w, gpointer data)
 {
   GList *current = GTK_CLIST(city_list)->selection;
   GList *copy = NULL;
@@ -1092,8 +1127,8 @@ void city_popup_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-
-static void city_report_list_callback(GtkWidget *w, gint row, gint col, GdkEvent *ev, gpointer data)
+static void city_report_list_callback(GtkWidget *w, gint row, gint col,
+				      GdkEvent *ev, gpointer data)
 {
   /* Pops up a city when it's double-clicked */
   if(ev && ev->type==GDK_2BUTTON_PRESS)
@@ -1103,7 +1138,7 @@ static void city_report_list_callback(GtkWidget *w, gint row, gint col, GdkEvent
 /****************************************************************
 ...
 *****************************************************************/
-void city_config_callback(GtkWidget *w, gpointer data)
+static void city_config_callback(GtkWidget *w, gpointer data)
 {
   popup_city_report_config_dialog();
 }
@@ -1229,7 +1264,7 @@ void city_report_dialog_update_city(struct city *pcity)
 /****************************************************************
 ... 
 *****************************************************************/
-void popup_city_report_config_dialog(void)
+static void popup_city_report_config_dialog(void)
 {
   int i;
 
@@ -1251,7 +1286,7 @@ void popup_city_report_config_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void create_city_report_config_dialog(void)
+static void create_city_report_config_dialog(void)
 {
   GtkWidget *config_label, *config_ok_command;
   struct city_report_spec *spec;
@@ -1290,7 +1325,7 @@ void create_city_report_config_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void config_ok_command_callback(GtkWidget *w, gpointer data)
+static void config_ok_command_callback(GtkWidget *w, gpointer data)
 {
   struct city_report_spec *spec;
   gboolean b;
