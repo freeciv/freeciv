@@ -177,6 +177,7 @@ void ai_eval_buildings(struct city *pcity)
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   struct player *pplayer = city_owner(pcity);
   int needpower;
+  int wwtv = worst_worker_tile_value(pcity);
   
   a = get_race(city_owner(pcity))->attack;
   t = pcity->ai.trade_want; /* trade_weighting */
@@ -223,7 +224,7 @@ void ai_eval_buildings(struct city *pcity)
 
 
   if (could_build_improvement(pcity, B_BANK))
-    values[B_BANK] = tax>>1;
+    values[B_BANK] = (tax + 3*pcity->ppl_taxman + pcity->ppl_elvis*wwtv)/2;
   
   j = 0; k = 0;
   city_list_iterate(pplayer->cities, acity)
@@ -307,7 +308,8 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     values[B_LIBRARY] = sci>>1;
 
   if (could_build_improvement(pcity, B_MARKETPLACE))
-    values[B_MARKETPLACE] = tax>>1;
+    values[B_MARKETPLACE] = (tax + 3*pcity->ppl_taxman +
+     pcity->ppl_elvis*wwtv)/2;
 
   if (could_build_improvement(pcity, B_MFG))
     values[B_MFG] = ((city_got_building(pcity, B_HYDRO) ||
@@ -343,7 +345,7 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
   }
 
   if (could_build_improvement(pcity, B_STOCK))
-    values[B_STOCK] = tax>>1;
+    values[B_STOCK] = (tax + 3*pcity->ppl_taxman + pcity->ppl_elvis*wwtv)/2;
 
   if (could_build_improvement(pcity, B_SUPERHIGHWAYS))
     values[B_SUPERHIGHWAYS] = railroad_trade(pcity) * t;
