@@ -1008,7 +1008,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   {
     struct ai_choice cur;
-    
+
+    init_choice(&cur);
     ai_advisor_choose_building(pcity, &cur);
     /* Allowing buy of peaceful units after much testing. -- Syela */
     /* want > 100 means BUY RIGHT NOW */

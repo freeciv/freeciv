@@ -31,7 +31,6 @@
 void attitude_advisor_choose_tech(struct player *pplayer, 
 				  struct ai_choice *choice)
 {
-  choice->choice = A_NONE;
-  choice->want   = 0;
   /* this function haven't been implemented yet */
+  init_choice(choice);
 }

@@ -1537,7 +1537,7 @@ void contemplate_new_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct unit virtualunit;
   int want;
-  int gx, gy;
+  int gx = 0, gy = 0;
   struct unit *ferryboat = NULL; /* dummy */
 
   memset(&virtualunit, 0, sizeof(struct unit));

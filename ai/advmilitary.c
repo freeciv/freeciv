@@ -50,9 +50,8 @@ at the moment.
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct ai_choice *choice)
 {
-  choice->choice = A_NONE;
-  choice->want   = 0;
   /* This function hasn't been implemented yet. */
+  init_choice(choice);
 }
 
 /**************************************************************************

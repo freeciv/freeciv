@@ -237,9 +237,8 @@ static void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice
 void ai_next_tech_goal(struct player *pplayer)
 {
   struct ai_choice bestchoice, curchoice;
-  
-  bestchoice.choice = A_NONE;      
-  bestchoice.want   = 0;
+
+  init_choice(&bestchoice);
 
   ai_select_tech_goal(pplayer, &curchoice);
   copy_if_better_choice(&curchoice, &bestchoice); /* not dealing with the rest */

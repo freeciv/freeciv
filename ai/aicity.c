@@ -149,6 +149,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   struct ai_choice bestchoice, curchoice;
 
   init_choice(&bestchoice);
+  init_choice(&curchoice);
 
   if( is_barbarian(pplayer) ) {    /* always build best attack unit */
     Unit_Type_id i, iunit, bestunit = -1;

@@ -618,6 +618,7 @@ static void advisor_choose_build(struct player *pplayer, struct city *pcity)
   int id=-1;
   int want=0;
 
+  init_choice(&choice);
   if (!city_owner(pcity)->ai.control)
     ai_eval_buildings(pcity); /* so that ai_advisor is smart even for humans */
   ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
