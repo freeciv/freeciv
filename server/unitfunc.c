@@ -2493,10 +2493,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 }
 
 /**************************************************************************
-  send the unit to the players who need the info 
-  dest = NULL means all players, dosend means send even if the player 
-  can't see the unit.
-  x and y is where the unit came from, so that the info can be send there too
+  send the unit to the players who need the info.
+  dest = NULL means all players.
+  x and y is where the unit came from, so that the info can be sent if
+  the other players can see either the target or destination tile.
 **************************************************************************/
 void send_unit_info_to_onlookers(struct player *dest, struct unit *punit, int x, int y)
 {
@@ -2536,8 +2536,7 @@ void send_unit_info_to_onlookers(struct player *dest, struct unit *punit, int x,
 
 /**************************************************************************
   send the unit to the players who need the info 
-  dest = NULL means all players, dosend means send even if the player 
-  can't see the unit.
+  dest = NULL means all players.
 **************************************************************************/
 void send_unit_info(struct player *dest, struct unit *punit)
 {
