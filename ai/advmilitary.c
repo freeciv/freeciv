@@ -275,211 +275,268 @@ void assess_danger_player(struct player *pplayer)
 }
 
 /********************************************************************** 
-In how big danger given city is?
+  Set (overwrite) our want for a building. Syela tries to explain:
+   
+    My first attempt to allow ng_wa >= 200 led to stupidity in cities 
+    with no defenders and danger = 0 but danger > 0.  Capping ng_wa at 
+    100 + urgency led to a failure to buy walls as required.  Allowing 
+    want > 100 with !urgency led to the AI spending too much gold and 
+    falling behind on science.  I'm trying again, but this will require 
+    yet more tedious observation -- Syela
+   
+  The idea in this horrible function is that there is an enemy nearby
+  that can whack us, so let's build something that can defend against
+  him. If danger is urgent and overwhelming, danger is 200+, if it is
+  only overwhelming, set it depending on danger. If it is underwhelming,
+  set it to 100 pluss urgency.
+
+  This algorithm is very strange. But I created it by nesting up
+  Syela's convoluted if ... else logic, and it seems to work. -- Per
+***********************************************************************/
+static void ai_reevaluate_building(struct city *pcity, int *value, 
+                                   int urgency, int danger, 
+                                   int defense)
+{
+  if (*value == 0 || danger <= 0) {
+    return;
+  }
+
+  *value = 100 + MAX(0, urgency); /* default */
+
+  if (urgency > 0 && danger > defense * 2) {
+    *value += 100;
+  } else if (defense != 0 && danger > defense) {
+    *value = MAX(danger * 100 / defense, *value);
+  }
+}
+
+/********************************************************************** 
+  Create cached information about danger, urgency and grave danger to
+  our cities. 
+
+  Danger is a weight on how much power enemy units nearby have, which
+  is compared to our defence.
+
+  Urgency is the number of hostile units that can attack us in three
+  turns.
+
+  Grave danger is number of units that can attack us next turn.
+
+  Generates a warmap around pcity.
 ***********************************************************************/
 int assess_danger(struct city *pcity)
 {
-  int i, danger = 0, v, dist, m;
+  int i;
+  int danger[5];
   Unit_Type_id utype;
-  int danger2 = 0; /* linear for walls */
-  int danger3 = 0; /* linear for coastal */
-  int danger4 = 0; /* linear for SAM */
-  int danger5 = 0; /* linear for SDI */
-  struct player *pplayer;
+  struct player *pplayer = city_owner(pcity);
   bool pikemen = FALSE;
-  bool diplomat = FALSE; /* TRUE mean that this town can defend
-		     * against diplomats or spies */
   int urgency = 0;
-  bool igwall;
-  int badmojo = 0;
-  int boatspeed;
-  int boatid, boatdist;
-  int x = pcity->x, y = pcity->y; /* dummy variables */
+  int igwall_threat = 0;
   struct unit virtualunit;
   struct unit *funit = &virtualunit; /* saves me a lot of typing. -- Syela */
+  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+  bool palace = city_got_building(pcity, B_PALACE);
 
   memset(&virtualunit, 0, sizeof(struct unit));
-  pplayer = city_owner(pcity);
+  memset(&danger, 0, sizeof(danger));
 
   generate_warmap(pcity, NULL);	/* generates both land and sea maps */
 
   pcity->ai.grave_danger = 0;
   pcity->ai.diplomat_threat = FALSE;
+  pcity->ai.has_diplomat = FALSE;
 
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
+  unit_list_iterate(ptile->units, punit) {
+    danger[0] -= 4;
+    if (unit_flag(punit, F_DIPLOMAT)) pcity->ai.has_diplomat = TRUE;
     if (unit_flag(punit, F_PIKEMEN)) pikemen = TRUE;
-    if (unit_flag(punit, F_DIPLOMAT)) diplomat = TRUE;
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
+
+  /* Set default danger to protect valuable cities. Idea fom Ross.
+     FIXME: use aidata code here to protect cities in danger locations */
+  danger[0] = MAX(0, pcity->size + (palace * 4) - danger[0] - 3);
 
   players_iterate(aplayer) {
-    if (pplayers_at_war(city_owner(pcity), aplayer)) {
-      boatspeed = ((get_invention(aplayer, game.rtech.nav) == TECH_KNOWN) 
-                      ? 4 * SINGLE_MOVE : 2 * SINGLE_MOVE);
-      boatid = find_boat(aplayer, &x, &y, 0);
-      if (boatid != 0) boatdist = warmap.seacost[x][y];
-      else boatdist = -1;
-/* should I treat empty enemy cities as danger? */
-/* After much contemplation, I've decided the answer is sometimes -- Syela */
-      city_list_iterate(aplayer->cities, acity)
-        if (acity->is_building_unit &&
-            build_points_left(acity) <= acity->shield_surplus &&
-	    ai_fuzzy(pplayer, TRUE)) {
-          virtualunit.owner = aplayer->player_no;
-          virtualunit.x = acity->x;
-          virtualunit.y = acity->y;
-          utype = acity->currently_building;
-          virtualunit.type = utype;
-          virtualunit.veteran = do_make_unit_veteran(acity, utype);
-          virtualunit.hp = unit_types[utype].hp;
-/* yes, I know cloning all this code is bad form.  I don't really
-want to write a funct that takes nine ints by reference. -- Syela */
-          m = unit_type(funit)->move_rate;
-          v = assess_danger_unit(pcity, funit);
-          dist = assess_distance(pcity, funit, m, boatid, boatdist, boatspeed);
-          igwall = unit_really_ignores_citywalls(funit);
-          if ((is_ground_unit(funit) && v != 0) ||
-              (is_ground_units_transport(funit))) {
-            if (dist <= m * 3) urgency++;
-            if (dist <= m) pcity->ai.grave_danger++;
-/* NOTE: This should actually implement grave_danger, which is supposed
-to be a feedback-sensitive formula for immediate danger.  I'm having
-second thoughts about the best implementation, and therefore this
-will have to wait until after 1.7.0.  I don't want to do anything I'm
-not totally sure about and can't thoroughly test in the hours before
-the release.  The AI is in fact vulnerable to gang-attacks, but I'm
-content to let it remain that way for now. -- Syela 980805 */
-          }
+    int boatspeed;
+    int boatid, boatdist;
+    int x = pcity->x, y = pcity->y; /* dummy variables */
+    int move_rate, dist, vulnerability;
+    bool igwall;
 
-          if (unit_flag(funit, F_HORSE)) {
-            if (pikemen) v /= 2;
-            else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
-				    (v * m / (dist*2)));
-          }
-
-        if (unit_flag(funit, F_DIPLOMAT) && (dist <= 2 * m)) 
-	     pcity->ai.diplomat_threat = !diplomat;
-
-          v *= v;
-
-          if (!igwall) danger2 += v * m / dist;
-          else if (is_sailing_unit(funit)) danger3 += v * m / dist;
-          else if (is_air_unit(funit) && !unit_flag(funit, F_NUCLEAR)) danger4 += v * m / dist;
-          if (unit_flag(funit, F_MISSILE)) danger5 += v * m / MAX(m, dist);
-          if (!unit_flag(funit, F_NUCLEAR)) { /* only SDI helps against NUCLEAR */
-            v = dangerfunct(v, m, dist);
-            danger += v;
-            if (igwall) badmojo += v;
-          }
-        }
-      city_list_iterate_end;
-
-      unit_list_iterate(aplayer->units, punit)
-        m = unit_type(punit)->move_rate;
-        v = assess_danger_unit(pcity, punit);
-        dist = assess_distance(pcity, punit, m, boatid, boatdist, boatspeed);
-	igwall = unit_really_ignores_citywalls(punit);
-          
-        if ((is_ground_unit(punit) && v != 0) ||
-            (is_ground_units_transport(punit))) {
-          if (dist <= m * 3) urgency++;
-          if (dist <= m) pcity->ai.grave_danger++;
-/* NOTE: This should actually implement grave_danger, which is supposed
-to be a feedback-sensitive formula for immediate danger.  I'm having
-second thoughts about the best implementation, and therefore this
-will have to wait until after 1.7.0.  I don't want to do anything I'm
-not totally sure about and can't thoroughly test in the hours before
-the release.  The AI is in fact vulnerable to gang-attacks, but I'm
-content to let it remain that way for now. -- Syela 980805 */
-        }
-
-        if (unit_flag(punit, F_HORSE)) {
-          if (pikemen) v /= 2;
-	  else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
-				  (v * m / (dist*2)));
-        }
-
-        if (unit_flag(punit, F_DIPLOMAT) && (dist <= 2 * m))
-	     pcity->ai.diplomat_threat = !diplomat;
-
-        v *= v;
-
-        if (!igwall) danger2 += v * m / dist;
-        else if (is_sailing_unit(punit)) danger3 += v * m / dist;
-        else if (is_air_unit(punit) && !unit_flag(punit, F_NUCLEAR)) danger4 += v * m / dist;
-        if (unit_flag(punit, F_MISSILE)) danger5 += v * m / MAX(m, dist);
-        if (!unit_flag(punit, F_NUCLEAR)) { /* only SDI helps against NUCLEAR */
-          v = dangerfunct(v, m, dist);
-          danger += v;
-          if (igwall) badmojo += v;
-        }
-      unit_list_iterate_end;
+    if (!pplayers_at_war(city_owner(pcity), aplayer)) {
+      /* Ignore players we are not at war with. This is not optimal,
+         but will have to do until we have working diplomacy. */
+      continue;
     }
+
+    boatspeed = ((get_invention(aplayer, game.rtech.nav) == TECH_KNOWN) 
+                 ? 4 * SINGLE_MOVE : 2 * SINGLE_MOVE); /* likely speed */
+    boatid = find_boat(aplayer, &x, &y, 0); /* acquire a boat */
+    if (boatid != 0) {
+      boatdist = warmap.seacost[x][y]; /* distance to acquired boat */
+    } else {
+      boatdist = -1; /* boat wanted */
+    }
+
+    /* Look for enemy cities that will complete a unit next turn */
+    city_list_iterate(aplayer->cities, acity) {
+      if (!acity->is_building_unit
+          || build_points_left(acity) > acity->shield_surplus
+	  || ai_fuzzy(pplayer, TRUE)) {
+        /* the enemy city will not complete a unit next turn */
+        continue;
+      }
+      virtualunit.owner = aplayer->player_no;
+      virtualunit.x = acity->x;
+      virtualunit.y = acity->y;
+      utype = acity->currently_building;
+      virtualunit.type = utype;
+      virtualunit.veteran = do_make_unit_veteran(acity, utype);
+      virtualunit.hp = unit_types[utype].hp;
+      /* yes, I know cloning all this code is bad form.  I don't really
+       * want to write a funct that takes nine ints by reference. 
+       * -- Syela 
+       */
+      move_rate = unit_type(funit)->move_rate;
+      vulnerability = assess_danger_unit(pcity, funit);
+      dist = assess_distance(pcity, funit, move_rate, boatid, boatdist, 
+                             boatspeed);
+      igwall = unit_really_ignores_citywalls(funit);
+      if ((is_ground_unit(funit) && vulnerability != 0) ||
+          (is_ground_units_transport(funit))) {
+        if (dist <= move_rate * 3) urgency++;
+        if (dist <= move_rate) pcity->ai.grave_danger++;
+        /* NOTE: This should actually implement grave_danger, which is 
+         * supposed to be a feedback-sensitive formula for immediate 
+         * danger.  I'm having second thoughts about the best 
+         * implementation, and therefore this will have to wait until 
+         * after 1.7.0.  I don't want to do anything I'm not totally 
+         * sure about and can't thoroughly test in the hours before
+         * the release.  The AI is in fact vulnerable to gang-attacks, 
+         * but I'm content to let it remain that way for now. -- Syela 
+         * 980805 */
+      }
+
+      if (unit_flag(funit, F_HORSE)) {
+        if (pikemen) vulnerability /= 2;
+        else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN, 
+                                (vulnerability * move_rate / (dist*2)));
+      }
+
+      if (unit_flag(funit, F_DIPLOMAT) && (dist <= 2 * move_rate)) {
+        pcity->ai.diplomat_threat = TRUE;
+      }
+
+      vulnerability *= vulnerability; /* positive feedback */
+
+      if (!igwall) {
+        danger[1] += vulnerability * move_rate / dist; /* walls */
+      } else if (is_sailing_unit(funit)) {
+        danger[2] += vulnerability * move_rate / dist; /* coastal */
+      } else if (is_air_unit(funit) && !unit_flag(funit, F_NUCLEAR)) {
+        danger[3] += vulnerability * move_rate / dist; /* SAM */
+      }
+      if (unit_flag(funit, F_MISSILE)) {
+        /* SDI */
+        danger[4] += vulnerability * move_rate / MAX(move_rate, dist);
+      }
+      if (!unit_flag(funit, F_NUCLEAR)) { 
+        /* only SDI helps against NUCLEAR */
+        vulnerability = dangerfunct(vulnerability, move_rate, dist);
+        danger[0] += vulnerability;
+        if (igwall) {
+          igwall_threat += vulnerability;
+        }
+      }
+    } city_list_iterate_end;
+
+    /* Now look for enemy units */
+    unit_list_iterate(aplayer->units, punit) {
+      move_rate = unit_type(punit)->move_rate;
+      vulnerability = assess_danger_unit(pcity, punit);
+      dist = assess_distance(pcity, punit, move_rate, boatid, boatdist, 
+                             boatspeed);
+      igwall = unit_really_ignores_citywalls(punit);
+
+      if ((is_ground_unit(punit) && vulnerability != 0) ||
+          (is_ground_units_transport(punit))) {
+        if (dist <= move_rate * 3) urgency++;
+        if (dist <= move_rate) pcity->ai.grave_danger++;
+        /* see comment in previous loop on grave danger */
+      }
+
+      if (unit_flag(punit, F_HORSE)) {
+        if (pikemen) vulnerability /= 2;
+	else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
+			        (vulnerability * move_rate / (dist*2)));
+      }
+
+      if (unit_flag(punit, F_DIPLOMAT) && (dist <= 2 * move_rate)) {
+	pcity->ai.diplomat_threat = TRUE;
+      }
+
+      vulnerability *= vulnerability; /* positive feedback */
+
+      if (!igwall) {
+        danger[1] += vulnerability * move_rate / dist; /* walls */
+      } else if (is_sailing_unit(funit)) {
+        danger[2] += vulnerability * move_rate / dist; /* coastal */
+      } else if (is_air_unit(funit) && !unit_flag(funit, F_NUCLEAR)) {
+        danger[3] += vulnerability * move_rate / dist; /* SAM */
+      }
+      if (unit_flag(funit, F_MISSILE)) {
+        /* SDI */
+        danger[4] += vulnerability * move_rate / MAX(move_rate, dist);
+      }
+      if (!unit_flag(funit, F_NUCLEAR)) {
+        /* only SDI helps against NUCLEAR */
+        vulnerability = dangerfunct(vulnerability, move_rate, dist);
+        danger[0] += vulnerability;
+        if (igwall) {
+          igwall_threat += vulnerability;
+        }
+      }
+    } unit_list_iterate_end;
   } players_iterate_end;
 
-  if (badmojo == 0) pcity->ai.wallvalue = 90;
-  else pcity->ai.wallvalue = (danger * 9 - badmojo * 8) * 10 / (danger);
-/* afraid *100 would create integer overflow, but *10 surely won't */
+  if (igwall_threat == 0) {
+    pcity->ai.wallvalue = 90;
+  } else {
+    pcity->ai.wallvalue = (danger[0] * 9 - igwall_threat * 8) 
+                           * 10 / (danger[0]);
+  }
 
-  if (danger < 0 || danger > 1<<24) /* I hope never to see this! */
-    freelog(LOG_ERROR, "Dangerous danger (%d) in %s.  Beware of overflow.",
-	    danger, pcity->name);
-  if (danger2 < 0 || danger2 > 1<<24) /* I hope never to see this! */
-    freelog(LOG_ERROR, "Dangerous danger2 (%d) in %s.  Beware of overflow.",
-	    danger2, pcity->name);
-  if (danger3 < 0 || danger3 > 1<<24) /* I hope never to see this! */
-    freelog(LOG_ERROR, "Dangerous danger3 (%d) in %s.  Beware of overflow.",
-	    danger3, pcity->name);
-  if (danger4 < 0 || danger4 > 1<<24) /* I hope never to see this! */
-    freelog(LOG_ERROR, "Dangerous danger4 (%d) in %s.  Beware of overflow.",
-	    danger4, pcity->name);
-  if (danger5 < 0 || danger5 > 1<<24) /* I hope never to see this! */
-    freelog(LOG_ERROR, "Dangerous danger5 (%d) in %s.  Beware of overflow.",
-	    danger5, pcity->name);
-  if (pcity->ai.grave_danger != 0)
-    urgency += 10; /* really, REALLY urgent to defend */
-  pcity->ai.danger = danger;
-  if (pcity->ai.building_want[B_CITY] > 0 && danger2 != 0) {
-    i = assess_defense(pcity);
-    if (i == 0) pcity->ai.building_want[B_CITY] = 100 + urgency;
-    else if (urgency != 0) {
-      if (danger2 > i * 2) pcity->ai.building_want[B_CITY] = 200 + urgency;
-      else pcity->ai.building_want[B_CITY] = danger2 * 100 / i;
-    } else {
-      if (danger2 > i) pcity->ai.building_want[B_CITY] = 100;
-      else pcity->ai.building_want[B_CITY] = danger2 * 100 / i;
+  /* Watch out for integer overflows */
+  for (i = 0; i < 5; i++) {
+    if (danger[i] < 0 || danger[i] > 1<<24) {
+      /* I hope never to see this! */
+      freelog(LOG_ERROR, "Dangerous danger[%d] (%d) in %s.  Beware of "
+              "overflow.", i, danger[i], pcity->name);
+      danger[i] = danger[i]>>2; /* reduce danger of overflow */
     }
   }
-/* My first attempt to allow ng_wa >= 200 led to stupidity in cities with
-no defenders and danger = 0 but danger > 0.  Capping ng_wa at 100 + urgency
-led to a failure to buy walls as required.  Allowing want > 100 with !urgency
-led to the AI spending too much gold and falling behind on science.  I'm
-trying again, but this will require yet more tedious observation -- Syela */
-  if (pcity->ai.building_want[B_COASTAL] > 0 && danger3 != 0) {
-    i = assess_defense_igwall(pcity);
-    if (i == 0) pcity->ai.building_want[B_COASTAL] = 100 + urgency;
-    else if (urgency != 0) {
-      if (danger3 > i * 2) pcity->ai.building_want[B_COASTAL] = 200 + urgency;
-      else pcity->ai.building_want[B_COASTAL] = danger3 * 100 / i;
-    } else {
-      if (danger3 > i) pcity->ai.building_want[B_COASTAL] = 100;
-      else pcity->ai.building_want[B_COASTAL] = danger3 * 100 / i;
-    }
+
+  if (pcity->ai.grave_danger != 0) {
+    /* really, REALLY urgent to defend */
+    urgency += 10;
   }
-/* COASTAL and SAM are TOTALLY UNTESTED and could be VERY WRONG -- Syela */
-/* update 980803; COASTAL seems to work; still don't know about SAM. -- Syela */
-  if (pcity->ai.building_want[B_SAM] > 0 && danger4 != 0) {
-    i = assess_defense_igwall(pcity);
-    if (i == 0) pcity->ai.building_want[B_SAM] = 100 + urgency;
-    else if (danger4 > i * 2) pcity->ai.building_want[B_SAM] = 200 + urgency;
-    else pcity->ai.building_want[B_SAM] = danger4 * 100 / i;
-  }
-  if (pcity->ai.building_want[B_SDI] > 0 && danger5 != 0) {
-    i = assess_defense_igwall(pcity);
-    if (i == 0) pcity->ai.building_want[B_SDI] = 100 + urgency;
-    else if (danger5 > i * 2) pcity->ai.building_want[B_SDI] = 200 + urgency;
-    else pcity->ai.building_want[B_SDI] = danger5 * 100 / i;
-  }
-  pcity->ai.urgency = urgency; /* need to cache this for bodyguards now -- Syela */
+
+  ai_reevaluate_building(pcity, &pcity->ai.building_want[B_CITY],
+                         urgency, danger[1], assess_defense(pcity));
+  ai_reevaluate_building(pcity, &pcity->ai.building_want[B_COASTAL],
+                         urgency, danger[2], 
+                         assess_defense_igwall(pcity));
+  ai_reevaluate_building(pcity, &pcity->ai.building_want[B_SAM],
+                         urgency, danger[3], 
+                         assess_defense_igwall(pcity));
+  ai_reevaluate_building(pcity, &pcity->ai.building_want[B_SDI],
+                         urgency, danger[4], 
+                         assess_defense_igwall(pcity));
+
+  pcity->ai.danger = danger[0];
+  pcity->ai.urgency = urgency;
+
   return urgency;
 }
 
@@ -1142,7 +1199,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   freelog(LOG_DEBUG, "Assessed danger for %s = %d, Def = %d",
 	  pcity->name, danger, def);
 
-  if (pcity->ai.diplomat_threat && def != 0){
+  if (pcity->ai.diplomat_threat && !pcity->ai.has_diplomat && def != 0){
   /* It's useless to build a diplomat as the last defender of a town. --nb */ 
 
     Unit_Type_id u = best_role_unit(pcity, F_DIPLOMAT);
