@@ -1087,6 +1087,8 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   update_dumb_city(cplayer, pnewcity);
   send_city_info(cplayer, pnewcity);
 
+  maybe_make_first_contact(pnewcity->x, pnewcity->y, pplayer->player_no);
+
   return pnewcity;
 }
 
