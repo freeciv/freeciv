@@ -15,6 +15,6 @@
 
 #include "inteldlg_g.h"
 
-/* nothing to add */
+void popdown_intel_dialog(void);
 
 #endif				/* FC__INTELDLG_H */

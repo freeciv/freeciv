@@ -95,7 +95,7 @@ static int unit_order_callback(struct GUI *pOrder_Widget)
 {
   struct unit *pUnit = get_unit_in_focus();
 
-  set_wstate(pOrder_Widget, WS_SELLECTED);
+  set_wstate(pOrder_Widget, FC_WS_SELLECTED);
   pSellected_Widget = pOrder_Widget;
 
   if (!pUnit) {
@@ -281,7 +281,13 @@ static void set_new_order_widget_start_pos(void)
       yy = pInfoWind->size.h;
     } else {
       w = Main.gui->w - xx - 20;
-      yy = pInfoWind->size.h;
+      if (w < pTmpWidget->size.w + 10) {
+	xx = 0;
+	w = Main.gui->w;
+	yy = pMiniMap->size.h;
+      } else {
+        yy = pInfoWind->size.h;
+      }
     }
   }
     
@@ -360,7 +366,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->ODone_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_SPACE;
@@ -371,7 +377,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OWait_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_w;
@@ -381,7 +387,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->ONuke_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -393,7 +399,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OSpy_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -404,7 +410,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->ODisband_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -416,7 +422,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OGotoCity_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_l;
@@ -426,7 +432,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_l;
@@ -436,7 +442,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OGoto_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_g;
@@ -446,7 +452,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OPatrol_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_q;
@@ -456,7 +462,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_c;
@@ -467,7 +473,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OAutoExp_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -478,7 +484,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OAutoAtt_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_a;
@@ -488,7 +494,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OAutoSett_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -499,7 +505,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OWakeUp_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -511,7 +517,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OUnload_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_u;
@@ -521,7 +527,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OHomeCity_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_h;
@@ -531,7 +537,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OPillage_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_p;
@@ -542,7 +548,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OSentry_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_s;
@@ -552,7 +558,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OFallout_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -563,7 +569,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OParaDrop_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -574,7 +580,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OPollution_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -585,7 +591,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OAirBase_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -596,7 +602,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OFortify_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_f;
@@ -606,7 +612,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OFortress_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_f;
@@ -616,7 +622,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OTransform_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_o;
@@ -627,7 +633,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OMine_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_m;
@@ -638,7 +644,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OIrrigation_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->key = SDLK_i;
   add_to_gui_list(ID_UNIT_ORDER_IRRIGATE, pBuf);
@@ -649,7 +655,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OTrade_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -660,7 +666,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->ORoad_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_r;
@@ -671,7 +677,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OWonder_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 =
       create_str16_from_char(cBuf, 10);
@@ -682,7 +688,7 @@ void create_units_order_widgets(void)
   pBuf = create_themeicon(pTheme->OBuildCity_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_b;
@@ -773,12 +779,14 @@ void update_menus(void)
     SDL_Client_Flags |= CF_GANE_JUST_STARTED;
 
     /*hide( ID_CLIENT_OPTIONS ); */
-    hide(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
-
+    
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
       hide(ID_TOGGLE_UNITS_WINDOW_BUTTON);
       hide(ID_TOGGLE_MAP_WINDOW_BUTTON);
-      hide(ID_FIND_CITY);
+      hide(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
+      hide(ID_CITIES);
+      hide(ID_PLAYERS);
+      hide(ID_UNITS);
       hide(ID_REVOLUTION);
       hide(ID_RESEARCH);
       hide(ID_ECONOMY);
@@ -806,10 +814,12 @@ void update_menus(void)
       show(ID_ECONOMY);
 
       show(ID_TOGGLE_MAP_WINDOW_BUTTON);
-      show(ID_FIND_CITY);
-      show(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
+      show(ID_CITIES);
+      /*show(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);*/
       show(ID_NEW_TURN);
-
+      /*show(ID_UNITS);*/
+      show(ID_PLAYERS);
+      
       counter = 0;
     }
 

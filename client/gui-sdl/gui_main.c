@@ -36,6 +36,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef WIN32_NATIVE
+#include <winsock.h>
+#endif
+
 #include <SDL/SDL.h>
 
 #include "fcintl.h"
@@ -76,7 +80,7 @@
 #include "resources.h"
 #include "tilespec.h"
 #include "gui_tilespec.h"
-#include "messagewin_g.h"
+#include "messagewin.h"
 #include "citydlg.h"
 #include "cityrep.h"
 
@@ -128,6 +132,8 @@ static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
   fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+  fprintf(stderr, _("  -f,  --fullscreen\tStart Client in Fulscreen mode\n"));
+  fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and BeOS)\n"));
 }
 
 /**************************************************************************
@@ -137,14 +143,24 @@ static void print_usage(const char *argv0)
 static void parse_options(int argc, char **argv)
 {
   int i = 1;
-
+    
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
+    } else {
+      if (is_option("--fullscreen",argv[i])) {
+	SDL_Client_Flags |= CF_TOGGLED_FULLSCREEN;
+      } else {
+	if (is_option("--eventthread",argv[i])) {
+	  /* init events in other thread ( only linux and BeOS ) */  
+          SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
+        }
+      }
     }
     i++;
   }
+  
 }
 
 /**************************************************************************
@@ -363,14 +379,14 @@ static void gui_main_loop(void)
 	      SDL_SaveBMP(Main.screen, schot);
 	    break;
 
+	    case SDLK_F1:
+              popup_city_report_dialog(FALSE);
+	    break;
+	    
 	    case SDLK_F2:
 	      popup_activeunits_report_dialog(FALSE);
 	    break;
 	    
-	    case SDLK_F1:
-              popup_city_report_dialog(FALSE);
-	    break;
-
 	    case SDLK_F7:
               send_report_request(REPORT_WONDERS_OF_THE_WORLD);
             break;
@@ -379,6 +395,19 @@ static void gui_main_loop(void)
               send_report_request(REPORT_TOP_5_CITIES);
             break;
 	    
+	    case SDLK_F10:
+              if(is_meswin_open()) {
+                popdown_meswin_dialog();
+                /*FREE(pWidget->string16->text);
+                  pWidget->string16->text = convert_to_utf16(_("Show Log (F10)")); */
+              } else {
+                popup_meswin_dialog();
+                /*FREE(pWidget->string16->text);
+                pWidget->string16->text = convert_to_utf16(_("Hide Log (F10)"));*/
+              }
+	      flush_dirty();
+            break;
+	    	        
 	    case SDLK_F11:
               send_report_request(REPORT_DEMOGRAPHIC);
             break;
@@ -497,7 +526,6 @@ static void game_focused_unit_anim(void)
   return;
 }
 
-
 void add_autoconnect_to_timer(void)
 {
   autoconnect = TRUE;
@@ -514,14 +542,10 @@ void ui_init(void)
   char device[20];
   struct GUI *pInit_String = NULL;
   SDL_Surface *pBgd, *pTmp;
-  Uint32 iSDL_Flags = SDL_INIT_VIDEO;
+  Uint32 iSDL_Flags;
 
-  iSDL_Flags |= SDL_INIT_NOPARACHUTE;
-  
-#if 0
- /* events in other thread ( only linux and BeOS ) */  
-  iSDL_Flags |= SDL_INIT_EVENTTHREAD;
-#endif
+  SDL_Client_Flags = 0;
+  iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
   
   /* auto center new windows in X enviroment */
   putenv((char *)"SDL_VIDEO_CENTERED=yes");
@@ -530,14 +554,15 @@ void ui_init(void)
   
   freelog(LOG_NORMAL, _("Using Video Output: %s"),
 	  SDL_VideoDriverName(device, sizeof(device)));
-    
+  
+  /* create splash screen */  
   pBgd = load_surf(datafilename("misc/intro.png"));
   
   if(pBgd && SDL_GetVideoInfo()->wm_available) {
     set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
 #if 0    
     /*
-     * call this for other that X enviroments - currently not full supported.
+     * call this for other that X enviroments - currently not supported.
      */
     center_main_window_on_screen();
 #endif
@@ -601,6 +626,8 @@ void ui_main(int argc, char *argv[])
   SDL_Event __Info_User_Event;
   SDL_Event __Flush_User_Event;
   
+  parse_options(argc, argv);
+  
   __Net_User_Event.type = SDL_USEREVENT;
   __Net_User_Event.user.code = NET;
   __Net_User_Event.user.data1 = NULL;
@@ -627,9 +654,7 @@ void ui_main(int argc, char *argv[])
   
   smooth_move_unit_steps = 8;
   update_city_text_in_refresh_tile = FALSE;
-    
-  parse_options(argc, argv);
-
+  
   tilespec_load_tiles();
   
   load_cursors();
@@ -646,17 +671,18 @@ void ui_main(int argc, char *argv[])
 
   setup_auxiliary_tech_icons();
   
-#if 1
-  set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+  if((SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) == CF_TOGGLED_FULLSCREEN) {
+    set_video_mode(800, 600, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
+    SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
+  } else {
+    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
 #if 0    
     /*
-     * call this for other that X enviroments - currently not full supported.
+     * call this for other that X enviroments - currently not supported.
      */
     center_main_window_on_screen();
 #endif
-#else  
-  set_video_mode(800, 600, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-#endif
+  }
     
   /* SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv"); */
   
@@ -680,6 +706,7 @@ void ui_main(int argc, char *argv[])
 
   free_auxiliary_tech_icons();
   tilespec_unload_theme();
+  tilespec_free_city_icons();
   tilespec_free_anim();
   unload_cursors();
   free_font_system();
@@ -763,5 +790,5 @@ void set_unit_icons_more_arrow(bool onoff)
 **************************************************************************/
 void update_conn_list_dialog(void)
 {
-  /* PORTME */
+  freelog(LOG_DEBUG, "update_conn_list_dialog : PORT ME");
 }

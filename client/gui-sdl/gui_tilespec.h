@@ -53,6 +53,8 @@ struct Theme {
 	SDL_Surface *UNITS_Icon;
 	SDL_Surface *MAP_Icon;
 	SDL_Surface *LOG_Icon;
+	SDL_Surface *PLAYERS_Icon;
+	SDL_Surface *UNITS2_Icon;
 	SDL_Surface *FindCity_Icon;
 	SDL_Surface *NEW_TURN_Icon;
 	
@@ -64,6 +66,10 @@ struct Theme {
 	SDL_Surface *PROD_Icon;
 	SDL_Surface *QPROD_Icon;
 	SDL_Surface *Buy_PROD_Icon;
+
+        /* diplomacy */
+        SDL_Surface *OK_PACT_Icon;
+	SDL_Surface *CANCEL_PACT_Icon;
 	
 	/* orders icons */
 	SDL_Surface *Order_Icon;
@@ -101,9 +107,7 @@ struct Theme {
 	SDL_Surface *OTrade_Icon;
 	SDL_Surface *OSpy_Icon;
 	SDL_Surface *OWakeUp_Icon;
-	
-	SDL_Surface *Grid;
-	
+			
 } *pTheme;
 
 void tilespec_setup_theme(void);
@@ -163,6 +167,7 @@ struct City_Icon {
 } *pIcons;
 
 void tilespec_setup_city_icons(void);
+void tilespec_free_city_icons(void);
 void reload_citizens_icons(int style);
 SDL_Surface * get_citizen_surface(enum citizen_type type, int citizen_index);
 

@@ -32,8 +32,7 @@
 
 #include <SDL/SDL.h>
 
-/* #define DRAW_TIMING */
-#define SDL_CVS
+/* #define SDL_CVS */
 
 #include "gui_mem.h"
 
@@ -1101,7 +1100,9 @@ void set_overview_dimensions(int w, int h)
   enable(ID_REVOLUTION);
   enable(ID_ECONOMY);
   enable(ID_RESEARCH);
-  enable(ID_FIND_CITY);
+  enable(ID_CITIES);
+  enable(ID_PLAYERS);
+  enable(ID_UNITS);
 
   /* del init string */
   pMMap = get_widget_pointer_form_main_list(ID_WAITING_LABEL);
@@ -1324,7 +1325,7 @@ void refresh_overview_viewrect(void)
     real_redraw_icon(pBuf);
 
     /* ===== */
-    /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
+    /* ID_PLAYERS */
     pBuf = pBuf->prev;
 
     if (!pBuf->gfx) {
@@ -1334,7 +1335,7 @@ void refresh_overview_viewrect(void)
     real_redraw_icon(pBuf);
 
     /* ===== */
-    /* ID_FIND_CITY */
+    /* ID_CITIES */
     pBuf = pBuf->prev;
 
     if (!pBuf->gfx) {
@@ -1343,6 +1344,27 @@ void refresh_overview_viewrect(void)
 
     real_redraw_icon(pBuf);
 
+    /* ===== */
+    /* ID_UNITS */
+    pBuf = pBuf->prev;
+    if((get_wflags(pBuf) & WF_HIDDEN) != WF_HIDDEN) {
+      if (!pBuf->gfx) {
+        pBuf->gfx = crop_rect_from_surface(pBuf->dst, &pBuf->size);
+      }
+
+      real_redraw_icon(pBuf);
+    }
+    
+    /* ===== */
+    /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
+    pBuf = pBuf->prev;
+    if((get_wflags(pBuf) & WF_HIDDEN) != WF_HIDDEN) {
+      if (!pBuf->gfx) {
+        pBuf->gfx = crop_rect_from_surface(pBuf->dst, &pBuf->size);
+      }
+
+      real_redraw_icon(pBuf);
+    }
 
     /* ===== */
     /* ID_TOGGLE_MAP_WINDOW_BUTTON */
@@ -1355,8 +1377,7 @@ void refresh_overview_viewrect(void)
     real_redraw_icon(pBuf);
 
     sdl_dirty_rect(pMMap->size);
-    /*add_refresh_rect(pMMap->size);*/
-
+    
   } else {/* map hiden */
 
 #if 0
@@ -2675,7 +2696,5 @@ void tmp_map_surfaces_init(void)
     pMapGrid[2][0] = NULL;
     pMapGrid[2][1] = NULL;
   }
-
-     
 
 }

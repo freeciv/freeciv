@@ -16,6 +16,8 @@
 
 #include "plrdlg_g.h"
 
-/* nothing else */
+void popdown_players_nations_dialog(void);
+void popup_players_nations_dialog(void);
+void popdown_players_dialog(void);
 
-#endif				/* FC__PLRDLG_H */
+#endif	/* FC__PLRDLG_H */

@@ -81,7 +81,7 @@
 	    switch( w & 2 ) {						\
 	    case 0: do {	double_pixel_copy_increment;		\
 	    case 2:		double_pixel_copy_increment;		\
-		    } while ( --n > 0 );					\
+		    } while ( --n > 0 );				\
 	    }								\
 	}								\
 }
@@ -90,7 +90,7 @@
 #define DUFFS_LOOP_QUATRO2(pixel_copy_increment,			\
 				double_pixel_copy_increment,		\
 				quatro_pixel_copy_increment, width)	\
-{ int n, w = width;								\
+{ int n, w = width;							\
         if(w & 1) {							\
 	  pixel_copy_increment;						\
 	  w--;								\
@@ -104,7 +104,7 @@
 	    switch( w & 4 ) {						\
 	    case 0: do {	quatro_pixel_copy_increment;		\
 	    case 4:		quatro_pixel_copy_increment;		\
-		    } while ( --n > 0 );					\
+		    } while ( --n > 0 );				\
 	    }								\
 	}								\
 }
@@ -118,7 +118,7 @@
 /* Don't use Duff's device to unroll loops */
 #define DUFFS_LOOP_DOUBLE2(pixel_copy_increment,			\
 			 double_pixel_copy_increment, width)		\
-{ int n = width;								\
+{ int n = width;							\
     if( n & 1 ) {							\
 	pixel_copy_increment;						\
 	n--;								\
@@ -133,7 +133,7 @@
 #define DUFFS_LOOP_QUATRO2(pixel_copy_increment,			\
 				double_pixel_copy_increment,		\
 				quatro_pixel_copy_increment, width)	\
-{ int n = width;								\
+{ int n = width;							\
         if(n & 1) {							\
 	  pixel_copy_increment;						\
 	  n--;								\
@@ -155,6 +155,7 @@
 		pixel_copy_increment;					\
 	}								\
 }
+
 #define DUFFS_LOOP8(pixel_copy_increment, width)			\
 	DUFFS_LOOP(pixel_copy_increment, width)
 #define DUFFS_LOOP4(pixel_copy_increment, width)			\
@@ -250,7 +251,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 do {					\
   if (ptr) {				\
     SDL_FreeSurface(ptr);		\
-    ptr = NULL;			\
+    ptr = NULL;				\
   }					\
 } while(0)
 

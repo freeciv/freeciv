@@ -40,6 +40,7 @@ enum SDLClient_std_color {
   COLOR_STD_CITY_SCIENCE,	/* city science color */
   COLOR_STD_CITY_HAPPY,		/* city happy color */
   COLOR_STD_CITY_CELEB,		/* city celebrating color */
+  COLOR_STD_RED_DISABLED,	/* player at war but can't meet or get intel. data */
   SDLCLIENT_STD_COLOR_LAST
 };
 

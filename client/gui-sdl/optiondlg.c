@@ -173,8 +173,8 @@ static int edit_worklist_callback(struct GUI *pWidget)
 
       /* No more worklist slots free. */
       if (i < MAX_NUM_WORKLISTS &&
-	(get_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList) == WS_DISABLED)) {
-        set_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList, WS_NORMAL);
+	(get_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList) == FC_WS_DISABLED)) {
+        set_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList, FC_WS_NORMAL);
         pOption_Dlg->pADlg->pBeginActiveWidgetList->string16->forecol =
 			  *(get_game_colorRGB(COLOR_STD_BLACK));
       }
@@ -204,7 +204,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
   bool redraw_all = FALSE;
   int j;
 
-  set_wstate(pWidget, WS_NORMAL);
+  set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   
   /* Find the next free worklist for this player */
@@ -227,7 +227,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
   pNew_WorkList_Widget = create_iconlabel_from_chars(NULL, pWidget->dst, 
       		game.player_ptr->worklists[j].name, 12, WF_DRAW_THEME_TRANSPARENT);
   pNew_WorkList_Widget->ID = MAX_ID - j;
-  set_wstate(pNew_WorkList_Widget, WS_NORMAL);
+  set_wstate(pNew_WorkList_Widget, FC_WS_NORMAL);
   pNew_WorkList_Widget->size.w = pWidget->size.w;
   pNew_WorkList_Widget->action = edit_worklist_callback;
   
@@ -256,7 +256,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
 
   /* No more worklist slots free. */
   if (j == MAX_NUM_WORKLISTS) {
-    set_wstate(pWidget, WS_DISABLED);
+    set_wstate(pWidget, FC_WS_DISABLED);
     pWidget->string16->forecol = *(get_game_colorRGB(COLOR_STD_DISABLED));
   }
   
@@ -319,7 +319,7 @@ static int work_lists_callback(struct GUI *pWidget)
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
       		game.player_ptr->worklists[i].name, 12,
 					      WF_DRAW_THEME_TRANSPARENT);
-      set_wstate(pBuf, WS_NORMAL);
+      set_wstate(pBuf, FC_WS_NORMAL);
       add_to_gui_list(MAX_ID - i, pBuf);
       pBuf->action = edit_worklist_callback;
       
@@ -334,7 +334,7 @@ static int work_lists_callback(struct GUI *pWidget)
   if(count < MAX_NUM_WORKLISTS) {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
       		_("Add new worklist"), 12, WF_DRAW_THEME_TRANSPARENT);
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(ID_ADD_NEW_WORKLIST, pBuf);
     pBuf->action = add_new_worklist_callback;
     
@@ -411,9 +411,9 @@ static int change_mode_callback(struct GUI *pWidget)
   mode = 0;
   while (pWindow) {
 
-    if (get_wstate(pWindow) == WS_DISABLED) {
+    if (get_wstate(pWindow) == FC_WS_DISABLED) {
       if (pModes_Rect[mode]) {
-        set_wstate(pWindow, WS_NORMAL);
+        set_wstate(pWindow, FC_WS_NORMAL);
       }
       break;
     }
@@ -421,7 +421,7 @@ static int change_mode_callback(struct GUI *pWidget)
     pWindow = pWindow->prev;
   }
 
-  set_wstate(pWidget, WS_DISABLED);
+  set_wstate(pWidget, FC_WS_DISABLED);
 
 
   if (SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) {
@@ -533,10 +533,10 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
   {
     pTmp = get_widget_pointer_form_main_list(MAX_ID - i);
 
-    if (get_wstate(pTmp) == WS_DISABLED) {
-      set_wstate(pTmp, WS_NORMAL);
+    if (get_wstate(pTmp) == FC_WS_DISABLED) {
+      set_wstate(pTmp, FC_WS_NORMAL);
     } else {
-      set_wstate(pTmp, WS_DISABLED);
+      set_wstate(pTmp, FC_WS_DISABLED);
     }
 
     redraw_ibutton(pTmp);
@@ -545,9 +545,9 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
     {
       sdl_dirty_rect(pTmp->size);
       if (get_checkbox_state(pWidget)) {
-        set_wstate(pTmp->prev, WS_DISABLED);
+        set_wstate(pTmp->prev, FC_WS_DISABLED);
       } else {
-        set_wstate(pTmp->prev, WS_NORMAL);
+        set_wstate(pTmp->prev, FC_WS_NORMAL);
       }
       redraw_ibutton(pTmp->prev);
       sdl_dirty_rect(pTmp->prev->size);
@@ -560,9 +560,9 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
     pTmp = get_widget_pointer_form_main_list(MAX_ID - i);
 
     if (get_checkbox_state(pWidget)||(Main.screen->w == 640)) {
-      set_wstate(pTmp, WS_DISABLED);
+      set_wstate(pTmp, FC_WS_DISABLED);
     } else {
-      set_wstate(pTmp, WS_NORMAL);
+      set_wstate(pTmp, FC_WS_NORMAL);
     }
 
     redraw_ibutton(pTmp);
@@ -646,7 +646,7 @@ static int video_callback(struct GUI *pWidget)
   }
 
   pTmpGui->action = togle_fullscreen_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = xxx + 5;
   pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 45;
@@ -671,7 +671,7 @@ static int video_callback(struct GUI *pWidget)
     }
 
     if (pModes_Rect[i]->w != Main.screen->w) {
-      set_wstate(pTmpGui, WS_NORMAL);
+      set_wstate(pTmpGui, FC_WS_NORMAL);
     }
     
     count++;
@@ -695,7 +695,7 @@ static int video_callback(struct GUI *pWidget)
     
     if(!(Main.screen->flags & SDL_FULLSCREEN)&&(Main.screen->w != 640))
     {
-      set_wstate(pTmpGui, WS_NORMAL);
+      set_wstate(pTmpGui, FC_WS_NORMAL);
     }
     
     count++;
@@ -766,12 +766,12 @@ static int smooth_move_units_callback(struct GUI *pWidget)
   flush_rect(pWidget->size);
   if (smooth_move_units) {
     smooth_move_units = FALSE;
-    set_wstate(pWidget->prev->prev, WS_DISABLED);
+    set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
     redraw_edit(pWidget->prev->prev);
     flush_rect(pWidget->prev->prev->size);
   } else {
     smooth_move_units = TRUE;
-    set_wstate(pWidget->prev->prev, WS_NORMAL);
+    set_wstate(pWidget->prev->prev, FC_WS_NORMAL);
     redraw_edit(pWidget->prev->prev);
     flush_rect(pWidget->prev->prev->size);
   }
@@ -889,7 +889,7 @@ static int local_setting_callback(struct GUI *pWidget)
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = sound_bell_at_new_turn_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
   pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 6;
@@ -915,7 +915,7 @@ static int local_setting_callback(struct GUI *pWidget)
   		smooth_move_units, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = smooth_move_units_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -945,7 +945,7 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->action = smooth_move_unit_steps_callback;
 
   if (smooth_move_units) {
-    set_wstate(pTmpGui, WS_NORMAL);
+    set_wstate(pTmpGui, FC_WS_NORMAL);
   }
 
   pTmpGui->size.x = pWindow->size.x + 12;
@@ -973,7 +973,7 @@ static int local_setting_callback(struct GUI *pWidget)
       			do_combat_animation, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = do_combat_animation_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -999,7 +999,7 @@ static int local_setting_callback(struct GUI *pWidget)
       		auto_center_on_unit, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = auto_center_on_unit_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1025,7 +1025,7 @@ static int local_setting_callback(struct GUI *pWidget)
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = auto_center_on_combat_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1052,7 +1052,7 @@ static int local_setting_callback(struct GUI *pWidget)
   		wakeup_focus, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = wakeup_focus_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1078,7 +1078,7 @@ static int local_setting_callback(struct GUI *pWidget)
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = popup_new_cities_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1104,7 +1104,7 @@ static int local_setting_callback(struct GUI *pWidget)
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = ask_city_names_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1130,7 +1130,7 @@ static int local_setting_callback(struct GUI *pWidget)
   		auto_turn_done, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = auto_turn_done_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1203,13 +1203,13 @@ static int draw_terrain_callback(struct GUI *pWidget)
   sdl_dirty_rect(pWidget->size);
   draw_terrain ^= 1;
   /* check draw_coastline checkbox state */
-  if (get_wstate(pWidget->prev->prev) == WS_NORMAL)
+  if (get_wstate(pWidget->prev->prev) == FC_WS_NORMAL)
   {
-    set_wstate(pWidget->prev->prev , WS_DISABLED);
+    set_wstate(pWidget->prev->prev , FC_WS_DISABLED);
   }
   else
   {
-    set_wstate(pWidget->prev->prev , WS_NORMAL);
+    set_wstate(pWidget->prev->prev , FC_WS_NORMAL);
   }
   redraw_icon(pWidget->prev->prev);
   sdl_dirty_rect(pWidget->prev->prev->size);
@@ -1347,9 +1347,9 @@ static int draw_city_map_grid_callback(struct GUI *pWidget)
   sdl_dirty_rect(pWidget->size);
   SDL_Client_Flags ^= CF_DRAW_CITY_GRID;
   if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
-    set_wstate(pWidget->prev->prev, WS_NORMAL);
+    set_wstate(pWidget->prev->prev, FC_WS_NORMAL);
   } else {
-    set_wstate(pWidget->prev->prev, WS_DISABLED);
+    set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
   }
   redraw_icon(pWidget->prev->prev);
   sdl_dirty_rect(pWidget->prev->prev->size);
@@ -1390,7 +1390,7 @@ static int map_setting_callback(struct GUI *pWidget)
 		  draw_map_grid, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = map_grid_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
   pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 6;
@@ -1416,7 +1416,7 @@ static int map_setting_callback(struct GUI *pWidget)
 		  draw_city_names, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_city_names_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1442,7 +1442,7 @@ static int map_setting_callback(struct GUI *pWidget)
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_city_productions_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1468,7 +1468,7 @@ static int map_setting_callback(struct GUI *pWidget)
   			draw_terrain, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_terrain_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1497,7 +1497,7 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->action = draw_coastline_callback;
 
   if (!draw_terrain) {
-    set_wstate(pTmpGui, WS_NORMAL);
+    set_wstate(pTmpGui, FC_WS_NORMAL);
   }
 
   pTmpGui->size.x = pWindow->size.x + 35;
@@ -1524,7 +1524,7 @@ static int map_setting_callback(struct GUI *pWidget)
   			draw_specials, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_specials_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1551,7 +1551,7 @@ static int map_setting_callback(struct GUI *pWidget)
 			  draw_pollution, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_pollution_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1578,7 +1578,7 @@ static int map_setting_callback(struct GUI *pWidget)
   				draw_cities, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_cities_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1605,7 +1605,7 @@ static int map_setting_callback(struct GUI *pWidget)
   			draw_units, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_units_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1632,7 +1632,7 @@ static int map_setting_callback(struct GUI *pWidget)
   			draw_fog_of_war, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_fog_of_war_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 
@@ -1672,7 +1672,7 @@ static int map_setting_callback(struct GUI *pWidget)
   			draw_roads_rails, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_roads_rails_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 170;
 
@@ -1698,7 +1698,7 @@ static int map_setting_callback(struct GUI *pWidget)
   			draw_irrigation, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_irrigation_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 170;
 
@@ -1725,7 +1725,7 @@ static int map_setting_callback(struct GUI *pWidget)
   			draw_mines, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_mines_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 170;
 
@@ -1751,7 +1751,7 @@ static int map_setting_callback(struct GUI *pWidget)
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_fortress_airbase_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 170;
 
@@ -1778,7 +1778,7 @@ static int map_setting_callback(struct GUI *pWidget)
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_civ3_city_text_style_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 170;
 
@@ -1806,7 +1806,7 @@ static int map_setting_callback(struct GUI *pWidget)
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_city_map_grid_callback;
-  set_wstate(pTmpGui, WS_NORMAL);
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 170;
 
@@ -1834,7 +1834,7 @@ static int map_setting_callback(struct GUI *pWidget)
 
   pTmpGui->action = draw_city_worker_map_grid_callback;
   if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
-    set_wstate(pTmpGui, WS_NORMAL);
+    set_wstate(pTmpGui, FC_WS_NORMAL);
   }
 
   pTmpGui->size.x = pWindow->size.x + 170;
@@ -1917,7 +1917,7 @@ static int back_callback(struct GUI *pWidget)
 			  CF_TOGGLED_FULLSCREEN);
     FREE(pOption_Dlg);
     if(aconnection.established) {
-      set_wstate(pOptions_Button, WS_NORMAL);
+      set_wstate(pOptions_Button, FC_WS_NORMAL);
       redraw_icon(pOptions_Button);
       sdl_dirty_rect(pOptions_Button->size);
       update_menus();
@@ -1953,7 +1953,7 @@ static int back_callback(struct GUI *pWidget)
 **************************************************************************/
 static int optiondlg_callback(struct GUI *pButton)
 {
-  set_wstate(pButton, WS_DISABLED);
+  set_wstate(pButton, FC_WS_DISABLED);
   SDL_FillRect(pButton->dst, &pButton->size, 0x0);
   real_redraw_icon(pButton);
   flush_rect(pButton->size);
@@ -2024,7 +2024,7 @@ void popup_optiondlg(void)
     FREESURFACE(pLogo);
   }
   SDL_SetAlpha(pTmp_GUI->theme, 0x0, 0x0);
-  set_wstate(pTmp_GUI, WS_NORMAL);
+  set_wstate(pTmp_GUI, FC_WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_WINDOW, pTmp_GUI);
   pOption_Dlg->pEndOptionsWidgetList = pTmp_GUI;
 
@@ -2035,7 +2035,7 @@ void popup_optiondlg(void)
   pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
   /* pTmp_GUI->action = exit_callback; */
   pTmp_GUI->key = SDLK_q;
-  set_wstate(pTmp_GUI, WS_NORMAL);
+  set_wstate(pTmp_GUI, FC_WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, pTmp_GUI);
 
   /* create disconnection button */
@@ -2045,7 +2045,7 @@ void popup_optiondlg(void)
     pTmp_GUI->size.x = start_x + (w - pTmp_GUI->size.w) / 2;
     pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
     pTmp_GUI->action = disconnect_callback;
-    set_wstate(pTmp_GUI, WS_NORMAL);
+    set_wstate(pTmp_GUI, FC_WS_NORMAL);
     add_to_gui_list(ID_OPTIONS_DISC_BUTTON, pTmp_GUI);
   }
   
@@ -2056,7 +2056,7 @@ void popup_optiondlg(void)
   pTmp_GUI->size.y = start_y + h - pTmp_GUI->size.h - 10;
   pTmp_GUI->action = back_callback;
   pTmp_GUI->key = SDLK_ESCAPE;
-  set_wstate(pTmp_GUI, WS_NORMAL);
+  set_wstate(pTmp_GUI, FC_WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_BACK_BUTTON, pTmp_GUI);
   pOption_Dlg->pBeginCoreOptionsWidgetList = pTmp_GUI;
 
@@ -2067,7 +2067,7 @@ void popup_optiondlg(void)
 			pTmp_GUI->dst, _("Video options"), 12, 0);
   pTmp_GUI->size.y = start_y + 60;
   pTmp_GUI->action = video_callback;
-  set_wstate(pTmp_GUI, WS_NORMAL);
+  set_wstate(pTmp_GUI, FC_WS_NORMAL);
   pTmp_GUI->size.h += 4;
 
   longest = MAX(longest, pTmp_GUI->size.w);
@@ -2079,7 +2079,7 @@ void popup_optiondlg(void)
 				pTmp_GUI->dst, _("Sound options"), 12, 0);
   pTmp_GUI->size.y = start_y + 90;
   pTmp_GUI->action = sound_callback;
-  /* set_wstate( pTmp_GUI, WS_NORMAL ); */
+  /* set_wstate( pTmp_GUI, FC_WS_NORMAL ); */
   pTmp_GUI->size.h += 4;
   longest = MAX(longest, pTmp_GUI->size.w);
 
@@ -2092,7 +2092,7 @@ void popup_optiondlg(void)
 				      _("Game options"), 12, 0);
   pTmp_GUI->size.y = start_y + 120;
   pTmp_GUI->action = local_setting_callback;
-  set_wstate(pTmp_GUI, WS_NORMAL);
+  set_wstate(pTmp_GUI, FC_WS_NORMAL);
   pTmp_GUI->size.h += 4;
   longest = MAX(longest, pTmp_GUI->size.w);
 
@@ -2103,7 +2103,7 @@ void popup_optiondlg(void)
 				  pTmp_GUI->dst, _("Map options"), 12, 0);
   pTmp_GUI->size.y = start_y + 150;
   pTmp_GUI->action = map_setting_callback;
-  set_wstate(pTmp_GUI, WS_NORMAL);
+  set_wstate(pTmp_GUI, FC_WS_NORMAL);
   pTmp_GUI->size.h += 4;
   longest = MAX(longest, pTmp_GUI->size.w);
 
@@ -2117,7 +2117,7 @@ void popup_optiondlg(void)
   pTmp_GUI->action = work_lists_callback;
   
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-    set_wstate(pTmp_GUI, WS_NORMAL);
+    set_wstate(pTmp_GUI, FC_WS_NORMAL);
   }
 
   pTmp_GUI->size.h += 4;

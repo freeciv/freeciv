@@ -365,7 +365,7 @@ static int AA_ZoomSurfaceFastRGB24(const SDL_Surface *src, SDL_Surface *dst)
 	    
       /* WARNING this may be dangerous with last pixel becouse it
          write 4 byes ( not 3 ) to "dp". Normaly it is save becouse
-         we overwrite this 4-th byes by next write */
+         we overwrite this 4-th bye by next write */
       movd_r2m(mm0, *dp);/* mm0 -> dst pixel */
 	    
       /* 
@@ -596,7 +596,7 @@ static int AA_ZoomSurfaceFastRGB16(const SDL_Surface *src, SDL_Surface *dst)
    */
   free(sax);
   free(say);
-
+  
   return (0);
 }
 
@@ -782,7 +782,7 @@ static int AA_ZoomSurfaceFastRGB15(const SDL_Surface *src, SDL_Surface *dst)
    */
   free(sax);
   free(say);
-
+  
   return (0);
 }
 
@@ -918,7 +918,7 @@ static int AA_ZoomSurfaceFastRGBA32(const SDL_Surface * src,
    */
   FREE(sax);
   FREE(say);
-
+  
   return 0;
 }
 
@@ -1426,7 +1426,7 @@ static int AA_ZoomSurfaceFastestRGB16(const SDL_Surface *src, SDL_Surface *dst)
    */
   FREE(sax);
   FREE(say);
-
+  
   return 0;
 }
 
@@ -1563,7 +1563,7 @@ static int AA_ZoomSurfaceFastRGB15(const SDL_Surface *src, SDL_Surface *dst)
    */
   FREE(sax);
   FREE(say);
-
+  
   return 0;
 }
 
@@ -1683,7 +1683,7 @@ static int AA_ZoomSurfaceFastestRGB15(const SDL_Surface *src, SDL_Surface *dst)
    */
   FREE(sax);
   FREE(say);
-
+  
   return 0;
 }
 #endif
@@ -1760,7 +1760,7 @@ static int zoomSurfaceRGB32(const SDL_Surface *src, SDL_Surface *dst)
    */
   FREE(sax);
   FREE(say);
-
+    
   return 0;
 }
 
@@ -2176,6 +2176,11 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
       zoomSurfaceRGB32(pSrc, pReal_dst);
 
     }
+    
+    if((pSrc->flags & SDL_SRCCOLORKEY) == SDL_SRCCOLORKEY) {
+      SDL_SetColorKey(pReal_dst, SDL_SRCCOLORKEY, pSrc->format->colorkey);
+    }
+    
     break;
   case 24:
     if (smooth) {
@@ -2195,6 +2200,11 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
        */
       zoomSurfaceRGB24(pSrc, pReal_dst);
     }
+    
+    if((pSrc->flags & SDL_SRCCOLORKEY) == SDL_SRCCOLORKEY) {
+      SDL_SetColorKey(pReal_dst, SDL_SRCCOLORKEY, pSrc->format->colorkey);
+    }
+    
     break;
   case 16:
     switch (smooth) {
@@ -2262,6 +2272,11 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
 
       break;
     }
+    
+    if((pSrc->flags & SDL_SRCCOLORKEY) == SDL_SRCCOLORKEY) {
+      SDL_SetColorKey(pReal_dst, SDL_SRCCOLORKEY, pSrc->format->colorkey);
+    }
+    
     break;
   case 8:
 

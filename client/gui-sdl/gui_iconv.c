@@ -43,6 +43,10 @@
 #endif
 #endif
 
+#ifndef ICONV_CONST
+#define ICONV_CONST	const
+#endif /* ICONV_CONST */
+
 #include "gui_mem.h"
 #include "unistring.h"
 #include "gui_iconv.h"
@@ -78,82 +82,12 @@ static const char *get_local_encoding(void)
 }
 
 /**************************************************************************
-  ...
-**************************************************************************/
-Uint16 *convert_to_utf16(const char *pString)
-{
-  /* Start Parametrs */
-  const char *pTocode = get_display_encoding();
-  const char *pFromcode = get_local_encoding();
-  const char *pStart = pString;
-  const char *pEnd = pString + strlen(pString);
-  /* ===== */
+  Convert string from local encoding (8 bit char) to
+  display encoding (16 bit unicode) and resut put in pToString.
+  if pToString == NULL then resulting string will be allocate automaticaly.
+  DANGER !: pToString size MUST BE >= strlen(pFromString)
 
-  char *pResult = NULL;
-
-  /* From 8 bit code to UTF-16 (16 bit code)
-     size_t length = 2*(strlen(pString)+1); */
-  size_t length = (strlen(pString) + 1) << 1;
-  /* ===== */
-
-  iconv_t cd = iconv_open(pTocode, pFromcode);
-  if (cd == (iconv_t) (-1)) {
-    if (errno != EINVAL) {
-      return NULL;
-    }
-  }
-
-  pResult = MALLOC(length);
-
-  iconv(cd, NULL, NULL, NULL, NULL);	/* return to the initial state */
-
-  /* Do the conversion for real. */
-  {
-    const char *pInptr = pStart;
-    size_t Insize = pEnd - pStart + 1;
-
-    char *pOutptr = pResult;
-    size_t Outsize = length;
-
-    while (Insize > 0) {
-      size_t Res =
-	  iconv(cd, (char **) &pInptr, &Insize, &pOutptr, &Outsize);
-      if (Res == (size_t) (-1)) {
-	if (errno == EINVAL) {
-	  break;
-	} else {
-	  int saved_errno = errno;
-	  iconv_close(cd);
-	  errno = saved_errno;
-	  FREE( pResult );
-	  return NULL;
-	}
-      }
-    }
-
-    {
-      size_t Res = iconv(cd, NULL, NULL, &pOutptr, &Outsize);
-      if (Res == (size_t) (-1)) {
-	int saved_errno = errno;
-	iconv_close(cd);
-	errno = saved_errno;
-	FREE( pResult );
-	return NULL;
-      }
-    }
-
-    if (Outsize != 0) {
-      abort();
-    }
-  }
-
-  iconv_close(cd);
-
-  return (Uint16 *) pResult;
-}
-
-/**************************************************************************
-  ...
+  Function return (Uint16 *) pointer to (new) pToString.
 **************************************************************************/
 Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
 {
@@ -161,23 +95,21 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
   const char *pTocode = get_display_encoding();
   const char *pFromcode = get_local_encoding();
   const char *pStart = pFromString;
-  const char *pEnd = pFromString + strlen(pFromString);
-  /* ===== */
-
+  size_t length = strlen(pFromString);
+  const char *pEnd = pFromString + length;
   char *pResult = (char *) pToString;
-
-  /* From 8 bit code to UTF-16 (16 bit code)
-     size_t length = 2*(strlen(pString)+1); */
-  size_t length = (strlen(pFromString) + 1) << 1;
   /* ===== */
 
   iconv_t cd = iconv_open(pTocode, pFromcode);
   if (cd == (iconv_t) (-1)) {
     if (errno != EINVAL) {
-      return NULL;
+      return pToString;
     }
   }
 
+  /* From 8 bit code to UTF-16 (16 bit code) */
+  length = (length + 1) * 2;
+  
   if (!pResult) {
     pResult = MALLOC(length);
   }
@@ -194,7 +126,7 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
 
     while (Insize > 0) {
       size_t Res =
-	  iconv(cd, (char **) &pInptr, &Insize, &pOutptr, &Outsize);
+	  iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
       if (Res == (size_t) (-1)) {
 	if (errno == EINVAL) {
 	  break;
@@ -202,7 +134,10 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
 	  int saved_errno = errno;
 	  iconv_close(cd);
 	  errno = saved_errno;
-	  return NULL;
+	  if(!pToString) {
+	    FREE(pResult);
+	  }
+	  return pToString;
 	}
       }
     }
@@ -213,7 +148,10 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
 	int saved_errno = errno;
 	iconv_close(cd);
 	errno = saved_errno;
-	return NULL;
+	if(!pToString) {
+	  FREE(pResult);
+	}
+	return pToString;
       }
     }
 
@@ -236,14 +174,13 @@ char *convert_to_chars(const Uint16 * pUniString)
   const char *pFromcode = get_display_encoding();
   const char *pTocode = get_local_encoding();
   const char *pStart = (char *) pUniString;
-  const char *pEnd =
-      (char *) pUniString + (unistrlen(pUniString) << 1) + 2;
+  size_t length = unistrlen(pUniString);
+  const char *pEnd = (char *) pUniString + (length * 2) + 2;
   /* ===== */
 
   char *pResult = NULL;
   iconv_t cd;
-  size_t length;
-
+  
   /* ===== */
 
   if (!pStart) {
@@ -251,7 +188,7 @@ char *convert_to_chars(const Uint16 * pUniString)
   }
 
   /* From 16 bit code to 8 bit code */
-  length = unistrlen(pUniString) + 1;
+  length++;
 
   cd = iconv_open(pTocode, pFromcode);
   if (cd == (iconv_t) (-1)) {
@@ -274,7 +211,7 @@ char *convert_to_chars(const Uint16 * pUniString)
 
     while (Insize > 0) {
       size_t Res =
-	  iconv(cd, (char **) &pInptr, &Insize, &pOutptr, &Outsize);
+	  iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
       if (Res == (size_t) (-1)) {
 	if (errno == EINVAL) {
 	  break;
@@ -282,6 +219,7 @@ char *convert_to_chars(const Uint16 * pUniString)
 	  int saved_errno = errno;
 	  iconv_close(cd);
 	  errno = saved_errno;
+	  FREE(pResult);
 	  return NULL;
 	}
       }
@@ -293,6 +231,7 @@ char *convert_to_chars(const Uint16 * pUniString)
 	int saved_errno = errno;
 	iconv_close(cd);
 	errno = saved_errno;
+	FREE(pResult);
 	return NULL;
       }
     }

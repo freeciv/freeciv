@@ -16,4 +16,6 @@
 
 #include "diplodlg_g.h"
 
+void popup_diplomacy_dialog(struct player *pPlayer);
+
 #endif				/* FC__DIPLODLG_H */

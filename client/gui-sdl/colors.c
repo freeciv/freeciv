@@ -74,7 +74,8 @@ static SDL_Color SDLClient_standard_rgba_colors[SDLCLIENT_STD_COLOR_LAST -
   {12, 18, 108, 255},		/* city unkeep color */
   {212, 172, 206, 255},		/* city science color */
   {255, 255, 0, 255},		/* city happy color */
-  {190, 115, 5, 255}		/* city celebrating color */
+  {190, 115, 5, 255},		/* city celebrating color */
+  {128, 0, 0, 255}		/* player at war but can't meet or get intel. data */
 };
 
 /**************************************************************************

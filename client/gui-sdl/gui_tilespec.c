@@ -334,6 +334,53 @@ void tilespec_setup_city_icons(void)
   pIcons->style = 999;
 }
 
+void tilespec_free_city_icons(void)
+{
+  FREE(pIcons->pBIG_Food_Corr);
+  FREE(pIcons->pBIG_Shield_Corr);
+  FREE(pIcons->pBIG_Trade_Corr);
+  FREE(pIcons->pBIG_Food);
+  FREE(pIcons->pBIG_Food_Surplus);
+  FREE(pIcons->pBIG_Shield);
+  FREE(pIcons->pBIG_Shield_Surplus);
+  FREE(pIcons->pBIG_Trade);
+  FREE(pIcons->pBIG_Luxury);
+  FREE(pIcons->pBIG_Coin);
+  FREE(pIcons->pBIG_Colb);
+  FREE(pIcons->pBIG_Coin_Corr);
+  FREE(pIcons->pBIG_Coin_UpKeep);
+  
+  FREE(pIcons->pFood);
+  FREE(pIcons->pShield);
+  FREE(pIcons->pTrade);
+  FREE(pIcons->pFace);
+  FREE(pIcons->pLuxury);
+  FREE(pIcons->pCoin);		  
+  FREE(pIcons->pColb);		  
+    
+  FREE(pIcons->pPollution);
+  FREE(pIcons->pPolice);
+  FREE(pIcons->pWorklist);
+  
+  /* small citizens */
+  FREESURFACE(pIcons->pMale_Content);
+  FREESURFACE(pIcons->pFemale_Content);
+  FREESURFACE(pIcons->pMale_Happy);
+  FREESURFACE(pIcons->pFemale_Happy);
+  FREESURFACE(pIcons->pMale_Unhappy);
+  FREESURFACE(pIcons->pFemale_Unhappy);
+  FREESURFACE(pIcons->pMale_Angry);
+  FREESURFACE(pIcons->pFemale_Angry);
+	
+  FREESURFACE(pIcons->pSpec_Lux); /* Elvis */
+  FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
+  FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
+  
+  FREE(pIcons);
+  
+}
+
+
 /* =================================================== */
 /* ===================== THEME ======================= */
 /* =================================================== */
@@ -347,11 +394,12 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!sprite_exists("theme.button")) {
+  if(!sprite_exists("theme.pact_ok")) {
     freelog(LOG_FATAL, "Your current tileset don't contains GUI theme graphic\n"
     "Please use other tileset with GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
-     "(ftp.freeciv.org/pub/freeciv/incoming) ftp side and download DELUXE tileset theme");
+    "(ftp.freeciv.org/pub/freeciv/incoming) ftp site and download DELUXE"
+    "(again:) tileset theme");
   }
   
   load_theme_surface(pBuf, Button, "theme.button");
@@ -364,7 +412,9 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, FR_Vert, "theme.vertic_frame");
   load_theme_surface(pBuf, FR_Hor, "theme.horiz_frame");
   /* ------------------- */
-  
+  load_theme_surface(pBuf, OK_PACT_Icon, "theme.pact_ok");
+  load_theme_surface(pBuf, CANCEL_PACT_Icon, "theme.pact_cancel");
+  /* ------------------- */
   load_theme_surface(pBuf, OK_Icon, "theme.OK_button");
   load_theme_surface(pBuf, CANCEL_Icon, "theme.FAIL_button");
   load_theme_surface(pBuf, FORWARD_Icon, "theme.NEXT_button");
@@ -376,7 +426,7 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, FindCity_Icon, "theme.FIND_CITY_button");
   load_theme_surface(pBuf, NEW_TURN_Icon, "theme.NEW_TURN_button");
   load_theme_surface(pBuf, LOG_Icon, "theme.LOG_button");
-  load_theme_surface(pBuf, UNITS_Icon, "theme.UNITS_button");
+  load_theme_surface(pBuf, UNITS_Icon, "theme.UNITS_INFO_button");
   load_theme_surface(pBuf, Options_Icon, "theme.OPTIONS_button");
   load_theme_surface(pBuf, INFO_Icon, "theme.INFO_button");
   load_theme_surface(pBuf, Army_Icon, "theme.ARMY_button");
@@ -388,6 +438,8 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, CMA_Icon, "theme.CMA_button");
   load_theme_surface(pBuf, LOCK_Icon, "theme.LOCK_button");
   load_theme_surface(pBuf, UNLOCK_Icon, "theme.UNLOCK_button");
+  load_theme_surface(pBuf, PLAYERS_Icon, "theme.PLAYERS_button");
+  load_theme_surface(pBuf, UNITS2_Icon, "theme.UNITS_button");
   /* ------------------------------ */
   
   load_theme_surface(pBuf, UP_Icon, "theme.UP_scroll");
@@ -434,10 +486,7 @@ void tilespec_setup_theme(void)
   load_order_theme_surface(pBuf, OSpy_Icon, "theme.order_spying");
   load_order_theme_surface(pBuf, OWakeUp_Icon, "theme.order_wakeup");
   /* ------------------------------ */
-  
-  /*load_theme_surface(pBuf, Grid, "map.grid");*/
-  /* ------------------------------ */
-  
+    
   /* Map Dithering */
   
   pBuf = sprites.dither_tile;
@@ -507,6 +556,8 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->NEW_TURN_Icon);
   FREESURFACE(pTheme->LOG_Icon);
   FREESURFACE(pTheme->UNITS_Icon);
+  FREESURFACE(pTheme->UNITS2_Icon);
+  FREESURFACE(pTheme->PLAYERS_Icon);
   FREESURFACE(pTheme->Options_Icon);
   FREESURFACE(pTheme->INFO_Icon);
   FREESURFACE(pTheme->Army_Icon);
@@ -516,6 +567,10 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->PROD_Icon);
   FREESURFACE(pTheme->QPROD_Icon);
   FREESURFACE(pTheme->CMA_Icon);
+  FREESURFACE(pTheme->LOCK_Icon);
+  FREESURFACE(pTheme->UNLOCK_Icon);
+  FREESURFACE(pTheme->OK_PACT_Icon);
+  FREESURFACE(pTheme->CANCEL_PACT_Icon);
   /* ------------------------------ */
   
   FREESURFACE(pTheme->UP_Icon);
@@ -561,8 +616,7 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->OTrade_Icon);
   FREESURFACE(pTheme->OSpy_Icon);
   FREESURFACE(pTheme->OWakeUp_Icon);
-  FREESURFACE(pTheme->Grid);
-    
+      
   /* Map Dithering */
    
   FREESURFACE(pDitherMask);

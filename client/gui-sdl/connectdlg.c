@@ -79,9 +79,9 @@ static int connect_callback(struct GUI *pWidget)
 			errbuf, sizeof(errbuf)) != -1) {
 			  
     /* clear dlg area */			  
-    SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data, 0x0);
-    sdl_dirty_rect(*((SDL_Rect *)pWidget->data));
-    FREE(pWidget->data);
+    SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data.ptr, 0x0);
+    sdl_dirty_rect(*((SDL_Rect *)pWidget->data.ptr));
+    FREE(pWidget->data.ptr);
 			  
     /* destroy connect dlg. widgets */
     del_widget_from_gui_list(pWidget);
@@ -96,7 +96,7 @@ static int connect_callback(struct GUI *pWidget)
 	get_widget_pointer_form_main_list(ID_CLIENT_OPTIONS);
     pSellected_Widget->size.x = 5;
     pSellected_Widget->size.y = 5;
-    set_wstate(pSellected_Widget, WS_NORMAL);
+    set_wstate(pSellected_Widget, FC_WS_NORMAL);
     clear_wflag(pSellected_Widget, WF_HIDDEN);
     real_redraw_icon(pSellected_Widget);
 
@@ -134,7 +134,7 @@ static int connect_callback(struct GUI *pWidget)
 
     /* button up */
     unsellect_widget_action();
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     pSellected_Widget = pWidget;
     redraw_tibutton(pWidget);
     flush_rect(pWidget->size);
@@ -162,7 +162,7 @@ static int exit_meta_severs_dlg_callback(struct GUI *pWidget)
 
 static int sellect_meta_severs_callback(struct GUI *pWidget)
 {
-  struct server *pServer = (struct server *)pWidget->data;
+  struct server *pServer = (struct server *)pWidget->data.ptr;
       
   sz_strlcpy(server_host, pServer->name);
   sscanf(pServer->port, "%d", &server_port);
@@ -189,9 +189,9 @@ static int meta_severs_callback(struct GUI *pWidget)
   }
     
   /* clear dlg area */			  
-  SDL_FillRect(pDest, (SDL_Rect *)pWidget->data, 0x0);
-  flush_rect(*((SDL_Rect *)pWidget->data));
-  FREE(pWidget->data);
+  SDL_FillRect(pDest, (SDL_Rect *)pWidget->data.ptr, 0x0);
+  flush_rect(*((SDL_Rect *)pWidget->data.ptr));
+  FREE(pWidget->data.ptr);
 			  
   /* destroy connect dlg. widgets */
   del_widget_from_gui_list(pWidget);
@@ -213,7 +213,7 @@ static int meta_severs_callback(struct GUI *pWidget)
     
   pWindow = create_window(pDest, NULL, 10, 10, 0);
   pWindow->action = meta_severs_window_callback;
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   
   add_to_gui_list(ID_WINDOW, pWindow);
@@ -224,14 +224,14 @@ static int meta_severs_callback(struct GUI *pWidget)
 					
   /*pBuf->action = refresh_meta_severs_callback;*/
   
-  /*set_wstate(pMeta, WS_NORMAL);*/
+  /*set_wstate(pMeta, FC_WS_NORMAL);*/
   
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ------------------------------ */
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
 						     _("Cancel"), 14, 0);
   pBuf->action = exit_meta_severs_dlg_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ------------------------------ */
   
@@ -251,8 +251,8 @@ static int meta_severs_callback(struct GUI *pWidget)
     pBuf->string16->backcol.unused = 0;
     
     pBuf->action = sellect_meta_severs_callback;
-    set_wstate(pBuf, WS_NORMAL);
-    pBuf->data = (void *)pServer;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    pBuf->data.ptr = (void *)pServer;
     w = MAX(w, pBuf->size.w);
     h = MAX(h, pBuf->size.h);
     
@@ -407,9 +407,9 @@ static int cancel_connect_dlg_callback(struct GUI *pWidget)
   
   struct GUI *pEnd = pWidget->next->next->next->next->next;
     
-  SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data, 0x0);
+  SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data.ptr, 0x0);
   
-  FREE(pWidget->data);
+  FREE(pWidget->data.ptr);
   
   del_group_of_widgets_from_gui_list(pWidget,pEnd);
   
@@ -439,9 +439,9 @@ static int popup_join_game_callback(struct GUI *pWidget)
   
   if(pWidget) {
     /* popdown start buttons */  
-    SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data, 0x0);
+    SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data.ptr, 0x0);
   
-    FREE(pWidget->data);
+    FREE(pWidget->data.ptr);
   
     del_group_of_widgets_from_gui_list(pWidget->prev->prev,
   					pWidget->next->next);
@@ -467,8 +467,8 @@ static int popup_join_game_callback(struct GUI *pWidget)
 						     _("Connect"), 14, 0);
 
   pConnect->action = connect_callback;
-  set_wstate(pConnect, WS_NORMAL);
-  pConnect->data = (void *)area;
+  set_wstate(pConnect, FC_WS_NORMAL);
+  pConnect->data.ptr = (void *)area;
   
   add_to_gui_list(ID_CONNECT_BUTTON, pConnect);
   /* ------------------------------ */
@@ -477,8 +477,8 @@ static int popup_join_game_callback(struct GUI *pWidget)
 					_("Metaserver"), 14, 0);
 					
   pMeta->action = meta_severs_callback;
-  pMeta->data = (void *)area;
-  set_wstate(pMeta, WS_NORMAL);
+  pMeta->data.ptr = (void *)area;
+  set_wstate(pMeta, FC_WS_NORMAL);
   
   add_to_gui_list(ID_META_SERVERS_BUTTON, pMeta);
   /* ------------------------------ */
@@ -486,8 +486,8 @@ static int popup_join_game_callback(struct GUI *pWidget)
   pCancel = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pDest,
 						     _("Cancel"), 14, 0);
   pCancel->action = cancel_connect_dlg_callback;
-  pCancel->data = (void *)area;
-  set_wstate(pCancel, WS_NORMAL);
+  pCancel->data.ptr = (void *)area;
+  set_wstate(pCancel, FC_WS_NORMAL);
   add_to_gui_list(ID_CANCEL_BUTTON, pCancel);
   
   /* ------------------------------ */
@@ -495,7 +495,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   pUser = create_edit_from_chars(NULL, pDest, user_name, 14, 210,
 					 WF_DRAW_THEME_TRANSPARENT);
   pUser->action = convert_playername_callback;
-  set_wstate(pUser, WS_NORMAL);
+  set_wstate(pUser, FC_WS_NORMAL);
   add_to_gui_list(ID_PLAYER_NAME_EDIT, pUser );
 
   /* ------------------------------ */
@@ -504,7 +504,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
 					 WF_DRAW_THEME_TRANSPARENT);
 
   pServer->action = convert_servername_callback;
-  set_wstate(pServer, WS_NORMAL);
+  set_wstate(pServer, FC_WS_NORMAL);
   add_to_gui_list(ID_SERVER_NAME_EDIT, pServer);
 
   /* ------------------------------ */
@@ -513,7 +513,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
 					 WF_DRAW_THEME_TRANSPARENT);
 					 
   pPort->action = convert_portnr_callback;
-  set_wstate(pPort, WS_NORMAL);
+  set_wstate(pPort, FC_WS_NORMAL);
   add_to_gui_list(ID_PORT_EDIT, pPort);
   
 
@@ -584,7 +584,7 @@ static int quit_callback(struct GUI *pWidget)
 {
   struct GUI *pEnd = pWidget->next->next->next->next;
       
-  FREE(pWidget->data);
+  FREE(pWidget->data.ptr);
   
   del_group_of_widgets_from_gui_list(pWidget,pEnd);
   
@@ -595,10 +595,10 @@ static int popup_option_callback(struct GUI *pWidget)
 {
   struct GUI *pEnd = pWidget->next->next->next;
     
-  SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data, 0x0);
+  SDL_FillRect(pWidget->dst, (SDL_Rect *)pWidget->data.ptr, 0x0);
   
-  flush_rect(*((SDL_Rect *)pWidget->data));
-  FREE(pWidget->data);
+  flush_rect(*((SDL_Rect *)pWidget->data.ptr));
+  FREE(pWidget->data.ptr);
   
   del_group_of_widgets_from_gui_list(pWidget->prev,pEnd);
   
@@ -648,7 +648,7 @@ void gui_server_connect(void)
   pBuf->action = popup_join_game_callback;
   
   
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   w = MAX(w , pBuf->size.w);
   h = MAX(h , pBuf->size.h);
   add_to_gui_list(ID_JOIN_GAME, pBuf);
@@ -659,14 +659,14 @@ void gui_server_connect(void)
   
   w = MAX(w , pBuf->size.w);
   h = MAX(h , pBuf->size.h);
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_CLIENT_OPTIONS_BUTTON, pBuf);
   
   pLast = pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Quit"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = quit_callback;
   pBuf->key = SDLK_ESCAPE;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   w = MAX(w , pBuf->size.w);
   h = MAX(h , pBuf->size.h);
   add_to_gui_list(ID_QUIT, pBuf);
@@ -687,11 +687,11 @@ void gui_server_connect(void)
   pArea->w = pFirst->size.w + DOUBLE_FRAME_WH;
   pArea->h = 5 * pFirst->size.h + DOUBLE_FRAME_WH;
   
-  pFirst->data = (void *)pArea;
+  pFirst->data.ptr = (void *)pArea;
   
   while(pBuf)
   {
-    pBuf->data = (void *)pArea;
+    pBuf->data.ptr = (void *)pArea;
     pBuf->size.w = w;
     pBuf->size.h = h;
     pBuf->size.x = pBuf->next->size.x;

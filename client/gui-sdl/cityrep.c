@@ -46,6 +46,7 @@
 #include "wldlg.h"
 
 #include "mapview.h"
+#include "mapctrl.h"
 #include "optiondlg.h"
 #include "options.h"
 #include "repodlgs.h"
@@ -83,6 +84,7 @@ static int exit_city_report_callback(struct GUI *pWidget)
 				      pCityRep->pEndWidgetList);
     FREE(pCityRep->pScroll);
     FREE(pCityRep);
+    enable_and_redraw_find_city_button();
     flush_dirty();
   }
   return -1;
@@ -90,22 +92,19 @@ static int exit_city_report_callback(struct GUI *pWidget)
 
 static int popup_citydlg_from_city_report_callback(struct GUI *pWidget)
 {
-  struct city *pCity = (struct city *)pWidget->data;
-  popup_city_dialog(pCity, 0);
+  popup_city_dialog(pWidget->data.city, 0);
   return -1;
 }
 
 static int popup_worklist_from_city_report_callback(struct GUI *pWidget)
 {
-  struct city *pCity = (struct city *)pWidget->data;
-  popup_worklist_editor(pCity, &pCity->worklist);
+  popup_worklist_editor(pWidget->data.city, &pWidget->data.city->worklist);
   return -1;
 }
 
 static int popup_buy_production_from_city_report_callback(struct GUI *pWidget)
 {
-  struct city *pCity = (struct city *)pWidget->data;
-  popup_hurry_production_dialog(pCity, NULL);
+  popup_hurry_production_dialog(pWidget->data.city, NULL);
   return -1;
 }
 
@@ -118,7 +117,7 @@ static int popup_cma_from_city_report_callback(struct GUI *pWidget)
 #if 0
 static int info_city_report_callback(struct GUI *pWidget)
 {
-  set_wstate(pWidget, WS_NORMAL);
+  set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   redraw_widget(pWidget);
   sdl_dirty_rect(pWidget->size);
@@ -184,7 +183,7 @@ static void real_info_city_report_dialog_update(void)
   pWindow = create_window(NULL, pStr, 40, 30, 0);
   pCityRep->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = city_report_windows_callback;
   
   add_to_gui_list(ID_WINDOW, pWindow);
@@ -197,7 +196,7 @@ static void real_info_city_report_dialog_update(void)
 
   pBuf->string16 = create_str16_from_char(_("Exit Report"), 12);
   pBuf->action = exit_city_report_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_BUTTON, pBuf);
@@ -209,7 +208,7 @@ static void real_info_city_report_dialog_update(void)
   pBuf->string16 = create_str16_from_char(_("Information Report"), 12);
 /*
   pBuf->action = info_city_report_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 */
   add_to_gui_list(ID_BUTTON, pBuf);
   /* -------- */
@@ -220,7 +219,7 @@ static void real_info_city_report_dialog_update(void)
   pBuf->string16 = create_str16_from_char(_("Happiness Report"), 12);
 /*
   pBuf->action = happy_city_report_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 */
   add_to_gui_list(ID_BUTTON, pBuf);
   /* -------- */
@@ -231,7 +230,7 @@ static void real_info_city_report_dialog_update(void)
   pBuf->string16 = create_str16_from_char(_("Garrison Report"), 12);
 /*
   pBuf->action = army_city_dlg_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 */
   add_to_gui_list(ID_BUTTON, pBuf);
   /* -------- */
@@ -242,7 +241,7 @@ static void real_info_city_report_dialog_update(void)
   pBuf->string16 = create_str16_from_char(_("Maintenance Report"), 12);
 /*
   pBuf->action = supported_unit_city_dlg_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 */
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ------------------------ */
@@ -271,8 +270,8 @@ static void real_info_city_report_dialog_update(void)
     }
     
     pBuf->action = popup_citydlg_from_city_report_callback;
-    set_wstate(pBuf, WS_NORMAL);
-    pBuf->data = (void *)pCity;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    pBuf->data.city = pCity;
     if(count > 9 * COL) {
       set_wflag(pBuf , WF_HIDDEN);
     }
@@ -300,7 +299,7 @@ static void real_info_city_report_dialog_update(void)
     }
     hh = MAX(hh, pBuf->size.h);
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = popup_cma_from_city_report_callback;
         
     /* ----------- */
@@ -525,9 +524,9 @@ static void real_info_city_report_dialog_update(void)
     }
     hh = MAX(hh, pBuf->size.h);
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = popup_worklist_from_city_report_callback;
-    pBuf->data = (void *)pCity;
+    pBuf->data.city = pCity;
     
     pStr = create_str16_from_char(cBuf, 10);
     pStr->forecol = color;
@@ -539,8 +538,8 @@ static void real_info_city_report_dialog_update(void)
     hh = MAX(hh, pBuf->size.h);
     prod_w = MAX(prod_w, pBuf->size.w);
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
-    pBuf->data = (void *)pCity;
-    set_wstate(pBuf, WS_NORMAL);
+    pBuf->data.city = pCity;
+    set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = popup_buy_production_from_city_report_callback;
     
     count += COL;

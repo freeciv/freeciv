@@ -59,8 +59,8 @@ static int find_city_window_dlg_callback(struct GUI *pWindow)
 
 static int exit_find_city_dlg_callback(struct GUI *pWidget)
 {
-  int orginal_x = ((struct map_position *)pWidget->data)->x;
-  int orginal_y = ((struct map_position *)pWidget->data)->y;
+  int orginal_x = pWidget->data.cont->id0;
+  int orginal_y = pWidget->data.cont->id1;
       
   popdown_find_dialog();
   
@@ -72,9 +72,12 @@ static int exit_find_city_dlg_callback(struct GUI *pWidget)
 
 static int find_city_callback(struct GUI *pWidget)
 {
-  struct city *pCity = (struct city *)pWidget->data;
+  struct city *pCity = pWidget->data.city;
   if(pCity) {
     center_tile_mapcanvas(pCity->x, pCity->y);
+    if(Main.event.button.button == SDL_BUTTON_RIGHT) {
+      popdown_find_dialog();
+    }
     flush_dirty();
   }
   return -1;
@@ -104,11 +107,19 @@ void popup_find_dialog(void)
   SDL_String16 *pStr;
   char cBuf[128]; 
   int i, n = 0, w = 0, h, owner = 0xffff, units_h = 0, orginal_x, orginal_y;
+  bool mouse = (Main.event.type == SDL_MOUSEBUTTONDOWN);
   
-  if (pFind_City_Dlg) {
-    return;
+  /* check that there are any cities to find */
+  h = 0;
+  i = 0;    
+  while(!h && i<game.nplayers) {
+    h = city_list_size(&game.players[i++].cities);
   }
   
+  if (pFind_City_Dlg && !h) {
+    return;
+  }
+     
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
   
   canvas_to_map_pos(&orginal_x, &orginal_y, Main.map->w/2, Main.map->h/2);
@@ -121,7 +132,7 @@ void popup_find_dialog(void)
   pWindow = create_window(NULL, pStr, 10, 10, WF_DRAW_THEME_TRANSPARENT);
     
   pWindow->action = find_city_window_dlg_callback;
-  set_wstate(pWindow , WS_NORMAL);
+  set_wstate(pWindow , FC_WS_NORMAL);
   w = MAX(w , pWindow->size.w);
   
   add_to_gui_list(ID_TERRAIN_ADV_DLG_WINDOW, pWindow);
@@ -137,24 +148,24 @@ void popup_find_dialog(void)
   
   w += pBuf->size.w + 10;
   pBuf->action = exit_find_city_dlg_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-  pBuf->data = (void *)MALLOC(sizeof(struct map_position));
-  ((struct map_position *)pBuf->data)->x = orginal_x;
-  ((struct map_position *)pBuf->data)->y = orginal_y;
+  pBuf->data.cont = MALLOC(sizeof(struct CONTAINER));
+  pBuf->data.cont->id0 = orginal_x;
+  pBuf->data.cont->id1 = orginal_y;
 
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
   
   for(i=0; i<game.nplayers; i++) {
-    city_list_iterate(game.players[i].cities, pCity)
+    city_list_iterate(game.players[i].cities, pCity) {
     
       my_snprintf(cBuf , sizeof(cBuf), "%s (%d)",pCity->name, pCity->size);
       
       pStr = create_str16_from_char(cBuf , 10);
       pStr->style |= TTF_STYLE_BOLD;
    
-      if(pCity->owner != owner ) {
+      if(pCity->owner != owner) {
         pLogo = GET_SURF(get_nation_by_idx(
 			get_player(pCity->owner)->nation)->flag_sprite);
         pLogo = make_flag_surface_smaler(pLogo);
@@ -169,10 +180,10 @@ void popup_find_dialog(void)
       pBuf->string16->render = 3;
       pBuf->string16->backcol.unused = 128;
     
-      pBuf->data = (void *)pCity;
+      pBuf->data.city = pCity;
   
       pBuf->action = find_city_callback;
-      set_wstate(pBuf , WS_NORMAL);
+      set_wstate(pBuf , FC_WS_NORMAL);
   
       add_to_gui_list(ID_LABEL , pBuf);
     
@@ -185,7 +196,7 @@ void popup_find_dialog(void)
       }
       
       n++;  
-    city_list_iterate_end;
+    } city_list_iterate_end;
   }
   pFind_City_Dlg->pBeginWidgetList = pBuf;
   pFind_City_Dlg->pBeginActiveWidgetList = pBuf;
@@ -214,9 +225,19 @@ void popup_find_dialog(void)
   w += DOUBLE_FRAME_WH;
   
   h = units_h;
-  
-  pWindow->size.x = 10;
-  pWindow->size.y = (pWindow->dst->h - h) / 2;
+
+  if(!mouse) {  
+    pWindow->size.x = 10;
+    pWindow->size.y = (pWindow->dst->h - h) / 2;
+  } else {
+    pWindow->size.x = ((Main.event.motion.x + w < pWindow->dst->w) ?
+                     (Main.event.motion.x + 10) : (pWindow->dst->w - w - 10));
+    pWindow->size.y = 
+      ((Main.event.motion.y - (WINDOW_TILE_HIGH + 2) + h < pWindow->dst->h) ?
+             (Main.event.motion.y - (WINDOW_TILE_HIGH + 2)) :
+             (pWindow->dst->h - h - 10));
+    
+  }
   
   resize_window(pWindow , NULL, NULL, w, h);
   

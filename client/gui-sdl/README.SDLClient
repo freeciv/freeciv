@@ -34,15 +34,17 @@ Default tileset for SDLClient is "Deluxe" tileset which can be found in
 ftp.freeciv.org/pub/freeciv/incoming ftp site.
 Please run client with -t deluxe option.
 
+Current Deluxe version is DELUXE2_fixed.tar.bz2
+
 Please link/copy/move unicode ttf font to game/data dir as "stdfont.ttf".
 
-If you don't have current cvs version of SDL then remove #define SDL_CVS line
-(36) from gui-sdl/mapview.c
+If you have current cvs version of SDL (or >= 1.2.6) then uncommnet
+#define SDL_CVS line (36) from gui-sdl/mapview.c
 
 If your CPU has MMX registers then goto gui-sdl/graphics.h line 31 and 
 define HAVE_MMX1 parm.
 
-If you report draw bug in SDLClient then please attach your 
+If you want report draw bug in SDLClient then please attach your 
 screen bits per pixel coding.
 
 In Game:
@@ -65,11 +67,11 @@ In Game:
     - <F2> - units report
     - <F5> - economy report
     - <F6> - science report
+    - <MMB> - advenced menu    
     - <Left Shift + LMB> - advenced menu
     - <left CTRL + LBM on city> - open prduction dialog.
     - <left ALT + LBM on city> - open buy production dialog
                                  (work only in fullscreen).
-    - <MMB> - advenced menu
     - if actice unit stay on city then <Enter> key enter the city.
     - <Tab> - options dlg.
     - in options dlg <q> key exit game.

@@ -86,7 +86,7 @@ void meswin_update_delay_off(void)
 static int msg_callback(struct GUI *pWidget)
 {
 
-  struct message *pMsg = (struct message *)pWidget->data;
+  struct message *pMsg = (struct message *)pWidget->data.ptr;
     
   pWidget->string16->forecol.r += 128;
   unsellect_widget_action();
@@ -178,10 +178,10 @@ void real_update_meswin_dialog(void)
       pBuf->string16->render = 3;
       
       pBuf->size.w = w;
-      pBuf->data = (void *)pMsg;	
+      pBuf->data.ptr = (void *)pMsg;	
       pBuf->action = msg_callback;
       if(pMsg->x != -1) {
-        set_wstate(pBuf, WS_NORMAL);
+        set_wstate(pBuf, FC_WS_NORMAL);
 	pBuf->string16->forecol = active_color;
       }
       
@@ -281,7 +281,7 @@ void popup_meswin_dialog(void)
   SDL_SetAlpha(pWindow->theme, 0x0 , 0x0);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   pWindow->action = move_msg_window_callback;
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   add_to_gui_list(ID_CHATLINE_WINDOW, pWindow);
   pMsg_Dlg->pEndWidgetList = pWindow;
   
@@ -301,10 +301,10 @@ void popup_meswin_dialog(void)
       pBuf->string16->render = 3;
       pBuf->size.x = start_x;
       pBuf->size.w = w;
-      pBuf->data = (void *)pMsg;	
+      pBuf->data.ptr = (void *)pMsg;	
       pBuf->action = msg_callback;
       if(pMsg->x != -1) {
-        set_wstate(pBuf, WS_NORMAL);
+        set_wstate(pBuf, FC_WS_NORMAL);
 	pBuf->string16->forecol = active_color;
       }
       

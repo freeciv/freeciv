@@ -65,18 +65,6 @@
 
 static SDL_Surface *pNone_Tech_Icon;
 
-/* ============================================================= */
-
-#if 0
-/**************************************************************************
-  ...
-**************************************************************************/
-void report_update_delay_set(bool delay)
-{
-  freelog(LOG_DEBUG, "report_update_delay_set");
-}
-#endif
-
 /**************************************************************************
   ...
 **************************************************************************/
@@ -196,7 +184,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
     return 1;
   }
   
-  set_wstate(pWidget, WS_NORMAL);
+  set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   redraw_label(pWidget);
   sdl_dirty_rect(pWidget->size);
@@ -220,7 +208,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
   pWindow = create_window(pDest, pStr, 100, 100, 0);
 
   pWindow->action = upgrade_unit_window_callback;
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
 
   pUnits_Upg_Dlg->pEndWidgetList = pWindow;
 
@@ -247,7 +235,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
 
   clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_upgrade_unit_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   hh += (pBuf->size.h + 20);
   
@@ -259,7 +247,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
         
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     pBuf->action = ok_upgrade_unit_window_callback;
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
         
     add_to_gui_list(pWidget->ID, pBuf);
     pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
@@ -393,7 +381,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pWindow = create_window(NULL, pStr, 40, 30, 0);
   pUnitsDlg->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = units_dialog_callback;
   
   add_to_gui_list(ID_UNITS_DIALOG_WINDOW, pWindow);
@@ -408,7 +396,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
   
   pBuf->action = exit_units_dlg_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_BUTTON, pBuf);
@@ -482,7 +470,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       if(upgrade) {
 	pBuf->string16->forecol = sellect;
 	pBuf->action = popup_upgrade_unit_callback;
-	set_wstate(pBuf, WS_NORMAL);
+	set_wstate(pBuf, FC_WS_NORMAL);
       } else {
         pBuf->string16->forecol = color;
       }
@@ -858,7 +846,7 @@ UPD:	  upgrade = (can_upgrade_unittype(game.player_ptr, i) != -1);
 	  if(upgrade) {
 	    pBuf->string16->forecol = sellect;
 	    pBuf->action = popup_upgrade_unit_callback;
-	    set_wstate(pBuf, WS_NORMAL);
+	    set_wstate(pBuf, FC_WS_NORMAL);
           }
 	
 	  my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].active_count);
@@ -1021,7 +1009,7 @@ static int exit_economy_dialog_callback(struct GUI *pWidget)
 					    pEconomyDlg->pEndWidgetList);
     FREE(pEconomyDlg->pScroll);
     FREE(pEconomyDlg);
-    set_wstate(get_tax_rates_widget(), WS_NORMAL);
+    set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
     redraw_icon2(get_tax_rates_widget());
     sdl_dirty_rect(get_tax_rates_widget()->size);
     flush_dirty();
@@ -1069,9 +1057,9 @@ static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
     if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
       goto END;
     }
-    src_rate = (int *)pHoriz_Src->data;
+    src_rate = (int *)pHoriz_Src->data.ptr;
     pHoriz_Dst = pHoriz_Src->prev->prev->prev;	/* sci */
-    dst_rate = (int *)pHoriz_Dst->data;
+    dst_rate = (int *)pHoriz_Dst->data.ptr;
     inc = *dst_rate;
     tax = 100 - *src_rate - inc;
     if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
@@ -1089,9 +1077,9 @@ static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
     if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
       goto END;
     }
-    src_rate = (int *)pHoriz_Src->data;
+    src_rate = (int *)pHoriz_Src->data.ptr;
     pHoriz_Dst = pHoriz_Src->next->next->next;	/* lux */
-    dst_rate = (int *)pHoriz_Dst->data;
+    dst_rate = (int *)pHoriz_Dst->data.ptr;
     inc = *dst_rate;
     tax = 100 - *src_rate - inc;
     if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
@@ -1231,7 +1219,7 @@ static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
 END:
   unsellect_widget_action();
   pSellected_Widget = pHoriz_Src;
-  set_wstate(pHoriz_Src, WS_SELLECTED);
+  set_wstate(pHoriz_Src, FC_WS_SELLECTED);
   redraw_horiz(pHoriz_Src);
   flush_rect(pHoriz_Src->size);
 
@@ -1252,11 +1240,11 @@ static int apply_taxrates_callback(struct GUI *pButton)
 
   /* Science Scrollbar */
   pBuf = pButton->next->next;
-  packet.science = *(int *)pBuf->data;
+  packet.science = *(int *)pBuf->data.ptr;
     
   /* Luxuries Scrollbar */
   pBuf = pBuf->next->next->next;
-  packet.luxury = *(int *)pBuf->data;
+  packet.luxury = *(int *)pBuf->data.ptr;
   
   /* Tax */
   packet.tax = 100 - packet.luxury - packet.science;
@@ -1277,34 +1265,34 @@ static void enable_economy_dlg(void)
 {
   /* lux lock */
   struct GUI *pBuf = pEconomyDlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   
   /* lux scrollbar */
   pBuf = pBuf->prev;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   
   /* sci lock */
   pBuf = pBuf->prev->prev;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   
   /* sci scrollbar */
   pBuf = pBuf->prev;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   
   /* update button */
   pBuf = pBuf->prev->prev;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   
   /* cancel button */
   pBuf = pBuf->prev;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   
   set_group_state(pEconomyDlg->pBeginActiveWidgetList,
-			pEconomyDlg->pEndActiveWidgetList, WS_NORMAL);
+			pEconomyDlg->pEndActiveWidgetList, FC_WS_NORMAL);
   if(pEconomyDlg->pScroll && pEconomyDlg->pActiveWidgetList) {
-    set_wstate(pEconomyDlg->pScroll->pUp_Left_Button, WS_NORMAL);
-    set_wstate(pEconomyDlg->pScroll->pDown_Right_Button, WS_NORMAL);
-    set_wstate(pEconomyDlg->pScroll->pScrollBar, WS_NORMAL);
+    set_wstate(pEconomyDlg->pScroll->pUp_Left_Button, FC_WS_NORMAL);
+    set_wstate(pEconomyDlg->pScroll->pDown_Right_Button, FC_WS_NORMAL);
+    set_wstate(pEconomyDlg->pScroll->pScrollBar, FC_WS_NORMAL);
   }
 }
 
@@ -1312,34 +1300,34 @@ static void disable_economy_dlg(void)
 {
   /* lux lock */
   struct GUI *pBuf = pEconomyDlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  set_wstate(pBuf, WS_DISABLED);
+  set_wstate(pBuf, FC_WS_DISABLED);
   
   /* lux scrollbar */
   pBuf = pBuf->prev;
-  set_wstate(pBuf, WS_DISABLED);
+  set_wstate(pBuf, FC_WS_DISABLED);
   
   /* sci lock */
   pBuf = pBuf->prev->prev;
-  set_wstate(pBuf, WS_DISABLED);
+  set_wstate(pBuf, FC_WS_DISABLED);
   
   /* sci scrollbar */
   pBuf = pBuf->prev;
-  set_wstate(pBuf, WS_DISABLED);
+  set_wstate(pBuf, FC_WS_DISABLED);
   
   /* update button */
   pBuf = pBuf->prev->prev;
-  set_wstate(pBuf, WS_DISABLED);
+  set_wstate(pBuf, FC_WS_DISABLED);
   
   /* cancel button */
   pBuf = pBuf->prev;
-  set_wstate(pBuf, WS_DISABLED);
+  set_wstate(pBuf, FC_WS_DISABLED);
   
   set_group_state(pEconomyDlg->pBeginActiveWidgetList,
-			pEconomyDlg->pEndActiveWidgetList, WS_DISABLED);
+			pEconomyDlg->pEndActiveWidgetList, FC_WS_DISABLED);
   if(pEconomyDlg->pScroll && pEconomyDlg->pActiveWidgetList) {
-    set_wstate(pEconomyDlg->pScroll->pUp_Left_Button, WS_DISABLED);
-    set_wstate(pEconomyDlg->pScroll->pDown_Right_Button, WS_DISABLED);
-    set_wstate(pEconomyDlg->pScroll->pScrollBar, WS_DISABLED);
+    set_wstate(pEconomyDlg->pScroll->pUp_Left_Button, FC_WS_DISABLED);
+    set_wstate(pEconomyDlg->pScroll->pDown_Right_Button, FC_WS_DISABLED);
+    set_wstate(pEconomyDlg->pScroll->pScrollBar, FC_WS_DISABLED);
   }
   
 }
@@ -1349,10 +1337,10 @@ static int ok_sell_impv_callback(struct GUI *pWidget)
 {
   int imp, total_count, count = 0;
   struct packet_city_request packet;
-  struct GUI *pImpr = (struct GUI *)pWidget->data;
+  struct GUI *pImpr = (struct GUI *)pWidget->data.ptr;
     
-  imp = ((struct map_position *)pImpr->data)->x;
-  total_count = ((struct map_position *)pImpr->data)->y;
+  imp = pImpr->data.cont->id0;
+  total_count = pImpr->data.cont->id1;
   
   /* popdown sell dlg */
   del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
@@ -1415,15 +1403,15 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
     return 1;
   }
   
-  set_wstate(pWidget, WS_NORMAL);
+  set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   redraw_icon2(pWidget);
   sdl_dirty_rect(pWidget->size);
   
   pEconomy_Sell_Dlg = MALLOC(sizeof(struct SMALL_DLG));
 
-  imp = ((struct map_position *)pWidget->data)->x;
-  total_count = ((struct map_position *)pWidget->data)->y;
+  imp = pWidget->data.cont->id0;
+  total_count = pWidget->data.cont->id1;
   value = improvement_value(imp);
   
   city_list_iterate(game.player_ptr->cities, pCity) {
@@ -1452,7 +1440,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
   pWindow = create_window(pDest, pStr, 100, 100, 0);
 
   pWindow->action = sell_impv_window_callback;
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
 
   pEconomy_Sell_Dlg->pEndWidgetList = pWindow;
 
@@ -1479,7 +1467,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
 
   clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_sell_impv_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   hh += (pBuf->size.h + 20);
   
@@ -1491,8 +1479,8 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
         
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     pBuf->action = ok_sell_impv_callback;
-    set_wstate(pBuf, WS_NORMAL);
-    pBuf->data = (void *)pWidget;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    pBuf->data.ptr = (void *)pWidget;
     
     add_to_gui_list(ID_BUTTON, pBuf);
     pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
@@ -1619,7 +1607,7 @@ void popdown_economy_report_dialog(void)
 					    pEconomyDlg->pEndWidgetList);
     FREE(pEconomyDlg->pScroll);
     FREE(pEconomyDlg);
-    set_wstate(get_tax_rates_widget(), WS_NORMAL);
+    set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
     redraw_icon2(get_tax_rates_widget());
     sdl_dirty_rect(get_tax_rates_widget()->size);
   }
@@ -1647,7 +1635,7 @@ void popup_economy_report_dialog(bool make_modal)
     return;
   }
   
-  set_wstate(pBuf, WS_DISABLED);
+  set_wstate(pBuf, FC_WS_DISABLED);
   redraw_icon2(pBuf);
   sdl_dirty_rect(pBuf->size);
   
@@ -1663,7 +1651,7 @@ void popup_economy_report_dialog(bool make_modal)
   pEconomyDlg->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
   h = WINDOW_TILE_HIGH + 1 + FRAME_WH;
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = economy_dialog_callback;
   
   add_to_gui_list(ID_ECONOMY_DIALOG_WINDOW, pWindow);
@@ -1749,7 +1737,7 @@ void popup_economy_report_dialog(bool make_modal)
     
   pBuf->string16 = pStr;
   pBuf->action = toggle_block_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX, pBuf);
   
@@ -1758,10 +1746,10 @@ void popup_economy_report_dialog(bool make_modal)
 			(WF_FREE_DATA | WF_DRAW_THEME_TRANSPARENT));
 
   pBuf->action = horiz_taxrate_callback;
-  pBuf->data = MALLOC(sizeof(int));
-  *(int *)pBuf->data = game.player_ptr->economic.luxury;
+  pBuf->data.ptr = MALLOC(sizeof(int));
+  *(int *)pBuf->data.ptr = game.player_ptr->economic.luxury;
   
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR, pBuf);
   /* ---- */
@@ -1792,7 +1780,7 @@ void popup_economy_report_dialog(bool make_modal)
     
   pBuf->string16 = pStr;
   pBuf->action = toggle_block_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX, pBuf);
   /* ---- */
@@ -1801,10 +1789,10 @@ void popup_economy_report_dialog(bool make_modal)
 				(WF_FREE_DATA | WF_DRAW_THEME_TRANSPARENT));
 
   pBuf->action = horiz_taxrate_callback;
-  pBuf->data = MALLOC(sizeof(int));
-  *(int *)pBuf->data = game.player_ptr->economic.science;
+  pBuf->data.ptr = MALLOC(sizeof(int));
+  *(int *)pBuf->data.ptr = game.player_ptr->economic.science;
   
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR, pBuf);
   /* ---- */
@@ -1833,7 +1821,7 @@ void popup_economy_report_dialog(bool make_modal)
 
   pBuf->action = apply_taxrates_callback;
   clear_wflag(pBuf , WF_DRAW_FRAME_AROUND_WIDGET);
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_OK_BUTTON, pBuf);
   
@@ -1851,7 +1839,7 @@ void popup_economy_report_dialog(bool make_modal)
 
   clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = exit_economy_dialog_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_CANCEL_BUTTON, pBuf);
@@ -1895,8 +1883,7 @@ void popup_economy_report_dialog(bool make_modal)
 	  if(ptr) {
 	    *ptr = 10;/* "\n" */
 	    FREESURFACE(pText_Name); 
-            FREE(pStr->text);
-            pStr->text = convert_to_utf16(cBuf);
+	    convertcopy_to_utf16(pStr->text, cBuf);
             pText_Name = create_text_surf_from_str16(pStr);
 	  } else {
 	    if(pStr->ptsize > 8) {
@@ -1970,11 +1957,11 @@ void popup_economy_report_dialog(bool make_modal)
       pBuf = create_icon2(pSurf, pWindow->dst,
     		(WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME|WF_FREE_DATA));
       
-      set_wstate(pBuf, WS_NORMAL);
+      set_wstate(pBuf, FC_WS_NORMAL);
       
-      pBuf->data = MALLOC(sizeof(struct map_position));
-      ((struct map_position *)pBuf->data)->x = p->type;
-      ((struct map_position *)pBuf->data)->y = p->count;
+      pBuf->data.cont = MALLOC(sizeof(struct CONTAINER));
+      pBuf->data.cont->id0 = p->type;
+      pBuf->data.cont->id1 = p->count;
       pBuf->action = popup_sell_impv_callback;
       
       add_to_gui_list(MAX_ID - i, pBuf);
@@ -2298,13 +2285,12 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
     my_snprintf(cBuf, sizeof(cBuf), advances[tech_id].name);
     do {
       FREESURFACE(pText);
-      FREE(pStr->text);
       ptr = strchr(cBuf, 32);/* " " == 32 */
       assert(ptr != NULL);
       *ptr = 10;/* "\n" */
-      pStr->text = convert_to_utf16(cBuf);
+      convertcopy_to_utf16(pStr->text, cBuf);
       pText = create_text_surf_from_str16(pStr);
-    } while (pText->w > pSurf->w - 2);
+    } while (pText->w > pSurf->w - 4);
   }
   
   FREE(pStr->text);
@@ -2410,7 +2396,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
 static void enable_science_dialog(void)
 {
   set_group_state(pScienceDlg->pBeginWidgetList,
-		     pScienceDlg->pEndWidgetList->prev, WS_NORMAL);
+		     pScienceDlg->pEndWidgetList->prev, FC_WS_NORMAL);
 }
 
 /**************************************************************************
@@ -2419,7 +2405,7 @@ static void enable_science_dialog(void)
 static void disable_science_dialog(void)
 {
   set_group_state(pScienceDlg->pBeginWidgetList,
-		     pScienceDlg->pEndWidgetList->prev, WS_DISABLED);
+		     pScienceDlg->pEndWidgetList->prev, FC_WS_DISABLED);
 }
 
 /**************************************************************************
@@ -2666,7 +2652,7 @@ static int popdown_science_dialog(struct GUI *pButton)
     popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
 				  pScienceDlg->pEndWidgetList);
     FREE(pScienceDlg);
-    set_wstate(get_research_widget(), WS_NORMAL);
+    set_wstate(get_research_widget(), FC_WS_NORMAL);
     redraw_icon2(get_research_widget());
     sdl_dirty_rect(get_research_widget()->size);
     flush_dirty();
@@ -2742,7 +2728,7 @@ static int change_research(struct GUI *pWidget)
   pWindow = create_window(pWidget->dst, pStr, 40, 30, 0);
   pChangeTechDlg->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = change_research_goal_dialog_callback;
   
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_WINDOW, pWindow);
@@ -2757,7 +2743,7 @@ static int change_research(struct GUI *pWidget)
   
   w += pBuf->size.w + 10;
   pBuf->action = exit_change_research_callback;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
@@ -2776,7 +2762,7 @@ static int change_research(struct GUI *pWidget)
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
 
-      set_wstate(pBuf, WS_NORMAL);
+      set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_research_callback;
 
       add_to_gui_list(MAX_ID - i, pBuf);
@@ -2827,7 +2813,7 @@ static int change_research(struct GUI *pWidget)
   pWindow->size.y = (Main.screen->h - h) / 2;
 
   /* redraw change button before window take background buffer */
-  set_wstate(pWidget, WS_NORMAL);
+  set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   redraw_icon2(pWidget);
   
@@ -2938,7 +2924,7 @@ static int change_research_goal(struct GUI *pWidget)
   pWindow = create_window(pWidget->dst, pStr, 40, 30, 0);
   pChangeTechDlg->pEndWidgetList = pWindow;
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = change_research_goal_dialog_callback;
   w = MAX(w, pWindow->size.w);
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_WINDOW, pWindow);
@@ -2956,7 +2942,7 @@ static int change_research_goal(struct GUI *pWidget)
   
   w += pBuf->size.w + 10;
   pBuf->action = popdown_change_goal;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_CANCEL_BUTTON, pBuf);
@@ -2984,7 +2970,7 @@ static int change_research_goal(struct GUI *pWidget)
       h += pBuf->size.h;
       w = MAX(w, pBuf->size.w);
       
-      set_wstate(pBuf, WS_NORMAL);
+      set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_research_goal_callback;
 
       add_to_gui_list(MAX_ID - i, pBuf);
@@ -3114,7 +3100,7 @@ void popup_science_dialog(bool make_modal)
     return;
   }
 
-  set_wstate(pBuf, WS_DISABLED);
+  set_wstate(pBuf, FC_WS_DISABLED);
   redraw_icon2(pBuf);
   sdl_dirty_rect(pBuf->size);
   
@@ -3132,7 +3118,7 @@ void popup_science_dialog(bool make_modal)
   pWindow->size.y = (Main.screen->h - 225) / 2;
   pWindow->size.w = 400;
   pWindow->size.h = 225;
-  set_wstate(pWindow, WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   
   pLogo = get_logo_gfx();
   pWindow->theme = ResizeSurface(pLogo, pWindow->size.w, pWindow->size.h, 1);
@@ -3148,7 +3134,7 @@ void popup_science_dialog(bool make_modal)
 		      pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
 
   pBuf->action = change_research;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   pBuf->size.x = pWindow->size.x + 16;
   pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 60;
@@ -3168,7 +3154,7 @@ void popup_science_dialog(bool make_modal)
   }
   
   pBuf->action = change_research_goal;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
 
   pBuf->size.x = pWindow->size.x + 16;
   pBuf->size.y =
@@ -3186,7 +3172,7 @@ void popup_science_dialog(bool make_modal)
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
   
   pBuf->action = popdown_science_dialog;
-  set_wstate(pBuf, WS_NORMAL);
+  set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_SCIENCE_CANCEL_DLG_BUTTON, pBuf);
@@ -3218,7 +3204,7 @@ void popdown_all_science_dialogs(void)
     popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
 				  pScienceDlg->pEndWidgetList);
     FREE(pScienceDlg);
-    set_wstate(get_research_widget(), WS_NORMAL);
+    set_wstate(get_research_widget(), FC_WS_NORMAL);
     redraw_icon2(get_research_widget());
     sdl_dirty_rect(get_research_widget()->size);
   }  

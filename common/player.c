@@ -180,6 +180,10 @@ struct player *find_player_by_name(const char *name)
 static const char *pname_accessor(int i) {
   return game.players[i].name;
 }
+
+/***************************************************************
+Find player by its name prefix
+***************************************************************/
 struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result)
 {

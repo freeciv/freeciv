@@ -49,17 +49,17 @@ enum WFlags {
   WF_ICON_CENTER_RIGHT			= (1<<18),	/* 262144 */
   WF_WIDGET_HAS_INFO_LABEL		= (1<<19),	/* 524288 */
   WF_DRAW_FRAME_AROUND_WIDGET	 	= (1<<20),	/* 1048576 */
-  WF_DRAW_TEXT_LABEL_WITH_SPACE	= (1<<21),	/* 2097152 */
+  WF_DRAW_TEXT_LABEL_WITH_SPACE		= (1<<21),	/* 2097152 */
   WF_FREE_DATA				= (1<<22),	/* 4194304 */
   WF_SELLECT_WITHOUT_BAR		= (1<<23)	/* 8388608 */
 };
 
 /* Widget states */
 enum WState {
-  WS_NORMAL	= 0,
-  WS_SELLECTED	= 1,
-  WS_PRESSED	= 2,
-  WS_DISABLED	= 3
+  FC_WS_NORMAL	= 0,
+  FC_WS_SELLECTED	= 1,
+  FC_WS_PRESSED	= 2,
+  FC_WS_DISABLED	= 3
 };
 
 /* Widget Types */
@@ -86,6 +86,34 @@ enum WTypes {			/* allow 64 widgets type */
   WT_T2_LABEL	= 60
 };
 
+struct city;
+struct unit;
+struct player;
+  
+struct CONTAINER {
+  int id0;
+  int id1;
+  int value;
+};
+
+struct ScrollBar {
+  struct GUI *pUp_Left_Button;
+  struct GUI *pScrollBar;
+  struct GUI *pDown_Right_Button;  
+  Uint8 active;		/* used by scroll: numbers of displayed rows */
+  Uint8 step;		/* used by scroll: numbers of displayed columns */
+  /* total dispalyed widget = active * step */
+  Uint16 count;		/* total size of scroll list */
+  Sint16 min;		/* used by scroll: min pixel position */
+  Sint16 max;		/* used by scroll: max pixel position */
+};
+
+struct CHECKBOX {
+  SDL_Surface *pTRUE_Theme;
+  SDL_Surface *pFALSE_Theme;
+  bool state;
+};
+
 struct GUI {
   struct GUI *next;
   struct GUI *prev;
@@ -95,7 +123,15 @@ struct GUI {
   SDL_Surface *gfx;		/* Icon, background or theme2 */
   SDL_String16 *string16;
   
-  void *data;			/* data/information/transport pointer */
+  /* data/information/transport pointers */
+  union {
+    struct CONTAINER *cont;
+    struct CHECKBOX *cbox;
+    struct city *city;
+    struct unit *unit;
+    struct player *player;
+    void *ptr;
+  } data;
   
   Uint32 state_types_flags;	/* "packed" widget info */
 
@@ -106,29 +142,17 @@ struct GUI {
   Uint16 ID;			/* ID in widget list */
 };
 
-struct ScrollBar {
-  struct GUI *pUp_Left_Button;
-  struct GUI *pScrollBar;
-  struct GUI *pDown_Right_Button;  
-  Uint8 active;		/* used by scroll: active(sean)
-				   size of scroll list */
-  Uint8 step;			/* used by scroll: numbers of columns */
-  Uint16 count;		/* total size of scroll list */
-  Sint16 min;			/* used by scroll: min position */
-  Sint16 max;			/* used by scroll: max position */
-};
-
 #define scrollbar_size(pScroll) 					\
   fc__extension((float)((float)(pScroll->active * pScroll->step) /	\
 		(float)pScroll->count) * (pScroll->max - pScroll->min))
 
-/* Struct to basic window group dialog ( without scrollbar ) */
+/* Struct of basic window group dialog ( without scrollbar ) */
 struct SMALL_DLG {
   struct GUI *pBeginWidgetList;
   struct GUI *pEndWidgetList;	/* window */
 };
 
-/* Struct to advenced window group dialog ( with scrollbar ) */
+/* Struct of advenced window group dialog ( with scrollbar ) */
 struct ADVANCED_DLG {
   struct GUI *pBeginWidgetList;
   struct GUI *pEndWidgetList;/* window */
@@ -137,12 +161,6 @@ struct ADVANCED_DLG {
   struct GUI *pEndActiveWidgetList;
   struct GUI *pActiveWidgetList; /* first seen widget */
   struct ScrollBar *pScroll;
-};
-
-struct CHECKBOX {
-  SDL_Surface *pTRUE_Theme;
-  SDL_Surface *pFALSE_Theme;
-  bool state;
 };
 
 SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, SDL_bool transp,
@@ -246,7 +264,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 				      struct GUI *pAdd_Dock, bool dir,
 					Sint16 start_x, Sint16 start_y);
 				      
-void del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
+bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
   						struct GUI *pWidget);
 				      
 /* Horizontal scrolling */
@@ -390,21 +408,21 @@ do {								\
   clear_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
 } while(0)
 
-#define FREEWIDGET(pGUI)			\
-do {						\
-  if (get_wflags(pGUI) & WF_FREE_STRING) {	\
-    FREESTRING16(pGUI->string16);		\
-  }						\
-  if (get_wflags(pGUI) & WF_FREE_GFX) {		\
-    FREESURFACE(pGUI->gfx);			\
-  }						\
-  if (get_wflags(pGUI) & WF_FREE_THEME) {	\
-    FREESURFACE(pGUI->theme);			\
-  }						\
-  if (get_wflags(pGUI) & WF_FREE_DATA) {		\
-    FREE(pGUI->data);				\
-  }						\
-  FREE(pGUI);					\
+#define FREEWIDGET(pGUI)					\
+do {								\
+  if ((get_wflags(pGUI) & WF_FREE_STRING) == WF_FREE_STRING) {	\
+    FREESTRING16(pGUI->string16);				\
+  }								\
+  if ((get_wflags(pGUI) & WF_FREE_GFX) == WF_FREE_GFX) {		\
+    FREESURFACE(pGUI->gfx);					\
+  }								\
+  if ((get_wflags(pGUI) & WF_FREE_THEME) == WF_FREE_THEME) {	\
+    FREESURFACE(pGUI->theme);					\
+  }								\
+  if ((get_wflags(pGUI) & WF_FREE_DATA) == WF_FREE_DATA) {	\
+    FREE(pGUI->data.ptr);					\
+  }								\
+  FREE(pGUI);							\
 } while(0)
 
 #define redraw_ID(ID) \
@@ -440,11 +458,11 @@ do {									\
 
 #define enable_group(pBeginGroupWidgetList, pEndGroupWidgetList)	\
 	set_group_state(pBeginGroupWidgetList, 				\
-			pEndGroupWidgetList, WS_NORMAL)
+			pEndGroupWidgetList, FC_WS_NORMAL)
 
 #define disable_group(pBeginGroupWidgetList, pEndGroupWidgetList)	\
 	set_group_state(pBeginGroupWidgetList,	pEndGroupWidgetList,	\
-			WS_DISABLED)
+			FC_WS_DISABLED)
 
 #define set_action(ID, action_callback)	\
 	get_widget_pointer_form_main_list(ID)->action = action_callback
@@ -458,13 +476,13 @@ do {									\
 #define enable(ID)						\
 do {								\
   struct GUI *____pGUI = get_widget_pointer_form_main_list(ID);	\
-  set_wstate(____pGUI, WS_NORMAL);				\
+  set_wstate(____pGUI, FC_WS_NORMAL);				\
 } while(0)
 
 #define disable(ID)						\
 do {								\
   struct GUI *____pGUI = get_widget_pointer_form_main_list(ID);	\
-  set_wstate(____pGUI , WS_DISABLED);				\
+  set_wstate(____pGUI , FC_WS_DISABLED);				\
 } while(0)
 
 #define show(ID)	\

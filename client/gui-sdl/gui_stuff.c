@@ -188,9 +188,9 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   SDL_Rect src, des;
   SDL_Surface *pBackground = NULL;
 
-  int iStart_y = (pTheme->h / 4) * state;	/*(pTheme->h/4)*state */
+  int iStart_y = (pTheme->h / 4) * state;
 
-  iTile_width_len_end = pTheme->w / 16;	/* pTheme->w/16 */
+  iTile_width_len_end = pTheme->w / 16;
   iTile_width_len_mid = pTheme->w - (iTile_width_len_end * 2);
 
   iTile_count_len_mid =
@@ -202,7 +202,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
     iTile_count_len_mid++;
   }
 
-  iTile_width_high_end = pTheme->h / 16;	/* pTheme->h/16 */
+  iTile_width_high_end = pTheme->h / 16;
   iTile_width_high_mid = (pTheme->h / 4) - (iTile_width_high_end * 2);
   iTile_count_high_mid =
       (High - (iTile_width_high_end * 2)) / iTile_width_high_mid;
@@ -323,8 +323,8 @@ struct GUI * WidgetListScaner(const struct GUI *pGUI_List,
 	(pPosition->x <= pGUI_List->size.x + pGUI_List->size.w) &&
 	(pPosition->y >= pGUI_List->size.y) &&
 	(pPosition->y <= pGUI_List->size.y + pGUI_List->size.h)) {
-      if (!((get_wstate(pGUI_List) == WS_DISABLED) ||
-	    (get_wflags(pGUI_List) & WF_HIDDEN))) {
+      if (!((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
+	    ((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN))) {
 	return (struct GUI *) pGUI_List;
       }
     }
@@ -345,8 +345,8 @@ struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List, SDL_keysym Key)
   while (pGUI_List) {
     if ((pGUI_List->key == Key.sym) &&
 	((pGUI_List->mod & Key.mod) || (pGUI_List->mod == Key.mod))) {
-      if (!((get_wstate(pGUI_List) == WS_DISABLED) ||
-	    (get_wflags(pGUI_List) & WF_HIDDEN))) {
+      if (!((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
+	    ((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN))) {
 	return (struct GUI *) pGUI_List;
       }
     }
@@ -409,12 +409,12 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   
   switch (get_wtype(pWidget)) {
   case WT_TI_BUTTON:
-    set_wstate(pWidget, WS_PRESSED);
+    set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_tibutton(pWidget);
     sdl_dirty_rect(pWidget->size);
     flush_dirty();
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
@@ -423,12 +423,12 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     }
     break;
   case WT_I_BUTTON:
-    set_wstate(pWidget, WS_PRESSED);
+    set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_ibutton(pWidget);
     sdl_dirty_rect(pWidget->size);
     flush_dirty();
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
@@ -437,12 +437,12 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     }
     break;
   case WT_ICON:
-    set_wstate(pWidget, WS_PRESSED);
+    set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_icon(pWidget);
     sdl_dirty_rect(pWidget->size);
     flush_dirty();
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
@@ -451,12 +451,12 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     }
     break;
   case WT_ICON2:
-    set_wstate(pWidget, WS_PRESSED);
+    set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_icon2(pWidget);
     sdl_dirty_rect(pWidget->size);
     flush_dirty();
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
@@ -477,7 +477,7 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     ID = 0;
     break;
   case WT_VSCROLLBAR:
-    set_wstate(pWidget, WS_PRESSED);
+    set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     redraw_vert(pWidget);
     sdl_dirty_rect(pWidget->size);
@@ -489,7 +489,7 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     }
     break;
   case WT_HSCROLLBAR:
-    set_wstate(pWidget, WS_PRESSED);
+    set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     redraw_horiz(pWidget);
     flush_rect(pWidget->size);
@@ -500,12 +500,12 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     }
     break;
   case WT_CHECKBOX:
-    set_wstate(pWidget, WS_PRESSED);
+    set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_icon(pWidget);
     sdl_dirty_rect(pWidget->size);
     flush_dirty();
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     togle_checkbox(pWidget);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -515,11 +515,11 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     }
     break;
   case WT_TCHECKBOX:
-    set_wstate(pWidget, WS_PRESSED);
+    set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     redraw_textcheckbox(pWidget);
     flush_rect(pWidget->size);
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     togle_checkbox(pWidget);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -547,11 +547,11 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
 void unsellect_widget_action(void)
 {
   if (pSellected_Widget) {
-    if (get_wstate(pSellected_Widget) == WS_DISABLED) {
+    if (get_wstate(pSellected_Widget) == FC_WS_DISABLED) {
       goto End;
     }
 
-    set_wstate(pSellected_Widget, WS_NORMAL);
+    set_wstate(pSellected_Widget, FC_WS_NORMAL);
 
     if (get_wflags(pSellected_Widget) & WF_HIDDEN) {
       goto End;
@@ -620,44 +620,44 @@ void widget_sellected_action(struct GUI *pWidget)
 
   switch (get_wtype(pWidget)) {
   case WT_TI_BUTTON:
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     real_redraw_tibutton(pWidget);
     break;
   case WT_I_BUTTON:
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     real_redraw_ibutton(pWidget);
     break;
   case WT_ICON:
   case WT_CHECKBOX:
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     real_redraw_icon(pWidget);
     break;
   case WT_ICON2:
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     real_redraw_icon2(pWidget);
     break;
   case WT_TCHECKBOX:
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     redraw_textcheckbox(pWidget);
     break;
   case WT_I_LABEL:
   case WT_T2_LABEL:  
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     redraw_label(pWidget);
     break;
   case WT_VSCROLLBAR:
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     redraw_vert(pWidget);
     break;
   case WT_HSCROLLBAR:
-    set_wstate(pWidget, WS_SELLECTED);
+    set_wstate(pWidget, FC_WS_SELLECTED);
     redraw_horiz(pWidget);
     break;
   default:
     break;
   }
 
-  if (get_wstate(pWidget) == WS_SELLECTED) {
+  if (get_wstate(pWidget) == FC_WS_SELLECTED) {
     flush_rect(pWidget->size);
     pSellected_Widget = pWidget;
     if (get_wflags(pWidget) & WF_WIDGET_HAS_INFO_LABEL) {
@@ -797,10 +797,10 @@ void init_gui_list(Uint16 ID, struct GUI *pGUI)
 **************************************************************************/
 void add_to_gui_list(Uint16 ID, struct GUI *pGUI)
 {
+  pGUI->next = pBeginMainWidgetList;
+  pGUI->ID = ID;
   pBeginMainWidgetList->prev = pGUI;
-  pBeginMainWidgetList->prev->next = pBeginMainWidgetList;
-  pBeginMainWidgetList->prev->ID = ID;
-  pBeginMainWidgetList = pBeginMainWidgetList->prev;
+  pBeginMainWidgetList = pGUI;
 }
 
 /**************************************************************************
@@ -917,7 +917,7 @@ Uint16 redraw_group(const struct GUI *pBeginGroupWidgetList,
 
   while (pTmpWidget) {
 
-    if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
+    if ((get_wflags(pTmpWidget) & WF_HIDDEN) != WF_HIDDEN) {
 
       if (!(pTmpWidget->gfx) &&
 	  (get_wflags(pTmpWidget) & WF_DRAW_THEME_TRANSPARENT)) {
@@ -1864,7 +1864,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   Don't free pDlg and pDlg->pScroll (if exist)
   It is full secure to multi widget list.
 **************************************************************************/
-void del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
+bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
   						struct GUI *pWidget)
 {
   int count = 0;
@@ -1875,9 +1875,6 @@ void del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   /* if begin == end -> size = 1 */
   if (pDlg->pBeginActiveWidgetList ==
       pDlg->pEndActiveWidgetList) {
-    pDlg->pBeginActiveWidgetList = NULL;
-    pDlg->pActiveWidgetList = NULL;
-    pDlg->pEndActiveWidgetList = NULL;
     if(pDlg->pScroll) {
       pDlg->pScroll->count = 0;
       if(!pDlg->pScroll->pUp_Left_Button && 
@@ -1886,6 +1883,15 @@ void del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
         pDlg->pBeginWidgetList = NULL;
         pDlg->pEndWidgetList = NULL;
       }
+      if(pDlg->pBeginActiveWidgetList == pDlg->pBeginWidgetList) {
+	pDlg->pBeginWidgetList = pDlg->pBeginWidgetList->next;
+      }
+      if(pDlg->pEndActiveWidgetList == pDlg->pEndWidgetList) {
+	pDlg->pEndWidgetList = pDlg->pEndWidgetList->prev;
+      }
+      pDlg->pBeginActiveWidgetList = NULL;
+      pDlg->pActiveWidgetList = NULL;
+      pDlg->pEndActiveWidgetList = NULL;
     } else {
       pDlg->pBeginWidgetList = NULL;
       pDlg->pEndWidgetList = NULL;
@@ -1893,7 +1899,7 @@ void del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
     SDL_BlitSurface(pWidget->gfx, NULL, pWidget->dst, &pWidget->size);
     sdl_dirty_rect(pWidget->size);
     del_widget_from_gui_list(pWidget);
-    return;
+    return FALSE;
   }
     
   if (pDlg->pScroll && pDlg->pActiveWidgetList) {
@@ -1960,6 +1966,7 @@ STD:  while (pBuf != pWidget) {
     if(pDlg->pActiveWidgetList) {
       pDlg->pScroll->pScrollBar->size.h = scrollbar_size(pDlg->pScroll);
     }
+    
   } else { /* no scrollbar */
     pBuf = pDlg->pBeginActiveWidgetList;
     
@@ -2015,6 +2022,7 @@ STD:  while (pBuf != pWidget) {
     pDlg->pScroll->pScrollBar->size.y = get_position(pDlg);
   }
   
+  return TRUE;
 }
 
 /**************************************************************************
@@ -2026,7 +2034,7 @@ STD:  while (pBuf != pWidget) {
 **************************************************************************/
 static int std_up_advanced_dlg(struct GUI *pWidget)
 {
-  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pWidget->data;
+  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pWidget->data.ptr;
   struct GUI *pBegin = up_scroll_widget_list(
 			pDlg->pScroll,
 			pDlg->pActiveWidgetList,
@@ -2039,7 +2047,7 @@ static int std_up_advanced_dlg(struct GUI *pWidget)
   
   unsellect_widget_action();
   pSellected_Widget = pWidget;
-  set_wstate(pWidget, WS_SELLECTED);
+  set_wstate(pWidget, FC_WS_SELLECTED);
   redraw_tibutton(pWidget);
   flush_rect(pWidget->size);
   return -1;
@@ -2050,7 +2058,7 @@ static int std_up_advanced_dlg(struct GUI *pWidget)
 **************************************************************************/
 static int std_down_advanced_dlg(struct GUI *pWidget)
 {
-  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pWidget->data;
+  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pWidget->data.ptr;
   struct GUI *pBegin = down_scroll_widget_list(
 			pDlg->pScroll,
 			pDlg->pActiveWidgetList,
@@ -2063,7 +2071,7 @@ static int std_down_advanced_dlg(struct GUI *pWidget)
 
   unsellect_widget_action();
   pSellected_Widget = pWidget;
-  set_wstate(pWidget, WS_SELLECTED);
+  set_wstate(pWidget, FC_WS_SELLECTED);
   redraw_tibutton(pWidget);
   flush_rect(pWidget->size);
   return -1;
@@ -2074,7 +2082,7 @@ static int std_down_advanced_dlg(struct GUI *pWidget)
 **************************************************************************/
 static int std_vscroll_advanced_dlg(struct GUI *pScrollBar)
 {
-  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pScrollBar->data;
+  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pScrollBar->data.ptr;
   struct GUI *pBegin = vertic_scroll_widget_list(
 			pDlg->pScroll,
 			pDlg->pActiveWidgetList,
@@ -2085,7 +2093,7 @@ static int std_vscroll_advanced_dlg(struct GUI *pScrollBar)
     pDlg->pActiveWidgetList = pBegin;
   }
   unsellect_widget_action();
-  set_wstate(pScrollBar, WS_SELLECTED);
+  set_wstate(pScrollBar, FC_WS_SELLECTED);
   pSellected_Widget = pScrollBar;
   redraw_vert(pScrollBar);
   flush_rect(pScrollBar->size);
@@ -2127,10 +2135,10 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     pBuf = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, 0);
     
     pBuf->ID = ID_BUTTON;
-    pBuf->data = (void *)pDlg;
+    pBuf->data.ptr = (void *)pDlg;
     pBuf->action = std_up_advanced_dlg;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
     
     pDlg->pScroll->pUp_Left_Button = pBuf;
     DownAdd(pBuf, pDlg->pBeginWidgetList);
@@ -2142,10 +2150,10 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     pBuf = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, 0);
     
     pBuf->ID = ID_BUTTON;
-    pBuf->data = (void *)pDlg;
+    pBuf->data.ptr = (void *)pDlg;
     pBuf->action = std_down_advanced_dlg;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
     
     pDlg->pScroll->pDown_Right_Button = pBuf;
     DownAdd(pBuf, pDlg->pBeginWidgetList);
@@ -2159,9 +2167,9 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
 				10, WF_DRAW_THEME_TRANSPARENT);
     
     pBuf->ID = ID_SCROLLBAR;
-    pBuf->data = (void *)pDlg;
+    pBuf->data.ptr = (void *)pDlg;
     pBuf->action = std_vscroll_advanced_dlg;
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
   
     pDlg->pScroll->pScrollBar = pBuf;
     DownAdd(pBuf, pDlg->pBeginWidgetList);
@@ -2330,9 +2338,9 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
     pBuf = create_themeicon_button(pTheme->LEFT_Icon, pWindow->dst, NULL, 0);
     
     pBuf->ID = ID_BUTTON;
-    pBuf->data = (void *)pDlg;
+    pBuf->data.ptr = (void *)pDlg;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
     
     pBuf->size.x = start_x;
     if(swap_start_y) {
@@ -2353,9 +2361,9 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
     pBuf = create_themeicon_button(pTheme->RIGHT_Icon, pWindow->dst, NULL, 0);
     
     pBuf->ID = ID_BUTTON;
-    pBuf->data = (void *)pDlg;
+    pBuf->data.ptr = (void *)pDlg;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-    set_wstate(pBuf, WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
     
     pBuf->size.x = start_x + width - pBuf->size.w;
     if(swap_start_y) {
@@ -2377,8 +2385,8 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
 				width, WF_DRAW_THEME_TRANSPARENT);
     
     pBuf->ID = ID_SCROLLBAR;
-    pBuf->data = (void *)pDlg;
-    set_wstate(pBuf, WS_NORMAL);
+    pBuf->data.ptr = (void *)pDlg;
+    set_wstate(pBuf, FC_WS_NORMAL);
      
     if(swap_start_y) {
       pBuf->size.y = start_y - pBuf->size.h;
@@ -2490,7 +2498,7 @@ struct GUI * create_themeicon(SDL_Surface *pIcon_theme, SDL_Surface *pDest,
   pIcon_Widget->theme = pIcon_theme;
 
   set_wflag(pIcon_Widget, (WF_FREE_STRING | flags));
-  set_wstate(pIcon_Widget, WS_DISABLED);
+  set_wstate(pIcon_Widget, FC_WS_DISABLED);
   set_wtype(pIcon_Widget, WT_ICON);
   pIcon_Widget->mod = KMOD_NONE;
   pIcon_Widget->dst = pDest;
@@ -2583,9 +2591,8 @@ int draw_icon_from_theme(SDL_Surface * pIcon_theme, Uint8 state,
 
 /**************************************************************************
   Create Icon image then return pointer to this image.
-  Transparent color is 0.
-
-  Graphic is taken from pIcon_theme surface and blit to new created image.
+  
+  Graphic is take from pIcon_theme surface and blit to new created image.
 
   Type of Icon depend of "state" parametr.
     state = 0 - normal
@@ -2595,28 +2602,20 @@ int draw_icon_from_theme(SDL_Surface * pIcon_theme, Uint8 state,
 
   Function return NULL if pIcon_theme is NULL or blit fail. 
 **************************************************************************/
-SDL_Surface *create_icon_from_theme(SDL_Surface * pIcon_theme, Uint8 state)
+SDL_Surface * create_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state)
 {
-  SDL_Surface *pIcon = NULL;
   SDL_Rect src;
-  int w, h;
-
+  
   if (!pIcon_theme) {
-    return pIcon;
+    return NULL;
   }
-  w = pIcon_theme->w / 4;
-  h = pIcon_theme->h;
-  pIcon = create_surf(w, h, SDL_SWSURFACE);
-  src.x = 0 + w * state;
+  
+  src.w = pIcon_theme->w / 4;  
+  src.x = src.w * state;
   src.y = 0;
-  src.w = w;
-  src.h = h;
-  if (SDL_BlitSurface(pIcon_theme, &src, pIcon, NULL) != 0) {
-    FREESURFACE(pIcon);
-  }
-  SDL_SetColorKey(pIcon, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-
-  return pIcon;
+  src.h = pIcon_theme->h;
+  
+  return crop_rect_from_surface(pIcon_theme, &src);
 }
 
 /* =================================================== */
@@ -2650,7 +2649,7 @@ struct GUI * create_icon2(SDL_Surface *pIcon, SDL_Surface *pDest, Uint32 flags)
   pIcon_Widget->theme = pIcon;
 
   set_wflag(pIcon_Widget, (WF_FREE_STRING | flags));
-  set_wstate(pIcon_Widget, WS_DISABLED);
+  set_wstate(pIcon_Widget, FC_WS_DISABLED);
   set_wtype(pIcon_Widget, WT_ICON2);
   pIcon_Widget->mod = KMOD_NONE;
   pIcon_Widget->dst = pDest;
@@ -2696,13 +2695,13 @@ int real_redraw_icon2(struct GUI *pIcon)
   dest.w = pIcon->theme->w;
   dest.h = pIcon->theme->h;
 
-  if (state == WS_SELLECTED) {
+  if (state == FC_WS_SELLECTED) {
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
 	     dest.x + dest.w + 2, dest.y + dest.h + 2,
 	     SDL_MapRGB(pIcon->dst->format, 254, 254, 254));
   }
 
-  if (state == WS_PRESSED) {
+  if (state == FC_WS_PRESSED) {
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
 	     dest.x + dest.w + 2, dest.y + dest.h + 2,
 	     SDL_MapRGB(pIcon->dst->format, 254, 254, 254));
@@ -2719,7 +2718,7 @@ int real_redraw_icon2(struct GUI *pIcon)
     return ret;
   }
 
-  if (state == WS_DISABLED) {
+  if (state == FC_WS_DISABLED) {
     SDL_Color RGBA_Color = { 255, 255, 255, 128 };
     dest.w = pIcon->theme->w;
     dest.h = pIcon->theme->h;
@@ -2762,7 +2761,7 @@ struct GUI * create_icon_button(SDL_Surface *pIcon, SDL_Surface *pDest,
   pButton->gfx = pIcon;
   pButton->string16 = pStr;
   set_wflag(pButton, (WF_FREE_STRING | WF_DRAW_FRAME_AROUND_WIDGET | flags));
-  set_wstate(pButton, WS_DISABLED);
+  set_wstate(pButton, FC_WS_DISABLED);
   set_wtype(pButton, WT_I_BUTTON);
   pButton->mod = KMOD_NONE;
   pButton->dst = pDest;
@@ -2908,7 +2907,7 @@ int real_redraw_ibutton(struct GUI *pIButton)
     /* make copy of string16 */
     TMPString = *pIButton->string16;
 
-    if (get_wstate(pIButton) == WS_SELLECTED) {
+    if (get_wstate(pIButton) == FC_WS_SELLECTED) {
       TMPString.style |= TTF_STYLE_BOLD;
     }
 
@@ -2970,7 +2969,7 @@ int real_redraw_ibutton(struct GUI *pIButton)
       Ix = (pIButton->size.w - pIcon->w) / 2;
     }
 
-    if (get_wstate(pIButton) == WS_PRESSED) {
+    if (get_wstate(pIButton) == FC_WS_PRESSED) {
       Ix += 1;
       Iy += 1;
     }
@@ -3040,7 +3039,7 @@ int real_redraw_ibutton(struct GUI *pIButton)
       }
     }
 
-    if (get_wstate(pIButton) == WS_PRESSED) {
+    if (get_wstate(pIButton) == FC_WS_PRESSED) {
       x += 1;
     } else {
       y -= 1;
@@ -3219,7 +3218,7 @@ struct GUI * create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
   pEdit->gfx = pBackground;
   pEdit->string16 = pString16;
   set_wflag(pEdit, (WF_FREE_STRING | WF_FREE_GFX | flags));
-  set_wstate(pEdit, WS_DISABLED);
+  set_wstate(pEdit, FC_WS_DISABLED);
   set_wtype(pEdit, WT_EDIT);
   pEdit->mod = KMOD_NONE;
   pEdit->dst = pDest;
@@ -3790,7 +3789,7 @@ struct GUI * create_vertical(SDL_Surface *pVert_theme, SDL_Surface *pDest,
   pVer->size.w = pVert_theme->w;
   pVer->size.h = high;
   set_wflag(pVer, (WF_FREE_STRING | flags));
-  set_wstate(pVer, WS_DISABLED);
+  set_wstate(pVer, FC_WS_DISABLED);
   set_wtype(pVer, WT_VSCROLLBAR);
   pVer->mod = KMOD_NONE;
   pVer->dst = pDest;
@@ -3921,7 +3920,7 @@ struct GUI * create_horizontal(SDL_Surface *pHoriz_theme, SDL_Surface *pDest,
   pHor->size.w = width;
   pHor->size.h = pHoriz_theme->h;
   set_wflag(pHor, WF_FREE_STRING | flags);
-  set_wstate(pHor, WS_DISABLED);
+  set_wstate(pHor, FC_WS_DISABLED);
   set_wtype(pHor, WT_HSCROLLBAR);
   pHor->mod = KMOD_NONE;
   pHor->dst = pDest;
@@ -4121,7 +4120,7 @@ struct GUI * create_window(SDL_Surface *pDest, SDL_String16 *pTitle,
   pWindow->string16 = pTitle;
   set_wflag(pWindow, WF_FREE_STRING | WF_FREE_GFX | WF_FREE_THEME |
 				  WF_DRAW_FRAME_AROUND_WIDGET| flags);
-  set_wstate(pWindow, WS_DISABLED);
+  set_wstate(pWindow, FC_WS_DISABLED);
   set_wtype(pWindow, WT_WINDOW);
   pWindow->mod = KMOD_NONE;
   if(pDest) {
@@ -4666,7 +4665,7 @@ struct GUI * create_themelabel(SDL_Surface *pIcon, SDL_Surface *pDest,
   set_wflag(pLabel,
 	    (WF_ICON_CENTER | WF_FREE_STRING | WF_FREE_GFX |
 	     WF_DRAW_THEME_TRANSPARENT | flags));
-  set_wstate(pLabel, WS_DISABLED);
+  set_wstate(pLabel, FC_WS_DISABLED);
   set_wtype(pLabel, WT_T_LABEL);
   pLabel->mod = KMOD_NONE;
   pLabel->dst = pDest;
@@ -4692,7 +4691,7 @@ struct GUI * create_iconlabel(SDL_Surface *pIcon, SDL_Surface *pDest,
   pILabel->theme = pIcon;
   pILabel->string16 = pText;
   set_wflag(pILabel, WF_FREE_STRING | WF_FREE_GFX | flags);
-  set_wstate(pILabel, WS_DISABLED);
+  set_wstate(pILabel, FC_WS_DISABLED);
   set_wtype(pILabel, WT_I_LABEL);
   pILabel->mod = KMOD_NONE;
   pILabel->dst = pDest;
@@ -4722,7 +4721,7 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   pLabel->theme = pIcon;
   pLabel->string16 = pText;
   set_wflag(pLabel, (WF_FREE_THEME | WF_FREE_STRING | WF_FREE_GFX | flags));
-  set_wstate(pLabel, WS_DISABLED);
+  set_wstate(pLabel, FC_WS_DISABLED);
   set_wtype(pLabel, WT_T2_LABEL);
   pLabel->mod = KMOD_NONE;
   
@@ -4929,7 +4928,7 @@ static inline int redraw_themelabel2(struct GUI *pLabel)
     return -3;
   }
 */
-  if(get_wstate(pLabel) == WS_SELLECTED) {
+  if(get_wstate(pLabel) == FC_WS_SELLECTED) {
     src.y = pLabel->size.h;
   }
 
@@ -5107,7 +5106,7 @@ int redraw_label(struct GUI *pLabel)
   }
   
   /* redraw sellect bar */
-  if (get_wstate(pLabel) == WS_SELLECTED) {
+  if (get_wstate(pLabel) == FC_WS_SELLECTED) {
     
     if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
       if (pLabel->string16) {
@@ -5134,7 +5133,7 @@ int redraw_label(struct GUI *pLabel)
   /* redraw icon label */
   ret = redraw_iconlabel(pLabel);
   
-  if ((get_wstate(pLabel) == WS_SELLECTED) && (pLabel->string16)) {
+  if ((get_wstate(pLabel) == FC_WS_SELLECTED) && (pLabel->string16)) {
     if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
       if (pLabel->string16->style & TTF_STYLE_UNDERLINE) {
 	pLabel->string16->style &= ~TTF_STYLE_UNDERLINE;
@@ -5181,14 +5180,14 @@ struct GUI *create_checkbox(SDL_Surface *pDest, bool state, Uint32 flags)
   }
 
   set_wflag(pCBox, (WF_FREE_STRING | WF_FREE_GFX | WF_FREE_DATA | flags));
-  set_wstate(pCBox, WS_DISABLED);
+  set_wstate(pCBox, FC_WS_DISABLED);
   set_wtype(pCBox, WT_CHECKBOX);
   pCBox->mod = KMOD_NONE;
   pCBox->dst = pDest;
   pTmp->state = state;
   pTmp->pTRUE_Theme = pTheme->CBOX_Sell_Icon;
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
-  pCBox->data = (void *)pTmp;
+  pCBox->data.cbox = pTmp;
   
   pCBox->size.w = pCBox->theme->w / 4;
   pCBox->size.h = pCBox->theme->h;
@@ -5230,7 +5229,7 @@ struct GUI * create_textcheckbox(SDL_Surface *pDest, bool state,
   pTmp->state = state;
   pTmp->pTRUE_Theme = pTheme->CBOX_Sell_Icon;
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
-  pCBox->data = (void *)pTmp;
+  pCBox->data.cbox = pTmp;
   
   return pCBox;
 }
@@ -5240,15 +5239,17 @@ int set_new_checkbox_theme(struct GUI *pCBox ,
 {
   struct CHECKBOX *pTmp;
   
-  if(!pCBox) {
+  if(!pCBox || (get_wtype(pCBox) != WT_CHECKBOX)) {
     return -1;
   }
   
-  if(!pCBox->data) {
-    return -2;
+  if(!pCBox->data.cbox) {
+    pCBox->data.cbox = MALLOC(sizeof(struct CHECKBOX));
+    set_wflag(pCBox, WF_FREE_DATA);
+    pCBox->data.cbox->state = FALSE;
   }
   
-  pTmp = (struct CHECKBOX *)pCBox->data;
+  pTmp = pCBox->data.cbox;
   pTmp->pTRUE_Theme = pTrue;
   pTmp->pFALSE_Theme = pFalse;
   if(pTmp->state) {
@@ -5261,19 +5262,18 @@ int set_new_checkbox_theme(struct GUI *pCBox ,
 
 void togle_checkbox(struct GUI *pCBox)
 {
-  struct CHECKBOX *pTmp = (struct CHECKBOX *)pCBox->data;
-  if(pTmp->state) {
-    pCBox->theme = pTmp->pFALSE_Theme;
-    pTmp->state = FALSE;
+  if(pCBox->data.cbox->state) {
+    pCBox->theme = pCBox->data.cbox->pFALSE_Theme;
+    pCBox->data.cbox->state = FALSE;
   } else {
-    pCBox->theme = pTmp->pTRUE_Theme;
-    pTmp->state = TRUE;
+    pCBox->theme = pCBox->data.cbox->pTRUE_Theme;
+    pCBox->data.cbox->state = TRUE;
   }
 }
 
 bool get_checkbox_state(struct GUI *pCBox)
 {
-  return ((struct CHECKBOX *)pCBox->data)->state;
+  return pCBox->data.cbox->state;
 }
 
 int redraw_textcheckbox(struct GUI *pCBox)
