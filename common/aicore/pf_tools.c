@@ -15,6 +15,10 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
+#include "mem.h"
+
 #include "pf_tools.h"
 
 /* ===================== Move Cost Callbacks ========================= */
@@ -337,4 +341,40 @@ void pft_fill_default_parameter(struct pf_parameter *parameter)
   parameter->turn_mode = TM_CAPPED;
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
+}
+
+/**********************************************************************
+  Concatenate two paths together.  The additional segment (src_path)
+  should start where the initial segment (dest_path) stops.  The
+  overlapping position is removed.
+
+  If dest_path == NULL, we just copy the src_path and nothing else.
+***********************************************************************/
+struct pf_path *pft_concat(struct pf_path *dest_path,
+			   const struct pf_path *src_path)
+{
+  if (!dest_path) {
+    dest_path = fc_malloc(sizeof(*dest_path));
+    dest_path->length = src_path->length;
+    dest_path->positions =
+	fc_malloc(sizeof(*dest_path->positions) * dest_path->length);
+    memcpy(dest_path->positions, src_path->positions,
+	   sizeof(*dest_path->positions) * dest_path->length);
+  } else {
+    int old_length = dest_path->length;
+
+    assert(pf_last_position(dest_path)->x == src_path->positions[0].x);
+    assert(pf_last_position(dest_path)->y == src_path->positions[0].y);
+    assert(pf_last_position(dest_path)->moves_left ==
+	   src_path->positions[0].moves_left);
+    dest_path->length += src_path->length - 1;
+    dest_path->positions =
+	fc_realloc(dest_path->positions,
+		   sizeof(*dest_path->positions) * dest_path->length);
+    /* Be careful to include the first position of src_path, it contains
+     * the direction (it is undefined in the last position of dest_path) */
+    memcpy(dest_path->positions + old_length - 1, src_path->positions,
+	   src_path->length * sizeof(*dest_path->positions));
+  }
+  return dest_path;
 }

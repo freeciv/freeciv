@@ -573,6 +573,7 @@ enum direction8 {
 enum direction8 dir_cw(enum direction8 dir);
 enum direction8 dir_ccw(enum direction8 dir);
 const char* dir_get_name(enum direction8 dir);
+bool is_valid_dir(enum direction8 dir);
 
 extern const int DIR_DX[8];
 extern const int DIR_DY[8];

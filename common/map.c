@@ -1518,6 +1518,26 @@ enum direction8 dir_ccw(enum direction8 dir)
 }
 
 /**************************************************************************
+  Returns TRUE iff the given direction is a valid one.
+**************************************************************************/
+bool is_valid_dir(enum direction8 dir)
+{
+  switch (dir) {
+  case DIR8_NORTH:
+  case DIR8_NORTHEAST:
+  case DIR8_EAST:
+  case DIR8_SOUTHEAST:
+  case DIR8_SOUTH:
+  case DIR8_SOUTHWEST:
+  case DIR8_WEST:
+  case DIR8_NORTHWEST:
+    return TRUE;
+  default:
+    return FALSE;
+  }
+}
+
+/**************************************************************************
 Return true and sets dir to the direction of the step if (end_x,
 end_y) can be reached from (start_x, start_y) in one step. Return
 false otherwise (value of dir is unchanged in this case).
