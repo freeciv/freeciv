@@ -26,6 +26,7 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
 
+#include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
 #include "packets.h"
@@ -396,7 +397,7 @@ void players_war_callback(Widget w, XtPointer client_data,
     struct packet_generic_values packet;
 
     packet.id = ret->list_index;
-    packet.value1 = CLAUSE_CEASEFIRE /* can be any pact clause */
+    packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
     send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
                                &packet);
   }
@@ -417,7 +418,7 @@ void players_vision_callback(Widget w, XtPointer client_data,
     packet.id = ret->list_index;
     packet.value1 = CLAUSE_VISION;
     send_packet_generic_values(&aconnection, 
-                               PACKET_PLAYER_REMOVE_VISION, &packet);
+                               PACKET_PLAYER_CANCEL_PACT, &packet);
   }
 }
 
