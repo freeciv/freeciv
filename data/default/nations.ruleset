@@ -107,7 +107,7 @@ civilized=2
 advisors=100,100,100,100,100,100,100
 
 tech_goals = "Monarchy","Philosophy","Mathematics","Chivalry",
-             "Theology","Religion"
+             "Theology","Monotheism"
 wonder="Hanging Gardens"
 government="Monarchy"
 
@@ -390,7 +390,7 @@ civilized=2
 advisors=100,100,100,100,100,100,100
 
 tech_goals = "Monarchy", "Chivalry", "Philosophy", "The Republic", "Monotheism",
-             "Religion", "Engineering", "Navigation", "Railroad"
+             "Monotheism", "Engineering", "Navigation", "Railroad"
 wonder="Magellan's Expedition"
 government="Republic"
 
@@ -479,8 +479,10 @@ cities =
 
 name=_("English")
 plural=_("?plural:English")
-leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII", "Victoria"
-leader_sex="Female", "Male", "Male", "Male", "Female"
+leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII",
+       "Victoria"
+leader_sex="Female", "Male", "Male", "Male",
+           "Female"
 flag="f.england"
 flag_alt = "f.united_kingdom"
 city_style = "European"
@@ -494,7 +496,7 @@ expand=2
 civilized=1
 advisors=100,100,100,100,100,100,100
 
-tech_goals = "Monarchy",  "Chivalry", "Trade", "Theology", "Religion",
+tech_goals = "Monarchy",  "Chivalry", "Trade", "Theology", "Monotheism",
              "Navigation", "Democracy", "Railroad"
 wonder="King Richard's Crusade"
 government="Democracy"
@@ -553,8 +555,10 @@ cities =
 
 name=_("Turk")
 plural=_("?plural:Turks")
-leader="Kemal Atatürk", "Sulayman the Magnificient", "Osman", "Murad", "Selim", "Mehmed"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+leader="Kemal Atatürk", "Sulayman the Magnificient", "Osman", "Murad",
+       "Selim", "Mehmed"
+leader_sex="Male", "Male", "Male", "Male",
+           "Male", "Male"
 flag="f.turkey"
 flag_alt = "-"
 city_style = "European"
@@ -1001,7 +1005,7 @@ expand=2
 civilized=1
 advisors=100,100,100,100,100,100,100
 tech_goals = "Monarchy", "Chivalry", "Trade", "Theology", "Navigation",
-             "Republic", "Railroad"
+             "The Republic", "Railroad"
 wonder="Magellan's Expedition"
 government="Republic"
 
@@ -1030,7 +1034,7 @@ flag="f.finland"
 flag_alt = "-"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",      "female_title"
+ruler_titles = { "government",      "male_title",        "female_title"
                  "Republic",        _("President"),      _("President")
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
@@ -1041,7 +1045,7 @@ civilized=0
 advisors=100,100,100,100,100,100,100
 
 tech_goals = "Iron Working", "Literacy", "Engineering", "Map Making",
-             "Republic", "Metallurgy", "Industrialization", "Electronics",
+             "The Republic", "Metallurgy", "Industrialization", "Electronics",
              "Tactics"
 wonder="Women's Suffrage"
 government="Republic"
@@ -1090,7 +1094,7 @@ expand=0
 civilized=1
 advisors=100,100,100,100,100,100,100
 tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working"
-wonder="Sun Tzu War Academy"
+wonder="Sun Tzu's War Academy"
 government="Republic"
 
 ;big problem I use names of more known battles between Indians and USA
@@ -1131,7 +1135,7 @@ civilized = 0
 advisors = 100,100,100,100,100,100,100
 
 tech_goals = "Iron Working", "Literacy", "Astronomy", "Bridge Building",
-             "Republic", "Metallurgy", "Medicine", "University",
+             "The Republic", "Metallurgy", "Medicine", "University",
              "Explosives"
 wonder = "Shakespeare's Theatre"
 government = "Republic"
@@ -1270,8 +1274,8 @@ flag="f.scotland"
 flag_alt = "f.united_kingdom"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",        _("Speaker")       , _("Speaker")
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Republic",    _("Speaker"),        _("Speaker")
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
 
@@ -1315,7 +1319,7 @@ advisors=100,100,100,100,100,100,100
 
 tech_goals="Monarchy","Iron Working","Trade","Monotheism","Navigation",
            "Railroad","Steel","Industrialization"
-wonder="J. S. Bach's Cathedral"
+wonder="J.S. Bach's Cathedral"
 government="Democracy"
 
 cities =
@@ -1343,9 +1347,9 @@ expand=1
 civilized=2
 advisors=100,100,100,100,100,100,100
 
-tech_goals="Monarchy","Republic","Iron Working","Trade","Navigation",
+tech_goals="Monarchy","The Republic","Iron Working","Trade","Navigation",
            "Railroad","Steel","Industrialization","Democracy"
-wonder="J. S. Bach's Cathedral"
+wonder="J.S. Bach's Cathedral"
 government="Democracy"
 
 cities =
@@ -1431,7 +1435,7 @@ cities =
 ;
 ;tech_goals="Monarchy","Iron Working","Trade","Monotheism","Navigation",
 ;           "Railroad","Steel","Industrialization"
-;wonder="J. S. Bach's Cathedral"
+;wonder="J.S. Bach's Cathedral"
 ;government="Democracy"
 ;
 ;cities =
@@ -1457,8 +1461,8 @@ expand=0
 civilized=0
 advisors=100,100,100,100,100,100,100
 
-tech_goals = "-"
-wonder = "-"
+tech_goals = "Warrior Code"
+wonder = "Apollo Program"
 government = "Despotism"
 
 cities = "Mordor"
