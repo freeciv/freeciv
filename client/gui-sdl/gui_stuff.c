@@ -291,11 +291,10 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
 struct GUI * WidgetListScaner(const struct GUI *pGUI_List, int x, int y)
 {
   while (pGUI_List) {
-    if (is_in_rect_area(x, y, pGUI_List->size)) {
-      if (!((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
+    if (is_in_rect_area(x, y, pGUI_List->size)
+       && !((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
 	    ((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN))) {
-	return (struct GUI *) pGUI_List;
-      }
+      return (struct GUI *) pGUI_List;
     }
     pGUI_List = pGUI_List->next;
   }

@@ -135,6 +135,21 @@ static void rebuild_citydlg_title_str(struct GUI *pWindow, struct city *pCity);
 
 /* ======================================================================= */
 
+/**************************************************************************
+  Destroy City Menu Dlg but not undraw.
+**************************************************************************/
+static void del_city_menu_dlg(bool enable)
+{
+  if (pCityDlg->pEndCityMenuWidgetList) {
+    del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
+				       pCityDlg->pEndCityMenuWidgetList);
+    pCityDlg->pEndCityMenuWidgetList = NULL;
+  }
+  if (enable) {
+    /* enable city dlg */
+    enable_city_dlg_widgets();
+  }
+}
 
 /**************************************************************************
   Destroy City Dlg but not undraw.
@@ -158,25 +173,10 @@ static void del_city_dialog(void)
       FREE(pHurry_Prod_Dlg);
     }
     
-    if (pCityDlg->pEndCityPanelWidgetList) {
-      del_group_of_widgets_from_gui_list(pCityDlg->
-					 pBeginCityPanelWidgetList,
-					 pCityDlg->
-					 pEndCityPanelWidgetList);
-
-      FREE(pCityDlg->pPanelVscroll);
-    }
-
-    if (pCityDlg->pEndCityMenuWidgetList) {
-      del_group_of_widgets_from_gui_list(pCityDlg->
-					 pBeginCityMenuWidgetList,
-					 pCityDlg->pEndCityMenuWidgetList);
-    }
-
-
+    free_city_units_lists();
+    del_city_menu_dlg(FALSE);
     del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityWidgetList,
 				       pCityDlg->pEndCityWidgetList);
-
     FREE(pCityDlg);
   }
 }
@@ -235,7 +235,6 @@ static int cancel_units_orders_city_dlg_callback(struct GUI *pButton)
   lock_buffer(pButton->dst);
   popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
 			      pCityDlg->pEndCityMenuWidgetList);
-
   pCityDlg->pEndCityMenuWidgetList = NULL;
   unlock_buffer();
   
@@ -254,18 +253,10 @@ static int activate_units_orders_city_dlg_callback(struct GUI *pButton)
 {
   struct unit *pUnit = pButton->data.unit;
 
+  del_city_menu_dlg(TRUE);
   if(pUnit) {
     set_unit_focus(pUnit);
   }
-
-  del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
-				     pCityDlg->pEndCityMenuWidgetList);
-
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-
-  /* enable city dlg */
-  enable_city_dlg_widgets();
-
   return -1;
 }
 
@@ -286,11 +277,8 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct GUI *pButton)
       lock_buffer(pDest);
       remove_locked_buffer();
     }
-    
     del_city_dialog();
-	 
     center_tile_mapcanvas(pUnit->x, pUnit->y);
-
     set_unit_focus(pUnit);
     flush_dirty();
   }
@@ -307,18 +295,10 @@ static int sentry_units_orders_city_dlg_callback(struct GUI *pButton)
 {
   struct unit *pUnit = pButton->data.unit;
 
-  del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
-				     pCityDlg->pEndCityMenuWidgetList);
-
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-
-  /* enable city dlg */
-  enable_city_dlg_widgets();
-
+  del_city_menu_dlg(TRUE);
   if(pUnit) {
     request_unit_sentry(pUnit);
   }
-
   return -1;
 }
 
@@ -331,18 +311,10 @@ static int fortify_units_orders_city_dlg_callback(struct GUI *pButton)
 {
   struct unit *pUnit = pButton->data.unit;
 
-  del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
-				     pCityDlg->pEndCityMenuWidgetList);
-
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-
-  /* enable city dlg */
-  enable_city_dlg_widgets();
-
+  del_city_menu_dlg(TRUE);
   if(pUnit) {
     request_unit_fortify(pUnit);
   }
-
   return -1;
 }
 
@@ -356,12 +328,7 @@ static int disband_units_orders_city_dlg_callback(struct GUI *pButton)
   struct unit *pUnit = pButton->data.unit;
 
   free_city_units_lists();
-  del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
-				     pCityDlg->pEndCityMenuWidgetList);
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-
-  /* enable city dlg */
-  enable_city_dlg_widgets();
+  del_city_menu_dlg(TRUE);
 
   /* ugly hack becouse this free unit widget list*/
   /* FIX ME: add remove from list support */
@@ -383,13 +350,7 @@ static int homecity_units_orders_city_dlg_callback(struct GUI *pButton)
 {
   struct unit *pUnit = pButton->data.unit;
 
-  del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
-				     pCityDlg->pEndCityMenuWidgetList);
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-  
-  /* enable city dlg */
-  enable_city_dlg_widgets();
-
+  del_city_menu_dlg(TRUE);
   if(pUnit) {
     request_unit_change_homecity(pUnit);
   }
@@ -428,7 +389,6 @@ static int units_orders_dlg_callback(struct GUI *pButton)
 **************************************************************************/
 static int units_orders_city_dlg_callback(struct GUI *pButton)
 {
-
   SDL_String16 *pStr;
   char cBuf[80];
   struct GUI *pBuf, *pWindow = pCityDlg->pEndCityWidgetList;
@@ -1865,9 +1825,7 @@ void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
 	dest.y = sy;
 	if (worker_check(pCity, col, row)) {
 	  fill_tile_resorce_surf(pTile, pCity, col, row);
-
 	  SDL_BlitSurface(pTile, NULL, pDest, &dest);
-
 	  /* clear pTile */
 	  SDL_FillRect(pTile, NULL, 0x0);
 	}
@@ -1955,23 +1913,14 @@ static int next_prev_city_dlg_callback(struct GUI *pButton)
   }
 
   assert(i < non_open_size);
-
   pCityDlg->pCity = array[(i + dir + non_open_size) % non_open_size];
-
   FREE(array);
 
   /* free panel widgets */
-  if (pCityDlg->pEndCityPanelWidgetList) {
-    del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityPanelWidgetList,
-				       pCityDlg->pEndCityPanelWidgetList);
-    pCityDlg->pEndCityPanelWidgetList = NULL;
-    FREE(pCityDlg->pPanelVscroll);
-  }
-
+  free_city_units_lists();
   /* refresh resource map */
   FREESURFACE(pCityDlg->pResource_Map->theme);
   pCityDlg->pResource_Map->theme = get_scaled_city_map(pCityDlg->pCity);
-
   rebuild_imprm_list(pCityDlg->pCity);
 
   /* redraw */
@@ -4062,21 +4011,8 @@ void popdown_all_city_dialogs(void)
       FREE( pHurry_Prod_Dlg );
     }
     
-    if (pCityDlg->pEndCityPanelWidgetList) {
-      del_group_of_widgets_from_gui_list(pCityDlg->
-					 pBeginCityPanelWidgetList,
-					 pCityDlg->
-					 pEndCityPanelWidgetList);
-
-      FREE(pCityDlg->pPanelVscroll);
-    }
-
-    if (pCityDlg->pEndCityMenuWidgetList) {
-      del_group_of_widgets_from_gui_list(pCityDlg->
-					 pBeginCityMenuWidgetList,
-					 pCityDlg->pEndCityMenuWidgetList);
-    }
-
+    free_city_units_lists();
+    del_city_menu_dlg(FALSE);
     popdown_window_group_dialog(pCityDlg->pBeginCityWidgetList,
 				pCityDlg->pEndCityWidgetList);
     FREE(pCityDlg);
@@ -4109,17 +4045,7 @@ void refresh_unit_city_dialogs(struct unit *pUnit)
 
   if (pCityDlg && ((pCityDlg->pCity == pCity_sup)
 		   || (pCityDlg->pCity == pCity_pre))) {
-    if (pCityDlg->pEndCityPanelWidgetList) {
-      del_group_of_widgets_from_gui_list(pCityDlg->
-					 pBeginCityPanelWidgetList,
-					 pCityDlg->
-					 pEndCityPanelWidgetList);
-
-
-      pCityDlg->pEndCityPanelWidgetList = NULL;
-      FREE(pCityDlg->pPanelVscroll);
-    }
-
+    free_city_units_lists();
     redraw_city_dialog(pCityDlg->pCity);
     flush_dirty();
   }
