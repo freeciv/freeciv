@@ -328,7 +328,10 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 }
 
 /**************************************************************************
-...
+  If do_restore is FALSE it will invert the turn done button style. If
+  called regularly from a timer this will give a blinking turn done
+  button. If do_restore is TRUE this will reset the turn done button
+  to the default style.
 **************************************************************************/
 void update_turn_done_button(bool do_restore)
 {
