@@ -162,7 +162,7 @@ fallout_trade_penalty=50
 
 [terrain_glacier]
 terrain_name         = _("Glacier")
-graphic              = "t.arctic"
+graphic              = "arctic"
 graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 10
@@ -200,7 +200,7 @@ Glaciers are found only in the most northerly or southerly\
 
 [terrain_desert]
 terrain_name         = _("Desert")
-graphic              = "t.desert"
+graphic              = "desert"
 graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
@@ -236,7 +236,7 @@ Deserts are regions of extreme dryness, making agriculture and\
 
 [terrain_forest]
 terrain_name         = _("Forest")
-graphic              = "t.forest"
+graphic              = "forest"
 graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 15
@@ -272,7 +272,7 @@ Forests are densely wooded, making agriculture somewhat\
 
 [terrain_grassland]
 terrain_name         = _("Grassland")
-graphic              = "t.grassland"
+graphic              = "grassland"
 graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
@@ -308,7 +308,7 @@ Grasslands afford exceptional agricultural opportunities.\
 
 [terrain_hills]
 terrain_name         = _("Hills")
-graphic              = "t.hills"
+graphic              = "hills"
 graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 20
@@ -344,7 +344,7 @@ In addition to being amenable to agriculture, Hills are frequently\
 
 [terrain_jungle]
 terrain_name         = _("Jungle")
-graphic              = "t.jungle"
+graphic              = "jungle"
 graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 15
@@ -380,7 +380,7 @@ Jungles are densely overgrown, making agriculture somewhat\
 
 [terrain_mountains]
 terrain_name         = _("Mountains")
-graphic              = "t.mountains"
+graphic              = "mountains"
 graphic_alt	     = "-"
 movement_cost        = 3
 defense_bonus        = 30
@@ -416,7 +416,7 @@ Mountains are regions of extreme altitude, making agriculture and\
 
 [terrain_ocean]
 terrain_name         = _("Ocean")
-graphic              = "t.ocean"
+graphic              = "ocean"
 graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
@@ -455,7 +455,7 @@ Ocean squares can never be polluted or subjected to fallout.\
 
 [terrain_plains]
 terrain_name         = _("Plains")
-graphic              = "t.plains"
+graphic              = "plains"
 graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
@@ -524,7 +524,7 @@ transform_time       = 0
 
 [terrain_swamp]
 terrain_name         = _("Swamp")
-graphic              = "t.swamp"
+graphic              = "swamp"
 graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 15
@@ -560,7 +560,7 @@ Swamps suffer from an over-abundance of water, making agriculture\
 
 [terrain_tundra]
 terrain_name         = _("Tundra")
-graphic              = "t.tundra"
+graphic              = "tundra"
 graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10

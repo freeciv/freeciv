@@ -76,7 +76,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
                    "+starter +union +iso_maps +orders2client " \
-                   "+change_production"
+                   "+change_production +tilespec1"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -97,6 +97,8 @@ const char * const our_capability = our_capability_internal;
  * "orders2client" means that the server sends back the orders to the client.
  *
  * "change_production" is the E_CITY_PRODUCTION_CHANGED event.
+ *
+ * "tilespec1" means changed graphic strings in terrain.ruleset.
  */
 
 void init_our_capability(void)

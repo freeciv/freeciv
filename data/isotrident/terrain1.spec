@@ -33,6 +33,9 @@ tiles = { "row", "column","tag"
   2,    0,  "t.grassland1"
   2,    1, "t.grassland2"
 
+  2,	0, "t.t_river1"
+  2,	1, "t.t_river2"
+
   3,    0, "t.forest1"
   3,    1, "t.forest2"
 

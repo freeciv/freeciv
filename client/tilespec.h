@@ -18,8 +18,6 @@
 #ifndef FC__TILESPEC_H
 #define FC__TILESPEC_H
 
-#include "map.h"		/* NUM_DIRECTION_NSEW */
-
 #include "citydlg_common.h"	/* enum citizen_type */
 #include "colors_g.h"
 #include "options.h"
@@ -45,7 +43,7 @@ void tilespec_reread_callback(struct client_option *option);
 void tilespec_setup_unit_type(int id);
 void tilespec_setup_impr_type(int id);
 void tilespec_setup_tech_type(int id);
-void tilespec_setup_tile_type(int id);
+void tilespec_setup_tile_type(enum tile_terrain_type terrain);
 void tilespec_setup_government(int id);
 void tilespec_setup_nation_flag(int id);
 void tilespec_setup_city_tiles(int style);
@@ -76,6 +74,8 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
 
 /* This the way directional indices are now encoded: */
 
+#define NUM_DIRECTION_NSEW 		16
+
 #define BIT_NORTH (0x01)
 #define BIT_SOUTH (0x02)
 #define BIT_EAST  (0x04)
@@ -95,6 +95,18 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
 /* This could be moved to common/map.h if there's more use for it. */
 enum direction4 {
   DIR4_NORTH = 0, DIR4_SOUTH, DIR4_EAST, DIR4_WEST
+};
+
+struct terrain_drawing_data {
+  char *name;
+
+  bool is_blended;
+  bool is_layered;
+  int match_type;
+
+  struct Sprite *base;
+  struct Sprite *blend[NUM_DIRECTION_NSEW];
+  struct Sprite *special[2];
 };
 
 struct named_sprites {
@@ -202,15 +214,13 @@ struct named_sprites {
       *spec_river[NUM_DIRECTION_NSEW],
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */
       *river_outlet[4],		/* indexed by enum direction4 */
-      /* for isometric */
-      *spec_forest[NUM_DIRECTION_NSEW],
-      *spec_mountain[NUM_DIRECTION_NSEW],
-      *spec_hill[NUM_DIRECTION_NSEW],
       *coast_cape_iso[8][4], /* 4 = up down left right */
       /* for non-isometric */
       *coast_cape[NUM_DIRECTION_NSEW],	      /* first unused */
       *denmark[2][3];		/* row, column */
   } tx;				/* terrain extra */
+
+  struct terrain_drawing_data *terrain[MAX_NUM_TERRAINS];
 };
 
 extern struct named_sprites sprites;

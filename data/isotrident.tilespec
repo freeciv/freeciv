@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec2"
+options = "+tilespec2 roadstyle +terrain_grid"
 
 ; A simple name for the tileset specified by this file:
 name = "MacroIsoTrident"
@@ -53,3 +53,72 @@ files =
   "isotrident/nuke.spec",
   "isotrident/cities.spec",
   "isotrident/morecities.spec"
+
+
+; Terrain info - see README.graphics
+
+[terrain_arctic]
+is_blended = 1
+is_layered = 0
+match_type = 0
+
+[terrain_desert]
+is_blended = 1
+is_layered = 0
+match_type = 0
+
+[terrain_forest]
+is_blended = 1
+is_layered = 1
+match_type = 1
+
+[terrain_grassland]
+is_blended = 1
+is_layered = 0
+match_type = 0
+
+[terrain_hills]
+is_blended = 1
+is_layered = 1
+match_type = 2
+
+[terrain_jungle]
+is_blended = 0
+is_layered = 0
+match_type = 0
+
+[terrain_mountains]
+is_blended = 1
+is_layered = 1
+match_type = 3
+
+; ocean has special handling
+[terrain_ocean]
+is_blended = 0
+is_layered = 0
+match_type = 5
+
+[terrain_plains]
+is_blended = 1
+is_layered = 0
+match_type = 0
+
+[terrain_swamp]
+is_blended = 1
+is_layered = 0
+match_type = 0
+
+[terrain_tundra]
+is_blended = 1
+is_layered = 0
+match_type = 0
+
+[terrain_unknown]
+is_blended = 1
+is_layered = 0
+match_type = 0
+
+[terrain_t_river]
+is_blended = 1
+is_layered = 1
+match_type = 5

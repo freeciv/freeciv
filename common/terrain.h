@@ -71,6 +71,7 @@ enum tile_terrain_type {
 };
 #define T_FIRST (T_ARCTIC)
 #define T_COUNT (T_UNKNOWN)
+#define MAX_NUM_TERRAINS (T_LAST)
 
 enum terrain_flag_id {
   TER_NO_BARBS, /* No barbarians summoned on this terrain. */

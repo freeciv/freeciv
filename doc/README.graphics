@@ -98,12 +98,89 @@ options include:
   Booleans (0 or 1)
   -----------------
   is_isometric          : set to 1 for an iso-view tileset
-  is_mountainous        : do hills and mountains blend together?
 
   String lists (a comma-separated list of strings)
   ------------------------------------------------
   files                 : A list of .spec files to scan for sprites.
                           See "individual spec files", below.
+
+
+----------------------------------------------------------------------
+Terrain options:
+----------------
+
+The top-level tilespec file also contains information on how to draw each
+terrain type.  For each terrain type include a section "terrain_<terrain>"
+(e.g., "terrain_plains").  This section contains information on how to draw
+this terrain type.  (The terrain types are specified in the server ruleset
+file under the graphc and graphic_alt flags.)
+
+  Fields and Flags
+  ----------------
+  is_blended            : If set, this terrain will be blended with adjacent
+                          terrains.  Blending is done civ2-style with a
+                          dither mask.  Only iso-view currently supports
+                          blending.  Only the base graphic will be dithered.
+                          The blending mask has sprite t.dither_tile.
+  is_layered            : If set, this terrain will be drawn layered.  The
+                          base sprite will be drawn underneath (possibly
+                          blended) with a matched sprite on top.  This option
+                          only makes sense if a match_type is set.  Only
+                          iso-view currently supports layering.
+  match_type            : If 0, no terrain matching will be done and the base
+                          sprite will be drawn for the terrain.  If non-zero,
+                          then terrain matching will be done.  A matched
+                          sprite will be chosen that matches all cardinally
+                          adjacent tiles whose terrain has the same
+                          match_type.
+ 
+  Sprites
+  -------
+
+  Depending on the information given here the tileset must contain certain
+  sprites.
+ 
+  base sprite           : If the terrain has no match type or is layered, a
+                          base sprite is needed.  This sprite has tag
+                          "t.<terrain>1" (e.g., "t.grassland1").
+  matched sprites       : If the terrain has a match type or is layered, a
+                          set of matched sprites is needed.  This consists of
+                          16 sprites with tags "t.<terrain>_n<V>s<V>e<V>w<V>"
+                          (e.g., "t.hills_n0s0e1w0".  Each direcional value
+                          <V> is either 0 or 1.  Note that the directions are
+                          in map coordinates, so n (north) in iso-view is
+                          northeast on the mapview.
+
+Examples:
+
+  ; This specifies a civ2-like grassland tile.  A single sprite
+  ; t.grassland is needed; it will be drawn blended.
+  [terrain_grassland]
+  is_blended = 1
+  is_layered = 0
+  match_type = 0
+
+  ; This specifies a civ1-like mountain tile.  16 sprites
+  ; t.mountains_n0s0e0w0 ... t.mountains_n1s1e1w1 are needed.  One of them
+  ; will be drawn to match the adjacent tiles.  Assuming only mountains
+  ; has this match_type, adjacent mountains will match.
+  [terrain_mountains]
+  is_blended = 0
+  is_layered = 0
+  match_type = 7
+
+  ; This specifies a civ2-like hills tile.  A base sprite t.hills will be
+  ; needed, plus 16 matching sprites.  The base sprite will be drawn,
+  ; dithered with adjacent base sprites, and the matching sprite will be
+  ; drawn on top.  (In most civ2 tilesets the base sprite is the grassland
+  ; sprite).
+  [terrain_hills]
+  is_blended = 1
+  is_layered = 1
+  match_type = 8
+
+The exception to the above rule is the ocean terrain.  Although it should
+have an entry in the tilespec file it is drawn according to hard-coded rules.
 
 ----------------------------------------------------------------------
 Individual spec files:

@@ -21,10 +21,6 @@
 #include "terrain.h"
 #include "unit.h"
 
-struct Sprite;			/* opaque; client-gui specific */
-
-#define NUM_DIRECTION_NSEW 		16
-
 /*
  * The value of MOVE_COST_FOR_VALID_SEA_STEP has no particular
  * meaning. The value is only used for comparison. The value must be
@@ -75,7 +71,6 @@ struct tile_type {
   char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
-  struct Sprite *sprite[NUM_DIRECTION_NSEW];
 
   int movement_cost;
   int defense_bonus;
@@ -101,7 +96,6 @@ struct tile_type {
   struct {
     char graphic_str[MAX_LEN_NAME];
     char graphic_alt[MAX_LEN_NAME];
-    struct Sprite *sprite;
   } special[2];
 
   int road_trade_incr;

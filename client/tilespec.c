@@ -78,7 +78,6 @@ char *city_productions_font_name;
 
 int num_tiles_explode_unit=0;
 
-static bool is_mountainous = FALSE;
 static int roadstyle;
 static int flag_offset_x, flag_offset_y;
 
@@ -134,7 +133,10 @@ struct small_sprite {
  */
 static struct hash_table *sprite_hash = NULL;
 
-#define TILESPEC_CAPSTR "+tilespec2 duplicates_ok roadstyle"
+/* This hash table maps terrain graphic strings to drawing data. */
+static struct hash_table *terrain_hash;
+
+#define TILESPEC_CAPSTR "+tilespec2 duplicates_ok roadstyle +terrain_grid"
 /*
    Tilespec capabilities acceptable to this program:
    +tilespec2     -  basic format, required
@@ -145,6 +147,8 @@ static struct hash_table *sprite_hash = NULL;
                      style of road drawing to use.  Tilesets which rely on
                      this (those that have roadstyle != is_isometric ? 0 : 1)
                      should specify "+roadstyle".
+   terrain_grid   -  The basic terrain grid information in the top-level
+                     tilespec file is required.
 */
 
 #define SPEC_CAPSTR "+spec2"
@@ -281,6 +285,17 @@ static void tilespec_free_toplevel(void)
     free(minimap_intro_filename);
     minimap_intro_filename = NULL;
   }
+
+  while (hash_num_entries(terrain_hash) > 0) {
+    const struct terrain_drawing_data *draw;
+
+    draw = hash_value_by_number(terrain_hash, 0);
+    hash_delete_entry(terrain_hash, draw->name);
+    free(draw->name);
+    free((void *) draw);
+  }
+  hash_free(terrain_hash);
+  terrain_hash = NULL; /* Helpful for sanity. */
 }
 
 /**********************************************************************
@@ -580,8 +595,8 @@ void tilespec_read_toplevel(const char *tileset_name)
   struct section_file the_file, *file = &the_file;
   char *fname, *c;
   int i;
-  int num_spec_files;
-  char **spec_filenames;
+  int num_spec_files, num_terrains;
+  char **spec_filenames, **terrains;
   char *file_capstr;
   bool duplicates_ok;
 
@@ -635,8 +650,6 @@ void tilespec_read_toplevel(const char *tileset_name)
 	  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 	  SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
 
-  is_mountainous = secfile_lookup_bool_default(file, FALSE,
-					       "tilespec.is_mountainous");
   roadstyle = secfile_lookup_int_default(file, is_isometric ? 0 : 1,
 					 "tilespec.roadstyle");
   flag_offset_x = secfile_lookup_int_default(file, 0,
@@ -659,6 +672,41 @@ void tilespec_read_toplevel(const char *tileset_name)
   c = secfile_lookup_str(file, "tilespec.minimap_intro_file");
   minimap_intro_filename = tilespec_gfx_filename(c);
   freelog(LOG_DEBUG, "radar file %s", minimap_intro_filename);
+
+
+  /* Terrain drawing info. */
+  terrains = secfile_get_secnames_prefix(file, "terrain_", &num_terrains);
+  if (num_terrains == 0) {
+    freelog(LOG_FATAL, "No terrain types supported by tileset.");
+    exit(EXIT_FAILURE);
+  }
+
+  assert(terrain_hash == NULL);
+  terrain_hash = hash_new(hash_fval_string, hash_fcmp_string);
+
+  for (i = 0; i < num_terrains; i++) {
+    struct terrain_drawing_data *terr = fc_malloc(sizeof(*terr));
+
+    memset(terr, 0, sizeof(*terr));
+    terr->name = mystrdup(terrains[i] + strlen("terrain_"));
+    terr->is_blended = secfile_lookup_bool(file, "%s.is_blended",
+					    terrains[i]);
+    terr->is_layered = secfile_lookup_bool(file, "%s.is_layered",
+					   terrains[i]);
+    terr->match_type = secfile_lookup_int(file, "%s.match_type",
+					  terrains[i]);
+
+    if (terr->is_layered && terr->match_type == 0) {
+      freelog(LOG_FATAL, "%s is layered but has no matching type set.",
+	      terr->name);
+    }
+
+    if (!hash_insert(terrain_hash, terr->name, terr)) {
+      die("warning: duplicate terrain entry %s.", terrains[i]);
+    }
+  }
+  free(terrains);
+
 
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
 					  "tilespec.files");
@@ -986,21 +1034,6 @@ static void tilespec_lookup_sprite_tags(void)
   }
   
   if (is_isometric) {
-    for(i=0; i<NUM_DIRECTION_NSEW; i++) {
-      my_snprintf(buffer, sizeof(buffer), "tx.s_forest_%s", nsew_str(i));
-      SET_SPRITE(tx.spec_forest[i], buffer);
-    }
-
-    for(i=0; i<NUM_DIRECTION_NSEW; i++) {
-      my_snprintf(buffer, sizeof(buffer), "tx.s_mountain_%s", nsew_str(i));
-      SET_SPRITE(tx.spec_mountain[i], buffer);
-    }
-
-    for(i=0; i<NUM_DIRECTION_NSEW; i++) {
-      my_snprintf(buffer, sizeof(buffer), "tx.s_hill_%s", nsew_str(i));
-      SET_SPRITE(tx.spec_hill[i], buffer);
-    }
-
     for (i=0; i<4; i++) {
       for (j=0; j<8; j++) {
 	char *dir2 = "udlr";
@@ -1132,59 +1165,71 @@ void tilespec_setup_tech_type(int id)
   Set tile_type sprite values; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
-void tilespec_setup_tile_type(int id)
+void tilespec_setup_tile_type(enum tile_terrain_type terrain)
 {
-  struct tile_type *tt = get_tile_type(id);
+  struct tile_type *tt = get_tile_type(terrain);
+  struct terrain_drawing_data *draw;
   char buffer1[MAX_LEN_NAME+20];
-  char buffer2[MAX_LEN_NAME+20];
-  char *nsew;
   int i;
   
   if(tt->terrain_name[0] == '\0') {
-    for(i=0; i<NUM_DIRECTION_NSEW; i++) {
-      tt->sprite[i] = NULL;
-    }
-    for(i=0; i<2; i++) {
-      tt->special[i].sprite = NULL;
-    }
     return;
   }
 
-  if (is_isometric) {
-    my_snprintf(buffer1, sizeof(buffer1), "%s1", tt->graphic_str);
-    if (id != T_RIVER) {
-      tt->sprite[0] = lookup_sprite_tag_alt(buffer1, NULL, TRUE, "tile_type",
-					    tt->terrain_name);
-    } else {
-      tt->sprite[0] = NULL;
+  draw = hash_lookup_data(terrain_hash, tt->graphic_str);
+  if (!draw) {
+    draw = hash_lookup_data(terrain_hash, tt->graphic_alt);
+    if (!draw) {
+      freelog(LOG_FATAL, "No graphics %s or %s for %s terrain.",
+	      tt->graphic_str, tt->graphic_alt, tt->terrain_name);
+      exit(EXIT_FAILURE);
     }
+  }
+
+  /* Currently ocean terrains have special handling.  Although a match type
+   * may be specified it is ignored.  This is a hack. */
+  if (is_isometric && is_ocean(terrain)) {
+    my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
+    draw->base = lookup_sprite_tag_alt(buffer1, "", TRUE, "tile_type",
+				       tt->terrain_name);
   } else {
-    for(i=0; i<NUM_DIRECTION_NSEW; i++) {
-      nsew = nsew_str(i);
-      my_snprintf(buffer1, sizeof(buffer1), "%s_%s", tt->graphic_str, nsew);
-      my_snprintf(buffer2, sizeof(buffer2), "%s_%s", tt->graphic_alt, nsew);
+    if (draw->match_type == 0 || draw->is_layered) {
+      /* Load single sprite for this terrain. */
+      my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
+      draw->base = lookup_sprite_tag_alt(buffer1, "", TRUE, "tile_type",
+					 tt->terrain_name);
+    }
 
-      tt->sprite[i] = lookup_sprite_tag_alt(buffer1, buffer2, TRUE, "tile_type",
-					    tt->terrain_name);
+    if (draw->match_type != 0) {
+      /* Load 16 cardinally-matched sprites. */
+      for (i = 0; i < NUM_DIRECTION_NSEW; i++) {
+	my_snprintf(buffer1, sizeof(buffer1),
+		    "t.%s_%s", draw->name, nsew_str(i));
+	draw->blend[i] = lookup_sprite_tag_alt(buffer1, "", TRUE,
+					       "tile_type", tt->terrain_name);
+      }
 
-      assert(tt->sprite[i] != NULL);
-      /* should probably do something if NULL, eg generic default? */
+      if (!draw->base) {
+	draw->base = draw->blend[0];
+      }
     }
   }
 
   for (i=0; i<2; i++) {
     char *name = (i != 0) ? tt->special_2_name : tt->special_1_name;
     if (name[0] != '\0') {
-      tt->special[i].sprite
+      draw->special[i]
 	= lookup_sprite_tag_alt(tt->special[i].graphic_str,
 				tt->special[i].graphic_alt,
-				name[0] != '\0', "tile_type special", name);
-      assert(tt->special[i].sprite != NULL);
+				TRUE, "tile_type special", name);
+      assert(draw->special[i] != NULL);
     } else {
-      tt->special[i].sprite = NULL;
+      draw->special[i] = NULL;
     }
     /* should probably do something if NULL, eg generic default? */
   }
+
+  sprites.terrain[terrain] = draw;
 }
 
 /**********************************************************************
@@ -1538,7 +1583,7 @@ static struct Sprite *get_dither(int ttype, int ttype_other)
   if (ttype_other == T_UNKNOWN)
     return sprites.black_tile;
 
-  if (is_ocean(ttype) || ttype == T_JUNGLE) {
+  if (!sprites.terrain[ttype]->is_blended) {
     return NULL;
   }
 
@@ -1546,28 +1591,7 @@ static struct Sprite *get_dither(int ttype, int ttype_other)
     return sprites.coast_color;
   }
 
-  if (ttype_other != T_UNKNOWN && ttype_other != T_LAST)
-    return get_tile_type(ttype_other)->sprite[0];
-  else
-    return NULL;
-}
-
-/**********************************************************************
-  Return TRUE iff the two mountainous terrain types should be blended.
-
-  If is_mountainous set, the tileset will be "mountainous" and consider
-  adjacent hills and mountains interchangable.  If it's unset then
-  hills will only blend with hills and mountains only with mountains.
-***********************************************************************/
-static bool can_blend_hills_and_mountains(enum tile_terrain_type ttype,
-				  enum tile_terrain_type ttype_adjc)
-{
-  assert(ttype == T_HILLS || ttype == T_MOUNTAINS);
-  if (is_mountainous) {
-    return ttype_adjc == T_HILLS || ttype_adjc == T_MOUNTAINS;
-  } else {
-    return ttype_adjc == ttype;
-  }
+  return sprites.terrain[ttype_other]->base;
 }
 
 /**************************************************************************
@@ -1902,43 +1926,21 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
 	}
       }
     } else {
-      ADD_SPRITE_SIMPLE(get_tile_type(ttype)->sprite[0]);
+      if (sprites.terrain[ttype]->match_type == 0
+	  || sprites.terrain[ttype]->is_layered) {
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->base);
+      }
 
-      switch (ttype) {
-        case T_HILLS:
-        tileno = INDEX_NSEW(can_blend_hills_and_mountains(T_HILLS,
-						  ttype_near[DIR8_NORTH]),
-			    can_blend_hills_and_mountains(T_HILLS,
-						  ttype_near[DIR8_SOUTH]),
-			    can_blend_hills_and_mountains(T_HILLS,
-						  ttype_near[DIR8_EAST]),
-			    can_blend_hills_and_mountains(T_HILLS,
-						  ttype_near[DIR8_WEST]));
-        ADD_SPRITE_SIMPLE(sprites.tx.spec_hill[tileno]);
-        break;
- 
-        case T_FOREST:
-        tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_FOREST,
-        		  ttype_near[DIR8_SOUTH] == T_FOREST,
-        		  ttype_near[DIR8_EAST] == T_FOREST,
-        		  ttype_near[DIR8_WEST] == T_FOREST);
-        ADD_SPRITE_SIMPLE(sprites.tx.spec_forest[tileno]);
-        break;
- 
-        case T_MOUNTAINS:
-        tileno = INDEX_NSEW(can_blend_hills_and_mountains(T_MOUNTAINS,
-						  ttype_near[DIR8_NORTH]),
-			    can_blend_hills_and_mountains(T_MOUNTAINS,
-						  ttype_near[DIR8_SOUTH]),
-			    can_blend_hills_and_mountains(T_MOUNTAINS,
-						  ttype_near[DIR8_EAST]),
-			    can_blend_hills_and_mountains(T_MOUNTAINS,
-						  ttype_near[DIR8_WEST]));
-        ADD_SPRITE_SIMPLE(sprites.tx.spec_mountain[tileno]);
-        break;
+      if (sprites.terrain[ttype]->match_type != 0) {
+	int match_type = sprites.terrain[ttype]->match_type;
 
-    	default:
-    	break;
+#define MATCH(dir) (sprites.terrain[ttype_near[(dir)]]->match_type)
+	tileno = INDEX_NSEW(MATCH(DIR8_NORTH) == match_type,
+			    MATCH(DIR8_SOUTH) == match_type,
+			    MATCH(DIR8_EAST) == match_type,
+			    MATCH(DIR8_WEST) == match_type);
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->blend[tileno]);
+#undef MATCH
       }
 
       sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
@@ -1988,9 +1990,9 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
         
     if (draw_specials) {
       if (contains_special(tspecial, S_SPECIAL_1)) {
-	ADD_SPRITE_SIMPLE(tile_types[ttype].special[0].sprite);
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
       } else if (contains_special(tspecial, S_SPECIAL_2)) {
-	ADD_SPRITE_SIMPLE(tile_types[ttype].special[1].sprite);
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
       }
     }
     
@@ -2000,9 +2002,9 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
 
     if (draw_specials) {
       if (contains_special(tspecial, S_SPECIAL_1)) {
-	ADD_SPRITE_SIMPLE(tile_types[ttype].special[0].sprite);
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
       } else if (contains_special(tspecial, S_SPECIAL_2)) {
-	ADD_SPRITE_SIMPLE(tile_types[ttype].special[1].sprite);
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
       }
     }
   
@@ -2130,17 +2132,20 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
      abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) {
     mysprite = sprites.tx.denmark[abs_y0-den_y][abs_x0-34];
   } else {
-    tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == ttype,
-			ttype_near[DIR8_SOUTH] == ttype,
-			ttype_near[DIR8_EAST] == ttype,
-			ttype_near[DIR8_WEST] == ttype);
-    if(ttype==T_RIVER) {
-      tileno |= INDEX_NSEW(is_ocean(ttype_near[DIR8_NORTH]),
-			   is_ocean(ttype_near[DIR8_SOUTH]),
-			   is_ocean(ttype_near[DIR8_EAST]),
-			   is_ocean(ttype_near[DIR8_WEST]));
+    /* FIXME: doesn't support is_layered. */
+    if (sprites.terrain[ttype]->match_type == 0) {
+      mysprite = sprites.terrain[ttype]->base;
+    } else {
+      int match_type = sprites.terrain[ttype]->match_type;
+
+#define MATCH(dir) (sprites.terrain[ttype_near[(dir)]]->match_type)
+      tileno = INDEX_NSEW(MATCH(DIR8_NORTH) == match_type,
+			  MATCH(DIR8_SOUTH) == match_type,
+			  MATCH(DIR8_EAST) == match_type,
+			  MATCH(DIR8_WEST) == match_type);
+      mysprite = sprites.terrain[ttype]->blend[tileno];
+#undef MATCH
     }
-    mysprite = get_tile_type(ttype)->sprite[tileno];
   }
 
   if (draw_terrain)
@@ -2191,9 +2196,9 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 
   if(draw_specials) {
     if (contains_special(tspecial, S_SPECIAL_1))
-      ADD_SPRITE_SIMPLE(tile_types[ttype].special[0].sprite);
+      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
     else if (contains_special(tspecial, S_SPECIAL_2))
-      ADD_SPRITE_SIMPLE(tile_types[ttype].special[1].sprite);
+      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
   }
 
   if(contains_special(tspecial, S_MINE) && draw_mines) {
