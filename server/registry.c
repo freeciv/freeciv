@@ -40,7 +40,7 @@
 **************************************************************************/
 #define DO_HASH 1
 #define HASH_BUCKET_RATIO 5
-#define HASH_DEBUG 0		/* 0,1,2 */
+#define HASH_DEBUG 1		/* 0,1,2 */
 
 struct hash_entry {
   struct section_entry *data;
@@ -66,6 +66,10 @@ static void secfilehash_insert(struct section_file *file,
 static void secfilehash_build(struct section_file *file);
 static void secfilehash_free(struct section_file *file);
 
+void alloc_strbuffer();
+char *strbufferdup(const char *str);
+void dealloc_strbuffer();
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -84,8 +88,9 @@ void section_file_free(struct section_file *file)
 {
   struct genlist_iterator myiter;
 
-  genlist_iterator_init(&myiter, &file->section_list, 0);
+  dealloc_strbuffer();
 
+  genlist_iterator_init(&myiter, &file->section_list, 0);
   for(; ITERATOR_PTR(myiter); ) {
     struct genlist_iterator myiter2;
     struct section *psection=(struct section *)ITERATOR_PTR(myiter);
@@ -95,7 +100,6 @@ void section_file_free(struct section_file *file)
       struct section_entry *pentry=
 	(struct section_entry *)ITERATOR_PTR(myiter2);
       ITERATOR_NEXT(myiter2);
-      free(pentry->name);
       free(pentry->svalue);
       genlist_unlink(&psection->entry_list, pentry);
       free(pentry);
@@ -213,7 +217,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 
       
       pentry=(struct section_entry *)malloc(sizeof(struct section_entry));
-      pentry->name=mystrdup(pname);
+      pentry->name=strbufferdup(pname);
       
       if(pvalue)
 	pentry->svalue=minstrdup(pvalue);
@@ -414,9 +418,6 @@ struct section_entry *section_file_lookup_internal(struct section_file
   struct genlist_iterator myiter;
   struct hash_entry *hentry;
 
-  if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
-    return 0;
-
   if (secfilehash_hashash(my_section_file)) {
     hentry = secfilehash_lookup(my_section_file, fullpath, NULL);
     if (hentry->data) {
@@ -425,6 +426,10 @@ struct section_entry *section_file_lookup_internal(struct section_file
       return 0;
     }
   }
+
+  if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
+    return 0;
+
   strncpy(sec_name, fullpath, pdelim-fullpath);
   sec_name[pdelim-fullpath]='\0';
   strcpy(ent_name, pdelim+1);
@@ -518,6 +523,7 @@ static int hashfunc(char *name, int num_buckets)
   unsigned int result=0;
   int i;
 
+  if(name[0]=='p') name+=6;
   for(i=0; *name; i++, name++) {
     if (i==NCOEFF) {
       i = 0;
@@ -579,7 +585,7 @@ static struct hash_entry *secfilehash_lookup(struct section_file *file,
     }
     file->hashd->num_collisions++;
     if (HASH_DEBUG>=2) {
-      log(LOG_NORMAL, "Hash collision for \"%s\", %d", key, hash_val);
+      log(LOG_DEBUG, "Hash collision for \"%s\", %d", key, hash_val);
     }
     i++;
     if (i==file->hashd->num_buckets) {
@@ -607,7 +613,7 @@ static void secfilehash_insert(struct section_file *file,
     exit(1);
   }
   hentry->data = data;
-  hentry->key_val = mystrdup(key);
+  hentry->key_val = strbufferdup(key);
   hentry->hash_val = hash_val;
 }
 
@@ -655,7 +661,7 @@ static void secfilehash_build(struct section_file *file)
     }
   }
   if (HASH_DEBUG>=1) {
-    log(LOG_NORMAL, "Hash collisions during build: %d (%d entries, %d buckets)",
+    log(LOG_DEBUG, "Hash collisions during build: %d (%d entries, %d buckets)",
 	hashd->num_collisions, file->num_entries, hashd->num_buckets );
   }
 }
@@ -666,13 +672,60 @@ static void secfilehash_build(struct section_file *file)
 **************************************************************************/
 static void secfilehash_free(struct section_file *file)
 {
-  int i;
-
   secfilehash_check(file);
-  for(i=0; i<file->hashd->num_buckets; i++) {
-    free(file->hashd->table[i].key_val);
-  }
   free(file->hashd->table);
   free(file->hashd);
 }
 
+
+static char *strbuffer=NULL;
+static int strbufferoffset=65536;
+/**************************************************************************
+ Allocate a 64k buffer for strings
+**************************************************************************/
+void alloc_strbuffer()
+{
+  char *newbuf;
+
+  newbuf = malloc(64*1024);
+
+  /* add a pointer back to the old buffer */
+  *(char **)(newbuf)=strbuffer;
+  strbufferoffset = sizeof(char *);
+
+  strbuffer=newbuf;
+}
+
+/**************************************************************************
+ Copy a string into the string buffer, if there is room.
+**************************************************************************/
+char *strbufferdup(const char *str)
+{
+  int len = strlen(str)+1;
+  char *p;
+
+  if(len > (65536 - strbufferoffset))  {
+    /* buffer must be full */
+    alloc_strbuffer();
+  }
+
+  p=strbuffer+strbufferoffset;
+  memcpy(p,str,len);
+  strbufferoffset+=len;
+
+  return p;
+}
+
+/**************************************************************************
+ De-allocate all the string buffers
+**************************************************************************/
+void dealloc_strbuffer()
+{
+  char *next;
+
+  do {
+    next = *(char **)strbuffer;
+    free(strbuffer);
+    strbuffer=next;
+  } while(next);
+}
