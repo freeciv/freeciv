@@ -4,15 +4,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.13\n"
-"POT-Creation-Date: 2002-10-12 01:15+0200\n"
+"POT-Creation-Date: 2002-10-11 19:41-0400\n"
 "PO-Revision-Date: 2002-09-30 01:03-0400\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: common/city.c:263
 msgid "?redundant:*"
@@ -163,8 +163,8 @@ msgstr "Радиация"
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr ""
-"Не хватает памяти при совершении операции %s - %lu байтов в строке %d файла %"
-"s"
+"Не хватает памяти при совершении операции %s - %lu байтов в строке %d "
+"файла %s"
 
 #: common/packets.c:3028
 msgid ""
@@ -964,8 +964,8 @@ msgstr ""
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
-"  -d, --debug NUM\tУстановить уровень журнала отладки  (0 до 4,или 4:file1,"
-"min,max:...)\n"
+"  -d, --debug NUM\tУстановить уровень журнала отладки  "
+"(0 до 4,или 4:file1,min,max:...)\n"
 
 #: server/civserver.c:134 client/civclient.c:135
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
@@ -1059,11 +1059,11 @@ msgid "Game: You don't have enough gold, you can't accept treaty."
 msgstr "Игра: У вас недостаточно денег, невозможно заключить договор."
 
 #: server/diplhand.c:210 server/diplhand.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
 msgid_plural "Game: A treaty containing %d clauses was agreed upon."
-msgstr[0] "Игра: Договор содержащий %d статей был подписан."
-msgstr[1] "Игра: Договор содержащий %d статей был подписан."
+msgstr[0] "Игра: Договор содержащий %d статью был подписан."
+msgstr[1] "Игра: Договор содержащий %d статьи был подписан."
 msgstr[2] "Игра: Договор содержащий %d статей был подписан."
 
 #: server/diplhand.c:219
@@ -1073,8 +1073,7 @@ msgstr "%s и %s заключили договор"
 
 #: server/diplhand.c:234 server/diplhand.c:238
 #, c-format
-msgid ""
-"Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr "Игра: Один из городов, который %s отдает, уничтожен! Договор отменен!"
 
 #: server/diplhand.c:245 server/diplhand.c:250
@@ -1466,8 +1465,7 @@ msgstr "Год: %s"
 
 #: server/gamehand.c:285
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
-msgstr ""
-"Тайм-аут хода превысил максимальное значение, устанавливаевам в максимум."
+msgstr "Тайм-аут хода превысил максимальное значение, устанавливаевам в максимум."
 
 #: server/gamehand.c:293
 msgid "The turn timeout is smaller than zero, fixing at zero."
@@ -1865,11 +1863,9 @@ msgid ""
 "rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
-"Игра: Захват столицы %s и уничтожение административных структур империи "
-"привели \n"
-"      к гражданской войне. Оппортунисты сбегаются к повстанцам, и выскочка %"
-"s\n"
-"      теперь владеет %d провинциями."
+"Игра: Захват столицы %s и уничтожение административных структур империи\n"
+"      привели к гражданской войне. Оппортунисты сбегаются к повстанцам,\n"
+"      и выскочка %s теперь владеет %d провинциями."
 
 #: server/report.c:46
 #, c-format
@@ -2096,7 +2092,7 @@ msgstr "-ый"
 
 #: server/report.c:542
 msgid "Demography string contains invalid characters. Try \"help demography\"."
-msgstr ""
+msgstr "Строка демографии содержит неправильные символы. Попробуйте \"help demography\"."
 
 #: server/report.c:582 server/report.c:600
 msgid "Demographics Report:"
@@ -3492,13 +3488,13 @@ msgstr "Записывать ли в журнал статистику игроков"
 
 #: server/stdinhand.c:810
 msgid ""
-"If this is set to 1, player statistics are appended to the file \"civscore."
-"log\" every turn.  These statistics can be used to create power graphs after "
-"the game."
+"If this is set to 1, player statistics are appended to the file "
+"\"civscore.log\" every turn.  These statistics can be used to create power "
+"graphs after the game."
 msgstr ""
-"Если это установлено в 1, статистика игроков дописываются в файл \"civscore."
-"log\" каждый ход. Эта статистика может быть использована для создания "
-"графиков силы после игры."
+"Если это установлено в 1, статистика игроков дописываются в файл "
+"\"civscore.log\" каждый ход. Эта статистика может быть использована для "
+"создания графиков силы после игры."
 
 #: server/stdinhand.c:816
 msgid "Detail level for logging game events"
@@ -3563,8 +3559,8 @@ msgid ""
 "includes the current and default values for that option.  The argument may "
 "be abbreviated where unambiguous."
 msgstr ""
-"Без аргументов дает вводную справку. С аргументом \"commands\" или \"options"
-"\" дает соответственно список всех команд или всех параметров. В противном "
+"Без аргументов дает вводную справку. С аргументом \"commands\" или "
+"\"options\" дает соответственно список всех команд или всех параметров. В противном "
 "случае аргумент расматривается как имя команды или параметра и справка "
 "дается по этой комманде или параметру. Для параметров информация включает "
 "текущее значение и значение по умолчанию. Аргументы могут сокращатьсяч там "
@@ -3960,8 +3956,8 @@ msgid ""
 "with the option \"timeout\". Defaults are 0 0 0 1"
 msgstr ""
 "Каждое число <ход> ходов, добавить <значение> к таймеру тайм-аута, затем "
-"добавить <инкремент-хода> к <ход>у и умножить <значение> на <множитель-"
-"значения>. Используйте эту команду вместе с параметром \"timeout\". Значение "
+"добавить <инкремент-хода> к <ход>у и умножить <значение> на "
+"<множитель-значения>. Используйте эту команду вместе с параметром \"timeout\". Значение "
 "по умолчанию: 0 0 0 1"
 
 #: server/stdinhand.c:1209
@@ -4006,8 +4002,8 @@ msgstr "Сохранить игру в файл."
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
-"To reload a savegame created by 'save', start the server with the command-"
-"line argument:\n"
+"To reload a savegame created by 'save', start the server with the "
+"command-line argument:\n"
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
@@ -4288,14 +4284,14 @@ msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Невозможно установить уровень команд в '%s' для подсоединения %s."
 
 #: server/stdinhand.c:2117 server/stdinhand.c:2129 server/stdinhand.c:2146
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level set to '%s' for new players."
-msgstr "Уровень доступа к командам установлен в '%s' для подсоединения %s."
+msgstr "Уровень доступа к командам установлен в '%s' для новых игроков."
 
 #: server/stdinhand.c:2122 server/stdinhand.c:2134 server/stdinhand.c:2141
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level set to '%s' for first player to grab it."
-msgstr "Уровень комманд для первого взявшего его игрока: %s"
+msgstr "Уровень комманд для первого взявшего его игрока: '%s'"
 
 #: server/stdinhand.c:2176
 msgid "The 'firstlevel' command makes no sense from the server command line."
@@ -4312,7 +4308,7 @@ msgid "Someone else already has command access level '%s' or better."
 msgstr "Кто-либо уже имеет уровень комманд '%s' или выше."
 
 #: server/stdinhand.c:2188
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level '%s' has been grabbed by connection %s."
 msgstr "Уровень доступа к командам установлен в '%s' для подсоединения %s."
 
@@ -4324,8 +4320,8 @@ msgstr "Неверный аргумент %d"
 #: server/stdinhand.c:2226
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr ""
-"Использование: timeoutincreate <ход> <инкремент-хода> <значение> <множитель-"
-"значения>."
+"Использование: timeoutincreate <ход> <инкремент-хода> <значение> "
+"<множитель-значения>."
 
 #: server/stdinhand.c:2232
 #, c-format
@@ -4403,9 +4399,9 @@ msgid "Server Options (ongoing)"
 msgstr "Параметры сервера (текущие)"
 
 #: server/stdinhand.c:2473 server/stdinhand.c:2494 server/stdinhand.c:2505
-#, fuzzy, c-format
+#, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr "Игра: Все игроки сейчас имеют уровень доступа '%s'."
+msgstr "Игра: Компьютерный игрок '%s' имеет уровень сложности '%s'."
 
 #: server/stdinhand.c:2498
 #, c-format
@@ -4413,9 +4409,9 @@ msgid "%s is not controlled by the AI."
 msgstr "%s контролируется компьютером."
 
 #: server/stdinhand.c:2511
-#, fuzzy, c-format
+#, c-format
 msgid "Default AI skill level set to '%s'."
-msgstr "Уровень команд по умолчанию установлен в '%s'"
+msgstr "Уровень компьютерных игроков по умолчанию установлен в '%s'"
 
 #: server/stdinhand.c:2542
 #, c-format
@@ -4575,8 +4571,8 @@ msgstr "Извините, вы не можете использовать команды сервера."
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
-"Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте '%"
-"shelp'."
+"Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте "
+"'%shelp'."
 
 #: server/stdinhand.c:3054
 #, c-format
@@ -4588,9 +4584,8 @@ msgid "You are not allowed to use this command."
 msgstr "Вы не можете пользоваться этой командой."
 
 #: server/stdinhand.c:3087
-#, fuzzy
 msgid "(server prompt)"
-msgstr " (наблюдатель)"
+msgstr "(приглашение сервера)"
 
 #: server/stdinhand.c:3167
 msgid "The game must be running before you can see the score."
@@ -4602,7 +4597,7 @@ msgstr "Недостаточно игроков, игра не начнется."
 
 #: server/stdinhand.c:3231
 msgid "You're not associated with a player and the game is starting. Bye."
-msgstr ""
+msgstr "Вы не ассоциариованы ни с одним игроком, а игра уже начинается. Пока."
 
 #: server/stdinhand.c:3242
 msgid "Cannot start the game: it is already running."
@@ -4773,6 +4768,8 @@ msgid ""
 "Allowed connections string contains invalid\n"
 "characters.  Try \"help allowconnect\"."
 msgstr ""
+"Строка разрешенных соединений содержит неправильные\n"
+"символы. Попробуйте \"help allowconnect\"."
 
 #: server/unithand.c:159
 #, c-format
@@ -5048,8 +5045,8 @@ msgstr ""
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
-"Игра: Посадили ваши %s на корабль в связи с изменением земли на море в (%d, %"
-"d)."
+"Игра: Посадили ваши %s на корабль в связи с изменением земли на море в (%d, "
+"%d)."
 
 #: server/unittools.c:1099
 #, c-format
@@ -5405,7 +5402,7 @@ msgid "%s (XX) %d/turn"
 msgstr "%s (XX) %d/ход"
 
 #: client/citydlg_common.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d) %d turn"
 msgid_plural "%s (%d) %d turns"
 msgstr[0] "%s (%d) %d ход"
@@ -5449,9 +5446,8 @@ msgid "(worklist)"
 msgstr "(список работ)"
 
 #: client/cityrepdata.c:204
-#, fuzzy
 msgid "?city:Name"
-msgstr "Название города"
+msgstr "?город:Название"
 
 #: client/cityrepdata.c:204
 msgid "City Name"
@@ -5459,7 +5455,7 @@ msgstr "Название города"
 
 #: client/cityrepdata.c:206
 msgid "?size:Sz"
-msgstr ""
+msgstr "?размер:Рз"
 
 #: client/cityrepdata.c:206
 msgid "Size"
@@ -5486,7 +5482,7 @@ msgstr "Рабочие"
 
 #: client/cityrepdata.c:213
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr ""
+msgstr "?счастливые/довольные/несчастные/злые:С/Д/Н/З"
 
 #: client/cityrepdata.c:214
 msgid "Workers: Happy, Content, Unhappy, Angry"
@@ -5497,9 +5493,8 @@ msgid "Special"
 msgstr "Особое"
 
 #: client/cityrepdata.c:217
-#, fuzzy
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr "Развлекающие, Ученые, сборщики Налогов"
+msgstr "?Развлекающие/ученые/налогосборщики:Р/У/Н"
 
 #: client/cityrepdata.c:218
 msgid "Entertainers, Scientists, Taxmen"
@@ -5510,9 +5505,8 @@ msgid "Surplus"
 msgstr "Избыток"
 
 #: client/cityrepdata.c:220
-#, fuzzy
 msgid "?food/prod/trade:F/P/T"
-msgstr "Еда/Произв/Торг: %s"
+msgstr "?еда/произв/торг:Е/П/Т"
 
 #: client/cityrepdata.c:221
 msgid "Surplus: Food, Production, Trade"
@@ -5527,21 +5521,19 @@ msgstr "Экономика"
 
 #: client/cityrepdata.c:223
 msgid "?gold/lux/sci:G/L/S"
-msgstr ""
+msgstr "?зол/роск/наук:З/Р/Н"
 
 #: client/cityrepdata.c:224
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "Экономика: Золото, Роскошь, Наука"
 
 #: client/cityrepdata.c:226
-#, fuzzy
 msgid "?trade_routes:n"
-msgstr "Торговые пути"
+msgstr "Торговые пути:н"
 
 #: client/cityrepdata.c:226
-#, fuzzy
 msgid "?trade_routes:T"
-msgstr "Торговые пути"
+msgstr "Торговые пути:Т"
 
 #: client/cityrepdata.c:227
 msgid "Number of Trade Routes"
@@ -5563,14 +5555,12 @@ msgid "Food Stock"
 msgstr "Запас пищи"
 
 #: client/cityrepdata.c:231
-#, fuzzy
 msgid "?pollution:Pol"
-msgstr "Загрязнение:"
+msgstr "Загрязнение:Загр"
 
 #: client/cityrepdata.c:233
-#, fuzzy
 msgid "?corruption:Cor"
-msgstr "Коррупция:"
+msgstr "Коррупция:Корр"
 
 #: client/cityrepdata.c:233
 msgid "Corruption"
@@ -5832,8 +5822,8 @@ msgstr "Игра: Вы можете разгрузить только транспортирующие соединения."
 
 #: client/control.c:780
 msgid ""
-"Game: Only settler units and military units in cities can be put in auto-"
-"mode."
+"Game: Only settler units and military units in cities can be put in "
+"auto-mode."
 msgstr ""
 "Игра: Только колонисты и военные соединения в городе могут быть установлены "
 "в авто-режим."
@@ -5895,8 +5885,8 @@ msgstr "Позволяет городу вырасти больше чем до %d.  "
 #: client/helpdata.c:512
 #, c-format
 msgid ""
-"(The %s improvement is also required for a city to grow larger than size %"
-"d.)  "
+"(The %s improvement is also required for a city to grow larger than size "
+"%d.)  "
 msgstr "(%s также требуется, чтобы город мог вырости больше чем до %d.)  "
 
 #: client/helpdata.c:528
@@ -7765,8 +7755,8 @@ msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d second(s) "
 "for %d times"
 msgstr ""
-"Автиматически подключаемся к серверу \"%s\", порт %d, как \"%s\", каждые %d.%"
-"d секунд, %d раз"
+"Автиматически подключаемся к серверу \"%s\", порт %d, как \"%s\", каждые "
+"%d.%d секунд, %d раз"
 
 #: client/gui-gtk-2.0/dialogs.c:285 client/gui-gtk/dialogs.c:319
 msgid "Message:"
@@ -10032,14 +10022,12 @@ msgid "What Nation Will You Be?"
 msgstr "Какой страной вы будете?"
 
 #: client/gui-gtk/dialogs.c:1966
-#, fuzzy
 msgid "Nation:"
-msgstr "Нация"
+msgstr "Народ:"
 
 #: client/gui-gtk/dialogs.c:1985
-#, fuzzy
 msgid "Leader:"
-msgstr "Лидерство"
+msgstr "Лидер:"
 
 #: client/gui-gtk/dialogs.c:2075 client/gui-mui/gui_main.c:201
 #: client/gui-win32/dialogs.c:520 client/gui-xaw/menu.c:113 data/Freeciv:3078
@@ -11059,10 +11047,11 @@ msgid "Freeciv - Edit Worklist"
 msgstr "Freeciv - Редактировать списки работ"
 
 #: client/gui-mui/worklistclass.c:201
-#, fuzzy
 msgid "entry"
 msgid_plural "entries"
 msgstr[0] "элемент"
+msgstr[1] "элемента"
+msgstr[2] "элементы"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:228
@@ -11981,8 +11970,8 @@ msgid ""
 "the -m flag, it will report to the metaserver,"
 msgstr ""
 "До того, как игра началась, каждый может подключиться к серверу, указывая "
-"его имя и номер порта (5555 по умолчанию). Если сервер был запущен с флагом -"
-"m, он сообщит об игре метасерверу,"
+"его имя и номер порта (5555 по умолчанию). Если сервер был запущен с флагом "
+"-m, он сообщит об игре метасерверу,"
 
 #: data/helpdata.txt:410
 msgid ""
@@ -12147,8 +12136,7 @@ msgstr ""
 "  9: идти на северо-восток        F11: открыть Демографию\n"
 "                                  F12: открыть Космический корабль\n"
 "\n"
-"  return: turn done  стрелки: двигать соед        Control-g: включить/"
-"выключить сетку\n"
+"  return: turn done  стрелки: двигать соед        Control-g: вкл/выкл сетку\n"
 "   пробел: соед на месте       Control-n: вкл/выкл назв. городов\n"
 "      таб: фокус на след соед  Control-p: вкл/выкл гор. произв-во\n"
 "   return: ход закончен"
@@ -12524,8 +12512,8 @@ msgstr ""
 "начале игры. Но чтобы улучшить ваш уровень игры, Вы должны изучить различные "
 "соединения и науки, и ПРАКТИКОВАТЬСЯ, ПРАКТИКОВАТЬСЯ, ПРАКТИКОВАТЬСЯ! "
 "Freeciv имеет много интересных поворотов, так что если Вы не играли в "
-"подобную игру прежде, попробуйте посмотреть с WWW страницы Freeciv на http://"
-"www.freeciv.org/\n"
+"подобную игру прежде, попробуйте посмотреть с WWW страницы Freeciv на "
+"http://www.freeciv.org/\n"
 "Там вы найдете большее количество информации об игре, и деталей того, как "
 "войти в контакт с другими игроками."
 
@@ -12687,15 +12675,15 @@ msgstr ""
 "Нажатие на \"Контролировать город\" отдает город под контроль АУГ, "
 "\"Отпустить город\" возвращает вам контроль.\n"
 "\n"
-"Для простоты использования вы можете сохраните свои установки как пре-"
-"установку с именем. Нажмите на 'добавить пре-установку' и введите имя. Вы "
+"Для простоты использования вы можете сохраните свои установки как "
+"пре-установку с именем. Нажмите на 'добавить пре-установку' и введите имя. Вы "
 "можете использовать эту пре-установку во всех городах, просто нажимая на ее "
 "имя. Также вы можете контролировать из городского доклада, в колонке АУГ. Вы "
 "можете и изменить его там (нажмите 'Изменить' - 'АУГ'), если она сохранена "
 "как пре-установка.\n"
 "\n"
-"Используйте 'Игра' --> 'Сохранить установки', чтобы сохранить ваши пре-"
-"установки постоянно.\n"
+"Используйте 'Игра' --> 'Сохранить установки', чтобы сохранить ваши "
+"пре-установки постоянно.\n"
 "\n"
 "Но будьте осторожны! Если вы используете АУГ для некоторых из ваших городов, "
 "у вас могу быть некоторые сложности с управлением соседними городами. Лучше "
@@ -13064,8 +13052,8 @@ msgid ""
 "left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city "
 "with City Walls built on a Forest tile."
 msgstr ""
-"Предположим ветеран-Пушка (А:8, З:1, Зд:20, Ог:1) с 2/3 хода атакует не-"
-"ветерана Мушкетера (А:3, З:3, Зд:20, Ог:1) внутри города со стенами "
+"Предположим ветеран-Пушка (А:8, З:1, Зд:20, Ог:1) с 2/3 хода атакует "
+"не-ветерана Мушкетера (А:3, З:3, Зд:20, Ог:1) внутри города со стенами "
 "построенном на лесном квадрате."
 
 #: data/helpdata.txt:981
@@ -13297,8 +13285,8 @@ msgstr ""
 #: data/helpdata.txt:1111
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
-"When choosing a place for a new city, make sure there are enough food-"
-"producing squares nearby to support your growing population."
+"When choosing a place for a new city, make sure there are enough "
+"food-producing squares nearby to support your growing population."
 msgstr ""
 "Каждый из видов рельефа имеет свои плюсы и минусы. Выбирая место для "
 "постройки города, убедитесь, что рядом достаточно квадратов, производящих "
@@ -14179,8 +14167,8 @@ msgstr ""
 "вместе дают 150% премию. Увеличенное производство может увеличить "
 "загрязнения.\n"
 "\n"
-"Город может иметь только одну из электростанций: Солнечную, Гидро, Тепловую"
-"(обычную) или Ядерную."
+"Город может иметь только одну из электростанций: Солнечную, Гидро, "
+"Тепловую(обычную) или Ядерную."
 
 #: data/default/buildings.ruleset:956 data/civ2/buildings.ruleset:749
 #: data/civ1/buildings.ruleset:761
@@ -14222,8 +14210,8 @@ msgstr "Батарея ракет Земля-Воздух"
 #: data/default/buildings.ruleset:1029 data/civ2/buildings.ruleset:822
 #: data/civ1/buildings.ruleset:834
 msgid ""
-"Doubles the defense of all units inside the city when attacked by non-"
-"nuclear air units."
+"Doubles the defense of all units inside the city when attacked by "
+"non-nuclear air units."
 msgstr ""
 "Удваивает защиту всех соединений в городе против атак не-ядерных воздушных "
 "соедниений."
@@ -14270,8 +14258,8 @@ msgstr ""
 "Электростанция вместе дают 75% премию, а Фабрика, Завод и Солнечная "
 "Электростанция вместе дают 150% премию.\n"
 "\n"
-"Город может иметь только одну из электростанций: Солнечную, Гидро, Тепловую"
-"(обычную) или Ядерную."
+"Город может иметь только одну из электростанций: Солнечную, Гидро, "
+"Тепловую(обычную) или Ядерную."
 
 #: data/default/buildings.ruleset:1133 data/civ2/buildings.ruleset:922
 #: data/civ1/buildings.ruleset:931
@@ -14876,8 +14864,7 @@ msgstr ""
 "Электростанция в месте дают 100% премию, а Фабрика, Завод и Солнечная "
 "Электростанция вместе дают 150% премию.\n"
 "\n"
-"Город может иметь только одну из электростанций: Солнечную, Гидро, Тепловую"
-"(обычную) или Ядерную."
+"Город может иметь только одну из электростанций: Солнечную, Гидро, Тепловую(обычную) или Ядерную."
 
 #: data/civ2/buildings.ruleset:1886 data/civ1/buildings.ruleset:1895
 msgid "Capitalization"
