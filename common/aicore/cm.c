@@ -1052,13 +1052,17 @@ static void expand_cache3(struct city *pcity, int fields_to_use,
 static void ensure_invalid_cache2(struct city *pcity, int total_tile_trade)
 {
   bool change_size = FALSE;
-  int i, luxury, total_trade = total_tile_trade;
+  int backup,i, luxury, total_trade = total_tile_trade;
 
+  /* Hack since trade_between_cities accesses pcity->tile_trade */
+  backup = pcity->tile_trade;
+  pcity->tile_trade = total_tile_trade;
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     struct city *pc2 = find_city_by_id(pcity->trade[i]);
 
     total_trade += trade_between_cities(pcity, pc2);
   }
+  pcity->tile_trade = backup;
 
   /*
    * Estimate an upper limit for the luxury. We assume that the player
