@@ -162,6 +162,16 @@ if test x$client = xtrue; then
     dnl Checks for X:
     AC_PATH_XTRA
 
+    dnl Determine the Xfuncproto control definitions:
+    FC_CHECK_X_PROTO_DEFINE(FUNCPROTO)
+    if test -n "$fc_x_proto_value"; then
+      AC_DEFINE_UNQUOTED(FUNCPROTO, $fc_x_proto_value)
+    fi
+    FC_CHECK_X_PROTO_DEFINE(NARROWPROTO)
+    if test -n "$fc_x_proto_value"; then
+      AC_DEFINE_UNQUOTED(NARROWPROTO, $fc_x_proto_value)
+    fi
+
     dnl Try to get additional Xpm paths:
     FC_XPM_PATHS
 

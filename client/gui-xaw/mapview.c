@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -849,8 +853,8 @@ void update_map_canvas_scrollbars(void)
   float shown_v=(float)map_canvas_store_theight/(float)map.ysize;
   float top_v=(float)map_view_y0/(float)map.ysize;
 
-  my_XawScrollbarSetThumb(map_horizontal_scrollbar, top_h, shown_h);
-  my_XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
+  XawScrollbarSetThumb(map_horizontal_scrollbar, top_h, shown_h);
+  XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
 }
 
 
@@ -1500,7 +1504,8 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
   }
 
   update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight, 1);
-  update_map_canvas_scrollbars();
+  /* The scrollbar tracks by itself, while calling the jumpProc,
+     so there's no need to call update_map_canvas_scrollbars() here. */
   refresh_overview_viewrect();
 }
 
@@ -1537,35 +1542,4 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
   update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight, 1);
   update_map_canvas_scrollbars();
   refresh_overview_viewrect();
-}
-
-
-
-/**************************************************************************
-couldn't get the usual XawScrollbarSetThumb to work. tried everything.
-someone please tell me why - pu
-Well, I can't get his implementation to work; so I reverted it - ffh
-But the ffh version doesn't work for me --dwp
-**************************************************************************/
-void my_XawScrollbarSetThumb(Widget w, float top, float shown)
-{
-#if 0
-  /* ffh: */
-  XawScrollbarSetThumb(w, top, shown);
-#else
-  /* pu: */
-  Arg arglist[2];
-
-  if(sizeof(float)>sizeof(XtArgVal)) {
-    XtSetArg(arglist[0], XtCTopOfThumb, &top);
-    XtSetArg(arglist[1], XtNshown, &shown);
-   }
-  else {
-    XtArgVal *l_top=(XtArgVal*)&top;
-    XtArgVal *l_shown=(XtArgVal*)&shown; 
-    XtSetArg(arglist[0], XtNtopOfThumb, *l_top);
-    XtSetArg(arglist[1], XtNshown, *l_shown);
-   }
-  XtSetValues(w, arglist, 2);
-#endif
 }

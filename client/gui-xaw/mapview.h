@@ -43,7 +43,6 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int map_x, int map_y,
 void pixmap_put_black_tile(Pixmap pm, int x, int y);
 void pixmap_frame_tile_red(Pixmap pm, int x, int y);
 
-void my_XawScrollbarSetThumb(Widget w, float top, float shown);
 void scrollbar_jump_callback(Widget scrollbar, XtPointer client_data,
 			     XtPointer percent_ptr);
 void scrollbar_scroll_callback(Widget w, XtPointer client_data,
