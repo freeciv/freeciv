@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-16 14:00+0100\n"
+"PO-Revision-Date: 2005-01-20 13:46+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14516,9 +14516,8 @@ msgid "List all units"
 msgstr "Seznam všech jednotek"
 
 #: client/gui-mui/mapclass.c:1767
-#, fuzzy
 msgid "Connect to this location"
-msgstr "Připojit se k tomuto serveru"
+msgstr "Připojit se k této lokaci"
 
 #: client/gui-mui/mapclass.c:1770
 msgid "Goto this location"
@@ -14531,9 +14530,8 @@ msgstr "Rozpustit"
 
 #: client/gui-mui/mapclass.c:2956
 #: data/Freeciv.in:1214
-#, fuzzy
 msgid "Make new homecity"
-msgstr "Vytvořit nové pozadí"
+msgstr "Nové domovské město"
 
 #: client/gui-mui/mapctrl.c:80
 msgid "City_name"
@@ -14580,9 +14578,8 @@ msgid "(%ld steps)"
 msgstr "(%ld kroky)"
 
 #: client/gui-mui/repodlgs.c:302
-#, fuzzy
 msgid "Science Advisor"
-msgstr "Ekonomika: Věda"
+msgstr "Ministr pro vědu"
 
 #: client/gui-mui/repodlgs.c:306
 #, c-format
@@ -14613,22 +14610,19 @@ msgstr "_Výzkum"
 
 #: client/gui-mui/repodlgs.c:505
 #: client/gui-win32/repodlgs.c:413
-#, fuzzy
 msgid "Trade Report"
-msgstr "Obchodní bilance..."
+msgstr "Obchodní bilance"
 
 #: client/gui-mui/repodlgs.c:529
 #: client/gui-mui/repodlgs.c:555
-#, fuzzy
 msgid "Trade Advisor"
-msgstr "?Trade surplus:O+"
+msgstr "Ministr obchodu"
 
 #: client/gui-mui/repodlgs.c:746
 #: client/gui-mui/repodlgs.c:772
 #: client/gui-mui/repodlgs.c:807
-#, fuzzy
 msgid "Military Report"
-msgstr "Cestovatelé tvrdí:"
+msgstr "Vojenský přehled"
 
 #: client/gui-mui/repodlgs.c:861
 #: client/gui-win32/repodlgs.c:720
@@ -20659,7 +20653,7 @@ msgstr "?plural:Bavoráci"
 
 #: data/nation/bavarian.ruleset:6
 msgid "Bavaria, before national unification in 1870AD, was one of the largest of the German kingdoms."
-msgstr ""
+msgstr "Bavorsko bylo před národním sjednocením v roce 1870 jedním z největších německých království."
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
@@ -20817,9 +20811,8 @@ msgid "?plural:Chileans"
 msgstr "?plural:Chile"
 
 #: data/nation/chilean.ruleset:6
-#, fuzzy
 msgid "Chile is located on the south-western coast of South America."
-msgstr "Argentina je umístěna na jihovýchodním pobřeží Jižní Ameriky."
+msgstr "Chile se nachází na jihozápadním pobřeží Jižní Ameriky."
 
 #: data/nation/chilean.ruleset:18
 #, fuzzy
@@ -21388,7 +21381,7 @@ msgstr "?plural:Mordoři"
 
 #: data/nation/mordor.ruleset:6
 msgid "The armies of the Dark Lord Sauron, from J.R.R. Tolkien's Middle Earth fantasies."
-msgstr ""
+msgstr "Armády temného lorda Saurona, z J.R.R. Tolkienovy fantasy Středozemě."
 
 #: data/nation/mordor.ruleset:15
 msgid "Overlord"
@@ -21587,7 +21580,7 @@ msgstr "?plural:Singapurci"
 
 #: data/nation/singaporean.ruleset:18
 msgid "Singapore is a mercantile city-state located at the southernmost tip of the Malaysian Peninsula"
-msgstr ""
+msgstr "Singapur je městským státem, žijícím převážně z obchodu a nachází se na jihu Malajského poloostrova."
 
 #: data/nation/singaporean.ruleset:29
 msgid "Ah"
@@ -21728,7 +21721,7 @@ msgstr "?plural:Ukrainci"
 
 #: data/nation/ukrainian.ruleset:6
 msgid "The Ukraine is a vast region on the westernmost marches of the former Soviet Union. It includes some of the most fertile black-soil cropland on Earth."
-msgstr ""
+msgstr "Ukrajina je veliká oblast západní části bývalého Sovětského svazu. Obsahuje nejúrodnější půdu na Zemi vůbec - černozem."
 
 #: data/nation/ukrainian.ruleset:15
 msgid "Hetman"
