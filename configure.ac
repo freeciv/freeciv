@@ -332,6 +332,10 @@ AC_CHECK_LIB(z, gzgets, ,
 AC_CHECK_HEADER(zlib.h, , 
   AC_MSG_ERROR([zlib found but not zlib.h.  
 You may need to install a zlib \"development\" package.]))
+AC_PATH_PROG(GZIP, gzip, "no")
+if test "$GZIP" = "no"; then
+  AC_MSG_ERROR([You need the gzip program for compilation.])
+fi
 
 dnl Check and compile ftwl
 if test "$ftwl" = x11 ; then
