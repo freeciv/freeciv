@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-09-12 19:02+0100\n"
+"POT-Creation-Date: 2003-09-23 21:42+0100\n"
 "PO-Revision-Date: 2003-09-12 19:10+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"Language-Team: \n"
+"Language-Team: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -286,7 +286,7 @@ msgstr "não-equivalente"
 msgid "'Cause civilization should be free!"
 msgstr "Porque civilization deveria ser livre!"
 
-#: common/shared.c:1251
+#: common/shared.c:1251 common/shared.c:1268
 #, c-format
 msgid ""
 "String conversion from %s not possible.  You may\n"
@@ -297,7 +297,7 @@ msgstr ""
 "definir a sua codificação de local manualmente definindo\n"
 "a variável de ambiente $FREECIV_LOCAL_ENCODING. Ainda assim a prosseguir..."
 
-#: common/shared.c:1277
+#: common/shared.c:1290
 #, c-format
 msgid ""
 "The string '%s' is not valid: %s. Ruleset files must\n"
@@ -308,7 +308,7 @@ msgstr ""
 "de regras têm de estar codificados como %s; pode alterar\n"
 "isto definindo $FREECIV_DATA_ENCODING."
 
-#: common/shared.c:1343
+#: common/shared.c:1361
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
@@ -1453,17 +1453,17 @@ msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Jogo: %s causou um incidente ao incitar uma revolta em %s."
 
 #. Hmm, clients could add this themselves based on above packet?
-#: server/gamehand.c:183 client/gui-mui/mapview.c:196
+#: server/gamehand.c:184 client/gui-mui/mapview.c:196
 #, c-format
 msgid "Year: %s"
 msgstr "Ano: %s"
 
-#: server/gamehand.c:285
+#: server/gamehand.c:286
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr ""
 "A expiração de turno excedeu o seu limite máximo, a corrigir para máximo"
 
-#: server/gamehand.c:293
+#: server/gamehand.c:294
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "A expiração de turno é menor do que zero, a corrigir para zero."
 
@@ -1734,13 +1734,13 @@ msgstr "Jogo: Não pode alterar as taxas antes do jogo começar."
 msgid "Tax"
 msgstr "Imposto"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2017
+#: server/plrhand.c:649 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luxo"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2019
+#: server/plrhand.c:651 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -5606,7 +5606,7 @@ msgstr "?trade_routes:R"
 msgid "Number of Trade Routes"
 msgstr "Número de Rotas Comerciais"
 
-#: client/cityrepdata.c:229 client/agents/cma_core.c:2009
+#: client/cityrepdata.c:229 client/agents/cma_core.c:2013
 #: client/gui-gtk-2.0/repodlgs.c:836 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -6714,14 +6714,14 @@ msgstr "Incapaz de ler ficheiro gfx para o ficheiro de especificações %s"
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "AGC: Você perdeu o controlo de %s. A desligar-se da cidade."
 
-#: client/agents/cma_core.c:1789
+#: client/agents/cma_core.c:1793
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
 msgstr ""
 "AGC: O agente não consegue cumprir os requisitos de %s. A devolver controlo."
 
-#: client/agents/cma_core.c:1798
+#: client/agents/cma_core.c:1802
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -6729,7 +6729,7 @@ msgstr ""
 "AGC: %s foi alterado e o resultado calculado não pode ser aplicado. A "
 "repetir."
 
-#: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
+#: client/agents/cma_core.c:1822 client/agents/cma_core.c:1830
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -6740,20 +6740,20 @@ msgstr ""
 "azar. Contacte <freeciv-dev@freeciv.org> (em inglês). O AGC irá agora "
 "desligar-se da cidade."
 
-#: client/agents/cma_core.c:2011 client/gui-gtk-2.0/repodlgs.c:835
+#: client/agents/cma_core.c:2015 client/gui-gtk-2.0/repodlgs.c:835
 #: client/gui-gtk/repodlgs.c:780 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:701
 msgid "Shield"
 msgstr "Escudo"
 
-#: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
+#: client/agents/cma_core.c:2017 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 #: data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Comércio"
 
-#: client/agents/cma_core.c:2015 client/gui-gtk/citydlg.c:546
+#: client/agents/cma_core.c:2019 client/gui-gtk/citydlg.c:546
 #: client/gui-mui/citydlg.c:1687 data/default/terrain.ruleset:376
 #: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
 #: data/history/terrain.ruleset:376
@@ -7917,6 +7917,12 @@ msgstr "_Sentinela das inactivas"
 msgid "What Nation Will You Be?"
 msgstr "Que Nação Irá Personificar?"
 
+#: client/gui-gtk-2.0/dialogs.c:1781 client/gui-gtk-2.0/menu.c:570
+#: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
+#: client/gui-win32/menu.c:287
+msgid "_Disconnect"
+msgstr "_Desligar"
+
 #: client/gui-gtk-2.0/dialogs.c:1800
 msgid "Select a nation"
 msgstr "Seleccione uma nação"
@@ -8726,11 +8732,6 @@ msgstr "_Exportar Registo"
 #: client/gui-win32/menu.c:285
 msgid "_Clear Log"
 msgstr "_Limpar Registo"
-
-#: client/gui-gtk-2.0/menu.c:570 client/gui-gtk/menu.c:571
-#: client/gui-mui/dialogs.c:1776 client/gui-win32/menu.c:287
-msgid "_Disconnect"
-msgstr "_Desligar"
 
 #: client/gui-gtk-2.0/menu.c:572 client/gui-gtk/menu.c:573
 #: client/gui-mui/connectdlg.c:225 client/gui-mui/dialogs.c:1777
@@ -9573,6 +9574,10 @@ msgstr "Lista de _Tarefas Objectivo:"
 #: client/gui-gtk-2.0/wldlg.c:974
 msgid "_Add Global Worklist"
 msgstr "_Adicionar Lista de Tarefas Global"
+
+#: client/gui-gtk-2.0/wldlg.c:988
+msgid "Chan_ge Production"
+msgstr "Alt_erar Produção"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -15413,7 +15418,7 @@ msgstr ""
 "descontente."
 
 #: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
+#: data/civ1/governments.ruleset:310 data/history/governments.ruleset:314
 #: data/default/techs.ruleset:146 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
@@ -15421,7 +15426,7 @@ msgstr "Comunismo"
 
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
+#: data/civ1/governments.ruleset:350 data/civ1/governments.ruleset:351
 #: data/history/governments.ruleset:354 data/history/governments.ruleset:355
 msgid "Comrade"
 msgstr "Camarada"
@@ -15485,13 +15490,13 @@ msgstr ""
 "contentes 2 cidadãos descontentes."
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/civ1/governments.ruleset:385 data/history/governments.ruleset:391
 msgid "Republic"
 msgstr "República"
 
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
+#: data/civ1/governments.ruleset:425 data/civ1/governments.ruleset:426
 #: data/history/governments.ruleset:431 data/history/governments.ruleset:432
 msgid "Consul"
 msgstr "Cônsul"
@@ -15559,7 +15564,7 @@ msgstr ""
 "gerarão 1 cidadão descontente cada."
 
 #: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
+#: data/civ1/governments.ruleset:463 data/history/governments.ruleset:471
 #: data/default/techs.ruleset:176 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
@@ -15567,7 +15572,7 @@ msgstr "Democracia"
 
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
+#: data/civ1/governments.ruleset:503 data/civ1/governments.ruleset:504
 #: data/history/governments.ruleset:512 data/history/governments.ruleset:513
 #: data/nation/brazilian.ruleset:15 data/nation/catalan.ruleset:16
 #: data/nation/chilean.ruleset:19 data/nation/croatian.ruleset:19
@@ -15844,8 +15849,8 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"You may impose martial law under Monarchy: each military unit in a city will "
+"keep one unhappy citizen content."
 msgstr ""
 "Numa Monarquia, um rei ou rainha serve como líder hereditário do seu "
 "governo.\n"
@@ -15863,9 +15868,9 @@ msgstr ""
 "produção cada.)\n"
 "\n"
 "Você pode impor uma lei marcial limitada em Monarquia: cada unidade militar "
-"numa cidade, até ao máximo de 3, manterá contente um cidadão descontente."
+"numa cidade manterá contente um cidadão descontente."
 
-#: data/civ1/governments.ruleset:354
+#: data/civ1/governments.ruleset:353
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15921,7 +15926,7 @@ msgstr ""
 "menos, cidadãos descontentes comportar-se-ão como contentes, não causando "
 "desordens.)"
 
-#: data/civ1/governments.ruleset:429
+#: data/civ1/governments.ruleset:428
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -15977,7 +15982,7 @@ msgstr ""
 "Os cidadãos de uma cidade tolerarão 1 unidade agressiva; unidades "
 "subsequentes irão gerar 1 cidadão descontente cada."
 
-#: data/civ1/governments.ruleset:507
+#: data/civ1/governments.ruleset:506
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
