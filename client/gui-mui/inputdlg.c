@@ -87,6 +87,8 @@ void *ok_callback, APTR ok_data, void *cancel_callback, APTR cancel_data)
 
   if(wnd)
   {
+    DoMethod(wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 6, MUIM_CallHook, &standart_hook,
+    cancel_callback, wnd, name_string, cancel_data);
     DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 6, MUIM_CallHook, &standart_hook,
     cancel_callback, wnd, name_string, cancel_data);
     DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 6, MUIM_CallHook, &standart_hook,

@@ -1244,6 +1244,7 @@ void popup_city_production_dialog(struct city *pcity)
       set(pcprod->available_listview, MUIA_NList_Active, current);
     }
 
+    DoMethod(pcprod->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, city_prod_destroy, pcprod);
     DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_destroy, pcprod);
     DoMethod(pcprod->available_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_change, pcprod);
     DoMethod(change_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_change, pcprod);

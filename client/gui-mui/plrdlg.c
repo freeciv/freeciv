@@ -273,6 +273,20 @@ static void players_war(void)
 }
 
 /****************************************************************
+ Callback for the spaceship button
+*****************************************************************/
+static void players_spaceship(void)
+{
+  LONG playerno;
+  DoMethod(player_players_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &playerno);
+
+  if(playerno)
+  {
+    popup_spaceship_dialog(&game.players[playerno-100]);
+  }
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 void create_players_dialog(void)
@@ -309,6 +323,7 @@ void create_players_dialog(void)
     DoMethod(player_intelligence_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_intelligence);
     DoMethod(player_meet_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_meet);
     DoMethod(player_war_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_war);
+    DoMethod(player_spaceship_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_spaceship);
     DoMethod(player_players_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, players_active);
     DoMethod(app, OM_ADDMEMBER, player_wnd);
   }

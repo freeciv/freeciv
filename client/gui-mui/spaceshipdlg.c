@@ -206,6 +206,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 		    Child, pdialog->spaceship_area = MakeSpaceShip(&pplayer->spaceship),
 		    End,
 		End,
+            Child, BalanceObject, End,
 	    Child, VGroup,
 		Child, HVSpace,
 		Child, HGroup,

@@ -242,7 +242,7 @@ static struct NewMenu MenuData[] =
 
   MAKE_TITLE("View", MENU_VIEW),
   MAKE_ITEM("Map Grid?", MENU_VIEW_SHOW_MAP_GRID, "CTRL G", NM_COMMANDSTRING|MENUTOGGLE|CHECKIT),
-  MAKE_ITEM("City Names?", MENU_VIEW_SHOW_CITY_NAMES,NULL,MENUTOGGLE|CHECKIT|CHECKED),
+  MAKE_ITEM("City Names?", MENU_VIEW_SHOW_CITY_NAMES,NULL,MENUTOGGLE|CHECKIT),
   MAKE_ITEM("City Productions?", MENU_VIEW_SHOW_CITY_PRODUCTIONS,NULL,MENUTOGGLE|CHECKIT),
   MAKE_SEPERATOR,
   MAKE_ITEM("Center View", MENU_VIEW_CENTER_VIEW, "c", NM_COMMANDSTRING),
@@ -478,11 +478,14 @@ static void control_callback(ULONG * value)
       popup_revolution_dialog();
       break;
 
+    case KEMAP_GRID_TOGGLE:
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_MAP_GRID,MUIA_Menuitem_Checked,!draw_map_grid);
+      /* no break! */
     case MENU_VIEW_SHOW_MAP_GRID:
       if(draw_map_grid != xget(menu_find_item(MENU_VIEW_SHOW_MAP_GRID),
 			       MUIA_Menuitem_Checked))
       {
-	key_map_grid_toggle();
+	request_toggle_map_grid();
       }
       break;
     case MENU_VIEW_SHOW_CITY_NAMES:
@@ -954,12 +957,17 @@ static int init_gui(void)
     /* Menu */
     while (MenuData[i].nm_Type != NM_END)
     {
-      if (MenuData[i].nm_Flags & NM_COMMANDSTRING && MenuData[i].nm_CommKey)
+      if(MenuData[i].nm_Flags & NM_COMMANDSTRING && MenuData[i].nm_CommKey &&
+      (MenuData[i].nm_UserData != (APTR) MENU_VIEW_SHOW_MAP_GRID) && (MenuData[i].nm_UserData != (APTR) MENU_KINGDOM_FIND_CITY))
       {
 	DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, MenuData[i].nm_CommKey, main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, MenuData[i].nm_UserData);
       }
       i++;
     }
+
+    /* Do this outside loop. The menu entry are upper case and thus would need SHIFT be pressed. */
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "ctrl f", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, MENU_KINGDOM_FIND_CITY);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "ctrl g", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, KEMAP_GRID_TOGGLE);
 
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_MenuAction, MUIV_EveryTime, main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, MUIV_TriggerValue);
 
@@ -1301,6 +1309,11 @@ void ui_main(int argc, char *argv[])
       Object *econ_group;
 
       load_options();
+
+      /* must be after load_options */
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_MAP_GRID,MUIA_Menuitem_Checked,draw_map_grid);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_CITY_NAMES,MUIA_Menuitem_Checked,draw_city_names);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_CITY_PRODUCTIONS,MUIA_Menuitem_Checked,draw_city_productions);
 
       /* TODO: Move this into init_gui() */
       main_bulb_sprite = MakeBorderSprite(sprites.bulb[0]);
