@@ -531,6 +531,7 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
   struct ai_data *ai = ai_data_get(pplayer);
   enum diplstate_type ds_after =
     pplayer_get_diplstate(pplayer, aplayer)->type;
+  int given_cities = 0;
 
   assert(!is_barbarian(pplayer));
   
@@ -538,6 +539,9 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
     if (is_pact_clause(pclause->type)) {
       ds_after = pact_clause_to_diplstate_type(pclause->type);
     }
+    if (pclause->type == CLAUSE_CITY && pclause->from == pplayer) {
+	given_cities++;
+    }    
   } clause_list_iterate_end;
   
   /* Evaluate clauses */
@@ -562,6 +566,12 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
   /* If we are at war, and no peace is offered, then no deal, unless
    * it is just gifts, in which case we gratefully accept. */
   if (ds_after == DS_WAR && !only_gifts) {
+    return;
+  }
+
+  if (given_cities > 0
+      && city_list_size(pplayer->cities) - given_cities <= 2) {
+    /* always keep at least two cities */
     return;
   }
 
