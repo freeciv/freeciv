@@ -481,7 +481,7 @@ void handle_unit_enter_hut(struct unit *punit)
     create_unit(pplayer, punit->x, punit->y, find_a_unit_type(), 0, punit->homecity);
     break;
   case 10:
-    if (in_city_radius(pplayer,punit->x, punit->y))
+    if (in_city_radius(punit->x, punit->y))
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       "Game: An abandoned village is here.");
     else {
