@@ -1842,4 +1842,7 @@ void tileset_changed(void)
   /* Here you should do any necessary redraws (for instance, the city
    * dialogs usually need to be resized).
    */
+  indicator_sprite[0] = NULL;
+  indicator_sprite[1] = NULL;
+  indicator_sprite[2] = NULL;
 }
