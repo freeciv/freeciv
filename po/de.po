@@ -30,12 +30,12 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.21  2000/01/23 13:16:42  jjm
-# Update of German (de) translation.
+# Revision 1.22  2000/01/25 22:31:15  jjm
+# Update German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
 #
-# Revision 1.9.1.30  2000/01/23 08:12:27  egbert
-# includes patches until 00/01/23
+# Revision 1.9.1.31  2000/01/25 19:15:31  egbert
+# includes patches until 00/01/25
 #
 # Revision 1.9.1.29  2000/01/20 15:08:31  egbert
 # includes worklists
@@ -212,7 +212,7 @@ msgstr ""
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: common/shared.c:701
 msgid "'Cause civilization should be free!"
-msgstr "'Cause civilization should be free!"
+msgstr "Because civilization should be free!"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: common/support.c:112
@@ -354,22 +354,22 @@ msgstr ""
 msgid "Game: %s is not a valid name."
 msgstr "Spiel: %s ist kein zulässiger Name."
 
-#: server/citytools.c:615 server/citytools.c:644
+#: server/citytools.c:615 server/citytools.c:645
 #, c-format
 msgid "Game: Transfered %s in %s from %s to %s."
 msgstr "Spiel: %s in %s von %s nach %s transportiert."
 
-#: server/citytools.c:636
+#: server/citytools.c:637
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Spiel: Heimatstadt von %s in %s geändert."
 
-#: server/citytools.c:662
+#: server/citytools.c:668
 #, c-format
 msgid "Game: Transfered %s at (%d, %d) from %s to %s."
 msgstr "Spiel: %s (%d, %d) von %s nach %s transportiert."
 
-#: server/citytools.c:926
+#: server/citytools.c:932
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -378,12 +378,12 @@ msgstr ""
 "Spiel: Die Nation wird vom Bürgerkrieg gespalten.\n"
 "       %s ist der Anführer der revoltierenden Provinzen."
 
-#: server/citytools.c:946
+#: server/citytools.c:952
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spiel: %s verkündet Allianz mit %s."
 
-#: server/citytools.c:975
+#: server/citytools.c:981
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2686,8 +2686,8 @@ msgstr ""
 #, c-format
 msgid "Cannot increase command level to '%s'; you only have '%s' yourself."
 msgstr ""
-"Die Zugangsberechtigung '%s' für '%s' wird nicht erweitert;\n"
-"Sie selbst haben nur Zugangsberechtigung '%s'."
+"Die Zugangsberechtigung kann nicht auf '%s' erhöht werden,\n"
+"da die eigene Zugangsberechtigung nur '%s' ist."
 
 #: server/stdinhand.c:1665 server/stdinhand.c:1700
 #, c-format
@@ -4535,7 +4535,7 @@ msgstr "Cannot find your home directory"
 #: client/options.c:193
 #, c-format
 msgid "Settings file is %s"
-msgstr "Ihre Konfigurationsdatei ist "
+msgstr "Ihre Konfigurationsdatei ist %s."
 
 #: client/options.c:196
 #, c-format
@@ -6928,7 +6928,7 @@ msgstr "Einheiten langsam bewegen                             "
 
 #: data/Freeciv:1235
 msgid "Show combat animation      "
-msgstr ""
+msgstr "Kampfanimationen zeigen    "
 
 #: data/Freeciv:1245
 msgid "Popup dialogs in AI Mode   "
@@ -10211,7 +10211,7 @@ msgstr "Demokratie"
 #: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
 #: data/civ2/governments.ruleset:554 data/civ2/governments.ruleset:555
 #: data/default/governments.ruleset:504 data/default/governments.ruleset:505
-#: data/default/nations.ruleset:993
+#: data/default/nations.ruleset:1017
 msgid "President"
 msgstr "Präsident"
 
@@ -10328,349 +10328,417 @@ msgstr "?plural:Deutschen"
 msgid "Chancellor"
 msgstr "Kanzler"
 
-#: data/default/nations.ruleset:133 data/default/nations.ruleset:372
+#: data/default/nations.ruleset:133 data/default/nations.ruleset:379
 msgid "Archbishop"
 msgstr "Erzbischof"
 
-#: data/default/nations.ruleset:164
+#: data/default/nations.ruleset:165
 msgid "Egyptian"
 msgstr "ägyptisch"
 
-#: data/default/nations.ruleset:165
+#: data/default/nations.ruleset:166
 msgid "?plural:Egyptians"
 msgstr "?plural:Ägypter"
 
-#: data/default/nations.ruleset:173
+#: data/default/nations.ruleset:174
 msgid "Pharaoh"
 msgstr "Pharao"
 
-#: data/default/nations.ruleset:174
+#: data/default/nations.ruleset:175
 msgid "Great Pharaoh"
 msgstr "Großer Pharao"
 
-#: data/default/nations.ruleset:197
+#: data/default/nations.ruleset:199
 msgid "American"
 msgstr "amerikanisch"
 
-#: data/default/nations.ruleset:198
+#: data/default/nations.ruleset:200
 msgid "?plural:Americans"
 msgstr "?plural:Amerikaner"
 
-#: data/default/nations.ruleset:206
+#: data/default/nations.ruleset:208 data/default/nations.ruleset:1255
 msgid "Speaker"
 msgstr "Sprecher"
 
-#: data/default/nations.ruleset:207
+#: data/default/nations.ruleset:209
 msgid "Reverend"
 msgstr "Pfarrer"
 
-#: data/default/nations.ruleset:235
+#: data/default/nations.ruleset:238
 msgid "Greek"
 msgstr "griechisch"
 
-#: data/default/nations.ruleset:236
+#: data/default/nations.ruleset:239
 msgid "?plural:Greeks"
 msgstr "?plural:Griechen"
 
-#: data/default/nations.ruleset:243 data/default/nations.ruleset:471
-#: data/default/nations.ruleset:574 data/default/nations.ruleset:817
-#: data/default/nations.ruleset:849 data/default/nations.ruleset:892
-#: data/default/nations.ruleset:926 data/default/nations.ruleset:956
-#: data/default/nations.ruleset:994 data/default/nations.ruleset:1131
+#: data/default/nations.ruleset:246 data/default/nations.ruleset:481
+#: data/default/nations.ruleset:586 data/default/nations.ruleset:839
+#: data/default/nations.ruleset:872 data/default/nations.ruleset:915
+#: data/default/nations.ruleset:949 data/default/nations.ruleset:980
+#: data/default/nations.ruleset:1018 data/default/nations.ruleset:1157
+#: data/default/nations.ruleset:1197 data/default/nations.ruleset:1256
+#: data/default/nations.ruleset:1289
 msgid "Prime Minister"
 msgstr "Premierminister"
 
-#: data/default/nations.ruleset:272
+#: data/default/nations.ruleset:276
 msgid "Indian"
 msgstr "indisch"
 
-#: data/default/nations.ruleset:273
+#: data/default/nations.ruleset:277
 msgid "?plural:Indians"
 msgstr "?plural:Inder"
 
-#: data/default/nations.ruleset:281
+#: data/default/nations.ruleset:285
 msgid "Maharaja"
 msgstr "Maharadscha"
 
-#: data/default/nations.ruleset:302
+#: data/default/nations.ruleset:308
 msgid "Russian"
 msgstr "russisch"
 
-#: data/default/nations.ruleset:303
+#: data/default/nations.ruleset:309
 msgid "?plural:Russians"
 msgstr "?plural:Russen"
 
-#: data/default/nations.ruleset:311
+#: data/default/nations.ruleset:317
 msgid "Czar"
 msgstr "Zar"
 
-#: data/default/nations.ruleset:311
+#: data/default/nations.ruleset:317
 msgid "Czarina"
 msgstr "Zarin"
 
-#: data/default/nations.ruleset:312
+#: data/default/nations.ruleset:318
 msgid "Patriarch"
 msgstr "Patriarch"
 
-#: data/default/nations.ruleset:312
+#: data/default/nations.ruleset:318
 msgid "Matriarch"
 msgstr "Matriarch"
 
-#: data/default/nations.ruleset:336
+#: data/default/nations.ruleset:343
 msgid "Zulu"
 msgstr "zulunesisch"
 
-#: data/default/nations.ruleset:337
+#: data/default/nations.ruleset:344
 msgid "?plural:Zulus"
 msgstr "?plural:Zulus"
 
-#: data/default/nations.ruleset:363
+#: data/default/nations.ruleset:370
 msgid "French"
 msgstr "französisch"
 
-#: data/default/nations.ruleset:364
+#: data/default/nations.ruleset:371
 msgid "?plural:French"
 msgstr "?plural:Franzosen"
 
-#: data/default/nations.ruleset:371
+#: data/default/nations.ruleset:378
 msgid "Premier"
 msgstr "Premier"
 
-#: data/default/nations.ruleset:394
+#: data/default/nations.ruleset:402
 msgid "Aztec"
 msgstr "aztekisch"
 
-#: data/default/nations.ruleset:395
+#: data/default/nations.ruleset:403
 msgid "?plural:Aztecs"
 msgstr "?plural:Azteken"
 
-#: data/default/nations.ruleset:422
+#: data/default/nations.ruleset:431
 msgid "Chinese"
 msgstr "chinesisch"
 
-#: data/default/nations.ruleset:423
+#: data/default/nations.ruleset:432
 msgid "?plural:Chinese"
 msgstr "?plural:Chinesen"
 
-#: data/default/nations.ruleset:430
+#: data/default/nations.ruleset:439
 msgid "Chairman"
 msgstr "Vorsitzender"
 
-#: data/default/nations.ruleset:430
+#: data/default/nations.ruleset:439
 msgid "Chairperson"
 msgstr "Vorsitzender"
 
-#: data/default/nations.ruleset:463
+#: data/default/nations.ruleset:473
 msgid "English"
 msgstr "englisch"
 
-#: data/default/nations.ruleset:464
+#: data/default/nations.ruleset:474
 msgid "?plural:English"
 msgstr "?plural:Engländer"
 
-#: data/default/nations.ruleset:472
+#: data/default/nations.ruleset:482
 msgid "Lord Protector"
 msgstr "Schirmherr"
 
-#: data/default/nations.ruleset:472
+#: data/default/nations.ruleset:482
 msgid "Lady Protector"
 msgstr "Schirmherrin"
 
-#: data/default/nations.ruleset:502
+#: data/default/nations.ruleset:513
 msgid "Mongol"
 msgstr "mongolisch"
 
-#: data/default/nations.ruleset:503
+#: data/default/nations.ruleset:514
 msgid "?plural:Mongols"
 msgstr "?plural:Mongolen"
 
-#: data/default/nations.ruleset:510
+#: data/default/nations.ruleset:521
 msgid "Khan"
 msgstr "Khan"
 
-#: data/default/nations.ruleset:511
+#: data/default/nations.ruleset:522
 msgid "Great Khan"
 msgstr "Großer Khan"
 
-#: data/default/nations.ruleset:533
+#: data/default/nations.ruleset:545
 msgid "Turk"
 msgstr "türkisch"
 
-#: data/default/nations.ruleset:534
+#: data/default/nations.ruleset:546
 msgid "?plural:Turks"
 msgstr "?plural:Türken"
 
-#: data/default/nations.ruleset:542
+#: data/default/nations.ruleset:554
 msgid "Sultan"
 msgstr "Sultan"
 
-#: data/default/nations.ruleset:566
+#: data/default/nations.ruleset:578
 msgid "Spanish"
 msgstr "spanisch"
 
-#: data/default/nations.ruleset:567
+#: data/default/nations.ruleset:579
 msgid "?plural:Spanish"
 msgstr "?plural:Spanier"
 
-#: data/default/nations.ruleset:596
+#: data/default/nations.ruleset:609
 msgid "Persian"
 msgstr "persisch"
 
-#: data/default/nations.ruleset:597
+#: data/default/nations.ruleset:610
 msgid "?plural:Persians"
 msgstr "?plural:Perser"
 
-#: data/default/nations.ruleset:605
+#: data/default/nations.ruleset:618
 msgid "Shah"
 msgstr "Schah"
 
-#: data/default/nations.ruleset:628
+#: data/default/nations.ruleset:643
 msgid "Arab"
 msgstr "arabisch"
 
-#: data/default/nations.ruleset:629
+#: data/default/nations.ruleset:644
 msgid "?plural:Arabs"
 msgstr "?plural:Araber"
 
-#: data/default/nations.ruleset:637
+#: data/default/nations.ruleset:652
 msgid "Caliph"
 msgstr "Kalif"
 
-#: data/default/nations.ruleset:659
+#: data/default/nations.ruleset:677
 msgid "Carthaginian"
 msgstr "karthagisch"
 
-#: data/default/nations.ruleset:660
+#: data/default/nations.ruleset:678
 msgid "?plural:Carthaginians"
 msgstr "?plural:Karthager"
 
-#: data/default/nations.ruleset:688
+#: data/default/nations.ruleset:708
 msgid "Inca"
 msgstr "inkanesisch"
 
-#: data/default/nations.ruleset:689
+#: data/default/nations.ruleset:709
 msgid "?plural:Incas"
 msgstr "?plural:Inkas"
 
-#: data/default/nations.ruleset:697
+#: data/default/nations.ruleset:717
 msgid "Warlord"
 msgstr "Kriegsherr"
 
-#: data/default/nations.ruleset:721
+#: data/default/nations.ruleset:741
 msgid "Viking"
 msgstr "wikingisch"
 
-#: data/default/nations.ruleset:722
+#: data/default/nations.ruleset:742
 msgid "?plural:Vikings"
 msgstr "?plural:Wikinger"
 
-#: data/default/nations.ruleset:755
+#: data/default/nations.ruleset:775
 msgid "Polish"
 msgstr "polnisch"
 
-#: data/default/nations.ruleset:756
+#: data/default/nations.ruleset:776
 msgid "?plural:Polish"
 msgstr "?plural:Polen"
 
-#: data/default/nations.ruleset:783
+#: data/default/nations.ruleset:804
 msgid "Hungarian"
 msgstr "ungarisch"
 
-#: data/default/nations.ruleset:784
+#: data/default/nations.ruleset:805
 msgid "?plural:Hungarians"
 msgstr "?plural:Ungarn"
 
-#: data/default/nations.ruleset:809
+#: data/default/nations.ruleset:831
 msgid "Danish"
 msgstr "dänisch"
 
-#: data/default/nations.ruleset:810
+#: data/default/nations.ruleset:832
 msgid "?plural:Danes"
 msgstr "?plural:Dänen"
 
-#: data/default/nations.ruleset:841
+#: data/default/nations.ruleset:864
 msgid "Dutch"
 msgstr "holländisch"
 
-#: data/default/nations.ruleset:842
+#: data/default/nations.ruleset:865
 msgid "?plural:Dutch"
 msgstr "?plural:Holländer"
 
-#: data/default/nations.ruleset:884
+#: data/default/nations.ruleset:907
 msgid "Swedish"
 msgstr "schwedisch"
 
-#: data/default/nations.ruleset:885
+#: data/default/nations.ruleset:908
 msgid "?plural:Swedes"
 msgstr "?plural:Schweden"
 
-#: data/default/nations.ruleset:916
+#: data/default/nations.ruleset:939
 msgid "Japanese"
 msgstr "japanisch"
 
-#: data/default/nations.ruleset:917
+#: data/default/nations.ruleset:940
 msgid "?plural:Japanese"
 msgstr "?plural:Japaner"
 
-#: data/default/nations.ruleset:925
+#: data/default/nations.ruleset:948
 msgid "Shogun"
 msgstr "Shogun"
 
-#: data/default/nations.ruleset:947
+#: data/default/nations.ruleset:971
 msgid "Portuguese"
 msgstr "portugiesisch"
 
-#: data/default/nations.ruleset:948
+#: data/default/nations.ruleset:972
 msgid "?plural:Portuguese"
 msgstr "?plural:Portugiesen"
 
-#: data/default/nations.ruleset:984
+#: data/default/nations.ruleset:1008
 msgid "Finnish"
 msgstr "finnisch"
 
-#: data/default/nations.ruleset:985
+#: data/default/nations.ruleset:1009
 msgid "?plural:Finns"
 msgstr "?plural:Finnen"
 
-#: data/default/nations.ruleset:1033
+#: data/default/nations.ruleset:1057
 msgid "Sioux"
 msgstr "siouxisch"
 
-#: data/default/nations.ruleset:1034
+#: data/default/nations.ruleset:1058
 msgid "?plural:Sioux"
 msgstr "?plural:Sioux"
 
-#: data/default/nations.ruleset:1042
+#: data/default/nations.ruleset:1066
 msgid "Chief"
 msgstr "Häuptling"
 
-#: data/default/nations.ruleset:1043
+#: data/default/nations.ruleset:1067
 msgid "Great Chief"
 msgstr "Großer Häuptling"
 
-#: data/default/nations.ruleset:1063
+#: data/default/nations.ruleset:1089
 msgid "Czech"
 msgstr "tschechisch"
 
-#: data/default/nations.ruleset:1064
+#: data/default/nations.ruleset:1090
 msgid "?plural:Czechs"
 msgstr "?plural:Tschechen"
 
-#: data/default/nations.ruleset:1081
+#: data/default/nations.ruleset:1107
 msgid "Thane"
 msgstr "Thane"
 
-#: data/default/nations.ruleset:1081
+#: data/default/nations.ruleset:1107
 msgid "Prophetess"
 msgstr "Prophetin"
 
-#: data/default/nations.ruleset:1122
+#: data/default/nations.ruleset:1148
 msgid "Australian"
 msgstr "australisch"
 
-#: data/default/nations.ruleset:1123
+#: data/default/nations.ruleset:1149
 msgid "?plural:Australians"
 msgstr "?plural:Australier"
+
+#: data/default/nations.ruleset:1181
+msgid "Welsh"
+msgstr "walisisch"
+
+#: data/default/nations.ruleset:1182
+msgid "?plural:Welsh"
+msgstr "?plural:Waliser"
+
+#: data/default/nations.ruleset:1196
+msgid "Prince"
+msgstr "Prinz"
+
+#: data/default/nations.ruleset:1196
+msgid "Princess"
+msgstr "Prinzessin"
+
+#: data/default/nations.ruleset:1219
+msgid "Korean"
+msgstr "koreanisch"
+
+#: data/default/nations.ruleset:1220
+msgid "?plural:Koreans"
+msgstr "?plural:Koreaner"
+
+#: data/default/nations.ruleset:1246
+msgid "Scottish"
+msgstr "schottisch"
+
+#: data/default/nations.ruleset:1247
+msgid "?plural:Scottish"
+msgstr "?plural:Schotten"
+
+#: data/default/nations.ruleset:1280
+msgid "Israeli"
+msgstr "israelisch"
+
+#: data/default/nations.ruleset:1281
+msgid "?plural:Israelis"
+msgstr "?plural:Israelis"
+
+#: data/default/nations.ruleset:1310
+msgid "Argentine"
+msgstr "argentinisch"
+
+#: data/default/nations.ruleset:1311
+msgid "?plural:Argentines"
+msgstr "?plural:Argentinier"
+
+#: data/default/nations.ruleset:1335
+msgid "Olympic"
+msgstr "olympisch"
+
+#: data/default/nations.ruleset:1336
+msgid "?plural:Olympians"
+msgstr "?plural:Olympier"
+
+# ?
+#: data/default/nations.ruleset:1361
+msgid "Krevi"
+msgstr "krevisch"
+
+# ?
+#: data/default/nations.ruleset:1362
+msgid "?plural:Krevis"
+msgstr "?plural:Krevier"
 
 #: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
 #: data/default/techs.ruleset:49
