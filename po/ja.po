@@ -5871,11 +5871,11 @@ msgid "Game: Your attacking %s failed against %s's %s%s!"
 msgstr "Game: %1$sは%4$s%2$sの%3$sを攻撃し、失敗しました。"
 
 #: server/unithand.c:801
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your attacking %s succeeded against %s's %s%s and became more "
 "experienced!"
-msgstr "Game: %1$sは%4$s%2$sの%3$sを攻撃し、成功しました。"
+msgstr "Game: %1$sは%4$s%2$sの%3$sの攻撃に成功し、ベテランになりました。"
 
 #: server/unithand.c:810
 #, c-format
