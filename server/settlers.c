@@ -1031,7 +1031,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
     best_impr = evaluate_improvements(punit, &best_act, &gx, &gy);
   }
 
-  if (unit_flag(punit, F_CITIES)) {
+  if (unit_flag(punit, F_CITIES) && pplayer->ai.control) {
     find_best_city_placement(punit, &result, TRUE, FALSE);
     UNIT_LOG(LOG_SETTLER, punit, "city want %d (impr want %d)", result.result,
              best_impr);

@@ -542,7 +542,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   struct pf_parameter parameter;
   struct unit *ferry = NULL;
 
-  assert(pplayer && pplayer->ai.control);
+  assert(pplayer->ai.control);
 
   best->x = -1;
   best->y = -1;
