@@ -22,6 +22,7 @@
 
 #include "fcintl.h"
 #include "game.h"
+#include "genlist.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -56,6 +57,7 @@ struct spaceship_dialog {
   GtkWidget *close_command;
 };
 
+
 static struct genlist dialog_list;
 static bool dialog_list_has_been_initialised = FALSE;
 
@@ -79,7 +81,7 @@ struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
   }
 
   genlist_iterator_init(&myiter, &dialog_list, 0);
-
+  
   for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
     if(((struct spaceship_dialog *)ITERATOR_PTR(myiter))->pplayer==pplayer)
       return ITERATOR_PTR(myiter);
