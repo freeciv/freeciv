@@ -14,6 +14,7 @@ artists = "
     Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
     Jeff Mallatt <jjm@codewell.com> (England)
     Robert Brady <rwb197@ecs.soton.ac.uk> (more flags)
+    Tomasz Wegrzanowski <maniek@beer.com> (more flags added)
 "
 
 [file]
@@ -91,4 +92,8 @@ tiles = { "row", "column", "tag"
   4,  4, "f.lithuania"
   4,  5, "f.kenya"
   4,  6, "f.dunedain"
+  4,  7, "f.bulgaria"
+  4,  8, "f.armenia"
+  4,  9, "f.azerbaijan"
+  4, 10, "f.boer"         ; old south african
 }

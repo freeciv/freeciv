@@ -7,6 +7,7 @@ options = "+spec2"
 
 artists = "
     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
+    Tomasz Wegrzanowski <maniek@beer.com> (bulgaria...boer)
 "
 
 [file]
@@ -84,4 +85,8 @@ tiles = { "row", "column", "tag"
   4,  4, "f.lithuania"
   4,  5, "f.kenya"
   4,  6, "f.dunedain"
+  4,  7, "f.bulgaria"
+  4,  8, "f.armenia"
+  4,  9, "f.azerbaijan"
+  4, 10, "f.boer"         ; old south african
 }
