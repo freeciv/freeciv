@@ -55,6 +55,7 @@ static int previous_focus_id = -1;
 int hover_unit = 0; /* id of unit hover_state applies to */
 enum cursor_hover_state hover_state = HOVER_NONE;
 enum unit_activity connect_activity;
+enum unit_orders goto_last_order; /* Last order for goto */
 /* This may only be here until client goto is fully implemented.
    It is reset each time the hower_state is reset. */
 bool draw_goto_line = TRUE;
@@ -99,13 +100,18 @@ void control_done(void)
 }
 
 /**************************************************************************
-...
+  Enter the given hover state.
+
+    activity => The connect activity (ACTIVITY_ROAD, etc.)
+    order => The last order (ORDER_BUILD_CITY, ORDER_LAST, etc.)
 **************************************************************************/
 void set_hover_state(struct unit *punit, enum cursor_hover_state state,
-		     enum unit_activity activity)
+		     enum unit_activity activity,
+		     enum unit_orders order)
 {
   assert(punit != NULL || state == HOVER_NONE);
   assert(state == HOVER_CONNECT || activity == ACTIVITY_LAST);
+  assert(state == HOVER_GOTO || order == ORDER_LAST);
   draw_goto_line = TRUE;
   if (punit)
     hover_unit = punit->id;
@@ -113,6 +119,7 @@ void set_hover_state(struct unit *punit, enum cursor_hover_state state,
     hover_unit = 0;
   hover_state = state;
   connect_activity = activity;
+  goto_last_order = order;
   exit_goto_state();
 }
 
@@ -244,7 +251,7 @@ void advance_unit_focus(void)
   struct unit *punit_old_focus = punit_focus;
   struct unit *candidate = find_best_focus_candidate(FALSE);
 
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   if (!can_client_change_view()) {
     return;
   }
@@ -601,9 +608,9 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 }
 
 /**************************************************************************
-...
+  Do a goto with an order at the end (or ORDER_LAST).
 **************************************************************************/
-void request_unit_goto(void)
+void request_unit_goto(enum unit_orders last_order)
 {
   struct unit *punit = punit_focus;
 
@@ -611,7 +618,7 @@ void request_unit_goto(void)
     return;
 
   if (hover_state != HOVER_GOTO) {
-    set_hover_state(punit, HOVER_GOTO, ACTIVITY_LAST);
+    set_hover_state(punit, HOVER_GOTO, ACTIVITY_LAST, last_order);
     update_unit_info_label(punit);
     /* Not yet implemented for air units, including helicopters. */
     if (is_air_unit(punit) || is_heli_unit(punit)) {
@@ -703,7 +710,7 @@ void request_unit_connect(enum unit_activity activity)
 
   if (hover_state != HOVER_CONNECT || connect_activity != activity) {
     /* Enter or change the hover connect state. */
-    set_hover_state(punit_focus, HOVER_CONNECT, activity);
+    set_hover_state(punit_focus, HOVER_CONNECT, activity, ORDER_LAST);
     update_unit_info_label(punit_focus);
 
     enter_goto_state(punit_focus);
@@ -770,15 +777,19 @@ void request_unit_return(struct unit *punit)
   }
 
   if ((path = path_to_nearest_allied_city(punit))) {
-    enum unit_activity activity = ACTIVITY_LAST;
     int turns = pf_last_position(path)->turn;
 
     if (punit->hp + turns * get_player_bonus(game.player_ptr,
 					     EFT_UNIT_RECOVER)
 	< unit_type(punit)->hp) {
-      activity = ACTIVITY_SENTRY;
+      struct unit_order order;
+
+      order.order = ORDER_ACTIVITY;
+      order.activity = ACTIVITY_SENTRY;
+      send_goto_path(punit, path, &order);
+    } else {
+      send_goto_path(punit, path, NULL);
     }
-    send_goto_path(punit, path, activity);
     pf_destroy_path(path);
   }
 }
@@ -1003,7 +1014,7 @@ void request_unit_nuke(struct unit *punit)
   if(punit->moves_left == 0)
     do_unit_nuke(punit);
   else {
-    set_hover_state(punit, HOVER_NUKE, ACTIVITY_LAST);
+    set_hover_state(punit, HOVER_NUKE, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punit);
   }
 }
@@ -1020,7 +1031,7 @@ void request_unit_paradrop(struct unit *punit)
   if(!can_unit_paradrop(punit))
     return;
 
-  set_hover_state(punit, HOVER_PARADROP, ACTIVITY_LAST);
+  set_hover_state(punit, HOVER_PARADROP, ACTIVITY_LAST, ORDER_LAST);
   update_unit_info_label(punit);
 }
 
@@ -1035,7 +1046,7 @@ void request_unit_patrol(void)
     return;
 
   if (hover_state != HOVER_PATROL) {
-    set_hover_state(punit, HOVER_PATROL, ACTIVITY_LAST);
+    set_hover_state(punit, HOVER_PATROL, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punit);
     /* Not yet implemented for air units, including helicopters. */
     if (is_air_unit(punit) || is_heli_unit(punit)) {
@@ -1455,7 +1466,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       do_unit_patrol_to(punit, ptile);
       break;	
     }
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punit);
   }
 
@@ -1649,7 +1660,7 @@ void do_unit_goto(struct tile *ptile)
     }
   }
 
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
 }
 
 /**************************************************************************
@@ -1688,7 +1699,7 @@ void do_unit_patrol_to(struct unit *punit, struct tile *ptile)
     }
   }
 
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
 }
  
 /**************************************************************************
@@ -1713,7 +1724,7 @@ void do_unit_connect(struct unit *punit, struct tile *ptile,
     }
   }
 
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
 }
  
 /**************************************************************************
@@ -1732,7 +1743,7 @@ void key_cancel_action(void)
   if (hover_state != HOVER_NONE && !popped) {
     struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
 
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punit);
 
     keyboardless_goto_button_down = FALSE;
@@ -1850,7 +1861,7 @@ void key_unit_done(void)
 void key_unit_goto(void)
 {
   if (punit_focus) {
-    request_unit_goto();
+    request_unit_goto(ORDER_LAST);
   }
 }
 

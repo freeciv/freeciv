@@ -796,7 +796,7 @@ void request_orders_cleared(struct unit *punit)
 **************************************************************************/
 static void send_path_orders(struct unit *punit, struct pf_path *path,
 			     bool repeat, bool vigilant,
-			     enum unit_activity final_activity)
+			     struct unit_order *final_order)
 {
   struct packet_unit_orders p;
   int i;
@@ -837,10 +837,11 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     old_tile = new_tile;
   }
 
-  if (final_activity != ACTIVITY_LAST) {
-    p.orders[i] = ORDER_ACTIVITY;
-    p.dir[i] = -1;
-    p.activity[i] = final_activity;
+  if (final_order) {
+    p.orders[i] = final_order->order;
+    p.dir[i] = (final_order->order == ORDER_MOVE) ? final_order->dir : -1;
+    p.activity[i] = (final_order->order == ORDER_ACTIVITY)
+      ? final_order->activity : ACTIVITY_LAST;
     p.length++;
   }
 
@@ -854,9 +855,9 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   Send an arbitrary goto path for the unit to the server.
 **************************************************************************/
 void send_goto_path(struct unit *punit, struct pf_path *path,
-		    enum unit_activity final_activity)
+		    struct unit_order *final_order)
 {
-  send_path_orders(punit, path, FALSE, FALSE, final_activity);
+  send_path_orders(punit, path, FALSE, FALSE, final_order);
 }
 
 /**************************************************************************
@@ -890,7 +891,7 @@ void send_patrol_route(struct unit *punit)
   pf_destroy_map(map);
   pf_destroy_path(return_path);
 
-  send_path_orders(punit, path, TRUE, TRUE, ACTIVITY_LAST);
+  send_path_orders(punit, path, TRUE, TRUE, NULL);
 
   pf_destroy_path(path);
 }
@@ -990,7 +991,14 @@ void send_goto_route(struct unit *punit)
     path = pft_concat(path, goto_map.parts[i].path);
   }
 
-  send_goto_path(punit, path, ACTIVITY_LAST);
+  if (goto_last_order == ORDER_LAST) {
+    send_goto_path(punit, path, NULL);
+  } else {
+    struct unit_order order;
+
+    order.order = goto_last_order;
+    send_goto_path(punit, path, &order);
+  }
   pf_destroy_path(path);
 }
 

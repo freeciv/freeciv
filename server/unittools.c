@@ -3075,6 +3075,21 @@ bool execute_orders(struct unit *punit)
 	send_unit_info(NULL, punit);
       }
       break;
+    case ORDER_BUILD_CITY:
+      handle_unit_build_city(pplayer, unitid,
+			     city_name_suggestion(pplayer, punit->tile));
+      freelog(LOG_DEBUG, "  building city");
+      if (player_find_unit_by_id(pplayer, unitid)) {
+	/* Build failed. */
+	cancel_orders(punit, " orders canceled; failed to build city");
+	notify_player_ex(pplayer, punit->tile, E_UNIT_ORDERS,
+			 _("Game: Orders for %s aborted because building "
+			   "of city failed."), unit_name(punit->type));
+	return TRUE;
+      } else {
+	/* Build succeeded => unit "died" */
+	return FALSE;
+      }
     case ORDER_ACTIVITY:
       activity = order.activity;
       if (!can_unit_do_activity(punit, activity)) {

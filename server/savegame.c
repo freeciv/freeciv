@@ -266,6 +266,9 @@ static enum unit_orders char2order(char order)
   case 'w':
   case 'W':
     return ORDER_FULL_MP;
+  case 'b':
+  case 'B':
+    return ORDER_BUILD_CITY;
   case 'a':
   case 'A':
     return ORDER_ACTIVITY;
@@ -287,6 +290,8 @@ static char order2char(enum unit_orders order)
     return 'w';
   case ORDER_ACTIVITY:
     return 'a';
+  case ORDER_BUILD_CITY:
+    return 'b';
   case ORDER_LAST:
     break;
   }
@@ -2661,6 +2666,7 @@ static void player_save(struct player *plr, int plrno,
 	  act_buf[j] = activity2char(punit->orders.list[j].activity);
 	  break;
 	case ORDER_FULL_MP:
+	case ORDER_BUILD_CITY:
 	case ORDER_LAST:
 	  break;
 	}

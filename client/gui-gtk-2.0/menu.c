@@ -129,6 +129,7 @@ enum MenuID {
   MENU_ORDER_CONNECT_ROAD,
   MENU_ORDER_CONNECT_RAIL,
   MENU_ORDER_CONNECT_IRRIGATE,
+  MENU_ORDER_GO_BUILD_CITY,
   MENU_ORDER_PATROL,
   MENU_ORDER_GOTO,
   MENU_ORDER_GOTO_CITY,
@@ -446,6 +447,9 @@ static void orders_menu_callback(gpointer callback_data,
     break;
    case MENU_ORDER_CONNECT_ROAD:
     key_unit_connect(ACTIVITY_ROAD);
+    break;
+  case MENU_ORDER_GO_BUILD_CITY:
+    request_unit_goto(ORDER_BUILD_CITY);
     break;
    case MENU_ORDER_CONNECT_RAIL:
     key_unit_connect(ACTIVITY_RAILROAD);
@@ -787,6 +791,8 @@ static GtkItemFactoryEntry menu_items[]	=
    orders_menu_callback, MENU_ORDER_CONNECT_RAIL},
   {"/" N_("Orders") "/" N_("_Connect") "/" N_("_Irrigate"), "<ctrl><shift>i",
    orders_menu_callback, MENU_ORDER_CONNECT_IRRIGATE},
+  {"/" N_("Orders") "/" N_("Go _to") "/" N_("_Build city"), "<ctrl><shift>b",
+   orders_menu_callback, MENU_ORDER_GO_BUILD_CITY},
   { "/" N_("Orders") "/" N_("Patrol (_Q)"),		"q",
 	orders_menu_callback,	MENU_ORDER_PATROL					},
   { "/" N_("Orders") "/" N_("_Go to"),			"g",

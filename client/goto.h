@@ -34,7 +34,7 @@ bool is_endpoint(struct tile *ptile);
 
 void request_orders_cleared(struct unit *punit);
 void send_goto_path(struct unit *punit, struct pf_path *path,
-		    enum unit_activity final_activity);
+		    struct unit_order *last_order);
 void send_patrol_route(struct unit *punit);
 void send_goto_route(struct unit *punit);
 void send_connect_route(struct unit *punit, enum unit_activity activity);

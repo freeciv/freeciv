@@ -1607,6 +1607,9 @@ void handle_unit_orders(struct player *pplayer,
 
 
   for (i = 0; i < packet->length; i++) {
+    if (packet->orders[i] < 0 || packet->orders[i] > ORDER_LAST) {
+      packet->orders[i] = ORDER_LAST;
+    }
     switch (packet->orders[i]) {
     case ORDER_MOVE:
       if (!is_valid_dir(packet->dir[i])) {
@@ -1636,10 +1639,10 @@ void handle_unit_orders(struct player *pplayer,
       }
       break;
     case ORDER_FULL_MP:
+    case ORDER_BUILD_CITY:
       break;
-    default:
+    case ORDER_LAST:
       /* An invalid order.  This is handled in execute_orders. */
-      packet->orders[i] = ORDER_LAST;
       break;
     }
   }

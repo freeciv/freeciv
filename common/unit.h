@@ -34,9 +34,10 @@ enum unit_activity {
   ACTIVITY_LAST   /* leave this one last */
 };
 
-/* Changing this enum will break savegame and network compatability. */
+/* Changing this enum will break network compatability. */
 enum unit_orders {
-  ORDER_MOVE, ORDER_FULL_MP, ORDER_ACTIVITY,
+  ORDER_MOVE, ORDER_ACTIVITY,
+  ORDER_FULL_MP, ORDER_BUILD_CITY, /* and plenty more for later... */
   ORDER_LAST
 };
 

@@ -1867,7 +1867,7 @@ void move_unit_map_canvas(struct unit *punit,
   anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
   if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punit);
   }
 

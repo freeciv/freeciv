@@ -35,6 +35,7 @@ void control_done(void);
 extern int hover_unit; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
 extern enum unit_activity connect_activity;
+extern enum unit_orders goto_last_order;
 extern bool draw_goto_line;
 extern bool non_ai_unit_focus;
 
@@ -50,7 +51,8 @@ void do_unit_connect(struct unit *punit, struct tile *ptile,
 void do_map_click(struct tile *ptile, enum quickselect_type qtype);
 
 void set_hover_state(struct unit *punit, enum cursor_hover_state state,
-		     enum unit_activity activity);
+		     enum unit_activity connect_activity,
+		     enum unit_orders goto_last_order);
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
@@ -66,7 +68,7 @@ void request_unit_change_homecity(struct unit *punit);
 void request_unit_connect(enum unit_activity activity);
 void request_unit_disband(struct unit *punit);
 void request_unit_fortify(struct unit *punit);
-void request_unit_goto(void);
+void request_unit_goto(enum unit_orders last_order);
 void request_unit_move_done(void);
 void request_unit_nuke(struct unit *punit);
 void request_unit_paradrop(struct unit *punit);
