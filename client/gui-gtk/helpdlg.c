@@ -880,7 +880,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           w = help_slink_new(advances[advances[j].req[1]].name, HELP_TECH);
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-          w = gtk_label_new(").");
+          w = gtk_label_new(_("?techhelp:)."));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
 	}
       }
@@ -895,7 +895,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = help_slink_new(advances[advances[j].req[0]].name, HELP_TECH);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = gtk_label_new(").");
+        w = gtk_label_new(_("?techhelp:)."));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       }
     }
