@@ -104,24 +104,25 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
   gtk_box_pack_start(GTK_BOX(pdialog->shell),
 		     pdialog->cityname_label, TRUE, TRUE, 0);
 
-  vbox = gtk_vbox_new(FALSE, 0);
+  vbox = gtk_vbox_new(FALSE, 18);
   gtk_container_add(GTK_CONTAINER(pdialog->cityname_label), vbox);
-  gtk_container_border_width(GTK_CONTAINER(vbox), 2);
-
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
+    GtkWidget *box;
+    
+    box = gtk_vbox_new(FALSE, 2);
+    gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
+    
     pdialog->hpixmaps[i] =
-	gtk_pixmap_new(create_happiness_pixmap(pcity, i), NULL);
-    gtk_box_pack_start(GTK_BOX(vbox), pdialog->hpixmaps[i], FALSE, FALSE,
-		       0);
+	gtk_image_new_from_pixmap(create_happiness_pixmap(pcity, i), NULL);
+    gtk_box_pack_start(GTK_BOX(box), pdialog->hpixmaps[i], FALSE, FALSE, 0);
 
     pdialog->hlabels[i] = gtk_label_new("");
-    gtk_box_pack_start(GTK_BOX(vbox), pdialog->hlabels[i], TRUE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), pdialog->hlabels[i], TRUE, FALSE, 0);
 
     gtk_misc_set_alignment(GTK_MISC(pdialog->hpixmaps[i]), 0, 0);
     gtk_misc_set_alignment(GTK_MISC(pdialog->hlabels[i]), 0, 0);
-    gtk_label_set_justify(GTK_LABEL(pdialog->hlabels[i]),
-			  GTK_JUSTIFY_LEFT);
+    gtk_label_set_justify(GTK_LABEL(pdialog->hlabels[i]), GTK_JUSTIFY_LEFT);
 
     /* gtk_label_set_line_wrap(GTK_LABEL(pdialog->hlabels[i]), TRUE); */
   }
@@ -176,8 +177,8 @@ void refresh_happiness_dialog(struct city *pcity)
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
   for (i = 0; i < 5; i++) {
-    gtk_pixmap_set(GTK_PIXMAP(pdialog->hpixmaps[i]),
-		   create_happiness_pixmap(pdialog->pcity, i), NULL);
+    gtk_image_set_from_pixmap(GTK_IMAGE(pdialog->hpixmaps[i]),
+			      create_happiness_pixmap(pdialog->pcity, i), NULL);
   }
 
   happiness_dialog_update_cities(pdialog);
