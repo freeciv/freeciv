@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
       logfile = mystrdup(option); /* never free()d */
    else if ((option = get_option("--name",argv,&i,argc)) != NULL)
       sz_strlcpy(name, option);
-   else if ((option = get_option("--metaserver",argv,&i,argc)) != NULL)
+   else if ((option = get_option("--meta",argv,&i,argc)) != NULL)
       sz_strlcpy(metaserver, option);
    else if ((option = get_option("--port",argv,&i,argc)) != NULL)
      server_port=atoi(option);
