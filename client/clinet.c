@@ -183,6 +183,7 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
   if (connect(aconnection.sock, (struct sockaddr *) &server_addr,
       sizeof(server_addr)) == -1) {
     mystrlcpy(errbuf, mystrerror(errno), errbufsize);
+    my_closesocket(aconnection.sock);
     aconnection.sock = -1;
     return errno;
   }
@@ -516,6 +517,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   
   if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) == -1) {
     mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
+    my_closesocket(s);
     return NULL;
   }
 
