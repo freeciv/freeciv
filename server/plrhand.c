@@ -558,10 +558,13 @@ int update_tech(struct player *plr, int bulbs)
 		  advances[plr->ai.tech_goal].name);
   } else {
     choose_random_tech(plr);
-    if (plr->research.researching!=A_NONE)
-      notify_player(plr, "Game: Learned %s. Scientists choose to research %s",
+    if (plr->research.researching!=A_NONE && old != A_NONE)
+      notify_player(plr, "Game: Learned %s. Scientists choose to research %s.",
 		    advances[old].name,
 		    advances[plr->research.researching].name);
+    else if (old != A_NONE)
+      notify_player(plr, "Game: Learned %s. Scientists choose to research Future Tech. 1.",
+		    advances[old].name);
     else {
       plr->future_tech++;
       notify_player(plr,
@@ -571,7 +574,7 @@ int update_tech(struct player *plr, int bulbs)
   }
   for (i = 0; i<game.nplayers;i++) {
     if (player_has_embassy(&game.players[i], plr))
-      if (plr->research.researching!=A_NONE)
+      if (old != A_NONE)
        notify_player(&game.players[i], "Game: The %s has Researched %s.", 
                      get_race_name(plr->race),
                      advances[old].name);
