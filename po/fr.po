@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-26 09:13+0100\n"
+"POT-Creation-Date: 2004-11-29 21:01+0100\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
 "Last-Translator: Genevieve Gracian <ggracian@free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -467,13 +467,13 @@ msgstr "Commerce"
 msgid "Gold"
 msgstr "Or"
 
-#: common/aicore/cm.c:1848 server/plrhand.c:785
+#: common/aicore/cm.c:1848 server/plrhand.c:802
 #: client/gui-gtk-2.0/gamedlgs.c:262 client/gui-gtk/gamedlgs.c:261
 #: client/gui-mui/citydlg.c:1613 client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "Biens de luxe"
 
-#: common/aicore/cm.c:1850 server/plrhand.c:787
+#: common/aicore/cm.c:1850 server/plrhand.c:804
 #: client/gui-gtk-2.0/gamedlgs.c:282 client/gui-gtk-2.0/repodlgs.c:184
 #: client/gui-gtk/gamedlgs.c:281 client/gui-gtk/repodlgs.c:174
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
@@ -909,7 +909,7 @@ msgstr "Jeu : Achat de %s dans %s pour %d lingots."
 msgid "Game: You have bought this turn, can't change."
 msgstr "Jeu : Vous avez fait un achat ce tour ci, impossible de changer."
 
-#: server/cityhand.c:382 server/plrhand.c:390 server/stdinhand.c:367
+#: server/cityhand.c:382 server/plrhand.c:407 server/stdinhand.c:367
 #: server/unithand.c:176 server/unithand.c:462
 #, c-format
 msgid "Game: %s"
@@ -1238,7 +1238,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Jeu : %s accélère la recherche, vous obtenez %ddécouvertes immédiates."
 
-#: server/cityturn.c:980
+#: server/cityturn.c:980 server/plrhand.c:162
 #, c-format
 msgid "Game: The %s have acquired %s from %s."
 msgstr "Jeu : Les %s ont acquis %s de %s."
@@ -2727,7 +2727,7 @@ msgstr "Jeu : Votre %s a volé %s à %s."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Jeu : Le %2$s de %1$s a volé %3$s à %4$s."
 
-#: server/diplomats.c:695 server/plrhand.c:745
+#: server/diplomats.c:695 server/plrhand.c:762
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Jeu : Les %s ont volé %s aux %s."
@@ -3078,47 +3078,42 @@ msgstr "Pas de rapport au métaserveur pour cette partie."
 msgid "Metaserver: bad address: [%s:%d]."
 msgstr "Métaserveur: erreur d'adresse : [%s:%d]."
 
-#: server/plrhand.c:142
+#: server/plrhand.c:154
 #, c-format
-msgid "Game: %s acquired from a building!"
-msgstr "Jeu : %s acquis grâce à un bâtiment !"
+msgid "Game: %s acquired from %s!"
+msgstr "Jeu : %s acquis grâce à %s !"
 
-#: server/plrhand.c:144
+#: server/plrhand.c:157
 #, c-format
-msgid "%s discover %s (building)"
-msgstr "Les %s découvrent %s (bâtiment)"
+msgid "%s discover %s (%s)"
+msgstr "Les %s découvrent %s (%s)"
 
-#: server/plrhand.c:147
-#, c-format
-msgid "Game: The %s have acquired %s from a building."
-msgstr "Jeu : Les %s ont acquis %s d'un bâtiment."
-
-#: server/plrhand.c:206
+#: server/plrhand.c:223
 #, c-format
 msgid "The feared barbarian leader %s is no more"
 msgstr "Le redoutable chef barbares %s a disparu"
 
-#: server/plrhand.c:210
+#: server/plrhand.c:227
 #, c-format
 msgid "Game: The %s are no more!"
 msgstr "Jeu : Les %s ont disparu !"
 
-#: server/plrhand.c:212
+#: server/plrhand.c:229
 #, c-format
 msgid "%s civilization destroyed"
 msgstr "civilisation %s détruite"
 
-#: server/plrhand.c:281
+#: server/plrhand.c:298
 #, c-format
 msgid "%s are first to learn %s"
 msgstr "Les %s sont les premiers à découvrir %s."
 
-#: server/plrhand.c:290
+#: server/plrhand.c:307
 #, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
 msgstr "Jeu : La découverte de %s rend %s OBSOLÈTE à %s !"
 
-#: server/plrhand.c:300
+#: server/plrhand.c:317
 #, c-format
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
@@ -3127,36 +3122,36 @@ msgstr ""
 "Jeu : La découverte de %s rend disponible le type de gouvernement %s. Vous "
 "pouvez commencer une révolution."
 
-#: server/plrhand.c:339
+#: server/plrhand.c:356
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
 "Jeu : Appris %s. Nos scientifiques se focalisent sur %s, le but étant %s."
 
-#: server/plrhand.c:357
+#: server/plrhand.c:374
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr ""
 "Jeu : Appris %s. Nos scientifiques décident d'entreprendre des recherches "
 "sur %s."
 
-#: server/plrhand.c:365
+#: server/plrhand.c:382
 #, c-format
 msgid "Game: Learned %s. "
 msgstr "Jeu : Appris %s. "
 
-#: server/plrhand.c:368
+#: server/plrhand.c:385
 #, c-format
 msgid "Researching %s."
 msgstr "Recherche %s."
 
-#: server/plrhand.c:374
+#: server/plrhand.c:391
 #, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
 msgstr ""
 "Jeu : Appris %s. Nos scientifiques ne savent quoi rechercher pour la suite."
 
-#: server/plrhand.c:393
+#: server/plrhand.c:410
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -3164,7 +3159,7 @@ msgstr ""
 "Jeu : De grands philosophes du monde entier rejoignent votre civilisation ; "
 "vous obtenez une découverte."
 
-#: server/plrhand.c:452
+#: server/plrhand.c:469
 #, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists choose to research %s."
@@ -3172,7 +3167,7 @@ msgstr ""
 "Jeu : Appris %s en coopération avec %s. Nos scientifiques décident "
 "d'entreprendre des recherches sur %s."
 
-#: server/plrhand.c:458
+#: server/plrhand.c:475
 #, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists do not know what to "
@@ -3181,111 +3176,111 @@ msgstr ""
 "Jeu : Appris %s en coopération avec %s. Nos scientifiques ne savent sur quoi "
 "porter leurs recherches."
 
-#: server/plrhand.c:487
+#: server/plrhand.c:504
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Jeu : Les %s ont découvert %s."
 
-#: server/plrhand.c:491
+#: server/plrhand.c:508
 #, c-format
 msgid "%s discover %s"
 msgstr "Les %s découvrent %s."
 
-#: server/plrhand.c:496
+#: server/plrhand.c:513
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Jeu : Les %s ont découvert Tech. Future %d."
 
-#: server/plrhand.c:500
+#: server/plrhand.c:517
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "Jeu : Les %s ont découvert Tech. Future %d\"."
 
-#: server/plrhand.c:634
+#: server/plrhand.c:651
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Jeu : Le but technologique est %s."
 
-#: server/plrhand.c:729
+#: server/plrhand.c:746
 #, c-format
 msgid "%s steal %s from %s"
 msgstr "Les %s volent %s aux %s"
 
-#: server/plrhand.c:735
+#: server/plrhand.c:752
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Jeu : Vous avez volé %s aux %s."
 
-#: server/plrhand.c:740
+#: server/plrhand.c:757
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Jeu : Les %s vous ont volé %s!"
 
-#: server/plrhand.c:767
+#: server/plrhand.c:784
 msgid "Game: Cannot change rates before game start."
 msgstr "Jeu : impossible de changer les taux avant que le jeu ne commence."
 
-#: server/plrhand.c:783 client/gui-gtk-2.0/gamedlgs.c:242
+#: server/plrhand.c:800 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-gtk/gamedlgs.c:241 client/gui-win32/ratesdlg.c:309
 msgid "Tax"
 msgstr "Taxe"
 
-#: server/plrhand.c:790
+#: server/plrhand.c:807
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Jeu : Le taux de %s excède le taux maximum pour %s."
 
-#: server/plrhand.c:796 server/plrhand.c:1073
+#: server/plrhand.c:813 server/plrhand.c:1090
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr "CHANGEMENT DE TAUX : %s %i %i %i"
 
-#: server/plrhand.c:875
+#: server/plrhand.c:892
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Jeu : %s gouverne dorénavant les %s sous %s."
 
-#: server/plrhand.c:879
+#: server/plrhand.c:896
 #, c-format
 msgid "%s form a %s"
 msgstr "Les %s passent en %s"
 
-#: server/plrhand.c:927
+#: server/plrhand.c:944
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Jeu : Les %s font la révolution !"
 
-#: server/plrhand.c:929
+#: server/plrhand.c:946
 #, c-format
 msgid "The %s revolt!"
 msgstr "Les %s commencent une révolution !"
 
-#: server/plrhand.c:1029
+#: server/plrhand.c:1046
 msgid "You should choose a new government from the government menu."
 msgstr ""
 "Vous devriez choisir un nouveau gouvernement dans le menu gouvernement."
 
-#: server/plrhand.c:1056
+#: server/plrhand.c:1073
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Jeu : Le taux d'imposition excède le maximum prévu pour %s; Ajusté."
 
-#: server/plrhand.c:1062
+#: server/plrhand.c:1079
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Jeu : Le taux de recherche excède le maximum prévu pour %s; Ajusté."
 
-#: server/plrhand.c:1068
+#: server/plrhand.c:1085
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Jeu : Le taux de luxe excède le maximum prévu pour %s; Ajusté."
 
-#: server/plrhand.c:1123
+#: server/plrhand.c:1140
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s ne partage plus sa vue avec vous !"
 
-#: server/plrhand.c:1187
+#: server/plrhand.c:1204
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -3293,12 +3288,12 @@ msgstr ""
 "Le Sénat vote votre proposition de loi en raison des provocations constantes "
 "des %s."
 
-#: server/plrhand.c:1199
+#: server/plrhand.c:1216
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Jeu : Votre réputation est maintenant %s."
 
-#: server/plrhand.c:1204
+#: server/plrhand.c:1221
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -3306,13 +3301,13 @@ msgstr ""
 "Jeu : Le Sénat préfère se dissoudre que de continuer à accepter vos "
 "agissements."
 
-#: server/plrhand.c:1235
+#: server/plrhand.c:1252
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr ""
 "Jeu : Les relations diplomatiques entre les %s et les %s sont maintenant %s."
 
-#: server/plrhand.c:1241
+#: server/plrhand.c:1258
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -3321,7 +3316,7 @@ msgstr ""
 "Jeu : %s a rompu le pacte ! Les relations diplomatiques entre les %s et les %"
 "s sont maintenant %s."
 
-#: server/plrhand.c:1258
+#: server/plrhand.c:1275
 #, c-format
 msgid ""
 "Game: %s has attacked your ally %s! You cancel your alliance to the "
@@ -3330,7 +3325,7 @@ msgstr ""
 "Jeu : %s a attaqué l'un de votre allié %s ! Vous annulez votre alliance avec "
 "l'agresseur."
 
-#: server/plrhand.c:1269
+#: server/plrhand.c:1286
 #, c-format
 msgid ""
 "Game: Your team mate %s declared war on %s. You are obligated to cancel "
@@ -3339,31 +3334,31 @@ msgstr ""
 "Jeu : Votre coéquipier %s a déclaré la guerre avec %s. Vous êtes obligé "
 "d'annuler votre alliance avec %s est impossible."
 
-#: server/plrhand.c:1672
+#: server/plrhand.c:1689
 #, c-format
 msgid "Removing player %s."
 msgstr "Joueur %s retiré."
 
-#: server/plrhand.c:1673
+#: server/plrhand.c:1690
 msgid "Game: You've been removed from the game!"
 msgstr "Jeu : Vous avez été retiré du jeu !"
 
-#: server/plrhand.c:1676
+#: server/plrhand.c:1693
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Jeu : %s a été retiré du jeu !"
 
-#: server/plrhand.c:1719 server/plrhand.c:1723
+#: server/plrhand.c:1736 server/plrhand.c:1740
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Jeu : Vous avez établi un contact avec les %s, dirigés par %s."
 
-#: server/plrhand.c:2113
+#: server/plrhand.c:2130
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Impossible de plonger %s dans une guerre civile - trop de joueurs"
 
-#: server/plrhand.c:2135
+#: server/plrhand.c:2152
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -3372,12 +3367,12 @@ msgstr ""
 "Jeu : Votre nation plonge dans la guerre civile; %s est déclaré leader des "
 "États rebelles."
 
-#: server/plrhand.c:2155
+#: server/plrhand.c:2172
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Jeu : %s fait allégeance à %s."
 
-#: server/plrhand.c:2169
+#: server/plrhand.c:2186
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -6819,7 +6814,7 @@ msgstr ""
 #: server/unittools.c:231
 #, c-format
 msgid "Game: %s was upgraded for free to %s%s."
-msgstr "Jeu : %s a été gratuitement mis à jour vers %s%s."
+msgstr "Jeu : %s a été gratuitement mis à jour en %s%s."
 
 #: server/unittools.c:267
 #, c-format
@@ -7764,16 +7759,30 @@ msgstr ""
 "      --\t\tPasse une des options qui suivent à l'interface utilisateur.\n"
 "\t\t\tEssayez \"%s -- --help\" pour plus d'info.\n"
 
-#: client/civclient.c:256
+#: client/civclient.c:241
+#, c-format
+msgid "Invalid port \"%s\" specified with --port option.\n"
+msgstr "Port invalide \"%s\" specifié pour l'option --port.\n"
+
+#: client/civclient.c:243 client/civclient.c:256
+msgid "Try using --help.\n"
+msgstr "Essayer d'utiliser --help.\n"
+
+#: client/civclient.c:254
+#, c-format
+msgid "Invalid debug level \"%s\" specified with --debug option.\n"
+msgstr "Niveau de débogage invalide \"%s\" spécifié pour l'option --debug.\n"
+
+#: client/civclient.c:264
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue: \"%s\"\n"
 
-#: client/civclient.c:477
+#: client/civclient.c:485
 msgid "Game started."
 msgstr "Partie commencée."
 
-#: client/civclient.c:510
+#: client/civclient.c:518
 msgid "There was an error while auto connecting; aborting."
 msgstr "La connection automatique a échoué ; abandon."
 
@@ -8527,9 +8536,9 @@ msgstr "* Ce terrain est dangereux pour les unités qui s'y déplacent."
 
 #: client/helpdata.c:1111
 #, c-format
-msgid "* Only naval units can travel on oceanic terrains."
+msgid "* Land units cannot travel on oceanic terrains."
 msgstr ""
-"* Seules les unités navales peuvent se déplacer sur les terrains océaniques."
+"* Les unités terrestres ne peuvent se déplacer sur les terrains océaniques."
 
 #: client/helpdata.c:1157
 #, c-format
@@ -9660,7 +9669,7 @@ msgstr "Impossible de charger le fichier gfx %s pour l'icone %s"
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "AGU : Vous perdez le contrôle de %s. Détachement de la ville."
 
-#: client/agents/cma_core.c:399
+#: client/agents/cma_core.c:400
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
@@ -9668,7 +9677,7 @@ msgstr ""
 "AGU : l'agent ne peut pas remplir les pré-requis pour %s et redonne le "
 "contrôle."
 
-#: client/agents/cma_core.c:408
+#: client/agents/cma_core.c:409
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -9676,7 +9685,7 @@ msgstr ""
 "AGU : %s a changé et le résultat calculé n'est pas applicable. "
 "Recommencement."
 
-#: client/agents/cma_core.c:428
+#: client/agents/cma_core.c:429
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in Freeciv or bad "
@@ -12303,7 +12312,7 @@ msgstr "Coût"
 #: client/gui-gtk-2.0/repodlgs.c:636 client/gui-gtk/repodlgs.c:587
 #: client/gui-mui/repodlgs.c:462 client/gui-win32/repodlgs.c:433
 msgid "U Total"
-msgstr "U Total"
+msgstr "Total"
 
 #: client/gui-gtk-2.0/repodlgs.c:698 client/gui-gtk/repodlgs.c:616
 msgid "Total Cost:"
@@ -22953,3 +22962,9 @@ msgstr ""
 "Les Zoulous sont un peuple guerrier qui migra de l'ouest de l'Afrique "
 "centrale vers l'Afrique du sud dès le début du XVIIIème siècle en soumettant "
 "les autochtones Khoisans et en luttant contre les colons européens."
+
+#~ msgid "%s discover %s (building)"
+#~ msgstr "Les %s découvrent %s (bâtiment)"
+
+#~ msgid "Game: The %s have acquired %s from a building."
+#~ msgstr "Jeu : Les %s ont acquis %s d'un bâtiment."
