@@ -112,6 +112,7 @@ void handle_city_change_specialist(struct player *pplayer,
     break;
   }
 
+  sanity_check_city(pcity);
   city_refresh(pcity);
   send_city_info(pplayer, pcity);
 }
@@ -141,6 +142,7 @@ void handle_city_make_specialist(struct player *pplayer,
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     _("Game: You don't have a worker here.")); 
   }
+  sanity_check_city(pcity);
 }
 
 /**************************************************************************
@@ -180,6 +182,7 @@ void handle_city_make_worker(struct player *pplayer,
   else 
     pcity->ppl_taxman--;
 
+  sanity_check_city(pcity);
   city_refresh(pcity);
   sync_cities();
 }
@@ -374,6 +377,7 @@ void handle_city_change(struct player *pplayer,
   change_build_target(pplayer, pcity, preq->build_id,
 		      preq->is_build_id_unit_id, E_NOEVENT);
 
+  sanity_check_city(pcity);
   city_refresh(pcity);
   send_city_info(pplayer, pcity);
 }

@@ -700,185 +700,8 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 static void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
   auto_arrange_workers(pcity);
-  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE))
-    ai_scientists_taxmen(pcity);
   ai_sell_obsolete_buildings(pcity);
   sync_cities();
-/* ai_city_choose_build(pplayer, pcity); -- moved by Syela */
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
-{
-  struct government *g = get_gov_pcity(pcity);
-  int foodneed, prodneed, luxneed, pwr, e, worst_value = 0;
-
-  foodneed=(pcity->size *2) + settler_eats(pcity);
-  foodneed -= pcity->food_prod; /* much more robust now -- Syela */
-  prodneed = 0;
-  prodneed -= pcity->shield_prod;
-  luxneed = 2 * (2 * pcity->ppl_angry[4] + pcity->ppl_unhappy[4] -
-		 pcity->ppl_happy[4]);
-  pwr = 2 * city_tax_bonus(pcity) / 100;
-  e = (luxneed + pwr - 1) / pwr;
-  if (e > 1) {
-    foodneed += (e - 1) * 2;
-    prodneed += (e - 1);
-  } /* not as good as elvising all at once, but should be adequate */
-
-  unit_list_iterate(pcity->units_supported, punit)
-    prodneed += utype_shield_cost(unit_type(punit), g);
-  unit_list_iterate_end;
-  
-  prodneed -= citygov_free_shield(pcity, g);
-
-  *xp = 0;
-  *yp = 0;
-  city_map_iterate(x, y) {
-    if (is_city_center(x, y))
-      continue; 
-    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
-      int value = city_tile_value(pcity, x, y,
-				  foodneed + city_get_food_tile(x, y, pcity),
-				  prodneed + city_get_shields_tile(x, y,
-								   pcity));
-
-      if ((*xp == 0 && *yp == 0) || value < worst_value) {
-	*xp = x;
-	*yp = y;
-	worst_value = value;
-      }
-    }
-  } city_map_iterate_end;
-  if (*xp == 0 && *yp == 0) return 0;
-  foodneed += city_get_food_tile(*xp, *yp, pcity);
-  prodneed += city_get_shields_tile(*xp, *yp, pcity);
-  if (e > 1) {
-    foodneed -= (e - 1) * 2; /* forgetting these two lines */
-    prodneed -= (e - 1); /* led to remarkable idiocy -- Syela */
-  }
-  if (foodneed > pcity->food_stock) {
-    freelog(LOG_DEBUG,
-	    "No elvis_pos in %s - would create famine.", pcity->name);
-    return 0; /* Bad time to Elvis */
-  }
-  if (prodneed > 0) {
-    freelog(LOG_DEBUG,
-	    "No elvis_pos in %s - would fail-to-upkeep.", pcity->name);
-    return 0; /* Bad time to Elvis */
-  }
-  return(city_tile_value(pcity, *xp, *yp, foodneed, prodneed));
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int ai_make_elvis(struct city *pcity)
-{
-  int xp, yp, val;
-  if ((val = ai_find_elvis_pos(pcity, &xp, &yp)) != 0) {
-    server_remove_worker_city(pcity, xp, yp);
-    pcity->ppl_elvis++;
-    city_refresh(pcity); /* this lets us call ai_make_elvis in luxury routine */
-    return val; /* much more useful! */
-  } else
-    return 0;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void make_elvises(struct city *pcity)
-{
-  int xp, yp, elviscost;
-  pcity->ppl_elvis += (pcity->ppl_taxman + pcity->ppl_scientist);
-  pcity->ppl_taxman = 0;
-  pcity->ppl_scientist = 0;
-  city_refresh(pcity);
- 
-  while (TRUE) {
-    if ((elviscost = ai_find_elvis_pos(pcity, &xp, &yp)) != 0) {
-      int food = city_get_food_tile(xp, yp, pcity);
-
-      if (food > pcity->food_surplus)
-	break;
-      if (food == pcity->food_surplus && city_happy(pcity))
-	break; /* scientists don't party */
-      if (elviscost >= 24) /* doesn't matter if we wtbb or not! */
-        break; /* no benefit here! */
-      server_remove_worker_city(pcity, xp, yp);
-      pcity->ppl_elvis++;
-      city_refresh(pcity);
-    } else
-      break;
-  }
-    
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void make_taxmen(struct city *pcity)
-{
-  while (!city_unhappy(pcity) && pcity->ppl_elvis > 0) {
-    pcity->ppl_taxman++;
-    pcity->ppl_elvis--;
-    city_refresh(pcity);
-  }
-  if (city_unhappy(pcity)) {
-    pcity->ppl_taxman--;
-    pcity->ppl_elvis++;
-    city_refresh(pcity);
-  }
-
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void make_scientists(struct city *pcity)
-{
-  make_taxmen(pcity); /* reuse the code */
-  pcity->ppl_scientist = pcity->ppl_taxman;
-  pcity->ppl_taxman = 0;
-}
-
-/**************************************************************************
- we prefer science, but if both is 0 we prefer $ 
- (out of research goal situation)
-**************************************************************************/
-void ai_scientists_taxmen(struct city *pcity)
-{
-  int science_bonus, tax_bonus;
-  make_elvises(pcity);
-  if (pcity->ppl_elvis == 0 || city_unhappy(pcity)) 
-    return;
-  tax_bonus = city_tax_bonus(pcity);
-  science_bonus = city_science_bonus(pcity);
-  
-  if (tax_bonus > science_bonus || ai_wants_no_science(city_owner(pcity))) {
-    make_taxmen(pcity);
-  } else {
-    make_scientists(pcity);
-  }
-
-  sync_cities();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-bool ai_fix_unhappy(struct city *pcity)
-{
-  if (!city_unhappy(pcity))
-    return TRUE;
-  while (city_unhappy(pcity)) {
-    if(ai_make_elvis(pcity) == 0) break;
-/*     city_refresh(pcity);         moved into ai_make_elvis for utility -- Syela */
-  }
-  return (!city_unhappy(pcity));
 }
 
 /**************************************************************************
@@ -919,8 +742,8 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
     if (acity && acity != pcity && acity->owner == pcity->owner)  {
       if (same_pos(acity->x, acity->y, x, y)) {
-	/* can't stop working city center */
-	continue;
+        /* can't stop working city center */
+        continue;
       }
       freelog(LOG_DEBUG, "%s taking over %s's square in (%d, %d)",
               pcity->name, acity->name, x, y);
@@ -934,9 +757,6 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     }
   } map_city_radius_iterate_end;
   auto_arrange_workers(pcity);
-  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE)) {
-    ai_scientists_taxmen(pcity);
-  }
 
   if (!CITY_EMERGENCY(pcity)) {
     freelog(LOG_EMERGENCY, "Emergency in %s resolved", pcity->name);
@@ -954,7 +774,6 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
       /* in rare cases the _safe might be needed? --dwp */
       handle_unit_disband_safe(pplayer, &pack, &myiter);
       city_refresh(pcity);
-      (void) ai_fix_unhappy(pcity);
     }
   } unit_list_iterate_end;
 
@@ -971,9 +790,6 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     /* otherwise food total and stuff was wrong. -- Syela */
     city_refresh(acity);
     auto_arrange_workers(pcity);
-    if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer, TRUE)) {
-      ai_scientists_taxmen(acity);
-    }
   } city_list_iterate_end;
 
   sync_cities();

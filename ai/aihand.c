@@ -201,9 +201,6 @@ void ai_best_government(struct player *pplayer)
       city_list_iterate(pplayer->cities, acity) {
         generic_city_refresh(acity, TRUE, NULL);
         auto_arrange_workers(acity);
-        if (ai_fix_unhappy(acity)) {
-          ai_scientists_taxmen(acity);
-        }
       } city_list_iterate_end;
       city_list_iterate(pplayer->cities, pcity) {
         val += ai_eval_calc_city(pcity, ai);
@@ -244,9 +241,6 @@ void ai_best_government(struct player *pplayer)
     city_list_iterate(pplayer->cities, acity) {
       generic_city_refresh(acity, FALSE, NULL);
       auto_arrange_workers(acity);
-      if (ai_fix_unhappy(acity)) {
-        ai_scientists_taxmen(acity);
-      }
     } city_list_iterate_end;
     ai->govt_reeval = CLIP(5, city_list_size(&pplayer->cities), 20);
   }

@@ -130,6 +130,7 @@ void cmafec_get_fe_parameter(struct city *pcity, struct cm_parameter *dest)
 
       dest->happy_factor = 1;
       dest->require_happy = FALSE;
+      dest->allow_disorder = FALSE;
       dest->factor_target = FT_SURPLUS;
 
       cmafec_set_fe_parameter(pcity, dest);

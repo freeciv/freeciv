@@ -542,7 +542,9 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 
   assert(unit_pop_value(punit->type) > 0);
   pcity->size += unit_pop_value(punit->type);
-  add_adjust_workers(pcity);
+  /* Make the new people something, otherwise city fails the checks */
+  pcity->ppl_taxman += unit_pop_value(punit->type);
+  auto_arrange_workers(pcity);
   wipe_unit(punit);
   send_city_info(NULL, pcity);
   notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,

@@ -953,6 +953,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     build_free_palace(pgiver, pcity->name);
   }
 
+  sanity_check_city(pcity);
   sync_cities();
 }
 
@@ -1058,6 +1059,7 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
       send_city_info(city_owner(home), home);
     }
   } unit_list_iterate_end;
+  sanity_check_city(pcity);
 }
 
 /**************************************************************************
@@ -2034,7 +2036,8 @@ static bool update_city_tile_status(struct city *pcity, int city_x,
   case C_TILE_WORKER:
     if (!is_available) {
       server_set_tile_city(pcity, city_x, city_y, C_TILE_UNAVAILABLE);
-      add_adjust_workers(pcity); /* will place the displaced */
+      pcity->ppl_elvis++; /* keep city sanity */
+      auto_arrange_workers(pcity); /* will place the displaced */
       city_refresh(pcity);
       send_city_info(NULL, pcity);
     }

@@ -322,7 +322,7 @@ static bool is_valid_result(const struct cm_parameter *const parameter,
 {
   int i;
 
-  if (result->disorder) {
+  if (!parameter->allow_disorder && result->disorder) {
     return FALSE;
   }
   if (parameter->require_happy && !result->happy) {
@@ -1531,6 +1531,9 @@ bool cm_are_parameter_equal(const struct cm_parameter *const p1,
     }
   }
   if (p1->require_happy != p2->require_happy) {
+    return FALSE;
+  }
+  if (p1->allow_disorder != p2->allow_disorder) {
     return FALSE;
   }
   if (p1->factor_target != p2->factor_target) {

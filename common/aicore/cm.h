@@ -40,6 +40,7 @@ enum cm_stat { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, NUM_STATS };
 struct cm_parameter {
   int minimal_surplus[NUM_STATS];
   bool require_happy;
+  bool allow_disorder;
 
   enum factor_target factor_target;
 
