@@ -35,6 +35,7 @@
 
 #include "capability.h"
 #include "events.h"
+#include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "support.h"
@@ -4472,6 +4473,17 @@ struct packet_attribute_chunk *receive_packet_attribute_chunk(struct
   iget_uint32(&iter, &packet->total_length);
   iget_uint32(&iter, &packet->chunk_length);
 
+  /*
+   * Because of the changes in enum packet_type during the 1.12.1
+   * timeframe an old server will trigger the following condition.
+   */
+  if (packet->total_length <= 0
+      || packet->total_length >= MAX_ATTRIBUTE_BLOCK) {
+    freelog(LOG_FATAL, _("The server you tried to connect is too old "
+			 "(1.12.0 or earlier). Please choose another "
+			 "server next time. Good bye."));
+    exit(EXIT_FAILURE);
+  }
   assert(packet->total_length > 0
 	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
   /* 500 bytes header, just to be sure */

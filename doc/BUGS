@@ -82,6 +82,10 @@ KNOWN BUGS:
  - The xaw client does not work well with the KDE window manager.
    Try using the gtk client or another window manager.
 
+ - Version 1.13.0 will not work with version 1.12.0 or any previous
+   versions. Note that the client will fail a bit more hard by just 
+   printing a message to stdout and exiting afterwards.
+
 REPORTING A BUG:
 ================
 

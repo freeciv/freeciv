@@ -64,6 +64,7 @@ WHAT'S CHANGED SINCE 1.12.0
  - The map and ai code has been cleaned up significantly.
  - Translations improved. Added better support for plural forms.
  - Several bugs squished and a lot of work done under the hood.
+ - For an overview of the remaining bugs please visit doc/BUGS.
 
 WHAT'S CHANGED SINCE 1.11.4
 

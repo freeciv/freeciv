@@ -5,6 +5,7 @@ common/connection.c
 common/log.c
 common/map.c
 common/mem.c
+common/packets.c
 common/player.c
 common/shared.c
 common/support.c
