@@ -135,6 +135,20 @@ typedef unsigned int fc_bool;
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 #define ADD_TO_POINTER(p, n) ((void *)((char *)(p)+(n)))
 
+/****************************************************************************
+  Used to initialize an array 'a' of size 'size' with value 'val' in each
+  element. Note that the value is evaluated for each element.
+****************************************************************************/
+#define INITIALIZE_ARRAY(array, size, value)				    \
+  {									    \
+    int _ini_index;							    \
+    									    \
+    for (_ini_index = 0; _ini_index < (size); _ini_index++) {		    \
+      (array)[_ini_index] = (value);					    \
+    }									    \
+  }
+
+
 /* Bitvectors. */
 #define _BV_BYTES(bits)		((((bits) - 1) / 8) + 1)
 #define _BV_BYTE_INDEX(bits)	((bits) / 8)
