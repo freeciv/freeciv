@@ -559,8 +559,8 @@ int city_corruption(struct city *pcity, int trade)
     val /= 2;
   val *= g->corruption_level;
   val /= 100;
-  if (val >= trade && val)
-    val = trade - 1;
+  if (val > trade)
+    val = trade;
   return(val); /* how did y'all let me forget this one? -- Syela */
 }
   
