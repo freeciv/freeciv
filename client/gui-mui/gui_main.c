@@ -1227,7 +1227,7 @@ void update_menus(void) /* from menu.c */
       static char irrtext[64];
       static char mintext[64];
       static char transtext[64];
-      enum tile_terrain_type ttype;
+      Terrain_type_id ttype;
       struct tile_type *tinfo;
 
       set(main_menu, MUIA_Window_Menustrip, NULL);

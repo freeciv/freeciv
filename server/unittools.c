@@ -731,7 +731,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_IRRIGATE) {
     if (total_activity (punit->x, punit->y, ACTIVITY_IRRIGATE) >=
         map_build_irrigation_time(punit->x, punit->y)) {
-      enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
+      Terrain_type_id old = map_get_terrain(punit->x, punit->y);
       map_irrigate_tile(punit->x, punit->y);
       solvency = check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = TRUE;
@@ -758,7 +758,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_MINE) {
     if (total_activity (punit->x, punit->y, ACTIVITY_MINE) >=
         map_build_mine_time(punit->x, punit->y)) {
-      enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
+      Terrain_type_id old = map_get_terrain(punit->x, punit->y);
       map_mine_tile(punit->x, punit->y);
       solvency = check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = TRUE;
@@ -768,7 +768,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_TRANSFORM) {
     if (total_activity (punit->x, punit->y, ACTIVITY_TRANSFORM) >=
         map_transform_time(punit->x, punit->y)) {
-      enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
+      Terrain_type_id old = map_get_terrain(punit->x, punit->y);
       map_transform_tile(punit->x, punit->y);
       solvency = check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = TRUE;
@@ -2482,7 +2482,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
     unit_list_iterate(map_get_tile(x, y)->units, penemy) {
       int range;
       enum unit_move_type move_type = unit_type(penemy)->move_type;
-      enum tile_terrain_type terrain = map_get_terrain(x, y);
+      Terrain_type_id terrain = map_get_terrain(x, y);
 
       if (map_has_special(x, y, S_FORTRESS)
 	  && unit_profits_of_watchtower(penemy))

@@ -1121,7 +1121,7 @@ void update_menus(void)
       char *transfmt = _("Transf_orm to %s");
       char irrtext[128], mintext[128], transtext[128];
       char *roadtext;
-      enum tile_terrain_type  ttype;
+      Terrain_type_id  ttype;
       struct tile_type *      tinfo;
 
       sz_strlcpy(irrtext, _("Build _Irrigation"));

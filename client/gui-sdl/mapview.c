@@ -113,7 +113,7 @@ static void free_dither_tiles(void);
 static void init_borders_tiles(void);
 static void free_borders_tiles(void);
 static void fill_dither_buffers(SDL_Surface **pDitherBufs, int x, int y,
-					enum tile_terrain_type terrain);
+					Terrain_type_id terrain);
 
 
 static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
@@ -2079,12 +2079,12 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
 /**************************************************************************
 ...
 **************************************************************************/
-static bool is_full_ocean(enum tile_terrain_type t, int x, int y)
+static bool is_full_ocean(Terrain_type_id t, int x, int y)
 {
   
   if (is_ocean(t))
   {
-    enum tile_terrain_type ter;
+    Terrain_type_id ter;
     adjc_iterate(x, y, x1, y1) {
       ter = map_get_terrain(x1, y1);
       if (!is_ocean(ter) && ter != T_UNKNOWN) {
@@ -2114,7 +2114,7 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
   static struct city *pCity = NULL;
   static struct unit *pUnit = NULL, *pFocus = NULL;
   static enum tile_special_type special;
-  static enum tile_terrain_type terrain;
+  static Terrain_type_id terrain;
   static int count, i;
   static bool fog, full_ocean, solid_bg;
 
@@ -3206,9 +3206,9 @@ static SDL_Surface * create_ocean_tile(void)
   ...
 **************************************************************************/
 static void fill_dither_buffers(SDL_Surface **pDitherBufs, int x, int y,
-					enum tile_terrain_type terrain)
+					Terrain_type_id terrain)
 {
-  enum tile_terrain_type __ter[8];
+  Terrain_type_id __ter[8];
   enum direction8 dir;
   int x1, y1;
   
@@ -3248,7 +3248,7 @@ static void fill_dither_buffers(SDL_Surface **pDitherBufs, int x, int y,
 **************************************************************************/
 static void init_dither_tiles(void)
 {
-  enum tile_terrain_type terrain;
+  Terrain_type_id terrain;
   int i , w = NORMAL_TILE_WIDTH / 2, h = NORMAL_TILE_HEIGHT / 2;
   SDL_Rect src = { 0 , 0 , w , h };
   SDL_Surface *pTerrain_Surface, *pBuf = create_surf(NORMAL_TILE_WIDTH,
@@ -3325,7 +3325,7 @@ static void init_dither_tiles(void)
 **************************************************************************/
 static void free_dither_tiles(void)
 {
-  enum tile_terrain_type terrain;
+  Terrain_type_id terrain;
   int i;
     
   for (terrain = T_ARCTIC ; terrain < T_LAST ; terrain++)
@@ -3343,7 +3343,7 @@ static void free_dither_tiles(void)
 **************************************************************************/
 static void clear_dither_tiles(void)
 {
-  enum tile_terrain_type terrain;
+  Terrain_type_id terrain;
   int i;
   for (terrain = T_ARCTIC ; terrain < T_LAST ; terrain++)
   {

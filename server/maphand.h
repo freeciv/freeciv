@@ -36,7 +36,7 @@ struct dumb_city{
 };
 
 struct player_tile {
-  enum tile_terrain_type terrain;
+  Terrain_type_id terrain;
   enum tile_special_type special;
   unsigned short seen;
   unsigned short own_seen;
@@ -101,5 +101,5 @@ void map_update_borders_landmass_change(int x, int y);
 void map_calculate_borders(void);
 
 enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
-                                              enum tile_terrain_type oldter);
+                                              Terrain_type_id oldter);
 #endif  /* FC__MAPHAND_H */

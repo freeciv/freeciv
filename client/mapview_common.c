@@ -1321,7 +1321,7 @@ static void tile_draw_coastline(struct canvas *pcanvas,
 				int map_x, int map_y,
 				int canvas_x, int canvas_y)
 {
-  enum tile_terrain_type t1 = map_get_terrain(map_x, map_y), t2;
+  Terrain_type_id t1 = map_get_terrain(map_x, map_y), t2;
 
   if (!draw_coastline || draw_terrain || t1 == T_UNKNOWN) {
     return;

@@ -38,7 +38,7 @@
 static void check_specials(void)
 {
   whole_map_iterate(x, y) {
-    enum tile_terrain_type terrain = map_get_terrain(x, y);
+    Terrain_type_id terrain = map_get_terrain(x, y);
     enum tile_special_type special = map_get_special(x, y);
 
     if (contains_special(special, S_RAILROAD))

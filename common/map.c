@@ -627,7 +627,7 @@ bool is_cardinally_adj_to_ocean(int x, int y)
 bool is_safe_ocean(int x, int y)
 {
   adjc_iterate(x, y, x1, y1) {
-    enum tile_terrain_type ter = map_get_terrain(x1, y1);
+    Terrain_type_id ter = map_get_terrain(x1, y1);
     if (!terrain_has_flag(ter, TER_UNSAFE_COAST) && ter != T_UNKNOWN) {
       return TRUE;
     }
@@ -915,7 +915,7 @@ static void clear_dirtiness(int x, int y)
 ***************************************************************/
 void map_irrigate_tile(int x, int y)
 {
-  enum tile_terrain_type now, result;
+  Terrain_type_id now, result;
   
   now = map_get_terrain(x, y);
   result = tile_types[now].irrigation_result;
@@ -945,7 +945,7 @@ void map_irrigate_tile(int x, int y)
 ***************************************************************/
 void map_mine_tile(int x, int y)
 {
-  enum tile_terrain_type now, result;
+  Terrain_type_id now, result;
   
   now = map_get_terrain(x, y);
   result = tile_types[now].mining_result;
@@ -969,7 +969,7 @@ void map_mine_tile(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-void change_terrain(int x, int y, enum tile_terrain_type type)
+void change_terrain(int x, int y, Terrain_type_id type)
 {
   map_set_terrain(x, y, type);
   if (is_ocean(type)) {
@@ -998,7 +998,7 @@ void change_terrain(int x, int y, enum tile_terrain_type type)
 ***************************************************************/
 void map_transform_tile(int x, int y)
 {
-  enum tile_terrain_type now, result;
+  Terrain_type_id now, result;
   
   now = map_get_terrain(x, y);
   result = tile_types[now].transform_result;
@@ -1265,7 +1265,7 @@ void map_set_continent(int x, int y, Continent_id val)
 /***************************************************************
 ...
 ***************************************************************/
-enum tile_terrain_type map_get_terrain(int x, int y)
+Terrain_type_id map_get_terrain(int x, int y)
 {
   return MAP_TILE(x, y)->terrain;
 }
@@ -1273,7 +1273,7 @@ enum tile_terrain_type map_get_terrain(int x, int y)
 /****************************************************************************
   Return the terrain type of the given tile (in native coordinates).
 ****************************************************************************/
-enum tile_terrain_type nat_get_terrain(int nat_x, int nat_y)
+Terrain_type_id nat_get_terrain(int nat_x, int nat_y)
 {
   return NAT_TILE(nat_x, nat_y)->terrain;
 }
@@ -1326,7 +1326,7 @@ bool contains_special(enum tile_special_type set,
 /***************************************************************
 ...
 ***************************************************************/
-void map_set_terrain(int x, int y, enum tile_terrain_type ter)
+void map_set_terrain(int x, int y, Terrain_type_id ter)
 {
   MAP_TILE(x, y)->terrain = ter;
 }
@@ -1334,7 +1334,7 @@ void map_set_terrain(int x, int y, enum tile_terrain_type ter)
 /****************************************************************************
   Set the terrain of the given tile (in native coordinates).
 ****************************************************************************/
-void nat_set_terrain(int nat_x, int nat_y, enum tile_terrain_type ter)
+void nat_set_terrain(int nat_x, int nat_y, Terrain_type_id ter)
 {
   NAT_TILE(nat_x, nat_y)->terrain = ter;
 }

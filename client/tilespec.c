@@ -1587,7 +1587,7 @@ void tilespec_setup_tech_type(int id)
   Set tile_type sprite values; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
-void tilespec_setup_tile_type(enum tile_terrain_type terrain)
+void tilespec_setup_tile_type(Terrain_type_id terrain)
 {
   struct tile_type *tt = get_tile_type(terrain);
   struct terrain_drawing_data *draw;
@@ -1886,9 +1886,9 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
     tspecial_near  : specials of all adjacent terrain
 **************************************************************************/
 static void build_tile_data(int map_x, int map_y,
-			    enum tile_terrain_type *ttype,
+			    Terrain_type_id *ttype,
 			    enum tile_special_type *tspecial,
-			    enum tile_terrain_type *ttype_near,
+			    Terrain_type_id *ttype_near,
 			    enum tile_special_type *tspecial_near)
 {
   enum direction8 dir;
@@ -2364,10 +2364,10 @@ static int fill_irrigation_sprite_array(struct drawn_sprite *sprs,
 ****************************************************************************/
 static int fill_blending_sprite_array(struct drawn_sprite *sprs,
 				      int map_x, int map_y,
-				      enum tile_terrain_type *ttype_near)
+				      Terrain_type_id *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  enum tile_terrain_type ttype = map_get_terrain(map_x, map_y);
+  Terrain_type_id ttype = map_get_terrain(map_x, map_y);
 
   if (is_isometric && sprites.terrain[ttype]->is_blended) {
     enum direction4 dir;
@@ -2383,7 +2383,7 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
      */
     for (dir = 0; dir < 4; dir++) {
       int x1, y1;
-      enum tile_terrain_type other = ttype_near[DIR4_TO_DIR8[dir]];
+      Terrain_type_id other = ttype_near[DIR4_TO_DIR8[dir]];
 
       if (!MAPSTEP(x1, y1, map_x, map_y, DIR4_TO_DIR8[dir])
 	  || tile_get_known(x1, y1) == TILE_UNKNOWN
@@ -2406,12 +2406,12 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
 ****************************************************************************/
 static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 				     int map_x, int map_y,
-				     enum tile_terrain_type *ttype_near)
+				     Terrain_type_id *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
   struct Sprite *sprite;
   struct tile *ptile = map_get_tile(map_x, map_y);
-  enum tile_terrain_type ttype = ptile->terrain;
+  Terrain_type_id ttype = ptile->terrain;
   struct terrain_drawing_data *draw = sprites.terrain[ttype];
   int l, adjc_x, adjc_y, i, tileno;
 
@@ -2584,7 +2584,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
 			   bool *solid_bg, enum color_std *bg_color,
 			   int map_x, int map_y, bool citymode)
 {
-  enum tile_terrain_type ttype, ttype_near[8];
+  Terrain_type_id ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
   int tileno, dir;
   struct tile *ptile = map_get_tile(map_x, map_y);

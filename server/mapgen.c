@@ -232,7 +232,7 @@ static int map_temperature(int map_x, int map_y)
 
 struct DataFilter {
   int T_min, T_max;
-  enum tile_terrain_type terrain;
+  Terrain_type_id terrain;
 };
 
 /****************************************************************************
@@ -256,7 +256,7 @@ static bool temperature_filter(int map_x, int map_y, void *data)
 ****************************************************************************/
 static bool rand_map_pos_temperature(int *map_x, int *map_y,
 				     int T_min, int T_max,
-				     enum tile_terrain_type terrain)
+				     Terrain_type_id terrain)
 {
   struct DataFilter filter;
 
@@ -998,7 +998,7 @@ static void make_rivers(void)
       if (make_river(x, y)) {
 	whole_map_iterate(x1, y1) {
 	  if (TEST_BIT(rmap(x1, y1), RS_RIVER)) {
-	    enum tile_terrain_type t = map_get_terrain(x1, y1);
+	    Terrain_type_id t = map_get_terrain(x1, y1);
 
 	    if (!terrain_has_flag(t, TER_CAN_HAVE_RIVER)) {
 	      /* We have to change the terrain to put a river here. */
@@ -1171,7 +1171,7 @@ static void make_land(void)
 **************************************************************************/
 static bool is_tiny_island(int x, int y) 
 {
-  enum tile_terrain_type t = map_get_terrain(x, y);
+  Terrain_type_id t = map_get_terrain(x, y);
 
   if (is_ocean(t) || t == T_ARCTIC) {
     /* The arctic check is needed for iso-maps: the poles may not have
@@ -1208,7 +1208,7 @@ static void remove_tiny_islands(void)
 static int get_tile_value(int x, int y)
 {
   struct tile *ptile = map_get_tile(x, y);
-  enum tile_terrain_type old_terrain;
+  Terrain_type_id old_terrain;
   enum tile_special_type old_special;
   int value, irrig_bonus, mine_bonus;
 
@@ -1370,7 +1370,7 @@ static bool is_valid_start_pos(int x, int y, void *dataptr)
 {
   struct start_filter_data *data = dataptr;
   int i;
-  enum tile_terrain_type t = map_get_terrain(x, y);
+  Terrain_type_id t = map_get_terrain(x, y);
 
   if (is_ocean(map_get_terrain(x, y))) {
     return FALSE;
@@ -1804,7 +1804,7 @@ static bool is_special_close(int map_x, int map_y)
 ****************************************************************************/
 static void add_specials(int prob)
 {
-  enum tile_terrain_type ttype;
+  Terrain_type_id ttype;
 
   whole_map_iterate(x, y)  {
     ttype = map_get_terrain(x, y);
@@ -1875,10 +1875,10 @@ static void get_random_map_position_from_state(int *x, int *y,
 static void fill_island(int coast, long int *bucket,
 			int warm0_weight, int warm1_weight,
 			int cold0_weight, int cold1_weight,
-			enum tile_terrain_type warm0,
-			enum tile_terrain_type warm1,
-			enum tile_terrain_type cold0,
-			enum tile_terrain_type cold1,
+			Terrain_type_id warm0,
+			Terrain_type_id warm1,
+			Terrain_type_id cold0,
+			Terrain_type_id cold1,
 			const struct gen234_state *const pstate)
 {
   int x, y, i, k, capac;

@@ -942,7 +942,7 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
     }
 
     if (draw_coastline && !draw_terrain) {
-      enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
+      Terrain_type_id t1 = map_get_terrain(x, y), t2;
       int x1 = x-1, y1 = y;
       SetAPen(rp,GetColorPen(COLOR_STD_OCEAN));
       if (normalize_map_pos(&x1, &y1)) {
@@ -1343,7 +1343,7 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
   }
 
   if (draw_coastline && !draw_terrain) {
-    enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
+    Terrain_type_id t1 = map_get_terrain(x, y), t2;
     int x1, y1;
     SetAPen(rp,GetColorPen(COLOR_STD_OCEAN));
     x1 = x; y1 = y-1;

@@ -19,5 +19,6 @@
  * definition in another file */
 
 typedef signed short Continent_id;
+typedef enum tile_terrain_type Terrain_type_id;
 
 #endif /* FC__FC_TYPES_H */

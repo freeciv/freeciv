@@ -19,7 +19,7 @@
 
 #include "shared.h"		/* MAX_LEN_NAME */
 #include "tech.h"		/* Tech_Type_id */
-#include "terrain.h"		/* enum tile_terrain_type etc */
+#include "terrain.h"		/* Terrain_type_id etc */
 #include "unittype.h"		/* Unit_Class_id, Unit_Type_id */
 #include "effects.h"
 
@@ -89,7 +89,7 @@ struct impr_effect {
   Tech_Type_id cond_adv;	   /* A_NONE = unconditional; A_LAST = never */
   enum effect_type cond_eff;	   /* EFT_LAST = unconditional */
   Unit_Class_id aff_unit;	   /* UCL_LAST = all */
-  enum tile_terrain_type aff_terr; /* T_UNKNOWN = all; T_LAST = none */
+  Terrain_type_id aff_terr; /* T_UNKNOWN = all; T_LAST = none */
   enum tile_special_type aff_spec; /* S_* bit mask of specials affected */
 };
 
@@ -105,7 +105,7 @@ struct impr_type {
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   Tech_Type_id tech_req;		/* A_LAST = never; A_NONE = always */
   Impr_Type_id bldg_req;		/* B_LAST = none required */
-  enum tile_terrain_type *terr_gate;	/* list; T_LAST terminated */
+  Terrain_type_id *terr_gate;	/* list; T_LAST terminated */
   enum tile_special_type *spec_gate;	/* list; S_NO_SPECIAL terminated */
   enum impr_range equiv_range;
   Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */

@@ -325,7 +325,7 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 **************************************************************************/
 static bool is_wet(struct player *pplayer, int map_x, int map_y)
 {
-  enum tile_terrain_type terrain;
+  Terrain_type_id terrain;
   enum tile_special_type special;
 
   /* FIXME: this should check a handicap. */
@@ -389,10 +389,10 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 {
   int goodness;
   struct tile *ptile = map_get_tile(map_x, map_y);
-  enum tile_terrain_type old_terrain = ptile->terrain;
+  Terrain_type_id old_terrain = ptile->terrain;
   enum tile_special_type old_special = ptile->special;
   struct tile_type *type = get_tile_type(old_terrain);
-  enum tile_terrain_type new_terrain = type->irrigation_result;
+  Terrain_type_id new_terrain = type->irrigation_result;
 
   if (old_terrain != new_terrain && new_terrain != T_LAST) {
     /* Irrigation would change the terrain type, clearing the mine
@@ -453,10 +453,10 @@ static int ai_calc_mine(struct city *pcity,
 {
   int goodness;
   struct tile *ptile = map_get_tile(map_x, map_y);
-  enum tile_terrain_type old_terrain = ptile->terrain;
+  Terrain_type_id old_terrain = ptile->terrain;
   enum tile_special_type old_special = ptile->special;
   struct tile_type *type = get_tile_type(old_terrain);
-  enum tile_terrain_type new_terrain = type->mining_result;
+  Terrain_type_id new_terrain = type->mining_result;
 
   if (old_terrain != new_terrain && new_terrain != T_LAST) {
     /* Mining would change the terrain type, clearing the irrigation
@@ -506,10 +506,10 @@ static int ai_calc_transform(struct city *pcity,
 {
   int goodness;
   struct tile *ptile = map_get_tile(map_x, map_y);
-  enum tile_terrain_type old_terrain = ptile->terrain;
+  Terrain_type_id old_terrain = ptile->terrain;
   enum tile_special_type old_special = ptile->special;
   struct tile_type *type = get_tile_type(old_terrain);
-  enum tile_terrain_type new_terrain = type->transform_result;
+  Terrain_type_id new_terrain = type->transform_result;
 
   if (old_terrain == new_terrain || new_terrain == T_LAST) {
     return -1;
@@ -1236,7 +1236,7 @@ void initialize_infrastructure_cache(struct player *pplayer)
 			     city_x, city_y, map_x, map_y) {
 #ifndef NDEBUG
       struct tile *ptile = map_get_tile(map_x, map_y);
-      enum tile_terrain_type old_terrain = ptile->terrain;
+      Terrain_type_id old_terrain = ptile->terrain;
       enum tile_special_type old_special = ptile->special;
 #endif
 

@@ -134,7 +134,7 @@ void global_warming(int effect)
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
-    enum tile_terrain_type old, new;
+    Terrain_type_id old, new;
 
     rand_map_pos(&x, &y);
     old = map_get_terrain(x, y);
@@ -175,7 +175,7 @@ void nuclear_winter(int effect)
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
-    enum tile_terrain_type old, new;
+    Terrain_type_id old, new;
 
     rand_map_pos(&x, &y);
     old = map_get_terrain(x, y);
@@ -1352,9 +1352,9 @@ static void ocean_to_land_fix_rivers(int x, int y)
   continent numbers.
 **************************************************************************/
 enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
-                                                enum tile_terrain_type oldter)
+                                                Terrain_type_id oldter)
 {
-  enum tile_terrain_type newter = map_get_terrain(x, y);
+  Terrain_type_id newter = map_get_terrain(x, y);
 
   if (is_ocean(oldter) && !is_ocean(newter)) {
     /* ocean to land ... */

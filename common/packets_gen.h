@@ -96,7 +96,7 @@ struct packet_endgame_report {
 struct packet_tile_info {
   int x;
   int y;
-  enum tile_terrain_type type;
+  Terrain_type_id type;
   int known;
   enum tile_special_type special;
   int owner;
@@ -907,7 +907,7 @@ struct packet_ruleset_building {
   char soundtag_alt[MAX_LEN_NAME];
   char helptext[MAX_LEN_PACKET];
   int terr_gate_count;
-  enum tile_terrain_type terr_gate[255];
+  Terrain_type_id terr_gate[255];
   int spec_gate_count;
   enum tile_special_type spec_gate[255];
   int equiv_dupl_count;
@@ -919,7 +919,7 @@ struct packet_ruleset_building {
 };
 
 struct packet_ruleset_terrain {
-  enum tile_terrain_type id;
+  Terrain_type_id id;
   bv_terrain_flags flags;
   char terrain_name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
@@ -943,13 +943,13 @@ struct packet_ruleset_terrain {
   char graphic_alt_special_2[MAX_LEN_NAME];
   int road_trade_incr;
   int road_time;
-  enum tile_terrain_type irrigation_result;
+  Terrain_type_id irrigation_result;
   int irrigation_food_incr;
   int irrigation_time;
-  enum tile_terrain_type mining_result;
+  Terrain_type_id mining_result;
   int mining_shield_incr;
   int mining_time;
-  enum tile_terrain_type transform_result;
+  Terrain_type_id transform_result;
   int transform_time;
   int rail_time;
   int airbase_time;

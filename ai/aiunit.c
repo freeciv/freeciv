@@ -798,7 +798,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 bool find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 {
   int ok, best = 0;
-  enum tile_terrain_type t;
+  Terrain_type_id t;
 
   CHECK_UNIT(punit);
 

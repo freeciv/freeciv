@@ -943,7 +943,7 @@ void update_menus(void)
       struct city *pHomecity;
       int time;
       struct tile *pTile = map_get_tile(pUnit->x, pUnit->y);
-      enum tile_terrain_type terrain = pTile->terrain;
+      Terrain_type_id terrain = pTile->terrain;
       
       if (!counter) {
 	local_show(ID_UNIT_ORDER_GOTO);

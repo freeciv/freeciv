@@ -58,7 +58,7 @@ void tilespec_setup_specialist_types(void);
 void tilespec_setup_unit_type(int id);
 void tilespec_setup_impr_type(int id);
 void tilespec_setup_tech_type(int id);
-void tilespec_setup_tile_type(enum tile_terrain_type terrain);
+void tilespec_setup_tile_type(Terrain_type_id terrain);
 void tilespec_setup_government(int id);
 void tilespec_setup_nation_flag(int id);
 void tilespec_setup_city_tiles(int style);

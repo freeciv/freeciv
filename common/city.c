@@ -370,7 +370,7 @@ struct player *city_owner(const struct city *pcity)
 bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id)
 {
   struct impr_type *impr;
-  enum tile_terrain_type *terr_gate;
+  Terrain_type_id *terr_gate;
   enum tile_special_type *spec_gate;
 
   impr = get_improvement_type(id);
@@ -580,7 +580,7 @@ static int base_get_shields_tile(int map_x, int map_y,
 				 int city_x, int city_y, bool is_celebrating)
 {
   enum tile_special_type spec_t = map_get_special(map_x, map_y);
-  enum tile_terrain_type tile_t = map_get_terrain(map_x, map_y);
+  Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
   int s;
 
   if (contains_special(spec_t, S_SPECIAL_1)) {
@@ -685,7 +685,7 @@ static int base_get_trade_tile(int map_x, int map_y, const struct city *pcity,
 			       int city_x, int city_y, bool is_celebrating)
 {
   enum tile_special_type spec_t = map_get_special(map_x, map_y);
-  enum tile_terrain_type tile_t = map_get_terrain(map_x, map_y);
+  Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
   int t;
 
   if (contains_special(spec_t, S_SPECIAL_1)) {
@@ -798,7 +798,7 @@ static int base_get_food_tile(int map_x, int map_y, const struct city *pcity,
 			      int city_x, int city_y, bool is_celebrating)
 {
   const enum tile_special_type spec_t = map_get_special(map_x, map_y);
-  const enum tile_terrain_type tile_t = map_get_terrain(map_x, map_y);
+  const Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
   struct tile_type *type = get_tile_type(tile_t);
   int f;
   const bool auto_water = (pcity && is_city_center(city_x, city_y)
@@ -918,7 +918,7 @@ bool city_can_be_built_here(int x, int y, struct unit *punit)
 
   if (punit) {
     enum unit_move_type move_type = unit_type(punit)->move_type;
-    enum tile_terrain_type t = map_get_terrain(x, y);
+    Terrain_type_id t = map_get_terrain(x, y);
 
     /* We allow land units to build land cities and sea units to build
      * ocean cities. */

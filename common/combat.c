@@ -78,8 +78,8 @@ bool can_player_attack_tile(struct player *pplayer, int x, int y)
 bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
                                   int dest_x, int dest_y)
 {
-  enum tile_terrain_type fromtile;
-  enum tile_terrain_type totile;
+  Terrain_type_id fromtile;
+  Terrain_type_id totile;
   struct city *pcity = map_get_city(dest_x, dest_y);
 
   fromtile = map_get_terrain(punit->x, punit->y);
@@ -464,7 +464,7 @@ int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
 			      int x, int y, bool fortified, int veteran)
 {
   int defensepower = unit_types[def_type].defense_strength;
-  enum tile_terrain_type t = map_get_terrain(x, y);
+  Terrain_type_id t = map_get_terrain(x, y);
   int db;
 
   if (unit_types[def_type].move_type == LAND_MOVING && is_ocean(t)) {

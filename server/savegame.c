@@ -221,7 +221,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
   Dereferences the terrain character.  See tile_types[].identifier
     example: char2terrain('a') => T_ARCTIC
 ****************************************************************************/
-static enum tile_terrain_type char2terrain(char ch)
+static Terrain_type_id char2terrain(char ch)
 {
   if (ch == UNKNOWN_TERRAIN_IDENTIFIER) {
     return T_UNKNOWN;
@@ -241,7 +241,7 @@ static enum tile_terrain_type char2terrain(char ch)
   References the terrain character.  See tile_types[].identifier
     example: terrain2char(T_ARCTIC) => 'a'
 ****************************************************************************/
-static char terrain2char(enum tile_terrain_type terr)
+static char terrain2char(Terrain_type_id terr)
 {
   if (terr == T_UNKNOWN) {
     return UNKNOWN_TERRAIN_IDENTIFIER;

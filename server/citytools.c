@@ -78,7 +78,7 @@ static int evaluate_city_name_priority(int x, int y,
   /* Lower values mean higher priority. */
   float priority = (float)default_priority;
   int goodness;
-  enum tile_terrain_type type;
+  Terrain_type_id type;
 
   /* Increasing this value will increase the difference caused by
      (non-)matching terrain.  A matching terrain is mult_factor

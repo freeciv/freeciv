@@ -29,7 +29,7 @@ struct tile_type tile_types[T_LAST];
 /***************************************************************
 ...
 ***************************************************************/
-struct tile_type *get_tile_type(enum tile_terrain_type type)
+struct tile_type *get_tile_type(Terrain_type_id type)
 {
   return &tile_types[type];
 }
@@ -37,9 +37,9 @@ struct tile_type *get_tile_type(enum tile_terrain_type type)
 /***************************************************************
 ...
 ***************************************************************/
-enum tile_terrain_type get_terrain_by_name(const char * name)
+Terrain_type_id get_terrain_by_name(const char * name)
 {
-  enum tile_terrain_type tt;
+  Terrain_type_id tt;
   for (tt = T_FIRST; tt < T_COUNT; tt++) {
     if (0 == strcmp (tile_types[tt].terrain_name, name)) {
       break;
@@ -51,7 +51,7 @@ enum tile_terrain_type get_terrain_by_name(const char * name)
 /***************************************************************
 ...
 ***************************************************************/
-const char *get_terrain_name(enum tile_terrain_type type)
+const char *get_terrain_name(Terrain_type_id type)
 {
   assert(type < T_COUNT);
   return tile_types[type].terrain_name;
@@ -90,7 +90,7 @@ enum terrain_flag_id terrain_flag_from_str(const char *s)
 /****************************************************************************
   Return a random terrain that has the specified flag.
 ****************************************************************************/
-enum tile_terrain_type get_flag_terrain(enum terrain_flag_id flag)
+Terrain_type_id get_flag_terrain(enum terrain_flag_id flag)
 {
   bool has_flag[T_COUNT];
   int count = 0;
@@ -131,7 +131,7 @@ void tile_types_free(void)
 /****************************************************************************
   Returns TRUE iff any adjacent tile contains the given terrain.
 ****************************************************************************/
-bool is_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t)
+bool is_terrain_near_tile(int map_x, int map_y, Terrain_type_id t)
 {
   adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
     if (map_get_terrain(adjc_x, adjc_y) == t) {
@@ -145,7 +145,7 @@ bool is_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t)
 /****************************************************************************
   Return the number of adjacent tiles that have the given terrain.
 ****************************************************************************/
-int count_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t)
+int count_terrain_near_tile(int map_x, int map_y, Terrain_type_id t)
 {
   int count = 0;
 
@@ -161,7 +161,7 @@ int count_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t)
 /****************************************************************************
   Return the number of cardinally adjacent tiles that have the given terrain.
 ****************************************************************************/
-int adjacent_terrain_tiles4(int map_x, int map_y, enum tile_terrain_type t)
+int adjacent_terrain_tiles4(int map_x, int map_y, Terrain_type_id t)
 {
   int num_adjacent = 0;
 

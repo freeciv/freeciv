@@ -360,7 +360,7 @@ void update_menus(void)
 			 (game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     if (punit && can_client_issue_orders()) {
-      enum tile_terrain_type  ttype;
+      Terrain_type_id  ttype;
       struct tile_type *      tinfo;
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;

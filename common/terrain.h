@@ -15,6 +15,8 @@
 
 #include "shared.h"
 
+#include "fc_types.h"
+
 enum special_river_move {
   RMV_NORMAL=0, RMV_FAST_STRICT=1, RMV_FAST_RELAXED=2, RMV_FAST_ALWAYS=3
 };
@@ -96,18 +98,18 @@ BV_DEFINE(bv_terrain_flags, TER_MAX);
 extern struct tile_type tile_types[T_LAST];
 
 /* General accessor functions. */
-struct tile_type *get_tile_type(enum tile_terrain_type type);
-enum tile_terrain_type get_terrain_by_name(const char * name);
-const char *get_terrain_name(enum tile_terrain_type type);
+struct tile_type *get_tile_type(Terrain_type_id type);
+Terrain_type_id get_terrain_by_name(const char * name);
+const char *get_terrain_name(Terrain_type_id type);
 enum terrain_flag_id terrain_flag_from_str(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET(tile_types[(terr)].flags, flag)
-enum tile_terrain_type get_flag_terrain(enum terrain_flag_id flag);
+Terrain_type_id get_flag_terrain(enum terrain_flag_id flag);
 void tile_types_free(void);
 
 /* Functions to operate on a general terrain type. */
-bool is_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t);
-int count_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t);
-int adjacent_terrain_tiles4(int map_x, int map_y, enum tile_terrain_type t);
+bool is_terrain_near_tile(int map_x, int map_y, Terrain_type_id t);
+int count_terrain_near_tile(int map_x, int map_y, Terrain_type_id t);
+int adjacent_terrain_tiles4(int map_x, int map_y, Terrain_type_id t);
 
 /* Functions to operate on a terrain flag. */
 bool is_terrain_flag_near_tile(int x, int y, enum terrain_flag_id flag);
@@ -125,7 +127,7 @@ int adjacent_terrain_flag_tiles4(int x, int y, enum terrain_flag_id flag);
 /* This iterator iterates over all terrain types. */
 #define terrain_type_iterate(id)                                            \
 {                                                                           \
-  enum tile_terrain_type id;                                                \
+  Terrain_type_id id;                                                \
   for (id = T_FIRST; id < T_COUNT; id++) {
 
 #define terrain_type_iterate_end                                            \

@@ -37,7 +37,7 @@ enum tile_hilite {
 };
 
 struct tile {
-  enum tile_terrain_type terrain;
+  Terrain_type_id terrain;
   enum tile_special_type special;
   struct city *city;
   struct unit_list units;
@@ -105,15 +105,15 @@ struct tile_type {
   int road_trade_incr;
   int road_time;
 
-  enum tile_terrain_type irrigation_result;
+  Terrain_type_id irrigation_result;
   int irrigation_food_incr;
   int irrigation_time;
 
-  enum tile_terrain_type mining_result;
+  Terrain_type_id mining_result;
   int mining_shield_incr;
   int mining_time;
 
-  enum tile_terrain_type transform_result;
+  Terrain_type_id transform_result;
   int transform_time;
   int rail_time;
   int airbase_time;
@@ -121,8 +121,8 @@ struct tile_type {
   int clean_pollution_time;
   int clean_fallout_time;
 
-  enum tile_terrain_type warmer_wetter_result, warmer_drier_result;
-  enum tile_terrain_type cooler_wetter_result, cooler_drier_result;
+  Terrain_type_id warmer_wetter_result, warmer_drier_result;
+  Terrain_type_id cooler_wetter_result, cooler_drier_result;
 
   bv_terrain_flags flags;
 
@@ -349,11 +349,11 @@ struct player *map_get_owner(int x, int y);
 void map_set_owner(int x, int y, struct player *pplayer);
 struct city *map_get_city(int x, int y);
 void map_set_city(int x, int y, struct city *pcity);
-enum tile_terrain_type map_get_terrain(int x, int y);
-enum tile_terrain_type nat_get_terrain(int nat_x, int nat_y);
+Terrain_type_id map_get_terrain(int x, int y);
+Terrain_type_id nat_get_terrain(int nat_x, int nat_y);
 enum tile_special_type map_get_special(int x, int y);
-void map_set_terrain(int x, int y, enum tile_terrain_type ter);
-void nat_set_terrain(int nat_x, int nat_y, enum tile_terrain_type ter);
+void map_set_terrain(int x, int y, Terrain_type_id ter);
+void nat_set_terrain(int nat_x, int nat_y, Terrain_type_id ter);
 void map_set_special(int x, int y, enum tile_special_type spe);
 void map_clear_special(int x, int y, enum tile_special_type spe);
 void map_clear_all_specials(int x, int y);
@@ -403,7 +403,7 @@ enum tile_special_type get_preferred_pillage(enum tile_special_type pset);
 
 void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);
-void change_terrain(int x, int y, enum tile_terrain_type type);
+void change_terrain(int x, int y, Terrain_type_id type);
 void map_transform_tile(int x, int y);
 
 int map_build_road_time(int x, int y);
