@@ -2078,13 +2078,15 @@ static bool vote_command(struct connection *caller, char *str,
 
       if (vote->command[0] != '\0') {
         j++;
-        cmd_reply(CMD_VOTE, caller, C_OK, _("Vote %d \"%s\": %d for, %d "
-                  "against"), vote->vote_no, vote->command, vote->yes, 
+        cmd_reply(CMD_VOTE, caller, C_COMMENT,
+		  _("Vote %d \"%s\": %d for, %d against"),
+		  vote->vote_no, vote->command, vote->yes, 
                   vote->no);
       }
     }
     if (j == 0) {
-      cmd_reply(CMD_VOTE, caller, C_OK, _("There are no votes going on."));
+      cmd_reply(CMD_VOTE, caller, C_COMMENT,
+		_("There are no votes going on."));
     }
     return FALSE; /* see below */
   } if (check) {
@@ -2126,11 +2128,11 @@ static bool vote_command(struct connection *caller, char *str,
       goto cleanup;
     }
     if (strcmp(arg[0], "yes") == 0) {
-      cmd_reply(CMD_VOTE, caller, C_OK, _("You voted for \"%s\""), 
+      cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted for \"%s\""), 
                 vote->command);
       vote->votes_cast[caller->player->player_no] = 2;
     } else if (strcmp(arg[0], "no") == 0) {
-      cmd_reply(CMD_VOTE, caller, C_OK, _("You voted against \"%s\""), 
+      cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted against \"%s\""), 
                 vote->command);
       vote->votes_cast[caller->player->player_no] = 3;
     }
@@ -3258,8 +3260,9 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     /* If we already have a vote going, cancel it in favour of the new
      * vote command. You can only have one vote at a time. */
     if (votes[idx].command[0] != '\0') {
-      cmd_reply(CMD_VOTE, caller, C_OK, _("Your new vote cancelled your "
-                "previous vote."));
+      cmd_reply(CMD_VOTE, caller, C_COMMENT,
+		_("Your new vote cancelled your "
+		  "previous vote."));
       votes[idx].command[0] = '\0';
     }
 
