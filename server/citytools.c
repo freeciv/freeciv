@@ -666,6 +666,18 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	       || real_map_distance(vunit->x, vunit->y, x, y) <= kill_outside) {
       /* else transfer to specified city. */
       transfer_unit(vunit, pcity, verbose);
+    } else {
+      /* The unit is lost.  Call notify_player (in all other cases it is
+       * called autmatically). */
+      freelog(LOG_VERBOSE, "Lost %s's %s at (%d,%d) when %s was lost.",
+	      unit_owner(vunit)->name, unit_name(vunit->type),
+	      vunit->x, vunit->y, pcity->name);
+      if (verbose) {
+	notify_player_ex(unit_owner(vunit), vunit->x, vunit->y,
+			 E_UNIT_LOST,
+			 _("Game: %s lost along with control of %s."),
+			 unit_name(vunit->type), pcity->name);
+      }
     }
 
     /* not deleting cargo as it may be carried by units transferred later.
@@ -1265,7 +1277,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   get_a_tech(pplayer, cplayer);
   make_partisans(pcity);
 
-  transfer_city(pplayer, pcity , 0, FALSE, TRUE, TRUE);
+  transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE);
   send_player_info(pplayer, pplayer); /* Update techs */
 
   if (do_civil_war)
