@@ -1654,6 +1654,45 @@ which converts them to Forest.
 Food: 1.  Shields: 0.  Trade: 0.  Movement: 1.  Defense: 1.
 With Game, Tundra squares will produce 2 extra Food.
 Tundra cannot be irrigated or mined.
+%% In Civ2, Tundra can be irrigated (don't know about mining).
+---
+# Terrain Alterations
+Settlers and Engineers have the ability to alter terrain squares in
+several ways.
+
+Plains, Grasslands, Deserts and Hills can be irrigated.  This
+requires a nearby source of water: an Ocean or River square, or
+another square which is irrigated, must be directly adjacent to the
+target square, to the north, south, east or west.  Irrigating a
+square causes it to produce 1 extra food resource per turn.
+
+Desert, Hills and Mountains can be mined.  Mining a Desert or
+Mountain square causes it to produce an extra shield each turn.
+Mining a Hills square produces an extra 3 shields each turn.
+
+Roads and railroads can be built on any square except Ocean.  (To
+build a road or railroad on a River square, though, you must know
+Bridge Building.)  Roads and railroads allow your units to move
+more quickly, and they increase the resources produced in cities.
+
+ - Units move three times as quickly as normal when going from one
+   square to another, if both squares have a road.
+
+ - Units expend no movement points when moving along a railroad.
+   You may ride a railroad indefinitely.
+
+ - A road produces a trade resource on Desert, Grassland and Plains
+   squares.
+
+ - A railroad increases the shield resources produced by a square by
+   50%.  (Depending on server options, railroads may also increase
+   food and trade resources, or may increase shield resources by an
+   amount other than 50%.)
+
+Settlers and Engineers may also build a fortress.  Units inside a
+fortress defend at twice their normal strength; also, units inside
+a fortress must be destroyed one at a time.  See the Combat help
+section for further details.
 ---
 %% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-23.
 #Government
