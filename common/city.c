@@ -313,9 +313,9 @@ int wonder_obsolete(Impr_Type_id id)
 Barbarians don't get enough knowledges to be counted as normal players.
 **************************************************************************/
 
-int is_wonder_usefull(Impr_Type_id id)
+int is_wonder_useful(Impr_Type_id id)
 {
-  if ((id == B_GREAT) && (get_nb_human_and_ai_players () < 3)) return 0;
+  if ((id == B_GREAT) && (get_num_human_and_ai_players () < 3)) return 0;
   return 1;
 }
 

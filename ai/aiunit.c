@@ -1058,7 +1058,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   for (i = 0; i < game.nplayers; i++) {
     aplayer = &game.players[i];
     if (aplayer == pplayer) continue;
-    /* AI will try to conquer only ennemy cities. -- Nb */
+    /* AI will try to conquer only enemy cities. -- Nb */
     city_list_iterate(aplayer->cities, acity)
       city_reinforcements_cost_and_value(acity, punit);
       acity->ai.invasion = 0;

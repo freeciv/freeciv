@@ -946,12 +946,12 @@ struct player *get_player(int player_id)
 }
 
 /**************************************************************************
-This function is used by is_wonder_usefull to estimate if it is worthwhile
+This function is used by is_wonder_useful to estimate if it is worthwhile
 to build the great library.
 **************************************************************************/
-int get_nb_human_and_ai_players(void)
+int get_num_human_and_ai_players(void)
 {
-return game.nplayers-game.nbarbarians;
+  return game.nplayers-game.nbarbarians;
 }
 
 /***************************************************************

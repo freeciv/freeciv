@@ -666,7 +666,7 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 	  goto_tile_cost(pplayer, punit, x, y, x1, y1, move_cost, restriction);
 
 	/* Again I wonder why the passengers work this way */
-	/* AI aims ennemy cities with goto even for ferryboats. 
+	/* AI aims enemy cities with goto even for ferryboats. 
 	   These lines force ferryboats to find a land adjacent to the 
 	   destination city to disembark its passengers. 
 	   It explains the line 

@@ -256,7 +256,7 @@ int improvement_value(Impr_Type_id id);
 int improvement_obsolete(struct player *pplayer, Impr_Type_id id);
 struct improvement_type *get_improvement_type(Impr_Type_id id);
 int wonder_obsolete(Impr_Type_id id);
-int is_wonder_usefull(Impr_Type_id id);
+int is_wonder_useful(Impr_Type_id id);
 int is_wonder(Impr_Type_id id);
 int improvement_exists(Impr_Type_id id);
 Impr_Type_id find_improvement_by_name(char *s);
