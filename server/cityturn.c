@@ -613,11 +613,14 @@ static void city_populate(struct city *pcity)
 static void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice choice;
-  int id=-1;
-  int want=0;
+  int id = -1;
+  int want = 0;
 
-  if (!city_owner(pcity)->ai.control)
-    ai_eval_buildings(pcity); /* so that ai_advisor is smart even for humans */
+  init_choice(&choice);
+  if (!city_owner(pcity)->ai.control) {
+    /* so that ai_advisor is smart even for humans */
+    ai_eval_buildings(pcity);
+  }
   ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
   freelog(LOG_DEBUG, "Advisor_choose_build got %d/%d"
 	  " from ai_advisor_choose_building.",
@@ -625,20 +628,22 @@ static void advisor_choose_build(struct player *pplayer, struct city *pcity)
   id = choice.choice;
   want = choice.want;
 
-  if (id!=-1 && id != B_LAST && want > 0) {
+  if (id != -1 && id != B_LAST && want > 0) {
     change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
     /* making something. */    
     return;
   }
 
+  /* Build something random, undecided. */
   impr_type_iterate(i) {
-    if(can_build_improvement(pcity, i) && i != B_PALACE) { /* build something random, undecided */
-      pcity->currently_building=i;
-      pcity->is_building_unit = FALSE;
-      return;
-    }
+    if (can_build_improvement(pcity, i) && i != B_PALACE) {
+      id = i;
+      break;
+    } 
   } impr_type_iterate_end;
-
+  if (id >= 0 && id < B_LAST) {
+    change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
+  }
 }
 
 /**************************************************************************
