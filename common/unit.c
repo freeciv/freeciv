@@ -756,21 +756,33 @@ bool can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 }
 
 /**************************************************************************
-Note that if you make changes here you should also change the code for
-autosettlers in server/settler.c. The code there does not use this function
-as it would be a ajor CPU hog.
+  Return whether the unit can do the targeted activity at its current
+  location.
 **************************************************************************/
 bool can_unit_do_activity_targeted(struct unit *punit,
 				   enum unit_activity activity,
 				   enum tile_special_type target)
 {
-  struct player *pplayer;
-  struct tile *ptile;
-  struct tile_type *type;
+  return can_unit_do_activity_targeted_at(punit, activity, target,
+					  punit->x, punit->y);
+}
 
-  pplayer = unit_owner(punit);
-  ptile = map_get_tile(punit->x, punit->y);
-  type = get_tile_type(ptile->terrain);
+/**************************************************************************
+  Return TRUE if the unit can do the targeted activity at the given
+  location.
+
+  Note that if you make changes here you should also change the code for
+  autosettlers in server/settler.c. The code there does not use this
+  function as it would be a major CPU hog.
+**************************************************************************/
+bool can_unit_do_activity_targeted_at(struct unit *punit,
+				      enum unit_activity activity,
+				      enum tile_special_type target,
+				      int map_x, int map_y)
+{
+  struct player *pplayer = unit_owner(punit);
+  struct tile *ptile = map_get_tile(map_x, map_y);
+  struct tile_type *type = get_tile_type(ptile->terrain);
 
   switch(activity) {
   case ACTIVITY_IDLE:
@@ -778,99 +790,110 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     return TRUE;
 
   case ACTIVITY_POLLUTION:
-    return unit_flag(punit, F_SETTLERS) && tile_has_special(ptile, S_POLLUTION);
+    return (unit_flag(punit, F_SETTLERS)
+	    && tile_has_special(ptile, S_POLLUTION));
 
   case ACTIVITY_FALLOUT:
-    return unit_flag(punit, F_SETTLERS) && tile_has_special(ptile, S_FALLOUT);
+    return (unit_flag(punit, F_SETTLERS)
+	    && tile_has_special(ptile, S_FALLOUT));
 
   case ACTIVITY_ROAD:
-    return (terrain_control.may_road &&
-	    unit_flag(punit, F_SETTLERS) &&
-	    !tile_has_special(ptile, S_ROAD) && type->road_time != 0 &&
-	    (!tile_has_special(ptile, S_RIVER)
-	     || player_knows_techs_with_flag(pplayer, TF_BRIDGE)));
+    return (terrain_control.may_road
+	    && unit_flag(punit, F_SETTLERS)
+	    && !tile_has_special(ptile, S_ROAD)
+	    && type->road_time != 0
+	    && (!tile_has_special(ptile, S_RIVER)
+		|| player_knows_techs_with_flag(pplayer, TF_BRIDGE)));
 
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.
      * *Do* allow it if they're transforming - the mine may survive */
-    if (terrain_control.may_mine &&
-	unit_flag(punit, F_SETTLERS) &&
-	( (ptile->terrain==type->mining_result && 
-	   !tile_has_special(ptile, S_MINE)) ||
-	  (ptile->terrain!=type->mining_result &&
-	   type->mining_result!=T_LAST &&
-	   (!is_ocean(ptile->terrain) || is_ocean(type->mining_result) ||
-	    can_reclaim_ocean(punit->x, punit->y)) &&
-	   (is_ocean(ptile->terrain) || !is_ocean(type->mining_result) ||
-	    can_channel_land(punit->x, punit->y)) &&
-	   (!is_ocean(type->mining_result) ||
-	    !(map_get_city(punit->x, punit->y)))) )) {
+    if (terrain_control.may_mine
+	&& unit_flag(punit, F_SETTLERS)
+	&& ((ptile->terrain == type->mining_result
+	     && !tile_has_special(ptile, S_MINE))
+	    || (ptile->terrain != type->mining_result
+		&& type->mining_result != T_LAST
+		&& (!is_ocean(ptile->terrain)
+		    || is_ocean(type->mining_result)
+		    || can_reclaim_ocean(map_x, map_y))
+		&& (is_ocean(ptile->terrain)
+		    || !is_ocean(type->mining_result)
+		    || can_channel_land(map_x, map_y))
+		&& (!is_ocean(type->mining_result)
+		    || !map_get_city(map_x, map_y))))) {
       unit_list_iterate(ptile->units, tunit) {
-	if(tunit->activity==ACTIVITY_IRRIGATE) return FALSE;
-      }
-      unit_list_iterate_end;
+	if (tunit->activity == ACTIVITY_IRRIGATE) {
+	  return FALSE;
+	}
+      } unit_list_iterate_end;
       return TRUE;
-    } else return FALSE;
+    } else {
+      return FALSE;
+    }
 
   case ACTIVITY_IRRIGATE:
     /* Don't allow it if someone else is mining this tile.
      * *Do* allow it if they're transforming - the irrigation may survive */
-    if (terrain_control.may_irrigate &&
-	unit_flag(punit, F_SETTLERS) &&
-	(!tile_has_special(ptile, S_IRRIGATION) ||
-	 (!tile_has_special(ptile, S_FARMLAND) &&
-	  player_knows_techs_with_flag(pplayer, TF_FARMLAND))) &&
-	( (ptile->terrain==type->irrigation_result && 
-	   is_water_adjacent_to_tile(punit->x, punit->y)) ||
-	  (ptile->terrain!=type->irrigation_result &&
-	   type->irrigation_result!=T_LAST &&
-	   (!is_ocean(ptile->terrain) || is_ocean(type->irrigation_result) ||
-	    can_reclaim_ocean(punit->x, punit->y)) &&
-	   (is_ocean(ptile->terrain) || !is_ocean(type->irrigation_result) ||
-	    can_channel_land(punit->x, punit->y)) &&
-	   (!is_ocean(type->irrigation_result) ||
-	    !(map_get_city(punit->x, punit->y)))) )) {
+    if (terrain_control.may_irrigate
+	&& unit_flag(punit, F_SETTLERS)
+	&& (!tile_has_special(ptile, S_IRRIGATION)
+	    || (!tile_has_special(ptile, S_FARMLAND)
+		&& player_knows_techs_with_flag(pplayer, TF_FARMLAND)))
+	&& ((ptile->terrain == type->irrigation_result
+	     && is_water_adjacent_to_tile(map_x, map_y))
+	    || (ptile->terrain != type->irrigation_result
+		&& type->irrigation_result != T_LAST
+		&& (!is_ocean(ptile->terrain)
+		    || is_ocean(type->irrigation_result)
+		    || can_reclaim_ocean(map_x, map_y))
+		&& (is_ocean(ptile->terrain)
+		    || !is_ocean(type->irrigation_result)
+		    || can_channel_land(map_x, map_y))
+		&& (!is_ocean(type->irrigation_result)
+		    || !map_get_city(map_x, map_y))))) {
       unit_list_iterate(ptile->units, tunit) {
-	if(tunit->activity==ACTIVITY_MINE) return FALSE;
-      }
-      unit_list_iterate_end;
+	if (tunit->activity == ACTIVITY_MINE) {
+	  return FALSE;
+	}
+      } unit_list_iterate_end;
       return TRUE;
-    } else return FALSE;
+    } else {
+      return FALSE;
+    }
 
   case ACTIVITY_FORTIFYING:
-    return (is_ground_unit(punit) &&
-	    (punit->activity != ACTIVITY_FORTIFIED) &&
-	    !unit_flag(punit, F_SETTLERS) &&
-	    !is_ocean(ptile->terrain));
+    return (is_ground_unit(punit)
+	    && punit->activity != ACTIVITY_FORTIFIED
+	    && !unit_flag(punit, F_SETTLERS)
+	    && !is_ocean(ptile->terrain));
 
   case ACTIVITY_FORTIFIED:
     return FALSE;
 
   case ACTIVITY_FORTRESS:
-    return (unit_flag(punit, F_SETTLERS) &&
-	    !map_get_city(punit->x, punit->y) &&
-	    player_knows_techs_with_flag(pplayer, TF_FORTRESS) &&
-	    !tile_has_special(ptile, S_FORTRESS) && !is_ocean(ptile->terrain));
+    return (unit_flag(punit, F_SETTLERS)
+	    && !map_get_city(map_x, map_y)
+	    && player_knows_techs_with_flag(pplayer, TF_FORTRESS)
+	    && !tile_has_special(ptile, S_FORTRESS)
+	    && !is_ocean(ptile->terrain));
 
   case ACTIVITY_AIRBASE:
-    return (unit_flag(punit, F_AIRBASE) &&
-	    player_knows_techs_with_flag(pplayer, TF_AIRBASE) &&
-	    !tile_has_special(ptile, S_AIRBASE) && !is_ocean(ptile->terrain));
+    return (unit_flag(punit, F_AIRBASE)
+	    && player_knows_techs_with_flag(pplayer, TF_AIRBASE)
+	    && !tile_has_special(ptile, S_AIRBASE)
+	    && !is_ocean(ptile->terrain));
 
   case ACTIVITY_SENTRY:
     return TRUE;
 
   case ACTIVITY_RAILROAD:
     /* if the tile has road, the terrain must be ok.. */
-    return (terrain_control.may_road &&
-	    unit_flag(punit, F_SETTLERS) &&
-	    (tile_has_special(ptile, S_ROAD) ||
-	     (punit->connecting &&
-	      (type->road_time != 0 &&
-	       (!tile_has_special(ptile, S_RIVER)
-		|| player_knows_techs_with_flag(pplayer, TF_BRIDGE))))) &&
-	    !tile_has_special(ptile, S_RAILROAD) &&
-	    player_knows_techs_with_flag(pplayer, TF_RAILROAD));
+    return (terrain_control.may_road
+	    && unit_flag(punit, F_SETTLERS)
+	    && tile_has_special(ptile, S_ROAD)
+	    && !tile_has_special(ptile, S_RAILROAD)
+	    && player_knows_techs_with_flag(pplayer, TF_RAILROAD));
 
   case ACTIVITY_PILLAGE:
     {
@@ -878,9 +901,9 @@ bool can_unit_do_activity_targeted(struct unit *punit,
       enum tile_special_type psworking;
 
       if (pspresent != S_NO_SPECIAL && is_ground_unit(punit)) {
-	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
-	if (ptile->city && (contains_special(target, S_ROAD) ||
-			    contains_special(target, S_RAILROAD))) {
+	psworking = get_unit_tile_pillage_set(map_x, map_y);
+	if (ptile->city && (contains_special(target, S_ROAD)
+			    || contains_special(target, S_RAILROAD))) {
 	  return FALSE;
 	}
 	if (target == S_NO_SPECIAL) {
@@ -890,8 +913,8 @@ bool can_unit_do_activity_targeted(struct unit *punit,
 	  } else {
 	    return ((pspresent & (~psworking)) != S_NO_SPECIAL);
 	  }
-	} else if ((!game.rgame.pillage_select) &&
-		   (target != get_preferred_pillage(pspresent))) {
+	} else if (!game.rgame.pillage_select
+		   && target != get_preferred_pillage(pspresent)) {
 	  return FALSE;
 	} else {
 	  return ((pspresent & (~psworking) & target) != S_NO_SPECIAL);
@@ -905,22 +928,28 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     return (is_ground_unit(punit) || is_sailing_unit(punit));
 
   case ACTIVITY_TRANSFORM:
-    return (terrain_control.may_transform &&
-	    (type->transform_result!=T_LAST) &&
-	    (ptile->terrain!=type->transform_result) &&
-	    (!is_ocean(ptile->terrain) || is_ocean(type->transform_result) ||
-	     can_reclaim_ocean(punit->x, punit->y)) &&
-	    (is_ocean(ptile->terrain) || !is_ocean(type->transform_result) ||
-	     can_channel_land(punit->x, punit->y)) &&
-	    (!is_ocean(type->transform_result) ||
-	     !(map_get_city(punit->x, punit->y))) &&
-	    unit_flag(punit, F_TRANSFORM));
+    return (terrain_control.may_transform
+	    && type->transform_result != T_LAST
+	    && ptile->terrain != type->transform_result
+	    && (!is_ocean(ptile->terrain)
+		|| is_ocean(type->transform_result)
+		|| can_reclaim_ocean(map_x, map_y))
+	    && (is_ocean(ptile->terrain)
+		|| !is_ocean(type->transform_result)
+		|| can_channel_land(map_x, map_y))
+	    && (!is_ocean(type->transform_result)
+		|| !(map_get_city(map_x, map_y)))
+	    && unit_flag(punit, F_TRANSFORM));
 
-  default:
-    freelog(LOG_ERROR, "Unknown activity %d in can_unit_do_activity_targeted()",
-	    activity);
-    return FALSE;
+  case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_LAST:
+  case ACTIVITY_UNKNOWN:
+    break;
   }
+  freelog(LOG_ERROR,
+	  "Unknown activity %d in can_unit_do_activity_targeted_at()",
+	  activity);
+  return FALSE;
 }
 
 /**************************************************************************

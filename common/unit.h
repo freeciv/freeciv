@@ -251,6 +251,10 @@ bool can_unit_do_activity(struct unit *punit, enum unit_activity activity);
 bool can_unit_do_activity_targeted(struct unit *punit,
 				   enum unit_activity activity,
 				   enum tile_special_type target);
+bool can_unit_do_activity_targeted_at(struct unit *punit,
+				      enum unit_activity activity,
+				      enum tile_special_type target,
+				      int map_x, int map_y);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
