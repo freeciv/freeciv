@@ -196,6 +196,7 @@ void update_players_dialog(void)
 	my_snprintf(namebuf, sizeof(namebuf), "*%-15s",game.players[i].name);
       else
         my_snprintf(namebuf, sizeof(namebuf), "%-16s",game.players[i].name);
+      namebuf[16] = '\0';
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
 	      "%-16s %-12s    %c     %-6s   %-15s%s", 
 	      namebuf,
