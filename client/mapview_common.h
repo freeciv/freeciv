@@ -150,6 +150,9 @@ void base_center_tile_mapcanvas(int map_x, int map_y,
 bool tile_visible_mapcanvas(int map_x, int map_y);
 bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y);
 
+void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
+		  int canvas_x, int canvas_y, bool citymode);
+
 void update_map_canvas(int x, int y, int width, int height,
 		       bool write_to_screen);
 void update_map_canvas_visible(void);

@@ -26,6 +26,7 @@
 #include "log.h"
 #include "government.h"         /* government_graphic() */
 #include "map.h"
+#include "mem.h"
 #include "player.h"
 #include "rand.h"
 #include "support.h"
@@ -261,125 +262,6 @@ void pixmap_frame_tile_red(HDC hdc, int canvas_x, int canvas_y)
 	       NORMAL_TILE_WIDTH-1,NORMAL_TILE_HEIGHT-1);
   }  
   SelectObject(hdc,old);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void pixmap_put_tile(HDC hdc, int x, int y,
-                     int canvas_x, int canvas_y, int citymode)
-{
-  struct Sprite *tile_sprs[80];
-  int fill_bg;
-  struct player *pplayer;
-
-  if (normalize_map_pos(&x, &y) && tile_get_known(x, y)) {
-    int count = fill_tile_sprite_array(tile_sprs, x, y, citymode, &fill_bg, &pplayer);
-
-
-    int i = 0;
-    
-    if (fill_bg) {
-      HBRUSH old;
-    
-      if (pplayer) {
-	old=SelectObject(hdc,brush_std[player_color(pplayer)]);
-      } else {
-	old=SelectObject(hdc,brush_std[COLOR_STD_BACKGROUND]);
-      }
-      mydrawrect(hdc,canvas_x,canvas_y,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
-      SelectObject(hdc,old);
-    } else {
-      /* first tile without mask */
-      draw_sprite(tile_sprs[0],hdc,canvas_x,canvas_y);
-      i++;
-    }
-
-    for (;i<count; i++) {
-      if (tile_sprs[i]) {
-        draw_sprite(tile_sprs[i],hdc,canvas_x,canvas_y);
-      }
-    }
-    
-    if (draw_map_grid && !citymode) {
-      HPEN old;
-      int here_in_radius =
-        player_in_city_radius(game.player_ptr, x, y);
-      /* left side... */
-      if ((map_get_tile(x-1, y))->known &&
-          (here_in_radius ||
-           player_in_city_radius(game.player_ptr, x-1, y))) {
-	old=SelectObject(hdc,pen_std[COLOR_STD_WHITE]);
-      } else {
-	old=SelectObject(hdc,pen_std[COLOR_STD_BLACK]);
-      }
-      MoveToEx(hdc,canvas_x,canvas_y,NULL);
-      LineTo(hdc,canvas_x,canvas_y+NORMAL_TILE_HEIGHT);
-      old=SelectObject(hdc,old);
-      /* top side... */
-      if((map_get_tile(x, y-1))->known &&
-         (here_in_radius ||
-          player_in_city_radius(game.player_ptr, x, y-1))) {
-        old=SelectObject(hdc,pen_std[COLOR_STD_WHITE]);
-      } else {
-	old=SelectObject(hdc,pen_std[COLOR_STD_BLACK]);
-      }
-      MoveToEx(hdc,canvas_x,canvas_y,NULL);
-      LineTo(hdc,canvas_x+NORMAL_TILE_WIDTH,canvas_y);
-      old=SelectObject(hdc,old);
-    }
-    if (draw_coastline && !draw_terrain) {
-      HPEN old;
-      enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
-      int x1 = x-1, y1 = y;
-      old=SelectObject(hdc,pen_std[COLOR_STD_OCEAN]);
-      if (normalize_map_pos(&x1, &y1)) {
-        t2 = map_get_terrain(x1, y1);
-        /* left side */
-        if (is_ocean(t1) ^ is_ocean(t2)) {
-	  MoveToEx(hdc,canvas_x,canvas_y,NULL);
-	  LineTo(hdc,canvas_x,canvas_y+NORMAL_TILE_HEIGHT);
-	}
-      }
-      /* top side */
-      x1 = x; y1 = y-1;
-      if (normalize_map_pos(&x1, &y1)) {
-        t2 = map_get_terrain(x1, y1);
-        if (is_ocean(t1) ^ is_ocean(t2)) {
-	  MoveToEx(hdc,canvas_x,canvas_y,NULL);
-	  LineTo(hdc,canvas_x+NORMAL_TILE_WIDTH,canvas_y);
-	}
-      }
-      SelectObject(hdc,old);
-    }
-  } else {
-    /* tile is unknown */
-    BitBlt(hdc,canvas_x,canvas_y,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
-	   NULL,0,0,BLACKNESS);
-  }
-
-  if (!citymode) {
-    /* put any goto lines on the tile. */
-    if (is_real_map_pos(x, y)) {
-      int dir;
-      for (dir = 0; dir < 8; dir++) {
-        if (get_drawn(x, y, dir)) {
-          put_line(hdc, x, y, dir,0);
-        }
-      }
-    }
-
-    /* Some goto lines overlap onto the tile... */
-    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-      int line_x = x - 1;
-      int line_y = y;
-      if (normalize_map_pos(&line_x, &line_y)
-          && get_drawn(line_x, line_y, 2)) {
-        /* it is really only one pixel in the top right corner */
-        put_line(hdc, line_x, line_y, 2,0);
-      }
-    }
-  }
 }
 
 /**************************************************************************
@@ -636,26 +518,6 @@ void center_tile_mapcanvas(int x, int y)
 }
 
 /**************************************************************************
-  Draw the given map tile at the given canvas position in non-isometric
-  view.
-**************************************************************************/
-void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y)
-{
-  HDC mapstoredc;
-  HBITMAP old;
-
-  /* FIXME: we don't want to have to recreate the hdc each time! */
-  mapstoredc = CreateCompatibleDC(NULL);
-  old = SelectObject(mapstoredc, mapstorebitmap);
-
-  pixmap_put_tile(mapstoredc, map_x, map_y,
-		  canvas_x, canvas_y, FALSE);
-
-  SelectObject(mapstoredc, old);
-  DeleteDC(mapstoredc);
-}
-
-/**************************************************************************
   Flush the given part of the canvas buffer (if there is one) to the
   screen.
 **************************************************************************/
@@ -904,8 +766,9 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 	     NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
 	     hdc,0,0,SRCCOPY);
     } else {
-      pixmap_put_tile(hdc, losing_unit->x, losing_unit->y,
-                      0, 0, 0);
+      struct canvas_store store = {NULL, single_tile_pixmap};
+
+      put_one_tile(&store, losing_unit->x, losing_unit->y, 0, 0, FALSE);
       put_unit_pixmap(losing_unit, hdc, 0, 0);
       draw_sprite(sprites.explode.unit[i],hdc,NORMAL_TILE_WIDTH/4,0);
       BitBlt(hdcwin,canvas_x,canvas_y,
@@ -1375,7 +1238,7 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
 
   /* FIXME: we don't want to have to recreate the hdc each time! */
   hdc = CreateCompatibleDC(pcanvas_store->hdc);
-  old = SelectObject(hdc, panvas_store->bitmap);
+  old = SelectObject(hdc, pcanvas_store->bitmap);
 
   pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y,
 			       sprite, offset_x, offset_y,
@@ -1385,6 +1248,48 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
   DeleteDC(hdc);
 }
 
+/**************************************************************************
+  Draw a full sprite onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_sprite_full(struct canvas_store *pcanvas_store,
+			 int canvas_x, int canvas_y,
+			 struct Sprite *sprite)
+{
+  gui_put_sprite(pcanvas_store, canvas_x, canvas_y, sprite,
+		 0, 0, sprite->width, sprite->height);
+}
+
+/**************************************************************************
+  Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_rectangle(struct canvas_store *pcanvas_store,
+		       enum color_std color,
+		       int canvas_x, int canvas_y, int width, int height)
+{
+  HDC hdc = CreateCompatibleDC(pcanvas_store->hdc);
+  HBRUSH old = SelectObject(hdc, brush_std[color]);
+
+  mydrawrect(hdc, canvas_x, canvas_y, width, height);
+
+  SelectObject(hdc, old);
+  DeleteDC(hdc);
+}
+
+/**************************************************************************
+  Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
+		  int start_x, int start_y, int dx, int dy)
+{
+  HDC hdc = CreateCompatibleDC(pcanvas_store->hdc);
+  HPEN old = SelectObject(hdc, pen_std[color]);
+
+  MoveToEx(hdc, start_x, start_y, NULL);
+  LineTo(hdc, start_x + dx, start_y + dy);
+
+  SelectObject(hdc, old);
+  DeleteDC(hdc);
+}
 
 /**************************************************************************
 Only used for isometric view.

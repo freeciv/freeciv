@@ -15,8 +15,6 @@
 
 #include "mapview_g.h"
 
-void pixmap_put_tile(HDC hdc, int x, int y, int abs_x0, int abs_y0,
-                     int citymode);
 void put_city_tile_output(HDC hdc, int x, int y,
                           int food, int shield, int trade);    
 void put_unit_pixmap(struct unit *punit, HDC hdc,int x,int y);

@@ -550,6 +550,8 @@ static void city_dialog_update_map_ovh(HDC hdc,struct city_dialog *pdialog)
 {
   int y,x;
   struct city *pcity;
+  struct canvas_store store = {citydlgdc, pdialog->map_bmp};
+
   pcity=pdialog->pcity;
   for(y=0; y<CITY_MAP_SIZE; y++)
     for(x=0; x<CITY_MAP_SIZE; x++) {
@@ -558,9 +560,8 @@ static void city_dialog_update_map_ovh(HDC hdc,struct city_dialog *pdialog)
       if (is_valid_city_coords(x, y)
 	  && city_map_to_map(&map_x, &map_y, pcity, x, y)
 	  && tile_get_known(map_x, map_y)) {
-	pixmap_put_tile(citydlgdc, map_x, map_y,
-			x*NORMAL_TILE_WIDTH,
-			y*NORMAL_TILE_HEIGHT,1);
+	put_one_tile(&store, map_x, map_y,
+		     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT, TRUE);
         if(pcity->city_map[x][y]==C_TILE_WORKER)
           put_city_tile_output(citydlgdc, NORMAL_TILE_WIDTH*x,
 			       y*NORMAL_TILE_HEIGHT,

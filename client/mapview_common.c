@@ -24,6 +24,7 @@
 
 #include "mapview_g.h"
 
+#include "climap.h"
 #include "control.h"
 #include "goto.h"
 #include "mapview_common.h"
@@ -433,6 +434,102 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
   }
 }
 
+
+/**************************************************************************
+  Draw the given map tile at the given canvas position in non-isometric
+  view.
+**************************************************************************/
+void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
+		  int canvas_x, int canvas_y, bool citymode)
+{
+  struct Sprite *tile_sprs[80];
+  int fill_bg; /* FIXME: should be bool */
+  struct player *pplayer;
+  bool is_real = normalize_map_pos(&map_x, &map_y);
+
+  if (is_real && tile_get_known(map_x, map_y)) {
+    int count = fill_tile_sprite_array(tile_sprs, map_x, map_y, citymode,
+				       &fill_bg, &pplayer);
+    int i = 0;
+
+    if (fill_bg) {
+      enum color_std color = pplayer ? player_color(pplayer)
+	      : COLOR_STD_BACKGROUND;
+      gui_put_rectangle(pcanvas_store, color, canvas_x, canvas_y,
+			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    }
+
+    for (i = 0; i < count; i++) {
+      if (tile_sprs[i]) {
+	gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y, tile_sprs[i]);
+      }
+    }
+
+    if (draw_map_grid && !citymode) {
+      /* left side... */
+      gui_put_line(pcanvas_store,
+		   get_grid_color(map_x, map_y, map_x - 1, map_y),
+		   canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
+
+      /* top side... */
+      gui_put_line(pcanvas_store,
+		   get_grid_color(map_x, map_y, map_x, map_y - 1),
+		   canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
+    }
+
+    if (draw_coastline && !draw_terrain) {
+      enum tile_terrain_type t1 = map_get_terrain(map_x, map_y), t2;
+      int x1, y1;
+
+      /* left side */
+      if (MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)) {
+	t2 = map_get_terrain(x1, y1);
+	if (is_ocean(t1) ^ is_ocean(t2)) {
+	  gui_put_line(pcanvas_store, COLOR_STD_OCEAN,
+		       canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
+	}
+      }
+
+      /* top side */
+      if (MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)) {
+	t2 = map_get_terrain(x1, y1);
+	if (is_ocean(t1) ^ is_ocean(t2)) {
+	  gui_put_line(pcanvas_store, COLOR_STD_OCEAN,
+		       canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
+	}
+      }
+    }
+  } else {
+    /* tile is unknown */
+    gui_put_rectangle(pcanvas_store, COLOR_STD_BLACK,
+		      canvas_x, canvas_y,
+		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+  }
+
+  if (!citymode) {
+    /* put any goto lines on the tile. */
+    if (is_real) {
+      enum direction8 dir;
+
+      for (dir = 0; dir < 8; dir++) {
+	if (get_drawn(map_x, map_y, dir)) {
+	  draw_segment(map_x, map_y, dir);
+	}
+      }
+    }
+
+    /* Some goto lines overlap onto the tile... */
+    if (NORMAL_TILE_WIDTH % 2 == 0 || NORMAL_TILE_HEIGHT % 2 == 0) {
+      int line_x = map_x - 1, line_y = map_y;
+
+      if (normalize_map_pos(&line_x, &line_y)
+	  && get_drawn(line_x, line_y, DIR8_NORTHEAST)) {
+	draw_segment(line_x, line_y, DIR8_NORTHEAST);
+      }
+    }
+  }
+}
+
 /**************************************************************************
   Draw the unique tile for the given map position, in non-isometric view.
   The coordinates have not been normalized, and are not guaranteed to be
@@ -445,7 +542,8 @@ static void put_tile(int map_x, int map_y)
   if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
     freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
 	    map_x, map_y, canvas_x, canvas_y);
-    put_one_tile(map_x, map_y, canvas_x, canvas_y);
+    put_one_tile(mapview_canvas.store, map_x, map_y,
+		 canvas_x, canvas_y, FALSE);
   }
 }
 

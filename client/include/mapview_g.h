@@ -39,7 +39,6 @@ void center_tile_mapcanvas(int x, int y);
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
 void prepare_show_city_descriptions(void);
 
-void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y);
 void gui_map_put_tile_iso(int map_x, int map_y,
 			  int canvas_x, int canvas_y,
 			  int offset_x, int offset_y, int offset_y_unit,
@@ -50,6 +49,14 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y,
 		    int width, int height);
+void gui_put_sprite_full(struct canvas_store *pcanvas_store,
+			 int canvas_x, int canvas_y,
+			 struct Sprite *sprite);
+void gui_put_rectangle(struct canvas_store *pcanvas_store,
+		       enum color_std color,
+		       int canvas_x, int canvas_y, int width, int height);
+void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
+		  int start_x, int start_y, int dx, int dy);
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height);
 

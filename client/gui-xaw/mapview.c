@@ -116,10 +116,11 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   get_canvas_xy(losing_unit->x, losing_unit->y, &canvas_x, &canvas_y);
   for (i = 0; i < num_tiles_explode_unit; i++) {
+    struct canvas_store store = {single_tile_pixmap};
+
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
-    pixmap_put_tile(single_tile_pixmap, 0, 0,
-		    losing_unit->x, losing_unit->y, 0);
+    put_one_tile(&store, 0, 0, losing_unit->x, losing_unit->y, FALSE);
     put_unit_pixmap(losing_unit, single_tile_pixmap, 0, 0);
     pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, sprites.explode.unit[i]);
 
@@ -604,16 +605,6 @@ void map_canvas_resize(void)
 }
 
 /**************************************************************************
-  Draw the given map tile at the given canvas position in non-isometric
-  view.
-**************************************************************************/
-void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y)
-{
-  pixmap_put_tile(map_canvas_store, map_x, map_y,
-		  canvas_x, canvas_y, FALSE);
-}
-
-/**************************************************************************
   Draw some or all of a tile onto the mapview canvas.
 **************************************************************************/
 void gui_map_put_tile_iso(int map_x, int map_y,
@@ -661,6 +652,40 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
 {
   pixmap_put_sprite(pcanvas_store->pixmap, canvas_x, canvas_y,
 		    sprite, offset_x, offset_y, width, height);
+}
+
+/**************************************************************************
+  Draw a full sprite onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_sprite_full(struct canvas_store *pcanvas_store,
+			 int canvas_x, int canvas_y,
+			 struct Sprite *sprite)
+{
+  gui_put_sprite(pcanvas_store, canvas_x, canvas_y,
+		 sprite, 0, 0, sprite->width, sprite->height);
+}
+
+/**************************************************************************
+  Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_rectangle(struct canvas_store *pcanvas_store,
+		       enum color_std color,
+		       int canvas_x, int canvas_y, int width, int height)
+{
+  XSetForeground(display, fill_bg_gc, colors_standard[color]);
+  XFillRectangle(display, pcanvas_store->pixmap, fill_bg_gc,
+		 canvas_x, canvas_y, width, height);
+}
+
+/**************************************************************************
+  Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
+		  int start_x, int start_y, int dx, int dy)
+{
+  XSetForeground(display, civ_gc, colors_standard[color]);
+  XDrawLine(display, pcanvas_store->pixmap, civ_gc,
+	    start_x, start_y, start_x + dx, start_y + dy);
 }
 
 /**************************************************************************
@@ -908,114 +933,6 @@ void pixmap_frame_tile_red(Pixmap pm, int canvas_x, int canvas_y)
 		 NORMAL_TILE_WIDTH-5, NORMAL_TILE_HEIGHT-5);
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y, 
-		     int citymode)
-{
-  struct Sprite *tile_sprs[80];
-  int fill_bg;
-  struct player *pplayer;
-
-  if (normalize_map_pos(&x, &y) && tile_get_known(x, y)) {
-    int count = fill_tile_sprite_array(tile_sprs, x, y, citymode, &fill_bg, &pplayer);
-    int i = 0;
-
-    if (fill_bg) {
-      if (pplayer) {
-        XSetForeground(display, fill_bg_gc,
-		       colors_standard[player_color(pplayer)]);
-      } else {
-        XSetForeground(display, fill_bg_gc,
-		       colors_standard[COLOR_STD_BACKGROUND]);
-      }
-      XFillRectangle(display, pm, fill_bg_gc, 
-		     canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    } else {
-      /* first tile without mask */
-      XCopyArea(display, tile_sprs[0]->pixmap, pm, 
-		civ_gc, 0, 0,
-		tile_sprs[0]->width, tile_sprs[0]->height, canvas_x, canvas_y);
-      i++;
-    }
-
-    for (;i<count; i++) {
-      if (tile_sprs[i]) {
-        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, tile_sprs[i]);
-      }
-    }
-
-    if (draw_map_grid && !citymode) {
-      /* left side... */
-      XSetForeground(display, civ_gc, colors_standard[get_grid_color
-						      (x, y, x - 1, y)]);
-      XDrawLine(display, pm, civ_gc,
-		canvas_x, canvas_y,
-		canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
-
-      /* top side... */
-      XSetForeground(display, civ_gc, colors_standard[get_grid_color
-						      (x, y, x, y - 1)]);
-      XDrawLine(display, pm, civ_gc,
-		canvas_x, canvas_y,
-		canvas_x + NORMAL_TILE_WIDTH, canvas_y);
-    }
-    if (draw_coastline && !draw_terrain) {
-      enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
-      int x1 = x-1, y1 = y;
-      XSetForeground(display, civ_gc, colors_standard[COLOR_STD_OCEAN]);
-      if (normalize_map_pos(&x1, &y1)) {
-	t2 = map_get_terrain(x1, y1);
-	/* left side */
-	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  XDrawLine(display, pm, civ_gc,
-		    canvas_x, canvas_y,
-		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
-	}
-      }
-      /* top side */
-      x1 = x; y1 = y-1;
-      if (normalize_map_pos(&x1, &y1)) {
-	t2 = map_get_terrain(x1, y1);
-	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  XDrawLine(display, pm, civ_gc,
-		    canvas_x, canvas_y,
-		    canvas_x + NORMAL_TILE_WIDTH, canvas_y);
-	}
-      }
-    }
-  } else {
-    /* tile is unknown */
-    pixmap_put_black_tile(pm, canvas_x, canvas_y);
-  }
-
-  if (!citymode) {
-    /* put any goto lines on the tile. */
-    if (is_real_map_pos(x, y)) {
-      int dir;
-      for (dir = 0; dir < 8; dir++) {
-	if (get_drawn(x, y, dir)) {
-	  put_line(map_canvas_store, x, y, dir);
-	}
-      }
-    }
-
-    /* Some goto lines overlap onto the tile... */
-    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-      int line_x = x - 1;
-      int line_y = y;
-      if (normalize_map_pos(&line_x, &line_y)
-	  && get_drawn(line_x, line_y, 2)) {
-	/* it is really only one pixel in the top right corner */
-	put_line(map_canvas_store, line_x, line_y, 2);
-      }
-    }
-  }
-}
-
-  
 /**************************************************************************
 ...
 **************************************************************************/

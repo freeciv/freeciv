@@ -184,15 +184,6 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
-  Draw the given map tile at the given canvas position in non-isometric
-  view.
-**************************************************************************/
-void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
   Draw some or all of a tile onto the mapview canvas.
 **************************************************************************/
 void gui_map_put_tile_iso(int map_x, int map_y,
@@ -211,6 +202,35 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
 		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Draw a full sprite onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_sprite_full(struct canvas_store *pcanvas_store,
+			 int canvas_x, int canvas_y,
+			 struct Sprite *sprite)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_rectangle(struct canvas_store *pcanvas_store,
+		       enum color_std color,
+		       int canvas_x, int canvas_y, int width, int height)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
+		  int start_x, int start_y, int dx, int dy)
 {
   /* PORTME */
 }

@@ -128,14 +128,6 @@ void get_mapview_dimensions(int *map_view_topleft_map_x,
 }
 
 /**************************************************************************
-  Draw the given map tile at the given canvas position in no-isometric
-  view use with unification of update_mapcanvas(...).
-**************************************************************************/
-void put_one_tile( int map_x , int map_y , int canvas_x , int canvas_y )
-{
-}
-
-/**************************************************************************
   Draw some or all of a tile onto the mapview canvas.
 **************************************************************************/
 void gui_map_put_tile_iso(int map_x, int map_y,
@@ -178,6 +170,35 @@ void gui_put_sprite(struct canvas_store *pCanvas_store,
   SDL_Rect src = {offset_x,offset_y,width,height};
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
   SDL_BlitSurface(GET_SURF(sprite), &src, pCanvas_store->map, &dst);
+}
+
+/**************************************************************************
+  Draw a full sprite onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_sprite_full(struct canvas_store *pcanvas_store,
+			 int canvas_x, int canvas_y,
+			 struct Sprite *sprite)
+{
+  blit_entire_src(GET_SURF(sprite), pcanvas_store->map, canvas_x, canvas_y);
+}
+
+/**************************************************************************
+  Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_rectangle(struct canvas_store *pcanvas_store,
+		       enum color_std color,
+		       int canvas_x, int canvas_y, int width, int height)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
+		  int start_x, int start_y, int dx, int dy)
+{
+  /* PORTME */
 }
 
 /**************************************************************************
