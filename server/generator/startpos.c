@@ -186,6 +186,8 @@ void create_start_positions(enum start_mode mode)
   int tile_value_aux[MAX_MAP_INDEX], tile_value[MAX_MAP_INDEX];
   int min_goodies_per_player = 2000;
   int total_goodies = 0;
+  /* this is factor is used to maximize land used in extreme little maps */
+  float efactor =  game.nplayers / map.size / 4; 
 
   /* Unsafe terrains separate continents, otherwise small areas of green
    * near the poles could be populated by a civilization if that pole
@@ -254,13 +256,15 @@ void create_start_positions(enum start_mode mode)
 
   if (mode == MT_ALL 
       && (islands[1].goodies < game.nplayers * min_goodies_per_player
-	  || islands[1].goodies < total_goodies * 0.5)) {
+	  || islands[1].goodies < total_goodies * (0.5 + 0.8 * efactor)
+	  / (1 + efactor))) {
     mode = MT_VARIABLE;
   }
 
   /* the variable way is the last posibility */
   if (mode == MT_VARIABLE) {
-    min_goodies_per_player = total_goodies * 0.65 / game.nplayers;
+    min_goodies_per_player = total_goodies * (0.65 + 0.8 * efactor) 
+      / (1 + efactor)  / game.nplayers;
   }
 
   { 

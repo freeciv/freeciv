@@ -293,7 +293,7 @@ warmer_wetter_result = "Jungle"
 warmer_drier_result  = "Desert"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-flags                = "CanHaveRiver"
+flags                = "Starter", "CanHaveRiver"
 helptext	     = _("\
 Forests are densely wooded, making agriculture somewhat\
  problematic.\
@@ -376,7 +376,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-flags                = "CanHaveRiver"
+flags                = "Starter", "CanHaveRiver"
 helptext	     = _("\
 In addition to being amenable to agriculture, Hills are frequently\
  rich in resources.\
@@ -631,7 +631,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "Glacier"
 cooler_drier_result  = "Glacier"
-flags                = "NoBarbs", "CanHaveRiver"
+flags                = "Starter", "NoBarbs", "CanHaveRiver"
 helptext	     = _("\
 Tundra are broad, cold regions, fit for some agriculture and little\
  else.\
