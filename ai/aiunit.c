@@ -185,16 +185,18 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 
 void ai_manage_unit(struct player *pplayer, struct unit *punit) 
 {
-  if (!punit->moves_left) return; /* can't do anything with no moves */
   if (unit_flag(punit->type, F_SETTLERS)) {
+    if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_settler(pplayer, punit);
   } else if (unit_flag(punit->type, F_CARAVAN)) {
     ai_manage_caravan(pplayer, punit);
   } else if (get_transporter_capacity(punit)) {
     ai_manage_ferryboat(pplayer, punit);
   } else if (is_military_unit(punit)) {
+    if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_military(pplayer,punit); 
   } else {
+    if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_explorer(pplayer, punit); /* what else could this be? -- Syela */
   }
   /* Careful Unit maybe void here */
@@ -259,6 +261,8 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 /* ok, not carrying anyone, even the ferryman */
 /*printf("Ferryboat %d@(%d, %d) is lonely.\n", punit->id, punit->x, punit->y);*/
   set_unit_activity(punit, ACTIVITY_IDLE);
+  punit->goto_dest_x = punit->x;
+  punit->goto_dest_y = punit->y;
   unit_list_iterate(pplayer->units, aunit)
     if (aunit->ai.ferryboat == punit->id) {
 /*printf("Found a friend %d@(%d, %d)\n", aunit->id, aunit->x, aunit->y);*/
@@ -272,7 +276,8 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     }
   unit_list_iterate_end;
 /* do cool stuff here */
-  
+
+  if (!punit->moves_left) return;  
   pcity = find_city_by_id(punit->homecity);
   if (pcity) {
 /*printf("No friends.  Going home.\n");*/
@@ -336,35 +341,41 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
   }
 }
 
-int unit_belligerence(struct unit *punit)
+int unit_belligerence_basic(struct unit *punit)
 {
-  int v, w;
+  int v;
   v = get_attack_power(punit) * punit->hp * 
-            get_unit_type(punit->type)->firepower;
-  w = v * v / get_unit_type(punit->type)->build_cost + 2;
-  return(w);
+            get_unit_type(punit->type)->firepower / 30;
+  return(v);
 }
 
-int unit_vulnerability(struct unit *punit, struct unit *pdef)
+int unit_belligerence(struct unit *punit)
+{
+  int v = unit_belligerence_basic(punit);
+  return(v * v);
+}
+
+int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
 {
   int v;
 
   v = get_total_defense_power(punit, pdef) * pdef->hp * 
-           get_unit_type(pdef->type)->firepower;
+           get_unit_type(pdef->type)->firepower / 30;
 
-  if (map_get_city(pdef->x, pdef->y)) /* prefer to bash cities */
-       return (v * v / (get_unit_type(pdef->type)->build_cost + 40) *
-           get_unit_type(punit->type)->hp / punit->hp);
-
-  return (v * v / get_unit_type(pdef->type)->build_cost);
+  return(v);
+}
+int unit_vulnerability(struct unit *punit, struct unit *pdef)
+{
+  int v = unit_vulnerability_basic(punit, pdef);
+  return (v * v);
 }
 
 int reinforcements_value(struct unit *punit, struct unit *pdef)
-{ /* if someone else can clean up my mess, all the better */
+{ /* this is still pretty dopey but better than the original -- Syela */
   int val = 0;
   unit_list_iterate(game.players[punit->owner].units, aunit)
-    if (aunit != punit && is_tiles_adjacent(aunit->x, aunit->y, pdef->x, pdef->y))
-      val += unit_belligerence(aunit);
+    if (is_tiles_adjacent(aunit->x, aunit->y, pdef->x, pdef->y))
+      val += unit_belligerence_basic(aunit); /* !!! */
   unit_list_iterate_end;
   return(val);
 }
@@ -374,15 +385,17 @@ void ai_military_findvictim(struct player *pplayer, struct unit *punit, int *des
   int xx[3], yy[3], x, y;
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int i, j, k, weakest, v;
+  int i, j, k;
+  int best = 0, a, b, c, d, e, f;
   struct unit *pdef;
   struct city *pcity;
   x = punit->x;
   y = punit->y;
   *dest_y = y;
   *dest_x = x;
-  weakest = unit_belligerence(punit);
-  if (punit->unhappiness) weakest = 2000000000; /* desperation */
+  if (punit->unhappiness) best = -2000000000; /* desperation */
+  f = unit_types[punit->type].build_cost;
+  c = 0; /* only dealing with adjacent victims here */
 
 /* stolen from gotohand.c */
   if((xx[2]=x+1)==map.xsize) xx[2]=0;
@@ -397,7 +410,7 @@ void ai_military_findvictim(struct player *pplayer, struct unit *punit, int *des
     pdef = get_defender(pplayer, punit, xx[i], yy[j]);
     if (pdef) {
       if (can_unit_attack_tile(punit, xx[i], yy[j])) { /* thanks, Roar */
-        v = unit_vulnerability(punit, pdef);
+        d = unit_vulnerability(punit, pdef);
         if (map_get_city(x, y) && /* pikemen defend Knights, attack Catapults */
               get_total_defense_power(pdef, punit) *
               get_total_defense_power(punit, pdef) >
@@ -407,24 +420,32 @@ void ai_military_findvictim(struct player *pplayer, struct unit *punit, int *des
 /*              printf("%s defending %s from %s's %s\n",
             get_unit_type(punit->type)->name, map_get_city(x, y)->name,
             game.players[pdef->owner].name, get_unit_type(pdef->type)->name); */
-        else if (v < weakest + reinforcements_value(punit, pdef)) {
-/*          printf("Better than %d is %d (%s)\n", weakest, v,
-             unit_types[pdef->type].name);  */
-          weakest = v; *dest_y = yy[j]; *dest_x = xx[i];
-         } /* else printf("NOT better than %d is %d (%s)\n", weakest, v,
+        else {
+          a = reinforcements_value(punit, pdef);
+          a *= a;
+          b = unit_types[pdef->type].build_cost;
+/* c is always equal to zero in this routine, and f is already known */
+          e = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d) - c * SHIELD_WEIGHTING);
+/* no need to amortize! */
+          if (e > best) {
+            printf("Better than %d is %d (%s)\n", best, e, unit_types[pdef->type].name);
+            best = e; *dest_y = yy[j]; *dest_x = xx[i];
+          } /* else printf("NOT better than %d is %d (%s)\n", best, e,
              unit_types[pdef->type].name); */
+        }
       }
     } else { /* no pdef */
       pcity = map_get_city(xx[i], yy[j]);
-      if (pcity) {
+      if (pcity && is_ground_unit(punit)) {
         if (pcity->owner != pplayer->player_no) { /* free goodies */
-          weakest = -1; *dest_y = yy[j]; *dest_x = xx[i];
+          best = 99999; *dest_y = yy[j]; *dest_x = xx[i];
         }
       }
-      if (map_get_tile(xx[i], yy[j])->special & S_HUT && weakest > 0 &&
+      if (map_get_tile(xx[i], yy[j])->special & S_HUT && best < 99999 &&
           zoc_ok_move(punit, xx[i], yy[j]) &&
+          !is_sailing_unit(punit) &&
           punit->ai.ai_role != AIUNIT_DEFEND_HOME) { /* Oops! -- Syela */
-        weakest = 0; *dest_y = yy[j]; *dest_x = xx[i];
+        best = 99998; *dest_y = yy[j]; *dest_x = xx[i];
       }
     }
   }
@@ -559,40 +580,26 @@ else
    }
 }
 
-#ifdef SIMPLISTIC
-void find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
+int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
 {
-  struct city *pcity;
-  pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y);
-  if (pcity && !is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) {
-    *x = pcity->x; *y = pcity->y; return;
-  }
-}
-
-#else
-
-void find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
-{
-
-/* your mission, should you choose to accept it, is to seek out and destroy the
-nearest vulnerable enemy unit or city */
-
-/* this could be awful to the CPU, will profile it later and see ... */
-
-  int belli, vul, i, d, maxd;
+  int a, b, c, d, e, m, n, v, i, f, a0, b0;
+  int aa = 0, bb = 0, cc = 0, dd = 0;
   int con = map_get_continent(punit->x, punit->y);
   struct player *aplayer;
   struct unit *pdef;
-  int kluge = 1000; /* Necessary in some regard */
-  maxd = THRESHOLD * unit_types[punit->type].move_rate;
-  if (unit_flag(punit->type, F_IGTER)) maxd *= 3;
-  if (maxd > THRESHOLD * 6) maxd = THRESHOLD * 6; /* limit of warmap */
-  belli = unit_belligerence(punit) * maxd;
+  int best = 0;
+  int maxd;
+
   *x = punit->x; *y = punit->y;
+  a = unit_belligerence(punit);
+  m = unit_types[punit->type].move_rate;
+  if (unit_flag(punit->type, F_IGTER)) m *= 3;
+  maxd = m * THRESHOLD + 1;
+  f = unit_types[punit->type].build_cost;
 
   generate_warmap(map_get_city(*x, *y), punit); /* most flexible but costs milliseconds */
 /*  printf("%s's %s at (%d, %d) has belligerence %d.\n",
-     pplayer->name, unit_types[punit->type].name, punit->x, punit->y, belli); */
+     pplayer->name, unit_types[punit->type].name, punit->x, punit->y, a);*/
 
   for (i = 0; i < game.nplayers; i++) {
     aplayer = &game.players[i];
@@ -603,13 +610,27 @@ nearest vulnerable enemy unit or city */
                 warmap.cost[acity->x][acity->y] < maxd) ||
             (is_sailing_unit(punit) &&
                 warmap.seacost[acity->x][acity->y] < maxd)) {
-          if ((pdef = get_defender(pplayer, punit, acity->x, acity->y)))
-            vul = unit_vulnerability(punit, pdef);
-          else vul = 0;
+          if ((pdef = get_defender(pplayer, punit, acity->x, acity->y))) {
+            d = unit_vulnerability(punit, pdef);
+            b = unit_types[pdef->type].build_cost + 40;
+          } else { d = 0; b = 40; }
 /* probably ought to make empty cities less enticing. -- Syela */
-          vul = (vul + kluge) * warmap.cost[acity->x][acity->y];
-          if (vul < belli) {
-            belli = vul;
+          if (warmap.cost[acity->x][acity->y] > unit_types[punit->type].move_rate) {
+            n = ai_choose_defender_versus(acity, punit->type);
+            v = get_virtual_defense_power(punit->type, n, acity->x, acity->y) *
+                unit_types[n].hp * unit_types[n].firepower / 30;
+            if (v * v > d) { d = v * v; b = unit_types[n].build_cost + 40; }
+          } /* let's hope this works! */
+          c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
+          if (!is_ground_unit(punit) && !d) b0 = 0;
+          else b0 = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d) - c * SHIELD_WEIGHTING);
+          if (b0 > 0) {
+            a0 = amortize(b0, MAX(1, c));
+            e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (f * MORT);
+          } else e = 0;
+          if (e > best) {
+            aa = a; bb = b; cc = c; dd = d;
+            best = e;
             *x = acity->x;
             *y = acity->y;
           }
@@ -623,17 +644,21 @@ nearest vulnerable enemy unit or city */
                 warmap.cost[aunit->x][aunit->y] < maxd) ||
             (is_sailing_unit(punit) &&
                 warmap.seacost[aunit->x][aunit->y] < maxd))) {
-          vul = unit_vulnerability(punit, aunit);
-          d = warmap.cost[aunit->x][aunit->y];
-          d *= unit_types[aunit->type].move_rate;
-          if (unit_flag(aunit->type, F_IGTER)) d *= 3;
-          d /= unit_types[punit->type].move_rate;
-          if (d < 1) d = 1;
-/* this is experimental.  I'm worried about units chasing explorers and diplomats */
-/* arguably should be ADDING the runaway-potential, but this seems to be better */
-          vul = (vul + kluge) * d;
-          if (vul < belli) {
-            belli = vul;
+          d = unit_vulnerability(punit, aunit);
+          b = unit_types[aunit->type].build_cost;
+          n = warmap.cost[aunit->x][aunit->y];
+          n *= unit_types[aunit->type].move_rate;
+          if (unit_flag(aunit->type, F_IGTER)) n *= 3;
+          c = (n + m - 1) / m;
+          if (!is_ground_unit(punit) && !d) b0 = 0;
+          else b0 = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d) - c * SHIELD_WEIGHTING);
+          if (b0 > 0) {
+            a0 = amortize(b0, MAX(1, c));
+            e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (f * MORT);
+          } else e = 0;
+          if (e > best) {
+            aa = a; bb = b; cc = c; dd = d;
+            best = e;
             *x = aunit->x;
             *y = aunit->y;
           }
@@ -641,12 +666,13 @@ nearest vulnerable enemy unit or city */
       unit_list_iterate_end;
     } /* end if enemy */
   } /* end for all players */
-/*  printf("%s's %s at (%d, %d) targeting (%d, %d) [%d / %d].\n", pplayer->name,
-   unit_types[punit->type].name, punit->x, punit->y, *x, *y, belli,
-   unit_belligerence(punit) * maxd); */
-
+/*  if (best) {
+    printf("%s's %s at (%d, %d) targeting (%d, %d) [desire = %d]\n", pplayer->name,
+       unit_types[punit->type].name, punit->x, punit->y, *x, *y, best);
+    printf("A = %d, B = %d, C = %d, D = %d, F = %d, E = %d\n", aa, bb, cc, dd, f, best);
+  }*/
+  return(best);
 }
-#endif
 
 void ai_military_attack(struct player *pplayer,struct unit *punit)
 { /* rewritten by Syela - old way was crashy and not smart (nor is this) */
@@ -698,6 +724,7 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   if (punit->ai.ai_role == AIUNIT_NONE) {
     if ((pcity = wonder_on_continent(pplayer, map_get_continent(punit->x, punit->y))) && build_points_left(pcity) > (pcity->shield_surplus<<1)) {
       if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
+        if (!punit->moves_left) return;
 	auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
         handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
       } else {
