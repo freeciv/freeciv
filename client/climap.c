@@ -18,7 +18,7 @@
 #include "map.h"
 #include "shared.h"
 
-#include "tilespec.h"           /* tileset_is_isometric() */
+#include "tilespec.h"           /* tileset_is_isometric(tileset) */
 
 #include "climap.h"
 
@@ -50,7 +50,7 @@ enum known_type tile_get_known(const struct tile *ptile)
 **************************************************************************/
 enum direction8 gui_to_map_dir(enum direction8 gui_dir)
 {
-  if (tileset_is_isometric()) {
+  if (tileset_is_isometric(tileset)) {
     return dir_ccw(gui_dir);
   } else {
     return gui_dir;
@@ -64,7 +64,7 @@ enum direction8 gui_to_map_dir(enum direction8 gui_dir)
 **************************************************************************/
 enum direction8 map_to_gui_dir(enum direction8 map_dir)
 {
-  if (tileset_is_isometric()) {
+  if (tileset_is_isometric(tileset)) {
     return dir_cw(map_dir);
   } else {
     return map_dir;

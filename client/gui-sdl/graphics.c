@@ -3450,7 +3450,7 @@ SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
 SDL_Surface * get_intro_gfx(void)
 {
   if(!pIntro_gfx) {
-   pIntro_gfx = load_surf(tileset_main_intro_filename());
+   pIntro_gfx = load_surf(tileset_main_intro_filename(tileset));
   }
   return pIntro_gfx;
 }
@@ -3461,7 +3461,7 @@ SDL_Surface * get_intro_gfx(void)
 SDL_Surface * get_logo_gfx(void)
 {
   SDL_Surface *pLogo;
-  SDL_Surface *pLogo_Surf = IMG_Load(tileset_mini_intro_filename());
+  SDL_Surface *pLogo_Surf = IMG_Load(tileset_mini_intro_filename(tileset));
   assert(pLogo_Surf != NULL);
   pLogo = SDL_CreateRGBSurface(SDL_SWSURFACE,
 			pLogo_Surf->w, pLogo_Surf->h,

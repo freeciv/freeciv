@@ -392,12 +392,12 @@ struct Sprite *get_indicator_sprite(enum indicator_type indicator,
  *     - NORMAL_TILE_WIDTH and NORMAL_TILE_HEIGHT are even
  */
 
-#define NORMAL_TILE_WIDTH tileset_tile_width()
-#define NORMAL_TILE_HEIGHT tileset_tile_height()
-#define UNIT_TILE_WIDTH tileset_full_tile_width()
-#define UNIT_TILE_HEIGHT tileset_full_tile_height()
-#define SMALL_TILE_WIDTH tileset_small_sprite_width()
-#define SMALL_TILE_HEIGHT tileset_small_sprite_height()
+#define NORMAL_TILE_WIDTH tileset_tile_width(tileset)
+#define NORMAL_TILE_HEIGHT tileset_tile_height(tileset)
+#define UNIT_TILE_WIDTH tileset_full_tile_width(tileset)
+#define UNIT_TILE_HEIGHT tileset_full_tile_height(tileset)
+#define SMALL_TILE_WIDTH tileset_small_sprite_width(tileset)
+#define SMALL_TILE_HEIGHT tileset_small_sprite_height(tileset)
 
 /* The overview tile width and height are defined in terms of the base
  * size.  For iso-maps the width is twice the height since "natural"
@@ -408,17 +408,17 @@ extern int OVERVIEW_TILE_SIZE;
 #define OVERVIEW_TILE_HEIGHT OVERVIEW_TILE_SIZE
 
 /* Tileset accessor functions. */
-bool tileset_is_isometric(void);
-int tileset_hex_width(void);
-int tileset_hex_height(void);
-int tileset_tile_width(void);
-int tileset_tile_height(void);
-int tileset_full_tile_width(void);
-int tileset_full_tile_height(void);
-int tileset_small_sprite_width(void);
-int tileset_small_sprite_height(void);
-const char *tileset_main_intro_filename(void);
-const char *tileset_mini_intro_filename(void);
+bool tileset_is_isometric(struct tileset *t);
+int tileset_hex_width(struct tileset *t);
+int tileset_hex_height(struct tileset *t);
+int tileset_tile_width(struct tileset *t);
+int tileset_tile_height(struct tileset *t);
+int tileset_full_tile_width(struct tileset *t);
+int tileset_full_tile_height(struct tileset *t);
+int tileset_small_sprite_width(struct tileset *t);
+int tileset_small_sprite_height(struct tileset *t);
+const char *tileset_main_intro_filename(struct tileset *t);
+const char *tileset_mini_intro_filename(struct tileset *t);
 
 struct Sprite *load_sprite(struct tileset *t, const char *tag_name);
 void unload_sprite(struct tileset *t, const char *tag_name);

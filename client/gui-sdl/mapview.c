@@ -2389,7 +2389,7 @@ static SDL_Surface * create_noiso_city_map(struct city *pCity)
 SDL_Surface * create_city_map(struct city *pCity)
 {
   
-    if (tileset_is_isometric())
+    if (tileset_is_isometric(tileset))
     {
       return create_iso_city_map(pCity);
     }
@@ -2653,7 +2653,7 @@ void tmp_map_surfaces_init(void)
   
   clear_dither_tiles();
   
-  if(tileset_is_isometric()) {
+  if(tileset_is_isometric(tileset)) {
     
     /* =========================== */
     pTmpSurface = create_surf(UNIT_TILE_WIDTH,

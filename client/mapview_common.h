@@ -106,7 +106,8 @@ extern bool can_slide;
     _height = -_height;							    \
   }									    \
   if (_width > 0 && _height > 0) {					    \
-    const int _ratio = (tileset_is_isometric() ? 2 : 1), _r = _ratio * 2;   \
+    const int _ratio = (tileset_is_isometric(tileset) ? 2 : 1);		    \
+    const int _r = _ratio * 2;						    \
     const int _Wr = NORMAL_TILE_WIDTH;					    \
     const int _Hr = NORMAL_TILE_HEIGHT;					    \
     /* Don't divide by _r yet, to avoid integer rounding errors. */	    \
@@ -133,7 +134,7 @@ extern bool can_slide;
       GRI_y_itr = GRI_y0 + (GRI_itr / (GRI_x1 - GRI_x0));		    \
       GRI_sum = GRI_x_itr + GRI_y_itr;					    \
       GRI_diff = GRI_y_itr - GRI_x_itr;					    \
-      if (tileset_is_isometric()) {					    \
+      if (tileset_is_isometric(tileset)) {				    \
 	if ((GRI_x_itr + GRI_y_itr) % 2 != 0) {				    \
 	  continue;							    \
 	}								    \
@@ -152,12 +153,12 @@ extern bool can_slide;
 					       (GRI_diff + 2) / 4);	    \
 	    pcorner->tile[3] = map_pos_to_tile((GRI_sum - 6) / 4,	    \
 					       (GRI_diff + 2) / 4);	    \
-	    if (tileset_hex_width() > 0) {				    \
+	    if (tileset_hex_width(tileset) > 0) {			    \
 	      pedge = &GRI_edge;					    \
 	      pedge->type = EDGE_UD;					    \
 	      pedge->tile[0] = pcorner->tile[0];			    \
 	      pedge->tile[1] = pcorner->tile[2];			    \
-	    } else if (tileset_hex_height() > 0) {			    \
+	    } else if (tileset_hex_height(tileset) > 0) {		    \
 	      pedge = &GRI_edge;					    \
 	      pedge->type = EDGE_LR;					    \
 	      pedge->tile[0] = pcorner->tile[1];			    \

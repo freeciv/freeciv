@@ -100,7 +100,7 @@ void load_intro_gfx(void)
 
   /* Main graphic */
 
-  intro_gfx_sprite=load_gfxfile(tileset_main_intro_filename());
+  intro_gfx_sprite=load_gfxfile(tileset_main_intro_filename(tileset));
   tot=intro_gfx_sprite->width;
 
   y=intro_gfx_sprite->height-(2*lin);
@@ -114,7 +114,7 @@ void load_intro_gfx(void)
 
   /* Minimap graphic */
 
-  radar_gfx_sprite=load_gfxfile(tileset_mini_intro_filename());
+  radar_gfx_sprite=load_gfxfile(tileset_mini_intro_filename(tileset));
   tot=radar_gfx_sprite->width;
 
   y = radar_gfx_sprite->height - (lin +

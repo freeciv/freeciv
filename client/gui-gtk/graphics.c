@@ -117,7 +117,7 @@ void load_intro_gfx( void )
 
   /* Main graphic */
 
-  intro_gfx_sprite = load_gfxfile(tileset_main_intro_filename());
+  intro_gfx_sprite = load_gfxfile(tileset_main_intro_filename(tileset));
   tot=intro_gfx_sprite->width;
 
   face_gc = gdk_gc_new(root_window);
@@ -133,7 +133,7 @@ void load_intro_gfx( void )
 
   /* Minimap graphic */
 
-  radar_gfx_sprite = load_gfxfile(tileset_mini_intro_filename());
+  radar_gfx_sprite = load_gfxfile(tileset_mini_intro_filename(tileset));
   tot = radar_gfx_sprite->width;
 
   my_snprintf(s, sizeof(s), "%d.%d.%d%s",

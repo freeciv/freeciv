@@ -213,45 +213,45 @@ static struct Sprite* lookup_sprite_tag_alt(struct tileset *t,
 /****************************************************************************
   Return whether the current tileset is isometric.
 ****************************************************************************/
-bool tileset_is_isometric(void)
+bool tileset_is_isometric(struct tileset *t)
 {
-  return tileset->is_isometric;
+  return t->is_isometric;
 }
 
 /****************************************************************************
   Return the hex_width of the current tileset.  For hex tilesets this value
   will be > 0 and is_isometric will be set.
 ****************************************************************************/
-int tileset_hex_width(void)
+int tileset_hex_width(struct tileset *t)
 {
-  return tileset->hex_width;
+  return t->hex_width;
 }
 
 /****************************************************************************
   Return the hex_height of the current tileset.  For iso-hex tilesets this
   value will be > 0 and is_isometric will be set.
 ****************************************************************************/
-int tileset_hex_height(void)
+int tileset_hex_height(struct tileset *t)
 {
-  return tileset->hex_height;
+  return t->hex_height;
 }
 
 /****************************************************************************
   Return the tile width of the current tileset.  This is the tesselation
   width of the tiled plane.
 ****************************************************************************/
-int tileset_tile_width(void)
+int tileset_tile_width(struct tileset *t)
 {
-  return tileset->normal_tile_width;
+  return t->normal_tile_width;
 }
 
 /****************************************************************************
   Return the tile height of the current tileset.  This is the tesselation
   height of the tiled plane.
 ****************************************************************************/
-int tileset_tile_height(void)
+int tileset_tile_height(struct tileset *t)
 {
-  return tileset->normal_tile_height;
+  return t->normal_tile_height;
 }
 
 /****************************************************************************
@@ -260,9 +260,9 @@ int tileset_tile_height(void)
 
   Note: currently this is always equal to the tile width.
 ****************************************************************************/
-int tileset_full_tile_width(void)
+int tileset_full_tile_width(struct tileset *t)
 {
-  return tileset->full_tile_width;
+  return t->full_tile_width;
 }
 
 /****************************************************************************
@@ -270,9 +270,9 @@ int tileset_full_tile_width(void)
   height that any mapview sprite will have.  This may be greater than the
   tile width in which case the extra area is above the "normal" tile.
 ****************************************************************************/
-int tileset_full_tile_height(void)
+int tileset_full_tile_height(struct tileset *t)
 {
-  return tileset->full_tile_height;
+  return t->full_tile_height;
 }
 
 /****************************************************************************
@@ -280,9 +280,9 @@ int tileset_full_tile_height(void)
   are used for various theme graphics (e.g., citymap citizens/specialists
   as well as panel indicator icons).
 ****************************************************************************/
-int tileset_small_sprite_width(void)
+int tileset_small_sprite_width(struct tileset *t)
 {
-  return tileset->small_sprite_width;
+  return t->small_sprite_width;
 }
 
 /****************************************************************************
@@ -290,9 +290,9 @@ int tileset_small_sprite_width(void)
   are used for various theme graphics (e.g., citymap citizens/specialists
   as well as panel indicator icons).
 ****************************************************************************/
-int tileset_small_sprite_height(void)
+int tileset_small_sprite_height(struct tileset *t)
 {
-  return tileset->small_sprite_height;
+  return t->small_sprite_height;
 }
 
 /****************************************************************************
@@ -300,9 +300,9 @@ int tileset_small_sprite_height(void)
   file can be found.  (It is left up to the GUI code to load and unload this
   file.)
 ****************************************************************************/
-const char *tileset_main_intro_filename(void)
+const char *tileset_main_intro_filename(struct tileset *t)
 {
-  return tileset->main_intro_filename;
+  return t->main_intro_filename;
 }
 
 /****************************************************************************
@@ -310,9 +310,9 @@ const char *tileset_main_intro_filename(void)
   file can be found.  (It is left up to the GUI code to load and unload this
   file.)
 ****************************************************************************/
-const char *tileset_mini_intro_filename(void)
+const char *tileset_mini_intro_filename(struct tileset *t)
 {
-  return tileset->minimap_intro_filename;
+  return t->minimap_intro_filename;
 }
 
 /**************************************************************************

@@ -169,7 +169,7 @@ GtkWidget *create_main_page(void)
   gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
   gtk_container_add(GTK_CONTAINER(align), frame);
 
-  image = gtk_image_new_from_file(tileset_main_intro_filename());
+  image = gtk_image_new_from_file(tileset_main_intro_filename(tileset));
   g_signal_connect_after(image, "expose_event",
       G_CALLBACK(intro_expose), NULL);
   gtk_container_add(GTK_CONTAINER(frame), image);

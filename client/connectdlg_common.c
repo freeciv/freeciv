@@ -355,9 +355,9 @@ bool client_start_server(void)
    * both cases the map wraps in the X direction by default.
    *
    * This works with hex maps too now.  A hex map always has
-   * tileset_is_isometric() return TRUE.  An iso-hex map has
-   * tileset_hex_height() != 0, while a non-iso hex map
-   * has tileset_hex_width() != 0.
+   * tileset_is_isometric(tileset) return TRUE.  An iso-hex map has
+   * tileset_hex_height(tileset) != 0, while a non-iso hex map
+   * has tileset_hex_width(tileset) != 0.
    *
    * Setting the option here is a bit of a hack, but so long as the client
    * has sufficient permissions to do so (it doesn't have HACK access yet) it
@@ -365,10 +365,10 @@ bool client_start_server(void)
    * set but then overwritten during the load. */
   my_snprintf(buf, sizeof(buf), "/set topology %d",
 	      (TF_WRAPX
-	       | ((tileset_is_isometric()
-		   && tileset_hex_height() == 0) ? TF_ISO : 0)
-	       | ((tileset_hex_width() != 0
-		   || tileset_hex_height() != 0) ? TF_HEX : 0)));
+	       | ((tileset_is_isometric(tileset)
+		   && tileset_hex_height(tileset) == 0) ? TF_ISO : 0)
+	       | ((tileset_hex_width(tileset) != 0
+		   || tileset_hex_height(tileset) != 0) ? TF_HEX : 0)));
   send_chat(buf);
 
   return TRUE;

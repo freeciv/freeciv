@@ -321,7 +321,7 @@ static void init_citydlg_dimensions(void)
   canvas_width = get_citydlg_canvas_width();
   canvas_height = get_citydlg_canvas_height();
 
-  if (tileset_is_isometric()) {
+  if (tileset_is_isometric(tileset)) {
     MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT));
   } else {
     MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT + 6));
@@ -701,7 +701,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 		    hbox);
 
   for (i = 0; i < MINI_NUM_UNITS; i++) {
-    int unit_height = (tileset_is_isometric()) ?
+    int unit_height = (tileset_is_isometric(tileset)) ?
 	UNIT_TILE_HEIGHT : UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT / 2;
 
     pdialog->overview.supported_unit_boxes[i] = gtk_event_box_new();
@@ -926,7 +926,7 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  if (tileset_is_isometric())
+  if (tileset_is_isometric(tileset))
     MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT));
   else
     MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT + 6));
