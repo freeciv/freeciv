@@ -201,7 +201,9 @@ bool unleash_barbarians(struct tile *ptile)
   struct tile *utile = NULL;
   bool alive = TRUE;     /* explorer survived */
 
-  if (game.barbarianrate == 0 || (game.year < game.onsetbarbarian)) {
+  if (game.barbarianrate == 0
+      || game.year < game.onsetbarbarian
+      || num_role_units(L_BARBARIAN) != 0) {
     unit_list_iterate_safe((ptile)->units, punit) {
       wipe_unit(punit);
     } unit_list_iterate_safe_end;

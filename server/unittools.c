@@ -2382,7 +2382,11 @@ static bool unit_enter_hut(struct unit *punit)
     hut_get_tech(punit);
     break;
   case 8: case 9:
-    hut_get_mercenaries(punit);
+    if (num_role_units(L_HUT) != 0) {
+      hut_get_mercenaries(punit);
+    } else {
+      hut_get_gold(punit, 25);
+    }
     break;
   case 10:
     ok = hut_get_barbarians(punit);
