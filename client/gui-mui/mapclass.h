@@ -41,6 +41,7 @@ struct Map_Click
 #define MUIM_Map_ShowCityNames    (0x7878790)
 #define MUIM_Map_PutCityWorkers	(0x7878791)
 #define MUIM_Map_PutCrossTile		(0x7878792)
+#define MUIM_Map_ExplodeUnit      (0x7878793)
 
 struct MUIP_Map_Refresh {ULONG MethodID; LONG tilex; LONG tiley; LONG width; LONG height; LONG write_to_screen;};
 struct MUIP_Map_MoveUnit {ULONG MethodID; struct unit *punit; LONG x0; LONG y0; LONG dx; LONG dy;LONG dest_x;LONG dest_y;};
@@ -48,6 +49,7 @@ struct MUIP_Map_DrawMushroom {ULONG MethodID; LONG abs_x0; LONG abs_y0;};
 struct MUIP_Map_ShowCityNames {ULONG MethodID;};
 struct MUIP_Map_PutCityWorkers {ULONG MethodID; struct city *pcity; LONG color;};
 struct MUIP_Map_PutCrossTile {ULONG MethodID; LONG abs_x0; LONG abs_y0;};
+struct MUIP_Map_ExplodeUnit {ULONG MethodID; struct unit *punit;};
 
 #define MUIA_CityMap_City				(TAG_USER+0x1234700) /* N... struct city * */
 #define MUIA_CityMap_Click				(TAG_USER+0x1234701) /* ...N struct Map_Click * */

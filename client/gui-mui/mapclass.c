@@ -30,6 +30,7 @@
 #include "map.h"
 #include "game.h"
 #include "spaceship.h"
+#include "timing.h"
 
 #include "civclient.h"
 #include "climisc.h"
@@ -833,6 +834,7 @@ struct Map_Data
   struct unit *punit;		/* Drawing (2) */
   LONG old_horiz_first;		/* Drawing (3) */
   LONG old_vert_first;		/* Drawing (3) */
+  struct unit *explode_unit; /* Drawing (5) */
 };
 
 struct NewPosData
@@ -1288,6 +1290,56 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
     BOOL drawmap = FALSE;
     if (msg->flags & MADF_DRAWUPDATE)
     {
+      if (data->update == 5)
+      {
+      	/* Explode Unit */
+	static struct timer *anim_timer = NULL; 
+	int i;
+
+	int map_view_x0 = data->horiz_first;
+	int map_view_y0 = data->vert_first;
+
+	int xpix = (data->explode_unit->x - map_view_x0)*get_normal_tile_width();
+	int ypix = (data->explode_unit->y - map_view_y0)*get_normal_tile_height();
+	int ox=0,oy=0;
+	int width = get_normal_tile_width();
+	int height = get_normal_tile_height();
+
+	if (xpix < 0)
+	{
+	  ox = -xpix;
+	  width += xpix;
+	  xpix = 0;
+	}
+
+	if (ypix < 0)
+	{
+	  oy = -ypix;
+	  height += ypix;
+	  ypix = 0;
+	}
+
+
+	if (width > 0 && height > 0)
+	{
+	  for (i = 0; i < num_tiles_explode_unit; i++)
+	  {
+	    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+            put_tile( data->unit_layer->rp, 0, 0, 0, 0, data->explode_unit->x, data->explode_unit->y, 0);
+            put_unit_tile( data->unit_layer->rp, data->explode_unit, 0, 0);
+            put_sprite_overlay( data->unit_layer->rp, sprites.explode.unit[i],0,0);
+
+	    BltBitMapRastPort( data->unit_bitmap,0,0,
+	  	_rp(o),_mleft(o)+xpix,_mtop(o)+ypix, width, height,0xc0);
+
+	    usleep_since_timer_start(anim_timer, 20000);
+	  }
+	}
+
+      	return NULL;
+      }
+
       if (data->update == 2)
       {
 /*	Move the Unit Smoothly (from mapview.c) */
@@ -1948,6 +2000,15 @@ STATIC ULONG Map_PutCrossTile(struct IClass * cl, Object * o, struct MUIP_Map_Pu
   return NULL;
 }
 
+STATIC ULONG Map_ExplodeUnit(struct IClass * cl, Object * o, struct MUIP_Map_ExplodeUnit * msg)
+{
+  struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
+  data->update = 5;
+  data->explode_unit = msg->punit;
+  MUI_Redraw(o, MADF_DRAWUPDATE);
+  return 0;
+}
+
 STATIC __asm __saveds ULONG Map_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
 {
   switch (msg->MethodID)
@@ -1989,6 +2050,8 @@ STATIC __asm __saveds ULONG Map_Dispatcher(register __a0 struct IClass * cl, reg
     return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
   case MUIM_Map_PutCrossTile:
     return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);
+  case MUIM_Map_ExplodeUnit:
+    return Map_ExplodeUnit(cl, obj, (struct MUIP_Map_ExplodeUnit *) msg);
   }
 
   return (DoSuperMethodA(cl, obj, msg));
