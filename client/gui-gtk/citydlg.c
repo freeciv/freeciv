@@ -2292,9 +2292,10 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
      the player doesn't even yet have the Map Making tech).  */
 
   for (k = 0; k < MAX_LEN_WORKLIST; k++) {
+    int same_as_current_build;
     if (! worklist_peek_ith(pwl, &id, &is_unit, k))
       break;
-    int same_as_current_build = id == pdialog->pcity->currently_building
+    same_as_current_build = id == pdialog->pcity->currently_building
       && is_unit == pdialog->pcity->is_building_unit;
 
     /* Very special case: If we are currently building a wonder we
