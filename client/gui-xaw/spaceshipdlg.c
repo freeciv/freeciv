@@ -56,6 +56,7 @@
 #include "mapview.h"
 #include "repodlgs.h"
 #include "tilespec.h"
+#include "climisc.h"
 
 #include "spaceshipdlg.h"
 
