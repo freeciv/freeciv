@@ -427,7 +427,7 @@ static void decrement_pending_seen(struct player *pplayer, int x, int y)
 {
   struct player_tile *plr_tile = map_get_player_tile(x, y, pplayer);
   assert(plr_tile->pending_seen != 0);
-  map_get_player_tile(x, y, pplayer)->pending_seen -= 1;
+  plr_tile->pending_seen -= 1;
 }
 
 /**************************************************************************

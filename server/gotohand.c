@@ -456,6 +456,7 @@ static int straightest_direction(int src_x, int src_y, int dest_x, int dest_y)
     best_dir = (diff_y > 0) ? DIR8_SOUTHWEST : DIR8_NORTHWEST;
   } else {
     assert(0);
+    best_dir = 0;
   }
 
   return (best_dir);

@@ -356,9 +356,11 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
   
   for(i=0; i<h->num_buckets; i++) {
     struct hash_bucket *bucket = &h->buckets[i];
+
     if (bucket->used == BUCKET_USED) {
-      int ret = hash_insert(h_new, bucket->key, bucket->data);
-      assert(ret);
+      if (!hash_insert(h_new, bucket->key, bucket->data)) {
+	assert(0);
+      }
     }
   }
   h_new->frozen = 0;
