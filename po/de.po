@@ -5562,7 +5562,7 @@ msgstr "Vermindert den Effekt einer Kathedrale.\n"
 
 #: client/helpdata.c:746
 msgid "Improves the effect of Colosseums.\n"
-msgstr "Vergrößert den Effekt von Kolloseen.\n"
+msgstr "Vergrößert den Effekt von Koloseen.\n"
 
 #: client/helpdata.c:748
 msgid "Improves the effect of Temples.\n"
@@ -11665,7 +11665,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:272
 #: data/default/buildings.ruleset:460
 msgid "Colosseum"
-msgstr "Kollosseum"
+msgstr "Kolosseum"
 
 #: data/default/buildings.ruleset:478
 msgid ""
@@ -13680,7 +13680,7 @@ msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
-"Spiel: Die größten Wissenschaftler aus aller Welt haben sich Ihrer Nation "
+"Die größten Philosophen aus aller Welt haben sich Ihrer Nation "
 "angeschlossen:\n"
 "       Ein direkter Fortschritt ist die Folge."
 
