@@ -49,7 +49,7 @@ struct logdebug_afile_info logdebug_update(const char *file);
  * via fputs(stderr).  Eg, to the server console while handling prompts,
  * rfcstyle, client notifications; Eg, to the client window output window?
  */
-typedef void (*log_callback_fn)(int, char*);
+typedef void (*log_callback_fn)(int, const char*);
 
 int log_parse_level_str(const char *level_str);
 void log_init(const char *filename, int initial_level,

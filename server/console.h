@@ -36,19 +36,19 @@
 #define C_READY 999		/* waiting for input */
 
 /* initialize logging via console */
-void con_log_init(char *log_filename, int log_level);
+void con_log_init(const char *log_filename, int log_level);
 
 /* write to console without line-break, don't print prompt */
-int con_dump(int i, char *message, ...)
+int con_dump(int i, const char *message, ...)
      fc__attribute((format (printf, 2, 3)));
 
 /* write to console and add line-break, and show prompt if required. */
-void con_write(int i, char *message, ...)
+void con_write(int i, const char *message, ...)
      fc__attribute((format (printf, 2, 3)));
 
 /* write to console and add line-break, and show prompt if required.
    ie, same as con_write, but without the format string stuff. */
-void con_puts(int i, char *str);
+void con_puts(int i, const char *str);
      
 /* ensure timely update */
 void con_flush(void);
@@ -75,7 +75,7 @@ void con_set_style(bool i);
 bool con_get_style(void);
 
 /* for rfc-specific information only */
-void con_rfconly(int i, char *message, ...)
+void con_rfconly(int i, const char *message, ...)
      fc__attribute((format (printf, 2, 3)));
 
 #endif  /* FC__CONSOLE_H */

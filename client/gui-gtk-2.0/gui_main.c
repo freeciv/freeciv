@@ -248,7 +248,7 @@ static void fprintf_utf8(FILE *stream, const char *format, ...)
 /**************************************************************************
 ...
 **************************************************************************/
-static void log_callback_utf8(int level, char *message)
+static void log_callback_utf8(int level, const char *message)
 {
   fprintf_utf8(stderr, "%d: %s\n", level, message);
 }

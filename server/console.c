@@ -41,7 +41,7 @@ static int readline_received_enter = 1;
 Function to handle log messages.
 This must match the log_callback_fn typedef signature.
 ************************************************************************/
-static void con_handle_log(int level, char *message)
+static void con_handle_log(int level, const char *message)
 {
   if(console_rfcstyle) {
     con_write(C_LOG_BASE+level, "%s", message);
@@ -75,7 +75,7 @@ static void con_update_prompt(void)
 /************************************************************************
 Initialize logging via console.
 ************************************************************************/
-void con_log_init(char *log_filename, int log_level)
+void con_log_init(const char *log_filename, int log_level)
 {
   log_init(log_filename, log_level, (log_filename ? NULL : con_handle_log));
   logdebug_suppress_warning;
@@ -84,7 +84,7 @@ void con_log_init(char *log_filename, int log_level)
 /************************************************************************
 Write to console without line-break, don't print prompt.
 ************************************************************************/
-int con_dump(int i, char *message, ...)
+int con_dump(int i, const char *message, ...)
 {
   static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
@@ -108,7 +108,7 @@ int con_dump(int i, char *message, ...)
 /************************************************************************
 Write to console and add line-break, and show prompt if required.
 ************************************************************************/
-void con_write(int i, char *message, ...)
+void con_write(int i, const char *message, ...)
 {
   static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
@@ -127,7 +127,7 @@ The real reason for this is because __attribute__ complained
 with con_write(C_COMMENT,"") of "warning: zero-length format string";
 this allows con_puts(C_COMMENT,"");
 ************************************************************************/
-void con_puts(int i, char *str)
+void con_puts(int i, const char *str)
 {
   if(console_prompt_is_showing) {
     printf("\n");
@@ -145,7 +145,7 @@ void con_puts(int i, char *str)
 For rfc-specific information only.
 Adds line-break, and shows prompt if required.
 ************************************************************************/
-void con_rfconly(int i, char *message, ...)
+void con_rfconly(int i, const char *message, ...)
 {
   static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
