@@ -3116,6 +3116,7 @@ static void send_ruleset_game(struct conn_list *dest)
   struct packet_ruleset_game misc_p;
 
   for (i = 0; i < SP_COUNT; i++) {
+    sz_strlcpy(misc_p.specialist_name[i], game.rgame.specialists[i].name);
     misc_p.specialist_min_size[i] = game.rgame.specialists[i].min_size;
     misc_p.specialist_bonus[i] = game.rgame.specialists[i].bonus;
   }
