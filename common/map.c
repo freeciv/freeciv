@@ -1785,17 +1785,13 @@ int get_direction_for_step(int start_x, int start_y, int end_x, int end_y)
 }
 
 /**************************************************************************
-Returns 1 if the move from the position (start_x,start_y) to
-(end_x,end_y) is a cardinal move. Else returns 0.
+  Returns TRUE iff the move from the position (start_x,start_y) to
+  (end_x,end_y) is a cardinal one.
 **************************************************************************/
 bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 {
-  int diff_x, diff_y;
-
-  assert(is_tiles_adjacent(start_x, start_y, end_x, end_y));
-
-  map_distance_vector(&diff_x, &diff_y, start_x, start_y, end_x, end_y);
-  return (diff_x == 0) || (diff_y == 0);
+  return DIR_IS_CARDINAL(get_direction_for_step(start_x, start_y,
+						end_x, end_y));
 }
 
 /****************************************************************************
