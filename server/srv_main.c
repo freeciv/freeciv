@@ -73,6 +73,7 @@
 #include "maphand.h"
 #include "meta.h"
 #include "plrhand.h"
+#include "report.h"
 #include "ruleset.h"
 #include "sernet.h"
 #include "settlers.h"
@@ -484,7 +485,7 @@ main_start_players:
       server_state=GAME_OVER_STATE;
   }
 
-  show_ending();
+  report_scores(1);
   show_map_to_all();
   notify_player(0, _("Game: The game is over..."));
 

@@ -44,6 +44,7 @@
 #include "mapgen.h"
 #include "meta.h"
 #include "plrhand.h"
+#include "report.h"
 #include "rulesout.h"
 #include "sernet.h"
 #include "srv_main.h"
@@ -2561,7 +2562,7 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_SCORE:
     if(server_state==RUN_GAME_STATE) {
-      show_ending();
+      report_scores(0);
     } else {
       cmd_reply(cmd, caller, C_SYNTAX,
 		_("The game must be running before you can see the score."));

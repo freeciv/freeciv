@@ -26,6 +26,7 @@ server/mapgen.c
 server/maphand.c
 server/meta.c
 server/plrhand.c
+server/report.c
 server/ruleset.c
 server/rulesout.c
 server/spacerace.c

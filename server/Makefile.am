@@ -41,6 +41,8 @@ libcivserver_a_SOURCES = \
 		meta.h		\
 		plrhand.c	\
 		plrhand.h	\
+		report.c	\
+		report.h	\
 		ruleset.c	\
 		ruleset.h	\
 		rulesout.c	\
