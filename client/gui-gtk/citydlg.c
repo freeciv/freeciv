@@ -626,7 +626,7 @@ static void present_units_ok_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void activate_unit(struct unit *punit)
+static void activate_unit(struct unit *punit)
 {
   if((punit->activity!=ACTIVITY_IDLE || punit->ai.control)
      && can_unit_do_activity(punit, ACTIVITY_IDLE))

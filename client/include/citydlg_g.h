@@ -16,7 +16,6 @@
 struct unit;
 struct city;
 
-void activate_unit(struct unit *punit);
 void popup_city_dialog(struct city *pcity, int make_modal);
 void popdown_city_dialog(struct city *pcity);
 void popdown_all_city_dialogs(void);

@@ -2124,29 +2124,36 @@ Now.. Go give'em hell!",
 "Freeciv*cityleftform.background:                  White",
 "Freeciv*cityrightform.borderWidth:                0",
 "Freeciv*cityrightform.background:                 White",
-"Freeciv*cityimprovview.allowVert: True",
-"Freeciv*citysellcommand.label: Sell",
-"Freeciv*cityclosecommand.label: Close",
-"Freeciv*cityrenamecommand.label: Rename",
-"Freeciv*citytradecommand.label: Trade",
-"Freeciv*cityactivatecommand.label: Activate Units",
-"Freeciv*cityshowunitscommand.label: Unit List",
-"Freeciv*cityoptionscommand.label: City Options",
+"Freeciv*cityimprovview.allowVert:		True",
+"Freeciv*citysellcommand.label:			\\ Sell\\ ",
+"Freeciv*cityclosecommand.label:			Close",
+"Freeciv*cityclosecommand.translations:		#override \\n\
+  <Key>Return:	city-dialog-returnkey() \\n\
+  <Key>Escape:	city-dialog-returnkey()",
+"Freeciv*cityrenamecommand.label:		Rename",
+"Freeciv*citytradecommand.label:			Trade",
+"Freeciv*cityactivatecommand.label:		Activate Units",
+"Freeciv*cityshowunitscommand.label:		Unit List",
+"Freeciv*cityoptionscommand.label:		City Options",
 "Freeciv*cityprodlabel.label: \
-Food:    12 (-2)\\n\
-Prod:     2 (+2)\\n\
-Trade:   25 (-10)",
+Food:  888 (-888)\\n\
+Prod:  888 (+888)\\n\
+Trade: 888 (-888)",
 "Freeciv*cityoutputlabel.label: \
-Gold:    20 (+12)\\n\
-Luxury:   2\\n\
-Science: 25",
-"Freeciv*citystoragelabel.label: Granary:    15/54",
-"Freeciv*citypollutionlabel.label: Pollution:    111",
-"Freeciv*citybuildinglabel.label: Copernicus' Observatory\\ \\ ",
-"Freeciv*cityprogresslabel.label: 199/200",
-"Freeciv*citybuycommand.label: Buy",
-"Freeciv*citychangecommand.label: Change",
-"Freeciv*supportunitlabel.label: Supported units:",
+Gold:  888 (+888)\\n\
+Lux:   888\\n\
+Sci:   888",
+"Freeciv*citystoragelabel.label: \
+Granary: *888/888",
+"Freeciv*citypollutionlabel.label: \
+Pollution:    888",
+"Freeciv*citybuildinglabel.label: \
+XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"Freeciv*cityprogresslabel.label: \
+8888/8888",
+"Freeciv*citybuycommand.label:			\\ Buy\\ ",
+"Freeciv*citychangecommand.label:		\\ Change\\ ",
+"Freeciv*supportunitlabel.label:			Supported units:",
 "Freeciv*supportunitlabel.internalWidth:               0",
 "Freeciv*supportunitlabel.borderWidth:                 0",
 "Freeciv*supportunitlabel.background:              white",
@@ -2154,10 +2161,16 @@ Science: 25",
 "Freeciv*supportunitcanvas.borderWidth:                0",
 "Freeciv*supportunitcanvas.internalWidth:              0",
 "Freeciv*supportunitcanvas.internalHeight:             0",
-"Freeciv*supportunitcanvas.translations:  #override\\n\
-  <Btn2Down>:  set() \\n\
-  <Btn2Up>:    notify() unset()",
-"Freeciv*presentunitlabel.label: Units present:",
+"Freeciv*supportunitcanvas.translations:		#override \\n\
+  <Btn2Down>:	set() \\n\
+  <Btn2Up>:	notify() unset()",
+"Freeciv*supportunitnextcommand.label:		>",
+"Freeciv*supportunitnextcommand.foreground:	white",
+"Freeciv*supportunitnextcommand.background:	blue",
+"Freeciv*supportunitprevcommand.label:		<",
+"Freeciv*supportunitprevcommand.foreground:	white",
+"Freeciv*supportunitprevcommand.background:	blue",
+"Freeciv*presentunitlabel.label:			Units present:",
 "Freeciv*presentunitlabel.internalWidth:               0",
 "Freeciv*presentunitlabel.borderWidth:                 0",
 "Freeciv*presentunitlabel.background:              white",
@@ -2165,11 +2178,17 @@ Science: 25",
 "Freeciv*presentunitcanvas.borderWidth:              0",
 "Freeciv*presentunitcanvas.internalWidth:            0",
 "Freeciv*presentunitcanvas.internalHeight:           0",
-"Freeciv*presentunitcanvas.translations:  #override\\n\
-  <Btn2Down>:  set() \\n\
-  <Btn2Up>:    notify() unset()",
-"Freeciv*citymapcanvas.translations:\
-<BtnDown>: select-citymap()",
+"Freeciv*presentunitcanvas.translations:		#override \\n\
+  <Btn2Down>:	set() \\n\
+  <Btn2Up>:	notify() unset()",
+"Freeciv*presentunitnextcommand.label:		>",
+"Freeciv*presentunitnextcommand.foreground:	white",
+"Freeciv*presentunitnextcommand.background:	blue",
+"Freeciv*presentunitprevcommand.label:		<",
+"Freeciv*presentunitprevcommand.foreground:	white",
+"Freeciv*presentunitprevcommand.background:	blue",
+"Freeciv*citymapcanvas.translations: \
+  <BtnDown>:	select-citymap()",
 "Freeciv*racespopup.title:              What Nation Will You Be?",
 "Freeciv*raceslabel.label:              Select nation and name",
 "Freeciv*raceslabel.borderWidth:        0",
