@@ -803,8 +803,8 @@ enum command_id {
   /* mostly non-harmful: */
   CMD_SET,
   CMD_RENAME,
-  CMD_META,
   CMD_METAINFO,
+  CMD_METACONN,
   CMD_METASERVER,
   CMD_AITOGGLE,
   CMD_CREATE,
@@ -920,19 +920,19 @@ static struct command commands[] = {
    NULL,
    N_("This command is not currently implemented."),
   },
-  {"meta",	ALLOW_HACK,
-   "meta u|up\n"
-   "meta d|down\n"
-   "meta ?",
-   N_("Control metaserver connection."),
-   N_("'meta ?' reports on the status of the connection to metaserver..\n"
-      "'meta d' or 'meta down' brings the metaserver connection down.\n"
-      "'meta u' or 'meta up' brings the metaserver connection up.")
-  },
   {"metainfo",	ALLOW_CTRL,
    /* translate <> only */
    N_("metainfo <meta-line>"),
    N_("Set metaserver info line.")
+  },
+  {"metaconnection",	ALLOW_HACK,
+   "metaconnection u|up\n"
+   "metaconnection d|down\n"
+   "metaconnection ?",
+   N_("Control metaserver connection."),
+   N_("'metaconnection ?' reports on the status of the connection to metaserver.\n"
+      "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
+      "'metaconnection up' or 'metac u' brings the metaserver connection up.")
   },
   {"metaserver",ALLOW_HACK,
    /* translate <> only */
@@ -1320,7 +1320,7 @@ static void open_metaserver_connection(struct connection *caller)
   if (send_server_info_to_metaserver(1,0)) {
     notify_player(0, _("Open metaserver connection to [%s]."),
 		  meta_addr_port());
-    cmd_reply(CMD_META, caller, C_OK,
+    cmd_reply(CMD_METACONN, caller, C_OK,
 	      _("Metaserver connection opened."));
   }
 }
@@ -1334,7 +1334,7 @@ static void close_metaserver_connection(struct connection *caller)
     server_close_udp();
     notify_player(0, _("Close metaserver connection to [%s]."),
 		  meta_addr_port());
-    cmd_reply(CMD_META, caller, C_OK,
+    cmd_reply(CMD_METACONN, caller, C_OK,
 	      _("Metaserver connection closed."));
   }
 }
@@ -1342,15 +1342,15 @@ static void close_metaserver_connection(struct connection *caller)
 /**************************************************************************
 ...
 **************************************************************************/
-static void meta_command(struct connection *caller, char *arg)
+static void metaconnection_command(struct connection *caller, char *arg)
 {
   if ((*arg == '\0') ||
       (0 == strcmp (arg, "?"))) {
     if (server_is_open) {
-      cmd_reply(CMD_META, caller, C_OK,
+      cmd_reply(CMD_METACONN, caller, C_OK,
 		_("Metaserver connection is open."));
     } else {
-      cmd_reply(CMD_META, caller, C_OK,
+      cmd_reply(CMD_METACONN, caller, C_OK,
 		_("Metaserver connection is closed."));
     }
   } else if ((0 == mystrcasecmp(arg, "u")) ||
@@ -1358,7 +1358,7 @@ static void meta_command(struct connection *caller, char *arg)
     if (!server_is_open) {
       open_metaserver_connection(caller);
     } else {
-      cmd_reply(CMD_META, caller, C_METAERROR,
+      cmd_reply(CMD_METACONN, caller, C_METAERROR,
 		_("Metaserver connection is already open."));
     }
   } else if ((0 == mystrcasecmp(arg, "d")) ||
@@ -1366,11 +1366,11 @@ static void meta_command(struct connection *caller, char *arg)
     if (server_is_open) {
       close_metaserver_connection(caller);
     } else {
-      cmd_reply(CMD_META, caller, C_METAERROR,
+      cmd_reply(CMD_METACONN, caller, C_METAERROR,
 		_("Metaserver connection is already closed."));
     }
   } else {
-    cmd_reply(CMD_META, caller, C_METAERROR,
+    cmd_reply(CMD_METACONN, caller, C_METAERROR,
 	      _("Argument must be 'u', 'up', 'd', 'down', or '?'."));
   }
 }
@@ -1382,12 +1382,12 @@ static void metainfo_command(struct connection *caller, char *arg)
 {
   sz_strlcpy(srvarg.metaserver_info_line, arg);
   if (send_server_info_to_metaserver(1,0) == 0) {
-    cmd_reply(CMD_META, caller, C_METAERROR,
+    cmd_reply(CMD_METAINFO, caller, C_METAERROR,
 	      _("Not reporting to the metaserver."));
   } else {
     notify_player(0, _("Metaserver infostring set to '%s'."),
 		  srvarg.metaserver_info_line);
-    cmd_reply(CMD_META, caller, C_OK,
+    cmd_reply(CMD_METAINFO, caller, C_OK,
 	      _("Metaserver info string set."));
   }
 }
@@ -1404,7 +1404,7 @@ static void metaserver_command(struct connection *caller, char *arg)
 
   notify_player(0, _("Metaserver is now [%s]."),
 		meta_addr_port());
-  cmd_reply(CMD_META, caller, C_OK,
+  cmd_reply(CMD_METASERVER, caller, C_OK,
 	    _("Metaserver address set."));
 }
 
@@ -2510,11 +2510,11 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_SAVE:
     save_command(caller,arg);
     break;
-  case CMD_META:
-    meta_command(caller,arg);
-    break;
   case CMD_METAINFO:
     metainfo_command(caller,arg);
+    break;
+  case CMD_METACONN:
+    metaconnection_command(caller,arg);
     break;
   case CMD_METASERVER:
     metaserver_command(caller,arg);
@@ -2916,10 +2916,10 @@ static void show_help(struct connection *caller, char *arg)
 	_("help            - this help text"));
   cmd_reply_help(CMD_LIST,
 	_("list            - list players"));
-  cmd_reply_help(CMD_META,
-	_("meta u|d|?      - metaserver connection control: up, down, report"));
   cmd_reply_help(CMD_METAINFO,
 	_("metainfo M      - set metaserver infoline to M"));
+  cmd_reply_help(CMD_METACONN,
+	_("metaconn u|d|?  - metaserver connection control: up, down, report"));
   cmd_reply_help(CMD_METASERVER,
 	_("metaserver A    - game reported to metaserver at address A"));
   cmd_reply_help(CMD_NORMAL,
