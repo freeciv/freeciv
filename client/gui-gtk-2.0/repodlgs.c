@@ -590,8 +590,6 @@ void create_economy_report_dialog(bool make_modal)
   economy_dialog_shell = gtk_dialog_new_with_buttons(_("Economy"),
   	NULL,
 	0,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(economy_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
@@ -658,6 +656,9 @@ void create_economy_report_dialog(bool make_modal)
   gtk_dialog_add_action_widget(GTK_DIALOG(economy_dialog_shell),
 			       sellall_command, 2);
   gtk_widget_set_sensitive(sellall_command, FALSE);
+
+  gtk_dialog_add_button(GTK_DIALOG(economy_dialog_shell),
+			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
   g_signal_connect(economy_dialog_shell, "response",
 		   G_CALLBACK(economy_command_callback), NULL);
@@ -882,8 +883,6 @@ void create_activeunits_report_dialog(bool make_modal)
   activeunits_dialog_shell = gtk_dialog_new_with_buttons(_("Units"),
   	NULL,
 	0,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(activeunits_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
@@ -954,6 +953,9 @@ void create_activeunits_report_dialog(bool make_modal)
   refresh_command = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
   gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
 			       refresh_command, 2);
+
+  gtk_dialog_add_button(GTK_DIALOG(activeunits_dialog_shell),
+			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
   g_signal_connect(activeunits_dialog_shell, "response",
 		   G_CALLBACK(activeunits_command_callback), NULL);

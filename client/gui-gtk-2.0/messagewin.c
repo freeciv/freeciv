@@ -162,8 +162,6 @@ static void create_meswin_dialog(void)
   meswin_shell = gtk_dialog_new_with_buttons(_("Messages"),
   	NULL,
 	0,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(meswin_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
@@ -182,6 +180,9 @@ static void create_meswin_dialog(void)
   gtk_dialog_add_action_widget(GTK_DIALOG(meswin_shell), cmd, CMD_POPCITY);
 
   g_signal_connect(cmd, "clicked", G_CALLBACK(meswin_popcity_callback), NULL);
+
+  gtk_dialog_add_button(GTK_DIALOG(meswin_shell),
+			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
   meswin_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_BOOLEAN);
 

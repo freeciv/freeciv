@@ -642,8 +642,6 @@ static void create_city_report_dialog(bool make_modal)
   city_dialog_shell = gtk_dialog_new_with_buttons(_("Cities"),
   	NULL,
 	0,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
 	NULL);
   gtk_window_set_type_hint(GTK_WINDOW(city_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
@@ -689,6 +687,9 @@ static void create_city_report_dialog(bool make_modal)
   gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
 	w, FALSE, TRUE, 0);
   g_signal_connect(w, "clicked", G_CALLBACK(city_refresh_callback), NULL);
+
+  gtk_dialog_add_button(GTK_DIALOG(city_dialog_shell),
+			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
   /* tree view */
   for (i=0; i<NUM_CREPORT_COLS; i++)
