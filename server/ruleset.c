@@ -1038,6 +1038,7 @@ void load_rulesets(void)
   load_ruleset_units(game.ruleset.units);
   load_ruleset_buildings(game.ruleset.buildings);
   load_ruleset_terrain(game.ruleset.terrain);
+  init_race_goals();
 }
 
 /**************************************************************************

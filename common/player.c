@@ -16,6 +16,7 @@
 
 #include "city.h"
 #include "game.h"
+#include "log.h"
 #include "map.h"
 #include "shared.h"
 #include "tech.h"
@@ -25,90 +26,108 @@
 
 extern int is_server;
 
-struct player_race races[]= { /* additional goals added by Syela */
+/* Additional goals added by Syela 
+ * Note not all of the preferences etc in the following are
+ * actually used currently. -- dwp
+ */
+struct player_race races[]= { 
   {"Roman", "Romans",           1, 2, 2,
      {100,100,100,100,100,100,100},
-   { {A_REPUBLIC, A_WHEEL, A_IRON, A_CONSTRUCTION, A_RAILROAD, 
-      A_NONE, A_NONE, A_NONE, A_NONE, A_NONE},           
-    B_LEONARDO  , G_DEMOCRACY} /* wonder not actually checked in choose_build */
+   { {"The Republic", "The Wheel", "Iron Working", "Construction", "Railroad",
+      "", "", "", "", ""},
+     "Leonardo's Workshop",   /* wonder not actually checked in choose_build */
+     "Democracy"}
   },
   {"Babylonian", "Babylonians", 0, 0, 2,
      {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_PHILOSOPHY, A_MATHEMATICS, A_CHIVALRY, A_THEOLOGY,
-      A_NONE, A_NONE, A_NONE, A_NONE, A_NONE},          
-     B_HANGING   , G_MONARCHY}
+   { {"Monarchy", "Philosophy", "Mathematics", "Chivalry", "Theology",
+      "Religion" /*civ1*/, "", "", "", ""},
+     "Hanging Gardens",
+     "Monarchy"}
   },
   {"German", "Germans",         2, 0, 2,        
    {100,100,100,100,100,100,100},
-   { {A_REPUBLIC, A_IRON, A_GUNPOWDER, A_EXPLOSIVES, A_FLIGHT,
-      A_NONE, A_NONE, A_NONE, A_NONE, A_NONE},            
-     B_BACH      , G_REPUBLIC}
+   { {"The Republic", "Iron Working", "Gunpowder", "Explosives", "Flight",
+      "", "", "", "", ""},
+     "J.S. Bach's Cathedral",
+     "Republic"}
   },
   {"Egyptian", "Egyptians",     1, 1, 2,    
    {100,100,100,100,100,100,100}, /* different order for experiment and flavor */
-   { {A_MONARCHY, A_PHILOSOPHY, A_NAVIGATION, A_IRON, A_RAILROAD,
-      A_NONE, A_NONE, A_NONE, A_NONE, A_NONE}, 
-     B_PYRAMIDS  , G_MONARCHY}
+   { {"Monarchy", "Philosophy", "Navigation", "Iron Working", "Railroad",
+      "", "", "", "", ""},
+     "Pyramids"  ,
+     "Monarchy"}
   },
   {"American", "Americans",     0, 1, 2,    
    {100,100,100,100,100,100,100},
-   { {A_REPUBLIC, A_TRADE, A_ENGINEERING, A_DEMOCRACY, A_RAILROAD,
-        A_EXPLOSIVES, A_AUTOMOBILE, A_NONE, A_NONE, A_NONE},
-     B_LIBERTY   , G_DEMOCRACY}
+   { {"The Republic", "Trade", "Engineering", "Democracy", "Railroad",
+      "Explosives", "Automobile", "", "", ""},
+     "Statue of Liberty",
+     "Democracy"}
   },
   {"Greek", "Greeks",           1, 2, 0,          
    {100,100,100,100,100,100,100},
-   { {A_REPUBLIC, A_PHILOSOPHY, A_TRADE, A_ENGINEERING, A_IRON,
-      A_RAILROAD, A_NONE, A_NONE, A_NONE, A_NONE},
-     B_LIGHTHOUSE, G_REPUBLIC}
+   { {"The Republic", "Philosophy", "Trade", "Engineering", "Iron Working",
+      "Railroad", "", "", "", ""},
+     "Lighthouse",
+     "Republic"}
   },
   {"Indian", "Indians",         0, 0, 1,        
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_PHILOSOPHY, A_REPUBLIC, A_IRON, A_ENGINEERING,
-      A_RAILROAD, A_NONE, A_NONE, A_NONE, A_NONE},
-     B_ORACLE    , G_REPUBLIC}
+   { {"Monarchy", "Philosophy", "The Republic", "Iron Working", "Engineering",
+      "Railroad", "", "", "", ""},
+     "Oracle",
+     "Republic"}
   },
   {"Russian", "Russians",       2, 1, 0,      
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_PHILOSOPHY, A_CHIVALRY, A_TRADE, A_BRIDGE,
-      A_RAILROAD, A_COMMUNISM, A_NONE, A_NONE, A_NONE},
-     B_WOMENS    , G_COMMUNISM}
+   { {"Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
+      "Railroad", "Communism", "", "", ""},
+     "Women's Suffrage",
+     "Communism"}
   },
   {"Zulu", "Zulus",             2, 1, 1,            
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_PHILOSOPHY, A_CHIVALRY, A_TRADE, A_BRIDGE,
-      A_RAILROAD, A_COMMUNISM, A_NONE, A_NONE, A_NONE},
-     B_APOLLO    , G_COMMUNISM}
+   { {"Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
+      "Railroad", "Communism", "", "", ""},
+     "Apollo Program",
+     "Communism"}
   },
   {"French", "French",          2, 2, 2,         
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_CHIVALRY, A_PHILOSOPHY, A_REPUBLIC, A_MONOTHEISM,
-      A_ENGINEERING, A_NAVIGATION, A_RAILROAD, A_NONE, A_NONE},
-     B_MAGELLAN  , G_REPUBLIC}
+   { {"Monarchy", "Chivalry", "Philosophy", "The Republic", "Monotheism",
+      "Religion" /*civ1*/, "Engineering", "Navigation", "Railroad", ""},
+     "Magellan's Expedition",
+     "Republic"}
   },
   {"Aztec", "Aztecs",           1, 0, 2,          
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_CHIVALRY, A_IRON, A_TRADE, A_NAVIGATION,
-      A_RAILROAD, A_COMMUNISM, A_NONE, A_NONE, A_NONE}, 
-     B_HOOVER    , G_COMMUNISM}
+   { {"Monarchy", "Chivalry", "Iron Working", "Trade", "Navigation",
+      "Railroad", "Communism", "", "", ""},
+     "Hoover Dam",
+     "Communism"}
   },
   {"Chinese", "Chinese",        1, 1, 2,     
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_TRADE, A_PHILOSOPHY, A_BRIDGE, A_RAILROAD, 
-      A_COMMUNISM, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
-     B_WALL      , G_COMMUNISM}
+   { {"Monarchy", "Trade", "Philosophy", "Bridge Building", "Railroad",
+      "Communism", "", "", "", ""},
+     "Great Wall",
+     "Communism"}
   },
   {"English", "English",        1, 2, 1,     
      {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_CHIVALRY, A_TRADE, A_THEOLOGY, A_NAVIGATION,
-      A_DEMOCRACY,A_RAILROAD, A_NONE, A_NONE, A_NONE}, 
-     B_RICHARDS  , G_DEMOCRACY}
+   { {"Monarchy", "Chivalry", "Trade", "Theology", "Religion" /*civ1*/,
+      "Navigation", "Democracy", "Railroad", "", ""},
+     "King Richard's Crusade",
+     "Democracy"}
   },
   {"Mongol", "Mongols",         2, 2, 0,      
    {100,100,100,100,100,100,100},
-   { {A_MONARCHY, A_CHIVALRY, A_TRADE, A_BRIDGE, A_RAILROAD,
-      A_NONE, A_NONE ,A_NONE ,A_NONE, A_NONE}, 
-     B_SUNTZU    , G_MONARCHY}
+   { {"Monarchy", "Chivalry", "Trade", "Bridge Building", "Railroad",
+      "", "", "", "", ""},
+     "Sun Tzu's War Academy",
+     "Monarchy"}
   }
 };
 
@@ -458,6 +477,91 @@ int ai_fuzzy(struct player *pplayer, int normal_decision)
   return !normal_decision;
 }
 
+/**************************************************************************
+  Convert government names to enum; case insensitive;
+  returns G_LAST if can't match.
+  Should be replaced when government ruleset goes in.
+**************************************************************************/
+static enum government_type government_from_str(const char *s)
+{
+  int i;
+
+  assert(sizeof(government_names)/sizeof(char*)==G_LAST);
+  
+  for(i=0; i<G_LAST; i++) {
+    if (mystrcasecmp(government_names[i], s)==0) {
+      return i;
+    }
+  }
+  return G_LAST;
+}
+
+/**************************************************************************
+  This converts the goal strings in races[] to integers.
+  This should only be done after rulesets are loaded!
+**************************************************************************/
+void init_race_goals(void)
+{
+  char *str, *name;
+  int val, i, j;
+  struct player_race *prace;
+
+  for(prace=races; prace<races+R_LAST; prace++) {
+    name = prace->name_plural;
+    str = prace->goals_str.government;
+    val = government_from_str(str);
+    if(val == G_LAST) {
+      freelog(LOG_NORMAL, "Didn't match goal government name \"%s\" for %s",
+	      str, name);
+      val = G_MONARCHY;		/* ?? */
+    }
+    freelog(LOG_DEBUG, "%s gov goal %d %s", name, val, str);
+    prace->goals.government = val;
+    
+    str = prace->goals_str.wonder;
+    val = find_improvement_by_name(str);
+    /* for any problems, leave as B_LAST */
+    if(val == B_LAST) {
+      freelog(LOG_VERBOSE, "Didn't match goal wonder \"%s\" for %s", str, name);
+    } else if(!improvement_exists(val)) {
+      freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s doesn't exist", str, name);
+      val = B_LAST;
+    } else if(!is_wonder(val)) {
+      freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s not a wonder", str, name);
+      val = B_LAST;
+    }
+    prace->goals.wonder = val;
+    freelog(LOG_DEBUG, "%s wonder goal %d %s", name, val, str);
+
+    /* i is index is goals_str, j is index (good values) in goals */
+    j = 0;			
+    for(i=0; i<MAX_NUM_TECH_GOALS; i++) {
+      str = prace->goals_str.tech[i];
+      if(str[0] == '\0')
+	continue;
+      val = find_tech_by_name(str);
+      if(val == A_LAST) {
+	freelog(LOG_VERBOSE, "Didn't match goal tech %d \"%s\" for %s",
+		i, str, name);
+      } else if(!tech_exists(val)) {
+	freelog(LOG_VERBOSE, "Goal tech %d \"%s\" for %s doesn't exist",
+		i, str, name);
+	val = A_LAST;
+      }
+      if(val != A_LAST && val != A_NONE) {
+	freelog(LOG_DEBUG, "%s tech goal (%d) %3d %s", name, j, val, str);
+	prace->goals.tech[j++] = val;
+      }
+    }
+    freelog(LOG_DEBUG, "%s %d tech goals", name, j);
+    if(j==0) {
+      freelog(LOG_VERBOSE, "No valid goal techs for %s", name);
+    }
+    while(j<MAX_NUM_TECH_GOALS) {
+      prace->goals.tech[j++] = A_NONE;
+    }
+  }
+}
 
 /**************************************************************************
 Command access levels for client-side use; at present, they are 

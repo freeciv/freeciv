@@ -91,7 +91,7 @@ static void ai_next_tech_goal_default(struct player *pplayer,
   int goal = 0;
   int tech;
   prace = get_race(pplayer);
-  for (i = 0 ; i < TECH_GOALS; i++) {
+  for (i = 0 ; i < MAX_NUM_TECH_GOALS; i++) {
     if (get_invention(pplayer, prace->goals.tech[i]) == TECH_KNOWN) 
       continue;
     dist = tech_goal_turns(pplayer, prace->goals.tech[i]);

@@ -23,7 +23,8 @@ struct tile;
 #define PLAYER_DEFAULT_TAX_RATE 50
 #define PLAYER_DEFAULT_SCIENCE_RATE 50
 #define PLAYER_DEFAULT_LUXURY_RATE 0
-#define TECH_GOALS 10
+#define MAX_NUM_TECH_GOALS 10
+
 enum government_type { 
   G_ANARCHY, G_DESPOTISM, G_MONARCHY, G_COMMUNISM, G_REPUBLIC, G_DEMOCRACY,
   G_LAST
@@ -64,10 +65,23 @@ struct player_race {
   int civilized; /* c 0 = don't use nukes,  2 = use nukes, lots of pollution */
 /* civilized was never implemented, but will be eventually. -- Syela */
   int advisors[ADV_LAST]; /* never implemented either. -- Syela */
-  struct { /* basically disabled -- Syela */
-    int tech[TECH_GOALS]; /* Tech goals */
-    int wonder;   /* primary Wonder (maybe primary opponent, if other builds it) */
-    int government; /* wanted government form */
+
+  /* Following basically disabled -- Syela */
+  /* Now start from strings to be ruleset-friendly --dwp */
+  struct {
+    char *tech[MAX_NUM_TECH_GOALS];	/* tech goals */
+    char *wonder;		/* primary Wonder (maybe primary opponent,
+				   if other builds it) */
+    char *government;		/* wanted government form */
+  } goals_str;
+  /* Following are conversions from above strings after rulesets loaded.
+   * Note these are implicit zeros in initialization table, so this must
+   * come at end of player_race struct. Also note the client doesn't
+   * use these (?) */
+  struct {
+    int tech[MAX_NUM_TECH_GOALS];
+    int wonder;
+    int government;
   } goals;
 };
 
@@ -195,6 +209,8 @@ struct city *find_palace(struct player *pplayer);
 
 int ai_handicap(struct player *pplayer, enum handicap_type htype);
 int ai_fuzzy(struct player *pplayer, int normal_decision);
+
+void init_race_goals(void);
 
 extern struct player_race races[];
 extern char *default_race_leader_names[];
