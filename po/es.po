@@ -1,5 +1,5 @@
-# Translatables strings for freeciv
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Spanish translations for Freeciv
+# Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 #
 #, fuzzy

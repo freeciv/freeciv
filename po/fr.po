@@ -1,24 +1,2342 @@
-# Translatables strings for freeciv
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# French translations for Freeciv
+# Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
+# Denis Bodor <dbodor@linuxmag-france.org>, 1999.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-07-20 01:17+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 1999-07-15 14:38+0200\n"
+"PO-Revision-Date: 1999-09-13 10:22+0200\n"
+"Last-Translator: Denis Bodor <dbodor@linuxmag-france.org>\n"
+"Language-Team: FRENCH <FR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: server/civserver.c:350
+#: server/civserver.c:165 server/civserver.c:178
+msgid "Error: filename not specified.\n"
+msgstr "Erreur : nom de fichier non spécifié.\n"
+
+#: server/civserver.c:187
+msgid "Error: Game log filename not specified.\n"
+msgstr "Erreur : Nom du fichier journal non spécifié.\n"
+
+#: server/civserver.c:193
+#, c-format
+msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
+msgstr "Avertissement : l'option %s est obsolète. Utiliser -m pour activer le métaserveur.\n"
+
+#: server/civserver.c:204
+msgid "Error: port not specified.\n"
+msgstr "Erreur : port non spécifié.\n"
+
+#: server/civserver.c:213
+msgid "Error: read script not specified.\n"
+msgstr "Erreur : script en lecture non spécifié\n"
+
+#: server/civserver.c:222
+msgid "Error: no name specified.\n"
+msgstr "Erreur : aucun nom spécifié\n"
+
+#: server/civserver.c:236
+msgid "Error: no debug log level specified.\n"
+msgstr "Erreur : aucun niveau de debuggage spécifié.\n"
+
+#: server/civserver.c:245
+#, c-format
+msgid "Error: unknown option '%s'\n"
+msgstr "Erreur : option '%s' inconnue.\n"
+
+#: server/civserver.c:257
 #, c-format
 msgid "This is the server for %s"
 msgstr "Ceci est le serveur pour %s"
 
-#: client/civclient.c:85
+#: server/civserver.c:258
+#, c-format
+msgid "You can learn a lot about Freeciv at %s"
+msgstr "Vous pouvez en apprendre d'anvantage du Freeciv sur %s"
+
+#: server/civserver.c:262
+msgid "  -f, --file F\t\tLoad saved game F\n"
+msgstr "  -f, --file F\t\tCharger un jeu sauvegardéF\n"
+
+#: server/civserver.c:263
+msgid "  -g, --gamelog F\tUse F as game logfile\n"
+msgstr "  -g, --gamelog F\tUtiliser F comme fichier journal de jeu\n"
+
+#: server/civserver.c:264
+msgid "  -h, --help\t\tPrint a summary of the options\n"
+msgstr "  -h, --help\t\tAfficher un résumé des options\n"
+
+#: server/civserver.c:265
+msgid "  -l, --log F\t\tUse F as logfile\n"
+msgstr "  -l, --log F\t\tUtiliser F comme fichier journal\n"
+
+#: server/civserver.c:266
+msgid "  -m, --meta\t\tSend info to Metaserver\n"
+msgstr "  -m, --meta\t\tEnvoyer l'information au Métaserveur\n"
+
+#: server/civserver.c:267
+msgid "  -p, --port N\t\tconnect to port N\n"
+msgstr "  -p, --port N\t\tse connecter au port N\n"
+
+#: server/civserver.c:268
+msgid "  -r, --read\t\tRead startup script\n"
+msgstr "  -r, --read\t\tLire le script de démarrage\n"
+
+#: server/civserver.c:269
+msgid "  -s, --server H\tList this server as host H\n"
+msgstr "  -s, --server H\tDéclarer ce serveur comme hôte H\n"
+
+#: server/civserver.c:271
+msgid ""
+"  -d, --debug N\t\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
+msgstr ""
+"  -d, --debug N\t\tDéfinir le niveau de debuggage (0,1,2,3,ou 3:fichier1,min,max:...)\n"
+
+#: server/civserver.c:274
+msgid "  -d, --debug N\t\tSet debug log level (0,1,2)\n"
+msgstr "  -d, --debug N\t\tDéfinir le niveau de debuggage (0,1,2)\n"
+
+#: server/civserver.c:276
+msgid "  -v, --version\t\tPrint the version number\n"
+msgstr "  -v, --version\t\tAfficher le numero de version number\n"
+
+#: client/civclient.c:116 server/civserver.c:277
+#, c-format
+msgid "Report bugs to <%s>.\n"
+msgstr "Signaler les bugs à <%s>.\n"
+
+#: client/civclient.c:101
 msgid "This is the Freeciv client\n"
 msgstr "Ceci est le client Freeciv\n"
+
+#: client/civclient.c:103
+msgid "  -help\t\tPrint a summary of the options\n"
+msgstr "  -help\t\tAffiche un résumé des options\n"
+
+#: client/civclient.c:104
+msgid "  -log F\tUse F as logfile\n"
+msgstr "  -log F\tUtiliser F comme fichier journal\n"
+
+#: client/civclient.c:105
+msgid "  -name N\tUse N as name\n"
+msgstr "  -name N\tUtiliser N comme nom\n"
+
+#: client/civclient.c:106
+msgid "  -port N\tconnect to port N\n"
+msgstr "  -port N\tse connecter au port N\n"
+
+#: client/civclient.c:107
+msgid "  -server S\tConnect to the server at S\n"
+msgstr "  -server S\tse connecter au serveur sur S\n"
+
+#: client/civclient.c:109
+msgid "  -debug N\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
+msgstr "  -debug N\tDéfinir le niveau de debuggage (0,1,2,3,ou 3:fichier1,min,max:...)\n"
+
+#: client/civclient.c:112
+msgid "  -debug N\tSet debug log level (0,1,2)\n"
+msgstr "  -debug N\tDéfinir le niveau de debuggage (0,1,2)\n"
+
+#: client/civclient.c:114
+msgid "  -version\tPrint the version number\n"
+msgstr "  -version\tAffiche le numéro de version\n"
+
+#: client/civclient.c:115
+msgid "  -tiles D\tLook in data subdirectory D for the tiles\n"
+msgstr "  -tiles D\tChercher des cases dans le sous-répertoire D de data\n"
+
+#: data/civ1/units.ruleset:38 data/default/units.ruleset:37
+msgid "Settlers"
+msgstr "Colons"
+
+#: data/default/units.ruleset:38
+msgid "Engineers"
+msgstr "Ingénieurs"
+
+#: data/default/units.ruleset:39
+msgid "Warriors"
+msgstr "Guerriers"
+
+#: data/default/units.ruleset:40
+msgid "Phalanx"
+msgstr ""
+
+#: data/default/units.ruleset:41
+msgid "Archers"
+msgstr "Archers"
+
+#: data/default/units.ruleset:42
+msgid "Legion"
+msgstr "Légion"
+
+#: data/default/units.ruleset:43
+msgid "Pikemen"
+msgstr "Lanciers"
+
+#: data/default/units.ruleset:44
+msgid "Musketeers"
+msgstr "Mousquetaires"
+
+#: data/default/units.ruleset:45
+msgid "Fanatics"
+msgstr "Fanatiques"
+
+#: data/default/units.ruleset:46
+msgid "Partisan"
+msgstr "Partisan"
+
+#: data/default/units.ruleset:47
+msgid "Alpine Troops"
+msgstr "Chasseurs alpin"
+
+#: data/default/units.ruleset:48
+msgid "Riflemen"
+msgstr "Carabiniers"
+
+#: data/default/units.ruleset:49
+msgid "Marines"
+msgstr "Marins"
+
+#: data/default/units.ruleset:50
+msgid "Paratroopers"
+msgstr "Parachutistes"
+
+#: data/default/units.ruleset:51
+msgid "Mech. Inf."
+msgstr "Infanterie mobile"
+
+#: data/default/units.ruleset:52
+msgid "Horsemen"
+msgstr "Cavaliers"
+
+#: data/default/units.ruleset:53
+msgid "Chariot"
+msgstr ""
+
+#: data/default/units.ruleset:54
+msgid "Elephants"
+msgstr ""
+
+#: data/default/units.ruleset:55
+msgid "Crusaders"
+msgstr "Croisés"
+
+#: data/default/units.ruleset:56
+msgid "Knights"
+msgstr "Chevaliers"
+
+#: data/default/units.ruleset:57
+msgid "Dragoons"
+msgstr "Dragons"
+
+#: data/default/units.ruleset:58
+msgid "Cavalry"
+msgstr "Cavalerie"
+
+#: data/default/units.ruleset:59
+msgid "Armor"
+msgstr "Armure"
+
+#: data/default/units.ruleset:60
+msgid "Catapult"
+msgstr "Catapulte"
+
+#: data/default/units.ruleset:61
+msgid "Cannon"
+msgstr "Canon"
+
+#: data/default/units.ruleset:62
+msgid "Artillery"
+msgstr "Artillerie"
+
+#: data/default/units.ruleset:63
+msgid "Howitzer"
+msgstr "Obusier"
+
+#: data/default/units.ruleset:68
+msgid "Fighter"
+msgstr "Chasseur"
+
+#: data/default/units.ruleset:69
+msgid "Bomber"
+msgstr "Bombardier"
+
+#: data/default/units.ruleset:70
+msgid "Helicopter"
+msgstr "Hélicoptère"
+
+#: data/default/units.ruleset:71
+msgid "Stealth Fighter"
+msgstr "Chasseur furtif"
+
+#: data/default/units.ruleset:72
+msgid "Stealth Bomber"
+msgstr "Bombardier furtif"
+
+#: data/default/units.ruleset:73
+msgid "Trireme"
+msgstr "Trirème"
+
+#: data/default/units.ruleset:74
+msgid "Caravel"
+msgstr "Caravelle"
+
+#: data/default/units.ruleset:75
+msgid "Galleon"
+msgstr "Gallion"
+
+#: data/default/units.ruleset:76
+msgid "Frigate"
+msgstr "Frégate"
+
+#: data/default/units.ruleset:77
+msgid "Ironclad"
+msgstr "Cuirassé"
+
+#: data/default/units.ruleset:78
+msgid "Destroyer"
+msgstr "Destroyé"
+
+#: data/default/units.ruleset:79
+msgid "Cruiser"
+msgstr "Croiseur"
+
+#: data/default/units.ruleset:80
+msgid "AEGIS Cruiser"
+msgstr "Croiseur AEGIS"
+
+#: data/default/units.ruleset:81
+msgid "Battleship"
+msgstr "Gros cuirassé"
+
+#: data/default/units.ruleset:82
+msgid "Submarine"
+msgstr "Soumarin"
+
+#: data/default/units.ruleset:83
+msgid "Carrier"
+msgstr "Transporteur"
+
+#: data/default/units.ruleset:84
+msgid "Transport"
+msgstr "Gros transporteur"
+
+#: data/default/units.ruleset:85
+msgid "Cruise Missile"
+msgstr "Missile de croisière"
+
+#: data/default/units.ruleset:86
+msgid "Nuclear"
+msgstr "Nucleaire"
+
+#: data/default/units.ruleset:87
+msgid "Diplomat"
+msgstr "Diplomate"
+
+#: data/default/units.ruleset:88
+msgid "Spy"
+msgstr "Espion"
+
+#: data/default/units.ruleset:89
+msgid "Caravan"
+msgstr "Caravane"
+
+#: data/default/units.ruleset:90
+msgid "Freight"
+msgstr "Fret"
+
+#: data/default/units.ruleset:91
+msgid "Explorer"
+msgstr "Exploreur"
+
+#: data/default/buildings.ruleset:33
+msgid "Airport"
+msgstr "Aéroport"
+
+#: data/default/buildings.ruleset:34
+msgid "Aqueduct"
+msgstr "Aqueduc"
+
+#: data/default/buildings.ruleset:35
+msgid "Bank"
+msgstr "Banque"
+
+#: data/default/buildings.ruleset:36
+msgid "Barracks"
+msgstr "Casernes"
+
+#: data/default/buildings.ruleset:37
+msgid "Barracks II"
+msgstr "Casernes II"
+
+#: data/default/buildings.ruleset:38
+msgid "Barracks III"
+msgstr "Caserne III"
+
+#: data/default/buildings.ruleset:39
+msgid "Cathedral"
+msgstr "Cathédrale"
+
+#: data/default/buildings.ruleset:40
+msgid "City Walls"
+msgstr "Remparts"
+
+#: data/default/buildings.ruleset:41
+msgid "Coastal Defense"
+msgstr "Défense cotière"
+
+#: data/default/buildings.ruleset:42
+msgid "Colosseum"
+msgstr ""
+
+#: data/default/buildings.ruleset:43
+msgid "Courthouse"
+msgstr "Tribunal"
+
+#: data/default/buildings.ruleset:44
+msgid "Factory"
+msgstr "Usine"
+
+#: data/default/buildings.ruleset:45
+msgid "Granary"
+msgstr "Dépot de grains"
+
+#: data/default/buildings.ruleset:46
+msgid "Harbour"
+msgstr "Port"
+
+#: data/default/buildings.ruleset:47
+msgid "Hydro Plant"
+msgstr "Centrale hydrolique"
+
+#: data/default/buildings.ruleset:48
+msgid "Library"
+msgstr "Bibliothèque"
+
+#: data/default/buildings.ruleset:49
+msgid "Marketplace"
+msgstr "Bourse"
+
+#: data/default/buildings.ruleset:50
+msgid "Mass Transit"
+msgstr "Logistique"
+
+#: data/default/buildings.ruleset:51
+msgid "Mfg. Plant"
+msgstr "Manufacture"
+
+#: data/default/buildings.ruleset:52
+msgid "Nuclear Plant"
+msgstr "Central nucléaire"
+
+#: data/default/buildings.ruleset:53
+msgid "Offshore Platform"
+msgstr "Plate-forme Offshore"
+
+#: data/default/buildings.ruleset:54
+msgid "Palace"
+msgstr ""
+
+#: data/default/buildings.ruleset:55
+msgid "Police Station"
+msgstr "Commissaria"
+
+#: data/default/buildings.ruleset:56
+msgid "Port Facility"
+msgstr "Service portuaire"
+
+#: data/default/buildings.ruleset:57
+msgid "Power Plant"
+msgstr "Centrale électrique"
+
+#: data/default/buildings.ruleset:58
+msgid "Recycling Center"
+msgstr "Usine de recyclage"
+
+#: data/default/buildings.ruleset:59
+msgid "Research Lab"
+msgstr "Labo de recherche"
+
+#: data/default/buildings.ruleset:60
+msgid "SAM Battery"
+msgstr "Batterie SAM"
+
+#: data/default/buildings.ruleset:61
+msgid "SDI Defense"
+msgstr "Défense SDI"
+
+#: data/default/buildings.ruleset:62
+msgid "Sewer System"
+msgstr "Egouts"
+
+#: data/default/buildings.ruleset:67
+msgid "Space Component"
+msgstr "Composant spatial"
+
+#: data/default/buildings.ruleset:68
+msgid "Space Module"
+msgstr "Module spatial"
+
+#: data/default/buildings.ruleset:69
+msgid "Space Structural"
+msgstr "Structure spatiale"
+
+#: data/default/buildings.ruleset:71
+msgid "Stock Exchange"
+msgstr "Echange de stock"
+
+#: data/default/buildings.ruleset:72
+msgid "Super Highways"
+msgstr "Supers autoroutes"
+
+#: data/default/buildings.ruleset:73
+msgid "Supermarket"
+msgstr "Supermarché"
+
+#: data/default/buildings.ruleset:74
+msgid "Temple"
+msgstr ""
+
+#: data/default/buildings.ruleset:75 data/default/techs.ruleset:114
+msgid "University"
+msgstr "Université"
+
+#: data/default/buildings.ruleset:80
+msgid "Apollo Program"
+msgstr "Programme Apollo"
+
+#: data/default/buildings.ruleset:81
+msgid "A.Smith's Trading Co."
+msgstr ""
+
+#: data/default/buildings.ruleset:82
+msgid "Colossus"
+msgstr ""
+
+#: data/default/buildings.ruleset:83
+msgid "Copernicus' Observatory"
+msgstr "Observatoire Copernicus"
+
+#: data/default/buildings.ruleset:84
+msgid "Cure For Cancer"
+msgstr "Guérison su cancer"
+
+#: data/default/buildings.ruleset:85
+msgid "Darwin's Voyage"
+msgstr "Voyage de Darwin"
+
+#: data/default/buildings.ruleset:86
+msgid "Eiffel Tower"
+msgstr "Tour Eiffel"
+
+#: data/default/buildings.ruleset:87
+msgid "Great Library"
+msgstr "Grand bibliothèque"
+
+#: data/default/buildings.ruleset:88
+msgid "Great Wall"
+msgstr "Grande muraille"
+
+#: data/default/buildings.ruleset:89
+msgid "Hanging Gardens"
+msgstr "Jardins suspendus"
+
+#: data/default/buildings.ruleset:90
+msgid "Hoover Dam"
+msgstr "Barrage Hoover"
+
+#: data/default/buildings.ruleset:91
+msgid "Isaac Newton's College"
+msgstr "Collège Isaac Newton"
+
+#: data/default/buildings.ruleset:92
+msgid "J.S. Bach's Cathedral"
+msgstr "Cathédrale J.S. Bach"
+
+#: data/default/buildings.ruleset:93
+msgid "King Richard's Crusade"
+msgstr "Croisade du roi Richard"
+
+#: data/default/buildings.ruleset:94
+msgid "Leonardo's Workshop"
+msgstr "Atelier de Leonard"
+
+#: data/default/buildings.ruleset:95
+msgid "Lighthouse"
+msgstr "Maison de lumière"
+
+#: data/default/buildings.ruleset:96
+msgid "Magellan's Expedition"
+msgstr "Expédition de Magellan"
+
+#: data/default/buildings.ruleset:97
+msgid "Manhattan Project"
+msgstr "Projet Manhattan"
+
+#: data/default/buildings.ruleset:98
+msgid "Marco Polo's Embassy"
+msgstr "Ambassade Marco Polo"
+
+#: data/default/buildings.ruleset:99
+msgid "Michelangelo's Chapel"
+msgstr "Chapelle Michelange"
+
+#: data/default/buildings.ruleset:100
+msgid "Oracle"
+msgstr ""
+
+#: data/default/buildings.ruleset:101
+msgid "Pyramids"
+msgstr "Pyaramides"
+
+#: data/default/buildings.ruleset:102
+msgid "SETI Program"
+msgstr "Programme SETI"
+
+#: data/default/buildings.ruleset:103
+msgid "Shakespeare's Theatre"
+msgstr "Théatre Shakespeare"
+
+#: data/default/buildings.ruleset:104
+msgid "Statue of Liberty"
+msgstr "Statue de la liberté"
+
+#: data/default/buildings.ruleset:105
+msgid "Sun Tzu's War Academy"
+msgstr "Ecole de guerre Sun Tzu"
+
+#: data/default/buildings.ruleset:106
+msgid "United Nations"
+msgstr "ONU"
+
+#: data/default/buildings.ruleset:107
+msgid "Women's Suffrage"
+msgstr "Suffrage des femmes"
+
+#: data/default/buildings.ruleset:111
+msgid "Capitalization"
+msgstr "Capitalisation"
+
+#: data/default/techs.ruleset:27
+msgid "Advanced Flight"
+msgstr "Vol avancé"
+
+#: data/default/techs.ruleset:28
+msgid "Alphabet"
+msgstr ""
+
+#: data/default/techs.ruleset:29
+msgid "Amphibious Warfare"
+msgstr "Guerre amphibie"
+
+#: data/default/techs.ruleset:30
+msgid "Astronomy"
+msgstr "Astronomie"
+
+#: data/default/techs.ruleset:31
+msgid "Atomic Theory"
+msgstr "Théorie de l'atome"
+
+#: data/default/techs.ruleset:32
+msgid "Automobile"
+msgstr ""
+
+#: data/default/techs.ruleset:33
+msgid "Banking"
+msgstr "Finance"
+
+#: data/default/techs.ruleset:34
+msgid "Bridge Building"
+msgstr "Contruction de ponts"
+
+#: data/default/techs.ruleset:35
+msgid "Bronze Working"
+msgstr "Travail du bronze"
+
+#: data/default/techs.ruleset:36
+msgid "Ceremonial Burial"
+msgstr "Incinération des morts"
+
+#: data/default/techs.ruleset:37
+msgid "Chemistry"
+msgstr "Chimie"
+
+#: data/default/techs.ruleset:38
+msgid "Chivalry"
+msgstr "Chevalerie"
+
+#: data/default/techs.ruleset:39
+msgid "Code of Laws"
+msgstr "Code de lois"
+
+#: data/default/techs.ruleset:40
+msgid "Combined Arms"
+msgstr "Armes combinées"
+
+#: data/default/techs.ruleset:41
+msgid "Combustion"
+msgstr ""
+
+#: client/gui-gtk/dialogs.c:1108 data/default/techs.ruleset:42
+msgid "Communism"
+msgstr "Communisme"
+
+#: data/default/techs.ruleset:43
+msgid "Computers"
+msgstr "Ordinateurs"
+
+#: data/default/techs.ruleset:44
+msgid "Conscription"
+msgstr ""
+
+#: data/default/techs.ruleset:45
+msgid "Construction"
+msgstr ""
+
+#: data/default/techs.ruleset:46
+msgid "Currency"
+msgstr "Monnaie"
+
+#: client/gui-gtk/dialogs.c:1110 data/default/techs.ruleset:47
+msgid "Democracy"
+msgstr "Démocracie"
+
+#: data/default/techs.ruleset:48
+msgid "Economics"
+msgstr "Economie"
+
+#: data/default/techs.ruleset:49
+msgid "Electricity"
+msgstr "Electricité"
+
+#: data/default/techs.ruleset:50
+msgid "Electronics"
+msgstr "Electronique"
+
+#: data/default/techs.ruleset:51
+msgid "Engineering"
+msgstr "Ingénieurie"
+
+#: data/default/techs.ruleset:52
+msgid "Environmentalism"
+msgstr "Ecologie"
+
+#: data/default/techs.ruleset:54
+msgid "Espionage"
+msgstr ""
+
+#: data/default/techs.ruleset:55
+msgid "Explosives"
+msgstr "Explosifs"
+
+#: data/default/techs.ruleset:56
+msgid "Feudalism"
+msgstr "Féodalisme"
+
+#: data/default/techs.ruleset:57
+msgid "Flight"
+msgstr "Vol"
+
+#: data/default/techs.ruleset:58
+msgid "Fundamentalism"
+msgstr "Fondamentalisme"
+
+#: data/default/techs.ruleset:60
+msgid "Fusion Power"
+msgstr "Fusion atomique"
+
+#: data/default/techs.ruleset:61
+msgid "Genetic Engineering"
+msgstr "Génie génétique"
+
+#: data/default/techs.ruleset:62
+msgid "Guerilla Warfare"
+msgstr "Guerilla"
+
+#: data/default/techs.ruleset:63
+msgid "Gunpowder"
+msgstr "Poudre à canon"
+
+#: data/default/techs.ruleset:64
+msgid "Horseback Riding"
+msgstr "Equitation"
+
+#: data/default/techs.ruleset:65
+msgid "Industrialization"
+msgstr "Industrialisation"
+
+#: data/default/techs.ruleset:66
+msgid "Invention"
+msgstr ""
+
+#: data/default/techs.ruleset:67
+msgid "Iron Working"
+msgstr "Travail du bronze"
+
+#: data/default/techs.ruleset:68
+msgid "Labor Union"
+msgstr "Unification du travail"
+
+#: data/default/techs.ruleset:69
+msgid "Laser"
+msgstr ""
+
+#: data/default/techs.ruleset:70
+msgid "Leadership"
+msgstr "Loyauté"
+
+#: data/default/techs.ruleset:71
+msgid "Literacy"
+msgstr "Littérature"
+
+#: data/default/techs.ruleset:72
+msgid "Machine Tools"
+msgstr "Machine outil"
+
+#: data/default/techs.ruleset:73
+msgid "Magnetism"
+msgstr "Magnétisme"
+
+#: data/default/techs.ruleset:74
+msgid "Map Making"
+msgstr "Cartographie"
+
+#: data/default/techs.ruleset:75
+msgid "Masonry"
+msgstr "Maçonnerie"
+
+#: data/default/techs.ruleset:76
+msgid "Mass Production"
+msgstr "Production massive"
+
+#: data/default/techs.ruleset:77
+msgid "Mathematics"
+msgstr "Mathématiques"
+
+#: data/default/techs.ruleset:78
+msgid "Medicine"
+msgstr "Médecine"
+
+#: data/default/techs.ruleset:79
+msgid "Metallurgy"
+msgstr "Métallurgie"
+
+#: data/default/techs.ruleset:80
+msgid "Miniaturization"
+msgstr "Miniaturisation"
+
+#: data/default/techs.ruleset:81
+msgid "Mobile Warfare"
+msgstr "Guerre mobile"
+
+#: client/gui-gtk/dialogs.c:1107 data/default/techs.ruleset:82
+msgid "Monarchy"
+msgstr "Monarchie"
+
+#: data/default/techs.ruleset:83
+msgid "Monotheism"
+msgstr "Monotheisme"
+
+#: data/default/techs.ruleset:84
+msgid "Mysticism"
+msgstr "Mysticisme"
+
+#: data/default/techs.ruleset:85
+msgid "Navigation"
+msgstr ""
+
+#: data/default/techs.ruleset:86
+msgid "Nuclear Fission"
+msgstr "Fission nucléraire"
+
+#: data/default/techs.ruleset:87
+msgid "Nuclear Power"
+msgstr "Centrale nucléaire"
+
+#: data/default/techs.ruleset:88
+msgid "Philosophy"
+msgstr "Philosophie"
+
+#: data/default/techs.ruleset:89
+msgid "Physics"
+msgstr "Physique"
+
+#: data/default/techs.ruleset:90
+msgid "Plastics"
+msgstr "Plastiques"
+
+#: data/default/techs.ruleset:91
+msgid "Polytheism"
+msgstr "Polytheisme"
+
+#: data/default/techs.ruleset:92
+msgid "Pottery"
+msgstr "Poterie"
+
+#: data/default/techs.ruleset:93
+msgid "Radio"
+msgstr ""
+
+#: data/default/techs.ruleset:94
+msgid "Railroad"
+msgstr "Chemin de fer"
+
+#: data/default/techs.ruleset:95
+msgid "Recycling"
+msgstr "Recyclage"
+
+#: data/default/techs.ruleset:96
+msgid "Refining"
+msgstr "Rafinerie"
+
+#: data/default/techs.ruleset:97
+msgid "Refrigeration"
+msgstr "Réfrigération"
+
+#: data/default/techs.ruleset:98
+msgid "Robotics"
+msgstr "Robotique"
+
+#: data/default/techs.ruleset:99
+msgid "Rocketry"
+msgstr "Fabrication de fusées"
+
+#: data/default/techs.ruleset:100
+msgid "Sanitation"
+msgstr "Hygiène"
+
+#: data/default/techs.ruleset:101
+msgid "Seafaring"
+msgstr "Transport maritime"
+
+#: data/default/techs.ruleset:102
+msgid "Space Flight"
+msgstr "Vol spatiaux"
+
+#: data/default/techs.ruleset:103
+msgid "Stealth"
+msgstr "Firtivité"
+
+#: data/default/techs.ruleset:104
+msgid "Steam Engine"
+msgstr "Machine à vapeur"
+
+#: data/default/techs.ruleset:105
+msgid "Steel"
+msgstr "Acier"
+
+#: data/default/techs.ruleset:106
+msgid "Superconductors"
+msgstr "Superconducteurs"
+
+#: data/default/techs.ruleset:107
+msgid "Tactics"
+msgstr "Tactiques"
+
+#: data/default/techs.ruleset:108
+msgid "The Corporation"
+msgstr "La corporation"
+
+#: data/default/techs.ruleset:109
+msgid "The Republic"
+msgstr "La république"
+
+#: data/default/techs.ruleset:110
+msgid "The Wheel"
+msgstr "La roue"
+
+#: data/default/techs.ruleset:111
+msgid "Theology"
+msgstr "Théologie"
+
+#: data/default/techs.ruleset:112
+msgid "Theory of Gravity"
+msgstr "Théorie de la gravité"
+
+#: data/default/techs.ruleset:113
+msgid "Trade"
+msgstr "Commerce"
+
+#: data/default/techs.ruleset:115
+msgid "Warrior Code"
+msgstr "Code de guerre"
+
+#: data/default/techs.ruleset:116
+msgid "Writing"
+msgstr "Ecriture"
+
+#: client/gui-gtk/chatline.c:73
+msgid "Exporting output window to civgame.log ..."
+msgstr "Exportation des sorties vers civgame.log"
+
+#: client/gui-gtk/chatline.c:78
+msgid "Export complete."
+msgstr "Exportation terminée"
+
+#: client/gui-gtk/chatline.c:89
+msgid "Cleared output window.\n"
+msgstr "Effacement de la fenêtre de sortie\n"
+
+#: client/gui-gtk/citydlg.c:419 client/gui-gtk/cityrep.c:433
+msgid "_Buy"
+msgstr "Acheter"
+
+#: client/gui-gtk/citydlg.c:422 client/gui-gtk/citydlg.c:1684
+#: client/gui-gtk/cityrep.c:438
+msgid "_Change"
+msgstr "Changer"
+
+#: client/gui-gtk/citydlg.c:435
+msgid "_Sell"
+msgstr "Vendre"
+
+#. "supported units" frame
+#: client/gui-gtk/citydlg.c:440
+msgid "Supported units"
+msgstr "Unités supportées"
+
+#. "present units" frame
+#: client/gui-gtk/citydlg.c:471
+msgid "Units present"
+msgstr "Unités présentes"
+
+#. "action area" buttons
+#: client/gui-gtk/citydlg.c:501 client/gui-gtk/cityrep.c:417
+#: client/gui-gtk/plrdlg.c:99
+msgid "C_lose"
+msgstr "Fermer"
+
+#: client/gui-gtk/citydlg.c:506
+msgid "_Rename"
+msgstr "Renomer"
+
+#: client/gui-gtk/citydlg.c:511
+msgid "_Trade"
+msgstr "Echanger"
+
+#: client/gui-gtk/citydlg.c:516
+msgid "_Activate Units"
+msgstr "Activer unités"
+
+#: client/gui-gtk/citydlg.c:521
+msgid "_Unit List"
+msgstr "Liste des unités"
+
+#: client/gui-gtk/citydlg.c:526 client/gui-gtk/cityrep.c:453
+msgid "Con_figure"
+msgstr "Configurer"
+
+#. "presentunitsdialog"
+#: client/gui-gtk/citydlg.c:778 client/gui-gtk/citydlg.c:1149
+msgid "Unit Commands"
+msgstr "Commande des unités"
+
+#: client/gui-gtk/citydlg.c:780 client/gui-gtk/citydlg.c:1151
+msgid "Activate unit"
+msgstr "Activer unité"
+
+#: client/gui-gtk/citydlg.c:782 client/gui-gtk/citydlg.c:1153
+msgid "Activate unit, close dialog"
+msgstr "Activer unité et fermer"
+
+#. act+c
+#: client/gui-gtk/citydlg.c:784 client/gui-gtk/citydlg.c:1155
+msgid "Disband unit"
+msgstr "Congédier unité"
+
+#: client/gui-gtk/citydlg.c:786
+msgid "Make new homecity"
+msgstr "Créer nouvelle capitale"
+
+#: client/gui-gtk/citydlg.c:788
+msgid "Upgrade unit"
+msgstr "Mettre à jour unité"
+
+#: client/gui-gtk/citydlg.c:790 client/gui-gtk/citydlg.c:1157
+#: client/gui-gtk/citydlg.c:1950 client/gui-gtk/dialogs.c:919
+#: client/gui-gtk/dialogs.c:941 client/gui-gtk/dialogs.c:969
+#: client/gui-gtk/finddlg.c:111 client/gui-gtk/gamedlgs.c:316
+#: client/gui-gtk/messagedlg.c:150
+msgid "Cancel"
+msgstr "Annuler"
+
+#. "shellrenamecity"
+#: client/gui-gtk/citydlg.c:828
+msgid "Rename City"
+msgstr "Renomer ville"
+
+#: client/gui-gtk/citydlg.c:829
+msgid "What should we rename the city to?"
+msgstr "Quel nom doit porter cette ville ?"
+
+#: client/gui-gtk/citydlg.c:855
+#, c-format
+msgid "These trade routes have been established with %s:\n"
+msgstr "Cette route de commerce a été étalie avec %s:\n"
+
+#: client/gui-gtk/citydlg.c:865 client/gui-gtk/citydlg.c:870
+#, c-format
+msgid "%32s: %2d Gold/Year\n"
+msgstr "%32s: %2d Or/An\n"
+
+#: client/gui-gtk/citydlg.c:870
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: client/gui-gtk/citydlg.c:877
+msgid "No trade routes exist.\n"
+msgstr "Aucun route de commerce n'existe.\n"
+
+#: client/gui-gtk/citydlg.c:879
+#, c-format
+msgid ""
+"\n"
+"Total trade %d Gold/Year\n"
+msgstr ""
+"\n"
+"Commerce total %d Or/An\n"
+
+#. "citytradedialog"
+#: client/gui-gtk/citydlg.c:882
+msgid "Trade Routes"
+msgstr "Route de commerce"
+
+#: client/gui-gtk/citydlg.c:884
+msgid "Done"
+msgstr "Terminé"
+
+#: client/gui-gtk/citydlg.c:899
+#, c-format
+msgid "Pollution:   %3d"
+msgstr ""
+
+#: client/gui-gtk/citydlg.c:924
+#, c-format
+msgid "Granary: %3d/%-3d"
+msgstr "Grain : %3d/%-3d"
+
+#: client/gui-gtk/citydlg.c:970
+#, c-format
+msgid ""
+"Food:    %2d (%+2d)\n"
+"Prod:    %2d (%+2d)\n"
+"Trade:   %2d (%+2d)"
+msgstr ""
+"Mour:    %2d (%+2d)\n"
+"Prod:    %2d (%+2d)\n"
+"Comm:    %2d (%+2d)"
+
+#: client/gui-gtk/citydlg.c:985
+#, c-format
+msgid ""
+"Gold:    %2d (%+2d)\n"
+"Luxury:  %2d\n"
+"Science: %2d"
+msgstr ""
+"Or  :    %2d (%+2d)\n"
+"Luxe:    %2d\n"
+"Science: %2d"
+
+#: client/gui-gtk/citydlg.c:1291
+#, c-format
+msgid "%s - %s citizens"
+msgstr "%s - %s habitants"
+
+#: client/gui-gtk/citydlg.c:1477
+#, c-format
+msgid ""
+"Buy %s for %d gold?\n"
+"Treasury contains %d gold."
+msgstr ""
+"Acheter %s pour %d d'or?\n"
+"Le trésor contient %d d'or."
+
+#. "buydialog"
+#: client/gui-gtk/citydlg.c:1480 client/gui-gtk/citydlg.c:1488
+msgid "Buy It!"
+msgstr "Acheter!"
+
+#: client/gui-gtk/citydlg.c:1481 client/gui-gtk/citydlg.c:1549
+#: client/gui-gtk/citydlg.c:1804 client/gui-gtk/dialogs.c:367
+#: client/gui-gtk/dialogs.c:873 client/gui-gtk/dialogs.c:1170
+msgid "Yes"
+msgstr "Oui"
+
+#: client/gui-gtk/citydlg.c:1482 client/gui-gtk/citydlg.c:1551
+#: client/gui-gtk/citydlg.c:1805 client/gui-gtk/dialogs.c:368
+#: client/gui-gtk/dialogs.c:874 client/gui-gtk/dialogs.c:1171
+msgid "No"
+msgstr "Non"
+
+#: client/gui-gtk/citydlg.c:1485
+#, c-format
+msgid ""
+"%s costs %d gold.\n"
+"Treasury contains %d gold."
+msgstr ""
+"%s coûte %d d'or.\n"
+"Le trésor contient %d d'or."
+
+#: client/gui-gtk/citydlg.c:1489 client/gui-gtk/citydlg.c:1537
+#: client/gui-gtk/citydlg.c:1561 client/gui-gtk/dialogs.c:373
+#: client/gui-gtk/dialogs.c:879
+msgid "Darn"
+msgstr "Oublier"
+
+#. this shouldn't generally happen, but it is conceivable
+#: client/gui-gtk/citydlg.c:1535
+#, c-format
+msgid "Sorry: cannot upgrade %s."
+msgstr "Désolé : impossible de mettre à jour %s."
+
+#. "upgradenodialog"
+#: client/gui-gtk/citydlg.c:1536 client/gui-gtk/citydlg.c:1560
+msgid "Upgrade Unit!"
+msgstr "Mettre à jour l'unité!"
+
+#: client/gui-gtk/citydlg.c:1543
+#, c-format
+msgid ""
+"Upgrade %s to %s for %d gold?\n"
+"Treasury contains %d gold."
+msgstr ""
+"Mettre à jour %s vers %s pour %d d'or?\n"
+"Le trésor contient %d d'or."
+
+#. "upgradedialog"
+#: client/gui-gtk/citydlg.c:1548
+msgid "Upgrade Obsolete Units"
+msgstr "Mettre à jour les unités obsolètes"
+
+#: client/gui-gtk/citydlg.c:1555
+#, c-format
+msgid ""
+"Upgrading %s to %s costs %d gold.\n"
+"Treasury contains %d gold."
+msgstr ""
+"Mettre à jour %s vers %s coûte %d d'or.\n"
+"Le trésor contient %d d'or."
+
+#: client/gui-gtk/citydlg.c:1671
+msgid "Change Production"
+msgstr "Changer production"
+
+#: client/gui-gtk/citydlg.c:1693
+msgid "Ca_ncel"
+msgstr "Annuler"
+
+#: client/gui-gtk/citydlg.c:1702
+msgid "_Help"
+msgstr "Aide"
+
+#: client/gui-gtk/citydlg.c:1799
+#, c-format
+msgid "Sell %s for %d gold?"
+msgstr "Vendre %s pour %d d'or?"
+
+#. "selldialog"
+#: client/gui-gtk/citydlg.c:1803
+msgid "Sell It!"
+msgstr "Vendre!"
+
+#: client/gui-gtk/citydlg.c:1906
+msgid "City Options"
+msgstr "Options de la ville"
+
+#: client/gui-gtk/citydlg.c:1913
+msgid "Scientists"
+msgstr "Scientifiques"
+
+#: client/gui-gtk/citydlg.c:1925
+msgid "Disband if build settler at size 1"
+msgstr "Congédier si création de colon en taille 1"
+
+#: client/gui-gtk/citydlg.c:1930
+msgid "Auto-attack vs land units"
+msgstr "Auto-attaquer unités terrestre"
+
+#: client/gui-gtk/citydlg.c:1935
+msgid "Auto-attack vs sea units"
+msgstr "Auto-attaquer unités maritimes"
+
+#: client/gui-gtk/citydlg.c:1940
+msgid "Auto-attack vs air units"
+msgstr "Auto-attaquer unités aériennes"
+
+#: client/gui-gtk/citydlg.c:1945
+msgid "Auto-attack vs helicopters"
+msgstr "Auto-attaquer hélicoptères"
+
+#: client/gui-gtk/citydlg.c:1949 client/gui-gtk/dialogs.c:1500
+#: client/gui-gtk/gamedlgs.c:307 client/gui-gtk/messagedlg.c:142
+msgid "Ok"
+msgstr "Ok"
+
+#: client/gui-gtk/cityrep.c:388
+msgid "City Report"
+msgstr "Rapport ville"
+
+#: client/gui-gtk/cityrep.c:390 client/gui-gtk/cityrep.c:740
+msgid "City Advisor"
+msgstr "Conseil de ville"
+
+#: client/gui-gtk/cityrep.c:423
+msgid "Cen_ter"
+msgstr "Centrer"
+
+#: client/gui-gtk/cityrep.c:428
+msgid "_Popup"
+msgstr "Boîtes"
+
+#: client/gui-gtk/cityrep.c:448
+msgid "_Refresh"
+msgstr "Rafraichir"
+
+#: client/gui-gtk/cityrep.c:849
+msgid "Configure City Report"
+msgstr "Configurer les rapport des villes"
+
+#: client/gui-gtk/cityrep.c:852
+msgid "Set columns shown"
+msgstr "Définir les colonnes"
+
+#: client/gui-gtk/cityrep.c:863 client/gui-gtk/dialogs.c:166
+#: client/gui-gtk/dialogs.c:289 client/gui-gtk/dialogs.c:641
+#: client/gui-gtk/dialogs.c:726 client/gui-gtk/dialogs.c:1404
+#: client/gui-gtk/gamedlgs.c:413 client/gui-gtk/messagewin.c:148
+#: client/gui-gtk/repodlgs.c:238 client/gui-gtk/repodlgs.c:536
+#: client/gui-gtk/repodlgs.c:791 client/gui-gtk/spaceshipdlg.c:226
+msgid "Close"
+msgstr "Fermer"
+
+#: client/gui-gtk/connectdlg.c:132
+msgid " Connect to FreeCiv Server"
+msgstr " Se connecter à un serveur Freeciv"
+
+#: client/gui-gtk/connectdlg.c:138
+msgid "Freeciv Server Selection"
+msgstr "Sélection sur serveur Freeciv"
+
+#: client/gui-gtk/connectdlg.c:149
+msgid "Name:"
+msgstr "Nom :"
+
+#: client/gui-gtk/connectdlg.c:157
+msgid "Host:"
+msgstr "Hôte:"
+
+#: client/gui-gtk/connectdlg.c:165
+msgid "Port:"
+msgstr ""
+
+#: client/gui-gtk/connectdlg.c:190
+msgid "Metaserver"
+msgstr "Métaserveur"
+
+#: client/gui-gtk/connectdlg.c:207
+msgid "Update"
+msgstr "M.A.J."
+
+#: client/gui-gtk/connectdlg.c:215
+msgid "Connect"
+msgstr "Connecter"
+
+#: client/gui-gtk/connectdlg.c:221
+msgid "Quit"
+msgstr "Quitter"
+
+#: client/gui-gtk/dialogs.c:139
+msgid "Notify dialog"
+msgstr "Notification"
+
+#: client/gui-gtk/dialogs.c:293
+msgid "Goto and Close"
+msgstr "Aller et fermer"
+
+#. "diplomatbribedialog"
+#: client/gui-gtk/dialogs.c:366 client/gui-gtk/dialogs.c:967
+msgid "Bribe Enemy Unit"
+msgstr "Corrompre unité ennemie"
+
+#. "diplomatnogolddialog"
+#: client/gui-gtk/dialogs.c:372 client/gui-gtk/dialogs.c:878
+msgid "Traitors Demand Too Much!"
+msgstr "Le négociateur demande de trop!"
+
+#: client/gui-gtk/dialogs.c:623 client/gui-gtk/dialogs.c:939
+msgid "Steal Technology"
+msgstr "Voler la technologie"
+
+#: client/gui-gtk/dialogs.c:646
+msgid "Steal"
+msgstr "Voler"
+
+#: client/gui-gtk/dialogs.c:709
+msgid "Sabotage Improvements"
+msgstr "Saboter le progrès"
+
+#: client/gui-gtk/dialogs.c:731
+msgid "Sabotage"
+msgstr "Saboter"
+
+#. "diplomatrevoltdialog"
+#: client/gui-gtk/dialogs.c:872
+msgid "Incite a Revolt!"
+msgstr "Inciter à la révolte"
+
+#. "diplomatdialog"
+#: client/gui-gtk/dialogs.c:912
+msgid " Choose Your Diplomat's Strategy"
+msgstr " Choisisser la stratégie de votre diplomate"
+
+#: client/gui-gtk/dialogs.c:913 client/gui-gtk/dialogs.c:965
+msgid "Sir, the diplomat is waiting for your command"
+msgstr "Excellence, le diplomate attend vos ordres"
+
+#: client/gui-gtk/dialogs.c:914
+msgid "Establish embassy"
+msgstr "Etablir une ambassade"
+
+#: client/gui-gtk/dialogs.c:915
+msgid "Investigate City"
+msgstr "Investir la ville"
+
+#: client/gui-gtk/dialogs.c:916
+msgid "Sabotage city"
+msgstr "Saboter la ville"
+
+#: client/gui-gtk/dialogs.c:917
+msgid "Steal technology"
+msgstr "Voler la technologie"
+
+#: client/gui-gtk/dialogs.c:918
+msgid "Incite a revolt"
+msgstr "Inciter à la révolte"
+
+#. "spydialog"
+#: client/gui-gtk/dialogs.c:933
+msgid "Choose Your Spy's Strategy"
+msgstr "Choisissez la stratégie de votre espion"
+
+#: client/gui-gtk/dialogs.c:934 client/gui-gtk/dialogs.c:966
+msgid "Sir, the spy is waiting for your command"
+msgstr "Excellence, l'espion attend vos ordres"
+
+#: client/gui-gtk/dialogs.c:935
+msgid "Establish Embassy"
+msgstr "Etablir une ambassade"
+
+#: client/gui-gtk/dialogs.c:936
+msgid "Investigate City (free)"
+msgstr "Investire la ville (librement)"
+
+#: client/gui-gtk/dialogs.c:937
+msgid "Poison City"
+msgstr "Empoisonner la ville"
+
+#: client/gui-gtk/dialogs.c:938
+msgid "Industrial Sabotage"
+msgstr "Saboter l'industrie"
+
+#: client/gui-gtk/dialogs.c:940
+msgid "Incite a Revolt"
+msgstr "Inciter à la révolte"
+
+#. "spybribedialog"
+#: client/gui-gtk/dialogs.c:963
+msgid "Subvert Enemy Unit"
+msgstr "Subvertir unité ennemie"
+
+#: client/gui-gtk/dialogs.c:968
+msgid "Sabotage Enemy Unit"
+msgstr "Saboter unité ennemie"
+
+#. "caravandialog"
+#: client/gui-gtk/dialogs.c:1058
+msgid "Your Caravan Has Arrived"
+msgstr "Votre caravane est arrivée"
+
+#: client/gui-gtk/dialogs.c:1060
+msgid "Establish traderoute"
+msgstr "Etablir une route de commerce"
+
+#: client/gui-gtk/dialogs.c:1061
+msgid "Help build Wonder"
+msgstr "Aider à la construction de merveilles"
+
+#: client/gui-gtk/dialogs.c:1062
+msgid "Keep moving"
+msgstr "Garder en mouvement"
+
+#. "governmentdialog"
+#: client/gui-gtk/dialogs.c:1104
+msgid "Choose Your New Government"
+msgstr "Choisissez votre nouveau gouvernement"
+
+#: client/gui-gtk/dialogs.c:1105
+msgid "Select government type:"
+msgstr "Choisisser le type de gouvernement"
+
+#: client/gui-gtk/dialogs.c:1106
+msgid "Despotism"
+msgstr "Despotisme"
+
+#: client/gui-gtk/dialogs.c:1109
+msgid "Republic"
+msgstr "République"
+
+#. "revolutiondialog"
+#: client/gui-gtk/dialogs.c:1168
+msgid "Revolution!"
+msgstr "Révolution!"
+
+#: client/gui-gtk/dialogs.c:1169
+msgid "You say you wanna revolution?"
+msgstr "Vous dites que vous voulez la révolution?"
+
+#: client/gui-gtk/dialogs.c:1410
+msgid "Ready all"
+msgstr "Tous pret"
+
+#: client/gui-gtk/dialogs.c:1469
+msgid " What Race Will You Be?"
+msgstr " Quelle race voulez-vous être?"
+
+#: client/gui-gtk/dialogs.c:1471
+msgid "Select race and name"
+msgstr "Choisissez une race et un nom"
+
+#: client/gui-gtk/dialogs.c:1588
+msgid "You must select a race."
+msgstr "Vous devez choisir une race"
+
+#: client/gui-gtk/dialogs.c:1600
+msgid "You must type a legal name."
+msgstr "Vous devez taper un nom"
+
+#: client/gui-gtk/diplodlg.c:264
+msgid "Diplomacy meeting"
+msgstr "Réunion diplomatique"
+
+#: client/gui-gtk/diplodlg.c:292 client/gui-gtk/diplodlg.c:310
+msgid "World-map"
+msgstr "Carte du monde"
+
+#: client/gui-gtk/diplodlg.c:297 client/gui-gtk/diplodlg.c:315
+msgid "Sea-map"
+msgstr "Carte maritime"
+
+#: client/gui-gtk/diplodlg.c:303 client/gui-gtk/diplodlg.c:321
+msgid "Maps"
+msgstr "Cartes"
+
+#: client/gui-gtk/diplodlg.c:329 client/gui-gtk/diplodlg.c:341
+msgid "Advances"
+msgstr "Propositions"
+
+#: client/gui-gtk/diplodlg.c:355 client/gui-gtk/diplodlg.c:367
+msgid "Cities"
+msgstr "Villes"
+
+#: client/gui-gtk/diplodlg.c:443
+msgid "Erase clause"
+msgstr "Effacer clause"
+
+#: client/gui-gtk/diplodlg.c:447
+msgid "Accept treaty"
+msgstr "Accepter le traité"
+
+#: client/gui-gtk/diplodlg.c:452
+msgid "Cancel meeting"
+msgstr "Annuler la réunion"
+
+#: client/gui-gtk/finddlg.c:65
+msgid "Find City"
+msgstr "Trouver ville"
+
+#: client/gui-gtk/finddlg.c:74
+msgid "Select a city"
+msgstr "Choisissez une ville"
+
+#: client/gui-gtk/finddlg.c:96
+msgid "Center"
+msgstr "Centrer"
+
+#: client/gui-gtk/gamedlgs.c:240
+msgid "Select tax, luxury and science rates"
+msgstr "Choisissez les taux de taxe, de luxe et de science"
+
+#: client/gui-gtk/gamedlgs.c:245
+msgid "Tax"
+msgstr "Taxe"
+
+#: client/gui-gtk/gamedlgs.c:262 client/gui-gtk/gamedlgs.c:282
+#: client/gui-gtk/gamedlgs.c:302
+msgid "Lock"
+msgstr "Bloquer"
+
+#: client/gui-gtk/gamedlgs.c:265
+msgid "Luxury"
+msgstr "Luxe"
+
+#: client/gui-gtk/gamedlgs.c:285
+msgid "Science"
+msgstr ""
+
+#: client/gui-gtk/gamedlgs.c:405
+msgid "Set local options"
+msgstr "Définir les options locales"
+
+#: client/gui-gtk/gotodlg.c:94
+msgid "Goto/Airlift Unit"
+msgstr "Aller/Transférer unité"
+
+#: client/gui-gtk/gotodlg.c:96
+msgid "Select destination"
+msgstr "Choisissez une destination"
+
+#: client/gui-gtk/gotodlg.c:112
+msgid "_Goto"
+msgstr "Aller"
+
+#: client/gui-gtk/gotodlg.c:118
+msgid "Air_lift"
+msgstr "Transférer"
+
+#: client/gui-gtk/gotodlg.c:123
+msgid "All Cities"
+msgstr "Toutes les villes"
+
+#: client/gui-gtk/gotodlg.c:128
+msgid "_Cancel"
+msgstr "Annuler"
+
+#: client/gui-gtk/gui_main.c:168
+#, c-format
+msgid ""
+"Usage: %s [option ...]\n"
+"Valid options are:\n"
+msgstr ""
+"Utilisation: %s [option ...]\n"
+"Les options valides sont:\n"
+
+#: client/gui-gtk/gui_main.c:169
+msgid "  -h, --help\t\tPrint a summary of the options.\n"
+msgstr "  -h, --help\t\tAffiche un resume des options.\n"
+
+#: client/gui-gtk/gui_main.c:170
+msgid "  -l, --log=FILE\tUse FILE as logfile.\n"
+msgstr "  -l, --log=FILE\tUtiliser FILE comme fichier journal.\n"
+
+#: client/gui-gtk/gui_main.c:171
+msgid "  -n, --name=NAME\tUse NAME.\n"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:172
+msgid "  -p, --port=PORT\tConnect to PORT.\n"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:173
+msgid "  -s, --server=SERVER\tConnect to the server SERVER.\n"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:175
+msgid ""
+"  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,or 3:file1,min,max:...)\n"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:178
+msgid "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:180
+msgid "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:181
+msgid "  -v, --version\t\tPrint the version number.\n"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:582
+msgid "Turn Done"
+msgstr "Fin tour"
+
+#: client/gui-gtk/gui_main.c:707
+msgid ""
+"Freeciv is free software and you are welcome to distribute copies of it\n"
+"under certain conditions; See the \"Copying\" item on the Help menu.\n"
+"Now.. Go give'em hell!"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:898
+#, c-format
+msgid ""
+"%s People\n"
+"Year: %s\n"
+"Gold: %d\n"
+"Net Income: %d\n"
+"Tax:%d Lux:%d Sci:%d\n"
+"Researching %s: %d/%d"
+msgstr ""
+"%s personnes\n"
+"An:   %s\n"
+"Or:   %d\n"
+"Entrée Net.: %d\n"
+"Tax:%d Lux:%d Sci:%d\n"
+"Recherche %s: %d/%d"
+
+#. "shellnewcityname"
+#: client/gui-gtk/mapctrl.c:153
+msgid "Build New City"
+msgstr "Construire une nouvelle ville"
+
+#: client/gui-gtk/mapctrl.c:154
+msgid "What should we call our new city?"
+msgstr "Comment doit s'appeler la nouvelle ville?"
+
+#: client/gui-gtk/menu.c:437
+msgid "/_Game"
+msgstr "/Jeu"
+
+#: client/gui-gtk/menu.c:439
+msgid "/Game/tearoff1"
+msgstr "/Jeu/tearoff1"
+
+#: client/gui-gtk/menu.c:441 client/gui-gtk/menu.c:465
+msgid "/Game/sep1"
+msgstr "/Jeu/sep1"
+
+#: client/gui-gtk/menu.c:443
+msgid "/Game/Options"
+msgstr "/Jeu/Options"
+
+#: client/gui-gtk/menu.c:445
+msgid "/Game/Message Options"
+msgstr "/Jeu/Options des messages"
+
+#: client/gui-gtk/menu.c:447
+msgid "/Game/Save Settings"
+msgstr "/Jeu/Enregistrer la configuration"
+
+#: client/gui-gtk/menu.c:449
+msgid "/Game/sep2"
+msgstr "/Jeu/sep2"
+
+#: client/gui-gtk/menu.c:451
+msgid "/Game/Players"
+msgstr "/Jeu/Joueurs"
+
+#: client/gui-gtk/menu.c:453
+msgid "/Game/Messages"
+msgstr "/Jeu/Messages"
+
+#: client/gui-gtk/menu.c:455
+msgid "/Game/Server opt initial"
+msgstr "/Jeu/Options initiales du serveur"
+
+#: client/gui-gtk/menu.c:457
+msgid "/Game/Server opt ongoing"
+msgstr "/Jeu/Options en cours sur le serveur"
+
+#: client/gui-gtk/menu.c:459
+msgid "/Game/Export Log"
+msgstr "/Jeu/Exporter jnl"
+
+#: client/gui-gtk/menu.c:461
+msgid "/Game/Clear Log"
+msgstr "/Jeu/Effacer jnl"
+
+#: client/gui-gtk/menu.c:463
+msgid "/Game/Disconnect"
+msgstr "/Jeu/Déconnecter"
+
+#: client/gui-gtk/menu.c:467
+msgid "/Game/Quit"
+msgstr "/Jeu/Quitter"
+
+#: client/gui-gtk/menu.c:470
+msgid "/_Kingdom"
+msgstr "/Royaume"
+
+#: client/gui-gtk/menu.c:472
+msgid "/Kingdom/tearoff1"
+msgstr "/Royaume/tearoff1"
+
+#: client/gui-gtk/menu.c:474
+msgid "/Kingdom/_Tax Rate"
+msgstr "/Royaume/Taux de taxe"
+
+#: client/gui-gtk/menu.c:476
+msgid "/Kingdom/sep1"
+msgstr "/Royaume/sep1"
+
+#: client/gui-gtk/menu.c:478
+msgid "/Kingdom/Find _City"
+msgstr "/Royaume/Trouver ville"
+
+#: client/gui-gtk/menu.c:480
+msgid "/Kingdom/sep2"
+msgstr "/Royaume/sep2"
+
+#: client/gui-gtk/menu.c:482
+msgid "/Kingdom/REVOLUTION"
+msgstr "/Royaume/REVOLUTION"
+
+#: client/gui-gtk/menu.c:485
+msgid "/_View"
+msgstr "/Voir"
+
+#: client/gui-gtk/menu.c:487
+msgid "/View/tearoff1"
+msgstr "/Voir/tearoff1"
+
+#: client/gui-gtk/menu.c:489
+msgid "/View/Show Map Grid"
+msgstr "/Voir/Afficher grille"
+
+#: client/gui-gtk/menu.c:491
+msgid "/View/Center View"
+msgstr "/Voir/Centrer vue"
+
+#: client/gui-gtk/menu.c:494
+msgid "/_Orders"
+msgstr "/Ordres"
+
+#: client/gui-gtk/menu.c:496
+msgid "/Orders/tearoff1"
+msgstr "/Ordres/tearoff1"
+
+#: client/gui-gtk/menu.c:498
+msgid "/Orders/Auto Settler"
+msgstr "/Ordres/Auto coloniser"
+
+#: client/gui-gtk/menu.c:500
+msgid "/Orders/Auto-attack"
+msgstr "/Ordres/Auto-attaquer"
+
+#: client/gui-gtk/menu.c:502
+msgid "/Orders/Build City"
+msgstr "/Ordres/Construire ville"
+
+#: client/gui-gtk/menu.c:504
+msgid "/Orders/Build Road"
+msgstr "/Ordres/Construire route"
+
+#: client/gui-gtk/menu.c:506
+msgid "/Orders/Build Irrigation"
+msgstr "/Ordres/Construire irrigation"
+
+#: client/gui-gtk/menu.c:508
+msgid "/Orders/Transform Terrain"
+msgstr "/Ordres/Transformer le terrain"
+
+#: client/gui-gtk/menu.c:510
+msgid "/Orders/Build Mine"
+msgstr "/Ordres/Construire mine"
+
+#: client/gui-gtk/menu.c:512
+msgid "/Orders/sep1"
+msgstr "/Ordres/sep1"
+
+#: client/gui-gtk/menu.c:514
+msgid "/Orders/Build Fortress"
+msgstr "/Ordres/Construire forteresse"
+
+#: client/gui-gtk/menu.c:516
+msgid "/Orders/Clean Pollution"
+msgstr "/Ordres/Nettoyer pollution"
+
+#: client/gui-gtk/menu.c:518
+msgid "/Orders/sep2"
+msgstr "/Ordres/sep2"
+
+#: client/gui-gtk/menu.c:520
+msgid "/Orders/Auto-explore"
+msgstr "/Ordres/Auto-ecploration"
+
+#: client/gui-gtk/menu.c:522
+msgid "/Orders/Explode Nuclear"
+msgstr "/Ordres/Explosion nucléaire"
+
+#: client/gui-gtk/menu.c:524
+msgid "/Orders/Unload"
+msgstr "/Ordres/Décharger"
+
+#: client/gui-gtk/menu.c:526
+msgid "/Orders/Go to"
+msgstr "/Ordres/Aller"
+
+#: client/gui-gtk/menu.c:528
+msgid "/Orders/Go|Airlift to City"
+msgstr "/Ordres/Aller/transférer à la ville"
+
+#: client/gui-gtk/menu.c:530
+msgid "/Orders/Make Homecity"
+msgstr "/Ordres/Créer capitale"
+
+#: client/gui-gtk/menu.c:532
+msgid "/Orders/sep3"
+msgstr "/Ordres/sep3"
+
+#: client/gui-gtk/menu.c:534
+msgid "/Orders/Fortify"
+msgstr "/Ordres/Fortifier"
+
+#: client/gui-gtk/menu.c:536
+msgid "/Orders/Sentry"
+msgstr "/Ordres/Garder"
+
+#: client/gui-gtk/menu.c:538
+msgid "/Orders/sep4"
+msgstr "/Ordres/sep4"
+
+#: client/gui-gtk/menu.c:540
+msgid "/Orders/Disband Unit"
+msgstr "/Ordres/Congédier unité"
+
+#: client/gui-gtk/menu.c:542
+msgid "/Orders/Wake up others"
+msgstr "/Ordres/Se débarasser des autres"
+
+#: client/gui-gtk/menu.c:544
+msgid "/Orders/Wait"
+msgstr "/Ordres/Attendre"
+
+#: client/gui-gtk/menu.c:546
+msgid "/Orders/Pillage"
+msgstr "/Ordres/Pillier"
+
+#: client/gui-gtk/menu.c:548
+msgid "/Orders/Help Build Wonder"
+msgstr "/Ordres/Aider la construction de merveilles"
+
+#: client/gui-gtk/menu.c:550
+msgid "/Orders/Make Trade Route"
+msgstr "/Ordres/Créer route de commerce"
+
+#: client/gui-gtk/menu.c:552
+msgid "/Orders/Done"
+msgstr "/Ordres/Fait"
+
+#: client/gui-gtk/menu.c:555
+msgid "/_Reports"
+msgstr "/Rapports"
+
+#: client/gui-gtk/menu.c:557
+msgid "/Reports/tearoff1"
+msgstr "/Rapports/tearoff1"
+
+#: client/gui-gtk/menu.c:559
+msgid "/Reports/City Report"
+msgstr "/Rapports/Rapport de ville"
+
+#: client/gui-gtk/menu.c:561
+msgid "/Reports/Science Report"
+msgstr "/Rapports/Rapport de science"
+
+#: client/gui-gtk/menu.c:563
+msgid "/Reports/Trade Report"
+msgstr "/Rapports/Rapport de commerces"
+
+#: client/gui-gtk/menu.c:565
+msgid "/Reports/Active Units"
+msgstr "/Rapports/Unités actives"
+
+#: client/gui-gtk/menu.c:567
+msgid "/Reports/sep1"
+msgstr "/Rapports/sep1"
+
+#: client/gui-gtk/menu.c:569
+msgid "/Reports/Wonders of the World"
+msgstr "/Rapports/Merveilles"
+
+#: client/gui-gtk/menu.c:571
+msgid "/Reports/Top 5 Cities"
+msgstr "/Rapports/Top 5 des villes"
+
+#: client/gui-gtk/menu.c:573
+msgid "/Reports/Demographics"
+msgstr "/Rapports/Démographie"
+
+#: client/gui-gtk/menu.c:575
+msgid "/Reports/Spaceship"
+msgstr "/Rapports/Vaisseau spatiaux"
+
+#: client/gui-gtk/menu.c:578
+msgid "/_Help"
+msgstr "/Aide"
+
+#: client/gui-gtk/menu.c:580
+msgid "/Help/tearoff1"
+msgstr "/Aide/tearoff1"
+
+#: client/gui-gtk/menu.c:582
+msgid "/Help/Help Connecting"
+msgstr "/Aide/connection"
+
+#: client/gui-gtk/menu.c:584
+msgid "/Help/Help Controls"
+msgstr "/Aide/Contrôles"
+
+#: client/gui-gtk/menu.c:586
+msgid "/Help/Help Chatline"
+msgstr "/Aide/Discution"
+
+#: client/gui-gtk/menu.c:588
+msgid "/Help/Help Playing"
+msgstr "/Aide/Jeu"
+
+#: client/gui-gtk/menu.c:590
+msgid "/Help/Help Improvements"
+msgstr "/Aide/Progrès"
+
+#: client/gui-gtk/menu.c:592
+msgid "/Help/Help Units"
+msgstr "/Aide/Unités"
+
+#: client/gui-gtk/menu.c:594
+msgid "/Help/Help Combat"
+msgstr "/Aide/Combat"
+
+#: client/gui-gtk/menu.c:596
+msgid "/Help/Help ZOC"
+msgstr "/Aide/ZOC"
+
+#: client/gui-gtk/menu.c:598
+msgid "/Help/Help Technology"
+msgstr "/Aide/Technologie"
+
+#: client/gui-gtk/menu.c:600
+msgid "/Help/Help Terrain"
+msgstr "/Aide/Terrain"
+
+#: client/gui-gtk/menu.c:602
+msgid "/Help/Help Wonders"
+msgstr "/Aide/Merveilles"
+
+#: client/gui-gtk/menu.c:604
+msgid "/Help/Help Government"
+msgstr "/Aide/Gouvernement"
+
+#: client/gui-gtk/menu.c:606
+msgid "/Help/Help Happiness"
+msgstr "/Aide/Joie"
+
+#: client/gui-gtk/menu.c:608
+msgid "/Help/Help Space Race"
+msgstr "/Aide/Race de l'espace"
+
+#: client/gui-gtk/menu.c:610
+msgid "/Help/Copying"
+msgstr "/Aide/Copie"
+
+#: client/gui-gtk/menu.c:612
+msgid "/Help/About"
+msgstr "/Aide/A propos"
+
+#: client/gui-gtk/menu.c:704 client/gui-gtk/menu.c:723
+msgid "<main>/Reports"
+msgstr "<main>/Rapports"
+
+#: client/gui-gtk/menu.c:705 client/gui-gtk/menu.c:724
+msgid "<main>/Kingdom"
+msgstr "<main>/Royaume"
+
+#: client/gui-gtk/menu.c:706 client/gui-gtk/menu.c:725
+msgid "<main>/View"
+msgstr "<main>/Voir"
+
+#: client/gui-gtk/menu.c:707 client/gui-gtk/menu.c:726
+#: client/gui-gtk/menu.c:857 client/gui-gtk/menu.c:860
+msgid "<main>/Orders"
+msgstr "<main>/Ordres"
+
+#: client/gui-gtk/menu.c:709 client/gui-gtk/menu.c:728
+msgid "<main>/Game/Options"
+msgstr "<main>/Jeu/Options"
+
+#: client/gui-gtk/menu.c:710 client/gui-gtk/menu.c:729
+msgid "<main>/Game/Message Options"
+msgstr "<main>/Jeu/Options des messages"
+
+#: client/gui-gtk/menu.c:711 client/gui-gtk/menu.c:730
+msgid "<main>/Game/Save Settings"
+msgstr "<main>/Jeu/Enregistrer la configuration"
+
+#: client/gui-gtk/menu.c:712 client/gui-gtk/menu.c:731
+msgid "<main>/Game/Players"
+msgstr "<main>/Jeu/Joueurs"
+
+#: client/gui-gtk/menu.c:713 client/gui-gtk/menu.c:732
+msgid "<main>/Game/Messages"
+msgstr "<main>/Jeu/Messages"
+
+#: client/gui-gtk/menu.c:714 client/gui-gtk/menu.c:733
+msgid "<main>/Game/Server opt initial"
+msgstr "<main>/Jeu/Options initiales du serveur"
+
+#: client/gui-gtk/menu.c:715 client/gui-gtk/menu.c:734
+msgid "<main>/Game/Server opt ongoing"
+msgstr "<main>/Jeu/Options en cours sur le serveur"
+
+#: client/gui-gtk/menu.c:716 client/gui-gtk/menu.c:735
+msgid "<main>/Game/Export Log"
+msgstr "<main>/Jeu/Exporter jnl"
+
+#: client/gui-gtk/menu.c:717 client/gui-gtk/menu.c:736
+msgid "<main>/Game/Clear Log"
+msgstr "<main>/Jeu/Effacer jnl"
+
+#: client/gui-gtk/menu.c:718 client/gui-gtk/menu.c:737
+msgid "<main>/Game/Disconnect"
+msgstr "<main>/Jeu/Déconnecter"
+
+#: client/gui-gtk/menu.c:739
+msgid "<main>/Reports/Spaceship"
+msgstr "<main>/Rapport/Vaisseau spatiaux"
+
+#: client/gui-gtk/menu.c:743
+msgid "Build Irrigation"
+msgstr "Construire irrigation"
+
+#: client/gui-gtk/menu.c:744
+msgid "Build Mine"
+msgstr "Construire mine"
+
+#: client/gui-gtk/menu.c:745 client/gui-gtk/menu.c:852
+msgid "Build Road"
+msgstr "Construire route"
+
+#: client/gui-gtk/menu.c:746
+msgid "Transform Terrain"
+msgstr "Transformer le terrain"
+
+#: client/gui-gtk/menu.c:748
+msgid "<main>/Orders/Auto Settler"
+msgstr "<main>/Ordres/Auto coloniser"
+
+#: client/gui-gtk/menu.c:752
+msgid "<main>/Orders/Auto-attack"
+msgstr "<main>/Ordres/Auto-attaquer"
+
+#: client/gui-gtk/menu.c:756 client/gui-gtk/menu.c:797
+#: client/gui-gtk/menu.c:799
+msgid "<main>/Orders/Build City"
+msgstr "<main>/Ordres/Construire ville"
+
+#: client/gui-gtk/menu.c:759
+msgid "<main>/Orders/Build Fortress"
+msgstr "<main>/Ordres/Construire forteresse"
+
+#: client/gui-gtk/menu.c:761 client/gui-gtk/menu.c:855
+msgid "<main>/Orders/Build Road"
+msgstr "<main>/Ordres/Construire route"
+
+#: client/gui-gtk/menu.c:764
+msgid "<main>/Orders/Clean Pollution"
+msgstr "<main>/Ordres/Nettoyer pollution"
+
+#: client/gui-gtk/menu.c:766
+msgid "<main>/Orders/Fortify"
+msgstr "<main>/Ordres/Fortifier"
+
+#: client/gui-gtk/menu.c:768
+msgid "<main>/Orders/Sentry"
+msgstr "<main>/Ordres/Garder"
+
+#: client/gui-gtk/menu.c:770
+msgid "<main>/Orders/Pillage"
+msgstr "<main>/Ordres/Pillier"
+
+#: client/gui-gtk/menu.c:772
+msgid "<main>/Orders/Auto-explore"
+msgstr "<main>/Ordres/Auto-exploration"
+
+#: client/gui-gtk/menu.c:774 client/gui-gtk/menu.c:845
+msgid "<main>/Orders/Build Mine"
+msgstr "<main>/Ordres/Construire mine"
+
+#: client/gui-gtk/menu.c:776 client/gui-gtk/menu.c:844
+msgid "<main>/Orders/Build Irrigation"
+msgstr "<main>/Ordres/Construire irrigation"
+
+#: client/gui-gtk/menu.c:778 client/gui-gtk/menu.c:846
+msgid "<main>/Orders/Transform Terrain"
+msgstr "<main>/Ordres/Transformer le terrain"
+
+#: client/gui-gtk/menu.c:780
+msgid "<main>/Orders/Make Homecity"
+msgstr "<main>/Ordres/Créer capitale"
+
+#: client/gui-gtk/menu.c:782
+msgid "<main>/Orders/Explode Nuclear"
+msgstr "<main>/Ordres/Explosion nucléaire"
+
+#: client/gui-gtk/menu.c:785
+msgid "<main>/Orders/Unload"
+msgstr "<main>/Ordres/Décharger"
+
+#: client/gui-gtk/menu.c:787
+msgid "<main>/Orders/Wake up others"
+msgstr "<main>/Ordres/Se débarasser des autres"
+
+#: client/gui-gtk/menu.c:790
+msgid "<main>/Orders/Help Build Wonder"
+msgstr "<main>/Ordres/Aider à la construction de merveilles"
+
+#: client/gui-gtk/menu.c:792
+msgid "<main>/Orders/Make Trade Route"
+msgstr "<main>/Ordres/Créer route de commerce"
+
+#: client/gui-gtk/menu.c:797
+msgid "Add to City"
+msgstr "Ajouter à la ville"
+
+#: client/gui-gtk/menu.c:799
+msgid "Build City"
+msgstr "Construire ville"
+
+#: client/gui-gtk/menu.c:804
+msgid "Change to Tundra"
+msgstr "Changer en Tundra"
+
+#: client/gui-gtk/menu.c:807 client/gui-gtk/menu.c:810
+#: client/gui-gtk/menu.c:818 client/gui-gtk/menu.c:823
+#: client/gui-gtk/menu.c:835
+msgid "Change to Plains"
+msgstr "Changer en plaines"
+
+#: client/gui-gtk/menu.c:811 client/gui-gtk/menu.c:821
+#: client/gui-gtk/menu.c:830 client/gui-gtk/menu.c:833
+msgid "Change to Grassland"
+msgstr "Changer en prairie"
+
+#: client/gui-gtk/menu.c:814 client/gui-gtk/menu.c:822
+#: client/gui-gtk/menu.c:829 client/gui-gtk/menu.c:834
+msgid "Change to Forest"
+msgstr "Changer en foret"
+
+#: client/gui-gtk/menu.c:815 client/gui-gtk/menu.c:826
+msgid "Change to Hills"
+msgstr "Changer en colinnes"
+
+#: client/gui-gtk/menu.c:838
+msgid "Change to Desert"
+msgstr "Changer en désert"
+
+#: client/gui-gtk/menu.c:849
+msgid "Build Railroad"
+msgstr "Construire chemin de fer"
+
+#: client/gui-gtk/messagedlg.c:89
+msgid "Message Options"
+msgstr "Options des messages"
+
+#: client/gui-gtk/messagedlg.c:93
+msgid ""
+"Where to Display Messages\n"
+"Out = Output window, Mes = Messages window, Pop = Popup individual window"
+msgstr ""
+"Où afficher les messages\n"
+"Out = fenêtre, Mes = fenêtre messages, Pop = Fenêtre individuelle"
+
+#: client/gui-gtk/messagedlg.c:113 client/gui-gtk/messagedlg.c:119
+msgid "Out:"
+msgstr ""
+
+#: client/gui-gtk/messagedlg.c:115 client/gui-gtk/messagedlg.c:121
+msgid "Mes:"
+msgstr ""
+
+#: client/gui-gtk/messagedlg.c:117 client/gui-gtk/messagedlg.c:123
+msgid "Pop:"
+msgstr ""
+
+#: client/gui-gtk/messagewin.c:137
+msgid "Messages"
+msgstr ""
+
+#: client/gui-gtk/messagewin.c:153
+msgid "Goto location"
+msgstr "Aller vers"
+
+#: client/gui-gtk/messagewin.c:158
+msgid "Popup City"
+msgstr "Fenêtre ville"
+
+#: client/gui-gtk/plrdlg.c:88
+msgid "Players"
+msgstr "Joueurs"
+
+#: client/gui-gtk/plrdlg.c:105
+msgid "_Intelligence"
+msgstr "Renseignement"
+
+#: client/gui-gtk/plrdlg.c:111
+msgid "_Meet"
+msgstr "Réunir"
+
+#: client/gui-gtk/plrdlg.c:117
+msgid "_Spaceship"
+msgstr "Vaisseau spatial"
+
+#: client/gui-gtk/repodlgs.c:184
+msgid "Science Report"
+msgstr "Rapport de science"
+
+#: client/gui-gtk/repodlgs.c:186 client/gui-gtk/repodlgs.c:361
+msgid "Science Advisor"
+msgstr "Conseil de science"
+
+#: client/gui-gtk/repodlgs.c:194
+msgid "Researching"
+msgstr "Recherche"
+
+#: client/gui-gtk/repodlgs.c:211
+msgid "Help"
+msgstr "Aide"
+
+#: client/gui-gtk/repodlgs.c:214
+msgid "Goal"
+msgstr "But"
+
+#: client/gui-gtk/repodlgs.c:511
+msgid "Trade Report"
+msgstr "Rapport de commerce"
+
+#: client/gui-gtk/repodlgs.c:513 client/gui-gtk/repodlgs.c:671
+msgid "Trade Advisor"
+msgstr "Conseil de commerce"
+
+#: client/gui-gtk/repodlgs.c:532 client/gui-gtk/repodlgs.c:787
+msgid "Total Cost:"
+msgstr "Coût total:"
+
+#: client/gui-gtk/repodlgs.c:542
+msgid "Sell Obsolete"
+msgstr "Vendre obsolète"
+
+#: client/gui-gtk/repodlgs.c:548
+msgid "Sell All"
+msgstr "Tout vendre"
+
+#: client/gui-gtk/repodlgs.c:764
+msgid "Active units Report"
+msgstr "Rapport sur les unités actives"
+
+#: client/gui-gtk/repodlgs.c:766 client/gui-gtk/repodlgs.c:908
+msgid "Active Units"
+msgstr "Unités actives"
+
+#: client/gui-gtk/repodlgs.c:797
+msgid "Upgrade"
+msgstr "Mettre à jour"
+
+#: client/gui-gtk/spaceshipdlg.c:228
+msgid "Launch"
+msgstr "Lancer"

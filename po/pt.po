@@ -1,5 +1,5 @@
-# Translatables strings for freeciv
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Portugese translations for Freeciv
+# Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # Vasco Costa <vasc@camoes.rnl.ist.utl.pt>, 1999.
 #
 #, fuzzy

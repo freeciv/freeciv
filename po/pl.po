@@ -1,4 +1,5 @@
-# Polish translation of freeciv.
+# Polish translations for Freeciv
+# Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # Artur Biesiadowski <abies@pg.gda.pl>, 1999.
 #
 #, fuzzy
