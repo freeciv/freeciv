@@ -983,8 +983,8 @@ void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
   struct drawn_sprite tile_sprs[80];
   int count = fill_sprite_array(tile_sprs, layer, ptile, pedge, pcorner,
 				punit, pcity, citymode);
-  bool fog = (ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED 
-	      && draw_fog_of_war && fogstyle == FOG_AUTO);
+  bool fog = (ptile && draw_fog_of_war
+	      && tile_get_known(ptile) == TILE_KNOWN_FOGGED);
 
   /*** Draw terrain and specials ***/
   put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);

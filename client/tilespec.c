@@ -80,7 +80,14 @@ static int small_sprite_width, small_sprite_height;
 static int city_names_font_size, city_productions_font_size;
 
 static int roadstyle;
-enum fog_style fogstyle;
+
+/* Don't reorder this enum since tilesets depend on it. */
+enum fog_style {
+  FOG_AUTO, /* Fog is automatically appended by the code. */
+  FOG_SPRITE, /* A single fog sprite is provided by the tileset (tx.fog). */
+  FOG_NONE /* No fog. */
+};
+static enum fog_style fogstyle;
 
 static int flag_offset_x, flag_offset_y;
 static int unit_offset_x, unit_offset_y;
