@@ -1984,6 +1984,52 @@ static void city_landlocked_sell_coastal_improvements(int x, int y)
 }
 
 /**************************************************************************
+  Set the tile to be a river if required.
+  It's required if one of the tiles nearby would otherwise be part of a
+  river to nowhere.
+  For simplicity, I'm assuming that this is the only exit of the river,
+  so I don't need to trace it across the continent.  --CJM
+  Also, note that this only works for R_AS_SPECIAL type rivers.  --jjm
+**************************************************************************/
+static void ocean_to_land_fix_rivers(int x, int y)
+{
+  /* clear the river if it exists */
+  map_clear_special(x, y, S_RIVER);
+
+  /* check north */
+  if((map_get_special(x, y-1) & S_RIVER) &&
+     (map_get_terrain(x-1, y-1) != T_OCEAN) &&
+     (map_get_terrain(x+1, y-1) != T_OCEAN)) {
+    map_set_special(x, y, S_RIVER);
+    return;
+  }
+
+  /* check south */
+  if((map_get_special(x, y+1) & S_RIVER) &&
+     (map_get_terrain(x-1, y+1) != T_OCEAN) &&
+     (map_get_terrain(x+1, y+1) != T_OCEAN)) {
+    map_set_special(x, y, S_RIVER);
+    return;
+  }
+
+  /* check east */
+  if((map_get_special(x-1, y) & S_RIVER) &&
+     (map_get_terrain(x-1, y-1) != T_OCEAN) &&
+     (map_get_terrain(x-1, y+1) != T_OCEAN)) {
+    map_set_special(x, y, S_RIVER);
+    return;
+  }
+
+  /* check west */
+  if((map_get_special(x+1, y) & S_RIVER) &&
+     (map_get_terrain(x+1, y-1) != T_OCEAN) &&
+     (map_get_terrain(x+1, y+1) != T_OCEAN)) {
+    map_set_special(x, y, S_RIVER);
+    return;
+  }
+}
+
+/**************************************************************************
   Checks for terrain change between ocean and land.  Handles side-effects.
   (Should be called after any potential ocean/land terrain changes.)
   Also, returns an enum ocean_land_change, describing the change, if any.
@@ -1997,6 +2043,7 @@ static enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
 
   if ((oldter == T_OCEAN) && (newter != T_OCEAN)) {
     /* ocean to land ... */
+    ocean_to_land_fix_rivers(x, y);
     city_landlocked_sell_coastal_improvements(x, y);
     assign_continent_numbers();
     gamelog(GAMELOG_MAP, "(%d,%d) land created from ocean", x, y);
