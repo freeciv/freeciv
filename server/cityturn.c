@@ -1199,43 +1199,85 @@ static void sanity_check_city(struct city *pcity)
 }
 
 /**************************************************************************
-  Sets the incite_revolt_cost field in the given city.
+  Returns the cost to incite a city. This depends on the size of the city,
+  the number of happy, unhappy and angry citizens, whether it is
+  celebrating, how close it is to the capital, how many units it has and
+  upkeeps, presence of courthouse and its buildings and wonders.
 **************************************************************************/
 int city_incite_cost(struct player *pplayer, struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
   struct city *capital;
-  int dist;
-  int incite_revolt_cost;
+  int dist, size, cost;
 
   if (city_got_building(pcity, B_PALACE)) {
-    incite_revolt_cost = INCITE_IMPOSSIBLE_COST;
-  } else {
-    incite_revolt_cost = city_owner(pcity)->economic.gold + 1000;
-    capital = find_palace(city_owner(pcity));
-    if (capital) {
-      int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
-      dist = MIN(32, tmp);
+    return INCITE_IMPOSSIBLE_COST;
+  }
+
+  /* Gold factor */
+  cost = city_owner(pcity)->economic.gold + 1000;
+
+  unit_list_iterate(map_get_tile(pcity->x,pcity->y)->units, punit) {
+    cost += unit_type(punit)->build_cost;
+  } unit_list_iterate_end;
+
+  /* Buildings */
+  built_impr_iterate(pcity, i) {
+    if (!is_wonder(i)) {
+      cost += improvement_value(i);
     } else {
-      /* No capital? Take max penalty! */
-      dist = 32;
+      cost += improvement_value(i) * 2;
     }
-    if (city_got_building(pcity, B_COURTHOUSE)) {
-      dist /= 2; /* courthouse halves the distance penalty */
+  } built_impr_iterate_end;
+
+  /* Stability bonuses */
+  if (g->index != game.government_when_anarchy) {
+    if (!city_unhappy(pcity)) {
+      cost *= 2;
     }
-    if (g->fixed_corruption_distance != 0) {
-      dist = MIN(g->fixed_corruption_distance, dist);
-    }
-    incite_revolt_cost /= (dist + 3);
-    incite_revolt_cost *= pcity->size;
-    if (city_unhappy(pcity)) {
-      incite_revolt_cost /= 2;
-    }
-    if (unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)==0) {
-      incite_revolt_cost /= 2;
+    if (city_celebrating(pcity)) {
+      cost *= 2;
     }
   }
-  return incite_revolt_cost;
+
+  /* City is empty */
+  if (unit_list_size(&map_get_tile(pcity->x,pcity->y)->units) == 0) {
+    cost /= 2;
+  }
+
+  /* Buy back is cheap, conquered cities are also cheap */
+  if (pcity->owner != pcity->original) {
+    if (pplayer->player_no == pcity->original) {
+      cost /= 2;            /* buy back: 50% price reduction */
+    } else {
+      cost = cost * 2 / 3;  /* buy conquered: 33% price reduction */
+    }
+  }
+
+  /* Distance from capital */
+  capital = find_palace(city_owner(pcity));
+  if (capital) {
+    int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
+    dist = MIN(32, tmp);
+  } else {
+    /* No capital? Take max penalty! */
+    dist = 32;
+  }
+  if (city_got_building(pcity, B_COURTHOUSE)) {
+    dist /= 4;
+  }
+  if (g->fixed_corruption_distance != 0) {
+    dist = MIN(g->fixed_corruption_distance, dist);
+  }
+
+  size = MAX(1, pcity->size
+                + pcity->ppl_happy[4]
+                - pcity->ppl_unhappy[4]
+                - pcity->ppl_angry[4] * 3);
+  cost *= size;
+  cost = cost / (dist + 3);
+
+  return cost;
 }
 
 /**************************************************************************
