@@ -394,3 +394,26 @@ a connected observer, but only while someone is connected; they will not
 be remembered when the user disconnects.
 
 ===========================================================================
+Mini Style Guide
+===========================================================================
+
+If you want to hack FreeCiv, and want your patches to be accepted, it
+helps to follow some simple style rules:
+
+- Use K&R indentation style with indentation 2 (in doubt, use
+  'indent -kr -i2').
+
+- First state all system include files with <> in alphabetic order,
+  then all FreeCiv include files with "", sorted by folder (common,
+  server...) and then by alphabet, with a blank line between the
+  sections.  This helps avoiding adding unnecessary include files.
+
+- If you use a system specific feature, don't add #ifdef __CRAY__ or
+  something like that.  Rather write a check for that feature for
+  configure.in and use a meaningful macro name in the source.
+
+- Don't use C++-style // comments.
+
+- If you send patches, use diff -u.
+
+===========================================================================
