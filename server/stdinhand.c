@@ -3120,6 +3120,49 @@ static char *cmdlevel_generator(char *text, int state)
   return ((char *)NULL);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static char *help_generator(char *text, int state)
+{
+  static int list_index, len, try_commands;
+  const char *name;
+
+  /* If this is a new word to complete, initialize now.  This includes
+     saving the length of TEXT for efficiency, and initializing the index
+     variable to 0. */
+  if (!state) {
+    list_index = 0;
+    len = strlen (text);
+    try_commands = 1;
+  }
+
+  /* Return the next name which partially matches from the command list. */
+  if (try_commands) {
+    while (list_index < CMD_NUM) {
+      name = commands[list_index].name;
+      list_index++;
+
+      if (mystrncasecmp (name, text, len) == 0)
+	return mystrdup(name);
+    }
+    try_commands = 0;
+    list_index = 0;
+  }
+
+  if (!try_commands) {
+  /* Return the next name which partially matches from the settings list. */
+    while ((name = settings[list_index].name)) {
+      list_index++;
+
+      if (mystrncasecmp (name, text, len) == 0)
+	return mystrdup(name);
+    }
+  }
+
+  /* If no names matched, then return NULL. */
+  return ((char *)NULL);
+}
 
 /**************************************************************************
 returns whether the characters before the start position in rl_line_buffer
@@ -3306,6 +3349,14 @@ static int is_cmdlevel(int start)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static int is_help(int start)
+{
+  return contains_str_before_start(start, commands[CMD_HELP].name, 0);
+}
+
+/**************************************************************************
 Attempt to complete on the contents of TEXT.  START and END bound the
 region of rl_line_buffer that contains the word to complete.  TEXT is
 the word to complete.  We can use the entire contents of rl_line_buffer
@@ -3316,7 +3367,9 @@ char **freeciv_completion(char *text, int start, int end)
 {
   char **matches = (char **)NULL;
 
-  if (is_command(start)) {
+  if (is_help(start)) {
+    matches = completion_matches(text, help_generator);
+  } else if (is_command(start)) {
     matches = completion_matches(text, command_generator);
   } else if (is_rulesout(start)) {
     matches = completion_matches(text, rulesout_generator);
