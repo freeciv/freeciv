@@ -39,10 +39,10 @@
 #define FREEA(p) free(p)
 #endif
 
-#include <freetype/freetype.h>
-#include <freetype/ftoutln.h>
-#include <freetype/ttnameid.h>
-#include <freetype/internal/ftobjs.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include FT_OUTLINE_H
+#include FT_INTERNAL_OBJECTS_H
 
 #include "SDL.h"
 #include "SDL_endian.h"
