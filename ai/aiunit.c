@@ -520,7 +520,7 @@ bool ai_manage_explorer(struct unit *punit)
         } else {
           /* Something went wrong. What to do but return? */
           handle_unit_activity_request(punit, ACTIVITY_IDLE);
-          return TRUE;
+          return FALSE;
         }
         
       } else {
