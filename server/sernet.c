@@ -563,7 +563,7 @@ int sniff_packets(void)
     
 #ifdef SOCKET_ZERO_ISNT_STDIN
     if (!no_input && (bufptr = my_read_console())) {
-      char bufptr_internal = local_to_internal_string_malloc(bufptr);
+      char *bufptr_internal = local_to_internal_string_malloc(bufptr);
 
       con_prompt_enter();	/* will need a new prompt, regardless */
       handle_stdin_input(NULL, bufptr_internal, FALSE);
