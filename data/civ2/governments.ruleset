@@ -169,7 +169,7 @@ Anarchy is simply the absence of any recognizable government.\
  income as quickly as possible, rather than paying taxes or\
  conducting research.\
 \n\n\
-Anarchy offers slightly less corruption  and waste than Despotism, but\ 
+Anarchy offers slightly less corruption and waste than Despotism, but\
  slightly more unhappiness.\
 \n\n\
 Settlers consume 1 food per turn under Anarchy.  Squares which would\
@@ -245,7 +245,7 @@ helptext = _("\
 Under Despotism, you are the absolute ruler of your people.  Your\
  control over your citizens is maintained largely by martial law.\
 \n\n\
-Despotism suffers the highest level of corruption and waste of all\ 
+Despotism suffers the highest level of corruption and waste of all\
  forms of government.\
 \n\n\
 Settlers consume 1 food per turn under Despotism.  Squares which\
@@ -324,7 +324,7 @@ helptext = _("\
 Under Monarchy, a king or queen serves as a hereditary figurehead\
  for your government.\
 \n\n\
-Monarchy suffers the same small amount of corruption and waste that\ 
+Monarchy suffers the same small amount of corruption and waste that\
  the Republic does.\
 \n\n\
 Settlers consume 1 food per turn under Monarchy.\
@@ -404,7 +404,7 @@ A Communist government is based on the ideal that all people are\
  citizens.  Communism gives a balance between military and commercial\
  styles of government.\
 \n\n\
-Under Communism, corruption and waste does not vary by distance from\ 
+Under Communism, corruption and waste does not vary by distance from\
  the capital; all cities (including the capital) have a modest amount\
  of corruption.  In addition, Communist cities more than 10 squares\
  away from the capital are considered to be only 10 squares away when\
@@ -666,7 +666,7 @@ helptext = _("\
 Under Democracy, citizens govern directly by voting on issues.\
  Democracy offers the highest possible level of trade, but also\
  offers the most potential for unhappiness.  There is no corruption\
- or waste during Democracy, but citizens become very upset during\ 
+ or waste during Democracy, but citizens become very upset during\
  wars.\
 \n\n\
 Settlers consume 2 food per turn under Democracy.  Squares with\
