@@ -91,12 +91,23 @@ void te_init_colormodel(char *name)
 {
   char filename[512];
   struct section_file file;
+  char *realname;
 
   my_snprintf(filename, sizeof(filename), "themes/%s/%s/%s",
 	      current_theme, current_res, name);
 
   section_file_init(&file);
-  section_file_load(&file, filename);
+  realname = datafilename(filename);
+  if (!realname) {
+    freelog(LOG_FATAL, "Could not find required file %s", name);
+    assert(0);
+    exit(EXIT_FAILURE);
+  }
+  if (!section_file_load(&file, realname)) {
+    freelog(LOG_FATAL, "Could not find required file %s", filename);
+    assert(0);
+    exit(EXIT_FAILURE);
+  }
   theme_bytes_per_pixel = secfile_lookup_int(&file, "meta.bpp") / 8;
   section_file_free(&file);
 }
