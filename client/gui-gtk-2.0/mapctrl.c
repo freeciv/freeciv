@@ -110,7 +110,7 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
 static void popit(GdkEventButton *event, struct tile *ptile)
 {
   GtkWidget *p;
-  static struct tile *cross_list[2 + 1];
+  struct tile *cross_list[2 + 1];
   struct tile **cross_head = cross_list;
   int i;
   static struct tmousepos mousepos;
@@ -128,9 +128,11 @@ static void popit(GdkEventButton *event, struct tile *ptile)
     is_orders = show_unit_orders(punit);
 
     if (punit && punit->goto_tile) {
+      map_deco[punit->goto_tile->index].crosshair++;
       *cross_head = punit->goto_tile;
       cross_head++;
     }
+    map_deco[ptile->index].crosshair++;
     *cross_head = ptile;
     cross_head++;
 
@@ -139,8 +141,7 @@ static void popit(GdkEventButton *event, struct tile *ptile)
       put_cross_overlay_tile(cross_list[i]);
     }
     g_signal_connect(p, "destroy",
-		     G_CALLBACK(popupinfo_popdown_callback),
-		     GINT_TO_POINTER(is_orders));
+		     G_CALLBACK(popupinfo_popdown_callback), NULL);
 
     mousepos.x = event->x;
     mousepos.y = event->y;
@@ -164,13 +165,13 @@ static void popit(GdkEventButton *event, struct tile *ptile)
 **************************************************************************/
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 {
-  bool full = GPOINTER_TO_INT(data);
+  /* We could just remove the crosshairs that we placed earlier, but
+   * this is easier. */
+  whole_map_iterate(ptile) {
+    map_deco[ptile->index].crosshair = 0;
+  } whole_map_iterate_end;
 
-  if (full) {
-    update_map_canvas_visible();
-  } else {
-    dirty_all();
-  }
+  update_map_canvas_visible();
 }
 
  /**************************************************************************

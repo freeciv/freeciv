@@ -2758,6 +2758,7 @@ void init_mapview_decorations(void)
   map_deco = fc_realloc(map_deco, MAP_INDEX_SIZE * sizeof(*map_deco));
   whole_map_iterate(ptile) {
     map_deco[ptile->index].hilite = HILITE_NONE;
+    map_deco[ptile->index].crosshair = 0;
   } whole_map_iterate_end;
 }
 

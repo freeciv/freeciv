@@ -2964,6 +2964,12 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
     }
     break;
 
+  case LAYER_OVERLAYS:
+    if (ptile && map_deco[ptile->index].crosshair > 0) {
+      ADD_SPRITE_SIMPLE(sprites.user.attention);
+    }
+    break;
+
   case LAYER_COUNT:
     assert(0);
     break;

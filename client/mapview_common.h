@@ -30,6 +30,8 @@ struct mapview_decoration {
   enum tile_hilite {
     HILITE_NONE, HILITE_CITY
   } hilite;
+
+  int crosshair; /* A refcount */
 };
 
 struct view {
