@@ -3091,6 +3091,10 @@ void game_load(struct section_file *file)
     exit(EXIT_FAILURE);
   }
 
+  /* We don't need savefile.reason, but read it anyway to avoid
+   * warnings about unread secfile entries. */
+  secfile_lookup_str_default(file, "None", "savefile.reason");
+
   {
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),
@@ -3603,7 +3607,7 @@ void game_load(struct section_file *file)
 /***************************************************************
 ...
 ***************************************************************/
-void game_save(struct section_file *file)
+void game_save(struct section_file *file, const char *save_reason)
 {
   int i;
   int version;
@@ -3638,6 +3642,7 @@ void game_save(struct section_file *file)
     }
   }
   secfile_insert_str(file, options, "savefile.options");
+  secfile_insert_str(file, save_reason, "savefile.reason");
   /* Save improvement order in savegame, so we are not dependent on
    * ruleset order.
    * If the game isn't started improvements aren't loaded

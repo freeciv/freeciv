@@ -108,7 +108,7 @@
 
 static void end_turn(void);
 static bool is_game_over(void);
-static void save_game_auto(void);
+static void save_game_auto(const char *save_reason);
 static void generate_ai_players(void);
 static void mark_nation_as_used(Nation_Type_id nation);
 static void announce_ai_player(struct player *pplayer);
@@ -703,7 +703,7 @@ Always prints a message: either save ok, or failed.
 Note that if !HAVE_LIBZ, then game.save_compress_level should never
 become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
 **************************************************************************/
-void save_game(char *orig_filename)
+void save_game(char *orig_filename, const char *save_reason)
 {
   char filename[600];
   char *dot;
@@ -731,7 +731,7 @@ void save_game(char *orig_filename)
   timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
     
   section_file_init(&file);
-  game_save(&file);
+  game_save(&file, save_reason);
 
   /* Append ".sav" to filename. */
   sz_strlcat(filename, ".sav");
@@ -770,7 +770,7 @@ void save_game(char *orig_filename)
 /**************************************************************************
 Save game with autosave filename, and call gamelog_save().
 **************************************************************************/
-static void save_game_auto(void)
+static void save_game_auto(const char *save_reason)
 {
   char filename[512];
 
@@ -778,7 +778,7 @@ static void save_game_auto(void)
   
   my_snprintf(filename, sizeof(filename),
 	      "%s%+05d.sav", game.save_name, game.year);
-  save_game(filename);
+  save_game(filename, save_reason);
   gamelog(GAMELOG_STATUS);
 }
 
@@ -1588,7 +1588,7 @@ static void main_loop(void)
       if (game.phase == 0) {
 	if (save_counter >= game.save_nturns && game.save_nturns > 0) {
 	  save_counter = 0;
-	  save_game_auto();
+	  save_game_auto("Autosave");
 	}
 	save_counter++;
       }
@@ -1698,7 +1698,7 @@ void srv_main(void)
     gamelog(GAMELOG_JUDGE, GL_NONE);
     send_server_info_to_metaserver(META_INFO);
     if (game.save_nturns > 0) {
-      save_game_auto();
+      save_game_auto("Game over");
     }
     gamelog(GAMELOG_END);
 

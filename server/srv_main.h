@@ -60,7 +60,7 @@ void server_quit(void);
 
 bool handle_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);
-void save_game(char *orig_filename);
+void save_game(char *orig_filename, const char *save_reason);
 void pick_ai_player_name(Nation_Type_id nation, char *newname);
 void send_all_info(struct conn_list *dest);
 void check_for_full_turn_done(void);

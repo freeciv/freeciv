@@ -758,7 +758,7 @@ static bool save_command(struct connection *caller, char *arg, bool check)
 	      _("The game cannot be saved before it is started."));
     return FALSE;
   } else if (!check) {
-    save_game(arg);
+    save_game(arg, "User request");
   }
   return TRUE;
 }
