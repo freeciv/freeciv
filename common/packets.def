@@ -972,6 +972,7 @@ end
 
 PACKET_RULESET_GAME=97;sc,lsend
   STRING specialist_name[SP_COUNT][MAX_LEN_NAME];
+  STRING specialist_short_name[SP_COUNT][MAX_LEN_NAME]; add-cap(short_spec)
   UINT8 specialist_min_size[SP_COUNT];
   UINT8 specialist_bonus_old[SP_COUNT]; remove-cap(spec_multi)
   UINT8 specialist_bonus[SP_COUNT * O_MAX]; add-cap(spec_multi)

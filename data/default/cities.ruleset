@@ -21,11 +21,14 @@ options="1.9"
 ; the city is of a certain size.
 [specialist]
 
-types = "elvis", "scientist", "taxman"
+types = _("elvis"), _("scientist"), _("taxman")
+elvis_short_name = _("?Elvis:E")
 elvis_min_size = 0
 elvis_bonus_luxury = 2
+scientist_short_name = _("?Scientist:S")
 scientist_min_size = 5
 scientist_bonus_science = 3
+taxman_short_name = _("?Taxman:T")
 taxman_min_size = 5
 taxman_bonus_gold = 3
 

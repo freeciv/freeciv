@@ -2643,6 +2643,23 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 
   specialist_type_iterate(sp) {
     sz_strlcpy(game.rgame.specialists[sp].name, packet->specialist_name[sp]);
+    if (has_capability("short_spec", aconnection.capability)) {
+      sz_strlcpy(game.rgame.specialists[sp].short_name,
+		 packet->specialist_short_name[sp]);
+    } else {
+      switch (sp) {
+      case SP_ELVIS:
+	sz_strlcpy(game.rgame.specialists[sp].short_name, N_("?Elvis:E"));
+	break;
+      case SP_TAXMAN:
+	sz_strlcpy(game.rgame.specialists[sp].short_name, N_("?Taxman:T"));
+	break;
+      case SP_SCIENTIST:
+	sz_strlcpy(game.rgame.specialists[sp].short_name,
+		   N_("?Scientist:S"));
+	break;
+      }
+    }
     game.rgame.specialists[sp].min_size = packet->specialist_min_size[sp];
     if (has_capability("spec_multi", aconnection.capability)) {
       int *bonus = game.rgame.specialists[sp].bonus;

@@ -2552,10 +2552,14 @@ static void load_ruleset_cities(struct section_file *file)
   }
 
   for (i = 0; i < nval; i++) {
-    const char *name = specialist_names[i];
+    const char *name = specialist_names[i], *short_name;
     int *bonus = game.rgame.specialists[i].bonus;
 
     sz_strlcpy(game.rgame.specialists[i].name, name);
+    short_name
+      = secfile_lookup_str_default(file, name,
+				   "specialist.%s_short_name", name);
+    sz_strlcpy(game.rgame.specialists[i].short_name, short_name);
     game.rgame.specialists[i].min_size
       = secfile_lookup_int(file, "specialist.%s_min_size", name);
 
@@ -3156,6 +3160,8 @@ static void send_ruleset_game(struct conn_list *dest)
     int max_bonus = 0;
 
     sz_strlcpy(misc_p.specialist_name[sp], game.rgame.specialists[sp].name);
+    sz_strlcpy(misc_p.specialist_short_name[sp],
+	       game.rgame.specialists[sp].short_name);
     misc_p.specialist_min_size[sp] = game.rgame.specialists[sp].min_size;
 
     output_type_iterate(o) {

@@ -496,11 +496,6 @@ void load_general_options(void)
       secfile_lookup_int_default(&sf, messages_where[i],
 				 "%s.message_where_%02d", prefix, i);
   }
-  for (i = 1; i < num_city_report_spec(); i++) {
-    bool *ip = city_report_spec_show_ptr(i);
-    *ip = secfile_lookup_bool_default(&sf, *ip, "%s.city_report_%s", prefix,
-				     city_report_spec_tagname(i));
-  }
   
   for(i = 1; i < num_player_dlg_columns; i++) {
     bool *show = &(player_dlg_columns[i].show);
@@ -551,6 +546,14 @@ void load_ruleset_specific_options(void)
                                       "worklists.worklist%d.name", i));
     load_global_worklist(&sf, "worklists.worklist%d", i, 
                          &(game.player_ptr->worklists[i]));
+  }
+
+  /* Load city report columns (which include some ruleset data). */
+  for (i = 1; i < num_city_report_spec(); i++) {
+    bool *ip = city_report_spec_show_ptr(i);
+
+    *ip = secfile_lookup_bool_default(&sf, *ip, "client.city_report_%s",
+				     city_report_spec_tagname(i));
   }
 
   section_file_free(&sf);

@@ -193,8 +193,9 @@ struct civ_game {
 
   /* values from game.ruleset */
   struct {
-    struct {
+    struct specialist {
       char name[MAX_LEN_NAME];
+      char short_name[MAX_LEN_NAME];
       int min_size;
       int bonus[O_MAX];
     } specialists[SP_COUNT];

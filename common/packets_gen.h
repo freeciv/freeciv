@@ -736,6 +736,7 @@ struct packet_ruleset_unit {
 
 struct packet_ruleset_game {
   char specialist_name[SP_COUNT][MAX_LEN_NAME];
+  char specialist_short_name[SP_COUNT][MAX_LEN_NAME];
   int specialist_min_size[SP_COUNT];
   int specialist_bonus_old[SP_COUNT];
   int specialist_bonus[SP_COUNT * O_MAX];

@@ -138,7 +138,7 @@ bool select_menu_cached;
 /****************************************************************
  Return text line for the column headers for the city report
 *****************************************************************/
-static void get_city_table_header(char *text[], int n)
+static void get_city_table_header(char **text, int n)
 {
   struct city_report_spec *spec;
   int i;
@@ -722,7 +722,8 @@ static void cityrep_cell_data_func(GtkTreeViewColumn *col,
   g_value_unset(&value);
 
   sp = &city_report_specs[n];
-  my_snprintf(buf, sizeof(buf), "%*s", NEG_VAL(sp->width), (sp->func)(pcity));
+  my_snprintf(buf, sizeof(buf), "%*s", NEG_VAL(sp->width),
+	      (sp->func)(pcity, sp->data));
 
   g_value_init(&value, G_TYPE_STRING);
   g_value_set_string(&value, buf);
@@ -754,8 +755,10 @@ static gint cityrep_sort_func(GtkTreeModel *model,
   g_value_unset(&value);
 
   sp = &city_report_specs[n];
-  my_snprintf(buf1, sizeof(buf1), "%*s",NEG_VAL(sp->width),(sp->func)(pcity1));
-  my_snprintf(buf2, sizeof(buf2), "%*s",NEG_VAL(sp->width),(sp->func)(pcity2));
+  my_snprintf(buf1, sizeof(buf1), "%*s", NEG_VAL(sp->width),
+	      (sp->func)(pcity1, sp->data));
+  my_snprintf(buf2, sizeof(buf2), "%*s", NEG_VAL(sp->width),
+	      (sp->func)(pcity2, sp->data));
 
   return strcmp(buf1, buf2);
 }
@@ -765,13 +768,13 @@ static gint cityrep_sort_func(GtkTreeModel *model,
 *****************************************************************/
 static void create_city_report_dialog(bool make_modal)
 {
-  static char *titles [NUM_CREPORT_COLS];
-  static char  buf    [NUM_CREPORT_COLS][64];
+  static char **titles;
+  static char (*buf)[64];
   struct city_report_spec *spec;
 
   GtkWidget *w, *sw, *menubar;
   int i;
-  
+
   gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook));
   gui_dialog_set_title(city_dialog_shell, _("Cities"));
 
@@ -805,9 +808,11 @@ static void create_city_report_dialog(bool make_modal)
 				  GTK_RESPONSE_CLOSE);
 
   /* tree view */
-  for (i=0; i<NUM_CREPORT_COLS; i++)
+  buf = fc_realloc(buf, NUM_CREPORT_COLS * sizeof(buf[0]));
+  titles = fc_realloc(titles, NUM_CREPORT_COLS * sizeof(titles[0]));
+  for (i = 0; i < NUM_CREPORT_COLS; i++) {
     titles[i] = buf[i];
-
+  }
   get_city_table_header(titles, sizeof(buf[0]));
 
   city_model = gtk_list_store_new(2, G_TYPE_POINTER, G_TYPE_INT);

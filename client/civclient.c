@@ -301,7 +301,6 @@ int main(int argc, char *argv[])
   my_init_network();
   chatline_common_init();
   init_messages_where();
-  init_city_report_data();
   init_player_dlg_common();
   settable_options_init();
 
@@ -494,6 +493,7 @@ void set_client_state(enum client_states newstate)
     client_state=newstate;
 
     if (client_state == CLIENT_GAME_RUNNING_STATE) {
+      init_city_report_game_data();
       load_ruleset_specific_options();
       create_event(NULL, E_GAME_START, _("Game started."));
       precalc_tech_data();

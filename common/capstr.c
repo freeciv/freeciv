@@ -89,6 +89,8 @@ const char * const our_capability = our_capability_internal;
  * Note that actually using this feature with an unsupported client will
  * break it.
  *
+ * "short_spec" means that specialists have short names in the ruleset
+ *
  *   - No new manditory capabilities can be added to the release branch; doing
  *     so would break network capability of supposedly "compatible" releases.
  *
@@ -97,7 +99,7 @@ const char * const our_capability = our_capability_internal;
  *     the stable branch for as long as possible.
  */
 #define CAPABILITY "+2.0 connecting conn_ping_info username_info new_hack " \
-                   "spec_multi"
+                   "spec_multi short_spec"
 
 void init_our_capability(void)
 {
