@@ -1374,12 +1374,15 @@ void refresh_worklist(GtkWidget *editor)
 
   if (exists) {
     GtkTreeIter it_next;
+    bool more;
 
     do {
       it_next = it;
-      gtk_list_store_remove(ptr->dst, &it);
+      more = gtk_tree_model_iter_next(model, &it_next);
 
-    } while (gtk_tree_model_iter_next(model, &it_next));
+      gtk_list_store_remove(ptr->dst, &it);
+      it = it_next;
+    } while (more);
   }
 
   /* update widget sensitivity. */
