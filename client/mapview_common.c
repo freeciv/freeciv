@@ -1223,3 +1223,17 @@ void get_mapview_corners(int x[4], int y[4])
   freelog(LOG_DEBUG, "(%d,%d)->(%d,%x)->(%d,%d)->(%d,%d)",
 	  x[0], y[0], x[1], y[1], x[2], y[2], x[3], y[3]);
 }
+
+/**************************************************************************
+  Find the "base" (unwrapped) overview coordinates for a given map
+  position.  This may be used by the GUI code to draw to the minimap's
+  backing store.
+**************************************************************************/
+void map_to_base_overview_pos(int *base_overview_x, int *base_overview_y,
+			      int map_x, int map_y)
+{
+  /* Base overview positions are just like map positions, but scaled to
+   * the overview tile dimensions. */
+  *base_overview_x = map_x * OVERVIEW_TILE_WIDTH;
+  *base_overview_y = map_y * OVERVIEW_TILE_HEIGHT;
+}

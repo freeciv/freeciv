@@ -185,6 +185,8 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
 			 int map_x, int map_y);
 void overview_to_map_pos(int *map_x, int *map_y,
 			 int overview_x, int overview_y);
+void map_to_base_overview_pos(int *base_overview_x, int *base_overview_y,
+			      int map_x, int map_y);
 
 void get_mapview_corners(int overview_x_array[4], int overview_y_array[4]);
 

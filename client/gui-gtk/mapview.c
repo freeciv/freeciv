@@ -429,9 +429,13 @@ static void set_overview_tile_foreground_color(int x, int y)
 void refresh_overview_canvas(void)
 {
   whole_map_iterate(x, y) {
+    int gui_x, gui_y;
+
+    map_to_base_overview_pos(&gui_x, &gui_y, x, y);
+
     set_overview_tile_foreground_color(x, y);
     gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
-		       OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y,
+		       gui_x, gui_y,
 		       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
   } whole_map_iterate_end;
 
@@ -444,15 +448,15 @@ void refresh_overview_canvas(void)
 **************************************************************************/
 void overview_update_tile(int x, int y)
 {
-  int overview_x, overview_y;
+  int overview_x, overview_y, base_x, base_y;
 
   map_to_overview_pos(&overview_x, &overview_y, x, y);
+  map_to_base_overview_pos(&base_x, &base_y, x, y);
   
   set_overview_tile_foreground_color(x, y);
   gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
-		     OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y,
-		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
-  
+		     base_x, base_y,
+		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);  
   gdk_draw_rectangle(overview_canvas->window, fill_bg_gc, TRUE,
 		     overview_x, overview_y,
 		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);

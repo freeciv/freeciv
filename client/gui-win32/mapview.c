@@ -465,13 +465,14 @@ overview_update_tile(int x, int y)
 {
   HDC hdc;
   RECT rc;
-  int overview_x, overview_y;
+  int overview_x, overview_y, base_x, base_y;
 
   map_to_overview_pos(&overview_x, &overview_y, x, y);
+  map_to_base_overview_pos(&base_x, &base_y, x, y);
  
-  rc.left = OVERVIEW_TILE_WIDTH * x;
+  rc.left = base_x;
   rc.right = rc.left + OVERVIEW_TILE_WIDTH;
-  rc.top = OVERVIEW_TILE_HEIGHT * y;
+  rc.top = base_y;
   rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
   FillRect(overviewstoredc,&rc,brush_std[overview_tile_color(x, y)]);
 
@@ -883,9 +884,13 @@ refresh_overview_canvas(void)
   RECT rc;
 
   whole_map_iterate(x, y) {
-    rc.left = OVERVIEW_TILE_WIDTH * x;
+    int gui_x, gui_y;
+
+    map_to_base_overview_pos(&gui_x, &gui_y, x, y);
+
+    rc.left = gui_x;
     rc.right = rc.left + OVERVIEW_TILE_WIDTH;
-    rc.top = OVERVIEW_TILE_HEIGHT * y;
+    rc.top = gui_y;
     rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
     FillRect(overviewstoredc, &rc, brush_std[overview_tile_color(x, y)]);
 
