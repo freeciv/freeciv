@@ -22,6 +22,7 @@ POTFILES
 TAGS
 acinclude.m4
 aclocal.m4
+autom4te.cache
 cat-id-tbl.c
 charset.alias
 civclient
@@ -38,6 +39,7 @@ config.status
 config.sub
 configure
 core
+depcomp
 freeciv-*.tar.gz
 install-sh
 libintl.h
@@ -47,6 +49,7 @@ ref-add.sed
 ref-del.sed
 stamp-cat-id
 stamp-h
+stamp-h1
 stamp-h.in
 tags
 undep.sh
