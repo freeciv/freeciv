@@ -987,8 +987,12 @@ static void show_city_descriptions(void)
 	  } else {
 	    pimprovement_type =
 		get_improvement_type(pcity->currently_building);
-	    my_snprintf(buffer, sizeof(buffer), "%s %d",
-			pimprovement_type->name, turns);
+	    if (pcity->currently_building == B_CAPITAL) {
+	      sz_strlcpy(buffer, pimprovement_type->name);
+	    } else {
+	      my_snprintf(buffer, sizeof(buffer), "%s %d",
+			  pimprovement_type->name, turns);
+	    }
 	  }
 	  if (draw_city_names)
 	    y_offset = main_font->ascent + main_font->descent;
