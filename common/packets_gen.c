@@ -380,11 +380,11 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_OPTIONS_SETTABLE:
     return receive_packet_options_settable(pc, type);
 
-  case PACKET_RULESET_CACHE_GROUP:
-    return receive_packet_ruleset_cache_group(pc, type);
+  case PACKET_RULESET_EFFECT:
+    return receive_packet_ruleset_effect(pc, type);
 
-  case PACKET_RULESET_CACHE_EFFECT:
-    return receive_packet_ruleset_cache_effect(pc, type);
+  case PACKET_RULESET_EFFECT_REQ:
+    return receive_packet_ruleset_effect_req(pc, type);
 
   default:
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
@@ -734,11 +734,11 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_OPTIONS_SETTABLE:
     return "PACKET_OPTIONS_SETTABLE";
 
-  case PACKET_RULESET_CACHE_GROUP:
-    return "PACKET_RULESET_CACHE_GROUP";
+  case PACKET_RULESET_EFFECT:
+    return "PACKET_RULESET_EFFECT";
 
-  case PACKET_RULESET_CACHE_EFFECT:
-    return "PACKET_RULESET_CACHE_EFFECT";
+  case PACKET_RULESET_EFFECT_REQ:
+    return "PACKET_RULESET_EFFECT_REQ";
 
   default:
     return "unknown";
@@ -27171,25 +27171,25 @@ int send_packet_options_settable(struct connection *pc, const struct packet_opti
   }
 }
 
-#define hash_packet_ruleset_cache_group_100 hash_const
+#define hash_packet_ruleset_effect_100 hash_const
 
-#define cmp_packet_ruleset_cache_group_100 cmp_const
+#define cmp_packet_ruleset_effect_100 cmp_const
 
-BV_DEFINE(packet_ruleset_cache_group_100_fields, 5);
+BV_DEFINE(packet_ruleset_effect_100_fields, 2);
 
-static struct packet_ruleset_cache_group *receive_packet_ruleset_cache_group_100(struct connection *pc, enum packet_type type)
+static struct packet_ruleset_effect *receive_packet_ruleset_effect_100(struct connection *pc, enum packet_type type)
 {
-  packet_ruleset_cache_group_100_fields fields;
-  struct packet_ruleset_cache_group *old;
+  packet_ruleset_effect_100_fields fields;
+  struct packet_ruleset_effect *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct packet_ruleset_cache_group *clone;
-  RECEIVE_PACKET_START(packet_ruleset_cache_group, real_packet);
+  struct packet_ruleset_effect *clone;
+  RECEIVE_PACKET_START(packet_ruleset_effect, real_packet);
 
   DIO_BV_GET(&din, fields);
 
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_cache_group_100, cmp_packet_ruleset_cache_group_100);
+    *hash = hash_new(hash_packet_ruleset_effect_100, cmp_packet_ruleset_effect_100);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -27200,314 +27200,6 @@ static struct packet_ruleset_cache_group *receive_packet_ruleset_cache_group_100
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
-  }
-  if (BV_ISSET(fields, 1)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->num_elements = readin;
-    }
-  }
-  if (BV_ISSET(fields, 2)) {
-    
-    {
-      int i;
-    
-      if(real_packet->num_elements > 255) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->num_elements = 255;
-      }
-      for (i = 0; i < real_packet->num_elements; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->source_buildings[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 3)) {
-    
-    {
-      int i;
-    
-      if(real_packet->num_elements > 255) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->num_elements = 255;
-      }
-      for (i = 0; i < real_packet->num_elements; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->ranges[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 4)) {
-    
-    {
-      int i;
-    
-      if(real_packet->num_elements > 255) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->num_elements = 255;
-      }
-      for (i = 0; i < real_packet->num_elements; i++) {
-        dio_get_bool8(&din, &real_packet->survives[i]);
-      }
-    }
-  }
-
-  clone = fc_malloc(sizeof(*clone));
-  *clone = *real_packet;
-  if (old) {
-    free(old);
-  }
-  hash_insert(*hash, clone, clone);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_ruleset_cache_group_100(struct connection *pc, const struct packet_ruleset_cache_group *packet)
-{
-  const struct packet_ruleset_cache_group *real_packet = packet;
-  packet_ruleset_cache_group_100_fields fields;
-  struct packet_ruleset_cache_group *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_CACHE_GROUP];
-  int different = 0;
-  SEND_PACKET_START(PACKET_RULESET_CACHE_GROUP);
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_cache_group_100, cmp_packet_ruleset_cache_group_100);
-  }
-  BV_CLR_ALL(fields);
-
-  old = hash_lookup_data(*hash, real_packet);
-  old_from_hash = (old != NULL);
-  if (!old) {
-    old = fc_malloc(sizeof(*old));
-    memset(old, 0, sizeof(*old));
-    force_send_of_unchanged = TRUE;
-  }
-
-  differ = (strcmp(old->name, real_packet->name) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
-
-  differ = (old->num_elements != real_packet->num_elements);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 1);}
-
-
-    {
-      differ = (old->num_elements != real_packet->num_elements);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->num_elements; i++) {
-          if (old->source_buildings[i] != real_packet->source_buildings[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
-
-
-    {
-      differ = (old->num_elements != real_packet->num_elements);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->num_elements; i++) {
-          if (old->ranges[i] != real_packet->ranges[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
-
-
-    {
-      differ = (old->num_elements != real_packet->num_elements);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->num_elements; i++) {
-          if (old->survives[i] != real_packet->survives[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
-
-  if (different == 0 && !force_send_of_unchanged) {
-    return 0;
-  }
-
-  DIO_BV_PUT(&dout, fields);
-
-  if (BV_ISSET(fields, 0)) {
-    dio_put_string(&dout, real_packet->name);
-  }
-  if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->num_elements);
-  }
-  if (BV_ISSET(fields, 2)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->num_elements; i++) {
-        dio_put_uint8(&dout, real_packet->source_buildings[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 3)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->num_elements; i++) {
-        dio_put_uint8(&dout, real_packet->ranges[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 4)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->num_elements; i++) {
-        dio_put_bool8(&dout, real_packet->survives[i]);
-      }
-    } 
-  }
-
-
-  if (old_from_hash) {
-    hash_delete_entry(*hash, old);
-  }
-
-  clone = old;
-
-  *clone = *real_packet;
-  hash_insert(*hash, clone, clone);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_ruleset_cache_group(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_RULESET_CACHE_GROUP] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_RULESET_CACHE_GROUP] = variant;
-}
-
-struct packet_ruleset_cache_group *receive_packet_ruleset_cache_group(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_ruleset_cache_group at the server.");
-  }
-  ensure_valid_variant_packet_ruleset_cache_group(pc);
-
-  switch(pc->phs.variant[PACKET_RULESET_CACHE_GROUP]) {
-    case 100: return receive_packet_ruleset_cache_group_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_ruleset_cache_group(struct connection *pc, const struct packet_ruleset_cache_group *packet)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_ruleset_cache_group from the client.");
-  }
-  ensure_valid_variant_packet_ruleset_cache_group(pc);
-
-  switch(pc->phs.variant[PACKET_RULESET_CACHE_GROUP]) {
-    case 100: return send_packet_ruleset_cache_group_100(pc, packet);
-    default: die("unknown variant"); return -1;
-  }
-}
-
-void lsend_packet_ruleset_cache_group(struct conn_list *dest, const struct packet_ruleset_cache_group *packet)
-{
-  conn_list_iterate(dest, pconn) {
-    send_packet_ruleset_cache_group(pconn, packet);
-  } conn_list_iterate_end;
-}
-
-#define hash_packet_ruleset_cache_effect_100 hash_const
-
-#define cmp_packet_ruleset_cache_effect_100 cmp_const
-
-BV_DEFINE(packet_ruleset_cache_effect_100_fields, 8);
-
-static struct packet_ruleset_cache_effect *receive_packet_ruleset_cache_effect_100(struct connection *pc, enum packet_type type)
-{
-  packet_ruleset_cache_effect_100_fields fields;
-  struct packet_ruleset_cache_effect *old;
-  struct hash_table **hash = &pc->phs.received[type];
-  struct packet_ruleset_cache_effect *clone;
-  RECEIVE_PACKET_START(packet_ruleset_cache_effect, real_packet);
-
-  DIO_BV_GET(&din, fields);
-
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_cache_effect_100, cmp_packet_ruleset_cache_effect_100);
-  }
-  old = hash_delete_entry(*hash, real_packet);
-
-  if (old) {
-    *real_packet = *old;
-  } else {
-    memset(real_packet, 0, sizeof(*real_packet));
-  }
-
-  if (BV_ISSET(fields, 0)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->id = readin;
-    }
-  }
-  if (BV_ISSET(fields, 1)) {
     {
       int readin;
     
@@ -27515,45 +27207,12 @@ static struct packet_ruleset_cache_effect *receive_packet_ruleset_cache_effect_1
       real_packet->effect_type = readin;
     }
   }
-  if (BV_ISSET(fields, 2)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->range = readin;
-    }
-  }
-  real_packet->survives = BV_ISSET(fields, 3);
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 1)) {
     {
       int readin;
     
       dio_get_sint32(&din, &readin);
-      real_packet->eff_value = readin;
-    }
-  }
-  if (BV_ISSET(fields, 5)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->req_type = readin;
-    }
-  }
-  if (BV_ISSET(fields, 6)) {
-    {
-      int readin;
-    
-      dio_get_sint32(&din, &readin);
-      real_packet->req_value = readin;
-    }
-  }
-  if (BV_ISSET(fields, 7)) {
-    {
-      int readin;
-    
-      dio_get_sint32(&din, &readin);
-      real_packet->group_id = readin;
+      real_packet->effect_value = readin;
     }
   }
 
@@ -27567,18 +27226,18 @@ static struct packet_ruleset_cache_effect *receive_packet_ruleset_cache_effect_1
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_ruleset_cache_effect_100(struct connection *pc, const struct packet_ruleset_cache_effect *packet)
+static int send_packet_ruleset_effect_100(struct connection *pc, const struct packet_ruleset_effect *packet)
 {
-  const struct packet_ruleset_cache_effect *real_packet = packet;
-  packet_ruleset_cache_effect_100_fields fields;
-  struct packet_ruleset_cache_effect *old, *clone;
+  const struct packet_ruleset_effect *real_packet = packet;
+  packet_ruleset_effect_100_fields fields;
+  struct packet_ruleset_effect *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_CACHE_EFFECT];
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_EFFECT];
   int different = 0;
-  SEND_PACKET_START(PACKET_RULESET_CACHE_EFFECT);
+  SEND_PACKET_START(PACKET_RULESET_EFFECT);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_cache_effect_100, cmp_packet_ruleset_cache_effect_100);
+    *hash = hash_new(hash_packet_ruleset_effect_100, cmp_packet_ruleset_effect_100);
   }
   BV_CLR_ALL(fields);
 
@@ -27590,37 +27249,13 @@ static int send_packet_ruleset_cache_effect_100(struct connection *pc, const str
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->id != real_packet->id);
+  differ = (old->effect_type != real_packet->effect_type);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->effect_type != real_packet->effect_type);
+  differ = (old->effect_value != real_packet->effect_value);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
-
-  differ = (old->range != real_packet->range);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
-
-  differ = (old->survives != real_packet->survives);
-  if(differ) {different++;}
-  if(packet->survives) {BV_SET(fields, 3);}
-
-  differ = (old->eff_value != real_packet->eff_value);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
-
-  differ = (old->req_type != real_packet->req_type);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
-
-  differ = (old->req_value != real_packet->req_value);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
-
-  differ = (old->group_id != real_packet->group_id);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -27629,26 +27264,10 @@ static int send_packet_ruleset_cache_effect_100(struct connection *pc, const str
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->id);
-  }
-  if (BV_ISSET(fields, 1)) {
     dio_put_uint8(&dout, real_packet->effect_type);
   }
-  if (BV_ISSET(fields, 2)) {
-    dio_put_uint8(&dout, real_packet->range);
-  }
-  /* field 3 is folded into the header */
-  if (BV_ISSET(fields, 4)) {
-    dio_put_sint32(&dout, real_packet->eff_value);
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_put_uint8(&dout, real_packet->req_type);
-  }
-  if (BV_ISSET(fields, 6)) {
-    dio_put_sint32(&dout, real_packet->req_value);
-  }
-  if (BV_ISSET(fields, 7)) {
-    dio_put_sint32(&dout, real_packet->group_id);
+  if (BV_ISSET(fields, 1)) {
+    dio_put_sint32(&dout, real_packet->effect_value);
   }
 
 
@@ -27663,11 +27282,11 @@ static int send_packet_ruleset_cache_effect_100(struct connection *pc, const str
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_ruleset_cache_effect(struct connection *pc)
+static void ensure_valid_variant_packet_ruleset_effect(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_RULESET_CACHE_EFFECT] != -1) {
+  if(pc->phs.variant[PACKET_RULESET_EFFECT] != -1) {
     return;
   }
 
@@ -27677,10 +27296,10 @@ static void ensure_valid_variant_packet_ruleset_cache_effect(struct connection *
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_RULESET_CACHE_EFFECT] = variant;
+  pc->phs.variant[PACKET_RULESET_EFFECT] = variant;
 }
 
-struct packet_ruleset_cache_effect *receive_packet_ruleset_cache_effect(struct connection *pc, enum packet_type type)
+struct packet_ruleset_effect *receive_packet_ruleset_effect(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -27690,17 +27309,17 @@ struct packet_ruleset_cache_effect *receive_packet_ruleset_cache_effect(struct c
   }
   assert(pc->phs.variant != NULL);
   if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_ruleset_cache_effect at the server.");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_effect at the server.");
   }
-  ensure_valid_variant_packet_ruleset_cache_effect(pc);
+  ensure_valid_variant_packet_ruleset_effect(pc);
 
-  switch(pc->phs.variant[PACKET_RULESET_CACHE_EFFECT]) {
-    case 100: return receive_packet_ruleset_cache_effect_100(pc, type);
+  switch(pc->phs.variant[PACKET_RULESET_EFFECT]) {
+    case 100: return receive_packet_ruleset_effect_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_ruleset_cache_effect(struct connection *pc, const struct packet_ruleset_cache_effect *packet)
+int send_packet_ruleset_effect(struct connection *pc, const struct packet_ruleset_effect *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -27710,20 +27329,237 @@ int send_packet_ruleset_cache_effect(struct connection *pc, const struct packet_
   }
   assert(pc->phs.variant != NULL);
   if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_ruleset_cache_effect from the client.");
+    freelog(LOG_ERROR, "Sending packet_ruleset_effect from the client.");
   }
-  ensure_valid_variant_packet_ruleset_cache_effect(pc);
+  ensure_valid_variant_packet_ruleset_effect(pc);
 
-  switch(pc->phs.variant[PACKET_RULESET_CACHE_EFFECT]) {
-    case 100: return send_packet_ruleset_cache_effect_100(pc, packet);
+  switch(pc->phs.variant[PACKET_RULESET_EFFECT]) {
+    case 100: return send_packet_ruleset_effect_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
 
-void lsend_packet_ruleset_cache_effect(struct conn_list *dest, const struct packet_ruleset_cache_effect *packet)
+void lsend_packet_ruleset_effect(struct conn_list *dest, const struct packet_ruleset_effect *packet)
 {
   conn_list_iterate(dest, pconn) {
-    send_packet_ruleset_cache_effect(pconn, packet);
+    send_packet_ruleset_effect(pconn, packet);
+  } conn_list_iterate_end;
+}
+
+#define hash_packet_ruleset_effect_req_100 hash_const
+
+#define cmp_packet_ruleset_effect_req_100 cmp_const
+
+BV_DEFINE(packet_ruleset_effect_req_100_fields, 6);
+
+static struct packet_ruleset_effect_req *receive_packet_ruleset_effect_req_100(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_effect_req_100_fields fields;
+  struct packet_ruleset_effect_req *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_effect_req *clone;
+  RECEIVE_PACKET_START(packet_ruleset_effect_req, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_effect_req_100, cmp_packet_ruleset_effect_req_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->effect_id = readin;
+    }
+  }
+  real_packet->neg = BV_ISSET(fields, 1);
+  if (BV_ISSET(fields, 2)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->source_type = readin;
+    }
+  }
+  if (BV_ISSET(fields, 3)) {
+    {
+      int readin;
+    
+      dio_get_sint32(&din, &readin);
+      real_packet->source_value = readin;
+    }
+  }
+  if (BV_ISSET(fields, 4)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->range = readin;
+    }
+  }
+  real_packet->survives = BV_ISSET(fields, 5);
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_effect_req_100(struct connection *pc, const struct packet_ruleset_effect_req *packet)
+{
+  const struct packet_ruleset_effect_req *real_packet = packet;
+  packet_ruleset_effect_req_100_fields fields;
+  struct packet_ruleset_effect_req *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_EFFECT_REQ];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_EFFECT_REQ);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_effect_req_100, cmp_packet_ruleset_effect_req_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->effect_id != real_packet->effect_id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (old->neg != real_packet->neg);
+  if(differ) {different++;}
+  if(packet->neg) {BV_SET(fields, 1);}
+
+  differ = (old->source_type != real_packet->source_type);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (old->source_value != real_packet->source_value);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = (old->range != real_packet->range);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  differ = (old->survives != real_packet->survives);
+  if(differ) {different++;}
+  if(packet->survives) {BV_SET(fields, 5);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint32(&dout, real_packet->effect_id);
+  }
+  /* field 1 is folded into the header */
+  if (BV_ISSET(fields, 2)) {
+    dio_put_uint8(&dout, real_packet->source_type);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_sint32(&dout, real_packet->source_value);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_uint8(&dout, real_packet->range);
+  }
+  /* field 5 is folded into the header */
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_ruleset_effect_req(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_RULESET_EFFECT_REQ] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_RULESET_EFFECT_REQ] = variant;
+}
+
+struct packet_ruleset_effect_req *receive_packet_ruleset_effect_req(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_ruleset_effect_req at the server.");
+  }
+  ensure_valid_variant_packet_ruleset_effect_req(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_EFFECT_REQ]) {
+    case 100: return receive_packet_ruleset_effect_req_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_ruleset_effect_req(struct connection *pc, const struct packet_ruleset_effect_req *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_ruleset_effect_req from the client.");
+  }
+  ensure_valid_variant_packet_ruleset_effect_req(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_EFFECT_REQ]) {
+    case 100: return send_packet_ruleset_effect_req_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_ruleset_effect_req(struct conn_list *dest, const struct packet_ruleset_effect_req *packet)
+{
+  conn_list_iterate(dest, pconn) {
+    send_packet_ruleset_effect_req(pconn, packet);
   } conn_list_iterate_end;
 }
 

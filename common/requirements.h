@@ -17,9 +17,9 @@
 #include "fc_types.h"
 #include "tech.h"
 
-/* The type of a requirement.  This must correspond to req_type_names[]
+/* The type of a requirement source.  This must correspond to req_type_names[]
  * in requirements.c. */
-enum req_type {
+enum req_source_type {
   REQ_NONE,
   REQ_TECH,
   REQ_GOV,
@@ -49,24 +49,40 @@ enum target_type {
   TARGET_BUILDING 
 };
 
+/* A requirement source. */
+struct req_source {
+  enum req_source_type type;            /* source type */
+
+  union {
+    Tech_Type_id tech;                  /* source tech */
+    int gov;                            /* source government */
+    Impr_Type_id building;              /* source building */
+    enum tile_special_type special;     /* source special */
+    Terrain_type_id terrain;            /* source terrain type */
+  } value;                              /* source value */
+};
+
 /* A requirement. This requirement is basically a conditional; it may or
  * may not be active on a target.  If it is active then something happens.
  * For instance units and buildings have requirements to be built, techs
  * have requirements to be researched, and effects have requirements to be
  * active. */
 struct requirement {
-  enum req_type type;			/* requirement type */
+  struct req_source source;		/* requirement source */
   enum req_range range;			/* requirement range */
   bool survives; /* set if destroyed sources satisfy the req*/
-
-  union {
-    Tech_Type_id tech;			/* requirement tech */
-    int gov;				/* requirement government */
-    Impr_Type_id building;		/* requirement building */
-    enum tile_special_type special;	/* requirement special */
-    Terrain_type_id terrain;		/* requirement terrain type */
-  } value;				/* requirement value */
 };
+
+#define SPECLIST_TAG requirement
+#define SPECLIST_TYPE struct requirement
+#include "speclist.h"
+#define requirement_list_iterate(req_list, preq) \
+  TYPED_LIST_ITERATE(struct requirement, req_list, preq)
+#define requirement_list_iterate_end LIST_ITERATE_END
+
+struct req_source req_source_from_str(const char *type, const char *value);
+struct req_source req_source_from_values(int type, int value);
+void req_source_get_values(struct req_source *source, int *type, int *value);
 
 enum req_range req_range_from_str(const char *str);
 struct requirement req_from_str(const char *type, const char *range,

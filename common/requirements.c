@@ -25,9 +25,9 @@
 #include "map.h"
 #include "requirements.h"
 
-/* Names of requirement types.  These must correspond to enum req_type in
+/* Names of source types.  These must correspond to enum req_source_type in
  * requirements.h.  Do not change these unless you know what you're doing! */
-static const char *req_type_names[] = {
+static const char *req_source_type_names[] = {
   "None",
   "Tech",
   "Gov",
@@ -67,6 +67,147 @@ enum req_range req_range_from_str(const char *str)
   return REQ_RANGE_LAST;
 }
 
+/**************************************************************************
+  Parse a requirement type and value string into a requirement source
+  structure.  Passing in a NULL type is considered REQ_NONE (not an error).
+
+  Pass this some values like "Building", "Factory".
+**************************************************************************/
+struct req_source req_source_from_str(const char *type, const char *value)
+{
+  struct req_source source;
+  const struct government *pgov;
+
+  assert(ARRAY_SIZE(req_source_type_names) == REQ_LAST);
+  if (type) {
+    for (source.type = 0;
+	 source.type < ARRAY_SIZE(req_source_type_names);
+	 source.type++) {
+      if (0 == mystrcasecmp(req_source_type_names[source.type], type)) {
+	break;
+      }
+    }
+  } else {
+    source.type = REQ_NONE;
+  }
+
+  /* Finally scan the value string based on the type of the source. */
+  switch (source.type) {
+  case REQ_NONE:
+    return source;
+  case REQ_TECH:
+    source.value.tech = find_tech_by_name(value);
+    if (source.value.tech != A_LAST) {
+      return source;
+    }
+    break;
+  case REQ_GOV:
+    pgov = find_government_by_name(value);
+    if (pgov != NULL) {
+      source.value.gov = pgov->index;
+      return source;
+    }
+    break;
+  case REQ_BUILDING:
+    source.value.building = find_improvement_by_name(value);
+    if (source.value.building != B_LAST) {
+      return source;
+    }
+    break;
+  case REQ_SPECIAL:
+    source.value.special = get_special_by_name(value);
+    if (source.value.special != S_NO_SPECIAL) {
+      return source;
+    }
+    break;
+  case REQ_TERRAIN:
+    source.value.terrain = get_terrain_by_name(value);
+    if (source.value.terrain != T_UNKNOWN) {
+      return source;
+    }
+    break;
+  case REQ_LAST:
+    break;
+  }
+
+  /* If we reach here there's been an error. */
+  source.type = REQ_LAST;
+  return source;
+}
+
+/**************************************************************************
+  Parse some integer values into a req source.  This is for serialization
+  of req sources and is the opposite of req_source_get_values().
+**************************************************************************/
+struct req_source req_source_from_values(int type, int value)
+{
+  struct req_source source;
+
+  source.type = type;
+
+  switch (source.type) {
+  case REQ_NONE:
+    return source;
+  case REQ_TECH:
+    source.value.tech = value;
+    return source;
+  case REQ_GOV:
+    source.value.gov = value;
+    return source;
+  case REQ_BUILDING:
+    source.value.building = value;
+    return source;
+  case REQ_SPECIAL:
+    source.value.special = value;
+    return source;
+  case REQ_TERRAIN:
+    source.value.terrain = value;
+    return source;
+  case REQ_LAST:
+    return source;
+  }
+
+  source.type = REQ_LAST;
+  assert(0);
+  return source;
+}
+
+/**************************************************************************
+  Look at a req source and return some integer values describing it.  This
+  is for serialization of req sources and is the opposite of
+  req_source_from_values().
+**************************************************************************/
+void req_source_get_values(struct req_source *source, int *type, int *value)
+{
+  *type = source->type;
+
+  switch (source->type) {
+  case REQ_NONE:
+    *value = 0;
+    return;
+  case REQ_TECH:
+    *value = source->value.tech;
+    return;
+  case REQ_GOV:
+    *value = source->value.gov;
+    return;
+  case REQ_BUILDING:
+    *value = source->value.building;
+    return;
+  case REQ_SPECIAL:
+    *value = source->value.special;
+    return;
+  case REQ_TERRAIN:
+    *value = source->value.terrain;
+    return;
+  case REQ_LAST:
+    break;
+  }
+
+  assert(0);
+  *value = 0;
+}
+
 /****************************************************************************
   Parse a requirement type and value string into a requrement structure.
   Returns REQ_LAST on error.  Passing in a NULL type is considered REQ_NONE
@@ -79,24 +220,14 @@ struct requirement req_from_str(const char *type,
 				const char *value)
 {
   struct requirement req;
-  const struct government *pgov;
 
-  assert(ARRAY_SIZE(req_type_names) == REQ_LAST);
-  if (type) {
-    for (req.type = 0; req.type < ARRAY_SIZE(req_type_names); req.type++) {
-      if (0 == mystrcasecmp(req_type_names[req.type], type)) {
-	break;
-      }
-    }
-  } else {
-    req.type = REQ_NONE;
-  }
+  req.source = req_source_from_str(type, value);
 
   /* Scan the range string to find the range.  If no range is given a
    * default fallback is used rather than giving an error. */
   req.range = req_range_from_str(range);
   if (req.range == REQ_RANGE_LAST) {
-    switch (req.type) {
+    switch (req.source.type) {
     case REQ_NONE:
     case REQ_LAST:
       break;
@@ -113,87 +244,7 @@ struct requirement req_from_str(const char *type,
   }
 
   req.survives = survives;
-
-  /* Finally scan the value string based on the type of the req. */
-  switch (req.type) {
-  case REQ_NONE:
-    return req;
-  case REQ_TECH:
-    req.value.tech = find_tech_by_name(value);
-    if (req.value.tech != A_LAST) {
-      return req;
-    }
-    break;
-  case REQ_GOV:
-    pgov = find_government_by_name(value);
-    if (pgov != NULL) {
-      req.value.gov = pgov->index;
-      return req;
-    }
-    break;
-  case REQ_BUILDING:
-    req.value.building = find_improvement_by_name(value);
-    if (req.value.building != B_LAST) {
-      return req;
-    }
-    break;
-  case REQ_SPECIAL:
-    req.value.special = get_special_by_name(value);
-    if (req.value.special != S_NO_SPECIAL) {
-      return req;
-    }
-    break;
-  case REQ_TERRAIN:
-    req.value.terrain = get_terrain_by_name(value);
-    if (req.value.terrain != T_UNKNOWN) {
-      return req;
-    }
-    break;
-  case REQ_LAST:
-    break;
-  }
-
-  /* If we reach here there's been an error. */
-  req.type = REQ_LAST;
   return req;
-}
-
-/****************************************************************************
-  Return the value of a req as a serializable integer.  This is the opposite
-  of req_set_value.
-****************************************************************************/
-void req_get_values(struct requirement *req,
-		    int *type, int *range, bool *survives, int *value)
-{
-  *type = req->type;
-  *range = req->range;
-  *survives = req->survives;
-
-  switch (req->type) {
-  case REQ_NONE:
-    *value = 0;
-    return;
-  case REQ_TECH:
-    *value = req->value.tech;
-    return;
-  case REQ_GOV:
-    *value = req->value.gov;
-    return;
-  case REQ_BUILDING:
-    *value = req->value.building;
-    return;
-  case REQ_SPECIAL:
-    *value = req->value.special;
-    return;
-  case REQ_TERRAIN:
-    *value = req->value.terrain;
-    return;
-  case REQ_LAST:
-    break;
-  }
-
-  assert(0);
-  *value = 0;
 }
 
 /****************************************************************************
@@ -205,35 +256,22 @@ struct requirement req_from_values(int type, int range,
 {
   struct requirement req;
 
-  req.type = type;
+  req.source = req_source_from_values(type, value);
   req.range = range;
   req.survives = survives;
-
-  switch (req.type) {
-  case REQ_NONE:
-    return req;
-  case REQ_TECH:
-    req.value.tech = value;
-    return req;
-  case REQ_GOV:
-    req.value.gov = value;
-    return req;
-  case REQ_BUILDING:
-    req.value.building = value;
-    return req;
-  case REQ_SPECIAL:
-    req.value.special = value;
-    return req;
-  case REQ_TERRAIN:
-    req.value.terrain = value;
-    return req;
-  case REQ_LAST:
-    return req;
-  }
-
-  req.type = REQ_LAST;
-  assert(0);
   return req;
+}
+
+/****************************************************************************
+  Return the value of a req as a serializable integer.  This is the opposite
+  of req_set_value.
+****************************************************************************/
+void req_get_values(struct requirement *req,
+		    int *type, int *range, bool *survives, int *value)
+{
+  req_source_get_values(&req->source, type, value);
+  *range = req->range;
+  *survives = req->survives;
 }
 
 /****************************************************************************
@@ -452,29 +490,34 @@ bool is_req_active(enum target_type target,
    * have a REQ_SPECIAL or REQ_TERRAIN may often be passed to this function
    * with a city as their target.  In this case the requirement is simply
    * not met. */
-  switch (req->type) {
+  switch (req->source.type) {
   case REQ_NONE:
     return TRUE;
   case REQ_TECH:
     /* The requirement is filled if the player owns the tech. */
     return (target_player
-	    && get_invention(target_player, req->value.tech) == TECH_KNOWN);
+	    && get_invention(target_player,
+			     req->source.value.tech) == TECH_KNOWN);
   case REQ_GOV:
     /* The requirement is filled if the player is using the government. */
-    return target_player && (target_player->government == req->value.gov);
+    return (target_player
+	    && (target_player->government == req->source.value.gov));
   case REQ_BUILDING:
     /* The requirement is filled if there's at least one of the building
      * in the city.  (This is a slightly nonstandard use of
      * count_sources_in_range.) */
     return (count_buildings_in_range(target, target_player, target_city,
-				     target_building, REQ_RANGE_CITY, FALSE,
-				     req->value.building) > 0);
+				     target_building,
+				     req->range, req->survives,
+				     req->source.value.building) > 0);
   case REQ_SPECIAL:
     /* The requirement is filled if the tile has the special. */
-    return target_tile && tile_has_special(target_tile, req->value.special);
+    return (target_tile
+	    && tile_has_special(target_tile, req->source.value.special));
   case REQ_TERRAIN:
     /* The requirement is filled if the tile has the terrain. */
-    return target_tile && (target_tile->terrain  == req->value.terrain);
+    return (target_tile
+	    && (target_tile->terrain  == req->source.value.terrain));
   case REQ_LAST:
     break;
   }

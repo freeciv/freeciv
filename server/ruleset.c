@@ -90,6 +90,7 @@ static void load_ruleset_governments(struct section_file *file);
 static void load_ruleset_terrain(struct section_file *file);
 static void load_ruleset_cities(struct section_file *file);
 static void load_ruleset_nations(struct section_file *file);
+static void load_ruleset_effects(struct section_file *file);
 
 static void load_ruleset_game(void);
 
@@ -1157,57 +1158,6 @@ static void load_ruleset_buildings(struct section_file *file)
 
   (void) check_ruleset_capabilities(file, "+1.10.1", filename);
 
-  /* Parse effect source equivalency groups. */
-  sec = secfile_get_secnames_prefix(file, "group_", &nval);
-  for (i = 0; i < nval; i++) {
-    struct effect_group *group;
-    char name[MAX_LEN_NAME];
-
-    item = secfile_lookup_str(file, "%s.name", sec[i]);
-    sz_strlcpy(name, item);
-
-    group = effect_group_new(name);
-
-    for (j = 0;
-	 (item = secfile_lookup_str_default(file, NULL,
-					    "%s.elements%d.building",
-					    sec[i], j));
-	 j++) {
-      Impr_Type_id id;
-      enum req_range range;
-      bool survives;
-
-      if ((id = find_improvement_by_name(item)) == B_LAST) {
-	freelog(LOG_ERROR,
-		/* TRANS: Obscure ruleset error */
-		_("Group %s lists unknown building: \"%s\" (%s)"),
-	    	name, item, filename);
-	continue;
-      }
-
-      item = secfile_lookup_str_default(file, NULL, "%s.elements%d.range",
-	  				sec[i], j);
-      if (item) {
-	if ((range = req_range_from_str(item)) == REQ_RANGE_LAST) {
-	  freelog(LOG_ERROR,
-		  /* TRANS: Obscure ruleset error */
-		  _("Group %s lists bad range: \"%s\" (%s)"),
-		  name, item, filename);
-	  continue;
-	}
-      } else {
-	range = REQ_RANGE_CITY;
-      }
-
-      survives
-	= secfile_lookup_bool_default(file, FALSE, "%s.elements%d.survives",
-				      sec[i], j);
-
-      effect_group_add_element(group, id, range, survives);
-    }
-  }
-  free(sec);
-
   sec = secfile_get_secnames_prefix(file, "building_", &nval);
 
   for (i = 0; i < nval; i++) {
@@ -1279,83 +1229,6 @@ static void load_ruleset_buildings(struct section_file *file)
 
     b->sabotage = secfile_lookup_int(file, "%s.sabotage", sec[i]);
 
-    /* Parse building effects and add them to the effects ruleset cache. */
-    {
-      for (j = 0;
-	   (item = secfile_lookup_str_default(file, NULL, "%s.effect%d.name",
-					      sec[i], j));
-	   j++) {
-	int value;
-	enum effect_type eff;
-	enum req_range range;
-	bool survives;
-	struct requirement req;
-	char *req_type, *req_value;
-	int equiv;
-
-	if ((eff = effect_type_from_str(item)) == EFT_LAST) {
-	  freelog(LOG_ERROR,
-		  /* TRANS: Obscure ruleset error */
-		  _("Building %s lists unknown effect type: \"%s\" (%s)"),
-		  b->name, item, filename);
-	  continue;
-	}
-
-	item = secfile_lookup_str_default(file, NULL, "%s.effect%d.range",
-	    				  sec[i], j);
-	if (item) {
-	  if ((range = req_range_from_str(item)) == REQ_RANGE_LAST) {
-	    freelog(LOG_ERROR,
-		    /* TRANS: Obscure ruleset error */
-		    _("Building %s lists bad range: \"%s\" (%s)"),
-		    b->name, item, filename);
-	    continue;
-	  }
-	} else {
-	  range = REQ_RANGE_CITY;
-	}
-
-	survives = secfile_lookup_bool_default(file, FALSE, "%s.effect%d.survives",
-					       sec[i], j);
-
-	value = secfile_lookup_int_default(file, 1, "%s.effect%d.value",
-					   sec[i], j);
-
-	/* Sometimes the ruleset will have to list "" here. */
-	item = secfile_lookup_str_default(file, "", "%s.effect%d.equiv",
-	    				  sec[i], j);
-	if (item[0] != '\0') {
-	  if ((equiv = find_effect_group_id(item)) == -1) {
-	    freelog(LOG_ERROR,
-		    /* TRANS: Obscure ruleset error */
-		    _("Building %s lists bad effect group: \"%s\" (%s)"),
-		    b->name, item, filename);
-	    continue;
-	  }
-	} else {
-	  equiv = -1;
-	}
-
-	/* Sometimes the ruleset will have to list "" here. */
-	req_type = secfile_lookup_str_default(file, NULL,
-					      "%s.effect%d.req_type",
-					      sec[i], j);
-	req_value = secfile_lookup_str_default(file, "", "%s.effect%d.req",
-					       sec[i], j);
-	req = req_from_str(req_type, "", FALSE, req_value);
-	if (req.type == REQ_LAST) {
-	  /* Error.  Log it, clear the req and continue. */
-	  freelog(LOG_ERROR,
-		  /* TRANS: Obscure ruleset error */
-		  _("Building %s has unknown req: \"%s\" \"%s\" (%s)"),
-		  b->name, req_type, req_value, filename);
-	  req.type = REQ_NONE;
-	}
-
-	ruleset_cache_add(i, eff, range, survives, value, &req, equiv);
-      }
-    }
-
     sz_strlcpy(b->graphic_str,
 	       secfile_lookup_str_default(file, "-", "%s.graphic", sec[i]));
     sz_strlcpy(b->graphic_alt,
@@ -1367,26 +1240,6 @@ static void load_ruleset_buildings(struct section_file *file)
 	       secfile_lookup_str_default(file, "-", "%s.sound_alt",
 					  sec[i]));
     b->helptext = lookup_helptext(file, sec[i]);
-  }
-
-  /*
-   * Hack to allow code that explicitly checks for Palace or City Walls
-   * to work.
-   */
-  game.palace_building = get_building_for_effect(EFT_CAPITAL_CITY);
-  if (game.palace_building == B_LAST) {
-    freelog(LOG_FATAL,
-	    /* TRANS: Obscure ruleset error */
-	    _("Cannot find any palace building"));
-    exit(EXIT_FAILURE);
-  }
-
-  game.land_defend_building = get_building_for_effect(EFT_LAND_DEFEND);
-  if (game.land_defend_building == B_LAST) {
-    freelog(LOG_FATAL,
-	    /* TRANS: Obscure ruleset error */
-	    _("Cannot find any land defend building"));
-    exit(EXIT_FAILURE);
   }
 
   /* Some more consistency checking: */
@@ -2409,11 +2262,11 @@ static void load_ruleset_cities(struct section_file *file)
 				     name, j);
       struct requirement req = req_from_str(type, range, survives, value);
 
-      if (req.type == REQ_LAST) {
+      if (req.source.type == REQ_LAST) {
 	freelog(LOG_ERROR,
 		"Specialist %s has unknown req: \"%s\" \"%s\" \"%s\" %d (%s)",
 		name, type, range, value, survives, filename);
-	req.type = REQ_NONE;
+	req.source.type = REQ_NONE;
       }
 
       game.rgame.specialists[i].req[j] = req;
@@ -2490,9 +2343,118 @@ static void load_ruleset_cities(struct section_file *file)
 }
 
 /**************************************************************************
+Load effects requirement list.
+**************************************************************************/
+static void load_req_list(struct section_file *file,
+    			  const char *sec, const char *sub,
+			  bool neg, struct effect *peffect)
+{
+  char *type, *name;
+  int j;
+  const char *filename;
+
+  filename = secfile_filename(file);
+
+  for (j = 0;
+      (type = secfile_lookup_str_default(file, NULL, "%s.%s%d.type",
+					 sec, sub, j));
+      j++) {
+    char *range;
+    bool survives;
+    struct requirement req;
+
+    name = secfile_lookup_str(file, "%s.%s%d.name", sec, sub, j);
+    range = secfile_lookup_str(file, "%s.%s%d.range", sec, sub, j);
+
+    survives = secfile_lookup_bool_default(file, FALSE,
+	"%s.%s%d.survives", sec, sub, j);
+
+    req = req_from_str(type, range, survives, name);
+    if (req.source.type == REQ_LAST) {
+      /* Error.  Log it, clear the req and continue. */
+      freelog(LOG_ERROR,
+	  /* TRANS: Obscure ruleset error */
+	  _("Section %s has unknown req: \"%s\" \"%s\" (%s)"),
+	  sec, type, name, filename);
+      req.source.type = REQ_NONE;
+    } else {
+      struct requirement *preq;
+
+      preq = fc_malloc(sizeof(*preq));
+      *preq = req;
+
+      effect_req_append(peffect, neg, preq);
+    }
+  }
+}
+
+/**************************************************************************
+Load effects.ruleset file
+**************************************************************************/
+static void load_ruleset_effects(struct section_file *file)
+{
+  char **sec, *type;
+  int i, nval;
+  const char *filename;
+
+  filename = secfile_filename(file);
+  (void) check_ruleset_capabilities(file, "+1.0", filename);
+  (void) section_file_lookup(file, "datafile.description");	/* unused */
+
+  /* Parse effects and add them to the effects ruleset cache. */
+  sec = secfile_get_secnames_prefix(file, "effect_", &nval);
+  for (i = 0; i < nval; i++) {
+    enum effect_type eff;
+    int value;
+    struct effect *peffect;
+
+    type = secfile_lookup_str(file, "%s.name", sec[i]);
+
+    if ((eff = effect_type_from_str(type)) == EFT_LAST) {
+      freelog(LOG_ERROR,
+	      /* TRANS: Obscure ruleset error */
+	      _("Section %s lists unknown effect type: \"%s\" (%s)"),
+	      sec[i], type, filename);
+      continue;
+    }
+
+    value = secfile_lookup_int_default(file, 1, "%s.value", sec[i]);
+
+    peffect = effect_new(eff, value);
+
+    load_req_list(file, sec[i], "reqs", FALSE, peffect);
+    load_req_list(file, sec[i], "nreqs", TRUE, peffect);
+  }
+  free(sec);
+
+  section_file_check_unused(file, filename);
+  section_file_free(file);
+
+  /*
+   * Hack to allow code that explicitly checks for Palace or City Walls
+   * to work.
+   */
+  game.palace_building = get_building_for_effect(EFT_CAPITAL_CITY);
+  if (game.palace_building == B_LAST) {
+    freelog(LOG_FATAL,
+	    /* TRANS: Obscure ruleset error */
+	    _("Cannot find any palace building"));
+    exit(EXIT_FAILURE);
+  }
+
+  game.land_defend_building = get_building_for_effect(EFT_LAND_DEFEND);
+  if (game.land_defend_building == B_LAST) {
+    freelog(LOG_FATAL,
+	    /* TRANS: Obscure ruleset error */
+	    _("Cannot find any land defend building"));
+    exit(EXIT_FAILURE);
+  }
+}
+
+/**************************************************************************
 Load ruleset file
 **************************************************************************/
-static void load_ruleset_game()
+static void load_ruleset_game(void)
 {
   struct section_file file;
   char *sval;
@@ -3061,7 +3023,7 @@ static void send_ruleset_game(struct conn_list *dest)
 void load_rulesets(void)
 {
   struct section_file techfile, unitfile, buildfile, govfile, terrfile;
-  struct section_file cityfile, nationfile;
+  struct section_file cityfile, nationfile, effectfile;
 
   freelog(LOG_NORMAL, _("Loading rulesets"));
 
@@ -3086,6 +3048,8 @@ void load_rulesets(void)
   openload_ruleset_file(&nationfile, "nations");
   load_nation_names(&nationfile);
 
+  openload_ruleset_file(&effectfile, "effects");
+
   load_ruleset_techs(&techfile);
   load_ruleset_cities(&cityfile);
   load_ruleset_governments(&govfile);
@@ -3093,6 +3057,7 @@ void load_rulesets(void)
   load_ruleset_terrain(&terrfile);    /* terrain must precede nations */
   load_ruleset_buildings(&buildfile);
   load_ruleset_nations(&nationfile);
+  load_ruleset_effects(&effectfile);
   load_ruleset_game();
   translate_data_names();
 }

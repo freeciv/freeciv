@@ -439,22 +439,26 @@ void get_city_dialog_output_text(const struct city *pcity,
 
   if (eft != EFT_LAST) {
     int base = total, bonus = 100;
-    struct effect_source_vector sources;
+    struct effect_list *plist = effect_list_new();
 
-    (void) get_city_bonus_sources(&sources, pcity, eft);
+    (void) get_city_bonus_effects(plist, pcity, eft);
 
-    effect_source_vector_iterate(&sources, s) {
+    effect_list_iterate(plist, peffect) {
+      char buf2[512];
       int new_total;
 
-      bonus += s->effect_value;
+      get_effect_req_text(peffect, buf2, sizeof(buf2));
+
+      bonus += peffect->value;
       new_total = bonus * base / 100;
       cat_snprintf(buf, bufsz,
 		   _("%+4d : Bonus from %s (%+d%%)\n"),
-		   (new_total - total), get_improvement_name(s->building),
-		   s->effect_value);
+		   (new_total - total), buf2,
+		   peffect->value);
       total = new_total;
-    } effect_source_vector_iterate_end;
-    effect_source_vector_free(&sources);
+    } effect_list_iterate_end;
+    effect_list_unlink_all(plist);
+    effect_list_free(plist);
   }
 
   if (pcity->waste[otype] != 0) {

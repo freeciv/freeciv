@@ -59,11 +59,16 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
   memset(count, 0, sizeof(count));
 
   impr_type_iterate(id) {
+    struct req_source source = {
+      .type = REQ_BUILDING,
+      .value.building = id
+    };
+
     ai->impr_calc[id] = AI_IMPR_ESTIMATE;
 
     /* Find largest extension */
-    effect_type_vector_iterate(get_building_effect_types(id), ptype) {
-      switch (*ptype) {
+    effect_list_iterate(get_req_source_effects(&source), peffect) {
+      switch (peffect->type) {
 #if 0
       /* TODO */
       case EFT_FORCE_CONTENT:
@@ -92,19 +97,21 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_TRADE_INC_TILE:
       case EFT_TRADE_PER_TILE:
       case EFT_UPKEEP_FREE:
-      effect_list_iterate(get_building_effects(id, *ptype), peff) {
-        ai->impr_calc[id] = AI_IMPR_CALCULATE;
-        if (peff->range > ai->impr_range[id]) {
-          ai->impr_range[id] = peff->range;
-        }
-      } effect_list_iterate_end;
+	requirement_list_iterate(peffect->reqs, preq) {
+	  if (preq->source.type == REQ_BUILDING
+	      && preq->source.value.building == id) {
+	    ai->impr_calc[id] = AI_IMPR_CALCULATE;
+	    if (preq->range > ai->impr_range[id]) {
+	      ai->impr_range[id] = preq->range;
+	    }
+	  }
+	} requirement_list_iterate_end;
       break;
       default:
       /* Nothing! */
       break;
       }
-    } effect_type_vector_iterate_end;
-    
+    } effect_list_iterate_end;
   } impr_type_iterate_end;
 }
 

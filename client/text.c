@@ -724,17 +724,21 @@ const char *get_report_title(const char *report_name)
 const char *get_happiness_buildings(const struct city *pcity)
 {
   int faces = 0;
-  struct effect_source_vector sources;
+  struct effect_list *plist = effect_list_new();
+  char buf[512];
   INIT;
 
   add_line(_("Buildings: "));
 
-  get_city_bonus_sources(&sources, pcity, EFT_MAKE_CONTENT);
-  effect_source_vector_iterate(&sources, src) {
+  get_city_bonus_effects(plist, pcity, EFT_MAKE_CONTENT);
+
+  effect_list_iterate(plist, peffect) {
     faces++;
-    add(_("%s. "), get_improvement_name(src->building));
-  } effect_source_vector_iterate_end;
-  effect_source_vector_free(&sources);
+    get_effect_req_text(peffect, buf, sizeof(buf));
+    add(_("%s. "), buf);
+  } effect_list_iterate_end;
+  effect_list_unlink_all(plist);
+  effect_list_free(plist);
 
   if (faces == 0) {
     add(_("None. "));
@@ -749,31 +753,23 @@ const char *get_happiness_buildings(const struct city *pcity)
 const char *get_happiness_wonders(const struct city *pcity)
 {
   int faces = 0;
-  struct effect_source_vector sources;
+  struct effect_list *plist = effect_list_new();
+  char buf[512];
   INIT;
 
   add_line(_("Wonders: "));
+  get_city_bonus_effects(plist, pcity, EFT_MAKE_HAPPY);
+  get_city_bonus_effects(plist, pcity, EFT_FORCE_CONTENT);
+  get_city_bonus_effects(plist, pcity, EFT_NO_UNHAPPY);
 
-  get_city_bonus_sources(&sources, pcity, EFT_MAKE_HAPPY);
-  effect_source_vector_iterate(&sources, src) {
+  effect_list_iterate(plist, peffect) {
     faces++;
-    add(_("%s. "), get_improvement_name(src->building));
-  } effect_source_vector_iterate_end;
-  effect_source_vector_free(&sources);
+    get_effect_req_text(peffect, buf, sizeof(buf));
+    add(_("%s. "), buf);
+  } effect_list_iterate_end;
 
-  get_city_bonus_sources(&sources, pcity, EFT_FORCE_CONTENT);
-  effect_source_vector_iterate(&sources, src) {
-    faces++;
-    add(_("%s. "), get_improvement_name(src->building));
-  } effect_source_vector_iterate_end;
-  effect_source_vector_free(&sources);
-
-  get_city_bonus_sources(&sources, pcity, EFT_NO_UNHAPPY);
-  effect_source_vector_iterate(&sources, src) {
-    faces++;
-    add(_("%s. "), get_improvement_name(src->building));
-  } effect_source_vector_iterate_end;
-  effect_source_vector_free(&sources);
+  effect_list_unlink_all(plist);
+  effect_list_free(plist);
 
   if (faces == 0) {
     add(_("None. "));

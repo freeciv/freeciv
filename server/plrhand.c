@@ -130,21 +130,21 @@ void send_player_turn_notifications(struct conn_list *dest)
 void do_tech_parasite_effect(struct player *pplayer)
 {
   int mod;
-  struct effect_source_vector sources;
+  struct effect_list *plist = effect_list_new();
 
   /* Note that two EFT_TECH_PARASITE effects will combine into a single,
    * much worse effect. */
-  if ((mod = get_player_bonus_sources(&sources, pplayer,
+  if ((mod = get_player_bonus_effects(plist, pplayer,
 				      EFT_TECH_PARASITE)) > 0) {
     char buf[512];
 
     buf[0] = '\0';
-    effect_source_vector_iterate(&sources, src) {
+    effect_list_iterate(plist, peffect) {
       if (buf[0] != '\0') {
 	sz_strlcat(buf, ", ");
       }
-      sz_strlcat(buf, get_improvement_name(src->building));
-    } effect_source_vector_iterate_end;
+      get_effect_req_text(peffect, buf, sizeof(buf));
+    } effect_list_iterate_end;
 
     tech_type_iterate(i) {
       if (get_invention(pplayer, i) != TECH_KNOWN
@@ -165,7 +165,8 @@ void do_tech_parasite_effect(struct player *pplayer)
       }
     } tech_type_iterate_end;
   }
-  effect_source_vector_free(&sources);
+  effect_list_unlink_all(plist);
+  effect_list_free(plist);
 }
 
 /****************************************************************************

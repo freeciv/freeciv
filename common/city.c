@@ -671,7 +671,7 @@ bool city_can_use_specialist(const struct city *pcity,
   for (i = 0; i < MAX_NUM_REQS; i++) {
     struct requirement *req = &game.rgame.specialists[type].req[i];
 
-    if (req->type == REQ_NONE) {
+    if (req->source.type == REQ_NONE) {
       break; /* Short-circuit any more checks. */
     } else if (!is_req_active(TARGET_CITY, city_owner(pcity), pcity,
 			      B_LAST, NULL, req)) {

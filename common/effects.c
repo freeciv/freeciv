@@ -212,152 +212,114 @@ const char *effect_type_name(enum effect_type effect_type)
   number of possible sources increases.
 **************************************************************************/
 
-/*
- * A group lists which sources are in it and at what range.
- * Each effect also lists which group it is in.  So an effect is in the
- * group if its source is listed in the group, and the effect lists the
- * group as its own.
- *
- * Only the first applicable effect in a group will be active.  Any others
- * are simply ignored.
- *
- * Actually this isn't quite true.  The check is done on buildings, not
- * on effects.  A building in a group may obsolete the effect of a building
- * later in the group, even if the first building doesn't have any effects
- * that are actually in the group.  However only the effects of the second
- * building that are actually in the group will be obsoleted.
- */
-struct effect_group_element {
-  Impr_Type_id source_building;
-  enum req_range range;
-  bool survives;
-};
-
-#define SPECLIST_TAG effect_group_element
-#define SPECLIST_TYPE struct effect_group_element
-#include "speclist.h"
-
-#define effect_group_element_list_iterate(list, elt) \
-  TYPED_LIST_ITERATE(struct effect_group_element, list, elt)
-#define effect_group_element_list_iterate_end  LIST_ITERATE_END
-
-struct effect_group {
-  char *name;
-  int id;
-  struct effect_group_element_list *elements;
-};
-
-#define SPECLIST_TAG effect_group
-#define SPECLIST_TYPE struct effect_group
-#include "speclist.h"
-
-#define effect_group_list_iterate(list, pgroup) \
-  TYPED_LIST_ITERATE(struct effect_group, list, pgroup)
-#define effect_group_list_iterate_end  LIST_ITERATE_END
-
 /**************************************************************************
   Ruleset cache. The cache is created during ruleset loading and the data
   is organized to enable fast queries.
 **************************************************************************/
 static struct {
-  struct {
-    /* This cache shows for each effect, which buildings provide it. */
-    struct building_vector buildings;
+  /* A single list containing every effect. */
+  struct effect_list *tracker;
 
-    /* This array provides a full list of the effects of this type provided
-     * by each building.  (It's not really a cache, it's the real data.) */
-    struct effect_list *buckets[B_LAST];
-  } effects[EFT_LAST];
+  /* This array provides a full list of the effects of this type
+   * (It's not really a cache, it's the real data.) */
+  struct effect_list *effects[EFT_LAST];
 
-  /* This cache shows for each building, which effect types it provides. */
   struct {
-    struct effect_type_vector types;
-  } buildings[B_LAST];
+    /* This cache shows for each building, which effects it provides. */
+    struct effect_list *buildings[B_LAST];
+  } reqs;
 } ruleset_cache;
 
-static struct effect_group_list *groups;
-static int next_group_id;
-
 
 /**************************************************************************
-  Get a vector of buildings which grant the effect type.
+  Get a list of effects of this type.
 **************************************************************************/
-static struct building_vector *get_buildings_with_effect(enum effect_type e)
+static struct effect_list *get_effects(enum effect_type effect_type)
 {
-  return &ruleset_cache.effects[e].buildings;
+  return ruleset_cache.effects[effect_type];
 }
 
 /**************************************************************************
-  Get a list of effects of this type granted by a building.
+  Get a list of effects with this requirement source.
+
+  Note: currently only buildings are supported.
 **************************************************************************/
-struct effect_list *get_building_effects(Impr_Type_id building,
-					 enum effect_type effect_type)
+struct effect_list *get_req_source_effects(struct req_source *psource)
 {
-  return ruleset_cache.effects[effect_type].buckets[building];
+  switch (psource->type) {
+  case REQ_BUILDING:
+    return ruleset_cache.reqs.buildings[psource->value.building];
+  default:
+    return NULL;
+  }
 }
 
 /**************************************************************************
-  Get a vector of effect types granted by a building.
+  Add effect to ruleset cache.
 **************************************************************************/
-struct effect_type_vector *get_building_effect_types(Impr_Type_id id)
+struct effect *effect_new(enum effect_type type, int value)
 {
-  return &ruleset_cache.buildings[id].types;
+  struct effect *peffect;
+
+  /* Create the effect. */
+  peffect = fc_malloc(sizeof(*peffect));
+  peffect->type = type;
+  peffect->value = value;
+
+  peffect->reqs = requirement_list_new();
+  peffect->nreqs = requirement_list_new();
+
+  /* Now add the effect to the ruleset cache. */
+  effect_list_append(ruleset_cache.tracker, peffect);
+  effect_list_append(get_effects(type), peffect);
+  return peffect;
 }
 
 /**************************************************************************
-  Create a new effects group.
+  Free effect.
 **************************************************************************/
-struct effect_group *effect_group_new(const char *name)
+static void effect_free(struct effect *peffect)
 {
-  struct effect_group *group;
+  requirement_list_iterate(peffect->reqs, preq) {
+    free(preq);
+  } requirement_list_iterate_end;
+  requirement_list_unlink_all(peffect->reqs);
+  requirement_list_free(peffect->reqs);
 
-  /* Create the group. */
-  group = fc_malloc(sizeof(*group));
-  group->name = mystrdup(name);
-  group->id = next_group_id++;
-  group->elements = effect_group_element_list_new();
+  requirement_list_iterate(peffect->nreqs, preq) {
+    free(preq);
+  } requirement_list_iterate_end;
+  requirement_list_unlink_all(peffect->nreqs);
+  requirement_list_free(peffect->nreqs);
 
-  /* Add this group to the global list of groups. */
-  effect_group_list_append(groups, group);
-
-  return group;
+  free(peffect);
 }
 
 /**************************************************************************
-  Add a source to an existing effects group.
+  Append requirement to effect.
 **************************************************************************/
-void effect_group_add_element(struct effect_group *group,
-			      Impr_Type_id source_building,
-			      enum req_range range, bool survives)
+void effect_req_append(struct effect *peffect, bool neg,
+		       struct requirement *preq)
 {
-  struct effect_group_element *elt;
+  struct requirement_list *req_list;
 
-  /* Create the element. */
-  elt = fc_malloc(sizeof(*elt));
-  elt->source_building = source_building;
-  elt->range = range;
-  elt->survives = survives;
+  if (neg) {
+    req_list = peffect->nreqs;
+  } else {
+    req_list = peffect->reqs;
+  }
 
-  /* Append it to the group. */
-  effect_group_element_list_append(group->elements, elt);
-}
+  /* Append requirement to the effect. */
+  requirement_list_append(req_list, preq);
 
-/**************************************************************************
-  Find the id of an effects group by name.  Returns -1 if the group is not
-  found.
-**************************************************************************/
-int find_effect_group_id(const char *name)
-{
-  int group_id = 0;
+  /* Add effect to the source's effect list. */
+  if (!neg) {
+    struct effect_list *eff_list = get_req_source_effects(&preq->source);
 
-  effect_group_list_iterate(groups, pgroup) {
-    if (0 == mystrcasecmp(pgroup->name, name)) {
-      return group_id;
+    if (eff_list) {
+      effect_list_append(eff_list, peffect);
     }
-    group_id++;
-  } effect_group_list_iterate_end;
-
-  return -1;
+  }
 }
 
 /**************************************************************************
@@ -367,21 +329,15 @@ int find_effect_group_id(const char *name)
 **************************************************************************/
 void ruleset_cache_init(void)
 {
-  int i, j;
+  int i;
 
-  groups = effect_group_list_new();
-  next_group_id = 0;
-
-  for (i = 0; i < ARRAY_SIZE(ruleset_cache.buildings); i++) {
-    effect_type_vector_init(get_building_effect_types(i));
-  }
+  ruleset_cache.tracker = effect_list_new();
 
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.effects); i++) {
-    building_vector_init(get_buildings_with_effect(i));
-
-    for (j = 0; j < ARRAY_SIZE(ruleset_cache.effects[i].buckets); j++) {
-      ruleset_cache.effects[i].buckets[j] = effect_list_new();
-    }
+    ruleset_cache.effects[i] = effect_list_new();
+  }
+  for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.buildings); i++) {
+    ruleset_cache.reqs.buildings[i] = effect_list_new();
   }
 }
 
@@ -391,166 +347,71 @@ void ruleset_cache_init(void)
 **************************************************************************/
 void ruleset_cache_free(void)
 {
-  int i, j;
+  int i;
+  struct effect_list *plist = ruleset_cache.tracker;
 
-  for (i = 0; i < ARRAY_SIZE(ruleset_cache.buildings); i++) {
-    effect_type_vector_free(get_building_effect_types(i));
+  if (plist) {
+    effect_list_iterate(plist, peffect) {
+      effect_free(peffect);
+    } effect_list_iterate_end;
+    effect_list_unlink_all(plist);
+    effect_list_free(plist);
+    ruleset_cache.tracker = NULL;
   }
 
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.effects); i++) {
-    building_vector_free(get_buildings_with_effect(i));
+    struct effect_list *plist = get_effects(i);
 
-    for (j = 0; j < ARRAY_SIZE(ruleset_cache.effects[i].buckets); j++) {
-      struct effect_list *plist = get_building_effects(j, i);
-
-      if (plist != NULL) {
-        effect_list_iterate(plist, peffect) {
-          /* Allocated in ruleset_cache_add. */
-          free(peffect);
-        } effect_list_iterate_end;
-        effect_list_unlink_all(plist);
-        effect_list_free(plist);
-      }
+    if (plist) {
+      effect_list_unlink_all(plist);
+      effect_list_free(plist);
+      ruleset_cache.effects[i] = NULL;
     }
   }
-  if (groups != NULL) {
-    effect_group_list_unlink_all(groups);
-    effect_group_list_free(groups);
+
+  for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.buildings); i++) {
+    struct req_source source = {
+      .type = REQ_BUILDING,
+      .value.building = i
+    };
+    struct effect_list *plist = get_req_source_effects(&source);
+
+    if (plist) {
+      effect_list_unlink_all(plist);
+      effect_list_free(plist);
+      ruleset_cache.reqs.buildings[i] = NULL;
+    }
   }
 }
 
 /**************************************************************************
-  Add effect to ruleset cache.
+  Receives a new effect.  This is called by the client when the packet
+  arrives.
 **************************************************************************/
-void ruleset_cache_add(Impr_Type_id source, enum effect_type effect_type,
-		       enum req_range range, bool survives, int eff_value,
-		       struct requirement *req,
-		       int group_id)
+void recv_ruleset_effect(struct packet_ruleset_effect *packet)
 {
-  struct effect *peffect;
+  effect_new(packet->effect_type, packet->effect_value);
+}
 
-  /* Create the effect. */
-  peffect = fc_malloc(sizeof(*peffect));
-  peffect->range = range;
-  peffect->survives = survives;
-  peffect->value = eff_value;
-
-  /* Set effect's requirement data. */
-  peffect->req = *req;
-
-  /* Find the effect's group. */
-  if (group_id >= 0) {
-    peffect->group = effect_group_list_get(groups, group_id);
+/**************************************************************************
+  Receives a new effect *requirement*.  This is called by the client when
+  the packet arrives.
+**************************************************************************/
+void recv_ruleset_effect_req(struct packet_ruleset_effect_req *packet)
+{
+  if (packet->effect_id != effect_list_size(ruleset_cache.tracker) - 1) {
+    freelog(LOG_ERROR, "Bug in recv_ruleset_effect_req.");
   } else {
-    peffect->group = NULL;
-  }
+    struct effect *peffect = effect_list_get(ruleset_cache.tracker, -1);
+    struct requirement req, *preq;
 
-  /* Now add the effect to the ruleset cache. */
-  effect_list_append(get_building_effects(source, effect_type),
-			  peffect);
+    req = req_from_values(packet->source_type, packet->range, packet->survives,
+	packet->source_value);
 
-  /* Add building type to the effect type's buildings vector. */
-  {
-    struct building_vector *vec;
-    Impr_Type_id *pbldg;
+    preq = fc_malloc(sizeof(*preq));
+    *preq = req;
 
-    vec = get_buildings_with_effect(effect_type);
-
-    /* Append this building to the list of buildings providing the effect.
-     * There is a sanity check to prevent it from being added more than
-     * once.  (It is possible the same building would have multiple effects
-     * of the same type, in which case we don't want to add the building
-     * to the list twice.  However this does assume that all effects from
-     * one building are processed before moving on to the next building. */
-    if (!(pbldg = building_vector_get(vec, -1)) || *pbldg != source) {
-      building_vector_append(vec, &source);
-    }
-  }
-
-  /* Add effect type to the building's effect types vector. */
-  {
-    struct effect_type_vector *vec;
-    bool exists = FALSE;
-
-    vec = get_building_effect_types(source);
-
-    /* See if it's already in the list. */
-    effect_type_vector_iterate(vec, ptype) {
-      if (*ptype == effect_type) {
-	exists = TRUE;
-	break;
-      }
-    } effect_type_vector_iterate_end;
-
-    /* And if not, append it. */
-    if (!exists) {
-      effect_type_vector_append(vec, &effect_type);
-    }
-  }
-}
-
-/**************************************************************************
-  Send the ruleset cache groups data.
-**************************************************************************/
-static void send_ruleset_cache_groups(struct conn_list *dest)
-{
-  struct packet_ruleset_cache_group packet;
-  int i;
-
-  effect_group_list_iterate(groups, pgroup) {
-    sz_strlcpy(packet.name, pgroup->name);
-
-    packet.num_elements = effect_group_element_list_size(pgroup->elements);
-    for (i = 0; i < packet.num_elements; i++) {
-      struct effect_group_element *elt;
-
-      elt = effect_group_element_list_get(pgroup->elements, i);
-      packet.source_buildings[i] = elt->source_building;
-      packet.ranges[i] = elt->range;
-      packet.survives[i] = elt->survives;
-    }
-
-    lsend_packet_ruleset_cache_group(dest, &packet);
-  } effect_group_list_iterate_end;
-}
-
-/**************************************************************************
-  Send the ruleset cache effects data.
-**************************************************************************/
-static void send_ruleset_cache_effects(struct conn_list *dest)
-{
-  struct packet_ruleset_cache_effect packet;
-  enum effect_type effect_type;
-
-  for (effect_type = 0; effect_type < EFT_LAST; effect_type++) {
-    packet.effect_type = effect_type;
-
-    building_vector_iterate(get_buildings_with_effect(effect_type),
-			    building) {
-      int dummy_type, dummy_range;
-      bool dummy_survives;
-
-      packet.id = *building;
-
-      effect_list_iterate(get_building_effects(*building, effect_type),
-			  peffect) {
-	packet.range = peffect->range;
-	packet.survives = peffect->survives;
-        packet.eff_value = peffect->value;
-	packet.req_type = peffect->req.type;
-
-	if (peffect->group) {
-	  packet.group_id = peffect->group->id;
-	} else {
-	  packet.group_id = -1;
-	}
-
-	req_get_values(&peffect->req, &dummy_type,
-		       &dummy_range, &dummy_survives, &packet.req_value);
-
-	lsend_packet_ruleset_cache_effect(dest, &packet);
-      } effect_list_iterate_end;
-    } building_vector_iterate_end;
+    effect_req_append(peffect, packet->neg, preq);
   }
 }
 
@@ -559,8 +420,50 @@ static void send_ruleset_cache_effects(struct conn_list *dest)
 **************************************************************************/
 void send_ruleset_cache(struct conn_list *dest)
 {
-  send_ruleset_cache_groups(dest);
-  send_ruleset_cache_effects(dest);
+  unsigned id = 0;
+
+  effect_list_iterate(ruleset_cache.tracker, peffect) {
+    struct packet_ruleset_effect packet;
+
+    packet.effect_type = peffect->type;
+    packet.effect_value = peffect->value;
+
+    lsend_packet_ruleset_effect(dest, &packet);
+
+    requirement_list_iterate(peffect->reqs, preq) {
+      struct packet_ruleset_effect_req packet;
+      int type, range, value;
+      bool survives;
+
+      req_get_values(preq, &type, &range, &survives, &value);
+      packet.effect_id = id;
+      packet.neg = FALSE;
+      packet.source_type = type;
+      packet.source_value = value;
+      packet.range = range;
+      packet.survives = survives;
+
+      lsend_packet_ruleset_effect_req(dest, &packet);
+    } requirement_list_iterate_end;
+
+    requirement_list_iterate(peffect->nreqs, preq) {
+      struct packet_ruleset_effect_req packet;
+      int type, range, value;
+      bool survives;
+
+      req_get_values(preq, &type, &range, &survives, &value);
+      packet.effect_id = id;
+      packet.neg = TRUE;
+      packet.source_type = type;
+      packet.source_value = value;
+      packet.range = range;
+      packet.survives = survives;
+
+      lsend_packet_ruleset_effect_req(dest, &packet);
+    } requirement_list_iterate_end;
+
+    id++;
+  } effect_list_iterate_end;
 }
 
 /**************************************************************************
@@ -574,13 +477,19 @@ Impr_Type_id ai_find_source_building(struct player *pplayer,
 {
   /* FIXME: this just returns the first building. it should return the best
    * building instead. */
-  building_vector_iterate(get_buildings_with_effect(effect_type), pbldg) {
-    if (can_player_build_improvement(pplayer, *pbldg)
-	&& !improvement_obsolete(pplayer, *pbldg)
-	&& is_improvement(*pbldg)) {
-      return *pbldg;
-    }
-  } building_vector_iterate_end;
+  effect_list_iterate(get_effects(effect_type), peffect) {
+    requirement_list_iterate(peffect->reqs, preq) {
+      if (preq->source.type == REQ_BUILDING) {
+	Impr_Type_id id = preq->source.value.building;
+
+	if (can_player_build_improvement(pplayer, id)
+	    && !improvement_obsolete(pplayer, id)
+	    && is_improvement(id)) {
+	  return id;
+	}
+      }
+    } requirement_list_iterate_end;
+  } effect_list_iterate_end;
   return B_LAST;
 }
 
@@ -589,9 +498,13 @@ Impr_Type_id ai_find_source_building(struct player *pplayer,
 **************************************************************************/
 Impr_Type_id get_building_for_effect(enum effect_type effect_type)
 {
-  building_vector_iterate(get_buildings_with_effect(effect_type), pbldg) {
-    return *pbldg;
-  } building_vector_iterate_end;
+  effect_list_iterate(get_effects(effect_type), peffect) {
+    requirement_list_iterate(peffect->reqs, preq) {
+      if (preq->source.type == REQ_BUILDING) {
+	return preq->source.value.building;
+      }
+    } requirement_list_iterate_end;
+  } effect_list_iterate_end;
   return B_LAST;
 }
 
@@ -605,65 +518,86 @@ Impr_Type_id get_building_for_effect(enum effect_type effect_type)
 **************************************************************************/
 bool building_has_effect(Impr_Type_id id, enum effect_type effect)
 {
-  return (effect_list_size(get_building_effects(id, effect)) > 0);
-}
+  struct req_source source;
+  struct effect_list *plist;
 
-/**************************************************************************
-  Is the effect from the source building redundant on the given target
-  (i.e. are its effects replaced by other sources in the group)?
+  source.type = REQ_BUILDING;
+  source.value.building = id;
 
-  target gives the type of the target
-  (player,pcity,building) gives the exact target
-  source is the source type of the effect
-  peffect is the exact effect
-**************************************************************************/
-static bool is_effect_redundant(enum target_type target,
-				const struct player *target_player,
-				const struct city *target_city,
-				Impr_Type_id target_building,
-				Impr_Type_id source,
-				const struct effect *peffect)
-{
-  if (!peffect->group) {
-    /* No group: the effect can't be redundant. */
+  plist = get_req_source_effects(&source);
+
+  if (!plist) {
     return FALSE;
   }
 
-  /* If there is more than one building in the same effects "group", then
-   * only the first one that exists can be active. */
-  effect_group_element_list_iterate(peffect->group->elements, elt) {
-    if (elt->source_building == source) {
-      return FALSE;
-    } else {
-      if (count_buildings_in_range(target, target_player, target_city,
-				   target_building, elt->range,
-				   elt->survives, elt->source_building) > 0) {
-	/* The effect from this source in the group makes peffect
-	 * redundant.  Note this causes the redundancy even if the
-	 * elt->source_building has no effects actually in the group! */
-	return TRUE;
-      }
+  effect_list_iterate(plist, peffect) {
+    if (peffect->type == effect) {
+      return TRUE;
     }
-  } effect_group_element_list_iterate_end;
-
+  } effect_list_iterate_end;
   return FALSE;
 }
 
 /**************************************************************************
-  Checks the requirements of the effect to see if it is active on the
-  given target. (If the requirements are not met the effect should be
-  ignored.)
+  Return TRUE iff any of the disabling requirements for this effect are
+  active (an effect is active if all of its enabling requirements and
+  none of its disabling ones are active).
 **************************************************************************/
-static bool are_effect_reqs_active(enum target_type target,
-				   const struct player *target_player,
-				   const struct city *target_city,
-				   Impr_Type_id target_building,
-				   const struct tile *target_tile,
-				   Impr_Type_id source,
-				   const struct effect *peffect)
+bool is_effect_disabled(enum target_type target,
+		        const struct player *target_player,
+		        const struct city *target_city,
+		        Impr_Type_id target_building,
+		        const struct tile *target_tile,
+		        const struct effect *peffect)
 {
-  return is_req_active(target, target_player, target_city, target_building,
-		       target_tile, &peffect->req);
+  requirement_list_iterate(peffect->nreqs, preq) {
+    if (is_req_active(target, target_player, target_city, target_building,
+		      target_tile, preq)) {
+      return TRUE;
+    }
+  } requirement_list_iterate_end;
+  return FALSE;
+}
+
+/**************************************************************************
+  Return TRUE iff any of the disabling requirements for this effect are
+  active (an effect is active if all of its enabling requirements and
+  none of its disabling ones are active).
+**************************************************************************/
+static bool is_effect_enabled(enum target_type target,
+			      const struct player *target_player,
+			      const struct city *target_city,
+			      Impr_Type_id target_building,
+			      const struct tile *target_tile,
+			      const struct effect *peffect)
+{
+  requirement_list_iterate(peffect->reqs, preq) {
+    if (!is_req_active(target, target_player, target_city, target_building,
+		       target_tile, preq)) {
+      return FALSE;
+    }
+  } requirement_list_iterate_end;
+  return TRUE;
+}
+
+/**************************************************************************
+  Is the effect active at a certain target (player, city or building)?
+
+  This checks whether an effect's requirements are met.
+
+  target gives the type of the target
+  (player,city,building,tile) give the exact target
+  peffect gives the exact effect value
+**************************************************************************/
+static bool is_effect_active(enum target_type target,
+			     const struct player *plr,
+			     const struct city *pcity,
+			     Impr_Type_id building,
+			     const struct tile *ptile,
+			     const struct effect *peffect)
+{
+  return is_effect_enabled(target, plr, pcity, building, ptile, peffect)
+    && !is_effect_disabled(target, plr, pcity, building, ptile, peffect);
 }
 
 /**************************************************************************
@@ -685,41 +619,21 @@ bool is_effect_useful(enum target_type target,
 		      const struct tile *target_tile,
 		      Impr_Type_id source, const struct effect *peffect)
 {
-  if (is_effect_redundant(target, target_player, target_city,
-			  target_building, source, peffect)) {
+  if (is_effect_disabled(target, target_player, target_city,
+			 target_building, target_tile, peffect)) {
     return FALSE;
   }
-  return are_effect_reqs_active(target, target_player, target_city,
-				target_building, target_tile,
-				source, peffect);
-}
-
-/**************************************************************************
-  Is the effect from the source building active at a certain target (player,
-  city or building)?
-
-  This checks whether the source exists, whether it is made redundant by
-  another element in its group, and if its requirements are met.
-
-  target gives the type of the target
-  (player,city,building,tile) give the exact target
-  source gives the source type of the effect
-  peffect gives the exact effect value
-**************************************************************************/
-static bool is_effect_active(enum target_type target,
-			     const struct player *plr,
-			     const struct city *pcity,
-			     Impr_Type_id building,
-			     const struct tile *ptile,
-			     Impr_Type_id source,
-			     const struct effect *peffect)
-{
-  if (count_buildings_in_range(target, plr, pcity, building, peffect->range,
-			       peffect->survives, source) == 0) {
-    return FALSE;
-  }
-  return is_effect_useful(target, plr, pcity, building,
-			  ptile, source, peffect);
+  requirement_list_iterate(peffect->reqs, preq) {
+    if (preq->source.type == REQ_BUILDING
+	&& preq->source.value.building == source) {
+      continue;
+    }
+    if (!is_req_active(target, target_player, target_city, target_building,
+		       target_tile, preq)) {
+      return FALSE;
+    }
+  } requirement_list_iterate_end;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -728,58 +642,29 @@ static bool is_effect_active(enum target_type target,
 **************************************************************************/
 bool is_building_replaced(const struct city *pcity, Impr_Type_id building)
 {
-  bool groups_present = FALSE;
+  struct req_source source;
+  struct effect_list *plist;
+
+  source.type = REQ_BUILDING;
+  source.value.building = building;
+
+  plist = get_req_source_effects(&source);
 
   /* A building that has no effects is never redundant. */
-  effect_type_vector_iterate(get_building_effect_types(building), ptype) {
-    effect_list_iterate(get_building_effects(building, *ptype), peffect) {
-      /* We use TARGET_BUILDING as the lowest common denominator.  Note that
-       * the building is its own target - but whether this is actually
-       * checked depends on the range of the effect. */
-      if (!is_effect_redundant(TARGET_BUILDING, city_owner(pcity), pcity,
-			       building, building, peffect)) {
-	return FALSE;
-      }
-      if (peffect->group) {
-	groups_present = TRUE;
-      }
-    } effect_list_iterate_end;
-  } effect_type_vector_iterate_end;
+  if (!plist) {
+    return FALSE;
+  }
 
-  return groups_present;
-}
-
-/**************************************************************************
-  Get the total value, for one effect type, of one source building type on
-  the given target.
-
-  target gives the type of the target
-  (player,city,building,tile) give the exact target
-  source gives the source type of the effect
-  effect_type gives the effect type to be considered
-**************************************************************************/
-static int get_effect_value(enum target_type target,
-			    const struct player *target_player,
-			    const struct city *target_city,
-			    Impr_Type_id target_building,
-			    const struct tile *target_tile,
-			    Impr_Type_id source,
-			    enum effect_type effect_type)
-{
-  int value = 0;
-
-  /* Loop over all effects of this type provided by the given source. */
-  effect_list_iterate(get_building_effects(source, effect_type), peffect) {
-    /* For each effect, see if it is active. */
-    if (is_effect_active(target, target_player, target_city,
-			 target_building, target_tile,
-			 source, peffect)) {
-      /* And if so add on the value. */
-      value += peffect->value;
+  effect_list_iterate(plist, peffect) {
+    /* We use TARGET_BUILDING as the lowest common denominator.  Note that
+     * the building is its own target - but whether this is actually
+     * checked depends on the range of the effect. */
+    if (!is_effect_disabled(TARGET_BUILDING, city_owner(pcity), pcity,
+			    building, NULL, peffect)) {
+      return FALSE;
     }
   } effect_list_iterate_end;
-
-  return value;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -794,7 +679,7 @@ static int get_effect_value(enum target_type target,
   The returned vector must be freed (building_vector_free) when the caller
   is done with it.
 **************************************************************************/
-static int get_target_bonus_sources(struct effect_source_vector *sources,
+static int get_target_bonus_effects(struct effect_list *plist,
     				    enum target_type target,
 			  	    const struct player *target_player,
 				    const struct city *target_city,
@@ -804,31 +689,19 @@ static int get_target_bonus_sources(struct effect_source_vector *sources,
 {
   int bonus = 0;
 
-  if (sources) {
-    effect_source_vector_init(sources);
-  }
+  /* Loop over all effects of this type. */
+  effect_list_iterate(get_effects(effect_type), peffect) {
+    /* For each effect, see if it is active. */
+    if (is_effect_active(target, target_player, target_city,
+			 target_building, target_tile, peffect)) {
+      /* And if so add on the value. */
+      bonus += peffect->value;
 
-  /* Loop over all sources that may provide this effect. */
-  building_vector_iterate(get_buildings_with_effect(effect_type), pbldg) {
-    int value;
-
-    /* And for each source, add on the amount of effect provided by it. */
-    value = get_effect_value(target, target_player, target_city,
-			     target_building, target_tile,
-			     *pbldg, effect_type);
-    bonus += value;
-
-    if (sources) {
-      struct effect_source e;
-
-      e.building = *pbldg;
-      e.effect_value = value;
-
-      if (value != 0) {
-	effect_source_vector_append(sources, &e);
+      if (plist) {
+	effect_list_append(plist, peffect);
       }
     }
-  } building_vector_iterate_end;
+  } effect_list_iterate_end;
 
   return bonus;
 }
@@ -839,8 +712,8 @@ static int get_target_bonus_sources(struct effect_source_vector *sources,
 int get_player_bonus(const struct player *pplayer,
 		     enum effect_type effect_type)
 {
-  return get_target_bonus_sources(NULL, TARGET_PLAYER,
-				  pplayer, NULL, B_LAST, NULL,
+  return get_target_bonus_effects(NULL, TARGET_PLAYER,
+			  	  pplayer, NULL, B_LAST, NULL,
 				  effect_type);
 }
 
@@ -849,7 +722,7 @@ int get_player_bonus(const struct player *pplayer,
 **************************************************************************/
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 {
-  return get_target_bonus_sources(NULL, TARGET_CITY,
+  return get_target_bonus_effects(NULL, TARGET_CITY,
 			 	  city_owner(pcity), pcity, B_LAST, NULL,
 				  effect_type);
 }
@@ -860,8 +733,8 @@ int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 			enum effect_type effect_type)
 {
-  return get_target_bonus_sources(NULL, TARGET_CITY,
-				  city_owner(pcity), pcity, B_LAST, ptile,
+  return get_target_bonus_effects(NULL, TARGET_CITY,
+			 	  city_owner(pcity), pcity, B_LAST, ptile,
 				  effect_type);
 }
 
@@ -871,8 +744,8 @@ int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 int get_building_bonus(const struct city *pcity, Impr_Type_id id,
 		       enum effect_type effect_type)
 {
-  return get_target_bonus_sources(NULL, TARGET_BUILDING,
-				  city_owner(pcity), pcity, id, NULL,
+  return get_target_bonus_effects(NULL, TARGET_CITY,
+			 	  city_owner(pcity), pcity, id, NULL,
 				  effect_type);
 }
 
@@ -882,10 +755,11 @@ int get_building_bonus(const struct city *pcity, Impr_Type_id id,
   The returned vector must be freed (building_vector_free) when the caller
   is done with it.
 **************************************************************************/
-int get_player_bonus_sources(struct effect_source_vector *sources,
-    const struct player *pplayer, enum effect_type effect_type)
+int get_player_bonus_effects(struct effect_list *plist,
+			     const struct player *pplayer,
+			     enum effect_type effect_type)
 {
-  return get_target_bonus_sources(sources, TARGET_PLAYER,
+  return get_target_bonus_effects(plist, TARGET_PLAYER,
 			  	  pplayer, NULL, B_LAST, NULL,
 				  effect_type);
 }
@@ -896,10 +770,11 @@ int get_player_bonus_sources(struct effect_source_vector *sources,
   The returned vector must be freed (building_vector_free) when the caller
   is done with it.
 **************************************************************************/
-int get_city_bonus_sources(struct effect_source_vector *sources,
-    const struct city *pcity, enum effect_type effect_type)
+int get_city_bonus_effects(struct effect_list *plist,
+			   const struct city *pcity,
+			   enum effect_type effect_type)
 {
-  return get_target_bonus_sources(sources, TARGET_CITY,
+  return get_target_bonus_effects(plist, TARGET_CITY,
 			 	  city_owner(pcity), pcity, B_LAST, NULL,
 				  effect_type);
 }
@@ -914,19 +789,64 @@ int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect_type)
 {
   if (!pcity->is_building_unit) {
-    Impr_Type_id bldg = pcity->currently_building;
+    Impr_Type_id id = pcity->currently_building;
     int power = 0;
 
-    effect_list_iterate(get_building_effects(bldg, effect_type), peffect) {
+    struct req_source source = {
+      .type = REQ_BUILDING,
+      .value.building = id
+    };
+    struct effect_list *plist = get_req_source_effects(&source);
+
+    effect_list_iterate(plist, peffect) {
+      if (peffect->type != effect_type) {
+	continue;
+      }
       if (is_effect_useful(TARGET_BUILDING, city_owner(pcity),
-			   pcity, bldg, NULL, bldg, peffect)) {
+			   pcity, id, NULL, id, peffect)) {
 	power += peffect->value;
       }
     } effect_list_iterate_end;
 
     return power;
   }
-
   return 0;
+}
+
+/**************************************************************************
+**************************************************************************/
+void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
+{
+  buf[0] = '\0';
+
+  requirement_list_iterate(peffect->reqs, preq) {
+    struct req_source *psource = &preq->source;
+
+    if (buf[0] != '\0') {
+      mystrlcat(buf, "+", buf_len);
+    }
+
+    switch (psource->type) {
+      case REQ_NONE:
+	break;
+      case REQ_TECH:
+	mystrlcat(buf, advances[psource->value.tech].name, buf_len);
+	break;
+      case REQ_GOV:
+	mystrlcat(buf, get_government_name(psource->value.gov), buf_len);
+	break;
+      case REQ_BUILDING:
+	mystrlcat(buf, get_improvement_name(psource->value.building), buf_len);
+	break;
+      case REQ_SPECIAL:
+	mystrlcat(buf, get_special_name(psource->value.special), buf_len);
+	break;
+      case REQ_TERRAIN:
+	mystrlcat(buf, get_terrain_name(psource->value.terrain), buf_len);
+	break;
+      case REQ_LAST:
+	break;
+    }
+  } requirement_list_iterate_end;
 }
 

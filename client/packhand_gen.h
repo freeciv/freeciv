@@ -100,9 +100,9 @@ struct packet_options_settable_control;
 void handle_options_settable_control(struct packet_options_settable_control *packet);
 struct packet_options_settable;
 void handle_options_settable(struct packet_options_settable *packet);
-struct packet_ruleset_cache_group;
-void handle_ruleset_cache_group(struct packet_ruleset_cache_group *packet);
-struct packet_ruleset_cache_effect;
-void handle_ruleset_cache_effect(struct packet_ruleset_cache_effect *packet);
+struct packet_ruleset_effect;
+void handle_ruleset_effect(struct packet_ruleset_effect *packet);
+struct packet_ruleset_effect_req;
+void handle_ruleset_effect_req(struct packet_ruleset_effect_req *packet);
 
 #endif /* FC__PACKHAND_GEN_H */

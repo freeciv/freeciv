@@ -979,23 +979,18 @@ struct packet_options_settable {
   int category;
 };
 
-struct packet_ruleset_cache_group {
-  char name[MAX_LEN_NAME];
-  int num_elements;
-  Impr_Type_id source_buildings[255];
-  enum req_range ranges[255];
-  bool survives[255];
+struct packet_ruleset_effect {
+  enum effect_type effect_type;
+  int effect_value;
 };
 
-struct packet_ruleset_cache_effect {
-  Impr_Type_id id;
-  enum effect_type effect_type;
+struct packet_ruleset_effect_req {
+  int effect_id;
+  bool neg;
+  enum req_source_type source_type;
+  int source_value;
   enum req_range range;
   bool survives;
-  int eff_value;
-  enum req_type req_type;
-  int req_value;
-  int group_id;
 };
 
 enum packet_type {
@@ -1111,8 +1106,8 @@ enum packet_type {
   PACKET_OPTIONS_SETTABLE_CONTROL,
   PACKET_OPTIONS_SETTABLE,
   PACKET_SELECT_RACES,
-  PACKET_RULESET_CACHE_GROUP = 120,      /* 120 */
-  PACKET_RULESET_CACHE_EFFECT,
+  PACKET_RULESET_EFFECT = 122,
+  PACKET_RULESET_EFFECT_REQ,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1575,13 +1570,13 @@ int send_packet_options_settable_control(struct connection *pc, const struct pac
 struct packet_options_settable *receive_packet_options_settable(struct connection *pc, enum packet_type type);
 int send_packet_options_settable(struct connection *pc, const struct packet_options_settable *packet);
 
-struct packet_ruleset_cache_group *receive_packet_ruleset_cache_group(struct connection *pc, enum packet_type type);
-int send_packet_ruleset_cache_group(struct connection *pc, const struct packet_ruleset_cache_group *packet);
-void lsend_packet_ruleset_cache_group(struct conn_list *dest, const struct packet_ruleset_cache_group *packet);
+struct packet_ruleset_effect *receive_packet_ruleset_effect(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_effect(struct connection *pc, const struct packet_ruleset_effect *packet);
+void lsend_packet_ruleset_effect(struct conn_list *dest, const struct packet_ruleset_effect *packet);
 
-struct packet_ruleset_cache_effect *receive_packet_ruleset_cache_effect(struct connection *pc, enum packet_type type);
-int send_packet_ruleset_cache_effect(struct connection *pc, const struct packet_ruleset_cache_effect *packet);
-void lsend_packet_ruleset_cache_effect(struct conn_list *dest, const struct packet_ruleset_cache_effect *packet);
+struct packet_ruleset_effect_req *receive_packet_ruleset_effect_req(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_effect_req(struct connection *pc, const struct packet_ruleset_effect_req *packet);
+void lsend_packet_ruleset_effect_req(struct conn_list *dest, const struct packet_ruleset_effect_req *packet);
 
 
 void delta_stats_report(void);

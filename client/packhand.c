@@ -2833,31 +2833,18 @@ void handle_server_shutdown(void)
 }
 
 /**************************************************************************
-  Add group data to ruleset cache.  
+  Add effect data to ruleset cache.  
 **************************************************************************/
-void handle_ruleset_cache_group(struct packet_ruleset_cache_group *packet)
+void handle_ruleset_effect(struct packet_ruleset_effect *packet)
 {
-  struct effect_group *pgroup;
-  int i;
-
-  pgroup = effect_group_new(packet->name);
-
-  for (i = 0; i < packet->num_elements; i++) {
-    effect_group_add_element(pgroup, packet->source_buildings[i],
-			     packet->ranges[i], packet->survives[i]);
-  }
+  recv_ruleset_effect(packet);
 }
 
 /**************************************************************************
-  Add effect data to ruleset cache.  
+  Add effect requirement data to ruleset cache.  
 **************************************************************************/
-void handle_ruleset_cache_effect(struct packet_ruleset_cache_effect *packet)
+void handle_ruleset_effect_req(struct packet_ruleset_effect_req *packet)
 {
-  struct requirement req = req_from_values(packet->req_type, REQ_RANGE_CITY,
-					   FALSE, packet->req_value);
-
-  ruleset_cache_add(packet->id, packet->effect_type, packet->range,
-		    packet->survives, packet->eff_value,
-		    &req, packet->group_id);
+  recv_ruleset_effect_req(packet);
 }
 

@@ -1,0 +1,980 @@
+; Modifying this file:
+; You should not modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "rulesetdir <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well with anything more
+; than minor changes.
+
+[datafile]
+description="History effects data for Freeciv"
+options="1.0"
+
+; /* <-- avoid gettext warnings
+; */ <-- avoid gettext warnings
+
+[effect_airport]
+name	= "Air_Veteran"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Airport", "City"
+    }
+
+[effect_airport_1]
+name	= "Air_Regen"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Airport", "City"
+    }
+
+[effect_airport_2]
+name	= "Airlift"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Airport", "City"
+    }
+
+[effect_aqueduct]
+name	= "Size_Adj"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "Aqueduct", "City"
+    }
+
+[effect_bank]
+name	= "Tax_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Marketplace", "City"
+      "Building", "Bank", "City"
+    }
+
+[effect_bank_1]
+name	= "Luxury_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Marketplace", "City"
+      "Building", "Bank", "City"
+    }
+
+[effect_barracks]
+name	= "Land_Veteran"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Barracks", "City"
+    }
+
+[effect_barracks_1]
+name	= "Land_Regen"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Barracks", "City"
+    }
+
+[effect_barracks_ii]
+name	= "Land_Veteran"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Barracks II", "City"
+    }
+
+[effect_barracks_ii_1]
+name	= "Land_Regen"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Barracks II", "City"
+    }
+
+[effect_barracks_iii]
+name	= "Land_Veteran"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Barracks III", "City"
+    }
+
+[effect_barracks_iii_1]
+name	= "Land_Regen"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Barracks III", "City"
+    }
+
+[effect_cathedral]
+name	= "Make_Content"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Cathedral", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Michelangelo's Chapel", "Player"
+    }
+
+[effect_cathedral_1]
+name	= "Make_Content"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Theology", "Player"
+      "Building", "Cathedral", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Michelangelo's Chapel", "Player"
+    }
+
+[effect_cathedral_2]
+name	= "Make_Content"
+value	= -1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Communism", "Player"
+      "Building", "Cathedral", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Michelangelo's Chapel", "Player"
+    }
+
+[effect_city_walls]
+name	= "Land_Defend"
+value	= 200
+reqs	=
+    { "type", "name", "range"
+      "Building", "City Walls", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Great Wall", "Player"
+    }
+
+[effect_city_walls_1]
+name	= "Unit_No_Lose_Pop"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "City Walls", "City"
+    }
+
+[effect_coastal_defense]
+name	= "Sea_Defend"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Building", "Coastal Defense", "City"
+    }
+
+[effect_colosseum]
+name	= "Make_Content"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Colosseum", "City"
+    }
+
+[effect_colosseum_1]
+name	= "Make_Content"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Electricity", "Player"
+      "Building", "Colosseum", "City"
+    }
+
+[effect_courthouse]
+name	= "Corrupt_Pct"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Courthouse", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
+[effect_courthouse_1]
+name	= "Waste_Pct"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Courthouse", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
+[effect_courthouse_2]
+name	= "Make_Content"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Democracy", "Player"
+      "Building", "Courthouse", "City"
+    }
+
+[effect_courthouse_3]
+name	= "Incite_Dist_Pct"
+value	= 75
+reqs	=
+    { "type", "name", "range"
+      "Building", "Courthouse", "City"
+    }
+
+[effect_factory]
+name	= "Prod_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+    }
+
+[effect_granary]
+name	= "Growth_Food"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Granary", "City"
+    }
+
+[effect_harbour]
+name	= "Food_Add_Tile"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Terrain", "Ocean", "City"
+      "Building", "Harbour", "City"
+    }
+
+[effect_hydro_plant]
+name	= "Prod_Bonus"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+      "Building", "Hydro Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "Player"
+      "Building", "Nuclear Plant", "City"
+    }
+
+[effect_hydro_plant_1]
+name	= "Prod_Bonus"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Building", "Mfg. Plant", "City"
+      "Building", "Hydro Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "Player"
+      "Building", "Nuclear Plant", "City"
+    }
+
+[effect_hydro_plant_2]
+name	= "Pollu_Prod_Pct"
+value	= -50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Hydro Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Recycling Center", "City"
+      "Building", "Hoover Dam", "Player"
+      "Building", "Nuclear Plant", "City"
+    }
+
+[effect_library]
+name	= "Science_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Library", "City"
+    }
+
+[effect_marketplace]
+name	= "Tax_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Marketplace", "City"
+    }
+
+[effect_marketplace_1]
+name	= "Luxury_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Marketplace", "City"
+    }
+
+[effect_mass_transit]
+name	= "Pollu_Pop_Pct"
+value	= -100
+reqs	=
+    { "type", "name", "range"
+      "Building", "Mass Transit", "City"
+    }
+
+[effect_mfg_plant]
+name	= "Prod_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+      "Building", "Mfg. Plant", "City"
+    }
+
+[effect_nuclear_plant]
+name	= "Prod_Bonus"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+      "Building", "Nuclear Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "Player"
+    }
+
+[effect_nuclear_plant_1]
+name	= "Prod_Bonus"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Building", "Mfg. Plant", "City"
+      "Building", "Nuclear Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "Player"
+    }
+
+[effect_nuclear_plant_2]
+name	= "Pollu_Prod_Pct"
+value	= -50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Nuclear Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Recycling Center", "City"
+      "Building", "Hoover Dam", "Player"
+    }
+
+[effect_offshore_platform]
+name	= "Prod_Add_Tile"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Terrain", "Ocean", "City"
+      "Building", "Offshore Platform", "City"
+    }
+
+[effect_palace]
+name	= "Corrupt_Pct"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
+[effect_palace_1]
+name	= "Waste_Pct"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
+[effect_palace_2]
+name	= "Spy_Resistant"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
+[effect_palace_3]
+name	= "No_Incite"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
+[effect_palace_4]
+name	= "Capital_City"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
+[effect_police_station]
+name	= "Make_Content_Mil"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "Building", "Police Station", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Women's Suffrage", "Player"
+    }
+
+[effect_police_station_1]
+name	= "Make_Content_Mil"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Democracy", "Player"
+      "Building", "Police Station", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Women's Suffrage", "Player"
+    }
+
+[effect_port_facility]
+name	= "Sea_Veteran"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Port Facility", "City"
+    }
+
+[effect_port_facility_1]
+name	= "Sea_Regen"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Port Facility", "City"
+    }
+
+[effect_power_plant]
+name	= "Prod_Bonus"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+      "Building", "Power Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "Player"
+      "Building", "Nuclear Plant", "City"
+      "Building", "Hydro Plant", "City"
+    }
+
+[effect_power_plant_1]
+name	= "Prod_Bonus"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Building", "Mfg. Plant", "City"
+      "Building", "Power Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "Player"
+      "Building", "Nuclear Plant", "City"
+      "Building", "Hydro Plant", "City"
+    }
+
+[effect_recycling_center]
+name	= "Pollu_Prod_Pct"
+value	= -66
+reqs	=
+    { "type", "name", "range"
+      "Building", "Recycling Center", "City"
+    }
+
+[effect_research_lab]
+name	= "Science_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Library", "City"
+      "Building", "Research Lab", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "SETI Program", "Player"
+    }
+
+[effect_sam_battery]
+name	= "Air_Defend"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Building", "SAM Battery", "City"
+    }
+
+[effect_sdi_defense]
+name	= "Nuke_Proof"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "SDI Defense", "City"
+    }
+
+[effect_sdi_defense_1]
+name	= "Missile_Defend"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Building", "SDI Defense", "City"
+    }
+
+[effect_sewer_system]
+name	= "Size_Unlimit"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Aqueduct", "City"
+      "Building", "Sewer System", "City"
+    }
+
+[effect_space_component]
+name	= "SS_Component"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Space Component", "City"
+    }
+
+[effect_space_module]
+name	= "SS_Module"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Space Module", "City"
+    }
+
+[effect_space_structural]
+name	= "SS_Structural"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Space Structural", "City"
+    }
+
+[effect_stock_exchange]
+name	= "Tax_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Bank", "City"
+      "Building", "Stock Exchange", "City"
+    }
+
+[effect_stock_exchange_1]
+name	= "Luxury_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Bank", "City"
+      "Building", "Stock Exchange", "City"
+    }
+
+[effect_super_highways]
+name	= "Trade_Per_Tile"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Special", "Road", "City"
+      "Building", "Super Highways", "City"
+    }
+
+[effect_supermarket]
+name	= "Food_Per_Tile"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Special", "Farmland", "City"
+      "Building", "Supermarket", "City"
+    }
+
+[effect_temple]
+name	= "Make_Content"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Temple", "City"
+    }
+
+[effect_temple_1]
+name	= "Make_Content"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Mysticism", "Player"
+      "Building", "Temple", "City"
+    }
+
+[effect_university]
+name	= "Science_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Library", "City"
+      "Building", "University", "City"
+    }
+
+[effect_apollo_program]
+name	= "Reveal_Map"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Apollo Program", "Player"
+    }
+
+[effect_apollo_program_1]
+name	= "Enable_Space"
+value	= 1
+reqs	=
+    { "type", "name", "range", "survives"
+      "Building", "Apollo Program", "World", 1
+    }
+
+[effect_asmiths_trading_co]
+name	= "Upkeep_Free"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "A.Smith's Trading Co.", "Player"
+    }
+
+[effect_colossus]
+name	= "Trade_Inc_Tile"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Colossus", "City"
+    }
+
+[effect_copernicus_observatory]
+name	= "Science_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Copernicus' Observatory", "City"
+    }
+
+[effect_cure_for_cancer]
+name	= "Force_Content"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Cure For Cancer", "Player"
+    }
+
+[effect_darwins_voyage]
+name	= "Give_Imm_Tech"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Darwin's Voyage", "Player"
+    }
+
+[effect_great_library]
+name	= "Tech_Parasite"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Library", "Player"
+    }
+
+[effect_great_wall]
+name	= "Land_Defend"
+value	= 200
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Wall", "Player"
+    }
+
+[effect_great_wall_1]
+name	= "Unit_No_Lose_Pop"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Wall", "Player"
+    }
+
+[effect_hanging_gardens]
+name	= "Make_Happy"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Hanging Gardens", "Player"
+    }
+
+[effect_hanging_gardens_1]
+name	= "Make_Happy"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Hanging Gardens", "City"
+    }
+
+[effect_hoover_dam]
+name	= "Prod_Bonus"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+      "Building", "Hoover Dam", "Player"
+    }
+
+[effect_hoover_dam_1]
+name	= "Prod_Bonus"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Building", "Mfg. Plant", "City"
+      "Building", "Hoover Dam", "Player"
+    }
+
+[effect_hoover_dam_2]
+name	= "Pollu_Prod_Pct"
+value	= -50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "Player"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Recycling Center", "City"
+    }
+
+[effect_isaac_newtons_college]
+name	= "Science_Bonus"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Building", "Isaac Newton's College", "City"
+    }
+
+[effect_js_bachs_cathedral]
+name	= "Force_Content"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "J.S. Bach's Cathedral", "Player"
+    }
+
+[effect_king_richards_crusade]
+name	= "Prod_Add_Tile"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "King Richard's Crusade", "City"
+    }
+
+[effect_leonardos_workshop]
+name	= "Upgrade_Unit"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Leonardo's Workshop", "Player"
+    }
+
+[effect_lighthouse]
+name	= "Sea_Move"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Lighthouse", "Player"
+    }
+
+[effect_lighthouse_1]
+name	= "No_Sink_Deep"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Lighthouse", "Player"
+    }
+
+[effect_lighthouse_2]
+name	= "Sea_Veteran"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Lighthouse", "Player"
+    }
+
+[effect_magellans_expedition]
+name	= "Sea_Move"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Magellan's Expedition", "Player"
+    }
+
+[effect_manhattan_project]
+name	= "Enable_Nuke"
+value	= 1
+reqs	=
+    { "type", "name", "range", "survives"
+      "Building", "Manhattan Project", "World", 1
+    }
+
+[effect_marco_polos_embassy]
+name	= "Have_Embassies"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Marco Polo's Embassy", "Player"
+    }
+
+[effect_michelangelos_chapel]
+name	= "Make_Content"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Michelangelo's Chapel", "Player"
+    }
+
+[effect_michelangelos_chapel_1]
+name	= "Make_Content"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Theology", "Player"
+      "Building", "Michelangelo's Chapel", "Player"
+    }
+
+[effect_michelangelos_chapel_2]
+name	= "Make_Content"
+value	= -1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Communism", "Player"
+      "Building", "Michelangelo's Chapel", "Player"
+    }
+
+[effect_oracle]
+name	= "Make_Content"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Temple", "City"
+      "Building", "Oracle", "Player"
+    }
+
+[effect_pyramids]
+name	= "Growth_Food"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Pyramids", "Player"
+    }
+
+[effect_seti_program]
+name	= "Science_Bonus"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Library", "City"
+      "Building", "SETI Program", "Player"
+    }
+
+[effect_shakespeares_theatre]
+name	= "No_Unhappy"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Shakespeare's Theatre", "City"
+    }
+
+[effect_statue_of_liberty]
+name	= "Any_Government"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Statue of Liberty", "Player"
+    }
+
+[effect_statue_of_liberty_1]
+name	= "No_Anarchy"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Statue of Liberty", "Player"
+    }
+
+[effect_sun_tzus_war_academy]
+name	= "Land_Veteran"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Sun Tzu's War Academy", "Player"
+    }
+
+[effect_sun_tzus_war_academy_1]
+name	= "Land_Vet_Combat"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Sun Tzu's War Academy", "Player"
+    }
+
+[effect_united_nations]
+name	= "Unit_Recover"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "United Nations", "Player"
+    }
+
+[effect_womens_suffrage]
+name	= "Make_Content_Mil"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "Building", "Women's Suffrage", "Player"
+    }
+
+[effect_womens_suffrage_1]
+name	= "Make_Content_Mil"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Democracy", "Player"
+      "Building", "Women's Suffrage", "Player"
+    }
+
+[effect_coinage]
+name	= "Prod_To_Gold"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Coinage", "City"
+    }
+

@@ -181,7 +181,7 @@ type IMPR_GENUS		= uint8(enum impr_genus_id)
 type DIRECTION		= uint8(enum direction8)
 type ORDERS		= uint8(enum unit_orders)
 type SSET_TYPE		= uint8(enum sset_type)
-type REQ_TYPE	        = uint8(enum req_type)
+type REQ_TYPE	        = uint8(enum req_source_type)
 type REQ_RANGE		= uint8(enum req_range)
 type EFFECT_TYPE	= uint8(enum effect_type)
 
@@ -1266,23 +1266,19 @@ end
 
 /************** Effects hash packets **********************/
 
-PACKET_RULESET_CACHE_GROUP=120;sc,lsend
-  STRING name[MAX_LEN_NAME];
-
-  UINT8 num_elements;
-  IMPROVEMENT source_buildings[255:num_elements];
-  REQ_RANGE ranges[255:num_elements];
-  BOOL survives[255:num_elements];
+PACKET_RULESET_EFFECT=122;sc,lsend
+  EFFECT_TYPE effect_type;
+  SINT32 effect_value;
 end
 
-PACKET_RULESET_CACHE_EFFECT=121;sc,lsend
-  IMPROVEMENT id;
-  EFFECT_TYPE effect_type;
+PACKET_RULESET_EFFECT_REQ=123;sc,lsend
+  UINT32 effect_id;
+  BOOL neg;
+	
+  REQ_TYPE source_type;
+  SINT32 source_value;
+
   REQ_RANGE range;
   BOOL survives;
-  SINT32 eff_value;
-  REQ_TYPE req_type;
-  SINT32 req_value;
-  SINT32 group_id;
 end
 
