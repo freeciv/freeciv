@@ -21,12 +21,13 @@
 #include "log.h"
 #include "support.h"
 
+#include "connectdlg_g.h"
+
 #include "chatline_common.h"	/* for append_output_window */
 #include "civclient.h"
 #include "clinet.h"		/* for get_server_address */
-#include "connectdlg_g.h"
-
 #include "connectdlg.h"
+#include "packhand_gen.h"
 
 static void try_to_autoconnect(void);
 
@@ -43,10 +44,9 @@ void close_connection_dialog()
  configure the dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_request(struct packet_authentication_request *
-                                   packet)
+void handle_authentication_req(enum authentication_type type, char *message)
 {
-  switch (packet->type) {
+  switch (type) {
   case AUTH_NEWUSER_FIRST:
      /* PORTME: switch configs if need be */
     break;

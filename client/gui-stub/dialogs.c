@@ -68,7 +68,8 @@ void popup_unit_select_dialog(struct tile *ptile)
   In the nation selection dialog, make already-taken nations unavailable.
   This information is contained in the packet_nations_used packet.
 **************************************************************************/
-void races_toggles_set_sensitive(struct packet_nations_used *packet)
+void races_toggles_set_sensitive(int num_nations_used,
+				 Nation_Type_id * nations_used)
 {
   /* PORTME */
 }
@@ -88,21 +89,14 @@ void popup_revolution_dialog(void)
   Popup a dialog asking the player what government to switch to (this
   happens after a revolution completes).
 **************************************************************************/
-void popup_government_dialog(void)
+void popup_government_dialog(int governments,
+			     struct government **government)
 {
   /* PORTME */
   int i;
 
-  for (i = 0; i < game.government_count; i++) {
-    if (i == game.government_when_anarchy) {
-      continue;
-    }
-
-    if (can_change_to_government(game.player_ptr, i)) {
-      /* ... */
-    } else {
-      /* ... */
-    }
+  for (i = 0; i < governments; i++) {
+    /* PORTME: add option for converting to government[i]. */
   }
 
   /* ... */

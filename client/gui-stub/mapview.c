@@ -264,6 +264,14 @@ void update_map_canvas_scrollbars(void)
   /* PORTME */
 }
 
+/****************************************************************************
+  Update the size of the sliders on the scrollbars.
+****************************************************************************/
+void update_map_canvas_scrollbars_size(void)
+{
+  /* PORTME */
+}
+
 /**************************************************************************
   Update (refresh) all of the city descriptions on the mapview.
 **************************************************************************/

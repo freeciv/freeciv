@@ -21,7 +21,8 @@
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 **************************************************************************/
-void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa)
+void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
+				    bool other_accepted)
 {
   /* PORTME */
 }
@@ -30,7 +31,7 @@ void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa)
   Handle the start of a diplomacy meeting - usually by poping up a
   diplomacy dialog.
 **************************************************************************/
-void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
+void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 {
   /* PORTME */
 }
@@ -38,7 +39,8 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
 /**************************************************************************
   Update the diplomacy dialog by adding a clause.
 **************************************************************************/
-void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
+void handle_diplomacy_create_clause(int counterpart, int giver,
+				    enum clause_type type, int value)
 {
   /* PORTME */
 }
@@ -47,7 +49,7 @@ void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
   Update the diplomacy dialog when the meeting is canceled (the dialog
   should be closed).
 **************************************************************************/
-void handle_diplomacy_cancel_meeting(struct packet_diplomacy_info *pa)
+void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 {
   /* PORTME */
 }
@@ -55,7 +57,8 @@ void handle_diplomacy_cancel_meeting(struct packet_diplomacy_info *pa)
 /**************************************************************************
   Update the diplomacy dialog by removing a clause.
 **************************************************************************/
-void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
+void handle_diplomacy_remove_clause(int counterpart, int giver,
+				    enum clause_type type, int value)
 {
   /* PORTME */
 }

@@ -17,9 +17,16 @@
 
 #include <stdio.h>
 
+#include "options.h"
+
 #include "gui_main.h"
 
 const char *client_string = "gui-stub";
+
+client_option gui_options[] = {
+  /* None. */
+};
+const int num_gui_options = ARRAY_SIZE(gui_options);
 
 
 /**************************************************************************
