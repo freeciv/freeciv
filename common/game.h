@@ -94,7 +94,7 @@ void game_remove_all_players(void);
 void game_renumber_players(int plrno);
 
 void game_remove_unit(int unit_id);
-void game_remove_city(int city_id);
+void game_remove_city(struct city *pcity);
 int research_time(struct player *pplayer);
 int total_player_citizens(struct player *pplayer);
 int civ_score(struct player *pplayer);

@@ -308,18 +308,15 @@ void game_remove_unit(int unit_id)
 /**************************************************************************
 ...
 **************************************************************************/
-void game_remove_city(int city_id)
+void game_remove_city(struct city *pcity)
 {
-  struct city *pcity;
-  
-  if((pcity=game_find_city_by_id(city_id))) {
-    city_list_unlink(&game.players[pcity->owner].cities, pcity);
-    map_set_city(pcity->x, pcity->y, NULL);
-    free(pcity);
-    if(is_server)
-      dealloc_id(city_id);
+  int x,y;
+  city_map_iterate(x,y) {
+    set_worker_city(pcity, x, y, C_TILE_EMPTY);
   }
-
+  city_list_unlink(&game.players[pcity->owner].cities, pcity);
+  map_set_city(pcity->x, pcity->y, NULL);
+  free(pcity);
 }
 
 /***************************************************************
@@ -438,7 +435,7 @@ void game_remove_player(int plrno)
   unit_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) 
-    game_remove_city(pcity->id);
+    game_remove_city(pcity);
   city_list_iterate_end;
 }
 
