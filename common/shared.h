@@ -13,8 +13,6 @@
 #ifndef FC__SHARED_H
 #define FC__SHARED_H
 
-lkajsdklsjdlök lkjasdlkj lakjsdlkj
-
 #include <stdlib.h>		/* size_t */
 
 #if __BEOS__

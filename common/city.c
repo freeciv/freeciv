@@ -27,7 +27,6 @@
 #include "support.h"
 
 #include "city.h"
-#include "foobalskj"
 
 /* get 'struct city_list' functions: */
 #define SPECLIST_TAG city
