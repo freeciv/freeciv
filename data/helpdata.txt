@@ -678,17 +678,13 @@ other players.\
 "), _("\
  10. Interacting with other players (Diplomacy).\
 \n\n\
-    Humans and AI differ in many ways, but the most significant is \
-the additional diplomacy that you can take part in with other \
-humans - and no, we are not talking about using spies and \
-diplomats to incite and steal.\
-"), _("\
-    If you have established an embassy with another human player, \
-then you can arrange a diplomatic meeting. This is done by \
-going to the `Reports' menu, selecting players and clicking on \
-the player with whom you wish to meet.  If you actually have \
-an embassy (denoted by an X) and the other player is connected \
-then a diplomacy menu will pop up.\
+    If you have recently contacted (or established an embassy \
+with) another player, then you can arrange a diplomatic meeting. \
+This is done by going to the `Reports' menu, selecting `Players', \
+clicking on the player with whom you wish to meet, and selecting \
+`Meet' from the `Player' menu.  If the entry under the embassy \
+column is not blank and the other player is connected (or is a \
+server AI) then a diplomacy menu will pop up.\
 "), _("\
     In this menu you can choose to:\
 \n\n\
