@@ -36,6 +36,11 @@ free_intro_radar_sprites(void)
 	/* PORTME */
 }
 
+/**************************************************************************
+  Return a NULL-terminated, permanently allocated array of possible
+  graphics types extensions.  Extensions listed first will be checked
+  first.
+**************************************************************************/
 const char **
 gfx_fileextensions(void)
 {
@@ -44,7 +49,7 @@ gfx_fileextensions(void)
   /* hack to allow stub to run */
   static const char *ext[] =
   {
-    "xpm",
+    "png",
     NULL
   };
 
