@@ -106,12 +106,12 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 		crop_rect_from_surface(Main.screen, &rect)
 
 /* free surface with check and clear pointer */
-#define FREESURFACE( ptr )			\
-do {						\
-	if (ptr) {				\
-		SDL_FreeSurface( ptr );		\
-		ptr = NULL;			\
-	}					\
+#define FREESURFACE( ptr )		\
+do {					\
+  if (ptr) {				\
+    SDL_FreeSurface( ptr );		\
+    ptr = NULL;			\
+  }					\
 } while(0)
 
 /*
@@ -119,9 +119,9 @@ do {						\
  */
 #define lock_surf( pSurf )	\
 do {				\
-    if (SDL_MUSTLOCK(pSurf)) {	\
-        SDL_LockSurface(pSurf);	\
-    }                           \
+  if (SDL_MUSTLOCK(pSurf)) {	\
+    SDL_LockSurface(pSurf);	\
+  }				\
 } while(0)
 
 

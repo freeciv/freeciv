@@ -90,7 +90,10 @@ static Uint32 map_view_rectsize;
 
 static Uint8 Mini_map_cell_w, Mini_map_cell_h;
 
+#if 0
 static SDL_Surface *pFogSurface;
+#endif
+
 static SDL_Surface *pTmpSurface;
 
 
@@ -138,6 +141,11 @@ static const int ISO_DIR_DY[8] = {  0, -1, -1,  1, -1, 1, 1, 0 };
 
 static const int ISO_CAR_DIR_DX[4] = { 1, 1, -1, -1};
 static const int ISO_CAR_DIR_DY[4] = {-1, 1,  1, -1};
+
+
+static void build_tile_terrain_data(int map_x, int map_y,
+			    enum tile_terrain_type *ttype,
+			    enum tile_terrain_type *ttype_near);
 
 
 /* ================================================================ */
@@ -225,8 +233,8 @@ void put_one_tile_iso(int x, int y, int canvas_x, int canvas_y,
     return;
   }
   
-  width = (draw & D_TMB_L) && (draw & D_TMB_R)
-        ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH>>1;
+  width = (draw & D_TMB_L) && (draw & D_TMB_R) ? NORMAL_TILE_WIDTH :
+						 NORMAL_TILE_WIDTH>>1;
   
   if (!(draw & D_TMB_L))
     offset_x = NORMAL_TILE_WIDTH>>1;
@@ -350,8 +358,6 @@ void center_tile_mapcanvas(int col, int row)
     update_map_canvas_visible();
   
     refresh_fullscreen();
-  
-
 
   /*update_map_canvas_scrollbars(); */
   /*refresh_overview_viewrect(); */
@@ -678,7 +684,8 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   int togrow;
   SDL_String16 *pText = NULL;
   SDL_Rect dst, clear_area = { 0 , 0 , 0 , 0 };	
-  SDL_Color color = *( get_game_colorRGB( player_color( get_player(pcity->owner) ) ));	
+  SDL_Color color = *( get_game_colorRGB(
+			  player_color( get_player(pcity->owner) ) ));	
   Uint32 frame_color = SDL_MapRGB( pDest->format, color.r ,color.g, color.b );
   
   color.unused = 128;
@@ -1448,16 +1455,13 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   SDL_Surface *pTile_sprs[80];
   SDL_Surface *pCoasts[4] = { NULL, NULL, NULL, NULL };
   SDL_Surface *pDither[4] = { NULL, NULL, NULL, NULL };
-
   SDL_Surface *pBufSurface = NULL;
-  
   static SDL_Surface *pTemp = NULL;
-
   SDL_Rect dst , des = { map_x, map_y, 0, 0 };
-
-  struct city *pCity = NULL;
+  struct tile *pTile = map_get_tile(map_col, map_row);
+  struct city *pCity = pTile->city;
+  enum tile_special_type special = pTile->special;
   struct unit *pUnit = NULL, *pFocus = NULL;
-  enum tile_special_type special;
   int count, i = 0;
   int fog;
   int solid_bg;
@@ -1469,10 +1473,12 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 				     &solid_bg);
     				     
 
-  if ((count == -1)&&citymode) { /* tile is unknown */
-    SDL_BlitSurface((SDL_Surface *) sprites.black_tile,
+  if (count == -1) { /* tile is unknown */
+    if(citymode ||(pTile->known == TILE_UNKNOWN && pTile->terrain != T_UNKNOWN ))
+    {
+      SDL_BlitSurface((SDL_Surface *) sprites.black_tile,
 		    NULL, Main.screen, &des);
-  
+    }
     return;
   }
 
@@ -1483,13 +1489,10 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   
   /* normalize_map_pos(&map_col, &map_wier); */
 
-  fog = tile_get_known(map_col, map_row) == TILE_KNOWN_FOGGED
-      && draw_fog_of_war;
-  pCity = map_get_city(map_col, map_row);
+  fog = pTile->known == TILE_KNOWN_FOGGED && draw_fog_of_war;
   pUnit = get_drawable_unit(map_col, map_row, citymode);
   pFocus = get_unit_in_focus();
-  special = map_get_special(map_col, map_row);
-  
+    
   /*if ( fog ) {
     des.x = 0;
     des.y = NORMAL_TILE_HEIGHT / 2;
@@ -1505,22 +1508,23 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     pTemp = create_surf(NORMAL_TILE_WIDTH,
 			    NORMAL_TILE_HEIGHT ,
 			    SDL_SWSURFACE);
-	
+    
     SDL_FillRect(pTemp, NULL,
 	       SDL_MapRGB(pTemp->format, 255, 255, 255));
 
-    SDL_BlitSurface( (SDL_Surface *) sprites.black_tile , NULL , pTemp , NULL );
+    SDL_BlitSurface( (SDL_Surface *)sprites.black_tile , NULL , pTemp , NULL );
 
     SDL_SetColorKey(pTemp, SDL_SRCCOLORKEY | SDL_RLEACCEL, 
 	       SDL_MapRGB(pTemp->format, 255, 255, 255));
 	  
-    SDL_SetAlpha(pTemp, SDL_SRCALPHA, 128);
+    SDL_SetAlpha(pTemp, SDL_SRCALPHA,
+			get_game_colorRGB( COLOR_STD_FOG_OF_WAR )->unused );
 	  
   }
   
   if (draw_terrain) {
    if (citymode) {	  
-    if (is_ocean(map_get_terrain(map_col, map_row))) {	/* coasts */
+     if (is_ocean( pTile->terrain )) {	/* coasts */	   
       /* top */
       des.x += NORMAL_TILE_WIDTH / 4;
       SDL_BlitSurface(pCoasts[0], NULL, pBufSurface, &des);
@@ -1695,8 +1699,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     put_unit_pixmap_draw(pUnit, pBufSurface, des.x,
 			 des.y - NORMAL_TILE_HEIGHT / 2);
 
-    if (!pCity
-	&& unit_list_size(&map_get_tile(map_col, map_row)->units) > 1) {
+    if (!pCity && unit_list_size( &(pTile->units) ) > 1 ) {
       SDL_BlitSurface((SDL_Surface *) sprites.unit.stack, NULL,
 		      pBufSurface, &des);
       des = dst;		
@@ -1745,10 +1748,6 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
   This function contains a lot of the drawing logic.  It is very similar
   in each GUI - except this one.
-
-  I leave this function to be compatible with high client API,
-  in fact use this function only to width = 1 and height = 1.
-  In all other sytuations use 'real_update_map_canvas(...)'.
 **************************************************************************/
 void update_map_canvas(int col, int row, int width, int height,
 		       bool write_to_screen)
@@ -1786,7 +1785,7 @@ void real_blink_active_unit(void)
   SDL_Rect area = { 0, 0, NORMAL_TILE_WIDTH, 1.5 * NORMAL_TILE_HEIGHT };
 
   if ((pUnit = get_unit_in_focus())) {
-    get_mcell_xy(pUnit->x, pUnit->y, (int *) &area.x, (int *) &area.y);
+    get_canvas_xy(pUnit->x, pUnit->y, (int *) &area.x, (int *) &area.y);
     area.y -= NORMAL_TILE_HEIGHT / 2;
     if (pUnit == pPrevUnit && pUnit->x == oldCol && pUnit->y == oldRow) {
       if (is_shown) {
@@ -1819,8 +1818,8 @@ void real_blink_active_unit(void)
 #endif
 
 /**************************************************************************
-  Redraw ALL.
-  All seen widgets are draw upon map then must be redraw too.
+  Redraw ALL screen widgets.
+  All seen widgets are draw above map (then must be redraw after map redrawing).
 **************************************************************************/
 static void redraw_map_widgets(void)
 {
@@ -1828,8 +1827,6 @@ static void redraw_map_widgets(void)
 #ifdef DRAW_TIMING
   struct timer *tttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
 #endif	  
-  /* just find a big rectangle that includes the whole visible area. The
-     invisible tiles will not be drawn. */
   
 #if 0  
   /* redraw city descriptions
@@ -1866,7 +1863,7 @@ static void redraw_map_widgets(void)
   Redraw_Log_Window(2);
 
 #ifdef DRAW_TIMING
-  freelog(LOG_NORMAL, "redraw_map_widgets = %fms\n=============================",
+  freelog(LOG_NORMAL, "redraw_map_widgets = %fms\n============================",
 	  1000.0 * read_timer_seconds_free(tttt));
 #endif
   
@@ -2194,7 +2191,6 @@ void get_new_view_rectsize(void)
 /*
    This is development code and may be unstable
 
-   Coast tiles still are not properly implemented :(
    FOG OF WAR is disabled becouse is buggy.
 
    Code is based on Daniel L Speyer idea.
@@ -2219,6 +2215,12 @@ void get_new_view_rectsize(void)
    screen cell array.
    
    All screen redraw will simply read cell array to draw correct cell.
+   
+   But there are some problems with it.
+   exp. when move unit to unexplored tile we draw from "screen cell array"
+        which has "info" about this tile from last screen center
+	( unexplored ) and redraw "unexplored" tile !
+   
 */
 
 
@@ -2323,10 +2325,20 @@ static void build_tile_terrain_data(int map_x, int map_y,
                             )
 {
   enum direction8 dir;
-
-  /**tspecial = map_get_special(map_x, map_y);*/
-  *ttype = map_get_terrain(map_x, map_y);
-
+/*  struct tile *tmp_tile = map_get_tile(map_x, map_y);*/
+	  
+  /* *tspecial = map_get_special(map_x, map_y); */
+  *ttype = map_get_terrain(map_x , map_y );
+/*  
+  if ( tmp_tile->known != TILE_UNKNOWN )
+  {
+    *ttype = tmp_tile->terrain;
+  }
+  else
+  {
+    *ttype = T_UNKNOWN;
+  }
+*/
   /* In iso view a river is drawn as an overlay on top of an underlying
    * grassland terrain. */
   if (is_isometric && *ttype == T_RIVER) {
@@ -2341,7 +2353,17 @@ static void build_tile_terrain_data(int map_x, int map_y,
     if (ISO_MAPSTEP(x1, y1, map_x, map_y, dir)) {
       /*tspecial_near[dir] = map_get_special(x1, y1);*/
       ttype_near[dir] = map_get_terrain(x1, y1);
-
+/*	    
+      tmp_tile = map_get_tile( x1 , y1 );
+      if ( tmp_tile->known != TILE_UNKNOWN )
+      {
+        ttype_near[dir] = tmp_tile->terrain;
+      }
+      else
+      {
+        ttype_near[dir] = T_UNKNOWN;
+      }
+*/	    
       /* hacking away the river here... */
       if (is_isometric && ttype_near[dir] == T_RIVER) {
 	/*tspecial_near[dir] |= S_RIVER;*/
@@ -2356,7 +2378,10 @@ static void build_tile_terrain_data(int map_x, int map_y,
   }
 }
 
-static void fill_blend_indexs( int *blend , const int *dirs , 
+/*
+ *
+ */
+static void fill_blend_indexs( int *blend , const int *dirs_X , 
            const int *dirs_NESW , enum tile_terrain_type ttype , 
            enum tile_terrain_type *ttype_near )
 {
@@ -2366,11 +2391,10 @@ static void fill_blend_indexs( int *blend , const int *dirs ,
   int slave1_NESW[MAX_BLEND] = { 3 , 1 , 3 , 1 };
   int slave2_NESW[MAX_BLEND] = { 0 , 0 , 2 , 2 };
   
-  
   for( index = 0; index < MAX_BLEND; index++)
   {
     blend[index] = 0;
-    if ( ttype <= ttype_near[dirs[index]] )
+    if ( ttype <= ttype_near[dirs_X[index]] )
     {
 /* slave 1 must be on thesame level that index 
  ___________ ___________      ________ _________      
@@ -2379,22 +2403,22 @@ static void fill_blend_indexs( int *blend , const int *dirs ,
 | (2)slave2 | (3)       |    | index  | slave1  |
 |___________|___________|    |________|_________|
 */
-      if (( ttype_near[dirs[index]] == ttype_near[dirs[slave1[index]]] ) &&
-        ( ttype_near[dirs[index]] == ttype_near[dirs[slave2[index]]] ) )
+      if (( ttype_near[dirs_X[index]] == ttype_near[dirs_X[slave1[index]]] ) &&
+        ( ttype_near[dirs_X[index]] == ttype_near[dirs_X[slave2[index]]] ) )
       {
         blend[index] = 3;
       }
       else
       {
-        if (( ttype_near[dirs[index]] == ttype_near[dirs[slave1[index]]] ) &&
-           ( ttype_near[dirs[index]] != ttype_near[dirs[slave2[index]]] ) )
+        if (( ttype_near[dirs_X[index]] == ttype_near[dirs_X[slave1[index]]] ) &&
+           ( ttype_near[dirs_X[index]] != ttype_near[dirs_X[slave2[index]]] ) )
         {
           blend[index] = 1;
 	  continue;      
         }
     
-        if (( ttype_near[dirs[index]] != ttype_near[dirs[slave1[index]]] ) &&
-           ( ttype_near[dirs[index]] == ttype_near[dirs[slave2[index]]] ) )
+        if (( ttype_near[dirs_X[index]] != ttype_near[dirs_X[slave1[index]]] ) &&
+           ( ttype_near[dirs_X[index]] == ttype_near[dirs_X[slave2[index]]] ) )
         {
           blend[index] = 2;
         }
@@ -2428,13 +2452,130 @@ static void fill_blend_indexs( int *blend , const int *dirs ,
     return;
 }
 
+#define is_dry_land( terrain ) ( !is_ocean( terrain ) && terrain != T_UNKNOWN )
 
+/*
+ *  This function correct coast "holes" by
+ *  chose corect "ocean with land edge" cells
+ */
+static SDL_Surface * get_ocean_tile( int corner, const int *dirs_X ,
+				const int *dirs_NESW , 
+                                enum tile_terrain_type ttype,
+                                enum tile_terrain_type *ttype_near )
+{
+/*
+                   0   1  
+	dirs_X =     X
+	           2   3
+	
+	                0
+	dirs_NESW =  3  +  1
+	                2
+*/
+	
+  if ( corner == 0 )
+  {
+    if ( ( is_dry_land( ttype_near[dirs_NESW[0]] ) ||
+				    is_dry_land( ttype_near[dirs_X[1]] )) &&
+	( is_dry_land( ttype_near[dirs_NESW[3]] ) ||
+				    is_dry_land( ttype_near[dirs_X[2]] )))
+    {
+      return cells[ttype][ttype][2][1];/* double land edge "/" */
+    }
+  
+    if ( is_dry_land( ttype_near[dirs_NESW[0]] ) ||
+				    is_dry_land( ttype_near[dirs_X[1]] ) )
+    {
+      return cells[ttype][ttype][1][1];
+    }
+    
+    if ( is_dry_land( ttype_near[dirs_NESW[3]] ) ||
+				   is_dry_land( ttype_near[dirs_X[2]] ) )
+    {
+      return cells[ttype][ttype][1][2];	  
+    }
+  }
+	
+  if ( corner == 1 )
+  {
+    if ( ( is_dry_land( ttype_near[dirs_NESW[0]] ) ||
+				    is_dry_land( ttype_near[dirs_X[0]] )) &&
+	( is_dry_land( ttype_near[dirs_NESW[1]] ) ||
+				    is_dry_land( ttype_near[dirs_X[3]] )))
+    {
+      return cells[ttype][ttype][2][0];/* double land edge "\" */
+    }
+  
+    if ( is_dry_land( ttype_near[dirs_NESW[0]] ) ||
+				    is_dry_land( ttype_near[dirs_X[0]] ))
+    {
+      return cells[ttype][ttype][1][0];
+    }
+    
+    if ( is_dry_land( ttype_near[dirs_NESW[1]] ) ||
+				    is_dry_land( ttype_near[dirs_X[3]] ))
+    {
+      return cells[ttype][ttype][1][3];	  
+    }
+  }
+  
+  if ( corner == 2 )
+  {
+    if ( ( is_dry_land( ttype_near[dirs_NESW[2]] ) ||
+				    is_dry_land( ttype_near[dirs_X[3]] )) &&
+	( is_dry_land( ttype_near[dirs_NESW[3]] ) ||
+				    is_dry_land( ttype_near[dirs_X[0]] )))
+    {
+      return cells[ttype][ttype][2][0];/* double land edge "\" */
+    }
+  
+    if ( is_dry_land( ttype_near[dirs_NESW[2]] ) ||
+				    is_dry_land( ttype_near[dirs_X[3]] ))
+    {
+      return cells[ttype][ttype][1][3];
+    }
+    
+    if ( is_dry_land( ttype_near[dirs_NESW[3]] ) ||
+				    is_dry_land( ttype_near[dirs_X[0]] ) )
+    {
+      return cells[ttype][ttype][1][0];
+    }
+  }  
+  
+  if ( corner == 3 )
+  {
+    if ( ( is_dry_land( ttype_near[dirs_NESW[1]] ) ||
+				    is_dry_land( ttype_near[dirs_X[1]] )) &&
+	( is_dry_land( ttype_near[dirs_NESW[2]] ) ||
+				    is_dry_land( ttype_near[dirs_X[2]] )) )
+    {
+      return cells[ttype][ttype][2][1];/* double land edge "/" */
+    }
+  
+    if ( is_dry_land( ttype_near[dirs_NESW[1]] ) ||
+			    is_dry_land( ttype_near[dirs_X[1]] ))
+    {
+      return cells[ttype][ttype][1][1];	  
+    }
+    
+    if ( is_dry_land( ttype_near[dirs_NESW[2]] ) ||
+			    is_dry_land( ttype_near[dirs_X[2]] ))
+    {
+      return cells[ttype][ttype][1][2];	  
+    }
+  }
+  
+  return cells[ttype][ttype][0][0];/* pure ocean cell */
+}
+
+/*
+ */
 static void fill_cells_corners( SDL_Surface **cell , const int *dirs_X ,
                           const int *dirs_NESW ,
                           int map_x, int map_y,
                           enum tile_terrain_type *ttype_near )
 {
-  int blend[MAX_BLEND] ;
+  int blend[MAX_BLEND], corner ;
   enum tile_terrain_type ttype;
 	
   build_tile_terrain_data( map_x, map_y, &ttype, ttype_near );
@@ -2442,17 +2583,33 @@ static void fill_cells_corners( SDL_Surface **cell , const int *dirs_X ,
   fill_blend_indexs( blend , dirs_X , dirs_NESW , ttype ,ttype_near );
 
   
-  cell[0] = cells[ttype][ttype_near[dirs_X[0]]][blend[0]][0];
-  cell[1] = cells[ttype][ttype_near[dirs_X[1]]][blend[1]][1];
-  cell[2] = cells[ttype][ttype_near[dirs_X[2]]][blend[2]][2];
-  cell[3] = cells[ttype][ttype_near[dirs_X[3]]][blend[3]][3];
-
+  for ( corner = 0; corner < MAX_CORNER; corner++ )
+  {
+    if ( ttype != ttype_near[dirs_X[corner]] )
+    {
+      cell[corner] = cells[ttype][ttype_near[dirs_X[corner]]]
+	    				[blend[corner]][corner];
+    }
+    else
+    {
+      if ( ttype != T_OCEAN )
+      {
+        cell[corner] = cells[ttype][ttype][0][corner];
+      }
+      else
+      {
+	cell[corner] = get_ocean_tile( corner , dirs_X , dirs_NESW , 
+                              ttype, ttype_near );
+	
+      }
+    }
+  }
+  
 }
 
 static void fill_map_cells( int x0 , int y0 )
 {
   int col, row , x , y, real_x , real_y;
-  //enum tile_terrain_type ttype;
   enum tile_terrain_type ttype_near[8];
   SDL_Surface *cell_rect[MAX_CORNER];
 	
@@ -2483,7 +2640,8 @@ static void fill_map_cells( int x0 , int y0 )
     
   for ( row = 0; row < cell_h_count; row+=2 )
   {
-    for ( col = 0; col < cell_w_count; col+=2, x+=ISO_DIR_DX[DIR8_EAST], y+=ISO_DIR_DY[DIR8_EAST] )	  
+    for ( col = 0; col < cell_w_count; col+=2,
+	    x+=ISO_DIR_DX[DIR8_EAST], y+=ISO_DIR_DY[DIR8_EAST] )	  
     {
       /*real_x = x;
       real_y = y;
@@ -2517,7 +2675,7 @@ static void fill_map_cells( int x0 , int y0 )
 	    }
 	    else
 	    {
-	      map_cell[col + 1][row + 1].x = map_cell[col + 1][row + 1].y = 0xFFFF;
+	      map_cell[col + 1][row + 1].x = map_cell[col+1][row+1].y = 0xFFFF;
 	    }
 	  }
         }
@@ -2538,7 +2696,7 @@ static void fill_map_cells( int x0 , int y0 )
 	  if ( col + 1 < cell_w_count )
 	  {
             map_cell[col + 1][row + 1].sprite = NULL;
-            map_cell[col + 1][row + 1].x = map_cell[col + 1][row + 1].y = 0xFFFF;
+            map_cell[col + 1][row + 1].x = map_cell[col +1][row + 1].y = 0xFFFF;
 	  }
         }      
       }
@@ -2552,7 +2710,7 @@ static void fill_map_cells( int x0 , int y0 )
 	
 }
 
-/* ============================================================== */
+/* ======================================================================== */
 
 static void redraw_single_cell( int x , int y )
 {
@@ -2584,28 +2742,30 @@ static void redraw_single_cell( int x , int y )
 PUT:
 #ifdef DRAW_TIMING
   ttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
-#endif  
-  for ( i = 0; i < 6 ; i++ )
-  {
-    if ( col + col_mod[i] < cell_w_count && row + row_mod[i] < cell_h_count &&
-	col + col_mod[i] >= 0 && row + row_mod[i] >= 0 )
+#endif
+
+  if (draw_terrain) {  
+    for ( i = 0; i < 6 ; i++ )
     {
-      dest.x = start_x + w * col_mod[i];
-      dest.y = start_y + h * row_mod[i];
-      if ( map_cell[ col + col_mod[i] ][ row + row_mod[i] ].sprite )
+      if ( col + col_mod[i] < cell_w_count && row + row_mod[i] < cell_h_count &&
+	  col + col_mod[i] >= 0 && row + row_mod[i] >= 0 )
       {
-        SDL_BlitSurface( map_cell[col + col_mod[i]][row + row_mod[i]].sprite,
-						    NULL , Main.screen, &dest );
-      }
-      else
-      { /* fill Black */
-        dest.w = w;
-        dest.h = h;
-        SDL_FillRect( Main.screen , &dest , 0x0 );
+        dest.x = start_x + w * col_mod[i];
+        dest.y = start_y + h * row_mod[i];
+        if ( map_cell[ col + col_mod[i] ][ row + row_mod[i] ].sprite )
+        {
+          SDL_BlitSurface( map_cell[col + col_mod[i]][row + row_mod[i]].sprite,
+						   NULL , Main.screen, &dest );
+        }
+        else
+        { /* fill Black */
+          dest.w = w;
+          dest.h = h;
+          SDL_FillRect( Main.screen , &dest , 0x0 );
+        }
       }
     }
   }
-  
 
   dest.w = UNIT_TILE_WIDTH;
   dest.h = UNIT_TILE_HEIGHT;
@@ -2615,27 +2775,31 @@ PUT:
 
   if ( row - 2 >= 0 )
   draw_map_cell( Main.screen , start_x , start_y - 2 * h,
-	  map_cell[col][row - 2].x , map_cell[col][row - 2].y , 0);
+			  map_cell[col][row - 2].x ,
+			  map_cell[col][row - 2].y , 0);
   
   if ( col - 1 >= 0 && row - 1 >= 0 )
     draw_map_cell( Main.screen , start_x - w, start_y - h,
-	  map_cell[col - 1][row - 1].x , map_cell[col-1][row-1].y , 0);
+			  map_cell[col - 1][row - 1].x ,
+			  map_cell[col - 1][row - 1].y , 0);
   
   if ( col + 1 < cell_w_count && row - 1 >= 0 )  
     draw_map_cell( Main.screen , start_x + w, start_y - h,
-	  map_cell[col + 1][row - 1].x , map_cell[col + 1][row - 1].y , 0);
+			  map_cell[col + 1][row - 1].x ,
+			  map_cell[col + 1][row - 1].y , 0);
   
- 
   draw_map_cell( Main.screen , start_x , start_y, x , y , 0);
 
   if ( col - 1 >= 0 && row + 1 < cell_h_count )
     draw_map_cell( Main.screen , start_x - w, start_y + h,
-	  map_cell[col - 1][row + 1].x , map_cell[col - 1][row + 1].y , 0);
+			  map_cell[col - 1][row + 1].x ,
+			  map_cell[col - 1][row + 1].y , 0);
   
     
   if ( col + 1 < cell_w_count && row + 1 < cell_h_count ) 
     draw_map_cell( Main.screen , start_x + w, start_y + h,
-	  map_cell[col + 1][row + 1].x , map_cell[col + 1][row + 1].y , 0);
+			  map_cell[col + 1][row + 1].x ,
+			  map_cell[col + 1][row + 1].y , 0);
 	
 #ifdef DRAW_TIMING	
   freelog(LOG_NORMAL, "redraw_singe_cell = %fms",
@@ -2644,7 +2808,8 @@ PUT:
   
   SDL_SetClipRect( Main.screen , NULL );
   add_refresh_region( start_x , start_y - h ,
-                  UNIT_TILE_WIDTH , UNIT_TILE_HEIGHT );
+			 UNIT_TILE_WIDTH , UNIT_TILE_HEIGHT );
+  
 }
 
 static void redraw_fullscreen( int x0 , int y0 )
@@ -2665,16 +2830,17 @@ static void redraw_fullscreen( int x0 , int y0 )
 #ifdef DRAW_TIMING  
   tt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
 #endif
-  for ( col = 0; col < cell_w_count; col++ )
-  {
-    for ( row = 0; row < cell_h_count; row++ )
+  if (draw_terrain) {
+    for ( col = 0; col < cell_w_count; col++ )
     {
+      for ( row = 0; row < cell_h_count; row++ )
+      {
 	dest.x = sx;
 	dest.y = sy;
 	if ( map_cell[col][row ].sprite )
 	{
-	  SDL_BlitSurface( map_cell[col][row ].sprite,
-                           NULL , Main.screen, &dest );
+	  SDL_BlitSurface( map_cell[col][row ].sprite, NULL ,
+							Main.screen, &dest );
 	}
 	else
 	{ /* fill Black */
@@ -2684,9 +2850,14 @@ static void redraw_fullscreen( int x0 , int y0 )
 	}
 	sy += h;
 	
+      }
+      sx += w;
+      sy = start_y;
     }
-    sx += w;
-    sy = start_y;
+  }
+  else
+  {
+    SDL_FillRect( Main.screen , NULL , 0x0 );  
   }
 
   sx = start_x;	
@@ -2742,6 +2913,9 @@ static void rebuild_blending_tile( SDL_Surface **pDitherBuffers ,
   }
 }
 
+/*
+ * Create Coast tile graphic
+ */
 static void rebuild_coast_tile( SDL_Surface **pCoastBuffers , int blend )
 {
   const int dirs[4] = {
@@ -2756,42 +2930,68 @@ static void rebuild_coast_tile( SDL_Surface **pCoastBuffers , int blend )
     };
     
   int array_index , i , corner;
-  SDL_Rect des;
+  SDL_Rect des = { 0 , 0 , 0, 0 };
   SDL_Surface *coasts[4];
-  enum tile_terrain_type ttype_near[8];
+  enum tile_terrain_type ttype_near[4][8];
     
-  for (i = 0; i < 4; i++) {
-    ttype_near[i] = T_OCEAN;
-  }
+  for (i = 0; i < 8; i++)
+   for (corner = 0; corner < 4; corner++) {
+    ttype_near[corner][i] = T_OCEAN;
+   }
   
   switch( blend )
   {
     case 0:
-	ttype_near[DIR8_NORTH] = T_ARCTIC;
-        ttype_near[DIR8_WEST] = T_ARCTIC;
-        ttype_near[DIR8_EAST] = T_ARCTIC;
-        ttype_near[DIR8_SOUTH] = T_ARCTIC;
+        ttype_near[0][DIR8_WEST] = T_ARCTIC;	    
+	ttype_near[1][DIR8_NORTH] = T_ARCTIC;
+        ttype_near[2][DIR8_SOUTH] = T_ARCTIC;
+        ttype_near[3][DIR8_EAST] = T_ARCTIC;
     break;
     case 1:
-	ttype_near[DIR8_NORTH] = T_ARCTIC;
-        ttype_near[DIR8_WEST] = T_ARCTIC;
-        ttype_near[DIR8_EAST] = T_ARCTIC;
-        ttype_near[DIR8_SOUTH] = T_ARCTIC;
-        ttype_near[DIR8_NORTHWEST] = T_ARCTIC;
-        ttype_near[DIR8_SOUTHEAST] = T_ARCTIC;
+	/* up */    
+	ttype_near[0][DIR8_NORTH] = T_ARCTIC;
+        ttype_near[0][DIR8_WEST] = T_ARCTIC;
+        ttype_near[0][DIR8_NORTHWEST] = T_ARCTIC;
+        
+        ttype_near[1][DIR8_NORTH] = T_ARCTIC;
+        ttype_near[1][DIR8_WEST] = T_ARCTIC;
+        ttype_near[1][DIR8_NORTHWEST] = T_ARCTIC;
+        /* down */
+        ttype_near[2][DIR8_EAST] = T_ARCTIC;
+        ttype_near[2][DIR8_SOUTH] = T_ARCTIC;
+        ttype_near[2][DIR8_SOUTHEAST] = T_ARCTIC;
+    
+        ttype_near[3][DIR8_EAST] = T_ARCTIC;
+        ttype_near[3][DIR8_SOUTH] = T_ARCTIC;
+        ttype_near[3][DIR8_SOUTHEAST] = T_ARCTIC;
     break;
     case 2:
-	ttype_near[DIR8_NORTH] = T_ARCTIC;
-        ttype_near[DIR8_WEST] = T_ARCTIC;
-        ttype_near[DIR8_EAST] = T_ARCTIC;
-        ttype_near[DIR8_SOUTH] = T_ARCTIC;
-        ttype_near[DIR8_SOUTHWEST] = T_ARCTIC;
-        ttype_near[DIR8_NORTHEAST] = T_ARCTIC;
+	/* left */
+        ttype_near[0][DIR8_WEST] = T_ARCTIC;
+        ttype_near[0][DIR8_SOUTH] = T_ARCTIC;
+        ttype_near[0][DIR8_SOUTHWEST] = T_ARCTIC;
+    
+    	/* right */   
+        ttype_near[1][DIR8_NORTH] = T_ARCTIC;
+        ttype_near[1][DIR8_EAST] = T_ARCTIC;
+        ttype_near[1][DIR8_NORTHEAST] = T_ARCTIC;
+    
+        /* left */
+        ttype_near[2][DIR8_WEST] = T_ARCTIC;
+        ttype_near[2][DIR8_SOUTH] = T_ARCTIC;
+        ttype_near[2][DIR8_SOUTHWEST] = T_ARCTIC;
+    
+        /* right */
+        ttype_near[3][DIR8_NORTH] = T_ARCTIC;
+        ttype_near[3][DIR8_EAST] = T_ARCTIC;
+        ttype_near[3][DIR8_NORTHEAST] = T_ARCTIC;
+        
     break;
     case 3:
-      for (i = 0; i < 4; i++) {
-        ttype_near[i] = T_ARCTIC;
-      }    
+      for (corner = 0; corner < 4; corner++)
+        for (i = 0; i < 8; i++) {
+        ttype_near[corner][i] = T_ARCTIC;
+      }
     break;
     default:
       abort();
@@ -2802,18 +3002,19 @@ static void rebuild_coast_tile( SDL_Surface **pCoastBuffers , int blend )
 	  
     /* put coasts */
     for (i = 0; i < 4; i++) {
-      array_index = ((!is_ocean(ttype_near[dir_ccw(dirs[i])]) ? 1 : 0)
-			 + (!is_ocean(ttype_near[dirs[i]]) ? 2 : 0)
-			 + (!is_ocean(ttype_near[dir_cw(dirs[i])]) ? 4 : 0));
+      array_index = ((!is_ocean(ttype_near[corner][dir_ccw(dirs[i])]) ? 1 : 0)
+		+ (!is_ocean(ttype_near[corner][dirs[i]]) ? 2 : 0)
+		+ (!is_ocean(ttype_near[corner][dir_cw(dirs[i])]) ? 4 : 0));
 
-      
-      
+	    
+	    
       coasts[i] = (SDL_Surface *)sprites.tx.coast_cape_iso[array_index][i];
     }
     
     SDL_FillRect( pCoastBuffers[corner] , NULL, 0x0 );
     
     /* top */
+    des.y = 0;
     des.x = NORMAL_TILE_WIDTH / 4;
     SDL_BlitSurface(coasts[0], NULL, pCoastBuffers[corner], &des);
 
@@ -2822,19 +3023,22 @@ static void rebuild_coast_tile( SDL_Surface **pCoastBuffers , int blend )
     SDL_BlitSurface(coasts[1], NULL, pCoastBuffers[corner], &des);
 
       /* left */
-    des.x -= NORMAL_TILE_WIDTH / 4;
-    des.y -= NORMAL_TILE_HEIGHT / 4;
+    des.x = 0;
+    des.y = NORMAL_TILE_HEIGHT / 4;
     SDL_BlitSurface(coasts[2], NULL, pCoastBuffers[corner], &des);
 
       /* right */
-    des.x += NORMAL_TILE_WIDTH / 2;
+    des.x = NORMAL_TILE_WIDTH / 2;
     SDL_BlitSurface(coasts[3], NULL, pCoastBuffers[corner], &des);
   
   }
   
 }
 
-/* I should do it in this way or I should load ready graphic ? */
+/*
+ * Create cell terrain graphic.
+ * I should do it in this way or I should load ready graphic ?
+ */
 void init_cells_sprites(void)
 {
   enum tile_terrain_type t1, t2;
@@ -2843,6 +3047,8 @@ void init_cells_sprites(void)
   SDL_Surface *pDither[MAX_BLEND + 1 ];
   SDL_Rect t1_src , t2_src ;
 
+  if ( SDL_Client_Flags & CF_TERRAIN_CELLS_CREATED ) return;
+	
   for ( blend = 0; blend < MAX_BLEND; blend++ )
   {
     pDither[blend] = create_surf( NORMAL_TILE_WIDTH ,
@@ -2858,26 +3064,45 @@ void init_cells_sprites(void)
   {
     if ( t1 == T_RIVER ) continue;	  
     pT1_TERRAIN = (SDL_Surface *)get_tile_type(t1)->sprite[0];  
+    
     for ( t2 = T_ARCTIC ; t2 < T_LAST ; t2++ )
     {
       if ( t2 == T_RIVER ) continue;
       pT2_TERRAIN = (SDL_Surface *)get_tile_type(t2)->sprite[0];
-      if ( !pT2_TERRAIN )/*&& t2 == T_UNKNOWN )*/
+      
+      if ( !pT2_TERRAIN )
 	pT2_TERRAIN = (SDL_Surface *)sprites.black_tile;
+      
+      /* We don't need create all cases */
       if ( t1 <= t2 )
       {
-	if (!is_ocean(t1) && !is_ocean(t2)) {
+	      
+	if ( !is_ocean(t1) && !is_ocean(t2) )
+	{
           rebuild_blending_tile( pDither , pT2_TERRAIN );
 	}
+	
 	for ( blend = 0; blend < MAX_BLEND; blend++ )
         {
-	  if (is_ocean(t1) || is_ocean(t2)) {
-	    rebuild_coast_tile( pDither , blend );
-	  }
+		
+	  if ( is_ocean(t1) || is_ocean(t2) )
+	  {
+	    if ( is_ocean(t1) && is_ocean(t2) )
+	    {
+	      rebuild_coast_tile( pDither , 0 );
+	    }
+	    else
+	    {
+	      rebuild_coast_tile( pDither , blend );
+	    }
+          }
+	  
 	  for ( corner = 0 ; corner < MAX_CORNER ; corner++ )
 	  {
 	    pBuf = create_surf( w , h , SDL_SWSURFACE );
-	    if (!is_ocean(t1) && !is_ocean(t2)) {
+		  
+	    if ( !is_ocean(t1) && !is_ocean(t2) )
+	    {
 	      t1_src.x = (!corner || corner == 2) ?  0 : w;
 	      t1_src.y = ( corner > 1 ) ?  h : 0;
 	
@@ -2888,115 +3113,159 @@ void init_cells_sprites(void)
 	      SDL_BlitSurface( pT2_TERRAIN , &t2_src , pBuf , NULL );	    
 	      SDL_BlitSurface( pDither[blend] , &t1_src , pBuf , NULL );
 	    }
-	  else {
-	    /* is_ocean(t1) || is_ocean(t2) */
-	    if (is_ocean(t1) && t2 == T_UNKNOWN) {
-              t1_src.x = ((corner % 2) == 0) * w - w / 2 ;
-	      t1_src.y = 0;
-	      SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[0][0],
-		                             NULL , pBuf , &t1_src );
-		  
-	      t1_src.x = 0 ;
-	      t1_src.y = ( (corner < 2) ? h : 0 ) - h / 2 ;
-	      SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[0][0],
-		                             NULL , pBuf , &t1_src );	  
-		
-              t1_src.w = w;
-              t1_src.h = h;		    
-	    } /* is_ocean(t1) && t2 == T_UNKNOWN */
-	    
-            if (is_ocean(t1) && !is_ocean(t2) && t2 != T_UNKNOWN) {
-	      t2_src.x = w - ((corner % 2) > 0) * w;
-	      t2_src.y = h - ( corner > 1 ) * h;
-	      SDL_BlitSurface( pT2_TERRAIN , &t2_src , pBuf , NULL );
-/*		
-	      t1_src.x = ((corner % 2) == 0) * w - w / 2 ;
-	      t1_src.y = 0;
-	      SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[1][( corner > 1 )],
-		                                    NULL , pBuf , &t1_src );
-		  
-	      t1_src.x = 0 ;
-	      t1_src.y = ( (corner < 2) ? h : 0 ) - h / 2 ;
-	      SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[1][( corner % 2 ) ? 3 : 2 ],
-		                                     NULL , pBuf , &t1_src );	  
-
+	    else
+	    { /* t1 == T_OCEAN || t2 == T_OCEAN */
 		    
-		    
-              t1_src.w = w;
-              t1_src.h = h;
-	      */
-	      t1_src.x = (!corner || corner == 2) ?  0 : w;
-	      t1_src.y = ( corner > 1 ) ?  h : 0;
-	      SDL_BlitSurface( pDither[corner] , &t1_src , pBuf , NULL );
-	      
-	    } /* is_ocean(t1) && !is_ocean(t2) */
-	    
-	    if (!is_ocean(t1) && is_ocean(t2)) {
-	      t1_src.x = ((corner % 2) > 0) * w;
-	      t1_src.y = ( corner > 1 ) * h;
-	      SDL_BlitSurface( pT1_TERRAIN , &t1_src , pBuf , NULL );
-/*		
-	      t2_src.x = ((corner % 2) > 0) * w - w / 2 ;
-	      t2_src.y = 0;
-	      SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[4][( corner < 2 )],
-		                                     NULL , pBuf , &t2_src );
-		  
-	      t2_src.x = 0 ;
-	      t2_src.y = ( (corner > 1) ? h : 0 ) - h / 2 ;
-	      SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[3][( corner % 2 ) ? 2 : 3 ],
-		                                NULL , pBuf , &t2_src );	  
-		
-              t2_src.w = w;
-              t2_src.h = h;
-*/
-	      t2_src.x = (!corner || corner == 2) ?  w : 0;
-	      t2_src.y = ( corner > 1 ) ?  0 : h;    
-	      SDL_BlitSurface( pDither[corner] , &t2_src , pBuf , NULL );
-	      
-	    } /* !is_ocean(t1) && is_ocean(t2) */
-	  
-	    if (is_ocean(t1) && is_ocean(t2)) {	  
-	      if (!corner) {
-	        t2_src.x = w / 2 ;
-	        t2_src.y = 0;
-	        SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[0][ 0 ],
-		                             NULL , pBuf , &t2_src );
-		
-		t2_src.x *= -1; 
-	        SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[0][ 1 ],
-		                             NULL , pBuf , &t2_src );      
-		
-		t2_src.x = 0 ;
-	        t2_src.y = h / 2;
-	        SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[0][ 2 ],
-		                             NULL , pBuf , &t2_src );
-		
-		t2_src.y *= -1;
-	        SDL_BlitSurface( 
-		  (SDL_Surface *)sprites.tx.coast_cape_iso[0][ 3 ],
-		                             NULL , pBuf , &t2_src );
-						       
-                t2_src.w = w;
-                t2_src.h = h;
-	      }
-	      else
+	      if ( is_ocean(t1) && t2 == T_UNKNOWN )
 	      {
-		FREESURFACE( pBuf );
-		pBuf = cells[t1][t2][blend][0];
-	      }
-	      
-	    } /* is_ocean(t1) && is_ocean(t2) */
+               t1_src.x = ((corner % 2) == 0) * w - w / 2 ;
+	        t1_src.y = 0;
+	        SDL_BlitSurface( 
+		  (SDL_Surface *)sprites.tx.coast_cape_iso[0][0],
+		                                       NULL , pBuf , &t1_src );
+		  
+	        t1_src.x = 0 ;
+	        t1_src.y = ( (corner < 2) ? h : 0 ) - h / 2 ;
+	        SDL_BlitSurface( 
+		  (SDL_Surface *)sprites.tx.coast_cape_iso[0][0],
+		                                       NULL , pBuf , &t1_src );	  
+		
+                t1_src.w = w;
+                t1_src.h = h;		    
+	      }/* t1 == T_OCEAN && t2 == T_UNKNOWN */
 	    
-	  } /* is_ocean(t1) || is_ocean(t2) */
+              if ( is_ocean(t1) && is_dry_land( t2 ) )
+	      {
+		    
+               t1_src.x = (!corner || corner == 2) ?  0 : w;
+	        t1_src.y = ( corner > 1 ) ?  h : 0;
+	        SDL_BlitSurface( pDither[corner] , &t1_src , pBuf , NULL );
+	    
+		    
+	        t2_src.x = (!corner || corner == 2) ?  w : 0;
+	        t2_src.y = ( corner > 1 ) ?  0 : h;
+	        SDL_BlitSurface( pT2_TERRAIN , &t2_src , pBuf , NULL );
+	      
+	      } /* t1 == T_OCEAN && t2 != T_OCEAN */
+	    
+	      if ( !is_ocean(t1) && is_ocean(t2) )
+	      {	  
+	        t1_src.x = (!corner || corner == 2) ?  0 : w;
+	        t1_src.y = ( corner > 1 ) ?  h : 0;
+	        SDL_BlitSurface( pT1_TERRAIN , &t1_src , pBuf , NULL );
+		    
+	        t2_src.x = (!corner || corner == 2) ?  w : 0;
+	        t2_src.y = ( corner > 1 ) ?  0 : h;
+	        SDL_BlitSurface(pDither[ 3 - corner ] , &t2_src , pBuf ,NULL);
+		    
+              }/* t1 != T_OCEAN && t2 == T_OCEAN */
+	  
+	      if ( is_ocean(t1) && is_ocean(t2) )
+	      {
+	        switch(blend)
+	        {
+		case 0:
+			/* pure ocean cell */
+	          if ( !corner )
+	          {
+	            t2_src.x = w / 2 ;
+	            t2_src.y = 0;
+	            SDL_BlitSurface( 
+		      (SDL_Surface *)sprites.tx.coast_cape_iso[0][ 0 ],
+		                                       NULL , pBuf , &t2_src );
+		
+		    t2_src.x *= -1; 
+	            SDL_BlitSurface( 
+		      (SDL_Surface *)sprites.tx.coast_cape_iso[0][ 1 ],
+		                                       NULL , pBuf , &t2_src );      
+		
+		    t2_src.x = 0 ;
+	            t2_src.y = h / 2;
+	            SDL_BlitSurface( 
+		      (SDL_Surface *)sprites.tx.coast_cape_iso[0][ 2 ],
+		                                       NULL , pBuf , &t2_src );
+		
+		    t2_src.y *= -1;
+	            SDL_BlitSurface( 
+		      (SDL_Surface *)sprites.tx.coast_cape_iso[0][ 3 ],
+		                                       NULL , pBuf , &t2_src );
+						       
+                    t2_src.w = w;
+                    t2_src.h = h;
+	          }
+	          else
+	          {
+		    FREESURFACE( pBuf );
+		    pBuf = cells[t1][t2][0][0];
+	          }
+		  
+	        break;	 
+	        case 1:
+			/* ocean with land edge */
+		  t1_src.x = (!corner || corner == 2) ? 0 : - w;
+	          t1_src.y = ( corner > 1 ) ? 0 : - h;
+	          SDL_BlitSurface( pDither[corner] , NULL , pBuf , &t1_src );
+	    
+		    
+	          t2_src.x = (!corner || corner == 2) ? - w : 0;
+	          t2_src.y = ( corner > 1 ) ? - h : 0;
+	          SDL_BlitSurface( pDither[corner] , NULL , pBuf , &t2_src );
+		
+			
+		  t1_src.w = w;
+                 t1_src.h = h;
+		  t2_src.w = w;
+                 t2_src.h = h;	
+			
+		break;
+		case 2:
+		  /* ocean with double land edge */	
+		  if ( !corner || corner == 1 )
+		  {
+		    SDL_Surface *pTmp = create_surf( w , h , SDL_SWSURFACE );
+		    if ( !corner )
+		    {
+		      SDL_BlitSurface( cells[t1][t2][1][0] , NULL ,
+			    pTmp , NULL );
+		      SDL_BlitSurface( cells[t1][t2][1][3] , NULL ,
+			    pBuf , NULL );
+		      
+	              SDL_BlitSurface( (SDL_Surface *)sprites.black_tile,NULL,
+			                                       pTmp , NULL );
+		      SDL_SetColorKey( pTmp, SDL_SRCCOLORKEY,
+			                     getpixel( pTmp , w - 1 , h - 1));
+		    }
+		    else
+		    {
+		      SDL_BlitSurface( cells[t1][t2][1][1] , NULL ,
+			    pTmp , NULL );
+		      SDL_BlitSurface( cells[t1][t2][1][2] , NULL ,
+			    pBuf , NULL );
+		      
+		      t1_src.x = w;
+	              t1_src.y = 0;	    
+	              SDL_BlitSurface( (SDL_Surface *)sprites.black_tile,
+			    &t1_src, pTmp , NULL );
+		      SDL_SetColorKey( pTmp, SDL_SRCCOLORKEY,
+			                     getpixel( pTmp , 1 , h - 1));    
+		    }
+		    SDL_BlitSurface( pTmp , NULL , pBuf , NULL );
+		    FREESURFACE( pTmp );
+		  }
+		  else
+	          {
+		    FREESURFACE( pBuf );
+		    pBuf = cells[t1][t2][0][0];
+	          }
+		break;
+		default:
+		  FREESURFACE( pBuf );
+		  pBuf = cells[t1][t2][0][0];
+		break;
+	      }/* swith */
+            }/* t1 == T_OCEAN && t2 == T_OCEAN */
+	    
+          } /* t1 == T_OCEAN || t2 == T_OCEAN */
 	  
 	  cells[t1][t2][blend][corner] = pBuf;
 	} /* for */
@@ -3011,7 +3280,7 @@ void init_cells_sprites(void)
 	  cells[t1][t2][blend][2] = cells[t2][t1][blend][1];
 	  cells[t1][t2][blend][3] = cells[t2][t1][blend][0];
 	}
-      }
+      } 
     } /* t2 */
   }/* t2 */
   
@@ -3020,6 +3289,7 @@ void init_cells_sprites(void)
     FREESURFACE ( pDither[blend] );
   }
   
+  SDL_Client_Flags |= CF_TERRAIN_CELLS_CREATED;
 }
 
 void free_cells_sprites(void)
@@ -3042,6 +3312,7 @@ void free_cells_sprites(void)
     }
   }
   
+  SDL_Client_Flags &= ~CF_TERRAIN_CELLS_CREATED;
 }
 
 /**************************************************************************
@@ -3049,7 +3320,7 @@ void free_cells_sprites(void)
 **************************************************************************/
 void tmp_map_surfaces_init(void)
 {
-	
+#if 0	
   pFogSurface = create_surf(NORMAL_TILE_WIDTH,
 			    UNIT_TILE_HEIGHT ,
 			    SDL_SWSURFACE);
@@ -3058,7 +3329,8 @@ void tmp_map_surfaces_init(void)
 	       SDL_MapRGBA(pFogSurface->format, 0, 0, 0, 128));
 	
   SDL_SetAlpha(pFogSurface, SDL_SRCALPHA, 128);
-
+#endif  
+	
   pTmpSurface = create_surf(NORMAL_TILE_WIDTH,
 			    UNIT_TILE_HEIGHT,
 			    SDL_SWSURFACE);
@@ -3073,7 +3345,7 @@ void tmp_map_surfaces_init(void)
   } else {
     SDL_SetColorKey(pTmpSurface, SDL_SRCCOLORKEY, 0x0);
   }
-  
+
   
 #if 0
   pBlinkSurfaceA =
@@ -3085,7 +3357,5 @@ void tmp_map_surfaces_init(void)
 #endif
 
   get_new_view_rectsize();
-
-
 
 }

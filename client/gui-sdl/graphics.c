@@ -289,10 +289,10 @@ int blit_entire_src(SDL_Surface * pSrc, SDL_Surface * pDest,
 **************************************************************************/
 Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
 {
+  if (!pSurface) return 0x0;
   switch (pSurface->format->BytesPerPixel) {
   case 1:
-    return *(Uint8 *) ((Uint8 *) pSurface->pixels + y * pSurface->pitch +
-		       x);
+    return *(Uint8 *) ((Uint8 *) pSurface->pixels + y * pSurface->pitch + x);
 
   case 2:
     return *(Uint16 *) ((Uint8 *) pSurface->pixels + y * pSurface->pitch +
@@ -706,10 +706,9 @@ void putframe(SDL_Surface * pDest, Sint16 x0, Sint16 y0,
 **************************************************************************/
 void init_sdl(int iFlags)
 {
-
+  bool error;
   Main.screen = NULL;
   Main.rects_count = 0;
-  bool error;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
     error = (SDL_InitSubSystem(iFlags) < 0);

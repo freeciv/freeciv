@@ -1218,7 +1218,7 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui = create_checkbox(draw_fog_of_war, WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_fog_of_war_callback;
-  /* set_wstate(pTmpGui, WS_NORMAL); */
+  set_wstate(pTmpGui, WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
 

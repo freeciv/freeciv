@@ -171,7 +171,7 @@ static void gui_main_loop(void)
 #endif
 
   int schot_nr = 0;
-  char schot[10];
+  char schot[32];
 
   while (!ID) {
 #ifndef TIMERS
@@ -290,8 +290,8 @@ static void gui_main_loop(void)
 	    break;
 
 	  case SDLK_PRINT:
-	    freelog(LOG_DEBUG, "Make screenshot nr. %d", schot_nr);
-	    my_snprintf(schot, sizeof(schot), "/tmp/schot0%d.bmp",
+	    freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
+	    my_snprintf(schot, sizeof(schot), "schot0%d.bmp",
 			schot_nr++);
 	    SDL_SaveBMP(Main.screen, schot);
 	    break;
@@ -481,6 +481,8 @@ void ui_init(void)
   
   set_video_mode(640, 480, iScreenFlags);
 
+  SDL_WM_SetCaption( "SDLClient of Freeciv", "FreeCiv" );
+
   /* create label beackground */
   pBgd = create_filled_surface(350, 50, SDL_SWSURFACE, NULL);
 
@@ -558,7 +560,8 @@ void ui_main(int argc, char *argv[])
 
   /* disable for default becouse is buggy */
   draw_fog_of_war = FALSE;
-
+  SDL_Client_Flags &= ~CF_TERRAIN_CELLS_CREATED;
+  
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   gui_main_loop();
