@@ -3528,17 +3528,26 @@ static int write_socket_data(struct connection *pc,
   int start, nput, nblock;
 
   for (start=0; start<buf->ndata;) {
-    fd_set writefs;
+    fd_set writefs, exceptfs;
     struct timeval tv;
 
     FD_ZERO(&writefs);
+    FD_ZERO(&exceptfs);
     FD_SET(pc->sock, &writefs);
+    FD_SET(pc->sock, &exceptfs);
 
     tv.tv_sec = 2; tv.tv_usec = 0;
 
-    if (select(pc->sock+1, NULL, &writefs, NULL, &tv) <= 0) {
+    if (select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
       buf->ndata -= start;
       memmove(buf->data, buf->data+start, buf->ndata);
+      return -1;
+    }
+
+    if (FD_ISSET(pc->sock, &exceptfs)) {
+      if (close_callback) {
+	(*close_callback)(pc);
+      }
       return -1;
     }
 

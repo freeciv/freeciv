@@ -129,7 +129,7 @@ int sniff_packets(void)
 {
   int i;
   int max_desc;
-  fd_set readfs;
+  fd_set readfs, exceptfs;
   struct timeval tv;
   static int year;
 #ifdef SOCKET_ZERO_ISNT_STDIN
@@ -156,6 +156,7 @@ int sniff_packets(void)
     tv.tv_usec=0;
     
     FD_ZERO(&readfs);
+    FD_ZERO(&exceptfs);
     FD_SET(0, &readfs);	
     FD_SET(sock, &readfs);
     max_desc=sock;
@@ -163,12 +164,13 @@ int sniff_packets(void)
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       if(connections[i].used) {
 	FD_SET(connections[i].sock, &readfs);
+	FD_SET(connections[i].sock, &exceptfs);
         max_desc=MAX(connections[i].sock, max_desc);
       }
     }
     con_prompt_off();		/* output doesn't generate a new prompt */
     
-    if(select(max_desc+1, &readfs, NULL, NULL, &tv)==0) { /* timeout */
+    if(select(max_desc+1, &readfs, NULL, &exceptfs, &tv)==0) { /* timeout */
       send_server_info_to_metaserver(0,0);
       if((game.timeout) 
 	&& (time(NULL)>game.turn_start + game.timeout)
@@ -189,8 +191,13 @@ int sniff_packets(void)
       if(server_accept_connection(sock)==-1)
 	freelog(LOG_NORMAL, "failed accepting connection");
     }
+    for(i=0; i<MAX_NUM_CONNECTIONS; i++)   /* check for freaky players */
+      if(connections[i].used && FD_ISSET(connections[i].sock, &exceptfs)) {
+	freelog(LOG_VERBOSE, "cut freaky player");
+	close_socket_callback(&connections[i]);
+    }
 #ifndef SOCKET_ZERO_ISNT_STDIN
-    else if(FD_ISSET(0, &readfs)) {    /* input from server operator */
+    if(FD_ISSET(0, &readfs)) {    /* input from server operator */
       int didget;
       char buf[BUF_SIZE+1];
       
@@ -203,7 +210,7 @@ int sniff_packets(void)
       handle_stdin_input((struct player *)NULL, buf);
     }
 #else
-    else if(!feof(stdin)) {    /* input from server operator */
+    if(!feof(stdin)) {    /* input from server operator */
       /* fetch chars until \n or run out of space in buffer */
       while ((*bufptr=fgetc(stdin)) != EOF) {
           if (*bufptr == '\n') *bufptr = '\0';
@@ -215,7 +222,7 @@ int sniff_packets(void)
           }
           if ((bufptr-buf) <= BUF_SIZE) bufptr++; /* prevent overrun */
       }
-  }
+    }
 #endif
     else {                             /* input from a player */
       for(i=0; i<MAX_NUM_CONNECTIONS; i++)
@@ -228,8 +235,7 @@ int sniff_packets(void)
 	      handle_packet_input(&connections[i], packet, type);
 	  }
 	  else {
-	    lost_connection_to_player(&connections[i]);
-	    close_connection(&connections[i]);
+	    close_socket_callback(&connections[i]);
 	  }
 	}
     }
