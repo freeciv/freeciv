@@ -222,11 +222,15 @@ static void init_node(struct pf_map *pf_map, struct pf_node * node,
     /* 2 means can move unrestricted from/into it, 
      * 1 means can move unrestricted into it, but not necessarily from it */
     node->zoc_number = (my_zoc ? 2 : (occupied ? 1 : 0));
+  } else {
+    node->zoc_number = 0;
   }
 
   /* Evaluate the extra cost of the destination */
   if (params->get_EC) {
     node->extra_tile = params->get_EC(ptile, node->node_known_type, params);
+  } else {
+    node->extra_tile = 0;
   }
 }
 

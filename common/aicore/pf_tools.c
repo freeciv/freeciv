@@ -38,10 +38,8 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
 static int seamove(const struct tile *ptile, enum direction8 dir,
                    const struct tile *ptile1, struct pf_parameter *param)
 {
-  /* MOVE_COST_FOR_VALID_SEA_STEP means ships can move between */
-  if (ptile->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP
-      || is_non_allied_unit_tile(ptile1, param->owner)
-      || is_non_allied_city_tile(ptile1, param->owner)) {
+  if (is_ocean(ptile1->terrain) || ptile1->city
+      || is_non_allied_unit_tile(ptile1, param->owner)) {
     return SINGLE_MOVE;
   } else {
     return PF_IMPOSSIBLE_MC;
@@ -325,6 +323,50 @@ static int reverse_igter_move_unit(const struct tile *tile0,
 #endif
 
 
+/****************************************************************************
+  A cost function for amphibious movement.
+****************************************************************************/
+static int amphibious_move(const struct tile *ptile, enum direction8 dir,
+			   const struct tile *ptile1,
+			   struct pf_parameter *param)
+{
+  const bool ocean = is_ocean(ptile->terrain);
+  const bool ocean1 = is_ocean(ptile1->terrain);
+  struct pft_amphibious *amphibious = param->data;
+  int cost, scale;
+
+  if (ocean && ocean1) {
+    /* Sea move */
+    cost = amphibious->sea.get_MC(ptile, dir, ptile1, &amphibious->sea);
+    scale = amphibious->sea_scale;
+  } else if (ocean && is_allied_city_tile(ptile1, param->owner)) {
+    /* Entering port (same as sea move) */
+    cost = amphibious->sea.get_MC(ptile, dir, ptile1, &amphibious->sea);
+    scale = amphibious->sea_scale;
+  } else if (ocean) {
+    /* Disembark; use land movement function to handle F_MARINES */
+    cost = amphibious->land.get_MC(ptile, dir, ptile1, &amphibious->land);
+    scale = amphibious->land_scale;
+  } else if (is_allied_city_tile(ptile, param->owner) && ocean1) {
+    /* Leaving port (same as sea move) */
+    cost = amphibious->sea.get_MC(ptile, dir, ptile1, &amphibious->sea);
+    scale = amphibious->sea_scale;
+  } else if (ocean1) {
+    /* Now we have disembarked, our ferry can not help us - we have to
+     * stay on the land. */
+    cost = PF_IMPOSSIBLE_MC;
+    scale = amphibious->land_scale;
+  } else {
+    /* land move */
+    cost = amphibious->land.get_MC(ptile, dir, ptile1, &amphibious->land);
+    scale = amphibious->land_scale;
+  }
+  if (cost != PF_IMPOSSIBLE_MC) {
+    cost *= scale;
+  }
+  return cost;
+}
+
 /* ===================== Extra Cost Callbacks ======================== */
 
 /*********************************************************************
@@ -343,6 +385,40 @@ static int afraid_of_dark_forest(const struct tile *ptile,
   return 0;
 }
 #endif
+
+/****************************************************************************
+  Extra cost call back for amphibious movement
+****************************************************************************/
+static int amphibious_extra_cost(const struct tile *ptile,
+				 enum known_type known,
+				 struct pf_parameter *param)
+{
+  struct pft_amphibious *amphibious = param->data;
+  const bool ocean = is_ocean(ptile->terrain);
+  int cost, scale;
+
+  if (known == TILE_UNKNOWN) {
+    /* We can travel almost anywhere */
+    cost = SINGLE_MOVE;
+    scale = MAX(amphibious->sea_scale, amphibious->land_scale);
+  } else if (ocean && amphibious->sea.get_EC) {
+    /* Do the EC callback for sea moves. */
+    cost = amphibious->sea.get_EC(ptile, known, &amphibious->sea);
+    scale = amphibious->sea_scale;
+  } else if (!ocean && amphibious->land.get_EC) {
+    /* Do the EC callback for land moves. */
+    cost = amphibious->land.get_EC(ptile, known, &amphibious->land);
+    scale = amphibious->land_scale;
+  } else {
+    cost = 0;
+    scale = 1;
+  }
+
+  if (cost != PF_IMPOSSIBLE_MC) {
+    cost *= scale;
+  }
+  return cost;
+}
 
 
 /* ===================== Tile Behaviour Callbacks ==================== */
@@ -392,12 +468,46 @@ enum tile_behavior no_fights(const struct tile *ptile, enum known_type known,
   return TB_NORMAL;
 }
 
+/****************************************************************************
+  PF callback to prohibit attacking anyone, except at the destination.
+****************************************************************************/
+enum tile_behavior no_intermediate_fights(const struct tile *ptile,
+					  enum known_type known,
+					  struct pf_parameter *param)
+{
+  if (is_non_allied_unit_tile(ptile, param->owner)
+      || is_non_allied_city_tile(ptile, param->owner)) {
+    return TB_DONT_LEAVE;
+  }
+  return TB_NORMAL;
+}
+
+/*********************************************************************
+  A callback for amphibious movement
+*********************************************************************/
+static enum tile_behavior amphibious_behaviour(const struct tile *ptile,
+					       enum known_type known,
+					       struct pf_parameter *param)
+{
+  struct pft_amphibious *amphibious = param->data;
+  const bool ocean = is_ocean(ptile->terrain);
+
+  /* Simply a wrapper for the sea or land tile_behavior callbacks. */
+  if (ocean && amphibious->sea.get_TB) {
+    return amphibious->sea.get_TB(ptile, known, &amphibious->sea);
+  } else if (!ocean && amphibious->land.get_TB) {
+    return amphibious->land.get_TB(ptile, known, &amphibious->land);
+  }
+  return TB_NORMAL;
+}
 
 /* =====================  Postion Dangerous Callbacks ================ */
 
 /**********************************************************************
   An example of position-dangerous callback.  For triremes.
   FIXME: it cheats.
+  Allow one move onto land (for use for ferries and land
+  bombardment)
 ***********************************************************************/
 static bool trireme_is_pos_dangerous(const struct tile *ptile,
 				     enum known_type known,
@@ -406,9 +516,11 @@ static bool trireme_is_pos_dangerous(const struct tile *ptile,
   /* We test TER_UNSAFE even though under the current ruleset there is no
    * way for a trireme to be on a TER_UNSAFE tile. */
   /* Unsafe or unsafe-ocean tiles without cities are dangerous. */
-  return ((terrain_has_flag(ptile->terrain, TER_UNSAFE) 
-	  || (is_ocean(ptile->terrain) && !is_safe_ocean(ptile)))
-	  && ptile->city == NULL);
+  /* Pretend all land tiles are safe. */
+  return (ptile->city == NULL
+	  && is_ocean(ptile->terrain)
+	  && (terrain_has_flag(ptile->terrain, TER_UNSAFE) 
+	      || (is_ocean(ptile->terrain) && !is_safe_ocean(ptile))));
 }
 /****************************************************************************
   Position-dangerous callback for air units.
@@ -434,7 +546,23 @@ static bool air_is_pos_dangerous(const struct tile *ptile,
 }
 
 /**********************************************************************
-  Position-dangerous callback for all units other than triremes.
+  Position-dangerous callback for sea units other than triremes.
+  Allow one move onto land (for use for ferries and land
+  bombardment)
+***********************************************************************/
+static bool is_overlap_pos_dangerous(const struct tile *ptile,
+				     enum known_type known,
+				     struct pf_parameter *param)
+{
+  /* Unsafe tiles without cities are dangerous. */
+  /* Pretend all land tiles are safe. */
+  return (ptile->city == NULL
+	  && is_ocean(ptile->terrain)
+	  && terrain_has_flag(ptile->terrain, TER_UNSAFE));
+}
+
+/**********************************************************************
+  Position-dangerous callback for typical units.
 ***********************************************************************/
 static bool is_pos_dangerous(const struct tile *ptile, enum known_type known,
 			     struct pf_parameter *param)
@@ -442,6 +570,25 @@ static bool is_pos_dangerous(const struct tile *ptile, enum known_type known,
   /* Unsafe tiles without cities are dangerous. */
   return (terrain_has_flag(ptile->terrain, TER_UNSAFE)
 	  && ptile->city == NULL);
+}
+
+/****************************************************************************
+  Position-dangerous callback for amphibious movement.
+****************************************************************************/
+static bool amphibious_is_pos_dangerous(const struct tile *ptile,
+					enum known_type known,
+					struct pf_parameter *param)
+{
+  struct pft_amphibious *amphibious = param->data;
+  const bool ocean = is_ocean(ptile->terrain);
+
+  /* Simply a wrapper for the sea or land danger callbacks. */
+  if (ocean && amphibious->sea.is_pos_dangerous) {
+    return amphibious->sea.is_pos_dangerous(ptile, known, param);
+  } else if (!ocean && amphibious->land.is_pos_dangerous) {
+    return amphibious->land.is_pos_dangerous(ptile, known, param);
+  }
+  return FALSE;
 }
 
 /* =====================  Tools for filling parameters =============== */
@@ -517,30 +664,40 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 struct unit *punit)
 {
+  const bool trireme_danger = unit_flag(punit, F_TRIREME)
+                     && base_trireme_loss_pct(unit_owner(punit), punit) > 0;
+  const bool danger
+    = base_unsafe_terrain_loss_pct(unit_owner(punit), punit) > 0;
+
   pft_fill_unit_default_parameter(parameter, punit);
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
     parameter->get_MC = land_overlap_move;
     parameter->get_TB = dont_cross_ocean;
+
+    assert(!trireme_danger);
+    if (danger) {
+      parameter->is_pos_dangerous = is_pos_dangerous;
+    }
     break;
   case SEA_MOVING:
     parameter->get_MC = sea_overlap_move;
+
+    if (trireme_danger) {
+      parameter->is_pos_dangerous = trireme_is_pos_dangerous;
+    } else if (danger) {
+      parameter->is_pos_dangerous = is_overlap_pos_dangerous;
+    }
     break;
   case AIR_MOVING:
   case HELI_MOVING:
+    assert(!danger && !trireme_danger);
     parameter->get_MC = single_airmove; /* very crude */
     break;
   }
 
   parameter->get_zoc = NULL;
-
-  if (unit_flag(punit, F_TRIREME)
-      && base_trireme_loss_pct(unit_owner(punit), punit) > 0) {
-    parameter->is_pos_dangerous = trireme_is_pos_dangerous;
-  } else if (base_unsafe_terrain_loss_pct(unit_owner(punit), punit) > 0) {
-    parameter->is_pos_dangerous = is_pos_dangerous;
-  }
 }
 
 /**********************************************************************
@@ -573,6 +730,38 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 
   /* It is too complicated to work with danger here */
   parameter->is_pos_dangerous = NULL;
+}
+
+/****************************************************************************
+  Fill parameters for combined sea-land movement.
+  This is suitable for the case of a land unit riding a ferry.
+  The starting position of the ferry is taken to be the starting position for
+  the PF. The passenger is assumed to initailly be on the given ferry.
+  The destination may be inland, in which case the passenger will ride
+  the ferry to a beach head, disembark, then continue on land.
+  One complexity of amphibious movement is that the movement rate on land
+  might be different from that at sea. We therefore scale up the movement
+  rates (and the corresponding movement consts) to the product of the two
+  rates.
+****************************************************************************/
+void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
+{
+  const int move_rate = parameter->land.move_rate * parameter->sea.move_rate;
+
+  parameter->combined = parameter->sea;
+  parameter->land_scale = move_rate / parameter->land.move_rate;
+  parameter->sea_scale = move_rate / parameter->sea.move_rate;
+  parameter->combined.moves_left_initially *= parameter->sea_scale;
+  parameter->combined.move_rate = move_rate;
+  /* To ensure triremes behave correctly: */
+  parameter->combined.turn_mode = TM_WORST_TIME;
+  parameter->combined.get_MC = amphibious_move;
+  parameter->combined.get_TB = amphibious_behaviour;
+  parameter->combined.get_EC = amphibious_extra_cost;
+  parameter->combined.is_pos_dangerous = amphibious_is_pos_dangerous;
+  BV_CLR_ALL(parameter->combined.unit_flags);
+
+  parameter->combined.data = parameter;
 }
 
 /**********************************************************************
@@ -631,4 +820,28 @@ struct pf_path *pft_concat(struct pf_path *dest_path,
 	   src_path->length * sizeof(*dest_path->positions));
   }
   return dest_path;
+}
+
+/****************************************************************************
+  Remove the part of a path leading up to a given tile.
+  The given tile must be on the path.  If it is on the path more than once
+  then the first occurrance will be the one used.
+****************************************************************************/
+void pft_advance_path(struct pf_path *path, struct tile *ptile)
+{
+  int i;
+  struct pf_position *new_positions;
+
+  for (i = 0; i < path->length; i++) {
+    if (path->positions[i].tile == ptile) {
+      break;
+    }
+  }
+  assert(i < path->length);
+  path->length -= i;
+  new_positions = fc_malloc(sizeof(*path->positions) * path->length);
+  memcpy(new_positions, path->positions + i,
+	 path->length * sizeof(*path->positions));
+  free(path->positions);
+  path->positions = new_positions;
 }
