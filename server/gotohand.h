@@ -32,6 +32,7 @@ struct move_cost_map {
   unsigned char vector[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
   struct city *warcity; /* so we know what we're dealing with here */
   struct unit *warunit; /* so we know what we're dealing with here */
+  int orig_x, orig_y;
 };
 
 #endif
