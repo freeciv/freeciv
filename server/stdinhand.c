@@ -451,7 +451,7 @@ static struct settings_s settings[] = {
     GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE,
     N_("City size before people become unhappy"),
     N_("Before other adjustments, the first unhappysize citizens in a "
-       "city are happy, and subsequent citizens are unhappy.  "
+       "city are content, and subsequent citizens are unhappy.  "
        "See also cityfactor.") },
 
   { "cityfactor", &game.cityfactor,
