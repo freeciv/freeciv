@@ -507,7 +507,7 @@ struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
  If these rules haven't decided the direction, the random number
  generator gets the desicion.                              -Erik Sigra
 *********************************************************************/
-static int make_river(x, y)
+static int make_river(int x, int y)
 {
   /* The comparison values of the 4 tiles surrounding the current
      tile. It is the suitability to continue a river to that tile that
