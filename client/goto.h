@@ -23,11 +23,14 @@ void enter_goto_state(struct unit *punit);
 void exit_goto_state(void);
 bool goto_is_active(void);
 void get_line_dest(int *x, int *y);
+int get_goto_turns(void);
 void goto_add_waypoint(void);
 bool goto_pop_waypoint(void);
 
 void draw_line(int dest_x, int dest_y);
 bool is_drawn_line(int x, int y, int dir);
+ 
+bool is_endpoint(int x, int y);
 
 void request_orders_cleared(struct unit *punit);
 void send_goto_path(struct unit *punit, struct pf_path *path);

@@ -28,7 +28,7 @@
 #include "civclient.h"
 
 #include "control.h"
-
+#include "goto.h"
 #include "text.h"
 
 /*
@@ -485,7 +485,7 @@ const char *get_unit_info_label_text2(struct unit *punit)
 	get_tile_infrastructure_set(map_get_tile(punit->x, punit->y));
 
     if (hover_unit == punit->id) {
-      add_line(_("Select destination"));
+      add_line(_("Turns to target: %d"), get_goto_turns());
     } else {
       add_line("%s", unit_activity_text(punit));
     }

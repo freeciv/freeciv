@@ -43,6 +43,7 @@ struct part {
   int start_moves_left;
   int start_x, start_y;
   int end_moves_left;
+  int time;
   int end_x, end_y;
   struct pf_path *path;
   struct pf_map *map;
@@ -131,7 +132,7 @@ static void update_last_part(int x, int y)
 {
   struct part *p = &goto_map.parts[goto_map.num_parts - 1];
   struct pf_path *new_path;
-  int i, start_index = 0;
+  int i, start_index = 0, old_x = p->start_x, old_y = p->start_y;
 
   freelog(LOG_DEBUG, "update_last_part(%d,%d) old (%d,%d)-(%d,%d)", x, y,
           p->start_x, p->start_y, p->end_x, p->end_y);
@@ -174,6 +175,9 @@ static void update_last_part(int x, int y)
     }
     pf_destroy_path(p->path);
     p->path = NULL;
+
+    old_x = p->end_x;
+    old_y = p->end_y;
   }
 
   /* Draw the new path */
@@ -192,6 +196,11 @@ static void update_last_part(int x, int y)
   p->end_x = x;
   p->end_y = y;
   p->end_moves_left = pf_last_position(p->path)->moves_left;
+  p->time = pf_last_position(p->path)->turn;
+
+  /* Refresh tiles so turn information is shown. */
+  refresh_tile_mapcanvas(old_x, old_y, FALSE);
+  refresh_tile_mapcanvas(x, y, FALSE);
 }
 
 /********************************************************************** 
@@ -241,6 +250,7 @@ static void add_part(void)
   p->path = NULL;
   p->end_x = p->start_x;
   p->end_y = p->start_y;
+  p->time = 0;
   parameter.start_x = p->start_x;
   parameter.start_y = p->start_y;
   parameter.moves_left_initially = p->start_moves_left;
@@ -450,6 +460,20 @@ void get_line_dest(int *x, int *y)
   *y = p->end_y;
 }
 
+/**************************************************************************
+  Return the path length (in turns).
+***************************************************************************/
+int get_goto_turns(void)
+{
+  int time = 0, i;
+
+  for(i = 0; i < goto_map.num_parts; i++) {
+    time += goto_map.parts[i].time;
+  }
+
+  return time;
+}
+
 /********************************************************************** 
   Puts a line to dest_x, dest_y on the map according to the current
   goto_map.
@@ -464,6 +488,9 @@ void draw_line(int dest_x, int dest_y)
   normalize_map_pos(&dest_x, &dest_y);
 
   update_last_part(dest_x, dest_y);
+
+  /* Update goto data in info label. */
+  update_unit_info_label(get_unit_in_focus());
 }
 
 /****************************************************************************

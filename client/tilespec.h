@@ -228,6 +228,11 @@ struct named_sprites {
       ***tile;
   } city;
   struct {
+    struct Sprite
+      *turns[NUM_TILES_DIGITS],
+      *turns_tens[NUM_TILES_DIGITS];
+  } path;
+  struct {
     struct Sprite *attention;
   } user;
   struct {

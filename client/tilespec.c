@@ -184,6 +184,10 @@ static struct hash_table *terrain_hash;
 */
 static bool focus_unit_hidden = FALSE;
 
+static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
+					    bool required, const char *what,
+					    const char *name);
+
 /**********************************************************************
   Returns a static list of tilesets available on the system by
   searching all data directories for files matching TILESPEC_SUFFIX.
@@ -959,6 +963,11 @@ static char *nsew_str(int idx)
 #define SET_SPRITE_OPT(field, tag) \
   sprites.field = load_sprite(tag)
 
+#define SET_SPRITE_ALT_OPT(field, tag, alt) do {               \
+      sprites.field = lookup_sprite_tag_alt(tag, alt, FALSE,   \
+					    "sprite", #field); \
+    } while (FALSE)
+
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which
   freeciv always requires. 
@@ -1133,11 +1142,18 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(city.disorder, "city.disorder");
 
   for(i=0; i<NUM_TILES_DIGITS; i++) {
+    char buffer2[512];
+
     my_snprintf(buffer, sizeof(buffer), "city.size_%d", i);
     SET_SPRITE(city.size[i], buffer);
+    my_snprintf(buffer2, sizeof(buffer2), "path.turns_%d", i);
+    SET_SPRITE_ALT_OPT(path.turns[i], buffer2, buffer);
+
     if(i!=0) {
       my_snprintf(buffer, sizeof(buffer), "city.size_%d", i*10);
       SET_SPRITE(city.size_tens[i], buffer);
+      my_snprintf(buffer2, sizeof(buffer2), "path.turns_%d", i * 10);
+      SET_SPRITE_ALT_OPT(path.turns_tens[i], buffer2, buffer);
     }
     my_snprintf(buffer, sizeof(buffer), "city.t_food_%d", i);
     SET_SPRITE(city.tile_foodnum[i], buffer);
