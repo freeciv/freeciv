@@ -89,6 +89,7 @@ char *message_text[E_LAST]={
   "Unit Attack Failed       ",          /* E_UNIT_LOST_ATT */
   "Unit Attack Succeeded    ",          /* E_UNIT_WIN_ATT */
   "Suggest Growth Throttling",          /* E_CITY_GRAN_THROTTLE */
+  "Spaceship Events         ",          /* E_SPACESHIP */
 };
 
 /**************************************************************************

@@ -1039,7 +1039,7 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 	update_tech(pplayer, 1000000); 
       }
       if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
-	notify_player_ex(0, pcity->x, pcity->y, E_NOEVENT,
+	notify_player_ex(0, pcity->x, pcity->y, E_SPACESHIP,
 			 "Game: The %s have started building a spaceship!",
 			 get_race_name_plural(pplayer->race));
 	pplayer->spaceship.state = SSHIP_STARTED;

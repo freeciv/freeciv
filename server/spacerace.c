@@ -19,6 +19,7 @@
 #include <packets.h>
 #include <spaceship.h>
 #include <log.h>
+#include <events.h>
 
 #include "plrhand.h"
 #include "civserver.h"
@@ -167,7 +168,8 @@ void handle_spaceship_launch(struct player *pplayer)
   ship->launch_year = game.year;
   arrival = ship->launch_year + (int) ship->travel_time;
   
-  notify_player(0, "Game: The %s have launched a spaceship! It is estimated to "
+  notify_player_ex(0, 0, 0, E_SPACESHIP,
+		"Game: The %s have launched a spaceship! It is estimated to "
 		"arrive on Alpha Centauri in %s.",
 		races[pplayer->race].name,
 		textyear(arrival));
@@ -325,7 +327,8 @@ void handle_spaceship_action(struct player *pplayer,
 **************************************************************************/
 void spaceship_lost(struct player *pplayer)
 {
-  notify_player(0, "Game: With the capture of %s's capital, the %s"
+  notify_player_ex(0, 0, 0, E_SPACESHIP,
+		"Game: With the capture of %s's capital, the %s"
 		" spaceship is lost!", pplayer->name,
 		get_race_name(pplayer->race));
   spaceship_init(&pplayer->spaceship);
@@ -362,8 +365,9 @@ void check_spaceship_arrivals(void)
   if (best_pplayer) {
     best_pplayer->spaceship.state = SSHIP_ARRIVED;
     server_state = GAME_OVER_STATE;
-    notify_player(0, "Game: The %s spaceship has arrived at Alpha Centauri.",
-		  get_race_name(best_pplayer->race));
+    notify_player_ex(0, 0, 0, E_SPACESHIP,
+		     "Game: The %s spaceship has arrived at Alpha Centauri.",
+		     get_race_name(best_pplayer->race));
   }
 }
 
