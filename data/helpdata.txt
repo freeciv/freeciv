@@ -1,11 +1,11 @@
 %% Helpfile for Freeciv 1.7.x
 %%
-%% The number of spaces after the "#" indicates nesting level when 
+%% The number of spaces after the "#" indicates nesting level when
 %% displayed in the online help.
 %%
 %% Categories are: TEXT, UNIT, IMPROVEMENT, WONDER, TECH
 %% All nodes are "text" nodes except those between markers such as:
-%% @START_TECHS, @END_TECHS.  There should be one such section for 
+%% @START_TECHS, @END_TECHS.  There should be one such section for
 %% each category: TECHS, UNITS, WONDERS, IMPROVEMENTS.
 %% Within each category, any game item which doesn't appear here
 %% will be generated, and any item here which doesn't match a game
@@ -29,9 +29,9 @@ The extinction of all other civilizations.
 %%            James Blackwell      - innocent@mercury.merconline.com
 
 If you find any bugs, then please send us a bug report.  You can
-either email the present administrator (listed above), or the 
-Freeciv developers mailing list.  Details about Freeciv mailing 
-lists, as well as helpful details on submitting bug reports, the 
+either email the present administrator (listed above), or the
+Freeciv developers mailing list.  Details about Freeciv mailing
+lists, as well as helpful details on submitting bug reports, the
 Freeciv FAQ, and more, can be found on the Freeciv website, at:
 
   http://www.freeciv.org
@@ -337,15 +337,15 @@ SUCH DAMAGES.
                          ------------------
 ---
 #Controls
-Mouse:                                 
-======                                 
-  Left-click:  (on city):  Pop up city window        
-               (on unit):  Activate unit             
+Mouse:
+======
+  Left-click:  (on city):  Pop up city window
+               (on unit):  Activate unit
   Center-click or
-     Control-right-click:  Show tile info 
-  Right-click:             Center tile in view                
-  Shift-click:             Wake up sentried units on tile     
-                                       
+     Control-right-click:  Show tile info
+  Right-click:             Center tile in view
+  Shift-click:             Wake up sentried units on tile
+
 Keyboard:
 =========
   a: (A)utosettler                      arrow keys: Move unit
@@ -370,7 +370,7 @@ Keyboard:
   x: auto-e(X)plore
 ---
 #Strategy and tactics
-While every game is different, there's a basic strategy which most 
+While every game is different, there's a basic strategy which most
 players follow, especially at the start of the game.
 
 These steps may vary depending upon the server options, but in
@@ -387,8 +387,8 @@ general, the steps are:
  7. Exploring the world.
  8. Things to keep in mind.
  9. Make your own strategy for the game.
- 
- 
+
+
  0. Choosing the first city site.
 
     Start the game by wandering around BRIEFLY to find a good place
@@ -396,15 +396,15 @@ general, the steps are:
     yellow-roofed villages yet - they might contain barbarian
     tribes.  Build the city close to resources and perhaps close to
     the sea.  Keep in mind that the city you build first will be
-    your capitol!  The idea is to balance the time spent looking for
+    your capital!  The idea is to balance the time spent looking for
     a good site, against getting your first city established as
     early as possible.
 
  1. Mapping the countryside.
 
-    After the capitol city has been founded, it will start producing
+    After the capital city has been founded, it will start producing
     a warrior unit.  These units can be used to rove around
-    exploring the countryside.  Remember, it is risky to leave a 
+    exploring the countryside.  Remember, it is risky to leave a
     city undefended, so perhaps keep the first warrior in the city,
     and use the following one to explore.  If you started the game
     with an explorer unit, use that to explore, obviously!
@@ -419,9 +419,9 @@ general, the steps are:
     Phalanx, Pikemen, Musketeers, and Riflemen.
 
     Keep in mind that with some types of government, military units
-    inside or outside cities can create or reduce unhappiness.  
+    inside or outside cities can create or reduce unhappiness.
     Also remember that when a unit is inside a city, it gets a 50%
-    defensive bonus, as if fortified.  When a new city is built, 
+    defensive bonus, as if fortified.  When a new city is built,
     the city starts to build the best available defensive unit from
     the above list.
 
@@ -440,10 +440,10 @@ general, the steps are:
 
     Each city has an area of farmland around it that can be used
     for growing food, producing goods, and generating trade.  This
-    can be increased by using Settlers to improve the farmland. 
+    can be increased by using Settlers to improve the farmland.
     The land can be improved with roads, irrigation, mines, and
     others.
-    
+
 
  5. Where to build cities?
 
@@ -452,7 +452,7 @@ general, the steps are:
     also serve as a port for sea-going units.  (They also usually
     need a coastal defence later on).  The best strategy is to build
     a few of both, but keep in mind that your opponents will find it
-    harder to locate your city if you don't build it by the sea. 
+    harder to locate your city if you don't build it by the sea.
 
  6. Taking care of cities.
 
@@ -487,21 +487,21 @@ general, the steps are:
     in search of opponents and new lands.  If you are on an island,
     you should spend less on military and more on expansion.  Or if
     you are located close to an opponent, it is truly a good idea to
-    make a peace treaty and share the Advances you have made.
+    make a peace treaty and share the advances you have made.
     Diplomat units are very useful here, and WILL pay off later.
 
  8. Things to keep in mind.
 
-    - What the next Advance you'll need is.
+    - What the next advance you'll need is.
 
     - What your luxury, tax and research rates are currently set to.
 
     - Treaty are often broken, so don't neglect defence...
 
-    - Some Wonders can be made obsolete by the development of
+    - Some wonders can be made obsolete by the development of
       certain advances.
 
- 9. Make your own strategy for the game.      
+ 9. Make your own strategy for the game.
 
     These basic concepts will allow you to play the game pretty
     well, especially in the beginning of the game.  But to improve,
@@ -514,13 +514,13 @@ general, the steps are:
 
 ---
 #City Improvements
-City Improvements are built in each of your cities to improve trade
-revenue, science production, etc.  Each improvement requires you to 
-pay an upkeep every turn.  If you can't afford the upkeep for a 
+City improvements are built in each of your cities to improve trade
+revenue, science production, etc.  Each improvement requires you to
+pay an upkeep every turn.  If you can't afford the upkeep for a
 building, then it'll be automatically sold.
 %% Hmm, "sold" as in "you get money for it", or is it actually lost?
 %% Does the player get any money back for it, as when they actually
-%% sell an Improvement, or is it lost forever?  If it's lost, then
+%% sell an improvement, or is it lost forever?  If it's lost, then
 %% "automatically sold" should be "lost".
 %%  --> It's sold for money.  See pay_for_buildings() in cityturn.c.
 ---
@@ -529,7 +529,7 @@ building, then it'll be automatically sold.
 Allows a city to produce veteran air units.  Also, damaged air units
 which stay in town for one turn are completely restored.
 
-Two cities with airports can airlift one unit per turn. 
+Two cities with Airports can airlift one unit per turn.
 Airlifting instantly transports the unit from one city to another
 and will use all of the unit's MP.  A unit must have some MP left
 to be airlifted.
@@ -540,7 +540,7 @@ required for a city to grow larger than size 12.)
 ---
 # Bank
 Together with the Marketplace improvement, a Bank increases the
-generated luxuries and taxes within a city by 100%.
+luxury and tax production within a city by 100%.
 ---
 # Barracks
 With a Barracks, each new land unit built in a city will
@@ -548,8 +548,8 @@ automatically have Veteran status, which means that its attack and
 defence strengths are increased by 50%.  Also, damaged land units
 which stay in town for one turn are completely restored.
 
-Note that discovering Gunpowder and Combustion will obsolete 
-any existing Barracks.
+Note that discovering Gunpowder or Combustion will obsolete any
+existing Barracks.
 ---
 # Barracks II
 With a Barracks, each new land unit built in a city will
@@ -567,13 +567,13 @@ which stay in town for one turn are completely restored.
 ---
 # Capitalization
 This is not a normal improvement.  Instead, setting a city's
-production to Capitalization means its production is converted 
-to monetary income.
+production to Capitalization means its shield production is
+converted to tax production (money).
 ---
 # Cathedral
-A Cathedral makes 3 unhappy citizens content in a city, making it 
-easier to maintain order in that city.  The discovery of COMMUNISM 
-will reduce this by 1, while the discovery of THEOLOGY will increase
+A Cathedral makes 3 unhappy citizens content in a city, making it
+easier to maintain order in that city.  The discovery of Communism
+will reduce this by 1, while the discovery of Theology will increase
 this by 1.
 ---
 # City Walls
@@ -589,44 +589,47 @@ of 2 when defending against bombardments from enemy ships.
 ---
 # Colosseum
 Entertains the citizens of a city, making 3 unhappy citizens
-content.  Increased by 1 upon the discovery of ELECTRICITY.
+content.  Increased by 1 upon the discovery of Electricity.
 ---
 # Courthouse
 Reduces the corruption in a city by 50%.  Under a Democracy, a
-Courthouse makes 1 unhappy citizen content.  
+Courthouse makes 1 unhappy citizen content.
 Also halves the effective distance to the capital, for the purpose
 of calculating revolt cost.
 ---
 # Factory
-Increases the resources produced in a city by 50%.  Also contributes
+Increases the shield production in a city by 50%.  Also contributes
 to pollution.
 ---
 # Granary
-If a city has a granary, then when it grows or shrinks, the amount
-of stored food will be set to half full.  This helps a city to grow 
+If a city has a Granary, then when it grows or shrinks, the amount
+of stored food will be set to half full.  This helps a city to grow
 faster, and withstand famine more easily.
+%% In Civ2, city size reduction does not generate food like this.
+%% Dare I ask where this food comes from?? :-)
 ---
 # Harbour
-Gives one food resource extra on all water terrain-types.  
-The city needs to be coastal to build this improvement.
+Gives one extra food resource on all Ocean squares.  The city needs
+to be coastal to build this improvement.
 ---
 # Hydro Plant
 Reduces the amount of pollution generated in a city.  It also
-increases the production generated by a Factory or Mfg. Plant in 
-the city: a Factory and a Hydro Plant together give a 75% production
-bonus, and a Factory, Mfg. Plant and Hydro Plant together give 
+increases the shield production of a Factory or Mfg. Plant in the
+city: a Factory and a Hydro Plant together give a 75% production
+bonus, and a Factory, Mfg. Plant and Hydro Plant together give
 a 150% production bonus.
 %% For Civ1 the first number should be 100%, but the above
 %% describes current freeciv rules.
-A city can only have one Hydro Plant, Power Plant, or Nuclear 
-Plant.  A city can only build a Hydro Plant if it is next to (or 
+
+A city can only have one Hydro Plant, Power Plant, or Nuclear
+Plant.  A city can only build a Hydro Plant if it is next to (or
 on) a Mountain or River tile.
 ---
 # Library
-Increases the knowledge production in a city by 50%
+Increases the science production in a city by 50%.
 ---
 # Marketplace
-Increases the generated luxuries and taxes in a city by 50%.  
+Increases the luxury and tax production in a city by 50%.
 ---
 # Mass Transit
 Neutralises the pollution generated by the population.
@@ -634,61 +637,66 @@ The population simply has no effect on the pollution generated in
 the city.
 ---
 # Mfg. Plant
-Together with a factory, a Manufacturing Plant increases the
-resource production in a city by 100%.
+Together with a Factory, a Manufacturing Plant increases the shield
+production in a city by 100%.
 ---
 # Nuclear Plant
 Reduces the amount of pollution generated in a city.  It also
-increases the production generated by a Factory or Mfg. Plant in 
-the city: a Factory and a Nuclear Plant together give a 75% 
-production bonus, and a Factory, Mfg. Plant and Nuclear Plant 
+increases the shield production of a Factory or Mfg. Plant in
+the city: a Factory and a Nuclear Plant together give a 75%
+production bonus, and a Factory, Mfg. Plant and Nuclear Plant
 together give a 150% production bonus.
 %% For Civ1 the first number should be 100%, but the above
 %% describes current freeciv rules.
 %% There would also be a change of meltdown during civil disorder,
 %% but that hasn't been implemented yet.
-A city can only have one Hydro Plant, or a Power Plant, or a 
+
+A city can only have one Hydro Plant, or a Power Plant, or a
 Nuclear Plant.
 ---
 # Offshore Platform
-Adds 1 to shield production on all ocean squares in a city.
-The city needs to be coastal to build this improvement.
+Adds 1 extra shield resource on all Ocean squares in a city.  The
+city needs to be coastal to build this improvement.
 ---
 # Palace
-Makes a city the capitol and the centre of your government.
+Makes a city the capital and the centre of your government.
 Corruption in other cities is related to how far away from the
-capitol they are, except when the Government is a Democracy or under
-Communism.
+capital they are, except when the government is Democracy or
+Communism.  The cost of inciting a revolt in a city also depends
+upon the city's distance from the capital (under all forms of
+government).
 
 Take good care of your capital, as it's loss may result in your
 empire plunging into civil war.
 ---
 # Police Station
-Reduces unhappiness for military units outside the city by 2 under
-Democracy and 1 under Republic.  No effect for other governments.
+Reduces the unhappiness caused by military units outside the city
+by 2 under Democracy and 1 under Republic.  This improvement has no
+effect under other governments.
 ---
 # Port Facility
 Allows a city to build veteran sea units.  Also, damaged sea units
 which stay in town for one turn are completely restored.
 ---
 # Power Plant
-Increases the production generated by a Factory or Mfg. Plant in 
-a city: a Factory and a Power Plant together give a 75% production
-bonus, and a Factory, Mfg. Plant and Power Plant together give 
+Increases the shield production of a Factory or Mfg. Plant in a
+city: a Factory and a Power Plant together give a 75% production
+bonus, and a Factory, Mfg. Plant and Power Plant together give
 a 150% production bonus.  The extra production may lead to the city
 generating more pollution.
 %% For Civ1 the first number should be 100%, but the above
 %% describes current freeciv rules.
-A city can only have one Hydro Plant, or a Power Plant, or 
+
+A city can only have one Hydro Plant, or a Power Plant, or
 a Nuclear Plant.
 ---
 # Recycling Center
-Building a recycling centre reduces the amount of pollution 
+Building a recycling centre reduces the amount of pollution
 generated by a city by 65%.
 ---
 # Research Lab
-Together with a Library and a University, a Research Lab
-increases the knowledge production of a city by 150%.
+Together with a Library and a University, a Research Lab increases
+the science production of a city by 150%.
 ---
 # SAM Battery
 Doubles the defense of all units inside the city when attacked by
@@ -707,14 +715,15 @@ This improvement has not been implemented.
 ---
 # Stock Exchange
 Together with a Marketplace and a Bank, a Stock Exchange boosts
-trade and luxury production in a city by 150%.
+tax and luxury production in a city by 150%.
 ---
 # Super Highways
-Increases trade by 50% on all squares with roads or railroads.
+Increases trade resources by 50% on all squares with roads or
+railroads.
 ---
 # Supermarket
-Increases the food production by 50% on each irrigated square
-which is being used around the city.
+Increases the food resources by 50% on each irrigated square which
+is being used around the city.
 ---
 # Temple
 Makes one unhappy citizen content.  Both the Mysticism advance
@@ -722,7 +731,7 @@ and the Oracle wonder double this effect.  With both Mysticism
 and the Oracle, 4 citizens are made content.
 ---
 # University
-Together with a library, a University increases the knowledge
+Together with a Library, a University increases the science
 production of a city by 100%.
 ---
 @END_IMPROVEMENTS
@@ -860,7 +869,7 @@ Allows changing government to Monarchy.
 Gives sea units one extra move.
 ---
 # Philosophy
-The first player to research philosophy gets an immediate advance.
+The first player to research Philosophy gets an immediate advance.
 ---
 # Physics
 ---
@@ -920,24 +929,24 @@ Allows changing government to Republic.
 ---
 @END_TECHS
 #Wonders of the World
-Each Wonder has specific benefits for your civilization.
-Each Wonder is unique and is placed in the city which 
+Each wonder has specific benefits for your civilization.
+Each wonder is unique and is placed in the city which
 constructed it.
 ---
 @START_WONDERS
 # A.Smith's Trading Co.
-City Improvements which have an upkeep of 1, are free of upkeep,
-for all cities.
+City improvements which would normally have an upkeep of 1 are free
+of upkeep, for all cities.
 ---
 # Apollo Program
 All cities on the map become visible.
 ---
 # Colossus
-Each square around the city where this Wonder is built, produces
-one extra trade resource.
+Each square around the city where this wonder is built produces one
+extra trade resource.
 ---
 # Copernicus' Observatory
-Boosts science output by 50% in the city where it is built.
+Boosts science production by 50% in the city where it is built.
 ---
 # Cure For Cancer
 Makes one unhappy citizen content in all cities.
@@ -949,7 +958,7 @@ Gives two immediate technology advances.
 This wonder has not been implemented.
 ---
 # Great Library
-The civilization which builds the Great Library gets every Advance
+The civilization which builds the Great Library gets every advance
 that at least two other civilizations have achieved.
 ---
 # Great Wall
@@ -961,34 +970,34 @@ Makes 2 extra happy faces in the city containing the Hanging
 Gardens (for a total of 3).
 ---
 # Hoover Dam
-Works as if you had a Hydro Plant in every city.  (This reduces 
+Works as if you had a Hydro Plant in every city.  (This reduces
 pollution and increases the effects of Factories and Mfg. Plants.)
 Like a Hydro Plant, the Hoover Dam can only be built in a city
 which is next to (or on) a Mountain or River tile.
 ---
 # Isaac Newton's College
-Boosts science output by 100% in the city where it is built.
+Boosts science production by 100% in the city where it is built.
 ---
 # J.S. Bach's Cathedral
 Makes two unhappy citizens content in every city.
 ---
 # King Richard's Crusade
-Makes one extra production shield on every square around the city
+Adds one extra shield resource on every square around the city
 where it is built.
 ---
 # Leonardo's Workshop
 Upgrades one obsolete unit per game turn.
 ---
 # Lighthouse
-Gives all sea units 1 additional move point and eliminates the
+Gives all sea units 1 additional movement point and eliminates the
 risk of losing Triremes on the high seas.  Makes all new sea units
 veterans (for all cities).
 ---
 # Magellan's Expedition
-Gives all sea units 2 additional moves.
+Gives all sea units 2 additional movement points.
 ---
 # Manhattan Project
-Allow all players with sufficient knowledge to create Nuclear units.
+Allow all players with knowledge of Rocketry to build Nuclear units.
 ---
 # Marco Polo's Embassy
 This wonder has not been implemented.
@@ -996,8 +1005,8 @@ This wonder has not been implemented.
 # Michelangelo's Chapel
 Counts as having a Cathedral in each of your cities.
 (This makes 3 unhappy citizens content in each city.
-The discovery of COMMUNISM will reduce this effect by 1 .
-The discovery of THEOLOGY  will increase this effect by 1.)
+The discovery of Communism will reduce this effect by 1.
+The discovery of Theology will increase this effect by 1.)
 ---
 # Oracle
 Doubles the effect of Temples, in all cities.
@@ -1007,18 +1016,18 @@ Counts as having a Granary in every city.
 ---
 # SETI Program
 Counts as having a Research Lab in all of your cities.  That is,
-it boots science in each city by 50%.
+it boots science production in each city by 50%.
 ---
 # Shakespeare's Theatre
 Makes all unhappy citizens content, in the city where it is located.
 ---
 # Statue of Liberty
-Allows you to choose any Government without the transition period of
+Allows you to choose any government without the transition period of
 Anarchy.
 ---
 # Sun Tzu's War Academy
 All your new ground units become veterans (for all cities).
-The chance of a unit becoming a veteran after a battle increases 
+The chance of a unit becoming a veteran after a battle increases
 from 50% to 100%
 ---
 # United Nations
@@ -1026,54 +1035,55 @@ Units regain one extra hitpoint per turn.
 ---
 # Women's Suffrage
 Counts as a Police Station in every city.  (That is, for each city,
-reduces unhappiness for military units outside the city by 2 under 
-Democracy and 1 under Republic.  No effect for other governments.)
+reduces unhappiness for military units outside the city by 2 under
+Democracy and 1 under Republic.  This wonder has no effect under
+other governments.)
 ---
 @END_WONDERS
 #Units
-Units can be used for three purposes: Attack, Defense, and
-Reconnaissance.  How useful a particular Unit is for each of these
-roles, depends on the Unit's strength in attack, defense and it's
+Units can be used for three purposes: attack, defense, and
+reconnaissance.  How useful a particular unit is for each of these
+roles depends on the unit's strength in attack and defense, and its
 ability to move.
 
-There are four general types of unit: Land, Sea, Air, and 
+There are four general types of unit: Land, Sea, Air, and
 Helicopter.  (Helicopters are sufficiently different from other air
 units that it is easiest to think of them as a separate unit type.)
 
-Land units move on land, and suffer the movement effects of Terrain,
-but benefit from roads and railroads.  They cannot move on ocean 
-squares except when carried by an appropriate sea unit.  When at 
-sea, they cannot attack or defend for themselves, but rely on the 
-sea unit carrying them.  Land units are the only units subject to 
-zones of control.  On land, land units can Fortify to get a 50%
+Land units move on land, and suffer the movement effects of terrain,
+but benefit from roads and railroads.  They cannot move on ocean
+squares except when carried by an appropriate sea unit.  When at
+sea, they cannot attack or defend for themselves, but rely on the
+sea unit carrying them.  Land units are the only units subject to
+zones of control.  On land, land units can fortify to get a 50%
 defensive bonus; land units in cities automatically get this bonus,
-whether fortified or not.  When a land unit successfully attacks a 
-city without City Walls, the city is reduced by one population 
+whether fortified or not.  When a land unit successfully attacks a
+city without City Walls, the city is reduced by one population
 point.  Land units with zero attack strength are non-military units:
 they require no upkeep, have no happiness effects, and cannot attack
 enemy units or capture enemy cities.
 
-Sea units move on ocean squares and into cities next to ocean 
+Sea units move on Ocean squares and into cities next to Ocean
 squares.  They can only be built by such cities.  The movement rate
-of sea units is affected by several Wonders (Lighthouse, Magellan's
-Expedition) and by the Advance of Nuclear Power.  Most sea units can
-attack units on the coast and in coastal cities, but they cannot 
+of sea units is affected by several wonders (Lighthouse, Magellan's
+Expedition) and by the advance of Nuclear Power.  Most sea units can
+attack units on the coast and in coastal cities, but they cannot
 enter an enemy city to capture it, even if the city is undefended.
 
 Air units can move on any square not occupied by an enemy unit or
 enemy city.  The movement rate of air units is not affected by loss
 of hitpoints.  Air units require fuel, which is obtained by ending
 their turn in a friendly city or Carrier (or a Submarine for missile
-units).  The number of turns an air unit can last without fuel 
+units).  The number of turns an air unit can last without fuel
 varies by the unit type (see the individual units).  Like sea units,
 air units are unable to enter an empty enemy city to capture it.
 When outside cities, air units can only be attacked by Fighters (or
 Stealth Fighters).  Air units cannot be used to explore villages.
 
-Like air units, Helicopters can move on any square not occupied by 
+Like air units, Helicopters can move on any square not occupied by
 an enemy unit or enemy city, and their movement rate is not affected
-by loss of hitpoints.  Helicopters do not require fuel, but they 
-lose a small amount of health for every turn not spent in a city, 
+by loss of hitpoints.  Helicopters do not require fuel, but they
+lose a small amount of health for every turn not spent in a city,
 unless you have the United Nations wonder.  Unlike other air units,
 Helicopters can capture enemy cities.
 ---
@@ -1099,20 +1109,20 @@ Helicopters can capture enemy cities.
 # Cannon
 ---
 # Caravan
-%% Used to establish trade routes and help build Wonders.  Caravans
+%% Used to establish trade routes and help build wonders.  Caravans
 %% ignore the zone of control.
-Every Caravan that is used to build a Wonder will add 50 shields
-towards the production of the Wonder.
+Every Caravan that is used to build a wonder will add 50 shields
+towards the production of the wonder.
 
-TIP: A well-known strategy is to build Wonders in one turn, by
+TIP: A well-known strategy is to build wonders in one turn, by
      stockpiling a stack of Caravans, then bringing them all
-     into the city where the Wonder is to be built.
+     into the city where the wonder is to be built.
 ---
 # Caravel
 %% This unit can convey up to 3 land-based units across water.
 ---
 # Carrier
-%% The Carrier can carry up to 8 airborne Units.
+%% The Carrier can carry up to 8 airborne units.
 %%
 TIP: Guard Carriers with a handful of fast-moving ships and a
      battleship, as losing a fully-equipped Carrier is VERY
@@ -1127,7 +1137,7 @@ TIP: Guard Carriers with a handful of fast-moving ships and a
 # Cruise Missile
 %% If a Cruise Missile is unable to end its turn in a city or on a
 %% Carrier or Submarine unit, it runs out of fuel and is lost.
-%% 
+%%
 TIP: A handful of these can successfully keep the waters around
      your treasured homeland free of enemy ships.
 ---
@@ -1145,7 +1155,7 @@ TIP: A very fast unit, which is very useful for hunting down enemy
    by moving into another player's city.
 
  - Diplomats can also try to sabotage enemy production, or steal
-   an Advance from an enemy city.  (An Advance can only be stolen
+   an advance from an enemy city.  (An advance can only be stolen
    once per city).
 
  - A Diplomat can also bribe an enemy unit, if that unit is the only
@@ -1168,7 +1178,7 @@ We've chosen not to implement these fierce animals.
 ---
 # Engineers
 Engineers are just like Settlers, except they work twice as fast and
-move twice as fast. 
+move twice as fast.
 
 TIP 1: Upgrade Settlers to Engineers when possible, as Engineers
        require the same resources as ordinary Settlers.
@@ -1179,20 +1189,20 @@ TIP 2: If you manage to build Leonardo's Workshop, research
 ---
 # Explorer
 %% Treats all terrain as if it had roads and ignores any zone of
-%% control. 
+%% control.
 Explorers are very useful for mapping unknown territory.
 ---
 # Fanatics
-This unit isn't in the game.  
+This unit isn't in the game.
 %% They are even fiercer animals than the Elephant!! :-)
 ---
 # Fighter
-%% If a Fighter is unable to end its turn in a city or on a Carrier 
+%% If a Fighter is unable to end its turn in a city or on a Carrier
 %% unit, it runs out of fuel and is lost.  Fighters (and Stealth
 %% Fighters) are the only units which can attack enemy air units.
 ---
 # Freight
-%% Used to establish trade routes, or help build Wonders. 
+%% Used to establish trade routes, or help build wonders.
 The Freight unit replaces the Caravan, and moves at twice the speed.
 ---
 # Frigate
@@ -1204,7 +1214,7 @@ The Freight unit replaces the Caravan, and moves at twice the speed.
 # Helicopter
 The Helicopter is a very powerful unit, as it can both fly and
 conquer cities.  Care must be exercised, because Helicopters lose a
-small amount of health for every turn not spent in a city, unless 
+small amount of health for every turn not spent in a city, unless
 you have the United Nations wonder.
 ---
 # Horsemen
@@ -1222,8 +1232,8 @@ you have the United Nations wonder.
 %% Marines can attack enemy cities from sea units on Ocean squares.
 ---
 # Mech. Inf.
-Mechanized Infantry; this unit has the strongest defence strength 
-of any land unit, but is only available near the end of the 
+Mechanized Infantry; this unit has the strongest defence strength
+of any land unit, but is only available near the end of the
 technology tree.
 ---
 # Musketeers
@@ -1231,7 +1241,7 @@ technology tree.
 # Nuclear
 %% If a Nuclear unit is unable to end its turn in a city or on a
 %% Carrier or Submarine unit, it runs out of fuel and is lost.
-You can build Nuclear units when you have the required Advance, and
+You can build Nuclear units when you have the required advance, and
 the Manhattan Project wonder has been built by any player.
 
 On impact, the blast will destroy any unit in a 3x3-square area,
@@ -1239,7 +1249,7 @@ including friendly units.  When striking a city, the city size is
 halved, and the surrounding squares are polluted.
 
 TIP 1: Nuking the ocean will not generate pollution, and is a most
-       effective (but expensive!!) way of getting rid of enemy 
+       effective (but expensive!!) way of getting rid of enemy
        ships.
 
 TIP 2: You may be involved in a situation where you've invaded an
@@ -1255,7 +1265,7 @@ Not implemented.  (Considered too powerful?)
 # Partisan
 %% Treats all terrain as if it had roads and ignores any zone of
 %% control.
-A number of partisans are granted free when an enemy conquers your 
+A number of Partisans are granted free when an enemy conquers your
 city, but only under these conditions:
 
  - Guerilla Warfare must be known by at least 1 player.
@@ -1264,7 +1274,7 @@ city, but only under these conditions:
 
  - You must know about Communism and Gunpowder.
 
- - You must run either a Democracy or a Communist society.
+ - You must run either a Democracy or a Communist government.
 ---
 # Phalanx
 ---
@@ -1277,24 +1287,25 @@ city, but only under these conditions:
 # Settlers
 Setters are one of the key units in the game.  They can be used to
 found new cities, irrigate land, build roads, railroads, fortresses
-and mines, and clean up pollution.  Upkeep for settlers is in food 
-rather than production, and a setter can die if its supporting city
+and mines, and clean up pollution.  Upkeep for Settlers is in food
+rather than production, and a Setter can die if its supporting city
 runs out of food.
+%% In Civ2, Settlers may require both food and shields for upkeep.
 ---
 # Spy
 A Spy is a full time professional and as such is much more
 skilled in the arts of espionage than her Diplomat predecessor.
 
-The most inoffensive skills in a spy's repertoire are her ability
-to investigate cities - revealing detailed information, and 
-the establishment of embassies.  However, if your spy has gained
+The most inoffensive skills in a Spy's repertoire are her ability
+to investigate cities - revealing detailed information, and
+the establishment of embassies.  However, if your Spy has gained
 herself a reputation for clandestine behaviour she will be
 executed if she tries to establish an embassy.
 
-She can also be used to: poison the water supply of an enemy city -
-reducing the population; steal specific technology; and sabotage
+She can also be used to: poison the water supply of an enemy city
+(reducing the population); steal specific technology; and sabotage
 predetermined city targets (note: sabotaging improvements in a
-capital or sabotaging city walls increases the risks of capture).
+capital or sabotaging City Walls increases the risks of capture).
 A Spy can also infiltrate a city and ferment a revolt.
 
 A Spy can also be of aid on the battlefield - sabotaging enemy units
@@ -1309,11 +1320,11 @@ An improved Fighter, with improved attack and a higher movement
 radius.
 ---
 # Submarine
-This unit is invisible unless the enemy is very close.  It cannot 
-make shore bombardments against enemy land units or cities.  
-%% It can carry up to 8 missiles.  
+This unit is invisible unless the enemy is very close.  It cannot
+make shore bombardments against enemy land units or cities.
+%% It can carry up to 8 missiles.
 
-Submarines have a very high strategic value, but have a weak 
+Submarines have a very high strategic value, but have a weak
 defence.
 ---
 # Transport
@@ -1339,7 +1350,7 @@ factors, including luck.
 First, the attacker's strength is modified.
 
  - If the attacker is a veteran, its strength is multiplied by 1.5.
- 
+
  - "Exhausted" attackers are weaker: if the attacker has only 1/3
    movement point left, its strength is divided by 3; if it has 2/3
    movement point, its strength is multiplied by 2/3.  If the
@@ -1350,32 +1361,32 @@ Next, the defender's strength is modified.
 
  - If the defender is a veteran, then its strength is multiplied by
    1.5.
-   
+
  - Then the defender's strength is multiplied by the defense factor
    of the terrain it occupies.
-   
+
  - Next, the defender's strength is doubled if it is a Pikeman unit
    defending against horsemen, or if it is an AEGIS Cruiser
    defending against airborne units (including missiles and
    Helicopters).
-   
+
  - The defender's strength is doubled again if it is in a city with
    a SAM Battery and the attacker is an air unit (other than a
    Helicopter) or a missile.
-   
+
  - An SDI Defense doubles the defender's strength yet again against
    missile attacks.
-   
+
  - If the attacker is a ship and the defender is in a city with a
    Coastal Defense, the defender's strength is doubled.
-   
+
  - Against ground units (other than Howitzers) and Helicopters,
    defending units in a city with City Walls have their strength
    tripled.
-   
+
  - If the defender is in a fortress (and not a city), its strength
    is doubled.
-   
+
  - Finally, if the defender is a ground unit, and is either
    fortified or inside a city, its strength is multiplied by 1.5.
 
@@ -1477,15 +1488,17 @@ but when it does, it does twice as much damage to the enemy.  Also,
 the Battleship has twice as many hit points.  The Battleship should
 expect to lose about 30% of its hit points during the fight... after
 which it will still have 2 movement points left.
+%% In Civ2, movement points are re-evaluated after a sea unit is
+%% damaged in battle, so those 2 MP may vanish!
 ---
 #Zones of Control
-Zones of Control, abbreviated as ZOC, is a game concept which 
+Zones of Control, abbreviated as ZOC, is a game concept which
 prevents you moving freely in zones controlled (or partially
 controlled) by enemy forces.
 
-The general rule is that a land unit which is adjacent to an enemy 
-occupied square cannot move directly to another square which is 
-also adjacent to an enemy occupied square.  Here an enemy occupied 
+The general rule is that a land unit which is adjacent to an enemy
+occupied square cannot move directly to another square which is
+also adjacent to an enemy occupied square.  Here an enemy occupied
 square means an enemy city, or an enemy unit on a land square.
 Adjacency means any of the eight squares surrounding a unit.
 
@@ -1496,7 +1509,7 @@ In the following special cases ZOC does not apply:
 
 Note:
 - Only land units are restricted by ZOC.
-- Non-land units can impose ZOC (that is, count as enemy occupied 
+- Non-land units can impose ZOC (that is, count as enemy occupied
   squares), but only if they are on a land square.  So effectively
   sea units cannot impose ZOC, and air units (including helicopters)
   do not impose ZOC if they are over sea squares.
@@ -1504,9 +1517,9 @@ Note:
 
 TIP: You can infiltrate enemy zones by first moving in a Diplomat
      (or some other unit which ignores ZOC), and then moving regular
-     units onto the square now occupied by the Diplomat.  
-     By repeating this process (and optionally leaving some units 
-     behind to keep squares occupied), you can make a path through 
+     units onto the square now occupied by the Diplomat.
+     By repeating this process (and optionally leaving some units
+     behind to keep squares occupied), you can make a path through
      enemy territory.
 
 The following Freeciv ZOC effects differ from some similar games:
@@ -1526,75 +1539,75 @@ are enough food-producing squares nearby to support your growing
 population.
 
 The net benefit of a square for your city depends on your government
-type as well as City Improvements and Wonders.
+type as well as city improvements and wonders.
 ---
 # Arctic
-Food: 0.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 1.
+Food: 0.  Shields: 0.  Trade: 0.  Movement: 2.  Defense: 1.
 With Seals, Arctic squares will produce 2 Food.
 Arctic squares cannot be irrigated or mined.
 ---
 # Desert
-Food: 0.  Production: 1.  Trade: 0.  Movement: 1.  Defense: 1.
+Food: 0.  Shields: 1.  Trade: 0.  Movement: 1.  Defense: 1.
 With an Oasis, Desert squares will produce 3 Food.
 Deserts can be mined or irrigated (but not both at the same time).
 ---
 # Forest
-Food: 1.  Production: 2.  Trade: 0.  Movement: 2.  Defense: 1.5.
+Food: 1.  Shields: 2.  Trade: 0.  Movement: 2.  Defense: 1.5.
 With Game, Forest squares will produce 2 extra Food.
 Forests can be irrigated, which converts them to Plains.  Forests
 cannot be mined.
 ---
 # Grassland
-Food: 2.  Production: 0.  Trade: 0.  Movement: 1.  Defense: 1.
-With Resources, Grassland squares will produce 1 Production.
+Food: 2.  Shields: 0.  Trade: 0.  Movement: 1.  Defense: 1.
+With Resources, Grassland squares will produce 1 Shield.
 Grasslands can be irrigated.  If mined, Grasslands will be converted
 to Forest.
 ---
 # Hills
-Food: 1.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 2.
-With Coals, Hills squares will produce 2 Production.
+Food: 1.  Shields: 0.  Trade: 0.  Movement: 2.  Defense: 2.
+With Coals, Hills squares will produce 2 Shields.
 Hills can be irrigated or mined (but not both at the same time).
 ---
 # Jungle
-Food: 1.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
+Food: 1.  Shields: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
 With Gems, Jungle squares will produce 4 Trade.
 Jungles can be irrigated, which converts them to Grassland, or
 mined, which converts them to Forest.
 ---
 # Mountains
-Food: 0.  Production: 1.  Trade: 0.  Movement: 3.  Defense: 3.
+Food: 0.  Shields: 1.  Trade: 0.  Movement: 3.  Defense: 3.
 With Gold, Mountain squares will produce 5 Trade.
 Mountains can be mined, but not irrigated.
 ---
 # Ocean
-Food: 1.  Production: 0.  Trade: 2.  Movement: boat.  Defense: 1.
+Food: 1.  Shields: 0.  Trade: 2.  Movement: boat.  Defense: 1.
 With Fish, Ocean squares will produce 2 extra Food.
 Only sea units (Triremes and other boats) can travel on the Ocean.
 Ocean squares can never be polluted.
 ---
 # Plains
-Food: 1.  Production: 1.  Trade: 0.  Movement: 1.  Defense: 1.
+Food: 1.  Shields: 1.  Trade: 0.  Movement: 1.  Defense: 1.
 With Horses, Plains squares will produce 2 extra Food.
 Plains can be irrigated.  If mined, Plains will be converted to
 Forest.
 ---
 # River
-Food: 2.  Production: 0.  Trade: 1.  Movement: 1(*).  Defense: 1.5.
+Food: 2.  Shields: 0.  Trade: 1.  Movement: 1(*).  Defense: 1.5.
 Units moving from one River square to another River square act as
 though there were a road joining them.
-With Resources, River squares will produce 1 Production.
+With Resources, River squares will produce 1 Shield.
 Rivers can be irrigated but not mined.
 Roads and railroads can only be built on River squares if your
 civilization has learned Bridge Building technology.
 ---
 # Swamp
-Food: 1.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
-With Oil, Swamp squares will produce 4 Production.
+Food: 1.  Shields: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
+With Oil, Swamp squares will produce 4 Shields.
 Swamps can be irrigated, which converts them to Grassland, or mined,
 which converts them to Forest.
 ---
 # Tundra
-Food: 1.  Production: 0.  Trade: 0.  Movement: 1.  Defense: 1.
+Food: 1.  Shields: 0.  Trade: 0.  Movement: 1.  Defense: 1.
 With Game, Tundra squares will produce 2 extra Food.
 Tundra cannot be irrigated or mined.
 ---
@@ -1632,37 +1645,37 @@ TIP 2: Scientific advancement requires high levels of trade, which
 # Civil War
 
 Civil war is devastating to any empire, and is triggered by
-the loss of your capital (palace).  Up to half of your cities 
-will rebel and declare allegiance to a new (AI) leader, who 
-will loot half of your treasury and retain all of your 
+the loss of your capital (palace).  Up to half of your cities
+will rebel and declare allegiance to a new (AI) leader, who
+will loot half of your treasury and retain all of your
 scientific advances.
 
-Players remain in the civil war state for just one turn, after 
+Players remain in the civil war state for just one turn, after
 which the government enters a state of anarchy.  The only real
-way of avoiding Civil War is to defend your civilization's 
+way of avoiding Civil War is to defend your civilization's
 capital at all costs.
 
 The number of cities an empire needs before it can erupt into
-civil war is by default 10.  That is, empires with fewer than 10 
+civil war is by default 10.  That is, empires with fewer than 10
 cities are immune from civil war.  However, this is a server
 option, and may vary upwards from a minimum of 6.
 ---
 # Anarchy
 Anarchy is simply the absence of any recognizable government.
 Citizens are disorganized and unproductive, and will spend all
-income as quickly as possible, rather than paying taxes or 
+income as quickly as possible, rather than paying taxes or
 conducting research.
 
 Anarchy offers slightly less corruption than Despotism, but slightly
 more unhappiness.
 
 Settlers consume 1 food per turn under Anarchy.  Squares which would
-normally yield more than 2 units of food, production or trade suffer
+normally yield more than 2 units of food, shields or trade suffer
 a 1-unit penalty (e.g., an irrigated grassland square which would
 normally yield 3 food only yields 2 food while you are in Anarchy).
 
 Under Anarchy, each of your cities can support a number of military
-units equal to its size without paying production for upkeep.
+units equal to its size without paying shields for upkeep.
 (Additional units require 1 production shield each.)
 
 You may impose martial law under Anarchy: each military unit inside
@@ -1677,13 +1690,13 @@ Despotism suffers the highest level of corruption of all forms of
 government.
 
 Settlers consume 1 food per turn under Despotism.  Squares which
-would normally yield more than 2 units of food, production or trade
+would normally yield more than 2 units of food, shields or trade
 suffer a 1-unit penalty (e.g., an irrigated grassland square which
 would normally yield 3 food only yields 2 food while you are under
 Despotic rule).
 
 Under Despotism, each of your cities can support a number of
-military units equal to its size without paying production for
+military units equal to its size without paying shields for
 upkeep.  (Additional units require 1 production shield each.)
 
 You may impose martial law under Despotism: each military unit
@@ -1700,7 +1713,7 @@ Republic does.
 Settlers consume 1 food per turn under Monarchy.
 
 Under Monarchy, your cities can support up to 3 military units
-without paying production for upkeep.  (Additional units require 1
+without paying shields for upkeep.  (Additional units require 1
 production shield each.)
 
 You may impose limited martial law under Monarchy: each military
@@ -1724,7 +1737,7 @@ Settlers consume 2 food per turn under Communism.
 Diplomats and Spies created under Communism are always veterans.
 
 Under Communism, your cities can support up to 3 military units
-without paying production for upkeep.  (Additional units require 1
+without paying shields for upkeep.  (Additional units require 1
 production shield each.)
 
 You impose limited but efficient martial law under Communism.  Each
@@ -1741,8 +1754,8 @@ of trade.
 
 Cities under the Republic suffer a small amount of corruption.
 
-Settlers consume 2 food per turn under the Republic.  Squares which
-produce at least 1 trade get a trade bonus of 1 under the Republic.
+Settlers consume 2 food per turn under the Republic.  Squares with
+at least 1 trade resource get a trade bonus of 1 under the Republic.
 
 Under the Republic, military units require 1 production shield each
 for upkeep.  In addition the following units are considered
@@ -1752,8 +1765,8 @@ aggressive units:
    inside a city or inside a fortress within 3 squares of a friendly
    city
 
- - air units (including missiles and helicopters) and sea units 
-   with an attack strength greater than 0, regardless of their 
+ - air units (including missiles and helicopters) and sea units
+   with an attack strength greater than 0, regardless of their
    location
 
 The citizens of a city will tolerate 1 aggressive unit; subsequent
@@ -1765,8 +1778,8 @@ Democracy offers the highest possible level of trade, but also
 offers the most potential for unhappiness.  There is no corruption
 during Democracy, but citizens become very upset during wars.
 
-Settlers consume 2 food per turn under Democracy.  Squares which
-produce at least 1 trade get a trade bonus of 1 under Democracy.
+Settlers consume 2 food per turn under Democracy.  Squares with
+at least 1 trade resource get a trade bonus of 1 under Democracy.
 
 Under Democracy, military units require 1 production shield each for
 upkeep.  In addition the following units generate unhappiness:
@@ -1812,12 +1825,12 @@ instead of content.  If you have a large number of cities (depending
 on your government), the limit on content citizens is reduced to 3.
 %% See content_citizens() in server/citytools.c.
 
-In order to offset unhappiness, you may build City Improvements and
-Wonders of the World, or convert a fraction of your trade into
+In order to offset unhappiness, you may build city improvements and
+wonders of the world, or convert a fraction of your trade into
 luxuries.  For every 2 luxuries produced in a city, one content
 citizen is made happy.  After converting all content citizens to
 happy citizens, unhappy citizens are converted to happy and/or
-content.  Some City Improvements and Wonders of the World have
+content.  Some city improvements and wonders of the world have
 effects on citizens' happiness (see the appropriate sections for
 details).
 
