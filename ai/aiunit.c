@@ -827,10 +827,10 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
   int i, j;
   int xx, yy, best_xx = punit->x, best_yy = punit->y;
   int dist = 100;
-  int far = real_map_distance( pc->x, pc->y, punit->x, punit->y );
-
-  for( i = 1-far; i < far; i++ )
-    for( j = 1-far; j < far; j++ ) {
+  int search_dist = real_map_distance( pc->x, pc->y, punit->x, punit->y );
+  
+  for( i = 1-search_dist; i < search_dist; i++ ) {
+    for( j = 1-search_dist; j < search_dist; j++ ) {
       xx = map_adjust_x(punit->x + i);
       yy = map_adjust_y(punit->y + j);
       if( map_same_continent( xx, yy, pc->x, pc->y ) &&
@@ -839,6 +839,7 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
         best_xx = xx; best_yy = yy;
       }
     }
+  }
   *x = best_xx;
   *y = best_yy;
 }
