@@ -55,7 +55,8 @@ struct civ_game {
   int civilwarsize;
   int min_players, max_players, nplayers;
   int aifill;
-  int barbarians;
+  int barbarianrate;
+  int onsetbarbarian;
   int occupychance;
   int unhappysize;
   char *startmessage;
@@ -256,9 +257,13 @@ extern struct civ_game game;
 #define GAME_MIN_TIMEOUT              0
 #define GAME_MAX_TIMEOUT            999
 
-#define GAME_DEFAULT_BARBARIAN       1
-#define GAME_MIN_BARBARIAN           0
-#define GAME_MAX_BARBARIAN           3
+#define GAME_DEFAULT_BARBARIANRATE   2
+#define GAME_MIN_BARBARIANRATE       0
+#define GAME_MAX_BARBARIANRATE       4
+
+#define GAME_DEFAULT_ONSETBARBARIAN  GAME_MIN_END_YEAR
+#define GAME_MIN_ONSETBARBARIAN      GAME_MIN_END_YEAR
+#define GAME_MAX_ONSETBARBARIAN      GAME_MAX_END_YEAR
 
 #define GAME_DEFAULT_OCCUPYCHANCE    0
 #define GAME_MIN_OCCUPYCHANCE        0

@@ -741,7 +741,8 @@ void game_init(void)
   game.civstyle    = GAME_DEFAULT_CIVSTYLE;
   game.razechance  = GAME_DEFAULT_RAZECHANCE;
   game.spacerace   = GAME_DEFAULT_SPACERACE;
-  game.barbarians  = GAME_DEFAULT_BARBARIAN;
+  game.barbarianrate  = GAME_DEFAULT_BARBARIANRATE;
+  game.onsetbarbarian = GAME_DEFAULT_ONSETBARBARIAN;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
   game.heating     = 0;
   sz_strlcpy(game.save_name, "civgame");

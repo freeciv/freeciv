@@ -457,14 +457,21 @@ static struct settings_s settings[] = {
        "See also README.rulesets and the techs, units, buildings and "
        "terrain options.") },
 
-  { "barbarians", &game.barbarians,
+  { "barbarians", &game.barbarianrate,
     SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_BARBARIAN, GAME_MAX_BARBARIAN, GAME_DEFAULT_BARBARIAN,
+    GAME_MIN_BARBARIANRATE, GAME_MAX_BARBARIANRATE, GAME_DEFAULT_BARBARIANRATE,
     N_("Barbarian appearance frequency"),
-    N_("0 - barbarians only in huts \n"
-    "1 - normal rate of barbarian appearance \n"
-    "2 - frequent barbarian uprising \n"
-    "3 - raging hordes, lots of barbarians") },
+    N_("0 - no barbarians \n"
+    "1 - barbarians only in huts \n"
+    "2 - normal rate of barbarian appearance \n"
+    "3 - frequent barbarian uprising \n"
+    "4 - raging hordes, lots of barbarians") },
+
+  { "onsetbarbs", &game.onsetbarbarian,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, GAME_DEFAULT_ONSETBARBARIAN,
+    N_("Barbarian onset year"),
+    N_("Barbarians will not appear before this year.") },
 
   { "occupychance", &game.occupychance,
     SSET_RULES, SSET_TO_CLIENT,
@@ -1958,7 +1965,7 @@ static void crash_and_burn(struct player *caller)
 /******************************************************************
 Print a summary of the settings and their values.
 Note that most values are at most 4 digits, except seeds,
-which we let overflow their columns.  (And endyear may have '-'.)
+which we let overflow their columns, plus a sign character.
 Only show options which the caller can SEE.
 ******************************************************************/
 static void show_command(struct player *caller, char *str)
@@ -2003,7 +2010,7 @@ static void show_command(struct player *caller, char *str)
   cmd_reply_show(_("= means the option is on its default value"));
   cmd_reply_show(horiz_line);
   len1 = my_snprintf(buf, sizeof(buf),
-	_("%-*s value  (min,max)       "), OPTION_NAME_SPACE, _("Option"));
+	_("%-*s value   (min,max)      "), OPTION_NAME_SPACE, _("Option"));
   sz_strlcat(buf, _("description"));
   cmd_reply_show(buf);
   cmd_reply_show(horiz_line);
@@ -2020,7 +2027,7 @@ static void show_command(struct player *caller, char *str)
 
       if (SETTING_IS_INT(op)) {
         len = my_snprintf(buf, sizeof(buf),
-		      "%-*s %c%c%-4d (%d,%d)", OPTION_NAME_SPACE, op->name,
+		      "%-*s %c%c%-5d (%d,%d)", OPTION_NAME_SPACE, op->name,
 		      may_set_option_now(caller,i) ? '+' : ' ',
 		      ((*op->value==op->default_value) ? '=' : ' '),
 		      *op->value, op->min_value, op->max_value);

@@ -221,6 +221,13 @@ int unleash_barbarians(struct player* victim, int x, int y)
   int yy[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int alive = 1;     /* explorer survived */
 
+  if(!game.barbarianrate || (game.year < game.onsetbarbarian)) {
+    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+      wipe_unit(0, punit);
+    } unit_list_iterate_end;
+    return 0;
+  }
+
   unit_cnt = 3 + myrand(4);
 
   barbarians = create_barbarian_player(1);
@@ -377,7 +384,8 @@ static void try_summon_barbarians(void)
 
   /* do not harass small civs - in practice: do not uprise at the beginning */
   if( (int)myrand(UPRISE_CIV_MORE) >
-           (int)city_list_size(&victim->cities) - UPRISE_CIV_SIZE/game.barbarians 
+           (int)city_list_size(&victim->cities) -
+                UPRISE_CIV_SIZE/(game.barbarianrate-1)
       || myrand(100) > get_gov_pcity(pc)->civil_war )
     return;
   freelog(LOG_DEBUG,"Barbarians are willing to fight");
@@ -389,7 +397,7 @@ static void try_summon_barbarians(void)
     barbarians = create_barbarian_player(1);
     if( city_list_size(&victim->cities) > UPRISE_CIV_MOST )
       uprise = 3;
-    for( i=0; i < myrand(3) + uprise*(game.barbarians+1); i++) {
+    for( i=0; i < myrand(3) + uprise*(game.barbarianrate); i++) {
       unit = find_a_unit_type(L_BARBARIAN,L_BARBARIAN_TECH);
       create_unit( barbarians, xu, yu, unit, 0, 0, -1);
       freelog(LOG_DEBUG, "Created barbarian unit %s",unit_types[unit].name);
@@ -436,9 +444,15 @@ void summon_barbarians(void)
 {
   int i, n;
 
+  if(!game.barbarianrate)
+    return;
+
+  if(game.year < game.onsetbarbarian)
+    return;
+
   n = map.xsize*map.ysize / MAP_FACTOR;    /* map size adjustment */
 
-  for( i=0; i < n*game.barbarians; i++)
+  for( i=0; i < n*(game.barbarianrate-1); i++)
     try_summon_barbarians();
 }
 

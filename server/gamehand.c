@@ -362,8 +362,10 @@ void game_load(struct section_file *file)
 						 "game.aqueductloss");
   game.turnblock = secfile_lookup_int_default(file,game.turnblock,
                          "game.turnblock");
-  game.barbarians = secfile_lookup_int_default(file, game.barbarians,
-                                               "game.barbarians");
+  game.barbarianrate = secfile_lookup_int_default(file, game.barbarianrate,
+						  "game.barbarians");
+  game.onsetbarbarian = secfile_lookup_int_default(file, game.onsetbarbarian,
+						   "game.onsetbarbs");
   game.occupychance = secfile_lookup_int_default(file, game.occupychance,
   						 "game.occupychance");
   
@@ -569,7 +571,8 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.diplchance, "game.diplchance");
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.turnblock, "game.turnblock");
-  secfile_insert_int(file, game.barbarians, "game.barbarians");
+  secfile_insert_int(file, game.barbarianrate, "game.barbarians");
+  secfile_insert_int(file, game.onsetbarbarian, "game.onsetbarbs");
   secfile_insert_int(file, game.occupychance, "game.occupychance");
   secfile_insert_str(file, game.ruleset.techs, "game.ruleset.techs");
   secfile_insert_str(file, game.ruleset.units, "game.ruleset.units");
