@@ -154,9 +154,9 @@ installations dans l'ordre suivant : Glib, Gtk+, Imlib.
 
  - "pkg-config".
 
-   "pkg-config" est un système pour gérer les sémaphores de
-   compilations/liens de bibliothèques qui fonctione avec automake et
-   autoconf. Vous pouvez l'obtenir à :
+   "pkg-config" est un système qui permet la gestion de chemins pour la
+   compilation et l'édition de liens de bibliothèques qui fonctionne avec
+   automake et autoconf. Vous pouvez l'obtenir à :
 
       ftp://ftp.gtk.org/pub/gtk/v2.0/dependencies/pkgconfig-0.12.0.tar.gz
 
@@ -173,10 +173,10 @@ installations dans l'ordre suivant : Glib, Gtk+, Imlib.
 
      ftp://ftp.gtk.org/pub/gtk/v2.0/glib-2.0.7.tar.bz2
 
- - La bibliothèque d'accesibilité "Atk".
+ - La bibliothèque d'accessibilité "Atk".
 
    La bibliothèque "Atk" fournit un jeu d'interfaces pour l'accessibilité.
-   Elles permet d'utiliser toutes les fonctionnalités fournies par les
+   Elle permet d'utiliser toutes les fonctionnalités fournies par les
    applications Gtk+. Vous pouvez l'obtenir à :
 
      ftp://ftp.gtk.org/pub/gtk/v2.0/atk-1.0.3.tar.bz2
@@ -230,7 +230,7 @@ installations dans l'ordre suivant : pkg-config, Glib, Atk, Pango, Gtk+.
 
    Le client Xaw est un programme X11, ce qui fait que vous devrez avoir
    un moyen de lancer des programmes X11 (la plupart des Unices en sont
-   capable).
+   capables).
 
    Si la configuration de Freeciv ne peut pas trouver X11 sur votre
    système, vous aurez peut-être besoin des options --x-includes=RÉP et
@@ -503,18 +503,16 @@ tenter :
 
 Freeciv a un support optionnel pour la bibliothèque readline.
 
-Readline support is what makes the server command line behave sensibly,
-making it possible to
-Le support readline est ce qui rend sensibles le comportement des commandes
-du serveur en renadant possible :
+Le support readline est ce qui rend 'sensibles' le comportement des commandes
+du serveur en rendant possible :
  - l'utilisation de la touche retour arrière.
  - l'utilistaion du curseur pour se déplacer en avant et en arrière dans la
    ligne que vous avez écrite
- - l'utilistation du complétement avec TAB pour les commandes et leurs
-   arguments. C'est à dire que lorsque que vous tapez la touche tab le
+ - l'utilistation de la complétion avec TAB pour les commandes et leurs
+   arguments. C'est à dire que lorsque que vous tapez la touche TAB le
    serveur finira le mot pour vous s'il n'y a qu'une possibilité.
- - l'utilisation des des curseurs haut et bas pour faire défiler
-   l'historique des commandes.
+ - l'utilisation des curseurs haut et bas pour faire défiler l'historique
+   des commandes.
  - etc.
 
 Le script configure va vérifier si vous avez la bibliothèque readline
@@ -632,7 +630,7 @@ La procédure :
 La version Apple de GCC utilise des en-têtes pré-compilés qui ne supportent
 pas les macros vararg (une extension GCC). Ceci fait que GCC échoue quand
 il compile Freeciv dans la mesure où le compilateur est par ailleurs
-(quasiment) indistinguable de "vanilla GCC". Donc, au lieu de l'habituel
+(quasiment) indistinguable de 'vanilla GCC'. Donc, au lieu de l'habituel
 
   % ./configure <...>
 
@@ -716,7 +714,7 @@ make -f scripts/makefile.gcc CC=i386-mingw32-gcc RANLIB=i386-mingw32-ranlib
 Elles doivent être mises dans un endroit où votre compilateur saura les
 trouver.
 
-Autoconf & co:
+Autoconf & Co. :
 Si vous compilez depuis le CVS, vous devrez remplacer ./configure par
 ./autogen.sh dans les lignes qui suivent. 
 Vous aurez des problèmes avec les chemins (plus particulièrement avec le
@@ -753,7 +751,7 @@ finir par un slash.
 
 Maintenant il est temps de faire un peu de ménage dans tout ceci.
 cd dans votre répertoire d'installation. Vérifiez que les exécutables ont
-bien le suffixe .exe et si vous le souhaitez enlevez-le.
+bien le suffixe .exe et si vous le souhaitez créez des raccourcis.
 Je suggère de déplacer le répertoire de données : 
 
 mv share/freeciv data
@@ -761,7 +759,7 @@ mv share/freeciv data
 L'étape finale est de convertir les graphiques en png. Utilisez votre
 programme graphique favori pour le faire. Vous pouvez utiliser une
 combinaison de ImageMagick et pngquant pour ceci. Mais il est vraiment
-important que vous vérifiez les résultats. Vérifiez chaque fichier. La
+important que vous vérifiez les résultats. Vérifiez chaque fichier. Le
 canal alpha (transparence) disparait souvent de façon magique. Il n'y pas
 pas de script fiable pour cela.
 
