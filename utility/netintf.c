@@ -307,7 +307,6 @@ const char *my_url_encode(const char *txt)
     return "";
   }
   
-  ptr = buf;
   for (ptr = buf; *txt != '\0'; txt++) {
     ch = (unsigned char) *txt;
 
