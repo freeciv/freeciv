@@ -153,7 +153,7 @@ const char *mystrerror(int errnum)
 
 
 /***************************************************************
-  Suspend execution for the specified number of milliseconds.
+  Suspend execution for the specified number of microseconds.
 ***************************************************************/
 void myusleep(unsigned long usec)
 {
@@ -226,6 +226,9 @@ size_t mystrlcpy(char *dest, const char *src, size_t n)
 #endif
 }
 
+/**********************************************************************
+ ...
+***********************************************************************/
 size_t mystrlcat(char *dest, const char *src, size_t n)
 {
   assert(dest != NULL);
