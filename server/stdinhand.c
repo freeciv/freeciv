@@ -903,6 +903,7 @@ enum command_id {
   CMD_EXPLAIN,
   CMD_SHOW,
   CMD_SCORE,
+  CMD_WALL,
   
   /* mostly non-harmful: */
   CMD_SET,
@@ -1016,6 +1017,12 @@ static const struct command commands[] = {
    N_("Show current scores."),
    N_("For each connected client, pops up a window showing the current "
       "player scores.")
+  },
+  {"wall",	ALLOW_HACK,
+   N_("wall <message>"),
+   N_("Send message to all connections."),
+   N_("For each connected client, pops up a window showing the message "
+      "entered.")
   },
   {"set",	ALLOW_CTRL,
    N_("set <option-name> <value>"),
@@ -2324,6 +2331,14 @@ static void explain_option(struct connection *caller, char *str)
     show_help_option_list(caller, CMD_EXPLAIN);
   }
 }
+/******************************************************************
+  Send a message to all players
+******************************************************************/
+static void wall(char *str)
+{
+  notify_conn_ex(&game.game_connections, -1, -1, E_MESSAGE_WALL,
+		 _("Server Operator: %s"), str);
+}
   
 /******************************************************************
 Send a report with server options to specified connections.
@@ -2826,6 +2841,9 @@ void handle_stdin_input(struct connection *caller, char *str)
       cmd_reply(cmd, caller, C_SYNTAX,
 		_("The game must be running before you can see the score."));
     }
+    break;
+  case CMD_WALL:
+    wall(arg);
     break;
   case CMD_READ_SCRIPT:
     read_command(caller,arg);

@@ -60,6 +60,7 @@ enum {
   E_CITY_WONDER_WILL_BE_BUILT,
   E_NEW_GOVERNMENT,
   E_CITY_NUKED,
+  E_MESSAGE_WALL,
   /* Note:  If you add a new event, make sure you make a similar change to
      message_text in client/options.c
      */

@@ -161,6 +161,7 @@ const char *message_text[E_LAST]={
   N_("Wonder Will Be Finished Next Turn"),   /* E_CITY_WONDER_WILL_BE_BUILT */
   N_("Learned New Government"),	     /* E_NEW_GOVERNMENT */
   N_("City Nuked"),                  /* E_CITY_NUKED */
+  N_("Messages from the Server Operator"), /* E_MESSAGE_WALL*/
 };
 
 /**************************************************************************
@@ -184,6 +185,7 @@ void init_messages_where(void)
 {
   int out_only[] = {E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT,
 		   E_UNIT_LOST_ATT, E_UNIT_WIN_ATT};
+  int all[] = { E_MESSAGE_WALL };
   int i;
 
   for(i=0; i<E_LAST; i++) {
@@ -191,6 +193,9 @@ void init_messages_where(void)
   }
   for (i = 0; i < ARRAY_SIZE(out_only); i++) {
     messages_where[out_only[i]] = MW_OUTPUT;
+  }
+  for (i = 0; i < ARRAY_SIZE(all); i++) {
+    messages_where[all[i]] = MW_OUTPUT | MW_MESSAGES | MW_POPUP;
   }
   
   for(i=0;i<E_LAST;i++)  {
