@@ -13,7 +13,11 @@
 #ifndef FC__CONNECTDLG_H
 #define FC__CONNECTDLG_H
 
+#define ID_SERVERBUTTON 2432
 #include "connectdlg_g.h"
 
-
+void quit_client_only();
+void show_server_window();
+void handle_pipe_and_process(void);
+void handle_server_buttons(HWND button);
 #endif  /* FC__CONNECTDLG_H */

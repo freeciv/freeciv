@@ -90,6 +90,7 @@ extern int seconds_to_turndone;
 const static RECT textwin_size={0,1,0,100};
 
 struct fcwin_box *main_win_box;
+struct fcwin_box *output_box;
 
 /**************************************************************************
 
@@ -323,7 +324,11 @@ LONG APIENTRY FreecivWndProc (
       return TRUE;
       break;
     case WM_COMMAND:       
-      handle_menu(LOWORD(wParam));
+      if (LOWORD(wParam)==ID_SERVERBUTTON) {
+	handle_server_buttons((HWND)lParam);
+      } else {
+	handle_menu(LOWORD(wParam));
+      }
       break;
     case WM_HSCROLL:
       HANDLE_WM_HSCROLL(hWnd,wParam,lParam,Handle_Hscroll); 
@@ -390,8 +395,10 @@ void create_main_window()
   fcwin_box_add_generic(upper,map_minsize,map_setsize,NULL,NULL,
 			TRUE,TRUE,5);
   fcwin_box_add_box(main_win_box,upper,TRUE,TRUE,0);
-  fcwin_box_add_generic(main_win_box,box_fixedsize,textwin_setsize,NULL,
-			(void *)&textwin_size,FALSE,FALSE,0);
+  output_box=fcwin_hbox_new(root_window,FALSE);
+  fcwin_box_add_generic(output_box,box_fixedsize,textwin_setsize,NULL,
+			(void *)&textwin_size,TRUE,TRUE,0);
+  fcwin_box_add_box(main_win_box,output_box,FALSE,FALSE,0);
   logoutput_win=CreateWindowEx(WS_EX_CLIENTEDGE,
 			       "EDIT",
 			       " ",
@@ -500,6 +507,7 @@ static VOID CALLBACK socket_timer(HWND  hwnd,UINT uMsg,UINT idEvent,DWORD  dwTim
           break;
         }
     }           
+  handle_pipe_and_process();
 } 
 
  
@@ -560,15 +568,14 @@ ui_main(int argc, char *argv[])
   while (GetMessage(&msg,NULL,0,0))
     {
       if (!((msg.hwnd==root_window)&&(TranslateAccelerator(root_window,
-							   freecivaccel,
-							   &msg))))
+                                                           freecivaccel,
+                                                           &msg))))
         {     
-	  TranslateMessage(&msg);
-	  DispatchMessage(&msg);
-	}
+          TranslateMessage(&msg);
+          DispatchMessage(&msg);
+        }
       
-    }              
-  
+    }      
 }
 
 

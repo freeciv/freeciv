@@ -138,5 +138,6 @@ extern HWND hchatline;
 extern HWND map_window;
 extern HWND map_scroll_h;
 extern HWND map_scroll_v;
+extern struct fcwin_box *output_box;
 #endif  /* RC_INVOKED */
 #endif  /* FC__GUI_MAIN_H */
