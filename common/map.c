@@ -181,7 +181,6 @@ void map_init(void)
   map.ysize                 = MAP_DEFAULT_HEIGHT;
   map.seed                  = MAP_DEFAULT_SEED;
   map.riches                = MAP_DEFAULT_RICHES;
-  map.is_earth              = FALSE;
   map.huts                  = MAP_DEFAULT_HUTS;
   map.landpercent           = MAP_DEFAULT_LANDMASS;
   map.grasssize             = MAP_DEFAULT_GRASS;
@@ -219,6 +218,7 @@ static void tile_init(struct tile *ptile)
   if (!is_server) {
     ptile->client.hilite = HILITE_NONE; /* Area Selection in client. */
   }
+  ptile->spec_sprite = NULL;
 }
 
 /**************************************************************************
@@ -243,6 +243,10 @@ void map_set_owner(int x, int y, struct player *owner)
 static void tile_free(struct tile *ptile)
 {
   unit_list_unlink_all(&ptile->units);
+  if (ptile->spec_sprite) {
+    free(ptile->spec_sprite);
+    ptile->spec_sprite = NULL;
+  }
 }
 
 /**************************************************************************

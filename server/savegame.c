@@ -325,8 +325,6 @@ static void map_tiles_load(struct section_file *file)
   map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
 					       "map.topology_id");
 
-  map.is_earth=secfile_lookup_bool(file, "map.is_earth");
-
   /* In some cases we read these before, but not always, and
    * its safe to read them again:
    */
@@ -341,6 +339,19 @@ static void map_tiles_load(struct section_file *file)
 		map_get_tile(x, y)->terrain = char2terrain(ch));
 
   assign_continent_numbers();
+
+  whole_map_iterate(mx, my) {
+    struct tile *ptile = map_get_tile(mx, my);
+    int nx, ny;
+
+    map_to_native_pos(&nx, &ny, mx, my);
+
+    ptile->spec_sprite = secfile_lookup_str_default(file, NULL,
+				"map.spec_sprite_%d_%d", nx, ny);
+    if (ptile->spec_sprite) {
+      ptile->spec_sprite = mystrdup(ptile->spec_sprite);
+    }
+  } whole_map_iterate_end;
 }
 
 /***************************************************************
@@ -446,7 +457,9 @@ static void map_save(struct section_file *file)
   /* map.xsize and map.ysize (saved as map.width and map.height)
    * are now always saved in game_save()
    */
-  secfile_insert_bool(file, map.is_earth, "map.is_earth");
+
+  /* Old freecivs expect map.is_earth to be present in the savegame. */
+  secfile_insert_bool(file, FALSE, "map.is_earth");
 
   secfile_insert_bool(file, game.save_options.save_starts, "game.save_starts");
   if (game.save_options.save_starts) {
@@ -508,6 +521,18 @@ static void map_save(struct section_file *file)
     SAVE_NORMAL_MAP_DATA(x, y, file, "map.i%03d",
 			 bin2ascii_hex(map_get_tile(x, y)->known, 7));
   }
+
+  whole_map_iterate(mx, my) {
+    struct tile *ptile = map_get_tile(mx, my);
+
+    if (ptile->spec_sprite) {
+      int nx, ny;
+
+      map_to_native_pos(&nx, &ny, mx, my);
+      secfile_insert_str(file, ptile->spec_sprite, 
+			 "map.spec_sprite_%d_%d", nx, ny);
+    }
+  } whole_map_iterate_end;
 }
 
 /***************************************************************

@@ -216,8 +216,7 @@ struct named_sprites {
       *river_outlet[4],		/* indexed by enum direction4 */
       *coast_cape_iso[8][4], /* 4 = up down left right */
       /* for non-isometric */
-      *coast_cape[NUM_DIRECTION_NSEW],	      /* first unused */
-      *denmark[2][3];		/* row, column */
+      *coast_cape[NUM_DIRECTION_NSEW];	      /* first unused */
   } tx;				/* terrain extra */
 
   struct terrain_drawing_data *terrain[MAX_NUM_TERRAINS];

@@ -1273,15 +1273,15 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void handle_map_info(int xsize, int ysize, bool is_earth, int topology_id)
+/****************************************************************************
+  Receive information about the map size and topology from the server.  We
+  initialize some global variables at the same time.
+****************************************************************************/
+void handle_map_info(int xsize, int ysize, int topology_id)
 {
   map.xsize = xsize;
   map.ysize = ysize;
   map.topology_id = topology_id;
-  map.is_earth = is_earth;
 
   map_allocate();
   init_client_goto();
@@ -1923,6 +1923,23 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
   ptile->known = packet->known;
+
+  if (packet->spec_sprite[0] != '\0') {
+    if (!ptile->spec_sprite
+	|| strcmp(ptile->spec_sprite, packet->spec_sprite) != 0) {
+      if (ptile->spec_sprite) {
+	free(ptile->spec_sprite);
+      }
+      ptile->spec_sprite = mystrdup(packet->spec_sprite);
+      tile_changed = TRUE;
+    }
+  } else {
+    if (ptile->spec_sprite) {
+      free(ptile->spec_sprite);
+      ptile->spec_sprite = NULL;
+      tile_changed = TRUE;
+    }
+  }
 
   reset_move_costs(packet->x, packet->y);
 

@@ -54,6 +54,7 @@ struct tile {
     /* Area Selection in client. */
     enum tile_hilite hilite;
   } client;
+  char *spec_sprite;
 };
 
 
@@ -122,7 +123,6 @@ struct civ_map {
   int xsize, ysize; /* native dimensions */
   int seed;
   int riches;
-  bool is_earth;
   int huts;
   int landpercent;
   int grasssize;

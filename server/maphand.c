@@ -337,6 +337,11 @@ void send_tile_info(struct conn_list *dest, int x, int y)
   info.x = x;
   info.y = y;
   info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
+  if (ptile->spec_sprite) {
+    sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
+  } else {
+    info.spec_sprite[0] = '\0';
+  }
 
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
@@ -386,6 +391,11 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
   info.x = x;
   info.y = y;
   info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
+  if (ptile->spec_sprite) {
+    sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
+  } else {
+    info.spec_sprite[0] = '\0';
+  }
 
   if (!pplayer) {
     /* Observer sees all. */
@@ -615,7 +625,6 @@ void send_map_info(struct conn_list *dest)
   minfo.xsize=map.xsize;
   minfo.ysize=map.ysize;
   minfo.topology_id = map.topology_id;
-  minfo.is_earth=map.is_earth;
  
   lsend_packet_map_info(dest, &minfo);
 }

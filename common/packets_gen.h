@@ -97,6 +97,7 @@ struct packet_tile_info {
   enum tile_special_type special;
   int owner;
   int continent;
+  char spec_sprite[MAX_LEN_NAME];
 };
 
 struct packet_game_info {
@@ -135,7 +136,6 @@ struct packet_game_info {
 struct packet_map_info {
   int xsize;
   int ysize;
-  bool is_earth;
   int topology_id;
 };
 
@@ -1146,8 +1146,8 @@ void lsend_packet_game_info(struct conn_list *dest, const struct packet_game_inf
 struct packet_map_info *receive_packet_map_info(struct connection *pc, enum packet_type type);
 int send_packet_map_info(struct connection *pc, const struct packet_map_info *packet);
 void lsend_packet_map_info(struct conn_list *dest, const struct packet_map_info *packet);
-int dsend_packet_map_info(struct connection *pc, int xsize, int ysize, bool is_earth, int topology_id);
-void dlsend_packet_map_info(struct conn_list *dest, int xsize, int ysize, bool is_earth, int topology_id);
+int dsend_packet_map_info(struct connection *pc, int xsize, int ysize, int topology_id);
+void dlsend_packet_map_info(struct conn_list *dest, int xsize, int ysize, int topology_id);
 
 struct packet_nuke_tile_info *receive_packet_nuke_tile_info(struct connection *pc, enum packet_type type);
 int send_packet_nuke_tile_info(struct connection *pc, const struct packet_nuke_tile_info *packet);

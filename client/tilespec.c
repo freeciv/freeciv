@@ -1051,13 +1051,6 @@ static void tilespec_lookup_sprite_tags(void)
       my_snprintf(buffer, sizeof(buffer), "tx.coast_cape_%s", nsew_str(i));
       SET_SPRITE(tx.coast_cape[i], buffer);
     }
-
-    for(i=0; i<2; i++) {
-      for(j=0; j<3; j++) {
-	my_snprintf(buffer, sizeof(buffer), "tx.denmark_%d%d", i, j);
-	SET_SPRITE(tx.denmark[i][j], buffer);
-      }
-    }
   }
 
   for(i=0; i<4; i++) {
@@ -2091,7 +2084,6 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
   struct city *pcity;
   struct unit *pfocus;
   struct unit *punit;
-  int den_y=map.ysize*.24;
   struct drawn_sprite *save_sprs = sprs;
   *solid_bg = FALSE;
   *pplayer = NULL;
@@ -2128,9 +2120,9 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
   build_tile_data(abs_x0, abs_y0, 
 		  &ttype, &tspecial, ttype_near, tspecial_near);
 
-  if(map.is_earth &&
-     abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) {
-    mysprite = sprites.tx.denmark[abs_y0-den_y][abs_x0-34];
+  if (ptile->spec_sprite && (mysprite = load_sprite(ptile->spec_sprite))) {
+    freelog(LOG_DEBUG, "Using spec_sprite %s for %d,%d",
+	    ptile->spec_sprite, abs_x0, abs_y0);
   } else {
     /* FIXME: doesn't support is_layered. */
     if (sprites.terrain[ttype]->match_type == 0) {

@@ -84,7 +84,6 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_map_info(
       ((struct packet_map_info *)packet)->xsize,
       ((struct packet_map_info *)packet)->ysize,
-      ((struct packet_map_info *)packet)->is_earth,
       ((struct packet_map_info *)packet)->topology_id);
     return TRUE;
 

@@ -314,6 +314,7 @@ PACKET_TILE_INFO=14; is-info,sc
   SPECIAL special;
   PLAYER owner;
   CONTINENT continent;
+  STRING spec_sprite[MAX_LEN_NAME];
 end
 
 PACKET_GAME_INFO=15; is-info,sc
@@ -349,7 +350,6 @@ end
 PACKET_MAP_INFO=16; is-info,sc
   COORD xsize;
   COORD ysize;
-  BOOL is_earth;
   UINT8 topology_id;
 end
 

@@ -31,7 +31,7 @@ struct packet_tile_info;
 void handle_tile_info(struct packet_tile_info *packet);
 struct packet_game_info;
 void handle_game_info(struct packet_game_info *packet);
-void handle_map_info(int xsize, int ysize, bool is_earth, int topology_id);
+void handle_map_info(int xsize, int ysize, int topology_id);
 void handle_nuke_tile_info(int x, int y);
 void handle_chat_msg(char *message, int x, int y, enum event_type event);
 void handle_city_remove(int city_id);

@@ -2845,7 +2845,7 @@ static int cmp_packet_tile_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_tile_info_100_fields, 5);
+BV_DEFINE(packet_tile_info_100_fields, 6);
 
 static struct packet_tile_info *receive_packet_tile_info_100(struct connection *pc, enum packet_type type)
 {
@@ -2891,6 +2891,9 @@ static struct packet_tile_info *receive_packet_tile_info_100(struct connection *
   }
   if (BV_ISSET(fields, 4)) {
     dio_get_uint16(&din, (int *) &real_packet->continent);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_get_string(&din, real_packet->spec_sprite, sizeof(real_packet->spec_sprite));
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -2946,6 +2949,10 @@ static int send_packet_tile_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
+  differ = (strcmp(old->spec_sprite, real_packet->spec_sprite) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
+
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -2968,6 +2975,9 @@ static int send_packet_tile_info_100(struct connection *pc, const struct packet_
   }
   if (BV_ISSET(fields, 4)) {
     dio_put_uint16(&dout, real_packet->continent);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_put_string(&dout, real_packet->spec_sprite);
   }
 
 
@@ -3547,7 +3557,7 @@ static int cmp_packet_map_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_map_info_100_fields, 4);
+BV_DEFINE(packet_map_info_100_fields, 3);
 
 static struct packet_map_info *receive_packet_map_info_100(struct connection *pc, enum packet_type type)
 {
@@ -3577,8 +3587,7 @@ static struct packet_map_info *receive_packet_map_info_100(struct connection *pc
   if (BV_ISSET(fields, 1)) {
     dio_get_uint8(&din, (int *) &real_packet->ysize);
   }
-  real_packet->is_earth = BV_ISSET(fields, 2);
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 2)) {
     dio_get_uint8(&din, (int *) &real_packet->topology_id);
   }
 
@@ -3623,13 +3632,9 @@ static int send_packet_map_info_100(struct connection *pc, const struct packet_m
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->is_earth != real_packet->is_earth);
-  if(differ) {different++;}
-  if(packet->is_earth) {BV_SET(fields, 2);}
-
   differ = (old->topology_id != real_packet->topology_id);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
+  if(differ) {BV_SET(fields, 2);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -3643,8 +3648,7 @@ static int send_packet_map_info_100(struct connection *pc, const struct packet_m
   if (BV_ISSET(fields, 1)) {
     dio_put_uint8(&dout, real_packet->ysize);
   }
-  /* field 2 is folded into the header */
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 2)) {
     dio_put_uint8(&dout, real_packet->topology_id);
   }
 
@@ -3712,25 +3716,23 @@ void lsend_packet_map_info(struct conn_list *dest, const struct packet_map_info 
   } conn_list_iterate_end;
 }
 
-int dsend_packet_map_info(struct connection *pc, int xsize, int ysize, bool is_earth, int topology_id)
+int dsend_packet_map_info(struct connection *pc, int xsize, int ysize, int topology_id)
 {
   struct packet_map_info packet, *real_packet = &packet;
 
   real_packet->xsize = xsize;
   real_packet->ysize = ysize;
-  real_packet->is_earth = is_earth;
   real_packet->topology_id = topology_id;
   
   return send_packet_map_info(pc, real_packet);
 }
 
-void dlsend_packet_map_info(struct conn_list *dest, int xsize, int ysize, bool is_earth, int topology_id)
+void dlsend_packet_map_info(struct conn_list *dest, int xsize, int ysize, int topology_id)
 {
   struct packet_map_info packet, *real_packet = &packet;
 
   real_packet->xsize = xsize;
   real_packet->ysize = ysize;
-  real_packet->is_earth = is_earth;
   real_packet->topology_id = topology_id;
   
   lsend_packet_map_info(dest, real_packet);

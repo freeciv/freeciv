@@ -76,7 +76,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
                    "+starter +union +iso_maps +orders2client " \
-                   "+change_production +tilespec1"
+                   "+change_production +tilespec1 +no_earth"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -99,6 +99,9 @@ const char * const our_capability = our_capability_internal;
  * "change_production" is the E_CITY_PRODUCTION_CHANGED event.
  *
  * "tilespec1" means changed graphic strings in terrain.ruleset.
+ *
+ * "no_earth" means that the map.is_earth value is gone; replaced by
+ * ptile->spec_sprite
  */
 
 void init_our_capability(void)
