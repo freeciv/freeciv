@@ -1235,6 +1235,14 @@ void server_remove_player(struct player *pplayer)
   for(o=0; o<game.nplayers; o++)
     send_packet_generic_integer(game.players[o].conn, PACKET_REMOVE_PLAYER,
 				&pack);
+/* I can't put the worker stuff in game_remove_city because it's in common */
+/* I can't use remove_city here because of traderoutes.  Therefore ... */
+  city_list_iterate(pplayer->cities, pcity)
+    city_map_iterate(x,y) {
+      set_worker_city(pcity, x, y, C_TILE_EMPTY);
+    }
+  city_list_iterate_end;
+
   game_remove_player(pplayer->player_no);
   game_renumber_players(pplayer->player_no);
 
