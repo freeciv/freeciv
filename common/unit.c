@@ -342,15 +342,15 @@ int is_ground_threat(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 int is_square_threatened(struct player *pplayer, int x, int y)
 {
-  int threat=0;
-
   square_iterate(x, y, 2, x1, y1) {
     unit_list_iterate(map_get_tile(x1, y1)->units, punit) {
-      threat += is_ground_threat(pplayer, punit);
+      if (is_ground_threat(pplayer, punit)) {
+	return TRUE;
+      }
     } unit_list_iterate_end;
   } square_iterate_end;
 
-  return threat;
+  return FALSE;
 }
 
 /**************************************************************************
