@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-12 12:14-0400\n"
+"POT-Creation-Date: 2004-10-12 15:38-0400\n"
 "PO-Revision-Date: 2004-10-09 18:47+0300\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -462,13 +462,13 @@ msgstr "Торговля"
 msgid "Gold"
 msgstr "Золото"
 
-#: common/aicore/cm.c:1538 server/plrhand.c:782
+#: common/aicore/cm.c:1538 server/plrhand.c:785
 #: client/gui-gtk-2.0/gamedlgs.c:262 client/gui-gtk/gamedlgs.c:261
 #: client/gui-mui/citydlg.c:1613 client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "Роскошь"
 
-#: common/aicore/cm.c:1540 server/plrhand.c:784
+#: common/aicore/cm.c:1540 server/plrhand.c:787
 #: client/gui-gtk-2.0/gamedlgs.c:282 client/gui-gtk-2.0/repodlgs.c:171
 #: client/gui-gtk/gamedlgs.c:281 client/gui-gtk/repodlgs.c:174
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
@@ -894,7 +894,7 @@ msgstr "Игра: %s куплено в %s за %d золотых."
 msgid "Game: You have bought this turn, can't change."
 msgstr "Игра: Вы покупали на этом ходу, невозможно изменить."
 
-#: server/cityhand.c:382 server/plrhand.c:387 server/stdinhand.c:365
+#: server/cityhand.c:382 server/plrhand.c:390 server/stdinhand.c:365
 #: server/unithand.c:175 server/unithand.c:461
 #, c-format
 msgid "Game: %s"
@@ -2708,7 +2708,7 @@ msgstr "Игра: Ваш %s похитил %s из %s."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Игра: %s %s украл %s из %s."
 
-#: server/diplomats.c:695 server/plrhand.c:742
+#: server/diplomats.c:695 server/plrhand.c:745
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Игра: %s похитил %s из %s."
@@ -3088,27 +3088,27 @@ msgstr ""
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Игра: %s изучено. Наши ученые сосредоточили усилия на %s, цель - %s."
 
-#: server/plrhand.c:354
+#: server/plrhand.c:357
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr "Игра: %s изучено. Ученые выбрали для исследования %s."
 
-#: server/plrhand.c:362
+#: server/plrhand.c:365
 #, c-format
 msgid "Game: Learned %s. "
 msgstr "Игра: Открыли %s."
 
-#: server/plrhand.c:365
+#: server/plrhand.c:368
 #, c-format
 msgid "Researching %s."
 msgstr "Исследуется %s."
 
-#: server/plrhand.c:371
+#: server/plrhand.c:374
 #, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
 msgstr "Игра: %s изучено. Учёные не знают, что исследовать дальше."
 
-#: server/plrhand.c:390
+#: server/plrhand.c:393
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -3116,14 +3116,14 @@ msgstr ""
 "Игра: Величайшие ученые всего мира присоединились к Вашей цивилизации; Вы "
 "получили немедленное открытие."
 
-#: server/plrhand.c:449
+#: server/plrhand.c:452
 #, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists choose to research %s."
 msgstr ""
 "Игра: %s изучено в сотрудничестве с %s. Учёные выбрали для исследования %s."
 
-#: server/plrhand.c:455
+#: server/plrhand.c:458
 #, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists do not know what to "
@@ -3132,133 +3132,133 @@ msgstr ""
 "Игра: %s изучено в сотрудничестве с %s. Учёные не знают, что исследовать "
 "дальше."
 
-#: server/plrhand.c:484
+#: server/plrhand.c:487
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Игра: %s изучили %s."
 
-#: server/plrhand.c:488
+#: server/plrhand.c:491
 #, c-format
 msgid "%s discover %s"
 msgstr "%s открыли %s"
 
-#: server/plrhand.c:493
+#: server/plrhand.c:496
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Игра: %s изучили Технологию Будущего %d."
 
-#: server/plrhand.c:497
+#: server/plrhand.c:500
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "%s открыли Технологию Будущего %d"
 
-#: server/plrhand.c:631
+#: server/plrhand.c:634
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Игра: Технологическая цель - %s."
 
-#: server/plrhand.c:726
+#: server/plrhand.c:729
 #, c-format
 msgid "%s steal %s from %s"
 msgstr "%s украли %s у %s"
 
-#: server/plrhand.c:732
+#: server/plrhand.c:735
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Игра: Вы украли науку \"%s\" у народа, именуемого %s."
 
-#: server/plrhand.c:737
+#: server/plrhand.c:740
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Игра: %s украли у Вас %s!"
 
-#: server/plrhand.c:764
+#: server/plrhand.c:767
 msgid "Game: Cannot change rates before game start."
 msgstr "Игра: Невозможно изменить скорость до начала игры."
 
-#: server/plrhand.c:780 client/gui-gtk-2.0/gamedlgs.c:242
+#: server/plrhand.c:783 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-gtk/gamedlgs.c:241 client/gui-win32/ratesdlg.c:309
 msgid "Tax"
 msgstr "Налог"
 
-#: server/plrhand.c:787
+#: server/plrhand.c:790
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Игра: уровень %s превосходит максимальный уровень при %s."
 
-#: server/plrhand.c:793 server/plrhand.c:1052
+#: server/plrhand.c:796 server/plrhand.c:1055
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr "ИЗМЕНЕНИЕ НАЛОГОВЫХ СТАВОК: %s %i %i %i"
 
-#: server/plrhand.c:865
+#: server/plrhand.c:868
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Игра: %s сейчас правит народом %s при форме правления %s."
 
-#: server/plrhand.c:869
+#: server/plrhand.c:872
 #, c-format
 msgid "%s form a %s"
 msgstr "%s образуют %s"
 
-#: server/plrhand.c:917
+#: server/plrhand.c:920
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Игра: %s начали революцию."
 
-#: server/plrhand.c:919
+#: server/plrhand.c:922
 #, c-format
 msgid "The %s revolt!"
 msgstr "%s начали революцию!"
 
-#: server/plrhand.c:1035
+#: server/plrhand.c:1038
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Налоговая ставка превысила максимально допустимый уровень для %s, "
 "исправлено."
 
-#: server/plrhand.c:1041
+#: server/plrhand.c:1044
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Уровень науки превысил максимально допустимый для %s, исправлено."
 
-#: server/plrhand.c:1047
+#: server/plrhand.c:1050
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Уровень роскоши превысил максимально допустимый для %s, исправлено."
 
-#: server/plrhand.c:1102
+#: server/plrhand.c:1105
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s больше не делятся своим зрением!"
 
-#: server/plrhand.c:1164
+#: server/plrhand.c:1167
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "Сенат принимает Ваше предложение из-за постоянных провокаций %s."
 
-#: server/plrhand.c:1176
+#: server/plrhand.c:1179
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Игра: Ваша репутация сейчас %s."
 
-#: server/plrhand.c:1181
+#: server/plrhand.c:1184
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
 "Игра: Сенат решает распуститься, лишь бы не поддерживать Ваши действия."
 
-#: server/plrhand.c:1212
+#: server/plrhand.c:1215
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Игра: Дипломатическое состояние между %s и %s сейчас %s."
 
-#: server/plrhand.c:1218
+#: server/plrhand.c:1221
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -3266,7 +3266,7 @@ msgid ""
 msgstr ""
 "Игра: %s разорвали догвор. Дипломатическое состояние между %s и %s сейчас %s."
 
-#: server/plrhand.c:1235
+#: server/plrhand.c:1238
 #, c-format
 msgid ""
 "Game: %s has attacked your ally %s! You cancel your alliance to the "
@@ -3274,7 +3274,7 @@ msgid ""
 msgstr ""
 "Игра: %s атаковал Вашего союзника %s! Вы отменили Ваш союз с агрессором."
 
-#: server/plrhand.c:1246
+#: server/plrhand.c:1249
 #, c-format
 msgid ""
 "Game: Your team mate %s declared war on %s. You are obligated to cancel "
@@ -3282,31 +3282,31 @@ msgid ""
 msgstr ""
 "Игра: Ваш союзник %s объявил войну %s. Вы обязаны отменить альянс с %s."
 
-#: server/plrhand.c:1648
+#: server/plrhand.c:1651
 #, c-format
 msgid "Removing player %s."
 msgstr "Убираем игрока %s."
 
-#: server/plrhand.c:1649
+#: server/plrhand.c:1652
 msgid "Game: You've been removed from the game!"
 msgstr "Игра: Вы были удалены из игры!"
 
-#: server/plrhand.c:1652
+#: server/plrhand.c:1655
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Игра: %s был удален из игры."
 
-#: server/plrhand.c:1696 server/plrhand.c:1700
+#: server/plrhand.c:1699 server/plrhand.c:1703
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Игра: Вы вступили в контакт с народом, именуемым %s, их лидер - %s."
 
-#: server/plrhand.c:2090
+#: server/plrhand.c:2093
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "%s не могут начать гражданской войны - слишком много игороков"
 
-#: server/plrhand.c:2112
+#: server/plrhand.c:2115
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -3315,12 +3315,12 @@ msgstr ""
 "Игра: В Вашей стране началась гражданская война, %s объявлен лидером "
 "повстанцев."
 
-#: server/plrhand.c:2132
+#: server/plrhand.c:2135
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Игра: %s перешел на сторону %s."
 
-#: server/plrhand.c:2146
+#: server/plrhand.c:2149
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -4286,6 +4286,18 @@ msgid ""
 "    a   = Fast attack unit (eg., Horsemen)\n"
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
+"Значение является строкой символов, каждый из которых обозначает роль "
+"соединения. В строке должен быть по крайней мере один символ соединения, "
+"создающего города. Вот символы (все буквы латиницей!) и их значения:\n"
+"    c   = Создает города (например, Колонисты)\n"
+"    w   = Меняет рельеф (например, Инженеры)\n"
+"    x   = Исследует карту (например, Исследователь)\n"
+"    k   = Соединение, потеря которого смертельна (например, Король)\n"
+"    s   = Дипломат (например, Дипломат)\n"
+"    d   = Среднее защитное соединение (например, Воины)\n"
+"    D   = Хорошое защитное соединение (например, Фаланга)\n"
+"    a   = Быстрое атакующее соединение (например, Всадники)\n"
+"    A   = Сильное атакующее соединение (например, Каптапульта)\n"
 
 #: server/settings.c:445
 msgid "Area where initial units are located"
@@ -4879,6 +4891,35 @@ msgid ""
 "4 = No controller allowed, observers allowed;\n"
 "\n"
 msgstr ""
+"Значение является строкой символов, каждый из которых обозначает тип или "
+"статус цивилизации (игрока). Клиенты смогут взять под контроль или наблюдать "
+"только тех игроков, которые соответствуют этим символам. Это правило "
+"относится только к будущему использованию команд take и observe. Символы и "
+"их значения таковы:\n"
+"    b   = Варварские игроки\n"
+"    d   = Мертвые игроки\n"
+"    a,A = Компьютерные игроки\n"
+"    h,H = Нормальные игроки (человек)\n"
+"Первое описание из этого списка, которому соответствует игрок, -- то, "
+"которое используется. Например, 'd' не включает мертвых варваров, 'a' не "
+"включает мертвых компьютерных игроков, и т.д. Большие буквы действуют до "
+"начала игры, а маленькие после.\n"
+"\n"
+"За каждым из символов может следовать одно из следующих чисел, ограничивая "
+"типы подключения:\n"
+"\n"
+"(отсутствует) = контроль разрешен, наблюдение разрешено, может заменять "
+"подключение. (Замена подключения означает, что вы можете подключиться, даже "
+"если игроком уже кто-то управляет, и получить управление вместо него).\n"
+"\n"
+"1 = контроль разрешен, наблюдение разрешено, не может заменять подключение;\n"
+"\n"
+"2 = контроль разрешен, наблюдение запрешено, может заменять подключение;\n"
+"\n"
+"3 = контроль разрешен, наблюдение запрешено, не может заменять подключение;\n"
+"\n"
+"4 = контроль запрещен, наблюдение разрешено;\n"
+"\n"
 
 #: server/settings.c:872
 msgid "Whether AI-status toggles with connection"
@@ -5013,6 +5054,25 @@ msgid ""
 "    b = display \"best nation\" column\n"
 "The order of characters is not significant, but their capitalization is."
 msgstr ""
+"Значение является строкой символов, каждый из которых указывает на "
+"использование определенной строки информации в Докладе Демографии.\n"
+"Символы (все в латинице) и их значения таковы:\n"
+"    N = население\n"
+"    P = производство\n"
+"    A = площадь страны\n"
+"    L = грамотность\n"
+"    R = скорость исследований\n"
+"    S = заселенная площадь\n"
+"    E = экономика\n"
+"    M = военная служба\n"
+"    O = загрязнение\n"
+"Кроме этого, следующие символы контролируют изображение определенных "
+"колонок:\n"
+"    q = колонка \"количество\"\n"
+"    r = колонка \"ранг\"\n"
+"    b = колонка \"лучший народ\"\n"
+"Порядок символов не важен, но различие между большими и маленькими "
+"существенно."
 
 #: server/settings.c:971
 msgid "Turns per auto-save"
@@ -7770,11 +7830,11 @@ msgstr "У Вас есть доступ к настройкам сервера (командная строка)"
 msgid "We can't take control of server, attempting to kill it."
 msgstr "У Вас нет доступа к настройкам сервера, пробуем закрыть сервер."
 
-#: client/control.c:688
+#: client/control.c:718
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Игра: Вы можете разгрузить только транспортирующие соединения."
 
-#: client/control.c:913
+#: client/control.c:943
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
@@ -7782,31 +7842,31 @@ msgstr ""
 "Игра: Только колонисты и военные соединения в городе могут быть установлены "
 "в авто-режим."
 
-#: client/control.c:981
+#: client/control.c:1011
 msgid "Game: Only nuclear units can do this."
 msgstr "Игра: Только атомные соединения могут делать это."
 
-#: client/control.c:998
+#: client/control.c:1028
 msgid "Game: Only paratrooper units can do this."
 msgstr "Игра: Только парашютисты могут делать это."
 
-#: client/control.c:1421
+#: client/control.c:1451
 msgid "Game: Too far for this unit."
 msgstr "Игра: Слишком далеко для этого соединения."
 
-#: client/control.c:1628 client/control.c:1668 client/control.c:1692
+#: client/control.c:1658 client/control.c:1698 client/control.c:1722
 msgid "Game: Didn't find a route to the destination!"
 msgstr "Игра: Не найден путь к цели!"
 
-#: client/control.c:1658
+#: client/control.c:1688
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "Игра: Извините, патрулирование воздушными войсками еще не работает."
 
-#: client/control.c:1682
+#: client/control.c:1712
 msgid "Game: Sorry, airunit connect not yet implemented."
 msgstr "Игра: Извините, соединение воздушных соединений ещё не работает."
 
-#: client/control.c:1737
+#: client/control.c:1767
 msgid "Game: Oh my! You seem to have no capital!"
 msgstr "Игра: Ой! А у Вас вроде бы нет столицы!"
 
@@ -11279,7 +11339,7 @@ msgstr "_Очистить журнал"
 
 #: client/gui-gtk-2.0/menu.c:654
 msgid "L_eave"
-msgstr "Уйти"
+msgstr "О_тключиться"
 
 #: client/gui-gtk-2.0/menu.c:656 client/gui-gtk/menu.c:612
 #: client/gui-mui/connectdlg.c:226 client/gui-mui/dialogs.c:1659
