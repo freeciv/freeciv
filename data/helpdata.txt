@@ -397,6 +397,15 @@ Keyboard:
   W: (W)akeup sentried units on tile
   t: Show (T)iles city is using (mouse over or near city)
   x: auto-e(X)plore
+  1: move south-west
+  2: move south
+  3: move south-east
+  4: move west
+  5: focus on next unit
+  6: move east
+  7: move north-west
+  8: move north
+  9: move north-east
 ---
 #Chatline
 The client has a primitive chat interface.  The lines you type
