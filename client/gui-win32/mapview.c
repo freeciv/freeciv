@@ -871,102 +871,61 @@ update_city_descriptions(void)
 /**************************************************************************
 
 **************************************************************************/
-static void show_desc_at_tile(HDC hdc,int x, int y)
+void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 {
   char buffer[500];
   int y_offset;
-  int canvas_x,canvas_y;
-  struct city *pcity;
-  if ((pcity = map_get_city(x, y))) {
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    y_offset=canvas_y+NORMAL_TILE_HEIGHT;
-    if ((draw_city_names)&&(pcity->name)) {
-      RECT rc;
-      DrawText(hdc,pcity->name,strlen(pcity->name),&rc,DT_CALCRECT);
-      rc.left=canvas_x+NORMAL_TILE_WIDTH/2-10;
-      rc.right=rc.left+20;
-      rc.bottom-=rc.top;
-      rc.top=y_offset;
-      rc.bottom+=rc.top;
-      SetTextColor(hdc,RGB(0,0,0));
-      DrawText(hdc,pcity->name,strlen(pcity->name),&rc,
-	       DT_NOCLIP | DT_CENTER);
-      rc.left++;
-      rc.top--;
-      rc.right++;
-      rc.bottom--;
-      SetTextColor(hdc,RGB(255,255,255));
-      DrawText(hdc,pcity->name,strlen(pcity->name),&rc,
-	       DT_NOCLIP | DT_CENTER);
-      y_offset=rc.bottom+2;
-    }      
-    if (draw_city_productions && (pcity->owner==game.player_idx)) {
-      RECT rc;
-
-      get_city_mapview_production(pcity, buffer, sizeof(buffer));
-      
-      DrawText(hdc,buffer,strlen(buffer),&rc,DT_CALCRECT);
-      rc.left=canvas_x+NORMAL_TILE_WIDTH/2-10;
-      rc.right=rc.left+20;
-      rc.bottom-=rc.top;
-      rc.top=y_offset;
-      rc.bottom+=rc.top; 
-      SetTextColor(hdc,RGB(0,0,0));
-      DrawText(hdc,buffer,strlen(buffer),&rc,
-	       DT_NOCLIP | DT_CENTER);
-      rc.left++;
-      rc.top--;
-      rc.right++;
-      rc.bottom--;
-      SetTextColor(hdc,RGB(255,255,255));
-      DrawText(hdc,buffer,strlen(buffer),&rc,
-	       DT_NOCLIP | DT_CENTER);
-    }
-  }
-  
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void show_city_descriptions(void)
-{
   HDC hdc;
-
-  if (!draw_city_names && !draw_city_productions)
-    return;
 
   /* TODO: hdc should be stored statically */
   hdc = GetDC(map_window);
   SetBkMode(hdc,TRANSPARENT);
 
-  if (is_isometric ) {
-    int x, y;
-    int w, h;
-    
-    for (h=-1; h<map_view_height*2; h++) {
-      int x_base = map_view_x + h/2 + (h != -1 ? h%2 : 0);
-      int y_base = map_view_y + h/2 + (h == -1 ? -1 : 0);
-      for (w=0; w<=map_view_width; w++) {
-        x = (x_base + w);
-        y = y_base - w;
-        if (normalize_map_pos(&x, &y)) {
-          show_desc_at_tile(hdc, x, y);
-        }
-      }
-    }
-  } else { /* is_isometric */
-    int x1, y1;
-    for (x1 = 0; x1 < map_view_width; x1++) {
-      int x = map_view_x + x1;
-      for (y1 = 0; y1 < map_view_width; y1++) {
-        int y = map_view_y + y1;
+  y_offset = canvas_y + NORMAL_TILE_HEIGHT;
+  if (draw_city_names && pcity->name) {
+    RECT rc;
 
-        if (normalize_map_pos(&x, &y)) {
-          show_desc_at_tile(hdc, x, y);
-        }
-      }
-    }
+    /* FIXME: draw city growth as well, using
+     * get_city_mapview_name_and_growth() */
+
+    DrawText(hdc, pcity->name, strlen(pcity->name), &rc, DT_CALCRECT);
+    rc.left = canvas_x + NORMAL_TILE_WIDTH / 2 - 10;
+    rc.right = rc.left + 20;
+    rc.bottom -= rc.top;
+    rc.top = y_offset;
+    rc.bottom += rc.top;
+    SetTextColor(hdc, RGB(0, 0, 0));
+    DrawText(hdc, pcity->name, strlen(pcity->name), &rc,
+	     DT_NOCLIP | DT_CENTER);
+    rc.left++;
+    rc.top--;
+    rc.right++;
+    rc.bottom--;
+    SetTextColor(hdc, RGB(255, 255, 255));
+    DrawText(hdc, pcity->name, strlen(pcity->name), &rc,
+	     DT_NOCLIP | DT_CENTER);
+    y_offset = rc.bottom + 2;
+  }
+
+  if (draw_city_productions && pcity->owner == game.player_idx) {
+    RECT rc;
+
+    get_city_mapview_production(pcity, buffer, sizeof(buffer));
+      
+    DrawText(hdc, buffer, strlen(buffer), &rc, DT_CALCRECT);
+    rc.left = canvas_x + NORMAL_TILE_WIDTH / 2 - 10;
+    rc.right = rc.left + 20;
+    rc.bottom -= rc.top;
+    rc.top = y_offset;
+    rc.bottom += rc.top; 
+    SetTextColor(hdc, RGB(0, 0, 0));
+    DrawText(hdc, buffer, strlen(buffer), &rc, DT_NOCLIP | DT_CENTER);
+    rc.left++;
+    rc.top--;
+    rc.right++;
+    rc.bottom--;
+    SetTextColor(hdc, RGB(255, 255, 255));
+    DrawText(hdc, buffer, strlen(buffer), &rc, DT_NOCLIP | DT_CENTER);
   }
 
   ReleaseDC(map_window, hdc);

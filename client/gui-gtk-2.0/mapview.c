@@ -1277,138 +1277,90 @@ void update_city_descriptions(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_desc_at_tile(PangoLayout *layout, int x, int y)
+void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 {
   static char buffer[512], buffer2[32];
-  struct city *pcity;
-  if ((pcity = map_get_city(x, y))) {
-    int canvas_x, canvas_y;
-    PangoRectangle rect, rect2;
-    enum color_std color;
-    int extra_width = 0;
-
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    if (draw_city_names) {
-      get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
-				       buffer2, sizeof(buffer2), &color);
-
-      pango_layout_set_font_description(layout, main_font);
-      if (buffer2[0] != '\0') {
-	/* HACK: put a character's worth of space between the two strings. */
-	pango_layout_set_text(layout, "M", -1);
-	pango_layout_get_pixel_extents(layout, &rect, NULL);
-	extra_width = rect.width;
-      }
-      pango_layout_set_text(layout, buffer, -1);
-      pango_layout_get_pixel_extents(layout, &rect, NULL);
-      rect.width += extra_width;
-
-      if (draw_city_growth && pcity->owner == game.player_idx) {
-	/* We need to know the size of the growth text before
-	   drawing anything. */
-	pango_layout_set_font_description(layout, city_productions_font);
-	pango_layout_set_text(layout, buffer2, -1);
-	pango_layout_get_pixel_extents(layout, &rect2, NULL);
-
-	/* Now return the layout to its previous state. */
-	pango_layout_set_font_description(layout, main_font);
-	pango_layout_set_text(layout, buffer, -1);
-      } else {
-	rect2.width = 0;
-      }
-
-      gtk_draw_shadowed_string(map_canvas->window,
-			   toplevel->style->black_gc,
-			   toplevel->style->white_gc,
-			   canvas_x + NORMAL_TILE_WIDTH / 2
-			       - (rect.width + rect2.width) / 2,
-			   canvas_y + NORMAL_TILE_HEIGHT +
-			   PANGO_ASCENT(rect), layout);
-
-      if (draw_city_growth && pcity->owner == game.player_idx) {
-	pango_layout_set_font_description(layout, city_productions_font);
-	pango_layout_set_text(layout, buffer2, -1);
-	gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-	gtk_draw_shadowed_string(map_canvas->window,
-			toplevel->style->black_gc,
-			civ_gc,
-			canvas_x + NORMAL_TILE_WIDTH / 2
-				 - (rect.width + rect2.width) / 2
-				 + rect.width,
-			canvas_y + NORMAL_TILE_HEIGHT +
-			PANGO_ASCENT(rect) + rect.height / 2
-				 - rect2.height / 2, layout);
-
-      }
-    }
-
-    if (draw_city_productions && (pcity->owner==game.player_idx)) {
-      int y_offset;
-
-      get_city_mapview_production(pcity, buffer, sizeof(buffer));
-
-      if (draw_city_names)
-	y_offset = rect.height + 3;
-      else
-	y_offset = 0;
-
-	pango_layout_set_font_description(layout, city_productions_font);
-	pango_layout_set_text(layout, buffer, -1);
-
-	pango_layout_get_pixel_extents(layout, &rect, NULL);
-	gtk_draw_shadowed_string(map_canvas->window,
-			   toplevel->style->black_gc,
-			   toplevel->style->white_gc,
-			   canvas_x + NORMAL_TILE_WIDTH / 2 - rect.width / 2,
-			   canvas_y + NORMAL_TILE_HEIGHT +
-			   PANGO_ASCENT(rect) + y_offset, layout);
-    }
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void show_city_descriptions(void)
-{
+  PangoRectangle rect, rect2;
+  enum color_std color;
+  int extra_width = 0;
   PangoLayout *layout;
 
-  if (!draw_city_names && !draw_city_productions)
-    return;
-
+  /* FIXME: layout should be statically declared */
   layout = pango_layout_new(gdk_pango_context_get());
 
-  if (is_isometric ) {
-    int x, y;
-    int w, h;
+  canvas_x += NORMAL_TILE_WIDTH / 2;
+  canvas_y += NORMAL_TILE_HEIGHT;
 
-    for (h=-1; h<map_canvas_store_theight*2; h++) {
-      int x_base = map_view_x0 + h/2 + (h != -1 ? h%2 : 0);
-      int y_base = map_view_y0 + h/2 + (h == -1 ? -1 : 0);
-      for (w=0; w<=map_canvas_store_twidth; w++) {
-	x = (x_base + w);
-	y = y_base - w;
-	if (normalize_map_pos(&x, &y)) {
-	  show_desc_at_tile(layout, x, y);
-	}
-      }
-    }
-  } else { /* is_isometric */
-    int x1, y1;
-    for (x1 = 0; x1 < map_canvas_store_twidth; x1++) {
-      int x = map_view_x0 + x1;
-      for (y1 = 0; y1 < map_canvas_store_theight; y1++) {
-	int y = map_view_y0 + y1;
+  if (draw_city_names) {
+    get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
+				     buffer2, sizeof(buffer2), &color);
 
-	if (normalize_map_pos(&x, &y)) {
-	  show_desc_at_tile(layout, x, y);
-	}
-      }
+    pango_layout_set_font_description(layout, main_font);
+    if (buffer2[0] != '\0') {
+      /* HACK: put a character's worth of space between the two strings. */
+      pango_layout_set_text(layout, "M", -1);
+      pango_layout_get_pixel_extents(layout, &rect, NULL);
+      extra_width = rect.width;
     }
+    pango_layout_set_text(layout, buffer, -1);
+    pango_layout_get_pixel_extents(layout, &rect, NULL);
+    rect.width += extra_width;
+
+    if (draw_city_growth && pcity->owner == game.player_idx) {
+      /* We need to know the size of the growth text before
+	 drawing anything. */
+      pango_layout_set_font_description(layout, city_productions_font);
+      pango_layout_set_text(layout, buffer2, -1);
+      pango_layout_get_pixel_extents(layout, &rect2, NULL);
+
+      /* Now return the layout to its previous state. */
+      pango_layout_set_font_description(layout, main_font);
+      pango_layout_set_text(layout, buffer, -1);
+    } else {
+      rect2.width = 0;
+    }
+
+    gtk_draw_shadowed_string(map_canvas->window,
+			     toplevel->style->black_gc,
+			     toplevel->style->white_gc,
+			     canvas_x - (rect.width + rect2.width) / 2,
+			     canvas_y + PANGO_ASCENT(rect), layout);
+
+    if (draw_city_growth && pcity->owner == game.player_idx) {
+      pango_layout_set_font_description(layout, city_productions_font);
+      pango_layout_set_text(layout, buffer2, -1);
+      gdk_gc_set_foreground(civ_gc, colors_standard[color]);
+      gtk_draw_shadowed_string(map_canvas->window,
+			       toplevel->style->black_gc,
+			       civ_gc,
+			       canvas_x - (rect.width + rect2.width) / 2
+			       + rect.width,
+			       canvas_y + PANGO_ASCENT(rect)
+			       + rect.height / 2 - rect2.height / 2,
+			       layout);
+    }
+
+    canvas_y += rect.height + 3;
   }
 
+  if (draw_city_productions && (pcity->owner==game.player_idx)) {
+    get_city_mapview_production(pcity, buffer, sizeof(buffer));
+
+    pango_layout_set_font_description(layout, city_productions_font);
+    pango_layout_set_text(layout, buffer, -1);
+
+    pango_layout_get_pixel_extents(layout, &rect, NULL);
+    gtk_draw_shadowed_string(map_canvas->window,
+			     toplevel->style->black_gc,
+			     toplevel->style->white_gc,
+			     canvas_x - rect.width / 2,
+			     canvas_y + PANGO_ASCENT(rect), layout);
+  }
+
+#if 0
   gdk_gc_set_clip_rectangle(toplevel->style->black_gc, NULL);
   gdk_gc_set_clip_rectangle(toplevel->style->white_gc, NULL);
+#endif
   g_object_unref(layout);
 }
 

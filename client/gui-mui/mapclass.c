@@ -433,7 +433,8 @@ struct Command_Node *Map_InsertCommand(struct Command_List *list, STRPTR name, U
 }
 
 /**************************************************************************
-...
+  FIXME: this function is now a part of the GUI interface.  It has
+  been renamed to show_city_desc().  See Map_Priv_showCityDescriptions().
 **************************************************************************/
 static void show_desc_at_tile(Object *o, struct Map_Data *data, int x, int y)
 {
@@ -475,6 +476,11 @@ static void show_desc_at_tile(Object *o, struct Map_Data *data, int x, int y)
   }
 }
 
+/**************************************************************************
+  FIXME: this function has gone away; show_desc_at_tile is now used
+  exclusively instead.  But some of the font work here will have to
+  be moved or rethought.
+**************************************************************************/
 static void Map_Priv_ShowCityDescriptions(Object *o, struct Map_Data *data)
 {
   struct TextFont *new_font;

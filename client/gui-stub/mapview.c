@@ -77,9 +77,10 @@ center_tile_mapcanvas(int x, int y)
 }
 
 /**************************************************************************
-  Show descriptions for all cities visible on the map canvas.
+  Draw a description for the given city.  (canvas_x, canvas_y) is the
+  canvas position of the city itself.
 **************************************************************************/
-void show_city_descriptions(void)
+void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 {
 	/* PORTME */
 }

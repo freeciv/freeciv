@@ -483,7 +483,8 @@ void refresh_overview_viewrect(void)
 }
 
 /**************************************************************************
-...
+  FIXME: this function has been moved into mapview_common.  See
+  MUIM_Map_ShowCityDescriptions.
 **************************************************************************/
 void show_city_descriptions(void)
 {

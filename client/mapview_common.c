@@ -356,6 +356,62 @@ void update_map_canvas_visible(void)
 }
 
 /**************************************************************************
+  Show descriptions for all cities visible on the map canvas.
+**************************************************************************/
+void show_city_descriptions(void)
+{
+  int map_view_x0, map_view_y0, map_win_width, map_win_height;
+  int map_tile_width, map_tile_height;
+  int canvas_x, canvas_y;
+
+  if (!draw_city_names && !draw_city_productions) {
+    return;
+  }
+
+  get_mapview_dimensions(&map_view_x0, &map_view_y0, &map_win_width,
+			 &map_win_height);
+  map_tile_width = (map_win_width - 1) / NORMAL_TILE_WIDTH + 1;
+  map_tile_height = (map_win_height - 1) / NORMAL_TILE_HEIGHT + 1;
+
+  if (is_isometric) {
+    int w, h;
+
+    for (h = -1; h < map_tile_height * 2; h++) {
+      int x_base = map_view_x0 + h / 2 + (h != -1 ? h % 2 : 0);
+      int y_base = map_view_y0 + h / 2 + (h == -1 ? -1 : 0);
+
+      for (w = 0; w <= map_tile_width; w++) {
+	int x = x_base + w;
+	int y = y_base - w;
+	struct city *pcity;
+
+	if (normalize_map_pos(&x, &y)
+	    && (pcity = map_get_city(x, y))) {
+	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  show_city_desc(pcity, canvas_x, canvas_y);
+	}
+      }
+    }
+  } else {			/* is_isometric */
+    int x1, y1;
+
+    for (x1 = 0; x1 < map_tile_width; x1++) {
+      for (y1 = 0; y1 < map_tile_height; y1++) {
+	int x = map_view_x0 + x1;
+	int y = map_view_y0 + y1;
+	struct city *pcity;
+
+	if (normalize_map_pos(&x, &y)
+	    && (pcity = map_get_city(x, y))) {
+	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  show_city_desc(pcity, canvas_x, canvas_y);
+	}
+      }
+    }
+  }
+}
+
+/**************************************************************************
   Find the "best" city to associate with the selected tile.
     a.  A city working the tile is the best
     b.  If another player is working the tile, return NULL.

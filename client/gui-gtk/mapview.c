@@ -1253,99 +1253,51 @@ void update_city_descriptions(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_desc_at_tile(int x, int y)
+void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 {
   static char buffer[512], buffer2[32];
-  struct city *pcity = map_get_city(x, y);
+  int w, w2, ascent;
+  enum color_std color;
 
-  if (pcity) {
-    int canvas_x, canvas_y;
-    int w, w2, ascent;
-    enum color_std color;
+  canvas_x += NORMAL_TILE_WIDTH / 2;
+  canvas_y += NORMAL_TILE_HEIGHT;
 
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+  get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
+				   buffer2, sizeof(buffer2), &color);
 
-    get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
-				     buffer2, sizeof(buffer2), &color);
+  gdk_string_extents(main_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
+  if (buffer2[0] != '\0') {
+    /* HACK: put a character's worth of space between the two strings. */
+    w += gdk_string_width(main_fontset, "M");
+  }
+  w2 = gdk_string_width(prod_fontset, buffer2);
 
-    gdk_string_extents(main_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
-    if (buffer2[0] != '\0') {
-      /* HACK: put a character's worth of space between the two strings. */
-      w += gdk_string_width(main_fontset, "M");
+  gtk_draw_shadowed_string(map_canvas->window, main_fontset,
+			   toplevel->style->black_gc,
+			   toplevel->style->white_gc,
+			   canvas_x - (w + w2) / 2,
+			   canvas_y + ascent,
+			   buffer);
+  gdk_gc_set_foreground(civ_gc, colors_standard[color]);
+  gtk_draw_shadowed_string(map_canvas->window, prod_fontset,
+			   toplevel->style->black_gc,
+			   civ_gc,
+			   canvas_x - (w + w2) / 2 + w,
+			   canvas_y + ascent,
+			   buffer2);
+
+  if (draw_city_productions && (pcity->owner==game.player_idx)) {
+    if (draw_city_names) {
+      canvas_y += gdk_string_height(main_fontset, buffer);
     }
-    w2 = gdk_string_width(prod_fontset, buffer2);
 
-    gtk_draw_shadowed_string(map_canvas->window, main_fontset,
-			     toplevel->style->black_gc,
-			     toplevel->style->white_gc,
-			     canvas_x + NORMAL_TILE_WIDTH / 2 - (w + w2) / 2,
-			     canvas_y + NORMAL_TILE_HEIGHT + ascent,
-			     buffer);
-    gdk_gc_set_foreground(civ_gc, colors_standard[color]);
+    get_city_mapview_production(pcity, buffer, sizeof(buffer));
+
+    gdk_string_extents(prod_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
     gtk_draw_shadowed_string(map_canvas->window, prod_fontset,
 			     toplevel->style->black_gc,
-			     civ_gc,
-			     canvas_x + NORMAL_TILE_WIDTH / 2
-			     - (w + w2) / 2 + w,
-			     canvas_y + NORMAL_TILE_HEIGHT + ascent,
-			     buffer2);
-
-    if (draw_city_productions && (pcity->owner==game.player_idx)) {
-      int y_offset;
-
-      if (draw_city_names)
-	y_offset = gdk_string_height(main_fontset, buffer);
-      else
-	y_offset = 0;
-
-      get_city_mapview_production(pcity, buffer, sizeof(buffer));
-
-      gdk_string_extents(prod_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
-      gtk_draw_shadowed_string(map_canvas->window, prod_fontset,
-			       toplevel->style->black_gc,
-			       toplevel->style->white_gc,
-			       canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
-			       canvas_y + NORMAL_TILE_HEIGHT +
-			       ascent + 3 + y_offset, buffer);
-    }
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void show_city_descriptions(void)
-{
-  if (!draw_city_names && !draw_city_productions)
-    return;
-
-  if (is_isometric ) {
-    int x, y;
-    int w, h;
-
-    for (h=-1; h<map_canvas_store_theight*2; h++) {
-      int x_base = map_view_x0 + h/2 + (h != -1 ? h%2 : 0);
-      int y_base = map_view_y0 + h/2 + (h == -1 ? -1 : 0);
-      for (w=0; w<=map_canvas_store_twidth; w++) {
-	x = (x_base + w);
-	y = y_base - w;
-	if (normalize_map_pos(&x, &y)) {
-	  show_desc_at_tile(x, y);
-	}
-      }
-    }
-  } else { /* is_isometric */
-    int x1, y1;
-    for (x1 = 0; x1 < map_canvas_store_twidth; x1++) {
-      int x = map_view_x0 + x1;
-      for (y1 = 0; y1 < map_canvas_store_theight; y1++) {
-	int y = map_view_y0 + y1;
-
-	if (normalize_map_pos(&x, &y)) {
-	  show_desc_at_tile(x, y);
-	}
-      }
-    }
+			     toplevel->style->white_gc, canvas_x - w / 2,
+			     canvas_y + ascent + 3, buffer);
   }
 }
 
