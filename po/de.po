@@ -6082,9 +6082,9 @@ msgid ""
 msgstr ""
 "In diesem auf ewig geltende Abkommen\n"
 "sind die Vereinbarungen zwischen\n"
-"den %s %s %s\n"
+"dem %sen %s %s\n"
 "und\n"
-"den %s %s %s"
+"dem %sen %s %s"
 
 #: client/gui-gtk/diplodlg.c:471 client/gui-gtk/diplodlg.c:479
 #: client/gui-xaw/diplodlg.c:534 client/gui-xaw/diplodlg.c:545
@@ -13066,7 +13066,7 @@ msgstr "Khan"
 
 #: data/nation/mongol.ruleset:12
 msgid "Great Khan"
-msgstr "Groﬂer Khan"
+msgstr "Groﬂen Khan"
 
 #: data/nation/mordor.ruleset:3
 msgid "Mordor"
