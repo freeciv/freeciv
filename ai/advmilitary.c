@@ -60,7 +60,7 @@ void add_to_stack(int x, int y)
 void init_warmap(int orig_x, int orig_y, int which)
 {
   int x, y, i, j;
-  int maxcost = THRESHOLD * 6; /* should be big enough without being TOO big */
+  int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
   for (x = 0; x < map.xsize; x++) {
     if (x > orig_x)
       i = MIN(x - orig_x, orig_x + map.xsize - x);
@@ -89,7 +89,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, int which)
   int igter = 0;
   int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
-  int maxcost = THRESHOLD * 6; /* should be big enough without being TOO big */
+  int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
   struct city *acity;
 
@@ -103,6 +103,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, int which)
   add_to_stack(orig_x, orig_y);
 
   if (punit && unit_flag(punit->type, F_IGTER)) igter++;
+  if (punit && punit->type == U_SETTLERS) maxcost /= 2;
 
   do {
     x = warstack[warnodes].x;
@@ -118,9 +119,11 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, int which)
     for (k = 0; k < 8; k++) {
       i = ii[k]; j = jj[k]; /* saves CPU cycles? */
       if (which == 1) {
-        if (tile0->move_cost[k] == -3) c = maxcost;
+        if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost; 
         else if (igter) c = 3; /* NOT c = 1 */
+        else if (punit) c = MIN(tile0->move_cost[k], unit_types[punit->type].move_rate);
         else c = tile0->move_cost[k];
+        
         tm = warmap.cost[x][y] + c;
         if (warmap.cost[xx[i]][yy[j]] > tm && tm < maxcost) {
           warmap.cost[xx[i]][yy[j]] = tm;
