@@ -10700,7 +10700,7 @@ msgid ""
 "%s of the %s\n"
 "%s %s: %s"
 msgstr ""
-"%s\n"
+"%1$s\n"
 "%3$ss %2$s\n"
 "%4$s %5$s: %6$s"
 
