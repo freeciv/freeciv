@@ -304,7 +304,13 @@ bool client_start_server(void)
   while (connect_to_server(user_name, "localhost", internal_server_port, 
                            buf, sizeof(buf)) == -1) {
     myusleep(WAIT_BETWEEN_TRIES);
-
+#ifdef HAVE_WORKING_FORK
+#ifndef WIN32_NATIVE
+    if (waitpid(server_pid, NULL, WNOHANG) != 0) {
+      break;
+    }
+#endif
+#endif
     if (connect_tries++ > NUMBER_OF_TRIES) {
       break;
     }
