@@ -217,7 +217,7 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
     warmap.seacost[orig_x][orig_y] = 0;
     break;
   default:
-    freelog(LOG_FATAL, "Bad move_type in init_warmap().");
+    freelog(LOG_ERROR, "Bad move_type in init_warmap().");
   }
 }  
 
@@ -479,7 +479,7 @@ static int dir_ok(int src_x, int src_y, int dest_x, int dest_y, int dir)
     if (diff_x <= 0 && diff_y <= 0) return 0;
     else return 1;
   default:
-    freelog(LOG_NORMAL, "Bad dir_ok call: (%d, %d) -> (%d, %d), %d",
+    freelog(LOG_ERROR, "Bad dir_ok call: (%d, %d) -> (%d, %d), %d",
 	    src_x, src_y, dest_x, dest_y, dir);
     return 0;
   }
