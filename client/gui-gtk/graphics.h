@@ -37,4 +37,11 @@ extern GdkCursor * drop_cursor;
 extern GdkCursor * nuke_cursor;
 extern GdkCursor * patrol_cursor;
 
+SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
+			 int width, int height);
+void sprite_draw_black_border(SPRITE * sprite);
+SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h);
+void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
+			     int *start_y, int *end_x, int *end_y);
+
 #endif  /* FC__GRAPHICS_H */

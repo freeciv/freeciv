@@ -137,8 +137,7 @@ static void pixmap_put_black_tile_iso(GdkDrawable *pm,
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
-GdkPixmap *scaled_intro_pixmap;
-int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
+static SPRITE *scaled_intro_sprite = NULL;
 
 static GtkObject *map_hadj, *map_vadj;
 
@@ -1079,29 +1078,30 @@ gint map_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
   }
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    if(!intro_gfx_sprite)  load_intro_gfx();
-    if(height!=scaled_intro_pixmap_height || width!=scaled_intro_pixmap_width) {
-      if(scaled_intro_pixmap)
-	gdk_imlib_free_pixmap(scaled_intro_pixmap);
+    if (!intro_gfx_sprite) {
+      load_intro_gfx();
+    }
+    if (!scaled_intro_sprite || height != scaled_intro_sprite->height
+	|| width != scaled_intro_sprite->width) {
+      if (scaled_intro_sprite) {
+	free_sprite(scaled_intro_sprite);
+      }
 	
-      scaled_intro_pixmap=gtk_scale_pixmap(intro_gfx_sprite->pixmap,
-					   intro_gfx_sprite->width,
-					   intro_gfx_sprite->height,
-					   width, height);
-      scaled_intro_pixmap_width=width;
-      scaled_intro_pixmap_height=height;
+      scaled_intro_sprite = sprite_scale(intro_gfx_sprite, width, height);
     }
     
-    if(scaled_intro_pixmap)
-	gdk_draw_pixmap( map_canvas->window, civ_gc, scaled_intro_pixmap,
-		event->area.x, event->area.y, event->area.x, event->area.y,
-		event->area.width, event->area.height );
+    if (scaled_intro_sprite) {
+      gdk_draw_pixmap(map_canvas->window, civ_gc,
+		      scaled_intro_sprite->pixmap, event->area.x,
+		      event->area.y, event->area.x, event->area.y,
+		      event->area.width, event->area.height);
+    }
   }
   else
   {
-    if(scaled_intro_pixmap) {
-      gdk_imlib_free_pixmap(scaled_intro_pixmap);
-      scaled_intro_pixmap=0; scaled_intro_pixmap_height=0;
+    if (scaled_intro_sprite) {
+      free_sprite(scaled_intro_sprite);
+      scaled_intro_sprite = NULL;
     }
 
     if(map.xsize) { /* do we have a map at all */

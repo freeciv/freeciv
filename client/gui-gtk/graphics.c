@@ -58,9 +58,6 @@ GdkCursor *		drop_cursor;
 GdkCursor *		nuke_cursor;
 GdkCursor *		patrol_cursor;
 
-static SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
-				int width, int height);
-
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -392,4 +389,221 @@ void free_intro_radar_sprites(void)
     free_sprite(radar_gfx_sprite);
     radar_gfx_sprite=NULL;
   }
+}
+
+/***************************************************************************
+ Draws a black border around the sprite. This is done by parsing the
+ mask and replacing the first and last pixel in every column and row
+ by a black one.
+***************************************************************************/
+void sprite_draw_black_border(SPRITE * sprite)
+{
+  GdkImage *mask_image, *pixmap_image;
+  int x, y;
+
+  pixmap_image =
+      gdk_image_get(sprite->pixmap, 0, 0, sprite->width, sprite->height);
+
+  mask_image =
+      gdk_image_get(sprite->mask, 0, 0, sprite->width, sprite->height);
+
+  /* parsing columns */
+  for (x = 0; x < sprite->width; x++) {
+    for (y = 0; y < sprite->height; y++) {
+      if (gdk_image_get_pixel(mask_image, x, y) != 0) {
+	gdk_image_put_pixel(pixmap_image, x, y, 0);
+	break;
+      }
+    }
+
+    for (y = sprite->height - 1; y > 0; y--) {
+      if (gdk_image_get_pixel(mask_image, x, y) != 0) {
+	gdk_image_put_pixel(pixmap_image, x, y, 0);
+	break;
+      }
+    }
+  }
+
+  /* parsing rows */
+  for (y = 0; y < sprite->height; y++) {
+    for (x = 0; x < sprite->width; x++) {
+      if (gdk_image_get_pixel(mask_image, x, y) != 0) {
+	gdk_image_put_pixel(pixmap_image, x, y, 0);
+	break;
+      }
+    }
+
+    for (x = sprite->width - 1; x > 0; x--) {
+      if (gdk_image_get_pixel(mask_image, x, y) != 0) {
+	gdk_image_put_pixel(pixmap_image, x, y, 0);
+	break;
+      }
+    }
+  }
+
+  gdk_draw_image(sprite->pixmap, civ_gc, pixmap_image, 0, 0, 0, 0,
+		 sprite->width, sprite->height);
+
+  gdk_image_destroy(mask_image);
+  gdk_image_destroy(pixmap_image);
+}
+
+/***************************************************************************
+  Scales a sprite. If the sprite contains a mask, the mask is scaled
+  as as well. The algorithm produces rather fast but beautiful
+  results.
+***************************************************************************/
+SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
+{
+  SPRITE *dst = ctor_sprite_mask(src->pixmap, src->mask, new_w, new_h);
+  GdkImage *xi_src, *xi_dst, *xb_src;
+  guint32 pixel;
+  int xoffset_table[4096];
+  int x, xoffset, xadd, xremsum, xremadd;
+  int y, yoffset, yadd, yremsum, yremadd;
+
+  xi_src = gdk_image_get(src->pixmap, 0, 0, src->width, src->height);
+
+  xi_dst = gdk_image_new(GDK_IMAGE_FASTEST,
+			 gdk_window_get_visual(root_window), new_w, new_h);
+
+  /* for each pixel in dst, calculate pixel offset in src */
+  xadd = src->width / new_w;
+  xremadd = src->width % new_w;
+  xoffset = 0;
+  xremsum = new_w / 2;
+
+  for (x = 0; x < new_w; ++x) {
+    xoffset_table[x] = xoffset;
+    xoffset += xadd;
+    xremsum += xremadd;
+    if (xremsum >= new_w) {
+      xremsum -= new_w;
+      ++xoffset;
+    }
+  }
+
+  yadd = src->height / new_h;
+  yremadd = src->height % new_h;
+  yoffset = 0;
+  yremsum = new_h / 2;
+
+  if (src->has_mask) {
+    xb_src = gdk_image_get(src->mask, 0, 0, src->width, src->height);
+
+    dst->mask = gdk_pixmap_new(root_window, new_w, new_h, 1);
+    gdk_draw_rectangle(dst->mask, mask_bg_gc, TRUE, 0, 0, -1, -1);
+
+    for (y = 0; y < new_h; ++y) {
+      for (x = 0; x < new_w; ++x) {
+	pixel = gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
+	gdk_image_put_pixel(xi_dst, x, y, pixel);
+
+	if (gdk_image_get_pixel(xb_src, xoffset_table[x], yoffset) != 0) {
+	  gdk_draw_point(dst->mask, mask_fg_gc, x, y);
+	}
+      }
+
+      yoffset += yadd;
+      yremsum += yremadd;
+      if (yremsum >= new_h) {
+	yremsum -= new_h;
+	++yoffset;
+      }
+    }
+
+    gdk_image_destroy(xb_src);
+  } else {
+    for (y = 0; y < new_h; ++y) {
+      for (x = 0; x < new_w; ++x) {
+	pixel = gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
+	gdk_image_put_pixel(xi_dst, x, y, pixel);
+      }
+
+      yoffset += yadd;
+      yremsum += yremadd;
+      if (yremsum >= new_h) {
+	yremsum -= new_h;
+	++yoffset;
+      }
+    }
+  }
+
+  dst->pixmap = gdk_pixmap_new(root_window, new_w, new_h, -1);
+  gdk_draw_image(dst->pixmap, civ_gc, xi_dst, 0, 0, 0, 0, new_w, new_h);
+  gdk_image_destroy(xi_src);
+  gdk_image_destroy(xi_dst);
+
+  dst->has_mask = src->has_mask;
+  return dst;
+}
+
+/***************************************************************************
+ Method returns the bounding box of a sprite. It assumes a rectangular
+ object/mask. The bounding box contains the border (pixel which have
+ unset pixel as neighbours) pixel.
+***************************************************************************/
+void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
+			     int *start_y, int *end_x, int *end_y)
+{
+  GdkImage *mask_image;
+  int i, j;
+
+  if (!sprite->has_mask || sprite->mask == NULL) {
+    *start_x = 0;
+    *start_y = 0;
+    *end_x = sprite->width - 1;
+    *end_y = sprite->height - 1;
+    return;
+  }
+
+  mask_image =
+      gdk_image_get(sprite->mask, 0, 0, sprite->width, sprite->height);
+
+
+  /* parses mask image for the first column that contains a visible pixel */
+  *start_x = -1;
+  for (i = 0; i < sprite->width && *start_x == -1; i++) {
+    for (j = 0; j < sprite->height; j++) {
+      if (gdk_image_get_pixel(mask_image, i, j) != 0) {
+	*start_x = i;
+	break;
+      }
+    }
+  }
+
+  /* parses mask image for the last column that contains a visible pixel */
+  *end_x = -1;
+  for (i = sprite->width - 1; i >= *start_x && *end_x == -1; i--) {
+    for (j = 0; j < sprite->height; j++) {
+      if (gdk_image_get_pixel(mask_image, i, j) != 0) {
+	*end_x = i;
+	break;
+      }
+    }
+  }
+
+  /* parses mask image for the first row that contains a visible pixel */
+  *start_y = -1;
+  for (i = 0; i < sprite->height && *start_y == -1; i++) {
+    for (j = *start_x; j <= *end_x; j++) {
+      if (gdk_image_get_pixel(mask_image, j, i) != 0) {
+	*start_y = i;
+	break;
+      }
+    }
+  }
+
+  /* parses mask image for the last row that contains a visible pixel */
+  *end_y = -1;
+  for (i = sprite->height - 1; i >= *end_y && *end_y == -1; i--) {
+    for (j = *start_x; j <= *end_x; j++) {
+      if (gdk_image_get_pixel(mask_image, j, i) != 0) {
+	*end_y = i;
+	break;
+      }
+    }
+  }
+
+  gdk_image_destroy(mask_image);
 }

@@ -20,8 +20,6 @@ void gtk_set_label(GtkWidget *w, char *text);
 void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm);
 void gtk_expose_now(GtkWidget *w);
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
-GdkPixmap *gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h,
-			    int dst_w, int dst_h);
 
 char **intl_slist(int n, char **s);
 

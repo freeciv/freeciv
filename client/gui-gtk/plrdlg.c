@@ -59,7 +59,7 @@ static int playerindex_to_listindex[MAX_NUM_PLAYERS];
 /* a simple macro that makes an often used construct look readable */
 #define LI_2_PI(no) *(int*)(gtk_clist_get_row_data(GTK_CLIST(players_list), no))
 
-static GdkPixmap *flags[MAX_NUM_PLAYERS];
+static SPRITE *flags[MAX_NUM_PLAYERS];
 
 static void create_players_dialog(void);
 static void players_button_callback(GtkWidget *w, gpointer data);
@@ -337,53 +337,7 @@ static void build_row(char **row, int i, int update)
   row[10] = idlebuf;
 }
 
-/*
- * Method returns the bounding box of a sprite. It assumes a
- * rectangular object/mask. The bounding box contains the border
- * (pixel which have unset pixel as neighbours) pixel.
- */
-static void get_sprite_bounding_box(SPRITE * sprite, int *start_x,
-				    int *start_y, int *end_x, int *end_y)
-{
-  GdkImage *mask_image;
-  int i;
-
-  if (!sprite->has_mask || sprite->mask == NULL) {
-    *start_x = 0;
-    *start_y = 0;
-    *end_x = sprite->width - 1;
-    *end_y = sprite->height - 1;
-    return;
-  }
-
-  mask_image =
-      gdk_image_get(sprite->mask, 0, 0, sprite->width, sprite->height);
-
-  for (i = 0; i < sprite->width; i++)
-    if (gdk_image_get_pixel(mask_image, i, 0) != 0)
-      break;
-  *start_x = i;
-
-  for (i = 0; i < sprite->height; i++)
-    if (gdk_image_get_pixel(mask_image, 0, i) != 0)
-      break;
-  *start_y = i;
-
-  for (i = sprite->width - 1; i >= 0; i--)
-    if (gdk_image_get_pixel(mask_image, i, 0) != 0)
-      break;
-  *end_x = i;
-
-  for (i = sprite->height - 1; i >= 0; i--)
-    if (gdk_image_get_pixel(mask_image, 0, i) != 0)
-      break;
-  *end_y = i;
-
-  gdk_image_destroy(mask_image);
-}
-
-#define MINIMAL_FLAG_WIDTH	5
-#define MINIMAL_FLAG_HEIGHT	5
+#define MIN_DIMENSION 5
 
 /* 
  * Builds the flag pixmap.
@@ -391,38 +345,43 @@ static void get_sprite_bounding_box(SPRITE * sprite, int *start_x,
 static void build_flag(int playerindex)
 {
   int start_x, start_y, end_x, end_y, flag_h, flag_w, newflag_h, newflag_w;
-  GdkPixmap *flag_pixmap;
-  SPRITE *flag_sprite;
+  SPRITE *flag, *croped, *scaled;
 
-  flag_sprite = get_nation_by_plr(&game.players[playerindex])->flag_sprite;
+  flag = get_nation_by_plr(&game.players[playerindex])->flag_sprite;
 
-  get_sprite_bounding_box(flag_sprite, &start_x, &start_y, &end_x, &end_y);
+  /* calculate the bounding box ... */
+  sprite_get_bounding_box(flag, &start_x, &start_y, &end_x, &end_y);
 
-  assert(start_x == 0);
-  assert(start_y == 0);
-  assert(end_x >= MINIMAL_FLAG_WIDTH);
-  assert(end_y >= MINIMAL_FLAG_HEIGHT);
+  assert(start_x != -1);
+  assert(start_y != -1);
+  assert(end_x != -1);
+  assert(end_y != -1);
 
   flag_w = (end_x - start_x) + 1;
   flag_h = (end_y - start_y) + 1;
 
-  /* now scaling the original pixmap */
+  /* if the flag is smaller then 5 x 5, something is wrong */
+  assert(flag_w >= MIN_DIMENSION && flag_h >= MIN_DIMENSION);
+  
+  /* croping */
+  croped = crop_sprite(flag, start_x, start_y, flag_w, flag_h);
+
+  /* scaling */
   newflag_h = GTK_CLIST(players_list)->row_height;
   newflag_w = ((double) newflag_h / flag_h) * flag_w;
 
-  freelog(LOG_DEBUG, "%dx%d %dx%d %dx%d", flag_sprite->width,
-	  flag_sprite->height, flag_w, flag_h, newflag_w, newflag_h);
+  freelog(LOG_DEBUG, "%dx%d %dx%d %dx%d", flag->width,
+	  flag->height, flag_w, flag_h, newflag_w, newflag_h);
 
-  flag_pixmap = gtk_scale_pixmap(flag_sprite->pixmap, flag_w, flag_h,
-				 newflag_w, newflag_h);
+  scaled = sprite_scale(croped, newflag_w, newflag_h);
+  free_sprite(croped);
 
-  /* put a black border around it */
-  gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
-  gdk_draw_rectangle(flag_pixmap, civ_gc, 0, 0, 0, newflag_w, newflag_h);
+  sprite_draw_black_border(scaled);
 
-  /* and finaly store the pixmap in the static flags array */
-  flags[playerindex] = flag_pixmap;
+  /* and finaly store the scaled flagsprite in the static flags array */
+  flags[playerindex] = scaled;
 }
+
 
 /**************************************************************************
 ...
@@ -454,8 +413,8 @@ void update_players_dialog(void)
 			       &(listindex_to_playerindex[row]));
 
 	build_flag(i);
-	gtk_clist_set_pixmap(GTK_CLIST(players_list), row, 1, flags[i],
-			     NULL);
+	gtk_clist_set_pixmap(GTK_CLIST(players_list), row, 1,
+			     flags[i]->pixmap, flags[i]->mask);
 
 	listindex_to_playerindex[row] = i;
 	playerindex_to_listindex[i] = row;

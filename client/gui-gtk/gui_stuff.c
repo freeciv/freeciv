@@ -110,68 +110,6 @@ GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel)
   return button;
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-GdkPixmap *
-gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h, int dst_w, int dst_h)
-{
-  GdkPixmap *dst;
-  GdkImage *xi_src, *xi_dst;
-  int xoffset_table[4096];
-  int x, xoffset, xadd, xremsum, xremadd;
-  int y, yoffset, yadd, yremsum, yremadd;
-
-  xi_src=gdk_image_get(src, 0, 0, src_w, src_h);
-  xi_dst=gdk_image_new(GDK_IMAGE_FASTEST, gdk_window_get_visual (root_window),
-		       dst_w, dst_h);
-
-  /* for each pixel in dst, calculate pixel offset in src */
-  xadd=src_w/dst_w;
-  xremadd=src_w%dst_w;
-  xoffset=0;
-  xremsum=dst_w/2;
-
-  for(x=0; x<dst_w; ++x) {
-    xoffset_table[x]=xoffset;
-    xoffset+=xadd;
-    xremsum+=xremadd;
-    if(xremsum>=dst_w) {
-      xremsum-=dst_w;
-      ++xoffset;
-    }
-  }
-
-  yadd=src_h/dst_h;
-  yremadd=src_h%dst_h;
-  yoffset=0;
-  yremsum=dst_h/2; 
-
-  for(y=0; y<dst_h; ++y) {
-    for(x=0; x<dst_w; ++x) {
-      guint32 pixel;
-
-      pixel=gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
-      gdk_image_put_pixel(xi_dst, x, y, pixel);
-    }
-
-    yoffset+=yadd;
-    yremsum+=yremadd;
-    if(yremsum>=dst_h) {
-      yremsum-=dst_h;
-      ++yoffset;
-    }
-  }
-
-  dst=gdk_pixmap_new(root_window, dst_w, dst_h, -1);
-  gdk_draw_image(dst, civ_gc, xi_dst, 0, 0, 0, 0, dst_w, dst_h);
-  gdk_image_destroy(xi_src);
-  gdk_image_destroy(xi_dst);
-
-  return dst;
-}
-
 /**************************************************************************
   Returns gettext-converted list of n strings.  Allocates the space
   for the returned list, but the individual strings in the list are
