@@ -2612,8 +2612,7 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return 0;
   }
 
-
-  if (map_get_terrain(dest_x, dest_y) == T_OCEAN) {
+  if (map_get_player_tile(dest_x, dest_y, punit->owner)->terrain == T_OCEAN) {
     notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
 		     _("Game: Cannot paradrop into ocean."));
     return 0;    
@@ -2631,13 +2630,27 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
     }
   }
 
-  /* FIXME: this is a fog-of-war cheat.
-     You get to know if there is an enemy on the tile*/
+  if (map_get_terrain(dest_x, dest_y) == T_OCEAN) {
+    int srange = get_unit_type(punit->type)->vision_range;
+    show_area(unit_owner(punit), dest_x, dest_y, srange);
+
+    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_UNIT_LOST,
+		     _("Game: Your %s paradropped into the ocean "
+		       "and was lost."),
+		     unit_types[punit->type].name);
+    server_remove_unit(punit);
+    return 1;
+  }
+
   if (is_non_allied_unit_tile(map_get_tile(dest_x, dest_y), punit->owner)) {
-    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
-		     _("Game: Cannot paradrop because there are"
-		       " enemy units on the destination location."));
-    return 0;
+    int srange = get_unit_type(punit->type)->vision_range;
+    show_area(unit_owner(punit), dest_x, dest_y, srange);
+    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_UNIT_LOST_ATT,
+		     _("Game: Your %s was killed by enemy units at the "
+		       "paradrop destination."),
+		     unit_types[punit->type].name);
+    server_remove_unit(punit);
+    return 1;
   }
 
   /* All ok */

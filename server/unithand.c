@@ -1471,12 +1471,20 @@ void handle_unit_nuke(struct player *pplayer,
 ...
 **************************************************************************/
 void handle_unit_paradrop_to(struct player *pplayer, 
-                     struct packet_unit_request *req)
+			     struct packet_unit_request *req)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
   
-  if (punit)
-    do_paradrop(punit, req->x, req->y);
+  if (!punit)
+    return;
+
+  if (unit_owner(punit) != pplayer) {
+    freelog(LOG_ERROR, "%s trying to paradrop a non-owner unit!\n",
+	    pplayer->name);
+    return;
+  }
+
+  do_paradrop(punit, req->x, req->y);
 }
 
 /**************************************************************************
