@@ -767,6 +767,14 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 }
 
 
+/**************************************************************************
+...
+**************************************************************************/
+void sound_bell(void)
+{
+  gdk_beep();
+}
+
 
 /**************************************************************************
 ...
@@ -777,9 +785,6 @@ void enable_turn_done_button(void)
     user_ended_turn();
   gtk_widget_set_sensitive(turn_done_button,
 		!game.player_ptr->ai.control||ai_manual_turn_done);
-
-  if(sound_bell_at_new_turn)
-    gdk_beep();
 }
 
 

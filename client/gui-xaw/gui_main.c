@@ -720,6 +720,14 @@ void main_show_info_popup(XEvent *event)
 /**************************************************************************
 ...
 **************************************************************************/
+void sound_bell(void)
+{
+  XBell(display, 100);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void enable_turn_done_button(void)
 {
   if(game.player_ptr->ai.control && !ai_manual_turn_done)
@@ -728,9 +736,6 @@ void enable_turn_done_button(void)
   update_turn_done_button(1);
   XtSetSensitive(turn_done_button, 
                  !game.player_ptr->ai.control||ai_manual_turn_done);
-
-  if(sound_bell_at_new_turn)
-    XBell(display, 100);
 }
 
 /**************************************************************************

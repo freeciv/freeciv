@@ -315,6 +315,14 @@ static struct NewMenu MenuData[] =
   MAKE_END
 };
 
+/**************************************************************************
+...
+**************************************************************************/
+void sound_bell(void)
+{
+  DisplayBeep(NULL);
+}
+
 /****************************************************************
  Enables the Turn Done button
 *****************************************************************/
@@ -323,11 +331,7 @@ void enable_turn_done_button(void)
   if (game.player_ptr->ai.control && !ai_manual_turn_done)
     user_ended_turn();
   set(main_turndone_button, MUIA_Disabled, !(!game.player_ptr->ai.control || ai_manual_turn_done));
-
-  if(sound_bell_at_new_turn)
-    DisplayBeep(NULL);
 }
-
 
 /****************************************************************
  Callback for the chatline

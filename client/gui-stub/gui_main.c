@@ -13,6 +13,12 @@ ui_main(int argc, char *argv[])
 }
 
 void
+sound_bell(void)
+{
+	/* PORTME */
+}
+
+void
 enable_turn_done_button(void)
 {
 	/* PORTME */

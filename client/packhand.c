@@ -347,7 +347,12 @@ void handle_new_year(struct packet_new_year *ppacket)
 
   update_city_descriptions();
 
-  if(game.player_ptr->ai.control && !ai_manual_turn_done) user_ended_turn();
+  if(game.player_ptr->ai.control && !ai_manual_turn_done)
+    user_ended_turn();
+
+  if(sound_bell_at_new_turn &&
+     (!game.player_ptr->ai.control || ai_manual_turn_done))
+    sound_bell();
 }
 
 /**************************************************************************

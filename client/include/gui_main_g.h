@@ -14,6 +14,7 @@
 #define FC__GUI_MAIN_G_H
 
 void ui_main(int argc, char *argv[]);
+void sound_bell(void);
 void enable_turn_done_button(void);
 void add_net_input(int);
 void remove_net_input(void);
