@@ -1383,7 +1383,7 @@ int trireme_loss_pct(struct player *pplayer, int x, int y,
    * we'd need to confirm that we can exist/move at the (x, y)
    * location we are given.
    */
-  if (map_get_terrain(x, y) != T_OCEAN || is_coastline(x, y)) {
+  if (!is_ocean(map_get_terrain(x, y)) || is_coastline(x, y)) {
     return 0;
   } else {
     return base_trireme_loss_pct(pplayer, punit);

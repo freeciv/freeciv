@@ -67,10 +67,10 @@ static int seamove_no_bombard(int x, int y, enum direction8 dir,
 static int sea_overlap_move(int x, int y, enum direction8 dir,
 			    int x1, int y1, struct pf_parameter *param)
 {
-  if (map_get_terrain(x, y) == T_OCEAN) {
+  if (is_ocean(map_get_terrain(x, y))) {
     return SINGLE_MOVE;
   } else if (is_allied_city_tile(map_get_tile(x, y), param->owner)
-	     && map_get_terrain(x1, y1) == T_OCEAN) {
+	     && is_ocean(map_get_terrain(x1, y1))) {
     return SINGLE_MOVE;
   }
 
@@ -86,13 +86,13 @@ static int sea_attack_move(int x, int y, enum direction8 dir,
 {
   struct tile *src_tile = map_get_tile(x, y);
 
-  if (src_tile->terrain == T_OCEAN) {
+  if (is_ocean(src_tile->terrain)) {
     if (is_non_allied_unit_tile(src_tile, param->owner)) {
       return PF_IMPOSSIBLE_MC;
     }
     return SINGLE_MOVE;
   } else if (is_allied_city_tile(map_get_tile(x, y), param->owner)
-	     && map_get_terrain(x1, y1) == T_OCEAN) {
+	     && is_ocean(map_get_terrain(x1, y1))) {
     return SINGLE_MOVE;
   }
 
@@ -109,13 +109,13 @@ static int normal_move_unit(int x, int y, enum direction8 dir,
   enum tile_terrain_type terrain1 = map_get_terrain(x1, y1);
   int move_cost;
 
-  if (terrain1 == T_OCEAN) {
+  if (is_ocean(terrain1)) {
     if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (ptile->terrain == T_OCEAN) {
+  } else if (is_ocean(ptile->terrain)) {
     struct tile *ptile1 = map_get_tile(x1, y1);
 
     if (!BV_ISSET(param->unit_flags, F_MARINES)
@@ -143,7 +143,7 @@ static int land_attack_move(int x, int y, enum direction8 dir,
   struct tile *tgt_tile = map_get_tile(x1, y1);
   int move_cost;
 
-  if (tgt_tile->terrain == T_OCEAN) {
+  if (is_ocean(tgt_tile->terrain)) {
 
     /* Any-to-Sea */
     if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
@@ -151,7 +151,7 @@ static int land_attack_move(int x, int y, enum direction8 dir,
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (src_tile->terrain == T_OCEAN) {
+  } else if (is_ocean(src_tile->terrain)) {
 
     /* Sea-to-Land. */
     if (!is_non_allied_unit_tile(tgt_tile, param->owner)
@@ -191,9 +191,9 @@ static int land_attack_move(int x, int y, enum direction8 dir,
   one, so we don't venture too far into the ocean ;)
 
   Alternatively, we can change the flow to
-  if (ptile->terrain == T_OCEAN) {
+  if (is_ocean(ptile->terrain)) {
     move_cost = PF_IMPOSSIBLE_MC;
-  } else if (terrain1 == T_OCEAN) {
+  } else if (is_ocean(terrain1)) {
     move_cost = SINGLE_MOVE;
   } else {
     move_cost = ptile->move_cost[dir];
@@ -207,9 +207,9 @@ static int land_overlap_move(int x, int y, enum direction8 dir,
   enum tile_terrain_type terrain1 = map_get_terrain(x1, y1);
   int move_cost;
 
-  if (terrain1 == T_OCEAN) {
+  if (is_ocean(terrain1)) {
     move_cost = SINGLE_MOVE;
-  } else if (ptile->terrain == T_OCEAN) {
+  } else if (is_ocean(ptile->terrain)) {
     move_cost = get_tile_type(terrain1)->movement_cost * SINGLE_MOVE;
   } else {
     move_cost = ptile->move_cost[dir];
@@ -231,7 +231,7 @@ static int reverse_move_unit(int x, int y, enum direction8 dir,
   int terrain1 = ptile->terrain;
   int move_cost = PF_IMPOSSIBLE_MC;
 
-  if (terrain1 == T_OCEAN) {
+  if (is_ocean(terrain1)) {
     if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
       /* Landing */
       move_cost = get_tile_type(terrain0)->movement_cost * SINGLE_MOVE;
@@ -239,7 +239,7 @@ static int reverse_move_unit(int x, int y, enum direction8 dir,
       /* Nothing to land from */
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (terrain0 == T_OCEAN) {
+  } else if (is_ocean(terrain0)) {
     /* Boarding */
     move_cost = SINGLE_MOVE;
   } else {
@@ -259,13 +259,13 @@ static int igter_move_unit(int x, int y, enum direction8 dir,
   struct tile *ptile = map_get_tile(x, y);
   int move_cost;
 
-  if (map_get_terrain(x1, y1) == T_OCEAN) {
+  if (is_ocean(map_get_terrain(x1, y1))) {
     if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (ptile->terrain == T_OCEAN) {
+  } else if (is_ocean(ptile->terrain)) {
     struct tile *ptile1 = map_get_tile(x1, y1);
 
     if (!BV_ISSET(param->unit_flags, F_MARINES)
@@ -293,14 +293,14 @@ static int reverse_igter_move_unit(int x, int y, enum direction8 dir,
   struct tile *ptile = map_get_tile(x1, y1);
   int move_cost;
 
-  if (map_get_terrain(x1, y1) == T_OCEAN) {
+  if (is_ocean(map_get_terrain(x1, y1))) {
     if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
       /* Landing */
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (map_get_terrain(x, y) == T_OCEAN) {
+  } else if (is_ocean(map_get_terrain(x, y))) {
     /* Boarding */
     move_cost = MOVE_COST_ROAD;
   } else {
@@ -341,7 +341,7 @@ static enum tile_behavior dont_cross_ocean(int x, int y,
 					   enum known_type known,
 					   struct pf_parameter *param)
 {
-  if (map_get_terrain(x, y) == T_OCEAN) {
+  if (is_ocean(map_get_terrain(x, y))) {
     return TB_DONT_LEAVE;
   }
   return TB_NORMAL;
@@ -376,7 +376,7 @@ enum tile_behavior no_fights_or_unknown(int x, int y,
 static bool trireme_is_pos_dangerous(int x, int y, enum known_type known,
 				     struct pf_parameter *param)
 {
-  return map_get_terrain(x, y) == T_OCEAN && !is_coastline(x, y);
+  return is_ocean(map_get_terrain(x, y)) && !is_coastline(x, y);
 }
 
 
