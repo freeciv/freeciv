@@ -101,6 +101,7 @@ static int get_lanservers(HWND list);
 
 static int num_lanservers_timer = 0;
 
+extern void socket_timer(void);
 
 /*************************************************************************
  configure the dialog depending on what type of authentication request the
@@ -786,6 +787,9 @@ void handle_save_load(const char *title, bool is_save)
 static void load_game_callback()
 {
   if (is_server_running() || client_start_server()) {
+    while(!can_client_access_hack()) {
+      socket_timer();
+    }
     handle_save_load(_("Load Game"), FALSE);
   }
 }

@@ -101,6 +101,8 @@ client_option gui_options[] = {
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
+void socket_timer(void);
+
 /**************************************************************************
 
 **************************************************************************/
@@ -491,7 +493,7 @@ static VOID CALLBACK blink_timer(HWND hwnd, UINT uMsg, UINT idEvent,
 /**************************************************************************
 
 **************************************************************************/
-static VOID CALLBACK socket_timer(HWND  hwnd,UINT uMsg,UINT idEvent,DWORD  dwTime)  
+void socket_timer ()
 {
     struct timeval tv;
   fd_set civfdset;
@@ -571,7 +573,7 @@ ui_main(int argc, char *argv[])
   SetTimer(root_window, 2, TIMER_INTERVAL, blink_timer);
 
   while (!quit) {
-    socket_timer(NULL, 0, 0, 0);
+    socket_timer();
     while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
       if (msg.message == WM_QUIT) {
 	quit = TRUE;
