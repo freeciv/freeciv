@@ -49,6 +49,7 @@ struct civ_game {
   int diplcost, freecost, conquercost;
   int cityfactor;
   int min_players, max_players, nplayers;
+  int aifill;
   int unhappysize;
   char *startmessage;
   int player_idx;

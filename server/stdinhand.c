@@ -172,6 +172,10 @@ struct proto_settings settings[] = {
     &game.timeout, 1,
     0, 999, GAME_DEFAULT_TIMEOUT},
 
+  { "aifill", "Maximum number of AI players to create when game starts",
+    &game.aifill, 1,
+    GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL},
+
   { NULL, NULL, NULL, 0, 0, 0}
 };
 

@@ -330,6 +330,7 @@ void game_init(void)
   game.year        = -4000;
   game.min_players = GAME_DEFAULT_MIN_PLAYERS;
   game.max_players = GAME_DEFAULT_MAX_PLAYERS;
+  game.aifill      = GAME_DEFAULT_AIFILL;
   game.nplayers=0;
   game.techlevel   = GAME_DEFAULT_RESEARCHLEVEL;
   game.diplcost    = GAME_DEFAULT_DIPLCOST;

@@ -52,7 +52,12 @@ int get_next_id_number(void);
 extern enum server_states server_state;
 extern int nocity_send;
 
-void ai_select_race ( struct player * );
+/* Cedric's stuff ... */
+void generate_ai_players();
+void pick_ai_player_name(enum race_type race, char *newname);
+int mark_race_as_used(int race);
+void announce_ai_player(struct player *pplayer);
+
 #endif
 
 

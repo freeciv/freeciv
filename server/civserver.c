@@ -89,6 +89,10 @@ char usage[] =
 int port=DEFAULT_SOCK_PORT;
 int nocity_send=0;
 
+/* The next three variables make selecting races for AI players cleaner */
+int races_avail[R_LAST];
+int races_used[R_LAST];
+int num_races_avail=R_LAST;
 
 /**************************************************************************
 ...
@@ -223,6 +227,11 @@ int main(int argc, char *argv[])
 
   send_server_info_to_metaserver(1);
   
+  for(i=0; i<R_LAST;i++) {
+      races_avail[i]=i;
+      races_used[i]=i;
+  }
+
   /* allow players to select a race(case new game} */
 /* come on, this can't be right!
   for(i=0; i<game.nplayers && game.players[i].race!=R_LAST
@@ -245,9 +254,8 @@ int main(int argc, char *argv[])
 	server_state=RUN_GAME_STATE;
     }
   }
-  for(i=0; i<game.nplayers; i++) 
-     if ((game.players[i].race == R_LAST) && game.players[i].ai.control) 
-       ai_select_race (&game.players[i]);
+
+  generate_ai_players();
    
   if(map_is_empty())
     map_fractal_generate();
@@ -858,6 +866,8 @@ void handle_alloc_race(int player_no, struct packet_alloc_race *packet)
   for(i=0; i<game.nplayers; i++)
     if(game.players[i].race==R_LAST)
       send_select_race(&game.players[i]);
+
+  mark_race_as_used(packet->race_no);
 }
 
 /**************************************************************************
@@ -877,40 +887,6 @@ void send_select_race(struct player *pplayer)
   send_packet_generic_integer(pplayer->conn, PACKET_SELECT_RACE, &genint);
 }
 
-
-/**************************************************************************
-* Select first free race for given ai player                              *
-**************************************************************************/
-
-void ai_select_race (struct player *pplayer) 
-{
-/* rewrite by Syela */
-   int race, i = 0, try = 0;
-
-   for (race = 0; race < R_LAST; race++) {
-     if (!strcmp(pplayer->name, default_race_leader_names[race])) {
-       for (i = 0; i < game.nplayers; i++) {
-         if (game.players[i].race == race) break;
-       }
-       if (i == game.nplayers) break;
-     }
-   }
-
-   while (i < game.nplayers && try < 999) {
-     race = myrand(R_LAST);
-     for (i = 0; i < game.nplayers; i++) {
-       if (game.players[i].race == race) break;
-     }
-     try++;
-   }
-
-   if (try >= 999) {
-      log(LOG_FATAL, "Argh! ran out of races!");
-      exit(1);
-   }
-   pplayer->race = race;
-   log(LOG_NORMAL, "%s is the %s ruler.", pplayer->name, get_race_name(race));
-}
 
 /**************************************************************************
 ...
@@ -1079,4 +1055,141 @@ void lost_connection_to_player(struct connection *pconn)
     }
 
   log(LOG_FATAL, "lost connection to unknown");
+}
+
+/**************************************************************************
+generate_ai_players() - Selects a race for players created with server's
+   "create <PlayerName>" command.  If <PlayerName> is the default leader
+   name for some race, we choose the corresponding race for that name
+   (i.e. if we issue "create Shaka" then we will make that AI player's
+   race the Zulus if the Zulus have not been chosen by anyone else.  If they
+   have, then we pick an available race at random.
+
+   After that, we check to see if the
+   server option "aifill" is greater than the number of players currently
+   connected.  If so, we create the appropriate number of players
+   (game.aifill - game.nplayers) from scratch, choosing a random race
+   and appropriate name for each.
+**************************************************************************/
+
+void generate_ai_players()
+{
+  int i,j,player,race;
+  char player_name[MAX_LENGTH_NAME];
+
+  /* My attempt to randomly seed the PRNG.
+     Without this we get the same AI players in every game -- at least
+     under Linux. Maybe this should be near the beginning of main()? 
+     - Cedric */
+
+  j=time(NULL)%60;
+  for(i=0;i<j;i++)
+      myrand(1);
+
+/* Editorial comment: Seeding the PRNG hinders development in many cases,
+but since this only happens at the start of a brand-new game, I don't
+see it as particularly harmful and am therefore leaving it intact. -- Syela */
+
+  /* Select races for AI players generated with server 'create <name>' command */
+
+  for(player=0;player<game.nplayers;player++) {
+    if(game.players[player].race != R_LAST)
+       continue;
+
+    for (race = 0; race < R_LAST; race++) {
+      if (!strcmp(game.players[player].name, default_race_leader_names[race]))
+        if(races_used[race] != -1) {
+           game.players[player].race=mark_race_as_used(race);
+            break;
+        }
+    }
+
+    if(race == R_LAST)
+           game.players[player].race=
+              mark_race_as_used(races_avail[myrand(num_races_avail)]);
+
+    announce_ai_player(&game.players[player]);
+
+  }
+
+  /* Create and pick race and name for AI players needed to bring the
+     total number of players == game.aifill */
+
+  for(;game.nplayers < game.aifill;) {
+     race = mark_race_as_used(races_avail[myrand(num_races_avail)]);
+     pick_ai_player_name(race,player_name);
+     i=game.nplayers;
+     accept_new_player(player_name, NULL);
+     if ((game.nplayers == i+1) && 
+         !strcmp(player_name,game.players[i].name)) {
+           game.players[i].race=race;
+	   game.players[i].ai.control = !game.players[i].ai.control;
+	   game.players[i].is_connected=0;
+           announce_ai_player(&game.players[i]);
+        } else
+	  printf ("Error creating new ai player: %s\n", player_name);
+   }
+
+  send_server_info_to_metaserver(1);
+
+}
+
+
+
+/*************************************************************************
+ pick_ai_player_name() - Returns the default ruler name for a given race
+     given that race's number.  If that player name is already taken,
+     iterates through "Player 1", "Player 2", ... until an unused name
+     is found.
+*************************************************************************/
+void pick_ai_player_name (enum race_type race, char *newname) 
+{
+   int playernumber=1;
+   char tempname[50];
+
+   strcpy(tempname,default_race_leader_names[race]);
+
+   while(find_player_by_name(tempname)) {
+       sprintf(tempname,"Player %d",playernumber++);
+   }
+
+   strcpy(newname,tempname);
+}
+
+/*************************************************************************
+ mark_race_as_used() - shuffles the appropriate arrays to indicate that
+ the specified race number has been allocated to some player and is
+ therefore no longer available to any other player.  We do things this way
+ so that the process of determining which races are available to AI players
+ is more efficient.
+*************************************************************************/
+int mark_race_as_used (int race) {
+
+  if(num_races_avail <= 0) {/* no more unused races */
+      log(LOG_FATAL, "Argh! ran out of races!");
+      exit(1);
+  }
+
+   races_used[races_avail[num_races_avail-1]]=races_used[race];
+   races_avail[races_used[race]]=races_avail[--num_races_avail];
+   races_used[race]=-1;
+
+   return race;
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+void announce_ai_player (struct player *pplayer) {
+   int i;
+
+   log(LOG_NORMAL, "AI is controlling the %s ruled by %s",
+                    races[pplayer->race].name_plural,
+                    pplayer->name);
+
+   for(i=0; i<game.nplayers; ++i)
+     notify_player(&game.players[i],
+  	     "Option: %s rules the %s.", pplayer->name,
+                    races[pplayer->race].name_plural);
+
 }
