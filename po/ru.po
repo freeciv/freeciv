@@ -782,12 +782,12 @@ msgstr "Игра: ВНИМАНИЕ, у нас НЕ ХВТАТЕТ ДЕНЕГ."
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr ""
-"Игра: %s нуждается в %s (в процессе постройки) для дальнейшего развития."
+"Игра: Городу %s необходим %s (в процессе постройки) для дальнейшего развития."
 
 #: server/cityturn.c:488 server/cityturn.c:507
 #, c-format
 msgid "Game: %s needs %s to grow any further."
-msgstr "Игра: %s нуждается в %s для дальнейшего развития."
+msgstr "Игра: Городу %s необходим %s для дальнейшего развития."
 
 #: server/cityturn.c:559
 #, c-format
@@ -873,7 +873,7 @@ msgstr "%s строят %s в %s."
 #: server/cityturn.c:982
 #, c-format
 msgid "Game: %s has finished building %s."
-msgstr "Игра: %s построил %s."
+msgstr "Игра: в городе %s завершено строительство сооружения \"%s\"."
 
 #: server/cityturn.c:989
 #, c-format
@@ -898,7 +898,7 @@ msgstr "Игра: %s еще не может строить %s."
 #: server/cityturn.c:1082
 #, c-format
 msgid "Game: %s is finished building %s."
-msgstr "Игра: В городе %s закончено строительство соединения \"%s\"."
+msgstr "Игра: В городе %s завершено строительство соединения \"%s\"."
 
 #: server/cityturn.c:1086
 #, c-format
@@ -1805,8 +1805,8 @@ msgstr "%s образуют %s"
 
 #: server/plrhand.c:741
 #, c-format
-msgid "Game: The %s have incited a revolt!"
-msgstr "Игра: %s начали революцию."
+msgid "Game: The %s have incited a %d-turn revolt!"
+msgstr "Игра: %s начали %d-ходовую революцию!"
 
 #: server/plrhand.c:743
 #, c-format
@@ -10131,7 +10131,7 @@ msgstr "Отсоединиться"
 
 #: client/gui-gtk/diplodlg.c:226 client/gui-gtk/diplodlg.c:306
 msgid "more"
-msgstr "больше"
+msgstr "ещё"
 
 #: client/gui-gtk/diplodlg.c:349 data/Freeciv:268
 msgid "The following clauses have been agreed upon:"
