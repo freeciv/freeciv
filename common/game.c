@@ -39,7 +39,6 @@
 #include "game.h"
 
 void dealloc_id(int id);
-extern bool is_server;
 struct civ_game game;
 
 /*

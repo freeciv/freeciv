@@ -65,8 +65,6 @@ static const char *tile_special_type_names[] =
   N_("Fallout")
 };
 
-extern bool is_server;
-
 #define MAP_TILE(x,y)	(map.tiles + map_inx(x, y))
 
 /***************************************************************

@@ -72,9 +72,6 @@ struct citystyle *city_styles = NULL;
 /* from server/unittools.h */
 void send_unit_info(struct player *dest, struct unit *punit);
 
-/* from client/civclient.c or server/srv_main.c */
-extern bool is_server;
-
 /**************************************************************************
 ...
 **************************************************************************/
