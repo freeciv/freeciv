@@ -2941,6 +2941,10 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
   } else if (is_air_unit(punit)) {
     ai_manage_airunit(pplayer, punit);
     return;
+  } else if (is_heli_unit(punit)) {
+    /* TODO: We can try using air-unit code for helicopters, just
+     * pretend they have fuel = HP / 3 or something. */
+    return;
   } else if (is_military_unit(punit)) {
     if (punit->moves_left == 0) return; /* can't do anything with no moves */
     ai_manage_military(pplayer,punit); 
