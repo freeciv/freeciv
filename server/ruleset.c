@@ -367,7 +367,7 @@ static void load_ruleset_techs(char *ruleset_subdir)
   int i;
   
   filename = openload_ruleset_file(&file, ruleset_subdir, "techs");
-  datafile_options = check_ruleset_capabilities(&file, "+1.8.2a +no_a_none", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* The names: */
@@ -485,7 +485,7 @@ static void load_ruleset_units(char *ruleset_subdir)
 
   filename = openload_ruleset_file(file, ruleset_subdir, "units");
   datafile_options
-    = check_ruleset_capabilities(file, "+1.8.2a +tilespec", filename);
+    = check_ruleset_capabilities(file, "+1.9", filename);
   section_file_lookup(file,"datafile.description"); /* unused */
 
   max_hp =
@@ -729,7 +729,7 @@ static void load_ruleset_buildings(char *ruleset_subdir)
   struct improvement_type *b;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "buildings");
-  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* The names: */
@@ -808,7 +808,7 @@ static void load_ruleset_terrain(char *ruleset_subdir)
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "terrain");
   datafile_options
-    = check_ruleset_capabilities(&file, "+1.8.2 +tilespec", filename);
+    = check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* options */
@@ -952,7 +952,7 @@ static void load_ruleset_governments(char *ruleset_subdir)
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "governments");
   datafile_options
-    = check_ruleset_capabilities(&file, "+1.8.2 +tilespec +nontab", filename);
+    = check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   sec = secfile_get_secnames_prefix(&file, "government_", &nval);
@@ -1283,7 +1283,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
   char **cities, **techs, **leaders;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "nations");
-  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   i=0; /* this here check how many nations are */
@@ -1507,7 +1507,7 @@ static void load_ruleset_cities(char *ruleset_subdir)
   int i, nval;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "cities");
-  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* The sections: */

@@ -13,7 +13,7 @@
 
 [datafile]
 description="Civ1-style unit_type data for Freeciv"
-options="1.8.2a +tilespec"
+options="1.9"
 
 [units_adjust]
 max_hitpoints=10                ; 0 means no max

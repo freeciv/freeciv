@@ -9,7 +9,7 @@
 
 [datafile]
 description="Default nations data for Freeciv"  
-options="1.8.2"
+options="1.9"
 
 ; Below: nations data in sections [nation0] - [nationxx]
 ; for all nations available. If you want to have more

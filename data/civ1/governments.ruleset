@@ -14,7 +14,7 @@
 
 [datafile]
 description="Civilization I governments data for Freeciv"
-options="1.8.2 +tilespec +nontab"
+options="1.9"
 
 [governments]
 default="Despotism"

@@ -14,7 +14,7 @@
 
 [datafile]
 description="Approximate Civ1-style buildings data for Freeciv"
-options="1.8.2"
+options="1.9"
 
 ; Below: The individual buildings, one per section.
 ; (Buildings = City Improvements and Wonders)

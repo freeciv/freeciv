@@ -9,7 +9,7 @@
 
 [datafile]
 description="Cities data for Freeciv"
-options="1.8.2"
+options="1.9"
 
 ;
 ; City styles define the way cities are drawn

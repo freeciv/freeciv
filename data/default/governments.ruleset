@@ -12,7 +12,7 @@
 
 [datafile]
 description="Default governments data for Freeciv (as Civ2, minus fundamentalism)"
-options="1.8.2 +tilespec +nontab"
+options="1.9"
 
 [governments]
 default="Despotism"

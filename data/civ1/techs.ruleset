@@ -9,7 +9,7 @@
 
 [datafile]
 description="Civ1-style technology data for Freeciv"
-options="1.8.2a +no_a_none"
+options="1.9"
 
 ; Below: The individual advances, one per section.
 ; The number can be variable, up to 199.
