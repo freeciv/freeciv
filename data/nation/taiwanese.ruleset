@@ -18,7 +18,14 @@ government = "Democracy"
 
 ; These names used to be spelled differently (Taipeh instead of Taipei).
 ; The new names are better but may not be canonical.
+; These are the top 50 names taken from
+; "http://www.world-gazetteer.com/c/c_tw.htm".
 cities =
   "Taipei", "Kaohsiung", "Taichung", "Tainan", "Panchiao", "Chungho",
   "Sanchung", "Keelung", "Hsinchu", "Hsinchuang", "Fengshan", "Chungli",
-  "Chiayi"
+  "Chiayi", "Hsintien", "Yungho", "Changhwa", "Tucheng", "Pingtung",
+  "Yungkang", "Pingchen", "Tali", "Fengyuan", "Pate", "Luchou", "Hsichih",
+  "Shulin", "Yuanlin", "Yangmei", "Taitung", "Hualian", "Tanshui", "Nantou",
+  "Touliu", "Tsaotun", "Kangshan", "Ilan", "Miaoli", "Toufen", "Chutung",
+  "Chupei", "Chingshui", "Homei", "Tachi", "Lukang", "Sanhsia", "Tachia",
+  "Yingko", "Hsinying"
