@@ -455,29 +455,41 @@ static void create_option_dialog(void)
     case COT_BOOL:
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
-      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL,
+		       0, 0);
       o->p_gui_data = (void *)gtk_check_button_new();
-      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+		       0, 0);
       break;
     case COT_INT:
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL,
+		       0, 0);
       o->p_gui_data = gtk_entry_new_with_max_length(5);
       gtk_widget_set_usize(o->p_gui_data, 45, 0);
-      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+		       0, 0);
       break;
     case COT_STR:
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL,
+		       0, 0);
       if (o->p_string_vals) {
         o->p_gui_data = gtk_combo_new();
       } else {
         o->p_gui_data = gtk_entry_new();
       }
       gtk_widget_set_usize(o->p_gui_data, 150, 0);
-      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+		       0, 0);
       break;
     }
   }
