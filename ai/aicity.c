@@ -59,11 +59,11 @@
 {                                                                   \
   Continent_id continent = map_get_continent(city_here->tile);	    \
   city_list_iterate(list, city) {                                   \
-    if ((range == EFR_CITY && city == city_here)                    \
-        || (range == EFR_LOCAL && city == city_here)                \
-        || (range == EFR_CONTINENT                                  \
+    if ((range == REQ_RANGE_CITY && city == city_here)              \
+        || (range == REQ_RANGE_LOCAL && city == city_here)          \
+        || (range == REQ_RANGE_CONTINENT                            \
             && map_get_continent(city->tile) == continent)	    \
-        || (range == EFR_PLAYER)) {
+        || (range == REQ_RANGE_PLAYER)) {
 #define city_range_iterate_end \
   } } city_list_iterate_end; }
 
@@ -228,7 +228,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
   struct player *pplayer = city_owner(pcity);
   struct impr_type *pimpr = get_improvement_type(id);
   int v = 0;
-  int cities[EFR_LAST];
+  int cities[REQ_RANGE_LAST];
   int nplayers = game.nplayers
                  - game.nbarbarians
                  - team_count_members_alive(pplayer->team);
@@ -245,13 +245,13 @@ static void adjust_building_want_by_effects(struct city *pcity,
   }
 
   /* Find number of cities per range.  */
-  cities[EFR_PLAYER] = city_list_size(&pplayer->cities);
-  cities[EFR_WORLD] = cities[EFR_PLAYER]; /* kludge. */
+  cities[REQ_RANGE_PLAYER] = city_list_size(&pplayer->cities);
+  cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_PLAYER]; /* kludge. */
 
-  cities[EFR_CONTINENT] = ai->stats.cities[ptile->continent];
+  cities[REQ_RANGE_CONTINENT] = ai->stats.cities[ptile->continent];
 
-  cities[EFR_CITY] = 1;
-  cities[EFR_LOCAL] = 0;
+  cities[REQ_RANGE_CITY] = 1;
+  cities[REQ_RANGE_LOCAL] = 0;
 
   /* Calculate desire value. */
   effect_type_vector_iterate(get_building_effect_types(id), ptype) {

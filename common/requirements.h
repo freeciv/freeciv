@@ -17,7 +17,8 @@
 #include "fc_types.h"
 #include "tech.h"
 
-/* The type of a requirement. */
+/* The type of a requirement.  This must correspond to req_type_names[]
+ * in requirements.c. */
 enum req_type {
   REQ_NONE,
   REQ_TECH,
@@ -26,6 +27,17 @@ enum req_type {
   REQ_SPECIAL,
   REQ_TERRAIN,
   REQ_LAST
+};
+
+/* Range of requirements.  This must correspond to req_range_names[]
+ * in requirements.c. */
+enum req_range {
+  REQ_RANGE_LOCAL,
+  REQ_RANGE_CITY,
+  REQ_RANGE_CONTINENT,
+  REQ_RANGE_PLAYER,
+  REQ_RANGE_WORLD,
+  REQ_RANGE_LAST   /* keep this last */
 };
 
 /* An requirement is targeted at a certain target type.  For building and
@@ -44,6 +56,8 @@ enum target_type {
  * active. */
 struct requirement {
   enum req_type type;			/* requirement type */
+  enum req_range range;			/* requirement range */
+  bool survives; /* set if destroyed sources satisfy the req*/
 
   union {
     Tech_Type_id tech;			/* requirement tech */
@@ -54,10 +68,14 @@ struct requirement {
   } value;				/* requirement value */
 };
 
-struct requirement req_from_str(const char *type, const char *value);
+enum req_range req_range_from_str(const char *str);
+struct requirement req_from_str(const char *type, const char *range,
+				bool survives, const char *value);
 
-int req_get_value(struct requirement *req);
-void req_set_value(struct requirement *req, int value);
+void req_get_values(struct requirement *req,
+		    int *type, int *range, bool *survives, int *value);
+struct requirement req_from_values(int type, int range,
+				   bool survives, int value);
 
 bool is_req_active(enum target_type target,
 		   const struct player *target_player,
@@ -65,5 +83,12 @@ bool is_req_active(enum target_type target,
 		   Impr_Type_id target_building,
 		   const struct tile *target_tile,
 		   const struct requirement *req);
+
+int count_buildings_in_range(enum target_type target,
+			     const struct player *target_player,
+			     const struct city *target_city,
+			     Impr_Type_id target_building,
+			     enum req_range range, bool survives,
+			     Impr_Type_id source);
 
 #endif  /* FC__REQUIREMENTS_H */

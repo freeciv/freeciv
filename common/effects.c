@@ -34,17 +34,6 @@
 #include "player.h"
 #include "tech.h"
  
-/* Names of effect ranges.
- * (These must correspond to enum effect_range_id in effects.h.)
- * do not change these unless you know what you're doing! */
-static const char *effect_range_names[EFR_LAST] = {
-  "Local",
-  "City",
-  "Continent",
-  "Player",
-  "World"
-};
-
 /* Names of effect types.
  * (These must correspond to enum effect_type_id in effects.h.) */
 static const char *effect_type_names[EFT_LAST] = {
@@ -130,42 +119,6 @@ static const char *effect_type_names[EFT_LAST] = {
   "Regen_Reputation",
   "Gain_AI_Love"
 };
-
-/**************************************************************************
-  Convert an effect range names to an enumerated value.  This is the
-  inverse of effect_range_name.
-
-  The check is case insensitive and returns EFR_LAST if no match is found.
-**************************************************************************/
-enum effect_range effect_range_from_str(const char *str)
-{
-  enum effect_range effect_range;
-
-  assert(ARRAY_SIZE(effect_range_names) == EFR_LAST);
-
-  for (effect_range = 0; effect_range < EFR_LAST; effect_range++) {
-    if (0 == mystrcasecmp(effect_range_names[effect_range], str)) {
-      return effect_range;
-    }
-  }
-
-  return EFR_LAST;
-}
-
-/**************************************************************************
-  Return the name for an effect range enumeration.  Returns NULL if the
-  effect_range is invalid.  This is the inverse of effect_range_from_str.
-**************************************************************************/
-const char *effect_range_name(enum effect_range effect_range)
-{
-  assert(ARRAY_SIZE(effect_range_names) == EFR_LAST);
-  if (effect_range >= 0 && effect_range < EFR_LAST) {
-    return effect_range_names[effect_range];
-  } else {
-    assert(0);
-    return NULL;
-  }
-}
 
 /**************************************************************************
   Convert effect type names to enum; case insensitive;
@@ -276,7 +229,7 @@ const char *effect_type_name(enum effect_type effect_type)
  */
 struct effect_group_element {
   Impr_Type_id source_building;
-  enum effect_range range;
+  enum req_range range;
   bool survives;
 };
 
@@ -375,7 +328,7 @@ struct effect_group *effect_group_new(const char *name)
 **************************************************************************/
 void effect_group_add_element(struct effect_group *group,
 			      Impr_Type_id source_building,
-			      enum effect_range range, bool survives)
+			      enum req_range range, bool survives)
 {
   struct effect_group_element *elt;
 
@@ -461,7 +414,7 @@ void ruleset_cache_free(void)
   Add effect to ruleset cache.
 **************************************************************************/
 void ruleset_cache_add(Impr_Type_id source, enum effect_type effect_type,
-		       enum effect_range range, bool survives, int eff_value,
+		       enum req_range range, bool survives, int eff_value,
 		       struct requirement *req,
 		       int group_id)
 {
@@ -565,6 +518,9 @@ static void send_ruleset_cache_effects(struct conn_list *dest)
 
     building_vector_iterate(get_buildings_with_effect(effect_type),
 			    building) {
+      int dummy_type, dummy_range;
+      bool dummy_survives;
+
       packet.id = *building;
 
       effect_list_iterate(*get_building_effects(*building, effect_type),
@@ -580,7 +536,8 @@ static void send_ruleset_cache_effects(struct conn_list *dest)
 	  packet.group_id = -1;
 	}
 
-	packet.req_value = req_get_value(&peffect->req);
+	req_get_values(&peffect->req, &dummy_type,
+		       &dummy_range, &dummy_survives, &packet.req_value);
 
 	lsend_packet_ruleset_cache_effect(dest, &packet);
       } effect_list_iterate_end;
@@ -643,178 +600,6 @@ bool building_has_effect(Impr_Type_id id, enum effect_type effect)
 }
 
 /**************************************************************************
-  Returns the number of total world buildings (this includes buildings
-  that have been destroyed).
-**************************************************************************/
-static int num_world_buildings_total(Impr_Type_id building)
-{
-  if (is_wonder(building)) {
-    return (game.global_wonders[building] != 0) ? 1 : 0;
-  } else {
-    freelog(LOG_ERROR,
-	    /* TRANS: Obscure ruleset error. */
-	    _("World-ranged effects are only supported for wonders."));
-    return 0;
-  }
-}
-
-/**************************************************************************
-  Returns the number of buildings of a certain type in the world.
-**************************************************************************/
-static int num_world_buildings(Impr_Type_id id)
-{
-  if (is_wonder(id)) {
-    return find_city_by_id(game.global_wonders[id]) ? 1 : 0;
-  } else {
-    freelog(LOG_ERROR,
-	    /* TRANS: Obscure ruleset error. */
-	    _("World-ranged effects are only supported for wonders."));
-    return 0;
-  }
-}
-
-/**************************************************************************
-  Returns the number of buildings of a certain type owned by plr.
-**************************************************************************/
-static int num_player_buildings(const struct player *pplayer,
-				Impr_Type_id building)
-{
-  if (is_wonder(building)) {
-    if (player_find_city_by_id(pplayer, game.global_wonders[building])) {
-      return 1;
-    } else {
-      return 0;
-    }
-  } else {
-    freelog(LOG_ERROR,
-	    /* TRANS: Obscure ruleset error. */
-	    _("Player-ranged effects are only supported for wonders."));
-    return 0;
-  }
-}
-
-/**************************************************************************
-  Returns the number of buildings of a certain type on a continent.
-**************************************************************************/
-static int num_continent_buildings(const struct player *pplayer,
-				   int continent, Impr_Type_id building)
-{
-  if (is_wonder(building)) {
-    const struct city *pcity;
-
-    pcity = player_find_city_by_id(pplayer, game.global_wonders[building]);
-    if (pcity && map_get_continent(pcity->tile) == continent) {
-      return 1;
-    }
-  } else {
-    freelog(LOG_ERROR,
-	    /* TRANS: Obscure ruleset error. */
-	    _("Island-ranged effects are only supported for wonders."));
-  }
-  return 0;
-}
-
-/**************************************************************************
-  Returns the number of buildings of a certain type in a city.
-**************************************************************************/
-static int num_city_buildings(const struct city *pcity, Impr_Type_id id)
-{
-  return (city_got_building(pcity, id) ? 1 : 0);
-}
-
-/**************************************************************************
-  Is this target possible for the range involved?
-
-  For instance a city-ranged effect can't have a player as it's target.
-  See the comment at enum target_type.
-**************************************************************************/
-static bool is_target_possible(enum target_type target,
-			       enum effect_range range)
-{
-  switch (target) {
-  case TARGET_PLAYER:
-    return (range >= EFR_PLAYER);
-  case TARGET_CITY:
-    return (range >= EFR_CITY);
-  case TARGET_BUILDING:
-    return (range >= EFR_LOCAL);
-  }
-  assert(0);
-  return FALSE;
-}
-
-/**************************************************************************
-  How many of the source building are there within range of the target?
-
-  The target gives the type of the target.  The exact target is a player,
-  city, or building specified by the target_xxx arguments.
-
-  The range gives the range of the effect.
-
-  "Survives" specifies whether the effect is surviving.  If set then all
-  source buildings ever built are counted; if not then only living
-  buildings are counted.
-
-  source gives the building type of the source in question.
-
-  Note that this function does a lookup into the source caches to find
-  the number of available sources.  However not all source caches exist: if
-  the cache doesn't exist then we return 0.
-**************************************************************************/
-int count_sources_in_range(enum target_type target,
-			   const struct player *target_player,
-			   const struct city *target_city,
-			   Impr_Type_id target_building,
-			   enum effect_range range, bool survives,
-			   Impr_Type_id source)
-{
-  if (!is_target_possible(target, range)) {
-    return 0;
-  }
-
-  if (improvement_obsolete(target_player, source)) {
-    return 0;
-  }
-
-  if (survives) {
-    if (range == EFR_WORLD) {
-      return num_world_buildings_total(source);
-    } else {
-      /* There is no sources cache for this. */
-      freelog(LOG_ERROR,
-	      /* TRANS: Obscure ruleset error. */
-	      _("Surviving effects are only supported at world range."));
-      return 0;
-    }
-  }
-
-  switch (range) {
-  case EFR_WORLD:
-    return num_world_buildings(source);
-  case EFR_PLAYER:
-    return num_player_buildings(target_player, source);
-  case EFR_CONTINENT:
-    {
-      int continent = map_get_continent(target_city->tile);
-
-      return num_continent_buildings(target_player, continent, source);
-    }
-  case EFR_CITY:
-    return num_city_buildings(target_city, source);
-  case EFR_LOCAL:
-    if (target_building == source) {
-      return num_city_buildings(target_city, source);
-    } else {
-      return 0;
-    }
-  case EFR_LAST:
-    break;
-  }
-  assert(0);
-  return 0;
-}
-
-/**************************************************************************
   Is the effect from the source building redundant on the given target
   (i.e. are its effects replaced by other sources in the group)?
 
@@ -841,9 +626,9 @@ static bool is_effect_redundant(enum target_type target,
     if (elt->source_building == source) {
       return FALSE;
     } else {
-      if (count_sources_in_range(target, target_player, target_city,
-				 target_building, elt->range,
-				 elt->survives, elt->source_building) > 0) {
+      if (count_buildings_in_range(target, target_player, target_city,
+				   target_building, elt->range,
+				   elt->survives, elt->source_building) > 0) {
 	/* The effect from this source in the group makes peffect
 	 * redundant.  Note this causes the redundancy even if the
 	 * elt->source_building has no effects actually in the group! */
@@ -920,8 +705,8 @@ static bool is_effect_active(enum target_type target,
 			     Impr_Type_id source,
 			     const struct effect *peffect)
 {
-  if (count_sources_in_range(target, plr, pcity, building, peffect->range,
-			     peffect->survives, source) == 0) {
+  if (count_buildings_in_range(target, plr, pcity, building, peffect->range,
+			       peffect->survives, source) == 0) {
     return FALSE;
   }
   return is_effect_useful(target, plr, pcity, building,

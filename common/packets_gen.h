@@ -981,14 +981,14 @@ struct packet_ruleset_cache_group {
   char name[MAX_LEN_NAME];
   int num_elements;
   Impr_Type_id source_buildings[255];
-  enum effect_range ranges[255];
+  enum req_range ranges[255];
   bool survives[255];
 };
 
 struct packet_ruleset_cache_effect {
   Impr_Type_id id;
   enum effect_type effect_type;
-  enum effect_range range;
+  enum req_range range;
   bool survives;
   int eff_value;
   enum req_type req_type;

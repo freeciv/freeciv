@@ -1381,8 +1381,8 @@ void handle_game_info(struct packet_game_info *pinfo)
 /* Only add in the improvement if it's in a "foreign" (i.e. unknown) city
    and has equiv_range==World - otherwise we deal with it in its home
    city anyway */
-    if (is_wonder(i) && improvement_types[i].equiv_range==EFR_WORLD &&
-        !find_city_by_id(game.global_wonders[i])) {
+    if (is_wonder(i) && improvement_types[i].equiv_range == REQ_RANGE_WORLD
+        && !find_city_by_id(game.global_wonders[i])) {
       if (game.global_wonders[i] <= 0 && game.improvements[i] != I_NONE) {
         game.improvements[i] = I_NONE;
         need_effect_update = TRUE;
@@ -2878,13 +2878,8 @@ void handle_ruleset_cache_group(struct packet_ruleset_cache_group *packet)
 **************************************************************************/
 void handle_ruleset_cache_effect(struct packet_ruleset_cache_effect *packet)
 {
-  struct requirement req;
-
-  req.type = packet->req_type;
-  if (req.type < 0 || req.type >= REQ_LAST) {
-    req.type = REQ_NONE;
-  }
-  req_set_value(&req, packet->req_value);
+  struct requirement req = req_from_values(packet->req_type, REQ_RANGE_CITY,
+					   FALSE, packet->req_value);
 
   ruleset_cache_add(packet->id, packet->effect_type, packet->range,
 		    packet->survives, packet->eff_value,

@@ -181,10 +181,8 @@ type DIRECTION		= uint8(enum direction8)
 type ORDERS		= uint8(enum unit_orders)
 type SSET_TYPE		= uint8(enum sset_type)
 type REQ_TYPE	        = uint8(enum req_type)
-
-# typedefs for effects
+type REQ_RANGE		= uint8(enum req_range)
 type EFFECT_TYPE	= uint8(enum effect_type)
-type EFFECT_RANGE	= uint8(enum effect_range)
 
 # typedefs for IDs
 type PLAYER 		= UINT8
@@ -1269,14 +1267,14 @@ PACKET_RULESET_CACHE_GROUP=120;sc,lsend
 
   UINT8 num_elements;
   IMPROVEMENT source_buildings[255:num_elements];
-  EFFECT_RANGE ranges[255:num_elements];
+  REQ_RANGE ranges[255:num_elements];
   BOOL survives[255:num_elements];
 end
 
 PACKET_RULESET_CACHE_EFFECT=121;sc,lsend
   IMPROVEMENT id;
   EFFECT_TYPE effect_type;
-  EFFECT_RANGE range;
+  REQ_RANGE range;
   BOOL survives;
   SINT32 eff_value;
   REQ_TYPE req_type;

@@ -1186,7 +1186,7 @@ static void load_ruleset_buildings(struct section_file *file)
 					    sec[i], j));
 	 j++) {
       Impr_Type_id id;
-      enum effect_range range;
+      enum req_range range;
       bool survives;
 
       if ((id = find_improvement_by_name(item)) == B_LAST) {
@@ -1200,7 +1200,7 @@ static void load_ruleset_buildings(struct section_file *file)
       item = secfile_lookup_str_default(file, NULL, "%s.elements%d.range",
 	  				sec[i], j);
       if (item) {
-	if ((range = effect_range_from_str(item)) == EFR_LAST) {
+	if ((range = req_range_from_str(item)) == REQ_RANGE_LAST) {
 	  freelog(LOG_ERROR,
 		  /* TRANS: Obscure ruleset error */
 		  _("Group %s lists bad range: \"%s\" (%s)"),
@@ -1208,7 +1208,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	  continue;
 	}
       } else {
-	range = EFR_CITY;
+	range = REQ_RANGE_CITY;
       }
 
       survives
@@ -1333,7 +1333,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	   j++) {
 	int value;
 	enum effect_type eff;
-	enum effect_range range;
+	enum req_range range;
 	bool survives;
 	struct requirement req;
 	char *req_type, *req_value;
@@ -1350,7 +1350,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	item = secfile_lookup_str_default(file, NULL, "%s.effect%d.range",
 	    				  sec[i], j);
 	if (item) {
-	  if ((range = effect_range_from_str(item)) == EFR_LAST) {
+	  if ((range = req_range_from_str(item)) == REQ_RANGE_LAST) {
 	    freelog(LOG_ERROR,
 		    /* TRANS: Obscure ruleset error */
 		    _("Building %s lists bad range: \"%s\" (%s)"),
@@ -1358,7 +1358,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	    continue;
 	  }
 	} else {
-	  range = EFR_CITY;
+	  range = REQ_RANGE_CITY;
 	}
 
 	survives = secfile_lookup_bool_default(file, FALSE, "%s.effect%d.survives",
@@ -1387,7 +1387,7 @@ static void load_ruleset_buildings(struct section_file *file)
 					      sec[i], j);
 	req_value = secfile_lookup_str_default(file, "", "%s.effect%d.req",
 					       sec[i], j);
-	req = req_from_str(req_type, req_value);
+	req = req_from_str(req_type, "", FALSE, req_value);
 	if (req.type == REQ_LAST) {
 	  /* Error.  Log it, clear the req and continue. */
 	  freelog(LOG_ERROR,
