@@ -703,7 +703,7 @@ void request_unit_paradrop(struct unit *punit)
     append_output_window(_("Game: Only paratrooper units can do this."));
     return;
   }
-  if(!can_unit_paradropped(punit))
+  if(!can_unit_paradrop(punit))
     return;
 
   paradrop_state=1;
@@ -860,6 +860,7 @@ void do_map_click(int xtile, int ytile)
         nuke_state=0;
         paradrop_state=0;
 	connect_state=0;
+	update_unit_info_label(punit);
         return;
       }
 
@@ -1270,7 +1271,7 @@ void key_unit_nuke(void)
 void key_unit_paradrop(void)
 {
   if(get_unit_in_focus())
-    if(can_unit_paradropped(punit_focus))
+    if(can_unit_paradrop(punit_focus))
       request_unit_paradrop(punit_focus);
 }
 

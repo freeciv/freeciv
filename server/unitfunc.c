@@ -2093,90 +2093,91 @@ int do_airline(struct unit *punit, int x, int y)
 }
 
 /**************************************************************************
-...
+Returns whether the drop was made or not. Note that it also returns 1 in
+the case where the drop was succesfull, but the unit was killed by
+barbarians in a hut
 **************************************************************************/
 int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
 {
-  int paradropped=0;
-
-  connection_do_buffer(pplayer->conn);
-
-  if (unit_flag(punit->type, F_PARATROOPERS)) {
-    if(can_unit_paradropped(punit)) {
-      if(map_get_known(x,y,pplayer)) {
-        if(map_get_terrain(x,y) != T_OCEAN) {
-          if(!is_enemy_unit_tile(x,y,punit->owner)) {
-            int range = get_unit_type(punit->type)->paratroopers_range;
-            if(real_map_distance(punit->x, punit->y, x, y) <= range) {
-              struct city *start_city = map_get_city(punit->x, punit->y);
-              struct city *dest_city = map_get_city(x, y);
-              int ok=1;
-
-              /* light the squares the unit is entering */
-	      teleport_unit_sight_points(punit->x, punit->y, x, y, punit);
-
-              unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
-              punit->x = x; punit->y = y;
-              unit_list_insert(&map_get_tile(x, y)->units, punit);
-
-              ok = 1;
-              if((map_get_tile(x, y)->special&S_HUT)) {
-                /* punit might get killed by horde of barbarians */
-                ok = handle_unit_enter_hut(punit);
-              }
-
-              if(ok) {
-                punit->moves_left -= get_unit_type(punit->type)->paratroopers_mr_sub;
-                if(punit->moves_left < 0) punit->moves_left = 0;
-                punit->paradropped = 1;
-                send_unit_info(0, punit);
-
-                if(start_city) {
-                  send_city_info(pplayer, start_city);
-                }
-
-                if(dest_city) {
-                  handle_unit_enter_city(pplayer, dest_city);
-                  send_city_info(city_owner(dest_city), dest_city);
-                }
-
-                punit->moved = 1;
-              }
-              paradropped=1;
-            }
-      	    else {
-    	        notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-				 _("Game: Too far for this unit."));
-            }
-          }
-      	  else {  /*FIXME: this is a fog-of-war cheat.
-		    You get to know if there is an enemy on the tile*/
-    	      notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-			       _("Game: Cannot paradrop because there are"
-				 " enemy units on the destination location."));
-          }
-        }
-        else {
-          notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-			   _("Game: Cannot paradrop into ocean."));
-        }
-      }
-      else {
-        notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-			 _("Game: The destination location is not known."));
-      }
-    }
-  }
-  else {
+  if (!unit_flag(punit->type, F_PARATROOPERS)) {
     notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
 		     _("Game: This unit type can not be paradropped."));
+    return 0;
   }
 
-  if(!paradropped)
+  if (!can_unit_paradrop(punit))
+    return 0;
+
+  if (!map_get_known(x,y,pplayer)) {
+    notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
+		     _("Game: The destination location is not known."));
+    return 0;
+  }
+
+
+  if (map_get_terrain(x,y) == T_OCEAN) {
+    notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
+		     _("Game: Cannot paradrop into ocean."));
+    return 0;    
+  }
+
+  /*FIXME: this is a fog-of-war cheat.
+    You get to know if there is an enemy on the tile*/
+  if (is_enemy_unit_tile(x,y,punit->owner)) {
+    notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
+		     _("Game: Cannot paradrop because there are"
+		       " enemy units on the destination location."));
+    return 0;
+  }
+
+  {
+    int range = get_unit_type(punit->type)->paratroopers_range;
+    int distance = real_map_distance(punit->x, punit->y, x, y);
+    if (distance > range) {
+      notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
+		       _("Game: The distance to the target (%i) "
+			 "is greater than the unit's range(%i)."),
+		       distance, range);
+      return 0;
+    }
+  }
+
+  /* All ok */
+  {
+    struct city *start_city = map_get_city(punit->x, punit->y);
+    struct city *dest_city = map_get_city(x, y);
+
+    /* unfog the squares the unit is entering */
+    teleport_unit_sight_points(punit->x, punit->y, x, y, punit);
+
+    unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
+    punit->x = x; punit->y = y;
+    unit_list_insert(&map_get_tile(x, y)->units, punit);
+
+    punit->moves_left -= get_unit_type(punit->type)->paratroopers_mr_sub;
+    if(punit->moves_left < 0) punit->moves_left = 0;
+    punit->paradropped = 1;
     send_unit_info(0, punit);
 
-  connection_do_unbuffer(pplayer->conn);
-  return 0;
+    if(start_city) {
+      send_city_info(pplayer, start_city);
+    }
+
+    if(dest_city) {
+      handle_unit_enter_city(pplayer, dest_city);
+      send_city_info(city_owner(dest_city), dest_city);
+    }
+
+    punit->moved = 1;
+
+    if(map_get_tile(x, y)->special&S_HUT) {
+      /* note: punit might get killed by horde of barbarians
+	 We let the function return 1 anyway as it did do the paradrop */
+      handle_unit_enter_hut(punit);
+    }
+  }
+
+  return 1;
 }
 
 /**************************************************************************

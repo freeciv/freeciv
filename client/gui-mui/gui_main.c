@@ -530,7 +530,7 @@ static void control_callback(ULONG * value)
         request_unit_connect();
       break;
     case MENU_ORDER_POLLUTION:
-      if(can_unit_paradropped(get_unit_in_focus()))
+      if(can_unit_paradrop(get_unit_in_focus()))
         key_unit_paradrop();
       else
         key_unit_pollution();
@@ -1185,7 +1185,7 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_TRANSFORM, can_unit_do_activity(punit, ACTIVITY_TRANSFORM));
       menu_entry_sensitive(MENU_ORDER_FORTRESS, can_unit_do_activity(punit, ACTIVITY_FORTRESS));
 
-      if (can_unit_paradropped(punit))
+      if (can_unit_paradrop(punit))
       {
 	menu_entry_rename(MENU_ORDER_POLLUTION, "Paradrop", FALSE);
 	menu_entry_sensitive(MENU_ORDER_POLLUTION, TRUE);

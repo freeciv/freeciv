@@ -278,7 +278,7 @@ static void orders_menu_callback(gpointer callback_data,
       request_unit_connect();
     break;
    case MENU_ORDER_POLLUTION:
-    if(can_unit_paradropped(get_unit_in_focus()))
+    if(can_unit_paradrop(get_unit_in_focus()))
       key_unit_paradrop();
     else
       key_unit_pollution();
@@ -912,7 +912,7 @@ void update_menus(void)
 			  can_unit_do_connect(punit, ACTIVITY_IDLE));
       menus_set_sensitive("<main>/Orders/Clean Pollution",
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
-			   can_unit_paradropped(punit));
+			   can_unit_paradrop(punit));
       menus_set_sensitive("<main>/Orders/Fortify",
 			   can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
       menus_set_sensitive("<main>/Orders/Sentry",

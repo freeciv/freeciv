@@ -849,7 +849,7 @@ That is if the unit is in a friendly city or on an Airbase
 special, have enough movepoints left and have not paradropped
 before in this turn.
 **************************************************************************/
-int can_unit_paradropped(struct unit *punit)
+int can_unit_paradrop(struct unit *punit)
 {
   struct city *pcity;
   struct unit_type *utype;

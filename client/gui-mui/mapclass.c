@@ -1917,7 +1917,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		  Map_InsertCommand(&list, "Auto Attack", PACK_USERDATA(punit, MENU_ORDER_AUTO_ATTACK));
 		if (can_unit_do_activity(punit, ACTIVITY_EXPLORE))
 		  Map_InsertCommand(&list, "Auto Explore", PACK_USERDATA(punit, MENU_ORDER_AUTO_EXPLORE));
-		if (can_unit_paradropped(punit))
+		if (can_unit_paradrop(punit))
 		  Map_InsertCommand(&list, "Paradrop", PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
 		if (unit_flag(punit->type, F_NUCLEAR))
 		  Map_InsertCommand(&list, "Explode Nuclear", PACK_USERDATA(punit, MENU_ORDER_NUKE));
