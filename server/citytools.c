@@ -1747,7 +1747,8 @@ int city_can_work_tile(struct city *pcity, int city_x, int city_y)
     return 0;
   ptile = map_get_tile(map_x, map_y);
 
-  if (is_enemy_unit_tile(ptile, pcity->owner))
+  if (is_enemy_unit_tile(ptile, pcity->owner)
+      && (city_x != CITY_MAP_SIZE/2 || city_y != CITY_MAP_SIZE/2))
     return 0;
 
   if (!map_get_known(map_x, map_y, city_owner(pcity)))
