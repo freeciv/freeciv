@@ -2925,7 +2925,10 @@ void game_load(struct section_file *file)
 	  }
 	  game.start_units[i] = '\0';
 	} else {
-	  secfile_lookup_str(file, "game.start_units");
+	  sz_strlcpy(game.start_units,
+		     secfile_lookup_str_default(file,
+						GAME_DEFAULT_START_UNITS,
+						"game.start_units"));
 	}
 	game.dispersion =
 	  secfile_lookup_int_default(file, GAME_DEFAULT_DISPERSION, "game.dispersion");
