@@ -7769,7 +7769,7 @@ msgstr "INACTIVO"
 
 #: client/packhand.c:1497
 msgid "Game: Revolution finished"
-msgstr "Juego: Ha terminado la revolucón."
+msgstr "Juego: Ha terminado la revolución."
 
 #: client/plrdlg_common.c:80
 #, c-format
