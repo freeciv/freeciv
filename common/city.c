@@ -747,23 +747,22 @@ int city_buy_cost(struct city *pcity)
 {
   int total,cost;
   int build=pcity->shield_stock;
+
   if (pcity->is_building_unit) {
     total=unit_value(pcity->currently_building);
     if (build>=total)
       return 0;
     cost=(total-build)*2+(total-build)*(total-build)/20; 
-    if (!build)
-      cost*=2;
   } else {
     total=improvement_value(pcity->currently_building);
     if (build>=total)
       return 0;
     cost=(total-build)*2;
-    if(!build)
-      cost*=2;
     if(is_wonder(pcity->currently_building))
       cost*=2;
   }
+  if(!build)
+    cost*=2;
   return cost;
 }
 
