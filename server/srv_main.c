@@ -530,6 +530,7 @@ static void end_turn(void)
   do_apollo_program();
   marco_polo_make_contact();
   make_history_report();
+  stdinhand_turn();
   send_player_turn_notifications(NULL);
 
   /* Output some ranking and AI debugging info here. */
@@ -1446,6 +1447,7 @@ void srv_main(void)
   con_flush();
 
   game_init();
+  stdinhand_init();
   diplhand_init();
 
   /* init network */  
@@ -1454,7 +1456,7 @@ void srv_main(void)
 
   /* load a saved game */
   if (srvarg.load_filename) {
-    load_command(NULL, srvarg.load_filename);
+    (void) load_command(NULL, srvarg.load_filename, FALSE);
   } 
 
   if(!(srvarg.metaserver_no_send)) {
@@ -1712,4 +1714,5 @@ void server_game_free()
   } players_iterate_end;
   diplhand_free();
   game_free();
+  stdinhand_free();
 }

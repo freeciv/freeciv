@@ -180,7 +180,7 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
   */
   if (message[0] == SERVER_COMMAND_PREFIX) {
     /* pass it to the command parser, which will chop the prefix off */
-    handle_stdin_input(pconn, message);
+    (void) handle_stdin_input(pconn, message, FALSE);
     return;
   }
 

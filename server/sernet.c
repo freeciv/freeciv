@@ -170,7 +170,7 @@ static void handle_readline_input_callback(char *line)
     add_history(line);
 
   con_prompt_enter();		/* just got an 'Enter' hit */
-  handle_stdin_input((struct connection*)NULL, line);
+  (void) handle_stdin_input((struct connection*)NULL, line, FALSE);
 
   readline_handled_input = TRUE;
 }
