@@ -13,6 +13,8 @@
 #ifndef FC__FCICONV_H
 #define FC__FCICONV_H
 
+#include <stdio.h>
+
 #include "shared.h"
 
 #define DEFAULT_DATA_ENCODING "ISO-8859-1"
