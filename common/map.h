@@ -180,6 +180,17 @@ struct civ_map {
   struct map_position *start_positions;	/* allocated at runtime */
 };
 
+enum topo_flag {
+  /* Bit-values. */
+  TF_WRAPX = 1,
+  TF_WRAPY = 2,
+  TF_ISO = 4
+};
+
+#define CURRENT_TOPOLOGY (TF_WRAPX)
+
+#define topo_has_flag(flag) ((CURRENT_TOPOLOGY & (flag)) != 0)
+
 bool map_is_empty(void);
 void map_init(void);
 void map_allocate(void);

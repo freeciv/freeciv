@@ -1352,15 +1352,20 @@ position is normalized.
 **************************************************************************/
 void nearest_real_pos(int *x, int *y)
 {
-  if (*y < 0)
-    *y = 0;
-  else if (*y >= map.ysize)
-    *y = map.ysize - 1;
-  
-  while (*x < 0)
-    *x += map.xsize;
-  while (*x >= map.xsize)
-    *x -= map.xsize;
+  int nat_x, nat_y;
+
+  map_to_native_pos(&nat_x, &nat_y, *x, *y);
+  if (!topo_has_flag(TF_WRAPX)) {
+    nat_x = CLIP(0, nat_x, map.xsize - 1);
+  }
+  if (!topo_has_flag(TF_WRAPY)) {
+    nat_y = CLIP(0, nat_y, map.ysize - 1);
+  }
+  native_to_map_pos(x, y, nat_x, nat_y);
+
+  if (!normalize_map_pos(x, y)) {
+    assert(FALSE);
+  }
 }
 
 /**************************************************************************
