@@ -80,6 +80,7 @@ struct ai_city {
   int building_want[B_LAST]; /* not sure these will always be < 256 */
   int danger; /* eight miles better than calculating it twice */
   int trade_want; /* saves a zillion calculations */
+  unsigned char grave_danger; /* time for the panic button */
 };
 
 struct city {
@@ -163,6 +164,7 @@ int is_wonder(enum improvement_type_id id);
 /* city related improvement and unit functions */
 
 int improvement_upkeep(struct city *pcity, int i); 
+int could_build_improvement(struct city *pcity, enum improvement_type_id id);
 int can_build_improvement(struct city *pcity, enum improvement_type_id id);
 int can_build_unit(struct city *pcity, enum unit_type_id id);
 int can_build_unit_direct(struct city *pcity, enum unit_type_id id);
