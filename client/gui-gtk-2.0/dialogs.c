@@ -218,10 +218,8 @@ void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
   shell = gtk_dialog_new_with_buttons(headline,
         GTK_WINDOW(toplevel),
         0,
-        GTK_STOCK_CLOSE,
-        GTK_RESPONSE_CLOSE,
         NULL);
-  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
 
   label = gtk_label_new(lines);
@@ -238,6 +236,8 @@ void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
   gtk_dialog_add_action_widget(GTK_DIALOG(shell), popcity_command, 2);
   gtk_widget_show(popcity_command);
 
+  gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_CLOSE,
+			GTK_RESPONSE_CLOSE);
 
   if (x == -1 || y == -1) {
     gtk_widget_set_sensitive(goto_command, FALSE);
