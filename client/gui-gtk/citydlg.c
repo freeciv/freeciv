@@ -93,7 +93,7 @@ struct city_dialog {
   GtkWidget *change_shell, *change_list;
   GtkWidget *rename_input;
   GtkWidget *worklist_shell;
-  GtkWidget *buy_shell, *sell_shell;
+  GtkWidget *buy_shell, *sell_shell, *rename_shell;
   
   Impr_Type_id sell_id;
   
@@ -478,6 +478,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   pdialog->buy_shell = NULL;
   pdialog->sell_shell = NULL;
+  pdialog->rename_shell = NULL;
 
   pdialog->improvement_list=gtk_clist_new(1);
   gtk_clist_set_column_width(GTK_CLIST(pdialog->improvement_list), 0,
@@ -957,17 +958,30 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 *****************************************************************/
 static void rename_city_callback(GtkWidget *w, gpointer data)
 {
-  struct city_dialog *pdialog;
+  struct city_dialog *pdialog = (struct city_dialog *)data;
   struct packet_city_request packet;
 
-  if((pdialog=(struct city_dialog *)data)) {
+  if (pdialog) {
     packet.city_id=pdialog->pcity->id;
     packet.worklist.name[0] = '\0';
     sz_strlcpy(packet.name, input_dialog_get_input(w));
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+
+    pdialog->rename_shell = NULL;
   }
 
   input_dialog_destroy(w);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static gint rename_callback_delete(GtkWidget *widget, GdkEvent *event,
+				   gpointer data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  pdialog->rename_shell = NULL;
+  return FALSE;
 }
 
 /****************************************************************
@@ -979,12 +993,17 @@ void rename_callback(GtkWidget *w, gpointer data)
 
   pdialog=(struct city_dialog *)data;
 
-  input_dialog_create(pdialog->shell, 
-		      /*"shellrenamecity"*/_("Rename City"), 
-		      _("What should we rename the city to?"),
-		      pdialog->pcity->name,
-		      (void*)rename_city_callback, (gpointer)pdialog,
-		      (void*)rename_city_callback, (gpointer)0);
+  pdialog->rename_shell =
+    input_dialog_create(pdialog->shell, 
+			/*"shellrenamecity"*/_("Rename City"), 
+			_("What should we rename the city to?"),
+			pdialog->pcity->name,
+			(void*)rename_city_callback, (gpointer)pdialog,
+			(void*)rename_city_callback, (gpointer)pdialog);
+
+  gtk_signal_connect(GTK_OBJECT(pdialog->rename_shell), "delete_event",
+    		     GTK_SIGNAL_FUNC(rename_callback_delete),
+		     data);
 }
 
 /****************************************************************
@@ -2374,6 +2393,8 @@ void close_city_dialog(struct city_dialog *pdialog)
     gtk_widget_destroy(pdialog->buy_shell);
   if (pdialog->sell_shell)
     gtk_widget_destroy(pdialog->sell_shell);
+  if (pdialog->rename_shell)
+    gtk_widget_destroy(pdialog->rename_shell);
 
   unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
     free(psunit);
