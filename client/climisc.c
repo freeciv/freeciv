@@ -313,9 +313,9 @@ struct Sprite *client_research_sprite(void)
     /* This clipping can be necessary since we can end up with excess
      * research */
     index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return get_indicator_sprite(INDICATOR_BULB, index);
+    return get_indicator_sprite(tileset, INDICATOR_BULB, index);
   } else {
-    return get_indicator_sprite(INDICATOR_BULB, 0);
+    return get_indicator_sprite(tileset, INDICATOR_BULB, 0);
   }
 }
 
@@ -338,9 +338,9 @@ struct Sprite *client_warming_sprite(void)
 
     /* The clipping is needed because the above math is a little fuzzy. */
     index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return get_indicator_sprite(INDICATOR_WARMING, index);
+    return get_indicator_sprite(tileset, INDICATOR_WARMING, index);
   } else {
-    return get_indicator_sprite(INDICATOR_WARMING, 0);
+    return get_indicator_sprite(tileset, INDICATOR_WARMING, 0);
   }
 }
 
@@ -363,9 +363,9 @@ struct Sprite *client_cooling_sprite(void)
 
     /* The clipping is needed because the above math is a little fuzzy. */
     index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return get_indicator_sprite(INDICATOR_COOLING, index);
+    return get_indicator_sprite(tileset, INDICATOR_COOLING, index);
   } else {
-    return get_indicator_sprite(INDICATOR_COOLING, 0);
+    return get_indicator_sprite(tileset, INDICATOR_COOLING, 0);
   }
 }
 
@@ -381,7 +381,7 @@ struct Sprite *client_government_sprite(void)
      * when we don't know any better. */
     struct citizen_type c = {.type = CITIZEN_UNHAPPY};
 
-    return get_citizen_sprite(c, 0, NULL);
+    return get_citizen_sprite(tileset, c, 0, NULL);
   }
 }
 

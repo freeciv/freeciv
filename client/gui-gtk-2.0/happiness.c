@@ -169,7 +169,7 @@ static void refresh_pixcomm(GtkPixcomm *dst, struct city *pcity, int index)
   gtk_pixcomm_clear(dst);
 
   for (i = 0; i < num_citizens; i++) {
-    gtk_pixcomm_copyto(dst, get_citizen_sprite(citizens[i], i, pcity),
+    gtk_pixcomm_copyto(dst, get_citizen_sprite(tileset, citizens[i], i, pcity),
 		       i * offset, 0);
   }
 

@@ -203,13 +203,13 @@ void update_info_label(void)
 
   d = 0;
   for (; d < (game.player_ptr->economic.luxury) / 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(O_LUXURY));
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(tileset, O_LUXURY));
 
   for (; d < (game.player_ptr->economic.science + game.player_ptr->economic.luxury) / 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(O_SCIENCE));
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(tileset, O_SCIENCE));
 
   for (; d < 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(O_GOLD));
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(tileset, O_GOLD));
 
   update_timeout_label();
 }
@@ -337,7 +337,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
      * when we don't know any better. */
     struct citizen_type c = {.type = CITIZEN_UNHAPPY};
 
-    gov_sprite = get_citizen_sprite(c, 0, NULL);
+    gov_sprite = get_citizen_sprite(tileset, c, 0, NULL);
   }
   else
   {

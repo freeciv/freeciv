@@ -176,13 +176,13 @@ void update_info_label(void)
 
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
-    xaw_set_bitmap(econ_label[d], get_tax_sprite(O_LUXURY)->pixmap);
+    xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_LUXURY)->pixmap);
  
   for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
-    xaw_set_bitmap(econ_label[d], get_tax_sprite(O_SCIENCE)->pixmap);
+    xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_SCIENCE)->pixmap);
  
    for(;d<10;d++)
-     xaw_set_bitmap(econ_label[d], get_tax_sprite(O_GOLD)->pixmap);
+     xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_GOLD)->pixmap);
  
   update_timeout_label();
 }
@@ -242,7 +242,7 @@ void update_unit_info_label(struct unit *punit)
 Pixmap get_thumb_pixmap(int onoff)
 {
   /* FIXME: what about the mask? */
-  return get_treaty_thumb_sprite(BOOL_VAL(onoff))->pixmap;
+  return get_treaty_thumb_sprite(tileset, BOOL_VAL(onoff))->pixmap;
 }
 
 /**************************************************************************
@@ -251,7 +251,7 @@ Pixmap get_thumb_pixmap(int onoff)
 Pixmap get_citizen_pixmap(struct citizen_type type, int cnum,
 			  struct city *pcity)
 {
-  return get_citizen_sprite(type, cnum, pcity)->pixmap;
+  return get_citizen_sprite(tileset, type, cnum, pcity)->pixmap;
 }
 
 
@@ -736,7 +736,7 @@ void put_cross_overlay_tile(struct tile *ptile)
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(XtWindow(map_canvas), canvas_x, canvas_y,
-			    get_attention_crosshair_sprite());
+			    get_attention_crosshair_sprite(tileset));
   }
 }
 

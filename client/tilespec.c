@@ -4078,7 +4078,8 @@ struct Sprite *get_spaceship_sprite(struct tileset *t,
   value indicates there is no city; i.e., the sprite is just being
   used as a picture).
 **************************************************************************/
-struct Sprite *get_citizen_sprite(struct citizen_type type,
+struct Sprite *get_citizen_sprite(struct tileset *t,
+				  struct citizen_type type,
 				  int citizen_index,
 				  const struct city *pcity)
 {
@@ -4096,7 +4097,7 @@ struct Sprite *get_citizen_sprite(struct citizen_type type,
 /**************************************************************************
   Return a "sample" sprite for this city style.
 **************************************************************************/
-struct Sprite *get_sample_city_sprite(int city_style)
+struct Sprite *get_sample_city_sprite(struct tileset *t, int city_style)
 {
   int index = city_styles[city_style].tiles_num - 1;
 
@@ -4106,7 +4107,7 @@ struct Sprite *get_sample_city_sprite(int city_style)
 /**************************************************************************
   Return a sprite with the "right-arrow" theme graphic.
 **************************************************************************/
-struct Sprite *get_arrow_sprite(void)
+struct Sprite *get_arrow_sprite(struct tileset *t)
 {
   return sprites.right_arrow;
 }
@@ -4114,7 +4115,7 @@ struct Sprite *get_arrow_sprite(void)
 /**************************************************************************
   Return a tax sprite for the given output type (usually gold/lux/sci).
 **************************************************************************/
-struct Sprite *get_tax_sprite(Output_type_id otype)
+struct Sprite *get_tax_sprite(struct tileset *t, Output_type_id otype)
 {
   switch (otype) {
   case O_SCIENCE:
@@ -4136,7 +4137,7 @@ struct Sprite *get_tax_sprite(Output_type_id otype)
   Return a thumbs-up/thumbs-down sprite to show treaty approval or
   disapproval.
 **************************************************************************/
-struct Sprite *get_treaty_thumb_sprite(bool on_off)
+struct Sprite *get_treaty_thumb_sprite(struct tileset *t, bool on_off)
 {
   return sprites.treaty_thumb[on_off ? 1 : 0];
 }
@@ -4145,7 +4146,7 @@ struct Sprite *get_treaty_thumb_sprite(bool on_off)
   Return a sprite_vector containing the animation sprites for a unit
   explosion.
 **************************************************************************/
-struct sprite_vector *get_unit_explode_animation(void)
+struct sprite_vector *get_unit_explode_animation(struct tileset *t)
 {
   return &sprites.explode.unit;
 }
@@ -4165,7 +4166,7 @@ struct Sprite *get_nuke_explode_sprite(struct tileset *t)
   active coordinates of the mouse relative to the sprite) are placed int
   (*hot_x, *hot_y).
 **************************************************************************/
-struct Sprite *get_cursor_sprite(enum cursor_type cursor,
+struct Sprite *get_cursor_sprite(struct tileset *t, enum cursor_type cursor,
 				 int *hot_x, int *hot_y)
 {
   *hot_x = sprites.cursor[cursor].hot_x;
@@ -4193,7 +4194,7 @@ struct Sprite *get_icon_sprite(struct tileset *t, enum icon_type icon)
   FIXME: This function shouldn't be needed if the attention graphics are
   drawn natively by the tileset code.
 ****************************************************************************/
-struct Sprite *get_attention_crosshair_sprite(void)
+struct Sprite *get_attention_crosshair_sprite(struct tileset *t)
 {
   return sprites.user.attention;
 }
@@ -4202,7 +4203,8 @@ struct Sprite *get_attention_crosshair_sprite(void)
   Returns a sprite for the given indicator with the given index.  The
   index should be in [0, NUM_TILES_PROGRESS).
 ****************************************************************************/
-struct Sprite *get_indicator_sprite(enum indicator_type indicator,
+struct Sprite *get_indicator_sprite(struct tileset *t,
+				    enum indicator_type indicator,
 				    int index)
 {
   index = CLIP(0, index, NUM_TILES_PROGRESS - 1);

@@ -512,7 +512,7 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
   get_city_citizen_types(pcity, 4, citizens);
 
   for (i = 0; i < pcity->size && i < NUM_CITIZENS_SHOWN; i++) {
-      draw_sprite(get_citizen_sprite(citizens[i], i, pcity), hdcsrc,
+      draw_sprite(get_citizen_sprite(tileset, citizens[i], i, pcity), hdcsrc,
 		  SMALL_TILE_WIDTH * i, 0);
   }
 

@@ -1869,7 +1869,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   get_city_citizen_types(pcity, 4, citizens);
 
   for (i = 0; i < pcity->size; i++) {
-    Object *o = MakeSprite(get_citizen_sprite(citizens[i], i, pcity));
+    Object *o = MakeSprite(get_citizen_sprite(tileset, citizens[i], i, pcity));
 
     if (o) {
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
@@ -2283,7 +2283,7 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
     for (j = 0; j < num_citizens; j++) {
       Object *obj;
 
-      obj = MakeSprite(get_citizen_sprite(citizens[j], j, pcity));
+      obj = MakeSprite(get_citizen_sprite(tileset, citizens[j], j, pcity));
       if (obj) {
 	DoMethod(pdialog->happiness_citizen_group[i], OM_ADDMEMBER, obj);
       }

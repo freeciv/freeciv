@@ -309,7 +309,7 @@ static void refresh_happiness_bitmap(HBITMAP bmp,
   get_city_citizen_types(pcity, index, citizens);
 
   for (i = 0; i < num_citizens; i++) {
-    draw_sprite(get_citizen_sprite(citizens[i], i, pcity),
+    draw_sprite(get_citizen_sprite(tileset, citizens[i], i, pcity),
 		hdc, i * offset, 0);
   }
 

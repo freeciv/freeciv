@@ -114,8 +114,8 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
     ListBox_AddString(pdialog->list,buf);
   } clause_list_iterate_end;
   
-  pdialog->thumb0 = get_treaty_thumb_sprite(BOOL_VAL(pdialog->treaty.accept0));
-  pdialog->thumb1 = get_treaty_thumb_sprite(BOOL_VAL(pdialog->treaty.accept1));
+  pdialog->thumb0 = get_treaty_thumb_sprite(tileset, BOOL_VAL(pdialog->treaty.accept0));
+  pdialog->thumb1 = get_treaty_thumb_sprite(tileset, BOOL_VAL(pdialog->treaty.accept1));
   hdc=GetDC(pdialog->mainwin);
   draw_sprite(pdialog->thumb0,hdc,pdialog->thumb0_pos.x,pdialog->thumb0_pos.y);
   draw_sprite(pdialog->thumb1,hdc,pdialog->thumb1_pos.x,pdialog->thumb1_pos.y);
@@ -560,8 +560,8 @@ static LONG CALLBACK diplomacy_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM l
 *****************************************************************/
 static void thumb_minsize(POINT *minsize, void *data)
 {
-  minsize->x = get_treaty_thumb_sprite(FALSE)->width;
-  minsize->y = get_treaty_thumb_sprite(FALSE)->height;
+  minsize->x = get_treaty_thumb_sprite(tileset, FALSE)->width;
+  minsize->y = get_treaty_thumb_sprite(tileset, FALSE)->height;
 }
 
 /****************************************************************
@@ -642,8 +642,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
   fcwin_box_add_static(hbox2,buf,0,SS_LEFT,FALSE,FALSE,5);
   fcwin_box_add_generic(hbox2,thumb_minsize,thumb_setsize,NULL,
 			&pdialog->thumb1_pos,FALSE,FALSE,5);
-  pdialog->thumb0 = get_treaty_thumb_sprite(FALSE);
-  pdialog->thumb1 = get_treaty_thumb_sprite(FALSE);
+  pdialog->thumb0 = get_treaty_thumb_sprite(tileset, FALSE);
+  pdialog->thumb1 = get_treaty_thumb_sprite(tileset, FALSE);
   fcwin_box_add_box(vbox,hbox2,FALSE,FALSE,5);
 
   fcwin_box_add_box(hbox,vbox,TRUE,TRUE,5);

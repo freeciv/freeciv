@@ -171,7 +171,7 @@ static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
   for (i = 0; i < num_citizens; i++) {
     canvas_put_sprite_full(&canvas,
 			   i * offset, 0,
-			   get_citizen_sprite(citizens[i], i, pcity));
+			   get_citizen_sprite(tileset, citizens[i], i, pcity));
   }
 
   return happiness_pixmap;

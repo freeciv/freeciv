@@ -623,7 +623,7 @@ static void populate_unit_pixmap_table(void)
   }
 
   more_arrow_pixmap
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(get_arrow_sprite()));
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(get_arrow_sprite(tileset)));
   gtk_widget_ref(more_arrow_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
 
@@ -826,7 +826,7 @@ static void setup_widgets(void)
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
-    sprite = i < 5 ? get_tax_sprite(O_SCIENCE) : get_tax_sprite(O_GOLD);
+    sprite = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
     econ_label[i] = gtk_image_new_from_pixbuf(sprite_get_pixbuf(sprite));
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }

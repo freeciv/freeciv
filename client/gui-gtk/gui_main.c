@@ -645,7 +645,7 @@ static void setup_widgets(void)
 
   /* citizens for taxrates */
   for (i = 0; i < 10; i++) {
-    struct Sprite *s = i < 5 ? get_tax_sprite(O_SCIENCE) : get_tax_sprite(O_GOLD);
+    struct Sprite *s = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
 
     ebox = gtk_event_box_new();
     gtk_widget_set_events(ebox, GDK_BUTTON_PRESS_MASK);
@@ -674,7 +674,7 @@ static void setup_widgets(void)
     /* HACK: the UNHAPPY citizen is used for the government
      * when we don't know any better. */
     struct citizen_type c = {.type = CITIZEN_UNHAPPY};
-    struct Sprite *sprite = get_citizen_sprite(c, 0, NULL);
+    struct Sprite *sprite = get_citizen_sprite(tileset, c, 0, NULL);
 
     government_label = gtk_pixmap_new(sprite->pixmap, NULL);
   }

@@ -188,7 +188,7 @@ void load_cursors(void)
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
     int hot_x, hot_y;
-    struct Sprite *sprite = get_cursor_sprite(cursor, &hot_x, &hot_y);
+    struct Sprite *sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
     GdkPixbuf *pixbuf = sprite_get_pixbuf(sprite);
 
     fc_cursors[cursor] = gdk_cursor_new_from_pixbuf(display, pixbuf,

@@ -89,7 +89,7 @@ load_cursors(void)
     int hot_x, hot_y;
     int x, y;
     int minwidth, minheight;
-    struct Sprite *sprite = get_cursor_sprite(cursor, &hot_x, &hot_y);
+    struct Sprite *sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
     unsigned char *src;
 
     for (x = 0; x < width * height / 8; x++) {

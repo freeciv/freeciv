@@ -233,7 +233,7 @@ void load_cursors(void)
   XQueryColor(display, cmap, &black);
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
-    sprite = get_cursor_sprite(cursor, &hot_x, &hot_y);
+    sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
 
     /* FIXME: this is entirely wrong.  It should be rewritten using
      * XcursorImageLoadCursor.  See gdkcursor-x11.c in the GTK sources for

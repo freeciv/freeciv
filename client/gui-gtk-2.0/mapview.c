@@ -123,7 +123,7 @@ void update_info_label( void )
 
   d=0;
   for (; d < game.player_ptr->economic.luxury /10; d++) {
-    struct Sprite *sprite = get_tax_sprite(O_LUXURY);
+    struct Sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
 
     gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
 			      sprite_get_pixbuf(sprite));
@@ -131,14 +131,14 @@ void update_info_label( void )
  
   for (; d < (game.player_ptr->economic.science
 	     + game.player_ptr->economic.luxury) / 10; d++) {
-    struct Sprite *sprite = get_tax_sprite(O_SCIENCE);
+    struct Sprite *sprite = get_tax_sprite(tileset, O_SCIENCE);
 
     gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
 			      sprite_get_pixbuf(sprite));
   }
  
   for (; d < 10; d++) {
-    struct Sprite *sprite = get_tax_sprite(O_GOLD);
+    struct Sprite *sprite = get_tax_sprite(tileset, O_GOLD);
 
     gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
 			      sprite_get_pixbuf(sprite));
@@ -215,7 +215,7 @@ void update_unit_info_label(struct unit *punit)
 **************************************************************************/
 GdkPixbuf *get_thumb_pixbuf(int onoff)
 {
-  return sprite_get_pixbuf(get_treaty_thumb_sprite(BOOL_VAL(onoff)));
+  return sprite_get_pixbuf(get_treaty_thumb_sprite(tileset, BOOL_VAL(onoff)));
 }
 
 /****************************************************************************
@@ -922,7 +922,7 @@ void put_cross_overlay_tile(struct tile *ptile)
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(map_canvas->window,
 			    canvas_x, canvas_y,
-			    get_attention_crosshair_sprite());
+			    get_attention_crosshair_sprite(tileset));
   }
 }
 

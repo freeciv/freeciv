@@ -449,7 +449,7 @@ void ui_main(int argc, char *argv[])
 
   /* Do this outside setup_widgets() so after tiles are loaded */
   for(i=0;i<10;i++)  {
-    struct Sprite *s = i < 5 ? get_tax_sprite(O_SCIENCE) : get_tax_sprite(O_GOLD);
+    struct Sprite *s = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
 
     XtVaSetValues(econ_label[i], XtNbitmap,
 		  s->pixmap, NULL);
@@ -893,7 +893,7 @@ void set_unit_icons_more_arrow(bool onoff)
 
   if (onoff && !showing) {
     /* FIXME: what about the mask? */
-    xaw_set_bitmap(more_arrow_label, get_arrow_sprite()->pixmap);
+    xaw_set_bitmap(more_arrow_label, get_arrow_sprite(tileset)->pixmap);
     showing = TRUE;
   }
   else if(!onoff && showing) {

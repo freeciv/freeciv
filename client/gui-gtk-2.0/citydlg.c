@@ -1393,7 +1393,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   for (i = 0; i < pcity->size; i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(citizens[i], i, pcity),
+		       get_citizen_sprite(tileset, citizens[i], i, pcity),
 		       i * width, 0);
   }
 

@@ -318,13 +318,13 @@ static void draw_rates(HDC hdc)
   int d;
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
-    draw_sprite(get_tax_sprite(O_LUXURY), hdc,
+    draw_sprite(get_tax_sprite(tileset, O_LUXURY), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y);/* elvis tile */
   for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
-    draw_sprite(get_tax_sprite(O_SCIENCE), hdc,
+    draw_sprite(get_tax_sprite(tileset, O_SCIENCE), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y); /* scientist tile */    
   for(;d<10;d++)
-    draw_sprite(get_tax_sprite(O_GOLD), hdc,
+    draw_sprite(get_tax_sprite(tileset, O_GOLD), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y); /* taxman tile */  
 }
 
@@ -601,7 +601,7 @@ put_cross_overlay_tile(struct tile *ptile)
   tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
   if (tile_visible_mapcanvas(ptile)) {
     hdc=GetDC(map_window);
-    draw_sprite(get_attention_crosshair_sprite(), hdc, canvas_x, canvas_y);
+    draw_sprite(get_attention_crosshair_sprite(tileset), hdc, canvas_x, canvas_y);
     ReleaseDC(map_window,hdc);
   }
 }

@@ -1762,7 +1762,7 @@ static void create_races_dialog(void)
 
     gtk_list_store_append(store, &it);
 
-    s = crop_blankspace(get_sample_city_sprite(i));
+    s = crop_blankspace(get_sample_city_sprite(tileset, i));
     img = sprite_get_pixbuf(s);
     g_object_ref(img);
     free_sprite(s);

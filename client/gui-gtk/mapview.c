@@ -132,18 +132,18 @@ void update_info_label( void )
 
   d=0;
   for (; d < game.player_ptr->economic.luxury /10; d++) {
-    struct Sprite *sprite = sprite = get_tax_sprite(O_LUXURY);
+    struct Sprite *sprite = sprite = get_tax_sprite(tileset, O_LUXURY);
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]), sprite->pixmap, sprite->mask);
   }
  
   for (; d < (game.player_ptr->economic.science
 	     + game.player_ptr->economic.luxury) / 10; d++) {
-    struct Sprite *sprite = get_tax_sprite(O_SCIENCE);
+    struct Sprite *sprite = get_tax_sprite(tileset, O_SCIENCE);
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]), sprite->pixmap, sprite->mask);
   }
  
   for (; d < 10; d++) {
-    struct Sprite *sprite = get_tax_sprite(O_GOLD);
+    struct Sprite *sprite = get_tax_sprite(tileset, O_GOLD);
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]), sprite->pixmap, sprite->mask);
   }
  
@@ -781,7 +781,7 @@ void put_cross_overlay_tile(struct tile *ptile)
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(map_canvas->window,
 			    canvas_x, canvas_y,
-			    get_attention_crosshair_sprite());
+			    get_attention_crosshair_sprite(tileset));
   }
 }
 

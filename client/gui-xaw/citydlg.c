@@ -1546,7 +1546,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
   if (i >= pdialog->num_citizens_shown && i < pcity->size) {
     i = pdialog->num_citizens_shown - 1;
     /* FIXME: what about the mask? */
-    xaw_set_bitmap(pdialog->citizen_labels[i], get_arrow_sprite()->pixmap);
+    xaw_set_bitmap(pdialog->citizen_labels[i], get_arrow_sprite(tileset)->pixmap);
     XtSetSensitive(pdialog->citizen_labels[i], FALSE);
     XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
     return;

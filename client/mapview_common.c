@@ -1440,7 +1440,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 			     struct unit *punit1, int hp1)
 {
   static struct timer *anim_timer = NULL; 
-  struct sprite_vector *anim = get_unit_explode_animation();
+  struct sprite_vector *anim = get_unit_explode_animation(tileset);
   const int num_tiles_explode_unit = sprite_vector_size(anim);
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
   int canvas_x, canvas_y, i;
