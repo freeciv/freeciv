@@ -731,6 +731,7 @@ struct packet_ruleset_unit {
   char veteran_name[MAX_VET_LEVELS][MAX_LEN_NAME];
   float power_fact[MAX_VET_LEVELS];
   int move_bonus[MAX_VET_LEVELS];
+  int bombard_rate;
   char helptext[MAX_LEN_PACKET];
   bv_flags flags;
   bv_roles roles;

@@ -242,6 +242,7 @@ bool unit_has_orders(struct unit *punit);
 bool can_unit_load(struct unit *punit, struct unit *ptrans);
 bool can_unit_unload(struct unit *punit, struct unit *ptrans);
 bool can_unit_paradrop(struct unit *punit);
+bool can_unit_bombard(struct unit *punit);
 bool can_unit_change_homecity(struct unit *punit);
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);
 char* get_activity_text (int activity);

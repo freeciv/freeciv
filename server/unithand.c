@@ -64,6 +64,8 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 						  enum tile_special_type
 						  new_target);
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id);
+static void how_to_declare_war(struct player *pplayer);
+static bool unit_bombard(struct unit *punit, int x, int y);
 
 /**************************************************************************
 ...
@@ -601,18 +603,163 @@ void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
 }
 
 /**************************************************************************
+ Make sure everyone who can see combat does.
+**************************************************************************/
+static void see_combat(struct unit *pattacker, struct unit *pdefender)
+{  
+  struct packet_unit_short_info unit_att_short_packet, unit_def_short_packet;
+
+  /* 
+   * Special case for attacking/defending:
+   * 
+   * Normally the player doesn't get the information about the units inside a
+   * city. However for attacking/defending the player has to know the unit of
+   * the other side.  After the combat a remove_unit packet will be sent
+   * to the client to tidy up.
+   *
+   * Note these packets must be sent out before unit_versus_unit is called,
+   * so that the original unit stats (HP) will be sent.
+   */
+  package_short_unit(pattacker, &unit_att_short_packet, FALSE,
+		     UNIT_INFO_IDENTITY, 0);
+  package_short_unit(pdefender, &unit_def_short_packet, FALSE,
+		     UNIT_INFO_IDENTITY, 0);
+  players_iterate(other_player) {
+    if (map_is_known_and_seen(pattacker->x, pattacker->y, other_player)
+	|| map_is_known_and_seen(pdefender->x, pdefender->y, other_player)) {
+      if (!can_player_see_unit(other_player, pattacker)) {
+	assert(other_player->player_no != pattacker->owner);
+	lsend_packet_unit_short_info(&other_player->connections,
+				     &unit_att_short_packet);
+      }
+
+      if (!can_player_see_unit(other_player, pdefender)) {
+	assert(other_player->player_no != pdefender->owner);
+	lsend_packet_unit_short_info(&other_player->connections,
+				     &unit_def_short_packet);
+      }
+    }
+  } players_iterate_end;
+}
+
+/**************************************************************************
+ Send combat info to players.
+**************************************************************************/
+static void send_combat(struct unit *pattacker, struct unit *pdefender, 
+			int veteran, int bombard)
+{
+  struct packet_unit_combat_info combat;
+
+  combat.attacker_unit_id=pattacker->id;
+  combat.defender_unit_id=pdefender->id;
+  combat.attacker_hp=pattacker->hp;
+  combat.defender_hp=pdefender->hp;
+  combat.make_winner_veteran=veteran;
+
+  players_iterate(other_player) {
+    if (map_is_known_and_seen(pattacker->x, pattacker->y, other_player)
+	|| map_is_known_and_seen(pdefender->x, pdefender->y, other_player)) {
+      lsend_packet_unit_combat_info(&other_player->connections, &combat);
+
+      /* 
+       * Remove the client knowledge of the units.  This corresponds to the
+       * send_packet_unit_short_info calls up above.
+       */
+      if (!can_player_see_unit(other_player, pattacker)) {
+	unit_goes_out_of_sight(other_player, pdefender);
+      }
+      if (!can_player_see_unit(other_player, pdefender)) {
+	unit_goes_out_of_sight(other_player, pdefender);
+      }
+    }
+  } players_iterate_end;
+
+  /* Send combat info to non-player observers as well.  They already know
+   * about the unit so no unit_info is needed. */
+  conn_list_iterate(game.game_connections, pconn) {
+    if (!pconn->player && pconn->observer) {
+      send_packet_unit_combat_info(pconn, &combat);
+    }
+  } conn_list_iterate_end;
+}
+
+/**************************************************************************
+  This function assumes the bombard is legal. The calling function should
+  have already made all necessary checks.
+**************************************************************************/
+static bool unit_bombard(struct unit *punit, int x, int y)
+{
+  struct player *pplayer = unit_owner(punit);
+  struct tile *ptile = map_get_tile(x, y);
+  struct city *pcity = map_get_city(x, y);
+  int old_unit_vet;
+
+  freelog(LOG_DEBUG, "Start bombard: %s's %s to %d, %d.",
+	  pplayer->name, unit_type(punit)->name, x, y);
+
+  unit_list_iterate_safe(ptile->units, pdefender) {
+
+    /* Sanity checks */
+    if (pplayers_non_attack(unit_owner(punit), unit_owner(pdefender))) {
+      die("Trying to attack a unit with which you have peace "
+	  "or cease-fire at %i, %i", pdefender->x, pdefender->y);
+    }
+    if (pplayers_allied(unit_owner(punit), unit_owner(pdefender))
+	&& !(unit_flag(punit, F_NUCLEAR) && punit == pdefender)) {
+      die("Trying to attack a unit with which you have alliance at %i, %i",
+	  pdefender->x, pdefender->y);
+    }
+
+    if (!is_air_unit(pdefender)
+	|| (pcity || map_has_special(x, y, S_AIRBASE))) {
+      see_combat(punit, pdefender);
+
+      unit_versus_unit(punit, pdefender, TRUE);
+
+      send_combat(punit, pdefender, 0, 1);
+  
+      send_unit_info(NULL, pdefender);
+    }
+
+  } unit_list_iterate_safe_end;
+
+  punit->moves_left = 0;
+  
+  if (pcity
+      && pcity->size > 1
+      && !city_got_citywalls(pcity)
+      && kills_citizen_after_attack(punit)) {
+    city_reduce_size(pcity,1);
+    city_refresh(pcity);
+    send_city_info(NULL, pcity);
+  }
+
+  old_unit_vet = punit->veteran;
+  maybe_make_veteran(punit);
+  if (punit->veteran != old_unit_vet) {
+    notify_player_ex(unit_owner(punit), punit->x, punit->y,
+		     E_UNIT_WIN_ATT,
+		     _("Game: Your bombarding %s%s became more experienced!"),
+		     unit_name(punit->type),
+		     get_location_str_at(unit_owner(punit),
+		     punit->x, punit->y));
+  }
+
+  send_unit_info(NULL, punit);
+  return TRUE;
+}
+
+/**************************************************************************
 This function assumes the attack is legal. The calling function should have
 already made all neccesary checks.
 **************************************************************************/
 static void handle_unit_attack_request(struct unit *punit, struct unit *pdefender)
 {
   struct player *pplayer = unit_owner(punit);
-  struct packet_unit_combat_info combat;
   struct unit *plooser, *pwinner;
   struct city *pcity;
   int moves_used, def_moves_used; 
   int def_x = pdefender->x, def_y = pdefender->y;
-  struct packet_unit_short_info unit_att_short_packet, unit_def_short_packet;
   int old_unit_vet, old_defender_vet, vet;
 
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
@@ -652,41 +799,11 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
 
-  /* 
-   * Special case for attacking/defending:
-   * 
-   * Normally the player doesn't get the information about the units inside a
-   * city. However for attacking/defending the player has to know the unit of
-   * the other side.  After the combat a remove_unit packet will be sent
-   * to the client to tidy up.
-   *
-   * Note these packets must be sent out before unit_versus_unit is called,
-   * so that the original unit stats (HP) will be sent.
-   */
-  package_short_unit(punit, &unit_att_short_packet, FALSE,
-		     UNIT_INFO_IDENTITY, 0);
-  package_short_unit(pdefender, &unit_def_short_packet, FALSE,
-		     UNIT_INFO_IDENTITY, 0);
-  players_iterate(other_player) {
-    if (map_is_known_and_seen(punit->x, punit->y, other_player) ||
-	map_is_known_and_seen(def_x, def_y, other_player)) {
-      if (!can_player_see_unit(other_player, punit)) {
-	assert(other_player->player_no != punit->owner);
-	lsend_packet_unit_short_info(&other_player->connections,
-				     &unit_att_short_packet);
-      }
-
-      if (!can_player_see_unit(other_player, pdefender)) {
-	assert(other_player->player_no != pdefender->owner);
-	lsend_packet_unit_short_info(&other_player->connections,
-				     &unit_def_short_packet);
-      }
-    }
-  } players_iterate_end;
+  see_combat(punit, pdefender);
 
   old_unit_vet = punit->veteran;
   old_defender_vet = pdefender->veteran;
-  unit_versus_unit(punit, pdefender);
+  unit_versus_unit(punit, pdefender, FALSE);
 
   /* Adjust attackers moves_left _after_ unit_versus_unit() so that
    * the movement attack modifier is correct! --dwp
@@ -723,37 +840,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   vet = (pwinner->veteran == ((punit->hp > 0) ? old_unit_vet :
 	old_defender_vet)) ? 0 : 1;
 
-  combat.attacker_unit_id=punit->id;
-  combat.defender_unit_id=pdefender->id;
-  combat.attacker_hp=punit->hp;
-  combat.defender_hp=pdefender->hp;
-  combat.make_winner_veteran=vet;
-
-  players_iterate(other_player) {
-    if (map_is_known_and_seen(punit->x, punit->y, other_player) ||
-	map_is_known_and_seen(def_x, def_y, other_player)) {
-      lsend_packet_unit_combat_info(&other_player->connections, &combat);
-
-      /* 
-       * Remove the client knowledge of the units.  This corresponds to the
-       * send_packet_unit_short_info calls up above.
-       */
-      if (!can_player_see_unit(other_player, punit)) {
-	unit_goes_out_of_sight(other_player, punit);
-      }
-      if (!can_player_see_unit(other_player, pdefender)) {
-	unit_goes_out_of_sight(other_player, pdefender);
-      }
-    }
-  } players_iterate_end;
-
-  /* Send combat info to non-player observers as well.  They already know
-   * about the unit so no unit_info is needed. */
-  conn_list_iterate(game.game_connections, pconn) {
-    if (!pconn->player && pconn->observer) {
-      send_packet_unit_combat_info(pconn, &combat);
-    }
-  } conn_list_iterate_end;
+  send_combat(punit, pdefender, vet, 0);
   
   if (punit == plooser) {
     /* The attacker lost */
@@ -1025,6 +1112,24 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
       how_to_declare_war(pplayer);
       return FALSE;
     }
+
+    /* Are we a bombarder? */
+    if (unit_flag(punit, F_BOMBARDER)) {
+      /* Only land can be bombarded, if the target is on ocean, fall
+       * through to attack. */
+      if (!is_ocean(map_get_terrain(x, y))) {
+	if (can_unit_bombard(punit)) {
+	  unit_bombard(punit, x, y);
+	  return TRUE;
+	} else {
+	  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+			   _("Game: This unit is being transported, and"
+			     " so cannot bombard."));
+	  return FALSE;
+	}
+      }
+    }
+
 
     /* The attack is legal wrt the alliances */
     victim = get_defender(punit, x, y);

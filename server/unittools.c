@@ -140,11 +140,14 @@ bool maybe_make_veteran(struct unit *punit)
 /**************************************************************************
   This is the basic unit versus unit combat routine.
   1) ALOT of modifiers bonuses etc is added to the 2 units rates.
-  2) the combat loop, which continues until one of the units are dead
-  3) the aftermath, the looser (and potentially the stack which is below it)
+  2) If the attack is a bombardment, do rate attacks and don't kill the
+     defender, then return.
+  3) the combat loop, which continues until one of the units are dead
+  4) the aftermath, the loser (and potentially the stack which is below it)
      is wiped, and the winner gets a chance of gaining veteran status
 **************************************************************************/
-void unit_versus_unit(struct unit *attacker, struct unit *defender)
+void unit_versus_unit(struct unit *attacker, struct unit *defender,
+		      bool bombard)
 {
   int attackpower = get_total_attack_power(attacker,defender);
   int defensepower = get_total_defense_power(attacker,defender);
@@ -155,6 +158,24 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
 
   freelog(LOG_VERBOSE, "attack:%d, defense:%d, attack firepower:%d, defense firepower:%d",
 	  attackpower, defensepower, attack_firepower, defense_firepower);
+
+  if (bombard) {
+    int i;
+    int rate = unit_type(attacker)->bombard_rate;
+
+    for (i = 0; i < rate; i++) {
+      if (myrand(attackpower+defensepower) >= defensepower) {
+	defender->hp -= attack_firepower;
+      }
+    }
+
+    /* Don't kill the target. */
+    if (defender->hp <= 0) {
+      defender->hp = 1;
+    }
+    return;
+  }
+
   if (attackpower == 0) {
       attacker->hp=0; 
   } else if (defensepower == 0) {

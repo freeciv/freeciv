@@ -116,6 +116,7 @@ enum unit_flag_id {
   F_SUPERSPY,         /* Always wins diplomatic contests */
   F_NOHOME,           /* Has no homecity */
   F_NO_VETERAN,       /* Cannot increase veteran level */
+  F_BOMBARDER,        /* Has the ability to bombard */
   F_LAST
 };
 #define F_MAX 64
@@ -207,6 +208,9 @@ struct unit_type {
 
   /* Additional values for the expanded veteran system */
   struct veteran_type veteran[MAX_VET_LEVELS];
+
+  /* Values for bombardment */
+  int bombard_rate;
   
   char *helptext;
 };

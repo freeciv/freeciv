@@ -946,6 +946,8 @@ PACKET_RULESET_UNIT=96;sc,lsend
   FLOAT power_fact[MAX_VET_LEVELS]; add-cap(veteran)
   UINT8 move_bonus[MAX_VET_LEVELS]; add-cap(veteran)
 
+  UINT8 bombard_rate; add-cap(bombard)
+
   STRING helptext[MAX_LEN_PACKET];
 
   bitvector(bv_flags) flags;

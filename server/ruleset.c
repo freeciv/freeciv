@@ -931,6 +931,9 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
         u->paratroopers_mr_req = 0;
         u->paratroopers_mr_sub = 0;
       }
+
+      u->bombard_rate = secfile_lookup_int_default(file, 0,
+	  "%s.bombard_rate", sec[i]);
     }
     free(slist);
   } unit_type_iterate_end;
@@ -2732,6 +2735,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.paratroopers_range = u->paratroopers_range;
     packet.paratroopers_mr_req = u->paratroopers_mr_req;
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
+    packet.bombard_rate = u->bombard_rate;
     for (i = 0; i < MAX_VET_LEVELS; i++) {
       sz_strlcpy(packet.veteran_name[i], u->veteran[i].name);
       packet.power_fact[i] = u->veteran[i].power_fact;
