@@ -2480,6 +2480,14 @@ static int is_ok_opt_value_char(char c)
 }
 
 /******************************************************************
+  Which characters are allowed between option names and values: (for 'set')
+******************************************************************/
+static int is_ok_opt_name_value_sep_char(char c)
+{
+  return (c == '=') || isspace(c);
+}
+
+/******************************************************************
   ...
 ******************************************************************/
 static void set_command(struct connection *caller, char *str) 
@@ -2497,7 +2505,7 @@ static void set_command(struct connection *caller, char *str)
   }
   *cptr_d='\0';
   
-  for(; *cptr_s && !is_ok_opt_value_char(*cptr_s); cptr_s++);
+  for(; *cptr_s && is_ok_opt_name_value_sep_char(*cptr_s); cptr_s++);
 
   for(cptr_d=arg; *cptr_s && is_ok_opt_value_char(*cptr_s); cptr_s++ , cptr_d++)
     *cptr_d=*cptr_s;
@@ -2529,7 +2537,11 @@ static void set_command(struct connection *caller, char *str)
   
   if (SETTING_IS_INT(op)) {
     val = atoi(arg);
-    if (val >= op->min_value && val <= op->max_value) {
+    if (!val && arg[0] != '0') {
+      /* arg doesn't seem to be a number at all */
+      cmd_reply(CMD_SET, caller, C_SYNTAX,
+		_("Value must be an integer"));
+    } else if (val >= op->min_value && val <= op->max_value) {
       char *reject_message = NULL;
       if (!settings[cmd].func_change || settings[cmd].func_change(val, &reject_message)) {
 	*(op->value) = val;
