@@ -39,8 +39,11 @@ then
 	cp debian/changelog debian/changelog.save
 fi
 lastversion="`dpkg-parsechangelog -ldebian/changelog.save |grep Version |cut -f 2 -d " "`"
-snapversion="${lastversion%-*}+cvs`date +%Y%m%d`"
 
+MAJOR_VERSION=`awk -F= '$1 == "MAJOR_VERSION" {print $2}' configure.in`
+MINOR_VERSION=`awk -F= '$1 == "MINOR_VERSION" {print $2}' configure.in`
+PATCH_VERSION=`awk -F= '$1 == "PATCH_VERSION" {print $2}' configure.in`
+snapversion="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-cvs`date +%Y%m%d`"
 
 cat >debian/changelog <<EOF
 freeciv ($snapversion) experimental; urgency=low
