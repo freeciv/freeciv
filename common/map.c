@@ -43,6 +43,10 @@ struct tile_type tile_types[T_LAST];
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
+/* like DIR_DX[] and DIR_DY[], only cartesian */
+const int CAR_DIR_DX[4] = {1, 0, -1, 0};
+const int CAR_DIR_DY[4] = {0, 1, 0, -1};
+
 /* Names of specials.
  * (These must correspond to enum tile_special_type in terrain.h.)
  */
@@ -196,17 +200,13 @@ void map_init(void)
 **************************************************************************/
 void map_allocate(void)
 {
-  int x,y;
-
   freelog(LOG_DEBUG, "map_allocate (was %p) (%d,%d)",
 	  map.tiles, map.xsize, map.ysize);
   
   map.tiles=fc_realloc(map.tiles, map.xsize*map.ysize*sizeof(struct tile));
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++) {
-      tile_init(map_get_tile(x, y));
-    }
-  }
+  whole_map_iterate(x, y) {
+    tile_init(map_get_tile(x, y));
+  } whole_map_iterate_end;
 }
 
 
@@ -320,21 +320,15 @@ int map_distance(int x0, int y0, int x1, int y1)
 }
 
 /***************************************************************
- The following two function should always be used, such
- that hand optimizations need only be performed once.
- using isnt_ is faster than using is_ sometimes.
- is terrain close diagonally or gridwise ?
+...
 ***************************************************************/
 int is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 {
-  if (map_get_terrain(x-1, y+1)==t) return 1;
-  if (map_get_terrain(x+1, y-1)==t) return 1;
-  if (map_get_terrain(x-1, y-1)==t) return 1;
-  if (map_get_terrain(x+1, y+1)==t) return 1;
-  if (map_get_terrain(x, y+1)==t)   return 1;
-  if (map_get_terrain(x-1, y)==t)   return 1;
-  if (map_get_terrain(x+1, y)==t)   return 1;
-  if (map_get_terrain(x, y-1)==t)   return 1;
+  adjc_iterate(x, y, x1, y1) {
+    if (map_get_terrain(x1, y1) == t)
+      return 1;
+  } adjc_iterate_end;
+
   return 0;
 }
 
@@ -343,16 +337,14 @@ int is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 ***************************************************************/
 int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 {
-  int rval= 0;
-  if (map_get_terrain(x, y+1)==t)   rval++;
-  if (map_get_terrain(x-1, y-1)==t) rval++;
-  if (map_get_terrain(x-1, y)==t)   rval++;
-  if (map_get_terrain(x-1, y+1)==t) rval++;
-  if (map_get_terrain(x+1, y-1)==t) rval++;
-  if (map_get_terrain(x+1, y)==t)   rval++;
-  if (map_get_terrain(x+1, y+1)==t) rval++;
-  if (map_get_terrain(x, y-1)==t)   rval++;
-  return rval;
+  int count = 0;
+
+  adjc_iterate(x, y, x1, y1) {
+    if (map_get_terrain(x1, y1) == t)
+      count++;
+  } adjc_iterate_end;
+
+  return count;
 }
 
 /***************************************************************
@@ -360,14 +352,11 @@ int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 ***************************************************************/
 int is_special_near_tile(int x, int y, enum tile_special_type spe)
 {
-  if (map_get_special(x-1, y+1)&spe) return 1;
-  if (map_get_special(x+1, y-1)&spe) return 1;
-  if (map_get_special(x-1, y-1)&spe) return 1;
-  if (map_get_special(x+1, y+1)&spe) return 1;
-  if (map_get_special(x, y+1)&spe)   return 1;
-  if (map_get_special(x-1, y)&spe)   return 1;
-  if (map_get_special(x+1, y)&spe)   return 1;
-  if (map_get_special(x, y-1)&spe)   return 1;
+  adjc_iterate(x, y, x1, y1) {
+    if (map_get_special(x1, y1) & spe)
+      return 1;
+  } adjc_iterate_end;
+
   return 0;
 }
 
@@ -376,16 +365,14 @@ int is_special_near_tile(int x, int y, enum tile_special_type spe)
 ***************************************************************/
 int count_special_near_tile(int x, int y, enum tile_special_type spe)
 {
-  int rval= 0;
-  if (map_get_special(x, y+1)&spe)   rval++;
-  if (map_get_special(x-1, y-1)&spe) rval++;
-  if (map_get_special(x-1, y)&spe)   rval++;
-  if (map_get_special(x-1, y+1)&spe) rval++;
-  if (map_get_special(x+1, y-1)&spe) rval++;
-  if (map_get_special(x+1, y)&spe)   rval++;
-  if (map_get_special(x+1, y+1)&spe) rval++;
-  if (map_get_special(x, y-1)&spe)   rval++;
-  return rval;
+  int count = 0;
+
+  adjc_iterate(x, y, x1, y1) {
+    if (map_get_special(x1, y1) & spe)
+      count++;
+  } adjc_iterate_end;
+
+  return count;
 }
 
 /***************************************************************
@@ -393,28 +380,24 @@ int count_special_near_tile(int x, int y, enum tile_special_type spe)
 ***************************************************************/
 int is_at_coast(int x, int y)
 {
-  if (map_get_terrain(x-1,y)==T_OCEAN)   return 1;
-  if (map_get_terrain(x,y-1)==T_OCEAN)   return 1;
-  if (map_get_terrain(x,y+1)==T_OCEAN)   return 1;
-  if (map_get_terrain(x+1,y)==T_OCEAN)   return 1;
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (map_get_terrain(x1, y1) == T_OCEAN)
+      return 1;
+  } cartesian_adjacent_iterate_end;
+
   return 0;
-  
 }
 
 /***************************************************************
 ...
 ***************************************************************/
-int is_coastline(int x,int y) 
+int is_coastline(int x, int y)
 {
-  /*if (map_get_terrain(x,y)!=T_OCEAN)   return 0;*/
-  if (map_get_terrain(x-1,y)!=T_OCEAN)   return 1;
-  if (map_get_terrain(x-1,y-1)!=T_OCEAN) return 1;
-  if (map_get_terrain(x-1,y+1)!=T_OCEAN) return 1;
-  if (map_get_terrain(x,y-1)!=T_OCEAN)   return 1;
-  if (map_get_terrain(x,y+1)!=T_OCEAN)   return 1;
-  if (map_get_terrain(x+1,y-1)!=T_OCEAN) return 1;
-  if (map_get_terrain(x+1,y)!=T_OCEAN)   return 1;
-  if (map_get_terrain(x+1,y+1)!=T_OCEAN) return 1;
+  adjc_iterate(x, y, x1, y1) {
+    if (map_get_terrain(x1, y1) != T_OCEAN)
+      return 1;
+  } adjc_iterate_end;
+
   return 0;
 }
 
@@ -423,11 +406,12 @@ int is_coastline(int x,int y)
 ***************************************************************/
 int terrain_is_clean(int x, int y)
 {
-  int x1,y1;
-  for (x1=x-3;x1<x+3;x1++)
-    for (y1=y-3;y1<y+3;y1++) 
-      if (map_get_terrain(x1,y1)!=T_GRASSLAND
-	  && map_get_terrain(x1,y1)!=T_PLAINS) return 0;
+  square_iterate(x, y, 2, x1, y1) {
+    if (map_get_terrain(x1,y1) != T_GRASSLAND
+	&& map_get_terrain(x1,y1) != T_PLAINS)
+      return 0;
+  } square_iterate_end;
+
   return 1;
 }
 
@@ -524,12 +508,11 @@ int is_good_tile(int x, int y)
 ***************************************************************/
 int is_hut_close(int x, int y)
 {
-  int x1,y1;
-  for (y1=y-3;y1<y+4;y1++) 
-    for (x1=x-3;x1<x+4;x1++) {
-      if (map_get_tile(x1,y1)->special&S_HUT)
-	return 1;
-    } 
+  square_iterate(x, y, 3, x1, y1) {
+    if (map_get_tile(x1, y1)->special & S_HUT)
+      return 1;
+  } square_iterate_end;
+
   return 0;
 }
 
@@ -539,25 +522,25 @@ int is_hut_close(int x, int y)
 ***************************************************************/
 int is_special_close(int x, int y)
 {
-  int x1,y1;
-  for (x1=x-1;x1<x+2;x1++)
-    for (y1=y-1;y1<=y+2;y1++) 
-      if(map_get_tile(x1,y1)->special&(S_SPECIAL_1 | S_SPECIAL_2))
-	return 1;
+  square_iterate(x, y, 1, x1, y1) {
+    if (map_get_tile(x1, y1)->special & (S_SPECIAL_1 | S_SPECIAL_2))
+      return 1;
+  } square_iterate_end;
+
   return 0;
 }
 
 /***************************************************************
-...
+Returns whether you can put a city on land near enough to use
+the tile.
 ***************************************************************/
 int is_sea_usable(int x, int y)
 {
-  int x1,y1;
-  for (x1=x-2;x1<x+3;x1++)
-    for (y1=y-2;y1<=y+3;y1++) 
-      if( !( (x==x1-2||x==x1+2) && (y==y1-2||y==y1+2) ) )
-	if(map_get_terrain(x1,y1)!=T_OCEAN)
-	  return 1;
+  map_city_radius_iterate(x, y, x1, y1) {
+    if (map_get_terrain(x1, y1) != T_OCEAN)
+      return 1;
+  } map_city_radius_iterate_end;
+
   return 0;
 }
 
@@ -688,24 +671,25 @@ int get_preferred_pillage(int pset)
 ***************************************************************/
 int is_water_adjacent_to_tile(int x, int y)
 {
-  struct tile *ptile, *ptile_n, *ptile_e, *ptile_s, *ptile_w;
+  struct tile *ptile;
 
-  ptile=map_get_tile(x, y);
-  ptile_n=map_get_tile(x, y-1);
-  ptile_e=map_get_tile(x+1, y);
-  ptile_s=map_get_tile(x, y+1);
-  ptile_w=map_get_tile(x-1, y);
+  ptile = map_get_tile(x, y);
+  if (ptile->terrain == T_OCEAN
+      || ptile->terrain == T_RIVER
+      || ptile->special & S_RIVER
+      || ptile->special & S_IRRIGATION)
+    return 1;
 
-  return (ptile->terrain==T_OCEAN   || ptile->terrain==T_RIVER
-	  || ptile->special&S_RIVER || ptile->special&S_IRRIGATION ||
-	  ptile_n->terrain==T_OCEAN || ptile_n->terrain==T_RIVER
-	  || ptile_n->special&S_RIVER || ptile_n->special&S_IRRIGATION ||
-	  ptile_e->terrain==T_OCEAN || ptile_e->terrain==T_RIVER
-	  || ptile_e->special&S_RIVER || ptile_e->special&S_IRRIGATION ||
-	  ptile_s->terrain==T_OCEAN || ptile_s->terrain==T_RIVER
-	  || ptile_s->special&S_RIVER || ptile_s->special&S_IRRIGATION ||
-	  ptile_w->terrain==T_OCEAN || ptile_w->terrain==T_RIVER
-	  || ptile_w->special&S_RIVER || ptile_w->special&S_IRRIGATION);
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    ptile = map_get_tile(x1, y1);
+    if (ptile->terrain == T_OCEAN
+	|| ptile->terrain == T_RIVER
+	|| ptile->special & S_RIVER
+	|| ptile->special & S_IRRIGATION)
+      return 1;
+  } cartesian_adjacent_iterate_end;
+
+  return 0;
 }
 
 /***************************************************************
@@ -955,15 +939,19 @@ void reset_move_costs(int x, int y)
   debug_log_move_costs("Resetting move costs for", x, y, tile0);
 
   for (dir = 0; dir < 8; dir++) {
-    x1 = map_adjust_x(x + DIR_DX[dir]);
+    x1 = x + DIR_DX[dir];
     y1 = y + DIR_DY[dir];
-    tile1 = map_get_tile(x1, y1);
-    tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
-					      x1, y1, maxcost);
-    /* reverse: not at all obfuscated now --dwp */
-    /* this might muck with void_tile, but who cares? */
-    tile1->move_cost[7 - dir] = tile_move_cost_ai(tile1, tile0, x1, y1,
-						x, y, maxcost);
+    if (normalize_map_pos(&x1, &y1)) {
+      tile1 = map_get_tile(x1, y1);
+      tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
+						x1, y1, maxcost);
+      /* reverse: not at all obfuscated now --dwp */
+      tile1->move_cost[7 - dir] = tile_move_cost_ai(tile1, tile0, x1, y1,
+						    x, y, maxcost);
+    } else {
+      /* trying to move off the screen. */
+      tile0->move_cost[dir] = maxcost;
+    }
   }
   debug_log_move_costs("Reset move costs for", x, y, tile0);
 }
@@ -975,26 +963,27 @@ void reset_move_costs(int x, int y)
 ***************************************************************/
 void initialize_move_costs(void)
 {
-  int x, y, x1, y1, dir;
   int maxcost = 72; /* should be big enough without being TOO big */
-  struct tile *tile0, *tile1;
+  int dir;
 
   for (dir = 0; dir < 8; dir++) {
     void_tile.move_cost[dir] = maxcost;
   }
 
-  for (x = 0; x < map.xsize; x++) {
-    for (y = 0; y < map.ysize; y++) {
-      tile0 = map_get_tile(x, y);
-      for (dir = 0; dir < 8; dir++) {
-        x1 = map_adjust_x(x + DIR_DX[dir]);
-        y1 = y + DIR_DY[dir];
-        tile1 = map_get_tile(x1, y1);
-        tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
+  whole_map_iterate(x, y) {
+    struct tile *tile0, *tile1;
+    int x1, y1;
+    tile0 = map_get_tile(x, y);
+    /* Note: it is smart to also calculate the move costs in invalid
+       directions here, as they will be set to MAXCOST. */
+    for (dir = 0; dir < 8; dir++) {
+      x1 = map_adjust_x(x + DIR_DX[dir]);
+      y1 = y + DIR_DY[dir];
+      tile1 = map_get_tile(x1, y1);
+      tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
 						x1, y1, maxcost);
-      }
     }
-  }
+  } whole_map_iterate_end;
 }
 
 /***************************************************************

@@ -302,7 +302,7 @@ extern struct tile_type tile_types[T_LAST];
 	if (MACRO_dx > MACRO_max_dx || MACRO_dx < MACRO_min_dx)               \
 	  continue;                                                           \
       }                                                                       \
-      if (ARG_x_itr >= map.xsize)                                              \
+      if (ARG_x_itr >= map.xsize)                                             \
 	ARG_x_itr -= map.xsize;                                               \
       else if (ARG_x_itr < 0)                                                 \
 	ARG_x_itr += map.xsize;
@@ -385,6 +385,49 @@ will give you the tile as shown below.
  */
 extern const int DIR_DX[8];
 extern const int DIR_DY[8];
+
+/* like DIR_DX[] and DIR_DY[], only cartesian */
+extern const int CAR_DIR_DX[4];
+extern const int CAR_DIR_DY[4];
+
+#define cartesian_adjacent_iterate(x, y, IAC_x, IAC_y) \
+{                                                      \
+  int IAC_i;                                           \
+  int IAC_x, IAC_y;                                    \
+  for (IAC_i = 0; IAC_i < 4; IAC_i++) {                \
+    switch (IAC_i) {                                   \
+    case 0:                                            \
+      IAC_x = x + 1;                                   \
+      IAC_y = y;                                       \
+      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
+	continue;                                      \
+      break;                                           \
+    case 1:                                            \
+      IAC_x = x;                                       \
+      IAC_y = y + 1;                                   \
+      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
+	continue;                                      \
+      break;                                           \
+    case 2:                                            \
+      IAC_x = x - 1;                                   \
+      IAC_y = y;                                       \
+      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
+	continue;                                      \
+      break;                                           \
+    case 3:                                            \
+      IAC_x = x;                                       \
+      IAC_y = y - 1;                                   \
+      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
+	continue;                                      \
+      break;                                           \
+    default:                                           \
+      abort();                                         \
+    }
+
+#define cartesian_adjacent_iterate_end                 \
+  }                                                    \
+}
+
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0

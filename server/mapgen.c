@@ -45,48 +45,6 @@ static void adjust_map(int minval);
 #define RIVERS_MAXTRIES 32767
 enum river_map_type {RS_BLOCKED = 1, RS_RIVER = 2};
 
-/* like DIR_DX[] and DIR_DY[], only cartesian */
-const int CAR_DIR_DX[4] = {1, 0, -1, 0};
-const int CAR_DIR_DY[4] = {0, 1, 0, -1};
-
-#define cartesian_adjacent_iterate(x, y, IAC_x, IAC_y) \
-{                                                      \
-  int IAC_i;                                           \
-  int IAC_x, IAC_y;                                    \
-  for (IAC_i = 0; IAC_i < 4; IAC_i++) {                \
-    switch (IAC_i) {                                   \
-    case 0:                                            \
-      IAC_x = x + 1;                                   \
-      IAC_y = y;                                       \
-      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
-	continue;                                      \
-      break;                                           \
-    case 1:                                            \
-      IAC_x = x;                                       \
-      IAC_y = y + 1;                                   \
-      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
-	continue;                                      \
-      break;                                           \
-    case 2:                                            \
-      IAC_x = x - 1;                                   \
-      IAC_y = y;                                       \
-      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
-	continue;                                      \
-      break;                                           \
-    case 3:                                            \
-      IAC_x = x;                                       \
-      IAC_y = y - 1;                                   \
-      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
-	continue;                                      \
-      break;                                           \
-    default:                                           \
-      abort();                                         \
-    }
-
-#define cartesian_adjacent_iterate_end                 \
-  }                                                    \
-}
-
 /* Array needed to mark tiles as blocked to prevent a river from
    falling into itself, and for storing rivers temporarly.
    A value of 1 means blocked.
@@ -818,7 +776,7 @@ static void make_passable(void)
 static void make_fair(void)
 {
   int x,y;
-  for (y=2;y<map.ysize-3;y++) {
+  for (y=2;y<map.ysize-2;y++) {
     for (x=0;x<map.xsize;x++) {
       if (terrain_is_clean(x,y)) {
 	if (map_get_terrain(x, y) != T_RIVER &&
