@@ -62,7 +62,7 @@ int send_to_metaserver(char *desc, char *info)
   struct TUnitData xmit;
   OSStatus err;
   xmit.udata.maxlen = MAX_PACKET_SIZE;
-  xmit.udata.buf=&buffer;
+  xmit.udata.buf=buffer;
 #else  
   if(sockfd==0)
     return 0;
@@ -72,7 +72,7 @@ int send_to_metaserver(char *desc, char *info)
   cptr=put_string(cptr, info);
   put_int16(buffer, cptr-buffer);
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
-  xmit.udata.len=strlen(buffer);
+  xmit.udata.len=strlen((const char *)buffer);
   err=OTSndUData(meta_ep, &xmit);
 #else
   n=sendto(sockfd, buffer, cptr-buffer,0, 
@@ -97,8 +97,8 @@ void server_open_udp(void)
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
   OSStatus err1;
   OSErr err2;
-  MapperRef ref=OTOpenMapper(OTCreateConfiguration("dnr"), 0, &err1);
-  TLookupRequest request, reply;
+  InetSvcRef ref=OTOpenInternetServices(kDefaultInternetServicesPath, 0, &err1);
+  InetHostInfo hinfo;
 #else
   struct hostent *hp;
   u_int bin;
@@ -110,11 +110,13 @@ void server_open_udp(void)
    * is valid, both decimal-dotted and name.
    */
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
-  request.udata.len=strlen(servername);
-  request.udata.buf=&servername;
-  err2=OTLookupName(ref, 1, &request, &reply);
-  serv_adr=reply.udata.buf;
-  bad = ((serv_adr.fHost == 0) || (err2 != 0) || (reply.respcount==0));
+  if (err1 == 0)
+  {
+    err1=OTInetStringToAddress(ref, servername,&hinfo);
+    serv_addr.fHost=hinfo.addrs[0];
+    bad = ((serv_addr.fHost == 0) || (err1 != 0));
+  } else
+    bad=true;
 #else
   in_size = sizeof(inet_addr(servername));
   bin = inet_addr(servername);
@@ -151,7 +153,7 @@ void server_open_udp(void)
    */
   
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
-  err=OTBind(meta_ep, NULL, NULL);
+  err1=OTBind(meta_ep, NULL, NULL);
   bad = (err1 != 0);
 #else
   memset( &cli_addr, 0, sizeof(cli_addr));	/* zero out */
