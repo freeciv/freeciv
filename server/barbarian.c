@@ -149,7 +149,6 @@ static struct player *create_barbarian_player(int land)
 
   sz_strlcpy(barbarians->username, barbarians->name);
   barbarians->is_connected = 0;
-  barbarians->conn = NULL;
   barbarians->government = game.government_when_anarchy; 
   barbarians->capital = 0;
   barbarians->economic.gold = 100;

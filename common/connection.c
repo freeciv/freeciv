@@ -46,6 +46,11 @@
 #define SPECLIST_TYPE struct connection
 #include "speclist_c.h"
 
+/* String used for connection.addr and related cases to indicate
+ * blank/unknown/not-applicable address:
+ */
+const char blank_addr_str[] = "---.---.---.---";
+  
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
   used to control access to server commands typed at the client chatline.

@@ -152,10 +152,8 @@ struct player {
   int future_tech;
   struct player_ai ai;
   int is_connected;		       /* observers don't count */
-  struct connection *conn;
   struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list connections;	       /* will replace conn */
-  char addr[MAX_LEN_ADDR];
   struct worklist worklists[MAX_NUM_WORKLISTS];
 };
 
@@ -182,6 +180,8 @@ int player_knows_improvement_tech(struct player *pplayer,
 int player_knows_techs_with_flag(struct player *pplayer, int flag);
 
 void player_limit_to_government_rates(struct player *pplayer);
+
+const char *player_addr_hack(struct player *pplayer);
 
 struct city *find_palace(struct player *pplayer);
 

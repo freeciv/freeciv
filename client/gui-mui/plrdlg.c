@@ -167,7 +167,7 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
     *array++ = dsbuf;
     *array++ = repbuf;
     *array++ = statebuf;
-    *array++ = game.players[i].addr;
+    *array++ = (char*)player_addr_hack(&game.players[i]);  /* Fixme */
     *array = idlebuf;
   }
   else

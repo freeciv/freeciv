@@ -2213,12 +2213,20 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
       info.nturns_idle=game.players[i].nturns_idle;
       info.is_alive=game.players[i].is_alive;
       info.is_connected=game.players[i].is_connected;
-      sz_strlcpy(info.addr, game.players[i].addr);
       info.revolution=game.players[i].revolution;
       info.ai=game.players[i].ai.control;
       info.is_barbarian=game.players[i].ai.is_barbarian;
-      if(game.players[i].conn)
-	sz_strlcpy(info.capability,game.players[i].conn->capability);
+
+      /* Fixme: For now, use player_addr_hack(), and capstr of
+       * first connection:
+       */
+      sz_strlcpy(info.addr, player_addr_hack(&game.players[i]));
+      if (conn_list_size(&game.players[i].connections)) {
+	sz_strlcpy(info.capability,
+		   conn_list_get(&game.players[i].connections, 0)->capability);
+      } else {
+	info.capability[0] = '\0';
+      }
       
       for (j = 0; j < MAX_NUM_WORKLISTS; j++)
 	copy_worklist(&info.worklists[j], &game.players[i].worklists[j]);
@@ -2290,8 +2298,6 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 	secfile_lookup_int_default(file, WORKLIST_END,
 				   "player%d.worklist%d.ids%d", plrno, j, i);
   }
-
-  sz_strlcpy(plr->addr, "---.---.---.---");
 
   plr->nturns_idle=0;
   plr->is_male=secfile_lookup_int_default(file, 1, "player%d.is_male", plrno);
@@ -3260,10 +3266,6 @@ void neutralize_ai_player(struct player *pplayer)
   Setup pconn as a client connected to pplayer:
   Updates pconn->player, pplayer->connections, pplayer->is_connected.
   Note "observer" connections do not count for is_connected.
-
-  TEMPORARY: if this is pplayer's only connection, set pplayer->conn
-  to pconn, and pplayer->addr to pconn->addr, for interim where we have
-  both pplayer->conn and pplayer->connections. 
 **************************************************************************/
 void associate_player_connection(struct player *pplayer,
 				 struct connection *pconn)
@@ -3275,12 +3277,6 @@ void associate_player_connection(struct player *pplayer,
   if (!pconn->observer) {
     pplayer->is_connected = 1;
   }
-  
-  /* TEMPORARY: */
-  if (conn_list_size(&pplayer->connections)==1) {
-    sz_strlcpy(pplayer->addr, pconn->addr);
-    pplayer->conn = pconn;
-  }
 }
 
 /**************************************************************************
@@ -3288,8 +3284,6 @@ void associate_player_connection(struct player *pplayer,
   Update pplayer->connections, pplayer->is_connected.
   Sets pconn->player to NULL (normally expect pconn->player==pplayer
   when function entered, but not checked).
-  
-  TEMPORARY: if pconn is pplayer->conn, adjust appropriately...
 **************************************************************************/
 void unassociate_player_connection(struct player *pplayer,
 				   struct connection *pconn)
@@ -3307,15 +3301,4 @@ void unassociate_player_connection(struct player *pplayer,
     }
   }
   conn_list_iterate_end;
-  
-  /* TEMPORARY: */
-  if (pplayer->conn == pconn) {
-    if (conn_list_size(&pplayer->connections)==0) {
-      pplayer->conn = NULL;
-      sz_strlcpy(pplayer->addr, "---.---.---.---");
-    } else {
-      pplayer->conn = conn_list_get(&pplayer->connections, 0);
-      sz_strlcpy(pplayer->addr, pplayer->conn->addr);
-    }
-  }
 }

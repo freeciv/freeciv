@@ -259,7 +259,7 @@ void update_players_dialog(void)
       row[3] = dsbuf;
       row[4] = repbuf;
       row[5] = statebuf;
-      row[6] = game.players[i].addr;
+      row[6] = (char*)player_addr_hack(&game.players[i]);  /* Fixme */
       row[7] = idlebuf;
 
       gtk_clist_append(GTK_CLIST(players_list), row);

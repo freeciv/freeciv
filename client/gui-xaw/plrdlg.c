@@ -265,7 +265,7 @@ void update_players_dialog(void)
 	      dsbuf,
 	      repbuf,
 	      statebuf,
-	      game.players[i].addr, 
+	      player_addr_hack(&game.players[i]),  /* Fixme for multi-conn */
 	      idlebuf);
 
       namelist_ptrs[j]=namelist_text[j];

@@ -122,5 +122,7 @@ struct connection *find_conn_by_name_prefix(const char *name,
 struct socket_packet_buffer *new_socket_packet_buffer(void);
 
 const char *conn_description(const struct connection *pconn);
+
+extern const char blank_addr_str[];
   
 #endif  /* FC__CONNECTION_H */

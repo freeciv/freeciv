@@ -786,7 +786,6 @@ static struct player *split_player(struct player *pplayer)
 
   sz_strlcpy(cplayer->username, cplayer->name);
   cplayer->is_connected = 0;
-  cplayer->conn = NULL;
   cplayer->government = game.government_when_anarchy;  
   pplayer->revolution = 1;
   cplayer->capital = 1;

@@ -659,9 +659,13 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   cat_snprintf(info, sizeof(info),
 	       "----------------------------------------\n");
   for(i=0; i<game.nplayers; ++i) {
-    if (!is_barbarian(&game.players[i])) {
-      cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n", 
-		 i, game.players[i].name, game.players[i].addr);
+    struct player *pplayer = &game.players[i];
+    if (!is_barbarian(pplayer)) {
+      /* Fixme: how should metaserver handle multi-connects?
+       * Uses player_addr_hack() for now.
+       */
+      cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n", i, pplayer->name,
+		   player_addr_hack(pplayer));
     }
   }
 
@@ -1624,7 +1628,7 @@ static void handle_request_join_game(struct connection *pconn,
 
   if( (pplayer=find_player_by_name(req->name)) || 
       (pplayer=find_player_by_user(req->name))     ) {
-    if(!pplayer->conn) {
+    if(conn_list_size(&pplayer->connections)==0) {
       if(is_barbarian(pplayer)) {
 	if(!(strchr(game.allow_connect, 'B')
 	     || strchr(game.allow_connect, 'b'))) {

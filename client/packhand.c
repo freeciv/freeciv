@@ -822,6 +822,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   int poptechup;
   char msg[MAX_LEN_MSG];
   struct player *pplayer=&game.players[pinfo->playerno];
+  struct connection *cli_conn;
 
   sz_strlcpy(pplayer->name, pinfo->name);
   pplayer->nation=pinfo->nation;
@@ -859,18 +860,23 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
 
-  if(!pplayer->conn){
-    /* It is only the client that does this */
-
-    pplayer->conn = fc_malloc(sizeof(struct connection));
-    pplayer->conn->sock = 0;
-    pplayer->conn->used = 0;
-    pplayer->conn->buffer = NULL;
-    pplayer->conn->send_buffer = NULL;
-    pplayer->conn->player = NULL;
+  /* Fixme when client knows about multiconnects properly: currently
+   * client always allocates one connection struct per player and adds
+   * to pplayer->connections list.  Note this is allocated regardless
+   * whether the player really has any connections, and is never freed.
+   */
+  if (conn_list_size(&pplayer->connections)==0) {
+    cli_conn = fc_calloc(1, sizeof(struct connection));
+    conn_list_insert(&pplayer->connections, cli_conn);
+    cli_conn->buffer = NULL;
+    cli_conn->send_buffer = NULL;
+    cli_conn->player = NULL;
+  }
+  else {
+    cli_conn = conn_list_get(&pplayer->connections, 0);
   }
 
-  sz_strlcpy(pplayer->conn->capability, pinfo->capability);
+  sz_strlcpy(cli_conn->capability, pinfo->capability);
   
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
     sz_strlcpy(name, pplayer->name);
@@ -887,7 +893,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_alive=pinfo->is_alive;
   
   pplayer->is_connected=pinfo->is_connected;
-  sz_strlcpy(pplayer->addr, pinfo->addr);
+  sz_strlcpy(cli_conn->addr, pinfo->addr);   	/* see cli_conn above */
 
   pplayer->ai.is_barbarian=pinfo->is_barbarian;
   pplayer->revolution=pinfo->revolution;

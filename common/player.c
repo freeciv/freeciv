@@ -73,9 +73,7 @@ void player_init(struct player *plr)
   city_list_init(&plr->cities);
   conn_list_init(&plr->connections);
   plr->current_conn = NULL;
-  plr->conn = NULL;
   plr->is_connected = 0;
-  sz_strlcpy(plr->addr, "---.---.---.---");
   plr->is_alive=1;
   plr->embassy=0;
   plr->reputation=GAME_DEFAULT_REPUTATION;
@@ -326,6 +324,26 @@ void player_limit_to_government_rates(struct player *pplayer)
   }
 
   return;
+}
+
+/**************************************************************************
+  Hack to support old code which expects player to have single address
+  string (possibly blank_addr_str) and not yet updated for multi-connects.
+  When all such code is converted, this function should be removed.
+  Returns "blank" address for no connections, single address for one,
+  or string "<multiple>" if there are multiple connections.
+  
+  Currently used by:
+      civserver.c: send_server_info_to_metaserver()
+      plrhand.c: send_player_info_c()
+      gui-{xaw,gtk,mui}/plrdlg.c: update_players_dialog()
+**************************************************************************/
+const char *player_addr_hack(struct player *pplayer)
+{
+  int n = conn_list_size(&pplayer->connections);
+  return ((n==0) ? blank_addr_str :
+	  (n==1) ? conn_list_get(&pplayer->connections, 0)->addr :
+	  "<multiple>");
 }
 
 /**************************************************************************
