@@ -94,7 +94,7 @@ char *map_get_tile_info_text(int x, int y)
   sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);
   if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
-    sz_strlcat(s, _(get_special_name(S_RIVER)));
+    sz_strlcat(s, get_special_name(S_RIVER));
   }
 
   first = TRUE;
@@ -128,7 +128,7 @@ char *map_get_tile_info_text(int x, int y)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, _(get_special_name(S_POLLUTION)));
+    sz_strlcat(s, get_special_name(S_POLLUTION));
   }
   if (tile_has_special(ptile, S_FALLOUT)) {
     if (first) {
@@ -137,7 +137,7 @@ char *map_get_tile_info_text(int x, int y)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, _(get_special_name(S_FALLOUT)));
+    sz_strlcat(s, get_special_name(S_FALLOUT));
   }
   if (!first) {
     sz_strlcat(s, "]");
@@ -293,7 +293,7 @@ const char *get_special_name(enum tile_special_type type)
 
   for (i = 0; i < ARRAY_SIZE(tile_special_type_names); i++) {
     if ((type & 0x1) == 1) {
-      return tile_special_type_names[i];
+      return _(tile_special_type_names[i]);
     }
     type >>= 1;
   }

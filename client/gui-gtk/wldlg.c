@@ -73,7 +73,7 @@ static gint global_dialog_delete_callback(GtkWidget * w, GdkEvent * ev,
 static void global_close_report_callback(GtkWidget * w, gpointer data);
 static void global_edit_callback(GtkWidget * w, gpointer data);
 static void global_rename_callback(GtkWidget * w, gpointer data);
-static void global_rename_sub_callback(GtkWidget * w, gpointer data);
+static void global_rename_sub_callback(const char *input, gpointer data);
 static void global_insert_callback(GtkWidget * w, gpointer data);
 static void global_delete_callback(GtkWidget * w, gpointer data);
 static void global_select_list_callback(GtkWidget * w, gint row,
@@ -599,28 +599,23 @@ static void global_rename_callback(GtkWidget * w, gpointer data)
 		      _("Rename Worklist"),
 		      _("What should the new name be?"),
 		      preport->pplr->worklists[preport->wl_idx].name,
-		      (void *) global_rename_sub_callback,
+		      global_rename_sub_callback,
 		      (gpointer) preport,
-		      (void *) global_rename_sub_callback,
-		      (gpointer) NULL);
+		      NULL, NULL);
 }
 
 /****************************************************************
 
 *****************************************************************/
-static void global_rename_sub_callback(GtkWidget * w, gpointer data)
+static void global_rename_sub_callback(const char *input, gpointer data)
 {
   struct worklist_report *preport = (struct worklist_report *) data;
 
-  if (preport) {
-    strncpy(preport->pplr->worklists[preport->wl_idx].name, 
-            input_dialog_get_input(w), MAX_LEN_NAME);
-    preport->pplr->worklists[preport->wl_idx].name[MAX_LEN_NAME - 1] = '\0';
+  strncpy(preport->pplr->worklists[preport->wl_idx].name, input,
+	  MAX_LEN_NAME);
+  preport->pplr->worklists[preport->wl_idx].name[MAX_LEN_NAME - 1] = '\0';
 
-    global_list_update(preport);
-  }
-
-  input_dialog_destroy(w);
+  global_list_update(preport);
 }
 
 /****************************************************************

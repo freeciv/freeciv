@@ -135,7 +135,7 @@ void cmafec_get_fe_parameter(struct city *pcity, struct cma_parameter *dest)
 /**************************************************************************
  Adds a preset.
 **************************************************************************/
-void cmafec_preset_add(char *descr_name, struct cma_parameter *pparam)
+void cmafec_preset_add(const char *descr_name, struct cma_parameter *pparam)
 {
   struct cma_preset *ppreset = fc_malloc(sizeof(struct cma_preset));
 

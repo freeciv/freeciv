@@ -222,17 +222,14 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static void name_new_city_callback(GtkWidget *w, gpointer data)
+static void name_new_city_callback(const char *input, gpointer data)
 {
-  size_t unit_id;
-  
-  if((unit_id = (size_t)data)) {
-    struct packet_unit_request req;
-    req.unit_id = unit_id;
-    sz_strlcpy(req.name, input_dialog_get_input(w));
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
-  }
-  input_dialog_destroy(w);
+  int unit_id = GPOINTER_TO_INT(data);
+  struct packet_unit_request req;
+
+  req.unit_id = unit_id;
+  sz_strlcpy(req.name, input);
+  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
 }
 
 /**************************************************************************
@@ -246,7 +243,7 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname)
 		      _("Build New City"),
 		      _("What should we call our new city?"), suggestname,
 		      name_new_city_callback, GINT_TO_POINTER(punit->id),
-		      name_new_city_callback, GINT_TO_POINTER(0));
+		      NULL, NULL);
 }
 
 /**************************************************************************

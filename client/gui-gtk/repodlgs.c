@@ -888,15 +888,6 @@ void activeunits_list_ucallback(GtkWidget *w, gint row, gint column)
 static void upgrade_callback_yes(GtkWidget *w, gpointer data)
 {
   send_packet_unittype_info(&aconnection, (size_t)data,PACKET_UNITTYPE_UPGRADE);
-  destroy_message_dialog(w);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void upgrade_callback_no(GtkWidget *w, gpointer data)
-{
-  destroy_message_dialog(w);
 }
 
 /****************************************************************
@@ -929,10 +920,12 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
 	  game.player_ptr->economic.gold);
 
   popup_message_dialog(top_vbox, /*"upgradedialog" */
-		       _("Upgrade Obsolete Units"), buf, _("Yes"),
+		       _("Upgrade Obsolete Units"), buf,
+		       dummy_close_callback, NULL, 
+		       _("Yes"),
 		       upgrade_callback_yes,
 		       GINT_TO_POINTER(activeunits_type[row]), _("No"),
-		       upgrade_callback_no, 0, 0);
+		       NULL, 0, 0);
 }
 
 /****************************************************************

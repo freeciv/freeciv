@@ -64,15 +64,11 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
 static void cma_del_preset_callback(GtkWidget *w, gpointer data);
 static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index);
 static void cma_preset_remove_callback_yes(GtkWidget *w, gpointer data);
-static void cma_preset_remove_callback_no(GtkWidget *w, gpointer data);
-static int cma_preset_remove_callback_delete(GtkWidget *w, GdkEvent *ev,
-					     gpointer data);
+static void cma_preset_remove_close_callback(gpointer data);
 
 static void cma_add_preset_callback(GtkWidget *w, gpointer data);
-static void cma_preset_add_callback_yes(GtkWidget *w, gpointer data);
-static void cma_preset_add_callback_no(GtkWidget *w, gpointer data);
-static int cma_preset_add_callback_delete(GtkWidget *w, GdkEvent *ev,
-					  gpointer data);
+static void cma_preset_add_callback_yes(const char *input, gpointer data);
+static void cma_preset_add_callback_no(gpointer data);
 
 static void cma_change_to_callback(GtkWidget *w, gpointer data);
 static void cma_change_permanent_to_callback(GtkWidget *w, gpointer data);
@@ -469,61 +465,37 @@ static void cma_add_preset_callback(GtkWidget *w, gpointer data)
 				    _("Name new preset"),
 				    _("What should we name the preset?"),
 				    default_name,
-				    (void *) cma_preset_add_callback_yes,
+				    cma_preset_add_callback_yes,
 				    (gpointer) pdialog,
-				    (void *) cma_preset_add_callback_no,
+				    cma_preset_add_callback_no,
 				    (gpointer) pdialog);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->name_shell), "delete_event",
-		     GTK_SIGNAL_FUNC(cma_preset_add_callback_delete), data);
-}
-
-/****************************************************************
- callback for the add_preset popup (delete popup)
-*****************************************************************/
-static int cma_preset_add_callback_delete(GtkWidget *w, GdkEvent *ev, 
-                                          gpointer data)
-{
-  struct cma_dialog *pdialog = (struct cma_dialog *) data;
-
-  pdialog->name_shell = NULL;
-  return FALSE;
 }
 
 /****************************************************************
  callback for the add_preset popup (don't add it)
 *****************************************************************/
-static void cma_preset_add_callback_no(GtkWidget *w, gpointer data)
+static void cma_preset_add_callback_no(gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 
-  if (pdialog) {
-    pdialog->name_shell = NULL;
-  }
-
-  input_dialog_destroy(w);
+  pdialog->name_shell = NULL;
 }
 
 /****************************************************************
  callback for the add_preset popup (add it)
 *****************************************************************/
-static void cma_preset_add_callback_yes(GtkWidget *w, gpointer data)
+static void cma_preset_add_callback_yes(const char *input, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
+  struct cma_parameter param;
 
-  if (pdialog) {
-    struct cma_parameter param;
-
-    cmafec_get_fe_parameter(pdialog->pcity, &param);
-    cmafec_preset_add(input_dialog_get_input(w), &param);
-    update_cma_preset_list(pdialog);
-    refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
-    /* if this or other cities have this set as "custom" */
-    city_report_dialog_update();
-    pdialog->name_shell = NULL;
-  }
-
-  input_dialog_destroy(w);
+  cmafec_get_fe_parameter(pdialog->pcity, &param);
+  cmafec_preset_add(input, &param);
+  update_cma_preset_list(pdialog);
+  refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
+  /* if this or other cities have this set as "custom" */
+  city_report_dialog_update();
+  pdialog->name_shell = NULL;
 }
 
 /****************************************************************
@@ -577,37 +549,21 @@ static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
   pdialog->preset_remove_shell = popup_message_dialog(pdialog->shell,
 					cmafec_preset_get_descr(preset_index),
 					_("Remove this preset?"),
+					cma_preset_remove_close_callback, 
+						      pdialog,
 					_("_Yes"),
 					cma_preset_remove_callback_yes,
-					pdialog, _("_No"),
-					cma_preset_remove_callback_no,
-					pdialog, 0);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->preset_remove_shell), "delete_event",
-		     GTK_SIGNAL_FUNC(cma_preset_remove_callback_delete),
-		     pdialog);
+					pdialog, 
+					_("_No"), NULL, NULL, 0);
 }
 
 /****************************************************************
  callback for the remove_preset popup (delete popup)
 *****************************************************************/
-static int cma_preset_remove_callback_delete(GtkWidget *w, GdkEvent *ev,
-					     gpointer data)
+static void cma_preset_remove_close_callback(gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 
-  pdialog->preset_remove_shell = NULL;
-  return FALSE;
-}
-
-/****************************************************************
- callback for the remove_preset popup (don't remove it)
-*****************************************************************/
-static void cma_preset_remove_callback_no(GtkWidget *w, gpointer data)
-{
-  struct cma_dialog *pdialog = (struct cma_dialog *) data;
-
-  destroy_message_dialog(w);
   pdialog->preset_remove_shell = NULL;
 }
 
@@ -624,9 +580,6 @@ static void cma_preset_remove_callback_yes(GtkWidget *w, gpointer data)
   refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
   /* if this or other cities have this set, reset to "custom" */
   city_report_dialog_update();
-
-  destroy_message_dialog(w);
-  pdialog->preset_remove_shell = NULL;
 }
 
 /**************************************************************************

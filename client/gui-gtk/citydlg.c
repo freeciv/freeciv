@@ -256,19 +256,15 @@ static gint present_unit_middle_callback(GtkWidget * w,
 					 GdkEventButton * ev,
 					 gpointer data);
 
-static void unit_activate_callback(GtkWidget * w, gpointer data);
-static void supported_unit_activate_close_callback(GtkWidget * w,
-						   gpointer data);
-static void present_unit_activate_close_callback(GtkWidget * w,
-						 gpointer data);
-static void unit_sentry_callback(GtkWidget * w, gpointer data);
-static void unit_fortify_callback(GtkWidget * w, gpointer data);
-static void unit_disband_callback(GtkWidget * w, gpointer data);
-static void unit_homecity_callback(GtkWidget * w, gpointer data);
-static void unit_upgrade_callback(GtkWidget * w, gpointer data);
-static void unit_upgrade_callback_no(GtkWidget * w, gpointer data);
-static void unit_upgrade_callback_yes(GtkWidget * w, gpointer data);
-static void unit_cancel_callback(GtkWidget * w, gpointer data);
+static void unit_activate_callback(gpointer data);
+static void supported_unit_activate_close_callback(gpointer data);
+static void present_unit_activate_close_callback(gpointer data);
+static void unit_sentry_callback(gpointer data);
+static void unit_fortify_callback(gpointer data);
+static void unit_disband_callback(gpointer data);
+static void unit_homecity_callback(gpointer data);
+static void unit_upgrade_callback(gpointer data);
+static void unit_upgrade_callback_yes(gpointer data);
 
 static void citizens_callback(GtkWidget * w, GdkEventButton * ev,
 			      gpointer data);
@@ -287,15 +283,11 @@ static void change_list_callback(GtkWidget * w, gint row, gint col,
 static void change_help_callback(GtkWidget * w, gpointer data);
 
 static void buy_callback(GtkWidget * w, gpointer data);
-static gint buy_callback_delete(GtkWidget * w, GdkEvent * ev,
-				gpointer data);
-static void buy_callback_no(GtkWidget * w, gpointer data);
 static void buy_callback_yes(GtkWidget * w, gpointer data);
+static void buy_close_callback(gpointer data);
 
 static void sell_callback(GtkWidget * w, gpointer data);
-static gint sell_callback_delete(GtkWidget * w, GdkEvent * ev,
-				 gpointer data);
-static void sell_callback_no(GtkWidget * w, gpointer data);
+static void sell_close_callback(gpointer data);
 static void sell_callback_yes(GtkWidget * w, gpointer data);
 static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
 				      GdkEventButton * event,
@@ -307,10 +299,9 @@ static void switch_page_callback(GtkNotebook * notebook,
 static void commit_city_worklist(struct worklist *pwl, void *data);
 
 static void rename_callback(GtkWidget * w, gpointer data);
-static gint rename_callback_delete(GtkWidget * widget, GdkEvent * event,
-				   gpointer data);
-static void rename_callback_no(GtkWidget * w, gpointer data);
-static void rename_callback_yes(GtkWidget * w, gpointer data);
+static void rename_callback_no(gpointer data);
+static void rename_callback_yes(const char *input, gpointer data);
+
 static void set_cityopt_values(struct city_dialog *pdialog);
 static void cityopt_callback(GtkWidget * w, gpointer data);
 static void misc_whichtab_callback(GtkWidget * w, gpointer data);
@@ -2478,11 +2469,12 @@ static gint supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
 
     popup_message_dialog(pdialog->shell,	/* "supported unit popup" */
 			 _("Unit Commands"), unit_description(punit),
+			 dummy_close_callback, NULL, 
 			 _("_Activate unit"), unit_activate_callback,
 			 punit->id, _("Activate unit, _close dialog"),
 			 supported_unit_activate_close_callback, punit->id,
 			 _("_Disband unit"), unit_disband_callback,
-			 punit->id, _("_Cancel"), unit_cancel_callback, 0,
+			 punit->id, _("_Cancel"), NULL, 0,
 			 0);
   }
   return TRUE;
@@ -2508,6 +2500,7 @@ static gint present_unit_callback(GtkWidget * w, GdkEventButton * ev,
 
     wd = popup_message_dialog(pdialog->shell,	/* "present unit popup" */
 			      _("Unit Commands"), unit_description(punit),
+			      dummy_close_callback, NULL, 
 			      _("_Activate unit"), unit_activate_callback,
 			      punit->id, _("Activate unit, _close dialog"),
 			      present_unit_activate_close_callback,
@@ -2520,7 +2513,7 @@ static gint present_unit_callback(GtkWidget * w, GdkEventButton * ev,
 			      unit_homecity_callback, punit->id,
 			      _("_Upgrade unit"), unit_upgrade_callback,
 			      punit->id, _("_Cancel"),
-			      unit_cancel_callback, 0, NULL);
+			      NULL, 0, NULL);
     if (punit->activity == ACTIVITY_SENTRY
 	|| !can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
       message_dialog_button_set_sensitive(wd, "button2", FALSE);
@@ -2588,26 +2581,22 @@ static gint supported_unit_middle_callback(GtkWidget * w,
 /****************************************************************
 ...
 *****************************************************************/
-static void unit_activate_callback(GtkWidget * w, gpointer data)
+static void unit_activate_callback(gpointer data)
 {
   struct unit *punit;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
     activate_unit(punit);
-  destroy_message_dialog(w);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void supported_unit_activate_close_callback(GtkWidget * w,
-						   gpointer data)
+static void supported_unit_activate_close_callback(gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
   struct city_dialog *pdialog;
-
-  destroy_message_dialog(w);
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     activate_unit(punit);
@@ -2620,14 +2609,11 @@ static void supported_unit_activate_close_callback(GtkWidget * w,
 /****************************************************************
 ...
 *****************************************************************/
-static void present_unit_activate_close_callback(GtkWidget * w,
-						 gpointer data)
+static void present_unit_activate_close_callback(gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
   struct city_dialog *pdialog;
-
-  destroy_message_dialog(w);
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     activate_unit(punit);
@@ -2640,57 +2626,51 @@ static void present_unit_activate_close_callback(GtkWidget * w,
 /****************************************************************
 ...
 *****************************************************************/
-static void unit_sentry_callback(GtkWidget * w, gpointer data)
+static void unit_sentry_callback(gpointer data)
 {
   struct unit *punit;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
     request_unit_sentry(punit);
-  destroy_message_dialog(w);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void unit_fortify_callback(GtkWidget * w, gpointer data)
+static void unit_fortify_callback(gpointer data)
 {
   struct unit *punit;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
     request_unit_fortify(punit);
-  destroy_message_dialog(w);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void unit_disband_callback(GtkWidget * w, gpointer data)
+static void unit_disband_callback(gpointer data)
 {
   struct unit *punit;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
     request_unit_disband(punit);
-
-  destroy_message_dialog(w);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void unit_homecity_callback(GtkWidget * w, gpointer data)
+static void unit_homecity_callback(gpointer data)
 {
   struct unit *punit;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
     request_unit_change_homecity(punit);
-
-  destroy_message_dialog(w);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void unit_upgrade_callback(GtkWidget * w, gpointer data)
+static void unit_upgrade_callback(gpointer data)
 {
   struct unit *punit;
   char buf[512];
@@ -2706,9 +2686,9 @@ static void unit_upgrade_callback(GtkWidget * w, gpointer data)
       my_snprintf(buf, sizeof(buf),
 		  _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
       popup_message_dialog(top_vbox,
-			   /*"upgradenodialog" */
-			   _("Upgrade Unit!"), buf, _("Darn"),
-			   unit_upgrade_callback_no, 0, NULL);
+			   _("Upgrade Unit!"), buf,
+			   dummy_close_callback, NULL, 
+			   _("Darn"), NULL, 0, NULL);
     } else {
       value = unit_upgrade_price(game.player_ptr, ut1, ut2);
 
@@ -2718,54 +2698,35 @@ static void unit_upgrade_callback(GtkWidget * w, gpointer data)
 		    unit_types[ut1].name, unit_types[ut2].name,
 		    value, game.player_ptr->economic.gold);
 	popup_message_dialog(top_vbox,
-			     /*"upgradedialog" */
-			     _("Upgrade Obsolete Units"), buf, _("_Yes"),
-			     unit_upgrade_callback_yes,
+			     _("Upgrade Obsolete Units"), buf,
+			     dummy_close_callback, NULL,
+			     _("_Yes"), unit_upgrade_callback_yes,
 			     GINT_TO_POINTER(punit->id), _("_No"),
-			     unit_upgrade_callback_no, 0, NULL);
+			     NULL, 0, NULL);
       } else {
 	my_snprintf(buf, sizeof(buf),
 		    _("Upgrading %s to %s costs %d gold.\n"
 		      "Treasury contains %d gold."), unit_types[ut1].name,
 		    unit_types[ut2].name, value,
 		    game.player_ptr->economic.gold);
-	popup_message_dialog(top_vbox,
-			     /*"upgradenodialog" */ _("Upgrade Unit!"),
-			     buf,
-			     _("Darn"), unit_upgrade_callback_no, 0, NULL);
+	popup_message_dialog(top_vbox,_("Upgrade Unit!"),buf,
+			     dummy_close_callback, NULL, 
+			     _("Darn"), NULL, 0, NULL);
       }
     }
-    destroy_message_dialog(w);
   }
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void unit_upgrade_callback_no(GtkWidget * w, gpointer data)
-{
-  destroy_message_dialog(w);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void unit_upgrade_callback_yes(GtkWidget * w, gpointer data)
+static void unit_upgrade_callback_yes(gpointer data)
 {
   struct unit *punit;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     request_unit_upgrade(punit);
   }
-  destroy_message_dialog(w);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void unit_cancel_callback(GtkWidget * w, gpointer data)
-{
-  destroy_message_dialog(w);
 }
 
 /*** Callbacks for citizen bar, map funcs that are not update ***/
@@ -2932,41 +2893,30 @@ static void buy_callback(GtkWidget * w, gpointer data)
 		name, value, game.player_ptr->economic.gold);
 
     pdialog->buy_shell =
-	popup_message_dialog(pdialog->shell, /*"buydialog" */ _("Buy It!"),
-			     buf, _("_Yes"), buy_callback_yes, pdialog,
-			     _("_No"), buy_callback_no, pdialog, 0);
+	popup_message_dialog(pdialog->shell, _("Buy It!"),buf,
+			     buy_close_callback, pdialog,
+			     _("_Yes"), buy_callback_yes, pdialog,
+			     _("_No"), NULL, pdialog, 0);
   } else {
     my_snprintf(buf, sizeof(buf),
 		_("%s costs %d gold.\nTreasury contains %d gold."),
 		name, value, game.player_ptr->economic.gold);
 
     pdialog->buy_shell = popup_message_dialog(pdialog->shell,
-					      _("Buy It!"), buf, _("Darn"),
-					      buy_callback_no, pdialog, 0);
+					      _("Buy It!"), buf,
+					      buy_close_callback, pdialog,
+					      _("Darn"), 
+					      NULL, pdialog, 0);
   }
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->buy_shell), "delete_event",
-		     GTK_SIGNAL_FUNC(buy_callback_delete), data);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static gint buy_callback_delete(GtkWidget * w, GdkEvent * ev,
-				gpointer data)
+static void buy_close_callback(gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  pdialog->buy_shell = NULL;
-  return FALSE;
-}
 
-/****************************************************************
-...
-*****************************************************************/
-static void buy_callback_no(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  destroy_message_dialog(w);
   pdialog->buy_shell = NULL;
 }
 
@@ -2982,9 +2932,6 @@ static void buy_callback_yes(GtkWidget * w, gpointer data)
 
   packet.city_id = pdialog->pcity->id;
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
-
-  destroy_message_dialog(w);
-  pdialog->buy_shell = NULL;
 }
 
 /****************************************************************
@@ -3214,32 +3161,19 @@ static void sell_callback(GtkWidget * w, gpointer data)
 
   pdialog->sell_shell = popup_message_dialog(pdialog->shell,
 					     _("Sell It!"), buf,
+					     sell_close_callback, pdialog,
 					     _("_Yes"), sell_callback_yes,
 					     pdialog, _("_No"),
-					     sell_callback_no, pdialog, 0);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->sell_shell), "delete_event",
-		     GTK_SIGNAL_FUNC(sell_callback_delete), data);
+					     NULL, pdialog, 0);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static gint sell_callback_delete(GtkWidget * w, GdkEvent * ev,
-				 gpointer data)
+static void sell_close_callback(gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  pdialog->sell_shell = NULL;
-  return FALSE;
-}
 
-/****************************************************************
-...
-*****************************************************************/
-static void sell_callback_no(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  destroy_message_dialog(w);
   pdialog->sell_shell = NULL;
 }
 
@@ -3256,9 +3190,6 @@ static void sell_callback_yes(GtkWidget * w, gpointer data)
   packet.city_id = pdialog->pcity->id;
   packet.build_id = pdialog->sell_id;
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
-
-  destroy_message_dialog(w);
-  pdialog->sell_shell = NULL;
 }
 
 /****************************************************************
@@ -3391,57 +3322,34 @@ static void rename_callback(GtkWidget * w, gpointer data)
 					      _
 					      ("What should we rename the city to?"),
 					      pdialog->pcity->name,
-					      (void *) rename_callback_yes,
+					      rename_callback_yes,
 					      (gpointer) pdialog,
-					      (void *) rename_callback_no,
+					      rename_callback_no,
 					      (gpointer) pdialog);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->rename_shell), "delete_event",
-		     GTK_SIGNAL_FUNC(rename_callback_delete), data);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static gint rename_callback_delete(GtkWidget * widget, GdkEvent * event,
-				   gpointer data)
+static void rename_callback_no(gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
+
   pdialog->rename_shell = NULL;
-  return FALSE;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void rename_callback_no(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-
-  if (pdialog) {
-    pdialog->rename_shell = NULL;
-  }
-
-  input_dialog_destroy(w);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void rename_callback_yes(GtkWidget * w, gpointer data)
+static void rename_callback_yes(const char *input, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
   struct packet_city_request packet;
 
-  if (pdialog) {
-    packet.city_id = pdialog->pcity->id;
-    sz_strlcpy(packet.name, input_dialog_get_input(w));
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
-
-    pdialog->rename_shell = NULL;
-  }
-
-  input_dialog_destroy(w);
+  packet.city_id = pdialog->pcity->id;
+  sz_strlcpy(packet.name, input);
+  send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+  pdialog->rename_shell = NULL;
 }
 
 /****************************************************************
