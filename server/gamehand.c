@@ -137,7 +137,7 @@ void init_new_game(void)
       } circle_iterate_end;
       /* Create the unit of an appropriate type. */
       utype = get_role_unit((j < game.settlers) ? F_CITIES : L_EXPLORER, 0);
-      create_unit(&game.players[i], dx, dy, utype, FALSE, 0, -1);
+      (void) create_unit(&game.players[i], dx, dy, utype, FALSE, 0, -1);
     }
   }
 

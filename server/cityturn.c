@@ -1034,9 +1034,9 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     /* don't update turn_last_built if we returned above */
     pcity->turn_last_built = game.year;
 
-    create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
-		do_make_unit_veteran(pcity, pcity->currently_building),
-		pcity->id, -1);
+    (void) create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
+		       do_make_unit_veteran(pcity, pcity->currently_building),
+		       pcity->id, -1);
 
     /* After we created the unit remove the citizen. This will also
        rearrange the worker to take into account the extra resources
@@ -1063,7 +1063,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     /* If there's something in the worklist, change the build
        target. If there's nothing there, worklist_change_build_target
        won't do anything. */
-    worklist_change_build_target(pplayer, pcity);
+    (void) worklist_change_build_target(pplayer, pcity);
   }
   return TRUE;
 }
@@ -1346,9 +1346,9 @@ static bool disband_city(struct city *pcity)
     return FALSE;
   }
 
-  create_unit(pplayer, x, y, pcity->currently_building,
-	      do_make_unit_veteran(pcity, pcity->currently_building), 
-	      pcity->id, -1);
+  (void) create_unit(pplayer, x, y, pcity->currently_building,
+		     do_make_unit_veteran(pcity, pcity->currently_building),
+		     pcity->id, -1);
 
   /* shift all the units supported by pcity (including the new unit)
      to rcity.  transfer_city_units does not make sure no units are

@@ -932,7 +932,7 @@ void translate_data_names(void)
   static const char too_long_msg[]
     = "Translated name is too long, truncating: %s";
 
-#define name_strlcpy(dst, src) sz_loud_strlcpy(dst, src, too_long_msg)
+#define name_strlcpy(dst, src) ((void) sz_loud_strlcpy(dst, src, too_long_msg))
   
   for (i=0; i<game.num_tech_types; i++) {
     struct advance *tthis = &advances[i];

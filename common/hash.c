@@ -552,7 +552,7 @@ void *hash_delete_entry(struct hash_table *h, const void *key)
 void hash_delete_all_entries(struct hash_table *h)
 {
   while (hash_num_entries(h) > 0)
-    hash_delete_entry(h, hash_key_by_number(h, 0));
+    (void) hash_delete_entry(h, hash_key_by_number(h, 0));
 }
 
 /**************************************************************************

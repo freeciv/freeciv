@@ -508,8 +508,8 @@ static void worklist_load(struct section_file *file,
     if (end) {
       pwl->wlefs[i] = WEF_END;
       pwl->wlids[i] = 0;
-      section_file_lookup(file, efpath, plrno, wlinx, i);
-      section_file_lookup(file, idpath, plrno, wlinx, i);
+      (void) section_file_lookup(file, efpath, plrno, wlinx, i);
+      (void) section_file_lookup(file, idpath, plrno, wlinx, i);
     } else {
       pwl->wlefs[i] =
 	secfile_lookup_int_default(file, WEF_END, efpath, plrno, wlinx, i);
@@ -543,7 +543,7 @@ static void worklist_load_old(struct section_file *file,
     if (end) {
       pwl->wlefs[i] = WEF_END;
       pwl->wlids[i] = 0;
-      section_file_lookup(file, path, plrno, wlinx, i);
+      (void) section_file_lookup(file, path, plrno, wlinx, i);
     } else {
       id = secfile_lookup_int_default(file, -1, path, plrno, wlinx, i);
 
@@ -1030,8 +1030,12 @@ static void player_load(struct player *plr, int plrno,
 	}
       } else {
 	/* mark unused strings as read to avoid warnings */
-	secfile_lookup_str_default(file, "", "player%d.u%d.goto_route_x", plrno, i);
-	secfile_lookup_str_default(file, "", "player%d.u%d.goto_route_y", plrno, i);
+	(void) secfile_lookup_str_default(file, "",
+					  "player%d.u%d.goto_route_x", plrno,
+					  i);
+	(void) secfile_lookup_str_default(file, "",
+					  "player%d.u%d.goto_route_y", plrno,
+					  i);
 	punit->pgr = NULL;
       }
     }
@@ -1765,10 +1769,10 @@ void game_load(struct section_file *file)
       game.razechance  = secfile_lookup_int(file, "game.razechance");
 
       /* suppress warnings about unused entries in old savegames: */
-      section_file_lookup(file, "game.rail_food");
-      section_file_lookup(file, "game.rail_prod");
-      section_file_lookup(file, "game.rail_trade");
-      section_file_lookup(file, "game.farmfood");
+      (void) section_file_lookup(file, "game.rail_food");
+      (void) section_file_lookup(file, "game.rail_prod");
+      (void) section_file_lookup(file, "game.rail_trade");
+      (void) section_file_lookup(file, "game.farmfood");
     }
     if (game.version >= 10300) {
       game.civstyle = secfile_lookup_int_default(file, 0, "game.civstyle");
@@ -1964,7 +1968,7 @@ void game_load(struct section_file *file)
     set_myrand_state(rstate);
   } else {
     /* mark it */
-    secfile_lookup_bool_default(file, TRUE, "game.save_random");
+    (void) secfile_lookup_bool_default(file, TRUE, "game.save_random");
   }
 
 

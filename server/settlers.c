@@ -1353,7 +1353,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
     if (same_pos(gx, gy, punit->x, punit->y)) {
       if (best_act == ACTIVITY_UNKNOWN) {
         remove_city_from_minimap(gx, gy); /* yeah, I know. -- Syela */
-        ai_do_build_city(pplayer, punit);
+        (void) ai_do_build_city(pplayer, punit);
         return;
       }
       set_unit_activity(punit, best_act);

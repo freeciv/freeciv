@@ -300,8 +300,8 @@ void load_options(void)
   }
  
   /* avoid warning for unused: */
-  section_file_lookup(&sf, "client.flags_are_transparent");
-  section_file_lookup(&sf, "client.version");
+  (void) section_file_lookup(&sf, "client.flags_are_transparent");
+  (void) section_file_lookup(&sf, "client.version");
   
   section_file_check_unused(&sf, name);
   section_file_free(&sf);

@@ -46,7 +46,7 @@ static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
   if (!pplayer) {
     my_snprintf(buffer, len, "(%s)", pconn->name);
   } else if (conn_list_size(&pplayer->connections)==1) {
-    mystrlcpy(buffer, pplayer->name, len);
+    (void) mystrlcpy(buffer, pplayer->name, len);
   } else if (strstr(pconn->name, pplayer->name)) {
     /* Fixme: strstr above should be case-independent */
     my_snprintf(buffer, len, "(%s)", pconn->name);
@@ -213,7 +213,8 @@ void handle_chat_msg(struct connection *pconn,
     char name[MAX_LEN_NAME];
     char *cpblank;
 
-    mystrlcpy(name, packet->message, MIN(sizeof(name), cp-packet->message+1));
+    (void) mystrlcpy(name, packet->message,
+		     MIN(sizeof(name), cp - packet->message + 1));
 
     double_colon = (*(cp+1) == ':');
     if (double_colon) {

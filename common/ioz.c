@@ -245,7 +245,7 @@ int fz_ferror(fz_FILE *fp)
   switch(fp->method) {
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
-    gzerror(fp->u.zlib, &retval);	/* ignore string result here */
+    (void) gzerror(fp->u.zlib, &retval);	/* ignore string result here */
     if (retval > 0) {
       retval = 0;		/* only negative Z values are errors */
     }

@@ -225,7 +225,7 @@ static int write_socket_data(struct connection *pc,
   if (start > 0) {
     buf->ndata -= start;
     memmove(buf->data, buf->data+start, buf->ndata);
-    time(&pc->last_write);
+    (void) time(&pc->last_write);
   }
   return 0;
 }

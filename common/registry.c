@@ -415,7 +415,7 @@ static bool section_file_load_dup(struct section_file *sf,
 	entry_list_init(&psection->entries);
 	section_list_insert_back(sf->sections, psection);
       }
-      inf_token_required(inf, INF_TOK_EOL);
+      (void) inf_token_required(inf, INF_TOK_EOL);
       continue;
     }
     if (!psection) {
@@ -425,7 +425,7 @@ static bool section_file_load_dup(struct section_file *sf,
       if (!table_state) {
 	inf_die(inf, "misplaced \"}\"");
       }
-      inf_token_required(inf, INF_TOK_EOL);
+      (void) inf_token_required(inf, INF_TOK_EOL);
       table_state = FALSE;
       continue;
     }
@@ -451,7 +451,7 @@ static bool section_file_load_dup(struct section_file *sf,
 	sf->num_entries++;
       } while(inf_token(inf, INF_TOK_COMMA));
       
-      inf_token_required(inf, INF_TOK_EOL);
+      (void) inf_token_required(inf, INF_TOK_EOL);
       table_lineno++;
       continue;
     }
@@ -486,7 +486,7 @@ static bool section_file_load_dup(struct section_file *sf,
 	
       } while(inf_token(inf, INF_TOK_COMMA));
       
-      inf_token_required(inf, INF_TOK_EOL);
+      (void) inf_token_required(inf, INF_TOK_EOL);
       table_state = TRUE;
       table_lineno=0;
       continue;
@@ -508,7 +508,7 @@ static bool section_file_load_dup(struct section_file *sf,
       entry_list_insert_back(&psection->entries, pentry);
       sf->num_entries++;
     } while(inf_token(inf, INF_TOK_COMMA));
-    inf_token_required(inf, INF_TOK_EOL);
+    (void) inf_token_required(inf, INF_TOK_EOL);
   }
   
   if (table_state) {
@@ -700,7 +700,7 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
   }
   section_list_iterate_end;
   
-  moutstr(NULL);		/* free internal buffer */
+  (void) moutstr(NULL);		/* free internal buffer */
 
   if (fz_ferror(fs) != 0) {
     freelog(LOG_ERROR, "Error before closing %s: %s", filename,
@@ -1081,7 +1081,8 @@ section_file_lookup_internal(struct section_file *my_section_file,
     return NULL;
   }
 
-  mystrlcpy(sec_name, fullpath, MIN(pdelim-fullpath+1, sizeof(sec_name)));
+  (void) mystrlcpy(sec_name, fullpath,
+		   MIN(pdelim - fullpath + 1, sizeof(sec_name)));
   sz_strlcpy(ent_name, pdelim+1);
 
   section_list_iterate(*my_section_file->sections, psection) {
@@ -1124,7 +1125,8 @@ section_file_insert_internal(struct section_file *my_section_file,
 	    fullpath, secfile_filename(my_section_file));
     exit(EXIT_FAILURE);
   }
-  mystrlcpy(sec_name, fullpath, MIN(pdelim-fullpath+1,sizeof(sec_name)));
+  (void) mystrlcpy(sec_name, fullpath,
+		   MIN(pdelim - fullpath + 1, sizeof(sec_name)));
   sz_strlcpy(ent_name, pdelim+1);
   my_section_file->num_entries++;
   

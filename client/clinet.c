@@ -152,7 +152,7 @@ int get_server_address(char *hostname, int port, char *errbuf,
     hostname = "localhost";
 
   if (!fc_lookup_host(hostname, &server_addr)) {
-    mystrlcpy(errbuf, _("Failed looking up host"), errbufsize);
+    (void) mystrlcpy(errbuf, _("Failed looking up host"), errbufsize);
     return -1;
   }
 
@@ -176,13 +176,13 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
   struct packet_req_join_game req;
 
   if ((aconnection.sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-    mystrlcpy(errbuf, mystrerror(errno), errbufsize);
+    (void) mystrlcpy(errbuf, mystrerror(errno), errbufsize);
     return -1;
   }
 
   if (connect(aconnection.sock, (struct sockaddr *) &server_addr,
       sizeof(server_addr)) == -1) {
-    mystrlcpy(errbuf, mystrerror(errno), errbufsize);
+    (void) mystrlcpy(errbuf, mystrerror(errno), errbufsize);
     my_closesocket(aconnection.sock);
     aconnection.sock = -1;
     return errno;
@@ -213,7 +213,7 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
 
   /* now send join_request package */
 
-  mystrlcpy(req.short_name, user_name, MAX_LEN_USERNAME);
+  sz_strlcpy(req.short_name, user_name);
   req.major_version = MAJOR_VERSION;
   req.minor_version = MINOR_VERSION;
   req.patch_version = PATCH_VERSION;
@@ -466,16 +466,15 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 
   if ((proxy_url = getenv("http_proxy"))) {
     if (strncmp(proxy_url, "http://", strlen("http://")) != 0) {
-      mystrlcpy(errbuf,
-		_("Invalid $http_proxy value, must start with 'http://'"),
-		n_errbuf);
+      (void) mystrlcpy(errbuf, _("Invalid $http_proxy value, must "
+				 "start with 'http://'"), n_errbuf);
       return NULL;
     }
     sz_strlcpy(urlbuf, proxy_url);
   } else {
     if (strncmp(metaserver, "http://", strlen("http://")) != 0) {
-      mystrlcpy(errbuf, _("Invalid metaserver URL, must start with 'http://'"),
-		n_errbuf);
+      (void) mystrlcpy(errbuf, _("Invalid metaserver URL, must start "
+				 "with 'http://'"), n_errbuf);
       return NULL;
     }
     sz_strlcpy(urlbuf, metaserver);
@@ -502,9 +501,8 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
       s[0] = '\0';
       ++s;
     } else if (s[0] != '\0') {
-      mystrlcpy(errbuf,
-		_("Invalid $http_proxy value, cannot find separating '/'"),
-		n_errbuf);
+      (void) mystrlcpy(errbuf, _("Invalid $http_proxy value, cannot "
+				 "find separating '/'"), n_errbuf);
       /* which is obligatory if more characters follow */
       return NULL;
     }
@@ -512,19 +510,19 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   }
 
   if (!fc_lookup_host(server, &addr)) {
-    mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
+    (void) mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
     return NULL;
   }
   
   addr.sin_port = htons(port);
   
   if((s = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-    mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
+    (void) mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
     return NULL;
   }
   
   if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) == -1) {
-    mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
+    (void) mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
     my_closesocket(s);
     return NULL;
   }

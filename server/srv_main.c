@@ -768,7 +768,7 @@ bool handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
 
   case PACKET_UNIT_ESTABLISH_TRADE:
-    handle_unit_establish_trade(pplayer, (struct packet_unit_request *)packet);
+    (void) handle_unit_establish_trade(pplayer, (struct packet_unit_request *)packet);
     break;
 
   case PACKET_UNIT_HELP_BUILD_WONDER:
@@ -1131,7 +1131,7 @@ void accept_new_player(char *name, struct connection *pconn)
   game.nplayers++;
 
   introduce_game_to_connection(pconn);
-  send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(TRUE, FALSE);
 }
 
 /**************************************************************************
@@ -1569,7 +1569,7 @@ static void generate_ai_players(void)
     announce_ai_player(pplayer);
     set_ai_level_direct(pplayer, pplayer->ai.skill_level);
   }
-  send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(TRUE, FALSE);
 }
 
 /*************************************************************************
@@ -1577,7 +1577,7 @@ static void generate_ai_players(void)
 *************************************************************************/
 static bool good_name(char *ptry, char *buf) {
   if (!find_player_by_name(ptry)) {
-     mystrlcpy(buf, ptry, MAX_LEN_NAME);
+     (void) mystrlcpy(buf, ptry, MAX_LEN_NAME);
      return TRUE;
   }
   return FALSE;
@@ -1738,7 +1738,7 @@ static void main_loop(void)
     freelog(LOG_DEBUG, "Sendyeartoclients");
     send_year_to_clients(game.year);
     freelog(LOG_DEBUG, "Sendinfotometaserver");
-    send_server_info_to_metaserver(FALSE, FALSE);
+    (void) send_server_info_to_metaserver(FALSE, FALSE);
 
     conn_list_do_unbuffer(&game.game_connections);
 
@@ -1816,7 +1816,7 @@ void srv_main(void)
     server_open_udp(); /* open socket for meta server */ 
   }
 
-  send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(TRUE, FALSE);
 
   /* accept new players, wait for serverop to start..*/
   server_state=PRE_GAME_STATE;
@@ -1829,7 +1829,7 @@ void srv_main(void)
   while(server_state==PRE_GAME_STATE)
     sniff_packets(); /* Accepting commands. */
 
-  send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(TRUE, FALSE);
 
   if(game.is_new_game) {
     load_rulesets();
@@ -1927,7 +1927,7 @@ main_start_players:
   /* start the game */
 
   server_state=RUN_GAME_STATE;
-  send_server_info_to_metaserver(TRUE, FALSE);
+  (void) send_server_info_to_metaserver(TRUE, FALSE);
 
   if(game.is_new_game) {
     /* Before the player map is allocated (and initiailized)! */

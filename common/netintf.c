@@ -113,7 +113,7 @@ void my_init_network(void)
 
   /* broken pipes are ignored. */
 #ifdef HAVE_SIGPIPE
-  signal(SIGPIPE, SIG_IGN);
+  (void) signal(SIGPIPE, SIG_IGN);
 #endif
 }
 

@@ -141,7 +141,7 @@ void mysrand(RANDOM_TYPE seed)
      * problems even using divisor.
      */
     for (i=0; i<10000; i++) {
-      myrand(0);
+      (void) myrand(0);
     }
 } 
 

@@ -506,7 +506,7 @@ bool check_strlen(const char *str, size_t len, const char *errmsg)
 size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 		   const char *errmsg)
 {
-  check_strlen(str, len, errmsg);
+  (void) check_strlen(str, len, errmsg);
   return mystrlcpy(buffer, str, len);
 }
 
@@ -714,9 +714,9 @@ char *datafilename(const char *filename)
     astr_minsize(&realfile, len);
     realfile.str[0] = '\0';
     for(i=0; i<num_dirs; i++) {
-      mystrlcat(realfile.str, dirs[i], len);
+      (void) mystrlcat(realfile.str, dirs[i], len);
       if(i != num_dirs-1) {
-	mystrlcat(realfile.str, PATH_SEPARATOR, len);
+	(void) mystrlcat(realfile.str, PATH_SEPARATOR, len);
       }
     }
     return realfile.str;
@@ -771,9 +771,9 @@ char *datafilename_required(const char *filename)
 void init_nls(void)
 {
 #ifdef ENABLE_NLS
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
+  (void) setlocale(LC_ALL, "");
+  (void) bindtextdomain(PACKAGE, LOCALEDIR);
+  (void) textdomain(PACKAGE);
 
   /* Don't touch the defaults when LC_NUMERIC == "C".
      This is intended to cater to the common case where:

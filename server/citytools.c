@@ -570,9 +570,9 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
     }
   }
 
-  create_unit_full(to_player, punit->x, punit->y, punit->type, 
-		   punit->veteran, tocity->id, punit->moves_left,
-		   punit->hp);
+  (void) create_unit_full(to_player, punit->x, punit->y, punit->type,
+			  punit->veteran, tocity->id, punit->moves_left,
+			  punit->hp);
 }
 
 /*********************************************************************
@@ -1092,7 +1092,7 @@ void remove_city(struct city *pcity)
 	      unit_name(punit->type), new_home_city->name);
       notify_player(pplayer, _("Game: Changed homecity of %s in %s."),
 		    unit_name(punit->type), new_home_city->name);
-      create_unit_full(city_owner(new_home_city), x, y,
+      (void) create_unit_full(city_owner(new_home_city), x, y,
 		       punit->type, punit->veteran, new_home_city->id,
 		       punit->moves_left, punit->hp);
     }

@@ -228,7 +228,7 @@ void tilespec_read_toplevel(const char *tileset_name)
   }
   check_tilespec_capabilities(file, "tilespec", TILESPEC_CAPSTR, fname);
 
-  section_file_lookup(file, "tilespec.name"); /* currently unused */
+  (void) section_file_lookup(file, "tilespec.name"); /* currently unused */
 
   is_isometric = secfile_lookup_bool_default(file, FALSE, "tilespec.is_isometric");
   if (is_isometric && !isometric_view_supported()) {
@@ -327,7 +327,7 @@ static void tilespec_load_one(const char *spec_filename)
   }
   check_tilespec_capabilities(file, "spec", SPEC_CAPSTR, spec_filename);
 
-  section_file_lookup(file, "info.artists"); /* currently unused */
+  (void) section_file_lookup(file, "info.artists"); /* currently unused */
 
   gfx_fileexts = gfx_fileextensions();
   gfx_filename = secfile_lookup_str(file, "file.gfx");
@@ -387,8 +387,8 @@ static void tilespec_load_one(const char *spec_filename)
       for(k=0; k<num_tags; k++) {
 	/* don't free old sprite, since could be multiple tags
 	   pointing to it */
-	hash_replace(sprite_hash, sbuf_strdup(sprite_key_sb, tags[k]),
-		     small_sprite);
+	(void) hash_replace(sprite_hash, sbuf_strdup(sprite_key_sb, tags[k]),
+			    small_sprite);
       }
       free(tags);
       tags = NULL;

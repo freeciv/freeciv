@@ -182,6 +182,7 @@ static void unserialize_hash(struct hash_table *hash, char *data,
   for (i = 0; i < entries; i++) {
     void *pkey = fc_malloc(header[0]);
     void *pvalue = fc_malloc(header[2]);
+    bool inserted;
 
     freelog(LOG_DEBUG, "unserial: [%d] key{size=%d, offset=%d} "
 	    "value{size=%d, offset=%d}", i, header[0], header[1],
@@ -190,7 +191,8 @@ static void unserialize_hash(struct hash_table *hash, char *data,
     memcpy(pkey, body + header[1], header[0]);
     memcpy(pvalue, body + header[3], header[2]);
 
-    hash_insert(hash, pkey, pvalue);
+    inserted = hash_insert(hash, pkey, pvalue);
+    assert(inserted);
 
     header += 4;
   }
@@ -265,7 +267,8 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   }
 
   if (data_length != 0) {
-    hash_insert(attribute_hash, pkey, pvalue);
+    bool inserted = hash_insert(attribute_hash, pkey, pvalue);
+    assert(inserted);
   }
 }
 

@@ -238,7 +238,7 @@ void flush_packets(void)
   struct timeval tv;
   time_t start;
 
-  time(&start);
+  (void) time(&start);
 
   for(;;) {
     tv.tv_sec=(game.netwait - (time(NULL) - start));
@@ -369,7 +369,7 @@ int sniff_packets(void)
 	    sz_strlcpy(srvarg.metaserver_info_line,
 		       "restarting for lack of players");
 	    freelog(LOG_NORMAL, srvarg.metaserver_info_line);
-	    send_server_info_to_metaserver(TRUE, FALSE);
+	    (void) send_server_info_to_metaserver(TRUE, FALSE);
 
 	    close_connections_and_socket();
 	    exit(EXIT_SUCCESS);
@@ -382,7 +382,7 @@ int sniff_packets(void)
 		      "restarting in %d seconds for lack of players",
 		      srvarg.quitidle);
 	  freelog(LOG_NORMAL, srvarg.metaserver_info_line);
-	  send_server_info_to_metaserver(TRUE, FALSE);
+	  (void) send_server_info_to_metaserver(TRUE, FALSE);
 	}
       } else {
         last_noplayers = 0;
@@ -410,7 +410,7 @@ int sniff_packets(void)
 
     /* Don't wait if timeout == -1 (i.e. on auto games) */
     if (server_state != PRE_GAME_STATE && game.timeout == -1) {
-      send_server_info_to_metaserver(FALSE, FALSE);
+      (void) send_server_info_to_metaserver(FALSE, FALSE);
 
       /* kick out of the srv_main loop */
       if (server_state == GAME_OVER_STATE) {
@@ -453,7 +453,7 @@ int sniff_packets(void)
     con_prompt_off();		/* output doesn't generate a new prompt */
 
     if(select(max_desc+1, &readfs, &writefs, &exceptfs, &tv)==0) { /* timeout */
-      send_server_info_to_metaserver(FALSE, FALSE);
+      (void) send_server_info_to_metaserver(FALSE, FALSE);
       if(game.timeout != 0
 	&& (time(NULL)>game.turn_start + game.timeout)
 	&& (server_state == RUN_GAME_STATE)){

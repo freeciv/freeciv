@@ -582,7 +582,7 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
   for (i = 0; i < ACTIVITY_LAST; i++) {
     if (is_build_or_clean_activity(i) && activity_units[i] > 0) {
       if (num_activities > 0)
-	mystrlcat(buf, "/", buf_size);
+	(void) mystrlcat(buf, "/", buf_size);
       remains = map_activity_time(i, x, y) - activity_total[i];
       if (remains > 0) {
 	turns = 1 + (remains + activity_units[i] - 1) / activity_units[i];
@@ -767,7 +767,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 	my_snprintf(pitem->descr, sizeof(pitem->descr), "%s (%d)", name, cost);
       }
     } else {
-      mystrlcpy(pitem->descr, name, sizeof(pitem->descr));
+      (void) mystrlcpy(pitem->descr, name, sizeof(pitem->descr));
     }
   }
 

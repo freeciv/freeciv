@@ -146,7 +146,7 @@ void cmafec_preset_add(char *descr_name, struct cma_parameter *pparam)
 
   cma_copy_parameter(&ppreset->parameter, pparam);
   ppreset->descr = fc_malloc(MAX_LEN_PRESET_NAME);
-  mystrlcpy(ppreset->descr, descr_name, MAX_LEN_PRESET_NAME);
+  (void) mystrlcpy(ppreset->descr, descr_name, MAX_LEN_PRESET_NAME);
   preset_list_insert(&preset_list, ppreset);
 }
 

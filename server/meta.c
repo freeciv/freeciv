@@ -146,7 +146,7 @@ static bool send_to_metaserver(char *desc, char *info)
   cptr=put_uint16(buffer+2,  PACKET_UDP_PCKT);
   cptr=put_string(cptr, desc);
   cptr=put_string(cptr, info);
-  put_uint16(buffer, cptr-buffer);
+  (void) put_uint16(buffer, cptr - buffer);
 #ifdef GENERATING_MAC  /* mac networking */
   xmit.udata.len=strlen((const char *)buffer);
   err=OTSndUData(meta_ep, &xmit);

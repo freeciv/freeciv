@@ -2347,8 +2347,9 @@ static void hut_get_mercenaries(struct unit *punit)
   
   notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		   _("Game: A band of friendly mercenaries joins your cause."));
-  create_unit(pplayer, punit->x, punit->y, find_a_unit_type(L_HUT,L_HUT_TECH),
-	      FALSE, punit->homecity, -1);
+  (void) create_unit(pplayer, punit->x, punit->y,
+		     find_a_unit_type(L_HUT, L_HUT_TECH), FALSE,
+		     punit->homecity, -1);
 }
 
 /**************************************************************************
@@ -2398,7 +2399,7 @@ static void hut_get_city(struct unit *punit)
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: Friendly nomads are impressed by you,"
 		       " and join you."));
-    create_unit(pplayer, punit->x, punit->y, get_role_unit(F_CITIES,0),
+    (void) create_unit(pplayer, punit->x, punit->y, get_role_unit(F_CITIES,0),
 		FALSE, punit->homecity, -1);
   }
 }

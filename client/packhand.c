@@ -151,7 +151,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   char msg[MAX_LEN_MSG];
   char *s_capability = aconnection.capability;
 
-  mystrlcpy(s_capability, packet->capability, sizeof(aconnection.capability));
+  sz_strlcpy(aconnection.capability, packet->capability);
 
   if (packet->you_can_join) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);

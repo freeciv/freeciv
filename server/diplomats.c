@@ -435,9 +435,10 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "bribe-unit: succeeded");
 
   /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
-  create_unit_full (pplayer, pvictim->x, pvictim->y,
-		    pvictim->type, pvictim->veteran, pdiplomat->homecity,
-		    pvictim->moves_left, pvictim->hp);
+  (void) create_unit_full(pplayer, pvictim->x, pvictim->y,
+			  pvictim->type, pvictim->veteran,
+			  pdiplomat->homecity, pvictim->moves_left,
+			  pvictim->hp);
 
   /* Notify everybody involved. */
   notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,

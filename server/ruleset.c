@@ -40,8 +40,8 @@
 #include "ruleset.h"
 
 static const char name_too_long[] = "Name \"%s\" too long; truncating.";
-#define check_name(name) check_strlen(name, MAX_LEN_NAME, name_too_long)
-#define name_strlcpy(dst, src) sz_loud_strlcpy(dst, src, name_too_long)
+#define check_name(name) (check_strlen(name, MAX_LEN_NAME, name_too_long))
+#define name_strlcpy(dst, src) ((void) sz_loud_strlcpy(dst, src, name_too_long))
 
 static void openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset);
@@ -441,7 +441,7 @@ static void load_tech_names(struct section_file *file)
   int i;
   const char *filename = secfile_filename(file);
 
-  section_file_lookup(file,"datafile.description"); /* unused */
+  (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   /* The names: */
   sec = secfile_get_secnames_prefix(file, "advance_", &num_techs);
@@ -575,7 +575,7 @@ static void load_unit_names(struct section_file *file)
   int nval, i;
   const char *filename = secfile_filename(file);
 
-  section_file_lookup(file,"datafile.description"); /* unused */
+  (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   /* The names: */
   sec = secfile_get_secnames_prefix(file, "unit_", &nval);
@@ -636,7 +636,7 @@ static void load_ruleset_units(struct section_file *file)
       u->obsoleted_by = lookup_unit_type(file, sec[i],
 					 "obsolete_by", FALSE, filename, u->name);
     } else {
-      section_file_lookup(file, "%s.obsolete_by", sec[i]);  /* unused */
+      (void) section_file_lookup(file, "%s.obsolete_by", sec[i]); /* unused */
       u->obsoleted_by = -1;
     }
   }
@@ -882,7 +882,7 @@ static void load_building_names(struct section_file *file)
   int nval, i;
   const char *filename = secfile_filename(file);
 
-  section_file_lookup(file,"datafile.description"); /* unused */
+  (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   /* The names: */
   sec = secfile_get_secnames_prefix(file, "building_", &nval);
@@ -1244,7 +1244,7 @@ static void load_terrain_names(struct section_file *file)
   char **sec;
   const char *filename = secfile_filename(file);
 
-  section_file_lookup(file,"datafile.description"); /* unused */
+  (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   /* terrain names */
 
@@ -1418,7 +1418,7 @@ static void load_government_names(struct section_file *file)
   char **sec;
   const char *filename = secfile_filename(file);
 
-  section_file_lookup(file,"datafile.description"); /* unused */
+  (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   sec = secfile_get_secnames_prefix(file, "government_", &nval);
   if (nval == 0) {
@@ -1763,7 +1763,7 @@ static void load_nation_names(struct section_file *file)
   char **sec;
   int i, j;
 
-  section_file_lookup(file,"datafile.description"); /* unused */
+  (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   sec = secfile_get_secnames_prefix(file, "nation", &game.nation_count);
   game.playable_nation_count = game.nation_count - 1;
@@ -2070,8 +2070,8 @@ static void load_ruleset_nations(struct section_file *file)
        * this is not a problem because we take care of this using
        * default_rcity_names.
        */
-      mystrlcpy(namebuf, tile_types[type].terrain_name,
-		sizeof(tile_types[type].terrain_name));
+      (void) mystrlcpy(namebuf, tile_types[type].terrain_name,
+		       sizeof(tile_types[type].terrain_name));
 
       /* transform to lower case */
       for (k = 0; k < strlen(namebuf); k++) {
@@ -2105,7 +2105,7 @@ static void load_citystyle_names(struct section_file *file)
   char **styles;
   int nval, i;
 
-  section_file_lookup(file,"datafile.description"); /* unused */
+  (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   /* The sections: */
   styles = secfile_get_secnames_prefix(file, "citystyle_", &nval);
@@ -2181,7 +2181,7 @@ static void load_ruleset_game(char *ruleset_subdir)
   openload_ruleset_file(&file, ruleset_subdir, "game");
   filename = secfile_filename(&file);
   datafile_options = check_ruleset_capabilities(&file, "+1.11.1", filename);
-  section_file_lookup(&file,"datafile.description"); /* unused */
+  (void) section_file_lookup(&file, "datafile.description");	/* unused */
 
   game.rgame.min_city_center_food =
     secfile_lookup_int(&file, "civstyle.min_city_center_food");

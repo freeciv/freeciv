@@ -560,7 +560,7 @@ static const char *get_token(struct inputfile *inf,
     c = NULL;
   } else {
     if (!have_line(inf))
-      read_a_line(inf);
+      (void) read_a_line(inf);
     if (!have_line(inf)) {
       c = NULL;
     } else {
