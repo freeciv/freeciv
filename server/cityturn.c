@@ -73,9 +73,9 @@ static int worklist_change_build_target(struct player *pplayer,
 					struct city *pcity);
 
 static int city_build_stuff(struct player *pplayer, struct city *pcity);
-static int upgrade_improvement(struct city *pcity, int imp);
+static int improvement_upgrades_to(struct city *pcity, int imp);
 static void upgrade_building_prod(struct city *pcity);
-static Unit_Type_id upgrade_unit(struct city *pcity, Unit_Type_id id);
+static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id);
 static void upgrade_unit_prod(struct city *pcity);
 static void obsolete_building_test(struct city *pcity, int b1, int b2);
 static void pay_for_buildings(struct player *pplayer, struct city *pcity);
@@ -978,7 +978,7 @@ static int worklist_change_build_target(struct player *pplayer, struct city *pci
     /* Sanity checks */
     if (is_unit &&
 	!can_build_unit(pcity, target)) {
-      int new_target = upgrade_unit(pcity, target);
+      int new_target = unit_upgrades_to(pcity, target);
 
       /* If the city can never build this unit or its descendants, drop it. */
       if (!can_eventually_build_unit(pcity, new_target)) {
@@ -1018,7 +1018,7 @@ static int worklist_change_build_target(struct player *pplayer, struct city *pci
 	target = new_target;
       }
     } else if (!is_unit && !can_build_improvement(pcity, target)) {
-      int new_target = upgrade_improvement(pcity, target);
+      int new_target = improvement_upgrades_to(pcity, target);
 
       /* If the city can never build this improvement, drop it. */
       if (!can_eventually_build_improvement(pcity, new_target)) {
@@ -1099,9 +1099,9 @@ static void obsolete_building_test(struct city *pcity, int b1, int b2)
   !!! Note:  I hear that the building ruleset code is going to be
   overhauled soon.  If this happens, then this function should be updated
   to follow the new model.  This function will probably look a lot like
-  upgrade_unit().
+  unit_upgrades_to().
 **************************************************************************/
-static int upgrade_improvement(struct city *pcity, int imp)
+static int improvement_upgrades_to(struct city *pcity, int imp)
 {
   if (imp == B_BARRACKS && can_build_improvement(pcity, B_BARRACKS3))
     return B_BARRACKS3;
@@ -1129,7 +1129,7 @@ static void upgrade_building_prod(struct city *pcity)
   id doesn't guarantee that pcity really _can_ build id; just that
   pcity can't build whatever _obsoletes_ id.
 **************************************************************************/
-static Unit_Type_id upgrade_unit(struct city *pcity, Unit_Type_id id)
+static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
 {
   Unit_Type_id latest_ok = id;
 
@@ -1149,7 +1149,7 @@ static void upgrade_unit_prod(struct city *pcity)
 {
   struct player *pplayer=&game.players[pcity->owner];
   int id = pcity->currently_building;
-  int id2 = upgrade_unit(pcity, unit_types[id].obsoleted_by);
+  int id2 = unit_upgrades_to(pcity, unit_types[id].obsoleted_by);
 
   if (can_build_unit_direct(pcity, id2)) {
     pcity->currently_building=id2;
