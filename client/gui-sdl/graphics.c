@@ -708,6 +708,8 @@ void init_sdl(int iFlags)
   Main.screen = NULL;
   Main.rects_count = 0;
 
+  iFlags |= SDL_INIT_NOPARACHUTE;
+
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
     error = (SDL_InitSubSystem(iFlags) < 0);
   } else {
