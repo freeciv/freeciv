@@ -85,6 +85,8 @@ int overview_canvas_store_height = 2 * 50;
 
 GdkPixmap *single_tile_pixmap;          /* this pixmap is used when 
                                          * moving units etc */
+GdkPixmap *gray50_tile_pixmap;
+
 int single_tile_pixmap_width;
 int single_tile_pixmap_height;
 
@@ -777,6 +779,7 @@ static void setup_widgets(void)
 
   map_canvas = gtk_drawing_area_new();
   GTK_WIDGET_SET_FLAGS(map_canvas, GTK_CAN_FOCUS);
+  gtk_widget_set_double_buffered(map_canvas, FALSE);
   
   for (i = 0; i < 5; i++) {
     gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
@@ -1065,9 +1068,22 @@ void ui_main(int argc, char **argv)
 
   single_tile_pixmap_width = UNIT_TILE_WIDTH;
   single_tile_pixmap_height = UNIT_TILE_HEIGHT;
+
   single_tile_pixmap = gdk_pixmap_new(root_window, 
                                       single_tile_pixmap_width,
                                       single_tile_pixmap_height, -1);
+
+  gray50_tile_pixmap = gdk_pixmap_new(root_window, 
+				      single_tile_pixmap_width,
+				      single_tile_pixmap_height, -1);
+
+  gdk_gc_set_fill(fill_tile_gc, GDK_OPAQUE_STIPPLED);
+  gdk_gc_set_stipple(fill_tile_gc, black50);
+  gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+  gdk_gc_set_background(fill_tile_gc, colors_standard[COLOR_STD_WHITE]);
+  gdk_draw_rectangle(gray50_tile_pixmap, fill_tile_gc, TRUE, 0, 0,
+		     single_tile_pixmap_width, single_tile_pixmap_height);
+  gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 

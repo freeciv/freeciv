@@ -43,6 +43,7 @@ extern int              overview_canvas_store_height;
 extern GdkPixmap *      single_tile_pixmap;
 extern int              single_tile_pixmap_width;
 extern int              single_tile_pixmap_height;
+extern GdkPixmap *      gray50_tile_pixmap;
 extern GtkTextView *	main_message_area;
 extern GtkWidget *      text_scrollbar;
 extern GtkWidget *      toplevel;

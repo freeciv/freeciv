@@ -1314,6 +1314,15 @@ void update_map_canvas(int x, int y, int width, int height,
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
+  GdkRectangle rect;
+
+  rect.x = 0;
+  rect.y = 0;
+  rect.width = map_canvas_store_twidth*NORMAL_TILE_WIDTH;
+  rect.height = map_canvas_store_theight*NORMAL_TILE_HEIGHT;
+  
+  gdk_window_begin_paint_rect(map_canvas->window, &rect);
+
   if (is_isometric) {
     /* just find a big rectangle that includes the whole visible area. The
        invisible tiles will not be drawn. */
@@ -1329,6 +1338,9 @@ void update_map_canvas_visible(void)
   }
 
   show_city_descriptions();
+
+  gdk_flush();
+  gdk_window_end_paint(map_canvas->window);
 }
 
 /**************************************************************************
@@ -1630,33 +1642,35 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 int width, int height,
 					 int fog)
 {
-  if (!ssprite || !width || !height)
-    return;
+  if (ssprite && width > 0 && height > 0) {
+    GdkRectangle dst;
 
-  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
-  gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
+    dst.x = canvas_x+offset_x;
+    dst.y = canvas_y+offset_y;
+    dst.width = MIN(width, MAX(0, ssprite->width-offset_x));
+    dst.height = MIN(height, MAX(0, ssprite->height-offset_y));
 
-  gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
-		    offset_x, offset_y,
-		    canvas_x+offset_x, canvas_y+offset_y,
-		    MIN(width, MAX(0, ssprite->width-offset_x)),
-		    MIN(height, MAX(0, ssprite->height-offset_y)));
-  gdk_gc_set_clip_mask(civ_gc, NULL);
+    gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
 
-  /* I imagine this could be done more efficiently. Some pixels We first
-     draw from the sprite, and then draw black afterwards. It would be much
-     faster to just draw every second pixel black in the first place. */
-  if (fog) {
-    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, ssprite->mask);
-    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
-    gdk_gc_set_stipple(fill_tile_gc, black50);
+    gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
+		      offset_x, offset_y, dst.x, dst.y,
+		      dst.width, dst.height);
 
-    gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
-		       canvas_x+offset_x, canvas_y+offset_y,
-		       MIN(width, MAX(0, ssprite->width-offset_x)),
-		       MIN(height, MAX(0, ssprite->height-offset_y)));
-    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+    /* I imagine this could be done more efficiently. Some pixels We first
+       draw from the sprite, and then draw black afterwards. It would be much
+       faster to just draw every second pixel black in the first place. */
+    if (fog) {
+      gdk_gc_set_function(civ_gc, GDK_AND);
+
+      gdk_draw_drawable(pixmap, civ_gc, gray50_tile_pixmap,
+			offset_x, offset_y, dst.x, dst.y,
+			dst.width, dst.height);
+
+      gdk_gc_set_function(civ_gc, GDK_COPY);
+    }
+
+    gdk_gc_set_clip_mask(civ_gc, NULL);
   }
 }
 
@@ -2063,20 +2077,19 @@ static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
 		      NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
   }
 
-  gdk_gc_set_clip_mask(civ_gc, NULL);
-
   if (fog) {
-    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, sprites.dither_tile->mask);
-    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
-    gdk_gc_set_stipple(fill_tile_gc, black50);
+    gdk_gc_set_function(civ_gc, GDK_AND);
 
-    gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
-		       canvas_x+offset_x, canvas_y+offset_y,
-		       MIN(width, MAX(0, NORMAL_TILE_WIDTH-offset_x)),
-		       MIN(height, MAX(0, NORMAL_TILE_HEIGHT-offset_y)));
-    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+    gdk_draw_drawable(pixmap, civ_gc, gray50_tile_pixmap,
+		      offset_x, offset_y,
+		      canvas_x+offset_x, canvas_y+offset_y,
+		      MIN(width, MAX(0, NORMAL_TILE_WIDTH-offset_x)),
+		      MIN(height, MAX(0, NORMAL_TILE_HEIGHT-offset_y)));
+
+    gdk_gc_set_function(civ_gc, GDK_COPY);
   }
+
+  gdk_gc_set_clip_mask(civ_gc, NULL);
 }
 
 /**************************************************************************
@@ -2122,27 +2135,32 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   special = map_get_special(x, y);
 
   if (solid_bg) {
+    GdkRectangle dst;
+
+    dst.x = canvas_x+offset_x;
+    dst.y = canvas_y+offset_y;
+    dst.width = MIN(width, MAX(0, sprites.black_tile->width-offset_x));
+    dst.height = MIN(height, MAX(0, sprites.black_tile->height-offset_y));
+
     gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_bg_gc, sprites.black_tile->mask);
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BACKGROUND]);
 
     gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
-		       canvas_x+offset_x, canvas_y+offset_y,
-		       MIN(width, MAX(0, sprites.black_tile->width-offset_x)),
-		       MIN(height, MAX(0, sprites.black_tile->height-offset_y)));
-    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
-    if (fog) {
-      gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-      gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
-      gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
-      gdk_gc_set_stipple(fill_tile_gc, black50);
+		       dst.x, dst.y,
+		       dst.width, dst.height);
 
-      gdk_draw_rectangle(pm, fill_tile_gc, TRUE,
-			 canvas_x+offset_x, canvas_y+offset_y,
-			 MIN(width, MAX(0, sprites.black_tile->width-offset_x)),
-			 MIN(height, MAX(0, sprites.black_tile->height-offset_y)));
-      gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+    if (fog) {
+      gdk_gc_set_function(fill_bg_gc, GDK_AND);
+
+      gdk_draw_drawable(pm, fill_bg_gc, gray50_tile_pixmap,
+			offset_x, offset_y, dst.x, dst.y,
+			dst.width, dst.height);
+
+      gdk_gc_set_function(fill_bg_gc, GDK_COPY);
     }
+
+    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
   }
 
   if (draw_terrain) {
@@ -2193,9 +2211,8 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
     }
 
     /*** Dither base terrain ***/
-    if (draw_terrain)
-      dither_tile(pm, dither, canvas_x, canvas_y,
-		  offset_x, offset_y, width, height, fog);
+    dither_tile(pm, dither, canvas_x, canvas_y,
+		offset_x, offset_y, width, height, fog);
   }
 
   /*** Rest of terrain and specials ***/
