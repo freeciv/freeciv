@@ -959,7 +959,6 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 							struct player *pdest,
 							int x, int y)
 {
-  struct dumb_city *from_city, *dest_city;
   struct player_tile *from_tile, *dest_tile;
   if (!map_get_known_and_seen(x, y, pdest)) {
     /* I can just hear people scream as they try to comprehend this if :).
@@ -996,15 +995,11 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	    reality_check_city(pdest, x, y);
       }
       /* Set and send new city info */
-      if (from_tile->city && !dest_tile->city) {
-	dest_tile->city = fc_malloc(sizeof(struct dumb_city));
-      }
-      if ((from_city = from_tile->city) && (dest_city = dest_tile->city)) {
-	dest_city->id = from_city->id;
-	sz_strlcpy(dest_city->name, from_city->name);
-	dest_city->size = from_city->size;
-	dest_city->has_walls = from_city->has_walls;
-	dest_city->owner = from_city->owner;
+      if (from_tile->city) {
+	if (!dest_tile->city) {
+	  dest_tile->city = fc_malloc(sizeof(struct dumb_city));
+	}
+	*dest_tile->city = *from_tile->city;
 	send_city_info_at_tile(pdest, &pdest->connections, NULL, x, y);
       }
 
