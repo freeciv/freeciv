@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-09 10:46+0100\n"
+"PO-Revision-Date: 2005-01-09 13:03+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5298,7 +5298,7 @@ msgstr "Lituji, ale nikdo nemůže pozorovat celou hru."
 
 #: server/stdinhand.c:2488
 msgid "Sorry, you can't take a global observer. Observe it instead."
-msgstr ""
+msgstr "Lituji, nemůžete převzít globálního pozorvatele. Pozorujte ho místo toho."
 
 #: server/stdinhand.c:2497
 msgid "Sorry, one can't observe barbarians in this game."
@@ -5354,11 +5354,11 @@ msgstr "Použití: observe [jméno-hráče]"
 
 #: server/stdinhand.c:2640
 msgid "Game: A global observer cannot be created: too many regular players."
-msgstr ""
+msgstr "Hra: Globální pozorovatel nemůže být vytvořen: příliš mnoho hráčů."
 
 #: server/stdinhand.c:2671
 msgid "Game: A global observer has been created"
-msgstr ""
+msgstr "Hra: Globální pozorovatel vytvořen "
 
 #: server/stdinhand.c:2687
 #, c-format
@@ -6419,7 +6419,6 @@ msgid "%d/turn"
 msgstr "%d/kolo"
 
 #: client/cityrepdata.c:67
-#, fuzzy
 msgid "?city_state:Rapture"
 msgstr "?city_state:Občanský nepokoj"
 
@@ -6838,7 +6837,7 @@ msgstr ""
 #: client/civclient.c:241
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
-msgstr ""
+msgstr "Neplatný port \"%s\" určený s --port volbou.\n"
 
 #: client/civclient.c:243
 #: client/civclient.c:256
@@ -7042,7 +7041,7 @@ msgstr "Nelze se připojit k serveru."
 
 #: client/connectdlg_common.c:345
 msgid "We probably couldn't start it from here."
-msgstr ""
+msgstr "Pravděpodobně nebudeme moci odtud začit."
 
 #: client/connectdlg_common.c:466
 msgid "We have control of the server (command access level hack)"
@@ -7247,9 +7246,9 @@ msgid "* Can build farmland (if %s is known).\n"
 msgstr "* Může stavět farmy (pokud je %s objeven).\n"
 
 #: client/helpdata.c:737
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
-msgstr "* Může postavit pevnosti (pokud je známo: %s).\n"
+msgstr "* Může postavit farmu (pokud je známo: %s).\n"
 
 #: client/helpdata.c:745
 #, c-format
@@ -7550,7 +7549,7 @@ msgstr "* Umožňuje %s vylepšit závlahu na farmu.\n"
 #: client/helpdata.c:1093
 #, c-format
 msgid "* Pollution cannot be generated on this terrain."
-msgstr ""
+msgstr "* Na tomto terénu nelze generovat znečištění."
 
 #: client/helpdata.c:1098
 #, c-format
@@ -7570,7 +7569,7 @@ msgstr "* Tento terén je nebezpečný pro přesun jednotek."
 #: client/helpdata.c:1114
 #, c-format
 msgid "* Land units cannot travel on oceanic terrains."
-msgstr ""
+msgstr "* Pozemní jednotky se nemohou pohybovat v oceánu."
 
 #: client/helpdata.c:1160
 #, c-format
@@ -7951,9 +7950,8 @@ msgid "Hut: Tech Found in Hut"
 msgstr "Chýše: technologie nalezena v chýši"
 
 #: client/options.c:246
-#, fuzzy
 msgid "Hut: Unit Spared by Barbarians"
-msgstr "Chýše: Zabit barbary z chýše"
+msgstr "Chýše: Jednotka ušetřena barbary"
 
 #: client/options.c:247
 msgid "Improvement: Bought"
@@ -8361,9 +8359,8 @@ msgid "Territory of the %s %s"
 msgstr "Území %s %s"
 
 #: client/text.c:181
-#, fuzzy
 msgid "Unclaimed territory"
-msgstr "Naše území"
+msgstr "Nepřivlastněné území"
 
 #. TRANS: "City: Warsaw (Polish)"
 #: client/text.c:193
@@ -9862,6 +9859,8 @@ msgid ""
 "Your %s has arrived at %s.\n"
 "What is your command?"
 msgstr ""
+"Vaše jednotka %s se dostala do %s.\n"
+"Jaký je Váš rozkaz?"
 
 #: client/gui-gtk-2.0/dialogs.c:828
 #: client/gui-gtk/dialogs.c:1019
@@ -11709,9 +11708,8 @@ msgstr "_Editor seznamu prací"
 #: client/gui-gtk-2.0/menu.c:854
 #: client/gui-gtk/menu.c:803
 #: client/gui-win32/menu.c:418
-#, fuzzy
 msgid "Citizen _Management"
-msgstr "Správa disků"
+msgstr "Správce oby_vatelstva"
 
 #: client/gui-gtk-2.0/menu.c:856
 #: client/gui-gtk/menu.c:805
@@ -12536,9 +12534,8 @@ msgstr "Seznam prací"
 
 #: client/gui-gtk/citydlg.c:1287
 #: client/gui-mui/citydlg.c:1385
-#, fuzzy
 msgid "This Misc. Settings page"
-msgstr "Tuto stránku vytvořil(a) "
+msgstr "Stránka ostatních nastavení"
 
 #: client/gui-gtk/citydlg.c:1306
 msgid "City options"
@@ -12935,9 +12932,8 @@ msgstr "ASM a předvolby"
 #: client/gui-gtk/cma_fe.c:397
 #: client/gui-win32/cma_fe.c:310
 #: client/gui-xaw/cma_fe.c:80
-#, fuzzy
 msgid "including sample presets,"
-msgstr "ASM a předvolby"
+msgstr "včetně ukázkových předvoleb,"
 
 #: client/gui-gtk/cma_fe.c:398
 #: client/gui-win32/cma_fe.c:311
@@ -13485,18 +13481,16 @@ msgid "_Disband Unit"
 msgstr "Rozpustit je_dnotku"
 
 #: client/gui-gtk/menu.c:751
-#, fuzzy
 msgid "Diplomat|Spy Actions"
-msgstr "Šance v diplomatických/špionážních akcích"
+msgstr "Diplomatické/špionážní akce"
 
 #: client/gui-gtk/menu.c:924
 msgid "Go/Air_lift to City"
 msgstr "Přesun/Letecký most do města"
 
 #: client/gui-gtk/menu.c:925
-#, fuzzy
 msgid "_Diplomat/Spy Actions"
-msgstr "Šance v diplomatických/špionážních akcích"
+msgstr "_Diplomatické/špionážní akce"
 
 #: client/gui-gtk/messagedlg.c:83
 msgid ""
@@ -13725,9 +13719,8 @@ msgstr "Přejmenovat seznam prací"
 #: client/gui-gtk/wldlg.c:604
 #: client/gui-win32/wldlg.c:242
 #: client/gui-xaw/wldlg.c:617
-#, fuzzy
 msgid "What should the new name be?"
-msgstr "Jak se bude jmenovat nová předvolba?"
+msgstr "Jaké bude nové jméno?"
 
 #: client/gui-gtk/wldlg.c:646
 #: client/gui-mui/wldlg.c:117
@@ -13762,9 +13755,8 @@ msgid "u8Improvementsn"
 msgstr "u8Vylepšenín"
 
 #: client/gui-mui/citydlg.c:635
-#, fuzzy
 msgid "Rounds"
-msgstr "Počet kol: %1\n"
+msgstr "Tahů"
 
 #: client/gui-mui/citydlg.c:974
 #: client/gui-mui/dialogs.c:1748
@@ -13773,9 +13765,8 @@ msgid "_Darn"
 msgstr ""
 
 #: client/gui-mui/citydlg.c:1235
-#, fuzzy
 msgid "Freeciv - Cityproduction"
-msgstr "Freeciv verze %s %s"
+msgstr "Freeciv produkce města"
 
 #: client/gui-mui/citydlg.c:1325
 msgid "Shields"
@@ -13798,9 +13789,8 @@ msgid "Misc. Settings"
 msgstr "Další nastavení"
 
 #: client/gui-mui/citydlg.c:1407
-#, fuzzy
 msgid "Freeciv - Cityview"
-msgstr "Freeciv verze %s %s"
+msgstr "Freeciv náhled města"
 
 #: client/gui-mui/citydlg.c:1434
 msgid "City Output"
@@ -13828,18 +13818,16 @@ msgid "_Delete preset"
 msgstr "_Smazat předvolbu"
 
 #: client/gui-mui/citydlg.c:1582
-#, fuzzy
 msgid "People (W/E/S/T):"
-msgstr "_Nezbytní lidé"
+msgstr "Lidé (D/B/V/F):"
 
 #: client/gui-mui/citydlg.c:1585
 msgid "City grows:"
 msgstr "Růst města"
 
 #: client/gui-mui/citydlg.c:1588
-#, fuzzy
 msgid "Production completed:"
-msgstr "Hotová část"
+msgstr "Hotová produkce:"
 
 #: client/gui-mui/citydlg.c:1630
 msgid "C_hange permanent"
@@ -13847,9 +13835,8 @@ msgstr "Z_měnit permanentně"
 
 #: client/gui-mui/citydlg.c:1661
 #: client/gui-mui/citydlg.c:1662
-#, fuzzy
 msgid "_Disband if build settler at size 1"
-msgstr "Zrušit, pokud se staví osadníci při velikosti 1"
+msgstr "_Zrušit, pokud se staví osadníci při velikosti 1"
 
 #: client/gui-mui/citydlg.c:1775
 #, c-format
@@ -13907,7 +13894,7 @@ msgstr "Kon_figurovat"
 #: client/gui-win32/cityrep.c:886
 #: client/gui-win32/cityrep.c:1138
 msgid "City Advisor"
-msgstr ""
+msgstr "Poradce měst"
 
 #: client/gui-mui/connectdlg.c:177
 msgid "Server Selection"
@@ -14564,16 +14551,14 @@ msgstr ""
 #: client/gui-mui/messagedlg.c:100
 #: client/gui-win32/messagedlg.c:138
 #: client/gui-win32/messagedlg.c:142
-#, fuzzy
 msgid "Out:"
-msgstr "Výstup:"
+msgstr "Výs:"
 
 #: client/gui-mui/messagedlg.c:101
 #: client/gui-win32/messagedlg.c:139
 #: client/gui-win32/messagedlg.c:143
-#, fuzzy
 msgid "Mes:"
-msgstr "_Zpráva:"
+msgstr "Zpr:"
 
 #: client/gui-mui/messagedlg.c:102
 #: client/gui-win32/messagedlg.c:140
@@ -15002,7 +14987,7 @@ msgstr ""
 #: client/gui-xaw/citydlg.c:1429
 #, c-format
 msgid "%32s: %2d Trade/Year\n"
-msgstr ""
+msgstr "%32s: %2d Obchod/rok\n"
 
 #: client/gui-xaw/citydlg.c:1435
 msgid "No trade routes exist.\n"
@@ -15063,7 +15048,7 @@ msgstr ""
 
 #: client/gui-xaw/gui_main.c:311
 msgid "Game version does not match Resource version."
-msgstr ""
+msgstr "Verze hry nesouhlasí s verzí zrojů."
 
 #: client/gui-xaw/gui_main.c:312
 #, c-format
@@ -15092,7 +15077,7 @@ msgstr "Nelze otevřít sadu fontů: %s"
 #: client/gui-xaw/gui_main.c:387
 #, c-format
 msgid "Font for charset %s is lacking"
-msgstr ""
+msgstr "Font pro znakovou sadu %s je neúplný"
 
 #: client/gui-xaw/helpdlg.c:892
 #: client/gui-xaw/helpdlg.c:901
@@ -19975,7 +19960,7 @@ msgstr ""
 #: data/civ1/units.ruleset:398
 #: data/history/units.ruleset:488
 msgid "Alpine Troops"
-msgstr ""
+msgstr "Alpské jednotky"
 
 #: data/default/units.ruleset:590
 #: data/civ2/units.ruleset:449
@@ -20023,7 +20008,7 @@ msgstr "Jízda"
 #: data/civ1/units.ruleset:571
 #: data/history/units.ruleset:665
 msgid "Chariot"
-msgstr ""
+msgstr "Válečný vůz"
 
 #: data/default/units.ruleset:767
 #: data/civ2/units.ruleset:626
