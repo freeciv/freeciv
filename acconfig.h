@@ -6,6 +6,9 @@
  *   Defaults for configuration settings
  *   by Falk Hüffner <falk.hueffner@student.uni-tuebingen.de>
  *   and others
+ *
+ *   Need to mention HAVE_lib here when using FC_CHECK_X_LIB
+ *   instead of AC_CHECK_LIB:  --dwp
  */
 
 #undef PACKAGE
@@ -14,6 +17,14 @@
 #undef MINOR_VERSION
 #undef PATCH_VERSION
 #undef VERSION_STRING
+#undef HAVE_LIBICE
+#undef HAVE_LIBSM
+#undef HAVE_LIBX11
+#undef HAVE_LIBXAW
+#undef HAVE_LIBXEXT
+#undef HAVE_LIBXMU
+#undef HAVE_LIBXPM
+#undef HAVE_LIBXT
 
 @BOTTOM@
 

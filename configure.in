@@ -59,16 +59,16 @@ dnl  AC_PROG_MAKE_SET
 dnl Checks for libraries.
 AC_PATH_XTRA
 CFLAGS="$CFLAGS $X_CFLAGS"
-LIBS="$LIBS $X_LIBS $X_PRE_LIBS $X_EXTRA_LIBS"
+X_LIBS="$X_LIBS $X_PRE_LIBS"
 
-AC_CHECK_LIB(X11, XOpenDisplay, , AC_MSG_ERROR("Need X11"), $LIBS)
-AC_CHECK_LIB(Xext, XShapeCombineMask)
-AC_CHECK_LIB(ICE, main)
-AC_CHECK_LIB(SM, main)
-AC_CHECK_LIB(Xt, main, , ,$LIBS)
-AC_CHECK_LIB(Xmu, main)
-AC_CHECK_LIB(Xaw, main)
-AC_CHECK_LIB(Xpm, XpmReadFileToPixmap, , AC_MSG_ERROR("Need xpm library"), $X_LIBS)
+FC_CHECK_X_LIB(X11, XOpenDisplay, , AC_MSG_ERROR("Need X11"))
+FC_CHECK_X_LIB(Xext, XShapeCombineMask)
+FC_CHECK_X_LIB(Xt, main)
+FC_CHECK_X_LIB(Xmu, main)
+FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , AC_MSG_ERROR("Need Xpm library"))
+FC_CHECK_X_LIB(Xaw, main)
+LIBS="$LIBS $X_LIBS $X_EXTRA_LIBS"
+
 AC_CHECK_LIB(socket,main)
 AC_CHECK_LIB(nsl,main)
 AC_CHECK_LIB(nls,main)
