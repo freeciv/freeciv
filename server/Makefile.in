@@ -105,7 +105,7 @@ l = @l@
 bin_PROGRAMS = civserver
 INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl
 
-civserver_SOURCES =  		autoattack.c			autoattack.h			barbarian.c			barbarian.h			cityhand.c			cityhand.h			citytools.c			citytools.h			cityturn.c			cityturn.h			civserver.c			civserver.h			console.c			console.h			diplhand.c			diplhand.h			gamehand.c			gamehand.h			gamelog.c			gamelog.h			gotohand.c			gotohand.h			handchat.c			handchat.h			mapgen.c			mapgen.h			maphand.c			maphand.h			meta.c				meta.h				plrhand.c			plrhand.h			ruleset.c			ruleset.h			sernet.c			sernet.h			settlers.c			settlers.h			spacerace.c			spacerace.h			stdinhand.c			stdinhand.h			unitfunc.c			unitfunc.h			unithand.c			unithand.h			unittools.c			unittools.h
+civserver_SOURCES =  		autoattack.c			autoattack.h			barbarian.c			barbarian.h			cityhand.c			cityhand.h			citytools.c			citytools.h			cityturn.c			cityturn.h			civserver.c			civserver.h			console.c			console.h			diplhand.c			diplhand.h			gamehand.c			gamehand.h			gamelog.c			gamelog.h			gotohand.c			gotohand.h			handchat.c			handchat.h			mapgen.c			mapgen.h			maphand.c			maphand.h			meta.c				meta.h				plrhand.c			plrhand.h			ruleset.c			ruleset.h			rulesout.c			rulesout.h			sernet.c			sernet.h			settlers.c			settlers.h			spacerace.c			spacerace.h			stdinhand.c			stdinhand.h			unitfunc.c			unitfunc.h			unithand.c			unithand.h			unittools.c			unittools.h
 
 
 civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a @INTLDEPS@
@@ -127,8 +127,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 civserver_OBJECTS =  autoattack.o barbarian.o cityhand.o citytools.o \
 cityturn.o civserver.o console.o diplhand.o gamehand.o gamelog.o \
 gotohand.o handchat.o mapgen.o maphand.o meta.o plrhand.o ruleset.o \
-sernet.o settlers.o spacerace.o stdinhand.o unitfunc.o unithand.o \
-unittools.o
+rulesout.o sernet.o settlers.o spacerace.o stdinhand.o unitfunc.o \
+unithand.o unittools.o
 civserver_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -145,9 +145,9 @@ DEP_FILES =  .deps/autoattack.P .deps/barbarian.P .deps/cityhand.P \
 .deps/citytools.P .deps/cityturn.P .deps/civserver.P .deps/console.P \
 .deps/diplhand.P .deps/gamehand.P .deps/gamelog.P .deps/gotohand.P \
 .deps/handchat.P .deps/mapgen.P .deps/maphand.P .deps/meta.P \
-.deps/plrhand.P .deps/ruleset.P .deps/sernet.P .deps/settlers.P \
-.deps/spacerace.P .deps/stdinhand.P .deps/unitfunc.P .deps/unithand.P \
-.deps/unittools.P
+.deps/plrhand.P .deps/ruleset.P .deps/rulesout.P .deps/sernet.P \
+.deps/settlers.P .deps/spacerace.P .deps/stdinhand.P .deps/unitfunc.P \
+.deps/unithand.P .deps/unittools.P
 SOURCES = $(civserver_SOURCES)
 OBJECTS = $(civserver_OBJECTS)
 

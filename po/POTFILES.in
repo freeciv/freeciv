@@ -25,6 +25,7 @@ server/maphand.c
 server/meta.c
 server/plrhand.c
 server/ruleset.c
+server/rulesout.c
 server/spacerace.c
 server/stdinhand.c
 server/unitfunc.c

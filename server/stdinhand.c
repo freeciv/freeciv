@@ -39,9 +39,10 @@
 #include "gamehand.h"
 #include "gamelog.h"
 #include "mapgen.h"
-#include "plrhand.h"
-#include "sernet.h"
 #include "meta.h"
+#include "plrhand.h"
+#include "rulesout.h"
+#include "sernet.h"
 
 #include "advmilitary.h"	/* assess_danger_player() */
 
@@ -745,6 +746,7 @@ enum command_id {
   CMD_SAVE,
   CMD_READ_SCRIPT,
   CMD_WRITE_SCRIPT,
+  CMD_RULESOUT,
 
   /* undocumented */
   CMD_LOG,
@@ -943,6 +945,16 @@ static struct command commands[] = {
    /* translate <> only */
    N_("write <file-name>"),
    N_("Write current settings as server commands to file.")
+  },
+  {"rulesout",	ALLOW_HACK,
+   /* translate <> only */
+   N_("rulesout <rules-type> <file-name>"),
+   N_("Write selected rules information to file."),
+   N_("Write a file with information from currently loaded ruleset data.  "
+      "Requires that the ruleset data has been loaded (e.g., after 'start').  "
+      "Currently the only option for <rules-type> is 'techs', which writes "
+      "information about all the advances (technologies).  This can be used "
+      "by the 'techtree' utility program to produce a graph of the advances.")
   },
   {"log",	ALLOW_HACK,
    /* translate <> only */
@@ -1615,6 +1627,77 @@ static void write_init_script(char *script_filename)
 static void write_command(struct player *caller, char *arg)
 {
   write_init_script(arg);
+}
+
+enum rulesout_type { RULESOUT_TECHS, RULESOUT_NUM };
+static const char * const rulesout_names[] = { "techs" };
+static const char *rulesout_accessor(int i) {
+  return rulesout_names[i];
+}
+
+/**************************************************************************
+  Output rules information.  arg must be form "rules_type filename"
+  Only rules currently available is "techs".
+  Modifies string pointed to by arg.
+**************************************************************************/
+static void rulesout_command(struct player *caller, char *arg)
+{
+  char *rules, *filename, *s;	/* all point into arg string */
+  enum m_pre_result result;
+  int ind;
+  
+  if (game.num_tech_types==0) {
+    cmd_reply(CMD_RULESOUT, caller, C_FAIL,
+	      _("Cannot output rules: ruleset data not loaded "
+		"(e.g., use '%sstart')."), (caller?"/":""));
+    return;
+  }
+
+  /* Find space-delimited rules type and filename: */
+  s = skip_leading_spaces(arg);
+  if (*s == '\0') goto usage;
+  rules = s;
+
+  while (*s && !isspace(*s)) s++;
+  if (*s == '\0') goto usage;
+  *s = '\0';			/* terminate rules */
+  
+  s = skip_leading_spaces(s+1);
+  if (*s == '\0') goto usage;
+  filename = s;
+  remove_trailing_spaces(filename);
+
+  result = match_prefix(rulesout_accessor, RULESOUT_NUM, 0,
+			mystrncasecmp, rules, &ind);
+
+  if (result > M_PRE_ONLY) {
+    cmd_reply(CMD_RULESOUT, caller, C_FAIL,
+	      _("Bad rulesout type: '%s' (%s).  Try '%shelp rulesout'."),
+	      rules, _(m_pre_description(result)), (caller?"/":""));
+    return;
+  }
+
+  switch(ind) {
+  case RULESOUT_TECHS:
+    if (rulesout_techs(filename)) {
+      cmd_reply(CMD_RULESOUT, caller, C_OK,
+		_("Saved techs rules data to '%s'."), filename);
+    } else {
+      cmd_reply(CMD_RULESOUT, caller, C_FAIL,
+		_("Failed saving techs rules data to '%s'."), filename);
+    }
+    return;
+  default:
+    cmd_reply(CMD_RULESOUT, caller, C_FAIL,
+	      "Internal error: ind %d in rulesout_command", ind);
+    freelog(LOG_NORMAL, "Internal error: ind %d in rulesout_command", ind);
+    return;
+  }
+  
+ usage:
+  cmd_reply(CMD_RULESOUT, caller, C_FAIL,
+	    _("Usage: rulesout <ruletype> <filename>.  Try '%shelp rulesout'."),
+	      (caller?"/":""));
 }
 
 /**************************************************************************
@@ -2329,6 +2412,9 @@ void handle_stdin_input(struct player *caller, char *str)
     break;
   case CMD_WRITE_SCRIPT:
     write_command(caller,arg);
+    break;
+  case CMD_RULESOUT:
+    rulesout_command(caller, arg);
     break;
   case CMD_RFCSTYLE:	/* undocumented */
     con_set_style(1);
