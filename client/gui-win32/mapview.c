@@ -1020,7 +1020,7 @@ void map_handle_hscroll(int pos)
     return;
   }
 
-  set_mapview_scroll_pos(&scroll_x, &scroll_y);
+  get_mapview_scroll_pos(&scroll_x, &scroll_y);
   set_mapview_scroll_pos(pos, scroll_y);
 }
 
@@ -1035,7 +1035,7 @@ void map_handle_vscroll(int pos)
     return;
   }
 
-  set_mapview_scroll_pos(&scroll_x, &scroll_y);
+  get_mapview_scroll_pos(&scroll_x, &scroll_y);
   set_mapview_scroll_pos(scroll_x, pos);
 }
 
