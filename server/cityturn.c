@@ -556,16 +556,20 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
   int e, pwr, luxneed = 0; /* I should have thought of this earlier, it is so simple */
 
   city_refresh(pcity);
-  if (city_unhappy(pcity))
-    luxneed = 2 * (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]);
-
+  luxneed = 2 * (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]);
   pwr = (2 * city_tax_bonus(pcity)) / 100;
+  luxneed += pwr * pcity->ppl_elvis;
+  if (luxneed < 0) luxneed = 0;
+
   e = (luxneed + pwr - 1) / pwr;
+  if (e > (*workers - 1)) e = *workers - 1; /* stops the repeated emergencies. -- Syela */
 
 /* If I were real clever, I would optimize trade by luxneed and tax_bonus -- Syela */
 
   *foodneed -= 2 * (*workers - 1 - e);
   *prodneed -= (*workers - 1 - e);
+
+/*printf("%s, %d workers, %d luxneed, %d e\n", pcity->name, *workers, luxneed, e);*/
 
   if (city_happy(pcity) && wants_to_be_bigger(pcity) && pcity->size > 4) *foodneed += 1;
 
