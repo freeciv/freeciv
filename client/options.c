@@ -50,9 +50,11 @@ char default_tileset_name[512] = "\0";
 char default_sound_set_name[512] = "stdsounds";
 char default_sound_plugin_name[512] = "\0";
 
+bool save_options_on_exit = TRUE;
+bool fullscreen_mode = TRUE;
+
 /** Local Options: **/
 
-bool save_options_on_exit = TRUE;
 bool solid_color_behind_units = FALSE;
 bool sound_bell_at_new_turn = FALSE;
 int  smooth_move_unit_msec = 30;
@@ -84,11 +86,6 @@ const char *client_option_class_names[COC_MAX] = {
 };
 
 static client_option common_options[] = {
-  GEN_BOOL_OPTION(save_options_on_exit,
-		  N_("Save the options when exiting the game"),
-		  N_("If this option is selected, options will be saved "
-		     "automatically when you exit Freeciv."),
-		  COC_NETWORK),
   GEN_STR_OPTION(default_user_name,
 		 N_("Login name"),
 		 N_("This is the default login username that will be used "
@@ -539,6 +536,13 @@ void load_general_options(void)
   sz_strlcpy(password, 
              secfile_lookup_str_default(&sf, "", "%s.password", prefix));
 
+  save_options_on_exit =
+    secfile_lookup_bool_default(&sf, save_options_on_exit,
+				"%s.save_options_on_exit", prefix);
+  fullscreen_mode =
+    secfile_lookup_bool_default(&sf, fullscreen_mode,
+				"%s.fullscreen_mode", prefix);
+
   for (i = 0; i < num_options; i++) {
     client_option *o = options + i;
 
@@ -651,6 +655,9 @@ void save_options(void)
 
   section_file_init(&sf);
   secfile_insert_str(&sf, VERSION_STRING, "client.version");
+
+  secfile_insert_bool(&sf, save_options_on_exit, "client.save_options_on_exit");
+  secfile_insert_bool(&sf, fullscreen_mode, "client.fullscreen_mode");
 
   for (i = 0; i < num_options; i++) {
     client_option *o = options + i;

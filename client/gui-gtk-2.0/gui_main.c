@@ -87,9 +87,7 @@ GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store
 int overview_canvas_store_width = 2 * 80;
 int overview_canvas_store_height = 2 * 50;
 
-bool fullscreen_mode = TRUE;
 bool enable_tabs = TRUE;
-bool solid_unit_icon_bg = FALSE;
 bool better_fog = TRUE;
 
 GtkWidget *toplevel;
@@ -163,12 +161,6 @@ client_option gui_options[] = {
 		     "icons in the worklist dialog and the production "
 		     "tab of the city dialog."),
 		  COC_GRAPHICS),
-  GEN_BOOL_OPTION(fullscreen_mode, N_("Fullscreen Mode"),
-		  N_("If this option is set then the game will be played in "
-		     "fullscreen mode. There are some known bugs with "
-		     "fullscreen mode so if you run into problems simply "
-		     "disable it."),
-		  COC_INTERFACE),
   GEN_BOOL_OPTION(enable_tabs, N_("Enable status report tabs"),
 		  N_("If this option is enabled then report dialogs will "
 		     "be shown as separate tabs rather than in popup "

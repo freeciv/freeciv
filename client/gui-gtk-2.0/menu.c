@@ -74,7 +74,8 @@ enum MenuID {
 
   MENU_GAME_OPTIONS,
   MENU_GAME_MSG_OPTIONS,
-  MENU_GAME_SAVE_SETTINGS,
+  MENU_GAME_SAVE_OPTIONS_ON_EXIT,
+  MENU_GAME_SAVE_OPTIONS,
   MENU_GAME_SERVER_OPTIONS1,
   MENU_GAME_SERVER_OPTIONS2,
   MENU_GAME_SAVE_GAME,
@@ -106,6 +107,7 @@ enum MenuID {
   MENU_VIEW_SHOW_UNITS,
   MENU_VIEW_SHOW_FOCUS_UNIT,
   MENU_VIEW_SHOW_FOG_OF_WAR,
+  MENU_VIEW_FULL_SCREEN,
   MENU_VIEW_CENTER_VIEW,
 
   MENU_ORDER_BUILD_CITY,     /* shared with BUILD_WONDER */
@@ -202,7 +204,12 @@ static void game_menu_callback(gpointer callback_data,
   case MENU_GAME_MSG_OPTIONS:
     popup_messageopt_dialog();
     break;
-  case MENU_GAME_SAVE_SETTINGS:
+  case MENU_GAME_SAVE_OPTIONS_ON_EXIT:
+    if (save_options_on_exit ^ GTK_CHECK_MENU_ITEM(widget)->active) {
+      save_options_on_exit ^= 1;
+    }
+    break;
+  case MENU_GAME_SAVE_OPTIONS:
     save_options();
     break;
   case MENU_GAME_SERVER_OPTIONS1:
@@ -351,6 +358,17 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
   case MENU_VIEW_SHOW_FOG_OF_WAR:
     if (draw_fog_of_war ^ GTK_CHECK_MENU_ITEM(widget)->active)
       key_fog_of_war_toggle();
+    break;
+  case MENU_VIEW_FULL_SCREEN:
+    if (fullscreen_mode ^ GTK_CHECK_MENU_ITEM(widget)->active) {
+      fullscreen_mode ^= 1;
+
+      if (fullscreen_mode) {
+	gtk_window_fullscreen(GTK_WINDOW(toplevel));
+      } else {
+	gtk_window_unfullscreen(GTK_WINDOW(toplevel));
+      }
+    }
     break;
   case MENU_VIEW_CENTER_VIEW:
     center_on_unit();
@@ -637,8 +655,12 @@ static GtkItemFactoryEntry menu_items[]	=
 	game_menu_callback,	MENU_GAME_OPTIONS					},
   { "/" N_("Game") "/" N_("_Message Options"),		NULL,
 	game_menu_callback,	MENU_GAME_MSG_OPTIONS					},
-  { "/" N_("Game") "/" N_("Sa_ve Settings"),		NULL,
-	game_menu_callback,	MENU_GAME_SAVE_SETTINGS					},
+  { "/" N_("Game") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("Save Options on _Exit"),	NULL,
+	game_menu_callback,	MENU_GAME_SAVE_OPTIONS_ON_EXIT,		"<CheckItem>"	},
+  { "/" N_("Game") "/" N_("Sa_ve Options"),		NULL,
+	game_menu_callback,	MENU_GAME_SAVE_OPTIONS					},
   { "/" N_("Game") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Initial Server Options"),NULL,
@@ -657,12 +679,12 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("E_xport Log"),		NULL,
 	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
-  { "/" N_("Game") "/" N_("Clear _Log"),		NULL,
+  { "/" N_("Game") "/" N_("_Clear Log"),		NULL,
 	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
   { "/" N_("Game") "/sep6",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("L_eave"),		NULL,
-	game_menu_callback,	MENU_GAME_LEAVE					},
+  { "/" N_("Game") "/" N_("_Leave"),			NULL,
+	game_menu_callback,	MENU_GAME_LEAVE						},
   { "/" N_("Game") "/" N_("_Quit"),			NULL,
 	game_menu_callback,	MENU_GAME_QUIT,				"<StockItem>",
 	GTK_STOCK_QUIT									},
@@ -735,6 +757,10 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("View") "/" N_("Fog of War"),		NULL,
 	view_menu_callback,	MENU_VIEW_SHOW_FOG_OF_WAR,		"<CheckItem>"	},
   { "/" N_("View") "/sep2",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("View") "/" N_("_Full Screen"),		"<alt>Return",
+	view_menu_callback,	MENU_VIEW_FULL_SCREEN,			"<CheckItem>"	},
+  { "/" N_("View") "/sep3",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("View") "/" N_("_Center View"),		"c",
 	view_menu_callback,	MENU_VIEW_CENTER_VIEW					},
@@ -1163,6 +1189,8 @@ void update_menus(void)
     return;
   }
 
+  menus_set_active("<main>/_Game/Save Options on _Exit", save_options_on_exit);
+
   menus_set_sensitive("<main>/_Game/Save Game _As...",
 		      can_client_access_hack()
 		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
@@ -1266,6 +1294,8 @@ void update_menus(void)
     menus_set_active("<main>/_View/Focus Unit", draw_focus_unit);
     menus_set_sensitive("<main>/_View/Focus Unit", !draw_units);
     menus_set_active("<main>/_View/Fog of War", draw_fog_of_war);
+
+    menus_set_active("<main>/_View/_Full Screen", fullscreen_mode);
 
     /* Remaining part of this function: Update Orders menu */
 

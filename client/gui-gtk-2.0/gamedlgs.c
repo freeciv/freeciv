@@ -204,16 +204,6 @@ static void rates_command_callback(GtkWidget *w, gint response_id)
 }
 
 
-/**************************************************************************
-...
-**************************************************************************/
-static void rates_destroy_callback(GtkWidget *widget, gpointer data)
-{
-  rates_dialog_shell = NULL;
-}
-
-
-
 /****************************************************************
 ... 
 *****************************************************************/
@@ -303,7 +293,7 @@ static GtkWidget *create_rates_dialog(void)
   g_signal_connect(shell, "response",
 		   G_CALLBACK(rates_command_callback), NULL);
   g_signal_connect(shell, "destroy",
-		   G_CALLBACK(rates_destroy_callback), NULL);
+		   G_CALLBACK(gtk_widget_destroyed), &rates_dialog_shell);
 
   gtk_widget_show_all( GTK_DIALOG( shell )->vbox );
   gtk_widget_show_all( GTK_DIALOG( shell )->action_area );
@@ -360,87 +350,86 @@ static GtkWidget *option_dialog_shell;
 /**************************************************************************
 ...
 **************************************************************************/
-static void option_ok_command_callback(GtkWidget *widget, gpointer data)
+static void option_command_callback(GtkWidget *w, gint response_id)
 {
-  const char *dp;
-  bool b;
-  int val;
+  if (response_id == GTK_RESPONSE_OK) {
+    const char *dp;
+    bool b;
+    int val;
 
-  client_options_iterate(o) {
-    switch (o->type) {
-    case COT_BOOL:
-      b = *(o->p_bool_value);
-      *(o->p_bool_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
-      if (b != *(o->p_bool_value) && o->change_callback) {
-	(o->change_callback)(o);
-      }
-      break;
-    case COT_INT:
-      val = *(o->p_int_value);
-      dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
-      sscanf(dp, "%d", o->p_int_value);
-      if (val != *(o->p_int_value) && o->change_callback) {
-	(o->change_callback)(o);
-      }
-      break;
-    case COT_STR:
-      if (o->p_string_vals) {
-	const char* new_value = gtk_entry_get_text(GTK_ENTRY
-					(GTK_COMBO(o->p_gui_data)->entry));
-	if (strcmp(o->p_string_value, new_value)) {
-	  mystrlcpy(o->p_string_value, new_value, o->string_length);
-	  if (o->change_callback) {
-	    (o->change_callback)(o);
-	  }
+    client_options_iterate(o) {
+      switch (o->type) {
+      case COT_BOOL:
+	b = *(o->p_bool_value);
+	*(o->p_bool_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
+	if (b != *(o->p_bool_value) && o->change_callback) {
+	  (o->change_callback)(o);
 	}
-      } else {
-	mystrlcpy(o->p_string_value,
-		  gtk_entry_get_text(GTK_ENTRY(o->p_gui_data)),
-		  o->string_length);
+	break;
+      case COT_INT:
+	val = *(o->p_int_value);
+	dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
+	sscanf(dp, "%d", o->p_int_value);
+	if (val != *(o->p_int_value) && o->change_callback) {
+	  (o->change_callback)(o);
+	}
+	break;
+      case COT_STR:
+	if (o->p_string_vals) {
+	  const char* new_value = gtk_entry_get_text(GTK_ENTRY
+					  (GTK_COMBO(o->p_gui_data)->entry));
+	  if (strcmp(o->p_string_value, new_value)) {
+	    mystrlcpy(o->p_string_value, new_value, o->string_length);
+	    if (o->change_callback) {
+	      (o->change_callback)(o);
+	    }
+	  }
+	} else {
+	  mystrlcpy(o->p_string_value,
+		    gtk_entry_get_text(GTK_ENTRY(o->p_gui_data)),
+		    o->string_length);
+	}
+	break;
       }
-      break;
+    } client_options_iterate_end;
+
+    if (map_scrollbars) {
+      gtk_widget_show(map_horizontal_scrollbar);
+      gtk_widget_show(map_vertical_scrollbar);
+    } else {
+      gtk_widget_hide(map_horizontal_scrollbar);
+      gtk_widget_hide(map_vertical_scrollbar);
     }
-  } client_options_iterate_end;
-
-  if (map_scrollbars) {
-    gtk_widget_show(map_horizontal_scrollbar);
-    gtk_widget_show(map_vertical_scrollbar);
-  } else {
-    gtk_widget_hide(map_horizontal_scrollbar);
-    gtk_widget_hide(map_vertical_scrollbar);
+    if (fullscreen_mode) {
+      gtk_window_fullscreen(GTK_WINDOW(toplevel));
+    } else {
+      gtk_window_unfullscreen(GTK_WINDOW(toplevel));
+    }
   }
-  if (fullscreen_mode) {
-    gtk_window_fullscreen(GTK_WINDOW(toplevel));
-  } else {
-    gtk_window_unfullscreen(GTK_WINDOW(toplevel));
-  }
-  option_dialog_shell = NULL;
+  gtk_widget_destroy(option_dialog_shell);
 }
-
 
 /****************************************************************
 ... 
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  GtkWidget *ebox, *label, *notebook, *align, *table[COC_MAX];
+  GtkWidget *ebox, *label, *notebook, *align, *vbox[COC_MAX];
   int i, len[COC_MAX];
-  GtkSizeGroup *group[COC_MAX];
+  GtkSizeGroup *group[2][COC_MAX];
   GtkTooltips *tips;
 
   option_dialog_shell = gtk_dialog_new_with_buttons(_("Set local options"),
   	NULL,
 	0,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
+	GTK_STOCK_CANCEL,
+	GTK_RESPONSE_CANCEL,
+	GTK_STOCK_OK,
+	GTK_RESPONSE_OK,
 	NULL);
   setup_dialog(option_dialog_shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(option_dialog_shell),
-				  GTK_RESPONSE_CLOSE);
-  g_signal_connect(option_dialog_shell, "response",
-		   G_CALLBACK(gtk_widget_destroy), NULL);
-  g_signal_connect(option_dialog_shell, "destroy",
-		   G_CALLBACK(option_ok_command_callback), NULL);
+				  GTK_RESPONSE_OK);
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
 
   notebook = gtk_notebook_new();
@@ -453,11 +442,11 @@ static void create_option_dialog(void)
     gtk_container_set_border_width(GTK_CONTAINER(align), 8);
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), align, label);
 
-    table[i] = gtk_table_new(num_options, 2, FALSE);
-    gtk_table_set_col_spacings(GTK_TABLE(table[i]), 2);
-    gtk_container_add(GTK_CONTAINER(align), table[i]);
+    vbox[i] = gtk_vbox_new(TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(align), vbox[i]);
 
-    group[i] = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+    group[0][i] = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+    group[1][i] = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
     len[i] = 0;
   }
@@ -465,13 +454,20 @@ static void create_option_dialog(void)
   tips = gtk_tooltips_new();
 
   client_options_iterate(o) {
+    GtkWidget *hbox;
+
+    if (o->category == COC_MAX) {
+      continue;
+    }
+
     i = len[o->category];
 
+    hbox = gtk_hbox_new(FALSE, 2);
+    gtk_container_add(GTK_CONTAINER(vbox[o->category]), hbox);
+
     ebox = gtk_event_box_new();
-    gtk_table_attach(GTK_TABLE(table[o->category]), ebox,
-		     0, 1, i, i+1,
-		     GTK_FILL, GTK_FILL | GTK_EXPAND, 0, 0);
-    gtk_size_group_add_widget(group[o->category], ebox);
+    gtk_container_add(GTK_CONTAINER(hbox), ebox);
+    gtk_size_group_add_widget(group[0][o->category], ebox);
 
     label = gtk_label_new(_(o->description));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -497,12 +493,16 @@ static void create_option_dialog(void)
       gtk_widget_set_size_request(GTK_WIDGET(o->p_gui_data), 150, -1);
       break;
     }
-    gtk_table_attach(GTK_TABLE(table[o->category]), o->p_gui_data,
-		     1, 2, i, i+1,
-		     GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+    gtk_container_add(GTK_CONTAINER(hbox), o->p_gui_data);
+    gtk_size_group_add_widget(group[1][o->category], o->p_gui_data);
 
     len[o->category]++;
   } client_options_iterate_end;
+
+  g_signal_connect(option_dialog_shell, "response",
+		   G_CALLBACK(option_command_callback), NULL);
+  g_signal_connect(option_dialog_shell, "destroy",
+		   G_CALLBACK(gtk_widget_destroyed), &option_dialog_shell);
 
   gtk_widget_show_all(GTK_DIALOG(option_dialog_shell)->vbox);
 }

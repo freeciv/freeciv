@@ -41,7 +41,6 @@ gchar *ntoh_str(const gchar *netstr);
 extern PangoFontDescription *        main_font;
 extern PangoFontDescription *        city_productions_font;
 
-extern bool fullscreen_mode;
 extern bool enable_tabs;
 extern bool better_fog;
 
