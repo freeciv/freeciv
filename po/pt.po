@@ -21,4 +21,4 @@ msgstr "Este é o servidor do %s"
 
 #: client/civclient.c:85
 msgid "This is the Freeciv client\n"
-msgstr "Este é o client Freeciv\n"
+msgstr "Este é o cliente Freeciv\n"
