@@ -526,6 +526,9 @@ list, Up/Down arrows to select previous/next item \
 in worklist or available list, PageUp/Down to move items up/down \
 in the worklist, Insert to insert items from the available list into \
 the worklist and Delete to delete the selected item from the worklist.\
+"), _("\
+If you want to buy the unit that's first on the list, you can do that \
+from the City Overview window.
 ")
 
 [help_strategy_and_tactics]
