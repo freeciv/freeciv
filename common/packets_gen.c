@@ -957,7 +957,7 @@ int send_packet_freeze_hint(struct connection *pc)
 
 void lsend_packet_freeze_hint(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_freeze_hint(pconn);
   } conn_list_iterate_end;
 }
@@ -1034,7 +1034,7 @@ int send_packet_thaw_hint(struct connection *pc)
 
 void lsend_packet_thaw_hint(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_thaw_hint(pconn);
   } conn_list_iterate_end;
 }
@@ -1634,7 +1634,7 @@ int send_packet_server_shutdown(struct connection *pc)
 
 void lsend_packet_server_shutdown(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_server_shutdown(pconn);
   } conn_list_iterate_end;
 }
@@ -1794,7 +1794,7 @@ int send_packet_nation_unavailable(struct connection *pc, const struct packet_na
 
 void lsend_packet_nation_unavailable(struct conn_list *dest, const struct packet_nation_unavailable *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_nation_unavailable(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -1871,7 +1871,7 @@ int send_packet_select_races(struct connection *pc)
 
 void lsend_packet_select_races(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_select_races(pconn);
   } conn_list_iterate_end;
 }
@@ -2144,7 +2144,7 @@ int send_packet_nation_select_ok(struct connection *pc)
 
 void lsend_packet_nation_select_ok(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_nation_select_ok(pconn);
   } conn_list_iterate_end;
 }
@@ -2306,7 +2306,7 @@ int send_packet_game_state(struct connection *pc, const struct packet_game_state
 
 void lsend_packet_game_state(struct conn_list *dest, const struct packet_game_state *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_game_state(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -3114,7 +3114,7 @@ int send_packet_endgame_report(struct connection *pc, const struct packet_endgam
 
 void lsend_packet_endgame_report(struct conn_list *dest, const struct packet_endgame_report *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_endgame_report(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -3386,7 +3386,7 @@ int send_packet_tile_info(struct connection *pc, const struct packet_tile_info *
 
 void lsend_packet_tile_info(struct conn_list *dest, const struct packet_tile_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_tile_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -4216,7 +4216,7 @@ int send_packet_map_info(struct connection *pc, const struct packet_map_info *pa
 
 void lsend_packet_map_info(struct conn_list *dest, const struct packet_map_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_map_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -4391,7 +4391,7 @@ int send_packet_nuke_tile_info(struct connection *pc, const struct packet_nuke_t
 
 void lsend_packet_nuke_tile_info(struct conn_list *dest, const struct packet_nuke_tile_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_nuke_tile_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -4643,7 +4643,7 @@ int send_packet_chat_msg(struct connection *pc, const struct packet_chat_msg *pa
 
 void lsend_packet_chat_msg(struct conn_list *dest, const struct packet_chat_msg *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_chat_msg(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -4986,7 +4986,7 @@ int send_packet_city_remove(struct connection *pc, const struct packet_city_remo
 
 void lsend_packet_city_remove(struct conn_list *dest, const struct packet_city_remove *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_city_remove(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -6082,7 +6082,7 @@ int send_packet_city_info(struct connection *pc, const struct packet_city_info *
 
 void lsend_packet_city_info(struct conn_list *dest, const struct packet_city_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_city_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -6370,7 +6370,7 @@ int send_packet_city_short_info(struct connection *pc, const struct packet_city_
 
 void lsend_packet_city_short_info(struct conn_list *dest, const struct packet_city_short_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_city_short_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -8835,7 +8835,7 @@ int send_packet_city_name_suggestion_info(struct connection *pc, const struct pa
 
 void lsend_packet_city_name_suggestion_info(struct conn_list *dest, const struct packet_city_name_suggestion_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_city_name_suggestion_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -9040,7 +9040,7 @@ int send_packet_city_sabotage_list(struct connection *pc, const struct packet_ci
 
 void lsend_packet_city_sabotage_list(struct conn_list *dest, const struct packet_city_sabotage_list *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_city_sabotage_list(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -9200,7 +9200,7 @@ int send_packet_player_remove(struct connection *pc, const struct packet_player_
 
 void lsend_packet_player_remove(struct conn_list *dest, const struct packet_player_remove *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_player_remove(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -11073,7 +11073,7 @@ int send_packet_unit_remove(struct connection *pc, const struct packet_unit_remo
 
 void lsend_packet_unit_remove(struct conn_list *dest, const struct packet_unit_remove *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_unit_remove(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -11767,7 +11767,7 @@ int send_packet_unit_info(struct connection *pc, const struct packet_unit_info *
 
 void lsend_packet_unit_info(struct conn_list *dest, const struct packet_unit_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_unit_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -12123,7 +12123,7 @@ int send_packet_unit_short_info(struct connection *pc, const struct packet_unit_
 
 void lsend_packet_unit_short_info(struct conn_list *dest, const struct packet_unit_short_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_unit_short_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -12334,7 +12334,7 @@ int send_packet_unit_combat_info(struct connection *pc, const struct packet_unit
 
 void lsend_packet_unit_combat_info(struct conn_list *dest, const struct packet_unit_combat_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_unit_combat_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -16005,7 +16005,7 @@ int send_packet_unit_diplomat_popup_dialog(struct connection *pc, const struct p
 
 void lsend_packet_unit_diplomat_popup_dialog(struct conn_list *dest, const struct packet_unit_diplomat_popup_dialog *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_unit_diplomat_popup_dialog(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -16556,7 +16556,7 @@ int send_packet_diplomacy_init_meeting(struct connection *pc, const struct packe
 
 void lsend_packet_diplomacy_init_meeting(struct conn_list *dest, const struct packet_diplomacy_init_meeting *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_diplomacy_init_meeting(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -16913,7 +16913,7 @@ int send_packet_diplomacy_cancel_meeting(struct connection *pc, const struct pac
 
 void lsend_packet_diplomacy_cancel_meeting(struct conn_list *dest, const struct packet_diplomacy_cancel_meeting *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_diplomacy_cancel_meeting(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -17348,7 +17348,7 @@ int send_packet_diplomacy_create_clause(struct connection *pc, const struct pack
 
 void lsend_packet_diplomacy_create_clause(struct conn_list *dest, const struct packet_diplomacy_create_clause *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_diplomacy_create_clause(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -17787,7 +17787,7 @@ int send_packet_diplomacy_remove_clause(struct connection *pc, const struct pack
 
 void lsend_packet_diplomacy_remove_clause(struct conn_list *dest, const struct packet_diplomacy_remove_clause *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_diplomacy_remove_clause(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -18145,7 +18145,7 @@ int send_packet_diplomacy_accept_treaty(struct connection *pc, const struct pack
 
 void lsend_packet_diplomacy_accept_treaty(struct conn_list *dest, const struct packet_diplomacy_accept_treaty *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_diplomacy_accept_treaty(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -18515,7 +18515,7 @@ int send_packet_page_msg(struct connection *pc, const struct packet_page_msg *pa
 
 void lsend_packet_page_msg(struct conn_list *dest, const struct packet_page_msg *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_page_msg(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -18928,7 +18928,7 @@ int send_packet_conn_info(struct connection *pc, const struct packet_conn_info *
 
 void lsend_packet_conn_info(struct conn_list *dest, const struct packet_conn_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_conn_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -19176,7 +19176,7 @@ int send_packet_conn_ping_info(struct connection *pc, const struct packet_conn_p
 
 void lsend_packet_conn_ping_info(struct conn_list *dest, const struct packet_conn_ping_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_conn_ping_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -19393,7 +19393,7 @@ int send_packet_before_new_year(struct connection *pc)
 
 void lsend_packet_before_new_year(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_before_new_year(pconn);
   } conn_list_iterate_end;
 }
@@ -19470,7 +19470,7 @@ int send_packet_start_turn(struct connection *pc)
 
 void lsend_packet_start_turn(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_start_turn(pconn);
   } conn_list_iterate_end;
 }
@@ -19645,7 +19645,7 @@ int send_packet_new_year(struct connection *pc, const struct packet_new_year *pa
 
 void lsend_packet_new_year(struct conn_list *dest, const struct packet_new_year *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_new_year(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -20316,7 +20316,7 @@ int send_packet_spaceship_info(struct connection *pc, const struct packet_spaces
 
 void lsend_packet_spaceship_info(struct conn_list *dest, const struct packet_spaceship_info *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_spaceship_info(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -21033,7 +21033,7 @@ int send_packet_ruleset_unit(struct connection *pc, const struct packet_ruleset_
 
 void lsend_packet_ruleset_unit(struct conn_list *dest, const struct packet_ruleset_unit *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_unit(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -21818,7 +21818,7 @@ int send_packet_ruleset_game(struct connection *pc, const struct packet_ruleset_
 
 void lsend_packet_ruleset_game(struct conn_list *dest, const struct packet_ruleset_game *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_game(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -22028,7 +22028,7 @@ int send_packet_ruleset_government_ruler_title(struct connection *pc, const stru
 
 void lsend_packet_ruleset_government_ruler_title(struct conn_list *dest, const struct packet_ruleset_government_ruler_title *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_government_ruler_title(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -22329,7 +22329,7 @@ int send_packet_ruleset_tech(struct connection *pc, const struct packet_ruleset_
 
 void lsend_packet_ruleset_tech(struct conn_list *dest, const struct packet_ruleset_tech *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_tech(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -23160,7 +23160,7 @@ int send_packet_ruleset_government(struct connection *pc, const struct packet_ru
 
 void lsend_packet_ruleset_government(struct conn_list *dest, const struct packet_ruleset_government *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_government(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -23582,7 +23582,7 @@ int send_packet_ruleset_terrain_control(struct connection *pc, const struct pack
 
 void lsend_packet_ruleset_terrain_control(struct conn_list *dest, const struct packet_ruleset_terrain_control *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_terrain_control(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -23934,7 +23934,7 @@ int send_packet_ruleset_nation(struct connection *pc, const struct packet_rulese
 
 void lsend_packet_ruleset_nation(struct conn_list *dest, const struct packet_ruleset_nation *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_nation(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -24174,7 +24174,7 @@ int send_packet_ruleset_city(struct connection *pc, const struct packet_ruleset_
 
 void lsend_packet_ruleset_city(struct conn_list *dest, const struct packet_ruleset_city *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_city(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -24634,7 +24634,7 @@ int send_packet_ruleset_building(struct connection *pc, const struct packet_rule
 
 void lsend_packet_ruleset_building(struct conn_list *dest, const struct packet_ruleset_building *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_building(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -25282,7 +25282,7 @@ int send_packet_ruleset_terrain(struct connection *pc, const struct packet_rules
 
 void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ruleset_terrain *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_terrain(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -25737,7 +25737,7 @@ int send_packet_ruleset_control(struct connection *pc, const struct packet_rules
 
 void lsend_packet_ruleset_control(struct conn_list *dest, const struct packet_ruleset_control *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_control(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -26454,7 +26454,7 @@ int send_packet_game_load(struct connection *pc, const struct packet_game_load *
 
 void lsend_packet_game_load(struct conn_list *dest, const struct packet_game_load *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_game_load(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -27255,7 +27255,7 @@ int send_packet_ruleset_cache_group(struct connection *pc, const struct packet_r
 
 void lsend_packet_ruleset_cache_group(struct conn_list *dest, const struct packet_ruleset_cache_group *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_cache_group(pconn, packet);
   } conn_list_iterate_end;
 }
@@ -27511,7 +27511,7 @@ int send_packet_ruleset_cache_effect(struct connection *pc, const struct packet_
 
 void lsend_packet_ruleset_cache_effect(struct conn_list *dest, const struct packet_ruleset_cache_effect *packet)
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_packet_ruleset_cache_effect(pconn, packet);
   } conn_list_iterate_end;
 }

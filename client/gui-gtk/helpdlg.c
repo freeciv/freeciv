@@ -466,7 +466,7 @@ static void create_help_dialog(void)
 
   help_items_iterate(pitem) 
     row[0]=pitem->topic;
-    i = gtk_clist_append (GTK_CLIST (help_clist), row);
+    i = gtk_clist_prepend (GTK_CLIST (help_clist), row);
   help_items_iterate_end;
 
   help_frame = gtk_frame_new( "" );

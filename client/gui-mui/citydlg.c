@@ -1735,7 +1735,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
     DoMethod(app, OM_ADDMEMBER, pdialog->wnd);
 
-    genlist_insert(&dialog_list, pdialog, 0);
+    genlist_prepend(&dialog_list, pdialog, 0);
     refresh_city_dialog(pdialog->pcity);
     return pdialog;
   }

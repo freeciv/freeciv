@@ -51,12 +51,16 @@
 #include "colors.h"
 #include "connectdlg.h"
 #include "control.h"
+#include "cma_fe.h"
 #include "dialogs.h"
+#include "diplodlg.h"
 #include "gotodlg.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "happiness.h"
 #include "helpdata.h"                   /* boot_help_texts() */
+#include "inteldlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
@@ -301,10 +305,10 @@ gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
   if (ev->keyval == GDK_Up) {
     keypress = TRUE;
 
-    if (history_pos < genlist_size(&history_list) - 1)
+    if (history_pos < genlist_size(history_list) - 1)
       history_pos++;
 
-    data = genlist_get(&history_list, history_pos);
+    data = genlist_get(history_list, history_pos);
   }
 
   if (ev->keyval == GDK_Down) {
@@ -314,7 +318,7 @@ gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
       history_pos--;
 
     if (history_pos >= 0) {
-      data = genlist_get(&history_list, history_pos);
+      data = genlist_get(history_list, history_pos);
     } else {
       data = "";
     }
@@ -1185,8 +1189,13 @@ void ui_main(int argc, char **argv)
 
   setup_widgets();
   load_cursors();
+  cma_fe_init();
+  diplomacy_dialog_init();
+  happiness_dialog_init();
+  intel_dialog_init();
+  spaceship_dialog_init();
 
-  genlist_init(&history_list);
+  history_list = genlist_new();
   history_pos = -1;
 
   gtk_widget_show(toplevel);
@@ -1199,6 +1208,11 @@ void ui_main(int argc, char **argv)
 
   gtk_main();
 
+  spaceship_dialog_done();
+  intel_dialog_done();
+  happiness_dialog_done();
+  diplomacy_dialog_done();
+  cma_fe_done();
   free_color_system();
   tilespec_free_tiles();
 }

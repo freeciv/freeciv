@@ -731,7 +731,7 @@ static void global_list_update(struct worklist_report *preport)
   gtk_clist_clear(GTK_CLIST(preport->list));
 
   while (preport->worklist_names_ptrs[n]) {
-    gtk_clist_append(GTK_CLIST(preport->list),
+    gtk_clist_prepend(GTK_CLIST(preport->list),
 		     &preport->worklist_names_ptrs[n]);
     n++;
   }
@@ -1318,7 +1318,7 @@ static void worklist_list_update(struct worklist_editor *peditor)
     get_city_dialog_production_row(row, BUFFER_SIZE,
                                    wid_id(wid), wid_is_unit(wid),
                                    peditor->pcity);
-    gtk_clist_append(GTK_CLIST(peditor->worklist), row);
+    gtk_clist_prepend(GTK_CLIST(peditor->worklist), row);
   }
 
   gtk_clist_thaw(GTK_CLIST(peditor->worklist));
@@ -1376,7 +1376,7 @@ static void targets_list_update(struct worklist_editor *peditor)
                                      wid_id(wid), wid_is_unit(wid),
                                      peditor->pcity);
     }
-    gtk_clist_append(GTK_CLIST(peditor->avail), row);
+    gtk_clist_prepend(GTK_CLIST(peditor->avail), row);
   }
   gtk_clist_thaw(GTK_CLIST(peditor->avail));
 }

@@ -116,7 +116,9 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
 {
   int j;
 
-  if (!dest) dest = &game.game_connections;
+  if (!dest) {
+    dest = game.game_connections;
+  }
 
   players_iterate(pplayer) {
     if (!src || pplayer == src) {

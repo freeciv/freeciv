@@ -61,7 +61,7 @@ struct callback {
     TYPED_LIST_ITERATE(struct callback, list, item)
 #define callback_list_iterate_end  LIST_ITERATE_END
 
-static struct callback_list callback_list;
+static struct callback_list *callback_list = NULL;
 static bool callback_list_list_has_been_initialised = FALSE;
 static int id_counter = 1;
 
@@ -71,7 +71,7 @@ static int id_counter = 1;
 static void ensure_init(void)
 {
   if (!callback_list_list_has_been_initialised) {
-    callback_list_init(&callback_list);
+    callback_list = callback_list_new();
     callback_list_list_has_been_initialised = TRUE;
   }
 }
@@ -101,7 +101,7 @@ int sw_add_timeout(int msec, void (*callback) (void *data), void *data)
   id_counter++;
 
   ensure_init();
-  callback_list_insert(&callback_list, p);
+  callback_list_prepend(callback_list, p);
   return p->id;
 }
 
@@ -113,7 +113,7 @@ void sw_remove_timeout(int id)
   assert(id > 0);
   callback_list_iterate(callback_list, callback) {
     if (callback->id == id) {
-      callback_list_unlink(&callback_list, callback);
+      callback_list_unlink(callback_list, callback);
       free(callback);
     }
   } callback_list_iterate_end;
@@ -140,7 +140,7 @@ void handle_callbacks(void)
          callback->time.tv_usec); */
       if (timercmp(&callback->time, &now, <)) {
 	/*printf("  call\n"); */
-	callback_list_unlink(&callback_list, callback);
+	callback_list_unlink(callback_list, callback);
 	callback->callback(callback->data);
 	free(callback);
 	one_called = TRUE;

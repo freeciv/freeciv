@@ -54,7 +54,7 @@ static struct ct_point detaildisplay_pos;
 static struct te_screen *screen;
 static struct sw_widget *mapview_canvas_window = NULL;
 static struct sw_widget *overview_window = NULL;
-static struct widget_list city_descr_windows;
+static struct widget_list *city_descr_windows;
 static int drag_factor = 2;
 /*
  * 0 - pixel
@@ -418,7 +418,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
     sw_widget_align_parent(label2, A_SW);
   }      
 
-  widget_list_insert(&city_descr_windows, window);
+  widget_list_prepend(city_descr_windows, window);
   /* PORTME */
 }
 
@@ -584,7 +584,7 @@ void update_city_descriptions(void)
 void prepare_show_city_descriptions(void)
 {
   widget_list_iterate(city_descr_windows, widget) {
-    widget_list_unlink(&city_descr_windows, widget);
+    widget_list_unlink(city_descr_windows, widget);
     sw_widget_destroy(widget);
   } widget_list_iterate_end;
 }
@@ -1261,7 +1261,7 @@ void popup_mapcanvas(void)
   env.edit_get_width = edit_get_width;
   env.button_callback = button_callback;
   env.action_callback = action_callback;
-  widget_list_init(&city_descr_windows);
+  city_descr_windows = widget_list_new();
 
   screen = te_get_screen(root_window, "mapview", &env, SCREEN_DEPTH);
 

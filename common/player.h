@@ -204,8 +204,8 @@ struct player {
   int reputation;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int city_style;
-  struct unit_list units;
-  struct city_list cities;
+  struct unit_list *units;
+  struct city_list *cities;
   struct player_score score;
   struct player_economic economic;
   struct player_research research;
@@ -215,7 +215,7 @@ struct player {
   bool was_created;                    /* if the player was /created */
   bool is_connected;		       /* observers don't count */
   struct connection *current_conn;     /* non-null while handling packet */
-  struct conn_list connections;	       /* will replace conn */
+  struct conn_list *connections;       /* will replace conn */
   struct worklist worklists[MAX_NUM_WORKLISTS];
   struct player_tile *private_map;
   unsigned int gives_shared_vision; /* bitvector those that give you shared vision */

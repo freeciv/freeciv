@@ -123,7 +123,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_Type_id type)
    * Try to upgrade units. The order we upgrade in is arbitrary (if
    * the player really cared they should have done it manually). 
    */
-  conn_list_do_buffer(&pplayer->connections);
+  conn_list_do_buffer(pplayer->connections);
   unit_list_iterate(pplayer->units, punit) {
     if (punit->type == from_unittype) {
       enum unit_upgrade_result result = test_unit_upgrade(punit, FALSE);
@@ -136,7 +136,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_Type_id type)
       }
     }
   } unit_list_iterate_end;
-  conn_list_do_unbuffer(&pplayer->connections);
+  conn_list_do_unbuffer(pplayer->connections);
 
   /* Alert the player about what happened. */
   if (number_of_upgraded_units > 0) {
@@ -294,9 +294,9 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
   }
   old_pcity = player_find_city_by_id(pplayer, punit->homecity);
 
-  unit_list_insert(&new_pcity->units_supported, punit);
+  unit_list_prepend(new_pcity->units_supported, punit);
   if (old_pcity) {
-    unit_list_unlink(&old_pcity->units_supported, punit);
+    unit_list_unlink(old_pcity->units_supported, punit);
   }
 
   punit->homecity = new_pcity->id;
@@ -594,13 +594,13 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
 	|| map_is_known_and_seen(pdefender->tile, other_player)) {
       if (!can_player_see_unit(other_player, pattacker)) {
 	assert(other_player->player_no != pattacker->owner);
-	lsend_packet_unit_short_info(&other_player->connections,
+	lsend_packet_unit_short_info(other_player->connections,
 				     &unit_att_short_packet);
       }
 
       if (!can_player_see_unit(other_player, pdefender)) {
 	assert(other_player->player_no != pdefender->owner);
-	lsend_packet_unit_short_info(&other_player->connections,
+	lsend_packet_unit_short_info(other_player->connections,
 				     &unit_def_short_packet);
       }
     }
@@ -624,7 +624,7 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
   players_iterate(other_player) {
     if (map_is_known_and_seen(pattacker->tile, other_player)
 	|| map_is_known_and_seen(pdefender->tile, other_player)) {
-      lsend_packet_unit_combat_info(&other_player->connections, &combat);
+      lsend_packet_unit_combat_info(other_player->connections, &combat);
 
       /* 
        * Remove the client knowledge of the units.  This corresponds to the
@@ -754,7 +754,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       return;
     } 
 
-    dlsend_packet_nuke_tile_info(&game.game_connections, def_tile->x,
+    dlsend_packet_nuke_tile_info(game.game_connections, def_tile->x,
 				 def_tile->y);
 
     wipe_unit(punit);
@@ -1178,7 +1178,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   pcity_dest->shield_stock += unit_build_shield_cost(punit->type);
   pcity_dest->caravan_shields += unit_build_shield_cost(punit->type);
 
-  conn_list_do_buffer(&pplayer->connections);
+  conn_list_do_buffer(pplayer->connections);
 
   if (build_points_left(pcity_dest) >= 0) {
     text = _("Game: Your %s helps build the %s in %s (%d remaining).");
@@ -1195,7 +1195,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   wipe_unit(punit);
   send_player_info(pplayer, pplayer);
   send_city_info(pplayer, pcity_dest);
-  conn_list_do_unbuffer(&pplayer->connections);
+  conn_list_do_unbuffer(pplayer->connections);
 }
 
 /**************************************************************************
@@ -1338,7 +1338,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     revenue = (revenue + 2) / 3;
   }
   
-  conn_list_do_buffer(&pplayer->connections);
+  conn_list_do_buffer(pplayer->connections);
   notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
 		   _("Game: Your %s from %s has arrived in %s,"
 		     " and revenues amount to %d in gold and research."), 
@@ -1408,7 +1408,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   }
   
   send_player_info(pplayer, pplayer);
-  conn_list_do_unbuffer(&pplayer->connections);
+  conn_list_do_unbuffer(pplayer->connections);
   return TRUE;
 }
 

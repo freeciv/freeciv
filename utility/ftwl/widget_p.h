@@ -108,7 +108,7 @@ struct sw_widget {
 
   union {
     struct {
-      struct widget_list children;
+      struct widget_list *children;
       struct osda *target;
       struct ct_string *title;
       struct ct_point pos_at_drag_start;
@@ -119,7 +119,7 @@ struct sw_widget {
       int depth;
       struct sw_widget *list;
       struct osda *canvas_background;
-      struct region_list to_flush;
+      struct region_list *to_flush;
       void (*user_drag_start) (struct sw_widget * widget,
 			       const struct ct_point * mouse,
 			       enum be_mouse_button button);
@@ -185,7 +185,7 @@ struct sw_widget {
 };
 
 extern struct sw_widget *root_window;
-extern struct widget_list deferred_destroyed_widgets;
+extern struct widget_list *deferred_destroyed_widgets;
 
 void handle_callbacks(void);
 void get_select_timeout(struct timeval *timeout);

@@ -542,7 +542,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     Object *menu_strip;
     Object *menu_title;
 
-    dialog_list_insert(&dialog_list, pdialog);
+    dialog_list_prepend(&dialog_list, pdialog);
     init_treaty(&pdialog->treaty, plr0, plr1);
 
     pdialog->plr0_maps_menu = menu_strip = MenustripObject,

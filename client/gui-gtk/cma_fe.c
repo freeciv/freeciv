@@ -48,7 +48,7 @@
     TYPED_LIST_ITERATE(struct cma_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list = NULL;
 static bool dialog_list_has_been_initialised = FALSE;
 
 static int allow_refreshes = 1;
@@ -84,7 +84,7 @@ static void set_hscales(const struct cm_parameter *const parameter,
 static void ensure_initialised_dialog_list(void)
 {
   if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_has_been_initialised = TRUE;
   }
 }
@@ -96,7 +96,7 @@ void close_cma_dialog(struct city *pcity)
 {
   struct cma_dialog *pdialog = get_cma_dialog(pcity);
 
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
 
   if (pdialog->name_shell) {
     gtk_widget_destroy(pdialog->name_shell);
@@ -137,7 +137,6 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
   GtkWidget *vbox, *scrolledwindow, *hscale;
   static const char *preset_title_[] = { N_("Presets") };
   static gchar **preset_title = NULL;
-  int i;
 
   cmafec_get_fe_parameter(pcity, &param);
   pdialog = fc_malloc(sizeof(struct cma_dialog));
@@ -313,7 +312,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
 
   ensure_initialised_dialog_list();
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   update_cma_preset_list(pdialog);
 

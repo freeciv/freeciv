@@ -160,19 +160,19 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   unit_list_iterate(pcity->units_supported, punit) {
     package_short_unit(punit, &unit_packet,
                        UNIT_INFO_CITY_SUPPORTED, pcity->id, first_packet);
-    lsend_packet_unit_short_info(&pplayer->connections, &unit_packet);
+    lsend_packet_unit_short_info(pplayer->connections, &unit_packet);
     first_packet = FALSE;
   } unit_list_iterate_end;
   unit_list_iterate((pcity->tile)->units, punit) {
     package_short_unit(punit, &unit_packet,
                        UNIT_INFO_CITY_PRESENT, pcity->id, first_packet);
-    lsend_packet_unit_short_info(&pplayer->connections, &unit_packet);
+    lsend_packet_unit_short_info(pplayer->connections, &unit_packet);
     first_packet = FALSE;
   } unit_list_iterate_end;
   /* Send city info to investigator's player.
      As this is a special case we bypass send_city_info. */
   package_city(pcity, &city_packet, TRUE);
-  lsend_packet_city_info(&pplayer->connections, &city_packet);
+  lsend_packet_city_info(pplayer->connections, &city_packet);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;

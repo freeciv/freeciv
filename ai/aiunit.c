@@ -618,7 +618,7 @@ static int ai_rampage_want(struct unit *punit, struct tile *ptile)
        * Note that we do not specially encourage attacks against
        * cities: rampage is a hit-n-run operation. */
       if (!is_stack_vulnerable(ptile) 
-          && unit_list_size(&(ptile->units)) > 1) {
+          && unit_list_size(ptile->units) > 1) {
         benefit = (benefit * punit->hp) / unit_type(punit)->hp;
       }
       
@@ -1541,7 +1541,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
        * and conquer it in one turn.  
        * This variable enables total carnage. -- Syela */
       victim_count 
-        = unit_list_size(&((acity->tile)->units)) + 1;
+        = unit_list_size(acity->tile->units) + 1;
 
       if (!COULD_OCCUPY(punit) && !pdef) {
         /* Nothing there to bash and we can't occupy! 
@@ -2076,8 +2076,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
 
   /* If we are still alive, either sentry or fortify. */
   if ((punit = find_unit_by_id(id))) {
-    if (unit_list_find(&((punit->tile)->units),
-        punit->ai.ferryboat)) {
+    if (unit_list_find(punit->tile->units, punit->ai.ferryboat)) {
       handle_unit_activity_request(punit, ACTIVITY_SENTRY);
     } else if (punit->activity == ACTIVITY_IDLE) {
       handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
@@ -2287,7 +2286,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
   if (leader->moves_left == 0 || 
       (!is_ocean(map_get_terrain(leader->tile)) &&
-       unit_list_size(&(leader->tile->units)) > 1) ) {
+       unit_list_size(leader->tile->units) > 1) ) {
       handle_unit_activity_request(leader, ACTIVITY_SENTRY);
       return;
   }

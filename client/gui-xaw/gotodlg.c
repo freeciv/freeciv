@@ -96,7 +96,7 @@ void popup_goto_dialog(void)
 {
   Position x, y;
   Dimension width, height;
-  Boolean no_player_cities = !(city_list_size(&game.player_ptr->cities));
+  Boolean no_player_cities = !(city_list_size(game.player_ptr->cities));
 
   if (!can_client_issue_orders()) {
     return;
@@ -210,10 +210,10 @@ void update_goto_dialog(Widget goto_list)
 
   if(all_cities) {
     for(i=0, ncities_total=0; i<game.nplayers; i++) {
-      ncities_total+=city_list_size(&game.players[i].cities);
+      ncities_total += city_list_size(game.players[i].cities);
     }
   } else {
-    ncities_total=city_list_size(&game.player_ptr->cities);
+    ncities_total = city_list_size(game.player_ptr->cities);
   }
 
   city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));

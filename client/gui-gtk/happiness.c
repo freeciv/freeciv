@@ -58,7 +58,7 @@ struct happiness_dialog {
     TYPED_LIST_ITERATE(struct happiness_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list = NULL;
 static bool dialog_list_has_been_initialised = FALSE;
 
 static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index);
@@ -82,7 +82,7 @@ static void happiness_dialog_update_wonders(struct happiness_dialog
 static struct happiness_dialog *get_happiness_dialog(struct city *pcity)
 {
   if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_has_been_initialised = TRUE;
   }
 
@@ -139,11 +139,11 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
   gtk_widget_show_all(pdialog->shell);
 
   if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_has_been_initialised = TRUE;
   }
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   refresh_happiness_dialog(pcity);
 
@@ -206,7 +206,7 @@ void close_happiness_dialog(struct city *pcity)
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
   gtk_widget_hide(pdialog->shell);
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
 
   gtk_widget_destroy(pdialog->shell);
   free(pdialog);
@@ -224,7 +224,7 @@ static void happiness_dialog_update_cities(struct happiness_dialog
   struct city *pcity = pdialog->pcity;
   struct player *pplayer = &game.players[pcity->owner];
   struct government *g = get_gov_pcity(pcity);
-  int cities = city_list_size(&pplayer->cities);
+  int cities = city_list_size(pplayer->cities);
   int content = game.unhappysize;
   int basis = game.cityfactor + g->empire_size_mod;
   int step = g->empire_size_inc;

@@ -64,8 +64,7 @@ struct spaceship_dialog {
     TYPED_LIST_ITERATE(struct spaceship_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
-static bool dialog_list_has_been_initialised = FALSE;
+static struct dialog_list *dialog_list;
 
 static struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
 static struct spaceship_dialog *create_spaceship_dialog(struct player
@@ -77,13 +76,24 @@ static void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
 /****************************************************************
 ...
 *****************************************************************/
+void spaceship_dialog_init()
+{
+  dialog_list = dialog_list_new();
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spaceship_dialog_done()
+{
+  dialog_list_free(dialog_list);
+}
+
+/****************************************************************
+...
+*****************************************************************/
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
 {
-  if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
-    dialog_list_has_been_initialised = TRUE;
-  }
-
   dialog_list_iterate(dialog_list, pdialog) {
     if (pdialog->pplayer == pplayer) {
       return pdialog;
@@ -168,7 +178,7 @@ static void spaceship_destroy_callback(GtkWidget *w, gpointer data)
 {
   struct spaceship_dialog *pdialog = (struct spaceship_dialog *)data;
   
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
 
   free(pdialog);
 }
@@ -241,7 +251,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->info_label, FALSE, FALSE, 0);
   gtk_widget_set_name(pdialog->info_label, "spaceship label");
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   gtk_widget_grab_focus(pdialog->image_canvas);
 

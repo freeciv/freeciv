@@ -256,7 +256,7 @@ struct city {
 
   enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
 
-  struct unit_list units_supported;
+  struct unit_list *units_supported;
 
   struct {
     /* Only used at the client (the serer is omniscient). */
@@ -300,8 +300,8 @@ struct city {
   int turn_founded;		/* In which turn was the city founded? */
 
   /* info for dipl/spy investigation -- used only in client */
-  struct unit_list info_units_supported;
-  struct unit_list info_units_present;
+  struct unit_list *info_units_supported;
+  struct unit_list *info_units_present;
 
   struct ai_city ai;
   bool debug;

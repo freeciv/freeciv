@@ -35,9 +35,9 @@
 #define DEBUG_PAINT_ALL	FALSE
 
 struct sw_widget *root_window;
-static struct widget_list windows_back_to_front;
-static struct widget_list windows_front_to_back;
-struct widget_list deferred_destroyed_widgets;
+static struct widget_list *windows_back_to_front;
+static struct widget_list *windows_front_to_back;
+struct widget_list *deferred_destroyed_widgets;
 static bool dump_screen = FALSE;
 
 #define TITLE_PADDING 3
@@ -153,8 +153,8 @@ static void destroy(struct sw_widget *widget)
     ct_string_destroy(widget->data.window.title);
   }
 
-  widget_list_unlink(&windows_front_to_back, widget);
-  widget_list_unlink(&windows_back_to_front, widget);
+  widget_list_unlink(windows_front_to_back, widget);
+  widget_list_unlink(windows_back_to_front, widget);
 }
 
 /*************************************************************************
@@ -188,8 +188,8 @@ static int my_sort_front_to_back(const void *p1, const void *p2)
 *************************************************************************/
 static void sort(void)
 {
-  widget_list_sort(&windows_front_to_back, my_sort_front_to_back);
-  widget_list_sort(&windows_back_to_front, my_sort_back_to_front);
+  widget_list_sort(windows_front_to_back, my_sort_front_to_back);
+  widget_list_sort(windows_back_to_front, my_sort_back_to_front);
 }
 
 static void sw_window_set_depth(struct sw_widget *widget, int depth)
@@ -231,11 +231,11 @@ struct sw_widget *sw_window_create(struct sw_widget *parent, int width,
 
   result->can_be_dragged[BE_MB_LEFT] = TRUE;
 
-  widget_list_init(&result->data.window.children);
-  widget_list_insert_back(&windows_front_to_back, result);
-  widget_list_insert_back(&windows_back_to_front, result);
+  result->data.window.children = widget_list_new();
+  widget_list_append(windows_front_to_back, result);
+  widget_list_append(windows_back_to_front, result);
 
-  region_list_init(&result->data.window.to_flush);
+  result->data.window.to_flush = region_list_new();
 
   result->inner_bounds.x = border_width;
   result->inner_bounds.y = border_width;
@@ -280,9 +280,9 @@ struct sw_widget *sw_create_root_window(void)
   struct sw_widget *result;
 
   assert(!root_window);
-  widget_list_init(&windows_front_to_back);
-  widget_list_init(&windows_back_to_front);
-  widget_list_init(&deferred_destroyed_widgets);
+  windows_front_to_back = widget_list_new();
+  windows_back_to_front = widget_list_new();
+  deferred_destroyed_widgets = widget_list_new();
 
   be_screen_get_size(&size);
 
@@ -312,7 +312,7 @@ void sw_window_add(struct sw_widget *window, struct sw_widget *widget)
     assert(pwidget != widget);
   } widget_list_iterate_end;
 
-  widget_list_insert(&window->data.window.children, widget);
+  widget_list_prepend(window->data.window.children, widget);
   widget->parent = window;
 }
 
@@ -321,8 +321,8 @@ void sw_window_add(struct sw_widget *window, struct sw_widget *widget)
 *************************************************************************/
 void remove_all_from_window(struct sw_widget *widget)
 {
-  while (widget_list_size(&widget->data.window.children) > 0) {
-    sw_window_remove(widget_list_get(&widget->data.window.children, 0));
+  while (widget_list_size(widget->data.window.children) > 0) {
+    sw_window_remove(widget_list_get(widget->data.window.children, 0));
   }
 }
 
@@ -343,7 +343,7 @@ void sw_window_remove(struct sw_widget *widget)
   } widget_list_iterate_end;
 
   assert(found == 1);
-  widget_list_unlink(&old_parent->data.window.children, widget);
+  widget_list_unlink(old_parent->data.window.children, widget);
   widget->parent = NULL;
 }
 
@@ -475,7 +475,7 @@ static void add_flush_region(struct sw_widget *widget, const struct ct_rect
     }
   } region_list_iterate_end;
   
-  region_list_insert(&window->data.window.to_flush, ct_rect_clone(region));
+  region_list_prepend(window->data.window.to_flush, ct_rect_clone(region));
 }
 
 /*************************************************************************
@@ -579,31 +579,35 @@ void update_window(struct sw_widget *widget)
 *************************************************************************/
 static void merge_regions(struct region_list *list)
 {
-  struct region_list tmp, *orig, *copy;
+  struct region_list *tmp, *orig, *copy;
+
+  tmp = region_list_new();
 
   orig = list;
-  copy = &tmp;
-  region_list_init(copy);
+  copy = tmp;
 
-  region_list_iterate(*orig, region) {
+  region_list_iterate(orig, region) {
     if (ct_rect_in_rect_list(region, copy)) {
       free(region);
     } else {
-      region_list_insert(copy, region);
+      region_list_prepend(copy, region);
     }
   } region_list_iterate_end;
 
-  orig = &tmp;
+  orig = tmp;
   copy = list;
-  region_list_init(copy);
+  region_list_unlink_all(copy);
 
-  region_list_iterate(*orig, region) {
+  region_list_iterate(orig, region) {
     if (ct_rect_in_rect_list(region, copy)) {
       free(region);
     } else {
-      region_list_insert(copy, region);
+      region_list_prepend(copy, region);
     }
   } region_list_iterate_end;
+
+  region_list_unlink_all(tmp);
+  region_list_free(tmp);
 }
 
 /*************************************************************************
@@ -616,7 +620,7 @@ void sw_paint_all(void)
   struct timer *timer2 = new_timer(TIMER_USER, TIMER_ACTIVE);
   struct timer *timer3 = new_timer(TIMER_USER, TIMER_ACTIVE);
   struct timer *timer4 = new_timer(TIMER_USER, TIMER_ACTIVE);
-  struct region_list normalized_regions;
+  struct region_list *normalized_regions;
   static int call = -1;
 #if DUMP_UPDATES
   char filename[100];
@@ -627,12 +631,12 @@ void sw_paint_all(void)
 
   handle_destroyed_widgets();
 
-  region_list_init(&normalized_regions);
+  normalized_regions = region_list_new();
 
   start_timer(timer1);
   widget_list_iterate(windows_back_to_front, widget) {
     update_window(widget);
-    regions += region_list_size(&widget->data.window.to_flush);
+    regions += region_list_size(widget->data.window.to_flush);
   } widget_list_iterate_end;
   stop_timer(timer1);
 
@@ -670,8 +674,8 @@ void sw_paint_all(void)
     region_list_iterate(widget->data.window.to_flush, region) {
       region->x += widget->outer_bounds.x;
       region->y += widget->outer_bounds.y;
-      region_list_unlink(&widget->data.window.to_flush, region);
-      region_list_insert(&normalized_regions, region);
+      region_list_unlink(widget->data.window.to_flush, region);
+      region_list_prepend(normalized_regions, region);
     } region_list_iterate_end;
   } widget_list_iterate_end;
   if (DEBUG_PAINT_ALL) {
@@ -687,11 +691,11 @@ void sw_paint_all(void)
   }
 #endif
 
-  merge_regions(&normalized_regions);
+  merge_regions(normalized_regions);
 
   if(DEBUG_PAINT_ALL) {
     printf("starting flushing of %d regions\n",
-           region_list_size(&normalized_regions));
+           region_list_size(normalized_regions));
   }
 
 #if DUMP_UPDATES
@@ -739,7 +743,7 @@ void sw_paint_all(void)
       }
       window_nr++;
     } widget_list_iterate_end;
-    region_list_unlink(&normalized_regions, region);
+    region_list_unlink(normalized_regions, region);
     free(region);
 #if DUMP_UPDATES
     region_nr++;

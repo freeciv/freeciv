@@ -358,7 +358,7 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
 			"(?!?)";  /* this case is a bug! */
 
   if (caller) {
-    notify_conn(&caller->self, "/%s: %s%s", cmdname, prefix, line);
+    notify_conn(caller->self, "/%s: %s%s", cmdname, prefix, line);
     /* cc: to the console - testing has proved it's too verbose - rp
     con_write(rfc_status, "%s/%s: %s%s", caller->name, cmdname, prefix, line);
     */
@@ -1119,7 +1119,7 @@ static bool set_cmdlevel(struct connection *caller,
 *********************************************************************/
 static bool a_connection_exists(void)
 {
-  return conn_list_size(&game.est_connections) > 0;
+  return conn_list_size(game.est_connections) > 0;
 }
 
 /********************************************************************
@@ -1579,7 +1579,7 @@ static bool explain_option(struct connection *caller, char *str, bool check)
 static bool wall(char *str, bool check)
 {
   if (!check) {
-    notify_conn_ex(&game.game_connections, NULL, E_MESSAGE_WALL,
+    notify_conn_ex(game.game_connections, NULL, E_MESSAGE_WALL,
  		   _("Server Operator: %s"), str);
   }
   return TRUE;
@@ -1662,7 +1662,7 @@ void report_settable_server_options(struct connection *dest, int which)
 
   if (dest->access_level == ALLOW_NONE
       || (which == 1 && server_state > PRE_GAME_STATE)) {
-    report_server_options(&dest->self, which);
+    report_server_options(dest->self, which);
     return;
   }
 
@@ -1818,16 +1818,16 @@ static bool set_away(struct connection *caller, char *name, bool check)
     cmd_reply(CMD_AWAY, caller, C_FAIL, _("This command is client only."));
     return FALSE;
   } else if (name && strlen(name) > 0) {
-    notify_conn(&caller->self, _("Usage: away"));
+    notify_conn(caller->self, _("Usage: away"));
     return FALSE;
   } else if (!caller->player->ai.control && !check) {
-    notify_conn(&game.est_connections, _("%s set to away mode."), 
+    notify_conn(game.est_connections, _("%s set to away mode."), 
                 caller->player->name);
     set_ai_level_directer(caller->player, 1);
     caller->player->ai.control = TRUE;
     cancel_all_meetings(caller->player);
   } else if (!check) {
-    notify_conn(&game.est_connections, _("%s returned to game."), 
+    notify_conn(game.est_connections, _("%s returned to game."), 
                 caller->player->name);
     caller->player->ai.control = FALSE;
     /* We have to do it, because the client doesn't display 
@@ -2734,8 +2734,8 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
   /* if we want to switch players, reset the client */
   if (pconn->player && server_state == RUN_GAME_STATE) {
-    send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
-    send_conn_info(&game.est_connections,  &pconn->self);
+    send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
+    send_conn_info(game.est_connections,  pconn->self);
   }
 
   /* if the connection is already attached to a player,
@@ -2762,13 +2762,13 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   /* attach pconn to new player as an observer */
   pconn->observer = TRUE; /* do this before attach! */
   attach_connection_to_player(pconn, pplayer);
-  send_conn_info(&pconn->self, &game.est_connections);
+  send_conn_info(pconn->self, game.est_connections);
 
   if (server_state == RUN_GAME_STATE) {
     send_packet_freeze_hint(pconn);
-    send_rulesets(&pconn->self);
-    send_all_info(&pconn->self);
-    send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
+    send_rulesets(pconn->self);
+    send_all_info(pconn->self);
+    send_game_state(pconn->self, CLIENT_GAME_RUNNING_STATE);
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
@@ -2877,9 +2877,9 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /* if we want to switch players, reset the client if the game is running */
   if (pconn->player && server_state == RUN_GAME_STATE) {
-    send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
-    send_player_info_c(NULL, &pconn->self);
-    send_conn_info(&game.est_connections,  &pconn->self);
+    send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
+    send_player_info_c(NULL, pconn->self);
+    send_conn_info(game.est_connections,  pconn->self);
   }
 
   /* if we're taking another player with a user attached, 
@@ -2887,11 +2887,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
   conn_list_iterate(pplayer->connections, aconn) {
     if (!aconn->observer) {
       if (server_state == RUN_GAME_STATE) {
-        send_game_state(&aconn->self, CLIENT_PRE_GAME_STATE);
+        send_game_state(aconn->self, CLIENT_PRE_GAME_STATE);
       }
-      notify_conn(&aconn->self, _("being detached from %s."), pplayer->name);
+      notify_conn(aconn->self, _("being detached from %s."), pplayer->name);
       unattach_connection_from_player(aconn);
-      send_conn_info(&aconn->self, &game.est_connections);
+      send_conn_info(aconn->self, game.est_connections);
     }
   } conn_list_iterate_end;
 
@@ -2918,7 +2918,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /* now attach to new player */
   attach_connection_to_player(pconn, pplayer);
-  send_conn_info(&pconn->self, &game.est_connections);
+  send_conn_info(pconn->self, game.est_connections);
  
   /* if pplayer wasn't /created, and we're still in pregame, change its name */
   if (!pplayer->was_created && is_newgame) {
@@ -2932,9 +2932,9 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   if (server_state == RUN_GAME_STATE) {
     send_packet_freeze_hint(pconn);
-    send_rulesets(&pconn->self);
-    send_all_info(&pconn->self);
-    send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
+    send_rulesets(pconn->self);
+    send_all_info(pconn->self);
+    send_game_state(pconn->self, CLIENT_GAME_RUNNING_STATE);
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
@@ -3028,15 +3028,15 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 
   /* if we want to detach while the game is running, reset the client */
   if (server_state == RUN_GAME_STATE) {
-    send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
-    send_game_info(&pconn->self);
-    send_player_info_c(NULL, &pconn->self);
-    send_conn_info(&game.est_connections, &pconn->self);
+    send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
+    send_game_info(pconn->self);
+    send_player_info_c(NULL, pconn->self);
+    send_conn_info(game.est_connections, pconn->self);
   }
 
   /* actually do the detaching */
   unattach_connection_from_player(pconn);
-  send_conn_info(&pconn->self, &game.est_connections);
+  send_conn_info(pconn->self, game.est_connections);
   cmd_reply(CMD_DETACH, caller, C_COMMENT,
             _("%s detaching from %s"), pconn->username, pplayer->name);
 
@@ -3049,8 +3049,8 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     conn_list_iterate(pplayer->connections, aconn) {
       if (aconn->observer) {
         unattach_connection_from_player(aconn);
-        send_conn_info(&aconn->self, &game.est_connections);
-        notify_conn(&aconn->self, _("detaching from %s."), pplayer->name);
+        send_conn_info(aconn->self, game.est_connections);
+        notify_conn(aconn->self, _("detaching from %s."), pplayer->name);
       }
     } conn_list_iterate_end;
 
@@ -3126,7 +3126,7 @@ static void send_load_game_info(bool load_successful)
     packet.nplayers = 0;
   }
 
-  lsend_packet_game_load(&game.est_connections, &packet);
+  lsend_packet_game_load(game.est_connections, &packet);
 }
 
 /**************************************************************************
@@ -3973,7 +3973,7 @@ void show_players(struct connection *caller)
       }
       my_snprintf(buf, sizeof(buf), "%s (%s)", pplayer->name, buf2);
       
-      n = conn_list_size(&pplayer->connections);
+      n = conn_list_size(pplayer->connections);
       if (n > 0) {
         cat_snprintf(buf, sizeof(buf), 
                      PL_(" %d connection:", " %d connections:", n), n);
@@ -4006,7 +4006,7 @@ static void show_connections(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of connections to server:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
-  if (conn_list_size(&game.all_connections) == 0) {
+  if (conn_list_size(game.all_connections) == 0) {
     cmd_reply(CMD_LIST, caller, C_WARNING, _("<no connections>"));
   }
   else {
@@ -4116,11 +4116,11 @@ The connection user names, from game.all_connections.
 **************************************************************************/
 static const char *connection_name_accessor(int idx)
 {
-  return conn_list_get(&game.all_connections, idx)->username;
+  return conn_list_get(game.all_connections, idx)->username;
 }
 static char *connection_generator(const char *text, int state)
 {
-  return generic_generator(text, state, conn_list_size(&game.all_connections),
+  return generic_generator(text, state, conn_list_size(game.all_connections),
 			   connection_name_accessor);
 }
 
@@ -4150,7 +4150,7 @@ static const char *cmdlevel_arg2_accessor(int idx)
 static char *cmdlevel_arg2_generator(const char *text, int state)
 {
   return generic_generator(text, state,
-			   2 + conn_list_size(&game.all_connections),
+			   2 + conn_list_size(game.all_connections),
 			   cmdlevel_arg2_accessor);
 }
 

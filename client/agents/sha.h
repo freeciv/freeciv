@@ -15,6 +15,7 @@
 #define FC__CLIENT_AGENTS_SIMPLE_HISTORIAN_H
 
 void simple_historian_init(void);
+void simple_historian_done(void);
 
 struct tile* sha_tile_recall(struct tile *ptile);
 struct unit* sha_unit_recall(int id);

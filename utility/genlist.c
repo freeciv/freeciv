@@ -25,16 +25,26 @@ static struct genlist_link *find_genlist_position(const struct genlist *pgenlist
 						  int pos);
 
 /************************************************************************
-  Initialize a genlist.
-  This should be called before the genlist is used in any other way.
+  Create a new empty genlist.
 ************************************************************************/
-void genlist_init(struct genlist *pgenlist)
+struct genlist *genlist_new(void)
 {
+  struct genlist *pgenlist = fc_malloc(sizeof(*pgenlist));
+
   pgenlist->nelements=0;
   pgenlist->head_link = NULL;
   pgenlist->tail_link = NULL;
+
+  return pgenlist;
 }
 
+/************************************************************************
+  Remove a genlist.  The list must be empty first!
+************************************************************************/
+void genlist_free(struct genlist *pgenlist)
+{
+  free(pgenlist);
+}
 
 /************************************************************************
   Returns the number of elements stored in the genlist.
@@ -125,7 +135,7 @@ void genlist_unlink(struct genlist *pgenlist, void *punlink)
   A bad 'pos' value for a non-empty list is treated as -1 (is this
   a good idea?)
 ************************************************************************/
-void genlist_insert(struct genlist *pgenlist, void *data, int pos)
+static void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 {
   if(pgenlist->nelements == 0) { /*list is empty, ignore pos */
     
@@ -169,6 +179,23 @@ void genlist_insert(struct genlist *pgenlist, void *data, int pos)
   pgenlist->nelements++;
 }
 
+
+/************************************************************************
+  Insert an item at the start of the list.
+************************************************************************/
+void genlist_prepend(struct genlist *pgenlist, void *data)
+{
+  genlist_insert(pgenlist, data, 0); /* beginning */
+}
+
+
+/************************************************************************
+  Insert an item at the end of the list.
+************************************************************************/
+void genlist_append(struct genlist *pgenlist, void *data)
+{
+  genlist_insert(pgenlist, data, -1); /* end */
+}
 
 /************************************************************************
   Returns a pointer to the genlist link structure at the specified

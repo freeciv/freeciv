@@ -191,7 +191,7 @@ struct unit {
 
 #define unit_list_iterate_safe(unitlist, punit) \
 { \
-  int _size = unit_list_size(&unitlist); \
+  int _size = unit_list_size(unitlist); \
   if (_size > 0) { \
     int _ids[_size]; \
     int _i = 0; \

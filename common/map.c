@@ -358,7 +358,7 @@ static void tile_init(struct tile *ptile)
   ptile->known    = 0;
   ptile->continent = 0;
   ptile->city     = NULL;
-  unit_list_init(&ptile->units);
+  ptile->units    = unit_list_new();
   ptile->worked   = NULL; /* pointer to city working tile */
   ptile->assigned = 0; /* bitvector */
   ptile->owner    = NULL; /* Tile not claimed by any nation. */
@@ -477,7 +477,8 @@ void map_set_owner(struct tile *ptile, struct player *owner)
 ***************************************************************/
 static void tile_free(struct tile *ptile)
 {
-  unit_list_unlink_all(&ptile->units);
+  unit_list_unlink_all(ptile->units);
+  unit_list_free(ptile->units);
   if (ptile->spec_sprite) {
     free(ptile->spec_sprite);
     ptile->spec_sprite = NULL;

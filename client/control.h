@@ -29,6 +29,9 @@ enum quickselect_type {
   SELECT_POPUP = 0, SELECT_SEA, SELECT_LAND
 };
 
+void control_init(void);
+void control_done(void);
+
 extern int hover_unit; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
 extern enum unit_activity connect_activity;

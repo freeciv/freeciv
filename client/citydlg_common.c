@@ -577,10 +577,10 @@ void city_rotate_specialist(struct city *pcity, int citizen_index)
 **************************************************************************/
 void activate_all_units(struct tile *ptile)
 {
-  struct unit_list *punit_list = &ptile->units;
+  struct unit_list *punit_list = ptile->units;
   struct unit *pmyunit = NULL;
 
-  unit_list_iterate((*punit_list), punit) {
+  unit_list_iterate(punit_list, punit) {
     if (game.player_idx == punit->owner) {
       /* Activate this unit. */
       pmyunit = punit;

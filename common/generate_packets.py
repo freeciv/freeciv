@@ -1191,7 +1191,7 @@ class Packet:
         if not self.want_lsend: return ""
         return '''%(lsend_prototype)s
 {
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     send_%(name)s(pconn%(extra_send_args2)s);
   } conn_list_iterate_end;
 }

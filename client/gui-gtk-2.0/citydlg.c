@@ -174,7 +174,7 @@ struct city_dialog {
 static GdkBitmap *icon_bitmap;
 static GtkRcStyle *info_label_style[NUM_INFO_STYLES] = { NULL, NULL, NULL };
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list;
 static bool city_dialogs_have_been_initialised;
 static int canvas_width, canvas_height;
 static int new_dialog_def_page = OVERVIEW_PAGE;
@@ -294,7 +294,7 @@ static void initialize_city_dialogs(void)
 
   assert(!city_dialogs_have_been_initialised);
 
-  dialog_list_init(&dialog_list);
+  dialog_list = dialog_list_new();
   init_citydlg_dimensions();
 
   /* make the styles */
@@ -376,7 +376,7 @@ void refresh_city_dialog(struct city *pcity)
 
   if (city_owner(pcity) == game.player_ptr) {
     bool have_present_units =
-	(unit_list_size(&pcity->tile->units) > 0);
+	(unit_list_size(pcity->tile->units) > 0);
     gboolean sensitive;
 
     refresh_worklist(pdialog->production.worklist);
@@ -463,9 +463,11 @@ void popdown_all_city_dialogs(void)
   if (!city_dialogs_have_been_initialised) {
     return;
   }
-  while (dialog_list_size(&dialog_list)) {
-    close_city_dialog(dialog_list_get(&dialog_list, 0));
+  while (dialog_list_size(dialog_list)) {
+    close_city_dialog(dialog_list_get(dialog_list, 0));
   }
+  dialog_list_free(dialog_list);
+  city_dialogs_have_been_initialised = FALSE;
 }
 
 /**************************************************************************
@@ -1319,7 +1321,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   g_signal_connect(pdialog->shell, "key_press_event",
 		   G_CALLBACK(keyboard_handler), pdialog);
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   refresh_city_dialog(pdialog->pcity);
 
@@ -1612,9 +1614,9 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   char buf[30];
 
   if (pdialog->pcity->owner != game.player_idx) {
-    units = &(pdialog->pcity->info_units_supported);
+    units = pdialog->pcity->info_units_supported;
   } else {
-    units = &(pdialog->pcity->units_supported);
+    units = pdialog->pcity->units_supported;
   }
 
   nodes = &pdialog->overview.supported_units;
@@ -1663,7 +1665,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   gtk_tooltips_disable(pdialog->tips);
 
   i = 0;
-  unit_list_iterate(*units, punit) {
+  unit_list_iterate(units, punit) {
     struct unit_node *pnode;
     
     pnode = unit_node_vector_get(nodes, i);
@@ -1727,9 +1729,9 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
   char buf[30];
 
   if (pdialog->pcity->owner != game.player_idx) {
-    units = &(pdialog->pcity->info_units_present);
+    units = pdialog->pcity->info_units_present;
   } else {
-    units = &(pdialog->pcity->tile->units);
+    units = pdialog->pcity->tile->units;
   }
 
   nodes = &pdialog->overview.present_units;
@@ -1776,7 +1778,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
   gtk_tooltips_disable(pdialog->tips);
 
   i = 0;
-  unit_list_iterate(*units, punit) {
+  unit_list_iterate(units, punit) {
     struct unit_node *pnode;
     
     pnode = unit_node_vector_get(nodes, i);
@@ -1873,7 +1875,7 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
 static void city_dialog_update_prev_next()
 {
   int count = 0;
-  int city_number = city_list_size(&game.player_ptr->cities);
+  int city_number = city_list_size(game.player_ptr->cities);
 
   /* the first time, we see if all the city dialogs are open */
 
@@ -1908,7 +1910,7 @@ static void show_units_callback(GtkWidget * w, gpointer data)
   struct city_dialog *pdialog = (struct city_dialog *) data;
   struct tile *ptile = pdialog->pcity->tile;
 
-  if (unit_list_size(&ptile->units))
+  if (unit_list_size(ptile->units))
     popup_unit_select_dialog(ptile);
 }
 
@@ -2747,7 +2749,7 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   if (pdialog->popup_menu)
     gtk_widget_destroy(pdialog->popup_menu);
 
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
 
   unit_node_vector_free(&pdialog->overview.supported_units);
   unit_node_vector_free(&pdialog->overview.present_units);
@@ -2766,14 +2768,14 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   }
   unit_list_iterate_end;
 
-  unit_list_unlink_all(&(pdialog->pcity->info_units_supported));
+  unit_list_unlink_all(pdialog->pcity->info_units_supported);
 
   unit_list_iterate(pdialog->pcity->info_units_present, psunit) {
     free(psunit);
   }
   unit_list_iterate_end;
 
-  unit_list_unlink_all(&(pdialog->pcity->info_units_present));
+  unit_list_unlink_all(pdialog->pcity->info_units_present);
 
   free(pdialog);
 
@@ -2794,7 +2796,7 @@ static void close_city_dialog(struct city_dialog *pdialog)
 static void switch_city_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  int i, j, dir, size = city_list_size(&game.player_ptr->cities);
+  int i, j, dir, size = city_list_size(game.player_ptr->cities);
   struct city *new_pcity = NULL;
 
   assert(city_dialogs_have_been_initialised);
@@ -2816,7 +2818,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   }
 
   for (i = 0; i < size; i++) {
-    if (pdialog->pcity == city_list_get(&game.player_ptr->cities, i)) {
+    if (pdialog->pcity == city_list_get(game.player_ptr->cities, i)) {
       break;
     }
   }
@@ -2824,7 +2826,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   assert(i < size);
 
   for (j = 1; j < size; j++) {
-    struct city *other_pcity = city_list_get(&game.player_ptr->cities,
+    struct city *other_pcity = city_list_get(game.player_ptr->cities,
 					     (i + dir * j + size) % size);
     struct city_dialog *other_pdialog = get_city_dialog(other_pcity);
 

@@ -158,9 +158,9 @@ static void calc_effect(enum unit_activity activity, struct tile *ptile,
   struct tile backup = *ptile;
   int stats_before[3], stats_after[3];
 
-  stats_before[0] = get_food_tile(ptile);
-  stats_before[1] = get_shields_tile(ptile);
-  stats_before[2] = get_trade_tile(ptile);
+  stats_before[0] = get_output_tile(ptile, O_FOOD);
+  stats_before[1] = get_output_tile(ptile, O_SHIELD);
+  stats_before[2] = get_output_tile(ptile, O_TRADE);
 
   /* BEWARE UGLY HACK AHEAD */
 
@@ -186,9 +186,9 @@ static void calc_effect(enum unit_activity activity, struct tile *ptile,
     assert(0);
   }
 
-  stats_after[0] = get_food_tile(ptile);
-  stats_after[1] = get_shields_tile(ptile);
-  stats_after[2] = get_trade_tile(ptile);
+  stats_after[0] = get_output_tile(ptile, O_FOOD);
+  stats_after[1] = get_output_tile(ptile, O_SHIELD);
+  stats_after[2] = get_output_tile(ptile, O_TRADE);
 
   ptile->terrain = backup.terrain;
   ptile->special = backup.special;

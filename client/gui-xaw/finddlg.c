@@ -149,8 +149,9 @@ void update_find_dialog(Widget find_list)
 {
   int i, j;
 
-  for(i=0, ncities_total=0; i<game.nplayers; i++)
-    ncities_total+=city_list_size(&game.players[i].cities);
+  for(i = 0, ncities_total = 0; i < game.nplayers; i++) {
+    ncities_total += city_list_size(game.players[i].cities);
+  }
 
   city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
   

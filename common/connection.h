@@ -122,7 +122,7 @@ struct connection {
 
   double ping_time;
   
-  struct conn_list self;     /* list with this connection as single element */
+  struct conn_list *self;     /* list with this connection as single element */
   char username[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
 

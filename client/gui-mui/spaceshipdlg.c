@@ -243,7 +243,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
     DoMethod(app, OM_ADDMEMBER, pdialog->wnd);
 
-    dialog_list_insert(&dialog_list, pdialog);
+    dialog_list_prepend(&dialog_list, pdialog);
     refresh_spaceship_dialog(pdialog->pplayer);
     return pdialog;
   }

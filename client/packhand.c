@@ -517,7 +517,7 @@ void handle_city_info(struct packet_city_info *packet)
    * get an update if it changes. */
   if (can_player_see_units_in_city(game.player_ptr, pcity)) {
     pcity->client.occupied
-      = (unit_list_size(&pcity->tile->units) > 0);
+      = (unit_list_size(pcity->tile->units) > 0);
   }
 
   pcity->client.happy = city_happy(pcity);
@@ -564,10 +564,10 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   int i;
 
   if(is_new) {
-    unit_list_init(&pcity->units_supported);
-    unit_list_init(&pcity->info_units_supported);
-    unit_list_init(&pcity->info_units_present);
-    city_list_insert(&city_owner(pcity)->cities, pcity);
+    pcity->units_supported = unit_list_new();
+    pcity->info_units_supported = unit_list_new();
+    pcity->info_units_present = unit_list_new();
+    city_list_prepend(city_owner(pcity)->cities, pcity);
     map_set_city(pcity->tile, pcity);
     if(pcity->owner==game.player_idx)
       city_report_dialog_update();
@@ -575,7 +575,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     for(i=0; i<game.nplayers; i++) {
       unit_list_iterate(game.players[i].units, punit) 
 	if(punit->homecity==pcity->id)
-	  unit_list_insert(&pcity->units_supported, punit);
+	  unit_list_prepend(pcity->units_supported, punit);
       unit_list_iterate_end;
     }
   } else {
@@ -1047,13 +1047,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* change homecity */
       struct city *pcity;
       if ((pcity=find_city_by_id(punit->homecity))) {
-	unit_list_unlink(&pcity->units_supported, punit);
+	unit_list_unlink(pcity->units_supported, punit);
 	refresh_city_dialog(pcity);
       }
       
       punit->homecity = packet_unit->homecity;
       if ((pcity=find_city_by_id(punit->homecity))) {
-	unit_list_insert(&pcity->units_supported, punit);
+	unit_list_prepend(pcity->units_supported, punit);
 	repaint_city = TRUE;
       }
     }
@@ -1106,7 +1106,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
 	  /* Unit moved out of a city - update the occupied status. */
 	  bool new_occupied =
-	    (unit_list_size(&pcity->tile->units) > 0);
+	    (unit_list_size(pcity->tile->units) > 0);
 
 	  if (pcity->client.occupied != new_occupied) {
 	    pcity->client.occupied = new_occupied;
@@ -1180,11 +1180,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     punit = packet_unit;
     idex_register_unit(punit);
 
-    unit_list_insert(&get_player(punit->owner)->units, punit);
-    unit_list_insert(&punit->tile->units, punit);
+    unit_list_prepend(get_player(punit->owner)->units, punit);
+    unit_list_prepend(punit->tile->units, punit);
 
     if((pcity=find_city_by_id(punit->homecity))) {
-      unit_list_insert(&pcity->units_supported, punit);
+      unit_list_prepend(pcity->units_supported, punit);
     }
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
@@ -1271,20 +1271,20 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
       unit_list_iterate(pcity->info_units_supported, psunit) {
 	destroy_unit_virtual(psunit);
       } unit_list_iterate_end;
-      unit_list_unlink_all(&(pcity->info_units_supported));
+      unit_list_unlink_all(pcity->info_units_supported);
       unit_list_iterate(pcity->info_units_present, ppunit) {
 	destroy_unit_virtual(ppunit);
       } unit_list_iterate_end;
-      unit_list_unlink_all(&(pcity->info_units_present));
+      unit_list_unlink_all(pcity->info_units_present);
     }
 
     /* Okay, append a unit struct to the proper list. */
     punit = unpackage_short_unit(packet);
     if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
-      unit_list_insert(&(pcity->info_units_supported), punit);
+      unit_list_prepend(pcity->info_units_supported, punit);
     } else {
       assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
-      unit_list_insert(&(pcity->info_units_present), punit);
+      unit_list_prepend(pcity->info_units_present, punit);
     }
 
     /* Done with special case. */
@@ -1561,14 +1561,14 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* if the server requests that the client reset, then information about
    * connections to this player are lost. If this is the case, insert the
    * correct conn back into the player->connections list */
-  if (conn_list_size(&pplayer->connections) == 0) {
+  if (conn_list_size(pplayer->connections) == 0) {
     conn_list_iterate(game.est_connections, pconn) {
       if (pconn->player == pplayer) {
         /* insert the controller into first position */
         if (pconn->observer) {
-          conn_list_insert_back(&pplayer->connections, pconn);
+          conn_list_append(pplayer->connections, pconn);
         } else {
-          conn_list_insert(&pplayer->connections, pconn);
+          conn_list_prepend(pplayer->connections, pconn);
         }
       }
     } conn_list_iterate_end;
@@ -1622,20 +1622,20 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       pconn->send_buffer = NULL;
       pconn->ping_time = -1.0;
       if (pplayer) {
-	conn_list_insert_back(&pplayer->connections, pconn);
+	conn_list_append(pplayer->connections, pconn);
       }
-      conn_list_insert_back(&game.all_connections, pconn);
-      conn_list_insert_back(&game.est_connections, pconn);
-      conn_list_insert_back(&game.game_connections, pconn);
+      conn_list_append(game.all_connections, pconn);
+      conn_list_append(game.est_connections, pconn);
+      conn_list_append(game.game_connections, pconn);
     } else {
       freelog(LOG_DEBUG, "Server reports updated connection %d %s",
 	      pinfo->id, pinfo->username);
       if (pplayer != pconn->player) {
 	if (pconn->player) {
-	  conn_list_unlink(&pconn->player->connections, pconn);
+	  conn_list_unlink(pconn->player->connections, pconn);
 	}
 	if (pplayer) {
-	  conn_list_insert_back(&pplayer->connections, pconn);
+	  conn_list_append(pplayer->connections, pconn);
 	}
       }
     }
@@ -1937,8 +1937,8 @@ void handle_tile_info(struct packet_tile_info *packet)
 	      unit_type(punit)->name, TILE_XY(punit->tile),
 	      unit_owner(punit)->name);
     } unit_list_iterate_end;
-    assert(unit_list_size(&ptile->units) == 0);
-    unit_list_unlink_all(&ptile->units);
+    assert(unit_list_size(ptile->units) == 0);
+    unit_list_unlink_all(ptile->units);
   }
 
   /* update continents */

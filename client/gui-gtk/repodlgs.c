@@ -392,7 +392,7 @@ void science_dialog_update(void)
   /* collect all researched techs in sorting_list */
   for(i=A_FIRST; i<game.num_tech_types; i++) {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN)) {
-      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
+      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   }
 
@@ -401,7 +401,7 @@ void science_dialog_update(void)
   for(i=0; i<g_list_length(sorting_list); i++) {
     j = GPOINTER_TO_INT(g_list_nth_data(sorting_list, i));
     row[0] = advances[j].name;
-    gtk_clist_append(GTK_CLIST(science_list[i%4]), (gchar **)row);
+    gtk_clist_prepend(GTK_CLIST(science_list[i%4]), (gchar **)row);
   }
   g_list_free(sorting_list);
   sorting_list = NULL;
@@ -439,10 +439,10 @@ void science_dialog_update(void)
 
       if (i==game.player_ptr->research.researching)
 	hist=i;
-      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
+      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   } else {
-    sorting_list = g_list_append(sorting_list,
+    sorting_list = g_list_prepend(sorting_list,
 				 GINT_TO_POINTER(game.num_tech_types + 1 +
 						 game.player_ptr->
 						 future_tech));
@@ -508,7 +508,7 @@ void science_dialog_update(void)
 	    || i == game.player_ptr->ai.tech_goal)) {
       if (i==game.player_ptr->ai.tech_goal)
 	hist=i;
-      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
+      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   }
 
@@ -759,7 +759,7 @@ void economy_report_dialog_update(void)
       my_snprintf(buf2, sizeof(buf2), "%5d", p->cost);
       my_snprintf(buf3, sizeof(buf3), "%6d", p->total_cost);
 
-      gtk_clist_append(GTK_CLIST(economy_list), row);
+      gtk_clist_prepend(GTK_CLIST(economy_list), row);
 
       economy_row_type[i].is_impr = TRUE;
       economy_row_type[i].type = p->type;
@@ -776,7 +776,7 @@ void economy_report_dialog_update(void)
       my_snprintf(buf2, sizeof(buf2), "%5d", entries_units[i].cost);
       my_snprintf(buf3, sizeof(buf3), "%6d", entries_units[i].total_cost);
 
-      gtk_clist_append(GTK_CLIST(economy_list), row);
+      gtk_clist_prepend(GTK_CLIST(economy_list), row);
 
       economy_row_type[i + nbr_impr].is_impr = FALSE;
       economy_row_type[i + nbr_impr].type = entries_units[i].type;
@@ -1046,7 +1046,7 @@ void activeunits_report_dialog_update(void)
         my_snprintf(buf[5], sizeof(buf[5]), "%9d", unitarray[i].upkeep_food);
 	my_snprintf(buf[6], sizeof(buf[6]), "%9d", unitarray[i].upkeep_gold);
 
-	gtk_clist_append( GTK_CLIST( activeunits_list ), row );
+	gtk_clist_prepend( GTK_CLIST( activeunits_list ), row );
 
 	activeunits_type[k]=(unitarray[i].active_count > 0) ? i : U_LAST;
 	k++;
@@ -1170,7 +1170,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
     my_snprintf(stat[11], sizeof(stat[11]), "%d", packet->settledarea[i]);
     my_snprintf(stat[12], sizeof(stat[12]), "%d", packet->literacy[i]);
     my_snprintf(stat[13], sizeof(stat[13]), "%d", packet->spaceship[i]);
-    gtk_clist_append(GTK_CLIST(scores_list), row);
+    gtk_clist_prepend(GTK_CLIST(scores_list), row);
   }
   gtk_clist_thaw(GTK_CLIST(scores_list));
 }

@@ -208,10 +208,10 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
     if (ev->keyval == GDK_Up) {
       keypress = TRUE;
 
-      if (history_pos < genlist_size(&history_list) - 1)
+      if (history_pos < genlist_size(history_list) - 1)
         history_pos++;
 
-      data = genlist_get(&history_list, history_pos);
+      data = genlist_get(history_list, history_pos);
     }
 
     if (ev->keyval == GDK_Down) {
@@ -221,7 +221,7 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
         history_pos--;
 
       if (history_pos >= 0) {
-        data = genlist_get(&history_list, history_pos);
+        data = genlist_get(history_list, history_pos);
       } else {
         data = "";
       }
@@ -962,7 +962,7 @@ void ui_main(int argc, char **argv)
   load_intro_gfx();
   load_cursors();
 
-  genlist_init(&history_list);
+  history_list = genlist_new();
   history_pos = -1;
 
   gtk_widget_show(toplevel);

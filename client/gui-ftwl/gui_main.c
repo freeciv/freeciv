@@ -204,12 +204,14 @@ void ui_main(int argc, char *argv[])
       sw_set_dump_screen(TRUE);
     } else if (is_option("--fullscreen", argv[i])) {
       fullscreen = TRUE;
-    } else if ((option = get_option("--res", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--res", argv, &i, argc))) {
       free(resolution);
       resolution = mystrdup(option);
-    } else if ((option = get_option("--theme", argv, &i, argc))) {
+      free(option);
+    } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
       free(theme);
       theme = mystrdup(option);
+      free(option);
     } else {
       freelog(LOG_ERROR, "unknown option '%s'", argv[i]);
     }

@@ -380,10 +380,10 @@ void sw_widget_get_bounds(struct sw_widget *widget, struct ct_rect *bounds)
 void sw_widget_destroy(struct sw_widget *widget)
 {
   assert(widget);
-  widget_list_insert(&deferred_destroyed_widgets, widget);
+  widget_list_prepend(deferred_destroyed_widgets, widget);
   parent_needs_paint(widget);
   // FIXME this is unsafe if
-  // widget_list_size(&deferred_destroyed_widgets) > 1
+  // widget_list_size(deferred_destroyed_widgets) > 1
 }
 
 /*************************************************************************

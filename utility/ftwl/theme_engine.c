@@ -629,7 +629,7 @@ static bool my_key_handler(struct sw_widget *widget,
 {
   struct te_screen *screen = data;
 
-  keybinding_list_iterate(*screen->keybindings, pbinding) {
+  keybinding_list_iterate(screen->keybindings, pbinding) {
     if (ct_key_matches(pbinding->key, key)) {
       screen->env.action_callback(pbinding->action);
       return TRUE;
@@ -651,7 +651,7 @@ static void read_keybindings(struct section_file *file,
 
   screen->keybindings = fc_malloc(sizeof(*(screen->keybindings)));
 
-  keybinding_list_init(screen->keybindings);
+  screen->keybindings = keybinding_list_new();
 
   for (i = 0; i < num; i++) {
     char *key = sec[i];
@@ -660,7 +660,7 @@ static void read_keybindings(struct section_file *file,
 
     binding->key = ct_key_parse(key);
     binding->action = mystrdup(action);
-    keybinding_list_insert(screen->keybindings, binding);
+    keybinding_list_prepend(screen->keybindings, binding);
   }
 
   sw_window_set_key_notify(screen->window, my_key_handler, screen);

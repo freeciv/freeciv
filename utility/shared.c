@@ -1070,15 +1070,15 @@ static int compare_file_name_ptrs(const void *a, const void *b)
   second. Returned "name"s will be truncated starting at the "infix"
   substring. The returned list must be freed.
 **************************************************************************/
-struct datafile_list datafilelist_infix(const char *subpath,
-    const char *infix, bool nodups)
+struct datafile_list *datafilelist_infix(const char *subpath,
+                                         const char *infix, bool nodups)
 {
   const char **dirs = get_data_dirs(NULL);
   int num_matches = 0;
   int dir_num;
-  struct datafile_list res;
+  struct datafile_list *res;
 
-  datafile_list_init(&res);
+  res = datafile_list_new();
 
   /* First assemble a full list of names. */
   for (dir_num = 0; dirs[dir_num]; dir_num++) {
@@ -1125,7 +1125,7 @@ struct datafile_list datafilelist_infix(const char *subpath,
 	  file->fullname = mystrdup(fullname);
 	  file->mtime = buf.st_mtime;
 
-	  datafile_list_insert_back(&res, file);
+	  datafile_list_append(res, file);
 	  num_matches++;
 	}
 
@@ -1139,7 +1139,7 @@ struct datafile_list datafilelist_infix(const char *subpath,
   }
 
   /* Sort the list by name. */
-  datafile_list_sort(&res, compare_file_name_ptrs);
+  datafile_list_sort(res, compare_file_name_ptrs);
 
   if (nodups) {
     char *name = "";
@@ -1150,18 +1150,16 @@ struct datafile_list datafilelist_infix(const char *subpath,
       } else {
 	free(pfile->name);
 	free(pfile->fullname);
-	datafile_list_unlink(&res, pfile);
+	datafile_list_unlink(res, pfile);
       }
     } datafile_list_iterate_end;
   }
 
   /* Sort the list by last modification time. */
-  datafile_list_sort(&res, compare_file_mtime_ptrs);
+  datafile_list_sort(res, compare_file_mtime_ptrs);
 
   return res;
 }
-
-
 
 /***************************************************************************
   As datafilename(), above, except die with an appropriate log

@@ -38,7 +38,7 @@ bool can_player_attack_tile(const struct player *pplayer,
   struct city *pcity = ptile->city;
   
   /* 1. Is there anyone there at all? */
-  if (!pcity && unit_list_size(&(ptile->units)) == 0) {
+  if (!pcity && unit_list_size((ptile->units)) == 0) {
     return FALSE;
   }
 
@@ -584,13 +584,13 @@ struct unit *get_defender(const struct unit *attacker,
     }
   } unit_list_iterate_end;
 
-  if (unit_list_size(&ptile->units) > 0 && !bestdef) {
-    struct unit *punit = unit_list_get(&ptile->units, 0);
+  if (unit_list_size(ptile->units) > 0 && !bestdef) {
+    struct unit *punit = unit_list_get(ptile->units, 0);
 
     freelog(LOG_ERROR, "get_defender bug: %s's %s vs %s's %s (total %d"
             " units) on %s at (%d,%d). ", unit_owner(attacker)->name,
             unit_type(attacker)->name, unit_owner(punit)->name,
-            unit_type(punit)->name, unit_list_size(&ptile->units), 
+            unit_type(punit)->name, unit_list_size(ptile->units), 
             get_terrain_name(ptile->terrain), ptile->x, ptile->y);
   }
 

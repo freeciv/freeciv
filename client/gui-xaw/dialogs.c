@@ -1107,7 +1107,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
     diplomat_dialog_open = TRUE;
   }else{ 
-    if((ptunit=unit_list_get(&dest_tile->units, 0))){
+    if ((ptunit = unit_list_get(dest_tile->units, 0))) {
       /* Spy/Diplomat acting against a unit */
       
       const char *message = !unit_flag(punit, F_SPY)
@@ -1431,7 +1431,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   Widget unit_select_all_command, unit_select_close_command;
   Widget firstcolumn=0,column=0;
   Pixel bg;
-  struct unit *unit_list[unit_list_size(&ptile->units)];
+  struct unit *unit_list[unit_list_size(ptile->units)];
 
   XtSetSensitive(main_form, FALSE);
 
@@ -1447,7 +1447,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   XtVaGetValues(unit_select_form, XtNbackground, &bg, NULL);
   XSetForeground(display, fill_bg_gc, bg);
 
-  n = MIN(MAX_SELECT_UNITS, unit_list_size(&ptile->units));
+  n = MIN(MAX_SELECT_UNITS, unit_list_size(ptile->units));
   r = number_of_rows(n);
 
   fill_tile_unit_list(ptile, unit_list);

@@ -82,7 +82,7 @@ void init_treaty(struct Treaty *ptreaty,
   ptreaty->plr1=plr1;
   ptreaty->accept0 = FALSE;
   ptreaty->accept1 = FALSE;
-  clause_list_init(&ptreaty->clauses);
+  ptreaty->clauses = clause_list_new();
 }
 
 /****************************************************************
@@ -93,7 +93,8 @@ void clear_treaty(struct Treaty *ptreaty)
   clause_list_iterate(ptreaty->clauses, pclause) {
     free(pclause);
   } clause_list_iterate_end;
-  clause_list_unlink_all(&ptreaty->clauses);
+  clause_list_unlink_all(ptreaty->clauses);
+  clause_list_free(ptreaty->clauses);
 }
 
 /****************************************************************
@@ -105,7 +106,7 @@ bool remove_clause(struct Treaty *ptreaty, struct player *pfrom,
   clause_list_iterate(ptreaty->clauses, pclause) {
     if(pclause->type==type && pclause->from==pfrom &&
        pclause->value==val) {
-      clause_list_unlink(&ptreaty->clauses, pclause);
+      clause_list_unlink(ptreaty->clauses, pclause);
       free(pclause);
 
       ptreaty->accept0 = FALSE;
@@ -176,7 +177,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
   pclause->from=pfrom;
   pclause->value=val;
   
-  clause_list_insert_back(&ptreaty->clauses, pclause);
+  clause_list_append(ptreaty->clauses, pclause);
 
   ptreaty->accept0 = FALSE;
   ptreaty->accept1 = FALSE;

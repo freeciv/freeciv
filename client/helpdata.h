@@ -20,6 +20,9 @@ struct help_item {
   enum help_page_type type;
 };
 
+void helpdata_init(void);
+void helpdata_done(void);
+
 void boot_help_texts(void);
 void free_help_texts(void);
 

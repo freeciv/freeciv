@@ -167,7 +167,7 @@ void intel_create_dialog(struct player *p)
   tech_list_names_ptrs[j]=NULL;
   
   for (i=0; i<j; i++)
-    gtk_clist_append(GTK_CLIST(list), &tech_list_names_ptrs[i]);
+    gtk_clist_prepend(GTK_CLIST(list), &tech_list_names_ptrs[i]);
   
   gtk_clist_sort(GTK_CLIST(list));
   gtk_clist_thaw(GTK_CLIST(list));

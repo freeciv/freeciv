@@ -508,8 +508,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   struct section_file the_file, *file = &the_file;
   int nservers, i, j;
 
-  server_list = fc_malloc(sizeof(struct server_list));
-  server_list_init(server_list);
+  server_list = server_list_new();
 
   /* This call closes f. */
   if (!section_file_load_from_stream(file, f)) {
@@ -568,7 +567,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
       pserver->players[j].nation = mystrdup(nation);
     }
 
-    server_list_insert_back(server_list, pserver);
+    server_list_append(server_list, pserver);
   }
 
   section_file_free(file);
@@ -673,7 +672,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 **************************************************************************/
 void delete_server_list(struct server_list *server_list)
 {
-  server_list_iterate(*server_list, ptmp) {
+  server_list_iterate(server_list, ptmp) {
     int i;
     int n = atoi(ptmp->nplayers);
 
@@ -698,7 +697,7 @@ void delete_server_list(struct server_list *server_list)
   } server_list_iterate_end;
 
   server_list_unlink_all(server_list);
-  free(server_list);
+  server_list_free(server_list);
 }
 
 /**************************************************************************
@@ -795,8 +794,7 @@ int begin_lanserver_scan(void)
     return 0;
   }
 
-  lan_servers = fc_malloc(sizeof(struct server_list));
-  server_list_init(lan_servers);
+  lan_servers = server_list_new();
 
   return 1;
 }
@@ -872,7 +870,7 @@ struct server_list *get_lan_server_list(void) {
     }
 
     /* UDP can send duplicate or delayed packets. */
-    server_list_iterate(*lan_servers, aserver) {
+    server_list_iterate(lan_servers, aserver) {
       if (!mystrcasecmp(aserver->host, servername) 
           && !mystrcasecmp(aserver->port, port)) {
         return lan_servers;
@@ -891,7 +889,7 @@ struct server_list *get_lan_server_list(void) {
     pserver->message = mystrdup(message);
     pserver->players = NULL;
 
-    server_list_insert(lan_servers, pserver);
+    server_list_prepend(lan_servers, pserver);
   } else {
     return lan_servers;
   }                                       

@@ -311,7 +311,7 @@ void ai_best_government(struct player *pplayer)
       generic_city_refresh(acity, TRUE, NULL);
       auto_arrange_workers(acity);
     } city_list_iterate_end;
-    ai->govt_reeval = CLIP(5, city_list_size(&pplayer->cities), 20);
+    ai->govt_reeval = CLIP(5, city_list_size(pplayer->cities), 20);
   }
   ai->govt_reeval--;
 

@@ -17,4 +17,7 @@
 
 #include "spaceshipdlg_g.h"
 
+void spaceship_dialog_init(void);
+void spaceship_dialog_done(void);
+
 #endif  /* FC__SPACESHIPDLG_H */

@@ -75,8 +75,8 @@ int player_distance_to_player(struct player *pplayer, struct player *target)
   if (pplayer == target
       || !target->is_alive
       || !pplayer->is_alive
-      || city_list_size(&pplayer->cities) == 0
-      || city_list_size(&target->cities) == 0) {
+      || city_list_size(pplayer->cities) == 0
+      || city_list_size(target->cities) == 0) {
     return 1;
   }
 

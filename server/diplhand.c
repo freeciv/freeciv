@@ -49,14 +49,14 @@
     TYPED_LIST_ITERATE(struct Treaty, list, p)
 #define treaty_list_iterate_end  LIST_ITERATE_END
 
-static struct treaty_list treaties;
+static struct treaty_list *treaties = NULL;
 
 /**************************************************************************
 ...
 **************************************************************************/
 void diplhand_init()
 {
-  treaty_list_init(&treaties);
+  treaties = treaty_list_new();
 }
 
 /**************************************************************************
@@ -64,7 +64,9 @@ void diplhand_init()
 **************************************************************************/
 void diplhand_free()
 {
-  treaty_list_unlink_all(&treaties);
+  treaty_list_unlink_all(treaties);
+  treaty_list_free(treaties);
+  treaties = NULL;
 }
 
 /**************************************************************************
@@ -209,20 +211,20 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
   *player_accept = ! *player_accept;
 
-  dlsend_packet_diplomacy_accept_treaty(&pplayer->connections,
+  dlsend_packet_diplomacy_accept_treaty(pplayer->connections,
 					pother->player_no, *player_accept,
 					*other_accept);
-  dlsend_packet_diplomacy_accept_treaty(&pother->connections,
+  dlsend_packet_diplomacy_accept_treaty(pother->connections,
 					pplayer->player_no, *other_accept,
 					*player_accept);
 
   if (ptreaty->accept0 && ptreaty->accept1) {
-    int nclauses = clause_list_size(&ptreaty->clauses);
+    int nclauses = clause_list_size(ptreaty->clauses);
 
-    dlsend_packet_diplomacy_cancel_meeting(&pplayer->connections,
+    dlsend_packet_diplomacy_cancel_meeting(pplayer->connections,
 					   pother->player_no,
 					   pplayer->player_no);
-    dlsend_packet_diplomacy_cancel_meeting(&pother->connections,
+    dlsend_packet_diplomacy_cancel_meeting(pother->connections,
 					   pplayer->player_no,
  					   pplayer->player_no);
 
@@ -512,7 +514,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
     } clause_list_iterate_end;
   cleanup:
-    treaty_list_unlink(&treaties, ptreaty);
+    treaty_list_unlink(treaties, ptreaty);
     clear_treaty(ptreaty);
     free(ptreaty);
     send_player_info(pplayer, NULL);
@@ -557,10 +559,10 @@ void handle_diplomacy_remove_clause_req(struct player *pplayer,
   ptreaty = find_treaty(pplayer, pother);
 
   if (ptreaty && remove_clause(ptreaty, pgiver, type, value)) {
-    dlsend_packet_diplomacy_remove_clause(&pplayer->connections,
+    dlsend_packet_diplomacy_remove_clause(pplayer->connections,
 					  pother->player_no, giver, type,
 					  value);
-    dlsend_packet_diplomacy_remove_clause(&pother->connections,
+    dlsend_packet_diplomacy_remove_clause(pother->connections,
 					  pplayer->player_no, giver, type,
 					  value);
     if (pplayer->ai.control) {
@@ -612,10 +614,10 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
 	give_citymap_from_player_to_player(pcity, pplayer, pother);
     }
 
-    dlsend_packet_diplomacy_create_clause(&pplayer->connections,
+    dlsend_packet_diplomacy_create_clause(pplayer->connections,
 					  pother->player_no, giver, type,
 					  value);
-    dlsend_packet_diplomacy_create_clause(&pother->connections,
+    dlsend_packet_diplomacy_create_clause(pother->connections,
 					  pplayer->player_no, giver, type,
 					  value);
     if (pplayer->ai.control) {
@@ -636,18 +638,18 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
   struct Treaty *ptreaty = find_treaty(pplayer, pother);
 
   if (ptreaty) {
-    dlsend_packet_diplomacy_cancel_meeting(&pother->connections,
+    dlsend_packet_diplomacy_cancel_meeting(pother->connections,
 					   pplayer->player_no,
 					   pplayer->player_no);
     notify_player(pother, _("Game: %s canceled the meeting!"), 
 		  pplayer->name);
     /* Need to send to pplayer too, for multi-connects: */
-    dlsend_packet_diplomacy_cancel_meeting(&pplayer->connections,
+    dlsend_packet_diplomacy_cancel_meeting(pplayer->connections,
 					   pother->player_no,
 					   pplayer->player_no);
     notify_player(pplayer, _("Game: Meeting with %s canceled."), 
 		  pother->name);
-    treaty_list_unlink(&treaties, ptreaty);
+    treaty_list_unlink(treaties, ptreaty);
     clear_treaty(ptreaty);
     free(ptreaty);
   }
@@ -694,12 +696,12 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
 
     ptreaty = fc_malloc(sizeof(struct Treaty));
     init_treaty(ptreaty, pplayer, pother);
-    treaty_list_insert(&treaties, ptreaty);
+    treaty_list_prepend(treaties, ptreaty);
 
-    dlsend_packet_diplomacy_init_meeting(&pplayer->connections,
+    dlsend_packet_diplomacy_init_meeting(pplayer->connections,
 					 pother->player_no,
 					 pplayer->player_no);
-    dlsend_packet_diplomacy_init_meeting(&pother->connections,
+    dlsend_packet_diplomacy_init_meeting(pother->connections,
 					 pplayer->player_no,
 					 pplayer->player_no);
   }

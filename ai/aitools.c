@@ -185,7 +185,7 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 
   ptile = punit->tile;
   /* We look for the bodyguard where we stand. */
-  if (!unit_list_find(&ptile->units, punit->ai.bodyguard)) {
+  if (!unit_list_find(ptile->units, punit->ai.bodyguard)) {
     int my_def = (punit->hp 
                   * unit_type(punit)->veteran[punit->veteran].power_fact
 		  * unit_type(punit)->defense_strength

@@ -101,11 +101,11 @@ void do_conquer_cost(struct player *pplayer)
 void send_player_turn_notifications(struct conn_list *dest)
 {
   if (dest) {
-    conn_list_iterate(*dest, pconn) {
+    conn_list_iterate(dest, pconn) {
       struct player *pplayer = pconn->player;
       if (pplayer) {
 	city_list_iterate(pplayer->cities, pcity) {
-	  send_city_turn_notifications(&pconn->self, pcity);
+	  send_city_turn_notifications(pconn->self, pcity);
 	}
 	city_list_iterate_end;
       }
@@ -115,7 +115,7 @@ void send_player_turn_notifications(struct conn_list *dest)
   else {
     players_iterate(pplayer) {
       city_list_iterate(pplayer->cities, pcity) {
-	send_city_turn_notifications(&pplayer->connections, pcity);
+	send_city_turn_notifications(pplayer->connections, pcity);
       } city_list_iterate_end;
     } players_iterate_end;
   }
@@ -179,8 +179,8 @@ void kill_dying_players(void)
 {
   players_iterate(pplayer) {
     if (pplayer->is_alive) {
-      if (unit_list_size(&pplayer->units) == 0
-	  && city_list_size(&pplayer->cities) == 0) {
+      if (unit_list_size(pplayer->units) == 0
+	  && city_list_size(pplayer->cities) == 0) {
 	pplayer->is_dying = TRUE;
       }
       if (pplayer->is_dying) {
@@ -253,7 +253,7 @@ void kill_player(struct player *pplayer) {
   spaceship_init(&pplayer->spaceship);
   send_spaceship_info(pplayer, NULL);
 
-  send_player_info_c(pplayer, &game.est_connections);
+  send_player_info_c(pplayer, game.est_connections);
 }
 
 /**************************************************************************
@@ -795,10 +795,10 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.luxury = luxury;
     pplayer->economic.science = science;
     gamelog(GAMELOG_RATECHANGE, pplayer);
-    conn_list_do_buffer(&pplayer->connections);
+    conn_list_do_buffer(pplayer->connections);
     global_city_refresh(pplayer);
     send_player_info(pplayer, pplayer);
-    conn_list_do_unbuffer(&pplayer->connections);
+    conn_list_do_unbuffer(pplayer->connections);
   }
 }
 
@@ -1299,7 +1299,7 @@ void vnotify_conn_ex(struct conn_list *dest, struct tile *ptile,
   genmsg.event = event;
   genmsg.conn_id = -1;
 
-  conn_list_iterate(*dest, pconn) {
+  conn_list_iterate(dest, pconn) {
     if (server_state >= RUN_GAME_STATE
 	&& ptile /* special case, see above */
 	&& ((!pconn->player && pconn->observer)
@@ -1353,9 +1353,9 @@ void notify_player_ex(const struct player *pplayer, struct tile *ptile,
   va_list args;
 
   if (pplayer) {
-    dest = (struct conn_list*)&pplayer->connections;
+    dest = pplayer->connections;
   } else {
-    dest = &game.game_connections;
+    dest = game.game_connections;
   }
   
   va_start(args, format);
@@ -1372,9 +1372,9 @@ void notify_player(const struct player *pplayer, const char *format, ...)
   va_list args;
 
   if (pplayer) {
-    dest = (struct conn_list*)&pplayer->connections;
+    dest = pplayer->connections;
   } else {
-    dest = &game.game_connections;
+    dest = game.game_connections;
   }
   
   va_start(args, format);
@@ -1405,7 +1405,7 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
     if (player_has_embassy(other_player, pplayer)
 	&& exclude != other_player
         && pplayer != other_player) {
-      lsend_packet_chat_msg(&other_player->connections, &genmsg);
+      lsend_packet_chat_msg(other_player->connections, &genmsg);
     }
   } players_iterate_end;
 }
@@ -1425,7 +1425,7 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
 
       package_player_common(pplayer, &info);
 
-      conn_list_iterate(*dest, pconn) {
+      conn_list_iterate(dest, pconn) {
 	if (pconn->player && pconn->player->is_observer) {
 	  /* Global observer. */
 	  package_player_info(pplayer, &info, pconn->player, INFO_FULL);
@@ -1449,7 +1449,7 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
 **************************************************************************/
 void send_player_info(struct player *src, struct player *dest)
 {
-  send_player_info_c(src, (dest ? &dest->connections : &game.game_connections));
+  send_player_info_c(src, (dest ? dest->connections : game.game_connections));
 }
 
 /**************************************************************************
@@ -1643,8 +1643,8 @@ static enum plr_info_level player_info_level(struct player *plr,
 struct conn_list *player_reply_dest(struct player *pplayer)
 {
   return (pplayer->current_conn ?
-	  &pplayer->current_conn->self :
-	  &pplayer->connections);
+	  pplayer->current_conn->self :
+	  pplayer->connections);
 }
 
 /********************************************************************** 
@@ -1675,10 +1675,10 @@ void server_remove_player(struct player *pplayer)
   freelog(LOG_NORMAL, _("Removing player %s."), pplayer->name);
   notify_player(pplayer, _("Game: You've been removed from the game!"));
 
-  notify_conn(&game.est_connections,
+  notify_conn(game.est_connections,
 	      _("Game: %s has been removed from the game."), pplayer->name);
   
-  dlsend_packet_player_remove(&game.game_connections, pplayer->player_no);
+  dlsend_packet_player_remove(game.game_connections, pplayer->player_no);
 
   /* Note it is ok to remove the _current_ item in a list_iterate. */
   conn_list_iterate(pplayer->connections, pconn) {
@@ -2140,8 +2140,8 @@ void civil_war(struct player *pplayer)
 		     " %s is declared the leader of the rebel states."),
 		   cplayer->name);
 
-  i = city_list_size(&pplayer->cities)/2;   /* number to flip */
-  j = city_list_size(&pplayer->cities);	    /* number left to process */
+  i = city_list_size(pplayer->cities)/2;   /* number to flip */
+  j = city_list_size(pplayer->cities);	    /* number left to process */
   city_list_iterate(pplayer->cities, pcity) {
     if (!is_capital(pcity)) {
       if (i >= j || (i > 0 && myrand(2) == 1)) {
@@ -2177,7 +2177,7 @@ void civil_war(struct player *pplayer)
 		  "      and the upstart %s now holds power in %d "
 		  "rebel provinces."),
 		pplayer->name, cplayer->name,
-		city_list_size(&cplayer->cities));
+		city_list_size(cplayer->cities));
 }  
 
 /**************************************************************************

@@ -56,11 +56,27 @@ static const char * const help_type_names[] = {
 #define help_list_iterate_end  LIST_ITERATE_END
 
 static struct genlist_link *help_nodes_iterator;
-static struct help_list help_nodes;
+static struct help_list *help_nodes;
 static bool help_nodes_init = FALSE;
 /* helpnodes_init is not quite the same as booted in boot_help_texts();
    latter can be 0 even after call, eg if couldn't find helpdata.txt.
 */
+
+/****************************************************************
+  Initialize.
+*****************************************************************/
+void helpdata_init(void)
+{
+  help_nodes = help_list_new();
+}
+
+/****************************************************************
+  Clean up.
+*****************************************************************/
+void helpdata_done(void)
+{
+  help_list_free(help_nodes);
+}
 
 /****************************************************************
   Make sure help_nodes is initialised.
@@ -71,7 +87,6 @@ static bool help_nodes_init = FALSE;
 static void check_help_nodes_init(void)
 {
   if (!help_nodes_init) {
-    help_list_init(&help_nodes);
     help_nodes_init = TRUE;    /* before help_iter_start to avoid recursion! */
     help_iter_start();
   }
@@ -88,7 +103,7 @@ void free_help_texts(void)
     free(ptmp->text);
     free(ptmp);
   } help_list_iterate_end;
-  help_list_unlink_all(&help_nodes);
+  help_list_unlink_all(help_nodes);
 }
 
 /****************************************************************************
@@ -236,16 +251,15 @@ void boot_help_texts(void)
 	   to change that now.  --dwp
 	*/
 	char name[2048];
-	struct help_list category_nodes;
+	struct help_list *category_nodes = help_list_new();
 	
-	help_list_init(&category_nodes);
 	if (current_type == HELP_UNIT) {
 	  unit_type_iterate(i) {
 	    pitem = new_help_item(current_type);
 	    my_snprintf(name, sizeof(name), " %s", unit_name(i));
 	    pitem->topic = mystrdup(name);
 	    pitem->text = mystrdup("");
-	    help_list_insert_back(&category_nodes, pitem);
+	    help_list_append(category_nodes, pitem);
 	  } unit_type_iterate_end;
 	} else if (current_type == HELP_TECH) {
 	  tech_type_iterate(i) {
@@ -255,7 +269,7 @@ void boot_help_texts(void)
 			  get_tech_name(game.player_ptr, i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      help_list_insert_back(&category_nodes, pitem);
+	      help_list_append(category_nodes, pitem);
 	    }
 	  } tech_type_iterate_end;
 	} else if (current_type == HELP_TERRAIN) {
@@ -266,7 +280,7 @@ void boot_help_texts(void)
 			  tile_types[i].terrain_name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      help_list_insert_back(&category_nodes, pitem);
+	      help_list_append(category_nodes, pitem);
 	    }
 	  }
 	  /* Add special Civ2-style river help text if it's supplied. */
@@ -277,7 +291,7 @@ void boot_help_texts(void)
 	    strcpy(long_buffer, _(terrain_control.river_help_text));
 	    wordwrap_string(long_buffer, 68);
 	    pitem->text = mystrdup(long_buffer);
-	    help_list_insert_back(&category_nodes, pitem);
+	    help_list_append(category_nodes, pitem);
 	  }
 	} else if (current_type == HELP_GOVERNMENT) {
 	  government_iterate(gov) {
@@ -285,7 +299,7 @@ void boot_help_texts(void)
 	    my_snprintf(name, sizeof(name), " %s", gov->name);
 	    pitem->topic = mystrdup(name);
 	    pitem->text = mystrdup("");
-	    help_list_insert_back(&category_nodes, pitem);
+	    help_list_append(category_nodes, pitem);
 	  } government_iterate_end;
 	} else if (current_type == HELP_IMPROVEMENT) {
 	  impr_type_iterate(i) {
@@ -295,7 +309,7 @@ void boot_help_texts(void)
 			  improvement_types[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      help_list_insert_back(&category_nodes, pitem);
+	      help_list_append(category_nodes, pitem);
 	    }
 	  } impr_type_iterate_end;
 	} else if (current_type == HELP_WONDER) {
@@ -306,17 +320,18 @@ void boot_help_texts(void)
 			  improvement_types[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
-	      help_list_insert_back(&category_nodes, pitem);
+	      help_list_append(category_nodes, pitem);
 	    }
 	  } impr_type_iterate_end;
 	} else {
 	  die("Bad current_type %d", current_type);
 	}
-	help_list_sort(&category_nodes, help_item_compar);
+	help_list_sort(category_nodes, help_item_compar);
 	help_list_iterate(category_nodes, ptmp) {
-	  help_list_insert_back(&help_nodes, ptmp);
+	  help_list_append(help_nodes, ptmp);
 	} help_list_iterate_end;
-	help_list_unlink_all(&category_nodes);
+	help_list_unlink_all(category_nodes);
+        help_list_free(category_nodes);
 	continue;
       }
     }
@@ -344,7 +359,7 @@ void boot_help_texts(void)
     paras = NULL;
     wordwrap_string(long_buffer, 68);
     pitem->text=mystrdup(long_buffer);
-    help_list_insert_back(&help_nodes, pitem);
+    help_list_append(help_nodes, pitem);
   }
 
   free(sec);
@@ -368,7 +383,7 @@ void boot_help_texts(void)
 int num_help_items(void)
 {
   check_help_nodes_init();
-  return help_list_size(&help_nodes);
+  return help_list_size(help_nodes);
 }
 
 /****************************************************************
@@ -381,7 +396,7 @@ const struct help_item *get_help_item(int pos)
   int size;
   
   check_help_nodes_init();
-  size = help_list_size(&help_nodes);
+  size = help_list_size(help_nodes);
   if (pos < 0 || pos > size) {
     freelog(LOG_ERROR, "Bad index %d to get_help_item (size %d)", pos, size);
     return NULL;
@@ -389,7 +404,7 @@ const struct help_item *get_help_item(int pos)
   if (pos == size) {
     return NULL;
   }
-  return help_list_get(&help_nodes, pos);
+  return help_list_get(help_nodes, pos);
 }
 
 /****************************************************************
@@ -453,7 +468,7 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
 void help_iter_start(void)
 {
   check_help_nodes_init();
-  help_nodes_iterator = help_nodes.list.head_link;
+  help_nodes_iterator = help_nodes->list->head_link;
 }
 
 /****************************************************************

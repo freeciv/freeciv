@@ -289,7 +289,7 @@ void update_menus(void)
     punit=get_unit_in_focus();
 
     for(i=0; i<game.nplayers; i++) {
-      if (city_list_size(&game.players[i].cities)) {
+      if (city_list_size(game.players[i].cities)) {
 	any_cities = TRUE;
 	break;
       }

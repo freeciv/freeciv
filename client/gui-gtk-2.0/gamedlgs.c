@@ -526,7 +526,7 @@ void popup_option_dialog(void)
 	  if (strcmp(vals[i], o->p_string_value) == 0) {
 	    continue;
 	  }
-	  items = g_list_append(items, (gpointer) vals[i]);
+	  items = g_list_prepend(items, (gpointer) vals[i]);
 	}
 	items = g_list_prepend(items, (gpointer) o->p_string_value);
 	gtk_combo_set_popdown_strings(GTK_COMBO(o->p_gui_data), items);

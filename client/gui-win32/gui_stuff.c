@@ -324,7 +324,7 @@ HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
     struct genlist *childs;
     childs=get_childlist(win_data->parent);
     if (childs) {
-      genlist_insert(childs, win, -1);
+      genlist_prepend(childs, win, -1);
     }
   }
   return win;
@@ -427,7 +427,7 @@ void fcwin_box_add_generic(struct fcwin_box *box,
   fbi_new->biggest_min.x=0;
   fbi_new->biggest_min.y=0;
   memset(&(fbi_new->realrect),0,sizeof(RECT));
-  genlist_insert(&box->item_list,fbi_new,-1);
+  genlist_prepend(&box->item_list,fbi_new,-1);
 }
 
 /**************************************************************************
@@ -928,7 +928,7 @@ HWND fcwin_box_add_tab(struct fcwin_box *box,
 					 user_data[i]);
     tci.lParam=(LPARAM)wnds[i];
     TabCtrl_InsertItem(td->win,i,&tci);
-    genlist_insert(&td->tabslist,wnds[i],-1);
+    genlist_prepend(&td->tabslist,wnds[i],-1);
   }
   fcwin_box_add_generic(box,tab_minsize,tab_setsize,tab_del,td,
 			expand,fill,padding);

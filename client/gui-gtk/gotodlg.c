@@ -202,7 +202,7 @@ static void update_goto_dialog(GtkWidget *goto_list)
       if (pcity->airlift) {
 	sz_strlcat(name, "(A)");
       }
-      gtk_clist_append( GTK_CLIST( goto_list ), row );
+      gtk_clist_prepend( GTK_CLIST( goto_list ), row );
     }
     city_list_iterate_end;
   }

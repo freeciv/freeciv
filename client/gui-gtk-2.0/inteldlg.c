@@ -81,23 +81,30 @@ struct intel_dialog {
     TYPED_LIST_ITERATE(struct intel_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
-static bool dialog_list_has_been_initialised = FALSE;
-/******************************************************************/
-
-
+static struct dialog_list *dialog_list;
 static struct intel_dialog *create_intel_dialog(struct player *p);
+
+/****************************************************************
+...
+*****************************************************************/
+void intel_dialog_init()
+{
+  dialog_list = dialog_list_new();
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void intel_dialog_done()
+{
+  dialog_list_free(dialog_list);
+}
 
 /****************************************************************
 ...
 *****************************************************************/
 static struct intel_dialog *get_intel_dialog(struct player *pplayer)
 {
-  if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
-    dialog_list_has_been_initialised = TRUE;
-  }
-
   dialog_list_iterate(dialog_list, pdialog) {
     if (pdialog->pplayer == pplayer) {
       return pdialog;
@@ -130,7 +137,7 @@ static void intel_destroy_callback(GtkWidget *w, gpointer data)
 {
   struct intel_dialog *pdialog = (struct intel_dialog *)data;
 
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
 
   free(pdialog);
 }
@@ -267,7 +274,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
 
   gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   return pdialog;
 }

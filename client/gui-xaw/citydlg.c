@@ -140,7 +140,7 @@ struct city_dialog {
     TYPED_LIST_ITERATE(struct city_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list = NULL;
 static bool dialog_list_has_been_initialised = FALSE;
 
 static struct city_dialog *get_city_dialog(struct city *pcity);
@@ -315,7 +315,7 @@ static void get_contents_of_worklist(struct city_dialog *pdialog,
 struct city_dialog *get_city_dialog(struct city *pcity)
 {
   if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_has_been_initialised = TRUE;
   }
 
@@ -361,10 +361,10 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->trade_command,
     		   city_num_trade_routes(pcity)?True:False);
     XtSetSensitive(pdialog->activate_command,
-		   unit_list_size(&pcity->tile->units)
+		   unit_list_size(pcity->tile->units)
 		   ?True:False);
     XtSetSensitive(pdialog->show_units_command,
-                   unit_list_size(&pcity->tile->units)
+                   unit_list_size(pcity->tile->units)
 		   ?True:False);
     XtSetSensitive(pdialog->cma_command, True);
     XtSetSensitive(pdialog->cityopt_command, True);
@@ -439,8 +439,8 @@ void popdown_all_city_dialogs(void)
   if(!dialog_list_has_been_initialised) {
     return;
   }
-  while (dialog_list_size(&dialog_list) > 0) {
-    close_city_dialog(dialog_list_get(&dialog_list, 0));
+  while (dialog_list_size(dialog_list) > 0) {
+    close_city_dialog(dialog_list_get(dialog_list, 0));
   }
   popdown_cityopt_dialog();
   popdown_cma_dialog();
@@ -1054,7 +1054,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   XtAddCallback(pdialog->cma_command, XtNcallback, cma_callback,
                 (XtPointer)pdialog);
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   for(i=0; i<B_LAST+1; i++)
     pdialog->improvlist_names_ptrs[i]=0;
@@ -1099,7 +1099,7 @@ void show_units_callback(Widget w, XtPointer client_data,
   struct city_dialog *pdialog = (struct city_dialog *)client_data;
   struct tile *ptile = pdialog->pcity->tile;
 
-  if( unit_list_size(&ptile->units) )
+  if( unit_list_size(ptile->units) )
     popup_unit_select_dialog(ptile);
 }
 
@@ -1654,24 +1654,20 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   Widget pixcomm;
 
   if(pdialog->pcity->owner != game.player_idx) {
-    plist = &(pdialog->pcity->info_units_supported);
+    plist = pdialog->pcity->info_units_supported;
   } else {
-    plist = &(pdialog->pcity->units_supported);
+    plist = pdialog->pcity->units_supported;
   }
 
-  adj_base=
-    units_scroll_maintenance
-    (
-     plist->list.nelements,
-     pdialog->num_units_shown,
-     &(pdialog->support_unit_base),
-     pdialog->support_unit_next_command,
-     pdialog->support_unit_prev_command
-    );
+  adj_base = units_scroll_maintenance(unit_list_size(plist),
+                                      pdialog->num_units_shown,
+                                      &(pdialog->support_unit_base),
+                                      pdialog->support_unit_next_command,
+                                      pdialog->support_unit_prev_command);
 
   i = 0; /* number of displayed units */
   j = 0; /* index into list */
-  unit_list_iterate(*plist, punit) {
+  unit_list_iterate(plist, punit) {
     struct canvas store;
 
     if (j++ < pdialog->support_unit_base) {
@@ -1718,24 +1714,20 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   Widget pixcomm;
 
   if(pdialog->pcity->owner != game.player_idx) {
-    plist = &(pdialog->pcity->info_units_present);
+    plist = pdialog->pcity->info_units_present;
   } else {
-    plist = &pdialog->pcity->tile->units;
+    plist = pdialog->pcity->tile->units;
   }
 
-  adj_base=
-    units_scroll_maintenance
-    (
-     plist->list.nelements,
-     pdialog->num_units_shown,
-     &(pdialog->present_unit_base),
-     pdialog->present_unit_next_command,
-     pdialog->present_unit_prev_command
-    );
+  adj_base = units_scroll_maintenance(unit_list_size(plist),
+                                      pdialog->num_units_shown,
+                                      &(pdialog->present_unit_base),
+                                      pdialog->present_unit_next_command,
+                                      pdialog->present_unit_prev_command);
 
   i = 0; /* number of displayed units */
   j = 0; /* index into list */
-  unit_list_iterate(*plist, punit) {
+  unit_list_iterate(plist, punit) {
     struct canvas store;
 
     if (j++ < pdialog->present_unit_base) {
@@ -2317,7 +2309,7 @@ void close_city_dialog(struct city_dialog *pdialog)
     XtDestroyWidget(pdialog->worklist_shell);
 
   XtDestroyWidget(pdialog->shell);
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
 
   free(pdialog->citizen_labels);
 
@@ -2327,11 +2319,11 @@ void close_city_dialog(struct city_dialog *pdialog)
   unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
     free(psunit);
   } unit_list_iterate_end;
-  unit_list_unlink_all(&(pdialog->pcity->info_units_supported));
+  unit_list_unlink_all(pdialog->pcity->info_units_supported);
   unit_list_iterate(pdialog->pcity->info_units_present, psunit) {
     free(psunit);
   } unit_list_iterate_end;
-  unit_list_unlink_all(&(pdialog->pcity->info_units_present));
+  unit_list_unlink_all(pdialog->pcity->info_units_present);
 
   if(pdialog->is_modal)
     XtSetSensitive(toplevel, TRUE);

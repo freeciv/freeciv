@@ -97,7 +97,7 @@ void client_remove_unit(struct unit *punit)
   if (pcity) {
     if (can_player_see_units_in_city(game.player_ptr, pcity)) {
       pcity->client.occupied =
-	(unit_list_size(&pcity->tile->units) > 0);
+	(unit_list_size(pcity->tile->units) > 0);
     }
 
     refresh_city_dialog(pcity);
@@ -363,14 +363,14 @@ void center_on_something(void)
   } else if ((pcity = find_palace(game.player_ptr))) {
     /* Else focus on the capital. */
     center_tile_mapcanvas(pcity->tile);
-  } else if (city_list_size(&game.player_ptr->cities) > 0) {
+  } else if (city_list_size(game.player_ptr->cities) > 0) {
     /* Just focus on any city. */
-    pcity = city_list_get(&game.player_ptr->cities, 0);
+    pcity = city_list_get(game.player_ptr->cities, 0);
     assert(pcity != NULL);
     center_tile_mapcanvas(pcity->tile);
-  } else if (unit_list_size(&game.player_ptr->units) > 0) {
+  } else if (unit_list_size(game.player_ptr->units) > 0) {
     /* Just focus on any unit. */
-    punit = unit_list_get(&game.player_ptr->units, 0);
+    punit = unit_list_get(game.player_ptr->units, 0);
     assert(punit != NULL);
     center_tile_mapcanvas(punit->tile);
   } else {
@@ -821,9 +821,9 @@ int num_supported_units_in_city(struct city *pcity)
   struct unit_list *plist;
 
   if (pcity->owner != game.player_idx) {
-    plist = &pcity->info_units_supported;
+    plist = pcity->info_units_supported;
   } else {
-    plist = &pcity->units_supported;
+    plist = pcity->units_supported;
   }
 
   return unit_list_size(plist);
@@ -837,9 +837,9 @@ int num_present_units_in_city(struct city *pcity)
   struct unit_list *plist;
 
   if (pcity->owner != game.player_idx) {
-    plist = &pcity->info_units_present;
+    plist = pcity->info_units_present;
   } else {
-    plist = &pcity->tile->units;
+    plist = pcity->tile->units;
   }
 
   return unit_list_size(plist);

@@ -407,7 +407,7 @@ void science_dialog_update(void)
   /* collect all researched techs in sorting_list */
   for(i=A_FIRST; i<game.num_tech_types; i++) {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN)) {
-      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
+      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   }
 
@@ -466,10 +466,10 @@ void science_dialog_update(void)
 
       if (i==game.player_ptr->research.researching)
 	hist=i;
-      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
+      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   } else {
-    sorting_list = g_list_append(sorting_list,
+    sorting_list = g_list_prepend(sorting_list,
 				 GINT_TO_POINTER(game.num_tech_types + 1 +
 						 game.player_ptr->
 						 future_tech));
@@ -536,7 +536,7 @@ void science_dialog_update(void)
 	    || i == game.player_ptr->ai.tech_goal)) {
       if (i==game.player_ptr->ai.tech_goal)
 	hist=i;
-      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
+      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   }
 

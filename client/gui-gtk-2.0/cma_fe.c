@@ -48,8 +48,7 @@
     TYPED_LIST_ITERATE(struct cma_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
-static bool dialog_list_has_been_initialised = FALSE;
+static struct dialog_list *dialog_list;
 
 static int allow_refreshes = 1;
 
@@ -82,12 +81,17 @@ static void set_hscales(const struct cm_parameter *const parameter,
 /**************************************************************************
 ...
 **************************************************************************/
-static void ensure_initialised_dialog_list(void)
+void cma_fe_init()
 {
-  if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
-    dialog_list_has_been_initialised = TRUE;
-  }
+  dialog_list = dialog_list_new();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void cma_fe_done()
+{
+  dialog_list_free(dialog_list);
 }
 
 /**************************************************************************
@@ -109,7 +113,7 @@ static void cma_dialog_destroy_callback(GtkWidget *w, gpointer data)
 
   g_object_unref(pdialog->tips);
 
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
   free(pdialog);
 }
 
@@ -118,8 +122,6 @@ static void cma_dialog_destroy_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 struct cma_dialog *get_cma_dialog(struct city *pcity)
 {
-  ensure_initialised_dialog_list();
-
   dialog_list_iterate(dialog_list, pdialog) {
     if (pdialog->pcity == pcity) {
       return pdialog;
@@ -328,9 +330,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   gtk_widget_show_all(pdialog->shell);
 
-  ensure_initialised_dialog_list();
-
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   update_cma_preset_list(pdialog);
 

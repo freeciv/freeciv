@@ -732,14 +732,14 @@ static int create_advances_list(struct player *pplayer,
 	  get_invention(pplayer, i)==TECH_REACHABLE)) {
 
 	row[0] = advances[i].name;
-	gtk_clist_append(GTK_CLIST(spy_advances_list), (gchar **)row);
+	gtk_clist_prepend(GTK_CLIST(spy_advances_list), (gchar **)row);
         advance_type[j++] = i;
       }
     }
 
     if(j > 0) {
       row[0] = _("At Spy's Discretion");
-      gtk_clist_append(GTK_CLIST(spy_advances_list), (gchar **)row);
+      gtk_clist_prepend(GTK_CLIST(spy_advances_list), (gchar **)row);
       advance_type[j++] = game.num_tech_types;
     }
   }
@@ -750,7 +750,7 @@ static int create_advances_list(struct player *pplayer,
     
     if (!row) row = intl_slist(1, row_);
   
-    gtk_clist_append(GTK_CLIST(spy_advances_list), row);
+    gtk_clist_prepend(GTK_CLIST(spy_advances_list), row);
     j++;
   }
   gtk_clist_thaw(GTK_CLIST(spy_advances_list));
@@ -820,20 +820,20 @@ static int create_improvements_list(struct player *pplayer,
 
   j = 0;
   row[0] = _("City Production");
-  gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
+  gtk_clist_prepend(GTK_CLIST(spy_improvements_list), row);
   improvement_type[j++] = -1;
 
   built_impr_iterate(pcity, i) {
     if (get_improvement_type(i)->sabotage > 0) {
       row[0] = (char *) get_impr_name_ex(pcity, i);
-      gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
+      gtk_clist_prepend(GTK_CLIST(spy_improvements_list), row);
       improvement_type[j++] = i;
     }  
   } built_impr_iterate_end;
 
   if(j > 1) {
     row[0] = _("At Spy's Discretion");
-    gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
+    gtk_clist_prepend(GTK_CLIST(spy_improvements_list), row);
     improvement_type[j++] = B_LAST;
   } else {
     improvement_type[0] = B_LAST; /* fake "discretion", since must be production */
@@ -1071,7 +1071,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
     diplomat_dialog_open=1;
    }else{ 
-     if((ptunit=unit_list_get(&dest_tile->units, 0))){
+     if ((ptunit = unit_list_get(dest_tile->units, 0))) {
        /* Spy/Diplomat acting against a unit */ 
        
        diplomat_target_id=ptunit->id;
@@ -1530,7 +1530,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   GtkWidget *pix, *hbox, *table;
   GtkWidget *unit_select_all_command, *unit_select_close_command;
   bool can_ready = FALSE;
-  struct unit *unit_list[unit_list_size(&ptile->units)];
+  struct unit *unit_list[unit_list_size(ptile->units)];
 
   if (!unit_select_dialog_shell){
   gtk_widget_set_sensitive(top_vbox, FALSE);
@@ -1543,7 +1543,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   gtk_window_set_title(GTK_WINDOW(unit_select_dialog_shell),
 	_("Unit selection") );
 
-  n = MIN(MAX_SELECT_UNITS, unit_list_size(&ptile->units));
+  n = MIN(MAX_SELECT_UNITS, unit_list_size(ptile->units));
   r = number_of_rows(n);
 
   table=gtk_table_new(r, number_of_columns(n), FALSE);
@@ -1725,7 +1725,7 @@ static void select_random_leader(void)
   /* fill leader names combo box */
   leaders = get_nation_leaders(selected_nation, &leader_num);
   for(j = 0; j < leader_num; j++) {
-    leader_strings = g_list_append(leader_strings, leaders[j].name);
+    leader_strings = g_list_prepend(leader_strings, leaders[j].name);
   }
   gtk_combo_set_value_in_list(GTK_COMBO(leader_name), FALSE, FALSE);
   gtk_combo_set_popdown_strings(GTK_COMBO(leader_name), leader_strings);
@@ -1837,11 +1837,11 @@ void create_races_dialog(void)
 
     /* Add the nation to the class list. */
     sorted_races_list[class_id] =
-      g_list_append(sorted_races_list[class_id], GINT_TO_POINTER(i));
+      g_list_prepend(sorted_races_list[class_id], GINT_TO_POINTER(i));
 
     /* Add the nation to the "All" class. */
     sorted_races_list[0] =
-	g_list_append(sorted_races_list[0], GINT_TO_POINTER(i));
+	g_list_prepend(sorted_races_list[0], GINT_TO_POINTER(i));
   }
 
   /* ------- create class notebook and add pages ------- */
@@ -1865,7 +1865,7 @@ void create_races_dialog(void)
 
     for (i = 0; i < nations_in_class; i++) {
       race_names =
-	  g_list_append(race_names,
+	  g_list_prepend(race_names,
 		(gchar *)get_nation_by_idx(GPOINTER_TO_INT(g_list_nth_data
 			(sorted_races_list[class_id], i)))->name);
     }

@@ -884,7 +884,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     g_signal_connect(shl, "delete_event",
 		     G_CALLBACK(diplomat_cancel_callback), NULL);
   } else { 
-    if ((ptunit = unit_list_get(&dest_tile->units, 0))){
+    if ((ptunit = unit_list_get(dest_tile->units, 0))){
       /* Spy/Diplomat acting against a unit */ 
        
       diplomat_target_id = ptunit->id;
@@ -1885,7 +1885,7 @@ static void select_random_leader(void)
 
   leaders = get_nation_leaders(selected_nation, &nleaders);
   for (i = 0; i < nleaders; i++) {
-    items = g_list_append(items, leaders[i].name);
+    items = g_list_prepend(items, leaders[i].name);
   }
 
   /* Populate combo box with minimum signal noise. */

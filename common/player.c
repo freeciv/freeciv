@@ -83,7 +83,9 @@ bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 }
 
 /***************************************************************
-In the server you must use server_player_init
+  In the server you must use server_player_init.  Note that
+  this function is matched by game_remove_player() in game.c,
+  there is no corresponding player_free() in this file.
 ***************************************************************/
 void player_init(struct player *plr)
 {
@@ -99,9 +101,9 @@ void player_init(struct player *plr)
   plr->team = TEAM_NONE;
   plr->revolution_finishes = -1;
   plr->capital = FALSE;
-  unit_list_init(&plr->units);
-  city_list_init(&plr->cities);
-  conn_list_init(&plr->connections);
+  plr->units = unit_list_new();
+  plr->cities = city_list_new();
+  plr->connections = conn_list_new();
   plr->current_conn = NULL;
   plr->is_connected = FALSE;
   plr->is_observer = FALSE;

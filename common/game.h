@@ -101,9 +101,9 @@ struct civ_game {
   int player_idx;
   struct player *player_ptr;
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-  struct conn_list all_connections;        /* including not yet established */
-  struct conn_list est_connections;        /* all established client conns */
-  struct conn_list game_connections;       /* involved in game; send map etc */
+  struct conn_list *all_connections;        /* including not yet established */
+  struct conn_list *est_connections;        /* all established client conns */
+  struct conn_list *game_connections;       /* involved in game; send map etc */
   int global_advances[A_LAST];             /* a counter */
   int great_wonders[B_LAST];              /* contains city id's */
          /* great_wonders[] may also be (-1), or the id of a city

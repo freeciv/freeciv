@@ -163,17 +163,17 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
     struct unit *punit;
 
     if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION) 
-        && unit_list_size(&ptile->units) == 1
+        && unit_list_size(ptile->units) == 1
         && unit_flag(pdiplomat, F_SPY)) {
-      punit = unit_list_get(&ptile->units, 0);
+      punit = unit_list_get(ptile->units, 0);
       if (pplayers_at_war(unit_owner(pdiplomat), unit_owner(punit))) {
         return TRUE;
       }
     }
 
     if ((action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION)
-        && unit_list_size(&ptile->units) == 1) {
-      punit = unit_list_get(&ptile->units, 0);
+        && unit_list_size(ptile->units) == 1) {
+      punit = unit_list_get(ptile->units, 0);
       if (!pplayers_allied(unit_owner(punit), unit_owner(pdiplomat))) {
         return TRUE;
       }
@@ -1161,7 +1161,7 @@ const char *unit_activity_text(const struct unit *punit)
 **************************************************************************/
 struct unit *unit_list_find(const struct unit_list *This, int id)
 {
-  unit_list_iterate(*This, punit) {
+  unit_list_iterate(This, punit) {
     if (punit->id == id) {
       return punit;
     }
@@ -1203,7 +1203,7 @@ static int compar_unit_ord_city(const void *a, const void *b)
 void unit_list_sort_ord_map(struct unit_list *This)
 {
   if (unit_list_size(This) > 1) {
-    genlist_sort(&This->list, compar_unit_ord_map);
+    unit_list_sort(This, compar_unit_ord_map);
   }
 }
 
@@ -1213,7 +1213,7 @@ void unit_list_sort_ord_map(struct unit_list *This)
 void unit_list_sort_ord_city(struct unit_list *This)
 {
   if (unit_list_size(This) > 1) {
-    genlist_sort(&This->list, compar_unit_ord_city);
+    unit_list_sort(This, compar_unit_ord_city);
   }
 }
 

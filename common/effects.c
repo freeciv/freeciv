@@ -244,7 +244,7 @@ struct effect_group_element {
 struct effect_group {
   char *name;
   int id;
-  struct effect_group_element_list elements;
+  struct effect_group_element_list *elements;
 };
 
 #define SPECLIST_TAG effect_group
@@ -266,7 +266,7 @@ static struct {
 
     /* This array provides a full list of the effects of this type provided
      * by each building.  (It's not really a cache, it's the real data.) */
-    struct effect_list buckets[B_LAST];
+    struct effect_list *buckets[B_LAST];
   } effects[EFT_LAST];
 
   /* This cache shows for each building, which effect types it provides. */
@@ -275,7 +275,7 @@ static struct {
   } buildings[B_LAST];
 } ruleset_cache;
 
-static struct effect_group_list groups;
+static struct effect_group_list *groups;
 static int next_group_id;
 
 
@@ -293,7 +293,7 @@ static struct building_vector *get_buildings_with_effect(enum effect_type e)
 struct effect_list *get_building_effects(Impr_Type_id building,
 					 enum effect_type effect_type)
 {
-  return &ruleset_cache.effects[effect_type].buckets[building];
+  return ruleset_cache.effects[effect_type].buckets[building];
 }
 
 /**************************************************************************
@@ -315,10 +315,10 @@ struct effect_group *effect_group_new(const char *name)
   group = fc_malloc(sizeof(*group));
   group->name = mystrdup(name);
   group->id = next_group_id++;
-  effect_group_element_list_init(&group->elements);
+  group->elements = effect_group_element_list_new();
 
   /* Add this group to the global list of groups. */
-  effect_group_list_insert_back(&groups, group);
+  effect_group_list_append(groups, group);
 
   return group;
 }
@@ -339,7 +339,7 @@ void effect_group_add_element(struct effect_group *group,
   elt->survives = survives;
 
   /* Append it to the group. */
-  effect_group_element_list_insert_back(&group->elements, elt);
+  effect_group_element_list_append(group->elements, elt);
 }
 
 /**************************************************************************
@@ -369,7 +369,7 @@ void ruleset_cache_init(void)
 {
   int i, j;
 
-  effect_group_list_init(&groups);
+  groups = effect_group_list_new();
   next_group_id = 0;
 
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.buildings); i++) {
@@ -380,7 +380,7 @@ void ruleset_cache_init(void)
     building_vector_init(get_buildings_with_effect(i));
 
     for (j = 0; j < ARRAY_SIZE(ruleset_cache.effects[i].buckets); j++) {
-      effect_list_init(get_building_effects(j, i));
+      ruleset_cache.effects[i].buckets[j] = effect_list_new();
     }
   }
 }
@@ -401,12 +401,21 @@ void ruleset_cache_free(void)
     building_vector_free(get_buildings_with_effect(i));
 
     for (j = 0; j < ARRAY_SIZE(ruleset_cache.effects[i].buckets); j++) {
-      effect_list_iterate(*get_building_effects(j, i), peffect) {
-	/* Allocated in ruleset_cache_add. */
-	free(peffect);
-      } effect_list_iterate_end;
-      effect_list_unlink_all(get_building_effects(j, i));
+      struct effect_list *plist = get_building_effects(j, i);
+
+      if (plist != NULL) {
+        effect_list_iterate(plist, peffect) {
+          /* Allocated in ruleset_cache_add. */
+          free(peffect);
+        } effect_list_iterate_end;
+        effect_list_unlink_all(plist);
+        effect_list_free(plist);
+      }
     }
+  }
+  if (groups != NULL) {
+    effect_group_list_unlink_all(groups);
+    effect_group_list_free(groups);
   }
 }
 
@@ -431,13 +440,13 @@ void ruleset_cache_add(Impr_Type_id source, enum effect_type effect_type,
 
   /* Find the effect's group. */
   if (group_id >= 0) {
-    peffect->group = effect_group_list_get(&groups, group_id);
+    peffect->group = effect_group_list_get(groups, group_id);
   } else {
     peffect->group = NULL;
   }
 
   /* Now add the effect to the ruleset cache. */
-  effect_list_insert_back(get_building_effects(source, effect_type),
+  effect_list_append(get_building_effects(source, effect_type),
 			  peffect);
 
   /* Add building type to the effect type's buildings vector. */
@@ -491,11 +500,11 @@ static void send_ruleset_cache_groups(struct conn_list *dest)
   effect_group_list_iterate(groups, pgroup) {
     sz_strlcpy(packet.name, pgroup->name);
 
-    packet.num_elements = effect_group_element_list_size(&pgroup->elements);
+    packet.num_elements = effect_group_element_list_size(pgroup->elements);
     for (i = 0; i < packet.num_elements; i++) {
       struct effect_group_element *elt;
 
-      elt = effect_group_element_list_get(&pgroup->elements, i);
+      elt = effect_group_element_list_get(pgroup->elements, i);
       packet.source_buildings[i] = elt->source_building;
       packet.ranges[i] = elt->range;
       packet.survives[i] = elt->survives;
@@ -523,7 +532,7 @@ static void send_ruleset_cache_effects(struct conn_list *dest)
 
       packet.id = *building;
 
-      effect_list_iterate(*get_building_effects(*building, effect_type),
+      effect_list_iterate(get_building_effects(*building, effect_type),
 			  peffect) {
 	packet.range = peffect->range;
 	packet.survives = peffect->survives;
@@ -723,7 +732,7 @@ bool is_building_replaced(const struct city *pcity, Impr_Type_id building)
 
   /* A building that has no effects is never redundant. */
   effect_type_vector_iterate(get_building_effect_types(building), ptype) {
-    effect_list_iterate(*get_building_effects(building, *ptype), peffect) {
+    effect_list_iterate(get_building_effects(building, *ptype), peffect) {
       /* We use TARGET_BUILDING as the lowest common denominator.  Note that
        * the building is its own target - but whether this is actually
        * checked depends on the range of the effect. */
@@ -760,7 +769,7 @@ static int get_effect_value(enum target_type target,
   int value = 0;
 
   /* Loop over all effects of this type provided by the given source. */
-  effect_list_iterate(*get_building_effects(source, effect_type), peffect) {
+  effect_list_iterate(get_building_effects(source, effect_type), peffect) {
     /* For each effect, see if it is active. */
     if (is_effect_active(target, target_player, target_city,
 			 target_building, target_tile,
@@ -908,7 +917,7 @@ int get_current_construction_bonus(const struct city *pcity,
     Impr_Type_id bldg = pcity->currently_building;
     int power = 0;
 
-    effect_list_iterate(*get_building_effects(bldg, effect_type), peffect) {
+    effect_list_iterate(get_building_effects(bldg, effect_type), peffect) {
       if (is_effect_useful(TARGET_BUILDING, city_owner(pcity),
 			   pcity, bldg, NULL, bldg, peffect)) {
 	power += peffect->value;

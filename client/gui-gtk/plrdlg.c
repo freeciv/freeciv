@@ -82,7 +82,7 @@ static void players_sship_callback(GtkWidget *w, gpointer data);
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_players_dialog(void)
+void popup_players_dialog(bool raise)
 {
   if(!players_dialog_shell){
     create_players_dialog();
@@ -437,7 +437,7 @@ void update_players_dialog(void)
 	 */
 	row = GTK_CLIST(players_list)->rows;
 	build_row(row_texts, i, 0);
-	gtk_clist_append(GTK_CLIST(players_list), (gchar **)row_texts);
+	gtk_clist_prepend(GTK_CLIST(players_list), (gchar **)row_texts);
 	gtk_clist_set_row_data(GTK_CLIST(players_list), row,
 			       &(listindex_to_playerindex[row]));
 

@@ -389,13 +389,13 @@ void connection_do_unbuffer(struct connection *pc)
 **************************************************************************/
 void conn_list_do_buffer(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn)
+  conn_list_iterate(dest, pconn)
     connection_do_buffer(pconn);
   conn_list_iterate_end;
 }
 void conn_list_do_unbuffer(struct conn_list *dest)
 {
-  conn_list_iterate(*dest, pconn)
+  conn_list_iterate(dest, pconn)
     connection_do_unbuffer(pconn);
   conn_list_iterate_end;
 }
@@ -422,7 +422,7 @@ struct connection *find_conn_by_user(const char *user_name)
   match/non-match (see shared.[ch])
 ***************************************************************/
 static const char *connection_accessor(int i) {
-  return conn_list_get(&game.all_connections, i)->username;
+  return conn_list_get(game.all_connections, i)->username;
 }
 
 struct connection *find_conn_by_user_prefix(const char *user_name,
@@ -431,11 +431,11 @@ struct connection *find_conn_by_user_prefix(const char *user_name,
   int ind;
 
   *result = match_prefix(connection_accessor,
-			 conn_list_size(&game.all_connections),
+			 conn_list_size(game.all_connections),
 			 MAX_LEN_NAME-1, mystrncasecmp, user_name, &ind);
   
   if (*result < M_PRE_AMBIGUOUS) {
-    return conn_list_get(&game.all_connections, ind);
+    return conn_list_get(game.all_connections, ind);
   } else {
     return NULL;
   }

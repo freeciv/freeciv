@@ -294,9 +294,9 @@ int main(int argc, char *argv[])
 
   /* initialization */
 
-  conn_list_init(&game.all_connections);
-  conn_list_init(&game.est_connections);
-  conn_list_init(&game.game_connections);
+  game.all_connections = conn_list_new();
+  game.est_connections = conn_list_new();
+  game.game_connections = conn_list_new();
 
   ui_init();
   charsets_init();
@@ -323,12 +323,14 @@ int main(int argc, char *argv[])
     sz_strlcpy(metaserver, default_metaserver); 
   if (server_port == -1) server_port = default_server_port;
 
-
   /* This seed is not saved anywhere; randoms in the client should
      have cosmetic effects only (eg city name suggestions).  --dwp */
   mysrand(time(NULL));
-
+  control_init();
+  helpdata_init();
+  tilespec_init();
   boot_help_texts();
+
   if (!tilespec_read_toplevel(tileset_name)) {
     /* get tile sizes etc */
     exit(EXIT_FAILURE);
@@ -356,11 +358,18 @@ void ui_exit(void)
   client_remove_all_cli_conn();
   my_shutdown_network();
 
-  client_game_free();
   if (save_options_on_exit) {
     save_options();
   }
+  tilespec_done();
+  control_done();
+  chatline_common_done();
+  client_game_free();
 
+  helpdata_done(); /* ui_exit() unlinks help text list */
+  conn_list_free(game.all_connections);
+  conn_list_free(game.est_connections);
+  conn_list_free(game.game_connections);
   exit(EXIT_SUCCESS);
 }
 
@@ -557,11 +566,11 @@ enum client_states get_client_state(void)
 void client_remove_cli_conn(struct connection *pconn)
 {
   if (pconn->player) {
-    conn_list_unlink(&pconn->player->connections, pconn);
+    conn_list_unlink(pconn->player->connections, pconn);
   }
-  conn_list_unlink(&game.all_connections, pconn);
-  conn_list_unlink(&game.est_connections, pconn);
-  conn_list_unlink(&game.game_connections, pconn);
+  conn_list_unlink(game.all_connections, pconn);
+  conn_list_unlink(game.est_connections, pconn);
+  conn_list_unlink(game.game_connections, pconn);
   assert(pconn != &aconnection);
   free(pconn);
 }
@@ -572,8 +581,8 @@ void client_remove_cli_conn(struct connection *pconn)
 **************************************************************************/
 void client_remove_all_cli_conn(void)
 {
-  while (conn_list_size(&game.all_connections) > 0) {
-    struct connection *pconn = conn_list_get(&game.all_connections, 0);
+  while (conn_list_size(game.all_connections) > 0) {
+    struct connection *pconn = conn_list_get(game.all_connections, 0);
     client_remove_cli_conn(pconn);
   }
 }

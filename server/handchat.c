@@ -199,7 +199,7 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
       if (!pplayers_allied(pconn->player, aplayer)) {
         continue;
       }
-      dlsend_packet_chat_msg(&aplayer->connections, chat, -1, -1,
+      dlsend_packet_chat_msg(aplayer->connections, chat, -1, -1,
 			     E_NOEVENT, pconn->id);
     } players_iterate_end;
     return;
@@ -263,9 +263,9 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
         return;
       }
       if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
-	int nconn = conn_list_size(&pdest->connections);
+	int nconn = conn_list_size(pdest->connections);
 	if (nconn==1) {
-	  chat_msg_to_conn(pconn, conn_list_get(&pdest->connections, 0), cp+1);
+	  chat_msg_to_conn(pconn, conn_list_get(pdest->connections, 0), cp+1);
 	  return;
 	} else if (nconn>1) {
 	  chat_msg_to_player_multi(pconn, pdest, cp+1);
@@ -311,6 +311,6 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
   form_chat_name(pconn, sender_name, sizeof(sender_name));
   my_snprintf(chat, sizeof(chat),
 	      "<%s> %s", sender_name, message);
-  dlsend_packet_chat_msg(&game.est_connections, chat,
+  dlsend_packet_chat_msg(game.est_connections, chat,
 			 -1, -1, E_NOEVENT, pconn->id);
 }

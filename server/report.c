@@ -202,7 +202,7 @@ static void historian_generic(enum historian_type which_news)
   }
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
     _(historian_name[myrand(ARRAY_SIZE(historian_name))]));
-  page_conn_etype(&game.game_connections, _("Historian Publishes!"),
+  page_conn_etype(game.game_connections, _("Historian Publishes!"),
 		  title, buffer, E_BROADCAST_REPORT);
 }
 
@@ -722,7 +722,7 @@ void report_demographics(struct connection *pconn)
   }
 
   if (!pplayer || !pplayer->is_alive || !anyrows || selcols == 0) {
-    page_conn(&pconn->self, _("Demographics Report:"),
+    page_conn(pconn->self, _("Demographics Report:"),
 	      _("Sorry, the Demographics report is unavailable."), "");
     return;
   }
@@ -740,7 +740,7 @@ void report_demographics(struct connection *pconn)
     }
   }
 
-  page_conn(&pconn->self, _("Demographics Report:"), civbuf, buffer);
+  page_conn(pconn->self, _("Demographics Report:"), civbuf, buffer);
 }
 
 /**************************************************************************
@@ -1092,7 +1092,7 @@ void report_progress_scores(void)
 		 get_nation_name_plural(size[i].player->nation),
 		 size[i].value);
   }
-  page_conn(&game.game_connections,
+  page_conn(game.game_connections,
 	    _("Progress Scores:"),
 	    _("The Greatest Civilizations in the world."), buffer);
 }
@@ -1134,7 +1134,7 @@ void report_final_scores(void)
     packet.spaceship[i] = get_spaceship(size[i].player); 
   }  
 
-  lsend_packet_endgame_report(&game.game_connections, &packet);
+  lsend_packet_endgame_report(game.game_connections, &packet);
 }	
 
 /**************************************************************************

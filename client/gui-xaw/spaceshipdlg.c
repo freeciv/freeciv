@@ -78,7 +78,7 @@ struct spaceship_dialog {
     TYPED_LIST_ITERATE(struct spaceship_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list = NULL;
 static bool dialog_list_has_been_initialised = FALSE;
 
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
@@ -97,7 +97,7 @@ void spaceship_launch_callback(Widget w, XtPointer client_data, XtPointer call_d
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
 {
   if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_has_been_initialised = TRUE;
   }
 
@@ -236,7 +236,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   XtAddCallback(pdialog->close_command, XtNcallback, spaceship_close_callback,
 		(XtPointer)pdialog);
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   XtRealizeWidget(pdialog->shell);
 
@@ -344,7 +344,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 void close_spaceship_dialog(struct spaceship_dialog *pdialog)
 {
   XtDestroyWidget(pdialog->shell);
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
 
   free(pdialog);
 }

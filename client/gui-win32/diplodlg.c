@@ -589,7 +589,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
   struct Diplomacy_dialog *pdialog;
 
   pdialog=fc_malloc(sizeof(struct Diplomacy_dialog));  
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(&dialog_list, pdialog);
   pdialog->menu_shown=NULL;
   init_treaty(&pdialog->treaty, plr0, plr1);
 

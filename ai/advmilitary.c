@@ -717,7 +717,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
          * big danger. */
         int tech_cost = total_bulbs_required_for_goal(pplayer,
                           unit_types[unit_type].tech_requirement) / 4
-                        / city_list_size(&pplayer->cities);
+                        / city_list_size(pplayer->cities);
         
         /* Contrary to the above, we don't care if walls are actually built 
          * - we're looking into the future now. */
@@ -805,7 +805,7 @@ static void process_attacker_want(struct city *pcity,
   if (!is_stack_vulnerable(ptile)) {
     /* If it is a city, a fortress or an air base,
      * we may have to whack it many times */
-    victim_count += unit_list_size(&(ptile->units));
+    victim_count += unit_list_size(ptile->units);
   }
 
   simple_ai_unit_type_iterate (unit_type) {
@@ -835,7 +835,7 @@ static void process_attacker_want(struct city *pcity,
        * danger. */
       int tech_cost = total_bulbs_required_for_goal(pplayer,
                         unit_types[unit_type].tech_requirement) / 4
-                      / city_list_size(&pplayer->cities);
+                      / city_list_size(pplayer->cities);
       int move_rate = unit_types[unit_type].move_rate;
       int move_time;
       int bcost_balanced = build_cost_balanced(unit_type);
@@ -1256,7 +1256,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   /* Otherwise no need to defend yet */
   if (pcity->ai.danger != 0) { 
-    int num_defenders = unit_list_size(&ptile->units);
+    int num_defenders = unit_list_size(ptile->units);
     int land_id, sea_id, air_id;
 
     /* First determine the danger.  It is measured in percents of our 

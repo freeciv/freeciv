@@ -475,9 +475,9 @@ void gamelog(int level, ...)
       my_snprintf(buf, sizeof(buf), "<n>%d</n><cities>%d</cities>"
                   "<pop>%d</pop><food>%d</food><prod>%d</prod>"
                   "<trade>%d</trade><settlers>%d</settlers><units>%d</units>",
-                  pplayer->player_no, city_list_size(&pplayer->cities),
+                  pplayer->player_no, city_list_size(pplayer->cities),
                   total_player_citizens(pplayer), food, shields, trade, 
-                  settlers, unit_list_size(&pplayer->units));
+                  settlers, unit_list_size(pplayer->units));
     }
     gamelog_put_prefix(buf, sizeof(buf), "info");
     break;

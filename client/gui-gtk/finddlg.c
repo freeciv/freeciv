@@ -141,7 +141,7 @@ static void update_find_dialog(GtkWidget *find_list)
   for(i=0; i<game.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) 
 	row[0] = pcity->name;
-	gtk_clist_append(GTK_CLIST(find_list), row);
+	gtk_clist_prepend(GTK_CLIST(find_list), row);
     city_list_iterate_end;
 
   }

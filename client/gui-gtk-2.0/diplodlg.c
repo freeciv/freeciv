@@ -65,8 +65,7 @@ struct Diplomacy_dialog {
     TYPED_LIST_ITERATE(struct Diplomacy_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
-static bool dialog_list_list_has_been_initialised = FALSE;
+static struct dialog_list *dialog_list;
 
 static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 						 struct player *plr1);
@@ -272,7 +271,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 			      - Kris Bubendorfer
   *****************************************************************/
   {
-    int i = 0, j = 0, n = city_list_size(&plr0->cities);
+    int i = 0, j = 0, n = city_list_size(plr0->cities);
     struct city **city_list_ptrs;
 
     if (n > 0) {
@@ -410,7 +409,7 @@ static void diplomacy_destroy(GtkWidget *w, gpointer data)
 {
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *)data;
 
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
   free(pdialog);
 }
 
@@ -456,7 +455,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   pdialog = fc_malloc(sizeof(*pdialog));
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
   init_treaty(&pdialog->treaty, plr0, plr1);
 
   shell = gtk_dialog_new_with_buttons(_("Diplomacy meeting"),
@@ -820,14 +819,25 @@ void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 /*****************************************************************
 ...
 *****************************************************************/
+void diplomacy_dialog_init()
+{
+  dialog_list = dialog_list_new();
+}
+
+/*****************************************************************
+...
+*****************************************************************/
+void diplomacy_dialog_done()
+{
+  dialog_list_free(dialog_list);
+}
+
+/*****************************************************************
+...
+*****************************************************************/
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id)
 {
   struct player *plr0 = game.player_ptr, *plr1 = get_player(other_player_id);
-
-  if(!dialog_list_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
-    dialog_list_list_has_been_initialised = TRUE;
-  }
 
   dialog_list_iterate(dialog_list, pdialog) {
     if ((pdialog->treaty.plr0 == plr0 && pdialog->treaty.plr1 == plr1) ||
@@ -865,11 +875,7 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
 *****************************************************************/
 void close_all_diplomacy_dialogs(void)
 {
-  if (!dialog_list_list_has_been_initialised) {
-    return;
-  }
-
-  while (dialog_list_size(&dialog_list) > 0) {
-    close_diplomacy_dialog(dialog_list_get(&dialog_list, 0));
+  while (dialog_list_size(dialog_list) > 0) {
+    close_diplomacy_dialog(dialog_list_get(dialog_list, 0));
   }
 }

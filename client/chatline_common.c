@@ -39,14 +39,22 @@ struct remaining {
   TYPED_LIST_ITERATE(struct remaining, rlist, pline)
 #define remaining_list_iterate_end LIST_ITERATE_END
 
-static struct remaining_list remains;
+static struct remaining_list *remains;
 
 /**************************************************************************
   Initialize data structures.
 **************************************************************************/
 void chatline_common_init(void)
 {
-  remaining_list_init(&remains);
+  remains = remaining_list_new();
+}
+
+/**************************************************************************
+  Clean up.
+**************************************************************************/
+void chatline_common_done(void)
+{
+  remaining_list_free(remains);
 }
 
 /**************************************************************************
@@ -67,7 +75,7 @@ void output_window_freeze()
   frozen_level++;
 
   if (frozen_level == 1) {
-    assert(remaining_list_size(&remains) == 0);
+    assert(remaining_list_size(remains) == 0);
   }
 }
 
@@ -87,7 +95,7 @@ void output_window_thaw()
       free(pline->text);
       free(pline);
     } remaining_list_iterate_end;
-    remaining_list_unlink_all(&remains);
+    remaining_list_unlink_all(remains);
   }
 }
 
@@ -121,7 +129,7 @@ void append_output_window_full(const char *astring, int conn_id)
   } else {
     struct remaining *premain = fc_malloc(sizeof(*premain));
 
-    remaining_list_insert_back(&remains, premain);
+    remaining_list_append(remains, premain);
     premain->text = mystrdup(astring);
     premain->conn_id = conn_id;
   }

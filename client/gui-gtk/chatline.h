@@ -19,7 +19,7 @@
 
 #define	MAX_CHATLINE_HISTORY 20
 
-extern struct genlist history_list;
+extern struct genlist *history_list;
 extern int history_pos;
 
 void inputline_return(GtkWidget *w, gpointer data);

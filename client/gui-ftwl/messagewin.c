@@ -20,7 +20,7 @@
 /**************************************************************************
   Popup (or raise) the message dialog; typically triggered by F10.
 **************************************************************************/
-void popup_meswin_dialog(void)
+void popup_meswin_dialog(bool raise)
 {
   /* PORTME */
 }

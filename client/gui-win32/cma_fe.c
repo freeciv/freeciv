@@ -495,7 +495,7 @@ static struct cma_dialog * create_cma_gui(HWND win)
   fcwin_set_box(win, vbox);
   ensure_initialised_dialog_list();
   
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(&dialog_list, pdialog);
   
   
   return pdialog;

@@ -43,7 +43,7 @@ struct Clause {
 struct Treaty {
   struct player *plr0, *plr1;
   bool accept0, accept1;
-  struct clause_list clauses;
+  struct clause_list *clauses;
 };
 
 bool diplomacy_possible(const struct player *pplayer,

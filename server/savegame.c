@@ -1365,7 +1365,7 @@ static void load_player_units(struct player *plr, int plrno,
   enum unit_activity activity;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
 
-  unit_list_init(&plr->units);
+  plr->units = unit_list_new();
   nunits = secfile_lookup_int(file, "player%d.nunits", plrno);
   if (!plr->is_alive && nunits > 0) {
     nunits = 0; /* Some old savegames may be buggy. */
@@ -1418,7 +1418,7 @@ static void load_player_units(struct player *plr, int plrno,
 					 plrno, i);
 
     if ((pcity = find_city_by_id(punit->homecity))) {
-      unit_list_insert(&pcity->units_supported, punit);
+      unit_list_prepend(pcity->units_supported, punit);
     }
     
     punit->moves_left
@@ -1569,9 +1569,9 @@ static void load_player_units(struct player *plr, int plrno,
 		 unit_type(punit)->vision_range);
     }
 
-    unit_list_insert_back(&plr->units, punit);
+    unit_list_append(plr->units, punit);
 
-    unit_list_insert(&punit->tile->units, punit);
+    unit_list_prepend(punit->tile->units, punit);
   }
 }
 
@@ -1925,7 +1925,7 @@ static void player_load(struct player *plr, int plrno,
     }
   }
 
-  city_list_init(&plr->cities);
+  plr->cities = city_list_new();
   ncities=secfile_lookup_int(file, "player%d.ncities", plrno);
   if (!plr->is_alive && ncities > 0) {
     ncities = 0; /* Some old savegames may be buggy. */
@@ -2077,7 +2077,7 @@ static void player_load(struct player *plr, int plrno,
     /* adding the cities contribution to fog-of-war */
     map_unfog_pseudo_city_area(&game.players[plrno], pcity->tile);
 
-    unit_list_init(&pcity->units_supported);
+    pcity->units_supported = unit_list_new();
 
     /* Initialize pcity->city_map[][], using set_worker_city() so that
        ptile->worked gets initialized correctly.  The pre-initialisation
@@ -2167,7 +2167,7 @@ static void player_load(struct player *plr, int plrno,
 
     map_set_city(pcity->tile, pcity);
 
-    city_list_insert_back(&plr->cities, pcity);
+    city_list_append(plr->cities, pcity);
   }
 
   load_player_units(plr, plrno, file);
@@ -2577,9 +2577,9 @@ static void player_save(struct player *plr, int plrno,
     }
   }
 
-  secfile_insert_int(file, unit_list_size(&plr->units), "player%d.nunits", 
+  secfile_insert_int(file, unit_list_size(plr->units), "player%d.nunits", 
 		     plrno);
-  secfile_insert_int(file, city_list_size(&plr->cities), "player%d.ncities", 
+  secfile_insert_int(file, city_list_size(plr->cities), "player%d.ncities", 
 		     plrno);
 
   i = -1;
@@ -2980,13 +2980,13 @@ static void apply_unit_ordering(void)
 {
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      unit_list_sort_ord_city(&pcity->units_supported);
+      unit_list_sort_ord_city(pcity->units_supported);
     }
     city_list_iterate_end;
   } players_iterate_end;
 
   whole_map_iterate(ptile) {
-    unit_list_sort_ord_map(&ptile->units);
+    unit_list_sort_ord_map(ptile->units);
   } whole_map_iterate_end;
 }
 

@@ -240,7 +240,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   fcwin_box_add_box(vbox,hbox,TRUE,TRUE,5);
   fcwin_set_box(pdialog->mainwin,vbox);
   
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(&dialog_list, pdialog);
   refresh_spaceship_dialog(pdialog->pplayer);
 
   return pdialog;

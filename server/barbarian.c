@@ -304,7 +304,7 @@ static bool is_near_land(struct tile *tile0)
 static struct tile *find_empty_tile_nearby(struct tile *ptile)
 {
   square_iterate(ptile, 1, tile1) {
-    if (unit_list_size(&(tile1)->units) == 0) {
+    if (unit_list_size(tile1->units) == 0) {
       return tile1;
     }
   } square_iterate_end;
@@ -374,7 +374,7 @@ static void try_summon_barbarians(void)
 
   /* do not harass small civs - in practice: do not uprise at the beginning */
   if ((int)myrand(UPRISE_CIV_MORE) >
-           (int)city_list_size(&victim->cities) -
+           (int)city_list_size(victim->cities) -
                 UPRISE_CIV_SIZE/(game.barbarianrate-1)
       || myrand(100) > get_gov_pcity(pc)->civil_war) {
     return;
@@ -390,7 +390,7 @@ static void try_summon_barbarians(void)
   if (!is_ocean(map_get_terrain(utile))) {
     /* land (disembark) barbarians */
     barbarians = create_barbarian_player(TRUE);
-    if (city_list_size(&victim->cities) > UPRISE_CIV_MOST) {
+    if (city_list_size(victim->cities) > UPRISE_CIV_MOST) {
       uprise = 3;
     }
     for (i = 0; i < myrand(3) + uprise * game.barbarianrate; i++) {
@@ -406,7 +406,7 @@ static void try_summon_barbarians(void)
     barbarians = create_barbarian_player(FALSE);
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
     ptrans = create_unit(barbarians, utile, boat, 0, 0, -1);
-    cap = get_transporter_capacity(unit_list_get(&utile->units, 0));
+    cap = get_transporter_capacity(unit_list_get(utile->units, 0));
     for (i = 0; i < cap-1; i++) {
       unit = find_a_unit_type(L_BARBARIAN_SEA,L_BARBARIAN_SEA_TECH);
       (void) create_unit_full(barbarians, utile, unit, 0, 0, -1, -1,

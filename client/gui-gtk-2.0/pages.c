@@ -260,7 +260,7 @@ static void update_server_list(GtkTreeSelection *selection,
     return;
   }
 
-  server_list_iterate(*list, pserver) {
+  server_list_iterate(list, pserver) {
     GtkTreeIter it;
     gchar *row[6];
 
@@ -1101,7 +1101,7 @@ static void load_browse_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void update_saves_store(GtkListStore *store)
 {
-  struct datafile_list files;
+  struct datafile_list *files;
 
   gtk_list_store_clear(store);
 
@@ -1119,7 +1119,8 @@ static void update_saves_store(GtkListStore *store)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(&files);
+  datafile_list_unlink_all(files);
+  datafile_list_free(files);
 
   files = datafilelist_infix(NULL, ".sav", FALSE);
   datafile_list_iterate(files, pfile) {
@@ -1134,7 +1135,8 @@ static void update_saves_store(GtkListStore *store)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(&files);
+  datafile_list_unlink_all(files);
+  datafile_list_free(files);
 }
 
 /**************************************************************************
@@ -1258,7 +1260,7 @@ static void scenario_browse_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void update_scenario_page(void)
 {
-  struct datafile_list files;
+  struct datafile_list *files;
 
   gtk_list_store_clear(scenario_store);
 
@@ -1276,7 +1278,8 @@ static void update_scenario_page(void)
     free(pfile);
   } datafile_list_iterate_end;
 
-  datafile_list_unlink_all(&files);
+  datafile_list_unlink_all(files);
+  datafile_list_free(files);
 }
 
 /**************************************************************************

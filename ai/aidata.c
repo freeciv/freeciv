@@ -92,7 +92,7 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_TRADE_INC_TILE:
       case EFT_TRADE_PER_TILE:
       case EFT_UPKEEP_FREE:
-      effect_list_iterate(*get_building_effects(id, *ptype), peff) {
+      effect_list_iterate(get_building_effects(id, *ptype), peff) {
         ai->impr_calc[id] = AI_IMPR_CALCULATE;
         if (peff->range > ai->impr_range[id]) {
           ai->impr_range[id] = peff->range;
@@ -271,7 +271,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
     ai->stats.cities[(int)map_get_continent(pcity->tile)]++;
     ai->stats.average_production += pcity->surplus[O_SHIELD];
   } city_list_iterate_end;
-  ai->stats.average_production /= MAX(1, city_list_size(&pplayer->cities));
+  ai->stats.average_production /= MAX(1, city_list_size(pplayer->cities));
   BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = punit->tile;
@@ -316,8 +316,8 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
     /* Determine who is the leader of our alliance. That is,
      * whoever has the more cities. */
     if (pplayers_allied(pplayer, aplayer)
-        && city_list_size(&aplayer->cities) > ally_strength) {
-      ally_strength = city_list_size(&aplayer->cities);
+        && city_list_size(aplayer->cities) > ally_strength) {
+      ally_strength = city_list_size(aplayer->cities);
       ally_strongest = aplayer;
     }
 

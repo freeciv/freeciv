@@ -55,7 +55,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int value)
   freelog(LOG_VERBOSE, "handle_city_name_suggest_req(unit_pos=(%d,%d))",
 	  punit->tile->x, punit->tile->y);
 
-  dlsend_packet_city_name_suggestion_info(&pplayer->connections, value, 
+  dlsend_packet_city_name_suggestion_info(pplayer->connections, value, 
       city_name_suggestion(pplayer, punit->tile));
 }
 
@@ -269,14 +269,14 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   }
   city_refresh(pcity);
   
-  conn_list_do_buffer(&pplayer->connections);
+  conn_list_do_buffer(pplayer->connections);
   notify_player_ex(pplayer, pcity->tile, 
                    pcity->is_building_unit?E_UNIT_BUY:E_IMP_BUY,
 		   _("Game: %s bought in %s for %d gold."), 
 		   name, pcity->name, cost);
   send_city_info(pplayer, pcity);
   send_player_info(pplayer,pplayer);
-  conn_list_do_unbuffer(&pplayer->connections);
+  conn_list_do_unbuffer(pplayer->connections);
 }
 
 /**************************************************************************

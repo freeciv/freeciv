@@ -296,7 +296,7 @@ static void handle_mouse_release(struct sw_widget *widget,
 *************************************************************************/
 void handle_destroyed_widgets(void)
 {
-  if (widget_list_size(&deferred_destroyed_widgets) == 0) {
+  if (widget_list_size(deferred_destroyed_widgets) == 0) {
     return;
   }
 
@@ -316,7 +316,7 @@ void handle_destroyed_widgets(void)
     }
 
     real_widget_destroy(pwidget);
-    widget_list_unlink(&deferred_destroyed_widgets, pwidget);
+    widget_list_unlink(deferred_destroyed_widgets, pwidget);
   } widget_list_iterate_end;
 }
 

@@ -76,7 +76,7 @@ bool ct_point_valid(const struct ct_point *point)
 bool ct_rect_in_rect_list(const struct ct_rect *item,
 			  const struct region_list *region_list)
 {
-  region_list_iterate(*region_list, container) {
+  region_list_iterate(region_list, container) {
     if (ct_rect_in_rect(item, container)) {
       return TRUE;
     }

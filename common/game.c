@@ -83,7 +83,7 @@ int civ_population(struct player *pplayer)
 struct city *game_find_city_by_name(const char *name)
 {
   players_iterate(pplayer) {
-    struct city *pcity = city_list_find_name(&pplayer->cities, name);
+    struct city *pcity = city_list_find_name(pplayer->cities, name);
 
     if (pcity) {
       return pcity;
@@ -129,7 +129,7 @@ void game_remove_unit(struct unit *punit)
 
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
   if (pcity) {
-    unit_list_unlink(&pcity->units_supported, punit);
+    unit_list_unlink(pcity->units_supported, punit);
   }
 
   if (pcity) {
@@ -138,8 +138,8 @@ void game_remove_unit(struct unit *punit)
 	    pcity->tile->y);
   }
 
-  unit_list_unlink(&punit->tile->units, punit);
-  unit_list_unlink(&unit_owner(punit)->units, punit);
+  unit_list_unlink(punit->tile->units, punit);
+  unit_list_unlink(unit_owner(punit)->units, punit);
 
   idex_unregister_unit(punit);
 
@@ -162,7 +162,7 @@ void game_remove_city(struct city *pcity)
   city_map_checked_iterate(pcity->tile, x, y, map_tile) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   } city_map_checked_iterate_end;
-  city_list_unlink(&city_owner(pcity)->cities, pcity);
+  city_list_unlink(city_owner(pcity)->cities, pcity);
   map_set_city(pcity->tile, NULL);
   idex_unregister_city(pcity);
   remove_city_virtual(pcity);
@@ -442,19 +442,18 @@ void game_remove_player(struct player *pplayer)
     pplayer->attribute_block.data = NULL;
   }
 
-  conn_list_unlink_all(&pplayer->connections);
+  conn_list_unlink_all(pplayer->connections);
+  conn_list_free(pplayer->connections);
 
   unit_list_iterate(pplayer->units, punit) 
     game_remove_unit(punit);
   unit_list_iterate_end;
-  assert(unit_list_size(&pplayer->units) == 0);
-  unit_list_unlink_all(&pplayer->units);
+  unit_list_free(pplayer->units);
 
   city_list_iterate(pplayer->cities, pcity) 
     game_remove_city(pcity);
   city_list_iterate_end;
-  assert(city_list_size(&pplayer->cities) == 0);
-  city_list_unlink_all(&pplayer->cities);
+  city_list_free(pplayer->cities);
 
   if (is_barbarian(pplayer)) game.nbarbarians--;
 }
@@ -482,7 +481,7 @@ void game_renumber_players(int plrno)
   game.nplayers--;
 
   /* a bit of cleanup to keep connections sane */
-  conn_list_init(&game.players[game.nplayers].connections);
+  game.players[game.nplayers].connections = conn_list_new();
   game.players[game.nplayers].is_connected = FALSE;
   game.players[game.nplayers].was_created = FALSE;
   game.players[game.nplayers].ai.control = FALSE;

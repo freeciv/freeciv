@@ -67,7 +67,7 @@ struct spaceship_dialog {
     TYPED_LIST_ITERATE(struct spaceship_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list = NULL;
 static bool dialog_list_has_been_initialised = FALSE;
 
 static struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
@@ -87,7 +87,7 @@ static void spaceship_launch_callback(GtkWidget * w, gpointer data);
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
 {
   if(!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_has_been_initialised=TRUE;
   }
 
@@ -227,7 +227,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_signal_connect(GTK_OBJECT(pdialog->launch_command), "clicked",
         GTK_SIGNAL_FUNC(spaceship_launch_callback), pdialog);
 
-  dialog_list_insert(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
 
   gtk_widget_show_all(GTK_DIALOG(pdialog->shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(pdialog->shell)->action_area);
@@ -339,7 +339,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 void close_spaceship_dialog(struct spaceship_dialog *pdialog)
 {
   gtk_widget_destroy(pdialog->shell);
-  dialog_list_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(dialog_list, pdialog);
 
   free(pdialog);
 }

@@ -70,9 +70,11 @@ struct genlist {
 
 int genlist_size(const struct genlist *pgenlist);
 void *genlist_get(const struct genlist *pgenlist, int idx);
-void genlist_init(struct genlist *pgenlist);
+struct genlist *genlist_new(void);
 void genlist_unlink_all(struct genlist *pgenlist);
-void genlist_insert(struct genlist *pgenlist, void *data, int pos);
+void genlist_free(struct genlist *pgenlist);
+void genlist_append(struct genlist *pgenlist, void *data);
+void genlist_prepend(struct genlist *pgenlist, void *data);
 void genlist_unlink(struct genlist *pgenlist, void *punlink);
 
 void genlist_sort(struct genlist *pgenlist,
@@ -89,10 +91,10 @@ void genlist_sort(struct genlist *pgenlist,
    Eg, see speclist.h, which is what this is really for.
 */
 #define TYPED_LIST_ITERATE(atype, typed_list, var) {       \
-  struct genlist_link *myiter = (typed_list).list.head_link;\
+  struct genlist_link *myiter = (typed_list)->list->head_link;\
   atype *var;                                              \
   for(; ITERATOR_PTR(myiter);) {                           \
-    var=(atype *)ITERATOR_PTR(myiter);                     \
+    var = ITERATOR_PTR(myiter);				   \
     ITERATOR_NEXT(myiter);
 
 /* Balance for above: */ 
@@ -101,10 +103,10 @@ void genlist_sort(struct genlist *pgenlist,
 
 /* Same, but iterate backwards: */
 #define TYPED_LIST_ITERATE_REV(atype, typed_list, var) {   \
-  struct genlist_link *myiter = (typed_list).list.tail_link;\
+  struct genlist_link *myiter = (typed_list)->list->tail_link;\
   atype *var;                                              \
   for(; ITERATOR_PTR(myiter);) {                           \
-    var=(atype *)ITERATOR_PTR(myiter);                     \
+    var = ITERATOR_PTR(myiter);				   \
     ITERATOR_PREV(myiter);
  
 /* Balance for above: */ 

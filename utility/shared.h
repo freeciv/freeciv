@@ -242,8 +242,8 @@ struct datafile {
 char *user_home_dir(void);
 const char *user_username(void);
 const char **datafilelist(const char *suffix);
-struct datafile_list datafilelist_infix(const char *subpath,
-    const char *infix, bool nodups);
+struct datafile_list *datafilelist_infix(const char *subpath,
+                                         const char *infix, bool nodups);
 char *datafilename(const char *filename);
 char **datafilenames(const char *filename);
 char *datafilename_required(const char *filename);

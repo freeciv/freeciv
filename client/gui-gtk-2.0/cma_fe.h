@@ -47,6 +47,8 @@ struct cma_dialog {
   int id;			/* needed to pass a preset_index */
 };
 
+void cma_fe_init(void);
+void cma_fe_done(void);
 struct cma_dialog *create_cma_dialog(struct city *pcity);
 void close_cma_dialog(struct city *pcity);
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh);

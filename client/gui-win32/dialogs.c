@@ -447,7 +447,7 @@ static void add_nations(struct fcwin_box *vbox)
   genlist_init(&nation_list);
   for(i=0; i<game.playable_nation_count; i++) { 
     /* Don't use a NULL pointer */
-    genlist_insert(&nation_list,(void *)(i+ID_RACESDLG_NATION_BASE),0);
+    genlist_prepend(&nation_list,(void *)(i+ID_RACESDLG_NATION_BASE),0);
   }
   genlist_sort(&nation_list,cmp_func);
   for(i=0;i<NATIONS_PER_ROW;i++) {  

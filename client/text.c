@@ -294,9 +294,9 @@ const char *popup_info_text(struct tile *ptile)
 	     ptype->defense_strength, ptype->firepower, punit->hp, 
 	     ptype->hp, punit->veteran ? _(" V") : "");
     if (owner == game.player_ptr
-	&& unit_list_size(&ptile->units) >= 2) {
+	&& unit_list_size(ptile->units) >= 2) {
       /* TRANS: "5 more" units on this tile */
-      add(_("  (%d more)"), unit_list_size(&ptile->units) - 1);
+      add(_("  (%d more)"), unit_list_size(ptile->units) - 1);
     }
   } 
   RETURN;
@@ -682,10 +682,10 @@ const char *get_ping_time_text(const struct player *pplayer)
 {
   INIT;
 
-  if (conn_list_size(&pplayer->connections) > 0
-      && conn_list_get(&pplayer->connections, 0)->ping_time != -1.0) {
+  if (conn_list_size(pplayer->connections) > 0
+      && conn_list_get(pplayer->connections, 0)->ping_time != -1.0) {
     double ping_time_in_ms =
-	1000 * conn_list_get(&pplayer->connections, 0)->ping_time;
+	1000 * conn_list_get(pplayer->connections, 0)->ping_time;
 
     add(_("%6d.%02d ms"), (int) ping_time_in_ms,
 	((int) (ping_time_in_ms * 100.0)) % 100);

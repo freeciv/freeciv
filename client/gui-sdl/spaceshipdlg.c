@@ -223,7 +223,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
     pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1 + 10;
 
-    dialog_list_insert(&dialog_list, pSpaceShp);
+    dialog_list_prepend(&dialog_list, pSpaceShp);
     
     refresh_spaceship_dialog(pPlayer);
   } else {

@@ -32,8 +32,8 @@
 
 #include "chatline.h"
 
-struct genlist	history_list;
-int		history_pos;
+struct genlist *history_list;
+int history_pos;
 
 /**************************************************************************
 ...
@@ -47,15 +47,15 @@ void inputline_return(GtkWidget *w, gpointer data)
   if (*theinput) {
     send_chat(theinput);
 
-    if (genlist_size(&history_list) >= MAX_CHATLINE_HISTORY) {
+    if (genlist_size(history_list) >= MAX_CHATLINE_HISTORY) {
       void *data;
 
-      data=genlist_get(&history_list, -1);
-      genlist_unlink(&history_list, data);
+      data = genlist_get(history_list, -1);
+      genlist_unlink(history_list, data);
       free(data);
     }
 
-    genlist_insert(&history_list, mystrdup(theinput), 0);
+    genlist_prepend(history_list, mystrdup(theinput));
     history_pos=-1;
   }
 

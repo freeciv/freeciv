@@ -425,7 +425,7 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
 
     /* must copy the list as refresh_city_dialog() corrupts the selection */
     for (; selection; selection = g_list_next(selection)) {
-      copy = g_list_append(copy, city_from_glist(selection));
+      copy = g_list_prepend(copy, city_from_glist(selection));
     }
 
     reports_freeze();
@@ -788,7 +788,7 @@ city_select_same_island_callback(GtkWidget *w, gpointer data)
   GList *copy = NULL;
 
   for(; selection; selection = g_list_next(selection))
-    copy = g_list_append (copy, city_from_glist(selection));
+    copy = g_list_prepend (copy, city_from_glist(selection));
 
   for(i = 0; i < GTK_CLIST(city_list)->rows; i++)
     {
@@ -1065,7 +1065,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
 
       buf[0] = items[i].descr;
 
-      j = gtk_clist_append(GTK_CLIST(city_change_all_from_list), buf);
+      j = gtk_clist_prepend(GTK_CLIST(city_change_all_from_list), buf);
       gtk_clist_set_row_data(GTK_CLIST(city_change_all_from_list),
 			     j, GINT_TO_POINTER(items[i].cid));
       if (selected_cid == items[i].cid) {
@@ -1108,7 +1108,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
 
       buf[0] = items[i].descr;
 
-      j = gtk_clist_append(GTK_CLIST(city_change_all_to_list), buf);
+      j = gtk_clist_prepend(GTK_CLIST(city_change_all_to_list), buf);
       gtk_clist_set_row_data(GTK_CLIST(city_change_all_to_list), j,
 			     GINT_TO_POINTER(items[i].cid));
     }
@@ -1207,7 +1207,7 @@ static void city_popup_callback(GtkWidget *w, gpointer data)
 
   /* We have to copy the list as the popup_city_dialog destroys the data */
   for(; current; current = g_list_next(current))
-    copy = g_list_append (copy, city_from_glist(current));
+    copy = g_list_prepend (copy, city_from_glist(current));
   
   for(; copy; copy = g_list_next(copy))
     popup_city_dialog(copy->data, 0);
@@ -1258,14 +1258,14 @@ void city_report_dialog_update(void)
 
     for(selection = GTK_CLIST(city_list)->selection; 
 	selection; selection = g_list_next(selection))
-      copy = g_list_append (copy, city_from_glist(selection));
+      copy = g_list_prepend (copy, city_from_glist(selection));
 
     gtk_clist_freeze(GTK_CLIST(city_list));
     gtk_clist_clear(GTK_CLIST(city_list));
 
     city_list_iterate(game.player_ptr->cities, pcity) {
       get_city_text(pcity, row, sizeof(buf[0]));
-      i=gtk_clist_append(GTK_CLIST(city_list), row);
+      i=gtk_clist_prepend(GTK_CLIST(city_list), row);
       gtk_clist_set_row_data (GTK_CLIST(city_list), i, pcity);
       if(g_list_find(copy,pcity))
 	gtk_clist_select_row(GTK_CLIST(city_list), i, -1);
@@ -1330,7 +1330,7 @@ void city_report_dialog_update_city(struct city *pcity)
 
     gtk_clist_freeze(GTK_CLIST(city_list));
     gtk_clist_remove(GTK_CLIST(city_list),i);
-    i=gtk_clist_append(GTK_CLIST(city_list),row);
+    i=gtk_clist_prepend(GTK_CLIST(city_list),row);
     gtk_clist_set_row_data (GTK_CLIST(city_list), i, pcity);
     if (selected)
       gtk_clist_select_row(GTK_CLIST(city_list), i, -1);

@@ -20,7 +20,7 @@
 /**************************************************************************
   Popup (or raise) the player list dialog.
 **************************************************************************/
-void popup_players_dialog(void)
+void popup_players_dialog(bool raise)
 {
   /* PORTME */
 }

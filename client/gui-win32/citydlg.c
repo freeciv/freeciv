@@ -849,7 +849,7 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
   SendMessage(pdialog->build_area,
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));    
-  genlist_insert(&dialog_list, pdialog, 0);    
+  genlist_prepend(&dialog_list, pdialog, 0);    
  
   for(i=0; i<NUM_UNITS_SHOWN;i++)
     {

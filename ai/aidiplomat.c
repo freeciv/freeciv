@@ -447,7 +447,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     struct tile *ptile = pos.tile;
     bool threat = FALSE;
     int newval, bestval = 0, cost;
-    struct unit *pvictim = unit_list_get(&ptile->units, 0);
+    struct unit *pvictim = unit_list_get(ptile->units, 0);
     int sanity = punit->id;
 
     if (pos.total_MC > punit->moves_left) {
@@ -457,7 +457,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
 
     if (!pvictim
         || !HOSTILE_PLAYER(pplayer, ai, unit_owner(pvictim))
-        || unit_list_size(&ptile->units) > 1
+        || unit_list_size(ptile->units) > 1
         || map_get_city(pos.tile)
         || government_has_flag(get_gov_pplayer(unit_owner(pvictim)),
                                G_UNBRIBABLE)) {
@@ -515,7 +515,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
 
     if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, pos.tile)) {
       handle_unit_diplomat_action(pplayer, punit->id, DIPLOMAT_BRIBE,
-				  unit_list_get(&ptile->units, 0)->id, -1);
+				  unit_list_get(ptile->units, 0)->id, -1);
       /* autoattack might kill us as we move in */
       if (find_unit_by_id(sanity) && punit->moves_left > 0) {
         return TRUE;

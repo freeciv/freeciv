@@ -63,7 +63,7 @@ static void meswin_popcity_callback(GtkWidget * w, gpointer data);
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_meswin_dialog(void)
+void popup_meswin_dialog(bool raise)
 {
   int updated = 0;
   
@@ -237,7 +237,7 @@ void real_update_meswin_dialog(void)
   gtk_clist_clear(GTK_CLIST(meswin_list));
 
   for (i = 0; i < num; i++) {
-    gtk_clist_append(GTK_CLIST(meswin_list), &get_message(i)->descr);
+    gtk_clist_prepend(GTK_CLIST(meswin_list), &get_message(i)->descr);
     if(get_message(i)->visited) {
       meswin_visited_item(i);
     } else {
