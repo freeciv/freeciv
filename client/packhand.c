@@ -1456,6 +1456,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   sz_strlcpy(pplayer->name, pinfo->name);
 
+  pplayer->is_observer = pinfo->is_observer;
   pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
   pplayer->team = pinfo->team;

@@ -307,6 +307,7 @@ struct packet_player_info {
   int playerno;
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
+  bool is_observer;
   bool is_male;
   int government;
   int target_government;
