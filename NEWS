@@ -50,6 +50,7 @@ WHAT'S CHANGED SINCE 1.11.4
    an enemy unit the paradropping unit is lost. If you drop into terrain
    you thought was land, but which has changed to water, the unit is
    also lost.
+ - diplomats/spies can't take action from a ship.
  - Refueling air units at turn update will refuel units with only 1 fuel
    first. Secundary criteria is unit cost.
  - Trireme loss percentage depends upon known technologies.
