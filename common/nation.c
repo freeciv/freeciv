@@ -93,7 +93,7 @@ char **get_nation_leader_names(Nation_Type_id nation, int *dim)
 Returns sex of given leader name. If names is not found,
 return 1 (meaning male).
 ***************************************************************/
-int get_nation_leader_sex(Nation_Type_id nation, char *name)
+int get_nation_leader_sex(Nation_Type_id nation, const char *name)
 {
   int i;
   
@@ -113,7 +113,7 @@ int get_nation_leader_sex(Nation_Type_id nation, char *name)
 /***************************************************************
 checks if given leader name exist for given nation.
 ***************************************************************/
-int check_nation_leader_name(Nation_Type_id nation, char *name)
+int check_nation_leader_name(Nation_Type_id nation, const char *name)
 {
   int i, found=0;
   
