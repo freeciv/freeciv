@@ -188,6 +188,8 @@ static int ai_goldequiv_clause(struct player *pplayer,
   int giver;
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
 
+  assert(pplayer != aplayer);
+  
   diplomacy_verbose = verbose;
 
   giver = pclause->from->player_no;
@@ -560,6 +562,8 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
   bool gift = TRUE;
   struct ai_data *ai = ai_data_get(pplayer);
 
+  assert(pplayer != aplayer);
+
   /* Evaluate clauses */
   clause_list_iterate(ptreaty->clauses, pclause) {
     int balance = ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE);
@@ -919,6 +923,8 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
 static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
                          struct player *target)
 {
+  assert(pplayer != target);
+
   if (gives_shared_vision(pplayer, target)) {
     remove_shared_vision(pplayer, target);
   }
