@@ -554,7 +554,8 @@ greater defense strength, replace the obsolete units with new \
 ones to ensure your cities have maximum defense.  The units most \
 often used for defense are (in order of strength):  Warrior, \
 Phalanx, Pikemen, Musketeers, and Riflemen.\
-"), _("\
+"), ; /* xgettext:no-c-format */
+_("\
     Keep in mind that with some types of government, military units \
 inside or outside cities can reduce or create unhappiness. \
 Also remember that when a unit is inside a city, it gets a 50% \
@@ -741,7 +742,8 @@ ability to move.\
 There are four general types of unit: Land, Sea, Air, and \
 Helicopter.  (Helicopters are sufficiently different from other air \
 units that it is easiest to think of them as a separate unit type.)\
-"), _("\
+"), ; /* xgettext:no-c-format */
+_("\
 Land units move on land, and suffer the movement effects of terrain, \
 but benefit from roads and railroads.  They cannot move on ocean \
 squares except when carried by an appropriate sea unit.  When at \
@@ -924,6 +926,7 @@ attacker loses 1 point.\
 ; The attacker should win about 8 of them, taking 8 HP off the
 ; defender's 20 HP total.  The defender should win the other 20,
 ; killing the attacker. */
+; /* xgettext:no-c-format */
 _("\
 Since both units have 20 hit points, the odds favor a victory for \
 the defender.  The defender will probably lose somewhere around 40% \
@@ -963,6 +966,7 @@ loses 1 hit point.\
 ; them, and the Alpine Troops 12.  That's enough to kill the Alpine
 ; Troops (precisely to 0 hit points), and inflict 12 hit points on
 ; the Battleship's 40 HP total. */
+; /* xgettext:no-c-format */
 _("\
 In this case, the odds greatly favor the attacker winning.  The \
 Battleship is 25% less likely to score a hit in any given round, \

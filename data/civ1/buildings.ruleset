@@ -990,6 +990,7 @@ effect		=
 	"Trade_Per_Tile", "City", 50, "None", "Road"
 	"Trade_Route_Pct", "City", 10
     }
+; /* xgettext:no-c-format */
 helptext	= _("\
 Increases trade resources by 50% on all squares with roads or\
  railroads.\
@@ -1013,6 +1014,7 @@ effect		=
     { "type", "range", "amount", "aff_terr", "aff_spec"
 	"Food_Per_Tile", "City", 50, "None", "Farmland"
     }
+; /* xgettext:no-c-format */
 helptext	= _("\
 Increases the food resources by 50% on each farmland square which\
  is being used around the city.  Farmland squares are those which\
@@ -1156,6 +1158,7 @@ effect		=
     { "type", "range", "amount"
 	"Science_Bonus", "City", 50
     }
+; /* xgettext:no-c-format */
 helptext	= _("\
 Boosts science production by 50% in the city where it is built.\
 ")
@@ -1354,6 +1357,7 @@ effect		=
     { "type", "range", "amount"
 	"Science_Bonus", "City", 100
     }
+; /* xgettext:no-c-format */
 helptext	= _("\
 Boosts science production by 100% in the city where it is built.\
 ")
