@@ -733,7 +733,8 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
     }
 
     /** Area Selection hiliting **/
-    if (!citymode && map_get_tile(map_x, map_y)->hilite == HILITE_CITY) {
+    if (!citymode &&
+        map_get_tile(map_x, map_y)->client.hilite == HILITE_CITY) {
       const enum color_std hilitecolor = COLOR_STD_YELLOW;
 
       if (!draw_map_grid) { /* it would be overwritten below */

@@ -136,7 +136,7 @@ static void define_tiles_within_rectangle(void)
       ptile = map_get_tile(tile_x, tile_y);
       pcity = ptile->city;
       if (pcity && pcity->owner == game.player_idx) {
-        ptile->hilite = HILITE_CITY;
+        ptile->client.hilite = HILITE_CITY;
         tiles_hilited_cities = TRUE;
       }
     }
@@ -231,7 +231,7 @@ void cancel_tile_hiliting(void)
     tiles_hilited_cities = FALSE;
 
     whole_map_iterate(x, y) {
-      map_get_tile(x, y)->hilite = HILITE_NONE;
+      map_get_tile(x, y)->client.hilite = HILITE_NONE;
     } whole_map_iterate_end;
 
     update_map_canvas_visible();
@@ -262,13 +262,13 @@ void toggle_tile_hilite(int tile_x, int tile_y)
   struct tile *ptile = map_get_tile(tile_x, tile_y);
   struct city *pcity = ptile->city;
 
-  if (ptile->hilite == HILITE_CITY) {
+  if (ptile->client.hilite == HILITE_CITY) {
     assert(pcity);
     toggle_city_hilite(pcity, FALSE); /* cityrep.c */
-    ptile->hilite = HILITE_NONE;
+    ptile->client.hilite = HILITE_NONE;
   }
   else if (pcity && pcity->owner == game.player_idx) {
-    ptile->hilite = HILITE_CITY;
+    ptile->client.hilite = HILITE_CITY;
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
   }
@@ -340,7 +340,7 @@ void clipboard_paste_production(struct city *pcity)
   else {
     connection_do_buffer(&aconnection);
     city_list_iterate(game.player_ptr->cities, pcity) {
-      if (map_get_tile(pcity->x, pcity->y)->hilite == HILITE_CITY) {
+      if (map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY) {
         clipboard_send_production_packet(pcity);
       }
     } city_list_iterate_end;
@@ -354,15 +354,10 @@ void clipboard_paste_production(struct city *pcity)
 static void clipboard_send_production_packet(struct city *pcity)
 {
   struct packet_city_request packet;
-  int cid = clipboard;
+  cid mycid = cid_encode(clipboard_is_unit, clipboard);
 
-  if (clipboard_is_unit)  {
-    cid += B_LAST;
-  }
-
-  if ((pcity->currently_building == clipboard
-    && pcity->is_building_unit == clipboard_is_unit)
-      || !city_can_build_impr_or_unit(pcity, cid))  {
+  if (mycid == cid_encode_from_city(pcity)
+      || !city_can_build_impr_or_unit(pcity, mycid)) {
     return;
   }
 

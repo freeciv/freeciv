@@ -65,7 +65,10 @@ struct tile {
   unsigned short continent;
   signed char move_cost[8]; /* don't know if this helps! */
   struct player *owner;     /* Player owning this tile, or NULL. */
-  enum tile_hilite hilite;  /* Area Selection. Client only. */
+  struct {
+    /* Area Selection in client. */
+    enum tile_hilite hilite;
+  } client;
 };
 
 

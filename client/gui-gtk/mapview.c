@@ -1507,7 +1507,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   punit = get_drawable_unit(x, y, citymode);
   pfocus = get_unit_in_focus();
   special = map_get_special(x, y);
-  tile_hilited = (map_get_tile(x,y)->hilite != HILITE_NONE);
+  tile_hilited = (map_get_tile(x,y)->client.hilite != HILITE_NONE);
 
   if (solid_bg) {
     gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);

@@ -1723,7 +1723,7 @@ void hilite_cities_from_canvas(void)
     itree_get(&it, 0, &res, -1);
     pcity = res;
 
-    if (map_get_tile(pcity->x, pcity->y)->hilite == HILITE_CITY)  {
+    if (map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY)  {
       itree_select(city_selection, &it);
     }
   }
