@@ -41,6 +41,7 @@ struct cm_parameter {
   int minimal_surplus[NUM_STATS];
   bool require_happy;
   bool allow_disorder;
+  bool allow_specialists;
 
   enum factor_target factor_target;
 

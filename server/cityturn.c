@@ -166,6 +166,7 @@ void auto_arrange_workers(struct city *pcity)
 
   cmp.require_happy = FALSE;
   cmp.allow_disorder = FALSE;
+  cmp.allow_specialists = TRUE;
   cmp.factor_target = FT_SURPLUS;
 
   /* WAGs. These are set for both AI and humans.
@@ -194,35 +195,44 @@ void auto_arrange_workers(struct city *pcity)
   cm_query_result(pcity, &cmp, &cmr);
 
   if (!cmr.found_a_valid) {
-    cmp.minimal_surplus[FOOD] = 0;
-    cmp.minimal_surplus[SHIELD] = 0;
-    cmp.minimal_surplus[GOLD] = -FC_INFINITY;
-    cm_query_result(pcity, &cmp, &cmr);
-  }
-
-  if (!cmr.found_a_valid) {
     if (!pplayer->ai.control) {
-      /* For human players: Try very hard to avoid negative
-       * production, even allow disorder. */
+      /* 
+       * If we can't get a resonable result force a disorder.
+       */
       cmp.allow_disorder = TRUE;
+      cmp.allow_specialists = FALSE;
+      cmp.minimal_surplus[FOOD] = -20;
+      cmp.minimal_surplus[SHIELD] = -20;
+      cmp.minimal_surplus[LUXURY] = -20;
+      cmp.minimal_surplus[SCIENCE] = -20;
+
+      cm_query_result(pcity, &cmp, &cmr);
+    } else {
+      cmp.minimal_surplus[FOOD] = 0;
+      cmp.minimal_surplus[SHIELD] = 0;
+      cmp.minimal_surplus[GOLD] = -FC_INFINITY;
+      cm_query_result(pcity, &cmp, &cmr);
+
+      if (!cmr.found_a_valid) {
+	cmp.minimal_surplus[FOOD] = -(pcity->food_stock);
+	cmp.minimal_surplus[TRADE] = -20;
+	cm_query_result(pcity, &cmp, &cmr);
+      }
+
+      if (!cmr.found_a_valid) {
+	CITY_LOG(LOG_DEBUG, pcity, "emergency management");
+	cmp.minimal_surplus[FOOD] = -20;
+	cmp.minimal_surplus[SHIELD] = -20;
+	cmp.minimal_surplus[LUXURY] = -20;
+	cmp.minimal_surplus[SCIENCE] = -20;
+	cmp.allow_disorder = TRUE;
+	cmp.allow_specialists = FALSE;
+
+	cm_query_result(pcity, &cmp, &cmr);
+      }
     }
-    cmp.minimal_surplus[FOOD] = -(pcity->food_stock);
-    cmp.minimal_surplus[TRADE] = -20;
-    cm_query_result(pcity, &cmp, &cmr);
   }
-
-  if (!cmr.found_a_valid) {
-    CITY_LOG(LOG_DEBUG, pcity, "emergency management");
-    cmp.minimal_surplus[FOOD] = -20;
-    cmp.minimal_surplus[SHIELD] = -20;
-    cmp.minimal_surplus[LUXURY] = -20;
-    cmp.minimal_surplus[SCIENCE] = -20;
-    cmp.allow_disorder = TRUE;
-
-    cm_query_result(pcity, &cmp, &cmr);
-
-    assert(cmr.found_a_valid);
-  }
+  assert(cmr.found_a_valid);
 
   /* Now apply results */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, mapx, mapy) {
