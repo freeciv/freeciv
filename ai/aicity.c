@@ -332,28 +332,41 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  }
 	  break;
 	case EFT_MAKE_HAPPY:
-	  /* TODO */
+	  v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 5 * amount;
+          if (city_list_size(pplayer->cities)
+                > game.cityfactor + gov->empire_size_mod) {
+            v += c * amount; /* offset large empire size */
+          }
+          v += c * amount;
 	  break;
 	case EFT_UNIT_RECOVER:
 	  /* TODO */
 	  break;
 	case EFT_NO_UNHAPPY:
-	  v += (get_entertainers(pcity)
-		+ pcity->ppl_unhappy[4]) * 20;
+	  v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 30;
 	  break;
 	case EFT_FORCE_CONTENT:
+	case EFT_MAKE_CONTENT:
 	  if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
-	    v += (pcity->ppl_unhappy[4]
-		  + get_entertainers(pcity)) * 20;
-	    v += 5 * c;
+            int factor = 2;
+
+	    v += MIN(amount, pcity->ppl_unhappy[4] + get_entertainers(pcity)) * 35;
+
+            /* Try to build wonders to offset empire size unhappiness */
+            if (city_list_size(pplayer->cities) 
+                > game.cityfactor + gov->empire_size_mod) {
+              if (gov->empire_size_mod > 0) {
+                factor += city_list_size(pplayer->cities) / gov->empire_size_inc;
+              }
+              factor += 2;
+            }
+	    v += factor * c * amount;
 	  }
 	  break;
 	case EFT_MAKE_CONTENT_MIL_PER:
-	case EFT_MAKE_CONTENT:
 	  if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
-	    v += MIN(pcity->ppl_unhappy[4]
-		     + get_entertainers(pcity),
-		     amount) * 20;
+	    v += MIN(pcity->ppl_unhappy[4] + get_entertainers(pcity),
+		     amount) * 25;
 	    v += MIN(amount, 5) * c;
 	  }
 	  break;
@@ -453,19 +466,19 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  v += unit_list_size(ptile->units) * 2;
 	  break;
 	case EFT_LAND_REGEN:
-	  v += 15 * c + ai->stats.units[UCL_LAND] * 3;
+	  v += 5 * c + ai->stats.units[UCL_LAND] * 3;
 	  break;
 	case EFT_SEA_REGEN:
-	  v += 15 * c + ai->stats.units[UCL_SEA] * 3;
+	  v += 5 * c + ai->stats.units[UCL_SEA] * 3;
 	  break;
 	case EFT_AIR_REGEN:
-	  v += 15 * c + ai->stats.units[UCL_AIR] * 3;
+	  v += 5 * c + ai->stats.units[UCL_AIR] * 3;
 	  break;
 	case EFT_LAND_VET_COMBAT:
 	  v += 2 * c + ai->stats.units[UCL_LAND] * 2;
 	  break;
 	case EFT_LAND_VETERAN:
-	  v += 5 * c + ai->stats.units[UCL_LAND];
+	  v += 3 * c + ai->stats.units[UCL_LAND];
 	  break;
 	case EFT_SEA_VETERAN:
 	  v += 5 * c + ai->stats.units[UCL_SEA];
