@@ -91,7 +91,7 @@ void intel_create_dialog(struct player *p)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
   sprintf(buf, "Ruler: %s %s", 
-	  get_ruler_title(p->government), p->name);
+	  get_ruler_title(p->government, p->is_male, p->race), p->name);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
   

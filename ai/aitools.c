@@ -29,6 +29,7 @@
 #include "plrhand.h"
 #include "unittools.h"
 
+#include "aicity.h"
 #include "aiunit.h"
 
 #include "aitools.h"
@@ -68,7 +69,7 @@ void ai_government_change(struct player *pplayer, int gov)
     return;
   preq.government=gov;
   pplayer->revolution=0;
-  pplayer->government=G_ANARCHY;
+  pplayer->government=game.government_when_anarchy;
   handle_player_government(pplayer, &preq);
   pplayer->revolution = -1; /* yes, I really mean this. -- Syela */
 }

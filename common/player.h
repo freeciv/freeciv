@@ -158,7 +158,8 @@ enum cmdlevel_id {    /* access levels for users to issue commands        */
 struct player {
   int player_no;
   char name[MAX_LEN_NAME];
-  enum government_type government;
+  int is_male;
+  int government;
   enum race_type race;
   int turn_done;
   int nturns_idle;
@@ -185,12 +186,14 @@ struct player *find_player_by_name(char *name);
 void player_set_unit_focus_status(struct player *pplayer);
 int player_has_embassy(struct player *pplayer, struct player *pplayer2);
 
-int can_change_to_government(struct player *pplayer, 
-			    enum government_type);
-int get_government_max_rate(enum government_type type);
-int get_government_civil_war_prob(enum government_type type);
-char *get_government_name(enum government_type type);
-char *get_ruler_title(enum government_type type);
+/* TODO: move these to government.h */
+int can_change_to_government(struct player *pplayer, int government);
+int get_government_max_rate(int type);
+int get_government_civil_war_prob(int type);
+char *get_government_name(int type);
+char *get_ruler_title(int gov, int male, int race);
+
+enum race_type find_race_by_name(char *name);
 char *get_race_name(enum race_type race);
 char *get_race_name_plural(enum race_type race);
 struct player_race *get_race(struct player *plr);

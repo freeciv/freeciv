@@ -76,11 +76,17 @@ struct civ_game {
   int aqueduct_size;
   int sewer_size;
   int spacerace;
+
+  int government_count;
+  int default_government;
+  int government_when_anarchy;
+
   struct {
     char techs[MAX_LEN_NAME];
     char units[MAX_LEN_NAME];
     char buildings[MAX_LEN_NAME];
     char terrain[MAX_LEN_NAME];
+    char governments[MAX_LEN_NAME];
   } ruleset;
   int firepower_factor;		/* See README.rulesets */
   struct {

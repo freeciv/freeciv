@@ -45,8 +45,6 @@
 
 #include "aicity.h"
 
-static void ai_manage_city(struct player *pplayer, struct city *pcity);
-
 #ifdef UNUSED
 /************************************************************************** 
 ...
@@ -118,8 +116,12 @@ static void ai_manage_buildings(struct player *pplayer)
   values[B_MAGELLAN] *= 100 * SHIELD_WEIGHTING;
   values[B_MAGELLAN] /= (MORT * improvement_value(B_MAGELLAN));
 
-/* this is a weird place to put tech advice */
-  if (pplayer->government > G_DESPOTISM) {
+  /* This is a weird place to put tech advice */
+  /* This was: > G_DESPOTISM; should maybe remove test, depending
+   * on new government evaluation etc, but used for now for
+   * regression testing --dwp */
+  if (pplayer->government != game.default_government
+      && pplayer->government != game.government_when_anarchy) {
     for (i = 0; i < B_LAST; i++) {
       j = improvement_types[i].tech_requirement;
       if (get_invention(pplayer, j) != TECH_KNOWN)
@@ -751,7 +753,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 /**************************************************************************
  cities, build order and worker allocation stuff here..
 **************************************************************************/
-static void ai_manage_city(struct player *pplayer, struct city *pcity)
+void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
   city_check_workers(pplayer, pcity); /* no reason not to, many reasons to do so! */
   auto_arrange_workers(pcity);

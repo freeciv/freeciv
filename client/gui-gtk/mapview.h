@@ -37,8 +37,7 @@ void put_city_tile_output(GdkDrawable *pm, int x, int y,
 void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile);
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile);
 
-void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
-				    int unhappiness, int upkeep);
+void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p);
 void pixmap_put_black_tile(GdkDrawable *pm, int x, int y);
 void pixmap_frame_tile_red(GdkDrawable *pm, int x, int y);
 void pixmap_put_tile(GdkDrawable *pm, int x, int y, int map_x, int map_y, 

@@ -1128,6 +1128,9 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->rtech.cathedral_plus);
   cptr=put_int8(cptr, pinfo->rtech.cathedral_minus);
   cptr=put_int8(cptr, pinfo->rtech.colosseum_plus);
+
+  cptr=put_int8(cptr, pinfo->default_government);
+  cptr=put_int8(cptr, pinfo->government_when_anarchy);
   
   put_int16(buffer, cptr-buffer);
 
@@ -1181,6 +1184,8 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_int8(&iter, &pinfo->rtech.cathedral_plus);
   iget_int8(&iter, &pinfo->rtech.cathedral_minus);
   iget_int8(&iter, &pinfo->rtech.colosseum_plus);
+  iget_int8(&iter, &pinfo->default_government);
+  iget_int8(&iter, &pinfo->government_when_anarchy);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

@@ -188,6 +188,20 @@ int player_owns_city(struct player *pplayer, struct city *pcity)
 /***************************************************************
 ...
 ***************************************************************/
+enum race_type find_race_by_name(char *name)
+{
+  int i;
+
+  for(i=0; i<R_LAST; i++)
+     if(!mystrcasecmp(name, get_race_name (i)))
+	return i;
+
+  return -1;
+}
+
+/***************************************************************
+...
+***************************************************************/
 char *get_race_name(enum race_type race)
 {
   return races[race].name;
@@ -208,16 +222,18 @@ struct player_race *get_race(struct player *plr)
 
 /***************************************************************
 ...
+TODO: use other parameters
+TODO: move this and some following functions to government.c
 ***************************************************************/
-char *get_ruler_title(enum government_type type)
+char *get_ruler_title(int gov, int male, int race)
 {
-  return ruler_titles[type];
+  return ruler_titles[gov];
 }
 
 /***************************************************************
 ...
 ***************************************************************/
-int get_government_max_rate(enum government_type type)
+int get_government_max_rate(int type)
 {
   return government_rates[type];
 }
@@ -225,9 +241,9 @@ int get_government_max_rate(enum government_type type)
 /***************************************************************
 Added for civil war probability computation - Kris Bubendorfer
 ***************************************************************/
-int get_government_civil_war_prob(enum government_type type)
+int get_government_civil_war_prob(int type)
 {
-  if(type >= G_ANARCHY && type < G_LAST)
+  if(type >= 0 && type < game.government_count)
     return government_civil_war[type];
   return 0;
 }
@@ -235,7 +251,7 @@ int get_government_civil_war_prob(enum government_type type)
 /***************************************************************
 ...
 ***************************************************************/
-char *get_government_name(enum government_type type)
+char *get_government_name(int type)
 {
   return government_names[type];
 }
@@ -243,7 +259,7 @@ char *get_government_name(enum government_type type)
 /***************************************************************
 ...
 ***************************************************************/
-int can_change_to_government(struct player *pplayer, enum government_type gov)
+int can_change_to_government(struct player *pplayer, int gov)
 {
   if (gov>=G_LAST)
     return 0;
@@ -284,7 +300,8 @@ void player_init(struct player *plr)
   plr->player_no=plr-game.players;
 
   strcpy(plr->name, "YourName");
-  plr->government=G_DESPOTISM;
+  plr->is_male = 1;
+  plr->government=game.default_government;
   plr->race=R_LAST;
   plr->capital=0;
   unit_list_init(&plr->units);

@@ -532,6 +532,9 @@ struct packet_game_info {
     int cathedral_minus;
     int colosseum_plus;
   } rtech;
+
+  int government_when_anarchy;
+  int default_government;
 };
 
 /*********************************************************

@@ -52,6 +52,10 @@ char *secfile_lookup_str(struct section_file *my_section_file,
 			 char *path, ...)
                          fc__attribute((format (printf, 2, 3)));
 
+char *secfile_lookup_str_int(struct section_file *my_section_file, 
+			     int *ival, char *path, ...)
+                             fc__attribute((format (printf, 3, 4)));
+
 int secfile_lookup_int_default(struct section_file *my_section_file,
                                int def, char *path, ...)
                                fc__attribute((format (printf, 3, 4)));

@@ -1116,19 +1116,18 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
 /**************************************************************************
 ...
 **************************************************************************/
-void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p, 
-				   int unhappiness, int upkeep)
+void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 {
-  if(upkeep) {
+  if(punit->upkeep) {
     if(unit_flag(punit->type, F_SETTLERS)) {
-      put_overlay_tile_gpixmap(p, 0, 1, CITY_FOOD_TILES+upkeep-1);
+      put_overlay_tile_gpixmap(p, 0, 1, CITY_FOOD_TILES+punit->upkeep-1);
     }
     else
       put_overlay_tile_gpixmap(p, 0, 1, CITY_SHIELD_TILE);
   }
   
-  if(unhappiness)
-    put_overlay_tile_gpixmap(p, 0, 1, CITY_MASK_TILES+unhappiness-1);
+  if(punit->unhappiness)
+    put_overlay_tile_gpixmap(p, 0, 1, CITY_MASK_TILES+punit->unhappiness-1);
 }
 
 

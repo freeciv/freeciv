@@ -168,6 +168,9 @@ void send_game_info(struct player *dest)
   ginfo.rtech.cathedral_minus = game.rtech.cathedral_minus;
   ginfo.rtech.colosseum_plus = game.rtech.colosseum_plus;
 
+  ginfo.government_when_anarchy = game.government_when_anarchy;
+  ginfo.default_government = game.default_government;
+
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest) {
       struct player *pplayer=&game.players[o];

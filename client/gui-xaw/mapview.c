@@ -983,23 +983,22 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
 /**************************************************************************
 ...
 **************************************************************************/
-void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm, 
-				   int unhappiness, int upkeep)
+void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 {
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
   XFillRectangle(display, pm, fill_bg_gc, 0, NORMAL_TILE_WIDTH, 
 		 NORMAL_TILE_HEIGHT, NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT);
 
-  if(upkeep) {
+  if(punit->upkeep) {
     if(unit_flag(punit->type, F_SETTLERS)) {
-      pixmap_put_overlay_tile(pm, 0, 1, CITY_FOOD_TILES+upkeep-1);
+      pixmap_put_overlay_tile(pm, 0, 1, CITY_FOOD_TILES+punit->upkeep-1);
     }
     else
       pixmap_put_overlay_tile(pm, 0, 1, CITY_SHIELD_TILE);
   }
   
-  if(unhappiness)
-    pixmap_put_overlay_tile(pm, 0, 1, CITY_MASK_TILES+unhappiness-1);
+  if(punit->unhappiness)
+    pixmap_put_overlay_tile(pm, 0, 1, CITY_MASK_TILES+punit->unhappiness-1);
 }
 
 

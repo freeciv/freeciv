@@ -68,7 +68,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.8 caravan1 nuke clientcommands +terrainrulesets1"
+#define CAPABILITY "+1.8 caravan1 nuke clientcommands +terrainrulesets1 +pregovrs1"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -83,6 +83,8 @@ const char * const our_capability = our_capability_internal;
 
    "terrainrulesets1" means that the protocol is extended to handle
    the new, expanded terrain rulesets.  (jjm@codewell.com 13aug1999)
+
+   "pregovrs1" (temporary) preliminary government ruleset support
 */
 
 void init_our_capability(void)

@@ -283,8 +283,14 @@ void game_init(void)
   strcpy(game.ruleset.units, GAME_DEFAULT_RULESET);
   strcpy(game.ruleset.buildings, GAME_DEFAULT_RULESET);
   strcpy(game.ruleset.terrain, GAME_DEFAULT_RULESET);
+  strcpy(game.ruleset.governments, GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
-  
+
+  /* temporary fixed values: */
+  game.government_count = G_LAST;
+  game.default_government = G_DESPOTISM;
+  game.government_when_anarchy = G_ANARCHY;
+
   map_init();
   
   for(i=0; i<MAX_NUM_PLAYERS; i++)

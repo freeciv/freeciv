@@ -37,6 +37,7 @@ void ai_scientists_taxmen(struct city *pcity);
 int ai_fix_unhappy(struct city *pcity);
 int has_a_normal_defender(struct city *pcity);
 void emergency_reallocate_workers(struct player *pplayer, struct city *pcity);
+void ai_manage_city(struct player *pplayer, struct city *pcity);
 
 enum ai_city_task { AICITY_NONE, AICITY_TECH, AICITY_TAX, AICITY_PROD};
 

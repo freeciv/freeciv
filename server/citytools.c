@@ -709,7 +709,7 @@ static struct player *split_player(struct player *pplayer)
 
   cplayer->is_connected = 0;
   cplayer->conn = NULL;
-  cplayer->government = G_ANARCHY;  
+  cplayer->government = game.government_when_anarchy;  
   pplayer->revolution = 1;
   cplayer->capital = 1;
 
@@ -745,7 +745,7 @@ static struct player *split_player(struct player *pplayer)
   
   /* change the original player */
 
-  pplayer->government = G_ANARCHY;
+  pplayer->government = game.government_when_anarchy;
   pplayer->revolution = 1;
   pplayer->economic.tax = PLAYER_DEFAULT_TAX_RATE;
   pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;

@@ -145,6 +145,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <assert.h>
 
 #include "astring.h"
 #include "genlist.h"
@@ -659,6 +660,35 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
   return pentry->svalue;
 }
 
+/**************************************************************************
+  Lookup string or int value; if (char*) return is NULL, int value is
+  put into (*ival).
+**************************************************************************/
+char *secfile_lookup_str_int(struct section_file *my_section_file, 
+			     int *ival, char *path, ...)
+{
+  struct entry *pentry;
+  char buf[512];
+  va_list ap;
+
+  assert(ival);
+  
+  va_start(ap, path);
+  vsprintf(buf, path, ap);
+  va_end(ap);
+
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
+    freelog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
+    exit(1);
+  }
+
+  if(pentry->svalue) {
+    return pentry->svalue;
+  } else {
+    *ival = pentry->ivalue;
+    return NULL;
+  }
+}
       
 
 /**************************************************************************

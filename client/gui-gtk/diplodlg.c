@@ -392,10 +392,10 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   
   sprintf(buf, "This Eternal Treaty\nmarks the results of the diplomatic work between\nThe %s %s %s\nand\nThe %s %s %s",
 	  get_race_name(plr0->race),
-	  get_ruler_title(plr0->government),
+	  get_ruler_title(plr0->government, plr0->is_male, plr0->race),
 	  plr0->name,
 	  get_race_name(plr1->race),
-	  get_ruler_title(plr1->government),
+	  get_ruler_title(plr1->government, plr1->is_male, plr1->race),
 	  plr1->name);
   
   pdialog->dip_labelm=gtk_label_new(buf);

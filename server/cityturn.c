@@ -85,7 +85,8 @@ static void set_tax_income(struct city *pcity)
   pcity->tax_total = 0;
   rate = pcity->trade_prod;
   while (rate) {
-    if( game.players[pcity->owner].government!= G_ANARCHY ){
+    if( game.players[pcity->owner].government
+	!= game.government_when_anarchy ){
       tax += (100 - game.players[pcity->owner].economic.science - game.players[pcity->owner].economic.luxury);
       sci += game.players[pcity->owner].economic.science;
       lux += game.players[pcity->owner].economic.luxury;
@@ -1125,7 +1126,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 	    break;
 	  }
 	}
-      } else if( pplayer->government != G_ANARCHY ){
+      } else if( pplayer->government != game.government_when_anarchy ){
 	if (pplayer->economic.gold-improvement_upkeep(pcity, i)<0) {
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUCTIONED,
 			   "Game: Can't afford to maintain %s in %s, building sold!", 
@@ -1297,13 +1298,13 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     if (!pcity->was_happy && city_happy(pcity) && pcity->size>4) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
 	     	    "Game: We Love The %s Day celebrated in %s", 
-		    get_ruler_title(pplayer->government),
+	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->race),
 		    pcity->name);
     }
     if (!city_happy(pcity) && pcity->was_happy && pcity->size>4) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
 		    "Game: We Love The %s Day canceled in %s",
-		    get_ruler_title(pplayer->government),
+	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->race),
 		    pcity->name);
 
     }

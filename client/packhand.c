@@ -617,6 +617,9 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.rtech.cathedral_minus = pinfo->rtech.cathedral_minus;
   game.rtech.colosseum_plus = pinfo->rtech.colosseum_plus;
 
+  game.government_when_anarchy = pinfo->government_when_anarchy;
+  game.default_government = pinfo->default_government;
+
   boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
@@ -697,7 +700,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   
   if(pplayer==game.player_ptr && 
      (pplayer->revolution < 1 || pplayer->revolution > 5) && 
-     pplayer->government==G_ANARCHY &&
+     pplayer->government==game.government_when_anarchy &&
      (!game.player_ptr->ai.control || ai_popup_windows))
     popup_government_dialog();
   

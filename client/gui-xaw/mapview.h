@@ -27,8 +27,7 @@ Pixmap get_citizen_pixmap(int frame);
 
 void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile);
 
-void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm,
-				   int unhappiness, int upkeep);
+void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm);
 
 void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile);
 void put_city_tile_output(Pixmap pm, int x, int y, 

@@ -1228,9 +1228,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 		    0, 0);
 
     
-    put_unit_pixmap_city_overlays(punit, 
-				  XawPixcommPixmap(pdialog->support_unit_pixcomms[i]),
-				  punit->unhappiness, punit->upkeep);   
+    put_unit_pixmap_city_overlays(punit, XawPixcommPixmap(pdialog->support_unit_pixcomms[i]));
     xaw_expose_now(pdialog->support_unit_pixcomms[i]);
     pdialog->support_unit_ids[i]=punit->id;
     
@@ -1278,9 +1276,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 
     put_unit_pixmap(punit, XawPixcommPixmap(pdialog->present_unit_pixcomms[i]),
 		    0, 0);
-    put_unit_pixmap_city_overlays(punit, 
-			  XawPixcommPixmap(pdialog->present_unit_pixcomms[i]),
-				  0,0);
+    put_unit_pixmap_city_overlays(punit, XawPixcommPixmap(pdialog->present_unit_pixcomms[i]));
  
     xaw_expose_now(pdialog->present_unit_pixcomms[i]);
     pdialog->present_unit_ids[i]=punit->id;

@@ -828,7 +828,7 @@ void handle_player_tech_goal(struct player *pplayer,
 void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq)
 {
-  if( pplayer->government!=G_ANARCHY || 
+  if( pplayer->government!=game.government_when_anarchy || 
      !can_change_to_government(pplayer, preq->government) 
     )
     return;
@@ -859,10 +859,10 @@ void handle_player_revolution(struct player *pplayer)
 {
   if ((pplayer->revolution<=5) &&
       (pplayer->revolution>0) &&
-      ( pplayer->government==G_ANARCHY))
+      ( pplayer->government==game.government_when_anarchy))
     return;
   pplayer->revolution=myrand(5)+1;
-  pplayer->government=G_ANARCHY;
+  pplayer->government=game.government_when_anarchy;
   notify_player(pplayer, "Game: The %s have incited a revolt!", 
 		races[pplayer->race].name);
   gamelog(GAMELOG_REVOLT,"The %s revolt!",

@@ -147,7 +147,7 @@ char *get_report_title(char *report_name)
 	  report_name,
 	  get_government_name(game.player_ptr->government),
 	  get_race_name_plural(game.player_ptr->race),
-	  get_ruler_title(game.player_ptr->government),
+	  get_ruler_title(game.player_ptr->government, game.player_ptr->is_male, game.player_ptr->race),
 	  game.player_ptr->name,
 	  textyear(game.year));
 

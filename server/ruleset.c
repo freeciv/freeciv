@@ -19,11 +19,12 @@
 #include "city.h"
 #include "game.h"
 #include "log.h"
+#include "map.h"
+#include "mem.h"
 #include "packets.h"
 #include "registry.h"
 #include "tech.h"
 #include "unit.h"
-#include "map.h"
 
 #include "ruleset.h"
 
