@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __SERVER_H
-#define __SERVER_H
+#ifndef FC__CIVSERVER_H
+#define FC__CIVSERVER_H
 
 #include "game.h"
 #include "packets.h"
@@ -31,7 +31,8 @@ int check_for_full_turn_done(void);
 int send_server_info_to_metaserver(int do_send);
 void start_game(void);
 void send_select_race(struct player *pplayer);
-void save_game(void);
+void save_game(char *filename);
+void save_game_auto(void);
 void dealloc_id(int id);
 int is_id_allocated(int id);
 void alloc_id(int id);
@@ -44,4 +45,4 @@ void announce_ai_player(struct player *pplayer);
 extern enum server_states server_state;
 extern int nocity_send;
 
-#endif
+#endif /* FC__CIVSERVER_H */

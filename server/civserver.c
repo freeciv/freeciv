@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <string.h>
+#include <assert.h>
 
 #ifdef __EMX__
 #include <netdb.h>
@@ -460,7 +461,7 @@ empty get to refresh and defend themselves.  How totally stupid. */
       
     if(++save_counter>=game.save_nturns && game.save_nturns>0) {
       save_counter=0;
-      save_game();
+      save_game_auto();
     }
     if (game.year>game.end_year || is_game_over()) 
       server_state=GAME_OVER_STATE;
@@ -746,18 +747,14 @@ void end_game()
 }
 
 /**************************************************************************
-...
+Unconditionally save the game, with specified filename.
+Always prints a message: either save ok, or failed.
 **************************************************************************/
-
-void save_game(void)
+void save_game(char *filename)
 {
-  char filename[512];
   struct section_file file;
   
-  sprintf(filename, "%s%d.sav", game.save_name, game.year);
-  
   section_file_init(&file);
-  
   game_save(&file);
   
   if(!section_file_save(&file, filename))
@@ -766,7 +763,20 @@ void save_game(void)
     printf("Game saved as %s\n", filename);
 
   section_file_free(&file);
-  gamelog_save();
+}
+
+/**************************************************************************
+Save game with autosave filename, and call gamelog_save().
+**************************************************************************/
+void save_game_auto(void)
+{
+  char filename[512];
+
+  assert(strlen(game.save_name)<256);
+  
+  sprintf(filename, "%s%d.sav", game.save_name, game.year);
+  save_game(filename);
+  gamelog_save();		/* should this be in save_game()? --dwp */
 }
 
 /**************************************************************************

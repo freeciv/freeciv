@@ -600,28 +600,16 @@ int expansionism_of_skill_level(int level)
 }
 
 /**************************************************************************
-...
+For command "save foo";
+Save the game, with filename=arg, provided server state is ok.
 **************************************************************************/
 void save_command(char *arg)
 {
-  struct section_file file;
-  
-  if (server_state==SELECT_RACES_STATE)
-    {
-      printf("Please wait until the game has started to save.\n");
-      return;
-    }
-
-  section_file_init(&file);
-  
-  game_save(&file);
-
-  if(!section_file_save(&file, arg))
-    printf("Failed saving game as %s\n", arg);
-  else
-    printf("Game saved as %s\n", arg);
-
-  section_file_free(&file);
+  if (server_state==SELECT_RACES_STATE) {
+    printf("Please wait until the game has started to save.\n");
+    return;
+  }
+  save_game(arg);
 }
 
 /**************************************************************************
