@@ -140,13 +140,13 @@ fallout_trade_penalty=50
 ; flags                = General flags for this terrain:
 ;   - NoBarbs          = Barbarians will not be spawned here.
 ;   - Oceanic          = This is an "ocean" terrain.  This has a big effect
-                         on gameplay.  Naval units can move on oceanic terrain,
-                         while land units cannot.  Oceanic tiles can be used
-                         as a water source for irrigation.  Cities built next
-                         to oceanic terrain can build naval improvements and
-                         units.  Most terrain improvements can only be built
-                         on land.  Oceanic terrain has no zones of control.
-                         The list goes on.
+;                        on gameplay.  Naval units can move on oceanic terrain,
+;                        while land units cannot.  Oceanic tiles can be used
+;                        as a water source for irrigation.  Cities built next
+;                        to oceanic terrain can build naval improvements and
+;                        units.  Most terrain improvements can only be built
+;                        on land.  Oceanic terrain has no zones of control.
+;                        The list goes on.
 ; helptext	       = optional help text string; should escape all raw 
 ;		         newlines so that xgettext parsing works
 
