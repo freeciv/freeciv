@@ -612,7 +612,7 @@ void help_update_dialog(struct help_item *pitem)
        if(get_unit_type(i)->obsoleted_by==-1)
 	 xaw_set_label(help_wonder_obsolete_data, "None");
       else
-	xaw_set_label(help_wonder_obsolete_data, advances[get_unit_type(i)->obsoleted_by].name);
+	xaw_set_label(help_wonder_obsolete_data, get_unit_type(get_unit_type(i)->obsoleted_by)->name);
       set_title_topic(pitem);
        return;
     }
