@@ -250,20 +250,6 @@ I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */
 /************************************************************************** 
 ...
 **************************************************************************/
-#ifdef GRAVEDANGERWORKS
-static int ai_city_defender_value(struct city *pcity, Unit_Type_id a_type,
-                                  Unit_Type_id d_type)
-{
-  return unit_vulnerability_virtual2(a_type, d_type, pcity->x,
-				     pcity->y, FALSE,
-				     do_make_unit_veteran(pcity, d_type),
-				     FALSE, 0);
-}
-#endif
-
-/************************************************************************** 
-...
-**************************************************************************/
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
   impr_type_iterate(id) {
