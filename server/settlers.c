@@ -64,6 +64,7 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   int x = punit->x, y = punit->y;
   struct city *pcity;
 
+  assert(pplayer == unit_owner(punit));
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
 
   /* Free city reservations */
@@ -77,6 +78,12 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
             pplayer->name, x, y);
     return FALSE;
   }
+
+  /* We have to rebuild at least the cache for this city.  This event is
+   * rare enough we might as well build the whole thing.  Who knows what
+   * else might be cached in the future? */
+  assert(pplayer == city_owner(pcity));
+  initialize_infrastructure_cache(pplayer);
 
   return TRUE;
 }
