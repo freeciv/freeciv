@@ -376,7 +376,7 @@ static void setup_widgets(void)
   gtk_box_pack_start(GTK_BOX(top_vbox), menubar, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(top_vbox), hbox, TRUE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
 
   vbox1 = gtk_vbox_new( FALSE, 3 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox1, FALSE, FALSE, 0 );
