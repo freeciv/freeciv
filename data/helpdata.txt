@@ -1860,7 +1860,7 @@ build a road or railroad on a River square, though, you must know
 Bridge Building.)  Roads and railroads allow your units to move
 more quickly, and they increase the resources produced in cities.
 
- - Units move three times as quickly as normal when going from one
+ - Units use only one third of a movement point when going from one
    square to another, if both squares have a road.
 
  - Units expend no movement points when moving along a railroad.
@@ -1899,7 +1899,24 @@ Swamp          4     15 (grass.)  15 (forest)    24 (plains)
 Tundra         2      -            -             24 (desert)
 
 (Railroads and fortresses require 3 turns, regardless of terrain.)
+---
+#  Pillaging
+All ground units have the ability to destroy terrain alterations, by
+pillaging.  Pillaging removes 1 terrain alteration per turn, in the
+following order:
 
+ - irrigation or mining
+ - a fortress
+ - a railroad
+ - a road
+
+Terrain tiles that do not have alterations (irrigation, mining,
+fortress, railroad or road) cannot be pillaged.  In addition,
+terrain conversions and transformations cannot be undone by
+pillaging.  For example, if you have irrigated a Forest tile to
+convert it into a Plain, pillaging will not convert it back into a
+Forest -- to do so, you would have to convert the tile again with a
+Settler or Engineer.
 ---
 #Government
 Your government type influences your cities' productivity and
