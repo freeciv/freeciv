@@ -305,6 +305,27 @@ extern struct tile_type tile_types[T_LAST];
   }                                                                           \
 }
 
+/* Iterate through all tiles in a square with given center and radius.
+   Positions returned will have adjusted x, and positions with illegal y will be
+   automatically discarded.
+ */
+#define square_iterate(SI_center_x, SI_center_y, radius, SI_x_itr, SI_y_itr)  \
+{                                                                             \
+  int SI_x_itr1;                                                              \
+  for (SI_y_itr = SI_center_y - radius;                                       \
+       SI_y_itr <= SI_center_y + radius; SI_y_itr++) {                        \
+    if (SI_y_itr < 0 || SI_y_itr >= map.ysize)                                \
+      continue;                                                               \
+    for (SI_x_itr1 = SI_center_x - radius;                                    \
+	 SI_x_itr1 <= SI_center_x + radius; SI_x_itr1++) {                    \
+      SI_x_itr = map_adjust_x(SI_x_itr1);
+
+#define square_iterate_end                                                    \
+    }                                                                         \
+  }                                                                           \
+}
+
+
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0
 #define MAP_MAX_HUTS             500

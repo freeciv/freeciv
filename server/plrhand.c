@@ -1801,7 +1801,7 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   enum diplstate_type old_type = pplayer->diplstates[other_player].type;
   enum diplstate_type new_type;
   struct player *pplayer2 = &game.players[other_player];
-  int reppenalty;
+  int reppenalty = 0;
   int has_senate =
     government_has_flag(get_gov_pplayer(pplayer), G_HAS_SENATE);
 
@@ -1812,12 +1812,16 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   /* check what the new status will be, and what will happen to our
      reputation */
   switch(old_type) {
-  case DS_CEASEFIRE:
+  case DS_NEUTRAL:
     new_type = DS_WAR;
+    reppenalty = 0;
+    break;
+  case DS_CEASEFIRE:
+    new_type = DS_NEUTRAL;
     reppenalty = GAME_MAX_REPUTATION/6;
     break;
   case DS_PEACE:
-    new_type = DS_WAR;
+    new_type = DS_NEUTRAL;
     reppenalty = GAME_MAX_REPUTATION/5;
     break;
   case DS_ALLIANCE:
@@ -1900,17 +1904,18 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   }
 
   notify_player(pplayer,
-		_("Game: There's now %s between the %s and the %s."),
-		diplstate_text(new_type),
+		_("Game: The diplomatic state between %s and the %s is now %s."),
 		get_nation_name_plural(pplayer->nation),
-		get_nation_name_plural(pplayer2->nation));
+		get_nation_name_plural(pplayer2->nation),
+		diplstate_text(new_type));
+  notify_player_ex(pplayer2, 0, 0, E_NOEVENT,
+		   _("Game: %s cancelled the diplomatic agreement!"),
+		   pplayer->name);
   notify_player_ex(pplayer2, 0, 0, E_CANCEL_PACT,
-		   _("Game: %s cancelled the pact! There's now %s between "
-		     "the %s and the %s."),
-		   pplayer->name,
-		   diplstate_text(new_type),
+		   _("Game: The diplomatic state between the %s and the %s is now %s."),
 		   get_nation_name_plural(pplayer2->nation),
-		   get_nation_name_plural(pplayer->nation));
+		   get_nation_name_plural(pplayer->nation),
+		   diplstate_text(new_type));
 }
 
 /**************************************************************************
@@ -2172,7 +2177,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 					     "player%d.reputation", plrno);
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
     plr->diplstates[i].type = 
-      secfile_lookup_int_default(file, DS_NEUTRAL,
+      secfile_lookup_int_default(file, DS_NO_CONTACT,
 				 "player%d.diplstate%d.type", plrno, i);
     plr->diplstates[i].turns_left = 
       secfile_lookup_int_default(file, 0,
@@ -2968,4 +2973,80 @@ void server_remove_player(struct player *pplayer)
 
   game_remove_player(pplayer->player_no);
   game_renumber_players(pplayer->player_no);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void make_contact(int player1, int player2, int x, int y)
+{
+  struct player *pplayer1 = get_player(player1);
+  struct player *pplayer2 = get_player(player2);
+
+  if (pplayer1 == pplayer2
+      || !pplayer1->is_alive || !pplayer2->is_alive
+      || is_barbarian(pplayer1) || is_barbarian(pplayer2)
+      || pplayer_get_diplstate(pplayer1, pplayer2)->type != DS_NO_CONTACT)
+    return;
+
+  /* FIXME: Always declairing war for the AI is a kludge until AI
+     diplomacy is implemented. */
+  pplayer1->diplstates[player2].type
+    = pplayer2->diplstates[player1].type
+    = pplayer1->ai.control || pplayer2->ai.control ? DS_WAR : DS_NEUTRAL;
+  notify_player_ex(pplayer1, x, y,
+		   E_FIRST_CONTACT,
+		   _("Game: You have made contact with the %s, ruled by %s."),
+		   get_nation_name_plural(pplayer2->nation), pplayer2->name);
+  notify_player_ex(pplayer2, x, y,
+		   E_FIRST_CONTACT,
+		   _("Game: You have made contact with the %s, ruled by %s."),
+		   get_nation_name_plural(pplayer1->nation), pplayer1->name);
+  send_player_info(pplayer1, pplayer1);
+  send_player_info(pplayer1, pplayer2);
+  send_player_info(pplayer2, pplayer1);
+  send_player_info(pplayer2, pplayer2);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void maybe_make_first_contact(int x, int y, int playerid)
+{
+  int x_itr, y_itr;
+
+  square_iterate(x, y, 1, x_itr, y_itr) {
+    struct tile *ptile = map_get_tile(x_itr, y_itr);
+    struct city *pcity = ptile->city;
+    if (pcity)
+      make_contact(playerid, pcity->owner, x, y);
+    unit_list_iterate(ptile->units, punit) {
+      make_contact(playerid, punit->owner, x, y);
+    } unit_list_iterate_end;
+  } square_iterate_end;
+}
+
+/***************************************************************************
+FIXME: This is a kluge to keep the AI working for the moment.
+When the AI is taught to handle diplomacy, remove this and the call to it.
+***************************************************************************/
+void neutralize_ai_player(struct player *pplayer)
+{
+  int other_player;
+  /* To make sure the rulesets are loaded we must do this.
+     If the game is a new game all players (inclusive ai's) would be
+     DS_NO_CONTACT, which is just as good as war.
+  */
+  if (game.is_new_game)
+    return;
+
+  for (other_player = 0; other_player < game.nplayers; other_player++) {
+    struct player *pother = get_player(other_player);
+    if (!pother->is_alive || pplayer == pother
+	|| pplayer_get_diplstate(pplayer, pother)->type == DS_NO_CONTACT)
+      continue;
+    while (pplayers_non_attack(pplayer, pother) || pplayers_allied(pplayer, pother)) {
+      handle_player_cancel_pact(pplayer, other_player);
+    }
+  }
 }

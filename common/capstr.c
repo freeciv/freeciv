@@ -72,7 +72,8 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
 ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet +30players \
-submarine_flags +gen_impr +dipl_states select_unit send_secs_to_turn_done"
+submarine_flags +gen_impr +dipl_states select_unit send_secs_to_turn_done \
++ds_no_contact"
 
 /* "+1.10" is protocol for 1.10.0 stable release
 
@@ -108,6 +109,9 @@ submarine_flags +gen_impr +dipl_states select_unit send_secs_to_turn_done"
    "send_secs_to_turn_done" is that timeout information is sent in the
    game_info packet, explicitly stating how many seconds are left in the
    turn, for when clients re-connect, or when the timeout changes mid-turn.
+
+   "ds_no_contact" is the DS_NO_CONTACT diplomatic state. Also changes the
+   meaning of DS_NEUTRAL.
 */
 
 void init_our_capability(void)

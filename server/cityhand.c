@@ -235,6 +235,7 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
 
   send_adjacent_cities(pcity);
   send_city_info(0, pcity);
+  maybe_make_first_contact(x, y, pcity->owner);
 
   /* if anyone changing to ocean here, stop them */
   pcitytile = get_tile_type(map_get_terrain(x, y));

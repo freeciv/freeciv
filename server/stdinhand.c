@@ -1357,32 +1357,6 @@ static void save_command(struct player *caller, char *arg)
   save_game(arg);
 }
 
-/***************************************************************************
-FIXME: This is a kluge to keep the AI working for the moment.
-When the AI is taught to handle diplomacy, remove this and the call to it.
-***************************************************************************/
-static void neutralize_ai_player(struct player *pplayer)
-{
-  int other_player;
-  /* To make sure the rulesets are loaded we must do this.
-     If the game is a new game all players (inclusive ai's) would be
-     DS_NEUTRAL, which is just as good as war.
-  */
-  if (game.is_new_game)
-    return;
-
-  for (other_player = 0; other_player < game.nplayers; other_player++) {
-    struct player *pother = get_player(other_player);
-    enum diplstate_type ds = pplayer->diplstates[other_player].type;
-    if (!pother->is_alive || is_barbarian(pplayer) || pplayer == pother)
-      continue;
-    while (is_pact_diplstate(ds)) {
-      handle_player_cancel_pact(pplayer, other_player);
-      ds = pplayer->diplstates[other_player].type;
-    }
-  }
-}
-
 /**************************************************************************
 ...
 **************************************************************************/

@@ -507,6 +507,11 @@ void game_load(struct section_file *file)
      player map we do this afterwards */
   for(i=0; i<game.nplayers; i++) {
     player_map_load(&game.players[i], i, file); 
+  }
+  for(i=0; i<game.nplayers; i++) {
+    struct player *pplayer = get_player(i);
+    if (pplayer->ai.control)
+      neutralize_ai_player(pplayer);
   }  
 
   initialize_globals();

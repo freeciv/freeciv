@@ -77,7 +77,7 @@ void player_init(struct player *plr)
   plr->embassy=0;
   plr->reputation=GAME_DEFAULT_REPUTATION;
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    plr->diplstates[i].type = DS_NEUTRAL;
+    plr->diplstates[i].type = DS_NO_CONTACT;
     plr->diplstates[i].has_reason_to_cancel = 0;
   }
   plr->city_style=0;            /* should be first basic style */
@@ -443,11 +443,12 @@ const char *diplstate_text(const enum diplstate_type type)
 {
   static char *ds_names[DS_LAST] = 
   {
-    N_("Neutral"), 
+    N_("Neutral"),
     N_("War"), 
     N_("Cease-fire"),
     N_("Peace"),
-    N_("Alliance")
+    N_("Alliance"),
+    N_("No Contact")
   };
 
   if (type < DS_LAST)
@@ -487,7 +488,7 @@ int pplayers_at_war(const struct player *pplayer,
   if (pplayer == pplayer2) return 0;
   if (is_barbarian(pplayer) || is_barbarian(pplayer2))
     return TRUE;
-  return ((ds == DS_WAR) || (ds == DS_NEUTRAL));
+  return ds == DS_WAR || ds == DS_NO_CONTACT;
 }
 
 /***************************************************************
@@ -531,7 +532,7 @@ int pplayers_non_attack(const struct player *pplayer,
     return FALSE;
   if (is_barbarian(pplayer) || is_barbarian(pplayer2))
     return FALSE;
-  return (ds == DS_PEACE || ds == DS_CEASEFIRE);
+  return (ds == DS_PEACE || ds == DS_CEASEFIRE || ds == DS_NEUTRAL);
 }
 
 /***************************************************************

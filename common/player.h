@@ -106,11 +106,9 @@ enum diplstate_type {
   DS_CEASEFIRE,
   DS_PEACE,
   DS_ALLIANCE,
+  DS_NO_CONTACT,
   DS_LAST	/* leave this last */
 };
-
-#define is_pact_diplstate(x) \
-  ((x == DS_CEASEFIRE) || (x == DS_PEACE) || (x == DS_ALLIANCE))
 
 struct player_diplstate {
   enum diplstate_type type;	/* this player's disposition towards other */

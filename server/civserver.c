@@ -732,6 +732,19 @@ static void do_apollo_program(void)
 /**************************************************************************
 ...
 **************************************************************************/
+static void marco_polo_make_contact(void)
+{
+  int cityid  = game.global_wonders[B_MARCO];
+  int o;
+  struct city *pcity;
+  if (cityid && (pcity = find_city_by_id(cityid)))
+    for (o = 0; o < game.nplayers; o++)
+      make_contact(pcity->owner, o, pcity->x, pcity->y);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void update_pollution(void)
 {
   int x,y,count=0;
@@ -874,6 +887,7 @@ static int end_turn(void)
   update_pollution();
   update_diplomatics();
   do_apollo_program();
+  marco_polo_make_contact();
   make_history_report();
   freelog(LOG_DEBUG, "Turn ended.");
   game.turn_start = time(NULL);

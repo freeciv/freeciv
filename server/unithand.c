@@ -514,7 +514,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   if (players_allied(punit->owner, pdefender->owner)
       && !(unit_flag(punit->type, F_NUCLEAR) && punit == pdefender)) {
     freelog(LOG_FATAL,
-	    "Trying to attack a unit with which you have allience at %i, %i",
+	    "Trying to attack a unit with which you have alliance at %i, %i",
 	    def_x, def_y);
     abort();
   }

@@ -422,7 +422,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_peace_callback),(gpointer)pdialog);
 
-  item=gtk_menu_item_new_with_label(_("Allience"));
+  item=gtk_menu_item_new_with_label(_("Alliance"));
   gtk_menu_append(GTK_MENU(pdialog->dip_pact_menu),item);
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_alliance_callback),(gpointer)pdialog);

@@ -95,21 +95,22 @@ char *message_text[E_LAST]={
   N_("Collapse to Anarchy      "),
   N_("Diplomat Actions - Enemy "),
   N_("Tech from Great Library  "),
-  N_("Player Destroyed         "),		/* E_DESTROYED */
-  N_("Improvement Bought       "),		/* E_IMP_BUY */
-  N_("Improvement Sold         "),		/* E_IMP_SOLD */
-  N_("Unit Bought              "),		/* E_UNIT_BUY */
-  N_("Wonder Stopped           "),		/* E_WONDER_STOPPED */
-  N_("City Needs Aq Being Built"),	        /* E_CITY_AQ_BUILDING */
-  N_("Diplomat Actions - Own   "),          /* E_MY_DIPLOMAT */
-  N_("Unit Attack Failed       "),          /* E_UNIT_LOST_ATT */
-  N_("Unit Attack Succeeded    "),          /* E_UNIT_WIN_ATT */
-  N_("Suggest Growth Throttling"),          /* E_CITY_GRAN_THROTTLE */
-  N_("Spaceship Events         "),          /* E_SPACESHIP */
-  N_("Barbarian Uprising       "),          /* E_UPRISING  */
-  N_("Worklist Events          "),          /* E_WORKLIST */
-  N_("Pact Cancelled           "),          /* E_CANCEL_PACT */
-  N_("Diplomatic Incident      "),          /* E_DIPL_INCIDENT */
+  N_("Player Destroyed         "),	/* E_DESTROYED */
+  N_("Improvement Bought       "),	/* E_IMP_BUY */
+  N_("Improvement Sold         "),	/* E_IMP_SOLD */
+  N_("Unit Bought              "),	/* E_UNIT_BUY */
+  N_("Wonder Stopped           "),	/* E_WONDER_STOPPED */
+  N_("City Needs Aq Being Built"),	/* E_CITY_AQ_BUILDING */
+  N_("Diplomat Actions - Own   "),	/* E_MY_DIPLOMAT */
+  N_("Unit Attack Failed       "),	/* E_UNIT_LOST_ATT */
+  N_("Unit Attack Succeeded    "),	/* E_UNIT_WIN_ATT */
+  N_("Suggest Growth Throttling"),	/* E_CITY_GRAN_THROTTLE */
+  N_("Spaceship Events         "),	/* E_SPACESHIP */
+  N_("Barbarian Uprising       "),	/* E_UPRISING  */
+  N_("Worklist Events          "),	/* E_WORKLIST */
+  N_("Pact Cancelled           "),	/* E_CANCEL_PACT */
+  N_("Diplomatic Incident      "),	/* E_DIPL_INCIDENT */
+  N_("First Contact            ")	/* E_FIRST_CONTACT */
 };
 
 /**************************************************************************

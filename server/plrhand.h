@@ -29,6 +29,9 @@ void handle_player_rates(struct player *pplayer,
 			 struct packet_player_request *preq);
 void check_player_government_rates(struct player *pplayer);
 void handle_player_cancel_pact(struct player *pplayer, int other_player);
+void make_contact(int player1, int player2, int x, int y);
+void maybe_make_first_contact(int x, int y, int playerid);
+void neutralize_ai_player(struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 

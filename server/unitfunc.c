@@ -1292,10 +1292,13 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
       abort();
     }
     switch (ds) {
-    case DS_NEUTRAL:
     case DS_WAR:
+    case DS_NO_CONTACT:
       freelog(LOG_VERBOSE,"Trying to cause an incident between players at war");
       punishment = 0;
+      break;
+    case DS_NEUTRAL:
+      punishment = GAME_MAX_REPUTATION/20;
       break;
     case DS_CEASEFIRE:
     case DS_PEACE:
@@ -1304,8 +1307,8 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     case DS_ALLIANCE:
       punishment = GAME_MAX_REPUTATION/5;
       break;
-    case DS_LAST:
-      freelog(LOG_FATAL, "DS_LAST is not a diplstate in maybe_cause_incident.");
+    default:
+      freelog(LOG_FATAL, "Illegal diplstate in maybe_cause_incident.");
       abort();
     }
     offender->reputation = MAX(offender->reputation - punishment, 0);
@@ -1872,6 +1875,7 @@ void create_unit_full(struct player *pplayer, int x, int y,
 
   unfog_area(pplayer,x,y,get_unit_type(punit->type)->vision_range);
   send_unit_info(0, punit);
+  maybe_make_first_contact(x, y, punit->owner);
 }
 
 /**************************************************************************
@@ -2707,12 +2711,14 @@ void send_unit_info_to_onlookers(struct player *dest, struct unit *punit,
   info.carried = carried;
   info.select_it = select_it;
 
-  for(o=0; o<game.nplayers; o++)           /* dests */
-    if(!dest || &game.players[o]==dest)
-      if(map_get_known_and_seen(info.x, info.y, o) ||
-	 map_get_known_and_seen(x, y, o)){
-	send_packet_unit_info(game.players[o].conn, &info);
+  for (o=0; o<game.nplayers; o++) {          /* dests */
+    if (!dest || &game.players[o]==dest) {
+      if (map_get_known_and_seen(info.x, info.y, o) ||
+	  map_get_known_and_seen(x, y, o)) {
+	send_packet_unit_info(get_player(o)->conn, &info);
       }
+    }
+  }
 }
 
 /**************************************************************************
@@ -3114,6 +3120,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
 
   teleport_unit_sight_points(src_x, src_y, dest_x, dest_y, punit);
   wakeup_neighbor_sentries(pplayer, dest_x, dest_y);
+  maybe_make_first_contact(dest_x, dest_y, punit->owner);
 
   if (tocity)
     handle_unit_enter_city(punit, tocity);

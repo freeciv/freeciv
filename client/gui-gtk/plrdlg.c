@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 
 #include <gtk/gtk.h>
@@ -265,11 +266,13 @@ void players_list_callback(GtkWidget *w, gint row, gint column)
   else
     gtk_widget_set_sensitive(players_sship_command, FALSE);
 
-  if (!players_at_war(game.player_idx, player_index)
-      && game.player_idx != player_index)
-    gtk_widget_set_sensitive(players_war_command, TRUE);
-  else
+  switch(player_get_diplstate(game.player_idx, player_index)->type) {
+  case DS_WAR: case DS_NO_CONTACT:
     gtk_widget_set_sensitive(players_war_command, FALSE);
+    break;
+  default:
+    gtk_widget_set_sensitive(players_war_command, game.player_idx != player_index);
+  }
 
   if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
     if(pplayer->is_connected)
