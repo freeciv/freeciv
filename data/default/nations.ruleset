@@ -11,8 +11,8 @@
 description="Default nations data for Freeciv"
 options="1.9"
 
-; Below: nations data in sections [nation0] - [nationxx]
-; for all nations available. If you want to have more
+; Below: nations data in sections [nation_*] for
+; all nations available. If you want to have more
 ; nations just add one at the end. There is a maximum
 ; of 63 nations however. I hope it is enough :-)
 ;
@@ -47,7 +47,7 @@ options="1.9"
 ; you run out of default cities for your nation
 ;
 
-[nation0]
+[nation_roman]
 
 name=_("Roman")
 plural=_("?plural:Romans")
@@ -91,7 +91,7 @@ cities =
   "Agentoracum", "Moguntiacum", "Arretium", "Thapsus", "Altinum", "Tarsus"
 
 
-[nation1]
+[nation_babylonian]
 
 name=_("Babylonian")
 plural=_("?plural:Babylonians")
@@ -120,7 +120,7 @@ cities =
   "Seleucia", "Ctesiphon", "Sittace", "Orchoe", "Apamea"
 
 
-[nation2]
+[nation_german]
 
 name=_("German")
 plural=_("?plural:Germans")
@@ -162,7 +162,7 @@ cities =
   "Düsseldorf", "Gelsenkirchen", "Bochum", "Saarbrücken", "Ludwigshafen"
 
 
-[nation3]
+[nation_egyptian]
 
 name=_("Egyptian")
 plural=_("?plural:Egyptians")
@@ -196,7 +196,7 @@ cities =
   "Ibiu", "Busiris", "Andropolis", "Sele", "Antiphrae", "Apis"
 
 
-[nation4]
+[nation_american]
 
 name=_("American")
 plural=_("?plural:Americans")
@@ -236,7 +236,7 @@ cities =
   "Santa Fe", "Tulsa", "Anapolis", "Dover", "Akron", "Urbana-Champaign"
 
 
-[nation5]
+[nation_greek]
 
 name=_("Greek")
 plural=_("?plural:Greeks")
@@ -275,7 +275,7 @@ cities =
   "Melos", "Lykosoura", "Amyclae", "Clazomenae", "Kynos Kephalae"
 
 
-[nation6]
+[nation_indian]
 
 name=_("Indian")
 plural=_("?plural:Indians")
@@ -308,7 +308,7 @@ cities =
   "Allahabad", "Indore", "Mysore", "Raipur", "Gaya"
 
 
-[nation7]
+[nation_russian]
 
 name=_("Russian")
 plural=_("?plural:Russians")
@@ -343,7 +343,7 @@ cities =
   "Vologda",  "Murmansk",  "Arkhangelsk",  "Krasnodar",  "Stavropol"
 
 
-[nation8]
+[nation_zulu]
 
 name=_("Zulu")
 plural=_("?plural:Zulus")
@@ -371,7 +371,7 @@ cities =
  "Ubombo", "Ngobeni", "Ngutu", "Nkande", "Empangeni"
 
 
-[nation9]
+[nation_french]
 
 name=_("French")
 plural=_("?plural:French")
@@ -406,7 +406,7 @@ cities =
   "St. Nazaire", "Bourges", "Le Mans", "Valenciennes", "Montlucon"
 
 
-[nation10]
+[nation_aztec]
 
 name=_("Aztec")
 plural=_("?plural:Aztecs")
@@ -435,7 +435,7 @@ cities =
   "Ticomán", "Xaltocán", "Xicalango", "Zumpanco"
 
 
-[nation11]
+[nation_chinese]
 
 name=_("Chinese")
 plural=_("?plural:Chinese")
@@ -478,7 +478,7 @@ cities =
   "Baiyin", "Changshu", "Gaoyou", "Heihe", "Dunhuang"
 
 
-[nation12]
+[nation_english]
 
 name=_("English")
 plural=_("?plural:English")
@@ -521,7 +521,7 @@ cities =
   "Rochdale", "Blackburn", "Burnley", "Lancaster", "Northampton"
 
 
-[nation13]
+[nation_mongol]
 
 name=_("Mongol")
 plural=_("?plural:Mongols")
@@ -554,7 +554,7 @@ cities =
   "Buyanhongor", "Huld", "Dalandzadgad", "Choybalsan"
 
 
-[nation14]
+[nation_turk]
 
 name=_("Turk")
 plural=_("?plural:Turks")
@@ -589,7 +589,7 @@ cities =
  "Balikesli", "Bandirma", "Yozgat", "Diyarbakir", "Giresun"
 
 
-[nation15]
+[nation_spanish]
 
 name=_("Spanish")
 plural=_("?plural:Spanish")
@@ -620,7 +620,7 @@ cities =
  "Jerez", "Alicante", "Cordoba", "Cadiz"
 
 
-[nation16]
+[nation_persian]
 
 name=_("Persian")
 plural=_("?plural:Persians")
@@ -655,7 +655,7 @@ cities =
   "Esfahan", "Mosul"
 
 
-[nation17]
+[nation_arab]
 
 name=_("Arab")
 plural=_("?plural:Arabs")
@@ -689,7 +689,7 @@ cities =
   "Al Ayn"
 
 
-[nation18]
+[nation_carthaginian]
 
 name=_("Carthaginian")
 plural=_("?plural:Carthaginians")
@@ -720,7 +720,7 @@ cities =
   "Githis", "Uthina", "Thamugaddi", "Lambaesis"
 
 
-[nation19]
+[nation_inca]
 
 name=_("Inca")
 plural=_("?plural:Incas")
@@ -753,7 +753,7 @@ cities =
   "Trujillo", "Cajamarca"
 
 
-[nation20]
+[nation_viking]
 
 name=_("Viking")
 plural=_("?plural:Vikings")
@@ -788,7 +788,7 @@ cities =
  "Longyearbyen"
 
 
-[nation21]
+[nation_polish]
 
 name=_("Polish")
 plural=_("?plural:Polish")
@@ -822,7 +822,7 @@ cities =
  "Boleslawiec", "Gorzów"
 
 
-[nation22]
+[nation_hungarian]
 
 name=_("Hungarian")
 plural=_("?plural:Hungarians")
@@ -850,7 +850,7 @@ cities =
  "Dunaujváros", "Paks", "Szentes", "Bonyhád", "Siklós", "Tokaj"
 
 
-[nation23]
+[nation_danish]
 
 name=_("Danish")
 plural=_("?plural:Danes")
@@ -884,7 +884,7 @@ cities =
   "Nakskov", "Rødby", "Birkerød", "Nykøbing", "Rønne", "Allinge", "Neksø"
 
 
-[nation24]
+[nation_dutch]
 
 name=_("Dutch")
 plural=_("?plural:Dutch")
@@ -928,7 +928,7 @@ cities =
  "Spijkenisse", "Terneuzen", "Emmeloord", "Lelystad", "Almere"
 
 
-[nation25]
+[nation_swedish]
 
 name=_("Swedish")
 plural=_("?plural:Swedes")
@@ -961,7 +961,7 @@ cities =
  "Vyborg", "Holmgard"
 
 
-[nation26]
+[nation_japanese]
 
 name=_("Japanese")
 plural=_("?plural:Japanese")
@@ -994,7 +994,7 @@ cities =
   "Iwaki", "Fukuyama", "Wakayama", "Niigata", "Matsuyama"
 
 
-[nation27]
+[nation_portuguese]
 
 name=_("Portuguese")
 plural=_("?plural:Portuguese")
@@ -1032,7 +1032,7 @@ cities =
  "Vila Nova de Gaia"
 
 
-[nation28]
+[nation_finnish]
 
 name=_("Finnish")
 plural=_("?plural:Finns")
@@ -1082,7 +1082,7 @@ cities =
  "Pyhäjärvi", "Haapavesi", "Viitasaari", "Paimio", "Nilsiä", "Juankoski"
 
 
-[nation29]
+[nation_sioux]
 
 name=_("Sioux")
 plural=_("?plural:Sioux")
@@ -1114,7 +1114,7 @@ cities =
   "Whitebird Creek", "Clearwater", "Big Hole", "Pine Ridge"
 
 
-[nation30]
+[nation_czech]
 
 name = _("Czech")
 plural = _("?plural:Czechs")
@@ -1174,7 +1174,7 @@ cities =
         "Jablonec nad Nisou", "Breclav", "Blansko", "Karvina"
 
 
-[nation31]
+[nation_australian]
 
 name=_("Australian")
 plural=_("?plural:Australians")
@@ -1215,7 +1215,7 @@ cities =
   "Bowen", "Ingham", "Gympie", "Caloundra", "Taree", "Katoomba", "Prosperpine"
 
 
-[nation32]
+[nation_welsh]
 
 name=_("Welsh")
 plural=_("?plural:Welsh")
@@ -1253,7 +1253,7 @@ cities =
   "Holyhead", "Tywyn", "Llandeilo", "Cwmbran"
 
 
-[nation33]
+[nation_korean]
 
 name=_("Korean")
 plural=_("?plural:Koreans")
@@ -1280,7 +1280,7 @@ cities =
   "Sonbong", "Songnim", "Sariwon", "Hamhung"
 
 
-[nation34]
+[nation_scottish]
 
 name=_("Scottish")
 plural=_("?plural:Scottish")
@@ -1314,7 +1314,7 @@ cities =
   "Troon", "Ullapool", "Whitebridge"
 
 
-[nation35]
+[nation_israeli]
 
 name=_("Israeli")
 plural=_("?plural:Israelis")
@@ -1348,7 +1348,7 @@ cities =
   "Ra'anana", "Ramat-Gav", "Holon"
 
 
-[nation36]
+[nation_argentine]
 
 name=_("Argentine")
 plural=_("?plural:Argentines")
@@ -1376,7 +1376,7 @@ cities =
   "Rawson", "Rio Grande"
 
 
-[nation37]
+[nation_canadian]
 
 name=_("Canadian")
 plural=_("?plural:Canadians")
@@ -1411,7 +1411,7 @@ cities =
   "Moncton", "Dartmouth", "Glace Bay", "Corner Brook", "Gander"
 
 
-[nation38]
+[nation_ukrainian]
 
 name=_("Ukrainian")
 plural=_("?plural:Ukrainians")
@@ -1442,7 +1442,7 @@ cities =
   "Luhansk", "Mykolaiv", "Vinnytsya"
 
 
-[nation39]
+[nation_lithuanian]
 
 name=_("Lithuanian")
 plural=_("?plural:Lithuanians")
@@ -1475,7 +1475,7 @@ cities =
   "Narva", "Kohtla-Järve"
 
 
-[nation40]
+[nation_kenyan]
 
 name = _("Kenyan")
 plural = _("?plural:Kenyans")
@@ -1503,7 +1503,7 @@ cities =
   "Kakuma", "Lokitaung"
 
 
-[nation41]
+[nation_dunedain]
 
 name=_("Dúnedain")
 plural=_("?plural:Dúnedan")
@@ -1539,7 +1539,7 @@ cities =
   "Lossarnach", "Minhiriath"
 
 
-[nation42]
+[nation_vietnamese]
 
 name=_("Vietnamese")
 plural=_("?plural:Vietnamese")
@@ -1563,7 +1563,7 @@ cities =
   "Can Tho", "Nha Trang", "Hue", "Danang", "Long Xuyen", "Qui Nhon"
 
 
-[nation43]
+[nation_thai]
 
 name=_("Thai")
 plural=_("?plural:Thai")
@@ -1591,7 +1591,7 @@ cities =
   "Laem Chabang", "Kanchanaburi", "Surat Thani", "Thammarat", "Phuket"
 
 
-;[nation??]
+;[nation_olympic]
 ;
 ;name=_("Olympic")
 ;plural=_("?plural:Olympians")
@@ -1617,7 +1617,7 @@ cities =
 ;  "Moscow", "Seoul", "Barcelona", "Atlanta", "Sydney", "Salt Lake"
 
 
-;[nation??]
+;[nation_krevi]
 ;
 ;name=_("Krevi")
 ;plural=_("?plural:Krevis")
