@@ -347,6 +347,7 @@ Center-click:                                h: Change (H)omecity
 Right-click:                                 s: (S)entry
              Center tile in view             u: (U)nload
                                              w: (W)ait
+					     x: Auto e(x)plore
 					 space: Stay put
                                         return: Turn done
 ---
