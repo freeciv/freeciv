@@ -762,7 +762,6 @@ void create_activeunits_report_dialog(int make_modal)
     = { N_("Unit Type"), N_("U"), N_("In-Prog"), N_("Active"),
 	N_("Shield"), N_("Food") };
   static gchar **titles;
-  int cols;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
@@ -781,10 +780,9 @@ void create_activeunits_report_dialog(int make_modal)
         activeunits_label, FALSE, FALSE, 0 );
   free(report_title);
 
-  cols = sizeof(titles)/sizeof(titles[0]);
-  activeunits_list = gtk_clist_new_with_titles( cols, titles );
+  activeunits_list = gtk_clist_new_with_titles( AU_COL, titles );
   gtk_clist_column_titles_passive(GTK_CLIST(activeunits_list));
-  for ( i = 0; i < cols; i++ ) {
+  for ( i = 0; i < AU_COL; i++ ) {
     gtk_clist_set_column_auto_resize(GTK_CLIST(activeunits_list),i,TRUE);
     if (i > 1) {
       gtk_clist_set_column_justification (GTK_CLIST(activeunits_list),
