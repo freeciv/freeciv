@@ -7,7 +7,7 @@ legend=_("Brazil was founded as a colony of Portugal but became \
 independent in 1822AD. It is the only country in the New World that \
 has been the seat of a monarchy.")
 leader="Dom Pedro I", "Princesa Isabel", "Marechal Deodoro",
-       "Tancredo Neves", "Juscelino Kubitscheck", "Get˙lio Vargas"
+       "Tancredo Neves", "Juscelino Kubitscheck", "Get√∫lio Vargas"
 leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
 flag = "f.brasil"
 flag_alt = "-"
@@ -31,26 +31,26 @@ government="Republic"
 civilwar_nations = "chilean"
 
 cities =
-    "S„o Paulo", "Rio de Janeiro (river)", "Salvador", "Fortaleza",
-    "Belo Horizonte", "Curitiba", "Recife (ocean)", "BelÈm", "Manaus",
-    "BrasÌlia", "Porto Alegre (ocean)", "S„o LuÌs", "Campinas (grassland)",
-    "Natal", "Goi‚nia", "MaceiÛ", "Jo„o Pessoa", "Teresina",
-    "S„o JosÈ dos Campos (grassland)", "Campo Grande (grassland)",
-    "Cuiab·", "Santos", "Ribeir„o Preto (river)", "NiterÛi", "Olinda",
-    "Uberl‚ndia", "Aracaju", "Feira de Santana", "Juiz de Fora",
-    "Joinville", "S„o Vicente", "FlorianÛpolis", "Campos (grassland)",
-    "JundiaÌ", "Campina Grande (grassland)", "Piracicaba", "Londrina",
-    "Serra (mountains)", "S„o JosÈ do Rio Preto (river)",
-    "Caxias do Sul", "Pelotas", "VitÛria", "Franca", "TaubatÈ",
-    "Bauru", "Vila Velha", "An·polis", "PetrÛpolis", "Limeira",
-    "Uberaba", "Blumenau", "VitÛria da Conquista", "Macap·",
-    "Foz do IguaÁu (river)", "Porto Velho (ocean)", "Caruaru",
-    "Rio Branco (river)", "Maring·", "SantarÈm", "IlhÈus", "MossorÛ",
+    "S√£o Paulo", "Rio de Janeiro (river)", "Salvador", "Fortaleza",
+    "Belo Horizonte", "Curitiba", "Recife (ocean)", "Bel√©m", "Manaus",
+    "Bras√≠lia", "Porto Alegre (ocean)", "S√£o Lu√≠s", "Campinas (grassland)",
+    "Natal", "Goi√¢nia", "Macei√≥", "Jo√£o Pessoa", "Teresina",
+    "S√£o Jos√© dos Campos (grassland)", "Campo Grande (grassland)",
+    "Cuiab√°", "Santos", "Ribeir√£o Preto (river)", "Niter√≥i", "Olinda",
+    "Uberl√¢ndia", "Aracaju", "Feira de Santana", "Juiz de Fora",
+    "Joinville", "S√£o Vicente", "Florian√≥polis", "Campos (grassland)",
+    "Jundia√≠", "Campina Grande (grassland)", "Piracicaba", "Londrina",
+    "Serra (mountains)", "S√£o Jos√© do Rio Preto (river)",
+    "Caxias do Sul", "Pelotas", "Vit√≥ria", "Franca", "Taubat√©",
+    "Bauru", "Vila Velha", "An√°polis", "Petr√≥polis", "Limeira",
+    "Uberaba", "Blumenau", "Vit√≥ria da Conquista", "Macap√°",
+    "Foz do Igua√ßu (river)", "Porto Velho (ocean)", "Caruaru",
+    "Rio Branco (river)", "Maring√°", "Santar√©m", "Ilh√©us", "Mossor√≥",
     "Governador Valadares", "Juazeiro do Norte", "Volta Redonda",
     "Araraquara", "Itabuna (hills)", "Boa Vista", "Petrolina",
-    "Presidente Prudente", "DivinÛpolis", "Itu", "Americana",
-    "Paranagu·", "Pindamonhangaba", "Cabo Frio (ocean)",
+    "Presidente Prudente", "Divin√≥polis", "Itu", "Americana",
+    "Paranagu√°", "Pindamonhangaba", "Cabo Frio (ocean)",
     "Itapetininga (hills)", "Angra dos Reis (ocean)",
-    "PoÁos de Caldas", "BraganÁa Paulista", "Dourados", "Barbacena",
-    "Patos de Minas", "RondonÛpolis", "Botucatu", "Varginha",
-    "Palmas", "Ouro Preto", "TeresÛpolis"
+    "Po√ßos de Caldas", "Bragan√ßa Paulista", "Dourados", "Barbacena",
+    "Patos de Minas", "Rondon√≥polis", "Botucatu", "Varginha",
+    "Palmas", "Ouro Preto", "Teres√≥polis"

@@ -5,7 +5,7 @@ plural=_("?plural:Catalans")
 class=_("Historical")
 legend=_("Catalunya (aka Catalonia in English) is the north-eastern-most \
 coastal region of Spain near the southern foot of the Pyrenees.")
-leader="GuifrÈ el PilÛs", "Ramon Berenguer IV", "Jaume I", "Pere II",
+leader="Guifr√© el Pil√≥s", "Ramon Berenguer IV", "Jaume I", "Pere II",
        "Lluis Companys", "Josep Tarradellas"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male"
@@ -30,25 +30,25 @@ government="Republic"
 civilwar_nations = "spanish", "portuguese"
 
 ; This city list does not actually correspond to medieval Catalonia,
-; but rather to the "PaÔsos Catalans" of modern ethnolinguistic
+; but rather to the "Pa√Øsos Catalans" of modern ethnolinguistic
 ; nationalists.
 cities =
-  "Barcelona", "Tarragona", "Lleida", "Girona", "Perpiny‡", "Valencia",
+  "Barcelona", "Tarragona", "Lleida", "Girona", "Perpiny√†", "Valencia",
   "Tolosa", "Ripoll", "Vic", "La Seu d'Urgell", "Cardona", "Tortosa",
   "Montserrat (hills)", "Poblet", "Santes Creus",
   "Vallbona de les Monges", "Balaguer", "Manresa", "Terrassa",
   "Sabadell", "Palma de Mallorca", "Eivissa", "Alacant", "Elx",
-  "CastellÛ de la Plana", "Montblanc (hills)", "Igualada", "Cervera",
-  "Berga", "DÈnia", "Reus", "Granollers", "MatarÛ", "Figueres", "Olot",
-  "Badalona", "T‡rrega", "Amposta", "El Bruc", "Valls",
-  "Vilafranca del PenedÈs", "Manacor", "Alc˙dia", "SÛller", "Art‡",
+  "Castell√≥ de la Plana", "Montblanc (hills)", "Igualada", "Cervera",
+  "Berga", "D√©nia", "Reus", "Granollers", "Matar√≥", "Figueres", "Olot",
+  "Badalona", "T√†rrega", "Amposta", "El Bruc", "Valls",
+  "Vilafranca del Pened√©s", "Manacor", "Alc√∫dia", "S√≥ller", "Art√†",
   "Llucmajor", "Felanitx", "Andratx", "Ciutadella", "Penyiscola",
-  "Sitges", "Vilanova i la Geltr˙", "Viella", "L'Alguer", "PerellÛ",
-  "TorellÛ", "Sant Cugat", "Portbou (ocean)", "Palafrugell", "Manlleu",
-  "Sallent", "Puigcerd‡", "Bellver", "Sant Boi de Llobregat",
-  "VandellÛs", "Cornell‡", "Tremp", "PalamÛs", "El Vendrell",
-  "Sant Feliu de GuÌxols", "Sant Celoni", "Martorell", "L'Hospitalet",
-  "Mollet del VallËs", "Banyoles", "Blanes", "Lloret de mar (ocean)",
+  "Sitges", "Vilanova i la Geltr√∫", "Viella", "L'Alguer", "Perell√≥",
+  "Torell√≥", "Sant Cugat", "Portbou (ocean)", "Palafrugell", "Manlleu",
+  "Sallent", "Puigcerd√†", "Bellver", "Sant Boi de Llobregat",
+  "Vandell√≥s", "Cornell√†", "Tremp", "Palam√≥s", "El Vendrell",
+  "Sant Feliu de Gu√≠xols", "Sant Celoni", "Martorell", "L'Hospitalet",
+  "Mollet del Vall√®s", "Banyoles", "Blanes", "Lloret de mar (ocean)",
   "Malgrat de mar (ocean)", "Canet de mar (ocean)", "Molins de Rei",
-  "Pons", "S˙ria", "LlÌvia", "La Bisbal d'Empurd‡", "Prada", "Elna",
-  "Ceret", "CadaquÈs", "Begur", "Olesa de Montserrat (hills)"
+  "Pons", "S√∫ria", "Ll√≠via", "La Bisbal d'Empurd√†", "Prada", "Elna",
+  "Ceret", "Cadaqu√©s", "Begur", "Olesa de Montserrat (hills)"

@@ -17,7 +17,7 @@
 
 #include "shared.h"
 
-#define DEFAULT_DATA_ENCODING "ISO-8859-1"
+#define DEFAULT_DATA_ENCODING "UTF-8"
 
 void init_character_encodings(char *internal_encoding);
 

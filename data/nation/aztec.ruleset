@@ -24,8 +24,8 @@ civilwar_nations = "inca"
 
 cities =
   "Michoacan", "Axaca", "Tuxpan", "Metztitlan", "Otumba",
-  "Tlacopán", "Theotihucanán", "Tezcuco", "Jalapa", "Tlaxcala",
-  "Cholula", "Tenochtitlán", "Yopitzingo", "Teotitlán", "Theuantepec",
+  "TlacopÃ¡n", "TheotihucanÃ¡n", "Tezcuco", "Jalapa", "Tlaxcala",
+  "Cholula", "TenochtitlÃ¡n", "Yopitzingo", "TeotitlÃ¡n", "Theuantepec",
   "Chiauhtia", "Chapultepec", "Coatepec", "Ayotzinco", "Itzapalapa",
   "Iztapam", "Mitxcoac", "Tacubaya", "Tecamac", "Tepezinco",
-  "Ticomán", "Xaltocán", "Xicalango", "Zumpanco"
+  "TicomÃ¡n", "XaltocÃ¡n", "Xicalango", "Zumpanco"

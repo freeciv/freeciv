@@ -20,7 +20,7 @@ init_techs=""
 init_buildings=""
 
 tech_goals="The Republic", "Trade", "Feudalism", "Railroad", "Steel"
-wonder="Great Wall" ; Yes, we had own great wall ( iso-8859-2 ("Wa硑 眘kie") )
+wonder="Great Wall" ; Yes, we had own great wall ( iso-8859-2 ("Wa鲁y 娄l卤skie") )
 government="Democracy"
 civilwar_nations = "polish"
 
@@ -28,11 +28,11 @@ civilwar_nations = "polish"
 ; only leave first 3 cities where they are
 
 cities =
-  "Wroclaw", "Opole", "Katowice", "Legnica", "Zielona G髍a (hills, grassland)",
-  "Glog體 (forest)", "Boleslawiec", "Walbrzych", "Gliwice", "Rybnik (river)", 
-  "Jelenia Gora (mountains)", "Swidnica", "Lubin", "Chojn體", "Malczyce", 
+  "Wroclaw", "Opole", "Katowice", "Legnica", "Zielona G贸ra (hills, grassland)",
+  "Glog贸w (forest)", "Boleslawiec", "Walbrzych", "Gliwice", "Rybnik (river)", 
+  "Jelenia Gora (mountains)", "Swidnica", "Lubin", "Chojn贸w", "Malczyce", 
   "Klodzko", "Bytom", "Oswiecim", "Zlotoryja", "Bielany", "Zgorzelec", 
   "Zary", "Bystrzyca (river)", "Zagan", "Bogatynia", 
-  "Chocian體", "Nowa S髄", "Zabrze", "Sosnowiec (forest)",
+  "Chocian贸w", "Nowa S贸l", "Zabrze", "Sosnowiec (forest)",
   "Rokitki", "Luban", "Polkowice", "Lubiaz", "Kedzierzyn-Kozle",
-  "Chorz體", "Bielsko", "Cieszyn"
+  "Chorz贸w", "Bielsko", "Cieszyn"

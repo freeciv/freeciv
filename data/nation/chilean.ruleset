@@ -4,7 +4,7 @@ name=_("Chilean")
 plural=_("?plural:Chileans")
 class=_("Modern")
 legend=_("Chile is located on the south-western coast of South America.")
-leader="Pedro de Valdivia", "Bernardo O'Higgins", "JosÈ Miguel Carrera",
+leader="Pedro de Valdivia", "Bernardo O'Higgins", "Jos√© Miguel Carrera",
        "Manuel Blanco Encalada", "Diego Portales", "Manuel Montt",
        "Arturo Alessandri", "Augusto Pinochet"
 leader_sex="Male", "Male", "Male",
@@ -31,22 +31,22 @@ government="Democracy"
 civilwar_nations = "argentine"
 
 cities =
-  "Santiago", "La Serena", "ConcepciÛn", "ValparaÌso (hills)",
-  "Rancagua", "Talca", "Punta Arenas (ocean)", "CopiapÛ",
+  "Santiago", "La Serena", "Concepci√≥n", "Valpara√≠so (hills)",
+  "Rancagua", "Talca", "Punta Arenas (ocean)", "Copiap√≥",
   "Puerto Montt (ocean)", "Antofagasta", "Iquique", "Coyhaique",
-  "Temuco (forest, river)", "ViÒa del mar (ocean)", "Coquimbo",
-  "San Antonio", "La Calera (hills)", "Chill·n", "Talcahuano", "Osorno",
+  "Temuco (forest, river)", "Vi√±a del mar (ocean)", "Coquimbo",
+  "San Antonio", "La Calera (hills)", "Chill√°n", "Talcahuano", "Osorno",
   "Valdivia", "Puerto Varas (ocean)", "Llanquihue", "Ancud", "Castro",
-  "Calama", "Arica", "ConstituciÛn", "ChaÒaral", "Cauquenes",
+  "Calama", "Arica", "Constituci√≥n", "Cha√±aral", "Cauquenes",
   "Puente Alto (river, hills)", "Talagante", "Melipilla", "Peumo",
   "Puerto Natales (ocean)", "Lota", "Ovalle", "Huasco", "Mejillones",
   "Victoria", "San Felipe", "Frutillar", "Illapel", "Angol",
-  "San Fernando", "ToltÈn", "CuricÛ", "Pisagua", "Tocopilla",
-  "Vallenar", "Caldera", "Lebu", "La Ligua", "Villarrica", "PucÛn",
-  "Puerto AisÈn (ocean)", "TomÈ", "MulchÈn", "Taltal", "Putre",
-  "VicuÒa", "Combarbal·", "Los Andes (hills)", "Quillota", "Molina",
+  "San Fernando", "Tolt√©n", "Curic√≥", "Pisagua", "Tocopilla",
+  "Vallenar", "Caldera", "Lebu", "La Ligua", "Villarrica", "Puc√≥n",
+  "Puerto Ais√©n (ocean)", "Tom√©", "Mulch√©n", "Taltal", "Putre",
+  "Vicu√±a", "Combarbal√°", "Los Andes (hills)", "Quillota", "Molina",
   "Chanco", "Parral", "Bulnes", "Yungay", "Coronel", "Yumbel",
-  "TraiguÈn (river)", "PitrufquÈn", "Calbuco (ocean)",
-  "MaullÌn (swamp)", "PelequÈn", "Algarrobo", "Puerto Toro (ocean)",
+  "Traigu√©n (river)", "Pitrufqu√©n", "Calbuco (ocean)",
+  "Maull√≠n (swamp)", "Pelequ√©n", "Algarrobo", "Puerto Toro (ocean)",
   "Cachiyuyo", "Pelotillehue"
 

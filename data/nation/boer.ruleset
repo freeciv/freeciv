@@ -8,7 +8,7 @@ Africa from 1650AD.  They briefly controlled two republics, the \
 Transvaal and the Orange Free State, before being defeated by the British \
 in the war of 1899-1902.")
 leader= "Jacobus Pretorius", "Louis Botha", "Wessel Pretorius",
-	"Paulus Krüger", "Piet Retief", "Jan Smuts"
+	"Paulus KrÃ¼ger", "Piet Retief", "Jan Smuts"
 leader_sex= "Male", "Male", "Male",
 	    "Male", "Male", "Male"
 flag="f.boer"

@@ -4,9 +4,9 @@ name=_("Argentine")
 plural=_("?plural:Argentines")
 class=_("Modern")
 legend=_("Argentina is located on the south-eastern coast of South America.")
-leader="JosÈ de San MartÌn", "Juan Manuel de Rosas", "Justo Urquiza",
-       "Bernardino Rivadavia", "Domingo Sarmiento", "Juan Domingo PerÛn",
-       "Eva Duarte de PerÛn", "Carlos Sa˙l Menem"
+leader="Jos√© de San Mart√≠n", "Juan Manuel de Rosas", "Justo Urquiza",
+       "Bernardino Rivadavia", "Domingo Sarmiento", "Juan Domingo Per√≥n",
+       "Eva Duarte de Per√≥n", "Carlos Sa√∫l Menem"
 leader_sex="Male", "Male", "Male",
            "Male", "Male", "Male",
            "Female", "Male"
@@ -25,27 +25,27 @@ civilwar_nations = "chilean"
 
 cities =
   "Buenos Aires", "Mar del Plata (ocean)", "Rosario", "La Plata",
-  "Paran·", "Santa Fe", "Corrientes (river)", "Resistencia", "Salta",
-  "CÛrdoba", "San Miguel de Tucum·n",
+  "Paran√°", "Santa Fe", "Corrientes (river)", "Resistencia", "Salta",
+  "C√≥rdoba", "San Miguel de Tucum√°n",
   "Santiago del Estero (swamp, !mountains)", "San Juan", "Mendoza",
-  "BahÌa Blanca (ocean)", "San Salvador de Jujuy", "Formosa",
-  "Catamarca", "San Luis", "RÌo Cuarto (river)", "Villa MarÌa",
-  "San Nicol·s de los arroyos (river)", "Z·rate", "JunÌn",
+  "Bah√≠a Blanca (ocean)", "San Salvador de Jujuy", "Formosa",
+  "Catamarca", "San Luis", "R√≠o Cuarto (river)", "Villa Mar√≠a",
+  "San Nicol√°s de los arroyos (river)", "Z√°rate", "Jun√≠n",
   "Comodoro Rivadavia", "San Carlos de Bariloche", "Tandil", "Tartagal",
-  "EmbarcaciÛn (river)", "Libertador General San MartÌn",
-  "San Antonio de los Cobres", "Met·n", "Rosario de la Frontera",
-  "Las Lomitas", "Campo Gallo", "Tintina", "Andalgal·", "Tinogasta",
-  "AÒatuya", "Pinto", "Tostado", "Santo TomÈ", "Mercedes", "AlbardÛn",
-  "Quilmes", "San Rafael", "General Alvear", "Malarg¸e", "Zapala",
-  "NeuquÈn", "General Roca", "Venado Tuerto", "Rufino", "Pergamino",
-  "Ibicuy", "Maip˙", "Chascom˙s", "Dolores", "Las Flores", "Balcarce",
-  "Necochea", "25 de Mayo", "9 de Julio", "OlavarrÌa", "Coronel Su·rez",
+  "Embarcaci√≥n (river)", "Libertador General San Mart√≠n",
+  "San Antonio de los Cobres", "Met√°n", "Rosario de la Frontera",
+  "Las Lomitas", "Campo Gallo", "Tintina", "Andalgal√°", "Tinogasta",
+  "A√±atuya", "Pinto", "Tostado", "Santo Tom√©", "Mercedes", "Albard√≥n",
+  "Quilmes", "San Rafael", "General Alvear", "Malarg√ºe", "Zapala",
+  "Neuqu√©n", "General Roca", "Venado Tuerto", "Rufino", "Pergamino",
+  "Ibicuy", "Maip√∫", "Chascom√∫s", "Dolores", "Las Flores", "Balcarce",
+  "Necochea", "25 de Mayo", "9 de Julio", "Olavarr√≠a", "Coronel Su√°rez",
   "Coronel Pringles", "Tres Arroyos (river)", "Punta Alta", 
-  "General Acha", "RÌo Colorado (river)", "San CristÛbal",
+  "General Acha", "R√≠o Colorado (river)", "San Crist√≥bal",
   "Santa Isabel", "Pehuajo", "Viedma", "Maquinchao", "Esquel",
-  "Paso de indios", "Las Plumas", "Rawson", "Sarmiento", "San Juli·n",
+  "Paso de indios", "Las Plumas", "Rawson", "Sarmiento", "San Juli√°n",
   "Perito Moreno", "Puerto Deseado (ocean)", "Santa Cruz",
-  "RÌo Gallegos (river)", "RÌo Grande (river)", "Ushuaia",
-  "Entre RÌos (river)", "Chimbas", "El Leoncito", "Lan˙s", "MorÛn",
+  "R√≠o Gallegos (river)", "R√≠o Grande (river)", "Ushuaia",
+  "Entre R√≠os (river)", "Chimbas", "El Leoncito", "Lan√∫s", "Mor√≥n",
   "San Lorenzo", "Teniente Matienzo", "Cruz del Eje", "San Pedro",
-  "RÌo Negro (river)", "QuequÈn", "DecepciÛn", "Esperanza"
+  "R√≠o Negro (river)", "Quequ√©n", "Decepci√≥n", "Esperanza"

@@ -21,7 +21,7 @@ government = "Monarchy"
 civilwar_nations = "german"
 
 cities =
-  "München", "Regensburg", "Ingolstadt", "Landshut", "Rosenheim",
-  "Eichstätt", "Passau",  "Straubing", "Mühldorf", "Freising",
-  "Deggendorf", "Erding", "Freilassing", "Altötting", "Pfaffenhofen",
+  "MÃ¼nchen", "Regensburg", "Ingolstadt", "Landshut", "Rosenheim",
+  "EichstÃ¤tt", "Passau",  "Straubing", "MÃ¼hldorf", "Freising",
+  "Deggendorf", "Erding", "Freilassing", "AltÃ¶tting", "Pfaffenhofen",
   "Vilshofen", "Plattling", "Traunstein", "Burghausen", "Dingolfing"

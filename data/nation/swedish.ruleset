@@ -5,7 +5,7 @@ plural=_("?plural:Swedes")
 class=_("Modern")
 
 leader=
-  "Erik Segergäll", "Olof Skötkonung", "Gustav Vasa", "Erik", "Karl",
+  "Erik SegergÃ¤ll", "Olof SkÃ¶tkonung", "Gustav Vasa", "Erik", "Karl",
   "Christine"
 
 leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
@@ -29,72 +29,72 @@ civilwar_nations = "viking"
 ;  Kort upplysning om ortnamnens betydelser och ursprung
 ;  =====================================================
 ;
-;  BIRKA betyder Björkö
+;  BIRKA betyder BjÃ¶rkÃ¶
 ;
-;  BORG (källa: Våra ord)
-;    fornsvenska islänska <borg>; gemensamt germanskt ord (tyska
-;    <Burg>, engelska <Borough>), besläktat med [berg]
+;  BORG (kÃ¤lla: VÃ¥ra ord)
+;    fornsvenska islÃ¤nska <borg>; gemensamt germanskt ord (tyska
+;    <Burg>, engelska <Borough>), beslÃ¤ktat med [berg]
 ;
-;  HULT (källa: Våra ord)
-;    skogsdunge, liten skog: fornsvenska <hult>, isländska <holt>;
-;    gemensamt germanskt ord (tyska <Holz> trä, skog) med släktingar i
-;    ett flertal andra indoeuropeiska språk
+;  HULT (kÃ¤lla: VÃ¥ra ord)
+;    skogsdunge, liten skog: fornsvenska <hult>, islÃ¤ndska <holt>;
+;    gemensamt germanskt ord (tyska <Holz> trÃ¤, skog) med slÃ¤ktingar i
+;    ett flertal andra indoeuropeiska sprÃ¥k
 ;
 ;  HUS
-;    fornsvenska isländska <hús>; gemensamt germanskt ord (tyska
-;    <Haus>, engelska <house>) av dunkelt ursprung; jämför [hos],
+;    fornsvenska islÃ¤ndska <hÃºs>; gemensamt germanskt ord (tyska
+;    <Haus>, engelska <house>) av dunkelt ursprung; jÃ¤mfÃ¶r [hos],
 ;    [hysa]
 ;
-;  KIRUNA samiska <giron>, fjällripa
+;  KIRUNA samiska <giron>, fjÃ¤llripa
 ;
-;  KÖPING (källa: Våra ord)
-;    fornsvenska <køpunger> handelsplats; jämför isländska <kaupangr>,
-;    sammansättning av [köpa] och <-angr> (fornsvenska <-anger>) äng,
-;    gräsplats
+;  KÃ–PING (kÃ¤lla: VÃ¥ra ord)
+;    fornsvenska <kÃ¸punger> handelsplats; jÃ¤mfÃ¶r islÃ¤ndska <kaupangr>,
+;    sammansÃ¤ttning av [kÃ¶pa] och <-angr> (fornsvenska <-anger>) Ã¤ng,
+;    grÃ¤splats
 ;
-;  JOKK samiska bäck
+;  JOKK samiska bÃ¤ck
 ;
 ;  OR flodmynning (i till exempel <Orsa>)
 ;
-;  SAL (källa: Våra ord)
-;    fornsvenska <sal>, isländska <salr>; gemensamt germanskt ord
-;    (tyska <Saal>), troligen med grundbetydelsen 'stort hus för
-;    gästabud; boning' (i ortnamn till exempel <Sala>, <Uppsala>)
+;  SAL (kÃ¤lla: VÃ¥ra ord)
+;    fornsvenska <sal>, islÃ¤ndska <salr>; gemensamt germanskt ord
+;    (tyska <Saal>), troligen med grundbetydelsen 'stort hus fÃ¶r
+;    gÃ¤stabud; boning' (i ortnamn till exempel <Sala>, <Uppsala>)
 ;
-;  TORP (källa: Våra ord)
-;    fornsvenska isländska <şorp> liten utgård, nyodling; gård, by,
+;  TORP (kÃ¤lla: VÃ¥ra ord)
+;    fornsvenska islÃ¤ndska <Ã¾orp> liten utgÃ¥rd, nyodling; gÃ¥rd, by,
 ;    norska <torp>; gemensamt germanskt ord (tyska <Dorf> by, se
-;    [tölp]), möjligen med grundbetydelsen 'hus'
+;    [tÃ¶lp]), mÃ¶jligen med grundbetydelsen 'hus'
 ;
-;  TUN (källa: Våra ord)
-;    gårdsplats (om fornnordiska förhållanden): av isländska <tún>
-;    inhägnad jord, hemmaägor (i svenska ortnamn som <Tuna>, <Sigtuna>
-;    med flera); gemensamt germanskt ord (tyska <Zaun> gärdesgård,
-;    engelska <town> stad) med ursprunglig betydelse 'hägnad,
-;    gärdsgård' (gotländska <tun> gärdsgård) och med motsvarighet i
-;    keltiska språk
+;  TUN (kÃ¤lla: VÃ¥ra ord)
+;    gÃ¥rdsplats (om fornnordiska fÃ¶rhÃ¥llanden): av islÃ¤ndska <tÃºn>
+;    inhÃ¤gnad jord, hemmaÃ¤gor (i svenska ortnamn som <Tuna>, <Sigtuna>
+;    med flera); gemensamt germanskt ord (tyska <Zaun> gÃ¤rdesgÃ¥rd,
+;    engelska <town> stad) med ursprunglig betydelse 'hÃ¤gnad,
+;    gÃ¤rdsgÃ¥rd' (gotlÃ¤ndska <tun> gÃ¤rdsgÃ¥rd) och med motsvarighet i
+;    keltiska sprÃ¥k
 ;
 ;
-;  Tillordningen namn -> landskap är huvudsakligen gjord enligt
-;  följande:
+;  Tillordningen namn -> landskap Ã¤r huvudsakligen gjord enligt
+;  fÃ¶ljande:
 ;
-;    "holm", "ö" ("a" i Birka), "sjö", "hamn", "sund" -> ocean
-;    "bro", "å" -> river
-;    "ås" -> hills
-;    "köping" -> grassland
+;    "holm", "Ã¶" ("a" i Birka), "sjÃ¶", "hamn", "sund" -> ocean
+;    "bro", "Ã¥" -> river
+;    "Ã¥s" -> hills
+;    "kÃ¶ping" -> grassland
 ;
 ; */ <-- avoid gettext warnings
 
 cities =
  "Stockholm (ocean)", "Uppsala", "Sollentuna", "Sigtuna",
- "Birka (ocean)", "Norrköping (grassland)", "Linköping (grassland)",
- "Örebro (river)", "Gävle", "Västerås (hills)", "Göteborg",
- "Karlstad", "Växjö (ocean)", "Kalmar", "Visby", "Malmö (ocean)",
- "Helsingborg", "Ystad",  "Lund", "Luleå (river)",
- "Kiruna (mountains)", "Halmstad", "Östersund (ocean)",
- "Nyköping (grassland)", "Söderhamn (ocean)", "Sundsvall (ocean)",
- "Piteå (river)", "Skellefteå (river)", "Umeå (river)",
- "Jönköping (grassland)", "Kristianstad",
- "Karlskrona", "Mora", "Oskarshamn (ocean)", "Hässleholm (ocean)",
- "Falun", "Viborg", "Holmgård (ocean)", "Orsa (ocean, river)",
- "Trollhättan", "Jokkmokk (river)"
+ "Birka (ocean)", "NorrkÃ¶ping (grassland)", "LinkÃ¶ping (grassland)",
+ "Ã–rebro (river)", "GÃ¤vle", "VÃ¤sterÃ¥s (hills)", "GÃ¶teborg",
+ "Karlstad", "VÃ¤xjÃ¶ (ocean)", "Kalmar", "Visby", "MalmÃ¶ (ocean)",
+ "Helsingborg", "Ystad",  "Lund", "LuleÃ¥ (river)",
+ "Kiruna (mountains)", "Halmstad", "Ã–stersund (ocean)",
+ "NykÃ¶ping (grassland)", "SÃ¶derhamn (ocean)", "Sundsvall (ocean)",
+ "PiteÃ¥ (river)", "SkellefteÃ¥ (river)", "UmeÃ¥ (river)",
+ "JÃ¶nkÃ¶ping (grassland)", "Kristianstad",
+ "Karlskrona", "Mora", "Oskarshamn (ocean)", "HÃ¤ssleholm (ocean)",
+ "Falun", "Viborg", "HolmgÃ¥rd (ocean)", "Orsa (ocean, river)",
+ "TrollhÃ¤ttan", "Jokkmokk (river)"

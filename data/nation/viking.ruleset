@@ -6,14 +6,14 @@ class=_("Historical")
 legend=_("The Vikings raided and traded along the coasts of Europe \
 between 800AD and 1100AD. Viking raiders eventually became the rulers of \
 Normandy, Russia, and a short-lived kingdom in Sicily.")
-leader="Erik Blodøks",
-       "Harald Hårfagre",
+leader="Erik BlodÃ¸ks",
+       "Harald HÃ¥rfagre",
        "Sigurd Jorsalfar",
-       "Magnus Berrføtt",
+       "Magnus BerrfÃ¸tt",
        "Haakon VII",
        "Aud Ivarsdottir",
        "Hrolf Gangr",
-       "Magnus Lagabøter",
+       "Magnus LagabÃ¸ter",
        "Olav den Hellige",
        "Rollo",
        "Gro Harlem Brundtland",
@@ -47,22 +47,22 @@ civilwar_nations = "swedish", "finnish", "icelandic"
 
 cities =
 "Oslo (ocean)", "Bergen (ocean)", "Kaupang", "Stavanger (ocean)",
-"Nidaros", "Narvik", "Tromsø", "Reykjavik (ocean)", "Harstad", 
-"Fagernes (ocean)", "Tønsberg", "Kirkenes", "Hamar", "Fredrikstad", 
+"Nidaros", "Narvik", "TromsÃ¸", "Reykjavik (ocean)", "Harstad", 
+"Fagernes (ocean)", "TÃ¸nsberg", "Kirkenes", "Hamar", "Fredrikstad", 
 "Kristansand (ocean)", "Kristiansund (ocean)", "Christiania", "Drammen", 
-"Sandnes", "Arendal", "Vardø (ocean)", "Vadsø (ocean)", "Haugesund", 
-"Sarpsborg", "Kongsberg", "Kongsvinger", "Gjøvik (river)", "Bardufoss", 
-"Skjold", "Setermoen (hills)", "Lillehammer (river)", "Lillestrøm", 
-"Strømmen", "Fredrikborg", "Halden", "Karmøy", "Kragerø", "Fauske", 
-"Bodø (ocean)", "Andenes (ocean)", "Stokkmarknes", "Svolvær (ocean)", 
-"Sortland", "Moss (ocean)", "Honningsvåg (ocean)", "Hammerfest (ocean)", 
-"Ås (hills)", "Os", "Tynset", "Longyearbyen", "Mandal", "Molde (ocean)", 
-"Ålesund (ocean)", "Oppdal (hills)", "Rjukan", "Porsgrunn",
+"Sandnes", "Arendal", "VardÃ¸ (ocean)", "VadsÃ¸ (ocean)", "Haugesund", 
+"Sarpsborg", "Kongsberg", "Kongsvinger", "GjÃ¸vik (river)", "Bardufoss", 
+"Skjold", "Setermoen (hills)", "Lillehammer (river)", "LillestrÃ¸m", 
+"StrÃ¸mmen", "Fredrikborg", "Halden", "KarmÃ¸y", "KragerÃ¸", "Fauske", 
+"BodÃ¸ (ocean)", "Andenes (ocean)", "Stokkmarknes", "SvolvÃ¦r (ocean)", 
+"Sortland", "Moss (ocean)", "HonningsvÃ¥g (ocean)", "Hammerfest (ocean)", 
+"Ã…s (hills)", "Os", "Tynset", "Longyearbyen", "Mandal", "Molde (ocean)", 
+"Ã…lesund (ocean)", "Oppdal (hills)", "Rjukan", "Porsgrunn",
 
-; Eg skal ikkje gløyme kvelden, det var ein augustikveld,
-; Vårherre heldt fest for folket i Fjaler prestegjeld,
+; Eg skal ikkje glÃ¸yme kvelden, det var ein augustikveld,
+; VÃ¥rherre heldt fest for folket i Fjaler prestegjeld,
 ;  - Bergens stift, som det heitte, - Ytre Sunnfjord provsti.
-; Gud unne oss alle nåden når timen vår er forbi.
+; Gud unne oss alle nÃ¥den nÃ¥r timen vÃ¥r er forbi.
 ;
 ; Jakob Sande 1954
 ; added to Freeciv by Gaute Strokkenes RCNUWC 96-98

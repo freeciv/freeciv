@@ -8,7 +8,7 @@ name=_("Dunedain")
 plural=_("?plural:Dunedan")
 class=_("Fictional")
 legend=_("The Men of the West from J.R.R. Tolkien's Middle Earth fantasies.")
-leader="Elros", "Tar-Ancalimë", "Míriel", "Elendil", "Isildur", "Aragorn",
+leader="Elros", "Tar-AncalimÃ«", "MÃ­riel", "Elendil", "Isildur", "Aragorn",
 	"Tarannon Falastur", "Thorongil", "Ar-Pharazon", "Beruthiel"
 leader_sex="Male", "Female", "Female", "Male", "Male", "Male",
 	"Male", "Male", "Male", "Female"
@@ -28,15 +28,15 @@ government="Monarchy"
 civilwar_nations = "mordor"
 
 cities =
-  "Armenelos", "Romenna", "Meneltarma (mountains)", "Andúnië",
-  "Eldalondë (ocean)", "Nindamos", "Vinyalondë (ocean)", "Lond Daer (ocean)",
-  "Emerië", "Hyarastorni", "Osgiliath", "Minas Anor", "Minas Ithil",
-  "Pelargir", "Erech (hills)", "Umbar", "Aglarond", "Annúminas",
-  "Amon Sûl (hills)", "Fornost", "Ethring (river)", "Dol Amroth",
+  "Armenelos", "Romenna", "Meneltarma (mountains)", "AndÃºniÃ«",
+  "EldalondÃ« (ocean)", "Nindamos", "VinyalondÃ« (ocean)", "Lond Daer (ocean)",
+  "EmeriÃ«", "Hyarastorni", "Osgiliath", "Minas Anor", "Minas Ithil",
+  "Pelargir", "Erech (hills)", "Umbar", "Aglarond", "AnnÃºminas",
+  "Amon SÃ»l (hills)", "Fornost", "Ethring (river)", "Dol Amroth",
   "Edhellond (ocean)", "Linhir", "Calembel", "Tharbad", "Elostirion (hills)",
-  "Isengard (hills)", "Belfalas", "Anórien", "Bree (hills)", "Staddle",
+  "Isengard (hills)", "Belfalas", "AnÃ³rien", "Bree (hills)", "Staddle",
   "Combe", "Archet", "Minas Tirith", "Halifirien (mountains, hills)",
   "Calenhad", "Min-Rimmon (hills)", "Erelas", "Nardol", "Eilenach (hills)",
-  "Amon Dîn (hills)", "Henneth Annûn", "Tarnost", "Arthedain", "Cardolan",
+  "Amon DÃ®n (hills)", "Henneth AnnÃ»n", "Tarnost", "Arthedain", "Cardolan",
   "Calenardhon", "Enedwaith", "Evendim", "Lamedon", "Lebennin",
   "Lossarnach (!mountains)", "Minhiriath"

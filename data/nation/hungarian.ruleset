@@ -3,8 +3,8 @@
 name=_("Hungarian")
 plural=_("?plural:Hungarians")
 class=_("Modern")
-leader="Árpád", "Szent István", "Károly Róbert",
-       "Hunyadi Mátyás", "Mária Terézia", "Batthyány"
+leader="ÃrpÃ¡d", "Szent IstvÃ¡n", "KÃ¡roly RÃ³bert",
+       "Hunyadi MÃ¡tyÃ¡s", "MÃ¡ria TerÃ©zia", "BatthyÃ¡ny"
 leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
 flag="f.hungary"
 flag_alt = "-"
@@ -20,18 +20,18 @@ government="Republic"
 civilwar_nations = "lithuanian", "croatian", "slovenian"
 
 cities =
- "Budapest", "Debrecen", "Székesfehérvár", "Kolozsvár", "Szeged",
- "Kassa", "Pécs", "Pozsony", "Miskolc", "Nagyvárad", "Gyõr",
- "Esztergom", "Temesvár", "Komárom", "Nyíregyháza", "Marosvásárhely",
- "Sopron", "Szabadka", "Kecskemét", "Veszprém", "Besztercebánya",
- "Békéscsaba", "Munkács", "Eger", "Eperjes", "Gyulafehérvár", "Kaposvár",
+ "Budapest", "Debrecen", "SzÃ©kesfehÃ©rvÃ¡r", "KolozsvÃ¡r", "Szeged",
+ "Kassa", "PÃ©cs", "Pozsony", "Miskolc", "NagyvÃ¡rad", "GyÃµr",
+ "Esztergom", "TemesvÃ¡r", "KomÃ¡rom", "NyÃ­regyhÃ¡za", "MarosvÃ¡sÃ¡rhely",
+ "Sopron", "Szabadka", "KecskemÃ©t", "VeszprÃ©m", "BesztercebÃ¡nya",
+ "BÃ©kÃ©scsaba", "MunkÃ¡cs", "Eger", "Eperjes", "GyulafehÃ©rvÃ¡r", "KaposvÃ¡r",
  "Szolnok", "Paks", "Zalaegerszeg", "Arad", "Szombathely",
- "Mohács", "Hatvan", "Selmecbánya", "Keszthely", "Ungvár", "Szekszárd",
- "Sárospatak", "Tatabánya", "Baja", "Szigetvár", "Csíkszereda",
- "Nagykanizsa", "Hódmezõvásárhely", "Siklós", "Érsekújvár", "Pápa",
- "Gyöngyös",  "Dunaújváros", "Szatmárnémeti", "Szentes",
- "Mosonmagyaróvár",  "Léva", "Szarvas", "Csáktornya",
- "Mátészalka", "Tata", "Nagykõrös", "Nagyszeben",
- "Salgótarján", "Újvidék", "Siófok", "Losonc", "Gyula",
- "Sátoraljaújhely", "Déva", "Tapolca", "Tiszaújváros", "Dombóvár",
- "Püspökladány", "Balatonfüred", "Vác"
+ "MohÃ¡cs", "Hatvan", "SelmecbÃ¡nya", "Keszthely", "UngvÃ¡r", "SzekszÃ¡rd",
+ "SÃ¡rospatak", "TatabÃ¡nya", "Baja", "SzigetvÃ¡r", "CsÃ­kszereda",
+ "Nagykanizsa", "HÃ³dmezÃµvÃ¡sÃ¡rhely", "SiklÃ³s", "Ã‰rsekÃºjvÃ¡r", "PÃ¡pa",
+ "GyÃ¶ngyÃ¶s",  "DunaÃºjvÃ¡ros", "SzatmÃ¡rnÃ©meti", "Szentes",
+ "MosonmagyarÃ³vÃ¡r",  "LÃ©va", "Szarvas", "CsÃ¡ktornya",
+ "MÃ¡tÃ©szalka", "Tata", "NagykÃµrÃ¶s", "Nagyszeben",
+ "SalgÃ³tarjÃ¡n", "ÃšjvidÃ©k", "SiÃ³fok", "Losonc", "Gyula",
+ "SÃ¡toraljaÃºjhely", "DÃ©va", "Tapolca", "TiszaÃºjvÃ¡ros", "DombÃ³vÃ¡r",
+ "PÃ¼spÃ¶kladÃ¡ny", "BalatonfÃ¼red", "VÃ¡c"

@@ -21,13 +21,13 @@ wonder="United Nations"
 government="Democracy"
 
 cities =
-  "Bern (river)", "Zürich", "Basel (river)", "Genève", "Lausanne",
+  "Bern (river)", "ZÃ¼rich", "Basel (river)", "GenÃ¨ve", "Lausanne",
   "Winterthur", "St. Gallen", "Luzern", "Biel / Bienne", "Thun (river)",
-  "Köniz", "La Chaux-de-Fonds", "Fribourg (river)", "Schaffhausen (river)",
+  "KÃ¶niz", "La Chaux-de-Fonds", "Fribourg (river)", "Schaffhausen (river)",
   "Neuchatel", "Chur", "Vernier GE", "Emmen LU", "Sion (river)", "Lugano",
   "Uster ZH", "Kriens LU", "Lancy GE", "Montreux VD",
   "Yverdon-les-bains VD (river)",
-  "Zug", "Dietikon ZH", "Dübendorf ZH", "Frauenfeld TG", "Riehen BS",
+  "Zug", "Dietikon ZH", "DÃ¼bendorf ZH", "Frauenfeld TG", "Riehen BS",
   "Aarau (river)", "Herisau", "Appenzell", "Liestal", "Glarus",
   "Delemont", "Stans", "Sarnen", "Schwyz",
   "Solothurn (river)", "Bellinzona", "Altdorf"
