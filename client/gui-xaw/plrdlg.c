@@ -214,14 +214,15 @@ void players_list_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(players_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    if(game.players[ret->list_index].spaceship.state != SSHIP_NONE)
+    struct player *pplayer = &game.players[ret->list_index];
+    
+    if(pplayer->spaceship.state != SSHIP_NONE)
       XtSetSensitive(players_sship_command, TRUE);
     else
       XtSetSensitive(players_sship_command, FALSE);
 
-    if(player_has_embassy(game.player_ptr, &game.players[ret->list_index])) {
-      if(game.players[ret->list_index].is_connected &&
-	 game.players[ret->list_index].is_alive)
+    if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
+      if(pplayer->is_connected)
 	XtSetSensitive(players_meet_command, TRUE);
       else
 	XtSetSensitive(players_meet_command, FALSE);

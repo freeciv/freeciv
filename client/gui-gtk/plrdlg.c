@@ -198,14 +198,15 @@ void update_players_dialog(void)
 **************************************************************************/
 void players_list_callback(GtkWidget *w, gint row, gint column)
 {
-    if(game.players[row].spaceship.state != SSHIP_NONE)
+  struct player *pplayer = &game.players[row];
+  
+    if(pplayer->spaceship.state != SSHIP_NONE)
       gtk_widget_set_sensitive(players_sship_command, TRUE);
     else
       gtk_widget_set_sensitive(players_sship_command, FALSE);
 
-    if(player_has_embassy(game.player_ptr, &game.players[row])) {
-      if(game.players[row].is_connected &&
-	 game.players[row].is_alive)
+    if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
+      if(pplayer->is_connected)
 	gtk_widget_set_sensitive(players_meet_command, TRUE);
       else
 	gtk_widget_set_sensitive(players_meet_command, FALSE);
