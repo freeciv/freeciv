@@ -119,6 +119,14 @@ static void check_map(void)
 
     unit_list_iterate(ptile->units, punit) {
       assert(same_pos(punit->x, punit->y, x, y));
+
+      /* Check diplomatic status of stacked units. */
+      unit_list_iterate(ptile->units, punit2) {
+	assert(pplayers_allied(unit_owner(punit), unit_owner(punit2)));
+      } unit_list_iterate_end;
+      if (pcity) {
+	assert(pplayers_allied(unit_owner(punit), city_owner(pcity)));
+      }
     } unit_list_iterate_end;
   } whole_map_iterate_end;
 }
