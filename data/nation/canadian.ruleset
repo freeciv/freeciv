@@ -20,16 +20,17 @@ wonder="Cure For Cancer"
 government="Democracy"
 civilwar_nations = "american"
 
+; Capitals of provinces and territories are listed first in this list
 cities =
-  "Ottawa", "Toronto", "Vancouver", "Montreal", "Quebec", "Winnipeg",
-  "Calgary", "Edmonton", "Victoria", "Yellowknife", "Fredericton",
-  "Charlottetown", "Regina", "Saskatoon", "Whitehorse", "Iqaluit",
-  "Hamilton", "Kelowna", "Moose Jaw", "Brandon", "Sudbury", "St. John",
-  "St. John's", "Sault Ste. Marie", "Thunder Bay", "Red Deer", "Jasper",
-  "Prince Rupert", "Windsor", "Prince George", "Kamloops", "Lethbridge",
-  "Medicine Hat", "Prince Albert", "Thompson", "Timmins", "Sarnia",
-  "Guelph", "St. Catharines", "Barrie", "North Bay", "Belleville",
-  "Kingston", "Cornwall", "Trois-Rivieres", "Chicoutimi", "Rimouski",
-  "Moncton", "Dartmouth", "Glace Bay", "Corner Brook", "Gander"
-
-
+  "Ottawa", "Toronto", "Quebec", "Edmonton", "Victoria", "Winnipeg",
+  "Regina", "Fredericton", "St. John's", "Charlottetown", "Halifax",
+  "Yellowknife", "Whitehorse", "Iqaluit", "Vancouver", "Montreal", "Calgary",
+  "Saskatoon", "Hamilton", "Moncton", "Sherbrooke","Kelowna", "Moose Jaw",
+  "Brandon", "Sudbury", "St. John", "Sault Ste. Marie", "Thunder Bay",
+  "Niagara Fall", "Red Deer", "Jasper", "Gatineau", "Prince Rupert",
+  "Windsor", "Prince George", "Kamloops", "Lethbridge", "Medicine Hat",
+  "Prince Albert", "Thompson", "Timmins", "Sarnia", "Guelph",
+  "St. Catharines", "Barrie", "North Bay", "Belleville", "Kingston",
+  "Cornwall", "Trois-Rivieres", "Chicoutimi", "Rimouski", "Dartmouth",
+  "Glace Bay", "Corner Brook", "Gander", "Swawinigan", "Saguenay",
+  "Banff", "Dawson", "Truro"
