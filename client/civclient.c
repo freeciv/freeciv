@@ -20,6 +20,7 @@
 #endif
 
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -38,6 +39,7 @@
 #include "packets.h"
 #include "rand.h"
 #include "support.h"
+#include "timing.h"
 #include "version.h"
 
 #include "agents.h"
@@ -86,8 +88,6 @@ int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
 
 static enum client_states client_state = CLIENT_BOOT_STATE;
-
-int seconds_to_turndone;
 
 /* TRUE if an end turn request is blocked by busy agents */
 bool waiting_for_end_turn = FALSE;
@@ -612,16 +612,60 @@ bool client_is_observer(void)
   return aconnection.established && aconnection.observer;
 }
 
+/* Seconds_to_turndone is the number of seconds the server has told us
+ * are left.  The timer tells exactly how much time has passed since the
+ * server gave us that data. */
+static double seconds_to_turndone = 0.0;
+static struct timer *turndone_timer;
+
+/* This value shows what value the timeout label is currently showing for
+ * the seconds-to-turndone. */
+static int seconds_shown_to_turndone;
+
 /**************************************************************************
- This function should be called every 500ms. It lets the unit blink
- and update the timeout.
+  Reset the number of seconds to turndone from an "authentic" source.
+
+  The seconds are taken as a double even though most callers will just
+  know an integer value.
 **************************************************************************/
-void real_timer_callback(void)
+void set_seconds_to_turndone(double seconds)
 {
-  static bool flip = FALSE;
+  if (game.timeout > 0) {
+    seconds_to_turndone = seconds;
+    turndone_timer = renew_timer_start(turndone_timer, TIMER_USER,
+				       TIMER_ACTIVE);
+
+    /* Maybe we should do an update_timeout_label here, but it doesn't
+     * seem to be necessary. */
+    seconds_shown_to_turndone = ceil(seconds) + 0.1;
+  }
+}
+
+/**************************************************************************
+  Return the number of seconds until turn-done.  Don't call this unless
+  game.timeout != 0.
+**************************************************************************/
+int get_seconds_to_turndone(void)
+{
+  if (game.timeout > 0) {
+    return seconds_shown_to_turndone;
+  } else {
+    /* This shouldn't happen. */
+    return FC_INFINITY;
+  }
+}
+
+/**************************************************************************
+  This function should be called at least once per second.  It does various
+  updates (idle animations and timeout updates).  It returns the number of
+  seconds until it should be called again.
+**************************************************************************/
+double real_timer_callback(void)
+{
+  double time_until_next_call = 1.0;
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
-    return;
+    return time_until_next_call;
   }
 
   if (game.player_ptr->is_connected && game.player_ptr->is_alive &&
@@ -643,18 +687,26 @@ void real_timer_callback(void)
     }
   }
 
-  blink_active_unit();
+  if (get_unit_in_focus()) {
+    double blink_time = blink_active_unit();
 
-  if (flip) {
-    update_timeout_label();
-    if (seconds_to_turndone > 0) {
-      seconds_to_turndone--;
-    } else {
-      seconds_to_turndone = 0;
-    }
+    time_until_next_call = MIN(time_until_next_call, blink_time);
   }
 
-  flip = !flip;
+  if (game.timeout > 0) {
+    double seconds = seconds_to_turndone - read_timer_seconds(turndone_timer);
+    int iseconds = ceil(seconds) + 0.1; /* Turn should end right on 0. */
+
+    if (iseconds < seconds_shown_to_turndone) {
+      seconds_shown_to_turndone = iseconds;
+      update_timeout_label();
+    }
+
+    time_until_next_call = MIN(time_until_next_call,
+			       seconds - floor(seconds) + 0.001);
+  }
+
+  return MAX(time_until_next_call, 0.0);
 }
 
 /**************************************************************************

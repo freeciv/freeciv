@@ -766,7 +766,7 @@ void handle_new_year(int year, int turn)
   update_unit_info_label(get_unit_in_focus());
   update_menus();
 
-  seconds_to_turndone=game.timeout;
+  set_seconds_to_turndone(game.timeout);
 
 #if 0
   /* This information shouldn't be needed, but if it is this is the only
@@ -1362,11 +1362,9 @@ void handle_game_info(struct packet_game_info *pinfo)
   boot_help = (can_client_change_view()
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
-  if (game.timeout != 0) {
-    if (pinfo->seconds_to_turndone != 0)
-      seconds_to_turndone = pinfo->seconds_to_turndone;
-  } else
-    seconds_to_turndone = 0;
+  if (game.timeout != 0 && pinfo->seconds_to_turndone != 0) {
+    set_seconds_to_turndone(pinfo->seconds_to_turndone);
+  }
   if (boot_help) {
     boot_help_texts();		/* reboot, after setting game.spacerace */
   }

@@ -1090,6 +1090,7 @@ static void select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 static gint timer_callback(gpointer data)
 {
   real_timer_callback();
+  freelog(LOG_ERROR, "FIXME: Need to update timer.");
   return TRUE;
 }
 

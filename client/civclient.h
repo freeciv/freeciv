@@ -22,7 +22,7 @@
  * called. TIMER_INTERVAL has to stay 500 because real_timer_callback
  * also updates the timeout info.
  */
-#define TIMER_INTERVAL 500
+#define TIMER_INTERVAL (int)(real_timer_callback() * 1000)
 
 void handle_packet_input(void *packet, int type);
 
@@ -52,11 +52,11 @@ extern bool auto_connect;
 extern bool waiting_for_end_turn;
 extern bool turn_done_sent;
 
-extern int seconds_to_turndone;
-
 void wait_till_request_got_processed(int request_id);
 bool client_is_observer(void);
-void real_timer_callback(void);
+void set_seconds_to_turndone(double seconds);
+int get_seconds_to_turndone(void);
+double real_timer_callback(void);
 bool can_client_issue_orders(void);
 bool can_client_change_view(void);
 bool can_meet_with_player(const struct player *pplayer);

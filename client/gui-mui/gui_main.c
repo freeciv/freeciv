@@ -144,6 +144,7 @@ static void parse_options(int argc, char **argv)
 static void handle_timer(void)
 {
   real_timer_callback();
+  freelog(LOG_ERROR, "FIXME: Need to update timer.");
 }
 
 static BOOL connected;		/* TRUE, if connected to the server */

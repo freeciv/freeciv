@@ -68,9 +68,9 @@ void ui_init(void)
 **************************************************************************/
 static void timer_callback(void *data)
 {
-  real_timer_callback();
-  //sw_add_timeout(TIMER_INTERVAL, timer_callback, NULL);
-  sw_add_timeout(1000, timer_callback, NULL);
+  double msec = real_timer_callback() * 1000;
+
+  sw_add_timeout(msec, timer_callback, NULL);
 }
 
 /**************************************************************************

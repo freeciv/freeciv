@@ -1387,8 +1387,11 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 **************************************************************************/
 static gint timer_callback(gpointer data)
 {
-  real_timer_callback();
-  return TRUE;
+  double seconds = real_timer_callback();
+
+  timer_id = gtk_timeout_add(seconds * 1000, timer_callback, NULL);
+
+  return FALSE;
 }
 
 /**************************************************************************

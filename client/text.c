@@ -639,7 +639,7 @@ const char *get_timeout_label_text(void)
   if (game.timeout <= 0) {
     add("%s", Q_("?timeout:off"));
   } else {
-    add("%s", format_duration(seconds_to_turndone));
+    add("%s", format_duration(get_seconds_to_turndone()));
   }
 
   RETURN;

@@ -516,6 +516,7 @@ static VOID CALLBACK blink_timer(HWND hwnd, UINT uMsg, UINT idEvent,
   }
 
   real_timer_callback();
+  freelog(LOG_ERROR, "FIXME: Need to update timer.");
 }
 
 /**************************************************************************

@@ -851,9 +851,10 @@ void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data)
 **************************************************************************/
 void timer_callback(XtPointer client_data, XtIntervalId * id)
 {
-  x_interval_id = XtAppAddTimeOut(app_context, TIMER_INTERVAL,
+  int msec = real_timer_callback() * 1000;
+
+  x_interval_id = XtAppAddTimeOut(app_context, msec,
 				  timer_callback, NULL);
-  real_timer_callback();
 }
 
 /**************************************************************************

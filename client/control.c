@@ -21,6 +21,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "timing.h"
 
 #include "audio.h"
 #include "chatline_g.h"
@@ -394,26 +395,45 @@ struct unit *find_visible_unit(struct tile *ptile)
 }
 
 /**************************************************************************
-...
+  Blink the active unit (if necessary).  Return the time until the next
+  blink (in seconds).
 **************************************************************************/
-void blink_active_unit(void)
+double blink_active_unit(void)
 {
   static bool is_shown;
   static struct unit *pblinking_unit;
-  struct unit *punit;
+  static struct timer *blink_timer = NULL;
+  const double blink_time = 0.5;
 
-  if ((punit = punit_focus)) {
+  struct unit *punit = punit_focus;
+  bool need_update = FALSE;
+
+  if (punit) {
     if (punit != pblinking_unit) {
+      
       /* When the focus unit changes, we reset the is_shown flag. */
       pblinking_unit = punit;
       is_shown = TRUE;
+      need_update = TRUE;
     } else {
-      /* Reverse the shown status. */
-      is_shown = !is_shown;
+      if (read_timer_seconds(blink_timer) > blink_time) {
+	/* Reverse the shown status. */
+	is_shown = !is_shown;
+	need_update = TRUE;
+      }
     }
-    set_focus_unit_hidden_state(!is_shown);
-    refresh_unit_mapcanvas(punit, punit->tile, TRUE);
+    if (need_update) {
+      /* If we lag, we don't try to catch up.  Instead we just start a
+       * new blink_time on every update. */
+      blink_timer = renew_timer_start(blink_timer, TIMER_USER, TIMER_ACTIVE);
+      set_focus_unit_hidden_state(!is_shown);
+      refresh_unit_mapcanvas(punit, punit->tile, TRUE);
+    }
+
+    return blink_time - read_timer_seconds(blink_timer);
   }
+
+  return blink_time;
 }
 
 /**************************************************************************

@@ -112,7 +112,7 @@ void set_unit_focus_and_select(struct unit *punit);
 void update_unit_focus(void);
 struct unit *find_visible_unit(struct tile *ptile);
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
-void blink_active_unit(void);
+double blink_active_unit(void);
 void update_unit_pix_label(struct unit *punit);
 
 void process_caravan_arrival(struct unit *punit);
