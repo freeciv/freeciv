@@ -90,6 +90,8 @@
 #include "transparentstringclass.h"
 #include "worklistclass.h"
 
+const char *client_string = "gui-mui";
+
 /**************************************************************************
   Print extra usage information, including one line help on each option,
   to stderr.

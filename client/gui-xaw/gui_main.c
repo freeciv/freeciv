@@ -64,6 +64,8 @@
 
 #include "freeciv.ico"
 
+const char *client_string = "gui-xaw";
+
 static AppResources appResources;
 
 /* ids of the units icons in information display: (or 0) */

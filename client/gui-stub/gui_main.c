@@ -4,6 +4,8 @@
 
 #include "gui_main.h"
 
+const char *client_string = "gui-stub";
+
 
 void
 ui_main(int argc, char *argv[])

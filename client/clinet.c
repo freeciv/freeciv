@@ -306,26 +306,25 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     my_closesocket(s);
     return NULL;
   }
-
+  my_snprintf(str,sizeof(str),
+              "GET %s%s%s HTTP/1.0\r\nUser-Agent: Freeciv/%s %s\r\n\r\n",
+              proxy_url ? "" : "/",
+              urlpath,
+              proxy_url ? metaserver : "",
+              VERSION_STRING,
+              client_string);
 #ifdef HAVE_FDOPEN
   f=fdopen(s,"r+");
-  fprintf(f,"GET %s%s%s HTTP/1.0\r\n\r\n",
-    proxy_url ? "" : "/",
-    urlpath,
-    proxy_url ? metaserver : "");
+  fwrite(str,1,strlen(str),f);
   fflush(f);
 #else
   {
     int i;
 
     f=tmpfile();
-    send(s,"GET ",4,0);
-    if(!proxy_url) send(s,"/",1,0);
-    send(s,urlpath,strlen(urlpath),0);
-    if(proxy_url) send(s,metaserver,strlen(metaserver),0);
-    send(s," HTTP/1.0\r\n\r\n", sizeof(" HTTP/1.0\r\n\r\n"),0);
-
-    while ((i = recv(s, str, sizeof(str), 0)) > 0)
+    my_writesocket(s,str,strlen(str));
+    
+    while ((i = my_readsocket(s, str, sizeof(str))) > 0)
       fwrite(str,1,i,f);
     fflush(f);
 

@@ -64,6 +64,8 @@
 
 #include "freeciv.ico"
 
+const char *client_string = "gui-gtk";
+
 /*void file_quit_cmd_callback( GtkWidget *widget, gpointer data )*/
 void game_rates( GtkWidget *widget, gpointer data );
 

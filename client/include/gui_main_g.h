@@ -24,4 +24,6 @@ void remove_net_input(void);
 void set_unit_icon(int idx, struct unit *punit);
 void set_unit_icons_more_arrow(int onoff);
 
+extern const char *client_string;
+
 #endif  /* FC__GUI_MAIN_G_H */

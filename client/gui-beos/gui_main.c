@@ -4,6 +4,8 @@
 
 #include <stdio.h>
 
+const char *client_string = "gui-beos";
+
 char logfile[256] = "";
 
 void
