@@ -2561,7 +2561,11 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
   if (!(mask & GDK_CONTROL_MASK)) {
     sell_callback(id, data);
   } else {
-    popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
+    if (is_great_wonder(id)) {
+      popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
+    } else {
+      popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
+    }
   }
 }
 
