@@ -1622,11 +1622,11 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 				  G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_built_improvements_item),
 				  FALSE, FALSE, CO_NONE,
-				   (TestCityFunc) city_got_building,
+				   city_building_present,
 				  G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_built_wonders_item),
 				  FALSE, TRUE, CO_NONE,
-				   (TestCityFunc) city_got_building,
+				   city_building_present,
 				  G_CALLBACK(select_impr_or_unit_callback), -1);
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_improvements_item),

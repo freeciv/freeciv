@@ -920,8 +920,7 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
                               TRUE, FALSE, city_unit_present, FALSE);
 
   append_impr_or_unit_to_menu(menu, _("Improvements in City"), FALSE, TRUE, 
-                              FALSE, TRUE, (TestCityFunc)city_got_building,
-			      FALSE);
+                              FALSE, TRUE, city_building_present, FALSE);
 
   append_impr_or_unit_to_menu(menu, _("Available Improvements"), FALSE, TRUE,
 			      FALSE, FALSE, city_can_build_impr_or_unit,

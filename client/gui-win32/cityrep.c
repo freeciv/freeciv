@@ -470,7 +470,7 @@ static void cityrep_select(HWND hWnd)
   AppendMenu(popup,MF_POPUP,(UINT)submenu,_("Improvements in City"));
   max_improvement_id=ID_IMPROVEMENTS_POPUP_BASE;
   append_impr_or_unit_to_menu(submenu, FALSE, TRUE, FALSE,
-			      (TestCityFunc*)city_got_building,
+			      city_building_present,
 			      &cityids,selcount,
 			      &max_improvement_id);
   

@@ -76,6 +76,7 @@ int wid_id(wid wid);
 bool city_can_build_impr_or_unit(struct city *pcity, cid cid);
 bool city_unit_supported(struct city *pcity, cid cid);
 bool city_unit_present(struct city *pcity, cid cid);
+bool city_building_present(struct city *pcity, cid cid);
 
 struct item {
   cid cid;

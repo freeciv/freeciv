@@ -532,6 +532,19 @@ bool city_unit_present(struct city *pcity, cid cid)
   return FALSE;
 }
 
+/****************************************************************************
+  A TestCityFunc to tell whether the item is a building and is present.
+****************************************************************************/
+bool city_building_present(struct city *pcity, cid cid)
+{
+  if (!cid_is_unit(cid)) {
+    int impr_type = cid_id(cid);
+
+    return city_got_building(pcity, impr_type);
+  }
+  return FALSE;
+}
+
 /**************************************************************************
  Helper for name_and_sort_items.
 **************************************************************************/
