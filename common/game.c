@@ -790,6 +790,7 @@ void game_init(void)
   game.ai_goal_government = G_MAGIC;        /* flag */
 
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
+  sz_strlcpy(game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT);
 
   map_init();
   idex_init();

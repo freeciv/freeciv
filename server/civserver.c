@@ -1618,12 +1618,49 @@ static void handle_request_join_game(struct connection *pconn,
       (pplayer=find_player_by_user(req->name))     ) {
     if(!pplayer->conn) {
       if(is_barbarian(pplayer)) {
-        reject_new_player(_("Sorry, you can't observe a barbarian."), pconn);
-        freelog(LOG_NORMAL,
-		_("No observation of barbarians - %s was rejected."),
-		req->name);
-        close_connection(pconn);
-        return;
+	if(!(strchr(game.allow_connect, 'B')
+	     || strchr(game.allow_connect, 'b'))) {
+	  reject_new_player(_("Sorry, no observation of barbarians "
+			      "this game."), pconn);
+	  freelog(LOG_NORMAL,
+		  _("No observation of barbarians - %s was rejected."),
+		  req->name);
+	  close_connection(pconn);
+	  return;
+	}
+      } else if(!pplayer->is_alive) {
+	if(!(strchr(game.allow_connect, 'D')
+	      || strchr(game.allow_connect, 'd'))) {
+	  reject_new_player(_("Sorry, no observation of dead players "
+			      "this game."), pconn);
+	  freelog(LOG_NORMAL,
+		  _("No observation of dead players - %s was rejected."),
+		  req->name);
+	  close_connection(pconn);
+	  return;
+	}
+      } else if(pplayer->ai.control) {
+	if(!(strchr(game.allow_connect, 'A')
+	     || strchr(game.allow_connect, 'a'))) {
+	  reject_new_player(_("Sorry, no observation of AI players "
+			      "this game."), pconn);
+	  freelog(LOG_NORMAL,
+		  _("No observation of AI players - %s was rejected."),
+		  req->name);
+	  close_connection(pconn);
+	  return;
+	}
+      } else {
+	if(!(strchr(game.allow_connect, 'H')
+	     || strchr(game.allow_connect, 'h'))) {
+	  reject_new_player(_("Sorry, no reconnections to human-mode players "
+			      "this game."), pconn);
+	  freelog(LOG_NORMAL,
+		  _("No reconnection to human players - %s was rejected."),
+		  req->name);
+	  close_connection(pconn);
+	  return;
+	}
       }
 
       pplayer->conn=pconn;
@@ -1694,6 +1731,15 @@ static void handle_request_join_game(struct connection *pconn,
     return;
   }
 
+  if(!(strchr(game.allow_connect, 'N')
+       || strchr(game.allow_connect, 'n'))) {
+    reject_new_player(_("Sorry, no new players this game."), pconn);
+    freelog(LOG_NORMAL, _("No connections as new player - %s was rejected."),
+	    req->name);
+    close_connection(pconn);
+    return;
+  }
+  
   accept_new_player(req->name, pconn);
 }
 

@@ -569,6 +569,28 @@ static struct settings_s settings[] = {
  * affect what happens in the game, it just determines when the
  * players stop playing and look at the score.)
  */
+  { "allowconnect", NULL,
+    SSET_META, SSET_TO_CLIENT,
+    0, 0, 0,
+    N_("What connections are allowed"),
+    N_("This should be a string of characters, each of which specifies a "
+       "type or status of a civilization, or \"player\".  Clients will only "
+       "be permitted to connect to those players which match one of the "
+       "specified letters.  This only affects future connections, and "
+       "existing connections are unchanged.  "
+       "The characters and their meanings are:\n"
+       "    N = New players (only applies pre-game)\n"
+       "    H = Human players (pre-existing)\n"
+       "    A = AI players\n"
+       "    D = Dead players\n"
+       "    B = Barbarian players\n"
+       "Note that the first description from the _bottom_ which matches a "
+       "player is the one which applies, thus 'D' does not include Barbarians, "
+       "'A' does not include dead AI players, and so on.  The case of the "
+       "characters is not significant."),
+    game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT,
+    sizeof(game.allow_connect) },
+
   { "autotoggle", &game.auto_ai_toggle,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_AUTO_AI_TOGGLE, GAME_MAX_AUTO_AI_TOGGLE,
@@ -2893,10 +2915,18 @@ static void show_players(struct player *caller)
     for(i=0; i<game.nplayers; i++) {
       if (is_barbarian(&game.players[i])) {
 	if (caller==NULL || access_level(caller) >= ALLOW_CTRL) {
-	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		_("%s (Barbarian, %s)"),
-		game.players[i].name,
-		name_of_skill_level(game.players[i].ai.skill_level));
+	  if (game.players[i].conn) {
+	    cmd_reply(CMD_LIST, caller, C_COMMENT,
+		      _("%s (Barbarian, %s) is being observed from %s"),
+		      game.players[i].name,
+		      name_of_skill_level(game.players[i].ai.skill_level),
+		      game.players[i].addr);
+	  } else {
+	    cmd_reply(CMD_LIST, caller, C_COMMENT,
+		      _("%s (Barbarian, %s)"),
+		      game.players[i].name,
+		      name_of_skill_level(game.players[i].ai.skill_level));
+	  }
 	}
       }
       else if (game.players[i].ai.control) {
