@@ -93,6 +93,7 @@ void set_civ2_style(void)
   remove_unit(U_FANATICS); 
 
   remove_tech(A_ENVIRONMENTALISM); /* add it and solar plant will be in */
+  remove_building(B_SOLAR);	/* better to do this too --dwp */
 
   remove_building(B_SCOMP);
   remove_building(B_SMODULE);

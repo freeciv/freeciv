@@ -25,6 +25,7 @@
 
 #include <xstuff.h>
 
+#include <genlist.h>
 #include <climisc.h>
 #include <log.h>
 #include <shared.h>
@@ -67,6 +68,7 @@ Widget help_unit_tile;
 
 char *help_type_names[] = { "", "TEXT", "UNIT", "IMPROVEMENT",
 			    "WONDER", "TECH", 0 };
+#define MAX_LAST (MAX(MAX(A_LAST,B_LAST),U_LAST))
 
 void create_help_page(enum help_page_type type);
 
@@ -83,17 +85,19 @@ void create_help_dialog(void);
 void select_help_item(int item);
 void select_help_item_string(char *item, enum help_page_type htype);
 
-extern struct improvement_type improvement_types[];
-extern struct advance advances[];
-
 struct help_item {
   char *topic, *text;
-  int indent;
-  struct help_item *next;
   enum help_page_type type;
 };
+static struct genlist help_nodes;
 
-struct help_item *head, *tail;
+#define help_list_iterate(helplist, pitem) { \
+  struct genlist_iterator myiter; \
+  struct help_item *pitem; \
+  for( genlist_iterator_init(&myiter, &helplist, 0); \
+       (pitem=ITERATOR_PTR(myiter)); \
+       ITERATOR_NEXT(myiter) ) {
+#define help_list_iterate_end }}
 
 char *topic_list[1024];
 
@@ -104,31 +108,9 @@ char *topic_list[1024];
 #define TREE_NODE_REMOVED_TECH_BG "magenta"
 
 
-#if 0
-/* This isn't used anywhere, which is a good thing because
- * it looks broken to me -- dwp
- */ 
-struct help_item *find_help_item_by_topic(char *topic)
-{
-  struct help_item *pitem=head;
-
-  while(pitem) {
-    char *p=pitem->topic;
-    while(*p==' ')
-      ++p;
-    if(!strcmp(topic, p))
-      return pitem;
-  }
-  return 0;
-}
-#endif
-
 struct help_item *find_help_item_position(int pos)
 {
-  struct help_item *pitem=head;
-  while(pitem && pos)
-    pitem=pitem->next, --pos;
-  return pitem;
+  return genlist_get(&help_nodes, pos);
 }
 
 
@@ -145,15 +127,60 @@ void set_title_topic(struct help_item *pitem)
 
 
 
+static struct help_item *new_help_item(int type)
+{
+  struct help_item *pitem;
+  
+  pitem = malloc(sizeof(struct help_item));
+  pitem->topic = NULL;
+  pitem->text = NULL;
+  pitem->type = type;
+  return pitem;
+}
+
+/* for genlist_sort(); sort by topic via strcmp */
+static int help_item_compar(const void *a, const void *b)
+{
+  const struct help_item *ha, *hb;
+  ha = (const struct help_item*) *(const void**)a;
+  hb = (const struct help_item*) *(const void**)b;
+  return strcmp(ha->topic, hb->topic);
+}
 
 void boot_help_texts(void)
 {
+  static int booted=0;
+  
   FILE *fs;
   char buf[512], *p, text[64000];
+  char expect[32], name[MAX_LENGTH_NAME+2];
+  char seen[MAX_LAST], *pname;
   int len;
-  struct help_item *pitem;
+  struct help_item *pitem = NULL;
   enum help_page_type current_type = HELP_TEXT;
-  int i;
+  struct genlist category_nodes;
+  int i, filter_this;
+
+  if(help_dialog_shell) {
+    /* need to do something like this or bad things happen */
+    XtDestroyWidget(help_dialog_shell);
+    help_dialog_shell=0;
+  }
+  
+  if(!booted) {
+    flog(LOG_DEBUG, "Booting help texts");
+    genlist_init(&help_nodes);
+  } else {
+    /* free memory allocated last time booted */
+    help_list_iterate(help_nodes, ptmp) {
+      free(ptmp->topic);
+      free(ptmp->text);
+      free(ptmp);
+    }
+    help_list_iterate_end;
+    genlist_unlink_all(&help_nodes);
+    flog(LOG_DEBUG, "Rebooting help texts");
+  }    
   
   fs=fopen(datafilename("helpdata.txt"), "r");
   if(fs==NULL) {
@@ -169,15 +196,83 @@ void boot_help_texts(void)
     len=strlen(buf);
 
     if (len>0 && buf[0] == '@') {
-      current_type = -1;
-      for(i=1; help_type_names[i]; i++) {
-	if(strcmp(help_type_names[i],buf+1)==0) {
-	  current_type = i;
-	  break;
+      if(current_type==HELP_TEXT) {
+	current_type = -1;
+	for(i=2; help_type_names[i]; i++) {
+	  sprintf(expect, "START_%sS", help_type_names[i]);
+	  if(strcmp(expect,buf+1)==0) {
+	    current_type = i;
+	    break;
+	  }
 	}
-      }
-      if (current_type==-1) {
-	flog(LOG_NORMAL, "bad help category \"%s\"", buf);
+	if (current_type==-1) {
+	  flog(LOG_NORMAL, "bad help category \"%s\"", buf+1);
+	  current_type = HELP_TEXT;
+	} else {
+	  genlist_init(&category_nodes);
+	  for(i=0; i<MAX_LAST; i++) {
+	    seen[i] = 0;
+	  }
+	  /* flog(LOG_DEBUG, "Help category %s",
+	     help_type_names[current_type]); */
+	}
+      } else {
+	sprintf(expect, "END_%sS", help_type_names[current_type]);
+	if(strcmp(expect,buf+1)!=0) {
+	  flog(LOG_FATAL, "bad end to help category \"%s\"", buf+1);
+	  exit(1);
+	}
+	/* add defaults for those not seen: */
+	if(current_type==HELP_UNIT) {
+	  for(i=0; i<U_LAST; i++) {
+	    if(!seen[i] && unit_type_exists(i)) {
+	      pitem = new_help_item(current_type);
+	      sprintf(name, " %s", unit_name(i));
+	      pitem->topic = mystrdup(name);
+	      pitem->text = mystrdup("");
+	      genlist_insert(&category_nodes, pitem, -1);
+	    }
+	  }
+	} else if(current_type==HELP_TECH) {
+	  for(i=1; i<A_LAST; i++) {                 /* skip A_NONE */
+	    if(!seen[i] && tech_exists(i)) {
+	      pitem = new_help_item(current_type);
+	      sprintf(name, " %s", advances[i].name);
+	      pitem->topic = mystrdup(name);
+	      pitem->text = mystrdup("");
+	      genlist_insert(&category_nodes, pitem, -1);
+	    }
+	  }
+	} else if(current_type==HELP_IMPROVEMENT) {
+	  for(i=0; i<B_LAST; i++) {
+	    if(!seen[i] && improvement_exists(i) && !is_wonder(i)) {
+	      pitem = new_help_item(current_type);
+	      sprintf(name, " %s", improvement_types[i].name);
+	      pitem->topic = mystrdup(name);
+	      pitem->text = mystrdup("");
+	      genlist_insert(&category_nodes, pitem, -1);
+	    }
+	  }
+	} else if(current_type==HELP_WONDER) {
+	  for(i=0; i<B_LAST; i++) {
+	    if(!seen[i] && improvement_exists(i) && is_wonder(i)) {
+	      pitem = new_help_item(current_type);
+	      sprintf(name, " %s", improvement_types[i].name);
+	      pitem->topic = mystrdup(name);
+	      pitem->text = mystrdup("");
+	      genlist_insert(&category_nodes, pitem, -1);
+	    }
+	  }
+	} else {
+	  flog(LOG_FATAL, "Bad current_type %d", current_type);
+	  exit(1);
+	}
+	genlist_sort(&category_nodes, help_item_compar);
+	help_list_iterate(category_nodes, ptmp) {
+	  genlist_insert(&help_nodes, ptmp, -1);
+	}
+	help_list_iterate_end;
+	genlist_unlink_all(&category_nodes);
 	current_type = HELP_TEXT;
       }
       continue;
@@ -187,14 +282,56 @@ void boot_help_texts(void)
     if(!p) {
       break;
     }
+    pname = p;
+    while(*(++pname)==' ')
+      ;
 
-    pitem=(struct help_item *)malloc(sizeof(struct help_item));
-    
-    pitem->indent=p-buf;
-    pitem->topic=mystrdup(p+1);
-    pitem->next=0;
-    pitem->type=current_type;
-    
+    /* i==-1 is text; filter_this==1 is to be left out, but we have to
+     * read in the help text so we're at the right place
+     */
+    i = -1;
+    filter_this = 0;
+    switch(current_type) {
+    case HELP_UNIT:
+      i = find_unit_type_by_name(pname);
+      if(!unit_type_exists(i)) {
+	flog(LOG_DEBUG, "Filtering unit type %s from help", pname);
+	filter_this = 1;
+      }
+      break;
+    case HELP_TECH:
+      i = find_tech_by_name(pname);
+      if(!tech_exists(i)) {
+	flog(LOG_DEBUG, "Filtering tech %s from help", pname);
+	filter_this = 1;
+      }
+      break;
+    case HELP_IMPROVEMENT:
+      i = find_improvement_by_name(pname);
+      if(!improvement_exists(i) || is_wonder(i)) {
+	flog(LOG_DEBUG, "Filtering city improvement %s from help", pname);
+	filter_this = 1;
+      }
+      break;
+    case HELP_WONDER:
+      i = find_improvement_by_name(pname);
+      if(!improvement_exists(i) || !is_wonder(i)) {
+	flog(LOG_DEBUG, "Filtering wonder %s from help", pname);
+	filter_this = 1;
+      }
+      break;
+    default:
+      /* nothing */
+    }
+    if(i>=0) {
+      seen[i] = 1;
+    }
+
+    if(!filter_this) {
+      pitem = new_help_item(current_type);
+      pitem->topic = mystrdup(p+1);
+    }
+
     text[0]='\0';
     while(1) {
       fgets(buf, 512, fs);
@@ -203,24 +340,30 @@ void boot_help_texts(void)
 	continue;
       if(!strcmp(buf, "---"))
 	break;
-      strcat(text, buf);
-      strcat(text, "\n");
+      if(!filter_this) {
+	strcat(text, buf);
+	strcat(text, "\n");
+      }
     } 
-    
-    pitem->text=mystrdup(text);
-  
-    if(head==0) {
-      head=pitem;
-      tail=pitem;
+
+    if(!filter_this) {
+      pitem->text=mystrdup(text);
+      if(current_type == HELP_TEXT) {
+	genlist_insert(&help_nodes, pitem, -1);
+      } else {
+	genlist_insert(&category_nodes, pitem, -1);
+      }
     }
-    else {
-      tail->next=pitem;
-      tail=pitem;
-    }
-    
+  }
+
+  if(current_type != HELP_TEXT) {
+    flog(LOG_FATAL, "Didn't finish help category %s",
+	 help_type_names[current_type]);
+    exit(1);
   }
   
   fclose(fs);
+  booted = 1;
 }
 
 /****************************************************************
@@ -260,11 +403,11 @@ void popup_help_dialog_string(char *item)
 **************************************************************************/
 void create_help_dialog(void)
 {
-  int i;
-  struct help_item *pitem;
-  
-  for(pitem=head, i=0; pitem; pitem=pitem->next)
+  int i=0;
+
+  help_list_iterate(help_nodes, pitem) 
     topic_list[i++]=pitem->topic;
+  help_list_iterate_end;
   topic_list[i]=0;
 
   
@@ -880,47 +1023,20 @@ void help_update_dialog(struct help_item *pitem)
 
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
-    for(i=0; i<B_LAST; ++i) {	/* need to catch Capitalization */
-      struct improvement_type *imp = &improvement_types[i];
-      if(!strcmp(top, imp->name)) {
-	help_update_improvement(pitem, top, i);
-	return;
-      }
-    }
-    /* can't find improvement: */
-    help_update_improvement(pitem, top, B_LAST);
+    i = find_improvement_by_name(top);
+    if(is_wonder(i)) i = B_LAST;
+    help_update_improvement(pitem, top, i);
     return;
   case HELP_WONDER:
-    for(i=B_APOLLO; i<B_LAST; ++i) {
-      struct improvement_type *imp = &improvement_types[i];
-      if(!strcmp(top, imp->name)) {
-	help_update_wonder(pitem, top, i);
-	return;
-      }
-    }
-    /* can't find wonder */
-    help_update_wonder(pitem, top, B_LAST);
+    i = find_improvement_by_name(top);
+    if(!is_wonder(i)) i = B_LAST;
+    help_update_improvement(pitem, top, i);
     return;
   case HELP_UNIT:
-    for(i=0; i<U_LAST; ++i) {
-      struct unit_type *utype = get_unit_type(i);
-      if(!strcmp(top, utype->name)) {
-	help_update_unit_type(pitem, top, i);
-	return;
-      }
-    }
-    /* can't find unit */
-    help_update_unit_type(pitem, top, U_LAST);
+    help_update_unit_type(pitem, top, find_unit_type_by_name(top));
     return;
   case HELP_TECH:
-    for(i=0; i<A_LAST; ++i) {
-      if(!strcmp(top, advances[i].name)) {
-	help_update_tech(pitem, top, i);
-	return;
-      }
-    }
-    /* can't find tech */
-    help_update_tech(pitem, top, A_LAST);
+    help_update_tech(pitem, top, find_tech_by_name(top));
     return;
   case HELP_TEXT:
   default:
@@ -1030,25 +1146,28 @@ void select_help_item(int item)
 void select_help_item_string(char *item, enum help_page_type htype)
 {
   int idx;
-  struct help_item *pitem;
+  struct help_item *pitem = NULL;
   static struct help_item vitem; /* v = virtual */
   static char vtopic[128];
   static char vtext[256];
-  
-  for(idx=0, pitem=head; pitem; pitem=pitem->next, ++idx) {
-    char *p=pitem->topic;
+
+  idx = 0;
+  help_list_iterate(help_nodes, ptmp) {
+    char *p=ptmp->topic;
     while(*p==' ')
       ++p;
-    if(strcmp(item, p)==0 && (htype==HELP_ANY || htype==pitem->type))
+    if(strcmp(item, p)==0 && (htype==HELP_ANY || htype==ptmp->type)) {
+      pitem = ptmp;
       break;
+    }
+    ++idx;
   }
-
+  help_list_iterate_end;
+  
   if(!pitem) {
     idx=0;
     vitem.topic = vtopic;
     strncpy(vtopic, item, sizeof(vtopic));
-    vitem.indent = 0;
-    vitem.next = 0;
     vitem.text = vtext;
     if(htype==HELP_ANY || htype==HELP_TEXT) {
       sprintf(vtext, "Sorry, no help topic for %s.\n", vitem.topic);

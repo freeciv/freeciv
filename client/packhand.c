@@ -484,7 +484,6 @@ void handle_map_info(struct packet_map_info *pinfo)
 void handle_game_info(struct packet_game_info *pinfo)
 {
   int i;
-  static int boottime=1;
   game.gold=pinfo->gold;
   game.tech=pinfo->tech;
   game.techlevel=pinfo->techlevel;
@@ -518,11 +517,6 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.techpenalty=pinfo->techpenalty;
   game.foodbox=pinfo->foodbox;
   game.civstyle=pinfo->civstyle;
-  if (boottime) {
-    boottime=0;
-    set_civ_style(game.civstyle);
-    update_research(game.player_ptr);
-  }
   update_unit_focus();
 }
 

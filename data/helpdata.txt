@@ -3,13 +3,16 @@
 %% The number of spaces after the "#" indicates nesting level when 
 %% displayed in the online help.
 %%
-%% Lines starting with '@' indicate the help category, which
-%% applies until the next such line.
 %% Categories are: TEXT, UNIT, IMPROVEMENT, WONDER, TECH
+%% All nodes are "text" nodes except those between markers such as:
+%% @START_TECHS, @END_TECHS.  There should be one such section for 
+%% each category: TECHS, UNITS, WONDERS, IMPROVEMENTS.
+%% Within each category, any game item which doesn't appear here
+%% will be generated, and any item here which doesn't match a game
+%% item will be excluded.
 %%
 %% Notice! no line may be more than 68 chars wide: --------------->|
 %%
-@TEXT
 #About
 Freeciv is a turn-based strategy game, in which each player becomes
 the leader of a civilization, fighting to obtain the ultimate goal:
@@ -511,7 +514,7 @@ building, then it'll be automatically sold.
 %% "automatically sold" should be "lost".
 %%  --> It's sold for money.  See pay_for_buildings() in cityturn.c.
 ---
-@IMPROVEMENT
+@START_IMPROVEMENTS
 # Airport
 Allows a city to produce veteran air units.  Also, damaged air units
 which stay in town for one turn are completely restored.
@@ -694,13 +697,13 @@ and the Oracle, 4 citizens are made content.
 Together with a library, a University increases the knowledge
 production of a city by 100%.
 ---
-@TEXT
+@END_IMPROVEMENTS
 #Technology
 Research into technology is a necessity for improving the ability of
 your civilization to develop new military units and city
 improvements.
 ---
-@TECH
+@START_TECHS
 # Advanced Flight
 ---
 # Alphabet
@@ -880,13 +883,13 @@ The first player to research philosophy gets an immediate advance.
 ---
 # Writing
 ---
-@TEXT
+@END_TECHS
 #Wonders of the World
 Each Wonder has specific benefits for your civilization.
 Each Wonder is unique and is placed in the city which 
 constructed it.
 ---
-@WONDER
+@START_WONDERS
 # A.Smith's Trading Co.
 City Improvements which have an upkeep of 1, are free of upkeep.
 ---
@@ -986,7 +989,7 @@ Units regains one extra hitpoint per turn.
 Reduces unhappiness for military units outside city by 2 under
 Democracy.  Reduced by 1 under all other form governments.
 ---
-@TEXT
+@END_WONDERS
 #Units
 Units can be used for three purposes: Attack, Defense, and
 Reconnaissance.  How useful a particular Unit is for each of these
@@ -1034,7 +1037,7 @@ lose a small amount of health for every turn not spent in a city,
 unless you have the United Nations wonder.  Unlike other air units,
 Helicopters can capture enemy cities.
 ---
-@UNIT
+@START_UNITS
 # AEGIS Cruiser
 %% Doubles defence against missiles and aircraft.
 ---
@@ -1281,7 +1284,7 @@ turn next to a coast or in a port.
 This unit may be built from the start of the game.  It is the
 weakest unit.
 ---
-@TEXT
+@END_UNITS
 #Combat
 %% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-30.
 When one unit attacks another unit, either the attacker will be

@@ -38,7 +38,7 @@
 #include <packhand.h>
 #include <menu.h>
 #include <connectdlg.h>
-
+#include <helpdlg.h>
 
 char server_host[512];
 char name[512];
@@ -83,7 +83,6 @@ int main(int argc, char *argv[])
 {
   /*  audio_init(); */
   game_init();
-  /* boot_help_texts(); */  /* moved into x_main so after log_init */
   x_main(argc, argv);
   return 0;
   /*  audio_term(); */
@@ -277,7 +276,13 @@ void set_client_state(enum client_states newstate)
   if(client_state!=newstate) {
     client_state=newstate;
 
-    if(client_state==CLIENT_PRE_GAME_STATE) {
+    if(client_state==CLIENT_GAME_RUNNING_STATE) {
+      set_civ_style(game.civstyle);
+      update_research(game.player_ptr);
+      boot_help_texts();	/* reboot */
+      update_unit_focus();
+    }
+    else if(client_state==CLIENT_PRE_GAME_STATE) {
       game_remove_all_players();
       set_unit_focus_no_center(0); /* thanks, David -- Syela */
       clear_notify_window();
