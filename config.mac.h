@@ -87,6 +87,7 @@
 #undef HAVE_STPCPY
 #undef LOCALEDIR
 #define HAVE_SIGPIPE 1		/* ? dwp */
+#undef XPM_H_NO_X11
 
 #define ALWAYS_ROOT 1
 

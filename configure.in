@@ -176,6 +176,10 @@ if test x$client = xtrue; then
         elif test "$ac_R_space" = "yes"; then
             X_LIBS="$X_LIBS -R $xpm_libdir"
         fi
+	dnl Some sites may put xpm.h in a directory whose parent isn't "X11"
+	if test "x$xpm_h_no_x11" = "xyes"; then
+	    AC_DEFINE(XPM_H_NO_X11)
+	fi
     fi
     fc_save_X_LIBS="$X_LIBS"
     X_LIBS="$X_LIBS $X_PRE_LIBS"

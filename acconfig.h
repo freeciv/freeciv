@@ -39,6 +39,7 @@
 #undef HAVE_STPCPY
 #undef LOCALEDIR
 #undef HAVE_SIGPIPE
+#undef XPM_H_NO_X11
 #undef ALWAYS_ROOT
 #undef STRICT_WINDOWS
 #undef GENERATING_MAC

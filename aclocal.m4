@@ -151,6 +151,9 @@ if test "$xpm_incdir" = "yes"; then
     fc_xpm_default_inc="$fc_xpm_default/include"
     if test -r $fc_xpm_default_inc/X11/xpm.h; then
         xpm_incdir=$fc_xpm_default_inc
+    elif test -r $fc_xpm_default_inc/xpm.h; then
+    	xpm_incdir=$fc_xpm_default_inc
+	xpm_h_no_x11=yes
     fi
 fi
 AC_MSG_RESULT([library $xpm_libdir, include $xpm_incdir])

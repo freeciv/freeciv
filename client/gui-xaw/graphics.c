@@ -21,7 +21,12 @@
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
+
+#ifdef XPM_H_NO_X11
+#include <xpm.h>
+#else
 #include <X11/xpm.h>
+#endif
 
 #include "game.h"
 #include "log.h"
