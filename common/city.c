@@ -1427,7 +1427,9 @@ static int set_city_shield_bonus(struct city *pcity)
     if (city_affected_by_wonder(pcity, B_HOOVER) ||
 	city_got_building(pcity, B_POWER) ||
 	city_got_building(pcity, B_HYDRO) ||
-	city_got_building(pcity, B_NUCLEAR)) tmp *= 1.5;
+	city_got_building(pcity, B_NUCLEAR)) {
+      tmp = (3 * tmp) / 2;
+    }
   }
 
   pcity->shield_bonus = tmp + 100;

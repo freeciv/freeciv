@@ -45,11 +45,38 @@ void military_advisor_choose_tech(struct player *pplayer,
 }
 
 /********************************************************************** 
+Helper for assess_defense_quadratic and assess_defense_unit.
+***********************************************************************/
+static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
+				    bool igwall, bool square, int wall_value)
+{
+  int v;
+
+  if (!is_military_unit(punit)) {
+    return 0;
+  }
+  v = get_defense_power(punit) * punit->hp *
+      (is_sailing_unit(punit) ? 1 : unit_type(punit)->firepower);
+  if (is_ground_unit(punit)) {
+    v = (3 * v) / 2;
+  }
+  v /= POWER_DIVIDER;
+  if (square) {
+    v *= v;
+  }
+  if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
+    v *= wall_value;
+    v /= 10;
+  }
+  return v;
+}
+
+/********************************************************************** 
 Need positive feedback in m_a_c_b and bodyguard routines. -- Syela
 ***********************************************************************/
 int assess_defense_quadratic(struct city *pcity)
 {
-  int v, def, l;
+  int def, l;
   const bool igwall = FALSE; /* this can be an arg if needed, but seems unneeded */
   def = 0;
   for (l = 0; l * l < pcity->ai.wallvalue * 10; l++) {
@@ -57,14 +84,7 @@ int assess_defense_quadratic(struct city *pcity)
   }
 /* wallvalue = 10, l = 10, wallvalue = 40, l = 20, wallvalue = 90, l = 30 */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    v = get_defense_power(punit) * punit->hp *
-        (is_sailing_unit(punit) ? 1 : unit_type(punit)->firepower);
-    if (is_ground_unit(punit)) v *= 1.5;
-    v /= 30;
-    if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
-      v *= l; v /= 10;
-    }
-    if (is_military_unit(punit)) def += v;
+    def += base_assess_defense_unit(pcity, punit, igwall, FALSE, l);
   unit_list_iterate_end;
   if (def > 1<<12) {
     freelog(LOG_VERBOSE, "Very large def in assess_defense_quadratic: %d in %s",
@@ -79,17 +99,8 @@ one unit only, mostly for findjob; handling boats correctly 980803 -- Syela
 **************************************************************************/
 int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall)
 {
-  int v;
-  v = get_defense_power(punit) * punit->hp *
-      (is_sailing_unit(punit) ? 1 : unit_type(punit)->firepower);
-  if (is_ground_unit(punit)) v *= 1.5;
-  v /= 30;
-  v *= v;
-  if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
-    v *= pcity->ai.wallvalue; v /= 10;
-  }
-  if (is_military_unit(punit)) return(v);
-  return(0);
+  return base_assess_defense_unit(pcity, punit, igwall, TRUE,
+				  pcity->ai.wallvalue);
 }
 
 /********************************************************************** 
@@ -449,8 +460,12 @@ int unit_desirability(Unit_Type_id i, bool def)
   else cur *= a; /* wanted to rank Legion > Catapult > Archer */
 /* which we will do by munging f in the attacker want equations */
   if (unit_type_flag(i, F_IGTER) && !def) cur *= 3;
-  if (unit_type_flag(i, F_PIKEMEN) && def) cur *= 1.5;
-  if (unit_types[i].move_type == LAND_MOVING && def) cur *= 1.5;
+  if (unit_type_flag(i, F_PIKEMEN) && def) {
+    cur = (3 * cur) / 2;
+  }
+  if (unit_types[i].move_type == LAND_MOVING && def) {
+    cur = (3 * cur) / 2;
+  }
   return(cur);  
 }
 
