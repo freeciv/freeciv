@@ -220,7 +220,7 @@ void top_five_cities(struct player *pplayer)
     }
   }
   free(size);
-  page_player(pplayer, "The 5 greatest cities in the world!", buffer);
+  page_player(pplayer, "The Five Greatest Cities in the World!", buffer);
 }
 
 void wonders_of_the_world(struct player *pplayer)
@@ -239,7 +239,7 @@ void wonders_of_the_world(struct player *pplayer)
       strcat(buffer, buf2);
     }
   }
-  page_player(pplayer, "Wonders Of the World.", buffer);
+  page_player(pplayer, "Wonders of the World", buffer);
 }
 int rank_calc_research(struct player *pplayer)
 {
@@ -384,7 +384,7 @@ void demographics_report(struct player *pplayer)
   sprintf(buf2, "%-20s:%d Tons (%s)\n", "Pollution", pplayer->score.pollution, number_to_string(rank_pollution(pplayer)));
   strcat(buffer, buf2);
   
-  page_player(pplayer, "Demographics Report.       ", buffer);
+  page_player(pplayer, "Demographics Report", buffer);
 }
 
 /* create a log file of the civilizations so you can see what was happening */

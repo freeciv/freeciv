@@ -138,27 +138,32 @@ struct proto_settings settings[] = {
   { "cityfactor", "How many cities will it take to increase unhappy faces in cities.",
     &game.cityfactor, 0, 1,
     GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR},
+
   { "railfood", "How many % railroads modifies food production.",
      &game.rail_food, 0, 1,
      GAME_MIN_RAILFOOD, GAME_MAX_RAILFOOD, GAME_DEFAULT_RAILFOOD},
  
-   { "railprod", "How many % railroads modifies shield production.",
+  { "railprod", "How many % railroads modifies shield production.",
      &game.rail_prod, 0, 1,
      GAME_MIN_RAILPROD, GAME_MAX_RAILPROD, GAME_DEFAULT_RAILPROD},
  
-   { "railtrade", "How many % railroads modifies trade production.",
+  { "railtrade", "How many % railroads modifies trade production.",
      &game.rail_trade, 0, 1,
      GAME_MIN_RAILTRADE, GAME_MAX_RAILTRADE, GAME_DEFAULT_RAILTRADE},
+
   { "foodbox", "Size * this parameter is what it takes for a city to grow by 1"
     ,&game.foodbox, 0, 1,
     GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX},
+
   { "aqueductloss", "Percentage of food lost when city can't expand "
     "without an aqueduct or sewer.",
     &game.aqueductloss, 0, 1,
     GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS},
+
   { "techpenalty", "% penalty if you change tech default it's 100%",
     &game.techpenalty, 0, 1,
     GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY},
+
   { "razechance", "% chance that each building in town is destroyed when conquered",
     &game.razechance, 0, 1,
     GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE},
@@ -182,6 +187,7 @@ struct proto_settings settings[] = {
   { "saveturns", "How many turns between when the game is saved.",
     &game.save_nturns, 1, 0,
     0, 200, 10},
+
   { "timeout", "How many seconds can a turn max take (0 is no timeout).",
     &game.timeout, 1, 1,
     0, 999, GAME_DEFAULT_TIMEOUT},
@@ -420,7 +426,7 @@ void report_server_options(struct player *pplayer)
   char buf2[4096];
   char title[128];
   buffer[0]=0;
-  sprintf(title, "%-20svalue  (min , max)\n", "Variable");
+  sprintf(title, "%-20svalue  (min , max)", "Variable");
 
   for (i=0;settings[i].name;i++) {
     if (settings[i].to_client) {
