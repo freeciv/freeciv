@@ -26,8 +26,6 @@
 #ifndef FC__GUI_ICONV_H
 #define FC__GUI_ICONV_H
 
-#define LOCAL_CODE "ISO-8859-2"
-
 Uint16 *convert_to_utf16(const char *pString);
 Uint16 *convertcopy_to_utf16(Uint16 *pToString, const char *pFromString);
 char *convert_to_chars(const Uint16 *pUniString);

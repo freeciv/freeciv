@@ -30,13 +30,51 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <SDL/SDL_byteorder.h>
 #include <SDL/SDL_types.h>
 #include <iconv.h>
 #include <errno.h>
+#ifdef HAVE_LIBCHARSET
+#include <libcharset.h>
+#else
+#ifdef HAVE_LANGINFO_CODESET
+#include <langinfo.h>
+#endif
+#endif
 
 #include "gui_mem.h"
 #include "unistring.h"
 #include "gui_iconv.h"
+
+/**************************************************************************
+  Return the display charset encoding (which is always a variant of
+  UTF-16, but must be adjusted for byteorder since SDL_ttf is not
+  byteorder-clean).
+**************************************************************************/
+static const char *get_display_encoding(void)
+{
+#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+  return "UTF-16LE";
+#else
+  return "UTF-16BE";
+#endif
+}
+
+/**************************************************************************
+  Return the local charset encoding (which will be passed to iconv).
+**************************************************************************/
+static const char *get_local_encoding(void)
+{
+#ifdef HAVE_LIBCHARSET
+  return locale_charset();
+#else
+#  ifdef HAVE_LANGINFO_CODESET
+  return nl_langinfo(CODESET);
+#  else
+  return "";
+#  endif
+#endif
+}
 
 /**************************************************************************
   ...
@@ -44,14 +82,13 @@
 Uint16 *convert_to_utf16(const char *pString)
 {
   /* Start Parametrs */
-  const char *pTocode = "UTF-16";
-  const char *pFromcode = LOCAL_CODE;
+  const char *pTocode = get_display_encoding();
+  const char *pFromcode = get_local_encoding();
   const char *pStart = pString;
   const char *pEnd = pString + strlen(pString);
   /* ===== */
 
   char *pResult = NULL;
-  int iIter;
 
   /* From 8 bit code to UTF-16 (16 bit code)
      size_t length = 2*(strlen(pString)+1); */
@@ -72,7 +109,7 @@ Uint16 *convert_to_utf16(const char *pString)
   /* Do the conversion for real. */
   {
     const char *pInptr = pStart;
-    size_t Insize = pEnd - pStart;
+    size_t Insize = pEnd - pStart + 1;
 
     char *pOutptr = pResult;
     size_t Outsize = length;
@@ -109,13 +146,6 @@ Uint16 *convert_to_utf16(const char *pString)
     }
   }
 
-  /* Bug Corection */
-  for (iIter = 0; iIter < length - 2; iIter++) {
-    pResult[iIter] = pResult[iIter + 2];
-  }
-  pResult[length - 2] = 0;
-  pResult[length - 1] = 0;
-
   iconv_close(cd);
 
   return (Uint16 *) pResult;
@@ -127,14 +157,13 @@ Uint16 *convert_to_utf16(const char *pString)
 Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
 {
   /* Start Parametrs */
-  const char *pTocode = "UTF-16";
-  const char *pFromcode = LOCAL_CODE;
+  const char *pTocode = get_display_encoding();
+  const char *pFromcode = get_local_encoding();
   const char *pStart = pFromString;
   const char *pEnd = pFromString + strlen(pFromString);
   /* ===== */
 
   char *pResult = (char *) pToString;
-  int iIter;
 
   /* From 8 bit code to UTF-16 (16 bit code)
      size_t length = 2*(strlen(pString)+1); */
@@ -157,7 +186,7 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
   /* Do the conversion for real. */
   {
     const char *pInptr = pStart;
-    size_t Insize = pEnd - pStart;
+    size_t Insize = pEnd - pStart + 1;
 
     char *pOutptr = pResult;
     size_t Outsize = length;
@@ -192,13 +221,6 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
     }
   }
 
-  /* Bug Corection */
-  for (iIter = 0; iIter < length - 2; iIter++) {
-    pResult[iIter] = pResult[iIter + 2];
-  }
-  pResult[length - 2] = 0;
-  pResult[length - 1] = 0;
-
   iconv_close(cd);
 
   return (Uint16 *) pResult;
@@ -210,8 +232,8 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToString, const char *pFromString)
 char *convert_to_chars(const Uint16 * pUniString)
 {
   /* Start Parametrs */
-  const char *pTocode = LOCAL_CODE;
-  const char *pFromcode = "UTF-16";
+  const char *pFromcode = get_display_encoding();
+  const char *pTocode = get_local_encoding();
   const char *pStart = (char *) pUniString;
   const char *pEnd =
       (char *) pUniString + (unistrlen(pUniString) << 1) + 2;
