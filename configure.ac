@@ -422,16 +422,6 @@ AM_CONDITIONAL(FTWL_SDL, test "$ftwl" = "sdl")
 
 dnl Checks for additional server libraries:
 if test x$server = xtrue; then
-    dnl The use of AC_CHECK_FUNC is to avoid wrong libs on IRIX.
-    AC_CHECK_FUNC(gethostbyname)
-    if test $ac_cv_func_gethostbyname = no; then
-        AC_CHECK_LIB(nsl, gethostbyname, SERVER_LIBS="-lnsl $SERVER_LIBS")
-    fi
-    AC_CHECK_FUNC(connect)
-    if test $ac_cv_func_connect = no; then
-        AC_CHECK_LIB(socket, connect, SERVER_LIBS="-lsocket $SERVER_LIBS")
-    fi
-
     dnl Some systems (e.g., BeOS) need this lib
     AC_CHECK_LIB(bind, gethostbyaddr, SERVER_LIBS="-lbind $SERVER_LIBS")
 
@@ -483,11 +473,25 @@ AC_FUNC_VSNPRINTF
 
 AC_CHECK_FUNCS([fileno ftime gethostname getpwuid inet_aton \
 		select snooze strerror strcasecmp strncasecmp \
-		strlcat strlcpy strstr usleep vsnprintf uname flock])
+		strlcat strlcpy strstr usleep vsnprintf uname flock \
+		gethostbyname connect bind])
 
 AC_MSG_CHECKING(for working gettimeofday)
   FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
 	[Define if the gettimeofday function works and is sane.]),)
+
+dnl Check for extra socket libraries.
+dnl If the AC_CHECK_FUNCS check finds the function, we don't look any
+dnl further.  This is rumoured to prevent choosing the wrong libs on IRIX.
+if test $ac_cv_func_gethostbyname = no; then
+  AC_CHECK_LIB(nsl, gethostbyname, LIBS="-lnsl $LIBS")
+fi
+if test $ac_cv_func_connect = no; then
+  AC_CHECK_LIB(socket, connect, LIBS="-lsocket $LIBS")
+fi
+if test $ac_cv_func_bind = no; then
+  AC_CHECK_LIB(bind, gethostbyaddr, LIBS="-lbind $LIBS")
+fi
 
 dnl The use of both AC_FUNC_VSNPRINTF and AC_CHECK_FUNCS(vsnprintf) is
 dnl deliberate.
