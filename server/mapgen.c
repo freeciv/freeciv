@@ -2099,8 +2099,8 @@ liklihood of continents butting up to non-wrapped edges.
 **************************************************************************/
 static void mapgenerator5(void)
 {
-  const bool xnowrap = FALSE;	/* could come from topology */
-  const bool ynowrap = TRUE;	/* could come from topology */
+  const bool xnowrap = !topo_has_flag(TF_WRAPX);
+  const bool ynowrap = !topo_has_flag(TF_WRAPY);
 
   /* 
    * How many blocks should the x and y directions be divided into
