@@ -372,9 +372,9 @@ const char *get_impr_name_ex(struct city *pcity, Impr_Type_id id);
 
 /* tile production functions */
 
-int get_shields_tile(int x, int y); /* shield on spot */
-int get_trade_tile(int x, int y);   /* trade  on spot */
-int get_food_tile(int x, int y);    /* food   on spot */
+int get_shields_tile(int map_x, int map_y); /* shield on spot */
+int get_trade_tile(int map_x, int map_y);   /* trade  on spot */
+int get_food_tile(int map_x, int map_y);    /* food   on spot */
 
 /* city map functions */
 
@@ -390,17 +390,17 @@ bool city_map_to_map(int *map_x, int *map_y, const struct city *const pcity,
 		    int city_map_x, int city_map_y);
 
 /* shield on spot */
-int city_get_shields_tile(int x, int y, struct city *pcity);
-int base_city_get_shields_tile(int x, int y, struct city *pcity,
-			       bool is_celebrating);
+int city_get_shields_tile(int city_x, int city_y, struct city *pcity);
+int base_city_get_shields_tile(int city_x, int city_y,
+			       struct city *pcity, bool is_celebrating);
 /* trade  on spot */
-int city_get_trade_tile(int x, int y, struct city *pcity);
-int base_city_get_trade_tile(int x, int y, struct city *pcity,
-			     bool is_celebrating);
+int city_get_trade_tile(int city_x, int city_y, struct city *pcity);
+int base_city_get_trade_tile(int city_x, int city_y,
+			     struct city *pcity, bool is_celebrating);
 /* food   on spot */
-int city_get_food_tile(int x, int y, struct city *pcity);
-int base_city_get_food_tile(int x, int y, struct city *pcity,
-			    bool is_celebrating);
+int city_get_food_tile(int city_x, int city_y, struct city *pcity);
+int base_city_get_food_tile(int city_x, int city_y,
+			    struct city *pcity, bool is_celebrating);
 
 void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type); 
