@@ -1848,7 +1848,7 @@ bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
   }
   
   if (is_enemy_unit_tile(ptile, city_owner(pcity))
-      && !is_city_center(city_x, city_y)) {
+      && !is_free_worked_tile(city_x, city_y)) {
     return FALSE;
   }
 

@@ -1106,8 +1106,8 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
               pcity->name, acity->name, ptile->x, ptile->y);
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);
       assert(is_valid);
-      if (!is_valid || is_city_center(city_map_x, city_map_y)) {
-        /* can't stop working city center */
+      if (!is_valid || is_free_worked_tile(city_map_x, city_map_y)) {
+	/* Can't remove a worker here. */
         continue;
       }
       server_remove_worker_city(acity, city_map_x, city_map_y);

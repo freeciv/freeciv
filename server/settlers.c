@@ -1160,7 +1160,7 @@ static int best_worker_tile_value(struct city *pcity)
   int best = 0;
 
   city_map_iterate(x, y) {
-    if (is_city_center(x, y) 
+    if (is_free_worked_tile(x, y) 
 	|| get_worker_city(pcity, x, y) == C_TILE_WORKER 
 	|| get_worker_city(pcity, x, y) == C_TILE_EMPTY) {
       int tmp = city_tile_value(pcity, x, y, 0, 0);

@@ -358,6 +358,9 @@ extern const Output_type_id num_output_types;
 }
 
 
+static inline bool is_city_center(int city_x, int city_y);
+static inline bool is_free_worked_tile(int city_x, int city_y);
+
 /* output type functions */
 
 const char *get_output_identifier(Output_type_id output);
@@ -546,6 +549,15 @@ int city_pollution(struct city *pcity, int shield_total);
   the citymap.
 **************************************************************************/
 static inline bool is_city_center(int city_x, int city_y)
+{
+  return CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y;
+}
+
+/**************************************************************************
+  Return TRUE iff the given city coordinate pair can be worked for free by
+  a city.
+**************************************************************************/
+static inline bool is_free_worked_tile(int city_x, int city_y)
 {
   return CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y;
 }

@@ -80,7 +80,7 @@ static struct {
 
 #define my_city_map_iterate(pcity, cx, cy) {                           \
   city_map_checked_iterate(pcity->tile, cx, cy, _ptile) { \
-    if(!is_city_center(cx, cy)) {
+    if (!is_free_worked_tile(cx, cy)) {
 
 #define my_city_map_iterate_end \
     }                                \

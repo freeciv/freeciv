@@ -158,12 +158,12 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
   /* Now apply results */
   city_map_checked_iterate(pcity->tile, x, y, ptile) {
     if (pcity->city_map[x][y] == C_TILE_WORKER
-        && !is_city_center(x, y)
+        && !is_free_worked_tile(x, y)
         && !cmr->worker_positions_used[x][y]) {
       server_remove_worker_city(pcity, x, y);
     }
     if (pcity->city_map[x][y] != C_TILE_WORKER
-        && !is_city_center(x, y)
+        && !is_free_worked_tile(x, y)
         && cmr->worker_positions_used[x][y]) {
       server_set_worker_city(pcity, x, y);
     }
@@ -451,7 +451,7 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
     /* Take it out on workers */
     city_map_iterate(x, y) {
       if (get_worker_city(pcity, x, y) == C_TILE_WORKER
-          && !is_city_center(x, y) && pop_loss > 0) {
+          && !is_free_worked_tile(x, y) && pop_loss > 0) {
         server_remove_worker_city(pcity, x, y);
         pop_loss--;
       }

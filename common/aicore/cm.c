@@ -632,7 +632,7 @@ static void apply_solution(struct cm_state *state,
    * the city center). */
   memset(&pcity->specialists, 0, sizeof(pcity->specialists));
   city_map_iterate(x, y) {
-    if (is_city_center(x, y)) {
+    if (is_free_worked_tile(x, y)) {
       continue;
     }
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
@@ -1113,7 +1113,7 @@ static void init_tile_lattice(const struct city *pcity,
     if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
       continue;
     }
-    if (!is_city_center(x, y)) {
+    if (!is_free_worked_tile(x, y)) {
       compute_tile_production(pcity, x, y, &type); /* clobbers type */
       tile_type_lattice_add(lattice, &type, x, y); /* copy type if needed */
     }
@@ -1885,7 +1885,7 @@ int cm_count_worker(const struct city * pcity,
   int count = 0;
 
   city_map_iterate(x, y) {
-    if(result->worker_positions_used[x][y] && !is_city_center(x, y)) {
+    if (result->worker_positions_used[x][y] && !is_free_worked_tile(x, y)) {
       count++;
     }
   } city_map_iterate_end;
@@ -2106,7 +2106,7 @@ void cm_print_result(const struct city *pcity,
     for (x = 0; x < CITY_MAP_SIZE; x++) {
       if (!is_valid_city_coords(x, y)) {
         line[x] = '-';
-      } else if (is_city_center(x, y)) {
+      } else if (is_free_worked_tile(x, y)) {
         line[x] = 'c';
       } else if (result->worker_positions_used[x][y]) {
         line[x] = 'w';
