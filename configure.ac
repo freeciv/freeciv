@@ -42,8 +42,6 @@ AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 
 AM_MAINTAINER_MODE
 
-FC_DEBUG
-
 dnl  no=do not compile server,  yes=compile server,  *=error
 AC_ARG_ENABLE(server,
 [  --disable-server        do not compile the server],
@@ -255,8 +253,11 @@ FC_EXPAND_DIR(LOCALEDIR, '${prefix}/share/locale')
 AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
 
 if test -n "$GCC"; then
-   CFLAGS="$CFLAGS -Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations"
+   EXTRA_GCC_DEBUG_CFLAGS = "$CFLAGS"
+   CFLAGS="-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations"
 fi
+
+FC_DEBUG
 
 if test "$CVS_DEPS" = "maybe"; then
    dnl Should also check for gmake?
@@ -670,7 +671,7 @@ AC_CONFIG_COMMANDS([fc_default-5],[[if test x`uname -s` = xBeOS ; then
    fi]],[[]])
 
 if test -n "$GCC"; then
-  CFLAGS="$CFLAGS $EXTRA_GCC_DEBUG_CFLAGS"
+  CFLAGS="$EXTRA_GCC_DEBUG_CFLAGS $CFLAGS"
 fi
 
 AC_CONFIG_FILES([Makefile
