@@ -64,6 +64,8 @@ char *current_filename = NULL;
 
 bool client_has_hack = FALSE;
 
+int internal_server_port;
+
 const char *skill_level_names[NUM_SKILL_LEVELS] = { 
   N_("novice"),
   N_("easy"), 
@@ -145,7 +147,7 @@ bool client_start_server(void)
   append_output_window(_("Starting server..."));
 
   /* find a free port */ 
-  server_port = find_next_free_port(DEFAULT_SOCK_PORT);
+  internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT);
 
   server_pid = fork();
   
@@ -157,7 +159,7 @@ bool client_start_server(void)
     /* inside the child */
 
     /* Set up the command-line parameters. */
-    my_snprintf(port_buf, sizeof(port_buf), "%d", server_port);
+    my_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
     argv[argc++] = "civserver";
     argv[argc++] = "-p";
     argv[argc++] = port_buf;
@@ -214,7 +216,7 @@ bool client_start_server(void)
   } 
 
   /* a reasonable number of tries */ 
-  while (connect_to_server(user_name, "localhost", server_port, 
+  while (connect_to_server(user_name, "localhost", internal_server_port, 
                            buf, sizeof(buf)) == -1) {
     myusleep(WAIT_BETWEEN_TRIES);
 
@@ -338,4 +340,18 @@ void send_save_game(char *filename)
   }
 
   send_chat(message);
+}
+
+/**************************************************************** 
+ Should be called by gui after disconnecting from local server
+*****************************************************************/ 
+void disconnected_from_local_server() 
+{
+  char buf[1024];
+  assert(is_server_running);
+  my_snprintf(buf, sizeof(buf), 
+              _("A local server is still running on port %d. Use "
+                "\"Connect to Network Game\" to connect to it."),
+	      internal_server_port);
+  append_output_window(buf);
 }

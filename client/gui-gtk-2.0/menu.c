@@ -207,8 +207,7 @@ static void game_menu_callback(gpointer callback_data,
   case MENU_GAME_DISCONNECT:
     disconnect_from_server();
     if (is_server_running()) {
-      append_output_window(_("A local server is still running. Use "
-                             "\"Connect to Network Game\" to connect to it."));
+      disconnected_from_local_server();
     }
     break;
   case MENU_GAME_END:

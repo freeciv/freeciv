@@ -27,6 +27,8 @@ void send_client_wants_hack(char *filename);
 void send_start_saved_game(void);
 void send_save_game(char *filename);
 
+void disconnected_from_local_server(void);
+
 extern char player_name[MAX_LEN_NAME];
 extern char *current_filename;
 
