@@ -304,7 +304,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
       notify_player_ex(pplayer, -1, -1, E_UNIT_LOST,
 		       _("Not enough gold. %s disbanded"),
 		       unit_type(punit)->name);
-      wipe_unit_safe(punit, &myiter);
+      wipe_unit(punit);
     } else {
       /* Gold can get negative here as city improvements will be sold
        * afterwards to balance our budget. FIXME: Should units with gold 
@@ -432,7 +432,7 @@ void player_restore_units(struct player *pplayer)
       gamelog(GAMELOG_UNITF, _("%s lose a %s (out of hp)"),
 	      get_nation_name_plural(pplayer->nation),
 	      unit_name(punit->type));
-      wipe_unit_safe(punit, &myiter);
+      wipe_unit(punit);
       continue; /* Continue iterating... */
     }
 
@@ -444,7 +444,7 @@ void player_restore_units(struct player *pplayer)
 		       unit_name(punit->type));
       gamelog(GAMELOG_UNITTRI, _("%s Trireme lost at sea"),
 	      get_nation_name_plural(pplayer->nation));
-      wipe_unit_safe(punit, &myiter);
+      wipe_unit(punit);
       continue; /* Continue iterating... */
     }
 
@@ -500,7 +500,7 @@ void player_restore_units(struct player *pplayer)
       gamelog(GAMELOG_UNITF, _("%s lose a %s (fuel)"),
 	      get_nation_name_plural(pplayer->nation),
 	      unit_name(punit->type));
-      wipe_unit_safe(punit, &myiter);
+      wipe_unit(punit);
     } 
   } unit_list_iterate_end;
 }
@@ -977,7 +977,7 @@ static void update_unit_activity(struct unit *punit)
 			 _("Game: Disbanded your %s due to changing"
 			   " land to sea at (%d, %d)."),
 			 unit_name(punit2->type), punit2->x, punit2->y);
-	wipe_unit_spec_safe(punit2, NULL, FALSE);
+	wipe_unit_spec_safe(punit2, FALSE);
 	goto START;
       }
     } unit_list_iterate_end;
@@ -1039,7 +1039,7 @@ static void update_unit_activity(struct unit *punit)
 			 _("Game: Disbanded your %s due to changing"
 			   " sea to land at (%d, %d)."),
 			 unit_name(punit2->type), punit2->x, punit2->y);
-	wipe_unit_spec_safe(punit2, NULL, FALSE);
+	wipe_unit_spec_safe(punit2, FALSE);
 	goto START;
       }
     } unit_list_iterate_end;
@@ -1628,17 +1628,10 @@ static void server_remove_unit(struct unit *punit)
 }
 
 /**************************************************************************
-this is a highlevel routine
-Remove the unit, and passengers if it is a carrying any.
-Remove the _minimum_ number, eg there could be another boat on the square.
-Parameter iter, if non-NULL, should be an iterator for a unit list,
-and if it points to a unit which we wipe, we advance it first to
-avoid dangling pointers.
-NOTE: iter should not be an iterator for the map units list, but
-city supported, or player units, is ok.
+  Remove the unit, and passengers if it is a carrying any. Remove the 
+  _minimum_ number, eg there could be another boat on the square.
 **************************************************************************/
-void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
-			 bool wipe_cargo)
+void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
 {
   int x = punit->x;
   int y = punit->y;
@@ -1734,17 +1727,9 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 /**************************************************************************
 ...
 **************************************************************************/
-
-void wipe_unit_safe(struct unit *punit, struct genlist_iterator *iter){
-  wipe_unit_spec_safe(punit, iter, TRUE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void wipe_unit(struct unit *punit)
 {
-  wipe_unit_safe(punit, NULL);
+  wipe_unit_spec_safe(punit, TRUE);
 }
 
 /**************************************************************************
@@ -1834,7 +1819,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		get_nation_name_plural(unit_owner(punit2)->nation),
 		unit_type(punit2)->name,
 		get_nation_name_plural(destroyer->nation));
-	wipe_unit_spec_safe(punit2, NULL, FALSE);
+	wipe_unit_spec_safe(punit2, FALSE);
       }
     }
     unit_list_iterate_end;
@@ -2061,7 +2046,7 @@ static void do_nuke_tile(struct player *pplayer, int x, int y)
 		       unit_owner(punit)->name,
 		       unit_name(punit->type));
     }
-    wipe_unit_spec_safe(punit, NULL, FALSE);
+    wipe_unit_spec_safe(punit, FALSE);
   } unit_list_iterate_end;
 
   if (pcity) {

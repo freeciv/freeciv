@@ -395,11 +395,18 @@ void handle_unit_change_homecity(struct player *pplayer,
 /**************************************************************************
   Disband a unit.  If its in a city, add 1/2 of the worth of the unit
   to the city's shield stock for the current production.
-  "iter" may be NULL, see wipe_unit_safe for details.
 **************************************************************************/
-static void do_unit_disband_safe(struct city *pcity, struct unit *punit,
-				 struct genlist_iterator *iter)
+void handle_unit_disband(struct player *pplayer, 
+			 struct packet_unit_request *req)
 {
+  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct city *pcity;
+
+  if (!punit) {
+    return;
+  }
+  pcity = map_get_city(punit->x, punit->y);
+
   if (!unit_flag(punit, F_UNDISBANDABLE)) { /* refuse to kill ourselves */
     if (pcity) {
       pcity->shield_stock += (unit_type(punit)->build_cost/2);
@@ -411,37 +418,12 @@ static void do_unit_disband_safe(struct city *pcity, struct unit *punit,
        * That's why we must use city_owner instead of pplayer -- Zamar */
       send_city_info(city_owner(pcity), pcity);
     }
-    wipe_unit_safe(punit, iter);
+    wipe_unit(punit);
   } else {
     notify_player_ex(unit_owner(punit), punit->x, punit->y, E_NOEVENT,
               _("Game: %s refuses to disband!"), unit_name(punit->type));
     return;
   }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void handle_unit_disband_safe(struct player *pplayer, 
-			      struct packet_unit_request *req,
-			      struct genlist_iterator *iter)
-{
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
-
-  if (!punit) {
-    return;
-  }
-
-  do_unit_disband_safe(map_get_city(punit->x, punit->y), punit, iter);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void handle_unit_disband(struct player *pplayer, 
-			 struct packet_unit_request *req)
-{
-  handle_unit_disband_safe(pplayer, req, NULL);
 }
 
 /**************************************************************************

@@ -196,7 +196,7 @@ bool unleash_barbarians(int x, int y)
 
   if (game.barbarianrate == 0 || (game.year < game.onsetbarbarian)) {
     unit_list_iterate(map_get_tile(x, y)->units, punit) {
-      wipe_unit_safe(punit, &myiter);
+      wipe_unit(punit);
     } unit_list_iterate_end;
     return FALSE;
   }
@@ -258,7 +258,7 @@ bool unleash_barbarians(int x, int y)
     } else {             /* The village is surrounded! Kill the explorer. */
       unit_list_iterate(map_get_tile(x, y)->units, punit2) {
         if (punit2->owner != me) {
-          wipe_unit_safe(punit2, &myiter);
+          wipe_unit(punit2);
           alive = FALSE;
         } else {
           send_unit_info(NULL, punit2);

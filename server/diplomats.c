@@ -1126,7 +1126,7 @@ static bool diplomat_infiltrate_city (struct player *pplayer, struct player *cpl
 			 _("Game: An enemy %s has been eliminated defending"
 			   " %s."), unit_name(punit->type), pcity->name);
 
-	wipe_unit_safe(punit, &myiter);
+	wipe_unit(punit);
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
         return FALSE;
       } else {
@@ -1143,7 +1143,7 @@ static bool diplomat_infiltrate_city (struct player *pplayer, struct player *cpl
 			 get_nation_name(pplayer->nation),
 			 unit_name(pdiplomat->type), pcity->name);
 
-	wipe_unit_safe(pdiplomat, &myiter);
+	wipe_unit(pdiplomat);
 	return FALSE;
       }
     }

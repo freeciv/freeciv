@@ -696,8 +696,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
       UNIT_LOG(LOG_EMERGENCY, punit, "is causing unrest, disbanded");
       pack.unit_id = punit->id;
-      /* in rare cases the _safe might be needed? --dwp */
-      handle_unit_disband_safe(pplayer, &pack, &myiter);
+      handle_unit_disband(pplayer, &pack);
       city_refresh(pcity);
     }
   } unit_list_iterate_end;

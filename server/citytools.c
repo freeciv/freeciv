@@ -642,7 +642,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       /* Don't transfer units already owned by new city-owner --wegge */ 
       if (unit_owner(vunit) == pvictim) {
 	transfer_unit(vunit, pcity, verbose);
-	wipe_unit_safe(vunit, &myiter);
+	wipe_unit(vunit);
 	unit_list_unlink(units, vunit);
       } else if (!pplayers_allied(pplayer, unit_owner(vunit))) {
         /* the owner of vunit is allied to pvictim but not to pplayer */
@@ -1109,7 +1109,7 @@ void remove_city(struct city *pcity)
 		       punit->moves_left, punit->hp);
     }
 
-    wipe_unit_safe(punit, &myiter);
+    wipe_unit(punit);
   } unit_list_iterate_end;
 
   x = pcity->x;
