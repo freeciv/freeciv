@@ -19,10 +19,13 @@
 
 #include <unistd.h>
 
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac network headers */
 #include <OpenTransport.h>
 #else /* Unix network headers */
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>

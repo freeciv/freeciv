@@ -22,9 +22,12 @@
 #include <time.h>
 
 #include <unistd.h>
+
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac header(s) */
 #include <bool.h> /*from STL, but works w/ c*/
-#else
+#endif
+
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
 

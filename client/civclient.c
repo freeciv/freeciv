@@ -20,7 +20,10 @@
 #include <time.h>
 
 #include <unistd.h>
+
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
 
 #include "capstr.h"
 #include "game.h"

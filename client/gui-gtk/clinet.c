@@ -22,7 +22,10 @@
 
 #include <unistd.h>
 
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+
 #include <sys/socket.h>
 #include <sys/signal.h>
 #include <sys/uio.h>

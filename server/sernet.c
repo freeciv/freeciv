@@ -17,9 +17,13 @@
 #include <errno.h>
 
 #include <unistd.h>
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
 #if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
 #include <sys/signal.h>
-#include <sys/types.h>
 #include <sys/time.h>
 #include <pwd.h>
 #endif

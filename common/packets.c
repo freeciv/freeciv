@@ -17,8 +17,11 @@
 
 #include <unistd.h>
 
-#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+
+#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif

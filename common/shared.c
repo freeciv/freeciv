@@ -24,8 +24,12 @@
 #include <events.h> /* for WaitNextEvent() */
 #else
 #include <sys/time.h>
+#endif
+
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+
 #include <unistd.h>
 
 #ifdef HAVE_SYS_SELECT_H

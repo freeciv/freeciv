@@ -241,7 +241,7 @@ AC_CHECK_LIB(nls,main)
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(sys/ioctl.h sys/select.h sys/time.h unistd.h)
+AC_CHECK_HEADERS(sys/ioctl.h sys/select.h sys/time.h sys/types.h unistd.h)
 if test x$client = xtrue; then
   dnl Want to get appropriate -I flags:
   fc_save_CPPFLAGS="$CPPFLAGS"
