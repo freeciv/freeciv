@@ -105,8 +105,8 @@ void clear_notify_window(void)
 void add_notify_window(struct packet_generic_message *packet)
 {
   const size_t min_msg_len = 50;
-  char *game_prefix1 = "Game: ";
-  char *game_prefix2 = _("Game: ");
+  const char *game_prefix1 = "Game: ";
+  const char *game_prefix2 = _("Game: ");
   size_t gp_len1 = strlen(game_prefix1);
   size_t gp_len2 = strlen(game_prefix2);
   char *s = fc_malloc(MAX(strlen(packet->message), min_msg_len) + 1);

@@ -18,10 +18,10 @@
 struct connection;
 struct conn_list;
 
-void page_conn(struct conn_list *dest, char *caption, char *headline,
-	       char *lines);
-void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
-		     char *lines, int event);
+void page_conn(struct conn_list *dest, const char *caption, const char *headline,
+	       const char *lines);
+void page_conn_etype(struct conn_list *dest, const char *caption, const char *headline,
+		     const char *lines, int event);
 
 void make_history_report(void);
 void report_wonders_of_the_world(struct conn_list *dest);

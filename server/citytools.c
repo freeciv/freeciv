@@ -1788,7 +1788,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 			 int target, bool is_unit, int event)
 {
   char *name;
-  char *source;
+  const char *source;
 
   /* If the city is already building this thing, don't do anything */
   if (pcity->is_building_unit == is_unit &&

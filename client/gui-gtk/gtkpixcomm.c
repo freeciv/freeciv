@@ -52,7 +52,7 @@ gtk_pixcomm_get_type (void)
     {
       static const GtkTypeInfo pixcomm_info =
       {
-	"GtkPixcomm",
+	(char *)"GtkPixcomm",
 	sizeof (GtkPixcomm),
 	sizeof (GtkPixcommClass),
 	(GtkClassInitFunc) gtk_pixcomm_class_init,

@@ -119,10 +119,10 @@ static void sort_players_callback(GtkButton *button, gpointer *data)
 *****************************************************************/
 void create_players_dialog(void)
 {
-  static gchar *titles_[NUM_COLUMNS] =
+  static const char *titles_[NUM_COLUMNS] =
       { N_("Name"), N_("Flag"), N_("Nation"), N_("Ai"),
-    N_("Embassy"), N_("Dipl.State"), N_("Vision"), N_("Reputation"),
-    N_("State"), N_("Host"), N_("Idle")
+	N_("Embassy"), N_("Dipl.State"), N_("Vision"), N_("Reputation"),
+	N_("State"), N_("Host"), N_("Idle")
   };
   static gchar **titles;
   int i;
@@ -244,7 +244,7 @@ void create_players_dialog(void)
  * Builds the text for the cells of a row in the player report. If
  * update is 1, only the changable entries are build.
  */
-static void build_row(char **row, int i, int update)
+static void build_row(const char **row, int i, int update)
 {
   static char namebuf[MAX_LEN_NAME], flagbuf[1], aibuf[2], dsbuf[32],
       repbuf[32], statebuf[32], idlebuf[32];
@@ -378,7 +378,7 @@ void update_players_dialog(void)
 {
   if (players_dialog_shell && !is_plrdlg_frozen()) {
     GdkColor *state_col;
-    char *row_texts[NUM_COLUMNS];
+    const char *row_texts[NUM_COLUMNS];
     int i, j, row, sort_needed = 0;
 
     gtk_clist_freeze(GTK_CLIST(players_list));
@@ -396,7 +396,7 @@ void update_players_dialog(void)
 	 */
 	row = GTK_CLIST(players_list)->rows;
 	build_row(row_texts, i, 0);
-	gtk_clist_append(GTK_CLIST(players_list), row_texts);
+	gtk_clist_append(GTK_CLIST(players_list), (gchar **)row_texts);
 	gtk_clist_set_row_data(GTK_CLIST(players_list), row,
 			       &(listindex_to_playerindex[row]));
 

@@ -138,7 +138,7 @@ void popup_worklists_report(struct player *pplr)
 {
   GtkWidget *button, *scrolled;
   GtkAccelGroup *accel;
-  char *title[1] = { N_("Available worklists") };
+  const char *title[1] = { N_("Available worklists") };
   static char **clist_title = NULL;
 
   /* Report window already open */
@@ -306,13 +306,13 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   GtkAccelGroup *accel = gtk_accel_group_new();
 
   static char **wl_clist_titles = NULL;
-  char *wl_titles[] = { N_("Type"),
+  const char *wl_titles[] = { N_("Type"),
     N_("Info"),
     N_("Cost")
   };
 
   static char **avail_clist_titles = NULL;
-  char *avail_titles[] = { N_("Type"),
+  const char *avail_titles[] = { N_("Type"),
     N_("Info"),
     N_("Cost"),
     N_("Turns")

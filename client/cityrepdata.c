@@ -141,7 +141,7 @@ static char *cr_entry_num_trade(struct city *pcity)
 static char *cr_entry_building(struct city *pcity)
 {
   static char buf[128];
-  char *from_worklist =
+  const char *from_worklist =
     worklist_is_empty(&pcity->worklist) ? "" :
     concise_city_production ? "*" : _("(worklist)");
 	
@@ -254,7 +254,7 @@ bool *city_report_spec_show_ptr(int i)
 {
   return &(city_report_specs[i].show);
 }
-char *city_report_spec_tagname(int i)
+const char *city_report_spec_tagname(int i)
 {
   return city_report_specs[i].tagname;
 }

@@ -111,7 +111,7 @@ static void meswin_not_visited_item (gint n)
 *****************************************************************/
 void create_meswin_dialog(void)
 {
-  static gchar *titles_[1] = { N_("Messages") };
+  static const char *titles_[1] = { N_("Messages") };
   static gchar **titles;
   GtkWidget *scrolled;
   GtkAccelGroup *accel = gtk_accel_group_new();

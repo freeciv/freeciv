@@ -126,8 +126,8 @@ static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 void gui_server_connect(void)
 {
   GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update;
-  static char *titles_[6]= {N_("Server Name"), N_("Port"), N_("Version"),
-			    N_("Status"), N_("Players"), N_("Comment")};
+  static const char *titles_[6]= {N_("Server Name"), N_("Port"), N_("Version"),
+				  N_("Status"), N_("Players"), N_("Comment")};
   static char **titles;
   char buf [256];
   int i;

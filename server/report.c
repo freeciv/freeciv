@@ -94,8 +94,8 @@ static const char *pollution_to_text(int value);
  * Describes a row.
  */
 static struct dem_row {
-  char key;
-  char *name;
+  const char key;
+  const char *name;
   int (*get_value) (struct player *);
   const char *(*to_text) (int);
   bool greater_values_are_better;
@@ -524,7 +524,7 @@ static int get_corruption(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-static char *value_units(int val, char *uni)
+static const char *value_units(int val, const char *uni)
 {
   static char buf[64];
 
@@ -1106,8 +1106,8 @@ void report_scores(bool final)
 /**************************************************************************
 This function pops up a non-modal message dialog on the player's desktop
 **************************************************************************/
-void page_conn(struct conn_list *dest, char *caption, char *headline,
-	       char *lines) {
+void page_conn(struct conn_list *dest, const char *caption, 
+	       const char *headline, const char *lines) {
   page_conn_etype(dest, caption, headline, lines, E_REPORT);
 }
 
@@ -1123,8 +1123,8 @@ event == E_BROADCAST_REPORT: message can safely be ignored by clients
                    watching AI players with ai_popup_windows off.  For
                    example: Herodot's report... and similar messages.
 **************************************************************************/
-void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
-		      char *lines, int event) 
+void page_conn_etype(struct conn_list *dest, const char *caption,
+		     const char *headline, const char *lines, int event) 
 {
   size_t len;
   struct packet_generic_message genmsg;

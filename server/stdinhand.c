@@ -115,7 +115,7 @@ enum sset_type {
 #define TOKEN_DELIMITERS " \t\n,"
 
 struct settings_s {
-  char *name;
+  const char *name;
   enum sset_class sclass;
   enum sset_to_client to_client;
 
@@ -123,7 +123,7 @@ struct settings_s {
    * Sould be less than 42 chars (?), or shorter if the values may
    * have more than about 4 digits.  Don't put "." on the end.
    */
-  char *short_help;
+  const char *short_help;
 
   /*
    * May be empty string, if short_help is sufficient.  Need not
@@ -131,7 +131,7 @@ struct settings_s {
    * be wrapped (and indented) automatically.  Should have punctuation
    * etc, and should end with a "."
    */
-  char *extra_help;
+  const char *extra_help;
   enum sset_type type;
 
   /* 
@@ -153,7 +153,7 @@ struct settings_s {
 
   /*** string part ***/
   char *string_value;
-  char *string_default_value;
+  const char *string_default_value;
   bool (*string_validate)(const char *, char **);
   size_t string_value_size;	/* max size we can write into string_value */
 };
@@ -917,11 +917,11 @@ static PlayerNameStatus test_player_name(char* name)
   Commands - can be recognised by unique prefix
 **************************************************************************/
 struct command {
-  char *name;              /* name - will be matched by unique prefix   */
-  enum cmdlevel_id level;  /* access level required to use the command  */
-  char *synopsis;	   /* one or few-line summary of usage */
-  char *short_help;	   /* one line (about 70 chars) description */
-  char *extra_help;	   /* extra help information; will be line-wrapped */
+  const char *name;             /* name - will be matched by unique prefix   */
+  enum cmdlevel_id level;  	/* access level required to use the command  */
+  const char *synopsis;	   	/* one or few-line summary of usage */
+  const char *short_help;	/* one line (about 70 chars) description */
+  const char *extra_help;	/* extra help information; will be line-wrapped */
 };
 
 /* Order here is important: for ambiguous abbreviations the first
@@ -1357,7 +1357,7 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
 			   enum rfc_status rfc_status, const char *prefix,
 			   const char *line)
 {
-  char *cmdname = cmd < CMD_NUM ? commands[cmd].name :
+  const char *cmdname = cmd < CMD_NUM ? commands[cmd].name :
                   cmd == CMD_AMBIGUOUS ? _("(ambiguous)") :
                   cmd == CMD_UNRECOGNIZED ? _("(unknown)") :
 			"(?!?)";  /* this case is a bug! */
@@ -1813,7 +1813,7 @@ static void remove_player(struct connection *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void generic_not_implemented(struct connection *caller, char *cmd)
+static void generic_not_implemented(struct connection *caller, const char *cmd)
 {
   cmd_reply(CMD_RENAME, caller, C_FAIL,
 	    _("Sorry, the '%s' command is not implemented yet."), cmd);
@@ -3863,7 +3863,7 @@ returns whether the characters before the start position in rl_line_buffer
 is of the form [non-alpha]*cmd[non-alpha]*
 allow_fluff changes the regexp to [non-alpha]*cmd[non-alpha].*
 **************************************************************************/
-static bool contains_str_before_start(int start, char *cmd, bool allow_fluff)
+static bool contains_str_before_start(int start, const char *cmd, bool allow_fluff)
 {
   char *str_itr = rl_line_buffer;
   int cmd_len = strlen(cmd);

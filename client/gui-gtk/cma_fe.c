@@ -128,7 +128,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
   struct cma_parameter param;
   GtkWidget *frame, *page, *hbox, *label, *table;
   GtkWidget *vbox, *scrolledwindow, *hscale;
-  static gchar *preset_title_[] = { N_("Presets") };
+  static const char *preset_title_[] = { N_("Presets") };
   static gchar **preset_title = NULL;
   int i;
 
@@ -379,7 +379,7 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
       gtk_clist_insert(GTK_CLIST(pdialog->preset_list), i, row);
     }
   } else {
-    static char *info_message_[4] = {
+    static const char *info_message_[4] = {
       N_("For information on:"),
       N_("CMA and presets"),
       N_("including sample presets,"),

@@ -54,7 +54,7 @@
 
 void gamelog_init(char *filename);
 void gamelog_set_level(int level);
-void gamelog(int level, char *message, ...)
+void gamelog(int level, const char *message, ...)
              fc__attribute((format (printf, 2, 3)));
 void gamelog_map(void);
 void gamelog_save(void);

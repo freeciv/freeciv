@@ -484,7 +484,7 @@ Load the worklist elements specified by path, given the arguments
 plrno and wlinx, into the worklist pointed to by pwl.
 ***************************************************************/
 static void worklist_load(struct section_file *file,
-			  char *path, int plrno, int wlinx,
+			  const char *path, int plrno, int wlinx,
 			  struct worklist *pwl)
 {
   char efpath[64];
@@ -526,7 +526,7 @@ plrno and wlinx, into the worklist pointed to by pwl.
 Assumes original save-file format.  Use for backward compatibility.
 ***************************************************************/
 static void worklist_load_old(struct section_file *file,
-			      char *path, int plrno, int wlinx,
+			      const char *path, int plrno, int wlinx,
 			      struct worklist *pwl)
 {
   int i, id;
@@ -1190,7 +1190,7 @@ Save the worklist elements specified by path, given the arguments
 plrno and wlinx, from the worklist pointed to by pwl.
 ***************************************************************/
 static void worklist_save(struct section_file *file,
-			  char *path, int plrno, int wlinx,
+			  const char *path, int plrno, int wlinx,
 			  struct worklist *pwl)
 {
   char efpath[64];
@@ -1681,7 +1681,7 @@ void game_load(struct section_file *file)
   int i;
   enum server_states tmp_server_state;
   char *savefile_options;
-  char *string;
+  const char *string;
 
   game.version = secfile_lookup_int_default(file, 0, "game.version");
   tmp_server_state = (enum server_states)

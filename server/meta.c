@@ -85,7 +85,7 @@ static int			sockfd=0;
   This is a function (instead of a define) to keep meta.h clean of
   including config.h and version.h
 *************************************************************************/
-char *default_meta_server_info_string(void)
+const char *default_meta_server_info_string(void)
 {
 #if IS_BETA_VERSION
   return "unstable pre-" NEXT_STABLE_VERSION ": beware";

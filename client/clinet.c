@@ -140,7 +140,7 @@ int connect_to_server(char *name, char *hostname, int port,
    - return 0 on success
      or put an error message in ERRBUF and return -1 on failure
 **************************************************************************/
-int get_server_address(char *hostname, int port, char *errbuf,
+int get_server_address(const char *hostname, int port, char *errbuf,
 		       int errbufsize)
 {
   if (port == 0)

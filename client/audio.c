@@ -175,7 +175,7 @@ void audio_init()
 **************************************************************************/
 static const char *soundspec_fullname(const char *soundset_name)
 {
-  char *soundset_default = "stdsounds";	/* Do not i18n! */
+  const char *soundset_default = "stdsounds";	/* Do not i18n! */
   char *fname = fc_malloc(strlen(soundset_name) + strlen(SNDSPEC_SUFFIX) + 1);
   char *dname;
 

@@ -223,7 +223,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
       if (pcity && wonder_replacement(pcity, id)) {
 	my_snprintf(buf[1], column_size, "*");
       } else {
-	char *state = "";
+	const char *state = "";
 
 	if (is_wonder(id)) {
 	  state = _("Wonder");

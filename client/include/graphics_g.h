@@ -25,7 +25,7 @@ void free_intro_radar_sprites(void);
 
 struct Sprite;			/* opaque type, real type is gui-dep */
 
-char **gfx_fileextensions(void);
+const char **gfx_fileextensions(void);
 
 struct Sprite *load_gfxfile(const char *filename);
 struct Sprite *crop_sprite(struct Sprite *source,

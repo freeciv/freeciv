@@ -216,7 +216,7 @@ void boot_help_texts(void)
   sec = secfile_get_secnames_prefix(sf, "help_", &nsec);
 
   for(isec=0; isec<nsec; isec++) {
-    char *gen_str =
+    const char *gen_str =
       secfile_lookup_str_default(sf, NULL, "%s.generate", sec[isec]);
     
     if (gen_str) {

@@ -190,7 +190,7 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
 {
   /* inputline history code */
   if (GTK_WIDGET_HAS_FOCUS(inputline) || !GTK_WIDGET_IS_SENSITIVE(top_vbox)) {
-    void *data = NULL;
+    const char *data = NULL;
     gint keypress = FALSE;
 
     if (ev->keyval == GDK_Up) {
@@ -770,7 +770,7 @@ void ui_main(int argc, char **argv)
      in the next release.  */
 # ifdef HAVE_PUTENV
     if(strcmp(setlocale(LC_CTYPE, (const char *)NULL), "C") == 0)
-      putenv("LC_CTYPE=en_US.ISO8859-1");
+      putenv((char *) "LC_CTYPE=en_US.ISO8859-1");
 # endif
 #endif
 

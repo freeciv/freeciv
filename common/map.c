@@ -1051,7 +1051,7 @@ static int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
 /***************************************************************
  ...
 ***************************************************************/
-static void debug_log_move_costs(char *str, int x, int y, struct tile *tile0)
+static void debug_log_move_costs(const char *str, int x, int y, struct tile *tile0)
 {
   /* the %x don't work so well for oceans, where
      move_cost[]==-3 ,.. --dwp

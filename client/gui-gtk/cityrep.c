@@ -920,7 +920,7 @@ Handle callbacks from the "change all" dialog.
 *****************************************************************/
 static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 {
-  char *cmd = (char *)data;
+  const char *cmd = (const char *)data;
 
   if (cmd) {
     GList *selection_from, *selection_to;
@@ -964,8 +964,8 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
   GList *selection;
   gint row;
   struct city *pcity;
-  static gchar *title_[2][1] = { {N_("From:")},
-				 {N_("To:")}
+  static const char *title_[2][1] = { {N_("From:")},
+				      {N_("To:")}
   };
   static gchar **title[2];
   int i, j;
@@ -1099,7 +1099,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
 			action_area), button, TRUE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
 		       GTK_SIGNAL_FUNC(city_change_all_dialog_callback),
-		       "change");
+		       (gpointer)"change");
     gtk_widget_show(button);
 
     button = gtk_button_new_with_label(_("Cancel"));

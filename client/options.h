@@ -52,8 +52,8 @@ enum client_option_type {
 };
 
 typedef struct {
-  char *name;
-  char *description;
+  const char *name;
+  const char *description;
   enum client_option_type type;
   int *p_int_value;
   bool *p_bool_value;
@@ -90,8 +90,8 @@ extern bool draw_focus_unit;
 extern bool draw_fog_of_war;
 
 typedef struct {
-	char *name;
-	bool *p_value;
+  const char *name;
+  bool *p_value;
 } view_option;
 extern view_option view_options[];
 

@@ -719,7 +719,7 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
 /**************************************************************************
 ...
 **************************************************************************/
-char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
+char *secfile_lookup_str(struct section_file *my_section_file, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -749,7 +749,7 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
   put into (*ival).
 **************************************************************************/
 char *secfile_lookup_str_int(struct section_file *my_section_file, 
-			     int *ival, char *path, ...)
+			     int *ival, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -779,7 +779,7 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
 ...
 **************************************************************************/
 void secfile_insert_int(struct section_file *my_section_file,
-			int val, char *path, ...)
+			int val, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -801,7 +801,7 @@ void secfile_insert_int(struct section_file *my_section_file,
 **************************************************************************/
 void secfile_insert_int_comment(struct section_file *my_section_file,
 				int val, const char *const comment,
-				char *path, ...)
+				const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -822,7 +822,7 @@ void secfile_insert_int_comment(struct section_file *my_section_file,
 ...
 **************************************************************************/
 void secfile_insert_bool(struct section_file *my_section_file,
-			 bool val, char *path, ...)
+			 bool val, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -849,7 +849,7 @@ void secfile_insert_bool(struct section_file *my_section_file,
 ...
 **************************************************************************/
 void secfile_insert_str(struct section_file *my_section_file,
-			char *sval, char *path, ...)
+			const char *sval, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -869,7 +869,7 @@ void secfile_insert_str(struct section_file *my_section_file,
 **************************************************************************/
 void secfile_insert_str_comment(struct section_file *my_section_file,
 				char *sval, const char *const comment,
-				char *path, ...)
+				const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -888,7 +888,7 @@ void secfile_insert_str_comment(struct section_file *my_section_file,
 ...
 **************************************************************************/
 int secfile_lookup_int(struct section_file *my_section_file, 
-		       char *path, ...)
+		       const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -919,7 +919,7 @@ int secfile_lookup_int(struct section_file *my_section_file,
   entry does not exist.  If the entry exists as a string, then die.
 **************************************************************************/
 int secfile_lookup_int_default(struct section_file *my_section_file,
-			       int def, char *path, ...)
+			       int def, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -944,7 +944,7 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
 ...
 **************************************************************************/
 bool secfile_lookup_bool(struct section_file *my_section_file, 
-		       char *path, ...)
+		       const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -981,7 +981,7 @@ bool secfile_lookup_bool(struct section_file *my_section_file,
   entry does not exist.  If the entry exists as a string, then die.
 **************************************************************************/
 bool secfile_lookup_bool_default(struct section_file *my_section_file,
-				 bool def, char *path, ...)
+				 bool def, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -1014,7 +1014,7 @@ bool secfile_lookup_bool_default(struct section_file *my_section_file,
   entry does not exist.  If the entry exists as an int, then die.
 **************************************************************************/
 char *secfile_lookup_str_default(struct section_file *my_section_file, 
-				 char *def, char *path, ...)
+				 const char *def, const char *path, ...)
 {
   struct entry *pentry;
   char buf[MAX_LEN_BUFFER];
@@ -1025,7 +1025,7 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
-    return def;
+    return (char *) def;
   }
 
   if(!pentry->svalue) {
@@ -1041,7 +1041,7 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
 ...
 **************************************************************************/
 bool section_file_lookup(struct section_file *my_section_file, 
-			char *path, ...)
+			 const char *path, ...)
 {
   char buf[MAX_LEN_BUFFER];
   va_list ap;
@@ -1287,7 +1287,7 @@ void secfilehash_free(struct section_file *file)
  If none, returns 0.
 **************************************************************************/
 int secfile_lookup_vec_dimen(struct section_file *my_section_file, 
-			     char *path, ...)
+			     const char *path, ...)
 {
   char buf[MAX_LEN_BUFFER];
   va_list ap;
@@ -1310,7 +1310,7 @@ int secfile_lookup_vec_dimen(struct section_file *my_section_file,
  If the vector does not exist, returns NULL ands sets (*dimen) to 0.
 **************************************************************************/
 int *secfile_lookup_int_vec(struct section_file *my_section_file,
-			    int *dimen, char *path, ...)
+			    int *dimen, const char *path, ...)
 {
   char buf[MAX_LEN_BUFFER];
   va_list ap;
@@ -1341,7 +1341,7 @@ int *secfile_lookup_int_vec(struct section_file *my_section_file,
  If the vector does not exist, returns NULL ands sets (*dimen) to 0.
 **************************************************************************/
 char **secfile_lookup_str_vec(struct section_file *my_section_file,
-			      int *dimen, char *path, ...)
+			      int *dimen, const char *path, ...)
 {
   char buf[MAX_LEN_BUFFER];
   va_list ap;
@@ -1464,7 +1464,7 @@ static char *moutstr(char *str)
   returned are in the order they appeared in the original file.
 ***************************************************************/
 char **secfile_get_secnames_prefix(struct section_file *my_section_file,
-				   char *prefix, int *num)
+				   const char *prefix, int *num)
 {
   char **ret;
   int len, i;

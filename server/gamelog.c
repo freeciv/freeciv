@@ -47,7 +47,7 @@ void gamelog_set_level(int level)
 }
 
 /**************************************************************************/
-void gamelog(int level, char *message, ...)
+void gamelog(int level, const char *message, ...)
 {
   va_list args;
   char buf[512];

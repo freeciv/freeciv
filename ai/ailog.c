@@ -128,7 +128,7 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
   struct unit *pcharge;
   struct city *pcity;
   int x = -1, y = -1, id = -1;
-  char *s = "none";
+  const char *s = "none";
 
   if (minlevel > fc_log_level) {
     return;

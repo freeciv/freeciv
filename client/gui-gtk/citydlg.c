@@ -540,7 +540,7 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
   int i;
   GtkWidget *hbox, *table, *label;
 
-  char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
+  const char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
     N_("Prod:"),
     N_("Trade:"),
     N_("Gold"),
@@ -594,7 +594,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   GtkWidget *halves, *hbox, *vbox, *page, *align;
   GtkWidget *frame, *table, *label, *scrolledwin;
 
-  char *improvement_title[] = { N_("City improvements"),
+  const char *improvement_title[] = { N_("City improvements"),
     N_("Upkeep")
   };
 
@@ -1241,13 +1241,13 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 
   char *tab_title = _("_Misc. Settings");
 
-  char *new_citizens_label[] = {
+  const char *new_citizens_label[] = {
     N_("Entertainers"),
     N_("Scientists"),
     N_("Taxmen")
   };
 
-  char *city_opts_label[NUM_CITY_OPTS] = {
+  const char *city_opts_label[NUM_CITY_OPTS] = {
     N_("Land units"),
     N_("Sea units"),
     N_("Helicopters"),
@@ -1255,7 +1255,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
     N_("Disband if build settler at size 1")
   };
 
-  char *misc_whichtab_label[NUM_PAGES] = {
+  const char *misc_whichtab_label[NUM_PAGES] = {
     N_("City Overview page"),
     N_("Units page"),
     N_("Worklist page"),
@@ -2943,7 +2943,7 @@ static void change_callback(GtkWidget * w, gpointer data)
   GtkWidget *cshell, *button, *scrolled;
   struct city_dialog *pdialog;
   int i;
-  static gchar *title_[4] =
+  static const gchar *title_[4] =
       { N_("Type"), N_("Info"), N_("Cost"), N_("Turns") };
   static gchar **title = NULL;
   GtkAccelGroup *accel = gtk_accel_group_new();

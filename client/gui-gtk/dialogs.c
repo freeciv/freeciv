@@ -668,7 +668,7 @@ static int create_advances_list(struct player *pplayer,
 {  
   GtkWidget *close_command, *scrolled;
   int i, j;
-  static gchar *title_[1] = { N_("Select Advance to Steal") };
+  static const char *title_[1] = { N_("Select Advance to Steal") };
   static gchar **title;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
@@ -741,7 +741,7 @@ static int create_advances_list(struct player *pplayer,
   }
 
   if(j == 0) {
-    static gchar *row_[1] = { N_("NONE") };
+    static const char *row_[1] = { N_("NONE") };
     static gchar **row;
     
     if (!row) row = intl_slist(1, row_);
@@ -767,7 +767,7 @@ static int create_improvements_list(struct player *pplayer,
   GtkWidget *close_command, *scrolled;
   int j;
   gchar *row[1];
-  static gchar *title_[1] = { N_("Select Improvement to Sabotage") };
+  static const char *title_[1] = { N_("Select Improvement to Sabotage") };
   static gchar **title;
   GtkAccelGroup *accel=gtk_accel_group_new();
 

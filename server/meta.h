@@ -26,7 +26,7 @@
 
 #define PACKET_UDP_PCKT 2
 
-char *default_meta_server_info_string(void);
+const char *default_meta_server_info_string(void);
 
 void meta_addr_split(void);
 char *meta_addr_port(void);

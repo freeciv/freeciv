@@ -542,8 +542,8 @@ void popup_economy_report_dialog(bool make_modal)
 void create_economy_report_dialog(bool make_modal)
 {
   GtkWidget *close_command, *scrolled;
-  static gchar *titles_[4] = { N_("Building Name"), N_("Count"),
-			      N_("Cost"), N_("U Total") };
+  static const char *titles_[4] = { N_("Building Name"), N_("Count"),
+				    N_("Cost"), N_("U Total") };
   static gchar **titles;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
@@ -775,7 +775,7 @@ void popup_activeunits_report_dialog(bool make_modal)
 void create_activeunits_report_dialog(bool make_modal)
 {
   GtkWidget *close_command, *refresh_command;
-  static gchar *titles_[AU_COL]
+  static const char *titles_[AU_COL]
     = { N_("Unit Type"), N_("U"), N_("In-Prog"), N_("Active"),
 	N_("Shield"), N_("Food") };
   static gchar **titles;

@@ -63,11 +63,9 @@
                           "~/.freeciv"
 #endif
 
-/* Cached locale numeric formatting information.
-   Defaults are as appropriate for the US. */
-static char *grouping = "\3";
-static char *grouping_sep = ",";
-static size_t grouping_sep_len = 1;
+static char *grouping = NULL;
+static char *grouping_sep = NULL;
+static size_t grouping_sep_len = 0;
 
 /***************************************************************
   Take a string containing multiple lines and create a copy where
@@ -739,7 +737,8 @@ char *user_username(void)
 ***************************************************************************/
 static const char **get_data_dirs(int *num_dirs)
 {
-  char *path, *path2, *tok;
+  const char *path;
+  char *path2, *tok;
   static int num = 0;
   static const char **dirs = NULL;
 
@@ -1006,6 +1005,14 @@ char *datafilename_required(const char *filename)
 ***************************************************************************/
 void init_nls(void)
 {
+  /* 
+   * Setup the cached locale numeric formatting information. Defaults
+   * are as appropriate for the US.
+   */
+  grouping = mystrdup("\3");
+  grouping_sep = mystrdup(",");
+  grouping_sep_len = strlen(grouping_sep);
+
 #ifdef ENABLE_NLS
 #ifdef WIN32_NATIVE
   /* set LANG by hand if it is not set */
@@ -1086,10 +1093,11 @@ void init_nls(void)
 	/* nothing */
       }
       len++;
+      free(grouping);
       grouping = fc_malloc(len);
       memcpy(grouping, lc->grouping, len);
     }
-
+    free(grouping_sep);
     grouping_sep = mystrdup(lc->thousands_sep);
     grouping_sep_len = strlen(grouping_sep);
   }

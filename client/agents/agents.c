@@ -235,7 +235,7 @@ static void thaw(void)
 /***********************************************************************
  Helper.
 ***********************************************************************/
-static struct my_agent *find_agent_by_name(char *agent_name)
+static struct my_agent *find_agent_by_name(const char *agent_name)
 {
   int i;
 
@@ -617,7 +617,7 @@ void agents_city_remove(struct city *pcity)
  Called from an agent. This function will return until the last
  request has been processed by the server.
 ***********************************************************************/
-void wait_for_requests(char *agent_name, int first_request_id,
+void wait_for_requests(const char *agent_name, int first_request_id,
 		       int last_request_id)
 {
   struct my_agent *agent = find_agent_by_name(agent_name);
@@ -654,7 +654,7 @@ void wait_for_requests(char *agent_name, int first_request_id,
 /***********************************************************************
  Adds a specific call for the given agent.
 ***********************************************************************/
-void cause_a_unit_changed_for_agent(char *name_of_calling_agent,
+void cause_a_unit_changed_for_agent(const char *name_of_calling_agent,
 				    struct unit *punit)
 {
   struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
@@ -667,7 +667,7 @@ void cause_a_unit_changed_for_agent(char *name_of_calling_agent,
 /***********************************************************************
  Adds a specific call for the given agent.
 ***********************************************************************/
-void cause_a_city_changed_for_agent(char *name_of_calling_agent,
+void cause_a_city_changed_for_agent(const char *name_of_calling_agent,
 				    struct city *pcity)
 {
   struct my_agent *agent = find_agent_by_name(name_of_calling_agent);

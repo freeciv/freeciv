@@ -45,26 +45,26 @@ static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define name_strlcpy(dst, src) ((void) sz_loud_strlcpy(dst, src, name_too_long))
 
 static void openload_ruleset_file(struct section_file *file,
-				   char *whichset);
+				  const char *whichset);
 static char *check_ruleset_capabilities(struct section_file *file,
-					char *us_capstr,
+					const char *us_capstr,
 					const char *filename);
 
-static int lookup_tech(struct section_file *file, char *prefix,
-		       char *entry, bool required, const char *filename,
-		       char *description);
-static void lookup_tech_list(struct section_file *file, char *prefix,
-			     char *entry, int *output, const char *filename);
-static int lookup_unit_type(struct section_file *file, char *prefix,
-			    char *entry, bool required, const char *filename,
-			    char *description);
-static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
-				     char *entry, bool required,
-				     const char *filename, char *description);
-static int lookup_government(struct section_file *file, char *entry,
+static int lookup_tech(struct section_file *file, const char *prefix,
+		       const char *entry, bool required, const char *filename,
+		       const char *description);
+static void lookup_tech_list(struct section_file *file, const char *prefix,
+			     const char *entry, int *output, const char *filename);
+static int lookup_unit_type(struct section_file *file, const char *prefix,
+			    const char *entry, bool required, const char *filename,
+			    const char *description);
+static Impr_Type_id lookup_impr_type(struct section_file *file, const char *prefix,
+				     const char *entry, bool required,
+				     const char *filename, const char *description);
+static int lookup_government(struct section_file *file, const char *entry,
 			     const char *filename);
-static int lookup_city_cost(struct section_file *file, char *prefix,
-			    char *entry, const char *filename);
+static int lookup_city_cost(struct section_file *file, const char *prefix,
+			    const char *entry, const char *filename);
 static char *lookup_helptext(struct section_file *file, char *prefix);
 
 static enum tile_terrain_type lookup_terrain(char *name, 
@@ -78,8 +78,8 @@ static void load_terrain_names(struct section_file *file);
 static void load_citystyle_names(struct section_file *file);
 static void load_nation_names(struct section_file *file);
 static struct city_name* load_city_name_list(struct section_file *file,
-					     char *secfile_str1,
-					     char *secfile_str2);
+					     const char *secfile_str1,
+					     const char *secfile_str2);
 
 static void load_ruleset_techs(struct section_file *file);
 static void load_ruleset_units(struct section_file *file);
@@ -104,7 +104,7 @@ static void send_ruleset_game(struct conn_list *dest);
   datafilename() wrapper: tries to match in two ways.
   Returns NULL on failure, the (statically allocated) filename on success.
 **************************************************************************/
-char *valid_ruleset_filename(char *subdir, char *whichset)
+char *valid_ruleset_filename(const char *subdir, const char *whichset)
 {
   char filename[512], *dfilename;
 
@@ -136,7 +136,7 @@ char *valid_ruleset_filename(char *subdir, char *whichset)
   "whichset" = "techs", "units", "buildings", "terrain", ...
   Calls exit(EXIT_FAILURE) on failure.
 **************************************************************************/
-static void openload_ruleset_file(struct section_file *file, char *whichset)
+static void openload_ruleset_file(struct section_file *file, const char *whichset)
 {
   char sfilename[512];
   char *dfilename = valid_ruleset_filename(game.rulesetdir, whichset);
@@ -164,7 +164,7 @@ static void openload_ruleset_file(struct section_file *file, char *whichset)
   capabilites specified are satisified.
 **************************************************************************/
 static char *check_ruleset_capabilities(struct section_file *file,
-					char *us_capstr, const char *filename)
+					const char *us_capstr, const char *filename)
 {
   char *datafile_options;
   
@@ -196,9 +196,9 @@ static char *check_ruleset_capabilities(struct section_file *file,
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
-static int lookup_tech(struct section_file *file, char *prefix,
-		       char *entry, bool required, const char *filename,
-		       char *description)
+static int lookup_tech(struct section_file *file, const char *prefix,
+		       const char *entry, bool required, const char *filename,
+		       const char *description)
 {
   char *sval;
   int i;
@@ -230,8 +230,8 @@ static int lookup_tech(struct section_file *file, char *prefix,
  tech_exist(). There should be at least one value, but it may be "",
  meaning empty list.
 **************************************************************************/
-static void lookup_tech_list(struct section_file *file, char *prefix,
-			     char *entry, int *output, const char *filename)
+static void lookup_tech_list(struct section_file *file, const char *prefix,
+			     const char *entry, int *output, const char *filename)
 {
   char **slist;
   int i, nval;
@@ -282,9 +282,9 @@ static void lookup_tech_list(struct section_file *file, char *prefix,
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
-static int lookup_unit_type(struct section_file *file, char *prefix,
-			    char *entry, bool required, const char *filename,
-			    char *description)
+static int lookup_unit_type(struct section_file *file, const char *prefix,
+			    const char *entry, bool required, const char *filename,
+			    const char *description)
 {
   char *sval;
   int i;
@@ -315,9 +315,9 @@ static int lookup_unit_type(struct section_file *file, char *prefix,
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass impr->name instead of prefix="imprs2.b27")
 **************************************************************************/
-static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
-				     char *entry, bool required,
-				     const char *filename, char *description)
+static Impr_Type_id lookup_impr_type(struct section_file *file, const char *prefix,
+				     const char *entry, bool required,
+				     const char *filename, const char *description)
 {
   char *sval;
   int id;
@@ -344,7 +344,7 @@ static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
   Lookup entry in the file and return the corresponding government index;
   dies if can't find/match.  filename is for error message.
 **************************************************************************/
-static int lookup_government(struct section_file *file, char *entry,
+static int lookup_government(struct section_file *file, const char *entry,
 			     const char *filename)
 {
   char *sval;
@@ -365,8 +365,8 @@ static int lookup_government(struct section_file *file, char *entry,
   value if int, or G_CITY_SIZE_FREE is entry is "City_Size".
   Dies if gets some other string.  filename is for error message.
 **************************************************************************/
-static int lookup_city_cost(struct section_file *file, char *prefix,
-			    char *entry, const char *filename)
+static int lookup_city_cost(struct section_file *file, const char *prefix,
+			    const char *entry, const char *filename)
 {
   char *sval;
   int ival = 0;
@@ -387,8 +387,8 @@ static int lookup_city_cost(struct section_file *file, char *prefix,
 /**************************************************************************
   Lookup optional string, returning allocated memory or NULL.
 **************************************************************************/
-static char *lookup_string(struct section_file *file, char *prefix,
-			   char *suffix)
+static char *lookup_string(struct section_file *file, const char *prefix,
+			   const char *suffix)
 {
   char *sval;
   
@@ -1823,8 +1823,8 @@ static void load_nation_names(struct section_file *file)
   malloc'ed city name list (which is all filled out) will be returned.
 **************************************************************************/
 static struct city_name* load_city_name_list(struct section_file *file,
-					     char *secfile_str1,
-					     char *secfile_str2)
+					     const char *secfile_str1,
+					     const char *secfile_str2)
 {
   int dim, j;
   struct city_name *city_names;

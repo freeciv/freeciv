@@ -16,11 +16,11 @@
 #include <gtk/gtk.h>
 
 GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel);
-void gtk_set_label(GtkWidget *w, char *text);
+void gtk_set_label(GtkWidget *w, const char *text);
 void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm);
 void gtk_expose_now(GtkWidget *w);
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
 
-char **intl_slist(int n, char **s);
+char **intl_slist(int n, const char **s);
 
 #endif  /* FC__GUI_STUFF_H */

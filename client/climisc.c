@@ -336,7 +336,7 @@ void client_change_all(cid x, cid y)
 /***************************************************************************
 Return a string indicating one nation's embassy status with another
 ***************************************************************************/
-char *get_embassy_status(struct player *me, struct player *them)
+const char *get_embassy_status(struct player *me, struct player *them)
 {
   if (me == them) return "-";
   if (player_has_embassy(me, them)) {
@@ -353,7 +353,7 @@ char *get_embassy_status(struct player *me, struct player *them)
 /***************************************************************************
 Return a string indicating one nation's shaed vision status with another
 ***************************************************************************/
-char *get_vision_status(struct player *me, struct player *them)
+const char *get_vision_status(struct player *me, struct player *them)
 {
   if (gives_shared_vision(me, them)) {
     if (gives_shared_vision(them, me))

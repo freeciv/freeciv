@@ -139,7 +139,7 @@ const char **get_tileset_list(void)
 ***********************************************************************/
 static char *tilespec_fullname(const char *tileset_name)
 {
-  char *tileset_default;
+  const char *tileset_default;
   char *fname, *dname;
 
   if (isometric_view_supported()) {
@@ -205,19 +205,22 @@ static void check_tilespec_capabilities(struct section_file *file,
 ***********************************************************************/
 static char *tilespec_gfx_filename(const char *gfx_filename)
 {
-  char **gfx_fileexts;
-  char *full_name,*real_full_name,*gfx_current_fileext;
-
-  gfx_fileexts = gfx_fileextensions();
+  const char  *gfx_current_fileext;
+  const char **gfx_fileexts = gfx_fileextensions();
 
   while((gfx_current_fileext = *gfx_fileexts++))
   {
-    full_name = fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
+    char *full_name =
+	fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
+    char *real_full_name;
+
     sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
 
     real_full_name = datafilename(full_name);
     free(full_name);
-    if(real_full_name) return mystrdup(real_full_name);
+    if (real_full_name) {
+      return mystrdup(real_full_name);
+    }
   }
 
   freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
@@ -329,8 +332,8 @@ static void tilespec_load_one(const char *spec_filename)
 {
   struct section_file the_file, *file = &the_file;
   struct Sprite *big_sprite = NULL, *small_sprite;
-  char *gfx_filename,*gfx_current_fileext;
-  char **gridnames, **tags, **gfx_fileexts;
+  const char *gfx_filename, *gfx_current_fileext, **gfx_fileexts;
+  char **gridnames, **tags;
   int num_grids, num_tags;
   int i, j, k;
   int x_top_left, y_top_left, dx, dy;

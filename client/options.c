@@ -170,7 +170,10 @@ int sorted_events[E_LAST];
  * to be sorted.
  */
 static struct {
-  char *enum_name, *tag_name, *descr_orig, *descr;
+  const char *enum_name;
+  char *tag_name;
+  const char *descr_orig;
+  char *descr;
   enum event_type event;
 } events[] = {
   GEN_EV(N_("City: Building Unavailable Item"),       E_CITY_CANTBUILD),
@@ -274,11 +277,11 @@ static void save_cma_preset(struct section_file *file, char *name,
 			    int inx);
 static void load_cma_preset(struct section_file *file, int inx);
 
-static void save_global_worklist(struct section_file *file, char *path, 
+static void save_global_worklist(struct section_file *file, const char *path, 
                                  int wlinx, struct worklist *pwl);
 
-static void load_global_worklist(struct section_file *file, char *path, 
-                                 int wlinx, struct worklist *pwl);
+static void load_global_worklist(struct section_file *file, const char *path,
+				 int wlinx, struct worklist *pwl);
 
 /**************************************************************************
   Returns the translated description of the given event.
@@ -589,7 +592,7 @@ void save_options(void)
 static void load_cma_preset(struct section_file *file, int inx)
 {
   struct cma_parameter parameter;
-  char *name;
+  const char *name;
   int i;
 
   name = secfile_lookup_str_default(file, "preset", 
@@ -655,8 +658,8 @@ const char *get_sound_tag_for_event(enum event_type event)
 /****************************************************************
  loads global worklist from rc file
 *****************************************************************/
-static void load_global_worklist(struct section_file *file, char *path, 
-                                  int wlinx, struct worklist *pwl)
+static void load_global_worklist(struct section_file *file, const char *path,
+				 int wlinx, struct worklist *pwl)
 {
   char efpath[64];
   char idpath[64];
@@ -694,8 +697,8 @@ static void load_global_worklist(struct section_file *file, char *path,
 /****************************************************************
  saves global worklist to rc file
 *****************************************************************/
-static void save_global_worklist(struct section_file *file, char *path, 
-                                  int wlinx, struct worklist *pwl)
+static void save_global_worklist(struct section_file *file, const char *path,
+				 int wlinx, struct worklist *pwl)
 {
   char efpath[64];
   char idpath[64];
