@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-09-22 13:29+0200\n"
+"POT-Creation-Date: 2003-09-23 08:31+0200\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -15504,7 +15504,7 @@ msgstr ""
 "bêdzie \"uszczê¶liwia³o\" jednego mieszkañca."
 
 #: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
+#: data/civ1/governments.ruleset:310 data/history/governments.ruleset:314
 #: data/default/techs.ruleset:146 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
@@ -15512,7 +15512,7 @@ msgstr "Komunizm"
 
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
+#: data/civ1/governments.ruleset:350 data/civ1/governments.ruleset:351
 #: data/history/governments.ruleset:354 data/history/governments.ruleset:355
 msgid "Comrade"
 msgstr "Towarzysz"
@@ -15573,13 +15573,13 @@ msgstr ""
 "bêdzie \"uszczê¶liwia³o\" po dwóch mieszkañców."
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/civ1/governments.ruleset:385 data/history/governments.ruleset:391
 msgid "Republic"
 msgstr "Republika"
 
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
+#: data/civ1/governments.ruleset:425 data/civ1/governments.ruleset:426
 #: data/history/governments.ruleset:431 data/history/governments.ruleset:432
 msgid "Consul"
 msgstr "Konsul"
@@ -15642,7 +15642,7 @@ msgstr ""
 "powoduj± niezadowolenie jednego mieszkañca."
 
 #: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
+#: data/civ1/governments.ruleset:463 data/history/governments.ruleset:471
 #: data/default/techs.ruleset:176 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
@@ -15650,7 +15650,7 @@ msgstr "Demokracja"
 
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
+#: data/civ1/governments.ruleset:503 data/civ1/governments.ruleset:504
 #: data/history/governments.ruleset:512 data/history/governments.ruleset:513
 #: data/nation/brazilian.ruleset:15 data/nation/catalan.ruleset:16
 #: data/nation/chilean.ruleset:19 data/nation/croatian.ruleset:19
@@ -15905,8 +15905,8 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"You may impose martial law under Monarchy: each military unit in a city will "
+"keep one unhappy citizen content."
 msgstr ""
 "Monarchia to ustrój oparty na hierarchii, na szczycie której stoi koronowana "
 "g³owa.\n"
@@ -15921,10 +15921,10 @@ msgstr ""
 "Podczas monarchii miasto mo¿e utrzymywaæ za darmo 3 jednostki militarne, "
 "ka¿de kolejne kosztuj± jedn± tarczkê.\n"
 "\n"
-"Podczas monarchii mo¿esz narzuciæ stan wojenny: do 3 jednostek militarnych "
-"bêdzie \"uszczê¶liwia³o\" jednego mieszkañca."
+"Podczas monarchii mo¿esz narzuciæ stan wojenny: ka¿da jednostka militarna "
+"bêdzie uszczê¶liwia³a jednego mieszkañca."
 
-#: data/civ1/governments.ruleset:354
+#: data/civ1/governments.ruleset:353
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15975,7 +15975,7 @@ msgstr ""
 "Podczas komunizmu mo¿esz narzuciæ stan wojenny: do 3 jednostek militarnych "
 "bêdzie \"uszczê¶liwia³o\" po dwóch mieszkañców."
 
-#: data/civ1/governments.ruleset:429
+#: data/civ1/governments.ruleset:428
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -16027,7 +16027,7 @@ msgstr ""
 "Mieszkañcy toleruj± jedynie 1 agresywn± jednostkê, wszystkie dodatkowe "
 "powoduj± niezadowolenie jednego mieszkañca."
 
-#: data/civ1/governments.ruleset:507
+#: data/civ1/governments.ruleset:506
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
