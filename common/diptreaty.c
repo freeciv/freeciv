@@ -27,17 +27,18 @@
 
 /**************************************************************************
   Returns TRUE iff pplayer could do diplomancy in the game at all.
+  These values are set by player in stdinhand.c.
 **************************************************************************/
 bool diplomacy_possible(struct player *pplayer, struct player *aplayer)
 {
-  return  (game.diplomacy == 0
-	   || (game.diplomacy == 1 
+  return  (game.diplomacy == 0      /* Unlimited diplomacy */
+	   || (game.diplomacy == 1  /* Human diplomacy only */
 	       && !pplayer->ai.control 
 	       && !aplayer->ai.control)
-	   || (game.diplomacy == 2
+	   || (game.diplomacy == 2  /* AI diplomacy only */
 	       && pplayer->ai.control
 	       && aplayer->ai.control)
-	   || (game.diplomacy == 3
+	   || (game.diplomacy == 3  /* Team diplomacy only */
 	       && pplayer->team != TEAM_NONE
 	       && pplayer->team == aplayer->team));
 }
