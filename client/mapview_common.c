@@ -706,11 +706,11 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
     return FALSE;
   }
   if (canvas_x + NORMAL_TILE_WIDTH > mapview_canvas.width - border_x
-      && (!same || scroll_x + xsize >= xmax || topo_has_flag(TF_WRAPX))) {
+      && (!same || scroll_x + xsize < xmax || topo_has_flag(TF_WRAPX))) {
     return FALSE;
   }
   if (canvas_y + NORMAL_TILE_HEIGHT > mapview_canvas.height - border_y
-      && (!same || scroll_y + ysize >= ymax || topo_has_flag(TF_WRAPY))) {
+      && (!same || scroll_y + ysize < ymax || topo_has_flag(TF_WRAPY))) {
     return FALSE;
   }
 
