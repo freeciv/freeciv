@@ -58,6 +58,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 CC = @CC@
+CPP = @CPP@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
@@ -68,9 +69,11 @@ INCLUDES = -I $(srcdir)/../common -I $(srcdir)/../ai
 
 BUILT_SOURCES = Freeciv.h
 
+civclient_DEPENDENCIES = ad2c cityicon.ico freeciv.ico ../common/libcivcommon.a
+civclient_LDADD        = ../common/libcivcommon.a
+
 civclient_SOURCES = \
 		Freeciv.h	\
-		ad2c		\
 		canvas.c	\
 		canvas.h	\
 		canvasp.h	\
@@ -78,7 +81,6 @@ civclient_SOURCES = \
 		chatline.h	\
 		citydlg.c	\
 		citydlg.h	\
-		cityicon.ico	\
 		civclient.c	\
 		civclient.h	\
 		climisc.c	\
@@ -95,7 +97,6 @@ civclient_SOURCES = \
 		diplodlg.h	\
 		finddlg.c	\
 		finddlg.h	\
-		freeciv.ico	\
 		gotodlg.c	\
 		gotodlg.h	\
 		graphics.c	\
@@ -135,8 +136,6 @@ civclient_SOURCES = \
 		xmain.h		\
 		xstuff.c	\
 		xstuff.h
-civclient_DEPENDENCIES = ../common/libcivcommon.a
-civclient_LDADD        = ../common/libcivcommon.a
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(bin_PROGRAMS)
