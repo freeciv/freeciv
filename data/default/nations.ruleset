@@ -1630,9 +1630,7 @@ cities =
 name=_("Bavarian")
 plural=_("?plural:Bavarians")
 leader = "Ludwig II", "Maximilian", "Joseph", "F.J.Strauss"
-
 leader_sex = "Male", "Male", "Male", "Male"
-
 flag="f.bavarian"
 flag_alt = "-"
 city_style = "European"
@@ -1651,6 +1649,41 @@ cities =
   "Eichstätt", "Passau",  "Straubing", "Mühldorf", "Freising",
   "Deggendorf", "Erding", "Freilassing", "Altötting", "Pfaffenhofen",
   "Vilshofen", "Plattling", "Traunstein", "Burghausen", "Dingolfing"
+
+
+[nation_brazilian]
+
+name=_("Brazilian")
+plural=_("?plural:Brazilians")
+leader="Roberto Marinho", "Dom Pedro I", "Princesa Isabel", "Marechal Deodoro",
+       "Tancredo Neves", "Juscelino Kubitscheck", "Getulio Vargas"
+leader_sex="Male", "Male", "Female", "Male", "Male", "Male", "Male"
+flag = "f.brasil"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Dictator"),     _("Dictator")
+                 "Monarchy",        _("Imperator"),    _("Imperatrix")
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+                 "Communism",       _("Chairman"),     _("Chairperson")
+		 "Fundamentalism",  _("Director-President"), _("Director-President")
+}
+
+attack=0
+expand=1
+civilized=0
+advisors=100,100,100,100,100,100,100
+tech_goals = "Ceremonial Burial", "Code of Laws", "Bridge Building",
+             "Flight","Banking", "Conscription", "The Corporation", "Labor Union"
+wonder="Marco Polo's Embassy"
+government="Republic"
+
+cities =
+  "Brasilia", "Sao Paulo", "Rio de Janeiro", "Salvador", "Porto Alegre", "Curitiba",
+  "Belo Horizonte", "Manaus", "Belem", "Florianopolis", "Blumenau", "Fortaleza",
+  "Niteroi", "Natal", "Ouro Preto", "Alagoas", "Londrina", "Goiania",
+  "Vitória da Conquista", "Petropolis", "Ribeirão Preto", "Olinda"
 
 
 ;[nation_olympic]
