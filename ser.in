@@ -13,8 +13,15 @@
 #   GNU General Public License for more details.
 #
 #***********************************************************************/
+
 DIR=`dirname $0`
-FREECIV_PATH="@top_srcdir@/data:$FREECIV_PATH"
+
+# Use cd + pwd instead of manual concatentation in case of absolute paths
+if [ "x$FREECIV_PATH" == "x" ] ; then
+  export FREECIV_PATH="$(cd $DIR ; cd @top_srcdir@/data ; pwd)"
+else
+  export FREECIV_PATH="$FREECIV_PATH:$(cd $DIR ; cd @top_srcdir@/data ; pwd)"
+fi
 
 [ -x $DIR/server/civserver ] && EXE=$DIR/server/civserver
 [ -x $DIR/civserver ] && EXE=$DIR/civserver

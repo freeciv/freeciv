@@ -21,14 +21,16 @@ endif
 
 SUBDIRS=	$(DSUBDIRS) intl utility common tests $(SSUBDIRS) $(CSUBDIRS) po doc
 
+nodist_noinst_SCRIPTS=				\
+		civ				\
+		ser
+
 EXTRA_DIST=	acconfig.old			\
 		autogen.sh 			\
-		civ				\
 		config.mac.h			\
 		configure.ac			\
 		configure.in			\
 		diff_ignore			\
-		ser				\
 		amiga/Freeciv.start		\
 		amiga/amigaclient.c		\
 		amiga/amigaserver.c		\
