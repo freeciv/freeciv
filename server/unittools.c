@@ -85,7 +85,8 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
   } 
   zoc = zoc_ok_move(punit, x, y);
   if (!zoc) 
-    notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT, "Game: Can only move into your own zone of control.");
+    notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
+    "Game: %s can only move into your own zone of control.", unit_types[punit->type].name);
   return zoc;
 }
 
