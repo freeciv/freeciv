@@ -389,8 +389,8 @@ void draw_unit_animation_frame(struct unit *punit,
 **************************************************************************/
 void set_overview_dimensions(int x, int y)
 {
-  overview_canvas_store_width=2*x;
-  overview_canvas_store_height=2*y;
+  overview_canvas_store_width = OVERVIEW_TILE_WIDTH * x;
+  overview_canvas_store_height = OVERVIEW_TILE_HEIGHT * y;
 
   if (overview_canvas_store)
     gdk_pixmap_unref(overview_canvas_store);
@@ -404,7 +404,8 @@ void set_overview_dimensions(int x, int y)
 		     0, 0,
 		     overview_canvas_store_width, overview_canvas_store_height);
 
-  gtk_widget_set_usize(overview_canvas, 2*x, 2*y);
+  gtk_widget_set_usize(overview_canvas,
+		       OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y);
   update_map_canvas_scrollbars_size();
 }
 
@@ -442,8 +443,9 @@ void refresh_overview_canvas(void)
 {
   whole_map_iterate(x, y) {
     set_overview_tile_foreground_color(x, y);
-    gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE, x * 2,
-		       y * 2, 2, 2);
+    gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
+		       OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y,
+		       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
   } whole_map_iterate_end;
 
   gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
@@ -469,11 +471,13 @@ void overview_update_tile(int x, int y)
     pos += map.xsize;
   
   set_overview_tile_foreground_color(x, y);
-  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE, x*2, y*2,
-		     2, 2);
+  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
+		     OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y,
+		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
   
-  gdk_draw_rectangle(overview_canvas->window, fill_bg_gc, TRUE, pos*2, y*2,
-		     2, 2);
+  gdk_draw_rectangle(overview_canvas->window, fill_bg_gc, TRUE,
+		     OVERVIEW_TILE_WIDTH * pos, OVERVIEW_TILE_HEIGHT * y,
+		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 }
 
 /**************************************************************************
@@ -491,40 +495,39 @@ void refresh_overview_viewrect(void)
 
   if (delta>=0) {
     gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		0, 0, 2*delta, 0,
-		overview_canvas_store_width-2*delta,
+		0, 0, OVERVIEW_TILE_WIDTH * delta, 0,
+		overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta,
 		overview_canvas_store_height );
     gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		overview_canvas_store_width-2*delta, 0,
+		overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta, 0,
 		0, 0,
-		2*delta, overview_canvas_store_height );
+		OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height);
   } else {
     gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
-		-2*delta, 0,
+		-OVERVIEW_TILE_WIDTH * delta, 0,
 		0, 0,
-		overview_canvas_store_width+2*delta,
+		overview_canvas_store_width + OVERVIEW_TILE_WIDTH *delta,
 		overview_canvas_store_height );
 
     gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
 		0, 0,
-		overview_canvas_store_width+2*delta, 0,
-		-2*delta, overview_canvas_store_height );
+		overview_canvas_store_width + OVERVIEW_TILE_WIDTH * delta, 0,
+		-OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height);
   }
 
   gdk_gc_set_foreground( civ_gc, colors_standard[COLOR_STD_WHITE] );
   
   if (is_isometric) {
-    /* The x's and y's are in overview coordinates.
-       All the extra factor 2's are because one tile in the overview
-       is 2x2 pixels. */
-    int Wx = overview_canvas_store_width/2 - screen_width /* *2/2 */;
-    int Wy = map_view_y0 * 2;
-    int Nx = Wx + 2 * map_canvas_store_twidth;
-    int Ny = Wy - 2 * map_canvas_store_twidth;
-    int Sx = Wx + 2 * map_canvas_store_theight;
-    int Sy = Wy + 2 * map_canvas_store_theight;
-    int Ex = Nx + 2 * map_canvas_store_theight;
-    int Ey = Ny + 2 * map_canvas_store_theight;
+    /* The x's and y's are in overview coordinates. */
+    int Wx = overview_canvas_store_width / 2
+	    - OVERVIEW_TILE_WIDTH * screen_width / 2;
+    int Wy = OVERVIEW_TILE_HEIGHT * map_view_y0;
+    int Nx = Wx + OVERVIEW_TILE_WIDTH * map_canvas_store_twidth;
+    int Ny = Wy - OVERVIEW_TILE_HEIGHT * map_canvas_store_twidth;
+    int Sx = Wx + OVERVIEW_TILE_WIDTH * map_canvas_store_theight;
+    int Sy = Wy + OVERVIEW_TILE_HEIGHT * map_canvas_store_theight;
+    int Ex = Nx + OVERVIEW_TILE_WIDTH * map_canvas_store_theight;
+    int Ey = Ny + OVERVIEW_TILE_HEIGHT * map_canvas_store_theight;
     
     freelog(LOG_DEBUG, "wx,wy: %d,%d nx,ny:%d,%x ex,ey:%d,%d, sx,sy:%d,%d",
 	    Wx, Wy, Nx, Ny, Ex, Ey, Sx, Sy);
@@ -546,9 +549,11 @@ void refresh_overview_viewrect(void)
 		  Sx, Sy, Wx, Wy);
   } else {
     gdk_draw_rectangle(overview_canvas->window, civ_gc, FALSE,
-		       (overview_canvas_store_width-2*map_canvas_store_twidth)/2,
-		       2*map_view_y0,
-		       2*map_canvas_store_twidth, 2*map_canvas_store_theight-1);
+		       (overview_canvas_store_width
+			- OVERVIEW_TILE_WIDTH * map_canvas_store_twidth) / 2,
+		       OVERVIEW_TILE_HEIGHT * map_view_y0,
+		       OVERVIEW_TILE_WIDTH * map_canvas_store_twidth,
+		       OVERVIEW_TILE_HEIGHT * map_canvas_store_theight - 1);
   }
 }
 

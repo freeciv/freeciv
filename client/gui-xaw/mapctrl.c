@@ -319,8 +319,10 @@ void mapctrl_btn_overviewcanvas(XEvent *event)
   int xtile, ytile;
   XButtonEvent *ev=&event->xbutton;
 
-  xtile=ev->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
-  ytile=ev->y/2;
+  xtile = ev->x / OVERVIEW_TILE_WIDTH - (map.xsize / 2
+					 - (map_view_x0
+					    + map_canvas_store_twidth / 2));
+  ytile=ev->y / OVERVIEW_TILE_HEIGHT;
 
   if (!can_client_change_view()) {
     return;

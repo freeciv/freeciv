@@ -358,15 +358,16 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
 
   if (is_isometric) {
-    xtile = ev->x / 2 - (map.xsize / 2 -
-			 (map_view_x0 +
-			  (map_canvas_store_twidth +
-			   map_canvas_store_theight) / 2));
+    xtile = ev->x / OVERVIEW_TILE_WIDTH
+	    - (map.xsize / 2 - (map_view_x0
+				+ (map_canvas_store_twidth +
+				   map_canvas_store_theight) / 2));
   } else {
-    xtile = ev->x / 2 - (map.xsize / 2 -
-			 (map_view_x0 + map_canvas_store_twidth / 2));
+    xtile = ev->x / OVERVIEW_TILE_WIDTH - (map.xsize / 2 -
+					   (map_view_x0
+					    + map_canvas_store_twidth / 2));
   }
-  ytile = ev->y / 2;
+  ytile = ev->y / OVERVIEW_TILE_HEIGHT;
 
   if (can_client_change_view() && (ev->button == 3)) {
     center_tile_mapcanvas(xtile, ytile);

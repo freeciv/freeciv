@@ -126,7 +126,10 @@ void set_overview_dimensions(int x, int y)
 {
   Dimension h, w;
 
-  XtVaSetValues(overview_canvas, XtNwidth, 2*x, XtNheight, 2*y, NULL);
+  XtVaSetValues(overview_canvas,
+		XtNwidth, OVERVIEW_TILE_WIDTH * x,
+		XtNheight, OVERVIEW_TILE_HEIGHT * y,
+		NULL);
 
   XtVaGetValues(left_column_form, XtNheight, &h, NULL);
   XtVaSetValues(map_form, XtNheight, h, NULL);
@@ -135,8 +138,8 @@ void set_overview_dimensions(int x, int y)
   XtVaSetValues(menu_form, XtNwidth, w, NULL);
   XtVaSetValues(bottom_form, XtNwidth, w, NULL);
 
-  overview_canvas_store_width=2*x;
-  overview_canvas_store_height=2*y;
+  overview_canvas_store_width = OVERVIEW_TILE_WIDTH * x;
+  overview_canvas_store_height = OVERVIEW_TILE_HEIGHT * y;
 
   if(overview_canvas_store)
     XFreePixmap(display, overview_canvas_store);
@@ -396,8 +399,9 @@ void refresh_overview_canvas(void)
 {
   whole_map_iterate(x, y) {
     set_overview_tile_foreground_color(x, y);
-    XFillRectangle(display, overview_canvas_store, fill_bg_gc, x * 2,
-		   y * 2, 2, 2);
+    XFillRectangle(display, overview_canvas_store, fill_bg_gc,
+		   OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y,
+		   OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
   } whole_map_iterate_end;
 
   XSetForeground(display, fill_bg_gc, 0);
@@ -416,11 +420,13 @@ void overview_update_tile(int x, int y)
     pos += map.xsize;
   
   set_overview_tile_foreground_color(x, y);
-  XFillRectangle(display, overview_canvas_store, fill_bg_gc, x*2, y*2, 
-                 2, 2);
+  XFillRectangle(display, overview_canvas_store, fill_bg_gc,
+		 OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y,
+		 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
   
   XFillRectangle(display, XtWindow(overview_canvas), fill_bg_gc, 
-                 pos*2, y*2, 2, 2);
+		 OVERVIEW_TILE_WIDTH * pos, OVERVIEW_TILE_HEIGHT * y,
+		 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 }
 
 /**************************************************************************
@@ -433,36 +439,38 @@ void refresh_overview_viewrect(void)
   if(delta>=0) {
     XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas), 
 	      civ_gc, 0, 0, 
-	      overview_canvas_store_width-2*delta,
+	      overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta,
 	      overview_canvas_store_height, 
-	      2*delta, 0);
+	      OVERVIEW_TILE_WIDTH * delta, 0);
     XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas), 
 	      civ_gc, 
-	      overview_canvas_store_width-2*delta, 0,
-	      2*delta, overview_canvas_store_height, 
+	      overview_canvas_store_width - OVERVIEW_TILE_WIDTH * delta, 0,
+	      OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height,
 	      0, 0);
   }
   else {
     XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas), 
 	      civ_gc, 
-	      -2*delta, 0, 
-	      overview_canvas_store_width+2*delta,
+	      -OVERVIEW_TILE_WIDTH * delta, 0, 
+	      overview_canvas_store_width + OVERVIEW_TILE_WIDTH * delta,
 	      overview_canvas_store_height, 
 	      0, 0);
 
     XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas), 
 	      civ_gc, 
 	      0, 0,
-	      -2*delta, overview_canvas_store_height, 
-	      overview_canvas_store_width+2*delta, 0);
+	      -OVERVIEW_TILE_WIDTH * delta, overview_canvas_store_height, 
+	      overview_canvas_store_width + OVERVIEW_TILE_WIDTH * delta, 0);
   }
 
   XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
   
   XDrawRectangle(display, XtWindow(overview_canvas), civ_gc, 
-		 (overview_canvas_store_width-2*map_canvas_store_twidth)/2,
-		 2*map_view_y0,
-		 2*map_canvas_store_twidth, 2*map_canvas_store_theight-1);
+		 (overview_canvas_store_width 
+		  - OVERVIEW_TILE_WIDTH * map_canvas_store_twidth) / 2,
+		 OVERVIEW_TILE_HEIGHT * map_view_y0,
+		 OVERVIEW_TILE_WIDTH * map_canvas_store_twidth,
+		 OVERVIEW_TILE_HEIGHT * map_canvas_store_theight - 1);
 }
 
 

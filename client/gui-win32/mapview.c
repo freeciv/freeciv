@@ -442,7 +442,7 @@ set_overview_dimensions(int x, int y)
 {
   HDC hdc;
   HBITMAP newbit;
-  set_overview_win_dim(2*x,2*y);
+  set_overview_win_dim(OVERVIEW_TILE_WIDTH * x,OVERVIEW_TILE_HEIGHT * y);
   hdc=GetDC(root_window);
   newbit=CreateCompatibleBitmap(hdc,
 				overview_win_width,
@@ -473,16 +473,17 @@ overview_update_tile(int x, int y)
     pos += map.xsize;
   
  
-  rc.left=x*2;
-  rc.right=rc.left+2;
-  rc.top=y*2;
-  rc.bottom=rc.top+2;
+  rc.left = OVERVIEW_TILE_WIDTH * x;
+  rc.right = rc.left + OVERVIEW_TILE_WIDTH;
+  rc.top = OVERVIEW_TILE_HEIGHT * y;
+  rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
   FillRect(overviewstoredc,&rc,brush_std[overview_tile_color(x, y)]);
+
   hdc=GetDC(root_window);
-  rc.left=pos*2+overview_win_x;
-  rc.top=y*2+overview_win_y;
-  rc.right=rc.left+2;
-  rc.bottom=rc.top+2;
+  rc.left = OVERVIEW_TILE_WIDTH * pos + overview_win_x;
+  rc.top = OVERVIEW_TILE_HEIGHT * y + overview_win_y;
+  rc.right = rc.left + OVERVIEW_TILE_WIDTH;
+  rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
   FillRect(hdc,&rc,brush_std[overview_tile_color(x,y)]);
   ReleaseDC(root_window,hdc);
 }
@@ -886,20 +887,20 @@ refresh_overview_canvas(void)
   RECT rc;
 
   whole_map_iterate(x, y) {
-    rc.left = x * 2;
-    rc.right = rc.left + 2;
-    rc.top = y * 2;
-    rc.bottom = rc.top + 2;
+    rc.left = OVERVIEW_TILE_WIDTH * x;
+    rc.right = rc.left + OVERVIEW_TILE_WIDTH;
+    rc.top = OVERVIEW_TILE_HEIGHT * y;
+    rc.bottom = rc.top + OVERVIEEW_TILE_HEIGHT;
     FillRect(overviewstoredc, &rc, brush_std[overview_tile_color(x, y)]);
-    pos = x + map.xsize / 2 - (map_view_x + map_win_width / 2);
 
+    pos = x + map.xsize / 2 - (map_view_x + map_win_width / 2);
     pos %= map.xsize;
     if (pos < 0)
       pos += map.xsize;
-    rc.left = overview_win_x + pos * 2;
-    rc.right = rc.left + 2;
-    rc.top = overview_win_y + y * 2;
-    rc.bottom = rc.top + 2;
+    rc.left = overview_win_x + OVERVIEW_TILE_WIDTH * pos;
+    rc.right = rc.left + OVERVIEW_TILE_WIDTH;
+    rc.top = overview_win_y + OVERVIEW_TILE_HEIGHT * y;
+    rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
     FillRect(hdc, &rc, brush_std[overview_tile_color(x, y)]);
   } whole_map_iterate_end;
 
@@ -920,32 +921,37 @@ refresh_overview_viewrect_real(HDC hdcp)
   if (!hdc)
     hdc=GetDC(root_window);
   
-  if (delta>=0)
-    {
-      BitBlt(hdc,overview_win_x+2*delta,overview_win_y,
-	     overview_win_width-2*delta,overview_win_height,
-	     overviewstoredc,0,0,SRCCOPY);
-      BitBlt(hdc,overview_win_x,overview_win_y,2*delta,overview_win_height,
-	     overviewstoredc,overview_win_width-2*delta,0,SRCCOPY);
-    }
-  else
-    {
-      BitBlt(hdc,overview_win_x,overview_win_y,overview_win_width+2*delta,
-	     overview_win_height,overviewstoredc,-2*delta,0,SRCCOPY);
-      BitBlt(hdc,overview_win_x+overview_win_width+2*delta,overview_win_y,
-	     -2*delta,overview_win_height,overviewstoredc,
-	     0,0,SRCCOPY);
-    }
+  if (delta>=0) {
+    BitBlt(hdc,
+	   overview_win_x + OVERVIEW_TILE_WIDTH * delta, overview_win_y,
+	   overview_win_width - OVERVIEW_TILE_WIDTH * delta,
+	   overview_win_height,
+	   overviewstoredc, 0, 0, SRCCOPY);
+    BitBlt(hdc, overview_win_x, overview_win_y,
+	   OVERVIEW_TILE_WIDTH * delta, overview_win_height,
+	   overviewstoredc,
+	   overview_win_width - OVERVIEW_TILE_WIDTH * delta, 0, SRCCOPY);
+  } else {
+    BitBlt(hdc, overview_win_x, overview_win_y,
+	   overview_win_width + OVERVIEW_TILE_WIDTH * delta,
+	   overview_win_height,
+	   overviewstoredc, -OVERVIEW_TILE_WIDTH * delta, 0, SRCCOPY);
+    BitBlt(hdc,
+	   overview_win_x + overview_win_width + OVERVIEW_TILE_WIDTH * delta,
+	   overview_win_y,
+	   -OVERVIEW_TILE_WIDTH * delta, overview_win_height,
+	   overviewstoredc, 0, 0, SRCCOPY);
+  }
   oldpen=SelectObject(hdc,pen_std[COLOR_STD_WHITE]);
   if (is_isometric) {
-    int Wx = overview_win_width/2 - screen_width /* *2/2 */;
-    int Wy = map_view_y * 2;
-    int Nx = Wx + 2 * map_view_width;
-    int Ny = Wy - 2 * map_view_width;
-    int Sx = Wx + 2 * map_view_height;
-    int Sy = Wy + 2 * map_view_height;
-    int Ex = Nx + 2 * map_view_height;
-    int Ey = Ny + 2 * map_view_height;
+    int Wx = overview_win_width / 2 - OVERVIEW_TILE_WIDTH * screen_width / 2;
+    int Wy = OVERVIEW_TILE_HEIGHT * map_view_y;
+    int Nx = Wx + OVERVIEW_TILE_WIDTH * map_view_width;
+    int Ny = Wy - OVERVIEW_TILE_HEIGHT * map_view_width;
+    int Sx = Wx + OVERVIEW_TILE_WIDTH * map_view_height;
+    int Sy = Wy + OVERVIEW_TILE_HEIGHT * map_view_height;
+    int Ex = Nx + OVERVIEW_TILE_WIDTH * map_view_height;
+    int Ey = Ny + OVERVIEW_TILE_HEIGHT * map_view_height;
     
     freelog(LOG_DEBUG, "wx,wy: %d,%d nx,ny:%d,%x ex,ey:%d,%d, sx,sy:%d,%d",
             Wx, Wy, Nx, Ny, Ex, Ey, Sx, Sy);
@@ -956,10 +962,11 @@ refresh_overview_viewrect_real(HDC hdcp)
     LineTo(hdc,Wx+overview_win_x,Wy+overview_win_y);
   } else {
     mydrawrect(hdc,
-	       (overview_win_width-2*map_view_width)/2+overview_win_x,
-	       2*map_view_y+overview_win_y,
-	       2*map_view_width,
-	       2*map_view_height);
+	       (overview_win_width
+		- OVERVIEW_TILE_WIDTH * map_view_width) / 2 + overview_win_x,
+	       OVERVIEW_TILE_HEIGHT * map_view_y + overview_win_y,
+	       OVERVIEW_TILE_WIDTH * map_view_width,
+	       OVERVIEW_TILE_HEIGHT * map_view_height);
   }
   SelectObject(hdc,oldpen);
   if (!hdcp)

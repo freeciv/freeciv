@@ -243,6 +243,9 @@ extern int UNIT_TILE_HEIGHT;
 extern int SMALL_TILE_WIDTH;
 extern int SMALL_TILE_HEIGHT;
 
+extern int OVERVIEW_TILE_WIDTH;
+extern int OVERVIEW_TILE_HEIGHT;
+
 extern bool is_isometric;
 
 /* name of font to use to draw city names on main map */

@@ -317,12 +317,15 @@ void overview_handle_rbut(int x, int y)
 {
  int xtile, ytile;        
  if (is_isometric) {
-   xtile=x/2-(map.xsize/2-(map_view_x+(map_view_width+map_view_height)/2));
+   xtile = x / OVERVIEW_TILE_WIDTH
+	   - (map.xsize / 2 - (map_view_x + (map_view_width
+					     + map_view_height) / 2));
  } else {
-   xtile=x/2-(map.xsize/2-(map_view_x+map_view_width/2));
+   xtile = x / OVERVIEW_TILE_WIDTH
+	   - (map.xsize / 2 - (map_view_x + map_view_width / 2));
  }
 
- ytile=y/2; 
+ ytile = y / OVERVIEW_TILE_HEIGHT;
 
  if (!can_client_change_view()) {
    return;

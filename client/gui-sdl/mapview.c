@@ -84,8 +84,6 @@ extern SDL_Event *pFlush_User_Event;
 #define map_view_x0 mapview_canvas.map_x0
 #define map_view_y0 mapview_canvas.map_y0
 
-static Uint8 Mini_map_cell_w, Mini_map_cell_h;
-
 static Uint32 Amask;
 
 static SDL_Surface *pFogSurface;
@@ -1031,17 +1029,8 @@ void set_overview_dimensions(int w, int h)
   freelog(LOG_DEBUG,
     "MAPVIEW: 'set_overview_dimensions' call with x = %d  y = %d", w, h);
 
-  if (map.xsize > 160) {
-    Mini_map_cell_w = 1;
-  } else {
-    Mini_map_cell_w = 160 / w;
-  }
-
-  if (map.ysize > 100) {
-    Mini_map_cell_h = 1;
-  } else {
-    Mini_map_cell_h = 100 / h;
-  }
+  OVERVIEW_TILE_WIDTH = MAX(1, 160 / w);
+  OVERVIEW_TILE_HEIGHT = MAX(1, 100 / h);
 
   enable(ID_TOGGLE_UNITS_WINDOW_BUTTON);
 
@@ -1070,9 +1059,9 @@ void set_overview_dimensions(int w, int h)
 void overview_update_tile(int x, int y)
 {
   struct GUI *pMMap = get_minimap_window_widget();
-  SDL_Rect cell_size = {x * Mini_map_cell_w + FRAME_WH,
-			 y * Mini_map_cell_h + FRAME_WH,
-    			 Mini_map_cell_w, Mini_map_cell_h};
+  SDL_Rect cell_size = {OVERVIEW_TILE_WIDTH * x + FRAME_WH,
+			OVERVIEW_TILE_HEIGHT * y + FRAME_WH,
+			OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT};
   SDL_Color color = *(get_game_colorRGB(overview_tile_color(x, y)));
 
   freelog(LOG_DEBUG, "MAPVIEW: overview_update_tile (x = %d y = %d )", x, y);
@@ -1089,7 +1078,8 @@ void refresh_overview_canvas(void)
 {
 
   SDL_Rect map_area = {FRAME_WH, FRAME_WH, 160, 100}; 
-  SDL_Rect cell_size = {FRAME_WH, FRAME_WH, Mini_map_cell_w, Mini_map_cell_h };
+  SDL_Rect cell_size = {FRAME_WH, FRAME_WH,
+			OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT};
 
   SDL_Color std_color;
   Uint16 col = 0, row = 0;
@@ -1106,11 +1096,11 @@ void refresh_overview_canvas(void)
 	    SDL_MapRGBA(pMMap->theme->format, std_color.r,std_color.g,
     					std_color.b,std_color.unused));
 
-    cell_size.x += Mini_map_cell_w;
+    cell_size.x += OVERVIEW_TILE_WIDTH;
     col++;
 
     if (col == map.xsize) {
-      cell_size.y += Mini_map_cell_h;
+      cell_size.y += OVERVIEW_TILE_HEIGHT;
       cell_size.x = FRAME_WH;
       row++;
       if (row == map.ysize) {
@@ -1227,15 +1217,15 @@ void refresh_overview_viewrect(void)
     }
 #endif
     
-    Wx = map_view_x0 * Mini_map_cell_w + FRAME_WH;
-    Wy = map_view_y0 * Mini_map_cell_h + FRAME_WH;
+    Wx = OVERVIEW_TILE_WIDTH * map_view_x0 + FRAME_WH;
+    Wy = OVERVIEW_TILE_HEIGHT * map_view_y0 + FRAME_WH;
 
-    Nx = Wx + Mini_map_cell_w * map_w + FRAME_WH;
-    Ny = Wy - Mini_map_cell_h * map_w + FRAME_WH;
-    Sx = Wx + Mini_map_cell_w * map_h + FRAME_WH;
-    Sy = Wy + Mini_map_cell_h * map_h + FRAME_WH;
-    Ex = Nx + Mini_map_cell_w * map_h + FRAME_WH;
-    Ey = Ny + Mini_map_cell_h * map_h + FRAME_WH;
+    Nx = Wx + OVERVIEW_TILE_WIDTH * map_w + FRAME_WH;
+    Ny = Wy - OVERVIEW_TILE_HEIGHT * map_w + FRAME_WH;
+    Sx = Wx + OVERVIEW_TILE_WIDTH * map_h + FRAME_WH;
+    Sy = Wy + OVERVIEW_TILE_HEIGHT * map_h + FRAME_WH;
+    Ex = Nx + OVERVIEW_TILE_WIDTH * map_h + FRAME_WH;
+    Ey = Ny + OVERVIEW_TILE_HEIGHT * map_h + FRAME_WH;
 
     color = SDL_MapRGBA(pMMap->theme->format, 255, 255, 255, 255);
 
