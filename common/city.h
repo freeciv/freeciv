@@ -321,7 +321,7 @@ struct city {
 #define MAX_CITY_TILES 8
 
 struct citystyle {
-  char name[MAX_LEN_NAME];
+  const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -468,7 +468,7 @@ int get_city_style(const struct city *pcity);
 int get_player_city_style(struct player *plr);
 int get_style_by_name(const char *);
 int get_style_by_name_orig(const char *);
-char* get_city_style_name(int style);
+const char *get_city_style_name(int style);
 char* get_city_style_name_orig(int style);
 
 struct city *is_enemy_city_tile(const struct tile *ptile,

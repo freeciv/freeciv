@@ -1287,7 +1287,7 @@ int get_style_by_name_orig(const char *style_name)
 /**************************************************************************
   Get name of given city style.
 **************************************************************************/
-char* get_city_style_name(int style)
+const char *get_city_style_name(int style)
 {
    return city_styles[style].name;
 }

@@ -2181,7 +2181,8 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   }
   u = get_unit_type(p->id);
 
-  sz_strlcpy(u->name, p->name);
+  sz_strlcpy(u->name_orig, p->name);
+  u->name = u->name_orig;
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
   sz_strlcpy(u->sound_move, p->sound_move);
@@ -2239,7 +2240,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   }
   a = &advances[p->id];
 
-  sz_strlcpy(a->name, p->name);
+  sz_strlcpy(a->name_orig, p->name);
+  a->name = a->name_orig;
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
   a->req[0] = p->req[0];
@@ -2269,7 +2271,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   }
   b = &improvement_types[p->id];
 
-  sz_strlcpy(b->name, p->name);
+  sz_strlcpy(b->name_orig, p->name);
+  b->name = b->name_orig;
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   b->tech_req = p->tech_req;
@@ -2421,7 +2424,8 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->flags               = p->flags;
   gov->num_ruler_titles    = p->num_ruler_titles;
     
-  sz_strlcpy(gov->name, p->name);
+  sz_strlcpy(gov->name_orig, p->name);
+  gov->name = gov->name_orig;
   sz_strlcpy(gov->graphic_str, p->graphic_str);
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
 
@@ -2449,8 +2453,12 @@ void handle_ruleset_government_ruler_title
     return;
   }
   gov->ruler_titles[p->id].nation = p->nation;
-  sz_strlcpy(gov->ruler_titles[p->id].male_title, p->male_title);
-  sz_strlcpy(gov->ruler_titles[p->id].female_title, p->female_title);
+  sz_strlcpy(gov->ruler_titles[p->id].male_title_orig, p->male_title);
+  gov->ruler_titles[p->id].male_title
+    = gov->ruler_titles[p->id].male_title_orig;
+  sz_strlcpy(gov->ruler_titles[p->id].female_title_orig, p->female_title);
+  gov->ruler_titles[p->id].female_title
+    = gov->ruler_titles[p->id].female_title_orig;
 }
 
 /**************************************************************************
@@ -2468,7 +2476,8 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   }
   t = &(tile_types[p->id]);
 
-  sz_strlcpy(t->terrain_name, p->terrain_name);
+  sz_strlcpy(t->terrain_name_orig, p->terrain_name);
+  t->terrain_name = t->terrain_name_orig;
   sz_strlcpy(t->graphic_str, p->graphic_str);
   sz_strlcpy(t->graphic_alt, p->graphic_alt);
   t->movement_cost = p->movement_cost;
@@ -2476,11 +2485,13 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   t->food = p->food;
   t->shield = p->shield;
   t->trade = p->trade;
-  sz_strlcpy(t->special_1_name, p->special_1_name);
+  sz_strlcpy(t->special_1_name_orig, p->special_1_name);
+  t->special_1_name = t->special_1_name_orig;
   t->food_special_1 = p->food_special_1;
   t->shield_special_1 = p->shield_special_1;
   t->trade_special_1 = p->trade_special_1;
-  sz_strlcpy(t->special_2_name, p->special_2_name);
+  sz_strlcpy(t->special_2_name_orig, p->special_2_name);
+  t->special_2_name = t->special_2_name_orig;
   t->food_special_2 = p->food_special_2;
   t->shield_special_2 = p->shield_special_2;
   t->trade_special_2 = p->trade_special_2;
@@ -2539,8 +2550,10 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
   pl = get_nation_by_idx(p->id);
 
-  sz_strlcpy(pl->name, p->name);
-  sz_strlcpy(pl->name_plural, p->name_plural);
+  sz_strlcpy(pl->name_orig, p->name);
+  pl->name = pl->name_orig;
+  sz_strlcpy(pl->name_plural_orig, p->name_plural);
+  pl->name_plural = pl->name_plural_orig;
   sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
   sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
   pl->leader_count = p->leader_count;
@@ -2585,7 +2598,8 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   cs->techreq = packet->techreq;
   cs->replaced_by = packet->replaced_by;
 
-  sz_strlcpy(cs->name, packet->name);
+  sz_strlcpy(cs->name_orig, packet->name);
+  cs->name = cs->name_orig;
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
   sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);

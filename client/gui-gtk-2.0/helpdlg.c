@@ -315,7 +315,7 @@ static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
 /**************************************************************************
 ...
 **************************************************************************/
-static GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
+static GtkWidget *help_slink_new(const gchar *txt, enum help_page_type type)
 {
   GtkWidget *button, *label;
 

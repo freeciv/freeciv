@@ -356,7 +356,7 @@ static void city_add_or_build_error(struct player *pplayer,
   /* Given that res came from test_unit_add_or_build_city, pcity will
      be non-null for all required status values. */
   struct city *pcity = map_get_city(punit->tile);
-  char *unit_name = unit_type(punit)->name;
+  const char *unit_name = unit_type(punit)->name;
 
   switch (res) {
   case AB_NOT_BUILD_LOC:
@@ -431,7 +431,7 @@ static void city_add_or_build_error(struct player *pplayer,
 static void city_add_unit(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity = map_get_city(punit->tile);
-  char *unit_name = unit_type(punit)->name;
+  const char *unit_name = unit_type(punit)->name;
 
   assert(unit_pop_value(punit->type) > 0);
   pcity->size += unit_pop_value(punit->type);

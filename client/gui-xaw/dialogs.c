@@ -688,7 +688,7 @@ static int create_advances_list(struct player *pplayer,
   Dimension width1, width2; 
   int i, j;
 
-  static char *advances_can_steal[A_LAST+1]; 
+  static const char *advances_can_steal[A_LAST+1]; 
 
   spy_tech_shell =
     I_T(XtVaCreatePopupShell("spystealtechpopup", 
@@ -753,7 +753,7 @@ static int create_advances_list(struct player *pplayer,
   
   XtSetSensitive(spy_steal_command, FALSE);
   
-  XawListChange(spy_advances_list, advances_can_steal, 0, 0, 1);
+  XawListChange(spy_advances_list, (char **)advances_can_steal, 0, 0, 1);
   XtVaGetValues(spy_advances_list, XtNwidth, &width1, NULL);
   XtVaGetValues(spy_advances_list_label, XtNwidth, &width2, NULL);
   XtVaSetValues(spy_advances_list, XtNwidth, MAX(width1,width2), NULL); 

@@ -56,8 +56,8 @@ enum government_hint_id {
 struct ruler_title
 {
   int  nation;
-  char male_title[MAX_LEN_NAME];
-  char female_title[MAX_LEN_NAME];
+  const char *male_title; /* Translated string - doesn't need freeing. */
+  const char *female_title; /* Translated string - doesn't need freeing. */
   
   /* untranslated copies: */
   char male_title_orig[MAX_LEN_NAME];    
@@ -70,7 +70,7 @@ struct ruler_title
 struct government
 {
   int   index;			/* index into governments[] array */
-  char  name[MAX_LEN_NAME];	/* government name */
+  const char *name; /* Translated string - doesn't need freeing. */
   char  name_orig[MAX_LEN_NAME]; /* untranslated copy */
   char  graphic_str[MAX_LEN_NAME];
   char  graphic_alt[MAX_LEN_NAME];
