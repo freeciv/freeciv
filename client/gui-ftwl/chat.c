@@ -294,7 +294,7 @@ void chat_add(const char *astring, int conn_id)
 /*************************************************************************
  ...
 *************************************************************************/
-static void send(void)
+static void fc_send(void)
 {
   send_chat(sw_edit_get_text(input.edit));
 }
@@ -306,7 +306,7 @@ static bool my_key_handler(struct sw_widget *widget,
 			   const struct be_key *key, void *data)
 {
   if (key->type == BE_KEY_RETURN) {
-    send();
+    fc_send();
     chat_popdown_input();
     return TRUE;
   } else if (key->type == BE_KEY_ESCAPE) {

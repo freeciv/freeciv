@@ -31,6 +31,10 @@
 #include "widget.h"
 #include "theme_engine.h"
 
+#ifdef HAVE_WINSOCK
+#define ECONNREFUSED WSAECONNREFUSED
+#endif
+
 static struct te_screen *screen;
 
 static void try_to_autoconnect(void *data);
