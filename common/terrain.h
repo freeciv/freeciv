@@ -62,14 +62,9 @@ enum tile_special_type {
    | S_FORTRESS             \
    | S_AIRBASE)
 
-/* Changing this breaks savegame and network compatability. */
-enum tile_terrain_type {
-  T_NONE = -3, /* A special flag meaning no terrain. */
-  T_ANY = -2, /* A special flag that matches "any" terrain type. */
-  T_UNKNOWN = -1, /* A special flag meaning unknown terrain. */
-  T_ARCTIC, T_DESERT, T_FOREST, T_GRASSLAND, T_HILLS, T_JUNGLE, 
-  T_MOUNTAINS, T_OCEAN, T_PLAINS, T_SWAMP, T_TUNDRA
-};
+#define T_NONE (-3) /* A special flag meaning no terrain type. */
+#define T_ANY (-2) /* A special flag that matches "any" terrain type. */
+#define T_UNKNOWN (-1) /* An unknown terrain. */
 
 /* The first terrain value and number of base terrains.  This is used in
  * loops.  T_COUNT may eventually be turned into a variable. */
