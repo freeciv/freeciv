@@ -1381,6 +1381,16 @@ static void pillage_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
+static gint pillage_del_callback(GtkWidget *widget, GdkEvent *event,
+				 gpointer data)
+{
+  pillage_callback((GtkWidget *)data, NULL);
+  return FALSE;
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void popup_pillage_dialog(struct unit *punit, int may_pillage)
 {
   GtkWidget *dshell, *button, *dlabel, *vbox;
@@ -1394,14 +1404,6 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 
     dshell = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
-
-    gtk_signal_connect (
-      GTK_OBJECT (dshell),
-      "delete_event",
-      GTK_SIGNAL_FUNC (popup_mes_del_callback),
-      (gpointer)toplevel
-    );
-
     gtk_window_set_title (GTK_WINDOW(dshell), _("What To Pillage"));
 
     vbox = gtk_vbox_new (0,TRUE);
@@ -1433,6 +1435,13 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
       "clicked",
       GTK_SIGNAL_FUNC (pillage_callback),
       NULL
+    );
+
+    gtk_signal_connect (
+      GTK_OBJECT (dshell),
+      "delete_event",
+      GTK_SIGNAL_FUNC (pillage_del_callback),
+      (gpointer)button
     );
 
     gtk_widget_show_all (vbox);
