@@ -1,0 +1,253 @@
+このファイルは CVS-1.10 に基づいています。
+This file based on cvs-1.10's HOWTOPLAY.
+
+Freeciv の遊び方 HOWTO
+
+  原文: Michael Hohensee (別名 Zarchon)
+
+
+インストールの仕方は INSTALL に書いてあります。
+実行の仕方は README に書いてあります。
+
+Civilization ゲームを一度も遊んだことがないなら、マニュアルを読むこと
+から始めるのが簡単です。マニュアルは以下から入手できます。
+
+     http://www.freeciv.org/manual/manual.html
+     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
+
+Freeciv の遊び方のアイディアを探しているなら、このまま読み進めて下さい。
+
+
+        今あなたは起動中の Freeciv を目の前にして、最初にちょっとゲー
+ムをしてみたいでしょう。数回独りで遊んでみることを勧めます。そうすると
+ものごとがどうなっているかの感触が捕めます。ただ、これは必須ではありま
+せん。他のプレイヤーや AIと遊んで勉強するのもいいでしょう。
+
+Q: 基本的な戦略を教えてもらえますか?
+
+        まず言っておきたいことは、これは「完璧」な戦略ではありません。
+非常によい戦略でもありません。ですが、この戦略で Freeciv を遊び開める
+ことができるでしょう。 Freeciv の魅力の一つは、新しい戦略の発見です。
+
+        ゲームを幾つかの段階に分けることができます:
+
+                第一期発展過程
+                技術の副過程
+                第二期発展過程
+                生産過程
+                敵の完全絶滅過程
+
+第一期発展:
+
+        この過程は最も重要です。最初に行なうべきことは、都市を建て島を
+調査することです。沢山の都市、最低でも 7個か8個の都市が必要です。
+
+        一番肝心なことは、できるだけ多くの土地を占領することです。都市
+を作る時、自分の他の都市と領土があまり重ならないように気をつけましょう。
+都市の上でマウスをクリックすると、都市が利用している土地が分かります。
+表示される都市とその周辺の地図が、その都市の領土です。このことを頭に入
+れて、都市同士が接するように配置します。あまり都市同士を離すと、敵から
+の防御とこの過程を管理することが難しくなります。(ヒント: 都市は、馬の
+上か魚の近くに作りましょう。)
+
+        都市を一つか二つ持ったら、科学の割合を現在の政治体制で許されて
+いる最大に設定します。税率について心配する必要はありません。どの建築物
+を建てても、お金は出て行きません。どの都市にも、開拓者を作らせます。開
+拓者を作れば作るほど、沢山の都市を持つことができます。都市が多ければ技
+術の獲得が速くなり、技術の獲得が速ければ勝つのが速くなります。できるだ
+けの都市を作った後は、開拓者を潅漑と道路建築に向けます。
+
+(注: 沢山の開拓者支援の影響で都市の食料生産が +1 を下回り、食料増産の
+ために人をやりくりできないなら、寺院の建築に切り替えます。他のプレイヤー
+とまだ接触していないなら、まだ軍事部隊を作る必要はありません。)
+
+        上記の間、可能なだけ速く技術を獲得しています。最初に「共和制」、
+次に「民主制」「鉄道」「産業化」を狙います(人によっては共和制の前に君
+主制に向かいます)。新しい政治体制を発見したらすぐに革命を起こし、その
+政治体制に変更します。都市の扱いは、専制政治下で行なうより共和制下の方
+が簡単です。しかし共和制下では、都市制限の外で軍事部隊を維持するのがと
+ても難しくなることに注意しておいて下さい。他に、政治体制によって許され
+る科学の割合が変化するので、新しい政治体制に変更した後は科学が最大になっ
+ているか調べるのを忘れないようにします。
+
+        When you get Democracy, you are equipped to go into the Second
+Expansion phase.  This is accomplished by changing the government to a
+Democracy, making all cities build temples, and setting the luxury
+rate to 100%.  When you do this, all cities will immediately begin
+celebrating, and will grow at a rate of one per turn as long as
+there is surplus food.  When they've gotten big enough, set the luxury
+down to a reasonable level of 20-40%.  This places you in the Second
+Expansion phase.
+
+        The down-side to this is that setting luxury to 100% means
+that your science research will all but stop.  After your cities have
+grown, and you put science back up to 50% or so, you will again gain
+techs, but at a slightly slower rate.  If you have done some
+exploring, and are not immediately threatened by another player, it
+can be a good idea to keep science at maximum until techs start to
+take too long to generate.
+        
+Second Expansion Phase:
+
+        When you get your cities to a good sized population, wean them
+off luxuries gradually and increase taxes.  Once they're down to 30%
+luxury or so, put as much of the taxes as you can into science, while
+maintaining a positive income.  When you get railroad, turn all your
+roads into rails, or at least the squares used for production, or
+those that form part of a transport network.  (Tip: turn every square
+used by a city into a road/rail, it increases that city's output.
+There's no need to upgrade the very centre square - that's done
+automatically).
+
+        Now is the time to develop industrialization, and military
+technologies.  You should also begin building cities on other islands,
+and do some serious exploring if you have not already done so.  You
+need to find out where your enemies are.  Go for techs good for ships,
+and try to build Magellan's Expedition.  When you feel ready, go into:
+
+Production Phase:
+
+        Now you're building factories and power plants in your cities.
+You want to get as much production as possible out of each city.
+Pollution becomes a problem.  As soon as you can, try to research Mass
+Production for Mass Transits, and Recycling so you can build
+Recycling Centers.  Once you've got all your cities going strong, you
+must build military units. (Note: If you come into contact with
+another player, you should immediately build a few attack units, and
+at least one defense unit per city.)
+
+        When you want to begin thinking about attacking someone, set
+science to 0%, and put raise taxes as high as you can without
+provoking disorder.  Remember, money can build units too!
+
+
+Utter Annihilation of Your Enemies Phase:
+
+        This can happen at any time, but it's more fun with the
+advanced weapons.
+
+        Pick a relatively weak enemy, and send over a few ship-loads of
+troops.  Take over his cities, and use them to build more units to
+take out the rest of them with.  Show no quarter!  To the death!
+
+Repeat as often as necessary! ;-)
+
+[Note for pacifists:  Freeciv also allows a player to win by building
+and launching a spaceship which arrives at Alpha Centauri before anyone
+else.]
+
+
+Additional questions:
+
+Q. What other strategies are there?
+
+        There are a number of tutorials and strategy guides available at
+the Freeciv web pages, at:
+
+         http://www.freeciv.org/tutorials/tutorials.phtml
+
+Plus, the Freeciv online help describes another strategy.
+
+
+Q. In multiplayer games, what timeout should I set?
+
+        That depends upon the number of players.  If there are just
+two of you playing, you can usually get away with using timeout 0.  If
+there are more than two, or if one of the two is going to be away from
+his terminal at random intervals and you don't want to halt play, a
+timeout of 60 seconds is usually sufficient.  Later in the game,
+however, as things get more complex, you may want to extend the
+timeout to 240 seconds.  In general, the more players you have, the
+longer a timeout you will need.  Feel free to set whatever timeout
+seems comfortable, but remember that going above 300 will tend to
+bother people.
+
+
+Q. What size map should I use?
+
+        The map size depends upon how many players there are, and how
+fast you want the game to end.  The default map size (80x50) is big
+enough for a fairly quick two player game, but will result in a *very*
+fast game if any more than three people are participating.  
+
+        Fast games tend to be frustrating for everyone but the winner,
+as nobody has really had any time to develop any defense.  If you have
+more than three people playing, you should use an 80x80 map.  If you
+have five or more people, you probably want to consider one that's
+100x100.
+
+
+Q. What is that "generator" option?
+
+        That alters the map generation process.  If you play Freeciv
+a few times without changing this setting, you are sure to hear of (or
+experience) the horrors of a tiny island.  Tiny Island Syndrome (TIS)
+is known to make people go insane.  To fix this, our loving and kind
+coders installed the generator option.  When set to 1, it gives the 
+normal map, with islands of different (and possibly unfair) sizes.
+But when set to 2, 3, or 4, it generates islands of equal size 
+(sometimes with some smaller islands thrown in).  This way, nobody 
+can whine about losing "on account of that d**ned island."
+
+
+Q. Should I make the game easier by increasing the starting gold?
+
+        If you are inexperienced, and are playing with inexperienced
+people, probably no one will object to an increase in the amount of
+gold they start with.  This is, however, not a good way to learn how
+to play.  Starting out with lots of money makes the game much easier,
+and makes it more difficult for you to learn how to cope with the
+default amount.  Most experienced players don't increase this setting,
+and if they know how to cope with it and you don't, you are going to
+go the way of Atlantis.
+
+Note: The same thing applied to the "techlevel" and "researchspeed"
+settings.
+
+
+Q. What about those other settings?
+
+        The rest of them mainly have to do with what sort of world
+will be generated and game mechanics.  Increasing "specials" gives you
+a high chance of resources/square, and huts determines how many
+freebie huts there are.  Increasing the amount of settlers or
+explorers one starts with makes the game go faster, and allows people
+to survive "those $#@! barbarians" which sometimes live in huts.
+
+        The rail-related settings determine how much more a square
+will produce in food/trade/production with a railroad on it, and the
+foodbox setting determines how much food each person in a city has to
+have before a new person can be added.
+
+        As for the rest, higher "mountains" means a more mountainous
+map, higher "deserts" means more deserts, etc.
+
+
+Q. How do I get _____ tech?
+
+Look the tech up in the online help.  It will show you the
+technologies you need to get first.
+
+Alternatively, you could download David Pfitzner's "techtree" map,
+from http://msowww.anu.edu.au/~dwp/freeciv/.
+
+Failing that, you could read the technology ruleset in 
+'data/default/techs.ruleset'.  It shows a list of all the techs,
+and what techs are necessary to get them.
+
+
+Q. What kinds of military units are the most useful?
+
+   For Attack:
+
+        Armor (tanks), Helicopters, Cruise Missiles, Battleships,
+        Transports, Nuclears, Howitzers, Bombers.
+
+   For Defense:
+
+        Armor (tanks), Mech Inf., Howitzers, Battleships,
+        Cruise Missiles, Nuclears.
+
+Remember, the best defense is a strong offense.
+
+<Additions to this document are welcome>
