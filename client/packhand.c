@@ -675,8 +675,12 @@ void handle_new_year(struct packet_new_year *ppacket)
 
   seconds_to_turndone=game.timeout;
 
+#if 0
+  /* This information shouldn't be needed, but if it is this is the only
+   * way we can get it. */
   turn_gold_difference=game.player_ptr->economic.gold-last_turn_gold_amount;
   last_turn_gold_amount=game.player_ptr->economic.gold;
+#endif
 
   update_city_descriptions();
 

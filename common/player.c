@@ -357,6 +357,26 @@ int num_known_tech_with_flag(struct player *pplayer, enum tech_flag_id flag)
 }
 
 /**************************************************************************
+  Return the expected net income of the player this turn.  This includes
+  tax revenue and upkeep, but not one-time purchases or found gold.
+**************************************************************************/
+int player_get_expected_income(struct player *pplayer)
+{
+  int income = 0;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    impr_type_iterate(impr_id) {
+      if (city_got_building(pcity, impr_id)) {
+	income -= improvement_upkeep(pcity, impr_id);
+      }
+    } impr_type_iterate_end;
+    income += pcity->tax_total;
+  } city_list_iterate_end;
+
+  return income;
+}
+
+/**************************************************************************
  Returns TRUE iff the player knows at least one tech which has the
  given flag.
 **************************************************************************/

@@ -91,9 +91,6 @@ static enum client_states client_state = CLIENT_BOOT_STATE;
 
 int seconds_to_turndone;
 
-int last_turn_gold_amount;
-int turn_gold_difference;
-
 /* TRUE if an end turn request is blocked by busy agents */
 bool waiting_for_end_turn = FALSE;
 

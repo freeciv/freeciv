@@ -1105,7 +1105,7 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 	    population_to_text(civ_population(game.player_ptr)),
 	    textyear(game.year), game.turn,
 	    game.player_ptr->economic.gold,
-	    turn_gold_difference,
+	    player_get_expected_income(game.player_ptr),
 	    game.player_ptr->economic.tax,
 	    game.player_ptr->economic.luxury,
 	    game.player_ptr->economic.science,
