@@ -503,7 +503,7 @@ char *user_home_dir(void)
       home_dir = mystrdup(env);	        /* never free()d */
       freelog(LOG_VERBOSE, "HOME is %s", home_dir);
     } else {
-      freelog(LOG_NORMAL, "Could not find home directory (HOME is not set)");
+      freelog(LOG_ERROR, "Could not find home directory (HOME is not set)");
       home_dir = NULL;
     }
     init = 1;
@@ -596,7 +596,7 @@ char *datafilename(const char *filename)
       i = strlen(tok);
       if (tok[0] == '~') {
 	if (i>1 && tok[1] != '/') {
-	  freelog(LOG_NORMAL, "For \"%s\" in data path cannot expand '~'"
+	  freelog(LOG_ERROR, "For \"%s\" in data path cannot expand '~'"
 		              " except as '~/'; ignoring", tok);
 	  i = 0;   /* skip this one */
 	} else {

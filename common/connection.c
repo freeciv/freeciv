@@ -235,14 +235,16 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
       if (!add_connection_data(pc, data, len)) {
 	flush_connection_send_buffer(pc);
 	if (!add_connection_data(pc, data, len)) {
-	  freelog(LOG_DEBUG, "send buffer filled, packet discarded");
+	  freelog(LOG_ERROR, "send buffer filled, packet discarded, for %s",
+		  conn_description(pc));
 	}
       }
     }
     else {
       flush_connection_send_buffer(pc);
       if (!add_connection_data(pc, data, len)) {
-	freelog(LOG_DEBUG, "send buffer filled, packet discarded");
+	freelog(LOG_ERROR, "send buffer filled, packet discarded, for %s",
+		conn_description(pc));
       }
       flush_connection_send_buffer(pc);
     }
@@ -270,7 +272,7 @@ void connection_do_unbuffer(struct connection *pc)
   if (pc && pc->used && pc->send_buffer) {
     pc->send_buffer->do_buffer_sends--;
     if (pc->send_buffer->do_buffer_sends < 0) {
-      freelog(LOG_NORMAL, "Too many calls to unbuffer %s!", pc->name);
+      freelog(LOG_ERROR, "Too many calls to unbuffer %s!", pc->name);
       pc->send_buffer->do_buffer_sends = 0;
     }
     if(pc->send_buffer->do_buffer_sends == 0)

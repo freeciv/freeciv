@@ -355,8 +355,10 @@ void handle_packet_input(char *packet, int type)
     break;
     
   default:
-    freelog(LOG_FATAL, _("Received unknown packet from server!"));
-    exit(1);
+    freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
+    /* Old clients (<= some 1.11.5-devel, capstr +1.11) used to exit()
+     * here, so server should not rely on client surviving.
+     */
     break;
   }
 

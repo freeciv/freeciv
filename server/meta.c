@@ -202,7 +202,7 @@ void server_open_udp(void)
   serv_addr.sin_port        = htons(metaserver_port);
 #endif
   if (bad) {
-    freelog(LOG_NORMAL, _("Metaserver: bad address: [%s]."), servername);
+    freelog(LOG_ERROR, _("Metaserver: bad address: [%s]."), servername);
     metaserver_failed();
     return;
   }
@@ -217,7 +217,7 @@ void server_open_udp(void)
   bad = ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1);
 #endif
   if (bad) {
-    freelog(LOG_DEBUG, "Metaserver: can't open datagram socket: %s",
+    freelog(LOG_ERROR, "Metaserver: can't open datagram socket: %s",
 	    mystrerror(errno));
     metaserver_failed();
     return;
@@ -239,7 +239,7 @@ void server_open_udp(void)
   bad = (bind(sockfd, (struct sockaddr *) &cli_addr, sizeof(cli_addr))==-1);
 #endif
   if (bad) {
-    freelog(LOG_DEBUG, "Metaserver: can't bind local address: %s",
+    freelog(LOG_ERROR, "Metaserver: can't bind local address: %s",
 	    mystrerror(errno));
     metaserver_failed();
     return;
@@ -247,7 +247,7 @@ void server_open_udp(void)
 #ifndef GENERATING_MAC
   /* no, this is not weird, see man connect(2) --vasc */
   if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr))==-1) {
-    freelog(LOG_DEBUG, "Metaserver: connect failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "Metaserver: connect failed: %s", mystrerror(errno));
     metaserver_failed();
     return;
   }

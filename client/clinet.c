@@ -169,7 +169,7 @@ int connect_to_server(char *name, char *hostname, int port,
 
   if (aconnection.buffer) {
     /* didn't close cleanly previously? */
-    freelog(LOG_NORMAL, "Unexpected buffers in connect_to_server()");
+    freelog(LOG_ERROR, "Unexpected buffers in connect_to_server()");
     /* get newly initialized ones instead */
     free(aconnection.buffer);
     free(aconnection.send_buffer);

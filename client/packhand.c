@@ -233,7 +233,7 @@ void handle_city_info(struct packet_city_info *packet)
      * owner it is re-created with a new id.  Unclear what to do here;
      * try to cope...
      */
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "Got existing city id (%d %s) with wrong owner (%d %s, old %d %s)",
 	    packet->id, pcity->name, packet->owner,
 	    get_player(packet->owner)->name, pcity->owner,
@@ -439,7 +439,8 @@ void handle_chat_msg(struct packet_generic_message *packet)
   int where = MW_OUTPUT;	/* where to display the message */
   
   if (packet->event >= E_LAST)  {
-    freelog(LOG_NORMAL,"Unknown event type %d!", packet->event);
+    /* Server may have added a new event; leave as MW_OUTPUT */
+    freelog(LOG_NORMAL, "Unknown event type %d!", packet->event);
   } else if (packet->event >= 0)  {
     where = messages_where[packet->event];
   }
@@ -1316,7 +1317,7 @@ void handle_select_nation(struct packet_generic_values *packet)
     races_toggles_set_sensitive( packet->value1, packet->value2);
   }
   else
-    freelog(LOG_VERBOSE, "got a select nation packet in an incompatible state");
+    freelog(LOG_ERROR, "got a select nation packet in an incompatible state");
 }
 
 /**************************************************************************
@@ -1382,7 +1383,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   struct unit_type *u;
 
   if(p->id < 0 || p->id >= game.num_unit_types || p->id >= U_LAST) {
-    freelog(LOG_NORMAL, "Received bad unit_type id %d in handle_ruleset_unit()",
+    freelog(LOG_ERROR, "Received bad unit_type id %d in handle_ruleset_unit()",
 	    p->id);
     return;
   }
@@ -1427,7 +1428,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   struct advance *a;
 
   if(p->id < 0 || p->id >= game.num_tech_types || p->id >= A_LAST) {
-    freelog(LOG_NORMAL, "Received bad advance id %d in handle_ruleset_tech()",
+    freelog(LOG_ERROR, "Received bad advance id %d in handle_ruleset_tech()",
 	    p->id);
     return;
   }
@@ -1450,7 +1451,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   struct impr_type *b;
 
   if(p->id < 0 || p->id >= B_LAST) {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "Received bad building id %d in handle_ruleset_building()",
 	    p->id);
     return;
@@ -1613,7 +1614,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   struct government *gov;
 
   if (p->id < 0 || p->id >= game.government_count) {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "Received bad government id %d in handle_ruleset_government",
 	    p->id);
     return;
@@ -1684,12 +1685,12 @@ void handle_ruleset_government_ruler_title
   struct government *gov;
 
   if(p->gov < 0 || p->gov >= game.government_count) {
-    freelog(LOG_NORMAL, "Received bad government num %d for title", p->gov);
+    freelog(LOG_ERROR, "Received bad government num %d for title", p->gov);
     return;
   }
   gov = &governments[p->gov];
   if(p->id < 0 || p->id >= gov->num_ruler_titles) {
-    freelog(LOG_NORMAL, "Received bad ruler title num %d for %s title",
+    freelog(LOG_ERROR, "Received bad ruler title num %d for %s title",
 	    p->id, gov->name);
     return;
   }
@@ -1707,7 +1708,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   int j;
 
   if (p->id < T_FIRST || p->id >= T_COUNT) {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "Received bad terrain id %d in handle_ruleset_terrain",
 	    p->id);
     return;
@@ -1793,7 +1794,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   struct nation_type *pl;
 
   if(p->id < 0 || p->id >= game.nation_count || p->id >= MAX_NUM_NATIONS) {
-    freelog(LOG_NORMAL, "Received bad nation id %d in handle_ruleset_nation()",
+    freelog(LOG_ERROR, "Received bad nation id %d in handle_ruleset_nation()",
 	    p->id);
     return;
   }
@@ -1823,7 +1824,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
 
   id = packet->style_id;
   if (id < 0 || id >= game.styles_count) {
-    freelog(LOG_NORMAL, "Received bad citystyle id %d in handle_ruleset_city()",
+    freelog(LOG_ERROR, "Received bad citystyle id %d in handle_ruleset_city()",
 	    id);
     return;
   }
@@ -1910,7 +1911,7 @@ void handle_diplomat_action(struct packet_diplomat_action *packet)
   struct unit *pdiplomat=player_find_unit_by_id(game.player_ptr, packet->diplomat_id);
 
   if (!pdiplomat) {
-    freelog(LOG_NORMAL, "Received bad diplomat id %d in handle_diplomat_action()",
+    freelog(LOG_ERROR, "Received bad diplomat id %d in handle_diplomat_action()",
 	    packet->diplomat_id);
     return;
   }
@@ -1920,7 +1921,7 @@ void handle_diplomat_action(struct packet_diplomat_action *packet)
     process_diplomat_arrival(pdiplomat, packet->target_id);
     break;
   default:
-    freelog(LOG_NORMAL, "Received bad action %d in handle_diplomat_action()",
+    freelog(LOG_ERROR, "Received bad action %d in handle_diplomat_action()",
 	    packet->action_type);
     break;
   }

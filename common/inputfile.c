@@ -235,12 +235,12 @@ static void inf_close_partial(struct inputfile *inf)
   freelog(LOG_DEBUG, "inputfile: sub-closing \"%s\"", inf->filename);
 
   if (fz_ferror(inf->fp)) {
-    freelog(LOG_NORMAL, "Error before closing %s: %s", inf->filename,
+    freelog(LOG_ERROR, "Error before closing %s: %s", inf->filename,
 	    fz_strerror(inf->fp));
     fz_fclose(inf->fp);
   }
   else if (fz_fclose(inf->fp) != 0) {
-    freelog(LOG_NORMAL, "Error closing %s", inf->filename);
+    freelog(LOG_ERROR, "Error closing %s", inf->filename);
   }
   free(inf->filename);
   astr_free(&inf->cur_line);

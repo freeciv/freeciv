@@ -1030,7 +1030,8 @@ int can_unit_do_activity_targeted(struct unit *punit,
 	    unit_flag(punit->type, F_TRANSFORM));
 
   default:
-    freelog(LOG_NORMAL,"Unknown activity %d\n",activity);
+    freelog(LOG_ERROR, "Unknown activity %d in can_unit_do_activity_targeted()",
+	    activity);
     return 0;
   }
 }
@@ -1172,8 +1173,9 @@ char *unit_activity_text(struct unit *punit)
        return (text);
      }
    default:
-    freelog(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()", punit->activity);
-    exit(0);
+    freelog(LOG_FATAL, "Unknown unit activity %d in unit_activity_text()",
+	    punit->activity);
+    exit(1);
   }
   return 0;
 }

@@ -883,7 +883,7 @@ static void map_rivers_overlay_save(struct section_file *file)
 void map_fog_city_area(struct city *pcity)
 {
   if (!pcity) {
-    freelog(LOG_DEBUG, "Attempting to fog non-existent city");
+    freelog(LOG_ERROR, "Attempting to fog non-existent city");
     return;
   }
 
@@ -896,7 +896,7 @@ void map_fog_city_area(struct city *pcity)
 void map_unfog_city_area(struct city *pcity)
 {
   if (!pcity) {
-    freelog(LOG_DEBUG, "Attempting to unfog non-existent city");
+    freelog(LOG_ERROR, "Attempting to unfog non-existent city");
     return;
   }
 
@@ -1180,7 +1180,7 @@ static void player_tile_init(struct player_tile *plrtile)
 struct player_tile *map_get_player_tile(int x, int y, int playerid)
 {
   if(y<0 || y>=map.ysize) {
-    freelog(LOG_FATAL, "Trying to get nonexistant tile at %i,%i", x,y);
+    freelog(LOG_ERROR, "Trying to get nonexistant tile at %i,%i", x,y);
     return player_tiles[playerid]+map_adjust_x(x)+map_adjust_y(y)*map.xsize;
   } else
     return player_tiles[playerid]+map_adjust_x(x)+y*map.xsize;

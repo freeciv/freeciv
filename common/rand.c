@@ -94,7 +94,7 @@ RANDOM_TYPE myrand(RANDOM_TYPE size)
     rand_state.v[rand_state.x] = new_rand;
 
     if (++bailout > 10000) {
-      freelog(LOG_NORMAL, "Bailout in myrand(%u)", size);
+      freelog(LOG_ERROR, "Bailout in myrand(%u)", size);
       new_rand = 0;
       break;
     }

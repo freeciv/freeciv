@@ -368,7 +368,7 @@ static int section_file_load_dup(struct section_file *sf,
 
   inf = inf_open(filename, datafilename);
   if (!inf) {
-    freelog(LOG_NORMAL, "Could not open file \"%s\"", filename);
+    freelog(LOG_ERROR, "Could not open file \"%s\"", filename);
     return 0;
   }
   section_file_init(sf);
@@ -647,7 +647,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 	  /* break out of tabular if doesn't match: */
 	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
 	    if(icol != 0) {
-	      freelog(LOG_NORMAL, "unexpected exit from tabular at %s (%s)",
+	      freelog(LOG_ERROR, "unexpected exit from tabular at %s (%s)",
 		      pentry->name, filename);
 	      fz_fprintf(fs, "\n");
 	    }
@@ -688,13 +688,13 @@ int section_file_save(struct section_file *my_section_file, const char *filename
   moutstr(NULL);		/* free internal buffer */
 
   if (fz_ferror(fs)) {
-    freelog(LOG_NORMAL, "Error before closing %s: %s", filename,
+    freelog(LOG_ERROR, "Error before closing %s: %s", filename,
 	    fz_strerror(fs));
     fz_fclose(fs);
     return 0;
   }
   if (fz_fclose(fs) != 0) {
-    freelog(LOG_NORMAL, "Error closing %s", filename);
+    freelog(LOG_ERROR, "Error closing %s", filename);
     return 0;
   }
 

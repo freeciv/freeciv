@@ -986,24 +986,19 @@ static void log_civ_score(void)
 		{
 		  if (!(fgets (line, sizeof (line), fp)))
 		    {
-		      if (ferror (fp))
-			{
-			  freelog (LOG_NORMAL,
-				   "Can't read scorelog file header!");
-			}
-		      else
-			{
-			  freelog (LOG_NORMAL,
-				   "Unterminated scorelog file header!");
-			}
+		      if (ferror (fp)) {
+			freelog(LOG_ERROR, "Can't read scorelog file header!");
+		      } else {
+			freelog(LOG_ERROR, "Unterminated scorelog file header!");
+		      }
 		      goto log_civ_score_disable;
 		    }
 
 		  ptr = strchr (line, '\n');
 		  if (!ptr)
 		    {
-		      freelog (LOG_NORMAL,
-			       "Scorelog file line %d is too long!", ln);
+		      freelog(LOG_ERROR,
+			      "Scorelog file line %d is too long!", ln);
 		      goto log_civ_score_disable;
 		    }
 		  *ptr = '\0';
@@ -1023,7 +1018,7 @@ static void log_civ_score(void)
 			{
 			  if (!(tags[foms]))
 			    {
-			      freelog (LOG_NORMAL,
+			      freelog (LOG_ERROR,
 				       "Too many entries in scorelog header!");
 			      goto log_civ_score_disable;
 			    }
@@ -1032,7 +1027,7 @@ static void log_civ_score(void)
 			  if ((ni != 2) || (index != foms) ||
 			      (0 != strcmp (name, tags[foms])))
 			    {
-			      freelog (LOG_NORMAL,
+			      freelog (LOG_ERROR,
 				       "Scorelog file line %d is bad!", ln);
 			      goto log_civ_score_disable;
 			    }
@@ -1050,7 +1045,7 @@ static void log_civ_score(void)
 		      ni = sscanf (line, "%d %s", &index, name);
 		      if ((ni != 2) || (index != plrs))
 			{
-			  freelog (LOG_NORMAL,
+			  freelog (LOG_ERROR,
 				   "Scorelog file line %d is bad!", ln);
 			  goto log_civ_score_disable;
 			}
@@ -1068,29 +1063,24 @@ static void log_civ_score(void)
 		{
 		  if (fseek (fp, -100, SEEK_END))
 		    {
-		      freelog (LOG_NORMAL,
+		      freelog (LOG_ERROR,
 			       "Can't seek to end of scorelog file!");
 		      goto log_civ_score_disable;
 		    }
 
 		  if (!(fgets (line, sizeof (line), fp)))
 		    {
-		      if (ferror (fp))
-			{
-			  freelog (LOG_NORMAL,
-				   "Can't read scorelog file!");
-			}
-		      else
-			{
-			  freelog (LOG_NORMAL,
-				   "Unterminated scorelog file!");
-			}
+		      if (ferror (fp)) {
+			freelog(LOG_ERROR, "Can't read scorelog file!");
+		      } else {
+			freelog(LOG_ERROR, "Unterminated scorelog file!");
+		      }
 		      goto log_civ_score_disable;
 		    }
 		  ptr = strchr (line, '\n');
 		  if (!ptr)
 		    {
-		      freelog (LOG_NORMAL,
+		      freelog (LOG_ERROR,
 			       "Scorelog file line is too long!");
 		      goto log_civ_score_disable;
 		    }
@@ -1100,12 +1090,12 @@ static void log_civ_score(void)
 		    {
 		      if (ferror (fp))
 			{
-			  freelog (LOG_NORMAL,
+			  freelog (LOG_ERROR,
 				   "Can't read scorelog file!");
 			}
 		      else
 			{
-			  freelog (LOG_NORMAL,
+			  freelog (LOG_ERROR,
 				   "Unterminated scorelog file!");
 			}
 		      goto log_civ_score_disable;
@@ -1113,7 +1103,7 @@ static void log_civ_score(void)
 		  ptr = strchr (line, '\n');
 		  if (!ptr)
 		    {
-		      freelog (LOG_NORMAL,
+		      freelog (LOG_ERROR,
 			       "Scorelog file line is too long!");
 		      goto log_civ_score_disable;
 		    }
@@ -1123,14 +1113,14 @@ static void log_civ_score(void)
 			       &dummy, &dummy, &index, &dummy);
 		  if (ni != 4)
 		    {
-		      freelog (LOG_NORMAL,
+		      freelog (LOG_ERROR,
 			       "Scorelog file line is bad!");
 		      goto log_civ_score_disable;
 		    }
 
 		  if (index >= game.year)
 		    {
-		      freelog (LOG_NORMAL,
+		      freelog (LOG_ERROR,
 			       "Scorelog years overlap -- logging disabled!");
 		      goto log_civ_score_disable;
 		    }
@@ -1150,7 +1140,7 @@ static void log_civ_score(void)
 	  fp = fopen (logname, "w");
 	  if (!fp)
 	    {
-	      freelog (LOG_NORMAL, "Can't open scorelog file for creation!");
+	      freelog (LOG_ERROR, "Can't open scorelog file for creation!");
 	      goto log_civ_score_disable;
 	    }
 	  fprintf (fp, magic, VERSION_STRING);
@@ -1173,7 +1163,7 @@ static void log_civ_score(void)
 	  fp = fopen (logname, "a");
 	  if (!fp)
 	    {
-	      freelog (LOG_NORMAL, "Can't open scorelog file for appending!");
+	      freelog (LOG_ERROR, "Can't open scorelog file for appending!");
 	      goto log_civ_score_disable;
 	    }
 	  break;
@@ -1719,7 +1709,7 @@ void handle_player_rates(struct player *pplayer,
   int maxrate;
 
   if (server_state!=RUN_GAME_STATE) {
-    freelog(LOG_NORMAL, "received player_rates packet from %s before start",
+    freelog(LOG_ERROR, "received player_rates packet from %s before start",
 	    pplayer->name);
     notify_player(pplayer, _("Game: Cannot change rates before game start."));
     return;
@@ -1778,7 +1768,7 @@ void handle_player_worklist(struct player *pplayer,
 			    struct packet_player_request *preq)
 {
   if (preq->wl_idx < 0 || preq->wl_idx >= MAX_NUM_WORKLISTS) {
-    freelog(LOG_NORMAL, "Bad worklist index (%d) received from %s",
+    freelog(LOG_ERROR, "Bad worklist index (%d) received from %s",
 	    preq->wl_idx, pplayer->name);
     return;
   }
@@ -2163,7 +2153,7 @@ void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
   len = my_snprintf(genmsg.message, sizeof(genmsg.message),
 		    "%s\n%s\n%s", caption, headline, lines);
   if (len >= sizeof(genmsg.message)) {
-    freelog(LOG_NORMAL, _("Message truncated in page_conn_etype!"));
+    freelog(LOG_ERROR, "Message truncated in page_conn_etype()!");
   }
   genmsg.event = event;
   

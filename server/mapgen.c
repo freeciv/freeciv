@@ -1219,8 +1219,10 @@ static int placeisland(void)
       if (*hmap(x, y)) {
 
 	checkmass--; 
-	if(checkmass<=0) 
-	 { freelog(LOG_NORMAL,"mapgen.c: mass doesn't sum up."); return i; }
+	if(checkmass<=0) {
+	  freelog(LOG_ERROR, "mapgen.c: mass doesn't sum up.");
+	  return i;
+	}
 
         map_set_terrain(xo + x - w, yo + y - n, T_GRASSLAND);
         map_set_continent(xo + x - w, yo + y - n, isleindex);
@@ -1273,9 +1275,10 @@ static int createisland(int islemass)
           }
     }
   }
-  if(tries<=0)
-    freelog(LOG_NORMAL,"createisland ended early with %d/%d.",islemass-i,islemass);
-
+  if(tries<=0) {
+    freelog(LOG_ERROR, "createisland ended early with %d/%d.",
+	    islemass-i, islemass);
+  }
   
   tries= map.xsize*(long int)map.ysize/4;/* on a 40x60 map, there are 2400 places */
   while (!(i = placeisland()) && --tries);

@@ -24,7 +24,7 @@
    Note id values should probably be unsigned int: here leave as plain int
    so can use pointers to pcity->id etc.
 
-   On probable errors, print LOG_NORMAL messages and persevere,
+   On probable errors, print LOG_ERROR messages and persevere,
    unless IDEX_DIE set.
 ***************************************************************************/
 
@@ -41,7 +41,7 @@
 #ifndef IDEX_DIE
 #define IDEX_DIE 0
 #endif
-#define LOG_IDEX_ERR (IDEX_DIE ? LOG_FATAL : LOG_NORMAL)
+#define LOG_IDEX_ERR (IDEX_DIE ? LOG_FATAL : LOG_ERROR)
 
 
 /* "Global" data: */

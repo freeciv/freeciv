@@ -203,17 +203,17 @@ void boot_help_texts(void)
   
   filename = datafilename("helpdata.txt");
   if (filename == NULL) {
-    freelog(LOG_NORMAL, "Could not find readable helpdata.txt in data path");
-    freelog(LOG_NORMAL, "The data path may be set via"
+    freelog(LOG_ERROR, "Could not find readable helpdata.txt in data path");
+    freelog(LOG_ERROR, "The data path may be set via"
 	                " the environment variable FREECIV_PATH");
-    freelog(LOG_NORMAL, "Current data path is: \"%s\"", datafilename(NULL));
-    freelog(LOG_NORMAL, "Did not read help texts");
+    freelog(LOG_ERROR, "Current data path is: \"%s\"", datafilename(NULL));
+    freelog(LOG_ERROR, "Did not read help texts");
     return;
   }
   /* after following call filename may be clobbered; use sf->filename instead */
   if (!section_file_load(sf, filename)) {
     /* this is now unlikely to happen */
-    freelog(LOG_NORMAL, "failed reading help-texts");
+    freelog(LOG_ERROR, "failed reading help-texts");
     return;
   }
 
@@ -237,7 +237,7 @@ void boot_help_texts(void)
 	}
       }
       if (current_type == HELP_ANY) {
-	freelog(LOG_NORMAL, "bad help-generate category \"%s\"", gen_str);
+	freelog(LOG_ERROR, "bad help-generate category \"%s\"", gen_str);
 	continue;
       }
       {
@@ -390,7 +390,7 @@ const struct help_item *get_help_item(int pos)
   check_help_nodes_init();
   size = genlist_size(&help_nodes);
   if (pos < 0 || pos > size) {
-    freelog(LOG_NORMAL, "Bad index %d to get_help_item (size %d)", pos, size);
+    freelog(LOG_ERROR, "Bad index %d to get_help_item (size %d)", pos, size);
     return NULL;
   }
   if (pos == size) {

@@ -451,7 +451,7 @@ struct unit *get_defender(struct player *pplayer, struct unit *aunit,
   }
   unit_list_iterate_end;
   if(ct&&!bestdef)
-    freelog(LOG_NORMAL, "Get_def bugged at (%d,%d). The most likely course"
+    freelog(LOG_ERROR, "Get_def bugged at (%d,%d). The most likely course"
 	    " is a unit on an ocean square without a transport. The owner"
 	    " of the unit is %s", x, y, game.players[debug_unit->owner].name);
   return bestdef;

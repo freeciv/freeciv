@@ -322,7 +322,7 @@ void handle_spaceship_action(struct player *pplayer,
     send_spaceship_info(pplayer, 0);
     return;
   }
-  freelog(LOG_NORMAL, "Received unknown spaceship action %d from %s",
+  freelog(LOG_ERROR, "Received unknown spaceship action %d from %s",
        action, pplayer->name);
 }
 

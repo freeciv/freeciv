@@ -1507,7 +1507,7 @@ static void sanity_check_city(struct city *pcity)
   }
   iswork--;
   if (iswork+city_specialists(pcity)!=size) {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "%s is bugged: size:%d workers:%d elvis: %d tax:%d sci:%d",
 	    pcity->name, size, iswork, pcity->ppl_elvis,
 	    pcity->ppl_taxman, pcity->ppl_scientist); 

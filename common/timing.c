@@ -243,7 +243,7 @@ void start_timer(struct timer *t)
     return;
   }
   if (t->state == TIMER_STARTED) {
-    freelog(LOG_NORMAL, "tried to start already started timer");
+    freelog(LOG_ERROR, "tried to start already started timer");
     return;
   }
   if (t->type == TIMER_CPU) {
@@ -293,7 +293,7 @@ void stop_timer(struct timer *t)
     return;
   }
   if (t->state == TIMER_STOPPED) {
-    freelog(LOG_NORMAL, "tried to stop already stopped timer");
+    freelog(LOG_ERROR, "tried to stop already stopped timer");
     return;
   }
   if (t->type == TIMER_CPU) {

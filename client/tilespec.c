@@ -134,7 +134,7 @@ static char *tilespec_fullname(const char *tileset_name)
   if (strcmp(tileset_name, tileset_default)==0) {
     level = LOG_FATAL;
   } else {
-    level = LOG_NORMAL;
+    level = LOG_ERROR;
   }
   freelog(level, _("Could not find readable file \"%s\" in data path."),
 	  fname);

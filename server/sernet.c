@@ -308,12 +308,12 @@ int sniff_packets(void)
     if(FD_ISSET(sock, &readfs)) {	     /* new players connects */
       freelog(LOG_VERBOSE, "got new connection");
       if(server_accept_connection(sock)==-1) {
-	freelog(LOG_NORMAL, "failed accepting connection");
+	freelog(LOG_ERROR, "failed accepting connection");
       }
     }
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {   /* check for freaky players */
       if(connections[i].used && FD_ISSET(connections[i].sock, &exceptfs)) {
- 	freelog(LOG_NORMAL, "cut connection %s due to exception data",
+ 	freelog(LOG_ERROR, "cut connection %s due to exception data",
 		conn_description(&connections[i]));
 	close_socket_callback(&connections[i]);
       }
@@ -424,7 +424,7 @@ static int server_accept_connection(int sockfd)
   fromlen = sizeof(fromend);
 
   if ((new_sock=accept(sockfd, (struct sockaddr *) &fromend, &fromlen)) == -1) {
-    freelog(LOG_VERBOSE, "accept failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "accept failed: %s", mystrerror(errno));
     return -1;
   }
 
@@ -459,7 +459,7 @@ static int server_accept_connection(int sockfd)
     }
   }
 
-  freelog(LOG_FATAL, "maximum number of connections reached");
+  freelog(LOG_ERROR, "maximum number of connections reached");
   return -1;
 }
 
@@ -485,7 +485,7 @@ int server_open_socket(void)
   opt=1; 
   if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
 		(char*)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_FATAL, "SO_REUSEADDR failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
   }
 
   memset(&src, 0, sizeof(src));

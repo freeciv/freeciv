@@ -623,7 +623,7 @@ void handle_city_change(struct player *pplayer,
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
   if (!pcity) {
-    freelog(LOG_NORMAL, "Pcity null in handle_city_change"
+    freelog(LOG_ERROR, "Pcity null in handle_city_change"
 	                " (%s, id = %d)!", pplayer->name, preq->city_id);
     return;
   }
@@ -697,7 +697,7 @@ void handle_city_name_suggest_req(struct connection *pconn,
 {
   struct packet_city_name_suggestion reply;
   if (!pconn->player) {
-    freelog(LOG_NORMAL, "City-name suggestion request from non-player %s",
+    freelog(LOG_ERROR, "City-name suggestion request from non-player %s",
 	    conn_description(pconn));
     return;
   }
@@ -1172,9 +1172,11 @@ void update_dumb_city(struct player *pplayer, struct city *pcity)
     plrtile->city->id = pcity->id;
   }
   pdcity = plrtile->city;
-  if (pdcity->id != pcity->id)
-    freelog(LOG_FATAL, "Trying to update old city (wrong ID) at %i,%i for player %s",
-	    pcity->x, pcity->y, pplayer->name);
+  if (pdcity->id != pcity->id) {
+    freelog(LOG_ERROR, "Trying to update old city (wrong ID)"
+	    " at %i,%i for player %s", pcity->x, pcity->y, pplayer->name);
+    pdcity->id = pcity->id;   /* ?? */
+  }
   sz_strlcpy(pdcity->name, pcity->name);
   pdcity->size = pcity->size;
   pdcity->has_walls = city_got_citywalls(pcity);

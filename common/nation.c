@@ -70,7 +70,7 @@ Returns name of the nation
 ***************************************************************/
 char *get_nation_name(Nation_Type_id nation)
 {
-  if (!bounds_check_nation_id(nation, LOG_NORMAL, "get_nation_name")) {
+  if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_name")) {
     return "";
   }
   return nations[nation].name;
@@ -97,7 +97,7 @@ int get_nation_leader_sex(Nation_Type_id nation, char *name)
 {
   int i;
   
-  if (!bounds_check_nation_id(nation, LOG_NORMAL, "get_nation_leader_sex")) {
+  if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_leader_sex")) {
     return 0;
   }
   for( i=0; i < nations[nation].leader_count; i++ ) {
@@ -117,7 +117,7 @@ int check_nation_leader_name(Nation_Type_id nation, char *name)
 {
   int i, found=0;
   
-  if (!bounds_check_nation_id(nation, LOG_NORMAL, "check_nation_leader_name")) {
+  if (!bounds_check_nation_id(nation, LOG_ERROR, "check_nation_leader_name")) {
     return 1;			/* ? */
   }
   for( i=0; i<nations[nation].leader_count; i++) {
@@ -132,7 +132,7 @@ Returns plural name of the nation.
 ***************************************************************/
 char *get_nation_name_plural(Nation_Type_id nation)
 {
-  if (!bounds_check_nation_id(nation, LOG_NORMAL, "get_nation_name_plural")) {
+  if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_name_plural")) {
     return "";
   }
   return nations[nation].name_plural;

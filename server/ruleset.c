@@ -177,7 +177,7 @@ static int lookup_tech(struct section_file *file, char *prefix,
   } else {
     i = find_tech_by_name(sval);
     if (i==A_LAST) {
-      freelog((required?LOG_FATAL:LOG_NORMAL),
+      freelog((required?LOG_FATAL:LOG_ERROR),
 	   "for %s %s couldn't match tech \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
@@ -262,7 +262,7 @@ static int lookup_unit_type(struct section_file *file, char *prefix,
   } else {
     i = find_unit_type_by_name(sval);
     if (i==U_LAST) {
-      freelog((required?LOG_FATAL:LOG_NORMAL),
+      freelog((required?LOG_FATAL:LOG_ERROR),
 	   "for %s %s couldn't match unit_type \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
@@ -295,7 +295,7 @@ static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
   } else {
     id = find_improvement_by_name(sval);
     if (id==B_LAST) {
-      freelog((required?LOG_FATAL:LOG_NORMAL),
+      freelog((required?LOG_FATAL:LOG_ERROR),
 	   "for %s %s couldn't match impr_type \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
@@ -465,12 +465,12 @@ static void load_ruleset_techs(struct section_file *file)
     
     if ((a->req[0]==A_LAST && a->req[1]!=A_LAST) ||
 	(a->req[0]!=A_LAST && a->req[1]==A_LAST)) {
-      freelog(LOG_NORMAL, "for tech %s: \"Never\" with non-\"Never\" (%s)",
+      freelog(LOG_ERROR, "for tech %s: \"Never\" with non-\"Never\" (%s)",
 	   a->name, filename);
       a->req[0] = a->req[1] = A_LAST;
     }
     if (a->req[0]==A_NONE && a->req[1]!=A_NONE) {
-      freelog(LOG_NORMAL, "tech %s: should have \"None\" second (%s)",
+      freelog(LOG_ERROR, "tech %s: should have \"None\" second (%s)",
 	   a->name, filename);
       a->req[0] = a->req[1];
       a->req[1] = A_NONE;
@@ -486,7 +486,7 @@ static void load_ruleset_techs(struct section_file *file)
       }
       ival = tech_flag_from_str(sval);
       if (ival==TF_LAST) {
-        freelog(LOG_NORMAL, "for advance_type \"%s\": bad flag name \"%s\" (%s)",
+        freelog(LOG_ERROR, "for advance_type \"%s\": bad flag name \"%s\" (%s)",
                 a->name, sval, filename);
       }
       a->flags |= (1<<ival);
@@ -671,7 +671,7 @@ static void load_ruleset_units(struct section_file *file)
 	ival = unit_flag_from_str(sval);
       }
       if (ival==F_LAST) {
-	freelog(LOG_NORMAL, "for unit_type \"%s\": bad flag name \"%s\" (%s)",
+	freelog(LOG_ERROR, "for unit_type \"%s\": bad flag name \"%s\" (%s)",
 	     u->name, sval, filename);
       }
       u->flags |= (1<<ival);
@@ -693,7 +693,7 @@ static void load_ruleset_units(struct section_file *file)
 
     /* For now, if F_CITIES flag, we require the F_SETTLERS flag. -- jjm */
     if (unit_flag(i, F_CITIES) && !(unit_flag(i, F_SETTLERS))) {
-      freelog(LOG_NORMAL,
+      freelog(LOG_FATAL,
 	      "for unit_type \"%s\": \"Cities\" flag without \"Settlers\" flag (%s)",
 	      u->name, filename);
       exit(1);
@@ -713,7 +713,7 @@ static void load_ruleset_units(struct section_file *file)
       }
       ival = unit_role_from_str(sval);
       if (ival==L_LAST) {
-	freelog(LOG_NORMAL, "for unit_type \"%s\": bad role name \"%s\" (%s)",
+	freelog(LOG_ERROR, "for unit_type \"%s\": bad role name \"%s\" (%s)",
 	     u->name, sval, filename);
       }
       u->roles |= (1<<(ival-L_FIRST));
@@ -731,13 +731,15 @@ static void load_ruleset_units(struct section_file *file)
     if (unit_type_exists(i)) {
       u = &unit_types[i];
       if (!tech_exists(u->tech_requirement)) {
-	freelog(LOG_NORMAL, "unit_type \"%s\" depends on removed tech \"%s\" (%s)",
-	     u->name, advances[u->tech_requirement].name, filename);
+	freelog(LOG_ERROR,
+		"unit_type \"%s\" depends on removed tech \"%s\" (%s)",
+		u->name, advances[u->tech_requirement].name, filename);
 	u->tech_requirement = A_LAST;
       }
       if (u->obsoleted_by!=-1 && !unit_type_exists(u->obsoleted_by)) {
-	freelog(LOG_NORMAL, "unit_type \"%s\" obsoleted by removed unit \"%s\" (%s)",
-	     u->name, unit_types[u->obsoleted_by].name, filename);
+	freelog(LOG_ERROR,
+		"unit_type \"%s\" obsoleted by removed unit \"%s\" (%s)",
+		u->name, unit_types[u->obsoleted_by].name, filename);
 	u->obsoleted_by = -1;
       }
     }
@@ -885,7 +887,7 @@ static void load_ruleset_buildings(struct section_file *file)
     for (j = 0; j < count; j++) {
       b->terr_gate[k] = get_terrain_by_name(list[j]);
       if (b->terr_gate[k] >= T_UNKNOWN) {
-	freelog(LOG_NORMAL,
+	freelog(LOG_ERROR,
 		"for %s terr_gate[%d] couldn't match terrain \"%s\" (%s)",
 		b->name, j, list[j], filename);
       } else {
@@ -900,7 +902,7 @@ static void load_ruleset_buildings(struct section_file *file)
     for (j = 0; j < count; j++) {
       b->spec_gate[k] = get_special_by_name(list[j]);
       if (b->spec_gate[k] == S_NO_SPECIAL) {
-	freelog(LOG_NORMAL,
+	freelog(LOG_ERROR,
 		"for %s spec_gate[%d] couldn't match special \"%s\" (%s)",
 		b->name, j, list[j], filename);
       } else {
@@ -912,7 +914,7 @@ static void load_ruleset_buildings(struct section_file *file)
     item = secfile_lookup_str(file, "%s.equiv_range", sec[i]);
     b->equiv_range = effect_range_from_str(item);
     if (b->equiv_range == EFR_LAST) {
-      freelog(LOG_NORMAL,
+      freelog(LOG_ERROR,
 	      "for %s equiv_range couldn't match range \"%s\" (%s)",
 	      b->name, item, filename);
       b->equiv_range = EFR_NONE;
@@ -924,7 +926,7 @@ static void load_ruleset_buildings(struct section_file *file)
     for (j = 0; j < count; j++) {
       b->equiv_dupl[k] = find_improvement_by_name(list[j]);
       if (b->equiv_dupl[k] == B_LAST) {
-	freelog(LOG_NORMAL,
+	freelog(LOG_ERROR,
 		"for %s equiv_dupl[%d] couldn't match improvement \"%s\" (%s)",
 		b->name, j, list[j], filename);
       } else {
@@ -939,7 +941,7 @@ static void load_ruleset_buildings(struct section_file *file)
     for (j = 0; j < count; j++) {
       b->equiv_repl[k] = find_improvement_by_name(list[j]);
       if (b->equiv_repl[k] == B_LAST) {
-	freelog(LOG_NORMAL,
+	freelog(LOG_ERROR,
 		"for %s equiv_repl[%d] couldn't match improvement \"%s\" (%s)",
 		b->name, j, list[j], filename);
       } else {
@@ -977,7 +979,7 @@ static void load_ruleset_buildings(struct section_file *file)
       item = secfile_lookup_str(file, "%s.effect%d.type", sec[i], j);
       e->type = effect_type_from_str(item);
       if (e->type == EFT_LAST) {
-	freelog(LOG_NORMAL,
+	freelog(LOG_ERROR,
 		"for %s effect[%d].type couldn't match type \"%s\" (%s)",
 		b->name, j, item, filename);
 	problem = TRUE;
@@ -987,7 +989,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	secfile_lookup_str_default(file, "None", "%s.effect%d.range", sec[i], j);
       e->range = effect_range_from_str(item);
       if (e->range == EFR_LAST) {
-	freelog(LOG_NORMAL,
+	freelog(LOG_ERROR,
 		"for %s effect[%d].range couldn't match range \"%s\" (%s)",
 		b->name, j, item, filename);
 	problem = TRUE;
@@ -1004,7 +1006,7 @@ static void load_ruleset_buildings(struct section_file *file)
       if (*item) {
 	e->cond_bldg = find_improvement_by_name(item);
 	if (e->cond_bldg == B_LAST) {
-	  freelog(LOG_NORMAL,
+	  freelog(LOG_ERROR,
 		  "for %s effect[%d].cond_bldg couldn't match improvement \"%s\" (%s)",
 		  b->name, j, item, filename);
 	  problem = TRUE;
@@ -1018,7 +1020,7 @@ static void load_ruleset_buildings(struct section_file *file)
       if (*item) {
 	struct government *g = find_government_by_name(item);
 	if (!g) {
-	  freelog(LOG_NORMAL,
+	  freelog(LOG_ERROR,
 		  "for %s effect[%d].cond_gov couldn't match government \"%s\" (%s)",
 		  b->name, j, item, filename);
 	  e->cond_gov = game.government_count;
@@ -1035,7 +1037,7 @@ static void load_ruleset_buildings(struct section_file *file)
       if (*item) {
 	e->cond_adv = find_tech_by_name(item);
 	if (e->cond_adv == A_LAST) {
-	  freelog(LOG_NORMAL,
+	  freelog(LOG_ERROR,
 		  "for %s effect[%d].cond_adv couldn't match tech \"%s\" (%s)",
 		  b->name, j, item, filename);
 	  problem = TRUE;
@@ -1049,7 +1051,7 @@ static void load_ruleset_buildings(struct section_file *file)
       if (*item) {
 	e->cond_eff = effect_type_from_str(item);
 	if (e->cond_eff == EFT_LAST) {
-	  freelog(LOG_NORMAL,
+	  freelog(LOG_ERROR,
 		  "for %s effect[%d].cond_eff couldn't match effect \"%s\" (%s)",
 		  b->name, j, item, filename);
 	  problem = TRUE;
@@ -1063,7 +1065,7 @@ static void load_ruleset_buildings(struct section_file *file)
       if (*item) {
 	e->aff_unit = unit_class_from_str(item);
 	if (e->aff_unit == UCL_LAST) {
-	  freelog(LOG_NORMAL,
+	  freelog(LOG_ERROR,
 		  "for %s effect[%d].aff_unit couldn't match class \"%s\" (%s)",
 		  b->name, j, item, filename);
 	  problem = TRUE;
@@ -1080,7 +1082,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	} else {
 	  e->aff_terr = get_terrain_by_name(item);
 	  if (e->aff_terr >= T_UNKNOWN) {
-	    freelog(LOG_NORMAL,
+	    freelog(LOG_ERROR,
 		    "for %s effect[%d].aff_terr couldn't match terrain \"%s\" (%s)",
 		    b->name, j, item, filename);
 	    e->aff_terr = T_LAST;
@@ -1099,7 +1101,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	} else {
 	  e->aff_spec = get_special_by_name(item);
 	  if (e->aff_spec == S_NO_SPECIAL) {
-	    freelog(LOG_NORMAL,
+	    freelog(LOG_ERROR,
 		    "for %s effect[%d].aff_spec couldn't match special \"%s\" (%s)",
 		    b->name, j, item, filename);
 	    problem = TRUE;
@@ -1126,19 +1128,22 @@ static void load_ruleset_buildings(struct section_file *file)
     b = &improvement_types[i];
     if (improvement_exists(i)) {
       if (!tech_exists(b->tech_req)) {
-	freelog(LOG_NORMAL, "improvement \"%s\": depends on removed tech \"%s\" (%s)",
+	freelog(LOG_ERROR,
+		"improvement \"%s\": depends on removed tech \"%s\" (%s)",
 		b->name, advances[b->tech_req].name, filename);
 	b->tech_req = A_LAST;
       }
       if (!tech_exists(b->obsolete_by)) {
-	freelog(LOG_NORMAL, "improvement \"%s\": obsoleted by removed tech \"%s\" (%s)",
+	freelog(LOG_ERROR,
+		"improvement \"%s\": obsoleted by removed tech \"%s\" (%s)",
 		b->name, advances[b->obsolete_by].name, filename);
 	b->obsolete_by = A_NONE;
       }
       for (j = 0; b->effect[j].type != EFT_LAST; j++) {
 	if (!tech_exists(b->effect[j].cond_adv)) {
-	  freelog(LOG_NORMAL,
-		  "improvement \"%s\": effect conditional on removed tech \"%s\" (%s)",
+	  freelog(LOG_ERROR,
+		  "improvement \"%s\": effect conditional on"
+		  " removed tech \"%s\" (%s)",
 		  b->name, advances[b->effect[j].cond_adv].name, filename);
 	  b->effect[j].cond_adv = A_LAST;
 	}
@@ -1564,7 +1569,7 @@ static void load_ruleset_governments(struct section_file *file)
     } else {
       struct government *subgov = find_government_by_name(sval);
       if (subgov==NULL) {
-	freelog(LOG_FATAL, "Bad subgoal government \"%s\" for gov \"%s\" (%s)",
+	freelog(LOG_ERROR, "Bad subgoal government \"%s\" for gov \"%s\" (%s)",
 		sval, g->name, filename);
       } else {
 	g->subgoal = subgov - governments;
@@ -1839,8 +1844,9 @@ static void load_ruleset_nations(struct section_file *file)
 
     techs = secfile_lookup_str_vec(file, &dim, "%s.tech_goals", sec[i]);
     if( dim > MAX_NUM_TECH_GOALS ) {
-      freelog( LOG_VERBOSE, "Only %d techs can used from %d defined for nation %s",
-               MAX_NUM_TECH_GOALS, dim, pl->name_plural);
+      freelog(LOG_VERBOSE,
+	      "Only %d techs can be used from %d defined for nation %s",
+	      MAX_NUM_TECH_GOALS, dim, pl->name_plural);
       dim = MAX_NUM_TECH_GOALS;
     }
     for( j=0; j<dim; j++) {
@@ -2015,7 +2021,7 @@ static void load_ruleset_game(char *ruleset_subdir)
   game.rgame.min_dist_bw_cities =
     secfile_lookup_int(&file, "civstyle.min_dist_bw_cities");
   if(game.rgame.min_dist_bw_cities<1) {
-    freelog(LOG_NORMAL, _("Bad value %i for min_dist_bw_cities. Using 2."),
+    freelog(LOG_ERROR, "Bad value %i for min_dist_bw_cities. Using 2.",
 	    game.rgame.min_dist_bw_cities);
     game.rgame.min_dist_bw_cities = 2;
   }
@@ -2029,8 +2035,8 @@ static void load_ruleset_game(char *ruleset_subdir)
   } else if (mystrcasecmp(sval, "Frighten") == 0) {
     game.rgame.hut_overflight = OVERFLIGHT_FRIGHTEN;
   } else {
-    freelog(LOG_NORMAL, _("Bad value %s for hut_overflight. Using "
-            "\"Frighten\"."), sval);
+    freelog(LOG_ERROR, "Bad value %s for hut_overflight. Using "
+            "\"Frighten\".", sval);
     game.rgame.hut_overflight = OVERFLIGHT_FRIGHTEN;
   }
 
@@ -2043,8 +2049,8 @@ static void load_ruleset_game(char *ruleset_subdir)
   } else if (mystrcasecmp(sval, "Fallout") == 0) {
     game.rgame.nuke_contamination = CONTAMINATION_FALLOUT;
   } else {
-    freelog(LOG_NORMAL, _("Bad value %s for nuke_contamination. Using "
-            "\"Pollution\"."), sval);
+    freelog(LOG_ERROR, "Bad value %s for nuke_contamination. Using "
+            "\"Pollution\".", sval);
     game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
   }
 

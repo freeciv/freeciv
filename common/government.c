@@ -200,7 +200,7 @@ char *get_ruler_title(int gov, int male, int nation)
   if (best_match) {
     return male ? best_match->male_title : best_match->female_title;
   } else {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "get_ruler_title: found no title for government %d (%s) nation %d",
 	    gov, g->name, nation);
     return male ? "Mr." : "Ms.";

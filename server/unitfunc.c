@@ -444,7 +444,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Update bribe cost. */
   if (pvictim->bribe_cost == -1) {
-    freelog (LOG_NORMAL, "Bribe cost -1 in diplomat_bribe by %s",
+    freelog (LOG_ERROR, "Bribe cost -1 in diplomat_bribe by %s",
 	     pplayer->name);
     pvictim->bribe_cost = unit_bribe_cost (pvictim);
   }
@@ -776,7 +776,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Update incite cost. */
   if (pcity->incite_revolt_cost == -1) {
-    freelog (LOG_NORMAL, "Incite cost -1 in diplomat_incite by %s for %s",
+    freelog (LOG_ERROR, "Incite cost -1 in diplomat_incite by %s for %s",
 	     pplayer->name, pcity->name);
     city_incite_cost (pcity);
   }
@@ -1213,7 +1213,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 
       if (!spyhome) {
 	send_unit_info (pplayer, pdiplomat);
-	freelog (LOG_NORMAL, "Bug in diplomat_escape: Unhomed Spy.");
+	freelog(LOG_ERROR, "Bug in diplomat_escape: Unhomed Spy.");
 	return;
       }
 
@@ -1228,7 +1228,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
       /* being teleported costs all movement */
       if (!teleport_unit_to_city (pdiplomat, spyhome, -1, 0)) {
 	send_unit_info (pplayer, pdiplomat);
-	freelog (LOG_NORMAL, "Bug in diplomat_escape: Spy can't teleport.");
+	freelog(LOG_ERROR, "Bug in diplomat_escape: Spy can't teleport.");
 	return;
       }
 
@@ -1852,7 +1852,7 @@ void create_unit_full(struct player *pplayer, int x, int y,
   punit->x = map_adjust_x(x); /* was = x, caused segfaults -- Syela */
   punit->y=y;
   if (y < 0 || y >= map.ysize) {
-    freelog(LOG_NORMAL, "Whoa!  Creating %s at illegal loc (%d, %d)",
+    freelog(LOG_ERROR, "Whoa!  Creating %s at illegal loc (%d, %d)",
 	    get_unit_type(type)->name, x, y);
   }
   punit->goto_dest_x=0;
@@ -2656,7 +2656,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
     if (!j) break;
   }
   if (i==game.num_tech_types) {
-    freelog(LOG_NORMAL, "Bug in get_a_tech");
+    freelog(LOG_ERROR, "Bug in get_a_tech");
   }
   gamelog(GAMELOG_TECH,"%s acquire %s from %s",
           get_nation_name_plural(pplayer->nation),

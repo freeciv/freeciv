@@ -195,7 +195,7 @@ void handle_incite_inq(struct connection *pconn,
   struct packet_generic_values req;
 
   if (!pplayer) {
-    freelog(LOG_NORMAL, "Incite inquiry from non-player %s",
+    freelog(LOG_ERROR, "Incite inquiry from non-player %s",
 	    conn_description(pconn));
     return;
   }
@@ -421,7 +421,7 @@ void handle_unit_build_city(struct player *pplayer,
       }
       else {
 	/* this shouldn't happen? */
-	freelog(LOG_NORMAL, "Cannot add %s to %s for unknown reason",
+	freelog(LOG_ERROR, "Cannot add %s to %s for unknown reason",
 		unit_name, pcity->name);
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
 			 _("Game: cannot add %s to %s."),

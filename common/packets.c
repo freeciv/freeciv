@@ -352,7 +352,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return receive_packet_conn_info(pc);
 
   default:
-    freelog(LOG_NORMAL, "unknown packet type %d received from %s",
+    freelog(LOG_ERROR, "unknown packet type %d received from %s",
 	    type, conn_description(pc));
     remove_packet_from_buffer(pc->buffer);
     return NULL;
@@ -431,18 +431,18 @@ static void pack_iter_end(struct pack_iter *piter, struct connection *pc)
   }
   
   if (piter->bad_string) {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "received bad string in packet (type %d, len %d)%s",
 	    piter->type, piter->len, from);
   }
   if (piter->bad_bit_string) {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "received bad bit string in packet (type %d, len %d)%s",
 	    piter->type, piter->len, from);
   }
   
   if (rem < 0) {
-    freelog(LOG_NORMAL, "received short packet (type %d, len %d)%s",
+    freelog(LOG_ERROR, "received short packet (type %d, len %d)%s",
 	    piter->type, piter->len, from);
   } else if(rem > 0) {
     /* This may be ok, eg a packet from a newer version with extra info

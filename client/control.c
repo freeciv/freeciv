@@ -745,7 +745,7 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
   if (!pcity) return;
   if (!(action==PACKET_UNIT_ESTABLISH_TRADE
 	||(action==PACKET_UNIT_HELP_BUILD_WONDER))) {
-    freelog(LOG_NORMAL, "Bad action (%d) in request_unit_caravan_action",
+    freelog(LOG_ERROR, "Bad action (%d) in request_unit_caravan_action",
 	    action);
     return;
   }

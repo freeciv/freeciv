@@ -501,7 +501,7 @@ static void ai_manage_government(struct player *pplayer)
     }
     goal = subgoal;
     if (++failsafe > game.government_count) {
-      freelog(LOG_NORMAL, "Loop in ai_manage_government? (%s)",
+      freelog(LOG_ERROR, "Loop in ai_manage_government? (%s)",
 	      pplayer->name);
       return;
     }

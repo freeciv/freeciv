@@ -736,7 +736,7 @@ static int sset_is_changeable(int idx)
     /* These can always be changed: */
     return 1;
   default:
-    freelog(LOG_NORMAL, "Unexpected case %d in %s line %d",
+    freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
 	    op->sclass, __FILE__, __LINE__);
     return 0;
   }
@@ -1273,7 +1273,7 @@ static void cmd_reply_no_such_player(enum command_id cmd,
     cmd_reply(cmd, caller, C_FAIL,
 	      _("Unexpected match_result %d (%s) for '%s'."),
 	      match_result, _(m_pre_description(match_result)), name);
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "Unexpected match_result %d (%s) for '%s'.",
 	    match_result, m_pre_description(match_result), name);
   }
@@ -1308,7 +1308,7 @@ static void cmd_reply_no_such_conn(enum command_id cmd,
     cmd_reply(cmd, caller, C_FAIL,
 	      _("Unexpected match_result %d (%s) for '%s'."),
 	      match_result, _(m_pre_description(match_result)), name);
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	    "Unexpected match_result %d (%s) for '%s'.",
 	    match_result, m_pre_description(match_result), name);
   }
@@ -1667,7 +1667,7 @@ void read_init_script(char *script_filename)
     fclose(script_file);
 
   } else {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	_("Could not read script file '%s'."), script_filename);
   }
 }
@@ -1741,7 +1741,7 @@ static void write_init_script(char *script_filename)
     fclose(script_file);
 
   } else {
-    freelog(LOG_NORMAL,
+    freelog(LOG_ERROR,
 	_("Could not write script file '%s'."), script_filename);
   }
 }
@@ -1816,7 +1816,7 @@ static void rulesout_command(struct connection *caller, char *arg)
   default:
     cmd_reply(CMD_RULESOUT, caller, C_FAIL,
 	      "Internal error: ind %d in rulesout_command", ind);
-    freelog(LOG_NORMAL, "Internal error: ind %d in rulesout_command", ind);
+    freelog(LOG_ERROR, "Internal error: ind %d in rulesout_command", ind);
     return;
   }
   
@@ -2878,7 +2878,7 @@ static void show_help(struct connection *caller, char *arg)
   }
   
   /* should have finished by now */
-  freelog(LOG_NORMAL, "Bug in show_help!");
+  freelog(LOG_ERROR, "Bug in show_help!");
 
 #ifdef UNUSED
 #define cmd_reply_help(cmd,string) \
