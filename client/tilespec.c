@@ -2106,19 +2106,12 @@ static int fill_unit_sprite_array(struct drawn_sprite *sprs,
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
 
-  if (is_isometric) {
-    if (backdrop) {
+  if (backdrop) {
+    if (!solid_color_behind_units) {
       ADD_SPRITE(get_unit_nation_flag_sprite(punit),
 		 DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
-    }
-  } else {
-    if (backdrop) {
-      if (!solid_color_behind_units) {
-	ADD_SPRITE(get_unit_nation_flag_sprite(punit),
-		   DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
-      } else {
-	ADD_BG(player_color(unit_owner(punit)));
-      }
+    } else {
+      /* Taken care of in the LAYER_BACKGROUND. */
     }
   }
 
@@ -2981,6 +2974,10 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
    * if we're drawing on the mapview. */
   bool do_draw_unit = (punit && (draw_units || !ptile
 				 || (draw_focus_unit && pfocus == punit)));
+  bool solid_bg = (solid_color_behind_units
+		   && (do_draw_unit
+		       || (pcity && draw_cities)
+		       || (ptile && !draw_terrain)));
 
   if (citymode) {
     int count = 0, i, cx, cy;
@@ -3037,7 +3034,7 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
   case LAYER_TERRAIN2:
     /* Terrain and specials.  These are drawn in multiple layers so that
      * upper layers will cover layers underneath. */
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (ptile && !solid_bg && tile_get_known(ptile) != TILE_UNKNOWN) {
       assert(MAX_NUM_LAYERS == 2);
       sprs += fill_terrain_sprite_array(sprs,
 					(layer == LAYER_TERRAIN1) ? 0 : 1,
@@ -3047,7 +3044,7 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
 
   case LAYER_WATER:
     if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
-      if (is_ocean(ttype) && draw_terrain) {
+      if (is_ocean(ttype) && draw_terrain && !solid_bg) {
 	for (dir = 0; dir < 4; dir++) {
 	  if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
 	    ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
@@ -3058,7 +3055,7 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
       sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
 					   pcity);
 
-      if (draw_terrain && contains_special(tspecial, S_RIVER)) {
+      if (draw_terrain && !solid_bg && contains_special(tspecial, S_RIVER)) {
 	int i;
 
 	/* Draw rivers on top of irrigation. */

@@ -951,8 +951,9 @@ static void put_drawn_sprites(struct canvas *pcanvas,
     case DRAWN_BG:
       /*** Background color. ***/
       if (tileset_is_isometric()) {
-	canvas_fill_sprite_area(pcanvas, sprites.black_tile, COLOR_STD_BLACK,
-			    canvas_x, canvas_y);
+	canvas_fill_sprite_area(pcanvas, sprites.black_tile,
+				pdrawn[i].data.bg.color,
+				canvas_x, canvas_y);
 	if (fog) {
 	  canvas_fog_sprite_area(pcanvas, sprites.black_tile,
 				 canvas_x, canvas_y);
