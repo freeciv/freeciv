@@ -107,15 +107,9 @@ struct government
   int   free_food;
   int   free_gold;
   
-  /* government production penalties -- SKi */
-  int   trade_before_penalty;
-  int   shields_before_penalty;
-  int   food_before_penalty;
-
-  /* government production penalties when celebrating */
-  int   celeb_trade_before_penalty;
-  int   celeb_shields_before_penalty;
-  int   celeb_food_before_penalty;
+  /* government production penalties (when celebrating and when not) */
+  int output_before_penalty[O_MAX];
+  int celeb_output_before_penalty[O_MAX];
 
   /* government production bonuses -- SKi */
   int   trade_bonus;

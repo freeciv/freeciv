@@ -594,8 +594,9 @@ static int base_get_shields_tile(const struct tile *ptile,
 
   if (pcity) {
     struct government *g = get_gov_pcity(pcity);
-    int before_penalty = (is_celebrating ? g->celeb_shields_before_penalty
-			  : g->shields_before_penalty);
+    int before_penalty = (is_celebrating
+			  ? g->celeb_output_before_penalty[O_SHIELD]
+			  : g->output_before_penalty[O_SHIELD]);
 
     s += get_city_tile_bonus(pcity, ptile, EFT_PROD_ADD_TILE);
 
@@ -697,8 +698,9 @@ static int base_get_trade_tile(const struct tile *ptile,
    * Democracy/Republic [government in general now -- SKi] bonus  -AJS */
   if (pcity) {
     struct government *g = get_gov_pcity(pcity);
-    int before_penalty = (is_celebrating ? g->celeb_trade_before_penalty
-			  : g->trade_before_penalty);
+    int before_penalty = (is_celebrating
+			  ? g->celeb_output_before_penalty[O_TRADE]
+			  : g->output_before_penalty[O_TRADE]);
 
     t += get_city_tile_bonus(pcity, ptile, EFT_TRADE_ADD_TILE);
 
@@ -810,8 +812,9 @@ static int base_get_food_tile(const struct tile *ptile,
 
   if (pcity) {
     struct government *g = get_gov_pcity(pcity);
-    int before_penalty = (is_celebrating ? g->celeb_food_before_penalty
-			  : g->food_before_penalty);
+    int before_penalty = (is_celebrating
+			  ? g->celeb_output_before_penalty[O_FOOD]
+			  : g->output_before_penalty[O_FOOD]);
 
     f += get_city_tile_bonus(pcity, &tile, EFT_FOOD_ADD_TILE);
 

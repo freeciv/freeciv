@@ -2414,13 +2414,19 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->free_food           = p->free_food;
   gov->free_gold           = p->free_gold;
 
-  gov->trade_before_penalty   = p->trade_before_penalty;
-  gov->shields_before_penalty = p->shields_before_penalty;
-  gov->food_before_penalty    = p->food_before_penalty;
+  output_type_iterate(o) {
+    gov->output_before_penalty[o] = FC_INFINITY;
+    gov->celeb_output_before_penalty[o] = FC_INFINITY;
+  } output_type_iterate_end;
 
-  gov->celeb_trade_before_penalty   = p->celeb_trade_before_penalty;
-  gov->celeb_shields_before_penalty = p->celeb_shields_before_penalty;
-  gov->celeb_food_before_penalty    = p->celeb_food_before_penalty;
+  gov->output_before_penalty[O_TRADE] = p->trade_before_penalty;
+  gov->output_before_penalty[O_SHIELD] = p->shields_before_penalty;
+  gov->output_before_penalty[O_FOOD] = p->food_before_penalty;
+
+  gov->celeb_output_before_penalty[O_TRADE] = p->celeb_trade_before_penalty;
+  gov->celeb_output_before_penalty[O_SHIELD]
+    = p->celeb_shields_before_penalty;
+  gov->celeb_output_before_penalty[O_FOOD] = p->celeb_food_before_penalty;
 
   gov->trade_bonus         = p->trade_bonus;
   gov->shield_bonus        = p->shield_bonus;

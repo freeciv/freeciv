@@ -1862,19 +1862,16 @@ static void load_ruleset_governments(struct section_file *file)
     g->celeb_food_bonus
       = secfile_lookup_int(file, "%s.production_food_bonus,1", sec[i]);
 
-    g->trade_before_penalty
-      = secfile_lookup_int(file, "%s.production_trade_penalty", sec[i]);
-    g->shields_before_penalty
-      = secfile_lookup_int(file, "%s.production_shield_penalty", sec[i]);
-    g->food_before_penalty
-      = secfile_lookup_int(file, "%s.production_food_penalty", sec[i]);
-
-    g->celeb_trade_before_penalty
-      = secfile_lookup_int(file, "%s.production_trade_penalty,1", sec[i]);
-    g->celeb_shields_before_penalty
-      = secfile_lookup_int(file, "%s.production_shield_penalty,1", sec[i]);
-    g->celeb_food_before_penalty
-      = secfile_lookup_int(file, "%s.production_food_penalty,1", sec[i]);
+    output_type_iterate(o) {
+      g->output_before_penalty[o]
+	= secfile_lookup_int_default(file, FC_INFINITY,
+				     "%s.production_%s_penalty", sec[i],
+				     get_output_identifier(o));
+      g->celeb_output_before_penalty[o]
+	= secfile_lookup_int_default(file, FC_INFINITY,
+				     "%s.production_%s_penalty,1", sec[i],
+				     get_output_identifier(o));
+    } output_type_iterate_end;
     
     g->helptext = lookup_helptext(file, sec[i]);
   } government_iterate_end;
@@ -3029,13 +3026,14 @@ static void send_ruleset_governments(struct conn_list *dest)
     gov.free_food   = g->free_food;
     gov.free_gold   = g->free_gold;
 
-    gov.trade_before_penalty = g->trade_before_penalty;
-    gov.shields_before_penalty = g->shields_before_penalty;
-    gov.food_before_penalty = g->food_before_penalty;
+    gov.trade_before_penalty = g->output_before_penalty[O_TRADE];
+    gov.shields_before_penalty = g->output_before_penalty[O_SHIELD];
+    gov.food_before_penalty = g->output_before_penalty[O_FOOD];
 
-    gov.celeb_trade_before_penalty = g->celeb_trade_before_penalty;
-    gov.celeb_shields_before_penalty = g->celeb_shields_before_penalty;
-    gov.celeb_food_before_penalty = g->celeb_food_before_penalty;
+    gov.celeb_trade_before_penalty = g->celeb_output_before_penalty[O_TRADE];
+    gov.celeb_shields_before_penalty
+      = g->celeb_output_before_penalty[O_SHIELD];
+    gov.celeb_food_before_penalty = g->celeb_output_before_penalty[O_FOOD];
 
     gov.trade_bonus = g->trade_bonus;
     gov.shield_bonus = g->shield_bonus;
