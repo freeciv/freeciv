@@ -1368,7 +1368,7 @@ static void update_nation_page(struct packet_game_load *packet)
     send_chat(message);
     my_snprintf(message, sizeof(message), "/ai %s", user_name);
     send_chat(message);
-    my_snprintf(message, sizeof(message), "/take %s", user_name);
+    my_snprintf(message, sizeof(message), "/take \"%s\"", user_name);
     send_chat(message);
 
     /* create a false entry */
