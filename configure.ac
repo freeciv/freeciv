@@ -259,6 +259,7 @@ fi
 
 FC_DEBUG
 FC_VARIADIC_MACROS
+FC_VARIABLE_ARRAYS
 
 if test "$CVS_DEPS" = "maybe"; then
    dnl Should also check for gmake?
