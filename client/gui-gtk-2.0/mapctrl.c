@@ -71,6 +71,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
   int i;
   int popx, popy;
   struct unit *punit;
+  bool is_orders;
 
   if(tile_get_known(xtile, ytile) >= TILE_KNOWN_FOGGED) {
     p=gtk_window_new(GTK_WINDOW_POPUP);
@@ -79,6 +80,9 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(xtile, ytile)));
     
     punit = find_visible_unit(map_get_tile(xtile, ytile));
+
+    is_orders = show_unit_orders(punit);
+
     if (punit && is_goto_dest_set(punit)) {
       cross_head->x = goto_dest_x(punit);
       cross_head->y = goto_dest_y(punit);
@@ -94,7 +98,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     }
     g_signal_connect(p, "destroy",
 		     G_CALLBACK(popupinfo_popdown_callback),
-		     cross_list);
+		     GINT_TO_POINTER(is_orders));
 
     /* displace popup so as not to obscure it by the mouse cursor */
     popx= event->x_root + 16;
@@ -117,11 +121,12 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 **************************************************************************/
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 {
-  struct map_position *cross_list=(struct map_position *)data;
+  bool full = GPOINTER_TO_INT(data);
 
-  while (cross_list->x >= 0) {
-    refresh_tile_mapcanvas(cross_list->x, cross_list->y, TRUE);
-    cross_list++;
+  if (full) {
+    update_map_canvas_visible();
+  } else {
+    dirty_all();
   }
 }
 

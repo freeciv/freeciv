@@ -1194,6 +1194,49 @@ void show_city_descriptions(void)
   }
 }
 
+/****************************************************************************
+  Draw the goto route for the unit.  Return TRUE if anything is drawn.
+
+  This duplicates drawing code that is run during the hover state.
+****************************************************************************/
+bool show_unit_orders(struct unit *punit)
+{
+  if (punit && unit_has_orders(punit)) {
+    int unit_x = punit->x, unit_y = punit->y, i;
+
+    for (i = 0; i < punit->orders.length; i++) {
+      int index = (punit->orders.index + i) % punit->orders.length;
+      struct unit_order *order;
+
+      if (punit->orders.index + i >= punit->orders.length
+	  && !punit->orders.repeat) {
+	break;
+      }
+
+      order = &punit->orders.list[index];
+
+      switch (order->order) {
+      case ORDER_MOVE:
+	draw_segment(unit_x, unit_y, order->dir);
+	if (!MAPSTEP(unit_x, unit_y, unit_x, unit_y, order->dir)) {
+	  /* This shouldn't happen unless the server gives us invalid
+	   * data.  To avoid disaster we need to break out of the
+	   * switch and the enclosing for loop. */
+	  assert(0);
+	  i = punit->orders.length;
+	}
+	break;
+      default:
+	/* TODO: graphics for other orders. */
+	break;
+      }
+    }
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 /**************************************************************************
   Remove the line from src_x, src_y in the given direction, and redraw
   the change if necessary.

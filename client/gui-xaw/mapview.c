@@ -1054,8 +1054,6 @@ void draw_segment(int src_x, int src_y, int dir)
 {
   int dest_x, dest_y, is_real;
 
-  assert(get_drawn(src_x, src_y, dir) > 0);
-
   is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
   assert(is_real);
 

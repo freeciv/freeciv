@@ -177,6 +177,7 @@ void update_map_canvas(int x, int y, int width, int height,
 void update_map_canvas_visible(void);
 
 void show_city_descriptions(void);
+bool show_unit_orders(struct unit *punit);
 
 void undraw_segment(int src_x, int src_y, int dir);
 

@@ -105,6 +105,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
   int i;
   struct unit *punit;
   char *content;
+  static bool is_orders;
   
   if (tile_get_known(xtile, ytile)>=TILE_KNOWN_FOGGED) {
     Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass,
@@ -128,6 +129,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
     }
 
     punit = find_visible_unit(map_get_tile(xtile, ytile));
+    is_orders = show_unit_orders(punit);
     if (punit && is_goto_dest_set(punit)) {
       cross_head->x = goto_dest_x(punit);
       cross_head->y = goto_dest_y(punit);
@@ -162,7 +164,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
       put_cross_overlay_tile(cross_list[i].x,cross_list[i].y);
     }
     XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
-		  (XtPointer)cross_list);
+		  (XtPointer)&is_orders);
 
     XtPopupSpringLoaded(p);
   }
@@ -175,11 +177,12 @@ static void popit(int xin, int yin, int xtile, int ytile)
 void popupinfo_popdown_callback(Widget w, XtPointer client_data,
         XtPointer call_data)
 {
-  struct map_position *cross_list=(struct map_position *)client_data;
+  bool *full = client_data;
 
-  while (cross_list->x >= 0) {
-    refresh_tile_mapcanvas(cross_list->x, cross_list->y, TRUE);
-    cross_list++;
+  if (*full) {
+    update_map_canvas_visible();
+  } else {
+    dirty_all();
   }
 
   XtDestroyWidget(w);

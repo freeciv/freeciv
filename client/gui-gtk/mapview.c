@@ -1229,8 +1229,6 @@ static void really_draw_segment(int src_x, int src_y, int dir,
 **************************************************************************/
 void draw_segment(int src_x, int src_y, int dir)
 {
-  assert(get_drawn(src_x, src_y, dir) > 0);
-
   if (is_isometric) {
     really_draw_segment(src_x, src_y, dir, TRUE, FALSE);
   } else {
