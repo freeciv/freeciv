@@ -57,11 +57,12 @@ int wants_to_be_bigger(struct city *pcity);
 int worst_worker_tile_value(struct city *pcity);
 int best_worker_tile_value(struct city *pcity);
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
-			 struct city *pcity, struct city *vcity,
+			 struct unit_list *units, struct city *pcity,
+			 struct city *exclude_city,
 			 int kill_outside, int verbose);
 int civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);
-struct city *transfer_city(struct player *pplayer, struct player *cplayer,
+struct city *transfer_city(struct player *pplayer,
 			   struct city *pcity, int kill_outside,
 			   int transfer_unit_verbose, int resolve_stack, int raze);
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y,

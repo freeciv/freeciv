@@ -817,7 +817,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
      are within one square of the city) to the new owner.
      Remember that pcity is destroyed as part of the transfer,
      Which is why we do this last */
-  transfer_city (pplayer, cplayer, pcity, 1, 1, 1, 0);
+  transfer_city (pplayer, pcity, 1, 1, 1, 0);
 
   /* Update the players gold in the client */
   send_player_info(pplayer, pplayer);

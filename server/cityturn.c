@@ -1809,7 +1809,7 @@ static void disband_city(struct city *pcity)
 	      pcity->id, -1);
 
   /* shift all the units supported by pcity (including the new settler) to rcity */
-  transfer_city_units(pplayer, pplayer, rcity, pcity, -1, 1);
+  transfer_city_units(pplayer, pplayer, &pcity->units_supported, rcity, pcity, -1, 1);
 
   notify_player_ex(pplayer, x, y, E_UNIT_BUILD,
 		   _("Game: %s is disbanded into %s."), 

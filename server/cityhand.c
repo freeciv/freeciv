@@ -53,7 +53,6 @@
 
 static void package_dumb_city(struct player* pplayer, int x, int y,
 			      struct packet_short_city *packet);
-static void remove_trade_route(int c1, int c2); 
 static void send_adjacent_cities(struct city *pcity);
 
 char **misc_city_names; 
@@ -890,7 +889,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 /**************************************************************************
 ...
 **************************************************************************/
-static void remove_trade_route(int c1, int c2) 
+void remove_trade_route(int c1, int c2) 
 {
   int i;
   struct city *pc1, *pc2;
@@ -904,7 +903,7 @@ static void remove_trade_route(int c1, int c2)
   }
   if (pc2) {
     for (i=0;i<4;i++)
-      if (pc2->trade[i]==c2)
+      if (pc2->trade[i]==c1)
 	pc2->trade[i]=0;
   }
 }
@@ -993,26 +992,6 @@ void update_map_with_city_workers(struct city *pcity)
 	if (pcity->city_map[x][y] == C_TILE_WORKER)
 	       set_worker_city(pcity, x, y, C_TILE_WORKER);
        }
-}
-
-/**************************************************************************
-The following has to be called every time a city, pcity, has changed
-owner to update the city's traderoutes.
-**************************************************************************/
-void reestablish_city_trade_routes(struct city *pcity) 
-{
-  int i;
-  struct city *oldtradecity;
-
-  for (i=0;i<4;i++) {
-    if (pcity->trade[i]) {
-      oldtradecity=find_city_by_id(pcity->trade[i]);
-      pcity->trade[i]=0;
-      if (can_establish_trade_route(pcity, oldtradecity)) {   
-         establish_trade_route(pcity, oldtradecity);
-      }
-    }
-  }
 }
 
 /**************************************************************************

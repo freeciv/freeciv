@@ -281,17 +281,8 @@ void handle_city_info(struct packet_city_info *packet)
   pcity=find_city_by_id(packet->id);
 
   if (pcity && (pcity->owner != packet->owner)) {
-    /* With current server, this shouldn't happen: when city changes
-     * owner it is re-created with a new id.  Unclear what to do here;
-     * try to cope...
-     */
-    freelog(LOG_ERROR,
-	    "Got existing city id (%d %s) with wrong owner (%d %s, old %d %s)",
-	    packet->id, pcity->name, packet->owner,
-	    get_player(packet->owner)->name, pcity->owner,
-	    get_player(pcity->owner)->name);
     client_remove_city(pcity);
-    pcity = 0;
+    pcity = NULL;
   }
 
   if(!pcity) {
@@ -330,7 +321,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->ppl_taxman=packet->ppl_taxman;
 
   pcity->city_options=packet->city_options;
-  
+
   for (i=0;i<4;i++)  {
     pcity->trade[i]=packet->trade[i];
     pcity->trade_value[i]=packet->trade_value[i];
@@ -498,15 +489,6 @@ void handle_short_city(struct packet_short_city *packet)
   pcity=find_city_by_id(packet->id);
 
   if (pcity && (pcity->owner != packet->owner)) {
-    /* With current server, this shouldn't happen: when city changes
-     * owner it is re-created with a new id.  Unclear what to do here;
-     * try to cope...
-     */
-    freelog(LOG_ERROR,
-	    "Got existing city id (%d %s) with wrong owner (%d %s, old %d %s)",
-	    packet->id, pcity->name, packet->owner,
-	    get_player(packet->owner)->name, pcity->owner,
-	    get_player(pcity->owner)->name);
     client_remove_city(pcity);
     pcity = 0;
   }
