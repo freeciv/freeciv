@@ -500,6 +500,11 @@ building, then it'll be automatically sold.
 ---
 # Airport
 Allows a city to produce veteran air units.
+
+Two cities with airports can airlift one unit per turn. 
+Airlifting instantly transports the unit from one city to another
+and will use all of the unit's MP.  A unit must have some MP left
+to be airlifted.
 ---
 # Aqueduct
 Allows a city to grow larger than size 8.
