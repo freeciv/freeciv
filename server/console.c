@@ -142,25 +142,6 @@ void con_puts(int i, const char *str)
 }
 
 /************************************************************************
-For rfc-specific information only.
-Adds line-break, and shows prompt if required.
-************************************************************************/
-void con_rfconly(int i, const char *message, ...)
-{
-  static char buf[MAX_LEN_CONSOLE_LINE];
-  va_list args;
-  
-  va_start(args, message);
-  my_vsnprintf(buf, sizeof(buf), message, args);
-  va_end(args);
-  
-  if ((console_rfcstyle) && (i >= 0))
-    printf("%.3d %s\n", i, buf);
-  console_prompt_is_showing = FALSE;
-  con_update_prompt();
-}
-
-/************************************************************************
 Ensure timely update. 
 ************************************************************************/
 void con_flush(void)

@@ -16,39 +16,55 @@
 #include "attribute.h"
 #include "shared.h"		/* bool type */
 
-#define MAX_LEN_CONSOLE_LINE 512
-				/* closing \0 included */
-#define C_IGNORE -1		/* never print RFC-style number prefix */
-#define C_COMMENT 0 		/* for human eyes only */
-#define C_VERSION 1		/* version info */
-#define C_DEBUG	2		/* debug info */
-#define C_LOG_BASE 10		/* 10, 11, 12 depending on log level */
-#define C_OK 100		/* success of requested operation */
-#define C_CONNECTION 101	/* new client */
-#define C_DISCONNECTED 102	/* client gone */
-#define C_REJECTED 103		/* client rejected */
-#define C_FAIL 200		/* failure of requested operation */ 
-#define C_METAERROR 201		/* failure of meta server */
-#define C_SYNTAX 300		/* syntax error or value out of range */
-#define C_BOUNCE 301		/* option no longer available */
-#define C_GENFAIL 400		/* failure not caused by a requested operation */
-#define C_WARNING 500		/* something may be wrong */
-#define C_READY 999		/* waiting for input */
+#define MAX_LEN_CONSOLE_LINE 512	/* closing \0 included */
+
+/* 
+ * A note on "rfc-style":
+ *
+ * This style of server output, started with the /rfcstyle server
+ * command, prefixes all output with a status number. This is similar
+ * to how some common ascii based internet protocols like FTP and SMTP
+ * work. A parser can check these numbers to determine whether an
+ * action was successful or not, instead of attempting to parse the
+ * text (which can be translated into various languages and easily
+ * change between versions). This status number is given to the output
+ * functions below as their first parameter, or to cmd_reply* as their
+ * third parameter.
+ */
+
+enum rfc_status {
+  C_IGNORE = -1,                /* never print RFC-style number prefix */
+  C_COMMENT = 0,                /* for human eyes only */
+  C_VERSION = 1,                /* version info */
+  C_DEBUG = 2,                  /* debug info */
+  C_LOG_BASE = 10,              /* 10, 11, 12 depending on log level */
+  C_OK = 100,                   /* success of requested operation */
+  C_CONNECTION = 101,           /* new client */
+  C_DISCONNECTED = 102,         /* client gone */
+  C_REJECTED = 103,             /* client rejected */
+  C_FAIL = 200,                 /* failure of requested operation */
+  C_METAERROR = 201,            /* failure of meta server */
+  C_SYNTAX = 300,               /* syntax error or value out of range */
+  C_BOUNCE = 301,               /* option no longer available */
+  C_GENFAIL = 400,              /* failure not caused by a requested operation */
+  C_WARNING = 500,              /* something may be wrong */
+  C_READY = 999                 /* waiting for input */
+};
 
 /* initialize logging via console */
 void con_log_init(const char *log_filename, int log_level);
 
 /* write to console without line-break, don't print prompt */
-int con_dump(int i, const char *message, ...)
+int con_dump(enum rfc_status rfc_status, const char *message, ...)
      fc__attribute((format (printf, 2, 3)));
 
 /* write to console and add line-break, and show prompt if required. */
-void con_write(int i, const char *message, ...)
+void con_write(enum rfc_status rfc_status, const char *message, ...)
      fc__attribute((format (printf, 2, 3)));
 
 /* write to console and add line-break, and show prompt if required.
    ie, same as con_write, but without the format string stuff. */
-void con_puts(int i, const char *str);
+void con_puts(enum rfc_status rfc_status, const char *str);
      
 /* ensure timely update */
 void con_flush(void);
@@ -68,14 +84,10 @@ void con_prompt_enter(void);
 /* clear "user pressed enter" state (used in special cases) */
 void con_prompt_enter_clear(void);
 
-/* set rfc-style */
+/* set server output style */
 void con_set_style(bool i);
 
-/* return rfc-style */
+/* return server output style */
 bool con_get_style(void);
-
-/* for rfc-specific information only */
-void con_rfconly(int i, const char *message, ...)
-     fc__attribute((format (printf, 2, 3)));
 
 #endif  /* FC__CONSOLE_H */

@@ -974,7 +974,6 @@ enum command_id {
 
   /* undocumented */
   CMD_RFCSTYLE,
-  CMD_FREESTYLE,
 
   /* pseudo-commands: */
   CMD_NUM,		/* the number of commands - for iterations */
@@ -1246,11 +1245,7 @@ static const struct command commands[] = {
   },
   {"rfcstyle",	ALLOW_HACK,
    "rfcstyle",
-   N_("Change server output style to 'RFC-style'."), NULL
-  },
-  {"freestyle",	ALLOW_HACK,
-   "freestyle",
-   N_("Change server output style to normal style."), NULL
+   N_("Switch server output between 'RFC-style' and normal style."), NULL
   }
 };
 
@@ -1352,12 +1347,12 @@ static bool may_view_option(struct connection *caller, int option_idx)
   feedback related to server commands
   caller == NULL means console.
   No longer duplicate all output to console.
-  'console_id' should be one of the C_ identifiers in console.h
 
   This lowlevel function takes a single line; prefix is prepended to line.
 **************************************************************************/
 static void cmd_reply_line(enum command_id cmd, struct connection *caller,
-			   int console_id, const char *prefix, const char *line)
+			   enum rfc_status rfc_status, const char *prefix,
+			   const char *line)
 {
   char *cmdname = cmd < CMD_NUM ? commands[cmd].name :
                   cmd == CMD_AMBIGUOUS ? _("(ambiguous)") :
@@ -1367,10 +1362,10 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
   if (caller) {
     notify_conn(&caller->self, "/%s: %s%s", cmdname, prefix, line);
     /* cc: to the console - testing has proved it's too verbose - rp
-    con_write(console_id, "%s/%s: %s%s", caller->name, cmdname, prefix, line);
+    con_write(rfc_status, "%s/%s: %s%s", caller->name, cmdname, prefix, line);
     */
   } else {
-    con_write(console_id, "%s%s", prefix, line);
+    con_write(rfc_status, "%s%s", prefix, line);
   }
 }
 /**************************************************************************
@@ -1378,7 +1373,7 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
   separately. 'prefix' is prepended to every line _after_ the first line.
 **************************************************************************/
 static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
-			      int console_id, const char *prefix,
+			      enum rfc_status rfc_status, const char *prefix,
 			      const char *format, va_list ap)
 {
   char buf[4096];
@@ -1389,40 +1384,40 @@ static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
   c0 = buf;
   while ((c1=strstr(c0, "\n"))) {
     *c1 = '\0';
-    cmd_reply_line(cmd, caller, console_id, (c0==buf?"":prefix), c0);
+    cmd_reply_line(cmd, caller, rfc_status, (c0==buf?"":prefix), c0);
     c0 = c1+1;
   }
-  cmd_reply_line(cmd, caller, console_id, (c0==buf?"":prefix), c0);
+  cmd_reply_line(cmd, caller, rfc_status, (c0==buf?"":prefix), c0);
 }
 /**************************************************************************
   var-args version of above
   duplicate declaration required for attribute to work...
 **************************************************************************/
 static void cmd_reply_prefix(enum command_id cmd, struct connection *caller,
-			     int console_id, const char *prefix,
+			     enum rfc_status rfc_status, const char *prefix,
 			     const char *format, ...)
      fc__attribute((format (printf, 5, 6)));
 static void cmd_reply_prefix(enum command_id cmd, struct connection *caller,
-			     int console_id, const char *prefix,
+			     enum rfc_status rfc_status, const char *prefix,
 			     const char *format, ...)
 {
   va_list ap;
   va_start(ap, format);
-  vcmd_reply_prefix(cmd, caller, console_id, prefix, format, ap);
+  vcmd_reply_prefix(cmd, caller, rfc_status, prefix, format, ap);
   va_end(ap);
 }
 /**************************************************************************
   var-args version as above, no prefix
 **************************************************************************/
 static void cmd_reply(enum command_id cmd, struct connection *caller,
-		      int console_id, const char *format, ...)
+		      enum rfc_status rfc_status, const char *format, ...)
      fc__attribute((format (printf, 4, 5)));
 static void cmd_reply(enum command_id cmd, struct connection *caller,
-		      int console_id, const char *format, ...)
+		      enum rfc_status rfc_status, const char *format, ...)
 {
   va_list ap;
   va_start(ap, format);
-  vcmd_reply_prefix(cmd, caller, console_id, "", format, ap);
+  vcmd_reply_prefix(cmd, caller, rfc_status, "", format, ap);
   va_end(ap);
 }
 
@@ -3159,11 +3154,8 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_WRITE_SCRIPT:
     write_command(caller,arg);
     break;
-  case CMD_RFCSTYLE:	/* undocumented */
-    con_set_style(TRUE);
-    break;
-  case CMD_FREESTYLE:	/* undocumented */
-    con_set_style(FALSE);
+  case CMD_RFCSTYLE:	/* see console.h for an explanation */
+    con_set_style(!con_get_style());
     break;
   case CMD_CMDLEVEL:
     cmdlevel_command(caller,arg);
