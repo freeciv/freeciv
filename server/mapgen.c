@@ -870,6 +870,7 @@ void fillisland(int xp, int yp)
 	}
 	if (map_get_terrain(x,y) == T_GRASSLAND ){ 
 	  map_set_terrain(x,y, T_RIVER); mixed--;
+	  rivers--;
 	}
 	else 
 	  break;
@@ -892,6 +893,7 @@ void fillisland(int xp, int yp)
 	}
 	if (map_get_terrain(x,y) == T_GRASSLAND ){
 	  map_set_terrain(x,y, T_RIVER); mixed--;
+	  rivers--;
 	}
 	else
 	  break;
