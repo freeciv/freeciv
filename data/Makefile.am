@@ -1,11 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
-
-pkgdata_DATA = Freeciv	\
+pkgdata_DATA = \
+	Freeciv	\
+	freeciv.rc	\
 	engels.tilespec	\
 	engels_shields.tilespec	\
-	trident.tilespec \
-	trident_shields.tilespec \
+	trident.tilespec	\
+	trident_shields.tilespec	\
 	helpdata.txt	\
 	civ1.serv	\
 	civ2.serv

@@ -102,7 +102,7 @@ VERSION = @VERSION@
 gui_sources = @gui_sources@
 l = @l@
 
-pkgdata_DATA = Freeciv		engels.tilespec		engels_shields.tilespec		trident.tilespec 	trident_shields.tilespec 	helpdata.txt		civ1.serv		civ2.serv
+pkgdata_DATA =  	Freeciv		freeciv.rc		engels.tilespec		engels_shields.tilespec		trident.tilespec		trident_shields.tilespec		helpdata.txt		civ1.serv		civ2.serv
 
 
 EXTRA_DIST = $(pkgdata_DATA)
