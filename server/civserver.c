@@ -866,19 +866,27 @@ void send_select_race(struct player *pplayer)
 
 void ai_select_race (struct player *pplayer) 
 {
-   static int race = R_ROMAN - 1;
-   int ok = 0, i;
-   
-   while (!ok && (race < R_LAST)) {
-      ok = 1;
-      race++;
-      for (i = 0; i<game.nplayers; i++)
-	if (game.players[i].race == race) {
-	   ok = 0;
-	   break;
-	}
+/* rewrite by Syela */
+   int race, i = 0, try = 0;
+
+   for (race = 0; race < R_LAST; race++) {
+     if (!strcmp(pplayer->name, default_race_leader_names[race])) {
+       for (i = 0; i < game.nplayers; i++) {
+         if (game.players[i].race == race) break;
+       }
+       if (i == game.nplayers) break;
+     }
    }
-   if (race == R_LAST) {
+
+   while (i < game.nplayers && try < 999) {
+     race = myrand(R_LAST);
+     for (i = 0; i < game.nplayers; i++) {
+       if (game.players[i].race == race) break;
+     }
+     try++;
+   }
+
+   if (try >= 999) {
       log(LOG_FATAL, "Argh! ran out of races!");
       exit(1);
    }
