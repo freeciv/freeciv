@@ -182,7 +182,7 @@ Try --with-included-gettext or --disable-nls. Read ABOUT-NLS.)
 const char *version = "$xgettext_version";
 int main()
 {
-  char *p = version;
+  const char *p = version;
   int major = 0, minor = 0, patch = 0;
 
   while (*p != '\0' && (*p < '0' || *p > '9')) {
@@ -218,7 +218,7 @@ const char *version = "$msgfmt_version";
 
 int main()
 {
-  char *p = version;
+  const char *p = version;
   int major = 0, minor = 0, patch = 0;
 
   while (*p != '\0' && (*p < '0' || *p > '9')) {
