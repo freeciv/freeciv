@@ -1326,13 +1326,17 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	send_spaceship_info(pplayer, 0);
       } else {
 	city_refresh(pcity);
-	/* If there's something in the worklist, change the build target. */
-	if (!worklist_change_build_target(pplayer, pcity)) {
-	  /* Fall back to the good old ways. */
-	  freelog(LOG_DEBUG, "Trying advisor_choose_build.");
-	  advisor_choose_build(pplayer, pcity);
-	  freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
-	}
+      }
+      /* If there's something in the worklist, change the build target.
+       * Else if just built a spaceship part, keep building the same part.
+       * (Fixme? - doesn't check whether spaceship part is still sensible.)
+       * Else co-opt AI routines as "city advisor".
+       */
+      if (!worklist_change_build_target(pplayer, pcity) && !space_part) {
+	/* Fall back to the good old ways. */
+	freelog(LOG_DEBUG, "Trying advisor_choose_build.");
+	advisor_choose_build(pplayer, pcity);
+	freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
       }
     } 
   } else {
