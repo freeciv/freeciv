@@ -1046,6 +1046,7 @@ void create_city(struct player *pplayer, const int x, const int y,
   pcity->ai.danger = 0;
   pcity->ai.urgency = 0;
   pcity->ai.grave_danger = 0;
+  pcity->ai.already_considered_for_diplomat = FALSE;
   pcity->corruption = 0;
   pcity->shield_bonus = 100;
   pcity->tax_bonus = 100;
