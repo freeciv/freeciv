@@ -700,6 +700,8 @@ static struct settings_s settings[] = {
     NULL, NULL }
 };
 
+#define SETTINGS_NUM ((sizeof(settings)/sizeof(settings[0]))-1)
+
 /********************************************************************
 Returns whether the specified server setting (option) can currently
 be changed.  Does not indicate whether it can be changed by clients or not.
@@ -2749,36 +2751,47 @@ static void show_help_command_list(struct player *caller,
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
 }
 
-#define H_ARG_COMMANDS  (CMD_NUM)
-#define H_ARG_OPTIONS   ((CMD_NUM)+1)
-#define H_ARG_OPT_START ((CMD_NUM)+2)
+/**************************************************************************
+  Additional 'help' arguments
+**************************************************************************/
+enum HELP_GENERAL_ARGS { HELP_GENERAL_COMMANDS, HELP_GENERAL_OPTIONS,
+			 HELP_GENERAL_NUM /* Must be last */ };
+static const char * const help_general_args[] = {
+  "commands", "options", NULL
+};
 
 /**************************************************************************
- 0 to CMD_NUM-1 are commands, then "commands", "options", then options.
+  Unified indices for help arguments:
+    CMD_NUM           -  Server commands
+    HELP_GENERAL_NUM  -  General help arguments, above
+    SETTINGS_NUM      -  Server options 
+**************************************************************************/
+#define HELP_ARG_NUM (CMD_NUM + HELP_GENERAL_NUM + SETTINGS_NUM)
+
+/**************************************************************************
+  Convert unified helparg index to string; see above.
 **************************************************************************/
 static const char *helparg_accessor(int i) {
-  if (i<CMD_NUM)         return cmdname_accessor(i);
-  if (i==H_ARG_COMMANDS) return "commands";
-  if (i==H_ARG_OPTIONS)  return "options";
-  return optname_accessor(i-H_ARG_OPT_START);
+  if (i<CMD_NUM)
+    return cmdname_accessor(i);
+  i -= CMD_NUM;
+  if (i<HELP_GENERAL_NUM)
+    return help_general_args[i];
+  i -= HELP_GENERAL_NUM;
+  return optname_accessor(i);
 }
 /**************************************************************************
 ...
 **************************************************************************/
 static void show_help(struct player *caller, char *arg)
 {
-  static int num_opt = 0;	/* number of options */
-  int num_args;			/* number of valid args */
-  int ind;
   enum m_pre_result match_result;
+  int ind;
 
-  while (settings[num_opt].name!=NULL) num_opt++;
-  num_args = num_opt + CMD_NUM + 2;
-  
   assert(!may_use_nothing(caller));
     /* no commands means no help, either */
 
-  match_result = match_prefix(helparg_accessor, num_args, 0,
+  match_result = match_prefix(helparg_accessor, HELP_ARG_NUM, 0,
 			      mystrncasecmp, arg, &ind);
 
   if (match_result==M_PRE_EMPTY) {
@@ -2799,20 +2812,24 @@ static void show_help(struct player *caller, char *arg)
   /* other cases should be above */
   assert(match_result < M_PRE_AMBIGUOUS);
   
-  if (ind == H_ARG_OPTIONS) {
+  if (ind < CMD_NUM) {
+    show_help_command(caller, CMD_HELP, ind);
+    return;
+  }
+  ind -= CMD_NUM;
+  
+  if (ind == HELP_GENERAL_OPTIONS) {
     show_help_option_list(caller, CMD_HELP);
     return;
   }
-  if (ind == H_ARG_COMMANDS) {
+  if (ind == HELP_GENERAL_COMMANDS) {
     show_help_command_list(caller, CMD_HELP);
     return;
   }
-  if (ind >= H_ARG_OPT_START) {
-    show_help_option(caller, CMD_HELP, ind-H_ARG_OPT_START);
-    return;
-  }
-  if (ind < CMD_NUM) {
-    show_help_command(caller, CMD_HELP, ind);
+  ind -= HELP_GENERAL_NUM;
+  
+  if (ind < SETTINGS_NUM) {
+    show_help_option(caller, CMD_HELP, ind);
     return;
   }
   
@@ -2968,13 +2985,8 @@ static void show_players(struct player *caller)
    I have created one array per type of completion with the commands that
    the type is relevant for.
    All this could be done more generally, but it works now and is fairly
-   simple.
-   If there were a command that could use completions from two of these
-   types (say, you could issue the command followed by either a filenames
-   or a player names) it would not currently be possible. Currently only
-   "help" needs this. A quick change would do it for help, but I don't
-   feel it would be more user friendly. A generel framework would be a lot
-   of work. */
+   simple.  (Thue)
+*/
 
 /**************************************************************************
 The valid commands at the root of the prompt.
@@ -3121,18 +3133,11 @@ static char *cmdlevel_generator(char *text, int state)
 }
 
 /**************************************************************************
-Additional 'help' options
-**************************************************************************/
-char *help_general_options[] = {
-  "commands", "options", NULL
-};
-
-/**************************************************************************
 ...
 **************************************************************************/
 static char *help_generator(char *text, int state)
 {
-  static int list_index, len, try_commands;
+  static int list_index, len;
   const char *name;
 
   /* If this is a new word to complete, initialize now.  This includes
@@ -3141,43 +3146,15 @@ static char *help_generator(char *text, int state)
   if (!state) {
     list_index = 0;
     len = strlen (text);
-    try_commands = 1;
   }
 
-  /* Return the next name which partially matches from the command list. */
-  if (try_commands > 0) {
-    while (list_index < CMD_NUM) {
-      name = commands[list_index].name;
-      list_index++;
-
-      if (mystrncasecmp (name, text, len) == 0)
-	return mystrdup(name);
-    }
-    try_commands = 0;
-    list_index = 0;
-  }
-
-  if (!try_commands) {
-  /* Return the next name which partially matches from the settings list. */
-    while ((name = settings[list_index].name)) {
-      list_index++;
-
-      if (mystrncasecmp (name, text, len) == 0)
-	return mystrdup(name);
-    }
-    try_commands = -1;
-    list_index = 0;
-  }
-  
-  if (try_commands < 0) {
-  /* Return the 'commands' or 'options' which partially matches. */
-    while ((name = help_general_options[list_index])) {
-      list_index++;
-
-      if (mystrncasecmp (name, text, len) == 0) {
-	return mystrdup(name);
-      }
-    }
+  /* Return the next name which partially matches from the helparg list. */
+  while (list_index < HELP_ARG_NUM) {
+    name = helparg_accessor(list_index);
+    list_index++;
+    
+    if (mystrncasecmp (name, text, len) == 0)
+      return mystrdup(name);
   }
 
   /* If no names matched, then return NULL. */
