@@ -3170,6 +3170,13 @@ void game_load(struct section_file *file)
   } else {
     /* mark it */
     (void) secfile_lookup_bool_default(file, TRUE, "game.save_random");
+
+    /* We're loading a running game without a seed (which is okay, if it's
+     * a scenario).  We need to generate the game seed now because it will
+     * be needed later during the load. */
+    if (tmp_server_state == RUN_GAME_STATE) {
+      init_game_seed();
+    }
   }
 
 

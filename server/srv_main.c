@@ -145,6 +145,22 @@ static unsigned char used_ids[8192]={0};
 static bool has_been_srv_init = FALSE;
 
 /**************************************************************************
+  Initialize the game seed.  This may safely be called multiple times.
+**************************************************************************/
+void init_game_seed(void)
+{
+  if (game.randseed == 0) {
+    /* We strip the high bit for now because neither game file nor
+       server options can handle unsigned ints yet. - Cedric */
+    game.randseed = time(NULL) & (MAX_UINT32 >> 1);
+  }
+ 
+  if (!myrand_is_init()) {
+    mysrand(game.randseed);
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void srv_init(void)
@@ -1681,15 +1697,7 @@ main_start_players:
     }
   }
 
-  if (game.randseed == 0) {
-    /* We strip the high bit for now because neither game file nor
-       server options can handle unsigned ints yet. - Cedric */
-    game.randseed = time(NULL) & (MAX_UINT32 >> 1);
-  }
- 
-  if (!myrand_is_init()) {
-    mysrand(game.randseed);
-  }
+  init_game_seed();
 
 #ifdef TEST_RANDOM /* not defined anywhere, set it if you want it */
   test_random1(200);

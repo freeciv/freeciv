@@ -52,6 +52,7 @@ struct server_arguments {
   bool auth_allow_newusers;     /* defaults to TRUE */
 };
 
+void init_game_seed(void);
 void srv_init(void);
 void srv_main(void);
 void server_quit(void);
