@@ -744,7 +744,7 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
 /*      y = map_adjust_y(pcity->y + j - 2);     Pernicious! */
       y = pcity->y + j - 2;
       if (map_get_continent(x, y) == co &&
-          (y >= 0 && y < map.xsize) &&
+          (y >= 0 && y < map.ysize) &&
           warmap.cost[x][y] <= THRESHOLD * m &&
           (territory[x][y]&(1<<n)) && /* pretty good, hope it's enough! -- Syela */
           !is_already_assigned(punit, pplayer, x, y)) {
@@ -1104,7 +1104,7 @@ void assign_settlers()
 {
   int i, x, y;
   for (x = 0; x < map.xsize; x++)
-    for (y = 0; y < map.xsize; y++)
+    for (y = 0; y < map.ysize; y++)
       map_get_tile(x, y)->assigned = 0;
 
   for (i = 0; i < game.nplayers; i++) {
@@ -1152,7 +1152,7 @@ void assign_territory()
 { /* this funct is supposed to keep settlers out of enemy territory -- Syela */
   int i, x, y;
   for (x = 0; x < map.xsize; x++)
-    for (y = 0; y < map.xsize; y++)
+    for (y = 0; y < map.ysize; y++)
       territory[x][y] = 65535;
 
   for (i = 0; i < game.nplayers; i++) {
