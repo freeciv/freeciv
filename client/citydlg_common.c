@@ -173,10 +173,12 @@ void city_dialog_redraw_map(struct city *pcity,
 		       get_citydlg_canvas_width(),
 		       get_citydlg_canvas_height());
 
-  citydlg_known_iterate(pcity, city_x, city_y,
-			ptile, canvas_x, canvas_y) {
-    put_one_tile(pcanvas, ptile, canvas_x, canvas_y, TRUE);
-  } citydlg_known_iterate_end;
+  mapview_layer_iterate(layer) {
+    citydlg_known_iterate(pcity, city_x, city_y,
+			  ptile, canvas_x, canvas_y) {
+      put_one_tile(pcanvas, layer, ptile, canvas_x, canvas_y, TRUE);
+    } citydlg_known_iterate_end;
+  } mapview_layer_iterate_end;
 
   /* We have to put the output afterwards or it will be covered
    * in iso-view. */

@@ -873,11 +873,15 @@ void put_unit(struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
-  int count = fill_sprite_array(drawn_sprites, NULL, punit, NULL, FALSE);
 
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
-  put_drawn_sprites(pcanvas, canvas_x, canvas_y,
-		    count, drawn_sprites, FALSE);
+  mapview_layer_iterate(layer) {
+    int count = fill_sprite_array(drawn_sprites, layer,
+				  NULL, punit, NULL, FALSE);
+
+    put_drawn_sprites(pcanvas, canvas_x, canvas_y,
+		      count, drawn_sprites, FALSE);
+  } mapview_layer_iterate_end;
 }
 
 /**************************************************************************
@@ -888,11 +892,15 @@ void put_city(struct city *pcity,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
-  int count = fill_sprite_array(drawn_sprites, NULL, NULL, pcity, FALSE);
 
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
-  put_drawn_sprites(pcanvas, canvas_x, canvas_y,
-		    count, drawn_sprites, FALSE);
+  mapview_layer_iterate(layer) {
+    int count = fill_sprite_array(drawn_sprites, layer,
+				  NULL, NULL, pcity, FALSE);
+
+    put_drawn_sprites(pcanvas, canvas_x, canvas_y,
+		      count, drawn_sprites, FALSE);
+  } mapview_layer_iterate_end;
 }
 
 /**************************************************************************
@@ -904,12 +912,16 @@ void put_terrain(struct tile *ptile,
 		 struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
-  int count = fill_sprite_array(drawn_sprites, ptile, NULL, NULL, FALSE);
 
   /* Use full tile height, even for terrains. */
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
-  put_drawn_sprites(pcanvas, canvas_x, canvas_y,
-		    count, drawn_sprites, FALSE);
+  mapview_layer_iterate(layer) {
+    int count = fill_sprite_array(drawn_sprites, layer,
+				  ptile, NULL, NULL, FALSE);
+
+    put_drawn_sprites(pcanvas, canvas_x, canvas_y,
+		      count, drawn_sprites, FALSE);
+  } mapview_layer_iterate_end;
 }
 
 /****************************************************************************
@@ -1416,11 +1428,12 @@ void tile_draw_grid(struct canvas *pcanvas, struct tile *ptile,
 /**************************************************************************
   Draw some or all of a tile onto the canvas.
 **************************************************************************/
-void put_one_tile(struct canvas *pcanvas, struct tile *ptile,
+void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
+		  struct tile *ptile,
 		  int canvas_x, int canvas_y, bool citymode)
 {
   struct drawn_sprite tile_sprs[80];
-  int count = fill_sprite_array(tile_sprs, ptile,
+  int count = fill_sprite_array(tile_sprs, layer, ptile,
 				get_drawable_unit(ptile, citymode),
 				ptile->city, citymode);
   bool fog = (ptile->known == TILE_KNOWN_FOGGED && draw_fog_of_war
@@ -1486,16 +1499,18 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
 		       canvas_x, canvas_y, width, height);
 
-  gui_rect_iterate(gui_x0, gui_y0, width,
-		   height + (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : 0),
-		   ptile) {
-    int cx, cy;
+  mapview_layer_iterate(layer) {
+    gui_rect_iterate(gui_x0, gui_y0, width,
+		     height + (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : 0),
+		     ptile) {
+      int cx, cy;
 
-    if (tile_get_known(ptile) != TILE_UNKNOWN
-	&& tile_to_canvas_pos(&cx, &cy, ptile)) {
-      put_one_tile(mapview_canvas.store, ptile, cx, cy, FALSE);
-    }
-  } gui_rect_iterate_end;
+      if (tile_get_known(ptile) != TILE_UNKNOWN
+	  && tile_to_canvas_pos(&cx, &cy, ptile)) {
+	put_one_tile(mapview_canvas.store, layer, ptile, cx, cy, FALSE);
+      }
+    } gui_rect_iterate_end;
+  } mapview_layer_iterate_end;
 
   /* Draw the goto lines on top of the whole thing. This is done last as
    * we want it completely on top.

@@ -57,6 +57,38 @@ struct drawn_sprite {
   } data;
 };
 
+/* Items on the mapview are drawn in layers.  Each entry below represents
+ * one layer.  The names are basically arbitrary and just correspond to
+ * groups of elements in fill_sprite_array().  Callers of fill_sprite_array
+ * must call it once for each layer. */
+enum mapview_layer {
+  LAYER_BACKGROUND,
+  LAYER_TERRAIN1,
+  LAYER_TERRAIN2,
+  LAYER_WATER,
+  LAYER_ROADS,
+  LAYER_SPECIAL1,
+  LAYER_GRID1,
+  LAYER_CITY1,
+  LAYER_SPECIAL2,
+  LAYER_FOG,
+  LAYER_CITY2,
+  LAYER_UNIT,
+  LAYER_SPECIAL3,
+  LAYER_GRID2,
+  LAYER_COUNT
+};
+
+#define mapview_layer_iterate(layer)			                    \
+{									    \
+  enum mapview_layer layer;						    \
+									    \
+  for (layer = 0; layer < LAYER_COUNT; layer++) {			    \
+
+#define mapview_layer_iterate_end		                            \
+  }									    \
+}
+
 const char **get_tileset_list(void);
 
 bool tilespec_read_toplevel(const char *tileset_name);
@@ -79,7 +111,8 @@ void tilespec_free_city_tiles(int count);
 
 /* Gfx support */
 
-int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
+int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
+		      struct tile *ptile,
 		      struct unit *punit, struct city *pcity,
 		      bool citymode);
 

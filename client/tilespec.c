@@ -2447,6 +2447,7 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
   include specials or rivers.
 ****************************************************************************/
 static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
+				     int layer,
 				     struct tile *ptile,
 				     Terrain_type_id *ttype_near)
 {
@@ -2454,7 +2455,8 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
   struct Sprite *sprite;
   Terrain_type_id ttype = ptile->terrain;
   struct terrain_drawing_data *draw = sprites.terrain[ttype];
-  int l, i, tileno;
+  const int l = layer;
+  int i, tileno;
   struct tile *adjc_tile;
 
   if (!draw_terrain) {
@@ -2463,156 +2465,162 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 
   /* Skip the normal drawing process. */
   if (ptile->spec_sprite && (sprite = load_sprite(ptile->spec_sprite))) {
-    ADD_SPRITE_SIMPLE(sprite);
-    return 1;
+    if (layer == 0) {
+      ADD_SPRITE_SIMPLE(sprite);
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
-  for (l = 0; l < draw->num_layers; l++) {
-    if (draw->layer[l].match_style == MATCH_NONE) {
-      int count = sprite_vector_size(&draw->layer[l].base);
+  if (l >= draw->num_layers) {
+    return 0;
+  }
 
-      /* Pseudo-random reproducable algorithm to pick a sprite. */
+  if (draw->layer[l].match_style == MATCH_NONE) {
+    int count = sprite_vector_size(&draw->layer[l].base);
+
+    /* Pseudo-random reproducable algorithm to pick a sprite. */
 #define LARGE_PRIME 10007
 #define SMALL_PRIME 1009
-      assert(count < SMALL_PRIME);
-      assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
-      count = ((ptile->index
-		* LARGE_PRIME) % SMALL_PRIME) % count;
-      ADD_SPRITE(draw->layer[l].base.p[count],
-		 draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
-		 TRUE, draw->layer[l].offset_x, draw->layer[l].offset_y);
-    } else {
-      int match_type = draw->layer[l].match_type;
+    assert(count < SMALL_PRIME);
+    assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
+    count = ((ptile->index
+	      * LARGE_PRIME) % SMALL_PRIME) % count;
+    ADD_SPRITE(draw->layer[l].base.p[count],
+	       draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
+	       TRUE, draw->layer[l].offset_x, draw->layer[l].offset_y);
+  } else {
+    int match_type = draw->layer[l].match_type;
 
 #define MATCH(dir)                                               \
-      (sprites.terrain[ttype_near[(dir)]]->num_layers > l	 \
-       ? sprites.terrain[ttype_near[(dir)]]->layer[l].match_type : -1)
+    (sprites.terrain[ttype_near[(dir)]]->num_layers > l			\
+     ? sprites.terrain[ttype_near[(dir)]]->layer[l].match_type : -1)
 
-      if (draw->layer[l].cell_type == CELL_SINGLE) {
-	tileno = 0;
-	assert(draw->layer[l].match_style == MATCH_BOOLEAN);
-	for (i = 0; i < num_cardinal_tileset_dirs; i++) {
-	  enum direction8 dir = cardinal_tileset_dirs[i];
+    if (draw->layer[l].cell_type == CELL_SINGLE) {
+      tileno = 0;
+      assert(draw->layer[l].match_style == MATCH_BOOLEAN);
+      for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+	enum direction8 dir = cardinal_tileset_dirs[i];
 
-	  if (MATCH(dir) == match_type) {
-	    tileno |= 1 << i;
-	  }
-	}
-
-	ADD_SPRITE(draw->layer[l].match[tileno],
-		   draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
-		   TRUE, draw->layer[l].offset_x, draw->layer[l].offset_y);
-      } else if (draw->layer[l].cell_type == CELL_RECT) {
-	/* Divide the tile up into four rectangular cells.  Now each of these
-	 * cells covers one corner, and each is adjacent to 3 different
-	 * tiles.  For each cell we pixk a sprite based upon the adjacent
-	 * terrains at each of those tiles.  Thus we have 8 different sprites
-	 * for each of the 4 cells (32 sprites total).
-	 *
-	 * These arrays correspond to the direction4 ordering. */
-	const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-	const int iso_offsets[4][2] = {
-	  {W / 4, 0}, {W / 4, H / 2}, {W / 2, H / 4}, {0, H / 4}
-	};
-	const int noniso_offsets[4][2] = {
-	  {0, 0}, {W / 2, H / 2}, {W / 2, 0}, {0, H / 2}
-	};
-	int i;
-
-	/* put corner cells */
-	for (i = 0; i < NUM_CORNER_DIRS; i++) {
-	  const int count = draw->layer[l].match_count;
-	  int array_index = 0;
-	  enum direction8 dir = dir_ccw(DIR4_TO_DIR8[i]);
-	  int x = (is_isometric ? iso_offsets[i][0] : noniso_offsets[i][0]);
-	  int y = (is_isometric ? iso_offsets[i][1] : noniso_offsets[i][1]);
-	  int m[3] = {MATCH(dir_ccw(dir)), MATCH(dir), MATCH(dir_cw(dir))};
-	  struct Sprite *s;
-
-         switch (draw->layer[l].match_style) {
-	 case MATCH_NONE:
-	   /* Impossible */
-	   assert(0);
-	   break;
-	 case MATCH_BOOLEAN:
-	   assert(count == 2);
-	   array_index = array_index * count + (m[2] != match_type);
-	   array_index = array_index * count + (m[1] != match_type);
-	   array_index = array_index * count + (m[0] != match_type);
-	   break;
-	 case MATCH_FULL:
-	   if (m[0] == -1 || m[1] == -1 || m[2] == -1) {
-	     break;
-	   }
-	   array_index = array_index * count + m[2];
-	   array_index = array_index * count + m[1];
-	   array_index = array_index * count + m[0];
-	   break;
-	 }
-	 array_index = array_index * NUM_CORNER_DIRS + i;
-
-	 s = draw->layer[l].cells[array_index];
-	 if (s) {
-	   ADD_SPRITE(s, DRAW_NORMAL, TRUE, x, y);
-	 }
+	if (MATCH(dir) == match_type) {
+	  tileno |= 1 << i;
 	}
       }
+
+      ADD_SPRITE(draw->layer[l].match[tileno],
+		 draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
+		 TRUE, draw->layer[l].offset_x, draw->layer[l].offset_y);
+    } else if (draw->layer[l].cell_type == CELL_RECT) {
+      /* Divide the tile up into four rectangular cells.  Now each of these
+       * cells covers one corner, and each is adjacent to 3 different
+       * tiles.  For each cell we pixk a sprite based upon the adjacent
+       * terrains at each of those tiles.  Thus we have 8 different sprites
+       * for each of the 4 cells (32 sprites total).
+       *
+       * These arrays correspond to the direction4 ordering. */
+      const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+      const int iso_offsets[4][2] = {
+	{W / 4, 0}, {W / 4, H / 2}, {W / 2, H / 4}, {0, H / 4}
+      };
+      const int noniso_offsets[4][2] = {
+	{0, 0}, {W / 2, H / 2}, {W / 2, 0}, {0, H / 2}
+      };
+      int i;
+
+      /* put corner cells */
+      for (i = 0; i < NUM_CORNER_DIRS; i++) {
+	const int count = draw->layer[l].match_count;
+	int array_index = 0;
+	enum direction8 dir = dir_ccw(DIR4_TO_DIR8[i]);
+	int x = (is_isometric ? iso_offsets[i][0] : noniso_offsets[i][0]);
+	int y = (is_isometric ? iso_offsets[i][1] : noniso_offsets[i][1]);
+	int m[3] = {MATCH(dir_ccw(dir)), MATCH(dir), MATCH(dir_cw(dir))};
+	struct Sprite *s;
+
+	switch (draw->layer[l].match_style) {
+	case MATCH_NONE:
+	  /* Impossible */
+	  assert(0);
+	  break;
+	case MATCH_BOOLEAN:
+	  assert(count == 2);
+	  array_index = array_index * count + (m[2] != match_type);
+	  array_index = array_index * count + (m[1] != match_type);
+	  array_index = array_index * count + (m[0] != match_type);
+	  break;
+	case MATCH_FULL:
+	  if (m[0] == -1 || m[1] == -1 || m[2] == -1) {
+	    break;
+	  }
+	  array_index = array_index * count + m[2];
+	  array_index = array_index * count + m[1];
+	  array_index = array_index * count + m[0];
+	  break;
+	}
+	array_index = array_index * NUM_CORNER_DIRS + i;
+
+	s = draw->layer[l].cells[array_index];
+	if (s) {
+	  ADD_SPRITE(s, DRAW_NORMAL, TRUE, x, y);
+	}
+      }
+    }
 #undef MATCH
-    }
+  }
 
-    /* Add blending on top of the first layer. */
-    if (l == 0 && draw->is_blended) {
-      sprs += fill_blending_sprite_array(sprs, ptile, ttype_near);
-    }
+  /* Add blending on top of the first layer. */
+  if (l == 0 && draw->is_blended) {
+    sprs += fill_blending_sprite_array(sprs, ptile, ttype_near);
+  }
 
-    /* Add darkness on top of the first layer.  Note that darkness is always
-     * drawn, even in citymode, etc. */
-    if (l == 0) {
+  /* Add darkness on top of the first layer.  Note that darkness is always
+   * drawn, even in citymode, etc. */
+  if (l == 0) {
 #define UNKNOWN(dir)                                        \
-      ((adjc_tile = mapstep(ptile, (dir)))		    \
-       && tile_get_known(adjc_tile) == TILE_UNKNOWN)
+    ((adjc_tile = mapstep(ptile, (dir)))		    \
+     && tile_get_known(adjc_tile) == TILE_UNKNOWN)
 
-      switch (darkness_style) {
-      case DARKNESS_NONE:
-	break;
-      case DARKNESS_ISORECT:
-	for (i = 0; i < 4; i++) {
-	  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-	  int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+    switch (darkness_style) {
+    case DARKNESS_NONE:
+      break;
+    case DARKNESS_ISORECT:
+      for (i = 0; i < 4; i++) {
+	const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+	int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
 
-	  if (UNKNOWN(DIR4_TO_DIR8[i])) {
-	    ADD_SPRITE(sprites.tx.darkness[i], DRAW_NORMAL, TRUE,
-		       offsets[i][0], offsets[i][1]);
-	  }
+	if (UNKNOWN(DIR4_TO_DIR8[i])) {
+	  ADD_SPRITE(sprites.tx.darkness[i], DRAW_NORMAL, TRUE,
+		     offsets[i][0], offsets[i][1]);
 	}
-	break;
-      case DARKNESS_CARD_SINGLE:
-	for (i = 0; i < num_cardinal_tileset_dirs; i++) {
-	  if (UNKNOWN(cardinal_tileset_dirs[i])) {
-	    ADD_SPRITE_SIMPLE(sprites.tx.darkness[i]);
-	  }
-	}
-	break;
-      case DARKNESS_CARD_FULL:
-	/* We're looking to find the INDEX_NSEW for the directions that
-	 * are unknown.  We want to mark unknown tiles so that an unreal
-	 * tile will be given the same marking as our current tile - that
-	 * way we won't get the "unknown" dither along the edge of the
-	 * map. */
-	tileno = 0;
-	for (i = 0; i < num_cardinal_tileset_dirs; i++) {
-	  if (UNKNOWN(cardinal_tileset_dirs[i])) {
-	    tileno |= 1 << i;
-	  }
-	}
-
-	if (tileno != 0) {
-	  ADD_SPRITE_SIMPLE(sprites.tx.darkness[tileno]);
-	}
-	break;
       }
-#undef UNKNOWN
+      break;
+    case DARKNESS_CARD_SINGLE:
+      for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+	if (UNKNOWN(cardinal_tileset_dirs[i])) {
+	  ADD_SPRITE_SIMPLE(sprites.tx.darkness[i]);
+	}
+      }
+      break;
+    case DARKNESS_CARD_FULL:
+      /* We're looking to find the INDEX_NSEW for the directions that
+       * are unknown.  We want to mark unknown tiles so that an unreal
+       * tile will be given the same marking as our current tile - that
+       * way we won't get the "unknown" dither along the edge of the
+       * map. */
+      tileno = 0;
+      for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+	if (UNKNOWN(cardinal_tileset_dirs[i])) {
+	  tileno |= 1 << i;
+	}
+      }
+
+      if (tileno != 0) {
+	ADD_SPRITE_SIMPLE(sprites.tx.darkness[tileno]);
+      }
+      break;
     }
+#undef UNKNOWN
   }
 
   return sprs - saved_sprs;
@@ -2635,7 +2643,8 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
   citymode specifies whether this is part of a citydlg.  If so some drawing
   is done differently.
 ****************************************************************************/
-int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
+int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
+		      struct tile *ptile,
 		      struct unit *punit, struct city *pcity,
 		      bool citymode)
 {
@@ -2645,155 +2654,199 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
 
-  if (ptile && tile_get_known(ptile) == TILE_UNKNOWN) {
-    return sprs - save_sprs;
-  }
-
-  /* Set up background color. */
-  if (solid_color_behind_units) {
-    if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
-      ADD_BG(player_color(unit_owner(punit)));
-    } else if (pcity && draw_cities) {
-      ADD_BG(player_color(city_owner(pcity)));
-    }
-  } else if (!draw_terrain) {
-    if (ptile) {
-      ADD_BG(COLOR_STD_BACKGROUND);
-    }
-  }
-
-  /* Terrain and specials. */
-  if (ptile) {
+  if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
     build_tile_data(ptile,
 		    &ttype, &tspecial, ttype_near, tspecial_near);
+  }
 
-    sprs += fill_terrain_sprite_array(sprs, ptile, ttype_near);
+  switch (layer) {
+  case LAYER_BACKGROUND:
+    if (ptile && tile_get_known(ptile) == TILE_UNKNOWN) {
+      ADD_BG(COLOR_STD_BLACK);
+      return sprs - save_sprs;
+    }
 
-    if (is_ocean(ttype) && draw_terrain) {
-      for (dir = 0; dir < 4; dir++) {
-	if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
-	  ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
+    /* Set up background color. */
+    if (solid_color_behind_units) {
+      if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
+	ADD_BG(player_color(unit_owner(punit)));
+      } else if (pcity && draw_cities) {
+	ADD_BG(player_color(city_owner(pcity)));
+      }
+    } else if (ptile && !draw_terrain) {
+      ADD_BG(COLOR_STD_BACKGROUND);
+    }
+    break;
+
+  case LAYER_TERRAIN1:
+  case LAYER_TERRAIN2:
+    /* Terrain and specials.  These are drawn in multiple layers so that
+     * upper layers will cover layers underneath. */
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+      assert(MAX_NUM_LAYERS == 2);
+      sprs += fill_terrain_sprite_array(sprs,
+					(layer == LAYER_TERRAIN1) ? 0 : 1,
+					ptile, ttype_near);
+    }
+    break;
+
+  case LAYER_WATER:
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+      if (is_ocean(ttype) && draw_terrain) {
+	for (dir = 0; dir < 4; dir++) {
+	  if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
+	    ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
+	  }
 	}
       }
+
+      sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
+					   pcity);
+
+      if (draw_terrain && contains_special(tspecial, S_RIVER)) {
+	int i;
+
+	/* Draw rivers on top of irrigation. */
+	tileno = 0;
+	for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+	  enum direction8 dir = cardinal_tileset_dirs[i];
+
+	  if (contains_special(tspecial_near[dir], S_RIVER)
+	      || is_ocean(ttype_near[dir])) {
+	    tileno |= 1 << i;
+	  }
+	}
+	ADD_SPRITE_SIMPLE(sprites.tx.spec_river[tileno]);
+      }
     }
+    break;
 
-    sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
-					 pcity);
+  case LAYER_ROADS:
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+      sprs += fill_road_rail_sprite_array(sprs,
+					  tspecial, tspecial_near, pcity);
+    }
+    break;
 
-    if (draw_terrain && contains_special(tspecial, S_RIVER)) {
-      int i;
-
-      /* Draw rivers on top of irrigation. */
-      tileno = 0;
-      for (i = 0; i < num_cardinal_tileset_dirs; i++) {
-	enum direction8 dir = cardinal_tileset_dirs[i];
-
-	if (contains_special(tspecial_near[dir], S_RIVER)
-	    || is_ocean(ttype_near[dir])) {
-	  tileno |= 1 << i;
+  case LAYER_SPECIAL1:
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+      if (draw_specials) {
+	if (contains_special(tspecial, S_SPECIAL_1)) {
+	  ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
+	} else if (contains_special(tspecial, S_SPECIAL_2)) {
+	  ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
 	}
       }
-      ADD_SPRITE_SIMPLE(sprites.tx.spec_river[tileno]);
-    }
-  
-    sprs += fill_road_rail_sprite_array(sprs,
-					tspecial, tspecial_near, pcity);
 
-    if (draw_specials) {
-      if (contains_special(tspecial, S_SPECIAL_1)) {
-	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
-      } else if (contains_special(tspecial, S_SPECIAL_2)) {
-	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
+      if (draw_fortress_airbase && contains_special(tspecial, S_FORTRESS)
+	  && sprites.tx.fortress_back) {
+	ADD_SPRITE_SIMPLE(sprites.tx.fortress_back);
+      }
+
+      if (draw_mines && contains_special(tspecial, S_MINE)
+	  && sprites.terrain[ttype]->mine) {
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->mine);
+      }
+
+      if (draw_specials && contains_special(tspecial, S_HUT)) {
+	ADD_SPRITE_SIMPLE(sprites.tx.village);
       }
     }
+    break;
 
-    if (draw_fortress_airbase && contains_special(tspecial, S_FORTRESS)
-	&& sprites.tx.fortress_back) {
-      ADD_SPRITE_SIMPLE(sprites.tx.fortress_back);
+  case LAYER_GRID1:
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN && is_isometric) {
+      /* Add grid.  In classic view this is done later. */
+      ADD_GRID(ptile, citymode);
     }
+    break;
 
-    if (draw_mines && contains_special(tspecial, S_MINE)
-	&& sprites.terrain[ttype]->mine) {
-      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->mine);
+  case LAYER_CITY1:
+    /* City.  Some city sprites are drawn later. */
+    if (pcity && draw_cities) {
+      if (!solid_color_behind_units) {
+	ADD_SPRITE(get_city_nation_flag_sprite(pcity),
+		   DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
+      }
+      ADD_SPRITE_FULL(get_city_sprite(pcity));
+      if (pcity->client.occupied) {
+	ADD_SPRITE_FULL(get_city_occupied_sprite(pcity));
+      }
+      if (!is_isometric && city_got_citywalls(pcity)) {
+	/* In iso-view the city wall is a part of the city sprite. */
+	ADD_SPRITE_SIMPLE(get_city_wall_sprite(pcity));
+      }
+      if (pcity->client.unhappy) {
+	ADD_SPRITE_FULL(sprites.city.disorder);
+      }
     }
-    
-    if (draw_specials && contains_special(tspecial, S_HUT)) {
-      ADD_SPRITE_SIMPLE(sprites.tx.village);
-    }
-  }
+    break;
 
-  if (ptile && is_isometric) {
-    /* Add grid.  In classic view this is done later. */
-    ADD_GRID(ptile, citymode);
-  }
+  case LAYER_SPECIAL2:
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+      if (draw_fortress_airbase && contains_special(tspecial, S_AIRBASE)) {
+	ADD_SPRITE_FULL(sprites.tx.airbase);
+      }
 
-  /* City.  Some city sprites are drawn later. */
-  if (pcity && draw_cities) {
-    if (!solid_color_behind_units) {
-      ADD_SPRITE(get_city_nation_flag_sprite(pcity),
-		 DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
+      if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
+	ADD_SPRITE_SIMPLE(sprites.tx.pollution);
+      }
+      if (draw_pollution && contains_special(tspecial, S_FALLOUT)) {
+	ADD_SPRITE_SIMPLE(sprites.tx.fallout);
+      }
     }
-    ADD_SPRITE_FULL(get_city_sprite(pcity));
-    if (pcity->client.occupied) {
-      ADD_SPRITE_FULL(get_city_occupied_sprite(pcity));
-    }
-    if (!is_isometric && city_got_citywalls(pcity)) {
-      /* In iso-view the city wall is a part of the city sprite. */
-      ADD_SPRITE_SIMPLE(get_city_wall_sprite(pcity));
-    }
-    if (pcity->client.unhappy) {
-      ADD_SPRITE_FULL(sprites.city.disorder);
-    }
-  }
+    break;
 
-  if (ptile) {
-    if (draw_fortress_airbase && contains_special(tspecial, S_AIRBASE)) {
-      ADD_SPRITE_FULL(sprites.tx.airbase);
+  case LAYER_FOG:
+    if (fogstyle == 1 && draw_fog_of_war
+	&& ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
+      /* With fogstyle 1, fog is done this way. */
+      ADD_SPRITE_SIMPLE(sprites.tx.fog);
     }
+    break;
 
-    if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
-      ADD_SPRITE_SIMPLE(sprites.tx.pollution);
-    }
-    if (draw_pollution && contains_special(tspecial, S_FALLOUT)) {
-      ADD_SPRITE_SIMPLE(sprites.tx.fallout);
-    }
-  }
-
-  if (fogstyle == 1 && draw_fog_of_war
-      && ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
-    /* With fogstyle 1, fog is done this way. */
-    ADD_SPRITE_SIMPLE(sprites.tx.fog);
-  }
-
-  /* City size.  Drawing this under fog makes it hard to read. */
-  if (pcity && draw_cities) {
-    if (pcity->size >= 10) {
-      ADD_SPRITE(sprites.city.size_tens[pcity->size / 10], DRAW_FULL,
+  case LAYER_CITY2:
+    /* City size.  Drawing this under fog makes it hard to read. */
+    if (pcity && draw_cities) {
+      if (pcity->size >= 10) {
+	ADD_SPRITE(sprites.city.size_tens[pcity->size / 10], DRAW_FULL,
+		   FALSE, 0, 0);
+      }
+      ADD_SPRITE(sprites.city.size[pcity->size % 10], DRAW_FULL,
 		 FALSE, 0, 0);
     }
-    ADD_SPRITE(sprites.city.size[pcity->size % 10], DRAW_FULL,
-	       FALSE, 0, 0);
-  }
+    break;
 
-  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
-    bool stacked = ptile && (unit_list_size(&ptile->units) > 1);
-    bool backdrop = !pcity;
+  case LAYER_UNIT:
+    if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
+      bool stacked = ptile && (unit_list_size(&ptile->units) > 1);
+      bool backdrop = !pcity;
 
-    sprs += fill_unit_sprite_array(sprs, punit, stacked, backdrop);
-  }
-
-  if (ptile) {
-    if (is_isometric && draw_fortress_airbase
-	&& contains_special(tspecial, S_FORTRESS)) {
-      /* Draw fortress front in iso-view (non-iso view only has a fortress
-       * back). */
-      ADD_SPRITE_FULL(sprites.tx.fortress);
+      sprs += fill_unit_sprite_array(sprs, punit, stacked, backdrop);
     }
-  }
+    break;
 
-  if (ptile && !is_isometric) {
-    /* Add grid.  In iso-view this is done earlier. */
-    ADD_GRID(ptile, citymode);
+  case LAYER_SPECIAL3:
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+      if (is_isometric && draw_fortress_airbase
+	  && contains_special(tspecial, S_FORTRESS)) {
+	/* Draw fortress front in iso-view (non-iso view only has a fortress
+	 * back). */
+	ADD_SPRITE_FULL(sprites.tx.fortress);
+      }
+    }
+    break;
+
+  case LAYER_GRID2:
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN && !is_isometric) {
+      /* Add grid.  In iso-view this is done earlier. */
+      ADD_GRID(ptile, citymode);
+    }
+    break;
+
+  case LAYER_COUNT:
+    assert(0);
+    break;
   }
 
   return sprs - save_sprs;
