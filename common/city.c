@@ -709,7 +709,7 @@ static int base_get_trade_tile(const struct tile *ptile,
     if (t > 0) {
       t += (is_celebrating ? g->celeb_output_inc_tile[O_TRADE]
 	    : g->output_inc_tile[O_TRADE]);
-      t += get_city_bonus(pcity, EFT_TRADE_INC_TILE);
+      t += get_city_tile_bonus(pcity, ptile, EFT_TRADE_INC_TILE);
     }
 
     t += (t * get_city_tile_bonus(pcity, ptile, EFT_TRADE_PER_TILE)) / 100;
@@ -824,7 +824,7 @@ static int base_get_food_tile(const struct tile *ptile,
     if (f > 0) {
       f += (is_celebrating ? g->celeb_output_inc_tile[O_FOOD]
 	    : g->output_inc_tile[O_FOOD]);
-      f += get_city_bonus(pcity, EFT_FOOD_INC_TILE);
+      f += get_city_tile_bonus(pcity, &tile, EFT_FOOD_INC_TILE);
     }
 
     f += (f * get_city_tile_bonus(pcity, &tile, EFT_FOOD_PER_TILE) / 100);
