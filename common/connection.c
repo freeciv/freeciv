@@ -238,6 +238,10 @@ void flush_connection_send_buffer_all(struct connection *pc)
 {
   if(pc && pc->used && pc->send_buffer->ndata) {
     write_socket_data(pc, pc->send_buffer, 0);
+    if (pc->notify_of_writable_data) {
+      pc->notify_of_writable_data(pc, pc->send_buffer
+				  && pc->send_buffer->ndata);
+    }
   }
 }
 
@@ -248,6 +252,10 @@ void flush_connection_send_buffer_packets(struct connection *pc)
 {
   if(pc && pc->used && pc->send_buffer->ndata >= MAX_LEN_PACKET) {
     write_socket_data(pc, pc->send_buffer, MAX_LEN_PACKET-1);
+    if (pc->notify_of_writable_data) {
+      pc->notify_of_writable_data(pc, pc->send_buffer
+				  && pc->send_buffer->ndata);
+    }
   }
 }
 
@@ -330,10 +338,6 @@ void send_connection_data(struct connection *pc, unsigned char *data, int len)
 		conn_description(pc));
       }
       flush_connection_send_buffer_all(pc);
-    }
-    if (pc->notify_of_writable_data) {
-      pc->notify_of_writable_data(pc, pc->send_buffer
-				  && pc->send_buffer->ndata);
     }
   }
 }

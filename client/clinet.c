@@ -254,7 +254,7 @@ Returns:
     >0  :  number of bytes read
     =0  :  no data read, would block
 **************************************************************************/
-static int read_from_connection(struct connection *pc)
+static int read_from_connection(struct connection *pc, int block)
 {
   for (;;) {
     fd_set readfs, writefs, exceptfs;
@@ -276,9 +276,13 @@ static int read_from_connection(struct connection *pc)
     if (have_data_for_server) {
       MY_FD_ZERO(&writefs);
       FD_SET(socket_fd, &writefs);
-      n = select(socket_fd + 1, &readfs, &writefs, &exceptfs, &tv);
+      n =
+	  select(socket_fd + 1, &readfs, &writefs, &exceptfs,
+		 block ? NULL : &tv);
     } else {
-      n = select(socket_fd + 1, &readfs, NULL, &exceptfs, &tv);
+      n =
+	  select(socket_fd + 1, &readfs, NULL, &exceptfs,
+		 block ? NULL : &tv);
     }
 
     /* the socket is neither readable, writeable nor got an
@@ -304,10 +308,6 @@ static int read_from_connection(struct connection *pc)
 
     if (have_data_for_server && FD_ISSET(socket_fd, &writefs)) {
       flush_connection_send_buffer_all(pc);
-      if (pc->notify_of_writable_data) {
-	pc->notify_of_writable_data(pc, pc->send_buffer
-				    && pc->send_buffer->ndata);
-      }
     }
 
     if (FD_ISSET(socket_fd, &readfs)) {
@@ -322,7 +322,7 @@ static int read_from_connection(struct connection *pc)
 **************************************************************************/
 void input_from_server(int fid)
 {
-  if (read_from_connection(&aconnection) >= 0) {
+  if (read_from_connection(&aconnection, 0) >= 0) {
     int type, result;
     char *packet;
 
@@ -355,7 +355,7 @@ void input_from_server_till_request_got_processed(int fd,
 	  "expected_request_id=%d)", expected_request_id);
 
   while (1) {
-    if (read_from_connection(&aconnection) >= 0) {
+    if (read_from_connection(&aconnection, 1) >= 0) {
       int type, result;
       char *packet;
 
@@ -367,11 +367,15 @@ void input_from_server_till_request_got_processed(int fd,
 
 	handle_packet_input(packet, type);
 
-	if (type == PACKET_PROCESSING_FINISHED
-	    && aconnection.client.last_processed_request_id_seen >=
-	    expected_request_id) {
-	  freelog(LOG_DEBUG, "ifstrgp: got it; returning");
-	  return;
+	if (type == PACKET_PROCESSING_FINISHED) {
+	  freelog(LOG_DEBUG, "ifstrgp: expect=%d, seen=%d",
+		  expected_request_id,
+		  aconnection.client.last_processed_request_id_seen);
+	  if (aconnection.client.last_processed_request_id_seen >=
+	      expected_request_id) {
+	    freelog(LOG_DEBUG, "ifstrgp: got it; returning");
+	    return;
+	  }
 	}
       }
     } else {
