@@ -649,6 +649,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
   /* if enemy, stop and let ai attack function take this case */
   if (is_enemy_unit_tile(ptile, pplayer)
       || is_enemy_city_tile(ptile, pplayer)) {
+    UNIT_LOG(LOG_DEBUG, punit, "movement halted due to enemy presence");
     return FALSE;
   }
 
@@ -812,6 +813,7 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
     best->choice =cur->choice;
     best->want = cur->want;
     best->type = cur->type;
+    best->need_boat = cur->need_boat;
   }
 }
 
