@@ -1015,7 +1015,6 @@ enum command_id {
   CMD_FIX,
   CMD_UNFIX,
   CMD_RULESETDIR,
-  CMD_RENAME,
   CMD_METAINFO,
   CMD_METACONN,
   CMD_METASERVER,
@@ -1169,10 +1168,6 @@ static const struct command commands[] = {
    N_("Choose new ruleset directory or modpack. Calling this\n "
       "without any arguments will show you the currently selected "
       "ruleset."), NULL
-  },
-  {"rename",	ALLOW_CTRL,
-   NULL,
-   N_("This command is not currently implemented."), NULL
   },
   {"metainfo",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
@@ -1967,23 +1962,6 @@ static void remove_player(struct connection *caller, char *arg)
     cmd_reply(CMD_REMOVE, caller, C_OK,
 	      _("Removed player %s from the game."), name);
   }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void generic_not_implemented(struct connection *caller, const char *cmd)
-{
-  cmd_reply(CMD_RENAME, caller, C_FAIL,
-	    _("Sorry, the '%s' command is not implemented yet."), cmd);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void rename_player(struct connection *caller, char *arg)
-{
-  generic_not_implemented(caller, "rename");
 }
 
 /**************************************************************************
@@ -3949,9 +3927,6 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_REMOVE:
     remove_player(caller,arg);
     break;
-  case CMD_RENAME:
-    rename_player(caller,arg);
-    break;
   case CMD_SAVE:
     save_command(caller,arg);
     break;
@@ -4786,7 +4761,6 @@ static bool is_command(int start)
 Commands that may be followed by a player name
 **************************************************************************/
 static const int player_cmd[] = {
-  CMD_RENAME,
   CMD_AITOGGLE,
   CMD_NOVICE,
   CMD_EASY,
