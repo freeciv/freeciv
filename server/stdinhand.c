@@ -1830,6 +1830,9 @@ void show_help(struct player *caller)
   if(server_state==PRE_GAME_STATE) {
     cmd_reply_help(CMD_START,
 	"start           - start game");
+  } else {
+    cmd_reply_help(CMD_START,
+	"start           - start game (unavailable: already running)");
   }
   cmd_reply_help(CMD_HELP,
 	"Abbreviations are allowed.");
