@@ -1659,7 +1659,7 @@ int send_packet_player_request(struct connection *pc,
 		      req_type == PACKET_PLAYER_WORKLIST);
   cptr=put_uint8(cptr, packet->wl_idx);
 
-  if (pc && has_capability("attributes", pc->capability)) {
+  if (has_capability("attributes", pc->capability)) {
     cptr = put_uint8(cptr, packet->attribute_block);
   }
 
@@ -1687,7 +1687,7 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->tech);
   iget_worklist(pc, &iter, &preq->worklist);
   iget_uint8(&iter, &preq->wl_idx);
-  if (pc && has_capability("attributes", pc->capability))
+  if (has_capability("attributes", pc->capability))
     iget_uint8(&iter, &preq->attribute_block);
   else
     preq->attribute_block = 0;
@@ -1970,7 +1970,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->freecost);
   cptr=put_uint8(cptr, pinfo->conquercost);
   cptr=put_uint8(cptr, pinfo->unhappysize);
-  if (pc && has_capability("angrycitizen", pc->capability))
+  if (has_capability("angrycitizen", pc->capability))
     cptr = put_uint8(cptr, pinfo->angrycitizen);
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
@@ -1986,7 +1986,7 @@ int send_packet_game_info(struct connection *pc,
   /* computed values */
   cptr=put_uint32(cptr, pinfo->seconds_to_turndone);
 
-  if (pc && has_capability("turn", pc->capability)) {
+  if (has_capability("turn", pc->capability)) {
     cptr = put_uint32(cptr, pinfo->turn);
   }
 
@@ -2027,7 +2027,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->freecost);
   iget_uint8(&iter, &pinfo->conquercost);
   iget_uint8(&iter, &pinfo->unhappysize);
-  if (pc && has_capability("angrycitizen", pc->capability))
+  if (has_capability("angrycitizen", pc->capability))
     iget_uint8(&iter, &pinfo->angrycitizen);
   else
     pinfo->angrycitizen = 0;
@@ -2045,7 +2045,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   /* computed values */
   iget_uint32(&iter, &pinfo->seconds_to_turndone);
 
-  if (pc && has_capability("turn", pc->capability)) {
+  if (has_capability("turn", pc->capability)) {
     iget_uint32(&iter, &pinfo->turn);
   } else {
     pinfo->turn = -1;
@@ -2162,7 +2162,7 @@ int send_packet_new_year(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_NEW_YEAR);
   cptr=put_uint32(cptr, request->year);
-  if (pc && has_capability("turn", pc->capability)) {
+  if (has_capability("turn", pc->capability)) {
     cptr = put_uint32(cptr, request->turn);
   }
   put_uint16(buffer, cptr-buffer);
@@ -2271,7 +2271,7 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_uint8(cptr, req->size);
 
   for (data = 0; data < 5; data++) {
-    if (pc && has_capability("angrycitizen", pc->capability))
+    if (has_capability("angrycitizen", pc->capability))
       cptr = put_uint8(cptr, req->ppl_angry[data]);
     cptr=put_uint8(cptr, req->ppl_happy[data]);
     cptr=put_uint8(cptr, req->ppl_content[data]);
@@ -2287,7 +2287,7 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_uint16(cptr, req->shield_prod);
   cptr=put_uint16(cptr, req->shield_surplus);
   cptr=put_uint16(cptr, req->trade_prod);
-  if (pc && has_capability("tile_trade", pc->capability)) {
+  if (has_capability("tile_trade", pc->capability)) {
       cptr=put_uint16(cptr, req->tile_trade);
   }
   cptr=put_uint16(cptr, req->corruption);
@@ -2359,7 +2359,7 @@ receive_packet_city_info(struct connection *pc)
   
   iget_uint8(&iter, &packet->size);
   for(data=0;data<5;data++) {
-    if (pc && has_capability("angrycitizen", pc->capability))
+    if (has_capability("angrycitizen", pc->capability))
       iget_uint8(&iter, &packet->ppl_angry[data]);
     else
       packet->ppl_angry[data] = 0;
@@ -2378,7 +2378,7 @@ receive_packet_city_info(struct connection *pc)
   iget_uint16(&iter, &packet->shield_surplus);
   if(packet->shield_surplus > 32767) packet->shield_surplus-=65536;
   iget_uint16(&iter, &packet->trade_prod);
-  if (pc && has_capability("tile_trade", pc->capability)) {
+  if (has_capability("tile_trade", pc->capability)) {
     iget_uint16(&iter, &packet->tile_trade);
   } else {
     packet->tile_trade = 0;
@@ -2453,7 +2453,7 @@ int send_packet_short_city(struct connection *pc,
   i = (req->happy?1:0) | (req->capital?2:0) | (req->walls?4:0);
   cptr=put_uint8(cptr, i);
 
-  if (pc && has_capability("short_city_tile_trade", pc->capability)) {
+  if (has_capability("short_city_tile_trade", pc->capability)) {
     cptr = put_uint16(cptr, req->tile_trade);
   }
 
@@ -2489,7 +2489,7 @@ receive_packet_short_city(struct connection *pc)
   packet->capital = i & 2;
   packet->walls   = i & 4;
 
-  if (pc && has_capability("short_city_tile_trade", pc->capability)) {
+  if (has_capability("short_city_tile_trade", pc->capability)) {
     iget_uint16(&iter, &packet->tile_trade);
   } else {
     packet->tile_trade = 0;
@@ -2566,7 +2566,7 @@ receive_packet_new_year(struct connection *pc)
 
   iget_uint32(&iter, &packet->year);
 
-  if (pc && has_capability("turn", pc->capability)) {
+  if (has_capability("turn", pc->capability)) {
     iget_uint32(&iter, &packet->turn);
   } else {
     packet->turn = -3;
@@ -2652,7 +2652,7 @@ int send_packet_join_game_reply(struct connection *pc,
   cptr=put_string(cptr, reply->capability);
 
   /* This must stay even at new releases! */
-  if (pc && has_capability("conn_info", pc->capability)) {
+  if (has_capability("conn_info", pc->capability)) {
     cptr=put_uint32(cptr, pc->id);
   }
 
@@ -2913,7 +2913,7 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->sewer_size);
   cptr=put_uint8(cptr, packet->add_to_size_limit);
 
-  if (pc && !has_capability("new_bonus_tech", pc->capability)) {
+  if (!has_capability("new_bonus_tech", pc->capability)) {
     cptr = put_uint8(cptr, packet->rtech.get_bonus_tech);
   }
   cptr=put_uint8(cptr, packet->rtech.cathedral_plus);
@@ -2956,7 +2956,7 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_uint8(&iter, &packet->sewer_size);
   iget_uint8(&iter, &packet->add_to_size_limit);
 
-  if (pc && !has_capability("new_bonus_tech", pc->capability)) {
+  if (!has_capability("new_bonus_tech", pc->capability)) {
     iget_uint8(&iter, &packet->rtech.get_bonus_tech);
   }
   iget_uint8(&iter, &packet->rtech.cathedral_plus);
@@ -3524,7 +3524,7 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_uint8(cptr, packet->corruption_distance_factor);
   cptr=put_uint8(cptr, packet->extra_corruption_distance);
 
-  if (pc && has_capability("fund_added", pc->capability))
+  if (has_capability("fund_added", pc->capability))
     cptr = put_uint16(cptr, packet->flags);
   else
     cptr = put_uint8(cptr, packet->flags);
@@ -3621,7 +3621,7 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_uint8(&iter, &packet->corruption_distance_factor);
   iget_uint8(&iter, &packet->extra_corruption_distance);
 
-  if (pc && has_capability("fund_added", pc->capability))
+  if (has_capability("fund_added", pc->capability))
     iget_uint16(&iter, &packet->flags);
   else
     iget_uint8(&iter, &packet->flags);
