@@ -745,9 +745,9 @@ static void process_attacker_want(struct city *pcity,
     needferry = unit_types[boattype].build_cost;
   }
   
-  if (acity) {
-    /* If it is a city, we may have to whack it many times */
-    /* FIXME: Also valid for fortresses! */
+  if (!is_stack_vulnerable(x,y)) {
+    /* If it is a city, a fortress or an air base,
+     * we may have to whack it many times */
     victim_count += unit_list_size(&(map_get_tile(x, y)->units));
   }
 

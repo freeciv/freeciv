@@ -1720,7 +1720,6 @@ tile dies unless ...
 **************************************************************************/
 void kill_unit(struct unit *pkiller, struct unit *punit)
 {
-  struct city   *incity    = map_get_city(punit->x, punit->y);
   struct player *pplayer   = unit_owner(punit);
   struct player *destroyer = unit_owner(pkiller);
   char *loc_str = get_location_str_in(pplayer, punit->x, punit->y);
@@ -1748,10 +1747,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     unit_list_iterate_end;
   }
 
-  if( (incity) ||
-      map_has_special(punit->x, punit->y, S_FORTRESS) ||
-      map_has_special(punit->x, punit->y, S_AIRBASE) ||
-      unitcount == 1) {
+  if (!is_stack_vulnerable(punit->x,punit->y) || unitcount == 1) {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
 		     _("Game: %s lost to an attack by %s's %s%s."),
 		     unit_type(punit)->name, destroyer->name,

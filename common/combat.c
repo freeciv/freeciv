@@ -545,3 +545,14 @@ struct unit *get_attacker(struct unit *defender, int x, int y)
 
   return bestatt;
 }
+
+/**************************************************************************
+  Is it a city/fortress/air base or will the whole stack die in an attack
+  TODO: use new killstack thing
+**************************************************************************/
+bool is_stack_vulnerable(int x, int y)
+{
+  return !(map_get_city(x, y) != NULL
+           || map_has_special(x, y, S_FORTRESS)
+           || map_has_special(x, y, S_AIRBASE));
+}

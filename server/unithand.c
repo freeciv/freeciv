@@ -833,9 +833,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   }
 
   /* If attacker wins, and occupychance > 0, it might move in.  Don't move in
-     if there are enemy units in the tile (a fortress or city with multiple
-     defenders and unstacked combat).  Note that this could mean capturing (or
-     destroying) a city. -GJW */
+   * if there are enemy units in the tile (a fortress, city or air base with
+   * multiple defenders and unstacked combat). Note that this could mean 
+   * capturing (or destroying) a city. */
 
   if (pwinner == punit && myrand(100) < game.occupychance &&
       !is_non_allied_unit_tile(map_get_tile(def_x, def_y),

@@ -403,16 +403,6 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
   return(pc);
 }
 
-/**************************************************************************
-  Is it a city/fortress or will the whole stack die in an attack
-  TODO: use new killstack thing
-**************************************************************************/
-static bool is_stack_vulnerable(int x, int y)
-{
-  return !(map_get_city(x, y) != NULL ||
-	   map_has_special(x, y, S_FORTRESS) ||
-	   map_has_special(x, y, S_AIRBASE) );
-}
 
 /**************************************************************************
   Calculate the value of the target unit including the other units which

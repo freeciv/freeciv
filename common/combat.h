@@ -52,4 +52,5 @@ int get_total_attack_power(struct unit *attacker, struct unit *defender);
 struct unit *get_defender(struct unit *attacker, int x, int y);
 struct unit *get_attacker(struct unit *defender, int x, int y);
 
+bool is_stack_vulnerable(int x, int y);
 #endif /* FC__COMBAT_H */
