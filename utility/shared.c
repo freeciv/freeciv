@@ -1320,3 +1320,18 @@ char *get_multicast_group(void)
   }
   return group;
 }
+
+/***************************************************************************
+  Interpret ~/ in filename as home dir
+  New path is returned in buf of size buf_size
+***************************************************************************/
+void interpret_tilde(char* buf, size_t buf_size, const char* filename)
+{
+  if (filename[0] == '~' && filename[1] == '/') {
+    my_snprintf(buf, buf_size, "%s/%s", user_home_dir(), filename + 2);
+  } else if (filename[0] == '~' && filename[1] == '\0') {
+    strncpy(buf, user_home_dir(), buf_size);
+  } else  {
+    strncpy(buf, filename, buf_size);
+  }
+}

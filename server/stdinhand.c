@@ -881,11 +881,14 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
 bool read_init_script(struct connection *caller, char *script_filename)
 {
   FILE *script_file;
+  char real_filename[1024];
 
   freelog(LOG_NORMAL, _("Loading script file: %s"), script_filename);
+  
+  interpret_tilde(real_filename, sizeof(real_filename), script_filename);
  
-  if (is_reg_file_for_access(script_filename, FALSE)
-      && (script_file = fopen(script_filename, "r"))) {
+  if (is_reg_file_for_access(real_filename, FALSE)
+      && (script_file = fopen(real_filename, "r"))) {
     char buffer[MAX_LEN_CONSOLE_LINE];
     /* the size is set as to not overflow buffer in handle_stdin_input */
     while(fgets(buffer,MAX_LEN_CONSOLE_LINE-1,script_file))
@@ -894,9 +897,9 @@ bool read_init_script(struct connection *caller, char *script_filename)
     return TRUE;
   } else {
     cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
-	_("Cannot read command line scriptfile '%s'."), script_filename);
+	_("Cannot read command line scriptfile '%s'."), real_filename);
     freelog(LOG_ERROR,
-	_("Could not read script file '%s'."), script_filename);
+	_("Could not read script file '%s'."), real_filename);
     return FALSE;
   }
 }
@@ -919,10 +922,13 @@ static bool read_command(struct connection *caller, char *arg, bool check)
 **************************************************************************/
 static void write_init_script(char *script_filename)
 {
+  char real_filename[1024];
   FILE *script_file;
+  
+  interpret_tilde(real_filename, sizeof(real_filename), script_filename);
 
-  if (is_reg_file_for_access(script_filename, TRUE)
-      && (script_file = fopen(script_filename, "w"))) {
+  if (is_reg_file_for_access(real_filename, TRUE)
+      && (script_file = fopen(real_filename, "w"))) {
 
     int i;
 
@@ -985,7 +991,7 @@ static void write_init_script(char *script_filename)
 
   } else {
     freelog(LOG_ERROR,
-	_("Could not write script file '%s'."), script_filename);
+	_("Could not write script file '%s'."), real_filename);
   }
 }
 

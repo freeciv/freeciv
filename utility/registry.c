@@ -584,9 +584,13 @@ static bool section_file_read_dup(struct section_file *sf,
 bool section_file_load(struct section_file *my_section_file,
 		      const char *filename)
 {
-  struct inputfile *inf = inf_from_file(filename, datafilename);
+  char real_filename[1024];
+  struct inputfile *inf;
 
-  return section_file_read_dup(my_section_file, filename, inf, TRUE);
+  interpret_tilde(real_filename, sizeof(real_filename), filename);
+  inf = inf_from_file(real_filename, datafilename);
+
+  return section_file_read_dup(my_section_file, real_filename, inf, TRUE);
 }
 
 /**************************************************************************
@@ -595,9 +599,13 @@ bool section_file_load(struct section_file *my_section_file,
 bool section_file_load_nodup(struct section_file *my_section_file,
 			    const char *filename)
 {
-  struct inputfile *inf = inf_from_file(filename, datafilename);
+  char real_filename[1024];
+  struct inputfile *inf;
 
-  return section_file_read_dup(my_section_file, filename, inf, FALSE);
+  interpret_tilde(real_filename, sizeof(real_filename), filename);
+  inf = inf_from_file(real_filename, datafilename);
+
+  return section_file_read_dup(my_section_file, real_filename, inf, FALSE);
 }
 
 /**************************************************************************
@@ -630,14 +638,18 @@ bool section_file_load_from_stream(struct section_file *my_section_file,
  Below simply specifies FZ_ZLIB method, since fz_fromFile() automatically
  changes to FZ_PLAIN method when level==0.
 **************************************************************************/
-bool section_file_save(struct section_file *my_section_file, const char *filename,
-		      int compression_level)
+bool section_file_save(struct section_file *my_section_file,
+                       const char *filename,
+		       int compression_level)
 {
-  fz_FILE *fs = fz_from_file(filename, "w", FZ_ZLIB, compression_level);
-
+  char real_filename[1024];
+  fz_FILE *fs;
   struct genlist_link *ent_iter, *save_iter, *col_iter;
   struct entry *pentry, *col_pentry;
   int i;
+  
+  interpret_tilde(real_filename, sizeof(real_filename), filename);
+  fs = fz_from_file(real_filename, "w", FZ_ZLIB, compression_level);
 
   if (!fs)
     return FALSE;
@@ -721,7 +733,7 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
 	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
 	    if(icol != 0) {
 	      freelog(LOG_ERROR, "unexpected exit from tabular at %s (%s)",
-		      pentry->name, filename);
+		      pentry->name, real_filename);
 	      fz_fprintf(fs, "\n");
 	    }
 	    fz_fprintf(fs, "}\n");
@@ -774,13 +786,13 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
   (void) moutstr(NULL);		/* free internal buffer */
 
   if (fz_ferror(fs) != 0) {
-    freelog(LOG_ERROR, "Error before closing %s: %s", filename,
+    freelog(LOG_ERROR, "Error before closing %s: %s", real_filename,
 	    fz_strerror(fs));
     fz_fclose(fs);
     return FALSE;
   }
   if (fz_fclose(fs) != 0) {
-    freelog(LOG_ERROR, "Error closing %s", filename);
+    freelog(LOG_ERROR, "Error closing %s", real_filename);
     return FALSE;
   }
 

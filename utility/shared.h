@@ -243,5 +243,5 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 			       int *ind_result);
 
 char *get_multicast_group(void);
-
+void interpret_tilde(char* buf, size_t buf_size, const char* filename);
 #endif  /* FC__SHARED_H */
