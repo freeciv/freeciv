@@ -116,6 +116,7 @@ struct city_dialog {
     GtkWidget *map_canvas_pixmap;
     GtkWidget *tradelist;
     GtkWidget *production_bar;
+    GtkWidget *production_combo;
     GtkWidget *buy_command;
     GtkWidget *improvement_list;
 
@@ -130,6 +131,8 @@ struct city_dialog {
 
     GtkWidget *info_ebox[NUM_INFO_FIELDS];
     GtkWidget *info_label[NUM_INFO_FIELDS];
+    
+    GtkListStore* change_production_store;
   } overview;
  
   struct { 
@@ -249,6 +252,7 @@ static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev);
 static void draw_map_canvas(struct city_dialog *pdialog);
 
 static void buy_callback(GtkWidget * w, gpointer data);
+static void change_production_callback(GtkWidget* w, struct city_dialog*);
 
 static void sell_callback(Impr_Type_id id, gpointer data);
 static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
@@ -642,9 +646,10 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 {
   GtkWidget *top, *vbox, *page, *align;
   GtkWidget *hbox, *ebox;
-  GtkWidget *frame, *table, *label, *sw, *view, *bar;
+  GtkWidget *frame, *table, *label, *sw, *view, *bar, *production_combo;
   GtkCellRenderer *rend;
   GtkListStore *store;
+  GtkListStore *production_store;
   const char *tab_title = _("_Overview");
 
   page = gtk_vbox_new(FALSE, 0);
@@ -800,9 +805,35 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
+  production_store = gtk_list_store_new(3, GDK_TYPE_PIXBUF, G_TYPE_STRING,
+                                        G_TYPE_INT);
+  pdialog->overview.change_production_store = production_store;
+
+  production_combo =
+    gtk_combo_box_new_with_model(GTK_TREE_MODEL(production_store));
+  pdialog->overview.production_combo = production_combo;
+  gtk_box_pack_start(GTK_BOX(hbox), production_combo, TRUE, TRUE, 0);
+  g_object_unref(production_store);
+  g_signal_connect(production_combo, "changed",
+                   G_CALLBACK(change_production_callback), pdialog);
+
+  gtk_cell_layout_clear(GTK_CELL_LAYOUT(production_combo));
+  rend = gtk_cell_renderer_pixbuf_new();
+  gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(production_combo), rend, TRUE);
+  gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(production_combo),
+                                 rend, "pixbuf", 0, NULL);
+  g_object_set(rend, "xalign", 0.0, NULL);				 
+
+  rend = gtk_cell_renderer_text_new();
+  gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(production_combo), rend, TRUE);
+  gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(production_combo),
+                                 rend, "text", 1, NULL);
+
   bar = gtk_progress_bar_new();
   pdialog->overview.production_bar = bar;
-  gtk_box_pack_start(GTK_BOX(hbox), bar, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(production_combo), bar);
+  gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(production_combo), 3);
+  
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
   pdialog->overview.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
@@ -1523,6 +1554,12 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   int cost;
   gboolean sensitive = city_can_buy(pcity);
 
+  GtkListStore* store;
+  GtkTreeIter iter;
+  cid cids[U_LAST + B_LAST];
+  struct item items[U_LAST + B_LAST];  
+  int cids_used, item;
+
   gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
   gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
 
@@ -1554,6 +1591,38 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     GTK_PROGRESS_BAR(pdialog->overview.production_bar), pct);
   gtk_progress_bar_set_fraction(
     GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
+    
+  store = pdialog->overview.change_production_store;  
+  gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
+                           -1);
+  gtk_list_store_clear(store);
+
+  cids_used = collect_cids4(cids, pdialog->pcity, FALSE);  
+  name_and_sort_items(cids, cids_used, items, FALSE, pcity);
+
+  for (item = 0; item < cids_used; item++) {
+    if (city_can_build_impr_or_unit(pcity, items[item].cid)) {
+      bool is_unit;
+      int id;
+      const char* name;
+      struct Sprite* sprite;
+
+      cid_decode(items[item].cid, &is_unit, &id);
+      if (is_unit) {
+        struct unit_type *unit_type = get_unit_type(id);
+	name = unit_type->name;
+	sprite = unit_type->sprite;
+      } else {
+        struct impr_type *impr;
+        impr = get_improvement_type(id);
+	name = impr->name;
+	sprite = impr->sprite;
+      }
+      gtk_list_store_append(store, &iter);
+      gtk_list_store_set(store, &iter, 0, sprite_get_pixbuf(sprite),
+                         1, name, 2, (gint)items[item].cid, -1);
+    }
+  }
 
   /* work around GTK+ refresh bug. */
   gtk_widget_queue_resize(pdialog->overview.production_bar);
@@ -2480,6 +2549,23 @@ static void buy_callback(GtkWidget *w, gpointer data)
       NULL);
     gtk_window_present(GTK_WINDOW(shell));
   }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void change_production_callback(GtkWidget* w,
+                                       struct city_dialog* pdial)
+{
+    GtkTreeIter iter;
+    cid cid;
+    
+    if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(w), &iter)) {
+      gtk_tree_model_get(
+        GTK_TREE_MODEL(pdial->overview.change_production_store),
+        &iter, 2, &cid, -1);
+      city_change_production(pdial->pcity, cid_is_unit(cid), cid_id(cid)); 
+    }
 }
 
 /****************************************************************
