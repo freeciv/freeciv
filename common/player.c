@@ -343,14 +343,28 @@ int player_get_expected_income(struct player *pplayer)
 {
   int income = 0;
 
+  /* City income/expenses. */
   city_list_iterate(pplayer->cities, pcity) {
+    /* Tax income. */
+    income += pcity->tax_total;
+
+    /* Improvement upkeep. */
     impr_type_iterate(impr_id) {
       if (city_got_building(pcity, impr_id)) {
 	income -= improvement_upkeep(pcity, impr_id);
       }
     } impr_type_iterate_end;
-    income += pcity->tax_total;
+
+    /* Capitalization income. */
+    if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
+      income += pcity->shield_stock + pcity->shield_surplus;
+    }
   } city_list_iterate_end;
+
+  /* Unit upkeep. */
+  unit_list_iterate(pplayer->units, punit) {
+    income -= punit->upkeep_gold;
+  } unit_list_iterate_end;
 
   return income;
 }
