@@ -1756,7 +1756,8 @@ static void select_random_race(void)
   int class_id = selected_class;
   int nations_in_class = g_list_length(sorted_races_list[class_id]);
   int index;
-
+  int tries = 0;
+  
   /* try to find a free nation */
   while (TRUE) {
     index = myrand(nations_in_class);
@@ -1765,6 +1766,7 @@ static void select_random_race(void)
     if (GTK_WIDGET_SENSITIVE(races_toggles[class_id][index])) {
       break;
     }
+    if (tries++ > 1000) return;
   }
 
   /* initialize nation toggle array */
