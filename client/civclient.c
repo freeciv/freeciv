@@ -117,7 +117,6 @@ int main(int argc, char *argv[])
   char *option=NULL;
 
   init_nls();
-  dont_run_as_root(argv[0], "freeciv_client");
   audio_init();
 
   /* default argument values are set in options.c */
@@ -196,6 +195,9 @@ int main(int argc, char *argv[])
   /* Remove all options except those intended for the UI. */
   argv[1 + ui_options] = NULL;
   argc = 1 + ui_options;
+
+  /* disallow running as root -- too dangerous */
+  dont_run_as_root(argv[0], "freeciv_client");
 
   log_init(logfile, loglevel, NULL);
 
