@@ -586,9 +586,10 @@ contributions to the Freeciv project.
 
   Localization (l10n) since 1.11.4 release:
 
+     freeciv.it team <slug-freeciv@siena.linux.it> (it.po)
      Erik Sigra <freeciv@home.se> (sv.po, BUGS.sv HOWTOPLAY.sv README.sv)
-     Pieter J. Kersten <kersten@dia.eur.nl> (nl.po 1.11.4)
-     Egbert Hinzen <egbert@ehinzen.de> (de.po 1.11.4)
+     Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
+     Egbert Hinzen <egbert@ehinzen.de> (de.po)
      Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (ja.po)
      Gaute Strokkenes <gs234@cam.ac.uk> (no.po)
      Dmitriy Genzel <udgenzel@mcs.drexel.edu> (ru.po)

@@ -13,7 +13,8 @@ ChangeLog file.
 WHAT'S CHANGED SINCE 1.11.4
 
  - Internationalization extended.  Still needs improvement.
-   Current localizations: de en_GB es fr hu ja nl no pl pt pt_BR ru sv.
+   Current localizations: de en_GB es fr hu it ja nl no pl pt pt_BR
+   ru sv.
  - Isometric view in gtk and amiga clients using the mostly civ2-
    compatible HiRes tileset. This is on by default, but the old non-
    isometric tiles are still available by giving a --tiles argument to
