@@ -41,7 +41,7 @@
 
 #include "packets.h"
 
-#define PACKET_SIZE_STATISTICS 1
+#define PACKET_SIZE_STATISTICS 0
 
 /********************************************************************** 
  The current packet functions don't handle signed values
