@@ -1139,7 +1139,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   vbox = GTK_DIALOG(pdialog->shell)->vbox;
 
   pdialog->name_label = gtk_label_new(NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), pdialog->name_label, TRUE, TRUE, 2);
+  gtk_box_pack_start(GTK_BOX(vbox), pdialog->name_label, FALSE, FALSE, 2);
 
   /**** -Start of Notebook- ****/
 
