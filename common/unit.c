@@ -963,9 +963,11 @@ int can_unit_do_activity_targeted(struct unit *punit,
 	( (ptile->terrain==type->mining_result && 
 	   !(ptile->special&S_MINE)) ||
 	  (ptile->terrain!=type->mining_result &&
-	   type->irrigation_result!=T_LAST &&
+	   type->mining_result!=T_LAST &&
 	   (ptile->terrain!=T_OCEAN ||
-	    can_reclaim_ocean(punit->x, punit->y))) )) {
+	    can_reclaim_ocean(punit->x, punit->y)) &&
+	   (type->mining_result!=T_OCEAN ||
+	    !(map_get_city(punit->x, punit->y)))) )) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_IRRIGATE) return 0;
       }
@@ -986,7 +988,9 @@ int can_unit_do_activity_targeted(struct unit *punit,
 	  (ptile->terrain!=type->irrigation_result &&
 	   type->irrigation_result!=T_LAST &&
 	   (ptile->terrain!=T_OCEAN ||
-	    can_reclaim_ocean(punit->x, punit->y))) )) {
+	    can_reclaim_ocean(punit->x, punit->y)) &&
+	   (type->irrigation_result!=T_OCEAN ||
+	    !(map_get_city(punit->x, punit->y)))) )) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_MINE) return 0;
       }
@@ -1051,6 +1055,8 @@ int can_unit_do_activity_targeted(struct unit *punit,
 	   (ptile->terrain!=type->transform_result) &&
 	   (ptile->terrain!=T_OCEAN ||
 	    can_reclaim_ocean(punit->x, punit->y)) &&
+	   (type->transform_result!=T_OCEAN ||
+	    !(map_get_city(punit->x, punit->y))) &&
 	   unit_flag(punit->type, F_TRANSFORM);
 
   default:

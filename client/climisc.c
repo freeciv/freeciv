@@ -240,13 +240,15 @@ void climap_update_continents(int x, int y)
 	 && tile_is_known(i,j)>=TILE_KNOWN_FOGGED
 	 && map_get_terrain(i,j)!=T_OCEAN) {
 	con = map_get_continent(i,j);
-	if(this_con==-1) {
-	  ptile->continent = this_con = con;
-	} else if(con != this_con) {
-	  freelog(LOG_DEBUG, "renumbering client continent %d to %d at (%d %d)",
-		  con, this_con, x, y);
-	  climap_renumber_continent(i, j, this_con);
-	  recycle_continent_num(con);
+	if(con>0) {
+	  if(this_con==-1) {
+	    ptile->continent = this_con = con;
+	  } else if(con != this_con) {
+	    freelog(LOG_DEBUG, "renumbering client continent %d to %d at (%d %d)",
+		    con, this_con, x, y);
+	    climap_renumber_continent(i, j, this_con);
+	    recycle_continent_num(con);
+	  }
 	}
       }
     }
@@ -255,7 +257,6 @@ void climap_update_continents(int x, int y)
     ptile->continent = new_continent_num();
     freelog(LOG_DEBUG, "new client continent %d at (%d %d)",
 	    ptile->continent, x, y);
-    return;
   }
 }
 

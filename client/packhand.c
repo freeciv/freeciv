@@ -332,6 +332,9 @@ void handle_new_year(struct packet_new_year *ppacket)
   if(game.player_ptr->ai.control && !ai_manual_turn_done) user_ended_turn();
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void handle_before_new_year(void)
 {
   clear_notify_window();
@@ -972,6 +975,7 @@ This was once very ugly...
 void handle_tile_info(struct packet_tile_info *packet)
 {
   struct tile *ptile = map_get_tile(packet->x, packet->y);
+  enum tile_terrain_type old_terrain = ptile->terrain;
   enum known_type old_known = ptile->known;
   int tile_changed = 0;
 
@@ -994,9 +998,24 @@ void handle_tile_info(struct packet_tile_info *packet)
   }
 
   /* update continents */
-  if(packet->known >= TILE_KNOWN_FOGGED && old_known == TILE_UNKNOWN
-     && ptile->terrain != T_OCEAN) {
+  if ((packet->known >= TILE_KNOWN_FOGGED &&
+       old_known == TILE_UNKNOWN && ptile->terrain != T_OCEAN) ||
+      ((old_terrain == T_OCEAN) && (ptile->terrain != T_OCEAN))) {
+    /* new knowledge or new land -- update can handle incrementally */
     climap_update_continents(packet->x, packet->y);
+  } else if (old_known >= TILE_KNOWN_FOGGED &&
+	     ((old_terrain != T_OCEAN) && (ptile->terrain == T_OCEAN))) {
+    /* land changed into ocean -- rebuild continents map from scratch */
+    int x, y;
+    for (y = 0; y < map.ysize; y++)
+      for (x = 0; x < map.xsize; x++)
+	map_set_continent(x, y, 0);
+    climap_init_continents();
+    for (y = 0; y < map.ysize; y++)
+      for (x = 0; x < map.xsize; x++)
+	if ((tile_is_known(x, y) >= TILE_KNOWN_FOGGED) &&
+	    (map_get_terrain(x, y) != T_OCEAN))
+	  climap_update_continents(x, y);
   }
 
   /* refresh tiles */

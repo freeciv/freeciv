@@ -39,6 +39,7 @@
 #include "civserver.h"
 #include "gamelog.h"
 #include "gotohand.h"
+#include "mapgen.h"		/* assign_continent_numbers */
 #include "maphand.h"
 #include "plrhand.h"
 #include "settlers.h"
@@ -1749,7 +1750,8 @@ static int total_activity_targeted (int x, int y,
 /**************************************************************************
   For each city adjacent to (x,y), check if landlocked.  If so, sell all
   improvements in the city that depend upon being next to an ocean tile.
-  (Should be called after any terrain changes.  Assumes no city at (x,y).)
+  (Should be called after any ocean to land terrain changes.
+   Assumes no city at (x,y).)
 **************************************************************************/
 static void city_landlocked_sell_coastal_improvements(int x, int y)
 {
@@ -1787,6 +1789,27 @@ static void city_landlocked_sell_coastal_improvements(int x, int y)
 	}
       }
     }
+  }
+}
+
+/**************************************************************************
+  Checks for terrain change between ocean and land.  Handles side-effects.
+  (Should be called after any potential ocean/land terrain changes.)
+**************************************************************************/
+static void check_terrain_ocean_land_change(int x, int y,
+					    enum tile_terrain_type old)
+{
+  enum tile_terrain_type new = map_get_terrain(x, y);
+
+  if ((old == T_OCEAN) && (new != T_OCEAN)) {
+    /* ocean to land ... */
+    city_landlocked_sell_coastal_improvements(x, y);
+    assign_continent_numbers();
+    gamelog(GAMELOG_MAP, "(%d,%d) land created from ocean", x, y);
+  } else if ((old != T_OCEAN) && (new == T_OCEAN)) {
+    /* land to ocean ... */
+    assign_continent_numbers();
+    gamelog(GAMELOG_MAP, "(%d,%d) ocean created from land", x, y);
   }
 }
 
@@ -1883,8 +1906,9 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   if (activity==ACTIVITY_IRRIGATE) {
     if (total_activity (punit->x, punit->y, ACTIVITY_IRRIGATE) >=
         map_build_irrigation_time(punit->x, punit->y)) {
+      enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
       map_irrigate_tile(punit->x, punit->y);
-      city_landlocked_sell_coastal_improvements(punit->x, punit->y);
+      check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = 1;
     }
   }
@@ -1908,8 +1932,9 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   if (activity==ACTIVITY_MINE) {
     if (total_activity (punit->x, punit->y, ACTIVITY_MINE) >=
         map_build_mine_time(punit->x, punit->y)) {
+      enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
       map_mine_tile(punit->x, punit->y);
-      city_landlocked_sell_coastal_improvements(punit->x, punit->y);
+      check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = 1;
     }
   }
@@ -1917,8 +1942,9 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   if (activity==ACTIVITY_TRANSFORM) {
     if (total_activity (punit->x, punit->y, ACTIVITY_TRANSFORM) >=
         map_transform_time(punit->x, punit->y)) {
+      enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
       map_transform_tile(punit->x, punit->y);
-      city_landlocked_sell_coastal_improvements(punit->x, punit->y);
+      check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = 1;
     }
   }

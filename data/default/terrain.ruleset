@@ -234,9 +234,9 @@ road_time            = 4
 irrigation_result    = "Plains"
 irrigation_food_incr = 0
 irrigation_time      = 5
-mining_result        = "no"
+mining_result        = "Swamp"
 mining_shield_incr   = 0
-mining_time          = 0
+mining_time          = 15
 transform_result     = "Grassland"
 transform_time       = 24
 helptext	     = _("\
@@ -522,8 +522,8 @@ irrigation_time      = 15
 mining_result        = "Forest"
 mining_shield_incr   = 0
 mining_time          = 15
-transform_result     = "Plains"
-transform_time       = 24
+transform_result     = "Ocean"
+transform_time       = 36
 helptext	     = _("\
 Swamps suffer from an over-abundance of water, making agriculture\
  somewhat problematic.\

@@ -662,6 +662,21 @@ int map_transform_time(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
+static void clear_infrastructure(int x, int y)
+{
+  map_clear_special(x, y, S_ROAD);
+  map_clear_special(x, y, S_IRRIGATION);
+  map_clear_special(x, y, S_RAILROAD);
+  map_clear_special(x, y, S_MINE);
+  map_clear_special(x, y, S_POLLUTION);
+  map_clear_special(x, y, S_FORTRESS);
+  map_clear_special(x, y, S_FARMLAND);
+  map_clear_special(x, y, S_AIRBASE);
+}
+
+/***************************************************************
+...
+***************************************************************/
 void map_irrigate_tile(int x, int y)
 {
   enum tile_terrain_type now, result;
@@ -678,6 +693,8 @@ void map_irrigate_tile(int x, int y)
   }
   else if(result!=T_LAST) {
     map_set_terrain(x, y, result);
+    if (result==T_OCEAN)
+      clear_infrastructure(x, y);
     reset_move_costs(x, y);
   }
   map_clear_special(x, y, S_MINE);
@@ -697,6 +714,8 @@ void map_mine_tile(int x, int y)
     map_set_special(x, y, S_MINE);
   else if(result!=T_LAST) {
     map_set_terrain(x, y, result);
+    if (result==T_OCEAN)
+      clear_infrastructure(x, y);
     reset_move_costs(x, y);
   }
   map_clear_special(x,y, S_FARMLAND);
@@ -715,6 +734,8 @@ void map_transform_tile(int x, int y)
   
   if (result != T_LAST) {
     map_set_terrain(x, y, result);
+    if (result==T_OCEAN)
+      clear_infrastructure(x, y);
     reset_move_costs(x, y);
   }
 

@@ -68,7 +68,10 @@ void gamelog(int level, char *message, ...)
   va_start(args, message);
   my_vsnprintf(buf, sizeof(buf), message, args);
   if (level==GAMELOG_MAP){
-    fprintf(fs,"%s\n",buf);
+    if (buf[0] == '(')  /* KLUGE!! FIXME: remove when we fix the gamelog format --jjm */
+      fprintf(fs,"%i %s\n", game.year,buf);
+    else
+      fprintf(fs,"%s\n",buf);
   } else if (level==GAMELOG_EOT){
     fprintf(fs,"*** %s\n",buf);
   } else {
