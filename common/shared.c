@@ -14,11 +14,12 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+#include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <assert.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -35,6 +36,7 @@
 
 #include "shared.h"
 
+
 /* If no path separator is defined use colon */
 #ifndef PATH_SEPARATOR
 #define PATH_SEPARATOR ":"
@@ -45,6 +47,13 @@
 #define DEFAULT_DATA_PATH "." PATH_SEPARATOR "data" PATH_SEPARATOR \
                           "~/.freeciv"
 #endif
+
+/* Cached locale numeric formatting information.
+   Defaults are as appropriate for the US. */
+static char *grouping = "\3";
+static char *grouping_sep = ",";
+static size_t grouping_sep_len = 1;
+
 
 /**************************************************************************
   FIXME:  This is an inelegant, English-specific kludge that fails to
@@ -169,60 +178,52 @@ int is_option(const char *option_name,char *option)
 
 /***************************************************************
   Returns a statically allocated string containing a nicely-formatted
-  version of the given number.
-  FIXME:  This is not internationalised at all.
+  version of the given number according to the user's locale.
+  (Only works for numbers >= zero.)
 ***************************************************************/
-#define SPLITS 3
-#define N_DIGS 20
 char *int_to_text(int nr)
 {
-  char tmpbuf[N_DIGS+1];
-  static char buf[N_DIGS+((N_DIGS-1)/SPLITS)+1];
-  char *to=buf;
-  char *from=tmpbuf;
-  my_snprintf(tmpbuf, sizeof(tmpbuf), "%d", nr);
-  while (*from) {
-    *to++ = *from++;
-    if (strlen(from)%SPLITS==0 && *from)  
-      *to++=',';
-  }
-  *to=0;
-  return buf;
-#if 0
-  /* FIXME: Some code which may help when i18n'd using localeconv(). */
-  int neg;
-  static char buf[1 + (2 * N_DIGS - 1) + 1];
+  static char buf[64]; /* Note that we'll be filling this in right to left. */
+  char *grp = grouping;
   char *ptr;
-  int inx;
+  int cnt;
+
+  assert(nr >= 0);
 
   if (nr == 0) {
     return "0";
   }
 
-  if ((neg = (nr < 0))) {
-    nr = -nr;
-  }
+  ptr = &buf[sizeof(buf)];
+  *(--ptr) = '\0';
 
-  ptr = &(buf[sizeof(buf) - 1]);
-  *ptr-- = '\0';
-
-  inx = 0;
+  cnt = 0;
   while (nr != 0) {
     int dig = nr % 10;
-    *ptr-- = '0' + dig;
+    assert(ptr > buf);
+    *(--ptr) = '0' + dig;
     nr /= 10;
-    inx++;
-    if ((inx % SPLITS == 0) && (nr != 0)) {
-      *ptr-- = ',';
+
+    cnt++;
+    if (nr != 0 && cnt == *grp) {
+      /* Reached count of digits in group: insert separator and reset count. */
+      cnt = 0;
+      if (*grp == CHAR_MAX) {
+	/* This test is unlikely to be necessary since we would need at
+	   least 421-bit ints to break the 127 digit barrier, but why not. */
+	break;
+      }
+      ptr -= grouping_sep_len;
+      assert(ptr >= buf);
+      memcpy(ptr, grouping_sep, grouping_sep_len);
+      if (*(grp + 1) != 0) {
+	/* Zero means to repeat the present group-size indefinitely. */
+        grp++;
+      }
     }
   }
 
-  if (neg) {
-    *ptr-- = '-';
-  }
-
-  return ptr + 1;
-#endif
+  return ptr;
 }
 
 /***************************************************************
@@ -694,19 +695,47 @@ char *datafilename_required(const char *filename)
   }
 }
 
-
 /***************************************************************************
   Setup for Native Language Support, if configured to use it.
+  (Call this only once, or it may leak memory.)
 ***************************************************************************/
 void init_nls(void)
 {
 #ifdef ENABLE_NLS
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
+
+  /* Don't touch the defaults when LC_NUMERIC == "C".
+     This is intended to cater to the common case where:
+       1) The user is from North America. ;-)
+       2) The user has not set the proper environment variables.
+	  (Most applications are (unfortunately) US-centric
+	  by default, so why bother?)
+     This would result in the "C" locale being used, with grouping ""
+     and thousands_sep "", where we really want "\3" and ",". */
+
+  if (strcmp(setlocale(LC_NUMERIC, NULL), "C")) {
+    struct lconv *lc = localeconv();
+
+    if (lc->grouping[0] == '\0') {
+      /* This actually indicates no grouping at all. */
+      static char m = CHAR_MAX;
+      grouping = &m;
+    } else {
+      size_t len;
+      for (len = 0; lc->grouping[len] && lc->grouping[len] != CHAR_MAX; len++)
+	;
+      len++;
+      grouping = fc_malloc(len);
+      memcpy(grouping, lc->grouping, len);
+    }
+
+    grouping_sep = mystrdup(lc->thousands_sep);
+    grouping_sep_len = strlen(grouping_sep);
+  }
 #endif
 }
-
 
 /***************************************************************************
   If we have root privileges, die with an error.
@@ -731,7 +760,6 @@ void dont_run_as_root(const char *argv0, const char *fallback)
   }
 #endif
 }
-
 
 /***************************************************************************
   Return a description string of the result.
