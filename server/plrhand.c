@@ -220,7 +220,6 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
   bool macro_polo_was_obsolete = wonder_obsolete(B_MARCO);
-  int saved_bulbs;
   struct city *pcity;
 
   plr->got_tech = TRUE;
@@ -284,7 +283,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   if (tech_found==plr->research.researching) {
     /* need to pick new tech to research */
 
-    saved_bulbs = plr->research.bulbs_researched;
+    int saved_bulbs = plr->research.bulbs_researched;
 
     if (choose_goal_tech(plr) != 0) {
       notify_player(plr, 
@@ -401,20 +400,21 @@ void tech_researched(struct player* plr)
 }
 
 /**************************************************************************
-Called from each city to update the research.
+  Called from each city to update the research.
 **************************************************************************/
 void update_tech(struct player *plr, int bulbs)
 {
-  int missing = total_bulbs_required(plr) - plr->research.bulbs_researched;
+  int excessive_bulbs;
 
-  assert(missing > 0);
+  plr->research.bulbs_researched += bulbs;
+  
+  excessive_bulbs =
+      (plr->research.bulbs_researched - total_bulbs_required(plr));
 
-  if (bulbs >= missing) {
-    plr->research.bulbs_researched += missing;
+  if (excessive_bulbs >= 0) {
     tech_researched(plr);
-    plr->research.bulbs_researched += (bulbs - missing);
-  } else {
-    plr->research.bulbs_researched += bulbs;
+    plr->research.bulbs_researched += excessive_bulbs;
+    update_tech(plr, 0);
   }
 }
 
