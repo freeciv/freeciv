@@ -80,10 +80,6 @@ const char *get_ai_role_str(enum ai_unit_task task)
      return "Recover";
    case AIUNIT_HUNTER:
      return "Hunter";
-   case AIUNIT_PILLAGE:
-   case AIUNIT_RUNAWAY:
-   case AIUNIT_FORTIFY:
-     return "Unused";
   }
   assert(FALSE);
   return NULL;
@@ -378,6 +374,11 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     charge->ai.bodyguard = BODYGUARD_NONE;
   }
   punit->ai.charge = BODYGUARD_NONE;
+
+  /* Record the city to defend; our goto may be to transport. */
+  if (task == AIUNIT_DEFEND_HOME && ptile && ptile->city) {
+    punit->ai.charge = ptile->city->id;
+  }
 
   punit->ai.ai_role = task;
 

@@ -31,6 +31,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
+#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 
@@ -312,9 +313,9 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       ai_unit_goto(punit, punit->goto_tile);
     } else {
       if (punit->fuel == 1) {
-	freelog(LOG_DEBUG, "Oops, %s is fallin outta sky", 
-		unit_type(punit)->name);
+	UNIT_LOG(LOG_DEBUG, punit, "Oops, fallin outta the sky");
       }
+      punit->ai.done = TRUE; /* Won't help trying again */
       return;
     }
 
@@ -344,10 +345,12 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
               (map_get_city(dst_tile) ? 
                map_get_city(dst_tile)->name : ""));
       punit->goto_tile = dst_tile;
-      ai_unit_goto(punit, punit->goto_tile);
+      punit->ai.done = TRUE; /* Wait for next turn */
+      (void) ai_unit_goto(punit, punit->goto_tile);
     } else {
       freelog(LOG_DEBUG, "%s cannot find anything to kill and is staying put", 
               unit_type(punit)->name);
+      punit->ai.done = TRUE;
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
     }
   }

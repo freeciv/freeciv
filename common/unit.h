@@ -55,9 +55,8 @@ enum diplomat_actions {
 };
 
 enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
-                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
-                    AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE,
-                    AIUNIT_PILLAGE, AIUNIT_RECOVER, AIUNIT_HUNTER };
+                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_ESCORT, 
+                    AIUNIT_EXPLORE, AIUNIT_RECOVER, AIUNIT_HUNTER };
 
 enum goto_move_restriction {
   GOTO_MOVE_ANY,
@@ -119,6 +118,7 @@ struct unit_ai {
 
   int target; /* target we hunt */
   int hunted; /* if a player is hunting us, set by that player */
+  bool done;  /* we are done controlling this unit this turn */
 };
 
 struct unit {

@@ -574,6 +574,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
              pcity->name, pcity->ai.urgency);
     ai_unit_new_role(punit, AIUNIT_NONE, NULL); /* abort mission */
+    punit->ai.done = TRUE;
     pf_destroy_map(map);
     return;
   }
@@ -643,6 +644,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DIPLOMAT, punit, "going idle");
     } else {
       UNIT_LOG(LOG_DIPLOMAT, punit, "could not find a job");
+      punit->ai.done = TRUE;
       pf_destroy_map(map);
       return;
     }
@@ -679,6 +681,8 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       }
     }
     pf_destroy_path(path);
+  } else {
+    punit->ai.done = TRUE;
   }
   pf_destroy_map(map);
 }

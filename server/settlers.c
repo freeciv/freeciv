@@ -147,6 +147,7 @@ void init_settlers(void)
 void ai_manage_settler(struct player *pplayer, struct unit *punit)
 {
   punit->ai.control = TRUE;
+  punit->ai.done = TRUE; /* we will manage this unit later... ugh */
   /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
   if (punit->ai.ai_role == AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, NULL);
