@@ -2154,7 +2154,6 @@ LONG APIENTRY citydlg_config_proc(HWND hWnd,
     case WM_COMMAND:
       if (pdialog) {
 	struct city *pcity=pdialog->pcity;
-	struct packet_generic_values packet;   
 	int i,new_options;
 	new_options=0;
 	for(i=0;i<NUM_CITYOPT_TOGGLES;i++)
@@ -2164,10 +2163,7 @@ LONG APIENTRY citydlg_config_proc(HWND hWnd,
 	  new_options |= (1<<CITYO_NEW_EINSTEIN); 
 	else if (IsDlgButtonChecked(hWnd,ID_CITYOPT_RADIO+2))
 	  new_options |= (1<<CITYO_NEW_TAXMAN);  
-	packet.value1=pcity->id;
-	packet.value2=new_options;
-	send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS,
-				   &packet); 
+	dsend_packet_city_options_req(&aconnection, pcity->id, new_options);
       }
       break;
     default: 

@@ -185,10 +185,7 @@ static LONG CALLBACK spaceship_proc(HWND dlg,UINT message,
   case WM_COMMAND:
     switch(LOWORD(wParam)) {
     case IDOK: {
-      struct packet_spaceship_action packet;
-      packet.action = SSHIP_ACT_LAUNCH;
-      packet.num = 0;
-      send_packet_spaceship_action(&aconnection, &packet);
+      send_packet_spaceship_launch(&aconnection);
     }
     break;
     case IDCANCEL:

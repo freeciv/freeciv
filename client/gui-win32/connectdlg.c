@@ -144,8 +144,7 @@ static int min_free_port()
 /*************************************************************************
  PORTME
 *************************************************************************/
-void handle_authentication_request(struct packet_authentication_request *
-                                   packet)
+void handle_authentication_req(enum authentication_type type, char *message)
 {
 }
 

@@ -334,20 +334,19 @@ static void select_random_leader(HWND hWnd)
 **************************************************************************/
 static void do_select(HWND hWnd)
 {
-  struct packet_alloc_nation packet;
-  packet.nation_no=selected_nation;
-  packet.is_male=(selected_leader_sex==ID_RACESDLG_MALE)?1:0;
-  packet.city_style=city_style_idx[selected_style-ID_RACESDLG_STYLE_BASE];
- 
+  bool is_male = (selected_leader_sex == ID_RACESDLG_MALE);
+  int city_style = city_style_idx[selected_style - ID_RACESDLG_STYLE_BASE];
+  char name[MAX_LEN_NAME];
  
   ComboBox_GetText(GetDlgItem(hWnd,ID_RACESDLG_LEADER),
-		   packet.name,MAX_LEN_NAME);
+		   name,MAX_LEN_NAME);
  
-  if (!is_sane_name(packet.name)) {
+  if (!is_sane_name(name)) {
     append_output_window(_("You must type a legal name."));
     return;
   }
-  send_packet_alloc_nation(&aconnection,&packet);  
+  dsend_packet_nation_select_req(&aconnection, selected_nation, is_male,
+				 name, city_style);
 }
 
 
@@ -852,7 +851,8 @@ popup_unit_select_dialog(struct tile *ptile)
 /**************************************************************************
 
 **************************************************************************/
-void races_toggles_set_sensitive(struct packet_nations_used *packet)
+void races_toggles_set_sensitive(int num_nations_used,
+				 Nation_Type_id * nations_used)
 {
   int i;
 
@@ -860,9 +860,9 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
     EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + i), TRUE);
   }
 
-  freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
-  for (i = 0; i < packet->num_nations_used; i++) {
-    int nation = packet->nations_used[i];
+  freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
+  for (i = 0; i < num_nations_used; i++) {
+    Nation_Type_id nation = nations_used[i];
 
     freelog(LOG_DEBUG, "  [%d]: %d", i, nation);
 
@@ -911,10 +911,7 @@ void popup_revolution_dialog(void)
 **************************************************************************/ 
 static void government_callback(HWND w, void *data)
 {
-  struct packet_player_request packet;
- 
-  packet.government=(size_t)data;
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
+  dsend_packet_player_government(&aconnection, (size_t)data);
  
   destroy_message_dialog(w);
   is_showing_government_dialog=0;
@@ -973,11 +970,7 @@ popup_government_dialog(void)
 *****************************************************************/
 static void caravan_establish_trade_callback(HWND w, void * data)
 {
-  struct packet_unit_request req;
-  req.unit_id=caravan_unit_id;
-  req.city_id=caravan_city_id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
+  dsend_packet_unit_establish_trade(&aconnection, caravan_unit_id);
  
   destroy_message_dialog(w);
   caravan_dialog = 0;
@@ -990,11 +983,7 @@ static void caravan_establish_trade_callback(HWND w, void * data)
 *****************************************************************/
 static void caravan_help_build_wonder_callback(HWND w, void * data)
 {
-  struct packet_unit_request req;
-  req.unit_id=caravan_unit_id;
-  req.city_id=caravan_city_id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
+  dsend_packet_unit_help_build_wonder(&aconnection, caravan_unit_id);
  
   destroy_message_dialog(w);
   caravan_dialog = 0;
@@ -1325,14 +1314,12 @@ static void diplomat_bribe_no_callback(HWND w, void * data)
 *****************************************************************/
 static void diplomat_bribe_callback(HWND w, void * data)
 {
-  struct packet_generic_integer packet;
 
   destroy_message_dialog(w);
   
-  if(find_unit_by_id(diplomat_id) && 
-     find_unit_by_id(diplomat_target_id)) { 
-    packet.value = diplomat_target_id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  if (find_unit_by_id(diplomat_id)
+      && find_unit_by_id(diplomat_target_id)) { 
+    dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
    }
 
 }
@@ -1511,16 +1498,11 @@ static void diplomat_incite_no_callback(HWND w, void * data)
 *****************************************************************/
 static void diplomat_incite_callback(HWND w, void * data)
 {
-  struct city *pcity;
-  struct packet_generic_integer packet;
-
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
-  
-  if(find_unit_by_id(diplomat_id) && 
-     (pcity=find_city_by_id(diplomat_target_id))) { 
-    packet.value = diplomat_target_id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  diplomat_dialog_open = 0;
+
+  if (find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id)) {
+    dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
   }
 }
 

@@ -330,27 +330,27 @@ void overview_handle_rbut(int x, int y)
 **************************************************************************/
 void indicator_handle_but(int i)
 {
-  int tax_end,lux_end,sci_end;
-  int delta=10;
-  struct packet_player_request packet;       
-  lux_end= game.player_ptr->economic.luxury;
-  sci_end= lux_end + game.player_ptr->economic.science;
-  tax_end= 100; 
+  int delta = 10;
+  int lux_end = game.player_ptr->economic.luxury;
+  int sci_end = lux_end + game.player_ptr->economic.science;
+  int tax_end = 100; 
+  int luxury = game.player_ptr->economic.luxury;
+  int science = game.player_ptr->economic.science;
+  int tax = game.player_ptr->economic.tax;
   
-  packet.luxury= game.player_ptr->economic.luxury;
-  packet.science= game.player_ptr->economic.science;
-  packet.tax= game.player_ptr->economic.tax;
-  
-  i*= 10;
-  if(i<lux_end){
-    packet.luxury-= delta; packet.science+= delta;
-  }else if(i<sci_end){
-    packet.science-= delta; packet.tax+= delta;
-  }else{
-   packet.tax-= delta; packet.luxury+= delta;
+  i *= 10;
+  if (i < lux_end) {
+    luxury -= delta;
+    science += delta;
+  } else if (i < sci_end) {
+    science -= delta;
+    tax += delta;
+  } else {
+    tax -= delta;
+    luxury += delta;
   }
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
-  
+
+  dsend_packet_player_rates(&aconnection, tax, luxury, science);
 }
 
 /**************************************************************************
@@ -360,11 +360,9 @@ static void name_new_city_callback(HWND w, void *data)
 {
   size_t unit_id;
  
-  if((unit_id=(size_t)data)) {
-    struct packet_unit_request req;
-    req.unit_id=unit_id;
-    sz_strlcpy(req.name, input_dialog_get_input(w));
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
+  if ((unit_id = (size_t)data)) {
+    dsend_packet_unit_build_city(&aconnection, unit_id, 
+				 input_dialog_get_input(w));
   }
   input_dialog_destroy(w);
 }

@@ -191,10 +191,10 @@ static LONG CALLBACK science_proc(HWND hWnd,
 	    to=ComboBox_GetCurSel(GetDlgItem(hWnd,ID_SCIENCE_RESEARCH));
 	    if (to!=LB_ERR) {
 	      char text[512];
-	      struct packet_player_request packet;
-	      to=ComboBox_GetItemData(GetDlgItem(hWnd,
-						 ID_SCIENCE_RESEARCH),
-				      to);
+
+	      to = ComboBox_GetItemData(GetDlgItem(hWnd,
+						   ID_SCIENCE_RESEARCH),
+					to);
 	      
 	      if (IsDlgButtonChecked(hWnd, ID_SCIENCE_HELP)) {
 		popup_help_dialog_typed(advances[to].name, HELP_TECH);
@@ -204,9 +204,7 @@ static LONG CALLBACK science_proc(HWND hWnd,
 			    game.player_ptr->research.bulbs_researched,
 			    total_bulbs_required(game.player_ptr));
 		SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_PROG),text);
-		packet.tech=to;
-		send_packet_player_request(&aconnection, &packet,
-					   PACKET_PLAYER_RESEARCH);  
+		dsend_packet_player_research(&aconnection, to);
 	      }
 	    }
 	  }
@@ -216,16 +214,15 @@ static LONG CALLBACK science_proc(HWND hWnd,
 	    to=ComboBox_GetCurSel(GetDlgItem(hWnd,ID_SCIENCE_GOAL));
 	    if (to!=LB_ERR) {
 	      char text[512];
-	      struct packet_player_request packet;
-	      to=ComboBox_GetItemData(GetDlgItem(hWnd,ID_SCIENCE_GOAL),to);
+
+	      to = ComboBox_GetItemData(GetDlgItem(hWnd, ID_SCIENCE_GOAL),
+					to);
 	      steps = num_unknown_techs_for_goal(game.player_ptr, to);
 	      my_snprintf(text, sizeof(text), 
 	                  PL_("(%d step)", "(%d steps)", steps),
 			  steps);
-	      SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_STEPS),text);       
-	      packet.tech=to;
-	      send_packet_player_request(&aconnection, &packet, 
-					 PACKET_PLAYER_TECH_GOAL); 
+	      SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_STEPS), text);
+	      dsend_packet_player_tech_goal(&aconnection, to);
 	    }
 	  }
 	  break;
@@ -491,7 +488,8 @@ popup_economy_report_dialog(bool make_modal)
 *****************************************************************/
 static void upgrade_callback_yes(HWND w, void * data)
 {
-  send_packet_unittype_info(&aconnection,(size_t)data,PACKET_UNITTYPE_UPGRADE);  destroy_message_dialog(w);
+  dsend_packet_unit_type_upgrade(&aconnection, (size_t)data);
+  destroy_message_dialog(w);
 }
  
 /****************************************************************

@@ -66,13 +66,7 @@ static int sort_column=2;
 static void players_meet(int player_index)
 {
   if (can_meet_with_player(&game.players[player_index])) {
-    struct packet_diplomacy_info pa;
-
-    pa.plrno0=game.player_idx;
-    pa.plrno1=player_index;
-    pa.plrno_from=pa.plrno0;
-    send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
-			       &pa);
+    dsend_packet_diplomacy_init_meeting_req(&aconnection, player_index);
 
   } else {
     append_output_window(_("Game: You need an embassy to "
@@ -85,12 +79,8 @@ static void players_meet(int player_index)
 *******************************************************************/
 static void players_war(int player_index)
 {
-  struct packet_generic_values packet;
-
-  packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
-  packet.id = player_index;
-  send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-			     &packet);
+  dsend_packet_diplomacy_cancel_pact(&aconnection, player_index,
+				     CLAUSE_CEASEFIRE);
 }
 
 /******************************************************************
@@ -98,12 +88,8 @@ static void players_war(int player_index)
 *******************************************************************/
 static void players_vision(int player_index)
 {
-  struct packet_generic_values packet;
-
-  packet.value1 = CLAUSE_VISION;
-  packet.id = player_index;
-  send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-			     &packet);
+  dsend_packet_diplomacy_cancel_pact(&aconnection, player_index,
+				     CLAUSE_VISION);
 }
 
 /******************************************************************
