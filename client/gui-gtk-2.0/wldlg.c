@@ -54,7 +54,7 @@ enum {
 static GtkListStore *worklists_store;
 
 
-static GtkWidget *popup_worklist(struct worklist *pwl);
+static void popup_worklist(struct worklist *pwl);
 static void popdown_worklist(struct worklist *pwl);
 
 
@@ -342,7 +342,7 @@ static void worklist_response(GtkWidget *shell, gint response)
 /****************************************************************
 ...
 *****************************************************************/
-static GtkWidget *popup_worklist(struct worklist *pwl)
+static void popup_worklist(struct worklist *pwl)
 {
   GtkWidget *shell;
 
