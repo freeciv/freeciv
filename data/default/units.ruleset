@@ -146,6 +146,11 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "NoHome"	= this unit has no homecity and will be free of all upkeep, and
 ;		  therefore will not revolt along with its city of origin should
 ;		  it be incited
+; "NoVeteran"   = this unit cannot become veteran
+; "Bombarder"   = this unit cannot kill other units, only damage them, but
+;                 also is not harmed by return fire when attacking; the field
+;                 bombard_rate regulates its number of shots
+; "CityBuster"  = this unit has double firepower against cities
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
@@ -153,6 +158,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ;   paratroopers_mr_req = the move rate which is required at least for
 ;                         paradropping
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
+;  "Bombarder"
+;   bombard_rate = the number of shots fired at enemy units when attacking
 ;
 ; ** Roles **
 ;

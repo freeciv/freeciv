@@ -239,6 +239,12 @@ void get_modified_firepower(struct unit *attacker, struct unit *defender,
   *att_fp = unit_type(attacker)->firepower;
   *def_fp = unit_type(defender)->firepower;
 
+  /* Check CityBuster flag */
+  if (unit_flag(attacker, F_CITYBUSTER)
+      && map_get_city(defender->x, defender->y)) {
+    *att_fp *= 2;
+  }
+
   /* pearl harbour - defender's firepower is reduced to one, 
    *                 attacker's is multiplied by two         */
   if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y)) {
