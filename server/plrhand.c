@@ -31,6 +31,7 @@
 
 #include "citytools.h"
 #include "cityturn.h"
+#include "connecthand.h"
 #include "diplhand.h"
 #include "gamehand.h"
 #include "gamelog.h"
@@ -1251,62 +1252,6 @@ static enum plr_info_level player_info_level(struct player *plr,
 }
 
 /**************************************************************************
-  Fill in packet_conn_info from full connection struct.
-**************************************************************************/
-static void package_conn_info(struct connection *pconn,
-			      struct packet_conn_info *packet)
-{
-  packet->id           = pconn->id;
-  packet->used         = pconn->used;
-  packet->established  = pconn->established;
-  packet->player_num   = pconn->player ? pconn->player->player_no : -1;
-  packet->observer     = pconn->observer;
-  packet->access_level = pconn->access_level;
-
-  sz_strlcpy(packet->name, pconn->name);
-  sz_strlcpy(packet->addr, pconn->addr);
-  sz_strlcpy(packet->capability, pconn->capability);
-}
-
-/**************************************************************************
-  Handle both send_conn_info() and send_conn_info_removed(), depending
-  on 'remove' arg.  Sends conn_info packets for 'src' to 'dest', turning
-  off 'used' if 'remove' is specified.
-**************************************************************************/
-static void send_conn_info_arg(struct conn_list *src,
-			       struct conn_list *dest, bool remove)
-{
-  struct packet_conn_info packet;
-  
-  conn_list_iterate(*src, psrc) {
-    package_conn_info(psrc, &packet);
-    if (remove) {
-      packet.used = FALSE;
-    }
-    lsend_packet_conn_info(dest, &packet);
-  }
-  conn_list_iterate_end;
-}
-
-/**************************************************************************
-  Send conn_info packets to tell 'dest' connections all about
-  'src' connections.
-**************************************************************************/
-void send_conn_info(struct conn_list *src, struct conn_list *dest)
-{
-  send_conn_info_arg(src, dest, FALSE);
-}
-
-/**************************************************************************
-  Like send_conn_info(), but turn off the 'used' bits to tell clients
-  to remove info about these connections instead of adding it.
-**************************************************************************/
-void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
-{
-  send_conn_info_arg(src, dest, TRUE);
-}
-
-/**************************************************************************
   Convenience function to return "reply" destination connection list
   for player: pplayer->current_conn if set, else pplayer->connections.
 **************************************************************************/
@@ -1410,47 +1355,6 @@ void maybe_make_first_contact(int x, int y, struct player *pplayer)
       make_contact(pplayer, unit_owner(punit), x, y);
     } unit_list_iterate_end;
   } square_iterate_end;
-}
-
-/**************************************************************************
-  Setup pconn as a client connected to pplayer:
-  Updates pconn->player, pplayer->connections, pplayer->is_connected.
-  Note "observer" connections do not count for is_connected.
-**************************************************************************/
-void associate_player_connection(struct player *pplayer,
-				 struct connection *pconn)
-{
-  assert(pplayer && pconn);
-  
-  pconn->player = pplayer;
-  conn_list_insert_back(&pplayer->connections, pconn);
-  if (!pconn->observer) {
-    pplayer->is_connected = TRUE;
-  }
-}
-
-/**************************************************************************
-  Remove pconn as a client connected to pplayer:
-  Update pplayer->connections, pplayer->is_connected.
-  Sets pconn->player to NULL (normally expect pconn->player==pplayer
-  when function entered, but not checked).
-**************************************************************************/
-void unassociate_player_connection(struct player *pplayer,
-				   struct connection *pconn)
-{
-  assert(pplayer && pconn);
-
-  pconn->player = NULL;
-  conn_list_unlink(&pplayer->connections, pconn);
-
-  pplayer->is_connected = FALSE;
-  conn_list_iterate(pplayer->connections, aconn) {
-    if (!aconn->observer) {
-      pplayer->is_connected = TRUE;
-      break;
-    }
-  }
-  conn_list_iterate_end;
 }
 
 /**************************************************************************

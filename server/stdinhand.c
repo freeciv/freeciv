@@ -43,6 +43,7 @@
 #include "version.h"
 
 #include "citytools.h"
+#include "connecthand.h"
 #include "console.h"
 #include "diplhand.h"
 #include "gamehand.h"

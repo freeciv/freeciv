@@ -72,6 +72,7 @@
 #include "shared.h"
 #include "support.h"
 #include "capability.h"
+#include "connecthand.h"
 #include "console.h"
 #include "meta.h"
 #include "srv_main.h"

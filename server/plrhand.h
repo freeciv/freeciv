@@ -41,8 +41,6 @@ void maybe_make_first_contact(int x, int y, struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
-void send_conn_info(struct conn_list *src, struct conn_list *dest);
-void send_conn_info_remove(struct conn_list *src, struct conn_list *dest);
 
 void notify_conn_ex(struct conn_list *dest, int x, int y, int event,
 		    const char *format, ...) 
@@ -84,11 +82,6 @@ void send_player_turn_notifications(struct conn_list *dest);
 void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);
 void do_conquer_cost(struct player *pplayer);
-
-void associate_player_connection(struct player *pplayer,
-				 struct connection *pconn);
-void unassociate_player_connection(struct player *pplayer,
-				   struct connection *pconn);
 
 void shuffle_players(void);
 struct player *shuffled_player(int i);

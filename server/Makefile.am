@@ -23,6 +23,8 @@ libcivserver_a_SOURCES = \
 		citytools.h	\
 		cityturn.c	\
 		cityturn.h	\
+		connecthand.c	\
+		connecthand.h	\
 		console.c	\
 		console.h	\
 		diplhand.c	\
