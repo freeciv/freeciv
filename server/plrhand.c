@@ -150,7 +150,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 	    advances[i].name);
 
 	do_free_cost(pplayer);
-	found_new_tech(pplayer, i, FALSE, FALSE, A_NONE);
+	found_new_tech(pplayer, i, FALSE, TRUE, A_NONE);
 	break;
       }
     } tech_type_iterate_end;
