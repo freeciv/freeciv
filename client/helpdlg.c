@@ -69,6 +69,8 @@ void create_help_page(enum help_page_type type);
 
 void update_help_dialog(Widget help_list);
 
+void help_unit_tile_destroy_callback(Widget w, XtPointer client_data, 
+				     XtPointer call_data);
 void help_close_command_callback(Widget w, XtPointer client_data, 
 				 XtPointer call_data);
 void help_list_callback(Widget w, XtPointer client_data, 
@@ -477,7 +479,12 @@ void create_help_page(enum help_page_type type)
     help_unit_tile=XtVaCreateManagedWidget("helpunittile",
     					   labelWidgetClass,
 					   help_right_form,
+					   XtNwidth, NORMAL_TILE_WIDTH,
+					   XtNheight, NORMAL_TILE_HEIGHT,
 					   NULL);  
+    XtAddCallback(help_unit_tile,
+                  XtNdestroyCallback,help_unit_tile_destroy_callback,
+		  NULL);
     help_unit_fp=XtVaCreateManagedWidget("helpunitfp", 
 					  labelWidgetClass, 
 					  help_right_form,
@@ -595,6 +602,7 @@ void help_update_dialog(struct help_item *pitem)
   for(i=0; i<U_LAST; ++i) {
     if(!strcmp(top, get_unit_type(i)->name)) {
        char buf[64];
+       Pixmap pm;
        create_help_page(HELP_UNIT);
        sprintf(buf, "%d ", get_unit_type(i)->build_cost);
        xaw_set_label(help_unit_cost_data, buf);
@@ -620,7 +628,8 @@ void help_update_dialog(struct help_item *pitem)
 	 xaw_set_label(help_wonder_obsolete_data, "None");
        else
 	 xaw_set_label(help_wonder_obsolete_data, get_unit_type(get_unit_type(i)->obsoleted_by)->name);
-       xaw_set_bitmap(help_unit_tile, get_tile_sprite(get_unit_type(i)->graphics+UNIT_TILES)->pixmap);
+
+       xaw_set_bitmap(help_unit_tile, create_overlay_unit(i));
        set_title_topic(pitem);
        return;
     }
@@ -754,6 +763,18 @@ void help_close_command_callback(Widget w, XtPointer client_data,
 {
   XtDestroyWidget(help_dialog_shell);
   help_dialog_shell=0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void help_unit_tile_destroy_callback(Widget w, XtPointer client_data, 
+				     XtPointer call_data)
+{
+  Pixmap pm;
+
+  XtVaGetValues(w,XtNbitmap,&pm,NULL);
+  if(pm) XFreePixmap(XtDisplay(w),pm);
 }
 
 /**************************************************************************

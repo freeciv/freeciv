@@ -66,6 +66,8 @@ void load_intro_gfx(void);
 
 struct Sprite *load_gfxfile(char *filename, int makemask);
 
+Pixmap create_overlay_unit(int i);
+
 #endif
 
 
