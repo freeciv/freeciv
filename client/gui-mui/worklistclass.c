@@ -306,7 +306,7 @@ void worklist_populate_targets(struct Worklist_Data *data)
   for(i=0; i<B_LAST; i++)
   {
     /* Can the player (eventually) build this improvement? */
-    can_build = could_player_build_improvement(pplr,i);
+    can_build = can_player_build_improvement(pplr,i);
     can_eventually_build = could_player_eventually_build_improvement(pplr,i);
 
     /* If there's a city, can the city build the improvement? */
