@@ -976,7 +976,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 	      else return handle_unit_move_request(punit, i, j, FALSE, FALSE);
 	    }
 	  } unit_list_iterate_end;
-        } square_iterate_end;
+        } adjc_iterate_end;
       } /* end if */
 /* end 'short leash' subroutine */
 
