@@ -2992,27 +2992,52 @@ static void show_help(struct connection *caller, char *arg)
 }
 
 /**************************************************************************
-  Show list of players or connections.  If more argument types are
-  added, especially if become non-unique with first letter, should
-  use m_pre matching code.
+  'list' arguments
+**************************************************************************/
+enum LIST_ARGS { LIST_PLAYERS, LIST_CONNECTIONS,
+		 LIST_ARG_NUM /* Must be last */ };
+static const char * const list_args[] = {
+  "players", "connections", NULL
+};
+static const char *listarg_accessor(int i) {
+  return list_args[i];
+}
+
+/**************************************************************************
+  Show list of players or connections, or connection statistics.
 **************************************************************************/
 static void show_list(struct connection *caller, char *arg)
 {
-  if (arg) {
-    arg = skip_leading_spaces(arg);
-    remove_trailing_spaces(arg);
-  }
-  if (!arg || strlen(arg) == 0
-      || mystrncasecmp(arg, "players", strlen(arg))==0) {
-    show_players(caller);
-  }
-  else if(mystrncasecmp(arg, "connections", strlen(arg))==0) {
-    show_connections(caller);
-  }
-  else {
+  enum m_pre_result match_result;
+  int ind;
+
+  remove_leading_trailing_spaces(arg);
+  match_result = match_prefix(listarg_accessor, LIST_ARG_NUM, 0,
+			      mystrncasecmp, arg, &ind);
+
+  if (match_result > M_PRE_EMPTY) {
     cmd_reply(CMD_LIST, caller, C_SYNTAX,
 	      _("Bad list argument: '%s'.  Try '%shelp list'."),
 	      arg, (caller?"/":""));
+    return;
+  }
+
+  if (match_result == M_PRE_EMPTY) {
+    ind = LIST_PLAYERS;
+  }
+
+  switch(ind) {
+  case LIST_PLAYERS:
+    show_players(caller);
+    return;
+  case LIST_CONNECTIONS:
+    show_connections(caller);
+    return;
+  default:
+    cmd_reply(CMD_LIST, caller, C_FAIL,
+	      "Internal error: ind %d in show_list", ind);
+    freelog(LOG_ERROR, "Internal error: ind %d in show_list", ind);
+    return;
   }
 }
 
@@ -3310,7 +3335,6 @@ static char *help_generator(char *text, int state)
 
 /**************************************************************************
 ...
-  (This should use a table...)
 **************************************************************************/
 static char *list_generator(char *text, int state)
 {
@@ -3326,8 +3350,8 @@ static char *list_generator(char *text, int state)
   }
 
   /* Return the next name which partially matches from the helpargs list. */
-  while (list_index < 2) {
-    name = (list_index ? "players" : "connections");
+  while (list_index < LIST_ARG_NUM) {
+    name = listarg_accessor(list_index);
     list_index++;
 
     if (mystrncasecmp (name, text, len) == 0)
