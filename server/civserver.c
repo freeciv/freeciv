@@ -119,7 +119,7 @@ int rand_init=0;
 **************************************************************************/
 int main(int argc, char *argv[])
 {
-  int h=0, v=0, n=0;
+  int h=0, v=0, n=1;
   char *log_filename=NULL;
   char *gamelog_filename=NULL;
   char *load_filename=NULL;
@@ -166,7 +166,11 @@ int main(int argc, char *argv[])
       }
     }
     else if(!strcmp("-n", argv[i]) || !strcmp("--nometa", argv[i])) { 
-      n=1;
+      fprintf(stderr, "Warning: the -n option is obsolete.  Use -m to enable the metaserver.\n");
+      h=1;
+    }
+    else if(!strcmp("-m", argv[i]) || !strcmp("--meta", argv[i])) {
+      n=0;
     }
     else if(!strcmp("-p", argv[i]) || !strcmp("--port", argv[i])) { 
       if(++i<argc) 
@@ -221,7 +225,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -g, --gamelog F\t\tUse F as game logfile\n");
     fprintf(stderr, "  -h, --help\t\t\tPrint a summary of the options\n");
     fprintf(stderr, "  -l, --log F\t\t\tUse F as logfile\n");
-    fprintf(stderr, "  -n, --nometa\t\t\tDon't send info to Metaserver\n");
+    fprintf(stderr, "  -m, --nometa\t\t\tSend info to Metaserver\n");
     fprintf(stderr, "  -p, --port N\t\t\tconnect to port N\n");
     fprintf(stderr, "  -r, --read\t\t\tRead startup script\n");
     fprintf(stderr, "  -s, --server H\t\tList this server as host H\n");
