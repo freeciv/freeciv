@@ -44,7 +44,6 @@ static unsigned int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
 /*************************************************************************/
 
-static const char *get_a_name(struct player *pplayer);
 static int city_desirability(struct player *pplayer, int x, int y);
 
 static int auto_settler_findwork(struct player *pplayer, struct unit *punit); 
@@ -61,18 +60,6 @@ static int make_dx(int x1, int x2);
 /**************************************************************************
 ...
 **************************************************************************/
-static const char *get_a_name(struct player *pplayer)
-{
-  static char buf[80];
-  static int x=0;
-  sz_strlcpy(buf, city_name_suggestion(pplayer));
-  if (!buf[0]) my_snprintf(buf, sizeof(buf), "city%d", x++);
-  return buf;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static int ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
   int x, y;
@@ -80,7 +67,7 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
   struct city *pcity;
   int i, j;
   req.unit_id=punit->id;
-  sz_strlcpy(req.name, get_a_name(pplayer));
+  sz_strlcpy(req.name, city_name_suggestion(pplayer));
   x = punit->x; y = punit->y; /* Trevor Pering points out that punit gets freed */
   handle_unit_build_city(pplayer, &req);        
   pcity=map_get_city(x, y); /* so we need to cache x and y for a very short time */

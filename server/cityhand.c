@@ -92,41 +92,50 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
 }
 
 /****************************************************************
-...
+Come up with a default name when a new city is about to be built.
+Handle running out of names etc. gracefully.  Maybe we should keep
+track of which names have been rejected by the player, so that we do
+not suggest them again?
+Returned pointer points into internal data structures or static
+buffer etc, and should be considered read-only (and not freed)
+by caller.
 *****************************************************************/
-
 char *city_name_suggestion(struct player *pplayer)
 {
   char **nptr;
-  int i, j, k;
-  static int n_misc=0;
-  static char tempname[100];
+  int i, j;
+  static int n_misc = -1;
+  static char tempname[MAX_LEN_NAME];
 
   freelog(LOG_VERBOSE, "Suggesting city name for %s", pplayer->name);
   
-  if (!n_misc) {
-    for (i=0; misc_city_names[i]; i++) {}
-    n_misc = i;
-  }
-
   for(nptr=get_nation_by_plr(pplayer)->default_city_names; *nptr; nptr++) {
     if(!game_find_city_by_name(*nptr))
       return *nptr;
   }
 
-  j = myrand(n_misc);
-  for (i=0; i<n_misc; i++) {
-    k = (i+j) % n_misc;
-    if (!game_find_city_by_name(misc_city_names[k])) 
-      return misc_city_names[k];
+  if (n_misc == -1)
+    for (n_misc = 0; misc_city_names[n_misc]; n_misc++)
+      ;
+
+  if (n_misc > 0) {
+    j = myrand(n_misc);
+  
+    for (i=0; i<n_misc; i++) {
+      if (j >= n_misc) j = 0;
+      if (!game_find_city_by_name(misc_city_names[j])) 
+	return misc_city_names[j];
+      j++;
+    }
   }
 
-  for (i = 0; i < 1000;i++ ) {
-    my_snprintf(tempname, sizeof(tempname), _("city %d"), i);
+  for (i = 1; i <= 60000; i++ ) {
+    my_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
     if (!game_find_city_by_name(tempname)) 
       return tempname;
   }
-  return "";
+  
+  return _("A poorly-named city");
 }
 
 /**************************************************************************
