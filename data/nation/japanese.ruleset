@@ -3,8 +3,9 @@
 name=_("Japanese")
 plural=_("?plural:Japanese")
 class=_("Modern")
-leader="Mutsuhito", "Jimmu Tenno", "Hirohito", "Tokugawa Ieyasu"
-leader_sex="Male", "Male", "Male", "Male"
+leader="Jimmu Tenno", "Mutsuhito", "Hirohito",
+       "Oda Nobunaga", "Tokugawa Ieyasu"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.japan"
 flag_alt = "-"
 city_style = "Asian"
@@ -23,8 +24,12 @@ civilwar_nations = "korean", "filipino"
 
 cities =
   "Tokyo", "Osaka", "Yokohama", "Kyoto", "Kobe",
-  "Sapporo", "Hiroshima", "Nagoya", "Kawasaki", "Nagasaki",
-  "Fukuoka", "Sasebo", "Kumamoto", "Kita-Kyushu",
-  "Kagoshima", "Shimonoseki", "Okayama", "Gifu", "Kamazawa",
-  "Shizuoka", "Sendai", "Yokosuka", "Chiba", "Kochi",
-  "Iwaki", "Fukuyama", "Wakayama", "Niigata", "Matsuyama"
+  "Sapporo", "Hiroshima", "Nagoya", "Fukuoka", "Sendai",
+  "Kawasaki", "Kita-Kyushu", "Chiba", "Saitama", "Kumamoto",
+  "Okayama", "Sagamihara", "Hamamatsu", "Kagoshima", "Niigata",
+  "Hachiouji", "Funabashi", "Sakai", "Matsuyama", "Kanazawa",
+  "Shizuoka", "Oita", "Yokosuka", "Nagasaki", "Gifu",
+  "Himeji", "Fukuyama", "Wakayama", "Aomori", "Toyota",
+  "Akita", "Nagano", "Naha", "Hakodate", "Matsumoto",
+  "Kofu", "Nara", "Kochi", "Tokorozawa", "Machida",
+  "Toyama", "Okinawa", "Sasebo", "Shimonoseki", "Iwaki"
