@@ -93,6 +93,10 @@
 */
 #define PATH_SEPARATOR ","
 #define DEFAULT_DATA_PATH "PROGDIR:data"
+#define NONBLOCKING_SOCKETS 1
+/*#undef HAVE_FCNTL*/
+#define HAVE_IOCTL 1
+#define OPTION_FILE_NAME "PROGDIR:civclient.options"
 
 /* Define if you have the __argz_count function.  */
 /* #undef HAVE___ARGZ_COUNT */
@@ -188,7 +192,7 @@
 #define HAVE_STRING_H 1
 
 /* Define if you have the <sys/ioctl.h> header file.  */
-/*#undef HAVE_SYS_IOCTL_H*/
+#define HAVE_SYS_IOCTL_H
 
 /* Define if you have the <sys/param.h> header file.  */
 /*#undef HAVE_SYS_PARAM_H*/
@@ -232,5 +236,6 @@
 /* Version number of package */
 /*#undef VERSION*/
 
+/*#undef HAVE_FCNTL_H */
 
 #endif /* FC_CONFIG_H */

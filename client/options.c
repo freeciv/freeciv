@@ -154,7 +154,8 @@ void init_messages_where(void)
 
 /****************************************************************
  Returns pointer to static memory containing name of option file.
- Ie, based on FREECIV_OPT env var, and home dir.
+ Ie, based on FREECIV_OPT env var, and home dir. (or a
+ OPTION_FILE_NAME define defined in config.h)
  Or NULL if problem.
 *****************************************************************/
 static char *option_file_name(void)
@@ -167,6 +168,7 @@ static char *option_file_name(void)
   if (name) {
     sz_strlcpy(name_buffer, name);
   } else {
+#ifndef OPTION_FILE_NAME
     name = user_home_dir();
     if (!name) {
       append_output_window(_("Cannot find your home directory"));
@@ -174,6 +176,9 @@ static char *option_file_name(void)
     }
     mystrlcpy(name_buffer, name, 231);
     sz_strlcat(name_buffer, "/.civclientrc");
+#else
+    mystrlcpy(name_buffer,OPTION_FILE_NAME,sizeof(name_buffer));
+#endif
   }
   freelog(LOG_VERBOSE, "settings file is %s", name_buffer);
   return name_buffer;

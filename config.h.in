@@ -99,6 +99,7 @@
 #undef NONBLOCKING_SOCKETS
 #undef HAVE_FCNTL
 #undef HAVE_IOCTL
+#undef OPTION_FILE_NAME
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT

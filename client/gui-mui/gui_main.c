@@ -433,6 +433,7 @@ static void control_callback(ULONG * value)
     case MENU_GAME_MSG_OPTIONS:
       break;
     case MENU_GAME_SAVE_SETTINGS:
+      save_options();
       break;
     case MENU_GAME_PLAYERS:
       popup_players_dialog();

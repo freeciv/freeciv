@@ -219,7 +219,7 @@ int find_tech_by_flag( int index, int flag )
 **************************************************************************/
 int tech_turns_to_advance(struct player *pplayer)
 {
-  double res = 0;
+  int res = 0;
 
   city_list_iterate(pplayer->cities, pcity)
     res += pcity->science_total;
