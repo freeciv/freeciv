@@ -1158,8 +1158,8 @@ void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
 
       gdk_draw_pixmap( map_canvas->window, civ_gc, mysprite->pixmap,
 		0, 0,
-		(x-1+abs_x0-map_view_x0)*NORMAL_TILE_WIDTH, 
-		(y-1+abs_y0-map_view_y0)*NORMAL_TILE_HEIGHT,
+		map_canvas_adjust_x(x-1+abs_x0)*NORMAL_TILE_WIDTH, 
+		map_canvas_adjust_y(y-1+abs_y0)*NORMAL_TILE_HEIGHT,
 		NORMAL_TILE_WIDTH,
 		NORMAL_TILE_HEIGHT );
     }
@@ -1167,7 +1167,8 @@ void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
   gdk_flush ();
   sleep(1);
 
-  update_map_canvas(abs_x0-map_view_x0-1, abs_y0-map_view_y0-1,
+  update_map_canvas(map_canvas_adjust_x(abs_x0-1), 
+                    map_canvas_adjust_y(abs_y0-1),
 		    3, 3, 1);
 }
 
