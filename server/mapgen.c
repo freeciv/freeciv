@@ -54,6 +54,7 @@
 #define hmap(x, y) (height_map[map_pos_to_index(x, y)])
 #define hnat(x, y) (height_map[native_pos_to_index((x), (y))])
 #define rmap(x, y) (river_map[map_pos_to_index(x, y)])
+#define pmap(x, y) (placed_map[map_pos_to_index(x, y)])
 
 static void make_huts(int number);
 static void add_specials(int prob);
@@ -98,14 +99,7 @@ struct isledata {
 };
 static struct isledata *islands;
 
-#define T_NOT_PLACED T_UNKNOWN
-
-/**************************************************************************
-  Checks if land has not yet been placed on tile at (x, y) 
- **************************************************************************/
-#define not_placed(x, y) (map_get_terrain(x, y) == T_NOT_PLACED)
-
-/* this is the maximal temperature at equators returned by map_temperature */
+/* this is the maximal temperature at equators returned by map_latitude */
 #define MAX_TEMP 1000
 
 /* An estimate of the linear (1-dimensional) size of the map. */
@@ -131,6 +125,36 @@ static struct isledata *islands;
       (array)[_ini_index] = (value);					    \
     }									    \
   }
+
+/****************************************************************************
+  It can be used to many things, placed terrains on lands, placed huts, etc
+****************************************************************************/
+static bool *placed_map;
+
+/****************************************************************************
+  Create a clean pmap
+****************************************************************************/
+static void create_placed_map(void)
+{
+ placed_map = fc_malloc (sizeof(bool) * MAX_MAP_INDEX);
+ INITIALIZE_ARRAY(placed_map, MAX_MAP_INDEX, FALSE );
+}
+
+/**************************************************************************** 
+  Free the pmap
+****************************************************************************/
+static void remove_placed_map(void)
+{
+  free(placed_map);
+  placed_map = NULL;
+}
+
+/* Checks if land has not yet been placed on pmap at (x, y) */
+#define not_placed(x, y) (!pmap((x), (y)))
+
+/* set has placed or not placed position in the pmap */
+#define map_set_placed(x, y) (pmap((x), (y)) = TRUE)
+#define map_unset_placed(x, y) (pmap((x), (y)) = FALSE)
 
 /****************************************************************************
   Returns the temperature of this map position.  This is a value in the
@@ -265,7 +289,6 @@ static int map_temperature(int map_x, int map_y)
 
 struct DataFilter {
   int T_min, T_max;
-  Terrain_type_id terrain;
 };
 
 /****************************************************************************
@@ -277,19 +300,17 @@ static bool temperature_filter(int map_x, int map_y, void *data)
   struct DataFilter *filter = data;
   const int T = map_temperature(map_x, map_y);
 
-  return (T >= filter->T_min && T <= filter->T_max 
-	  && (T_ANY == filter->terrain
-	      || map_get_terrain(map_x, map_y) == filter->terrain));
+  return (T >= filter->T_min) && (T <= filter->T_max) 
+	  && not_placed(map_x, map_y) ;
 }
 
 /****************************************************************************
   Return random map coordinates which have temperature within the selected
-  range and which match the terrain choice (which may be T_ANY).  Returns
-  FALSE if there is no such position.
+  range and which are not yet placed on pmap. Returns FALSE if there is no 
+  such position.
 ****************************************************************************/
 static bool rand_map_pos_temperature(int *map_x, int *map_y,
-				     int T_min, int T_max,
-				     Terrain_type_id terrain)
+				     int T_min, int T_max)
 {
   struct DataFilter filter;
 
@@ -300,7 +321,6 @@ static bool rand_map_pos_temperature(int *map_x, int *map_y,
 
   filter.T_min = T_min;
   filter.T_max = T_max;
-  filter.terrain = terrain;
   return rand_map_pos_filtered(map_x, map_y, &filter, temperature_filter);
 }
 
@@ -334,8 +354,10 @@ static void make_mountains(void)
       if (myrand(100) > 75 
 	  || map_temperature(x, y) <= MAX_TEMP / 10) {
 	map_set_terrain(x, y, T_MOUNTAINS);
+	map_set_placed(x, y);
       } else if (myrand(100) > 25) {
 	map_set_terrain(x, y, T_HILLS);
+	map_set_placed(x, y);
       }
     }
   } whole_map_iterate_end;
@@ -357,19 +379,24 @@ static void make_polar(void)
     if (T < ICE_BASE_LEVEL) { /* get the coldest part of the map */
       if (ptile->terrain != T_MOUNTAINS) {
 	ptile->terrain = T_ARCTIC;
+	map_set_placed(map_x, map_y);
       }
     } else if ((T <= 1.5 * ICE_BASE_LEVEL) 
 	       && (ptile->terrain == T_OCEAN) ) {  
       ptile->terrain = T_ARCTIC;
+      map_set_placed(map_x, map_y);
     } else if (T <= 2 * ICE_BASE_LEVEL) {
       if (ptile->terrain == T_OCEAN) {
 	if (myrand(10) > 5) {
 	  ptile->terrain = T_ARCTIC;
+	  map_set_placed(map_x, map_y);
 	} else if (myrand(10) > 6) {
 	  ptile->terrain = T_TUNDRA;
+	  map_set_placed(map_x, map_y);
 	}
       } else if (myrand(10) > 0 && ptile->terrain != T_MOUNTAINS) {
 	ptile->terrain = T_TUNDRA;
+	map_set_placed(map_x, map_y);
       }
     }
   } whole_map_iterate_end;
@@ -388,9 +415,11 @@ static void make_polar_land(void)
     T = map_temperature(map_x, map_y);	/* temperature parameter */
     ptile = map_get_tile(map_x, map_y);
     if (T < 1.5 * ICE_BASE_LEVEL) {
-      ptile->terrain = T_NOT_PLACED;
+      ptile->terrain = T_UNKNOWN;
+      map_unset_placed(map_x, map_y);
     } else if ((T <= 2 * ICE_BASE_LEVEL) && myrand(10) > 4 ) { 
-      ptile->terrain = T_NOT_PLACED;
+      ptile->terrain = T_UNKNOWN;
+      map_unset_placed(map_x, map_y);
     }
   } whole_map_iterate_end;
 }
@@ -408,6 +437,7 @@ static void make_tundra(void)
     if (not_placed(x,y) 
 	&& (2 * ICE_BASE_LEVEL > T || myrand(MAX_TEMP/5) > T)) {
       map_set_terrain(x, y, T_TUNDRA);
+      map_set_placed(x, y);
     }
   } whole_map_iterate_end;
 }
@@ -424,6 +454,7 @@ static void make_arctic(void)
 	&& myrand(15 * MAX_TEMP / 100) > T -  ICE_BASE_LEVEL 
 	&& T <= 3 * ICE_BASE_LEVEL) {
       map_set_terrain(x, y, T_ARCTIC);
+      map_set_placed(x, y);
     }
   } whole_map_iterate_end;
 }
@@ -445,6 +476,7 @@ static void make_desert(int x, int y, int height, int diff, int base_T)
   if (abs(hmap(x, y) - height) < diff 
       && not_placed(x,y)) {
     map_set_terrain(x, y, T_DESERT);
+    map_set_placed(x, y);
     cardinal_adjc_iterate(x, y, x1, y1) {
       make_desert(x1, y1, height,
 		  diff - 1 - abs(map_temperature(x1, y1) - base_T) / DeltaT,
@@ -462,10 +494,7 @@ static void make_desert(int x, int y, int height, int diff, int base_T)
 **************************************************************************/
 static void make_forest(int map_x, int map_y, int height, int diff)
 {
-  int nat_x, nat_y, T;
-
-  MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
-  T = map_temperature(map_x, map_y);
+  int T = map_temperature(map_x, map_y);
   if (not_placed(map_x, map_y)) {
     if (T > 8 * MAX_TEMP / 10 
 	&& myrand(1000) > 500 - 300 * (T * 1000 / MAX_TEMP - 800)) {
@@ -473,6 +502,7 @@ static void make_forest(int map_x, int map_y, int height, int diff)
     } else {
       map_set_terrain(map_x, map_y, T_FOREST);
     }
+    map_set_placed(map_x, map_y);
     if (abs(hmap(map_x, map_y) - height) < diff) {
       cardinal_adjc_iterate(map_x, map_y, x1, y1) {
 	if (myrand(10) > 5) {
@@ -498,8 +528,7 @@ static void make_forests(void)
   do {
     /* Place one forest clump anywhere. */
     if (rand_map_pos_temperature(&x, &y,
-				 MAX_TEMP / 10, MAX_TEMP,
-				 T_NOT_PLACED)) {
+				 MAX_TEMP / 10, MAX_TEMP)) {
       make_forest(x, y, hmap(x, y), 25);
     } else { 
       /* If rand_map_pos_temperature returns FALSE we may as well stop
@@ -509,15 +538,13 @@ static void make_forests(void)
 
     /* Now add another tropical forest clump (70-100% temperature). */
     if (rand_map_pos_temperature(&x, &y,
-				 7 *MAX_TEMP / 10, MAX_TEMP,
-				 T_NOT_PLACED)) {
+				 7 *MAX_TEMP / 10, MAX_TEMP)) {
       make_forest(x, y, hmap(x, y), 25);
     }
 
     /* And add a cold forest clump (10%-30% temperature). */
     if (rand_map_pos_temperature(&x, &y,
-				 1 * MAX_TEMP / 10, 3 * MAX_TEMP / 10,
-				 T_NOT_PLACED)) {
+	  	 1 * MAX_TEMP / 10, 3 * MAX_TEMP / 10)) {
       make_forest(x, y, hmap(x, y), 25);
     }
   } while (forests < forestsize);
@@ -547,10 +574,11 @@ static void make_swamps(void)
     if (not_placed(x, y)
 	&& hmap(x, y) < hmap_swamp_level) {
       map_set_terrain(x, y, T_SWAMP);
+      map_set_placed(x, y);
       cardinal_adjc_iterate(x, y, x1, y1) {
- 	if (myrand(10) > 5 && !is_ocean(map_get_terrain(x1, y1)) 
-	    && map_get_terrain(x1, y1) != T_SWAMP ) { 
+ 	if (myrand(10) > 5 && not_placed(x1, y1)) { 
 	  map_set_terrain(x1, y1, T_SWAMP);
+	  map_set_placed(x1, y1);
 	  swamps++;
 	}
       } cardinal_adjc_iterate_end;
@@ -576,8 +604,7 @@ static void make_deserts(void)
      * (deserts tend to be between 15 and 35; make_desert will expand
      * them). */
     if (rand_map_pos_temperature(&x, &y,
-				 65 * MAX_TEMP / 100, 80 * MAX_TEMP / 100,
-				 T_NOT_PLACED)){
+	   65 * MAX_TEMP / 100, 80 * MAX_TEMP / 100)){
       make_desert(x, y, hmap(x, y), 50, map_temperature(x, y));
       i--;
     } else {
@@ -1051,6 +1078,7 @@ static void make_plains(void)
       } else {
 	  map_set_terrain(x, y, T_PLAINS);
       }
+      map_set_placed(x, y);
     }
   } whole_map_iterate_end;
 }
@@ -1141,19 +1169,20 @@ static void renormalize_hmap_poles(void)
 **************************************************************************/
 static void make_land(void)
 {
+  create_placed_map(); /* here it means land terrains to be placed */
   adjust_hmap();
   normalize_hmap_poles();
   hmap_shore_level = (hmap_max_level * (100 - map.landpercent)) / 100;
   whole_map_iterate(x, y) {
+    map_set_terrain(x, y, T_UNKNOWN); /* set as oceans count is used */
     if (hmap(x, y) < hmap_shore_level) {
       map_set_terrain(x, y, T_OCEAN);
-    } else {
-      map_set_terrain(x, y, T_NOT_PLACED);
+      map_set_placed(x, y); /* placed, not a land target */
     }
   } whole_map_iterate_end;
 
   renormalize_hmap_poles();
-  make_polar_land(); /* make extra land at poles*/
+  make_polar_land(); /* make extra land at poles */
   make_mountains();
   make_arctic();
   make_tundra();
@@ -1163,7 +1192,7 @@ static void make_land(void)
   make_plains();
   make_fair();
   make_rivers();
-
+  remove_placed_map();
   assign_continent_numbers();
 }
 
@@ -1752,18 +1781,14 @@ static void smooth_map(void)
 }
 
 /****************************************************************************
-  Return TRUE iff there's already a hut within 3 tiles of the given map
-  position.
+  Set all nearby tiles as placed on pmap. This helps avoiding huts being 
+  too close
 ****************************************************************************/
-static bool is_hut_close(int map_x, int map_y)
+static void set_placed_close_hut(int map_x, int map_y)
 {
   square_iterate(map_x, map_y, 3, x1, y1) {
-    if (map_has_special(x1, y1, S_HUT)) {
-      return TRUE;
-    }
+    map_set_placed(x1, y1);
   } square_iterate_end;
-
-  return FALSE;
 }
 
 /****************************************************************************
@@ -1789,21 +1814,27 @@ static void make_huts(int number)
 {
   int x, y, count = 0;
 
+  create_placed_map(); /* here it means placed huts */
+
   while (number * map_num_tiles() >= 2000 && count++ < map_num_tiles() * 2) {
 
     /* Add a hut.  But not on a polar area, on an ocean, or too close to
      * another hut. */
     if (rand_map_pos_temperature(&x, &y,
-				 2 * ICE_BASE_LEVEL, MAX_TEMP, T_ANY)
-	&& !is_ocean(map_get_terrain(x, y))
-	&& !is_hut_close(x, y)) {
-      number--;
-      map_set_special(x, y, S_HUT);
-      /* Don't add to islands[].goodies because islands[] not
-	 setup at this point, except for generator>1, but they
-	 have pre-set starters anyway. */
+				 2 * ICE_BASE_LEVEL, MAX_TEMP)) {
+      if (is_ocean(map_get_terrain(x, y))) {
+	map_set_placed(x, y); /* not good for a hut */
+      } else {
+	number--;
+	map_set_special(x, y, S_HUT);
+	set_placed_close_hut(x, y);
+	    /* Don't add to islands[].goodies because islands[] not
+	       setup at this point, except for generator>1, but they
+	       have pre-set starters anyway. */
+      }
     }
   }
+  remove_placed_map();
 }
 
 /****************************************************************************
@@ -1940,10 +1971,12 @@ static void fill_island(int coast, long int *bucket,
 	  map_set_terrain(x, y, (myrand(cold0_weight
 					+ cold1_weight) < cold0_weight) 
 			  ? cold0 : cold1);
+	  map_set_placed(x, y);
 	} else {
 	  map_set_terrain(x, y, (myrand(warm0_weight
 					+ warm1_weight) < warm0_weight) 
 			  ? warm0 : warm1);
+	  map_set_placed(x, y);
 	}
       }
       if (!not_placed(x,y)) i--;
@@ -2079,7 +2112,9 @@ static bool place_island(struct gen234_state *pstate)
 	  return i != 0;
 	}
 
-        map_set_terrain(map_x, map_y, T_NOT_PLACED);
+        map_set_terrain(map_x, map_y, T_UNKNOWN);
+	map_unset_placed(map_x, map_y);
+
 	map_set_continent(map_x, map_y, pstate->isleindex);
         i++;
       }
@@ -2303,10 +2338,11 @@ static void initworld(struct gen234_state *pstate)
   int i;
   height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
   islands = fc_malloc((MAP_NCONT+1)*sizeof(struct isledata));
-
+  create_placed_map(); /* land tiles which aren't placed yet */
   whole_map_iterate(x, y) {
     map_set_terrain(x, y, T_OCEAN);
     map_set_continent(x, y, 0);
+    map_set_placed(x, y); /* not a land tile */
     map_clear_all_specials(x, y);
     map_set_owner(x, y, NULL);
   } whole_map_iterate_end;
@@ -2400,6 +2436,7 @@ static void mapgenerator2(void)
   }
 
   make_plains();  
+  remove_placed_map();
   free(height_map);
   height_map = NULL;
 
@@ -2487,6 +2524,7 @@ static void mapgenerator3(void)
   }
 
   make_plains();  
+  remove_placed_map();
   free(height_map);
   height_map = NULL;
     
@@ -2554,6 +2592,7 @@ static void mapgenerator4(void)
     make_island(10 * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
   make_plains();  
+  remove_placed_map();
   free(height_map);
   height_map = NULL;
 
