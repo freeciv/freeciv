@@ -201,7 +201,7 @@ unit_name(bestchoice.choice) : get_improvement_name(bestchoice.choice)),
 bestchoice.want); */
     if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
       (bestchoice.type || bestchoice.choice != pcity->currently_building))
-      notify_player_ex(0, pcity->x, pcity->y, E_NOEVENT,
+      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
                    "Game: The %s have stopped building The %s in %s.",
                    get_race_name_plural(pplayer->race),
                    get_imp_name_ex(pcity, pcity->currently_building),
@@ -713,7 +713,7 @@ void ai_sell_obsolete_buildings(struct city *pcity)
        && i != B_CITY /* selling city walls is really, really dumb -- Syela */
        && (wonder_replacement(pcity, i) || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
 		       "Game: %s is selling %s (not needed) for %d", 
 		       pcity->name, get_improvement_name(i), 
 		       improvement_value(i)/2);
