@@ -1854,6 +1854,7 @@ void tilespec_setup_nation_flag(int id)
 		  "f.unknown", NULL};
   int i;
 
+  nation->flag_sprite = NULL;
   for (i = 0; tags[i] && !nation->flag_sprite; i++) {
     nation->flag_sprite = load_sprite(tags[i]);
   }
