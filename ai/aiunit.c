@@ -514,19 +514,6 @@ static void reinforcements_cost_and_value(struct unit *punit, int x, int y,
   } square_iterate_end;
 }
 
-/**************************************************************************
-  Calculates the value and cost of nearby units to see if we can expect 
-  any help in our attack. Note that is includes the units of allied players
-  in this calculation.
-**************************************************************************/
-static int reinforcements_value(struct unit *punit, int x, int y)
-{
-  int val, cost;
-
-  reinforcements_cost_and_value(punit, x, y, &val, &cost);
-  return val;
-}
-
 /*************************************************************************
   Is there another unit which really should be doing this attack? Checks
   all adjacent tiles and the tile we stand on for such units.
@@ -562,7 +549,9 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 }
 
 /*************************************************************************
-  This function appraises the location (x, y) for a quick hit-n-run operation.
+  This function appraises the location (x, y) for a quick hit-n-run 
+  operation.  We do not take into account reinforcements: rampage is for
+  loners.
 
   Returns value as follows:
     -RAMPAGE_FREE_CITY_OR_BETTER    
@@ -590,9 +579,8 @@ static int ai_rampage_want(struct unit *punit, int x, int y)
     
     {
       /* See description of kill_desire() about these variables. */
-      int att_rating = unit_att_rating_now(punit);
+      int attack = unit_att_rating_now(punit);
       int vuln = unit_def_rating_sq(punit, pdef);
-      int attack = reinforcements_value(punit, pdef->x, pdef->y) + att_rating;
       int benefit = stack_cost(pdef);
       int loss = unit_build_shield_cost(punit->type);
       
@@ -609,7 +597,7 @@ static int ai_rampage_want(struct unit *punit, int x, int y)
       }
       
       /* If we have non-zero attack rating... */
-      if (att_rating > 0 && is_my_turn(punit, pdef)) {
+      if (attack > 0 && is_my_turn(punit, pdef)) {
         /* No need to amortize, our operation takes one turn. */
         return kill_desire(benefit, attack, loss, vuln, 1);
       }
