@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2000-08-21 14:05+0200\n"
+"POT-Creation-Date: 2000-08-21 14:36+0200\n"
 "PO-Revision-Date: 2000-08-21 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -25,6 +25,24 @@ msgstr "?gebouwd:B"
 #: common/city.c:173
 msgid "?obsolete:O"
 msgstr "?overtollig:O"
+
+#: common/connection.c:386
+#, c-format
+msgid "%s from %s"
+msgstr "%s van %s"
+
+#: common/connection.c:392
+msgid " (connection incomplete)"
+msgstr " (verbinding onvolledig)"
+
+#: common/connection.c:396
+#, c-format
+msgid " (player %s)"
+msgstr " (speler %s)"
+
+#: common/connection.c:400
+msgid " (observer)"
+msgstr " (waarnemer)"
 
 #: common/log.c:83
 #, c-format
@@ -121,6 +139,62 @@ msgstr "Radioaktief"
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Te weinig geheugen bij proberen om %s %lu bytes op regel %d van %s."
+
+#: common/player.c:412
+msgid "Spotless"
+msgstr "Onberispelijk"
+
+#: common/player.c:414
+msgid "Excellent"
+msgstr "Uitstekend"
+
+#: common/player.c:416
+msgid "Honorable"
+msgstr "Eerbaar"
+
+#: common/player.c:418
+msgid "Questionable"
+msgstr "Dubieuze"
+
+#: common/player.c:420
+msgid "Dishonorable"
+msgstr "Oneerbare"
+
+#: common/player.c:422
+msgid "Poor"
+msgstr "Slecht"
+
+#: common/player.c:424
+msgid "Despicable"
+msgstr "Verachtelijk"
+
+#: common/player.c:426
+msgid "Atrocious"
+msgstr "Gruwelijk"
+
+#: common/player.c:436
+msgid "Neutral"
+msgstr "Neutraal"
+
+#: common/player.c:437
+msgid "War"
+msgstr "Oorlog"
+
+#: client/gui-gtk/diplodlg.c:424 client/gui-mui/diplodlg.c:597 client/gui-xaw/diplodlg.c:485 common/player.c:438
+msgid "Cease-fire"
+msgstr "Wapenstilstand"
+
+#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:429 client/gui-mui/diplodlg.c:601 client/gui-xaw/diplodlg.c:489 common/player.c:439
+msgid "Peace"
+msgstr "Vrede"
+
+#: client/gui-gtk/diplodlg.c:434 client/gui-mui/diplodlg.c:605 client/gui-xaw/diplodlg.c:493 common/player.c:440
+msgid "Alliance"
+msgstr "Alliantie"
+
+#: common/player.c:441
+msgid "No Contact"
+msgstr "Geen contact"
 
 #: common/shared.c:143
 #, c-format
@@ -236,6 +310,10 @@ msgstr " (vereraan)"
 #: common/unit.c:862
 msgid "Moves"
 msgstr "Beurten"
+
+#: common/unittype.c:249
+msgid " and "
+msgstr " en "
 
 #: common/version.c:26
 msgid "January"
@@ -743,6 +821,12 @@ msgstr "Spel: U gaat akkoord met het sluiten van een alliantie met %s."
 msgid "Game: %s canceled the meeting!"
 msgstr "Spel: %s heeft de vergadering afgezegd!"
 
+#. Hmm, clients could add this themselves based on above packet?
+#: client/gui-mui/mapview.c:240 server/gamehand.c:187
+#, c-format
+msgid "Year: %s"
+msgstr "Jaar: %s"
+
 #: server/gamelog.c:63
 #, c-format
 msgid "Couldn't open gamelogfile \"%s\" for appending."
@@ -1040,6 +1124,42 @@ msgstr "Spelregelbestand bevat vereiste optie(s) die we niet ondersteunen:"
 msgid "Loading rulesets"
 msgstr "Laad spelregels"
 
+#: server/rulesout.c:54
+msgid "+1 tech to 1st"
+msgstr "+1 tech naar 1ste"
+
+#: server/rulesout.c:55
+msgid "boats move +1"
+msgstr "schepen verplaatsen +1"
+
+#: server/rulesout.c:56
+msgid "bridges"
+msgstr "bruggen"
+
+#: server/rulesout.c:57
+msgid "railroads"
+msgstr "spoorlijnen"
+
+#: server/rulesout.c:58
+msgid "fortresses"
+msgstr "forten"
+
+#: server/rulesout.c:59
+msgid "pop. pollution"
+msgstr "bev. verontreiniging"
+
+#: server/rulesout.c:60
+msgid "trade reduced"
+msgstr "handel verminderd"
+
+#: server/rulesout.c:61
+msgid "airbases"
+msgstr "luchthavens"
+
+#: server/rulesout.c:62
+msgid "farmland"
+msgstr "landbouwgrond"
+
 #: server/spacerace.c:160
 msgid "Game: Your spaceship is already launched!"
 msgstr "Spel: Uw ruimteschip is al gelanceerd!"
@@ -1106,6 +1226,321 @@ msgstr "Spel: Met de verovering van %s's hoofdstad, is het %s ruimteschip verlor
 #, c-format
 msgid "Game: The %s spaceship has arrived at Alpha Centauri."
 msgstr "Spel: Het %s ruimteschip is aangekomen op Alfa Centauri."
+
+#: server/srv_main.c:232
+#, c-format
+msgid "Loading saved game: %s"
+msgstr "Laad opgeslagen spel: %s"
+
+#: server/srv_main.c:236
+#, c-format
+msgid "Couldn't load savefile: %s"
+msgstr "Kon opgeslagen spel niet laden: %s"
+
+#: server/srv_main.c:256
+#, c-format
+msgid "Sending info to metaserver [%s]"
+msgstr "Zend info naar metaserver [%s]"
+
+#. accept new players, wait for serverop to start..
+#: server/srv_main.c:264
+msgid "Now accepting new client connections."
+msgstr "Accepteer nu nieuwe klant-verbindingen."
+
+#: server/srv_main.c:323
+msgid "Last player has disconnected: will need to restart."
+msgstr "Laatste speler heeft opgehangen: zal moeten herstarten."
+
+#: server/srv_main.c:490
+msgid "Game: The game is over..."
+msgstr "Spel: Het spel is voorbij..."
+
+#: server/srv_main.c:567
+msgid "Pregame"
+msgstr "Voorspel"
+
+#: server/srv_main.c:570
+msgid "Running"
+msgstr "Draaiend"
+
+#: server/srv_main.c:573
+msgid "Game over"
+msgstr "Spel afgelopen"
+
+#: server/srv_main.c:576
+msgid "Waiting"
+msgstr "Wachten"
+
+#: server/srv_main.c:723
+#, c-format
+msgid "Game: Concerned citizens point out that the cease-fire with %s will run out soon."
+msgstr "Spel: Bezorgde burgers wijzen u erop dat de wapenstilstand met %s binnenkort zal aflopen."
+
+#: server/srv_main.c:729
+#, c-format
+msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
+msgstr "Spel: De wapenstilstand met %s is afgelopen. U bent nu neutraal tegenover de %s."
+
+#: server/srv_main.c:899
+#, c-format
+msgid "Failed saving game as %s"
+msgstr "Kon spel niet als %s bewaren"
+
+#: server/srv_main.c:901
+#, c-format
+msgid "Game saved as %s"
+msgstr "Spel bewaard als %s"
+
+#: server/srv_main.c:931
+msgid "The game is already running."
+msgstr "Het spel is al begonnen."
+
+#: server/srv_main.c:935
+msgid "Starting game."
+msgstr "Spel begint."
+
+#: server/srv_main.c:1276
+msgid "Please choose a non-blank name."
+msgstr "Kiest alstublieft een niet-lege naam."
+
+#: server/srv_main.c:1298
+#, c-format
+msgid "Another player already has the name '%s'.  Please choose another name."
+msgstr "Er is al een speler met de naam '%s'. Kies alstublieft een andere naam."
+
+#: server/srv_main.c:1304
+#, c-format
+msgid "%s is the %s ruler %s."
+msgstr "%s is de %s heerser %s."
+
+#: server/srv_main.c:1331
+#, c-format
+msgid "No nations left: Removing player %s."
+msgstr "Geen naties meer over: Verwijder speler %s."
+
+#: server/srv_main.c:1334
+msgid "Game: Sorry, there are no nations left."
+msgstr "Spel: Sorry, er zijn geen naties meer over."
+
+#: server/srv_main.c:1389
+#, c-format
+msgid "%s has joined as player %s."
+msgstr "%s doet mee als speler %s."
+
+#: server/srv_main.c:1394
+#, c-format
+msgid "Game: Connection %s from %s has joined as player %s."
+msgstr "Spel: Verbinding %s van %s doet mee als speler %s."
+
+#: server/srv_main.c:1417
+#, c-format
+msgid "Welcome to the %s Server running at %s."
+msgstr "Welkom bij de %s Server, draaiend op %s."
+
+#: server/srv_main.c:1420
+#, c-format
+msgid "Welcome to the %s Server."
+msgstr "Welkom bij de %s Server."
+
+#. skip current player
+#: server/srv_main.c:1432
+#, c-format
+msgid "Turn-blocking game play: waiting on %s to finish turn..."
+msgstr "Wissel-beurt spel: wacht tot %s zijn zet heeft gedaan..."
+
+#: server/srv_main.c:1475
+#, c-format
+msgid "%s has been added as an AI-controlled player."
+msgstr "%s is toegevoegd als een KI-gestuurde speler."
+
+#: server/srv_main.c:1477
+#, c-format
+msgid "Game: %s has been added as an AI-controlled player."
+msgstr "Spel: %s is toegevoegd als een KI-gestuurde speler."
+
+#: server/srv_main.c:1566
+#, c-format
+msgid "Invalid name '%s'"
+msgstr "Ongeldige naam '%s'"
+
+#: server/srv_main.c:1568
+#, c-format
+msgid "Rejected connection from %s with invalid name."
+msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
+
+#: server/srv_main.c:1575
+#, c-format
+msgid "Connection request from %s from %s"
+msgstr "Verzoek tot verbinding van %s van %s"
+
+#: server/srv_main.c:1579
+#, c-format
+msgid "Connection request from %s from %s (connection named %s)"
+msgstr "Verzoek tot verbinding van %s van %s (verbinding heet %s)"
+
+#: server/srv_main.c:1583
+#, c-format
+msgid "%s has client version %d.%d.%d%s"
+msgstr "%s heeft client versie %d.%d.%d%s"
+
+#: server/srv_main.c:1593
+#, c-format
+msgid ""
+"The client is missing a capability that this server needs.\n"
+"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgstr ""
+"De client mist een mogelijkheid die deze server nodig heeft.\n"
+"Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
+
+#: server/srv_main.c:1600 server/srv_main.c:1616
+#, c-format
+msgid "%s was rejected: Mismatched capabilities."
+msgstr "%s is geweigerd: Afwijkende mogelijkheden."
+
+#: server/srv_main.c:1609
+#, c-format
+msgid ""
+"The server is missing a capability that the client needs.\n"
+"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgstr ""
+"De server mist een mogelijkheid die de client nodig heeft.\n"
+"Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
+
+#: server/srv_main.c:1626
+msgid "Sorry, no observation of barbarians in this game."
+msgstr "Sorry, geen waarnemers van barbaren in dit spel."
+
+#: server/srv_main.c:1629
+#, c-format
+msgid "%s was rejected: No observation of barbarians."
+msgstr "%s is gewijgerd: Geen waarnemers van barbaren."
+
+#: server/srv_main.c:1636
+msgid "Sorry, no observation of dead players in this game."
+msgstr "Sorry, geen waarnemers van dode spelers in dit spel."
+
+#: server/srv_main.c:1639
+#, c-format
+msgid "%s was rejected: No observation of dead players."
+msgstr "%s is gewijgerd: Geen waarnemers van dode spelers."
+
+#: server/srv_main.c:1646
+msgid "Sorry, no observation of AI players in this game."
+msgstr "Sorry, geen waarnemers van KI-spelers in dit spel."
+
+#: server/srv_main.c:1649
+#, c-format
+msgid "%s was rejected: No observation of AI players."
+msgstr "%s is gewijgerd: Geen waarnemers van KI-spelers."
+
+#: server/srv_main.c:1656
+msgid "Sorry, no reconnections to human-mode players in this game."
+msgstr "Sorry, geen verbindingsherstel met menselijke-modus spelers in dit spel."
+
+#: server/srv_main.c:1659
+#, c-format
+msgid "%s was rejected: No reconnection to human players."
+msgstr "%s is gewijgerd: Geen verbindingsherstel met menselijke spelers."
+
+#. Duplicate names cause problems even in PRE_GAME_STATE
+#. * because they are used to identify players for various
+#. * server commands. --dwp
+#.
+#: server/srv_main.c:1678
+msgid "Sorry, someone else already has that name."
+msgstr "Sorry, iemand anders heeft al die naam."
+
+#: server/srv_main.c:1680
+#, c-format
+msgid "%s was rejected: Name %s already used."
+msgstr "%s is geweigerd, Naam %s al in gebruik."
+
+#: server/srv_main.c:1687
+#, c-format
+msgid "Sorry, %s is already connected."
+msgstr "Sorry, %s is al verbonden."
+
+#: server/srv_main.c:1690
+#, c-format
+msgid "%s was rejected: %s already connected."
+msgstr "%s is geweigerd, %s heeft al verbinding."
+
+#: server/srv_main.c:1719
+msgid "Sorry, the game is already running."
+msgstr "Sorry, het spel is al begonnen."
+
+#: server/srv_main.c:1720
+#, c-format
+msgid "%s was rejected: Game running and unknown name %s."
+msgstr "%s is geweigerd: Spel begonnen en onbekende naam %s."
+
+#: server/srv_main.c:1728
+msgid "Sorry, the game is full."
+msgstr "Sorry, het spel is vol."
+
+#: server/srv_main.c:1729
+#, c-format
+msgid "%s was rejected: Maximum number of players reached."
+msgstr "%s is gewijgerd: Maximum aantal spelers bereikt."
+
+#: server/srv_main.c:1737
+msgid "Sorry, no new players allowed in this game."
+msgstr "Sorry, geen nieuwe spelers toegestaan in dit spel."
+
+#: server/srv_main.c:1738
+#, c-format
+msgid "%s was rejected: No connections as new player."
+msgstr "%s is gewijgerd: Geen verbindingen als nieuwe speler."
+
+#: server/srv_main.c:1760
+#, c-format
+msgid "Lost connection: %s."
+msgstr "Verbinding verbroken: %s."
+
+#: server/srv_main.c:1768
+#, c-format
+msgid "Game: Lost connection: %s."
+msgstr "Spel: Verbinding verbroken: %s."
+
+#: server/srv_main.c:1849
+#, c-format
+msgid "Ran out of nations.  AI controlled player %s not created."
+msgstr "Geen naties meer.  KI-gestuurde speler %s niet gemaakt."
+
+#: server/srv_main.c:1890
+#, c-format
+msgid "Nation count smaller than aifill; aifill reduced to %d."
+msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
+
+#: server/srv_main.c:1897
+#, c-format
+msgid "Maxplayers smaller than aifill; aifill reduced to %d."
+msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
+
+#: server/srv_main.c:1911
+#, c-format
+msgid "Error creating new ai player: %s\n"
+msgstr "Fout bij maken nieuwe KI-speler: %s\n"
+
+#: server/srv_main.c:1970
+#, c-format
+msgid "Player %d"
+msgstr "Speler %d"
+
+#. no more unused nation
+#: server/srv_main.c:1985
+msgid "Argh! ran out of nations!"
+msgstr "Nee hè, geen naties meer!"
+
+#: server/srv_main.c:2002
+#, c-format
+msgid "AI is controlling the %s ruled by %s."
+msgstr "KI bestuurt de %s geregeerd door %s."
+
+#: server/srv_main.c:2008
+#, c-format
+msgid "Game: %s rules the %s."
+msgstr "Spel: %s regeert de %s."
 
 #: server/stdinhand.c:144
 msgid "Map width in squares"
@@ -3476,10 +3911,6 @@ msgstr "Extase"
 msgid "Disorder"
 msgstr "Onlusten"
 
-#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:429 client/gui-mui/diplodlg.c:601 client/gui-xaw/diplodlg.c:489
-msgid "Peace"
-msgstr "Vrede"
-
 #: client/cityrepdata.c:147
 msgid "(worklist)"
 msgstr "(werklijst)"
@@ -3624,6 +4055,77 @@ msgstr "  -m, --meta HOST\tVerbind met de metaserver op HOST\n"
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Niet-herkende optie: \"%s\"\n"
+
+#: client/climisc.c:332
+#, c-format
+msgid "?seconds:%02ds"
+msgstr "?seconden:%02ds"
+
+#. < 60 minutes
+#: client/climisc.c:335
+#, c-format
+msgid "?mins/secs:%02dm %02ds"
+msgstr "?min/sec:%02dm %02ds"
+
+#. < 100 hours
+#: client/climisc.c:338
+#, c-format
+msgid "?hrs/mns/scs:%02dh %02dm %02ds"
+msgstr "?uur/min/sec:%02du %02dm %02ds"
+
+#. < 100 days
+#: client/climisc.c:341
+#, c-format
+msgid "?dys/hrs/mns:%02dd %02dh %02dm"
+msgstr "?dagen/uren/min:%02dd %02du %02dm"
+
+#: client/climisc.c:344
+msgid "?duration:overflow"
+msgstr "?duur:overschrijding"
+
+#: client/climisc.c:354
+msgid "?embassy:Both"
+msgstr "?ambassade:Beide"
+
+#: client/climisc.c:356
+msgid "?embassy:Yes"
+msgstr "?ambassade:Ja"
+
+#: client/climisc.c:358
+msgid "?embassy:With Us"
+msgstr "?ambassade:Met Ons"
+
+#: client/climisc.c:371 client/climisc.c:376
+#, c-format
+msgid "The %s give %s"
+msgstr "De %s geven %s"
+
+#: client/climisc.c:381
+#, c-format
+msgid "The %s give %d gold"
+msgstr "De %s geven %d goud"
+
+#: client/climisc.c:386
+#, c-format
+msgid "The %s give their worldmap"
+msgstr "De %s geven hun wereldkaart"
+
+#: client/climisc.c:390
+#, c-format
+msgid "The %s give their seamap"
+msgstr "De %s geven hun zeekaart"
+
+#: client/climisc.c:394
+msgid "The parties agree on a cease-fire"
+msgstr "De partijen gaan akkoord met een wapenstilstand"
+
+#: client/climisc.c:397
+msgid "The parties agree on a peace"
+msgstr "De partijen gaan akkoord met vrede"
+
+#: client/climisc.c:400
+msgid "The parties create an alliance"
+msgstr "De partijen sluiten een alliantie"
 
 #: client/clinet.c:112
 msgid "Lost connection to server!"
@@ -4673,7 +5175,7 @@ msgstr "Auto-aanval tegen helicopters"
 msgid "Ok"
 msgstr "Ok"
 
-#: client/gui-gtk/citydlg.c:2238 client/gui-gtk/cityrep.c:993 client/gui-gtk/dialogs.c:1402 client/gui-gtk/dialogs.c:1501 client/gui-gtk/gamedlgs.c:317 client/gui-gtk/inputdlg.c:107 client/gui-gtk/messagedlg.c:149 client/gui-gtk/wldlg.c:470 client/gui-xaw/inputdlg.c:107 data/Freeciv:1078 data/Freeciv:1133 data/Freeciv:1175 data/Freeciv:1195 data/Freeciv:1225 data/Freeciv:1255 data/Freeciv:1333 data/Freeciv:1481 data/Freeciv:1733 data/Freeciv:2013 data/Freeciv:2090 data/Freeciv:2204 data/Freeciv:2237 data/Freeciv:2345 data/Freeciv:2413 data/Freeciv:2423
+#: client/gui-gtk/citydlg.c:2238 client/gui-gtk/cityrep.c:993 client/gui-gtk/dialogs.c:1402 client/gui-gtk/dialogs.c:1501 client/gui-gtk/finddlg.c:109 client/gui-gtk/gamedlgs.c:317 client/gui-gtk/inputdlg.c:107 client/gui-gtk/messagedlg.c:149 client/gui-gtk/wldlg.c:470 client/gui-xaw/inputdlg.c:107 data/Freeciv:1078 data/Freeciv:1133 data/Freeciv:1175 data/Freeciv:1195 data/Freeciv:1225 data/Freeciv:1255 data/Freeciv:1333 data/Freeciv:1481 data/Freeciv:1733 data/Freeciv:2013 data/Freeciv:2090 data/Freeciv:2204 data/Freeciv:2237 data/Freeciv:2345 data/Freeciv:2413 data/Freeciv:2423
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -5181,14 +5683,6 @@ msgstr "Steden"
 msgid "Gold(max %d)"
 msgstr "Goud(max %d)"
 
-#: client/gui-gtk/diplodlg.c:424 client/gui-mui/diplodlg.c:597 client/gui-xaw/diplodlg.c:485
-msgid "Cease-fire"
-msgstr "Wapenstilstand"
-
-#: client/gui-gtk/diplodlg.c:434 client/gui-mui/diplodlg.c:605 client/gui-xaw/diplodlg.c:493
-msgid "Alliance"
-msgstr "Alliantie"
-
 #: client/gui-gtk/diplodlg.c:441 client/gui-mui/diplodlg.c:460 client/gui-mui/diplodlg.c:590 data/Freeciv:432
 msgid "Pacts"
 msgstr "Verdragen"
@@ -5228,6 +5722,18 @@ msgstr "Annuleer ontmoeting"
 #: client/gui-gtk/diplodlg.c:870 client/gui-mui/diplodlg.c:365 client/gui-xaw/diplodlg.c:953
 msgid "Game: Invalid amount of gold specified."
 msgstr "Spel: Ongeldige hoeveelheid goud opgegeven."
+
+#: client/gui-gtk/finddlg.c:63 client/gui-mui/finddlg.c:99 client/gui-xaw/menu.c:126 data/Freeciv:1053
+msgid "Find City"
+msgstr "Zoek Stad"
+
+#: client/gui-gtk/finddlg.c:72 data/Freeciv:1054
+msgid "Select a city:"
+msgstr "Kies een stad:"
+
+#: client/gui-gtk/finddlg.c:94 data/Freeciv:1071 data/Freeciv:1540
+msgid "Center"
+msgstr "Centreer"
 
 #: client/gui-gtk/gamedlgs.c:241
 msgid "Select tax, luxury and science rates"
@@ -6546,10 +7052,6 @@ msgstr ""
 "en\n"
 "De %s %s %s"
 
-#: client/gui-mui/finddlg.c:99 client/gui-xaw/menu.c:126 data/Freeciv:1053
-msgid "Find City"
-msgstr "Zoek Stad"
-
 #: client/gui-mui/finddlg.c:102
 msgid "Select a city"
 msgstr "Kies een stad:"
@@ -6755,11 +7257,6 @@ msgstr "uit"
 #, c-format
 msgid "Population: %s"
 msgstr "Bevolking: %s"
-
-#: client/gui-mui/mapview.c:240
-#, c-format
-msgid "Year: %s"
-msgstr "Jaar: %s"
 
 #: client/gui-mui/mapview.c:242
 #, c-format
@@ -7103,14 +7600,6 @@ msgstr "Mijnbouw Resultaat/Tijd:"
 #: data/Freeciv:1028
 msgid "Trans. Result/Time:"
 msgstr "Transformatie Resultaat/Tijd:"
-
-#: data/Freeciv:1054
-msgid "Select a city:"
-msgstr "Kies een stad:"
-
-#: data/Freeciv:1071 data/Freeciv:1540
-msgid "Center"
-msgstr "Centreer"
 
 #: data/Freeciv:1091
 msgid "Select destination:"
@@ -11076,245 +11565,6 @@ msgstr "Zoeloe"
 msgid "?plural:Zulus"
 msgstr "?plural:Zoeloes"
 
-#~ msgid "%s from %s"
-#~ msgstr "%s van %s"
-
-#~ msgid " (connection incomplete)"
-#~ msgstr " (verbinding onvolledig)"
-
-#~ msgid " (observer)"
-#~ msgstr " (waarnemer)"
-
-#~ msgid "Spotless"
-#~ msgstr "Onberispelijk"
-
-#~ msgid "Excellent"
-#~ msgstr "Uitstekend"
-
-#~ msgid "Honorable"
-#~ msgstr "Eerbaar"
-
-#~ msgid "Questionable"
-#~ msgstr "Dubieuze"
-
-#~ msgid "Dishonorable"
-#~ msgstr "Oneerbare"
-
-#~ msgid "Poor"
-#~ msgstr "Slecht"
-
-#~ msgid "Despicable"
-#~ msgstr "Verachtelijk"
-
-#~ msgid "Atrocious"
-#~ msgstr "Gruwelijk"
-
-#~ msgid "Neutral"
-#~ msgstr "Neutraal"
-
-#~ msgid "War"
-#~ msgstr "Oorlog"
-
-#~ msgid "No Contact"
-#~ msgstr "Geen contact"
-
-#~ msgid " and "
-#~ msgstr " en "
-
-#~ msgid "Loading saved game: %s"
-#~ msgstr "Laad opgeslagen spel: %s"
-
-#~ msgid "Couldn't load savefile: %s"
-#~ msgstr "Kon opgeslagen spel niet laden: %s"
-
-#~ msgid "Sending info to metaserver [%s]"
-#~ msgstr "Zend info naar metaserver [%s]"
-
-#~ msgid "Now accepting new client connections."
-#~ msgstr "Accepteer nu nieuwe klant-verbindingen."
-
-#~ msgid "Last player has disconnected: will need to restart."
-#~ msgstr "Laatste speler heeft opgehangen: zal moeten herstarten."
-
-#~ msgid "Game: The game is over..."
-#~ msgstr "Spel: Het spel is voorbij..."
-
-#~ msgid "Running"
-#~ msgstr "Draaiend"
-
-#~ msgid "Game over"
-#~ msgstr "Spel afgelopen"
-
-#~ msgid "Waiting"
-#~ msgstr "Wachten"
-
-#~ msgid "Game: Concerned citizens point out that the cease-fire with %s will run out soon."
-#~ msgstr "Spel: Bezorgde burgers wijzen u erop dat de wapenstilstand met %s binnenkort zal aflopen."
-
-#~ msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
-#~ msgstr "Spel: De wapenstilstand met %s is afgelopen. U bent nu neutraal tegenover de %s."
-
-#~ msgid "Failed saving game as %s"
-#~ msgstr "Kon spel niet als %s bewaren"
-
-#~ msgid "Game saved as %s"
-#~ msgstr "Spel bewaard als %s"
-
-#~ msgid "The game is already running."
-#~ msgstr "Het spel is al begonnen."
-
-#~ msgid "Starting game."
-#~ msgstr "Spel begint."
-
-#~ msgid "Please choose a non-blank name."
-#~ msgstr "Kiest alstublieft een niet-lege naam."
-
-#~ msgid "Another player named '%s' has already joined the game.  Please choose another name."
-#~ msgstr "Er is al een speler met de naam '%s' in het spel. Kies alstublieft een andere naam."
-
-#~ msgid "%s is the %s ruler %s."
-#~ msgstr "%s is de %s heerser %s."
-
-#~ msgid "Game: Sorry, there are no nations left."
-#~ msgstr "Spel: Sorry, er zijn geen naties meer over."
-
-#~ msgid "%s has joined as player %s."
-#~ msgstr "%s doet mee als speler %s."
-
-#~ msgid "Game: Connection %s from %s has joined as player %s."
-#~ msgstr "Spel: Verbinding %s van %s doet mee als speler %s."
-
-#~ msgid "Welcome to the %s Server running at %s."
-#~ msgstr "Welkom bij de %s Server, draaiend op %s."
-
-#~ msgid "Welcome to the %s Server."
-#~ msgstr "Welkom bij de %s Server."
-
-#~ msgid "Turn-blocking game play: waiting on %s to finish turn..."
-#~ msgstr "Wissel-beurt spel: wacht tot %s zijn zet heeft gedaan..."
-
-#~ msgid "%s has been added as an AI-controlled player."
-#~ msgstr "%s is toegevoegd als een KI-gestuurde speler."
-
-#~ msgid "Game: %s has been added as an AI-controlled player."
-#~ msgstr "Spel: %s is toegevoegd als een KI-gestuurde speler."
-
-#~ msgid "Invalid name '%s'"
-#~ msgstr "Ongeldige naam '%s'"
-
-#~ msgid "Rejected connection from %s with invalid name."
-#~ msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
-
-#~ msgid "Connection request from %s from %s"
-#~ msgstr "Verzoek tot verbinding van %s van %s"
-
-#~ msgid "Connection request from %s from %s (connection named %s)"
-#~ msgstr "Verzoek tot verbinding van %s van %s (verbinding heet %s)"
-
-#~ msgid "%s has client version %d.%d.%d%s"
-#~ msgstr "%s heeft client versie %d.%d.%d%s"
-
-#~ msgid ""
-#~ "The client is missing a capability that this server needs.\n"
-#~ "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
-#~ msgstr ""
-#~ "De client mist een mogelijkheid die deze server nodig heeft.\n"
-#~ "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
-
-#~ msgid "%s was rejected: Mismatched capabilities."
-#~ msgstr "%s is geweigerd: Afwijkende mogelijkheden."
-
-#~ msgid ""
-#~ "The server is missing a capability that the client needs.\n"
-#~ "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
-#~ msgstr ""
-#~ "De server mist een mogelijkheid die de client nodig heeft.\n"
-#~ "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
-
-#~ msgid "Sorry, no observation of barbarians this game."
-#~ msgstr "Sorry, geen waarnemers van barbaren in dit spel."
-
-#~ msgid "%s was rejected: No observation of barbarians."
-#~ msgstr "%s is gewijgerd: Geen waarnemers van barbaren."
-
-#~ msgid "Sorry, no observation of dead players this game."
-#~ msgstr "Sorry, geen waarnemers van dode spelers in dit spel."
-
-#~ msgid "%s was rejected: No observation of dead players."
-#~ msgstr "%s is gewijgerd: Geen waarnemers van dode spelers."
-
-#~ msgid "Sorry, no observation of AI players this game."
-#~ msgstr "Sorry, geen waarnemers van KI-spelers in dit spel."
-
-#~ msgid "%s was rejected: No observation of AI players."
-#~ msgstr "%s is gewijgerd: Geen waarnemers van KI-spelers."
-
-#~ msgid "Sorry, no reconnections to human-mode players this game."
-#~ msgstr "Sorry, geen verbindingsherstel met menselijke-modus spelers in dit spel."
-
-#~ msgid "%s was rejected: No reconnection to human players."
-#~ msgstr "%s is gewijgerd: Geen verbindingsherstel met menselijke spelers."
-
-#~ msgid "Sorry, someone else already has that name."
-#~ msgstr "Sorry, iemand anders heeft al die naam."
-
-#~ msgid "%s was rejected: Name %s already used."
-#~ msgstr "%s is geweigerd, Naam %s al in gebruik."
-
-#~ msgid "Sorry, %s is already connected."
-#~ msgstr "Sorry, %s is al verbonden."
-
-#~ msgid "%s was rejected: %s already connected."
-#~ msgstr "%s is geweigerd, %s heeft al verbinding."
-
-#~ msgid "Sorry, the game is already running."
-#~ msgstr "Sorry, het spel is al begonnen."
-
-#~ msgid "%s was rejected: Game running and unknown name %s."
-#~ msgstr "%s is geweigerd: Spel begonnen en onbekende naam %s."
-
-#~ msgid "Sorry, the game is full."
-#~ msgstr "Sorry, het spel is vol."
-
-#~ msgid "%s was rejected: Maximum number of players reached."
-#~ msgstr "%s is gewijgerd: Maximum aantal spelers bereikt."
-
-#~ msgid "Sorry, no new players this game."
-#~ msgstr "Sorry, geen nieuwe spelers in dit spel."
-
-#~ msgid "%s was rejected: No connections as new player."
-#~ msgstr "%s is gewijgerd: Geen verbindingen als nieuwe speler."
-
-#~ msgid "Lost connection: %s."
-#~ msgstr "Verbinding verbroken: %s."
-
-#~ msgid "Game: Lost connection: %s."
-#~ msgstr "Spel: Verbinding verbroken: %s."
-
-#~ msgid "Ran out of nations.  AI controlled player %s not created."
-#~ msgstr "Geen naties meer.  KI-gestuurde speler %s niet gemaakt."
-
-#~ msgid "Nation count smaller than aifill; aifill reduced to %d."
-#~ msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
-
-#~ msgid "Maxplayers smaller than aifill; aifill reduced to %d."
-#~ msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
-
-#~ msgid "Error creating new ai player: %s\n"
-#~ msgstr "Fout bij maken nieuwe KI-speler: %s\n"
-
-#~ msgid "Player %d"
-#~ msgstr "Speler %d"
-
-#~ msgid "Argh! ran out of nations!"
-#~ msgstr "Nee hè, geen naties meer!"
-
-#~ msgid "AI is controlling the %s ruled by %s."
-#~ msgstr "KI bestuurt de %s geregeerd door %s."
-
-#~ msgid "Game: %s rules the %s."
-#~ msgstr "Spel: %s regeert de %s."
-
 #~ msgid "Treaty city id %d not found - skipping clause."
 #~ msgstr "Verdrags stad id %d niet gevonden - sla clausule over."
 
@@ -11474,80 +11724,8 @@ msgstr "?plural:Zoeloes"
 #~ msgid "Bad value %s for nuke_contamination. Using \"Pollution\"."
 #~ msgstr "Verkeerde waarde %s voor nuke_contamination. Gebruik \"Pollution\"."
 
-#~ msgid "+1 tech to 1st"
-#~ msgstr "+1 tech naar 1ste"
-
-#~ msgid "boats move +1"
-#~ msgstr "schepen verplaatsen +1"
-
-#~ msgid "bridges"
-#~ msgstr "bruggen"
-
-#~ msgid "railroads"
-#~ msgstr "spoorlijnen"
-
-#~ msgid "fortresses"
-#~ msgstr "forten"
-
-#~ msgid "pop. pollution"
-#~ msgstr "bev. verontreiniging"
-
-#~ msgid "trade reduced"
-#~ msgstr "handel verminderd"
-
-#~ msgid "airbases"
-#~ msgstr "luchthavens"
-
-#~ msgid "farmland"
-#~ msgstr "landbouwgrond"
-
 #~ msgid "Received unknown packet from server!"
 #~ msgstr "Ontving onbekend pakket van server!"
-
-#~ msgid "?seconds:%02ds"
-#~ msgstr "?seconden:%02ds"
-
-#~ msgid "?mins/secs:%02dm %02ds"
-#~ msgstr "?min/sec:%02dm %02ds"
-
-#~ msgid "?hrs/mns/scs:%02dh %02dm %02ds"
-#~ msgstr "?uur/min/sec:%02du %02dm %02ds"
-
-#~ msgid "?dys/hrs/mns:%02dd %02dh %02dm"
-#~ msgstr "?dagen/uren/min:%02dd %02du %02dm"
-
-#~ msgid "?duration:overflow"
-#~ msgstr "?duur:overschrijding"
-
-#~ msgid "?embassy:Both"
-#~ msgstr "?ambassade:Beide"
-
-#~ msgid "?embassy:Yes"
-#~ msgstr "?ambassade:Ja"
-
-#~ msgid "?embassy:With Us"
-#~ msgstr "?ambassade:Met Ons"
-
-#~ msgid "The %s give %s"
-#~ msgstr "De %s geven %s"
-
-#~ msgid "The %s give %d gold"
-#~ msgstr "De %s geven %d goud"
-
-#~ msgid "The %s give their worldmap"
-#~ msgstr "De %s geven hun wereldkaart"
-
-#~ msgid "The %s give their seamap"
-#~ msgstr "De %s geven hun zeekaart"
-
-#~ msgid "The parties agree on a cease-fire"
-#~ msgstr "De partijen gaan akkoord met een wapenstilstand"
-
-#~ msgid "The parties agree on a peace"
-#~ msgstr "De partijen gaan akkoord met vrede"
-
-#~ msgid "The parties create an alliance"
-#~ msgstr "De partijen sluiten een alliantie"
 
 #~ msgid "Race"
 #~ msgstr "Ras"
