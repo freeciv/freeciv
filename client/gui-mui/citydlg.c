@@ -2275,53 +2275,8 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
   settext(pdialog->happiness_citizen_text[3], buf);
 
   /* WONDERS */
-  faces = 0;
-  bptr = buf;
-  nleft = sizeof(buf);
-
-  my_snprintf(bptr, nleft, _("Wonders: "));
-  bptr = end_of_strn(bptr, &nleft);
-
-  if (city_affected_by_wonder(pcity, B_HANGING)) {
-    faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_HANGING));
-    bptr = end_of_strn(bptr, &nleft);
-    my_snprintf(bptr, nleft, _(". "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-  if (city_affected_by_wonder(pcity, B_BACH)) {
-    faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_BACH));
-    bptr = end_of_strn(bptr, &nleft);
-    my_snprintf(bptr, nleft, _(". "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-  /* hack for eliminating gtk_set_line_wrap() -mck */
-  if (faces > 1) {
-    /* sizeof("Wonders: ") */
-    my_snprintf(bptr, nleft, _("\n              "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-  if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
-    faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_SHAKESPEARE));
-    bptr = end_of_strn(bptr, &nleft);
-    my_snprintf(bptr, nleft, _(". "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-  if (city_affected_by_wonder(pcity, B_CURE)) {
-    faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_CURE));
-    bptr = end_of_strn(bptr, &nleft);
-    my_snprintf(bptr, nleft, _(". "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-
-  if (faces == 0) {
-    my_snprintf(bptr, nleft, _("None. "));
-  }
-
-  settext(pdialog->happiness_citizen_text[4], buf);
+  settext(pdialog->happiness_citizen_text[4],
+	  get_happiness_wonders(pcity));
 
   /* the citizen's */
   for(i=0;i<5;i++)

@@ -745,3 +745,42 @@ const char *get_happiness_buildings(const struct city *pcity)
 
   RETURN;
 }
+
+/****************************************************************************
+  Get the text describing wonders that affect happiness.
+****************************************************************************/
+const char *get_happiness_wonders(const struct city *pcity)
+{
+  int faces = 0;
+  INIT;
+
+  add_line(_("Wonders: "));
+
+  if (city_affected_by_wonder(pcity, B_HANGING)) {
+    faces++;
+    add(_("%s. "), get_improvement_name(B_HANGING));
+  }
+  if (city_affected_by_wonder(pcity, B_BACH)) {
+    faces++;
+    add(_("%s. "), get_improvement_name(B_BACH));
+  }
+  /* hack for eliminating gtk_set_line_wrap() -mck */
+  if (faces > 1) {
+    /* sizeof("Wonders: ") */
+    add(_("\n              "));
+  }
+  if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
+    faces++;
+    add(_("%s. "), get_improvement_name(B_SHAKESPEARE));
+  }
+  if (city_affected_by_wonder(pcity, B_CURE)) {
+    faces++;
+    add(_("%s. "), get_improvement_name(B_CURE));
+  }
+
+  if (faces == 0) {
+    add(_("None. "));
+  }
+
+  RETURN;
+}

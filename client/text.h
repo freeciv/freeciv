@@ -40,5 +40,6 @@ const char *format_duration(int duration);
 const char *get_ping_time_text(struct player *pplayer);
 const char *get_report_title(const char *report_name);
 const char *get_happiness_buildings(const struct city *pcity);
+const char *get_happiness_wonders(const struct city *pcity);
 
 #endif /* FC__TEXT_H */
