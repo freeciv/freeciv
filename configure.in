@@ -323,6 +323,8 @@ fi
 dnl Check for libiconv (which is usually included in glibc, but may be
 dnl distributed separately).
 AM_ICONV
+AM_LIBCHARSET
+AM_LANGINFO_CODESET
 LIBS="$LIBS $LIBICONV"
 
 dnl Check and choose clients

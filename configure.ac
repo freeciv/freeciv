@@ -328,8 +328,12 @@ if test "$ftwl" = sdl ; then
 fi
 
 dnl Check for libiconv (which is usually included in glibc, but may be
-dnl distributed separately).
+dnl distributed separately).  The libcharset check must come after the
+dnl iconv check.  Langinfo_codeset is already checked in gettext but we
+dnl don't rely on that (since we use it ourselves).
 AM_ICONV
+AM_LIBCHARSET
+AM_LANGINFO_CODESET
 LIBS="$LIBS $LIBICONV"
 
 dnl Check and choose clients

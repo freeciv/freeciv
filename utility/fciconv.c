@@ -28,6 +28,10 @@
 #include <langinfo.h>
 #endif
 
+#ifdef HAVE_LIBCHARSET
+#include <libcharset.h>
+#endif
+
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
