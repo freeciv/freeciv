@@ -23,6 +23,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
 
 #include <map.h> /* just to allow MAP_MAX_ to be used */
 
+int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y);
 int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni);
 
 struct move_cost_map {
