@@ -74,7 +74,7 @@ void chatline_key_send(Widget w)
 **************************************************************************/
 void append_output_window(char *astring)
 {
-  static m_width=0;
+  static int m_width=0;
 
   int windowwth, maxlinelen;
   String theoutput;
