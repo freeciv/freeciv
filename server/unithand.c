@@ -847,10 +847,6 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     }
   }
 
-  if (pwinner == punit && punit->activity != ACTIVITY_IDLE) {
-    /* Ensure we remove ACTIVITY_GOTO here */
-    set_unit_activity(punit, ACTIVITY_IDLE);
-  }
   send_unit_info(NULL, pwinner);
 }
 
@@ -1402,7 +1398,6 @@ void handle_unit_activity_request(struct unit *punit,
     enum tile_special_type old_target = punit->activity_target;
 
     set_unit_activity(punit, new_activity);
-    free_unit_goto_route(punit);
     send_unit_info(NULL, punit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
@@ -1422,7 +1417,6 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
     enum tile_special_type old_target = punit->activity_target;
 
     set_unit_activity_targeted(punit, new_activity, new_target);
-    free_unit_goto_route(punit);
     send_unit_info(NULL, punit);    
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
@@ -1495,66 +1489,69 @@ void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int x,
 }
 
 /**************************************************************************
-Receives goto route packages.
-**************************************************************************/
-static void handle_route(struct player *pplayer, struct unit *punit,
-			 int length, int *x, int *y)
-{
-  struct goto_route *pgr = NULL;
-  int i;
-
-  free_unit_goto_route(punit);
-
-  /* 
-   * pgr->pos is implemented as a circular buffer of positions, and
-   * this circular buffer requires an extra "empty" spot.  Hence we
-   * increase the length by one. 
-   */
-  pgr = fc_malloc(sizeof(struct goto_route));
-  pgr->length = length + 1;
-  pgr->first_index = 0;
-  pgr->last_index = length;
-  pgr->pos = fc_malloc(pgr->length * sizeof(*pgr->pos));
-
-  for (i = 0; i < length; i++) {
-    pgr->pos[i].x = x[i];
-    pgr->pos[i].y = y[i];
-  }
-
-  punit->pgr = pgr;
-
-#ifdef DEBUG
-  freelog(LOG_DEBUG, "first:%d, last:%d, length:%d",
-	  pgr->first_index, pgr->last_index, pgr->length);
-  for (i = pgr->first_index; i < pgr->last_index; i++) {
-    freelog(LOG_NORMAL, "  %d,%d", pgr->pos[i].x, pgr->pos[i].y);
-  }
-#endif
-
-  if (punit->activity == ACTIVITY_GOTO) {
-    set_goto_dest(punit, pgr->pos[pgr->last_index-1].x,
-		  pgr->pos[pgr->last_index-1].y);
-    send_unit_info(pplayer, punit);
-  }
-
-  assign_units_to_transporter(punit, TRUE);
-  (void) goto_route_execute(punit);
-}
-
-/**************************************************************************
 Receives route packages.
 **************************************************************************/
-void handle_unit_route(struct player *pplayer, int unit_id,
-		       enum unit_activity activity, int length, int *x,
-		       int *y)
+void handle_unit_orders(struct player *pplayer,
+			struct packet_unit_orders *packet)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+  int i;
 
-  if (!punit || length < 1
-      || !(activity == ACTIVITY_GOTO || activity == ACTIVITY_PATROL)) {
+  if (!punit || packet->length < 0 || punit->activity != ACTIVITY_IDLE) {
     return;
   }
 
-  handle_unit_activity_request(punit, activity);
-  handle_route(pplayer, punit, length, x, y);
+  for (i = 0; i < packet->length; i++) {
+    switch (packet->orders[i]) {
+    case ORDER_MOVE:
+      if (!is_valid_dir(packet->dir[i])) {
+	return;
+      }
+      break;
+    case ORDER_FINISH_TURN:
+      break;
+    default:
+      /* An invalid order.  This is handled in execute_orders. */
+      packet->orders[i] = ORDER_LAST;
+      break;
+    }
+  }
+
+  free_unit_orders(punit);
+
+  if (packet->length == 0) {
+    assert(!unit_has_orders(punit));
+    send_unit_info(NULL, punit);
+    return;
+  }
+
+  punit->has_orders = TRUE;
+  punit->orders.length = packet->length;
+  punit->orders.index = 0;
+  punit->orders.repeat = packet->repeat;
+  punit->orders.vigilant = packet->vigilant;
+  punit->orders.list
+    = fc_malloc(packet->length * sizeof(*(punit->orders.list)));
+  for (i = 0; i < packet->length; i++) {
+    punit->orders.list[i].order = packet->orders[i];
+    punit->orders.list[i].dir = packet->dir[i];
+  }
+
+  if (!packet->repeat) {
+    set_goto_dest(punit, packet->dest_x, packet->dest_y);
+  }
+
+#ifdef DEBUG
+  freelog(LOG_DEBUG, "Orders for unit %d: length:%d",
+	  packet->unit_id, packet->length);
+  for (i = 0; i < packet->length; i++) {
+    freelog(LOG_NORMAL, "  %d,%s", packet->orders[i],
+	    dir_get_name(packet->dir[i]));
+  }
+#endif
+
+  assign_units_to_transporter(punit, TRUE);
+  if (execute_orders(punit) != GR_DIED) {
+    send_unit_info(NULL, punit);
+  }
 }

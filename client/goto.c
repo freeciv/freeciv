@@ -464,30 +464,72 @@ void draw_line(int dest_x, int dest_y)
   update_last_part(dest_x, dest_y);
 }
 
+/****************************************************************************
+  Send a packet to the server to request that the current orders be
+  cleared.
+****************************************************************************/
+void request_orders_cleared(struct unit *punit)
+{
+  struct packet_unit_orders p;
+
+  /* Clear the orders by sending an empty orders path. */
+  freelog(PACKET_LOG_LEVEL, "Clearing orders for unit %d.", punit->id);
+  p.unit_id = punit->id;
+  p.repeat = p.vigilant = FALSE;
+  p.length = 0;
+  p.dest_x = punit->x;
+  p.dest_y = punit->y;
+  send_packet_unit_orders(&aconnection, &p);
+}
+
 /**************************************************************************
   Send a path as a goto or patrol route to the server.
 **************************************************************************/
-static void send_path_route(struct unit *punit, struct pf_path *path,
-			    enum unit_activity activity)
+static void send_path_orders(struct unit *punit, struct pf_path *path,
+			     bool repeat, bool vigilant)
 {
-  struct packet_unit_route p;
-  int i;
+  struct packet_unit_orders p;
+  int i, old_x, old_y;
 
   p.unit_id = punit->id;
-  p.activity = activity;
+  p.repeat = repeat;
+  p.vigilant = vigilant;
 
-  /* we skip the start position */
+  freelog(PACKET_LOG_LEVEL, "Orders for unit %d:", punit->id);
+
+  /* We skip the start position. */
   p.length = path->length - 1;
   assert(p.length < MAX_LEN_ROUTE);
+  old_x = path->positions[0].x;
+  old_y = path->positions[0].y;
 
+  freelog(PACKET_LOG_LEVEL, "  Repeat: %d.  Vigilant: %d.  Length: %d",
+	  p.repeat, p.vigilant, p.length);
+
+  /* If the path has n positions it takes n-1 steps. */
   for (i = 0; i < path->length - 1; i++) {
-    p.x[i] = path->positions[i + 1].x;
-    p.y[i] = path->positions[i + 1].y;
-    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)",
-	    i, p.x[i], p.y[i]);
+    int new_x = path->positions[i + 1].x;
+    int new_y = path->positions[i + 1].y;
+
+    if (same_pos(new_x, new_y, old_x, old_y)) {
+      p.orders[i] = ORDER_FINISH_TURN;
+      p.dir[i] = -1;
+      freelog(PACKET_LOG_LEVEL, "  packet[%d] = wait: %d,%d",
+	      i, old_x, old_y);
+    } else {
+      p.orders[i] = ORDER_MOVE;
+      p.dir[i] = get_direction_for_step(old_x, old_y, new_x, new_y);
+      freelog(PACKET_LOG_LEVEL, "  packet[%d] = move %s: %d,%d => %d,%d",
+ 	      i, dir_get_name(p.dir[i]), old_x, old_y, new_x, new_y);
+    }
+    old_x = new_x;
+    old_y = new_y;
   }
 
-  send_packet_unit_route(&aconnection, &p);
+  p.dest_x = old_x;
+  p.dest_y = old_y;
+
+  send_packet_unit_orders(&aconnection, &p);
 }
 
 /**************************************************************************
@@ -495,7 +537,7 @@ static void send_path_route(struct unit *punit, struct pf_path *path,
 **************************************************************************/
 void send_goto_path(struct unit *punit, struct pf_path *path)
 {
-  send_path_route(punit, path, ACTIVITY_GOTO);
+  send_path_orders(punit, path, FALSE, FALSE);
 }
 
 /**************************************************************************
@@ -531,7 +573,7 @@ void send_patrol_route(struct unit *punit)
   pf_destroy_map(map);
   pf_destroy_path(return_path);
 
-  send_path_route(punit, path, ACTIVITY_PATROL);
+  send_path_orders(punit, path, TRUE, TRUE);
 
   pf_destroy_path(path);
 }

@@ -184,13 +184,8 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_unit_goto *)packet)->y);
     return TRUE;
 
-  case PACKET_UNIT_ROUTE:
-    handle_unit_route(pplayer,
-      ((struct packet_unit_route *)packet)->unit_id,
-      ((struct packet_unit_route *)packet)->activity,
-      ((struct packet_unit_route *)packet)->length,
-      ((struct packet_unit_route *)packet)->x,
-      ((struct packet_unit_route *)packet)->y);
+  case PACKET_UNIT_ORDERS:
+    handle_unit_orders(pplayer, packet);
     return TRUE;
 
   case PACKET_UNIT_AUTO:

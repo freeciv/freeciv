@@ -1279,10 +1279,7 @@ enum goto_result do_unit_goto(struct unit *punit,
   enum goto_result status;
   int x, y;
 
-  if (punit->pgr) {
-    /* we have a precalculated goto route */
-    return goto_route_execute(punit);
-  }
+  assert(!unit_has_orders(punit));
 
   unit_id = punit->id;
   dest_x = waypoint_x = goto_dest_x(punit);
@@ -1412,9 +1409,7 @@ enum goto_result do_unit_goto(struct unit *punit,
   /* normally we would just do this unconditionally, but if we had an
      airplane goto we might not be finished even if the loop exited */
   if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
-    if (punit->activity != ACTIVITY_PATROL) {
-      punit->activity = ACTIVITY_IDLE;
-    }
+    punit->activity = ACTIVITY_IDLE;
     status = GR_ARRIVED;
   } else {
     /* we have a plane refueling at a waypoint */

@@ -1509,8 +1509,12 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
     ADD_SPRITE_SIMPLE(sprites.unit.connect);
   }
 
-  if (punit->activity == ACTIVITY_PATROL) {
-    ADD_SPRITE_SIMPLE(sprites.unit.patrol);
+  if (unit_has_orders(punit)) {
+    if (punit->orders.repeat) {
+      ADD_SPRITE_SIMPLE(sprites.unit.patrol);
+    } else {
+      ADD_SPRITE_SIMPLE(sprites.unit.go_to);
+    }
   }
 
   if (stack) {

@@ -116,6 +116,9 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   } else {
     punit->transported_by = 0;
   }
+  punit->has_orders = packet->has_orders;
+  punit->orders.repeat = packet->repeat;
+  punit->orders.vigilant = packet->vigilant;
   return punit;
 }
 
@@ -936,14 +939,18 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
     }
 
     if (punit->activity != packet_unit->activity
-        || punit->activity_target != packet_unit->activity_target) {
+        || punit->activity_target != packet_unit->activity_target
+	|| punit->has_orders != packet_unit->has_orders
+	|| punit->orders.repeat != packet_unit->orders.repeat
+	|| punit->orders.vigilant != packet_unit->orders.vigilant) {
       /*** Change in activity or activity's target. ***/
 
       /* May change focus if focus unit gets a new activity.
        * But if new activity is Idle, it means user specifically selected
        * the unit */
       if (punit == get_unit_in_focus()
-	  && packet_unit->activity != ACTIVITY_IDLE) {
+	  && (packet_unit->activity != ACTIVITY_IDLE
+	      || packet_unit->has_orders)) {
         check_focus = TRUE;
       }
 
@@ -972,6 +979,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 
       punit->activity = packet_unit->activity;
       punit->activity_target = packet_unit->activity_target;
+      punit->has_orders = packet_unit->has_orders;
+      punit->orders.repeat = packet_unit->orders.repeat;
+      punit->orders.vigilant = packet_unit->orders.vigilant;
 
       if (punit->owner == game.player_idx) {
         refresh_unit_city_dialogs(punit);
@@ -1072,9 +1082,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
         if((unit_flag(punit, F_TRADE_ROUTE) || unit_flag(punit, F_HELP_WONDER))
 	   && (!game.player_ptr->ai.control || ai_popup_windows)
 	   && punit->owner==game.player_idx
-	   && (punit->activity!=ACTIVITY_GOTO
-	       || same_pos(goto_dest_x(punit), goto_dest_y(punit),
-			   pcity->x, pcity->y))
+	   && !unit_has_orders(punit)
 	   && (unit_can_help_build_wonder_here(punit)
 	       || unit_can_est_traderoute_here(punit))) {
 	  process_caravan_arrival(punit);

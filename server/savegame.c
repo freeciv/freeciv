@@ -175,7 +175,7 @@
    and rulesets */
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
-"attributes watchtower rulesetdir client_worklists"
+"attributes watchtower rulesetdir client_worklists orders"
 
 static const char hex_chars[] = "0123456789abcdef";
 static const char terrain_chars[] = "adfghjm prstu";
@@ -597,6 +597,7 @@ static void player_load(struct player *plr, int plrno,
   int i, j, x, y, nunits, ncities, c_s;
   char *p;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
+  enum unit_activity activity;
 
   server_player_init(plr, TRUE);
 
@@ -1043,7 +1044,18 @@ static void player_load(struct player *plr, int plrno,
     
     punit->moves_left=secfile_lookup_int(file, "player%d.u%d.moves", plrno, i);
     punit->fuel= secfile_lookup_int(file, "player%d.u%d.fuel", plrno, i);
-    set_unit_activity(punit, secfile_lookup_int(file, "player%d.u%d.activity",plrno, i));
+    activity = secfile_lookup_int(file, "player%d.u%d.activity",plrno, i);
+    if (activity == ACTIVITY_PATROL_UNUSED) {
+      /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
+       * client-side goto.  Now client-side goto is handled by setting
+       * a special flag, and units with orders generally have ACTIVITY_IDLE.
+       * Old orders are lost.  Old client-side goto units will still have
+       * ACTIVITY_GOTO and will goto the correct position via server goto.
+       * Old client-side patrol units lose their patrol routes and are put
+       * into idle mode. */
+      activity = ACTIVITY_IDLE;
+    }
+    set_unit_activity(punit, activity);
 /* need to do this to assign/deassign settlers correctly -- Syela */
 /* was punit->activity=secfile_lookup_int(file, "player%d.u%d.activity",plrno, i); */
     punit->activity_count=secfile_lookup_int(file, 
@@ -1090,58 +1102,42 @@ static void player_load(struct player *plr, int plrno,
        etc may use junk values).
     */
 
-    /* load the goto route */
-    {
-      int len = secfile_lookup_int_default(file, 0, "player%d.u%d.goto_length", plrno, i);
+    /* load the unit orders */
+    if (has_capability("orders", savefile_options)) {
+      int len = secfile_lookup_int_default(file, 0,
+			"player%d.u%d.orders_length", plrno, i);
       if (len > 0) {
-	char *goto_buf, *goto_buf_ptr;
-	struct goto_route *pgr = fc_malloc(sizeof(struct goto_route));
-	pgr->pos = fc_malloc((len+1) * sizeof(struct map_position));
-	pgr->first_index = 0;
-	pgr->length = len+1;
-	pgr->last_index = len;
-	punit->pgr = pgr;
+	char *orders_buf, *dir_buf;
 
-	/* get x coords */
-	goto_buf = secfile_lookup_str(file, "player%d.u%d.goto_route_x", plrno, i);
-	goto_buf_ptr = goto_buf;
+	punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
+	punit->orders.length = len;
+	punit->orders.index = secfile_lookup_int_default(file, 0,
+			"player%d.u%d.orders_index", plrno, i);
+	punit->orders.repeat = secfile_lookup_bool_default(file, FALSE,
+			"player%d.u%d.orders_repeat", plrno, i);
+	punit->orders.vigilant = secfile_lookup_bool_default(file, FALSE,
+			"player%d.u%d.orders_vigilant", plrno, i);
+
+	orders_buf = secfile_lookup_str_default(file, "",
+			"player%d.u%d.orders_list", plrno, i);
+	dir_buf = secfile_lookup_str_default(file, "",
+			"player%d.u%d.dir_list", plrno, i);
 	for (j = 0; j < len; j++) {
-	  if (sscanf(goto_buf_ptr, "%d", &pgr->pos[j].x) == 0) {
-	    die("not an int");
+	  if (orders_buf[j] == '\0' || dir_buf == '\0') {
+	    freelog(LOG_ERROR, _("Savegame error: invalid unit orders."));
+	    free_unit_orders(punit);
+	    break;
 	  }
-	  while (*goto_buf_ptr != ',') {
-	    goto_buf_ptr++;
-	    if (*goto_buf_ptr == '\0') {
-	      die("byebye");
-	    }
-	  }
-	  goto_buf_ptr++;
+	  punit->orders.list[j].order = orders_buf[j] - 'a';
+	  punit->orders.list[j].dir = dir_buf[j] - 'a';
 	}
-	/* get y coords */
-	goto_buf = secfile_lookup_str(file, "player%d.u%d.goto_route_y", plrno, i);
-	goto_buf_ptr = goto_buf;
-	for (j = 0; j < len; j++) {
-	  if (sscanf(goto_buf_ptr, "%d", &pgr->pos[j].y) == 0) {
-	    die("not an int");
-	  }
-	  while (*goto_buf_ptr != ',') {
-	    goto_buf_ptr++;
-	    if (*goto_buf_ptr == '\0') {
-	      die("byebye");
-	    }
-	  }
-	  goto_buf_ptr++;
-	}
+	punit->has_orders = TRUE;
       } else {
-	/* mark unused strings as read to avoid warnings */
-	(void) secfile_lookup_str_default(file, "",
-					  "player%d.u%d.goto_route_x", plrno,
-					  i);
-	(void) secfile_lookup_str_default(file, "",
-					  "player%d.u%d.goto_route_y", plrno,
-					  i);
-	punit->pgr = NULL;
+	punit->has_orders = FALSE;
+	punit->orders.list = NULL;
       }
+    } else {
+      /* Old-style goto routes get discarded. */
     }
 
     {
@@ -1543,42 +1539,30 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_bool(file, punit->paradropped, "player%d.u%d.paradropped", plrno, i);
     secfile_insert_int(file, punit->transported_by,
 		       "player%d.u%d.transported_by", plrno, i);
-    if (punit->pgr && punit->pgr->first_index != punit->pgr->last_index) {
-      struct goto_route *pgr = punit->pgr;
-      int index = pgr->first_index;
-      int len = 0;
-      while (pgr && index != pgr->last_index) {
-	len++;
-	index = (index + 1) % pgr->length;
-      }
-      assert(len > 0);
-      secfile_insert_int(file, len, "player%d.u%d.goto_length", plrno, i);
-      /* assumption about the chars per map position */
-      assert(MAP_MAX_HEIGHT < 1000 && MAP_MAX_WIDTH < 1000);
-      {
-	char *goto_buf = fc_malloc(4 * len + 1);
-	char *goto_buf_ptr = goto_buf;
-	index = pgr->first_index;
-	while (index != pgr->last_index) {
-	  goto_buf_ptr += sprintf(goto_buf_ptr, "%d,", pgr->pos[index].x);
-	  index = (index + 1) % pgr->length;
-	}
-	*goto_buf_ptr = '\0';
-	secfile_insert_str(file, goto_buf, "player%d.u%d.goto_route_x", plrno, i);
+    if (punit->has_orders) {
+      int len = punit->orders.length, j;
+      char orders_buf[len + 1], dir_buf[len + 1];
 
-	goto_buf_ptr = goto_buf;
-	index = pgr->first_index;
-	while (index != pgr->last_index) {
-	  goto_buf_ptr += sprintf(goto_buf_ptr, "%d,", pgr->pos[index].y);
-	  index = (index + 1) % pgr->length;
-	}
-	*goto_buf_ptr = '\0';
-	secfile_insert_str(file, goto_buf, "player%d.u%d.goto_route_y", plrno, i);
+      secfile_insert_int(file, len, "player%d.u%d.orders_length", plrno, i);
+      secfile_insert_int(file, punit->orders.index,
+			 "player%d.u%d.orders_index", plrno, i);
+      secfile_insert_bool(file, punit->orders.repeat,
+			  "player%d.u%d.orders_repeat", plrno, i);
+      secfile_insert_bool(file, punit->orders.vigilant,
+			  "player%d.u%d.orders_vigilant", plrno, i);
+
+      for (j = 0; j < len; j++) {
+	orders_buf[j] = 'a' + punit->orders.list[j].order;
+	dir_buf[j] = 'a' + punit->orders.list[j].dir;
       }
+      orders_buf[len] = dir_buf[len] = '\0';
+
+      secfile_insert_str(file, orders_buf,
+			 "player%d.u%d.orders_list", plrno, i);
+      secfile_insert_str(file, dir_buf,
+			 "player%d.u%d.dir_list", plrno, i);
     } else {
-      secfile_insert_int(file, 0, "player%d.u%d.goto_length", plrno, i);
-      secfile_insert_str(file, "", "player%d.u%d.goto_route_x", plrno, i);
-      secfile_insert_str(file, "", "player%d.u%d.goto_route_y", plrno, i);
+      secfile_insert_int(file, 0, "player%d.u%d.orders_length", plrno, i);
     }
   }
   unit_list_iterate_end;

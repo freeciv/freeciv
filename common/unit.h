@@ -19,18 +19,26 @@
 
 struct player;
 struct city;
-struct goto_route;
 struct tile;
+struct unit_order;
 
 #define BARBARIAN_LIFE    5
 
+/* Changing this enum will break savegame and network compatability. */
 enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE,
   ACTIVITY_IRRIGATE, ACTIVITY_FORTIFIED, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
   ACTIVITY_RAILROAD, ACTIVITY_PILLAGE, ACTIVITY_GOTO, ACTIVITY_EXPLORE,
   ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE, ACTIVITY_FORTIFYING,
-  ACTIVITY_FALLOUT, ACTIVITY_PATROL,
+  ACTIVITY_FALLOUT,
+  ACTIVITY_PATROL_UNUSED, /* Needed for savegame compatability. */
   ACTIVITY_LAST   /* leave this one last */
+};
+
+/* Changing this enum will break savegame and network compatability. */
+enum unit_orders {
+  ORDER_MOVE, ORDER_FINISH_TURN,
+  ORDER_LAST
 };
 
 enum unit_focus_status {
@@ -153,7 +161,14 @@ struct unit {
 
   int transported_by;
   int occupy; /* number of units that occupy transporter */
-  struct goto_route *pgr;
+
+  bool has_orders;
+  struct {
+    int length, index;	/* server only */
+    bool repeat;	/* The path is to be repeated on completion. */
+    bool vigilant;	/* Orders should be cleared if an enemy is met. */
+    struct unit_order *list; /* server only */
+  } orders;
 };
 
 /* Wrappers for accessing the goto destination of a unit.  This goto_dest
@@ -222,6 +237,7 @@ bool unit_can_help_build_wonder_here(struct unit *punit);
 bool unit_can_est_traderoute_here(struct unit *punit);
 bool unit_can_defend_here(struct unit *punit);
 bool unit_can_airlift_to(struct unit *punit, struct city *pcity);
+bool unit_has_orders(struct unit *punit);
 
 bool can_unit_paradrop(struct unit *punit);
 bool can_unit_change_homecity(struct unit *punit);
@@ -303,7 +319,7 @@ bool is_build_or_clean_activity(enum unit_activity activity);
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
                                  Unit_Type_id type, int veteran_level);
 void destroy_unit_virtual(struct unit *punit);
-void free_unit_goto_route(struct unit *punit);
+void free_unit_orders(struct unit *punit);
 
 int get_transporter_occupancy(struct unit *ptrans);
 

@@ -174,6 +174,8 @@ type RIVER_MOVE		= uint8(enum special_river_move)
 type REPORT_TYPE	= uint8(enum report_type)
 type AUTH_TYPE		= uint8(enum authentication_type)
 type IMPR_RANGE		= uint8(enum impr_range)
+type DIRECTION		= uint8(enum direction8)
+type ORDERS		= uint8(enum unit_orders)
 
 # typedefs for IDs
 type PLAYER 		= UINT8
@@ -596,6 +598,7 @@ PACKET_UNIT_INFO=49; is-info,sc
   UINT8 veteran; add-cap(veteran)
   BOOL veteran_old; remove-cap(veteran)
   BOOL ai, paradropped, connecting, carried, done_moving;
+  BOOL has_orders, repeat, vigilant;
 
   UNIT_TYPE type;
   UINT8 movesleft, hp, fuel, activity_count;
@@ -661,18 +664,20 @@ PACKET_UNIT_HELP_BUILD_WONDER=57;cs
   UNIT unit_id;
 end
 
+# used for server-side goto (air units only)
 PACKET_UNIT_GOTO=58;cs
   UNIT unit_id;
   COORD x, y;
 end
 
-# used for ACTIVITY_GOTO and ACTIVITY_PATROL
-PACKET_UNIT_ROUTE=59;cs
+# used for client orders: currently client-side goto and patrol
+PACKET_UNIT_ORDERS=59;cs
   UNIT unit_id;
-  ACTIVITY activity;
   UINT16 length;
-  COORD x[MAX_LEN_ROUTE:length];
-  COORD y[MAX_LEN_ROUTE:length];
+  BOOL repeat, vigilant;
+  ORDERS orders[MAX_LEN_ROUTE:length];
+  DIRECTION dir[MAX_LEN_ROUTE:length];
+  COORD dest_x, dest_y;
 end
 
 PACKET_UNIT_AUTO=60;cs

@@ -653,8 +653,7 @@ static void update_unit_activity(struct unit *punit)
   struct tile *ptile = map_get_tile(punit->x, punit->y);
   
   if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
-      && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE
-      && activity != ACTIVITY_PATROL) {
+      && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE) {
     /*  We don't need the activity_count for the above */
     if (punit->moves_left > 0) {
       /* 
@@ -900,8 +899,8 @@ static void update_unit_activity(struct unit *punit)
     return;
   }
 
-  if (punit->activity == ACTIVITY_PATROL) {
-    if (goto_route_execute(punit) == GR_DIED) {
+  if (unit_has_orders(punit)) {
+    if (execute_orders(punit) == GR_DIED) {
       return;
     }
   }
@@ -1894,6 +1893,13 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->done_moving = punit->done_moving;
   packet->carried = carried;
   packet->occupy = get_transporter_occupancy(punit);
+  packet->has_orders = punit->has_orders;
+  if (punit->has_orders) {
+    packet->repeat = punit->orders.repeat;
+    packet->vigilant = punit->orders.vigilant;
+  } else {
+    packet->repeat = packet->vigilant = FALSE;
+  }
 }
 
 /**************************************************************************
@@ -1926,9 +1932,8 @@ void package_short_unit(struct unit *punit, struct packet_unit_short_info *packe
   packet->type = punit->type;
   packet->hp = punit->hp;
   packet->occupied = (get_transporter_occupancy(punit) > 0);
-  if (punit->activity == ACTIVITY_GOTO
-      || punit->activity == ACTIVITY_EXPLORE
-      || punit->activity == ACTIVITY_PATROL) {
+  if (punit->activity == ACTIVITY_EXPLORE
+      || punit->activity == ACTIVITY_GOTO) {
     packet->activity = ACTIVITY_IDLE;
   } else {
     packet->activity = punit->activity;
@@ -2744,7 +2749,8 @@ static void wakeup_neighbor_sentries(struct unit *punit)
   square_iterate(punit->x, punit->y, 3, x, y) {
     unit_list_iterate(map_get_tile(x, y)->units, ppatrol) {
       if (punit != ppatrol
-	  && ppatrol->activity == ACTIVITY_PATROL) {
+	  && unit_has_orders(ppatrol)
+	  && ppatrol->orders.vigilant) {
 	(void) maybe_cancel_patrol_due_to_enemy(ppatrol);
       }
     } unit_list_iterate_end;
@@ -2859,10 +2865,9 @@ Check if the units activity is legal for a move , and reset it if it isn't.
 static void check_unit_activity(struct unit *punit)
 {
   if (punit->activity != ACTIVITY_IDLE
-      && punit->activity != ACTIVITY_GOTO
       && punit->activity != ACTIVITY_SENTRY
       && punit->activity != ACTIVITY_EXPLORE
-      && punit->activity != ACTIVITY_PATROL
+      && punit->activity != ACTIVITY_GOTO
       && !punit->connecting) {
     set_unit_activity(punit, ACTIVITY_IDLE);
   }
@@ -2905,7 +2910,8 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   }
 
   /* A transporter should not take units with it on an attack goto. */
-  if (punit->activity == ACTIVITY_GOTO
+  if ((unit_has_orders(punit)
+       || punit->activity == ACTIVITY_GOTO)
       && (is_non_allied_unit_tile(pdesttile, pplayer)
           || is_non_allied_city_tile(pdesttile, pplayer))
       && !is_ocean(psrctile->terrain)) {
@@ -2947,13 +2953,6 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
       unfog_area(unit_owner(pcargo), dest_x, dest_y, unit_type(pcargo)->vision_range);
       pcargo->x = dest_x;
       pcargo->y = dest_y;
-
-      if ((pcargo->activity == ACTIVITY_GOTO
-	   || pcargo->activity == ACTIVITY_PATROL)
-	  && !pcargo->ai.control) {
-	/* Cancel any _client_ gotos for these units. */
-	handle_unit_activity_request(pcargo, ACTIVITY_IDLE);
-      }
 
       unit_list_insert(&pdesttile->units, pcargo);
       check_unit_activity(pcargo);
@@ -3031,14 +3030,8 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
     } unit_list_iterate_end;
     assert(punit->transported_by != -1);
 
-    /* set activity to sentry if boarding a ship unless the unit is just 
-     * passing through the ship on its way somewhere else.  If the unit is
-     * GOTOing and the ship isn't the final destination, then don't go
-     * to sleep. */
-    if (!(pplayer->ai.control)
-	&& !(punit->activity == ACTIVITY_GOTO
-	     && !same_pos(goto_dest_x(punit), goto_dest_y(punit),
-			  dest_x, dest_y))) {
+    /* Set activity to sentry if boarding a ship. */
+    if (!pplayer->ai.control && !unit_has_orders(punit)) {
       set_unit_activity(punit, ACTIVITY_SENTRY);
     }
 
@@ -3165,115 +3158,126 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   return cancel;
 }
 
-/**************************************************************************
-Moves a unit according to its pgr (goto or patrol order). If two consequetive
-positions in the route is not adjacent it is assumed to be a goto. The unit
-is put on idle if a move fails.
-If the activity is ACTIVITY_PATROL the map positions are put back in the
-route (at the end).  To avoid infinite loops on railroad we stop for this
-turn when the unit is back where it started, eben if it have moves left.
+/****************************************************************************
+  Executes a unit's orders stored in punit->orders.  The unit is put on idle
+  if an action fails or if "patrol" is set and an enemy unit is encountered.
 
-If a patrolling unit came across an enemy we could make the patrolling unit
-autoattack or just stop and wait for the owner to attack. It is also
-debateable if units on goto should stop when they encountered an enemy
-unit. Currently the unit continues if it can, or if it is blocked it stops.
-**************************************************************************/
-enum goto_result goto_route_execute(struct unit *punit)
+  If the orders are repeating the loop starts over at the beginning once it
+  completes.  To avoid infinite loops on railroad we stop for this
+  turn when the unit is back where it started, even if it have moves left.
+
+  A unit will attack under orders only on its final action.
+****************************************************************************/
+enum goto_result execute_orders(struct unit *punit)
 {
-  struct goto_route *pgr = punit->pgr;
-  int index, x, y;
-  bool res, last_tile, moved;
-  int patrol_stop_index = pgr->last_index;
+  int dest_x, dest_y;
+  bool res, last_order;
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
+  int moves_made = 0;
 
-  assert(pgr != NULL);
+  assert(unit_has_orders(punit));
+
+  freelog(LOG_DEBUG, "Executing orders for %s %d",
+	  unit_name(punit->type), punit->id);
+
   while (TRUE) {
-    freelog(LOG_DEBUG, "running a round\n");
-
-    index = pgr->first_index;
-    if (index == pgr->last_index) {
-      free_unit_goto_route(punit);
-      if (punit->activity == ACTIVITY_GOTO) 
-	/* the activity could already be SENTRY (if boarded a ship) 
-	   -- leave it as it is then */
-	handle_unit_activity_request(punit, ACTIVITY_IDLE);
-      return GR_ARRIVED;
-    }
-    x = pgr->pos[index].x; y = pgr->pos[index].y;
-    freelog(LOG_DEBUG, "%i,%i -> %i,%i\n", punit->x, punit->y, x, y);
-
     if (punit->moves_left == 0) {
+      /* FIXME: this check won't work when actions take 0 MP. */
+      freelog(LOG_DEBUG, "  stopping because of no more move points");
       return GR_OUT_OF_MOVEPOINTS;
     }
 
-    if (punit->activity == ACTIVITY_PATROL
-	&& maybe_cancel_patrol_due_to_enemy(punit)) {
+    if (punit->done_moving) {
+      freelog(LOG_DEBUG, "  stopping because we're done this turn");
+      return GR_WAITING;
+    }
+
+    if (punit->orders.vigilant && maybe_cancel_patrol_due_to_enemy(punit)) {
+      /* "Patrol" orders are stopped if an enemy is near. */
+      freelog(LOG_DEBUG, "  stopping because of nearby enemy");
       return GR_FAILED;
     }
 
-    last_tile = (((index + 1) % pgr->length) == (pgr->last_index));
-
-    if (punit->activity == ACTIVITY_GOTO && !last_tile 
-        && maybe_cancel_goto_due_to_enemy(punit, x, y)) {
-      return GR_FAILED;
+    if (moves_made == punit->orders.length) {
+      /* For repeating orders, don't repeat more than once per turn. */
+      freelog(LOG_DEBUG, "  stopping because we ran a round");
+      return GR_ARRIVED;
     }
 
-    /* Move unit */
-    moved = !same_pos(punit->x, punit->y, x, y);
-    if (moved) {
-      res = handle_unit_move_request(punit, x, y, FALSE, !last_tile);
-    } else {
-      res = TRUE;
-    }
+    last_order = (!punit->orders.repeat
+		  && punit->orders.index + 1 == punit->orders.length);
 
-    if (!player_find_unit_by_id(pplayer, unitid)) {
-      return GR_DIED;
-    }
-
-    if (same_pos(punit->x, punit->y, x, y)) {
-      /* We succeeded in moving one step forward */
-      pgr->first_index = (pgr->first_index + 1) % pgr->length;
-      if (punit->activity == ACTIVITY_PATROL) {
-	/* When patroling we go in little circles; 
-	 * done by reinserting points */
-	pgr->pos[pgr->last_index].x = x;
-	pgr->pos[pgr->last_index].y = y;
-	pgr->last_index = (pgr->last_index + 1) % pgr->length;
-
-	if (patrol_stop_index == pgr->first_index) {
-	  freelog(LOG_DEBUG, "stopping because we ran a round\n");
-	  return GR_ARRIVED;	/* don't patrol more than one round */
-	}
-	if (maybe_cancel_patrol_due_to_enemy(punit)) {
-	  return GR_FAILED;
-	}
+    switch (punit->orders.list[punit->orders.index].order) {
+    case ORDER_FINISH_TURN:
+      punit->done_moving = TRUE;
+      freelog(LOG_DEBUG, "  waiting this turn");
+      send_unit_info(unit_owner(punit), punit);
+      break;
+    case ORDER_MOVE:
+      /* Move unit */
+      if (!MAPSTEP(dest_x, dest_y, punit->x, punit->y,
+		   punit->orders.list[punit->orders.index].dir)) {
+	freelog(LOG_DEBUG, "  move order sent us to invalid location");
+	return GR_FAILED;
       }
 
-      if (!moved) {
-	/* Sometimes the goto route will have us sit still for a moment -
-	 * for instance a trireme will do this to have enough MP to
-	 * cross the ocean in one turn. */
-	punit->done_moving = TRUE;
-	send_unit_info(unit_owner(punit), punit);
-	return GR_WAITING;
+      if (!last_order
+	  && maybe_cancel_goto_due_to_enemy(punit, dest_x, dest_y)) {
+	freelog(LOG_DEBUG, "  orders canceled because of enemy");
+	return GR_FAILED;
       }
-    }
 
-    if (res && !same_pos(x, y, punit->x, punit->y)) {
-      /*
-       * unit is alive, moved alright, didn't arrive, has moves_left
-       * --- what else can it be 
-       */
-      return GR_FOUGHT;
-    }
+      freelog(LOG_DEBUG, "  moving to %d,%d", dest_x, dest_y);
+      res = handle_unit_move_request(punit, dest_x, dest_y,
+				     FALSE, !last_order);
+      if (!player_find_unit_by_id(pplayer, unitid)) {
+	freelog(LOG_DEBUG, "  unit died while moving.");
+	return GR_DIED;
+      }
 
-    if (!res && punit->moves_left > 0) {
-      freelog(LOG_DEBUG, "move idling\n");
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      if (res && !same_pos(dest_x, dest_y, punit->x, punit->y)) {
+	/* Movement succeeded but unit didn't move. */
+	freelog(LOG_DEBUG, "  orders resulted in combat.");
+	return GR_FOUGHT;
+      }
+
+      if (!res && punit->moves_left > 0) {
+	/* Movement failed (ZOC, etc.) */
+	freelog(LOG_DEBUG, "  attempt to move failed.");
+	return GR_FAILED;
+      }
+
+      if (last_order && punit->transported_by != -1) {
+	/* Set activity to sentry if boarding a ship.  This is done in
+	 * move_unit, but that function doesn't handle the orders case. */
+	set_unit_activity(punit, ACTIVITY_SENTRY);
+      }
+      break;
+    case ORDER_LAST:
+      freelog(LOG_DEBUG, "  client sent invalid order!");
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       _("Game: Your %s has invalid orders."),
+		       unit_name(punit->type));
       return GR_FAILED;
     }
-  } /* end while*/
+
+    /* We succeeded in moving one step forward */
+    punit->orders.index++;
+
+    if (punit->orders.index == punit->orders.length) {
+      if (!punit->orders.repeat) {
+	free_unit_orders(punit);
+	assert(punit->has_orders == FALSE);
+	freelog(LOG_DEBUG, "  stopping because orders are complete");
+	return GR_ARRIVED;
+      } else {
+	/* Start over. */
+	freelog(LOG_DEBUG, "  repeating orders.");
+	punit->orders.index = 0;
+      }
+    }
+  } /* end while */
 }
 
 /**************************************************************************

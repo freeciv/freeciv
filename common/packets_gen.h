@@ -390,6 +390,9 @@ struct packet_unit_info {
   bool connecting;
   bool carried;
   bool done_moving;
+  bool has_orders;
+  bool repeat;
+  bool vigilant;
   Unit_Type_id type;
   int movesleft;
   int hp;
@@ -466,12 +469,15 @@ struct packet_unit_goto {
   int y;
 };
 
-struct packet_unit_route {
+struct packet_unit_orders {
   int unit_id;
-  enum unit_activity activity;
   int length;
-  int x[MAX_LEN_ROUTE];
-  int y[MAX_LEN_ROUTE];
+  bool repeat;
+  bool vigilant;
+  enum unit_orders orders[MAX_LEN_ROUTE];
+  enum direction8 dir[MAX_LEN_ROUTE];
+  int dest_x;
+  int dest_y;
 };
 
 struct packet_unit_auto {
@@ -1008,7 +1014,7 @@ enum packet_type {
   PACKET_UNIT_ESTABLISH_TRADE,
   PACKET_UNIT_HELP_BUILD_WONDER,
   PACKET_UNIT_GOTO,
-  PACKET_UNIT_ROUTE,
+  PACKET_UNIT_ORDERS,
   PACKET_UNIT_AUTO,                      /* 60 */
   PACKET_UNIT_UNLOAD,
   PACKET_UNIT_UPGRADE,
@@ -1323,9 +1329,8 @@ struct packet_unit_goto *receive_packet_unit_goto(struct connection *pc, enum pa
 int send_packet_unit_goto(struct connection *pc, const struct packet_unit_goto *packet);
 int dsend_packet_unit_goto(struct connection *pc, int unit_id, int x, int y);
 
-struct packet_unit_route *receive_packet_unit_route(struct connection *pc, enum packet_type type);
-int send_packet_unit_route(struct connection *pc, const struct packet_unit_route *packet);
-int dsend_packet_unit_route(struct connection *pc, int unit_id, enum unit_activity activity, int length, int *x, int *y);
+struct packet_unit_orders *receive_packet_unit_orders(struct connection *pc, enum packet_type type);
+int send_packet_unit_orders(struct connection *pc, const struct packet_unit_orders *packet);
 
 struct packet_unit_auto *receive_packet_unit_auto(struct connection *pc, enum packet_type type);
 int send_packet_unit_auto(struct connection *pc, const struct packet_unit_auto *packet);

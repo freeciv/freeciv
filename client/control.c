@@ -129,6 +129,10 @@ void set_unit_focus(struct unit *punit)
     punit->focus_status=FOCUS_AVAIL;
     refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
 
+    if (unit_has_orders(punit)) {
+      /* Clear the focus unit's orders. */
+      request_orders_cleared(punit);
+    }
     if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
       punit->activity = ACTIVITY_IDLE;
       punit->ai.control = FALSE;
@@ -180,6 +184,7 @@ void update_unit_focus(void)
 {
   if (!punit_focus
       || (punit_focus->activity != ACTIVITY_IDLE
+	  && !unit_has_orders(punit_focus)
 	  && punit_focus->activity != ACTIVITY_GOTO)
       || punit_focus->done_moving
       || punit_focus->moves_left == 0 
@@ -269,6 +274,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
     if ((punit != punit_focus || accept_current)
       && punit->focus_status == FOCUS_AVAIL
       && punit->activity == ACTIVITY_IDLE
+	&& !unit_has_orders(punit)
       && punit->moves_left > 0
       && !punit->done_moving
       && !punit->ai.control) {
@@ -392,18 +398,23 @@ void blink_active_unit(void)
 void update_unit_pix_label(struct unit *punit)
 {
   static enum unit_activity prev_activity = ACTIVITY_UNKNOWN;
+  static bool prev_has_orders = FALSE;
   static Unit_Type_id prev_unit_type = U_LAST;
   static int prev_hp = -1;	         /* or could store ihp cf tilespec.c */
   
   int i;
-  
+
+  /* Check for any change in the unit's state.  This assumes that a unit's
+   * orders cannot be changed directly but must be removed and then reset. */
   if (punit && get_client_state() != CLIENT_GAME_OVER_STATE) {
     if (punit->type != prev_unit_type
        || punit->activity != prev_activity
+       || punit->has_orders != prev_has_orders
        || punit->hp != prev_hp) {
       set_unit_icon(-1, punit);
       prev_unit_type = punit->type;
       prev_activity = punit->activity;
+      prev_has_orders = punit->has_orders;
       prev_hp = punit->hp;
     }
 
@@ -430,6 +441,7 @@ void update_unit_pix_label(struct unit *punit)
   else {
     prev_unit_type = U_LAST;
     prev_activity = ACTIVITY_UNKNOWN;
+    prev_has_orders = FALSE;
     prev_hp = -1;
     for(i=-1; i<num_units_below; i++) {
       set_unit_icon(i, NULL);
@@ -1194,6 +1206,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
   
   if (game.player_idx == punit->owner
       && auto_center_on_unit
+      && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
       && punit->activity != ACTIVITY_SENTRY
       && !tile_visible_and_not_on_border_mapcanvas(target_unit->x,

@@ -36,17 +36,6 @@ struct map_position {
   int x,y;
 };
 
-struct goto_route {
-  int first_index; /* first valid tile pos */
-  int last_index; /* point to the first non_legal pos. Note that the pos
-		   is always alloced in the pos array (for coding reasons) */
-  int length; /* length of pos array (use this as modulus when iterating)
-		 Note that this is always at least 1 greater than the number
-		 of valid positions, to make comparing first_index with
-		 last_index during wrapped iteration easier. */
-  struct map_position *pos;
-};
-
 /* For client Area Selection */
 enum tile_hilite {
   HILITE_NONE = 0, HILITE_CITY
@@ -558,6 +547,11 @@ enum direction8 {
 };
 
 BV_DEFINE(dir_vector, 8);
+
+struct unit_order {
+  enum unit_orders order;
+  enum direction8 dir;		/* Only valid for ORDER_MOVE. */
+};
 
 /* return the reverse of the direction */
 #define DIR_REVERSE(dir) (7 - (dir))

@@ -1199,12 +1199,6 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_CONNECT);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_PATROL)) {
-	local_show(ID_UNIT_ORDER_PATROL);
-      } else {
-	local_hide(ID_UNIT_ORDER_PATROL);
-      }
-
       if (is_diplomat_unit(pUnit) &&
 	  diplomat_can_do_action(pUnit, DIPLOMAT_ANY_ACTION, pUnit->x,
 				 pUnit->y)) {

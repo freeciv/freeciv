@@ -214,6 +214,14 @@ bool unit_can_airlift_to(struct unit *punit, struct city *pcity)
   return TRUE;
 }
 
+/****************************************************************************
+  Return TRUE iff the unit is following client-side orders.
+****************************************************************************/
+bool unit_has_orders(struct unit *punit)
+{
+  return punit->has_orders;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -579,7 +587,6 @@ char* get_activity_text (int activity)
   case ACTIVITY_TRANSFORM:	text = _("Transform"); break;
   case ACTIVITY_AIRBASE:	text = _("Airbase"); break;
   case ACTIVITY_FALLOUT:	text = _("Fallout"); break;
-  case ACTIVITY_PATROL:  	text = _("Patrol"); break;
   default:			text = _("Unknown"); break;
   }
 
@@ -671,7 +678,6 @@ bool can_unit_do_activity_targeted(struct unit *punit,
   switch(activity) {
   case ACTIVITY_IDLE:
   case ACTIVITY_GOTO:
-  case ACTIVITY_PATROL:
     return TRUE;
 
   case ACTIVITY_POLLUTION:
@@ -931,7 +937,6 @@ const char *unit_activity_text(struct unit *punit)
    case ACTIVITY_SENTRY:
    case ACTIVITY_GOTO:
    case ACTIVITY_EXPLORE:
-   case ACTIVITY_PATROL:
      return get_activity_text (punit->activity);
    case ACTIVITY_PILLAGE:
      if(punit->activity_target == S_NO_SPECIAL) {
@@ -1303,7 +1308,7 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
   /* 1) */
   if (activity != ACTIVITY_IDLE
       && activity != ACTIVITY_GOTO
-      && activity != ACTIVITY_PATROL && !connecting) {
+      && !connecting) {
     return MR_BAD_ACTIVITY;
   }
 
@@ -1497,12 +1502,12 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->ai.charge = 0;
   punit->bribe_cost = -1; /* flag value */
   punit->transported_by = -1;
-  punit->pgr = NULL;
   punit->focus_status = FOCUS_AVAIL;
   punit->ord_map = 0;
   punit->ord_city = 0;
   set_unit_activity(punit, ACTIVITY_IDLE);
   punit->occupy = 0;
+  punit->has_orders = FALSE;
 
   return punit;
 }
@@ -1513,7 +1518,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 void destroy_unit_virtual(struct unit *punit)
 {
-  free_unit_goto_route(punit);
+  free_unit_orders(punit);
   free(punit);
 }
 
@@ -1521,13 +1526,16 @@ void destroy_unit_virtual(struct unit *punit)
   Free and reset the unit's goto route (punit->pgr).  Only used by the
   server.
 **************************************************************************/
-void free_unit_goto_route(struct unit *punit)
+void free_unit_orders(struct unit *punit)
 {
-  if (punit->pgr) {
-    free(punit->pgr->pos);
-    free(punit->pgr);
-    punit->pgr = NULL;
+  if (punit->has_orders) {
+    if (is_goto_dest_set(punit)) {
+      clear_goto_dest(punit);
+    }
+    free(punit->orders.list);
+    punit->orders.list = NULL;
   }
+  punit->has_orders = FALSE;
 }
 
 /****************************************************************************
