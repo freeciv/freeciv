@@ -2143,11 +2143,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       move_time = turns_to_enemy_unit(punit->type, move_rate, 
                                       aunit->x, aunit->y, aunit->type);
 
-      if (!COULD_OCCUPY(punit) && vuln == 0) {
-        /* FIXME: There is something with defence 0 there, maybe a diplomat.
-         * What's wrong in killing a diplomat? -- GB */
-        want = 0;
-      } else if (move_time > THRESHOLD) {
+      if (move_time > THRESHOLD) {
         /* Too far */
         want = 0;
       } else {
