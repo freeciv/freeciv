@@ -942,7 +942,7 @@ msgstr "Jeu : Achat de %s dans %s pour %d lingots."
 #: server/cityhand.c:356 client/gui-gtk/wldlg.c:1006
 #: client/gui-gtk/wldlg.c:1180 client/gui-gtk/wldlg.c:1207
 msgid "Game: You have bought this turn, can't change."
-msgstr "Jeu : Vous avez fait un achat ce tour ci, impossible de changer."
+msgstr "Jeu : Vous avez fait une acquisition ce tour ci, impossible de changer."
 
 #: server/cityhand.c:382 server/plrhand.c:400 server/stdinhand.c:387
 #: server/unithand.c:176 server/unithand.c:462
@@ -15816,7 +15816,7 @@ msgid ""
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
 msgstr ""
-"  - des messages débutant par 'John::' sont des messages d'ordre privé à "
+"  - des messages débutant par 'John:' sont des messages d'ordre privé à "
 "'John'. Les noms peuvent être abrégés. Le serveur cherche les joueurs nommés "
 "'john' correspondra et s'il ne trouve rien, cherche un nom d'utilisateur "
 "commençant par 'John' (comme'Johnathan')."
