@@ -7,10 +7,8 @@ pkgdata_DATA = Freeciv	\
 	earth-160x90.sav\
 	europe.sav	\
 	intro.xpm	\
-	radar.xpm	\
-	roads.xpm	\
-	small.xpm	\
-	tiles.xpm	\
-	treaty.xpm	\
-	units.xpm
+	radar.xpm
+
 EXTRA_DIST = $(pkgdata_DATA)
+
+SUBDIRS = default
