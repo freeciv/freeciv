@@ -170,7 +170,13 @@ void auto_arrange_workers(struct city *pcity)
 
   /* WAGs. These are set for both AI and humans.
    * FIXME: Adjust & remove kludges */
-  cmp.factor[FOOD] = ai->food_priority - 9;
+  if (pcity->size > 1) {
+    cmp.factor[FOOD] = ai->food_priority - 9;
+  } else {
+    /* Growing to size 2 is priority #1, since then we have the
+     * option of making settlers. */
+    cmp.factor[FOOD] = 20;
+  }
   cmp.factor[SHIELD] = ai->shield_priority - 7;
   cmp.factor[TRADE] = 10;
   cmp.factor[GOLD] = ai->gold_priority - 11;
