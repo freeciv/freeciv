@@ -45,162 +45,162 @@ tiles = { "row", "column", "tag"
 ; Grassland, and whether terrain to north, south, east, west 
 ; is more grassland:
 
-  1,  0, "t.grassland_n1s1e1w1"
-  1,  1, "t.grassland_n0s1e1w1"
-  1,  2, "t.grassland_n1s1e0w1"
-  1,  3, "t.grassland_n0s1e0w1"
-  1,  4, "t.grassland_n1s0e1w1"
-  1,  5, "t.grassland_n0s0e1w1"
-  1,  6, "t.grassland_n1s0e0w1"
-  1,  7, "t.grassland_n0s0e0w1"
-  1,  8, "t.grassland_n1s1e1w0"
-  1,  9, "t.grassland_n0s1e1w0"
-  1, 10, "t.grassland_n1s1e0w0"
-  1, 11, "t.grassland_n0s1e0w0"
-  1, 12, "t.grassland_n1s0e1w0"
-  1, 13, "t.grassland_n0s0e1w0"
-  1, 14, "t.grassland_n1s0e0w0"
-  1, 15, "t.grassland_n0s0e0w0"
+  1,  0, "t.grassland_n1e1s1w1"
+  1,  1, "t.grassland_n0e1s1w1"
+  1,  2, "t.grassland_n1e0s1w1"
+  1,  3, "t.grassland_n0e0s1w1"
+  1,  4, "t.grassland_n1e1s0w1"
+  1,  5, "t.grassland_n0e1s0w1"
+  1,  6, "t.grassland_n1e0s0w1"
+  1,  7, "t.grassland_n0e0s0w1"
+  1,  8, "t.grassland_n1e1s1w0"
+  1,  9, "t.grassland_n0e1s1w0"
+  1, 10, "t.grassland_n1e0s1w0"
+  1, 11, "t.grassland_n0e0s1w0"
+  1, 12, "t.grassland_n1e1s0w0"
+  1, 13, "t.grassland_n0e1s0w0"
+  1, 14, "t.grassland_n1e0s0w0"
+  1, 15, "t.grassland_n0e0s0w0"
 
 ; Desert, and whether terrain to north, south, east, west 
 ; is more desert:
 
-  2,  0, "t.desert_n1s1e1w1"
-  2,  1, "t.desert_n0s1e1w1"
-  2,  2, "t.desert_n1s1e0w1"
-  2,  3, "t.desert_n0s1e0w1"
-  2,  4, "t.desert_n1s0e1w1"
-  2,  5, "t.desert_n0s0e1w1"
-  2,  6, "t.desert_n1s0e0w1"
-  2,  7, "t.desert_n0s0e0w1"
-  2,  8, "t.desert_n1s1e1w0"
-  2,  9, "t.desert_n0s1e1w0"
-  2, 10, "t.desert_n1s1e0w0"
-  2, 11, "t.desert_n0s1e0w0"
-  2, 12, "t.desert_n1s0e1w0"
-  2, 13, "t.desert_n0s0e1w0"
-  2, 14, "t.desert_n1s0e0w0"
-  2, 15, "t.desert_n0s0e0w0"
+  2,  0, "t.desert_n1e1s1w1"
+  2,  1, "t.desert_n0e1s1w1"
+  2,  2, "t.desert_n1e0s1w1"
+  2,  3, "t.desert_n0e0s1w1"
+  2,  4, "t.desert_n1e1s0w1"
+  2,  5, "t.desert_n0e1s0w1"
+  2,  6, "t.desert_n1e0s0w1"
+  2,  7, "t.desert_n0e0s0w1"
+  2,  8, "t.desert_n1e1s1w0"
+  2,  9, "t.desert_n0e1s1w0"
+  2, 10, "t.desert_n1e0s1w0"
+  2, 11, "t.desert_n0e0s1w0"
+  2, 12, "t.desert_n1e1s0w0"
+  2, 13, "t.desert_n0e1s0w0"
+  2, 14, "t.desert_n1e0s0w0"
+  2, 15, "t.desert_n0e0s0w0"
 
 ; Arctic, and whether terrain to north, south, east, west 
 ; is more arctic:
 
-  3,  0, "t.arctic_n1s1e1w1"
-  3,  1, "t.arctic_n0s1e1w1"
-  3,  2, "t.arctic_n1s1e0w1"
-  3,  3, "t.arctic_n0s1e0w1"
-  3,  4, "t.arctic_n1s0e1w1"
-  3,  5, "t.arctic_n0s0e1w1"
-  3,  6, "t.arctic_n1s0e0w1"
-  3,  7, "t.arctic_n0s0e0w1"
-  3,  8, "t.arctic_n1s1e1w0"
-  3,  9, "t.arctic_n0s1e1w0"
-  3, 10, "t.arctic_n1s1e0w0"
-  3, 11, "t.arctic_n0s1e0w0"
-  3, 12, "t.arctic_n1s0e1w0"
-  3, 13, "t.arctic_n0s0e1w0"
-  3, 14, "t.arctic_n1s0e0w0"
-  3, 15, "t.arctic_n0s0e0w0"
+  3,  0, "t.arctic_n1e1s1w1"
+  3,  1, "t.arctic_n0e1s1w1"
+  3,  2, "t.arctic_n1e0s1w1"
+  3,  3, "t.arctic_n0e0s1w1"
+  3,  4, "t.arctic_n1e1s0w1"
+  3,  5, "t.arctic_n0e1s0w1"
+  3,  6, "t.arctic_n1e0s0w1"
+  3,  7, "t.arctic_n0e0s0w1"
+  3,  8, "t.arctic_n1e1s1w0"
+  3,  9, "t.arctic_n0e1s1w0"
+  3, 10, "t.arctic_n1e0s1w0"
+  3, 11, "t.arctic_n0e0s1w0"
+  3, 12, "t.arctic_n1e1s0w0"
+  3, 13, "t.arctic_n0e1s0w0"
+  3, 14, "t.arctic_n1e0s0w0"
+  3, 15, "t.arctic_n0e0s0w0"
 
 ; Jungle, and whether terrain to north, south, east, west 
 ; is more jungle:
 
-  4,  0, "t.jungle_n1s1e1w1"
-  4,  1, "t.jungle_n0s1e1w1"
-  4,  2, "t.jungle_n1s1e0w1"
-  4,  3, "t.jungle_n0s1e0w1"
-  4,  4, "t.jungle_n1s0e1w1"
-  4,  5, "t.jungle_n0s0e1w1"
-  4,  6, "t.jungle_n1s0e0w1"
-  4,  7, "t.jungle_n0s0e0w1"
-  4,  8, "t.jungle_n1s1e1w0"
-  4,  9, "t.jungle_n0s1e1w0"
-  4, 10, "t.jungle_n1s1e0w0"
-  4, 11, "t.jungle_n0s1e0w0"
-  4, 12, "t.jungle_n1s0e1w0"
-  4, 13, "t.jungle_n0s0e1w0"
-  4, 14, "t.jungle_n1s0e0w0"
-  4, 15, "t.jungle_n0s0e0w0"
+  4,  0, "t.jungle_n1e1s1w1"
+  4,  1, "t.jungle_n0e1s1w1"
+  4,  2, "t.jungle_n1e0s1w1"
+  4,  3, "t.jungle_n0e0s1w1"
+  4,  4, "t.jungle_n1e1s0w1"
+  4,  5, "t.jungle_n0e1s0w1"
+  4,  6, "t.jungle_n1e0s0w1"
+  4,  7, "t.jungle_n0e0s0w1"
+  4,  8, "t.jungle_n1e1s1w0"
+  4,  9, "t.jungle_n0e1s1w0"
+  4, 10, "t.jungle_n1e0s1w0"
+  4, 11, "t.jungle_n0e0s1w0"
+  4, 12, "t.jungle_n1e1s0w0"
+  4, 13, "t.jungle_n0e1s0w0"
+  4, 14, "t.jungle_n1e0s0w0"
+  4, 15, "t.jungle_n0e0s0w0"
 
 ; Plains, and whether terrain to north, south, east, west 
 ; is more plains:
 
-  5,  0, "t.plains_n1s1e1w1"
-  5,  1, "t.plains_n0s1e1w1"
-  5,  2, "t.plains_n1s1e0w1"
-  5,  3, "t.plains_n0s1e0w1"
-  5,  4, "t.plains_n1s0e1w1"
-  5,  5, "t.plains_n0s0e1w1"
-  5,  6, "t.plains_n1s0e0w1"
-  5,  7, "t.plains_n0s0e0w1"
-  5,  8, "t.plains_n1s1e1w0"
-  5,  9, "t.plains_n0s1e1w0"
-  5, 10, "t.plains_n1s1e0w0"
-  5, 11, "t.plains_n0s1e0w0"
-  5, 12, "t.plains_n1s0e1w0"
-  5, 13, "t.plains_n0s0e1w0"
-  5, 14, "t.plains_n1s0e0w0"
-  5, 15, "t.plains_n0s0e0w0"
+  5,  0, "t.plains_n1e1s1w1"
+  5,  1, "t.plains_n0e1s1w1"
+  5,  2, "t.plains_n1e0s1w1"
+  5,  3, "t.plains_n0e0s1w1"
+  5,  4, "t.plains_n1e1s0w1"
+  5,  5, "t.plains_n0e1s0w1"
+  5,  6, "t.plains_n1e0s0w1"
+  5,  7, "t.plains_n0e0s0w1"
+  5,  8, "t.plains_n1e1s1w0"
+  5,  9, "t.plains_n0e1s1w0"
+  5, 10, "t.plains_n1e0s1w0"
+  5, 11, "t.plains_n0e0s1w0"
+  5, 12, "t.plains_n1e1s0w0"
+  5, 13, "t.plains_n0e1s0w0"
+  5, 14, "t.plains_n1e0s0w0"
+  5, 15, "t.plains_n0e0s0w0"
 
 ; Swamp, and whether terrain to north, south, east, west 
 ; is more swamp:
 
-  6,  0, "t.swamp_n1s1e1w1"
-  6,  1, "t.swamp_n0s1e1w1"
-  6,  2, "t.swamp_n1s1e0w1"
-  6,  3, "t.swamp_n0s1e0w1"
-  6,  4, "t.swamp_n1s0e1w1"
-  6,  5, "t.swamp_n0s0e1w1"
-  6,  6, "t.swamp_n1s0e0w1"
-  6,  7, "t.swamp_n0s0e0w1"
-  6,  8, "t.swamp_n1s1e1w0"
-  6,  9, "t.swamp_n0s1e1w0"
-  6, 10, "t.swamp_n1s1e0w0"
-  6, 11, "t.swamp_n0s1e0w0"
-  6, 12, "t.swamp_n1s0e1w0"
-  6, 13, "t.swamp_n0s0e1w0"
-  6, 14, "t.swamp_n1s0e0w0"
-  6, 15, "t.swamp_n0s0e0w0"
+  6,  0, "t.swamp_n1e1s1w1"
+  6,  1, "t.swamp_n0e1s1w1"
+  6,  2, "t.swamp_n1e0s1w1"
+  6,  3, "t.swamp_n0e0s1w1"
+  6,  4, "t.swamp_n1e1s0w1"
+  6,  5, "t.swamp_n0e1s0w1"
+  6,  6, "t.swamp_n1e0s0w1"
+  6,  7, "t.swamp_n0e0s0w1"
+  6,  8, "t.swamp_n1e1s1w0"
+  6,  9, "t.swamp_n0e1s1w0"
+  6, 10, "t.swamp_n1e0s1w0"
+  6, 11, "t.swamp_n0e0s1w0"
+  6, 12, "t.swamp_n1e1s0w0"
+  6, 13, "t.swamp_n0e1s0w0"
+  6, 14, "t.swamp_n1e0s0w0"
+  6, 15, "t.swamp_n0e0s0w0"
 
 ; Tundra, and whether terrain to north, south, east, west 
 ; is more tundra:
 
-  7,  0, "t.tundra_n1s1e1w1"
-  7,  1, "t.tundra_n0s1e1w1"
-  7,  2, "t.tundra_n1s1e0w1"
-  7,  3, "t.tundra_n0s1e0w1"
-  7,  4, "t.tundra_n1s0e1w1"
-  7,  5, "t.tundra_n0s0e1w1"
-  7,  6, "t.tundra_n1s0e0w1"
-  7,  7, "t.tundra_n0s0e0w1"
-  7,  8, "t.tundra_n1s1e1w0"
-  7,  9, "t.tundra_n0s1e1w0"
-  7, 10, "t.tundra_n1s1e0w0"
-  7, 11, "t.tundra_n0s1e0w0"
-  7, 12, "t.tundra_n1s0e1w0"
-  7, 13, "t.tundra_n0s0e1w0"
-  7, 14, "t.tundra_n1s0e0w0"
-  7, 15, "t.tundra_n0s0e0w0"
+  7,  0, "t.tundra_n1e1s1w1"
+  7,  1, "t.tundra_n0e1s1w1"
+  7,  2, "t.tundra_n1e0s1w1"
+  7,  3, "t.tundra_n0e0s1w1"
+  7,  4, "t.tundra_n1e1s0w1"
+  7,  5, "t.tundra_n0e1s0w1"
+  7,  6, "t.tundra_n1e0s0w1"
+  7,  7, "t.tundra_n0e0s0w1"
+  7,  8, "t.tundra_n1e1s1w0"
+  7,  9, "t.tundra_n0e1s1w0"
+  7, 10, "t.tundra_n1e0s1w0"
+  7, 11, "t.tundra_n0e0s1w0"
+  7, 12, "t.tundra_n1e1s0w0"
+  7, 13, "t.tundra_n0e1s0w0"
+  7, 14, "t.tundra_n1e0s0w0"
+  7, 15, "t.tundra_n0e0s0w0"
 
 ; Rivers (as terrain type), and whether terrain to north, south, 
 ; east, west is also river terrain, or ocean:
 
-  8,  0, "t.t_river_n0s0e0w0"
-  8,  1, "t.t_river_n1s0e0w0"
-  8,  2, "t.t_river_n0s0e1w0"
-  8,  3, "t.t_river_n1s0e1w0"
-  8,  4, "t.t_river_n0s1e0w0"
-  8,  5, "t.t_river_n1s1e0w0"
-  8,  6, "t.t_river_n0s1e1w0"
-  8,  7, "t.t_river_n1s1e1w0"
-  8,  8, "t.t_river_n0s0e0w1"
-  8,  9, "t.t_river_n1s0e0w1"
-  8, 10, "t.t_river_n0s0e1w1"
-  8, 11, "t.t_river_n1s0e1w1"
-  8, 12, "t.t_river_n0s1e0w1"
-  8, 13, "t.t_river_n1s1e0w1"
-  8, 14, "t.t_river_n0s1e1w1"
-  8, 15, "t.t_river_n1s1e1w1"
+  8,  0, "t.t_river_n0e0s0w0"
+  8,  1, "t.t_river_n1e0s0w0"
+  8,  2, "t.t_river_n0e1s0w0"
+  8,  3, "t.t_river_n1e1s0w0"
+  8,  4, "t.t_river_n0e0s1w0"
+  8,  5, "t.t_river_n1e0s1w0"
+  8,  6, "t.t_river_n0e1s1w0"
+  8,  7, "t.t_river_n1e1s1w0"
+  8,  8, "t.t_river_n0e0s0w1"
+  8,  9, "t.t_river_n1e0s0w1"
+  8, 10, "t.t_river_n0e1s0w1"
+  8, 11, "t.t_river_n1e1s0w1"
+  8, 12, "t.t_river_n0e0s1w1"
+  8, 13, "t.t_river_n1e0s1w1"
+  8, 14, "t.t_river_n0e1s1w1"
+  8, 15, "t.t_river_n1e1s1w1"
 
 ; Rivers (as special type), and whether north, south, east, west 
 ; also has river or is ocean:
@@ -225,22 +225,22 @@ tiles = { "row", "column", "tag"
 ; Ocean, and whether terrain to north, south, east, west 
 ; is more ocean (else shoreline)
 
-  9,  0, "t.ocean_n1s1e1w1"
-  9,  1, "t.ocean_n0s1e1w1"
-  9,  2, "t.ocean_n1s1e0w1"
-  9,  3, "t.ocean_n0s1e0w1"
-  9,  4, "t.ocean_n1s0e1w1"
-  9,  5, "t.ocean_n0s0e1w1"
-  9,  6, "t.ocean_n1s0e0w1"
-  9,  7, "t.ocean_n0s0e0w1"
-  9,  8, "t.ocean_n1s1e1w0"
-  9,  9, "t.ocean_n0s1e1w0"
-  9, 10, "t.ocean_n1s1e0w0"
-  9, 11, "t.ocean_n0s1e0w0"
-  9, 12, "t.ocean_n1s0e1w0"
-  9, 13, "t.ocean_n0s0e1w0"
-  9, 14, "t.ocean_n1s0e0w0"
-  9, 15, "t.ocean_n0s0e0w0"
+  9,  0, "t.ocean_n1e1s1w1"
+  9,  1, "t.ocean_n0e1s1w1"
+  9,  2, "t.ocean_n1e0s1w1"
+  9,  3, "t.ocean_n0e0s1w1"
+  9,  4, "t.ocean_n1e1s0w1"
+  9,  5, "t.ocean_n0e1s0w1"
+  9,  6, "t.ocean_n1e0s0w1"
+  9,  7, "t.ocean_n0e0s0w1"
+  9,  8, "t.ocean_n1e1s1w0"
+  9,  9, "t.ocean_n0e1s1w0"
+  9, 10, "t.ocean_n1e0s1w0"
+  9, 11, "t.ocean_n0e0s1w0"
+  9, 12, "t.ocean_n1e1s0w0"
+  9, 13, "t.ocean_n0e1s0w0"
+  9, 14, "t.ocean_n1e0s0w0"
+  9, 15, "t.ocean_n0e0s0w0"
 
 ; For hills, forest and mountains don't currently have a full set,
 ; re-use values but provide for future expansion; current sets
@@ -249,62 +249,62 @@ tiles = { "row", "column", "tag"
 ; Hills, and whether terrain to north, south, east, west 
 ; is more hills.
 
- 10,  0, "t.hills_n0s0e0w0",  ; not-hills E and W
-         "t.hills_n0s1e0w0", 
-         "t.hills_n1s0e0w0", 
-         "t.hills_n1s1e0w0" 
- 10,  1, "t.hills_n0s0e1w0",  ; hills E
-         "t.hills_n0s1e1w0", 
-         "t.hills_n1s0e1w0", 
-         "t.hills_n1s1e1w0" 
- 10,  2, "t.hills_n0s0e1w1",  ; hills E and W
-         "t.hills_n0s1e1w1", 
-         "t.hills_n1s0e1w1", 
-         "t.hills_n1s1e1w1" 
- 10,  3, "t.hills_n0s0e0w1",  ; hills W
-         "t.hills_n0s1e0w1", 
-         "t.hills_n1s0e0w1", 
-         "t.hills_n1s1e0w1" 
+ 10,  0, "t.hills_n0e0s0w0",  ; not-hills E and W
+         "t.hills_n0e0s1w0", 
+         "t.hills_n1e0s0w0", 
+         "t.hills_n1e0s1w0" 
+ 10,  1, "t.hills_n0e1s0w0",  ; hills E
+         "t.hills_n0e1s1w0", 
+         "t.hills_n1e1s0w0", 
+         "t.hills_n1e1s1w0" 
+ 10,  2, "t.hills_n0e1s0w1",  ; hills E and W
+         "t.hills_n0e1s1w1", 
+         "t.hills_n1e1s0w1", 
+         "t.hills_n1e1s1w1" 
+ 10,  3, "t.hills_n0e0s0w1",  ; hills W
+         "t.hills_n0e0s1w1", 
+         "t.hills_n1e0s0w1", 
+         "t.hills_n1e0s1w1" 
 
 ; Forest, and whether terrain to north, south, east, west 
 ; is more forest.
 
- 10,  4, "t.forest_n0s0e0w0",  ; not-forest E and W
-         "t.forest_n0s1e0w0", 
-         "t.forest_n1s0e0w0", 
-         "t.forest_n1s1e0w0" 
- 10,  5, "t.forest_n0s0e1w0",  ; forest E
-         "t.forest_n0s1e1w0", 
-         "t.forest_n1s0e1w0", 
-         "t.forest_n1s1e1w0" 
- 10,  6, "t.forest_n0s0e1w1",  ; forest E and W
-         "t.forest_n0s1e1w1", 
-         "t.forest_n1s0e1w1", 
-         "t.forest_n1s1e1w1" 
- 10,  7, "t.forest_n0s0e0w1",  ; forest W
-         "t.forest_n0s1e0w1", 
-         "t.forest_n1s0e0w1", 
-         "t.forest_n1s1e0w1" 
+ 10,  4, "t.forest_n0e0s0w0",  ; not-forest E and W
+         "t.forest_n0e0s1w0", 
+         "t.forest_n1e0s0w0", 
+         "t.forest_n1e0s1w0" 
+ 10,  5, "t.forest_n0e1s0w0",  ; forest E
+         "t.forest_n0e1s1w0", 
+         "t.forest_n1e1s0w0", 
+         "t.forest_n1e1s1w0" 
+ 10,  6, "t.forest_n0e1s0w1",  ; forest E and W
+         "t.forest_n0e1s1w1", 
+         "t.forest_n1e1s0w1", 
+         "t.forest_n1e1s1w1" 
+ 10,  7, "t.forest_n0e0s0w1",  ; forest W
+         "t.forest_n0e0s1w1", 
+         "t.forest_n1e0s0w1", 
+         "t.forest_n1e0s1w1" 
 
 ; Mountains, and whether terrain to north, south, east, west 
 ; is more mountains.
 
- 10,  8, "t.mountains_n0s0e0w0",  ; not-mountains E and W
-         "t.mountains_n0s1e0w0", 
-         "t.mountains_n1s0e0w0", 
-         "t.mountains_n1s1e0w0" 
- 10,  9, "t.mountains_n0s0e1w0",  ; mountains E
-         "t.mountains_n0s1e1w0", 
-         "t.mountains_n1s0e1w0", 
-         "t.mountains_n1s1e1w0" 
- 10, 10, "t.mountains_n0s0e1w1",  ; mountains E and W
-         "t.mountains_n0s1e1w1", 
-         "t.mountains_n1s0e1w1", 
-         "t.mountains_n1s1e1w1" 
- 10, 11, "t.mountains_n0s0e0w1",  ; mountains W
-         "t.mountains_n0s1e0w1", 
-         "t.mountains_n1s0e0w1", 
-         "t.mountains_n1s1e0w1" 
+ 10,  8, "t.mountains_n0e0s0w0",  ; not-mountains E and W
+         "t.mountains_n0e0s1w0", 
+         "t.mountains_n1e0s0w0", 
+         "t.mountains_n1e0s1w0" 
+ 10,  9, "t.mountains_n0e1s0w0",  ; mountains E
+         "t.mountains_n0e1s1w0", 
+         "t.mountains_n1e1s0w0", 
+         "t.mountains_n1e1s1w0" 
+ 10, 10, "t.mountains_n0e1s0w1",  ; mountains E and W
+         "t.mountains_n0e1s1w1", 
+         "t.mountains_n1e1s0w1", 
+         "t.mountains_n1e1s1w1" 
+ 10, 11, "t.mountains_n0e0s0w1",  ; mountains W
+         "t.mountains_n0e0s1w1", 
+         "t.mountains_n1e0s0w1", 
+         "t.mountains_n1e0s1w1" 
 
 ; Darkness (unexplored) to north, south, east, west 
 

@@ -1615,9 +1615,9 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
       switch (draw->layer[l].cell_type) {
       case CELL_SINGLE:
 	/* Load 16 cardinally-matched sprites. */
-	for (i = 0; i < NUM_DIRECTION_NSEW; i++) {
+	for (i = 0; i < num_index_cardinal; i++) {
 	  my_snprintf(buffer1, sizeof(buffer1),
-		      "t.%s_%s", draw->name, nsew_str(i));
+		      "t.%s_%s", draw->name, cardinal_str(i));
 	  draw->layer[l].match[i] = lookup_sprite_tag_alt(buffer1, "", TRUE,
 							  "tile_type",
 							  tt->terrain_name);
@@ -2444,13 +2444,16 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
       (sprites.terrain[ttype_near[(dir)]]->layer[l].match_type)
 
       if (draw->layer[l].cell_type == CELL_SINGLE) {
-	int tileno;
+	int tileno = 0, i;
 
 	assert(draw->layer[l].match_style == MATCH_BOOLEAN);
-	tileno = INDEX_NSEW(MATCH(DIR8_NORTH) == match_type,
-			    MATCH(DIR8_SOUTH) == match_type,
-			    MATCH(DIR8_EAST) == match_type,
-			    MATCH(DIR8_WEST) == match_type);
+	for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+	  enum direction8 dir = cardinal_tileset_dirs[i];
+
+	  if (MATCH(dir) == match_type) {
+	    tileno |= 1 << i;
+	  }
+	}
 
 	ADD_SPRITE(draw->layer[l].match[tileno],
 		   draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,

@@ -149,7 +149,7 @@ struct terrain_drawing_data {
     enum cell_type cell_type;
 
     struct Sprite *base;
-    struct Sprite *match[NUM_DIRECTION_NSEW];
+    struct Sprite *match[MAX_INDEX_CARDINAL];
     struct Sprite **cells;
   } layer[MAX_NUM_LAYERS];
 
