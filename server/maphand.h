@@ -21,6 +21,8 @@ struct section_file;
 void relight_square_if_known(int x, int y);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
+void give_citymap_from_player_to_player(struct city *pcity,
+					struct player *pfrom, struct player *pdest);
 void send_all_known_tiles(struct player *dest);
 void send_tile_info(struct player *dest, int x, int y, enum known_type type);
 void lighten_tile(struct player *dest, int x, int y);

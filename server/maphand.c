@@ -119,6 +119,23 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+void give_citymap_from_player_to_player(struct city *pcity,
+					struct player *pfrom, struct player *pdest)
+{
+  int cx, cy, mx, my;
+
+  city_map_iterate(cx, cy) {
+    mx = map_adjust_x(pcity->x+cx-(CITY_MAP_SIZE/2));
+    my = map_adjust_y(pcity->y+cy-(CITY_MAP_SIZE/2));
+    if(map_get_known(mx, my, pfrom) && !map_get_known(mx, my, pdest)) {
+      light_square(pdest, mx, my, 0);
+    }
+  }
+}
+
+/**************************************************************************
 dest can be NULL meaning all players
 **************************************************************************/
 void send_all_known_tiles(struct player *dest)
