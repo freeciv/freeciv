@@ -800,7 +800,7 @@ msgstr "Joc: Ja existeix una ciutat anomenada %s."
 #: server/citytools.c:304
 #, c-format
 msgid "City no. %d"
-msgstr "Ciutat n�m: %d"
+msgstr "Ciutat núm: %d"
 
 #: server/citytools.c:311
 msgid "A poorly-named city"
@@ -2688,7 +2688,7 @@ msgstr "opcions suportades: %s"
 
 #: server/ruleset.c:182
 msgid "Ruleset datafile claims required option(s) which we don't support:"
-msgstr "El fitxer de regles reclama una opció obligat�ria que no està suportada:"
+msgstr "El fitxer de regles reclama una opció obligatòria que no està suportada:"
 
 #. TRANS: Rare error message.
 #: server/ruleset.c:1499
@@ -20815,7 +20815,7 @@ msgstr ""
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr "Gal�s"
+msgstr "Galès"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
