@@ -94,10 +94,11 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
 
   assert(is_real_map_pos(x1, y1));
 
-  if (is_real_map_pos(x2, y2)) {
-    normalize_map_pos(&x2, &y2);
-    assert(is_tiles_adjacent(x1, y1, x2, y2));
-
+  /* If the second position isn't real or is not adjacent to the first
+   * position (this is possible with hex topologies) use a fallback
+   * value. */
+  if (normalize_map_pos(&x2, &y2)
+      && is_tiles_adjacent(x1, y1, x2, y2)) {
     if (map_get_tile(x2, y2)->known == TILE_UNKNOWN) {
       return COLOR_STD_BLACK;
     }
