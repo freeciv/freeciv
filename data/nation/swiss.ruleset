@@ -2,7 +2,7 @@
 
 name=_("Swiss")
 plural=_("?plural:Swiss")
-class=_("Modern")
+groups=_("Modern"), _("European")
 leader=	"Wilhelm Tell", "Arnold von Winkelried", "Gessler", "General Guisan",
 	"Adolf Ogi", "Ruth Dreifuss", "Moritz Leuenberger",
 	"Christoph Blocher"

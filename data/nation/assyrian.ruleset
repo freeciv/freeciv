@@ -2,7 +2,7 @@
 
 name=_("Assyrian")
 plural=_("?plural:Assyrians")
-class=_("Historical")
+groups=_("Ancient"), _("Asian")
 leader="Ashurbanipal", "Tiglat Pileser III", "Ashurnasirpal II", "Shamiram",
        "Agha Petros", "Naoum Faik"
 leader_sex="Male", "Male", "Male", "Female", "Male", "Male"

@@ -2,7 +2,7 @@
 
 name=_("Taiwanese")
 plural=_("?plural:Taiwanese")
-class=_("Modern")
+groups=_("Modern"), _("Asian")
 leader="Sun Yat Sen", "Chiang Kai Shek", "Lee Teng Hui", "Kung Fu Tse"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.taiwan"

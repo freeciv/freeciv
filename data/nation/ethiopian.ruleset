@@ -2,7 +2,7 @@
 
 name=_("Ethiopian")
 plural=_("?plural:Ethiopians")
-class=_("Modern")
+groups=_("Modern"), _("Ancient"), _("African")
 leader="Zara Yakob", "Menelik II", "Haile Selassies", "Zoskales", "Gedara",
    "Lalibela", "Yekuno Amlak", "Tewodros II"
 leader_sex="Male", "Male", "Male", "Male", "Male",

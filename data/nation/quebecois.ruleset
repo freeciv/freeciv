@@ -2,7 +2,7 @@
 
 name=_("Quebecois")
 plural=_("?plural:Quebecois")
-class=_("Historical")
+groups= _("American")
 leader="Champlain", "Frontenac", "Montcalm", "Papineau",
        "Rene Levesque"
 leader_sex="Male", "Male", "Male", "Male", "Male"

@@ -843,13 +843,14 @@ struct packet_ruleset_nation {
   char name_plural[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
-  char category[MAX_LEN_NAME];
   char legend[MAX_LEN_MSG];
   int city_style;
   int init_techs[MAX_NUM_TECH_LIST];
   int leader_count;
   char leader_name[MAX_NUM_LEADERS][MAX_LEN_NAME];
   bool leader_sex[MAX_NUM_LEADERS];
+  int group_count;
+  char group_name[MAX_NUM_NATION_GROUPS][MAX_LEN_NAME];
 };
 
 struct packet_ruleset_city {

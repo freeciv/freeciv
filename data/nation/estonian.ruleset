@@ -2,7 +2,7 @@
 
 name=_("Estonian")
 plural=_("?plural:Estonians")
-class=_("Modern")
+groups=_("Modern"), _("European")
 legend=_("Estonia is a small country on the south shore of the eastern \
 Baltic Sea.  Its people and language are closely related to those of \
 Finland.")

@@ -2,7 +2,7 @@
 
 name=_("Zulu")
 plural=_("?plural:Zulus")
-class=_("Historical")
+groups= _("African")
 ; /*
 ; According to <http://www.anglo.50megs.com/zulu_kings.htm>, this is the
 ; complete Zulu king list.  It's in regnal order, except that Utshaka

@@ -2,7 +2,7 @@
 
 name=_("Slovenian")
 plural=_("?plural:Slovenians")
-class=_("Modern")
+groups=_("Mediaval"), _("Modern"), _("European")
 legend=_("Slovenia was the most western and northern republic of the old \
 Yugoslav Federation.")
 leader="Valuka", "Valtunk", "Kocelj", "Primoz Trubar"

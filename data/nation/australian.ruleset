@@ -2,7 +2,7 @@
 
 name=_("Australian")
 plural=_("?plural:Australians")
-class=_("Modern")
+groups=_("Modern")
 legend=_("Australia was founded as a British penal colony in 1788AD. It is \
 the only country on earth to occupy an entire continent.")
 leader = "Robert Menzies", "Helen Leonard", "John Curtin", "Edna Lyon"

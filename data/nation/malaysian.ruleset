@@ -2,7 +2,7 @@
 
 name=_("Malaysian")
 plural=_("?plural:Malaysians")
-class=_("Modern")
+groups=_("Modern")
 leader="Mahathir", "Anwar Ibrahim"
 leader_sex="Male", "Male"
 flag="f.malaysia"

@@ -23975,7 +23975,7 @@ void lsend_packet_ruleset_terrain_control(struct conn_list *dest, const struct p
 
 #define cmp_packet_ruleset_nation_100 cmp_const
 
-BV_DEFINE(packet_ruleset_nation_100_fields, 12);
+BV_DEFINE(packet_ruleset_nation_100_fields, 13);
 
 static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct connection *pc, enum packet_type type)
 {
@@ -24020,12 +24020,9 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
   if (BV_ISSET(fields, 5)) {
-    dio_get_string(&din, real_packet->category, sizeof(real_packet->category));
-  }
-  if (BV_ISSET(fields, 6)) {
     dio_get_string(&din, real_packet->legend, sizeof(real_packet->legend));
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     {
       int readin;
     
@@ -24033,10 +24030,10 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       real_packet->city_style = readin;
     }
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     dio_get_tech_list(&din, real_packet->init_techs);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     {
       int readin;
     
@@ -24044,7 +24041,7 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       real_packet->leader_count = readin;
     }
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
     
     {
       int i;
@@ -24058,7 +24055,7 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       }
     }
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 10)) {
     
     {
       int i;
@@ -24069,6 +24066,28 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       }
       for (i = 0; i < real_packet->leader_count; i++) {
         dio_get_bool8(&din, &real_packet->leader_sex[i]);
+      }
+    }
+  }
+  if (BV_ISSET(fields, 11)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->group_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 12)) {
+    
+    {
+      int i;
+    
+      if(real_packet->group_count > MAX_NUM_NATION_GROUPS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->group_count = MAX_NUM_NATION_GROUPS;
+      }
+      for (i = 0; i < real_packet->group_count; i++) {
+        dio_get_string(&din, real_packet->group_name[i], sizeof(real_packet->group_name[i]));
       }
     }
   }
@@ -24126,17 +24145,13 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (strcmp(old->category, real_packet->category) != 0);
+  differ = (strcmp(old->legend, real_packet->legend) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-  differ = (strcmp(old->legend, real_packet->legend) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
-
   differ = (old->city_style != real_packet->city_style);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 6);}
 
 
     {
@@ -24152,11 +24167,11 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 7);}
 
   differ = (old->leader_count != real_packet->leader_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 8);}
 
 
     {
@@ -24172,7 +24187,7 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 9);}
 
 
     {
@@ -24188,7 +24203,27 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     }
   if(differ) {different++;}
+  if(differ) {BV_SET(fields, 10);}
+
+  differ = (old->group_count != real_packet->group_count);
+  if(differ) {different++;}
   if(differ) {BV_SET(fields, 11);}
+
+
+    {
+      differ = (old->group_count != real_packet->group_count);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->group_count; i++) {
+          if (strcmp(old->group_name[i], real_packet->group_name[i]) != 0) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 12);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -24212,21 +24247,18 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
     dio_put_string(&dout, real_packet->graphic_alt);
   }
   if (BV_ISSET(fields, 5)) {
-    dio_put_string(&dout, real_packet->category);
-  }
-  if (BV_ISSET(fields, 6)) {
     dio_put_string(&dout, real_packet->legend);
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     dio_put_uint8(&dout, real_packet->city_style);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     dio_put_tech_list(&dout, real_packet->init_techs);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     dio_put_uint8(&dout, real_packet->leader_count);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
   
     {
       int i;
@@ -24236,13 +24268,26 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     } 
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 10)) {
   
     {
       int i;
 
       for (i = 0; i < real_packet->leader_count; i++) {
         dio_put_bool8(&dout, real_packet->leader_sex[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_put_uint8(&dout, real_packet->group_count);
+  }
+  if (BV_ISSET(fields, 12)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->group_count; i++) {
+        dio_put_string(&dout, real_packet->group_name[i]);
       }
     } 
   }

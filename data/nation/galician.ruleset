@@ -2,7 +2,7 @@
 
 name=_("Galician")
 plural=_("?plural:Galicians")
-class=_("Historical")
+groups= _("European")
 leader="Don Afonso", "Diego Xelmírez", "Hermerico", "Pedro Pardo de Cela",
        "Rosalía de Castro", "Don Manuel"
 leader_sex="Male", "Male", "Male", "Male",

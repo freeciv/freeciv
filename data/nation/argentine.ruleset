@@ -2,7 +2,7 @@
 
 name=_("Argentine")
 plural=_("?plural:Argentines")
-class=_("Modern")
+groups=_("Modern"), _("American")
 legend=_("Argentina is located on the south-eastern coast of South America.")
 leader="José de San Martín", "Juan Manuel de Rosas", "Justo Urquiza",
        "Bernardino Rivadavia", "Domingo Sarmiento", "Juan Domingo Perón",

@@ -1987,7 +1987,7 @@ static void load_ruleset_nations(struct section_file *file)
   struct government *gov;
   int dim, i, j, k, nval;
   char temp_name[MAX_LEN_NAME];
-  char **leaders, **sec, **civilwar_nations;
+  char **leaders, **sec, **civilwar_nations, **groups;
   const char *filename = secfile_filename(file);
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
@@ -1996,6 +1996,13 @@ static void load_ruleset_nations(struct section_file *file)
 
   for( i=0; i<game.nation_count; i++) {
     pl = get_nation_by_idx(i);
+    
+    groups = secfile_lookup_str_vec(file, &dim, "%s.groups", sec[i]);
+    pl->num_groups = dim;
+    pl->groups = fc_malloc(sizeof(*(pl->groups)) * dim);
+    for (j = 0; j < dim; j++) {
+      pl->groups[j] = add_new_nation_group(groups[j]);
+    }
 
     /* nation leaders */
 
@@ -2150,14 +2157,6 @@ static void load_ruleset_nations(struct section_file *file)
     /* read "normal" city names */
 
     pl->city_names = load_city_name_list(file, sec[i], ".cities");
-
-    /* class and legend */
-
-    pl->category =
-	mystrdup(secfile_lookup_str_default(file, "", "%s.class", sec[i]));
-    if (check_strlen(pl->category, MAX_LEN_NAME, "Class '%s' is too long")) {
-      pl->category[MAX_LEN_NAME - 1] = '\0';
-    }
 
     pl->legend =
 	mystrdup(secfile_lookup_str_default(file, "", "%s.legend", sec[i]));
@@ -2919,8 +2918,14 @@ static void send_ruleset_nations(struct conn_list *dest)
     }
     packet.city_style = n->city_style;
     memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
-    sz_strlcpy(packet.category, n->category);
+
     sz_strlcpy(packet.legend, n->legend);
+
+     /* client needs only the names */
+     packet.group_count = n->num_groups;
+     for (i = 0; i < n->num_groups; i++) {
+       sz_strlcpy(packet.group_name[i], n->groups[i]->name);
+     }
 
     lsend_packet_ruleset_nation(dest, &packet);
   }

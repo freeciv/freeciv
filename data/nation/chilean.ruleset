@@ -2,7 +2,7 @@
 
 name=_("Chilean")
 plural=_("?plural:Chileans")
-class=_("Modern")
+groups=_("Modern"), _("American")
 legend=_("Chile is located on the south-western coast of South America.")
 leader="Pedro de Valdivia", "Bernardo O'Higgins", "José Miguel Carrera",
        "Manuel Blanco Encalada", "Diego Portales", "Manuel Montt",

@@ -2,7 +2,7 @@
 
 name=_("Brazilian")
 plural=_("?plural:Brazilians")
-class=_("Modern")
+groups=_("Modern"), _("American")
 legend=_("Brazil was founded as a colony of Portugal but became \
 independent in 1822AD. It is the only country in the New World that \
 has been the seat of a monarchy.")

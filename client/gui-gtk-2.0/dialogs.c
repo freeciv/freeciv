@@ -65,7 +65,7 @@ void message_dialog_set_hide(GtkWidget *dshell, gboolean setting);
 
 /******************************************************************/
 static GtkWidget  *races_shell;
-static GtkWidget  *races_nation_list;
+static GtkWidget  *races_nation_list[MAX_NUM_NATION_GROUPS + 1];
 static GtkWidget  *races_leader;
 static GList      *races_leader_list;
 static GtkWidget  *races_sex[2];
@@ -1541,6 +1541,129 @@ void popup_unit_select_dialog(struct tile *ptile)
 
   gtk_window_present(GTK_WINDOW(unit_select_dialog_shell));
 }
+/****************************************************************
+  NATION SELECTION DIALOG
+****************************************************************/
+/****************************************************************
+  Creates a list of nation of given group
+  Inserts apropriate gtk_tree_view into races_nation_list[i]
+  If group == NULL, create a list of all nations
++****************************************************************/
+static GtkWidget* create_list_of_nations_in_group(struct nation_group* group, int index)
+{
+  GtkWidget *sw;
+  GtkListStore *store;
+  GtkWidget *list;
+
+  GtkTreeSelection *select;
+  
+  GtkCellRenderer *render;
+  GtkTreeViewColumn *column;
+
+  int i;
+  
+  store = gtk_list_store_new(5, G_TYPE_INT, G_TYPE_BOOLEAN,
+      GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
+      3, GTK_SORT_ASCENDING);
+
+  list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  races_nation_list[index] = list;
+  g_object_unref(store);
+
+  select = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
+  g_signal_connect(select, "changed", G_CALLBACK(races_nation_callback), NULL);
+  gtk_tree_selection_set_select_function(select, races_selection_func,
+      NULL, NULL);
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+      GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+  gtk_container_add(GTK_CONTAINER(sw), list);
+ 
+  render = gtk_cell_renderer_pixbuf_new();
+  column = gtk_tree_view_column_new_with_attributes(_("Flag"), render,
+      "pixbuf", 2, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
+  render = gtk_cell_renderer_text_new();
+  column = gtk_tree_view_column_new_with_attributes(_("Nation"), render,
+      "text", 3, "strikethrough", 1, NULL);
+  gtk_tree_view_column_set_sort_column_id(column, 3);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
+  render = gtk_cell_renderer_text_new();
+  g_object_set(render, "style", PANGO_STYLE_ITALIC, NULL);
+
+  /* Populate nation list store. */
+  for (i = 0; i < game.playable_nation_count; i++) {
+    struct nation_type *nation;
+    SPRITE *s;
+    GdkPixbuf *img;
+    GtkTreeIter it;
+    GValue value = { 0, };
+
+    nation = get_nation_by_idx(i);
+    
+    if (group != NULL && !nation_in_group(nation, group->name)) {
+      continue;
+    }
+
+    gtk_list_store_append(store, &it);
+
+    s = crop_blankspace(nation->flag_sprite);
+    img = sprite_get_pixbuf(s);
+    gtk_list_store_set(store, &it, 0, i, 1, FALSE, 2, img, -1);
+    free_sprite(s);
+
+    g_value_init(&value, G_TYPE_STRING);
+    g_value_set_static_string(&value, nation->name);
+    gtk_list_store_set_value(store, &it, 3, &value);
+    g_value_unset(&value);
+  }  
+  return sw;
+}
+
+/****************************************************************
+  Creates left side of nation selection dialog
+****************************************************************/
+static GtkWidget* create_nation_selection_list(void)
+{
+  GtkWidget *vbox;
+  GtkWidget *notebook;
+  
+  GtkWidget *label;
+  GtkWidget *nation_list;
+  GtkWidget *group_name_label;
+  
+  int i;
+  
+  vbox = gtk_vbox_new(FALSE, 2);
+  
+  nation_list = create_list_of_nations_in_group(NULL, 0);  
+  label = g_object_new(GTK_TYPE_LABEL,
+      "use-underline", TRUE,
+      "mnemonic-widget", nation_list,
+      "label", _("_Nations:"),
+      "xalign", 0.0,
+      "yalign", 0.5,
+      NULL);
+  notebook = gtk_notebook_new();
+  gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_LEFT);  
+  
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
+  gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
+  
+  for (i = 0; i <= get_nation_groups_count(); i++) {
+    struct nation_group* group = (i == 0 ? NULL: get_nation_group_by_id(i - 1));
+    nation_list = create_list_of_nations_in_group(group, i);
+    group_name_label = gtk_label_new(group ? _(group->name) : _("All"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), nation_list, group_name_label);
+  }
+
+  return vbox;
+}
+
 
 /****************************************************************
 ...
@@ -1551,14 +1674,17 @@ static void create_races_dialog(void)
   GtkWidget *cmd;
   GtkWidget *vbox, *hbox, *table;
   GtkWidget *frame, *label, *combo;
-  GtkWidget *notebook, *text;
+  GtkWidget *text;
+  GtkWidget *notebook;
+  GtkWidget* nation_selection_list;
   
-  GtkWidget *list, *sw;
-  GtkTreeSelection *select;
   
+  GtkWidget *sw;
+  GtkWidget *list;  
   GtkListStore *store;
   GtkCellRenderer *render;
   GtkTreeViewColumn *column;
+  
   int i;
   
   shell =
@@ -1589,83 +1715,9 @@ static void create_races_dialog(void)
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 3);
   gtk_container_add(GTK_CONTAINER(frame), hbox);
 
-  vbox = gtk_vbox_new(FALSE, 2);
-  gtk_container_add(GTK_CONTAINER(hbox), vbox);
-
-  /* Nation list. */
-  store = gtk_list_store_new(5, G_TYPE_INT, G_TYPE_BOOLEAN,
-      GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
-  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
-      3, GTK_SORT_ASCENDING);
-
-  list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-  races_nation_list = list;
-  g_object_unref(store);
-
-  select = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
-  g_signal_connect(select, "changed", G_CALLBACK(races_nation_callback), NULL);
-  gtk_tree_selection_set_select_function(select, races_selection_func,
-      NULL, NULL);
-  label = g_object_new(GTK_TYPE_LABEL,
-      "use-underline", TRUE,
-      "mnemonic-widget", list,
-      "label", _("_Nations:"),
-      "xalign", 0.0,
-      "yalign", 0.5,
-      NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-
-  sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-      GTK_SHADOW_ETCHED_IN);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-      GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(sw), list);
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
-
-  render = gtk_cell_renderer_pixbuf_new();
-  column = gtk_tree_view_column_new_with_attributes(_("Flag"), render,
-      "pixbuf", 2, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
-  render = gtk_cell_renderer_text_new();
-  column = gtk_tree_view_column_new_with_attributes(_("Nation"), render,
-      "text", 3, "strikethrough", 1, NULL);
-  gtk_tree_view_column_set_sort_column_id(column, 3);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
-  render = gtk_cell_renderer_text_new();
-  g_object_set(render, "style", PANGO_STYLE_ITALIC, NULL);
-  column = gtk_tree_view_column_new_with_attributes(_("Class"), render,
-      "text", 4, "strikethrough", 1, NULL);
-  gtk_tree_view_column_set_sort_column_id(column, 4);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
-
-  /* Populate nation list store. */
-  for (i = 0; i < game.playable_nation_count; i++) {
-    struct nation_type *nation;
-    SPRITE *s;
-    GdkPixbuf *img;
-    GtkTreeIter it;
-    GValue value = { 0, };
-
-    nation = get_nation_by_idx(i);
-
-    gtk_list_store_append(store, &it);
-
-    s = crop_blankspace(nation->flag_sprite);
-    img = sprite_get_pixbuf(s);
-    gtk_list_store_set(store, &it, 0, i, 1, FALSE, 2, img, -1);
-    free_sprite(s);
-
-    g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, nation->name);
-    gtk_list_store_set_value(store, &it, 3, &value);
-    g_value_unset(&value);
-
-    g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, Q_(nation->category));
-    gtk_list_store_set_value(store, &it, 4, &value);
-    g_value_unset(&value);
-  }
+  /* Nation list */
+  nation_selection_list = create_nation_selection_list();
+  gtk_container_add(GTK_CONTAINER(hbox), nation_selection_list);
 
 
   /* Right side. */
@@ -1912,7 +1964,7 @@ static void select_random_race(void)
 {
   GtkTreeModel *model;
 
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list));
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[0]));
 
   /* This has a possibility of infinite loop in case
    * game.playable_nation_count < game.nplayers. */
@@ -1932,7 +1984,7 @@ static void select_random_race(void)
       gtk_tree_model_get(model, &it, 1, &chosen, -1);
 
       if (!chosen) {
-	gtk_tree_view_set_cursor(GTK_TREE_VIEW(races_nation_list), path,
+	gtk_tree_view_set_cursor(GTK_TREE_VIEW(races_nation_list[0]), path,
 	    NULL, FALSE);
 	gtk_tree_path_free(path);
 	return;
@@ -1952,40 +2004,52 @@ void races_toggles_set_sensitive(bool *nations_used)
   GtkTreeIter it;
   GtkTreePath *path;
   gboolean chosen;
+  int i;
+  gboolean changed;
 
   if (!races_shell) {
     return;
   }
 
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list));
+  for (i = 0; i <= get_nation_groups_count(); i++) {
+    model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));
+    if (gtk_tree_model_get_iter_first(model, &it)) {
+      do {
+        int nation;
 
-  if (gtk_tree_model_get_iter_first(model, &it)) {
-    do {
-      int nation;
+        gtk_tree_model_get(model, &it, 0, &nation, -1);
 
-      gtk_tree_model_get(model, &it, 0, &nation, -1);
+        chosen = nations_used[nation];
+        gtk_list_store_set(GTK_LIST_STORE(model), &it, 1, chosen, -1);
 
-      chosen = nations_used[nation];
-      gtk_list_store_set(GTK_LIST_STORE(model), &it, 1, chosen, -1);
-
-    } while (gtk_tree_model_iter_next(model, &it));
-  }
-
-  gtk_tree_view_get_cursor(GTK_TREE_VIEW(races_nation_list), &path, NULL);
-  if (path) {
-    gtk_tree_model_get_iter(model, &it, path);
-    gtk_tree_model_get(model, &it, 1, &chosen, -1);
-
-    if (chosen) {
-      select_random_race();
+      } while (gtk_tree_model_iter_next(model, &it));
     }
+  }
+  
+  changed = false;
+  for (i = 0; i <= get_nation_groups_count(); i++) {
+    gtk_tree_view_get_cursor(GTK_TREE_VIEW(races_nation_list[i]), &path, NULL);
+    model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));    
+    if (path) {
+      gtk_tree_model_get_iter(model, &it, path);
+      gtk_tree_model_get(model, &it, 1, &chosen, -1);
 
-    gtk_tree_path_free(path);
+      if (chosen) {
+          GtkTreeSelection* select = gtk_tree_view_get_selection(GTK_TREE_VIEW(races_nation_list[i]));
+	  gtk_tree_selection_unselect_all(select);
+	  changed = true;
+      }
+
+      gtk_tree_path_free(path);
+    }
+  }
+  if (changed) {
+  	select_random_race();
   }
 }
 
 /**************************************************************************
-  ...
+  Called whenever a user selects a nation in nation list
  **************************************************************************/
 static void races_nation_callback(GtkTreeSelection *select, gpointer data)
 {
@@ -2004,6 +2068,28 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
     } else {
       int cs, i, j;
       GtkTreePath *path;
+     
+
+      /* Unselect other nations in other pages 
+       * This can set selected_nation to -1, so we have to copy it
+       */
+      int selected_nation_copy = selected_nation;      
+      for (i = 0; i <= get_nation_groups_count(); i++) {
+        gtk_tree_view_get_cursor(GTK_TREE_VIEW(races_nation_list[i]), &path, NULL);
+        model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));    
+        if (path) {
+          int other_nation;
+          gtk_tree_model_get_iter(model, &it, path);
+          gtk_tree_model_get(model, &it, 0, &other_nation, -1);
+          if (other_nation != selected_nation_copy) {
+            GtkTreeSelection* select = gtk_tree_view_get_selection(GTK_TREE_VIEW(races_nation_list[i]));
+            gtk_tree_selection_unselect_all(select);
+          }
+
+          gtk_tree_path_free(path);
+        }
+      }
+      selected_nation = selected_nation_copy;
       
       select_random_leader();
       

@@ -2,6 +2,7 @@
 
 name=_("Venezuela")
 plural=_("?plural:Venezolanos")
+groups=_("American"), _("Modern")
 leader="Ambrosio Alfinger", "El Libertador Simón Bolivar",
        "Cristobal Mendoza", "Jose Antonio Páez", "Gral. Juan Vicente Gómez",
        "Carlos Andrés Pérez", "Rafael Caldera", "Hugo R. Chávez",

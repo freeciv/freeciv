@@ -3,7 +3,7 @@
 
 name=_("Elves")
 plural=_("?plural:Elves")
-class=_("Fictional")
+groups=_("Fictional")
 ; /* <-- avoid gettext warnings
 ; Starting with the six High Kings of the Noldor, folowed by other kings (some are not real Kings, but in the Third Age it's close enough :-)
 ; Elrond COULD have been High King, but never made claim to the Kingship, so I include him as well (and most people know him)

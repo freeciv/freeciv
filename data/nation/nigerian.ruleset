@@ -2,7 +2,7 @@
 
 name=_("Nigerian")
 plural=_("?plural:Nigerians")
-class=_("Modern")
+groups=_("Modern"), _("African")
 leader="Balewa", "Obasanjo"
 leader_sex="Male", "Male"
 flag="f.nigeria"

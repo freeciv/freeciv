@@ -2482,16 +2482,16 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
   pl->city_style = p->city_style;
 
-  if (p->category[0] != '\0') {
-    pl->category = mystrdup(p->category);
-  } else {
-    pl->category = mystrdup(N_("Other"));
-  }
-
   if (p->legend[0] != '\0') {
     pl->legend = mystrdup(_(p->legend));
   } else {
     pl->legend = mystrdup("");
+  }
+
+  pl->num_groups = p->group_count;
+  pl->groups = malloc(sizeof(*(pl->groups)) * pl->num_groups);
+  for (i = 0; i < p->group_count; i++) {
+    pl->groups[i] = add_new_nation_group(p->group_name[i]);
   }
 
   tileset_setup_nation_flag(tileset, p->id);

@@ -2,7 +2,7 @@
 
 name=_("Arab")
 plural=_("?plural:Arabs")
-class=_("Historical")
+groups=_("Ancient"), _("Mediaval")
 legend=_("The Arab/Islamic civilization of 622AD-1495AD.")
 leader="Mohammad", "Umar", "Harun al-Rashid", "Saladin", 
 	"Al-Mansur", "Al-Hakim"

@@ -2,7 +2,7 @@
 
 name=_("Filipino")
 plural=_("?plural:Filipinos")
-class=_("Modern")
+groups=_("Modern")
 legend=_("After centuries of Spanish rule, the Philippines were ceded to the \
 Americans in 1898. They attained home rule in 1935 and independence in 1946.")
 leader="Ramon Magsagay","Jose Rizal", "Luis Taruc", "Sergio Osmena", 

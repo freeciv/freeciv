@@ -63,7 +63,6 @@ static gint popup_mes_del_callback(GtkWidget *widget, GdkEvent *event,
 static GtkWidget  *races_dialog_shell=NULL;
 static GtkWidget  *races_toggles_form[MAX_NUM_ITEMS];
 static GtkWidget  *races_by_name[MAX_NUM_ITEMS];
-static GtkWidget  *class[MAX_NUM_ITEMS];
 static GtkWidget  *legend[MAX_NUM_ITEMS];
 static GtkWidget  *legend_frame[MAX_NUM_ITEMS];
 static GtkWidget  *races_sex_toggles_form;
@@ -77,9 +76,6 @@ static GtkWidget *races_sex_toggles[2];		/* Male/Female */
 static GtkWidget **city_style_toggles = NULL;
 static GtkWidget *leader_name;			/* leader name */
 static GtkWidget *notebook;
-
-static int       num_classes;
-static char      *class_names[MAX_NUM_ITEMS];
 
 static GList *leader_strings = NULL;
 
@@ -141,7 +137,7 @@ static int selected_leader;
 static bool is_name_unique = FALSE;
 static int selected_sex;
 static int selected_city_style;
-static int selected_class;
+static int selected_group;
 static int city_style_idx[64];  /* translation table basic style->city_style */
 static int city_style_ridx[64]; /* translation table the other way. they     */
                                 /* in fact limit the num of styles to 64     */
@@ -1633,7 +1629,6 @@ popup the dialog 10% inside the main-window
 *****************************************************************/
 void popup_races_dialog(void)
 {
-  int class_id;
   int width, height;
 
   gtk_widget_set_sensitive(top_vbox, FALSE);
@@ -1650,8 +1645,9 @@ void popup_races_dialog(void)
    * This is a hack to expand the legend label to take all the
    * available space. 
    */
-  for (class_id = 0; class_id < num_classes; class_id++) {
-    gtk_widget_set_usize(legend[class_id], width, -1);
+   
+  for (group_id = 0; group_id <= get_nation_groups_count(); group_id++) {
+    gtk_widget_set_usize(legend[group_id], width, -1);
   }
 }
 
@@ -1661,7 +1657,7 @@ void popup_races_dialog(void)
 void popdown_races_dialog(void)
 {
   if (races_dialog_shell) {
-    int class_id;
+    int group_id;
 
     gtk_widget_set_sensitive(top_vbox, TRUE);
 
@@ -1677,17 +1673,17 @@ void popdown_races_dialog(void)
 				  GTK_SIGNAL_FUNC(switch_page_callback),
 				  NULL);
 
-    for (class_id = 0; class_id < num_classes; class_id++) {
+    for (group_id = 0; group_id <= get_nation_groups_count(); group_id++) {
       gtk_signal_disconnect_by_func(GTK_OBJECT
-				    (GTK_COMBO(races_by_name[class_id])->
+				    (GTK_COMBO(races_by_name[group_id])->
 				     list),
 				    GTK_SIGNAL_FUNC(races_by_name_callback),
 				    NULL);
 
-      g_list_free(sorted_races_list[class_id]);
-      sorted_races_list[class_id] = NULL;
-      free(races_toggles[class_id]);
-      races_toggles[class_id] = NULL;
+      g_list_free(sorted_races_list[group_id]);
+      sorted_races_list[group_id] = NULL;
+      free(races_toggles[group_id]);
+      races_toggles[group_id] = NULL;
     }
     gtk_widget_destroy(races_dialog_shell);
     races_dialog_shell = NULL;
@@ -1753,23 +1749,28 @@ Updates the gui elements and the selected_* variables.
 *****************************************************************/
 static void select_random_race(void)
 {
-  int class_id = selected_class;
-  int nations_in_class = g_list_length(sorted_races_list[class_id]);
+  int group_id = selected_group;
+  int nations_in_group = g_list_length(sorted_races_list[group_id]);
   int index;
+  int num_tries = 0;
 
   /* try to find a free nation */
   while (TRUE) {
-    index = myrand(nations_in_class);
+    index = myrand(nations_in_group);
     selected_nation =
-	GPOINTER_TO_INT(g_list_nth_data(sorted_races_list[class_id], index));
-    if (GTK_WIDGET_SENSITIVE(races_toggles[class_id][index])) {
+	GPOINTER_TO_INT(g_list_nth_data(sorted_races_list[group_id], index));
+    if (GTK_WIDGET_SENSITIVE(races_toggles[group_id][index])) {
       break;
+    }
+    num_tries++;
+    if (num_tries > 100) {
+      return;
     }
   }
 
   /* initialize nation toggle array */
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-			      (races_toggles[class_id][index]), TRUE);
+ 			      (races_toggles[group_id][index]), TRUE);
 
   /* initialize city style */
   selected_city_style =
@@ -1785,7 +1786,7 @@ static void switch_page_callback(GtkNotebook * notebook,
 				 GtkNotebookPage * page, gint page_num,
 				 gpointer data)
 {
-  selected_class = page_num;
+  selected_group = page_num;
   select_random_race();
 }
 
@@ -1794,10 +1795,11 @@ static void switch_page_callback(GtkNotebook * notebook,
 *****************************************************************/
 void create_races_dialog(void)
 {
-  int       i, class_id;
+  int       i, group_id, j, num_groups;
   GSList    *sgroup = NULL;
   GSList    *cgroup = NULL;
   GtkWidget *frame, *label;
+  char* group_name[MAX_NUM_NATION_GROUPS];
  
   races_dialog_shell = gtk_dialog_new();
   gtk_window_set_default_size(GTK_WINDOW(races_dialog_shell), 10, 650);
@@ -1812,74 +1814,66 @@ void create_races_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(races_dialog_shell)->vbox),
                      frame, TRUE, TRUE, 0);
 
-  /* ------- Add each nation to one of the class lists ------- */
+  /* ------- Add each nation to group lists ------- */
 
-  num_classes = 1;
-  class_names[0] = _("All");
-
+  num_groups = get_nation_groups_count() + 1;
+  group_name[0] = _("All");
+  for (i = 0; i < get_nation_groups_count(); i++) {
+    group_name[i+1] = _(get_nation_group_by_id(i)->name);
+  }
+  
   for (i = 0; i < game.playable_nation_count; i++) {
-    bool found = FALSE;
     struct nation_type *nation = get_nation_by_idx(i);
 
-    /* Find the nation's class. */
-    for (class_id = 1; class_id < num_classes; class_id++) {
-      if (strcmp(nation->category, class_names[class_id]) == 0) {
-	found = TRUE;
-	break;
-      }
-    }
-
-    /* Append a new class. */
-    if (!found && num_classes < MAX_NUM_ITEMS) {
-      class_id = num_classes++;
-      class_names[class_id] = nation->category;
-    }
-
-    /* Add the nation to the class list. */
-    sorted_races_list[class_id] =
-      g_list_prepend(sorted_races_list[class_id], GINT_TO_POINTER(i));
-
-    /* Add the nation to the "All" class. */
+    /* Add the nation to the "All" group */
     sorted_races_list[0] =
 	g_list_prepend(sorted_races_list[0], GINT_TO_POINTER(i));
+	
+    /* Add the nation to proper lists */
+    for (j = 0; j < get_nation_groups_count(); j++) {
+      if (nation_in_group(nation, get_nation_group_by_id(j)->name)) {
+        sorted_races_list[j + 1] =
+        g_list_append(sorted_races_list[j + 1], GINT_TO_POINTER(i));        
+      }
+    }
   }
 
-  /* ------- create class notebook and add pages ------- */
+  /* ------- create group notebook and add pages ------- */
 
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
   gtk_container_add(GTK_CONTAINER(frame), notebook);
 
-  for (class_id = 0; class_id < num_classes; class_id++) {
+  for (group_id = 0; group_id < num_groups; group_id++) {
     GtkWidget *page, *label, *hbox, *scrolledwin;
-    int nations_in_class = g_list_length(sorted_races_list[class_id]);
+    int nations_in_group = g_list_length(sorted_races_list[group_id]);
     int per_row, rows;
     GList *race_names = NULL;
     GSList *group = NULL;
 
     freelog(LOG_DEBUG, "  %s[%d] has %d nations",
-	    skip_intl_qualifier_prefix(class_names[class_id]), class_id,
-	    nations_in_class);
-    sorted_races_list[class_id] =
-	g_list_sort(sorted_races_list[class_id], cmp_func);
+	    skip_intl_qualifier_prefix(group_name[group_id]), group_id,
+	    nations_in_group);
+    sorted_races_list[group_id] =
+	g_list_sort(sorted_races_list[group_id], cmp_func);
 
-    for (i = 0; i < nations_in_class; i++) {
+    for (i = 0; i < nations_in_group; i++) {
       race_names =
 	  g_list_prepend(race_names,
 		(gchar *)get_nation_by_idx(GPOINTER_TO_INT(g_list_nth_data
-			(sorted_races_list[class_id], i)))->name);
+			(sorted_races_list[group_id], i)))->name);
     }
 
     per_row = 8;
 
-    if (nations_in_class == 0) {
+    if (nations_in_group == 0) {
       rows = 0;
     } else {
-      rows = ((nations_in_class - 1) / per_row) + 1;
+      rows = ((nations_in_group - 1) / per_row) + 1;
     }
 
     page = gtk_vbox_new(FALSE, 1);
-    label = gtk_label_new(Q_(class_names[class_id]));
+    label = gtk_label_new(Q_(group_name[group_id]));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), page, label);
 
     scrolledwin = gtk_scrolled_window_new(NULL, NULL);
@@ -1887,34 +1881,34 @@ void create_races_dialog(void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwin),
 				   GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-    races_toggles_form[class_id] = gtk_table_new(per_row, rows, FALSE);
+    races_toggles_form[group_id] = gtk_table_new(per_row, rows, FALSE);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (scrolledwin),
-					  races_toggles_form[class_id]);
+					  races_toggles_form[group_id]);
 
-    races_toggles[class_id] =
-	fc_calloc(nations_in_class, sizeof(GtkWidget *));
+    races_toggles[group_id] =
+	fc_calloc(nations_in_group, sizeof(GtkWidget *));
 
     /* ------ add nation flag array to page ------ */
 
-    for (i = 0; i < g_list_length(sorted_races_list[class_id]); i++) {
+    for (i = 0; i < g_list_length(sorted_races_list[group_id]); i++) {
       gint nat_id =
-	  GPOINTER_TO_INT(g_list_nth_data(sorted_races_list[class_id], i));
+	  GPOINTER_TO_INT(g_list_nth_data(sorted_races_list[group_id], i));
       SPRITE *s = crop_blankspace(get_nation_by_idx(nat_id)->flag_sprite);
       GtkWidget *flag = gtk_pixmap_new(s->pixmap, s->mask);
 
-      races_toggles[class_id][i] = gtk_radio_button_new(group);
+      races_toggles[group_id][i] = gtk_radio_button_new(group);
       gtk_misc_set_alignment(GTK_MISC(flag), 0, 0.5);
       gtk_misc_set_padding(GTK_MISC(flag), 6, 4);
 
-      gtk_container_add(GTK_CONTAINER(races_toggles[class_id][i]), flag);
+      gtk_container_add(GTK_CONTAINER(races_toggles[group_id][i]), flag);
       gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				  (races_toggles[class_id][i]), FALSE);
+				  (races_toggles[group_id][i]), FALSE);
 
       group =
 	  gtk_radio_button_group(GTK_RADIO_BUTTON
-				 (races_toggles[class_id][i]));
-      gtk_table_attach_defaults(GTK_TABLE(races_toggles_form[class_id]),
-				races_toggles[class_id][i], i % per_row,
+				 (races_toggles[group_id][i]));
+      gtk_table_attach_defaults(GTK_TABLE(races_toggles_form[group_id]),
+				races_toggles[group_id][i], i % per_row,
 				i % per_row + 1, i / per_row,
 				i / per_row + 1);
     }
@@ -1925,41 +1919,41 @@ void create_races_dialog(void)
     gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new(_("Nation:"));
-    races_by_name[class_id] = gtk_combo_new();
+    races_by_name[group_id] = gtk_combo_new();
     gtk_editable_set_editable(GTK_EDITABLE
-			      (GTK_COMBO(races_by_name[class_id])->entry),
+			      (GTK_COMBO(races_by_name[group_id])->entry),
 			      FALSE);
 
-    gtk_combo_set_popdown_strings(GTK_COMBO(races_by_name[class_id]),
+    gtk_combo_set_popdown_strings(GTK_COMBO(races_by_name[group_id]),
 				  race_names);
-    gtk_combo_set_value_in_list(GTK_COMBO(races_by_name[class_id]), TRUE,
+    gtk_combo_set_value_in_list(GTK_COMBO(races_by_name[group_id]), TRUE,
 				FALSE);
     gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 4);
-    gtk_box_pack_start(GTK_BOX(hbox), races_by_name[class_id],
+    gtk_box_pack_start(GTK_BOX(hbox), races_by_name[group_id],
 		       FALSE, FALSE, 0);
 
-    /* ------ add info about class and legend to page ------ */
+    /* ------ add info about group and legend to page ------ */
 
-    hbox = gtk_hbox_new(FALSE, 0);
+/*    hbox = gtk_hbox_new(FALSE, 0);
     gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 5);
     label = gtk_label_new(_("Class:"));
     gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-    class[class_id] = gtk_label_new("content");
-    gtk_box_pack_start(GTK_BOX(hbox), class[class_id], FALSE, FALSE, 0);
+    class[group_id] = gtk_label_new("content");
+    gtk_box_pack_start(GTK_BOX(hbox), class[group_id], FALSE, FALSE, 0);*/
 
     hbox = gtk_hbox_new(FALSE, 0);
     gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 5);
-    legend[class_id] = gtk_label_new("content");
-    gtk_label_set_line_wrap(GTK_LABEL(legend[class_id]), TRUE);
-    gtk_label_set_justify(GTK_LABEL(legend[class_id]), GTK_JUSTIFY_FILL);
+    legend[group_id] = gtk_label_new("content");
+    gtk_label_set_line_wrap(GTK_LABEL(legend[group_id]), TRUE);
+    gtk_label_set_justify(GTK_LABEL(legend[group_id]), GTK_JUSTIFY_FILL);
 
-    legend_frame[class_id] = gtk_frame_new(_("Description"));
-    gtk_box_pack_start(GTK_BOX(hbox), legend_frame[class_id], TRUE, TRUE, 0);
-    gtk_container_add(GTK_CONTAINER(legend_frame[class_id]), legend[class_id]);
+    legend_frame[group_id] = gtk_frame_new(_("Description"));
+    gtk_box_pack_start(GTK_BOX(hbox), legend_frame[group_id], TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(legend_frame[group_id]), legend[group_id]);
     /* ------- contruction of one page finished ------- */
   }
 
-  selected_class = 0;
+  selected_group = 0;
 
   /* ------- leader sex toggles ------- */
 
@@ -2068,14 +2062,14 @@ void create_races_dialog(void)
 
   /* ------- connect callback functions ------- */
 
-  for (class_id = 0; class_id < num_classes; class_id++) {
-    for (i = 0; i < g_list_length(sorted_races_list[class_id]); i++) {
-      gtk_signal_connect(GTK_OBJECT(races_toggles[class_id][i]), "toggled",
+  for (group_id = 0; group_id < get_nation_groups_count() + 1; group_id++) {
+    for (i = 0; i < g_list_length(sorted_races_list[group_id]); i++) {
+      gtk_signal_connect(GTK_OBJECT(races_toggles[group_id][i]), "toggled",
 			 GTK_SIGNAL_FUNC(races_toggles_callback),
-			 g_list_nth_data(sorted_races_list[class_id], i));
+			 g_list_nth_data(sorted_races_list[group_id], i));
     }
 
-    gtk_signal_connect(GTK_OBJECT(GTK_COMBO(races_by_name[class_id])->list),
+    gtk_signal_connect(GTK_OBJECT(GTK_COMBO(races_by_name[group_id])->list),
 		       "selection_changed",
 		       GTK_SIGNAL_FUNC(races_by_name_callback), NULL);
   }
@@ -2123,20 +2117,20 @@ void create_races_dialog(void)
 **************************************************************************/ 
 static void races_by_name_callback(GtkWidget * w, gpointer data)
 {
-  int i, class_id = selected_class;
+  int i, group_id = selected_group;
   char *chosen =
-      gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_by_name[class_id])->
+      gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_by_name[group_id])->
 				   entry));
 
-  for (i = 0; i < g_list_length(sorted_races_list[class_id]); i++) {
+  for (i = 0; i < g_list_length(sorted_races_list[group_id]); i++) {
     if (strcmp(chosen,
 	       get_nation_by_idx(GPOINTER_TO_INT
 				 (g_list_nth_data
-				  (sorted_races_list[class_id],
+				  (sorted_races_list[group_id],
 				   i)))->name) == 0) {
-      if (GTK_WIDGET_SENSITIVE(races_toggles[class_id][i])) {
+      if (GTK_WIDGET_SENSITIVE(races_toggles[group_id][i])) {
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				    (races_toggles[class_id][i]), TRUE);
+				    (races_toggles[group_id][i]), TRUE);
 	break;
       } else {
 	/* That one's taken */
@@ -2151,22 +2145,22 @@ static void races_by_name_callback(GtkWidget * w, gpointer data)
 **************************************************************************/
 void races_toggles_set_sensitive(bool *nations_used)
 {
-  int i, class_id;
+  int i, group_id;
 
-  for (class_id = 0; class_id < num_classes; class_id++) {
-    int nations_in_class = g_list_length(sorted_races_list[class_id]);
+  for (group_id = 0; group_id <= get_nation_groups_count(); group_id++) {
+    int nations_in_group = g_list_length(sorted_races_list[group_id]);
 
-    for (i = 0; i < nations_in_class; i++) {
-      gtk_widget_set_sensitive(races_toggles[class_id][i], TRUE);
+    for (i = 0; i < nations_in_group; i++) {
+      gtk_widget_set_sensitive(races_toggles[group_id][i], TRUE);
     }
 
     for (i = 0; i < game.playable_nation_count; i++) {
       if (nations_used[i]) {
 	int index =
-	  g_list_index(sorted_races_list[class_id], GINT_TO_POINTER(i));
+	  g_list_index(sorted_races_list[group_id], GINT_TO_POINTER(i));
 
 	if (index != -1) {
-	  gtk_widget_set_sensitive(races_toggles[class_id][index], FALSE);
+	  gtk_widget_set_sensitive(races_toggles[group_id][index], FALSE);
 	}
       }
     }
@@ -2201,7 +2195,7 @@ static void leader_name_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void races_toggles_callback(GtkWidget * w, gpointer race_id_p)
 {
-  int class_id = selected_class;
+  int group_id = selected_group;
 
   if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w))) {
     /* don't do anything if signal is untoggling the button */
@@ -2210,11 +2204,9 @@ static void races_toggles_callback(GtkWidget * w, gpointer race_id_p)
 
   selected_nation = GPOINTER_TO_INT(race_id_p);
 
-  gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(races_by_name[class_id])->entry),
+  gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(races_by_name[group_id])->entry),
 		     get_nation_by_idx(selected_nation)->name);
-  gtk_label_set_text(GTK_LABEL(class[class_id]),
-		     get_nation_by_idx(selected_nation)->category);
-  gtk_label_set_text(GTK_LABEL(legend[class_id]),
+  gtk_label_set_text(GTK_LABEL(legend[group_id]),
 		     get_nation_by_idx(selected_nation)->legend);
 
   select_random_leader();
