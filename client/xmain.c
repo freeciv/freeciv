@@ -258,6 +258,12 @@ void x_main(int argc, char *argv[])
 /*  XSynchronize(display, 1); 
   XSetErrorHandler(myerr);*/
 
+  if(appResources.version==NULL)  {
+    log(LOG_FATAL, "No version number in resources");
+    log(LOG_FATAL, "You probably have an old (circa V1.0) Freeciv resource file somewhere");
+    exit(1);
+  }
+
   if(strncmp(appResources.version, VERSION_STRING,strlen(appResources.version))) {
     log(LOG_FATAL, "Game version does not match Resource version");
     log(LOG_FATAL, "Game version: %s - Resource version: %s", 
