@@ -151,7 +151,6 @@ void auto_arrange_workers(struct city *pcity)
   struct cm_parameter cmp;
   struct cm_result cmr;
   struct player *pplayer = city_owner(pcity);
-  struct ai_data *ai = ai_data_get(pplayer);
 
   /* HACK: make sure everything is up-to-date before continuing.  This may
    * result in recursive calls to auto_arrange_workers, but it's better
@@ -169,26 +168,27 @@ void auto_arrange_workers(struct city *pcity)
   cmp.allow_specialists = TRUE;
   cmp.factor_target = FT_SURPLUS;
 
-  /* WAGs. These are set for both AI and humans.
-   * FIXME: Adjust & remove kludges */
+  /* We used to look at pplayer->ai.xxx_priority to determine the values
+   * to be used here.  However that doesn't work at all because those values
+   * are on a different scale.  Later the ai may wish to adjust its
+   * priorities - this should be done via a separate set of variables. */
   if (pcity->size > 1) {
-    cmp.factor[FOOD] = ai->food_priority - 9;
+    cmp.factor[FOOD] = 10;
   } else {
-    /* Growing to size 2 is priority #1, since then we have the
-     * option of making settlers. */
+    /* Growing to size 2 is the highest priority. */
     cmp.factor[FOOD] = 20;
   }
-  cmp.factor[SHIELD] = ai->shield_priority - 7;
-  cmp.factor[TRADE] = 10;
-  cmp.factor[GOLD] = ai->gold_priority - 11;
-  cmp.factor[LUXURY] = ai->luxury_priority;
-  cmp.factor[SCIENCE] = ai->science_priority + 3;
-  cmp.happy_factor = ai->happy_priority - 1;
+  cmp.factor[SHIELD] = 5;
+  cmp.factor[TRADE] = 0; /* Trade only provides gold/science. */
+  cmp.factor[GOLD] = 2;
+  cmp.factor[LUXURY] = 0; /* Luxury only influences happiness. */
+  cmp.factor[SCIENCE] = 2;
+  cmp.happy_factor = 0;
 
   cmp.minimal_surplus[FOOD] = 1;
   cmp.minimal_surplus[SHIELD] = 1;
   cmp.minimal_surplus[TRADE] = 0;
-  cmp.minimal_surplus[GOLD] = 0;
+  cmp.minimal_surplus[GOLD] = -FC_INFINITY;
   cmp.minimal_surplus[LUXURY] = 0;
   cmp.minimal_surplus[SCIENCE] = 0;
 
@@ -196,19 +196,26 @@ void auto_arrange_workers(struct city *pcity)
 
   if (!cmr.found_a_valid) {
     if (!pplayer->ai.control) {
-      /* 
-       * If we can't get a resonable result force a disorder.
-       */
-      cmp.allow_disorder = TRUE;
-      cmp.allow_specialists = FALSE;
-      cmp.minimal_surplus[FOOD] = -FC_INFINITY;
-      cmp.minimal_surplus[SHIELD] = -FC_INFINITY;
-      cmp.minimal_surplus[TRADE] = -FC_INFINITY;
-      cmp.minimal_surplus[GOLD] = -FC_INFINITY;
-      cmp.minimal_surplus[LUXURY] = -FC_INFINITY;
-      cmp.minimal_surplus[SCIENCE] = -FC_INFINITY;
-
+      /* Drop surpluses and try again. */
+      cmp.minimal_surplus[FOOD] = 0;
+      cmp.minimal_surplus[SHIELD] = 0;
       cm_query_result(pcity, &cmp, &cmr);
+
+      if (!cmr.found_a_valid) {
+	/* 
+	 * If we can't get a resonable result force a disorder.
+	 */
+	cmp.allow_disorder = TRUE;
+	cmp.allow_specialists = FALSE;
+	cmp.minimal_surplus[FOOD] = -FC_INFINITY;
+	cmp.minimal_surplus[SHIELD] = -FC_INFINITY;
+	cmp.minimal_surplus[TRADE] = -FC_INFINITY;
+	cmp.minimal_surplus[GOLD] = -FC_INFINITY;
+	cmp.minimal_surplus[LUXURY] = -FC_INFINITY;
+	cmp.minimal_surplus[SCIENCE] = -FC_INFINITY;
+
+	cm_query_result(pcity, &cmp, &cmr);
+      }
     } else {
       cmp.minimal_surplus[FOOD] = 0;
       cmp.minimal_surplus[SHIELD] = 0;
