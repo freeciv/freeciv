@@ -1922,7 +1922,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
 	    setting = 1;
 	  }
 	
-	  if (!strcmp(name, "river")) {
+	  if (!mystrcasecmp(name, "river")) {
 	    city_names[j].river = setting;
 	  } else {
 	    /* "handled" tracks whether we find a match (for error handling) */
