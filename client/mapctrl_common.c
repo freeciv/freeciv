@@ -794,6 +794,7 @@ char* popup_info_text(int xtile, int ytile)
      * borders are in use). */
     struct player *owner = city_owner(pcity);
     struct player_diplstate *ds = game.player_ptr->diplstates;
+    struct unit *apunit;
 
     if (owner == game.player_ptr){
       /* TRANS: "City: <name> (<nation>)" */
@@ -820,6 +821,17 @@ char* popup_info_text(int xtile, int ytile)
     if (city_got_citywalls(pcity)) {
       sz_strlcat(out, _(" with City Walls"));
     }
+
+    if ((apunit = get_unit_in_focus())) {
+      struct city *hcity = find_city_by_id(apunit->homecity);
+
+      if (unit_flag(apunit, F_TRADE_ROUTE)
+	  && can_cities_trade(hcity, pcity)
+	  && can_establish_trade_route(hcity, pcity)) {
+	add_line(out, sizeof(out), _("Trade from %s: %d"),
+		 hcity->name, trade_between_cities(hcity, pcity));
+      }
+    } 
   } 
   if (get_tile_infrastructure_set(ptile)) {
     add_line(out, sizeof(out), _("Infrastructure: %s"),
@@ -866,4 +878,3 @@ char* popup_info_text(int xtile, int ytile)
   return out;
 }
 
-	
