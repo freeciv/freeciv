@@ -481,7 +481,7 @@ static void cma_select_preset_callback(GtkTreeSelection *selection,
 static void cma_add_preset_callback(GtkWidget *w, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  char *default_name;
+  const char *default_name;
   GtkWidget *parent = gtk_widget_get_toplevel(pdialog->shell);
   int index;
 

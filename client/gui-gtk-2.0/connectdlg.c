@@ -263,7 +263,7 @@ static int get_lanservers(gpointer data)
       row[0] = ntoh_str(pserver->name);
       row[1] = ntoh_str(pserver->port);
       row[2] = ntoh_str(pserver->version);
-      row[3] = _(pserver->status);
+      row[3] = g_strdup(_(pserver->status));
       row[4] = ntoh_str(pserver->players);
       row[5] = ntoh_str(pserver->metastring);
 
@@ -273,9 +273,7 @@ static int get_lanservers(gpointer data)
 		         3, row[3], 4, row[4], 5, row[5], -1);
 
       for (i = 0; i < 6; i++) {
-        if (i != 3) {
-          g_free(row[i]);
-        }
+	g_free(row[i]);
       }
     } server_list_iterate_end;
   }
@@ -533,7 +531,7 @@ static void filesel_response_callback(GtkWidget *w, gint id, gpointer data)
 /**************************************************************************
  create a file selector for both the load and save commands
 **************************************************************************/
-GtkWidget *create_file_selection(char *title, bool is_save)
+GtkWidget *create_file_selection(const char *title, bool is_save)
 {
   GtkWidget *filesel;
   
@@ -1140,7 +1138,7 @@ static int get_meta_list(char *errbuf, int n_errbuf)
     row[0] = ntoh_str(pserver->name);
     row[1] = ntoh_str(pserver->port);
     row[2] = ntoh_str(pserver->version);
-    row[3] = _(pserver->status);
+    row[3] = g_strdup(_(pserver->status));
     row[4] = ntoh_str(pserver->players);
     row[5] = ntoh_str(pserver->metastring);
 
@@ -1150,9 +1148,7 @@ static int get_meta_list(char *errbuf, int n_errbuf)
 		       3, row[3], 4, row[4], 5, row[5], -1);
 
     for (i=0; i<6; i++) {
-      if (i != 3) {
-        g_free(row[i]);
-      }
+      g_free(row[i]);
     }
   }
   server_list_iterate_end;

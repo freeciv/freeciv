@@ -21,7 +21,7 @@ GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text);
 void gtk_expose_now(GtkWidget *w);
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
 
-void intl_slist(int n, char **s, bool *done);
+void intl_slist(int n, const char **s, bool *done);
 
 /* the standard GTK+ 2.0 API is braindamaged. this is slightly better! */
 

@@ -609,7 +609,7 @@ void popdown_economy_report_dialog(void)
 *****************************************************************/
 void create_economy_report_dialog(bool make_modal)
 {
-  static char *titles[4] = {
+  static const char *titles[4] = {
     N_("Building Name"),
     N_("Count"),
     N_("Cost"),
@@ -941,7 +941,7 @@ void popdown_activeunits_report_dialog(void)
 *****************************************************************/
 void create_activeunits_report_dialog(bool make_modal)
 {
-  static char *titles[AU_COL] = {
+  static const char *titles[AU_COL] = {
     N_("Unit Type"),
     N_("U"),
     N_("In-Prog"),
@@ -1308,7 +1308,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
   static bool titles_done;
   GtkTreeIter it;
       
-  static char *titles[NUM_SCORE_COLS] = {
+  static const char *titles[NUM_SCORE_COLS] = {
     N_("Player\n"),
     N_("Score\n"),
     N_("Population\n"),

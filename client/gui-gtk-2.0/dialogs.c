@@ -1555,7 +1555,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     GtkWidget *shell, *view, *sw, *hbox;
     GtkWidget *ready_cmd, *sentry_cmd, *close_cmd;
 
-    static char *titles[NUM_UNIT_SELECT_COLUMNS] = {
+    static const char *titles[NUM_UNIT_SELECT_COLUMNS] = {
       N_("Unit"),
       N_("Name")
     };

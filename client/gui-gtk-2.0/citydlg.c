@@ -485,7 +485,7 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
   int i;
   GtkWidget *hbox, *table, *label;
 
-  static char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
+  static const char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
     N_("Prod:"),
     N_("Trade:"),
     N_("Gold:"),
@@ -540,8 +540,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   GtkWidget *frame, *table, *label, *sw, *view, *bar;
   GtkCellRenderer *rend;
   GtkListStore *store;
-
-  char *tab_title = _("_Overview");
+  const char *tab_title = _("_Overview");
 
   page = gtk_vbox_new(FALSE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
@@ -771,7 +770,7 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
 *****************************************************************/
 static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
-  char *tab_title = _("Pro_duction");
+  const char *tab_title = _("Pro_duction");
   GtkWidget *label = gtk_label_new_with_mnemonic(tab_title);
   GtkWidget *page, *hbox, *editor, *bar;
 
@@ -822,7 +821,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *vbox, *label, *table, *align;
-  char *tab_title = _("_Happiness");
+  const char *tab_title = _("_Happiness");
 
   page = gtk_hbox_new(FALSE, 6);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
@@ -873,7 +872,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 static void create_and_append_cma_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *label;
-  char *tab_title = _("C_MA");
+  const char *tab_title = _("C_MA");
 
   page = gtk_vbox_new(FALSE, 0);
 
@@ -893,7 +892,7 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 static void create_and_append_trade_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *label;
-  char *tab_title = _("Trade Ro_utes");
+  const char *tab_title = _("Trade Ro_utes");
 
   page = gtk_hbox_new(TRUE, 0);
 
@@ -918,16 +917,15 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   GtkWidget *vbox, *vbox2, *page, *frame, *label, *button;
   GtkSizeGroup *size;
   GSList *group;
+  const char *tab_title = _("_Settings");
 
-  char *tab_title = _("_Settings");
-
-  static char *new_citizens_label[] = {
+  static const char *new_citizens_label[] = {
     N_("Entertainers"),
     N_("Scientists"),
     N_("Taxmen")
   };
 
-  static char *city_opts_label[NUM_CITY_OPTS] = {
+  static const char *city_opts_label[NUM_CITY_OPTS] = {
     N_("Land units"),
     N_("Sea units"),
     N_("Helicopters"),
@@ -935,7 +933,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
     N_("Disband if build settler at size 1")
   };
 
-  static char *misc_whichtab_label[NUM_PAGES] = {
+  static const char *misc_whichtab_label[NUM_PAGES] = {
     N_("Overview page"),
     N_("Production page"),
     N_("Happiness page"),

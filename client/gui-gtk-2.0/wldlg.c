@@ -946,7 +946,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 static void populate_view(GtkTreeView *view, struct city **ppcity,
 			  GtkTreeViewColumn **pcol)
 {
-  static char *titles[] =
+  static const char *titles[] =
   { N_("Type"), N_("Name"), N_("Info"), N_("Cost"), N_("Turns") };
 
   static bool titles_done;

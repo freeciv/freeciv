@@ -95,7 +95,7 @@ GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
   (This is not directly gui/gtk related, but it fits in here
   because so far it is used for doing i18n for gtk titles...)
 **************************************************************************/
-void intl_slist(int n, char **s, bool *done)
+void intl_slist(int n, const char **s, bool *done)
 {
   int i;
 

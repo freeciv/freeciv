@@ -150,7 +150,7 @@ static void meswin_cell_data_func(GtkTreeViewColumn *col,
 *****************************************************************/
 static void create_meswin_dialog(void)
 {
-  static char *titles[1] = { N_("Messages") };
+  static const char *titles[1] = { N_("Messages") };
   static bool titles_done;
   GtkCellRenderer *renderer;
   GtkTreeViewColumn *col;

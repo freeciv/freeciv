@@ -61,7 +61,7 @@ static GtkItemFactory *item_factory = NULL;
 GtkAccelGroup *toplevel_accel = NULL;
 static enum unit_activity road_activity;
 
-static void menus_rename(const char *path, char *s);
+static void menus_rename(const char *path, const char *s);
 
 /****************************************************************
 ...
@@ -897,7 +897,8 @@ static gchar *translate_func(const gchar *path, gpointer data)
     g_strlcpy(res, path, sizeof(res));
 #else
     static struct astring in, out, tmp;   /* these are never free'd */
-    char *tok, *next, *trn, *t;
+    char *tok, *next, *t;
+    const char *trn;
     int len;
     char *res;
 
@@ -1039,7 +1040,7 @@ static void menus_set_shown(const char *path, int shown)
 /****************************************************************
 ...
 *****************************************************************/
-static void menus_rename(const char *path, char *s)
+static void menus_rename(const char *path, const char *s)
 {
   GtkWidget *item;
 
@@ -1178,11 +1179,11 @@ void update_menus(void)
     }
 
     if((punit=get_unit_in_focus())) {
-      char *irrfmt = _("Change to %s (_I)");
-      char *minfmt = _("Change to %s (_M)");
-      char *transfmt = _("Transf_orm to %s");
+      const char *irrfmt = _("Change to %s (_I)");
+      const char *minfmt = _("Change to %s (_M)");
+      const char *transfmt = _("Transf_orm to %s");
       char irrtext[128], mintext[128], transtext[128];
-      char *roadtext;
+      const char *roadtext;
       enum tile_terrain_type  ttype;
       struct tile_type *      tinfo;
 

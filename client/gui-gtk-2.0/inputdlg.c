@@ -55,10 +55,11 @@ void input_dialog_destroy(GtkWidget *button)
 /****************************************************************
 ...
 *****************************************************************/
-GtkWidget *input_dialog_create(GtkWindow *parent, char *dialogname, 
-			   char *text, char *postinputtest,
-			   GCallback ok_callback, gpointer ok_cli_data, 
-			   GCallback cancel_callback, gpointer cancel_cli_data)
+GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname, 
+			       const char *text, const char *postinputtest,
+			       GCallback ok_callback, gpointer ok_cli_data, 
+			       GCallback cancel_callback,
+			       gpointer cancel_cli_data)
 {
   GtkWidget *shell, *label, *input, *ok, *cancel;
   
