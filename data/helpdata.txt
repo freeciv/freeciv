@@ -524,8 +524,19 @@ have Veteran status, which means that its attack and defence
 strengths are increased by 50%.
 
 Note that discovering Gunpowder and Combustion will obsolete 
-any existing Barracks.  A replacement Barracks will cost more than 
-before the discovery.
+any existing Barracks.
+---
+# Barracks II
+With a Barracks, each new unit built in a city will automatically 
+have Veteran status, which means that its attack and defence 
+strengths are increased by 50%.
+
+The discovery of Combustion will make Barracks II obsolete.
+---
+# Barracks III
+With a Barracks, each new unit built in a city will automatically 
+have Veteran status, which means that its attack and defence 
+strengths are increased by 50%.
 ---
 # Capitalization
 Converts all production into taxes income.
