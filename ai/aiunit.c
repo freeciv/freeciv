@@ -1036,7 +1036,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     return;
   }
 
-  if (q > 0 && pcity->ai.urgency > 0) {
+  if (pcity && q > 0 && pcity->ai.urgency > 0) {
     ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
     return;
   }
@@ -1067,7 +1067,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   generate_warmap(map_get_city(punit->x, punit->y), punit);
 /* I need this in order to call unit_move_turns, here and in look_for_charge */
 
-  if (q > 0) {
+  if (pcity && q > 0) {
     q *= 100;
     q /= unit_def_rating_basic_sq(punit);
     q >>= unit_move_turns(punit, pcity->x, pcity->y);
@@ -1082,7 +1082,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
      */
     val = look_for_charge(pplayer, punit, &aunit, &acity);
   }
-  if (q > val) {
+  if (pcity && q > val) {
     ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
     return;
   }
