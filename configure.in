@@ -330,8 +330,12 @@ if test x$client != xno; then
   dnl Win32-specific overrides
   if test "$client" = win32 || test "$client" = yes ; then
     if test x"$MINGW32" = "xyes"; then
+      AC_CHECK_HEADER(png.h, ,
+         AC_MSG_ERROR("You have to install libpng"))
+      AC_CHECK_LIB(png, png_read_image,,
+         AC_MSG_ERROR("You have to install libpng"),-lz)
       found_client=yes
-      CLIENT_LIBS="-lwsock32 -lcomctl32 -mwindows"
+      CLIENT_LIBS="-lwsock32 -lcomctl32  -lpng -lz -mwindows"
     fi
     if test "x$found_client" = "xyes"; then
       client=win32
