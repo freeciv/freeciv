@@ -44,6 +44,25 @@ else
   fi
 fi
 
+AC_ARG_ENABLE(client,
+[  --disable-client        do not compile the client],
+[case "${enableval}" in
+  yes) client=true ;;
+  no)  client=false ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-client) ;;
+esac], [client=true])
+AM_CONDITIONAL(CLIENT, test x$client = xtrue)
+
+AC_ARG_ENABLE(server,
+[  --disable-server        do not compile the server],
+[case "${enableval}" in
+  yes) server=true ;;
+  no)  server=false ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-server) ;;
+esac], [server=true])
+AM_CONDITIONAL(SERVER, test x$server = xtrue)
+
+
 dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC

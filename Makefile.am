@@ -1,6 +1,18 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS=	data common ai client server
+if CLIENT
+CSUBDIRS = client
+else
+CSUBDIRS = 
+endif
+
+if SERVER
+SSUBDIRS = ai server
+else
+SSUBDIRS =
+endif
+
+SUBDIRS=	data common $(SSUBDIRS) $(CSUBDIRS)
 
 EXTRA_DIST=	AUTHORS COPYING ChangeLog HOWTOPLAY \
 		INSTALL Imakefile Makefile.in Makefile.noimake \
