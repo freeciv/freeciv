@@ -39,21 +39,18 @@ enum barbarian_type {
 };
 
 enum handicap_type {
-  H_NONE=0, /* no handicaps */
-  H_DIPLOMAT=1, /* can't build offensive diplomats */
-  H_MAP=2, /* only knows map_get_known tiles */
-  H_LIMITEDHUTS=4, /* Can get only 25 gold and barbs from huts */
-  H_CITYBUILDINGS=8, /* doesn't know what buildings are in enemy cities */
-  H_CITYUNITS=16, /* doesn't know what units are in enemy cities */
-  H_DEFENSIVE=32, /* builds lots of defensive buildings without calculating need */
-  H_EXPERIMENTAL=64, /* enable experimental AI features (for testing) */
-  H_SUB=128, /* doesn't know where subs may be lurking */
-/* below this point are milder handicaps that I can actually implement -- Syela */
-  H_RATES=256, /* can't set its rates beyond government limits */
-  H_TARGETS=512, /* can't target anything it doesn't know exists */
-  H_HUTS=1024, /* doesn't know which unseen tiles have huts on them */
-  H_FOG=2048, /* can't see through fog of war */
-  H_NOPLANES=4096 /* doesn't build planes */
+  H_NONE = 0,         /* No handicaps */
+  H_DIPLOMAT = 1,     /* Can't build offensive diplomats */
+  H_AWAY = 2,         /* Away mode */
+  H_LIMITEDHUTS = 4,  /* Can get only 25 gold and barbs from huts */
+  H_DEFENSIVE = 8,    /* Build defensive buildings without calculating need */
+  H_EXPERIMENTAL = 16,/* Enable experimental AI features (for testing) */
+  H_RATES = 32,       /* Can't set its rates beyond government limits */
+  H_TARGETS = 64,     /* Can't target anything it doesn't know exists */
+  H_HUTS = 128,       /* Doesn't know which unseen tiles have huts on them */
+  H_FOG = 256,        /* Can't see through fog of war */
+  H_NOPLANES = 512,   /* Doesn't build air units */
+  H_MAP = 1024        /* Only knows map_get_known tiles */
 };
 
 struct player_economic {

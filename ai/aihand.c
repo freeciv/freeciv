@@ -320,6 +320,10 @@ static void ai_manage_government(struct player *pplayer)
   int bonus = 0; /* in percentage */
   int current_gov = pplayer->government;
 
+  if (ai_handicap(pplayer, H_AWAY)) {
+    return;
+  }
+
   for (i = 0; i < game.government_count; i++) {
     struct government *gov = &governments[i];
     int val = 0;

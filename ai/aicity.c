@@ -176,6 +176,13 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   init_choice(&bestchoice);
   init_choice(&curchoice);
 
+  if (ai_handicap(pplayer, H_AWAY)
+      && game_next_year(pcity->turn_last_built) != game.year
+      && pcity->ai.urgency == 0) {
+    /* Don't change existing productions unless we have to. */
+    return;
+  }
+
   if( is_barbarian(pplayer) ) {    /* always build best attack unit */
     Unit_Type_id i, iunit, bestunit = -1;
     int bestattack = 0;

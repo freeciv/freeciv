@@ -70,6 +70,7 @@ static void show_help(struct connection *caller, char *arg);
 static void show_list(struct connection *caller, char *arg);
 static void show_connections(struct connection *caller);
 static void set_ai_level(struct connection *caller, char *name, int level);
+static void set_away(struct connection *caller, char *name);
 
 static void fix_command(struct connection *caller, char *str, int cmd_enum);
 
@@ -961,6 +962,7 @@ enum command_id {
   CMD_METASERVER,
   CMD_AITOGGLE,
   CMD_CREATE,
+  CMD_AWAY,
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
@@ -1135,6 +1137,13 @@ static const struct command commands[] = {
    N_("Create an AI player with a given name."),
    N_("The 'create' command is only available before the game has "
       "been started.")
+  },
+  {"away",	ALLOW_INFO,
+   /* TRANS: translate text between <> only */
+   N_("away\n"
+      "away"),
+   N_("Set yourself in away mode. The AI will watch your back."),
+   N_("The AI will govern your nation but do minimal changes."),
   },
   {"easy",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
@@ -1611,7 +1620,7 @@ static void metaserver_command(struct connection *caller, char *arg)
 ***************************************************************/
 static const char *name_of_skill_level(int level)
 {
-  const char *nm[11] = { "UNUSED", "UNKNOWN", "UNKNOWN", "easy",
+  const char *nm[11] = { "UNUSED", "away", "UNKNOWN", "easy",
 			 "UNKNOWN", "normal", "UNKNOWN", "hard",
 			 "UNKNOWN", "UNKNOWN", "experimental" };
   
@@ -1625,7 +1634,7 @@ static const char *name_of_skill_level(int level)
 static int handicap_of_skill_level(int level)
 {
   int h[11] = { -1,
-		H_NONE,
+		H_AWAY,
 		H_NONE,
  /* easy */	H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
                         | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE,
@@ -2471,6 +2480,7 @@ void set_ai_level_directer(struct player *pplayer, int level)
 static enum command_id cmd_of_level(int level)
 {
   switch(level) {
+    case 1 : return CMD_AWAY;
     case 3 : return CMD_EASY;
     case 5 : return CMD_NORMAL;
     case 7 : return CMD_HARD;
@@ -2531,6 +2541,27 @@ static void set_ai_level(struct connection *caller, char *name, int level)
 		name_of_skill_level(level));
   } else {
     cmd_reply_no_such_player(cmd_of_level(level), caller, name, match_result);
+  }
+}
+
+/******************************************************************
+  Set user to away mode.
+******************************************************************/
+static void set_away(struct connection *caller, char *name)
+{
+  if (caller == NULL) {
+    cmd_reply(CMD_AWAY, caller, C_FAIL, _("This command is client only."));
+  } else if (name && strlen(name) > 0) {
+    notify_conn(&caller->self, _("Usage: away"));
+  } else if (!caller->player->ai.control) {
+    notify_conn(&game.est_connections, _("%s set to away mode."), 
+                caller->player->name);
+    set_ai_level_directer(caller->player, 1);
+    caller->player->ai.control = TRUE;
+  } else {
+    notify_conn(&game.est_connections, _("%s returned to game."), 
+                caller->player->name);
+    caller->player->ai.control = FALSE;
   }
 }
 
@@ -3201,6 +3232,9 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_CREATE:
     create_ai_player(caller,arg);
+    break;
+  case CMD_AWAY:
+    set_away(caller, arg);
     break;
   case CMD_EASY:
     set_ai_level(caller, arg, 3);

@@ -2664,6 +2664,14 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
 
   CHECK_UNIT(punit);
 
+  if ((punit->activity == ACTIVITY_SENTRY
+       || punit->activity == ACTIVITY_FORTIFIED)
+      && ai_handicap(pplayer, H_AWAY)) {
+    /* Don't move sentried or fortified units controlled by a player
+     * in away mode. */
+    return;
+  }
+
   /* was getting a bad bug where a settlers caused a defender to leave home */
   /* and then all other supported units went on DEFEND_HOME/goto */
   ai_military_findjob(pplayer, punit);
