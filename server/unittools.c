@@ -627,6 +627,9 @@ static void update_unit_activity(struct unit *punit)
 	  unit_list_iterate(punit->tile->units,
 			    punit2) {
 	    if (is_ground_unit(punit2)) {
+              /* Unfog (increase seen counter) first, fog (decrease counter)
+               * later, so tiles that are within vision range both before and
+               * after are not even temporarily marked fogged. */
 	      unfog_area(pplayer, punit2->tile,
 			 unit_type(punit2)->vision_range);
 	      fog_area(pplayer, punit2->tile,
@@ -657,6 +660,9 @@ static void update_unit_activity(struct unit *punit)
 	freelog(LOG_VERBOSE, "Watchtower(2) pillaged!");
 	unit_list_iterate(punit->tile->units, punit2) {
 	  if (is_ground_unit(punit2)) {
+            /* Unfog (increase seen counter) first, fog (decrease counter)
+             * later, so tiles that are within vision range both before and
+             * after are not even temporarily marked fogged. */
 	    unfog_area(pplayer, punit2->tile,
 		       unit_type(punit2)->vision_range);
 	    fog_area(pplayer, punit2->tile,
@@ -693,10 +699,13 @@ static void update_unit_activity(struct unit *punit)
       if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
 	unit_list_iterate(ptile->units, punit) {
 	  if (is_ground_unit(punit)) {
-	    fog_area(pplayer, punit->tile,
-		     unit_type(punit)->vision_range);
+            /* Unfog (increase seen counter) first, fog (decrease counter)
+             * later, so tiles that are within vision range both before and
+             * after are not even temporarily marked fogged. */
 	    unfog_area(pplayer, punit->tile,
 		       get_watchtower_vision(punit));
+	    fog_area(pplayer, punit->tile,
+		     unit_type(punit)->vision_range);
 	  }
 	}
 	unit_list_iterate_end;
@@ -1381,7 +1390,12 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
 
   conn_list_do_buffer(&pplayer->connections);
 
-  /* apply new vision range */
+  /* Apply new vision range
+   *
+   * Unfog (increase seen counter) first, fog (decrease counter)
+   * later, so tiles that are within vision range both before and
+   * after are not even temporarily marked fogged. */
+
   if (map_has_special(punit->tile, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     unfog_area(pplayer, punit->tile, get_watchtower_vision(punit));
