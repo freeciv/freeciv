@@ -114,7 +114,7 @@ void init_new_game(void)
 	do {
 	  dx = x + myrand(2 * game.dispersion + 1) - game.dispersion;
 	  dy = y + myrand(2 * game.dispersion + 1) - game.dispersion;
-	  normalize_map_pos(&dx, &dy);
+	  (void) normalize_map_pos(&dx, &dy);
 	} while (!(is_real_tile(dx, dy)
                    && map_get_continent(x, y) == map_get_continent(dx, dy)
                    && map_get_terrain(dx, dy) != T_OCEAN

@@ -132,9 +132,9 @@ static void handle_stdin_close(void)
 
 static char *history_file = NULL;
 
-static int readline_handled_input = 0;
+static bool readline_handled_input = FALSE;
 
-static int readline_initialized = 0;
+static bool readline_initialized = FALSE;
 
 /*****************************************************************************
 ...
@@ -149,13 +149,13 @@ static void handle_readline_input_callback(char *line)
     return;
   }
 
-  if (*line)
+  if (line[0] != '\0')
     add_history(line);
 
   con_prompt_enter();		/* just got an 'Enter' hit */
   handle_stdin_input((struct connection*)NULL, line);
 
-  readline_handled_input = 1;
+  readline_handled_input = TRUE;
 }
 
 #endif /* HAVE_LIBREADLINE */
@@ -340,7 +340,7 @@ int sniff_packets(void)
       rl_callback_handler_install("> ", handle_readline_input_callback);
       rl_attempted_completion_function = freeciv_completion;
 
-      readline_initialized = 1;
+      readline_initialized = TRUE;
     }
   }
 #endif /* HAVE_LIBREADLINE */
@@ -513,7 +513,7 @@ int sniff_packets(void)
 #ifdef HAVE_LIBREADLINE
       rl_callback_read_char();
       if (readline_handled_input) {
-	readline_handled_input = 0;
+	readline_handled_input = FALSE;
 	con_prompt_enter_clear();
       }
       continue;

@@ -867,16 +867,16 @@ Returns whether the specified server setting (option) can ever be changed
 by a client while the game is running.  Does not test whether the client
 has sufficient access or the option has been /fixed.
 *********************************************************************/
-static int sset_is_runtime_changeable_by_client(int idx)
+static bool sset_is_runtime_changeable_by_client(int idx)
 {
   struct settings_s *op = &settings[idx];
 
   switch(op->sclass) {
   case SSET_RULES_FLEXIBLE:
   case SSET_META:
-    return 1;
+    return TRUE;
   default:
-   return 0;
+   return FALSE;
   }
 }
 
@@ -1072,11 +1072,11 @@ static const struct command commands[] = {
   },
   {"fix",       ALLOW_CTRL,
    N_("fix <option-name>"),
-   N_("Make server option unchangeable during game.")
+   N_("Make server option unchangeable during game."), NULL
   },
   {"unfix",      ALLOW_CTRL,
    N_("unfix <option-name>"),
-   N_("Make server option changeable during game.")
+   N_("Make server option changeable during game."), NULL
   },
   {"rulesetdir", ALLOW_CTRL,
    N_("rulesetdir <directory>"),
@@ -1852,7 +1852,7 @@ bool read_init_script(struct connection *caller, char *script_filename)
 static void read_command(struct connection *caller, char *arg)
 {
   /* warning: there is no recursion check! */
-  read_init_script(caller, arg);
+  (void) read_init_script(caller, arg);
 }
 
 /**************************************************************************
@@ -3699,7 +3699,7 @@ static char *generic_generator(const char *text, int state, int num,
   /* If this is a new word to complete, initialize now.  This includes
      saving the length of TEXT for efficiency, and initializing the index
      variable to 0. */
-  if (!state) {
+  if (state == 0) {
     list_index = 0;
     len = strlen (text);
   }
@@ -3874,17 +3874,18 @@ number of tokens in rl_line_buffer before start
 **************************************************************************/
 static int num_tokens(int start)
 {
-  int res = 0, alnum = 0;
+  int res = 0;
+  bool alnum = FALSE;
   char *chptr = rl_line_buffer;
 
   while (chptr - rl_line_buffer < start) {
     if (my_isalnum(*chptr)) {
       if (!alnum) {
-	alnum = 1;
+	alnum = TRUE;
 	res++;
       }
     } else {
-      alnum = 0;
+      alnum = FALSE;
     }
     chptr++;
   }

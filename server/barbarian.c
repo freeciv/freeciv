@@ -239,12 +239,12 @@ bool unleash_barbarians(struct player* victim, int x, int y)
 	    }
 	    if (is_free_sea(xu, yu, barbarians)) {
               boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
-	      create_unit( barbarians, xu, yu, boat, FALSE, 0, -1);
+	      (void) create_unit(barbarians, xu, yu, boat, FALSE, 0, -1);
 	      xb = xu; yb = yu;
 	      break;
 	    }
           }
-          handle_unit_move_request(punit2, xu, yu, TRUE, FALSE);
+          (void) handle_unit_move_request(punit2, xu, yu, TRUE, FALSE);
         }
       unit_list_iterate_end;
     }

@@ -958,7 +958,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
        /* in rare cases the _safe might be needed? --dwp */
        handle_unit_disband_safe(pplayer, &pack, &myiter);
        city_refresh(pcity);
-       ai_fix_unhappy(pcity);
+       (void) ai_fix_unhappy(pcity);
      }
   unit_list_iterate_end;       
 

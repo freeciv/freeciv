@@ -512,7 +512,7 @@ void player_restore_units(struct player *pplayer)
 	    punit->goto_dest_x = x_itr;
 	    punit->goto_dest_y = y_itr;
 	    set_unit_activity(punit, ACTIVITY_GOTO);
-	    do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+	    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
 	    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
 			     _("Game: Your %s has returned to refuel."),
 			     unit_name(punit->type));
@@ -1002,7 +1002,7 @@ static void update_unit_activity(struct unit *punit)
        punit->ai.passenger != 0 || !pplayer->ai.control)) {
 /* autosettlers otherwise waste time; idling them breaks assignment */
 /* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
-      do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
+      (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
     }
     return;
   }
@@ -1060,7 +1060,7 @@ static void update_unit_activity(struct unit *punit)
 			     _("Game: Moved your %s due to changing"
 			       " land to sea at (%d, %d)."),
 			     unit_name(punit2->type), punit2->x, punit2->y);
-	    move_unit(punit2, x, y, TRUE, FALSE, 0);
+	    (void) move_unit(punit2, x, y, TRUE, FALSE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	    goto START;
@@ -1083,7 +1083,7 @@ static void update_unit_activity(struct unit *punit)
 			     _("Game: Embarked your %s due to changing"
 			       " land to sea at (%d, %d)."),
 			     unit_name(punit2->type), punit2->x, punit2->y);
-	    move_unit(punit2, x, y, TRUE, FALSE, 0);
+	    (void) move_unit(punit2, x, y, TRUE, FALSE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	    goto START;
@@ -1123,7 +1123,7 @@ static void update_unit_activity(struct unit *punit)
 			  _("Game: Moved your %s due to changing"
 			    " sea to land at (%d, %d)."),
 			  unit_name(punit2->type), punit2->x, punit2->y);
-	    move_unit(punit2, x, y, TRUE, TRUE, 0);
+	    (void) move_unit(punit2, x, y, TRUE, TRUE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	    goto START;
@@ -1145,7 +1145,7 @@ static void update_unit_activity(struct unit *punit)
 			     _("Game: Docked your %s due to changing"
 			       " sea to land at (%d, %d)."),
 			     unit_name(punit2->type), punit2->x, punit2->y);
-	    move_unit(punit2, x, y, TRUE, TRUE, 0);
+	    (void) move_unit(punit2, x, y, TRUE, TRUE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	    goto START;
@@ -1479,7 +1479,7 @@ void resolve_unit_stack(int x, int y, bool verbose)
        there are units from two nations on the tile */
     if (ptile->city && !is_allied_city_tile(ptile, unit_owner(punit))) {
       if (pcity)
-	teleport_unit_to_city(punit, pcity, 0, verbose);
+	(void) teleport_unit_to_city(punit, pcity, 0, verbose);
       else
 	disband_stack_conflict_unit(punit, verbose);
       continue;
@@ -1498,9 +1498,9 @@ void resolve_unit_stack(int x, int y, bool verbose)
 	 from when we resolve the stack inside a city. */
       if (map_distance(x, y, pcity->x, pcity->y) 
 	  < map_distance(x, y, ccity->x, ccity->y))
-	teleport_unit_to_city(cunit, ccity, 0, verbose);
+	(void) teleport_unit_to_city(cunit, ccity, 0, verbose);
       else
-	teleport_unit_to_city(punit, pcity, 0, verbose);
+	(void) teleport_unit_to_city(punit, pcity, 0, verbose);
     } else {
       /* At least one of the unit owners doesn't have any cities;
 	 if the other owner has any cities we teleport his units to
@@ -1511,12 +1511,12 @@ void resolve_unit_stack(int x, int y, bool verbose)
 	if (same_pos(x, y, pcity->x, pcity->y))
 	  disband_stack_conflict_unit(cunit, verbose);
 	else
-	  teleport_unit_to_city(punit, pcity, 0, verbose);
+	  (void) teleport_unit_to_city(punit, pcity, 0, verbose);
       } else if (ccity) {
 	if (same_pos(x, y, ccity->x, ccity->y))
 	  disband_stack_conflict_unit(punit, verbose);
 	else
-	  teleport_unit_to_city(cunit, ccity, 0, verbose);
+	  (void) teleport_unit_to_city(cunit, ccity, 0, verbose);
       } else {
 	/* Neither unit owners have cities;
 	   disband both units. */
@@ -1540,7 +1540,7 @@ void resolve_unit_stack(int x, int y, bool verbose)
 	    struct city *wcity =
 		find_closest_owned_city(unit_owner(wunit), x, y, FALSE, NULL);
  	    if (wcity)
- 	      teleport_unit_to_city(wunit, wcity, 0, verbose);
+ 	      (void) teleport_unit_to_city(wunit, wcity, 0, verbose);
  	    else
  	      disband_stack_conflict_unit(wunit, verbose);
  	    goto START;
@@ -2226,7 +2226,7 @@ bool do_airline(struct unit *punit, struct city *city2)
 		   _("Game: %s transported succesfully."),
 		   unit_name(punit->type));
 
-  move_unit(punit, city2->x, city2->y, FALSE, FALSE, punit->moves_left);
+  (void) move_unit(punit, city2->x, city2->y, FALSE, FALSE, punit->moves_left);
 
   /* airlift fields have changed. */
   send_city_info(city_owner(city1), city1);
@@ -2791,7 +2791,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
     unit_list_iterate(map_get_tile(x, y)->units, ppatrol) {
       if (punit != ppatrol
 	  && ppatrol->activity == ACTIVITY_PATROL) {
-	maybe_cancel_patrol_due_to_enemy(ppatrol);
+	(void) maybe_cancel_patrol_due_to_enemy(ppatrol);
       }
     } unit_list_iterate_end;
   } square_iterate_end;

@@ -40,9 +40,9 @@
 signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
 BV_DEFINE(nearness, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
-nearness territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+static nearness territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 BV_DEFINE(enemy_mask, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
-enemy_mask enemies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+static enemy_mask enemies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
 static void auto_settlers_player(struct player *pplayer); 
 static bool is_already_assigned(struct unit *myunit, struct player *pplayer,

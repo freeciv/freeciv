@@ -1913,7 +1913,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
 	    setting = 1;
 	  }
 	
-	  if (!mystrcasecmp(name, "river")) {
+	  if (mystrcasecmp(name, "river") == 0) {
 	    city_names[j].river = setting;
 	  } else {
 	    /* "handled" tracks whether we find a match (for error handling) */
@@ -1928,7 +1928,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
                * However this is not a problem because we take care of rivers
                * separately.
                */
-	      if (!mystrcasecmp(name, tile_types[type].terrain_name)) {
+	      if (mystrcasecmp(name, tile_types[type].terrain_name) == 0) {
 	        city_names[j].terrain[type] = setting;
 	        handled = TRUE;
 	      }
@@ -1941,7 +1941,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
 	    }
 	  }
 	  name = next ? next + 1 : NULL;
-        } while (name && name[0]);
+        } while (name && name[0] != '\0');
       } /* if (!next) */
     } /* if (name) */
     remove_leading_trailing_spaces(cities[j]);

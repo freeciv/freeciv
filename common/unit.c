@@ -79,7 +79,6 @@ int unit_move_rate(struct unit *punit)
     freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
     assert(0);
     exit(EXIT_FAILURE);
-    move_rate = -1;
   }
   
   if (move_rate < SINGLE_MOVE && unit_type(punit)->move_rate > 0) {

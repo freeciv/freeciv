@@ -106,7 +106,7 @@ void meta_addr_split(void)
   char *metaserver_port_separator = strchr(srvarg.metaserver_addr, ':');
 
   if (metaserver_port_separator) {
-    sscanf(metaserver_port_separator + 1, "%hd", &srvarg.metaserver_port);
+    sscanf(metaserver_port_separator + 1, "%hu", &srvarg.metaserver_port);
   }
 }
 

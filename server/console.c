@@ -34,7 +34,7 @@ static bool console_show_prompt = FALSE;
 static bool console_prompt_is_showing = FALSE;
 static bool console_rfcstyle = FALSE;
 #ifdef HAVE_LIBREADLINE
-static int readline_received_enter = 1;
+static bool readline_received_enter = TRUE;
 #endif
 
 /************************************************************************
@@ -60,7 +60,7 @@ static void con_update_prompt(void)
 
 #ifdef HAVE_LIBREADLINE
   if (readline_received_enter) {
-    readline_received_enter = 0;
+    readline_received_enter = FALSE;
   } else {
     rl_forced_update_display();
   }
@@ -207,7 +207,7 @@ void con_prompt_enter(void)
 {
   console_prompt_is_showing = FALSE;
 #ifdef HAVE_LIBREADLINE
-  readline_received_enter = 1;
+  readline_received_enter = TRUE;
 #endif
 }
 
@@ -218,6 +218,6 @@ void con_prompt_enter_clear(void)
 {
   console_prompt_is_showing = TRUE;
 #ifdef HAVE_LIBREADLINE
-  readline_received_enter = 0;
+  readline_received_enter = FALSE;
 #endif
 }

@@ -2119,14 +2119,22 @@ liklihood of continents butting up to non-wrapped edges.
 **************************************************************************/
 static void mapgenerator5(void)
 {
-  int x, y;
-  int xnowrap = 0; /* could come from topology */
-  int ynowrap = 1; /* could come from topology */
-  int xmax = map.xsize - xnowrap;
-  int ymax = map.ysize - ynowrap;
-  int xdiv = 6; /* how many blocks should the x and y directions be */
-  int ydiv = 5; /* divided into initially */
-  int minval;
+  const bool xnowrap = FALSE;	/* could come from topology */
+  const bool ynowrap = TRUE;	/* could come from topology */
+
+  /* 
+   * How many blocks should the x and y directions be divided into
+   * initially. 
+   */
+  const int xdiv = 6;		
+  const int ydiv = 5;
+
+  int xdiv2 = xdiv + (xnowrap ? 1 : 0);
+  int ydiv2 = ydiv + (ynowrap ? 1 : 0);
+
+  int xmax = map.xsize - (xnowrap ? 1 : 0);
+  int ymax = map.ysize - (ynowrap ? 1 : 0);
+  int x, y, minval;
   /* just need something > log(max(xsize, ysize)) for the recursion */
   int step = map.xsize + map.ysize; 
   /* edges are avoided more strongly as this increases */
@@ -2142,8 +2150,8 @@ static void mapgenerator5(void)
   } whole_map_iterate_end;
 
   /* set initial points */
-  for (x = 0; x < xdiv + xnowrap; x++) {
-    for (y = 0; y < ydiv + ynowrap; y++) {
+  for (x = 0; x < xdiv2; x++) {
+    for (y = 0; y < ydiv2; y++) {
       hmap(x * xmax / xdiv, y * ymax / ydiv) =  myrand(2*step) - (2*step)/2;
     }
   }
@@ -2151,7 +2159,7 @@ static void mapgenerator5(void)
   /* if we aren't wrapping stay away from edges to some extent, try
      even harder to avoid the edges naturally if separatepoles is true */
   if (xnowrap) {
-    for (y = 0; y < ydiv + ynowrap; y++) {
+    for (y = 0; y < ydiv2; y++) {
       hmap(0, y * ymax / ydiv) -= avoidedge;
       hmap(xmax, y * ymax / ydiv) -= avoidedge;
       if (map.separatepoles) {
@@ -2164,7 +2172,7 @@ static void mapgenerator5(void)
   }
 
   if (ynowrap) {
-    for (x = 0; x < xdiv + xnowrap; x++) {
+    for (x = 0; x < xdiv2; x++) {
       hmap(x * xmax / xdiv, 0) -= avoidedge;
       hmap(x * xmax / xdiv, ymax) -= avoidedge;
       if (map.separatepoles){

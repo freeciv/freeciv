@@ -413,9 +413,13 @@ int assess_danger(struct city *pcity)
       }
 
       if (unit_flag(funit, F_HORSE)) {
-        if (pikemen) vulnerability /= 2;
-        else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN, 
-                                (vulnerability * move_rate / (dist*2)));
+	if (pikemen) {
+	  vulnerability /= 2;
+	} else {
+	  (void) ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
+				    (vulnerability * move_rate /
+				     (dist * 2)));
+	}
       }
 
       if (unit_flag(funit, F_DIPLOMAT) && (dist <= 2 * move_rate)) {
@@ -461,9 +465,13 @@ int assess_danger(struct city *pcity)
       }
 
       if (unit_flag(punit, F_HORSE)) {
-        if (pikemen) vulnerability /= 2;
-	else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
-			        (vulnerability * move_rate / (dist*2)));
+	if (pikemen) {
+	  vulnerability /= 2;
+	} else {
+	  (void) ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
+				    (vulnerability * move_rate /
+				     (dist * 2)));
+	}
       }
 
       if (unit_flag(punit, F_DIPLOMAT) && (dist <= 2 * move_rate)) {
@@ -1009,7 +1017,8 @@ Yet, somehow, this line existed, and remained here for months, bugging the AI
 tech progression beyond all description.  Only when adding the override code
 did I realize the magnitude of my transgression.  How despicable. -- Syela */
 	m = unit_vulnerability_virtual2(v, pdef->type, x, y, FALSE,
-					pdef->veteran, myunit->id, pdef->hp);
+					pdef->veteran, myunit->id != 0,
+					pdef->hp);
         if (d < m) {
           d = m;
           b = unit_type(pdef)->build_cost + 40; 
@@ -1048,7 +1057,8 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       n = pdef->type;
       d = unit_vulnerability_virtual2(v, n, x, y,
 				      pdef->activity == ACTIVITY_FORTIFIED,
-				      pdef->veteran, myunit->id, pdef->hp);
+				      pdef->veteran, myunit->id != 0,
+				      pdef->hp);
       vet = pdef->veteran;
     } /* end dealing with units */
 

@@ -986,7 +986,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       second = pplayer->research.researching;
       found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE);
 
-      mystrlcpy(buffer,get_tech_name(pplayer, first),sizeof(buffer));
+      (void) mystrlcpy(buffer, get_tech_name(pplayer, first),
+		       sizeof(buffer));
 
       notify_embassies(pplayer, NULL,
 		       _("Game: The %s have acquired %s and %s from %s."),

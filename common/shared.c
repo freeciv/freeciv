@@ -259,7 +259,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
     }
   
     tokens[token] = fc_malloc(len + 1);
-    mystrlcpy(tokens[token], str, len + 1);	/* adds the '\0' */
+    (void) mystrlcpy(tokens[token], str, len + 1);	/* adds the '\0' */
 
     token++;
 
@@ -1198,39 +1198,24 @@ const char *freeciv_motto(void)
 }
 
 /***************************************************************************
- Return whether two vectors: vec1 and vec2 both of size l (in bytes) have
- common bits. 
- (Don't call this function directly, use BV_CHECK_MASK macro instead)
+ Return whether two vectors: vec1 and vec2 have common
+ bits. I.e. (vec1 & vec2) != 0.
+
+ Don't call this function directly, use BV_CHECK_MASK macro
+ instead. Don't call this function with two different bitvectors.
 ***************************************************************************/
-bool _bv_check_mask(unsigned char* vec1, unsigned char* vec2, int l)
+bool bv_check_mask(unsigned char *vec1, unsigned char *vec2, size_t size1,
+		   size_t size2)
 {
-  while(l >= sizeof(int)) {
-    l-=sizeof(int);
-    if (*(int*)(vec1 + l) & *(int*)(vec2 + l)) return TRUE;
+  size_t i;
+  assert(size1 == size2);
+
+  for (i = 0; i < size1; i++) {
+    if ((vec1[0] & vec2[0]) != 0) {
+      return TRUE;
+    }
+    vec1++;
+    vec2++;
   }
-  /*
-   * This function will always be called with l%sizeof(int) != 0
-   * So there's no need  to put here
-   * if (l == 0) return FALSE
-   */
-  do {
-    l--;
-    if (vec1[l] & vec2[l]) return TRUE;
-  } while(l);
-
-  return FALSE;
-}
-
-/***************************************************************************
- Return whether two vectors: vec1 and vec2 both of size l * sizeof(int) 
- have common bits. 
- (Don't call this function directly, use BV_CHECK_MASK macro instead)
-***************************************************************************/
-bool _bv_check_mask_int(unsigned int* vec1, unsigned int* vec2, int l)
-{
-  do {
-    l--;
-    if (vec1[l] & vec2[l]) return TRUE;
-  } while(l);
   return FALSE;
 }

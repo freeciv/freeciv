@@ -86,7 +86,7 @@ void handle_unit_goto_tile(struct player *pplayer,
     assign_units_to_transporter(punit, TRUE);
   }
 
-  do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
+  (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
 }
 
 /**************************************************************************
@@ -104,7 +104,7 @@ void handle_unit_airlift(struct player *pplayer,
 
   pcity = map_get_city(req->x, req->y);
   if (punit && pcity) {
-    do_airline(punit, pcity);
+    (void) do_airline(punit, pcity);
   }
 }
 
@@ -140,8 +140,9 @@ void handle_unit_connect(struct player *pplayer,
    * starting tile.
    */
   if (!can_unit_do_activity(punit, req->activity_type)) {
-    do_unit_goto(punit, get_activity_move_restriction(req->activity_type),
-		 FALSE);
+    (void) do_unit_goto(punit,
+			get_activity_move_restriction(req->activity_type),
+			FALSE);
   }
 }
 
@@ -321,7 +322,8 @@ void handle_diplomat_action(struct player *pplayer,
     case DIPLOMAT_MOVE:
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_MOVE,
 					 pcity->x, pcity->y)) {
-	handle_unit_move_request(pdiplomat, pcity->x, pcity->y, FALSE, TRUE);
+	(void) handle_unit_move_request(pdiplomat, pcity->x, pcity->y,
+					FALSE, TRUE);
       }
       break;
     case DIPLOMAT_STEAL:
@@ -590,7 +592,7 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
   if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
     if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)) {
       punit->ai.control = FALSE;
-      handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
+      (void) handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
     } else {
       /* This can happen due to lag, so don't complain too loudly */
       freelog(LOG_DEBUG, "tiles are not adjacent, unit pos %d,%d trying "
@@ -621,7 +623,7 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
       || !is_tiles_adjacent(punit->x, punit->y, pmove->x, pmove->y)) {
     return;
   }
-  handle_unit_move_request(punit, pmove->x, pmove->y, FALSE, FALSE);
+  (void) handle_unit_move_request(punit, pmove->x, pmove->y, FALSE, FALSE);
 }
 
 /**************************************************************************
@@ -1017,7 +1019,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     /* The ai should assign the relevant units itself, but for now leave this */
     bool take_from_land = punit->activity == ACTIVITY_IDLE;
 
-    move_unit(punit, dest_x, dest_y, TRUE, take_from_land, move_cost);
+    (void) move_unit(punit, dest_x, dest_y, TRUE, take_from_land, move_cost);
 
     return TRUE;
   } else {
@@ -1317,7 +1319,7 @@ void handle_unit_paradrop_to(struct player *pplayer,
     return;
   }
 
-  do_paradrop(punit, req->x, req->y);
+  (void) do_paradrop(punit, req->x, req->y);
 }
 
 
@@ -1381,7 +1383,7 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
   }
 
   assign_units_to_transporter(punit, TRUE);
-  goto_route_execute(punit);
+  (void) goto_route_execute(punit);
 }
 
 /**************************************************************************

@@ -570,7 +570,7 @@ bool ai_manage_explorer(struct unit *punit)
           /* Also try take care of deliberately homeless units */
           punit->goto_dest_x = pcity->x;
           punit->goto_dest_y = pcity->y;
-          do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+          (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
         }
       } else {
         /* Sea travel */
@@ -1064,7 +1064,7 @@ static struct unit *ai_military_rampage(struct unit *punit, int threshold)
 {
   int x, y, id = punit->id;
 
-  while (punit && punit->moves_left
+  while (punit && punit->moves_left > 0
          && ai_military_findvictim(punit, &x, &y) >= threshold) {
     ai_unit_attack(punit, x, y);
     punit = find_unit_by_id(id);
@@ -1582,7 +1582,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
       punit->goto_dest_x=pcity->x;
       punit->goto_dest_y=pcity->y;
       set_unit_activity(punit, ACTIVITY_GOTO);
-      do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
     }
   } else {
     handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
@@ -2013,11 +2013,11 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   if (is_sailing_unit(punit)
       && find_nearest_friendly_port(punit)) {
     /* Sail somewhere */
-    do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do. Worst case, this function
        will send us back home */
-    ai_manage_explorer(punit);
+    (void) ai_manage_explorer(punit);
   } else {
     /* You can still have some moves left here, but barbarians should
        not sit helplessly, but advance towards nearest known enemy city */
@@ -2107,7 +2107,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
          } else {
            req.unit_id = punit->id;
            req.city_id = pcity->id;
-           handle_unit_establish_trade(pplayer, &req);
+           (void) handle_unit_establish_trade(pplayer, &req);
         }
       }
     }
@@ -2154,7 +2154,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
 		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
     if (punit->moves_left > 0 && n != 0)
-      do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
     else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
       x = punit->goto_dest_x; y = punit->goto_dest_y;
       if (find_nearest_friendly_port(punit)
@@ -2167,7 +2167,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DEBUG, punit, "Ferryboat %d@(%d,%d) stalling.",
 		    punit->id, punit->x, punit->y);
       if(is_barbarian(pplayer)) /* just in case */
-        ai_manage_explorer(punit);
+        (void) ai_manage_explorer(punit);
     }
     return;
   }
@@ -2233,12 +2233,14 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       punit->goto_dest_y = pcity->y;
       set_unit_activity(punit, ACTIVITY_GOTO);
       UNIT_LOG(LOG_DEBUG, punit, "No friends.  Going home.");
-      do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
       return;
     }
   }
-  if (map_get_terrain(punit->x, punit->y) == T_OCEAN) /* thanks, Tony */
-    ai_manage_explorer(punit);
+  if (map_get_terrain(punit->x, punit->y) == T_OCEAN) {
+    /* thanks, Tony */
+    (void) ai_manage_explorer(punit);
+  }
   return;
 }
 
@@ -2291,7 +2293,7 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
     handle_unit_activity_request(punit, ACTIVITY_PILLAGE);
     return; /* when you pillage, you have moves left, avoid later fortify */
   case AIUNIT_EXPLORE:
-    ai_manage_explorer(punit);
+    (void) ai_manage_explorer(punit);
     break;
   default:
     assert(FALSE);
@@ -2393,11 +2395,9 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   } else {
     if (punit->moves_left == 0) return; /* can't do anything with no moves */
-    ai_manage_explorer(punit); /* what else could this be? -- Syela */
+    (void) ai_manage_explorer(punit); /* what else could this be? -- Syela */
     return;
   }
-  /* should never get here */
-  assert(0);
 }
 
 /**************************************************************************
@@ -2646,7 +2646,7 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 	pdiplomat->goto_dest_x=ctarget->x;
 	pdiplomat->goto_dest_y=ctarget->y;
 	set_unit_activity(pdiplomat, ACTIVITY_GOTO);
-	do_unit_goto(pdiplomat, GOTO_MOVE_ANY, FALSE);
+	(void) do_unit_goto(pdiplomat, GOTO_MOVE_ANY, FALSE);
       }
     }
   }

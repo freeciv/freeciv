@@ -130,9 +130,11 @@ static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
   if (ai->threats.nuclear == 0) { return 0; }
 
   continent = map_get_continent(pcity->x, pcity->y);
-  vulnerable += ai->threats.continent[continent]
-                || is_water_adjacent_to_tile(pcity->x, pcity->y)
-                || city_got_building(pcity, B_PALACE);
+  if (ai->threats.continent[continent]
+      || is_water_adjacent_to_tile(pcity->x, pcity->y)
+      || city_got_building(pcity, B_PALACE)) {
+    vulnerable++;
+  }
 
   /* 15 is just a new magic number, which will be +15 if we are
      in a vulnerable spot, and +15 if someone we are not allied
@@ -777,9 +779,11 @@ void ai_eval_buildings(struct city *pcity)
       values[id] = bar;
       break;
     case B_WOMENS:
-      unit_list_iterate(pcity->units_supported, punit)
-        if (punit->unhappiness) values[id] += t * 2;
-      unit_list_iterate_end;
+      unit_list_iterate(pcity->units_supported, punit) {
+	if (punit->unhappiness != 0) {
+	  values[id] += t * 2;
+	}
+      } unit_list_iterate_end;
       break;
     case B_APOLLO:
       if (game.spacerace) 
@@ -811,7 +815,7 @@ void ai_eval_buildings(struct city *pcity)
     else 
       pcity->ai.building_want[id] = -values[id];
 
-    if (values[id]) 
+    if (values[id] != 0) 
       freelog(LOG_DEBUG, "ai_eval_buildings: %s wants %s with desire %d.",
         pcity->name, get_improvement_name(id), pcity->ai.building_want[id]);
   } impr_type_iterate_end;

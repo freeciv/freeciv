@@ -1437,7 +1437,7 @@ static void player_save(struct player *plr, int plrno,
       j = -1;
     } else {
       assert(pcity->did_buy == TRUE || pcity->did_buy == FALSE);
-      j = pcity->did_buy;
+      j = pcity->did_buy ? 1 : 0;
     }
     secfile_insert_int(file, j, "player%d.c%d.did_buy", plrno, i);
     secfile_insert_int(file, pcity->turn_founded,
