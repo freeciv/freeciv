@@ -53,6 +53,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
+#include "mapctrl_common.h"
 #include "mapview.h"
 #include "messagewin.h"	/* for popdown_meswin_dialog */
 #include "options.h"

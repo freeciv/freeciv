@@ -39,6 +39,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "control.h"
+#include "mapctrl_common.h"
 #include "options.h"
 #include "packhand.h"
 #include "tilespec.h"

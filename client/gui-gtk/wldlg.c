@@ -30,6 +30,7 @@
 #include "support.h"
 #include "worklist.h"
 
+#include "chatline_common.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
