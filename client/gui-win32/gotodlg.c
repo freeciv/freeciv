@@ -48,7 +48,7 @@
 static HWND goto_dialog;
 static HWND goto_list;
 
-static int original_x,original_y;
+static struct tile *original_tile;
 
 static void update_goto_dialog(HWND list);
 static struct city *get_selected_city(void);
@@ -71,7 +71,7 @@ static LONG CALLBACK goto_dialog_proc(HWND dlg,UINT message,
       goto_dialog=NULL;
       break;
     case WM_CLOSE:
-      center_tile_mapcanvas(original_x, original_y); 
+      center_tile_mapcanvas(original_tile); 
       DestroyWindow(dlg);
       break;
     case WM_COMMAND:
@@ -80,7 +80,7 @@ static LONG CALLBACK goto_dialog_proc(HWND dlg,UINT message,
 	case ID_LIST:
 	  if((pdestcity=get_selected_city())) {
 	    struct unit *punit=get_unit_in_focus();
-	    center_tile_mapcanvas(pdestcity->x, pdestcity->y);
+	    center_tile_mapcanvas(pdestcity->tile);
 	    if(punit && unit_can_airlift_to(punit, pdestcity)) {
 	      EnableWindow(GetDlgItem(dlg,ID_AIRLIFT),TRUE);
 	    } else {
@@ -99,7 +99,7 @@ static LONG CALLBACK goto_dialog_proc(HWND dlg,UINT message,
 	    if (pdestcity) {
 	      struct unit *punit=get_unit_in_focus();
 	      if (punit) {
-		send_goto_unit(punit, pdestcity->x, pdestcity->y);
+		send_goto_unit(punit, pdestcity->tile);
 		DestroyWindow(dlg);
 	      }
 	    }
@@ -119,7 +119,7 @@ static LONG CALLBACK goto_dialog_proc(HWND dlg,UINT message,
 	  }
 	  break;
 	case IDCANCEL:
-	  center_tile_mapcanvas(original_x, original_y);
+	  center_tile_mapcanvas(original_tile);
 	  DestroyWindow(dlg);
 	  break;
 	  
@@ -146,7 +146,7 @@ popup_goto_dialog(void)
   if (get_unit_in_focus()==0)
     return;
 
-  get_center_tile_mapcanvas(&original_x, &original_y);
+  original_tile = get_center_tile_mapcanvas();
   
   goto_dialog=fcwin_create_layouted_window(goto_dialog_proc,
 					   _("Goto/Airlift Unit"),

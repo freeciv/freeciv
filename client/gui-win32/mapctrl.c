@@ -72,7 +72,7 @@ void map_handle_move(int window_x, int window_y)
 static LONG CALLBACK popit_proc(HWND hwnd,UINT message,
 				WPARAM wParam,LPARAM lParam)
 {
-  struct map_position *cross_list;
+  struct tile **cross_list;
   switch(message)
     {
     case WM_CREATE:
@@ -87,8 +87,8 @@ static LONG CALLBACK popit_proc(HWND hwnd,UINT message,
     case WM_DESTROY:
       cross_list = fcwin_get_user_data(hwnd);
       if (cross_list) {
-	  while (cross_list->x >= 0) {
-	    refresh_tile_mapcanvas(cross_list->x, cross_list->y, TRUE);
+	  while (*cross_list != NULL) {
+	    refresh_tile_mapcanvas(*cross_list, TRUE);
 	    cross_list++;
 	  }
       }
@@ -106,14 +106,14 @@ static LONG CALLBACK popit_proc(HWND hwnd,UINT message,
 /*************************************************************************
 
 *************************************************************************/
-static void popit(int x, int y, int xtile, int ytile)
+static void popit(int x, int y, struct tile *ptile)
 {
   HWND popup;
   POINT pt;
   RECT rc;
   struct fcwin_box *vbox;
-  static struct map_position cross_list[2+1];
-  struct map_position *cross_head = cross_list;
+  static struct tile *cross_list[2+1];
+  struct tile **cross_head = cross_list;
   int i;
   struct unit *punit;
   
@@ -122,7 +122,7 @@ static void popit(int x, int y, int xtile, int ytile)
     popit_popup=NULL;
   }
   
-  if (tile_get_known(xtile,ytile)<TILE_KNOWN_FOGGED)
+  if (tile_get_known(ptile) < TILE_KNOWN_FOGGED)
     return;
   
   popup=fcwin_create_layouted_window(popit_proc,NULL,WS_POPUP|WS_BORDER,
@@ -131,25 +131,23 @@ static void popit(int x, int y, int xtile, int ytile)
 				     cross_head);
   vbox=fcwin_vbox_new(popup,FALSE);
 
-  fcwin_box_add_static(vbox, popup_info_text(xtile, ytile), 0, SS_LEFT,
+  fcwin_box_add_static(vbox, popup_info_text(ptile), 0, SS_LEFT,
 		       FALSE, FALSE, 0);
 
-  punit = find_visible_unit(map_get_tile(xtile, ytile));
+  punit = find_visible_unit(ptile);
 
   popit_is_orders = show_unit_orders(punit);
 
-  if (punit && is_goto_dest_set(punit)) {
-    cross_head->x = goto_dest_x(punit);
-    cross_head->y = goto_dest_y(punit);
+  if (punit && punit->goto_tile) {
+    *cross_head = punit->goto_tile;
     cross_head++;
   }
-  cross_head->x = xtile;
-  cross_head->y = ytile;
+  *cross_head = ptile;
   cross_head++;
 
-  cross_head->x = -1;
-  for (i = 0; cross_list[i].x >= 0; i++) {
-    put_cross_overlay_tile(cross_list[i].x, cross_list[i].y);
+  *cross_head = NULL;
+  for (i = 0; cross_list[i] != NULL; i++) {
+    put_cross_overlay_tile(cross_list[i]);
   }
 
   fcwin_set_box(popup,vbox);
@@ -173,6 +171,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
   PAINTSTRUCT ps;
   int xtile;
   int ytile;
+  struct tile *ptile;
   switch(message) {
   case WM_CREATE:
     break;
@@ -187,7 +186,8 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     } else if (wParam & MK_CONTROL
 	       && canvas_to_map_pos(&xtile, &ytile,
 				    LOWORD(lParam), HIWORD(lParam))) {
-      popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);
+      ptile = map_pos_to_tile(xtile, ytile);
+      popit(LOWORD(lParam),HIWORD(lParam),ptile);
     } else {
       action_button_pressed(LOWORD(lParam), HIWORD(lParam), SELECT_POPUP);
     }
@@ -195,7 +195,8 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
   case WM_MBUTTONDOWN:
     if (can_client_change_view()
         && canvas_to_map_pos(&xtile, &ytile, LOWORD(lParam), HIWORD(lParam))) {
-      popit(LOWORD(lParam), HIWORD(lParam), xtile, ytile);
+      ptile = map_pos_to_tile(xtile, ytile);
+      popit(LOWORD(lParam), HIWORD(lParam), ptile);
     }
     break;
   case WM_RBUTTONDOWN:
@@ -203,7 +204,8 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       if (wParam&MK_CONTROL) {
         if (canvas_to_map_pos(&xtile, &ytile,
 			      LOWORD(lParam), HIWORD(lParam))) {
-          popit(LOWORD(lParam), HIWORD(lParam), xtile, ytile);
+	  ptile = map_pos_to_tile(xtile, ytile);
+          popit(LOWORD(lParam), HIWORD(lParam), ptile);
         }
       } else {
 	recenter_button_pressed(LOWORD(lParam), HIWORD(lParam));
@@ -285,15 +287,17 @@ void init_mapwindow(void)
 **************************************************************************/
 void overview_handle_rbut(int x, int y)
 {
- int xtile, ytile;        
+ int xtile, ytile;
+ struct tile *ptile;
 
  if (!can_client_change_view()) {
    return;
  }
 
  overview_to_map_pos(&xtile, &ytile, x, y);
+ ptile = map_pos_to_tile(xtile, ytile);
 
- center_tile_mapcanvas(xtile,ytile); 
+ center_tile_mapcanvas(ptile);
 
 }
 

@@ -1152,7 +1152,7 @@ update_menus(void)
 	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Build Road") "\tR");
       }
 
-      ttype = map_get_tile(punit->tile)->terrain;
+      ttype = punit->tile->terrain;
       tinfo = get_tile_type(ttype);
       if (tinfo->irrigation_result != T_NONE
 	  && tinfo->irrigation_result != ttype) {

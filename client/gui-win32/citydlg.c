@@ -311,7 +311,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
   } else {
-    plist = &(map_get_tile(pdialog->pcity->tile)->units);
+    plist = &(pdialog->pcity->tile->units);
   }
   myiter = plist->list.head_link; 
   
@@ -1302,7 +1302,7 @@ static void activate_callback(struct city_dialog *pdialog)
 *****************************************************************/
 static void show_units_callback(struct city_dialog *pdialog)
 {
-  struct tile *ptile = map_get_tile(pdialog->pcity->tile);
+  struct tile *ptile = pdialog->pcity->tile;
  
   if(unit_list_size(&ptile->units))
     popup_unit_select_dialog(ptile);

@@ -130,7 +130,6 @@ static LONG CALLBACK notify_goto_proc(HWND dlg,UINT message,
 {
   switch(message) {
   case WM_DESTROY:
-    free(fcwin_get_user_data(dlg));
     break;
   case WM_CREATE:
   case WM_SIZE:
@@ -143,8 +142,8 @@ static LONG CALLBACK notify_goto_proc(HWND dlg,UINT message,
     switch(LOWORD(wParam)) {
     case IDOK:
       {
-	POINT *pt=fcwin_get_user_data(dlg);
-	center_tile_mapcanvas(pt->x,pt->y);
+	struct tile *ptile = fcwin_get_user_data(dlg);
+	center_tile_mapcanvas(ptile);
       }
     case IDCANCEL:
       DestroyWindow(dlg);
@@ -163,21 +162,17 @@ static LONG CALLBACK notify_goto_proc(HWND dlg,UINT message,
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      int x, int y)
+			      struct tile *ptile)
 {
-  POINT *pt;
   struct fcwin_box *hbox;
   struct fcwin_box *vbox;
   HWND dlg;
-  pt=fc_malloc(sizeof(POINT));
-  pt->x=x;
-  pt->y=y;
   dlg=fcwin_create_layouted_window(notify_goto_proc,
 				   headline,WS_OVERLAPPEDWINDOW,
 				   CW_USEDEFAULT,CW_USEDEFAULT,
 				   root_window,NULL,
 				   REAL_CHILD,
-				   pt);
+				   ptile);
   vbox=fcwin_vbox_new(dlg,FALSE);
   fcwin_box_add_static(vbox,lines,0,SS_LEFT,
 		       TRUE,TRUE,10);
@@ -1496,7 +1491,7 @@ static void diplomat_cancel_callback(HWND w, void * data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
+void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
 {
   struct city *pcity;
   struct unit *ptunit;
@@ -1505,7 +1500,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
   diplomat_id=punit->id;
 
-  if((pcity=map_get_city(dest_x, dest_y))){
+  if ((pcity = map_get_city(ptile))){
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id=pcity->id;
@@ -1524,15 +1519,15 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
          		     _("_Cancel"), diplomat_cancel_callback, 0,
          		     0);
       
-      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, ptile))
        message_dialog_button_set_sensitive(shl,0,FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, ptile))
        message_dialog_button_set_sensitive(shl,1,FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, ptile))
        message_dialog_button_set_sensitive(shl,2,FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, ptile))
        message_dialog_button_set_sensitive(shl,3,FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, ptile))
        message_dialog_button_set_sensitive(shl,4,FALSE);
     }else{
        shl = popup_message_dialog(root_window, /*"spydialog"*/
@@ -1546,23 +1541,23 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
  		_("_Cancel"), diplomat_cancel_callback, 0,
 		0);
  
-      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, ptile))
        message_dialog_button_set_sensitive(shl,0,FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, ptile))
        message_dialog_button_set_sensitive(shl,1,FALSE);
-      if(!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, SPY_POISON, ptile))
        message_dialog_button_set_sensitive(shl,2,FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, ptile))
        message_dialog_button_set_sensitive(shl,3,FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, ptile))
        message_dialog_button_set_sensitive(shl,4,FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, ptile))
        message_dialog_button_set_sensitive(shl,5,FALSE);
      }
 
     diplomat_dialog_open=1;
    }else{ 
-     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
+     if ((ptunit = unit_list_get(&ptile->units, 0))){
        /* Spy/Diplomat acting against a unit */ 
        
        diplomat_target_id=ptunit->id;
@@ -1576,9 +1571,9 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
  			      _("_Cancel"), diplomat_cancel_callback, 0,
  			      0);
         
-       if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
+       if (!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, ptile))
         message_dialog_button_set_sensitive(shl,0,FALSE);
-       if(!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y))
+       if (!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, ptile))
         message_dialog_button_set_sensitive(shl,1,FALSE);
     }
   }

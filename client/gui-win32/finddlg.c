@@ -86,7 +86,7 @@ static LONG CALLBACK find_city_proc(HWND hWnd,
 			      city_name);
 	      if ((pcity=game_find_city_by_name(city_name)))
 		{
-		  center_tile_mapcanvas(pcity->x,pcity->y);
+		  center_tile_mapcanvas(pcity->tile);
 		}
 	      DestroyWindow(hWnd);
 	      finddialog=NULL;

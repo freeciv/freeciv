@@ -582,12 +582,12 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 
 **************************************************************************/
 void
-put_cross_overlay_tile(int x,int y)
+put_cross_overlay_tile(struct tile *ptile)
 {
   HDC hdc;
   int canvas_x, canvas_y;
-  get_canvas_xy(x, y, &canvas_x, &canvas_y);
-  if (tile_visible_mapcanvas(x, y)) {
+  map_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+  if (tile_visible_mapcanvas(ptile)) {
     hdc=GetDC(map_window);
     draw_sprite(sprites.user.attention,hdc,canvas_x,canvas_y);
     ReleaseDC(map_window,hdc);

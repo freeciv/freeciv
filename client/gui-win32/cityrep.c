@@ -319,7 +319,7 @@ static void cityrep_center(HWND hWnd)
     return;
   pcity=(struct city *)ListBox_GetItemData(GetDlgItem(hWnd,ID_CITYREP_LIST),
 					   id);
-  center_tile_mapcanvas(pcity->x,pcity->y);
+  center_tile_mapcanvas(pcity->tile);
 }
 
 /**************************************************************************
@@ -581,7 +581,7 @@ static void list_sameisland_select(HWND hLst)
 	  struct city *selectedcity;
 	  selectedcity=(struct city *)ListBox_GetItemData(hLst,cityids[j]);
           if (map_get_continent(pcity->tile)
-              == map_get_continent(selectedcity->x, selectedcity->y))
+              == map_get_continent(selectedcity->tile))
 	    {    
 	      ListBox_SetSel(hLst,TRUE,i);
 	      break;
