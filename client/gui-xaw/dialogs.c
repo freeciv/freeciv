@@ -1450,8 +1450,8 @@ Widget popup_message_dialog(Widget parent, char *dialogname, char *text, ...)
 
   i=0;
   va_start(args, text);
-  
-  while((fcb=va_arg(args, void *))) {
+
+  while((fcb=((void(*)(Widget, XtPointer, XtPointer))(va_arg(args, void *))))) {
     client_data=va_arg(args, XtPointer);
     fixed_width=va_arg(args, int);
     my_snprintf(button_name, sizeof(button_name), "button%d", i++);

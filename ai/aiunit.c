@@ -1732,7 +1732,6 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit,
     return;
   }
   /* should never get here */
-  freelog(LOG_DEBUG, "Error: At end of ai_manage_unit().");
 }
 
 /**************************************************************************

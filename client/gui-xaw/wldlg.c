@@ -530,7 +530,8 @@ Widget popup_worklist(struct worklist *pwl, struct city *pcity,
 
   /* Fill in the list of available build targets,
      and set correct label in show-advanced toggle. */
-  worklist_show_advanced_callback(pdialog->toggle_show_advanced, pdialog, NULL);
+  worklist_show_advanced_callback(pdialog->toggle_show_advanced,
+				  (XtPointer)pdialog, NULL);
 
   /* force refresh of viewport so the scrollbar is added.
    * Buggy sun athena requires this */
