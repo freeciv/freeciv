@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2002-10-18 18:55+0200\n"
-"PO-Revision-Date: 2002-10-19 15:30+0200\n"
+"POT-Creation-Date: 2002-10-26 21:46+0200\n"
+"PO-Revision-Date: 2002-10-26 22:00+0200\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -7317,8 +7317,8 @@ msgid "_Disband unit"
 msgstr "Congeda _unità"
 
 #: client/gui-gtk-2.0/citydlg.c:2424 client/gui-gtk-2.0/citydlg.c:2461
-#: client/gui-gtk-2.0/dialogs.c:1039 client/gui-gtk-2.0/dialogs.c:1064
-#: client/gui-gtk-2.0/dialogs.c:1096 client/gui-gtk-2.0/gotodlg.c:127
+#: client/gui-gtk-2.0/dialogs.c:1009 client/gui-gtk-2.0/dialogs.c:1034
+#: client/gui-gtk-2.0/dialogs.c:1066 client/gui-gtk-2.0/gotodlg.c:127
 #: client/gui-gtk/citydlg.c:2478 client/gui-gtk/citydlg.c:2516
 #: client/gui-gtk/dialogs.c:1041 client/gui-gtk/dialogs.c:1067
 #: client/gui-gtk/dialogs.c:1100 client/gui-gtk/gotodlg.c:127
@@ -7372,17 +7372,15 @@ msgid "Upgrade Unit!"
 msgstr "Aggiorna unità!"
 
 #: client/gui-gtk-2.0/citydlg.c:2649 client/gui-gtk-2.0/citydlg.c:2674
-#: client/gui-gtk-2.0/citydlg.c:2854 client/gui-gtk-2.0/dialogs.c:387
-#: client/gui-gtk-2.0/dialogs.c:953 client/gui-gtk-2.0/dialogs.c:968
-#: client/gui-gtk/citydlg.c:2692 client/gui-gtk/citydlg.c:2715
-#: client/gui-gtk/citydlg.c:2909 client/gui-gtk/dialogs.c:406
-#: client/gui-gtk/dialogs.c:957 client/gui-gtk/dialogs.c:973
-#: client/gui-mui/dialogs.c:237 client/gui-mui/dialogs.c:507
-#: client/gui-mui/dialogs.c:523 client/gui-win32/citydlg.c:1047
-#: client/gui-win32/citydlg.c:1623 client/gui-win32/citydlg.c:1647
-#: client/gui-win32/dialogs.c:1391 client/gui-win32/dialogs.c:1576
-#: client/gui-win32/dialogs.c:1591 data/Freeciv:2187 data/Freeciv:2391
-#: data/Freeciv:2421
+#: client/gui-gtk-2.0/citydlg.c:2854 client/gui-gtk/citydlg.c:2692
+#: client/gui-gtk/citydlg.c:2715 client/gui-gtk/citydlg.c:2909
+#: client/gui-gtk/dialogs.c:406 client/gui-gtk/dialogs.c:957
+#: client/gui-gtk/dialogs.c:973 client/gui-mui/dialogs.c:237
+#: client/gui-mui/dialogs.c:507 client/gui-mui/dialogs.c:523
+#: client/gui-win32/citydlg.c:1047 client/gui-win32/citydlg.c:1623
+#: client/gui-win32/citydlg.c:1647 client/gui-win32/dialogs.c:1391
+#: client/gui-win32/dialogs.c:1576 client/gui-win32/dialogs.c:1591
+#: data/Freeciv:2187 data/Freeciv:2391 data/Freeciv:2421
 msgid "Darn"
 msgstr "Rinuncia"
 
@@ -7407,7 +7405,6 @@ msgstr "Aggiorna le unità obsolete"
 
 #: client/gui-gtk-2.0/citydlg.c:2661 client/gui-gtk-2.0/citydlg.c:2846
 #: client/gui-gtk-2.0/citydlg.c:3110 client/gui-gtk-2.0/cma_fe.c:580
-#: client/gui-gtk-2.0/dialogs.c:379 client/gui-gtk-2.0/dialogs.c:960
 #: client/gui-gtk/citydlg.c:2704 client/gui-gtk/citydlg.c:2899
 #: client/gui-gtk/citydlg.c:3166 client/gui-gtk/cma_fe.c:553
 #: client/gui-gtk/dialogs.c:398 client/gui-gtk/dialogs.c:964
@@ -7423,7 +7420,6 @@ msgstr "_Sì"
 
 #: client/gui-gtk-2.0/citydlg.c:2663 client/gui-gtk-2.0/citydlg.c:2847
 #: client/gui-gtk-2.0/citydlg.c:3111 client/gui-gtk-2.0/cma_fe.c:582
-#: client/gui-gtk-2.0/dialogs.c:380 client/gui-gtk-2.0/dialogs.c:961
 #: client/gui-gtk/citydlg.c:2705 client/gui-gtk/citydlg.c:2900
 #: client/gui-gtk/citydlg.c:3167 client/gui-gtk/cma_fe.c:556
 #: client/gui-gtk/dialogs.c:399 client/gui-gtk/dialogs.c:965
@@ -7906,30 +7902,30 @@ msgstr ""
 msgid "Message:"
 msgstr "Messaggio:"
 
-#: client/gui-gtk-2.0/dialogs.c:300 client/gui-gtk-2.0/dialogs.c:679
-#: client/gui-gtk-2.0/dialogs.c:777 client/gui-gtk-2.0/dialogs.c:1758
-#: client/gui-gtk-2.0/inteldlg.c:176 client/gui-gtk-2.0/spaceshipdlg.c:206
-#: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/cityrep.c:1388
-#: client/gui-gtk/dialogs.c:207 client/gui-gtk/dialogs.c:332
-#: client/gui-gtk/dialogs.c:696 client/gui-gtk/dialogs.c:794
-#: client/gui-gtk/dialogs.c:1749 client/gui-gtk/gamedlgs.c:476
-#: client/gui-gtk/helpdlg.c:612 client/gui-gtk/inteldlg.c:176
-#: client/gui-gtk/repodlgs.c:203 client/gui-gtk/repodlgs.c:579
-#: client/gui-gtk/repodlgs.c:813 client/gui-gtk/spaceshipdlg.c:206
-#: client/gui-gtk/wldlg.c:201 client/gui-win32/citydlg.c:923
-#: client/gui-win32/cityrep.c:133 client/gui-win32/cityrep.c:898
-#: client/gui-win32/dialogs.c:180 client/gui-win32/dialogs.c:245
-#: client/gui-win32/dialogs.c:683 client/gui-win32/dialogs.c:1294
-#: client/gui-win32/dialogs.c:1508 client/gui-win32/helpdlg.c:424
-#: client/gui-win32/inteldlg.c:153 client/gui-win32/messagewin.c:187
-#: client/gui-win32/optiondlg.c:144 client/gui-win32/plrdlg.c:370
-#: client/gui-win32/repodlgs.c:291 client/gui-win32/repodlgs.c:467
-#: client/gui-win32/repodlgs.c:721 client/gui-win32/spaceshipdlg.c:234
-#: client/gui-win32/wldlg.c:306 data/Freeciv:145 data/Freeciv:195
-#: data/Freeciv:499 data/Freeciv:533 data/Freeciv:578 data/Freeciv:1441
-#: data/Freeciv:1554 data/Freeciv:1650 data/Freeciv:1681 data/Freeciv:1814
-#: data/Freeciv:1888 data/Freeciv:1930 data/Freeciv:2295 data/Freeciv:2337
-#: data/Freeciv:2959 data/Freeciv:3122 data/Freeciv:3205
+#: client/gui-gtk-2.0/dialogs.c:300 client/gui-gtk-2.0/dialogs.c:664
+#: client/gui-gtk-2.0/dialogs.c:762 client/gui-gtk-2.0/inteldlg.c:176
+#: client/gui-gtk-2.0/spaceshipdlg.c:206 client/gui-gtk-2.0/wldlg.c:202
+#: client/gui-gtk/cityrep.c:1388 client/gui-gtk/dialogs.c:207
+#: client/gui-gtk/dialogs.c:332 client/gui-gtk/dialogs.c:696
+#: client/gui-gtk/dialogs.c:794 client/gui-gtk/dialogs.c:1749
+#: client/gui-gtk/gamedlgs.c:476 client/gui-gtk/helpdlg.c:612
+#: client/gui-gtk/inteldlg.c:176 client/gui-gtk/repodlgs.c:203
+#: client/gui-gtk/repodlgs.c:579 client/gui-gtk/repodlgs.c:813
+#: client/gui-gtk/spaceshipdlg.c:206 client/gui-gtk/wldlg.c:201
+#: client/gui-win32/citydlg.c:923 client/gui-win32/cityrep.c:133
+#: client/gui-win32/cityrep.c:898 client/gui-win32/dialogs.c:180
+#: client/gui-win32/dialogs.c:245 client/gui-win32/dialogs.c:683
+#: client/gui-win32/dialogs.c:1294 client/gui-win32/dialogs.c:1508
+#: client/gui-win32/helpdlg.c:424 client/gui-win32/inteldlg.c:153
+#: client/gui-win32/messagewin.c:187 client/gui-win32/optiondlg.c:144
+#: client/gui-win32/plrdlg.c:370 client/gui-win32/repodlgs.c:291
+#: client/gui-win32/repodlgs.c:467 client/gui-win32/repodlgs.c:721
+#: client/gui-win32/spaceshipdlg.c:234 client/gui-win32/wldlg.c:306
+#: data/Freeciv:145 data/Freeciv:195 data/Freeciv:499 data/Freeciv:533
+#: data/Freeciv:578 data/Freeciv:1441 data/Freeciv:1554 data/Freeciv:1650
+#: data/Freeciv:1681 data/Freeciv:1814 data/Freeciv:1888 data/Freeciv:1930
+#: data/Freeciv:2295 data/Freeciv:2337 data/Freeciv:2959 data/Freeciv:3122
+#: data/Freeciv:3205
 msgid "Close"
 msgstr "Chiudi"
 
@@ -7938,7 +7934,7 @@ msgstr "Chiudi"
 msgid "Goto and Close"
 msgstr "Vai e chiudi"
 
-#: client/gui-gtk-2.0/dialogs.c:376 client/gui-gtk/dialogs.c:394
+#: client/gui-gtk-2.0/dialogs.c:352 client/gui-gtk/dialogs.c:394
 #: client/gui-mui/dialogs.c:224 client/gui-win32/dialogs.c:1379
 #: client/gui-xaw/dialogs.c:433
 #, c-format
@@ -7949,13 +7945,13 @@ msgstr ""
 "Corrompere l'unità per %d auri?\n"
 "Il tesoro contiene %d auri."
 
-#: client/gui-gtk-2.0/dialogs.c:378 client/gui-gtk/dialogs.c:396
+#: client/gui-gtk-2.0/dialogs.c:354 client/gui-gtk/dialogs.c:396
 #: client/gui-mui/dialogs.c:227 client/gui-win32/dialogs.c:1381
 #: data/Freeciv:2354 data/Freeciv:2367
 msgid "Bribe Enemy Unit"
 msgstr "Corrompi unità nemica"
 
-#: client/gui-gtk-2.0/dialogs.c:383 client/gui-gtk/dialogs.c:402
+#: client/gui-gtk-2.0/dialogs.c:359 client/gui-gtk/dialogs.c:402
 #: client/gui-mui/dialogs.c:233 client/gui-win32/dialogs.c:1387
 #: client/gui-xaw/dialogs.c:442
 #, c-format
@@ -7966,7 +7962,7 @@ msgstr ""
 "Corrompere l'unità costa %d auri.\n"
 "Il tesoro contiene %d auri."
 
-#: client/gui-gtk-2.0/dialogs.c:386 client/gui-gtk-2.0/dialogs.c:967
+#: client/gui-gtk-2.0/dialogs.c:361 client/gui-gtk-2.0/dialogs.c:925
 #: client/gui-gtk/dialogs.c:405 client/gui-gtk/dialogs.c:971
 #: client/gui-mui/dialogs.c:236 client/gui-mui/dialogs.c:522
 #: client/gui-win32/dialogs.c:1391 client/gui-win32/dialogs.c:1590
@@ -7974,24 +7970,24 @@ msgstr ""
 msgid "Traitors Demand Too Much!"
 msgstr "I traditori chiedono troppo!"
 
-#: client/gui-gtk-2.0/dialogs.c:654 client/gui-gtk/dialogs.c:671
+#: client/gui-gtk-2.0/dialogs.c:639 client/gui-gtk/dialogs.c:671
 #: client/gui-mui/dialogs.c:332 client/gui-win32/dialogs.c:1291
 #: data/Freeciv:2285
 msgid "Select Advance to Steal"
 msgstr "Scegliete la tecnologia da rubare"
 
-#: client/gui-gtk-2.0/dialogs.c:661 client/gui-gtk/dialogs.c:678
+#: client/gui-gtk-2.0/dialogs.c:646 client/gui-gtk/dialogs.c:678
 #: client/gui-mui/dialogs.c:328 client/gui-win32/dialogs.c:1281
 #: data/Freeciv:2220 data/Freeciv:2253 data/Freeciv:2270
 msgid "Steal Technology"
 msgstr "Ruba tecnologia"
 
-#: client/gui-gtk-2.0/dialogs.c:684 client/gui-gtk/dialogs.c:701
+#: client/gui-gtk-2.0/dialogs.c:669 client/gui-gtk/dialogs.c:701
 #: client/gui-win32/dialogs.c:1295 data/Freeciv:2301
 msgid "Steal"
 msgstr "Ruba"
 
-#: client/gui-gtk-2.0/dialogs.c:720 client/gui-gtk-2.0/dialogs.c:814
+#: client/gui-gtk-2.0/dialogs.c:705 client/gui-gtk-2.0/dialogs.c:799
 #: client/gui-gtk/dialogs.c:737 client/gui-gtk/dialogs.c:831
 #: client/gui-mui/dialogs.c:308 client/gui-mui/dialogs.c:409
 #: client/gui-win32/dialogs.c:1188 client/gui-win32/dialogs.c:1415
@@ -7999,47 +7995,47 @@ msgstr "Ruba"
 msgid "At Spy's Discretion"
 msgstr "A discrezione della spia"
 
-#: client/gui-gtk-2.0/dialogs.c:727 client/gui-gtk/dialogs.c:744
+#: client/gui-gtk-2.0/dialogs.c:712 client/gui-gtk/dialogs.c:744
 #: client/gui-win32/dialogs.c:1193 client/gui-xaw/dialogs.c:759
 msgid "NONE"
 msgstr "NESSUNA"
 
-#: client/gui-gtk-2.0/dialogs.c:753 client/gui-gtk/dialogs.c:770
+#: client/gui-gtk-2.0/dialogs.c:738 client/gui-gtk/dialogs.c:770
 #: client/gui-mui/dialogs.c:429 client/gui-win32/dialogs.c:1505
 #: data/Freeciv:2327
 msgid "Select Improvement to Sabotage"
 msgstr "Scegliete la struttura da sabotare"
 
-#: client/gui-gtk-2.0/dialogs.c:760 client/gui-gtk/dialogs.c:777
+#: client/gui-gtk-2.0/dialogs.c:745 client/gui-gtk/dialogs.c:777
 #: client/gui-mui/dialogs.c:425 client/gui-win32/dialogs.c:1495
 #: data/Freeciv:2312
 msgid "Sabotage Improvements"
 msgstr "Sabotaggio strutture"
 
-#: client/gui-gtk-2.0/dialogs.c:782 client/gui-gtk/dialogs.c:799
+#: client/gui-gtk-2.0/dialogs.c:767 client/gui-gtk/dialogs.c:799
 #: client/gui-win32/dialogs.c:1509 data/Freeciv:2343
 msgid "Sabotage"
 msgstr "Sabotaggio"
 
-#: client/gui-gtk-2.0/dialogs.c:801 client/gui-gtk/dialogs.c:818
+#: client/gui-gtk-2.0/dialogs.c:786 client/gui-gtk/dialogs.c:818
 #: client/gui-mui/dialogs.c:408 client/gui-win32/dialogs.c:1404
 #: client/gui-xaw/dialogs.c:849
 msgid "City Production"
 msgstr "Produzione della città"
 
-#: client/gui-gtk-2.0/dialogs.c:950 client/gui-gtk/dialogs.c:953
+#: client/gui-gtk-2.0/dialogs.c:909 client/gui-gtk/dialogs.c:953
 #: client/gui-mui/dialogs.c:504 client/gui-win32/dialogs.c:1573
 #: client/gui-xaw/dialogs.c:1019
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Non puoi incitare una rivolta a %s."
 
-#: client/gui-gtk-2.0/dialogs.c:952 client/gui-gtk/dialogs.c:955
+#: client/gui-gtk-2.0/dialogs.c:911 client/gui-gtk/dialogs.c:955
 #: client/gui-mui/dialogs.c:506 client/gui-win32/dialogs.c:1575
 msgid "City can't be incited!"
 msgstr "La città non può essere incitata alla rivolta!"
 
-#: client/gui-gtk-2.0/dialogs.c:956 client/gui-gtk/dialogs.c:960
+#: client/gui-gtk-2.0/dialogs.c:916 client/gui-gtk/dialogs.c:960
 #: client/gui-mui/dialogs.c:509 client/gui-win32/dialogs.c:1579
 #: client/gui-xaw/dialogs.c:1025
 #, c-format
@@ -8050,13 +8046,13 @@ msgstr ""
 "Incitare una rivolta per %d auri?\n"
 "Il tesoro contiene %d auri."
 
-#: client/gui-gtk-2.0/dialogs.c:959 client/gui-gtk/dialogs.c:962
+#: client/gui-gtk-2.0/dialogs.c:918 client/gui-gtk/dialogs.c:962
 #: client/gui-mui/dialogs.c:513 client/gui-win32/dialogs.c:1582
 #: data/Freeciv:2378
 msgid "Incite a Revolt!"
 msgstr "Incita una rivolta!"
 
-#: client/gui-gtk-2.0/dialogs.c:964 client/gui-gtk/dialogs.c:968
+#: client/gui-gtk-2.0/dialogs.c:923 client/gui-gtk/dialogs.c:968
 #: client/gui-mui/dialogs.c:520 client/gui-win32/dialogs.c:1587
 #: client/gui-xaw/dialogs.c:1035
 #, c-format
@@ -8067,7 +8063,7 @@ msgstr ""
 "Incitare una rivolta costa %d auri.\n"
 "Il tesoro contiene %d auri."
 
-#: client/gui-gtk-2.0/dialogs.c:1027 client/gui-gtk/dialogs.c:1028
+#: client/gui-gtk-2.0/dialogs.c:997 client/gui-gtk/dialogs.c:1028
 #: client/gui-win32/dialogs.c:1626 client/gui-xaw/dialogs.c:1099
 #, c-format
 msgid ""
@@ -8077,97 +8073,97 @@ msgstr ""
 "Il vostro %s è arrivato a %s.\n"
 "Quali sono i vostri ordini?"
 
-#: client/gui-gtk-2.0/dialogs.c:1032 client/gui-gtk/dialogs.c:1033
+#: client/gui-gtk-2.0/dialogs.c:1002 client/gui-gtk/dialogs.c:1033
 #: client/gui-win32/dialogs.c:1631
 msgid " Choose Your Diplomat's Strategy"
 msgstr " Scegliete una strategia per il vostro diplomatico"
 
-#: client/gui-gtk-2.0/dialogs.c:1033 client/gui-gtk-2.0/dialogs.c:1057
+#: client/gui-gtk-2.0/dialogs.c:1003 client/gui-gtk-2.0/dialogs.c:1027
 #: client/gui-gtk/dialogs.c:1035 client/gui-gtk/dialogs.c:1060
 #: client/gui-win32/dialogs.c:1632 client/gui-win32/dialogs.c:1653
 msgid "Establish _Embassy"
 msgstr "Stabilisci un'_ambasciata"
 
-#: client/gui-gtk-2.0/dialogs.c:1034 client/gui-gtk/dialogs.c:1036
+#: client/gui-gtk-2.0/dialogs.c:1004 client/gui-gtk/dialogs.c:1036
 #: client/gui-win32/dialogs.c:1633
 msgid "_Investigate City"
 msgstr "St_udia la città"
 
-#: client/gui-gtk-2.0/dialogs.c:1035 client/gui-gtk/dialogs.c:1037
+#: client/gui-gtk-2.0/dialogs.c:1005 client/gui-gtk/dialogs.c:1037
 #: client/gui-win32/dialogs.c:1634
 msgid "_Sabotage City"
 msgstr "_Sabota la città"
 
-#: client/gui-gtk-2.0/dialogs.c:1036 client/gui-gtk-2.0/dialogs.c:1061
+#: client/gui-gtk-2.0/dialogs.c:1006 client/gui-gtk-2.0/dialogs.c:1031
 #: client/gui-gtk/dialogs.c:1038 client/gui-gtk/dialogs.c:1064
 #: client/gui-win32/dialogs.c:1635 client/gui-win32/dialogs.c:1657
 msgid "Steal _Technology"
 msgstr "Ruba una _tecnologia"
 
-#: client/gui-gtk-2.0/dialogs.c:1037 client/gui-gtk-2.0/dialogs.c:1062
+#: client/gui-gtk-2.0/dialogs.c:1007 client/gui-gtk-2.0/dialogs.c:1032
 #: client/gui-gtk/dialogs.c:1039 client/gui-gtk/dialogs.c:1065
 #: client/gui-win32/dialogs.c:1636 client/gui-win32/dialogs.c:1658
 msgid "Incite a _Revolt"
 msgstr "Incita una _rivolta"
 
-#: client/gui-gtk-2.0/dialogs.c:1038 client/gui-gtk-2.0/dialogs.c:1063
-#: client/gui-gtk-2.0/dialogs.c:1197 client/gui-gtk/dialogs.c:1040
+#: client/gui-gtk-2.0/dialogs.c:1008 client/gui-gtk-2.0/dialogs.c:1033
+#: client/gui-gtk-2.0/dialogs.c:1167 client/gui-gtk/dialogs.c:1040
 #: client/gui-gtk/dialogs.c:1066 client/gui-gtk/dialogs.c:1173
 #: client/gui-mui/dialogs.c:833 client/gui-mui/dialogs.c:900
 #: client/gui-mui/dialogs.c:1068 client/gui-win32/dialogs.c:1024
 msgid "_Keep moving"
 msgstr "Continua a _muoverti"
 
-#: client/gui-gtk-2.0/dialogs.c:1056 client/gui-gtk/dialogs.c:1058
+#: client/gui-gtk-2.0/dialogs.c:1026 client/gui-gtk/dialogs.c:1058
 #: client/gui-mui/dialogs.c:912 client/gui-win32/dialogs.c:1652
 #: data/Freeciv:2234
 msgid "Choose Your Spy's Strategy"
 msgstr "Scegliete una strategia per la vostra spia"
 
-#: client/gui-gtk-2.0/dialogs.c:1058 client/gui-gtk/dialogs.c:1061
+#: client/gui-gtk-2.0/dialogs.c:1028 client/gui-gtk/dialogs.c:1061
 #: client/gui-win32/dialogs.c:1654
 msgid "_Investigate City (free)"
 msgstr "St_udia la città (gratis)"
 
-#: client/gui-gtk-2.0/dialogs.c:1059 client/gui-gtk/dialogs.c:1062
+#: client/gui-gtk-2.0/dialogs.c:1029 client/gui-gtk/dialogs.c:1062
 #: client/gui-win32/dialogs.c:1655
 msgid "_Poison City"
 msgstr "A_vvelena la città"
 
-#: client/gui-gtk-2.0/dialogs.c:1060 client/gui-gtk/dialogs.c:1063
+#: client/gui-gtk-2.0/dialogs.c:1030 client/gui-gtk/dialogs.c:1063
 #: client/gui-win32/dialogs.c:1656
 msgid "Industrial _Sabotage"
 msgstr "_Sabotaggio industriale"
 
-#: client/gui-gtk-2.0/dialogs.c:1090 client/gui-gtk/dialogs.c:1093
+#: client/gui-gtk-2.0/dialogs.c:1060 client/gui-gtk/dialogs.c:1093
 #: client/gui-mui/dialogs.c:947 client/gui-win32/dialogs.c:1683
 #: data/Freeciv:2365
 msgid "Subvert Enemy Unit"
 msgstr "Attaccare un'unità nemica"
 
-#: client/gui-gtk-2.0/dialogs.c:1092 client/gui-gtk/dialogs.c:1095
+#: client/gui-gtk-2.0/dialogs.c:1062 client/gui-gtk/dialogs.c:1095
 #: client/gui-mui/dialogs.c:846 client/gui-mui/dialogs.c:949
 #: client/gui-win32/dialogs.c:1685 client/gui-xaw/dialogs.c:1159
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Il diplomatico attende i vostri ordini"
 
-#: client/gui-gtk-2.0/dialogs.c:1093 client/gui-gtk/dialogs.c:1096
+#: client/gui-gtk-2.0/dialogs.c:1063 client/gui-gtk/dialogs.c:1096
 #: client/gui-mui/dialogs.c:913 client/gui-mui/dialogs.c:950
 #: client/gui-win32/dialogs.c:1686 client/gui-xaw/dialogs.c:1160
 msgid "Sir, the spy is waiting for your command"
 msgstr "La spia attende i vostri ordini"
 
-#: client/gui-gtk-2.0/dialogs.c:1094 client/gui-gtk/dialogs.c:1098
+#: client/gui-gtk-2.0/dialogs.c:1064 client/gui-gtk/dialogs.c:1098
 #: client/gui-mui/dialogs.c:927 client/gui-win32/dialogs.c:1687
 msgid "_Bribe Enemy Unit"
 msgstr "Co_rrompi l'unità nemica"
 
-#: client/gui-gtk-2.0/dialogs.c:1095 client/gui-gtk/dialogs.c:1099
+#: client/gui-gtk-2.0/dialogs.c:1065 client/gui-gtk/dialogs.c:1099
 #: client/gui-mui/dialogs.c:935 client/gui-win32/dialogs.c:1688
 msgid "_Sabotage Enemy Unit"
 msgstr "_Sabota l'unità nemica"
 
-#: client/gui-gtk-2.0/dialogs.c:1186 client/gui-gtk/dialogs.c:1162
+#: client/gui-gtk-2.0/dialogs.c:1156 client/gui-gtk/dialogs.c:1162
 #: client/gui-mui/dialogs.c:1035 client/gui-win32/dialogs.c:1013
 #: client/gui-xaw/dialogs.c:1260
 #, c-format
@@ -8178,57 +8174,57 @@ msgstr ""
 "La vostra carovana da %s è arrivata a %s.\n"
 "E ora?"
 
-#: client/gui-gtk-2.0/dialogs.c:1193 client/gui-gtk/dialogs.c:1169
+#: client/gui-gtk-2.0/dialogs.c:1163 client/gui-gtk/dialogs.c:1169
 #: client/gui-mui/dialogs.c:1074 client/gui-win32/dialogs.c:1020
 #: data/Freeciv:2194
 msgid "Your Caravan Has Arrived"
 msgstr "La vostra carovana è arrivata"
 
-#: client/gui-gtk-2.0/dialogs.c:1195 client/gui-gtk/dialogs.c:1171
+#: client/gui-gtk-2.0/dialogs.c:1165 client/gui-gtk/dialogs.c:1171
 #: client/gui-win32/dialogs.c:1022
 msgid "Establish _Traderoute"
 msgstr "Stabilisci una _rotta commerciale"
 
-#: client/gui-gtk-2.0/dialogs.c:1196 client/gui-gtk/dialogs.c:1172
+#: client/gui-gtk-2.0/dialogs.c:1166 client/gui-gtk/dialogs.c:1172
 #: client/gui-win32/dialogs.c:1023
 msgid "Help build _Wonder"
 msgstr "_Aiuta a costruire la meraviglia"
 
-#: client/gui-gtk-2.0/dialogs.c:1260 client/gui-gtk/dialogs.c:1241
+#: client/gui-gtk-2.0/dialogs.c:1220 client/gui-gtk/dialogs.c:1241
 #: client/gui-mui/dialogs.c:1138 client/gui-win32/dialogs.c:924
 msgid "Choose Your New Government"
 msgstr "Scegliete il vostro nuovo governo"
 
-#: client/gui-gtk-2.0/dialogs.c:1271 client/gui-gtk/dialogs.c:1242
+#: client/gui-gtk-2.0/dialogs.c:1232 client/gui-gtk/dialogs.c:1242
 #: client/gui-mui/dialogs.c:1139 client/gui-win32/dialogs.c:925
 #: data/Freeciv:2429
 msgid "Select government type:"
 msgstr "Scegliete il tipo di governo:"
 
-#: client/gui-gtk-2.0/dialogs.c:1311 client/gui-gtk/dialogs.c:1262
+#: client/gui-gtk-2.0/dialogs.c:1303 client/gui-gtk/dialogs.c:1262
 #: client/gui-mui/dialogs.c:1160 client/gui-win32/dialogs.c:874
 #: client/gui-xaw/dialogs.c:1374
 msgid "You say you wanna revolution?"
 msgstr "Volete fare una rivoluzione?"
 
-#: client/gui-gtk-2.0/dialogs.c:1312 client/gui-gtk/dialogs.c:1261
+#: client/gui-gtk-2.0/dialogs.c:1304 client/gui-gtk/dialogs.c:1261
 #: client/gui-mui/dialogs.c:1160 client/gui-win32/dialogs.c:873
 #: data/Freeciv:2397
 msgid "Revolution!"
 msgstr "Rivoluzione!"
 
-#: client/gui-gtk-2.0/dialogs.c:1374 client/gui-gtk/dialogs.c:1331
+#: client/gui-gtk-2.0/dialogs.c:1364 client/gui-gtk/dialogs.c:1331
 #: client/gui-win32/dialogs.c:1757 data/Freeciv:2435
 msgid "What To Pillage"
 msgstr "Cosa saccheggiare"
 
-#: client/gui-gtk-2.0/dialogs.c:1381 client/gui-gtk/dialogs.c:1332
+#: client/gui-gtk-2.0/dialogs.c:1371 client/gui-gtk/dialogs.c:1332
 #: client/gui-mui/dialogs.c:1234 client/gui-win32/dialogs.c:1764
 #: data/Freeciv:2437
 msgid "Select what to pillage:"
 msgstr "Scegliete cosa saccheggiare:"
 
-#: client/gui-gtk-2.0/dialogs.c:1399 client/gui-gtk-2.0/dialogs.c:1508
+#: client/gui-gtk-2.0/dialogs.c:1389 client/gui-gtk-2.0/dialogs.c:1498
 #: client/gui-gtk-2.0/inputdlg.c:106 client/gui-gtk-2.0/wldlg.c:488
 #: client/gui-gtk/cityrep.c:1104 client/gui-gtk/dialogs.c:1328
 #: client/gui-gtk/dialogs.c:1408 client/gui-gtk/finddlg.c:107
@@ -8247,88 +8243,88 @@ msgstr "Scegliete cosa saccheggiare:"
 msgid "Cancel"
 msgstr "Cancella"
 
-#: client/gui-gtk-2.0/dialogs.c:1484 client/gui-gtk/connectdlg.c:232
+#: client/gui-gtk-2.0/dialogs.c:1474 client/gui-gtk/connectdlg.c:232
 #: client/gui-gtk/dialogs.c:1411 client/gui-mui/gui_main.c:257
 #: client/gui-win32/connectdlg.c:413 client/gui-win32/dialogs.c:1966
 #: client/gui-xaw/menu.c:179 data/Freeciv:95 data/Freeciv:2445
 msgid "Connect"
 msgstr "Collega"
 
-#: client/gui-gtk-2.0/dialogs.c:1491 client/gui-gtk/dialogs.c:1412
+#: client/gui-gtk-2.0/dialogs.c:1481 client/gui-gtk/dialogs.c:1412
 #: client/gui-mui/dialogs.c:1324 client/gui-win32/dialogs.c:1973
 #: data/Freeciv:2447
 msgid "Choose unit activity:"
 msgstr "Scegliete l'attività dell'unità:"
 
-#: client/gui-gtk-2.0/dialogs.c:1706 client/gui-gtk/dialogs.c:1694
+#: client/gui-gtk-2.0/dialogs.c:1684 client/gui-gtk/dialogs.c:1694
 msgid "Unit selection"
 msgstr "Scelta unità"
 
-#: client/gui-gtk-2.0/dialogs.c:1764 client/gui-gtk/dialogs.c:1755
+#: client/gui-gtk-2.0/dialogs.c:1746 client/gui-gtk/dialogs.c:1755
 #: client/gui-win32/dialogs.c:682 data/Freeciv:534
 msgid "Ready all"
 msgstr "Tutti pronti"
 
-#: client/gui-gtk-2.0/dialogs.c:1911
+#: client/gui-gtk-2.0/dialogs.c:1896
 msgid " What Nation Will You Be?"
 msgstr " Che nazione volete essere?"
 
-#: client/gui-gtk-2.0/dialogs.c:1921 client/gui-gtk/dialogs.c:1921
+#: client/gui-gtk-2.0/dialogs.c:1904 client/gui-gtk/dialogs.c:1921
 #: client/gui-win32/dialogs.c:478
 msgid "Select nation and name"
 msgstr "Scegliete una nazione ed un nome"
 
-#: client/gui-gtk-2.0/dialogs.c:1963 client/gui-gtk/dialogs.c:1966
+#: client/gui-gtk-2.0/dialogs.c:1946 client/gui-gtk/dialogs.c:1966
 msgid "Nation:"
 msgstr "Nazione:"
 
-#: client/gui-gtk-2.0/dialogs.c:1981 client/gui-gtk/dialogs.c:1985
+#: client/gui-gtk-2.0/dialogs.c:1964 client/gui-gtk/dialogs.c:1985
 msgid "Leader:"
 msgstr "Leader:"
 
-#: client/gui-gtk-2.0/dialogs.c:1990 client/gui-gtk/dialogs.c:1994
+#: client/gui-gtk-2.0/dialogs.c:1973 client/gui-gtk/dialogs.c:1994
 #: client/gui-win32/dialogs.c:489
 msgid "Select your sex"
 msgstr "Scegliete il vostro sesso"
 
-#: client/gui-gtk-2.0/dialogs.c:1997 client/gui-gtk/dialogs.c:2001
+#: client/gui-gtk-2.0/dialogs.c:1980 client/gui-gtk/dialogs.c:2001
 #: client/gui-mui/dialogs.c:1709 client/gui-win32/dialogs.c:491
 msgid "Male"
 msgstr "Maschio"
 
-#: client/gui-gtk-2.0/dialogs.c:2003 client/gui-gtk/dialogs.c:2007
+#: client/gui-gtk-2.0/dialogs.c:1986 client/gui-gtk/dialogs.c:2007
 #: client/gui-mui/dialogs.c:1710 client/gui-win32/dialogs.c:493
 #: data/Freeciv:3059
 msgid "Female"
 msgstr "Femmina"
 
-#: client/gui-gtk-2.0/dialogs.c:2024 client/gui-gtk/dialogs.c:2029
+#: client/gui-gtk-2.0/dialogs.c:2007 client/gui-gtk/dialogs.c:2029
 #: client/gui-win32/dialogs.c:497
 msgid "Select your city style"
 msgstr "Scegliete lo stile delle vostre città"
 
-#: client/gui-gtk-2.0/dialogs.c:2046 client/gui-gtk-2.0/menu.c:572
+#: client/gui-gtk-2.0/dialogs.c:2029 client/gui-gtk-2.0/menu.c:572
 #: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
 #: client/gui-win32/menu.c:287
 msgid "_Disconnect"
 msgstr "_Disconnetti"
 
-#: client/gui-gtk-2.0/dialogs.c:2244 client/gui-gtk/dialogs.c:2287
+#: client/gui-gtk-2.0/dialogs.c:2230 client/gui-gtk/dialogs.c:2287
 #: client/gui-xaw/dialogs.c:2344
 msgid "You must select a nation."
 msgstr "Dovete scegliere una nazione."
 
-#: client/gui-gtk-2.0/dialogs.c:2249 client/gui-gtk/dialogs.c:2292
+#: client/gui-gtk-2.0/dialogs.c:2235 client/gui-gtk/dialogs.c:2292
 #: client/gui-xaw/dialogs.c:2349
 msgid "You must select your sex."
 msgstr "Dovete scegliere il vostro sesso."
 
-#: client/gui-gtk-2.0/dialogs.c:2254 client/gui-gtk/dialogs.c:2297
+#: client/gui-gtk-2.0/dialogs.c:2240 client/gui-gtk/dialogs.c:2297
 #: client/gui-xaw/dialogs.c:2354
 msgid "You must select your city style."
 msgstr "Dovete scegliere lo stile delle vostre città."
 
-#: client/gui-gtk-2.0/dialogs.c:2267 client/gui-gtk/dialogs.c:2310
+#: client/gui-gtk-2.0/dialogs.c:2253 client/gui-gtk/dialogs.c:2310
 #: client/gui-mui/dialogs.c:1637 client/gui-win32/dialogs.c:325
 #: client/gui-xaw/dialogs.c:2368
 msgid "You must type a legal name."
@@ -18176,9 +18172,3 @@ msgstr "Zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zulu"
-
-#~ msgid "Manual Turn Done in AI Mode"
-#~ msgstr "Fine Turno manuale in modalità IA"
-
-#~ msgid "Game: You now have access level '%s'."
-#~ msgstr "Gioco: ora il tuo livello di accesso ai comandi è '%s'."
