@@ -20,7 +20,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit,
 int auto_settler_findwork(struct player *pplayer, struct unit *punit); 
 void auto_settlers_player(struct player *pplayer); 
 void auto_settlers();
-int find_boat(struct player *pplayer, struct unit *punit, int *x, int *y);
+int find_boat(struct player *pplayer, int *x, int *y, int cap);
 
 #define MORT 24
 
@@ -47,6 +47,7 @@ void add_city_to_minimap(int x, int y);
 void locally_zero_minimap(int x, int y); /* I should imp this someday -- Syela */
 void initialize_infrastructure_cache(struct city *pcity);
 void contemplate_settling(struct player *pplayer, struct city *pcity);
+struct unit *other_passengers(struct unit *punit);
 
 #endif
 
