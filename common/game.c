@@ -101,7 +101,7 @@ int civ_score(struct player *pplayer)
 
     pplayer->score.taxmen+=pcity->ppl_taxman;
     pplayer->score.scientists+=pcity->ppl_scientist;
-    pplayer->score.elvis=pcity->ppl_elvis;
+    pplayer->score.elvis+=pcity->ppl_elvis;
     pplayer->score.cities++;
     pplayer->score.pollution+=pcity->pollution;
     pplayer->score.techout+=(1+pcity->science_total);
