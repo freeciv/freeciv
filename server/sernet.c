@@ -107,6 +107,12 @@ void close_connections_and_socket(void)
   close(sock);
 }
 
+static void close_socket_callback(struct connection *pc)
+{
+  lost_connection_to_player(pc);
+  close_connection(pc);
+}
+
 /*****************************************************************************
 Get and handle:
 - new connections,
@@ -355,6 +361,7 @@ int server_open_socket(void)
     exit(1);
   }
 
+  close_socket_set_callback(close_socket_callback);
   return 0;
 }
 
