@@ -23,7 +23,7 @@ void city_refresh(struct city *pcity);          /* call if city has changed */
 void global_city_refresh(struct player *pplayer); /* tax/govt changed */
 
 void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
-bool add_adjust_workers(struct city *pcity);   /* will add workers */
+void add_adjust_workers(struct city *pcity);   /* will add workers */
 
 void city_reduce_size(struct city *pcity, int pop_loss);
 void city_increase_size(struct city *pcity);

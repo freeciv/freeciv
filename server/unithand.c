@@ -525,10 +525,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 
   assert(unit_pop_value(punit->type) > 0);
   pcity->size += unit_pop_value(punit->type);
-  if (!add_adjust_workers(pcity)) {
-    auto_arrange_workers(pcity);
-    sync_cities();
-  }
+  add_adjust_workers(pcity);
   wipe_unit(punit);
   send_city_info(NULL, pcity);
   notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,

@@ -224,7 +224,7 @@ static void worker_loop(struct city *pcity, int *foodneed,
 You need to call sync_cities for the affected cities to be synced with the
 client.
 **************************************************************************/
-bool add_adjust_workers(struct city *pcity)
+void add_adjust_workers(struct city *pcity)
 {
   int workers=pcity->size;
   int iswork=0;
@@ -241,11 +241,14 @@ bool add_adjust_workers(struct city *pcity)
   if (iswork+city_specialists(pcity)>workers) {
     freelog(LOG_ERROR, "Encountered an inconsistency in "
 	    "add_adjust_workers() for city %s", pcity->name);
-    return FALSE;
+    auto_arrange_workers(pcity);
+    sync_cities();
+    return;
   }
 
-  if (iswork+city_specialists(pcity)==workers)
-    return TRUE;
+  if (iswork + city_specialists(pcity) == workers) {
+    return;
+  }
 
   toplace = workers-(iswork+city_specialists(pcity));
   foodneed = -pcity->food_surplus;
@@ -254,7 +257,7 @@ bool add_adjust_workers(struct city *pcity)
   worker_loop(pcity, &foodneed, &prodneed, &toplace);
 
   pcity->ppl_elvis+=toplace;
-  return TRUE;
+  return;
 }
 
 /**************************************************************************
@@ -544,8 +547,7 @@ void city_increase_size(struct city *pcity)
     }
 
   } else {
-    if (!add_adjust_workers(pcity))
-      auto_arrange_workers(pcity);
+    add_adjust_workers(pcity);
   }
 
   city_refresh(pcity);
