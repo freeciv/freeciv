@@ -144,6 +144,7 @@ void present_units_callback(Widget w, XtPointer client_data,
 			    XtPointer call_data);
 void cityopt_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data);
+void popdown_cityopt_dialog(void);
 
 char *dummy_improvement_list[]={ 
   "Copernicus' Observatory  ",
@@ -294,6 +295,7 @@ void popdown_all_city_dialogs(void)
   while(genlist_size(&dialog_list)) {
     close_city_dialog(genlist_get(&dialog_list,0));
   }
+  popdown_cityopt_dialog();
 }
 
 
@@ -2065,5 +2067,16 @@ void cityopt_newcit_triggle_callback(Widget w, XtPointer client_data,
   XtVaSetValues(cityopt_triggle, XtNstate, 1,
 		XtNlabel, newcitizen_labels[newcitizen_index],
 		NULL);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void popdown_cityopt_dialog(void)
+{
+  if(cityopt_shell) {
+    XtDestroyWidget(cityopt_shell);
+    cityopt_shell = 0;
+  }
 }
 

@@ -133,6 +133,7 @@ void rename_ok_return_action(GtkWidget *w);
 
 gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 void cityopt_callback(GtkWidget *w, gpointer data);
+void popdown_cityopt_dialog(void);
 
 GdkBitmap *icon_bitmap;
 
@@ -258,6 +259,7 @@ void popdown_all_city_dialogs(void)
   while(genlist_size(&dialog_list)) {
     close_city_dialog(genlist_get(&dialog_list,0));
   }
+  popdown_cityopt_dialog();
 }
 
 
@@ -1947,4 +1949,15 @@ void cityopt_newcit_triggle_callback(GtkWidget *w, gpointer data)
   }
   gtk_label_set_text (GTK_LABEL (GTK_BIN (cityopt_triggle)->child),
 	newcitizen_labels[newcitizen_index]);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void popdown_cityopt_dialog(void)
+{
+  if(cityopt_shell) {
+    gtk_widget_destroy(cityopt_shell);
+    cityopt_shell = 0;
+  }
 }
