@@ -20,17 +20,62 @@ Here are some of the people in the Freeciv team:
      Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
      Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>
      Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> (Autoconfig)
-     Greg Wooledge <gawooledge@sherwin.com>
-     Carl Bartels <cb@bravo436.chem.mcgill.ca>
+     Greg Wooledge <wooledge@kellnet.com>
+     Massimo Campostrini <campo@mailbox.difi.unipi.it>
      Sverker Wiberg <sverkerw@Update.UU.SE>
-     Alexander Mai <st002279@HRZPUB.tu-darmstadt.de>  (OS/2 patches)
      Per I Mathisen <perrin@kvalito.no> (GTK+ port)
-     James Blackwell <innocent@mercury.merconline.com> (Docs, co-admin)
+     Vasco Alexandre da Silva Costa <vasc@camoes.rnl.ist.utl.pt> (GTK+ port)
+     Markus Linnala <maage@cs.tut.fi>
+     Trevor Pering <pering@tongass.EECS.Berkeley.EDU>
+     Daniel Gudlat <gudlat@informatik.hu-berlin.de> (scenarios)
+     Dee Jay Randall <randal@cs.uregina.ca>
+     Mirar <mirar@idonex.se>
+     Christian Grothoff <ma0035@stud.uni-wuppertal.de> (Europe scenario)
+     Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
+     Lalo Martins <lalo@webcom.com>  (Debian packaging)
+
+  With contributions from:
+
+     Paul Cameron <pmcamero@socs.uts.EDU.AU>
+     Walter Misar <misar@rbg.informatik.tu-darmstadt.de>
+     Michael Bickel <Michael.Bickel@informatik.uni-erlangen.de>
+     Mark Brown <broonie@tardis.ed.ac.uk>
+     Rizos Sakellariou <rizos@cs.rice.edu> 
+     Alex Rhomberg <rhomberg@ife.ee.ethz.ch>
+     Sergey Shkonda <serg@bcs.zp.ua>
+     Matthew Hunt <mph@pobox.com>
+     Robert Donn <squirk@ihug.co.nz>
+
      ... and others.  Tell me if I missed your name.
+
+  Bug reports and testing:
+
+     Andrew E. Schulman <andrex@alw.nih.gov>
+     Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+     Ben Korvemaker <benjamin@cs.ualberta.ca>
 
   Website hosting:
 
      Tracy Reed <treed@ultraviolet.org> (What a guy - thanks Tracy!)
+
+  Mailing list hosting:
+
+     John Goerzen <jgoerzen@complete.org> (+ Java civclient project)
+
+  Other contributors up to the 1.7.0 release:
+
+     James Blackwell <innocent@mercury.merconline.com> (Docs, co-admin)
+     Olav Andree Brevik <olavb@ifi.uio.no>
+     Carl Bartels <cb@bravo436.chem.mcgill.ca>
+     Alexander Mai <st002279@HRZPUB.tu-darmstadt.de>  (OS/2 patches)
+     Olli Helenius <ollhel@jytol.fi>
+     Frank Muzzulini <muzz@albatross.pond.sub.org>
+     Jason Merrill <jason@yorick.cygnus.com>
+     Seth Golub <seth@thehouse.org>
+     Jake Kesinger <kesinger@math.ttu.edu>
+     Sam Holden <sholden@pgrad.cs.usyd.edu.au> (GNU-Win32 patch)
+     Finn Arne Gangstad <finnag@guardian.no>
+     Markus L. Noga <ut6e@rz.uni-karlsruhe.de>
 
 Here is a list of people who have helped us in the past:
 
@@ -41,9 +86,6 @@ Rene Schalburg:        the startup scripts and tons of playtesting.
 Robert H. Forsman Jr:  the canvas widget(part of FWF).
 Sid Meier:             for slight inspiration ;)
 Warwick Allison:       for fixing many spelling mistakes and bugs
-Massimo Campostrini:   for patch concerning city names and diplomat
-                       action messages. And a patch fixing bug concerning
-                       missing gameinfo.
 Stephan Boettcher:     for patch concerning transporter code
 Matthias Gessl:        for fix to function flood_it in mapgen.c
 Thomas Kraube:         made RPM's for Linux and Sparc
@@ -56,7 +98,7 @@ Peter Meerwald:        OS/2 version of FreeCiv (XFree86)
 Michael Hohensee:      Draw new units. (Cruise missile, freight, battleship, 
                        partisans, explorer, archer) and wrote a very nice 
                        HOWTOPLAY document. 
-Rajala Ilkka:          Patch concerning Partisan bug when reloading a saved game. 
+Rajala Ilkka:          Patch concerning Partisan bug when reloading a saved game
 Richard Braakman:      Fixed bug related to detecting savefile error. 
 Jan Echternach:        Fixed bug related to workers replacement. 
 
