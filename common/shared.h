@@ -28,7 +28,7 @@
 #define MAX_NUM_ITEMS   200	/* eg, unit_types */
 #define MAX_NUM_TECH_LIST 10
 #define MAX_LEN_NAME     32
-#define MAX_LEN_ADDR     32
+#define MAX_LEN_ADDR     256	/* see also MAXHOSTNAMELEN and RFC 1123 2.1 */
 
 /* Use FC_INFINITY to denote that a certain event will never occur or
    another unreachable condition. */
