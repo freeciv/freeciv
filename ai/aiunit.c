@@ -754,6 +754,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
               }
             unit_list_iterate_end; /* passengers are safely stowed away */
             do_unit_goto(pplayer, ferryboat, GOTO_MOVE_ANY);
+	    if (!unit_list_find(&pplayer->units, boatid)) return(-1); /* died */
             set_unit_activity(punit, ACTIVITY_IDLE);
           } /* else wait, we can GOTO later. */
         }
