@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.1-devel\n"
-"POT-Creation-Date: 2002-11-22 21:49+0100\n"
-"PO-Revision-Date: 2002-10-23 20:24+0200\n"
+"POT-Creation-Date: 2002-11-23 13:01+0100\n"
+"PO-Revision-Date: 2002-11-17 01:20+0100\n"
 "Last-Translator: Miguel Lobo <miguell@miguell.cjb.net>\n"
 "Language-Team: Spanish <ES@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -163,7 +163,7 @@ msgstr "Radioactividad"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Sin memoria al tratar de %s %lu bytes en la línea %d de %s."
 
-#: common/packets.c:3028
+#: common/packets.c:3030
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -6331,7 +6331,7 @@ msgstr "Ventanas en modo ordenador"
 
 #: client/options.c:100
 msgid "Manual Turn Done in AI Mode"
-msgstr ""
+msgstr "Fin de turno manual en modo ordenador"
 
 #: client/options.c:101
 msgid "Auto Center on Units"
@@ -10142,7 +10142,6 @@ msgid "Disconnect"
 msgstr "Desconectar"
 
 #: client/gui-gtk/diplodlg.c:226 client/gui-gtk/diplodlg.c:306
-#, fuzzy
 msgid "more"
 msgstr "más"
 
