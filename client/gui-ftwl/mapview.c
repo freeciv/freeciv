@@ -29,6 +29,7 @@
 #include "combat.h"
 #include "control.h"
 #include "mapctrl_common.h"
+#include "text.h"
 
 #include "widget.h"
 #include "gui_main.h"
@@ -37,7 +38,7 @@
 #include "back_end.h"
 #include "timing.h"
 
-#include "text.h"
+#include "gui_text.h"
 #include "mapctrl.h"
 #include "mapview.h"
 

@@ -30,6 +30,8 @@ libguiclient_a_SOURCES = \
 	graphics.h	\
 	gui_main.c	\
 	gui_main.h	\
+	gui_text.c	\
+	gui_text.h	\
 	helpdlg.c	\
 	helpdlg.h	\
 	inteldlg.c	\
