@@ -16,6 +16,11 @@
 #include "packets.h"
 #include "city.h"
 
+/* after much trial and error, I'm pretty sure these are finally right -- Syela */
+#define FOOD_WEIGHTING 18
+#define SHIELD_WEIGHTING 17
+#define TRADE_WEIGHTING 8
+
 void create_city(struct player *pplayer, int x, int y, char *name);
 void remove_city(struct city *pcity);
 void send_city_info(struct player *dest, struct city *pcity, int dosend);
