@@ -15,9 +15,12 @@
 
 #include "genlist.h"
 
+struct hash_data;
 
 struct section_file {
   struct genlist section_list;
+  int num_entries;
+  struct hash_data *hashd;
 };
 
 

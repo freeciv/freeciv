@@ -25,10 +25,13 @@
 #include <map.h>
 #include <meta.h>
 #include <capability.h>
+#include <time.h>
 
 extern char metaserver_info_line[];
 
 #define SAVEFILE_OPTIONS "1.7, scorelog"
+
+#define PRINT_LOAD_TIME 0
 
 /**************************************************************************
 ...
@@ -142,6 +145,11 @@ int game_load(struct section_file *file)
   int i;
   enum server_states tmp_server_state;
   char *savefile_options=" ";
+  time_t time_start, time_end;
+
+  if (PRINT_LOAD_TIME) {
+    time_start = time(NULL);
+  }
 
   if (section_file_lookup_internal(file, "game.version")) {
     game.version = secfile_lookup_int(file, "game.version");
@@ -245,6 +253,13 @@ int game_load(struct section_file *file)
 
   game.player_idx=0;
   game.player_ptr=&game.players[0];  
+
+  if (PRINT_LOAD_TIME) {
+    time_end = time(NULL);
+    printf( "load time: %g seconds (to nearest second)\n",
+	    difftime(time_end, time_start));
+  }
+
   return 1;
 }
 
