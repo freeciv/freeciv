@@ -267,6 +267,8 @@ SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask,
     mysprite->width	= width;
     mysprite->height	= height;
 
+    mysprite->pixbuf	= NULL;
+
     return mysprite;
 }
 
@@ -321,6 +323,8 @@ struct Sprite *load_gfxfile(const char *filename)
   mysprite->width     = w;
   mysprite->height    = h;
 
+  mysprite->pixbuf    = NULL;
+
   g_object_unref(im);
 
   return mysprite;
@@ -331,10 +335,15 @@ struct Sprite *load_gfxfile(const char *filename)
 ***************************************************************************/
 void free_sprite(SPRITE *s)
 {
-  if (s->pixmap)
+  if (s->pixmap) {
     g_object_unref(s->pixmap);
-  if (s->mask)
+  }
+  if (s->mask) {
     g_object_unref(s->mask);
+  }
+  if (s->pixbuf) {
+    g_object_unref(s->pixbuf);
+  }
   free(s);
   return;
 }
@@ -656,5 +665,17 @@ GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
   g_object_unref(img);
 
   return dst;
+}
+
+/********************************************************************
+ NOTE: the pixmap and mask of a sprite must not change after this
+       function is called!
+ ********************************************************************/
+GdkPixbuf *sprite_get_pixbuf(SPRITE *sprite)
+{
+  if (!sprite->pixbuf) {
+    sprite->pixbuf = gdk_pixbuf_new_from_sprite(sprite);
+  }
+  return sprite->pixbuf;
 }
 

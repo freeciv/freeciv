@@ -1533,7 +1533,6 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   for (item = 0; item < cids_used; item++) {
     GtkTreeIter it;
     int id, upkeep;
-    GdkPixbuf *pix;
     struct impr_type *impr;
    
     id = cid_id(items[item].cid);
@@ -1541,17 +1540,13 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     /* This takes effects (like Adam Smith's) into account. */
     upkeep = improvement_upkeep(pdialog->pcity, id);
 
-    pix = gdk_pixbuf_new_from_sprite(impr->sprite);
-    
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
 	0, id,
-	1, pix,
+	1, sprite_get_pixbuf(impr->sprite),
 	2, items[item].descr,
 	3, upkeep,
 	-1);
-
-    g_object_unref(pix);
 
     total += upkeep;
   }

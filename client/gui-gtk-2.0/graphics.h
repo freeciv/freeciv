@@ -24,6 +24,8 @@ struct Sprite
   int	     has_mask;
   int	     width;
   int	     height;
+
+  GdkPixbuf *pixbuf;
 };
 
 struct canvas_store
@@ -56,5 +58,12 @@ void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
 SPRITE *crop_blankspace(SPRITE *s);
 
 GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src);
+  
+/********************************************************************
+ NOTE: the pixmap and mask of a sprite must not change after this
+       function is called!
+ ********************************************************************/
+GdkPixbuf *sprite_get_pixbuf(SPRITE *sprite);
 
 #endif  /* FC__GRAPHICS_H */
+
