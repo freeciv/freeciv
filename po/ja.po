@@ -18,9 +18,9 @@
 # ¥á¡¼¥ë¤ò¤ªÂÔ¤Á¤·¤Æ¤¤¤Þ¤¹¡£(ß·ÅÄ)
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.12.5-devel\n"
-"POT-Creation-Date: 2002-07-08 17:44+0200\n"
-"PO-Revision-Date: 2002-06-30 01:12+0900\n"
+"Project-Id-Version: Freeciv 1.12.7-devel\n"
+"POT-Creation-Date: 2002-07-12 14:46+0900\n"
+"PO-Revision-Date: 2002-07-12 15:25+0900\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -130,7 +130,7 @@ msgstr "ÞõÞô"
 
 #: common/map.c:56 common/map.c:612 common/unit.c:550
 #: data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439
-#: data/default/techs.ruleset:443
+#: data/default/techs.ruleset:448
 msgid "Railroad"
 msgstr "Å´Æ»"
 
@@ -716,76 +716,76 @@ msgid "Game: %s is building %s."
 msgstr "Game: %2$s¤ò%1$s¤Çºî¤ê»Ï¤á¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/cityturn.c:119
+#: server/cityturn.c:120
 #, c-format
 msgid "Game: %s is selling %s (obsolete) for %d."
 msgstr "Game: %s¤Ç(¸Å¤¤)%s¤ò¶â%d¤ÇÇä¤ê¤Þ¤¹¡£"
 
-#: server/cityturn.c:333
+#: server/cityturn.c:334
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
 msgstr "Game: Í½¹ð: ¼¡¤Î¥¿¡¼¥ó¡¢%2$s¤ÎÉÔ»×µÄ%1$s¤¬´°À®¤·¤Þ¤¹¡£"
 
 # yasu
-#: server/cityturn.c:365
+#: server/cityturn.c:366
 #, c-format
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
 msgstr "%s¤ÎÀ®Ä¹¤ò¹Ê¤Ã¤¿Êý¤¬¤¤¤¤¤Ç¤¹¡£%s(·úÀßÃæ)¤ò¤è¤ê¸ú²ÌÅª¤ËÍøÍÑ¤Ç¤­¤Þ¤¹¡£"
 
-#: server/cityturn.c:379
+#: server/cityturn.c:380
 #, c-format
 msgid "Game: %s may soon grow to size %i."
 msgstr "Game: %s¤Ï¤Þ¤â¤Ê¤¯Âç¤­¤µ%i¤ËÁý¤¨¤Þ¤¹¡£"
 
-#: server/cityturn.c:386
+#: server/cityturn.c:387
 #, c-format
 msgid "Game: Warning: Famine feared in %s."
 msgstr "Game: ·Ù¹ð: %s¤Ïµ²ñ¼¤Î¶²¤ì¤¬¤¢¤ê¤Þ¤¹¡£"
 
 # yasu
-#: server/cityturn.c:417
+#: server/cityturn.c:418
 msgid "Game: WARNING, we're LOW on FUNDS sire."
 msgstr "Game: ·Ù¹ð¡¢»ñ¶â¤¬Â­¤ê¤Þ¤»¤ó¡£"
 
-#: server/cityturn.c:481 server/cityturn.c:500
+#: server/cityturn.c:482 server/cityturn.c:501
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Game: %s ¤¬¤³¤ì°Ê¾åÂç¤­¤¯¤Ê¤ë¤Ë¤Ï %s(·úÃÛÃæ)¤òºî¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£"
 
-#: server/cityturn.c:486 server/cityturn.c:505
+#: server/cityturn.c:487 server/cityturn.c:506
 #, c-format
 msgid "Game: %s needs %s to grow any further."
 msgstr "Game: %s ¤¬¤³¤ì°Ê¾åÂç¤­¤¯¤Ê¤ë¤Ë¤Ï %s ¤òºî¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£"
 
-#: server/cityturn.c:557
+#: server/cityturn.c:558
 #, c-format
 msgid "Game: %s grows to size %d."
 msgstr "Game: %s¤ÎÂç¤­¤µ¤Ï%d¤ËÁý¤¨¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:586
+#: server/cityturn.c:587
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Game: µ²ñ¼¤¬%s¤Çµ¯¤³¤ê¡¢%s¤ò¼º¤Ê¤¤¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:588
+#: server/cityturn.c:589
 #, c-format
 msgid "%s lose %s (famine)"
 msgstr "%s¤Ï%s¤ò¼º¤Ê¤¤¤Þ¤¹(µ²ñ¼)"
 
-#: server/cityturn.c:599
+#: server/cityturn.c:600
 #, c-format
 msgid "Game: Famine causes population loss in %s."
 msgstr "Game: µ²ñ¼¤Ç%s¤Î¿Í¸ý¤ò¼º¤Ê¤¤¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:680 server/cityturn.c:720
+#: server/cityturn.c:681 server/cityturn.c:721
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr ""
 "Game: %s¤Çºî¶È¥ê¥¹¥È¤«¤é%s¤ò·ú¤Æ¤ë¤³¤È¤¬¤Ç¤­¤Þ¤»¤ó¡£ purge ¤·¤Æ¤¤¤Þ¤¹..."
 
-#: server/cityturn.c:699 server/cityturn.c:740
+#: server/cityturn.c:700 server/cityturn.c:741
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
@@ -794,13 +794,13 @@ msgstr ""
 "Game: %s¤Çºî¶È¥ê¥¹¥È¤«¤é%s¤ò·ú¤Æ¤ë¤³¤È¤¬¤Ç¤­¤Þ¤»¤ó¡£²Ê³Ø¤¬¤Þ¤ÀÍøÍÑ¤Ç¤­¤Þ¤»"
 "¤ó¡£±ä´ü¤·¤Æ¤¤¤Þ¤¹..."
 
-#: server/cityturn.c:707 server/cityturn.c:764 server/cityturn.c:867
+#: server/cityturn.c:708 server/cityturn.c:765 server/cityturn.c:868
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Game: %3$s¤Ç¡¢%1$s¤ÎÀ¸»º¤ò%2$s¤Ø¥¢¥Ã¥×¥°¥ì¡¼¥É¤µ¤ì¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/cityturn.c:746
+#: server/cityturn.c:747
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
@@ -810,7 +810,7 @@ msgstr ""
 "¤·¤Æ¤¤¤Þ¤¹..."
 
 # yasu
-#: server/cityturn.c:755
+#: server/cityturn.c:756
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
@@ -818,115 +818,120 @@ msgstr ""
 "Game: %s¤Çºî¶È¥ê¥¹¥È¤«¤é%s¤ò·ú¤Æ¤ë¤³¤È¤¬¤Ç¤­¤Þ¤»¤ó¡£ÍýÍ³¤Ï¤ï¤«¤ê¤Þ¤»¤ó! ±ä´ü"
 "¤·¤Æ¤¤¤Þ¤¹..."
 
-#: server/cityturn.c:789
+#: server/cityturn.c:790
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Game: %s¤Îºî¶È¥ê¥¹¥È¤Ï¤Ê¤¯¤Ê¤ê¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:886
+#: server/cityturn.c:887
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Game: %s¤Ï%s¤ò±ç½õ¤Ç¤­¤Þ¤»¤ó¡£ÉôÂâ¤Ï²ò»¶¤·¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:916
+#: server/cityturn.c:917
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Game: %s¤Ç%s¤òºî¤ê»Ï¤á¤Þ¤·¤¿¡£¤·¤«¤·¤â¤¦É¬Í×¤¢¤ê¤Þ¤»¤ó¡£"
 
-#: server/cityturn.c:953
+#: server/cityturn.c:954
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Game: %s¤Ï%s¤ò%s¤Ë·ú¤Æ½ª¤ï¤ê¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:957 server/cityturn.c:963
+#: server/cityturn.c:958 server/cityturn.c:964
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%1$s ¤Ï %3$s ¤Ë %2$s ¤ò·ú¤Æ¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:969
+#: server/cityturn.c:970
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Game: %s¤Ç%s¤ò·ú¤Æ½ª¤ï¤ê¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:974
+#: server/cityturn.c:977
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Game: %s¤Ï¸¦µæ¤ò²ÃÂ®¤µ¤»¤Þ¤¹¡£Â¨ºÂ¤Ë²Ê³Ø¤ò2¤Ä³Ð¤¨¤Þ¤¹¡£"
 
-#: server/cityturn.c:984
+#: server/cityturn.c:992
+#, c-format
+msgid "Game: The %s have acquired %s and %s from %s."
+msgstr "Game: %1$s¤Ï%4$s¤«¤é%2$s¤È%3$s¤òÆÀ¤Þ¤·¤¿¡£"
+
+#: server/cityturn.c:999
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Game: %s¤Ï±§ÃèÁ¥¤ÎÀ½ºî¤ò³«»Ï¤·¤Þ¤·¤¿!"
 
-#: server/cityturn.c:1027
+#: server/cityturn.c:1042
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Game: %s¤Ç¤Ï¤Þ¤À%s¤òºî¤ë¤³¤È¤¬¤Ç¤­¤Þ¤»¤ó¡£"
 
-#: server/cityturn.c:1054
+#: server/cityturn.c:1069
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Game: %s¤Ç%s¤òºî¤ê½ª¤¨¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:1058
+#: server/cityturn.c:1073
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%1$s ¤Ï %3$s (%4$i,%5$i) ¤Ë %2$s ¤ò·ú¤Æ¤Þ¤·¤¿¡£"
 
 # yasu, ama
-#: server/cityturn.c:1097
+#: server/cityturn.c:1112
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Game: %2$s¤Ç%1$s¤ò°Ý»ý¤Ç¤­¤Þ¤»¤ó¡£·úÊª¤òÇä¤ê¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:1133
+#: server/cityturn.c:1148
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Game: ¸ø³²¤¬%s¤Ø¹­¤¬¤ê¤Ä¤Ä¤¢¤ê¤Þ¤¹¡£"
 
-#: server/cityturn.c:1258
+#: server/cityturn.c:1273
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Game: %s¤ò°¦¤¹¤ëÆü¤¬%s¤ÇºÅ¤µ¤ì¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:1266
+#: server/cityturn.c:1281
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Game: %s¤ò°¦¤¹¤ëÆü¤¬%s¤ÇÃæ»ß¤µ¤ì¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:1298
+#: server/cityturn.c:1313
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Game: %s¤Ç»ÔÌ±¤¬º®Íð¤·¤Æ¤¤¤Þ¤¹¡£"
 
-#: server/cityturn.c:1301
+#: server/cityturn.c:1316
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Game: %s¤Ç»ÔÌ±¤Îº®Íð¤¬Â³¤¤¤Æ¤¤¤Þ¤¹¡£"
 
-#: server/cityturn.c:1307
+#: server/cityturn.c:1322
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Game: %s¤ÎÃá½ø¤¬Éü³è¤·¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/cityturn.c:1316
+#: server/cityturn.c:1331
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr "Game: ¿Í¡¹¤Ï¤¢¤Ê¤¿¤Î%s¤òÅê¤²¼Î¤Æ¤Þ¤·¤¿¡£¹ñ¤ÏÁûÍð¤Ë´Ù¤Ã¤Æ¤Þ¤¹¡£"
 
 # yasu
-#: server/cityturn.c:1340
+#: server/cityturn.c:1355
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr "Game: %s¤Ï¤Þ¤À%s¤ò·úÀß¤Ç¤­¤Þ¤»¤ó¡£Í£°ì¤ÎÅÔ»Ô¤ò²ò»¶¤Ç¤­¤Þ¤»¤ó¡£"
 
-#: server/cityturn.c:1357
+#: server/cityturn.c:1372
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Game: %s¤Ï²ò»¶¤·¤Æ%s¤Ë¤Ê¤ê¤Þ¤·¤¿¡£"
 
-#: server/cityturn.c:1359
+#: server/cityturn.c:1374
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%5$s¤Ë¤è¤Ã¤Æ%1$s (%2$i, %3$i)¤Ï²ò»¶¤µ¤»¤é¤ì¡¢%4$s¤Ë¤Ê¤ê¤Þ¤·¤¿"
@@ -1017,8 +1022,8 @@ msgstr "  -r, --read FILE\tµ¯Æ°¥¹¥¯¥ê¥×¥È FILE ¤òÆÉ¤à\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\t¥Ð¡¼¥¸¥ç¥óÈÖ¹æ¤òÉ½¼¨¤¹¤ë\n"
 
-#: client/gui-gtk-2.0/gui_main.c:264 client/gui-gtk/gui_main.c:167
-#: client/gui-mui/gui_main.c:102 client/gui-xaw/gui_main.c:227
+#: client/gui-gtk-2.0/gui_main.c:265 client/gui-gtk/gui_main.c:168
+#: client/gui-mui/gui_main.c:102 client/gui-xaw/gui_main.c:228
 #: server/civserver.c:148
 #, c-format
 msgid "Report bugs to <%s>.\n"
@@ -1332,7 +1337,7 @@ msgid "Game: %s's %s stole %s from %s."
 msgstr "Game: %1$s¤Î%2$s¤Ï%4$s¤«¤é%3$s¤òÅð¤ß¤Þ¤·¤¿¡£"
 
 # yasu, ama
-#: server/diplomats.c:665 server/plrhand.c:621
+#: server/diplomats.c:665 server/plrhand.c:632
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Game: %1$s¤Ï%3$s¤«¤é%2$s¤òÅð¤ß¤Þ¤·¤¿¡£"
@@ -1653,7 +1658,7 @@ msgstr "%s¤Ï%s¤òÈ¯¸«¤·¤Þ¤·¤¿(¿Þ½ñ´Û)"
 
 #: server/plrhand.c:134
 #, c-format
-msgid "Game: The %s have aquired %s from the Great Library."
+msgid "Game: The %s have acquired %s from the Great Library."
 msgstr "Game: %1$s¤Ï²¦Î©¿Þ½ñ´Û¤«¤é%2$s¤òÆÀ¤Þ¤·¤¿¡£"
 
 #: server/plrhand.c:194
@@ -1722,61 +1727,61 @@ msgstr ""
 "Game: À¤³¦Ãæ¤Î°ÎÂç¤Ê²Ê³Ø¼Ô¤¬¤¢¤Ê¤¿¤ÎÊ¸ÌÀ¤Ë²Ã¤ï¤ê¤Þ¤·¤¿¡£Â¨ºÂ¤Ë²Ê³Ø¤ò°ì¤ÄÆÀ¤Þ"
 "¤·¤¿¡£"
 
-#: server/plrhand.c:387
+#: server/plrhand.c:398
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Game: %s¤Ï%s¤òÈ¯¸«¤·¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:391
+#: server/plrhand.c:402
 #, c-format
 msgid "%s discover %s"
 msgstr "%s¤Ï%s¤òÈ¯¸«¤·¤Þ¤·¤¿"
 
 # yasu, ama
-#: server/plrhand.c:396
+#: server/plrhand.c:407
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Game: %s ¤ÏÀèÃ¼µ»½Ñ%d ¤òÈ¯¸«¤·¤Þ¤·¤¿¡£"
 
 # yasu, ama
-#: server/plrhand.c:400
+#: server/plrhand.c:411
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "%s¤ÏÀèÃ¼µ»½Ñ%d ¤òÈ¯¸«¤·¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:518
+#: server/plrhand.c:529
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Game: ²Ê³Ø¤ÎÌÜÉ¸¤Ï%s¤Ç¤¹¡£"
 
-#: server/plrhand.c:606
+#: server/plrhand.c:617
 #, c-format
 msgid "%s steal %s from %s"
 msgstr "%1$s¤Ï%3$s¤«¤é%2$s¤òÅð¤ß¤Þ¤¹"
 
-#: server/plrhand.c:612
+#: server/plrhand.c:623
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Game: %2$s¤«¤é%1$s¤òÅð¤ß¤Þ¤¹¡£"
 
-#: server/plrhand.c:616
+#: server/plrhand.c:627
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Game: %s¤Ï¤¢¤Ê¤¿¤«¤é%s¤òÅð¤ß¤Þ¤·¤¿!"
 
 # yasu
-#: server/plrhand.c:641
+#: server/plrhand.c:652
 msgid "Game: Cannot change rates before game start."
 msgstr "Game: ¥²¡¼¥à³«»ÏÁ°¤ËÈæÎ¨¤ÏÊÑ¤¨¤é¤ì¤Þ¤»¤ó¡£"
 
 #: client/gui-gtk-2.0/gamedlgs.c:245 client/gui-gtk/gamedlgs.c:243
-#: client/gui-win32/ratesdlg.c:313 server/plrhand.c:654
+#: client/gui-win32/ratesdlg.c:313 server/plrhand.c:665
 msgid "Tax"
 msgstr "ÀÇ"
 
 #: client/agents/cma_core.c:1964 client/gui-gtk-2.0/gamedlgs.c:265
 #: client/gui-gtk/gamedlgs.c:263 client/gui-mui/citydlg.c:1691
-#: client/gui-win32/ratesdlg.c:319 server/plrhand.c:656
+#: client/gui-win32/ratesdlg.c:319 server/plrhand.c:667
 msgid "Luxury"
 msgstr "ìÔÂô"
 
@@ -1786,72 +1791,72 @@ msgstr "ìÔÂô"
 #: client/gui-mui/repodlgs.c:280 client/gui-win32/ratesdlg.c:325
 #: client/gui-win32/repodlgs.c:97 client/gui-xaw/menu.c:200
 #: client/gui-xaw/repodlgs.c:244 client/gui-xaw/repodlgs.c:489
-#: data/Freeciv:1362 server/plrhand.c:658
+#: data/Freeciv:1362 server/plrhand.c:669
 msgid "Science"
 msgstr "²Ê³Ø"
 
-#: server/plrhand.c:659
+#: server/plrhand.c:670
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Game: %s¤Î³ä¹ç¤¬%s¤ÎºÇÂç¤ò±Û¤¨¤Æ¤¤¤Þ¤¹¡£"
 
-#: server/plrhand.c:665 server/plrhand.c:791
+#: server/plrhand.c:676 server/plrhand.c:802
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr "³ä¹çÊÑ¹¹: %s %i %i %i"
 
-#: server/plrhand.c:710
+#: server/plrhand.c:721
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Game: %s¤Ï%s¤ò%s¤Ç¼£¤á¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:714
+#: server/plrhand.c:725
 #, c-format
 msgid "%s form a %s"
 msgstr "%s¤Ï%s¤ò·ÁÀ®¤·¤Þ¤¹"
 
-#: server/plrhand.c:747
+#: server/plrhand.c:758
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Game: %s¤Ï³×Ì¿¤òÂ¥¤µ¤ì¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:749
+#: server/plrhand.c:760
 #, c-format
 msgid "The %s revolt!"
 msgstr "%s¤Ï³×Ì¿¤òµ¯¤³¤·¤Æ¤¤¤Þ¤¹!"
 
 # yasu
-#: server/plrhand.c:774
+#: server/plrhand.c:785
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Game: ÀÇ¶â¤Î³ä¹ç¤¬ %s ¤ÎºÇÂçÃÍ¤òÄ¶¤¨¤Þ¤·¤¿¡£½¤Àµ¤·¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/plrhand.c:780
+#: server/plrhand.c:791
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Game: ²Ê³Ø¤Î³ä¹ç¤¬ %s ¤ÎºÇÂçÃÍ¤òÄ¶¤¨¤Þ¤·¤¿¡£½¤Àµ¤·¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/plrhand.c:786
+#: server/plrhand.c:797
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Game: ìÔÂô¤Î³ä¹ç¤¬ %s ¤ÎºÇÂçÃÍ¤òÄ¶¤¨¤Þ¤·¤¿¡£½¤Àµ¤·¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/plrhand.c:841
+#: server/plrhand.c:852
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "%s ¤ÎÀä¤¨´Ö¤Ê¤¤Ä©È¯¤Î¤¿¤á¡¢¾å±¡¤Ï¤¢¤Ê¤¿¤ÎÍ½»»¤òÄÌ²á¤µ¤»¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:851
+#: server/plrhand.c:862
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Game: ¤¢¤Ê¤¿¤ÎÉ¾È½¤Ï%s¤Ë¤Ê¤ê¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/plrhand.c:855
+#: server/plrhand.c:866
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1859,13 +1864,13 @@ msgstr ""
 "Game:¾å±¡¤Ï¤¢¤Ê¤¿¤Î¹ÔÆ°¤ò¤³¤ì°Ê¾å»Ù±ç¤¹¤ë¤Î¤ò¤ä¤á¤Æ¡¢²ò»¶¤¹¤ë¤³¤È¤Ë¤·¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/plrhand.c:916
+#: server/plrhand.c:927
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Game: %s¤È%s¤Î³°¸ò¾õÂÖ¤Ï¤¤¤Þ%s¤Ç¤¹¡£"
 
 # yasu, ama
-#: server/plrhand.c:922
+#: server/plrhand.c:933
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -1873,29 +1878,29 @@ msgid ""
 msgstr "Game: %s¤Ï³°¸ò¾òÌó¤òÇË´þ¤·¤Þ¤·¤¿! %s¤È%s¤Î³°¸ò¾õÂÖ¤Ï¤¤¤Þ%s¤Ç¤¹¡£"
 
 # yasu
-#: server/plrhand.c:1331
+#: server/plrhand.c:1342
 #, c-format
 msgid "Removing player %s."
 msgstr "¥×¥ì¥¤¥ä¡¼ %s ¤òÃæ»ß¤µ¤»¤Þ¤¹¡£"
 
 # yasu
-#: server/plrhand.c:1332
+#: server/plrhand.c:1343
 msgid "Game: You've been removed from the game!"
 msgstr "Game: ¤¢¤Ê¤¿¤Ï¥²¡¼¥à¤òÃæ»ß¤µ¤»¤é¤ì¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/plrhand.c:1342
+#: server/plrhand.c:1353
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Game: %s¤Ï¥²¡¼¥à¤òÃæ»ß¤µ¤»¤é¤ì¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:1373 server/plrhand.c:1377
+#: server/plrhand.c:1384 server/plrhand.c:1388
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Game: ¤¢¤Ê¤¿¤Ï %2$s ¤Ë¤è¤Ã¤ÆÅý¼£¤µ¤ì¤¿ %1$s ¤ÈÀÜ¿¨¤·¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/plrhand.c:1738
+#: server/plrhand.c:1749
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1903,12 +1908,12 @@ msgid ""
 msgstr "Game: ¤¢¤Ê¤¿¤Î¹ñ¤ÏÆâÀï¤Ë¤Ê¤ê¤Þ¤·¤¿¡£%s¤¬È¿Íð¼Ô¤Î¥ê¡¼¥À¡¼Àë¸À¤·¤Þ¤·¤¿¡£"
 
 # yasu
-#: server/plrhand.c:1758
+#: server/plrhand.c:1769
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Game: %s¤Ï%s¤ËÂÐ¤¹¤ëÃéÀ¿¤òÀë¸À¤·¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:1781
+#: server/plrhand.c:1792
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -1992,7 +1997,7 @@ msgid "Research Speed"
 msgstr "¸¦µæ¥¹¥Ô¡¼¥É"
 
 #: data/civ1/techs.ruleset:301 data/civ2/techs.ruleset:301
-#: data/default/techs.ruleset:303 server/report.c:105
+#: data/default/techs.ruleset:308 server/report.c:105
 msgid "Literacy"
 msgstr "ÆÉ¤ß½ñ¤­"
 
@@ -2001,7 +2006,7 @@ msgid "Production"
 msgstr "À¸»ºÊª"
 
 #: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175
-#: data/default/techs.ruleset:177 server/report.c:107
+#: data/default/techs.ruleset:182 server/report.c:107
 msgid "Economics"
 msgstr "·ÐºÑ"
 
@@ -2267,12 +2272,12 @@ msgstr ""
 
 #: server/savegame.c:131
 msgid "Reason: line not found"
-msgstr ""
+msgstr "ÍýÍ³: ¹Ô¤¬¸«¤Ä¤«¤é¤Ê¤¤"
 
 #: server/savegame.c:133
 #, c-format
 msgid "Reason: line too short (expected %d got %d"
-msgstr ""
+msgstr "ÍýÍ³: ¹Ô¤¬Ã»¤«¤¤(%d ´üÂÔ¤·¤Æ %d ÆÀ¤¿"
 
 # yasu
 #: server/savegame.c:288
@@ -4079,7 +4084,7 @@ msgstr "¤³¤ì¤Ï¥Ç¥Ð¥Ã¥¯¤¹¤ë¤Î¤ËÂçÊÑÌòÎ©¤Á¤Þ¤¹¡£"
 msgid "(ambiguous)"
 msgstr "(¤¢¤¤¤Þ¤¤)"
 
-#: client/packhand.c:1005 server/stdinhand.c:1303
+#: client/packhand.c:1002 server/stdinhand.c:1303
 msgid "(unknown)"
 msgstr "(ÉÔÌÀ)"
 
@@ -4988,12 +4993,12 @@ msgstr "Game: %s¤ËÂÐ¤·¤ÆÀïÁè¤¬Àë¸À¤µ¤ì¤Æ¤¤¤Ê¤¤¤Î¤Ç¡¢¹¶·â¤Ç¤­¤Þ¤»¤ó¡£"
 #: server/unithand.c:1068
 #, c-format
 msgid "Game: %s doesn't want to leave its bodyguard."
-msgstr ""
+msgstr "Game: %s¤Ï¤½¤Î¥Ü¥Ç¥£¡¼¥¬¡¼¥É¤«¤éÎ¥¤ì¤è¤¦¤È¤·¤Þ¤»¤ó¡£"
 
 #: server/unithand.c:1081
 #, c-format
 msgid "Game: %s ending move early to stay out of trouble."
-msgstr ""
+msgstr "Game: ÌäÂê¤òµ¯¤³¤µ¤Ê¤¤¤è¤¦¤Ë¤¹¤ë¤¿¤á¤Ë¡¢Æ°¤­¤òÁá¤á¤Ë½ªÎ»¤¹¤ë%s¡£"
 
 #: server/unithand.c:1091
 msgid "Game: Only ground troops can take over a city."
@@ -5041,12 +5046,12 @@ msgstr "Game: %1$s¤Ë¤è¤Ã¤Æ¡¢%4$s%2$s¤Ï%3$s¤Ø¥¢¥Ã¥×¥°¥ì¡¼¥É¤µ¤ì¤Þ¤·¤¿¡£"
 #: server/unittools.c:464
 #, c-format
 msgid "Game: Your %s has run out of hit points."
-msgstr ""
+msgstr "Game: %s¤ÏÂÎÎÏ¤¬¿Ô¤­¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:466
 #, c-format
 msgid "%s lose a %s (out of hp)"
-msgstr ""
+msgstr "%s¤Ï%s¤ò¼º¤Ê¤¤¤Þ¤¹(ÂÎÎÏ¤Ê¤·)"
 
 #: server/unittools.c:477
 #, c-format
@@ -5091,32 +5096,32 @@ msgstr "(%d,%d) ³¤¤¬Î¦ÃÏ¤«¤éºî¤é¤ì¤Þ¤·¤¿¡£"
 #: server/unittools.c:1050
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
-msgstr ""
+msgstr "Game: (%2$d, %3$d)¤ÇÎ¦ÃÏ¤«¤é³¤¤ØÊÑ¹¹¤·¤¿¤¿¤á%1$s¤ò°ÜÆ°¤·¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:1073
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
-msgstr ""
+msgstr "Game: (%2$d, %3$d)¤ÇÎ¦ÃÏ¤«¤é³¤¤ØÊÑ¹¹¤·¤¿¤¿¤á%1$s¤ò¾èÁ¥¤µ¤»¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:1089
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
-msgstr ""
+msgstr "Game: (%2$d, %3$d)¤ÇÎ¦ÃÏ¤«¤é³¤¤ØÊÑ¹¹¤·¤¿¤¿¤á%1$s¤ò²ò»¶¤·¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:1113
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
-msgstr ""
+msgstr "Game: (%2$d, %3$d)¤Ç³¤¤«¤éÎ¦ÃÏ¤ØÊÑ¹¹¤·¤¿¤¿¤á%1$s¤ò°ÜÆ°¤·¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:1135
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
-msgstr ""
+msgstr "Game: (%2$d, %3$d)¤Ç³¤¤«¤éÎ¦ÃÏ¤ØÊÑ¹¹¤·¤¿¤¿¤á%1$s¤ò¥É¥Ã¥¯¤ËÆþ¤ì¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:1151
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
-msgstr ""
+msgstr "Game: (%2$d, %3$d)¤Ç³¤¤«¤éÎ¦ÃÏ¤ØÊÑ¹¹¤·¤¿¤¿¤á%1$s¤ò²ò»¶¤·¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:1197
 #, c-format
@@ -5141,12 +5146,12 @@ msgstr "%s¤Î¶á¤¯¤Ë¤¤¤ë"
 #: server/unittools.c:1401
 #, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
-msgstr ""
+msgstr "Game: (%2$d, %3$d)¤Ç%1$s¤ò²ò»¶¤·¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:1425
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
-msgstr ""
+msgstr "Game: %s¤ò(%d, %d)¤«¤é%s¤Ø¥Æ¥ì¥Ý¡¼¥È¤·¤Þ¤·¤¿¡£"
 
 #: server/unittools.c:1820
 #, c-format
@@ -5355,11 +5360,12 @@ msgstr "¥µ¥¦¥ó¥É»Ø¼¨¥Õ¥¡¥¤¥ë¤Ï¡¢¥µ¥Ý¡¼¥È¤·¤Æ¤¤¤Ê¤¤É¬¿Ü¥ª¥×¥·¥ç¥ó¤òÍ×µá¤·¤Þ¤¹:"
 
 #: client/audio.c:185
 msgid "No real audio subsystem managed to initialize!"
-msgstr ""
+msgstr "½é´ü²½¤¹¤ë¥ª¡¼¥Ç¥£¥ª¡¦¥µ¥Ö¥·¥¹¥Æ¥à¤¬¤ß¤Ä¤«¤ê¤Þ¤»¤ó!"
 
 #: client/audio.c:187
 msgid "For sound support, install either esound or SDL_mixer"
 msgstr ""
+"¥µ¥¦¥ó¥É¥µ¥Ý¡¼¥È¤Ï esound ¤« SDL_mixer ¤Î¤É¤Á¤é¤«¤ò¥¤¥ó¥¹¥È¡¼¥ë¤·¤Æ²¼¤µ¤¤"
 
 #: client/audio.c:213
 #, c-format
@@ -5369,12 +5375,13 @@ msgstr "¥ª¡¼¥Ç¥£¥ª¥Õ¥£¥¢¥ë %s ¤¬¸«¤Ä¤«¤ê¤Þ¤»¤ó¡£"
 #: client/audio_esd.c:120
 #, c-format
 msgid "Error while caching sample <%d>: confirm value != music_id\n"
-msgstr ""
+msgstr "¥µ¥ó¥×¥ë <%d> ¤ò¥­¥ã¥Ã¥·¥ó¥°Ãæ¤Ë¥¨¥é¡¼: confirm value != music_id\n"
 
 #: client/audio_esd.c:147
 #, c-format
 msgid "Error while caching sample <%d>: confirm value != samples[].id\n"
 msgstr ""
+"¥µ¥ó¥×¥ë <%d> ¤ò¥­¥ã¥Ã¥·¥ó¥°Ãæ¤Ë¥¨¥é¡¼: confirm value != samples[].id\n"
 
 #: client/citydlg_common.c:108
 msgid "?filler:XXX/XXX XXX turns"
@@ -5505,7 +5512,7 @@ msgstr "·Ý¿Í, ²Ê³Ø¼Ô, Ä§ÀÇ¼Ô"
 
 #: client/cityrepdata.c:217
 msgid "Surplus"
-msgstr "¾êÍ¾"
+msgstr "¹õ»ú"
 
 #: client/cityrepdata.c:217
 msgid "F/P/T"
@@ -5513,7 +5520,7 @@ msgstr "¿©/À¸/¸ò"
 
 #: client/cityrepdata.c:218
 msgid "Surplus: Food, Production, Trade"
-msgstr "¾êÍ¾: ¿©ÎÁ, À¸»ºÊª, ¸ò°×"
+msgstr "¹õ»ú: ¿©ÎÁ, À¸»ºÊª, ¸ò°×"
 
 #: client/cityrepdata.c:220 client/gui-gtk-2.0/repodlgs.c:562
 #: client/gui-gtk/repodlgs.c:558 client/gui-win32/repodlgs.c:317
@@ -6611,29 +6618,29 @@ msgstr "¥¯¥é¥¤¥¢¥ó¥È¤Îµ¡Ç½: %s"
 msgid "Server capability string: %s"
 msgstr "¥µ¡¼¥Ð¤Îµ¡Ç½: %s"
 
-#: client/packhand.c:680
+#: client/packhand.c:677
 #, c-format
 msgid "Start of turn %d"
 msgstr "¥¿¡¼¥ó%d ¤Î³«»Ï"
 
-#: client/packhand.c:751
+#: client/packhand.c:748
 msgid "Popup Request"
 msgstr "¥Ý¥Ã¥×¥¢¥Ã¥×Í×µá"
 
-#: client/packhand.c:1224
+#: client/packhand.c:1221
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "AI ¥â¡¼¥É¤Ï%s¤Ç¤¹¡£"
 
-#: client/packhand.c:1225
+#: client/packhand.c:1222
 msgid "ON"
 msgstr "¥ª¥ó"
 
-#: client/packhand.c:1225
+#: client/packhand.c:1222
 msgid "OFF"
 msgstr "¥ª¥Õ"
 
-#: client/packhand.c:1235
+#: client/packhand.c:1232
 msgid "Game: Revolution finished"
 msgstr "Game: ³×Ì¿¤¬½ªÎ»¤·¤Þ¤·¤¿"
 
@@ -6649,12 +6656,12 @@ msgstr "\"%s\" ¥¿¥¤¥ë¥»¥Ã¥È¤ò»î¤ß¤Æ¤¤¤Þ¤¹¡£"
 #: client/tilespec.c:169
 #, c-format
 msgid "%s file appears incompatible:"
-msgstr ""
+msgstr "%s ¥Õ¥¡¥¤¥ë¤¬Èó¸ß´¹¤Î¤è¤¦¤Ë»×¤¨¤Þ¤¹:"
 
 #: client/tilespec.c:176
 #, c-format
 msgid "%s file claims required option(s) which we don't support:"
-msgstr ""
+msgstr "%s ¥Õ¥¡¥¤¥ë¤Ï¥µ¥Ý¡¼¥È¤·¤Æ¤¤¤Ê¤¤É¬¿Ü¥ª¥×¥·¥ç¥ó¤òÍ×µá¤·¤Þ¤¹:"
 
 #: client/tilespec.c:206
 #, c-format
@@ -6664,7 +6671,7 @@ msgstr ""
 #: client/tilespec.c:226 client/tilespec.c:325
 #, c-format
 msgid "Could not open \"%s\"."
-msgstr ""
+msgstr "\"%s\" ¤ò³«¤±¤Þ¤»¤ó¡£"
 
 #: client/tilespec.c:235
 msgid ""
@@ -6715,7 +6722,7 @@ msgstr "¥·¡¼¥ë¥É"
 
 #: client/agents/cma_core.c:1960 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
-#: data/default/techs.ruleset:557
+#: data/default/techs.ruleset:562
 msgid "Trade"
 msgstr "¸ò°×"
 
@@ -6871,9 +6878,8 @@ msgid "_Buy"
 msgstr "Çã¤¦(_B)"
 
 #: client/gui-gtk-2.0/citydlg.c:817
-#, fuzzy
 msgid "Chang_e"
-msgstr "ÊÑ¹¹"
+msgstr "ÊÑ¹¹(_E)"
 
 #: client/gui-gtk-2.0/citydlg.c:859 client/gui-gtk-2.0/citydlg.c:1948
 #: client/gui-gtk-2.0/citydlg.c:3151 client/gui-gtk/citydlg.c:865
@@ -7091,14 +7097,14 @@ msgid "Upkeep (Total: %d)"
 msgstr "°Ý»ý(·×: %d)"
 
 #: client/gui-gtk-2.0/citydlg.c:2076
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units: %d"
-msgstr "±ç½õ¤µ¤ì¤Æ¤¤¤ëÉôÂâ (%d)"
+msgstr "±ç½õ¤µ¤ì¤Æ¤¤¤ëÉôÂâ: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2191
-#, fuzzy, c-format
+#, c-format
 msgid "Present units: %d"
-msgstr "ÅÔ»Ô¤Ë¤¤¤ëÉôÂâ (%d)"
+msgstr "ÅÔ»Ô¤Ë¤¤¤ëÉôÂâ: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2218 client/gui-gtk/citydlg.c:2289
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1388
@@ -7510,7 +7516,7 @@ msgstr "Æ±¤¸Åç"
 #: client/gui-mui/citydlg.c:1531 client/gui-mui/citydlg.c:1570
 #: client/gui-win32/cityrep.c:463
 msgid "Supported Units"
-msgstr "»Ù±ç¤µ¤ì¤Æ¤¤¤ëÉôÂâ"
+msgstr "±ç½õ¤µ¤ì¤Æ¤¤¤ëÉôÂâ"
 
 #: client/gui-gtk-2.0/cityrep.c:1215 client/gui-gtk/cityrep.c:877
 #: client/gui-win32/cityrep.c:470
@@ -7565,12 +7571,12 @@ msgstr "·ë²Ì"
 #: client/gui-gtk-2.0/cma_fe.c:215 client/gui-gtk/cma_fe.c:211
 #: client/gui-mui/citydlg.c:1672
 msgid "Minimal Surplus"
-msgstr ""
+msgstr "ºÇ¾®¹õ»ú"
 
 #: client/gui-gtk-2.0/cma_fe.c:218 client/gui-gtk/cma_fe.c:214
 #: client/gui-mui/citydlg.c:1673
 msgid "Factor"
-msgstr ""
+msgstr "°ø»Ò"
 
 #: client/gui-gtk-2.0/cma_fe.c:253 client/gui-gtk/cma_fe.c:249
 #: client/gui-mui/citydlg.c:1699 client/gui-mui/citydlg.c:1700
@@ -8321,17 +8327,17 @@ msgstr "¹Ô¤­Àè¤ÎÁªÂò"
 msgid "_Goto"
 msgstr "°ÜÆ°(_G)"
 
-#: client/gui-gtk-2.0/gui_main.c:496 client/gui-gtk-2.0/gui_main.c:901
-#: client/gui-gtk/gui_main.c:389 client/gui-gtk/gui_main.c:773
+#: client/gui-gtk-2.0/gui_main.c:497 client/gui-gtk-2.0/gui_main.c:902
+#: client/gui-gtk/gui_main.c:390 client/gui-gtk/gui_main.c:774
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:673 client/gui-gtk/gui_main.c:570
+#: client/gui-gtk-2.0/gui_main.c:674 client/gui-gtk/gui_main.c:571
 #: client/gui-win32/gui_main.c:390 data/Freeciv:2553
 msgid "Turn Done"
 msgstr "¥¿¡¼¥ó½ªÎ»"
 
-#: client/gui-gtk-2.0/gui_main.c:806 client/gui-gtk/gui_main.c:705
+#: client/gui-gtk-2.0/gui_main.c:807 client/gui-gtk/gui_main.c:706
 #: client/gui-mui/gui_main.c:1072 client/gui-win32/gui_main.c:441
 #: data/Freeciv:2744
 msgid ""
@@ -8343,8 +8349,8 @@ msgstr ""
 "¤òÇÛÉÛ¤¹¤ë¤³¤È¤ò´¿·Þ¤·¤Þ¤¹¡£¥Ø¥ë¥×¥á¥Ë¥å¡¼¤Î\"Ãøºî¸¢\"¤Î¹àÌÜ¤ò¸«¤Æ²¼¤µ¤¤¡£\n"
 "¤µ¤¡¡¢ÃÏ¹ö¤ØÍî¤Á¤í!"
 
-#: client/gui-gtk-2.0/gui_main.c:1144 client/gui-gtk/gui_main.c:1038
-#: client/gui-xaw/gui_main.c:693
+#: client/gui-gtk-2.0/gui_main.c:1145 client/gui-gtk/gui_main.c:1039
+#: client/gui-xaw/gui_main.c:694
 #, c-format
 msgid ""
 "%s People\n"
@@ -8352,14 +8358,16 @@ msgid ""
 "Gold: %d\n"
 "Net Income: %d\n"
 "Tax:%d Lux:%d Sci:%d\n"
-"Researching %s: %d/%d"
+"Researching %s: %d/%d\n"
+"Government: %s"
 msgstr ""
 "¿Í¸ý %s\n"
 "À¾Îñ: %s ¥¿¡¼¥ó: %d\n"
 "¶â: %d\n"
 "½ãÍø±×: %d\n"
 "ÀÇ:%d ìÔÂô:%d ²Ê³Ø:%d\n"
-"¸¦µæÃæ: %s: %d/%d"
+"¸¦µæÃæ: %s: %d/%d\n"
+"À¯¼£ÂÎÀ©: %s"
 
 #: client/gui-gtk-2.0/happiness.c:101 client/gui-gtk/happiness.c:101
 #: client/gui-mui/citydlg.c:1452 client/gui-mui/citydlg.c:1589
@@ -9782,9 +9790,8 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1106
-#, fuzzy
 msgid "Totals:"
-msgstr "Áí¹ç"
+msgstr "¹ç·×:"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:208 client/gui-gtk/spaceshipdlg.c:208
 #: client/gui-win32/spaceshipdlg.c:233 data/Freeciv:1657
@@ -10966,9 +10973,8 @@ msgid "u8Worklistsn"
 msgstr "u8ºî¶È¥ê¥¹¥Èn"
 
 #: client/gui-mui/worklistclass.c:710
-#, fuzzy
 msgid "Accept"
-msgstr "¾òÌóÄ´°õ"
+msgstr ""
 
 #: client/gui-mui/worklistclass.c:730
 msgid "Current Targets"
@@ -11339,40 +11345,40 @@ msgstr ""
 msgid "Failed reading XPM file: %s"
 msgstr "XPM ¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¹þ¤ß¼ºÇÔ: %s"
 
-#: client/gui-xaw/gui_main.c:302
+#: client/gui-xaw/gui_main.c:303
 msgid "No version number in resources."
 msgstr "¥ê¥½¡¼¥¹¤Ë¥Ð¡¼¥¸¥ç¥ó¤¬¤¢¤ê¤Þ¤»¤ó¡£"
 
-#: client/gui-xaw/gui_main.c:303
+#: client/gui-xaw/gui_main.c:304
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr ""
 "¶²¤é¤¯¤É¤³¤«¤Ë¸Å¤¤(¤ª¤½¤é¤¯ V1.0¤Î) Freeciv ¥ê¥½¡¼¥¹¥Õ¥¡¥¤¥ë¤ò»ý¤Ã¤Æ¤¤¤ë¤Ï¤º"
 "¤Ç¤¹¡£"
 
-#: client/gui-xaw/gui_main.c:311
+#: client/gui-xaw/gui_main.c:312
 msgid "Game version does not match Resource version."
 msgstr "¥²¡¼¥à¤Î¥Ð¡¼¥¸¥ç¥ó¤È¥ê¥½¡¼¥¹¤Î¥Ð¡¼¥¸¥ç¥ó¤¬°ìÃ×¤·¤Þ¤»¤ó¡£"
 
-#: client/gui-xaw/gui_main.c:312
+#: client/gui-xaw/gui_main.c:313
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "¥²¡¼¥à¡¦¥Ð¡¼¥¸¥ç¥ó: %s - ¥ê¥½¡¼¥¹¡¦¥Ð¡¼¥¸¥ç¥ó: %s"
 
-#: client/gui-xaw/gui_main.c:314
+#: client/gui-xaw/gui_main.c:315
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
 "¸Å¤¤ Freeciv ¥ê¥½¡¼¥¹¥Õ¥¡¥¤¥ë¤ò /usr/lib/X11/app-defaults ¤Ë»ý¤Ã¤Æ¤¤¤ë¤«¤â¤·"
 "¤ì¤Þ¤»¤ó"
 
-#: client/gui-xaw/gui_main.c:320
+#: client/gui-xaw/gui_main.c:321
 msgid "Using fallback resources - which is OK"
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:331
+#: client/gui-xaw/gui_main.c:332
 msgid "Only color displays are supported for now..."
 msgstr "º£¤Ï¥«¥é¡¼¥Ç¥£¥¹¥×¥ì¥¤¤Î¤ß¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤¹..."
 
-#: client/gui-xaw/gui_main.c:351 client/gui-xaw/gui_main.c:363
+#: client/gui-xaw/gui_main.c:352 client/gui-xaw/gui_main.c:364
 #, c-format
 msgid "Failed loading font: %s"
 msgstr "¥Õ¥©¥ó¥È¥í¡¼¥É¤Ë¼ºÇÔ: %s"
@@ -13877,7 +13883,6 @@ msgstr ""
 msgid "Palace"
 msgstr "µÜÅÂ"
 
-#: data/civ1/buildings.ruleset:661 data/civ2/buildings.ruleset:649
 #: data/default/buildings.ruleset:849
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
@@ -13886,23 +13891,25 @@ msgid ""
 "revolt in a city also depends upon the city's distance from the capital "
 "(under all forms of government).\n"
 "\n"
-"Take good care of your capital, as it's loss may result in your empire "
-"plunging into civil war."
+"Take good care of your capital, as its loss may result in your empire "
+"plunging into civil war. Losing your current palace also results in losing "
+"whatever spaceship you might have."
 msgstr ""
 "ÅÔ»Ô¤ò¼óÅÔ¤Ë¤·¡¢À¯ÉÜ¤ÎÃæ¿´¤Ë¤Ê¤ê¤Þ¤¹¡£À¯¼£ÂÎÀ©¤¬Ì±¼çÀ©¤«¶¦»º¼çµÁ°Ê³°¤Î»þ¤Ë"
 "¤Ï¡¢Â¾¤ÎÅÔ»Ô¤Î±ø¿¦¤Ï¡¢¼óÅÔ¤«¤é¤É¤Î¤¯¤é¤¤Î¥¤ì¤Æ¤¤¤ë¤«¤Ë±Æ¶Á¤ò¼õ¤±¤Þ¤¹¡£Æ±ÍÍ"
 "¤Ë¡¢³×Ì¿¤ÎÀúÆ°¤ËÉ¬Í×¤ÊÈñÍÑ¤Ï¡¢(Á´¤Æ¤ÎÀ¯¼£ÂÎÀ©¤Ç)¼óÅÔ¤«¤é¤Îµ÷Î¥¤Ë´Ø·¸¤·¤Þ"
 "¤¹¡£\n"
 "\n"
-"¼óÅÔ¤ÏÂç»ö¤Ë°·¤Ã¤Æ²¼¤µ¤¤¡£¼óÅÔ¤ò¼º¤Ê¤¦¤È¡¢ÆâÀï¤ËÆÍÆþ¤¹¤ë¤«¤â¤·¤ì¤Þ¤»¤ó¡£"
+"¼óÅÔ¤ÏÂç»ö¤Ë°·¤Ã¤Æ²¼¤µ¤¤¡£¼óÅÔ¤ò¼º¤Ê¤¦¤È¡¢ÆâÀï¤ËÆÍÆþ¤¹¤ë¤«¤â¤·¤ì¤Þ¤»¤ó¡£¤Þ¤¿"
+"¼óÅÔ¤ò¼º¤Ê¤¦¤³¤È¤Ï±§ÃèÁ¥¤ò¼º¤Ê¤¦¤³¤È¤Ë¤â¤Ê¤ê¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:674 data/civ2/buildings.ruleset:662
-#: data/default/buildings.ruleset:862
+#: data/default/buildings.ruleset:863
 msgid "Police Station"
 msgstr "·Ù»¡½ð"
 
 #: data/civ1/buildings.ruleset:694 data/civ2/buildings.ruleset:682
-#: data/default/buildings.ruleset:882
+#: data/default/buildings.ruleset:883
 msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
@@ -13912,12 +13919,12 @@ msgstr ""
 "ÂÎÀ©²¼¤Ç¤Ï¸úÎÏ¤¬¤¢¤ê¤Þ¤»¤ó¡£"
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:689
-#: data/default/buildings.ruleset:892
+#: data/default/buildings.ruleset:893
 msgid "Port Facility"
 msgstr "¹Á»ÜÀß"
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:709
-#: data/default/buildings.ruleset:912
+#: data/default/buildings.ruleset:913
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
@@ -13926,11 +13933,11 @@ msgstr ""
 "¤Ë°ÜÆ°¤µ¤»¤º¤ËµÙ¤Þ¤»¤Æ¤ª¤¯¤È¡¢°ì¥¿¡¼¥ó¤Ç´°¼£¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:728 data/civ2/buildings.ruleset:716
-#: data/default/buildings.ruleset:919
+#: data/default/buildings.ruleset:920
 msgid "Power Plant"
 msgstr "²ÐÎÏÈ¯ÅÅ½ê"
 
-#: data/default/buildings.ruleset:940
+#: data/default/buildings.ruleset:941
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -13949,12 +13956,12 @@ msgstr ""
 "¤­¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:760 data/civ2/buildings.ruleset:748
-#: data/default/buildings.ruleset:955
+#: data/default/buildings.ruleset:956
 msgid "Recycling Center"
 msgstr "¥ê¥µ¥¤¥¯¥ë¡¦¥»¥ó¥¿¡¼"
 
 #: data/civ1/buildings.ruleset:780 data/civ2/buildings.ruleset:768
-#: data/default/buildings.ruleset:975
+#: data/default/buildings.ruleset:976
 #, no-c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
@@ -13962,12 +13969,12 @@ msgid ""
 msgstr "¥ê¥µ¥¤¥¯¥ë¡¦¥»¥ó¥¿¡¼¤Ï¡¢ÅÔ»Ô¤Ç°ú¤­µ¯¤³¤µ¤ì¤ë¸ø³²¤ò 66% ¸º¤é¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:786 data/civ2/buildings.ruleset:774
-#: data/default/buildings.ruleset:981
+#: data/default/buildings.ruleset:982
 msgid "Research Lab"
 msgstr "¸¦µæ½ê"
 
 #: data/civ1/buildings.ruleset:805 data/civ2/buildings.ruleset:793
-#: data/default/buildings.ruleset:1000
+#: data/default/buildings.ruleset:1001
 msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
@@ -13977,12 +13984,12 @@ msgstr ""
 "´Û¡¢Âç³Ø¤ÈÏ¢·È¤·¡¢ÅÔ»Ô¤Î¸¦µæÀ®²Ì¤ò 150% Áý¤ä¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:813 data/civ2/buildings.ruleset:801
-#: data/default/buildings.ruleset:1008
+#: data/default/buildings.ruleset:1009
 msgid "SAM Battery"
 msgstr "ÂÐ¶õ¥ß¥µ¥¤¥ë¿ØÃÏ"
 
 #: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:821
-#: data/default/buildings.ruleset:1028
+#: data/default/buildings.ruleset:1029
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
@@ -13991,12 +13998,12 @@ msgstr ""
 "¤¹¡£"
 
 #: data/civ1/buildings.ruleset:839 data/civ2/buildings.ruleset:827
-#: data/default/buildings.ruleset:1034
+#: data/default/buildings.ruleset:1035
 msgid "SDI Defense"
 msgstr "SDI ËÉ±Ò¥·¥¹¥Æ¥à"
 
 #: data/civ1/buildings.ruleset:859 data/civ2/buildings.ruleset:847
-#: data/default/buildings.ruleset:1054
+#: data/default/buildings.ruleset:1055
 msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
@@ -14006,17 +14013,17 @@ msgstr ""
 "¤±¤Þ¤»¤ó¡£¤Þ¤¿¡¢³ËÊ¼´ï°Ê³°¤Î¥ß¥µ¥¤¥ë¤Ë¤ÏÆóÇÜ¤ÎËÉ¸æÎÏ¤òÈ¯´ø¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:856
-#: data/default/buildings.ruleset:1063
+#: data/default/buildings.ruleset:1064
 msgid "Sewer System"
 msgstr "²¼¿åÆ»"
 
 #: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:884
-#: data/default/buildings.ruleset:1091
+#: data/default/buildings.ruleset:1092
 msgid "Solar Plant"
 msgstr "ÂÀÍÛ¸÷È¯ÅÅ½ê"
 
 # yasu, ama
-#: data/default/buildings.ruleset:1114
+#: data/default/buildings.ruleset:1115
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -14035,13 +14042,13 @@ msgstr ""
 "·ú¤Æ¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:921
-#: data/default/buildings.ruleset:1132
+#: data/default/buildings.ruleset:1133
 msgid "Space Component"
 msgstr "±§Ãè¥³¥ó¥Ý¡¼¥Í¥ó¥È"
 
 # yasu
 #: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:940
-#: data/default/buildings.ruleset:1151
+#: data/default/buildings.ruleset:1152
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -14057,13 +14064,13 @@ msgstr ""
 "¤±¤Þ¤»¤ó¡£"
 
 #: data/civ1/buildings.ruleset:959 data/civ2/buildings.ruleset:950
-#: data/default/buildings.ruleset:1161
+#: data/default/buildings.ruleset:1162
 msgid "Space Module"
 msgstr "±§Ãè¥â¥¸¥å¡¼¥ë"
 
 # yasu
 #: data/civ1/buildings.ruleset:978 data/civ2/buildings.ruleset:969
-#: data/default/buildings.ruleset:1180
+#: data/default/buildings.ruleset:1181
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:\n"
@@ -14096,13 +14103,13 @@ msgstr ""
 "¤±¤Þ¤»¤ó¡£"
 
 #: data/civ1/buildings.ruleset:997 data/civ2/buildings.ruleset:988
-#: data/default/buildings.ruleset:1199
+#: data/default/buildings.ruleset:1200
 msgid "Space Structural"
 msgstr "±§ÃèÁ¥¹½Â¤Êª"
 
 # yasu
 #: data/civ1/buildings.ruleset:1016 data/civ2/buildings.ruleset:1007
-#: data/default/buildings.ruleset:1218
+#: data/default/buildings.ruleset:1219
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -14118,12 +14125,12 @@ msgstr ""
 "¤±¤Þ¤»¤ó¡£"
 
 #: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1017
-#: data/default/buildings.ruleset:1228
+#: data/default/buildings.ruleset:1229
 msgid "Stock Exchange"
 msgstr "³ô¼°¼è°ú½ê"
 
 #: data/civ1/buildings.ruleset:1047 data/civ2/buildings.ruleset:1038
-#: data/default/buildings.ruleset:1249
+#: data/default/buildings.ruleset:1250
 #, no-c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
@@ -14133,24 +14140,24 @@ msgstr ""
 "¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1053 data/civ2/buildings.ruleset:1044
-#: data/default/buildings.ruleset:1255
+#: data/default/buildings.ruleset:1256
 msgid "Super Highways"
 msgstr "¹âÂ®´´ÀþÆ»Ï©"
 
 #: data/civ1/buildings.ruleset:1074 data/civ2/buildings.ruleset:1065
-#: data/default/buildings.ruleset:1275
+#: data/default/buildings.ruleset:1276
 #, no-c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr "Æ»Ï©¤«Å´Æ»¤Î¤¢¤ëÅÚÃÏÁ´¤Æ¤Î¸ò°×»ñ¸»¤ò 50% Áý¤ä¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1080 data/civ2/buildings.ruleset:1071
-#: data/default/buildings.ruleset:1283
+#: data/default/buildings.ruleset:1284
 msgid "Supermarket"
 msgstr "¥¹¡¼¥Ñ¡¼¥Þ¡¼¥±¥Ã¥È"
 
 #: data/civ1/buildings.ruleset:1100 data/civ2/buildings.ruleset:1091
-#: data/default/buildings.ruleset:1303
+#: data/default/buildings.ruleset:1304
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
@@ -14161,12 +14168,12 @@ msgstr ""
 "Þô¤ò¹Ô¤Ê¤¨¤ëÅÚÃÏ¤Î¤³¤È¤Ç¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1098
-#: data/default/buildings.ruleset:1310
+#: data/default/buildings.ruleset:1311
 msgid "Temple"
 msgstr "»û±¡"
 
 #: data/civ1/buildings.ruleset:1127 data/civ2/buildings.ruleset:1118
-#: data/default/buildings.ruleset:1330
+#: data/default/buildings.ruleset:1331
 msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
@@ -14177,12 +14184,12 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:1134 data/civ1/techs.ruleset:559
 #: data/civ2/buildings.ruleset:1125 data/civ2/techs.ruleset:559
-#: data/default/buildings.ruleset:1337 data/default/techs.ruleset:563
+#: data/default/buildings.ruleset:1338 data/default/techs.ruleset:568
 msgid "University"
 msgstr "Âç³Ø"
 
 #: data/civ1/buildings.ruleset:1154 data/civ2/buildings.ruleset:1145
-#: data/default/buildings.ruleset:1357
+#: data/default/buildings.ruleset:1358
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
@@ -14190,11 +14197,11 @@ msgid ""
 msgstr "Âç³Ø¤Ï¿Þ½ñ´Û¤ÈÏ¢·È¤·¡¢ÅÔ»Ô¤Î¸¦µæÀ®²Ì¤ò 100% Áý¤ä¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1160 data/civ2/buildings.ruleset:1151
-#: data/default/buildings.ruleset:1363
+#: data/default/buildings.ruleset:1364
 msgid "Apollo Program"
 msgstr "¥¢¥Ý¥í·×²è"
 
-#: data/civ2/buildings.ruleset:1171 data/default/buildings.ruleset:1383
+#: data/civ2/buildings.ruleset:1171 data/default/buildings.ruleset:1384
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
@@ -14205,24 +14212,24 @@ msgstr ""
 "¤¬¸¦µæ¤µ¤ì¤¿¤È¸«Êï¤·¤Þ¤¹¡£)"
 
 #: data/civ1/buildings.ruleset:1185 data/civ2/buildings.ruleset:1178
-#: data/default/buildings.ruleset:1390
+#: data/default/buildings.ruleset:1391
 msgid "A.Smith's Trading Co."
 msgstr "¥¢¥À¥à¡¦¥¹¥ß¥¹¤ÎËÇ°×²ñ¼Ò"
 
 #: data/civ1/buildings.ruleset:1204 data/civ2/buildings.ruleset:1197
-#: data/default/buildings.ruleset:1409
+#: data/default/buildings.ruleset:1410
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
 msgstr "Á´¤Æ¤ÎÅÔ»Ô¤Ç¡¢ÅÔ»Ô·úÂ¤Êª¤Î°Ý»ýÈñ1¤ò¤Ê¤¯¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1210 data/civ2/buildings.ruleset:1203
-#: data/default/buildings.ruleset:1415
+#: data/default/buildings.ruleset:1416
 msgid "Colossus"
 msgstr "¥¢¥Ý¥íµð¾Ý"
 
 #: data/civ1/buildings.ruleset:1229 data/civ2/buildings.ruleset:1222
-#: data/default/buildings.ruleset:1434
+#: data/default/buildings.ruleset:1435
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -14230,35 +14237,35 @@ msgstr ""
 "¤³¤ÎÉÔ»×µÄ¤Î·ú¤Æ¤é¤ì¤¿ÅÔ»Ô¤Î¤Þ¤ï¤ê¤ÎÅÚÃÏ¤Ç¤Ï¡¢¸ò´¹»ñ¸»¤ò1Â¿¤¯À¸»º¤Ç¤­¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1235 data/civ2/buildings.ruleset:1228
-#: data/default/buildings.ruleset:1440
+#: data/default/buildings.ruleset:1441
 msgid "Copernicus' Observatory"
 msgstr "¥³¥Ú¥ë¥Ë¥¯¥¹¤ÎÅ·Ê¸Âæ"
 
 #: data/civ1/buildings.ruleset:1255 data/civ2/buildings.ruleset:1248
-#: data/default/buildings.ruleset:1460
+#: data/default/buildings.ruleset:1461
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr "·ú¤Æ¤é¤ì¤¿ÅÔ»Ô¤Î¸¦µæÀ®²Ì¤ò 50% Áý¤ä¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1260 data/civ2/buildings.ruleset:1253
-#: data/default/buildings.ruleset:1465
+#: data/default/buildings.ruleset:1466
 msgid "Cure For Cancer"
 msgstr "´â¤Î¼£ÎÅ"
 
 #: data/civ1/buildings.ruleset:1279 data/civ2/buildings.ruleset:1272
-#: data/default/buildings.ruleset:1484
+#: data/default/buildings.ruleset:1485
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
 msgstr "¤³¤Î¤¹¤Ð¤é¤·¤¤°Î¶È¤Ï¡¢¤¹¤Ù¤Æ¤ÎÅÔ»Ô¤Î1ÉÔ¹¬»ÔÌ±¤ÎËþÂ­¤ò¤â¤¿¤é¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1285 data/civ2/buildings.ruleset:1278
-#: data/default/buildings.ruleset:1492
+#: data/default/buildings.ruleset:1493
 msgid "Darwin's Voyage"
 msgstr "¥À¡¼¥¦¥£¥ó¤Î¹Ò³¤"
 
 #: data/civ1/buildings.ruleset:1304 data/civ2/buildings.ruleset:1297
-#: data/default/buildings.ruleset:1511
+#: data/default/buildings.ruleset:1512
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -14268,25 +14275,25 @@ msgstr ""
 "ÉÕ¤±Ìò¤È¤Ê¤ê¤Þ¤·¤¿¡£Â¨ºÂ¤ËÆó¤Ä¤Î¿Ê¤ó¤Àµ»½Ñ¤òÆÀ¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1311 data/civ2/buildings.ruleset:1304
-#: data/default/buildings.ruleset:1518
+#: data/default/buildings.ruleset:1519
 msgid "Eiffel Tower"
 msgstr "¥¨¥Ã¥Õ¥§¥ëÅã"
 
 # yasu
 #: data/civ1/buildings.ruleset:1331 data/civ2/buildings.ruleset:1324
-#: data/default/buildings.ruleset:1538
+#: data/default/buildings.ruleset:1539
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
 msgstr "·ú¤Æ¤é¤ì¤ë¤È¡¢Á´¤Æ¤Î»ÔÌ±¤Î¤¢¤Ê¤¿¤ËÂÐ¤¹¤ëÂÖÅÙ¤¬25%²þÁ±¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1339 data/civ2/buildings.ruleset:1332
-#: data/default/buildings.ruleset:1546
+#: data/default/buildings.ruleset:1547
 msgid "Great Library"
 msgstr "²¦Î©¿Þ½ñ´Û"
 
 #: data/civ1/buildings.ruleset:1358 data/civ2/buildings.ruleset:1353
-#: data/default/buildings.ruleset:1565
+#: data/default/buildings.ruleset:1566
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
@@ -14294,22 +14301,22 @@ msgstr ""
 "²¦Î©¿Þ½ñ´Û¤ò·ú¤Æ¤¿Ê¸ÌÀ¤Ï¡¢Â¾¤ÎÆó¤Ä°Ê¾å¤ÎÊ¸ÌÀ¤¬»ý¤Ä²Ê³Ø¤òÆÀ¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1364 data/civ2/buildings.ruleset:1359
-#: data/default/buildings.ruleset:1571
+#: data/default/buildings.ruleset:1572
 msgid "Great Wall"
 msgstr "ËüÎ¤¤ÎÄ¹¾ë"
 
 #: data/civ1/buildings.ruleset:1385 data/civ2/buildings.ruleset:1380
-#: data/default/buildings.ruleset:1591
+#: data/default/buildings.ruleset:1592
 msgid "Works as a City Wall in all cities."
 msgstr "Á´¤Æ¤ÎÅÔ»Ô¤Ë¾ëÊÉ¤¬¤¢¤ë¤â¤Î¤È¤·¤Æµ¡Ç½¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1392 data/civ2/buildings.ruleset:1387
-#: data/default/buildings.ruleset:1599
+#: data/default/buildings.ruleset:1600
 msgid "Hanging Gardens"
 msgstr "¶õÃæÄí±à"
 
 #: data/civ1/buildings.ruleset:1412 data/civ2/buildings.ruleset:1407
-#: data/default/buildings.ruleset:1619
+#: data/default/buildings.ruleset:1620
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -14322,11 +14329,11 @@ msgstr ""
 "»ÔÌ±¤ò¹¬Ê¡¤Ë¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1421 data/civ2/buildings.ruleset:1416
-#: data/default/buildings.ruleset:1628
+#: data/default/buildings.ruleset:1629
 msgid "Hoover Dam"
 msgstr "¥Õ¡¼¥Ð¡¼¥À¥à"
 
-#: data/civ2/buildings.ruleset:1437 data/default/buildings.ruleset:1650
+#: data/civ2/buildings.ruleset:1437 data/default/buildings.ruleset:1651
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
@@ -14335,54 +14342,54 @@ msgstr ""
 "¹©¾ì¤Î¸ú²Ì¤òÁý¤ä¤·¤Þ¤¹¡£)"
 
 #: data/civ1/buildings.ruleset:1451 data/civ2/buildings.ruleset:1443
-#: data/default/buildings.ruleset:1656
+#: data/default/buildings.ruleset:1657
 msgid "Isaac Newton's College"
 msgstr "¥Ë¥å¡¼¥È¥ó¤Î³Ø»Î±¡"
 
 #: data/civ1/buildings.ruleset:1471 data/civ2/buildings.ruleset:1463
-#: data/default/buildings.ruleset:1676
+#: data/default/buildings.ruleset:1677
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "·ú¤Æ¤é¤ì¤¿ÅÔ»Ô¤Î¸¦µæÀ®²Ì¤ò 100% Áý¤ä¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1476 data/civ2/buildings.ruleset:1468
-#: data/default/buildings.ruleset:1681
+#: data/default/buildings.ruleset:1682
 msgid "J.S. Bach's Cathedral"
 msgstr "J.S.¥Ð¥Ã¥Ï¤ÎÂçÀ»Æ²"
 
-#: data/civ2/buildings.ruleset:1487 data/default/buildings.ruleset:1700
+#: data/civ2/buildings.ruleset:1487 data/default/buildings.ruleset:1701
 msgid "Makes two unhappy citizens content in every city."
 msgstr "³ÆÅÔ»Ô¤Ç¡¢ÉÔ¹¬»ÔÌ±2¤òËþÂ­¤µ¤»¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1502 data/civ2/buildings.ruleset:1492
-#: data/default/buildings.ruleset:1705
+#: data/default/buildings.ruleset:1706
 msgid "King Richard's Crusade"
 msgstr "¥ê¥Á¥ã¡¼¥É²¦¤Î±óÀ¬"
 
 #: data/civ1/buildings.ruleset:1521 data/civ2/buildings.ruleset:1511
-#: data/default/buildings.ruleset:1724
+#: data/default/buildings.ruleset:1725
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
 msgstr "¤³¤ì¤ò·ú¤Æ¤¿ÅÔ»Ô¤Î¤Þ¤ï¤ê¤ÎÁ´ÅÚÃÏ¤Ç¡¢»ñ¸»À¸»ºÎÏ¤¬1Áý¤¨¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1527 data/civ2/buildings.ruleset:1517
-#: data/default/buildings.ruleset:1730
+#: data/default/buildings.ruleset:1731
 msgid "Leonardo's Workshop"
 msgstr "¥ì¥ª¥Ê¥ë¥É¤Î¹©Ë¼"
 
 #: data/civ1/buildings.ruleset:1546 data/civ2/buildings.ruleset:1536
-#: data/default/buildings.ruleset:1749
+#: data/default/buildings.ruleset:1750
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "°ì¥¿¡¼¥ó¤Ë¤Ä¤­°ìÉôÂâ¡¢¸Å¤¤ÉôÂâ¤¬¿·¤·¤¯¤Ê¤ê¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1551 data/civ2/buildings.ruleset:1541
-#: data/default/buildings.ruleset:1754
+#: data/default/buildings.ruleset:1755
 msgid "Lighthouse"
 msgstr "ÂçÅôÂæ"
 
 #: data/civ1/buildings.ruleset:1572 data/civ2/buildings.ruleset:1562
-#: data/default/buildings.ruleset:1775
+#: data/default/buildings.ruleset:1776
 msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
@@ -14392,35 +14399,35 @@ msgstr ""
 "½ü¤·¤Þ¤¹¡£Á´¤Æ¤Î¿·¤·¤¯À¸»º¤µ¤ì¤ë³¤¾å(Ãæ)ÉôÂâ¤ò¥Ù¥Æ¥é¥ó¤Ë¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1581 data/civ2/buildings.ruleset:1569
-#: data/default/buildings.ruleset:1782
+#: data/default/buildings.ruleset:1783
 msgid "Magellan's Expedition"
 msgstr "¥Þ¥¼¥é¥ó¤ÎÃµ¸¡¹Ò³¤"
 
-#: data/civ2/buildings.ruleset:1588 data/default/buildings.ruleset:1801
+#: data/civ2/buildings.ruleset:1588 data/default/buildings.ruleset:1802
 msgid "Gives all sea units 2 additional movement points."
 msgstr "Á´¤Æ¤Î³¤¾åÉôÂâ¤Î°ÜÆ°¥Ý¥¤¥ó¥È¤ò 2 Áý¤ä¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1606 data/civ2/buildings.ruleset:1593
-#: data/default/buildings.ruleset:1806
+#: data/default/buildings.ruleset:1807
 msgid "Manhattan Project"
 msgstr "¥Þ¥ó¥Ï¥Ã¥¿¥ó·×²è"
 
 #: data/civ1/buildings.ruleset:1629 data/civ2/buildings.ruleset:1616
-#: data/default/buildings.ruleset:1829
+#: data/default/buildings.ruleset:1830
 msgid "Marco Polo's Embassy"
 msgstr "¥Þ¥ë¥³¡¦¥Ý¡¼¥í¤ÎÂç»È´Û"
 
 #: data/civ1/buildings.ruleset:1648 data/civ2/buildings.ruleset:1635
-#: data/default/buildings.ruleset:1848
+#: data/default/buildings.ruleset:1849
 msgid "The player who owns it gets an embassy with all players."
 msgstr "¤³¤ì¤ò»ý¤Ä¥×¥ì¥¤¥ä¡¼¤ÏÁ´¥×¥ì¥¤¥ä¡¼¤È¤ÎÂç»È´Û¤òÆÀ¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1653 data/civ2/buildings.ruleset:1640
-#: data/default/buildings.ruleset:1853
+#: data/default/buildings.ruleset:1854
 msgid "Michelangelo's Chapel"
 msgstr "¥ß¥±¥é¥ó¥¸¥§¥í¤Î¶µ²ñ"
 
-#: data/civ2/buildings.ruleset:1661 data/default/buildings.ruleset:1874
+#: data/civ2/buildings.ruleset:1661 data/default/buildings.ruleset:1875
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city.  The discovery of Theology increases the "
@@ -14433,30 +14440,30 @@ msgstr ""
 "¼çµÁ¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤Ï¿ê¤¨¡¢ÉÔ¹¬»ÔÌ±1¤¬ÄÉ¤¤½Ð¤µ¤ì¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1678 data/civ2/buildings.ruleset:1671
-#: data/default/buildings.ruleset:1884
+#: data/default/buildings.ruleset:1885
 msgid "Oracle"
 msgstr "¿®Â÷½ê"
 
 #: data/civ1/buildings.ruleset:1698 data/civ2/buildings.ruleset:1691
-#: data/default/buildings.ruleset:1904
+#: data/default/buildings.ruleset:1905
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "Á´¤Æ¤ÎÅÔ»Ô¤Ç»û±¡¤Î¸ú²Ì¤¬ÆóÇÜ¤Ë¤Ê¤ê¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1703 data/civ2/buildings.ruleset:1696
-#: data/default/buildings.ruleset:1909
+#: data/default/buildings.ruleset:1910
 msgid "Pyramids"
 msgstr "¥Ô¥é¥ß¥Ã¥É"
 
-#: data/civ2/buildings.ruleset:1715 data/default/buildings.ruleset:1928
+#: data/civ2/buildings.ruleset:1715 data/default/buildings.ruleset:1929
 msgid "Counts as having a Granary in every city."
 msgstr "³ÆÅÔ»Ô¤Ë¹òÊª¸Ë¤ò»ý¤Ã¤Æ¤¤¤ë¤â¤Î¤È¤ß¤Ê¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1731 data/civ2/buildings.ruleset:1720
-#: data/default/buildings.ruleset:1933
+#: data/default/buildings.ruleset:1934
 msgid "SETI Program"
 msgstr "SETI ¥×¥í¥°¥é¥à"
 
-#: data/civ2/buildings.ruleset:1739 data/default/buildings.ruleset:1952
+#: data/civ2/buildings.ruleset:1739 data/default/buildings.ruleset:1953
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
@@ -14465,23 +14472,23 @@ msgstr ""
 "¤Ê¤·¤Þ¤¹¡£)"
 
 #: data/civ1/buildings.ruleset:1756 data/civ2/buildings.ruleset:1745
-#: data/default/buildings.ruleset:1958
+#: data/default/buildings.ruleset:1959
 msgid "Shakespeare's Theatre"
 msgstr "¥·¥§¥¤¥¯¥¹¥Ô¥¢¤Î·à¾ì"
 
 #: data/civ1/buildings.ruleset:1775 data/civ2/buildings.ruleset:1764
-#: data/default/buildings.ruleset:1977
+#: data/default/buildings.ruleset:1978
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "·ú¤Æ¤é¤ì¤¿ÅÔ»Ô¤ÎÉÔ¹¬»ÔÌ±Á´¤Æ¤òËþÂ­¤µ¤»¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1780 data/civ2/buildings.ruleset:1769
-#: data/default/buildings.ruleset:1982
+#: data/default/buildings.ruleset:1983
 msgid "Statue of Liberty"
 msgstr "¼«Í³¤Î½÷¿ÀÁü"
 
 #: data/civ1/buildings.ruleset:1724 data/civ1/buildings.ruleset:1800
 #: data/civ1/buildings.ruleset:1855 data/civ2/buildings.ruleset:1789
-#: data/default/buildings.ruleset:2002
+#: data/default/buildings.ruleset:2003
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -14491,12 +14498,12 @@ msgstr ""
 "¤­¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1807 data/civ2/buildings.ruleset:1796
-#: data/default/buildings.ruleset:2009
+#: data/default/buildings.ruleset:2010
 msgid "Sun Tzu's War Academy"
 msgstr "Â¹»Ò¤ÎÊ¼Ë¡³Ø¹»"
 
 #: data/civ1/buildings.ruleset:1827 data/civ2/buildings.ruleset:1816
-#: data/default/buildings.ruleset:2029
+#: data/default/buildings.ruleset:2030
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
@@ -14505,20 +14512,20 @@ msgstr ""
 "¥é¥ó¤Ë¤Ê¤ë³ÎÎ©¤¬ 50% ¤«¤é 100% ¤ËÁý¤¨¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1834 data/civ2/buildings.ruleset:1823
-#: data/default/buildings.ruleset:2036
+#: data/default/buildings.ruleset:2037
 msgid "United Nations"
 msgstr "¹ñºÝÏ¢¹ç"
 
-#: data/civ2/buildings.ruleset:1846 data/default/buildings.ruleset:2059
+#: data/civ2/buildings.ruleset:1846 data/default/buildings.ruleset:2060
 msgid "Units regain two extra hitpoints per turn."
 msgstr "¥¿¡¼¥ó¤´¤È¤ËÉôÂâ¤Î¥Ò¥Ã¥È¥Ý¥¤¥ó¥È¤¬2Â¿¤¯²óÉü¤·¤Þ¤¹¡£"
 
 #: data/civ1/buildings.ruleset:1867 data/civ2/buildings.ruleset:1859
-#: data/default/buildings.ruleset:2072
+#: data/default/buildings.ruleset:2073
 msgid "Women's Suffrage"
 msgstr "ÉØ¿Í»²À¯¸¢"
 
-#: data/civ2/buildings.ruleset:1879 data/default/buildings.ruleset:2092
+#: data/civ2/buildings.ruleset:1879 data/default/buildings.ruleset:2093
 msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
@@ -14528,11 +14535,11 @@ msgstr ""
 "¤è¤ëÉÔ¹¬¤òÌ±¼çÀ©²¼¤Ç¤Ï2¡¢¶¦ÏÂÀ©²¼¤Ç¤Ï1¸º¤é¤·¤Þ¤¹¡£Â¾¤ÎÀ¯¼£ÂÎÀ©²¼¤Ç¤Ï¸úÎÏ¤¬¤¢"
 "¤ê¤Þ¤»¤ó¡£)"
 
-#: data/default/buildings.ruleset:2108
+#: data/default/buildings.ruleset:2109
 msgid "Coinage"
 msgstr "²ßÊ¾"
 
-#: data/default/buildings.ruleset:2133
+#: data/default/buildings.ruleset:2134
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -14587,6 +14594,24 @@ msgstr ""
 "\n"
 "ÅÔ»Ô¤Ë¤Ï¿åÎÏÈ¯ÅÅ½ê¡¢²ÐÎÏÈ¯ÅÅ½ê¡¢¸¶»ÒÎÏÈ¯ÅÅ½ê¤Î¤¤¤Å¤ì¤«°ì¤Ä¤À¤±·ú¤Æ¤ë¤³¤È¤¬¤Ç"
 "¤­¤Þ¤¹¡£"
+
+#: data/civ1/buildings.ruleset:661 data/civ2/buildings.ruleset:649
+msgid ""
+"Makes a city the capital and the center of your government.  Corruption in "
+"other cities is related to how far away from the capital they are, except "
+"when the government is Democracy or Communism.  The cost of inciting a "
+"revolt in a city also depends upon the city's distance from the capital "
+"(under all forms of government).\n"
+"\n"
+"Take good care of your capital, as it's loss may result in your empire "
+"plunging into civil war."
+msgstr ""
+"ÅÔ»Ô¤ò¼óÅÔ¤Ë¤·¡¢À¯ÉÜ¤ÎÃæ¿´¤Ë¤Ê¤ê¤Þ¤¹¡£À¯¼£ÂÎÀ©¤¬Ì±¼çÀ©¤«¶¦»º¼çµÁ°Ê³°¤Î»þ¤Ë"
+"¤Ï¡¢Â¾¤ÎÅÔ»Ô¤Î±ø¿¦¤Ï¡¢¼óÅÔ¤«¤é¤É¤Î¤¯¤é¤¤Î¥¤ì¤Æ¤¤¤ë¤«¤Ë±Æ¶Á¤ò¼õ¤±¤Þ¤¹¡£Æ±ÍÍ"
+"¤Ë¡¢³×Ì¿¤ÎÀúÆ°¤ËÉ¬Í×¤ÊÈñÍÑ¤Ï¡¢(Á´¤Æ¤ÎÀ¯¼£ÂÎÀ©¤Ç)¼óÅÔ¤«¤é¤Îµ÷Î¥¤Ë´Ø·¸¤·¤Þ"
+"¤¹¡£\n"
+"\n"
+"¼óÅÔ¤ÏÂç»ö¤Ë°·¤Ã¤Æ²¼¤µ¤¤¡£¼óÅÔ¤ò¼º¤Ê¤¦¤È¡¢ÆâÀï¤ËÆÍÆþ¤¹¤ë¤«¤â¤·¤ì¤Þ¤»¤ó¡£"
 
 #: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:736
 #, no-c-format
@@ -14878,7 +14903,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:243 data/civ1/techs.ruleset:367
 #: data/civ2/governments.ruleset:243 data/civ2/techs.ruleset:367
-#: data/default/governments.ruleset:244 data/default/techs.ruleset:369
+#: data/default/governments.ruleset:244 data/default/techs.ruleset:374
 msgid "Monarchy"
 msgstr "·¯¼çÀ©"
 
@@ -14940,7 +14965,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:311 data/civ1/techs.ruleset:139
 #: data/civ2/governments.ruleset:313 data/civ2/techs.ruleset:139
-#: data/default/governments.ruleset:314 data/default/techs.ruleset:141
+#: data/default/governments.ruleset:314 data/default/techs.ruleset:146
 msgid "Communism"
 msgstr "¶¦»º¼çµÁ"
 
@@ -15079,7 +15104,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:464 data/civ1/techs.ruleset:169
 #: data/civ2/governments.ruleset:550 data/civ2/techs.ruleset:169
-#: data/default/governments.ruleset:471 data/default/techs.ruleset:171
+#: data/default/governments.ruleset:471 data/default/techs.ruleset:176
 msgid "Democracy"
 msgstr "Ì±¼çÀ©"
 
@@ -15160,7 +15185,7 @@ msgstr ""
 "¤ó¡£"
 
 #: data/civ1/techs.ruleset:229 data/civ2/governments.ruleset:390
-#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:231
+#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:236
 msgid "Fundamentalism"
 msgstr "¸¶Íý¼çµÁ"
 
@@ -15308,7 +15333,6 @@ msgstr ""
 
 # ama, yasu
 #: data/civ1/governments.ruleset:507
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -15366,276 +15390,276 @@ msgstr ""
 "¤ó¡£"
 
 #: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
-#: data/default/techs.ruleset:51
+#: data/default/techs.ruleset:56
 msgid "Advanced Flight"
 msgstr "¾åµéÈô¹Ô½Ñ"
 
 #: data/civ1/techs.ruleset:55 data/civ2/techs.ruleset:55
-#: data/default/techs.ruleset:57
+#: data/default/techs.ruleset:62
 msgid "Alphabet"
 msgstr "¥¢¥ë¥Õ¥¡¥Ù¥Ã¥È"
 
 #: data/civ1/techs.ruleset:61 data/civ2/techs.ruleset:61
-#: data/default/techs.ruleset:63
+#: data/default/techs.ruleset:68
 msgid "Amphibious Warfare"
 msgstr "¾åÎ¦Àï"
 
 #: data/civ1/techs.ruleset:67 data/civ2/techs.ruleset:67
-#: data/default/techs.ruleset:69
+#: data/default/techs.ruleset:74
 msgid "Astronomy"
 msgstr "Å·Ê¸³Ø"
 
 #: data/civ1/techs.ruleset:73 data/civ2/techs.ruleset:73
-#: data/default/techs.ruleset:75
+#: data/default/techs.ruleset:80
 msgid "Atomic Theory"
 msgstr "¸¶»ÒÍýÏÀ"
 
 #: data/civ1/techs.ruleset:79 data/civ2/techs.ruleset:79
-#: data/default/techs.ruleset:81
+#: data/default/techs.ruleset:86
 msgid "Automobile"
 msgstr "¼«Æ°¼Ö"
 
 #: data/civ1/techs.ruleset:85 data/civ2/techs.ruleset:85
-#: data/default/techs.ruleset:87
+#: data/default/techs.ruleset:92
 msgid "Banking"
 msgstr "¶ä¹ÔÀ©ÅÙ"
 
 #: data/civ1/techs.ruleset:91 data/civ2/techs.ruleset:91
-#: data/default/techs.ruleset:93
+#: data/default/techs.ruleset:98
 msgid "Bridge Building"
 msgstr "¶¶ÎÂ·úÀß"
 
 #: data/civ1/techs.ruleset:97 data/civ2/techs.ruleset:97
-#: data/default/techs.ruleset:99
+#: data/default/techs.ruleset:104
 msgid "Bronze Working"
 msgstr "ÀÄÆ¼´ï"
 
 #: data/civ1/techs.ruleset:103 data/civ2/techs.ruleset:103
-#: data/default/techs.ruleset:105
+#: data/default/techs.ruleset:110
 msgid "Ceremonial Burial"
 msgstr "Áòµ·"
 
 #: data/civ1/techs.ruleset:109 data/civ2/techs.ruleset:109
-#: data/default/techs.ruleset:111
+#: data/default/techs.ruleset:116
 msgid "Chemistry"
 msgstr "²½³Ø"
 
 #: data/civ1/techs.ruleset:115 data/civ2/techs.ruleset:115
-#: data/default/techs.ruleset:117
+#: data/default/techs.ruleset:122
 msgid "Chivalry"
 msgstr "µ³»ÎÆ»"
 
 #: data/civ1/techs.ruleset:121 data/civ2/techs.ruleset:121
-#: data/default/techs.ruleset:123
+#: data/default/techs.ruleset:128
 msgid "Code of Laws"
 msgstr "Ë¡Î§"
 
 #: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127
-#: data/default/techs.ruleset:129
+#: data/default/techs.ruleset:134
 msgid "Combined Arms"
 msgstr "Î¦³¤¶õ¶¦Æ±·³"
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
-#: data/default/techs.ruleset:135
+#: data/default/techs.ruleset:140
 msgid "Combustion"
 msgstr "ÆâÇ³µ¡´Ø"
 
 #: data/civ1/techs.ruleset:145 data/civ2/techs.ruleset:145
-#: data/default/techs.ruleset:147
+#: data/default/techs.ruleset:152
 msgid "Computers"
 msgstr "¥³¥ó¥Ô¥å¡¼¥¿"
 
 #: data/civ1/techs.ruleset:151 data/civ2/techs.ruleset:151
-#: data/default/techs.ruleset:153
+#: data/default/techs.ruleset:158
 msgid "Conscription"
 msgstr "Ä§Ê¼À©"
 
 #: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:157
-#: data/default/techs.ruleset:159
+#: data/default/techs.ruleset:164
 msgid "Construction"
 msgstr "·úÀß"
 
 #: data/civ1/techs.ruleset:163 data/civ2/techs.ruleset:163
-#: data/default/techs.ruleset:165
+#: data/default/techs.ruleset:170
 msgid "Currency"
 msgstr "ÄÌ²ß"
 
 #: data/civ1/techs.ruleset:181 data/civ2/techs.ruleset:181
-#: data/default/techs.ruleset:183
+#: data/default/techs.ruleset:188
 msgid "Electricity"
 msgstr "ÅÅµ¤³Ø"
 
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:187
-#: data/default/techs.ruleset:189
+#: data/default/techs.ruleset:194
 msgid "Electronics"
 msgstr "ÅÅ»Ò¹©³Ø"
 
 #: data/civ1/techs.ruleset:193 data/civ2/techs.ruleset:193
-#: data/default/techs.ruleset:195
+#: data/default/techs.ruleset:200
 msgid "Engineering"
 msgstr "¹©³Ø"
 
 #: data/civ1/techs.ruleset:199 data/civ2/techs.ruleset:199
-#: data/default/techs.ruleset:201
+#: data/default/techs.ruleset:206
 msgid "Environmentalism"
 msgstr "´Ä¶­³Ø"
 
 #: data/civ1/techs.ruleset:205 data/civ2/techs.ruleset:205
-#: data/default/techs.ruleset:207
+#: data/default/techs.ruleset:212
 msgid "Espionage"
 msgstr "Äå»¡"
 
 #: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:211
-#: data/default/techs.ruleset:213
+#: data/default/techs.ruleset:218
 msgid "Explosives"
 msgstr "ÇúÌô"
 
 #: data/civ1/techs.ruleset:217 data/civ2/techs.ruleset:217
-#: data/default/techs.ruleset:219
+#: data/default/techs.ruleset:224
 msgid "Feudalism"
 msgstr "Éõ·úÀ©ÅÙ"
 
 #: data/civ1/techs.ruleset:223 data/civ2/techs.ruleset:223
-#: data/default/techs.ruleset:225
+#: data/default/techs.ruleset:230
 msgid "Flight"
 msgstr "Èô¹Ô½Ñ"
 
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:235
-#: data/default/techs.ruleset:237
+#: data/default/techs.ruleset:242
 msgid "Fusion Power"
 msgstr "³ËÍ»¹ç"
 
 #: data/civ1/techs.ruleset:241 data/civ2/techs.ruleset:241
-#: data/default/techs.ruleset:243
+#: data/default/techs.ruleset:248
 msgid "Genetic Engineering"
 msgstr "°äÅÁ»Ò¹©³Ø"
 
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
-#: data/default/techs.ruleset:249
+#: data/default/techs.ruleset:254
 msgid "Guerilla Warfare"
 msgstr "¥²¥ê¥éÀï"
 
 #: data/civ1/techs.ruleset:253 data/civ2/techs.ruleset:253
-#: data/default/techs.ruleset:255
+#: data/default/techs.ruleset:260
 msgid "Gunpowder"
 msgstr "²ÐÌô"
 
 #: data/civ1/techs.ruleset:259 data/civ2/techs.ruleset:259
-#: data/default/techs.ruleset:261
+#: data/default/techs.ruleset:266
 msgid "Horseback Riding"
 msgstr "µ³¾è"
 
 #: data/civ1/techs.ruleset:265 data/civ2/techs.ruleset:265
-#: data/default/techs.ruleset:267
+#: data/default/techs.ruleset:272
 msgid "Industrialization"
 msgstr "»º¶È²½"
 
 #: data/civ1/techs.ruleset:271 data/civ2/techs.ruleset:271
-#: data/default/techs.ruleset:273
+#: data/default/techs.ruleset:278
 msgid "Invention"
 msgstr "È¯ÌÀ"
 
 #: data/civ1/techs.ruleset:277 data/civ2/techs.ruleset:277
-#: data/default/techs.ruleset:279
+#: data/default/techs.ruleset:284
 msgid "Iron Working"
 msgstr "Å´´ï"
 
 #: data/civ1/techs.ruleset:283 data/civ2/techs.ruleset:283
-#: data/default/techs.ruleset:285
+#: data/default/techs.ruleset:290
 msgid "Labor Union"
 msgstr "Ï«Æ¯ÁÈ¹ç"
 
 #: data/civ1/techs.ruleset:289 data/civ2/techs.ruleset:289
-#: data/default/techs.ruleset:291
+#: data/default/techs.ruleset:296
 msgid "Laser"
 msgstr "¥ì¡¼¥¶¡¼¹©³Ø"
 
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
-#: data/default/techs.ruleset:297
+#: data/default/techs.ruleset:302
 msgid "Leadership"
 msgstr "»Ø´ø"
 
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
-#: data/default/techs.ruleset:309
+#: data/default/techs.ruleset:314
 msgid "Machine Tools"
 msgstr "¹©ºîµ¡³£"
 
 #: data/civ1/techs.ruleset:313 data/civ2/techs.ruleset:313
-#: data/default/techs.ruleset:315
+#: data/default/techs.ruleset:320
 msgid "Magnetism"
 msgstr "¼§µ¤³Ø"
 
 #: data/civ1/techs.ruleset:319 data/civ2/techs.ruleset:319
-#: data/default/techs.ruleset:321
+#: data/default/techs.ruleset:326
 msgid "Map Making"
 msgstr "ÃÏ¿Þ"
 
 #: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
-#: data/default/techs.ruleset:327
+#: data/default/techs.ruleset:332
 msgid "Masonry"
 msgstr "·úÃÛ"
 
 #: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
-#: data/default/techs.ruleset:333
+#: data/default/techs.ruleset:338
 msgid "Mass Production"
 msgstr "ÂçÎÌÀ¸»º"
 
 #: data/civ1/techs.ruleset:337 data/civ2/techs.ruleset:337
-#: data/default/techs.ruleset:339
+#: data/default/techs.ruleset:344
 msgid "Mathematics"
 msgstr "¿ô³Ø"
 
 #: data/civ1/techs.ruleset:343 data/civ2/techs.ruleset:343
-#: data/default/techs.ruleset:345
+#: data/default/techs.ruleset:350
 msgid "Medicine"
 msgstr "°å³Ø"
 
 #: data/civ1/techs.ruleset:349 data/civ2/techs.ruleset:349
-#: data/default/techs.ruleset:351
+#: data/default/techs.ruleset:356
 msgid "Metallurgy"
 msgstr "¼£¶â"
 
 #: data/civ1/techs.ruleset:355 data/civ2/techs.ruleset:355
-#: data/default/techs.ruleset:357
+#: data/default/techs.ruleset:362
 msgid "Miniaturization"
 msgstr "¾®·¿²½"
 
 #: data/civ1/techs.ruleset:361 data/civ2/techs.ruleset:361
-#: data/default/techs.ruleset:363
+#: data/default/techs.ruleset:368
 msgid "Mobile Warfare"
 msgstr "µ¡Æ°Àï"
 
 #: data/civ1/techs.ruleset:373 data/civ2/techs.ruleset:373
-#: data/default/techs.ruleset:375
+#: data/default/techs.ruleset:380
 msgid "Monotheism"
 msgstr "°ì¿À¶µ"
 
 #: data/civ1/techs.ruleset:379 data/civ2/techs.ruleset:379
-#: data/default/techs.ruleset:381
+#: data/default/techs.ruleset:386
 msgid "Mysticism"
 msgstr "¿ÀÈë¼çµÁ"
 
 #: data/civ1/techs.ruleset:385 data/civ2/techs.ruleset:385
-#: data/default/techs.ruleset:387
+#: data/default/techs.ruleset:392
 msgid "Navigation"
 msgstr "¹Ò³¤½Ñ"
 
 #: data/civ1/techs.ruleset:391 data/civ2/techs.ruleset:391
-#: data/default/techs.ruleset:393
+#: data/default/techs.ruleset:398
 msgid "Nuclear Fission"
 msgstr "³ËÊ¬Îö"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:397
-#: data/default/techs.ruleset:399
+#: data/default/techs.ruleset:404
 msgid "Nuclear Power"
 msgstr "¸¶»ÒÎÏ"
 
 #: data/civ1/techs.ruleset:403 data/civ2/techs.ruleset:403
-#: data/default/techs.ruleset:405
+#: data/default/techs.ruleset:410
 msgid "Philosophy"
 msgstr "Å¯³Ø"
 
-#: data/default/techs.ruleset:409
+#: data/default/techs.ruleset:414
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
@@ -15643,126 +15667,126 @@ msgstr ""
 "À¤³¦Ãæ¤Î°ÎÂç¤ÊÅ¯³Ø¼Ô¤¬¤¢¤Ê¤¿¤ÎÊ¸ÌÀ¤Ë²Ã¤ï¤ê¤Þ¤·¤¿¡£Â¨ºÂ¤Ë²Ê³Ø¤ò°ì¤ÄÆÀ¤Þ¤·¤¿¡£"
 
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
-#: data/default/techs.ruleset:413
+#: data/default/techs.ruleset:418
 msgid "Physics"
 msgstr "ÊªÍý³Ø"
 
 #: data/civ1/techs.ruleset:415 data/civ2/techs.ruleset:415
-#: data/default/techs.ruleset:419
+#: data/default/techs.ruleset:424
 msgid "Plastics"
 msgstr "¥×¥é¥¹¥Á¥Ã¥¯"
 
 #: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:421
-#: data/default/techs.ruleset:425
+#: data/default/techs.ruleset:430
 msgid "Polytheism"
 msgstr "Â¿¿À¶µ"
 
 #: data/civ1/techs.ruleset:427 data/civ2/techs.ruleset:427
-#: data/default/techs.ruleset:431
+#: data/default/techs.ruleset:436
 msgid "Pottery"
 msgstr "Æ«·Ý"
 
 #: data/civ1/techs.ruleset:433 data/civ2/techs.ruleset:433
-#: data/default/techs.ruleset:437
+#: data/default/techs.ruleset:442
 msgid "Radio"
 msgstr "ÌµÀþ"
 
 #: data/civ1/techs.ruleset:445 data/civ2/techs.ruleset:445
-#: data/default/techs.ruleset:449
+#: data/default/techs.ruleset:454
 msgid "Recycling"
 msgstr "¥ê¥µ¥¤¥¯¥ë"
 
 #: data/civ1/techs.ruleset:451 data/civ2/techs.ruleset:451
-#: data/default/techs.ruleset:455
+#: data/default/techs.ruleset:460
 msgid "Refining"
 msgstr "ÀÐÌýÀºÀ½"
 
 #: data/civ1/techs.ruleset:457 data/civ2/techs.ruleset:457
-#: data/default/techs.ruleset:461
+#: data/default/techs.ruleset:466
 msgid "Refrigeration"
 msgstr "ÎäÅà"
 
 #: data/civ1/techs.ruleset:463 data/civ2/techs.ruleset:463
-#: data/default/techs.ruleset:467
+#: data/default/techs.ruleset:472
 msgid "Robotics"
 msgstr "¥í¥Ü¥Ã¥È¹©³Ø"
 
 #: data/civ1/techs.ruleset:469 data/civ2/techs.ruleset:469
-#: data/default/techs.ruleset:473
+#: data/default/techs.ruleset:478
 msgid "Rocketry"
 msgstr "¥í¥±¥Ã¥È¹©³Ø"
 
 #: data/civ1/techs.ruleset:475 data/civ2/techs.ruleset:475
-#: data/default/techs.ruleset:479
+#: data/default/techs.ruleset:484
 msgid "Sanitation"
 msgstr "¸ø½°±ÒÀ¸"
 
 #: data/civ1/techs.ruleset:481 data/civ2/techs.ruleset:481
-#: data/default/techs.ruleset:485
+#: data/default/techs.ruleset:490
 msgid "Seafaring"
 msgstr "¹Ò³¤"
 
 #: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:487
-#: data/default/techs.ruleset:491
+#: data/default/techs.ruleset:496
 msgid "Space Flight"
 msgstr "±§ÃèÈô¹Ô"
 
 #: data/civ1/techs.ruleset:493 data/civ2/techs.ruleset:493
-#: data/default/techs.ruleset:497
+#: data/default/techs.ruleset:502
 msgid "Stealth"
 msgstr "¥¹¥Æ¥ë¥¹"
 
 #: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:499
-#: data/default/techs.ruleset:503
+#: data/default/techs.ruleset:508
 msgid "Steam Engine"
 msgstr "¾øµ¤µ¡´Ø"
 
 #: data/civ1/techs.ruleset:505 data/civ2/techs.ruleset:505
-#: data/default/techs.ruleset:509
+#: data/default/techs.ruleset:514
 msgid "Steel"
 msgstr "¹ÝÅ´"
 
 #: data/civ1/techs.ruleset:511 data/civ2/techs.ruleset:511
-#: data/default/techs.ruleset:515
+#: data/default/techs.ruleset:520
 msgid "Superconductors"
 msgstr "Ä¶ÅÁÆ³"
 
 #: data/civ1/techs.ruleset:517 data/civ2/techs.ruleset:517
-#: data/default/techs.ruleset:521
+#: data/default/techs.ruleset:526
 msgid "Tactics"
 msgstr "Àï½Ñ"
 
 #: data/civ1/techs.ruleset:523 data/civ2/techs.ruleset:523
-#: data/default/techs.ruleset:527
+#: data/default/techs.ruleset:532
 msgid "The Corporation"
 msgstr "³ô¼°²ñ¼Ò"
 
 #: data/civ1/techs.ruleset:529 data/civ2/techs.ruleset:529
-#: data/default/techs.ruleset:533
+#: data/default/techs.ruleset:538
 msgid "The Republic"
 msgstr "¶¦ÏÂÀ©"
 
 #: data/civ1/techs.ruleset:535 data/civ2/techs.ruleset:535
-#: data/default/techs.ruleset:539
+#: data/default/techs.ruleset:544
 msgid "The Wheel"
 msgstr "¼ÖÎØ"
 
-#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:545
+#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:550
 msgid "Theology"
 msgstr "¿À³Ø"
 
 #: data/civ1/techs.ruleset:547 data/civ2/techs.ruleset:547
-#: data/default/techs.ruleset:551
+#: data/default/techs.ruleset:556
 msgid "Theory of Gravity"
 msgstr "ËüÍ­°úÎÏ¤ÎË¡Â§"
 
 #: data/civ1/techs.ruleset:565 data/civ2/techs.ruleset:565
-#: data/default/techs.ruleset:569
+#: data/default/techs.ruleset:574
 msgid "Warrior Code"
 msgstr "Ê¼Ë¡"
 
 #: data/civ1/techs.ruleset:571 data/civ2/techs.ruleset:571
-#: data/default/techs.ruleset:575
+#: data/default/techs.ruleset:580
 msgid "Writing"
 msgstr "É®µ­"
 
@@ -16418,9 +16442,9 @@ msgstr ""
 msgid "Diplomat"
 msgstr "³°¸ò´±"
 
+# ama, yasu
 #: data/civ1/units.ruleset:1440 data/civ2/units.ruleset:1490
 #: data/default/units.ruleset:1566
-#, fuzzy
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
 "another player's city.\n"
@@ -16438,20 +16462,20 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
-"- ³°¸ò´±¤ÏÂ¾¤Î¥×¥ì¥¤¥ä¡¼¤ÎÅÔ»Ô¤Ë°ÜÆ°¤¹¤ë¤³¤È¤Ç¡¢Â¾¤ÎÊ¸ÌÀ¤ÈÂç»È´Û¤òÀßÎ©¤Ç¤­¤Þ"
-"¤¹¡£\n"
+"- ³°¸ò´±¤ÏÂ¾¤Î¥×¥ì¥¤¥ä¡¼¤ÎÅÔ»Ô¤Ë°ÜÆ°¤¹¤ë¤³¤È¤Ç¡¢Â¾¤ÎÊ¸ÌÀ¤òÈ÷¤¨¤¿Âç»È´Û¤òÀßÎ©"
+"¤Ç¤­¤Þ¤¹¡£\n"
 "\n"
-"- ³°¸ò´±¤ÏÅ¨¤ÎÀ½ºîÊª¤òÇË²õ¤·¤¿¤ê¡¢Å¨¤ÎÅÔ»Ô¤«¤é²Ê³Ø¤òÅð¤ó¤À¤ê¤â¤Ç¤­¤Þ¤¹¡£(²Ê³Ø"
-"¤Ï°ìÅÔ»Ô¤Ë¤Ä¤­°ì²óÅð¤á¤Þ¤¹¡£)\n"
+"- ³°¸ò´±¤ÏÅ¨¤ÎÀ¸»ºÊª¤òÇË²õ¤·¤¿¤ê¡¢Å¨¤ÎÅÔ»Ô¤«¤é²Ê³Ø¤òÅð¤ó¤À¤ê¤â¤Ç¤­¤Þ¤¹¡£(²Ê³Ø"
+"¤Ï1ÅÔ»Ô¤Ë¤Ä¤­1²óÅð¤á¤Þ¤¹¡£)\n"
 "\n"
-"- ³°¸ò´±¤ÏÅ¨¤ÎÉôÂâ¤ËÏÅÏ¨¤òÁ÷¤ë¤³¤È¤â¤Ç¤­¤Þ¤¹¡£(¤¿¤À¤·¡¢ÉôÂâ¤Î¤¤¤ë¾ì½ê¤¬¤½¤ÎÉô"
-"Ââ¤À¤±¤Ê¤é)\n"
+"- ³°¸ò´±¤ÏÅ¨¤ÎÉôÂâ¤ËÏÅÏ¨¤òÁ÷¤ë¤³¤È¤â¤Ç¤­¤Þ¤¹¡£(Áê¼êÉôÂâ¤Î¤¤¤ëÅÚÃÏ¤Ë¡¢¤½¤ÎÉôÂâ"
+"¤·¤«¤¤¤Ê¤±¤ì¤Ð)\n"
 "\n"
 "- ³°¸ò´±¤ÏÅ¨¤ÎÅÔ»Ô¤Ç³×Ì¿¤ò»Ï¤á¤ë¤³¤È¤µ¤¨¤Ç¤­¤Þ¤¹¡£(¤¿¤À¤·¤ª¶â¤¬¤¢¤ì¤Ð¡£¤¢¤Ê¤¿"
 "¤ÎÀ¯¼£ÂÎÀ©¤ØÊÑ¤¨¤Þ¤¹¡£)\n"
 "\n"
-"- ¤¢¤ëÀïÎ¬¤Ë¤ª¤¤¤Æ¡¢³°¸ò´±¤Î·²¤ì¤ÏÅ¨¤ËÂçº®Íð¤òµ¯¤³¤¹¤¿¤á¤Ë»È¤¨¤Þ¤¹¡£\n"
-"Little wonder that Diplomats are often viewed with suspicion and fear!\n"
+"- ¤¢¤ëÀïÎ¬¤Ç¤Ï¡¢Å¨¤ÎÂçº®Íð¤ò°ú¤­µ¯¤³¤¹¤¿¤á¤Ë³°¸ò´±¤Î·²¤ì¤ò»È¤¤¤Þ¤¹¡£³°¸ò´±¤¬"
+"µ¿¤¤¤ÈÉÝ¤ì¤ÎÌÜ¤Ç¸«¤é¤ì¤ë¤Î¤Ï¶Ã¤¯¤Û¤É¤Î¤³¤È¤Ç¤Ï¤¢¤ê¤Þ¤»¤ó!"
 
 #: data/civ1/units.ruleset:1460 data/civ2/units.ruleset:1510
 #: data/default/units.ruleset:1586
@@ -16586,8 +16610,8 @@ msgstr "Ì±Ê¼"
 msgid "Sail"
 msgstr "ÈÁÁ¥"
 
+# ama, yasu
 #: data/civ1/units.ruleset:1393
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -16615,9 +16639,10 @@ msgstr ""
 "¥Ò¥ó¥È 1: ³¤¤Ø¤Î³Ë¹¶·â¤Ï»à¤Î³¥¤òµ¯¤³¤·¤Þ¤»¤ó¡£¤³¤ì¤ÏÅ¨¤ÎÁ¥¤òÇÓ½ü¤¹¤ëºÇ¤â¸ú²Ì"
 "¤Î¤¢¤ë(¤·¤«¤·¹â²Á¤Ê)ÊýË¡¤Ç¤¹¡£\n"
 "\n"
-"¥Ò¥ó¥È 2: ¤¢¤Ê¤¿¤Ï¡Ä¤À¤¬¡¢Å¨ÅÔ»Ô¤¬¤¢¤Þ¤ê¤Ë¤â¶¯¤¤¤È¤¤¤¦¤è¤¦¤Ê¾õ¶·¤ÇÉ¬Í×¤È¤¹¤ë"
-"¤«¤â¤·¤ì¤Þ¤ó¡£³ËÊ¼´ï¤ò»È¤¦Á°¤Ë³«Âó¼Ô¤ò½¸¤á¡¢³ËÇúÈ¯¤ÈÆ±¤¸¥¿¡¼¥ó¤Ë»à¤Î³¥¤Î¸å»Ï"
-"Ëö¤·¤Þ¤¹¡£¡©¡© ¤³¤ì¤Ë¤è¤ê³Ë¤ÎÅß¤Î´í¸±¤òºÇ¾®¤Ë¤Ç¤­¤Þ¤¹¡£¤³¤ì¤Ç¥¨¥³³ËÊ¼´ï!"
+"¥Ò¥ó¥È 2: Å¨¹ñ¤Ë°ìÀÆ¤Ë¿¯¹¶¤·¤¿¤¬Å¨ÅÔ»Ô¤¬¤¢¤Þ¤ê¤Ë¤â¶¯¤¤¤È¤¤¤¦¤è¤¦¤Ê¾õ¶·¤¬¤¢¤ë"
+"¤«¤â¤·¤ì¤Þ¤»¤ó¡£³ËÊ¼´ï¤ò»È¤¦Á°¤Ë³«Âó¼Ô¤ÇÅÔ»Ô¤ÎËµ¤Ë½¸ÃÄ¤òºî¤ê¡¢³ËÇúÈ¯¤ÈÆ±¤¸"
+"¥¿¡¼¥ó¤Ë»à¤Î³¥¤Î¸å»ÏËö¤¹¤ë½àÈ÷¤ò¤·¤Þ¤¹¡£¤³¤ì¤Ë¤è¤ê³Ë¤ÎÅß¤Î´í¸±¤òºÇ¾®¸Â¤Ë¿©¤¤"
+"»ß¤á¤Þ¤¹¡£ÃÏµå¤Ë¤ä¤µ¤·¤¤³Ë¹¶·â!"
 
 #: data/civ1/units.ruleset:1606
 msgid ""
@@ -16673,7 +16698,7 @@ msgstr "¥ª¡¼¥¹¥È¥é¥ê¿Í"
 #: data/nation/danish.ruleset:19 data/nation/dutch.ruleset:11
 #: data/nation/english.ruleset:13 data/nation/finnish.ruleset:15
 #: data/nation/greek.ruleset:11 data/nation/israeli.ruleset:12
-#: data/nation/japanese.ruleset:13 data/nation/portuguese.ruleset:12
+#: data/nation/japanese.ruleset:14 data/nation/portuguese.ruleset:12
 #: data/nation/silesian.ruleset:13 data/nation/singaporean.ruleset:30
 #: data/nation/spanish.ruleset:16 data/nation/swedish.ruleset:15
 #: data/nation/viking.ruleset:11 data/nation/welsh.ruleset:19
@@ -17055,7 +17080,23 @@ msgstr "ÆüËÜ¿Í"
 msgid "?plural:Japanese"
 msgstr "ÆüËÜ¿Í"
 
-#: data/nation/japanese.ruleset:12
+#: data/nation/japanese.ruleset:6
+msgid "Mutsuhito"
+msgstr ""
+
+#: data/nation/japanese.ruleset:6
+msgid "Jimmu Tenno"
+msgstr ""
+
+#: data/nation/japanese.ruleset:6
+msgid "Hirohito"
+msgstr ""
+
+#: data/nation/japanese.ruleset:6
+msgid "Tokugawa Ieyasu"
+msgstr ""
+
+#: data/nation/japanese.ruleset:13
 msgid "Shogun"
 msgstr "¾­·³"
 
@@ -17395,189 +17436,3 @@ msgstr "¥º¡¼¥ë¡¼¿Í"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "¥º¡¼¥ë¡¼Â²"
-
-#~ msgid "Freeciv - Cityoptions"
-#~ msgstr "Freeciv - ÅÔ»Ô¥ª¥×¥·¥ç¥ó"
-
-#~ msgid "_New specialists are"
-#~ msgstr "¿·¤·¤¤ÀìÌç²È¤Ï(_N)"
-
-#~ msgid "Auto-attack vs _land units"
-#~ msgstr "ÃÏ¾åÉôÂâ¤ËÂÐ¤·¤Æ¼«Æ°¹¶·â(_L)"
-
-#~ msgid "Auto-attack vs _sea units"
-#~ msgstr "³¤¾åÉôÂâ¤ËÂÐ¤·¤Æ¼«Æ°¹¶·â(_S)"
-
-#~ msgid "Auto-attack vs _air units"
-#~ msgstr "¶õ·³ÉôÂâ¤ËÂÐ¤·¤Æ¼«Æ°¹¶·â(_A)"
-
-#~ msgid "Auto-attack vs _helicopters"
-#~ msgstr "¥Ø¥ê¥³¥×¥¿¡¼¤ËÂÐ¤·¤Æ¼«Æ°¹¶·â(_H)"
-
-#~ msgid "C_hange"
-#~ msgstr "ÊÑ¹¹(_H)"
-
-#~ msgid "_Control city"
-#~ msgstr "ÅÔ»Ô¤ò´ÉÍý(_C)"
-
-#~ msgid "Could not find readable file \"%s\" in data path."
-#~ msgstr "¥Ç¡¼¥¿¥Ñ¥¹¤Ë¥Õ¥¡¥¤¥ë \"%s\" ¤¬¸«¤Ä¤«¤ê¤Þ¤»¤ó¡£"
-
-#~ msgid "The map has %i starting positions on %i isles."
-#~ msgstr "%2$i¸Ä¤ÎÅç¤Î¾å¤Ë%1$i¸Ä¤Î¥¹¥¿¡¼¥ÈÃÏÅÀ¤¬¤¢¤ê¤Þ¤¹¡£"
-
-#~ msgid "Trying to load file from default ruleset directory instead."
-#~ msgstr ""
-#~ "¤«¤ï¤ê¤Ë default ¥ë¡¼¥ë¥»¥Ã¥È¥Ç¥£¥ì¥¯¥È¥ê¤«¤é¥Õ¥¡¥¤¥ë¤ò¥í¡¼¥É¤·¤è¤¦¤È¤·¤Æ"
-#~ "¤¤¤Þ¤¹¡£"
-
-# ama, yasu
-#~ msgid ""
-#~ "Reduced maxplayers from %i to %i to fit to the number of start positions."
-#~ msgstr ""
-#~ "³«»Ï°ÌÃÖ¤Î¿ô¤ò¹ç¤ï¤»¤ë¤¿¤á¤Ë¡¢ maxplayers ¤ò %i ¤«¤é %i ¤Ë¸º¤é¤·¤Þ¤·¤¿¡£"
-
-# ama, yasu
-#~ msgid ""
-#~ "Had to cut down the number of players to the number of map start "
-#~ "positions, there must be something wrong with the savegame or you "
-#~ "adjusted the maxplayers value."
-#~ msgstr ""
-#~ "¥×¥ì¥¤¥ä¡¼¤Î¿ô¤òÃÏ¿Þ¤Î³«»Ï°ÌÃÖ¤Î¿ô¤Ë¸º¤é¤µ¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¤Ç¤·¤¿¡£ÊÝÂ¸¤µ"
-#~ "¤ì¤¿¥²¡¼¥à¤¬¤É¤³¤«¤ª¤«¤·¤¤¤«¡¢¤¢¤Ê¤¿¤¬ maxplayers ¤òÄ´À°¤·¤¿¤Î¤Ç¤·¤ç¤¦¡£"
-
-# ama, yasu
-#~ msgid "Game: You acquire Future Tech %d from %s."
-#~ msgstr "Game: %2$s¤«¤éÀèÃ¼µ»½Ñ%1$d ¤òÆÀ¤Þ¤·¤¿¡£"
-
-#~ msgid "Game: %s discovered Future Tech. %d in the city."
-#~ msgstr "Game: %s¤Ï¡¢¤½¤ÎÅÔ»Ô¤ÇÀèÃ¼µ»½Ñ%d¤òÈ¯¸«¤·¤Þ¤·¤¿¡£"
-
-#~ msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
-#~ msgstr "Game: %1$s¤Ï%3$s¤«¤éÀèÃ¼µ»½Ñ%2$d¤òÈ¯¸«¤·¤Þ¤·¤¿(À©°µ)"
-
-#~ msgid "%s acquire %s from %s"
-#~ msgstr "%1$s¤Ï%3$s¤«¤é%2$s¤ò½¬ÆÀ¤·¤Þ¤·¤¿"
-
-#~ msgid "Game: You acquired %s from %s."
-#~ msgstr "Game: %2$s¤«¤é%1$s¤ò½¬ÆÀ¤·¤Þ¤·¤¿¡£"
-
-#~ msgid "Game: %s discovered %s in the city."
-#~ msgstr "Game: %s ¤ÏÅÔ»Ô¤Ç%s¤òÈ¯¸«¤·¤Þ¤·¤¿¡£"
-
-#~ msgid ""
-#~ "For new games, the game will start automatically if/when this number of "
-#~ "players are connected or (for AI's) created."
-#~ msgstr ""
-#~ "¿·¤·¤¤¥²¡¼¥à¤Î¾ì¹ç¤Ç¡¢¤³¤Î¿ô¤Î¥×¥ì¥¤¥ä¡¼¤¬ÀÜÂ³¤µ¤ì¤¿¤ê AI ¤¬ºî¤é¤ì¤¿¤Ê¤é¡¢"
-#~ "¥²¡¼¥à¤Ï¼«Æ°Åª¤Ë³«¤Þ¤ê¤Þ¤¹¡£"
-
-#~ msgid "Forced Improvement Sale"
-#~ msgstr "¶¯À©·úÂ¤ÊªÈÎÇä"
-
-#~ msgid "Game End"
-#~ msgstr "¥²¡¼¥à½ªÎ»"
-
-#~ msgid ""
-#~ "If all players have not hit \"Turn Done\" before this time is up, then "
-#~ "the turn ends automatically. Zero means there is no timeout."
-#~ msgstr ""
-#~ "¥×¥ì¥¤¥ä¡¼Á´°÷¤¬¤³¤Î»þ´Ö¤Þ¤Ç¡Ö¥¿¡¼¥ó½ªÎ»¡×¤ò¼Â¹Ô¤·¤Ê¤±¤ì¤Ð¡¢¼«Æ°Åª¤Ë¥¿¡¼¥ó"
-#~ "¤ò½ªÎ»¤µ¤»¤é¤ì¤Þ¤¹¡£¥¼¥í¤Ï¥¿¥¤¥à¥¢¥¦¥È¤·¤Ê¤¤¤³¤È¤ò°ÕÌ£¤·¤Þ¤¹¡£"
-
-#~ msgid "Data subdir containing techs.ruleset"
-#~ msgstr "techs.ruleset ¤ò´Þ¤à data subdir"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"techs.ruleset\".  The advances (technologies) present in "
-#~ "the game will be initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "¥Õ¥¡¥¤¥ë \"techs.ruleset\" ¤Î¤¢¤ë¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£¥²¡¼¥à¤Ç»È"
-#~ "¤ï¤ì¤ë²Ê³Ø¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤òÍÑ¤Æ½é´ü²½¤µ¤ì¤Þ¤¹¡£README.rulesets ¤ò¸«¤Æ²¼¤µ"
-#~ "¤¤¡£"
-
-#~ msgid "Data subdir containing governments.ruleset"
-#~ msgstr "governments.ruleset ¤ò´Þ¤à data subdir"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"governments.ruleset\".  The government types available in "
-#~ "the game will be initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "¥Õ¥¡¥¤¥ë \"governs.ruleset\" ¤Î¤¢¤ë¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£¥²¡¼¥à¤Ç"
-#~ "ÍøÍÑ²ÄÇ½¤ÊÀ¯¼£ÂÎÀ©¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤òÍÑ¤Æ½é´ü²½¤µ¤ì¤Þ¤¹¡£README.rulesets ¤ò"
-#~ "¸«¤Æ²¼¤µ¤¤¡£"
-
-#~ msgid "Data subdir containing units.ruleset"
-#~ msgstr "units.ruleset ¤ò´Þ¤à data subdir"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"units.ruleset\".  The unit types present in the game will "
-#~ "be initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "¥Õ¥¡¥¤¥ë \"units.ruleset\" ¤Î¤¢¤ë¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£¥²¡¼¥à¤Ç»È"
-#~ "¤ï¤ì¤ëÉôÂâ¤Î¼ïÎà¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤òÍÑ¤Æ½é´ü²½¤µ¤ì¤Þ¤¹¡£README.rulesets ¤ò¸«"
-#~ "¤Æ²¼¤µ¤¤¡£"
-
-#~ msgid "Data subdir containing buildings.ruleset"
-#~ msgstr "buildings.ruleset ¤ò´Þ¤à data subdir"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"buildings.ruleset\".  The building types (City Improvements "
-#~ "and Wonders) in the game will be initialized from this file.  See also "
-#~ "README.rulesets."
-#~ msgstr ""
-#~ "¥Õ¥¡¥¤¥ë \"buildings.ruleset\" ¤Î¤¢¤ë¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£¥²¡¼¥à"
-#~ "¤Ç»È¤ï¤ì¤ë·úÂ¤Êª(ÅÔ»Ô²þÎÉ¤ÈÉÔ»×µÄ)¤Î¼ïÎà¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤òÍÑ¤Æ½é´ü²½¤µ¤ì¤Þ"
-#~ "¤¹¡£README.rulesets ¤ò¸«¤Æ²¼¤µ¤¤¡£"
-
-#~ msgid "Data subdir containing terrain.ruleset"
-#~ msgstr "terrain.ruleset ¤ò´Þ¤à data subdir"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"terrain.ruleset\".  The terrain types present in the game "
-#~ "will be initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "¥Õ¥¡¥¤¥ë \"terrain.ruleset\" ¤Î¤¢¤ë¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£¥²¡¼¥à¤Ç"
-#~ "»È¤ï¤ì¤ëÃÏ·Á¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤òÍÑ¤Æ½é´ü²½¤µ¤ì¤Þ¤¹¡£README.rulesets ¤ò¸«¤Æ²¼"
-#~ "¤µ¤¤¡£"
-
-#~ msgid "Data subdir containing nations.ruleset"
-#~ msgstr "nations.ruleset ¤ò´Þ¤à data subdir"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"nations.ruleset\".  The nations present in the game will be "
-#~ "initialized from this file.  See also README.rulesets."
-#~ msgstr ""
-#~ "¥Õ¥¡¥¤¥ë \"nations.ruleset\" ¤Î¤¢¤ë¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£¥²¡¼¥à¤Ç"
-#~ "»È¤ï¤ì¤ë¹ñ¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤òÍÑ¤Æ½é´ü²½¤µ¤ì¤Þ¤¹¡£README.rulesets ¤ò¸«¤Æ²¼¤µ"
-#~ "¤¤¡£"
-
-#~ msgid "Data subdir containing cities.ruleset"
-#~ msgstr "cities.ruleset ¤ò´Þ¤à data subdir"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"cities.ruleset\".  The file is used to initialize city data "
-#~ "(such as city style).  See also README.rulesets."
-#~ msgstr ""
-#~ "¥Õ¥¡¥¤¥ë \"cities.ruleset\" ¤Î¤¢¤ë¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£¥²¡¼¥à¤Ç»È"
-#~ "¤ï¤ì¤ëÅÔ»Ô¥Ç¡¼¥¿(ÅÔ»Ô¥¹¥¿¥¤¥ë¤Î¤è¤¦¤Ê¤â¤Î)¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤òÍÑ¤Æ½é´ü²½¤µ¤ì"
-#~ "¤Þ¤¹¡£README.rulesets ¤ò¸«¤Æ²¼¤µ¤¤¡£"
-
-#~ msgid "Data subdir containing game.ruleset"
-#~ msgstr "game.ruleset ¤ò´Þ¤à data subdir"
-
-#~ msgid ""
-#~ "This should specify a subdirectory of the data directory, containing a "
-#~ "file called \"game.ruleset\".  The file is used to initialize some "
-#~ "miscellanous game rules.  See also README.rulesets."
-#~ msgstr ""
-#~ "¥Õ¥¡¥¤¥ë \"game.ruleset\" ¤Î¤¢¤ë¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤ò»ØÄê¤·¤Þ¤¹¡£¥²¡¼¥à¤Ç»È¤ï"
-#~ "¤ì¤ë¤Ï»¨Â¿¤Ê¥ë¡¼¥ë¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤òÍÑ¤Æ½é´ü²½¤µ¤ì¤Þ¤¹¡£README.rulesets ¤ò"
-#~ "¸«¤Æ²¼¤µ¤¤¡£"
