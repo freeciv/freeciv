@@ -18,6 +18,7 @@
 #include <stdio.h>
 
 #include "fciconv.h"
+#include "log.h"
 
 #include "civclient.h"
 #include "options.h"
