@@ -1,10 +1,9 @@
 # Norwegian Translation
+# This translation is covered by the GNU General Public License Version 2.
 # Copyright (C) 1999-2002
 #
 # Current translator: Andreas Røsdal <andrearo@stud.ntnu.no>, update to 1.13
 # Past translator: Stig E Sandø <stig@ii.uib.no>, 1999-2001.
-#
-# This translation is covered by the GNU General Public License Version 2.
 #
 # Feedback and patches provided by:
 #  - Per I. Mathisen <permath@ifi.ntnu.no>
@@ -14,13 +13,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.13\n"
-"POT-Creation-Date: 2002-06-20 09:23+0000\n"
-"PO-Revision-Date: 2002-06-22 12:12+0000\n"
+"POT-Creation-Date: 2002-06-23 11:10+0000\n"
+"PO-Revision-Date: 2002-06-23 22:21+0000\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
-"X-Generator: KBabel 0.9.6\n"
 
 #: common/city.c:263
 msgid "?redundant:*"
@@ -1143,7 +1141,9 @@ msgstr ""
 msgid ""
 "You executed a %s the %s had sent to establish an embassy in %s for being "
 "untrustworthy"
-msgstr "Du henrettet en %s som %s sendte for å etablere ambassade i %s for ikke å ha vært troverdig."
+msgstr ""
+"Du henrettet en %s som %s sendte for å etablere ambassade i %s for ikke å ha "
+"vært troverdig."
 
 #: server/diplomats.c:269
 #, c-format
@@ -1683,13 +1683,13 @@ msgstr "Spill: Kan ikke endre prioritering/nivå før spillstart."
 msgid "Tax"
 msgstr "Skatt"
 
-#: client/agents/cma_core.c:1957 client/gui-gtk-2.0/gamedlgs.c:265
+#: client/agents/cma_core.c:1959 client/gui-gtk-2.0/gamedlgs.c:265
 #: client/gui-gtk/gamedlgs.c:263 client/gui-mui/citydlg.c:1657
 #: client/gui-win32/ratesdlg.c:319 server/plrhand.c:656
 msgid "Luxury"
 msgstr "Luksus"
 
-#: client/agents/cma_core.c:1959 client/gui-gtk-2.0/gamedlgs.c:285
+#: client/agents/cma_core.c:1961 client/gui-gtk-2.0/gamedlgs.c:285
 #: client/gui-gtk-2.0/repodlgs.c:147 client/gui-gtk/gamedlgs.c:283
 #: client/gui-gtk/repodlgs.c:157 client/gui-mui/citydlg.c:1661
 #: client/gui-mui/repodlgs.c:300 client/gui-win32/ratesdlg.c:325
@@ -1771,7 +1771,9 @@ msgstr "Spill: Den diplomatiske status mellom %s og %s er nå %s."
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
 "the %s and the %s is now %s."
-msgstr "Spel: %s avbrøt den diplomatiske avtalen! Det diplomatiske forholdet mellom %s og %s er nå %s."
+msgstr ""
+"Spel: %s avbrøt den diplomatiske avtalen! Det diplomatiske forholdet mellom %"
+"s og %s er nå %s."
 
 #: server/plrhand.c:1331
 #, c-format
@@ -2163,8 +2165,9 @@ msgid ""
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
 msgstr ""
-"Den lagrede filen inneholder feil ved kartdataene. Dette kan skje med gamle lagrede spill, "
-"eller det kan tyde på feil ved selve filen. Fortsett på eget ansvar."
+"Den lagrede filen inneholder feil ved kartdataene. Dette kan skje med gamle "
+"lagrede spill, eller det kan tyde på feil ved selve filen. Fortsett på eget "
+"ansvar."
 
 #: server/savegame.c:276
 #, c-format
@@ -2177,14 +2180,18 @@ msgstr "Den lagrede filen er for gammel, versjoner fra og med 1.9.0 er støttet."
 
 #: server/savegame.c:1825
 msgid "The savegame uses the classic terrain ruleset which is no longer supported."
-msgstr "Den lagrede filen bruker det klassiske terreng regeloppsettet som ikke lenger er støttet."
+msgstr ""
+"Den lagrede filen bruker det klassiske terreng regeloppsettet som ikke "
+"lenger er støttet."
 
 #: server/savegame.c:1834
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
-msgstr "Advarsel: Ulike regeloppsett kataloger ('%s' og '%s') er ikke lenger støttet. Bruker '%s'."
+msgstr ""
+"Advarsel: Ulike regeloppsett kataloger ('%s' og '%s') er ikke lenger "
+"støttet. Bruker '%s'."
 
 #: server/sernet.c:123
 msgid "Server cannot read standard input. Ignoring input."
@@ -3562,8 +3569,9 @@ msgid ""
 "by clients).  With an argument, show only the named option, or options with "
 "that prefix."
 msgstr ""
-"Uten argument vises alle server alternativene (eller de tilgjengelige alternativere, når "
-"den er benyttet av klientene). Med et argument, vises kun de valgte alternativene, eller alternativer med det prefikset."
+"Uten argument vises alle server alternativene (eller de tilgjengelige "
+"alternativere, når den er benyttet av klientene). Med et argument, vises kun "
+"de valgte alternativene, eller alternativer med det prefikset."
 
 #: server/stdinhand.c:1008
 msgid "Show current scores."
@@ -3688,9 +3696,10 @@ msgid ""
 "default level for any new AI players to 'easy'.  With an argument, sets the "
 "skill level for that player only."
 msgstr ""
-"Uten argument sette denne kommandoen alle datastyrte spilleres vanskelighetsgrad til \"easy\", "
-"og setter setter standardvanskelighetsgraden til alle nye datastyrte spillere til \"easy\". "
-"Som et argument setter kommandoen vanskelighetsgraden kun for den spilleren"
+"Uten argument sette denne kommandoen alle datastyrte spilleres "
+"vanskelighetsgrad til \"easy\", og setter setter standardvanskelighetsgraden "
+"til alle nye datastyrte spillere til \"easy\". Som et argument setter "
+"kommandoen vanskelighetsgraden kun for den spilleren"
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1074
@@ -3711,8 +3720,9 @@ msgid ""
 "default level for any new AI players to 'normal'.  With an argument, sets "
 "the skill level for that player only."
 msgstr ""
-"Uten argument sette denne kommandoen alle datastyrte spilleres vanskelighetsgrad til \"normal\", "
-"og setter setter standardvanskelighetsgraden til alle nye datastyrte spillere til \"normal\". "
+"Uten argument sette denne kommandoen alle datastyrte spilleres "
+"vanskelighetsgrad til \"normal\", og setter setter "
+"standardvanskelighetsgraden til alle nye datastyrte spillere til \"normal\". "
 "Som et argument setter kommandoen vanskelighetsgraden kun for den spilleren"
 
 #. TRANS: translate text between <> only
@@ -3734,9 +3744,10 @@ msgid ""
 "default level for any new AI players to 'hard'.  With an argument, sets the "
 "skill level for that player only."
 msgstr ""
-"Uten argument sette denne kommandoen alle datastyrte spilleres vanskelighetsgrad til \"hard\", "
-"og setter setter standardvanskelighetsgraden til alle nye datastyrte spillere til \"hard\". "
-"Som et argument setter kommandoen vanskelighetsgraden kun for den spilleren"
+"Uten argument sette denne kommandoen alle datastyrte spilleres "
+"vanskelighetsgrad til \"hard\", og setter setter standardvanskelighetsgraden "
+"til alle nye datastyrte spillere til \"hard\". Som et argument setter "
+"kommandoen vanskelighetsgraden kun for den spilleren"
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1092
@@ -3788,12 +3799,13 @@ msgstr ""
 "Med et argument settes nivået for alla nåværende tilkoblinger, og "
 "standardnivået settes for framtidige tilkoblinger.\n"
 "Om \"new\" angis, settes nivået for nye tilkoblinger.\n"
-"Om \"first come\" angis, settes nivået \"first come\"; det gis til den første "
-"klienten som tilkobles. Om det allerede er tilkoblinger gis det til den "
-"førsta klienten som gir kommandoen \"firstlevel\".\n"
+"Om \"first come\" angis, settes nivået \"first come\"; det gis til den "
+"første klienten som tilkobles. Om det allerede er tilkoblinger gis det til "
+"den førsta klienten som gir kommandoen \"firstlevel\".\n"
 "Om et tilkoblingsnavn angis, settes nivået for bare denne tilkoblingen.\n"
-"Kommandonivået bevares ikke om en spillet kobler fra, fordi en ukjent person kan koble til med det samme navnet. "
-"Legg merke til at denne kommandoen nå tar imot tilkoblingsnavn, ikke spillernavn."
+"Kommandonivået bevares ikke om en spillet kobler fra, fordi en ukjent person "
+"kan koble til med det samme navnet. Legg merke til at denne kommandoen nå "
+"tar imot tilkoblingsnavn, ikke spillernavn."
 
 #: server/stdinhand.c:1121
 msgid "Grab the 'first come' command access level."
@@ -3822,8 +3834,7 @@ msgstr ""
 "2. Øke <runde> med <rundetillegg>.\n"
 "3. Gange <verdi> med faktoren <faktor>.\n"
 "\n"
-"Bruk denne kommandoen sammen med \"timeout\". Standardverdiene er 0 0 0 "
-"1."
+"Bruk denne kommandoen sammen med \"timeout\". Standardverdiene er 0 0 0 1."
 
 #: server/stdinhand.c:1133
 msgid "End the game."
@@ -3846,7 +3857,9 @@ msgstr "Fjern spilleren fullstendig fra spillet."
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc.  Use with care!"
-msgstr "Dette fjerner en spiller fullstendig fra spillet, inkludert alle byer og enheter.  Brukes med måte!"
+msgstr ""
+"Dette fjerner en spiller fullstendig fra spillet, inkludert alle byer og "
+"enheter.  Brukes med måte!"
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1145
@@ -3870,10 +3883,10 @@ msgid ""
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
-"Lagrer det nåværende spillet til filen <filnavn>. Hvis det ikke gis noe filnavn "
-"lagres spillet til \"<auto-lagrings-prefiks><år>m.sav[.gz]\"\n"
-"For å fortsette et lagret spill laget med 'save' kommandoen, start serveren med "
-"kommandolinje-argumentet: \n"
+"Lagrer det nåværende spillet til filen <filnavn>. Hvis det ikke gis noe "
+"filnavn lagres spillet til \"<auto-lagrings-prefiks><år>m.sav[.gz]\"\n"
+"For å fortsette et lagret spill laget med 'save' kommandoen, start serveren "
+"med kommandolinje-argumentet: \n"
 "       -f <filnavn>\n"
 "og bruk 'start' kommandoen når alle spillerne har koblet til på nytt."
 
@@ -3912,11 +3925,11 @@ msgid ""
 "the advances (technologies).  This can be used by the 'techtree' utility "
 "program to produce a graph of the advances."
 msgstr ""
-"Lager en fil med informasjon om det nåværende regeloppsettet. "
-"Krever at regeloppsettet er lastet inn (feks. etter 'start'). "
-"Det eneste alternativet for <regeltype> er 'techs', som skriver informasjon "
-"om alle de (teknologiske) fremskrittene. Dette kan brukes av "
-"'techtree' porgrammet for å lage diagrammer over fremskrittene."
+"Lager en fil med informasjon om det nåværende regeloppsettet. Krever at "
+"regeloppsettet er lastet inn (feks. etter 'start'). Det eneste alternativet "
+"for <regeltype> er 'techs', som skriver informasjon om alle de "
+"(teknologiske) fremskrittene. Dette kan brukes av 'techtree' porgrammet for "
+"å lage diagrammer over fremskrittene."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1177
@@ -3931,7 +3944,9 @@ msgstr "Generer en beskjed til loggen."
 msgid ""
 "Generates a 'log message' with level 1.  This is mostly useful for debugging "
 "the logging system."
-msgstr "Lager en 'loggmelding' med level 1. Dette er mest nyttig for å finne feil i logg-systemet."
+msgstr ""
+"Lager en 'loggmelding' med level 1. Dette er mest nyttig for å finne feil i "
+"logg-systemet."
 
 #: server/stdinhand.c:1184
 msgid "Change server output style to 'RFC-style'."
@@ -4154,7 +4169,9 @@ msgstr "Klarte ikke å skrive til manusfilen '%s'."
 #: server/stdinhand.c:1909
 #, c-format
 msgid "Cannot output rules: ruleset data not loaded (e.g., use '%sstart')."
-msgstr "Kunne ikke vise reglene: regeloppsettet er ikke lastet inn (feks., bruk '%sstart')."
+msgstr ""
+"Kunne ikke vise reglene: regeloppsettet er ikke lastet inn (feks., bruk '%"
+"sstart')."
 
 #: server/stdinhand.c:1933
 #, c-format
@@ -4193,7 +4210,9 @@ msgstr "Spill: Du har nå tilgangsnivå '%s'."
 msgid ""
 "Game: Anyone can assume command access level '%s' now by issuing the "
 "'firstlevel' command."
-msgstr "Spill: Alle kan få kommando tilgangsnivå '%s' nå ved å bruke 'firstlevel' kommandoen."
+msgstr ""
+"Spill: Alle kan få kommando tilgangsnivå '%s' nå ved å bruke 'firstlevel' "
+"kommandoen."
 
 #: server/stdinhand.c:2065
 msgid "Command access levels in effect:"
@@ -5243,12 +5262,12 @@ msgstr "Klarer ikke å finne lydfilen %s"
 #: client/audio_esd.c:120
 #, c-format
 msgid "Error while caching sample <%d>: confirm value != music_id\n"
-msgstr ""
+msgstr "Feil ved behandling av lydsekvensen <%d>: bekreft verdi != music_id\n"
 
 #: client/audio_esd.c:147
 #, c-format
 msgid "Error while caching sample <%d>: confirm value != samples[].id\n"
-msgstr ""
+msgstr "Feil ved behandling av lydsekvensen <%d>: bekreft verdi != samples[].id\n"
 
 #: client/citydlg_common.c:108
 msgid "?filler:XXX/XXX XXX turns"
@@ -5260,7 +5279,7 @@ msgid "%3d gold per turn"
 msgstr "%3d gull per runde"
 
 #: client/citydlg_common.c:133
-#, c-format
+#, c-format, ycp-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "%3d runde"
@@ -5418,7 +5437,7 @@ msgstr "H"
 msgid "Number of Trade Routes"
 msgstr "Antall handelsruter"
 
-#: client/agents/cma_core.c:1949 client/cityrepdata.c:225
+#: client/agents/cma_core.c:1951 client/cityrepdata.c:225
 #: client/gui-gtk-2.0/repodlgs.c:850 client/gui-gtk/repodlgs.c:799
 #: client/gui-mui/citydlg.c:1641 client/gui-mui/repodlgs.c:736
 #: client/gui-win32/repodlgs.c:711
@@ -5445,8 +5464,8 @@ msgstr "Kor"
 msgid "Corruption"
 msgstr "Korrupsjon"
 
-#: client/cityrepdata.c:231 client/gui-gtk-2.0/cityrep.c:1094
-#: client/gui-gtk-2.0/cityrep.c:1198 client/gui-gtk/cityrep.c:514
+#: client/cityrepdata.c:231 client/gui-gtk-2.0/cityrep.c:1108
+#: client/gui-gtk-2.0/cityrep.c:1252 client/gui-gtk/cityrep.c:514
 #: client/gui-gtk/cityrep.c:886 client/gui-mui/citydlg.c:1440
 msgid "CMA"
 msgstr "ByF"
@@ -5631,8 +5650,8 @@ msgstr "Reisetid:        %5.1f år"
 msgid "Travel time:        N/A     "
 msgstr "Reisetid:           N/A     "
 
-#: client/climisc.c:1127
-#, c-format
+#: client/climisc.c:1126
+#, c-format, ycp-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Masse:  %5d tonn"
@@ -6590,47 +6609,47 @@ msgstr ""
 "Vennligst ta kontakt med <freeciv-dev@freeciv.org> Byforvaltning er "
 "deaktivert."
 
-#: client/agents/cma_core.c:1951 client/gui-gtk-2.0/repodlgs.c:849
+#: client/agents/cma_core.c:1953 client/gui-gtk-2.0/repodlgs.c:849
 #: client/gui-gtk/repodlgs.c:799 client/gui-mui/citydlg.c:1645
 #: client/gui-mui/repodlgs.c:735 client/gui-win32/repodlgs.c:711
 msgid "Shield"
 msgstr "Skjold"
 
-#: client/agents/cma_core.c:1953 client/gui-mui/citydlg.c:1649
+#: client/agents/cma_core.c:1955 client/gui-mui/citydlg.c:1649
 #: data/Freeciv:2966 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
 #: data/default/techs.ruleset:557
 msgid "Trade"
 msgstr "Handel"
 
-#: client/agents/cma_core.c:1955 client/gui-gtk-2.0/citydlg.c:553
+#: client/agents/cma_core.c:1957 client/gui-gtk-2.0/citydlg.c:553
 #: client/gui-gtk/citydlg.c:546 client/gui-mui/citydlg.c:1653
 #: data/civ1/terrain.ruleset:368 data/civ2/terrain.ruleset:376
 #: data/default/terrain.ruleset:376
 msgid "Gold"
 msgstr "Gull"
 
-#: client/agents/cma_fec.c:226 client/gui-gtk-2.0/cityrep.c:389
-#: client/gui-gtk-2.0/cityrep.c:409 client/gui-gtk/cityrep.c:414
+#: client/agents/cma_fec.c:226 client/gui-gtk-2.0/cityrep.c:393
+#: client/gui-gtk-2.0/cityrep.c:413 client/gui-gtk/cityrep.c:414
 #: client/gui-gtk/cityrep.c:433
 msgid "none"
 msgstr "ingen"
 
-#: client/agents/cma_fec.c:242 client/gui-gtk-2.0/cityrep.c:431
+#: client/agents/cma_fec.c:242 client/gui-gtk-2.0/cityrep.c:435
 #: client/gui-gtk/cityrep.c:454
 msgid "custom"
 msgstr "egendefinert"
 
 #: client/agents/cma_fec.c:278 client/agents/cma_fec.c:322
-#: client/gui-gtk-2.0/citydlg.c:1711 client/gui-gtk/citydlg.c:1727
-#: client/gui-mui/citydlg.c:130 client/gui-mui/citydlg.c:174
-#: client/gui-mui/citydlg.c:1880
+#: client/gui-gtk-2.0/citydlg.c:1710 client/gui-gtk/citydlg.c:1717
+#: client/gui-mui/citydlg.c:129 client/gui-mui/citydlg.c:173
+#: client/gui-mui/citydlg.c:1879
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
 msgstr[0] "%d runder"
 msgstr[1] "%d runder"
 
-#: client/agents/cma_fec.c:362 client/gui-mui/citydlg.c:2237
+#: client/agents/cma_fec.c:362 client/gui-mui/citydlg.c:2236
 msgid " happy"
 msgstr " lykkelig"
 
@@ -6748,9 +6767,9 @@ msgstr ">"
 msgid "%d/%d %d turns"
 msgstr "%d/%d %d runder"
 
-#: client/gui-gtk-2.0/citydlg.c:819 client/gui-gtk/citydlg.c:818
-#: client/gui-gtk/cityrep.c:597 client/gui-mui/citydlg.c:1522
-#: client/gui-mui/cityrep.c:391
+#: client/gui-gtk-2.0/citydlg.c:819 client/gui-gtk-2.0/cityrep.c:649
+#: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:597
+#: client/gui-mui/citydlg.c:1522 client/gui-mui/cityrep.c:391
 msgid "_Buy"
 msgstr "_Kjøp"
 
@@ -6971,8 +6990,9 @@ msgstr " (arbeidsliste)"
 msgid "Upkeep (Total: %d)"
 msgstr "Utgifter(Totalt: %d)"
 
-#: client/gui-gtk-2.0/citydlg.c:2114 client/gui-gtk/citydlg.c:2127
 # c-format
+#: client/gui-gtk-2.0/citydlg.c:2114 client/gui-gtk/citydlg.c:2127
+#, c-format
 msgid "Supported units (%d)"
 msgstr "Støttede enheter (%d)"
 
@@ -7033,8 +7053,8 @@ msgstr "_Oppløs enhet"
 #: client/gui-gtk-2.0/dialogs.c:1040 client/gui-gtk-2.0/dialogs.c:1065
 #: client/gui-gtk-2.0/dialogs.c:1097 client/gui-gtk-2.0/gotodlg.c:127
 #: client/gui-gtk/citydlg.c:2477 client/gui-gtk/citydlg.c:2515
-#: client/gui-gtk/dialogs.c:1030 client/gui-gtk/dialogs.c:1056
-#: client/gui-gtk/dialogs.c:1089 client/gui-gtk/gotodlg.c:127
+#: client/gui-gtk/dialogs.c:1029 client/gui-gtk/dialogs.c:1055
+#: client/gui-gtk/dialogs.c:1088 client/gui-gtk/gotodlg.c:127
 #: client/gui-mui/citydlg.c:1318 client/gui-mui/citydlg.c:1723
 #: client/gui-mui/cityrep.c:305 client/gui-mui/dialogs.c:342
 #: client/gui-mui/dialogs.c:439 client/gui-mui/dialogs.c:839
@@ -7089,7 +7109,7 @@ msgstr "Opgrader enhet!"
 #: client/gui-gtk-2.0/dialogs.c:954 client/gui-gtk-2.0/dialogs.c:969
 #: client/gui-gtk/citydlg.c:2691 client/gui-gtk/citydlg.c:2714
 #: client/gui-gtk/citydlg.c:2908 client/gui-gtk/dialogs.c:402
-#: client/gui-gtk/dialogs.c:945 client/gui-gtk/dialogs.c:962
+#: client/gui-gtk/dialogs.c:945 client/gui-gtk/dialogs.c:961
 #: client/gui-mui/dialogs.c:237 client/gui-mui/dialogs.c:507
 #: client/gui-mui/dialogs.c:523 client/gui-win32/citydlg.c:1013
 #: client/gui-win32/citydlg.c:1598 client/gui-win32/citydlg.c:1622
@@ -7123,8 +7143,8 @@ msgstr "Oppgrader foreldede enheter"
 #: client/gui-gtk-2.0/dialogs.c:380 client/gui-gtk-2.0/dialogs.c:961
 #: client/gui-gtk/citydlg.c:2703 client/gui-gtk/citydlg.c:2898
 #: client/gui-gtk/citydlg.c:3165 client/gui-gtk/cma_fe.c:554
-#: client/gui-gtk/dialogs.c:394 client/gui-gtk/dialogs.c:953
-#: client/gui-gtk/dialogs.c:1260 client/gui-mui/citydlg.c:1038
+#: client/gui-gtk/dialogs.c:394 client/gui-gtk/dialogs.c:952
+#: client/gui-gtk/dialogs.c:1246 client/gui-mui/citydlg.c:1038
 #: client/gui-mui/citydlg.c:1078 client/gui-mui/dialogs.c:514
 #: client/gui-mui/dialogs.c:1161 client/gui-mui/dialogs.c:1879
 #: client/gui-mui/repodlgs.c:793 client/gui-win32/citydlg.c:1004
@@ -7139,8 +7159,8 @@ msgstr "_Ja"
 #: client/gui-gtk-2.0/dialogs.c:381 client/gui-gtk-2.0/dialogs.c:962
 #: client/gui-gtk/citydlg.c:2704 client/gui-gtk/citydlg.c:2899
 #: client/gui-gtk/citydlg.c:3166 client/gui-gtk/cma_fe.c:557
-#: client/gui-gtk/dialogs.c:395 client/gui-gtk/dialogs.c:954
-#: client/gui-gtk/dialogs.c:1261 client/gui-mui/citydlg.c:1039
+#: client/gui-gtk/dialogs.c:395 client/gui-gtk/dialogs.c:953
+#: client/gui-gtk/dialogs.c:1247 client/gui-mui/citydlg.c:1039
 #: client/gui-mui/citydlg.c:1079 client/gui-mui/dialogs.c:515
 #: client/gui-mui/dialogs.c:1162 client/gui-mui/dialogs.c:1880
 #: client/gui-mui/repodlgs.c:794 client/gui-win32/citydlg.c:1005
@@ -7269,91 +7289,54 @@ msgstr "Omdøp by"
 msgid "What should we rename the city to?"
 msgstr "Hva skal vi omdøpe byen til?"
 
-#: client/gui-gtk-2.0/cityrep.c:521 client/gui-gtk/cityrep.c:602
+#: client/gui-gtk-2.0/cityrep.c:525 client/gui-gtk/cityrep.c:602
 msgid "_Change..."
 msgstr "_Endre..."
 
-#: client/gui-gtk-2.0/cityrep.c:526 client/gui-gtk/cityrep.c:607
+#: client/gui-gtk-2.0/cityrep.c:530 client/gui-gtk/cityrep.c:607
 msgid "_Select..."
 msgstr "_Velg..."
 
-#: client/gui-gtk-2.0/cityrep.c:530
+#: client/gui-gtk-2.0/cityrep.c:534
 msgid "S_how..."
 msgstr "V_is"
 
-#: client/gui-gtk-2.0/cityrep.c:608 client/gui-gtk-2.0/cityrep.c:622
-#: client/gui-gtk-2.0/diplodlg.c:378 client/gui-gtk-2.0/diplodlg.c:390
-#: client/gui-gtk-2.0/menu.c:626 client/gui-gtk/cityrep.c:555
-#: client/gui-gtk/diplodlg.c:378 client/gui-gtk/diplodlg.c:390
-#: client/gui-gtk/menu.c:625 client/gui-mui/diplodlg.c:479
-#: client/gui-mui/diplodlg.c:514 client/gui-mui/diplodlg.c:595
-#: client/gui-mui/diplodlg.c:605 client/gui-mui/gui_main.c:263
-#: client/gui-win32/diplodlg.c:606 client/gui-win32/diplodlg.c:653
-#: client/gui-win32/menu.c:311 client/gui-xaw/cityrep.c:213
-#: client/gui-xaw/cityrep.c:549 client/gui-xaw/menu.c:141
-#: client/gui-xaw/menu.c:196 data/Freeciv:368 data/Freeciv:377
-#: data/Freeciv:1510
+#: client/gui-gtk-2.0/cityrep.c:611 client/gui-gtk-2.0/diplodlg.c:378
+#: client/gui-gtk-2.0/diplodlg.c:390 client/gui-gtk-2.0/menu.c:626
+#: client/gui-gtk/cityrep.c:555 client/gui-gtk/diplodlg.c:378
+#: client/gui-gtk/diplodlg.c:390 client/gui-gtk/menu.c:625
+#: client/gui-mui/diplodlg.c:479 client/gui-mui/diplodlg.c:514
+#: client/gui-mui/diplodlg.c:595 client/gui-mui/diplodlg.c:605
+#: client/gui-mui/gui_main.c:263 client/gui-win32/diplodlg.c:606
+#: client/gui-win32/diplodlg.c:653 client/gui-win32/menu.c:311
+#: client/gui-xaw/cityrep.c:213 client/gui-xaw/cityrep.c:549
+#: client/gui-xaw/menu.c:141 client/gui-xaw/menu.c:196 data/Freeciv:368
+#: data/Freeciv:377 data/Freeciv:1510
 msgid "Cities"
 msgstr "Byer"
 
-#: client/gui-gtk-2.0/cityrep.c:638 client/gui-gtk/finddlg.c:92
-#: client/gui-win32/cityrep.c:888 client/gui-win32/finddlg.c:124
-#: data/Freeciv:1089 data/Freeciv:1561
-msgid "Center"
-msgstr "Sentrer"
+#: client/gui-gtk-2.0/cityrep.c:637 client/gui-gtk/cityrep.c:587
+#: client/gui-mui/cityrep.c:389
+msgid "Cen_ter"
+msgstr "Sen_trer"
 
-#: client/gui-gtk-2.0/cityrep.c:645 client/gui-win32/cityrep.c:889
-#: data/Freeciv:1569
-msgid "Popup"
-msgstr "Vis"
+#: client/gui-gtk-2.0/cityrep.c:643 client/gui-gtk/cityrep.c:592
+#: client/gui-mui/cityrep.c:390
+msgid "_Popup"
+msgstr "Vis _By"
 
-#: client/gui-gtk-2.0/cityrep.c:654 client/gui-win32/citydlg.c:863
-#: client/gui-win32/cityrep.c:890 data/Freeciv:1577
-msgid "Buy"
-msgstr "Kjøp"
+#: client/gui-gtk-2.0/cityrep.c:655 client/gui-mui/cityrep.c:393
+msgid "_Refresh"
+msgstr "_Oppfrisk"
 
-#: client/gui-gtk-2.0/cityrep.c:663 client/gui-gtk/repodlgs.c:842
-#: client/gui-win32/cityrep.c:893 client/gui-win32/repodlgs.c:733
-#: data/Freeciv:1601 data/Freeciv:1746 data/Freeciv:1903
-msgid "Refresh"
-msgstr "Oppfrisk"
-
-#: client/gui-gtk-2.0/cityrep.c:672 client/gui-gtk-2.0/dialogs.c:301
-#: client/gui-gtk-2.0/dialogs.c:680 client/gui-gtk-2.0/dialogs.c:778
-#: client/gui-gtk-2.0/dialogs.c:1762 client/gui-gtk-2.0/helpdlg.c:644
-#: client/gui-gtk-2.0/inteldlg.c:176 client/gui-gtk-2.0/spaceshipdlg.c:206
-#: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/cityrep.c:1371
-#: client/gui-gtk/dialogs.c:203 client/gui-gtk/dialogs.c:328
-#: client/gui-gtk/dialogs.c:684 client/gui-gtk/dialogs.c:782
-#: client/gui-gtk/dialogs.c:1720 client/gui-gtk/gamedlgs.c:444
-#: client/gui-gtk/helpdlg.c:612 client/gui-gtk/inteldlg.c:176
-#: client/gui-gtk/repodlgs.c:221 client/gui-gtk/repodlgs.c:597
-#: client/gui-gtk/repodlgs.c:830 client/gui-gtk/spaceshipdlg.c:206
-#: client/gui-gtk/wldlg.c:202 client/gui-win32/citydlg.c:899
-#: client/gui-win32/cityrep.c:133 client/gui-win32/cityrep.c:887
-#: client/gui-win32/dialogs.c:178 client/gui-win32/dialogs.c:241
-#: client/gui-win32/dialogs.c:677 client/gui-win32/dialogs.c:1286
-#: client/gui-win32/dialogs.c:1498 client/gui-win32/helpdlg.c:423
-#: client/gui-win32/inteldlg.c:151 client/gui-win32/messagewin.c:207
-#: client/gui-win32/optiondlg.c:109 client/gui-win32/plrdlg.c:385
-#: client/gui-win32/repodlgs.c:303 client/gui-win32/repodlgs.c:477
-#: client/gui-win32/repodlgs.c:729 client/gui-win32/spaceshipdlg.c:232
-#: client/gui-win32/wldlg.c:305 data/Freeciv:145 data/Freeciv:195
-#: data/Freeciv:499 data/Freeciv:533 data/Freeciv:578 data/Freeciv:1441
-#: data/Freeciv:1554 data/Freeciv:1650 data/Freeciv:1681 data/Freeciv:1814
-#: data/Freeciv:1888 data/Freeciv:1930 data/Freeciv:2295 data/Freeciv:2337
-#: data/Freeciv:2959 data/Freeciv:3122 data/Freeciv:3205
-msgid "Close"
-msgstr "Lukk"
-
-#: client/gui-gtk-2.0/cityrep.c:875 client/gui-gtk/cityrep.c:1131
+#: client/gui-gtk-2.0/cityrep.c:889 client/gui-gtk/cityrep.c:1131
 #: client/gui-mui/cityrep.c:186 client/gui-win32/cityrep.c:379
 #: client/gui-xaw/cityrep.c:419
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spill: %s koster %d gull og du har kun %d gull."
 
-#: client/gui-gtk-2.0/cityrep.c:1088 client/gui-gtk-2.0/menu.c:628
+#: client/gui-gtk-2.0/cityrep.c:1102 client/gui-gtk-2.0/menu.c:628
 #: client/gui-gtk-2.0/repodlgs.c:870 client/gui-gtk/cityrep.c:508
 #: client/gui-gtk/menu.c:627 client/gui-gtk/repodlgs.c:811
 #: client/gui-mui/citydlg.c:1437 client/gui-mui/gui_main.c:264
@@ -7365,7 +7348,7 @@ msgstr "Spill: %s koster %d gull og du har kun %d gull."
 msgid "Units"
 msgstr "Enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1090 client/gui-gtk-2.0/menu.c:610
+#: client/gui-gtk-2.0/cityrep.c:1104 client/gui-gtk-2.0/menu.c:610
 #: client/gui-gtk-2.0/menu.c:612 client/gui-gtk-2.0/menu.c:614
 #: client/gui-gtk-2.0/menu.c:616 client/gui-gtk-2.0/menu.c:618
 #: client/gui-gtk-2.0/menu.c:620 client/gui-gtk/cityrep.c:505
@@ -7377,67 +7360,91 @@ msgstr "Enheter"
 msgid "Improvements"
 msgstr "Forbedringer"
 
-#: client/gui-gtk-2.0/cityrep.c:1092 client/gui-gtk/cityrep.c:511
+#: client/gui-gtk-2.0/cityrep.c:1106 client/gui-gtk/cityrep.c:511
 #: client/gui-xaw/menu.c:223
 msgid "Wonders"
 msgstr "Underverk"
 
-#: client/gui-gtk-2.0/cityrep.c:1134 client/gui-gtk-2.0/gotodlg.c:122
+#: client/gui-gtk-2.0/cityrep.c:1148 client/gui-gtk-2.0/gotodlg.c:122
 #: client/gui-gtk/cityrep.c:805 client/gui-gtk/gotodlg.c:122
 #: client/gui-win32/cityrep.c:456 client/gui-win32/gotodlg.c:164
 #: data/Freeciv:1141
 msgid "All Cities"
 msgstr "Alle byer"
 
-#: client/gui-gtk-2.0/cityrep.c:1139 client/gui-gtk/cityrep.c:811
+#: client/gui-gtk-2.0/cityrep.c:1153 client/gui-gtk/cityrep.c:811
 #: client/gui-win32/cityrep.c:457
 msgid "No Cities"
 msgstr "Ingen byer"
 
-#: client/gui-gtk-2.0/cityrep.c:1144 client/gui-gtk/cityrep.c:817
+#: client/gui-gtk-2.0/cityrep.c:1158 client/gui-gtk/cityrep.c:817
 #: client/gui-win32/cityrep.c:458
 msgid "Invert Selection"
 msgstr "Snu valg"
 
-#: client/gui-gtk-2.0/cityrep.c:1154 client/gui-gtk/cityrep.c:826
+#: client/gui-gtk-2.0/cityrep.c:1168 client/gui-gtk/cityrep.c:849
+msgid "Building Units"
+msgstr "Bygger enheter"
+
+#: client/gui-gtk-2.0/cityrep.c:1174 client/gui-gtk/cityrep.c:843
+msgid "Building Improvements"
+msgstr "Bygger byforbedringer"
+
+#: client/gui-gtk-2.0/cityrep.c:1180 client/gui-gtk/cityrep.c:855
+msgid "Building Wonders"
+msgstr "Bygger underverk"
+
+#: client/gui-gtk-2.0/cityrep.c:1192
+msgid "Building Unit"
+msgstr "Bygger enhet"
+
+#: client/gui-gtk-2.0/cityrep.c:1196
+msgid "Building Improvement"
+msgstr "Bygger byforbedring"
+
+#: client/gui-gtk-2.0/cityrep.c:1200
+msgid "Building Wonder"
+msgstr "Bygger underverk"
+
+#: client/gui-gtk-2.0/cityrep.c:1208 client/gui-gtk/cityrep.c:826
 #: client/gui-win32/cityrep.c:460
 msgid "Coastal Cities"
 msgstr "Byer ved kysten"
 
-#: client/gui-gtk-2.0/cityrep.c:1159 client/gui-gtk/cityrep.c:832
+#: client/gui-gtk-2.0/cityrep.c:1213 client/gui-gtk/cityrep.c:832
 #: client/gui-win32/cityrep.c:461
 msgid "Same Island"
 msgstr "Samme øy"
 
-#: client/gui-gtk-2.0/cityrep.c:1169 client/gui-gtk/cityrep.c:865
+#: client/gui-gtk-2.0/cityrep.c:1223 client/gui-gtk/cityrep.c:865
 #: client/gui-mui/citydlg.c:1509 client/gui-mui/citydlg.c:1546
 #: client/gui-win32/cityrep.c:464
 msgid "Supported Units"
 msgstr "Støttede enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1172 client/gui-gtk/cityrep.c:868
+#: client/gui-gtk-2.0/cityrep.c:1226 client/gui-gtk/cityrep.c:868
 #: client/gui-win32/cityrep.c:471
 msgid "Units Present"
 msgstr "Enheter tilstede"
 
-#: client/gui-gtk-2.0/cityrep.c:1176 client/gui-gtk/cityrep.c:871
+#: client/gui-gtk-2.0/cityrep.c:1230 client/gui-gtk/cityrep.c:871
 #: client/gui-win32/cityrep.c:486
 msgid "Improvements in City"
 msgstr "Forbedringer i by"
 
-#: client/gui-gtk-2.0/cityrep.c:1180
+#: client/gui-gtk-2.0/cityrep.c:1234
 msgid "Wonders in City"
 msgstr "Underverk i byen"
 
-#: client/gui-gtk-2.0/cityrep.c:1189 client/gui-gtk/cityrep.c:878
+#: client/gui-gtk-2.0/cityrep.c:1243 client/gui-gtk/cityrep.c:878
 msgid "Available Units"
 msgstr "Tilgjengelige enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1192 client/gui-gtk/cityrep.c:874
+#: client/gui-gtk-2.0/cityrep.c:1246 client/gui-gtk/cityrep.c:874
 msgid "Available Improvements"
 msgstr "Tilgjengelige Forbedringer"
 
-#: client/gui-gtk-2.0/cityrep.c:1195 client/gui-gtk/cityrep.c:882
+#: client/gui-gtk-2.0/cityrep.c:1249 client/gui-gtk/cityrep.c:882
 msgid "Available Wonders"
 msgstr "Tilgjengelige underverker"
 
@@ -7634,6 +7641,34 @@ msgstr ""
 msgid "Message:"
 msgstr "Beskjed:"
 
+#: client/gui-gtk-2.0/dialogs.c:301 client/gui-gtk-2.0/dialogs.c:680
+#: client/gui-gtk-2.0/dialogs.c:778 client/gui-gtk-2.0/dialogs.c:1762
+#: client/gui-gtk-2.0/helpdlg.c:644 client/gui-gtk-2.0/inteldlg.c:176
+#: client/gui-gtk-2.0/spaceshipdlg.c:206 client/gui-gtk-2.0/wldlg.c:202
+#: client/gui-gtk/cityrep.c:1371 client/gui-gtk/dialogs.c:203
+#: client/gui-gtk/dialogs.c:328 client/gui-gtk/dialogs.c:684
+#: client/gui-gtk/dialogs.c:782 client/gui-gtk/dialogs.c:1712
+#: client/gui-gtk/gamedlgs.c:444 client/gui-gtk/helpdlg.c:612
+#: client/gui-gtk/inteldlg.c:176 client/gui-gtk/repodlgs.c:221
+#: client/gui-gtk/repodlgs.c:597 client/gui-gtk/repodlgs.c:830
+#: client/gui-gtk/spaceshipdlg.c:206 client/gui-gtk/wldlg.c:202
+#: client/gui-win32/citydlg.c:899 client/gui-win32/cityrep.c:133
+#: client/gui-win32/cityrep.c:887 client/gui-win32/dialogs.c:178
+#: client/gui-win32/dialogs.c:241 client/gui-win32/dialogs.c:677
+#: client/gui-win32/dialogs.c:1286 client/gui-win32/dialogs.c:1498
+#: client/gui-win32/helpdlg.c:423 client/gui-win32/inteldlg.c:151
+#: client/gui-win32/messagewin.c:207 client/gui-win32/optiondlg.c:109
+#: client/gui-win32/plrdlg.c:385 client/gui-win32/repodlgs.c:303
+#: client/gui-win32/repodlgs.c:477 client/gui-win32/repodlgs.c:729
+#: client/gui-win32/spaceshipdlg.c:232 client/gui-win32/wldlg.c:305
+#: data/Freeciv:145 data/Freeciv:195 data/Freeciv:499 data/Freeciv:533
+#: data/Freeciv:578 data/Freeciv:1441 data/Freeciv:1554 data/Freeciv:1650
+#: data/Freeciv:1681 data/Freeciv:1814 data/Freeciv:1888 data/Freeciv:1930
+#: data/Freeciv:2295 data/Freeciv:2337 data/Freeciv:2959 data/Freeciv:3122
+#: data/Freeciv:3205
+msgid "Close"
+msgstr "Lukk"
+
 #: client/gui-gtk-2.0/dialogs.c:305 client/gui-gtk/dialogs.c:332
 #: client/gui-win32/dialogs.c:179 data/Freeciv:507
 msgid "Goto and Close"
@@ -7668,7 +7703,7 @@ msgstr ""
 "Skattkammeret har %d gull."
 
 #: client/gui-gtk-2.0/dialogs.c:387 client/gui-gtk-2.0/dialogs.c:968
-#: client/gui-gtk/dialogs.c:401 client/gui-gtk/dialogs.c:960
+#: client/gui-gtk/dialogs.c:401 client/gui-gtk/dialogs.c:959
 #: client/gui-mui/dialogs.c:236 client/gui-mui/dialogs.c:522
 #: client/gui-win32/dialogs.c:1383 client/gui-win32/dialogs.c:1580
 #: data/Freeciv:2389
@@ -7752,13 +7787,13 @@ msgstr ""
 "Start opprør for %d gull?\n"
 "Skattkammeret har %d gull."
 
-#: client/gui-gtk-2.0/dialogs.c:960 client/gui-gtk/dialogs.c:951
+#: client/gui-gtk-2.0/dialogs.c:960 client/gui-gtk/dialogs.c:950
 #: client/gui-mui/dialogs.c:513 client/gui-win32/dialogs.c:1572
 #: data/Freeciv:2378
 msgid "Incite a Revolt!"
 msgstr "Start opprør!"
 
-#: client/gui-gtk-2.0/dialogs.c:965 client/gui-gtk/dialogs.c:957
+#: client/gui-gtk-2.0/dialogs.c:965 client/gui-gtk/dialogs.c:956
 #: client/gui-mui/dialogs.c:520 client/gui-win32/dialogs.c:1577
 #: client/gui-xaw/dialogs.c:1034
 #, c-format
@@ -7769,7 +7804,7 @@ msgstr ""
 "Å skape et opprør koster %d gull.\n"
 "Skattkammeret har %d gull."
 
-#: client/gui-gtk-2.0/dialogs.c:1028 client/gui-gtk/dialogs.c:1017
+#: client/gui-gtk-2.0/dialogs.c:1028 client/gui-gtk/dialogs.c:1016
 #: client/gui-win32/dialogs.c:1616 client/gui-xaw/dialogs.c:1098
 #, c-format
 msgid ""
@@ -7779,97 +7814,97 @@ msgstr ""
 "Din %s har ankommet %s.\n"
 "Hva er din ordre?"
 
-#: client/gui-gtk-2.0/dialogs.c:1033 client/gui-gtk/dialogs.c:1022
+#: client/gui-gtk-2.0/dialogs.c:1033 client/gui-gtk/dialogs.c:1021
 #: client/gui-win32/dialogs.c:1621
 msgid " Choose Your Diplomat's Strategy"
 msgstr " Velg din diplomats strategi"
 
 #: client/gui-gtk-2.0/dialogs.c:1034 client/gui-gtk-2.0/dialogs.c:1058
-#: client/gui-gtk/dialogs.c:1024 client/gui-gtk/dialogs.c:1049
+#: client/gui-gtk/dialogs.c:1023 client/gui-gtk/dialogs.c:1048
 #: client/gui-win32/dialogs.c:1622 client/gui-win32/dialogs.c:1643
 msgid "Establish _Embassy"
 msgstr "_Etabler ambassade"
 
-#: client/gui-gtk-2.0/dialogs.c:1035 client/gui-gtk/dialogs.c:1025
+#: client/gui-gtk-2.0/dialogs.c:1035 client/gui-gtk/dialogs.c:1024
 #: client/gui-win32/dialogs.c:1623
 msgid "_Investigate City"
 msgstr "_Inspiser by"
 
-#: client/gui-gtk-2.0/dialogs.c:1036 client/gui-gtk/dialogs.c:1026
+#: client/gui-gtk-2.0/dialogs.c:1036 client/gui-gtk/dialogs.c:1025
 #: client/gui-win32/dialogs.c:1624
 msgid "_Sabotage City"
 msgstr "_Saboter by"
 
 #: client/gui-gtk-2.0/dialogs.c:1037 client/gui-gtk-2.0/dialogs.c:1062
-#: client/gui-gtk/dialogs.c:1027 client/gui-gtk/dialogs.c:1053
+#: client/gui-gtk/dialogs.c:1026 client/gui-gtk/dialogs.c:1052
 #: client/gui-win32/dialogs.c:1625 client/gui-win32/dialogs.c:1647
 msgid "Steal _Technology"
 msgstr "Stjel _teknologi"
 
 #: client/gui-gtk-2.0/dialogs.c:1038 client/gui-gtk-2.0/dialogs.c:1063
-#: client/gui-gtk/dialogs.c:1028 client/gui-gtk/dialogs.c:1054
+#: client/gui-gtk/dialogs.c:1027 client/gui-gtk/dialogs.c:1053
 #: client/gui-win32/dialogs.c:1626 client/gui-win32/dialogs.c:1648
 msgid "Incite a _Revolt"
 msgstr "Oppildne opp_rør"
 
 #: client/gui-gtk-2.0/dialogs.c:1039 client/gui-gtk-2.0/dialogs.c:1064
-#: client/gui-gtk-2.0/dialogs.c:1198 client/gui-gtk/dialogs.c:1029
-#: client/gui-gtk/dialogs.c:1055 client/gui-gtk/dialogs.c:1162
+#: client/gui-gtk-2.0/dialogs.c:1198 client/gui-gtk/dialogs.c:1028
+#: client/gui-gtk/dialogs.c:1054 client/gui-gtk/dialogs.c:1161
 #: client/gui-mui/dialogs.c:833 client/gui-mui/dialogs.c:900
 #: client/gui-mui/dialogs.c:1068 client/gui-win32/dialogs.c:1018
 msgid "_Keep moving"
 msgstr "_Fortsett"
 
-#: client/gui-gtk-2.0/dialogs.c:1057 client/gui-gtk/dialogs.c:1047
+#: client/gui-gtk-2.0/dialogs.c:1057 client/gui-gtk/dialogs.c:1046
 #: client/gui-mui/dialogs.c:912 client/gui-win32/dialogs.c:1642
 #: data/Freeciv:2234
 msgid "Choose Your Spy's Strategy"
 msgstr "Velg spionens strategi"
 
-#: client/gui-gtk-2.0/dialogs.c:1059 client/gui-gtk/dialogs.c:1050
+#: client/gui-gtk-2.0/dialogs.c:1059 client/gui-gtk/dialogs.c:1049
 #: client/gui-win32/dialogs.c:1644
 msgid "_Investigate City (free)"
 msgstr "_Inspiser byen (gratis)"
 
-#: client/gui-gtk-2.0/dialogs.c:1060 client/gui-gtk/dialogs.c:1051
+#: client/gui-gtk-2.0/dialogs.c:1060 client/gui-gtk/dialogs.c:1050
 #: client/gui-win32/dialogs.c:1645
 msgid "_Poison City"
 msgstr "For_gift byens drikkevann"
 
-#: client/gui-gtk-2.0/dialogs.c:1061 client/gui-gtk/dialogs.c:1052
+#: client/gui-gtk-2.0/dialogs.c:1061 client/gui-gtk/dialogs.c:1051
 #: client/gui-win32/dialogs.c:1646
 msgid "Industrial _Sabotage"
 msgstr "Industri_sabotasje"
 
-#: client/gui-gtk-2.0/dialogs.c:1091 client/gui-gtk/dialogs.c:1082
+#: client/gui-gtk-2.0/dialogs.c:1091 client/gui-gtk/dialogs.c:1081
 #: client/gui-mui/dialogs.c:947 client/gui-win32/dialogs.c:1673
 #: data/Freeciv:2365
 msgid "Subvert Enemy Unit"
 msgstr "Vend om fiendtlig enhet"
 
-#: client/gui-gtk-2.0/dialogs.c:1093 client/gui-gtk/dialogs.c:1084
+#: client/gui-gtk-2.0/dialogs.c:1093 client/gui-gtk/dialogs.c:1083
 #: client/gui-mui/dialogs.c:846 client/gui-mui/dialogs.c:949
 #: client/gui-win32/dialogs.c:1675 client/gui-xaw/dialogs.c:1158
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Deres høyhet, diplomaten avventer deres ordre"
 
-#: client/gui-gtk-2.0/dialogs.c:1094 client/gui-gtk/dialogs.c:1085
+#: client/gui-gtk-2.0/dialogs.c:1094 client/gui-gtk/dialogs.c:1084
 #: client/gui-mui/dialogs.c:913 client/gui-mui/dialogs.c:950
 #: client/gui-win32/dialogs.c:1676 client/gui-xaw/dialogs.c:1159
 msgid "Sir, the spy is waiting for your command"
 msgstr "Deres høyhet, spionen avventer deres ordre"
 
-#: client/gui-gtk-2.0/dialogs.c:1095 client/gui-gtk/dialogs.c:1087
+#: client/gui-gtk-2.0/dialogs.c:1095 client/gui-gtk/dialogs.c:1086
 #: client/gui-mui/dialogs.c:927 client/gui-win32/dialogs.c:1677
 msgid "_Bribe Enemy Unit"
 msgstr "_Bestikk fiendens enhet"
 
-#: client/gui-gtk-2.0/dialogs.c:1096 client/gui-gtk/dialogs.c:1088
+#: client/gui-gtk-2.0/dialogs.c:1096 client/gui-gtk/dialogs.c:1087
 #: client/gui-mui/dialogs.c:935 client/gui-win32/dialogs.c:1678
 msgid "_Sabotage Enemy Unit"
 msgstr "_Saboter fiendtlig enhet"
 
-#: client/gui-gtk-2.0/dialogs.c:1187 client/gui-gtk/dialogs.c:1151
+#: client/gui-gtk-2.0/dialogs.c:1187 client/gui-gtk/dialogs.c:1150
 #: client/gui-mui/dialogs.c:1035 client/gui-win32/dialogs.c:1007
 #: client/gui-xaw/dialogs.c:1259
 #, c-format
@@ -7880,18 +7915,18 @@ msgstr ""
 "Karavanen din fra %s når %s.\n"
 "Hva nå?"
 
-#: client/gui-gtk-2.0/dialogs.c:1194 client/gui-gtk/dialogs.c:1158
+#: client/gui-gtk-2.0/dialogs.c:1194 client/gui-gtk/dialogs.c:1157
 #: client/gui-mui/dialogs.c:1074 client/gui-win32/dialogs.c:1014
 #: data/Freeciv:2194
 msgid "Your Caravan Has Arrived"
 msgstr "Din karavane har kommet fram"
 
-#: client/gui-gtk-2.0/dialogs.c:1196 client/gui-gtk/dialogs.c:1160
+#: client/gui-gtk-2.0/dialogs.c:1196 client/gui-gtk/dialogs.c:1159
 #: client/gui-win32/dialogs.c:1016
 msgid "Establish _Traderoute"
 msgstr "Etabler handelsru_te"
 
-#: client/gui-gtk-2.0/dialogs.c:1197 client/gui-gtk/dialogs.c:1161
+#: client/gui-gtk-2.0/dialogs.c:1197 client/gui-gtk/dialogs.c:1160
 #: client/gui-win32/dialogs.c:1017
 msgid "Help build _Wonder"
 msgstr "Hjelpe til å bygge _underverk"
@@ -7907,24 +7942,24 @@ msgstr "Velg din nye styreform"
 msgid "Select government type:"
 msgstr "Velg styreform:"
 
-#: client/gui-gtk-2.0/dialogs.c:1312 client/gui-gtk/dialogs.c:1258
+#: client/gui-gtk-2.0/dialogs.c:1312 client/gui-gtk/dialogs.c:1244
 #: client/gui-mui/dialogs.c:1160 client/gui-win32/dialogs.c:868
 #: client/gui-xaw/dialogs.c:1373
 msgid "You say you wanna revolution?"
 msgstr "Så du vil ha revolusjon?"
 
-#: client/gui-gtk-2.0/dialogs.c:1313 client/gui-gtk/dialogs.c:1257
+#: client/gui-gtk-2.0/dialogs.c:1313 client/gui-gtk/dialogs.c:1243
 #: client/gui-mui/dialogs.c:1160 client/gui-win32/dialogs.c:867
 #: data/Freeciv:2397
 msgid "Revolution!"
 msgstr "Revolusjon!"
 
-#: client/gui-gtk-2.0/dialogs.c:1375 client/gui-gtk/dialogs.c:1313
+#: client/gui-gtk-2.0/dialogs.c:1375 client/gui-gtk/dialogs.c:1300
 #: client/gui-win32/dialogs.c:1747 data/Freeciv:2435
 msgid "What To Pillage"
 msgstr "Hva skal plyndres"
 
-#: client/gui-gtk-2.0/dialogs.c:1382 client/gui-gtk/dialogs.c:1314
+#: client/gui-gtk-2.0/dialogs.c:1382 client/gui-gtk/dialogs.c:1301
 #: client/gui-mui/dialogs.c:1234 client/gui-win32/dialogs.c:1752
 #: data/Freeciv:2437
 msgid "Select what to pillage:"
@@ -7932,8 +7967,8 @@ msgstr "Velg hva som skal plyndres:"
 
 #: client/gui-gtk-2.0/dialogs.c:1400 client/gui-gtk-2.0/dialogs.c:1509
 #: client/gui-gtk-2.0/inputdlg.c:106 client/gui-gtk-2.0/wldlg.c:488
-#: client/gui-gtk/cityrep.c:1087 client/gui-gtk/dialogs.c:1310
-#: client/gui-gtk/dialogs.c:1384 client/gui-gtk/finddlg.c:107
+#: client/gui-gtk/cityrep.c:1087 client/gui-gtk/dialogs.c:1297
+#: client/gui-gtk/dialogs.c:1372 client/gui-gtk/finddlg.c:107
 #: client/gui-gtk/gamedlgs.c:314 client/gui-gtk/inputdlg.c:132
 #: client/gui-gtk/messagedlg.c:124 client/gui-gtk/wldlg.c:488
 #: client/gui-win32/citydlg.c:1189 client/gui-win32/cityrep.c:765
@@ -7950,59 +7985,59 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: client/gui-gtk-2.0/dialogs.c:1485 client/gui-gtk/connectdlg.c:228
-#: client/gui-gtk/dialogs.c:1387 client/gui-mui/gui_main.c:293
+#: client/gui-gtk/dialogs.c:1375 client/gui-mui/gui_main.c:293
 #: client/gui-win32/connectdlg.c:411 client/gui-win32/dialogs.c:1953
 #: client/gui-xaw/menu.c:179 data/Freeciv:95 data/Freeciv:2445
 msgid "Connect"
 msgstr "Kople til"
 
-#: client/gui-gtk-2.0/dialogs.c:1492 client/gui-gtk/dialogs.c:1388
+#: client/gui-gtk-2.0/dialogs.c:1492 client/gui-gtk/dialogs.c:1376
 #: client/gui-mui/dialogs.c:1324 client/gui-win32/dialogs.c:1958
 #: data/Freeciv:2447
 msgid "Choose unit activity:"
 msgstr "Velg enhet aktivitet:"
 
-#: client/gui-gtk-2.0/dialogs.c:1707 client/gui-gtk/dialogs.c:1665
+#: client/gui-gtk-2.0/dialogs.c:1707 client/gui-gtk/dialogs.c:1657
 msgid "Unit selection"
 msgstr "Valg av enheter"
 
-#: client/gui-gtk-2.0/dialogs.c:1768 client/gui-gtk/dialogs.c:1726
+#: client/gui-gtk-2.0/dialogs.c:1768 client/gui-gtk/dialogs.c:1718
 #: client/gui-win32/dialogs.c:676 data/Freeciv:534
 msgid "Ready all"
 msgstr "Klargjør alle"
 
-#: client/gui-gtk-2.0/dialogs.c:1912 client/gui-gtk/dialogs.c:1868
+#: client/gui-gtk-2.0/dialogs.c:1912 client/gui-gtk/dialogs.c:1860
 msgid " What Nation Will You Be?"
 msgstr " Hvilken nasjon vil du være?"
 
-#: client/gui-gtk-2.0/dialogs.c:1914 client/gui-gtk/dialogs.c:1870
+#: client/gui-gtk-2.0/dialogs.c:1914 client/gui-gtk/dialogs.c:1862
 #: client/gui-win32/dialogs.c:472
 msgid "Select nation and name"
 msgstr "Velg nasjon og navn"
 
-#: client/gui-gtk-2.0/dialogs.c:1952 client/gui-gtk/dialogs.c:1908
+#: client/gui-gtk-2.0/dialogs.c:1952 client/gui-gtk/dialogs.c:1900
 #: client/gui-win32/dialogs.c:483
 msgid "Select your sex"
 msgstr "Velg kjønn"
 
-#: client/gui-gtk-2.0/dialogs.c:1959 client/gui-gtk/dialogs.c:1915
+#: client/gui-gtk-2.0/dialogs.c:1959 client/gui-gtk/dialogs.c:1907
 #: client/gui-mui/dialogs.c:1709 client/gui-win32/dialogs.c:485
 msgid "Male"
 msgstr "Mann"
 
-#: client/gui-gtk-2.0/dialogs.c:1965 client/gui-gtk/dialogs.c:1921
+#: client/gui-gtk-2.0/dialogs.c:1965 client/gui-gtk/dialogs.c:1913
 #: client/gui-mui/dialogs.c:1710 client/gui-win32/dialogs.c:487
 #: data/Freeciv:3059
 msgid "Female"
 msgstr "Kvinne"
 
-#: client/gui-gtk-2.0/dialogs.c:1986 client/gui-gtk/dialogs.c:1942
+#: client/gui-gtk-2.0/dialogs.c:1986 client/gui-gtk/dialogs.c:1934
 #: client/gui-win32/dialogs.c:491
 msgid "Select your city style"
 msgstr "Velg stil for byene"
 
 #: client/gui-gtk-2.0/dialogs.c:2008 client/gui-gtk-2.0/inputdlg.c:100
-#: client/gui-gtk-2.0/wldlg.c:482 client/gui-gtk/dialogs.c:1964
+#: client/gui-gtk-2.0/wldlg.c:482 client/gui-gtk/dialogs.c:1956
 #: client/gui-gtk/gamedlgs.c:305 client/gui-gtk/inputdlg.c:126
 #: client/gui-gtk/messagedlg.c:116 client/gui-gtk/wldlg.c:482
 #: client/gui-win32/dialogs.c:513 client/gui-win32/messagedlg.c:136
@@ -8012,35 +8047,35 @@ msgstr "Velg stil for byene"
 msgid "Ok"
 msgstr "Ok"
 
-#: client/gui-gtk-2.0/dialogs.c:2013 client/gui-gtk/dialogs.c:1969
+#: client/gui-gtk-2.0/dialogs.c:2013 client/gui-gtk/dialogs.c:1961
 #: client/gui-mui/gui_main.c:237 client/gui-win32/dialogs.c:514
 #: client/gui-xaw/menu.c:113 data/Freeciv:3078
 msgid "Disconnect"
 msgstr "Kople fra"
 
 #: client/gui-gtk-2.0/dialogs.c:2018 client/gui-gtk/connectdlg.c:234
-#: client/gui-gtk/dialogs.c:1974 client/gui-mui/gui_main.c:239
+#: client/gui-gtk/dialogs.c:1966 client/gui-mui/gui_main.c:239
 #: client/gui-win32/connectdlg.c:413 client/gui-win32/dialogs.c:516
 #: client/gui-xaw/menu.c:114 data/Freeciv:102 data/Freeciv:3080
 msgid "Quit"
 msgstr "Avslutt"
 
-#: client/gui-gtk-2.0/dialogs.c:2193 client/gui-gtk/dialogs.c:2148
+#: client/gui-gtk-2.0/dialogs.c:2193 client/gui-gtk/dialogs.c:2140
 #: client/gui-xaw/dialogs.c:2342
 msgid "You must select a nation."
 msgstr "Du må velge en nasjon"
 
-#: client/gui-gtk-2.0/dialogs.c:2198 client/gui-gtk/dialogs.c:2153
+#: client/gui-gtk-2.0/dialogs.c:2198 client/gui-gtk/dialogs.c:2145
 #: client/gui-xaw/dialogs.c:2347
 msgid "You must select your sex."
 msgstr "Du må velge kjønn."
 
-#: client/gui-gtk-2.0/dialogs.c:2203 client/gui-gtk/dialogs.c:2158
+#: client/gui-gtk-2.0/dialogs.c:2203 client/gui-gtk/dialogs.c:2150
 #: client/gui-xaw/dialogs.c:2352
 msgid "You must select your city style."
 msgstr "Du må velge stil for byene din."
 
-#: client/gui-gtk-2.0/dialogs.c:2216 client/gui-gtk/dialogs.c:2171
+#: client/gui-gtk-2.0/dialogs.c:2216 client/gui-gtk/dialogs.c:2163
 #: client/gui-mui/dialogs.c:1637 client/gui-win32/dialogs.c:321
 #: client/gui-xaw/dialogs.c:2366
 msgid "You must type a legal name."
@@ -8231,7 +8266,8 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"Freeciv er fri programvare og du kan distribuere kopier av det under spesielle vilkår;\n"
+"Freeciv er fri programvare og du kan distribuere kopier av det under "
+"spesielle vilkår;\n"
 "Se objektet \"Kopiering\" i hjelpmenyen for mer informasjon om lisensen.\n"
 "\n"
 "Besøk http://www.freeciv.org/ for oppdaterte versjoner av Freeciv, \n"
@@ -9567,10 +9603,11 @@ msgstr "flytter"
 msgid "R.I.P"
 msgstr "R.I.P"
 
+# c-format
 #: client/gui-gtk-2.0/plrdlg.c:321 client/gui-gtk/plrdlg.c:321
 #: client/gui-mui/plrdlg.c:122 client/gui-win32/plrdlg.c:194
 #: client/gui-xaw/plrdlg.c:222
-# c-format
+#, c-format
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
 msgstr[0] "(stille %d runde)"
@@ -9592,9 +9629,10 @@ msgstr "Forsker på"
 msgid "Goal"
 msgstr "Mål"
 
+# c-format
 #: client/gui-gtk-2.0/repodlgs.c:301 client/gui-gtk-2.0/repodlgs.c:488
 #: client/gui-gtk/repodlgs.c:292 client/gui-gtk/repodlgs.c:484
-# c-format
+#, c-format
 msgid "(%d step)"
 msgid_plural "(%d steps)"
 msgstr[0] "(%d steg)"
@@ -9604,7 +9642,7 @@ msgstr[1] "(%d steg)"
 msgid "Research speed: no research"
 msgstr "Forskingstempo: ingen forskning"
 
-#: client/gui-gtk-2.0/repodlgs.c:377 client/gui-gtk/repodlgs.c:382
+#: client/gui-gtk-2.0/repodlgs.c:382 client/gui-gtk/repodlgs.c:381
 #, c-format
 msgid "Research speed: %d turn/advance"
 msgid_plural "Research speed: %d turns/advance"
@@ -9801,29 +9839,9 @@ msgstr "Ingen underverk tilgjengelig"
 msgid "Change All..."
 msgstr "Endre alle..."
 
-#: client/gui-gtk/cityrep.c:587 client/gui-mui/cityrep.c:389
-msgid "Cen_ter"
-msgstr "Sen_trer"
-
-#: client/gui-gtk/cityrep.c:592 client/gui-mui/cityrep.c:390
-msgid "_Popup"
-msgstr "Vis _By"
-
 #: client/gui-gtk/cityrep.c:612
 msgid "Con_figure..."
 msgstr "_Tilpass..."
-
-#: client/gui-gtk/cityrep.c:843
-msgid "Building Improvements"
-msgstr "Bygger byforbedringer"
-
-#: client/gui-gtk/cityrep.c:849
-msgid "Building Units"
-msgstr "Bygger enheter"
-
-#: client/gui-gtk/cityrep.c:855
-msgid "Building Wonders"
-msgstr "Bygger underverk"
 
 #: client/gui-gtk/cityrep.c:915 client/gui-win32/cityrep.c:706
 msgid "Game: Select a unit or improvement to change production to."
@@ -9859,6 +9877,11 @@ msgstr "Tilpass byrapport"
 #: client/gui-win32/cityrep.c:128 data/Freeciv:1673
 msgid "Set columns shown"
 msgstr "Sett ant. kolonner som blir vist"
+
+#: client/gui-gtk/finddlg.c:92 client/gui-win32/cityrep.c:888
+#: client/gui-win32/finddlg.c:124 data/Freeciv:1089 data/Freeciv:1561
+msgid "Center"
+msgstr "Sentrer"
 
 #: client/gui-gtk/menu.c:686
 msgid "Go|Airlift to City"
@@ -9914,6 +9937,12 @@ msgstr "Totalt: ..."
 #: client/gui-win32/repodlgs.c:731 data/Freeciv:1895
 msgid "Upgrade"
 msgstr "Oppgrader"
+
+#: client/gui-gtk/repodlgs.c:842 client/gui-win32/cityrep.c:893
+#: client/gui-win32/repodlgs.c:733 data/Freeciv:1601 data/Freeciv:1746
+#: data/Freeciv:1903
+msgid "Refresh"
+msgstr "Oppfrisk"
 
 #: client/gui-gtk/repodlgs.c:925 client/gui-mui/dialogs.c:228
 #: client/gui-win32/repodlgs.c:597 client/gui-xaw/citydlg.c:2612
@@ -10104,10 +10133,6 @@ msgstr "Tilpass byrapport"
 #: client/gui-win32/cityrep.c:1078
 msgid "City Report"
 msgstr "Byrapport"
-
-#: client/gui-mui/cityrep.c:393
-msgid "_Refresh"
-msgstr "_Oppfrisk"
 
 #: client/gui-mui/cityrep.c:440 client/gui-win32/cityrep.c:897
 #: client/gui-win32/cityrep.c:1148
@@ -10898,6 +10923,11 @@ msgstr ""
 "Luksus:    %2d\n"
 "Forskning: %2d"
 
+#: client/gui-win32/citydlg.c:863 client/gui-win32/cityrep.c:890
+#: data/Freeciv:1577
+msgid "Buy"
+msgstr "Kjøp"
+
 #: client/gui-win32/citydlg.c:905 data/Freeciv:2968
 msgid "Activate Units"
 msgstr "Aktiver enheter"
@@ -10937,6 +10967,10 @@ msgstr "Spill: Velg en enhet eller forbedring å endre produksjon fra."
 #: client/gui-win32/cityrep.c:712
 msgid "Game: That's the same thing!"
 msgstr "Spill: Det er den samme tingen!"
+
+#: client/gui-win32/cityrep.c:889 data/Freeciv:1569
+msgid "Popup"
+msgstr "Vis"
 
 #: client/gui-win32/cityrep.c:892 data/Freeciv:1593
 msgid "Change All"
@@ -12223,11 +12257,11 @@ msgid ""
 msgstr ""
 "    I denne menyen kan man velge å:\n"
 "\n"
-"   - Handla med kart (sjøkart eller hele verdenskartet),\n"
+"   - Handle med kart (sjøkart eller hele verdenskartet),\n"
 "\n"
-"   - Handla med teknologier,\n"
+"   - Handle med teknologier,\n"
 "\n"
-"   - Handla med byer,\n"
+"   - Handle med byer,\n"
 "\n"
 "   - og gi gull."
 
@@ -12391,7 +12425,7 @@ msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
-msgstr "Det er fire generelle typer enheter: Land, Sjø, Luft og Helokopter."
+msgstr "Det er fire generelle typer enheter: Land, Sjø, Luft og Helikopter."
 
 #: data/helpdata.txt:817
 #, no-c-format
@@ -12408,6 +12442,17 @@ msgid ""
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
 msgstr ""
+"Landenheter beveger seg på land, og forsinkes av landskapets bevegelsesmuligheter, "
+"mens det går fortere på veier og jernbaner. De kan ikke bevege seg på "
+"havsruter utenom hvis de bæres av en passende sjøenhet. "
+"Når landenheter er til sjøss, kan de ikke angripe eller forsvare seg, det "
+"er det enheten som bærer de som avgjør. Landenheter er de eneste som "
+"kontrollomtådet har innvirkning på. På land kan landenheter befeste seg og "
+"får da 50% forsvarsbonus; landenheter i byer for alltid denne bonusen, uansett om "
+"de er befestet eller ikke. Nå ren landenhet lykkes med et angrep mot en by "
+"uten bymurer, minster innbyggertallet med 1. Landenheter med angrepsstyrke 0 "
+"er ikke-millitære enheter: de krever ingen utgifter, har ingen effekt på "
+"lykken i byen, og kan ikke angrie fiender eller byer."
 
 #: data/helpdata.txt:830
 msgid ""
@@ -12418,6 +12463,12 @@ msgid ""
 "in coastal cities, but they cannot enter an enemy city to capture it, even "
 "if the city is undefended."
 msgstr ""
+"Sjø enheter beveger seg på sjøruter og inn i byer ved siden av sjøruter. "
+"De kan bare bygges i slike byer. Lengden en sjøenhet kan bevege seg "
+"styres av flere underverk (Fyrtårn, Magellans Ekspedisjon) og av "
+"oppdagelsen av Atomkraft. De fleste sjø enheter kan angripe enheter "
+"på kysen og i kystbyer, men de kan ikke overta en fiendtlig by, "
+"selv ikke om den er uforsvart."
 
 #: data/helpdata.txt:837
 msgid ""
@@ -12432,6 +12483,17 @@ msgid ""
 "explore villages; depending upon server options, an overflown village may "
 "disband."
 msgstr ""
+"Fly enheter kan bevege seg på alle ruter som ikke er okkupert av "
+"en fiendtlig enhet eller by. Lengden en flyenhet kan bevege seg "
+"påvirkes ikke av reduksjon av treffkapasiteten. Flyenheter "
+"må fylle drivstoff, som kan gjøres ved å avslutte runden i en "
+"vennlig by, flybase eller hangarskip (eller ubåt for missilenheter). "
+"Antallet runder en enhet varer uten drivstoff avhenger av enhettypen "
+"(se info om de individuelle enhetene). Som sjø enheter, kan fly enheter "
+"ikke overta tomme fiendtlige byer. Utenfor byer kan fly enheter "
+"bare angripes av kampfly. Fly enheter kan ikke bli brukt for å utforske hytter, "
+"men dersom serveren er innstilt for det, kan hytter som blir overflydd "
+"bli ødelagt."
 
 #: data/helpdata.txt:849
 msgid ""
@@ -12442,6 +12504,12 @@ msgid ""
 "United Nations wonder.  Unlike other air units, Helicopters can capture "
 "enemy cities."
 msgstr ""
+"Som fly enheter, kan helikopter bevege seg på alle ruter som ikke "
+"er okkupert av en fiendtlig enhet eller by, og  lengden en helikopterenhet kan bevege seg "
+"påvirkes ikke av reduksjon av treffkapasiteten. Helikopter bruker ikke drivstoff, "
+"men de mister litt liv for hver runde de ikke er i en by eller flybase, "
+"med mindre du har De Forente Nasjoner underverket. Helikopter kan overta "
+"fiendtlige byer."
 
 #: data/helpdata.txt:856
 msgid ""
@@ -12467,6 +12535,8 @@ msgid ""
 "population of a City without City Walls by one point upon a successful "
 "attack."
 msgstr ""
+"Avhengig av serveralternativene kan alle enheter redusere byens innbyggertall i en by "
+"uten bymurer med 1 ved et vellykket angrep."
 
 #: data/helpdata.txt:884
 msgid ""
@@ -12474,6 +12544,9 @@ msgid ""
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
 msgstr ""
+"Når en enhet angriper en annen enhet, blir enten angriperen ødelagt, "
+"eller så blir forsvareren ødelagt -- aldri begge to (unntatt hvis angriperen var en "
+"missil). Utfallet avhenger på forskjellige faktorer, inkludert flaks."
 
 #: data/helpdata.txt:889
 msgid "First, the attacker's strength is modified."
@@ -12490,6 +12563,10 @@ msgid ""
 "strength is multiplied by 2/3.  If the attacker has 1 or more movement "
 "points left, no further modifications occur."
 msgstr ""
+" - \"Slitne\" angripere er svakere: hvis angriperen bare har 1/3 flyttpoeng igjen, "
+"blir dens styrke dividert på 3; dersom den har 2/3 flyttpoeng igjen blir styrken "
+"multiplisert med 2/3. Dersom angriperen har 1 eller flere flyttpoeng igjen "
+"skjer det ingen endringer."
 
 #: data/helpdata.txt:899
 msgid "Next, the defender's strength is modified."
@@ -12497,25 +12574,29 @@ msgstr "Så blir forsvarerens styrke endret."
 
 #: data/helpdata.txt:901
 msgid " - If the defender is a veteran, then its strength is multiplied by 1.5."
-msgstr ""
+msgstr " - Dersom forsvareren er veteran, vil dens styrke multipliseres med 1.5."
 
 #: data/helpdata.txt:904
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
-msgstr ""
+msgstr " - Da vil forsvarerens styrke bli multiplisert med forsvarsfaktoren til terrenget den okkuperer."
 
 #: data/helpdata.txt:907
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
 msgstr ""
+" - Deretter dobles forsvarerens styrke dersom det er en Pikeman enhet "
+"som forsvarer mot en ridende enhet."
 
 #: data/helpdata.txt:910
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
 msgstr ""
+" - Dersom forsvareren er en AEGIS Cruiser som forsvarer mot "
+"en flygende enhet (inlkudert missiler og helikopter) femdobles forsvaret."
 
 #: data/helpdata.txt:914
 msgid ""
@@ -12523,36 +12604,40 @@ msgid ""
 "Battery and the attacker is an air unit (other than a Helicopter) or a "
 "missile."
 msgstr ""
+" - Forsvarerens styrke blri doblet igjen dersom den er i en by med et "
+"SAM batteri og angriperen er en flyenhet (unntatt helikopter) eller en missil."
 
 #: data/helpdata.txt:918
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
-msgstr ""
+msgstr " - SDI Forsvar dobler forsvarerens styrke enda en gang mot missile angrep."
 
 #: data/helpdata.txt:921
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
 msgstr ""
+" - Dersom angriperen er et skip og forsvareren er i en by med Kystforsvar så vil forsvarerens "
+"styrke dobles."
 
 #: data/helpdata.txt:924
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
-msgstr ""
+msgstr " - Forsvaret tredobles for forsvarende enheter i en by med bymurer mot landenheter (utenom Howitzer) og helikopter."
 
 #: data/helpdata.txt:928
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
-msgstr ""
+msgstr " - Dersom forsvareren er i et fort (og ikke i en by) blir dens styrke doblet."
 
 #: data/helpdata.txt:931
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
-msgstr ""
+msgstr " - Til slutt, hvis forsvareren er en landenhet og den er befested eller i en by, så vil dens styrke multipliseres med 1.5."
 
 #: data/helpdata.txt:934
 msgid ""
@@ -12560,6 +12645,8 @@ msgid ""
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
 "defender loses."
 msgstr ""
+"Etter disse modifikasjonene, hvis angriperen har en styrke på 0, så taper den automatisk. "
+"Eller hvis forsvareren har en styrke på 0, så taper den."
 
 #: data/helpdata.txt:938
 msgid ""
@@ -12591,12 +12678,16 @@ msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
 msgstr ""
+"Dersom angriperen er en land enhet og den vinner, og forsvareren er i en by uten "
+"bymurer, så blir byens størrelse redusert med 1."
 
 #: data/helpdata.txt:967
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
 msgstr ""
+"Dersom forsvareren taper, og den ikke er i en by eller er befestet, så blir "
+"alle andre enheter på forsvarerens posisjon ødelagt også."
 
 #: data/helpdata.txt:974
 msgid " Combat example 1"
@@ -12629,6 +12720,8 @@ msgid ""
 "fractions dropped, so the attacker's strength is 80, and the defender's "
 "strength is 202."
 msgstr ""
+"Styrke verdier i spiller er i virkeligheten multiplisert med 10, "
+"desimaltall blir droppet, slik at angriperens styrke er 80, og forsvarerens styrke er 202."
 
 #: data/helpdata.txt:992
 #, no-c-format
@@ -12794,7 +12887,7 @@ msgstr " Terreng endringer"
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
-msgstr ""
+msgstr "Nybyggere og Ingeniører har enven til å endre terrenget på ulike måter."
 
 #: data/helpdata.txt:1127
 msgid ""
@@ -12805,12 +12898,19 @@ msgid ""
 "In addition, given sufficient technology, you may irrigate a square a second "
 "time, turning it into even more productive Farmland."
 msgstr ""
+"Egnede terrengtyper kan irrigeres. Dette krever en vannkilde i nærheten: en sjø eller ei "
+"elv, eller en annen irrigert rute, må være direkte motstående, nord, sør, øst eller vest. "
+"Å irrigere en rute fører til at den produserer ekstra mat hver runde. "
+"Dessuten, med nødvendig teknologi, kan du irrigere ruten enda en gang, "
+"og gjøre den om til enda mer produktivt dyrket land."
 
 #: data/helpdata.txt:1135
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
 msgstr ""
+"Enkelte terrengtyper kan ha gruvedrift, som øker antallet ressurser (skjold) "
+"som blir produsert på den ruten."
 
 #: data/helpdata.txt:1138
 msgid ""
@@ -12819,22 +12919,30 @@ msgid ""
 "Roads and railroads allow your units to move more quickly, and they increase "
 "the resources produced in cities."
 msgstr ""
+"Veier og jernbaner kan bygges på alle ruter utenom på sjøen. "
+"(For å bygge vei eller jernbane på elv, må du ha forsket på brobygging.) "
+"Veier og jernbaner lar dine enheter flytte raskere og "
+"de øker produksjonen av ressurser i byer."
 
 #: data/helpdata.txt:1143
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
 msgstr ""
+" - Enheter bruker bare en tredjedel av et bevegelsespoeng når den går fra "
+"en rute til en motstående rute dersom begge rutene har vei."
 
 #: data/helpdata.txt:1146
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
 msgstr ""
+" - Enheter forbruker ingen bevegelsespoeng dersom de beveger seg "
+"langs en jernbane. Du kan bevege deg på en jernbane uendelig."
 
 #: data/helpdata.txt:1149
 msgid " - A road may increase the trade resources produced by some types of terrain."
-msgstr ""
+msgstr " - En vei kan øke handelsressursene som blir produsert av enkelte terrengtyper."
 
 #: data/helpdata.txt:1152
 msgid ""
@@ -12842,6 +12950,9 @@ msgid ""
 "(Depending on server options, railroads may also increase food and trade "
 "resources, or may increase shield resources by an amount other than 50%.)"
 msgstr ""
+" - En jernbane øke skjold-ressursene produsert på en rute med 50%. "
+"(Avhengig av serveralternativene, kan jernbanen også øke mat og handel "
+"ressurser, eller kan øke skjoldressursene med en mengde forskjellig fra 50%.)"
 
 #: data/helpdata.txt:1157
 msgid ""
@@ -12907,6 +13018,8 @@ msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
 msgstr ""
+"Ditt styresett har innvirkning på dine byers produktivitet og handel, dine "
+"innbyggeres lykkelighet og mange andre faktorer i spillet."
 
 #: data/helpdata.txt:1205
 msgid ""
@@ -13163,6 +13276,9 @@ msgid ""
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
 msgstr ""
+"Med brakker blir alle nye landenheter veteraner. Det betyr at deres angreps og "
+"forsvars styrke øker med 50%. Skadede land enheter som blir i byen "
+"for en hel runde uten å forflytte seg blir helt reparert."
 
 #: data/civ1/buildings.ruleset:153 data/civ2/buildings.ruleset:145
 #: data/default/buildings.ruleset:336
@@ -13201,6 +13317,10 @@ msgid ""
 "Walls also prevent the loss of population which occurs when a defending unit "
 "is destroyed by a land unit."
 msgstr ""
+"Bymurer gjør det lettere å forsvare en by. De tredobler forsvarsstyrken til "
+"enheter i byen mot landenheter og helikopter. De er ikke effektive mot "
+"flyenheter, sjøenheter og Howitzere. Bymurer forhindrer av befolkningen "
+"minker som følge av at en forsvarende enhet blir ødelagt av en landenhet."
 
 #: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:265
 #: data/default/buildings.ruleset:456
@@ -13248,7 +13368,7 @@ msgstr "Fabrikk"
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
-msgstr ""
+msgstr "Øker produksjonen av skjold i en by med 50%. Det fører også til at forurensningen øker betraktelig."
 
 #: data/civ1/buildings.ruleset:387 data/civ2/buildings.ruleset:370
 #: data/default/buildings.ruleset:563
@@ -13273,7 +13393,7 @@ msgstr "Havn"
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
-msgstr ""
+msgstr "Gir en ektra mat ressurs på alle sjøruter. Byen behøver å være i nærheten av sjø for å bygge denne forbedringen."
 
 #: data/civ1/buildings.ruleset:441 data/civ2/buildings.ruleset:424
 #: data/default/buildings.ruleset:617
@@ -13326,8 +13446,8 @@ msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
 msgstr ""
-"Nøytaliserer forurensningen generert av befolkningen.  "
-"Befolkningen har absolutt ingen effekt på forurensningen fra byen."
+"Nøytaliserer forurensningen generert av befolkningen.  Befolkningen har "
+"absolutt ingen effekt på forurensningen fra byen."
 
 #: data/civ1/buildings.ruleset:553 data/civ2/buildings.ruleset:538
 #: data/default/buildings.ruleset:735
@@ -13412,6 +13532,8 @@ msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
 msgstr ""
+"Tillater en by å bygge veterane sjøenheter. Dessuten blir skadede sjøenheter "
+"som blir i byen en hel runde uten å bevege seg helt reparert."
 
 #: data/civ1/buildings.ruleset:728 data/civ2/buildings.ruleset:716
 #: data/default/buildings.ruleset:919
@@ -13441,6 +13563,8 @@ msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
 "production in a city by 66%."
 msgstr ""
+"Å bygge et resirkuleringssenter reduserer mengden forurensning som blir "
+"laget i en by med 66%."
 
 #: data/civ1/buildings.ruleset:786 data/civ2/buildings.ruleset:774
 #: data/default/buildings.ruleset:981
@@ -13465,7 +13589,7 @@ msgstr "SAM rakettbatteri"
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
-msgstr ""
+msgstr "Dobler forsvaret til alle enheter inne i en by når de blir angriper av flyenheter uten atomkraft."
 
 #: data/civ1/buildings.ruleset:839 data/civ2/buildings.ruleset:827
 #: data/default/buildings.ruleset:1034
@@ -13570,7 +13694,7 @@ msgstr "Børs"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr ""
+msgstr "Sammen med en markedsplass og en bank, så øker børsen skatte- og luksus-produksjonen i en by med 150%."
 
 #: data/civ1/buildings.ruleset:1053 data/civ2/buildings.ruleset:1044
 #: data/default/buildings.ruleset:1255
@@ -13609,9 +13733,8 @@ msgid ""
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
 "citizens are made content."
 msgstr ""
-"Gjør en ulykkelig borger fornøyd. Både Mystisisme og "
-"Orakel underverket dobbler denne effekten. Med Mystisisme og Orakel "
-"blir 4 borgere fornøyd."
+"Gjør en ulykkelig borger fornøyd. Både Mystisisme og Orakel underverket "
+"dobler denne effekten. Med Mystisisme og Orakel blir 4 borgere fornøyd."
 
 #: data/civ1/buildings.ruleset:1134 data/civ1/techs.ruleset:559
 #: data/civ2/buildings.ruleset:1125 data/civ2/techs.ruleset:559
@@ -13925,7 +14048,7 @@ msgstr "Forente Nasjoner"
 
 #: data/civ2/buildings.ruleset:1846 data/default/buildings.ruleset:2059
 msgid "Units regain two extra hitpoints per turn."
-msgstr ""
+msgstr "Enheten får to ekstra treffkapasitet per runde."
 
 #: data/civ1/buildings.ruleset:1867 data/civ2/buildings.ruleset:1859
 #: data/default/buildings.ruleset:2072
@@ -14827,8 +14950,8 @@ msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
-"Kloke filosofer fra hele verden flytter til din sivilisasjon; du får "
-"et umiddelbart gjennombrudd."
+"Kloke filosofer fra hele verden flytter til din sivilisasjon; du får et "
+"umiddelbart gjennombrudd."
 
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
 #: data/default/techs.ruleset:413
@@ -15210,11 +15333,11 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:71 data/civ2/units.ruleset:63
-#: data/default/units.ruleset:139
+#: data/default/units.ruleset:145
 msgid "Settlers"
 msgstr "Nybyggere"
 
-#: data/civ2/units.ruleset:89 data/default/units.ruleset:165
+#: data/civ2/units.ruleset:89 data/default/units.ruleset:171
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses, airbases and "
@@ -15232,11 +15355,11 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:115 data/civ2/units.ruleset:107
-#: data/default/units.ruleset:183
+#: data/default/units.ruleset:189
 msgid "Engineers"
 msgstr "Ingeniørbrigade"
 
-#: data/civ2/units.ruleset:133 data/default/units.ruleset:209
+#: data/civ2/units.ruleset:133 data/default/units.ruleset:215
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -15251,53 +15374,53 @@ msgid ""
 "upgraded for free."
 msgstr ""
 
-#: data/civ2/units.ruleset:148 data/default/units.ruleset:224
+#: data/civ2/units.ruleset:148 data/default/units.ruleset:230
 msgid "Warriors"
 msgstr "Krigere"
 
 #: data/civ1/units.ruleset:169 data/civ2/units.ruleset:174
-#: data/default/units.ruleset:250
+#: data/default/units.ruleset:256
 msgid "This unit may be built from the start of the game.  It is the weakest unit."
 msgstr ""
 "Denne enheten kan bygges helt fra starten av spillet.  Det er den svakeste "
 "enheten."
 
 #: data/civ1/units.ruleset:175 data/civ2/units.ruleset:180
-#: data/default/units.ruleset:256
+#: data/default/units.ruleset:262
 msgid "Phalanx"
 msgstr "Falanks"
 
 #: data/civ1/units.ruleset:203 data/civ2/units.ruleset:208
-#: data/default/units.ruleset:284
+#: data/default/units.ruleset:290
 msgid "Archers"
 msgstr "Bueskyttere"
 
 #: data/civ1/units.ruleset:231 data/civ2/units.ruleset:236
-#: data/default/units.ruleset:312
+#: data/default/units.ruleset:318
 msgid "Legion"
 msgstr "Legion"
 
 #: data/civ1/units.ruleset:259 data/civ2/units.ruleset:264
-#: data/default/units.ruleset:340
+#: data/default/units.ruleset:346
 msgid "Pikemen"
 msgstr "Spydbærere"
 
 #: data/civ1/units.ruleset:287 data/civ2/units.ruleset:292
-#: data/default/units.ruleset:368
+#: data/default/units.ruleset:374
 msgid "Musketeers"
 msgstr "Musketerer"
 
 #: data/civ1/units.ruleset:316 data/civ2/units.ruleset:321
-#: data/default/units.ruleset:397
+#: data/default/units.ruleset:403
 msgid "Fanatics"
 msgstr "Fanatikere"
 
 #: data/civ1/units.ruleset:344 data/civ2/units.ruleset:355
-#: data/default/units.ruleset:425
+#: data/default/units.ruleset:431
 msgid "Partisan"
 msgstr "Partisaner"
 
-#: data/civ2/units.ruleset:381 data/default/units.ruleset:451
+#: data/civ2/units.ruleset:381 data/default/units.ruleset:457
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -15312,111 +15435,111 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:372 data/civ2/units.ruleset:395
-#: data/default/units.ruleset:465
+#: data/default/units.ruleset:471
 msgid "Alpine Troops"
 msgstr "Gurkha tropper"
 
 #: data/civ1/units.ruleset:400 data/civ2/units.ruleset:423
-#: data/default/units.ruleset:493
+#: data/default/units.ruleset:499
 msgid "Riflemen"
 msgstr "Moderne infanteri"
 
 #: data/civ1/units.ruleset:428 data/civ2/units.ruleset:451
-#: data/default/units.ruleset:521
+#: data/default/units.ruleset:527
 msgid "Marines"
 msgstr "Marinejegere"
 
 #: data/civ1/units.ruleset:456 data/civ2/units.ruleset:479
-#: data/default/units.ruleset:549
+#: data/default/units.ruleset:555
 msgid "Paratroopers"
 msgstr "Fallskjermjegere"
 
 #: data/civ1/units.ruleset:484 data/civ2/units.ruleset:511
-#: data/default/units.ruleset:581
+#: data/default/units.ruleset:587
 msgid "Mech. Inf."
 msgstr "Mekanisert Infanteri"
 
 #: data/civ1/units.ruleset:510 data/civ2/units.ruleset:537
-#: data/default/units.ruleset:607
+#: data/default/units.ruleset:613
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
 msgstr ""
 
-#: data/civ2/units.ruleset:544 data/default/units.ruleset:614
+#: data/civ2/units.ruleset:544 data/default/units.ruleset:620
 msgid "Horsemen"
 msgstr "Ryttere"
 
 #: data/civ1/units.ruleset:545 data/civ2/units.ruleset:572
-#: data/default/units.ruleset:642
+#: data/default/units.ruleset:648
 msgid "Chariot"
 msgstr "Kampvogn"
 
 #: data/civ1/units.ruleset:573 data/civ2/units.ruleset:600
-#: data/default/units.ruleset:670
+#: data/default/units.ruleset:676
 msgid "Elephants"
 msgstr "Elefanter"
 
 #: data/civ1/units.ruleset:601 data/civ2/units.ruleset:628
-#: data/default/units.ruleset:698
+#: data/default/units.ruleset:704
 msgid "Crusaders"
 msgstr "Korsfarere"
 
 #: data/civ1/units.ruleset:629 data/civ2/units.ruleset:656
-#: data/default/units.ruleset:726
+#: data/default/units.ruleset:732
 msgid "Knights"
 msgstr "Riddere"
 
 #: data/civ1/units.ruleset:658 data/civ2/units.ruleset:685
-#: data/default/units.ruleset:755
+#: data/default/units.ruleset:761
 msgid "Dragoons"
 msgstr "Dragoner"
 
 #: data/civ1/units.ruleset:517 data/civ2/units.ruleset:713
-#: data/default/units.ruleset:783
+#: data/default/units.ruleset:789
 msgid "Cavalry"
 msgstr "Kavalri"
 
 #: data/civ1/units.ruleset:714 data/civ2/units.ruleset:741
-#: data/default/units.ruleset:811
+#: data/default/units.ruleset:817
 msgid "Armor"
 msgstr "Tanks"
 
 #: data/civ1/units.ruleset:742 data/civ2/units.ruleset:769
-#: data/default/units.ruleset:839
+#: data/default/units.ruleset:845
 msgid "Catapult"
 msgstr "Katapult"
 
 #: data/civ1/units.ruleset:770 data/civ2/units.ruleset:797
-#: data/default/units.ruleset:867
+#: data/default/units.ruleset:873
 msgid "Cannon"
 msgstr "Kanon"
 
 #: data/civ1/units.ruleset:826 data/civ2/units.ruleset:825
-#: data/default/units.ruleset:895
+#: data/default/units.ruleset:901
 msgid "Artillery"
 msgstr "Artilleri"
 
-#: data/civ2/units.ruleset:853 data/default/units.ruleset:923
+#: data/civ2/units.ruleset:853 data/default/units.ruleset:929
 msgid "Howitzer"
 msgstr "Howitzer"
 
 #: data/civ1/units.ruleset:854 data/civ2/units.ruleset:881
-#: data/default/units.ruleset:951
+#: data/default/units.ruleset:957
 msgid "Fighter"
 msgstr "Jager"
 
 #: data/civ1/units.ruleset:882 data/civ2/units.ruleset:909
-#: data/default/units.ruleset:979
+#: data/default/units.ruleset:985
 msgid "Bomber"
 msgstr "Bombefly"
 
 #: data/civ1/units.ruleset:910 data/civ2/units.ruleset:937
-#: data/default/units.ruleset:1007
+#: data/default/units.ruleset:1013
 msgid "Helicopter"
 msgstr "Helikopter"
 
-#: data/civ2/units.ruleset:963 data/default/units.ruleset:1033
+#: data/civ2/units.ruleset:963 data/default/units.ruleset:1039
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -15425,53 +15548,53 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:938 data/civ2/units.ruleset:971
-#: data/default/units.ruleset:1041
+#: data/default/units.ruleset:1047
 msgid "Stealth Fighter"
 msgstr "Stealth jagerfly"
 
-#: data/civ2/units.ruleset:997 data/default/units.ruleset:1067
+#: data/civ2/units.ruleset:997 data/default/units.ruleset:1073
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr "Et forbedret jagerfly med forbedret angrep og lengre rekkevidde."
 
 #: data/civ1/units.ruleset:966 data/civ2/units.ruleset:1003
-#: data/default/units.ruleset:1073
+#: data/default/units.ruleset:1079
 msgid "Stealth Bomber"
 msgstr "Stealth bombefly"
 
-#: data/civ2/units.ruleset:1029 data/default/units.ruleset:1099
+#: data/civ2/units.ruleset:1029 data/default/units.ruleset:1105
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr "Et forbedret bombefly, med forbedret angrep og større rekkevidde."
 
 #: data/civ1/units.ruleset:994 data/civ2/units.ruleset:1035
-#: data/default/units.ruleset:1105
+#: data/default/units.ruleset:1111
 msgid "Trireme"
 msgstr "Trireme"
 
-#: data/civ2/units.ruleset:1063 data/default/units.ruleset:1133
+#: data/civ2/units.ruleset:1063 data/default/units.ruleset:1139
 msgid "Caravel"
 msgstr "Karavell"
 
 #: data/civ1/units.ruleset:1050 data/civ2/units.ruleset:1091
-#: data/default/units.ruleset:1161
+#: data/default/units.ruleset:1167
 msgid "Galleon"
 msgstr "Galleon"
 
 #: data/civ1/units.ruleset:1078 data/civ2/units.ruleset:1119
-#: data/default/units.ruleset:1189
+#: data/default/units.ruleset:1195
 msgid "Frigate"
 msgstr "Fregatt"
 
 #: data/civ1/units.ruleset:1106 data/civ2/units.ruleset:1147
-#: data/default/units.ruleset:1217
+#: data/default/units.ruleset:1223
 msgid "Ironclad"
 msgstr "Panserskip"
 
 #: data/civ1/units.ruleset:1134 data/civ2/units.ruleset:1175
-#: data/default/units.ruleset:1245
+#: data/default/units.ruleset:1251
 msgid "Destroyer"
 msgstr "Destroyer"
 
-#: data/civ2/units.ruleset:1201 data/default/units.ruleset:1271
+#: data/civ2/units.ruleset:1201 data/default/units.ruleset:1277
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
@@ -15480,64 +15603,64 @@ msgstr ""
 "transportskip."
 
 #: data/civ1/units.ruleset:1162 data/civ2/units.ruleset:1207
-#: data/default/units.ruleset:1277
+#: data/default/units.ruleset:1283
 msgid "Cruiser"
 msgstr "Krysser"
 
 #: data/civ1/units.ruleset:1190 data/civ2/units.ruleset:1235
-#: data/default/units.ruleset:1305
+#: data/default/units.ruleset:1311
 msgid "AEGIS Cruiser"
 msgstr "AEGIS Krysser"
 
 #: data/civ1/units.ruleset:1218 data/civ2/units.ruleset:1263
-#: data/default/units.ruleset:1333
+#: data/default/units.ruleset:1339
 msgid "Battleship"
 msgstr "Slagskip"
 
 #: data/civ1/units.ruleset:1246 data/civ2/units.ruleset:1291
-#: data/default/units.ruleset:1361
+#: data/default/units.ruleset:1367
 msgid "Submarine"
 msgstr "Ubåt"
 
 #: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:1318
-#: data/default/units.ruleset:1388
+#: data/default/units.ruleset:1394
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr "Ubåter har en svært høy strategisk verdi, men dårlig egetforsvar."
 
 #: data/civ1/units.ruleset:1278 data/civ2/units.ruleset:1324
-#: data/default/units.ruleset:1394
+#: data/default/units.ruleset:1400
 msgid "Carrier"
 msgstr "Hangarskip"
 
 #: data/civ1/units.ruleset:1304 data/civ2/units.ruleset:1350
-#: data/default/units.ruleset:1420
+#: data/default/units.ruleset:1426
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
 
 #: data/civ1/units.ruleset:1311 data/civ2/units.ruleset:1357
-#: data/default/units.ruleset:1427
+#: data/default/units.ruleset:1433
 msgid "Transport"
 msgstr "Transport"
 
 #: data/civ1/units.ruleset:1339 data/civ2/units.ruleset:1385
-#: data/default/units.ruleset:1455
+#: data/default/units.ruleset:1461
 msgid "Cruise Missile"
 msgstr "Krysserrakett"
 
-#: data/civ2/units.ruleset:1411 data/default/units.ruleset:1481
+#: data/civ2/units.ruleset:1411 data/default/units.ruleset:1487
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
 msgstr ""
 
 #: data/civ1/units.ruleset:1367 data/civ2/units.ruleset:1417
-#: data/default/units.ruleset:1487
+#: data/default/units.ruleset:1493
 msgid "Nuclear"
 msgstr "Atombombe"
 
-#: data/civ2/units.ruleset:1443 data/default/units.ruleset:1513
+#: data/civ2/units.ruleset:1443 data/default/units.ruleset:1519
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -15557,12 +15680,12 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:1414 data/civ2/units.ruleset:1464
-#: data/default/units.ruleset:1534
+#: data/default/units.ruleset:1540
 msgid "Diplomat"
 msgstr "Diplomat"
 
 #: data/civ1/units.ruleset:1440 data/civ2/units.ruleset:1490
-#: data/default/units.ruleset:1560
+#: data/default/units.ruleset:1566
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
 "another player's city.\n"
@@ -15582,11 +15705,11 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:1460 data/civ2/units.ruleset:1510
-#: data/default/units.ruleset:1580
+#: data/default/units.ruleset:1586
 msgid "Spy"
 msgstr "Spion"
 
-#: data/civ2/units.ruleset:1536 data/default/units.ruleset:1606
+#: data/civ2/units.ruleset:1536 data/default/units.ruleset:1612
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
 "arts of espionage than her Diplomat predecessor.\n"
@@ -15608,12 +15731,12 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:1488 data/civ2/units.ruleset:1557
-#: data/default/units.ruleset:1627
+#: data/default/units.ruleset:1633
 msgid "Caravan"
 msgstr "Karavane"
 
 #: data/civ1/units.ruleset:1514 data/civ2/units.ruleset:1583
-#: data/default/units.ruleset:1653
+#: data/default/units.ruleset:1659
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder.\n"
@@ -15624,29 +15747,29 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:1524 data/civ2/units.ruleset:1593
-#: data/default/units.ruleset:1663
+#: data/default/units.ruleset:1669
 msgid "Freight"
 msgstr "Frakt"
 
-#: data/civ2/units.ruleset:1619 data/default/units.ruleset:1689
+#: data/civ2/units.ruleset:1619 data/default/units.ruleset:1695
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr "Frakt-enheten erstatter karavanen, og beveger seg dobbelt så raskt."
 
 #: data/civ1/units.ruleset:1552 data/civ2/units.ruleset:1624
-#: data/default/units.ruleset:1694
+#: data/default/units.ruleset:1700
 msgid "Explorer"
 msgstr "Utforsker"
 
-#: data/civ2/units.ruleset:1650 data/default/units.ruleset:1720
+#: data/civ2/units.ruleset:1650 data/default/units.ruleset:1726
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr "Utforskere er nyttig til å kratlegge ukjent territorie."
 
 #: data/civ1/units.ruleset:1580 data/civ2/units.ruleset:1655
-#: data/default/units.ruleset:1725
+#: data/default/units.ruleset:1731
 msgid "Barbarian Leader"
 msgstr "Barbarleder"
 
-#: data/civ2/units.ruleset:1681 data/default/units.ruleset:1751
+#: data/civ2/units.ruleset:1681 data/default/units.ruleset:1757
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
