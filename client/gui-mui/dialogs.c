@@ -1559,7 +1559,6 @@ void popup_unit_select_dialog(struct tile *ptile)
 }
 
 
-/*STATIC STRPTR nation_entries[64];*/
 STATIC STRPTR styles_entries[64];
 STATIC int styles_basic_index[64];
 STATIC int styles_basic_nums;
@@ -1572,6 +1571,19 @@ Object *nations_flag_sprite;
 Object *nations_sex_radio;
 Object *nations_styles_cycle;
 
+/****************************************************************
+ Get the nation id of the nation selected in the nations
+ listview
+*****************************************************************/
+Nation_Type_id get_active_nation(void)
+{
+  char *nationname;
+
+  DoMethod(nations_nation_listview, MUIM_List_GetEntry, MUIV_List_GetEntry_Active, &nationname);
+  if (!nationname) return 0;
+
+  return find_nation_by_name(nationname);
+}
 
 /****************************************************************
 ...
@@ -1581,7 +1593,7 @@ static void nations_nation_active(void)
   int i, leader_count;
   char **leaders;
   Object *list = (Object*)xget(nations_leader_poplist,MUIA_Popobject_Object);
-  LONG nation = xget(nations_nation_listview,MUIA_List_Active);
+  Nation_Type_id nation = get_active_nation();
 
   set(nations_flag_sprite, MUIA_Sprite_Sprite, get_nation_by_idx(nation)->flag_sprite);
 
@@ -1609,7 +1621,7 @@ static void nations_ok(void)
   char *s;
   struct packet_alloc_nation packet;
 
-  selected = xget(nations_nation_listview, MUIA_List_Active);
+  selected = get_active_nation();
   selected_sex = xget(nations_sex_radio, MUIA_Radio_Active);
   selected_style = xget(nations_styles_cycle, MUIA_Cycle_Active);
   s = getstring(nations_leader_string);
@@ -1647,7 +1659,7 @@ static void nations_disconnect(void)
 __asm __saveds static void nations_obj2str( register __a2 Object *list, register __a1 Object *str, register __a0 struct Hook *hook)
 {
   char *x;
-  LONG nation = xget(nations_nation_listview,MUIA_List_Active);
+  Nation_Type_id nation = get_active_nation();
   DoMethod(list,MUIM_List_GetEntry,MUIV_List_GetEntry_Active,&x);
   set(str,MUIA_String_Contents,x);
   if(x) set(nations_sex_radio, MUIA_Radio_Active, get_nation_leader_sex(nation,x)?0:1);
@@ -1701,8 +1713,6 @@ void popup_races_dialog(void)
 
     styles_basic_nums = 0;
 
-/*    for(i=0;i<game.playable_nation_count && i<64;i++) nation_entries[i] = get_nation_name(i);
-*/
     for(i=0;i<game.styles_count && i<64;i++)
     {
       if(city_styles[i].techreq == A_NONE)
@@ -1772,7 +1782,7 @@ void popup_races_dialog(void)
     {
       DoMethod(nations_nation_listview, MUIM_List_Clear);
       for(i=0;i<game.playable_nation_count && i<64;i++)
-	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, get_nation_name(i), MUIV_List_Insert_Bottom);
+	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, get_nation_name(i), MUIV_List_Insert_Sorted);
 
       DoMethod(nations_nation_listview, MUIM_Notify, MUIA_List_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, nations_nation_active);
       DoMethod(nations_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, nations_ok);
@@ -1784,6 +1794,7 @@ void popup_races_dialog(void)
       DoMethod(app, OM_ADDMEMBER, nations_wnd);
 
       set(nations_nation_listview, MUIA_List_Active, 0);
+      set(nations_wnd, MUIA_Window_DefaultObject, nations_nation_listview);
     }
   }
 
