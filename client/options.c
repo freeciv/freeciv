@@ -327,7 +327,7 @@ void init_messages_where(void)
   int out_only[] = { E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY,
 		     E_UNIT_LOST_ATT, E_UNIT_WIN_ATT, E_GAME_START,
 		     E_NATION_SELECTED, E_CITY_BUILD, E_NEXT_YEAR,
-		     E_TECH_LEARNED};
+		     E_TECH_LEARNED, E_CITY_PRODUCTION_CHANGED};
   int all[] = { E_MESSAGE_WALL };
   int i;
 
