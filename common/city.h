@@ -190,6 +190,7 @@ struct ai_city {
                                    wonders wisely */
   int distance_to_wonder_city;  /* wondercity will set this for us, 
                                    avoiding paradox */
+  bool celebrate;               /* try to celebrate in this city */
 
   /* Used for caching when settlers evalueate which tile to improve,
      and when we place workers. */
@@ -495,6 +496,12 @@ void remove_city_virtual(struct city *pcity);
 bool is_city_option_set(const struct city *pcity, enum city_options option);
 void city_styles_alloc(int num);
 void city_styles_free(void);
+
+void get_food_trade_shields(const struct city *pcity, int *food, int *trade,
+                            int *shields);
+void get_tax_income(struct player *pplayer, int trade, int *sci,
+                    int *lux, int *tax);
+int get_city_tithes_bonus(const struct city *pcity);
 
 /*
  * Iterates over all improvements which are built in the given city.
