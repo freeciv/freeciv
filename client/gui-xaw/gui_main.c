@@ -284,8 +284,7 @@ void ui_main(int argc, char *argv[])
   XtGetApplicationResources(toplevel, &appResources, resources,
                             XtNumber(resources), NULL, 0);
   
-  log_init(appResources.logfile);
-  log_set_level(appResources.loglevel);
+  log_init(appResources.logfile, appResources.loglevel, NULL);
 
 /*  XSynchronize(display, 1); 
   XSetErrorHandler(myerr);*/

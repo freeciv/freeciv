@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <meta.h>
 #include <packets.h>
+#include <console.h>
 
 #ifndef INADDR_NONE
 #define INADDR_NONE     0xffffffff
@@ -74,9 +75,8 @@ void server_open_udp(void)
     {
       if((hp = gethostbyname(servername)) ==NULL) {
 	perror("Metaserver: address error");
-	printf("Not reporting to the metaserver in this game\n");
-	/* printf("Use option --nometa to always enforce this\n"); */
-	fflush(stdout);
+	con_puts(C_METAERROR,"Not reporting to the metaserver in this game.");
+	con_flush();
 	return;
       }
     }
@@ -91,9 +91,8 @@ void server_open_udp(void)
   
   if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
     perror("metaserver: can't open datagram socket");
-    printf("Not reporting to the metaserver in this game\n");
-    /* printf("Use option --nometa to always enforce this\n> "); */
-    fflush(stdout);
+    con_puts(C_METAERROR, "Not reporting to the metaserver in this game.");
+    con_flush();
     return;
   }
   /*
@@ -106,9 +105,8 @@ void server_open_udp(void)
   cli_addr.sin_port        = htons(0);
   if(bind(sockfd, (struct sockaddr *) &cli_addr, sizeof(cli_addr)) < 0) {
     perror("metaserver: can't bind local address");
-    printf("Not reporting to the metaserver in this game\n");
-    /* printf("Use option --nometa to always enforce this\n> "); */
-    fflush(stdout);
+    con_puts(C_METAERROR, "Not reporting to the metaserver in this game.");
+    con_flush();
     return;
   }
 

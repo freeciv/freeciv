@@ -40,6 +40,7 @@
 #include <civserver.h>
 #include <stdinhand.h>
 #include <packets.h>
+#include <console.h>
 
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 
@@ -82,6 +83,8 @@ Returns:
   0 if went past end-of-turn timeout
   2 if force_end_of_sniff found to be set
   1 otherwise (got and processed something?)
+This function also handles prompt printing, via the con_prompt_*
+functions.  That is, other functions should not need to do so.  --dwp
 *****************************************************************************/
 int sniff_packets(void)
 {
@@ -98,8 +101,11 @@ int sniff_packets(void)
   }
   
   while(1) {
+    con_prompt_on();		/* accepting new input */
+    
     if(force_end_of_sniff) {
       force_end_of_sniff=0;
+      con_prompt_off();
       return 2;
     }
     
@@ -116,12 +122,14 @@ int sniff_packets(void)
       }
       max_desc=MAX(connections[i].sock, max_desc);
     }
+    con_prompt_off();		/* output doesn't generate a new prompt */
     
     if(select(max_desc+1, &readfs, NULL, NULL, &tv)==0) { /* timeout */
       send_server_info_to_metaserver(0);
       if((game.timeout) 
 	&& (time(NULL)>time_at_turn_end)
 	&& (server_state == RUN_GAME_STATE)){
+	con_prompt_off();
 	return 0;
       }
       continue;
@@ -141,9 +149,8 @@ int sniff_packets(void)
 	exit(1);
       }
       *(buf+didget)='\0';
+      con_prompt_enter();	/* will need a new prompt, regardless */
       handle_stdin_input(buf);
-
-      show_prompt();
     }
     else {                             /* input from a player */
       for(i=0; i<MAX_CONNECTIONS; i++)
@@ -163,6 +170,8 @@ int sniff_packets(void)
     }
     break;
   }
+  con_prompt_off();
+  
   if((game.timeout) 
     && (time(NULL)>time_at_turn_end)
     && (game.timeout)) return 0;

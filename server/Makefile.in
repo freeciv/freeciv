@@ -94,6 +94,8 @@ civserver_SOURCES = \
 		cityturn.h	\
 		civserver.c	\
 		civserver.h	\
+		console.c	\
+		console.h	\
 		diplhand.c	\
 		diplhand.h	\
 		gamehand.c	\
@@ -147,9 +149,10 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 civserver_OBJECTS =  autoattack.o cityhand.o citytools.o cityturn.o \
-civserver.o diplhand.o gamehand.o gamelog.o gotohand.o handchat.o \
-mapgen.o maphand.o meta.o plrhand.o registry.o ruleset.o sernet.o \
-settlers.o spacerace.o stdinhand.o unitfunc.o unithand.o unittools.o
+civserver.o console.o diplhand.o gamehand.o gamelog.o gotohand.o \
+handchat.o mapgen.o maphand.o meta.o plrhand.o registry.o ruleset.o \
+sernet.o settlers.o spacerace.o stdinhand.o unitfunc.o unithand.o \
+unittools.o
 civserver_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -162,11 +165,12 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP = --best
 DEP_FILES =  .deps/autoattack.P .deps/cityhand.P .deps/citytools.P \
-.deps/cityturn.P .deps/civserver.P .deps/diplhand.P .deps/gamehand.P \
-.deps/gamelog.P .deps/gotohand.P .deps/handchat.P .deps/mapgen.P \
-.deps/maphand.P .deps/meta.P .deps/plrhand.P .deps/registry.P \
-.deps/ruleset.P .deps/sernet.P .deps/settlers.P .deps/spacerace.P \
-.deps/stdinhand.P .deps/unitfunc.P .deps/unithand.P .deps/unittools.P
+.deps/cityturn.P .deps/civserver.P .deps/console.P .deps/diplhand.P \
+.deps/gamehand.P .deps/gamelog.P .deps/gotohand.P .deps/handchat.P \
+.deps/mapgen.P .deps/maphand.P .deps/meta.P .deps/plrhand.P \
+.deps/registry.P .deps/ruleset.P .deps/sernet.P .deps/settlers.P \
+.deps/spacerace.P .deps/stdinhand.P .deps/unitfunc.P .deps/unithand.P \
+.deps/unittools.P
 SOURCES = $(civserver_SOURCES)
 OBJECTS = $(civserver_OBJECTS)
 

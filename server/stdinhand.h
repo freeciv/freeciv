@@ -15,7 +15,6 @@
 
 struct player;
 
-void show_prompt();
 void handle_stdin_input(char *str);
 void report_server_options(struct player *pplayer, int which);
 void set_ai_level(char *name, int level);

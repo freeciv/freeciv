@@ -14,6 +14,8 @@ civserver_SOURCES = \
 		cityturn.h	\
 		civserver.c	\
 		civserver.h	\
+		console.c	\
+		console.h	\
 		diplhand.c	\
 		diplhand.h	\
 		gamehand.c	\

@@ -63,6 +63,7 @@
 #include <ruleset.h>
 #include <autoattack.h>
 #include <spacerace.h>
+#include <console.h>
 
 void show_ending();
 void end_game();
@@ -227,8 +228,8 @@ int main(int argc, char *argv[])
     exit(0);
   }
 
-  printf("This is the server for %s\n",FREECIV_NAME_VERSION);
-  printf("You can learn a lot about Freeciv at %s\n",SITE);
+  con_write(C_VERSION, "This is the server for %s", FREECIV_NAME_VERSION);
+  con_write(C_COMMENT, "You can learn a lot about Freeciv at %s", SITE);
 
   if(h) {
     fprintf(stderr, "  -f, --file F\t\t\tLoad saved game F\n");
@@ -245,16 +246,16 @@ int main(int argc, char *argv[])
     exit(0);
   }
 
-  log_init(log_filename);
-  log_set_level(log_level);
+  con_log_init(log_filename, log_level);
   gamelog_init(gamelog_filename);
   gamelog_set_level(GAMELOG_FULL);
   gamelog(GAMELOG_NORMAL,"Starting new log");
   
 #if IS_BETA_VERSION
-  printf("Freeciv 1.8 will be released third week of March at http://www.freeciv.org\n");
+  con_write(C_COMMENT, "Freeciv 1.8 will be released "
+	    "third week of March at %s", SITE);
 #endif
-  fflush(stdout);
+  con_flush();
 
   strcpy(our_capability, CAPABILITY);
   if (getenv("FREECIV_CAPS"))
@@ -310,8 +311,6 @@ int main(int argc, char *argv[])
 
   if (script_filename)
     read_init_script(script_filename);
-
-  show_prompt();
 
   while(server_state==PRE_GAME_STATE)
     sniff_packets();
@@ -426,9 +425,6 @@ int main(int argc, char *argv[])
     if(0) freelog(LOG_DEBUG, "Aistartturn");
     ai_start_turn();
 
-    printf("\n");              /* in case no output since last show_prompt() */
-    show_prompt();
-
     if(0) freelog(LOG_DEBUG, "sniffingpackets");
     while(sniff_packets()==1);
     
@@ -472,7 +468,6 @@ int main(int argc, char *argv[])
   
   notify_player(0, "Game: The game is over..");
 
-  show_prompt();
   while(server_state==GAME_OVER_STATE) {
     force_end_of_sniff=0;
     sniff_packets();
@@ -759,9 +754,9 @@ void save_game(char *filename)
   game_save(&file);
   
   if(!section_file_save(&file, filename))
-    printf("Failed saving game as %s\n", filename);
+    con_write(C_FAIL, "Failed saving game as %s", filename);
   else
-    printf("Game saved as %s\n", filename);
+    con_write(C_OK, "Game saved as %s", filename);
 
   section_file_free(&file);
 }
@@ -787,11 +782,11 @@ void save_game_auto(void)
 void start_game(void)
 {
   if(server_state!=PRE_GAME_STATE) {
-    puts("the game is already running.");
+    con_puts(C_SYNTAX, "the game is already running.");
     return;
   }
 
-  puts("starting game.");
+  con_puts(C_OK, "starting game.");
 
   server_state=SELECT_RACES_STATE; /* loaded ??? */
   force_end_of_sniff=1;
@@ -1445,7 +1440,7 @@ void generate_ai_players()
            announce_ai_player(&game.players[i]);
 	   set_ai_level_direct(&game.players[i], game.players[i].ai.skill_level);
         } else
-	  printf ("Error creating new ai player: %s\n", player_name);
+	  con_write(C_FAIL, "Error creating new ai player: %s\n", player_name);
    }
 
   send_server_info_to_metaserver(1);

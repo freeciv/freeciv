@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __LOG_
-#define __LOG_
+#ifndef FC__LOG_H
+#define FC__LOG_H
 
 #include "attribute.h"
 
@@ -19,10 +19,16 @@
 #define LOG_NORMAL 1
 #define LOG_DEBUG  2
 
-void log_init(char *filename);
+/* A function type to enable custom output of log messages other than
+ * via fputs(stderr).  Eg, to the server console while handling prompts,
+ * rfcstyle, client notifications; Eg, to the client window output window?
+ */
+typedef void (*log_callback_fn)(int, char*);
+
+void log_init(char *filename, int initial_level, log_callback_fn callback);
+void log_set_level(int level);
+
 int freelog(int level, char *message, ...)
             fc__attribute((format (printf, 2, 3)));
-void log_set_level(int level);
-void log_kill(void);
 
 #endif

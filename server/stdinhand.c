@@ -28,6 +28,7 @@
 #include <plrhand.h>
 #include <stdinhand.h>
 #include <gamelog.h>
+#include <console.h>
 
 extern int gamelog_level;
 extern char metaserver_info_line[256];
@@ -523,19 +524,6 @@ PlayerNameStatus test_player_name(char* name)
 
 static char horiz_line[] = "------------------------------------------------------------------------------";
 
-void show_prompt()
-{
-  static int first=1;
-
-  if (first)
-    printf("\nGet a list of the available commands with 'h'.\n");
-
-  printf("> ");
-  fflush(stdout);
-
-  first = 0;
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -544,7 +532,7 @@ void meta_command(char *arg)
   strncpy(metaserver_info_line, arg, 256);
   metaserver_info_line[256-1]='\0';
   if (send_server_info_to_metaserver(1) == 0)
-    printf("Not reporting to the metaserver in this game\n");
+    con_puts(C_METAERROR, "Not reporting to the metaserver in this game.");
 }
 
 /***************************************************************
@@ -606,7 +594,7 @@ Save the game, with filename=arg, provided server state is ok.
 void save_command(char *arg)
 {
   if (server_state==SELECT_RACES_STATE) {
-    printf("Please wait until the game has started to save.\n");
+    con_puts(C_SYNTAX, "Please wait until the game has started to save.");
     return;
   }
   save_game(arg);
@@ -620,19 +608,20 @@ void toggle_ai_player(char *arg)
   struct player *pplayer;
 
   if (test_player_name(arg) != PNameOk) {
-      puts("Name is either empty or too long, so it cannot be an AI.");
+      con_puts(C_SYNTAX, "Name is either empty or too long,"
+	                 " so it cannot be an AI.");
       return;
   }
 
   pplayer=find_player_by_name(arg);
   if (!pplayer) {
-    puts("No player by that name.");
+    con_puts(C_FAIL, "No player by that name.");
     return;
   }
   pplayer->ai.control = !pplayer->ai.control;
   if (pplayer->ai.control) {
     notify_player(0, "Game: %s is now AI-controlled.", pplayer->name);
-    printf("%s is now under AI control.\n",pplayer->name);
+    con_write(C_OK, "%s is now under AI control.",pplayer->name);
     if (pplayer->ai.skill_level==0) {
       pplayer->ai.skill_level = game.skill_level;
     }
@@ -642,7 +631,7 @@ void toggle_ai_player(char *arg)
     set_ai_level(arg, pplayer->ai.skill_level);
   } else {
     notify_player(0, "Game: %s is now human.", pplayer->name);
-    printf("%s is now under human control.\n",pplayer->name);
+    con_write(C_OK, "%s is now under human control.",pplayer->name);
 
     /* because the hard AI `cheats' with government rates but humans shouldn't */
     check_player_government_rates(pplayer);
@@ -660,31 +649,31 @@ void create_ai_player(char *arg)
    
   if (server_state!=PRE_GAME_STATE)
   {
-    puts ("Can't add AI players once the game has begun.");
+    con_write(C_SYNTAX, "Can't add AI players once the game has begun.");
     return;
   }
 
   if (game.nplayers==game.max_players) 
   {
-    puts ("Can't add more players, server is full.");
+    con_write(C_FAIL, "Can't add more players, server is full.");
     return;
   }
 
   if ((PNameStatus = test_player_name(arg)) == PNameEmpty)
   {
-    puts("Can't use an empty name.");
+    con_write(C_SYNTAX, "Can't use an empty name.");
     return;
   }
 
   if (PNameStatus == PNameTooLong)
   {
-    puts("The name exceeds the maximum of 9 chars.");
+    con_write(C_SYNTAX, "The name exceeds the maximum of 9 chars.");
     return;
   }
 
   if ((pplayer=find_player_by_name(arg)))
   {
-    puts("A player already exists by that name.");
+    con_write(C_BOUNCE, "A player already exists by that name.");
     return;
   }
 
@@ -692,12 +681,13 @@ void create_ai_player(char *arg)
   pplayer = find_player_by_name(arg);
   if (!pplayer)
   {
-    printf ("Error creating new ai player: %s\n", arg);
+    con_write(C_FAIL, "Error creating new ai player: %s.", arg);
     return;
   }
 
   pplayer->ai.control = !pplayer->ai.control;
   pplayer->ai.skill_level = game.skill_level;
+  con_write(C_OK, "Created new AI player: %s.", pplayer->name);
 }
 
 
@@ -709,14 +699,14 @@ void remove_player(char *arg)
   struct player *pplayer;
 
   if (test_player_name(arg) != PNameOk) {
-      puts("Name is either empty or too long, so it cannot be a player.");
+      con_write(C_SYNTAX, "Name is either empty or too long, so it cannot be a player.");
       return;
   }
 
   pplayer=find_player_by_name(arg);
   
   if(!pplayer) {
-    puts("No player by that name.");
+    con_write(C_FAIL, "No player by that name.");
     return;
   }
 
@@ -759,40 +749,46 @@ void explain_option(char *str)
   if (*command) {
     cmd=lookup_cmd(command);
     if (cmd==-1) {
-      puts("No explanation for that yet.");
+      con_write(C_FAIL, "No explanation for that yet.");
       return;
     }
     else if (cmd==-2) {
-      puts("Ambiguous option name.");
+      con_write(C_FAIL, "Ambiguous option name.");
       return;
     }
     else {
       struct settings_s *op = &settings[cmd];
 
-      printf("Option: %s\n", op->name);
-      printf("Description: %s.\n", op->short_help);
+      con_write(C_OK,"Option: %s", op->name);
+      con_write(C_OK,"Description: %s.", op->short_help);
       if(op->extra_help && strcmp(op->extra_help,"")!=0) {
-	puts(op->extra_help);
+ 	con_write(C_OK, op->extra_help);
       }
-      printf("Status: %s\n", (sset_is_changeable(cmd)
+      con_write(C_OK, "Status: %s", (sset_is_changeable(cmd)
 			      ? "changeable" : "fixed"));
       if (SETTING_IS_INT(op)) {
-	printf("Value: %d, Minimum: %d, Default: %d, Maximum: %d\n",
+ 	con_write(C_OK, "Value: %d, Minimum: %d, Default: %d, Maximum: %d",
 	       *(op->value), op->min_value, op->default_value, op->max_value);
       } else {
-	printf("Value: \"%s\", Default: \"%s\"\n",
+ 	con_write(C_OK, "Value: \"%s\", Default: \"%s\"",
 	       op->svalue, op->default_svalue);
       }
     }
   } else {
-    puts(horiz_line);
-    puts("Explanations are available for the following server options:");
-    puts(horiz_line);
+    con_write(C_COMMENT, horiz_line);
+    con_write(C_COMMENT, "Explanations are available for the"
+	                 " following server options:");
+    con_write(C_COMMENT, horiz_line);
     for (i=0;settings[i].name;i++) {
-      printf("%-19s%c",settings[i].name, ((i+1)%4) ? ' ' : '\n'); 
+      if(con_get_style()) {
+	con_write(C_COMMENT, "%s", settings[i].name);
+      } else {
+	con_dump(C_COMMENT, "%-19s", settings[i].name);
+	if(((i+1)%4) == 0) con_puts(C_COMMENT, "");
+      }
     }
-    if ((i)%4!=0) puts("");
-    puts(horiz_line);
+    if (!con_get_style() && (((i+1)%4) != 0)) con_puts(C_COMMENT, "");
+    con_write(C_COMMENT, horiz_line);
   }
 }
   
@@ -840,7 +836,7 @@ void set_ai_level_direct(struct player *pplayer, int level)
   pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
   pplayer->ai.expand = expansionism_of_skill_level(level);
   pplayer->ai.skill_level = level;
-  printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
+  con_write(C_OK, "%s is now %s.", pplayer->name, name_of_skill_level(level));
 }
 
 void set_ai_level(char *name, int level)
@@ -849,7 +845,7 @@ void set_ai_level(char *name, int level)
   int i;
 
   if (test_player_name(name) == PNameTooLong) {
-    puts("Name is too long, so it cannot be a player.");
+    con_write(C_SYNTAX, "Name is too long, so it cannot be a player.");
     return;
   }
 
@@ -861,7 +857,7 @@ void set_ai_level(char *name, int level)
     if (pplayer->ai.control) {
       set_ai_level_direct(pplayer, level);
     } else {
-      printf("%s is not controlled by the AI.\n", pplayer->name);
+      con_write(C_FAIL, "%s is not controlled by the AI.", pplayer->name);
     }
   } else if(test_player_name(name) == PNameEmpty) {
     for (i = 0; i < game.nplayers; i++) {
@@ -870,17 +866,19 @@ void set_ai_level(char *name, int level)
 	set_ai_level_direct(pplayer, level);
       }
     }
-    printf("Setting game.skill_level to %d.\n", level);
+    con_write(C_OK, "Setting game.skill_level to %d.", level);
     game.skill_level = level;
   } else {
-    printf("%s is not the name of any player.\n", name);
+    con_write(C_FAIL, "%s is not the name of any player.", name);
   }
 }
 
 void crash_and_burn(void)
 {
-  printf("Crashing and burning.\n");
-  assert(0);
+  con_write(C_GENFAIL, "Crashing and burning.");
+  /* Who is General Failure and why is he crashing and
+     burning my computer? :) -- Per */
+   assert(0);
 }
 
 /******************************************************************
@@ -891,36 +889,38 @@ which we let overflow their columns.  (And endyear may have '-'.)
 void show_command(char *str)
 {
   int i, len1;
-  puts(horiz_line);
-  len1 = printf("%-*s  value (min , max)  ", SSET_MAX_LEN, "Option");
-  puts("description");
-  puts(horiz_line);
+  
+  con_write(C_COMMENT, horiz_line);
+  len1 = con_dump(C_COMMENT, "%-*s  value (min , max)  ",
+		  SSET_MAX_LEN, "Option");
+  con_write(C_IGNORE, "description");
+  con_write(C_COMMENT, horiz_line);
   for (i=0;settings[i].name;i++) {
     struct settings_s *op = &settings[i];
     int len;
     if (SETTING_IS_INT(op)) {
-      len = printf("%-*s %c%c%-4d (%d,%d)", SSET_MAX_LEN, op->name,
+      len = con_dump(C_COMMENT, "%-*s %c%c%-4d (%d,%d)", SSET_MAX_LEN, op->name,
 		   (sset_is_changeable(i) ? '#' : ' '),
 		   ((*op->value==op->default_value) ? '*' : ' '),
 		   *op->value, op->min_value, op->max_value);
     } else {
-      len = printf("%-*s %c%c\"%s\"", SSET_MAX_LEN, op->name,
+      len = con_dump(C_COMMENT, "%-*s %c%c\"%s\"", SSET_MAX_LEN, op->name,
 		   (sset_is_changeable(i) ? '#' : ' '),
 		   ((strcmp(op->svalue, op->default_svalue)==0) ? '*' : ' '),
 		   op->svalue);
     }
     /* Line up the descriptions: */
     if(len < len1) {
-      printf("%*s", (len1-len), " ");
+      con_dump(C_IGNORE, "%*s", (len1-len), " ");
     } else {
-      printf(" ");
+      con_dump(C_IGNORE, " ");
     }
-    puts(op->short_help);
+    con_write(C_IGNORE, op->short_help);
   }
-  puts(horiz_line);
-  puts("* means that it's the default for that option");
-  puts("# means the option may be changed");
-  puts(horiz_line);
+  con_write(C_COMMENT, horiz_line);
+  con_write(C_COMMENT, "* means that it's the default for that option");
+  con_write(C_COMMENT, "# means the option may be changed");
+  con_write(C_COMMENT, horiz_line);
 }
 
 void set_command(char *str) 
@@ -943,15 +943,15 @@ void set_command(char *str)
 
   cmd=lookup_cmd(command);
   if (cmd==-1) {
-    puts("Undefined argument.  Usage: set <option> <value>.");
+    con_write(C_SYNTAX, "Undefined argument.  Usage: set <option> <value>.");
     return;
   }
   else if (cmd==-2) {
-    puts("Ambiguous option name.");
+    con_write(C_SYNTAX, "Ambiguous option name.");
     return;
   }
   if (!sset_is_changeable(cmd)) {
-    puts("This setting can't be modified after game has started");
+    con_write(C_BOUNCE, "This setting can't be modified after game has started");
     return;
   }
 
@@ -961,8 +961,8 @@ void set_command(char *str)
     val = atoi(arg);
     if (val >= op->min_value && val <= op->max_value) {
       *(op->value) = val;
-      printf("Option: %s has been set to %d.\n", 
-	     settings[cmd].name, val);
+      con_write(C_OK, "Option: %s has been set to %d.", 
+		settings[cmd].name, val);
       if (sset_is_to_client(cmd)) {
 	notify_player(0, "Option: %s has been set to %d.", 
 		      settings[cmd].name, val);
@@ -970,19 +970,19 @@ void set_command(char *str)
 	adjust_terrain_param();
       }
     } else {
-      puts("Value out of range. Usage: set <option> <value>.");
+      con_write(C_SYNTAX, "Value out of range. Usage: set <option> <value>.");
     }
   } else {
     if (strlen(arg)<MAX_LENGTH_NAME) {
       strcpy(op->svalue, arg);
-      printf("Option: %s has been set to \"%s\".\n",
-	     settings[cmd].name, arg);
+      con_write(C_OK, "Option: %s has been set to \"%s\".\n",
+		settings[cmd].name, arg);
       if (sset_is_to_client(cmd)) {
 	notify_player(0, "Option: %s has been set to \"%s\".", 
 		      settings[cmd].name, arg);
       }
     } else {
-      puts("String value too long. Usage: set <option> <value>.");
+      con_write(C_SYNTAX, "String value too long. Usage: set <option> <value>.");
     }
   }
 }
@@ -998,8 +998,9 @@ void handle_stdin_input(char *str)
   /* Is it a comment or a blank line? */
   /* line is comment if the first non-whitespace character is '#': */
   for(cptr_s=str; *cptr_s && isspace(*cptr_s); cptr_s++);
-  if(*cptr_s == 0 || *cptr_s == '#')
+  if(*cptr_s == 0 || *cptr_s == '#') {
     return;
+  }
   
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
 
@@ -1044,6 +1045,10 @@ void handle_stdin_input(char *str)
     set_ai_level(arg, 7);
   else if(!strcmp("q", command))
     quit_game();
+  else if(!strcmp("rfcstyle", command)) /* undocumented */
+    con_set_style(1);
+  else if(!strcmp("freestyle", command)) /* undocumented */
+    con_set_style(0);
   else if(!strcmp("c", command))
     cut_player_connection(arg);
   else if (!strcmp("show",command)) 
@@ -1056,7 +1061,8 @@ void handle_stdin_input(char *str)
     if(server_state==RUN_GAME_STATE)
       show_ending();
     else
-      printf("The game must be running, before you can see the score.\n");
+      con_write(C_SYNTAX,
+		"The game must be running, before you can see the score.");
   }
   else if(server_state==PRE_GAME_STATE) {
     int plrs=0;
@@ -1066,15 +1072,15 @@ void handle_stdin_input(char *str)
 	if (game.players[i].conn || game.players[i].ai.control) plrs++ ;
       }
       if (plrs<game.min_players) 
-	printf("Not enough players, game will not start.\n");
+	con_write(C_FAIL, "Not enough players, game will not start.");
       else 
 	start_game();
     }
     else
-      printf("Unknown command.  Try 'h' for help.\n");
+      con_write(C_SYNTAX, "Unknown command.  Try 'h' for help.");
   }
   else
-    printf("Unknown command.  Try 'h' for help.\n");  
+    con_write(C_SYNTAX, "Unknown command.  Try 'h' for help.");  
 }
 
 /**************************************************************************
@@ -1085,8 +1091,9 @@ void cut_player_connection(char *playername)
   struct player *pplayer;
 
   if (test_player_name(playername) != PNameOk) {
-      puts("Name is either empty or too long, so it cannot be a player.");
-      return;
+    con_write(C_SYNTAX, "Name is either empty or too long,"
+	      " so it cannot be a player.");
+    return;
   }
 
   pplayer=find_player_by_name(playername);
@@ -1097,7 +1104,7 @@ void cut_player_connection(char *playername)
     pplayer->conn=NULL;
   }
   else
-    puts("uh, no such player connected");
+    con_write(C_FAIL, "uh, no such player connected");
 }
 
 /**************************************************************************
@@ -1122,30 +1129,31 @@ void quit_game(void)
 **************************************************************************/
 void show_help(void)
 {
-  puts("Available commands: (P=player, M=message, F=file, T=topic)");
-  puts(horiz_line);
-  puts("h         - this help");
-  puts("explain   - help on server options");
-  puts("explain T - help on a particular server option");
-  puts("l         - list players");
-  puts("q         - quit game and shutdown server");
-  puts("c P       - cut connection to player");
-  puts("remove P  - fully remove player from game");
-  puts("score     - show current score");
-  puts("save F    - save game as file F");
-  puts("show      - list server options");
-  puts("meta M    - Set meta-server infoline to M");
-  puts("ai P      - toggles AI on player");
-  puts("create P  - creates an AI player");
-  puts("easy P    - AI player will be easy");
-  puts("easy      - All AI players will be easy");
-  puts("normal P  - AI player will be normal");
-  puts("normal    - All AI players will be normal");
-  puts("hard P    - AI player will be hard");
-  puts("hard      - All AI players will be hard");
-  puts("set       - set options");
+  con_write(C_COMMENT, "Available commands:"
+	               " (P=player, M=message, F=file, T=topic)");
+  con_write(C_COMMENT, horiz_line);
+  con_write(C_COMMENT, "h         - this help");
+  con_write(C_COMMENT, "explain   - help on server options");
+  con_write(C_COMMENT, "explain T - help on a particular server option");
+  con_write(C_COMMENT, "l         - list players");
+  con_write(C_COMMENT, "q         - quit game and shutdown server");
+  con_write(C_COMMENT, "c P       - cut connection to player");
+  con_write(C_COMMENT, "remove P  - fully remove player from game");
+  con_write(C_COMMENT, "score     - show current score");
+  con_write(C_COMMENT, "save F    - save game as file F");
+  con_write(C_COMMENT, "show      - list server options");
+  con_write(C_COMMENT, "meta M    - Set meta-server infoline to M");
+  con_write(C_COMMENT, "ai P      - toggles AI on player");
+  con_write(C_COMMENT, "create P  - creates an AI player");
+  con_write(C_COMMENT, "easy P    - AI player will be easy");
+  con_write(C_COMMENT, "easy      - All AI players will be easy");
+  con_write(C_COMMENT, "normal P  - AI player will be normal");
+  con_write(C_COMMENT, "normal    - All AI players will be normal");
+  con_write(C_COMMENT, "hard P    - AI player will be hard");
+  con_write(C_COMMENT, "hard      - All AI players will be hard");
+  con_write(C_COMMENT, "set       - set options");
   if(server_state==PRE_GAME_STATE) {
-    puts("s         - start game");
+    con_write(C_COMMENT, "s         - start game");
   }
 }
 
@@ -1156,30 +1164,33 @@ void show_players(void)
 {
   int i;
   
-  puts("List of players:");
-  puts(horiz_line);
+  con_write(C_COMMENT, "List of players:");
+  con_write(C_COMMENT, horiz_line);
 
   if (game.nplayers == 0)
-    printf("<no players>\n");
+    con_write(C_WARNING, "<no players>");
   else
   {
     for(i=0; i<game.nplayers; i++) {
-      printf("%s", game.players[i].name);
+      con_dump(C_OK, "%s", game.players[i].name);
       if (game.players[i].ai.control) {
-	printf(" (AI, %s)",
-	       name_of_skill_level(game.players[i].ai.skill_level));
-	if (game.players[i].conn)
-	  printf(" observer connected from %s\n", game.players[i].addr);
-	else
-	  printf("\n");
+	con_dump(C_IGNORE, " (AI, %s)",
+		 name_of_skill_level(game.players[i].ai.skill_level));
+	if (game.players[i].conn) {
+	  con_write(C_IGNORE, " observer connected from %s",
+		    game.players[i].addr);
+	} else {
+	  con_puts(C_IGNORE, "");
+	}
       }
       else {
-	if (game.players[i].conn)
-	  printf(" is connected from %s\n", game.players[i].addr); 
-	else
-	  printf(" is not connected\n");
+	if (game.players[i].conn) {
+	  con_write(C_IGNORE, " is connected from %s", game.players[i].addr); 
+	} else {
+	  con_write(C_IGNORE, " is not connected");
+	}
       }
     }
   }
-  puts(horiz_line);
+  con_write(C_COMMENT, horiz_line);
 }

@@ -323,8 +323,7 @@ void parse_options(int *argc, char **argv[])
       }
     }
   }
-  log_init(logfile? logfile :"civlog");
-  log_set_level(loglevel);
+  log_init((logfile? logfile :"civlog"), loglevel, NULL);
 }
 
 
