@@ -627,6 +627,11 @@ void popit(int xin, int yin, int xtile, int ytile)
     XtAddCallback(p,XtNpopdownCallback,destroy_me_callback,NULL);
     sprintf(s, "Terrain: %s", map_get_tile_info_text(xtile, ytile));
     XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
+
+    if(ptile->special&S_HUT) {
+      XtCreateManagedWidget("Minor Tribe Village", smeBSBObjectClass,
+			    p, NULL, 0);
+    }
     
     if((pcity=map_get_city(xtile, ytile))) {
       sprintf(s, "City: %s(%s)", pcity->name, 

@@ -52,13 +52,11 @@ char *map_get_tile_info_text(int x, int y)
   static char s[64];
   struct tile *ptile=map_get_tile(x, y);
   
-  if(ptile->special&S_SPECIAL)
-    sprintf(s, "%s(%s)", 
-	    tile_types[ptile->terrain].terrain_name,
-	    tile_types[ptile->terrain].special_name);
-  else
-    sprintf(s, "%s", 
-	    tile_types[ptile->terrain].terrain_name);
+  sprintf(s, "%s%s",
+	  (ptile->special&S_POLLUTION ? "Polluted " : ""),
+	  tile_types[ptile->terrain].terrain_name);
+  if(ptile->special&S_SPECIAL) 
+    sprintf(s+strlen(s), "(%s)", tile_types[ptile->terrain].special_name);
 
   return s;
 }
