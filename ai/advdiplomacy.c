@@ -500,7 +500,7 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
    * he or she offers us gifts. It is only a gift if _all_ the clauses
    * are beneficial to us. */
   if (total_balance > 0 && gift) {
-    int i = total_balance / (city_list_size(&pplayer->cities) * 50) + 1;
+    int i = total_balance / ((city_list_size(&pplayer->cities) * 50) + 1);
 
     i = MIN(i, ai->diplomacy.love_incr * 150);
     adip->love += i;
