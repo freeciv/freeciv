@@ -172,7 +172,7 @@ msgstr ""
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
-msgstr ""
+msgstr "A szerver, amihez kapcsolódni próbáltál, túl régi (1.12.0 vagy régebbi). Próbálkozz másik szerverrel! Viszlát."
 
 #: common/player.c:487
 msgid "Spotless"
@@ -826,9 +826,9 @@ msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Játék: A(z) %s felgyorsítja a kutatást, kapsz 2 tudományt."
 
 #: server/cityturn.c:992
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
-msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt a(z) %s népétõl"
+msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt a(z) %s népétõl."
 
 #: server/cityturn.c:999
 #, c-format
@@ -1632,7 +1632,7 @@ msgid "%s discover %s (Library)"
 msgstr "A(z) %s felfedezték a(z) %s tudományt (Nagy Könyvtárból)"
 
 #: server/plrhand.c:134
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have acquired %s from the Great Library."
 msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt a Nagy Könyvtárból."
 
@@ -2059,11 +2059,11 @@ msgstr[0] "%d világcsoda\n"
 
 #: server/report.c:276 server/report.c:320
 msgid "Traveler's Report:"
-msgstr "Utazók Jelentése:"
+msgstr "Utazók jelentése:"
 
 #: server/report.c:277
 msgid "The Five Greatest Cities in the World!"
-msgstr "A Világ Öt Legjelentõsebb Városa!"
+msgstr "A világ öt legjelentõsebb városa!"
 
 #: server/report.c:295
 #, c-format
@@ -2078,7 +2078,7 @@ msgstr "A(z) %s MEGSEMMISÜLT\n"
 #: server/report.c:311
 #, c-format
 msgid "(building %s in %s (%s))\n"
-msgstr "(%2$s városában (%3$s) %1$s épületet épít)\n"
+msgstr "(%2$s városában (%3$s) %1$s épül)\n"
 
 #: client/gui-mui/gui_main.c:313 client/gui-xaw/menu.c:202
 #: data/helpdata.txt:795 server/report.c:321
@@ -2125,11 +2125,11 @@ msgstr "."
 
 #: server/report.c:535 server/report.c:553
 msgid "Demographics Report:"
-msgstr "Demográfiai Jelentés:"
+msgstr "Demográfiai jelentés:"
 
 #: server/report.c:536
 msgid "Sorry, the Demographics report is unavailable."
-msgstr "Sajnálom, a Demográfiai Jelentés nem elérhetõ."
+msgstr "Sajnálom, a Demográfiai jelentés nem elérhetõ."
 
 #: server/report.c:540
 #, c-format
@@ -2144,15 +2144,15 @@ msgstr[0] "%2d: %s %s %d pontot értek el\n"
 
 #: server/report.c:1019
 msgid "Final Report:"
-msgstr "Összegzõ Jelentés:"
+msgstr "Összegzõ jelentés:"
 
 #: server/report.c:1019
 msgid "Progress Scores:"
-msgstr "Menet Közbeni Pontszámok:"
+msgstr "Menet közbeni pontszámok:"
 
 #: server/report.c:1020
 msgid "The Greatest Civilizations in the world."
-msgstr "A világ Legnagyobb Civilizációi."
+msgstr "A világ legnagyobb civilizációi."
 
 #: server/ruleset.c:124
 msgid "Trying alternative ruleset filename syntax."
@@ -2239,23 +2239,23 @@ msgstr "farm"
 #: server/savegame.c:74
 #, c-format
 msgid "Trying to write invalid map data: '%c' %d"
-msgstr ""
+msgstr "A szerver érvénytelen térképadatot próbált fájlba írni: '%c' %d"
 
 #: server/savegame.c:126
 msgid ""
 "The save file contains incomplete map data.  This can happen with old saved "
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
-msgstr ""
+msgstr "Az elmentett fájlban hiányosak a térképadatok.  Ez elõfordulhat túl régi elmentett játékállások, vagy érvénytelen játékállásfájl esetén is.  A folytatás némileg kockázatos."
 
 #: server/savegame.c:131
 msgid "Reason: line not found"
-msgstr ""
+msgstr "Ok: hiányzó sor"
 
 #: server/savegame.c:133
 #, c-format
 msgid "Reason: line too short (expected %d got %d"
-msgstr ""
+msgstr "Ok: túl rövid sor (%d helyett csak %d hosszú)"
 
 #: server/savegame.c:288
 #, c-format
@@ -2267,23 +2267,23 @@ msgstr ""
 
 #: server/savegame.c:1680
 msgid "Savegame too old, at least version 1.9.0 required."
-msgstr ""
+msgstr "A játékállás túl régi, legalább 1.9.0-ás verziójúnak kéne lennie."
 
 #: server/savegame.c:1837
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
-msgstr ""
+msgstr "A játékállás a már nem támogatott klasszikus terep szabálykészletet használja."
 
 #: server/savegame.c:1846
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
-msgstr ""
+msgstr "Figyelmeztetés: Néhány szabálykészlet ('%s' és '%s') már nem támogatott. '%s' használata."
 
 #: server/sernet.c:123
 msgid "Server cannot read standard input. Ignoring input."
-msgstr ""
+msgstr "A szerver nem tudja olvasni a standard bemenetet. Bemenet figyelmen kívül hagyása."
 
 #: server/spacerace.c:163
 msgid "Game: You need to have a capital in order to launch your spaceship."
@@ -3390,24 +3390,14 @@ msgid ""
 "turn ends automatically. Zero means there is no timeout. In DEBUG servers, a "
 "timeout of -1 sets the autogame test mode. Use this with the command "
 "\"timeoutincrease\" to have a dynamic timer."
-msgstr ""
-"A kör automatikusan befejezõdik, ha ennyi idõ eltelte után nem nyomott még "
-"minden játékos \"Kör Vége\" gombot. Ha a beállítás értéke nulla, akkor nincs "
-"idõkorlát. A DEBUG paraméterrel fordított szerverekben a -1 idõkorlát "
-"állítja be az \"automatikus játék\" üzemmódot. Dinamikusan változó "
-"idõkorlátot is létrehozhatunk, ha a beállítást a 'timeoutincrease' "
-"paranccsal együtt használjuk."
+msgstr "A kör automatikusan befejezõdik, ha ennyi idõ eltelte után nem nyomott még minden játékos \"Kör vége\" gombot. Ha a beállítás értéke nulla, akkor nincs idõkorlát. A DEBUG paraméterrel fordított szerverekben a -1 idõkorlát állítja be az \"automatikus játék\" üzemmódot. Dinamikusan változó idõkorlátot is létrehozhatunk, ha a beállítást a 'timeoutincrease' paranccsal együtt használjuk."
 
 #: server/stdinhand.c:681
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. Use this with the "
 "command \"timeoutincrease\" to have a dynamic timer."
-msgstr ""
-"A kör automatikusan befejezõdik, ha ennyi idõ eltelte után nem nyomott még "
-"minden játékos \"Kör Vége\" gombot. Ha a beállítás értéke nulla, akkor nincs "
-"idõkorlát. Dinamikusan változó idõkorlátot is létrehozhatunk, ha a "
-"beállítást a \"timeoutincrease\" paranccsal együtt használjuk."
+msgstr "A kör automatikusan befejezõdik, ha ennyi idõ eltelte után nem nyomott még minden játékos \"Kör vége\" gombot. Ha a beállítás értéke nulla, akkor nincs idõkorlát. Dinamikusan változó idõkorlátot is létrehozhatunk, ha a beállítást a \"timeoutincrease\" paranccsal együtt használjuk."
 
 #: server/stdinhand.c:689
 msgid "Seconds to let a client connection block"
@@ -3472,9 +3462,7 @@ msgstr "Fix hosszúságú körök"
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, irrespective of players clicking on \"Turn Done\"."
-msgstr ""
-"Ha 1-re állítjuk, akkor nem kezdõdik el a következõ kör az idõkorlát letelte "
-"elõtt, függetlenül attól, hogy a játékosok nyomtak-e \"Kör Vége\" gombot."
+msgstr "Ha 1-re állítjuk, akkor nem kezdõdik el a következõ kör az idõkorlát letelte elõtt, függetlenül attól, hogy a játékosok nyomtak-e \"Kör vége\" gombot."
 
 #: server/stdinhand.c:727
 msgid "What is in the Demographics report"
@@ -4885,10 +4873,9 @@ msgstr ""
 "érték megtartása."
 
 #: server/unithand.c:173
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Illegal packet, can't upgrade %s (yet)."
-msgstr ""
-"Játék: Érvénytelen csomag, a(z) %s egységet (még) nem lehet felfejleszteni."
+msgstr "Játék: Érvénytelen csomag, a(z) %s egységet (még) nem lehet felfejleszteni."
 
 #: server/unithand.c:194
 #, c-format
@@ -5419,79 +5406,74 @@ msgstr ""
 #: client/audio.c:91
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
-msgstr ""
+msgstr "A(z) '%s' bõvítõmodul nem elérhetõ. A lehetséges bõvítõmodulok: %s"
 
 #: client/audio.c:97
-#, fuzzy
 msgid "Plugin found but can't be initialized."
-msgstr "A város nem lázítható fel!"
+msgstr "A bõvítõmodult megtaláltam, de nem sikerült inicializálni."
 
 #: client/audio.c:102
 #, c-format
 msgid "Plugin '%s' is now selected"
-msgstr ""
+msgstr "Kiválasztottad a(z) '%s' bõvítõmodult"
 
 #: client/audio.c:141
-#, fuzzy
 msgid "No audio ruleset given!"
-msgstr "Szabályok betöltése"
+msgstr "Nincs megadava audio szabálykészlet!"
 
 #: client/audio.c:146
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find audio spec-file \"%s\"."
-msgstr "Nem sikerült beolvasni a(z) '%s' parancsfájlt."
+msgstr "Nem sikerült megtalálni a(z) \"%s\" audio spec-fájlt."
 
 #: client/audio.c:147
 msgid "To get sound you need to download a sound set!"
-msgstr ""
+msgstr "Ha szeretnél hanghatásokat, tölts le egy hanghatáskészletet!"
 
 #: client/audio.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "Get sound sets from <%s>."
-msgstr "Játék: A diplomatád ellopta a(z) %2$s tudományt %3$s játékostól."
+msgstr "Hanghatáskészleteket beszerezhetsz a(z) <%s> weboldalról."
 
 #: client/audio.c:150
 msgid "Will continue with disabled sounds."
-msgstr ""
+msgstr "Folytatás hanghatások nélkül."
 
 #: client/audio.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load audio spec-file: %s"
-msgstr "Nem sikerült betölteni a(z) %s játékállást"
+msgstr "Nem sikerült betölteni a(z) %s audio spec-fájlt"
 
 #: client/audio.c:161
-#, fuzzy
 msgid "soundspec file appears incompatible:"
-msgstr "A(z) %s fájl inkompatibilisnek tûnik:"
+msgstr "a soundspec fájl inkompatibilisnek tûnik:"
 
 #: client/audio.c:168
-#, fuzzy
 msgid "soundspec file claims required option(s) which we don't support:"
-msgstr ""
-"A(z) %s fájl olyan opciókat követel meg, amelyeket a kliens nem támogat:"
+msgstr "a soundspec fájl olyan beállítás(oka)t követel meg, amelyeket nem támogatunk:"
 
 #: client/audio.c:185
 msgid "No real audio subsystem managed to initialize!"
-msgstr ""
+msgstr "Nincs valódi hang-alrendszer!"
 
 #: client/audio.c:187
 msgid "For sound support, install either esound or SDL_mixer"
-msgstr ""
+msgstr "A hangtámogatáshoz telepíts esound-ot vagy SDL_mixer-t"
 
 #: client/audio.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find audio file %s"
-msgstr "Nem található a home-könyvtár"
+msgstr "Nem sikerült megtalálni a(z) %s hangfájlt"
 
 #: client/audio_esd.c:120
 #, c-format
 msgid "Error while caching sample <%d>: confirm value != music_id\n"
-msgstr ""
+msgstr "Hiba a minta <%d> cache-elése közben: confirm_value != music_id\n"
 
 #: client/audio_esd.c:147
 #, c-format
 msgid "Error while caching sample <%d>: confirm value != samples[].id\n"
-msgstr ""
+msgstr "Hiba a minta <%d> cache-elése közben: confirm value != samples[].id\n"
 
 #: client/citydlg_common.c:108
 msgid "?filler:XXX/XXX XXX turns"
@@ -6762,7 +6744,7 @@ msgstr "Elkezdõdött a(z) %d. kör"
 
 #: client/packhand.c:745
 msgid "Popup Request"
-msgstr ""
+msgstr "Felbukkanó kérés"
 
 #: client/packhand.c:1218
 #, c-format
@@ -7544,7 +7526,7 @@ msgstr "Ki_választás..."
 
 #: client/gui-gtk-2.0/cityrep.c:523
 msgid "S_how..."
-msgstr ""
+msgstr "_Megjelenítés..."
 
 #: client/gui-gtk-2.0/cityrep.c:600 client/gui-gtk-2.0/diplodlg.c:378
 #: client/gui-gtk-2.0/diplodlg.c:390 client/gui-gtk-2.0/menu.c:626
@@ -8408,7 +8390,7 @@ msgstr ""
 #: client/gui-xaw/diplodlg.c:566 client/gui-xaw/diplodlg.c:577
 #, c-format
 msgid "%s view:"
-msgstr ""
+msgstr "%s nézõpont"
 
 #: client/gui-gtk-2.0/diplodlg.c:518 client/gui-gtk/diplodlg.c:518
 #: client/gui-mui/diplodlg.c:506 data/Freeciv:324
@@ -8491,7 +8473,7 @@ msgstr "Freeciv"
 #: client/gui-gtk-2.0/gui_main.c:674 client/gui-gtk/gui_main.c:571
 #: client/gui-win32/gui_main.c:391 data/Freeciv:2553
 msgid "Turn Done"
-msgstr "Kör Vége"
+msgstr "Kör vége"
 
 #: client/gui-gtk-2.0/gui_main.c:807 client/gui-gtk/gui_main.c:706
 #: client/gui-mui/gui_main.c:1072 client/gui-win32/gui_main.c:442
@@ -8815,22 +8797,18 @@ msgstr "Fa összecsukása"
 #: client/gui-gtk-2.0/helpdlg.c:869 client/gui-gtk-2.0/helpdlg.c:892
 #: client/gui-gtk-2.0/helpdlg.c:904 client/gui-gtk-2.0/helpdlg.c:913
 #: client/gui-gtk-2.0/helpdlg.c:929
-#, fuzzy
 msgid "Allows"
-msgstr "Engedélyezi "
+msgstr "Engedélyezi:"
 
 #: client/gui-gtk-2.0/helpdlg.c:879
-#, fuzzy
 msgid "Obsoletes"
 msgstr "Elavulttá teszi:"
 
 #: client/gui-gtk-2.0/helpdlg.c:917 client/gui-gtk-2.0/helpdlg.c:933
-#, fuzzy
 msgid "with"
 msgstr " (ezzel: "
 
 #: client/gui-gtk-2.0/helpdlg.c:921 client/gui-gtk-2.0/helpdlg.c:937
-#, fuzzy
 msgid "?techhelp:"
 msgstr "?techhelp:)."
 
@@ -9447,7 +9425,7 @@ msgstr "Kész"
 #: client/gui-gtk-2.0/menu.c:704 client/gui-gtk/menu.c:703
 #: client/gui-win32/menu.c:353
 msgid "_Reports"
-msgstr "_Infók"
+msgstr "J_elentések"
 
 #: client/gui-gtk-2.0/menu.c:706 client/gui-gtk-2.0/menu.c:708
 #: client/gui-gtk-2.0/menu.c:710 client/gui-gtk-2.0/menu.c:712
@@ -9462,7 +9440,7 @@ msgstr "_Infók"
 #: client/gui-gtk/menu.c:721 client/gui-gtk/menu.c:723
 #: client/gui-gtk/menu.c:725 client/gui-gtk/menu.c:727 data/Freeciv:1971
 msgid "Reports"
-msgstr "Infók"
+msgstr "Jelentések"
 
 #: client/gui-gtk-2.0/menu.c:708 client/gui-gtk/menu.c:707
 #: client/gui-win32/menu.c:354
@@ -10126,7 +10104,7 @@ msgstr "Átállítás"
 
 #: client/gui-gtk/cityrep.c:1366 data/Freeciv:1668
 msgid "Configure Cities Report"
-msgstr "Városinfó ablak konfigurálása"
+msgstr "Jelentés a városokról ablak konfigurálása"
 
 #: client/gui-gtk/cityrep.c:1369 client/gui-mui/cityrep.c:295
 #: client/gui-win32/cityrep.c:128 data/Freeciv:1673
@@ -10166,12 +10144,11 @@ msgstr "Ismeretlenek kibontása"
 #: client/gui-win32/helpdlg.c:766 client/gui-win32/helpdlg.c:777
 #: client/gui-win32/helpdlg.c:783 client/gui-win32/helpdlg.c:796
 msgid "Allows "
-msgstr "Engedélyezi "
+msgstr "Engedélyezi: "
 
 #: client/gui-gtk/helpdlg.c:838 client/gui-win32/helpdlg.c:754
-#, fuzzy
 msgid "Obsoletes "
-msgstr "Elavulttá teszi:"
+msgstr "Elavulttá teszi: "
 
 #: client/gui-gtk/helpdlg.c:879 client/gui-gtk/helpdlg.c:894
 #: client/gui-mui/helpdlg.c:792 client/gui-mui/helpdlg.c:812
@@ -10237,13 +10214,13 @@ msgstr "Összesen: ..."
 #: client/gui-gtk/repodlgs.c:818 client/gui-mui/mapclass.c:3092
 #: client/gui-win32/repodlgs.c:723 data/Freeciv:1895
 msgid "Upgrade"
-msgstr "Fejleszt"
+msgstr "Fejlesztés"
 
 #: client/gui-gtk/repodlgs.c:824 client/gui-win32/cityrep.c:899
 #: client/gui-win32/repodlgs.c:725 data/Freeciv:1601 data/Freeciv:1746
 #: data/Freeciv:1903
 msgid "Refresh"
-msgstr "Frissít"
+msgstr "Frissítés"
 
 #: client/gui-gtk/repodlgs.c:908 client/gui-mui/dialogs.c:228
 #: client/gui-win32/repodlgs.c:587 client/gui-xaw/citydlg.c:2612
@@ -10402,7 +10379,7 @@ msgstr "Luxus: %d (maximum %d használható fel). "
 
 #: client/gui-mui/cityrep.c:292 client/gui-win32/cityrep.c:100
 msgid "Configure City Report"
-msgstr "Városinfó Ablak Konfigurálása"
+msgstr "Jelentés a városokról ablak konfigurálása"
 
 #: client/gui-mui/cityrep.c:304 client/gui-mui/dialogs.c:1775
 #: client/gui-mui/finddlg.c:108 client/gui-mui/gamedlgs.c:236
@@ -10415,16 +10392,16 @@ msgstr "_Rendben"
 #: client/gui-mui/cityrep.c:373 client/gui-mui/cityrep.c:401
 #: client/gui-win32/cityrep.c:1084
 msgid "City Report"
-msgstr "Városinfók"
+msgstr "Jelentés a városokról"
 
 #: client/gui-mui/cityrep.c:394
 msgid "Con_figure"
-msgstr "_Konfiguráció"
+msgstr "_Konfigurálás"
 
 #: client/gui-mui/cityrep.c:440 client/gui-win32/cityrep.c:903
 #: client/gui-win32/cityrep.c:1155
 msgid "City Advisor"
-msgstr "Város Tanácsadó"
+msgstr "Városi tanácsadó"
 
 #: client/gui-mui/connectdlg.c:176
 msgid "Server Selection"
@@ -10433,7 +10410,7 @@ msgstr "Szerverválasztás"
 #: client/gui-mui/connectdlg.c:191 client/gui-win32/connectdlg.c:376
 #: data/Freeciv:63
 msgid "Connect to Freeciv Server"
-msgstr "Kapcsolódás Freeciv Szerverhez"
+msgstr "Kapcsolódás a Freeciv szerverhez"
 
 #: client/gui-mui/connectdlg.c:200 client/gui-mui/connectdlg.c:201
 msgid "_Name"
@@ -10794,23 +10771,23 @@ msgstr "Jelentés"
 
 #: client/gui-mui/gui_main.c:308
 msgid "City Report..."
-msgstr "Városinfók..."
+msgstr "Jelentés a városokról..."
 
 #: client/gui-mui/gui_main.c:309
 msgid "Science Report..."
-msgstr "Tudomány Infók..."
+msgstr "Jelentés a tudományról..."
 
 #: client/gui-mui/gui_main.c:310
 msgid "Trade Report..."
-msgstr "Kereskedelmi Infók..."
+msgstr "Jelentés a kereskedelemrõl..."
 
 #: client/gui-mui/gui_main.c:311
 msgid "Military Report..."
-msgstr "Katonai Infók..."
+msgstr "Katonai jelentés..."
 
 #: client/gui-mui/gui_main.c:314 client/gui-xaw/menu.c:203
 msgid "Top Five Cities"
-msgstr "Az Öt Legjobb Város"
+msgstr "Az öt legjobb város"
 
 #: client/gui-mui/gui_main.c:315 client/gui-xaw/menu.c:205
 msgid "Demographics"
@@ -11061,7 +11038,7 @@ msgstr "_Kutatás"
 
 #: client/gui-mui/repodlgs.c:547 client/gui-win32/repodlgs.c:453
 msgid "Trade Report"
-msgstr "Kereskedelmi Infók"
+msgstr "Jelentés a kereskedelemrõl"
 
 #: client/gui-mui/repodlgs.c:563
 msgid "Sell _Obsolete"
@@ -11078,7 +11055,7 @@ msgstr "Kereskedelmi Tanácsadó"
 #: client/gui-mui/repodlgs.c:794 client/gui-mui/repodlgs.c:820
 #: client/gui-mui/repodlgs.c:857
 msgid "Military Report"
-msgstr "Katonai Infók"
+msgstr "Katonai jelentés"
 
 #: client/gui-mui/spaceshipdlg.c:213
 msgid ""
@@ -11460,7 +11437,7 @@ msgstr "(%d lépés)"
 
 #: client/gui-win32/repodlgs.c:261
 msgid "Science Report"
-msgstr "Tudományinfók"
+msgstr "Jelentés a tudományról"
 
 #: client/gui-win32/repodlgs.c:672
 #, fuzzy
@@ -12193,8 +12170,7 @@ msgstr ""
 "  b: várot épít  (telepes egységek)\n"
 "  b: segít világcsodát építeni  (karaván egységek)\n"
 "  c: az egység középpontba hozása\n"
-"  C: bekapcsolódás terepfejlesztésbe  (utána bal egégombbal kell kijelölni a "
-"célmezõt)\n"
+"  C: bekapcsolódás terepfejlesztésbe  (utána bal egégombbal kell kijelölni a célmezõt)\n"
 "  d: diplomata-/kémtevékenység  (diplomata/kém egységek)\n"
 "  D: egység feloszlatása\n"
 "  e: légibázist épít  (légibázis egységek)\n"
@@ -12202,8 +12178,7 @@ msgstr ""
 "  f: erõdöt épít  (telepes egységek)\n"
 "  g: menj!  (utána bal egérgombbal kell kijelölni az úticélt)\n"
 "  h: ellátó város beállítása  (az aktuális helyen található városra)\n"
-"  i: öntözõrendszert/farmot épít  (telepes egységek; esetleg átalakíthatja a "
-"terepet)\n"
+"  i: öntözõrendszert/farmot épít  (telepes egységek; esetleg átalakíthatja a terepet)\n"
 "  l: menj|repülj ... városába!\n"
 "  L: Munkatervek ablak megnyitása\n"
 "  m: bányát épít  (telepes egységek; esetleg átalakíthatja a terepet)\n"
@@ -12218,19 +12193,18 @@ msgstr ""
 "  r: kereskedelmi útvonalat alapít  (karaván egységek)\n"
 "  R: lázadást szít\n"
 "  s: õrködik\n"
-"  t: a város által használt mezõk megjelenítése  (az egeret a város fölé "
-"vagy közelébe kell vinni)\n"
+"  t: a város által használt mezõk megjelenítése  (az egeret a város fölé vagy közelébe kell vinni)\n"
 "  T: az Adó/Luxus/Tudomány ablak megnyitása\n"
 "  u: hajó kirakodása\n"
 "  w: várakozik\n"
 "  W: felébreszti a többieket\n"
 "  x: automata felfedezés\n"
 "\n"
-"  1: délnyugat felé megy              F1: Városinfók\n"
-"  2: dél felé megy                    F2: Katonai Infók\n"
+"  1: délnyugat felé megy              F1: Jelentés a városokról\n"
+"  2: dél felé megy                    F2: Katonai jelentés\n"
 "  3: délkelet felé megy               F3: Játékosok ablak\n"
-"  4: nyugat felé megy                 F5: Gazdasági Infók\n"
-"  5: következõ egység                 F6: Tudomány Infók\n"
+"  4: nyugat felé megy                 F5: Gazdasági jelentés\n"
+"  5: következõ egység                 F6: Jelentés a tudományról\n"
 "  6: kelet felé mozog                 F7: A Világ Csodái\n"
 "  7: északnyugat felé mozog           F8: Az Öt Legjobb Város\n"
 "  8: észak felé mozog                F10: Üzenetek ablak\n"
@@ -14872,7 +14846,7 @@ msgstr ""
 #: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
 #: data/default/techs.ruleset:56
 msgid "Advanced Flight"
-msgstr "Fejlett Repülés"
+msgstr "Fejlett repülés"
 
 #: data/civ1/techs.ruleset:55 data/civ2/techs.ruleset:55
 #: data/default/techs.ruleset:62
@@ -14882,7 +14856,7 @@ msgstr "Ábécé"
 #: data/civ1/techs.ruleset:61 data/civ2/techs.ruleset:61
 #: data/default/techs.ruleset:68
 msgid "Amphibious Warfare"
-msgstr "Kétéltû Hadviselés"
+msgstr "Kétéltû hadviselés"
 
 #: data/civ1/techs.ruleset:67 data/civ2/techs.ruleset:67
 #: data/default/techs.ruleset:74
@@ -14917,7 +14891,7 @@ msgstr "Bronzmegmunkálás"
 #: data/civ1/techs.ruleset:103 data/civ2/techs.ruleset:103
 #: data/default/techs.ruleset:110
 msgid "Ceremonial Burial"
-msgstr "Szertartásos Temetkezés"
+msgstr "Szertartásos temetkezés"
 
 #: data/civ1/techs.ruleset:109 data/civ2/techs.ruleset:109
 #: data/default/techs.ruleset:116
@@ -14927,17 +14901,17 @@ msgstr "Kémia"
 #: data/civ1/techs.ruleset:115 data/civ2/techs.ruleset:115
 #: data/default/techs.ruleset:122
 msgid "Chivalry"
-msgstr "Lovagi Rend"
+msgstr "Lovagi kultúra"
 
 #: data/civ1/techs.ruleset:121 data/civ2/techs.ruleset:121
 #: data/default/techs.ruleset:128
 msgid "Code of Laws"
-msgstr "Törvény"
+msgstr "Polgári törvénykönyv"
 
 #: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127
 #: data/default/techs.ruleset:134
 msgid "Combined Arms"
-msgstr "Kombinált Fegyvernem"
+msgstr "Kombinált fegyvernemek"
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
 #: data/default/techs.ruleset:140
@@ -14947,17 +14921,17 @@ msgstr "Robbanómototor"
 #: data/civ1/techs.ruleset:145 data/civ2/techs.ruleset:145
 #: data/default/techs.ruleset:152
 msgid "Computers"
-msgstr "Számítógépek"
+msgstr "Számítógép"
 
 #: data/civ1/techs.ruleset:151 data/civ2/techs.ruleset:151
 #: data/default/techs.ruleset:158
 msgid "Conscription"
-msgstr "Sorozás"
+msgstr "Sorkatonaság"
 
 #: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:157
 #: data/default/techs.ruleset:164
 msgid "Construction"
-msgstr "Építkezés"
+msgstr "Építészet"
 
 #: data/civ1/techs.ruleset:163 data/civ2/techs.ruleset:163
 #: data/default/techs.ruleset:170
@@ -14977,7 +14951,7 @@ msgstr "Elektronika"
 #: data/civ1/techs.ruleset:193 data/civ2/techs.ruleset:193
 #: data/default/techs.ruleset:200
 msgid "Engineering"
-msgstr "Mérnöki Munka"
+msgstr "Mérnöki tervezés"
 
 #: data/civ1/techs.ruleset:199 data/civ2/techs.ruleset:199
 #: data/default/techs.ruleset:206
@@ -15007,7 +14981,7 @@ msgstr "Repülés"
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:235
 #: data/default/techs.ruleset:242
 msgid "Fusion Power"
-msgstr "Fúziós Energia"
+msgstr "Fúziós energia"
 
 #: data/civ1/techs.ruleset:241 data/civ2/techs.ruleset:241
 #: data/default/techs.ruleset:248
@@ -15017,7 +14991,7 @@ msgstr "Genetika"
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
 #: data/default/techs.ruleset:254
 msgid "Guerilla Warfare"
-msgstr "Gerilla Harcmodor"
+msgstr "Gerilla harcmodor"
 
 #: data/civ1/techs.ruleset:253 data/civ2/techs.ruleset:253
 #: data/default/techs.ruleset:260
@@ -15047,7 +15021,7 @@ msgstr "Vasmegmunkálás"
 #: data/civ1/techs.ruleset:283 data/civ2/techs.ruleset:283
 #: data/default/techs.ruleset:290
 msgid "Labor Union"
-msgstr "Munkarõ Egyesítés"
+msgstr "Szakszervezet"
 
 #: data/civ1/techs.ruleset:289 data/civ2/techs.ruleset:289
 #: data/default/techs.ruleset:296
@@ -15057,7 +15031,7 @@ msgstr "Lézer"
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
 #: data/default/techs.ruleset:302
 msgid "Leadership"
-msgstr "Vezetõi Képesség"
+msgstr "Hadvezetés"
 
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
 #: data/default/techs.ruleset:314
@@ -15107,7 +15081,7 @@ msgstr "Miniatürizáció"
 #: data/civ1/techs.ruleset:361 data/civ2/techs.ruleset:361
 #: data/default/techs.ruleset:368
 msgid "Mobile Warfare"
-msgstr "Mobil Hadviselés"
+msgstr "Mobil hadviselés"
 
 #: data/civ1/techs.ruleset:373 data/civ2/techs.ruleset:373
 #: data/default/techs.ruleset:380
@@ -15190,7 +15164,7 @@ msgstr "Hûtõipar"
 #: data/civ1/techs.ruleset:463 data/civ2/techs.ruleset:463
 #: data/default/techs.ruleset:472
 msgid "Robotics"
-msgstr "Robot"
+msgstr "Robotok"
 
 #: data/civ1/techs.ruleset:469 data/civ2/techs.ruleset:469
 #: data/default/techs.ruleset:478
@@ -15205,7 +15179,7 @@ msgstr "Közegészségügy"
 #: data/civ1/techs.ruleset:481 data/civ2/techs.ruleset:481
 #: data/default/techs.ruleset:490
 msgid "Seafaring"
-msgstr "Tengeri Hajózás"
+msgstr "Tengeri hajózás"
 
 #: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:487
 #: data/default/techs.ruleset:496
@@ -15259,12 +15233,12 @@ msgstr "Teológia"
 #: data/civ1/techs.ruleset:547 data/civ2/techs.ruleset:547
 #: data/default/techs.ruleset:556
 msgid "Theory of Gravity"
-msgstr "Gravitáció Elmélete"
+msgstr "Gravitáció elmélete"
 
 #: data/civ1/techs.ruleset:565 data/civ2/techs.ruleset:565
 #: data/default/techs.ruleset:574
 msgid "Warrior Code"
-msgstr "Harcos Jelrendszer"
+msgstr "Harci törvénykönyv"
 
 #: data/civ1/techs.ruleset:571 data/civ2/techs.ruleset:571
 #: data/default/techs.ruleset:580
