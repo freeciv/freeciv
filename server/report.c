@@ -182,6 +182,7 @@ void report_top_five_cities(struct conn_list *dest)
   buffer[0] = 0;
   for (i = 0; i < NUM_BEST_CITIES; i++) {
     struct city *pcity = find_city_by_id(size[i].idx);
+    int wonders;
 
     if (!pcity) {
 	/* 
@@ -191,10 +192,13 @@ void report_top_five_cities(struct conn_list *dest)
       break;
     }
 
+    wonders = nr_wonders(pcity);
     cat_snprintf(buffer, sizeof(buffer),
-		 _("%2d: The %s City of %s of size %d, with %d wonders\n"),
-		 i + 1, get_nation_name(city_owner(pcity)->nation),
-		 pcity->name, pcity->size, nr_wonders(pcity));
+		 PL_("%2d: The %s City of %s of size %d, with %d wonder\n",
+		     "%2d: The %s City of %s of size %d, with %d wonders\n",
+		     wonders), i + 1,
+		 get_nation_name(city_owner(pcity)->nation), pcity->name,
+		 pcity->size, wonders);
   }
   free(size);
   page_conn(dest, _("Traveler's Report:"),
@@ -836,10 +840,12 @@ static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
     case DEM_KEY_ROW_MILITARY_SERVICE:
       if (selcols & DEM_COL_QUANTITY)
 	{
+	  int x = rank_calc_mil_service(pplayer);
+
 	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (rank_calc_mil_service(pplayer)),
-				    _(" months")));
+	  my_snprintf(outptr, nleft, fmt_quan,
+		      value_units(int_to_text(x),
+				  PL_(" month", " months", x)));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -851,20 +857,24 @@ static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_mil_service())) )
         {
+	  int x = rank_calc_mil_service(best_player);
+
 	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       value_units(int_to_text(rank_calc_mil_service(best_player)),
-				   _(" months")));
+	  my_snprintf(outptr, nleft, fmt_best,
+		      get_nation_name_plural(best_player->nation),
+		      value_units(int_to_text(x),
+				  PL_(" month", " months", x)));
         }
       break;
     case DEM_KEY_ROW_POLLUTION:
       if (selcols & DEM_COL_QUANTITY)
 	{
+	  int x = pplayer->score.pollution;
+
 	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (pplayer->score.pollution),
-				    _(" tons")));
+	  my_snprintf(outptr, nleft, fmt_quan,
+		      value_units(int_to_text(x),
+				  PL_(" ton", " tons", x)));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -875,11 +885,13 @@ static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
       if (selcols & DEM_COL_BEST && 
           player_has_embassy(pplayer, (best_player = best_pollution())) )
         {
+	  int x = best_player->score.pollution;
+
 	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       value_units (int_to_text(best_player->score.pollution),
-				    _(" tons")));
+	  my_snprintf(outptr, nleft, fmt_best,
+		      get_nation_name_plural(best_player->nation),
+		      value_units(int_to_text(x),
+				  PL_(" ton", " tons", x)));
         }
       break;
     }
@@ -1409,9 +1421,12 @@ void report_scores(int final)
   for (i=0;i<game.nplayers;i++) {
     if( !is_barbarian(&game.players[size[i].idx]) ) {
       cat_snprintf(buffer, sizeof(buffer),
-		   _("%2d: The %s %s scored %d points\n"), j+1, _(greatness[j]),
-		   get_nation_name_plural(game.players[size[i].idx].nation),
-		   size[i].value);
+		   PL_("%2d: The %s %s scored %d point\n",
+		       "%2d: The %s %s scored %d points\n",
+		       size[i].value),
+		   j + 1, _(greatness[j]),
+		   get_nation_name_plural(game.players[size[i].idx].
+					  nation), size[i].value);
       j++;
     }
   }
