@@ -20,6 +20,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <graphics/gfxmacros.h>
 #include <cybergraphx/cybergraphics.h>
 #include <guigfx/guigfx.h>
 #include <clib/alib_protos.h>
@@ -44,6 +45,7 @@
 #include "tilespec.h"
 
 APTR pen_shared_map;
+PLANEPTR iso_fog_mask; /* This mask is used to fog tiles in the iso mode */
 
 /* Own sprite list - used so we can reload the sprites if needed */
 static struct MinList sprite_list;
@@ -229,6 +231,12 @@ void cleanup_sprites(void)
     cleanup_sprite(node->sprite);
     node = (struct SpriteNode *) node->node.mln_Succ;
   }
+
+  if (iso_fog_mask)
+  {
+    FreeVec(iso_fog_mask);
+    iso_fog_mask = NULL;
+  }
 }
 
 /****************************************************************
@@ -338,6 +346,44 @@ int render_sprites(APTR drawhandle)
       return FALSE;
     node = (struct SpriteNode *) node->node.mln_Succ;
   }
+
+  if (is_isometric)
+  {
+    /* In isometric view we needs to build a fog mask, we could use BltPattern()
+       to avoid this but the mask position can not be specified fine enough */
+    ULONG mem_flags = MEMF_ANY;
+    LONG len;
+
+    if (!CyberGfxBase)
+      mem_flags = MEMF_CHIP;
+
+    if ((iso_fog_mask = AllocVec(RASSIZE(NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT),MEMF_CLEAR)))
+    {
+      struct RastPort rp;
+      struct BitMap bmap;
+      struct Sprite *sprite = sprites.black_tile;
+      const static UWORD patt[] = {0xaaaa,0x5555};
+      LONG bpr = GetBitMapAttr(sprite->parent->bitmap, BMA_WIDTH) / 8;
+      PLANEPTR mask = (PLANEPTR)(((UWORD*)sprite->parent->mask)+(sprite->offx/16+(sprite->offy)*bpr/2));
+
+      InitBitMap(&bmap,1,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
+      InitRastPort(&rp);
+
+      bmap.Planes[0]=iso_fog_mask;
+      rp.BitMap = &bmap;
+
+      SetABPenDrMd(&rp,1,0,JAM1);
+      /* Blit the black tile */
+      BltTemplate(mask,sprite->offx % 16, bpr, &rp,0,0,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
+
+      SetAPen(&rp,0);
+      /* Fog the mask */
+      SetAfPt(&rp,patt,1);
+      RectFill(&rp,0,0,NORMAL_TILE_WIDTH-1,NORMAL_TILE_HEIGHT-1);
+      SetAfPt(&rp,NULL,0);  
+    }
+  }
+
   return TRUE;
 }
 
@@ -735,13 +781,13 @@ static void put_sprite_overlay_total(struct RastPort *rp, struct Sprite *sprite,
  restricted to height and width with offset
 *****************************************************************/
 static void fog_tile(struct RastPort *rp, LONG x, LONG y,
-LONG ox, LONG oy, LONG width, LONG height)
+                     LONG ox, LONG oy, LONG width, LONG height)
 {
-// does not yet work as expected, needing useful mask, dither is of no sense
-/*
-  put_sprite_overlay_total_with_different_mask(rp, sprites.black_tile,
-  sprites.dither_tile, x, y, ox, oy, width, height);
-*/
+  LONG bpr = (NORMAL_TILE_WIDTH+15)/16*2;
+  PLANEPTR mask = (PLANEPTR)((UWORD*)iso_fog_mask+ox/16+oy*bpr/2);
+
+  SetABPenDrMd(rp,GetColorPen(COLOR_STD_BLACK),0,JAM1);
+  BltTemplate(mask,ox % 16, bpr, rp,x,y,width,height);
 }
 
 /****************************************************************
@@ -1025,6 +1071,23 @@ static void put_black_tile_iso(struct RastPort *rp,
 /**************************************************************************
 Only used for isometric view.
 **************************************************************************/
+static void put_color_tile_iso(struct RastPort *rp,
+			       int canvas_x, int canvas_y,
+			       int offset_x, int offset_y,
+			       int width, int height, int color)
+{
+  struct Sprite *sprite = sprites.black_tile;
+  LONG bpr = GetBitMapAttr(sprite->parent->bitmap, BMA_WIDTH) / 8;
+  PLANEPTR mask = (PLANEPTR)(((UWORD*)sprite->parent->mask)+((sprite->offx+offset_x)/16+(sprite->offy+offset_y)*bpr/2));
+
+  SetABPenDrMd(rp,GetColorPen(color),0,JAM1);
+  BltTemplate(mask,(sprite->offx+offset_x) % 16, bpr, rp,canvas_x,canvas_y,width,height);
+}
+
+
+/**************************************************************************
+Only used for isometric view.
+**************************************************************************/
 static void put_overlay_tile_draw(struct RastPort *rp,
 				  int canvas_x, int canvas_y,
 				  struct Sprite *ssprite,
@@ -1193,22 +1256,17 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
 
   if (solid_bg)
   {
-// fix me, also add player colors!
-#if DISABLED
-    gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_bg_gc, sprites.black_tile->mask);
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BACKGROUND]);
+    int color;
 
-    gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
-		       canvas_x+offset_x, canvas_y+offset_y,
-		       MIN(width, MAX(0, sprites.black_tile->width-offset_x)),
-		       MIN(height, MAX(0, sprites.black_tile->height-offset_y)));
-    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
-#else
-  put_black_tile_iso(rp, canvas_x, canvas_y, offset_x, offset_y, width, height);
-#endif
+    if (solid_color_behind_units && (pcity || punit))
+    {
+      if (pcity) color = player_color(city_owner(pcity));
+      else color = player_color(unit_owner(punit));
+    } else color = COLOR_STD_BACKGROUND;
 
-    if(fog)
+    put_color_tile_iso(rp,canvas_x,canvas_y, offset_x,offset_y,width,height,color);
+
+    if (fog)
     {
       fog_tile(rp, canvas_x + offset_x,
       canvas_y + offset_y, offset_x, offset_y, width, height);
