@@ -302,29 +302,6 @@ void req_get_values(struct requirement *req,
 }
 
 /****************************************************************************
-  Is this target possible for the range involved?
-
-  For instance a city-ranged requirement can't have a player as it's target.
-  See the comment at enum target_type.
-****************************************************************************/
-static bool is_target_possible(enum target_type target,
-			       enum req_range range)
-{
-  switch (target) {
-  case TARGET_WORLD:
-    return (range >= REQ_RANGE_WORLD);
-  case TARGET_PLAYER:
-    return (range >= REQ_RANGE_PLAYER);
-  case TARGET_CITY:
-    return (range >= REQ_RANGE_CITY);
-  case TARGET_BUILDING:
-    return (range >= REQ_RANGE_LOCAL);
-  }
-  assert(0);
-  return FALSE;
-}
-
-/****************************************************************************
   Returns the number of total world buildings (this includes buildings
   that have been destroyed).
 ****************************************************************************/
@@ -443,8 +420,7 @@ static int num_city_buildings(const struct city *pcity, Impr_Type_id id)
   the number of available sources.  However not all source caches exist: if
   the cache doesn't exist then we return 0.
 ****************************************************************************/
-int count_buildings_in_range(enum target_type target,
-			     const struct player *target_player,
+int count_buildings_in_range(const struct player *target_player,
 			     const struct city *target_city,
 			     Impr_Type_id target_building,
 			     enum req_range range, bool survives,
@@ -471,23 +447,27 @@ int count_buildings_in_range(enum target_type target,
   case REQ_RANGE_WORLD:
     return num_world_buildings(source);
   case REQ_RANGE_PLAYER:
-    return num_player_buildings(target_player, source);
+    return target_player ? num_player_buildings(target_player, source) : 0;
   case REQ_RANGE_CONTINENT:
-    {
+    if (target_player) {
       int continent = map_get_continent(target_city->tile);
 
       return num_continent_buildings(target_player, continent, source);
-    }
-  case REQ_RANGE_CITY:
-    return num_city_buildings(target_city, source);
-  case REQ_RANGE_LOCAL:
-    if (target_building == source) {
-      return num_city_buildings(target_city, source);
     } else {
       return 0;
     }
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_CITY:
+    return target_city ? num_city_buildings(target_city, source) : 0;
+  case REQ_RANGE_LOCAL:
+    if (target_building != B_LAST && target_building == source) {
+      return num_city_buildings(target_city, source);
+    } else {
+      /* TODO: other local targets */
+      return 0;
+    }
   case REQ_RANGE_ADJACENT:
+    return 0;
+  case REQ_RANGE_LAST:
     break;
   }
   assert(0);
@@ -497,8 +477,7 @@ int count_buildings_in_range(enum target_type target,
 /****************************************************************************
   Is there a source tech within range of the target?
 ****************************************************************************/
-static bool is_tech_in_range(enum target_type target,
-			     const struct player *target_player,
+static bool is_tech_in_range(const struct player *target_player,
 			     enum req_range range,
 			     Tech_Type_id tech)
 {
@@ -523,8 +502,7 @@ static bool is_tech_in_range(enum target_type target,
 /****************************************************************************
   Is there a source special within range of the target?
 ****************************************************************************/
-static bool is_special_in_range(enum target_type target,
-				const struct tile *target_tile,
+static bool is_special_in_range(const struct tile *target_tile,
 				enum req_range range, bool survives,
 				enum tile_special_type special)
 
@@ -554,8 +532,7 @@ static bool is_special_in_range(enum target_type target,
 /****************************************************************************
   Is there a source tile within range of the target?
 ****************************************************************************/
-static bool is_terrain_in_range(enum target_type target,
-				const struct tile *target_tile,
+static bool is_terrain_in_range(const struct tile *target_tile,
 				enum req_range range, bool survives,
 				Terrain_type_id terrain)
 {
@@ -592,17 +569,12 @@ static bool is_terrain_in_range(enum target_type target,
   for instance if you have TARGET_CITY pass the city's owner as the target
   player as well as the city itself as the target city.
 ****************************************************************************/
-bool is_req_active(enum target_type target,
-		   const struct player *target_player,
+bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,
 		   Impr_Type_id target_building,
 		   const struct tile *target_tile,
 		   const struct requirement *req)
 {
-  if (!is_target_possible(target, req->range)) {
-    return FALSE;
-  }
-
   /* Note the target may actually not exist.  In particular, effects that
    * have a REQ_SPECIAL or REQ_TERRAIN may often be passed to this function
    * with a city as their target.  In this case the requirement is simply
@@ -612,7 +584,7 @@ bool is_req_active(enum target_type target,
     return TRUE;
   case REQ_TECH:
     /* The requirement is filled if the player owns the tech. */
-    return is_tech_in_range(target, target_player, req->range,
+    return is_tech_in_range(target_player, req->range,
 			    req->source.value.tech);
   case REQ_GOV:
     /* The requirement is filled if the player is using the government. */
@@ -622,16 +594,16 @@ bool is_req_active(enum target_type target,
     /* The requirement is filled if there's at least one of the building
      * in the city.  (This is a slightly nonstandard use of
      * count_sources_in_range.) */
-    return (count_buildings_in_range(target, target_player, target_city,
+    return (count_buildings_in_range(target_player, target_city,
 				     target_building,
 				     req->range, req->survives,
 				     req->source.value.building) > 0);
   case REQ_SPECIAL:
-    return is_special_in_range(target, target_tile,
+    return is_special_in_range(target_tile,
 			       req->range, req->survives,
 			       req->source.value.special);
   case REQ_TERRAIN:
-    return is_terrain_in_range(target, target_tile,
+    return is_terrain_in_range(target_tile,
 			       req->range, req->survives,
 			       req->source.value.terrain);
   case REQ_LAST:
@@ -656,8 +628,7 @@ bool is_req_active(enum target_type target,
   for instance if you have TARGET_CITY pass the city's owner as the target
   player as well as the city itself as the target city.
 ****************************************************************************/
-bool are_reqs_active(enum target_type target,
-		     const struct player *target_player,
+bool are_reqs_active(const struct player *target_player,
 		     const struct city *target_city,
 		     Impr_Type_id target_building,
 		     const struct tile *target_tile,
@@ -668,7 +639,7 @@ bool are_reqs_active(enum target_type target,
   for (i = 0; i < num_reqs; i++) {
     if (reqs[i].source.type == REQ_NONE) {
       break; /* Short-circuit any more checks. */
-    } else if (!is_req_active(target, target_player, target_city,
+    } else if (!is_req_active(target_player, target_city,
 			      target_building, target_tile,
 			      &reqs[i])) {
       return FALSE;

@@ -551,15 +551,14 @@ bool building_has_effect(Impr_Type_id id, enum effect_type effect)
   active (an effect is active if all of its enabling requirements and
   none of its disabling ones are active).
 **************************************************************************/
-bool is_effect_disabled(enum target_type target,
-		        const struct player *target_player,
+bool is_effect_disabled(const struct player *target_player,
 		        const struct city *target_city,
 		        Impr_Type_id target_building,
 		        const struct tile *target_tile,
 		        const struct effect *peffect)
 {
   requirement_list_iterate(peffect->nreqs, preq) {
-    if (is_req_active(target, target_player, target_city, target_building,
+    if (is_req_active(target_player, target_city, target_building,
 		      target_tile, preq)) {
       return TRUE;
     }
@@ -572,15 +571,14 @@ bool is_effect_disabled(enum target_type target,
   active (an effect is active if all of its enabling requirements and
   none of its disabling ones are active).
 **************************************************************************/
-static bool is_effect_enabled(enum target_type target,
-			      const struct player *target_player,
+static bool is_effect_enabled(const struct player *target_player,
 			      const struct city *target_city,
 			      Impr_Type_id target_building,
 			      const struct tile *target_tile,
 			      const struct effect *peffect)
 {
   requirement_list_iterate(peffect->reqs, preq) {
-    if (!is_req_active(target, target_player, target_city, target_building,
+    if (!is_req_active(target_player, target_city, target_building,
 		       target_tile, preq)) {
       return FALSE;
     }
@@ -597,15 +595,14 @@ static bool is_effect_enabled(enum target_type target,
   (player,city,building,tile) give the exact target
   peffect gives the exact effect value
 **************************************************************************/
-static bool is_effect_active(enum target_type target,
-			     const struct player *plr,
+static bool is_effect_active(const struct player *plr,
 			     const struct city *pcity,
 			     Impr_Type_id building,
 			     const struct tile *ptile,
 			     const struct effect *peffect)
 {
-  return is_effect_enabled(target, plr, pcity, building, ptile, peffect)
-    && !is_effect_disabled(target, plr, pcity, building, ptile, peffect);
+  return is_effect_enabled(plr, pcity, building, ptile, peffect)
+    && !is_effect_disabled(plr, pcity, building, ptile, peffect);
 }
 
 /**************************************************************************
@@ -620,14 +617,13 @@ static bool is_effect_active(enum target_type target,
   source gives the source type of the effect
   peffect gives the exact effect value
 **************************************************************************/
-bool is_effect_useful(enum target_type target,
-		      const struct player *target_player,
+bool is_effect_useful(const struct player *target_player,
 		      const struct city *target_city,
 		      Impr_Type_id target_building,
 		      const struct tile *target_tile,
 		      Impr_Type_id source, const struct effect *peffect)
 {
-  if (is_effect_disabled(target, target_player, target_city,
+  if (is_effect_disabled(target_player, target_city,
 			 target_building, target_tile, peffect)) {
     return FALSE;
   }
@@ -636,7 +632,7 @@ bool is_effect_useful(enum target_type target,
 	&& preq->source.value.building == source) {
       continue;
     }
-    if (!is_req_active(target, target_player, target_city, target_building,
+    if (!is_req_active(target_player, target_city, target_building,
 		       target_tile, preq)) {
       return FALSE;
     }
@@ -667,7 +663,7 @@ bool is_building_replaced(const struct city *pcity, Impr_Type_id building)
     /* We use TARGET_BUILDING as the lowest common denominator.  Note that
      * the building is its own target - but whether this is actually
      * checked depends on the range of the effect. */
-    if (!is_effect_disabled(TARGET_BUILDING, city_owner(pcity), pcity,
+    if (!is_effect_disabled(city_owner(pcity), pcity,
 			    building, NULL, peffect)) {
       return FALSE;
     }
@@ -688,7 +684,6 @@ bool is_building_replaced(const struct city *pcity, Impr_Type_id building)
   is done with it.
 **************************************************************************/
 static int get_target_bonus_effects(struct effect_list *plist,
-    				    enum target_type target,
 			  	    const struct player *target_player,
 				    const struct city *target_city,
 				    Impr_Type_id target_building,
@@ -700,7 +695,7 @@ static int get_target_bonus_effects(struct effect_list *plist,
   /* Loop over all effects of this type. */
   effect_list_iterate(get_effects(effect_type), peffect) {
     /* For each effect, see if it is active. */
-    if (is_effect_active(target, target_player, target_city,
+    if (is_effect_active(target_player, target_city,
 			 target_building, target_tile, peffect)) {
       /* And if so add on the value. */
       bonus += peffect->value;
@@ -719,7 +714,7 @@ static int get_target_bonus_effects(struct effect_list *plist,
 **************************************************************************/
 int get_world_bonus(enum effect_type effect_type)
 {
-  return get_target_bonus_effects(NULL, TARGET_WORLD,
+  return get_target_bonus_effects(NULL,
 				  NULL, NULL, B_LAST, NULL, effect_type);
 }
 
@@ -729,7 +724,8 @@ int get_world_bonus(enum effect_type effect_type)
 int get_player_bonus(const struct player *pplayer,
 		     enum effect_type effect_type)
 {
-  return get_target_bonus_effects(NULL, TARGET_PLAYER,
+  assert(pplayer != NULL);
+  return get_target_bonus_effects(NULL,
 			  	  pplayer, NULL, B_LAST, NULL,
 				  effect_type);
 }
@@ -739,7 +735,8 @@ int get_player_bonus(const struct player *pplayer,
 **************************************************************************/
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 {
-  return get_target_bonus_effects(NULL, TARGET_CITY,
+  assert(pcity != NULL);
+  return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity, B_LAST, NULL,
 				  effect_type);
 }
@@ -750,7 +747,8 @@ int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 			enum effect_type effect_type)
 {
-  return get_target_bonus_effects(NULL, TARGET_CITY,
+  assert(pcity != NULL && ptile != NULL);
+  return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity, B_LAST, ptile,
 				  effect_type);
 }
@@ -761,7 +759,8 @@ int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 int get_building_bonus(const struct city *pcity, Impr_Type_id id,
 		       enum effect_type effect_type)
 {
-  return get_target_bonus_effects(NULL, TARGET_CITY,
+  assert(pcity != NULL && id != B_LAST);
+  return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity, id, NULL,
 				  effect_type);
 }
@@ -776,7 +775,8 @@ int get_player_bonus_effects(struct effect_list *plist,
 			     const struct player *pplayer,
 			     enum effect_type effect_type)
 {
-  return get_target_bonus_effects(plist, TARGET_PLAYER,
+  assert(pplayer != NULL);
+  return get_target_bonus_effects(plist,
 			  	  pplayer, NULL, B_LAST, NULL,
 				  effect_type);
 }
@@ -791,7 +791,8 @@ int get_city_bonus_effects(struct effect_list *plist,
 			   const struct city *pcity,
 			   enum effect_type effect_type)
 {
-  return get_target_bonus_effects(plist, TARGET_CITY,
+  assert(pcity != NULL);
+  return get_target_bonus_effects(plist,
 			 	  city_owner(pcity), pcity, B_LAST, NULL,
 				  effect_type);
 }
@@ -820,7 +821,7 @@ int get_current_construction_bonus(const struct city *pcity,
 	if (peffect->type != effect_type) {
 	  continue;
 	}
-	if (is_effect_useful(TARGET_BUILDING, city_owner(pcity),
+	if (is_effect_useful(city_owner(pcity),
 			     pcity, id, NULL, id, peffect)) {
 	  power += peffect->value;
 	}

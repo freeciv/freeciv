@@ -41,16 +41,6 @@ enum req_range {
   REQ_RANGE_LAST   /* keep this last */
 };
 
-/* An requirement is targeted at a certain target type.  For building and
- * unit reqs the target will be a city; for tech reqs it will be a player;
- * for effect reqs it may be anything. */
-enum target_type {
-  TARGET_WORLD,
-  TARGET_PLAYER,
-  TARGET_CITY,
-  TARGET_BUILDING 
-};
-
 /* A requirement source. */
 struct req_source {
   enum req_source_type type;            /* source type */
@@ -102,21 +92,18 @@ void req_get_values(struct requirement *req,
 struct requirement req_from_values(int type, int range,
 				   bool survives, int value);
 
-bool is_req_active(enum target_type target,
-		   const struct player *target_player,
+bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,
 		   Impr_Type_id target_building,
 		   const struct tile *target_tile,
 		   const struct requirement *req);
-bool are_reqs_active(enum target_type target,
-		     const struct player *target_player,
+bool are_reqs_active(const struct player *target_player,
 		     const struct city *target_city,
 		     Impr_Type_id target_building,
 		     const struct tile *target_tile,
 		     const struct requirement *reqs, int num_reqs);
 
-int count_buildings_in_range(enum target_type target,
-			     const struct player *target_player,
+int count_buildings_in_range(const struct player *target_player,
 			     const struct city *target_city,
 			     Impr_Type_id target_building,
 			     enum req_range range, bool survives,

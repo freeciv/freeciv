@@ -156,8 +156,7 @@ void recv_ruleset_effect(struct packet_ruleset_effect *packet);
 void recv_ruleset_effect_req(struct packet_ruleset_effect_req *packet);
 void send_ruleset_cache(struct conn_list *dest);
 
-bool is_effect_useful(enum target_type target,
-		      const struct player *target_player,
+bool is_effect_useful(const struct player *target_player,
 		      const struct city *target_pcity,
 		      Impr_Type_id target_building,
 		      const struct tile *target_tile,
@@ -176,8 +175,7 @@ int get_building_bonus(const struct city *pcity, Impr_Type_id building,
 
 /* miscellaneous auxiliary effects functions */
 struct effect_list *get_req_source_effects(struct req_source *psource);
-bool is_effect_disabled(enum target_type target,
-		        const struct player *target_player,
+bool is_effect_disabled(const struct player *target_player,
 		        const struct city *target_city,
 		        Impr_Type_id target_building,
 		        const struct tile *target_tile,

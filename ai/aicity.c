@@ -271,7 +271,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
     struct requirement *mypreq;
     bool useful;
 
-    if (is_effect_disabled(TARGET_BUILDING, pplayer, pcity,
+    if (is_effect_disabled(pplayer, pcity,
 	  		   id, NULL, peffect)) {
       CITY_LOG(LOG_DEBUG, pcity, "%s has a disabled effect: %s", 
                get_improvement_name(id), effect_type_name(peffect->type));
@@ -288,7 +288,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	mypreq = preq;
         continue;
       }
-      if (!is_req_active(TARGET_BUILDING, pplayer, pcity, id, NULL, preq)) {
+      if (!is_req_active(pplayer, pcity, id, NULL, preq)) {
 	useful = FALSE;
 	break;
       }

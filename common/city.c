@@ -667,7 +667,7 @@ bool city_can_use_specialist(const struct city *pcity,
     return FALSE;
   }
 
-  return are_reqs_active(TARGET_CITY, city_owner(pcity), pcity, B_LAST, NULL,
+  return are_reqs_active(city_owner(pcity), pcity, B_LAST, NULL,
 			 game.rgame.specialists[type].req, MAX_NUM_REQS);
 }
 
@@ -1245,7 +1245,7 @@ int get_player_city_style(const struct player *plr)
 
   while ((replace = city_styles[prev].replaced_by) != -1) {
     prev = replace;
-    if (are_reqs_active(TARGET_PLAYER, plr, NULL, B_LAST, NULL,
+    if (are_reqs_active(plr, NULL, B_LAST, NULL,
 			city_styles[replace].req, MAX_NUM_REQS)) {
       style = replace;
     }
