@@ -177,7 +177,7 @@ int get_meta_list(GtkWidget *list, char *errbuf)
   FILE *f;
   char *row[6];
   char  buf[6][64];
-  char *proxy_url;
+  char *proxy_url = (char *)NULL;
   char urlbuf[512];
   char *urlpath;
   char *server;
