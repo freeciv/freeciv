@@ -1944,11 +1944,7 @@ void get_worker_on_map_position(int map_x, int map_y, enum city_tile_type
 				*result_city_tile_type,
 				struct city **result_pcity)
 {
-  if (!is_real_tile(map_x, map_y)) {
-    *result_pcity = NULL;
-    *result_city_tile_type = C_TILE_UNAVAILABLE;
-    return;
-  }
+  assert(is_real_tile(map_x, map_y));
 
   *result_pcity = map_get_tile(map_x, map_y)->worked;
   if (*result_pcity) {
