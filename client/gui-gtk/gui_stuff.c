@@ -32,11 +32,6 @@ extern GdkGC *mask_fg_gc;
 extern GdkGC *mask_bg_gc;
 extern GdkGC *civ_gc;
 
-void put_line_8 (char *psrc, char *pdst,  int dst_w, int xoffset_table[]);
-void put_line_16(char *psrc, char *pdst,  int dst_w, int xoffset_table[]);
-void put_line_24(char *psrc, char *pdst,  int dst_w, int xoffset_table[]);
-void put_line_32(char *psrc, char *pdst,  int dst_w, int xoffset_table[]);
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -131,8 +126,6 @@ gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h, int dst_w, int dst_h)
   int xoffset_table[4096];
   int x, xoffset, xadd, xremsum, xremadd;
   int y, yoffset, yadd, yremsum, yremadd;
-  char *pdst_data;
-  char *psrc_data;
 
   xi_src=gdk_image_get(src, 0, 0, src_w, src_h);
   xi_dst=gdk_image_new(GDK_IMAGE_FASTEST, gdk_window_get_visual (root_window),
@@ -160,25 +153,11 @@ gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h, int dst_w, int dst_h)
   yremsum=dst_h/2; 
 
   for(y=0; y<dst_h; ++y) {
-    psrc_data=((char *)xi_src->mem) + (yoffset * xi_src->bpl);
-    pdst_data=((char *)xi_dst->mem) + (y * xi_dst->bpl);
+    for(x=0; x<dst_w; ++x) {
+      guint32 pixel;
 
-    switch(xi_src->bpp) {
-     case 8:
-      put_line_8 (psrc_data, pdst_data, dst_w, xoffset_table);
-      break;
-     case 16:
-      put_line_16(psrc_data, pdst_data, dst_w, xoffset_table);
-      break;
-     case 24:
-      put_line_24(psrc_data, pdst_data, dst_w, xoffset_table);
-      break;
-     case 32:
-      put_line_32(psrc_data, pdst_data, dst_w, xoffset_table);
-      break;
-     default:
-      memcpy(pdst_data, psrc_data, (src_w<dst_w) ? src_w : dst_w);
-      break;
+      pixel=gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
+      gdk_image_put_pixel(xi_dst, x, y, pixel);
     }
 
     yoffset+=yadd;
@@ -195,43 +174,6 @@ gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h, int dst_w, int dst_h)
   gdk_image_destroy(xi_dst);
 
   return dst;
-}
-
-void put_line_8(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
-{
-  int x;
-  for(x=0; x<dst_w; ++x)
-    *pdst++=*(psrc+xoffset_table[x]+0);
-}
-
-void put_line_16(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
-{
-  int x;
-  for(x=0; x<dst_w; ++x) {
-    *pdst++=*(psrc+2*xoffset_table[x]+0);
-    *pdst++=*(psrc+2*xoffset_table[x]+1);
-  }
-}
-
-void put_line_24(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
-{
-  int x;
-  for(x=0; x<dst_w; ++x) {
-    *pdst++=*(psrc+3*xoffset_table[x]+0);
-    *pdst++=*(psrc+3*xoffset_table[x]+1);
-    *pdst++=*(psrc+3*xoffset_table[x]+2);
-  }
-}
-
-void put_line_32(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
-{
-  int x;
-  for(x=0; x<dst_w; ++x) {
-    *pdst++=*(psrc+4*xoffset_table[x]+0);
-    *pdst++=*(psrc+4*xoffset_table[x]+1);
-    *pdst++=*(psrc+4*xoffset_table[x]+2);
-    *pdst++=*(psrc+4*xoffset_table[x]+3);
-  }
 }
 
 /**************************************************************************
