@@ -38,6 +38,7 @@ struct move_cost_map {
   unsigned char *cost[MAP_MAX_WIDTH];
   unsigned char *seacost[MAP_MAX_WIDTH];
   unsigned char *vector[MAP_MAX_WIDTH];
+  unsigned char *returned[MAP_MAX_WIDTH];
   struct city *warcity; /* so we know what we're dealing with here */
   struct unit *warunit; /* so we know what we're dealing with here */
   int orig_x, orig_y;

@@ -74,6 +74,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
 int move_unit(struct unit *punit, const int dest_x, const int dest_y,
 	      int transport_units, int take_from_land, int move_cost);
 void assign_units_to_transporter(struct unit *ptrans, int take_from_land);
+void advance_unit_focus(struct unit *punit);
 
 char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix);
 char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix);

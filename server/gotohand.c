@@ -36,23 +36,6 @@ struct stack_element {
   unsigned char x, y;
 };
 
-#define WARQUEUE_DIM 16384
-static struct stack_element warqueue[WARQUEUE_DIM];
-/* WARQUEUE_DIM must be a power of 2, size of order (MAP_MAX_WIDTH*MAP_MAX_HEIGHT);
- * (Could be non-power-of-2 and then use modulus in add_to_warqueue
- * and get_from_warqueue.)
- * It is used to make the queue circular by wrapping, to awoid problems on large maps.
- * (see add_to_warqueue and get_from_warqueue).
- * Note that a single (x,y) can appear multiple
- * times in warqueue due to a sequence of paths with successively
- * smaller costs.  --dwp
- */
-
-/* warqueuesize points to the top of the queue.
-   warnodes at the buttom */
-static unsigned int warqueuesize;
-static unsigned int warnodes;
-
 /* These are used for airplane GOTOs with waypoints */
 #define MAXFUEL 100
 
@@ -75,26 +58,133 @@ static void make_list_of_refuel_points(struct player *pplayer);
 static void dealloc_refuel_stack(void);
 static int find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y);
 
+/* These are used for all GOTO's */
+
+#define MAXCOST 255
+#define MAXARRAYS 10000
+#define ARRAYLENGTH 10
+
+struct mappos_array {
+  int first_pos;
+  int last_pos;
+  struct map_position pos[ARRAYLENGTH];
+  struct mappos_array *next_array;
+};
+
+struct array_pointer {
+  struct mappos_array *first_array;
+  struct mappos_array *last_array;
+};
+
+static struct mappos_array *mappos_arrays[MAXARRAYS];
+static struct array_pointer cost_lookup[MAXCOST];
+static int array_count;
+static int lowest_cost;
+static int highest_cost;
+
 /**************************************************************************
-The "warqueuesize & (WARQUEUE_DIM-1)" make the queue wrap if too big.
+...
 **************************************************************************/
-static void add_to_warqueue(int x, int y)
+void init_queue(void)
 {
-  unsigned int i = warqueuesize & (WARQUEUE_DIM-1);
-  warqueue[i].x = x;
-  warqueue[i].y = y;
-  warqueuesize++;
+  int i;
+  static int is_initialized = 0;
+  if (!is_initialized) {
+    for (i = 0; i < MAXARRAYS; i++) {
+      mappos_arrays[i] = NULL;
+    }
+    is_initialized = 1;
+  }
+
+  for (i = 0; i < MAXCOST; i++) {
+    cost_lookup[i].first_array = NULL;
+    cost_lookup[i].last_array = NULL;
+  }
+  array_count = 0;
+  lowest_cost = 0;
+  highest_cost = 0;
+  for (i = 0; i < map.xsize; i++)
+    memset(warmap.returned[i], 0, map.ysize*sizeof(char));
 }
 
 /**************************************************************************
-The "i &= (WARQUEUE_DIM-1);" make the queue wrap if too big.
+...
 **************************************************************************/
-static void get_from_warqueue(unsigned int i, int *x, int *y)
+static struct mappos_array *get_empty_array(void)
 {
-  assert(i<warqueuesize && warqueuesize-i<WARQUEUE_DIM);
-  i &= (WARQUEUE_DIM-1);
-  *x = warqueue[i].x;
-  *y = warqueue[i].y;
+  struct mappos_array *parray;
+  if (!mappos_arrays[array_count])
+    mappos_arrays[array_count] = fc_malloc(sizeof(struct mappos_array));
+  parray = mappos_arrays[array_count++];
+  parray->first_pos = 0;
+  parray->last_pos = -1;
+  parray->next_array = NULL;
+  return parray;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void add_to_mapqueue(int cost, int x, int y)
+{
+  struct mappos_array *our_array;
+
+  assert(cost < MAXCOST && cost >= 0);
+
+  our_array = cost_lookup[cost].last_array;
+  if (our_array == NULL) {
+    our_array = get_empty_array();
+    cost_lookup[cost].first_array = our_array;
+    cost_lookup[cost].last_array = our_array;
+  } else if (our_array->last_pos == ARRAYLENGTH-1) {
+    our_array->next_array = get_empty_array();
+    our_array = our_array->next_array;
+    cost_lookup[cost].last_array = our_array;
+  }
+
+  our_array->pos[++(our_array->last_pos)].x = x;
+  our_array->pos[our_array->last_pos].y = y;
+  if (cost > highest_cost)
+    highest_cost = cost;
+  freelog(LOG_DEBUG, "adding cost:%i at %i,%i", cost, x, y);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int get_from_mapqueue(int *x, int *y)
+{
+  struct mappos_array *our_array;
+  freelog(LOG_DEBUG, "trying get");
+  while (lowest_cost < MAXCOST) {
+    if (lowest_cost > highest_cost)
+      return 0;
+    our_array = cost_lookup[lowest_cost].first_array;
+    if (our_array == NULL) {
+      lowest_cost++;
+      continue;
+    }
+    if (our_array->last_pos < our_array->first_pos) {
+      if (our_array->next_array) {
+	cost_lookup[lowest_cost].first_array = our_array->next_array;
+	continue; /* note NOT "lowest_cost++;" */
+      } else {
+	cost_lookup[lowest_cost].first_array = NULL;
+	lowest_cost++;
+	continue;
+      }
+    }
+    *x = our_array->pos[our_array->first_pos].x;
+    *y = our_array->pos[our_array->first_pos].y;
+    our_array->first_pos++;
+    if (warmap.returned[*x][*y]) {
+      freelog(LOG_DEBUG, "returned before. getting next");
+      return get_from_mapqueue(x, y);
+    } else {
+      return 1;
+    }
+  }
+  return 0;
 }
 
 /**************************************************************************
@@ -109,8 +199,11 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
       warmap.cost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
       warmap.seacost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
       warmap.vector[x]=fc_malloc(map.ysize*sizeof(unsigned char));
+      warmap.returned[x]=fc_malloc(map.ysize*sizeof(char));
     }
   }
+
+  init_queue();
 
   switch (move_type) {
   case LAND_MOVING:
@@ -124,7 +217,7 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
     warmap.seacost[orig_x][orig_y] = 0;
     break;
   default:
-    freelog(LOG_ERROR, "Bad move_type in init_warmap().");
+    freelog(LOG_FATAL, "Bad move_type in init_warmap().");
   }
 }  
 
@@ -199,10 +292,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   }
 
   init_warmap(orig_x, orig_y, move_type);
-  warqueuesize = 0;
-  warnodes = 0;
-
-  add_to_warqueue(orig_x, orig_y);
+  add_to_mapqueue(0, orig_x, orig_y);
 
   if (punit && unit_flag(punit->type, F_IGTER))
     igter = 1;
@@ -216,9 +306,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
     maxcost /= 2;
   /* (?) was punit->type == U_SETTLERS -- dwp */
 
-  do {
-    get_from_warqueue(warnodes, &x, &y);
-    warnodes++;
+  while (get_from_mapqueue(&x, &y)) {
     ptile = map_get_tile(x, y);
     for (dir = 0; dir < 8; dir++) {
       x1 = x + DIR_DX[dir];
@@ -251,23 +339,23 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 		       (ptile->move_cost[dir] > tmp ? 1 : 0))/2;
         }
 
-        move_cost = warmap.cost[x][y] + move_cost;
+        move_cost += warmap.cost[x][y];
         if (warmap.cost[x1][y1] > move_cost && move_cost < maxcost) {
           warmap.cost[x1][y1] = move_cost;
-          add_to_warqueue(x1, y1);
+          add_to_mapqueue(move_cost, x1, y1);
         }
 	break;
 
 
       case SEA_MOVING:
         move_cost = 3;
-        move_cost = warmap.seacost[x][y] + move_cost;
+        move_cost += warmap.seacost[x][y];
         if (warmap.seacost[x1][y1] > move_cost && move_cost < maxcost) {
 	  /* by adding the move_cost to the warmap regardless if we can move between
 	     we allow for shore bombardment/transport to inland positions/etc. */
           warmap.seacost[x1][y1] = move_cost;
           if (ptile->move_cost[dir] == -3) /* -3 means ships can move between */
-	    add_to_warqueue(x1, y1);
+	    add_to_mapqueue(move_cost, x1, y1);
 	}
 	break;
       default:
@@ -276,16 +364,10 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	abort();
       }
     } /* end for */
-  } while (warqueuesize > warnodes);
-
-  if (warnodes > WARQUEUE_DIM) {
-    freelog(LOG_VERBOSE, "Warning: %u nodes in map #%d for (%d, %d)",
-	 warnodes, move_type, orig_x, orig_y);
   }
 
-  freelog(LOG_DEBUG, "Generated warmap for (%d,%d) with %u nodes checked.",
-	  orig_x, orig_y, warnodes); 
-  /* warnodes is often as much as 2x the size of the continent -- Syela */
+  freelog(LOG_DEBUG, "Generated warmap for (%d,%d).",
+	  orig_x, orig_y); 
 }
 
 /**************************************************************************
@@ -337,8 +419,6 @@ FIXME: Do we have to memset the warmap vector?
 **************************************************************************/
 static void init_gotomap(int orig_x, int orig_y, enum unit_move_type move_type)
 {
-  int x;
-
   switch (move_type) {
   case LAND_MOVING:
   case HELI_MOVING:
@@ -348,10 +428,6 @@ static void init_gotomap(int orig_x, int orig_y, enum unit_move_type move_type)
   case SEA_MOVING:
     init_warmap(orig_x, orig_y, SEA_MOVING);
     break;
-  }
-
-  for (x = 0; x < map.xsize; x++) {
-    memset(warmap.vector[x], 0, map.ysize*sizeof(unsigned char));
   }
 
   return;
@@ -403,7 +479,7 @@ static int dir_ok(int src_x, int src_y, int dest_x, int dest_y, int dir)
     if (diff_x <= 0 && diff_y <= 0) return 0;
     else return 1;
   default:
-    freelog(LOG_ERROR, "Bad dir_ok call: (%d, %d) -> (%d, %d), %d",
+    freelog(LOG_NORMAL, "Bad dir_ok call: (%d, %d) -> (%d, %d), %d",
 	    src_x, src_y, dest_x, dest_y, dir);
     return 0;
   }
@@ -578,10 +654,7 @@ static int find_the_shortest_path(struct unit *punit,
   local_vector[orig_x][orig_y] = 0;
 
   init_gotomap(punit->x, punit->y, move_type);
-  warqueuesize = 0;
-  warnodes = 0;
-
-  add_to_warqueue(orig_x, orig_y);
+  add_to_mapqueue(0, orig_x, orig_y);
 
   if (punit && unit_flag(punit->type, F_IGTER))
     igter = 1;
@@ -605,9 +678,7 @@ static int find_the_shortest_path(struct unit *punit,
     pcargo = NULL;
 
   /* until we have found the shortest paths */
-  do {
-    get_from_warqueue(warnodes, &x, &y);
-    warnodes++; /* points to bottom of queue */
+  while (get_from_mapqueue(&x, &y)) {
     psrctile = map_get_tile(x, y);
 
     if (restriction == GOTO_MOVE_STRAIGHTEST)
@@ -683,7 +754,7 @@ static int find_the_shortest_path(struct unit *punit,
 	if (total_cost < maxcost) {
           if (warmap.cost[x1][y1] > total_cost) {
             warmap.cost[x1][y1] = total_cost;
-            add_to_warqueue(x1, y1);
+            add_to_mapqueue(total_cost, x1, y1);
             local_vector[x1][y1] = 128>>dir;
 	    freelog(LOG_DEBUG,
 		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
@@ -748,7 +819,7 @@ static int find_the_shortest_path(struct unit *punit,
 	if (total_cost < maxcost) {
 	  if (warmap.seacost[x1][y1] > total_cost) {
 	    warmap.seacost[x1][y1] = total_cost;
-	    add_to_warqueue(x1, y1);
+	    add_to_mapqueue(total_cost, x1, y1);
 	    local_vector[x1][y1] = 128>>dir;
 	    freelog(LOG_DEBUG,
 		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
@@ -791,7 +862,7 @@ static int find_the_shortest_path(struct unit *punit,
 	if (total_cost < maxcost) {
 	  if (warmap.cost[x1][y1] > total_cost) {
 	    warmap.cost[x1][y1] = total_cost;
-	    add_to_warqueue(x1, y1);
+	    add_to_mapqueue(total_cost, x1, y1);
 	    local_vector[x1][y1] = 128>>dir;
 	    freelog(LOG_DEBUG,
 		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
@@ -818,23 +889,25 @@ static int find_the_shortest_path(struct unit *punit,
         maxcost = total_cost + 1;
       }
     } /* end  for (dir = 0; dir < 8; dir++) */
-  } while (warqueuesize > warnodes);
+  }
 
-  freelog(LOG_DEBUG, "GOTO: (%d, %d) -> (%d, %d), %u nodes, cost = %d", 
-	  orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);
+  freelog(LOG_DEBUG, "GOTO: (%d, %d) -> (%d, %d), cost = %d", 
+	  orig_x, orig_y, dest_x, dest_y, maxcost - 1);
 
   if (maxcost == 255)
     return 0; /* No route */
 
   /*** Succeeded. The vector at the destination indicates which way we get there.
      Now backtrack to remove all the blind paths ***/
-  warnodes = 0;
-  warqueuesize = 0;
-  add_to_warqueue(dest_x, dest_y);
+  for (x = 0; x < map.xsize; x++)
+    memset(warmap.vector[x], 0, map.ysize*sizeof(unsigned char));
 
-  do {
-    get_from_warqueue(warnodes, &x, &y);
-    warnodes++;
+  init_queue();
+  add_to_mapqueue(0, dest_x, dest_y);
+
+  while (1) {
+    if (!get_from_mapqueue(&x, &y))
+      break;
 
     for (dir = 0; dir < 8; dir++) {
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[dir][1])
@@ -845,18 +918,16 @@ static int find_the_shortest_path(struct unit *punit,
 	y1 = y + DIR_DY[dir];
 	if (!normalize_map_pos(&x1, &y1))
 	  continue;
+	move_cost = (move_type == SEA_MOVING) ? warmap.seacost[x1][y1] : warmap.cost[x1][y1];
 
-	if (move_type == LAND_MOVING)
-	  assert(warmap.cost[x1][y1] != 255);
-        add_to_warqueue(x1, y1);
+        add_to_mapqueue(MAXCOST-1 - move_cost, x1, y1);
         warmap.vector[x1][y1] |= 128>>dir; /* Mark it on the warmap */
         local_vector[x][y] -= 1<<dir; /* avoid repetition */
 	freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
 		d[7-dir], x1, y1, x, y);
       }
     }
-  } while (warqueuesize > warnodes);
-  freelog(LOG_DEBUG, "BACKTRACE: %u nodes", warnodes);
+  }
 
   return 1;
 }
@@ -1160,10 +1231,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
   if (punit->x == dest_x && punit->y == dest_y)
     punit->activity=ACTIVITY_IDLE;
   else if (punit->moves_left) {
-    struct packet_generic_integer packet;
-    packet.value = punit->id;
-    lsend_packet_generic_integer(&pplayer->connections,
-				 PACKET_ADVANCE_FOCUS, &packet);
+    advance_unit_focus(punit);
   }
 
   punit->connecting=0;
@@ -1504,17 +1572,16 @@ int air_can_move_between(int moves, int src_x, int src_y,
  TRYFULL:
   freelog(LOG_DEBUG, "didn't work. Lets try full");
   {
-    int x1, y1, dir;
+    int x1, y1, dir, cost;
     struct unit *penemy;
 
     init_gotomap(src_x, src_y, AIR_MOVING);
-    warqueuesize = 0;
-    warnodes = 0;
-    add_to_warqueue(src_x, src_y);
+    add_to_mapqueue(0, src_x, src_y);
 
-    do {
-      get_from_warqueue(warnodes, &x, &y);
-      warnodes++;
+    while (get_from_mapqueue(&x, &y)) {
+      if (warmap.cost[x][y] > moves /* no chance */
+	  || warmap.cost[dest_x][dest_y] == 255) /* found route */
+	break;
 
       for (dir = 0; dir < 8; dir++) {
 	x1 = x + DIR_DX[dir];
@@ -1529,14 +1596,12 @@ int air_can_move_between(int moves, int src_x, int src_y,
 	  penemy = is_non_allied_unit_tile(ptile, playerid);
 	  if (penemy
 	      || (x1 == dest_x && y1 == dest_y)) { /* allow attack goto's */
-	    warmap.cost[x1][y1] = warmap.cost[x][y] + 1;
-	    add_to_warqueue(x1, y1);
+	    cost = warmap.cost[x1][y1] = warmap.cost[x][y] + 1;
+	    add_to_mapqueue(cost, x1, y1);
 	  }
 	}
       } /* end for */
-    } while (warmap.cost[x][y] <= moves
-	     && warmap.cost[dest_x][dest_y] == 255
-	     && warnodes < warqueuesize);
+    }
 
     freelog(LOG_DEBUG, "movecost: %i", warmap.cost[dest_x][dest_y]);
   }

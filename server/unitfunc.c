@@ -2980,6 +2980,18 @@ void send_unit_info(struct player *dest, struct unit *punit)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+void advance_unit_focus(struct unit *punit)
+{
+  conn_list_iterate(unit_owner(punit)->connections, pconn) {
+    struct packet_generic_integer packet;
+    packet.value = punit->id;
+    send_packet_generic_integer(pconn, PACKET_ADVANCE_FOCUS, &packet);
+  } conn_list_iterate_end;
+}
+
+/**************************************************************************
   Returns a pointer to a (static) string which gives an informational
   message about location (x,y), in terms of cities known by pplayer.
   One of:
