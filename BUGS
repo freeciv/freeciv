@@ -65,7 +65,7 @@ KNOWN BUGS:
    simultaneously.
 
  - Even in singleplayer the AI will get a chance to move both before
-   and  after the human player each turn. This will sometimes give the
+   and after the human player each turn. This will sometimes give the
    impression that the AI moves twice.
 
 REPORTING A BUG:
