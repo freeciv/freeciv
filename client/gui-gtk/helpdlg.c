@@ -82,26 +82,26 @@ typedef struct help_tree_node {
 } help_tndata;
 
 char *help_ilabel_name[6] =
-{ N_("Cost:"), "", N_("Upkeep:"), "", N_("Requirement:"), "" };
+{ N_("Cost:"), NULL, N_("Upkeep:"), NULL, N_("Requirement:"), NULL };
 
 char *help_wlabel_name[6] =
-{ N_("Cost:"), "", N_("Requirement:"), "", N_("Obsolete by:"), "" };
+{ N_("Cost:"), NULL, N_("Requirement:"), NULL, N_("Obsolete by:"), NULL };
 
 char *help_ulabel_name[5][5] =
 {
-    { N_("Cost:"),		"", "",	N_("Attack:"),		"" },
-    { N_("Defense:"),		"", "",	N_("Move:")	,	"" },
-    { N_("FirePower:"),		"", "",	N_("Hitpoints:"),	"" },
-    { N_("Basic Upkeep:"),	"", "",	N_("Vision:"),		"" },
-    { N_("Requirement:"),	"", "",	N_("Obsolete by:"),	"" }
+    { N_("Cost:"),		NULL, NULL, N_("Attack:"),	NULL },
+    { N_("Defense:"),		NULL, NULL, N_("Move:")	,	NULL },
+    { N_("FirePower:"),		NULL, NULL, N_("Hitpoints:"),	NULL },
+    { N_("Basic Upkeep:"),	NULL, NULL, N_("Vision:"),	NULL },
+    { N_("Requirement:"),	NULL, NULL, N_("Obsolete by:"),	NULL }
 };
 
 char *help_tlabel_name[4][5] =
 {
-    { N_("Move/Defense:"),	"", "",	N_("Food/Res/Trade:"),		"" },
-    { N_("Sp1 F/R/T:"),		"", "",	N_("Sp2 F/R/T:"),		"" },
-    { N_("Road Rslt/Time:"),	"", "",	N_("Irrig. Rslt/Time:"),	"" },
-    { N_("Mine Rslt/Time:"),	"", "",	N_("Trans. Rslt/Time:"),	"" }
+    { N_("Move/Defense:"),	NULL, NULL, N_("Food/Res/Trade:"),	NULL },
+    { N_("Sp1 F/R/T:"),		NULL, NULL, N_("Sp2 F/R/T:"),		NULL },
+    { N_("Road Rslt/Time:"),	NULL, NULL, N_("Irrig. Rslt/Time:"),	NULL },
+    { N_("Mine Rslt/Time:"),	NULL, NULL, N_("Trans. Rslt/Time:"),	NULL }
 };
 
 
@@ -485,7 +485,8 @@ static void create_help_dialog(void)
   gtk_box_pack_start(GTK_BOX(help_box), help_itable, FALSE, FALSE, 0);
 
   for (i=0; i<6; i++) {
-    help_ilabel[i] = gtk_label_new(_(help_ilabel_name[i]));
+    help_ilabel[i] =
+	gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
     gtk_widget_set_name(help_ilabel[i], "help label");
 
     if (i==5) {
@@ -501,7 +502,8 @@ static void create_help_dialog(void)
   gtk_box_pack_start(GTK_BOX(help_box), help_wtable, FALSE, FALSE, 0);
 
   for (i=0; i<6; i++) {
-    help_wlabel[i] = gtk_label_new(_(help_wlabel_name[i]));
+    help_wlabel[i] =
+	gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
     gtk_widget_set_name(help_wlabel[i], "help label");
 
     if (i==3 || i==5) {
@@ -520,7 +522,8 @@ static void create_help_dialog(void)
   for (i=0; i<5; i++)
     for (j=0; j<5; j++)
     {
-      help_ulabel[j][i] = gtk_label_new(_(help_ulabel_name[j][i]));
+      help_ulabel[j][i] =
+	  gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
       gtk_widget_set_name(help_ulabel[j][i], "help label");
 
       if (j==4 && (i==1 || i==4))
@@ -544,7 +547,8 @@ static void create_help_dialog(void)
 
   for (i=0; i<5; i++) {
     for (j=0; j<4; j++) {
-      help_tlabel[j][i] = gtk_label_new(_(help_tlabel_name[j][i]));
+      help_tlabel[j][i] =
+	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
       gtk_widget_set_name(help_tlabel[j][i], "help label");
 
       gtk_table_attach_defaults(GTK_TABLE(help_ttable),
