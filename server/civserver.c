@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
     fprintf(stderr, _("  -i, --info INFO\tExtra info for the metaserver\n"));
     fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
-    fprintf(stderr, _("  -m, --meta\t\tnotify metaserver and send server's info\n"));
+    fprintf(stderr, _("  -m, --meta\t\tNotify metaserver and send server's info\n"));
     fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"));
 
     fprintf(stderr, _("  -p, --port PORT\tListen for clients on port PORT\n"));

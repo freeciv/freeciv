@@ -139,7 +139,7 @@ void handle_city_make_specialist(struct player *pplayer,
     sync_cities();
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		     _("Game: you don't have a worker here.")); 
+		     _("Game: You don't have a worker here.")); 
   }
 }
 

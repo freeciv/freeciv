@@ -318,7 +318,7 @@ update_info_label(void)
   char buffer[512];
   HDC hdc;
   my_snprintf(buffer, sizeof(buffer),
-	      _("Population: %s\nYear: %s\nGold %d\nTax: %d Lux: %d Sci: %d"),
+	      _("Population: %s\nYear: %s\nGold: %d\nTax: %d Lux: %d Sci: %d"),
 		population_to_text(civ_population(game.player_ptr)),
 		textyear( game.year ),
 		game.player_ptr->economic.gold,

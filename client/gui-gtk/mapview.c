@@ -218,7 +218,7 @@ void update_info_label( void )
 
   my_snprintf(buffer, sizeof(buffer),
 	      _("Population: %s\nYear: %s\n"
-		"Gold %d\nTax: %d Lux: %d Sci: %d"),
+		"Gold: %d\nTax: %d Lux: %d Sci: %d"),
 	      population_to_text(civ_population(game.player_ptr)),
 	      textyear(game.year), game.player_ptr->economic.gold,
 	      game.player_ptr->economic.tax,

@@ -1272,8 +1272,8 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 	    get_nation_name_plural(pplayer->nation));
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		     _("Game: You have liberated %s!!"
-		       " lootings accumulate to %d gold."),
+		     _("Game: You have liberated %s!"
+		       " Lootings accumulate to %d gold."),
 		     pcity->name, coins);
     
     notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 

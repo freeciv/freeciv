@@ -1309,7 +1309,7 @@ void update_menus(void) /* from menu.c */
       }
       else
       {
-        sz_strlcpy(transtext, _("Transform terrain"));
+        sz_strlcpy(transtext, _("Transform Terrain"));
       }
 
       if (map_has_special(punit->x, punit->y, S_ROAD))

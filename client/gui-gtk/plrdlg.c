@@ -135,7 +135,7 @@ static void sort_players_callback(GtkButton *button, gpointer *data)
 void create_players_dialog(void)
 {
   static const char *titles_[NUM_COLUMNS] =
-      { N_("Name"), N_("Flag"), N_("Nation"), N_("Team"), N_("Ai"),
+      { N_("Name"), N_("Flag"), N_("Nation"), N_("Team"), N_("AI"),
 	N_("Embassy"), N_("Dipl.State"), N_("Vision"), N_("Reputation"),
 	N_("State"), N_("Host"), N_("Idle"), N_("Ping")
   };

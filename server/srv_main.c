@@ -1290,7 +1290,7 @@ static void generate_ai_players(void)
 
     if (!((game.nplayers == old_nplayers+1)
 	  && strcmp(player_name, pplayer->name)==0)) {
-      con_write(C_FAIL, _("Error creating new ai player: %s\n"),
+      con_write(C_FAIL, _("Error creating new AI player: %s\n"),
 		player_name);
       break;			/* don't loop forever */
     }

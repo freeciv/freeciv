@@ -350,7 +350,7 @@ static void create_players_dialog(void)
 {
   int i;
   static char *titles_[NUM_COLUMNS] =
-    { N_("Name"), N_("Nation"), N_("Ai"),
+    { N_("Name"), N_("Nation"), N_("AI"),
       N_("Embassy"), N_("Dipl.State"), N_("Vision"), N_("Reputation"),
       N_("State"), N_("Host"), N_("Idle")
     };

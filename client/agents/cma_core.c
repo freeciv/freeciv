@@ -600,7 +600,7 @@ static void handle_city(struct city *pcity)
 
     create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
 		 _("CMA: %s has changed multiple times. This may be "
-		   "an error in freeciv or bad luck. Please contact "
+		   "an error in Freeciv or bad luck. Please contact "
 		   "<freeciv-dev@freeciv.org>. The CMA will detach "
 		   "itself from the city now."), pcity->name);
 
@@ -608,7 +608,7 @@ static void handle_city(struct city *pcity)
 
 #if (IS_DEVEL_VERSION || IS_BETA_VERSION)
     die("CMA: %s has changed multiple times. This may be "
-	"an error in freeciv or bad luck. Please contact "
+	"an error in Freeciv or bad luck. Please contact "
 	"<freeciv-dev@freeciv.org>. The CMA will detach "
 	"itself from the city now.", pcity->name);
 #endif

@@ -1721,7 +1721,7 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		if (can_unit_do_activity(punit, ACTIVITY_TRANSFORM))
 		{
 		  static char transtext[64];
-		  sz_strlcpy(transtext, _("Transform terrain"));
+		  sz_strlcpy(transtext, _("Transform Terrain"));
 		  Map_InsertCommand(&list, transtext, PACK_USERDATA(punit, MENU_ORDER_TRANSFORM));
 		}
 

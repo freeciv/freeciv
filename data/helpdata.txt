@@ -511,7 +511,7 @@ and executed, if you have the required access rights.\
 name = _("Worklist Editor")
 text = _("\
 The worklist editor is used to edit both worklists for each city (from the \
-city dialog) and global worklists. Using this editor You can create lists \
+city dialog) and global worklists. Using this editor you can create lists \
 specifying what to build in the turns to come.\
 "), _("\
 To add an item to the worklist, double-click the desired item in the list \
@@ -701,7 +701,7 @@ then a diplomacy menu will pop up.\
    - and Give Gold.\
 "), _("\
     There is no need to trade like for like, by trading say, \
-an advance or city for gold - you can can consider this \
+an advance or city for gold - you can consider this \
 buying and selling.\
 "), _("\
     A couple of notes:\

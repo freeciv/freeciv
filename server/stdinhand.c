@@ -241,7 +241,7 @@ static struct settings_s settings[] = {
        "island (or one\n"
        "    with three players for an odd number of players), and "
        "additional\n"
-       "    smaller islands.\n"
+       "    smaller islands;\n"
        "5 = one or more large earthlike continents with some scatter.\n"
        "Note: values 2,3 and 4 generate \"fairer\" (but more boring) "
        "maps.\n"
@@ -478,7 +478,7 @@ static struct settings_s settings[] = {
 	  N_("When a player founds a new city, it is checked if there is "
 	     "no other city in citymindist distance. For example, if "
 	     "citymindist is 3, there have to be at least two empty "
-	     "fields between two cities every direction. If it is set "
+	     "fields between two cities in every direction. If it is set "
 	     "to 0 (default), it is overwritten by the current ruleset "
 	     "when the game starts."), NULL,
 	  GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST,
@@ -733,7 +733,7 @@ static struct settings_s settings[] = {
 
   GEN_INT("netwait", game.netwait, SSET_META, SSET_TO_CLIENT,
 	  N_("Max seconds for TCP buffers to drain"),
-	  N_("The civserver will wait for upto the value of this "
+	  N_("The civserver will wait for up to the value of this "
 	     "parameter in seconds, for all client connection TCP "
 	     "buffers to unblock. Zero means the server will not "
 	     "wait at all."), NULL, 

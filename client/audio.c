@@ -213,7 +213,7 @@ void audio_real_init(const char *const spec_name,
   if (num_plugins_used == 1) {
     /* We only have the dummy plugin, skip the code but issue an advertise */
     freelog(LOG_NORMAL, _("No real audio plugin present, "
-      "Proceeding with sound support disabled"));
+      "proceeding with sound support disabled"));
     freelog(LOG_NORMAL,
       _("For sound support, install either esound or SDL_mixer"));
     freelog(LOG_NORMAL, 
