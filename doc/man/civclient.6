@@ -9,16 +9,24 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "July 1st 2004"
+.TH FREECIV 6 "January 24th 2005"
 .SH NAME
 civclient \- The client for the Freeciv game
 .SH SYNOPSIS
 .B civclient \
-[ \-a|\-\-autoconnect ] [ \-d|\-\-debug \fIlevel\fP ] [ \-h|\-\-help ] \
-[ \-l|\-\-log \fIlogfile\fP ] [ \-m|\-\-meta \fIserver\fP ] \
-[ \-n|\-\-name \fIname\fP ] [ \-p|\-\-port \fIport\fP ] \
-[ \-P|\-\-Plugin \fIplugin\fP ] [ \-s|\-\-server \fIserver\fP ] \
-[ \-S|\-\-Sound \fItags\fP ] [ \-t|\-\-tiles \fItiles\fP ] [ \-v|\-\-version ]
+[ \-a|\-\-autoconnect ] \
+[ \-d|\-\-debug \fIlevel_number\fP ] \
+[ \-h|\-\-help ] \
+[ \-l|\-\-log \fIfilename\fP ] \
+[ \-m|\-\-meta \fIaddress\fP ] \
+[ \-n|\-\-name \fIstring\fP ] \
+[ \-p|\-\-port \fIport\fP ] \
+[ \-P|\-\-Plugin \fIstring\fP ] \
+[ \-r|\-\-read \fIfilename\fP ] \
+[ \-s|\-\-server \fIaddress\fP ] \
+[ \-S|\-\-Sound \fIfilename\fP ] \
+[ \-t|\-\-tiles \fIstring\fP ] \
+[ \-v|\-\-version ]
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
 becomes the leader of a civilization, fighting to obtain the ultimate goal:
@@ -51,54 +59,86 @@ hyphen and single letter) and a long form (double hyphen and a complete word);
 their effects are identical.
 .TP
 .BI "\-a, \-\-autoconnect"
-Skips the connect dialog, automatically inserts the default values. This is
+Skips the connect dialog, automatically inserting the default values. This is
 quite convenient when all has been set up properly.
 .TP
-.BI "\-d, \-\-debug"
-Sets the debug log level (0 to 3) of information to be logged. Use the
+.BI "\-d \fIlevel_number\fP, \-\-debug \fIlevel_number\fP"
+Sets the amount of debugging information to be logged in the file named by the
 .I \-l
-option to send the logging to a file.
+option. Acceptable values for the \fIlevel_number\fP are:
+
+\fB0\fP    for fatal messages only.
+
+\fB1\fP    for fatal and error messages.
+
+\fB2\fP    for fatal, error and normal messages.
+
+\fB3\fP    for fatal, error, normal, and verbose messages.
+
 .TP
 .BI "\-h, \-\-help"
-Prints a short summary of the options.
+Prints a short summary of the command line options.
 .TP
-.BI "\-l, \-\-log"
-Specifies the file to be used as a logfile for logging. Use the
+.BI "\-l \fIfilename\fP, \-\-log \fIfilename\fP"
+Defines a log file, \fIfilename\fP, to be produced during processing. Use the
 .I \-d
-option to set the amount of loggin.
+option to set how much is logged.  By default, fatal and normal messages are 
+printed to standard output.  With a log file, such messages go to the log
+instead.
 .TP
-.BI "\-m, \-\-meta"
-Connect to the given metaserver, a place where Freeciv servers can publish their
-presence. Freeciv clients consult the metaserver to offer users a selection of
-games to join.
+.BI "\-m \fIaddress\fP, \-\-meta \fIaddress\fP"
+Specifies the \fIaddress\fP of the metaserver to connect to. A metaserver is a
+place where Freeciv servers can publish their presence. Freeciv clients consult
+the metaserver to offer users a selection of games to join. By default the 
+standard Freeciv metaserver is used. 
 .TP
-.BI "\-n, \-\-name"
-Specifies the name to play under. This option is critical when reconnecting to
-a game. Please note that you might need to quote your playername.
+.BI "\-n \fIstring\fP, \-\-name \fIstring\fP"
+Specifies the name (\fIstring\fP) to play under. This option is critical when 
+reconnecting to a game. Please note that you might need to quote your playername.
 .TP
-.BI "\-p, \-\-port"
-Specifies the server port to connect to. By default this is 5555, if in doubt
-ask the server administrator.
+.BI "\-p \fIport\fP, \-\-port \fIport\fP"
+Specifies the server \fIport\fP to connect to. By default this is 5555, if in 
+doubt ask the server administrator.
 .TP
-.BI "\-P, \-\-Plugin"
-Specifies to use one of [none, esd, sdl] for sound output.
+.BI "\-P \fIstring\fP, \-\-Plugin \fIstring\fP"
+Specifies the plugin to use for sound output.  Available options  for 
+\fIstring\fP are:
+
+\fBnone\fP
+
+\fBesd\fP
+
+\fBsdl\fP
+
 .TP
-.BI "\-s, \-\-server"
-The game server to connect to. This server might easily run on the same machine
-as the client.
+.BI "\-r \fIfilename\fP, \-\-read \fIfilename\fP"
+Specifies a file, \fIfilename\fP, of server commands which the server will 
+automatically read and process, as if you had typed them in at the server's 
+prompt. (for spawned server only)
 .TP
-.BI "\-S, \-\-Sound"
-Specifies where to read the sound tags from.
+.BI "\-s \fIaddress\fP, \-\-server \fIaddress\fP"
+Specifies the game server \fIaddress\fP to connect to. This server might easily
+run on the same machine as the client.
 .TP
-.BI "\-t, \-\-tiles"
-Indicates a tilespec to be used for tiles within the game.
+.BI "\-S \fIfilename\fP, \-\-Sound \fIfilename\fP"
+Specifies the \fIfilename\fP to read the sound tags from.
+.TP
+.BI "\-t \fIstring\fP, \-\-tiles \fIstring\fP"
+Specifies the tiles to be used within the game by supplying the name 
+(\fIstring\fP) of the tilespec. See the \fIFILES\fP section below for tilespecs
+included with this distribution.
 .TP
 .BI "\-v, \-\-version"
-Prints the version number.
+Prints the version number and exits.
 .SH "EXAMPLES"
-civclient \-\-name "King Richard" \-\-server io.daimi.aau.dk
-
-civclient \-a \-t trident
+.TP
+.B civclient \-\-name "King Richard" \-\-server io.daimi.aau.dk
+Starts the client using the name \fIKing Richard\fP and connecting to the
+server at \fIio.daimi.aau.dk\fP.
+.TP
+.B civclient \-a \-t trident
+Starts the client with the \fItrident\fP tiles and autoconnects to the 
+\fIlocalhost\fP.
 .SH FILES
 .TP
 .BI ~/.civclientrc
@@ -109,6 +149,9 @@ The Freeciv client requires several files in the Freeciv data directory,
 which is
 .I /usr/local/share/freeciv
 by default. Currently the following tilespecs can be used:
+
+\(bu
+.I isophex.tilespec
 
 \(bu
 .I isotrident.tilespec
@@ -137,7 +180,7 @@ Set this variable accordingly when using a proxy.
 .SH BUGS
 Please report bugs to
 .UR
-http://rt.freeciv.org/
+http://bugs.freeciv.org/
 .UE
 \.
 .SH "MORE INFO"
@@ -151,9 +194,12 @@ Updates and new info is first posted there.
 .SH AUTHORS
 The Freeciv Team <freeciv-dev AT freeciv.org>.
 
-This manpage was put together by Florian Ernst <florian_ernst AT gmx.net> using
-the Client Manual and the comments in the sourcecode. Feel free to use it as
-you wish.
+This manpage was originally put together by Florian Ernst 
+<florian_ernst AT gmx.net> using the Client Manual and the comments in the 
+sourcecode. It was updated by Ben Bettin <bwbettin AT gmail.com> to add new
+features, integrate information from the website's online documentation, and 
+for slight formatting adjustments. Feel free to use it as you wish.
+
 .SH "SEE ALSO"
 .IR civserver (6)
 and the Client Manual at the Freeciv homepage.
