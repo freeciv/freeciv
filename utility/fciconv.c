@@ -300,7 +300,11 @@ void fc_fprintf(FILE *stream, const char *format, ...)
   my_vsnprintf(string, sizeof(string), format, ap);
   va_end(ap);
 
-  output = internal_to_local_string_static(string);
+  if (is_init) {
+    output = internal_to_local_string_static(string);
+  } else {
+    output = string;
+  }
 
   fputs(output, stream);
   fflush(stream);
