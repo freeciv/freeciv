@@ -74,7 +74,7 @@ int server_port;
 /*
  * Non-zero = skip "Connect to Freeciv Server" dialog
  */
-int auto_connect = 0;	
+int auto_connect = 0;
 
 enum client_states client_state=CLIENT_BOOT_STATE;
 
@@ -489,6 +489,9 @@ void send_report_request(enum report_type type)
 **************************************************************************/
 void set_client_state(enum client_states newstate)
 {
+  int connect_error = (client_state == CLIENT_PRE_GAME_STATE)
+      && (newstate == CLIENT_PRE_GAME_STATE);
+
   if(client_state!=newstate) {
 
     /* If changing from pre-game state to _either_ select race
@@ -524,7 +527,13 @@ void set_client_state(enum client_states newstate)
   }
   if (client_state == CLIENT_PRE_GAME_STATE) {
     if (auto_connect) {
-      server_autoconnect();
+      if (connect_error) {
+	freelog(LOG_NORMAL,
+		_("There was an error while auto connecting; aborting."));
+	exit(1);
+      } else {
+	server_autoconnect();
+      }
     } else {
       gui_server_connect();
     }

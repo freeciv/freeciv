@@ -300,6 +300,7 @@ static int try_to_autoconnect()
 {
   char errbuf[512];
   static int count = 0;
+  static int warning_shown = 0;
 
   count++;
 
@@ -316,6 +317,13 @@ static int try_to_autoconnect()
     return FALSE;		/*  Tells GTK not to call this
 				   function again */
   case ECONNREFUSED:		/* Server not available (yet) */
+    if (!warning_shown) {
+      freelog(LOG_NORMAL, _("Connection to server refused. "
+			    "Please start the server."));
+      append_output_window(_("Connection to server refused. "
+			     "Please start the server."));
+      warning_shown = 1;
+    }
     return TRUE;		/*  Tells GTK to keep calling this function */
   default:			/* All other errors are fatal */
     freelog(LOG_FATAL,

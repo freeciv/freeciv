@@ -41,5 +41,6 @@ extern char metaserver[256];
 extern char server_host[512];
 extern char player_name[512];
 extern int server_port;
+extern int auto_connect;
 
 #endif  /* FC__CIVCLIENT_H */

@@ -157,6 +157,9 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
 		_("You were rejected from the game: %s"), packet->message);
     append_output_window(msg);
     game.conn_id = 0;
+    if (auto_connect) {
+      freelog(LOG_NORMAL, "%s", msg);
+    }
   }
   if (strcmp(s_capability, our_capability)==0)
     return;
