@@ -1,114 +1,228 @@
+===================
 Installing Freeciv:
 ===================
 
-This file gives some basic instructions on how to compile and install 
-Freeciv. 
+This file describes how to compile and install Freeciv.
 
-Freeciv requires that the Xpm library is available on your system.
-The Xpm library is in wide use, and is probably already installed
-on your box. A number of the major X vendors have even started to 
-ship with Xpm pre-installed. And most importantly, all Linux(yeah!) 
-distributions we know of come with Xpm.
-Installation instructions for the Xpm library are included at the end
-of this file.
-
-
-Compiling freeciv
+0. Prerequisites:
 =================
 
-1. Generating the Makefile.
+Freeciv has a number of prerequisites.  Note, that apart from the first
+prerequisite, the Freeciv configuration process is smart enough to work
+out whether your system is suitable.  If in doubt, just try it.
 
-Before you compile Freeciv, you must generate a Makefile.  There are
-two ways to do this.  The first is using the GNU "configure" system,
-which does not use Imake.  If this does not work for you, try using
-the Imake approach, as described below.
+ - Unix (or similar)
 
-To use "configure", cd into the top directory containing the Freeciv files,
-and type:
+   The Unix operating system, a work-alike such as Linux or FreeBSD,
+   or some OS that provides a very Unix-like personality or mode, like
+   EMX under OS/2 or the Cygnus Cygwin toolkit under Windows.
+   (See http://http://sourceware.cygnus.com/cygwin/).  Support for
+   BSD-style TCP/IP sockets is essential, as is a Bourne-shell
+   compatible shell, such as GNU "bash".  (Most Unixes fit the bill...)
 
-  ./configure
+ - X-Windows.
+
+   The Freeciv client is an X-Windows program, so you'll need some way
+   of running X-Windows programs.  (Most Unixes can...)
+
+   If the Freeciv configuration program can't find X Windows on
+   your system, you may need to use the --x-includes=DIR
+   and --x-libraries=DIR options.
+
+ - The "Athena" widget library.
+
+   This library (also known as "Xaw") is usually supplied standard
+   with the rest of X Windows, but some platforms (HP-UX 10 for
+   example) only provide it in a limited form.
+
+   Many modern Unix systems (such as Linux) ship with a variant called
+   "Xaw3d", which has a more modern "3D" look.  If you'd like to try
+   compiling with Xaw3d, then add "--with-xaw3d" to the Freeciv
+   configure script.
+
+   There are also other variants of Xaw, such as Nextaw.  Freeciv
+   does not work with these, although it should be possible to modify
+   it in the same fashion as for Xaw3d.  Another tool which may help
+   is called "xaw_wrappers", although how to use it is beyond the
+   scope of this file.
+
+ - The "Xpm" library.
+
+   This library is essential for icon and bitmap handling.  It is in
+   wide use, and is supplied standard on most modern Unix machines,
+   although it may be missing on traditional or older Unixes, eg,
+   Solaris.
+
+   When you run the Freeciv configure script, it may be necessary for
+   you to use the "--with-xpm-prefix=DIR" command-line option, where
+   DIR is the name of the directory containing the "include" and "lib"
+   subdirectories where Xpm may be found.
+
+   If the Freeciv configure process tells you that you don't have the
+   Xpm library installed, then it may be obtained from here:
+
+     ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz    FIXME: most recent?
+     ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz
+
+   Install it as you would any other package.  If you can't install
+   it in a standard system directory, then use the --with-xpm-prefix
+   option, as described above.
+
+ - An ANSI C compiler.
+
+   Freeciv is written in very portable (almost) ANSI C.  Both 32- and 64-
+   bit machines are supported.  You cannot use a "K&R C" compiler, or
+   a C++ compiler.
+
+   Development of Freeciv is primarily done with "gcc", the GNU
+   project's excellent C compiler.  Releases can be compiled with gcc
+   or most other compilers (such as the unbundled Solaris C compiler).
+   Development releases and CVS snapshots will not work without gcc,
+   unless you give configure the "--disable-cvs-deps" option.  See
+   the section below for more information.
+
+ - A "make" program.
+
+   Freeciv developers generally use "gmake", the GNU make program.
+
+   Officially released versions of Freeciv are designed to have
+   makefiles which work with most make programs.  Development releases
+   and CVS snapshots contain things (like dependencies) which use
+   gmake's enhanced features, so gmake is necessary for development,
+   unless you give configure the "--disable-cvs-deps" option.  See the
+   section below for more information.
+
+   You can check if you have GNU make installed on your system by
+   typing:
+
+    % make -v                   [and if this doesn't work, try "gmake -v"]
+
+   The output should include "GNU Make" somewhere.
+
+1. Generating the Makefile:
+===========================
+
+Before you compile Freeciv, you must generate a Makefile.  This
+makefile is configured to suit the features available on your
+machine.
+
+This configuration is done using the GNU "configure" script.
+
+To use "configure", "cd" into the top directory containing the Freeciv
+files, and type:
+
+ % ./configure
 
 This script will then attempt to determine the relevant features (and
-misfeatures!!) of your system.
+misfeatures!!) of your system.  It should print a page or two of
+diagnostics about your machine, then stop gracefully.
 
-Note, you must have GNU make installed on your system to use this method.
-You can check this by typing:
+If you'd like help on the various options supported by the
+configure script, try the --help option, like this:
 
-  make -v                            [and if this doesn't work, try "gmake -v"]
+ % ./configure --help
 
-If the output doesn't include "GNU Make", then you must use the Imake
-method described below.
+  If you're compiling a development release or a CVS snapshot, and you
+  don't have both GNU make AND gcc, then pass configure the
+  "--without-cvs-deps" option.  You'll especially need to do this if
+  you're using the Solaris cc and make programs.
 
-If you want to change the compile options, set the CFLAGS variable before
-running "configure".  For example:
+  Note that if you do this, dependency checking is disabled.  If you
+  change any Freeciv .h files after this for any reason, you should do
+  a "make clean" before doing "make" to ensure everything is compiled
+  correctly.
 
-  setenv CFLAGS "-O -g -pipe"
-  ./configure                        [for people using C shell or tcsh]
+  "--disable-cvs-deps" has no effect when run with a stable release.
+
+If you want to change the compiler options, set the CFLAGS environment
+variable in your shell before running "configure".  For example:
+
+ % CFLAGS="-O -g -pipe" ./configure   [for people using Bourne shell or bash]
 
 or
 
-  CFLAGS="-O -g -pipe" ./configure   [for people using Bourne shell or bash]
+ % setenv CFLAGS "-O -g -pipe"
+ % ./configure                        [for people using C shell or tcsh]
 
-If you want to submit a bug report with a core dump, we suggest that you use
+If you're tracking down a "core dump", we suggest that you use
 a value of "-g" for CFLAGS.
 
+Note, the CFLAGS variable shouldn't be used to specify include and
+library directories.  Instead, use the proper configure command-line
+options for that.
 
 If for some reason using "configure" gives you trouble, follow these steps:
 
-First, let us know, so that we can fix it for the next release!!  Send mail
-to freeciv@freeciv.midsun.com telling us what you did, and what the result
-is.  Note, you MUST have both the Xpm and Xaw libraries installed on your
-system, in a place where "configure" can find them.
+  - Read the prerequisites section carefully, to determine if your
+    system meets all the requirements.
 
-Second, use the "xmkmf" program to generate the Makefile.  Behind the scenes,
-this uses Imake.  Note, that we no longer really support the Imake-based
-approach, so you are less likely to get help with a problem you report.
+  - Ensure that you have both the Xpm and Xaw libraries
+    installed on your system.  Make sure that the configure script
+    can find them, either by installing them in the standard places
+    on your system, or by instructing the configure script with the
+    appropriate command-line options.  (See ./configure --help).
 
-To do this, cd into the top directory containing the Freeciv files,
-and type:
+  - Let us know, so that we can fix it for the next release!!
 
-  xmkmf
+    Send mail to the freeciv-dev mailing list, telling us what you did,
+    and what the result is.  It would be helpful to include the output
+    of the configure script, and the contents of the "config.status",
+    "config.cache" and "config.log" files, which are generated by the
+    configure script.
 
-This should generate the Makefile you need.
+    You can find out about the freeciv-dev mailing list on our web
+    site, at http://www.freeciv.org
 
-NOTE: If you use "configure", the client and server executables
-will be placed in the "client" and "server" directories, respectively.  
-If you use Imake, the client and server executables will be placed in
-the Freeciv top-level directory.  We suggest you use the "civ" and "ser"
-scripts to run Freeciv - that way, the executables will be found regardless
-of which method you used to generate the Makefile.
+  - If you're still having problems, and you'd like to persist, edit the
 
-2. Compiling
+    "Makefile.noimake" file, then use as follows:
 
-To compile, type:
+     % make -f Makefile.noimake
 
-  make                               [or possibly gmake]
+    (This is just to get you going - we'd rather solve your configure
+    problem)
 
-This should completely build the Freeciv binaries from the source code.
+Please note that as of Freeciv 1.7.2, we no longer support using
+Imake.
 
-When it doesn't compile:
-========================
-If you don't have xmkmf/Imake on your system, then use the Makefile.noimake 
-file instead.  Try 'make -f Makefile.noimake'.
+2. Compiling Freeciv:
+=====================
 
-If the errors are related to the Xpm library, then look in the section below
-about Xpm.
+If all has gone well previous to this point, then compiling Freeciv
+should be as easy as typing "make" (or preferably, "gmake").
 
-If the compilations halts due to missing X11 .h or lib files, then it's safe
-to assume that Imake hasn't been installed properly on your system. Consider
-using Makefile.noimake as above.
+If you have problems, read the "Bugs" section in the README file,
+and follow the advice carefully.
 
-Unfortunately, Freeciv doesn't work with Xaw3d.  You have to link with the
-original Athena widget library.
+After compilation, the important results are:
 
-Ok it compiled, now install it:
-==================================
-All Freeciv needs are the 'civclient' and 'civserver' programs, and the files
-in the directory 'data'.
+  - The "civ" and "ser" scripts.
+  - The "client/civclient" and "server/civserver" binaries.
+  - The "data/" directory, which contains the graphics and scenarios.
 
-When civclient starts, it looks in the current directory for the
-data/ directory. You can override this by setting the FREECIV_DATADIR
-environment variable to point to another location.  For example,
+It's perfectly feasible to play Freeciv in this directory, without
+installing it.  If you do this, you'll need to use the "civ" and
+"ser" scripts.
+
+See the README file for more information.
+
+3. Installation:
+================
+
+Installing Freeciv involves installing the components mentioned in
+Section 2.  These need to be copied to a directory such as /usr/games,
+/usr/games/freeciv, /usr/local/freeciv, or some other suitable
+directory.
+
+Typing "make install" should install everything correctly on
+your machine.  You may like to use the --prefix=DIR configure option
+to ensure the files get placed where you want.
+
+When the Freeciv client starts, it looks in the current directory for
+the data/ directory. You can override this by setting the
+FREECIV_DATADIR environment variable to point to another location.
+
+For example,
 
 setenv FREECIV_DATADIR /usr/games/freeciv/data
    (for users of csh, tcsh, etc)
@@ -125,27 +239,4 @@ Finally, if you're logged in as the 'root' user, you should consider copying
 the file data/Freeciv into your app-defaults directory. (Usually this is
 /usr/lib/X11/app-defaults).
 
-Installing the Xpm library
-==========================
-
-If you find that you don't have the Xpm library installed, then follow the
-following instructions:
-
- - FTP the source from ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz
-   (Or you can try ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz )
-
- - Use gunzip uncompress the file, and tar to extract the contents, eg, 
-
-        gunzip < xpm-3.4k.tar.gz | tar -xvf -
-
- - Build the makefile using the command 'xmkmf -a'.
-
- - While logged in as the 'root' user, do a 'make install' and you're done.
-
- - Or if you only have normal user permissions, then just type 'make'.
-   After this, the 'lib' directory contains the Xpm library. You can now
-   delete everything except 'libXpm*' and xpm.h.  Finally, find the Xpm-
-   related lines in the Freeciv Imakefile and change the Xpm paths.
-   There's an example there that shows what to do. 
-
- - Finally, follow the Freeciv installation instructions as before.
+** END **
