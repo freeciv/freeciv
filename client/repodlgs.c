@@ -45,6 +45,7 @@
 #include <helpdlg.h>
 #include <chatline.h>
 #include <dialogs.h>
+#include <optiondlg.h>
 
 #define MAX_CITIES_SHOWN 256
 
@@ -423,6 +424,7 @@ void create_science_dialog(int make_modal)
 
   XtAddCallback(close_command, XtNcallback, science_close_callback, NULL);
   XtAddCallback(science_list, XtNcallback, science_help_callback, NULL);
+  XtAddCallback(science_help_toggle, XtNcallback, toggle_callback, NULL);
 
   XtRealizeWidget(science_dialog_shell);
 

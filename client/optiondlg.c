@@ -69,14 +69,22 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
 void popup_option_dialog(void)
 {
   create_option_dialog();
-  XtVaSetValues(option_bg_toggle, XtNstate, use_solid_color_behind_units, NULL);
-  XtVaSetValues(option_bell_toggle, XtNstate, sound_bell_at_new_turn, NULL);
-  XtVaSetValues(option_move_toggle, XtNstate, smooth_move_units, NULL);
-  XtVaSetValues(option_flag_toggle, XtNstate, flags_are_transparent, NULL);
-  XtVaSetValues(option_aipopup_toggle, XtNstate, ai_popup_windows, NULL);
-  XtVaSetValues(option_aiturndone_toggle, XtNstate, ai_manual_turn_done, NULL);
-  XtVaSetValues(option_autocenter_toggle, XtNstate, auto_center_on_unit, NULL);
-  XtVaSetValues(option_wakeup_focus_toggle, XtNstate, wakeup_focus, NULL);
+  XtVaSetValues(option_bg_toggle, XtNstate, use_solid_color_behind_units, 
+                XtNlabel, use_solid_color_behind_units?"Yes":"No", NULL);
+  XtVaSetValues(option_bell_toggle, XtNstate, sound_bell_at_new_turn,
+                XtNlabel, sound_bell_at_new_turn?"Yes":"No", NULL);
+  XtVaSetValues(option_move_toggle, XtNstate, smooth_move_units,
+                XtNlabel, smooth_move_units?"Yes":"No", NULL);
+  XtVaSetValues(option_flag_toggle, XtNstate, flags_are_transparent,
+                XtNlabel, flags_are_transparent?"Yes":"No", NULL);
+  XtVaSetValues(option_aipopup_toggle, XtNstate, ai_popup_windows,
+                XtNlabel, ai_popup_windows?"Yes":"No", NULL);
+  XtVaSetValues(option_aiturndone_toggle, XtNstate, ai_manual_turn_done,
+                XtNlabel, ai_manual_turn_done?"Yes":"No", NULL);
+  XtVaSetValues(option_autocenter_toggle, XtNstate, auto_center_on_unit,
+                XtNlabel, auto_center_on_unit?"Yes":"No", NULL);
+  XtVaSetValues(option_wakeup_focus_toggle, XtNstate, wakeup_focus,
+                XtNlabel, wakeup_focus?"Yes":"No", NULL);
 
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
   XtPopup(option_dialog_shell, XtGrabNone);
@@ -173,14 +181,33 @@ void create_option_dialog(void)
   XtAddCallback(option_ok_command, XtNcallback, 
 		option_ok_command_callback, NULL);
 
+  XtAddCallback(option_bg_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_bell_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_move_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_flag_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_aipopup_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_aiturndone_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_autocenter_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_wakeup_focus_toggle, XtNcallback, toggle_callback, NULL);
+  
+
   XtRealizeWidget(option_dialog_shell);
 
   xaw_horiz_center(option_label);
 }
 
 
+/**************************************************************************
+ Changes the label of the toggle widget to Yes/No depending on the state of
+ the toggle.
+**************************************************************************/
+void toggle_callback(Widget w, XtPointer client_data, XtPointer call_data)
+{
+  Boolean b;
 
-
+  XtVaGetValues(w, XtNstate, &b, NULL);
+  XtVaSetValues(w, XtNlabel, b?"Yes":"No", NULL);
+}
 
 /**************************************************************************
 ...

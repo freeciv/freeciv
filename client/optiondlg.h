@@ -14,5 +14,6 @@
 #define __OPTIONDLG_H
 
 void popup_option_dialog(void);
+void toggle_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 #endif

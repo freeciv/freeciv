@@ -32,6 +32,7 @@
 #include <packets.h>
 #include <xstuff.h>
 #include <events.h>
+#include <optiondlg.h>
 
 extern Widget toplevel, main_form;
 
@@ -59,9 +60,12 @@ void messageopt_ok_command_callback(Widget w, XtPointer client_data,
 void popup_messageopt_dialog(void)
 {
   create_messageopt_dialog();
-  XtVaSetValues(messageopt_lof_toggle, XtNstate, message_values[E_LOW_ON_FUNDS], NULL);
-  XtVaSetValues(messageopt_po_toggle, XtNstate, message_values[E_POLLUTION], NULL);
-  XtVaSetValues(messageopt_cd_toggle, XtNstate, message_values[E_CITY_DISORDER], NULL);
+  XtVaSetValues(messageopt_lof_toggle, XtNstate, message_values[E_LOW_ON_FUNDS], 
+  	        XtNlabel, message_values[E_LOW_ON_FUNDS]?"Yes":"No", NULL);
+  XtVaSetValues(messageopt_po_toggle, XtNstate, message_values[E_POLLUTION],
+  	        XtNlabel, message_values[E_POLLUTION]?"Yes":"No", NULL);
+  XtVaSetValues(messageopt_cd_toggle, XtNstate, message_values[E_CITY_DISORDER],
+  	        XtNlabel, message_values[E_CITY_DISORDER]?"Yes":"No", NULL);
   
   xaw_set_relative_position(toplevel, messageopt_dialog_shell, 25, 25);
   XtPopup(messageopt_dialog_shell, XtGrabNone);
@@ -118,6 +122,9 @@ void create_messageopt_dialog(void)
 					      messageopt_form,
 					      NULL);
   
+  XtAddCallback(messageopt_lof_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(messageopt_po_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(messageopt_cd_toggle, XtNcallback, toggle_callback, NULL);
   XtAddCallback(messageopt_ok_command, XtNcallback, 
 		messageopt_ok_command_callback, NULL);
 

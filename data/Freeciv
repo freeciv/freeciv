@@ -822,6 +822,8 @@ Freeciv.iconName: Freeciv
 *optionpopup*Label.background:   lightblue
 *optionpopup*Toggle.background:  cyan
 
+*optionpopup*Toggle.shapeStyle:  ShapeOval
+
 *optionlabel.label:             Set local options
 *optionlabel.borderWidth:       0
 
@@ -905,8 +907,10 @@ Freeciv.iconName: Freeciv
 !
 *messageoptpopup.title:        Message Options
 
-*messageoptform*Label.background:   lightblue
-*messageoptform*Toggle.background:  cyan
+*messageoptpopup*Label.background:   lightblue
+*messageoptpopup*Toggle.background:  cyan
+
+*messageoptpopup*Toggle.shapeStyle:  ShapeOval
 
 *messageoptlabel.label:             Set message options
 *messageoptlabel.borderWidth:       0
@@ -1053,21 +1057,24 @@ Freeciv.iconName: Freeciv
 *sciencechangemenubutton.left:        chainLeft
 *sciencechangemenubutton.right:       chainLeft
 
-*sciencehelpnote.label:              \ On/Off:
-*sciencehelpnote.fromVert:           sciencelabel
-*sciencehelpnote.fromHoriz:          sciencechangemenubutton
-*sciencehelpnote.internalHeight:     0
-*sciencehelpnote.borderWidth:        0
+*sciencehelpnote.label:              Help
+*sciencehelpnote.fromVert:           sciencechangemenubutton
+*sciencehelpnote.fromHoriz:          sciencegoalmenubutton
+!*sciencehelpnote.internalHeight:     0
+!*sciencehelpnote.borderWidth:        0
+*sciencehelpnote.borderColor: 	     LightBlue
 *sciencehelpnote.background:         LightBlue
 *sciencehelpnote.top:                chainTop
 *sciencehelpnote.bottom:             chainTop
 *sciencehelpnote.left:               chainLeft
 *sciencehelpnote.right:              chainLeft
+*sciencehelpnote.horizDistance:      15
 
-*sciencehelptoggle.label:          Help
-*sciencehelptoggle.fromVert:       sciencelabel
+*sciencehelptoggle.label:          No\ 
+*sciencehelptoggle.shapeStyle:     ShapeOval
+*sciencehelptoggle.fromVert:       sciencechangemenubutton
 *sciencehelptoggle.fromHoriz:      sciencehelpnote
-*sciencehelptoggle.internalHeight: 0
+!*sciencehelptoggle.internalHeight: 0
 *sciencehelptoggle.background:     cyan
 *sciencehelptoggle.top:         chainTop
 *sciencehelptoggle.bottom:      chainTop
@@ -1091,7 +1098,7 @@ Freeciv.iconName: Freeciv
 
 *sciencelist.fromVert:            sciencegoallabel
 *sciencelist.forceColumns:        true
-*sciencelist.defaultColumns:      4
+*sciencelist.defaultColumns:      3
 *sciencelist.verticalList:        true
 *sciencelist.resizable:           true
 *sciencelist.top:                 chainTop
