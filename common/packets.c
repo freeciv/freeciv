@@ -46,10 +46,9 @@
  receive_packet_city_info() )
 
   TODO to solve these problems:
-    1) create real signed integer functions
-    2) change the prototypes of the unsigned functions
+    1) change the prototypes of the unsigned functions
        to unsigned int instead of int
-    3) use the new signed functions where they are necessary
+    2) use the new signed functions where they are necessary
 ***********************************************************************/
 
 
@@ -409,11 +408,24 @@ static unsigned char *get_uint8(unsigned char *buffer, int *val)
 /**************************************************************************
 ...
 **************************************************************************/
+static unsigned char *get_int8(unsigned char *buffer, int *val)
+{
+  if(val) {
+    *val=(signed char)(*buffer);
+  }
+  return buffer+1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static unsigned char *put_uint8(unsigned char *buffer, int val)
 {
   *buffer++=val&0xff;
   return buffer;
 }
+
+#define put_int8(b,v) put_uint8(b,v)
 
 /**************************************************************************
 ...
@@ -428,6 +440,18 @@ static unsigned char *get_uint16(unsigned char *buffer, int *val)
   return buffer+2;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static unsigned char *get_int16(unsigned char *buffer, int *val)
+{
+  if(val) {
+    unsigned short x;
+    memcpy(&x,buffer,2);
+    *val=(signed short)ntohs(x);
+  }
+  return buffer+2;
+}
 
 /**************************************************************************
 ...
@@ -439,6 +463,7 @@ unsigned char *put_uint16(unsigned char *buffer, int val)
   return buffer+2;
 }
 
+#define put_int16(b,v) put_uint16(b,v)
 
 /**************************************************************************
 ...
@@ -453,6 +478,18 @@ static unsigned char *get_uint32(unsigned char *buffer, int *val)
   return buffer+4;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static unsigned char *get_int32(unsigned char *buffer, int *val)
+{
+  if(val) {
+    unsigned long x;
+    memcpy(&x,buffer,4);
+    *val=(signed long)ntohl(x);
+  }
+  return buffer+4;
+}
 
 /**************************************************************************
 ...
@@ -463,6 +500,8 @@ static unsigned char *put_uint32(unsigned char *buffer, int val)
   memcpy(buffer,&x,4);
   return buffer+4;
 }
+
+#define put_int32(b,v) put_uint32(b,v)
 
 /**************************************************************************
   Like get_uint8, but using a pack_iter.
@@ -480,6 +519,22 @@ static void iget_uint8(struct pack_iter *piter, int *val)
   piter->ptr = get_uint8(piter->ptr, val);
 }
 
+/**************************************************************************
+  Like get_int8, but using a pack_iter.
+  Sets *val to zero for short packets.
+  val can be NULL meaning just read past.
+**************************************************************************/
+static void iget_int8(struct pack_iter *piter, int *val)
+{
+  assert(piter);
+  if (pack_iter_remaining(piter) < 1) {
+    piter->short_packet = 1;
+    if (val) *val = 0;
+    return;
+  }
+  piter->ptr = get_int8(piter->ptr, val);
+}
+ 
 /**************************************************************************
   Like get_uint16, but using a pack_iter.
   Also does byte swapping if required.
@@ -501,6 +556,26 @@ static void iget_uint16(struct pack_iter *piter, int *val)
 }
 
 /**************************************************************************
+  Like get_int16, but using a pack_iter.
+  Also does byte swapping if required.
+  Sets *val to zero for short packets.
+  val can be NULL meaning just read past.
+**************************************************************************/
+static void iget_int16(struct pack_iter *piter, int *val)
+{
+  assert(piter);
+  if (pack_iter_remaining(piter) < 2) {
+    piter->short_packet = 1;
+    if (val) *val = 0;
+    return;
+  }
+  piter->ptr = get_int16(piter->ptr, val);
+  if (val && piter->swap_bytes) {
+    swab_puint16(val);
+  }
+}
+
+/**************************************************************************
   Like get_uint32, but using a pack_iter.
   Also does byte swapping if required.
   Sets *val to zero for short packets.
@@ -515,6 +590,26 @@ static void iget_uint32(struct pack_iter *piter, int *val)
     return;
   }
   piter->ptr = get_uint32(piter->ptr, val);
+  if (val && piter->swap_bytes) {
+    swab_puint32(val);
+  }
+}
+
+/**************************************************************************
+  Like get_int32, but using a pack_iter.
+  Also does byte swapping if required.
+  Sets *val to zero for short packets.
+  val can be NULL meaning just read past.
+**************************************************************************/
+static void iget_int32(struct pack_iter *piter, int *val)
+{
+  assert(piter);
+  if (pack_iter_remaining(piter) < 4) {
+    piter->short_packet = 1;
+    if (val) *val = 0;
+    return;
+  }
+  piter->ptr = get_int32(piter->ptr, val);
   if (val && piter->swap_bytes) {
     swab_puint32(val);
   }
