@@ -53,8 +53,9 @@ int ai_do_build_city(struct player *pplayer, struct unit *punit)
   struct city *pcity;
   req.unit_id=punit->id;
   strcpy(req.name, get_a_name(pplayer));
+  x = punit->x; y = punit->y; /* Trevor Pering points out that punit gets freed */
   handle_unit_build_city(pplayer, &req);        
-  pcity=map_get_city(punit->x, punit->y);
+  pcity=map_get_city(x, y); /* so we need to cache x and y for a very short time */
   if (!pcity)
     return 0;
   for (y=0;y<5;y++)
@@ -678,7 +679,7 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int gx,gy;
   int co=map_get_continent(punit->x, punit->y);
   int t=0, v=0, v2;
-  int x, y, z, i, j, ww = 0;
+  int x, y, z, i, j, ww = 99999; /* ww = 0 leads to v2=0 activities being OK */
   int m = unit_types[punit->type].move_rate;
   int food, val, w, a, b, d, fu;
   struct city *mycity = map_get_city(punit->x, punit->y);
@@ -923,7 +924,9 @@ be built to solve one problem.  Moving the return down will solve this. -- Syela
     } else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
     if (!same_pos(gx, gy, punit->x, punit->y)) {
       if (!goto_is_sane(pplayer, punit, gx, gy, 1) ||
-          (ferryboat && !is_tiles_adjacent(punit->x, punit->y, gx, gy))) {
+          (ferryboat && goto_is_sane(pplayer, ferryboat, gx, gy, 1) &&
+          (!is_tiles_adjacent(punit->x, punit->y, gx, gy) ||
+           !could_unit_move_to_tile(punit, punit->x, punit->y, gx,gy)))) {
         punit->ai.ferryboat = find_boat(pplayer, &x, &y, 1); /* might need 2 */
 /*printf("%d@(%d, %d): Looking for BOAT.\n", punit->id, punit->x, punit->y);*/
         if (!same_pos(x, y, punit->x, punit->y)) {
@@ -936,7 +939,8 @@ be built to solve one problem.  Moving the return down will solve this. -- Syela
         punit->goto_dest_y = gy;
         if (ferryboat && (!ferryboat->ai.passenger ||
             ferryboat->ai.passenger == punit->id)) {
-/*printf("We have FOUND BOAT, %d ABOARD %d.\n", punit->id, ferryboat->id);*/
+/*printf("We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).\n", punit->id,
+ferryboat->id, punit->x, punit->y, gx, gy);*/
           set_unit_activity(punit, ACTIVITY_SENTRY); /* kinda cheating -- Syela */
           ferryboat->ai.passenger = punit->id;
           auto_settler_do_goto(pplayer, ferryboat, gx, gy);
@@ -1076,7 +1080,7 @@ void contemplate_settling(struct player *pplayer, struct city *pcity)
   struct unit virtualunit;
   int want;
 /* used to use old crappy formulas for settler want, but now using actual want! */
-  memset(&virtualunit, 0, sizeof(&virtualunit));
+  memset(&virtualunit, 0, sizeof(struct unit));
   virtualunit.id = 0;
   virtualunit.owner = pplayer->player_no;
   virtualunit.x = pcity->x;
