@@ -833,6 +833,23 @@ static void make_passable(void)
   
 }
 
+/****************************************************************************
+  Return TRUE if the terrain at the given map position is "clean".  This
+  means that all the terrain for 2 squares around it is either grassland or
+  plains.
+****************************************************************************/
+static bool terrain_is_clean(int map_x, int map_y)
+{
+  square_iterate(map_x, map_y, 2, x1, y1) {
+    if (map_get_terrain(x1, y1) != T_GRASSLAND
+	&& map_get_terrain(x1, y1) != T_PLAINS) {
+      return FALSE;
+    }
+  } square_iterate_end;
+
+  return TRUE;
+}
+
 /**************************************************************************
   we don't want huge areas of grass/plains, 
  so we put in a hill here and there, where it gets too 'clean' 
@@ -1430,6 +1447,21 @@ static void smooth_map(void)
   free(new_hmap);
 }
 
+/****************************************************************************
+  Return TRUE iff there's already a hut within 3 tiles of the given map
+  position.
+****************************************************************************/
+static bool is_hut_close(int map_x, int map_y)
+{
+  square_iterate(map_x, map_y, 3, x1, y1) {
+    if (map_has_special(x1, y1, S_HUT)) {
+      return TRUE;
+    }
+  } square_iterate_end;
+
+  return FALSE;
+}
+
 /**************************************************************************
   this function spreads out huts on the map, a position can be used for a
   hut if there isn't another hut close and if it's not on the ocean.
@@ -1455,6 +1487,25 @@ static void make_huts(int number)
   }
 }
 
+/****************************************************************************
+  Return TRUE iff there's a special (i.e., SPECIAL_1 or SPECIAL_2) within
+  1 tile of the given map position.
+****************************************************************************/
+static bool is_special_close(int map_x, int map_y)
+{
+  square_iterate(map_x, map_y, 1, x1, y1) {
+    if (map_has_special(x1, y1, S_SPECIAL_1)
+	|| map_has_special(x1, y1, S_SPECIAL_2)) {
+      return TRUE;
+    }
+  } square_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Add specials to the map with given probability.
+****************************************************************************/
 static void add_specials(int prob)
 {
   int xn, yn;

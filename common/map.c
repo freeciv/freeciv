@@ -416,49 +416,6 @@ bool is_coastline(int x, int y)
 }
 
 /***************************************************************
-...
-***************************************************************/
-bool terrain_is_clean(int x, int y)
-{
-  square_iterate(x, y, 2, x1, y1) {
-    if (map_get_terrain(x1,y1) != T_GRASSLAND
-	&& map_get_terrain(x1,y1) != T_PLAINS)
-      return FALSE;
-  } square_iterate_end;
-
-  return TRUE;
-}
-
-/***************************************************************
-...
-***************************************************************/
-bool is_hut_close(int x, int y)
-{
-  square_iterate(x, y, 3, x1, y1) {
-    if (map_has_special(x1, y1, S_HUT))
-      return TRUE;
-  } square_iterate_end;
-
-  return FALSE;
-}
-
-
-/***************************************************************
-...
-***************************************************************/
-bool is_special_close(int x, int y)
-{
-  square_iterate(x, y, 1, x1, y1) {
-    if (map_has_special(x1, y1, S_SPECIAL_1)
-	|| map_has_special(x1, y1, S_SPECIAL_2)) {
-      return TRUE;
-    }
-  } square_iterate_end;
-
-  return FALSE;
-}
-
-/***************************************************************
 Returns whether you can put a city on land near enough to use
 the tile.
 ***************************************************************/
