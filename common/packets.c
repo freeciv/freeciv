@@ -1171,6 +1171,17 @@ int send_packet_player_request(struct connection *pc,
 			       enum packet_type req_type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
+
+  /* The following is a hack to avoid changing lots of individual
+     pieces of code which actually only use a part of this packet
+     and ignore the worklist stuff.  IMO the separate uses should
+     use separate packets, to avoid this problem (and would also
+     reduce amount sent).  --dwp
+  */
+  if (req_type != PACKET_PLAYER_WORKLIST) {
+    packet->worklist.name[0] = '\0';
+  }
+
   cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint8(cptr, packet->tax);
   cptr=put_uint8(cptr, packet->luxury);
