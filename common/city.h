@@ -89,9 +89,9 @@ struct ai_city {
   int building_want[B_LAST]; /* not sure these will always be < 256 */
   int danger; /* danger to be compared to assess_defense */
   int urgency; /* how close the danger is; if zero, bodyguards can leave */
+  int grave_danger; /* danger that is upon us, should show positive feedback */
   int wallvalue; /* how much it helps for defenders to be ground units */
   int trade_want; /* saves a zillion calculations */
-  struct unit *grave_danger; /* time for the panic button */
   struct ai_choice choice; /* to spend gold in the right place only */
   int downtown; /* distance from neighbours, for locating wonders wisely */
   int distance_to_wonder_city; /* wondercity will set this for us, avoiding paradox */
