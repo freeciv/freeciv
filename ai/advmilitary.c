@@ -256,8 +256,7 @@ content to let it remain that way for now. -- Syela 980805 */
 				    (v * m / (dist<<1)));
           }
 
-        if ((unit_flag(funit->type, F_DIPLOMAT) && (dist <= 3 * m)) ||
-	     (is_ground_units_transport(funit) && (dist <= 2 * m)))
+        if (unit_flag(funit->type, F_DIPLOMAT) && (dist <= 2 * m)) 
 	     pcity->ai.diplomat_threat = !diplomat;
 
           v *= v;
@@ -299,8 +298,7 @@ content to let it remain that way for now. -- Syela 980805 */
 				  (v * m / (dist<<1)));
         }
 
-        if ((unit_flag(punit->type, F_DIPLOMAT) && (dist <= 3 * m)) ||
-	     (is_ground_units_transport(punit) && (dist <= 2 * m)))
+        if (unit_flag(punit->type, F_DIPLOMAT) && (dist <= 2 * m))
 	     pcity->ai.diplomat_threat = !diplomat;
 
         v *= v;
