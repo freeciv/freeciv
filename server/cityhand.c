@@ -106,7 +106,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
   }
   if (is_worker_here(pcity, worker_x, worker_y)) {
     server_remove_worker_city(pcity, worker_x, worker_y);
-    pcity->specialists[SP_ELVIS]++;
+    pcity->specialists[DEFAULT_SPECIALIST]++;
     city_refresh(pcity);
     sync_cities();
   } else {

@@ -2053,10 +2053,8 @@ void cm_print_city(const struct city *pcity)
   freelog(LOG_NORMAL, "print_city(city='%s'(id=%d))",
           pcity->name, pcity->id);
   freelog(LOG_NORMAL,
-          "  size=%d, entertainers=%d, scientists=%d, taxmen=%d",
-          pcity->size, pcity->specialists[SP_ELVIS],
-          pcity->specialists[SP_SCIENTIST],
-          pcity->specialists[SP_TAXMAN]);
+	  "  size=%d, specialists=%s",
+	  pcity->size, specialists_string(pcity->specialists));
   freelog(LOG_NORMAL, "  workers at:");
   my_city_map_iterate(pcity, x, y) {
     if (pcity->city_map[x][y] == C_TILE_WORKER) {

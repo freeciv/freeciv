@@ -2464,7 +2464,7 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   specialist_type_iterate(sp) {
     pcity->specialists[sp] = 0;
   } specialist_type_iterate_end;
-  pcity->specialists[SP_ELVIS] = 1;
+  pcity->specialists[DEFAULT_SPECIALIST] = 1;
   pcity->ppl_happy[4] = 0;
   pcity->ppl_content[4] = 1;
   pcity->ppl_unhappy[4] = 0;

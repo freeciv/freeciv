@@ -455,7 +455,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   assert(unit_pop_value(punit->type) > 0);
   pcity->size += unit_pop_value(punit->type);
   /* Make the new people something, otherwise city fails the checks */
-  pcity->specialists[SP_TAXMAN] += unit_pop_value(punit->type);
+  pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit->type);
   auto_arrange_workers(pcity);
   wipe_unit(punit);
   send_city_info(NULL, pcity);

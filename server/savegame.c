@@ -2106,8 +2106,8 @@ static void player_load(struct player *plr, int plrno,
 	  if (ptile->worked) {
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Inconsistent worked for %s (%d,%d), "
-		    "converting to elvis", pcity->name, x, y);
-	    pcity->specialists[SP_ELVIS]++;
+		    "converting to specialist", pcity->name, x, y);
+	    pcity->specialists[DEFAULT_SPECIALIST]++;
 	    set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	  } else {
 	    set_worker_city(pcity, x, y, C_TILE_WORKER);
@@ -3009,7 +3009,7 @@ static void check_city(struct city *pcity)
       if (!res) {
 	struct tile *ptile;
 
-	pcity->specialists[SP_ELVIS]++;
+	pcity->specialists[DEFAULT_SPECIALIST]++;
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	freelog(LOG_DEBUG, "Worked tile was unavailable!");
 

@@ -1551,9 +1551,9 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     packet->ppl_unhappy[i]=pcity->ppl_unhappy[i];
     packet->ppl_angry[i]=pcity->ppl_angry[i];
   }
-  packet->specialists[SP_ELVIS] = pcity->specialists[SP_ELVIS];
-  packet->specialists[SP_SCIENTIST] = pcity->specialists[SP_SCIENTIST];
-  packet->specialists[SP_TAXMAN] = pcity->specialists[SP_TAXMAN];
+  specialist_type_iterate(sp) {
+    packet->specialists[sp] = pcity->specialists[sp];
+  } specialist_type_iterate_end;
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     packet->trade[i]=pcity->trade[i];
     packet->trade_value[i]=pcity->trade_value[i];
@@ -2008,7 +2008,7 @@ static bool update_city_tile_status(struct city *pcity, int city_x,
   case C_TILE_WORKER:
     if (!is_available) {
       server_set_tile_city(pcity, city_x, city_y, C_TILE_UNAVAILABLE);
-      pcity->specialists[SP_ELVIS]++; /* keep city sanity */
+      pcity->specialists[DEFAULT_SPECIALIST]++; /* keep city sanity */
       auto_arrange_workers(pcity); /* will place the displaced */
       city_refresh(pcity);
       send_city_info(NULL, pcity);
