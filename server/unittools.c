@@ -2864,6 +2864,11 @@ is put on idle if a move fails.
 If the activity is ACTIVITY_PATROL the map positions are put back in the
 route (at the end).  To avoid infinite loops on railroad we stop for this
 turn when the unit is back where it started, eben if it have moves left.
+
+If a patrolling unit came across an enemy we could make the patrolling unit
+autoattack or just stop and wait for the owner to attack. It is also
+debateable if units on goto should stop when they encountered an enemy
+unit. Currently the unit continues if it can, or if it is blocked it stops.
 **************************************************************************/
 void goto_route_execute(struct unit *punit)
 {
