@@ -706,8 +706,8 @@ void pf_print_path(int log_level, const struct pf_path *path)
   int i;
 
   if (path) {
-    freelog(log_level, "PF: path (at %p) consists of %d positions:", path,
-	    path->length);
+    freelog(log_level, "PF: path (at %p) consists of %d positions:",
+	    (void *)path, path->length);
   } else {
     freelog(log_level, "PF: path is NULL");
     return;

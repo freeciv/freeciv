@@ -493,7 +493,7 @@ static void tile_free(struct tile *ptile)
 void map_allocate(void)
 {
   freelog(LOG_DEBUG, "map_allocate (was %p) (%d,%d)",
-	  map.tiles, map.xsize, map.ysize);
+	  (void *)map.tiles, map.xsize, map.ysize);
 
   assert(map.tiles == NULL);
   map.tiles = fc_malloc(MAP_INDEX_SIZE * sizeof(*map.tiles));

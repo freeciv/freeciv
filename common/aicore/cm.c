@@ -2092,7 +2092,7 @@ void cm_print_result(const struct city *pcity,
 {
   int y, worker = cm_count_worker(pcity, result);
 
-  freelog(LOG_NORMAL, "print_result(result=%p)", result);
+  freelog(LOG_NORMAL, "print_result(result=%p)", (void *)result);
   freelog(LOG_NORMAL,
       "print_result:  found_a_valid=%d disorder=%d happy=%d",
       result->found_a_valid, result->disorder, result->happy);
