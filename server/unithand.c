@@ -123,9 +123,11 @@ void handle_upgrade_unittype_request(struct player *pplayer,
   cost = unit_upgrade_price(pplayer, packet->type, to_unit);
   conn_list_do_buffer(&pplayer->connections);
   unit_list_iterate(pplayer->units, punit) {
+    struct city *pcity;
     if (cost > pplayer->economic.gold)
       break;
-    if (punit->type == packet->type && map_get_city(punit->x, punit->y)) {
+    pcity = map_get_city(punit->x, punit->y);
+    if (punit->type == packet->type && pcity && pcity->owner == pplayer->player_no) {
       pplayer->economic.gold -= cost;
       
       upgrade_unit(punit, to_unit);
@@ -152,11 +154,12 @@ void handle_unit_upgrade_request(struct player *pplayer,
 {
   int cost;
   int from_unit, to_unit;
-  struct unit *punit;
-  struct city *pcity;
+  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+  struct city *pcity = find_city_by_id(packet->city_id);
   
-  if(!(punit=player_find_unit_by_id(pplayer, packet->unit_id))) return;
-  if(!(pcity=find_city_by_id(packet->city_id))) return;
+  if (!punit) return;
+  if (!pcity) return;
+  if (pcity->owner != pplayer->player_no) return; /* Allied city! */
 
   if(punit->x!=pcity->x || punit->y!=pcity->y)  {
     notify_player(pplayer, _("Game: Illegal move, unit not in city!"));
