@@ -53,7 +53,7 @@ static XtResource resources[] = {
 static void CanvasRealize(Widget widget, XtValueMask *value_mask, 
 			  XSetWindowAttributes *attributes);
 static void Redisplay(Widget w, XEvent *event, Region region);
-static void ClassInitialize();
+static void ClassInitialize(void);
 static void Resize(Widget w);
 static void Destroy(Widget w);
 static Boolean SetValues(Widget current,
@@ -189,7 +189,7 @@ static void Destroy(Widget w)
   XFreePixmap(display, cw->canvas.pixmap);
 }
 
-static void ClassInitialize()
+static void ClassInitialize(void)
 {
     XawInitializeWidgetSet();
 }

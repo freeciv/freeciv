@@ -553,21 +553,21 @@ void city_list_callback(GtkWidget *w, gint row, gint column)
   }
 }
 
-gboolean
+static gboolean
 city_select_all_callback(GtkWidget *w, gpointer data)
 {
   gtk_clist_select_all( GTK_CLIST(city_list));
   return TRUE;
 }
 
-gboolean
+static gboolean
 city_unselect_all_callback(GtkWidget *w, gpointer data)
 {
   gtk_clist_unselect_all( GTK_CLIST(city_list));
   return TRUE;
 }
 
-gboolean
+static gboolean
 city_invert_selection_callback(GtkWidget *w, gpointer data)
 {
   gint i;
@@ -583,7 +583,7 @@ city_invert_selection_callback(GtkWidget *w, gpointer data)
   return TRUE;
 }
 
-gboolean
+static gboolean
 city_select_coastal_callback(GtkWidget *w, gpointer data)
 {
   gint i;
@@ -601,7 +601,7 @@ city_select_coastal_callback(GtkWidget *w, gpointer data)
   return TRUE;
 }
 
-gboolean
+static gboolean
 city_select_same_island_callback(GtkWidget *w, gpointer data)
 {
   gint i;

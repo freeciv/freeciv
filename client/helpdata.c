@@ -873,10 +873,11 @@ char *helptext_unit_upkeep_str(int i)
   return buf;
 }
 
+#if 0
 /****************************************************************
   Similar to above, with eg: "1s/1h"
 *****************************************************************/
-char *helptext_unit_upkeep_str_short(int i)
+static char *helptext_unit_upkeep_str_short(int i)
 {
   static char buf[32];
   struct unit_type *utype = get_unit_type(i);
@@ -906,3 +907,4 @@ char *helptext_unit_upkeep_str_short(int i)
   }
   return buf;
 }
+#endif

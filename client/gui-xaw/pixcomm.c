@@ -60,8 +60,9 @@ extern Display	*display;
 extern Window root_window;
 extern int display_depth;
 
-static void Notify();
-static void ClassInitialize();
+static void Notify(Widget w, XEvent *event,
+		   String *params, Cardinal *num_params);
+static void ClassInitialize(void);
 
 static void Realize(Widget w, Mask *valueMask,
 		    XSetWindowAttributes *attributes);
@@ -214,7 +215,7 @@ static void Resize(Widget w)
  * Private Procedures
  *
  ****************************************************************/
-static void ClassInitialize()
+static void ClassInitialize(void)
 {
     XawInitializeWidgetSet();
 }

@@ -195,7 +195,7 @@ static void check_tilespec_capabilities(struct section_file *file,
   Returns the correct name of the gfx file (with path and extension)
   Must be free'd when no longer used
 ***********************************************************************/
-char *tilespec_gfx_filename(const char *gfx_filename)
+static char *tilespec_gfx_filename(const char *gfx_filename)
 {
   char **gfx_fileexts;
   char *full_name,*real_full_name,*gfx_current_fileext;

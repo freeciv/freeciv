@@ -129,7 +129,7 @@ If barbarians are dead, revive them with a new leader :-)
 Dead barbarians forget the map and lose the money.
 **************************************************************************/
 
-struct player *create_barbarian_player(int land)
+static struct player *create_barbarian_player(int land)
 {
   int newplayer = game.nplayers;
   struct player *barbarians;
