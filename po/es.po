@@ -1095,7 +1095,7 @@ msgstr ""
 #: server/maphand.c:439
 #, c-format
 msgid "Too few starts %d (need at least %d)."
-msgstr "Demasiado pocos puntos de partida %s (se necesita por lo menos %d)."
+msgstr "Demasiado pocos puntos de partida %d (se necesita por lo menos %d)."
 
 #: server/meta.c:195
 #, fuzzy, c-format
@@ -1182,7 +1182,7 @@ msgstr "¡El Historiador publica!"
 #: server/plrhand.c:176
 #, c-format
 msgid "%2d: The %s City of %s of size %d, with %d wonders\n"
-msgstr "%02d: El ciudad %s de %s de tamaño %d, con %d maravillas\n"
+msgstr "%2d: El ciudad %s de %s de tamaño %d, con %d maravillas\n"
 
 #: server/plrhand.c:182 server/plrhand.c:204
 #, fuzzy
@@ -1355,13 +1355,13 @@ msgstr "Juego: Aprendido %s. Científicos eligen a investigar %s."
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
 msgstr ""
-"Juego: Aprendido Tecnología Futura 1.  Investigando Tecnología futura %d."
+"Juego: Aprendido %s.  Científicos eligen a investigar Tecnología Futura 1."
 
 #: server/plrhand.c:1434
 #, fuzzy, c-format
 msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
 msgstr ""
-"Juego: Aprendido Tecnología Futura 1.  Investigando Tecnología futura %d."
+"Juego: Aprendido Tecnología Futura 1.  Investigando Tecnología Futura %d."
 
 #: server/plrhand.c:1444
 msgid ""
