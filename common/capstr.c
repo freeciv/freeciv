@@ -73,7 +73,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+Freeciv.Devel.2004.Sep.9"
+#define CAPABILITY "+Freeciv.Devel.2004.Sep.12"
 
 void init_our_capability(void)
 {

@@ -262,7 +262,7 @@ PACKET_AUTHENTICATION_REQ=6;sc,handle-per-conn,dsend
 end
 
 PACKET_AUTHENTICATION_REPLY=7;cs,no-handle
-  STRING password[MAX_LEN_NAME];
+  STRING password[MAX_LEN_PASSWORD];
 end
 
 

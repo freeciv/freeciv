@@ -45,7 +45,7 @@ struct packet_authentication_req {
 };
 
 struct packet_authentication_reply {
-  char password[MAX_LEN_NAME];
+  char password[MAX_LEN_PASSWORD];
 };
 
 struct packet_server_shutdown {

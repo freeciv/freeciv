@@ -40,6 +40,7 @@ struct timer_list;
 
 #define MAX_LEN_BUFFER   (MAX_LEN_PACKET * 128)
 #define MAX_LEN_CAPSTR    512
+#define MAX_LEN_PASSWORD  512 /* do not change this under any circumstances */
 
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
@@ -191,7 +192,7 @@ struct connection {
 
     /* used to follow where the connection is in the authentication process */
     enum auth_status status;
-    char password[MAX_LEN_NAME];
+    char password[MAX_LEN_PASSWORD];
   } server;
 
   /*

@@ -415,7 +415,7 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
 
     establish_new_connection(pconn);
   } else if (pconn->server.status == AS_REQUESTING_OLD_PASS) { 
-    if (strncmp(pconn->server.password, password, MAX_LEN_NAME) == 0) {
+    if (userdb_check_password(pconn, password, strlen(password)) == 1) {
       pconn->server.status = AS_ESTABLISHED;
       establish_new_connection(pconn);
     } else {

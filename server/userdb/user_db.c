@@ -60,6 +60,18 @@ static void fill_entry(struct section_file *sf,
 }
 
 /**************************************************************************
+  Check if the password with length len matches that given in 
+  pconn->server.password.
+  If so, return 1, else return 0. We return an int instead of boolean here
+  because external databases might not know what bool is.
+***************************************************************************/
+int userdb_check_password(struct connection *pconn, 
+		          const char *password, int len)
+{
+  return (strncmp(pconn->server.password, password, len) == 0) ? 1 : 0;
+}
+
+/**************************************************************************
  Loads a user from the database.
 **************************************************************************/
 enum userdb_status user_db_load(struct connection *pconn)

@@ -75,7 +75,7 @@ char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
 char server_host[512] = "\0";
 char user_name[512] = "\0";
-char password[MAX_LEN_NAME] = "\0";
+char password[MAX_LEN_PASSWORD] = "\0";
 char metaserver[512] = "\0";
 int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */

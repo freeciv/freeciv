@@ -29,6 +29,8 @@ enum userdb_status {
   USER_DB_NOT_FOUND
 };
 
+int userdb_check_password(struct connection *pconn,
+		          const char *password, int len);
 enum userdb_status user_db_load(struct connection *pconn);
 enum userdb_status user_db_save(struct connection *pconn);
 
