@@ -3,8 +3,7 @@ Die Installation von Freeciv
 ============================
 
 Diese Datei beschreibt die Compilierung und Installation von Freeciv.
-
-Stand: 22.05.01
+Stand: 17.06.01
 
 
 0. Voraussetzungen:
@@ -61,6 +60,7 @@ sollte man es einfach ausprobieren.
    Die Ausgabe von make sollte dann irgendwo die Zeichenkette "GNU Make"
    enthalten.
 
+
 1. Voraussetzungen der Clients:
 ===============================
 
@@ -78,6 +78,7 @@ die eigentlichen Libraries und die zur Programmentwicklung nötigen
 Dateien. D.h., daß man auf diesen Distributionen die entsprechenden
 "development"-Pakete installieren muß (gilt z.B. für Debian GNU/Linux,
 RedHat Linux und SuSE Linux).
+
 
 1a. Anforderungen des Xaw-Clients:
 ==================================
@@ -134,6 +135,7 @@ RedHat Linux und SuSE Linux).
      ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz
      ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz
    
+
 1b. Anforderungen des GTK+-Clients:
 ===================================
 
@@ -183,6 +185,7 @@ RedHat Linux und SuSE Linux).
    
 Compiliert man selbst, sollte (oder muß) folgende Reihenfolge
 eingehalten werden: Glib, Gtk+, Imlib
+
 
 2. Generierung des Makefiles:
 =============================
@@ -280,8 +283,8 @@ folgenden Schritte durchführen:
 Achtung: Seit der Freeciv Version 1.7.2 wird Imake nicht mehr
 unterstützt, und seit Version 1.8.1 gehört die Datei Makefile.noimake
 nicht mehr zur Freeciv-Distribution.
-    
-    
+
+
 3. Freeciv compilieren:
 =======================
 
@@ -311,6 +314,7 @@ README.de
 (Allerdings kann man so die Lokalisierung nicht benutzten. Um in der
 jeweiligen Landessprache (also Deutsch) zu spielen, muß man Freeciv
 installieren.)
+
 
 4. Installation:
 ================
@@ -349,7 +353,94 @@ Wenn man den Xaw-Client benutzt, sollte man die Datei data/Freeciv in
 das app-defaults Verzeichnis kopieren. (Normalerweise in
 /usr/lib/X11/app-defaults)
 
-5. Reiniers Hinweise zur Installation unter Solaris
+
+5. NLS (Unterstützung der Landessprache)
+=======================================================
+
+Freeciv benutzt "gettext", um die (alternativ zur Standardsprache,
+bei Freeciv ist das Englisch) lokale Sprache zu unterstützten. Die
+lokale Sprache wird über die Variable "LANG" gesetzt. Für ein
+deutsches Freeciv (oder auch andere Programme) sollte LANG auf
+"de_DE" gesetzt werden:
+
+ % setenv LANG "de_DE"    [ für die C-Shell oder die tcsh ]
+
+oder:
+
+ % export LANG="de_DE"    [ für die Bourne-Shell oder die bash ]
+
+Falls während des Durchlaufs von "configure" oder beim Compilieren
+Probleme mit "gettext" auftreten, können Sie folgende Work-Arounds
+ausprobieren:
+
+1. Falls Sie nur englische Programmeldungen wünschen oder brauchen,
+   können Sie NLS mittels "--disable-nls" beim Aufruf von "configure"
+   abschalten:
+
+     % ./configure --disable-nls
+     % make
+
+2. Falls sie ein eingedeutschtes Freeciv möchten, können sie es mit dem
+   von Freeciv mitgebrachten "gettext" versuchen, mittels
+   "--with-included-gettext" beim Aufruf von configure:
+
+     % ./configure --with-included-gettext
+     % make
+
+3. Schließlich können sie noch versuchen, die neueste Version von GNU
+   gettext zu installieren. Sie können diese Version hier downloaden:
+
+     ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
+
+
+6. Unterstützung von Readline
+=============================
+
+Freeciv unterstützt optional die Unterstützung der Readline-Library
+
+Mit der Unterstützung der Readline-Library wird es im Server möglich
+ - die Backspace-Taste zu benutzen
+ - sich mit den Cursortasten in der Eingabezeile hin- und herzubewegen
+ - mit TAB Befehle und Befehlsargumente wie auf der Shell automatisch zu
+   vervollständigen, z.B. wenn Tab gedrückt wird, dann vervollständigt der
+   Server das Wort, falls es nur eine mögliche Auswahl gibt.
+ - sich mit den Cursortasten durch eine History der eingegebenen Kommandos zu
+   bewegen
+ - usw.
+
+Das configure-skript prüft automatisch, ob readline installiert ist. Wenn ja,
+wird readline automatisch in den Server eincompiliert, wenn nicht, wird der
+Server ohne weitere Kommentare ohne readline compiliert.
+Die benötigte Version von readline ist >=4.2
+Sie können configure dazu "zwingen", readline zu benutzen, indem sie configure
+die Option "--with-readline" mitgeben:
+
+ % ./configure --with-readline
+
+Bei einigen Linux-Distributionen (und evtl. auch andere Betriebssystemen) ist
+readline in der Version 4 nicht korrekt installiert, und zwar so, daß
+readline nicht konfiguriert ist, seine dynamischen Abhängigkeiten zu
+deklarieren. In diesem Fall wird sich configure so verhalten, als ob readline
+nicht installiert ist und wird ohne deren Unterstützung kompilieren. Unter
+Un*x kann man nachprüfen, ob readline korrekt installiert ist durch:
+
+ % ldd /usr/lib/libreadline.so
+
+Dabei sollten so etwas wie folgende Zeilen ausgegeben werden:
+
+   libncurses.so.5 => /lib/libncurses.so.5 (0x4002e000)
+   libc.so.6 => /lib/libc.so.6 (0x4006e000)
+   /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x2aaaa000)
+
+(/usr/lib/readline.so ist durch den Pfad zu Ihrer readline-Library zu
+ersetzen). Wenn die Abhängigkeit zu curses (oder etwas vergleichbarem)
+aufgeführt ist, sollte es funktionieren. Falls nicht, und freeciv configure
+kann readline nicht zum laufen bewegen, dann ist readline nicht richtig
+installiert. In diesem Fall ist es unter Umständen angebracht, demjenigen, der
+für Ihre readline-Library verantwortlich ist, einen Bugreport zu schicken.
+
+
+7. Reiniers Hinweise zur Installation unter Solaris
 ===================================================
 
 Von Hause aus kommt Solaris (Version 2.5 und höher) mit einem eigenen X
@@ -399,7 +490,8 @@ nur GNU Tools benutzt werden. Des weiteren compiliert Freeciv auch unter
 MIT X und bestimmten Kombinationen aus GNU und Sun-Tools, wobei das
 genaue Vorgehen von der lokalen Installation abhängt.
 
-6. Reinier's Installationshinweise  zur libXpm unter Solaris:
+
+8. Reinier's Installationshinweise  zur libXpm unter Solaris:
 =============================================================
 
 Als ich root auf meinem Solarissystem war, wollte ich trotzdem keine
@@ -447,87 +539,30 @@ Der Ablauf:
   Optionen -I/-L/-R entsprechend gesetzt werden.
 	
 
-7. NLS (Unterstützung der Landessprache)
-=======================================================
+9. Hinweise zu Mac Betriesbssystemen und Darwin:
+================================================
 
-Freeciv benutzt "gettext", um die (alternativ zur Standardsprache,
-bei Freeciv ist das Englisch) lokale Sprache zu unterstützten. Die
-lokale Sprache wird über die Variable "LANG" gesetzt. Für ein
-deutsches Freeciv (oder auch andere Programme) sollte LANG auf
-"de_DE" gesetzt werden:
+Apples GCC Version unterstützt nicht alle Erweiterungen des "normalen" GCCs.
+Prüfen Sie deshalb, ob die Systemvariable
 
- % setenv LANG "de_DE"    [ für die C-Shell oder die tcsh ]
+	CC=gcc -no-cpp-precomp
 
-oder:
+gesetzt ist. Sollte dies nicht der Fall sein, müssen Sie
+anstatt der Anweisung
 
- % export LANG="de_DE"    [ für die Bourne-Shell oder die bash ]
+	> ./configure [...]
 
-Falls während des Durchlaufs von "configure" oder beim Compilieren
-Probleme mit "gettext" auftreten, können Sie folgende Work-Arounds
-ausprobieren:
+die Anweisung
 
-1. Falls Sie nur englische Programmeldungen wünschen oder brauchen,
-   können Sie NLS mittels "--disable-nls" beim Aufruf von "configure"
-   abschalten:
+	> CC="gcc -no-cpp-precomp" ./configure [...] 		# Bourne Shell
+	bzw.
+	% env CC="gcc -no-cpp-precomp" ./configure [...]	# C Shell
 
-     % ./configure --disable-nls
-     % make
+eingeben.
 
-2. Falls sie ein eingedeutschtes Freeciv möchten, können sie es mit dem
-   von Freeciv mitgebrachten "gettext" versuchen, mittels
-   "--with-included-gettext" beim Aufruf von configure:
+HINWEISE:
+- [...] steht für die etwaigen Optionen von "configure".
 
-     % ./configure --with-included-gettext
-     % make
-
-3. Schließlich können sie noch versuchen, die neueste Version von GNU
-   gettext zu installieren. Sie können diese Version hier downloaden:
-
-     ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
-
-
-8. Unterstützung von Readline
-=============================
-
-Freeciv unterstützt optional die Unterstützung der Readline-Library
-
-Mit der Unterstützung der Readline-Library wird es im Server möglich
- - die Backspace-Taste zu benutzen
- - sich mit den Cursortasten in der Eingabezeile hin- und herzubewegen
- - mit TAB Befehle und Befehlsargumente wie auf der Shell automatisch zu
-   vervollständigen, z.B. wenn Tab gedrückt wird, dann vervollständigt der
-   Server das Wort, falls es nur eine mögliche Auswahl gibt.
- - sich mit den Cursortasten durch eine History der eingegebenen Kommandos zu
-   bewegen
- - usw.
-
-Das configure-skript prüft automatisch, ob readline installiert ist. Wenn ja,
-wird readline automatisch in den Server eincompiliert, wenn nicht, wird der
-Server ohne weitere Kommentare ohne readline compiliert.
-Die benötigte Version von readline ist >=4.2
-Sie können configure dazu "zwingen", readline zu benutzen, indem sie configure
-die Option "--with-readline" mitgeben:
-
- % ./configure --with-readline
-
-Bei einigen Linux-Distributionen (und evtl. auch andere Betriebssystemen) ist
-readline in der Version 4 nicht korrekt installiert, und zwar so, daß
-readline nicht konfiguriert ist, seine dynamischen Abhängigkeiten zu
-deklarieren. In diesem Fall wird sich configure so verhalten, als ob readline
-nicht installiert ist und wird ohne deren Unterstützung kompilieren. Unter
-Un*x kann man nachprüfen, ob readline korrekt installiert ist durch:
-
- % ldd /usr/lib/libreadline.so
-
-Dabei sollten so etwas wie folgende Zeilen ausgegeben werden:
-
-   libncurses.so.5 => /lib/libncurses.so.5 (0x4002e000)
-   libc.so.6 => /lib/libc.so.6 (0x4006e000)
-   /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x2aaaa000)
-
-(/usr/lib/readline.so ist durch den Pfad zu Ihrer readline-Library zu
-ersetzen). Wenn die Abhängigkeit zu curses (oder etwas vergleichbarem)
-aufgeführt ist, sollte es funktionieren. Falls nicht, und freeciv configure
-kann readline nicht zum laufen bewegen, dann ist readline nicht richtig
-installiert. In diesem Fall ist es unter Umständen angebracht, demjenigen, der
-für Ihre readline-Library verantwortlich ist, einen Bugreport zu schicken.
+- Da sich diese Problematik nicht nur bei der Konfiguration von "freeciv"
+  ergibt, empfiehlt sich die Systemvariable CC standardmäßig mit der Option
+  "-no-cpp-precomp" zu setzen.
