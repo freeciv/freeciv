@@ -71,6 +71,12 @@ enum city_options {
   CITYO_DISBAND, CITYO_NEW_EINSTEIN, CITYO_NEW_TAXMAN
 };
 
+/* first four bits are for auto-attack: */
+#define CITYOPT_AUTOATTACK_BITS 0xF
+
+/* for new city: default auto-attack options all on, others off: */
+#define CITYOPT_DEFAULT (CITYOPT_AUTOATTACK_BITS)
+
 #define min(X, Y) ((X)>(Y) ? (Y) : (X))
 #define max(X, Y) ((X)<(Y) ? (Y) : (X))
 #define get_government(X) (game.players[X].government)

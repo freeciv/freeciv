@@ -1241,7 +1241,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
       pcity->airlift=0;
 
     pcity->city_options =
-      secfile_lookup_int_default(file, 0,
+      secfile_lookup_int_default(file, CITYOPT_DEFAULT,
 				 "player%d.c%d.options", plrno, i);
     
     unit_list_init(&pcity->units_supported);

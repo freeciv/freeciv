@@ -121,7 +121,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   }
   pcity->anarchy=0;
 
-  pcity->city_options = 0;
+  pcity->city_options = CITYOPT_DEFAULT;
   
   pcity->ai.ai_role = AICITY_NONE;
   pcity->ai.trade_want = 8; /* default value */

@@ -212,8 +212,9 @@ void auto_attack_player(struct player *pplayer)
   freelog(LOG_DEBUG, "doing auto_attack for: %s",pplayer->name);
 
   city_list_iterate(pplayer->cities, pcity) {
-    /* fasten things up -- fisch   (0xF = any of first four bits) */
-    if ((pcity->city_options & 0xF) && !pcity->anarchy) {
+    /* fasten things up -- fisch */
+    if ((pcity->city_options & CITYOPT_AUTOATTACK_BITS)
+	&& !pcity->anarchy) {
       auto_attack_city(pplayer, pcity);
     }
   }
