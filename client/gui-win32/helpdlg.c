@@ -304,10 +304,10 @@ static void create_unit_page(struct fcwin_box *vbox)
   struct fcwin_box *hbox;
   struct fcwin_box *vbox_labels;
   fcwin_box_add_generic(vbox,unit_minsize,unit_setsize,NULL,NULL,FALSE,FALSE,5);
-  hbox=fcwin_hbox_new(helpdlg_win,TRUE);
+  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
   for(x=0;x<5;x++) {
-    vbox_labels=fcwin_vbox_new(helpdlg_win,FALSE);
+    vbox_labels=fcwin_vbox_new(helpdlg_win,TRUE);
     fcwin_box_add_box(hbox,vbox_labels,TRUE,TRUE,15);
     for(y=0;y<4;y++) {
       help_ulabel[y][x]=
