@@ -843,8 +843,8 @@ struct packet_ruleset_terrain_control {
   bool may_irrigate;
   bool may_mine;
   bool may_transform;
-  int ocean_reclaim_requirement;
-  int land_channel_requirement;
+  int ocean_reclaim_requirement_pct;
+  int land_channel_requirement_pct;
   enum special_river_move river_move_mode;
   int river_defense_bonus;
   int river_trade_incr;

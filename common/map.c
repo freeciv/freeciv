@@ -990,20 +990,9 @@ a sufficient number of adjacent tiles that are not ocean.
 **************************************************************************/
 bool can_reclaim_ocean(int x, int y)
 {
-  int landtiles = terrain_control.ocean_reclaim_requirement;
+  int land_tiles = 100 - count_ocean_near_tile(x, y, FALSE, TRUE);
 
-  if (landtiles >= 9)
-    return FALSE;
-  if (landtiles <= 0)
-    return TRUE;
-
-  adjc_iterate(x, y, x1, y1) {
-    if (!is_ocean(map_get_tile(x1, y1)->terrain))
-      if (--landtiles == 0)
-	return TRUE;	
-  } adjc_iterate_end;
-
-  return FALSE;
+  return land_tiles >= terrain_control.ocean_reclaim_requirement_pct;
 }
 
 /**************************************************************************
@@ -1013,20 +1002,9 @@ a sufficient number of adjacent tiles that are ocean.
 **************************************************************************/
 bool can_channel_land(int x, int y)
 {
-  int oceantiles = terrain_control.land_channel_requirement;
+  int ocean_tiles = count_ocean_near_tile(x, y, FALSE, TRUE);
 
-  if (oceantiles >= 9)
-    return FALSE;
-  if (oceantiles <= 0)
-    return TRUE;
-
-  adjc_iterate(x, y, x1, y1) {
-    if (is_ocean(map_get_tile(x1, y1)->terrain))
-      if (--oceantiles == 0)
-	return TRUE;
-  } adjc_iterate_end;
-
-  return FALSE;
+  return ocean_tiles >= terrain_control.land_channel_requirement_pct;
 }
 
 /***************************************************************

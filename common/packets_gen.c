@@ -23182,7 +23182,7 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->ocean_reclaim_requirement = readin;
+      real_packet->ocean_reclaim_requirement_pct = readin;
     }
   }
   if (BV_ISSET(fields, 5)) {
@@ -23190,7 +23190,7 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->land_channel_requirement = readin;
+      real_packet->land_channel_requirement_pct = readin;
     }
   }
   if (BV_ISSET(fields, 6)) {
@@ -23366,11 +23366,11 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
   if(differ) {different++;}
   if(packet->may_transform) {BV_SET(fields, 3);}
 
-  differ = (old->ocean_reclaim_requirement != real_packet->ocean_reclaim_requirement);
+  differ = (old->ocean_reclaim_requirement_pct != real_packet->ocean_reclaim_requirement_pct);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (old->land_channel_requirement != real_packet->land_channel_requirement);
+  differ = (old->land_channel_requirement_pct != real_packet->land_channel_requirement_pct);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
@@ -23449,10 +23449,10 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
   /* field 2 is folded into the header */
   /* field 3 is folded into the header */
   if (BV_ISSET(fields, 4)) {
-    dio_put_uint8(&dout, real_packet->ocean_reclaim_requirement);
+    dio_put_uint8(&dout, real_packet->ocean_reclaim_requirement_pct);
   }
   if (BV_ISSET(fields, 5)) {
-    dio_put_uint8(&dout, real_packet->land_channel_requirement);
+    dio_put_uint8(&dout, real_packet->land_channel_requirement_pct);
   }
   if (BV_ISSET(fields, 6)) {
     dio_put_uint8(&dout, real_packet->river_move_mode);

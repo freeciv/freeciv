@@ -22,13 +22,13 @@ may_transform=1      ; 0 means no, 1 means yes
 
 [parameters]
 
-; number of "land" tiles required to be adjacent to an ocean tile before
-; it may be "reclaimed" into a land tile (0-9; 0=anywhere, 9=nowhere)
-ocean_reclaim_requirement=3
+; Percentage of "land" tiles required to be adjacent to an ocean tile before
+; it may be "reclaimed" into a land tile (0-101; 0=anywhere, 101=nowhere)
+ocean_reclaim_requirement=30
 
-; number of "ocean" tiles required to be adjacent to a land tile before
-; it may be "channeled" into an ocean tile (0-9; 0=anywhere, 9=nowhere)
-land_channel_requirement=1
+; Percentage of "ocean" tiles required to be adjacent to a land tile before
+; it may be "channeled" into an ocean tile (0-101; 0=anywhere, 101=nowhere)
+land_channel_requirement=10
 
 ; special movement costs for rivers:
 ;   0 - normal movement cost for rivers (matches Civ1)
