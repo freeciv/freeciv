@@ -35,7 +35,7 @@
 
 static void page_conn_etype(struct conn_list *dest, const char *caption,
 			    const char *headline, const char *lines,
-			    int event);
+			    enum event_type event);
 enum historian_type {
         HISTORIAN_RICHEST=0, 
         HISTORIAN_ADVANCED=1,
@@ -1172,7 +1172,7 @@ event == E_BROADCAST_REPORT: message can safely be ignored by clients
 **************************************************************************/
 static void page_conn_etype(struct conn_list *dest, const char *caption,
 			    const char *headline, const char *lines,
-			    int event)
+			    enum event_type event)
 {
   int len;
   struct packet_generic_message genmsg;

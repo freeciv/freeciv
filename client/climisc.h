@@ -13,6 +13,7 @@
 #ifndef FC__CLIMISC_H
 #define FC__CLIMISC_H
 
+#include "events.h"
 #include "shared.h"		/* MAX_LEN_NAME */
 
 struct city;
@@ -107,7 +108,8 @@ int num_present_units_in_city(struct city* pcity);
 int num_supported_units_in_city(struct city* pcity);	
 
 char *get_spaceship_descr(struct player_spaceship *pship);
-void create_event(int x, int y, int event, const char *format, ...)
+void create_event(int x, int y, enum event_type event,
+		  const char *format, ...)
      fc__attribute((format (printf, 4, 5)));
 void write_chatline_content(const char *txt);
 

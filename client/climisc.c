@@ -946,7 +946,8 @@ char *get_spaceship_descr(struct player_spaceship *pship)
   Creates a struct packet_generic_message packet and injects it via
   handle_chat_msg.
 **************************************************************************/
-void create_event(int x, int y, int event, const char *format, ...)
+void create_event(int x, int y, enum event_type event,
+		  const char *format, ...)
 {
   va_list ap;
   struct packet_generic_message packet;

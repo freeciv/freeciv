@@ -1826,8 +1826,8 @@ void building_lost(struct city *pcity, int id)
 /**************************************************************************
   Change the build target.
 **************************************************************************/
-void change_build_target(struct player *pplayer, struct city *pcity, 
-			 int target, bool is_unit, int event)
+void change_build_target(struct player *pplayer, struct city *pcity,
+			 int target, bool is_unit, enum event_type event)
 {
   char *name;
   const char *source;
@@ -1875,14 +1875,19 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   }
 
   /* Tell the player what's up. */
-  if (event != 0)
+  /* FIXME: this may give bad grammar when translated if the 'source'
+   * string can have multiple values. */
+  if (event != E_NOEVENT) {
     notify_player_ex(pplayer, pcity->x, pcity->y, event,
+		     /* TRANS: "<city> is building <production><source>." */
 		     _("Game: %s is building %s%s."),
 		     pcity->name, name, source);
-  else
+  } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
+		     /* TRANS: "<city> is building <production>." */
 		     _("Game: %s is building %s."), 
 		     pcity->name, name);
+  }
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */

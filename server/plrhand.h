@@ -15,6 +15,7 @@
 
 #include <stdarg.h>
 
+#include "events.h"
 #include "packets.h"
 #include "shared.h"		/* fc__attribute */
 
@@ -46,15 +47,16 @@ void maybe_make_contact(int x, int y, struct player *pplayer);
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
 
-void notify_conn_ex(struct conn_list *dest, int x, int y, int event,
-		    const char *format, ...) 
+void notify_conn_ex(struct conn_list *dest, int x, int y,
+		    enum event_type event, const char *format, ...)
                     fc__attribute((format (printf, 5, 6)));
-void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
-		     const char *format, va_list vargs);
+void vnotify_conn_ex(struct conn_list *dest, int x, int y,
+		     enum event_type event, const char *format,
+		     va_list vargs);
 void notify_conn(struct conn_list *dest, const char *format, ...) 
                  fc__attribute((format (printf, 2, 3)));
 void notify_player_ex(const struct player *pplayer, int x, int y,
-		      int event, const char *format, ...)
+		      enum event_type event, const char *format, ...)
                       fc__attribute((format (printf, 5, 6)));
 void notify_player(const struct player *pplayer, const char *format, ...)
                    fc__attribute((format (printf, 2, 3)));

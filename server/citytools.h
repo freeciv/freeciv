@@ -14,6 +14,7 @@
 #define FC__CITYTOOLS_H
 
 #include "city.h"
+#include "events.h"
 #include "nation.h"		/* for struct city_name */
 #include "packets.h"
 
@@ -79,8 +80,8 @@ void remove_trade_route(struct city *pc1, struct city *pc2);
 
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
 void building_lost(struct city *pcity, int id);
-void change_build_target(struct player *pplayer, struct city *pcity, 
-			 int target, bool is_unit, int event);
+void change_build_target(struct player *pplayer, struct city *pcity,
+			 int target, bool is_unit, enum event_type event);
 
 bool is_allowed_city_name(struct player *pplayer, const char *city_name,
 			  int x, int y, bool notify_player);
