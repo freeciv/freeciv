@@ -39,6 +39,8 @@
 #include <packets.h>
 #include <stdinhand.h>
 #include <meta.h>
+#include <advmilitary.h>
+#include <aihand.h>
 
 void show_ending();
 void end_game();

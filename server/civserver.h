@@ -28,6 +28,7 @@ void handle_request_move_unit(int player_no, struct packet_move_unit *packet);
 void handle_request_join_game(struct connection *pconn, 
 			      struct packet_req_join_game *request);
 void handle_turn_done(int player_no);
+void accept_new_player(char *name, struct connection *pconn);
 
 void send_year_to_clients(int year);
 void send_game_info(struct player *dest);

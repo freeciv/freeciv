@@ -32,6 +32,7 @@
 #include <shared.h>
 #include <aiunit.h>
 #include <unittools.h>
+#include <unitfunc.h>
 
 /**************************************************************************
   unit can be moved if:

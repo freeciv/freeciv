@@ -23,6 +23,7 @@
 #include <cityturn.h>
 #include <citytools.h>
 #include <unit.h>
+#include <unittools.h>
 #include <city.h>
 #include <player.h>
 #include <tech.h>

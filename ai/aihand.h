@@ -13,6 +13,7 @@
 #ifndef __AIHAND_H
 #define __AIHAND_H
 
-void ai_do_activities(struct player *pplayer);
+void ai_do_first_activities(struct player *pplayer);
+void ai_do_last_activities(struct player *pplayer);
 
 #endif
