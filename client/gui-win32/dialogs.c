@@ -442,18 +442,18 @@ static void add_nations(struct fcwin_box *vbox)
   int i;
   struct fcwin_box *hbox;
   struct fcwin_box *vboxes[NATIONS_PER_ROW];
-  struct genlist nation_list;
+  struct genlist *nation_list;
   struct genlist_link *myiter;
-  genlist_init(&nation_list);
+  nation_list = genlist_new();
   for(i=0; i<game.playable_nation_count; i++) { 
     /* Don't use a NULL pointer */
-    genlist_prepend(&nation_list,(void *)(i+ID_RACESDLG_NATION_BASE),0);
+    genlist_prepend(nation_list, (void *)(i + ID_RACESDLG_NATION_BASE));
   }
-  genlist_sort(&nation_list,cmp_func);
+  genlist_sort(nation_list, cmp_func);
   for(i=0;i<NATIONS_PER_ROW;i++) {  
     vboxes[i]=fcwin_vbox_new(races_dlg,TRUE);
   }
-  myiter = nation_list.head_link;
+  myiter = nation_list->head_link;
   i=0;
   for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter),i++) {
     int id;
@@ -464,7 +464,7 @@ static void add_nations(struct fcwin_box *vbox)
 			      get_nation_name(id-ID_RACESDLG_NATION_BASE),
 			      id,0,FALSE,FALSE,0);			      
   }
-  genlist_unlink_all(&nation_list);
+  genlist_unlink_all(nation_list);
   hbox=fcwin_hbox_new(races_dlg,TRUE);
   for(i=0;i<NATIONS_PER_ROW;i++)
     fcwin_box_add_box(hbox,vboxes[i],TRUE,TRUE,10);
@@ -709,7 +709,7 @@ popup_unit_select_dialog(struct tile *ptile)
   RECT rc,rc2;
   HBITMAP old;
   HDC unitsel_dc;
-  struct unit *unit_list[unit_list_size(&ptile->units)];
+  struct unit *unit_list[unit_list_size(ptile->units)];
   
   fill_tile_unit_list(ptile, unit_list);
   
@@ -731,7 +731,7 @@ popup_unit_select_dialog(struct tile *ptile)
     return;
   hdc=GetDC(unit_select_main);
   unitsel_dc=CreateCompatibleDC(NULL);
-  n=unit_list_size(&ptile->units);
+  n = unit_list_size(ptile->units);
   r=number_of_rows(n);
   c=number_of_columns(n);
   max_width=0;
@@ -1569,7 +1569,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
 
     diplomat_dialog_open=1;
    }else{ 
-     if ((ptunit = unit_list_get(&ptile->units, 0))){
+     if ((ptunit = unit_list_get(ptile->units, 0))){
        /* Spy/Diplomat acting against a unit */ 
        
        diplomat_target_id=ptunit->id;

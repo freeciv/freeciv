@@ -76,7 +76,7 @@ enum cmagui_ids {
 
 static void handle_hscroll(HWND win, HWND winctl, UINT code, int pos);
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list;
 static bool dialog_list_has_been_initialised = FALSE;
 static int allow_refreshes = 1;
 
@@ -87,7 +87,7 @@ static int allow_refreshes = 1;
 static void ensure_initialised_dialog_list(void)
 {
   if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_has_been_initialised = TRUE;
   }
 }
@@ -495,7 +495,7 @@ static struct cma_dialog * create_cma_gui(HWND win)
   fcwin_set_box(win, vbox);
   ensure_initialised_dialog_list();
   
-  dialog_list_prepend(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
   
   
   return pdialog;
@@ -591,7 +591,7 @@ LONG CALLBACK cma_proc(HWND win, UINT message,
     case WM_DESTROY:
       break;
       if (guidata) {
-	dialog_list_unlink(&dialog_list, guidata->pdialog);
+	dialog_list_unlink(dialog_list, guidata->pdialog);
 	free(guidata->pdialog);
 	free(guidata);
       }

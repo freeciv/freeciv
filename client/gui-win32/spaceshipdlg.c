@@ -62,7 +62,7 @@ struct spaceship_dialog {
     TYPED_LIST_ITERATE(struct spaceship_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list;
 static bool dialog_list_has_been_initialised = FALSE;
 
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
@@ -78,7 +78,7 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
 {
   if (!dialog_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_has_been_initialised = TRUE;
   }
 
@@ -174,7 +174,7 @@ static LONG CALLBACK spaceship_proc(HWND dlg,UINT message,
     DestroyWindow(dlg);
     break;
   case WM_DESTROY:
-    dialog_list_unlink(&dialog_list, pdialog);
+    dialog_list_unlink(dialog_list, pdialog);
     free(pdialog);
     break;
   case WM_COMMAND:
@@ -240,7 +240,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   fcwin_box_add_box(vbox,hbox,TRUE,TRUE,5);
   fcwin_set_box(pdialog->mainwin,vbox);
   
-  dialog_list_prepend(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
   refresh_spaceship_dialog(pdialog->pplayer);
 
   return pdialog;

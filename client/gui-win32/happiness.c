@@ -176,7 +176,7 @@ static void happiness_dialog_update_cities(struct happiness_dlg
   struct city *pcity = pdialog->pcity;
   struct player *pplayer = &game.players[pcity->owner];
   struct government *g = get_gov_pcity(pcity);
-  int cities = city_list_size(&pplayer->cities);
+  int cities = city_list_size(pplayer->cities);
   int content = game.unhappysize;
   int basis = game.cityfactor + g->empire_size_mod;
   int step = g->empire_size_inc;

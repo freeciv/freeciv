@@ -499,7 +499,7 @@ static int get_lanservers(HWND list)
   if (server_list != NULL) {
     ListView_DeleteAllItems(list);
 
-    server_list_iterate(*server_list, pserver) {
+    server_list_iterate(server_list, pserver) {
 
       row[0] = pserver->host;
       row[1] = pserver->port;
@@ -542,7 +542,7 @@ static int get_meta_list(HWND list, char *errbuf, int n_errbuf)
   for (i = 0; i < 6; i++)
     row[i] = buf[i];
 
-  server_list_iterate(*server_list, pserver) {
+  server_list_iterate(server_list, pserver) {
     sz_strlcpy(buf[0], pserver->host);
     sz_strlcpy(buf[1], pserver->port);
     sz_strlcpy(buf[2], pserver->version);

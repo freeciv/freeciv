@@ -92,7 +92,7 @@ struct Diplomacy_dialog {
     TYPED_LIST_ITERATE(struct Diplomacy_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-static struct dialog_list dialog_list;
+static struct dialog_list *dialog_list;
 static bool dialog_list_list_has_been_initialised = FALSE;
 
 static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id);
@@ -206,7 +206,7 @@ static void popup_cities_menu(struct Diplomacy_dialog *pdialog,int plr)
   menu=CreatePopupMenu();
   plr0=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
   plr1=plr?pdialog->treaty.plr0:pdialog->treaty.plr1;
-  n=city_list_size(&plr0->cities);
+  n=city_list_size(plr0->cities);
   if (n>0) {
     city_list_ptrs = fc_malloc(sizeof(struct city*)*n);
   } else {
@@ -448,7 +448,7 @@ static LONG CALLBACK diplomacy_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM l
   case WM_DESTROY:
     if (pdialog->menu_shown)
       DestroyMenu(pdialog->menu_shown);
-    dialog_list_unlink(&dialog_list, pdialog);
+    dialog_list_unlink(dialog_list, pdialog);
     free(pdialog);
     break;
   case WM_COMMAND:
@@ -589,7 +589,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
   struct Diplomacy_dialog *pdialog;
 
   pdialog=fc_malloc(sizeof(struct Diplomacy_dialog));  
-  dialog_list_prepend(&dialog_list, pdialog);
+  dialog_list_prepend(dialog_list, pdialog);
   pdialog->menu_shown=NULL;
   init_treaty(&pdialog->treaty, plr0, plr1);
 
@@ -689,7 +689,7 @@ static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id)
   struct player *plr0 = game.player_ptr, *plr1 = get_player(other_player_id);
 
   if(!dialog_list_list_has_been_initialised) {
-    dialog_list_init(&dialog_list);
+    dialog_list = dialog_list_new();
     dialog_list_list_has_been_initialised = TRUE;
   }
 
@@ -804,7 +804,7 @@ void close_all_diplomacy_dialogs(void)
     return;
   }
 
-  while (dialog_list_size(&dialog_list) > 0) {
-    close_diplomacy_dialog(dialog_list_get(&dialog_list, 0));
+  while (dialog_list_size(dialog_list) > 0) {
+    close_diplomacy_dialog(dialog_list_get(dialog_list, 0));
   }
 }
