@@ -155,11 +155,11 @@ popup_bribe_dialog(struct unit *punit)	// HOOK
 
 
 void
-popup_pillage_dialog(struct unit *punit, int may_pillage)	// HOOK
+popup_pillage_dialog(struct unit *punit, enum tile_special_type may_pillage)	// HOOK
 {
     BMessage *msg = new BMessage( UI_POPUP_PILLAGE_DIALOG );
     msg->AddPointer( "unit", punit );
-    msg->AddBool( "allowed", !!may_pillage );
+    msg->AddInt32( "allowed", may_pillage );
     ui->PostMessage( msg );
 }
 

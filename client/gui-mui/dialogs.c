@@ -1186,16 +1186,18 @@ static void pillage_button(struct popup_message_data *msg)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_pillage_dialog(struct unit *punit, int may_pillage)
+void popup_pillage_dialog(struct unit *punit,
+			  enum tile_special_type may_pillage)
 {
   if(!is_showing_pillage_dialog)
   {
-    int may_pillage_save = may_pillage;
+    enum tile_special_type may_pillage_save = may_pillage;
     int count=0;
 
-    while (may_pillage)
+    while (may_pillage != S_NO_SPECIAL)
     {
-      int what = get_preferred_pillage(may_pillage);
+      enum tile_special_type what = get_preferred_pillage(may_pillage);
+
       may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
       count++;
     }
@@ -1214,7 +1216,7 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 
 	for(i=0;i<count;i++)
 	{
-	  int what = get_preferred_pillage (may_pillage);
+	  enum tile_special_type what = get_preferred_pillage (may_pillage);
 	
           msg_dlg[i].label = mystrdup(map_get_infrastructure_text(what));
           msg_dlg[i].function = (APTR)pillage_button;

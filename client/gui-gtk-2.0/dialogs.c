@@ -1374,10 +1374,10 @@ static gint pillage_del_callback(GtkWidget *widget, GdkEvent *event,
 /****************************************************************
 ...
 *****************************************************************/
-void popup_pillage_dialog(struct unit *punit, int may_pillage)
+void popup_pillage_dialog(struct unit *punit,
+			  enum tile_special_type may_pillage)
 {
   GtkWidget *dshell, *button, *dlabel, *vbox;
-  int what;
 
   if (!is_showing_pillage_dialog) {
     is_showing_pillage_dialog = TRUE;
@@ -1399,8 +1399,9 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 
     gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)top_vbox);
 
-    while (may_pillage) {
-      what = get_preferred_pillage (may_pillage);
+    while (may_pillage != S_NO_SPECIAL) {
+      enum tile_special_type what = get_preferred_pillage (may_pillage);
+
       button = gtk_button_new_with_label (map_get_infrastructure_text (what));
       gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
       gtk_signal_connect (

@@ -1404,10 +1404,10 @@ static void pillage_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void popup_pillage_dialog(struct unit *punit, int may_pillage)
+void popup_pillage_dialog(struct unit *punit,
+			  enum tile_special_type may_pillage)
 {
   Widget shell, form, dlabel, button, prev;
-  int what;
 
   if (is_showing_pillage_dialog) {
     return;
@@ -1424,7 +1424,8 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 
   prev = dlabel;
   while (may_pillage) {
-    what = get_preferred_pillage (may_pillage);
+    enum tile_special_type what = get_preferred_pillage(may_pillage);
+
     button =
       XtVaCreateManagedWidget ("button", commandWidgetClass, form,
 			       XtNfromVert, prev,

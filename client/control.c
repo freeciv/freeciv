@@ -899,7 +899,7 @@ void request_unit_pillage(struct unit *punit)
 
   if ((game.rgame.pillage_select) &&
       ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
-    popup_pillage_dialog(punit, (pspresent & (~psworking)) != S_NO_SPECIAL);
+    popup_pillage_dialog(punit, (pspresent & (~psworking)));
   } else {
     request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what);
   }

@@ -14,6 +14,7 @@
 #define FC__DIALOGS_G_H
 
 #include "shared.h"		/* bool type */
+#include "terrain.h"		/* enum tile_special_type */
 
 struct tile;
 struct unit;
@@ -40,7 +41,8 @@ bool diplomat_dialog_is_open(void);
 void popup_incite_dialog(struct city *pcity);
 void popup_bribe_dialog(struct unit *punit);
 void popup_sabotage_dialog(struct city *pcity);
-void popup_pillage_dialog(struct unit *punit, int may_pillage);
+void popup_pillage_dialog(struct unit *punit,
+			  enum tile_special_type may_pillage);
 void popup_unit_connect_dialog (struct unit *punit, int dest_x, int dest_y);
 
 #endif  /* FC__DIALOGS_G_H */

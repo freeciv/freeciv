@@ -1725,10 +1725,9 @@ static LONG CALLBACK pillage_proc(HWND dlg,UINT message,
 /**************************************************************************
 
 **************************************************************************/
-void
-popup_pillage_dialog(struct unit *punit, int may_pillage)
+void popup_pillage_dialog(struct unit *punit,
+			  enum tile_special_type may_pillage)
 {
-  int what;
   HWND dlg;
   struct fcwin_box *vbox;
   if (!is_showing_pillage_dialog) {
@@ -1741,8 +1740,9 @@ popup_pillage_dialog(struct unit *punit, int may_pillage)
     vbox=fcwin_vbox_new(dlg,FALSE);
     fcwin_box_add_static(vbox,_("Select what to pillage:"),0,SS_LEFT,
 			 FALSE,FALSE,10);
-    while(may_pillage) {
-      what=get_preferred_pillage(may_pillage);
+    while(may_pillage != S_NO_SPECIAL) {
+      enum tile_special_type what = get_preferred_pillage(may_pillage);
+
       fcwin_box_add_button(vbox,map_get_infrastructure_text(what),
 			   ID_PILLAGE_BASE+what,0,TRUE,FALSE,5);
       may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));

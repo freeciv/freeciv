@@ -95,7 +95,7 @@ popup_sabotage_dialog(struct city *pcity)
 }
 
 void
-popup_pillage_dialog(struct unit *punit, int may_pillage)
+popup_pillage_dialog(struct unit *punit, enum tile_special_type may_pillage)
 {
 	/* PORTME */
 }
