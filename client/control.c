@@ -1380,6 +1380,22 @@ void key_cancel_action(void)
 }
 
 /**************************************************************************
+  Center the mapview on the player's capital, or print a failure message.
+**************************************************************************/
+void key_center_capital(void)
+{
+  struct city *capital = find_palace(game.player_ptr);
+
+  if (capital)  {
+    /* Center on the tile, and pop up the crosshair overlay. */
+    center_tile_mapcanvas(capital->x, capital->y);
+    put_cross_overlay_tile(capital->x, capital->y);
+  } else {
+    append_output_window(_("Game: Oh my! You seem to have no capital!"));
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void key_end_turn(void)

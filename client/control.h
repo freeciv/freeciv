@@ -97,6 +97,7 @@ void process_caravan_arrival(struct unit *punit);
 void process_diplomat_arrival(struct unit *pdiplomat, int victim_id);
 
 void key_cancel_action(void);
+void key_center_capital(void);
 void key_city_names_toggle(void);
 void key_city_growth_toggle(void);
 void key_city_productions_toggle(void);

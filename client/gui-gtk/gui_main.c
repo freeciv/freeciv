@@ -291,7 +291,6 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
 	key_unit_move(DIR8_WEST);
 	break;
 
-      case GDK_Home:
       case GDK_KP_Home:		
       case GDK_7:
       case GDK_KP_7:
@@ -331,6 +330,10 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
   
       case GDK_t:
         key_city_workers(w, ev);
+        break;
+
+      case GDK_Home:
+        key_center_capital();
         break;
 
       default:
