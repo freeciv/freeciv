@@ -2255,6 +2255,9 @@ static void races_command_callback(GtkWidget *w, gint response_id)
   }
 
   send_packet_alloc_nation(&aconnection, &packet);
+
+  /* reset this variable */
+  is_name_unique = FALSE;
 }
 
 

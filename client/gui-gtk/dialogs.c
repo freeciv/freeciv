@@ -2312,6 +2312,9 @@ static void races_buttons_callback(GtkWidget *w, gpointer data)
   }
 
   send_packet_alloc_nation(&aconnection, &packet);
+
+  /* reset this variable */
+  is_name_unique = FALSE;  
 }
 
 /**************************************************************************
