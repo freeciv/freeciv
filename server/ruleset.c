@@ -996,6 +996,9 @@ static void load_ruleset_buildings(struct section_file *file)
       e->amount =
 	secfile_lookup_int_default(file, 0, "%s.effect%d.amount", sec[i], j);
 
+      e->survives =
+	secfile_lookup_int_default(file, 0, "%s.effect%d.survives", sec[i], j);
+
       item =
 	secfile_lookup_str_default(file, "", "%s.effect%d.cond_bldg", sec[i], j);
       if (*item) {

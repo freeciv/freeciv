@@ -1541,6 +1541,9 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " amount=%d",
 		    b->effect[inx].amount);
 	ptr = strchr(ptr, '\0');
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " survives=%d",
+		    b->effect[inx].survives);
+	ptr = strchr(ptr, '\0');
 	freelog(LOG_DEBUG, "   %2d. %s", inx, buf);
 	ptr = buf;
 	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_bldg=%d/%s",

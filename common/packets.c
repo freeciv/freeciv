@@ -2951,6 +2951,9 @@ int send_packet_ruleset_building(struct connection *pc,
     cptr=put_uint8(cptr, eff->type);
     cptr=put_uint8(cptr, eff->range);
     cptr=put_sint16(cptr, eff->amount);
+if (pc && has_capability("gen_impr_oversights", pc->capability)) {
+    cptr=put_uint8(cptr, eff->survives);
+}
     cptr=put_uint8(cptr, eff->cond_bldg);
     cptr=put_uint8(cptr, eff->cond_gov);
     cptr=put_uint8(cptr, eff->cond_adv);
@@ -3003,6 +3006,13 @@ receive_packet_ruleset_building(struct connection *pc)
     iget_uint8(&iter, (int *)&(packet->effect[inx].type));
     iget_uint8(&iter, (int *)&(packet->effect[inx].range));
     iget_sint16(&iter, &(packet->effect[inx].amount));
+if (pc && has_capability("gen_impr_oversights", pc->capability)) {
+    iget_uint8(&iter, &(packet->effect[inx].survives));
+} else {
+packet->effect[inx].survives =
+  ((packet->effect[inx].type == EFT_ENABLE_NUKE) ||
+   (packet->effect[inx].type == EFT_ENABLE_SPACE));
+}
     iget_uint8(&iter, &(packet->effect[inx].cond_bldg));
     iget_uint8(&iter, &(packet->effect[inx].cond_gov));
     iget_uint8(&iter, &(packet->effect[inx].cond_adv));

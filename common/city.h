@@ -98,7 +98,9 @@ enum effect_type_id {
   EFT_POLLU_ADJ,
   EFT_POLLU_ADJ_POP,
   EFT_POLLU_ADJ_PROD,
-  EFT_POLLU_DECREASE,
+  EFT_POLLU_SET,
+  EFT_POLLU_SET_POP,
+  EFT_POLLU_SET_PROD,
   EFT_PROD_ADD_TILE,
   EFT_PROD_BONUS,
   EFT_PROD_INC_TILE,
@@ -147,6 +149,7 @@ struct impr_effect {
   Eff_Type_id type;
   Eff_Range_id range;
   int amount;
+  int survives;				/* 1 = effect survives wonder destruction */
   Impr_Type_id cond_bldg;		/* B_LAST = unconditional */
   int cond_gov;				/* game.government_count = unconditional */
   Tech_Type_id cond_adv;		/* A_NONE = unconditional; A_LAST = never */
