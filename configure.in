@@ -299,7 +299,7 @@ if test x$client != xno; then
   if test "$client" = beos || test "$client" = yes ; then
     if test x`$UNAME -s` = xBeOS ; then
       CLIENT_CFLAGS=
-      CLIENT_LIBS="-Lgui-beos/lib -lBdhGame -lBdh -ltranslation -lbe -lroot"
+      CLIENT_LIBS="-Lgui-beos/lib -lBdhGame -lBdhDialog -lBdh -ltranslation -lbe -lroot"
       found_client=yes
     fi
 
