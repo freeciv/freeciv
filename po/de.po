@@ -23,8 +23,8 @@
 # Subject: subscribe an: <freeciv.de-request@freelists.org>.
 #
 # Achtung: Mails von Nichtabonnenten werden nicht angenommen (Spamschutz)!
-
-
+#
+#
 # CK: Technische Fehlermeldungen sind nicht übersetzt. Mit diesen Meldungen
 # können nur Entwickler etwas anfangen, und die können in der Regel kein
 # Deutsch.
@@ -33,14 +33,15 @@
 #   TRANS: message for an obscure ruleset error.
 # oder einen Vermerk der Form
 #   CK: TECHNICAL
-
-
+#
+#
+#
 # EH: I don't use emacs, so PO-Revision-Date is only a dummy.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
-"Report-Msgid-Bugs-To: bugs@freeciv.org\n"
-"POT-Creation-Date: 2005-02-02 18:18+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-06 21:39+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -178,47 +179,47 @@ msgstr ""
 
 #: common/player.c:535
 msgid "?attitude:Genocidal"
-msgstr "Völkermordend"
+msgstr "völkermordend"
 
 #: common/player.c:537
 msgid "?attitude:Belligerent"
-msgstr "Kriegswütig"
+msgstr "kriegswütig"
 
 #: common/player.c:539
 msgid "?attitude:Hostile"
-msgstr "Feindselig"
+msgstr "feindselig"
 
 #: common/player.c:541
 msgid "?attitude:Uncooperative"
-msgstr "Unkooperativ"
+msgstr "unkooperativ"
 
 #: common/player.c:543
 msgid "?attitude:Uneasy"
-msgstr "Nervös"
+msgstr "verärgert"
 
 #: common/player.c:545
 msgid "?attitude:Neutral"
-msgstr "Neutral"
+msgstr "neutral"
 
 #: common/player.c:547
 msgid "?attitude:Respectful"
-msgstr "Respektvoll"
+msgstr "respektvoll"
 
 #: common/player.c:549
 msgid "?attitude:Helpful"
-msgstr "Hilfsbereit"
+msgstr "hilfsbereit"
 
 #: common/player.c:551
 msgid "?attitude:Enthusiastic"
-msgstr "Begeistert"
+msgstr "begeistert"
 
 #: common/player.c:553
 msgid "?attitude:Admiring"
-msgstr "Bewundernd"
+msgstr "bewundernd"
 
 #: common/player.c:556
 msgid "?attitude:Worshipful"
-msgstr "Anbetend"
+msgstr "anbetend"
 
 #: common/player.c:568
 msgid "Spotless"
@@ -1414,51 +1415,47 @@ msgstr "  -g, --gamelog DATEI\tSpiel in DATEI protokollieren\n"
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tZeigt diesen Text\n"
 
-#: server/civserver.c:175
-msgid "  -i, --info INFO\tExtra info for the metaserver\n"
-msgstr "  -i, --info INFO\tZusätzliche Infos für den Metaserver\n"
-
-#: server/civserver.c:176
+#: server/civserver.c:174
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log DATEI\tDATEI als Logfile benutzen\n"
 
-#: server/civserver.c:177
+#: server/civserver.c:175
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
 msgstr "  -m, --meta\t\tMetaserver verständigen und Serverinfo senden\n"
 
-#: server/civserver.c:179
+#: server/civserver.c:177
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, --Metaserver ADR\tMetaserveradresse ADR benutzen.\n"
 
-#: server/civserver.c:182
+#: server/civserver.c:180
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PORT\tPortnummer PORT benutzen\n"
 
-#: server/civserver.c:184
+#: server/civserver.c:182
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle ZEIT\tAbbrechen wenn ZEIT Sekunden ohne Spieler\n"
 
-#: server/civserver.c:186
+#: server/civserver.c:184
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
 msgstr "  -e, --exit-on-end\tBei Spielende stoppen, kein Neustart\n"
 
-#: server/civserver.c:189
+#: server/civserver.c:187
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr "  -s, --saves VERZ\tSpielstände im Verzeichnis VERZ speichern.\n"
 
-#: server/civserver.c:191
+#: server/civserver.c:189
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
 msgstr "  -S, --Serverid ID\tSetze Server-ID\n"
 
-#: server/civserver.c:192
+#: server/civserver.c:190
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read DATEI\tStartscript DATEI laden\n"
 
-#: server/civserver.c:193 client/civclient.c:220
+#: server/civserver.c:191 client/civclient.c:220
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
-#: server/civserver.c:194 client/gui-gtk-2.0/gui_main.c:207
+#: server/civserver.c:192 client/gui-gtk-2.0/gui_main.c:207
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
@@ -1825,10 +1822,10 @@ msgid ""
 "global observer."
 msgstr ""
 "Mit diesem Kommando kann eine Verbindung einen Spieler oder das ganze Spiel "
-"beobachten. Nur auf der Konsole oder mit Zugriffsberechtigung 'hack' "
-"kann einer fremden Verbindung der Beobachtungsstatus zugewiesen werden. "
-"Sonst ist nur das Argument <Spieler> erlaubt. Wenn kein Spielername "
-"angegeben wird, beobachtet die Verbindung das Spiel global."
+"beobachten. Nur auf der Konsole oder mit Zugriffsberechtigung 'hack' kann "
+"einer fremden Verbindung der Beobachtungsstatus zugewiesen werden. Sonst ist "
+"nur das Argument <Spieler> erlaubt. Wenn kein Spielername angegeben wird, "
+"beobachtet die Verbindung das Spiel global."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:204
@@ -9031,11 +9028,11 @@ msgstr "friedlich"
 
 #: client/text.c:139
 msgid "?nation:Friendly"
-msgstr "freundlich"
+msgstr "befreundet"
 
 #: client/text.c:140
 msgid "?nation:Mysterious"
-msgstr "geheimnisvoll"
+msgstr "unbekannt"
 
 #: client/text.c:140
 msgid "?nation:Friendly(team)"
@@ -9043,27 +9040,27 @@ msgstr "befreundet (Team)"
 
 #: client/text.c:142
 msgid "?city:Neutral"
-msgstr "Neutral"
+msgstr "neutral"
 
 #: client/text.c:142
 msgid "?city:Hostile"
-msgstr "Feindselig"
+msgstr "feindselig"
 
 #: client/text.c:144
 msgid "?city:Peaceful"
-msgstr "Friedlich"
+msgstr "friedlich"
 
 #: client/text.c:144
 msgid "?city:Friendly"
-msgstr "Freundlich"
+msgstr "befreundet"
 
 #: client/text.c:144
 msgid "?city:Mysterious"
-msgstr "Unsicher"
+msgstr "unbekannt"
 
 #: client/text.c:145
 msgid "?city:Friendly(team)"
-msgstr "Befreundet (Team)"
+msgstr "befreundet (Team)"
 
 #: client/text.c:149
 #, c-format
@@ -9130,7 +9127,7 @@ msgstr "Stadt: %s (%s, %s)"
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:215
 msgid " with City Walls"
-msgstr "mit Stadtmauern"
+msgstr " mit Stadtmauern"
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:225
@@ -9166,7 +9163,7 @@ msgstr[1] "Einheit: %s (%s, %d Runden Waffenstillstand)"
 #: client/text.c:268
 #, c-format
 msgid "Unit: %s (%s,%s)"
-msgstr "Einheit: %s (%s,%s)"
+msgstr "Einheit: %s (%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:284
@@ -9507,7 +9504,7 @@ msgid "Missing base sprite tag \"%s1\"."
 msgstr "Missing base sprite tag \"%s1\"."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:3121
+#: client/tilespec.c:3128
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Couldn't load gfx file %s for sprite %s"
@@ -10150,7 +10147,7 @@ msgstr "Mögliche Stadterweiterungen"
 msgid "Available Wonders"
 msgstr "Mögliche Weltwunder"
 
-#: client/gui-gtk-2.0/cma_fe.c:180
+#: client/gui-gtk-2.0/cma_fe.c:248
 msgid ""
 "For information on:\n"
 "CMA and presets\n"
@@ -10162,65 +10159,58 @@ msgstr ""
 "(mit Beispielen) siehe\n"
 "doc/README.cma.de."
 
-#: client/gui-gtk-2.0/cma_fe.c:193
+#: client/gui-gtk-2.0/cma_fe.c:264
 msgid "_Presets:"
 msgstr "_Vorgaben:"
 
-#: client/gui-gtk-2.0/cma_fe.c:226 client/gui-gtk/cma_fe.c:205
+#: client/gui-gtk-2.0/cma_fe.c:297 client/gui-gtk/cma_fe.c:205
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/citydlg.c:1555
 #: client/gui-mui/repodlgs.c:491 client/gui-win32/cma_fe.c:482
 #: client/gui-win32/repodlgs.c:355 client/gui-xaw/repodlgs.c:750
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: client/gui-gtk-2.0/cma_fe.c:240 client/gui-gtk/cma_fe.c:219
+#: client/gui-gtk-2.0/cma_fe.c:311 client/gui-gtk/cma_fe.c:219
 #: client/gui-mui/citydlg.c:1594 client/gui-win32/cma_fe.c:214
 msgid "Minimal Surplus"
 msgstr "min. Überschuß"
 
-#: client/gui-gtk-2.0/cma_fe.c:243 client/gui-gtk/cma_fe.c:222
+#: client/gui-gtk-2.0/cma_fe.c:314 client/gui-gtk/cma_fe.c:222
 #: client/gui-mui/citydlg.c:1595 client/gui-win32/cma_fe.c:215
 msgid "Factor"
 msgstr "Faktor"
 
-#: client/gui-gtk-2.0/cma_fe.c:278 client/gui-gtk/cma_fe.c:257
+#: client/gui-gtk-2.0/cma_fe.c:349 client/gui-gtk/cma_fe.c:257
 #: client/gui-mui/citydlg.c:1621 client/gui-mui/citydlg.c:1622
 #: client/gui-win32/cma_fe.c:219 client/gui-xaw/cma_fe.c:183
 #: client/gui-xaw/cma_fe.c:225
 msgid "Celebrate"
 msgstr "Begeisterung"
 
-#
-#: client/gui-gtk-2.0/cma_fe.c:315 client/gui-gtk/cma_fe.c:293
-msgid "Apply onc_e"
-msgstr "_Testen"
+#: client/gui-gtk-2.0/cma_fe.c:460
+msgid "CMA Enabl_ed"
+msgstr "ASV ein_geschaltet"
 
-#
-#: client/gui-gtk-2.0/cma_fe.c:320 client/gui-gtk/cma_fe.c:299
-msgid "Control c_ity"
-msgstr "_Aktivieren"
+#: client/gui-gtk-2.0/cma_fe.c:465
+msgid "CMA Disabl_ed"
+msgstr "ASV aus_geschaltet"
 
-#: client/gui-gtk-2.0/cma_fe.c:325 client/gui-gtk/cma_fe.c:306
-#: client/gui-mui/citydlg.c:1631
-msgid "_Release city"
-msgstr "_Deaktivieren"
-
-#: client/gui-gtk-2.0/cma_fe.c:470 client/gui-gtk/cma_fe.c:472
+#: client/gui-gtk-2.0/cma_fe.c:533 client/gui-gtk/cma_fe.c:472
 #: client/gui-win32/cma_fe.c:385 client/gui-xaw/cma_fe.c:435
 msgid "new preset"
 msgstr "neue Vorgabe"
 
-#: client/gui-gtk-2.0/cma_fe.c:474 client/gui-gtk/cma_fe.c:476
+#: client/gui-gtk-2.0/cma_fe.c:537 client/gui-gtk/cma_fe.c:476
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
 msgstr "Vorgabe benennen"
 
-#: client/gui-gtk-2.0/cma_fe.c:475 client/gui-gtk/cma_fe.c:477
+#: client/gui-gtk-2.0/cma_fe.c:538 client/gui-gtk/cma_fe.c:477
 #: client/gui-win32/cma_fe.c:384
 msgid "What should we name the preset?"
 msgstr "Wie soll die Vorgabe heißen?"
 
-#: client/gui-gtk-2.0/cma_fe.c:579 client/gui-gtk/cma_fe.c:562
+#: client/gui-gtk-2.0/cma_fe.c:645 client/gui-gtk/cma_fe.c:562
 msgid "Remove this preset?"
 msgstr "Soll die Vorgabe entfernt werden?"
 
@@ -12749,6 +12739,20 @@ msgstr "Vorgabe speichern"
 #: client/gui-gtk/cma_fe.c:191
 msgid "Delete preset"
 msgstr "Vorgabe löschen"
+
+#
+#: client/gui-gtk/cma_fe.c:293
+msgid "Apply onc_e"
+msgstr "_Testen"
+
+#
+#: client/gui-gtk/cma_fe.c:299
+msgid "Control c_ity"
+msgstr "_Aktivieren"
+
+#: client/gui-gtk/cma_fe.c:306 client/gui-mui/citydlg.c:1631
+msgid "_Release city"
+msgstr "_Deaktivieren"
 
 #: client/gui-gtk/cma_fe.c:395 client/gui-win32/cma_fe.c:308
 #: client/gui-xaw/cma_fe.c:78
@@ -15498,12 +15502,13 @@ msgstr ""
 "\n"
 "Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich mit der "
 "deutschen Übersetzung beschäftigt. Sie können sie mit einer Mail an <freeciv."
-"de-request@freelists.org>, Betreff: subscribe, abonnieren. Sie können an "
-"die Liste jedoch nur schreiben, wenn Sie Abonnent sind.\n"
+"de-request@freelists.org>, Betreff: subscribe, abonnieren. Sie können an die "
+"Liste jedoch nur schreiben, wenn Sie Abonnent sind.\n"
 "\n"
 "Siehe auch: http://www.freeciv.org/index.php/Translations\n"
 "\n"
-"Weiterhin gibt es die internationale Übersetzerliste: freeciv-i18n@freeciv.org"
+"Weiterhin gibt es die internationale Übersetzerliste: freeciv-i18n@freeciv."
+"org"
 
 #: data/helpdata.txt:405
 msgid ""
@@ -16919,13 +16924,13 @@ msgid ""
 "- A unit moving from an ocean square (disembarking from a boat).\n"
 "- A unit type which explicitly ignores ZOC, eg Diplomats and Spies."
 msgstr ""
-"In folgenden Fällen wirkt die Kontrollzone nicht:\n"
+"In folgenden Fällen ist die Kontrollzone keine Hindernis:\n"
 " - für eine Einheit, die direkt in oder aus\n"
 "   einer Stadt zieht\n"
 " - für eine Einheit, die auf ein Feld zieht, auf dem\n"
-"   schon eine freundliche Einheit steht\n"
+"   schon eine befreundete Einheit steht\n"
 " - für eine Einheit, die ausgeschifft wird\n"
-" - für Einheitstypen, die Kontrollzonen ignorieren\n"
+" - für Einheiten, die Kontrollzonen ignorieren\n"
 "   (z.B. Diplomaten)"
 
 #: data/helpdata.txt:1144
@@ -16950,13 +16955,15 @@ msgid ""
 "onto a friendly unit (the boat)."
 msgstr ""
 "Anmerkungen:\n"
-" - Kontrollzonen beeinträchtigen nur Landeinheiten.\n"
-" - Andere Einheiten 'verursachen' Kontrollzonen\n"
-"   nur dann, wenn sie sich auf Landfeldern befinden.\n"
-" - Kontrollzonen verhindern keine Angriffe\n"
-"   sondern Bewegungen.\n"
-" - Leere feindliche Städte zählen nicht als feindlich\n"
-"   besetztes Feld."
+"\n"
+"- Kontrollzonen wirken nur für Landeinheiten.\n"
+"\n"
+"- Andere Einheiten errichten nur Kontrollzonen, wenn sie sich auf Landfeldern "
+"befinden (Schiffe innerhalb von Städten)\n"
+"\n"
+"- Kontrollzonen verhindern keine Angriffe, sondern Bewegungen.\n"
+"\n"
+"- Leere feindliche Städte zählen nicht als feindlich besetztes Feld."
 
 #: data/helpdata.txt:1164
 msgid ""
@@ -22879,16 +22886,3 @@ msgstr ""
 "Die Zulu sind ein kriegerisches Bantu-Volk, die Anfang des 18. Jahrhunderts "
 "von Westzentralafrika in den Süden einwanderten, wo sie die Khoisan Völker "
 "eroberten und mit europäischen Siedlern zusammenstießen."
-
-#~ msgid "serverid"
-#~ msgstr "Server-ID"
-
-#~ msgid "Game: You start a research pool with %s."
-#~ msgstr ""
-#~ "Spiel: Sie haben mit den %s einen gemeinsamen Forschungspool vereinbart."
-
-#~ msgid "The parties resume the research pool"
-#~ msgstr "Die Parteien vereinigen ihre Forschung"
-
-#~ msgid "(veteran)"
-#~ msgstr "(Veteran)"
