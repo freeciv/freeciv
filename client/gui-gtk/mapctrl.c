@@ -102,35 +102,41 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
   GtkWidget *p, *b;
   static struct map_position cross_list[2+1];
   struct map_position *cross_head = cross_list;
-  int i, count=0;
+  int i, count = 0;
   int popx, popy;
   char s[512];
   struct city *pcity;
   struct unit *punit;
-  struct tile *ptile=map_get_tile(xtile, ytile);
+  struct tile *ptile = map_get_tile(xtile, ytile);
 
   if(tile_get_known(xtile, ytile) >= TILE_KNOWN_FOGGED) {
     p=gtk_window_new(GTK_WINDOW_POPUP);
     b=gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(p), b);
+
+#ifdef DEBUG    
+    my_snprintf(s, sizeof(s), _("Location: (%d, %d)"), xtile, ytile);
+    gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
+				    "GtkLabel::label", s, NULL);
+    count++;
+#endif /* DEBUG */
+
     my_snprintf(s, sizeof(s), _("Terrain: %s"),
 		map_get_tile_info_text(xtile, ytile));
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				   "GtkLabel::label", s,
-				   NULL);
+				   "GtkLabel::label", s, NULL);
     count++;
 
     my_snprintf(s, sizeof(s), _("Food/Prod/Trade: %s"),
 		map_get_tile_fpt_text(xtile, ytile));
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				    "GtkLabel::label", s,
-				    NULL);
+				    "GtkLabel::label", s, NULL);
     count++;
 
     if (tile_has_special(ptile, S_HUT)) {
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", _("Minor Tribe Village"),
-				     NULL);
+				     "GtkLabel::label", 
+                                     _("Minor Tribe Village"), NULL);
       count++;
     }
     
@@ -138,14 +144,12 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name,
 		  get_nation_name(city_owner(pcity)->nation));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", s,
-				     NULL);
+				     "GtkLabel::label", s, NULL);
       count++;
 
       if (city_got_citywalls(pcity)) {
         gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-		       "GtkLabel::label", _("with City Walls"),
-		       NULL);
+		       "GtkLabel::label", _("with City Walls"), NULL);
 	count++;
       }
     }
@@ -154,8 +158,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       sz_strlcpy(s, _("Infrastructure: "));
       sz_strlcat(s, map_get_infrastructure_text(ptile->special));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", s,
-				     NULL);
+				     "GtkLabel::label", s, NULL);
       count++;
     }
     
@@ -179,8 +182,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name,
 		  get_nation_name(unit_owner(punit)->nation), cn);
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", s,
-				     NULL);
+				     "GtkLabel::label", s, NULL);
       count++;
 
       if(punit->owner==game.player_idx)  {
@@ -206,8 +208,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 		    (punit->hp*100/ptype->hp + 9)/10 );
       }
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", s,
-				     NULL);
+				     "GtkLabel::label", s, NULL);
       count++;
     }
 
