@@ -200,8 +200,6 @@ units.ruleset:
 
     - There must be at least one unit with flag "Cities".
 
-    - Every unit with flag "Cities" must have also flag "Settlers".
-
   Limitations:
 
     - These unit flag combinations won't work:
