@@ -475,6 +475,9 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
     best /= 10;
   } /* was getting four-figure desire for battleships otherwise. -- Syela */
 /* Phalanx would be 16 * danger / 20.  Pikemen would be 36 * danger / (20 + l) */
+
+  if (best == 0) best = 1;   /* avoid divide-by-zero below */
+
 /* multiply by unit_types[bestid].build_cost / best */
   for (i = 0; i < game.num_unit_types; i++) {
     if (desire[i] && is_ai_simple_military(i)) {
