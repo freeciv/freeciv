@@ -26,6 +26,7 @@
 #include <mapgen.h>
 #include <registry.h>
 #include <plrhand.h>
+
 extern char metaserver_info_line[256];
 
 void cut_player_connection(char *playername);
@@ -209,6 +210,8 @@ PlayerNameStatus test_player_name(char* name)
   return PNameOk;
 }
 
+static char horiz_line[] = "------------------------------------------------------------------------------";
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -359,14 +362,14 @@ void help_command(char *str)
 	   settings[cmd].min_value, settings[cmd].max_value, 
 	   settings[cmd].default_value);
   } else {
-  puts("------------------------------------------------------------------------------");
-      puts("Help are defined on the following variables:");
-  puts("------------------------------------------------------------------------------");
+    puts(horiz_line);
+    puts("Help are defined on the following variables:");
+    puts(horiz_line);
     for (i=0;settings[i].name;i++) {
       printf("%-19s%c",settings[i].name, ((i+1)%4) ? ' ' : '\n'); 
     }
     if ((i)%4!=0) puts("");
-  puts("------------------------------------------------------------------------------");
+    puts(horiz_line);
   }
 }
   
@@ -434,15 +437,15 @@ void crash_and_burn(void)
 void show_command(char *str)
 {
   int i;
-  puts("------------------------------------------------------------------------------");
+  puts(horiz_line);
   printf("%-20svalue  (min , max)\n", "Variable");
-  puts("------------------------------------------------------------------------------");
+  puts(horiz_line);
   for (i=0;settings[i].name;i++) {
     printf("%-20s%c%-6d (%d,%d)\n", settings[i].name,(*settings[i].value==settings[i].default_value) ? '*' : ' ',  *settings[i].value, settings[i].min_value, settings[i].max_value);
   }
-  puts("------------------------------------------------------------------------------");
+  puts(horiz_line);
   puts("* means that it's the default for the variable");
-  puts("------------------------------------------------------------------------------");
+  puts(horiz_line);
 }
 
 void set_command(char *str) 
