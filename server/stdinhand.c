@@ -476,7 +476,7 @@ static struct settings_s settings[] = {
 	  GAME_DEFAULT_CITYMINDIST)
   
   GEN_INT("rapturedelay", game.rapturedelay, SSET_RULES, SSET_TO_CLIENT,
-          N_("Sets number of turns between rapture effect."),
+          N_("Number of turns between rapture effect"),
           N_("Sets the number of turns between rapture growth of a city. "
              "If set to n a city will grow after rapturing n+1 turns."), NULL,
           GAME_MIN_RAPTUREDELAY, GAME_MAX_RAPTUREDELAY,
