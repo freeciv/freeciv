@@ -106,3 +106,29 @@ tiles = { "row", "column", "tag"
   5,  9, "f.slovenia"
   5, 10, "f.serbia"
 }
+
+; These new-style shield graphics are taken from the auto-rendered shield
+; graphics in the development version.  Their sources are included in the
+; development version which may be downloaded from http://freeciv.org/.
+[extra]
+sprites =
+	{	"tag", "file"
+		"f.afghanistan", "flags/afghanistan-shield"
+		"f.assyria", "flags/assyria-shield"
+		"f.bosnia", "flags/bosnia-shield"
+		"f.columbia", "flags/columbia-shield"
+		"f.elves", "flags/elves-shield"
+		"f.ethiopia", "flags/ethiopia-shield"
+		"f.galicia", "flags/galicia-shield"
+		"f.hobbits", "flags/hobbits-shield"
+		"f.indonesia", "flags/indonesia-shield"
+		"f.kampuchea", "flags/kampuchea-shield"
+		"f.malaysia", "flags/malaysia-shield"
+		"f.mars", "flags/mars-shield"
+		"f.nigeria", "flags/nigeria-shield"
+		"f.phoenicia", "flags/phoenicia-shield"
+		"f.quebec", "flags/quebec-shield"
+		"f.sumeria", "flags/sumeria-shield"
+		"f.switzerland", "flags/swiss-shield"
+		"f.taiwan", "flags/taiwan-shield"
+	}

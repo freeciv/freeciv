@@ -104,6 +104,26 @@ pkgdata_DATA =				\
 		unknown.png		\
 		usa.png			\
 		vietnam.png		\
-		wales.png
+		wales.png		\
+					\
+		afghanistan-shield.png	\
+		assyria-shield.png	\
+		bosnia-shield.png	\
+		columbia-shield.png	\
+		elves-shield.png	\
+		ethiopia-shield.png	\
+		galicia-shield.png	\
+		hobbits-shield.png	\
+		indonesia-shield.png	\
+		kampuchea-shield.png	\
+		malaysia-shield.png	\
+		mars-shield.png		\
+		nigeria-shield.png	\
+		phoenicia-shield.png	\
+		quebec-shield.png	\
+		sumeria-shield.png	\
+		swiss-shield.png	\
+		taiwan-shield.png
+
 
 EXTRA_DIST = $(pkgdata_DATA)
