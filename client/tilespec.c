@@ -922,8 +922,6 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(user.attention, "user.attention");
 
   SET_SPRITE(tx.fallout,    "tx.fallout");
-  SET_SPRITE(tx.farmland,   "tx.farmland");
-  SET_SPRITE(tx.irrigation, "tx.irrigation");
   SET_SPRITE(tx.mine,       "tx.mine");
   SET_SPRITE_ALT(tx.oil_mine, "tx.oil_mine", "tx.mine");
   SET_SPRITE(tx.pollution,  "tx.pollution");
@@ -938,6 +936,18 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(tx.spec_river[i], buffer);
   }
 
+  /* We use direction-specific irrigation and farmland graphics, if they
+   * are available.  If not, we just fall back to the basic irrigation
+   * graphics. */
+  for (i = 0; i < NUM_DIRECTION_NSEW; i++) {
+    my_snprintf(buffer, sizeof(buffer), "tx.s_irrigation_%s", nsew_str(i));
+    SET_SPRITE_ALT(tx.irrigation[i], buffer, "tx.irrigation");
+  }
+  for (i = 0; i < NUM_DIRECTION_NSEW; i++) {
+    my_snprintf(buffer, sizeof(buffer), "tx.s_farmland_%s", nsew_str(i));
+    SET_SPRITE_ALT(tx.farmland[i], buffer, "tx.farmland");
+  }
+  
   if (is_isometric) {
     for(i=0; i<NUM_DIRECTION_NSEW; i++) {
       my_snprintf(buffer, sizeof(buffer), "tx.s_forest_%s", nsew_str(i));
@@ -1780,6 +1790,55 @@ static int fill_road_rail_sprite_array(struct Sprite **sprs,
   return sprs - saved_sprs;
 }
 
+/**************************************************************************
+  Return the index of the sprite to be used for irrigation or farmland in
+  this tile.
+
+  We assume that the current tile has farmland or irrigation.  We then
+  choose a sprite (index) based upon which cardinally adjacent tiles have
+  either farmland or irrigation (the two are considered interchangable for
+  this).
+**************************************************************************/
+static int get_irrigation_index(enum tile_special_type *tspecial_near)
+{
+  /* A tile with S_FARMLAND will also have S_IRRIGATION set. */
+  bool n = contains_special(tspecial_near[DIR8_NORTH], S_IRRIGATION);
+  bool s = contains_special(tspecial_near[DIR8_SOUTH], S_IRRIGATION);
+  bool e = contains_special(tspecial_near[DIR8_EAST], S_IRRIGATION);
+  bool w = contains_special(tspecial_near[DIR8_WEST], S_IRRIGATION);
+
+  return INDEX_NSEW(n, s, e, w);
+}
+
+/**************************************************************************
+  Fill in the farmland/irrigation sprite for the tile.
+**************************************************************************/
+static int fill_irrigation_sprite_array(struct Sprite **sprs,
+					enum tile_special_type tspecial,
+					enum tile_special_type *tspecial_near,
+					struct city *pcity)
+{
+  struct Sprite **saved_sprs = sprs;
+
+  /* Tiles with S_FARMLAND also have S_IRRIGATION set. */
+  assert(!contains_special(tspecial, S_FARMLAND)
+	 || contains_special(tspecial, S_IRRIGATION));
+
+  /* We don't draw the irrigation if there's a city (it just gets overdrawn
+   * anyway, and ends up looking bad). */
+  if (draw_irrigation
+      && contains_special(tspecial, S_IRRIGATION)
+      && !(pcity && draw_cities)) {
+    if (contains_special(tspecial, S_FARMLAND)) {
+      *sprs++ = sprites.tx.farmland[get_irrigation_index(tspecial_near)];
+    } else {
+      *sprs++ = sprites.tx.irrigation[get_irrigation_index(tspecial_near)];
+    }
+  }
+
+  return sprs - saved_sprs;
+}
+
 /**********************************************************************
 Fill in the sprite array for the tile at position (abs_x0,abs_y0).
 Does not fill in the city or unit; that have to be done seperatly in
@@ -1861,13 +1920,9 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     	default:
     	break;
       }
-     
-      if (contains_special(tspecial, S_IRRIGATION) && !pcity && draw_irrigation) {
-	if (contains_special(tspecial, S_FARMLAND))
-	  *sprs++ = sprites.tx.farmland;
-	else
-	  *sprs++ = sprites.tx.irrigation;
-      }
+
+      sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
+					   pcity);
  
       if (contains_special(tspecial, S_RIVER)) {
 	tileno = INDEX_NSEW(contains_special(tspecial_near[DIR8_NORTH], S_RIVER)
@@ -1884,12 +1939,10 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   } else {
     *solid_bg = 1;
 
-    if (contains_special(tspecial, S_IRRIGATION) && !pcity && draw_irrigation) {
-      if (contains_special(tspecial, S_FARMLAND))
-      	*sprs++ = sprites.tx.farmland;
-      else
-        *sprs++ = sprites.tx.irrigation;
-    }
+    /* This call is duplicated because it is normally
+     * drawn underneath rivers. */
+    sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
+					 pcity);
   }
   
   if (is_ocean(ttype)) {
@@ -2102,11 +2155,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     *sprs++=sprites.tx.spec_river[tileno];
   }
 
-  if(contains_special(tspecial, S_IRRIGATION) && draw_irrigation) {
-    if(contains_special(tspecial, S_FARMLAND)) *sprs++=sprites.tx.farmland;
-    else *sprs++=sprites.tx.irrigation;
-  }
-
+  sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near, pcity);
   sprs += fill_road_rail_sprite_array(sprs, tspecial, tspecial_near, pcity);
 
   if(draw_specials) {
