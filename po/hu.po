@@ -2453,7 +2453,7 @@ msgstr "A térképgeneráláshoz használt \"random seed\" érték"
 msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
 "seed will be chosen based on the time, to give a random map."
-msgstr "Pozitív \"seed\" értékek esetén az azonos \"seed\"-ek mindig ugyanolyan térképet fognak generálni; ha nullás \"seed\"-et használunk (ez az alapértelmezett), akkor a szerver az aktuális rendszeridõ alapján kisorsol egy pozitív \"seed\"-et, és azt használja a térképgeneráláshoz."
+msgstr "Pozitív \"seed\" értékek esetén az azonos \"seed\"-ek mindig ugyanolyan térképet fognak generálni; ha nullás \"seed\"-et használunk (ez az alapértelmezés), akkor a szerver az aktuális rendszeridõ alapján kisorsol egy pozitív \"seed\"-et, és azt használja a térképgeneráláshoz."
 
 #: server/stdinhand.c:272
 msgid "General random seed"
@@ -2461,7 +2461,7 @@ msgstr "Általános \"random seed\" érték"
 
 #: server/stdinhand.c:273
 msgid "For zero (the default) a seed will be chosen based on the time."
-msgstr "Ha nullás \"seed\" értéket használunk (ez az alapértelmezett), akkor a szerver az aktuális rendszeridõ alapján kisorsol helyette egy pozitív \"seed\"-et."
+msgstr "Ha nullás \"seed\" értéket használunk (ez az alapértelmezés), akkor a szerver az aktuális rendszeridõ alapján kisorsol helyette egy pozitív \"seed\"-et."
 
 #: server/stdinhand.c:278
 msgid "Amount of \"special\" resource squares"
@@ -2627,11 +2627,11 @@ msgstr "Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"game.ruleset\
 
 #: server/stdinhand.c:442
 msgid "Points required to gain a new advance"
-msgstr ""
+msgstr "Új tudomány felfedezéséhez szükséges pluszpontok száma"
 
 #: server/stdinhand.c:443
 msgid "This affects how quickly players can research new technology."
-msgstr ""
+msgstr "Azt befolyásolja, hogy a játékosok milyen gyorsan tudnak új technológiákat kifejleszteni."
 
 #: server/stdinhand.c:448
 msgid "Percentage penalty when changing tech"
@@ -2653,7 +2653,7 @@ msgid ""
 "For each advance you gain from a diplomatic treaty, you lose research points "
 "equal to this percentage of the cost to research an new advance.  You can "
 "end up with negative research points if this is non-zero."
-msgstr ""
+msgstr "Az új technológia kutatási költségének ennyi százaléka vonódik le a kutatási pontjaidból, ha diplomáciai úton szerzel meg egy tudományt.  Ez akár negatív számú kutatási pontot is eredményezhet!"
 
 #: server/stdinhand.c:466
 msgid "Penalty when getting tech from conquering"
@@ -2664,11 +2664,11 @@ msgid ""
 "For each advance you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research an new advance.  You "
 "can end up with negative research points if this is non-zero."
-msgstr ""
+msgstr "Az új tecnológia kutatási költségének ennyi százaléka vonódik le a kutatási pontjaidból, ha ellenséges város elfoglalásával szerzel meg egy tudományt.  Ez akár negatív számú kutatási pontot is eredményezhet!"
 
 #: server/stdinhand.c:475
 msgid "Penalty when getting a free tech"
-msgstr ""
+msgstr "Büntetés az \"ingyen kapott\" tudományokért"
 
 #: server/stdinhand.c:476
 msgid ""
@@ -2676,37 +2676,37 @@ msgid ""
 "conquercost: specifically, from huts or from the Great Library), you lose "
 "research points equal to this percentage of the cost to research a new "
 "advance.  You can end up with negative research points if this is non-zero."
-msgstr ""
+msgstr "Az új technológia kutatási költségének ennyi százaléka vonódik le a kutatási pontjaidból, ha \"ingyen\" (kunyhóból vagy Nagy Könyvtárból) kapsz egy tudományt.  Ez akár negatív számú kutatási pontot is eredményezhet!"
 
 #: server/stdinhand.c:485
 msgid "Food required for a city to grow"
-msgstr ""
+msgstr "A város növekedéséhez szükséges élelem = foodbox * városméret"
 
 #: server/stdinhand.c:490
 msgid "Percentage food lost when need aqueduct"
-msgstr ""
+msgstr "Százalékos élelemveszteség, ha a város Vízvezeték hiánya miatt nem tud növekedni"
 
 #: server/stdinhand.c:491
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
 "has a Granary)."
-msgstr ""
+msgstr "Ha a város növekedne, de nem tud, mert ehhez Vízvezetékre (vagy Csatornarendszerre) lenne szüksége, akkor ennyi százaléka veszik el a város élelmiszerkészletének (illetve ennek a fele, ha van Magtár a városban)."
 
 #: server/stdinhand.c:498
 msgid "Maximum size of a city without trade"
-msgstr ""
+msgstr "A nulla kereskedelemtermeléshez tartozó maximális városméret"
 
 #: server/stdinhand.c:499
 msgid ""
 "All the cities of smaller or equal size to this do not produce trade at all. "
 "The produced trade increases gradually for cities larger than notradesize "
 "and smaller than fulltradesize.  See also fulltradesize."
-msgstr ""
+msgstr "Semmi kereskedelmet nem termelnek azok a városok, amelyeknek a mérete <= notradesize.  A notradesize és a fulltradesize méretek között a kereskedelemtermelés mértéke a városméret függvényében fokozatosan növekszik.  Lásd még a fulltradesize opciót."
 
 #: server/stdinhand.c:507
 msgid "Minimum city size to get full trade"
-msgstr ""
+msgstr "A normális kereskedelemtermeléshez tartozó városméret"
 
 #: server/stdinhand.c:508
 msgid ""
@@ -2714,33 +2714,32 @@ msgid ""
 "100% (no trade at all) for sizes up to notradesize, and decreases gradually "
 "to 0% (no penalty except the normal corruption) for size=fulltradesize.  See "
 "also notradesize."
-msgstr ""
+msgstr "Az ennél kisebb városok kereskedelemtermelése valahány százalékos büntetést szenved. A büntetés a notradesize-nál kisebb városok esetén 100%-os (nincs kereskedelemtermelés), notradesize városméret fölött fokozatosan csökken. A 0%-ot (nincs más büntetés a normál korrupción kívül) fulltradesize városméretnél éri el.  Lásd még a notradesize opciót."
 
 #: server/stdinhand.c:517
 msgid "City size before people become unhappy"
-msgstr ""
+msgstr "Az a városméret, ami fölött a lakosok boldogtalanok lesznek"
 
 #: server/stdinhand.c:518
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy.  See also cityfactor."
-msgstr ""
+msgstr "Az egyéb hatások figyelembe vétele nélkül a városok elsõ unhappysize lakosa közömbös, a többi lakosuk pedig boldogtalan.  Lásd még a cityfactor opciót."
 
 #: server/stdinhand.c:526
-#, fuzzy
 msgid "Whether angry citizens are enabled"
-msgstr "Mik a megengedett kapcsolódások"
+msgstr "Lehetnek-e düsös lakosok"
 
 #: server/stdinhand.c:527
 msgid ""
 "Introduces angry citizens like civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
 "also unhappysize, cityfactor and governments."
-msgstr ""
+msgstr "A civ II-höz hasonlóan bevezeti a dühös lakosokat. Amíg van dühös lakos a városban, addig a nem dühös lakosok közhangulatát nem tudjuk befolyásolni. Lásd még az unhappysize, cityfactor és governments opciókat."
 
 #: server/stdinhand.c:534
 msgid "Number of cities for higher unhappiness"
-msgstr ""
+msgstr "A boldogtalanságot növelõ városszám"
 
 #: server/stdinhand.c:535
 msgid ""
@@ -2748,11 +2747,11 @@ msgid ""
 "extra citizen is unhappy before other adjustments; see also unhappysize.  "
 "This assumes a Democracy; for other governments the effect occurs at smaller "
 "numbers of cities."
-msgstr ""
+msgstr "Ha egy játékosnak Demokrácia államformában több mint cityfactor városa van, akkor ez városonként egy extra boldogtalan lakost okoz; lásd még az unhappysize opciót.  Más államformák esetén a hatás már kisebb városszámnál fellép."
 
 #: server/stdinhand.c:544
 msgid "Minimum distance between cities (move distance)"
-msgstr ""
+msgstr "A városok közötti minimális távolság (lépéstávolság)"
 
 #: server/stdinhand.c:545
 msgid ""
@@ -2760,7 +2759,7 @@ msgid ""
 "citymindist distance. For example, if citymindist is 3, there have to be at "
 "least two empty fields between two cities every direction. If it is set to 0 "
 "(default), it is overwritten by the current ruleset when the game starts."
-msgstr ""
+msgstr "Egy játékos csak akkor alapíthat várost egy mezõn, ha nincs másik város a mezõtõl vett citymindist távolságon belül. Például ha citymindist = 3, akkor két város között minden irányban legalább két várostalan mezõnek kell lennie. Ha citymindist = 0 (alapértelmezés), akkor a citymindist értékét a szabálykészlet felülírja a játék kezdetekor."
 
 #: server/stdinhand.c:554
 msgid "Chance for conquered building destruction"
@@ -2790,7 +2789,7 @@ msgstr ""
 
 #: server/stdinhand.c:570
 msgid "Chance of moving into tile after attack"
-msgstr ""
+msgstr "A megtámadott mezõre lépés esélye"
 
 #: server/stdinhand.c:571
 msgid ""
@@ -2799,7 +2798,7 @@ msgid ""
 "if they win the combat (and no enemy units remain in the tile).  If set to a "
 "value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
-msgstr ""
+msgstr "Ha 0-ra állítjuk, akkor Civ1/2-szerûek a csaták (a támadó helyben marad).  Ha 100-ra állítjuk, akkor a támadó egységek mindenképpen átlépnek a megtámadott mezõre, amennyiben megnyerik a csatát (és nem maradt ellenség a mezõn).  Ha valamilyen 0 és 100 közötti értékre állítjuk, akkor ez adja meg a \"területfoglalás\" százalékos esélyét."
 
 #: server/stdinhand.c:580
 msgid "Reduce city population after attack"
@@ -2870,14 +2869,14 @@ msgstr "Ez elõtt az év elõtt nem jelenhetnek meg barbárok."
 
 #: server/stdinhand.c:641
 msgid "Whether to enable fog of war"
-msgstr ""
+msgstr "Fog of war ki-/bekapcsolása"
 
 #: server/stdinhand.c:642
 msgid ""
 "If this is set to 1, only those units and cities within the sightrange of "
 "your own units and cities will be revealed to you. You will not see new "
 "cities or terrain changes in squares not observed."
-msgstr ""
+msgstr "Ha 1-re állítjuk, akkor csak a saját egységek és városok látótávolságán belüli mezõkön láthatjuk, hogy mi történik rajtuk. A többi mezõn nem fogjuk érzékelni pl. az új városok megjelenését vagy a terepváltozásokat."
 
 #: server/stdinhand.c:649
 msgid "Chance in diplomat/spy contests"
@@ -2896,11 +2895,11 @@ msgstr ""
 
 #: server/stdinhand.c:662
 msgid "Whether to allow space race"
-msgstr ""
+msgstr "Ûrhajók engedélyezése/tiltása"
 
 #: server/stdinhand.c:663
 msgid "If this option is 1, players can build spaceships."
-msgstr ""
+msgstr "Ha 1-re állítjuk, akkor a játékosok építhetnek ûrhajót."
 
 #: server/stdinhand.c:668
 msgid "Minimum number of cities for civil war"
@@ -3501,7 +3500,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1216
 msgid "log <message>"
-msgstr ""
+msgstr "log <üzenet>"
 
 #: server/stdinhand.c:1217
 msgid "Generate a log message."
@@ -3515,15 +3514,15 @@ msgstr ""
 
 #: server/stdinhand.c:1223
 msgid "Change server output style to 'RFC-style'."
-msgstr ""
+msgstr "A szerver kimenete RFC stílusú legyen!"
 
 #: server/stdinhand.c:1227
 msgid "Change server output style to normal style."
-msgstr ""
+msgstr "A szerver kimenete normál stílusú legyen!"
 
 #: server/stdinhand.c:1231
 msgid "Abort the server and generate a 'core' file."
-msgstr ""
+msgstr "Szerver leállítása és 'core' fájl generálása."
 
 #: server/stdinhand.c:1232
 msgid "This is mostly useful for debugging purposes."
@@ -3531,7 +3530,7 @@ msgstr ""
 
 #: server/stdinhand.c:1341
 msgid "(ambiguous)"
-msgstr ""
+msgstr "(nem egyértelmû)"
 
 #: client/packhand.c:969 server/stdinhand.c:1342
 msgid "(unknown)"
@@ -3539,21 +3538,21 @@ msgstr "(ismeretlen)"
 
 #: server/stdinhand.c:1418
 msgid "Name is empty, so cannot be a player."
-msgstr ""
+msgstr "A név üres, ezért nem lehet egy játékos neve."
 
 #: server/stdinhand.c:1422
 msgid "Name is too long, so cannot be a player."
-msgstr ""
+msgstr "A név túl hosszú, ezért nem lehet egy játékos neve."
 
 #: server/stdinhand.c:1426
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
-msgstr ""
+msgstr "A(z) '%s' játékosnévprefix nem egyértelmû."
 
 #: server/stdinhand.c:1430
 #, c-format
 msgid "No player by the name of '%s'."
-msgstr ""
+msgstr "Nincs '%s' nevû játékos."
 
 #: server/stdinhand.c:1434 server/stdinhand.c:1469
 #, c-format
@@ -3562,16 +3561,16 @@ msgstr ""
 
 #: server/stdinhand.c:1453
 msgid "Name is empty, so cannot be a connection."
-msgstr ""
+msgstr "A név üres, ezért nem lehet egy kapcsolódás neve."
 
 #: server/stdinhand.c:1457
 msgid "Name is too long, so cannot be a connection."
-msgstr ""
+msgstr "A név túl hosszú, ezért nem lehet egy kapcsolódás neve."
 
 #: server/stdinhand.c:1461
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
-msgstr ""
+msgstr "A(z) '%s' kapcsolódásnévprefix nem egyértelmû."
 
 #: server/stdinhand.c:1465
 #, c-format
@@ -3649,22 +3648,22 @@ msgstr ""
 #: server/stdinhand.c:1663
 #, c-format
 msgid "Game: %s is now AI-controlled."
-msgstr ""
+msgstr "Játék: %s mostantól MI irányítás alatt áll."
 
 #: server/stdinhand.c:1665
 #, c-format
 msgid "%s is now under AI control."
-msgstr ""
+msgstr "%s mostantól MI irányítás alatt áll."
 
 #: server/stdinhand.c:1682
 #, c-format
 msgid "Game: %s is now human."
-msgstr ""
+msgstr "Játék: %s mostantól emberi irányítás alatt áll."
 
 #: server/stdinhand.c:1684
 #, c-format
 msgid "%s is now under human control."
-msgstr ""
+msgstr "%s mostantól emberi irányítás alatt áll."
 
 #: server/stdinhand.c:1722
 msgid "Can't add AI players once the game has begun."
@@ -3727,7 +3726,7 @@ msgid "Could not read script file '%s'."
 msgstr ""
 
 #: server/stdinhand.c:1912
-#, c-format
+#, c-format, fuzzy
 msgid "Could not write script file '%s'."
 msgstr "Nem tudok a '%s' script fileba írni."
 
@@ -3893,12 +3892,12 @@ msgstr "fix"
 #: server/stdinhand.c:2300
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
-msgstr "Érték: %d, Minimum: %d, Alapértelmezett: %d, Maximum: %d"
+msgstr "Érték: %d, Minimum: %d, Alapértelmezés: %d, Maximum: %d"
 
 #: server/stdinhand.c:2304
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
-msgstr "Érték: \"%s\", Alapértelmezett: \"%s\""
+msgstr "Érték: \"%s\", Alapértelmezés: \"%s\""
 
 #: server/stdinhand.c:2322
 msgid "Explanations are available for the following server options:"
