@@ -43,8 +43,8 @@ struct fcwin_box_item {
   POINT min;
   POINT biggest_min;
   RECT realrect;
-  int expand;
-  int fill;
+  bool expand;
+  bool fill;
   int padding;
   t_fcsetsize setsize;
   t_fcminsize minsize;
@@ -56,8 +56,8 @@ struct fcwin_win_data {
   WNDPROC user_wndproc;
   HWND parent;
   struct fcwin_box *full;
-  int size_set;
-  int is_child;
+  bool size_set;
+  bool is_child;
   void *user_data;
 };
 
@@ -79,6 +79,12 @@ struct edit_data
   int chars;
 };
 
+struct groupbox_data
+{
+  HWND win;
+  struct fcwin_box *content;
+  int text_height;
+};
 
 static void win_text_minsize(HWND hWnd,POINT *rcmin,char *text);
 /**************************************************************************
@@ -335,8 +341,8 @@ void fcwin_box_add_generic(struct fcwin_box *box,
 			   t_fcsetsize setsize,
 			   t_fcdelwidget del,
 			   void *data, 
-			   int expand, 
-			   int fill, 
+			   bool expand, 
+			   bool fill, 
 			   int padding)
 {
   struct fcwin_box_item *fbi_new;
@@ -389,7 +395,7 @@ static void win_text_minsize(HWND hWnd,POINT *rcmin,char *text)
     rcclient.left-rcclient.right+4;
   
   rcmin->y=textrect.bottom-textrect.top+
-    rcwin.bottom-rcwin.top+rcclient.top-rcclient.bottom+4;  
+    rcwin.bottom-rcwin.top+rcclient.top-rcclient.bottom;  
 }
 
 /**************************************************************************
@@ -464,8 +470,8 @@ static void win_del(void *data)
 **************************************************************************/
 void fcwin_box_add_win(struct fcwin_box *box, 
 		    HWND win,
-		    int expand,
-		    int fill,
+		    bool expand,
+		    bool fill,
 		    int padding)
 {
   fcwin_box_add_generic(box,win_minsize,win_setsize,win_del,(void *)win,
@@ -475,9 +481,19 @@ void fcwin_box_add_win(struct fcwin_box *box,
 /**************************************************************************
 
 **************************************************************************/
+void button_minsize(LPPOINT minsize, void *data)
+{
+  win_minsize(minsize,data);
+  minsize->x=minsize->x+4;
+  minsize->y=minsize->y*3/2+2;
+}
+
+/**************************************************************************
+
+**************************************************************************/
 
 HWND fcwin_box_add_checkbox(struct fcwin_box *box, char *txt, int id, int style,
-		       int expand, int fill, int padding)
+		       bool expand, bool fill, int padding)
 {
   HWND win;
   win=CreateWindow("BUTTON",txt,
@@ -496,7 +512,7 @@ HWND fcwin_box_add_checkbox(struct fcwin_box *box, char *txt, int id, int style,
 
 **************************************************************************/
 HWND fcwin_box_add_radiobutton(struct fcwin_box *box,char *txt, int id,
-			       int expand,int style,int fill, int padding)
+			       bool expand,int style,bool fill, int padding)
 {
   HWND win;
   win=CreateWindow("BUTTON",txt,
@@ -514,8 +530,71 @@ HWND fcwin_box_add_radiobutton(struct fcwin_box *box,char *txt, int id,
 /**************************************************************************
 
 **************************************************************************/
+static void groupbox_setsize(LPRECT rc, void *data)
+{
+  RECT boxsize;
+  struct groupbox_data *gb=(struct groupbox_data *)data;
+  win_setsize(rc,gb->win);
+  boxsize.top=rc->top+gb->text_height+3;
+  boxsize.bottom=rc->bottom-3;
+  boxsize.left=rc->left+3;
+  boxsize.right=rc->right-3;
+  fcwin_box_do_layout(gb->content,&boxsize);
+}
+
+/**************************************************************************
+
+**************************************************************************/
+static void groupbox_minsize(LPPOINT minsize, void *data)
+{
+  POINT boxsize;
+  struct groupbox_data *gb=(struct groupbox_data *)data;
+  char buf[80];
+  GetWindowText(gb->win,buf,sizeof(buf));
+  win_text_minsize(gb->win,minsize,buf);
+  gb->text_height=minsize->y;
+  fcwin_box_calc_sizes(gb->content,&boxsize);
+  minsize->x=MAX(minsize->x,boxsize.x);
+  minsize->y+=boxsize.y;
+  minsize->x+=6;
+  minsize->y+=6;
+}
+
+/**************************************************************************
+
+**************************************************************************/
+static void groupbox_del(void *data)
+{
+  struct groupbox_data *gb=(struct groupbox_data *)data;
+  DestroyWindow(gb->win);
+  fcwin_box_free(gb->content);
+  free(gb->content);
+}
+
+/**************************************************************************
+
+**************************************************************************/
+HWND fcwin_box_add_groupbox(struct fcwin_box *box, char *txt,
+			    struct fcwin_box *box_add, int style,
+			    bool expand, bool fill,
+			    int padding)
+{
+  struct groupbox_data *gb=fc_malloc(sizeof(struct groupbox_data));
+  gb->content=box_add;
+  gb->win=CreateWindow("BUTTON",txt,
+		       WS_CHILD | WS_VISIBLE | BS_GROUPBOX | style,
+		       0,0,0,0,
+		       box->owner,NULL,freecivhinst,NULL);
+  fcwin_box_add_generic(box,groupbox_minsize,groupbox_setsize,groupbox_del,
+			gb,expand,fill,padding);
+  return gb->win;
+}
+
+/**************************************************************************
+
+**************************************************************************/
 HWND fcwin_box_add_static(struct fcwin_box *box, char *txt, int id, int style,
-			  int expand, int fill, int padding)
+			  bool expand, bool fill, int padding)
 {
   HWND win;
   win=CreateWindow("STATIC",txt,WS_CHILD | WS_VISIBLE | style,
@@ -533,7 +612,7 @@ HWND fcwin_box_add_static(struct fcwin_box *box, char *txt, int id, int style,
 
 **************************************************************************/
 HWND fcwin_box_add_button(struct fcwin_box *box, char *txt, int id, int style,
-			  int expand, int fill, int padding)
+			  bool expand, bool fill, int padding)
 {
   HWND win;
   win=CreateWindow("BUTTON",txt,WS_CHILD | WS_VISIBLE | style,
@@ -543,7 +622,8 @@ HWND fcwin_box_add_button(struct fcwin_box *box, char *txt, int id, int style,
 		   freecivhinst,
 		   NULL);
   if (!win) return NULL;
-  fcwin_box_add_win(box,win,expand,fill,padding);
+  fcwin_box_add_generic(box,button_minsize,win_setsize,win_del,win,
+			expand,fill,padding);
   return win;
 }
 
@@ -644,7 +724,7 @@ HWND fcwin_box_add_list(struct fcwin_box *box,
 			int rows,
 			int id,
 			int style,
-			int expand, int fill, int padding)
+			bool expand, bool fill, int padding)
 {
   struct list_data *ld;
   HWND win;
@@ -754,7 +834,7 @@ HWND fcwin_box_add_tab(struct fcwin_box *box,
 		       char **titles,
 		       void **user_data, int n,
 		       int id,int style,
-		       int expand, int fill, int padding)
+		       bool expand, bool fill, int padding)
 {
   struct tab_data *td;
 
@@ -786,7 +866,7 @@ HWND fcwin_box_add_listview(struct fcwin_box *box,
 			    int rows,
 			    int id,
 			    int style,
-			    int expand, int fill, int padding)
+			    bool expand, bool fill, int padding)
 {
     struct list_data *ld;
   HWND win;
@@ -854,7 +934,7 @@ HWND fcwin_box_add_combo(struct fcwin_box *box,
 			 int rows,
 			 int id,
 			 int style,
-			 int expand, int fill, int padding)
+			 bool expand, bool fill, int padding)
 {
   struct list_data *ld;
   HWND win;
@@ -927,6 +1007,7 @@ static void edit_minsize(POINT *minsize,void *data)
   }
   text[i]=0;
   win_text_minsize(edit_d->win,minsize,text);
+  minsize->y+=4;
 }
 /**************************************************************************
 
@@ -952,7 +1033,7 @@ static void edit_del(void *data)
  *************************************************************************/
 HWND fcwin_box_add_edit(struct fcwin_box *box, char *txt, int maxchars,
 			int id,int style,
-			int expand, int fill, int padding)
+			bool expand, bool fill, int padding)
 {
   struct edit_data *edit_d;
   edit_d=fc_malloc(sizeof(struct edit_data ));
@@ -979,7 +1060,7 @@ HWND fcwin_box_add_edit(struct fcwin_box *box, char *txt, int maxchars,
 
 **************************************************************************/
 void fcwin_box_add_box(struct fcwin_box *box, struct fcwin_box *box_to_add,
-		       int expand, int fill, int padding)
+		       bool expand, bool fill, int padding)
 {
   fcwin_box_add_generic(box,box_minsize,box_setsize,box_del,
 		     (void *)box_to_add,expand,fill,padding);

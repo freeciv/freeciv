@@ -91,6 +91,10 @@ HWND fcwin_box_add_combo(struct fcwin_box *box,
 			 int id,
 			 int style,
 			 int expand, int fill, int padding);
+HWND fcwin_box_add_groupbox(struct fcwin_box *box, char *txt,
+			    struct fcwin_box *box_add, int style,
+			    bool expand, bool fill,
+			    int padding);
 HWND fcwin_box_add_radiobutton(struct fcwin_box *box,char *txt, int id,
 			       int style,int expand,int fill, int padding);
 void fcwin_box_add_box(struct fcwin_box *box, struct fcwin_box *box_to_add,
