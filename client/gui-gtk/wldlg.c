@@ -1190,8 +1190,13 @@ void worklist_avail_help_callback(GtkWidget *w, gpointer data)
 
   selection = GTK_CLIST(pdialog->avail)->selection;
   if(selection) {
-    id = pdialog->worklist_avail_ids[(int)selection->data];
-    is_unit = (int)selection->data >= pdialog->worklist_avail_num_improvements;
+    if ((int)selection->data >= pdialog->worklist_avail_num_targets) {
+      /* target is a global worklist id */
+      id = -1;
+    } else {
+      id = pdialog->worklist_avail_ids[(int)selection->data];
+      is_unit = (int)selection->data >= pdialog->worklist_avail_num_improvements;
+    }
   } else {
     id = -1;
   }

@@ -1202,8 +1202,13 @@ void worklist_avail_help_callback(Widget w, XtPointer client_data,
 
   ret = XawListShowCurrent(pdialog->avail);
   if(ret->list_index!=XAW_LIST_NONE) {
-    id = pdialog->worklist_avail_ids[ret->list_index];
-    is_unit = ret->list_index >= pdialog->worklist_avail_num_improvements;
+    if (ret->list_index >= pdialog->worklist_avail_num_targets) {
+      /* target is a global worklist id */
+      id = -1;
+    } else {
+      id = pdialog->worklist_avail_ids[ret->list_index];
+      is_unit = ret->list_index >= pdialog->worklist_avail_num_improvements;
+    }
   } else {
     id = -1;
   }
