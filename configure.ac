@@ -820,8 +820,7 @@ AC_CONFIG_FILES([Makefile
           data/Makefile 
 	  data/misc/Makefile 
 	  data/trident/Makefile 
-	  data/engels/Makefile 
-	  data/hires/Makefile 
+	  data/isotrident/Makefile 
 	  data/default/Makefile 
 	  data/civ1/Makefile 
 	  data/civ2/Makefile 
