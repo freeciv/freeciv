@@ -32,7 +32,6 @@
 #include "packets.h"
 #include "worklist.h"
 #include "support.h"
-#include "log.h"
 #include "climisc.h"
 #include "clinet.h"
 
