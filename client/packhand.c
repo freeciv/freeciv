@@ -80,7 +80,8 @@ void handle_game_state(struct packet_generic_integer *packet)
 {
   
   if(get_client_state()==CLIENT_SELECT_RACE_STATE && 
-     packet->value==CLIENT_GAME_RUNNING_STATE) {
+     packet->value==CLIENT_GAME_RUNNING_STATE &&
+     game.player_ptr->race == R_LAST) {
     popdown_races_dialog();
   }
   
