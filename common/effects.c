@@ -499,7 +499,7 @@ int parse_effect_requirement(Impr_Type_id source,
 			     const char *req_value)
 {
   bool problem;
-  int data;
+  int data = -1;
   const struct government *pgov;
 
   switch (req_type) {
