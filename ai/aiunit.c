@@ -52,6 +52,26 @@ extern struct move_cost_map warmap;
 static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader);
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat);
 
+/********************************************************************** 
+  This is a much simplified form of assess_defense (see advmilitary.c),
+  but which doesn't use pcity->ai.wallvalue and just returns a boolean
+  value.  This is for use with "foreign" cities, especially non-ai
+  cities, where ai.wallvalue may be out of date or uninitialized --dwp
+***********************************************************************/
+static int has_defense(struct city *pcity)
+{
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    if (is_military_unit(punit) && get_defense_power(punit) && punit->hp) {
+      return 1;
+    }
+  }
+  unit_list_iterate_end;
+  return 0;
+}
+
+/********************************************************************** 
+  ...
+***********************************************************************/
 int unit_move_turns(struct unit *punit, int x, int y)
 {
   int m, d;
@@ -365,7 +385,7 @@ static void invasion_funct(struct unit *punit, int dest, int n, int which)
     for (i = x - n; i <= x + n; i++) {
       pcity = map_get_city(i, j);
       if (pcity && pcity->owner != punit->owner)
-        if (dest || punit->activity != ACTIVITY_GOTO || !assess_defense(pcity))
+        if (dest || punit->activity != ACTIVITY_GOTO || !has_defense(pcity))
           pcity->ai.invasion |= which;
     }
   }
@@ -766,7 +786,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
        (real_map_distance(punit->x, punit->y, dest_x, dest_y) < 3 &&
        (!punit->ai.bodyguard || unit_list_find(&(map_get_tile(punit->x,
        punit->y)->units), punit->ai.bodyguard) || (dcity &&
-       !assess_defense(dcity)))))) {
+       !has_defense(dcity)))))) {
 /* if we are on a boat, disembark only if we are within two tiles of
 our target, and either 1) we don't need a bodyguard, 2) we have a
 bodyguard, or 3) we are going to an empty city.  Previously, cannons
