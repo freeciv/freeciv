@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2002-12-21 10:07+0100\n"
-"PO-Revision-Date: 2002-11-10 03:03-0800\n"
+"PO-Revision-Date: 2002-12-23 14:00-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -9709,9 +9709,8 @@ msgid "Host"
 msgstr "ホスト"
 
 #: client/gui-gtk-2.0/plrdlg.c:193
-#, fuzzy
 msgid "Idle Turns"
-msgstr "ターン"
+msgstr "アイドルターン"
 
 # clefs
 #: client/gui-gtk-2.0/plrdlg.c:301 client/gui-gtk/plrdlg.c:163
