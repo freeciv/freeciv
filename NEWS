@@ -1,8 +1,8 @@
-Welcome to Freeciv 1.6!
+Welcome to Freeciv 1.7!
 
 Thanks again to all our developers, who continue to work so hard.
 
-For 1.6, a _lot_ of bugs have been fixed, new features added, and thanks
+For 1.7, a _lot_ of bugs have been fixed, new features added, and thanks
 to John Stonebraker, the AI is ever-increasingly capable.
 
 Those who are interested in seeing the detailed changes should check
@@ -10,17 +10,25 @@ the ChangeLog file.
 
 WHAT'S CHANGED SINCE 1.6.3:
 
-[Mitch, our stenographer, will fill this in]
+ - Tracy Reed (who provides www.freeciv.org) reports that our site is
+   getting over 6,000 hits per month.  He was quoted as saying "Cool!
+   Now my computer is doing something!"
+ - Massive AI changes. It plays smarter, and the AI uses seagoing vessels.  
+ - Help system has been improved a bit more.
+ - Lots, and Lots, and Lots of donated patches. Thanks guys, keep 'em 
+   coming!
+ - FIXME
 
 KNOWN BUGS:
 
-While we're not saying Freeciv 1.6.4 is bug-free, we believe it's stable
-enough to be considered safe for everyday use.
+Freeciv 1.7 will be the first stable release since 1.6.3, and will be
+considered bug-free enough for everyday use.  But first, we want to release
+a series of beta versions.  These will be numbered 1.6.4 and higher.
 
 However if you do find one, please report it (or other problems) to
-the Freeciv mailing list.  See:
+the freeciv-dev mailing list.  For instructions on how to do this, see:
 
-  http://freeciv.ultraviolet.org
+  http://www.freeciv.org
 
 THINGS TO DO:
 
