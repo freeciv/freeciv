@@ -895,6 +895,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y, int igz
   if (unit_flag(punit->type, F_CARAVAN)
       && pcity
       && pcity->owner != punit->owner
+      && !players_allied(pcity->owner, punit->owner)
       && punit->homecity) {
     struct packet_unit_request req;
     req.unit_id = punit->id;
