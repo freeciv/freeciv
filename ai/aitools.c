@@ -346,7 +346,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   assert(!unit_has_orders(punit));
 
   UNIT_LOG(LOG_DEBUG, punit, "changing role from %s to %s",
-           get_ai_role_str(punit->activity), get_ai_role_str(task));
+           get_ai_role_str(punit->ai.ai_role), get_ai_role_str(task));
 
   /* Free our ferry.  Most likely it has been done already. */
   if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {
