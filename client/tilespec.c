@@ -699,6 +699,7 @@ static void scan_specfile(struct specfile *sf, bool duplicates_ok)
 	(void) hash_replace(sprite_hash, mystrdup(tags[k]), ss);
       }
     }
+    free(tags);
   }
 
   section_file_check_unused(file, sf->file_name);
