@@ -18,7 +18,7 @@ wonder="United Nations"
 government="Democracy"
 
 cities =
-  "Athens", "Paris", "St Louis", "London", "Stockholm", "Antwerp",
+  "Athens", "Paris", "St. Louis", "London", "Stockholm", "Antwerp",
   "Amsterdam", "Los Angeles", "Berlin", "Helsinki", "Melbourne",
   "Rome", "Tokyo", "Grenoble", "Mexico City", "Munich", "Montreal",
   "Moscow", "Seoul", "Barcelona", "Atlanta", "Sydney", "Salt Lake"
