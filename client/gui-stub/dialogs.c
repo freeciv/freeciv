@@ -26,7 +26,7 @@
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      int map_x, int map_y)
+			      struct tile *ptile)
 {
   /* PORTME */
 }
