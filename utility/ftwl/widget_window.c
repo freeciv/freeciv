@@ -745,7 +745,9 @@ void sw_paint_all(void)
     region_nr++;
 #endif
   } region_list_iterate_end;
-  stop_timer(timer3);
+  if (DEBUG_PAINT_ALL) {
+    stop_timer(timer3);
+  }
 #if DUMP_UPDATES
   sprintf(filename,"whole-c%03d-r999-after.ppm",call);
   be_write_osda_to_file(whole_osda,filename);

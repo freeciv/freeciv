@@ -300,7 +300,6 @@ void handle_destroyed_widgets(void)
     return;
   }
 
-  freelog(LOG_NORMAL, "handle destroy");
   widget_list_iterate(deferred_destroyed_widgets, pwidget) {
     if ((pwidget->tooltip && pwidget->tooltip_shown)
 	|| dragged_widget == pwidget || selected_widget == pwidget
