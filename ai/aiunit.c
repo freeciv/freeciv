@@ -920,7 +920,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, i
   struct unit *pdef;
   int best = 0, maxd, boatid = 0;
   int harborcity = 0, bx = 0, by = 0;
-  int fprime;
+  int fprime, handicap;
   struct unit *ferryboat = 0;
   int sanity, boatspeed, unhap = 0;
   struct city *pcity;
@@ -998,13 +998,13 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 
   if (is_ground_unit(punit) && !punit->id &&
       is_terrain_near_tile(punit->x, punit->y, T_OCEAN)) harborcity++;
- 
+
+  handicap=ai_handicap(pplayer, H_TARGETS);
   for (i = 0; i < game.nplayers; i++) {
     aplayer = &game.players[i];
     if (aplayer != pplayer) { /* enemy */
       city_list_iterate(aplayer->cities, acity)
-        if (ai_handicap(pplayer, H_TARGETS) &&
-            !map_get_known(acity->x, acity->y, pplayer)) continue;
+        if (handicap && !map_get_known(acity->x, acity->y, pplayer)) continue;
         sanity = (goto_is_sane(pplayer, punit, acity->x, acity->y, 1) &&
                  warmap.cost[acity->x][acity->y] < maxd); /* for Tangier->Malaga */
         if (ai_fuzzy(pplayer,1) && ((is_ground_unit(punit) &&
@@ -1129,8 +1129,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
 /* I am deliberately not adding ferryboat code to the unit_list_iterate. -- Syela */
       unit_list_iterate(aplayer->units, aunit)
         if (map_get_city(aunit->x, aunit->y)) continue; /* already dealt with it */
-        if (ai_handicap(pplayer, H_TARGETS) &&
-            !map_get_known(aunit->x, aunit->y, pplayer)) continue;
+        if (handicap && !map_get_known(aunit->x, aunit->y, pplayer)) continue;
         if (unit_flag(aunit->type, F_CARAVAN) && !punit->id) continue; /* kluge */
         if (ai_fuzzy(pplayer,1) &&
 	    (aunit == get_defender(pplayer, punit, aunit->x, aunit->y) &&
