@@ -860,6 +860,11 @@ GtkWidget *create_network_page(void)
 
 
 /**************************************************************************
+                                  START PAGE
+**************************************************************************/
+static GtkWidget *start_aifill_spin;
+
+/**************************************************************************
   request the game options dialog.
 **************************************************************************/
 static void game_options_callback(GtkWidget *w, gpointer data)
@@ -903,6 +908,15 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
+  update the start page.
+**************************************************************************/
+static void update_start_page(void)
+{
+  /* Default to aifill 5. */
+  gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin), 5);
+}
+
+/**************************************************************************
   create start page.
 **************************************************************************/
 GtkWidget *create_start_page(void)
@@ -935,9 +949,8 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
 
   spin = gtk_spin_button_new_with_range(1, MAX_NUM_PLAYERS, 1);
+  start_aifill_spin = spin;
   gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
-  /* Default to aifill 5. */
-  gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), 5);
   gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), 
                                     GTK_UPDATE_IF_VALID);
   g_signal_connect_after(spin, "value_changed",
@@ -1595,6 +1608,7 @@ void set_client_page(enum client_pages page)
   case PAGE_START:
     if (is_server_running()) {
       gtk_widget_show(start_options_table);
+      update_start_page();
     } else {
       gtk_widget_hide(start_options_table);
     }
