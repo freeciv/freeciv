@@ -168,6 +168,9 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
 
     find_city_to_diplomat(pplayer, punit, &acity, &time_to_dest, map);
 
+    pf_destroy_map(map);
+    destroy_unit_virtual(punit);
+
     if (acity == NULL || BV_ISSET(ai->stats.diplomat_reservations, acity->id)) {
       /* Found no target or city already considered */
       return;
@@ -238,7 +241,6 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       choice->choice = u;
       BV_SET(ai->stats.diplomat_reservations, acity->id);
     }
-    destroy_unit_virtual(punit);
   }
 }
 
@@ -679,4 +681,5 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       }
     }
   }
+  pf_destroy_map(map);
 }
