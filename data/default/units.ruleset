@@ -190,7 +190,7 @@ veteran_move_bonus = 0, 0, 0, 0
 name          = _("Settlers")
 move_type     = "Land"
 tech_req      = "None"
-obsolete_by   = "Engineers"
+obsolete_by   = "None"
 graphic       = "u.settlers"
 graphic_alt   = "-"
 sound_move    = "m_settlers"
@@ -211,12 +211,12 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Airbase", "AddToCity", "Cities", "NoVeteran"
+flags         = "Settlers", "NonMil", "AddToCity", "Cities", "NoVeteran"
 roles         = ""
 helptext      = _("\
 Settlers are one of the key units in the game.  They can be used to\
  found new cities, irrigate land, build roads, railroads,\
- fortresses, airbases and mines, and clean up pollution and nuclear\
+ fortresses and mines, and clean up pollution and nuclear\
  fallout.  Upkeep for Settlers is in food\
  as well as production, and a Settler can die if its supporting city\
  runs out of food.\
@@ -228,6 +228,47 @@ Settlers and Engineers may work together to decrease the amount of\
  finished.  Be careful not to dedicate too many workers to one task,\
  though; excess effort can be wasted, and a group of Settlers and/or\
  Engineers is highly vulnerable to enemy attacks.\
+")
+
+[unit_worker]
+name          = _("Workers")
+move_type     = "Land"
+tech_req      = "Pottery"
+obsolete_by   = "Engineers"
+graphic       = "u.worker"
+graphic_alt   = "u.engineers" ; for compatibility
+sound_move    = "m_worker"
+sound_move_alt = "m_generic"
+sound_fight   = "f_worker"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Settlers", "NonMil", "Airbase", "NoVeteran"
+roles         = ""
+helptext      = _("\
+Workers are one of the key units in the game.  They can be used to\
+ irrigate land, build roads, railroads, fortresses, airbases and\
+ mines, and clean up pollution and nuclear fallout.\
+ \n\n\
+Settlers, Workers and Engineers may work together to decrease the\
+ amount of time required for long projects.  If two or more Workers\
+ and/or Engineers are both working on the same task in the same square,\
+ their efforts will be added together each turn until the task is\
+ finished.  Be careful not to dedicate too many workers to one task,\
+ though; excess effort can be wasted, and a group of Workers, Settlers\
+ and/or Engineers is highly vulnerable to enemy attacks.\
 ")
 
 [unit_engineers]
@@ -242,7 +283,7 @@ sound_move_alt = "m_generic"
 sound_fight   = "f_engineers"
 sound_fight_alt = "f_generic"
 build_cost    = 40
-pop_cost      = 1
+pop_cost      = 0
 attack        = 0
 defense       = 2
 hitpoints     = 20
@@ -253,22 +294,22 @@ transport_cap = 0
 fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
-uk_food       = 1
+uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Transform", "Airbase", "AddToCity", "Cities", "NoVeteran"
+flags         = "Settlers", "NonMil", "Transform", "Airbase", "NoVeteran"
 roles         = ""
 helptext      = _("\
-Engineers are similar to Settlers, but they work twice as fast and\
+Engineers are similar to Workers, but they work twice as fast and\
  move twice as fast.  Engineers may also perform major terrain\
  transformations (for example, converting Tundra into Desert) which\
- are beyond the capabilities of Settlers.\
+ are beyond the capabilities of Workers.\
 \n\n\
-TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers\
+TIP 1:  Upgrade Workers to Engineers when possible, as Engineers\
  require the same resources as ordinary Settlers.\
 \n\n\
 TIP 2:  If you manage to build Leonardo's Workshop, research\
  Explosives before the Workshop becomes obsolete.  This way,\
- your Settler units will be upgraded for free.\
+ your Workers units will be upgraded for free.\
 ")
 
 [unit_warriors]
