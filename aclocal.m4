@@ -316,11 +316,10 @@ else
   $1_FALSE=
 fi])
 
-
 # Configure paths for GTK+
 # Owen Taylor     97-11-3
 
-dnl AM_PATH_GTK([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
+dnl AM_PATH_GTK([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND [, MODULES]]]])
 dnl Test for GTK, and define GTK_CFLAGS and GTK_LIBS
 dnl
 AC_DEFUN(AM_PATH_GTK,
@@ -333,6 +332,15 @@ AC_ARG_WITH(gtk-exec-prefix,[  --with-gtk-exec-prefix=PFX Exec prefix where GTK 
             gtk_config_exec_prefix="$withval", gtk_config_exec_prefix="")
 AC_ARG_ENABLE(gtktest, [  --disable-gtktest       Do not try to compile and run a test GTK program],
 		    , enable_gtktest=yes)
+
+  for module in . $4
+  do
+      case "$module" in
+         gthread) 
+             gtk_config_args="$gtk_config_args gthread"
+         ;;
+      esac
+  done
 
   if test x$gtk_config_exec_prefix != x ; then
      gtk_config_args="$gtk_config_args --exec-prefix=$gtk_config_exec_prefix"
@@ -804,3 +812,4 @@ int main ()
   AC_SUBST(GDK_IMLIB_LIBS)
   rm -f conf.gdkimlibtest
 ])
+
