@@ -417,3 +417,46 @@ helps to follow some simple style rules:
 - If you send patches, use diff -u.
 
 ===========================================================================
+Incrementing the version number
+===========================================================================
+(Some notes for maintainers :-)
+
+When the version number is incremented the following files should
+be updated in sync ('+' are auto-generated but kept in CVS).
+
+    configure.in
+    + configure
+    common/version.h  (for non-configure)
+    data/Freeciv
+    + client/gui-xaw/Freeciv.h
+
+For stable release (and maybe other times), following should
+usually be updated:
+
+    NEWS
+    ChangeLog
+    PEOPLE
+
+Other documentations files may also contain release number,
+and in any case usually need some updates at release time:
+
+    README
+    BUGS
+    TODO
+    data/helpdata.txt   (version number as comment)
+
+When turning on the BETA_VERSION flag, usually need to adjust
+the beta messages, in:
+
+    server/civserver.c
+    server/meta.h
+    client/gui-gtk/connectdlg.c
+    data/Freeciv
+    + client/gui-xaw/Freeciv.h
+
+Releases are best made using "make dist".  Before doing "make dist"
+you should compile both the Xaw and Gtk+ versions in that directory
+(in either order), so that the dist Makefiles get the right dependency 
+information.
+
+===========================================================================
