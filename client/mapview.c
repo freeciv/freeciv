@@ -799,7 +799,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
       
       map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas), 
 				     tile_width*NORMAL_TILE_WIDTH,
-				     tile_height*NORMAL_TILE_WIDTH,
+				     tile_height*NORMAL_TILE_HEIGHT,
  				     display_depth);
 				     
       XFillRectangle(display, map_canvas_store, fill_bg_gc, 0, 0, 
@@ -843,7 +843,7 @@ void update_map_canvas(int tile_x, int tile_y, int width, int height,
 	      tile_x*NORMAL_TILE_WIDTH, 
 	      tile_y*NORMAL_TILE_HEIGHT, 
 	      width*NORMAL_TILE_WIDTH,
-	      height*NORMAL_TILE_WIDTH,
+	      height*NORMAL_TILE_HEIGHT,
 	      tile_x*NORMAL_TILE_WIDTH, 
 	      tile_y*NORMAL_TILE_HEIGHT);
 
