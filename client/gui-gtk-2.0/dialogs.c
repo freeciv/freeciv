@@ -2258,7 +2258,7 @@ gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void nuke_children(gpointer data, gpointer user_data)
+static void nuke_children(gpointer data, gpointer user_data)
 {
   if (data != user_data) {
     if (GTK_IS_WINDOW(data) && GTK_WINDOW(data)->type == GTK_WINDOW_TOPLEVEL) {
