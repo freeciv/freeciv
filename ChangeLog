@@ -1,111 +1,925 @@
-Thu Aug  6 06:00:49 1998  Mitch Davis <mjd@alphalink.com.au>
+Wed Sep  2 20:37:06 1998  Mitch Davis <mjd@alphalink.com.au>
 
-	* Released 1.7.0.
+	* CREDITS, configure, configure.in, client/Freeciv.h,
+ 	common/shared.h, data/Freeciv: Bumped version numbers to 1.7.1.
 	
-Wed Aug  5 18:51:25 1998  John Stonebraker <ppaqebb@surfshop.net>
+Wed Sep  2 20:12:32 1998  Mitch Davis <mjd@alphalink.com.au>
 
-	* README.AI, ai/advmilitary.c, ai/aicity.c, ai/aihand.c,
- 	ai/aiunit.c, common/city.h, common/player.c, common/player.h,
- 	server/cityturn.c, server/gotohand.c, server/gotohand.h,
- 	server/settlers.c, server/stdinhand.c, server/unittools.c: Last
- 	minute tweaks to the AI for 1.7.0.  Hope they're alright. -- Syela
+	* NEWS, configure, configure.in: With this patch to configure.in
+ 	freeciv will actually configure and compile nicely on Solaris (run
+ 	"autoconf" after applying this patch to make a new configure):
 	
-Wed Aug  5 18:04:54 1998  Mitch Davis <mjd@alphalink.com.au>
+	Note that according to Johannes Abt
+ 	<jsabt@cip.informatik.uni-erlangen.de>, This works with
+ 	autoconf-2.12 but not autoconf-2.9.
+	
+	Patch supplied by Finn Arne Gangstad <finnag@guardian.no>.
+	
+Wed Sep  2 19:57:40 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* common/unit.c: This patch prevents settlers from fortifying, in
+ 	order to reduce the confusion between fortifying and building
+ 	fortresses.  Patch supplied by David Pfitzner <dwp@mso.anu.edu.au>.
+	
+Wed Sep  2 00:54:52 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/Freeciv, client/Freeciv.h: Changed the layout of the
+ 	diplomat and spy dialogs so the buttons are in a two column list
+ 	instead of one big long row.  Buttons are now the same size with
+ 	centered labels, which looks nicer IMHO.
+	
+Tue Sep  1 22:08:02 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/civclient.c, common/game.c, server/civserver.c: Bug fix
+ 	from Walter Misar to fix alignment problems on solaris with the
+ 	used_ids array.
+	
+Tue Sep  1 21:57:57 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/dialogs.c: Diplomats bribing units wasn't done right.
+	
+Tue Sep  1 21:56:36 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* common/unit.c: diplomat_can_do_action() was letting non-spies
+ 	sabotage units.
+	
+Tue Sep  1 14:34:49 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/gotohand.c: Dealing with GOTOing warships more
+ 	intelligently re: enemies_at. -- Syela
+	
+Tue Sep  1 14:32:38 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unittools.c: Ignoring units at (i,j) for enemies_at(punit,
+ 	i, j).  -- Syela
+	
+Mon Aug 31 13:12:12 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/repodlgs.c: The "Income" line in the trade report will try
+ 	to approximate what your true income will be at the end of the
+ 	turn.  This means it will not be affected by buying or selling
+ 	things.  City improvements which will be completed at the end of
+ 	the turn can throw things off.
+	
+Mon Aug 31 12:59:46 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/unithand.c: Added buffering around the data sent when a
+ 	trade route is established.
+	
+Mon Aug 31 12:57:46 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/plrhand.c: Made changing tax rates do a gobal city
+ 	refresh.  This way the client gets instant feedback on how the new
+ 	rates effect his cities.
+	
+Mon Aug 31 12:54:33 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/cityturn.c: Buffered the connection during a global city
+ 	refresh.
+	
+Mon Aug 31 09:23:23 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/repodlgs.c: Fixed bug were the client would crash trying
+ 	to update the city report when it didn't exist.
+	
+Sat Aug 29 13:18:58 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/Freeciv.h, client/citydlg.c, client/repodlgs.c,
+ 	client/repodlgs.h, data/Freeciv: Changed the city report code so
+ 	that the whole report isn't generated when a single city is
+ 	changed.  Changed the way the widgets resize themselves to get
+ 	around broken Xt annoyingness so the labels should be centered and
+ 	the right size now.  There should also be less flickering when the
+ 	report is updated.
+	
+Sat Aug 29 13:09:43 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* common/packets.h: The improvements and city_map where called
+ 	unsigned char, but they really should be just plain char.
+	
+Sat Aug 29 13:08:35 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/stdinhand.c: Took out a comma where there shouldn't have
+ 	been one.
+	
+Fri Aug 28 10:36:54 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unithand.c: Fixing auto-explorers (I broke them yesterday)
+ 	-- Syela
+	
+Thu Aug 27 09:58:41 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unithand.c: Returning 0 for same_pos
+ 	handle_unit_move_requests (which often happen when the server
+ 	hangs) so movement isn't wasted.  Making the check for ai
+ 	ferryboats that try to attack much more robust to prevent aberrant
+ 	abort()s.  Allowing 0-move explorers to change acitivity. -- Syela
+	
+Thu Aug 27 09:56:52 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/civserver.c, server/stdinhand.c, server/stdinhand.h:
+ 	Proto'ing set_ai_level and setting game.skill_level concurrently --
+ 	Syela
+	
+Thu Aug 27 09:56:05 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/settlers.c: Fixing stupid bug involving auto-settlers and
+ 	polar cities. -- Syela
+	
+Thu Aug 27 09:55:22 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/cityhand.c: Adding city name to city_sell message (for AI
+ 	debugging) -- Syela
+	
+Thu Aug 27 09:54:44 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* client/mapctrl.c: Allowing players to idle 0-movement explorers
+ 	by clicking on them. -- Syela
+	
+Thu Aug 27 09:48:08 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aiunit.c: Not assuming walls for cities 2-3 turns away unless
+ 	owner knows Masonry. -- Syela
+	
+Thu Aug 27 09:47:00 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aihand.c: Two bugfixes suggested by Peter Schaefer; preventing
+ 	the AI from setting lux=100 and selling buildings, and preventing
+ 	extremely high lux rates (for celebrations) that will lead to
+ 	selling buildings. -- Syela
+	
+Thu Aug 27 09:45:57 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/advmilitary.c: Preventing the AI from buying walls/coastal
+ 	unless it's urgent.  Not assuming walls until c == 4 if enemy
+ 	doesn't know masonry.  Adding port_is_within to prevent the AI from
+ 	building too many ports and warships; this way saves money and also
+ 	ensures enough ground troops for invasions. -- Syela
+	
+Thu Aug 27 09:43:27 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* README.AI: Updated README.AI; recently fixed problems not
+ 	included. -- Syela
+	
+Thu Aug 27 09:35:04 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/Freeciv.h, client/mapview.c, client/xmain.c, data/Freeciv:
+ 	Made the map canvas fill up all the space.  Before, if you had a
+ 	map with ysize>40 the canvas would have a big gap between the
+ 	scroll bar and the message window.
+	
+Wed Aug 26 22:57:43 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/Freeciv, client/Freeciv.h, client/gotodlg.c: Added a "All
+ 	Cities" toggle to the goto dialog.  Default is off.  This way the
+ 	dialog isn't full of hundreds of enemy cities.  Makes airlift much
+ 	less of a pain, since it doesn't take as long to find your city.
+	
+Wed Aug 26 22:54:53 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/unitfunc.c: Fixed up do_airline() some.  It now uses
+ 	unit_can_airlift_to() to determine if an airlift is possible rather
+ 	than duplicating the code.  It also wasn't sending city updates for
+ 	the cities involved, so the client wouldn't know that a city had
+ 	already airlifted this turn.  Added buffering around the four
+ 	packets an airlift sends.
+	
+Wed Aug 26 00:05:23 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/citydlg.c: De-activated the activate button on diplomat
+ 	investigate city dialogs.
+	
+Tue Aug 25 22:53:25 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/repodlgs.c, client/repodlgs.h: Added in Cedric Tefft's
+ 	scrollbar for the city report patch.  Added code for turning of
+ 	report updates at the end of the turn.
+	
+Tue Aug 25 22:49:16 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/packhand.c: Made handle_unit_info() smarter about
+ 	refreshing city dialogs.  For instance, moving a unit out of its
+ 	homecity would refresh the city dialog twice.  Made the client turn
+ 	off report updates between during the end of the turn.  This
+ 	removes the flash in the reports as they would get updates hundreds
+ 	(or thousands!) of times.
+	
+Tue Aug 25 22:44:08 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/citydlg.c: The city_dialog_refresh() function had a hack
+ 	to update the city and trade reports when it was called.  However,
+ 	this function gets called for things relating to enemy cities that
+ 	don't show up in the reports.  So I made it only update the reports
+ 	for when it's called for the players own cities.  This greatly
+ 	reduces the number of costly city report refreshes the client does.
+	
+Tue Aug 25 22:41:10 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/Freeciv.h, data/Freeciv: Added in Cedric Tefft's patch for
+ 	a scrollbar on the city report.
+	
+Tue Aug 25 22:39:50 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/cityhand.c: Fixed a bug where nocity_send wasn't taking
+ 	effect.  This resulted in two city updates being sent at the end of
+ 	the turn for each of your cities.  Now it's down to one.
+	
+Tue Aug 25 09:15:27 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/civserver.c: Moving before_end_year (which does nothing
+ 	but reset message windows) closer to the end_of_sniff to make David
+ 	Pfitzner happy. -- Syela
+	
+Tue Aug 25 09:10:55 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/stdinhand.c: Applying David P's fix to the recently broken
+ 	set_ai_level -- Syela
+	
+Tue Aug 25 09:10:21 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/citydlg.c, client/packhand.c: Made the city dialogs get
+ 	updated when a unit listed in one (present or supported) changes
+ 	status.
+	
+Tue Aug 25 09:08:38 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/mapgen.c: Initializing counter j in mapgenerator2 and
+ 	3. -- Syela
+	
+Tue Aug 25 09:07:44 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unithand.c: Removing unneeded duplicate def'n of punit in
+ 	wakeup_neighbour -- Syela
+	
+Tue Aug 25 08:46:13 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/Freeciv, client/Freeciv.h, client/citydlg.c: Added an
+ 	"Activate Units" button to the city dialog that will activate all
+ 	units in the city.
+	
+Tue Aug 25 08:23:35 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/repodlgs.c: The trade report sell command won't try to
+ 	sell improvements in cities that already sold something that turn.
+	
+Mon Aug 24 23:40:24 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* server/unithand.c: Added code so that sentried units get woken up
+ 	when enemy units come within view.  Patch submitted by Trevor
+ 	Pering <pering@tongass.EECS.Berkeley.EDU>.
+	
+Mon Aug 24 23:32:48 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* server/stdinhand.c: This patch forces AI names to be between 1
+ 	and 9 chars long.  I chose 9 chars because it seems to be length
+ 	you are allowed to use for a human player.  Patch submitted by
+ 	Markus Linnala <maage@cs.tut.fi>.
+	
+Mon Aug 24 21:12:37 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/registry.c: Added code to align the pointer returned by
+ 	strbuffermalloc().
+	
+Mon Aug 24 10:39:24 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/cityhand.c: Nothing much really.
+	
+Sun Aug 23 23:43:04 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* client/Freeciv.h, client/civclient.c, client/optiondlg.c,
+ 	client/packhand.c, data/Freeciv, data/helpdata.txt: This patch
+ 	fixes problems with the original wakeup code.  (Eg, data/Freeciv
+ 	was only partly patched!)  Patch submitted by Reinier Post
+ 	<reinpost@win.tue.nl>.
+	
+Sun Aug 23 23:40:10 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* server/stdinhand.c: Modified the help string for map.seed so it
+ 	mentions that 0 gives a random map.  Patch submitted by Reinier
+ 	Post <reinpost@win.tue.nl>.
+	
+Sun Aug 23 23:31:27 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* common/map.h, server/mapgen.c: I took a look at the map generator
+ 	and reduced the chance it will hang up, so that it may work with
+ 	much more settings.
+	
+	While I was at it, I added an experimental generator 3, which will
+ 	create 1 big island for every player, and 1 small island.  Settings
+ 	for landmass will affect the changed mapgen 2.  Settings for
+ 	mountains, etc, won't yet.
+	
+	Patch submitted by Peter Schaefer
+ 	<schaefer@malaga.math.uni-augsburg.de>
+	
+Sun Aug 23 23:29:35 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* common/game.c, common/game.h, common/map.h, server/plrhand.c,
+ 	server/stdinhand.c: Attached is a small patch that fixes a bug in
+ 	the scorelog generation code... I screwed up the starting year (I
+ 	used 4000 instead of -4000)...  I made that number a constant in an
+ 	include file.  (Affects game.c, game.h, map.h, and plrhand.c).
+  	Patch submitted by Trevor Pering
+ 	<pering@tongass.EECS.Berkeley.EDU>.
+	
+Sun Aug 23 23:27:17 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* client/civclient.c, client/clinet.c, client/colors.c,
+ 	client/graphics.c, client/helpdlg.c, client/packhand.c,
+ 	client/xmain.c, common/log.c, common/log.h, common/packets.c,
+ 	common/unit.c, server/cityhand.c, server/civserver.c,
+ 	server/maphand.c, server/registry.c, server/sernet.c,
+ 	server/stdinhand.c, server/unitfunc.c: Changed all occurances of
+ 	"log()" to "flog()", since the GTK port of Freeciv needs the -lm
+ 	math library, which also has a log() function.  Patch submitted by
+ 	Per I. Mathisen <perrin@kvalito.no>.
+	
+Fri Aug 21 21:00:37 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/stdinhand.c: The section file wasn't getting freed after a
+ 	manual save game.
+	
+Fri Aug 21 20:57:04 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/registry.c, server/registry.h: Fixed a bug I had added
+ 	earlier where the strbuffer would get freed when it hadn't been
+ 	allocated during an auto save game.  Used the opportunity to have
+ 	the rest of the registry allocations use the strbuffer system,
+ 	which reduced memory usage by another 200k for a big saved game.
+	
+Fri Aug 21 20:49:39 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* common/shared.c, common/shared.h: Removed the minstrdup()
+ 	function and put it into registry.c, since that is the only place
+ 	that used it.  Also changed it to use the strbuffer system.
+	
+Fri Aug 21 20:34:08 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/civserver.c, server/diplhand.c, server/gamehand.c,
+ 	server/gamehand.h, server/maphand.c, server/maphand.h,
+ 	server/plrhand.c, server/plrhand.h: Fixed some ugliness with the
+ 	includes.
+	
+Fri Aug 21 08:17:50 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/settlers.c: Not letting auto-settlers go idle as easily.
+  	Christopher Neufeld's ideas, but my own implementation thereof. --
+ 	Syela
+	
+Thu Aug 20 23:18:06 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* common/city.c, server/plrhand.c: The attached patch makes the
+ 	Literacy field of the Demographics report less likely to overflow
+ 	(eg at the end of a large game).  Patch submitted by David Pfitzner
+ 	<dwp@mso.anu.edu.au>.
+	
+Thu Aug 20 21:46:04 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/plrhand.c, server/registry.c, server/registry.h: David
+ 	Pfitzner's patch to handle new savefile entries, which also handles
+ 	the foulness issue much better than my (non-uploaded) kluge. --
+ 	Syela
+	
+Thu Aug 20 21:44:23 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* client/citydlg.c, client/dialogs.c, client/packhand.c,
+ 	common/city.h, common/packets.c, server/cityhand.c,
+ 	server/plrhand.c, server/unitfunc.c: Reimplementing
+ 	diplomat_investigate in a less obtrusive way that does not hose
+ 	compatibility with 1.7.0.  Making create_advances_list more robust
+ 	and fixing a lot of other warnings in the spy and scorelog patches.
+  	Adding savefile_options to player_load, but not using it. -- Syela
+	
+Thu Aug 20 21:37:55 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* client/connectdlg.c: Changing an #if to an if() so that -Wall is
+ 	happy. -- Syela
+	
+Thu Aug 20 21:31:10 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unitfunc.c: Fixing a typo in kill_unit that apparently
+ 	crashed the server. -- Syela
+	
+Thu Aug 20 11:52:45 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/registry.c: Small change to hash function that decreases
+ 	collisions by 50% for huge save files.  Made a custom string
+ 	allocation function for the strings used by the section file loader
+ 	and the hash table.  This avoids malloc overhead on each string and
+ 	avoids having to iterate over all the hash table buckets to free
+ 	them.  This decreased load time by %17 and reduced the server's
+ 	memory usage by 804k.
+	
+Thu Aug 20 11:17:24 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/civserver.c, server/gamehand.c: Moved the load timing
+ 	stuff from gamehand to civserver.  This way it can time the whole
+ 	loading process, including hash table creation.  Also used clock()
+ 	instead of time() to get CPU time in clock ticks for more accuracy.
+	
+Thu Aug 20 05:24:31 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aiunit.c: Fixing one of those SIGFPE's I love so very much
+ 	(in is_my_turn) -- Syela
+	
+Thu Aug 20 04:20:10 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/civserver.c: Added a function prototype for
+ 	read_init_script().
+	
+Wed Aug 19 23:48:20 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* server/gamehand.c, server/registry.c, server/registry.h: The
+ 	attached patch adds a hash table to the registry to speed up
+ 	lookups -- to speed up loading the savefile.  (The current method
+ 	is O(N^2) where N is the "size" of the savefile; this patch should
+ 	make it more like O(N).)  Patch submitted by David Pfitzner
+ 	<dwp@mso.anu.edu.au>.
+	
+Wed Aug 19 23:35:10 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* client/Freeciv.h, client/mapctrl.c, client/mapctrl.h,
+ 	client/menu.c, client/packhand.c, client/xmain.c, data/Freeciv:
+ 	Added a 'wakeup' command (W for a unit - shift/click on tile) to
+ 	unsentry all units on a given tile.  Patch submitted by Reinier
+ 	Post <reinpost@win.tue.nl>.
+	
+Wed Aug 19 23:27:43 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* server/civserver.c: Added an '-r' option to the server, which
+ 	will read in an initilization script at server startup time.  Patch
+ 	submitted by Trevor Pering <pering@tongass.EECS.Berkeley.EDU>.
+	
+Wed Aug 19 23:24:50 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* configure, configure.in: Removed the explicit check for the
+ 	install program, as this is done automatically.  Bug reported by
+ 	Tony <stuckey@jaka.ece.uiuc.edu>.
+	
+Wed Aug 19 23:17:11 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* client/Freeciv.h, client/citydlg.c, client/dialogs.c,
+ 	client/mapctrl.c, client/packhand.c, common/city.h,
+ 	common/packets.c, common/packets.h, common/unit.c, common/unit.h,
+ 	data/Freeciv, data/helpdata.txt, server/cityhand.c,
+ 	server/plrhand.c, server/unitfunc.c, server/unitfunc.h,
+ 	server/unithand.c: The latest round of spy/diplomat changes from
+ 	Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>.
+	
+Wed Aug 19 23:09:33 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* client/Freeciv.h, client/repodlgs.c, common/city.c, data/Freeciv:
+ 	Addition to the city report dialog: (+gold/science/luxury) Patch
+ 	supplied by Dee Jay Randall <randal@cs.uregina.ca> and David
+ 	Pfitzner <dwp@mso.anu.edu.au>.
+	
+Wed Aug 19 22:47:40 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* client/citydlg.c: On some systems (SunOS 4.1.2 is the one in
+ 	question), sprintf returns a 'char *' instead of an 'int'.  This
+ 	fixes that.  Patch submitted by Trevor Pering
+ 	<pering@tongass.EECS.Berkeley.EDU>.
+	
+Wed Aug 19 22:47:11 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* server/gamehand.c: Added capability code for the scorelog.  Patch
+ 	submitted by Trevor Pering <pering@tongass.EECS.Berkeley.EDU>.
+	
+Wed Aug 19 22:45:43 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* common/game.c, common/game.h, common/map.h, server/plrhand.c,
+ 	server/stdinhand.c: Some changes so that a score file is generated
+ 	which can be used to generate graphs of different statistics over
+ 	time. This is very similar to the graphs generated in CivI at the
+ 	end of the game.
+	
+	When the "scorelog" server option is turned on, a file called
+ 	"civscore.log" is created and updated every turn.  A post-
+ 	processing perl script (which can be found in the Freeciv contrib
+ 	dir) is then used to parse the log file and generate the output
+ 	files, which are formatted for "xgraph".
+	
+	This was submitted by Trevor Pering
+ 	<pering@tongass.EECS.Berkeley.EDU>.
+	
+Wed Aug 19 22:43:25 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* data/helpdata.txt: Updated the anarchy help text.  Patch
+ 	submitted by Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>.
+	
+Tue Aug 18 23:53:25 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* ai/aihand.c: Fixed a problem where if a human player is being set
+ 	to ai while in ANARCHY, the ai would not go out of it.  Patch
+ 	submitted by Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>.
+	
+Tue Aug 18 23:50:09 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* client/helpdlg.h: Fixed a minor bug in the new, improved Freeciv
+ 	1.7.0 help system.  In the civclient, when I select Help Playing,
+ 	the help system doesn't know where to go.  In particular, it
+ 	doesn't go to "Strategy and Tactics."  It seems that it gets
+ 	confused because "Playing" != "Strategy and Tactics".  Bug report
+ 	by Andrew E. Schulman <andrex@alw.nih.gov>, and patch by David
+ 	Pfitzner <dwp@mso.anu.edu.au>.
+	
+Tue Aug 18 11:37:53 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* ai/aiunit.c, common/game.c, common/map.c, common/map.h,
+ 	server/gotohand.c, server/plrhand.c, server/settlers.c: The tile
+ 	structure had a city ID in it, which is silly because city IDs are
+ 	pretty much useless.  Changed it to a city pointer which should
+ 	make map_get_city() a lot faster.  I wonder if this makes the city
+ 	cache (actually city id index would be a better name, because it
+ 	doesn't really "cache") unnecessary.
+	
+Tue Aug 18 11:34:06 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/civserver.c: Initialized the city cache before a saved
+ 	game is loaded.  Fixed the ID allocation function to ship ID 0.
+	
+Tue Aug 18 11:30:28 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/cityhand.c: Changed the city cache a little bit.  Tried a
+ 	few hashing algorithms, but no hashing at all worked best.
+	
+Sun Aug 16 02:02:01 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unittools.c, server/unittools.h: Renaming rate_unit to
+ 	rate_unit_d, and adding rate_unit_a for analogous funct
+ 	get_attacker, which findvictim will call.  Returning 0 in friendly
+ 	cities in enemies_at. -- Syela
+	
+Sun Aug 16 02:00:29 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/settlers.c: Adding territory array to try to keep
+ 	autosettlers safer.  The implementation is not very good, but I had
+ 	to do something.  Allowing ferryboats for very long
+ 	intracontinental trips.  Checking ZOC legality before trying to
+ 	disembark. -- Syela
+	
+Sun Aug 16 01:58:38 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/gotohand.c: Adding could_be_my_zoc to allow paths past
+ 	distant enemy units.  Discouraging Kaput! in find_a_dir. -- Syela
+	
+Sun Aug 16 01:55:52 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* common/city.h: Adding invasion to city ai struct -- Syela
+	
+Sun Aug 16 01:53:44 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aiunit.c: Adding util funct tile_is_accessible so explorers
+ 	don't keep banging their heads into a ZOC-brick-wall.  Doing tricky
+ 	things to unit_bellig because get_attack_power is 99% worthless.
+  	Writing invasion_funct, whose purpose is to force the AI to send
+ 	warships where its infantry are, and to send its infantry where its
+ 	warships are.  In reality, it tends not to make enough ground
+ 	troops, but it's at least tolerable now.  Writing is_my_turn so
+ 	that units in a stack attack in order; previously the invader would
+ 	attack before the battleships sometimes.  Hacking findvic so that
+ 	units defending cities attack pests more ambitiously.  Hacking
+ 	d_val so that fast units don't think they need bodyguards.  Keeping
+ 	invaders on boats longer so they don't disembark and die.
+  	Preventing warships from looking for charge, since eight of them
+ 	would often suddenly try to defend one city.  The real problem is
+ 	elsewhere, but this kluge is adequate and much easier to program.
+  	Treating fieldunits as non-defenders in findjob.  Faking targets in
+ 	f_s_t_k so that x and y are set even if there's nothing to kill so
+ 	that the AI will understand that steam engine allows actually
+ 	useful warships.  Doing lots of weird invasion stuff.  Removing +40
+ 	city-kill bonus for air/sea units unless ground/heli units are
+ 	included in the invasion.  Hacking sanity so that very long
+ 	intracontinental trips allow ferryboats.  Preventing long rides by
+ 	trireme.  Adding 'g' to attacker-want equation so that the AI sends
+ 	enough units to flatten a city in one turn.  Kluging so that the AI
+ 	won't build units just to kill caravans, since that never actually
+ 	works.  Using funky fprime variable instead of f in the denom, so
+ 	that def=1 units are penalized correctly.  Adding
+ 	find_nearest_friendly_port and telling bored ferryboats and wounded
+ 	warships to go there.  Teaching the AI that frigates are primarily
+ 	warships.  Not letting units aboard ferries fortify because weird
+ 	things happen in cities then.  -- Syela
+	
+Sun Aug 16 01:35:14 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aihand.c: Fixing horrible bug in the forced-disband routine.
+  	AI used to disband the only defender of a city in disorder, which
+ 	is exactly what I intended to prevent.  -- Syela
+	
+Sun Aug 16 01:33:38 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aicity.c: Adding the line that makes the AI actually (very
+ 	rarely) build Magellan's.  Adding a wonder-kluge so that cities
+ 	don't abort almost-built wonders.  Allowing non-military builds if
+ 	want (usually attacker want) is over 100 with no urgency.  Fixing
+ 	rounding errors in one of those /30 functions.  Allowing the AI to
+ 	buy non-defensive units a little earlier than before.  Adding stuff
+ 	to the list of stuff to save up for.  Making the AI more frugal.
+  	Forcing the AI to upgrade its triremes. -- Syela
+	
+Sun Aug 16 01:29:55 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/advmilitary.c: Fixing almost all the typos and other
+ 	discrepancies between f_s_t_k and k_s_w attacker-want equations,
+ 	partly as preparation for modularizing that junk.  Adding some util
+ 	functs, assess_distance, assess_danger_unit.  Treating units that
+ 	are about to be produced in enemy cities as danger in
+ 	assess_danger.  Limiting p_d_w to costs <= shield_stock + 40; it
+ 	was annoying having the AI insist on using battleships for defense.
+  	Changing unit_desira so that def=1 units are penalized elsewhere
+ 	instead.  Changing p_a_w to allow overrides of the chosen attacker
+ 	in case we need something with more defense or more speed or
+ 	something.  Doing ugly things to k_s_w that I can't even discern
+ 	from the diffs.  Fixing more bugs than I can count, or explain - no
+ 	one else noticed them since they merely caused suboptimal AI
+ 	behavior.  Want for military techs and handling of unhap is
+ 	standard and as intended now.  Fixing bug that caused AI warships
+ 	to yoyo.  Implementing ai.invasion.  Forcing the AI to build
+ 	defenders instead of attackers when it's in danger.  Forcing the AI
+ 	to build barracks before ground attackers.  Preventing the AI from
+ 	building units it can't upkeep.  Treating all unbuilt ground
+ 	attackers as vet, which encourages making barracks and ground
+ 	attackers.  I did a lot, and I probably forgot something. -- Syela
+	
+Fri Aug 14 22:52:10 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/civserver.h, server/sernet.c: Removed lots of extra
+ 	prototypes from civserver.h for functions that aren't in
+ 	civserver.c, then added another include to sernet.c because of a
+ 	missing prototype.
+	
+Fri Aug 14 22:47:03 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* common/packets.c: Fixed bug were the client would sometimes not
+ 	realize that an improvement was obsoleted by a wonder.
+	
+Fri Aug 14 22:45:17 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* common/city.c: Some small performance improvement to
+ 	wonder_replacement().
+	
+Fri Aug 14 21:52:45 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/unithand.c: Fixed an old bug so the liberated/conquered
+ 	messages show up correctly.
+	
+Thu Aug 13 15:40:43 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aitools.c, ai/aitools.h, server/unitfunc.c, server/unithand.c:
+ 	Removing unused and broken dist_nearest_enemy_* functs.  Creating
+ 	and protoing dist_nearest_city, then calling it in the
+ 	combat-notify's.  Adding minor (almost meaningless) change to let
+ 	AI cities building wonders keep doing so.  Stopping AI warships on
+ 	GOTO.  Rewriting the 'Hey idiot' debug code to use abort() and to
+ 	abort() only if ai.passenger is nonzero, which should prevent
+ 	human-induced crashes.  Leaving the abort() in until I'm totally
+ 	sure the AI doesn't cause the problem itself.  Forcing AI units to
+ 	end moves early instead of moving right next to something that will
+ 	kill them. -- Syela
+	
+Thu Aug 13 09:45:20 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/packhand.c: Last patched used a global variable not
+ 	declared in this file, so it didn't even compile.  Used the helper
+ 	function get_unit_in_focus() rather than punit_focus directory, and
+ 	added the include file for update_menus().
+	
+Thu Aug 13 09:20:18 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/cityturn.c: Another bug pointed out by Walter Misar,
+ 	PACKET_TILE_INFO should have been TILE_KNOWN.
+	
+Thu Aug 13 08:57:37 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/unitfunc.c: Fixed bug pointed out by Walter Misar,
+ 	capturing a city didn't give you any techs.  This has been around
+ 	since the future tech patch, I can't believe no one noticed until
+ 	now.
+	
+Thu Aug 13 07:31:28 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/stdinhand.c: Bug found by Benjamin Korvemaker, the maximum
+ 	map width was actually the max map height.
+	
+Wed Aug 12 14:15:40 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* client/menu.c, client/packhand.c: "Build Railroad" never shows up
+ 	in the Orders menu, even if it is a valid option.  I have rigged
+ 	this so that "Build Railroad" replaces "Build Road" in the Options
+ 	menu when appropriate.
+	
+	As I was working on this fix, I noticed a bug: If you click on a
+ 	unit which is engaged in some activity (pollution cleanup, road
+ 	building, etc.)  the Orders menu does not reflect the fact that
+ 	this unit is idle and can accept new orders until you click on that
+ 	unit a SECOND time. I found a fix for this problem and incorporated
+ 	it into this patch as well.  Patch submitted by Cedric Tefft
+ 	<cedric@earthling.net>.
+	
+Tue Aug 11 16:59:24 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/Freeciv.h, client/citydlg.c, client/mapctrl.c,
+ 	client/mapctrl.h, client/repodlgs.c, common/packets.c,
+ 	common/packets.h, data/Freeciv, server/civserver.c,
+ 	server/unithand.c, server/unithand.h: Added a option to upgrade
+ 	individual units to the present units menu in the city dialog.  Had
+ 	to add a new packet type to the server to support doing this.
+	
+Sun Aug  9 09:23:47 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/citytools.c: Crashless and more readable (if not
+ 	standardly whitespaced) version of transfer_city_units. -- Syela
+	
+Fri Aug  7 23:51:45 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/repodlgs.c: The trade report code was looking pretty
+ 	crufty, so I fixed it up.
+	
+Fri Aug  7 04:48:36 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/repodlgs.c: Removed C++ comments from two lines.  Moved a
+ 	line around too.
+	
+Thu Aug  6 17:16:52 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/Freeciv.h, client/dialogs.c, data/Freeciv: The diplomat
+ 	dialog didn't work, it looked like someone forgot to add the
+ 	resources necessary for the new button.  Fixed it.
+	
+Thu Aug  6 12:09:55 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/helpdata.txt: Added the explore command to the help text.
+	
+Thu Aug  6 03:27:48 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* configure: Updating version number to 1.7.0.  Good show,
+ 	Mitch. -- Syela
+	
+Wed Aug  5 20:14:06 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ChangeLog, NEWS: Updating NEWS and ChangeLog - Mitch's unenviable
+ 	burden -- Syela
+	
+Wed Aug  5 20:10:47 1998  John Stonebraker <ppaqebb@surfshop.net>
 
 	* README, configure.in, client/Freeciv.h, client/connectdlg.c,
  	common/shared.h, data/Freeciv, data/helpdata.txt,
  	debian/civclient.man, debian/civserver.man, debian/copyright,
- 	server/gamehand.c:
- 	- Updated version numbers for 1.7.0.  
-	- Fixed a bug in connectdlg.c which prevented the beta message
- 	  from going away.  
-	- Changed all references from freeciv.ultraviolet.org to
- 	  www.freeciv.org.
+ 	server/gamehand.c: Committing Mitch Davis's patch to update the
+ 	version number to 1.7.0 and add man files and copyright notice in
+ 	debian/ -- Syela
 	
-Wed Aug  5 18:03:59 1998  Mitch Davis <mjd@alphalink.com.au>
-
-	* data/helpdata.txt: The old help text said "Makes one unhappy or
- 	content citizen happy. Makes 2 extra happy faces in the city
- 	containing the Hanging Gardens."
-	
-	According to the code, you get 1 "bonus" in every city, and 2 more
- 	"bonuses" for a total of 3 in the city that contains the Gardens.
-  	Patch submitted by Greg Wooledge <wooledge@kellnet.com>.
-	
-Wed Aug  5 18:02:05 1998  Mitch Davis <mjd@alphalink.com.au>
-
-	* ai/aihand.c: Removed the lines that cause the ai to go to
- 	anarchy.  Patch submitted by Peter Schaefer
- 	<schaefer@malaga.math.uni-augsburg.de>.
-	
-Wed Aug  5 18:01:43 1998  Mitch Davis <mjd@alphalink.com.au>
-
-	* server/cityturn.c: makes anarchy a bad choice as all trade will
- 	be converted to luxury. However, there is no maintenance to pay
- 	for buildings( which is in accordance to civ1 rules. civII ? ).
-  	Obsolete wonders will still give money, and specialists will
- 	continue doing their job.  There is also no mention of trade
- 	routes in the function changed.  The official tax rate will not
- 	reflect the 100% luxury rate, which saves you the trouble to
- 	readjust it back.  Patch submitted by Peter Schaefer
- 	<schaefer@malaga.math.uni-augsburg.de>.
-	
-Wed Aug  5 18:01:08 1998  Mitch Davis <mjd@alphalink.com.au>
-
-	* server/plrhand.c: Repair the problems caused by the ai going to
- 	anarchy by checking whether we are in a legal anarchy state; There
- 	was one function which escaped previous fixes.  Patch submitted by
- 	Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>.
-	
-Wed Aug  5 18:00:45 1998  Mitch Davis <mjd@alphalink.com.au>
-
-	* server/gamehand.c: A fix so that Freeciv reads 1.6.4 save files
- 	that don't include the capability string.  Patch supplied by David
- 	Pfitzner <dwp@mso.anu.edu.au>.
-	
-Wed Aug  5 18:00:18 1998  Mitch Davis <mjd@alphalink.com.au>
+Wed Aug  5 20:07:25 1998  John Stonebraker <ppaqebb@surfshop.net>
 
 	* client/dialogs.c, common/unit.c, common/unit.h,
  	data/helpdata.txt, server/citytools.c, server/cityturn.c,
  	server/gamehand.c, server/unitfunc.c, server/unitfunc.h,
- 	server/unithand.c:
+ 	server/unithand.c: Committing Kris Bubendorfer's patch to repair
+ 	spy/diplomat bugs, allow spies to poison cities, and to mung
+ 	create_unit. -- Syela
 	
-	1.  Fixed a problem with units not being deleted properly that
- 	    have different home cities to the incited city.  This removes
- 	    the phantom units.
+Wed Aug  5 20:04:39 1998  John Stonebraker <ppaqebb@surfshop.net>
 
-	2.  Bribed units have the moves_left fixed.
-	3.  Sabotage now kills the unsuccessful Spy/Diplomat
-	4.  Steal tech now generates proper dialog
-	5.  Spies can now poison cities
-	6.  Updated Diplomat/Spy help.
-	Patch supplied by Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>.
+	* client/repodlgs.c: Christian Grothoff's patch to display all
+ 	improvements in trade dialog. -- Syela
 	
-Wed Aug  5 17:59:33 1998  Mitch Davis <mjd@alphalink.com.au>
+Wed Aug  5 20:03:48 1998  John Stonebraker <ppaqebb@surfshop.net>
 
-	* common/unit.c: Changed the code so that military units are also
- 	allowed to pillage.  Patch supplied by Jason Merrill
- 	<jason@yorick.cygnus.com>.
+	* server/gamehand.c: David Pfitzner's patch so early 1.6.4
+ 	savefiles will load. -- Syela
 	
-Wed Aug  5 17:58:51 1998  Mitch Davis <mjd@alphalink.com.au>
+Wed Aug  5 20:03:13 1998  John Stonebraker <ppaqebb@surfshop.net>
 
-	* client/helpdlg.h, client/menu.c, data/helpdata.txt: Updated the
- 	help text to correctly describe how combat is worked out.  Patches
- 	supplied by Greg Wooledge <gawooledge@sherwin.com> and Frank
- 	Muzzulini <muzz@albatross.pond.sub.org>
+	* common/unit.c: Jason Merrill's patch so that military units can
+ 	pillage. -- Syela
 	
-Wed Aug  5 17:56:04 1998  Mitch Davis <mjd@alphalink.com.au>
+Wed Aug  5 20:02:19 1998  John Stonebraker <ppaqebb@surfshop.net>
 
-	* CREDITS, README, freeciv_hackers_guide.txt: Spelling fixes after
- 	running Freeciv through Ispell.  Patch supplied by Markus Linnala
- 	<maage@cs.tut.fi>.
+	* CREDITS, README, freeciv_hackers_guide.txt: Correcting typos and
+ 	grammatical errors in documentation.  Patch supplied by Markus
+ 	Linnala. -- Syela
 	
-Wed Aug  5 17:54:51 1998  Mitch Davis <mjd@alphalink.com.au>
+Wed Aug  5 20:01:28 1998  John Stonebraker <ppaqebb@surfshop.net>
 
-	* client/repodlgs.c: This patch modifies the trade-report to make
- 	it show all buildings and not just the ones with no cost.  Patch
- 	submitted by Christian Grothoff <ma0035@stud.uni-wuppertal.de>.
+	* data/helpdata.txt: Clarifying help on Hanging Gardens (Greg
+ 	Wooledge again) -- Syela
 	
+Wed Aug  5 20:00:08 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* client/helpdlg.h, client/menu.c, data/helpdata.txt: Adding Greg
+ 	Wooledge's help on combat. -- Syela
+	
+Wed Aug  5 19:58:24 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aihand.c, server/cityturn.c, server/plrhand.c: Implementing
+ 	Peter Schaefer's patches to prevent taxes, science, and building
+ 	upkeep during anarchy. -- Syela
+	
+Wed Aug  5 19:55:03 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unittools.c: Changing enemies_at to be a little more
+ 	efficient and less omniscient. -- Syela
+	
+Wed Aug  5 19:54:33 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/stdinhand.c: Adding funct set_ai_level, and adding and
+ 	doc'ing normal and hard commands to invoke it. -- Syela
+	
+Wed Aug  5 19:53:00 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/settlers.c: Adding util funct is_wet so that autosettlers
+ 	won't want to irrigate tiles they have no reason to know are
+ 	irrigable.  Adding enemies_at check in findwork; this is not nearly
+ 	adequate to stop settlers from going to their deaths, but is better
+ 	than nothing. -- Syela
+	
+Wed Aug  5 19:51:02 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/gotohand.h: Adding orig_x and orig_y to warmap (still
+ 	unused) -- Syela
+	
+Wed Aug  5 19:50:45 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/gotohand.c: Treating from ocean (presumably ferryboat) to
+ 	land moves as 3 instead of something bizarre in LAND_MOVING warmap.
+  	Averaging outgoing and incoming move costs in LAND_MOVING warmap,
+ 	since pathological cases led to pathological behavior where the AI
+ 	thought danger was much farther away than it was.  Adding orig_x
+ 	and orig_y to warmap, but not implementing them anywhere. -- Syela
+	
+Wed Aug  5 19:48:15 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/cityturn.c: Quick hack to stop widespread disorder in AI
+ 	nations whose Gardens or Oracle become obsolete. -- Syela
+	
+Wed Aug  5 19:47:19 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* common/player.h: Adding more ai handicaps, ones I could actually
+ 	implement, and protoing ai_handicap funct. -- Syela
+	
+Wed Aug  5 19:44:01 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* common/player.c: Adding funct ai_handicap. -- Syela
+	
+Wed Aug  5 19:43:34 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* common/city.h: Changing grave_danger back to int. -- Syela
+	
+Wed Aug  5 19:38:36 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aiunit.c: Implementing H_HUTS so that normal-mode AI explorers
+ 	won't move straight to huts on unseen tiles.  Increasing ct in
+ 	explorer loop (PART TWO) so that fast units explore further.
+  	Teaching exploring boats that exploring coastlines is better than
+ 	exploring open sea.  This is actually important for the normal-mode
+ 	AI.  Adding could_unit check so that I don't get annoying ZOC
+ 	violation messages.  Changing unit_vul so that defenders against
+ 	virtual (id=0) attackers are treated as fully healed.  Restoring
+ 	the city-kill bonus in findvictim which I inadvertently hosed at
+ 	some point in the past.  Implementing H_TARGETS so that AI in
+ 	normal mode won't target anything it hasn't seen.  Altering
+ 	ai_manage_ferryboat so that ferryboats may explore rather than
+ 	going home in normal mode. -- Syela
+	
+Wed Aug  5 19:34:08 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aihand.c: Implementing H_RATES, so the AI in normal mode won't
+ 	set its rates beyond its government_max_rate. -- Syela
+	
+Wed Aug  5 19:33:19 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aicity.c: Giving the AI some clue what to do on fallbacks,
+ 	which seem only to occur with techlevel=0.  Hosing the DOOMED
+ 	clause, since I hosed grave_danger.  Telling the AI not to spend
+ 	1000 on battleships for defense anymore; I don't know how well this
+ 	will work yet, although it seems correct.  Not saving money for
+ 	B_AQUEDUCT if we only want it because we're celebrating.  Saving
+ 	money for it hosed the celebration, leading to ridiculous
+ 	flipflops.  Rewriting worst_elvis_tile, which has been defective
+ 	for months, but I only noticed last night when I was doing
+ 	last-minute modifications and Boston decided to have disorder N
+ 	turns in a row.  Adding resolved/unresolved printf to emergency
+ 	subroutine. -- Syela
+	
+Wed Aug  5 19:30:03 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/advmilitary.c: Adding dangerfunct so that danger amortization
+ 	is 2^(1-t) instead of 1/t^2.  Treating units adjacent to city as 3
+ 	away instead of whatever the warmap thinks.  Changing grave_danger
+ 	to an int, but not implementing my master plan yet.  It needs to
+ 	acknowledge that four veteran dragoons outside a city are more than
+ 	four times as dangerous as one.  Moving the v/=30 to fix a possible
+ 	problem where the AI berserkly wants FEUDALISM.  Adding a +=
+ 	urgency in m_a_c_b so that the AI will buy if danger==def.  Adding
+ 	emergency-wall code which actually worked when I tried it (once),
+ 	but isn't necessarily verified yet. -- Syela
+
+Wed Aug  5 19:25:53 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* README.AI: Updating AI intro, doc'ing normal and hard modes,
+ 	updating list of known and recently resolved problems. -- Syela
+
 Tue Aug  4 22:41:17 1998  John Stonebraker <ppaqebb@surfshop.net>
 
 	* server/unittools.h: Protoing can_unit_attack_unit_at_tile and
