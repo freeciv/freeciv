@@ -87,7 +87,7 @@ double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
     (lots of talk for so little code)
   */
 
-  double binom_save = pow(def_P_lose1, def_N_lose - 1);
+  double binom_save = pow(def_P_lose1, (double)(def_N_lose - 1));
   double accum_prob = binom_save; /* lr = 0 */
 
   int lr; /* the number of Lost Rounds by the attacker */

@@ -110,7 +110,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   if(game.spacerace
      && pplayer->player_no == game.player_idx
      && pship->state == SSHIP_STARTED
-     && pship->success_rate > 0) {
+     && pship->success_rate > 0.0) {
     gtk_widget_set_sensitive(pdialog->launch_command, TRUE);
   } else {
     gtk_widget_set_sensitive(pdialog->launch_command, FALSE);

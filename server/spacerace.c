@@ -90,7 +90,8 @@ void spaceship_calc_derived(struct player_spaceship *ship)
     ship->energy_rate = 2.0 * solar_panels / (double)(life_support+habitation);
   }
   if (fuel>0 && propulsion>0) {
-    ship->success_rate = MIN(ship->support_rate,1) * MIN(ship->energy_rate,1);
+    ship->success_rate =
+	MIN(ship->support_rate, 1.0) * MIN(ship->energy_rate, 1.0);
   }
 
   /* The Success% can be less by up to a few % in some cases
@@ -348,7 +349,7 @@ Use shuffled order to randomly resolve ties.
 void check_spaceship_arrivals(void)
 {
   int i;
-  double arrival, best_arrival = 0;
+  double arrival, best_arrival = 0.0;
   struct player *best_pplayer = NULL;
   struct player *pplayer;
   struct player_spaceship *ship;
@@ -359,7 +360,7 @@ void check_spaceship_arrivals(void)
     
     if (ship->state == SSHIP_LAUNCHED) {
       arrival = ship->launch_year + ship->travel_time;
-      if (game.year >= arrival
+      if (game.year >= (int)arrival
 	  && (best_pplayer==NULL || arrival < best_arrival)) {
 	best_arrival = arrival;
 	best_pplayer = pplayer;

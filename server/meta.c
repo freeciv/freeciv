@@ -285,9 +285,9 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
      /* use when we close the connection to a metaserver */
   }
 
-  if(!do_send && (time_since_last_send!=NULL)
-     && (read_timer_seconds(time_since_last_send)
-	 < METASERVER_UPDATE_INTERVAL)) {
+  if (!do_send && (time_since_last_send != NULL)
+      && ((int) read_timer_seconds(time_since_last_send)
+	  < METASERVER_UPDATE_INTERVAL)) {
     return 0;
   }
   if (time_since_last_send == NULL) {

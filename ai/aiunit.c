@@ -1304,7 +1304,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
             n = ai_choose_defender_versus(acity, punit->type);
             v = get_virtual_defense_power(punit->type, n, acity->x, acity->y) *
                 unit_types[n].hp * unit_types[n].firepower *
-                (do_make_unit_veteran(acity, n) ? 1.5 : 1) / 30;
+                (do_make_unit_veteran(acity, n) ? 1.5 : 1.0) / 30;
             if (v * v >= d) { d = v * v; b = unit_types[n].build_cost + 40; }
           } /* let's hope this works! */
           if (!is_ground_unit(punit) && !is_heli_unit(punit) &&
