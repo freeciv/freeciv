@@ -735,7 +735,12 @@ void helptext_unit(char *buf, int i, const char *user_text)
     sprintf(buf+strlen(buf), _("* Ignores zones of control.\n"));
   }
   if (unit_flag(i, F_NONMIL)) {
-    sprintf(buf+strlen(buf), _("* A non-military unit (no shield upkeep).\n"));
+    sprintf(buf+strlen(buf), _("* A non-military unit"
+			       " (cannot attack; no martial law).\n"));
+  }
+  if (unit_flag(i, F_FIELDUNIT)) {
+    sprintf(buf+strlen(buf), _("* A field unit: one unhappiness applies"
+			       " even when non-aggressive.\n"));
   }
   if (unit_flag(i, F_TRIREME)) {
     sprintf(buf+strlen(buf),

@@ -980,11 +980,12 @@ return 1 otherwise
 **************************************************************************/
 static int city_build_stuff(struct player *pplayer, struct city *pcity)
 {
+  struct government *g = get_gov_pplayer(pplayer);
   int space_part;
   
   if (pcity->shield_surplus<0) {
     unit_list_iterate(pcity->units_supported, punit) {
-      if (is_military_unit(punit)) {
+      if (utype_shield_cost(get_unit_type(punit->type), g)) {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 "Game: %s can't upkeep %s, unit disbanded",
 			 pcity->name, get_unit_type(punit->type)->name);

@@ -798,7 +798,7 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
   } /* not as good as elvising all at once, but should be adequate */
 
   unit_list_iterate(pcity->units_supported, punit)
-    if (is_military_unit(punit)) prodneed++;
+    prodneed += utype_shield_cost(get_unit_type(punit->type), g);
   unit_list_iterate_end;
   
   /* FIXME: I think this 'if' test should probably be removed,
