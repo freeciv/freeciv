@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.14.1-devel\n"
-"POT-Creation-Date: 2003-02-13 17:45+0100\n"
+"POT-Creation-Date: 2003-02-17 13:10+0100\n"
 "PO-Revision-Date: 2003-01-15 20:40+0100\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Language-Team: no <Norwegian>\n"
@@ -2103,11 +2103,11 @@ msgstr ""
 
 #: server/report.c:728 server/report.c:746
 msgid "Demographics Report:"
-msgstr "Landsoversikt:"
+msgstr "Demografirapport:"
 
 #: server/report.c:729
 msgid "Sorry, the Demographics report is unavailable."
-msgstr "Beklager, landsoversikten er ikke tilgjengelig."
+msgstr "Beklager, demografirapport er ikke tilgjengelig."
 
 #: server/report.c:733
 #, c-format
@@ -3416,7 +3416,7 @@ msgstr ""
 
 #: server/stdinhand.c:757
 msgid "What is in the Demographics report"
-msgstr "Hva er i demografi-rapporten"
+msgstr "Hva er i demografirapporten"
 
 #: server/stdinhand.c:758
 msgid ""
@@ -3435,14 +3435,14 @@ msgid ""
 "(The order of these characters is not significant, but their case is.)"
 msgstr ""
 "Dette skal være en tekststreng, hvor hver bokstav angir visningen av en rad "
-"med informasjon i demografiredegjørelsen.\n"
+"med informasjon i demografirapporten.\n"
 "    N = vis befolkning                  P = vis produksjon\n"
 "    A = vis landareal                    E = vis økonomi\n"
 "    S = vis bosatt areal                M = vis militærtjeneste\n"
-"    R = vis forsknings hastighet   O = vis forurensning\n"
-"    L = vis lesekyndighet\n"
+"    R = vis forskningshastighet   O = vis forurensning\n"
+"    L = vis utdannelse\n"
 "Dessuten angir følgende bokstaver om visse kolonner skal vises i rapporten:\n"
-"    q = vis kolonnen \"mengde\"       r = visa kolonnen \"rang\"\n"
+"    q = vis kolonnen \"mengde\"       r = vis kolonnen \"rang\"\n"
 "    b = vis kolonnen \"beste stat\"\n"
 "(Rekkefølgen betyr ingenting, men størrelsen på bokstavene gjør det)"
 
@@ -4747,7 +4747,7 @@ msgstr "brukernavn %s, "
 msgid "Barbarian"
 msgstr "barbarsk"
 
-#: server/stdinhand.c:3653 client/gui-gtk-2.0/plrdlg.c:184
+#: server/stdinhand.c:3653 client/gui-gtk-2.0/plrdlg.c:183
 msgid "AI"
 msgstr "AI"
 
@@ -5490,7 +5490,7 @@ msgstr "?size:St"
 msgid "Size"
 msgstr "Størrelse"
 
-#: client/cityrepdata.c:425 client/gui-gtk-2.0/plrdlg.c:189
+#: client/cityrepdata.c:425 client/gui-gtk-2.0/plrdlg.c:188
 #: client/gui-gtk/plrdlg.c:138 client/gui-mui/plrdlg.c:172
 #: client/gui-win32/plrdlg.c:350
 msgid "State"
@@ -7867,7 +7867,7 @@ msgstr "Versjon"
 msgid "Status"
 msgstr "Status"
 
-#: client/gui-gtk-2.0/connectdlg.c:246 client/gui-gtk-2.0/plrdlg.c:236
+#: client/gui-gtk-2.0/connectdlg.c:246 client/gui-gtk-2.0/plrdlg.c:235
 #: client/gui-gtk/connectdlg.c:131 client/gui-gtk/plrdlg.c:160
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:312
 #: client/gui-win32/connectdlg.c:366 client/gui-win32/plrdlg.c:354
@@ -7929,7 +7929,7 @@ msgstr "_Gå til"
 #: client/gui-gtk-2.0/dialogs.c:243 client/gui-gtk-2.0/messagewin.c:176
 #: client/gui-gtk/messagewin.c:166 client/gui-mui/messagewin.c:210
 msgid "_Popup City"
-msgstr "Vis b_y"
+msgstr "_Vis by"
 
 #: client/gui-gtk-2.0/dialogs.c:294 client/gui-gtk/dialogs.c:428
 #: client/gui-mui/dialogs.c:225 client/gui-win32/dialogs.c:1376
@@ -9797,97 +9797,97 @@ msgstr "E"
 msgid "Messages"
 msgstr "Beskjeder"
 
-#: client/gui-gtk-2.0/plrdlg.c:180 client/gui-gtk/plrdlg.c:136
+#: client/gui-gtk-2.0/plrdlg.c:179 client/gui-gtk/plrdlg.c:136
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:348 data/Freeciv:71
 msgid "Name"
 msgstr "Navn"
 
-#: client/gui-gtk-2.0/plrdlg.c:181 client/gui-gtk/plrdlg.c:136
+#: client/gui-gtk-2.0/plrdlg.c:180 client/gui-gtk/plrdlg.c:136
 msgid "Flag"
 msgstr "Flagg"
 
-#: client/gui-gtk-2.0/plrdlg.c:182 client/gui-gtk/plrdlg.c:136
+#: client/gui-gtk-2.0/plrdlg.c:181 client/gui-gtk/plrdlg.c:136
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/plrdlg.c:348
 msgid "Nation"
 msgstr "Nasjon"
 
-#: client/gui-gtk-2.0/plrdlg.c:183 client/gui-gtk/plrdlg.c:136
+#: client/gui-gtk-2.0/plrdlg.c:182 client/gui-gtk/plrdlg.c:136
 msgid "Team"
 msgstr "Lag"
 
-#: client/gui-gtk-2.0/plrdlg.c:185 client/gui-gtk/plrdlg.c:137
+#: client/gui-gtk-2.0/plrdlg.c:184 client/gui-gtk/plrdlg.c:137
 #: client/gui-mui/plrdlg.c:168 client/gui-win32/plrdlg.c:349
 msgid "Embassy"
 msgstr "Ambassade"
 
-#: client/gui-gtk-2.0/plrdlg.c:186 client/gui-gtk/plrdlg.c:137
+#: client/gui-gtk-2.0/plrdlg.c:185 client/gui-gtk/plrdlg.c:137
 #: client/gui-mui/plrdlg.c:169 client/gui-win32/plrdlg.c:349
 msgid "Dipl.State"
 msgstr "Diplomatisk status"
 
-#: client/gui-gtk-2.0/plrdlg.c:187 client/gui-gtk/plrdlg.c:137
+#: client/gui-gtk-2.0/plrdlg.c:186 client/gui-gtk/plrdlg.c:137
 #: client/gui-mui/plrdlg.c:170 client/gui-win32/plrdlg.c:349
 msgid "Vision"
 msgstr "Utsyn"
 
-#: client/gui-gtk-2.0/plrdlg.c:188 client/gui-gtk/plrdlg.c:137
+#: client/gui-gtk-2.0/plrdlg.c:187 client/gui-gtk/plrdlg.c:137
 #: client/gui-mui/plrdlg.c:171 client/gui-win32/plrdlg.c:349
 msgid "Reputation"
 msgstr "Rykte"
 
-#: client/gui-gtk-2.0/plrdlg.c:190 client/gui-gtk/plrdlg.c:138
+#: client/gui-gtk-2.0/plrdlg.c:189 client/gui-gtk/plrdlg.c:138
 #: client/gui-mui/plrdlg.c:173 client/gui-win32/plrdlg.c:350 data/Freeciv:79
 msgid "Host"
 msgstr "Server"
 
-#: client/gui-gtk-2.0/plrdlg.c:191
+#: client/gui-gtk-2.0/plrdlg.c:190
 msgid "Idle Turns"
 msgstr "Runder stillhet"
 
-#: client/gui-gtk-2.0/plrdlg.c:300 client/gui-gtk/plrdlg.c:176
+#: client/gui-gtk-2.0/plrdlg.c:299 client/gui-gtk/plrdlg.c:176
 #: client/gui-mui/plrdlg.c:323
 msgid "_Intelligence"
 msgstr "_Etterretning"
 
-#: client/gui-gtk-2.0/plrdlg.c:307 client/gui-gtk/plrdlg.c:182
+#: client/gui-gtk-2.0/plrdlg.c:306 client/gui-gtk/plrdlg.c:182
 #: client/gui-mui/plrdlg.c:324
 msgid "_Meet"
 msgstr "_Møte"
 
-#: client/gui-gtk-2.0/plrdlg.c:311 client/gui-gtk/plrdlg.c:188
+#: client/gui-gtk-2.0/plrdlg.c:310 client/gui-gtk/plrdlg.c:188
 #: client/gui-mui/plrdlg.c:325
 msgid "_Cancel Treaty"
 msgstr "_Avbryt avtale"
 
-#: client/gui-gtk-2.0/plrdlg.c:315 client/gui-gtk/plrdlg.c:194
+#: client/gui-gtk-2.0/plrdlg.c:314 client/gui-gtk/plrdlg.c:194
 #: client/gui-mui/plrdlg.c:326
 msgid "_Withdraw vision"
 msgstr "Trekk tilbake delt _utsyn"
 
-#: client/gui-gtk-2.0/plrdlg.c:322 client/gui-gtk/plrdlg.c:200
+#: client/gui-gtk-2.0/plrdlg.c:321 client/gui-gtk/plrdlg.c:200
 #: client/gui-mui/plrdlg.c:327
 msgid "_Spaceship"
 msgstr "_Romskip"
 
-#: client/gui-gtk-2.0/plrdlg.c:458 client/gui-gtk/plrdlg.c:308
+#: client/gui-gtk-2.0/plrdlg.c:457 client/gui-gtk/plrdlg.c:308
 #: client/gui-mui/plrdlg.c:119 client/gui-win32/plrdlg.c:163
 #: client/gui-xaw/plrdlg.c:226
 msgid "done"
 msgstr "ferdig"
 
-#: client/gui-gtk-2.0/plrdlg.c:460 client/gui-gtk/plrdlg.c:310
+#: client/gui-gtk-2.0/plrdlg.c:459 client/gui-gtk/plrdlg.c:310
 #: client/gui-mui/plrdlg.c:121 client/gui-win32/plrdlg.c:165
 #: client/gui-xaw/plrdlg.c:228
 msgid "moving"
 msgstr "flytter"
 
-#: client/gui-gtk-2.0/plrdlg.c:466 client/gui-gtk/plrdlg.c:316
+#: client/gui-gtk-2.0/plrdlg.c:465 client/gui-gtk/plrdlg.c:316
 #: client/gui-mui/plrdlg.c:127 client/gui-win32/plrdlg.c:171
 #: client/gui-xaw/plrdlg.c:234
 msgid "R.I.P"
 msgstr "R.I.P"
 
-#: client/gui-gtk-2.0/plrdlg.c:595 client/gui-gtk/plrdlg.c:547
+#: client/gui-gtk-2.0/plrdlg.c:594 client/gui-gtk/plrdlg.c:547
 #: client/gui-mui/plrdlg.c:254 client/gui-win32/plrdlg.c:76
 #: client/gui-xaw/plrdlg.c:361
 msgid "Game: You need an embassy to establish a diplomatic meeting."
@@ -13340,8 +13340,8 @@ msgid ""
 "left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city "
 "with City Walls built on a Forest tile."
 msgstr ""
-"Anta at en veteran kanon (A:8, F:1, T:20, I:1) med 2/3 flyttpoeng igjen "
-"angriper en ikke-veteran Musketer (A:3, F:3, TK:20, I:1) inne i en by (med "
+"Anta at en veteran kanon (A:8, F:1, Ik:20, Tp:1) med 2/3 flyttpoeng igjen "
+"angriper en ikke-veteran Musketer (A:3, F:3, Ik:20, Tp:1) inne i en by (med "
 "bymur) på en skogsrute."
 
 #: data/helpdata.txt:990
@@ -13414,8 +13414,8 @@ msgid ""
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
 "on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
-"Anta at et veteran slagskip (A:12, F:12, T:40, I:2) med 3 flyttpoeng igjen "
-"angriper veterane Gurkha tropper (A:5, F:5, T:20, I:1) inne i en by som er "
+"Anta at et veteran slagskip (A:12, F:12, Ik:40, Tp:2) med 3 flyttpoeng igjen "
+"angriper veterane Gurkha tropper (A:5, F:5, Ik:20, Tp:1) inne i en by som er "
 "bygget på en gresskledd rute, med bymurer og kystforsvar."
 
 #: data/helpdata.txt:1032
@@ -13796,10 +13796,10 @@ msgid ""
 "suffer extremely high levels of waste.)  A Courthouse will reduce the level "
 "of waste in a city. Waste can result in your cities not building anything."
 msgstr ""
-"Avfall er tar av skjold som følge av ineffektivitet og gjerrighet. Under de fleste "
-"styresett blir avfallet større destø lenger bort fra hovedstaden "
-"man kommer. (Dersom man ikke har en hovedstad, rammes man av "
-"ekstremt mye avfall.) Avfall kan føre til at byene dine ikke produserer noe."
+"Avfall er tar av skjold som følge av ineffektivitet og gjerrighet. Under de "
+"fleste styresett blir avfallet større destø lenger bort fra hovedstaden man "
+"kommer. (Dersom man ikke har en hovedstad, rammes man av ekstremt mye "
+"avfall.) Avfall kan føre til at byene dine ikke produserer noe."
 
 #: data/helpdata.txt:1237
 msgid ""
@@ -14229,9 +14229,10 @@ msgid ""
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
 msgstr ""
-"Reduserer korrupsjonen og avfallet i en by med 50%. Under et demokrati vil en rettssal "
-"gjøre en ulykkelig borger fornøyd. Dessuten halveres den effektive avstanden "
-"til hovedstaden, med hensikt i å kalkulere opprørskostnader."
+"Reduserer korrupsjonen og avfallet i en by med 50%. Under et demokrati vil "
+"en rettssal gjøre en ulykkelig borger fornøyd. Dessuten halveres den "
+"effektive avstanden til hovedstaden, med hensikt i å kalkulere "
+"opprørskostnader."
 
 #: data/default/buildings.ruleset:416 data/civ2/buildings.ruleset:345
 #: data/civ1/buildings.ruleset:362 data/history/buildings.ruleset:347
@@ -15588,8 +15589,8 @@ msgstr ""
 "Under kommunismen kan byer forsørge opp til 3 krigsenheter uten å betale for "
 "det. (Hver ekstra koster 1 skjold.)\n"
 "\n"
-"Man kan innføre begrenset, men effektiv unntakstilstand under kommunisme. Hver krigsenhet i "
-"en by, opp til 3, holder 2 ulykkelige borgere fornøyd."
+"Man kan innføre begrenset, men effektiv unntakstilstand under kommunisme. "
+"Hver krigsenhet i en by, opp til 3, holder 2 ulykkelige borgere fornøyd."
 
 #: data/default/governments.ruleset:437 data/civ2/governments.ruleset:524
 #: data/civ1/governments.ruleset:431 data/history/governments.ruleset:436
@@ -15786,8 +15787,8 @@ msgstr ""
 "like stort som byens størrelse, uten å betale for det (Hver ekstra enhet "
 "koster 1 skjold hver runde.)\n"
 "\n"
-"Man kan innføre unntakstilstand under anarki: hver krigsenhet "
-"i en by holder en ulykkelig borgere fornøyd. (Eller i det minste, en ulykkelig borger "
+"Man kan innføre unntakstilstand under anarki: hver krigsenhet i en by holder "
+"en ulykkelig borgere fornøyd. (Eller i det minste, en ulykkelig borger "
 "opptrer som fornøyd, og gjør ikke opprør.)"
 
 #: data/civ2/governments.ruleset:244 data/history/governments.ruleset:245
@@ -15910,11 +15911,11 @@ msgstr ""
 "like. Alt eies av staten, i stedet for av enkelte borgere. Kommunisme gir en "
 "balanse mellom krigersk og økonomisk styresett.\n"
 "\n"
-"Under kommunisme endres ikke korrupsjonen og avfallet i forhold til avstanden fra "
-"hovedstaden; alle byer (også hovedstader) har lite korrupsjon.Dessuten "
-"betraktes kommunistiske byer som er mer enn 10 ruter bort fra hovedstaden "
-"som bare 10 ruter borte, ved beregning av kostnaden for å starte opprør (se "
-"enheter, diplomat).\n"
+"Under kommunisme endres ikke korrupsjonen og avfallet i forhold til "
+"avstanden fra hovedstaden; alle byer (også hovedstader) har lite korrupsjon."
+"Dessuten betraktes kommunistiske byer som er mer enn 10 ruter bort fra "
+"hovedstaden som bare 10 ruter borte, ved beregning av kostnaden for å starte "
+"opprør (se enheter, diplomat).\n"
 "\n"
 "Nybyggere koster 2 mat hver runde under kommunisme.\n"
 "\n"
@@ -15928,8 +15929,8 @@ msgstr ""
 "Under kommunismen kan byer forsørge opp til 3 krigsenheter uten å betale for "
 "det. (Hver ekstra koster 1 skjold.)\n"
 "\n"
-"Man kan innføre begrenset unntakstilstand under kommunisme. Hver krigsenhet i "
-"en by, opp til 3, holder 2 ulykkelige borgere fornøyd."
+"Man kan innføre begrenset unntakstilstand under kommunisme. Hver krigsenhet "
+"i en by, opp til 3, holder 2 ulykkelige borgere fornøyd."
 
 #: data/civ2/governments.ruleset:435 data/default/techs.ruleset:299
 #: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
@@ -16000,8 +16001,8 @@ msgstr ""
 "Små mengder korrupsjon og avfall forekommer i fundamentalistiske byer.\n"
 "\n"
 "Byforbedringer som vanligvis gjør ulykkelige borgere fornøyde, gir i stedet "
-"offergaver (gull) tilsvarende innbyggertallet de skulle ha omvendt, og "
-"har ingen utgifter til vedlikehold."
+"offergaver (gull) tilsvarende innbyggertallet de skulle ha omvendt, og har "
+"ingen utgifter til vedlikehold."
 
 #: data/civ2/governments.ruleset:575 data/history/governments.ruleset:487
 msgid ""
@@ -16095,10 +16096,10 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
-"Under demokrati styrer innbyggerne direkte ved å stemme. Demokrati "
-"tilbyr det høyeste handelnivået, men også størst mulighet for misfornøyde "
-"innbyggere. Det forekommer ingen korrupsjon eller avfall i et demokrati, men innbyggerne "
-"blir veldig opprørt under krig.\n"
+"Under demokrati styrer innbyggerne direkte ved å stemme. Demokrati tilbyr "
+"det høyeste handelnivået, men også størst mulighet for misfornøyde "
+"innbyggere. Det forekommer ingen korrupsjon eller avfall i et demokrati, men "
+"innbyggerne blir veldig opprørt under krig.\n"
 "\n"
 "Nybyggere forbruker 2 mat hver runde under demokrati. Ruter med minst 1 "
 "handel får 1 handel ekstra under demokrati.\n"
@@ -16443,11 +16444,11 @@ msgstr ""
 "like. Alt eies av staten, i stedet for av enkelte borgere. Kommunisme gir en "
 "balanse mellom krigersk og økonomisk styresett.\n"
 "\n"
-"Under kommunisme endres ikke korrupsjonen eller avfallet i forhold til avstanden fra "
-"hovedstaden; alle byer (også hovedstader) har lite korrupsjon.Dessuten "
-"betraktes kommunistiske byer som er mer enn 10 ruter bort fra hovedstaden "
-"som bare 10 ruter borte, ved beregning av kostnaden for å starte opprør (se "
-"enheter, diplomat).\n"
+"Under kommunisme endres ikke korrupsjonen eller avfallet i forhold til "
+"avstanden fra hovedstaden; alle byer (også hovedstader) har lite korrupsjon."
+"Dessuten betraktes kommunistiske byer som er mer enn 10 ruter bort fra "
+"hovedstaden som bare 10 ruter borte, ved beregning av kostnaden for å starte "
+"opprør (se enheter, diplomat).\n"
 "\n"
 "Nybyggere koster 2 mat hver runde under kommunisme.\n"
 "\n"
@@ -17231,7 +17232,7 @@ msgstr ""
 "Tips 1: Oppgrader nybyggere til ingeniører når det er mulig, siden "
 "ingeniører krever de samme ressursene som nybyggere.\n"
 "\n"
-"Tips 2: Dersom du klarer å bygge Leonardo's verksted, så forsk på "
+"Tips 2: Dersom du klarer å bygge Leonardos verksted, så forsk på "
 "eksplosiver før verkstedet blir foreldet. Da blir nybyggerne oppgraderte "
 "helt gratis."
 
@@ -17841,8 +17842,8 @@ msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
 msgstr ""
-"Formelt kalt De Forente Amerikanske Stater.  Uavhengighet fra Storbritannia etter "
-"en revolusjon i 1776-1783 e.Kr."
+"Formelt kalt De Forente Amerikanske Stater.  Uavhengighet fra Storbritannia "
+"etter en revolusjon i 1776-1783 e.Kr."
 
 #: data/nation/american.ruleset:64 data/nation/scottish.ruleset:18
 msgid "Speaker"
@@ -17906,8 +17907,8 @@ msgid ""
 "Australia was founded as a British penal colony in 1788AD. It is the only "
 "country on earth to occupy an entire continent."
 msgstr ""
-"Australia ble grunnlagt som en britisk fangekoloni i 1788 e.Kr. Det er den eneste landet i verden "
-"som okkuperer et helt kontinent."
+"Australia ble grunnlagt som en britisk fangekoloni i 1788 e.Kr. Det er den "
+"eneste landet i verden som okkuperer et helt kontinent."
 
 #: data/nation/australian.ruleset:15 data/nation/canadian.ruleset:12
 #: data/nation/danish.ruleset:26 data/nation/dutch.ruleset:12
@@ -17935,9 +17936,10 @@ msgid ""
 "AD, reviving the practice of human sacrifice.  They were conquered by the "
 "Spanish under Cortez in 1524."
 msgstr ""
-"Astekerne er en gruppe barbarer fra Sonoranørkenen som tok kontroll over sivilisasjoner "
-"som stammer fra Toltec i Sentral-Meksiko på 1400-tallet. Kr. De gjenopprettet "
-"menneskeofring, og ble erobret av spanjolene under Cortez i 1524."
+"Astekerne er en gruppe barbarer fra Sonoranørkenen som tok kontroll over "
+"sivilisasjoner som stammer fra Toltec i Sentral-Meksiko på 1400-tallet. Kr. "
+"De gjenopprettet menneskeofring, og ble erobret av spanjolene under Cortez i "
+"1524."
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -17953,8 +17955,9 @@ msgid ""
 "BC under a succession of peoples including Amorites, Kassites, Assyrians, "
 "and Chaldeans."
 msgstr ""
-"Babylon var den dominerende byen i Mesopotania fra det 18. til det 7. århundre f.Kr under "
-"en lang rekke folk, inkludert amoritene, kassitene, assyrerne og kaledanerne."
+"Babylon var den dominerende byen i Mesopotania fra det 18. til det 7. "
+"århundre f.Kr under en lang rekke folk, inkludert amoritene, kassitene, "
+"assyrerne og kaledanerne."
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -17972,7 +17975,9 @@ msgstr "?plural:bayere"
 msgid ""
 "Bavaria, before national unification in 1870AD, was one of the largest of "
 "the German kingdoms."
-msgstr "Bavaria var en av de største tyske kongerikene før den nasjonale foreningen i 1870 e.Kr."
+msgstr ""
+"Bavaria var en av de største tyske kongerikene før den nasjonale foreningen "
+"i 1870 e.Kr."
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -17988,9 +17993,9 @@ msgid ""
 "1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
 "Free State, before being defeated by the British in the war of 1899-1902."
 msgstr ""
-"Boerne var nederlandske nybyggere i deler av Sør-Afrika styrt av Storbritannia fra 1650 e.Kr. "
-"De styrte to republikker, Transvaal og Orange Free State, før de ble slått av britene "
-"i en krig i 1899-1902."
+"Boerne var nederlandske nybyggere i deler av Sør-Afrika styrt av "
+"Storbritannia fra 1650 e.Kr. De styrte to republikker, Transvaal og Orange "
+"Free State, før de ble slått av britene i en krig i 1899-1902."
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -18005,8 +18010,8 @@ msgid ""
 "Brazil was founded as a colony of Portugal but became independent in 1822AD. "
 "It is the only country in the New World that has been the seat of a monarchy."
 msgstr ""
-"Brasil ble grunnlagt som en portugisisk koloni, men ble uavhengig i 1822 e.Kr. "
-"Det er det eneste landet i den nye verden som hadde monarki."
+"Brasil ble grunnlagt som en portugisisk koloni, men ble uavhengig i 1822 e."
+"Kr. Det er det eneste landet i den nye verden som hadde monarki."
 
 #: data/nation/brazilian.ruleset:17 data/nation/roman.ruleset:16
 msgid "Dictator"
@@ -18058,9 +18063,9 @@ msgid ""
 "in the Mediterranean from the 5th to 2nd centuries BC. Carthage was "
 "destroyed by Rome in 146BC."
 msgstr ""
-"Karthagenerne er etterkommere av fønske handelsmenn som styrte "
-"et herredømme i middelhavet fra det 5. til det 2. århundre f.Kr. "
-"Karthaga ble ødelagt av Roma i 146 f.Kr."
+"Karthagenerne er etterkommere av fønske handelsmenn som styrte et herredømme "
+"i middelhavet fra det 5. til det 2. århundre f.Kr. Karthaga ble ødelagt av "
+"Roma i 146 f.Kr."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -18160,7 +18165,9 @@ msgstr "?plural:kornvallere"
 msgid ""
 "Cornwall is a region in the extreme southwest of England, traditionally the "
 "home of the legendary King Arthur."
-msgstr "Kornwall er en region i sørvestlige England, hjemplassen til den legendariske Kong Arthur."
+msgstr ""
+"Kornwall er en region i sørvestlige England, hjemplassen til den "
+"legendariske Kong Arthur."
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -18210,8 +18217,8 @@ msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
 "Harald Blatand, who unified what is now Denmark between 958AD and 988AD."
 msgstr ""
-"Grunnleggeren av det danske kongedømmet er beæret Harald Blåtann, "
-"som forente det nåværende Danmark mellom 958 e.Kr og 988 e.Kr."
+"Grunnleggeren av det danske kongedømmet er beæret Harald Blåtann, som "
+"forènte det nåværende Danmark mellom 958 e.Kr og 988 e.Kr."
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
 #. TRANS: U+00FA LATIN SMALL LETTER U WITH ACUTE if available in
@@ -18230,7 +18237,7 @@ msgstr "Fiksjon"
 
 #: data/nation/dunedain.ruleset:10
 msgid "The Men of the West from J.R.R. Tolkien's Middle Earth fantasies."
-msgstr "Folket fra vest, fra J.R.R. Tolkien's Midtgard fantasier."
+msgstr "Folket fra vest, fra J.R.R. Tolkiens Midtgard fantasier."
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -18254,6 +18261,9 @@ msgid ""
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
 msgstr ""
+"Egypt var den nest eldste av verdens sivilisasjoner. Siden oldtiden har landet "
+"vært uvanlig urbant, og kunne forsørge en stor befolkning på grunn av den årlige "
+"oversvømmelsen av Nilen."
 
 #: data/nation/egyptian.ruleset:18
 msgid "Pharaoh"
@@ -18277,6 +18287,8 @@ msgid ""
 "AD, only to be conquered by William of Normandy a century later, in the last "
 "successful invasion of the country."
 msgstr ""
+"England ble forént av Alfred den Store av Wessex sent i det 9. århundre e.Kr, "
+"deretter erobret for siste gang et århundre senere av William fra Normandi."
 
 #: data/nation/english.ruleset:19
 msgid "Lord Protector"
@@ -18299,6 +18311,8 @@ msgid ""
 "Estonia is a small country on the south shore of the estern Baltic Sea.  Its "
 "people and language are closely related to those of Finland."
 msgstr ""
+"Estonia er et lite land på den sørlige kysten av det Baltiske Hav. Folket og språket minner "
+"om i Estonia minner om det i Finnland."
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -18313,6 +18327,8 @@ msgid ""
 "After centuries of Spanish rule, the Phillipines were ceded to the Americans "
 "in 1898. They attained home rule in 1935 and independence in 1946."
 msgstr ""
+"Etter århundrer med spansk styre ble filipinerne overgitt til amerikanerne i 1898. "
+"De ble fikk delvis selvstyre i 1925 og uavhengighet i 1946."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -18327,6 +18343,8 @@ msgid ""
 "Finland is a small, cold country on the northen fringe of Europe, noted for "
 "exporting timber, cellular phones, and world-class operating systems."
 msgstr ""
+"Finnland er et lite, kaldt land i den nordlige kanten av Europa, kjent for "
+"eksport av tømmer, mobiltelefoner og verdens beste operativsystem."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -18366,7 +18384,7 @@ msgstr "?plural:grekerne"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
-msgstr ""
+msgstr "De gamle grekerne, mellom Mycene og den romerske erobringen."
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -18392,6 +18410,10 @@ msgid ""
 "a few decades before the Spanish conquistadores arrived in their part of the "
 "world in the mid-1500s AD."
 msgstr ""
+"Inkaene var et amerindfolk fra nord i Andesfjellene. De erobret et "
+"rike som strakk seg langs vestkysten av Sør-Amerika fra det nåværende sørlige Chile "
+"til ekvator. Desværre var deres ankomst kun noen få tiår før spanjolenes erobring "
+"av verdensdelen på midten av 1500-tallet e.Kr."
 
 #: data/nation/inca.ruleset:18
 msgid "Warlord"
@@ -18431,6 +18453,9 @@ msgid ""
 "cantons in British Palestine, and has gradually expanded through winning a "
 "series of wars launched against it in 1948, 1967 and 1973."
 msgstr ""
+"Israel ble grunnlagt i 1948 som en spredt samling av sektorer i "
+"det Britiske Palestina, og har gradvis utvidet seg gjennom "
+"en serie av kriger i 1948, 1967 og 1973."
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
@@ -18447,6 +18472,9 @@ msgid ""
 "1922, then a fascist state until 1945 after which democracy was restored by "
 "the WWII victors."
 msgstr ""
+"Italia ble forent i 1870 e.Kr etter årelange kamper mellom rivaliserende nasjonalister. Det var et "
+"monarki under Huset av Savoy til 1922, deretter en fasciststat frem til 1945, "
+"da WWII-seriersherrene innførte demokrati."
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
@@ -18498,6 +18526,8 @@ msgid ""
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
 msgstr ""
+"Litauen er et lite land på sørkysten i Det Baltiske Hav, nordøst for Polen. Språket i Litauen er "
+"det mest komplekse blant de nordeuropeiske språkene."
 
 #: data/nation/lithuanian.ruleset:15
 msgid "Great Duke"
@@ -18543,7 +18573,7 @@ msgstr "?plural:mordorianere"
 msgid ""
 "The armies of the Dark Lord Sauron, from J.R.R. Tolkien's Middle Earth "
 "fantasies."
-msgstr ""
+msgstr "Hæren til den Mørke Lord Sauron, fra J.R.R. Tolkiens Midtgard fantasier."
 
 #: data/nation/mordor.ruleset:15
 msgid "Overlord"
@@ -18566,6 +18596,8 @@ msgid ""
 "The first Persan (Achmaenid) Empire lasted from 55BC-330BC; the second "
 "(Sassanid) from 226AD-642AD."
 msgstr ""
+"Det første persiske riket (Achmaenid) varte fra 55 f.Kr til 330 f.Kr, "
+"det andre (Sassanid) fra 226 e.Kr til 642 e.Kr."
 
 #: data/nation/persian.ruleset:15
 msgid "Shah"
@@ -18875,6 +18907,8 @@ msgid ""
 "1100AD. Viking raids eventually became the rulers of Normandy, Russia, and a "
 "short-lived kingdom in Sicily."
 msgstr ""
+"Vikingene herjet og handlet langs kysten av Europa mellom 800 e.Kr og 1100 e.Kr. "
+"Vikingetokter førte til at de ble herskere over Normandi, Russland og et kortvarig rike på Sisilia."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
