@@ -41,6 +41,7 @@
 
 #include "cityrep.h"
 #include "clinet.h"
+#include "cma_fec.h"
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
@@ -62,7 +63,116 @@
 #include "transparentstringclass.h"
 #include "worklistclass.h"
 
+/* get 'struct dialog_list' and related functions: */
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct city_dialog
+#include "speclist.h"
+
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct city_dialog
+#include "speclist_c.h"
+
+#define dialog_list_iterate(dialoglist, pdialog) \
+    TYPED_LIST_ITERATE(struct city_dialog, dialoglist, pdialog)
+#define dialog_list_iterate_end  LIST_ITERATE_END
+
+
 #define NUM_CITYOPT_TOGGLES 5
+
+enum { OVERVIEW_PAGE, UNITS_PAGE, WORKLIST_PAGE,
+  HAPPINESS_PAGE, CMA_PAGE, TRADE_PAGE, MISC_PAGE
+};
+
+enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
+
+#define NUM_CITIZENS_SHOWN 25
+#define NUM_CITY_OPTS 5
+#define NUM_INFO_FIELDS 10      /* number of fields in city_info */
+#define NUM_PAGES 8             /* the number of pages in city dialog notebook 
+                                 * (+1) if you change this, you must add an
+                                 * entry to misc_whichtab_label[] */
+
+
+
+/******************************************************************
+* functions in cma_fec.c but as static
+******************************************************************/
+static const char *const get_city_growth_string(struct city *pcity,
+						int surplus)
+{
+  int stock, cost, turns;
+  static char buffer[50];
+
+  if (surplus == 0) {
+    my_snprintf(buffer, sizeof(buffer), _("never"));
+    return buffer;
+  }
+
+  stock = pcity->food_stock;
+  cost = city_granary_size(pcity->size);
+
+  stock += surplus;
+
+  if (stock >= cost) {
+    turns = 1;
+  } else if (surplus > 0) {
+    turns = ((cost - stock - 1) / surplus) + 1 + 1;
+  } else {
+    if (stock < 0) {
+      turns = -1;
+    } else {
+      turns = (stock / surplus);
+    }
+  }
+  my_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", turns),
+	      turns);
+  return buffer;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static const char *const get_prod_complete_string(struct city *pcity,
+						  int surplus)
+{
+  int stock, cost, turns;
+  static char buffer[50];
+
+  if (surplus <= 0) {
+    my_snprintf(buffer, sizeof(buffer), _("never"));
+    return buffer;
+  }
+
+  stock = pcity->shield_stock;
+  if (pcity->is_building_unit) {
+    cost = get_unit_type(pcity->currently_building)->build_cost;
+  } else {
+    if (pcity->currently_building == B_CAPITAL) {
+      my_snprintf(buffer, sizeof(buffer),
+		  get_improvement_type(pcity->currently_building)->name);
+      return buffer;
+    }
+    cost = get_improvement_type(pcity->currently_building)->build_cost;
+  }
+
+  stock += surplus;
+
+  if (stock >= cost) {
+    turns = 1;
+  } else if (surplus > 0) {
+    turns = ((cost - stock - 1) / surplus) + 1 + 1;
+  } else {
+    if (stock < 0) {
+      turns = -1;
+    } else {
+      turns = (stock / surplus);
+    }
+  }
+  my_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", turns),
+	      turns);
+  return buffer;
+}
+
 
 struct city_prod
 {
@@ -70,6 +180,24 @@ struct city_prod
   struct city *pcity;
   Object *available_listview;
   struct Hook available_disphook;
+};
+
+struct city_info
+{
+  Object *group;
+  Object *food_text;
+  Object *shield_text;
+  Object *trade_text;
+
+  Object *gold_text;
+  Object *luxury_text;
+  Object *science_text;
+
+  Object *granary_text;
+  Object *growth_text;
+
+  Object *corruption_text;
+  Object *pollution_text;
 };
 
 struct city_dialog
@@ -85,14 +213,24 @@ struct city_dialog
 
   Object *name_transparentstring;
   Object *title_text;
-  Object *food_text;
-  Object *shield_text;
+
+  struct city_info overview_city_info;
+
+  /* Happines */
+  Object *happines_map;
+  struct city_info happines_city_info;
+
+  /* CMA */
+  Object *result_text[10];
+  Object *minimal_surplus_slider[6];
+  Object *factor_slider[7];
+  Object *celebrate_check;
+  Object *cma_change_button;
+  Object *cma_perm_button;
+  Object *cma_release_button;
+
+  /* Trade */
   Object *trade_text;
-  Object *gold_text;
-  Object *luxury_text;
-  Object *science_text;
-  Object *granary_text;
-  Object *pollution_text;
 
   Object *map_area;
 
@@ -108,7 +246,6 @@ struct city_dialog
   Object *supported_group; /* auto group */
 
   Object *close_button;
-  Object *trade_button;
   Object *activateunits_button;
   Object *unitlist_button;
   Object *configure_button;
@@ -213,13 +350,13 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
 static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
 static void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
+static void city_dialog_update_tradelist(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
+static void city_dialog_update_information(struct city_dialog *pdialog, struct city_info *info);
 static void city_dialog_update_map(struct city_dialog *pdialog);
-static void city_dialog_update_production(struct city_dialog *pdialog);
-static void city_dialog_update_output(struct city_dialog *pdialog);
 static void city_dialog_update_building(struct city_dialog *pdialog);
-static void city_dialog_update_storage(struct city_dialog *pdialog);
-static void city_dialog_update_pollution(struct city_dialog *pdialog);
+
+static void refresh_cma_dialog(struct city_dialog *pdialog);
 
 static void open_cityopt_dialog(struct city_dialog *pdialog);
 
@@ -267,17 +404,15 @@ static void refresh_this_city_dialog(struct city_dialog *pdialog)
 
   city_dialog_update_improvement_list(pdialog);
   city_dialog_update_title(pdialog);
+  city_dialog_update_information(pdialog,&pdialog->overview_city_info);
+  city_dialog_update_information(pdialog,&pdialog->happines_city_info);
   city_dialog_update_supported_units(pdialog, 0);
   city_dialog_update_present_units(pdialog, 0);
+  city_dialog_update_tradelist(pdialog);
   city_dialog_update_citizens(pdialog);
   city_dialog_update_map(pdialog);
-  city_dialog_update_production(pdialog);
-  city_dialog_update_output(pdialog);
   city_dialog_update_building(pdialog);
-  city_dialog_update_storage(pdialog);
-  city_dialog_update_pollution(pdialog);
 
-  set(pdialog->trade_button, MUIA_Disabled, city_num_trade_routes(pcity) ? FALSE : TRUE);
   set(pdialog->activateunits_button, MUIA_Disabled, !units);
   set(pdialog->unitlist_button, MUIA_Disabled, !units);
   set(pdialog->configure_button, MUIA_Disabled, FALSE);
@@ -316,6 +451,9 @@ void refresh_city_dialog(struct city *pcity)
 	set(pdialog->activateunits_button, MUIA_Disabled, TRUE);
 	set(pdialog->unitlist_button, MUIA_Disabled, TRUE);
 	set(pdialog->configure_button, MUIA_Disabled, TRUE);
+      } else
+      {
+	refresh_cma_dialog(pdialog);
       }
     }
   }
@@ -681,52 +819,6 @@ static void city_opt_ok(struct city_dialog **ppdialog)
   set(pdialog->cityopt_wnd, MUIA_Window_Open, FALSE);
 }
 
-/**************************************************************************
- Callback for the Trade button
-**************************************************************************/
-static void city_trade(struct city_dialog **ppdialog)
-{
-  int i;
-  int x = 0, total = 0;
-  char buf[512], *bptr=buf;
-  struct city_dialog *pdialog = *ppdialog;
-  int nleft = sizeof(buf);
-
-  my_snprintf(buf, sizeof(buf),
-	     _("These trade routes have been established with %s:\n"),
-	     pdialog->pcity->name);
-  bptr = end_of_strn(bptr, &nleft);
-
-  for (i = 0; i < 4; i++)
-  {
-    if (pdialog->pcity->trade[i])
-    {
-      struct city *pcity;
-      x = 1;
-      total += pdialog->pcity->trade_value[i];
-      if ((pcity = find_city_by_id(pdialog->pcity->trade[i])))
-      {
-	my_snprintf(bptr, nleft, _("%s: %2d Trade/Turn\n"), pcity->name, pdialog->pcity->trade_value[i]);
-	bptr = end_of_strn(bptr, &nleft);
-      }
-      else
-      {
-	my_snprintf(bptr, nleft, _("%s: %2d Trade/Turn\n"), _("Unknown"), pdialog->pcity->trade_value[i]);
-	bptr = end_of_strn(bptr, &nleft);
-      }
-    }
-  }
-
-  if (!x)
-    mystrlcpy(bptr, _("No trade routes exist.\n"), nleft);
-  else
-    my_snprintf(bptr, nleft, _("\nTotal trade %d Trade/Turn\n"), total);
-
-  popup_message_dialog(pdialog->wnd, _("Trade Routes"), buf,
-		       _("_Done"), message_close, 0,
-		       0);
-}
-
 /****************************************************************
  Callback for the City Name String
 *****************************************************************/
@@ -915,6 +1007,7 @@ static void city_browse(struct city_browse_msg *msg)
       }
 
       set(msg->pdialog->map_area, MUIA_CityMap_City, pcity_new);
+      set(msg->pdialog->happines_map, MUIA_CityMap_City, pcity_new);
       refresh_this_city_dialog(msg->pdialog);
     }
   }
@@ -1119,6 +1212,81 @@ static void city_prod_help(struct city_prod **ppcprod)
   }
 }
 
+/************************************************************************
+ The HScales within the CMA has been changed
+*************************************************************************/
+static void city_cma_changed(struct city_dialog **ppdialog)
+{
+  struct city_dialog *pdialog = *ppdialog; 
+  struct cma_parameter param;
+  int i;
+
+  cmafec_get_fe_parameter(pdialog->pcity, &param);
+  for (i = 0; i < NUM_STATS; i++) {
+    param.minimal_surplus[i] = (int)xget(pdialog->minimal_surplus_slider[i],MUIA_Numeric_Value);
+    param.factor[i] = (int)xget(pdialog->factor_slider[i],MUIA_Numeric_Value);
+  }
+  param.factor_target = FT_SURPLUS;
+  param.require_happy = xget(pdialog->celebrate_check, MUIA_Selected);
+  param.happy_factor = xget(pdialog->factor_slider[6],MUIA_Numeric_Value);
+
+  /* save the change */
+  cmafec_set_fe_parameter(pdialog->pcity, &param);
+
+  /* refreshes the cma */
+  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
+    cma_release_city(pdialog->pcity);
+    cma_put_city_under_agent(pdialog->pcity, &param);
+
+    /* unfog the city map if we were unable to put back under */
+    if (!cma_is_city_under_agent(pdialog->pcity, NULL)) {
+      refresh_city_dialog(pdialog->pcity);
+      return;			/* refreshing city refreshes cma */
+    } else {
+      city_report_dialog_update_city(pdialog->pcity);
+    }
+  }
+  refresh_cma_dialog(pdialog);
+}
+
+/************************************************************************
+...
+*************************************************************************/
+static void city_cma_change(struct city_dialog **ppdialog)
+{
+  struct city_dialog *pdialog = *ppdialog; 
+  struct cma_result result;
+  struct cma_parameter param;
+
+  cmafec_get_fe_parameter(pdialog->pcity, &param);
+  cma_query_result(pdialog->pcity, &param, &result);
+  cma_apply_result(pdialog->pcity, &result);
+}
+
+/************************************************************************
+...
+*************************************************************************/
+static void city_cma_permanent(struct city_dialog **ppdialog)
+{
+  struct city_dialog *pdialog = *ppdialog;
+  struct cma_parameter param;
+
+  cmafec_get_fe_parameter(pdialog->pcity, &param);
+  cma_put_city_under_agent(pdialog->pcity, &param);
+  refresh_city_dialog(pdialog->pcity);
+}
+
+/************************************************************************
+...
+*************************************************************************/
+static void city_cma_release(struct city_dialog **ppdialog)
+{
+  struct city_dialog *pdialog = *ppdialog; 
+
+  cma_release_city(pdialog->pcity);
+  refresh_city_dialog(pdialog->pcity);
+}
+
 /**************************************************************************
  Allocate and initialize a new city production dialog
 **************************************************************************/
@@ -1222,12 +1390,48 @@ void popup_city_production_dialog(struct city *pcity)
 }
 
 /**************************************************************************
+ Creates the City Info Objects
+**************************************************************************/
+static Object *create_city_info(struct city_info *info)
+{
+  info->group = ColGroup(2),
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Food:"), End,
+	Child, info->food_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Shields"), End,
+	Child, info->shield_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Trade:"), End,
+	Child, info->trade_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, VSpace(1), Child, VSpace(1),
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Gold:"), End,
+	Child, info->gold_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Luxury:"), End,
+	Child, info->luxury_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Science:"), End,
+	Child, info->science_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, VSpace(1), Child, VSpace(1),
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Granary:"), End,
+	Child, info->granary_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Change in:"), End,
+	Child, info->growth_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, VSpace(1), Child, VSpace(1),
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Corruption:"), End,
+	Child, info->corruption_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents, _("Pollution:"), End,
+	Child, info->pollution_text = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	End;
+
+  return info->group;
+}
+
+/**************************************************************************
  Allocate and initialize a new city dialog
 **************************************************************************/
 static struct city_dialog *create_city_dialog(struct city *pcity)
 {
+  int i;
   struct city_dialog *pdialog;
   static char *newcitizen_labels[4];
+  static char *page_labels[NUM_PAGES];
   Object *cityopt_ok_button;
   Object *cityopt_cancel_button, *next_button, *prev_button;
 
@@ -1235,6 +1439,14 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   newcitizen_labels[1] = _("Scientists");
   newcitizen_labels[2] = _("Taxmen");
   newcitizen_labels[3] = NULL;
+
+  page_labels[0] = _("City Overview");
+  page_labels[1] = _("Units");
+  page_labels[2] = _("Worklist");
+  page_labels[3] = _("Happiness");
+  page_labels[4] = _("CMA");
+  page_labels[5] = _("Trade Routes");
+  page_labels[6] = _("Misc. Settings");
 
   pdialog = AllocVec(sizeof(struct city_dialog), 0x10000);
   if (!pdialog)
@@ -1275,37 +1487,49 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	Child, pdialog->citizen_left_space = HSpace(0),
 	Child, pdialog->citizen_right_space = HSpace(0),
 	End,
-      Child, VGroup,
-	Child, HGroup,
+
+      Child, RegisterGroup(page_labels),
+      	MUIA_CycleChain,1,
+	Child, HGroup, /* City Overview */
 	  Child, VGroup,
-	    MUIA_HorizWeight, 0,
-	    Child, HorizLineTextObject(_("City Output")),
-	    Child, ColGroup(2),
-	      Child, MakeLabel(_("Food:")),
-	      Child, pdialog->food_text = TextObject, End,
-	      Child, MakeLabel(_("Shields:")),
-	      Child, pdialog->shield_text = TextObject, End,
-	      Child, MakeLabel(_("Trade:")),
-	      Child, pdialog->trade_text = TextObject, End,
-	      Child, MakeLabel(_("Gold:")),
-	      Child, pdialog->gold_text = TextObject, End,
-	      Child, MakeLabel(_("Luxury:")),
-	      Child, pdialog->luxury_text = TextObject, End,
-	      Child, MakeLabel(_("Science:")),
-	      Child, pdialog->science_text = TextObject, End,
-	      Child, MakeLabel(_("Granary:")),
-	      Child, pdialog->granary_text = TextObject, End,
-	      Child, MakeLabel(_("Pollution:")),
-	      Child, pdialog->pollution_text = TextObject, End,
+	    Child, HGroup,
+	      Child, VGroup,
+		Child, HorizLineTextObject(_("City Output")),
+		Child, create_city_info(&pdialog->overview_city_info),
+		Child, HVSpace,
+		End,
+	      Child, VGroup,
+		Child, HorizLineTextObject(_("Citymap")),
+		Child, HVSpace,
+		Child, pdialog->map_area = MakeCityMap(pcity),
+		Child, HVSpace,
+		End,
 	      End,
-	    Child, VSpace(0),
-	    End,
+
+	    Child, HorizLineTextObject(_("Units present")),
+	    Child, HGroup,
+	      Child, pdialog->present_group = AutoGroup,
+		MUIA_AutoGroup_DefVertObjects, 3,
+		End,
+              End,
+
+	    Child, HorizLineTextObject(_("Supported Units")),
+	    Child, pdialog->supported_group = AutoGroup,
+	      MUIA_AutoGroup_DefVertObjects, 3,
+	      End,
+            End,
+
 	  Child, VGroup,
-	    Child, HorizLineTextObject(_("Citymap")),
-	    Child, pdialog->map_area = MakeCityMap(pcity),
-	    Child, VSpace(0),
-	    End,
-	  Child, VGroup,
+            Child, HorizLineTextObject(_("Production")),
+	    Child, HGroup,
+              Child, pdialog->prod_gauge = MyGaugeObject,
+	        GaugeFrame,
+	        MUIA_Gauge_Horiz, TRUE,
+	        End,
+	      Child, pdialog->buy_button = MakeButton(_("_Buy")),
+	      Child, pdialog->change_button = MakeButton(_("Chan_ge")),
+	      End,
+
 	    Child, HorizLineTextObject(_("City Improvements")),
 	    Child, pdialog->imprv_listview = NListviewObject,
 	      MUIA_CycleChain, 1,
@@ -1316,51 +1540,132 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	        End,
 	      End,
 	    Child, pdialog->sell_button = MakeButton(_("_Sell")),
-            Child, HorizLineTextObject(_("Production")),
-            Child, pdialog->prod_gauge = MyGaugeObject,
-	      GaugeFrame,
-	      MUIA_Gauge_Horiz, TRUE,
-	      End,
-	    Child, HGroup,
-	      Child, pdialog->buy_button = MakeButton(_("_Buy")),
-	      Child, pdialog->worklist_button = MakeButton(_("_Worklist")),
-	      Child, pdialog->change_button = MakeButton(_("Chan_ge")),
-	      End,
 	    End,
 	  End,
-        Child, BalanceObject, End,
-	Child, HGroup,
-          Child, VGroup,
-	    Child, HorizLineTextObject(_("Units present")),
-	    Child, HGroup,
-	      Child, pdialog->present_group = AutoGroup,
-		MUIA_AutoGroup_DefVertObjects, 3,
-		End,
-              End,
-	    Child, HGroup,
-	      MUIA_HorizWeight, 0,
+/*
 	      Child, HVSpace,
 	      Child, pdialog->activateunits_button = MakeButton(_("_Activate Units")),
 	      Child, HVSpace,
 	      Child, pdialog->unitlist_button = MakeButton(_("_Unit List")),
 	      Child, HVSpace,
-	      End,
-            End,
-	  Child, BalanceObject, End,
+*/
+	Child, HVSpace, /* Units */
+	Child, HVSpace, /* Worklist */
+	Child, HGroup, /* Happiness */
 	  Child, VGroup,
-	    Child, HorizLineTextObject(_("Supported Units")),
-	    Child, pdialog->supported_group = AutoGroup,
-	      MUIA_AutoGroup_DefVertObjects, 3,
+	    Child, HorizLineTextObject(_("Happines")),
+	    End,
+	  Child, VGroup,
+	    Child, pdialog->happines_map = MakeCityMap(pcity),
+	    Child, HGroup,
+	      Child, HVSpace,
+	      Child, create_city_info(&pdialog->happines_city_info),
+	      Child, HVSpace,
 	      End,
-            End,
+	    End,
 	  End,
+	Child, VGroup, /* CMA Citizen Management Agent */
+
+	  Child, HGroup,
+	    Child, VGroup,
+	      Child, NListviewObject,
+	        MUIA_NListview_NList, NListObject,
+	          End,
+	        End,
+	      Child, HGroup,
+	        Child, MakeButton(_("_Add preset")),
+	        Child, MakeButton(_("_Delete preset")),
+	        End,
+	      End,
+	    Child, VGroup, /* Resultss and settings */
+	      Child, HorizLineTextObject(_("Results")),
+	      Child, HGroup,
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("Name:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[0] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+		End,
+	      Child, VSpace(0),
+	      Child, ColGroup(4),
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("Food:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[1] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("Gold:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[4] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("Production:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[2] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("Luxury:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[5] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("Trade:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[3] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("Science:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[6] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	        End,
+	      Child, VSpace(0),
+	      Child, ColGroup(2),
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("People (W/E/S/T):"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[7] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("City grows:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[8] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+
+		Child, TextObject, MUIA_Font, MUIV_Font_Tiny, MUIA_Text_Contents,_("Production completed:"), MUIA_Weight, 0, End,
+		Child, pdialog->result_text[9] = TextObject, MUIA_Font, MUIV_Font_Tiny, End,
+	        End,
+	      Child, HorizLineObject,
+	      Child, ColGroup(3),
+	        Child, VSpace(0),
+	        Child, TextObject, MUIA_Text_Contents,_("Minimal Surplus"), MUIA_Text_PreParse, "\33c", End,
+	        Child, TextObject, MUIA_Text_Contents,_("Factor"), MUIA_Text_PreParse, "\33c", End,
+
+		Child, MakeLabel(_("Food")),
+		Child, pdialog->minimal_surplus_slider[0] = SliderObject, MUIA_Numeric_Min,-20, MUIA_Numeric_Max,20, End,
+		Child, pdialog->factor_slider[0] = SliderObject, MUIA_Numeric_Min,1, MUIA_Numeric_Max,25,End,
+
+		Child, MakeLabel(_("Shield")),
+		Child, pdialog->minimal_surplus_slider[1] = SliderObject, MUIA_Numeric_Min,-20, MUIA_Numeric_Max,20, End,
+		Child, pdialog->factor_slider[1] = SliderObject, MUIA_Numeric_Min,1, MUIA_Numeric_Max,25,End,
+
+		Child, MakeLabel(_("Trade")),
+		Child, pdialog->minimal_surplus_slider[2] = SliderObject, MUIA_Numeric_Min,-20, MUIA_Numeric_Max,20, End,
+		Child, pdialog->factor_slider[2] = SliderObject, MUIA_Numeric_Min,1, MUIA_Numeric_Max,25,End,
+
+		Child, MakeLabel(_("Gold")),
+		Child, pdialog->minimal_surplus_slider[3] = SliderObject, MUIA_Numeric_Min,-20, MUIA_Numeric_Max,20, End,
+		Child, pdialog->factor_slider[3] = SliderObject, MUIA_Numeric_Min,1, MUIA_Numeric_Max,25,End,
+
+		Child, MakeLabel(_("Luxury")),
+		Child, pdialog->minimal_surplus_slider[4] = SliderObject, MUIA_Numeric_Min,-20, MUIA_Numeric_Max,20, End,
+		Child, pdialog->factor_slider[4] = SliderObject, MUIA_Numeric_Min,1, MUIA_Numeric_Max,25,End,
+
+		Child, MakeLabel(_("Science")),
+		Child, pdialog->minimal_surplus_slider[5] = SliderObject, MUIA_Numeric_Min,-20, MUIA_Numeric_Max,20, End,
+		Child, pdialog->factor_slider[5] = SliderObject, MUIA_Numeric_Min,1, MUIA_Numeric_Max,25,End,
+
+		Child, MakeLabel(_("Celebrate")),
+		Child, pdialog->celebrate_check = MakeCheck(_("Celebrate"),FALSE),
+		Child, pdialog->factor_slider[6] = SliderObject, MUIA_Numeric_Min,1, MUIA_Numeric_Max,25,End,
+
+	        End,
+
+	      Child, HVSpace,
+	      Child, HGroup,
+		Child, pdialog->cma_change_button = MakeButton(_("_Change")),
+		Child, pdialog->cma_perm_button = MakeButton(_("C_hange permanent")),
+		Child, pdialog->cma_release_button = MakeButton(_("_Release city")),
+		End,
+	      End,
+	    End,
+	  End,
+
+	Child, pdialog->trade_text = TextObject, MUIA_Text_PreParse, "\33c", MUIA_Text_SetVMax, FALSE,End,  /* Trade Route */
 	End,
       Child, VGroup,
 	Child, HorizLineObject,
 	Child, HGroup,
 	  Child, pdialog->close_button = MakeButton(_("_Close")),
-	  Child, HSpace(0),
-	  Child, pdialog->trade_button = MakeButton(_("_Trade")),
 	  Child, HSpace(0),
 	  Child, pdialog->configure_button = MakeButton(_("Con_figure")),
 	  End,
@@ -1406,7 +1711,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   {
     DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &civstandard_hook, city_close, pdialog);
     DoMethod(pdialog->close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_close, pdialog);
-    DoMethod(pdialog->trade_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_trade, pdialog);
     DoMethod(pdialog->configure_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_configure, pdialog);
     DoMethod(pdialog->unitlist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_unitlist, pdialog);
     DoMethod(pdialog->activateunits_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_activate_units, pdialog);
@@ -1424,7 +1728,22 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
       DoMethod(pdialog->name_transparentstring, MUIM_Notify, MUIA_TransparentString_Acknowledge, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_rename, pdialog);
     }
 
+    for (i=0;i<6;i++)
+    {
+      DoMethod(pdialog->minimal_surplus_slider[i],MUIM_Notify,MUIA_Numeric_Value,MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_changed, pdialog);
+      DoMethod(pdialog->factor_slider[i],MUIM_Notify,MUIA_Numeric_Value,MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_changed, pdialog);
+    }
+    DoMethod(pdialog->celebrate_check,MUIM_Notify,MUIA_Selected,MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_changed, pdialog);
+    DoMethod(pdialog->factor_slider[6],MUIM_Notify,MUIA_Numeric_Value,MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_changed, pdialog);
+    DoMethod(pdialog->cma_change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_change, pdialog);
+    DoMethod(pdialog->cma_perm_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_permanent, pdialog);
+    DoMethod(pdialog->cma_release_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_cma_release, pdialog);
+
+    set(pdialog->buy_button, MUIA_Weight, 0);
+    set(pdialog->change_button, MUIA_Weight, 0);
+
     DoMethod(pdialog->map_area, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &civstandard_hook, city_click, pdialog, MUIV_TriggerValue);
+    DoMethod(pdialog->happines_map, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &civstandard_hook, city_click, pdialog, MUIV_TriggerValue);
     DoMethod(pdialog->change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_change, pdialog);
     DoMethod(pdialog->worklist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_worklist, pdialog);
     DoMethod(pdialog->buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_buy, pdialog);
@@ -1449,28 +1768,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   FreeVec(pdialog);
   return NULL;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void city_dialog_update_pollution(struct city_dialog *pdialog)
-{
-  /* TODO: different colors? */
-  char *fmt;
-  if (pdialog->pcity->pollution >= 10) fmt = MUIX_B"%3ld";
-  else fmt = "%3ld";
-  settextf(pdialog->pollution_text, fmt, pdialog->pcity->pollution);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void city_dialog_update_storage(struct city_dialog *pdialog)
-{
-  struct city *pcity = pdialog->pcity;
-  settextf(pdialog->granary_text, "%3ld/%3ld", pcity->food_stock, 
-	   city_granary_size(pcity->size));
 }
 
 /****************************************************************
@@ -1542,24 +1839,54 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-static void city_dialog_update_production(struct city_dialog *pdialog)
+static void city_dialog_update_information(struct city_dialog *pdialog, struct city_info *info)
 {
   struct city *pcity = pdialog->pcity;
-  settextf(pdialog->food_text, "%2d (%+2d)", pcity->food_prod, pcity->food_surplus);
-  settextf(pdialog->shield_text, "%2d (%+2d)", pcity->shield_prod, pcity->shield_surplus);
-  settextf(pdialog->trade_text, "%2d (%+2d)", pcity->trade_prod + pcity->corruption, pcity->trade_prod);
-}
-/****************************************************************
-...
-*****************************************************************/
-static void city_dialog_update_output(struct city_dialog *pdialog)
-{
-  struct city *pcity = pdialog->pcity;
-  settextf(pdialog->gold_text, "%2d (%+2d)", pcity->tax_total, city_gold_surplus(pcity));
-  settextf(pdialog->luxury_text, "%2d", pcity->luxury_total);
-  settextf(pdialog->science_text, "%2d", pcity->science_total);
-}
+  int granaryturns;
+  int growthstyle;
+  int granarystyle;
+  int pollutionstyle;
 
+  if (pcity->food_surplus > 0) {
+    granaryturns = (city_granary_size(pcity->size) - pcity->food_stock +
+		    pcity->food_surplus - 1) / pcity->food_surplus;
+  } else if (pcity->food_surplus < 0) {
+    granaryturns = 1 - (pcity->food_stock / pcity->food_surplus);
+    /* turns before famine loss */
+  } else {
+    granaryturns = 999;
+  }
+
+  growthstyle = (granaryturns == 0 || pcity->food_surplus < 0) ? RED : NORMAL;
+  granarystyle = (pcity->food_surplus < 0 && granaryturns < 4) ? RED : NORMAL;
+  pollutionstyle = (pcity->pollution >= 10) ? RED : NORMAL;
+
+  settextf(info->food_text, "%2d (%+2d)", pcity->food_prod, pcity->food_surplus);
+  settextf(info->shield_text, "%2d (%+2d)", pcity->shield_prod, pcity->shield_surplus);
+  settextf(info->trade_text, "%2d (%+2d)", pcity->trade_prod + pcity->corruption, pcity->trade_prod);
+  settextf(info->gold_text, "%2d (%+2d)", pcity->tax_total, city_gold_surplus(pcity));
+  settextf(info->luxury_text, "%2d", pcity->luxury_total);
+  settextf(info->science_text, "%2d", pcity->science_total);
+
+  set(info->granary_text, MUIA_Text_PreParse, granarystyle==RED?MUIX_B:"");
+  set(info->growth_text, MUIA_Text_PreParse, growthstyle==RED?MUIX_B:"");
+  set(info->pollution_text, MUIA_Text_PreParse, pollutionstyle==RED?MUIX_B:"");
+
+  settextf(info->granary_text, "%ld/%-ld", pcity->food_stock, city_granary_size(pcity->size));
+  if (granaryturns == 0) {
+    settext(info->growth_text, _("blocked"));
+  } else if (granaryturns == 999) {
+    settext(info->growth_text, _("never"));
+  } else {
+    char buf[64];
+    my_snprintf(buf, sizeof(buf),
+		PL_("%d turn", "%d turns", granaryturns), granaryturns);
+    settext(info->growth_text,buf);
+  }
+
+  settextf(info->corruption_text, "%ld", pcity->corruption);
+  settextf(info->pollution_text, "%ld", pcity->pollution);
+}
 
 /****************************************************************
 ...
@@ -1567,6 +1894,7 @@ static void city_dialog_update_output(struct city_dialog *pdialog)
 static void city_dialog_update_map(struct city_dialog *pdialog)
 {
   DoMethod(pdialog->map_area, MUIM_CityMap_Refresh);
+  DoMethod(pdialog->happines_map, MUIM_CityMap_Refresh);
 }
 
 /****************************************************************
@@ -1733,6 +2061,44 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
 /****************************************************************
 ...
 *****************************************************************/
+static void city_dialog_update_tradelist(struct city_dialog *pdialog)
+{
+  int i, x = 0, total = 0;
+
+  static char cityname[64], buf[512];
+
+  buf[0] = '\0';
+
+  for (i = 0; i < 4; i++) {
+    if (pdialog->pcity->trade[i]) {
+      struct city *pcity;
+      x = 1;
+      total += pdialog->pcity->trade_value[i];
+
+      if ((pcity = find_city_by_id(pdialog->pcity->trade[i]))) {
+	my_snprintf(cityname, sizeof(cityname), "%s", pcity->name);
+      } else {
+	my_snprintf(cityname, sizeof(cityname), _("%s"), _("Unknown"));
+      }
+      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+		  _("Trade with %s gives %d trade.\n"),
+		  cityname, pdialog->pcity->trade_value[i]);
+    }
+  }
+  if (!x) {
+    my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+		_("No trade routes exist."));
+  } else {
+    my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+		_("Total trade from trade routes: %d"), total);
+  }
+  settext(pdialog->trade_text,buf);
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
 static void city_dialog_update_title(struct city_dialog *pdialog)
 {
   if (pdialog->name_transparentstring)
@@ -1782,6 +2148,73 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 
     set(pdialog->imprv_listview, MUIA_NList_Quiet, FALSE);
   }
+}
+
+
+/****************************************************************
+ Refreshed the CMA
+*****************************************************************/
+static void refresh_cma_dialog(struct city_dialog *pdialog)
+{
+  struct city *pcity = pdialog->pcity;
+  struct cma_result result;
+  struct cma_parameter param;
+  int controlled = cma_is_city_under_agent(pcity, NULL);
+  int preset_index;
+  int i;
+
+  cmafec_get_fe_parameter(pcity, &param);
+
+  /* fill in result label */
+  cma_query_result(pcity, &param, &result);
+
+  if (!result.found_a_valid) {
+    for (i = 0; i < 10; i++)
+      settext(pdialog->result_text[i],"---");
+  } else {
+    settext(pdialog->result_text[0], cmafec_get_short_descr(&param));
+
+    settextf(pdialog->result_text[1], "%3ld(%+3ld)", result.production[FOOD], result.surplus[FOOD]);
+    settextf(pdialog->result_text[4], "%3ld(%+3ld)", result.production[SHIELD], result.surplus[SHIELD]);
+    settextf(pdialog->result_text[2], "%3ld(%+3ld)", result.production[TRADE], result.surplus[TRADE]);
+    settextf(pdialog->result_text[5], "%3ld(%+3ld)", result.production[GOLD], result.surplus[GOLD]);
+    settextf(pdialog->result_text[3], "%3ld(%+3ld)", result.production[LUXURY], result.surplus[LUXURY]);
+    settextf(pdialog->result_text[6], "%3ld(%+3ld)", result.production[SCIENCE], result.surplus[SCIENCE]);
+    settextf(pdialog->result_text[7], "%ld/%ld/%ld/%ld%s",
+		pcity->size - (result.entertainers + result.scientists +
+		 result.taxmen), result.entertainers, result.scientists,
+		result.taxmen, result.happy ? _(" happy") : "");
+    settext(pdialog->result_text[8], get_city_growth_string(pcity, result.surplus[FOOD]));
+    settext(pdialog->result_text[9], get_prod_complete_string(pcity, result.surplus[SHIELD]));
+  }
+
+  
+  /* if called from a hscale, we _don't_ want to do this */
+  for (i = 0; i < NUM_STATS; i++)
+  {
+    nnset(pdialog->minimal_surplus_slider[i],MUIA_Numeric_Value,param.minimal_surplus[i]);
+    nnset(pdialog->factor_slider[i],MUIA_Numeric_Value,param.factor[i]);
+  }
+  nnset(pdialog->celebrate_check, MUIA_Selected,param.require_happy);
+  nnset(pdialog->factor_slider[6], MUIA_Numeric_Value, param.happy_factor);
+
+#if 0
+  if (refresh != DONT_REFRESH_SELECT) {
+    /* highlight preset if parameter matches */
+    preset_index = cmafec_preset_get_index_of_parameter(&param);
+    if (preset_index != -1) {
+      allow_refreshes = 0;
+      gtk_clist_select_row(GTK_CLIST(pdialog->preset_list), preset_index, 0);
+      allow_refreshes = 1;
+    } else {
+      gtk_clist_unselect_all(GTK_CLIST(pdialog->preset_list));
+    }
+  }
+#endif
+
+  set(pdialog->cma_change_button, MUIA_Disabled, !(result.found_a_valid && !controlled));
+  set(pdialog->cma_perm_button, MUIA_Disabled, !(result.found_a_valid && !controlled));
+  set(pdialog->cma_release_button, MUIA_Disabled, !controlled);
 }
 
 /****************************************************************

@@ -29,7 +29,7 @@ TCPSDK = #AmiTCP SDK (no define for this one!)
 #TCPSDK = ${DEF}MIAMI_SDK # the miami SDK
 
 # comment, if not debugging, disabled by default
-DEBFLAGS = #LIB LIB:debug.lib DEBUG=LINE NOSTRIPDEBUG WARN=ALL IGNORE=61,63,120,148,165,178,212
+DEBFLAGS = LIB LIB:debug.lib #LIB LIB:debug.lib DEBUG=LINE NOSTRIPDEBUG WARN=ALL IGNORE=61,63,120,148,165,178,212
 # disabled warning types:
 # (in includes)   61 - undefined struct/union tag "tag-name"
 # (GCC)           63 - item "name" already declared
@@ -64,7 +64,7 @@ CCFLAGS = RESOPT ANSI IDLEN=40 NOLINK DATA=FAR NOSTKCHK IGNORE=63 NOVERSION\
 ${DEF}HAVE_CONFIG_H ${DEBFLAGS} ${OPTFLAGS} ${CPU_MATH} ${TCPSDK}
 
 # Additional linker flags
-LNFLAGS0 = RESOPT LINK STRIPDEBUG ${DEBFLAGS} ${CPU_MATH} LINK NOICONS NOVERSION TO
+LNFLAGS0 = RESOPT LINK ${DEBFLAGS} ${CPU_MATH} LINK NOICONS NOVERSION TO
 LNFLAGS1 = WITH
 
 ####################################################################
@@ -107,10 +107,10 @@ SERVERDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}server ${INC}${FREECIV_DI
 AMIGASERVEROBJS = ${OBJDIR}amigaserver.o
 
 CLIENTOBJS = ${OBJDIR}client/attribute.o ${OBJDIR}client/citydlg_common.o ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
- ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/goto.o ${OBJDIR}client/helpdata.o ${OBJDIR}client/mapview_common.o\
- ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/tilespec.o
+ ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/goto.o ${OBJDIR}client/helpdata.o ${OBJDIR}client/mapview_common.o \
+ ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/tilespec.o ${OBJDIR}client/agents/agents.o ${OBJDIR}client/agents/cma_core.o ${OBJDIR}client/agents/cma_fec.o
 CLIENTDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}client ${INC}${FREECIV_DIR}common \
- ${INC}${FREECIV_DIR}client/include
+ ${INC}${FREECIV_DIR}client/include ${INC}${FREECIV_DIR}client/agents
 
 CGP = ${FREECIV_DIR}client/gui-mui/
 CLIENTGUIOBJS = ${OBJDIR}client/gui-mui/chatline.o ${OBJDIR}client/gui-mui/citydlg.o \
@@ -135,8 +135,9 @@ CLIENTGUIOBJS = ${OBJDIR}client/gui-mui/chatline.o ${OBJDIR}client/gui-mui/cityd
  ${OBJDIR}client/gui-mui/scrollbuttonclass.o \
  ${OBJDIR}client/gui-mui/transparentstringclass.o \
  ${OBJDIR}client/gui-mui/worklistclass.o
+
 CLIENTGUIDIRS  = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}common ${INC}${FREECIV_DIR}client/include \
- ${INC}${FREECIV_DIR}client
+ ${INC}${FREECIV_DIR}client ${INC}${FREECIV_DIR}client/agents
 
 AMIGACLIENTOBJS = ${OBJDIR}amigaclient.o
 
@@ -177,6 +178,10 @@ endif
 
 if not exists ${OBJDIR}client
   makedir ${OBJDIR}client
+endif
+
+if not exists ${OBJDIR}client/agents
+  makedir ${OBJDIR}client/agents
 endif
 
 if not exists ${OBJDIR}client/gui-mui
@@ -496,6 +501,16 @@ ${OBJDIR}client/packhand.o: ${FREECIV_DIR}client/packhand.c
 ${OBJDIR}client/tilespec.o: ${FREECIV_DIR}client/tilespec.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/tilespec.c ${CLIENTDIRS} ${TO}$@
 
+${OBJDIR}client/agents/agents.o: ${FREECIV_DIR}client/agents/agents.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/agents/agents.c ${CLIENTDIRS} ${TO}$@
+
+${OBJDIR}client/agents/cma_core.o: ${FREECIV_DIR}client/agents/cma_core.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/agents/cma_core.c ${CLIENTDIRS} ${TO}$@
+
+${OBJDIR}client/agents/cma_fec.o: ${FREECIV_DIR}client/agents/cma_fec.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/agents/cma_fec.c ${CLIENTDIRS} ${TO}$@
+
+
 # GUI dependent Client Files
 
 ${OBJDIR}client/gui-mui/chatline.o: ${CGP}chatline.c
@@ -637,7 +652,8 @@ install: dirs civserver civclient locale
   copy Icons.info ${DESTDIR}
   copy locale/\#? ${DESTDIR}/locale
   copy ${FREECIV_DIR}data/\#?.(ilbm|txt|sav|serv) ${DESTDIR}/data
-  copy ${FREECIV_DIR}data/\#?.tilespec ${DESTDIR}/data
+  copy ${FREECIV_DIR}data/trident.tilespec ${DESTDIR}/data
+  copy ${FREECIV_DIR}data/trident_shields.tilespec ${DESTDIR}/data
   copy ${FREECIV_DIR}data/civ1/\#?.ruleset ${DESTDIR}/data/civ1
   copy ${FREECIV_DIR}data/civ2/\#?.ruleset ${DESTDIR}/data/civ2
   copy ${FREECIV_DIR}data/classic/\#?.ruleset ${DESTDIR}/data/classic
@@ -646,7 +662,6 @@ install: dirs civserver civclient locale
   copy ${FREECIV_DIR}data/misc/\#?.(ilbm|spec) ${DESTDIR}/data/misc
   copy ${FREECIV_DIR}data/scenario/\#?.sav ${DESTDIR}/data/scenario
   copy ${FREECIV_DIR}data/trident/\#?.(ilbm|ruleset|spec) ${DESTDIR}/data/trident
-  copy ${FREECIV_DIR}data/hires/\#?.(ilbm|ruleset|spec) ${DESTDIR}/data/hires
   copy ${FREECIV_DIR}README ${DESTDIR}/README.org
   copy ${FREECIV_DIR}*(README.~(bak\#?)|BUGS|TODO|HOWTO\#?|NEWS|AUTHORS|PEOPLE|HOWTOPLAY|COPYING|INSTALL) ${DESTDIR}
 

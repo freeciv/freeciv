@@ -19,6 +19,8 @@ Modification history;
   uses now the prefered languages to determine the gmostr
 26.12.2001 : Sebastian Bauer <sebauer@t-online.de>
   lets SAS open the locale library for us now
+19.02.2002 : Sebastian Bauer <sebauer@t-online.de>
+  added ngettext, but not fully working, only a dummy
 */
 
 #include <stdio.h>
@@ -269,6 +271,11 @@ char *gettext(const char *msgid)
   }
 
   return res;
+}
+
+char *ngettext(const char *msgid1, const char *msgid2, unsigned long int n)
+{
+	return (n==1?msgid1:msgid2);
 }
 
 char *setlocale(int a, char *b)
