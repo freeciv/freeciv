@@ -195,8 +195,8 @@ static bool is_game_over(void)
 
   /* quit if we are past the year limit */
   if (game.year > game.end_year) {
-    notify_conn(&game.est_connections, 
-       _("Game ended in a draw as end year exceeded"));
+    notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END, 
+		   _("Game ended in a draw as end year exceeded"));
     gamelog(GAMELOG_NORMAL, _("Game ended in a draw as end year exceeded"));
     return TRUE;
   }
@@ -224,8 +224,8 @@ static bool is_game_over(void)
   /* quit if we have team victory */
   team_iterate(pteam) {
     if (team_count_members_alive(pteam->id) == alive) {
-      notify_conn(&game.est_connections, 
-          _("Team victory to %s"), pteam->name);
+      notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END,
+		     _("Team victory to %s"), pteam->name);
       gamelog(GAMELOG_NORMAL, _("Team victory to %s"), pteam->name);
       gamelog(GAMELOG_TEAM, "TEAMVICTORY %s", pteam->name);
       return TRUE;
@@ -234,14 +234,15 @@ static bool is_game_over(void)
 
   /* quit if only one player is left alive */
   if (alive == 1) {
-    notify_conn(&game.est_connections, 
-        _("Game ended in victory for %s"), victor->name);
+    notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END,
+		   _("Game ended in victory for %s"), victor->name);
     gamelog(GAMELOG_NORMAL, _("Game ended in victory for %s"), 
         victor->name);
     gamelog(GAMELOG_TEAM, "SINGLEWINNER %s", victor->name);
     return TRUE;
   } else if (alive == 0) {
-    notify_conn(&game.est_connections, _("Game ended in a draw"));
+    notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END, 
+		   _("Game ended in a draw"));
     gamelog(GAMELOG_NORMAL, _("Game ended in a draw"));
     gamelog(GAMELOG_TEAM, "NOWINNER");
     return TRUE;
@@ -264,7 +265,8 @@ static bool is_game_over(void)
     }
   } players_iterate_end;
   if (all_allied) {
-    notify_conn(&game.est_connections, _("Game ended in allied victory"));
+    notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END, 
+		   _("Game ended in allied victory"));
     gamelog(GAMELOG_NORMAL, _("Game ended in allied victory"));
     gamelog(GAMELOG_TEAM, "ALLIEDVICTORY");
     return TRUE;
