@@ -291,6 +291,17 @@ there. Somewhat similar to the one in server/gotohand.c
 Note that a tile currently have max 1 vector pointing to it, as opposed
 to marking all routes of the lowest cost as it is done in
 find_the_shortest_path().
+This function currently only takes move cost into account, not how
+exposed the unit will be while it moves. There are 2 ways of adding
+this:
+-Mark all routes with optimal move cost and choose between them
+ afterwards, as done in find_the_shortest_path(). This has the
+ disadvantage that we cannot take a slightly longer way to avoid the
+ enemy.
+-Factor the thread to a unit at a given tile into the tile move cost.
+ This is the best way IMO, as it doesn't have the problem mentioned
+ above. We will probably have to make movecost an int instead of a short
+ to make it possible to differentiate finely enough between the tiles.
 ***********************************************************************/
 static void create_goto_map(struct unit *punit, int src_x, int src_y,
 			    enum goto_move_restriction restriction)
