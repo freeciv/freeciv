@@ -52,6 +52,7 @@ pkgdata_DATA =			\
 	roman.ruleset		\
 	russian.ruleset		\
 	scottish.ruleset	\
+	silesian.ruleset	\
 	sioux.ruleset		\
 	spanish.ruleset		\
 	swedish.ruleset		\

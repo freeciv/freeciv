@@ -13,7 +13,7 @@ artists = "
     Reineir Post <rp@win.tue.nl> (Sweden, Holland)
     Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
     Robert Brady <rwb197@ecs.soton.ac.uk> (more flags)
-    Tomasz Wegrzanowski <maniek@beer.com> (more flags added)
+    Tomasz Wegrzanowski <maniek@beer.com> (more flags added, Silesia)
     Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
     Jan Heidefuss <jan_heidefuss@yahoo.de> (Bavarian)
 "
@@ -104,4 +104,5 @@ tiles = { "row", "column", "tag"
   5,  1, "f.philippines"
   5,  2, "f.estonia"
   5,  3, "f.latvia"
+  5,  4, "f.silesia"
 }

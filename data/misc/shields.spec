@@ -7,7 +7,7 @@ options = "+spec2"
 
 artists = "
     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
-    Tomasz Wegrzanowski <maniek@beer.com> (bulgaria...boer)
+    Tomasz Wegrzanowski <maniek@beer.com> (Bulgaria...Boer, Silesia)
     Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
     Jeff Mallatt <jjm@codewell.com> (Bavarian, Rome, Cornwall)
 "
@@ -98,4 +98,5 @@ tiles = { "row", "column", "tag"
   5,  1, "f.philippines"
   5,  2, "f.estonia"
   5,  3, "f.latvia"
+  5,  4, "f.silesia"
 }
