@@ -233,36 +233,41 @@ void player_set_unit_focus_status(struct player *pplayer);
 bool player_has_embassy(const struct player *pplayer,
 			const struct player *pplayer2);
 
-bool can_player_see_unit(struct player *pplayer, struct unit *punit);
-bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
-			    struct tile *ptile);
+bool can_player_see_unit(const struct player *pplayer,
+			 const struct unit *punit);
+bool can_player_see_unit_at(const struct player *pplayer,
+			    const struct unit *punit,
+			    const struct tile *ptile);
 
-bool can_player_see_units_in_city(struct player *pplayer,
-				  struct city *pcity);
-bool can_player_see_city_internals(struct player *pplayer,
-				   struct city *pcity);
+bool can_player_see_units_in_city(const struct player *pplayer,
+				  const struct city *pcity);
+bool can_player_see_city_internals(const struct player *pplayer,
+				   const struct city *pcity);
 
-bool player_owns_city(struct player *pplayer, struct city *pcity);
+bool player_owns_city(const struct player *pplayer,
+		      const struct city *pcity);
 
 struct city *player_find_city_by_id(const struct player *pplayer,
 				    int city_id);
 struct unit *player_find_unit_by_id(const struct player *pplayer,
 				    int unit_id);
 
-bool player_in_city_radius(struct player *pplayer, struct tile *ptile);
-bool player_knows_improvement_tech(struct player *pplayer,
+bool player_in_city_radius(const struct player *pplayer,
+			   const struct tile *ptile);
+bool player_knows_improvement_tech(const struct player *pplayer,
 				   Impr_Type_id id);
-bool player_knows_techs_with_flag(struct player *pplayer,
-				 enum tech_flag_id flag);
-int num_known_tech_with_flag(struct player *pplayer, enum tech_flag_id flag);
-int player_get_expected_income(struct player *pplayer);
+bool player_knows_techs_with_flag(const struct player *pplayer,
+				  enum tech_flag_id flag);
+int num_known_tech_with_flag(const struct player *pplayer,
+			     enum tech_flag_id flag);
+int player_get_expected_income(const struct player *pplayer);
 
 void player_limit_to_government_rates(struct player *pplayer);
 
-struct city *find_palace(struct player *pplayer);
+struct city *find_palace(const struct player *pplayer);
 
-bool ai_handicap(struct player *pplayer, enum handicap_type htype);
-bool ai_fuzzy(struct player *pplayer, bool normal_decision);
+bool ai_handicap(const struct player *pplayer, enum handicap_type htype);
+bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
 
 const char *reputation_text(const int rep);
 const char *diplstate_text(const enum diplstate_type type);
@@ -274,7 +279,7 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player
 						     *pplayer2);
 bool are_diplstates_equal(const struct player_diplstate *pds1,
 			  const struct player_diplstate *pds2);
-bool pplayer_can_ally(struct player *p1, struct player *p2);
+bool pplayer_can_ally(const struct player *p1, const struct player *p2);
 bool pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2);
 bool pplayers_allied(const struct player *pplayer,
@@ -285,11 +290,12 @@ bool pplayers_non_attack(const struct player *pplayer,
 			const struct player *pplayer2);
 bool players_on_same_team(const struct player *pplayer1,
                           const struct player *pplayer2);
-int player_in_territory(struct player *pplayer, struct player *pplayer2);
+int player_in_territory(const struct player *pplayer,
+			const struct player *pplayer2);
 
 bool is_barbarian(const struct player *pplayer);
 
-bool gives_shared_vision(struct player *me, struct player *them);
+bool gives_shared_vision(const struct player *me, const struct player *them);
 
 #define players_iterate(PI_player)                                            \
 {                                                                             \

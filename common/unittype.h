@@ -226,7 +226,7 @@ struct unit_type *get_unit_type(Unit_Type_id id);
 struct unit_type *unit_type(struct unit *punit);
 
 bool unit_type_flag(Unit_Type_id id, int flag);
-bool unit_flag(struct unit *punit, enum unit_flag_id flag);
+bool unit_flag(const struct unit *punit, enum unit_flag_id flag);
 bool unit_has_role(Unit_Type_id id, int role);
 
 bool is_water_unit(Unit_Type_id id);

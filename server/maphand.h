@@ -76,7 +76,7 @@ void map_fog_pseudo_city_area(struct player *pplayer, struct tile *ptile);
 
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer);
 void map_change_seen(struct tile *ptile, struct player *pplayer, int change);
-bool map_is_known(const struct tile *ptile, struct player *pplayer);
+bool map_is_known(const struct tile *ptile, const struct player *pplayer);
 void map_set_known(struct tile *ptile, struct player *pplayer);
 void map_clear_known(struct tile *ptile, struct player *pplayer);
 void map_know_all(struct player *pplayer);
@@ -86,7 +86,7 @@ void show_map_to_all(void);
 void player_map_allocate(struct player *pplayer);
 void player_map_free(struct player *pplayer);
 struct player_tile *map_get_player_tile(const struct tile *ptile,
-					struct player *pplayer);
+					const struct player *pplayer);
 bool update_player_tile_knowledge(struct player *pplayer,struct tile *ptile);
 void update_tile_knowledge(struct tile *ptile);
 void update_player_tile_last_seen(struct player *pplayer, struct tile *ptile);

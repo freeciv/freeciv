@@ -161,9 +161,9 @@ bool unit_type_flag(Unit_Type_id id, int flag)
 }
 
 /**************************************************************************
-...
+  Return whether the unit has the given flag.
 **************************************************************************/
-bool unit_flag(struct unit *punit, enum unit_flag_id flag)
+bool unit_flag(const struct unit *punit, enum unit_flag_id flag)
 {
   return unit_type_flag(punit->type, flag);
 }

@@ -350,7 +350,7 @@ bool is_normal_map_pos(int x, int y);
 
 /* implemented in server/maphand.c and client/climisc.c */
 enum known_type map_get_known(const struct tile *ptile,
-			      struct player *pplayer);
+			      const struct player *pplayer);
 
 /* special testing */
 bool map_has_special(const struct tile *ptile,

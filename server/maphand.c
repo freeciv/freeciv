@@ -184,7 +184,8 @@ static void give_tile_info_from_player_to_player(struct player *pfrom,
 static void send_tile_info_always(struct player *pplayer,
 				  struct conn_list *dest, struct tile *ptile);
 static void shared_vision_change_seen(struct tile *ptile, struct player *pplayer, int change);
-static int map_get_seen(const struct tile *ptile, struct player *pplayer);
+static int map_get_seen(const struct tile *ptile,
+			const struct player *pplayer);
 static void map_change_own_seen(struct tile *ptile, struct player *pplayer,
 				int change);
 
@@ -907,10 +908,11 @@ void show_area(struct player *pplayer, struct tile *ptile, int len)
   unbuffer_shared_vision(pplayer);
 }
 
-/***************************************************************
-...
-***************************************************************/
-bool map_is_known(const struct tile *ptile, struct player *pplayer)
+/****************************************************************************
+  Return whether the player knows the tile.  Knowing a tile means you've
+  seen it once (as opposed to seeing a tile which means you can see it now).
+****************************************************************************/
+bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 {
   return TEST_BIT(ptile->known, pplayer->player_no);
 }
@@ -924,10 +926,15 @@ bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer)
       && ((pplayer->private_map + ptile->index)->seen != 0);
 }
 
-/***************************************************************
-Watch out - this can be true even if the tile is not known.
-***************************************************************/
-static int map_get_seen(const struct tile *ptile, struct player *pplayer)
+/****************************************************************************
+  Return whether the player can see the tile.  Seeing a tile means you have
+  vision of it now (as opposed to knowing a tile which means you've seen it
+  before).  Note that a tile can be seen but not known (currently this only
+  happens when a city is founded with some unknown tiles in its radius); in
+  this case the tile is unknown (but map_get_seen will still return TRUE).
+****************************************************************************/
+static int map_get_seen(const struct tile *ptile,
+			const struct player *pplayer)
 {
   return map_get_player_tile(ptile, pplayer)->seen;
 }
@@ -1071,11 +1078,13 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   plrtile->own_seen = plrtile->seen;
 }
  
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Players' information of tiles is tracked so that fogged area can be kept
+  consistent even when the client disconnects.  This function returns the
+  player tile information for the given tile and player.
+****************************************************************************/
 struct player_tile *map_get_player_tile(const struct tile *ptile,
-					struct player *pplayer)
+					const struct player *pplayer)
 {
   return pplayer->private_map + ptile->index;
 }
@@ -1355,11 +1364,14 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   }
 }
 
-/*************************************************************************
-...
-*************************************************************************/
+/***************************************************************************
+  Return a known_type for the given tile for the player.
+
+  FIXME: This function is used by the common code, but separate
+  implementations are provided by server and client.
+***************************************************************************/
 enum known_type map_get_known(const struct tile *ptile,
-			      struct player *pplayer)
+			      const struct player *pplayer)
 {
   if (map_is_known(ptile, pplayer)) {
     if (map_get_seen(ptile, pplayer) > 0) {

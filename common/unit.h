@@ -261,7 +261,7 @@ bool is_military_unit(struct unit *punit);           /* !set !dip !cara */
 bool is_diplomat_unit(struct unit *punit);
 bool is_square_threatened(struct player *pplayer, const struct tile *ptile);
 bool is_field_unit(struct unit *punit);              /* ships+aero */
-bool is_hiding_unit(struct unit *punit);
+bool is_hiding_unit(const struct unit *punit);
 bool is_sailing_unit(struct unit *punit);
 bool is_air_unit(struct unit *punit);
 bool is_heli_unit(struct unit *punit);
@@ -287,7 +287,7 @@ int airunit_carrier_capacity(const struct tile *ptile,
 			     struct player *pplayer,
 			     bool count_units_with_extra_fuel);
 
-struct player *unit_owner(struct unit *punit);
+struct player *unit_owner(const struct unit *punit);
 
 struct unit *is_allied_unit_tile(const struct tile *ptile,
 				 struct player *pplayer);
