@@ -1097,9 +1097,9 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
     city_map_iterate_outwards(i, j) {
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
-      x = map_adjust_x(pcity->x + i - 2);
-      y = pcity->y + j - 2;	/* No adjust! */
-      if ((y >= 0 && y < map.ysize)
+      x = pcity->x + i - CITY_MAP_SIZE/2;
+      y = pcity->y + j - CITY_MAP_SIZE/2;
+      if (normalize_map_pos(&x, &y)
 	  && map_get_continent(x, y) == ucont
 	  && warmap.cost[x][y] <= THRESHOLD * mv_rate
 	  && (territory[x][y]&(1<<player_num))
