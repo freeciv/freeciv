@@ -1172,58 +1172,72 @@ static int evaluate_improvements(struct unit *punit,
 }
 
 /**************************************************************************
-  Handles GOTO for settlers. Only ever used in auto_settler_findwork below.
+  Handles GOTO for settlers. Only ever used in auto_settler_findwork 
+  below.
 **************************************************************************/
 static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat)
 {
   struct player *pplayer = unit_owner(punit);
 
-  if (!same_pos(gx, gy, punit->x, punit->y)) {
-    if (!goto_is_sane(punit, gx, gy, TRUE)
-	|| (ferryboat
-	    && goto_is_sane(ferryboat, gx, gy, TRUE)
-	    && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
-		|| could_unit_move_to_tile(punit, gx, gy) == 0))) {
-      int x, y;
-      punit->ai.ferryboat = find_boat(pplayer, &x, &y, 1); /* might need 2 */
-      freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
-	      punit->id, punit->x, punit->y);
-      if (!same_pos(x, y, punit->x, punit->y)) {
-	if (!ai_unit_goto(punit, x, y)) {
-          return FALSE; /* died */
-        }
-      }
-      ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
-				 punit->ai.ferryboat);
+  if (same_pos(gx, gy, punit->x, punit->y)) {
+    return TRUE;
+  }
 
-      punit->goto_dest_x = gx;
-      punit->goto_dest_y = gy;
+  /*
+   * Go by boat if we can't go by foot, or we have already found a boat
+   * (since boat travel is usually faster). 
+   */
+  if (!goto_is_sane(punit, gx, gy, TRUE)
+      || (ferryboat
+          && goto_is_sane(ferryboat, gx, gy, TRUE)
+          && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
+              || could_unit_move_to_tile(punit, gx, gy) == 0))) {
+    int x, y;
 
-      if (ferryboat && (ferryboat->ai.passenger == 0
-			|| ferryboat->ai.passenger == punit->id)) {
-	freelog(LOG_DEBUG,
-		"We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).",
-		punit->id, ferryboat->id, punit->x, punit->y, gx, gy);
-	handle_unit_activity_request(punit, ACTIVITY_SENTRY);
-	ferryboat->ai.passenger = punit->id;
-	if (!ai_unit_goto(ferryboat, gx, gy)) {
-          return FALSE; /* died */
-        }
-	handle_unit_activity_request(punit, ACTIVITY_IDLE);
-      } /* need to zero pass & ferryboat at some point. */
-    }
-    if (goto_is_sane(punit, gx, gy, TRUE)
-	&& punit->moves_left > 0
-	&& (!ferryboat
-	    || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
-		&& could_unit_move_to_tile(punit, gx, gy) != 0))) {
-      punit->goto_dest_x = gx;
-      punit->goto_dest_y = gy;
-      if (!ai_unit_goto(punit, gx, gy)) {
+    punit->ai.ferryboat = find_boat(pplayer, &x, &y, 1);
+    /* TODO: check if we found a boat */
+    freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
+	    punit->id, punit->x, punit->y);
+    if (!same_pos(x, y, punit->x, punit->y)) {
+      if (!ai_unit_goto(punit, x, y)) {
         return FALSE; /* died */
       }
-      punit->ai.ferryboat = 0;
     }
+    ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
+                               punit->ai.ferryboat);
+    punit->goto_dest_x = gx;
+    punit->goto_dest_y = gy;
+
+    if (ferryboat && (ferryboat->ai.passenger == 0
+                      || ferryboat->ai.passenger == punit->id)) {
+      UNIT_LOG(LOG_DEBUG, punit, "We have FOUND BOAT %d, ABOARD",
+               ferryboat->id);
+      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+      ferryboat->ai.passenger = punit->id;
+      ferryboat->goto_dest_x = gx;
+      ferryboat->goto_dest_y = gy;
+      if (!ai_unit_goto(ferryboat, gx, gy)) {
+        return FALSE; /* died */
+      }
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    } /* need to zero pass & ferryboat at some point. */
+  }
+
+  /*
+   * Now check if we can walk by foot to our destination
+   * (possibly exiting our ferry)
+   */
+  if (goto_is_sane(punit, gx, gy, TRUE)
+      && punit->moves_left > 0
+      && (!ferryboat
+          || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
+              && could_unit_move_to_tile(punit, gx, gy) != 0))) {
+    punit->goto_dest_x = gx;
+    punit->goto_dest_y = gy;
+    if (!ai_unit_goto(punit, gx, gy)) {
+      return FALSE; /* died */
+    }
+    punit->ai.ferryboat = 0;
   }
 
   return TRUE;
