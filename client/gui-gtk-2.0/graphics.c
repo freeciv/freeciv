@@ -79,6 +79,21 @@ bool overhead_view_supported(void)
 #define COLOR_MOTTO_FACE_G    0x71
 #define COLOR_MOTTO_FACE_B    0xE3
 
+/**************************************************************************
+...
+**************************************************************************/
+void gtk_draw_shadowed_string(GdkDrawable *drawable,
+			      GdkGC *black_gc,
+			      GdkGC *white_gc,
+			      gint x, gint y, PangoLayout *layout)
+{
+  gdk_draw_layout(drawable, black_gc, x + 1, y + 1, layout);
+  gdk_draw_layout(drawable, white_gc, x, y, layout);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void load_intro_gfx(void)
 {
   int tot, y;
@@ -123,19 +138,21 @@ void load_intro_gfx(void)
 
   y = radar_gfx_sprite->height - (rect.height + 6);
 
-  gdk_draw_layout(radar_gfx_sprite->pixmap, toplevel->style->black_gc,
-		  (tot - rect.width) / 2 + 1, y + 1, layout);
-  gdk_draw_layout(radar_gfx_sprite->pixmap, toplevel->style->white_gc,
-		  (tot - rect.width) / 2, y, layout);
+  gtk_draw_shadowed_string(radar_gfx_sprite->pixmap,
+			toplevel->style->black_gc,
+			toplevel->style->white_gc,
+			(tot - rect.width) / 2, y,
+			layout);
 
   pango_layout_set_text(layout, word_version(), -1);
   pango_layout_get_pixel_extents(layout, &rect, NULL);
   y-=rect.height+3;
 
-  gdk_draw_layout(radar_gfx_sprite->pixmap, toplevel->style->black_gc,
-		  (tot - rect.width) / 2 + 1, y + 1, layout);
-  gdk_draw_layout(radar_gfx_sprite->pixmap, toplevel->style->white_gc,
-		  (tot - rect.width) / 2, y, layout);
+  gtk_draw_shadowed_string(radar_gfx_sprite->pixmap,
+			toplevel->style->black_gc,
+			toplevel->style->white_gc,
+			(tot - rect.width) / 2, y,
+			layout);
 
   /* done */
   g_object_unref(layout);
@@ -598,4 +615,16 @@ void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
   }
 
   gdk_image_destroy(mask_image);
+}
+
+/*********************************************************************
+ Crops all blankspace from a sprite (insofar as is possible as a rectangle)
+*********************************************************************/
+SPRITE *crop_blankspace(SPRITE *s)
+{
+  int x1, y1, x2, y2;
+
+  sprite_get_bounding_box(s, &x1, &y1, &x2, &y2);
+
+  return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1);
 }

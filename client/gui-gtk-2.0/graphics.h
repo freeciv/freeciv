@@ -37,11 +37,17 @@ extern GdkCursor * drop_cursor;
 extern GdkCursor * nuke_cursor;
 extern GdkCursor * patrol_cursor;
 
+void gtk_draw_shadowed_string(GdkDrawable *drawable,
+			      GdkGC *black_gc,
+			      GdkGC *white_gc,
+			      gint x, gint y, PangoLayout *layout);
+
 SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
 			 int width, int height);
 void sprite_draw_black_border(SPRITE * sprite);
 SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h);
 void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y);
+SPRITE *crop_blankspace(SPRITE *s);
 
 #endif  /* FC__GRAPHICS_H */
