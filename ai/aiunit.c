@@ -552,8 +552,8 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 {
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
-  int i, j, k, l, ok, t, fu;
-  int best = 0;
+  int i, j, k, l, ok, t, fu, best = 0;
+
   for (k = 0; k < 8; k++) {
     i = map_adjust_x(dest_x + ii[k]);
     j = map_adjust_y(dest_y + jj[k]);
@@ -561,9 +561,10 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
     t = map_get_terrain(i, j);
     if (warmap.seacost[i][j] <= 6 * THRESHOLD && t != T_OCEAN) { /* accessible beachhead */
       for (l = 0; l < 8 && !ok; l++) {
-        if (map_get_terrain(i + ii[l], j + jj[l]) == T_OCEAN &&
-            is_my_zoc(punit, i + ii[l], j + jj[l])) ok++;
-        if (map_get_terrain(i + ii[l], j + jj[l]) == T_OCEAN) fu++;
+        if (map_get_terrain(i + ii[l], j + jj[l]) == T_OCEAN) {
+          fu++;
+          if (is_my_zoc(punit, i + ii[l], j + jj[l])) ok++;
+        }
       }
       if (ok) { /* accessible beachhead with zoc-ok water tile nearby */
         ok = get_tile_type(t)->defense_bonus;
