@@ -373,6 +373,8 @@ static bool send_to_metaserver(enum meta_flag flag)
 
   my_writesocket(sock, msg, n);
 
+  my_closesocket(sock);
+
   return TRUE;
 }
 
