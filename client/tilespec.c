@@ -1388,20 +1388,20 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   char buffer[512];
   const char dir_char[] = "nsew";
   const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-  int i;
+  int i, j;
   
   assert(t->sprite_hash != NULL);
 
   SET_SPRITE(treaty_thumb[0], "treaty.disagree_thumb_down");
   SET_SPRITE(treaty_thumb[1], "treaty.agree_thumb_up");
 
-  for(i=0; i<NUM_TILES_PROGRESS; i++) {
-    my_snprintf(buffer, sizeof(buffer), "s.science_bulb_%d", i);
-    SET_SPRITE(bulb[i], buffer);
-    my_snprintf(buffer, sizeof(buffer), "s.warming_sun_%d", i);
-    SET_SPRITE(warming[i], buffer);
-    my_snprintf(buffer, sizeof(buffer), "s.cooling_flake_%d", i);
-    SET_SPRITE(cooling[i], buffer);
+  for (j = 0; j < INDICATOR_COUNT; j++) {
+    const char *names[] = {"science_bulb", "warming_sun", "cooling_flake"};
+
+    for (i = 0; i < NUM_TILES_PROGRESS; i++) {
+      my_snprintf(buffer, sizeof(buffer), "s.%s_%d", names[j], i);
+      SET_SPRITE(indicator[j][i], buffer);
+    }
   }
 
   SET_SPRITE(right_arrow, "s.right_arrow");
@@ -3809,6 +3809,18 @@ struct Sprite *get_cursor_sprite(enum cursor_type cursor,
 struct Sprite *get_attention_crosshair_sprite(void)
 {
   return sprites.user.attention;
+}
+
+/****************************************************************************
+  Returns a sprite for the given indicator with the given index.  The
+  index should be in [0, NUM_TILES_PROGRESS).
+****************************************************************************/
+struct Sprite *get_indicator_sprite(enum indicator_type indicator,
+				    int index)
+{
+  index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
+  assert(indicator >= 0 && indicator < INDICATOR_COUNT);
+  return sprites.indicator[indicator][index];
 }
 
 /**************************************************************************

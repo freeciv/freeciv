@@ -216,11 +216,16 @@ enum cursor_type {
   CURSOR_LAST
 };
 
+enum indicator_type {
+  INDICATOR_BULB,
+  INDICATOR_WARMING,
+  INDICATOR_COOLING,
+  INDICATOR_COUNT
+};
+
 struct named_sprites {
   struct Sprite
-    *bulb[NUM_TILES_PROGRESS],
-    *warming[NUM_TILES_PROGRESS],
-    *cooling[NUM_TILES_PROGRESS],
+    *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
     *treaty_thumb[2],     /* 0=disagree, 1=agree */
     *right_arrow,
 
@@ -374,6 +379,8 @@ struct sprite_vector *get_unit_explode_animation(void);
 struct Sprite *get_cursor_sprite(enum cursor_type cursor,
 				 int *hot_x, int *hot_y);
 struct Sprite *get_attention_crosshair_sprite(void);
+struct Sprite *get_indicator_sprite(enum indicator_type indicator,
+				    int index);
 
 /* These variables contain the size of the tiles used within the game.
  *

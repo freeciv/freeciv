@@ -313,9 +313,9 @@ struct Sprite *client_research_sprite(void)
     /* This clipping can be necessary since we can end up with excess
      * research. */
     index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return sprites.bulb[index];
+    return get_indicator_sprite(INDICATOR_BULB, index);
   } else {
-    return sprites.bulb[0];
+    return get_indicator_sprite(INDICATOR_BULB, 0);
   }
 }
 
@@ -338,9 +338,9 @@ struct Sprite *client_warming_sprite(void)
 
     /* The clipping is needed because the above math is a little fuzzy. */
     index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return sprites.warming[index];
+    return get_indicator_sprite(INDICATOR_WARMING, index);
   } else {
-    return sprites.warming[0];
+    return get_indicator_sprite(INDICATOR_WARMING, 0);
   }
 }
 
@@ -363,9 +363,9 @@ struct Sprite *client_cooling_sprite(void)
 
     /* The clipping is needed because the above math is a little fuzzy. */
     index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return sprites.cooling[index];
+    return get_indicator_sprite(INDICATOR_COOLING, index);
   } else {
-    return sprites.cooling[0];
+    return get_indicator_sprite(INDICATOR_COOLING, 0);
   }
 }
 
