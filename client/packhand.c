@@ -2207,12 +2207,15 @@ void handle_processing_finished(void)
   aconnection.client.last_processed_request_id_seen =
       aconnection.client.request_id_of_currently_handled_packet;
 
-  aconnection.client.request_id_of_currently_handled_packet = 0;
-
-  /* only the processing-finished packet */
-  if (packets_caused_by_current_request == 1) {
+  /* The client received only the processing-finished
+     packet. Don't show this message for PACKET_PONG packets. */
+  if (packets_caused_by_current_request == 1
+      && aconnection.client.request_id_of_currently_handled_packet !=
+      aconnection.client.request_id_of_last_pong) {
     append_output_window(_("Client: No reaction from server."));
   }
+
+  aconnection.client.request_id_of_currently_handled_packet = 0;
 }
 
 /**************************************************************************

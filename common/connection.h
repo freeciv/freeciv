@@ -134,6 +134,12 @@ struct connection {
      * zero.
      */
     int request_id_of_currently_handled_packet;
+
+    /*
+     * Holds the request id of the last pong packet the client
+     * sent. Can be zero.
+     */
+    int request_id_of_last_pong;
   } client;
 
   struct {

@@ -383,7 +383,8 @@ void handle_packet_input(char *packet, int type)
     break;
     
   case PACKET_CONN_PING:
-    send_packet_generic_empty(&aconnection, PACKET_CONN_PONG);
+    aconnection.client.request_id_of_last_pong =
+	send_packet_generic_empty(&aconnection, PACKET_CONN_PONG);
     break;
 
   case PACKET_ATTRIBUTE_CHUNK:
