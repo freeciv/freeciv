@@ -281,7 +281,6 @@ static void tilespec_free_toplevel(void)
     free(minimap_intro_filename);
     minimap_intro_filename = NULL;
   }
-  /* FIXME: free spec_filenames */
 }
 
 /**********************************************************************
@@ -670,6 +669,7 @@ void tilespec_read_toplevel(const char *tileset_name)
 
     specfile_list_insert(&specfiles, sf);
   }
+  free(spec_filenames);
 
   section_file_check_unused(file, fname);
   
@@ -2500,12 +2500,17 @@ void tilespec_free_tiles(void)
     } small_sprite_list_iterate_end;
 
     specfile_list_unlink(&specfiles, sf);
+    free(sf->file_name);
     if (sf->big_sprite) {
       free_sprite(sf->big_sprite);
       sf->big_sprite = NULL;
     }
     free(sf);
   } specfile_list_iterate_end;
+
+  if (num_tiles_explode_unit > 0) {
+    free(sprites.explode.unit);
+  }
 }
 
 /**************************************************************************
