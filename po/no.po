@@ -1112,12 +1112,12 @@ msgstr "Beklager, landsoversikten er ikke tilgjengelig."
 #: server/plrhand.c:633
 #, c-format
 msgid "The %s of the %s"
-msgstr "%s av %s"
+msgstr "%2$ss stolte %1$s"
 
 #: server/plrhand.c:1047
 #, c-format
 msgid "%2d: The %s %s scored %d points\n"
-msgstr "%2d: The %s %s scored %d points\n"
+msgstr "%2d: De %s %s fikk %d poeng\n"
 
 #: server/plrhand.c:1053
 msgid "Final Report:"
@@ -1995,47 +1995,47 @@ msgstr "Feil: kommandonivå må være en av 'none', 'info', 'ctrl', or 'hack'."
 #: server/stdinhand.c:1175
 #, c-format
 msgid "Cannot increase command level to '%s'; you only have '%s' yourself."
-msgstr ""
+msgstr "Kan ikke øke kommandonivå til '%s'; du har kun '%s' selv."
 
 #: server/stdinhand.c:1202 server/stdinhand.c:1238
 #, c-format
 msgid "Command access level set to '%s' for player %s."
-msgstr ""
+msgstr "Kommando aksess-nivå satt til '%s' for spiller %s."
 
 #: server/stdinhand.c:1207 server/stdinhand.c:1243
 #, c-format
 msgid "Command access level could not be set to '%s' for player %s."
-msgstr ""
+msgstr "Kommando aksessnivå kunne ikke settes til '%s' for spiller %s."
 
 #: server/stdinhand.c:1215
 #, c-format
 msgid "Default command access level set to '%s'."
-msgstr ""
+msgstr "Std.verdi for kommando aksess-nivå er satt til '%s'."
 
 #: server/stdinhand.c:1217
 #, c-format
 msgid "Game: All players now have access level '%s'."
-msgstr ""
+msgstr "Spill: Alle spillere har nå aksess-nivå '%s'."
 
 #: server/stdinhand.c:1223
 #, c-format
 msgid "default command access level set to '%s'"
-msgstr ""
+msgstr "std.verdi for kommando aksess-nivå er satt til '%s'"
 
 #: server/stdinhand.c:1225
 #, c-format
 msgid "Game: New connections will have access level '%s'."
-msgstr ""
+msgstr "Spill: Ny tilkoplinger vil ha aksess-nivå '%s'."
 
 #: server/stdinhand.c:1232
 #, c-format
 msgid "Cannot change command access for unconnected player '%s'."
-msgstr ""
+msgstr "Kan ikke endre kommando aksess for utilkoplet spiller '%s'."
 
 #: server/stdinhand.c:1250
 #, c-format
 msgid "Cannot change command access for unknown/invalid player name '%s'."
-msgstr ""
+msgstr "Kan ikke endre kommando aksess for ukjent/ugyldig spiller kalt '%s'."
 
 #: server/stdinhand.c:1295
 msgid "No explanation for that yet."
@@ -2071,21 +2071,21 @@ msgstr "fikset"
 #: server/stdinhand.c:1326
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
-msgstr ""
+msgstr "Verdi: %d, Minimum: %d, Std.verdi: %d, Maksimum: %d"
 
 #: server/stdinhand.c:1330
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
-msgstr ""
+msgstr "Verdi: \"%s\", Std.verdi: \"%s\""
 
 #: server/stdinhand.c:1337
 msgid "Explanations are available for the following server options:"
-msgstr ""
+msgstr "Forklaringer er tilgjengelige for følgende serveropsjoner:"
 
 #: server/stdinhand.c:1375
 #, c-format
 msgid "%-20svalue  (min , max)"
-msgstr ""
+msgstr "%-20sverdi (min , maks)"
 
 #: server/stdinhand.c:1375 server/stdinhand.c:1521
 msgid "Option"
@@ -2093,11 +2093,11 @@ msgstr "Opsjon"
 
 #: server/stdinhand.c:1377
 msgid "Server Options (initial)"
-msgstr ""
+msgstr "Server Opsjoner (initielle)"
 
 #: server/stdinhand.c:1378
 msgid "Server Options (ongoing)"
-msgstr ""
+msgstr "Server Opsjoner (pågående)"
 
 #: server/stdinhand.c:1419 server/stdinhand.c:1449 server/stdinhand.c:1460
 #, c-format
@@ -2116,7 +2116,7 @@ msgstr "%s er ikke kontrollert av AIen."
 #: server/stdinhand.c:1464
 #, c-format
 msgid "Setting game.skill_level to %d."
-msgstr ""
+msgstr "Setter game.skill_level til %d."
 
 #: server/stdinhand.c:1468
 #, c-format
@@ -2130,89 +2130,89 @@ msgstr "Krasher og brenner lystig."
 #: server/stdinhand.c:1499
 #, c-format
 msgid "Unknown option '%s'."
-msgstr ""
+msgstr "Ukjent opsjon '%s'."
 
 #: server/stdinhand.c:1504
 #, c-format
 msgid "Ambiguous option name '%s'."
-msgstr ""
+msgstr "Ikke-entydig opsjonsnavn '%s'."
 
 #: server/stdinhand.c:1517
 msgid "+ means you may change the option"
-msgstr ""
+msgstr "+ betyr at du kan endre opsjonen"
 
 #: server/stdinhand.c:1518
 msgid "= means the option is on its default value"
-msgstr ""
+msgstr "= betyr at opsjonen har standardverdi"
 
 #: server/stdinhand.c:1521
 #, c-format
 msgid "%-*s value  (min,max)       "
-msgstr ""
+msgstr "%-*s verdi  (min,maks)      "
 
 #: server/stdinhand.c:1522
 msgid "description"
-msgstr ""
+msgstr "beskrivelse"
 
 #: server/stdinhand.c:1584
 msgid "Undefined argument.  Usage: set <option> <value>."
-msgstr ""
+msgstr "Udefinert argument.  Bruk: set <opsjon> <verdi>."
 
 #: server/stdinhand.c:1594
 msgid "You are not allowed to set this option."
-msgstr ""
+msgstr "Du har ikke lov å sette denne opsjonen."
 
 #: server/stdinhand.c:1599
 msgid "This setting can't be modified after the game has started."
-msgstr ""
+msgstr "Denne innstillingen kan ikke endres efter at spillet har startet."
 
 #: server/stdinhand.c:1609 server/stdinhand.c:1612
 #, c-format
 msgid "Option: %s has been set to %d."
-msgstr ""
+msgstr "Opsjon: %s har blitt satt til %d."
 
 #: server/stdinhand.c:1619
 msgid "Value out of range.  Usage: set <option> <value>."
-msgstr ""
+msgstr "Verdi utenfor lovlige grenser.  Bruk: set <opsjon> <verdi>."
 
 #: server/stdinhand.c:1625 server/stdinhand.c:1628
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
-msgstr ""
+msgstr "Opsjon: %s har blitt satt til \"%s\"."
 
 #: server/stdinhand.c:1633
 msgid "String value too long.  Usage: set <option> <value>."
-msgstr ""
+msgstr "Streng verdi for lang.  Bruk: set <opsjon> <verdi>."
 
 #: server/stdinhand.c:1655
 msgid "Sorry, you are not allowed to use server commands."
-msgstr ""
+msgstr "Beklager, du har ikke lov å benytte kommandoer på serveren."
 
 #: server/stdinhand.c:1682
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
-msgstr ""
+msgstr "Advarsel: '%s' tolket som '%s', men dette er ikke-entydig.  Forsøk '%shelp'."
 
 #: server/stdinhand.c:1687
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
-msgstr ""
+msgstr "Ukjent kommando.  Forsøk '%shelp'."
 
 #: server/stdinhand.c:1693
 msgid "You are not allowed to use this command."
-msgstr ""
+msgstr "Du har ikke lov å bruke denne kommandoen."
 
 #: server/stdinhand.c:1770
 msgid "The game must be running before you can see the score."
-msgstr ""
+msgstr "Spillet må være igang for å se poengene."
 
 #: server/stdinhand.c:1799
 msgid "Not enough players, game will not start."
-msgstr ""
+msgstr "Ikke nok spillere, spillet vil ikke starte."
 
 #: server/stdinhand.c:1806
 msgid "Cannot start the game: it is already running."
-msgstr ""
+msgstr "Kan ikke starte spill: det er allered i gang."
 
 #: server/stdinhand.c:1836
 #, c-format
@@ -2221,7 +2221,7 @@ msgstr "Avbryter tilkopling til %s."
 
 #: server/stdinhand.c:1841
 msgid "Sorry, no such player connected."
-msgstr ""
+msgstr "Beklager, det er ingen slik spiller tilkoplet."
 
 #: server/stdinhand.c:1875
 msgid ""
@@ -2346,60 +2346,60 @@ msgstr ""
 
 #: server/stdinhand.c:1940
 msgid "Abbreviations are allowed."
-msgstr ""
+msgstr "Forkortelser er tillatt."
 
 #: server/stdinhand.c:1951
 msgid "List of players:"
-msgstr ""
+msgstr "Spillerliste:"
 
 #: server/stdinhand.c:1955
 msgid "<no players>"
-msgstr ""
+msgstr "<ingen spillere>"
 
 #: server/stdinhand.c:1962
 #, c-format
 msgid "%s (AI, %s) is being observed from %s"
-msgstr ""
+msgstr "%s (AI, %s) blir observert fra %s"
 
 #: server/stdinhand.c:1968
 #, c-format
 msgid "%s (AI, %s) is not being observed"
-msgstr ""
+msgstr "%s (AI, %s) blir ikke observert"
 
 #: server/stdinhand.c:1976
 #, c-format
 msgid "%s (human, %s) is connected from %s"
-msgstr ""
+msgstr "%s (menneske, %s) er tilkoplet fra %s"
 
 #: server/stdinhand.c:1982
 #, c-format
 msgid "%s is not connected"
-msgstr ""
+msgstr "%s er ikke tilkoplet."
 
 #: server/unitfunc.c:82
 #, c-format
 msgid "Game: Your %s poisoned the water supply of %s."
-msgstr ""
+msgstr "Spill: Din %s forgiftet vanntilførselen til %s."
 
 #: server/unitfunc.c:86
 #, c-format
 msgid "Game: %s is suspected of poisoning the water supply of %s."
-msgstr ""
+msgstr "Spill: %s er mistenkt for å ha forgiftet vanntilførselen til %s."
 
 #: server/unitfunc.c:130
 #, c-format
 msgid "Game: Your %s was sabotaged by %s!"
-msgstr ""
+msgstr "Spill: Din %s ble sabotert av %s!"
 
 #: server/unitfunc.c:142
 #, c-format
 msgid "Game: Your %s was captured after completing her mission."
-msgstr ""
+msgstr "Spill: Din %s ble fanget etter å ha utført sitt oppdrag."
 
 #: server/unitfunc.c:151
 #, c-format
 msgid "Game: Your %s has successfully completed her mission."
-msgstr ""
+msgstr "Spill: Din %s har lykkes i sitt oppdrag."
 
 #: server/unitfunc.c:178
 msgid "Game: You can't bribe a unit from this nation."
@@ -2413,17 +2413,18 @@ msgstr "Spill: Din %s ble bestukket av %s."
 #: server/unitfunc.c:186
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
-msgstr ""
+msgstr "Spill: Din %s lyktes i å bestikke %ss %s."
 
 #: server/unitfunc.c:242
 #, c-format
 msgid "Game: Your %s stole Future Tech. %d from %s."
-msgstr ""
+msgstr "Spill: Din %s stjal Framtidsteknologi %d fra %s."
 
+# problem
 #: server/unitfunc.c:246
 #, c-format
 msgid "Game: A%s %s %s stole Future Tech. %d from %s."
-msgstr ""
+msgstr "Spill: En %2$s %3$s stjal Framtidsteknologi %$4d fra %$5s."
 
 #: server/unitfunc.c:255
 #, c-format
@@ -2433,17 +2434,17 @@ msgstr "Spill: Ingen ny teknologi funnet i %s."
 #: server/unitfunc.c:262 server/unitfunc.c:288
 #, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
-msgstr ""
+msgstr "Spill: Din %s ble fanget i forsøket på å stjele teknologi fra %s."
 
 #: server/unitfunc.c:266
 #, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
-msgstr ""
+msgstr "Spill: %ss %s mislyktes på å stjele teknologi fra %s."
 
 #: server/unitfunc.c:292
 #, c-format
 msgid "Game: %s's %s was caught stealing technology from %s."
-msgstr ""
+msgstr "Spill: %ss %s ble fanget i forsøk på industrispionasje fra %s."
 
 #: server/unitfunc.c:302
 #, c-format
@@ -2458,17 +2459,18 @@ msgstr "Spill: %ss %s stjal %s fra %s."
 #: server/unitfunc.c:356
 #, c-format
 msgid "Game: Your %s was eliminated by a defending %s in %s."
-msgstr ""
+msgstr "Spill: Din %s ble eliminert av en forsvarende %s i %s."
 
+# problem
 #: server/unitfunc.c:362
 #, c-format
 msgid "Game: A%s %s %s was eliminated while infiltrating %s."
-msgstr ""
+msgstr "Spill: En %2$s %3$s ble eliminert i et forsøk på å infiltrere %4$s."
 
 #: server/unitfunc.c:375
 #, c-format
 msgid "Game: Your %s has been eliminated defending against a %s in %s."
-msgstr ""
+msgstr "Spill: Din %s har blitt eliminert idet den forsvarte seg mot en %s i %s."
 
 #: server/unitfunc.c:403
 #, c-format
@@ -2507,6 +2509,8 @@ msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
+"Spill: Folket i %s er sjokkert over din enorme teknologiske innsikt!\n"
+"       Arbeiderne samler seg til dugnad og oppgraderer byen med jernbaner."
 
 #: server/unitfunc.c:576 server/unitfunc.c:677
 #, c-format
@@ -2533,10 +2537,11 @@ msgstr "Spill: %s ødela %s i %s."
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Spill: Din %s ble fanget i forsøket på industriell sabotasje!"
 
+# problem
 #: server/unitfunc.c:613
 #, c-format
 msgid "Game: You caught a%s %s %s attempting sabotage in %s!"
-msgstr "Spill: Du avslørte og fanget en %s %s %s som forsøkte på sabotasje i %s!"
+msgstr "Spill: Du avslørte og fanget en %2$s %3$s som forsøkte på sabotasje i %4$s!"
 
 #: server/unitfunc.c:637
 #, c-format
@@ -2548,10 +2553,11 @@ msgstr "Spill: Du kan ikke sabotere et underverk eller en %s!"
 msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr "Spill: Din %s ble avslørt og fanget i et forsøk på sabotasje!"
 
+# problem
 #: server/unitfunc.c:654
 #, c-format
 msgid "Game: You caught a%s %s %s attempting to sabotage the %s in %s!"
-msgstr "Spill: Du avslørte og fanget en %s %s %s som forsøkte å sabotere %s i %s!"
+msgstr "Spill: Du avslørte og fanget en %2$s %3$s som forsøkte å sabotere %4$s i %5$s!"
 
 #: server/unitfunc.c:691
 #, c-format
@@ -2631,45 +2637,52 @@ msgstr "Spill: Du fikk %s fra %s."
 msgid "Game: %s discovered %s in the city."
 msgstr "Spill: %s oppdaget %s i byen."
 
+# problem
 #: server/unitfunc.c:1804
 #, c-format
 msgid "Game: You lost a%s %s when %s lost."
-msgstr "Spill: Du mistet en %s %s når %s gikk tapt."
+msgstr "Spill: Du mistet en %2$s når %3$s gikk tapt."
 
+# problem
 #: server/unitfunc.c:1875
 #, c-format
 msgid "Game: You lost a%s %s under an attack from %s's %s%s."
-msgstr "Spill: Du mistet en %s %s under et angrep fra %ss %s%s."
+msgstr "Spill: Du mistet en %2$s under et angrep fra %3$ss %4$s."
 
 #: server/unitfunc.c:1890
 #, c-format
 msgid "Game: You lost %d units under an attack from %s's %s%s."
-msgstr "Spill: Du mistet %d enheter under et angrep fra %ss %s%s."
+msgstr "Spill: Du mistet %d enheter under et angrep fra %ss %s."
 
+# problem
 #: server/unitfunc.c:1897
 #, c-format
 msgid "Game: You lost a%s %s under an attack from %s's %s."
-msgstr "Spill: Du mistet en %s %s under et angrep fra %ss %s."
+msgstr "Spill: Du mistet en %2$s under et angrep fra %3$ss %4$s."
 
+# problem
 #: server/unitfunc.c:1977
 #, c-format
 msgid "%sat %s"
-msgstr "%s ved %s"
+msgstr " ved %2$s"
 
+# problem
 #: server/unitfunc.c:1979
 #, c-format
 msgid "%sin %s"
-msgstr "%s i %s"
+msgstr " i %2$s"
 
+# problem
 #: server/unitfunc.c:1985
 #, c-format
 msgid "%soutside %s"
-msgstr "%s utenfor %s"
+msgstr " utenfor %2$s"
 
+# problem
 #: server/unitfunc.c:1987
 #, c-format
 msgid "%snear %s"
-msgstr "%s nær %s"
+msgstr " nær %2$s"
 
 #: server/unithand.c:82 server/unithand.c:131
 #, c-format
@@ -2826,7 +2839,7 @@ msgstr "Spill: En forlatt landsby er her."
 
 #: server/unithand.c:731
 msgid "Game: Your unit has been slaughtered by a band of cowardly barbarians."
-msgstr "Spill: Din enhet har blitt slaktet av en gjeng med pysete barbarer."
+msgstr "Spill: Din enhet har blitt slaktet av en gjeng med pinglete barbarer."
 
 #: server/unithand.c:749
 msgid "Game: Friendly nomads are impressed by you, and join you."
@@ -2858,7 +2871,7 @@ msgstr "Spill: %s vil ikke forlate sin livvakt."
 #: server/unithand.c:874
 #, c-format
 msgid "Game: %s ending move early to stay out of trouble."
-msgstr "Spill: %s avslutter flytt tidlig for å holde seg unna trøbbel."
+msgstr "Spill: %s avslutter flyttet sitt tidlig for å holde seg unna trøbbel."
 
 #: server/unithand.c:883
 msgid "Game: Only ground troops can take over a city."
@@ -2938,7 +2951,7 @@ msgstr "Spill: %s kan kun bevege seg i din kontrollsone."
 #: server/unittools.c:727 server/unittools.c:737
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
-msgstr "Spill: Teleporterte fin %s fra (%d, %d) til %s."
+msgstr "Spill: Teleporterte din %s fra (%d, %d) til %s."
 
 #: server/unittools.c:765
 #, c-format
@@ -3107,10 +3120,11 @@ msgstr "Oppdagelsen av %s vil øke denne med 1"
 msgid "Allows a city to grow larger than size %d.  "
 msgstr "Tillater en by å vokse seg større enn %d.   "
 
+# problem
 #: client/helpdata.c:535
 #, c-format
 msgid "(A%s %s is also required for a city to grow larger than size %d.)  "
-msgstr ""
+msgstr "(En %2$s er nødvendig for å la en by vokse seg større en størrelse %3$d.)  "
 
 #: client/helpdata.c:564
 #, c-format
@@ -3119,6 +3133,9 @@ msgid ""
 "\n"
 "Note that discovering %s or %s will obsolete any existing %s.  "
 msgstr ""
+"\n"
+"\n"
+"Husk at å få kunnskap om %s eller %s vil forelde eksisterende %s.  "
 
 #: client/helpdata.c:573
 #, c-format
@@ -3127,6 +3144,9 @@ msgid ""
 "\n"
 "The discovery of %s will make %s obsolete.  "
 msgstr ""
+"\n"
+"\n"
+"Å få kunnskap om %s vil forelde %s.  "
 
 #: client/helpdata.c:600
 #, c-format
@@ -5474,8 +5494,8 @@ msgid ""
 "%s %s: %s"
 msgstr ""
 "%s\n"
-"%s av %s\n"
-"%s %s: %s"
+"%3$ss %2$s\n"
+"%4$s %5$s"
 
 #: client/gui-gtk/repodlgs.c:184 client/gui-gtk/repodlgs.c:359
 #: client/gui-xaw/repodlgs.c:248 client/gui-xaw/repodlgs.c:480
@@ -6820,8 +6840,8 @@ msgid ""
 "attacker's firepower is 2).  Otherwise, the attacker loses 1 hit point."
 msgstr ""
 "Hver runde blir et tilfeldig tall mellom 1 og 405 generert.  Hvis det er "
-"større enn 225 (ca 44% sjanse) så taper forsvareren 2 treffkapasitet "
-"(angriperens ildkraft er 2).  Hvis ikke, taper angriper 1 treffkapasitet."
+"større enn 225 (ca 44% sjanse) så taper forsvareren 2 av sin treffkapasitet "
+"(angriperens ildkraft er 2).  Hvis ikke, taper angriper 1 av sin treffkapasitet."
 
 #. Please, someone double-check my probability computations! :-(
 #. ; Consider 22 rounds of combat: the Battleship should win 10 of
@@ -8148,7 +8168,7 @@ msgstr "Moderne"
 #: data/civ1/governments.ruleset:100 data/civ2/governments.ruleset:98
 #: data/default/governments.ruleset:99
 msgid "Anarchy"
-msgstr "Anarki"
+msgstr "anarki"
 
 #: data/civ1/governments.ruleset:140 data/civ2/governments.ruleset:138
 #: data/default/governments.ruleset:139
@@ -8188,7 +8208,7 @@ msgstr ""
 #: data/civ1/governments.ruleset:170 data/civ2/governments.ruleset:168
 #: data/default/governments.ruleset:169
 msgid "Despotism"
-msgstr "Despotisme"
+msgstr "despotisme"
 
 #: data/civ1/governments.ruleset:209 data/civ2/governments.ruleset:207
 #: data/default/governments.ruleset:208
@@ -8228,7 +8248,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:236 data/civ2/techs.ruleset:366
 #: data/default/governments.ruleset:237 data/default/techs.ruleset:366
 msgid "Monarchy"
-msgstr "Monarki"
+msgstr "monarki"
 
 #: data/civ1/governments.ruleset:277 data/civ2/governments.ruleset:275
 #: data/default/governments.ruleset:276
@@ -8267,7 +8287,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:303 data/civ2/techs.ruleset:138
 #: data/default/governments.ruleset:304 data/default/techs.ruleset:138
 msgid "Communism"
-msgstr "Kommunisme"
+msgstr "kommunisme"
 
 #: data/civ1/governments.ruleset:344 data/civ1/governments.ruleset:345
 #: data/civ2/governments.ruleset:342 data/civ2/governments.ruleset:343
@@ -8308,7 +8328,7 @@ msgstr ""
 #: data/civ1/governments.ruleset:379 data/civ2/governments.ruleset:427
 #: data/default/governments.ruleset:378
 msgid "Republic"
-msgstr "Republikk"
+msgstr "republikk"
 
 #: data/civ1/governments.ruleset:418 data/civ1/governments.ruleset:419
 #: data/civ2/governments.ruleset:466 data/civ2/governments.ruleset:467
@@ -8350,7 +8370,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:504 data/civ2/techs.ruleset:168
 #: data/default/governments.ruleset:455 data/default/techs.ruleset:168
 msgid "Democracy"
-msgstr "Demokrati"
+msgstr "demokrati"
 
 #: data/civ1/governments.ruleset:495 data/civ1/governments.ruleset:496
 #: data/civ2/governments.ruleset:544 data/civ2/governments.ruleset:545
@@ -8396,7 +8416,7 @@ msgstr ""
 #: data/civ1/techs.ruleset:228 data/civ2/governments.ruleset:377
 #: data/civ2/techs.ruleset:228 data/default/techs.ruleset:228
 msgid "Fundamentalism"
-msgstr "Fundamentalisme"
+msgstr "fundamentalisme"
 
 #: data/civ2/governments.ruleset:416
 msgid "High Priest"
@@ -8416,7 +8436,7 @@ msgstr "romersk"
 
 #: data/default/nations.ruleset:53
 msgid "?plural:Romans"
-msgstr "?plural:romere"
+msgstr "?plural:romerne"
 
 #: data/default/nations.ruleset:61
 msgid "Dictator"
@@ -8436,7 +8456,7 @@ msgstr "babylonsk"
 
 #: data/default/nations.ruleset:96
 msgid "?plural:Babylonians"
-msgstr "?plural:babylonere"
+msgstr "?plural:babylonerne"
 
 #: data/default/nations.ruleset:124
 msgid "German"
@@ -8444,7 +8464,7 @@ msgstr "tysk"
 
 #: data/default/nations.ruleset:125
 msgid "?plural:Germans"
-msgstr "?plural:tyskere"
+msgstr "?plural:tyskerne"
 
 #: data/default/nations.ruleset:132
 msgid "Chancellor"
@@ -8460,7 +8480,7 @@ msgstr "egyptisk"
 
 #: data/default/nations.ruleset:165
 msgid "?plural:Egyptians"
-msgstr "?plural:egyptere"
+msgstr "?plural:egypterne"
 
 #: data/default/nations.ruleset:173
 msgid "Pharaoh"
@@ -8476,7 +8496,7 @@ msgstr "amerikansk"
 
 #: data/default/nations.ruleset:198
 msgid "?plural:Americans"
-msgstr "?plural:amerikanere"
+msgstr "?plural:amerikanerne"
 
 #: data/default/nations.ruleset:206
 msgid "Speaker"
@@ -8492,7 +8512,7 @@ msgstr "gresk"
 
 #: data/default/nations.ruleset:236
 msgid "?plural:Greeks"
-msgstr "?plural:grekere"
+msgstr "?plural:grekerne"
 
 #: data/default/nations.ruleset:243 data/default/nations.ruleset:460
 #: data/default/nations.ruleset:563 data/default/nations.ruleset:804
@@ -8508,7 +8528,7 @@ msgstr "indisk"
 
 #: data/default/nations.ruleset:273
 msgid "?plural:Indians"
-msgstr "?plural:indere"
+msgstr "?plural:inderne"
 
 #: data/default/nations.ruleset:281
 msgid "Maharaja"
@@ -8520,7 +8540,7 @@ msgstr "russisk"
 
 #: data/default/nations.ruleset:303
 msgid "?plural:Russians"
-msgstr "?plural:russere"
+msgstr "?plural:russerne"
 
 #: data/default/nations.ruleset:311
 msgid "Czar"
@@ -8544,7 +8564,7 @@ msgstr "zulu"
 
 #: data/default/nations.ruleset:337
 msgid "?plural:Zulus"
-msgstr "?plural:zuluer"
+msgstr "?plural:zuluene"
 
 #: data/default/nations.ruleset:363
 msgid "French"
@@ -8552,7 +8572,7 @@ msgstr "fransk"
 
 #: data/default/nations.ruleset:364
 msgid "?plural:French"
-msgstr "?plural:franskmenn"
+msgstr "?plural:franskmennene"
 
 #: data/default/nations.ruleset:371
 msgid "Premier"
@@ -8564,7 +8584,7 @@ msgstr "aztekisk"
 
 #: data/default/nations.ruleset:395
 msgid "?plural:Aztecs"
-msgstr "?plural:aztekere"
+msgstr "?plural:aztekerne"
 
 #: data/default/nations.ruleset:422
 msgid "Chinese"
@@ -8572,7 +8592,7 @@ msgstr "kinesisk"
 
 #: data/default/nations.ruleset:423
 msgid "?plural:Chinese"
-msgstr "?plural:kinesere"
+msgstr "?plural:kineserne"
 
 #: data/default/nations.ruleset:430
 msgid "Chairman"
@@ -8588,7 +8608,7 @@ msgstr "engelsk"
 
 #: data/default/nations.ruleset:453
 msgid "?plural:English"
-msgstr "?plural:engelskmenn"
+msgstr "?plural:engelskmennene"
 
 #: data/default/nations.ruleset:461
 msgid "Lord Protector"
@@ -8604,7 +8624,7 @@ msgstr "mongolsk"
 
 #: data/default/nations.ruleset:492
 msgid "?plural:Mongols"
-msgstr "?plural:mongolere"
+msgstr "?plural:mongolerne"
 
 #: data/default/nations.ruleset:499
 msgid "Khan"
@@ -8620,7 +8640,7 @@ msgstr "tyrkisk"
 
 #: data/default/nations.ruleset:523
 msgid "?plural:Turks"
-msgstr "?plural:tyrkere"
+msgstr "?plural:tyrkerne"
 
 #: data/default/nations.ruleset:531
 msgid "Sultan"
@@ -8632,7 +8652,7 @@ msgstr "spansk"
 
 #: data/default/nations.ruleset:556
 msgid "?plural:Spanish"
-msgstr "?plural:spanjoler"
+msgstr "?plural:spanjolene"
 
 #: data/default/nations.ruleset:585
 msgid "Persian"
@@ -8640,7 +8660,7 @@ msgstr "persisk"
 
 #: data/default/nations.ruleset:586
 msgid "?plural:Persians"
-msgstr "?plural:persere"
+msgstr "?plural:perserne"
 
 #: data/default/nations.ruleset:594
 msgid "Shah"
@@ -8652,7 +8672,7 @@ msgstr "arabisk"
 
 #: data/default/nations.ruleset:618
 msgid "?plural:Arabs"
-msgstr "?plural:arabere"
+msgstr "?plural:araberne"
 
 #: data/default/nations.ruleset:626
 msgid "Caliph"
@@ -8664,7 +8684,7 @@ msgstr "karthagensk"
 
 #: data/default/nations.ruleset:649
 msgid "?plural:Carthaginians"
-msgstr "?plural:karthagenere"
+msgstr "?plural:karthagenerne"
 
 #: data/default/nations.ruleset:677
 msgid "Inca"
@@ -8672,7 +8692,7 @@ msgstr "inka"
 
 #: data/default/nations.ruleset:678
 msgid "?plural:Incas"
-msgstr "?plural:inkaer"
+msgstr "?plural:inkaene"
 
 #: data/default/nations.ruleset:686
 msgid "Warlord"
@@ -8684,7 +8704,7 @@ msgstr "viking"
 
 #: data/default/nations.ruleset:711
 msgid "?plural:Vikings"
-msgstr "?plural:vikinger"
+msgstr "?plural:vikingene"
 
 #: data/default/nations.ruleset:742
 msgid "Polish"
@@ -8692,7 +8712,7 @@ msgstr "polsk"
 
 #: data/default/nations.ruleset:743
 msgid "?plural:Polish"
-msgstr "?plural:polakker"
+msgstr "?plural:polakkene"
 
 #: data/default/nations.ruleset:770
 msgid "Hungarian"
@@ -8700,7 +8720,7 @@ msgstr "ungarsk"
 
 #: data/default/nations.ruleset:771
 msgid "?plural:Hungarians"
-msgstr "?plural:ungarere"
+msgstr "?plural:ungarerne"
 
 #: data/default/nations.ruleset:796
 msgid "Danish"
@@ -8708,7 +8728,7 @@ msgstr "dansk"
 
 #: data/default/nations.ruleset:797
 msgid "?plural:Danes"
-msgstr "?plural:dansker"
+msgstr "?plural:danskene"
 
 #: data/default/nations.ruleset:828
 msgid "Dutch"
@@ -8716,7 +8736,7 @@ msgstr "hollandsk"
 
 #: data/default/nations.ruleset:829
 msgid "?plural:Dutch"
-msgstr "?plural:hollendere"
+msgstr "?plural:hollenderne"
 
 #: data/default/nations.ruleset:871
 msgid "Swedish"
@@ -8724,7 +8744,7 @@ msgstr "svensk"
 
 #: data/default/nations.ruleset:872
 msgid "?plural:Swedes"
-msgstr "?plural:svensker"
+msgstr "?plural:svenskene"
 
 #: data/default/nations.ruleset:902
 msgid "Japanese"
@@ -8732,7 +8752,7 @@ msgstr "japansk"
 
 #: data/default/nations.ruleset:903
 msgid "?plural:Japanese"
-msgstr "?plural:japanere"
+msgstr "?plural:japanerne"
 
 #: data/default/nations.ruleset:911
 msgid "Shogun"
@@ -8744,7 +8764,7 @@ msgstr "portugisisk"
 
 #: data/default/nations.ruleset:934
 msgid "?plural:Portuguese"
-msgstr "?plural:portugisere"
+msgstr "?plural:portugiserne"
 
 #: data/default/nations.ruleset:970
 msgid "Finnish"
@@ -8752,7 +8772,7 @@ msgstr "finsk"
 
 #: data/default/nations.ruleset:971
 msgid "?plural:Finns"
-msgstr "?plural:finner"
+msgstr "?plural:finnene"
 
 #: data/default/nations.ruleset:1019
 msgid "Sioux"
@@ -8760,7 +8780,7 @@ msgstr "sioux"
 
 #: data/default/nations.ruleset:1020
 msgid "?plural:Sioux"
-msgstr "?plural:sioux'er"
+msgstr "?plural:sioux'ene"
 
 #: data/default/nations.ruleset:1028
 msgid "Chief"
@@ -8776,7 +8796,7 @@ msgstr "tsjekkisk"
 
 #: data/default/nations.ruleset:1050
 msgid "?plural:Czechs"
-msgstr "?plural:tsjekkere"
+msgstr "?plural:tsjekkerne"
 
 #: data/default/nations.ruleset:1067
 msgid "Thane"
@@ -8792,7 +8812,7 @@ msgstr "australsk"
 
 #: data/default/nations.ruleset:1109
 msgid "?plural:Australians"
-msgstr "?plural:australiere"
+msgstr "?plural:australierne"
 
 #: data/civ1/techs.ruleset:48 data/civ2/techs.ruleset:48
 #: data/default/techs.ruleset:48
@@ -9471,7 +9491,7 @@ msgstr ""
 #: data/civ1/units.ruleset:111 data/civ2/units.ruleset:103
 #: data/default/units.ruleset:103
 msgid "Engineers"
-msgstr "Ingeniørteam"
+msgstr "Ingeniørbrigade"
 
 #: data/civ2/units.ruleset:124 data/default/units.ruleset:124
 msgid ""
