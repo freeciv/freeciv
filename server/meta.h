@@ -19,10 +19,16 @@ The info string should look like this:
 #ifndef _META_H
 #define _META_H
 
+#include <shared.h>
+
 #define	METASERVER_PORT	12245
 #define	METASERVER_ADDR	"platinum.daimi.aau.dk"
 #define METASERVER_UPDATE_INTERVAL 3*60
-#define DEFAULT_META_SERVER_INFO_STRING "Blood's Music II"
+#if MINOR_VERSION < 7
+#  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.7: beware"
+#else
+#  define DEFAULT_META_SERVER_INFO_STRING "Blood's Music II"
+#endif
 
 void send_to_metaserver(char *desc, char *info);
 void server_close_udp();

@@ -20,7 +20,11 @@
 #define PATCH_VERSION  4
 #define VERSION_STRING "1.6.4"
 
+#if MINOR_VERSION < 7
+#define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING" (beta release)"
+#else
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING
+#endif
 
 /* Capabilities: Author: Mitch Davis (mjd@alphalink.com.au)
  *
@@ -49,7 +53,7 @@
  */
 
 /* The default string is really simple */
-#define CAPABILITY "+1.6"
+#define CAPABILITY "+1.7"
 
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2

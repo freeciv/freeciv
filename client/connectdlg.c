@@ -32,7 +32,7 @@ void connect_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 int gui_server_connect(void)
 {
-  Widget shell, form, label;
+  Widget shell, form, label, label2;
   char buf[512];
   
   XtTranslations textfieldtranslations;
@@ -62,6 +62,10 @@ int gui_server_connect(void)
 
   connw=XtVaCreateManagedWidget("cconnectc", commandWidgetClass, form, NULL);   
   quitw=XtVaCreateManagedWidget("cquitc", commandWidgetClass, form, NULL); 
+
+#if MINOR_VERSION < 7
+  label2=XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form, NULL);   
+#endif
 
   XtAddCallback(connw, XtNcallback, connect_callback, NULL);
   XtAddCallback(quitw, XtNcallback, quit_callback, NULL);

@@ -194,6 +194,9 @@ int main(int argc, char *argv[])
   log_set_level(LOG_NORMAL);
   
   printf(FREECIV_NAME_VERSION " server\n> ");
+#if MINOR_VERSION < 7
+  printf("Freeciv 1.7 will be release on July 26 from http://www.freeciv.org\n");
+#endif
   fflush(stdout);
 
   strcpy(s_capability, CAPABILITY);

@@ -15,6 +15,14 @@
 
 #include <X11/Xlib.h>
 
+#include <shared.h>
+
+#if MINOR_VERSION < 7
+#  define vers "betatest version"
+#else
+#  define vers "version"
+#endif
+
 /* These #defines are the size of the tiles used within the game.
  * Tiles for the units and city squares, etc, are usually 30x30.
  * Tiles for things like food production, etc, are usually 15x20.  We
