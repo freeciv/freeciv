@@ -25,6 +25,7 @@
 #include "timing.h"
 
 #include "graphics_g.h"
+#include "gui_main_g.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 
@@ -2223,9 +2224,32 @@ void get_city_mapview_production(struct city *pcity,
 }
 
 static enum update_type needed_updates = UPDATE_NONE;
+static bool callback_queued = FALSE;
 struct tile_list *city_updates = NULL;
 struct tile_list *unit_updates = NULL;
 struct tile_list *tile_updates = NULL;
+
+/****************************************************************************
+  This callback is called during an idle moment to unqueue any pending
+  mapview updates.
+****************************************************************************/
+static void queue_callback(void *data)
+{
+  callback_queued = FALSE;
+  unqueue_mapview_updates();
+}
+
+/****************************************************************************
+  When a mapview update is queued this function should be called to prepare
+  an idle-time callback to unqueue the updates.
+****************************************************************************/
+static void queue_add_callback(void)
+{
+  if (!callback_queued) {
+    callback_queued = TRUE;
+    add_idle_callback(queue_callback, NULL);
+  }
+}
 
 /**************************************************************************
   This function, along with unqueue_mapview_update(), helps in updating
@@ -2247,6 +2271,7 @@ struct tile_list *tile_updates = NULL;
 void queue_mapview_update(enum update_type update)
 {
   needed_updates |= update;
+  queue_add_callback();
 }
 
 /**************************************************************************
@@ -2262,6 +2287,7 @@ void queue_mapview_tile_update(struct tile *ptile)
     tile_updates = tile_list_new();
   }
   tile_list_prepend(tile_updates, ptile);
+  queue_add_callback();
 }
 
 /**************************************************************************
@@ -2274,6 +2300,7 @@ void queue_mapview_unit_update(struct unit *punit)
     unit_updates = tile_list_new();
   }
   tile_list_prepend(unit_updates, punit->tile);
+  queue_add_callback();
 }
 
 /**************************************************************************
@@ -2286,6 +2313,7 @@ void queue_mapview_city_update(struct city *pcity)
     city_updates = tile_list_new();
   }
   tile_list_prepend(city_updates, pcity->tile);
+  queue_add_callback();
 }
 
 /**************************************************************************

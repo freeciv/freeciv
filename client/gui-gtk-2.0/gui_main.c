@@ -1535,3 +1535,33 @@ static gboolean quit_dialog_callback(void)
   return TRUE;
 }
 
+struct callback {
+  void (*callback)(void *data);
+  void *data;
+};
+
+/****************************************************************************
+  A wrapper for the callback called through add_idle_callback.
+****************************************************************************/
+static gint idle_callback_wrapper(gpointer data)
+{
+  struct callback *cb = data;
+
+  (cb->callback)(cb->data);
+  free(cb);
+  return 0;
+}
+
+/****************************************************************************
+  Enqueue a callback to be called during an idle moment.  The 'callback'
+  function should be called sometimes soon, and passed the 'data' pointer
+  as its data.
+****************************************************************************/
+void add_idle_callback(void (callback)(void *), void *data)
+{
+  struct callback *cb = fc_malloc(sizeof(*cb));
+
+  cb->callback = callback;
+  cb->data = data;
+  gtk_idle_add(idle_callback_wrapper, cb);
+}

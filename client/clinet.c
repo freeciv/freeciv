@@ -347,8 +347,6 @@ void input_from_server(int fd)
   } else {
     close_socket_callback(&aconnection);
   }
-
-  unqueue_mapview_updates();
 }
 
 /**************************************************************************
@@ -391,7 +389,7 @@ void input_from_server_till_request_got_processed(int fd,
 	  if (aconnection.client.last_processed_request_id_seen >=
 	      expected_request_id) {
 	    freelog(LOG_DEBUG, "ifstrgp: got it; returning");
-	    goto out;
+	    return;
 	  }
 	}
       }
@@ -400,9 +398,6 @@ void input_from_server_till_request_got_processed(int fd,
       break;
     }
   }
-
-out:
-  unqueue_mapview_updates();
 }
 
 #ifdef WIN32_NATIVE

@@ -27,6 +27,8 @@ void remove_net_input(void);
 void set_unit_icon(int idx, struct unit *punit);
 void set_unit_icons_more_arrow(bool onoff);
 
+void add_idle_callback(void (callback)(void *), void *data);
+
 extern const char *client_string;
 
 #endif  /* FC__GUI_MAIN_G_H */
