@@ -14,6 +14,7 @@
 #define FC__SHARED_H
 
 #include <stdlib.h>		/* size_t */
+#include <string.h>		/* memset */
 
 #if __BEOS__
 #include <posix/be_prim.h>
