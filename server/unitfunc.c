@@ -1469,6 +1469,89 @@ int do_airline(struct unit *punit, int x, int y)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
+{
+  int paradropped=0;
+
+  connection_do_buffer(pplayer->conn);
+
+  if (unit_flag(punit->type, F_PARATROOPERS)) {
+    if(can_unit_paradropped(punit)) {
+			if(map_get_known(x,y,pplayer)) {
+        if(map_get_terrain(x,y) != T_OCEAN) {
+	        if(!is_enemy_unit_tile(x,y,punit->owner)) {
+            if(real_map_distance(punit->x, punit->y, x, y) <= 10) {
+              struct city *start_city = map_get_city(punit->x, punit->y);
+	  		      struct city *dest_city = map_get_city(x, y);
+              int ok=1;
+
+              /* light the squares the unit is entering */
+              light_square(pplayer, x, y, 
+                  get_unit_type(punit->type)->vision_range);
+
+              unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
+              punit->x = x; punit->y = y;
+              unit_list_insert(&map_get_tile(x, y)->units, punit);
+
+              ok = 1;
+              if((map_get_tile(x, y)->special&S_HUT)) {
+                /* punit might get killed by horde of barbarians */
+                ok = handle_unit_enter_hut(punit);
+              }
+
+              if(ok) {
+                punit->moves_left = 0;
+                send_unit_info(0, punit, 0);
+
+                if(start_city) {
+                  send_city_info(pplayer, start_city, 0);
+                }
+
+                if(dest_city) {
+                  handle_unit_enter_city(pplayer, dest_city);
+                  send_city_info(&game.players[dest_city->owner], dest_city, 0);
+                }
+
+                punit->moved = 1;
+              }
+              paradropped=1;
+            }
+      	    else {
+    	        notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
+		  	        "Game: to far for this unit.");
+            }
+          }
+      	  else {
+    	      notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
+		  	        "Game: cannot paradrop because there are enemy units on the destination location.");
+	        }
+        }
+        else {
+          notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
+	  	        "Game: cannot paradrop into ocean.");
+        }
+      }
+      else {
+        notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
+           "Game: the destination location is not known.");
+      }
+    }
+	}
+  else {
+    notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
+		     "Game: this unit type can not be paradropped.");
+  }
+
+  if(!paradropped)
+    send_unit_info(0, punit, 0);
+
+  connection_do_unbuffer(pplayer->conn);
+  return 0;
+}
+
+/**************************************************************************
   called when a player conquers a city, remove buildings (not wonders and always palace) with game.razechance% chance
   set the city's shield stock to 0
 **************************************************************************/

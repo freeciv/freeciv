@@ -40,6 +40,9 @@ int goto_state;
 /* set high, if the player has selected nuke */
 int nuke_state;
 
+/* set high, if the player has selected paradropping */
+int paradrop_state;
+
 static struct unit *find_best_focus_candidate(void);
 
 /**************************************************************************
@@ -133,6 +136,7 @@ void advance_unit_focus(void)
 
   goto_state=0;
   nuke_state=0;
+  paradrop_state=0;
 
   if(!punit_focus) {
     unit_list_iterate(game.player_ptr->units, punit) {
@@ -493,6 +497,23 @@ void request_unit_nuke(struct unit *punit)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+void request_unit_paradrop(struct unit *punit)
+{
+  if(!unit_flag(punit->type, F_PARATROOPERS)) {
+    append_output_window("Game: Only paratrooper units can do this.");
+    return;
+  }
+	if(!can_unit_paradropped(punit))
+    return;
+
+  paradrop_state=1;
+  goto_state=punit->id;
+  update_unit_info_label(punit);
+}
+
+/**************************************************************************
  Toggle display of grid lines on the map
 **************************************************************************/
 void request_toggle_map_grid(void) 
@@ -523,7 +544,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   unit_list_unlink(&map_get_tile(x, y)->units, punit);
 
   if(!was_carried)
-    refresh_tile_mapcanvas(x, y, 0);
+    refresh_tile_mapcanvas(x, y, was_teleported);
   
   if(game.player_idx==punit->owner && punit->activity!=ACTIVITY_GOTO && 
      auto_center_on_unit &&
@@ -587,6 +608,7 @@ int do_goto(int xtile, int ytile)
 
     goto_state=0;
     nuke_state=0;
+    paradrop_state=0;
 
     return 1;
   }
@@ -609,6 +631,15 @@ void do_map_click(int xtile, int ytile)
 
     if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
       struct packet_unit_request req;
+
+      if(paradrop_state) {
+        do_unit_paradrop_to(punit, xtile, ytile);
+        goto_state=0;
+        nuke_state=0;
+        paradrop_state=0;
+        return;
+      }
+
       if(nuke_state && 3*real_map_distance(punit->x,punit->y,xtile,ytile) > punit->moves_left) {
         append_output_window("Game: Too far for this unit.");
         goto_state=0;
@@ -663,6 +694,20 @@ void do_unit_nuke(struct unit *punit)
   req.unit_id=punit->id;
   req.name[0]='\0';
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_NUKE);
+}
+
+/**************************************************************************
+Paradrop to a location
+**************************************************************************/
+void do_unit_paradrop_to(struct unit *punit, int x, int y)
+{
+  struct packet_unit_request req;
+
+  req.unit_id=punit->id;
+  req.x = x;
+  req.y = y;
+  req.name[0]='\0';
+  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_PARADROP_TO);
 }
  
 /**************************************************************************
@@ -822,8 +867,17 @@ void key_map_grid(void)
 **************************************************************************/
 void key_unit_clean_pollution(void)
 {
-  if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_POLLUTION);
+  struct unit *punit=get_unit_in_focus();
+  
+  if (!punit) return;
+
+  if (unit_flag(punit->type, F_PARATROOPERS)) {
+    request_unit_paradrop(punit);
+  }
+  else {
+    request_new_unit_activity(punit, ACTIVITY_POLLUTION);
+  }
+
 }
 
 /**************************************************************************

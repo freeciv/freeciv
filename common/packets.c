@@ -250,6 +250,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_UNIT_UNLOAD:
   case PACKET_UNIT_UPGRADE:
   case PACKET_UNIT_NUKE:
+  case PACKET_UNIT_PARADROP_TO:
     return receive_packet_unit_request(pc);
   case PACKET_UNITTYPE_UPGRADE:
     return receive_packet_unittype_info(pc);

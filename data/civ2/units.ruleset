@@ -352,7 +352,7 @@ roles         = "DefendOk"
 [unit_paratroopers]
 name          = "Paratroopers"
 move_type     = "Land"
-tech_req      = "Never"
+tech_req      = "Combined Arms"
 obsolete_by   = "None"
 graphic       = "u.paratroopers"
 graphic_alt   = "-"
@@ -369,7 +369,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "Paratroopers"
 roles         = "DefendOk"
 
 [unit_mech_inf]

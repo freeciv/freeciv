@@ -17,6 +17,7 @@
 
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
 void do_unit_nuke(struct unit *punit);
+void do_unit_paradrop_to(struct unit *punit, int x, int y);
 int do_goto(int xtile, int ytile);
 void do_map_click(int xtile, int ytile);
 
@@ -34,6 +35,7 @@ void request_unit_disband(struct unit *punit);
 void request_unit_goto(void);
 void request_unit_move_done(void);
 void request_unit_nuke(struct unit *punit);
+void request_unit_paradrop(struct unit *punit);
 void request_unit_unload(struct unit *punit);
 void request_unit_upgrade(struct unit *punit);
 void request_unit_wait(struct unit *punit);

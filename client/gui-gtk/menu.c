@@ -251,8 +251,11 @@ static void orders_menu_callback(gpointer callback_data,
       request_new_unit_activity(get_unit_in_focus(), road_activity);
     break;
    case MENU_ORDER_POLLUTION:
+    key_unit_clean_pollution();
+/*
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_POLLUTION);
+*/
     break;
    case MENU_ORDER_HOMECITY:
     if(get_unit_in_focus())
@@ -822,8 +825,17 @@ void update_menus(void)
       menus_set_sensitive("<main>/Orders/Build Road",
 			   can_unit_do_activity(punit, ACTIVITY_ROAD) ||
 			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));
-      menus_set_sensitive("<main>/Orders/Clean Pollution",
-			   can_unit_do_activity(punit, ACTIVITY_POLLUTION));
+
+      if (can_unit_paradropped(punit)) {
+        menus_rename("<main>/Orders/Clean Pollution", "Paradrop");
+        menus_set_sensitive("<main>/Orders/Clean Pollution",TRUE);
+      }
+      else {
+        menus_rename("<main>/Orders/Clean Pollution", "Clean Pollution");
+        menus_set_sensitive("<main>/Orders/Clean Pollution",
+			     can_unit_do_activity(punit, ACTIVITY_POLLUTION));
+      }
+
       menus_set_sensitive("<main>/Orders/Fortify",
 			   can_unit_do_activity(punit, ACTIVITY_FORTIFY));
       menus_set_sensitive("<main>/Orders/Sentry",

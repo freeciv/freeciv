@@ -137,6 +137,7 @@ enum unit_flag_id {
   F_NUCLEAR,          /* Nuclear attack effect */
   F_SPY,              /* Enhanced spy abilities */
   F_TRANSFORM,        /* Can transform terrain types (Engineers) */
+  F_PARATROOPERS,
   F_LAST
 };
 
@@ -228,6 +229,7 @@ int unit_can_est_traderoute_here(struct unit *punit);
 int unit_can_defend_here(struct unit *punit);
 int unit_can_airlift_to(struct unit *punit, struct city *pcity);
 
+int can_unit_paradropped(struct unit *punit);
 int can_unit_change_homecity(struct unit *punit);
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity);
 int can_unit_do_activity_targeted(struct unit *punit,

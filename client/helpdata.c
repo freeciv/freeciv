@@ -690,6 +690,9 @@ void helptext_unit(char *buf, int i, const char *user_text)
   if (unit_flag(i, F_MARINES)) {
     sprintf(buf+strlen(buf), "* Can attack from aboard sea units: against enemy cities and\n  onto land squares.");
   }
+  if (unit_flag(i, F_PARATROOPERS)) {
+    sprintf(buf+strlen(buf), "* Can be paradropped from a city with airport.");
+  }
   if (unit_flag(i, F_PIKEMEN)) {
     sprintf(buf+strlen(buf), "* Gets double defense against units specified as 'mounted'.\n");
   }

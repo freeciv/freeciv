@@ -56,6 +56,8 @@ void handle_unit_unload_request(struct player *pplayer,
 				struct packet_unit_request *req);
 void handle_unit_nuke(struct player *pplayer, 
                      struct packet_unit_request *req);
+void handle_unit_paradrop_to(struct player *pplayer, 
+                     struct packet_unit_request *req);
 void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove);
 void handle_incite_inq(struct player *pplayer,
 		       struct packet_generic_integer *packet);

@@ -43,7 +43,7 @@ static char *flag_names[] = {
   "Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier",
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS",
   "Fighter", "Marines", "Submarine", "Settlers", "Diplomat",
-  "Trireme", "Nuclear", "Spy", "Transform"
+  "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers"
 };
 static char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -740,6 +740,30 @@ int can_unit_do_auto(struct unit *punit)
   if (is_military_unit(punit) && map_get_city(punit->x, punit->y))
     return 1;
   return 0;
+}
+
+/**************************************************************************
+Return whether the unit can be paradropped.
+That is if the unit is in a city with the Airport improvement
+**************************************************************************/
+int can_unit_paradropped(struct unit *punit)
+{
+  struct city *pcity;
+  if (!unit_flag(punit->type, F_PARATROOPERS))
+    return 0;
+
+  if(!punit->moves_left)
+    return 0;
+
+  pcity = map_get_city(punit->x, punit->y);
+
+  if(!pcity)
+    return 0;
+
+  if(!city_got_building(pcity,B_AIRPORT))
+    return 0;
+
+  return 1;
 }
 
 /**************************************************************************

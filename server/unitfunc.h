@@ -64,6 +64,7 @@ void do_nuke_tile(int x, int y);
 void do_nuclear_explosion(int x, int y);
 int try_move_unit(struct unit *punit, int dest_x, int dest_y); 
 int do_airline(struct unit *punit, int x, int y);
+int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y);
 void raze_city(struct city *pcity);
 void get_a_tech(struct player *pplayer, struct player *target);
 void place_partisans(struct city *pcity,int count);

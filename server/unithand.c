@@ -1302,3 +1302,16 @@ void handle_unit_nuke(struct player *pplayer,
     handle_unit_attack_request(pplayer, punit, punit);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void handle_unit_paradrop_to(struct player *pplayer, 
+                     struct packet_unit_request *req)
+{
+  struct unit *punit;
+  
+  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+    do_paradrop(pplayer,punit,req->x, req->y);
+  }
+}
+

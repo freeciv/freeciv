@@ -323,8 +323,17 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_TRANSFORM));
       menu_entry_sensitive(orders_menu, MENU_ORDER_FORTRESS, 
 			   can_unit_do_activity(punit, ACTIVITY_FORTRESS));
-      menu_entry_sensitive(orders_menu, MENU_ORDER_POLLUTION, 
-			   can_unit_do_activity(punit, ACTIVITY_POLLUTION));
+
+      if (can_unit_paradropped(punit)) {
+        menu_entry_rename(orders_menu, MENU_ORDER_POLLUTION, "Paradrop            p");
+        menu_entry_sensitive(orders_menu, MENU_ORDER_POLLUTION, TRUE);
+      } else
+      {
+        menu_entry_rename(orders_menu, MENU_ORDER_POLLUTION, "Clean Pollution     p");
+        menu_entry_sensitive(orders_menu, MENU_ORDER_POLLUTION, 
+ 	       can_unit_do_activity(punit, ACTIVITY_POLLUTION));
+      }
+
       menu_entry_sensitive(orders_menu, MENU_ORDER_FORTIFY, 
 			   can_unit_do_activity(punit, ACTIVITY_FORTIFY));
       menu_entry_sensitive(orders_menu, MENU_ORDER_SENTRY, 
@@ -521,8 +530,10 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_FORTRESS);
     break;
    case MENU_ORDER_POLLUTION:
-    if(get_unit_in_focus())
+    key_unit_clean_pollution();
+/*    if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_POLLUTION);
+*/
     break;
    case MENU_ORDER_FORTIFY:
     if(get_unit_in_focus())
