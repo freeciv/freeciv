@@ -239,13 +239,12 @@ static void add_part(void)
     p->start_moves_left = prev->end_moves_left;
   }
   p->path = NULL;
-  p->end_x = -1;
-  p->end_y = -1;
+  p->end_x = p->start_x;
+  p->end_y = p->start_y;
   parameter.start_x = p->start_x;
   parameter.start_y = p->start_y;
   parameter.moves_left_initially = p->start_moves_left;
   p->map = pf_create_map(&parameter);
-  reset_last_part();
 }
 
 /********************************************************************** 
@@ -258,7 +257,10 @@ static void remove_last_part(void)
   assert(goto_map.num_parts >= 1);
 
   reset_last_part();
-  pf_destroy_path(p->path);
+  if (p->path) {
+    /* We do not always have a path */
+    pf_destroy_path(p->path);
+  }
   pf_destroy_map(p->map);
   goto_map.num_parts--;
 }
