@@ -147,8 +147,6 @@ AC_PROG_CPP
 AC_PROG_LN_S
 AC_PROG_RANLIB
 
-AC_ARG_PROGRAM
-
 AC_CHECK_PROG(UNAME,uname,uname,:)
 
 dnl Programs already checked by AM_INIT_AUTOMAKE:
