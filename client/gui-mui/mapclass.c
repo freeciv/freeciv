@@ -380,8 +380,6 @@ static int render_sprite(APTR drawhandle, struct SpriteNode *node)
 
       if (flags & BMF_STANDARD)
 	mem_flags = MEMF_CHIP;
-      if (flags & BMF_INTERLEAVED)
-	array_width *= GetBitMapAttr(sprite->bitmap, BMA_DEPTH);
 
       len = array_width * sprite->height;
 
@@ -488,6 +486,42 @@ static void put_sprite(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG 
 
 }
 
+struct LayerHookMsg
+{
+  struct Layer *layer;
+  struct Rectangle bounds;
+  LONG offsetx;
+  LONG offsety;
+};
+
+struct BltMaskHook
+{
+  struct Hook hook;
+  struct BitMap maskBitMap;
+  struct BitMap *srcBitMap;
+  LONG srcx,srcy;
+  LONG destx,desty;
+};
+
+VOID MyBltMaskBitMap( CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct BitMap *destBitMap, LONG xDest, LONG yDest, LONG xSize, LONG ySize, struct BitMap *maskBitMap )
+{
+  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+  BltBitMap(maskBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
+  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+}
+
+HOOKPROTO(HookFunc_BltMask, void, struct RastPort *rp, struct LayerHookMsg *msg)
+{
+  struct BltMaskHook *h = (struct BltMaskHook*)hook;
+
+  LONG width = msg->bounds.MaxX - msg->bounds.MinX+1;
+  LONG height = msg->bounds.MaxY - msg->bounds.MinY+1;
+  LONG offsetx = h->srcx + msg->offsetx - h->destx;
+  LONG offsety = h->srcy + msg->offsety - h->desty;
+
+  MyBltMaskBitMap( h->srcBitMap, offsetx, offsety, rp->BitMap, msg->bounds.MinX, msg->bounds.MinY, width, height, &h->maskBitMap);
+}
+
 /****************************************************************
  Draw the sprite on position x,y in the Rastport (masked)
  restricted to height
@@ -507,8 +541,39 @@ static void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite
 
   if (mask)
   {
-    BltMaskBitMapRastPort(bmap, sprite->offx, sprite->offy,
-			  rp, x, y, sprite->width, height, 0xe2, mask);
+    if (GetBitMapAttr(bmap,BMA_FLAGS)&BMF_INTERLEAVED)
+    {
+      LONG src_depth = GetBitMapAttr(bmap,BMA_DEPTH);
+      struct Rectangle rect;
+      struct BltMaskHook hook;
+
+      /* Define the destination rectangle in the rastport */
+      rect.MinX = x;
+      rect.MinY = y;
+      rect.MaxX = x + sprite->width - 1;
+      rect.MaxY = y + height - 1;
+
+      /* Initialize the hook */
+      hook.hook.h_Entry = (HOOKFUNC)HookFunc_BltMask;
+      hook.srcBitMap = bmap;
+      hook.srcx = sprite->offx;
+      hook.srcy = sprite->offy;
+      hook.destx = x;
+      hook.desty = y;
+
+      /* Initialize a bitmap where all plane pointers points to the mask */
+      InitBitMap(&hook.maskBitMap,src_depth,GetBitMapAttr(bmap,BMA_WIDTH),GetBitMapAttr(bmap,BMA_HEIGHT));
+      while (src_depth)
+	hook.maskBitMap.Planes[--src_depth] = mask;
+
+      /* Blit onto the Rastport */
+      DoHookClipRects(&hook.hook,rp,&rect);
+    } else
+    {
+      BltMaskBitMapRastPort(bmap, sprite->offx, sprite->offy,
+			    rp, x, y, sprite->width, height, 0xe2, mask);
+
+    }
   }
 }
 
