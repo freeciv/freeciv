@@ -14,8 +14,8 @@ Freeciv*borderColor:                         black
 !Freeciv*server:                              localhost
 !Freeciv*metaserver:                          http://meta.freeciv.org/metaserver/
 
-Freeciv*international: True
-Freeciv*fontSet: -*-*-*-*-*--14-*
+!Freeciv*international: True
+!Freeciv*fontSet: -*-*-*-*-*-*-14-*
 
 !
 ! Default colors, by widget type
