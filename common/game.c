@@ -687,6 +687,7 @@ void game_init(void)
   game.pingtimeout   = GAME_DEFAULT_PINGTIMEOUT;
   game.end_year      = GAME_DEFAULT_END_YEAR;
   game.year          = GAME_START_YEAR;
+  game.turn          = 0;
   game.min_players   = GAME_DEFAULT_MIN_PLAYERS;
   game.max_players  = GAME_DEFAULT_MAX_PLAYERS;
   game.aifill      = GAME_DEFAULT_AIFILL;
@@ -858,6 +859,7 @@ int game_next_year(int year)
 void game_advance_year(void)
 {
   game.year = game_next_year(game.year);
+  game.turn++;
 }
 
 

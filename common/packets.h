@@ -264,7 +264,7 @@ struct packet_tile_info {
 send to each client whenever the turn has ended.
 *********************************************************/
 struct packet_new_year {
-  int year;
+  int year, turn;
 };
 
 
@@ -790,6 +790,7 @@ struct packet_game_info {
   int timeout;
   int end_year;
   int year;
+  int turn;
   int min_players, max_players, nplayers;
   int player_idx;
   int globalwarming;

@@ -575,8 +575,12 @@ void handle_new_year(struct packet_new_year *ppacket)
 {
   update_turn_done_button(1);
   enable_turn_done_button();
-  
-  game.year=ppacket->year;
+
+  game.year = ppacket->year;
+  /*
+   * The turn was increased in handle_before_new_year()
+   */
+  assert(game.turn == ppacket->turn);
   update_info_label();
 
   player_set_unit_focus_status(game.player_ptr);
@@ -618,6 +622,15 @@ void handle_before_new_year(void)
   plrdlg_update_delay_on();
   report_update_delay_on();
   meswin_update_delay_on();
+  /*
+   * The local idea of the game turn is increased here since the
+   * client will get unit updates (reset of move points for example)
+   * between handle_before_new_year() and handle_new_year(). These
+   * unit updates will look like they did take place in the old turn
+   * which is incorrect. If we get the authoritative information about
+   * the game turn in handle_new_year() we will check it.
+   */
+  game.turn++;
 }
 
 /**************************************************************************
@@ -944,6 +957,7 @@ void handle_game_info(struct packet_game_info *pinfo)
 
   game.end_year=pinfo->end_year;
   game.year=pinfo->year;
+  game.turn=pinfo->turn;
   game.min_players=pinfo->min_players;
   game.max_players=pinfo->max_players;
   game.nplayers=pinfo->nplayers;
@@ -992,7 +1006,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   if (boot_help) {
     boot_help_texts();		/* reboot, after setting game.spacerace */
   }
-  
+
   update_unit_focus();
 }
 

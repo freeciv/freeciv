@@ -491,13 +491,13 @@ void update_info_label( void )
   gtk_frame_set_label( GTK_FRAME( main_frame_civ_name ), get_nation_name(game.player_ptr->nation) );
 
   my_snprintf(buffer, sizeof(buffer),
-	  _("Population: %s\nYear: %s\nGold %d\nTax: %d Lux: %d Sci: %d"),
-  	  int_to_text( civ_population( game.player_ptr ) ),
-  	  textyear( game.year ),
-  	  game.player_ptr->economic.gold,
-  	  game.player_ptr->economic.tax,
-  	  game.player_ptr->economic.luxury,
-  	  game.player_ptr->economic.science );
+	      _("Population: %s\nYear: %s\n"
+		"Gold %d\nTax: %d Lux: %d Sci: %d"),
+	      int_to_text(civ_population(game.player_ptr)),
+	      textyear(game.year), game.player_ptr->economic.gold,
+	      game.player_ptr->economic.tax,
+	      game.player_ptr->economic.luxury,
+	      game.player_ptr->economic.science);
 
   gtk_set_label(main_label_info, buffer);
 

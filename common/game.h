@@ -67,6 +67,7 @@ struct civ_game {
   time_t turn_start;
   int end_year;
   int year;
+  int turn;
   int researchcost; /* Multiplier on cost of new research */
   int diplcost, freecost, conquercost;
   int diplchance;

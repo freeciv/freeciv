@@ -58,7 +58,7 @@ static const char terrain_chars[] = "adfghjm prstu";
  * include it when appropriate for maximum savegame compatibility.)
  */
 #define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
-" diplchance_percent worklists2 map_editor known32fix"
+" diplchance_percent worklists2 map_editor known32fix turn"
 
 /***************************************************************
  Note -- as of v1.6.4 you should use savefile_options (instead of
@@ -1836,7 +1836,15 @@ void game_load(struct section_file *file)
     game.researchcost  = secfile_lookup_int_default(file, 0, "game.researchcost");
     if (game.researchcost == 0)
       game.researchcost = secfile_lookup_int(file, "game.techlevel");
+
     game.year          = secfile_lookup_int(file, "game.year");
+
+    if (has_capability("turn", savefile_options)) {
+      game.turn = secfile_lookup_int(file, "game.turn");
+    } else {
+      game.turn = -2;
+    }
+
     game.min_players   = secfile_lookup_int(file, "game.min_players");
     game.max_players   = secfile_lookup_int(file, "game.max_players");
     game.nplayers      = secfile_lookup_int(file, "game.nplayers");
@@ -2186,6 +2194,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.timeout, "game.timeout");
   secfile_insert_int(file, game.end_year, "game.end_year");
   secfile_insert_int(file, game.year, "game.year");
+  secfile_insert_int(file, game.turn, "game.turn");
   secfile_insert_int(file, game.researchcost, "game.researchcost");
   secfile_insert_int(file, game.min_players, "game.min_players");
   secfile_insert_int(file, game.max_players, "game.max_players");

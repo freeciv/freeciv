@@ -1810,6 +1810,10 @@ int send_packet_game_info(struct connection *pc,
   /* computed values */
   cptr=put_uint32(cptr, pinfo->seconds_to_turndone);
 
+  if (pc && has_capability("turn", pc->capability)) {
+    cptr = put_uint32(cptr, pinfo->turn);
+  }
+
   put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1860,6 +1864,12 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
 
   /* computed values */
   iget_uint32(&iter, &pinfo->seconds_to_turndone);
+
+  if (pc && has_capability("turn", pc->capability)) {
+    iget_uint32(&iter, &pinfo->turn);
+  } else {
+    pinfo->turn = -1;
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -1972,6 +1982,9 @@ int send_packet_new_year(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_NEW_YEAR);
   cptr=put_uint32(cptr, request->year);
+  if (pc && has_capability("turn", pc->capability)) {
+    cptr = put_uint32(cptr, request->turn);
+  }
   put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -2348,6 +2361,12 @@ receive_packet_new_year(struct connection *pc)
   pack_iter_init(&iter, pc);
 
   iget_uint32(&iter, &packet->year);
+
+  if (pc && has_capability("turn", pc->capability)) {
+    iget_uint32(&iter, &packet->turn);
+  } else {
+    packet->turn = -3;
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);

@@ -906,10 +906,10 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
     char buf[512];
     
     my_snprintf(buf, sizeof(buf),
-	    _("%s People\nYear: %s\nGold: %d\nNet Income: %d\n"
+	    _("%s People\nYear: %s Turn: %d\nGold: %d\nNet Income: %d\n"
 	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/%d"),
 	    int_to_text(civ_population(game.player_ptr)),
-	    textyear(game.year),
+	    textyear(game.year),game.turn,
 	    game.player_ptr->economic.gold,
 	    turn_gold_difference,
 	    game.player_ptr->economic.tax,

@@ -70,7 +70,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11.6 conn_info pop_cost"
+#define CAPABILITY "+1.11.6 conn_info pop_cost turn"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -80,6 +80,8 @@ const char * const our_capability = our_capability_internal;
    "pop_cost" is the capability of rulesets to specify how many units
    of population are consumed on unit creation and/or can be added to
    cities.
+
+   "turn" additionally transfers game.turn to the client.
 */
 
 void init_our_capability(void)

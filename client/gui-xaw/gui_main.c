@@ -685,22 +685,22 @@ void main_show_info_popup(XEvent *event)
     char buf[512];
 
     my_snprintf(buf, sizeof(buf),
-		 _("%s People\n"
-		   "Year: %s\n"
-		   "Gold: %d\n"
-		   "Net Income: %d\n"
-		   "Tax:%d Lux:%d Sci:%d\n"
-		   "Researching %s: %d/%d"),
-	    int_to_text(civ_population(game.player_ptr)),
-	    textyear(game.year),
-	    game.player_ptr->economic.gold,
-	    turn_gold_difference,
-	    game.player_ptr->economic.tax,
-	    game.player_ptr->economic.luxury,
-	    game.player_ptr->economic.science,
-	    advances[game.player_ptr->research.researching].name,
-	    game.player_ptr->research.researched,
-	    research_time(game.player_ptr));
+		_("%s People\n"
+		  "Year: %s Turn: %d\n"
+		  "Gold: %d\n"
+		  "Net Income: %d\n"
+		  "Tax:%d Lux:%d Sci:%d\n"
+		  "Researching %s: %d/%d"),
+		int_to_text(civ_population(game.player_ptr)),
+		textyear(game.year), game.turn,
+		game.player_ptr->economic.gold,
+		turn_gold_difference,
+		game.player_ptr->economic.tax,
+		game.player_ptr->economic.luxury,
+		game.player_ptr->economic.science,
+		advances[game.player_ptr->research.researching].name,
+		game.player_ptr->research.researched,
+		research_time(game.player_ptr));
 
     p=XtCreatePopupShell("popupinfo", 
 			 overrideShellWidgetClass, 

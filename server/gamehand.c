@@ -167,6 +167,7 @@ void send_year_to_clients(int year)
   }
 
   apacket.year = year;
+  apacket.turn = game.turn;
   lsend_packet_new_year(&game.est_connections, &apacket);
 
   /* Hmm, clients could add this themselves based on above packet? */
@@ -195,36 +196,39 @@ void send_game_info(struct conn_list *dest)
   struct packet_game_info ginfo;
   int i;
 
-  if (dest==NULL) dest = &game.est_connections;
-  
-  ginfo.gold=game.gold;
-  ginfo.tech=game.tech;
-  ginfo.researchcost=game.researchcost;
-  ginfo.skill_level=game.skill_level;
-  ginfo.timeout=game.timeout;
-  ginfo.end_year=game.end_year;
-  ginfo.year=game.year;
-  ginfo.min_players=game.min_players;
-  ginfo.max_players=game.max_players;
-  ginfo.nplayers=game.nplayers;
-  ginfo.globalwarming=game.globalwarming;
-  ginfo.heating=game.heating;
-  ginfo.nuclearwinter=game.nuclearwinter;
-  ginfo.cooling=game.cooling;
-  ginfo.techpenalty=game.techpenalty;
+  if (dest == NULL)
+    dest = &game.est_connections;
+
+  ginfo.gold = game.gold;
+  ginfo.tech = game.tech;
+  ginfo.researchcost = game.researchcost;
+  ginfo.skill_level = game.skill_level;
+  ginfo.timeout = game.timeout;
+  ginfo.end_year = game.end_year;
+  ginfo.year = game.year;
+  ginfo.turn = game.turn;
+  ginfo.min_players = game.min_players;
+  ginfo.max_players = game.max_players;
+  ginfo.nplayers = game.nplayers;
+  ginfo.globalwarming = game.globalwarming;
+  ginfo.heating = game.heating;
+  ginfo.nuclearwinter = game.nuclearwinter;
+  ginfo.cooling = game.cooling;
+  ginfo.techpenalty = game.techpenalty;
   ginfo.foodbox = game.foodbox;
-  ginfo.civstyle=game.civstyle;
+  ginfo.civstyle = game.civstyle;
   ginfo.spacerace = game.spacerace;
   ginfo.unhappysize = game.unhappysize;
   ginfo.cityfactor = game.cityfactor;
-  for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
-    ginfo.global_advances[i]=game.global_advances[i];
-  for(i=0; i<B_LAST/*game.num_impr_types*/; i++)
-    ginfo.global_wonders[i]=game.global_wonders[i];
+  for (i = 0; i < A_LAST /*game.num_tech_types */ ; i++)
+    ginfo.global_advances[i] = game.global_advances[i];
+  for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++)
+    ginfo.global_wonders[i] = game.global_wonders[i];
   /* the following values are computed every
      time a packet_game_info packet is created */
   if (game.timeout)
-    ginfo.seconds_to_turndone=game.turn_start + game.timeout - time(NULL);
+    ginfo.seconds_to_turndone =
+	game.turn_start + game.timeout - time(NULL);
 
   conn_list_iterate(*dest, pconn) {
     /* ? fixme: check for non-players: */
