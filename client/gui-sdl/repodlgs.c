@@ -1029,14 +1029,11 @@ static struct ADVANCED_DLG *pEconomyDlg = NULL;
 static struct SMALL_DLG *pEconomy_Sell_Dlg = NULL;
   
 struct rates_move {
-  int min, max, tax, x;
+  int min, max, tax, x, gov_max;
   int *src_rate, *dst_rate;
   struct GUI *pHoriz_Src, *pHoriz_Dst;
   struct GUI *pLabel_Src, *pLabel_Dst;
 };
-
-#define TARGETS_ROW	2
-#define TARGETS_COL	4
 
 static int economy_dialog_callback(struct GUI *pWindow)
 {
@@ -1125,7 +1122,7 @@ static Uint16 report_scroll_mouse_motion_handler(
         x = pMotion->pHoriz_Dst->size.x;
 	if (((x + (-1 * dir)) > pMotion->max) || ((x + (-1 * dir)) < pMotion->min)) {
 	  /* dst out of range */
-	  if(pMotion->tax + (-1 * inc) <= pMotion->max &&
+	  if(pMotion->tax + (-1 * inc) <= pMotion->gov_max &&
 	    pMotion->tax + (-1 * inc) >= 0) {
 	    /* tax in range */
 	    pBuf = pMotion->pHoriz_Dst;
@@ -1139,7 +1136,7 @@ static Uint16 report_scroll_mouse_motion_handler(
 	  }		  
 	}
       } else {
-        if(pMotion->tax + (-1 * inc) > pMotion->max ||
+        if(pMotion->tax + (-1 * inc) > pMotion->gov_max ||
 	  pMotion->tax + (-1 * inc) < 0) {
 	  pMotion->x = pMotion->pHoriz_Src->size.x;
 	  return ID_ERROR;
@@ -1225,7 +1222,7 @@ static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
       pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
       pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
       if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
-        if (pMotion.tax < get_gov_pplayer(game.player_ptr)->max_rate) {
+        if (pMotion.tax <= get_gov_pplayer(game.player_ptr)->max_rate) {
 	  pMotion.pHoriz_Dst = NULL;	/* tax */
 	  pMotion.dst_rate = &pMotion.tax;
         } else {
@@ -1244,7 +1241,7 @@ static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
       pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
       pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
       if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
-        if (pMotion.tax < get_gov_pplayer(game.player_ptr)->max_rate) {
+        if (pMotion.tax <= get_gov_pplayer(game.player_ptr)->max_rate) {
 	  /* tax */
 	  pMotion.pHoriz_Dst = NULL;
 	  pMotion.dst_rate = &pMotion.tax;
@@ -1267,12 +1264,19 @@ static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
   }
 
   pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + 2;
-  pMotion.max = pMotion.min + get_gov_pplayer(game.player_ptr)->max_rate * 1.5;
+  pMotion.gov_max = get_gov_pplayer(game.player_ptr)->max_rate;
+  pMotion.max = pMotion.min + pMotion.gov_max * 1.5;
   pMotion.x = pHoriz_Src->size.x;
-
+  
+  MOVE_STEP_Y = 0;
+  /* Filter mouse motion events */
+  SDL_SetEventFilter(FilterMouseMotionEvents);
   gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
 		  report_scroll_mouse_button_up,
   			report_scroll_mouse_motion_handler);
+  /* Turn off Filter mouse motion events */
+  SDL_SetEventFilter(NULL);
+  MOVE_STEP_Y = DEFAULT_MOVE_STEP;
   
 END:
   unsellect_widget_action();
@@ -1664,6 +1668,9 @@ void popdown_economy_report_dialog(void)
   }
 }
 
+#define TARGETS_ROW	2
+#define TARGETS_COL	4
+
 /**************************************************************************
   Popup (or raise) the economy report (F5).  It may or may not be modal.
 **************************************************************************/
@@ -1672,9 +1679,9 @@ void popup_economy_report_dialog(bool make_modal)
   struct GUI *pBuf = get_tax_rates_widget();
   struct GUI *pWindow , *pLast;
   SDL_String16 *pStr;
-  SDL_Surface *pSurf, *pText_Name, *pText, *pZoom;
+  SDL_Surface *pSurf, *pText_Name, *pText, *pZoom, *pText2;
   SDL_Surface *pMain;
-  int i, w = 0 , count , h;
+  int i, w = 0 , count , h, w2 = 0, w3;
   int tax, total, entries_used = 0;
   char cBuf[128];
   struct improvement_entry entries[B_LAST];
@@ -1700,7 +1707,6 @@ void popup_economy_report_dialog(bool make_modal)
 
   pWindow = create_window(NULL, pStr, 40, 30, 0);
   pEconomyDlg->pEndWidgetList = pWindow;
-  w = MAX(w, pWindow->size.w);
   h = WINDOW_TILE_HIGH + 1 + FRAME_WH;
   set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = economy_dialog_callback;
@@ -1777,13 +1783,12 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= TTF_STYLE_BOLD;
 
-  pBuf =
-      create_checkbox(pWindow->dst, 
+  pBuf = create_checkbox(pWindow->dst, 
       		(SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK),
       		(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL));
 
   set_new_checkbox_theme(pBuf, pTheme->LOCK_Icon, pTheme->UNLOCK_Icon);
-    
+  w2 = 10 + pBuf->size.w;  
   pBuf->string16 = pStr;
   pBuf->action = toggle_block_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1797,7 +1802,7 @@ void popup_economy_report_dialog(bool make_modal)
   pBuf->action = horiz_taxrate_callback;
   pBuf->data.ptr = MALLOC(sizeof(int));
   *(int *)pBuf->data.ptr = game.player_ptr->economic.luxury;
-  
+  w2 += 184;
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR, pBuf);
@@ -1808,10 +1813,9 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(cBuf, 11);
   pStr->style |= TTF_STYLE_BOLD;
 
-  pBuf =
-      create_iconlabel(pIcons->pBIG_Luxury, pWindow->dst, pStr,
+  pBuf = create_iconlabel(pIcons->pBIG_Luxury, pWindow->dst, pStr,
 					      WF_DRAW_THEME_TRANSPARENT);
-
+  w2 += (5 + pBuf->size.w + 10);
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_LABEL, pBuf);
   /* ------------------------- */
   /* science rate */
@@ -1820,8 +1824,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= TTF_STYLE_BOLD;
 
-  pBuf =
-      create_checkbox(pWindow->dst,
+  pBuf = create_checkbox(pWindow->dst,
 	      (SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK),
       		(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL));
 
@@ -1851,8 +1854,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(cBuf, 11);
   pStr->style |= TTF_STYLE_BOLD;
 
-  pBuf =
-      create_iconlabel(pIcons->pBIG_Colb, pWindow->dst, pStr,
+  pBuf = create_iconlabel(pIcons->pBIG_Colb, pWindow->dst, pStr,
 					      WF_DRAW_THEME_TRANSPARENT);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_LABEL, pBuf);
@@ -1869,7 +1871,7 @@ void popup_economy_report_dialog(bool make_modal)
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->gfx));
 
   pBuf->action = apply_taxrates_callback;
-  clear_wflag(pBuf , WF_DRAW_FRAME_AROUND_WIDGET);
+  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_OK_BUTTON, pBuf);
@@ -1892,6 +1894,11 @@ void popup_economy_report_dialog(bool make_modal)
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_CANCEL_BUTTON, pBuf);
+  pBuf->size.w = MAX(pBuf->size.w , pBuf->next->size.w);
+  pBuf->next->size.w = pBuf->size.w;
+  
+  w2 = MAX(w2 , 10 + 2 * pBuf->size.w + 10 + 10);
+  h += 5;
   /* ------------------------- */
   pLast = pBuf;
   if(entries_used) {
@@ -2014,13 +2021,43 @@ void popup_economy_report_dialog(bool make_modal)
       }
       h += (10 + pBuf->size.h);
     }
+    count = TARGETS_COL * pBuf->size.w + count + DOUBLE_FRAME_WH;  
   } else {
     pEconomyDlg->pBeginWidgetList = pBuf;
     h += 10;
     count = 0;
   }
   
-  w = MAX(w, TARGETS_COL * pBuf->size.w + count + DOUBLE_FRAME_WH);  
+  /* tresure */
+  my_snprintf(cBuf, sizeof(cBuf), _("Treasury: "));
+  pStr = create_str16_from_char(cBuf, 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  pText = create_text_surf_from_str16(pStr);
+  w3 = pText->w;
+  
+  /* tax rate label */
+  my_snprintf(cBuf, sizeof(cBuf), _("Tax Rate: "));
+  copy_chars_to_string16(pStr, cBuf);
+  pText_Name = create_text_surf_from_str16(pStr);
+  w3 = MAX(w3, pText_Name->w);
+  /* total icome */
+  my_snprintf(cBuf, sizeof(cBuf),_("Total Income: "));
+  copy_chars_to_string16(pStr, cBuf);
+  pSurf = create_text_surf_from_str16(pStr);
+  w3 = MAX(w3, pSurf->w);
+  /* total cost */
+  my_snprintf(cBuf, sizeof(cBuf), _("Total Cost: "));
+  copy_chars_to_string16(pStr, cBuf);
+  pZoom = create_text_surf_from_str16(pStr);
+
+  /* net icome */
+  my_snprintf(cBuf, sizeof(cBuf), _("Net Income: "));
+  copy_chars_to_string16(pStr, cBuf);
+  pText2 = create_text_surf_from_str16(pStr);
+  w3 = MAX(w3, pText2->w);
+  
+  w = MAX(FRAME_WH + 10 + w3 + w + w2 + FRAME_WH, count);
+  
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
     
@@ -2033,69 +2070,42 @@ void popup_economy_report_dialog(bool make_modal)
   FREESURFACE(pWindow->theme);
   pWindow->theme = pMain;
   pMain = NULL;
-    
-  /* tresure */
-  my_snprintf(cBuf, sizeof(cBuf), _("Treasury: "));
-  pStr = create_str16_from_char(cBuf, 12);
-  pStr->style |= TTF_STYLE_BOLD;
-  
-  pText = create_text_surf_from_str16(pStr);
-    
+      
   pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pText->w;
   pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1 + 5;
   h = pBuf->size.h;
   w = pBuf->size.w + pText->w;
-  
-  /* tax rate label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Tax Rate: "));
-  copy_chars_to_string16(pStr, cBuf);
-  pText_Name = create_text_surf_from_str16(pStr);
-    
+      
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pText_Name->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   h += pBuf->size.h;
   w = MAX(w, pBuf->size.w + pText_Name->w);
-  
-  /* total icome */
-  my_snprintf(cBuf, sizeof(cBuf),_("Total Income: "));
-  copy_chars_to_string16(pStr, cBuf);
-  pSurf = create_text_surf_from_str16(pStr);
-    
+      
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pSurf->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   h += pBuf->size.h;
   w = MAX(w, pBuf->size.w + pSurf->w);
-  
-  /* total cost */
-  my_snprintf(cBuf, sizeof(cBuf), _("Total Cost: "));
-  copy_chars_to_string16(pStr, cBuf);
-  pZoom = create_text_surf_from_str16(pStr);
-    
+   
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pZoom->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   h += pBuf->size.h;
   w = MAX(w, pBuf->size.w + pZoom->w);
-  
-  /* net icome */
-  my_snprintf(cBuf, sizeof(cBuf), _("Net Income: "));
-  copy_chars_to_string16(pStr, cBuf);
-  pMain = create_text_surf_from_str16(pStr);
-    
+      
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pMain->w;
+  pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pText2->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   h += pBuf->size.h;
-  w = MAX(w, pBuf->size.w + pMain->w);
+  w = MAX(w, pBuf->size.w + pText2->w);
   
   /* Backgrounds */
   dst.x = FRAME_WH;
   dst.y = WINDOW_TILE_HIGH + 1;
   dst.w = pWindow->size.w - DOUBLE_FRAME_WH;
-  dst.h = h + 10;
+  dst.h = h + 15;
   h = dst.y + dst.h;
   
   color.unused = 136;
@@ -2123,9 +2133,9 @@ void popup_economy_report_dialog(bool make_modal)
   dst.y += pZoom->h;
   FREESURFACE(pZoom);
   
-  SDL_BlitSurface(pMain, NULL, pWindow->theme, &dst);
-  dst.y += pMain->h;
-  FREESURFACE(pMain);
+  SDL_BlitSurface(pText2, NULL, pWindow->theme, &dst);
+  dst.y += pText2->h;
+  FREESURFACE(pText2);
 
   /* gov and taxrate */
   my_snprintf(cBuf, sizeof(cBuf), _("%s max rate : %d%%"),
@@ -2195,7 +2205,6 @@ void popup_economy_report_dialog(bool make_modal)
 
   /* update */
   pBuf = pBuf->prev;
-  pBuf->size.w = MAX(pBuf->size.w , pBuf->prev->size.w);
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + w +
 	(pWindow->size.w - (w + DOUBLE_FRAME_WH + 10)
 					- (2 * pBuf->size.w + 10)) / 2;
@@ -2205,7 +2214,6 @@ void popup_economy_report_dialog(bool make_modal)
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + 10;
   pBuf->size.y = pWindow->size.y + dst.y + dst.h + 3;  
-  pBuf->size.w = pBuf->next->size.w;
   /* ------------------------------- */
   
   if(entries_used) {

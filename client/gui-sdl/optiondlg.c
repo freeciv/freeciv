@@ -2023,6 +2023,12 @@ void init_options_button(void)
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
 }
 
+static int exit_callback(struct GUI *pWidget)
+{
+  force_exit_from_event_loop();
+  return 0;
+}
+
 /**************************************************************************
   ...
 **************************************************************************/
@@ -2061,7 +2067,7 @@ void popup_optiondlg(void)
   pQuit = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
 				pWindow->dst, _("Quit"), 12, 0);
   w += 10 + pQuit->size.w;
-  /* pTmp_GUI->action = exit_callback; */
+  pQuit->action = exit_callback;
   pQuit->key = SDLK_q;
   set_wstate(pQuit, FC_WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, pQuit);

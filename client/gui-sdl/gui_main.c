@@ -96,7 +96,8 @@ const char *client_string = "gui-sdl";
 
 Uint32 SDL_Client_Flags = 0;
 Uint32 widget_info_counter = 0;
-
+int MOVE_STEP_X = DEFAULT_MOVE_STEP;
+int MOVE_STEP_Y = DEFAULT_MOVE_STEP;
 extern bool draw_goto_patrol_lines;
 SDL_Event *pFlush_User_Event = NULL;
 bool is_unit_move_blocked;
@@ -356,6 +357,25 @@ void force_exit_from_event_loop(void)
   
   SDL_PushEvent(&Event);
   
+}
+
+/* This function may run in a separate event thread */
+int FilterMouseMotionEvents(const SDL_Event *event)
+{
+  if (event->type == SDL_MOUSEMOTION) {
+    static int x = 0, y = 0;
+    if((MOVE_STEP_X && (event->motion.x - x > MOVE_STEP_X
+      			|| x - event->motion.x > MOVE_STEP_X)) ||
+      (MOVE_STEP_Y && (event->motion.y - y > MOVE_STEP_Y
+    			|| y - event->motion.y > MOVE_STEP_Y))) {
+      x = event->motion.x;
+      y = event->motion.y;
+      return(1);    /* Catch it */
+    } else {
+      return(0);    /* Drop it, we've handled it */
+    }
+  }
+  return(1);
 }
 
 /**************************************************************************

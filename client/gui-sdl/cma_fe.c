@@ -138,8 +138,16 @@ static int min_horiz_cma_callback(struct GUI *pWidget)
   pMotion.max = pMotion.min + 70;
   pMotion.base = -20;
   
+  MOVE_STEP_X = 2;
+  MOVE_STEP_Y = 0;
+  /* Filter mouse motion events */
+  SDL_SetEventFilter(FilterMouseMotionEvents);
   gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
 		  scroll_mouse_button_up, scroll_mouse_motion_handler);
+  /* Turn off Filter mouse motion events */
+  SDL_SetEventFilter(NULL);
+  MOVE_STEP_X = DEFAULT_MOVE_STEP;
+  MOVE_STEP_Y = DEFAULT_MOVE_STEP;
   
   pSellected_Widget = pWidget;
   set_wstate(pWidget, FC_WS_SELLECTED);
@@ -162,9 +170,17 @@ static int factor_horiz_cma_callback(struct GUI *pWidget)
   pMotion.min = pWidget->next->size.x + pWidget->next->size.w + 5;
   pMotion.max = pMotion.min + 54;
   pMotion.base = 1;
-  
+
+  MOVE_STEP_X = 2;
+  MOVE_STEP_Y = 0;
+  /* Filter mouse motion events */
+  SDL_SetEventFilter(FilterMouseMotionEvents);
   gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
 		  scroll_mouse_button_up, scroll_mouse_motion_handler);
+  /* Turn off Filter mouse motion events */
+  SDL_SetEventFilter(NULL);
+  MOVE_STEP_X = DEFAULT_MOVE_STEP;
+  MOVE_STEP_Y = DEFAULT_MOVE_STEP;
   
   pSellected_Widget = pWidget;
   set_wstate(pWidget, FC_WS_SELLECTED);
@@ -985,7 +1001,7 @@ void popup_city_cma_dialog(struct city *pCity)
   /* -------------------------------- */
   pCma->pDlg->pBeginWidgetList = pBuf;
   
-  w = MAX(pCity_Map->w + 50 + text_w + 10 +
+  w = MAX(pCity_Map->w + 70 + text_w + 10 +
 	  (pWindow->prev->prev->size.w + 5 + 70 + 5 +
 			  pWindow->prev->prev->size.w + 5 + 55 + 15), w);
   h = 320;

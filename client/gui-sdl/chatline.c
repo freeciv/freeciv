@@ -459,7 +459,7 @@ static void popup_conn_list_dialog(void)
   
   {  
     char cBuf[256];   
-    my_snprintf(cBuf, sizeof(cBuf), _("Total users logged : %d"), n);
+    my_snprintf(cBuf, sizeof(cBuf), _("Total users logged in : %d"), n);
     pStr = create_str16_from_char(cBuf, 12);
   }
   

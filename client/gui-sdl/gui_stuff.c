@@ -1737,8 +1737,16 @@ static struct GUI *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
   pMotion.pVscroll = pVscroll;
   pMotion.old_y = pVscroll->pScrollBar->size.y;
   
+  MOVE_STEP_X = 0;
+  MOVE_STEP_Y = 3;
+  /* Filter mouse motion events */
+  SDL_SetEventFilter(FilterMouseMotionEvents);
   gui_event_loop((void *)&pMotion, NULL, NULL, NULL, NULL,
 		  scroll_mouse_button_up, scroll_mouse_motion_handler);
+  /* Turn off Filter mouse motion events */
+  SDL_SetEventFilter(NULL);
+  MOVE_STEP_X = DEFAULT_MOVE_STEP;
+  MOVE_STEP_Y = DEFAULT_MOVE_STEP;
   
   return pMotion.pBegin;
 }
@@ -5208,25 +5216,6 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
     break;
   }
    
-}
-
-#define MOVE_STEP 5
-
-/* This function may run in a separate event thread */
-static int FilterMouseMotionEvents(const SDL_Event *event)
-{
-  if (event->type == SDL_MOUSEMOTION) {
-    static int x = 0, y = 0;
-    if(event->motion.x - x > MOVE_STEP || x - event->motion.x > MOVE_STEP ||
-      event->motion.y - y > MOVE_STEP || y - event->motion.y > MOVE_STEP) {
-      x = event->motion.x;
-      y = event->motion.y;
-      return(1);    /* Catch it */
-    } else {
-      return(0);    /* Drop it, we've handled it */
-    }
-  }
-  return(1);
 }
 
 /**************************************************************************

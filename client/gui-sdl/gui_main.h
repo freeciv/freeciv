@@ -67,6 +67,11 @@ void add_autoconnect_to_timer(void);
 void enable_focus_animation(void);
 void disable_focus_animation(void);
 
+
+#define DEFAULT_MOVE_STEP 5
+extern int MOVE_STEP_X, MOVE_STEP_Y;
+int FilterMouseMotionEvents(const SDL_Event *event);
+
 Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
 	Uint16 (*key_down_handler)(SDL_keysym Key, void *pData),
         Uint16 (*key_up_handler)(SDL_keysym Key, void *pData),
