@@ -68,7 +68,7 @@
 #define SHOW_APPLY_RESULT_ON_SERVER_ERRORS              FALSE
 #define ALWAYS_APPLY_AT_SERVER                          FALSE
 
-#define SAVED_PARAMETER_SIZE				28
+#define SAVED_PARAMETER_SIZE				29
 
 /*
  * Misc statistic to analyze performance.
