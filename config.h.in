@@ -1,4 +1,4 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+/* config.h.in.  Generated automatically from configure.in by autoheader 2.13.  */
 #ifndef FC_CONFIG_H
 #define FC_CONFIG_H
 
@@ -35,9 +35,6 @@
 
 /* Define to `long' if <sys/types.h> doesn't define.  */
 #undef off_t
-
-/* Define if you need to in order for stat and other things to work.  */
-#undef _POSIX_SOURCE
 
 /* Define as the return type of signal handlers (int or void).  */
 #undef RETSIGTYPE
@@ -140,11 +137,26 @@ student.uni-tuebingen.de>
 /* Define if you have the fdopen function.  */
 #undef HAVE_FDOPEN
 
+/* Define if you have the feof_unlocked function.  */
+#undef HAVE_FEOF_UNLOCKED
+
+/* Define if you have the fgets_unlocked function.  */
+#undef HAVE_FGETS_UNLOCKED
+
 /* Define if you have the fileno function.  */
 #undef HAVE_FILENO
 
 /* Define if you have the getcwd function.  */
 #undef HAVE_GETCWD
+
+/* Define if you have the getegid function.  */
+#undef HAVE_GETEGID
+
+/* Define if you have the geteuid function.  */
+#undef HAVE_GETEUID
+
+/* Define if you have the getgid function.  */
+#undef HAVE_GETGID
 
 /* Define if you have the gethostname function.  */
 #undef HAVE_GETHOSTNAME
@@ -158,8 +170,14 @@ student.uni-tuebingen.de>
 /* Define if you have the gettimeofday function.  */
 #undef HAVE_GETTIMEOFDAY
 
+/* Define if you have the getuid function.  */
+#undef HAVE_GETUID
+
 /* Define if you have the inet_aton function.  */
 #undef HAVE_INET_ATON
+
+/* Define if you have the mempcpy function.  */
+#undef HAVE_MEMPCPY
 
 /* Define if you have the munmap function.  */
 #undef HAVE_MUNMAP
@@ -206,6 +224,12 @@ student.uni-tuebingen.de>
 /* Define if you have the strstr function.  */
 #undef HAVE_STRSTR
 
+/* Define if you have the strtoul function.  */
+#undef HAVE_STRTOUL
+
+/* Define if you have the tsearch function.  */
+#undef HAVE_TSEARCH
+
 /* Define if you have the usleep function.  */
 #undef HAVE_USLEEP
 
@@ -241,6 +265,12 @@ student.uni-tuebingen.de>
 
 /* Define if you have the <pwd.h> header file.  */
 #undef HAVE_PWD_H
+
+/* Define if you have the <stddef.h> header file.  */
+#undef HAVE_STDDEF_H
+
+/* Define if you have the <stdlib.h> header file.  */
+#undef HAVE_STDLIB_H
 
 /* Define if you have the <string.h> header file.  */
 #undef HAVE_STRING_H
@@ -278,9 +308,6 @@ student.uni-tuebingen.de>
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
 
-/* Define if you have the i library (-li).  */
-#undef HAVE_LIBI
-
 /* Define if you have the nls library (-lnls).  */
 #undef HAVE_LIBNLS
 
@@ -292,6 +319,25 @@ student.uni-tuebingen.de>
 
 /* Version number of package */
 #undef VERSION
+
+/* Define if you have the iconv() function. */
+#undef HAVE_ICONV
+
+/* Define as const if the declaration of iconv() needs const. */
+#undef ICONV_CONST
+
+/* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
+#undef HAVE_LANGINFO_CODESET
+
+/* Define if your <locale.h> file defines LC_MESSAGES. */
+#undef HAVE_LC_MESSAGES
+
+/* Define to 1 if translation of program messages to the user's native language
+   is requested. */
+#undef ENABLE_NLS
+
+/* Define if the GNU gettext() function is already present or preinstalled. */
+#undef HAVE_GETTEXT
 
 /* Define if you have a version of the 'vsnprintf' function
              that honours the size argument and has a proper return value. */
