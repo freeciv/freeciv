@@ -1177,6 +1177,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 
 	wipe_unit(punit);
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
+        send_unit_info(pplayer, pdiplomat);
         return FALSE;
       } else {
 	/* Check to see if defending unit became more experienced */
@@ -1204,7 +1205,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			       "experienced."),
 			     get_nation_name(pplayer->nation),
 			     unit_name(pdiplomat->type));
-}
+          }
         } else {
 	  if (pcity) {
 	    notify_player_ex(cplayer, x, y,
