@@ -714,16 +714,32 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 	    get_invention(pplayer, A_BRIDGE)==TECH_KNOWN);
 
   case ACTIVITY_MINE:
-    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
-           type->mining_result!=T_LAST && !(ptile->special&S_MINE);
+    /* Don't allow it if someone else is irrigating this tile.
+     * *Do* allow it if they're transforming - the mine may survive */
+    if (unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+	type->mining_result!=T_LAST && !(ptile->special&S_MINE)) {
+      unit_list_iterate(ptile->units, tunit) {
+	if(tunit->activity==ACTIVITY_IRRIGATE) return 0;
+      }
+      unit_list_iterate_end;
+      return 1;
+    } else return 0;
 
   case ACTIVITY_IRRIGATE:
-    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+    /* Don't allow it if someone else is mining this tile.
+     * *Do* allow it if they're transforming - the irrigation may survive */
+    if (unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
 	   !(ptile->special&S_IRRIGATION) &&
 	   ( (ptile->terrain==type->irrigation_result && 
 	      is_water_adjacent_to_tile(punit->x, punit->y)) ||
 	     (ptile->terrain!=type->irrigation_result &&
-	      type->irrigation_result!=T_LAST));
+            type->irrigation_result!=T_LAST))) {
+      unit_list_iterate(ptile->units, tunit) {
+	if(tunit->activity==ACTIVITY_MINE) return 0;
+      }
+      unit_list_iterate_end;
+      return 1;
+    } else return 0;
 
   case ACTIVITY_FORTIFY:
     return is_ground_unit(punit) && punit->moves_left &&
