@@ -203,6 +203,10 @@ int main(int argc, char *argv[])
 
   /* initialization */
 
+  conn_list_init(&game.all_connections);
+  conn_list_init(&game.est_connections);
+  conn_list_init(&game.game_connections);
+
   ui_init();
   my_init_network();
   init_messages_where();
@@ -240,6 +244,7 @@ int main(int argc, char *argv[])
 
   /* termination */
   attribute_flush();
+  client_remove_all_cli_conn();
   my_shutdown_network();
 
   client_game_free();
@@ -617,10 +622,6 @@ void send_report_request(enum report_type type)
 **************************************************************************/
 void client_game_init()
 {
-  conn_list_init(&game.all_connections);
-  conn_list_init(&game.est_connections);
-  conn_list_init(&game.game_connections);
-
   game_init();
   attribute_init();
   agents_init();
@@ -634,7 +635,6 @@ void client_game_init()
 void client_game_free()
 {
   cm_free();
-  client_remove_all_cli_conn();
   free_client_goto();
   free_help_texts();
   attribute_free();
@@ -700,7 +700,7 @@ void set_client_state(enum client_states newstate)
     }
     update_menus();
   }
-  if (client_state == CLIENT_PRE_GAME_STATE) {
+  if (!aconnection.established && client_state == CLIENT_PRE_GAME_STATE) {
     gui_server_connect();
     if (auto_connect) {
       if (connect_error) {
@@ -780,7 +780,7 @@ void wait_till_request_got_processed(int request_id)
 **************************************************************************/
 bool client_is_observer(void)
 {
-  return aconnection.established && find_conn_by_id(game.conn_id)->observer;
+  return aconnection.established && aconnection.observer;
 }
 
 /**************************************************************************

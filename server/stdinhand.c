@@ -30,6 +30,7 @@
 #endif
 
 #include "astring.h"
+#include "capability.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -3121,16 +3122,6 @@ static void take_command(struct connection *caller, char *str)
     pconn = caller;
   }
 
-  /* If the connection controls a player and the game is running, don't
-   * let the user perform this command. The client isn't yet prepared
-   * for this kind of power ;) It'll segfault and/or do crazy things. */
-  if (pconn->player && server_state == RUN_GAME_STATE) {
-    cmd_reply(CMD_TAKE, caller, C_FAIL,
-              _("You can't switch players with \"take\" "
-                "after the game has started."));
-    goto end;
-  }
-
   if (pconn->player == pplayer) {
     cmd_reply(CMD_TAKE, caller, C_FAIL,
               _("%s already controls or observes %s"),
@@ -3149,6 +3140,18 @@ static void take_command(struct connection *caller, char *str)
     goto end;
   } conn_list_iterate_end;
 
+  /* if we want to switch players, reset the client */
+  if (pconn->player && server_state == RUN_GAME_STATE) {
+    if (has_capability("retake", pconn->capability)) {
+      send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
+    } else {    
+      cmd_reply(CMD_TAKE, caller, C_FAIL,
+                _("You can't switch players with \"take\" "
+                  "after the game has started."));
+      goto end;
+    }
+  }
+
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
   if (pconn->player) {
@@ -3158,6 +3161,12 @@ static void take_command(struct connection *caller, char *str)
      * happens while the game is running */
 
     unattach_connection_from_player(pconn);
+
+    /* aitoggle the player if necessary */
+    if (game.auto_ai_toggle && !old_plr->ai.control 
+        && !old_plr->is_connected) {
+      toggle_ai_player_direct(NULL, old_plr);
+    }
 
     /* need to reattach before we possibly remove the old player */
     attach_connection_to_player(pconn, pplayer);
@@ -3200,8 +3209,8 @@ static void take_command(struct connection *caller, char *str)
 
   /* if the player we're taking was already connected, then the primary
    * controller set that player to ai control. don't undo that decision */
-  if (!was_connected && pplayer->ai.control) {
-    toggle_ai_player_direct(pconn, pplayer);
+  if (!was_connected && pplayer->ai.control && game.auto_ai_toggle) {
+    toggle_ai_player_direct(NULL, pplayer);
   }
 
   cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s"),
