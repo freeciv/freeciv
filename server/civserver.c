@@ -163,8 +163,8 @@ int main(int argc, char *argv[])
   textdomain(PACKAGE);
 #endif
 
-
-#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac code */
+  /* a general test would be better here... */
+#if !(defined(GENERATING68K) || defined(GENERATINGPPC) || defined(__EMX__))
   if (!getuid() || !geteuid()) {
     fprintf(stderr, "%s: Fatal error: you're trying to run me as superuser!\n",
 	    (argv[0] ? argv[0] : "freeciv_server"));
