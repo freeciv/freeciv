@@ -68,11 +68,15 @@ enum city_options {
 /* Iterate a city map */
 
 #define city_map_iterate(x, y) \
+{ \
+  int x, y; \
   for (y=0;y<CITY_MAP_SIZE;y++) \
     for (x=0;x<CITY_MAP_SIZE;x++) \
       if (! ((x == 0 || x == (CITY_MAP_SIZE-1)) && \
 	     (y == 0 || y == (CITY_MAP_SIZE-1))) )
 
+#define city_map_iterate_end \
+}
 /* Iterate a city map, from the center (the city) outwards */
 
 extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2];

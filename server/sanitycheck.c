@@ -120,7 +120,6 @@ static void check_cities(void)
 {
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      int x, y;
       assert(city_owner(pcity) == pplayer);
       assert(pcity->size >= 1);
 
@@ -179,7 +178,7 @@ static void check_cities(void)
 	} else {
 	  assert(get_worker_city(pcity, x, y) == C_TILE_UNAVAILABLE);
 	}
-      }
+      } city_map_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 

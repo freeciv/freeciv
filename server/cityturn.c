@@ -345,7 +345,6 @@ static void set_pollution(struct city *pcity)
 static void set_food_trade_shields(struct city *pcity)
 {
   int i;
-  int x,y;
   pcity->food_prod=0;
   pcity->shield_prod=0;
   pcity->trade_prod=0;
@@ -360,7 +359,7 @@ static void set_food_trade_shields(struct city *pcity)
       pcity->shield_prod += city_get_shields_tile(x, y, pcity);
       pcity->trade_prod += city_get_trade_tile(x, y, pcity);
     }
-  }
+  } city_map_iterate_end;
   pcity->tile_trade=pcity->trade_prod;
   
   pcity->food_surplus=pcity->food_prod-pcity->size*2;
@@ -598,7 +597,7 @@ client.
 static void worker_loop(struct city *pcity, int *foodneed,
 			int *prodneed, int *workers)
 {
-  int x, y, bx, by, best, cur;
+  int bx, by, best, cur;
   int conflict[5][5];
   int e, pwr, luxneed = 0; /* I should have thought of this earlier, it is so simple */
 
@@ -628,11 +627,20 @@ static void worker_loop(struct city *pcity, int *foodneed,
   freelog(LOG_DEBUG, "%s, foodneed %d prodneed %d",
 	  pcity->name, *foodneed, *prodneed);
 
+  /* better than nothing, not as good as a global worker allocation -- Syela */
   city_map_iterate(x, y) {
-    conflict[x][y] = -1 - minimap[map_adjust_x(pcity->x+x-2)][map_adjust_y(pcity->y+y-2)];
-  } /* better than nothing, not as good as a global worker allocation -- Syela */
+    int map_x = pcity->x + x - CITY_MAP_SIZE/2;
+    int map_y = pcity->y + y - CITY_MAP_SIZE/2;
+
+    if (normalize_map_pos(&map_x, &map_y)) {
+      conflict[x][y] = -1 - minimap[map_x][map_y];
+    } else {
+      conflict[x][y] = 0;
+    }
+  } city_map_iterate_end;
 
   do {
+    int x, y;
     bx=0;
     by=0;
     best = 0;
@@ -673,11 +681,11 @@ int add_adjust_workers(struct city *pcity)
   int toplace;
   int foodneed;
   int prodneed = 0;
-  int x,y;
 
-  city_map_iterate(x, y) 
+  city_map_iterate(x, y) {
     if (get_worker_city(pcity, x, y)==C_TILE_WORKER) 
       iswork++;
+  } city_map_iterate_end;
   iswork--; /* City center */
 
   if (iswork+city_specialists(pcity)>workers) {
@@ -708,13 +716,13 @@ void auto_arrange_workers(struct city *pcity)
   struct government *g = get_gov_pcity(pcity);
   int workers = pcity->size;
   int taxwanted,sciwanted;
-  int x,y;
   int foodneed, prodneed;
 
-  city_map_iterate(x, y)
+  city_map_iterate(x, y) {
     if (get_worker_city(pcity, x, y)==C_TILE_WORKER
 	&& (x != CITY_MAP_SIZE/2 || y != CITY_MAP_SIZE/2))
       server_remove_worker_city(pcity, x, y);
+  } city_map_iterate_end;
   
   foodneed=(pcity->size *2 -city_get_food_tile(2,2, pcity)) + settler_eats(pcity);
   prodneed = 0;
@@ -895,7 +903,7 @@ Note: We do not send info about the city to the clients as part of this function
 static void city_increase_size(struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
-  int have_square, x, y;
+  int have_square;
   int has_granary = city_got_effect(pcity, B_GRANARY);
   int rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
   int new_food;
@@ -958,7 +966,7 @@ static void city_increase_size(struct city *pcity)
     if (can_place_worker_here(pcity, x, y)) {
       have_square = TRUE;
     }
-  }
+  } city_map_iterate_end;
   if (((pcity->food_surplus >= 2) || !have_square)  &&  pcity->size >= 5  &&
       (pcity->city_options & ((1<<CITYO_NEW_EINSTEIN) | (1<<CITYO_NEW_TAXMAN)))){
 
@@ -1538,12 +1546,11 @@ static void check_pollution(struct city *pcity)
 static void sanity_check_city(struct city *pcity)
 {
   int size=pcity->size;
-  int x,y;
   int iswork=0;
   city_map_iterate(x, y) {
     if (get_worker_city(pcity, x, y)==C_TILE_WORKER) 
 	iswork++;
-  }
+  } city_map_iterate_end;
   iswork--;
   if (iswork+city_specialists(pcity)!=size) {
     freelog(LOG_ERROR,

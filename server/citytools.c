@@ -214,10 +214,10 @@ int build_points_left(struct city *pcity)
 **************************************************************************/
 int in_city_radius(int x, int y)
 {
-  int i, j;
-  city_map_iterate(i, j) {
-    if (map_get_city(x+i-2, y+j-2)) return 1;
-  }
+  map_city_radius_iterate(x, y, x1, y1) {
+    if (map_get_city(x1, y1))
+      return 1;
+  } map_city_radius_iterate_end;
   return 0;
 }
 
@@ -282,14 +282,13 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
 **************************************************************************/
 int worst_worker_tile_value(struct city *pcity)
 {
-  int x, y;
   int worst = 0, tmp;
   city_map_iterate(x, y) {
     if ((x != 2 || y != 2) && get_worker_city(pcity, x, y) == C_TILE_WORKER) {
       tmp = city_tile_value(pcity, x, y, 0, 0);
       if (tmp < worst || !worst) worst = tmp;
     }
-  }
+  } city_map_iterate_end;
   return(worst);
 }
 
@@ -298,7 +297,6 @@ int worst_worker_tile_value(struct city *pcity)
 **************************************************************************/
 int best_worker_tile_value(struct city *pcity)
 {
-  int x, y;
   int best = 0, tmp;
   city_map_iterate(x, y) {
     if ((x == 2 || y == 2) ||
@@ -307,7 +305,7 @@ int best_worker_tile_value(struct city *pcity)
       tmp = city_tile_value(pcity, x, y, 0, 0);
       if (tmp < best || !best) best = tmp;
     }
-  }
+  } city_map_iterate_end;
   return(best);
 }
 
@@ -1903,10 +1901,9 @@ void sync_cities(void)
 void check_city_workers(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
-    int x, y;
     city_map_iterate(x, y) {
       update_city_tile_status(pcity, x, y);
-    }
+    } city_map_iterate_end;
   } city_list_iterate_end;
   sync_cities();
 }

@@ -65,7 +65,6 @@ static struct city *find_city_near_tile(int x, int y)
 {
   struct tile *ptile=map_get_tile(x, y);
   struct city *pcity, *pcity2;
-  int i,j;
   static struct city *last_pcity=NULL;
 
   if((pcity=ptile->worked))  {
@@ -81,7 +80,7 @@ static struct city *find_city_near_tile(int x, int y)
       if(pcity==last_pcity) return pcity;  /* rule c */
       pcity2 = pcity;
     }
-  }
+  } city_map_iterate_end;
   return last_pcity = pcity2;
 }
 
@@ -1181,7 +1180,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       	/* Draw City Workers */
 	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 	int color;
-	int i,j,x,y;
+	int x,y;
 	struct city *pcity = data->worker_pcity;
 
 	color = data->worker_colors[data->worker_colornum];
@@ -1233,7 +1232,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 				 city_get_trade_tile(i, j, pcity),
 				 _mleft(o), _mtop(o), x + i - 2, y + j - 2);
 	  }
-	}
+	} city_map_iterate_end;
 
 	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
 	return 0;
@@ -2320,7 +2319,6 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
   DoSuperMethodA(cl, o, (Msg) msg);
 
   {
-    int x, y;
     struct city *pcity = data->pcity;
 
     if (is_isometric)
@@ -2343,7 +2341,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
 	  put_one_tile_full(_rp(o), map_x, map_y, canvas_x + _mleft(o), canvas_y + _mtop(o), 1);
 	}
-      }
+      } city_map_iterate_end;
 
       /* We have to put the output afterwards or it will be covered. */
       city_map_iterate(x, y) {
@@ -2360,7 +2358,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 			     _mleft(o) + canvas_x, _mtop(o) + canvas_y,0,0);
           }
         }
-      }
+      } city_map_iterate_end;
 
       /* This sometimes will draw one of the lines on top of a city or
          unit pixmap. This should maybe be moved to put_one_tile_pixmap()
@@ -2377,7 +2375,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 				     canvas_x, canvas_y);*/
           }
         }
-      }
+      } city_map_iterate_end;
     } else
     {
       for (y = 0; y < CITY_MAP_SIZE; y++)

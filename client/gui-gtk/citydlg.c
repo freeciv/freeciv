@@ -1336,7 +1336,6 @@ Isometric.
 *****************************************************************/
 static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 {
-  int x, y;
   struct city *pcity = pdialog->pcity;
 
   gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
@@ -1351,8 +1350,8 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
    that overlaps another fogged tile, as on the main map, as no tiles in
    the city radius can be fogged. */
   city_map_iterate(x, y) {
-    int map_x = pcity->x + x - 2;
-    int map_y = pcity->y + y - 2;
+    int map_x = pcity->x + x - CITY_MAP_SIZE/2;
+    int map_y = pcity->y + y - CITY_MAP_SIZE/2;
     if (normalize_map_pos(&map_x, &map_y)
 	&& tile_is_known(map_x, map_y)) {
       int canvas_x, canvas_y;
@@ -1360,7 +1359,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
       put_one_tile_full(pdialog->map_canvas_store, map_x, map_y, 
 			canvas_x, canvas_y, 1);
     }
-  }
+  } city_map_iterate_end;
   /* We have to put the output afterwards or it will be covered. */
   city_map_iterate(x, y) {
     int map_x = pcity->x + x - 2;
@@ -1377,7 +1376,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 			     city_get_trade_tile(x, y, pcity));
       }
     }
-  }
+  } city_map_iterate_end;
 
   /* This sometimes will draw one of the lines on top of a city or
      unit pixmap. This should maybe be moved to put_one_tile_pixmap()
@@ -1395,7 +1394,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 				     canvas_x, canvas_y);
       }
     }
-  }
+  } city_map_iterate_end;
 
   /* draw to real window */
   gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,

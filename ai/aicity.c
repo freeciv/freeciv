@@ -849,7 +849,7 @@ static void ai_manage_city(struct player *pplayer, struct city *pcity)
 static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 {
   struct government *g = get_gov_pcity(pcity);
-  int x,y, foodneed, prodneed;
+  int foodneed, prodneed;
   int luxneed, pwr, e;
 
   foodneed=(pcity->size *2) + settler_eats(pcity);
@@ -886,7 +886,7 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 	}
       }
     }
-  }
+  } city_map_iterate_end;
   if (*xp == 0 && *yp == 0) return 0;
   foodneed += city_get_food_tile(*xp, *yp, pcity);
   prodneed += city_get_shields_tile(*xp, *yp, pcity);
@@ -1022,14 +1022,12 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
 /* this would be a lot easier if I made ->worked a city id. */
   struct city_list minilist;
   struct packet_unit_request pack;
-  int i, j;
-   
+
   freelog(LOG_VERBOSE, "Emergency in %s! (%d unhap, %d hap, %d food, %d prod)",
        pcity->name, pcity->ppl_unhappy[4], pcity->ppl_happy[4],
        pcity->food_surplus, pcity->shield_surplus);
   city_list_init(&minilist);
-  city_map_iterate(i, j) {
-    int x=map_adjust_x(pcity->x+i-2), y=map_adjust_y(pcity->y+j-2);
+  map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     struct city *acity=map_get_tile(x,y)->worked;
     if(acity!=NULL && acity!=pcity && acity->owner==pcity->owner)  {
       if(acity->x==x && acity->y==y) /* can't stop working city center */
@@ -1041,7 +1039,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
       if (!city_list_find_id(&minilist, acity->id))
 	city_list_insert(&minilist, acity);
     }
-  }
+  } map_city_radius_iterate_end;
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
     ai_scientists_taxmen(pcity);

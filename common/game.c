@@ -652,15 +652,13 @@ void game_remove_unit(int unit_id)
 **************************************************************************/
 void game_remove_city(struct city *pcity)
 {
-  int x,y;
-  
   freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
 	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
   
   city_map_iterate(x,y) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
-  }
+  } city_map_iterate_end;
   city_list_unlink(&game.players[pcity->owner].cities, pcity);
   map_set_city(pcity->x, pcity->y, NULL);
   idex_unregister_city(pcity);

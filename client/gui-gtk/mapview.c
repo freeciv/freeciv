@@ -1808,7 +1808,6 @@ void put_cross_overlay_tile(int x, int y)
 **************************************************************************/
 void put_city_workers(struct city *pcity, int color)
 {
-  int i, j;
   int canvas_x, canvas_y;
   static struct city *last_pcity=NULL;
 
@@ -1866,7 +1865,7 @@ void put_city_workers(struct city *pcity, int color)
 			     city_get_trade_tile(i, j, pcity) );
       }
     }
-  }
+  } city_map_iterate_end;
 
   last_pcity=pcity;
 }

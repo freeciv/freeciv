@@ -62,7 +62,6 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
   int x, y;
   struct packet_unit_request req;
   struct city *pcity;
-  int i, j;
   req.unit_id=punit->id;
   sz_strlcpy(req.name, city_name_suggestion(pplayer));
   x = punit->x; y = punit->y; /* Trevor Pering points out that punit gets freed */
@@ -74,13 +73,11 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
   /* initialize infrastructure cache for both this city and other cities
      nearby. This is neccesary to avoid having settlers want to transform
      a city into the ocean. */
-  city_map_iterate(i, j) {
-    int x_itr = map_adjust_x(x+i-2);
-    int y_itr = map_adjust_y(y+j-2);
+  map_city_radius_iterate(pcity->x, pcity->y, x_itr, y_itr) {
     struct city *pcity2 = map_get_city(x_itr, y_itr);
     if (pcity2 && city_owner(pcity2) == pplayer)
       initialize_infrastructure_cache(pcity2);
-  }
+  } map_city_radius_iterate_end;
   return 1;
 }
 
@@ -198,7 +195,7 @@ static int city_desirability(struct player *pplayer, int x, int y)
 {
   int taken[5][5], food[5][5], shield[5][5], trade[5][5];
   int irrig[5][5], mine[5][5], road[5][5];
-  int i, j, f, n;
+  int f, n;
   int worst, b2, best = 0, ii, jj, val, cur;
   int d = 0;
   int a, i0, j0; /* need some temp variables */
@@ -284,7 +281,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
       if (trade[i][j]) trade[i][j] += t;
       else if (road[i][j]) road[i][j] += t;
     }
-  }
+  } city_map_iterate_end;
 
   if (pcity) { /* quick-n-dirty immigration routine -- Syela */
     n = pcity->size;
@@ -294,7 +291,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
             (shield[i][j] + mine[i][j]) +
             (trade[i][j] + road[i][j]);
       if (cur > best && (i != 2 || j != 2)) { best = cur; ii = i; jj = j; }
-    }
+    } city_map_iterate_end;
     if (!best) return(0);
     val = (shield[ii][jj] + mine[ii][jj]) +
           (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
@@ -339,7 +336,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
         } else if (i != 2 || j != 2) {
           if (cur < worst || worst < 0) { worst = cur; i0 = i; j0 = j; }
         }
-      }
+      } city_map_iterate_end;
       if (!best) break;
       cur = amortize((shield[ii][jj] + mine[ii][jj]) +
             (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
@@ -1320,7 +1317,6 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
 **************************************************************************/
 void initialize_infrastructure_cache(struct city *pcity)
 {
-  int i, j;
   struct player *pplayer = &game.players[pcity->owner];
   int best = best_worker_tile_value(pcity);
   city_map_iterate(i, j) {
@@ -1333,7 +1329,7 @@ void initialize_infrastructure_cache(struct city *pcity)
 /* gonna handle road_bo dynamically for now since it can change
 as punits arrive at adjacent tiles and start laying road -- Syela */
     pcity->ai.railroad[i][j] = ai_calc_railroad(pcity, pplayer, i, j);
-  }
+  } city_map_iterate_end;
 }
 
 /************************************************************************** 

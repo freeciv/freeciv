@@ -75,7 +75,6 @@ Returns whether the real map position was inside the city map.
 int get_citymap_xy(const struct city *pcity, const int x, const int y,
 		   int *city_x, int *city_y)
 {
-  int x1, y1;
   assert(is_real_tile(x, y));
   city_map_iterate(x1, y1) {
     int map_x = pcity->x + x1 - CITY_MAP_SIZE/2;
@@ -86,7 +85,7 @@ int get_citymap_xy(const struct city *pcity, const int x, const int y,
       *city_y = y1;
       return 1;
     }
-  }
+  } city_map_iterate_end;
 
   return 0;
 }

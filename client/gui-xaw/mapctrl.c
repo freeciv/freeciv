@@ -283,7 +283,6 @@ static struct city *find_city_near_tile(int x, int y)
 {
   struct tile *ptile=map_get_tile(x, y);
   struct city *pcity, *pcity2;
-  int i,j;
   static struct city *last_pcity=NULL;
 
   if((pcity=ptile->worked))  {
@@ -299,7 +298,7 @@ static struct city *find_city_near_tile(int x, int y)
       if(pcity==last_pcity) return pcity;  /* rule c */
       pcity2 = pcity;
     }
-  }
+  } city_map_iterate_end;
   return last_pcity = pcity2;
 }
 

@@ -1758,7 +1758,6 @@ Old savegames have defects...
 ***************************************************************/
 static void check_city(struct city *pcity)
 {
-  int x, y;
   city_map_iterate(x, y) {
     int res = city_can_work_tile(pcity, x, y);
     switch (pcity->city_map[x][y]) {
@@ -1790,7 +1789,7 @@ static void check_city(struct city *pcity)
       }
       break;
     }
-  }
+  } city_map_iterate_end;
 
   city_refresh(pcity);
 }
