@@ -295,5 +295,6 @@ bool is_build_or_clean_activity(enum unit_activity activity);
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
                                  Unit_Type_id type, bool make_veteran);
 void destroy_unit_virtual(struct unit *punit);
+void free_unit_goto_route(struct unit *punit);
 
 #endif  /* FC__UNIT_H */

@@ -3151,9 +3151,7 @@ enum goto_result goto_route_execute(struct unit *punit)
 
     index = pgr->first_index;
     if (index == pgr->last_index) {
-      free(punit->pgr->pos);
-      free(punit->pgr);
-      punit->pgr = NULL;
+      free_unit_goto_route(punit);
       if (punit->activity == ACTIVITY_GOTO) 
 	/* the activity could already be SENTRY (if boarded a ship) 
 	   -- leave it as it is then */

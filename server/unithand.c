@@ -1425,12 +1425,9 @@ void handle_unit_activity_request(struct unit *punit,
   if (can_unit_do_activity(punit, new_activity)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
+
     set_unit_activity(punit, new_activity);
-    if (punit->pgr) {
-      free(punit->pgr->pos);
-      free(punit->pgr);
-      punit->pgr = NULL;
-    }
+    free_unit_goto_route(punit);
     send_unit_info(NULL, punit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
@@ -1448,16 +1445,10 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
   if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
-    set_unit_activity_targeted(punit, new_activity, new_target);
 
-    if (punit->pgr) {
-      free(punit->pgr->pos);
-      free(punit->pgr);
-      punit->pgr = NULL;
-    }
-    
-    send_unit_info(NULL, punit);
-    
+    set_unit_activity_targeted(punit, new_activity, new_target);
+    free_unit_goto_route(punit);
+    send_unit_info(NULL, punit);    
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
@@ -1555,10 +1546,7 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
   int i;
 
-  if (punit->pgr) {
-    free(punit->pgr->pos);
-    free(punit->pgr);
-  }
+  free_unit_goto_route(punit);
 
   /* 
    * pgr->pos is implemented as a circular buffer of positions, and

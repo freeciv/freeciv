@@ -1496,10 +1496,19 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 void destroy_unit_virtual(struct unit *punit)
 {
+  free_unit_goto_route(punit);
+  free(punit);
+}
+
+/**************************************************************************
+  Free and reset the unit's goto route (punit->pgr).  Only used by the
+  server.
+**************************************************************************/
+void free_unit_goto_route(struct unit *punit)
+{
   if (punit->pgr) {
     free(punit->pgr->pos);
     free(punit->pgr);
     punit->pgr = NULL;
   }
-  free(punit);
 }
