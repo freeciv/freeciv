@@ -45,6 +45,8 @@ GtkWidget *meswin_int_command;
 GtkWidget *meswin_meet_command;
 GtkWidget *meswin_goto_command;
 GtkWidget *meswin_popcity_command;
+GtkStyle *meswin_visited_style;
+GtkStyle *meswin_not_visited_style;
 
 void create_meswin_dialog(void);
 void meswin_scroll_down(void);
@@ -101,14 +103,8 @@ void popup_meswin_dialog(void)
 *****************************************************************/
 void meswin_visited_item (gint n)
 {
-  GtkStyle *s;
-
-  s = gtk_style_new ();
-  s->fg[GTK_STATE_NORMAL]=*colors_standard[COLOR_STD_RACE8];
-  s->fg[GTK_STATE_SELECTED]=*colors_standard[COLOR_STD_RACE8];
-  s->bg[GTK_STATE_SELECTED]=*colors_standard[COLOR_STD_RACE13];
-
-  gtk_clist_set_row_style (GTK_CLIST (meswin_list), n, s);
+  gtk_clist_set_row_style (GTK_CLIST (meswin_list), n,
+						meswin_visited_style);
 }
 
 /****************************************************************
@@ -116,14 +112,8 @@ void meswin_visited_item (gint n)
 *****************************************************************/
 void meswin_not_visited_item (gint n)
 {
-  GtkStyle *s;
-
-  s = gtk_style_new ();
-  s->fg[GTK_STATE_NORMAL]=*colors_standard[COLOR_STD_OCEAN];
-  s->fg[GTK_STATE_SELECTED]=*colors_standard[COLOR_STD_OCEAN];
-  s->bg[GTK_STATE_SELECTED]=*colors_standard[COLOR_STD_RACE13];
-
-  gtk_clist_set_row_style (GTK_CLIST (meswin_list), n, s);
+  gtk_clist_set_row_style (GTK_CLIST (meswin_list), n,
+						meswin_not_visited_style);
 }
 
 /****************************************************************
@@ -176,6 +166,22 @@ void create_meswin_dialog(void)
   gtk_signal_connect(GTK_OBJECT(meswin_popcity_command), "clicked",
 		GTK_SIGNAL_FUNC(meswin_popcity_callback), NULL);
   
+  meswin_visited_style = gtk_style_new ();
+  meswin_visited_style->fg[GTK_STATE_NORMAL]=
+					*colors_standard[COLOR_STD_RACE8];
+  meswin_visited_style->fg[GTK_STATE_SELECTED]=
+					*colors_standard[COLOR_STD_RACE8];
+  meswin_visited_style->bg[GTK_STATE_SELECTED]=
+					*colors_standard[COLOR_STD_RACE13];
+
+  meswin_not_visited_style = gtk_style_new ();
+  meswin_not_visited_style->fg[GTK_STATE_NORMAL]=
+					*colors_standard[COLOR_STD_OCEAN];
+  meswin_not_visited_style->fg[GTK_STATE_SELECTED]=
+					*colors_standard[COLOR_STD_OCEAN];
+  meswin_not_visited_style->bg[GTK_STATE_SELECTED]=
+					*colors_standard[COLOR_STD_RACE13];
+
   update_meswin_dialog();
 
   gtk_widget_show_all( GTK_DIALOG(meswin_dialog_shell)->vbox );
