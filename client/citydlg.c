@@ -221,17 +221,14 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
 
   pcity_sup=city_list_find_id(&game.player_ptr->cities, punit->homecity);
-  pcity_pre=game_find_city_by_coor(punit->x, punit->y);
+  pcity_pre=map_get_city(punit->x, punit->y);
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))
-    city_dialog_update_supported_units(pdialog, punit->id);
+    city_dialog_update_supported_units(pdialog, 0);
   
   if(pcity_pre && (pdialog=get_city_dialog(pcity_pre)))
-    city_dialog_update_present_units(pdialog, punit->id);
+    city_dialog_update_present_units(pdialog, 0);
 }
-
-
-
 
 /****************************************************************
 popup the dialog 10% inside the main-window 

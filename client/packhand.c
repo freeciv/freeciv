@@ -308,9 +308,9 @@ void handle_unit_info(struct packet_unit_info *packet)
 
       punit->activity=packet->activity;
 
+      refresh_unit_city_dialogs(punit);
       /*      refresh_tile_mapcanvas(punit->x, punit->y, 1);
       update_unit_pix_label(punit);
-      refresh_unit_city_dialogs(punit);
       update_unit_focus(); */
 
       /* These two lines force the menus to be updated as appropriate when
