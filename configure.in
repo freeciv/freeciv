@@ -154,7 +154,111 @@ dnl  AC_PROG_MAKE_SET
 
 dnl I18n support
 ALL_LINGUAS="da de en_GB es fi fr hu it ja nl no pl pt pt_BR ro ru sv"
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT(,need-ngettext)
+
+dnl AM_GNU_GETTEXT doesn't have all features we want
+dnl or they don't behave correctly.
+dnl Old gettext binaries don't understand plurals. (ngettext, msgid_plural)
+dnl and there are some problems with missing ngettext.
+
+if test "$USE_NLS" = "yes"; then
+  dnl nls_cv_force_use_gnu_gettext is set by AM_GNU_GETTEXT
+  dnl it is "yes" when --with-included-gettext is given
+
+  if test "$nls_cv_force_use_gnu_gettext" != "yes"; then
+    have_working_ngettext=0
+    AC_CHECK_LIB(c, ngettext,
+      [AC_MSG_CHECKING(whether libc's ngettext works at runtime)
+       FC_CHECK_NGETTEXT_RUNTIME(,have_working_ngettext=1,)],)
+
+    if test "$have_working_ngettext" = "0"; then
+      AC_CHECK_LIB(intl, ngettext,
+        [AC_MSG_CHECKING(whether libintl's ngettext works at runtime)
+         FC_CHECK_NGETTEXT_RUNTIME("-lintl",have_working_ngettext=1,)],)
+    fi
+
+    if test "$have_working_ngettext" = "0"; then
+      AC_MSG_ERROR(I haven't found a working ngettext function in your system. 
+Try --with-included-gettext or --disable-nls. Read ABOUT-NLS.)
+    fi
+  fi
+
+  if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
+    AC_MSG_CHECKING(for GNU xgettext version >= 0.10.38)
+    xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | sed 's/"/ /g'`
+    AC_TRY_RUN([
+#include <stdio.h>
+
+const char *version = "$xgettext_version";
+int main()
+{
+  char *p = version;
+  int major = 0, minor = 0, patch = 0;
+
+  while (*p != '\0' && (*p < '0' || *p > '9')) {
+    p++;
+  }
+  if (*p == '\0') {
+    return 1;
+  }
+  sscanf(p, "%d.%d.%d", &major, &minor, &patch);
+  if (major < 1 && (minor < 10 || (minor == 10 && patch < 38))) {
+    return 1;
+  }
+  return 0;
+}
+    ],
+    AC_MSG_RESULT(yes)
+    ,
+    [
+     AC_MSG_RESULT(no)
+     AC_MSG_WARN(You may have problems with creating pox files. \
+Please update your gettext package.)   
+    ]
+    ,
+    echo error
+    )
+
+    AC_MSG_CHECKING(for GNU msgfmt version >= 0.10.35)
+    msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | sed 's/"/ /g'`
+    AC_TRY_RUN([
+#include <stdio.h>
+
+const char *version = "$msgfmt_version";
+
+int main()
+{
+  char *p = version;
+  int major = 0, minor = 0, patch = 0;
+
+  while (*p != '\0' && (*p < '0' || *p > '9')) {
+    p++;
+  }
+  if (*p == '\0') {
+    return 1;
+  }
+  sscanf(p, "%d.%d.%d", &major, &minor, &patch);
+  if (major < 1 && (minor < 10 || (minor == 10 && patch < 35))) {
+    return 1;
+  }
+  return 0;
+}
+    ],
+    AC_MSG_RESULT(yes)
+    ,
+    [
+    AC_MSG_RESULT(no)
+    AC_MSG_ERROR(You are unable to create *.gmo files.
+This is development version which doesn't include them. Please update your
+gettext package. We recommend you versions >= 0.10.38. Or use 
+--disable-nls instead.)
+    ]
+    ,
+    echo error
+    )
+  fi
+fi
+
 
 dnl note this has to match the path installed by po/Makefile
 FC_EXPAND_DIR(LOCALEDIR, '${prefix}/share/locale')
@@ -575,17 +679,17 @@ dnl commonly used _() and N_() macros to work, there should be somewhere
 dnl in that 'po/Makefile' a call to xgettext with "--keyword=_" and
 dnl "--keyword=N_" as arguments.  To support Q_() and PL_(),
 dnl the following simply dnl replaces instances of 
-dnl "--keyword=N_" with "--keyword=N_ --keyword=Q_ --keyword=PL_"
+dnl "--keyword=N_" with "--keyword=N_ --keyword=Q_ --keyword=PL_:1,2"
 dnl in the 'po/Makefile' file.
 AC_OUTPUT_COMMANDS(
   [if test -f po/Makefile ; then
-     if grep 'keyword=N_ --keyword=Q_ --keyword=PL_' po/Makefile >/dev/null 2>&1 ; then
+     if grep 'keyword=N_ --keyword=Q_ --keyword=PL_:1,2' po/Makefile >/dev/null 2>&1 ; then
        # has already been extended
        :
      else
        echo extending po/Makefile
        mv -f po/Makefile po/Makefile.tmp
-       sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_ --keyword=PL_/g' po/Makefile.tmp > po/Makefile
+       sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_ --keyword=PL_:1,2/g' po/Makefile.tmp > po/Makefile
        rm po/Makefile.tmp
      fi
    fi])

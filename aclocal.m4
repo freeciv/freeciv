@@ -1,4 +1,4 @@
-dnl aclocal.m4 generated automatically by aclocal 1.4-p4
+dnl aclocal.m4 generated automatically by aclocal 1.4
 
 dnl Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
@@ -489,6 +489,50 @@ LIBS="$templibs"
 ])
 
 
+dnl FC_CHECK_NGETTEXT_RUNTIME(EXTRA-LIBS, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
+dnl
+dnl This tests whether ngettext works at runtime.  Here, "works"
+dnl means "doesn't dump core", as some versions (for exmaple the 
+dnl version which comes with glibc 2.2.5 is broken, gettext 
+dnl version 0.10.38 however is ok).
+
+AC_DEFUN(FC_CHECK_NGETTEXT_RUNTIME,
+[
+templibs="$LIBS"
+LIBS="$1 $LIBS"
+AC_TRY_RUN([
+/*
+ * Check to make sure that ngettext works at runtime. Specifically,
+ * some gettext versions dump core if the ngettext function is called.
+ * (c) 2002 Raimar Falke <rf13@inf.tu-dresden.de>
+ */
+#include <string.h>
+#include <libintl.h>
+#include <locale.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+  setenv("LANG", "de_DE", 1);
+  setlocale(LC_ALL, "");
+
+  if (strcmp(ngettext("unit", "units", 1), "unit") == 0 &&
+      strcmp(ngettext("unit", "units", 2), "units") == 0) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+],
+[AC_MSG_RESULT(yes)
+  [$2]],
+[AC_MSG_RESULT(no)
+  [$3]],
+[AC_MSG_RESULT(unknown: cross-compiling)
+  [$2]])
+LIBS="$templibs"
+])
+
 dnl @synopsis AC_FUNC_VSNPRINTF
 dnl
 dnl Check whether there is a reasonably sane vsnprintf() function installed.
@@ -887,7 +931,6 @@ return (int) gettext ("")]ifelse([$2], need-ngettext, [ + (int) ngettext ("", ""
           ac_dir=`echo "$ac_file"|sed 's%/[^/][^/]*$%%'`
           ac_dir_suffix="/`echo "$ac_dir"|sed 's%^\./%%'`"
           ac_dots=`echo "$ac_dir_suffix"|sed 's%/[^/]*%../%g'`
-          test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
           case "$ac_given_srcdir" in
             .)  top_srcdir=`echo $ac_dots|sed 's%/$%%'` ;;
             /*) top_srcdir="$ac_given_srcdir" ;;
@@ -895,9 +938,9 @@ return (int) gettext ("")]ifelse([$2], need-ngettext, [ + (int) ngettext ("", ""
           esac
           if test -f "$ac_given_srcdir/$ac_dir/POTFILES.in"; then
             rm -f "$ac_dir/POTFILES"
-            test -n "$as_me" && echo "$as_me: creating $ac_dir/POTFILES" || echo "creating $ac_dir/POTFILES"
+            echo creating "$ac_dir/POTFILES"
             sed -e "/^#/d" -e "/^[ 	]*\$/d" -e "s,.*,     $top_srcdir/& \\\\," -e "\$s/\(.*\) \\\\/\1/" < "$ac_given_srcdir/$ac_dir/POTFILES.in" > "$ac_dir/POTFILES"
-            test -n "$as_me" && echo "$as_me: creating $ac_dir/Makefile" || echo "creating $ac_dir/Makefile"
+            echo creating "$ac_dir/Makefile"
             sed -e "/POTFILES =/r $ac_dir/POTFILES" "$ac_dir/Makefile.in" > "$ac_dir/Makefile"
           fi
           ;;
@@ -1295,7 +1338,7 @@ AC_ARG_ENABLE(gtktest, [  --disable-gtktest       Do not try to compile and run 
      fi
   fi
 
-  AC_PATH_PROGS(GTK_CONFIG, gtk13-config gtk12-config gtk-config, no)
+  AC_PATH_PROG(GTK_CONFIG, gtk-config, no)
   min_gtk_version=ifelse([$1], ,0.99.7,$1)
   AC_MSG_CHECKING(for GTK - version >= $min_gtk_version)
   no_gtk=""
@@ -1752,3 +1795,4 @@ int main ()
   AC_SUBST(GDK_IMLIB_LIBS)
   rm -f conf.gdkimlibtest
 ])
+
