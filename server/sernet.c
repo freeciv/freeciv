@@ -112,15 +112,15 @@ static int sock;
 static int server_accept_connection(int sockfd);
 
 
+static int no_input = 0;
+
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
 *****************************************************************************/
 static void handle_stdin_close(void)
 {
-  notify_player(0, _("Server quitting because it cannot read standard input."));
-
-  printf("quit");
-  quit_game(NULL);
+  freelog(LOG_NORMAL, _("Server cannot read standard input. Ignoring input."));
+  no_input = 1;
 }
 
 #ifdef HAVE_LIBREADLINE
@@ -138,6 +138,9 @@ static int readline_handled_input = 0;
 *****************************************************************************/
 static void handle_readline_input_callback(char *line)
 {
+  if (no_input)
+    return;
+
   if (!line) {
     handle_stdin_close();	/* maybe print an 'are you sure?' message? */
   }
@@ -304,7 +307,7 @@ int sniff_packets(void)
   {
     static int readline_initialized = 0;
 
-    if (!readline_initialized) {
+    if (!no_input && !readline_initialized) {
       char *home_dir = user_home_dir();
       if (home_dir) {
 	history_file =
@@ -397,13 +400,17 @@ int sniff_packets(void)
     MY_FD_ZERO(&readfs);
     MY_FD_ZERO(&writefs);
     MY_FD_ZERO(&exceptfs);
+
+    if (!no_input) {
 #ifdef SOCKET_ZERO_ISNT_STDIN
-    my_init_console();
+      my_init_console();
 #else
 #   if !defined(__VMS)
       FD_SET(0, &readfs);
 #   endif	
 #endif
+    }
+
     FD_SET(sock, &readfs);
     FD_SET(sock, &exceptfs);
     max_desc=sock;
@@ -428,6 +435,8 @@ int sniff_packets(void)
 	con_prompt_off();
 	return 0;
       }
+
+      if (!no_input) {
 #if defined(__VMS)
       {
 	struct { short numchars; char firstchar; char reserved; int reserved2; } ttchar;
@@ -445,6 +454,7 @@ int sniff_packets(void)
       continue;
 #endif /* SOCKET_ZERO_ISNT_STDIN */
 #endif /* !__VMS */
+      }
     }
     if (!game.timeout)
       game.turn_start = time(NULL);
@@ -466,13 +476,14 @@ int sniff_packets(void)
 	close_socket_callback(pconn);
       }
     }
+    
 #ifdef SOCKET_ZERO_ISNT_STDIN
-    if ((bufptr = my_read_console())) {
+    if (!no_input && (bufptr = my_read_console())) {
       con_prompt_enter();	/* will need a new prompt, regardless */
       handle_stdin_input((struct connection *)NULL, bufptr);
     }
 #else  /* !SOCKET_ZERO_ISNT_STDIN */
-    if(FD_ISSET(0, &readfs)) {    /* input from server operator */
+    if(!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
 #ifdef HAVE_LIBREADLINE
       rl_callback_read_char();
       if (readline_handled_input) {
