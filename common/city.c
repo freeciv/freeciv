@@ -421,37 +421,12 @@ bool can_eventually_build_improvement(const struct city *pcity, Impr_Type_id id)
 }
 
 /**************************************************************************
- Could this improvment be built in the city, without checking if the
- owner has the required tech, but if all other pre reqs are fulfiled? 
- modularized so the AI can choose the tech it wants -- Syela 
-**************************************************************************/
-static bool could_build_improvement(const struct city *pcity, 
-                                    Impr_Type_id id)
-{
-  struct impr_type *impr;
-
-  if (!can_eventually_build_improvement(pcity, id)) {
-    return FALSE;
-  }
-
-  impr = get_improvement_type(id);
-
-  /* The building pre req */
-  if (impr->bldg_req != B_LAST) {
-    if (!city_got_building(pcity,impr->bldg_req)) {
-      return FALSE;
-    }
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   Can this improvement get built in this city by the player who owns it?
 **************************************************************************/
 bool can_build_improvement(const struct city *pcity, Impr_Type_id id)
 {
   struct player *p = city_owner(pcity);
+  struct impr_type *impr = get_improvement_type(id);
 
   if (!improvement_exists(id)) {
     return FALSE;
@@ -459,7 +434,19 @@ bool can_build_improvement(const struct city *pcity, Impr_Type_id id)
   if (!player_knows_improvement_tech(p, id)) {
     return FALSE;
   }
-  return could_build_improvement(pcity, id);
+
+  if (!can_eventually_build_improvement(pcity, id)) {
+    return FALSE;
+  }
+
+  /* The building pre req */
+  if (impr->bldg_req != B_LAST) {
+    if (!city_got_building(pcity, impr->bldg_req)) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
 }
 
 /**************************************************************************
