@@ -370,17 +370,19 @@ extern struct tile_type tile_types[T_LAST];
 #define adjc_dir_iterate(center_x, center_y, x_itr, y_itr, dir_itr)           \
 {                                                                             \
   int x_itr, y_itr, dir_itr, MACRO_border;                                    \
-  assert(0 <= center_y && center_y <= map.ysize                               \
-         && 0 <= center_x && center_x <= map.xsize);                          \
-  MACRO_border = (center_y == 0                                               \
-                  || center_x == 0                                            \
-                  || center_y == map.ysize-1                                  \
-                  || center_x == map.xsize-1);                                \
+  int MACRO_center_x = (center_x);                                            \
+  int MACRO_center_y = (center_y);                                            \
+  assert(0 <= MACRO_center_y && MACRO_center_y < map.ysize                    \
+         && 0 <= MACRO_center_x && MACRO_center_x < map.xsize);               \
+  MACRO_border = (MACRO_center_y == 0                                         \
+                  || MACRO_center_x == 0                                      \
+                  || MACRO_center_y == map.ysize-1                            \
+                  || MACRO_center_x == map.xsize-1);                          \
   for (dir_itr = 0; dir_itr < 8; dir_itr++) {                                 \
-    y_itr = center_y + DIR_DY[dir_itr];                                       \
-    x_itr = center_x + DIR_DX[dir_itr];                                       \
+    y_itr = MACRO_center_y + DIR_DY[dir_itr];                                 \
+    x_itr = MACRO_center_x + DIR_DX[dir_itr];                                 \
     if (MACRO_border) {                                                       \
-      if (y_itr < 0 || y_itr > map.ysize)                                     \
+      if (y_itr < 0 || y_itr >= map.ysize)                                    \
         continue;                                                             \
       if (x_itr < 0)                                                          \
         x_itr += map.xsize;                                                   \
