@@ -735,7 +735,7 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
     lvc.pszText=_(wl_titles[i]);
     lvc.mask=LVCF_TEXT | LVCF_FMT;
     lvc.fmt=LVCFMT_RIGHT;
-    ListView_InsertColumn(peditor->worklist,1,&lvc);
+    ListView_InsertColumn(peditor->worklist,i,&lvc);
   }
   ListView_SetColumnWidth(peditor->worklist,0,LVSCW_AUTOSIZE);
   for(i=1;i<ARRAY_SIZE(wl_titles);i++) {
