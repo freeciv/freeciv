@@ -924,6 +924,9 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
     }
     dist = unit_move_turns(punit, buddy->x, buddy->y);
     def = (toughness - unit_def_rating_basic_sq(buddy));
+    if (def <= 0) {
+      continue; /* This should hopefully never happen. */
+    }
     if (get_transporter_capacity(buddy) == 0) {
       /* Reduce want based on distance. We can't do this for
        * transports since they move around all the time, leading
@@ -944,7 +947,11 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
       continue; 
     }
     dist = unit_move_turns(punit, mycity->x, mycity->y);
-    def = (mycity->ai.danger - assess_defense_quadratic(mycity)) >> dist;
+    def = (mycity->ai.danger - assess_defense_quadratic(mycity));
+    if (def <= 0) {
+      continue;
+    }
+    def = def >> dist;
     if (def > best && ai_fuzzy(pplayer, TRUE)) { 
       *acity = mycity; 
       best = def; 
@@ -952,8 +959,11 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
    } city_list_iterate_end;
   }
 
-  UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "was looking for charge, best want %d",
-           best * 100 / toughness);
+  UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "look_for_charge, best=%d, "
+           "type=%s(%d,%d)", best * 100 / toughness, *acity ? (*acity)->name
+           : (*aunit ? unit_name((*aunit)->type) : ""), 
+           *acity ? (*acity)->x : (*aunit ? (*aunit)->x : 0),
+           *acity ? (*acity)->y : (*aunit ? (*aunit)->y : 0));
   
   return ((best * 100) / toughness);
 }
