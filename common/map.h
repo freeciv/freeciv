@@ -139,6 +139,8 @@ struct tile_type {
 
   enum tile_terrain_type transform_result;
   int transform_time;
+
+  char *helptext;
 };
 
 struct civ_map { 

@@ -751,6 +751,8 @@ static void load_ruleset_buildings(char *ruleset_subdir)
     b->build_cost = secfile_lookup_int(&file, "%s.build_cost", sec[i]);
     b->shield_upkeep = secfile_lookup_int(&file, "%s.upkeep", sec[i]);
     b->variant = secfile_lookup_int(&file, "%s.variant", sec[i]);
+    
+    b->helptext = lookup_helptext(&file, sec[i]);
   }
 
   /* Some more consistency checking: */
@@ -920,6 +922,8 @@ static void load_ruleset_terrain(char *ruleset_subdir)
       t->transform_result =
 	lookup_terrain(secfile_lookup_str(&file, "%s.transform_result", sec[i]), i);
       t->transform_time = secfile_lookup_int(&file, "%s.transform_time", sec[i]);
+      
+      t->helptext = lookup_helptext(&file, sec[i]);
     }
 
   section_file_check_unused(&file, filename);
@@ -1059,6 +1063,8 @@ static void load_ruleset_governments(char *ruleset_subdir)
       = secfile_lookup_int(&file, "%s.production_shield_penalty,1", sec[i]);
     g->celeb_food_before_penalty
       = secfile_lookup_int(&file, "%s.production_food_penalty,1", sec[i]);
+    
+    g->helptext = lookup_helptext(&file, sec[i]);
   }
 
   
@@ -1497,6 +1503,7 @@ static void send_ruleset_buildings(struct player *dest)
     packet.shield_upkeep = b->shield_upkeep;
     packet.obsolete_by = b->obsolete_by;
     packet.variant = b->variant;
+    packet.helptext = b->helptext;   /* pointer assignment */
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {
@@ -1569,6 +1576,8 @@ static void send_ruleset_terrain(struct player *dest)
       packet.transform_result = t->transform_result;
       packet.transform_time = t->transform_time;
 
+      packet.helptext = t->helptext;   /* pointer assignment */
+      
       for (to = 0; to < game.nplayers; to++)      /* dests */
 	{
 	  if (dest==0 || get_player(to)==dest)
@@ -1644,6 +1653,8 @@ static void send_ruleset_governments(struct player *dest)
     strcpy(gov.graphic_str, g->graphic_str);
     strcpy(gov.graphic_alt, g->graphic_alt);
     
+    gov.helptext = g->helptext;   /* pointer assignment */
+      
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {
 	send_packet_ruleset_government(get_player(to)->conn, &gov);

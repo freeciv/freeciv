@@ -34,6 +34,8 @@ void helptext_improvement(char *buf, int which, const char *user_text);
 void helptext_wonder(char *buf, int which, const char *user_text);
 void helptext_unit(char *buf, int i, const char *user_text);
 void helptext_tech(char *buf, int i, const char *user_text);
+void helptext_terrain(char *buf, int i, const char *user_text);
+void helptext_government(char *buf, int i, const char *user_text);
 
 #define help_items_iterate(pitem) {       \
         const struct help_item *pitem;    \

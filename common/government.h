@@ -124,6 +124,8 @@ struct government
   int   hints;
 
   struct Sprite *sprite;
+  
+  char *helptext;
 };
 
 /* This should possibly disappear; we don't bother sending these to client;

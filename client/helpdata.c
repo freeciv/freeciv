@@ -38,7 +38,8 @@
 
 
 static const char * const help_type_names[] = {
-  "", "TEXT", "UNIT", "IMPROVEMENT", "WONDER", "TECH", "TERRAIN", 0
+  "", "TEXT", "UNIT", "IMPROVEMENT", "WONDER", "TECH", "TERRAIN",
+  "GOVERNMENT", 0
 };
 
 
@@ -177,6 +178,7 @@ void boot_help_texts(void)
   struct help_item *pitem = NULL;
   enum help_page_type current_type = HELP_TEXT;
   struct genlist category_nodes;
+  struct government *tmp_gov;
   int i, filter_this;
 
   check_help_nodes_init();
@@ -273,6 +275,16 @@ void boot_help_texts(void)
 	      genlist_insert(&category_nodes, pitem, -1);
 	    }
 	  }
+	} else if(current_type==HELP_GOVERNMENT) {
+	  for(i=0; i<game.government_count; i++) {
+	    if(!seen[i]) {
+	      pitem = new_help_item(current_type);
+	      sprintf(name, " %s", get_government(i)->name);
+	      pitem->topic = mystrdup(name);
+	      pitem->text = mystrdup("");
+	      genlist_insert(&category_nodes, pitem, -1);
+	    }
+	  }
 	} else if(current_type==HELP_IMPROVEMENT) {
 	  for(i=0; i<B_LAST; i++) {
 	    if(!seen[i] && improvement_exists(i) && !is_wonder(i)) {
@@ -344,6 +356,19 @@ void boot_help_texts(void)
 	if(booted)
 	  freelog(LOG_VERBOSE, "Filtering terrain %s from help", pname);
 	filter_this = 1;
+      }
+      break;
+    case HELP_GOVERNMENT:
+      /* why the #% does find_government_by_name() not return an
+	 integer like all the others??
+      */
+      tmp_gov = find_government_by_name(pname);
+      if(tmp_gov == NULL) {
+	if(booted)
+	  freelog(LOG_VERBOSE, "Filtering government %s from help", pname);
+	filter_this = 1;
+      } else {
+	i = tmp_gov - governments;
       }
       break;
     case HELP_IMPROVEMENT:
@@ -559,13 +584,13 @@ static void helptext_cathedral_techs(char *buf)
   buf[0] = '\0';
   t=game.rtech.cathedral_minus;
   if(tech_exists(t)) {
-    sprintf(buf, _("The discovery of %s will reduce this by 1.\n"),
+    sprintf(buf, _("The discovery of %s will reduce this by 1.  "),
 	    advances[t].name);
     buf += strlen(buf);
   }
   t=game.rtech.cathedral_plus;
   if(tech_exists(t)) {
-    sprintf(buf, _("The discovery of %s will increase this by 1.\n"),
+    sprintf(buf, _("The discovery of %s will increase this by 1.  "),
 	   advances[t].name);
     buf += strlen(buf);
   }
@@ -577,24 +602,29 @@ static void helptext_cathedral_techs(char *buf)
 *****************************************************************/
 void helptext_improvement(char *buf, int which, const char *user_text)
 {
+  struct improvement_type *imp = &improvement_types[which];
+  
   assert(buf&&user_text);
   buf[0] = '\0';
   if(which==B_AQUEDUCT) {
-    sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d."),
+    sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.  "),
 	    game.aqueduct_size);
     if(improvement_exists(B_SEWER)) {
       char *s = improvement_types[B_SEWER].name;
-      sprintf(buf+strlen(buf), _("  (A%s %s is also\n"
-	      "required for a city to grow larger than size %d.)"),
+      sprintf(buf+strlen(buf),
+	      _("(A%s %s is also required for a city to grow larger"
+		" than size %d.)  "),
 	      n_if_vowel(*s), s, game.sewer_size);
     }
     strcat(buf,"\n");
   }
   if(which==B_SEWER) {
-    sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.\n"),
+    sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.  "),
 	   game.sewer_size);
   }
-  strcat(buf, user_text);
+  if (imp->helptext) {
+    sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
+  }
   if(which==B_CATHEDRAL) {
     helptext_cathedral_techs(buf+strlen(buf));
   }
@@ -603,7 +633,7 @@ void helptext_improvement(char *buf, int which, const char *user_text)
     if(tech_exists(t)) {
       int n = strlen(buf);
       if(n && buf[n-1] == '\n') buf[n-1] = ' ';
-      sprintf(buf+n, _("The discovery of %s will increase this by 1.\n"),
+      sprintf(buf+n, _("The discovery of %s will increase this by 1.  "),
 	     advances[t].name);
     }
   }
@@ -611,8 +641,8 @@ void helptext_improvement(char *buf, int which, const char *user_text)
      && tech_exists(improvement_types[B_BARRACKS].obsolete_by)
      && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
     sprintf(buf+strlen(buf),
-	   _("\nNote that discovering %s or %s will obsolete\n"
-	   "any existing %s.\n"),
+	   _("\n\nNote that discovering %s or %s will obsolete"
+	   " any existing %s.  "),
 	   advances[improvement_types[B_BARRACKS].obsolete_by].name,
 	   advances[improvement_types[B_BARRACKS2].obsolete_by].name,
 	   improvement_types[B_BARRACKS].name);
@@ -620,10 +650,14 @@ void helptext_improvement(char *buf, int which, const char *user_text)
   if(which==B_BARRACKS2
      && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
     sprintf(buf+strlen(buf),
-	   _("\nThe discovery of %s will make %s obsolete.\n"),
+	   _("\n\nThe discovery of %s will make %s obsolete.  "),
 	   advances[improvement_types[B_BARRACKS2].obsolete_by].name,
 	   improvement_types[B_BARRACKS2].name);
   }
+  if (strcmp(user_text, "")!=0) {
+    sprintf(buf+strlen(buf), "\n\n%s", user_text);
+  }
+  wordwrap_string(buf, 68);
 }
 
 /****************************************************************
@@ -632,6 +666,8 @@ void helptext_improvement(char *buf, int which, const char *user_text)
 void helptext_wonder(char *buf, int which,
 			    const char *user_text)
 {
+  struct improvement_type *imp = &improvement_types[which];
+  
   assert(buf&&user_text);
   buf[0] = '\0';
   if(which==B_MANHATTEN && num_role_units(F_NUCLEAR)>0) {
@@ -641,13 +677,19 @@ void helptext_wonder(char *buf, int which,
     t = get_unit_type(u)->tech_requirement;
     assert(t<game.num_tech_types);
     sprintf(buf+strlen(buf),
-	   _("Allows all players with knowledge of %s to build %s units.\n"),
+	   _("Allows all players with knowledge of %s to build %s units.  "),
 	   advances[t].name, get_unit_type(u)->name);
   }
-  strcat(buf, user_text);
+  if (imp->helptext) {
+    sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
+  }
   if(which==B_MICHELANGELO) {
     helptext_cathedral_techs(buf+strlen(buf));
   }
+  if (strcmp(user_text, "")!=0) {
+    sprintf(buf+strlen(buf), "\n\n%s", user_text);
+  }
+  wordwrap_string(buf, 68);
 }
 
 /****************************************************************
@@ -833,5 +875,41 @@ void helptext_tech(char *buf, int i, const char *user_text)
     sprintf(buf+strlen(buf), _("Allows %s to upgrade roads to railroads.\n"),units_str);
     free(units_str);
   }
+}
+
+/****************************************************************
+  Append text for terrain.
+*****************************************************************/
+void helptext_terrain(char *buf, int i, const char *user_text)
+{
+  struct tile_type *pt;
+  
+  buf[0] = '\0';
+  
+  if (i<0 || i>=T_COUNT)
+    return;
+
+  pt = &tile_types[i];
+  if (pt->helptext) {
+    sprintf(buf, "%s\n\n", _(pt->helptext));
+  }
+  strcat(buf, user_text);
+  wordwrap_string(buf, 68);
+}
+
+/****************************************************************
+  Append text for government.
+*****************************************************************/
+void helptext_government(char *buf, int i, const char *user_text)
+{
+  struct government *gov = get_government(i);
+  
+  buf[0] = '\0';
+  
+  if (gov->helptext) {
+    sprintf(buf, "%s\n\n", _(gov->helptext));
+  }
+  strcat(buf, user_text);
+  wordwrap_string(buf, 68);
 }
 

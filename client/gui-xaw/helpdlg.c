@@ -32,6 +32,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
+#include "government.h"
 #include "mem.h"
 #include "shared.h"
 #include "tech.h"
@@ -939,12 +940,13 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 static void help_update_terrain(const struct help_item *pitem,
 				char *title, int i)
 {
-  char buf[1024];
+  char *buf = &long_buffer[0];
 
   create_help_page(HELP_TERRAIN);
   set_title_topic(pitem);
 
-  XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
+  helptext_terrain(buf, i, pitem->text);
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
 
   if (i < T_COUNT)
     {
@@ -1055,6 +1057,24 @@ static void help_update_terrain(const struct help_item *pitem,
 }
 
 /**************************************************************************
+  This is currently just a text page, with special text:
+**************************************************************************/
+static void help_update_government(const struct help_item *pitem,
+				   char *title, struct government *gov)
+{
+  char *buf = &long_buffer[0];
+
+  if (gov==NULL) {
+    strcat(buf, pitem->text);
+  } else {
+    helptext_government(buf, gov-governments, pitem->text);
+  }
+  create_help_page(HELP_TEXT);
+  set_title_topic(pitem);
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void help_update_dialog(const struct help_item *pitem)
@@ -1085,6 +1105,9 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_TERRAIN:
     help_update_terrain(pitem, top, get_terrain_by_name(top));
+    break;
+  case HELP_GOVERNMENT:
+    help_update_government(pitem, top, find_government_by_name(top));
     break;
   case HELP_TEXT:
   default:

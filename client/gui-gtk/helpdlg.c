@@ -25,6 +25,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
+#include "government.h"
 #include "mem.h"
 #include "shared.h"
 #include "tech.h"
@@ -717,7 +718,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 static void help_update_terrain(const struct help_item *pitem,
 				char *title, int i)
 {
-  char buf[1024];
+  char *buf = &long_buffer[0];
 
   create_help_page(HELP_TERRAIN);
 
@@ -828,13 +829,36 @@ static void help_update_terrain(const struct help_item *pitem,
       gtk_set_label (help_tlabel[3][4], buf);
     }
 
+  helptext_terrain(buf, i, pitem->text);
+  
   gtk_text_freeze(GTK_TEXT(help_text));
-  gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, pitem->text, -1);
+  gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
   gtk_text_thaw(GTK_TEXT(help_text));
   gtk_widget_show(help_text);
   gtk_widget_show(help_text_scrolled);
 
   gtk_widget_show_all(help_ttable);
+}
+
+/**************************************************************************
+  This is currently just a text page, with special text:
+**************************************************************************/
+static void help_update_government(const struct help_item *pitem,
+				   char *title, struct government *gov)
+{
+  char *buf = &long_buffer[0];
+
+  if (gov==NULL) {
+    strcat(buf, pitem->text);
+  } else {
+    helptext_government(buf, gov-governments, pitem->text);
+  }
+  create_help_page(HELP_TEXT);
+  gtk_text_freeze(GTK_TEXT(help_text));
+  gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
+  gtk_text_thaw(GTK_TEXT(help_text));
+  gtk_widget_show(help_text);
+  gtk_widget_show(help_text_scrolled);
 }
 
 /**************************************************************************
@@ -873,6 +897,9 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_TERRAIN:
     help_update_terrain(pitem, top, get_terrain_by_name(top));
+    break;
+  case HELP_GOVERNMENT:
+    help_update_government(pitem, top, find_government_by_name(top));
     break;
   case HELP_TEXT:
   default:

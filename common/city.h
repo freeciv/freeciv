@@ -45,6 +45,7 @@ struct improvement_type {
   int shield_upkeep;
   int obsolete_by;
   int variant;
+  char *helptext;
 };
 
 enum specialist_type {

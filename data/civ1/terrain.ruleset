@@ -1,6 +1,6 @@
 
 ; Modifying this file:
-; You shouldn't modify this file except to make bugfixes or
+; You should not modify this file except to make bugfixes or
 ; for other "maintenance".  If you want to make custom changes,
 ; you should create a new datadir subdirectory and copy this file
 ; into that directory, and then modify that copy.  Then use the
@@ -70,7 +70,7 @@ pollution_trade_penalty=50
 ; For now, the number of such sections must be kept the same (=12).
 ; Also, terrains should be in the same order as defined in common/map.h,
 ; and have similar roles/effects, as some things are still hardwired.
-; The actual tag used (the * in [terrain_*]) doesn't matter, except 
+; The actual tag used (the * in [terrain_*]) does not matter, except 
 ; it must be unique for each terrain, and it may be used in debug 
 ; output when reading this file.
 ;
@@ -100,26 +100,28 @@ pollution_trade_penalty=50
 ; shield_special_2     = special (2) shield production
 ; trade_special_2      = special (2) trade production
 ; road_trade_incr      = increment to trade if square has road
-; road_time            = time to build road; if 0, can't build road
+; road_time            = time to build road; if 0, cannot build road
 ; irrigation_result    = result of irrigation; one of:
-;                        "no"  -- can't irrigate
+;                        "no"  -- cannot irrigate
 ;                        "yes" -- can irrigate
 ;                        terrain name -- irrigation changes to that terrain
 ; irrigation_food_incr = increment to food if square is irrigated
-; irrigation_time      = time to irrigate; if 0, can't irrigate
+; irrigation_time      = time to irrigate; if 0, cannot irrigate
 ; mining_result        = result of mining; one of:
-;                        "no"  -- can't mine
+;                        "no"  -- cannot mine
 ;                        "yes" -- can mine
 ;                        terrain name -- mining changes to that terrain
 ; mining_shield_incr   = increment to shields if square is mined
-; mining_time          = time to mine; if 0, can't mine
+; mining_time          = time to mine; if 0, cannot mine
 ; transform_result     = result of transformation; one of:
-;                        "no"  -- can't transform
+;                        "no"  -- cannot transform
 ;                        terrain name -- transformation changes to that terrain
-; transform_time       = time to transform; if 0, can't transform
+; transform_time       = time to transform; if 0, cannot transform
+; helptext	       = optional help text string; should escape all raw 
+;		         newlines so that xgettext parsing works
 
 [terrain_arctic]
-terrain_name         = "Arctic"
+terrain_name         = _("Arctic")
 graphic              = "t.arctic"
 graphic_alt	     = "-"
 movement_cost        = 2
@@ -127,7 +129,7 @@ defense_bonus        = 10
 food                 = 0
 shield               = 0
 trade                = 0
-special_1_name       = "Seals"
+special_1_name       = _("Seals")
 graphic_special_1    = "ts.seals"
 graphic_special_1a   = "-"
 food_special_1       = 2
@@ -149,9 +151,14 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Arctic squares are found only in the most northerly or southerly\
+ reaches of the world.  They are very cold, and hence difficult to\
+ work with.\
+")
 
 [terrain_desert]
-terrain_name         = "Desert"
+terrain_name         = _("Desert")
 graphic              = "t.desert"
 graphic_alt	     = "-"
 movement_cost        = 1
@@ -159,7 +166,7 @@ defense_bonus        = 10
 food                 = 0
 shield               = 1
 trade                = 0
-special_1_name       = "Oasis"
+special_1_name       = _("Oasis")
 graphic_special_1    = "ts.oasis"
 graphic_special_1a   = "-"
 food_special_1       = 3
@@ -181,9 +188,13 @@ mining_shield_incr   = 1
 mining_time          = 5
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Deserts are regions of extreme dryness, making agriculture and\
+ trade very difficult.\
+")
 
 [terrain_forest]
-terrain_name         = "Forest"
+terrain_name         = _("Forest")
 graphic              = "t.forest"
 graphic_alt	     = "-"
 movement_cost        = 2
@@ -191,7 +202,7 @@ defense_bonus        = 15
 food                 = 1
 shield               = 2
 trade                = 0
-special_1_name       = "Game"
+special_1_name       = _("Game")
 graphic_special_1    = "ts.forest_game"
 graphic_special_1a   = "-"
 food_special_1       = 3
@@ -213,9 +224,13 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Forests are densely wooded, making agriculture somewhat\
+ problematic.\
+")
 
 [terrain_grassland]
-terrain_name         = "Grassland"
+terrain_name         = _("Grassland")
 graphic              = "t.grassland"
 graphic_alt	     = "-"
 movement_cost        = 1
@@ -223,7 +238,7 @@ defense_bonus        = 10
 food                 = 2
 shield               = 0
 trade                = 0
-special_1_name       = "Resources"
+special_1_name       = _("Resources")
 graphic_special_1    = "ts.grassland_resources"
 graphic_special_1a   = "-"
 food_special_1       = 2
@@ -245,9 +260,12 @@ mining_shield_incr   = 0
 mining_time          = 10
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Grasslands afford exceptional agricultural opportunities.\
+")
 
 [terrain_hills]
-terrain_name         = "Hills"
+terrain_name         = _("Hills")
 graphic              = "t.hills"
 graphic_alt	     = "-"
 movement_cost        = 2
@@ -255,7 +273,7 @@ defense_bonus        = 20
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = "Coal"
+special_1_name       = _("Coal")
 graphic_special_1    = "ts.coal"
 graphic_special_1a   = "-"
 food_special_1       = 1
@@ -277,9 +295,13 @@ mining_shield_incr   = 3
 mining_time          = 10
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+In addition to being amenable to agriculture, Hills are frequently\
+ rich in resources.\
+")
 
 [terrain_jungle]
-terrain_name         = "Jungle"
+terrain_name         = _("Jungle")
 graphic              = "t.jungle"
 graphic_alt	     = "-"
 movement_cost        = 2
@@ -287,7 +309,7 @@ defense_bonus        = 15
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = "Gems"
+special_1_name       = _("Gems")
 graphic_special_1    = "ts.gems"
 graphic_special_1a   = "-"
 food_special_1       = 1
@@ -309,9 +331,13 @@ mining_shield_incr   = 0
 mining_time          = 15
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Jungles are densely overgrown, making agriculture somewhat\
+ problematic.\
+")
 
 [terrain_mountains]
-terrain_name         = "Mountains"
+terrain_name         = _("Mountains")
 graphic              = "t.mountains"
 graphic_alt	     = "-"
 movement_cost        = 3
@@ -319,7 +345,7 @@ defense_bonus        = 30
 food                 = 0
 shield               = 1
 trade                = 0
-special_1_name       = "Gold"
+special_1_name       = _("Gold")
 graphic_special_1    = "ts.gold"
 graphic_special_1a   = "-"
 food_special_1       = 0
@@ -341,9 +367,13 @@ mining_shield_incr   = 1
 mining_time          = 10
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Mountains are regions of extreme altitude, making agriculture and\
+ trade very difficult.\
+")
 
 [terrain_ocean]
-terrain_name         = "Ocean"
+terrain_name         = _("Ocean")
 graphic              = "t.ocean"
 graphic_alt	     = "-"
 movement_cost        = 1
@@ -351,7 +381,7 @@ defense_bonus        = 10
 food                 = 1
 shield               = 0
 trade                = 2
-special_1_name       = "Fish"
+special_1_name       = _("Fish")
 graphic_special_1    = "ts.fish"
 graphic_special_1a   = "-"
 food_special_1       = 3
@@ -373,9 +403,15 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Oceans cover much of the world, and only sea units (Triremes and\
+ other boats) can travel on them.\
+\n\n\
+Ocean squares can never be polluted.\
+")
 
 [terrain_plains]
-terrain_name         = "Plains"
+terrain_name         = _("Plains")
 graphic              = "t.plains"
 graphic_alt	     = "-"
 movement_cost        = 1
@@ -383,7 +419,7 @@ defense_bonus        = 10
 food                 = 1
 shield               = 1
 trade                = 0
-special_1_name       = "Horses"
+special_1_name       = _("Horses")
 graphic_special_1    = "ts.horses"
 graphic_special_1a   = "-"
 food_special_1       = 1
@@ -405,9 +441,13 @@ mining_shield_incr   = 0
 mining_time          = 15
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Plains are very broad, sparse regions, which makes trade slightly\
+ inconvenient.\
+")
 
 [terrain_river]
-terrain_name         = "River"
+terrain_name         = _("River")
 graphic              = "t.t_river"
 graphic_alt	     = "-"
 movement_cost        = 1
@@ -415,7 +455,7 @@ defense_bonus        = 15
 food                 = 2
 shield               = 0
 trade                = 1
-special_1_name       = "Resources"
+special_1_name       = _("Resources")
 graphic_special_1    = "ts.river_resources"
 graphic_special_1a   = "-"
 food_special_1       = 2
@@ -437,9 +477,16 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+In addition to providing for fishing, Rivers make for excellent\
+ lines of communications and trade.\
+\n\n\
+Roads and railroads can only be built on River squares if your\
+ civilization has learned Bridge Building technology.\
+")
 
 [terrain_swamp]
-terrain_name         = "Swamp"
+terrain_name         = _("Swamp")
 graphic              = "t.swamp"
 graphic_alt	     = "-"
 movement_cost        = 2
@@ -447,7 +494,7 @@ defense_bonus        = 15
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = "Oil"
+special_1_name       = _("Oil")
 graphic_special_1    = "ts.oil"
 graphic_special_1a   = "-"
 food_special_1       = 1
@@ -469,9 +516,13 @@ mining_shield_incr   = 0
 mining_time          = 15
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Swamps suffer from an over-abundance of water, making agriculture\
+ somewhat problematic.\
+")
 
 [terrain_tundra]
-terrain_name         = "Tundra"
+terrain_name         = _("Tundra")
 graphic              = "t.tundra"
 graphic_alt	     = "-"
 movement_cost        = 1
@@ -479,7 +530,7 @@ defense_bonus        = 10
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = "Game"
+special_1_name       = _("Game")
 graphic_special_1    = "ts.tundra_game"
 graphic_special_1a   = "-"
 food_special_1       = 3
@@ -501,3 +552,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+helptext	     = _("\
+Tundra are broad, cold regions, fit for some agriculture and little\
+ else.\
+")

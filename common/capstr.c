@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
     " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
     " +ruleset_control +ask_pillage +gen_tech2 +nationsruleset2" \
-    " +long_names +paratroopers2 +helptext2 dconn_in_sel_nat" \
+    " +long_names +paratroopers2 +helptext3 dconn_in_sel_nat" \
     " +airbase"
 
 /* "caravan1" means the server automatically establishes a traderoute
@@ -115,7 +115,8 @@ const char * const our_capability = our_capability_internal;
    "paratroopers2" is for the support of the "Paratroopers" unit flag
    and some paratroopers specific fields.
 
-   "helptext2" means unit type and tech helptext is sent from server.
+   "helptext3" means unit type, tech, building, terrain and government
+   helptext is sent from server.
 
    "dconn_in_sel_nat" means that the server can handle the last client
    disconnecting from the Select Nation dialog.

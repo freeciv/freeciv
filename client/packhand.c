@@ -1138,6 +1138,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->obsolete_by      = p->obsolete_by;     
   b->variant          = p->variant;         
  
+  free(b->helptext);
+  b->helptext = p->helptext;	/* pointer assignment */
 }
 
 /**************************************************************************
@@ -1207,6 +1209,9 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 
   gov->ruler_titles = fc_calloc(gov->num_ruler_titles,
 				sizeof(struct ruler_title));
+  
+  free(gov->helptext);
+  gov->helptext = p->helptext;	/* pointer assignment */
   
   tilespec_setup_government(p->id);
 }
@@ -1278,6 +1283,9 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   t->mining_time = p->mining_time;
   t->transform_result = p->transform_result;
   t->transform_time = p->transform_time;
+  
+  free(t->helptext);
+  t->helptext = p->helptext;	/* pointer assignment */
   
   tilespec_setup_tile_type(p->id);
 }

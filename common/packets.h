@@ -518,6 +518,7 @@ struct packet_ruleset_building {
   int shield_upkeep;
   int obsolete_by;
   int variant;
+  char *helptext;		/* same as for packet_ruleset_unit, above */
 };
 
 struct packet_ruleset_terrain {
@@ -563,6 +564,8 @@ struct packet_ruleset_terrain {
 
   enum tile_terrain_type transform_result;
   int transform_time;
+  
+  char *helptext;		/* same as for packet_ruleset_unit, above */
 };
 
 struct packet_ruleset_government {
@@ -616,7 +619,10 @@ struct packet_ruleset_government {
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  
+  char *helptext;		/* same as for packet_ruleset_unit, above */
 };
+
 struct packet_ruleset_government_ruler_title {
   int gov;
   int id;

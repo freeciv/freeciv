@@ -2147,6 +2147,11 @@ int send_packet_ruleset_building(struct connection *pc,
   cptr=put_int8(cptr, packet->obsolete_by);
   cptr=put_int8(cptr, packet->variant);
   cptr=put_string(cptr, packet->name);
+
+  /* This must be last, so client can determine length: */
+  if(packet->helptext) {
+    cptr=put_string(cptr, packet->helptext);
+  }
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -2161,6 +2166,7 @@ receive_packet_ruleset_building(struct connection *pc)
   struct pack_iter iter;
   struct packet_ruleset_building *packet=
     fc_malloc(sizeof(struct packet_ruleset_building));
+  int len;
 
   pack_iter_init(&iter, pc);
 
@@ -2172,6 +2178,14 @@ receive_packet_ruleset_building(struct connection *pc)
   iget_int8(&iter, &packet->obsolete_by);
   iget_int8(&iter, &packet->variant);
   iget_string(&iter, packet->name, sizeof(packet->name));
+
+  len = pack_iter_remaining(&iter);
+  if (len) {
+    packet->helptext = fc_malloc(len);
+    iget_string(&iter, packet->helptext, len);
+  } else {
+    packet->helptext = NULL;
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2220,6 +2234,11 @@ int send_packet_ruleset_terrain(struct connection *pc,
     cptr=put_string(cptr, packet->special[i].graphic_alt);
   }
 
+  /* This must be last, so client can determine length: */
+  if(packet->helptext) {
+    cptr=put_string(cptr, packet->helptext);
+  }
+  
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -2231,7 +2250,7 @@ int send_packet_ruleset_terrain(struct connection *pc,
 struct packet_ruleset_terrain *
 receive_packet_ruleset_terrain(struct connection *pc)
 {
-  int i;
+  int i, len;
   struct pack_iter iter;
   struct packet_ruleset_terrain *packet=
     fc_malloc(sizeof(struct packet_ruleset_terrain));
@@ -2271,6 +2290,14 @@ receive_packet_ruleset_terrain(struct connection *pc)
 		sizeof(packet->special[i].graphic_str));
     iget_string(&iter, packet->special[i].graphic_alt,
 		sizeof(packet->special[i].graphic_alt));
+  }
+
+  len = pack_iter_remaining(&iter);
+  if (len) {
+    packet->helptext = fc_malloc(len);
+    iget_string(&iter, packet->helptext, len);
+  } else {
+    packet->helptext = NULL;
   }
 
   pack_iter_end(&iter, pc);
@@ -2405,6 +2432,11 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
 
+  /* This must be last, so client can determine length: */
+  if(packet->helptext) {
+    cptr=put_string(cptr, packet->helptext);
+  }
+  
   freelog(LOG_DEBUG, "send gov %s", packet->name);
 
   put_int16(buffer, cptr-buffer);
@@ -2436,6 +2468,7 @@ receive_packet_ruleset_government(struct connection *pc)
   struct pack_iter iter;
   struct packet_ruleset_government *packet=
     fc_calloc(1, sizeof(struct packet_ruleset_government));
+  int len;
 
   pack_iter_init(&iter, pc);
 
@@ -2491,6 +2524,14 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
   
+  len = pack_iter_remaining(&iter);
+  if (len) {
+    packet->helptext = fc_malloc(len);
+    iget_string(&iter, packet->helptext, len);
+  } else {
+    packet->helptext = NULL;
+  }
+
   freelog(LOG_DEBUG, "recv gov %s", packet->name);
 
   pack_iter_end(&iter, pc);
