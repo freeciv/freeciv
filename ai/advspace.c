@@ -92,7 +92,6 @@ int ai_spaceship_autoplace(struct player *pplayer, struct player_spaceship *ship
       packet.action = SSHIP_ACT_PLACE_STRUCTURAL;
       packet.num = 0;
       handle_spaceship_action(pplayer, &packet);
-      retval=1;
     }
     
     if (ship->habitation >= 1

@@ -204,7 +204,7 @@ void assess_danger_player(struct player *pplayer)
 ***********************************************************************/
 int assess_danger(struct city *pcity)
 {
-  int i, danger = 0, v, dist, con, m;
+  int i, danger = 0, v, dist, m;
   int danger2 = 0; /* linear for walls */
   int danger3 = 0; /* linear for coastal */
   int danger4 = 0; /* linear for SAM */
@@ -224,7 +224,6 @@ int assess_danger(struct city *pcity)
 
   memset(&virtualunit, 0, sizeof(struct unit));
   pplayer = &game.players[pcity->owner];
-  con = map_get_continent(pcity->x, pcity->y); /* Not using because of boats */
 
   generate_warmap(pcity, 0); /* generates both land and sea maps */
 
@@ -629,21 +628,18 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   int x, y, unhap = 0;
   struct unit *pdef, *aunit, *ferryboat;
   struct city *acity;
-  int boatid = 0, harborcity = 0, bx, by;
-  int needferry = 0, fstk, boatspeed, sanity;
+  int boatid = 0, bx = 0, by = 0;
+  int needferry = 0, boatspeed, sanity;
 
   if (pcity->ai.danger && !assess_defense(pcity)) return;
 
   if (is_ground_unit(myunit)) boatid = find_boat(pplayer, &bx, &by, 2);
-  if (is_ground_unit(myunit) && !myunit->id &&
-      is_terrain_near_tile(myunit->x, myunit->y, T_OCEAN))
-    harborcity++;
 
   ferryboat = player_find_unit_by_id(pplayer, boatid);
   if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
   else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN ? 6 : 12);
 
-  fstk = find_something_to_kill(pplayer, myunit, &x, &y);
+  find_something_to_kill(pplayer, myunit, &x, &y);
 
   acity = map_get_city(x, y);
   if (!acity) aunit = get_defender(pplayer, myunit, x, y);
@@ -728,7 +724,6 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
     } /* end dealing with cities */
 
     else {
-      m = 0;
       pdef = aunit; /* we KNOW this is the get_defender -- Syela */
 
       m = unit_types[pdef->type].build_cost;
@@ -1042,7 +1037,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
 
 void establish_city_distances(struct player *pplayer, struct city *pcity)
 {
-  int dist = 0;
+  int dist;
   int wondercity;
   int freight;
 /* at this moment, our warmap is intact.  we need to do two things: */
