@@ -648,7 +648,7 @@ static void global_insert_callback(GtkWidget * w, gpointer data)
 
   /* Validate this slot. */
   init_worklist(&packet.worklist);
-  packet.worklist.is_valid = 1;
+  packet.worklist.is_valid = TRUE;
   strcpy(packet.worklist.name, _("empty worklist"));
   packet.wl_idx = j;
 
@@ -688,8 +688,7 @@ static void global_delete_callback(GtkWidget * w, gpointer data)
 
   /* The last worklist in the set is no longer valid -- it's been slid up
      one slot. */
-  packet.worklist.name[0] = '\0';
-  packet.worklist.is_valid = 0;
+  packet.worklist.is_valid = FALSE;
   packet.wl_idx = i - 1;
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_WORKLIST);

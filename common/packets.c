@@ -1697,14 +1697,24 @@ int send_packet_player_request(struct connection *pc,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
+  /* can't modify the packet directly */
+  struct worklist copy;
+
+  if (req_type == PACKET_PLAYER_WORKLIST) {
+    /* packet->worklist.is_valid may be FALSE if the client want to
+       remove a worklist. */
+    copy_worklist(&copy, &packet->worklist);
+  } else {
+    copy.is_valid = FALSE;
+  }
+
   cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint8(cptr, packet->tax);
   cptr=put_uint8(cptr, packet->luxury);
   cptr=put_uint8(cptr, packet->science);
   cptr=put_uint8(cptr, packet->government);
   cptr=put_uint8(cptr, packet->tech);
-  cptr = put_worklist(pc, cptr, &packet->worklist,
-		      req_type == PACKET_PLAYER_WORKLIST);
+  cptr = put_worklist(pc, cptr, &copy, req_type == PACKET_PLAYER_WORKLIST);
   cptr=put_uint8(cptr, packet->wl_idx);
 
   if (has_capability("attributes", pc->capability)) {

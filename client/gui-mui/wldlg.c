@@ -106,7 +106,7 @@ static void worklist_report_insert( struct worklist_report_dialog **ppdialog)
 
   /* Validate this slot. */
   init_worklist(&packet.worklist);
-  packet.worklist.is_valid = 1;
+  packet.worklist.is_valid = TRUE;
   sz_strlcpy(packet.worklist.name, _("empty worklist"));
   packet.wl_idx = j;
 
@@ -143,8 +143,7 @@ static void worklist_report_delete( struct worklist_report_dialog **ppdialog)
 
   /* The last worklist in the set is no longer valid -- it's been slid up
      one slot. */
-  packet.worklist.name[0] = '\0';
-  packet.worklist.is_valid = 0;
+  packet.worklist.is_valid = FALSE;
   packet.wl_idx = i-1;
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
 }
