@@ -502,6 +502,12 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
 
   map_set_known(x, y, pplayer);
 
+  /* send info about the tile itself 
+   * It has to be sent first because the client needs correct
+   * continent number before it can handle following packets
+   */
+  send_tile_info_always(pplayer, &pplayer->connections, x, y);
+
   /* discover units */
   unit_list_iterate(map_get_tile(x, y)->units, punit)
     send_unit_info(pplayer, punit);
@@ -511,9 +517,6 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
   reality_check_city(pplayer, x, y);
   if ((pcity=map_get_city(x, y)))
     send_city_info(pplayer, pcity);
-
-  /* send info about the tile itself */
-  send_tile_info_always(pplayer, &pplayer->connections, x, y);
 
   /* If the tile was not known before we need to refresh the cities that
      can use the tile. */
