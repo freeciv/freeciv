@@ -50,12 +50,6 @@ update_timeout_label(void)
 }
 
 void
-update_unit_pix_label(struct unit *punit)
-{
-	/* PORTME */
-}
-
-void
 update_turn_done_button(int do_restore)
 {
 	/* PORTME */

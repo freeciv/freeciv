@@ -68,8 +68,9 @@ AppResources appResources;
 
 extern String fallback_resources[];
 
-extern int num_units_below;
-extern int unit_ids[MAX_NUM_UNITS_BELOW];
+
+/* ids of the units icons in information display: (or 0) */
+static int unit_ids[MAX_NUM_UNITS_BELOW];  
 
 
 static void setup_widgets(void);
@@ -467,8 +468,11 @@ void ui_main(int argc, char *argv[])
   XtAppMainLoop(app_context);
 }
 
+
 /**************************************************************************
-...
+  Callack for when user clicks one of the unit icons on left hand side
+  (units on same square as current unit).  Use unit_ids[] data and change
+  focus to clicked unit.
 **************************************************************************/
 static void unit_icon_callback(Widget w, XtPointer client_data,
 			       XtPointer call_data) 
@@ -825,5 +829,50 @@ void timer_callback(caddr_t client_data, XtIntervalId *id)
     }
     
     flip=!flip;
+  }
+}
+
+/**************************************************************************
+  Set one of the unit icons in information area based on punit.
+  Use punit==NULL to clear icon.
+  Index 'idx' is -1 for "active unit", or 0 to (num_units_below-1) for
+  units below.  Also updates unit_ids[idx] for idx>=0.
+**************************************************************************/
+void set_unit_icon(int idx, struct unit *punit)
+{
+  Widget w;
+  
+  assert(idx>=-1 && idx<num_units_below);
+  if (idx == -1) {
+    w = unit_pix_canvas;
+  } else {
+    w = unit_below_canvas[idx];
+    unit_ids[idx] = punit ? punit->id : 0;
+  }
+  
+  if (flags_are_transparent || punit==NULL) {
+    XawPixcommClear(w);
+  }
+  if (punit) {
+    put_unit_pixmap(punit, XawPixcommPixmap(w), 0, 0);
+    xaw_expose_now(w);
+  }
+}
+
+/**************************************************************************
+  Set the "more arrow" for the unit icons to on(1) or off(0).
+  Maintains a static record of current state to avoid unnecessary redraws.
+  Note initial state should match initial gui setup (off).
+**************************************************************************/
+void set_unit_icons_more_arrow(int onoff)
+{
+  static int showing = 0;
+  if (onoff==1 && !showing) {
+    xaw_set_bitmap(more_arrow_label, sprites.right_arrow->pixmap);
+    showing = 1;
+  }
+  else if(onoff==0 && showing) {
+    xaw_set_bitmap(more_arrow_label, None);
+    showing = 0;
   }
 }

@@ -24,6 +24,7 @@
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "dialogs_g.h"
+#include "gui_main_g.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "menu_g.h"
@@ -35,6 +36,11 @@
 #include "control.h"
 
 extern struct connection aconnection;
+
+
+/* gui-dep code may adjust depending on tile size etc: */
+int num_units_below = MAX_NUM_UNITS_BELOW;
+
 
 /* unit_focus points to the current unit in focus */
 static struct unit *punit_focus;
@@ -990,6 +996,70 @@ void do_map_click(int xtile, int ytile)
 	return;
       }
     unit_list_iterate_end;
+  }
+}
+
+/**************************************************************************
+  Update unit icons (and arrow) in the information display, for specified
+  punit as the active unit and other units on the same square.  In practice
+  punit is almost always (or maybe strictly always?) the focus unit.
+  
+  Static vars store some info on current (ie previous) state, to avoid
+  unnecessary redraws; initialise to "flag" values to always redraw first
+  time.  In principle we _might_ need more info (eg ai.control, connecting),
+  but in practice this is enough?
+  
+  Used to store unit_ids for below units, to use for callbacks (now done
+  inside gui-dep set_unit_icon()), but even with ids here they would not
+  be enough information to know whether to redraw -- instead redraw every
+  time.  (Could store enough info to know, but is it worth it?)
+**************************************************************************/
+void update_unit_pix_label(struct unit *punit)
+{
+  static enum unit_activity prev_activity = ACTIVITY_UNKNOWN;
+  static Unit_Type_id prev_unit_type = U_LAST;
+  static int prev_hp = -1;	         /* or could store ihp cf tilespec.c */
+  
+  int i;
+  
+  if(punit) {
+    if(punit->type != prev_unit_type
+       || punit->activity != prev_activity
+       || punit->hp != prev_hp) {
+      set_unit_icon(-1, punit);
+      prev_unit_type = punit->type;
+      prev_activity = punit->activity;
+      prev_hp = punit->hp;
+    }
+
+    i = 0;			/* index into unit_below_canvas */
+    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+      if (aunit != punit) {
+	if (i < num_units_below) {
+	  set_unit_icon(i, aunit);
+	}
+	i++;
+      }
+    }
+    unit_list_iterate_end;
+    
+    if (i > num_units_below) {
+      set_unit_icons_more_arrow(1);
+    } else {
+      set_unit_icons_more_arrow(0);
+      for(; i < num_units_below; i++) {
+	set_unit_icon(i, NULL);
+      }
+    }
+  }
+  else {
+    prev_unit_type = U_LAST;
+    prev_activity = ACTIVITY_UNKNOWN;
+    prev_hp = -1;
+    for(i=-1; i<num_units_below; i++) {
+      set_unit_icon(i, NULL);
+    }
+    set_unit_icons_more_arrow(0);
   }
 }
 

@@ -62,6 +62,7 @@ void update_unit_focus(void);
 struct unit *find_visible_unit(struct tile *ptile);
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 void blink_active_unit(void);
+void update_unit_pix_label(struct unit *punit);
 
 void process_caravan_arrival(struct unit *punit);
 void process_diplomat_arrival(struct unit *punit, int victim_id);
@@ -106,6 +107,11 @@ void key_unit_transform(void);
 void key_unit_unload(void);
 void key_unit_wait(void);
 void key_unit_wakeup_others(void);
+
+/* don't change this unless you also put more entries in data/Freeciv */
+#define MAX_NUM_UNITS_BELOW 4
+
+extern int num_units_below;
 
 
 #endif  /* FC__CONTROL_H */

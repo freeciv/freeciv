@@ -64,14 +64,9 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 
 extern int		seconds_to_turndone;
 
-/* adjusted depending on tile size: */
-int num_units_below = MAX_NUM_UNITS_BELOW;
-
 extern int goto_state;
 extern int paradrop_state;
 extern int nuke_state;
-extern int unit_ids[MAX_NUM_UNITS_BELOW]; /* ids of the units displayed on
-                                            the left */
 
 extern GtkWidget *	main_frame_civ_name;
 extern GtkWidget *	main_label_info;
@@ -84,10 +79,6 @@ extern GtkWidget *	timeout_label;
 extern GtkWidget *	turn_done_button;
 
 extern GtkWidget *	unit_info_frame, *unit_info_label;
-
-extern GtkWidget *	unit_pixmap;
-extern GtkWidget *	unit_below_pixmap		[MAX_NUM_UNITS_BELOW];
-extern GtkWidget *	more_arrow_pixmap;
 
 extern GtkWidget *	map_canvas;			/* GtkDrawingArea */
 extern GtkWidget *	overview_canvas;		/* GtkDrawingArea */
@@ -323,7 +314,14 @@ void update_info_label( void )
 }
 
 /**************************************************************************
-...
+  Update the information label which gives info on the current unit and the
+  square under the current unit, for specified unit.  Note that in practice
+  punit is almost always (or maybe strictly always?) the focus unit.
+  Clears label if punit is NULL.
+  Also updates the cursor for the map_canvas (this is related because the
+  info label includes a "select destination" prompt etc).
+  Also calls update_unit_pix_label() to update the icons for units on this
+  square.
 **************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {
@@ -365,90 +363,6 @@ void update_unit_info_label(struct unit *punit)
   update_unit_pix_label(punit);
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-void update_unit_pix_label(struct unit *punit)
-{
-  int i;
-  /* what initialises these statics? */
-  static enum unit_activity uactivity = ACTIVITY_UNKNOWN;
-  static int utemplate = U_LAST;
-  static int uhp = -1;
-  static int showing_arrow=0;
-  struct genlist_iterator myiter;
-  
-  if(punit) {
-    if(punit->type!=utemplate || punit->activity!=uactivity || punit->hp!=uhp) {
-      gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), FALSE); /* STG */
-      put_unit_gpixmap(punit, GTK_PIXCOMM(unit_pixmap), 0, 0);
-      utemplate=punit->type;
-      uactivity=punit->activity;
-      uhp=punit->hp;
-    }
-    genlist_iterator_init(&myiter, 
-			  &(map_get_tile(punit->x, punit->y)->units.list), 0);
-    
-    for(i=0; i<num_units_below && ITERATOR_PTR(myiter); i++) {
-      int id;
-      id=ITERATOR_PTR(myiter) ? ((struct unit *)ITERATOR_PTR(myiter))->id : 0;
-      if(id==punit->id) {
-	ITERATOR_NEXT(myiter);
-	i--;
-	continue;
-      }
-      
-      /* IS THIS INTENTIONAL?? - mjd */
-      if(1 || unit_ids[i]!=id) {
-	if(id) {
-	  gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), FALSE); /* STG */
-	  put_unit_gpixmap((struct unit *)ITERATOR_PTR(myiter),
-			  GTK_PIXCOMM(unit_below_pixmap[i]),
-			  0, 0);
-	}
-	else
-	  gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
-
-	  
-	unit_ids[i]=id;
-      }
-      ITERATOR_NEXT(myiter);
-    }
-
-    
-    for(; i<num_units_below; i++) {
-      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
-      unit_ids[i]=0;
-    }
-
-    
-    if(ITERATOR_PTR(myiter)) {
-      if(!showing_arrow) {
-	gtk_widget_show(more_arrow_pixmap);
-	showing_arrow=1;
-      }
-    }
-    else {
-      if(showing_arrow) {
-	gtk_widget_hide(more_arrow_pixmap);
-	showing_arrow=0;
-      }
-    }
-  }
-  else {
-    gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
-    utemplate=U_LAST;
-    uactivity=ACTIVITY_UNKNOWN;
-    uhp = -1;
-    for(i=0; i<num_units_below; i++) {
-      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
-      unit_ids[i]=0;
-    }
-    gtk_widget_hide(more_arrow_pixmap);
-    showing_arrow=0;
-  }
-}
 
 /**************************************************************************
 ...

@@ -79,8 +79,6 @@ extern Widget menu_form, below_menu_form, bottom_form;
 extern Widget econ_label[10];
 extern Widget bulb_label, sun_label, flake_label, government_label, timeout_label;
 extern Widget unit_info_label;
-extern Widget unit_pix_canvas, unit_below_canvas[MAX_NUM_UNITS_BELOW];
-extern Widget more_arrow_label;
 extern int display_depth;
 extern Pixmap single_tile_pixmap;
 extern Pixmap gray50,gray25;
@@ -104,11 +102,6 @@ int map_view_x0, map_view_y0;
 
 /* used by map_canvas expose func */ 
 int force_full_repaint;
-
-/* adjusted depending on tile size: */
-int num_units_below = MAX_NUM_UNITS_BELOW;
-
-int unit_ids[MAX_NUM_UNITS_BELOW];
 
 extern int goto_state;
 extern int paradrop_state;
@@ -299,7 +292,14 @@ void update_info_label(void)
 
 
 /**************************************************************************
-...
+  Update the information label which gives info on the current unit and the
+  square under the current unit, for specified unit.  Note that in practice
+  punit is almost always (or maybe strictly always?) the focus unit.
+  Clears label if punit is NULL.
+  Also updates the cursor for the map_canvas (this is related because the
+  info label includes a "select destination" prompt etc).
+  Also calls update_unit_pix_label() to update the icons for units on this
+  square.
 **************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {
@@ -334,94 +334,6 @@ void update_unit_info_label(struct unit *punit)
 
   update_unit_pix_label(punit);
 }
-
-/**************************************************************************
-...
-**************************************************************************/
-void update_unit_pix_label(struct unit *punit)
-{
-  int i;
-  /* what initialises these statics? */
-  static enum unit_activity uactivity = ACTIVITY_UNKNOWN;
-  static int utemplate = U_LAST;
-  static int uhp = -1;
-  static int showing_arrow=0;
-  struct genlist_iterator myiter;
-  
-  if(punit) {
-    if(punit->type!=utemplate || punit->activity!=uactivity || punit->hp!=uhp) {
-      if (flags_are_transparent)
-        XawPixcommClear(unit_pix_canvas); /* STG */
-      put_unit_pixmap(punit, XawPixcommPixmap(unit_pix_canvas), 0, 0);
-      xaw_expose_now(unit_pix_canvas);
-      utemplate=punit->type;
-      uactivity=punit->activity;
-      uhp=punit->hp;
-    }
-    genlist_iterator_init(&myiter, 
-			  &(map_get_tile(punit->x, punit->y)->units.list), 0);
-    
-    for(i=0; i<num_units_below && ITERATOR_PTR(myiter); i++) {
-      int id;
-      id=ITERATOR_PTR(myiter) ? ((struct unit *)ITERATOR_PTR(myiter))->id : 0;
-      if(id==punit->id) {
-	ITERATOR_NEXT(myiter);
-	i--;
-	continue;
-      }
-      
-      /* IS THIS INTENTIONAL?? - mjd */
-      if(1 || unit_ids[i]!=id) {
-	if(id) {
-	  if (flags_are_transparent)
-	    XawPixcommClear(unit_below_canvas[i]); /* STG */
-	  put_unit_pixmap((struct unit *)ITERATOR_PTR(myiter),
-			  XawPixcommPixmap(unit_below_canvas[i]),
-			  0, 0);
-	  xaw_expose_now(unit_below_canvas[i]);
-	}
-	else
-	  XawPixcommClear(unit_below_canvas[i]);
-	  
-	unit_ids[i]=id;
-      }
-      ITERATOR_NEXT(myiter);
-    }
-
-    
-    for(; i<num_units_below; i++) {
-      XawPixcommClear(unit_below_canvas[i]);
-      unit_ids[i]=0;
-    }
-
-    
-    if(ITERATOR_PTR(myiter)) {
-      if(!showing_arrow) {
-	xaw_set_bitmap(more_arrow_label, sprites.right_arrow->pixmap);
-	showing_arrow=1;
-      }
-    }
-    else {
-      if(showing_arrow) {
-	xaw_set_bitmap(more_arrow_label, None);
-	showing_arrow=0;
-      }
-    }
-  }
-  else {
-    XawPixcommClear(unit_pix_canvas);
-    utemplate=U_LAST;
-    uactivity=ACTIVITY_UNKNOWN;
-    uhp = -1;
-    for(i=0; i<num_units_below; i++) {
-      XawPixcommClear(unit_below_canvas[i]);
-      unit_ids[i]=0;
-    }
-    xaw_set_bitmap(more_arrow_label, None);
-    showing_arrow=0;
-  }
-}
-
 
 /**************************************************************************
 ...

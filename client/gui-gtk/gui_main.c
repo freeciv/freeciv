@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -135,12 +136,11 @@ gint		gdk_input_id;
 
 GdkWindow *	root_window;
 
-int unit_ids[MAX_NUM_UNITS_BELOW]; /* ids of the units displayed on
-                                     the left */
+/* ids of the units icons in information display: (or 0) */
+static int unit_ids[MAX_NUM_UNITS_BELOW];  
+
 
 enum Display_color_type		display_color_type;
-
-extern int	num_units_below;
 
 static gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
 static gint timer_callback(gpointer data);
@@ -572,6 +572,7 @@ static void setup_widgets(void)
 /*  gtk_key_snooper_install(keyboard_handler, NULL);*/
 
   gtk_widget_show_all(vbox);
+  gtk_widget_hide(more_arrow_pixmap);
 }
 
 /**************************************************************************
@@ -865,4 +866,49 @@ static gint timer_callback(gpointer data)
     flip=!flip;
   }
   return TRUE;
+}
+
+/**************************************************************************
+  Set one of the unit icons in information area based on punit.
+  Use punit==NULL to clear icon.
+  Index 'idx' is -1 for "active unit", or 0 to (num_units_below-1) for
+  units below.  Also updates unit_ids[idx] for idx>=0.
+**************************************************************************/
+void set_unit_icon(int idx, struct unit *punit)
+{
+  GtkWidget *w;
+  
+  assert(idx>=-1 && idx<num_units_below);
+  if (idx == -1) {
+    w = unit_pixmap;
+  } else {
+    w = unit_below_pixmap[idx];
+    unit_ids[idx] = punit ? punit->id : 0;
+  }
+  
+  if (punit) {
+    gtk_pixcomm_clear(GTK_PIXCOMM(w), FALSE);
+    put_unit_gpixmap(punit, GTK_PIXCOMM(w), 0, 0);
+  } else {
+    gtk_pixcomm_clear(GTK_PIXCOMM(w), TRUE);
+  }
+  
+}
+
+/**************************************************************************
+  Set the "more arrow" for the unit icons to on(1) or off(0).
+  Maintains a static record of current state to avoid unnecessary redraws.
+  Note initial state should match initial gui setup (off).
+**************************************************************************/
+void set_unit_icons_more_arrow(int onoff)
+{
+  static int showing = 0;
+  if (onoff==1 && !showing) {
+    gtk_widget_show(more_arrow_pixmap);
+    showing = 1;
+  }
+  else if(onoff==0 && showing) {
+    gtk_widget_hide(more_arrow_pixmap);
+    showing = 0;
+  }
 }

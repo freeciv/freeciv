@@ -16,9 +16,6 @@
 struct unit;
 struct city;
 
-/* don't change this unless you also put more entries in data/Freeciv */
-#define MAX_NUM_UNITS_BELOW 4
-
 int map_canvas_adjust_x(int x);
 int map_canvas_adjust_y(int y);
 
@@ -28,7 +25,6 @@ int tile_visible_and_not_on_border_mapcanvas(int x, int y);
 void update_info_label(void);
 void update_unit_info_label(struct unit *punit);
 void update_timeout_label(void);
-void update_unit_pix_label(struct unit *punit);
 void update_turn_done_button(int do_restore);
 void update_city_descriptions(void);
 void set_indicator_icons(int bulb, int sol, int flake, int gov);
