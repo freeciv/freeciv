@@ -1481,6 +1481,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->ord_map = 0;
   punit->ord_city = 0;
   set_unit_activity(punit, ACTIVITY_IDLE);
+  punit->occupy = 0;
 
   return punit;
 }

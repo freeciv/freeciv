@@ -73,7 +73,7 @@
 
 static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate);
-static void handle_unit_packet_common(struct unit *packet_unit, bool carried);
+static bool handle_unit_packet_common(struct unit *packet_unit, bool carried);
 static int *reports_thaw_requests = NULL;
 static int reports_thaw_requests_size = 0;
 
@@ -109,7 +109,12 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->activity_target = packet->activity_target;
   punit->paradropped = packet->paradropped;
   punit->connecting = packet->connecting;
-
+  punit->occupy = packet->occupy;
+  if (packet->carried) {
+    punit->transported_by = 1;
+  } else {
+    punit->transported_by = 0;
+  }
   return punit;
 }
 
@@ -130,7 +135,9 @@ static struct unit *unpackage_short_unit(struct packet_short_unit *packet)
   punit->veteran = packet->veteran;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
-
+  punit->occupy = (packet->occupied ? 1 : 0);
+  punit->transported_by = 0;
+  
   return punit;
 }
 
@@ -869,14 +876,15 @@ void handle_unit_info(struct packet_unit_info *packet)
   }
 
   punit = unpackage_unit(packet);
-  handle_unit_packet_common(punit, packet->carried);
-  free(punit);
+  if (handle_unit_packet_common(punit, packet->carried)) {
+    free(punit);
+  }
 }
 
 /**************************************************************************
   Called to do basic handling for a unit_info or short_unit_info packet.
 **************************************************************************/
-static void handle_unit_packet_common(struct unit *packet_unit, bool carried)
+static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 {
   struct city *pcity;
   struct unit *punit;
@@ -885,13 +893,17 @@ static void handle_unit_packet_common(struct unit *packet_unit, bool carried)
   int old_x = -1, old_y = -1;	/* make compiler happy; guarded by moved */
   bool check_focus = FALSE;     /* conservative focus change */
   bool moved = FALSE;
-
+  bool ret = FALSE;
+  
   punit = player_find_unit_by_id(get_player(packet_unit->owner),
 				 packet_unit->id);
 
   if (punit) {
     int dest_x, dest_y;
+    ret = TRUE;
     punit->activity_count = packet_unit->activity_count;
+    punit->transported_by = packet_unit->transported_by;
+    punit->occupy = packet_unit->occupy;
     if (punit->ai.control != packet_unit->ai.control) {
       punit->ai.control = packet_unit->ai.control;
       repaint_unit = TRUE;
@@ -1010,7 +1022,7 @@ static void handle_unit_packet_common(struct unit *packet_unit, bool carried)
 	 * a phantom (incorrect/imaginary) unit. */
 	client_remove_unit(punit);
 	refresh_tile_mapcanvas(packet_unit->x, packet_unit->y, FALSE);
-        return;
+        return ret;
       }
 
       update_unit_focus();
@@ -1097,8 +1109,7 @@ static void handle_unit_packet_common(struct unit *packet_unit, bool carried)
     agents_unit_changed(punit);
   } else {
     /* create new unit */ 
-    punit = fc_malloc(sizeof(struct unit));
-    *punit = *packet_unit;
+    punit = packet_unit;
     idex_register_unit(punit);
 
     unit_list_insert(&get_player(punit->owner)->units, punit);
@@ -1137,7 +1148,9 @@ static void handle_unit_packet_common(struct unit *packet_unit, bool carried)
     refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
 
   if (check_focus || get_unit_in_focus() == NULL)
-    update_unit_focus(); 
+    update_unit_focus();
+  
+  return ret;
 }
 
 /**************************************************************************
@@ -1193,8 +1206,9 @@ void handle_short_unit(struct packet_short_unit *packet)
   }
 
   punit = unpackage_short_unit(packet);
-  handle_unit_packet_common(punit, packet->carried);
-  free(punit);
+  if (handle_unit_packet_common(punit, packet->carried)) {
+    free(punit);
+  }
 }
 
 /**************************************************************************

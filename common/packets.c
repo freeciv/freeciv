@@ -1278,7 +1278,8 @@ int send_packet_unit_info(struct connection *pc,
 
   dio_put_uint16(&dout, req->id);
   dio_put_uint8(&dout, req->owner);
-  pack = (COND_SET_BIT(req->carried, 3) |
+  pack = (COND_SET_BIT((req->occupy > 0), 2) |
+          COND_SET_BIT(req->carried, 3) |
 	  COND_SET_BIT(req->veteran, 4) |
 	  COND_SET_BIT(req->ai, 5) |
 	  COND_SET_BIT(req->paradropped, 6) |
@@ -1299,7 +1300,9 @@ int send_packet_unit_info(struct connection *pc,
   dio_put_uint8(&dout, req->goto_dest_x);
   dio_put_uint8(&dout, req->goto_dest_y);
   dio_put_uint16(&dout, req->activity_target);
-
+  if (req->occupy > 0) {
+    dio_put_uint8(&dout, req->occupy);
+  }
   if (req->fuel > 0)
     dio_put_uint8(&dout, req->fuel);
 
@@ -1557,7 +1560,6 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc)
   dio_get_uint16(&din, &packet->id);
   dio_get_uint8(&din, &packet->owner);
   dio_get_uint8(&din, &pack);
-
   packet->carried = TEST_BIT(pack, 3);
   packet->veteran = TEST_BIT(pack, 4);
   packet->ai = TEST_BIT(pack, 5);
@@ -1578,7 +1580,11 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc)
   dio_get_uint8(&din, &packet->goto_dest_x);
   dio_get_uint8(&din, &packet->goto_dest_y);
   dio_get_uint16(&din, (int *) &packet->activity_target);
-
+  if (TEST_BIT(pack, 2)) {
+    dio_get_uint8(&din, &packet->occupy);
+  } else {
+    packet->occupy = 0;
+  }
   if (dio_input_remaining(&din) >= 1) {
     dio_get_uint8(&din, &packet->fuel);
   } else {
@@ -1980,7 +1986,8 @@ int send_packet_short_unit(struct connection *pc,
   dio_put_uint8(&dout, req->activity);
 
   pack = (COND_SET_BIT(req->carried, 3)
-	  | COND_SET_BIT(req->veteran, 4));
+	  | COND_SET_BIT(req->veteran, 4)
+	  | COND_SET_BIT(req->occupied, 5));
   dio_put_uint8(&dout, pack);
 
   dio_put_uint8(&dout, req->packet_use);
@@ -2010,6 +2017,7 @@ struct packet_short_unit *receive_packet_short_unit(struct connection *pc)
   dio_get_uint8(&din, &pack);
   packet->carried = TEST_BIT(pack, 3);
   packet->veteran = TEST_BIT(pack, 4);
+  packet->occupied = TEST_BIT(pack, 5);
 
   dio_get_uint8(&din, &packet->packet_use);
   dio_get_uint16(&din, &packet->info_city_id);

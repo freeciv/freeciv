@@ -1473,9 +1473,9 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
       free(punit->pgr);
       punit->pgr = NULL;
     }
-
-    send_unit_info_to_onlookers(NULL, punit, punit->x, punit->y, FALSE);
-
+    
+    send_unit_info(NULL, punit);
+    
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }

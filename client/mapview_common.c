@@ -416,9 +416,9 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
 	      int unit_offset_x, int unit_offset_y,
 	      int unit_width, int unit_height)
 {
-  struct drawn_sprite sprites[40];
+  struct drawn_sprite drawn_sprites[40];
   bool solid_bg;
-  int count = fill_unit_sprite_array(sprites, punit, &solid_bg), i;
+  int count = fill_unit_sprite_array(drawn_sprites, punit, &solid_bg), i;
 
   if (!is_isometric && solid_bg) {
     gui_put_rectangle(pcanvas_store, player_color(unit_owner(punit)),
@@ -426,15 +426,21 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
   }
 
   for (i = 0; i < count; i++) {
-    if (sprites[i].sprite) {
-      int ox = sprites[i].offset_x, oy = sprites[i].offset_y;
+    if (drawn_sprites[i].sprite) {
+      int ox = drawn_sprites[i].offset_x, oy = drawn_sprites[i].offset_y;
 
       /* units are never fogged */
       gui_put_sprite(pcanvas_store, canvas_x + ox, canvas_y + oy,
-		     sprites[i].sprite,
+		     drawn_sprites[i].sprite,
 		     unit_offset_x - ox, unit_offset_y - oy,
 		     unit_width - ox, unit_height - oy);
     }
+  }
+
+  if (punit->occupy) {
+    gui_put_sprite(pcanvas_store, canvas_x, canvas_y,
+		   sprites.unit.stack,
+		   unit_offset_x, unit_offset_y, unit_width, unit_height);
   }
 }
 

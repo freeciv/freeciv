@@ -344,12 +344,14 @@ struct unit *find_visible_unit(struct tile *ptile)
      (always return first in stack). */
   unit_list_iterate(ptile->units, punit)
     if (unit_owner(punit) == game.player_ptr) {
-      if (get_transporter_capacity(punit) > 0) {
-	return punit;
-      } else if (!panyowned) {
-	panyowned = punit;
+      if (!punit->transported_by) {
+        if (get_transporter_capacity(punit) > 0) {
+	  return punit;
+        } else if (!panyowned) {
+	  panyowned = punit;
+        }
       }
-    } else if (!ptptother &&
+    } else if (!ptptother && !punit->transported_by &&
 	       player_can_see_unit(game.player_ptr, punit)) {
       if (get_transporter_capacity(punit) > 0) {
 	ptptother = punit;
@@ -1361,14 +1363,15 @@ void do_map_click(int xtile, int ytile)
     return;
   }
   
-  if(unit_list_size(&ptile->units) == 1) {
+  if (unit_list_size(&ptile->units) == 1
+      && !unit_list_get(&ptile->units, 0)->occupy) {
     struct unit *punit=unit_list_get(&ptile->units, 0);
     if(game.player_idx==punit->owner) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
 	set_unit_focus_and_select(punit);
       }
     }
-  } else if(unit_list_size(&ptile->units) >= 2) {
+  } else if(unit_list_size(&ptile->units) > 0) {
     /* The stack list is always popped up, even if it includes enemy units.
      * If the server doesn't want the player to know about them it shouldn't
      * tell him!  The previous behavior would only pop up the stack if you

@@ -71,7 +71,7 @@ void package_short_unit(struct unit *punit, struct packet_short_unit *packet,
 			int info_city_id, bool new_serial_num);
 void send_unit_info(struct player *dest, struct unit *punit);
 void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit, 
-				 int x, int y, bool carried);
+				 int x, int y, bool remove_unseen);
 void send_all_known_units(struct conn_list *dest);
 
 

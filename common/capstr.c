@@ -80,7 +80,7 @@ const char * const our_capability = our_capability_internal;
                    "+no_nation_selected +diplomacy +no_extra_tiles " \
                    "+diplomacy2 +citizens_style +root_tech auth " \
                    "+nat_ulimit +retake +goto_pack borders dip " \
-                   "+packet_short_unit"
+                   "+packet_short_unit +unit_occupied"
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -149,6 +149,9 @@ const char * const our_capability = our_capability_internal;
  *
  * "packet_short_unit" is packet sent instead of full packet_unit_info to
  * enemies, so that not all info about the unit is sent.
+ *
+ * "unit_occupied" means units occupying transporters are not sent to enemies.
+ * instead an 'occupied' flag is set for the transporter.
  */
 
 void init_our_capability(void)

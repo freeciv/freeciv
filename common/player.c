@@ -235,15 +235,14 @@ bool player_can_see_unit_at_location(struct player *pplayer,
   /* Search for units/cities that might be able to see the sub/missile */
   adjc_iterate(x, y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
+    if (pcity && pplayers_allied(city_owner(pcity), pplayer)) {
+      return TRUE;
+    }  
     unit_list_iterate(map_get_tile(x1, y1)->units, punit2) {
       if (pplayers_allied(unit_owner(punit2), pplayer)) {
 	return TRUE;
       }
     } unit_list_iterate_end;
-
-    if (pcity && pplayers_allied(city_owner(pcity), pplayer)) {
-      return TRUE;
-    }
   } adjc_iterate_end;
 
   return FALSE;
@@ -264,7 +263,7 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit)
   (a) can see the tile AND
   (b) can see the unit at the tile (i.e. unit not invisible at this tile) AND
   (c) the unit is not in an unallied city
-
+  
   TODO: the name is confusingly similar to player_can_see_unit_at_location
   But we need to rename p_c_s_u_a_t because it is really 
   is_unit_visible_to_player_at or player_ignores_unit_invisibility_at.
@@ -272,12 +271,9 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit)
 bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
                             int x, int y)
 {
-  bool see_tile = (map_get_known2(x, y, pplayer) == TILE_KNOWN);
-  bool see_unit = player_can_see_unit_at_location(pplayer, punit, x, y);
-  struct city *pcity = map_get_city(x, y);
-  bool in_city = (pcity && !pplayers_allied(unit_owner(punit), pplayer));
-  
-  return (see_tile && see_unit && !in_city);
+  return ((map_get_known2(x, y, pplayer) == TILE_KNOWN)
+         && !(map_get_city(x, y) && !pplayers_allied(unit_owner(punit), pplayer))
+         && player_can_see_unit_at_location(pplayer, punit, x, y));
 }
 
 /***************************************************************

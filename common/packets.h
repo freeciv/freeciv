@@ -327,7 +327,7 @@ struct packet_unit_info {
   enum tile_special_type activity_target;
   bool paradropped;
   bool connecting;
-
+  int occupy;
   /* in packet only, not in unit struct */
   bool carried;		/* FIXME: should not send carried units at all? */
 };
@@ -345,6 +345,7 @@ struct packet_short_unit {
   int type;
   int hp;
   int activity;
+  bool occupied;
 
   /* in packet only, not in unit struct */
   int carried;		/* FIXME: should not send carried units at all? */

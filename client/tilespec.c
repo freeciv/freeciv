@@ -2079,8 +2079,10 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
     if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
       sprs += fill_unit_sprite_array(sprs, punit, solid_bg);
       *pplayer = unit_owner(punit);
-      if (unit_list_size(&ptile->units) > 1)  
+      if (unit_list_size(&ptile->units) > 1
+	  || unit_list_get(&ptile->units, 0)->occupy) {
 	ADD_SPRITE_SIMPLE(sprites.unit.stack);
+      }
       return sprs - save_sprs;
     }
 
@@ -2234,7 +2236,8 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 	no_backdrop = (pcity != NULL);
 	sprs += fill_unit_sprite_array(sprs, punit, &dummy);
 	no_backdrop = FALSE;
-	if (unit_list_size(&ptile->units) > 1) {  
+	if (unit_list_size(&ptile->units) > 1
+	    || unit_list_get(&ptile->units, 0)->occupy) {
 	  ADD_SPRITE_SIMPLE(sprites.unit.stack);
 	}
       }

@@ -118,7 +118,6 @@ struct unit {
   int upkeep;
   int upkeep_food;
   int upkeep_gold;
-  bool foul;
   int fuel;
   int bribe_cost;
   struct unit_ai ai;
@@ -133,10 +132,12 @@ struct unit {
   int ord_map, ord_city;
   /* ord_map and ord_city are the order index of this unit in tile.units
      and city.units_supported; they are only used for save/reload */
+  bool foul;
   bool moved;
   bool paradropped;
   bool connecting;
   int transported_by;
+  int occupy; /* number of units that occupy transporter */
   struct goto_route *pgr;
 };
 

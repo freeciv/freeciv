@@ -1831,6 +1831,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->paradropped = punit->paradropped;
   packet->connecting = punit->connecting;
   packet->carried = carried;
+  packet->occupy = get_transporter_occupancy(punit);
 }
 
 /**************************************************************************
@@ -1862,7 +1863,7 @@ void package_short_unit(struct unit *punit, struct packet_short_unit *packet,
   packet->veteran = punit->veteran;
   packet->type = punit->type;
   packet->hp = punit->hp;
-
+  packet->occupied = (get_transporter_occupancy(punit) > 0);
   if (punit->activity == ACTIVITY_GOTO
       || punit->activity == ACTIVITY_EXPLORE
       || punit->activity == ACTIVITY_PATROL) {
@@ -1882,11 +1883,13 @@ void package_short_unit(struct unit *punit, struct packet_short_unit *packet,
   dest = NULL means all connections (game.game_connections)
 **************************************************************************/
 void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
-				 int x, int y, bool carried)
+				 int x, int y, bool remove_unseen)
 {
   struct packet_unit_info info;
   struct packet_short_unit sinfo;
-
+  struct packet_generic_integer packet; 
+  bool carried = punit->transported_by != -1;
+  
   if (!dest) {
     dest = &game.game_connections;
   }
@@ -1894,21 +1897,32 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   package_unit(punit, &info, carried);
   package_short_unit(punit, &sinfo, carried,
 		     UNIT_INFO_IDENTITY, FALSE, FALSE);
-
+  packet.value = punit->id;
+            
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
-    bool see_pos =
-	can_player_see_unit_at(pplayer, punit, punit->x, punit->y);
-    bool see_xy = see_pos;
-
-    if (!same_pos(x, y, punit->x, punit->y)) {
-      see_xy = can_player_see_unit_at(pplayer, punit, x, y);
-    }
+    
     if ((!pplayer && pconn->observer) 
 	|| pplayer->player_no == punit->owner) {
       send_packet_unit_info(pconn, &info);
-    } else if (see_pos || see_xy) {
-      send_packet_short_unit(pconn, &sinfo);
+    } else {
+      bool see_unit = (!carried || (carried
+                       && gives_shared_vision(unit_owner(punit), pplayer)));
+      bool see_pos = see_unit 
+	&& can_player_see_unit_at(pplayer, punit, punit->x, punit->y);
+      bool see_xy = see_pos;
+
+      if (see_unit && !same_pos(x, y, punit->x, punit->y)) {
+        see_xy = can_player_see_unit_at(pplayer, punit, x, y);
+      }
+      
+      if (see_pos || see_xy) {
+        send_packet_short_unit(pconn, &sinfo);
+      } else {
+	if (remove_unseen) {
+	  send_packet_generic_integer(pconn, PACKET_REMOVE_UNIT, &packet);
+	}
+      }
     }
   } conn_list_iterate_end;
 }
@@ -1954,10 +1968,6 @@ void send_all_known_units(struct conn_list *dest)
   conn_list_do_unbuffer(dest);
   flush_packets();
 }
-
-
-
-
 
 
 /**************************************************************************
@@ -2812,7 +2822,8 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   struct tile *psrctile = map_get_tile(src_x, src_y);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
   struct city *pcity;
-
+  struct unit *ptransporter = NULL;
+    
   CHECK_MAP_POS(dest_x, dest_y);
 
   conn_list_do_buffer(&pplayer->connections);
@@ -2881,7 +2892,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 
       unit_list_insert(&pdesttile->units, pcargo);
       check_unit_activity(pcargo);
-      send_unit_info_to_onlookers(NULL, pcargo, src_x, src_y, TRUE);
+      send_unit_info_to_onlookers(NULL, pcargo, src_x, src_y, FALSE);
       fog_area(unit_owner(pcargo), src_x, src_y, unit_type(pcargo)->vision_range);
       handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
@@ -2907,22 +2918,46 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   punit->x = dest_x;
   punit->y = dest_y;
   punit->moved = TRUE;
+  if (punit->transported_by != -1) {
+    ptransporter = find_unit_by_id(punit->transported_by);
+  }
   punit->transported_by = -1;
   punit->moves_left = MAX(0, punit->moves_left - move_cost);
   unit_list_insert(&pdesttile->units, punit);
   check_unit_activity(punit);
 
+  /*
+   * Transporter info should be send first becouse this allow us get right
+   * update_menu effect in client side.
+   */
+  
+  /*
+   * Send updated information to anyone watching that transporter was unload
+   * cargo.
+   */
+  if (ptransporter) {
+    send_unit_info(NULL, ptransporter);
+  }
+  
+  /* Send updated information to anyone watching.  If the unit moves
+   * in or out of a city we update the 'occupied' field.  Note there may
+   * be cities at both src and dest under some rulesets. */
+  send_unit_info_to_onlookers(NULL, punit, src_x, src_y, FALSE);
+    
   /* Special checks for ground units in the ocean. */
   if (!pdesttile->city
       && is_ground_unit(punit)
       && is_ocean(pdesttile->terrain)) {
-
+	
+    ptransporter = NULL;
+	
     /* Find a transporter for the unit. */
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, ptrans) {
       if (is_ground_units_transport(ptrans)
 	  && (get_transporter_occupancy(ptrans)
 	      < get_transporter_capacity(ptrans))) {
 	punit->transported_by = ptrans->id;
+	ptransporter = ptrans;
 	break;
       }
     } unit_list_iterate_end;
@@ -2938,12 +2973,25 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 			  dest_x, dest_y))) {
       set_unit_activity(punit, ACTIVITY_SENTRY);
     }
-  }
 
-  /* Send updated information to anyone watching.  If the unit moves
-   * in or out of a city we update the 'occupied' field.  Note there may
-   * be cities at both src and dest under some rulesets. */
-  send_unit_info_to_onlookers(NULL, punit, src_x, src_y, FALSE);
+    /*
+     * Transporter info should be send first becouse this allow us get right
+     * update_menu effect in client side.
+     */
+    
+    /*
+     * Send updated information to anyone watching that transporter has cargo.
+     */    
+    send_unit_info(NULL, ptransporter);
+    
+    /*
+     * Send updated information to anyone watching that unit is on transport.
+     * All players without shared vison with owner player get
+     * REMOVE_UNIT package.
+     */
+    send_unit_info_to_onlookers(NULL, punit, punit->x, punit->x, TRUE);    
+  }
+  
   if ((pcity = map_get_city(src_x, src_y))) {
     refresh_dumb_city(pcity);
   }
