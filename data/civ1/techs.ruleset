@@ -22,28 +22,21 @@ options="1.9"
 ;
 ; name          = name as seen by user 
 ; req1, req2	= advances required before researching this one
+; root_req      = advance required before acquiring this one, inherited
+;                 by all techs that require this tech in turn unless
+;                 "None" is given explicitly
 ; flags         = special flag strings (see default/techs.ruleset)
+; graphic       = icon for technology
+; graphic_alt   = alternate icon
 ; helptext	= optional help text string (set units ruleset for examples)
+; bonus_message = text seen when a player is the first to 
+;                 discover an bonus tech.
+; cost		= if tech_cost_style is set to 3, this field is read for
+;		  information on how much a tech costs
 ;
 ; Special values for req1 and req2 are "None" (first section below) 
 ; and "Never" (never available).  If only one tech is required, 
 ; it should be listed as req1.
-;
-; Following flag strings are possible
-;
-; "Bonus_Tech" = player gets extra tech if rearched first
-;               Note: currently only one tech with this flag is supported
-; "Boat_Fast" = all sea units get one extra move point
-; "Bridge"   = "Settler" unit types can build bridges over rivers
-; "Railroad" = "Settler" unit types can build rail roads
-; "Farmland" = "Settler" unit types can build farmland
-; "Fortress" = "Settler" unit types can build fortress
-; "Population_Pollution_Inc" = Increase the pollution factor created by
-;                              popultaion by one
-; "Trade_Revenue_Reduce" = When known by the player establishing a trade
-;                          route reduces the initial revenue by cumulative
-;                          factors of 2/3
-; "Airbase" = "Airbase" unit types can build Airbases (not used here)
 
 [advance_advanced_flight]
 name     = _("Advanced Flight")

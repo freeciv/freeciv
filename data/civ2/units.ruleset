@@ -66,7 +66,6 @@ veteran_move_bonus = 0, 0
 ; fuel          = number of turns air units can fly before they crash. For
 ;                 barbarians this is used as lifetime instead
 ; uk_*          = upkeep costs, these are used as base values in the game
-;		  (NOTE: gold upkeep is still not implemented)
 ; flags         = special flag strings
 ; roles         = special role strings
 ; sound_move	= optional sound effect when the unit moves

@@ -82,7 +82,6 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                 barbarians this is used as lifetime instead. If this is zero,
 ;                 the unit has unlimited fuel, despite flying.
 ; uk_*          = upkeep costs, these are used as base values in the game
-;		  (NOTE: gold upkeep is still not implemented)
 ; flags         = special flag strings
 ; roles         = special role strings
 ; sound_move	= optional sound effect when the unit moves
