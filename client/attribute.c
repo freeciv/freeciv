@@ -217,7 +217,6 @@ static bool unserialize_hash(struct hash_table *hash, void *data,
     struct attr_key *pkey = fc_malloc(sizeof(*pkey));
     void *pvalue;
     int value_length;
-    bool inserted;
     struct data_out dout;
 
     dio_get_uint32(&din, &value_length);
@@ -233,8 +232,19 @@ static bool unserialize_hash(struct hash_table *hash, void *data,
     dio_put_uint32(&dout, value_length);
     dio_get_memory(&din, ADD_TO_POINTER(pvalue, 4), value_length);
 
-    inserted = hash_insert(hash, pkey, pvalue);
-    assert(inserted);
+    if (!hash_insert(hash, pkey, pvalue)) {
+      /* There are some untraceable attribute bugs caused by the CMA that
+       * can cause this to happen.  I think the only safe thing to do is
+       * to delete all attributes.  Another symptom of the bug is the
+       * value_length (above) is set to a random value, which can also
+       * cause a bug. */
+      freelog(LOG_ERROR, _("There has been a CMA error.  "
+			   "Your CMA settings may be broken."));
+      free(pvalue);
+      free(pkey);
+      hash_delete_all_entries(hash);
+      return FALSE;
+    }
   }
   return TRUE;
 }
