@@ -1793,14 +1793,14 @@ int cma_is_city_under_agent(struct city *pcity,
 		      sizeof(struct cma_parameter), &my_parameter);
 
   if (len == 0) {
-    return 0;
+    return FALSE;
   }
   assert(len == sizeof(struct cma_parameter));
 
   if (parameter) {
     memcpy(parameter, &my_parameter, sizeof(struct cma_parameter));
   }
-  return 1;
+  return TRUE;
 }
 
 /****************************************************************************
@@ -1837,23 +1837,23 @@ int cma_are_parameter_equal(const struct cma_parameter *const p1,
 
   for (i = 0; i < NUM_STATS; i++) {
     if (p1->minimal_surplus[i] != p2->minimal_surplus[i]) {
-      return 0;
+      return FALSE;
     }
     if (p1->factor[i] != p2->factor[i]) {
-      return 0;
+      return FALSE;
     }
   }
   if (p1->require_happy != p2->require_happy) {
-    return 0;
+    return FALSE;
   }
   if (p1->factor_target != p2->factor_target) {
-    return 0;
+    return FALSE;
   }
   if (p1->happy_factor != p2->happy_factor) {
-    return 0;
+    return FALSE;
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************

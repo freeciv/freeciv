@@ -69,7 +69,7 @@ The info string should look like this:
 
 #include "meta.h"
 
-int server_is_open=0;
+int server_is_open = FALSE;
 
 #ifdef GENERATING_MAC    /* mac network globals */
 TEndpointInfo meta_info;
@@ -145,7 +145,7 @@ static int send_to_metaserver(char *desc, char *info)
   xmit.udata.buf=buffer;
 #else  
   if(sockfd<=0)
-    return 0;
+    return FALSE;
 #endif
   cptr=put_uint16(buffer+2,  PACKET_UDP_PCKT);
   cptr=put_string(cptr, desc);
@@ -157,7 +157,7 @@ static int send_to_metaserver(char *desc, char *info)
 #else
   my_writesocket(sockfd, buffer, cptr-buffer);
 #endif
-  return 1;
+  return TRUE;
 }
 
 /*************************************************************************
@@ -165,7 +165,7 @@ static int send_to_metaserver(char *desc, char *info)
 *************************************************************************/
 void server_close_udp(void)
 {
-  server_is_open=0;
+  server_is_open = FALSE;
 
 #ifdef GENERATING_MAC  /* mac networking */
   OTUnbind(meta_ep);
@@ -263,7 +263,7 @@ void server_open_udp(void)
   }
 #endif
 
-  server_is_open=1;
+  server_is_open = TRUE;
 }
 
 
@@ -281,14 +281,14 @@ int send_server_info_to_metaserver(bool do_send, bool reset_timer)
   {
     free_timer(time_since_last_send);
     time_since_last_send = NULL;
-    return 1;
+    return TRUE;
      /* use when we close the connection to a metaserver */
   }
 
   if (!do_send && time_since_last_send
       && ((int) read_timer_seconds(time_since_last_send)
 	  < METASERVER_UPDATE_INTERVAL)) {
-    return 0;
+    return FALSE;
   }
   if (!time_since_last_send) {
     time_since_last_send = new_timer(TIMER_USER, TIMER_ACTIVE);

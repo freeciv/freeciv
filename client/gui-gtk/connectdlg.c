@@ -75,10 +75,10 @@ static int update_meta_dialog(GtkWidget *meta_list)
   char errbuf[128];
 
   if(get_meta_list(meta_list, errbuf, sizeof(errbuf))!=-1)  {
-    return 1;
+    return TRUE;
   } else {
     append_output_window(errbuf);
-    return 0;
+    return FALSE;
   }
 }
 

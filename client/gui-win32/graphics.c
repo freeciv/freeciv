@@ -482,17 +482,15 @@ free_sprite(struct Sprite *s)
 /**************************************************************************
 
 **************************************************************************/
-int
-isometric_view_supported(void)
+int isometric_view_supported(void)
 {
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
 
 **************************************************************************/
-int
-overhead_view_supported(void)
+int overhead_view_supported(void)
 {
-  return 1;
+  return TRUE;
 }

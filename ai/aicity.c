@@ -87,16 +87,16 @@ int ai_city_build_peaceful_unit(struct city *pcity)
     i = best_role_unit(pcity, F_CARAVAN);
     if (i < U_LAST) {
       ai_do_build_unit(pcity, i);
-      return 1;
+      return TRUE;
     }
   } else {
     if (can_build_improvement(pcity, B_CAPITAL)) {
       pcity->currently_building=B_CAPITAL;
       pcity->is_building_unit = FALSE;
-      return 1;
+      return TRUE;
     }
   }
-  return 0;
+  return FALSE;
 }
 #endif /* UNUSED */
 

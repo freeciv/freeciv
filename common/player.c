@@ -236,23 +236,23 @@ no map visibility check here!
 int player_can_see_unit(struct player *pplayer, struct unit *punit)
 {
   if (punit->owner==pplayer->player_no)
-    return 1;
+    return TRUE;
   if (is_hiding_unit(punit)) {
     /* Search for units/cities that might be able to see the sub/missile */
     struct city *pcity;
     square_iterate(punit->x, punit->y, 1, x, y) {
       unit_list_iterate(map_get_tile(x, y)->units, punit2) {
 	if (punit2->owner == pplayer->player_no)
-	  return 1;
+	  return TRUE;
       } unit_list_iterate_end;
 
       pcity = map_get_city(x, y);
       if (pcity && pcity->owner == pplayer->player_no)
-	return 1;
+	return TRUE;
     } square_iterate_end;
-    return 0;
+    return FALSE;
   } else {
-    return 1;
+    return TRUE;
   }
 }
 

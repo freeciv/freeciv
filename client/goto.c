@@ -521,7 +521,7 @@ int goto_pop_waypoint(void)
   assert(punit && punit == get_unit_in_focus());
 
   if (waypoint_list_index == 1)
-    return 0; /* we don't have any waypoint but the start pos. */
+    return FALSE; /* we don't have any waypoint but the start pos. */
   
   new_way_x = waypoint_list[waypoint_list_index-2].x;
   new_way_y = waypoint_list[waypoint_list_index-2].y;
@@ -533,7 +533,7 @@ int goto_pop_waypoint(void)
   create_goto_map(punit, new_way_x, new_way_y, GOTO_MOVE_ANY);
   draw_line(dest_x, dest_y); /* line from next waypoint to current dest */
 
-  return 1;
+  return TRUE;
 }
 
 /********************************************************************** 

@@ -438,14 +438,14 @@ int can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
 {
   /* Can the _player_ ever build this unit? */
   if (!can_player_eventually_build_unit(city_owner(pcity), id))
-    return 0;
+    return FALSE;
 
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
   if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
-    return 0;
+    return FALSE;
 
-  return 1;
+  return TRUE;
 }
 
 

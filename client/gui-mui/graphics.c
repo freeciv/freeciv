@@ -1007,7 +1007,7 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
 ***************************************************************************/
 int isometric_view_supported(void)
 {
-  return 1;
+  return TRUE;
 }
 
 /***************************************************************************
@@ -1015,7 +1015,7 @@ int isometric_view_supported(void)
 ***************************************************************************/
 int overhead_view_supported(void)
 {
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************

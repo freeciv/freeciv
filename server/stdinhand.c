@@ -155,12 +155,12 @@ static int valid_ruleset(char *whichset, char *subdir, char **reject_message)
   if (!valid_ruleset_filename(subdir,whichset)) {
     my_snprintf(buffer, sizeof(buffer),
 	_("Invalid ruleset subdirectory, keeping old value."));
-    return 0;
+    return FALSE;
   }
 
   buffer[0] = '\0';
 
-  return 1;
+  return TRUE;
 }
 
 static int valid_techs_ruleset(char *v, char **r_m)
@@ -189,11 +189,11 @@ static int valid_max_players(int v, char **r_m)
     my_snprintf(buffer, sizeof(buffer), _("Number of players is higher "
 					  "than requested value, keeping "
 					  "old value"));
-    return 0;
+    return FALSE;
   }
 
   buffer[0] = '\0';
-  return 1;
+  return TRUE;
 }
   
 #define SETTING_IS_INT(s)     ((s)->value)
@@ -928,11 +928,11 @@ static int sset_is_changeable(int idx)
   case SSET_RULES_FLEXIBLE:
   case SSET_META:
     /* These can always be changed: */
-    return 1;
+    return TRUE;
   default:
     freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
 	    op->sclass, __FILE__, __LINE__);
-    return 0;
+    return FALSE;
   }
 }
 
@@ -1320,7 +1320,7 @@ static enum command_id command_named(const char *token, int accept_ambiguity)
 static int may_use(struct connection *caller, enum command_id cmd)
 {
   if (!caller) {
-    return 1;  /* on the console, everything is allowed */
+    return TRUE;  /* on the console, everything is allowed */
   }
   return (caller->access_level >= commands[cmd].level);
 }
@@ -1332,7 +1332,7 @@ static int may_use(struct connection *caller, enum command_id cmd)
 static int may_use_nothing(struct connection *caller)
 {
   if (!caller) {
-    return 0;  /* on the console, everything is allowed */
+    return FALSE;  /* on the console, everything is allowed */
   }
   return (caller->access_level == ALLOW_NONE);
 }
@@ -1345,7 +1345,7 @@ static int may_use_nothing(struct connection *caller)
 static int may_set_option(struct connection *caller, int option_idx)
 {
   if (!caller) {
-    return 1;  /* on the console, everything is allowed */
+    return TRUE;  /* on the console, everything is allowed */
   } else {
     int level = caller->access_level;
     return ((level == ALLOW_HACK)
@@ -1372,7 +1372,7 @@ static int may_set_option_now(struct connection *caller, int option_idx)
 static int may_view_option(struct connection *caller, int option_idx)
 {
   if (!caller) {
-    return 1;  /* on the console, everything is allowed */
+    return TRUE;  /* on the console, everything is allowed */
   } else {
     return sset_is_to_client(option_idx)
       || may_set_option(caller, option_idx);
@@ -2066,12 +2066,12 @@ static int set_cmdlevel(struct connection *caller,
 	      cmdlevel_name(ptarget->access_level),
 	      ptarget->name,
 	      cmdlevel_name(caller->access_level));
-    return 0;
+    return FALSE;
   } else {
     ptarget->access_level = level;
     notify_conn(&ptarget->self, _("Game: You now have access level '%s'."),
 		cmdlevel_name(level));
-    return 1;
+    return TRUE;
   }
 }
 
@@ -2090,11 +2090,11 @@ static int first_access_level_is_taken(void)
 {
   conn_list_iterate(game.est_connections, pconn) {
     if (pconn->access_level >= first_access_level) {
-      return 1;
+      return TRUE;
     }
   }
   conn_list_iterate_end;
-  return 0;
+  return FALSE;
 }
 
 /********************************************************************
@@ -3415,11 +3415,11 @@ static void show_connections(struct connection *caller)
 static int valid_notradesize(int value, char **reject_message)
 {
   if (value < game.fulltradesize)
-    return 1;
+    return TRUE;
 
   *reject_message = _("notradesize must be always smaller than "
 		      "fulltradesize, keeping old value.");
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -3428,17 +3428,17 @@ static int valid_notradesize(int value, char **reject_message)
 static int valid_fulltradesize(int value, char **reject_message)
 {
   if (value > game.notradesize)
-    return 1;
+    return TRUE;
 
   *reject_message = _("fulltradesize must be always bigger than "
 		      "notradesize, keeping old value.");
-  return 0;
+  return FALSE;
 }
 
 static int autotoggle(int value, char **reject_message)
 {
   if (value == 0)
-    return 1;
+    return TRUE;
 
   players_iterate(pplayer) {
     if (!pplayer->ai.control
@@ -3448,7 +3448,7 @@ static int autotoggle(int value, char **reject_message)
   } players_iterate_end;
 
   reject_message = NULL; /* we should modify this, but since we cannot fail... */
-  return 1;
+  return TRUE;
 }
 
 #ifdef HAVE_LIBREADLINE
@@ -3600,19 +3600,19 @@ static int contains_str_before_start(int start, char *cmd, int allow_fluff)
     str_itr++;
 
   if (mystrncasecmp(str_itr, cmd, cmd_len) != 0)
-    return 0;
+    return FALSE;
   str_itr += cmd_len;
 
   if (isalnum(*str_itr)) /* not a distinct word */
-    return 0;
+    return FALSE;
 
   if (!allow_fluff) {
     for (; str_itr < rl_line_buffer + start; str_itr++)
       if (isalnum(*str_itr))
-	return 0;
+	return FALSE;
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -3622,17 +3622,17 @@ static int is_command(int start)
 {
   char *str_itr;
 
-  if (contains_str_before_start(start, commands[CMD_HELP].name, 0))
-    return 1;
+  if (contains_str_before_start(start, commands[CMD_HELP].name, FALSE))
+    return TRUE;
 
   /* if there is only it is also OK */
   str_itr = rl_line_buffer;
   while (str_itr - rl_line_buffer < start) {
     if (isalnum(*str_itr))
-      return 0;
+      return FALSE;
     str_itr++;
   }
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -3679,13 +3679,13 @@ static int is_player(int start)
   int i = 0;
 
   while (player_cmd[i] != -1) {
-    if (contains_str_before_start(start, commands[player_cmd[i]].name, 0)) {
-      return 1;
+    if (contains_str_before_start(start, commands[player_cmd[i]].name, FALSE)) {
+      return TRUE;
     }
     i++;
   }
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -3693,7 +3693,7 @@ static int is_player(int start)
 **************************************************************************/
 static int is_connection(int start)
 {
-  return contains_str_before_start(start, commands[CMD_CUT].name, 0);
+  return contains_str_before_start(start, commands[CMD_CUT].name, FALSE);
 }
 
 /**************************************************************************
@@ -3701,7 +3701,7 @@ static int is_connection(int start)
 **************************************************************************/
 static int is_cmdlevel_arg2(int start)
 {
-  return (contains_str_before_start(start, commands[CMD_CMDLEVEL].name, 1)
+  return (contains_str_before_start(start, commands[CMD_CMDLEVEL].name, TRUE)
 	  && num_tokens(start) == 2);
 }
 
@@ -3710,7 +3710,7 @@ static int is_cmdlevel_arg2(int start)
 **************************************************************************/
 static int is_cmdlevel_arg1(int start)
 {
-  return contains_str_before_start(start, commands[CMD_CMDLEVEL].name, 0);
+  return contains_str_before_start(start, commands[CMD_CMDLEVEL].name, FALSE);
 }
 
 /**************************************************************************
@@ -3731,12 +3731,12 @@ static int is_server_option(int start)
   int i = 0;
 
   while (server_option_cmd[i] != -1) {
-    if (contains_str_before_start(start, commands[server_option_cmd[i]].name, 0))
-      return 1;
+    if (contains_str_before_start(start, commands[server_option_cmd[i]].name, FALSE))
+      return TRUE;
     i++;
   }
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -3744,7 +3744,7 @@ static int is_server_option(int start)
 **************************************************************************/
 static int is_rulesout(int start)
 {
-  return contains_str_before_start(start, commands[CMD_RULESOUT].name, 0);
+  return contains_str_before_start(start, commands[CMD_RULESOUT].name, FALSE);
 }
 
 /**************************************************************************
@@ -3767,17 +3767,17 @@ static int is_filename(int start)
 
   while (filename_cmd[i] != -1) {
     if (filename_cmd[i] == CMD_RULESOUT) {
-      if (contains_str_before_start(start, commands[CMD_RULESOUT].name, 1)
+      if (contains_str_before_start(start, commands[CMD_RULESOUT].name, TRUE)
 	  && num_tokens(start) == 2)
-	return 1;
+	return TRUE;
     } else {
-      if (contains_str_before_start(start, commands[filename_cmd[i]].name, 0))
-	return 1;
+      if (contains_str_before_start(start, commands[filename_cmd[i]].name, FALSE))
+	return TRUE;
     }
     i++;
   }
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -3785,7 +3785,7 @@ static int is_filename(int start)
 **************************************************************************/
 static int is_help(int start)
 {
-  return contains_str_before_start(start, commands[CMD_HELP].name, 0);
+  return contains_str_before_start(start, commands[CMD_HELP].name, FALSE);
 }
 
 /**************************************************************************
@@ -3793,7 +3793,7 @@ static int is_help(int start)
 **************************************************************************/
 static int is_list(int start)
 {
-  return contains_str_before_start(start, commands[CMD_LIST].name, 0);
+  return contains_str_before_start(start, commands[CMD_LIST].name, FALSE);
 }
 
 /**************************************************************************

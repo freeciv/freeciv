@@ -9,14 +9,14 @@ int
 isometric_view_supported(void)
 {
 	/* PORTME */
-	return 0;
+	return FALSE;
 }
 
 int
 overhead_view_supported(void)
 {
 	/* PORTME */
-	return 1;
+	return TRUE;
 }
 
 void

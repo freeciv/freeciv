@@ -84,7 +84,7 @@ static bool could_be_my_zoc(struct unit *myunit, int x0, int y0)
   adjc_iterate(x0, y0, ax, ay) {
     if (map_get_terrain(ax, ay) != T_OCEAN
 	&& is_non_allied_unit_tile(map_get_tile(ax, ay),
-				   unit_owner(myunit))) return 0;
+				   unit_owner(myunit))) return FALSE;
   } adjc_iterate_end;
   
   return TRUE;

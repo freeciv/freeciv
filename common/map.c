@@ -334,10 +334,10 @@ int is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 {
   adjc_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) == t)
-      return 1;
+      return TRUE;
   } adjc_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
@@ -362,10 +362,10 @@ int is_special_near_tile(int x, int y, enum tile_special_type spe)
 {
   adjc_iterate(x, y, x1, y1) {
     if (map_has_special(x1, y1, spe))
-      return 1;
+      return TRUE;
   } adjc_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
@@ -390,10 +390,10 @@ int is_at_coast(int x, int y)
 {
   cartesian_adjacent_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) == T_OCEAN)
-      return 1;
+      return TRUE;
   } cartesian_adjacent_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
@@ -405,10 +405,10 @@ int is_coastline(int x, int y)
     enum tile_terrain_type ter = map_get_terrain(x1, y1);
     if (ter != T_OCEAN
 	&& ter != T_UNKNOWN)
-      return 1;
+      return TRUE;
   } adjc_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
@@ -419,10 +419,10 @@ int terrain_is_clean(int x, int y)
   square_iterate(x, y, 2, x1, y1) {
     if (map_get_terrain(x1,y1) != T_GRASSLAND
 	&& map_get_terrain(x1,y1) != T_PLAINS)
-      return 0;
+      return FALSE;
   } square_iterate_end;
 
-  return 1;
+  return TRUE;
 }
 
 /***************************************************************
@@ -443,17 +443,17 @@ int is_starter_close(int x, int y, int nr, int dist)
 
   /* only start on clear terrain: */
   if (t!=T_PLAINS && t!=T_GRASSLAND && t!=T_RIVER)
-    return 1;
+    return TRUE;
   
   /* don't start on a hut: */
   if (map_has_special(x, y, S_HUT))
-    return 1;
+    return TRUE;
   
   /* don't want them starting on the poles unless the poles are
      connected to more land: */
   if (map_get_continent(x, y) <= 2 && map.generator != 0
       && map.separatepoles) {
-    return 1;
+    return TRUE;
   }
 
   /* don't start too close to someone else: */
@@ -462,10 +462,10 @@ int is_starter_close(int x, int y, int nr, int dist)
     int y1 = map.start_positions[i].y;
     if (map_get_continent(x, y) == map_get_continent(x1, y1)
 	&& real_map_distance(x, y, x1, y1) < dist) {
-      return 1;
+      return TRUE;
     }
   }
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
@@ -677,7 +677,7 @@ int is_water_adjacent_to_tile(int x, int y)
       || ptile->terrain == T_RIVER
       || BOOL_VAL(ptile->special & S_RIVER)
       || BOOL_VAL(ptile->special & S_IRRIGATION))
-    return 1;
+    return TRUE;
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
     ptile = map_get_tile(x1, y1);
@@ -685,10 +685,10 @@ int is_water_adjacent_to_tile(int x, int y)
 	|| ptile->terrain == T_RIVER
 	|| BOOL_VAL(ptile->special & S_RIVER)
 	|| BOOL_VAL(ptile->special & S_IRRIGATION))
-      return 1;
+      return TRUE;
   } cartesian_adjacent_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
@@ -915,17 +915,17 @@ int can_reclaim_ocean(int x, int y)
   int landtiles = terrain_control.ocean_reclaim_requirement;
 
   if (landtiles >= 9)
-    return 0;
+    return FALSE;
   if (landtiles <= 0)
-    return 1;
+    return TRUE;
 
   adjc_iterate(x, y, x1, y1) {
     if (map_get_tile(x1, y1)->terrain != T_OCEAN)
       if (--landtiles == 0)
-	return 1;	
+	return TRUE;	
   } adjc_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -938,17 +938,17 @@ int can_channel_land(int x, int y)
   int oceantiles = terrain_control.land_channel_requirement;
 
   if (oceantiles >= 9)
-    return 0;
+    return FALSE;
   if (oceantiles <= 0)
-    return 1;
+    return TRUE;
 
   adjc_iterate(x, y, x1, y1) {
     if (map_get_tile(x1, y1)->terrain == T_OCEAN)
       if (--oceantiles == 0)
-	return 1;
+	return TRUE;
   } adjc_iterate_end;
 
-  return 0;
+  return FALSE;
 }
 
 /***************************************************************
