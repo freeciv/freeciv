@@ -106,6 +106,9 @@ static const char *help_tlabel_name[4][5] =
     { N_("Mine Rslt/Time:"),	NULL, NULL, N_("Trans. Rslt/Time:"),	NULL }
 };
 
+/* HACK: we use a static string for convenience. */
+static char long_buffer[64000];
+
 
 static void create_help_dialog(void);
 static void help_update_dialog(const struct help_item *pitem);

@@ -83,6 +83,9 @@ static enum help {
   HELP_LAST
 } current_help_dlg = HELP_LAST;
 
+/* HACK: we use a static string for convenience. */
+static char long_buffer[64000];
+
 static int change_tech_callback(struct GUI *pWidget);
   
 /**************************************************************************

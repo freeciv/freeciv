@@ -51,7 +51,9 @@
 #define ID_HELP_IMPROVEMENT_LINK 112
 #define ID_HELP_WONDER_LINK 113
 
-extern char long_buffer[64000];
+/* HACK: we use a static string for convenience. */
+static char long_buffer[64000];
+
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
 static HWND helpdlg_win;

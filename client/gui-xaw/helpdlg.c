@@ -91,6 +91,9 @@ static Widget help_terrain_irrigation_result_time, help_terrain_irrigation_resul
 static Widget help_terrain_mining_result_time, help_terrain_mining_result_time_data;
 static Widget help_terrain_transform_result_time, help_terrain_transform_result_time_data;
 
+/* HACK: we use a static string for convenience. */
+static char long_buffer[64000];
+
 static void create_help_page(enum help_page_type type);
 
 static void help_close_command_callback(Widget w, XtPointer client_data, 

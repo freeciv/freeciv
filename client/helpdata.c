@@ -62,8 +62,6 @@ static bool help_nodes_init = FALSE;
    latter can be 0 even after call, eg if couldn't find helpdata.txt.
 */
 
-char long_buffer[64000];
-
 /****************************************************************
   Make sure help_nodes is initialised.
   Should call this just about everywhere which uses help_nodes,
@@ -183,6 +181,7 @@ void boot_help_texts(void)
   int i, isec;
   char **sec, **paras;
   int nsec, npara;
+  char long_buffer[64000]; /* HACK: this may be overrun. */
 
   check_help_nodes_init();
 
