@@ -847,15 +847,15 @@ static void consider_settler_action(struct player *pplayer,
   if (total_value > *best_value
       || (total_value == *best_value
 	  && old_tile_value > *best_old_tile_value)) {
+    *best_value = total_value;
+    *best_old_tile_value = old_tile_value;
+    *best_act = act;
+    *best_tile = ptile;
     freelog(LOG_DEBUG,
 	    "Replacing (%d, %d) = %d with %s (%d, %d) = %d [d=%d b=%d]",
 	    TILE_XY(*best_tile), *best_value, get_activity_text(act),
 	    TILE_XY(ptile), total_value,
             delay, base_value);
-    *best_value = total_value;
-    *best_old_tile_value = old_tile_value;
-    *best_act = act;
-    *best_tile = ptile;
   }
 }
 
