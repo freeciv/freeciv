@@ -1852,9 +1852,9 @@ void change_callback(GtkWidget *w, gpointer data)
 
           if (is_wonder(i))
           {
-	    state = N_("Wonder");
-            if (game.global_wonders[i])	state = N_("Built");
-            if (wonder_obsolete(i))	state = N_("Obsolete");
+	    state = _("Wonder");
+            if (game.global_wonders[i])	state = _("Built");
+            if (wonder_obsolete(i))	state = _("Obsolete");
           }
 	  my_snprintf(buf[1], sizeof(buf[1]), state);
         }
