@@ -504,44 +504,8 @@ helps to follow some simple style rules:
 - When doing a "diff" for a patch, be sure to exclude unnecessary files
   by using the "-X" argument to "diff".  E.g.:
 
-    % diff -ruN -Xno.freeciv freeciv_cvs freeciv >/tmp/fix-foo-bug-0.diff
+    % diff -ruN -Xdiff_ignore freeciv_cvs freeciv >/tmp/fix-foo-bug-0.diff
 
-  Here is a useful no.freeciv file:
-
-*~
-.#*
-*.o
-*.a
-*.deps
-*.rej
-*.orig
-*.bak
-core
-aclocal.m4
-configure
-config.log
-config.h
-config.h.in
-config.cache
-config.status
-undep.sh
-CVS
-TAGS
-Makefile
-Makefile.in
-Freeciv.h
-civclient
-civserver
-stamp-h
-stamp-h.in
-civgame.log
-civgame*.sav
-*.pot
-*.gmo
-libintl.h
-po2tbl.sed
-POTFILES
-cat-id-tbl.c
-stamp-cat-id
+  A suggested "diff_ignore" file is included in the Freeciv distribution.
 
 ===========================================================================
