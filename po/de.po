@@ -500,7 +500,7 @@ msgstr ""
 #: server/cityturn.c:764
 #, c-format
 msgid "Game: %s may soon grow to size %i."
-msgstr "Spiel: %s wächst vermutlich bald zu Größe %d."
+msgstr "Spiel: %s wächst vermutlich bald zu Größe %i."
 
 #: server/cityturn.c:784
 msgid "Game: WARNING, we're LOW on FUNDS sire."
