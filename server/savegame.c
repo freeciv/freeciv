@@ -24,6 +24,7 @@
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
+#include "government.h"
 #include "idex.h"
 #include "log.h"
 #include "map.h"
@@ -569,9 +570,9 @@ static void map_save(struct section_file *file)
 /*
  * Previously (with 1.14.1 and earlier) units had their type saved by ID.
  * This meant any time a unit was added (unless it was added at the end)
- * savegame compatability would be broken.  Sometime after 1.14.1 this
+ * savegame compatibility would be broken.  Sometime after 1.14.1 this
  * method was changed so the type is saved by name.  However to preserve
- * backwards compatability we have here a list of unit names from before
+ * backwards compatibility we have here a list of unit names from before
  * the change was made.  When loading an old savegame (one that doesn't
  * have the type string) we need to lookup the type into this array
  * to get the "proper" type string.  And when saving a new savegame we
@@ -685,6 +686,19 @@ const char* old_default_techs[] =
   "The Wheel",		"Theology",		"Theory of Gravity",
   "Trade",		"University",		"Warrior Code",
   "Writing"
+};
+
+/* old (~1.14.1) government order in default, civ1, and history rulesets */
+const char* old_default_governments[] = 
+{
+  "Anarchy", "Despotism", "Monarchy", "Communism", "Republic", "Democracy"
+};
+
+/* old (~1.14.1) government order in the civ2 ruleset */
+const char* old_civ2_governments[] =
+{
+  "Anarchy", "Despotism", "Monarchy", "Communism", "Fundamentalism",
+  "Republic", "Democracy"
 };
 
 /****************************************************************************
@@ -989,6 +1003,62 @@ static void save_technology(struct section_file *file,
   secfile_insert_str(file, name, path_with_name, plrno);
   secfile_insert_int(file, old_tech_id(tech), path, plrno);
 }
+
+/****************************************************************************
+  Nowadays governments are saved by name, but old servers need the
+  index.  This function tries to find the correct _old_ id for the
+  government. It is used when the government is saved.
+****************************************************************************/
+static int old_government_id(struct government *gov)
+{
+  const char** names;
+  int num_names, i;
+
+  if (strcmp(game.rulesetdir, "civ2") == 0) {
+    names = old_civ2_governments;
+    num_names = ARRAY_SIZE(old_civ2_governments);
+  } else {
+    names = old_default_governments;
+    num_names = ARRAY_SIZE(old_default_governments);
+  }
+
+  for (i = 0; i < num_names; i++) {
+    if (mystrcasecmp(gov->name_orig, names[i]) == 0) {
+      return i;
+    }
+  }
+
+  /* It's a new government. Savegame cannot be forward compatible so we can
+   * return anything */
+  return gov->index;
+}
+
+/****************************************************************************
+  Convert an old-style government index into a government name.
+****************************************************************************/
+static const char* old_government_name(int id)
+{
+  /* before 1.15.0 governments used to be saved by index */
+  if (id < 0) {
+    freelog(LOG_ERROR, _("Wrong government type id value (%d)"), id);
+    exit(EXIT_FAILURE);
+  }
+  /* Different rulesets had different governments. */
+  if (strcmp(game.rulesetdir, "civ2") == 0) {
+    if (id >= ARRAY_SIZE(old_civ2_governments)) {
+      freelog(LOG_ERROR, _("Wrong government type id value (%d)"), id);
+      exit(EXIT_FAILURE);
+    }
+    return old_civ2_governments[id];
+  } else {
+    if (id >= ARRAY_SIZE(old_default_governments)) {
+      freelog(LOG_ERROR, _("Wrong government type id value (%d)"), id);
+      exit(EXIT_FAILURE);
+    }
+    return old_default_governments[id];
+  }
+}
+
 
 /***************************************************************
 Load the worklist elements specified by path, given the arguments
@@ -1330,7 +1400,8 @@ static void player_load(struct player *plr, int plrno,
   const char *name;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
   struct ai_data *ai;
-  Tech_Type_id id;
+  struct government *gov;
+  int id;
 
   server_player_init(plr, TRUE);
   ai_data_init(plr);
@@ -1397,7 +1468,22 @@ static void player_load(struct player *plr, int plrno,
   if (is_barbarian(plr)) {
     plr->nation=game.nation_count-1;
   }
-  plr->government=secfile_lookup_int(file, "player%d.government", plrno);
+
+  /* government */
+  name = secfile_lookup_str_default(file, NULL, "player%d.government_name",
+                                    plrno);
+  if (!name) {
+    /* old servers used to save government by id */
+    id = secfile_lookup_int(file, "player%d.government", plrno);
+    name = old_government_name(id);
+  }
+  gov = find_government_by_name_orig(name);
+  if (gov == NULL) {
+    freelog(LOG_ERROR, _("Unsupported government found (%s)"), name);
+    exit(EXIT_FAILURE);
+  }
+  plr->government = gov->index;
+  
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
 
   p = secfile_lookup_str_default(file, NULL, "player%d.city_style_by_name",
@@ -1470,7 +1556,7 @@ static void player_load(struct player *plr, int plrno,
   plr->future_tech = secfile_lookup_int(file, "player%d.futuretech", plrno);
 
   /* We use default values for bulbs_researched_before, changed_from
-   * and got_tech to preserve backwards-compatability with save files
+   * and got_tech to preserve backwards-compatibility with save files
    * that didn't store this information. */
   plr->research.bulbs_researched=secfile_lookup_int(file, 
 					     "player%d.researched", plrno);
@@ -2083,6 +2169,7 @@ static void player_save(struct player *plr, int plrno,
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
   struct ai_data *ai = ai_data_get(plr);
+  struct government *gov;
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
@@ -2094,7 +2181,14 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_str(file, (char *) team_get_by_id(plr->team)->name, 
                        "player%d.team", plrno);
   }
-  secfile_insert_int(file, plr->government, "player%d.government", plrno);
+
+  gov = get_government(plr->government);
+  secfile_insert_str(file, gov->name_orig, "player%d.government_name", plrno);
+  /* 1.15 and later won't use "government" field; it's kept for forward 
+   * compatibility */
+  secfile_insert_int(file, old_government_id(gov),
+                     "player%d.government", plrno);
+  
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
 
   /* This field won't be used; it's kept only for forward compatibility. 
@@ -2272,7 +2366,7 @@ static void player_save(struct player *plr, int plrno,
       } do_in_native_pos_end;
     } else {
       secfile_insert_bool(file, FALSE, "player%d.u%d.go", plrno, i);
-      /* for compatility with older servers */
+      /* for compatibility with older servers */
       secfile_insert_int(file, 0, "player%d.u%d.goto_x", plrno, i);
       secfile_insert_int(file, 0, "player%d.u%d.goto_y", plrno, i);
     }

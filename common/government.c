@@ -85,19 +85,20 @@ enum government_flag_id government_flag_from_str(const char *s)
   return G_LAST_FLAG;
 }
 
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Returns TRUE iff the given government has the given flag.
+****************************************************************************/
 bool government_has_flag(const struct government *gov,
-			enum government_flag_id flag)
+			 enum government_flag_id flag)
 {
   assert(flag>=G_FIRST_FLAG && flag<G_LAST_FLAG);
   return TEST_BIT(gov->flags, flag);
 }
 
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Does a linear search of the governments to find the one that matches the
+  given (translated) name.  Returns NULL if none match.
+****************************************************************************/
 struct government *find_government_by_name(const char *name)
 {
   government_iterate(gov) {
@@ -109,9 +110,24 @@ struct government *find_government_by_name(const char *name)
   return NULL;
 }
 
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Does a linear search of the governments to find the one that matches the
+  given original (untranslated) name.  Returns NULL if none match.
+****************************************************************************/
+struct government *find_government_by_name_orig(const char *name)
+{
+  government_iterate(gov) {
+    if (mystrcasecmp(gov->name_orig, name) == 0) {
+      return gov;
+    }
+  } government_iterate_end;
+
+  return NULL;
+}
+
+/****************************************************************************
+  Return the government with the given ID.
+****************************************************************************/
 struct government *get_government(int gov)
 {
   assert(game.government_count > 0 && gov >= 0

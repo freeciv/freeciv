@@ -173,6 +173,7 @@ struct government *get_gov_pplayer(struct player *pplayer);
 struct government *get_gov_pcity(const struct city *pcity);
 
 struct government *find_government_by_name(const char *name);
+struct government *find_government_by_name_orig(const char *name);
 
 enum government_flag_id government_flag_from_str(const char *s);
 bool government_has_flag(const struct government *gov,
