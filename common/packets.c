@@ -399,35 +399,49 @@ static int pack_iter_remaining(struct pack_iter *piter)
   At the end of reading a packet, check if we read the right amount
   of data.  Prints a log message if not.
   Also check bad_string and bad_bit_string flags.
-  Unfortunately the connection struct doesn't currently allow us to
-  identify the player/connection very well...
-  Note that in the client, *pc->addr is null (static mem, never set).
+  Note that in the client, *pc->addr is null (static mem, never set),
+  and pc->player should be NULL.
 **************************************************************************/
 static void pack_iter_end(struct pack_iter *piter, struct connection *pc)
 {
   int rem;
+  char from[MAX_LEN_ADDR+MAX_LEN_NAME+128];
   
   assert(piter!=NULL && pc!=NULL);
+
+  from[0] = '\0';
+  rem = pack_iter_remaining(piter);
+
+  /* pack_iter_end is called for every packet, so avoid snprintf
+   * unless we know we will need it:
+   */
+  if (piter->bad_string || piter->bad_bit_string || rem != 0) {
+    my_snprintf(from, sizeof(from), "%s%s%s%s",
+		(*pc->addr ? " from " : ""),
+		pc->addr,
+		(pc->player ? " player " : ""),
+		(pc->player ? pc->player->name : ""));
+  }
   
   if (piter->bad_string) {
-    freelog(LOG_NORMAL, "received bad string in packet (type %d, len %d)%s%s",
-	    piter->type, piter->len, (*pc->addr ? " from " : ""), pc->addr);
+    freelog(LOG_NORMAL,
+	    "received bad string in packet (type %d, len %d)%s",
+	    piter->type, piter->len, from);
   }
   if (piter->bad_bit_string) {
     freelog(LOG_NORMAL,
-	    "received bad bit string in packet (type %d, len %d)%s%s",
-	    piter->type, piter->len, (*pc->addr ? " from " : ""), pc->addr);
+	    "received bad bit string in packet (type %d, len %d)%s",
+	    piter->type, piter->len, from);
   }
   
-  rem = pack_iter_remaining(piter);
   if (rem < 0) {
-    freelog(LOG_NORMAL, "received short packet (type %d, len %d)%s%s",
-	    piter->type, piter->len, (*pc->addr ? " from " : ""), pc->addr);
+    freelog(LOG_NORMAL, "received short packet (type %d, len %d)%s",
+	    piter->type, piter->len, from);
   } else if(rem > 0) {
     /* This may be ok, eg a packet from a newer version with extra info
      * which we should just ignore */
-    freelog(LOG_VERBOSE, "received long packet (type %d, len %d, rem %d)%s%s",
-	    piter->type, piter->len, rem, (*pc->addr ? " from " : ""), pc->addr);
+    freelog(LOG_VERBOSE, "received long packet (type %d, len %d, rem %d)%s",
+	    piter->type, piter->len, rem, from);
   }
 }
 

@@ -105,10 +105,11 @@ static int mark_nation_as_used(int nation);
 static void announce_ai_player(struct player *pplayer);
 static void reject_new_player(char *msg, struct connection *pconn);
 
-static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packet);
+static void handle_alloc_nation(struct player *pplayer,
+				struct packet_alloc_nation *packet);
 static void handle_request_join_game(struct connection *pconn, 
 				     struct packet_req_join_game *request);
-static void handle_turn_done(int player_no);
+static void handle_turn_done(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
 static void enable_fog_of_war_player(struct player *pplayer);
 static void disable_fog_of_war_player(struct player *pplayer);
@@ -1031,8 +1032,7 @@ static void handle_report_request(struct player *pplayer, enum report_type type)
 **************************************************************************/
 void handle_packet_input(struct connection *pconn, char *packet, int type)
 {
-  int i;
-  struct player *pplayer=NULL;
+  struct player *pplayer;
 
   switch(type) {
   case PACKET_REQUEST_JOIN_GAME:
@@ -1042,13 +1042,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
   }
 
-  for(i=0; i<game.nplayers; i++)
-    if(game.players[i].conn==pconn) {
-      pplayer=&game.players[i];
-      break;
-    }
+  pplayer = pconn->player;
 
-  if(i==game.nplayers) {
+  if(pplayer == NULL) {
     freelog(LOG_VERBOSE, "got game packet from unaccepted connection");
     free(packet);
     return;
@@ -1062,11 +1058,11 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   switch(type) {
     
   case PACKET_TURN_DONE:
-    handle_turn_done(i);
+    handle_turn_done(pplayer);
     break;
 
   case PACKET_ALLOC_NATION:
-    handle_alloc_nation(i, (struct packet_alloc_nation *)packet);
+    handle_alloc_nation(pplayer, (struct packet_alloc_nation *)packet);
     break;
 
   case PACKET_UNIT_INFO:
@@ -1228,7 +1224,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_unit_connect(pplayer, (struct packet_unit_connect *)packet);
     break;
   default:
-    freelog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);
+    freelog(LOG_NORMAL, "uh got an unknown packet from %s", pplayer->name);
   }
 
   free(packet);
@@ -1297,49 +1293,50 @@ static int check_for_full_turn_done(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void handle_turn_done(int player_no)
+static void handle_turn_done(struct player *pplayer)
 {
-  game.players[player_no].turn_done=1;
+  pplayer->turn_done=1;
 
   check_for_full_turn_done();
 
-  send_player_info(&game.players[player_no], 0);
+  send_player_info(pplayer, 0);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packet)
+static void handle_alloc_nation(struct player *pplayer,
+				struct packet_alloc_nation *packet)
 {
   int i, nations_used;
   struct packet_generic_values select_nation; 
 
   for(i=0; i<game.nplayers; i++)
     if(game.players[i].nation==packet->nation_no) {
-       send_select_nation(&game.players[player_no]); /* it failed - nation taken */
+       send_select_nation(pplayer); /* it failed - nation taken */
        return;
     } else /* check to see if name has been taken */
        if (!strcmp(game.players[i].name,packet->name) && 
             game.players[i].nation != MAX_NUM_NATIONS) { 
-       notify_player(&game.players[player_no],
+       notify_player(pplayer,
 		     _("Another player named '%s' has already joined the game.  "
 		       "Please choose another name."), packet->name);
-       send_select_nation(&game.players[player_no]);
+       send_select_nation(pplayer);
        return;
     }
 
-  freelog(LOG_NORMAL, _("%s is the %s ruler %s."), game.players[player_no].name, 
+  freelog(LOG_NORMAL, _("%s is the %s ruler %s."), pplayer->name, 
       get_nation_name(packet->nation_no), packet->name);
 
   /* inform player his choice was ok */
   select_nation.value2=0xffff;
-  send_packet_generic_values(game.players[player_no].conn, PACKET_SELECT_NATION, 
-                             &select_nation);
+  send_packet_generic_values(pplayer->conn, PACKET_SELECT_NATION,
+			     &select_nation);
 
-  game.players[player_no].nation=packet->nation_no;
-  sz_strlcpy(game.players[player_no].name, packet->name);
-  game.players[player_no].is_male=packet->is_male;
-  game.players[player_no].city_style=packet->city_style;
+  pplayer->nation=packet->nation_no;
+  sz_strlcpy(pplayer->name, packet->name);
+  pplayer->is_male=packet->is_male;
+  pplayer->city_style=packet->city_style;
 
   /* tell the other players, that the nation is now unavailable */
   nations_used = 0;
@@ -1535,7 +1532,8 @@ void accept_new_player(char *name, struct connection *pconn)
   pplayer->is_connected = (pconn!=NULL);
 
   if (pconn) {
-    sz_strlcpy(pplayer->addr, pconn->addr); 
+    sz_strlcpy(pplayer->addr, pconn->addr);
+    pconn->player = pplayer;
     join_game_accept(pplayer, 0);
   } else {
     freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
@@ -1664,6 +1662,7 @@ static void handle_request_join_game(struct connection *pconn,
       }
 
       pplayer->conn=pconn;
+      pconn->player = pplayer;
       pplayer->is_connected=1;
       sz_strlcpy(pplayer->addr, pconn->addr); 
       join_game_accept(pplayer, 1);
@@ -1748,16 +1747,8 @@ static void handle_request_join_game(struct connection *pconn,
 **************************************************************************/
 void lost_connection_to_player(struct connection *pconn)
 {
-  struct player *pplayer = NULL;
-  int i;
+  struct player *pplayer = pconn->player;
 
-  /* Find the player: */
-  for(i=0; i<game.nplayers; i++) {
-    if (game.players[i].conn == pconn) {
-      pplayer = &game.players[i];
-      break;
-    }
-  }
   if (pplayer == NULL) {
     /* This happens eg if the player has not yet joined properly. */
     freelog(LOG_FATAL, _("Lost connection to <unknown>."));
@@ -1770,12 +1761,12 @@ void lost_connection_to_player(struct connection *pconn)
   pplayer->is_connected = 0;
   sz_strlcpy(pplayer->addr, "---.---.---.---");
 
-  send_player_info(&game.players[i], 0);
+  send_player_info(pplayer, 0);
   notify_player(0, _("Game: Lost connection to %s."), pplayer->name);
 
   if (game.is_new_game && (server_state==PRE_GAME_STATE ||
 			   server_state==SELECT_RACES_STATE)) {
-    server_remove_player(&game.players[i]);
+    server_remove_player(pplayer);
   }
   else if (game.auto_ai_toggle && !pplayer->ai.control) {
     toggle_ai_player_direct(NULL, pplayer);

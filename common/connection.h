@@ -20,6 +20,8 @@
 
 #include "shared.h"		/* MAX_LEN_ADDR */
 
+struct player;
+
 #define MAX_LEN_PACKET   4096
 #define MAX_LEN_CAPSTR    512
 
@@ -63,7 +65,8 @@ struct connection {
   int sock, used;
   int first_packet;		/* check byte order on first packet */
   int byte_swap;		/* connection uses non-network byte order */
-  char *player; 
+  struct player *player;	/* NULL for connections not yet associated
+				   with a specific player */
   struct socket_packet_buffer buffer;
   struct socket_packet_buffer send_buffer;
   char addr[MAX_LEN_ADDR];

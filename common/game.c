@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include "city.h"
+#include "connection.h"
 #include "fcintl.h"
 #include "government.h"
 #include "idex.h"
@@ -925,6 +926,9 @@ void game_renumber_players(int plrno)
   for(i=plrno; i<game.nplayers-1; ++i) {
     game.players[i]=game.players[i+1];
     game.players[i].player_no=i;
+    if (game.players[i].conn) {
+      game.players[i].conn->player = &game.players[i];
+    }
   }
 
   if(game.player_idx>plrno) {

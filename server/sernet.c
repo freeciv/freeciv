@@ -132,6 +132,7 @@ void close_connection(struct connection *pconn)
 {
   close(pconn->sock);
   pconn->used=0;
+  pconn->player = NULL;
   pconn->access_level=ALLOW_NONE;
 }
 
