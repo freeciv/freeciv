@@ -29,7 +29,6 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap);
 int amortize(int benefit, int delay);
 void ai_manage_settler(struct player *pplayer, struct unit *punit);
 
-bool is_ok_city_spot(int x, int y); /* laughable, really. */
 void generate_minimap(void);
 void remove_city_from_minimap(int x, int y);
 void add_city_to_minimap(int x, int y);

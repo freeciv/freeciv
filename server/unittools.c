@@ -1745,6 +1745,17 @@ static void server_remove_unit(struct unit *punit)
   struct city *phomecity = find_city_by_id(punit->homecity);
   int punit_x = punit->x, punit_y = punit->y;
 
+  /* Since settlers plot in new cities in the minimap before they
+     are built, so that no two settlers head towards the same city
+     spot, we need to ensure this reservation is cleared should
+     the settler die on the way. */
+  if (unit_owner(punit)->ai.control 
+      && punit->ai.ai_role == AIUNIT_AUTO_SETTLER) {
+    if (normalize_map_pos(&punit->goto_dest_x, &punit->goto_dest_y)) {
+      remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
+    }
+  }
+
   remove_unit_sight_points(punit);
 
   if (punit->pgr) {
@@ -2388,7 +2399,7 @@ static void hut_get_city(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   
-  if (is_ok_city_spot(punit->x, punit->y)) {
+  if (city_can_be_built_here(punit->x, punit->y)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_HUT_CITY,
 		     _("Game: You found a friendly city."));
     create_city(pplayer, punit->x, punit->y,
