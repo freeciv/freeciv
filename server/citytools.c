@@ -771,12 +771,13 @@ struct city *transfer_city(struct player *ptaker,
     }
   }
 
+  give_citymap_from_player_to_player(pcity, pgiver, ptaker);
+  map_unfog_pseudo_city_area(ptaker, pcity->x, pcity->y);
+
+  /* Has to follow the unfog call above. */
   city_list_unlink(&pgiver->cities, pcity);
   pcity->owner = ptaker->player_no;
   city_list_insert(&ptaker->cities, pcity);
-
-  give_citymap_from_player_to_player(pcity, pgiver, ptaker);
-  map_unfog_city_area(pcity);
 
   /* transfer_city_units() destroys the city's units_supported
      list; we save the list so we can resolve units afterwards. */
