@@ -172,7 +172,7 @@ enum MenuID {
 
 
 /****************************************************************
-  This is response callback for a dialog with a message:
+  This is the response callback for the dialog with the message:
   Leaving a local game will end it!
 ****************************************************************/
 static void leave_local_game_response(GtkWidget* dialog, gint response)
@@ -184,6 +184,18 @@ static void leave_local_game_response(GtkWidget* dialog, gint response)
       /* It will also kill the server */
       disconnect_from_server();
     }
+  }
+}
+
+/****************************************************************
+  This is the response callback for the dialog with the message:
+  Are you sure you want to quit?
+****************************************************************/
+static void quit_client_response(GtkWidget* dialog, gint response)
+{
+  gtk_widget_destroy(dialog);
+  if (response == GTK_RESPONSE_OK) {
+    exit(EXIT_SUCCESS);
   }
 }
 
@@ -224,10 +236,11 @@ static void game_menu_callback(gpointer callback_data,
   case MENU_GAME_LEAVE:
     if (is_server_running()) {
       GtkWidget* dialog = gtk_message_dialog_new(NULL,
-                             GTK_DIALOG_DESTROY_WITH_PARENT,
+                             0,
 			     GTK_MESSAGE_WARNING,
 			     GTK_BUTTONS_OK_CANCEL,
 			     _("Leaving a local game will end it!"));
+      gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
       g_signal_connect(dialog, "response", 
                         G_CALLBACK(leave_local_game_response), NULL);
       gtk_widget_show_all(dialog);
@@ -236,7 +249,18 @@ static void game_menu_callback(gpointer callback_data,
     }
     break;
   case MENU_GAME_QUIT:
-    exit(EXIT_SUCCESS);
+    {
+      GtkWidget* dialog = gtk_message_dialog_new(NULL,
+	  0,
+	  GTK_MESSAGE_WARNING,
+	  GTK_BUTTONS_OK_CANCEL,
+	  _("Are you sure you want to quit?"));
+      gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
+      g_signal_connect(dialog, "response", 
+	  G_CALLBACK(quit_client_response), NULL);
+      gtk_widget_show_all(dialog);
+    }
+    break;
   }
 }
 
