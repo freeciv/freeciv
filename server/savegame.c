@@ -693,7 +693,7 @@ static void player_load(struct player *plr, int plrno,
     ship->fuel = (ship->components + 1)/2;
     ship->propulsion = ship->components/2;
     for(i=0; i<ship->structurals; i++) {
-      ship->structure[i] = 1;
+      ship->structure[i] = TRUE;
     }
     spaceship_calc_derived(ship);
   }
@@ -715,9 +715,18 @@ static void player_load(struct player *plr, int plrno,
       ship->habitation = secfile_lookup_int(file, "%s.habitation", prefix);
       ship->life_support = secfile_lookup_int(file, "%s.life_support", prefix);
       ship->solar_panels = secfile_lookup_int(file, "%s.solar_panels", prefix);
+
       st = secfile_lookup_str(file, "%s.structure", prefix);
-      for(i=0; i<NUM_SS_STRUCTURALS && *st != '\0'; i++, st++) {
-	ship->structure[i] = ((*st) == '1');
+      for (i = 0; i < NUM_SS_STRUCTURALS; i++) {
+	if (st[i] == '0') {
+	  ship->structure[i] = FALSE;
+	} else if (st[i] == '1') {
+	  ship->structure[i] = TRUE;
+	} else {
+	  freelog(LOG_ERROR, "invalid spaceship structure '%c' %d", st[i],
+		  st[i]);
+	  ship->structure[i] = FALSE;
+	}
       }
       if (ship->state >= SSHIP_LAUNCHED) {
 	ship->launch_year = secfile_lookup_int(file, "%s.launch_year", prefix);

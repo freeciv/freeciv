@@ -83,7 +83,7 @@ struct player_spaceship {
   int components;
   int modules;
   /* which structurals placed: (array of booleans) */
-  char structure[NUM_SS_STRUCTURALS];
+  bool structure[NUM_SS_STRUCTURALS];
   /* which components and modules placed: (may or may not be connected) */
   int fuel;
   int propulsion;

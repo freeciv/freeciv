@@ -140,7 +140,7 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
       info.travel_time = ship->travel_time;
       
       for(j=0; j<NUM_SS_STRUCTURALS; j++) {
-	info.structure[j] = ship->structure[j] + '0';
+	info.structure[j] = ship->structure[j] ? '1' : '0';
       }
       info.structure[j] = '\0';
 	  

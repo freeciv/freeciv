@@ -1507,7 +1507,15 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
   ship->travel_time  = p->travel_time;
   
   for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-    ship->structure[i] = p->structure[i]-'0';
+    if (p->structure[i] == '0') {
+      ship->structure[i] = FALSE;
+    } else if (p->structure[i] == '1') {
+      ship->structure[i] = TRUE;
+    } else {
+      freelog(LOG_ERROR, "invalid spaceship structure '%c' %d",
+	      p->structure[i], p->structure[i]);
+      ship->structure[i] = FALSE;
+    }
   }
 
   if (pplayer != game.player_ptr) {
