@@ -62,6 +62,7 @@ enum MenuID {
   MENU_ORDER_AUTO_ATTACK,
   MENU_ORDER_MINE,
   MENU_ORDER_IRRIGATE,
+  MENU_ORDER_TRANSFORM,
   MENU_ORDER_FORTRESS,
   MENU_ORDER_CITY,
   MENU_ORDER_ROAD,
@@ -141,6 +142,7 @@ struct MenuEntry order_menu_entries[]={
     { "Auto-attack         A", MENU_ORDER_AUTO_ATTACK, 0},
     { "Build City          b", MENU_ORDER_CITY, 0},
     { "Build Irrigation    i", MENU_ORDER_IRRIGATE, 0},
+    { "Transform Terrain   o", MENU_ORDER_TRANSFORM, 0},
     { "Build Fortress      F", MENU_ORDER_FORTRESS, 0},
     { "Build Mine          m", MENU_ORDER_MINE, 0},
     { "Build Road          r", MENU_ORDER_ROAD, 0},
@@ -247,7 +249,10 @@ void update_menus()
 			 (game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     if((punit=get_unit_in_focus())) {
-      char *irrtext, *mintext, *roadtext;
+      char *irrtext  ="Build Irrigation    i",
+           *mintext  ="Build Mine          m",
+	   *roadtext ="Build Road          r",
+	   *transtext="Transform terrain    ";
 
       menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO_SETTLER,
 			   (can_unit_do_auto(punit)
@@ -279,6 +284,8 @@ void update_menus()
 			   can_unit_do_activity(punit, ACTIVITY_MINE));
       menu_entry_sensitive(orders_menu, MENU_ORDER_IRRIGATE, 
 			   can_unit_do_activity(punit, ACTIVITY_IRRIGATE));
+      menu_entry_sensitive(orders_menu, MENU_ORDER_TRANSFORM, 
+			   can_unit_do_activity(punit, ACTIVITY_TRANSFORM));
       menu_entry_sensitive(orders_menu, MENU_ORDER_HOMECITY, 
 			   can_unit_change_homecity(punit));
       menu_entry_sensitive(orders_menu, MENU_ORDER_UNLOAD, 
@@ -287,25 +294,43 @@ void update_menus()
 			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
 				punit->x,punit->y));
 
-      irrtext=  "Build Irrigation    i";
-      mintext=  "Build Mine          m";
       switch(map_get_tile(punit->x, punit->y)->terrain) {
-        case T_FOREST:
-        irrtext="Change to Plains    i";
+      case T_ARCTIC:
+        transtext="Change to Tundra    o";
+	break;
+      case T_DESERT:
+        transtext="Change to Plains    o";
+        break;
+      case T_FOREST:
+        irrtext  ="Change to Plains    i";
+	transtext="Change to Grassland o";
 	break;
       case T_GRASSLAND:
-	mintext="Change to Forest    m";
+	mintext  ="Change to Forest    m";
+	transtext="Change to Hills     o";
+	break;
+      case T_HILLS:
+        transtext="Change to Plains    o";
 	break;
       case T_JUNGLE:
-	irrtext="Change to Grassland i";
-	mintext="Change to Forest    m";
+	irrtext  ="Change to Grassland i";
+	mintext  ="Change to Forest    m";
+	transtext="Change to Plains    o";
+	break;
+      case T_MOUNTAINS:
+        transtext="Change to Hills     o";
 	break;
       case T_PLAINS:
-	mintext="Change to Forest    m";
+	mintext  ="Change to Forest    m";
+	transtext="Change to Grassland o";
 	break;
       case T_SWAMP:
-	irrtext="Change to Grassland i";
-	mintext="Change to Forest    m";
+	irrtext  ="Change to Grassland i";
+	mintext  ="Change to Forest    m";
+	transtext="Change to Plains    o";
+	break;
+      case T_TUNDRA:
+        transtext="Change to Desert    o";
 	break;
       default:
 	break;
@@ -313,6 +338,7 @@ void update_menus()
     
       menu_entry_rename(orders_menu, MENU_ORDER_IRRIGATE, irrtext);
       menu_entry_rename(orders_menu, MENU_ORDER_MINE, mintext);
+      menu_entry_rename(orders_menu, MENU_ORDER_TRANSFORM, transtext);
     
       if (map_get_tile(punit->x,punit->y)->special&S_ROAD) {
 	roadtext="Build Railroad      r";
@@ -414,6 +440,10 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
    case MENU_ORDER_MINE:
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_MINE);
+    break;
+   case MENU_ORDER_TRANSFORM:
+    if(get_unit_in_focus())
+      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_TRANSFORM);
     break;
    case MENU_ORDER_ROAD:
     if(get_unit_in_focus())

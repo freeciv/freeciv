@@ -207,6 +207,7 @@ XtActionsRec Actions[] = {
   { "key-unit-irrigate", key_unit_irrigate },
   { "key-unit-road", key_unit_road },
   { "key-unit-mine", key_unit_mine },
+  { "key-unit-transform", key_unit_transform },
   { "key-unit-homecity", key_unit_homecity },
   { "key-unit-clean-pollution", key_unit_clean_pollution },
   { "key-unit-auto", key_unit_auto },

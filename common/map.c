@@ -26,18 +26,30 @@ struct civ_map map;
 
 struct tile_type tile_types[T_LAST]= 
 {
-  {"Arctic", "Seals",   0,0,0, 2,0,0, 2, 10, 3, T_LAST,0,      T_LAST,0},
-  {"Desert", "Oasis",   0,1,0, 3,1,0, 1, 10, 1, T_DESERT,5,    T_DESERT,5},
-  {"Forest", "Game" ,   1,2,0, 3,2,0, 2, 15, 3, T_PLAINS,5,    T_LAST,0},
-  {"Grassland", "Resources", 2,0,0, 2,1,0, 1, 10, 1, T_GRASSLAND,5, T_FOREST,10},
-  {"Hills", "Coals",    1,0,0, 1,2,0, 2, 20, 3, T_HILLS,10,    T_HILLS,10},
-  {"Jungle", "Gems",    1,0,0, 1,0,4, 2, 15, 3, T_GRASSLAND,15,T_FOREST,15},
-  {"Mountains","Gold",  0,1,0, 0,1,5, 3, 30, 5, T_LAST,0,      T_MOUNTAINS,10},
-  {"Ocean", "Fish",     1,0,2, 3,0,2, 1, 10, 0, T_LAST,0,      T_LAST,0},
-  {"Plains", "Horses",  1,1,0, 3,1,0, 1, 10, 1, T_PLAINS,5,    T_FOREST,15},
-  {"River", "Resources",2,0,1, 2,1,1, 1, 15, 1, T_RIVER,5,     T_LAST,0},
-  {"Swamp", "Oil",      1,0,0, 1,4,0, 2, 15, 3, T_GRASSLAND,15,T_FOREST,15},
-  {"Tundra", "Game",    1,0,0, 3,0,0, 1, 10, 1, T_LAST,0,      T_LAST,0 }
+  {"Arctic", "Seals",   0,0,0, 2,0,0, 2, 10, 3,
+    T_LAST,0,      T_LAST,0,	T_TUNDRA,24},
+  {"Desert", "Oasis",   0,1,0, 3,1,0, 1, 10, 1,
+    T_DESERT,5,    T_DESERT,5,	T_PLAINS,24},
+  {"Forest", "Game" ,   1,2,0, 3,2,0, 2, 15, 3,
+    T_PLAINS,5,    T_LAST,0,	T_GRASSLAND,24},
+  {"Grassland", "Resources", 2,0,0, 2,1,0, 1, 10, 1,
+    T_GRASSLAND,5, T_FOREST,10,	T_HILLS,24},
+  {"Hills", "Coals",    1,0,0, 1,2,0, 2, 20, 3,
+    T_HILLS,10,    T_HILLS,10,	T_PLAINS,24},
+  {"Jungle", "Gems",    1,0,0, 1,0,4, 2, 15, 3,
+    T_GRASSLAND,15,T_FOREST,15,	T_PLAINS,24},
+  {"Mountains","Gold",  0,1,0, 0,1,5, 3, 30, 5,
+    T_LAST,0,      T_MOUNTAINS,10,	T_HILLS,24},
+  {"Ocean", "Fish",     1,0,2, 3,0,2, 1, 10, 0,
+    T_LAST,0,      T_LAST,0,	T_LAST,0},
+  {"Plains", "Horses",  1,1,0, 3,1,0, 1, 10, 1,
+    T_PLAINS,5,    T_FOREST,15,	T_GRASSLAND,24},
+  {"River", "Resources",2,0,1, 2,1,1, 1, 15, 1,
+    T_RIVER,5,     T_LAST,0,	T_LAST,0},
+  {"Swamp", "Oil",      1,0,0, 1,4,0, 2, 15, 3,
+    T_GRASSLAND,15,T_FOREST,15,	T_PLAINS,24},
+  {"Tundra", "Game",    1,0,0, 3,0,0, 1, 10, 1,
+    T_LAST,0,      T_LAST,0,	T_DESERT,24}
 };
 
 struct isledata islands[100];
@@ -338,6 +350,13 @@ int map_build_mine_time(int x, int y)
   return tile_types[map_get_terrain(x, y)].mining_time;
 }
 
+/***************************************************************
+...
+***************************************************************/
+int map_transform_time(int x, int y)
+{
+  return tile_types[map_get_terrain(x, y)].transform_time;
+}
 
 /***************************************************************
 ...
@@ -378,6 +397,31 @@ void map_mine_tile(int x, int y)
     reset_move_costs(x, y);
   }
   map_clear_special(x,y, S_IRRIGATION);
+}
+
+/***************************************************************
+...
+***************************************************************/
+void map_transform_tile (int x, int y)
+{
+  enum tile_terrain_type now, result;
+  
+  now = map_get_terrain (x, y);
+  result = tile_types[now].transform_result;
+  
+  if (result != T_LAST) {
+    map_set_terrain (x, y, result);
+    reset_move_costs (x, y);
+  }
+
+  /* Clear mining/irrigation if resulting terrain type cannot support
+     that feature.  (With current rules, this should only clear mines,
+     but I'm including both cases in the most general form for possible
+     future ruleset expansion. -GJW) */
+  if (tile_types[result].mining_result != result)
+    map_clear_special (x, y, S_MINE);
+  if (tile_types[result].irrigation_result != result)
+    map_clear_special (x, y, S_IRRIGATION);
 }
 
 void reset_move_costs(int x, int y)

@@ -75,6 +75,9 @@ struct tile_type {
 
   enum tile_terrain_type mining_result;
   int mining_time;
+
+  enum tile_terrain_type transform_result;
+  int transform_time;
 };
 
 struct civ_map { 
@@ -157,6 +160,7 @@ int same_pos(int x1, int y1, int x2, int y2);
 
 void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);
+void map_transform_tile(int x, int y);
 
 extern struct civ_map map;
 extern struct isledata islands[100];
@@ -164,6 +168,7 @@ extern struct isledata islands[100];
 int map_build_road_time(int x, int y);
 int map_build_irrigation_time(int x, int y);
 int map_build_mine_time(int x, int y);
+int map_transform_time(int x, int y);
 
 
 #define MAP_DEFAULT_MOUNTAINS    40

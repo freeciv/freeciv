@@ -78,7 +78,7 @@ enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE, 
   ACTIVITY_IRRIGATE, ACTIVITY_FORTIFY, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
   ACTIVITY_RAILROAD, ACTIVITY_PILLAGE, ACTIVITY_GOTO, ACTIVITY_EXPLORE,
-  ACTIVITY_UNKNOWN
+  ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN
 };
 
 enum unit_move_type {
@@ -156,6 +156,7 @@ enum unit_flag_id {
   F_TRIREME,          /* Trireme sinking effect */
   F_NUCLEAR,          /* Nuclear attack effect */
   F_SPY,              /* Enhanced spy abilities */
+  F_TRANSFORM,        /* Can transform terrain types (Engineers) */
   F_LAST
 };
 

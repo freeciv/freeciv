@@ -528,6 +528,15 @@ void key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc)
 /**************************************************************************
 ...
 **************************************************************************/
+void key_unit_transform(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(get_unit_in_focus())
+      request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(get_unit_in_focus()) {

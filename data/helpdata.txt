@@ -360,6 +360,7 @@ Keyboard:
   i: (I)rrigate tile
   l: Go/air(l)ift to city
   m: (M)ine tile
+  o: terrain transform
   p: clean (p)ollution
   P: (P)illage tile
   r: Build (r)oad/railroad

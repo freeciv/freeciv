@@ -1696,6 +1696,7 @@ Now.. Go give'em hell!",
    <Key>p:            key-unit-clean-pollution() \\n\
    <Key>a:            key-unit-auto()       \\n\
    <Key>u:            key-unit-unload()     \\n\
+   <Key>o:            key-unit-transform()  \\n\
    <Key>l:            key-goto-dialog()     \\n\
    <Key>t:            key-city-workers()",
 "Freeciv*overviewcanvas.translations:\

@@ -1189,8 +1189,10 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     if (total_activity (punit->x, punit->y, ACTIVITY_POLLUTION) >= 3) {
       map_clear_special(punit->x, punit->y, S_POLLUTION);
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_POLLUTION)
+        if (punit2->activity == ACTIVITY_POLLUTION) {
           set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
       unit_list_iterate_end;
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
     }
@@ -1200,8 +1202,10 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     if (total_activity (punit->x, punit->y, ACTIVITY_FORTRESS) >= 3) {
       map_set_special(punit->x, punit->y, S_FORTRESS);
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_FORTRESS)
+        if (punit2->activity == ACTIVITY_FORTRESS) {
           set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
       unit_list_iterate_end;
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
     }
@@ -1212,8 +1216,10 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
         map_build_irrigation_time(punit->x, punit->y)) {
       map_irrigate_tile(punit->x, punit->y);
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_IRRIGATE)
+        if (punit2->activity == ACTIVITY_IRRIGATE) {
           set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
       unit_list_iterate_end;
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
     }
@@ -1224,8 +1230,10 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
         map_build_road_time(punit->x, punit->y)) {
       map_set_special(punit->x, punit->y, S_ROAD);
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_ROAD) 
+        if (punit2->activity == ACTIVITY_ROAD) {
           set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
       unit_list_iterate_end;
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
     }
@@ -1235,8 +1243,10 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     if (total_activity (punit->x, punit->y, ACTIVITY_RAILROAD) >= 3) {
       map_set_special(punit->x, punit->y, S_RAILROAD);
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_RAILROAD)
+        if (punit2->activity == ACTIVITY_RAILROAD) {
           set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
       unit_list_iterate_end;
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
     }
@@ -1247,10 +1257,26 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
         map_build_mine_time(punit->x, punit->y)) {
       map_mine_tile(punit->x, punit->y);
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_MINE)
+        if (punit2->activity == ACTIVITY_MINE) {
           set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
       unit_list_iterate_end;
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
+  }
+
+  if(punit->activity==ACTIVITY_TRANSFORM) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_TRANSFORM) >=
+        map_transform_time(punit->x, punit->y)) {
+      map_transform_tile(punit->x, punit->y);
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if (punit2->activity == ACTIVITY_TRANSFORM) {
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
+      unit_list_iterate_end;
     }
   }
 

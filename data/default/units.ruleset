@@ -173,13 +173,13 @@ u2={ "name","graphics","move_type","build_cost","attack_strength","defense_stren
 ; These following can be changed, but the meaning vs order is
 ; hardwired in the order in common/unit.h:
 
-flag_names="Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier", "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS", "Fighter", "Marines", "Submarine", "Settlers", "Diplomat", "Trireme", "Nuclear", "Spy"
+flag_names="Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier", "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS", "Fighter", "Marines", "Submarine", "Settlers", "Diplomat", "Trireme", "Nuclear", "Spy", "Transform"
 
 ; Third table data:
 u3={ "name", "flags"
 
 "Settlers",        "Settlers", "NonMil"
-"Engineers",       "Settlers", "NonMil"
+"Engineers",       "Settlers", "NonMil", "Transform"
 "Warriors",        ""
 "Phalanx",         ""
 "Archers",         ""

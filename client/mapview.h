@@ -56,6 +56,7 @@ extern int RAIL_TILES;
 #define X_TILE           10*20+19
 
 #define SPECIAL_TILES    11*20
+#define O_TILE           11*20+12
 #define S_TILE           11*20+13
 #define G_TILE           11*20+14
 #define M_TILE           11*20+15

@@ -930,6 +930,8 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
      case ACTIVITY_GOTO:
       tileno=G_TILE;
       break;
+     case ACTIVITY_TRANSFORM:
+      tileno=O_TILE;
      default:
       break;
     }

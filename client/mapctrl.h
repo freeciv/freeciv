@@ -59,7 +59,7 @@ void key_unit_auto(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void key_unit_terraform(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void key_unit_transform(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_north(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_north_east(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_east(Widget w, XEvent *event, String *argv, Cardinal *argc);

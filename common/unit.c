@@ -691,6 +691,10 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 	    (ptile->special&S_IRRIGATION) || (ptile->special&S_MINE)) &&
 	   !is_unit_activity_on_tile(ACTIVITY_PILLAGE, punit->x, punit->y);
 
+  case ACTIVITY_TRANSFORM:
+    return (ptile->terrain != T_OCEAN) && (ptile->terrain != T_RIVER) &&
+	   unit_flag(punit->type, F_TRANSFORM);
+
   default:
     freelog(LOG_NORMAL,"Unknown activity %d\n",activity);
     return 0;
@@ -777,6 +781,8 @@ char *unit_activity_text(struct unit *punit)
     return "Mine";
     case ACTIVITY_IRRIGATE:
     return "Irrigation";
+   case ACTIVITY_TRANSFORM:
+    return "Transform";
    case ACTIVITY_FORTIFY:
     return "Fortify";
    case ACTIVITY_FORTRESS:
