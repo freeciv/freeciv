@@ -321,6 +321,8 @@ static void try_update_effects(bool need_update)
 **************************************************************************/
 void handle_game_state(struct packet_generic_integer *packet)
 {
+  bool changed = (get_client_state() != packet->value);
+
   if (get_client_state() == CLIENT_SELECT_RACE_STATE
       && packet->value == CLIENT_GAME_RUNNING_STATE
       && game.player_ptr->nation == NO_NATION_SELECTED) {
@@ -352,6 +354,10 @@ void handle_game_state(struct packet_generic_integer *packet)
     update_info_label();
     update_unit_focus();
     update_unit_info_label(NULL); 
+  }
+
+  if (changed && can_client_change_view()) {
+    update_map_canvas_visible();
   }
 }
 
