@@ -26,9 +26,6 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender);
 
 
 /* move check related */
-int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
-int zoc_ok_move(struct unit *punit,int x, int y);
-int unit_really_ignores_zoc(struct unit *punit);
 int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc);
 
 

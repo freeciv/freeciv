@@ -1121,19 +1121,176 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid)
 
   Note this function only makes sense for ground units.
 **************************************************************************/
-int is_my_zoc(struct unit *myunit, int x0, int y0)
+int is_my_zoc(int player_id_of_unit_owner, int x0, int y0)
 {
-  int owner=myunit->owner;
-
-  assert(is_ground_unit(myunit));
-     
   square_iterate(x0, y0, 1, x1, y1) {
-    if ((map_get_terrain(x1, y1)!=T_OCEAN)
-	&& is_non_allied_unit_tile(map_get_tile(x1, y1), owner))
+    if ((map_get_terrain(x1, y1) != T_OCEAN)
+	&& is_non_allied_unit_tile(map_get_tile(x1, y1),
+				   player_id_of_unit_owner))
       return 0;
   } square_iterate_end;
 
   return 1;
+}
+
+/**************************************************************************
+  Takes into account unit move_type as well as IGZOC
+**************************************************************************/
+int unit_type_really_ignores_zoc(Unit_Type_id type)
+{
+  return (!is_ground_unittype(type)) || (unit_flag(type, F_IGZOC));
+}
+
+/**************************************************************************
+  Returns whether the unit is allowed (by ZOC) to move from (src_x,src_y)
+  to (dest_x,dest_y) (assumed adjacent).
+  You CAN move if:
+  1. You have units there already
+  2. Your unit isn't a ground unit
+  3. Your unit ignores ZOC (diplomat, freight, etc.)
+  4. You're moving from or to a city
+  5. You're moving from an ocean square (from a boat)
+  6. The spot you're moving from or to is in your ZOC
+**************************************************************************/
+int can_step_taken_wrt_to_zoc(Unit_Type_id type,
+			      int player_id_of_unit_owner, int src_x,
+			      int src_y, int dest_x, int dest_y)
+{
+  if (unit_type_really_ignores_zoc(type))
+    return 1;
+  if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), player_id_of_unit_owner))
+    return 1;
+  if (map_get_city(src_x, src_y) || map_get_city(dest_x, dest_y))
+    return 1;
+  if (map_get_terrain(src_x, src_y) == T_OCEAN ||
+      map_get_terrain(dest_x, dest_y) == T_OCEAN)
+    return 1;
+  return (is_my_zoc(player_id_of_unit_owner, src_x, src_y) ||
+	  is_my_zoc(player_id_of_unit_owner, dest_x, dest_y));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
+{
+  return can_step_taken_wrt_to_zoc(punit->type, punit->owner, x1, y1, x2,
+				   y2);
+}
+
+/**************************************************************************
+  Convenience wrapper for zoc_ok_move_gen(), using the unit's (x,y)
+  as the starting point.
+**************************************************************************/
+int zoc_ok_move(struct unit *punit, int x, int y)
+{
+  return zoc_ok_move_gen(punit, punit->x, punit->y, x, y);
+}
+
+/**************************************************************************
+  unit can be moved if:
+  1) the unit is idle or on goto or connecting.
+  2) the target location is on the map
+  3) the target location is next to the unit
+  4) there are no non-allied units on the target tile
+  5) a ground unit can only move to ocean squares if there
+     is a transporter with free capacity
+  6) marines are the only units that can attack from a ocean square
+  7) naval units can only be moved to ocean squares or city squares
+  8) there are no peaceful but un-allied units on the target tile
+  9) there is not a peaceful but un-allied city on the target tile
+  10) there is no non-allied unit blocking (zoc) [or igzoc is true]
+**************************************************************************/
+int can_unit_move_to_tile_with_reason(Unit_Type_id type,
+				      int player_id_of_unit_owner,
+				      enum unit_activity activity,
+				      int connecting, int src_x, int src_y,
+				      int dest_x, int dest_y, int igzoc,
+				      enum move_reason *reason)
+{
+  struct tile *pfromtile, *ptotile;
+  int zoc;
+  struct city *pcity;
+
+  /* To allow people to pass us NULL if they don't need the reason argument. */
+  enum move_reason dummy;
+  if (!reason) {
+    reason = &dummy;
+  }
+
+  /* 1) */
+  if (activity != ACTIVITY_IDLE
+      && activity != ACTIVITY_GOTO
+      && activity != ACTIVITY_PATROL && !connecting) {
+    return 0;
+  }
+
+  /* 2) */
+  if (!normalize_map_pos(&dest_x, &dest_y)) {
+    return 0;
+  }
+
+  /* 3) */
+  if (!is_tiles_adjacent(src_x, src_y, dest_x, dest_y)) {
+    return 0;
+  }
+
+  pfromtile = map_get_tile(src_x, src_y);
+  ptotile = map_get_tile(dest_x, dest_y);
+
+  /* 4) */
+  if (is_non_allied_unit_tile(ptotile, player_id_of_unit_owner)) {
+    return 0;
+  }
+
+  if (unit_types[type].move_type == LAND_MOVING) {
+    /* 5) */
+    if (ptotile->terrain == T_OCEAN &&
+	ground_unit_transporter_capacity(dest_x, dest_y,
+					 player_id_of_unit_owner) <= 0) {
+      return 0;
+    }
+
+    /* Moving from ocean */
+    if (pfromtile->terrain == T_OCEAN) {
+      /* 6) */
+      if (!unit_flag(type, F_MARINES)
+	  && is_enemy_city_tile(ptotile, player_id_of_unit_owner)) {
+	*reason = MR_INVALID_TYPE_FOR_CITY_TAKE_OVER;
+	return 0;
+      }
+    }
+  } else if (unit_types[type].move_type == SEA_MOVING) {
+    /* 7) */
+    if (ptotile->terrain != T_OCEAN
+	&& ptotile->terrain != T_UNKNOWN
+	&& !is_allied_city_tile(ptotile, player_id_of_unit_owner)) {
+	  return 0;
+    }
+  }
+
+  /* 8) */
+  if (is_non_attack_unit_tile(ptotile, player_id_of_unit_owner)) {
+    *reason = MR_NO_WAR;
+    return 0;
+  }
+
+  /* 9) */
+  pcity = ptotile->city;
+  if (pcity && players_non_attack(pcity->owner, player_id_of_unit_owner)) {
+    *reason = MR_NO_WAR;
+    return 0;
+  }
+
+  /* 10) */
+  zoc = igzoc
+      || can_step_taken_wrt_to_zoc(type, player_id_of_unit_owner, src_x,
+				   src_y, dest_x, dest_y);
+  if (!zoc) {
+    *reason = MR_ZOC;
+  }
+
+  return zoc;
 }
 
 /*

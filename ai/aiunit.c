@@ -92,21 +92,6 @@ static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
 }
 
 /**************************************************************************
-  unit can be moved if:
-  1) the unit is idle or on goto or connecting.
-  2) the target location is on the map
-  3) the target location is next to the unit
-  4) there are no non-allied units on the target tile
-  5) a ground unit can only move to ocean squares if there
-     is a transporter with free capacity
-  6) marines are the only units that can attack from a ocean square
-  7) naval units can only be moved to ocean squares or city squares
-  8) there are no peaceful but un-allied units on the target tile
-  9) there is not a peaceful but un-allied city on the target tile
-  10) there is no non-allied unit blocking (zoc)
-
-  this WAS can_unit_move_to_tile with the notifys removed -- Syela 
-  but is now a little more complicated to allow non-adjacent tiles
   returns:
     0 if can't move
     1 if zoc_ok
@@ -115,71 +100,22 @@ static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
 int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
 			    int dest_x, int dest_y)
 {
-  struct tile *pfromtile,*ptotile;
-  struct city *pcity;
+  enum move_reason reason;
+  int result;
 
-  /* 1) */
-  if (punit->activity!=ACTIVITY_IDLE
-      && punit->activity!=ACTIVITY_GOTO
-      && punit->activity!=ACTIVITY_PATROL
-      && !punit->connecting)
-    return 0;
-
-  /* 2) */
-  if (!normalize_map_pos(&dest_x, &dest_y))
-    return 0;
-
-  /* 3) */
-  if (!is_tiles_adjacent(src_x, src_y, dest_x, dest_y))
-    return 0;
-
-  pfromtile = map_get_tile(src_x, src_y);
-  ptotile = map_get_tile(dest_x, dest_y);
-
-  /* 4) */
-  if (is_non_allied_unit_tile(ptotile, punit->owner))
-    return 0;
-
-  if (is_ground_unit(punit)) {
-    /* 5) */
-    if (ptotile->terrain==T_OCEAN &&
-	ground_unit_transporter_capacity(dest_x, dest_y, punit->owner) <= 0)
-      return 0;
-
-    /* Moving from ocean */
-    if (pfromtile->terrain==T_OCEAN) {
-      /* 6) */
-      if (!unit_flag(punit->type, F_MARINES)
-	  && is_enemy_city_tile(ptotile, punit->owner)) {
-	return 0;
-      }
-    }
-  } else if (is_sailing_unit(punit)) {
-    /* 7) */
-    if (ptotile->terrain!=T_OCEAN
-	&& ptotile->terrain!=T_UNKNOWN
-	&& !is_allied_city_tile(ptotile, punit->owner))
-      return 0;
-  } 
-
-  /* 8) */
-  if (is_non_attack_unit_tile(ptotile, punit->owner)) {
-    return 0;
-  }
-
-  /* 9) */
-  pcity = ptotile->city;
-  if (pcity && players_non_attack(pcity->owner, punit->owner)) {
-    return 0;
-  }
-
-  /* 10) */
-  if (zoc_ok_move_gen(punit, src_x, src_y, dest_x, dest_y))
+  result =
+      can_unit_move_to_tile_with_reason(punit->type, punit->owner,
+					punit->activity, punit->connecting,
+					punit->x, punit->y, dest_x, dest_y,
+					0, &reason);
+  if (result)
     return 1;
-  else if (could_be_my_zoc(punit, src_x, src_y))
-    return -1;	/* flag value  */
-  else
-    return 0;
+
+  if (reason == MR_ZOC) {
+    if (could_be_my_zoc(punit, src_x, src_y))
+      return -1;
+  }
+  return 0;
 }
 
 /********************************************************************** 
@@ -229,12 +165,14 @@ static int unit_move_turns(struct unit *punit, int x, int y)
 **************************************************************************/
 static int tile_is_accessible(struct unit *punit, int x, int y)
 {
-  if (unit_really_ignores_zoc(punit))  return 1;
-  if (is_my_zoc(punit, x, y))          return 1;
+  if (unit_type_really_ignores_zoc(punit->type))
+    return 1;
+  if (is_my_zoc(punit->owner, x, y))
+    return 1;
 
   adjc_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) != T_OCEAN
-	&& is_my_zoc(punit, x1, y1))
+	&& is_my_zoc(punit->owner, x1, y1))
       return 1;
   } adjc_iterate_end;
 
@@ -809,7 +747,7 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
     if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && t != T_OCEAN) { /* accessible beachhead */
       for (l = 0; l < 8 && !ok; l++) {
         if (map_get_terrain(x1 + DIR_DX[l], y1 + DIR_DY[l]) == T_OCEAN) {
-          if (is_my_zoc(punit, x1 + DIR_DX[l], y1 + DIR_DY[l])) ok++;
+          if (is_my_zoc(punit->owner, x1 + DIR_DX[l], y1 + DIR_DY[l])) ok++;
         }
       }
       if (ok) { /* accessible beachhead with zoc-ok water tile nearby */

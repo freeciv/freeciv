@@ -217,164 +217,6 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
     maybe_make_veteran(defender);
 }
 
-
-
-
-
-
-/**************************************************************************
-  Returns whether the unit is allowed (by ZOC) to move from (x1,y1)
-  to (x2,y2) (assumed adjacent).
-  You CAN move if:
-  1. You have units there already
-  2. Your unit isn't a ground unit
-  3. Your unit ignores ZOC (diplomat, freight, etc.)
-  4. You're moving from or to a city
-  5. You're moving from an ocean square (from a boat)
-  6. The spot you're moving from or to is in your ZOC
-**************************************************************************/
-int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
-{
-  struct tile *ptotile = map_get_tile(x2, y2);
-  struct tile *pfromtile = map_get_tile(x1, y1);
-  if (unit_really_ignores_zoc(punit))  /* !ground_unit or IGZOC */
-    return 1;
-  if (is_allied_unit_tile(ptotile, punit->owner))
-    return 1;
-  if (pfromtile->city || ptotile->city)
-    return 1;
-  if (map_get_terrain(x1,y1)==T_OCEAN)
-    return 1;
-  return (is_my_zoc(punit, x1, y1) || is_my_zoc(punit, x2, y2)); 
-}
-
-/**************************************************************************
-  Convenience wrapper for zoc_ok_move_gen(), using the unit's (x,y)
-  as the starting point.
-**************************************************************************/
-int zoc_ok_move(struct unit *punit, int x, int y)
-{
-  return zoc_ok_move_gen(punit, punit->x, punit->y, x, y);
-}
-
-
-/**************************************************************************
-  Takes into account unit move_type as well as IGZOC
-**************************************************************************/
-int unit_really_ignores_zoc(struct unit *punit)
-{
-  return (!is_ground_unit(punit)) || (unit_flag(punit->type, F_IGZOC));
-}
-
-/**************************************************************************
-  unit can be moved if:
-  1) the unit is idle or on goto or connecting.
-  2) the target location is on the map
-  3) the target location is next to the unit
-  4) there are no non-allied units on the target tile
-  5) a ground unit can only move to ocean squares if there
-     is a transporter with free capacity
-  6) marines are the only units that can attack from a ocean square
-  7) naval units can only be moved to ocean squares or city squares
-  8) there are no peaceful but un-allied units on the target tile
-  9) there is not a peaceful but un-allied city on the target tile
-  10) there is no non-allied unit blocking (zoc) [or igzoc is true]
-**************************************************************************/
-int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc)
-{
-  struct tile *pfromtile,*ptotile;
-  int zoc;
-  struct city *pcity;
-  int src_x = punit->x;
-  int src_y = punit->y;
-
-  /* 1) */
-  if (punit->activity!=ACTIVITY_IDLE
-      && punit->activity!=ACTIVITY_GOTO
-      && punit->activity!=ACTIVITY_PATROL
-      && !punit->connecting)
-    return 0;
-
-  /* 2) */
-  if (!normalize_map_pos(&dest_x, &dest_y))
-    return 0;
-
-  /* 3) */
-  if (!is_tiles_adjacent(src_x, src_y, dest_x, dest_y))
-    return 0;
-
-  pfromtile = map_get_tile(src_x, src_y);
-  ptotile = map_get_tile(dest_x, dest_y);
-
-  /* 4) */
-  if (is_non_allied_unit_tile(ptotile, punit->owner))
-    return 0;
-
-  if (is_ground_unit(punit)) {
-    /* 5) */
-    if (ptotile->terrain==T_OCEAN &&
-	ground_unit_transporter_capacity(dest_x, dest_y, punit->owner) <= 0)
-      return 0;
-
-    /* Moving from ocean */
-    if (pfromtile->terrain==T_OCEAN) {
-      /* 6) */
-      if (!unit_flag(punit->type, F_MARINES)
-	  && is_enemy_city_tile(ptotile, punit->owner)) {
-  	char *units_str = get_units_with_flag_string(F_MARINES);
-  	if (units_str) {
-  	  notify_player_ex(unit_owner(punit), src_x, src_y,
-			   E_NOEVENT, _("Game: Only %s can attack from sea."),
-			   units_str);
-	  free(units_str);
-	} else {
-	  notify_player_ex(unit_owner(punit), src_x, src_y,
-			   E_NOEVENT, _("Game: Cannot attack from sea."));
-	}
-	return 0;
-      }
-    }
-  } else if (is_sailing_unit(punit)) {
-    /* 7) */
-    if (ptotile->terrain!=T_OCEAN
-	&& ptotile->terrain!=T_UNKNOWN
-	&& !is_allied_city_tile(ptotile, punit->owner))
-      return 0;
-  } 
-
-  /* 8) */
-  if (is_non_attack_unit_tile(ptotile, punit->owner)) {
-    notify_player_ex(unit_owner(punit), src_x, src_y,
-		     E_NOEVENT,
-		     _("Game: Cannot attack unless you declare war first."));
-    return 0;
-  }
-
-  /* 9) */
-  pcity = ptotile->city;
-  if (pcity && players_non_attack(pcity->owner, punit->owner)) {
-    notify_player_ex(unit_owner(punit), src_x, src_y,
-		     E_NOEVENT,
-		     _("Game: Cannot attack unless you declare war first."));
-    return 0;
-  }
-
-  /* 10) */
-  zoc = igzoc || zoc_ok_move(punit, dest_x, dest_y);
-  if (!zoc) {
-    notify_player_ex(unit_owner(punit), src_x, src_y, E_NOEVENT,
-		     _("Game: %s can only move into your own zone of control."),
-		     unit_types[punit->type].name);
-  }
-
-  return zoc;
-}
-
-
-
-
-
-
 /***************************************************************************
  Return 1 if upgrading this unit could cause passengers to
  get stranded at sea, due to transport capacity changes
@@ -3186,4 +3028,45 @@ void goto_route_execute(struct unit *punit)
       }
     }
   } /* end while*/
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y,
+			  int igzoc)
+{
+  enum move_reason reason;
+  int result;
+  int src_x = punit->x, src_y = punit->y;
+
+  result =
+      can_unit_move_to_tile_with_reason(punit->type, punit->owner,
+					punit->activity, punit->connecting,
+					punit->x, punit->y, dest_x, dest_y,
+					igzoc, &reason);
+  if (result)
+    return 1;
+
+  if (reason == MR_INVALID_TYPE_FOR_CITY_TAKE_OVER) {
+    char *units_str = get_units_with_flag_string(F_MARINES);
+    if (units_str) {
+      notify_player_ex(unit_owner(punit), src_x, src_y,
+		       E_NOEVENT, _("Game: Only %s can attack from sea."),
+		       units_str);
+      free(units_str);
+    } else {
+      notify_player_ex(unit_owner(punit), src_x, src_y,
+		       E_NOEVENT, _("Game: Cannot attack from sea."));
+    }
+  } else if (reason == MR_NO_WAR) {
+    notify_player_ex(unit_owner(punit), src_x, src_y,
+		     E_NOEVENT,
+		     _("Game: Cannot attack unless you declare war first."));
+  } else if (reason == MR_ZOC) {
+    notify_player_ex(unit_owner(punit), src_x, src_y, E_NOEVENT,
+		     _("Game: %s can only move into your own zone of control."),
+		     unit_types[punit->type].name);
+  }
+  return 0;
 }

@@ -62,6 +62,10 @@ enum goto_route_type {
   ROUTE_GOTO, ROUTE_PATROL
 };
 
+enum move_reason {
+  MR_OTHER, MR_INVALID_TYPE_FOR_CITY_TAKE_OVER, MR_NO_WAR, MR_ZOC
+};
+
 struct unit_ai {
   int control; /* 0: not automated    1: automated */
   enum ai_unit_task ai_role;
@@ -203,9 +207,21 @@ struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid);
 struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid);
 struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid);
 
-int is_my_zoc(struct unit *myunit, int x0, int y0);
-
 int trireme_loss_pct(struct player *pplayer, int x, int y);
 
+int is_my_zoc(int player_id_of_unit_owner, int x0, int y0);
+int can_step_taken_wrt_to_zoc(Unit_Type_id type,
+			      int player_id_of_unit_owner, int src_x,
+			      int src_y, int dest_x, int dest_y);
+
+int can_unit_move_to_tile_with_reason(Unit_Type_id type,
+				      int player_id_of_unit_owner,
+				      enum unit_activity activity,
+				      int connecting, int src_x, int src_y,
+				      int dest_x, int dest_y, int igzoc,
+				      enum move_reason *reason);
+int unit_type_really_ignores_zoc(Unit_Type_id type);
+int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
+int zoc_ok_move(struct unit *punit, int x, int y);
 
 #endif  /* FC__UNIT_H */

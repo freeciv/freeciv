@@ -280,7 +280,8 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
     return 1;
   if (map_get_terrain(src_x,src_y)==T_OCEAN || map_get_terrain(dest_x,dest_y)==T_OCEAN)
     return 1;
-  return is_my_zoc(punit, src_x, src_y) || is_my_zoc(punit, dest_x, dest_y);
+  return is_my_zoc(punit->owner, src_x, src_y)
+      || is_my_zoc(punit->owner, dest_x, dest_y);
 }
 
 /********************************************************************** 

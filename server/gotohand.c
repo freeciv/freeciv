@@ -519,15 +519,8 @@ only relevant for GOTOs (see below).
 static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 		       int dest_x, int dest_y)
 {
-  if (unit_flag(punit->type, F_IGZOC))
-    return 1;
-  if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), punit->owner))
-    return 1;
-  if (map_get_city(src_x, src_y) || map_get_city(dest_x, dest_y))
-    return 1;
-  if (map_get_terrain(src_x,src_y)==T_OCEAN || map_get_terrain(dest_x,dest_y)==T_OCEAN)
-    return 1;
-  if (is_my_zoc(punit, src_x, src_y) || is_my_zoc(punit, dest_x, dest_y))
+  if (can_step_taken_wrt_to_zoc(punit->type, punit->owner, src_x, src_y,
+				dest_x, dest_y))
     return 1;
 
   /* Both positions are currently enemy ZOC. Since the AI depend on it's
@@ -560,7 +553,8 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 
       if (!dir_ok(dest_x, dest_y, punit->goto_dest_x, punit->goto_dest_y, dir))
 	continue;
-      if ((map_get_terrain(x, y)!=T_OCEAN) && is_enemy_unit_tile(map_get_tile(x, y), owner))
+      if ((map_get_terrain(x, y) != T_OCEAN)
+	  && is_enemy_unit_tile(map_get_tile(x, y), owner))
 	return 0;
     }
     return 0;
@@ -664,10 +658,12 @@ static int find_the_shortest_path(struct unit *punit,
     pcargo = other_passengers(punit);
     if (pcargo)
       if (map_get_terrain(dest_x, dest_y) == T_OCEAN ||
-	  !is_non_allied_unit_tile(map_get_tile(dest_x, dest_y), pcargo->owner) ||
-	  is_allied_city_tile(map_get_tile(dest_x, dest_y), pcargo->owner) ||
-	  unit_flag(pcargo->type, F_MARINES) ||
-	  is_my_zoc(pcargo, dest_x, dest_y))
+	  !is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
+				   pcargo->owner)
+	  || is_allied_city_tile(map_get_tile(dest_x, dest_y),
+				 pcargo->owner)
+	  || unit_flag(pcargo->type, F_MARINES)
+	  || is_my_zoc(pcargo->owner, dest_x, dest_y))
 	pcargo = NULL;
   } else
     pcargo = NULL;
@@ -778,9 +774,10 @@ static int find_the_shortest_path(struct unit *punit,
 	}
 
 	/* See previous comment on pcargo */
-	if (x1 == dest_x && y1 == dest_y && pcargo && move_cost < 20*SINGLE_MOVE &&
-	    !is_my_zoc(pcargo, x, y))
-	  move_cost = 20*SINGLE_MOVE;
+	if (x1 == dest_x && y1 == dest_y && pcargo
+	    && move_cost < 20 * SINGLE_MOVE
+	    && !is_my_zoc(pcargo->owner, x, y)) move_cost =
+	      20 * SINGLE_MOVE;
 
 	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer))
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE; /* arbitrary deterrent. */
