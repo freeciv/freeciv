@@ -1,10 +1,20 @@
+#ifndef FC_CONFIG_H
+#define FC_CONFIG_H
+@TOP@
+
 /*
  *   Defaults for configuration settings
  *   by Falk Hüffner <falk.hueffner@student.uni-tuebingen.de>
+ *   and others
  */
-@TOP@
-/* Define to the name of the distribution.  */
-#undef PACKAGE
 
-/* Define to the version of the distribution.  */
+#undef PACKAGE
 #undef VERSION
+#undef MAJOR_VERSION
+#undef MINOR_VERSION
+#undef PATCH_VERSION
+#undef VERSION_STRING
+
+@BOTTOM@
+
+#endif /* FC_CONFIG_H */

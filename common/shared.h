@@ -17,13 +17,6 @@
 #include <config.h>
 #endif
 
-/* client/server should always have the same major and minor versions */
-/* different patch versions are compatible */
-#define MAJOR_VERSION  1
-#define MINOR_VERSION  7
-#define PATCH_VERSION  1
-#define VERSION_STRING "1.7.1"
-
 #if MINOR_VERSION < 7
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING" (beta release)"
 #else
