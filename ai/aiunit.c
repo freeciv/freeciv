@@ -2792,16 +2792,17 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     punit->ai.bodyguard = BODYGUARD_WANTED;
   }  
 
+  if (punit->moves_left <= 0) {
+    /* Can do nothing */
+    return;
+  }
+
   if ((unit_flag(punit, F_DIPLOMAT))
       || (unit_flag(punit, F_SPY))) {
-    if (punit->moves_left <= 0) {
-      return;
-    }
     ai_manage_diplomat(pplayer, punit);
     return;
   } else if (unit_flag(punit, F_SETTLERS)
 	     ||unit_flag(punit, F_CITIES)) {
-    if (punit->moves_left == 0) return; /* can't do anything with no moves */
     ai_manage_settler(pplayer, punit);
     return;
   } else if (unit_flag(punit, F_TRADE_ROUTE)
@@ -2822,11 +2823,9 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
      * pretend they have fuel = HP / 3 or something. */
     return;
   } else if (is_military_unit(punit)) {
-    if (punit->moves_left == 0) return; /* can't do anything with no moves */
     ai_manage_military(pplayer,punit); 
     return;
   } else {
-    if (punit->moves_left == 0) return; /* can't do anything with no moves */
     (void) ai_manage_explorer(punit); /* what else could this be? -- Syela */
     return;
   }
