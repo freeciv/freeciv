@@ -2545,7 +2545,7 @@ msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"techs.ruleset\".  The advances (technologies) present in the game "
 "will be initialized from this file.  See also README.rulesets."
-msgstr ""
+msgstr "Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"techs.ruleset\" nevû fájlt.  Ebbõl a fájlból töltõdnek be a játékban szereplõ tudományok (technológiák) adatai.  További információt a README.rulesets-ben találhatsz."
 
 #: server/stdinhand.c:360
 msgid "Data subdir containing governments.ruleset"
@@ -2556,7 +2556,7 @@ msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"governments.ruleset\".  The government types available in the game "
 "will be initialized from this file.  See also README.rulesets."
-msgstr ""
+msgstr "Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"governments.ruleset\" nevû fájlt.  Ebbõl a fájlból töltõdnek be a játékban szereplõ államformák adatai.  További információt a README.rulesets-ben találhatsz."
 
 #: server/stdinhand.c:372
 msgid "Data subdir containing units.ruleset"
@@ -2567,7 +2567,7 @@ msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"units.ruleset\".  The unit types present in the game will be "
 "initialized from this file.  See also README.rulesets."
-msgstr ""
+msgstr "Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"units.ruleset\" nevû fájlt.  Ebbõl a fájlból töltõdnek be a játékban szereplõ egységtípusok adatai.  További információt a README.rulesets-ben találhatsz."
 
 #: server/stdinhand.c:384
 msgid "Data subdir containing buildings.ruleset"
@@ -2577,9 +2577,9 @@ msgstr "A buildings.ruleset-et tartalmazó könyvtár"
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"buildings.ruleset\".  The building types (City Improvements and "
-"Wonders) in the game will be initialized from this file.  See also README."
-"rulesets."
+"Wonders) in the game will be initialized from this file.  See also README.rulesets."
 msgstr ""
+"Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"buildings.ruleset\" nevû fájlt.  Ebbõl a fájlból töltõdnek be a játékban szereplõ épülettípusok (Városi Épületek és Világcsodák) adatai.  További információt a README.rulesets-ben találhatsz."
 
 #: server/stdinhand.c:396
 msgid "Data subdir containing terrain.ruleset"
@@ -2590,7 +2590,7 @@ msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"terrain.ruleset\".  The terrain types present in the game will be "
 "initialized from this file.  See also README.rulesets."
-msgstr ""
+msgstr "Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"terrain.ruleset\" nevû fájlt.  Ebbõl a fájlból töltõdnek be a játékban szereplõ tereptípusok adatai.  További információt a README.rulesets-ben találhatsz."
 
 #: server/stdinhand.c:408
 msgid "Data subdir containing nations.ruleset"
@@ -2601,7 +2601,7 @@ msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"nations.ruleset\".  The nations present in the game will be "
 "initialized from this file.  See also README.rulesets."
-msgstr ""
+msgstr "Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"nations.ruleset\" nevû fájlt.  Ebbõl a fájlból töltõdnek be a játékban szereplõ népek adatai.  További információt a README.rulesets-ben találhatsz."
 
 #: server/stdinhand.c:420
 msgid "Data subdir containing cities.ruleset"
@@ -2612,7 +2612,7 @@ msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"cities.ruleset\".  The file is used to initialize city data (such "
 "as city style).  See also README.rulesets."
-msgstr ""
+msgstr "Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"cities.ruleset\" nevû fájlt.  Ebbõl a fájlból töltõdnek be a városokra vonatkozó szabályok valamint a lehetséges városstílusok."
 
 #: server/stdinhand.c:431
 msgid "Data subdir containing game.ruleset"
@@ -2623,7 +2623,7 @@ msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"game.ruleset\".  The file is used to initialize some miscellanous "
 "game rules.  See also README.rulesets."
-msgstr ""
+msgstr "Itt egy olyan könyvtárat kell megadni, ami tartalmaz egy \"game.ruleset\" nevû fájlt.  Ebbõl a fájlból töltõdnek be a beállítható játékszabályok (vannak eleve adott szabályok is).  További információt a README.rulesets-ben találhatsz."
 
 #: server/stdinhand.c:442
 msgid "Points required to gain a new advance"
@@ -2642,11 +2642,11 @@ msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points.  This "
 "does not apply if you have just gained tech this turn."
-msgstr ""
+msgstr "Ha megváltoztatod a kutatás alatt lévõ technológiát, és van összegyûjtött kutatási pontod, akkor elveszted a kutatási pontjaidnak egy bizonyos százalékát.  De ha éppen ebben a körben fejlesztettél ki technológiát, akkor nem érvényes ez a szabály."
 
 #: server/stdinhand.c:457
 msgid "Penalty when getting tech from treaty"
-msgstr ""
+msgstr "Büntetés a diplomáciai úton szerzett tudományokért"
 
 #: server/stdinhand.c:458
 msgid ""
@@ -2657,7 +2657,7 @@ msgstr ""
 
 #: server/stdinhand.c:466
 msgid "Penalty when getting tech from conquering"
-msgstr ""
+msgstr "Büntetés a hódítással szerzett tudományokért"
 
 #: server/stdinhand.c:467
 msgid ""
