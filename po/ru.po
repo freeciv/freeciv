@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-29 16:32-0500\n"
+"POT-Creation-Date: 2005-03-31 19:50-0500\n"
 "PO-Revision-Date: 2005-01-20 13:15+0300\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -653,12 +653,12 @@ msgstr "ошибка %ld (ошибка FormatMessage)"
 msgid "error %d (compiled without strerror)"
 msgstr "ошибка %d (скомпилировано без strerror)"
 
-#: ai/aicity.c:713 server/citytools.c:1827
+#: ai/aicity.c:713 server/citytools.c:1829
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Игра: %s прекратили строительство чуда %s в %s."
 
-#: ai/aicity.c:723 server/citytools.c:1874
+#: ai/aicity.c:723 server/citytools.c:1876
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Игра: %s начали строить чудо %s в %s."
@@ -1014,22 +1014,22 @@ msgstr ""
 "Игра: Люди в городе %s потрясены Вашими технологическими достижениями!\n"
 "      Рабочие неожиданно собираются и строят в городе железную дорогу."
 
-#: server/citytools.c:1046
+#: server/citytools.c:1048
 #, c-format
 msgid "Game: You have founded %s"
 msgstr "Игра: Вы основали город %s"
 
-#: server/citytools.c:1096
+#: server/citytools.c:1098
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Игра: Поменяли домашний город соединения %s на %s."
 
-#: server/citytools.c:1126
+#: server/citytools.c:1128
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr "Игра: перемещены %s из разоренного города %s для избежания блокировки."
 
-#: server/citytools.c:1137
+#: server/citytools.c:1139
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
@@ -1038,53 +1038,53 @@ msgstr ""
 "Когда соединение \"%s\" было расформировано, соединение \"%s\" не могло "
 "выбраться и затерялось."
 
-#: server/citytools.c:1243
+#: server/citytools.c:1245
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Игра: Вы полностью разрушили %s."
 
-#: server/citytools.c:1245
+#: server/citytools.c:1247
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Игра: %s был разрушен %s."
 
-#: server/citytools.c:1262
+#: server/citytools.c:1264
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Игра: Вы захватили %s, добыча составила %d золотых!"
 
-#: server/citytools.c:1266
+#: server/citytools.c:1268
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Игра: %s захватили %s, добыча составила %d золотых."
 
-#: server/citytools.c:1272
+#: server/citytools.c:1274
 #, c-format
 msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
 msgstr "Игра: Вы освободили %s! Добыча составила %d золотых."
 
-#: server/citytools.c:1277
+#: server/citytools.c:1279
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Игра: %s освободили %s, добыча составила %d золотых."
 
-#: server/citytools.c:1848
+#: server/citytools.c:1850
 msgid " from the worklist"
 msgstr " из рабочего списка"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1861
+#: server/citytools.c:1863
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Игра: %s сейчас строит %s%s."
 
 #. TRANS: "<city> is building <production>."
-#: server/citytools.c:1866
+#: server/citytools.c:1868
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Игра: %s сейчас строит %s."
 
-#: server/citytools.c:2121
+#: server/citytools.c:2123
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Игра: Вы продали %s в %s за %d кредитов."
@@ -2185,46 +2185,46 @@ msgstr "%s подключился из %s."
 msgid "Server: %s has connected from %s."
 msgstr "Сервер: %s подключился из %s."
 
-#: server/connecthand.c:140
+#: server/connecthand.c:143
 msgid "Couldn't attach your connection to new player."
 msgstr "Не можем подключить Вас к новому игроку."
 
-#: server/connecthand.c:149
+#: server/connecthand.c:152
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
 msgstr "Вы подключены как \"%s\", не подключенный ни к какому игроку."
 
-#: server/connecthand.c:152
+#: server/connecthand.c:155
 #, c-format
 msgid "You are logged in as '%s' connected to an anonymous player."
 msgstr "Вы подключены как \"%s\", подключенный к анонимному игроку."
 
-#: server/connecthand.c:156
+#: server/connecthand.c:159
 #, c-format
 msgid "You are logged in as '%s' connected to %s."
 msgstr "Вы подключены как \"%s\", подключенный к %s."
 
-#: server/connecthand.c:167
+#: server/connecthand.c:170
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Игра блокирует ходы: ждем пока %s закончит свой ход..."
 
-#: server/connecthand.c:201
+#: server/connecthand.c:204
 #, c-format
 msgid "Client rejected: %s."
 msgstr "Клиенту отказано: %s."
 
-#: server/connecthand.c:214
+#: server/connecthand.c:217
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "Запрос о подключении от %s из %s"
 
-#: server/connecthand.c:218
+#: server/connecthand.c:221
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s имеет версию клиента %d.%d.%d%s"
 
-#: server/connecthand.c:228
+#: server/connecthand.c:231
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2234,12 +2234,12 @@ msgstr ""
 "Версия сервера: %d.%d.%d%s Версия клиента: %d.%d.%d%s. Попробуйте обновить "
 "программу!"
 
-#: server/connecthand.c:235 server/connecthand.c:250
+#: server/connecthand.c:238 server/connecthand.c:253
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s было отказано в подключении: возможности не совпадают."
 
-#: server/connecthand.c:243
+#: server/connecthand.c:246
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2249,38 +2249,38 @@ msgstr ""
 "Версия сервера: %d.%d.%d%s Версия клиента: %d.%d.%d%s. Попробуйте обновить "
 "программу!"
 
-#: server/connecthand.c:259
+#: server/connecthand.c:262
 #, c-format
 msgid "Invalid username '%s'"
 msgstr "Неверное имя пользователя '%s'"
 
-#: server/connecthand.c:261
+#: server/connecthand.c:264
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "Отказано в соединении с %s с неправильным именем."
 
-#: server/connecthand.c:269
+#: server/connecthand.c:272
 #, c-format
 msgid "'%s' already connected."
 msgstr "'%s' уже подключен."
 
-#: server/connecthand.c:273
+#: server/connecthand.c:276
 #, c-format
 msgid "Rejected connection from %s with duplicate login name."
 msgstr "Отказано в соединении с %s с именем, которое уже занято."
 
-#: server/connecthand.c:289
+#: server/connecthand.c:292
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr ""
 "Предупреждение: имя гостя \"%s\" используется кем-то другим, переименовываем "
 "в \"%s\"."
 
-#: server/connecthand.c:294
+#: server/connecthand.c:297
 msgid "Guests are not allowed on this server. Sorry."
 msgstr "Гости не разрешены на этом сервере. Извините."
 
-#: server/connecthand.c:314
+#: server/connecthand.c:317
 #, c-format
 msgid ""
 "There was an error reading the user database, logging in as guest connection "
@@ -2289,7 +2289,7 @@ msgstr ""
 "При чтении базы данных пользователей произошла ошибка, регистрируемся как "
 "гостевое подключение '%s'."
 
-#: server/connecthand.c:319
+#: server/connecthand.c:322
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
@@ -2297,30 +2297,30 @@ msgstr ""
 "При чтении базы данных пользователей произошла ошибка, а гостевые "
 "регистрации не разрешены. Извините"
 
-#: server/connecthand.c:327
+#: server/connecthand.c:330
 #, c-format
 msgid "Enter password for %s:"
 msgstr "Введите пароль для %s:"
 
-#: server/connecthand.c:335
+#: server/connecthand.c:338
 msgid "Enter a new password (and remember it)."
 msgstr "Введите новый пароль (и запомните его)."
 
-#: server/connecthand.c:339
+#: server/connecthand.c:342
 msgid "This server allows only preregistered users. Sorry."
 msgstr ""
 "На этом сервере разрешены только уже зарегистрированные пользователи. "
 "Извините."
 
-#: server/connecthand.c:367 server/connecthand.c:392
+#: server/connecthand.c:370 server/connecthand.c:395
 msgid "Sorry, too many wrong tries..."
 msgstr "Извините, слишком много неверных попыток..."
 
-#: server/connecthand.c:375
+#: server/connecthand.c:378
 msgid "Your password is incorrect. Try again."
 msgstr "Ваш пароль неверен. Попробуйте ещё раз."
 
-#: server/connecthand.c:408
+#: server/connecthand.c:411
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -2328,13 +2328,13 @@ msgstr ""
 "Предупреждение: При сохранении в базу данных произошла ошибка. Продолжаем, "
 "но Ваша статистика не будет сохранена."
 
-#: server/connecthand.c:489
+#: server/connecthand.c:492
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr ""
 "Ваш пароль слишком короткий, минимальная длина - %d. Попробуйте ещё раз."
 
-#: server/connecthand.c:495
+#: server/connecthand.c:498
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -2343,12 +2343,12 @@ msgstr ""
 "Пароль должен содержать по крайней мере %d заглавные буквы, %d цифры и быть "
 "длиной не менее %d [читабельных] символов. Попробуйте ещё раз."
 
-#: server/connecthand.c:539
+#: server/connecthand.c:542
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Соединение с %s было потеряно."
 
-#: server/connecthand.c:547
+#: server/connecthand.c:550
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Игра: потеряно соединение: %s."
@@ -5303,7 +5303,7 @@ msgstr "Голосование \"%s\" не удалось: %d против, %d за, %d воздержалось."
 msgid "(ambiguous)"
 msgstr "(двусмысленно)"
 
-#: server/stdinhand.c:371 client/packhand.c:1249
+#: server/stdinhand.c:371 client/packhand.c:1250
 msgid "(unknown)"
 msgstr "(неизвестно)"
 
@@ -5605,7 +5605,7 @@ msgstr "Динамический тайм-аут установлен в %d %d %d %d"
 msgid "Option:"
 msgstr "Настройка:"
 
-#: server/stdinhand.c:1505 server/stdinhand.c:3750
+#: server/stdinhand.c:1505 server/stdinhand.c:3754
 msgid "Description:"
 msgstr "Описание:"
 
@@ -6035,169 +6035,169 @@ msgstr "%s уже контролирует %s"
 msgid "being detached from %s."
 msgstr "отключается от %s."
 
-#: server/stdinhand.c:2953
+#: server/stdinhand.c:2957
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s сейчас контролируeт %s (%s, %s)"
 
-#: server/stdinhand.c:2955 server/stdinhand.c:3964
+#: server/stdinhand.c:2959 server/stdinhand.c:3968
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Варвары"
 
-#: server/stdinhand.c:2956 server/stdinhand.c:3966 client/plrdlg_common.c:228
+#: server/stdinhand.c:2960 server/stdinhand.c:3970 client/plrdlg_common.c:228
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk/plrdlg.c:141
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "Компьютер"
 
-#: server/stdinhand.c:2956 server/stdinhand.c:3968
+#: server/stdinhand.c:2960 server/stdinhand.c:3972
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk-2.0/pages.c:1480
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/connectdlg.c:208
 msgid "Human"
 msgstr "Человек"
 
-#: server/stdinhand.c:2956 client/gui-gtk-2.0/pages.c:1452
+#: server/stdinhand.c:2960 client/gui-gtk-2.0/pages.c:1452
 #: client/gui-gtk-2.0/pages.c:1479 client/gui-win32/connectdlg.c:188
 #: client/gui-win32/connectdlg.c:207
 msgid "Alive"
 msgstr "Живой"
 
-#: server/stdinhand.c:2956 client/gui-gtk-2.0/pages.c:1452
+#: server/stdinhand.c:2960 client/gui-gtk-2.0/pages.c:1452
 #: client/gui-win32/connectdlg.c:188
 msgid "Dead"
 msgstr "Умер"
 
-#: server/stdinhand.c:2987
+#: server/stdinhand.c:2991
 msgid "Usage: detach <connection-name>"
 msgstr "Использование: detach <имя-подключения>"
 
-#: server/stdinhand.c:3007
+#: server/stdinhand.c:3011
 msgid "You can not detach other users."
 msgstr "Вы не можете отключать других пользователей."
 
-#: server/stdinhand.c:3016
+#: server/stdinhand.c:3020
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s не подключен ни к каким игрокам."
 
-#: server/stdinhand.c:3043
+#: server/stdinhand.c:3047
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s отключается от %s"
 
-#: server/stdinhand.c:3055
+#: server/stdinhand.c:3059
 #, c-format
 msgid "detaching from %s."
 msgstr "отключается от %s."
 
-#: server/stdinhand.c:3143
+#: server/stdinhand.c:3147
 msgid "Usage: load <filename>"
 msgstr "Использование: load <имя-файла>"
 
-#: server/stdinhand.c:3149
+#: server/stdinhand.c:3153
 msgid "Can't load a game while another is running."
 msgstr "Невозможно загрузить игру во время работы другой игры."
 
-#: server/stdinhand.c:3158
+#: server/stdinhand.c:3162
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Невозможно загрузить файл: %s"
 
-#: server/stdinhand.c:3215
+#: server/stdinhand.c:3219
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Текущий путь для данных: \"%s\""
 
-#: server/stdinhand.c:3222
+#: server/stdinhand.c:3226
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Каталог набора правил \"%s\" не найден"
 
-#: server/stdinhand.c:3227
+#: server/stdinhand.c:3231
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Каталог набора правил установлен в \"%s\""
 
-#: server/stdinhand.c:3265
+#: server/stdinhand.c:3269
 msgid "Goodbye."
 msgstr "Пока."
 
-#: server/stdinhand.c:3297
+#: server/stdinhand.c:3301
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Извините, Вы не можете использовать команды сервера."
 
-#: server/stdinhand.c:3333
+#: server/stdinhand.c:3337
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте '%"
 "shelp'."
 
-#: server/stdinhand.c:3338
+#: server/stdinhand.c:3342
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Неизвестная команда. Попробуйте '%shelp'."
 
-#: server/stdinhand.c:3355
+#: server/stdinhand.c:3359
 msgid "Your new vote cancelled your previous vote."
 msgstr "Ваше новое голосование отменяет предыдущее голосование."
 
-#: server/stdinhand.c:3363
+#: server/stdinhand.c:3367
 #, c-format
 msgid "New vote, no. %d, by %s: %s."
 msgstr "Новый голос, номер %d, от %s: %s."
 
-#: server/stdinhand.c:3383
+#: server/stdinhand.c:3387
 msgid "You are not allowed to use this command."
 msgstr "Вы не можете пользоваться этой командой."
 
-#: server/stdinhand.c:3409
+#: server/stdinhand.c:3413
 msgid "(server prompt)"
 msgstr "(приглашение сервера)"
 
-#: server/stdinhand.c:3481
+#: server/stdinhand.c:3485
 msgid "The game must be running before you can see the score."
 msgstr "Игра должна начаться, прежде чем Вы сможете посмотреть счет."
 
-#: server/stdinhand.c:3542
+#: server/stdinhand.c:3546
 #, c-format
 msgid "But %s is dead!"
 msgstr "Но %s уже мёртв!"
 
-#: server/stdinhand.c:3561
+#: server/stdinhand.c:3565
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Заканчиваем игру. Сервер перезагрузится как только все клиенты отключатся."
 
-#: server/stdinhand.c:3571
+#: server/stdinhand.c:3575
 msgid "Cannot end the game: no game running."
 msgstr "Невозможно закончить игру, игра не запущена."
 
-#: server/stdinhand.c:3617
+#: server/stdinhand.c:3621
 msgid "Not enough players, game will not start."
 msgstr "Недостаточно игроков, игра не начнется."
 
-#: server/stdinhand.c:3628
+#: server/stdinhand.c:3632
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Не возможно начать игру: ждем пока все клиенты отключатся."
 
-#: server/stdinhand.c:3634
+#: server/stdinhand.c:3638
 msgid "Cannot start the game: it has already been started."
 msgstr "Не возможно начать игру: она уже началась."
 
-#: server/stdinhand.c:3639
+#: server/stdinhand.c:3643
 msgid "Cannot start the game: it is already running."
 msgstr "Не возможно начать игру: она уже идет."
 
-#: server/stdinhand.c:3668
+#: server/stdinhand.c:3672
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Прерываем подключение %s."
 
-#: server/stdinhand.c:3687
+#: server/stdinhand.c:3691
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6236,71 +6236,71 @@ msgstr ""
 "  save   -  чтобы сохранить игру\n"
 "  quit   -  чтобы выйти"
 
-#: server/stdinhand.c:3722 server/stdinhand.c:3725
+#: server/stdinhand.c:3726 server/stdinhand.c:3729
 msgid "Command:"
 msgstr "Команда:"
 
-#: server/stdinhand.c:3729
+#: server/stdinhand.c:3733
 msgid "Synopsis: "
 msgstr "Краткая справка:"
 
-#: server/stdinhand.c:3738
+#: server/stdinhand.c:3742
 #, c-format
 msgid "Level: %s"
 msgstr "Уровень: %s"
 
-#: server/stdinhand.c:3741
+#: server/stdinhand.c:3745
 #, c-format
 msgid "Pregame level: %s"
 msgstr "Уровень перед игрой: %s"
 
-#: server/stdinhand.c:3767
+#: server/stdinhand.c:3771
 msgid "The following server commands are available:"
 msgstr "Следующие команды сервера доступны:"
 
-#: server/stdinhand.c:3842
+#: server/stdinhand.c:3846
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Аргумент команды help '%s' неоднозначен."
 
-#: server/stdinhand.c:3847
+#: server/stdinhand.c:3851
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Справка по '%s' не найдена."
 
-#: server/stdinhand.c:3906
+#: server/stdinhand.c:3910
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Плохой аргумент команды list: '%s'. Попробуйте '%shelp list'."
 
-#: server/stdinhand.c:3938
+#: server/stdinhand.c:3942
 msgid "List of players:"
 msgstr "Список игроков:"
 
-#: server/stdinhand.c:3943
+#: server/stdinhand.c:3947
 msgid "<no players>"
 msgstr "<нет игроков>"
 
-#: server/stdinhand.c:3960
+#: server/stdinhand.c:3964
 #, c-format
 msgid "user %s, "
 msgstr "пользователь %s, "
 
-#: server/stdinhand.c:3971
+#: server/stdinhand.c:3975
 msgid ", Dead"
 msgstr ", Умер"
 
-#: server/stdinhand.c:3974
+#: server/stdinhand.c:3978
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", уровень сложности %s"
 
-#: server/stdinhand.c:3978
+#: server/stdinhand.c:3982
 #, c-format
 msgid ", nation %s"
 msgstr ", народ - %s"
 
-#: server/stdinhand.c:3990
+#: server/stdinhand.c:3994
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -6308,20 +6308,20 @@ msgstr[0] " %d соединение:"
 msgstr[1] " %d соединения:"
 msgstr[2] " %d соединений:"
 
-#: server/stdinhand.c:3996
+#: server/stdinhand.c:4000
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s из %s (уровень команд %s), размер буфера=%dкб"
 
-#: server/stdinhand.c:4001
+#: server/stdinhand.c:4005
 msgid " (observer mode)"
 msgstr " (наблюдатель)"
 
-#: server/stdinhand.c:4017
+#: server/stdinhand.c:4021
 msgid "List of connections to server:"
 msgstr "Список соединений с сервером:"
 
-#: server/stdinhand.c:4021
+#: server/stdinhand.c:4025
 msgid "<no connections>"
 msgstr "<нет соединений>"
 
@@ -6461,7 +6461,7 @@ msgstr "Игра: Только %s может атаковать с моря."
 msgid "Game: Cannot attack from sea."
 msgstr "Игра: Невозможно атаковать с моря."
 
-#: server/unithand.c:941 server/unittools.c:2186
+#: server/unithand.c:941 server/unittools.c:2199
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Игра: Невозможно атаковать пока не объявлена война."
 
@@ -6611,98 +6611,98 @@ msgstr "Игра: Ваш %s остался без топлива."
 msgid "Game: Your %s became more experienced!"
 msgstr "Игра: Ваш %s стал более опытным!"
 
-#: server/unittools.c:857
+#: server/unittools.c:861
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea."
 msgstr "Игра: Передвинули Ваши %s в связи с изменением земли на море."
 
-#: server/unittools.c:878
+#: server/unittools.c:882
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
 msgstr "Игра: Посадили Ваши %s на корабль в связи с изменением земли на море."
 
-#: server/unittools.c:893
+#: server/unittools.c:897
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
 msgstr "Игра: Распустили Ваши %s в связи с изменением земли на море.."
 
-#: server/unittools.c:915
+#: server/unittools.c:919
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land."
 msgstr "Игра: Передвинули Ваш %s в связи с изменением моря на землю."
 
-#: server/unittools.c:935
+#: server/unittools.c:939
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land."
 msgstr "Игра: Поставили в док Ваш %s в связи с изменением моря на землю."
 
-#: server/unittools.c:950
+#: server/unittools.c:954
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
 msgstr "Игра: Распустили Ваш %s в связи с изменением моря на землю."
 
-#: server/unittools.c:982
+#: server/unittools.c:986
 #, c-format
 msgid " at %s"
 msgstr " у %s"
 
-#: server/unittools.c:984
+#: server/unittools.c:988
 #, c-format
 msgid " in %s"
 msgstr " в %s"
 
-#: server/unittools.c:991
+#: server/unittools.c:995
 #, c-format
 msgid " outside %s"
 msgstr " у стен города %s"
 
-#: server/unittools.c:994
+#: server/unittools.c:998
 #, c-format
 msgid " near %s"
 msgstr " возле %s"
 
-#: server/unittools.c:1204
+#: server/unittools.c:1208
 #, c-format
 msgid "Game: Teleported your %s to %s."
 msgstr "Игра: Перенесено Ваш %s в %s."
 
-#: server/unittools.c:1230
+#: server/unittools.c:1234
 #, c-format
 msgid "Game: Disbanded your %s."
 msgstr "Игра: Ваши %s распущены."
 
-#: server/unittools.c:1554
+#: server/unittools.c:1558
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Невозможно защитить %s, %s проиграл игру."
 
-#: server/unittools.c:1556
+#: server/unittools.c:1560
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Потеря %s означает поражение в игре! Будьте более осторожны в следующий раз!"
 
-#: server/unittools.c:1648
+#: server/unittools.c:1661
 #, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
 msgstr "Игра: Ваш %s избежал гибели в %s, и убежал в %s."
 
-#: server/unittools.c:1655
+#: server/unittools.c:1668
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Игра: Вы потеряли %s когда %s был потерян."
 
-#: server/unittools.c:1714
+#: server/unittools.c:1727
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Игра: Лидер варваров пойман, выкуп %d золотых."
 
-#: server/unittools.c:1731
+#: server/unittools.c:1744
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Игра: Вы потеряли %s в результате атаки %s %s%s."
 
-#: server/unittools.c:1757
+#: server/unittools.c:1770
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
@@ -6710,129 +6710,129 @@ msgstr[0] "Игра: Вы потеряли %d соединение в результате атаки %s %s%s."
 msgstr[1] "Игра: Вы потеряли %d соединения в результате атаки %s %s%s."
 msgstr[2] "Игра: Вы потеряли %d соединений в результате атаки %s %s%s."
 
-#: server/unittools.c:1772
+#: server/unittools.c:1785
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Игра: Вы потеряли %s в результате атаки %s %s."
 
-#: server/unittools.c:2031
+#: server/unittools.c:2044
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Игра: Ваш %s был взорван атомной бомбой %s."
 
-#: server/unittools.c:2033 server/unittools.c:2049
+#: server/unittools.c:2046 server/unittools.c:2062
 msgid "yourself"
 msgstr "Вы"
 
-#: server/unittools.c:2037
+#: server/unittools.c:2050
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Игра: %s %s был взорван атомной бомбой."
 
-#: server/unittools.c:2047
+#: server/unittools.c:2060
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Игра: %s был взорван атомной бомбой %s."
 
-#: server/unittools.c:2054
+#: server/unittools.c:2067
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Игра: Вы взорвали %s атомной бомбой!"
 
-#: server/unittools.c:2092
+#: server/unittools.c:2105
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Игра: %s взорвали атомную бомбу."
 
-#: server/unittools.c:2132
+#: server/unittools.c:2145
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Игра: %s перевезен успешно."
 
-#: server/unittools.c:2155
+#: server/unittools.c:2168
 msgid "Game: This unit type can not be paradropped."
 msgstr "Игра: Это соединение не может быть сброшено на парашюте."
 
-#: server/unittools.c:2165
+#: server/unittools.c:2178
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "Игра: Вы не можете десантировать транспортное соединение."
 
-#: server/unittools.c:2170
+#: server/unittools.c:2183
 msgid "Game: The destination location is not known."
 msgstr "Игра: Положение цели неизвестно."
 
-#: server/unittools.c:2177
+#: server/unittools.c:2190
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "Игра: Невозможно сбросить это соединение в океан."
 
-#: server/unittools.c:2195
+#: server/unittools.c:2208
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Игра: Расстояние до цели (%i) больше чем возможности соединения (%i)."
 
-#: server/unittools.c:2209
+#: server/unittools.c:2222
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Игра: Ваши %s были сброшены в океан и утонули."
 
-#: server/unittools.c:2222
+#: server/unittools.c:2235
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Игра: Ваши %s были уничтожены врагами в точке парашютной высадки."
 
-#: server/unittools.c:2244
+#: server/unittools.c:2257
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Игра: Вы нашли %d золотых."
 
-#: server/unittools.c:2270
+#: server/unittools.c:2283
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Игра: Вы нашли описание науки \"%s\" в древней рукописи."
 
-#: server/unittools.c:2273
+#: server/unittools.c:2286
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Игра: %s получили %s из древних манускриптов."
 
-#: server/unittools.c:2293
+#: server/unittools.c:2306
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Игра: Группа дружественных наемников присоединяется к Вам."
 
-#: server/unittools.c:2311
+#: server/unittools.c:2324
 msgid "Game: An abandoned village is here."
 msgstr "Игра: Эта деревня оставлена жителями."
 
-#: server/unittools.c:2321
+#: server/unittools.c:2334
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Игра: Ваше соединение встретило орды варваров!"
 
-#: server/unittools.c:2324
+#: server/unittools.c:2337
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Игра: Ваши %s были уничтожены варварами."
 
-#: server/unittools.c:2340
+#: server/unittools.c:2353
 msgid "Game: You found a friendly city."
 msgstr "Игра: Вы нашли дружественный город."
 
-#: server/unittools.c:2345
+#: server/unittools.c:2358
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Игра: К Вам присоединились дружественные кочевники, потрясенные Вашим "
 "могуществом."
 
-#: server/unittools.c:2370
+#: server/unittools.c:2383
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Игра: Ваш перелет пугает племя, оно разбегается в ужасе."
 
-#: server/unittools.c:2813
+#: server/unittools.c:2826
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr "Игра: %s прервал ИДТИ К, т.к. другие соединения находятся на дороге."
 
-#: server/unittools.c:2856
+#: server/unittools.c:2869
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6840,34 +6840,34 @@ msgstr ""
 "Игра: Ваше соединение \"%s\" перестало патрулировать в связи со встречей с "
 "войсками противника."
 
-#: server/unittools.c:2929
+#: server/unittools.c:2942
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr "Игра: Приказ для %s отменён, невозможно выполнить приказ."
 
-#: server/unittools.c:2975
+#: server/unittools.c:2988
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Игра: Приказ для  %s отменён, невозможно выполнить приказ."
 
-#: server/unittools.c:2989
+#: server/unittools.c:3002
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Игра: Приказ для %s отменён, поскольку было указано неверное направление."
 
-#: server/unittools.c:2999
+#: server/unittools.c:3012
 #, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr ""
 "Игра: %s отменил команду ИДТИ К, т.к. другие соединения находятся на дороге."
 
-#: server/unittools.c:3025
+#: server/unittools.c:3038
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr "Игра: Приказ для %s отменён потому что соединение не может двигаться."
 
-#: server/unittools.c:3058
+#: server/unittools.c:3071
 #, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Игра: Ваш %s получил неверный приказ."
@@ -8778,20 +8778,20 @@ msgstr "Строка возможностей сервера: %s"
 msgid "Start of turn %d"
 msgstr "Начало хода %d"
 
-#: client/packhand.c:1619
+#: client/packhand.c:1620
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "Компьютерный режим %s."
 
-#: client/packhand.c:1620
+#: client/packhand.c:1621
 msgid "ON"
 msgstr "ВКЛ"
 
-#: client/packhand.c:1620
+#: client/packhand.c:1621
 msgid "OFF"
 msgstr "ВЫКЛ"
 
-#: client/packhand.c:2613
+#: client/packhand.c:2614
 msgid "Other"
 msgstr "Другое"
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-21 20:56-0500\n"
+"POT-Creation-Date: 2005-03-31 19:50-0500\n"
 "PO-Revision-Date: 2003-06-05 11:16+0200\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -34,21 +34,21 @@ msgstr "?built:M"
 msgid "?wonder:w"
 msgstr "?wonder:cs"
 
-#: common/connection.c:505
+#: common/connection.c:513
 #, c-format
 msgid "%s from %s"
 msgstr "%s@%s"
 
-#: common/connection.c:511
+#: common/connection.c:519
 msgid " (connection incomplete)"
 msgstr " (a kapcsolat még nem épült ki)"
 
-#: common/connection.c:515
+#: common/connection.c:523
 #, c-format
 msgid " (player %s)"
 msgstr " (%s játékos)"
 
-#: common/connection.c:519
+#: common/connection.c:527
 msgid " (observer)"
 msgstr " (megfigyelõ)"
 
@@ -136,7 +136,7 @@ msgstr "Légibázis"
 msgid "Fallout"
 msgstr "Nukleáris Szennyezés"
 
-#: common/packets.c:671
+#: common/packets.c:695
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -467,39 +467,39 @@ msgstr ""
 msgid "'Cause civilization should be free!"
 msgstr "A civilization legyen szabad!"
 
-#: common/aicore/cm.c:1846 client/cityrepdata.c:471
+#: common/aicore/cm.c:1854 client/cityrepdata.c:471
 #: client/gui-gtk-2.0/repodlgs.c:940 client/gui-gtk/repodlgs.c:843
 #: client/gui-mui/citydlg.c:1597 client/gui-mui/repodlgs.c:668
 #: client/gui-win32/repodlgs.c:661
 msgid "Food"
 msgstr "Élelem"
 
-#: common/aicore/cm.c:1848 client/gui-gtk-2.0/repodlgs.c:939
+#: common/aicore/cm.c:1856 client/gui-gtk-2.0/repodlgs.c:939
 #: client/gui-gtk/repodlgs.c:843 client/gui-mui/citydlg.c:1601
 #: client/gui-mui/repodlgs.c:667 client/gui-win32/repodlgs.c:661
 msgid "Shield"
 msgstr "Pajzs"
 
-#: common/aicore/cm.c:1850 client/gui-mui/citydlg.c:1605 data/Freeciv.in:3071
+#: common/aicore/cm.c:1858 client/gui-mui/citydlg.c:1605 data/Freeciv.in:3071
 #: data/default/techs.ruleset:733 data/civ2/techs.ruleset:546
 #: data/civ1/techs.ruleset:546 data/history/techs.ruleset:548
 msgid "Trade"
 msgstr "Kereskedelem"
 
-#: common/aicore/cm.c:1852 client/gui-gtk-2.0/repodlgs.c:941
+#: common/aicore/cm.c:1860 client/gui-gtk-2.0/repodlgs.c:941
 #: client/gui-gtk/repodlgs.c:843 client/gui-mui/citydlg.c:1609
 #: data/default/terrain.ruleset:475 data/civ2/terrain.ruleset:438
 #: data/civ1/terrain.ruleset:427 data/history/terrain.ruleset:467
 msgid "Gold"
 msgstr "Arany"
 
-#: common/aicore/cm.c:1854 server/plrhand.c:789
+#: common/aicore/cm.c:1862 server/plrhand.c:789
 #: client/gui-gtk-2.0/gamedlgs.c:262 client/gui-gtk/gamedlgs.c:261
 #: client/gui-mui/citydlg.c:1613 client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "Luxus"
 
-#: common/aicore/cm.c:1856 server/plrhand.c:791
+#: common/aicore/cm.c:1864 server/plrhand.c:791
 #: client/gui-gtk-2.0/gamedlgs.c:282 client/gui-gtk-2.0/repodlgs.c:183
 #: client/gui-gtk/gamedlgs.c:281 client/gui-gtk/repodlgs.c:174
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
@@ -564,82 +564,82 @@ msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] " (összesen %d ismétlés)"
 
-#: utility/shared.c:164
+#: utility/shared.c:165
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "A(z) \"%s\" opciónak üres kifejezés a paramétere.\n"
 
-#: utility/shared.c:168
+#: utility/shared.c:169
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "A(z) \"%s\" opciónak hiányzik a paramétere.\n"
 
-#: utility/shared.c:413
+#: utility/shared.c:422
 #, c-format
 msgid "%d BC"
 msgstr "i.e. %d"
 
-#: utility/shared.c:415
+#: utility/shared.c:424
 #, c-format
 msgid "%d AD"
 msgstr "i.sz. %d"
 
-#: utility/shared.c:819
+#: utility/shared.c:828
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr ""
 "A FREECIV_PATH környezeti változó értéke üres sztring; inkább az "
 "alapértelmezett adatelérési útvonalat (path) használom."
 
-#: utility/shared.c:923
+#: utility/shared.c:932
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Nem sikerült beolvasni a(z) %s adatkönyvtárat: %s."
 
-#: utility/shared.c:1175
+#: utility/shared.c:1184
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr ""
 "Az adatelérési útvonal a FREECIV_PATH környezeti változóval állítható be."
 
-#: utility/shared.c:1177
+#: utility/shared.c:1186
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "A jelenlegi adatelérési útvonal: \"%s\""
 
-#: utility/shared.c:1179
+#: utility/shared.c:1188
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Szükség van a(z) \"%s\" fájlra ... kilépés!"
 
-#: utility/shared.c:1305
+#: utility/shared.c:1312
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Hiba: root-ként próbálsz futtatni!\n"
 
-#: utility/shared.c:1307
+#: utility/shared.c:1314
 msgid "Use a non-privileged account instead.\n"
 msgstr "Használj inkább nem privilegizált felhsználót.\n"
 
-#: utility/shared.c:1323
+#: utility/shared.c:1330
 msgid "exact match"
 msgstr "illeszthetõ"
 
-#: utility/shared.c:1324
+#: utility/shared.c:1331
 msgid "only match"
 msgstr "csak eggyel illesztehtõ"
 
-#: utility/shared.c:1325
+#: utility/shared.c:1332
 msgid "ambiguous"
 msgstr "nem egyértelmû"
 
-#: utility/shared.c:1326
+#: utility/shared.c:1333
 msgid "empty"
 msgstr "üres"
 
-#: utility/shared.c:1327
+#: utility/shared.c:1334
 msgid "too long"
 msgstr "túl hosszú"
 
-#: utility/shared.c:1328
+#: utility/shared.c:1335
 msgid "non-match"
 msgstr "nem illeszthetõ"
 
@@ -653,12 +653,12 @@ msgstr ""
 msgid "error %d (compiled without strerror)"
 msgstr "hiba: %d (strerror nélkül lett lefordítva)"
 
-#: ai/aicity.c:713 server/citytools.c:1827
+#: ai/aicity.c:713 server/citytools.c:1829
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Játék: A(z) %s abbahagyták a(z) %s építését %s városában."
 
-#: ai/aicity.c:723 server/citytools.c:1874
+#: ai/aicity.c:723 server/citytools.c:1876
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Játék: A(z) %s elkezdték a(z) %s építését %s városában."
@@ -903,7 +903,7 @@ msgid "Game: You have bought this turn, can't change."
 msgstr "Játék: Vettél ebben a körben, nem cserélheted ki."
 
 #: server/cityhand.c:382 server/plrhand.c:400 server/stdinhand.c:387
-#: server/unithand.c:176 server/unithand.c:462
+#: server/unithand.c:176 server/unithand.c:474
 #, c-format
 msgid "Game: %s"
 msgstr "Játék: %s"
@@ -982,22 +982,22 @@ msgstr ""
 "       Önkéntes munkások gyûlnek össze, és megépítik a vasútvonalakat a "
 "városban."
 
-#: server/citytools.c:1046
+#: server/citytools.c:1048
 #, c-format
 msgid "Game: You have founded %s"
 msgstr "Játék: Megalapítottad %s városát"
 
-#: server/citytools.c:1096
+#: server/citytools.c:1098
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Játék: A(z) %s ellátóvárosa mostantól %s."
 
-#: server/citytools.c:1126
+#: server/citytools.c:1128
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr "Játék: Egy %s kihajózott a feloszlatott %s városából."
 
-#: server/citytools.c:1137
+#: server/citytools.c:1139
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
@@ -1005,53 +1005,53 @@ msgid ""
 msgstr ""
 "Játék: %s feloszlatásakor egy %s nem tudott kihajózni, ezért megsemmisült."
 
-#: server/citytools.c:1243
+#: server/citytools.c:1245
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Játék: %s városát teljesen megsemmisítetted."
 
-#: server/citytools.c:1245
+#: server/citytools.c:1247
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Játék: %2$s megsemmisítette %1$s városát."
 
-#: server/citytools.c:1262
+#: server/citytools.c:1264
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Játék: Elfoglaltad %s városát, %d aranyat zsákmányoltál!"
 
-#: server/citytools.c:1266
+#: server/citytools.c:1268
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Játék: %s elfoglalta %s városát, és %d aranyat zsákmányolt."
 
-#: server/citytools.c:1272
+#: server/citytools.c:1274
 #, fuzzy, c-format
 msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
 msgstr "Játék: Felszabadítottad %s városát!! %d aranyat zsákmányoltál."
 
-#: server/citytools.c:1277
+#: server/citytools.c:1279
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Játék: %s felszabadította %s városát, és %d aranyat zsákmányolt."
 
-#: server/citytools.c:1848
+#: server/citytools.c:1850
 msgid " from the worklist"
 msgstr " a munkatervbõl"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1861
+#: server/citytools.c:1863
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Játék: %s városában %s%s épül."
 
 #. TRANS: "<city> is building <production>."
-#: server/citytools.c:1866
+#: server/citytools.c:1868
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Játék: %s városában %s épül."
 
-#: server/citytools.c:2121
+#: server/citytools.c:2123
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr ""
@@ -1063,12 +1063,12 @@ msgstr ""
 msgid "Game: %s is selling %s (obsolete) for %d."
 msgstr "Játék: %s %s (elavult) épületet ad el %d aranyért."
 
-#: server/cityturn.c:327
+#: server/cityturn.c:321
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
 msgstr "Játék: Figyelem, a(z) %2$si %1$s a következõ körben megépül."
 
-#: server/cityturn.c:360
+#: server/cityturn.c:354
 #, c-format
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
@@ -1077,52 +1077,52 @@ msgstr ""
 "Játék: Javasolom a növekedés visszafogását %s városában, mert így a (most "
 "épülõ) %sat jobban ki lehet használni."
 
-#: server/cityturn.c:371
+#: server/cityturn.c:365
 #, c-format
 msgid "Game: %s may soon grow to size %i."
 msgstr "Játék: %s hamarosan %i méretûre nõhet."
 
-#: server/cityturn.c:378
+#: server/cityturn.c:372
 #, c-format
 msgid "Game: Warning: Famine feared in %s."
 msgstr "Játék: Figyelmeztetés: Éhínség van %s városában."
 
-#: server/cityturn.c:402
+#: server/cityturn.c:396
 msgid "Game: WARNING, we're LOW on FUNDS sire."
 msgstr "Játék: FIGYELEM, KEVÉS PÉNZÜNK van."
 
-#: server/cityturn.c:493
+#: server/cityturn.c:487
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Játék: %s növekedéséhez %s szükséges. (épül)"
 
-#: server/cityturn.c:498
+#: server/cityturn.c:492
 #, fuzzy, c-format
 msgid "Game: %s needs an improvement to grow any further."
 msgstr "Játék: %s növekedéséhez %s szükséges."
 
-#: server/cityturn.c:545
+#: server/cityturn.c:539
 #, c-format
 msgid "Game: %s grows to size %d."
 msgstr "Játék: %s %d méretûre nõtt."
 
-#: server/cityturn.c:575
+#: server/cityturn.c:569
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Játék: Éhínség van %s városában, egy %s elveszett!"
 
-#: server/cityturn.c:587
+#: server/cityturn.c:581
 #, c-format
 msgid "Game: Famine causes population loss in %s."
 msgstr "Játék: Éhínség miatt csökken a népesség %s városában."
 
-#: server/cityturn.c:656 server/cityturn.c:696
+#: server/cityturn.c:650 server/cityturn.c:690
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s.  Törölve..."
 
-#: server/cityturn.c:675 server/cityturn.c:716
+#: server/cityturn.c:669 server/cityturn.c:710
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
@@ -1131,13 +1131,13 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; a technológia "
 "még nem elérhetõ.  Elhalasztva..."
 
-#: server/cityturn.c:683 server/cityturn.c:740 server/cityturn.c:807
-#: server/cityturn.c:852
+#: server/cityturn.c:677 server/cityturn.c:734 server/cityturn.c:801
+#: server/cityturn.c:846
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Játék: A(z) %s helyett inkább %s épül %s városában."
 
-#: server/cityturn.c:722
+#: server/cityturn.c:716
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
@@ -1146,7 +1146,7 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; %s szökséges "
 "hozzá.  Elhalasztva..."
 
-#: server/cityturn.c:731
+#: server/cityturn.c:725
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
@@ -1154,115 +1154,115 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; Az ok "
 "ismeretlen!  Elhalasztva..."
 
-#: server/cityturn.c:765
+#: server/cityturn.c:759
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Játék: %s munkaterve most üres."
 
-#: server/cityturn.c:874
+#: server/cityturn.c:868
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Játék: Egy %si %s feloszlott, mert a város nem tudja fenntartani."
 
-#: server/cityturn.c:893
+#: server/cityturn.c:887
 #, c-format
 msgid "Game: Citizens in %s perish for their failure to upkeep %s!"
 msgstr ""
 
-#: server/cityturn.c:932 server/cityturn.c:1053
+#: server/cityturn.c:926 server/cityturn.c:1047
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr ""
 "Játék: %s olyan épületet próbál építeni (%s), ami már nem építhetõ meg."
 
-#: server/cityturn.c:969
+#: server/cityturn.c:963
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Játék: A(z) %s befejezték a(z) %s építését %s városában."
 
-#: server/cityturn.c:980
+#: server/cityturn.c:974
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Játék: %s befejezte a(z) %s építését."
 
-#: server/cityturn.c:987
+#: server/cityturn.c:981
 #, fuzzy, c-format
 msgid "Game: %s boosts research; you gain %d immediate advance."
 msgid_plural "Game: %s boosts research; you gain %d immediate advances."
 msgstr[0] "Játék: A(z) %s felgyorsítja a kutatást, kapsz 2 tudományt."
 
-#: server/cityturn.c:1006 server/plrhand.c:158
+#: server/cityturn.c:1000 server/plrhand.c:158
 #, fuzzy, c-format
 msgid "Game: The %s have acquired %s from %s."
 msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt a(z) %s népétõl."
 
-#: server/cityturn.c:1014
+#: server/cityturn.c:1008
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Játék: A(z) %s ûrhajó építésébe kezdtek!"
 
-#: server/cityturn.c:1055
+#: server/cityturn.c:1049
 #, fuzzy, c-format
 msgid "%s's %s tried build %s, which is not available"
 msgstr ""
 "Játék: %s olyan épületet próbál építeni (%s), ami már nem építhetõ meg."
 
-#: server/cityturn.c:1071
+#: server/cityturn.c:1065
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Játék: %s városában még nem épülhet %s."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1101
+#: server/cityturn.c:1095
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Játék: %s befejezte a(z) %s építését."
 
-#: server/cityturn.c:1148
+#: server/cityturn.c:1142
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Játék: Nem tudsz pénzt fordítani a(z) %2$si %1$s fenntartására, ezért azt "
 "eladtuk!"
 
-#: server/cityturn.c:1183
+#: server/cityturn.c:1177
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Játék: Szennyezés %s közelében."
 
-#: server/cityturn.c:1336
+#: server/cityturn.c:1330
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Játék: Éljen a(z) %s napot ünnepelnek %s városában."
 
-#: server/cityturn.c:1344
+#: server/cityturn.c:1338
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Játék: Az Éljen a(z) %s napot megszüntették %s városában."
 
-#: server/cityturn.c:1374
+#: server/cityturn.c:1368
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Játék: Polgári lázadás %s városában."
 
-#: server/cityturn.c:1377
+#: server/cityturn.c:1371
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Játék: A(z) %si POLGÁRI LÁZADÁS TOVÁBB FOLYTATÓDIK."
 
-#: server/cityturn.c:1383
+#: server/cityturn.c:1377
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Játék: Helyreállt a rend %s városában."
 
-#: server/cityturn.c:1391
+#: server/cityturn.c:1385
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Játék: Országodban megdõlt a(z) %s, az emberek között nagy nyugtalanság "
 "uralkodik."
 
-#: server/cityturn.c:1415
+#: server/cityturn.c:1409
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -1270,7 +1270,7 @@ msgstr ""
 "városunkat."
 
 #. TRANS: Settler production leads to disbanded city.
-#: server/cityturn.c:1433
+#: server/cityturn.c:1427
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Játék: A(z) %s beolvasztva %s városába."
@@ -2163,49 +2163,49 @@ msgstr "%s belépett a játékba %s játékosként."
 msgid "Server: %s has connected from %s."
 msgstr "Játék: %s játékossal nem áll fenn a kapcsolat."
 
-#: server/connecthand.c:140
+#: server/connecthand.c:143
 #, fuzzy
 msgid "Couldn't attach your connection to new player."
 msgstr "%s visszautasítva: Nem csatlakozhatnak új játékosok."
 
-#: server/connecthand.c:149
+#: server/connecthand.c:152
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
 msgstr ""
 
-#: server/connecthand.c:152
+#: server/connecthand.c:155
 #, c-format
 msgid "You are logged in as '%s' connected to an anonymous player."
 msgstr ""
 
-#: server/connecthand.c:156
+#: server/connecthand.c:159
 #, c-format
 msgid "You are logged in as '%s' connected to %s."
 msgstr ""
 
-#: server/connecthand.c:167
+#: server/connecthand.c:170
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr ""
 "Szigorúan körökre osztott játék: %s játékosra várunk hogy befejezze a "
 "körét..."
 
-#: server/connecthand.c:201
+#: server/connecthand.c:204
 #, c-format
 msgid "Client rejected: %s."
 msgstr ""
 
-#: server/connecthand.c:214
+#: server/connecthand.c:217
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "%s csatlakozni szeretne a(z) %s címrõl"
 
-#: server/connecthand.c:218
+#: server/connecthand.c:221
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s kliensének verziója: %d.%d.%d%s"
 
-#: server/connecthand.c:228
+#: server/connecthand.c:231
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2215,13 +2215,13 @@ msgstr ""
 "A szerver verziója %d.%d.%d%s, a kliens verziója %d.%d.%d%s.  Egy újabb "
 "verzióra való áttérés talán segíthet."
 
-#: server/connecthand.c:235 server/connecthand.c:250
+#: server/connecthand.c:238 server/connecthand.c:253
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr ""
 "%s visszautasítva: A szerver és a kliens képességei nem kompatibilisek."
 
-#: server/connecthand.c:243
+#: server/connecthand.c:246
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2231,98 +2231,98 @@ msgstr ""
 "A szerver verziója %d.%d.%d%s, a kliens verziója: %d.%d.%d%s.  Egy újabb "
 "verzióra való áttérés talán segíthet."
 
-#: server/connecthand.c:259
+#: server/connecthand.c:262
 #, fuzzy, c-format
 msgid "Invalid username '%s'"
 msgstr "A(z) '%s' érvénytelen név"
 
-#: server/connecthand.c:261
+#: server/connecthand.c:264
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr ""
 "A szerver érvénytelen név miatt visszautasított egy kapcsolódási kísérletet a"
 "(z) %s címrõl."
 
-#: server/connecthand.c:269
+#: server/connecthand.c:272
 #, fuzzy, c-format
 msgid "'%s' already connected."
 msgstr "Sajnálom, %s már kapcsolódott."
 
-#: server/connecthand.c:273
+#: server/connecthand.c:276
 #, fuzzy, c-format
 msgid "Rejected connection from %s with duplicate login name."
 msgstr ""
 "A szerver érvénytelen név miatt visszautasított egy kapcsolódási kísérletet a"
 "(z) %s címrõl."
 
-#: server/connecthand.c:289
+#: server/connecthand.c:292
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr ""
 
-#: server/connecthand.c:294
+#: server/connecthand.c:297
 #, fuzzy
 msgid "Guests are not allowed on this server. Sorry."
 msgstr "Sajnálom, nincs jogosultságod szerverparancsok kiadására."
 
-#: server/connecthand.c:314
+#: server/connecthand.c:317
 #, c-format
 msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
 msgstr ""
 
-#: server/connecthand.c:319
+#: server/connecthand.c:322
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
 msgstr ""
 
-#: server/connecthand.c:327
+#: server/connecthand.c:330
 #, c-format
 msgid "Enter password for %s:"
 msgstr ""
 
-#: server/connecthand.c:335
+#: server/connecthand.c:338
 msgid "Enter a new password (and remember it)."
 msgstr ""
 
-#: server/connecthand.c:339
+#: server/connecthand.c:342
 msgid "This server allows only preregistered users. Sorry."
 msgstr ""
 
-#: server/connecthand.c:367 server/connecthand.c:392
+#: server/connecthand.c:370 server/connecthand.c:395
 msgid "Sorry, too many wrong tries..."
 msgstr ""
 
-#: server/connecthand.c:375
+#: server/connecthand.c:378
 msgid "Your password is incorrect. Try again."
 msgstr ""
 
-#: server/connecthand.c:408
+#: server/connecthand.c:411
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
 msgstr ""
 
-#: server/connecthand.c:489
+#: server/connecthand.c:492
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr ""
 
-#: server/connecthand.c:495
+#: server/connecthand.c:498
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
 "minimum %d [printable] characters long. Try again."
 msgstr ""
 
-#: server/connecthand.c:539
+#: server/connecthand.c:542
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Megszakadt a(z) %s kapcsolat."
 
-#: server/connecthand.c:547
+#: server/connecthand.c:550
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Játék: Megszakadt a(z) %s kapcsolat."
@@ -2746,26 +2746,19 @@ msgstr ""
 "Játék: Egy támadó %2$s megsemmisített egy védõ %1$s egységedet %3$s "
 "városában."
 
-#: server/diplomats.c:1164 server/diplomats.c:1172
+#: server/diplomats.c:1164
 #, fuzzy, c-format
 msgid "Game: An enemy %s has been eliminated defending %s."
 msgstr ""
 "Játék: Egy támadó %2$s megsemmisített egy védõ %1$s egységedet %3$s "
 "városában."
 
-#: server/diplomats.c:1168
-#, c-format
-msgid "Game: Your %s has been eliminated defending against a %s in %s."
-msgstr ""
-"Játék: Egy támadó %2$s megsemmisített egy védõ %1$s egységedet %3$s "
-"városában."
-
-#: server/diplomats.c:1186
+#: server/diplomats.c:1178
 #, fuzzy, c-format
 msgid "Game: Your %s was eliminated by a defending %s."
 msgstr "Játék: A %s egységedet elfogta egy védõ %s %s városában."
 
-#: server/diplomats.c:1193
+#: server/diplomats.c:1185
 #, fuzzy, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating %s. The defender became more "
@@ -2774,7 +2767,7 @@ msgstr ""
 "Játék: Elfogtak egy %s %s egységet, miközben megpróbált beépülni az "
 "ellenséghez %s városában."
 
-#: server/diplomats.c:1200
+#: server/diplomats.c:1192
 #, fuzzy, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating our troops. The defender became "
@@ -2783,21 +2776,21 @@ msgstr ""
 "Játék: Elfogtak egy %s %s egységet, miközben megpróbált beépülni az "
 "ellenséghez %s városában."
 
-#: server/diplomats.c:1210
+#: server/diplomats.c:1202
 #, c-format
 msgid "Game: Eliminated %s %s while infiltrating %s."
 msgstr ""
 "Játék: Elfogtak egy %s %s egységet, miközben megpróbált beépülni az "
 "ellenséghez %s városában."
 
-#: server/diplomats.c:1216
+#: server/diplomats.c:1208
 #, fuzzy, c-format
 msgid "Game: Eliminated %s %s while infiltrating our troops."
 msgstr ""
 "Játék: Elfogtak egy %s %s egységet, miközben megpróbált beépülni az "
 "ellenséghez %s városában."
 
-#: server/diplomats.c:1269
+#: server/diplomats.c:1261
 #, fuzzy, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
@@ -2805,7 +2798,7 @@ msgid ""
 msgstr ""
 "Játék: A %s teljesítette a küldetését és sértetlenül visszatért %s városába."
 
-#: server/diplomats.c:1275
+#: server/diplomats.c:1267
 #, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
@@ -2813,46 +2806,46 @@ msgid ""
 msgstr ""
 "Játék: A %s teljesítette a küldetését és sértetlenül visszatért %s városába."
 
-#: server/diplomats.c:1291
+#: server/diplomats.c:1283
 #, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
 msgstr ""
 "Játék: A %s egységedet elfogták %s városában, miután teljesítette a "
 "küldetését."
 
-#: server/diplomats.c:1296
+#: server/diplomats.c:1288
 #, c-format
 msgid "Game: Your %s was captured after completing her mission."
 msgstr "Játék: A %s egységedet elfogták, miután teljesítette a küldetését."
 
-#: server/diplomats.c:1331
+#: server/diplomats.c:1323
 #, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
 msgstr "Játék: %s %s egységének lefizetésével diplomáciai incidenst okozotál."
 
-#: server/diplomats.c:1336
+#: server/diplomats.c:1328
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
 msgstr "Játék: %s diplomáciai incidenst okozott egy %s egységed lefizetésével."
 
-#: server/diplomats.c:1343
+#: server/diplomats.c:1335
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
 msgstr ""
 "Játék: A(z) %s játékostól való tudománylopással diplomáciai incidenst "
 "okoztál."
 
-#: server/diplomats.c:1347
+#: server/diplomats.c:1339
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
 msgstr "Játék: %s diplomáciai incidenst okozott a tudománylopással."
 
-#: server/diplomats.c:1353
+#: server/diplomats.c:1345
 #, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
 msgstr "Játék: A(z) %si lázadás kirobbantásával diplomáciai incidenst okoztál."
 
-#: server/diplomats.c:1356
+#: server/diplomats.c:1348
 #, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr ""
@@ -3668,89 +3661,89 @@ msgstr ""
 "A kezdõhelyek száma (%d) kevesebb mint max_players (%d), ezért max_players-t "
 "csökkentettem."
 
-#: server/savegame.c:918 server/savegame.c:924 server/savegame.c:930
+#: server/savegame.c:917 server/savegame.c:923 server/savegame.c:929
 #, c-format
 msgid "Wrong unit type id value (%d)"
 msgstr ""
 
-#: server/savegame.c:964
+#: server/savegame.c:963
 #, c-format
 msgid "Wrong improvement type id value (%d)"
 msgstr ""
 
-#: server/savegame.c:1063
+#: server/savegame.c:1062
 #, c-format
 msgid "Wrong tech type id value (%d)"
 msgstr ""
 
-#: server/savegame.c:1145
+#: server/savegame.c:1144
 #, fuzzy, c-format
 msgid "Unknown technology (%s)"
 msgstr "Nincs technológia"
 
-#: server/savegame.c:1221 server/savegame.c:1227 server/savegame.c:1233
+#: server/savegame.c:1220 server/savegame.c:1226 server/savegame.c:1232
 #, c-format
 msgid "Wrong government type id value (%d)"
 msgstr ""
 
-#: server/savegame.c:1285
+#: server/savegame.c:1284
 #, c-format
 msgid "Unknown unit type '%s' in worklist"
 msgstr ""
 
-#: server/savegame.c:1300
+#: server/savegame.c:1299
 #, c-format
 msgid "Unknown improvement type '%s' in worklist"
 msgstr ""
 
-#: server/savegame.c:1389
+#: server/savegame.c:1388
 #, c-format
 msgid "Wrong player%d.u%d.type value (%d)"
 msgstr ""
 
-#: server/savegame.c:1399
+#: server/savegame.c:1398
 #, c-format
 msgid "Unknown unit type '%s' in player%d section"
 msgstr ""
 
-#: server/savegame.c:1521
+#: server/savegame.c:1520
 msgid "Savegame error: invalid unit orders."
 msgstr ""
 
-#: server/savegame.c:1641
+#: server/savegame.c:1640
 #, c-format
 msgid "Nation %s (used by %s) isn't available."
 msgstr ""
 
-#: server/savegame.c:1673
+#: server/savegame.c:1672
 #, fuzzy, c-format
 msgid "Unsupported government found (%s)"
 msgstr "a támogatott opciók: %s"
 
-#: server/savegame.c:1708
+#: server/savegame.c:1707
 #, c-format
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr ""
 
-#: server/savegame.c:1882
+#: server/savegame.c:1881
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
 msgstr ""
 
-#: server/savegame.c:3047
+#: server/savegame.c:3046
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "A játékállás túl régi, legalább 1.9.0-ás verziójúnak kéne lennie."
 
-#: server/savegame.c:3232
+#: server/savegame.c:3231
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "A játékállás a már nem támogatott klasszikus terep szabálykészletet "
 "használja."
 
-#: server/savegame.c:3241
+#: server/savegame.c:3240
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -3818,23 +3811,7 @@ msgstr "Közegészségügy"
 msgid "Rare"
 msgstr "Arányok"
 
-#: server/settings.c:55
-#, fuzzy
-msgid ""
-"notradesize must be always smaller than fulltradesize; keeping old value."
-msgstr ""
-"notradesize-nak mindig kisebbnek kell lennie fulltradesize-nál; a régi érték "
-"megtartása."
-
-#: server/settings.c:69
-#, fuzzy
-msgid ""
-"fulltradesize must be always bigger than notradesize; keeping old value."
-msgstr ""
-"fulltradesize-nak mindig nagyobbnak kell lennie notradesize-nál; a régi "
-"érték megtartása."
-
-#: server/settings.c:125
+#: server/settings.c:97
 #, fuzzy
 msgid ""
 "Allowed take string contains invalid\n"
@@ -3843,7 +3820,7 @@ msgstr ""
 "A megengedett kapcsolatokat beállító karaktersorozat érbénytelen\n"
 "karakter(eke)t tartalmaz.  Próbálkozz \"help allowconnect\"-tel!"
 
-#: server/settings.c:158
+#: server/settings.c:130
 #, fuzzy
 msgid ""
 "Starting units string contains invalid\n"
@@ -3852,37 +3829,37 @@ msgstr ""
 "A megengedett kapcsolatokat beállító karaktersorozat érbénytelen\n"
 "karakter(eke)t tartalmaz.  Próbálkozz \"help allowconnect\"-tel!"
 
-#: server/settings.c:164
+#: server/settings.c:136
 msgid ""
 "Starting units string does not contain\n"
 "at least one city founder.  Try \n"
 "\"help startunits\"."
 msgstr ""
 
-#: server/settings.c:180
+#: server/settings.c:152
 #, fuzzy
 msgid "Number of players is higher than requested value; Keeping old value."
 msgstr ""
 "A játékosok száma nagyobb az elõírt értéknél, a szerver megtartja az eredeti "
 "értéket."
 
-#: server/settings.c:226
+#: server/settings.c:198
 msgid "Map size (in thousands of tiles)"
 msgstr ""
 
-#: server/settings.c:227
+#: server/settings.c:199
 msgid ""
 "This value is used to determine the map dimensions.\n"
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
 "  size = 20 is a huge map of 20,000 tiles"
 msgstr ""
 
-#: server/settings.c:233
+#: server/settings.c:205
 msgid "Map topology index"
 msgstr ""
 
 #. TRANS: do not edit the ugly ASCII art
-#: server/settings.c:235
+#: server/settings.c:207
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south "
 "and east-west directions to form a flat map, a cylinder, or a torus (donut). "
@@ -3918,11 +3895,11 @@ msgid ""
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
 msgstr ""
 
-#: server/settings.c:277
+#: server/settings.c:249
 msgid "Method used to generate map"
 msgstr "Térképgeneráló eljárás"
 
-#: server/settings.c:278
+#: server/settings.c:250
 msgid ""
 "0 = Scenario map - no generator;\n"
 "1 = Fully random height generator;              [4]\n"
@@ -3934,12 +3911,12 @@ msgid ""
 "chosen based on the generator.  See the \"startpos\" setting."
 msgstr ""
 
-#: server/settings.c:291
+#: server/settings.c:263
 #, fuzzy
 msgid "Method used to choose start positions"
 msgstr "Térképgeneráló eljárás"
 
-#: server/settings.c:292
+#: server/settings.c:264
 msgid ""
 "0 = Generator's choice.  Selecting this setting means\n"
 "    the default value will be picked based on the generator\n"
@@ -3952,39 +3929,39 @@ msgid ""
 "of start pos and to the number of players"
 msgstr ""
 
-#: server/settings.c:305
+#: server/settings.c:277
 #, fuzzy
 msgid "Presence of 1x1 islands"
 msgstr "Lehetnek-e 1x1-es méretû szigetek"
 
-#: server/settings.c:306
+#: server/settings.c:278
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
 msgstr "0 = nem lehetnek 1x1-es szigetek; 1 = lehetnek 1x1-es szigetek"
 
-#: server/settings.c:311
+#: server/settings.c:283
 msgid "Whether the poles are separate continents"
 msgstr "A sarkvidékek különálló kontinensek legyenek-e"
 
-#: server/settings.c:312
+#: server/settings.c:284
 #, fuzzy
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
 msgstr ""
 "0 = a kontinensek összekapcsolódhatnak a sarkvidékekkel; 1 = a sarkvidékek "
 "különállóak legyenek"
 
-#: server/settings.c:318
+#: server/settings.c:290
 msgid "All the map is temperate"
 msgstr ""
 
-#: server/settings.c:319
+#: server/settings.c:291
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
 msgstr ""
 
-#: server/settings.c:324
+#: server/settings.c:296
 msgid "Average temperature of the planet"
 msgstr ""
 
-#: server/settings.c:325
+#: server/settings.c:297
 msgid ""
 "Small values will give a cold map, while larger values will give a hotter "
 "map.\n"
@@ -4002,21 +3979,21 @@ msgid ""
 "0 means a very cold planet with large polar zones and no tropics"
 msgstr ""
 
-#: server/settings.c:342
+#: server/settings.c:314
 msgid "Percentage of the map that is land"
 msgstr ""
 
-#: server/settings.c:343
+#: server/settings.c:315
 msgid ""
 "This setting gives the approximate percentage of the map that will be made "
 "into land."
 msgstr ""
 
-#: server/settings.c:349
+#: server/settings.c:321
 msgid "Amount of hills/mountains"
 msgstr "A dombok/hegyek százalékos aránya"
 
-#: server/settings.c:350
+#: server/settings.c:322
 #, fuzzy
 msgid ""
 "Small values give flat maps, while higher values give a steeper map with "
@@ -4025,22 +4002,22 @@ msgstr ""
 "A kis értékek sík térképet, a nagy értékek sok dombot és hegyet "
 "eredményeznek."
 
-#: server/settings.c:356
+#: server/settings.c:328
 #, fuzzy
 msgid "Amount of water on lands"
 msgstr "A szárazföldi mezõk százalékos aránya"
 
-#: server/settings.c:357
+#: server/settings.c:329
 msgid ""
 "Small values mean lots of dry, desert-like land; higher values give a wetter "
 "map with more swamps, jungles, and rivers."
 msgstr ""
 
-#: server/settings.c:364
+#: server/settings.c:336
 msgid "Map generation random seed"
 msgstr "A térképgeneráláshoz használt \"random seed\" érték"
 
-#: server/settings.c:365
+#: server/settings.c:337
 #, fuzzy
 msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
@@ -4052,12 +4029,12 @@ msgstr ""
 "aktuális rendszeridõ alapján kisorsol egy pozitív \"seed\"-et, és azt "
 "használja a térképgeneráláshoz."
 
-#: server/settings.c:378
+#: server/settings.c:350
 #, fuzzy
 msgid "Game random seed"
 msgstr "Általános \"random seed\" érték"
 
-#: server/settings.c:379
+#: server/settings.c:351
 #, fuzzy
 msgid ""
 "For zero (the default) a seed will be chosen based on the time. This setting "
@@ -4067,11 +4044,11 @@ msgstr ""
 "szerver az aktuális rendszeridõ alapján kisorsol helyette egy pozitív \"seed"
 "\"-et."
 
-#: server/settings.c:386
+#: server/settings.c:358
 msgid "Amount of \"special\" resource squares"
 msgstr "A speciális mezõk gyakoriságát meghatározó érték"
 
-#: server/settings.c:387
+#: server/settings.c:359
 #, fuzzy
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
@@ -4085,21 +4062,21 @@ msgstr ""
 "speciálissá tétel minden tereptípus esetén valamilyen pluszt ad az eredeti "
 "mezõ termeléséhez."
 
-#: server/settings.c:394
+#: server/settings.c:366
 msgid "Amount of huts (minor tribe villages)"
 msgstr "Kunyhók (apró törzsi falvak) száma"
 
-#: server/settings.c:395
+#: server/settings.c:367
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investiged by units."
 msgstr ""
 
-#: server/settings.c:408
+#: server/settings.c:380
 msgid "Minimum number of players"
 msgstr "Játékosok minimális száma"
 
-#: server/settings.c:409
+#: server/settings.c:381
 #, fuzzy
 msgid ""
 "There must be at least this many players (connected human players or AI "
@@ -4108,11 +4085,11 @@ msgstr ""
 "Legalább ennyi (ember vagy MI) játékosnak kell lennie ahhoz, hogy a játék "
 "elkezdõdhessen. "
 
-#: server/settings.c:416
+#: server/settings.c:388
 msgid "Maximum number of players"
 msgstr "Játékosok maximális száma"
 
-#: server/settings.c:417
+#: server/settings.c:389
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
@@ -4122,12 +4099,12 @@ msgstr ""
 "száma a játék elkezdése eléri ezt a számot, akkor az új játékosok "
 "kapcsolódási kísérleteit a szerver visszautasítja."
 
-#: server/settings.c:425
+#: server/settings.c:397
 #, fuzzy
 msgid "Total number of players (including AI players)"
 msgstr "Játékosok száma (feltöltés MI játékosokkal)"
 
-#: server/settings.c:426
+#: server/settings.c:398
 msgid ""
 "If there are fewer than this many players when the game starts, extra AI "
 "players will be created to increase the total number of players to the value "
@@ -4136,12 +4113,12 @@ msgstr ""
 "Ha a játék elkezdésekor aifill-nél kevesebb játékos van, akkor annyi MI "
 "játékos keletkezik, hogy a játékosok száma éppen aifill-re egészítõdjön ki."
 
-#: server/settings.c:437
+#: server/settings.c:409
 #, fuzzy
 msgid "List of players' initial units"
 msgstr "Jelenlévõ egységek ki_listázása"
 
-#: server/settings.c:438
+#: server/settings.c:410
 msgid ""
 "This should be a string of characters, each of which specifies a unit role. "
 "There must be at least one city founder in the string. The characters and "
@@ -4157,42 +4134,42 @@ msgid ""
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
 
-#: server/settings.c:455
+#: server/settings.c:427
 msgid "Area where initial units are located"
 msgstr "A kezdeti egységek mekkora területen belül szóródjanak szét"
 
-#: server/settings.c:456
+#: server/settings.c:428
 #, fuzzy
 msgid "This is the radius within which the initial units are dispersed."
 msgstr ""
 "Azon négyzet oldalhosszának a fele, amelyen belül szétszóródnak a kezdeti "
 "egységek."
 
-#: server/settings.c:462
+#: server/settings.c:434
 msgid "Starting gold per player"
 msgstr "Játékosonkénti kezdeti aranymennyiség"
 
-#: server/settings.c:463
+#: server/settings.c:435
 msgid "At the beginning of the game, each player is given this much gold."
 msgstr ""
 
-#: server/settings.c:469
+#: server/settings.c:441
 #, fuzzy
 msgid "Number of initial techs per player"
 msgstr "Játékosonkénti kezdeti telepesek száma"
 
-#: server/settings.c:470
+#: server/settings.c:442
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player."
 msgstr ""
 
-#: server/settings.c:477
+#: server/settings.c:449
 #, fuzzy
 msgid "Points required to gain a new tech"
 msgstr "Új tudomány felfedezéséhez szükséges pluszpontok száma"
 
-#: server/settings.c:478
+#: server/settings.c:450
 #, fuzzy
 msgid ""
 "This affects how quickly players can research new technology. Doubling its "
@@ -4201,11 +4178,11 @@ msgstr ""
 "Azt befolyásolja, hogy a játékosok milyen gyorsan tudnak új technológiákat "
 "kifejleszteni."
 
-#: server/settings.c:486
+#: server/settings.c:458
 msgid "Percentage penalty when changing tech"
 msgstr "Százalékos büntetés a kutatási cél átváltásáért"
 
-#: server/settings.c:487
+#: server/settings.c:459
 #, fuzzy
 msgid ""
 "If you change your current research technology, and you have positive "
@@ -4217,11 +4194,11 @@ msgstr ""
 "százalékát.  De ha éppen ebben a körben fejlesztettél ki technológiát, akkor "
 "nem érvényes ez a szabály."
 
-#: server/settings.c:496
+#: server/settings.c:468
 msgid "Penalty when getting tech from treaty"
 msgstr "Büntetés a diplomáciai úton szerzett tudományokért"
 
-#: server/settings.c:497
+#: server/settings.c:469
 #, fuzzy
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lost research "
@@ -4232,11 +4209,11 @@ msgstr ""
 "pontjaidból, ha diplomáciai úton szerzel meg egy tudományt.  Ez akár negatív "
 "számú kutatási pontot is eredményezhet!"
 
-#: server/settings.c:505
+#: server/settings.c:477
 msgid "Penalty when getting tech from conquering"
 msgstr "Büntetés a hódítással szerzett tudományokért"
 
-#: server/settings.c:506
+#: server/settings.c:478
 #, fuzzy
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
@@ -4247,11 +4224,11 @@ msgstr ""
 "pontjaidból, ha ellenséges város elfoglalásával szerzel meg egy tudományt.  "
 "Ez akár negatív számú kutatási pontot is eredményezhet!"
 
-#: server/settings.c:515
+#: server/settings.c:487
 msgid "Penalty when getting a free tech"
 msgstr "Büntetés az \"ingyen kapott\" tudományokért"
 
-#: server/settings.c:516
+#: server/settings.c:488
 #, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
@@ -4263,24 +4240,24 @@ msgstr ""
 "pontjaidból, ha \"ingyen\" (kunyhóból vagy Nagy Könyvtárból) kapsz egy "
 "tudományt.  Ez akár negatív számú kutatási pontot is eredményezhet!"
 
-#: server/settings.c:527
+#: server/settings.c:499
 msgid "Food required for a city to grow"
 msgstr "A város növekedéséhez szükséges élelem = foodbox * városméret"
 
-#: server/settings.c:528
+#: server/settings.c:500
 msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
 "the size of the city."
 msgstr ""
 
-#: server/settings.c:536
+#: server/settings.c:508
 msgid "Percentage food lost when need aqueduct"
 msgstr ""
 "Százalékos élelemveszteség, ha a város Vízvezeték hiánya miatt nem tud "
 "növekedni"
 
-#: server/settings.c:537
+#: server/settings.c:509
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
@@ -4290,11 +4267,11 @@ msgstr ""
 "Csatornarendszerre) lenne szüksége, akkor ennyi százaléka veszik el a város "
 "élelmiszerkészletének (illetve ennek a fele, ha van Magtár a városban)."
 
-#: server/settings.c:546
+#: server/settings.c:524
 msgid "Minimum city size to get full trade"
 msgstr "A normális kereskedelemtermeléshez tartozó városméret"
 
-#: server/settings.c:547
+#: server/settings.c:525
 #, fuzzy
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
@@ -4308,11 +4285,11 @@ msgstr ""
 "0%-ot (nincs más büntetés a normál korrupción kívül) fulltradesize "
 "városméretnél éri el.  Lásd még a notradesize beállítást."
 
-#: server/settings.c:557
+#: server/settings.c:535
 msgid "Maximum size of a city without trade"
 msgstr "A nulla kereskedelemtermeléshez tartozó maximális városméret"
 
-#: server/settings.c:558
+#: server/settings.c:536
 #, fuzzy
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
@@ -4324,11 +4301,11 @@ msgstr ""
 "kereskedelemtermelés mértéke a városméret függvényében fokozatosan "
 "növekszik.  Lásd még a fulltradesize beállítást."
 
-#: server/settings.c:568
+#: server/settings.c:545
 msgid "City size before people become unhappy"
 msgstr "Ezen városméret fölött kezdenek boldogtalanná válni a lakosok"
 
-#: server/settings.c:569
+#: server/settings.c:546
 #, fuzzy
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
@@ -4337,11 +4314,11 @@ msgstr ""
 "Az egyéb hatások figyelembe vétele nélkül egy város elsõ unhappysize lakosa "
 "elégedett, többi lakosa pedig boldogtalan.  Lásd még a cityfactor beállítást."
 
-#: server/settings.c:577
+#: server/settings.c:554
 msgid "Whether angry citizens are enabled"
 msgstr "Lehetnek-e lázadó lakosok a városokban"
 
-#: server/settings.c:578
+#: server/settings.c:555
 #, fuzzy
 msgid ""
 "Introduces angry citizens like in civilization II. Angry citizens have to "
@@ -4352,11 +4329,11 @@ msgstr ""
 "városban, addig a nem lázadó lakosok közhangulatát nem lehet befolyásolni. "
 "Lásd még az unhappysize, cityfactor és governments beállításokat."
 
-#: server/settings.c:586
+#: server/settings.c:563
 msgid "Number of cities for higher unhappiness"
 msgstr "Az boldogtalanság mértékét növelõ városszám"
 
-#: server/settings.c:587
+#: server/settings.c:564
 #, fuzzy
 msgid ""
 "When the number of cities a player owns is greater than cityfactor, one "
@@ -4369,12 +4346,12 @@ msgstr ""
 "unhappysize beállítást.  Más államformák esetén a hatás már kisebb "
 "városszámnál fellép."
 
-#: server/settings.c:596
+#: server/settings.c:573
 #, fuzzy
 msgid "Minimum distance between cities"
 msgstr "A városok közötti minimális távolság (lépéstávolság)"
 
-#: server/settings.c:597
+#: server/settings.c:574
 #, fuzzy
 msgid ""
 "When a player founds a new city, it is checked if there is no other city in "
@@ -4389,11 +4366,11 @@ msgstr ""
 "citymindist értéket egy szabálykészletbõl vett érték írja felül a játék "
 "kezdetekor."
 
-#: server/settings.c:608
+#: server/settings.c:585
 msgid "Number of turns between rapture effect"
 msgstr "Körök száma az ünneplés hatásai között"
 
-#: server/settings.c:609
+#: server/settings.c:586
 #, fuzzy
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
@@ -4403,11 +4380,11 @@ msgstr ""
 "növekedése között. Ha n-re állítjuk, akkor a városok n+1 kör ünneplés után "
 "fognak növekedni."
 
-#: server/settings.c:618
+#: server/settings.c:595
 msgid "Chance for conquered building destruction"
 msgstr "A meghódított épületek megsemmisülésének az esélye"
 
-#: server/settings.c:619
+#: server/settings.c:596
 #, fuzzy
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
@@ -4416,21 +4393,21 @@ msgstr ""
 "Amikor egy játékos meghódít egy várost, minden épületnek ennyi százalék "
 "esélye van a megsemmisülésre."
 
-#: server/settings.c:625
+#: server/settings.c:602
 msgid "civstyle is an obsolete setting"
 msgstr ""
 
-#: server/settings.c:626
+#: server/settings.c:603
 msgid ""
 "This setting is obsolete; it does nothing in the current version. It will be "
 "removed from future versions."
 msgstr ""
 
-#: server/settings.c:632
+#: server/settings.c:609
 msgid "Chance of moving into tile after attack"
 msgstr "A megtámadott mezõre való átlépés esélye"
 
-#: server/settings.c:633
+#: server/settings.c:610
 #, fuzzy
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
@@ -4445,11 +4422,11 @@ msgstr ""
 "mezõn).  Általános esetben ez a 0 és 100 közötti érték adja meg a "
 "\"területfoglalás\" százalékos esélyét."
 
-#: server/settings.c:644
+#: server/settings.c:621
 msgid "Reduce city population after attack"
 msgstr "Milyen típusú támadók okozzanak városcsökkenést"
 
-#: server/settings.c:645
+#: server/settings.c:622
 msgid ""
 "This flag indicates if city population is reduced after successful attack of "
 "enemy unit, depending on its movement type (OR-ed):\n"
@@ -4466,11 +4443,11 @@ msgstr ""
 "  4 = helikopter\n"
 "  8 = légi"
 
-#: server/settings.c:657
+#: server/settings.c:634
 msgid "Range of vision for units in a fortress"
 msgstr "Az erõdben tartózkodó egységek látósugara"
 
-#: server/settings.c:658
+#: server/settings.c:635
 #, fuzzy
 msgid ""
 "If set to 1, it has no effect. If 2 or larger, the vision range of a unit "
@@ -4484,11 +4461,11 @@ msgstr ""
 "tudományt. A techs.ruleset-ben található 'Watchtower' jelzõ határozza meg, "
 "hogy mi ez a tudomány. Lásd még a wtowerevision beállítást."
 
-#: server/settings.c:669
+#: server/settings.c:646
 msgid "Extra vision range for units in a fortress"
 msgstr "Extra látósugár az erõdben tartózkodó egységek számára"
 
-#: server/settings.c:670
+#: server/settings.c:647
 #, fuzzy
 msgid ""
 "If set to 0, it has no effect. If larger than 0, the vision range of a unit "
@@ -4504,33 +4481,33 @@ msgstr ""
 "Wtovervision és wtoverevision közül a nagyobbik lesz érvényes. Lásd még a "
 "wtowervision beállítást."
 
-#: server/settings.c:682
+#: server/settings.c:659
 msgid "National borders radius"
 msgstr ""
 
-#: server/settings.c:683
+#: server/settings.c:660
 msgid ""
 "If this is set to greater than 0, then any land tiles within the given "
 "radius of a city will be owned by that nation. Special rules apply for ocean "
 "tiles or tiles within range of more than one nation's cities."
 msgstr ""
 
-#: server/settings.c:693
+#: server/settings.c:670
 #, fuzzy
 msgid "Units inside borders cause no unhappiness"
 msgstr "A harcmezõn lévõ katonai egységek boldogtalanságot okozhatnak. "
 
-#: server/settings.c:694
+#: server/settings.c:671
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
 msgstr ""
 
-#: server/settings.c:700
+#: server/settings.c:677
 msgid "Ability to do diplomacy with other players"
 msgstr ""
 
-#: server/settings.c:701
+#: server/settings.c:678
 msgid ""
 "0 = default; diplomacy is enabled for everyone.\n"
 "\n"
@@ -4545,11 +4522,11 @@ msgid ""
 "You can always do diplomacy with players on your team."
 msgstr ""
 
-#: server/settings.c:711
+#: server/settings.c:688
 msgid "Allowed city names"
 msgstr "Megengedett városnevek"
 
-#: server/settings.c:712
+#: server/settings.c:689
 #, fuzzy
 msgid ""
 "0 = There are no restrictions: players can have multiple cities with the "
@@ -4572,11 +4549,11 @@ msgstr ""
 "akkor a játékos nem adhatnak olyan nevet a városainak, ami alapértelmezett "
 "városneve egy másik népnek."
 
-#: server/settings.c:740
+#: server/settings.c:717
 msgid "Barbarian appearance frequency"
 msgstr "A barbárok megjelenésének gyakorisága"
 
-#: server/settings.c:741
+#: server/settings.c:718
 #, fuzzy
 msgid ""
 "0 = no barbarians \n"
@@ -4591,29 +4568,29 @@ msgstr ""
 "3 - gyakori barbármegjelenés \n"
 "4 - dühöngõ hordák, rengeteg barbár"
 
-#: server/settings.c:751
+#: server/settings.c:728
 msgid "Barbarian onset year"
 msgstr "Barbárok kezdési éve"
 
-#: server/settings.c:752
+#: server/settings.c:729
 msgid "Barbarians will not appear before this year."
 msgstr "Ezen év elõtt nem jelenhetnek meg barbárok a játékban."
 
-#: server/settings.c:758
+#: server/settings.c:735
 msgid "Length in turns of revolution"
 msgstr ""
 
-#: server/settings.c:759
+#: server/settings.c:736
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
 "occur. Setting this value to 0 will give a random length of 1-6 turns."
 msgstr ""
 
-#: server/settings.c:768
+#: server/settings.c:745
 msgid "Whether to enable fog of war"
 msgstr "Fog of war ki-/bekapcsolása"
 
-#: server/settings.c:769
+#: server/settings.c:746
 #, fuzzy
 msgid ""
 "If this is set to 1, only those units and cities within the vision range of "
@@ -4625,11 +4602,11 @@ msgstr ""
 "nem fogják észrevenni pl. az új városok megjelenését vagy a "
 "terepváltozásokat."
 
-#: server/settings.c:777
+#: server/settings.c:754
 msgid "Chance in diplomat/spy contests"
 msgstr "Esély a diplomata-/kémküzdelmekben"
 
-#: server/settings.c:779
+#: server/settings.c:756
 #, fuzzy, no-c-format
 msgid ""
 "A diplomatic unit acting against a city which has one or more defending "
@@ -4648,20 +4625,20 @@ msgstr ""
 "védõ Kémek kétszer olyan erõsek mint a védõ Diplomaták, a veterán egységek "
 "50%-kal erõsebbek a nem veterán egységeknél."
 
-#: server/settings.c:792
+#: server/settings.c:769
 msgid "Whether to allow space race"
 msgstr "Ûrhajók engedélyezése/tiltása"
 
-#: server/settings.c:793
+#: server/settings.c:770
 #, fuzzy
 msgid "If this option is set to 1, players can build spaceships."
 msgstr "Ha 1-re állítjuk, akkor a játékosok építhetnek ûrhajót."
 
-#: server/settings.c:799
+#: server/settings.c:776
 msgid "Minimum number of cities for civil war"
 msgstr "Minimális városszám a polgárháborúhoz"
 
-#: server/settings.c:800
+#: server/settings.c:777
 #, fuzzy
 msgid ""
 "A civil war is triggered if a player has at least this many cities and the "
@@ -4672,22 +4649,22 @@ msgstr ""
 "akkor a játékos országában polgárháború tör ki.  Ha a beállítás értéke "
 "maximális, akkor nem lesz polgárháború a játékban."
 
-#: server/settings.c:809
+#: server/settings.c:786
 msgid "Turns until player contact is lost"
 msgstr ""
 
-#: server/settings.c:810
+#: server/settings.c:787
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even if they do not have an embassy. If set to zero then players "
 "cannot meet unless they have an embassy."
 msgstr ""
 
-#: server/settings.c:820
+#: server/settings.c:797
 msgid "Rebuild palace if capital is conquered"
 msgstr "Palota újrafelépítése, ha elfoglalják a fõvárost"
 
-#: server/settings.c:821
+#: server/settings.c:798
 #, fuzzy
 msgid ""
 "If this is set to 1, then when the capital is conquered the palace is "
@@ -4699,11 +4676,11 @@ msgstr ""
 "automatikusan újraépül a játékos egy véletlenszerûen kiválasztott városában, "
 "feltéve hogy a játékos ismeri a Kõmûvességet."
 
-#: server/settings.c:831
+#: server/settings.c:808
 msgid "Whether to use natural city names"
 msgstr "Terepfüggõ városelnevezés használata"
 
-#: server/settings.c:832
+#: server/settings.c:809
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
@@ -4711,11 +4688,11 @@ msgstr ""
 "Ha engedélyezzük, akkor a környezõ tereptõl függ a szerver által felajánlott "
 "városnév."
 
-#: server/settings.c:845
+#: server/settings.c:822
 msgid "Players that users are allowed to take"
 msgstr ""
 
-#: server/settings.c:846
+#: server/settings.c:823
 #, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
@@ -4774,11 +4751,11 @@ msgstr ""
 "A többszörös ill. megfigyelõ kapcsolódások megvalósítása pillanatnyilag "
 "KÍSÉRLETI stádiumban van."
 
-#: server/settings.c:881
+#: server/settings.c:858
 msgid "Whether AI-status toggles with connection"
 msgstr "MI állapot be-/kikapcsolása a kapcsolódás/szétkapcsolás hatására"
 
-#: server/settings.c:882
+#: server/settings.c:859
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
@@ -4786,19 +4763,19 @@ msgstr ""
 "Ha 1-re állítjuk, akkor kapcsolódáskor megszûnik, a kapcsolat bontásakor "
 "pedig beállítódik az MI állapot a játékosoknál."
 
-#: server/settings.c:888
+#: server/settings.c:865
 msgid "Year the game ends"
 msgstr "A játék befejezési éve"
 
-#: server/settings.c:889
+#: server/settings.c:866
 msgid "The game will end at the end of the given year."
 msgstr ""
 
-#: server/settings.c:894
+#: server/settings.c:871
 msgid "Maximum seconds per turn"
 msgstr "Maximum hány másodpercig tarthat egy kör"
 
-#: server/settings.c:895
+#: server/settings.c:872
 #, fuzzy
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
@@ -4813,12 +4790,12 @@ msgstr ""
 "idõkorlátot is létrehozhatunk, ha a beállítást a 'timeoutincrease' "
 "paranccsal együtt használjuk."
 
-#: server/settings.c:905
+#: server/settings.c:882
 #, fuzzy
 msgid "Seconds to let a client's network connection block"
 msgstr "Hány másodpercig blokkolódhat egy kapcsolat"
 
-#: server/settings.c:906
+#: server/settings.c:883
 #, fuzzy
 msgid ""
 "If a network connection is blocking for a time greater than this value, then "
@@ -4829,12 +4806,12 @@ msgstr ""
 "bezárja a szerver. A nulla érték azt jelenti, hogy nincs külön idõkorlát a "
 "TCP protokoll által meghatározott idõkorláton kívül."
 
-#: server/settings.c:915
+#: server/settings.c:892
 #, fuzzy
 msgid "Max seconds for network buffers to drain"
 msgstr "Maximum hány másodpercig ürülhetnek ki a TCP pufferek"
 
-#: server/settings.c:916
+#: server/settings.c:893
 #, fuzzy
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
@@ -4845,12 +4822,12 @@ msgstr ""
 "puffer blokkolódásának megszûnésére. Ha a beállítás értéke nulla, akkor a "
 "szerver semennyit sem fog várni."
 
-#: server/settings.c:924
+#: server/settings.c:901
 #, fuzzy
 msgid "Seconds between PINGs"
 msgstr "Hány másodpercenként PING-eljen a szerver"
 
-#: server/settings.c:925
+#: server/settings.c:902
 #, fuzzy
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
@@ -4860,20 +4837,20 @@ msgstr ""
 "PING kérést. Ha egy kliens nem válaszol PONG-gal a következõ PING elõtt, "
 "akkor a klienssel megszakad a kapcsolat."
 
-#: server/settings.c:932
+#: server/settings.c:909
 msgid "Time to cut a client"
 msgstr ""
 
-#: server/settings.c:933
+#: server/settings.c:910
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
 
-#: server/settings.c:939
+#: server/settings.c:916
 msgid "Turn-blocking game play mode"
 msgstr "Szigorúan körökre osztott játékmód"
 
-#: server/settings.c:940
+#: server/settings.c:917
 msgid ""
 "If this is set to 1 the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
@@ -4882,11 +4859,11 @@ msgstr ""
 "játékos (beleértve azokat is, akikkel megszakadt a kapcsolat) be nem fejezte "
 "a körét."
 
-#: server/settings.c:947
+#: server/settings.c:924
 msgid "Fixed-length turns play mode"
 msgstr "Fix hosszúságú körök"
 
-#: server/settings.c:948
+#: server/settings.c:925
 #, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
@@ -4895,11 +4872,11 @@ msgstr ""
 "Ha 1-re állítjuk, akkor nem kezdõdik el a következõ kör az idõkorlát letelte "
 "elõtt, függetlenül attól, hogy a játékosok nyomtak-e \"Kör vége\" gombot."
 
-#: server/settings.c:955
+#: server/settings.c:932
 msgid "What is in the Demographics report"
 msgstr "Mi legyen a Demográfiai jelentésben"
 
-#: server/settings.c:956
+#: server/settings.c:933
 #, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
@@ -4936,11 +4913,11 @@ msgstr ""
 "(A karakterek sorrendje nem számít, de a kis és nagy betûk különbözõnek "
 "számítanak.)"
 
-#: server/settings.c:980
+#: server/settings.c:957
 msgid "Turns per auto-save"
 msgstr "Hány körönként legyen automatikus mentés"
 
-#: server/settings.c:981
+#: server/settings.c:958
 #, fuzzy
 msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
@@ -4949,11 +4926,11 @@ msgstr ""
 "A játék ennyi körönként automatikusan el lesz mentve.\n"
 "A nulla azt jelenti, hogy soha ne legyen automatikus mentés."
 
-#: server/settings.c:991 server/settings.c:1002
+#: server/settings.c:968 server/settings.c:979
 msgid "Savegame compression level"
 msgstr "Elmentett állások tömörítésének mértéke"
 
-#: server/settings.c:992 server/settings.c:1003
+#: server/settings.c:969 server/settings.c:980
 #, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format). Larger "
@@ -4965,11 +4942,11 @@ msgstr ""
 "lassabb tömörítést eredményez.  Ha a beállítás maximális értéke nulla, akkor "
 "a szervert úgy fordították, hogy ne használjon zlib-et."
 
-#: server/settings.c:1014
+#: server/settings.c:991
 msgid "Auto-save name prefix"
 msgstr "Automatikus mentés név-elõtagja"
 
-#: server/settings.c:1015
+#: server/settings.c:992
 #, fuzzy
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\". This "
@@ -4979,11 +4956,11 @@ msgstr ""
 "lesz.\n"
 "Ez a beállítás adja meg az <elõtag> részt."
 
-#: server/settings.c:1022
+#: server/settings.c:999
 msgid "Whether to log player statistics"
 msgstr "Játékosstatisztika naplózása"
 
-#: server/settings.c:1023
+#: server/settings.c:1000
 #, fuzzy
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
@@ -4994,11 +4971,11 @@ msgstr ""
 "\"civscore.log\" fájl végére.  Ezek a statisztikák fejlõdési grafikonok "
 "készítéséhez használhatók fel a játék után."
 
-#: server/settings.c:1030
+#: server/settings.c:1007
 msgid "Detail level for logging game events"
 msgstr "Játékesemények naplózásának részletességi szintje"
 
-#: server/settings.c:1031
+#: server/settings.c:1008
 #, fuzzy
 msgid ""
 "Only applies if the game log feature is enabled (with the -g command line "
@@ -5244,7 +5221,7 @@ msgstr ""
 msgid "%s has been added as an AI-controlled player."
 msgstr "A szerver felvette a játékba %s MI irányította játékost."
 
-#: server/srv_main.c:1401 server/stdinhand.c:910
+#: server/srv_main.c:1401 server/stdinhand.c:929
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Játék: A szerver felvette a játékba %s MI irányította játékost."
@@ -5301,7 +5278,7 @@ msgstr ""
 msgid "(ambiguous)"
 msgstr "(kétértelmû)"
 
-#: server/stdinhand.c:371 client/packhand.c:1229
+#: server/stdinhand.c:371 client/packhand.c:1250
 msgid "(unknown)"
 msgstr "(ismeretlen)"
 
@@ -5434,72 +5411,72 @@ msgstr "%s mostantól MI irányítás alatt áll."
 msgid "%s is now under human control."
 msgstr "%s mostantól emberi irányítás alatt áll."
 
-#: server/stdinhand.c:857
+#: server/stdinhand.c:874
 msgid "Can't add AI players once the game has begun."
 msgstr "A játék elkezdõdése után nem lehet MI játékosokat hozzáadni."
 
-#: server/stdinhand.c:864
+#: server/stdinhand.c:883
 msgid "Can't add more players, server is full."
 msgstr "Nem lehet több játékost hozzáadni, a szerver megtelt."
 
-#: server/stdinhand.c:870
+#: server/stdinhand.c:889
 msgid "Can't use an empty name."
 msgstr "Nem lehet üres nevet használni."
 
-#: server/stdinhand.c:877
+#: server/stdinhand.c:896
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Ez a név túllépi a megengedett %d karakter hosszt."
 
-#: server/stdinhand.c:883
+#: server/stdinhand.c:902
 #, fuzzy
 msgid "That name is not allowed."
 msgstr "Milyen típusú kapcsolódások engedélyezettek"
 
-#: server/stdinhand.c:889
+#: server/stdinhand.c:908
 msgid "A player already exists by that name."
 msgstr "Van már ilyen nevû játékos."
 
-#: server/stdinhand.c:895
+#: server/stdinhand.c:914
 #, fuzzy
 msgid "A user already exists by that name."
 msgstr "Van már ilyen nevû játékos."
 
-#: server/stdinhand.c:917
+#: server/stdinhand.c:936
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Hiba történt %s MI játékos létrehozása közben."
 
-#: server/stdinhand.c:947
+#: server/stdinhand.c:966
 msgid "Players cannot be removed once the game has started."
 msgstr "A játék elkezdõdése után nem lehet már eltávolítani játékosokat."
 
-#: server/stdinhand.c:959
+#: server/stdinhand.c:978
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "%s játékos a játékból sikeresen eltávolítva."
 
-#: server/stdinhand.c:972
+#: server/stdinhand.c:991
 #, c-format
 msgid "Loading script file: %s"
 msgstr "A(z) %s parancsfájl (script) betöltése"
 
-#: server/stdinhand.c:986
+#: server/stdinhand.c:1005
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Nem sikerült beolvasni a(z) '%s' parancsfájlt."
 
-#: server/stdinhand.c:988
+#: server/stdinhand.c:1007
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Nem sikerült beolvasni a(z) '%s' parancsfájlt."
 
-#: server/stdinhand.c:1083
+#: server/stdinhand.c:1102
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Nem sikerült elkészíteni a(z) '%s' parancsfájlt."
 
-#: server/stdinhand.c:1118
+#: server/stdinhand.c:1137
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -5508,7 +5485,7 @@ msgstr ""
 "Nem sikerült csökkenteni a(z) '%2$s' kapcsolat parancselérési szintjét ('%1"
 "$s'); csak '%3$s' szinttel rendelkezel."
 
-#: server/stdinhand.c:1172
+#: server/stdinhand.c:1191
 #, c-format
 msgid ""
 "Game: Anyone can assume command access level '%s' now by issuing the "
@@ -5517,27 +5494,27 @@ msgstr ""
 "Játék: Most bárki felveheti a(z) '%s' parancselérési szintet a 'firstlevel' "
 "parancs kiadásával."
 
-#: server/stdinhand.c:1205
+#: server/stdinhand.c:1224
 msgid "Command access levels in effect:"
 msgstr "A jelenleg érvényben lévõ parancselérési szintek:"
 
-#: server/stdinhand.c:1213
+#: server/stdinhand.c:1232
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Parancselérési szint az új kapcsolatok számára: %s."
 
-#: server/stdinhand.c:1216
+#: server/stdinhand.c:1235
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Parancselérési szint az elsõ játékos számára: %s"
 
-#: server/stdinhand.c:1225
+#: server/stdinhand.c:1244
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Hiba: a parancselérési szint csak 'none', 'info', 'ctrl' vagy 'hack' lehet."
 
-#: server/stdinhand.c:1230
+#: server/stdinhand.c:1249
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
@@ -5545,678 +5522,678 @@ msgstr ""
 "Nem sikerült '%s' szintre növelni a parancselérési szintet; csak '%s' "
 "szinttel rendelkezel."
 
-#: server/stdinhand.c:1257 server/stdinhand.c:1305
+#: server/stdinhand.c:1276 server/stdinhand.c:1324
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "A(z) %2$s kapcsolat parancselérési szintje mostantól '%1$s'."
 
-#: server/stdinhand.c:1261 server/stdinhand.c:1309
+#: server/stdinhand.c:1280 server/stdinhand.c:1328
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr ""
 "Nem sikerült beállítani a(z) '%s' parancselérési szintet a(z) %s kapcsolat "
 "számára."
 
-#: server/stdinhand.c:1271 server/stdinhand.c:1281 server/stdinhand.c:1298
+#: server/stdinhand.c:1290 server/stdinhand.c:1300 server/stdinhand.c:1317
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Az új játékosok parancselérési szintje mostantól '%s'."
 
-#: server/stdinhand.c:1275 server/stdinhand.c:1286 server/stdinhand.c:1293
+#: server/stdinhand.c:1294 server/stdinhand.c:1305 server/stdinhand.c:1312
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "A parancselérési szint az elsõ játékos számára mostantól '%s'."
 
-#: server/stdinhand.c:1331
+#: server/stdinhand.c:1350
 msgid "The 'firstlevel' command makes no sense from the server command line."
 msgstr "A 'firstlevel' parancsnak a szerver konzoljáról kiadva nincsen hatása."
 
-#: server/stdinhand.c:1335
+#: server/stdinhand.c:1354
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Már rendelkezel '%s' vagy magasabb parancselérési szinttel."
 
-#: server/stdinhand.c:1340
+#: server/stdinhand.c:1359
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
 msgstr "Valaki más már rendelkezik '%s' vagy magasabb parancselérési szinttel."
 
-#: server/stdinhand.c:1346
+#: server/stdinhand.c:1365
 #, c-format
 msgid "Command access level '%s' has been grabbed by connection %s."
 msgstr "A(z) %2$s kapcsolat parancselérési szintje mostantól '%1$s'."
 
-#: server/stdinhand.c:1398
+#: server/stdinhand.c:1417
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Érvénytelen argumentum: %d."
 
-#: server/stdinhand.c:1405
+#: server/stdinhand.c:1424
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "Használat: timeoutincrease <kör> <körnövelés> <érték> <értékszorzó>."
 
-#: server/stdinhand.c:1413
+#: server/stdinhand.c:1432
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Dinamikus idõzítõ beállítása %d %d %d %d értékre"
 
-#: server/stdinhand.c:1473 server/stdinhand.c:1476
+#: server/stdinhand.c:1492 server/stdinhand.c:1495
 msgid "Option:"
 msgstr "Beállítás:"
 
-#: server/stdinhand.c:1486 server/stdinhand.c:3729
+#: server/stdinhand.c:1505 server/stdinhand.c:3754
 msgid "Description:"
 msgstr "Leírás:"
 
-#: server/stdinhand.c:1491
+#: server/stdinhand.c:1510
 #, c-format
 msgid "Status: %s"
 msgstr "Státusz: %s"
 
-#: server/stdinhand.c:1492
+#: server/stdinhand.c:1511
 msgid "changeable"
 msgstr "változtatható"
 
-#: server/stdinhand.c:1492
+#: server/stdinhand.c:1511
 msgid "fixed"
 msgstr "fix"
 
-#: server/stdinhand.c:1498
+#: server/stdinhand.c:1517
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Érték: %d, Minimum: 0, Alapértelmezés: %d, Maximum: 1"
 
-#: server/stdinhand.c:1503
+#: server/stdinhand.c:1522
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Érték: %d, Minimum: %d, Alapértelmezés: %d, Maximum: %d"
 
-#: server/stdinhand.c:1509
+#: server/stdinhand.c:1528
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Érték: \"%s\", Alapértelmezés: \"%s\""
 
-#: server/stdinhand.c:1528
+#: server/stdinhand.c:1547
 msgid "Explanations are available for the following server options:"
 msgstr "A következõ szerverbeállításokhoz található leírás:"
 
-#: server/stdinhand.c:1573
+#: server/stdinhand.c:1592
 msgid "No explanation for that yet."
 msgstr "Még nincs hozzá leírás."
 
-#: server/stdinhand.c:1576 server/stdinhand.c:2380
+#: server/stdinhand.c:1595 server/stdinhand.c:2399
 msgid "Ambiguous option name."
 msgstr "Kétértelmû beállításnév."
 
-#: server/stdinhand.c:1596
+#: server/stdinhand.c:1615
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Szerveroperátor: %s"
 
-#: server/stdinhand.c:1616
+#: server/stdinhand.c:1635
 #, c-format
 msgid "%-20svalue  (min , max)"
 msgstr "%-20sérték  (min , max)"
 
-#: server/stdinhand.c:1616 server/stdinhand.c:1931
+#: server/stdinhand.c:1635 server/stdinhand.c:1950
 msgid "Option"
 msgstr "Beállítás"
 
-#: server/stdinhand.c:1618
+#: server/stdinhand.c:1637
 msgid "Server Options (initial)"
 msgstr "Szerverbeállítások (kezdeti)"
 
-#: server/stdinhand.c:1619
+#: server/stdinhand.c:1638
 msgid "Server Options (ongoing)"
 msgstr "Szerverbeállítások (menetközbeni)"
 
-#: server/stdinhand.c:1770 server/stdinhand.c:1795 server/stdinhand.c:1810
+#: server/stdinhand.c:1789 server/stdinhand.c:1814 server/stdinhand.c:1829
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "'%s' játékos MI erõsségi szintje mostantól '%s'."
 
-#: server/stdinhand.c:1799
+#: server/stdinhand.c:1818
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s játékos nem MI irányítás alatt áll."
 
-#: server/stdinhand.c:1816
+#: server/stdinhand.c:1835
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Az alapértelmezett MI erõsségi szint '%s'."
 
-#: server/stdinhand.c:1831 server/stdinhand.c:2115
+#: server/stdinhand.c:1850 server/stdinhand.c:2134
 #, fuzzy
 msgid "This command is client only."
 msgstr "Ez a parancs pillanatnyilag még nincs megvalósítva."
 
-#: server/stdinhand.c:1834
+#: server/stdinhand.c:1853
 msgid "Usage: away"
 msgstr ""
 
-#: server/stdinhand.c:1837
+#: server/stdinhand.c:1856
 #, c-format
 msgid "%s set to away mode."
 msgstr ""
 
-#: server/stdinhand.c:1843
+#: server/stdinhand.c:1862
 #, fuzzy, c-format
 msgid "%s returned to game."
 msgstr "Játék befejezése."
 
-#: server/stdinhand.c:1884
+#: server/stdinhand.c:1903
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Sajnálom, nincs jogosultságod a(z) '%s' beállítás megtekintésére."
 
-#: server/stdinhand.c:1890
+#: server/stdinhand.c:1909
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "A(z) '%s' ismeretlen beállítás."
 
-#: server/stdinhand.c:1915
+#: server/stdinhand.c:1934
 #, fuzzy
 msgid "All options"
 msgstr "Helyi beállítások"
 
-#: server/stdinhand.c:1918
+#: server/stdinhand.c:1937
 #, fuzzy
 msgid "Vital options"
 msgstr "Városbeállítások"
 
-#: server/stdinhand.c:1921
+#: server/stdinhand.c:1940
 #, fuzzy
 msgid "Situational options"
 msgstr "Helyi beállítások"
 
-#: server/stdinhand.c:1924
+#: server/stdinhand.c:1943
 msgid "Rarely used options"
 msgstr ""
 
-#: server/stdinhand.c:1927
+#: server/stdinhand.c:1946
 msgid "+ means you may change the option"
 msgstr "a '+' jelentése: a beállítás változtatható"
 
-#: server/stdinhand.c:1928
+#: server/stdinhand.c:1947
 msgid "= means the option is on its default value"
 msgstr "az '=' jelentése: a beállítás az alapértelmezett értékén van"
 
-#: server/stdinhand.c:1931
+#: server/stdinhand.c:1950
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s érték   (min,max)      "
 
-#: server/stdinhand.c:1934
+#: server/stdinhand.c:1953
 msgid "description"
 msgstr "leírás"
 
-#: server/stdinhand.c:1995
+#: server/stdinhand.c:2014
 msgid "Try 'show situational' or 'show rare' to show more options"
 msgstr ""
 
-#: server/stdinhand.c:2042
+#: server/stdinhand.c:2061
 #, fuzzy
 msgid "Cannot change teams once game has begun."
 msgstr "A játék elkezdõdése után nem lehet MI játékosokat hozzáadni."
 
-#: server/stdinhand.c:2052
+#: server/stdinhand.c:2071
 #, fuzzy
 msgid "Undefined argument.  Usage: team <player> [team]."
 msgstr "Definiálatlan argumentum.  Használat: set <beállítás> <érték>."
 
-#: server/stdinhand.c:2069
+#: server/stdinhand.c:2088
 #, c-format
 msgid "Player %s is made teamless."
 msgstr ""
 
-#: server/stdinhand.c:2078
+#: server/stdinhand.c:2097
 msgid "Only ASCII characters are allowed for team names."
 msgstr ""
 
-#: server/stdinhand.c:2083
+#: server/stdinhand.c:2102
 #, fuzzy
 msgid "Cannot team a barbarian."
 msgstr "Barbár játékos MI irányítását nem lehet kikapcsolni."
 
-#: server/stdinhand.c:2088
+#: server/stdinhand.c:2107
 #, fuzzy, c-format
 msgid "Player %s set to team %s."
 msgstr "A(z) %s vesztettek egy %s egységet a(z) %s támadása miatt"
 
-#: server/stdinhand.c:2109
+#: server/stdinhand.c:2128
 #, fuzzy
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "Definiálatlan argumentum.  Használat: set <beállítás> <érték>."
 
-#: server/stdinhand.c:2118
+#: server/stdinhand.c:2137
 msgid "Observers cannot vote."
 msgstr ""
 
-#: server/stdinhand.c:2129
+#: server/stdinhand.c:2148
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr ""
 
-#: server/stdinhand.c:2136
+#: server/stdinhand.c:2155
 msgid "There are no votes going on."
 msgstr ""
 
-#: server/stdinhand.c:2157
+#: server/stdinhand.c:2176
 msgid "No legal last vote."
 msgstr ""
 
-#: server/stdinhand.c:2162
+#: server/stdinhand.c:2181
 #, fuzzy
 msgid "Value must be integer."
 msgstr "Egész számot kell megadni."
 
-#: server/stdinhand.c:2173
+#: server/stdinhand.c:2192
 #, c-format
 msgid "No such vote (%d)."
 msgstr ""
 
-#: server/stdinhand.c:2177
+#: server/stdinhand.c:2196
 #, fuzzy, c-format
 msgid "You voted for \"%s\""
 msgstr "Nem sikerült megnyitni a(z) %s fájlt."
 
-#: server/stdinhand.c:2181
+#: server/stdinhand.c:2200
 #, c-format
 msgid "You voted against \"%s\""
 msgstr ""
 
-#: server/stdinhand.c:2208
+#: server/stdinhand.c:2227
 msgid ""
 "Undefined arguments. Usage: debug <player <player> | city <x> <y> | units "
 "<x> <y> | unit <id>>."
 msgstr ""
 
-#: server/stdinhand.c:2214
+#: server/stdinhand.c:2233
 #, fuzzy
 msgid "Can only use this command once game has begun."
 msgstr "A játék elkezdõdése után nem lehet MI játékosokat hozzáadni."
 
-#: server/stdinhand.c:2241 server/stdinhand.c:2272
+#: server/stdinhand.c:2260 server/stdinhand.c:2291
 #, c-format
 msgid "%s no longer debugged"
 msgstr ""
 
-#: server/stdinhand.c:2245
+#: server/stdinhand.c:2264
 #, c-format
 msgid "%s debugged"
 msgstr ""
 
-#: server/stdinhand.c:2258 server/stdinhand.c:2288
+#: server/stdinhand.c:2277 server/stdinhand.c:2307
 #, fuzzy
 msgid "Value 2 & 3 must be integer."
 msgstr "Egész számot kell megadni."
 
-#: server/stdinhand.c:2262 server/stdinhand.c:2292
+#: server/stdinhand.c:2281 server/stdinhand.c:2311
 msgid "Bad map coordinates."
 msgstr ""
 
-#: server/stdinhand.c:2267
+#: server/stdinhand.c:2286
 msgid "No city at this coordinate."
 msgstr ""
 
-#: server/stdinhand.c:2298 server/stdinhand.c:2324
+#: server/stdinhand.c:2317 server/stdinhand.c:2343
 #, c-format
 msgid "%s's %s no longer debugged."
 msgstr ""
 
-#: server/stdinhand.c:2302 server/stdinhand.c:2328
+#: server/stdinhand.c:2321 server/stdinhand.c:2347
 #, c-format
 msgid "%s's %s debugged."
 msgstr ""
 
-#: server/stdinhand.c:2315
+#: server/stdinhand.c:2334
 #, fuzzy
 msgid "Value 2 must be integer."
 msgstr "Egész számot kell megadni."
 
-#: server/stdinhand.c:2319
+#: server/stdinhand.c:2338
 #, c-format
 msgid "Unit %d does not exist."
 msgstr ""
 
-#: server/stdinhand.c:2375
+#: server/stdinhand.c:2394
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Definiálatlan argumentum.  Használat: set <beállítás> <érték>."
 
-#: server/stdinhand.c:2385
+#: server/stdinhand.c:2404
 msgid "You are not allowed to set this option."
 msgstr "Nincs jogosultságod a beállítás megváltoztatására."
 
-#: server/stdinhand.c:2390
+#: server/stdinhand.c:2409
 msgid "This setting can't be modified after the game has started."
 msgstr "Ez a beállítás a játék elkezdõdése után már nem változtatható meg."
 
-#: server/stdinhand.c:2402 server/stdinhand.c:2428
+#: server/stdinhand.c:2421 server/stdinhand.c:2447
 msgid "Value must be an integer."
 msgstr "Egész számot kell megadni."
 
-#: server/stdinhand.c:2406
+#: server/stdinhand.c:2425
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr ""
 "A megadott érték kívül esik a megengedett tartományon (minimum: 0, maximum: "
 "1)."
 
-#: server/stdinhand.c:2419 server/stdinhand.c:2445
+#: server/stdinhand.c:2438 server/stdinhand.c:2464
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "A(z) %s beállítás új értéke: %d."
 
-#: server/stdinhand.c:2432
+#: server/stdinhand.c:2451
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr ""
 "A megadott érték kívül esik a megengedett tartományon (minimum: %d, maximum: "
 "%d)."
 
-#: server/stdinhand.c:2455
+#: server/stdinhand.c:2474
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "A megadott sztring túl hosszú.  Használat: set <beállítás> <érték>."
 
-#: server/stdinhand.c:2467
+#: server/stdinhand.c:2486
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "A(z) %s beállítás új értéke: \"%s\"."
 
-#: server/stdinhand.c:2504
+#: server/stdinhand.c:2523
 #, fuzzy
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Sajnálom, ebbe a játékba nem léphetnek be új játékosok."
 
-#: server/stdinhand.c:2507
+#: server/stdinhand.c:2526
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr ""
 
-#: server/stdinhand.c:2516
+#: server/stdinhand.c:2535
 #, fuzzy
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Sajnálom, ebben a játékban tilos a barbárok megfigyelése."
 
-#: server/stdinhand.c:2519
+#: server/stdinhand.c:2538
 #, fuzzy
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Sajnálom, ebben a játékban tilos a barbárok megfigyelése."
 
-#: server/stdinhand.c:2527
+#: server/stdinhand.c:2546
 #, fuzzy
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Sajnálom, ebben a játékban tilos a legyõzött játékok megfigyelése."
 
-#: server/stdinhand.c:2530
+#: server/stdinhand.c:2549
 #, fuzzy
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Sajnálom, ebben a játékban tilos a legyõzött játékok megfigyelése."
 
-#: server/stdinhand.c:2538
+#: server/stdinhand.c:2557
 #, fuzzy
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "Sajnálom, ebben a játékban tilos az MI játékosok megfigyelése."
 
-#: server/stdinhand.c:2541
+#: server/stdinhand.c:2560
 #, fuzzy
 msgid "Sorry, one can't take AI players in this game."
 msgstr "Sajnálom, ebben a játékban tilos az MI játékosok megfigyelése."
 
-#: server/stdinhand.c:2550
+#: server/stdinhand.c:2569
 #, fuzzy
 msgid "Sorry, one can't observe human players in this game."
 msgstr "Sajnálom, ebben a játékban tilos az MI játékosok megfigyelése."
 
-#: server/stdinhand.c:2553
+#: server/stdinhand.c:2572
 #, fuzzy
 msgid "Sorry, one can't take human players in this game."
 msgstr ""
 "Sajnálom, ebben a játékban az ember játékosok számára tilos az "
 "újrakapcsolódás."
 
-#: server/stdinhand.c:2563
+#: server/stdinhand.c:2582
 #, fuzzy
 msgid "Sorry, one can't observe in this game."
 msgstr "Sajnálom, ebbe a játékba nem léphetnek be új játékosok."
 
-#: server/stdinhand.c:2568
+#: server/stdinhand.c:2587
 #, fuzzy
 msgid "Sorry, one can't take players in this game."
 msgstr "Sajnálom, ebbe a játékba nem léphetnek be új játékosok."
 
-#: server/stdinhand.c:2574
+#: server/stdinhand.c:2593
 #, fuzzy
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "Sajnálom, ebbe a játékba nem léphetnek be új játékosok."
 
-#: server/stdinhand.c:2607
+#: server/stdinhand.c:2626
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr ""
 
-#: server/stdinhand.c:2613
+#: server/stdinhand.c:2632
 #, fuzzy
 msgid "Usage: observe [player-name]"
 msgstr "remove <játékosnév>"
 
-#: server/stdinhand.c:2659
+#: server/stdinhand.c:2678
 msgid "Game: A global observer cannot be created: too many regular players."
 msgstr ""
 
-#: server/stdinhand.c:2690
+#: server/stdinhand.c:2709
 msgid "Game: A global observer has been created"
 msgstr ""
 
-#: server/stdinhand.c:2706
+#: server/stdinhand.c:2725
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr ""
 
-#: server/stdinhand.c:2714
+#: server/stdinhand.c:2733
 #, fuzzy, c-format
 msgid "%s is already observing %s."
 msgstr "A játék már fut."
 
-#: server/stdinhand.c:2767
+#: server/stdinhand.c:2786
 #, c-format
 msgid "%s now observes %s"
 msgstr ""
 
-#: server/stdinhand.c:2807
+#: server/stdinhand.c:2826
 #, fuzzy
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "set <beállításnév> <érték>"
 
-#: server/stdinhand.c:2812
+#: server/stdinhand.c:2831
 #, fuzzy
 msgid "Usage: take <player-name>"
 msgstr "create <játékosnév>"
 
-#: server/stdinhand.c:2818
+#: server/stdinhand.c:2837
 msgid "Usage: take [connection-name] <player-name>"
 msgstr ""
 
-#: server/stdinhand.c:2850
+#: server/stdinhand.c:2869
 #, c-format
 msgid "%s cannot be taken."
 msgstr ""
 
-#: server/stdinhand.c:2857
+#: server/stdinhand.c:2876
 #, c-format
 msgid "%s already controls %s"
 msgstr ""
 
-#: server/stdinhand.c:2881
+#: server/stdinhand.c:2900
 #, c-format
 msgid "being detached from %s."
 msgstr ""
 
-#: server/stdinhand.c:2934
+#: server/stdinhand.c:2957
 #, fuzzy, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "A(z) %s elvesztették %s városát (%i,%i)"
 
-#: server/stdinhand.c:2936 server/stdinhand.c:3943
+#: server/stdinhand.c:2959 server/stdinhand.c:3968
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbár"
 
-#: server/stdinhand.c:2937 server/stdinhand.c:3945 client/plrdlg_common.c:228
+#: server/stdinhand.c:2960 server/stdinhand.c:3970 client/plrdlg_common.c:228
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk/plrdlg.c:141
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "MI"
 
-#: server/stdinhand.c:2937 server/stdinhand.c:3947
+#: server/stdinhand.c:2960 server/stdinhand.c:3972
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk-2.0/pages.c:1480
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/connectdlg.c:208
 msgid "Human"
 msgstr "Ember"
 
-#: server/stdinhand.c:2937 client/gui-gtk-2.0/pages.c:1452
+#: server/stdinhand.c:2960 client/gui-gtk-2.0/pages.c:1452
 #: client/gui-gtk-2.0/pages.c:1479 client/gui-win32/connectdlg.c:188
 #: client/gui-win32/connectdlg.c:207
 #, fuzzy
 msgid "Alive"
 msgstr "Aktív"
 
-#: server/stdinhand.c:2937 client/gui-gtk-2.0/pages.c:1452
+#: server/stdinhand.c:2960 client/gui-gtk-2.0/pages.c:1452
 #: client/gui-win32/connectdlg.c:188
 #, fuzzy
 msgid "Dead"
 msgstr ", Legyõzött"
 
-#: server/stdinhand.c:2968
+#: server/stdinhand.c:2991
 #, fuzzy
 msgid "Usage: detach <connection-name>"
 msgstr "cut <kapcsolatnév>"
 
-#: server/stdinhand.c:2988
+#: server/stdinhand.c:3011
 #, fuzzy
 msgid "You can not detach other users."
 msgstr "Játék: Ott nem támadhatsz."
 
-#: server/stdinhand.c:2997
+#: server/stdinhand.c:3020
 #, fuzzy, c-format
 msgid "%s is not attached to any player."
 msgstr "%s belépett a játékba %s játékosként."
 
-#: server/stdinhand.c:3024
+#: server/stdinhand.c:3047
 #, fuzzy, c-format
 msgid "%s detaching from %s"
 msgstr "A(z) %s ellopták a(z) %s tudományt a(z) %s népétõl"
 
-#: server/stdinhand.c:3036
+#: server/stdinhand.c:3059
 #, fuzzy, c-format
 msgid "detaching from %s."
 msgstr "Kutatás alatt: %s."
 
-#: server/stdinhand.c:3124
+#: server/stdinhand.c:3147
 msgid "Usage: load <filename>"
 msgstr "Használat: load <fájlnév>"
 
-#: server/stdinhand.c:3130
+#: server/stdinhand.c:3153
 msgid "Can't load a game while another is running."
 msgstr "Nem lehet játékállást betölteni, amíg egy másik játék fut."
 
-#: server/stdinhand.c:3139
+#: server/stdinhand.c:3162
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Nem sikerült betölteni a(z) %s játékállást"
 
-#: server/stdinhand.c:3196
+#: server/stdinhand.c:3219
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "A jelenlegi szabálykészlet könyvtár: \"%s\""
 
-#: server/stdinhand.c:3203
+#: server/stdinhand.c:3226
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "A(z) \"%s\" szabálykészlet könyvtár nem található"
 
-#: server/stdinhand.c:3208
+#: server/stdinhand.c:3231
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "A szabálykészlet könyvtár mostantól \"%s\""
 
-#: server/stdinhand.c:3246
+#: server/stdinhand.c:3269
 msgid "Goodbye."
 msgstr "Viszlát!"
 
-#: server/stdinhand.c:3278
+#: server/stdinhand.c:3301
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Sajnálom, nincs jogosultságod szerverparancsok kiadására."
 
-#: server/stdinhand.c:3314
+#: server/stdinhand.c:3337
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Figyelmeztetés: '%s' értelmezése %s'-ként, de kétértelmûség van.  Próbálkozz "
 "'%shelp'-pel!"
 
-#: server/stdinhand.c:3319
+#: server/stdinhand.c:3342
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Ismeretlen parancs.  Próbálkozz '%shelp'-pel!"
 
-#: server/stdinhand.c:3336
+#: server/stdinhand.c:3359
 msgid "Your new vote cancelled your previous vote."
 msgstr ""
 
-#: server/stdinhand.c:3344
+#: server/stdinhand.c:3367
 #, c-format
 msgid "New vote, no. %d, by %s: %s."
 msgstr ""
 
-#: server/stdinhand.c:3364
+#: server/stdinhand.c:3387
 msgid "You are not allowed to use this command."
 msgstr "Nincs jogosultságod használni ezt a parancsot."
 
-#: server/stdinhand.c:3390
+#: server/stdinhand.c:3413
 msgid "(server prompt)"
 msgstr "(szerverprompt)"
 
-#: server/stdinhand.c:3462
+#: server/stdinhand.c:3485
 msgid "The game must be running before you can see the score."
 msgstr "A játéknak elõbb futnia kell, csak utána nézheted meg az eredményt."
 
-#: server/stdinhand.c:3523
+#: server/stdinhand.c:3546
 #, c-format
 msgid "But %s is dead!"
 msgstr ""
 
-#: server/stdinhand.c:3542
+#: server/stdinhand.c:3565
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 
-#: server/stdinhand.c:3552
+#: server/stdinhand.c:3575
 msgid "Cannot end the game: no game running."
 msgstr "Nem sikerült befejezni a játékot: a játék nem fut."
 
-#: server/stdinhand.c:3596
+#: server/stdinhand.c:3621
 msgid "Not enough players, game will not start."
 msgstr "Nincs elég játékos, a játék nem kezdhetõ el."
 
-#: server/stdinhand.c:3607
+#: server/stdinhand.c:3632
 #, fuzzy
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Nem sikerült elkezdeni a játékot: a játék már fut."
 
-#: server/stdinhand.c:3613
+#: server/stdinhand.c:3638
 #, fuzzy
 msgid "Cannot start the game: it has already been started."
 msgstr "Nem sikerült elkezdeni a játékot: a játék már fut."
 
-#: server/stdinhand.c:3618
+#: server/stdinhand.c:3643
 msgid "Cannot start the game: it is already running."
 msgstr "Nem sikerült elkezdeni a játékot: a játék már fut."
 
-#: server/stdinhand.c:3647
+#: server/stdinhand.c:3672
 #, c-format
 msgid "Cutting connection %s."
 msgstr "A(z) %s kapcsolat megszakítása."
 
-#: server/stdinhand.c:3666
+#: server/stdinhand.c:3691
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6257,91 +6234,91 @@ msgstr ""
 "  save   -  pillanatnyi játékállás elmentése\n"
 "  quit   -  kilépés"
 
-#: server/stdinhand.c:3701 server/stdinhand.c:3704
+#: server/stdinhand.c:3726 server/stdinhand.c:3729
 msgid "Command:"
 msgstr "Parancs:"
 
-#: server/stdinhand.c:3708
+#: server/stdinhand.c:3733
 msgid "Synopsis: "
 msgstr "Áttekintés: "
 
-#: server/stdinhand.c:3717
+#: server/stdinhand.c:3742
 #, c-format
 msgid "Level: %s"
 msgstr "Szint: %s"
 
-#: server/stdinhand.c:3720
+#: server/stdinhand.c:3745
 #, fuzzy, c-format
 msgid "Pregame level: %s"
 msgstr "Szint: %s"
 
-#: server/stdinhand.c:3746
+#: server/stdinhand.c:3771
 msgid "The following server commands are available:"
 msgstr "A lehetséges szerverparancsok a következõk:"
 
-#: server/stdinhand.c:3821
+#: server/stdinhand.c:3846
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "A help parancs '%s' argumentuma kétértelmû."
 
-#: server/stdinhand.c:3826
+#: server/stdinhand.c:3851
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "A help parancs '%s' argumentumára semmi sem illeszkedik."
 
-#: server/stdinhand.c:3885
+#: server/stdinhand.c:3910
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr ""
 "A list parancs argumentuma ('%s') hibás.  Próbálkozz '%shelp list'-tel!"
 
-#: server/stdinhand.c:3917
+#: server/stdinhand.c:3942
 msgid "List of players:"
 msgstr "A játékosok listája:"
 
-#: server/stdinhand.c:3922
+#: server/stdinhand.c:3947
 msgid "<no players>"
 msgstr "<nincsenek játékosok>"
 
-#: server/stdinhand.c:3939
+#: server/stdinhand.c:3964
 #, fuzzy, c-format
 msgid "user %s, "
 msgstr "felhasználói név: %s, "
 
-#: server/stdinhand.c:3950
+#: server/stdinhand.c:3975
 msgid ", Dead"
 msgstr ", Legyõzött"
 
-#: server/stdinhand.c:3953
+#: server/stdinhand.c:3978
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", erõsségi szint: %s"
 
-#: server/stdinhand.c:3957
+#: server/stdinhand.c:3982
 #, c-format
 msgid ", nation %s"
 msgstr ", nép: %s"
 
-#: server/stdinhand.c:3969
+#: server/stdinhand.c:3994
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] "%d kapcsolat:"
 
-#: server/stdinhand.c:3975
+#: server/stdinhand.c:4000
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s@%s (parancselérési szint: %s), pufferméret=%dkb"
 
-#: server/stdinhand.c:3980
+#: server/stdinhand.c:4005
 msgid " (observer mode)"
 msgstr " (megfigyelõ üzemmód)"
 
-#: server/stdinhand.c:3996
+#: server/stdinhand.c:4021
 msgid "List of connections to server:"
 msgstr "A szerverhez való kapcsolódások listája:"
 
-#: server/stdinhand.c:4000
+#: server/stdinhand.c:4025
 msgid "<no connections>"
 msgstr "<nincs kapcsolat>"
 
@@ -6365,80 +6342,80 @@ msgstr "Játék: Nem volt felfejlesztendõ egység."
 msgid "Game: %s upgraded to %s for %d gold."
 msgstr "Játék: Egy %s felfejlesztve %s egységgé %d aranyért."
 
-#: server/unithand.c:342
+#: server/unithand.c:354
 #, fuzzy, c-format
 msgid "Game: %s refuses to disband!"
 msgstr "Játék: %s a(z) %s uralkodója."
 
-#: server/unithand.c:365
+#: server/unithand.c:377
 msgid "Game: Can't place city here."
 msgstr "Játék: Nem helyezhetsz el itt várost."
 
-#: server/unithand.c:372
+#: server/unithand.c:384
 #, c-format
 msgid "Game: Only %s can build a city."
 msgstr "Játék: Csak %s építhet várost."
 
-#: server/unithand.c:377
+#: server/unithand.c:389
 msgid "Game: Can't build a city."
 msgstr "Játék: Nem építhet várost."
 
-#: server/unithand.c:386
+#: server/unithand.c:398
 #, c-format
 msgid "Game: Only %s can add to a city."
 msgstr "Játék: Csak %s adható hozzá városhoz."
 
-#: server/unithand.c:391
+#: server/unithand.c:403
 msgid "Game: Can't add to a city."
 msgstr "Játék: Nem adható hozzá városhoz."
 
-#: server/unithand.c:397
+#: server/unithand.c:409
 #, c-format
 msgid "Game: %s unit has no moves left to add to %s."
 msgstr ""
 "Játék: A(z) %s nem adható hozzá %s városához, mert elfogytak a lépései."
 
-#: server/unithand.c:402
+#: server/unithand.c:414
 #, c-format
 msgid "Game: %s unit has no moves left to build city."
 msgstr "Játék: A(z) %s nem építhet várost, mert elfogytak a lépései."
 
-#: server/unithand.c:407
+#: server/unithand.c:419
 #, c-format
 msgid "Game: %s is too big to add %s."
 msgstr "Játék: %s már túl nagy, a(z) %s nem adható hozzá."
 
-#: server/unithand.c:412
+#: server/unithand.c:424
 #, fuzzy, c-format
 msgid "Game: %s needs an improvement to grow, so you cannot add %s."
 msgstr "Játék: %s növekedéséhez %s szükséges, ezért a(z) %s nem adható hozzá."
 
-#: server/unithand.c:421
+#: server/unithand.c:433
 #, c-format
 msgid "Game: Can't add %s to %s."
 msgstr "Játék: A(z) %s nem adható hozzá %s városához."
 
-#: server/unithand.c:445
+#: server/unithand.c:457
 #, c-format
 msgid "Game: %s added to aid %s in growing."
 msgstr ""
 "Játék: Egy %s hozzáadódott %s városához ezzel segítve a város növekedését."
 
-#: server/unithand.c:688
+#: server/unithand.c:700
 #, c-format
 msgid "Game: Your bombarding %s%s became more experienced!"
 msgstr ""
 
-#: server/unithand.c:730
+#: server/unithand.c:742
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr "Játék: Az Atomrakétádat lelõtte az SDI védelem."
 
-#: server/unithand.c:733
+#: server/unithand.c:745
 #, c-format
 msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Játék: A(z) %s elleni atomtámadást kivédte az SDI védelmed."
 
-#: server/unithand.c:801
+#: server/unithand.c:813
 #, fuzzy, c-format
 msgid ""
 "Game: Your %s%s survived the pathetic attack from %s's %s and became more "
@@ -6446,113 +6423,113 @@ msgid ""
 msgstr ""
 "Játék: %1$s egységed túlélte %3$s %4$s egységének hõsies támadását %2$s."
 
-#: server/unithand.c:810
+#: server/unithand.c:822
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
 msgstr ""
 "Játék: %1$s egységed túlélte %3$s %4$s egységének hõsies támadását %2$s."
 
-#: server/unithand.c:820
+#: server/unithand.c:832
 #, c-format
 msgid "Game: Your attacking %s failed against %s's %s%s!"
 msgstr "Játék: A támadó %s egységed vereséget szenvedett %s %s egységétõl %s!"
 
-#: server/unithand.c:837
+#: server/unithand.c:849
 #, fuzzy, c-format
 msgid ""
 "Game: Your attacking %s succeeded against %s's %s%s and became more "
 "experienced!"
 msgstr "Játék: a támadó %s egységed legyõzte %s %s egységét %s!"
 
-#: server/unithand.c:846
+#: server/unithand.c:858
 #, c-format
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
 msgstr "Játék: a támadó %s egységed legyõzte %s %s egységét %s!"
 
-#: server/unithand.c:895
+#: server/unithand.c:907
 msgid "Game: Cancel treaty in the players dialog first (F3)."
 msgstr ""
 "Játék: Elõször fel kell bontanod az egyezményt a Játékosok ablakban (F3)."
 
-#: server/unithand.c:919
+#: server/unithand.c:931
 #, c-format
 msgid "Game: Only %s can attack from sea."
 msgstr "Játék: Csak %s támadhatnak tengerrõl."
 
-#: server/unithand.c:924
+#: server/unithand.c:936
 msgid "Game: Cannot attack from sea."
 msgstr "Játék: Nem támadhatsz tengerrõl."
 
-#: server/unithand.c:929 server/unittools.c:2186
+#: server/unithand.c:941 server/unittools.c:2199
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Játék: Nem támadhatsz, ha nem üzensz hadat elõbb."
 
-#: server/unithand.c:932
+#: server/unithand.c:944
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
 msgstr "Játék: A(z) %s csak általad ellenõrzött területre léphet."
 
-#: server/unithand.c:969
+#: server/unithand.c:981
 msgid "Game: This unit has no moves left."
 msgstr "Játék: Ennek az egységnek nincsen több lépése."
 
-#: server/unithand.c:1023
+#: server/unithand.c:1035
 msgid "Game: Unit must be on land to perform diplomatic action."
 msgstr ""
 "Játék: Az egység csak szárazföldi mezõrõl hajthat végre diplomáciai akciót."
 
-#: server/unithand.c:1025
+#: server/unithand.c:1037
 msgid "Game: No diplomat action possible."
 msgstr "Játék: Nem lehetséges a diplomatatevékenység."
 
-#: server/unithand.c:1040
+#: server/unithand.c:1052
 #, fuzzy, c-format
 msgid "Game: Can't attack %s because you are not at war with %s."
 msgstr ""
 "Játék: Nem támadhatod meg %s egységét %s városában, mert nem állsz háborúban "
 "%s játékossal."
 
-#: server/unithand.c:1051
+#: server/unithand.c:1063
 #, fuzzy, c-format
 msgid "Game: Can't attack %s's unit because you are not at war with %s."
 msgstr ""
 "Játék: Nem támadhatod meg %s egységét %s városában, mert nem állsz háborúban "
 "%s játékossal."
 
-#: server/unithand.c:1069
+#: server/unithand.c:1081
 #, fuzzy
 msgid "Game: This unit is being transported, and so cannot bombard."
 msgstr "Játék: Ez az egységtípus nem hajthat végre ejtõernyõs támadást."
 
-#: server/unithand.c:1084
+#: server/unithand.c:1096
 msgid "Game: You can't attack there."
 msgstr "Játék: Ott nem támadhatsz."
 
-#: server/unithand.c:1104
+#: server/unithand.c:1116
 #, fuzzy
 msgid "Game: This type of troops cannot take over a city."
 msgstr "Játék: Csak földi egységek foglalhatnak el várost."
 
-#: server/unithand.c:1122
+#: server/unithand.c:1134
 msgid ""
 "Game: A transported unit is not allied to all units or city on target tile."
 msgstr ""
 
-#: server/unithand.c:1166
+#: server/unithand.c:1178
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr ""
 "Játék: Egy %1$s egységed besegít a(z) %3$si %2$s építésébe (%4$d pajzs van "
 "hátra)."
 
-#: server/unithand.c:1168
+#: server/unithand.c:1180
 #, fuzzy, c-format
 msgid "Game: Your %s helps build the %s in %s (%d surplus)."
 msgstr ""
 "Játék: Egy %1$s egységed besegít a(z) %3$si %2$s építésébe (%4$d pajzs van "
 "hátra)."
 
-#: server/unithand.c:1212
+#: server/unithand.c:1224
 #, fuzzy, c-format
 msgid ""
 "Game: Sorry, your %s cannot establish a trade route because it has no home "
@@ -6560,29 +6537,29 @@ msgid ""
 msgstr ""
 "Játék: Sajnálom, a(z) %s egységed itt nem alapíthat kereskedelmi útvonalat."
 
-#: server/unithand.c:1222
+#: server/unithand.c:1234
 #, fuzzy, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr ""
 "Játék: Sajnálom, a(z) %s egységed itt nem alapíthat kereskedelmi útvonalat."
 
-#: server/unithand.c:1250 server/unithand.c:1267
+#: server/unithand.c:1262 server/unithand.c:1279
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr ""
 "Játék: Sajnálom, a(z) %s egységed itt nem alapíthat kereskedelmi útvonalat."
 
-#: server/unithand.c:1253 server/unithand.c:1270
+#: server/unithand.c:1265 server/unithand.c:1282
 #, fuzzy, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      %s városa már %d kereskedelmi útvonallal rendelkezik!"
 
-#: server/unithand.c:1282 server/unithand.c:1293
+#: server/unithand.c:1294 server/unithand.c:1305
 #, c-format
 msgid "Game: Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr ""
 
-#: server/unithand.c:1325
+#: server/unithand.c:1337
 #, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
@@ -6636,245 +6613,245 @@ msgstr "Játék: A(z) %s egységednek kifogyott az üzemanyaga."
 msgid "Game: Your %s became more experienced!"
 msgstr ""
 
-#: server/unittools.c:857
+#: server/unittools.c:861
 #, fuzzy, c-format
 msgid "Game: Moved your %s due to changing land to sea."
 msgstr ""
 "Játék: Arrébbment egy %s egységed, mert a(z) (%d, %d) mezõ szárazföldbõl "
 "tengerré alakult."
 
-#: server/unittools.c:878
+#: server/unittools.c:882
 #, fuzzy, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
 msgstr ""
 "Játék: Hajóra szállt egy %s egységed, mert a(z) (%d, %d) mezõ szárazföldbõl "
 "tengerré alakult."
 
-#: server/unittools.c:893
+#: server/unittools.c:897
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
 msgstr ""
 "Játék: Feloszlott egy %s egységed, mert a(z) (%d, %d) mezõ szárazföldbõl "
 "tengerré alakult."
 
-#: server/unittools.c:915
+#: server/unittools.c:919
 #, fuzzy, c-format
 msgid "Game: Moved your %s due to changing sea to land."
 msgstr ""
 "Játék: Arrébbment egy %s egységed, mert a(z) (%d, %d) mezõ tengerbõl "
 "szárazfölddé alakult."
 
-#: server/unittools.c:935
+#: server/unittools.c:939
 #, fuzzy, c-format
 msgid "Game: Docked your %s due to changing sea to land."
 msgstr ""
 "Játék: Kikötött egy %s egységed, mert a(z) (%d, %d) mezõ tengerbõl "
 "szárazfölddé alakult."
 
-#: server/unittools.c:950
+#: server/unittools.c:954
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
 msgstr ""
 "Játék: Feloszlott egy %s egységed, mert a(z) (%d, %d) mezõ tengerbõl "
 "szárazfölddé alakult."
 
-#: server/unittools.c:982
+#: server/unittools.c:986
 #, c-format
 msgid " at %s"
 msgstr " %s városánál"
 
-#: server/unittools.c:984
+#: server/unittools.c:988
 #, c-format
 msgid " in %s"
 msgstr " %s városában"
 
-#: server/unittools.c:991
+#: server/unittools.c:995
 #, c-format
 msgid " outside %s"
 msgstr " %s közelében"
 
-#: server/unittools.c:994
+#: server/unittools.c:998
 #, c-format
 msgid " near %s"
 msgstr " %s mellett"
 
-#: server/unittools.c:1204
+#: server/unittools.c:1208
 #, fuzzy, c-format
 msgid "Game: Teleported your %s to %s."
 msgstr "Játék: Egy %s egységed teleportált a(z) (%d, %d) mezõrõl %s városába."
 
-#: server/unittools.c:1230
+#: server/unittools.c:1234
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s."
 msgstr "Játék: Feloszlott egy %s egységed a(z) (%d, %d) mezõn."
 
-#: server/unittools.c:1554
+#: server/unittools.c:1558
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr ""
 
-#: server/unittools.c:1556
+#: server/unittools.c:1560
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 
-#: server/unittools.c:1648
+#: server/unittools.c:1661
 #, fuzzy, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
 msgstr ""
 "Játék: A %s megsemmisítette a(z) épülõ %s egységet/épületet %s városában."
 
-#: server/unittools.c:1655
+#: server/unittools.c:1668
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Játék: A(z) %2$s elvesztésével a(z) %1$s is elveszett."
 
-#: server/unittools.c:1714
+#: server/unittools.c:1727
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Játék: Az elfogott barbár fõnökért %d arany váltságdíjat fizettek."
 
-#: server/unittools.c:1731
+#: server/unittools.c:1744
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Játék: %2$s %3$s egysége megsemmisített egy %1$s egységedet %4$s."
 
-#: server/unittools.c:1757
+#: server/unittools.c:1770
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Játék: %2$s %3$s egysége megsemmisített %1$d egységedet %4$s."
 
-#: server/unittools.c:1772
+#: server/unittools.c:1785
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Játék: %2$s %3$s egysége megsemmisített egy %1$s egységedet."
 
-#: server/unittools.c:2031
+#: server/unittools.c:2044
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Játék: A(z) %s egységedet atomtámadás érte %s részérõl."
 
-#: server/unittools.c:2033 server/unittools.c:2049
+#: server/unittools.c:2046 server/unittools.c:2062
 msgid "yourself"
 msgstr "a saját magad"
 
-#: server/unittools.c:2037
+#: server/unittools.c:2050
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Játék: %s %s egységét atomtámadás érte."
 
-#: server/unittools.c:2047
+#: server/unittools.c:2060
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Játék: %s városát atomtámadás érte %s részérõl."
 
-#: server/unittools.c:2054
+#: server/unittools.c:2067
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Játék: Atombombát dobtál le %s városára."
 
-#: server/unittools.c:2092
+#: server/unittools.c:2105
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Játék: %s atombombát robbantott!"
 
-#: server/unittools.c:2132
+#: server/unittools.c:2145
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Játék: A(z) %s átszállítása sikerült."
 
-#: server/unittools.c:2155
+#: server/unittools.c:2168
 msgid "Game: This unit type can not be paradropped."
 msgstr "Játék: Ez az egységtípus nem hajthat végre ejtõernyõs támadást."
 
-#: server/unittools.c:2165
+#: server/unittools.c:2178
 #, fuzzy
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "Játék: Nem lehet óceánba ejtõernyõzni."
 
-#: server/unittools.c:2170
+#: server/unittools.c:2183
 msgid "Game: The destination location is not known."
 msgstr "Játék: A célmezõ ismeretlen."
 
-#: server/unittools.c:2177
+#: server/unittools.c:2190
 #, fuzzy
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "Játék: Nem lehet óceánba ejtõernyõzni."
 
-#: server/unittools.c:2195
+#: server/unittools.c:2208
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Játék: A célmezõ távolsága (%i) nagyobb mint az egység hatótávolsága (%i)."
 
-#: server/unittools.c:2209
+#: server/unittools.c:2222
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Játék: A(z) %s egységed az óceánba esett, és elveszett."
 
-#: server/unittools.c:2222
+#: server/unittools.c:2235
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Játék: A(z) %s egységedet ellenséges egységek ölték meg a leérkezés "
 "helyszínén."
 
-#: server/unittools.c:2244
+#: server/unittools.c:2257
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Játék: Találtál %d aranyat."
 
-#: server/unittools.c:2270
+#: server/unittools.c:2283
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Játék: Megtaláltad a(z) %s tudományt õsi papírtekercseken."
 
-#: server/unittools.c:2273
+#: server/unittools.c:2286
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt õsi papírtekercsekbõl."
 
-#: server/unittools.c:2293
+#: server/unittools.c:2306
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Játék: Egy csapat szolgálatkész zsoldos csatlakozott hozzád."
 
-#: server/unittools.c:2311
+#: server/unittools.c:2324
 msgid "Game: An abandoned village is here."
 msgstr "Játék: Egy elhagyatott falu van itt."
 
-#: server/unittools.c:2321
+#: server/unittools.c:2334
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Játék: Elszabadítottál egy barbár hordát!"
 
-#: server/unittools.c:2324
+#: server/unittools.c:2337
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Játék: Barbárok ölték meg a(z) %s egységedet!"
 
-#: server/unittools.c:2340
+#: server/unittools.c:2353
 msgid "Game: You found a friendly city."
 msgstr "Játék: Találtál egy szövetséges várost."
 
-#: server/unittools.c:2345
+#: server/unittools.c:2358
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Játék: Jó benyomást tettél egy csapat nomádra, ezért csatlakoztak hozzád."
 
-#: server/unittools.c:2370
+#: server/unittools.c:2383
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Játék: A primitív törzs nagyon megijed a repülõdtõl; rémülten szétszélednek."
 
-#: server/unittools.c:2813
+#: server/unittools.c:2826
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr ""
 "Játék: Egy %s félbeszakította a kijelölt útvonalon haladását (GOTO), mert "
 "útban vannak neki más egységek."
 
-#: server/unittools.c:2856
+#: server/unittools.c:2869
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6882,36 +6859,36 @@ msgstr ""
 "Játék: A(z) %s egységed abbahagyta az õrjáratozást, mert idegen egységgel "
 "találkozott."
 
-#: server/unittools.c:2929
+#: server/unittools.c:2942
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr ""
 "Játék: Egy %s félbeszakította a kijelölt útvonalon haladását (GOTO), mert "
 "útban vannak neki más egységek."
 
-#: server/unittools.c:2975
+#: server/unittools.c:2988
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr ""
 
-#: server/unittools.c:2989
+#: server/unittools.c:3002
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr ""
 
-#: server/unittools.c:2999
+#: server/unittools.c:3012
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr ""
 "Játék: Egy %s félbeszakította a kijelölt útvonalon haladását (GOTO), mert "
 "útban vannak neki más egységek."
 
-#: server/unittools.c:3025
+#: server/unittools.c:3038
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr ""
 
-#: server/unittools.c:3052
+#: server/unittools.c:3071
 #, fuzzy, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Játék: A(z) %s egységed visszatért üzemanyagfelvételre."
@@ -7674,26 +7651,26 @@ msgstr "Elveszett a kapcsolat a szerverrel!"
 msgid "Failed looking up host."
 msgstr "Nem sikerült megtalálni a szervert"
 
-#: client/clinet.c:190
+#: client/clinet.c:192
 #, fuzzy
 msgid "Connection in progress."
 msgstr "Kapcsolódás"
 
-#: client/clinet.c:244
+#: client/clinet.c:246
 #, fuzzy
 msgid "Disconnected from server."
 msgstr "Elszakadás a szervertõl"
 
-#: client/clinet.c:599
+#: client/clinet.c:601
 #, fuzzy
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr "Érvénytelen $http_proxy érték ('http://'-vel kell kezdõdnie)"
 
-#: client/clinet.c:605
+#: client/clinet.c:607
 msgid "Failed looking up host"
 msgstr "Nem sikerült megtalálni a szervert"
 
-#: client/clinet.c:658
+#: client/clinet.c:660
 #, fuzzy
 msgid "Failed querying socket"
 msgstr "Nem sikerült beolvasni a(z) %s XPM fájlt"
@@ -7771,26 +7748,26 @@ msgstr "Játék: Csak nukleáris egységek tehetik ezt."
 msgid "Game: Only paratrooper units can do this."
 msgstr "Játék: Csak ejtõernyõs egységet tehetik ezt."
 
-#: client/control.c:1433
-msgid "Game: Too far for this unit."
-msgstr "Játék: Túl messze van az egységtõl."
-
-#: client/control.c:1640 client/control.c:1680 client/control.c:1704
-msgid "Game: Didn't find a route to the destination!"
-msgstr "Játék: Nem sikerült útvonalat találni a célhoz!"
-
-#: client/control.c:1670
+#: client/control.c:1031 client/control.c:1677
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr ""
 "Játék: Sajnálom, a légi egységek õrjáratozása egyelõre nincs megvalósítva."
 
-#: client/control.c:1694
+#: client/control.c:1440
+msgid "Game: Too far for this unit."
+msgstr "Játék: Túl messze van az egységtõl."
+
+#: client/control.c:1647 client/control.c:1688 client/control.c:1712
+msgid "Game: Didn't find a route to the destination!"
+msgstr "Játék: Nem sikerült útvonalat találni a célhoz!"
+
+#: client/control.c:1702
 #, fuzzy
 msgid "Game: Sorry, airunit connect not yet implemented."
 msgstr ""
 "Játék: Sajnálom, a légi egységek õrjáratozása egyelõre nincs megvalósítva."
 
-#: client/control.c:1749
+#: client/control.c:1757
 msgid "Game: Oh my! You seem to have no capital!"
 msgstr ""
 
@@ -8343,7 +8320,7 @@ msgstr ""
 msgid "Game: Clipboard is empty."
 msgstr "Játék: %s munkaterve most üres."
 
-#: client/mapview_common.c:782
+#: client/mapview_common.c:814
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -8854,25 +8831,25 @@ msgstr "A kliens képességei: %s"
 msgid "Server capability string: %s"
 msgstr "A szerver képességei: %s"
 
-#: client/packhand.c:822
+#: client/packhand.c:842
 #, c-format
 msgid "Start of turn %d"
 msgstr "Elkezdõdött a(z) %d. kör"
 
-#: client/packhand.c:1599
+#: client/packhand.c:1620
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "Az MI irányítás %s van kapcsolva."
 
-#: client/packhand.c:1600
+#: client/packhand.c:1621
 msgid "ON"
 msgstr "BE"
 
-#: client/packhand.c:1600
+#: client/packhand.c:1621
 msgid "OFF"
 msgstr "KI"
 
-#: client/packhand.c:2593
+#: client/packhand.c:2614
 #, fuzzy
 msgid "Other"
 msgstr "Búr"
@@ -9456,18 +9433,18 @@ msgstr ""
 msgid "No graphics for citizen %s."
 msgstr ""
 
-#: client/tilespec.c:1542
+#: client/tilespec.c:1546
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr ""
 
 #. TRANS: obscure tileset error.
-#: client/tilespec.c:1640
+#: client/tilespec.c:1644
 #, fuzzy, c-format
 msgid "Missing base sprite tag \"%s1\"."
 msgstr "A(z) \"%s\" opciónak hiányzik a paramétere.\n"
 
-#: client/tilespec.c:3129
+#: client/tilespec.c:3128
 #, fuzzy, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Nem sikerült betölteni a grafikai fájlt a(z) %s specifikációs fájlhoz"
@@ -21885,6 +21862,25 @@ msgid ""
 "into southern Africa beginning in the early 1700s, conquering the native "
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
+
+#~ msgid "Game: Your %s has been eliminated defending against a %s in %s."
+#~ msgstr ""
+#~ "Játék: Egy támadó %2$s megsemmisített egy védõ %1$s egységedet %3$s "
+#~ "városában."
+
+#, fuzzy
+#~ msgid ""
+#~ "notradesize must be always smaller than fulltradesize; keeping old value."
+#~ msgstr ""
+#~ "notradesize-nak mindig kisebbnek kell lennie fulltradesize-nál; a régi "
+#~ "érték megtartása."
+
+#, fuzzy
+#~ msgid ""
+#~ "fulltradesize must be always bigger than notradesize; keeping old value."
+#~ msgstr ""
+#~ "fulltradesize-nak mindig nagyobbnak kell lennie notradesize-nál; a régi "
+#~ "érték megtartása."
 
 #~ msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 #~ msgstr "  -i, --info INFÓ\tExtra infó a metaszervernek\n"
