@@ -28,6 +28,10 @@
 #include <pwd.h>
 #endif
 
+#ifdef WIN32_NATIVE
+#include <windows.h>
+#endif
+
 #include "astring.h"
 #include "fcintl.h"
 #include "log.h"
@@ -775,6 +779,58 @@ char *datafilename_required(const char *filename)
 void init_nls(void)
 {
 #ifdef ENABLE_NLS
+#ifdef WIN32_NATIVE
+  /* set LANG by hand if it is not set */
+  if (!getenv("LANG")) {
+    char *langname = NULL;
+
+    switch (PRIMARYLANGID(LANGIDFROMLCID(GetUserDefaultLCID()))) {
+    case LANG_SPANISH:
+      langname = "es";
+      break;
+    case LANG_GERMAN:
+      langname = "de";
+      break;
+    case LANG_ENGLISH:
+      langname = "en";
+      break;
+    case LANG_FRENCH:
+      langname = "fr";
+      break;
+    case LANG_DUTCH:
+      langname = "nl";
+      break;
+    case LANG_POLISH:
+      langname = "pl";
+      break;
+    case LANG_HUNGARIAN:
+      langname = "hu";
+      break;
+    case LANG_NORWEGIAN:
+      langname = "no";
+      break;
+    case LANG_JAPANESE:
+      langname = "ja";
+      break;
+    case LANG_PORTUGUESE:
+      langname = "pt";
+      break;
+    case LANG_ROMANIAN:
+      langname = "ro";
+      break;
+    case LANG_RUSSIAN:
+      langname = "ru";
+      break;
+    }
+    if (langname) {
+      static char envstr[40];
+
+      my_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
+      putenv(envstr);
+    }
+  }
+#endif
+
   (void) setlocale(LC_ALL, "");
   (void) bindtextdomain(PACKAGE, LOCALEDIR);
   (void) textdomain(PACKAGE);
