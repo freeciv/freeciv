@@ -616,7 +616,8 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
             if (unit_defensiveness(pdef) >= val) val = 0;
           }
         unit_list_iterate_end; /* was getting confused without the is_military part in */
-        q = (pcity->ai.danger * 2 - def * unit_types[punit->type].attack_strength /
+        if (!unit_types[punit->type].defense_strength) q = 0; /* thanks, JMT */
+        else q = (pcity->ai.danger * 2 - def * unit_types[punit->type].attack_strength /
              unit_types[punit->type].defense_strength);
 /* this was a WAG, but it works, so now it's just good code! -- Syela */
         if (val > 0 || q > 0) { /* Guess I better stay */
@@ -890,6 +891,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
                 map_get_continent(aunit->x, aunit->y) == con &&
                 warmap.cost[aunit->x][aunit->y] < maxd) ||
             (is_sailing_unit(punit) &&
+                goto_is_sane(pplayer, punit, aunit->x, aunit->y, 1) && /* Thanks, Damon */
                 warmap.seacost[aunit->x][aunit->y] < maxd))) {
           d = unit_vulnerability(punit, aunit);
           b = unit_types[aunit->type].build_cost;
