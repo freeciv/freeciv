@@ -362,17 +362,31 @@ static void help_destroy_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static void activated_topic(GtkTreeView *view, GtkTreePath *path,
-			    GtkTreeViewColumn *col, gpointer data)
+static void activated_topic(GtkTreeView *view, gpointer data)
 {
+  GtkTreePath *path;
+  GtkTreeViewColumn *col;
   GtkTreeModel *model;
   GtkTreeIter it;
-  const struct help_item *pitem;
+  struct help_item *pitem;
 
   model = gtk_tree_view_get_model(view);
 
+  gtk_tree_view_get_cursor(view, &path, &col);
   gtk_tree_model_get_iter(model, &it, path);
+  gtk_tree_path_free(path);
+
+  if (!path) {
+    return;
+  }
+  
   gtk_tree_model_get(model, &it, 1, &pitem, -1);
+
+  if (help_history_pos >= 0 &&
+      g_ptr_array_index(help_history, help_history_pos) == (gpointer) pitem) {
+    return;
+  }
+  
   help_update_dialog(pitem);
 
   /* add to history. */
@@ -381,13 +395,13 @@ static void activated_topic(GtkTreeView *view, GtkTreePath *path,
   }
   help_history_pos++;
 
-  g_ptr_array_add(help_history, (struct help_item *)pitem);
+  g_ptr_array_add(help_history, (gpointer)pitem);
   help_command_update();
 }
 
 /**************************************************************************
-...
-**************************************************************************/
+  ...
+ **************************************************************************/
 static void create_help_dialog(void)
 {
   GtkWidget *hbox;
@@ -404,19 +418,19 @@ static void create_help_dialog(void)
   help_history_pos = -1;
 
   help_dialog_shell = gtk_dialog_new_with_buttons(_("Freeciv Help Browser"),
-  	NULL,
-	0,
-	GTK_STOCK_GO_BACK,
-	1,
-	GTK_STOCK_GO_FORWARD,
-	2,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
-	NULL);
+						  NULL,
+						  0,
+						  GTK_STOCK_GO_BACK,
+						  1,
+						  GTK_STOCK_GO_FORWARD,
+						  2,
+						  GTK_STOCK_CLOSE,
+						  GTK_RESPONSE_CLOSE,
+						  NULL);
   gtk_window_set_type_hint(GTK_WINDOW(help_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(help_dialog_shell),
-	GTK_RESPONSE_CLOSE);
+				  GTK_RESPONSE_CLOSE);
   gtk_widget_set_name(help_dialog_shell, "Freeciv");
 
   g_signal_connect(help_dialog_shell, "response",
@@ -463,7 +477,7 @@ static void create_help_dialog(void)
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(help_view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(help_view), FALSE);
 
-  g_signal_connect(help_view, "row_activated",
+  g_signal_connect(help_view, "cursor-changed",
 		   G_CALLBACK(activated_topic), NULL);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(help_view));
@@ -1241,7 +1255,7 @@ static void select_help_item_string(const char *item, enum help_page_type htype)
   help_item_zoom(path);
 
   col = gtk_tree_view_get_column(GTK_TREE_VIEW(help_view), 0);
-  gtk_tree_view_row_activated(GTK_TREE_VIEW(help_view), path, col);
+  gtk_tree_view_set_cursor(GTK_TREE_VIEW(help_view), path, col, FALSE);
   gtk_tree_path_free(path);
 }
 
