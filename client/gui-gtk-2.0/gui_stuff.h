@@ -41,7 +41,6 @@ void itree_get(ITree *it, ...);
 void itree_set(ITree *it, ...);
 
 void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent);
-void tstore_remove(ITree *it);
 
 gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it);
 void itree_select(GtkTreeSelection *selection, ITree *it);
