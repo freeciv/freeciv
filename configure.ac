@@ -16,8 +16,8 @@ dnl client/server should always have the same major and minor versions
 dnl different patch versions are compatible
 MAJOR_VERSION=1
 MINOR_VERSION=12
-PATCH_VERSION=4
-VERSION_LABEL=""
+PATCH_VERSION=5
+VERSION_LABEL="-devel"
 IS_DEVEL_VERSION=1
 IS_BETA_VERSION=1
 
