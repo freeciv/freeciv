@@ -128,9 +128,7 @@ static void check_cities(void)
 	assert(unit_owner(punit) == pplayer);
       } unit_list_iterate_end;
 
-      assert(pcity->x < map.xsize && pcity->x >= 0);
-      assert(pcity->y < map.ysize && pcity->y >= 0);
-
+      assert(is_normal_map_pos(pcity->x, pcity->y));
       assert(map_get_terrain(pcity->x, pcity->y) != T_OCEAN);
 
       city_map_iterate(x, y) {

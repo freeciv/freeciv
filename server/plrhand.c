@@ -893,7 +893,7 @@ static void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
   genmsg.event = event;
 
   conn_list_iterate(*dest, pconn) {
-    if (y >= 0 && y < map.ysize && server_state >= RUN_GAME_STATE
+    if (is_real_tile(x, y) && server_state >= RUN_GAME_STATE
 	&& ((pconn->player==NULL && pconn->observer)
 	    || (pconn->player!=NULL && map_get_known(x, y, pconn->player)))) {
       genmsg.x = x;

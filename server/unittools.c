@@ -1627,12 +1627,12 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   punit->id=get_next_id_number();
   idex_register_unit(punit);
   punit->owner=pplayer->player_no;
-  punit->x = map_adjust_x(x); /* was = x, caused segfaults -- Syela */
-  punit->y=y;
-  if (y < 0 || y >= map.ysize) {
-    freelog(LOG_ERROR, "Whoa!  Creating %s at illegal loc (%d, %d)",
-	    get_unit_type(type)->name, x, y);
-  }
+
+  assert(is_real_tile(x, y));
+  normalize_map_pos(&x, &y);
+  punit->x = x;
+  punit->y = y;
+
   punit->goto_dest_x=0;
   punit->goto_dest_y=0;
   

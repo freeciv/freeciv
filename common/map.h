@@ -402,8 +402,7 @@ extern struct tile_type tile_types[T_LAST];
   int x_itr, y_itr, dir_itr, MACRO_border;                                    \
   int MACRO_center_x = (center_x);                                            \
   int MACRO_center_y = (center_y);                                            \
-  assert(0 <= MACRO_center_y && MACRO_center_y < map.ysize                    \
-         && 0 <= MACRO_center_x && MACRO_center_x < map.xsize);               \
+  assert(is_normal_map_pos(MACRO_center_x, MACRO_center_y));                  \
   MACRO_border = (MACRO_center_y == 0                                         \
                   || MACRO_center_x == 0                                      \
                   || MACRO_center_y == map.ysize-1                            \

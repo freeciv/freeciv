@@ -802,7 +802,7 @@ static void make_fair(void)
       if (terrain_is_clean(x,y)) {
 	if (map_get_terrain(x, y) != T_RIVER &&
 	    !(map_get_special(x, y) & S_RIVER)) {
-	  map_set_terrain(map_adjust_x(x), y, T_HILLS);
+	  map_set_terrain(x, y, T_HILLS);
 	}
 	cartesian_adjacent_iterate(x, y, x1, y1) {
 	  if (myrand(100) > 66 &&

@@ -404,10 +404,10 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
  (via goto)
 **************************************************************************/
 static int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
-{ 
-  x=map_adjust_x(x);
-  y=map_adjust_y(y);
-  if (same_pos(myunit->x, myunit->y, x, y) || 
+{
+  assert(is_real_tile(x, y));
+  normalize_map_pos(&x, &y);
+  if (same_pos(myunit->x, myunit->y, x, y) ||
       same_pos(myunit->goto_dest_x, myunit->goto_dest_y, x, y)) {
 /* I'm still not sure this is exactly right -- Syela */
     unit_list_iterate(map_get_tile(x, y)->units, punit)
