@@ -1740,9 +1740,9 @@ effect		=
 sound		= "w_lighthouse"
 sound_alt	= "w_generic"
 helptext	= _("\
-Gives all sea units 1 additional movement point and eliminates the\
- risk of losing Triremes on the high seas.  Makes all new sea units\
- veterans (for all cities).\
+Gives all your sea units 1 additional movement point and eliminates the\
+ risk of losing Triremes on the high seas.  Makes all your new sea units\
+ veterans (for all your cities).\
 ")
 
 [building_magellans_expedition]
@@ -1768,7 +1768,7 @@ effect		=
 sound		= "w_magellans_expedition"
 sound_alt	= "w_generic"
 helptext	= _("\
-Gives all sea units 2 additional movement points.\
+Gives all your sea units 2 additional movement points.\
 ")
 
 [building_manhattan_project]
@@ -2046,7 +2046,7 @@ effect		=
 sound		= "w_united_nations"
 sound_alt	= "w_generic"
 helptext	= _("\
-Units regain two extra hitpoints per turn.\
+All your units regain two extra hitpoints per turn.\
 ")
 ; NOTE: 
 ; This does not match Civ1 or Civ2, but diplomatic effects are 
