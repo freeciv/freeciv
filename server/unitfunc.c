@@ -785,6 +785,9 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
      Remember that pcity is destroyed as part of the transfer,
      Which is why we do this last */
   transfer_city (pplayer, cplayer, pcity, 1, 1, 1, 0);
+
+  /* Update the players gold in the client */
+  send_player_info(pplayer, pplayer);
 }  
 
 /**************************************************************************
