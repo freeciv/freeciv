@@ -994,7 +994,7 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
     ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_EMBASSY, 0);
   }
   
-  if (!ai_handicap(pplayer, H_DIPLOMACY) || aplayer->ai.control) {
+  if (!ai_handicap(pplayer, H_DIPLOMACY) || !aplayer->ai.control) {
     suggest_tech_exchange(pplayer, aplayer);
   }
 }
