@@ -603,7 +603,7 @@ void request_unit_goto(void)
       enter_goto_state(punit);
       create_line_at_mouse_pos();
     }
-  } else if (!is_air_unit(punit)) {
+  } else if (!is_air_unit(punit) && !is_heli_unit(punit)) {
     assert(goto_is_active());
     goto_add_waypoint();
   }
