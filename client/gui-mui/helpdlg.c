@@ -246,6 +246,7 @@ static Object *MakeTechButton(int tech)
     MUIA_UserData, HELP_TECH,
     tech == TECHTYPE_NOTSET ? TAG_IGNORE : MUIA_ColorText_Background, GetTechBG(tech),
     tech == TECHTYPE_NOTSET ? TAG_IGNORE : MUIA_ColorText_Contents, GetTechText(tech),
+    MUIA_ColorText_Align, MUIV_ColorText_Align_Center,
     MUIA_InputMode, MUIV_InputMode_RelVerify,
     End;
 }
@@ -258,7 +259,10 @@ static Object *MakeHelpButtonTech(int tech)
   Object *button;
 
   if((button = MakeTechButton(tech)))
+  {
+    set(button,MUIA_Weight,0);
     DoMethod(button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, button);
+  }
 
   return button;
 }
@@ -543,6 +547,7 @@ static void create_help_page(enum help_page_type type)
 	    Child, help_unit_sprite = SpriteObject,
 		MUIA_FixWidth, get_normal_tile_width(),
 		MUIA_FixHeight, get_normal_tile_height(),
+		MUIA_Sprite_Transparent, TRUE,
 		End,
 	    Child, HSpace(0),
 	    End,
@@ -664,6 +669,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
   if (i < game.num_unit_types)
   {
+    ULONG bg_color;
     struct unit_type *utype = get_unit_type(i);
     char *text;
 
@@ -687,7 +693,19 @@ static void help_update_unit_type(const struct help_item *pitem,
 	     MUIA_UserData, HELP_UNIT,
 	      TAG_DONE);
 
-    set(help_unit_sprite, MUIA_Sprite_Sprite, get_unit_type(i)->sprite);
+    switch (get_unit_type(i)->move_type)
+    {
+      case LAND_MOVING: bg_color = 0x0000c800; /* green */ break;
+      case SEA_MOVING:  bg_color = 0x000000c8; /* blue */ break;
+      case HELI_MOVING: bg_color = 0x00ffff00; /* yellow */ break;
+      case AIR_MOVING:  bg_color = 0x0000ffc8; /* cyan */ break;
+      default:          bg_color = 0x00000000; /* black */ break;
+    }
+
+    SetAttrs(help_unit_sprite,
+             MUIA_Sprite_Sprite, get_unit_type(i)->sprite,
+             MUIA_Sprite_Background, bg_color,
+             TAG_DONE);
 
     helptext_unit(buf, i, pitem->text);
     DoMethod(help_text_listview, MUIM_NList_Insert, buf, -2, MUIV_List_Insert_Bottom);

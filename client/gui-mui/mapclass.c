@@ -2765,6 +2765,12 @@ struct Sprite_Data
   struct Sprite *sprite;
   struct Sprite *overlay_sprite;
   ULONG transparent;
+
+  ULONG bgcol;
+  LONG bgpen;
+  BOOL ownbg; /* TRUE if own Backgroundcolor */
+
+  BOOL setup; /* TUR if between Setup and Cleanup */
 };
 
 
@@ -2791,6 +2797,11 @@ STATIC ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
 	case  MUIA_Sprite_Transparent:
 	      data->transparent = ti->ti_Data;
 	      break;
+
+	case  MUIA_Sprite_Background:
+	      data->bgcol = ti->ti_Data;
+	      data->ownbg = TRUE;
+	      break;
       }
     }
   }
@@ -2802,6 +2813,8 @@ STATIC ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
   struct TagItem *ti;
+  BOOL redraw = FALSE;
+  BOOL pen_changed = FALSE;
 
   while ((ti = NextTagItem(&tl)))
   {
@@ -2809,14 +2822,78 @@ STATIC ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
     {
       case  MUIA_Sprite_Sprite:
 	    data->sprite = (struct Sprite *) ti->ti_Data;
-	    if (data->transparent) MUI_Redraw(o, MADF_DRAWOBJECT);
-	    else MUI_Redraw(o, MADF_DRAWUPDATE);
+	    redraw = TRUE;
             break;
+
+      case  MUIA_Sprite_Background:
+            if (data->bgcol != ti->ti_Data)
+            {
+	      redraw = pen_changed = TRUE;
+	      data->bgcol = ti->ti_Data;
+	      data->ownbg = TRUE;
+            }
+	    break;
     }
+  }
+
+  if (redraw)
+  {
+    struct ColorMap *cm;
+    LONG old_pen;
+
+    cm = _screen(o)->ViewPort.ColorMap;
+    old_pen = data->bgpen;
+    if (pen_changed)
+    {
+      data->bgpen = ObtainBestPenA(cm,
+             MAKECOLOR32(((data->bgcol >> 16)&0xff)),
+             MAKECOLOR32(((data->bgcol >> 8)&0xff)),
+             MAKECOLOR32((data->bgcol & 0xff)), NULL);
+    }
+    if (data->transparent) MUI_Redraw(o, MADF_DRAWOBJECT);
+    else MUI_Redraw(o, MADF_DRAWUPDATE);
+
+    if (old_pen != -1 && pen_changed) ReleasePen(cm,old_pen);
   }
 
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
+
+STATIC ULONG Sprite_Setup(struct IClass * cl, Object * o, Msg msg)
+{
+  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
+  struct ColorMap *cm;
+
+  if (!DoSuperMethodA(cl, o, msg))
+    return FALSE;
+
+  cm = _screen(o)->ViewPort.ColorMap;
+
+  if (data->ownbg)
+  {
+    data->bgpen = ObtainBestPenA(cm,
+                                 MAKECOLOR32(((data->bgcol >> 16)&0xff)),
+                                 MAKECOLOR32(((data->bgcol >> 8)&0xff)),
+                                 MAKECOLOR32((data->bgcol & 0xff)), NULL);
+  } else data->bgpen = -1;
+  return TRUE;
+}
+
+STATIC ULONG Sprite_Cleanup(struct IClass * cl, Object * o, Msg msg)
+{
+  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
+
+  data->setup = FALSE;
+
+  if (data->bgpen != -1)
+  {
+    struct ColorMap *cm = _screen(o)->ViewPort.ColorMap;
+    ReleasePen(cm, data->bgpen);
+  }
+
+  return DoSuperMethodA(cl, o, msg);
+}
+
 
 STATIC ULONG Sprite_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
@@ -2845,6 +2922,13 @@ STATIC ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl, o, (Msg) msg);
+
+  if (data->bgpen != -1)
+  {
+    SetAPen(_rp(o), data->bgpen);
+    RectFill(_rp(o), _mleft(o),_mtop(o),_mright(o),_mbottom(o));
+  }
+
   if (data->transparent)
     put_sprite_overlay(_rp(o), data->sprite, _mleft(o), _mtop(o));
   else
@@ -2862,6 +2946,10 @@ DISPATCHERPROTO(Sprite_Dispatcher)
     return Sprite_New(cl, obj, (struct opSet *) msg);
   case OM_SET:
     return Sprite_Set(cl, obj, (struct opSet *) msg);
+  case MUIM_Setup:
+    return Sprite_Setup(cl, obj, msg);
+  case MUIM_Cleanup:
+    return Sprite_Cleanup(cl, obj, msg);
   case MUIM_AskMinMax:
     return Sprite_AskMinMax(cl, obj, (struct MUIP_AskMinMax *) msg);
   case MUIM_Draw:

@@ -27,7 +27,7 @@
 #include "muistuff.h"
 
 VOID myWritePixelArray8(struct RastPort *rp, unsigned long xstart,
-	     unsigned long ystart, unsigned long xstop, unsigned long ystop,
+			unsigned long ystart, unsigned long xstop, unsigned long ystop,
 			UBYTE * array)
 {
   if (IntuitionBase->LibNode.lib_Version < 40)
@@ -204,7 +204,7 @@ STATIC VOID Overview_DrawRect( Object *o, struct Overview_Data *data)
   scaley = data->ov_ScaleY;
 
   x1 = _mleft(o) + map_adjust_x(data->rect_left) * scalex;
-  x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;	/*x1 + data->rect_width * scale - 1; */
+  x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;
 
   y1 = _mtop(o) + data->rect_top * scaley;
   y2 = y1 + data->rect_height * scaley - 1;
@@ -445,6 +445,7 @@ STATIC ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
     {
       if (data->update == 1)
       {
+      	/* Refresh Single */
       	LONG x,y,rx1,rx2,ry1,ry2,pix_x,pix_y;
 
 	x = data->x;
@@ -456,7 +457,7 @@ STATIC ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
 	SetAPen(_rp(o), data->color);
 	RectFill(_rp(o), pix_x, pix_y, pix_x + scalex - 1, pix_y + scaley - 1);
 
-        /* Check if the view rectangle has been7 overwritten */
+        /* Check if the view rectangle has been overwritten */
 	rx1 = map_adjust_x(data->rect_left);
 	rx2 = map_adjust_x(data->rect_left + data->rect_width - 1);
 	ry1 = data->rect_top;
