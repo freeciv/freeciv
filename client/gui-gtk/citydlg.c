@@ -780,9 +780,10 @@ gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)) &&
      (pcity=map_get_city(punit->x, punit->y)) &&
-     (pdialog=get_city_dialog(pcity)) && ev->button==2) {
+     (pdialog=get_city_dialog(pcity)) && (ev->button==2 || ev->button==3)) {
     activate_unit(punit);
-    close_city_dialog(pdialog);
+    if (ev->button==2)
+      close_city_dialog(pdialog);
   }
 
   return TRUE;
@@ -799,9 +800,10 @@ gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)) &&
      (pcity=find_city_by_id(punit->homecity)) &&
-     (pdialog=get_city_dialog(pcity)) && ev->button==2) {
+     (pdialog=get_city_dialog(pcity)) && (ev->button==2 || ev->button==3)) {
     activate_unit(punit);
-    close_city_dialog(pdialog);
+    if (ev->button==2)
+      close_city_dialog(pdialog);
   }
 
   return TRUE;
@@ -821,7 +823,7 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
      (pcity=map_get_city(punit->x, punit->y)) &&
      (pdialog=get_city_dialog(pcity))) {
 
-    if (ev->button==2)
+    if (ev->button==2 || ev->button==3)
       return FALSE;
 
     wd=popup_message_dialog(pdialog->shell, 
@@ -1230,7 +1232,7 @@ static gint support_units_callback(GtkWidget *w, GdkEventButton *ev,
      (pcity=find_city_by_id(punit->homecity)) &&
      (pdialog=get_city_dialog(pcity))) {
 
-    if (ev->button==2)
+    if (ev->button==2 || ev->button==3)
       return FALSE;
 
     popup_message_dialog(pdialog->shell,

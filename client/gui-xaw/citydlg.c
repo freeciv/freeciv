@@ -1345,9 +1345,13 @@ void present_units_callback(Widget w, XtPointer client_data,
      (pcity=map_get_city(punit->x, punit->y)) &&
      (pdialog=get_city_dialog(pcity))) {
     
-    if(e->type==ButtonRelease && e->xbutton.button==2)  {
+    if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
       activate_unit(punit);
       close_city_dialog(pdialog);
+      return;
+    }
+    if(e->type==ButtonRelease && e->xbutton.button==Button3)  {
+      activate_unit(punit);
       return;
     }
 
@@ -1684,9 +1688,13 @@ static void support_units_callback(Widget w, XtPointer client_data,
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))
     if((pcity=find_city_by_id(punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))  {
-	if(e->type==ButtonRelease && e->xbutton.button==2)  {
+	if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
 	  activate_unit(punit);
 	  close_city_dialog(pdialog);
+	  return;
+	}
+	if(e->type==ButtonRelease && e->xbutton.button==Button3)  {
+	  activate_unit(punit);
 	  return;
 	}
 	popup_message_dialog(pdialog->shell,

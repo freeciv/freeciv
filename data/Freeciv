@@ -2956,7 +2956,9 @@ Freeciv*supportunitcanvas.internalWidth:              0
 Freeciv*supportunitcanvas.internalHeight:             0
 Freeciv*supportunitcanvas.translations:		#override \n\
   <Btn2Down>:	set() \n\
-  <Btn2Up>:	notify() unset()
+  <Btn2Up>:	notify() unset() \n\
+  <Btn3Down>:	set() \n\
+  <Btn3Up>:	notify() unset()
 
 Freeciv*supportunitnextcommand.label:		>
 Freeciv*supportunitnextcommand.foreground:	white
@@ -2977,7 +2979,9 @@ Freeciv*presentunitcanvas.internalWidth:            0
 Freeciv*presentunitcanvas.internalHeight:           0
 Freeciv*presentunitcanvas.translations:		#override \n\
   <Btn2Down>:	set() \n\
-  <Btn2Up>:	notify() unset()
+  <Btn2Up>:	notify() unset() \n\
+  <Btn3Down>:	set() \n\
+  <Btn3Up>:	notify() unset()
 
 Freeciv*presentunitnextcommand.label:		>
 Freeciv*presentunitnextcommand.foreground:	white
