@@ -512,6 +512,7 @@ void create_trade_report_dialog(int make_modal)
   trade_list = gtk_clist_new_with_titles( 4, titles );
   gtk_clist_column_titles_passive(GTK_CLIST(trade_list));
   scrolled = gtk_scrolled_window_new(NULL,NULL);
+  gtk_clist_set_selection_mode(GTK_CLIST (trade_list), GTK_SELECTION_EXTENDED);
   gtk_container_add(GTK_CONTAINER(scrolled), trade_list);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
   			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
@@ -615,9 +616,8 @@ void trade_selloff_callback(GtkWidget *w, gpointer data)
   GList              *selection;
   gint                row;
 
-  if ( !( selection = GTK_CLIST( trade_list )->selection ) )
-      return;
-
+  while((selection = GTK_CLIST(trade_list)->selection) != NULL)
+  {
   row = (gint)selection->data;
 
   i=trade_improvement_type[row];
@@ -641,7 +641,9 @@ void trade_selloff_callback(GtkWidget *w, gpointer data)
   } else {
     sprintf(str,"No %s could be sold",get_improvement_name(i));
   };
+    gtk_clist_unselect_row(GTK_CLIST(trade_list),row,0);
   popup_notify_dialog("Sell-Off Results",str);
+  }
   return;
 }
 

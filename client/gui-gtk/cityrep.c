@@ -396,6 +396,7 @@ void create_city_report_dialog(int make_modal)
   city_list = gtk_clist_new_with_titles(NUM_CREPORT_COLS,titles);
   gtk_clist_column_titles_passive(GTK_CLIST(city_list));
   gtk_clist_set_auto_sort (GTK_CLIST (city_list), TRUE);
+  gtk_clist_set_selection_mode(GTK_CLIST (city_list), GTK_SELECTION_EXTENDED);
   scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), city_list);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
@@ -545,10 +546,13 @@ void city_list_callback(GtkWidget *w, gint row, gint column)
 
 void city_list_ucallback(GtkWidget *w, gint row, gint column)
 {
+  if (!GTK_CLIST( city_list )->selection)
+  {
       gtk_widget_set_sensitive(city_change_command, FALSE);
       gtk_widget_set_sensitive(city_center_command, FALSE);
       gtk_widget_set_sensitive(city_popup_command, FALSE);
       gtk_widget_set_sensitive(city_buy_command, FALSE);
+  }
 }
 
 /****************************************************************
@@ -587,9 +591,8 @@ void city_change_callback(GtkWidget *w, gpointer data)
   gint                row;
   struct city *pcity;
 
-  if ( !( selection = GTK_CLIST( city_list )->selection ) )
-      return;
-
+  while((selection = GTK_CLIST(city_list)->selection) != NULL)
+  {
   row = (gint)selection->data;
 
   if((pcity=gtk_clist_get_row_data(GTK_CLIST(city_list),row)))
@@ -613,6 +616,9 @@ void city_change_callback(GtkWidget *w, gpointer data)
       packet.build_id=build_nr;
       packet.is_build_id_unit_id=unit;
       send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+
+    }
+    gtk_clist_unselect_row(GTK_CLIST(city_list),row,0);
   }
 }
 
@@ -625,9 +631,8 @@ void city_buy_callback(GtkWidget *w, gpointer data)
   gint                row;
   struct city *pcity;
 
-  if ( !( selection = GTK_CLIST( city_list )->selection ) )
-      return;
-
+  while ((selection = GTK_CLIST(city_list)->selection) != NULL)
+  {
   row = (gint)selection->data;
 
   if((pcity=gtk_clist_get_row_data(GTK_CLIST(city_list),row)))
@@ -655,6 +660,8 @@ void city_buy_callback(GtkWidget *w, gpointer data)
 		  name,value,game.player_ptr->economic.gold);
 	  append_output_window(buf);
 	}
+  }
+    gtk_clist_unselect_row(GTK_CLIST(city_list),row,0);
   }
 }
 
@@ -697,14 +704,15 @@ void city_popup_callback(GtkWidget *w, gpointer data)
   gint                row;
   struct city        *pcity;
 
-  if ( !( selection = GTK_CLIST( city_list )->selection ) )
-      return;
-
+  while((selection = GTK_CLIST(city_list)->selection) != NULL)
+  {
   row = (gint)selection->data;
 
   if((pcity=gtk_clist_get_row_data(GTK_CLIST(city_list),row))){
     center_tile_mapcanvas(pcity->x, pcity->y);
     popup_city_dialog(pcity, 0);
+  }
+    gtk_clist_unselect_row(GTK_CLIST(city_list),row,0);
   }
 }
 
