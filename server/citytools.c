@@ -629,15 +629,26 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     if(new_home_city)  {
       /* unit is in another city: make that the new homecity */
       
-      flog(LOG_DEBUG,"Changed homecity of %s's %s in %s",
-	   pvictim->name, unit_name(vunit->type), new_home_city->name);
-      if (verbose) {
-	notify_player(pvictim, "Game: Changed homecity of %s in %s",
-		      unit_name(vunit->type), new_home_city->name);
+      if (pvictim == city_owner(new_home_city)) {
+	flog(LOG_DEBUG, "Changed homecity of %s's %s in %s",
+	     pvictim->name, unit_name(vunit->type), new_home_city->name);
+	if(verbose) {
+	  notify_player(pvictim, "Game: Changed homecity of %s in %s",
+			unit_name(vunit->type), new_home_city->name);
+	}
+      } else {
+	flog(LOG_DEBUG,"Transfered %s in %s from %s to %s",
+	     unit_name(vunit->type), new_home_city->name,
+	     pvictim->name, city_owner(new_home_city)->name);
+	if (verbose) {
+	  notify_player(pvictim, "Game: Transfered %s in %s from %s to %s",
+			unit_name(vunit->type), new_home_city->name,
+			pvictim->name, pplayer->name);
+	}
       }
-      create_unit_full(pvictim, vunit->x, vunit->y, vunit->type, 
-		       vunit->veteran, new_home_city->id, vunit->moves_left,
-		       vunit->hp);
+      create_unit_full(city_owner(new_home_city), vunit->x, vunit->y,
+		       vunit->type, vunit->veteran, new_home_city->id,
+		       vunit->moves_left, vunit->hp);
 
     }else if(!kill_outside){
       
