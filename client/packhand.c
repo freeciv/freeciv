@@ -1453,7 +1453,7 @@ static bool read_player_info_techs(struct player *pplayer,
 
   if (need_effect_update) {
     improvements_update_obsolete();
-    /* need to update effects here too eventually */
+    update_menus();
   }
 
   update_research(pplayer);
