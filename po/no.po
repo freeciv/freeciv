@@ -7584,7 +7584,7 @@ msgid ""
 msgstr ""
 "%s\n"
 "%3$ss %2$s\n"
-"%4$s %5$s"
+"%4$s %5$s: %6$s"
 
 #: client/gui-gtk/repodlgs.c:186 client/gui-gtk/repodlgs.c:404
 #: client/gui-xaw/repodlgs.c:268 client/gui-xaw/repodlgs.c:504
@@ -11101,9 +11101,9 @@ msgstr "Isak Newtons Universitet"
 
 #: data/civ1/buildings.ruleset:1357 data/civ2/buildings.ruleset:1345
 #: data/default/buildings.ruleset:1553
-#, c-format
+#, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
-msgstr "Øker forskningen i byen det er bygget med 100%%."
+msgstr "Øker forskningen i byen det er bygget med 100%."
 
 #: data/civ1/buildings.ruleset:1362 data/civ2/buildings.ruleset:1350
 #: data/default/buildings.ruleset:1558
