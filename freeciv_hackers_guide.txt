@@ -203,14 +203,14 @@ turn the AIs move all their units. Unit moves in particular take a long
 time for the client to process since by default smooth unit moves is on.
 
 There are 3 ways to solve this problem:
-1) We wait for the send buffers to be flushed before continuing processing.
-2) We cut the player's connection and flush the send buffer.
+1) We wait for the send buffers to drain before continuing processing.
+2) We cut the player's connection and empty the send buffer.
 3) We lose packets (this is similar to 2) but can cause an incoherent
    state in the client).
 
 We mitigated the problem by increasing the send buffer size on the server
 and making it dynamic. We also added in strategic places in the code calls
-to a new flush_packets() function that make the server stall for some time
+to a new flush_packets() function that makes the server stall for some time
 draining the send buffers. Strategic places include whenever we send the
 whole map. The maximum amount of time spent per flush_packets() call is
 specified by the 'netwait' variable.
