@@ -75,6 +75,10 @@
 
 #include "clinet.h"
 
+#ifndef INADDR_NONE
+#define INADDR_NONE     0xffffffff
+#endif
+
 struct connection aconnection;
 
 extern char metaserver[];
@@ -129,7 +133,7 @@ int connect_to_server(char *name, char *hostname, int port,
     hostname="localhost";
   
   if(isdigit((size_t)*hostname)) {
-    if((address = inet_addr(hostname)) == -1) {
+    if((address = inet_addr(hostname)) == INADDR_NONE) {
       mystrlcpy(errbuf, _("Invalid hostname"), n_errbuf);
       return -1;
     }

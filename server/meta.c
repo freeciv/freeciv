@@ -190,7 +190,8 @@ void server_open_udp(void)
   }
 #else
   memset(&serv_addr, 0, sizeof(serv_addr));
-  if ((bad = ((serv_addr.sin_addr.s_addr = inet_addr(servername)) == -1))) {
+  serv_addr.sin_addr.s_addr = inet_addr(servername);
+  if ((bad = (serv_addr.sin_addr.s_addr == INADDR_NONE))) {
     if (!(bad = ((hp = gethostbyname(servername)) == NULL))) {
       memcpy(&serv_addr.sin_addr.s_addr, hp->h_addr, hp->h_length);
     }

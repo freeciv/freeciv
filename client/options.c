@@ -269,7 +269,7 @@ void load_options(void)
   for (i=0; i<E_LAST; i++) {
     messages_where[i] =
       secfile_lookup_int_default(&sf, messages_where[i],
-				 "%s.message_where_%2.2d", prefix, i);
+				 "%s.message_where_%02d", prefix, i);
   }
   for (i=1; i<num_city_report_spec(); i++) {
     int *ip = city_report_spec_show_ptr(i);
@@ -311,7 +311,7 @@ void save_options(void)
     fprintf(option_file, "%s = %d\n", v->name, *(v->p_value));
   }
   for (i=0; i<E_LAST; i++) {
-    fprintf(option_file, "message_where_%2.2d = %d  # %s\n",
+    fprintf(option_file, "message_where_%02d = %d  # %s\n",
 	   i, messages_where[i], message_text[i]);
   }
   for (i=1; i<num_city_report_spec(); i++) {
