@@ -2294,8 +2294,8 @@ static bool hut_get_barbarians(struct unit *punit)
 static void hut_get_city(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  
-  if (city_can_be_built_here(punit->x, punit->y, punit)) {
+
+  if (city_can_be_built_here(punit->x, punit->y, NULL)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_HUT_CITY,
 		     _("Game: You found a friendly city."));
     create_city(pplayer, punit->x, punit->y,
@@ -2310,7 +2310,7 @@ static void hut_get_city(struct unit *punit)
 }
 
 /**************************************************************************
-Return 1 if unit is alive, and 0 if it was killed
+  Return 1 if unit is alive, and 0 if it was killed
 **************************************************************************/
 static bool unit_enter_hut(struct unit *punit)
 {

@@ -818,20 +818,23 @@ int base_city_get_food_tile(int x, int y, struct city *pcity,
 
 /**************************************************************************
   Returns TRUE if the given unit can build a city at the given map
-  coordinates.
+  coordinates.  punit is the founding unit, which may be NULL in some
+  cases (e.g., cities from huts).
 **************************************************************************/
 bool city_can_be_built_here(int x, int y, struct unit *punit)
 {
-  enum unit_move_type move_type = unit_type(punit)->move_type;
+  if (punit) {
+    enum unit_move_type move_type = unit_type(punit)->move_type;
 
-  /* We allow land units to build land cities and sea units to build
-   * ocean cities. */
-  if ((move_type == LAND_MOVING && is_ocean(map_get_terrain(x, y)))
-      || (move_type == SEA_MOVING && !is_ocean(map_get_terrain(x, y)))) {
-    return FALSE;
+    /* We allow land units to build land cities and sea units to build
+     * ocean cities. */
+    if ((move_type == LAND_MOVING && is_ocean(map_get_terrain(x, y)))
+	|| (move_type == SEA_MOVING && !is_ocean(map_get_terrain(x, y)))) {
+      return FALSE;
+    }
   }
 
-  /* game.rgame.min_dist_bw_cities minimum is 1, which means adjacent is okay */
+  /* game.rgame.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
   square_iterate(x, y, game.rgame.min_dist_bw_cities-1, x1, y1) {
     if (map_get_city(x1, y1)) {
       return FALSE;
