@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.10.0\n"
-"POT-Creation-Date: 2000-06-27 12:42+0200\n"
+"POT-Creation-Date: 2000-06-28 16:16+0200\n"
 "PO-Revision-Date: 2000-06-22 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -479,7 +479,7 @@ msgstr ""
 "      Opportunisten zijn naar de rebellen overgelopen en het parvenue\n"
 "      %s heeft nu de macht in %d opstandige provincies."
 
-#: server/citytools.c:1075
+#: server/citytools.c:1076
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -1166,7 +1166,7 @@ msgstr "Generator 3 kon niet alle grote eilanden plaatsen."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 liet %li landmassa ongeplaatst."
 
-#: server/maphand.c:341
+#: server/maphand.c:356
 msgid ""
 "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
@@ -1174,7 +1174,7 @@ msgstr ""
 "Spel: Nieuwe hoop stroomt als een lopend vuurt door het land als de ontdekking van de spoorweg bekend wordt.\n"
 "       Arbeiders verzamelen zich spontaan en voorzien alle steden van spoorwegen."
 
-#: server/maphand.c:347
+#: server/maphand.c:362
 msgid ""
 "Game: The people are pleased to hear that your scientists finally know about railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
@@ -1182,7 +1182,7 @@ msgstr ""
 "Spel: De mensen zijn blij te horen dat uw wetenschappers eindelijk iets van spoorwegen afweten.\n"
 "       Arbeiders verzamelen zich spontaan en voorzien alle steden van spoorwegen."
 
-#: server/maphand.c:496
+#: server/maphand.c:511
 #, c-format
 msgid "Number of starts (%d) are lower than max_players (%d), lowering max_players."
 msgstr "Aantal startplaatsen (%d) is lager dan max_players (%d), ik verlaag max_players."
@@ -5033,11 +5033,11 @@ msgstr ""
 msgid "Buy It!"
 msgstr "Koop Het!"
 
-#: client/gui-gtk/citydlg.c:1564 client/gui-gtk/citydlg.c:1634 client/gui-gtk/citydlg.c:2046 client/gui-gtk/dialogs.c:410 client/gui-gtk/dialogs.c:986 client/gui-gtk/dialogs.c:1321
+#: client/gui-gtk/citydlg.c:1564 client/gui-gtk/citydlg.c:1634 client/gui-gtk/citydlg.c:2046 client/gui-gtk/dialogs.c:410 client/gui-gtk/dialogs.c:986 client/gui-gtk/dialogs.c:1325
 msgid "_Yes"
 msgstr "_Ja"
 
-#: client/gui-gtk/citydlg.c:1565 client/gui-gtk/citydlg.c:1636 client/gui-gtk/citydlg.c:2047 client/gui-gtk/dialogs.c:411 client/gui-gtk/dialogs.c:987 client/gui-gtk/dialogs.c:1322
+#: client/gui-gtk/citydlg.c:1565 client/gui-gtk/citydlg.c:1636 client/gui-gtk/citydlg.c:2047 client/gui-gtk/dialogs.c:411 client/gui-gtk/dialogs.c:987 client/gui-gtk/dialogs.c:1326
 msgid "_No"
 msgstr "_Nee"
 
@@ -5178,11 +5178,11 @@ msgid "Auto-attack vs helicopters"
 msgstr "Auto-aanval tegen helicopters"
 
 #. ------- OK/Disc/Quit buttons -------
-#: client/gui-gtk/citydlg.c:2211 client/gui-gtk/dialogs.c:1972 client/gui-gtk/gamedlgs.c:308 client/gui-gtk/inputdlg.c:101 client/gui-gtk/messagedlg.c:141 client/gui-gtk/wldlg.c:463 client/gui-xaw/inputdlg.c:100 data/Freeciv:1223 data/Freeciv:1253 data/Freeciv:1330 data/Freeciv:1478
+#: client/gui-gtk/citydlg.c:2211 client/gui-gtk/dialogs.c:1975 client/gui-gtk/gamedlgs.c:308 client/gui-gtk/inputdlg.c:101 client/gui-gtk/messagedlg.c:141 client/gui-gtk/wldlg.c:463 client/gui-xaw/inputdlg.c:100 data/Freeciv:1223 data/Freeciv:1253 data/Freeciv:1330 data/Freeciv:1478
 msgid "Ok"
 msgstr "Ok"
 
-#: client/gui-gtk/citydlg.c:2213 client/gui-gtk/cityrep.c:993 client/gui-gtk/dialogs.c:1398 client/gui-gtk/dialogs.c:1497 client/gui-gtk/finddlg.c:109 client/gui-gtk/gamedlgs.c:317 client/gui-gtk/inputdlg.c:107 client/gui-gtk/messagedlg.c:149 client/gui-gtk/wldlg.c:470 client/gui-xaw/inputdlg.c:107 data/Freeciv:1078 data/Freeciv:1133 data/Freeciv:1175 data/Freeciv:1195 data/Freeciv:1225 data/Freeciv:1255 data/Freeciv:1333 data/Freeciv:1481 data/Freeciv:1733 data/Freeciv:2013 data/Freeciv:2090 data/Freeciv:2204 data/Freeciv:2237 data/Freeciv:2345 data/Freeciv:2413 data/Freeciv:2423
+#: client/gui-gtk/citydlg.c:2213 client/gui-gtk/cityrep.c:993 client/gui-gtk/dialogs.c:1402 client/gui-gtk/dialogs.c:1501 client/gui-gtk/finddlg.c:109 client/gui-gtk/gamedlgs.c:317 client/gui-gtk/inputdlg.c:107 client/gui-gtk/messagedlg.c:149 client/gui-gtk/wldlg.c:470 client/gui-xaw/inputdlg.c:107 data/Freeciv:1078 data/Freeciv:1133 data/Freeciv:1175 data/Freeciv:1195 data/Freeciv:1225 data/Freeciv:1255 data/Freeciv:1333 data/Freeciv:1481 data/Freeciv:1733 data/Freeciv:2013 data/Freeciv:2090 data/Freeciv:2204 data/Freeciv:2237 data/Freeciv:2345 data/Freeciv:2413 data/Freeciv:2423
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -5313,7 +5313,7 @@ msgstr "Stel zichtbare kolommen in"
 
 #. - Now, let's create some command buttons.
 #. + Close
-#: client/gui-gtk/cityrep.c:1282 client/gui-gtk/dialogs.c:206 client/gui-gtk/dialogs.c:331 client/gui-gtk/dialogs.c:710 client/gui-gtk/dialogs.c:808 client/gui-gtk/dialogs.c:1741 client/gui-gtk/gamedlgs.c:438 client/gui-gtk/helpdlg.c:615 client/gui-gtk/inteldlg.c:184 client/gui-gtk/messagewin.c:148 client/gui-gtk/repodlgs.c:249 client/gui-gtk/repodlgs.c:606 client/gui-gtk/repodlgs.c:869 client/gui-gtk/spaceshipdlg.c:215 client/gui-gtk/wldlg.c:203 data/Freeciv:145 data/Freeciv:195 data/Freeciv:481 data/Freeciv:515 data/Freeciv:560 data/Freeciv:1420 data/Freeciv:1533 data/Freeciv:1629 data/Freeciv:1660 data/Freeciv:1793 data/Freeciv:1867 data/Freeciv:1909 data/Freeciv:2268 data/Freeciv:2310 data/Freeciv:2915 data/Freeciv:3074 data/Freeciv:3149
+#: client/gui-gtk/cityrep.c:1282 client/gui-gtk/dialogs.c:206 client/gui-gtk/dialogs.c:331 client/gui-gtk/dialogs.c:710 client/gui-gtk/dialogs.c:808 client/gui-gtk/dialogs.c:1744 client/gui-gtk/gamedlgs.c:438 client/gui-gtk/helpdlg.c:615 client/gui-gtk/inteldlg.c:184 client/gui-gtk/messagewin.c:148 client/gui-gtk/repodlgs.c:249 client/gui-gtk/repodlgs.c:606 client/gui-gtk/repodlgs.c:869 client/gui-gtk/spaceshipdlg.c:215 client/gui-gtk/wldlg.c:203 data/Freeciv:145 data/Freeciv:195 data/Freeciv:481 data/Freeciv:515 data/Freeciv:560 data/Freeciv:1420 data/Freeciv:1533 data/Freeciv:1629 data/Freeciv:1660 data/Freeciv:1793 data/Freeciv:1867 data/Freeciv:1909 data/Freeciv:2268 data/Freeciv:2310 data/Freeciv:2915 data/Freeciv:3074 data/Freeciv:3149
 msgid "Close"
 msgstr "Sluit"
 
@@ -5369,11 +5369,11 @@ msgstr "Metaserver"
 msgid "Update"
 msgstr "Werk bij"
 
-#: client/gui-gtk/connectdlg.c:222 client/gui-gtk/dialogs.c:1473 client/gui-gtk/menu.c:586 client/gui-xaw/menu.c:170 data/Freeciv:95 data/Freeciv:2418
+#: client/gui-gtk/connectdlg.c:222 client/gui-gtk/dialogs.c:1477 client/gui-gtk/menu.c:586 client/gui-xaw/menu.c:170 data/Freeciv:95 data/Freeciv:2418
 msgid "Connect"
 msgstr "Maak verbinding"
 
-#: client/gui-gtk/connectdlg.c:228 client/gui-gtk/dialogs.c:1982 client/gui-gtk/menu.c:507 client/gui-xaw/menu.c:119 data/Freeciv:102 data/Freeciv:3032
+#: client/gui-gtk/connectdlg.c:228 client/gui-gtk/dialogs.c:1985 client/gui-gtk/menu.c:507 client/gui-xaw/menu.c:119 data/Freeciv:102 data/Freeciv:3032
 msgid "Quit"
 msgstr "Einde"
 
@@ -5574,81 +5574,81 @@ msgstr "Blijf _doorgaan"
 msgid "Choose Your New Government"
 msgstr "Kies Uw Nieuwe Regering"
 
-#: client/gui-gtk/dialogs.c:1264 data/Freeciv:2402
+#: client/gui-gtk/dialogs.c:1268 data/Freeciv:2402
 msgid "Select government type:"
 msgstr "Kies regeringsvorm:"
 
 #. "revolutiondialog"
-#: client/gui-gtk/dialogs.c:1319 data/Freeciv:2370
+#: client/gui-gtk/dialogs.c:1323 data/Freeciv:2370
 msgid "Revolution!"
 msgstr "Revolutie!"
 
-#: client/gui-gtk/dialogs.c:1320 client/gui-xaw/dialogs.c:1335
+#: client/gui-gtk/dialogs.c:1324 client/gui-xaw/dialogs.c:1335
 msgid "You say you wanna revolution?"
 msgstr "U zegt dat u een revolutie wilt?"
 
-#: client/gui-gtk/dialogs.c:1374 data/Freeciv:2408
+#: client/gui-gtk/dialogs.c:1378 data/Freeciv:2408
 msgid "What To Pillage"
 msgstr "Wat Te Plunderen"
 
-#: client/gui-gtk/dialogs.c:1381 data/Freeciv:2410
+#: client/gui-gtk/dialogs.c:1385 data/Freeciv:2410
 msgid "Select what to pillage:"
 msgstr "Kies wat te plunderen:"
 
-#: client/gui-gtk/dialogs.c:1480 data/Freeciv:2420
+#: client/gui-gtk/dialogs.c:1484 data/Freeciv:2420
 msgid "Choose unit activity:"
 msgstr "Kies aktie voor eenheid:"
 
-#: client/gui-gtk/dialogs.c:1686
+#: client/gui-gtk/dialogs.c:1689
 msgid "Unit selection"
 msgstr "Eenheid keuze"
 
-#: client/gui-gtk/dialogs.c:1747 data/Freeciv:516
+#: client/gui-gtk/dialogs.c:1750 data/Freeciv:516
 msgid "Ready all"
 msgstr "Aktiveer alle"
 
-#: client/gui-gtk/dialogs.c:1876
+#: client/gui-gtk/dialogs.c:1879
 msgid " What Nation Will You Be?"
 msgstr "Welke Natie Zult U Zijn?"
 
-#: client/gui-gtk/dialogs.c:1878
+#: client/gui-gtk/dialogs.c:1881
 msgid "Select nation and name"
 msgstr "Kies naam van de natie"
 
 #. ------- leader sex toggles -------
-#: client/gui-gtk/dialogs.c:1916
+#: client/gui-gtk/dialogs.c:1919
 msgid "Select your sex"
 msgstr "Kies uw sexe"
 
-#: client/gui-gtk/dialogs.c:1923
+#: client/gui-gtk/dialogs.c:1926
 msgid "Male"
 msgstr "Mannelijk"
 
-#: client/gui-gtk/dialogs.c:1929 data/Freeciv:3011
+#: client/gui-gtk/dialogs.c:1932 data/Freeciv:3011
 msgid "Female"
 msgstr "Vrouwelijk"
 
-#: client/gui-gtk/dialogs.c:1950
+#: client/gui-gtk/dialogs.c:1953
 msgid "Select your city style"
 msgstr "Kies uw stads-stijl"
 
-#: client/gui-gtk/dialogs.c:1977 client/gui-gtk/menu.c:505 client/gui-xaw/menu.c:118 data/Freeciv:3030
+#: client/gui-gtk/dialogs.c:1980 client/gui-gtk/menu.c:505 client/gui-xaw/menu.c:118 data/Freeciv:3030
 msgid "Disconnect"
 msgstr "Verbinding Verbreken"
 
-#: client/gui-gtk/dialogs.c:2164 client/gui-xaw/dialogs.c:2294
+#: client/gui-gtk/dialogs.c:2167 client/gui-xaw/dialogs.c:2291
 msgid "You must select a nation."
 msgstr "U moet een natie kiezen."
 
-#: client/gui-gtk/dialogs.c:2169 client/gui-xaw/dialogs.c:2299
+#: client/gui-gtk/dialogs.c:2172 client/gui-xaw/dialogs.c:2296
 msgid "You must select your sex."
 msgstr "U moet uw sexe kiezen."
 
-#: client/gui-gtk/dialogs.c:2174 client/gui-xaw/dialogs.c:2304
+#: client/gui-gtk/dialogs.c:2177 client/gui-xaw/dialogs.c:2301
 msgid "You must select your city style."
 msgstr "U moet uw stads-stijl kiezen."
 
-#: client/gui-gtk/dialogs.c:2187 client/gui-xaw/dialogs.c:2318
+#: client/gui-gtk/dialogs.c:2190 client/gui-xaw/dialogs.c:2315
 msgid "You must type a legal name."
 msgstr "U moet een geldige naam opgeven."
 
@@ -5762,7 +5762,7 @@ msgstr "Zet lokale opties"
 msgid "Goto/Airlift Unit"
 msgstr "Ga naar/Vlieg Eenheid"
 
-#: client/gui-gtk/gotodlg.c:93 client/gui-gtk/mapview.c:333 client/gui-xaw/mapview.c:310
+#: client/gui-gtk/gotodlg.c:93 client/gui-gtk/mapview.c:337 client/gui-xaw/mapview.c:310
 msgid "Select destination"
 msgstr "Kies bestemming"
 
@@ -5770,11 +5770,15 @@ msgstr "Kies bestemming"
 msgid "_Goto"
 msgstr "_Ga naar"
 
-#: client/gui-gtk/gui_main.c:415 data/Freeciv:2472
+#: client/gui-gtk/gui_main.c:253 client/gui-gtk/gui_main.c:613
+msgid "Freeciv"
+msgstr ""
+
+#: client/gui-gtk/gui_main.c:438 data/Freeciv:2472
 msgid "Turn Done"
 msgstr "Beurt Klaar"
 
-#: client/gui-gtk/gui_main.c:534 data/Freeciv:2707
+#: client/gui-gtk/gui_main.c:558 data/Freeciv:2707
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
@@ -5784,11 +5788,7 @@ msgstr ""
 "kopieën ervan te verspreiden; Zie het \"Kopieëren\" gedeelte in het Help menu.\n"
 "Nu.. Geef ze van katoen!"
 
-#: client/gui-gtk/gui_main.c:589
-msgid "Freeciv"
-msgstr ""
-
-#: client/gui-gtk/gui_main.c:735 client/gui-xaw/gui_main.c:682
+#: client/gui-gtk/gui_main.c:759 client/gui-xaw/gui_main.c:682
 #, c-format
 msgid ""
 "%s People\n"
@@ -6058,7 +6058,7 @@ msgstr "Eenheid: %s(%s%s)"
 msgid "  (%d more)"
 msgstr "  (%d meer)"
 
-#: client/gui-gtk/mapview.c:286
+#: client/gui-gtk/mapview.c:290
 #, c-format
 msgid ""
 "Population: %s\n"
@@ -6071,7 +6071,7 @@ msgstr ""
 "Goud: %d\n"
 "Belasting: %d Luxe: %d Wetenschap: %d"
 
-#: client/gui-gtk/mapview.c:328 client/gui-xaw/mapview.c:308
+#: client/gui-gtk/mapview.c:332 client/gui-xaw/mapview.c:308
 msgid "(veteran)"
 msgstr "(veteraan)"
 
@@ -8154,104 +8154,104 @@ msgstr ""
 msgid "Aqueduct"
 msgstr "Aquaduct"
 
-#: data/civ2/buildings.ruleset:76 data/default/buildings.ruleset:249
-msgid "Allows a city to grow larger than size 8.  A Sewer System is also required for a city to grow larger than size 12."
-msgstr "Staat een stad toe voorbij grootte 8 te groeien. Om groter te groeien dan grootte 12 is ook een Riolering nodig."
+#: data/civ2/buildings.ruleset:77 data/default/buildings.ruleset:250
+msgid "; Allows a city to grow larger than size 8.  A Sewer System is also;  required for a city to grow larger than size 12.; "
+msgstr "; Staat een stad toe voorbij grootte 8 te groeien. Een Riolering is ook;  nodig voor een stad om groter te groeien dan grootte 12.; "
 
-#: data/civ1/buildings.ruleset:81 data/civ2/buildings.ruleset:82 data/default/buildings.ruleset:255
+#: data/civ1/buildings.ruleset:82 data/civ2/buildings.ruleset:83 data/default/buildings.ruleset:256
 msgid "Bank"
 msgstr "Bank"
 
-#: data/civ1/buildings.ruleset:99 data/civ2/buildings.ruleset:100 data/default/buildings.ruleset:273
+#: data/civ1/buildings.ruleset:100 data/civ2/buildings.ruleset:101 data/default/buildings.ruleset:274
 #, c-format
 msgid "Together with the Marketplace improvement, a Bank increases the luxury and tax production within a city by 100%."
 msgstr "Samen met een Marktplein verhoogt een Bank de luxe- en belastingsopbrengsten binnen een stad met 100%."
 
-#: data/civ1/buildings.ruleset:105 data/civ2/buildings.ruleset:106 data/default/buildings.ruleset:279
+#: data/civ1/buildings.ruleset:106 data/civ2/buildings.ruleset:107 data/default/buildings.ruleset:280
 msgid "Barracks"
 msgstr "Barakken"
 
-#: data/civ2/buildings.ruleset:124 data/civ2/buildings.ruleset:151 data/civ2/buildings.ruleset:178 data/default/buildings.ruleset:297 data/default/buildings.ruleset:324 data/default/buildings.ruleset:351
+#: data/civ2/buildings.ruleset:125 data/civ2/buildings.ruleset:152 data/civ2/buildings.ruleset:179 data/default/buildings.ruleset:298 data/default/buildings.ruleset:325 data/default/buildings.ruleset:352
 msgid "With a Barracks, each new land unit built in a city will automatically have Veteran status, which means that its attack and defence strengths are increased by 50%.  Also, damaged land units which stay in town for one full turn without moving are completely restored."
 msgstr "Met Barakken krijgt elke nieuw gebouwde landeenheid in een stad automatisch de veteraan status, wat inhoudt dat zijn aanvals- en verdedigingssterkte worden verhoogd met 50%. Ook worden beschadigde landeenheden die een volle beurt zonder verplaatsing in de stad blijven volledig hersteld."
 
-#: data/civ1/buildings.ruleset:141 data/civ2/buildings.ruleset:133 data/default/buildings.ruleset:306
+#: data/civ1/buildings.ruleset:142 data/civ2/buildings.ruleset:134 data/default/buildings.ruleset:307
 msgid "Barracks II"
 msgstr "Barakken II"
 
-#: data/civ1/buildings.ruleset:176 data/civ2/buildings.ruleset:160 data/default/buildings.ruleset:333
+#: data/civ1/buildings.ruleset:177 data/civ2/buildings.ruleset:161 data/default/buildings.ruleset:334
 msgid "Barracks III"
 msgstr "Barakken III"
 
-#: data/civ1/buildings.ruleset:211 data/civ2/buildings.ruleset:187 data/default/buildings.ruleset:360
+#: data/civ1/buildings.ruleset:212 data/civ2/buildings.ruleset:188 data/default/buildings.ruleset:361
 msgid "Cathedral"
 msgstr "Kathedraal"
 
-#: data/civ2/buildings.ruleset:206 data/default/buildings.ruleset:379
+#: data/civ2/buildings.ruleset:207 data/default/buildings.ruleset:380
 msgid "A Cathedral makes 3 unhappy citizens content in a city, making it easier to maintain order in that city.  The discovery of Theology increases the affect of a Cathedral, making an additional unhappy citizen content.  The discovery of Communism lessens the affect of a Cathedral, reducing by one the number of unhappy citizens made content."
 msgstr "Een Kathedraal maakt drie ontevreden burgers tevreden in een stad, wat het makkelijker maakt om in die stad de orde te handhaven. De ontdekking van Theologie vergroot het effect van een Kathedraal door een extra ontevreden burger tevreden te maken. De ontdekking van het Communisme vermindert het effect van een Kathedraal, er wordt dan één ontevreden burger minder tevreden."
 
-#: data/civ1/buildings.ruleset:234 data/civ2/buildings.ruleset:216 data/default/buildings.ruleset:389
+#: data/civ1/buildings.ruleset:235 data/civ2/buildings.ruleset:217 data/default/buildings.ruleset:390
 msgid "City Walls"
 msgstr "Stadswallen"
 
-#: data/civ2/buildings.ruleset:236 data/default/buildings.ruleset:409
+#: data/civ2/buildings.ruleset:237 data/default/buildings.ruleset:410
 msgid "City Walls make it easier to defend a city.  They triple the defence strength of units within the city against ground and helicopter units.  They are ineffective against airborne and sea units as well as Howitzers.  City Walls also prevent the loss of population which occurs when a defending unit is destroyed by a land unit."
 msgstr "Stadswallen maken het eenvoudiger een stad te verdedigen. Zij verdrievoudigen de sterkte van eenheden binnen de stad met uitzondering van helicopter eenheden. Ze zijn niet werkzaam tegen lucht- en zee-eenheden en tegen Houwitzers. Stadswallen voorkomen ook het verlies van bevolking die optreedt als een verdedigende eenheid wordt vernietigd door een landeenheid."
 
-#: data/civ1/buildings.ruleset:264 data/civ2/buildings.ruleset:245 data/default/buildings.ruleset:418
+#: data/civ1/buildings.ruleset:265 data/civ2/buildings.ruleset:246 data/default/buildings.ruleset:419
 msgid "Coastal Defense"
 msgstr "Kustverdediging"
 
-#: data/civ1/buildings.ruleset:281 data/civ2/buildings.ruleset:262 data/default/buildings.ruleset:435
+#: data/civ1/buildings.ruleset:282 data/civ2/buildings.ruleset:263 data/default/buildings.ruleset:436
 msgid "Increases the defence strength of units within a city by a factor of 2 when defending against bombardments from enemy ships."
 msgstr "Verhoogt de verdedigingssterkte van eenheden in een stad met een factor 2 wanneer zij zich verdedigen tegen bombardementen vanaf vijandelijke schepen."
 
-#: data/civ1/buildings.ruleset:287 data/civ2/buildings.ruleset:268 data/default/buildings.ruleset:441
+#: data/civ1/buildings.ruleset:288 data/civ2/buildings.ruleset:269 data/default/buildings.ruleset:442
 msgid "Colosseum"
 msgstr "Colosseum"
 
-#: data/default/buildings.ruleset:459
+#: data/default/buildings.ruleset:460
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four after the discovery of Electricity.)"
 msgstr "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden stedelingen tevreden. (Vier na de ontdekking van Electriciteit"
 
-#: data/civ1/buildings.ruleset:309 data/civ2/buildings.ruleset:292 data/default/buildings.ruleset:467
+#: data/civ1/buildings.ruleset:310 data/civ2/buildings.ruleset:293 data/default/buildings.ruleset:468
 msgid "Courthouse"
 msgstr "Gerechtshof"
 
-#: data/civ1/buildings.ruleset:328 data/civ2/buildings.ruleset:311 data/default/buildings.ruleset:486
+#: data/civ1/buildings.ruleset:329 data/civ2/buildings.ruleset:312 data/default/buildings.ruleset:487
 msgid "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse makes 1 unhappy citizen content.  Also halves the effective distance to the capital, for the purpose of calculating revolt cost."
 msgstr "Vermindert de corruptie in een stad met 50%. Onder een Democratie maakt een Gerechtshof één ontevreden burger tevreden. Halveert ook de effectieve afstand tot de hoofdstad in de berekening van de kosten van een opstand."
 
-#: data/civ1/buildings.ruleset:336 data/civ2/buildings.ruleset:319 data/default/buildings.ruleset:494
+#: data/civ1/buildings.ruleset:337 data/civ2/buildings.ruleset:320 data/default/buildings.ruleset:495
 msgid "Factory"
 msgstr "Fabriek"
 
-#: data/civ1/buildings.ruleset:353 data/civ2/buildings.ruleset:336 data/default/buildings.ruleset:511
+#: data/civ1/buildings.ruleset:354 data/civ2/buildings.ruleset:337 data/default/buildings.ruleset:512
 msgid "Increases the shield production in a city by 50%.  This increase may also contribute significantly to pollution."
 msgstr "Verhoogt de schildproduktie in een stad met 50%. Deze verhoging kan ook aanzienlijk bijdragen aan vervuiling."
 
-#: data/civ1/buildings.ruleset:359 data/civ2/buildings.ruleset:342 data/default/buildings.ruleset:517
+#: data/civ1/buildings.ruleset:360 data/civ2/buildings.ruleset:343 data/default/buildings.ruleset:518
 msgid "Granary"
 msgstr "Graansilo"
 
-#: data/civ1/buildings.ruleset:376 data/civ2/buildings.ruleset:359 data/default/buildings.ruleset:534
+#: data/civ1/buildings.ruleset:377 data/civ2/buildings.ruleset:360 data/default/buildings.ruleset:535
 msgid "The amount of stored food will be set to half full whenever a city with a Granary shrinks or grows. This helps a city to grow faster and more easily withstand famine."
 msgstr "De hoeveelheid opgeslagen voeding zal steeds op halfvol gezet worden wanneer een stad met een Graansilo groeit of slinkt. Dit helpt een stad om sneller en gemakkelijker te groeien zonder angst voor hongersnood."
 
-#: data/civ1/buildings.ruleset:386 data/civ2/buildings.ruleset:369 data/default/buildings.ruleset:544
+#: data/civ1/buildings.ruleset:387 data/civ2/buildings.ruleset:370 data/default/buildings.ruleset:545
 msgid "Harbour"
 msgstr "Haven"
 
-#: data/civ1/buildings.ruleset:403 data/civ2/buildings.ruleset:386 data/default/buildings.ruleset:561
+#: data/civ1/buildings.ruleset:404 data/civ2/buildings.ruleset:387 data/default/buildings.ruleset:562
 msgid "Gives one extra food resource on all Ocean squares.  The city needs to be coastal to build this improvement."
 msgstr "Geeft één extra voeding op alle Oceaanvlakken. De stad moet aan de kust liggen om deze verbetering te kunnen bouwen."
 
-#: data/civ1/buildings.ruleset:409 data/civ2/buildings.ruleset:392 data/default/buildings.ruleset:567
+#: data/civ1/buildings.ruleset:410 data/civ2/buildings.ruleset:393 data/default/buildings.ruleset:568
 msgid "Hydro Plant"
 msgstr "Waterkracht Centrale"
 
-#: data/default/buildings.ruleset:587
+#: data/default/buildings.ruleset:588
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Hydro Plant together give a 75% production bonus, and a Factory, Mfg. Plant and Hydro Plant together give a 150% production bonus.\n"
 "\n"
@@ -8261,46 +8261,46 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten. Een stad kan pas een Waterkrachtcentrale bouwen als het op of naast een Berg- of Riviervlak ligt."
 
-#: data/civ1/buildings.ruleset:442 data/civ2/buildings.ruleset:425 data/default/buildings.ruleset:604
+#: data/civ1/buildings.ruleset:443 data/civ2/buildings.ruleset:426 data/default/buildings.ruleset:605
 msgid "Library"
 msgstr "Bibliotheek"
 
-#: data/civ1/buildings.ruleset:459 data/civ2/buildings.ruleset:442 data/default/buildings.ruleset:621
+#: data/civ1/buildings.ruleset:460 data/civ2/buildings.ruleset:443 data/default/buildings.ruleset:622
 #, c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "Verhoogt de wetenschapelijke opbrengsten van een stad met 50%."
 
-#: data/civ1/buildings.ruleset:464 data/civ2/buildings.ruleset:447 data/default/buildings.ruleset:626
+#: data/civ1/buildings.ruleset:465 data/civ2/buildings.ruleset:448 data/default/buildings.ruleset:627
 msgid "Marketplace"
 msgstr "Marktplein"
 
-#: data/civ1/buildings.ruleset:482 data/civ2/buildings.ruleset:465 data/default/buildings.ruleset:644
+#: data/civ1/buildings.ruleset:483 data/civ2/buildings.ruleset:466 data/default/buildings.ruleset:645
 #, c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "Verhoogt de luxe- en belastingsopbrengsten in een stad met 50%."
 
-#: data/civ1/buildings.ruleset:487 data/civ2/buildings.ruleset:470 data/default/buildings.ruleset:649
+#: data/civ1/buildings.ruleset:488 data/civ2/buildings.ruleset:471 data/default/buildings.ruleset:650
 msgid "Mass Transit"
 msgstr "Massavervoer"
 
-#: data/civ1/buildings.ruleset:504 data/civ2/buildings.ruleset:487 data/default/buildings.ruleset:666
+#: data/civ1/buildings.ruleset:505 data/civ2/buildings.ruleset:488 data/default/buildings.ruleset:667
 msgid "Neutralizes the pollution generated by the population.  The population simply has no effect on the pollution generated in the city."
 msgstr "Neutraliseert de verontreiniging die wordt veroorzaakt door de bevolking. De grootte van de bevolking heeft eenvoudigweg geen invloed meer op de hoeveelheid verontreiniging die een stad produceert."
 
-#: data/civ1/buildings.ruleset:511 data/civ2/buildings.ruleset:494 data/default/buildings.ruleset:673
+#: data/civ1/buildings.ruleset:512 data/civ2/buildings.ruleset:495 data/default/buildings.ruleset:674
 msgid "Mfg. Plant"
 msgstr "Assemblage Hal"
 
-#: data/civ1/buildings.ruleset:528 data/civ2/buildings.ruleset:511 data/default/buildings.ruleset:690
+#: data/civ1/buildings.ruleset:529 data/civ2/buildings.ruleset:512 data/default/buildings.ruleset:691
 #, c-format
 msgid "Together with a Factory, a Manufacturing Plant increases the shield production in a city by 100%."
 msgstr "Samen met een Fabriek verhoogt de Assemblage Hal de schildproduktie in een stad met 100%."
 
-#: data/civ1/buildings.ruleset:534 data/civ2/buildings.ruleset:517 data/default/buildings.ruleset:696
+#: data/civ1/buildings.ruleset:535 data/civ2/buildings.ruleset:518 data/default/buildings.ruleset:697
 msgid "Nuclear Plant"
 msgstr "Kerncentrale"
 
-#: data/default/buildings.ruleset:716
+#: data/default/buildings.ruleset:717
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Nuclear Plant together give a 75% production bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% production bonus.\n"
 "\n"
@@ -8310,19 +8310,19 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten."
 
-#: data/civ1/buildings.ruleset:569 data/civ2/buildings.ruleset:552 data/default/buildings.ruleset:734
+#: data/civ1/buildings.ruleset:570 data/civ2/buildings.ruleset:553 data/default/buildings.ruleset:735
 msgid "Offshore Platform"
 msgstr "Booreiland"
 
-#: data/civ1/buildings.ruleset:586 data/civ2/buildings.ruleset:569 data/default/buildings.ruleset:751
+#: data/civ1/buildings.ruleset:587 data/civ2/buildings.ruleset:570 data/default/buildings.ruleset:752
 msgid "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs to be coastal to build this improvement."
 msgstr "Geeft één extra schild voor alle Oceaanvlakken in een stad. De stad moet aan de kust liggen om deze verbetering te kunnen bouwen."
 
-#: data/civ1/buildings.ruleset:592 data/civ2/buildings.ruleset:575 data/default/buildings.ruleset:757
+#: data/civ1/buildings.ruleset:593 data/civ2/buildings.ruleset:576 data/default/buildings.ruleset:758
 msgid "Palace"
 msgstr "Paleis"
 
-#: data/civ1/buildings.ruleset:610 data/civ2/buildings.ruleset:594 data/default/buildings.ruleset:776
+#: data/civ1/buildings.ruleset:611 data/civ2/buildings.ruleset:595 data/default/buildings.ruleset:777
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in other cities is related to how far away from the capital they are, except when the government is Democracy or Communism.  The cost of inciting a revolt in a city also depends upon the city's distance from the capital (under all forms of government).\n"
 "\n"
@@ -8332,27 +8332,27 @@ msgstr ""
 "\n"
 "Zorg goed voor uw hoofdstad, aangezien het verlies ervan ertoe kan leiden dat uw beschaving verzinkt in een burgeroorlog."
 
-#: data/civ1/buildings.ruleset:623 data/civ2/buildings.ruleset:607 data/default/buildings.ruleset:789
+#: data/civ1/buildings.ruleset:624 data/civ2/buildings.ruleset:608 data/default/buildings.ruleset:790
 msgid "Police Station"
 msgstr "Politiebureau"
 
-#: data/civ1/buildings.ruleset:641 data/civ2/buildings.ruleset:625 data/default/buildings.ruleset:807
+#: data/civ1/buildings.ruleset:642 data/civ2/buildings.ruleset:626 data/default/buildings.ruleset:808
 msgid "Reduces the unhappiness caused by military units outside the city by 2 under Democracy and 1 under Republic.  This improvement has no effect under other governments."
 msgstr "Vermindert de ontevredenheid die door militaire eenheden buiten de stad wordt veroorzaakt met twee onder Democratie en met 1 onder een Republiek. Deze verbetering heeft geen effect onder andere regeringsvormen."
 
-#: data/civ1/buildings.ruleset:648 data/civ2/buildings.ruleset:632 data/default/buildings.ruleset:817
+#: data/civ1/buildings.ruleset:649 data/civ2/buildings.ruleset:633 data/default/buildings.ruleset:818
 msgid "Port Facility"
 msgstr "Haven Faciliteiten"
 
-#: data/civ1/buildings.ruleset:666 data/civ2/buildings.ruleset:650 data/default/buildings.ruleset:835
+#: data/civ1/buildings.ruleset:667 data/civ2/buildings.ruleset:651 data/default/buildings.ruleset:836
 msgid "Allows a city to build veteran sea units.  Also, damaged sea units which stay in town for one full turn without moving are completely restored."
 msgstr "Stelt een stad in staat om veteraan zee-eenheden te bouwen. Ook worden beschadigde zee-eenheden die een volle beurt zonder te bewegen in de stad blijven in één enkele beurt volledig hersteld."
 
-#: data/civ1/buildings.ruleset:673 data/civ2/buildings.ruleset:657 data/default/buildings.ruleset:842
+#: data/civ1/buildings.ruleset:674 data/civ2/buildings.ruleset:658 data/default/buildings.ruleset:843
 msgid "Power Plant"
 msgstr "Electriciteits Centrale"
 
-#: data/default/buildings.ruleset:860
+#: data/default/buildings.ruleset:861
 #, c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a Factory and a Power Plant together give a 75% production bonus, and a Factory, Mfg. Plant and Power Plant together give a 150% production bonus.  The extra production may lead to the city generating more pollution.\n"
@@ -8363,52 +8363,52 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten."
 
-#: data/civ1/buildings.ruleset:702 data/civ2/buildings.ruleset:686 data/default/buildings.ruleset:875
+#: data/civ1/buildings.ruleset:703 data/civ2/buildings.ruleset:687 data/default/buildings.ruleset:876
 msgid "Recycling Center"
 msgstr "Kringloop Centrum"
 
-#: data/civ1/buildings.ruleset:719 data/civ2/buildings.ruleset:703 data/default/buildings.ruleset:892
+#: data/civ1/buildings.ruleset:720 data/civ2/buildings.ruleset:704 data/default/buildings.ruleset:893
 #, c-format
 msgid "Building a recycling center reduces the amount of pollution generated by production in a city by 66%."
 msgstr "Het bouwen van een Kringloop Centrum vermindert de hoeveelheid verontreiniging die een stad maakt met 66%."
 
-#: data/civ1/buildings.ruleset:725 data/civ2/buildings.ruleset:709 data/default/buildings.ruleset:898
+#: data/civ1/buildings.ruleset:726 data/civ2/buildings.ruleset:710 data/default/buildings.ruleset:899
 msgid "Research Lab"
 msgstr "Onderzoeks Laboratorium"
 
-#: data/civ1/buildings.ruleset:742 data/civ2/buildings.ruleset:726 data/default/buildings.ruleset:915
+#: data/civ1/buildings.ruleset:743 data/civ2/buildings.ruleset:727 data/default/buildings.ruleset:916
 msgid "Together with a Library , a Research Lab increases the science production of a city by 100%. Together with a Library and a University, a Research Lab increases the science production of a city by 150%."
 msgstr "Samen met een Bibliotheek verhoogt een Onderzoeks Laboratorium de wetenschappelijke opbrengsten van een stad met 100%. Samen met een Bibliotheek en een Universiteit wordt de wetenschappelijke opbrengst van een stad met 150% verhoogt."
 
-#: data/civ1/buildings.ruleset:750 data/civ2/buildings.ruleset:734 data/default/buildings.ruleset:923
+#: data/civ1/buildings.ruleset:751 data/civ2/buildings.ruleset:735 data/default/buildings.ruleset:924
 msgid "SAM Battery"
 msgstr "SAM Batterij"
 
-#: data/civ1/buildings.ruleset:768 data/civ2/buildings.ruleset:752 data/default/buildings.ruleset:941
+#: data/civ1/buildings.ruleset:769 data/civ2/buildings.ruleset:753 data/default/buildings.ruleset:942
 msgid "Doubles the defense of all units inside the city when attacked by non-nuclear air units."
 msgstr "Verdubbelt de verdedigingskracht van alle eenheden in een stad wanneer zij worden aangevallen door niet-nucleaire eenheden."
 
-#: data/civ1/buildings.ruleset:774 data/civ2/buildings.ruleset:758 data/default/buildings.ruleset:947
+#: data/civ1/buildings.ruleset:775 data/civ2/buildings.ruleset:759 data/default/buildings.ruleset:948
 msgid "SDI Defense"
 msgstr "SDI Verdediging"
 
-#: data/civ1/buildings.ruleset:792 data/civ2/buildings.ruleset:776 data/default/buildings.ruleset:965
+#: data/civ1/buildings.ruleset:793 data/civ2/buildings.ruleset:777 data/default/buildings.ruleset:966
 msgid "Protects a city from attacks from Nuclear units.  Nuclear attacks simply have no effect on the city.  Also, doubles defence against non-nuclear missiles."
 msgstr "Beschermt een stad tegen aanvallen van Kernraketten. Kernraket aanvallen hebben domweg geen effect op de stad. Ook verdubbelt het de verdedigingskracht tegen niet-nucleaire raketten."
 
-#: data/civ1/buildings.ruleset:801 data/civ2/buildings.ruleset:785 data/default/buildings.ruleset:974
+#: data/civ1/buildings.ruleset:802 data/civ2/buildings.ruleset:786 data/default/buildings.ruleset:975
 msgid "Sewer System"
 msgstr "Riolering"
 
-#: data/civ1/buildings.ruleset:818 data/civ2/buildings.ruleset:802 data/default/buildings.ruleset:991
-msgid "Allows a city to grow larger than size 12.  An Aqueduct is first required for a city to grow larger than size 8."
-msgstr "Staat een stad in staat om groter dan grootte 12 te groeien. Een Aquaduct is eerst nodig om de stad groter dan grootte 8 te laten groeien."
+#: data/civ2/buildings.ruleset:804 data/default/buildings.ruleset:993
+msgid "; Allows a city to grow larger than size 12.  An Aqueduct is first;  required for a city to grow larger than size 8.; "
+msgstr "; Staat een stad in staat om groter dan grootte 12 te groeien.  Een Aquaduct is eerst;  nodig om de stad groter dan grootte 8 te laten groeien.;"
 
-#: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:808 data/default/buildings.ruleset:997
+#: data/civ1/buildings.ruleset:825 data/civ2/buildings.ruleset:810 data/default/buildings.ruleset:999
 msgid "Solar Plant"
 msgstr "Zonnekracht Centrale"
 
-#: data/default/buildings.ruleset:1017
+#: data/default/buildings.ruleset:1019
 #, c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Solar Plant together give a 75% production bonus, and a Factory, Mfg. Plant and Solar Plant together give a 150% production bonus.\n"
@@ -8419,11 +8419,11 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten."
 
-#: data/civ1/buildings.ruleset:858 data/civ2/buildings.ruleset:842 data/default/buildings.ruleset:1035
+#: data/civ1/buildings.ruleset:859 data/civ2/buildings.ruleset:844 data/default/buildings.ruleset:1037
 msgid "Space Component"
 msgstr "Ruimte Component"
 
-#: data/civ1/buildings.ruleset:875 data/civ2/buildings.ruleset:859 data/default/buildings.ruleset:1052
+#: data/civ1/buildings.ruleset:876 data/civ2/buildings.ruleset:861 data/default/buildings.ruleset:1054
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  Each pair of them reduces your spaceship's travel time.  You can build up to 8 pairs.\n"
 "\n"
@@ -8433,11 +8433,11 @@ msgstr ""
 "\n"
 "Voordat u ruimteschiponderdelen kunt bouwen moet het Apollo Programma wonder door één van de spelers gebouwd zijn."
 
-#: data/civ1/buildings.ruleset:885 data/civ2/buildings.ruleset:869 data/default/buildings.ruleset:1062
+#: data/civ1/buildings.ruleset:886 data/civ2/buildings.ruleset:871 data/default/buildings.ruleset:1064
 msgid "Space Module"
 msgstr "Ruimte Module"
 
-#: data/civ1/buildings.ruleset:902 data/civ2/buildings.ruleset:886 data/default/buildings.ruleset:1079
+#: data/civ1/buildings.ruleset:903 data/civ2/buildings.ruleset:888 data/default/buildings.ruleset:1081
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three different types of Space Module:\n"
 "\n"
@@ -8460,11 +8460,11 @@ msgstr ""
 "\n"
 "Voordat u ook maar een enkel onderdeel van uw ruimteschip kunt bouwen, moet het Apollo Programma wonder door één van de spelers gebouwd zijn."
 
-#: data/civ1/buildings.ruleset:921 data/civ2/buildings.ruleset:905 data/default/buildings.ruleset:1098
+#: data/civ1/buildings.ruleset:922 data/civ2/buildings.ruleset:907 data/default/buildings.ruleset:1100
 msgid "Space Structural"
 msgstr "Ruimte Struktuur"
 
-#: data/civ1/buildings.ruleset:938 data/civ2/buildings.ruleset:922 data/default/buildings.ruleset:1115
+#: data/civ1/buildings.ruleset:939 data/civ2/buildings.ruleset:924 data/default/buildings.ruleset:1117
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship parts need to be connected to Structurals in order to function.  You can build up to 32 Space Structurals.\n"
 "\n"
@@ -8474,137 +8474,137 @@ msgstr ""
 "\n"
 "Voordat u ook maar een enkel onderdeel van uw ruimteschip kunt bouwen, moet het Apollo Programma wonder door één van de spelers gebouwd zijn."
 
-#: data/civ1/buildings.ruleset:948 data/civ2/buildings.ruleset:932 data/default/buildings.ruleset:1125
+#: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:934 data/default/buildings.ruleset:1127
 msgid "Stock Exchange"
 msgstr "Optiebeurs"
 
-#: data/civ1/buildings.ruleset:966 data/civ2/buildings.ruleset:950 data/default/buildings.ruleset:1143
+#: data/civ1/buildings.ruleset:967 data/civ2/buildings.ruleset:952 data/default/buildings.ruleset:1145
 #, c-format
 msgid "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and luxury production in a city by 150%."
 msgstr "Samen met een Marktplein en een Bank vergroot de Optiebeurs de belastings- en luxe produktie in een stad met 150%."
 
-#: data/civ1/buildings.ruleset:972 data/civ2/buildings.ruleset:956 data/default/buildings.ruleset:1149
+#: data/civ1/buildings.ruleset:973 data/civ2/buildings.ruleset:958 data/default/buildings.ruleset:1151
 msgid "Super Highways"
 msgstr "Snelwegen"
 
-#: data/civ1/buildings.ruleset:990 data/civ2/buildings.ruleset:974 data/default/buildings.ruleset:1166
+#: data/civ1/buildings.ruleset:991 data/civ2/buildings.ruleset:976 data/default/buildings.ruleset:1168
 #, c-format
 msgid "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr "Vergroot de handelsopbrengst met 50% op alle vlakken met wegen of spoorwegen."
 
-#: data/civ1/buildings.ruleset:996 data/civ2/buildings.ruleset:980 data/default/buildings.ruleset:1174
+#: data/civ1/buildings.ruleset:997 data/civ2/buildings.ruleset:982 data/default/buildings.ruleset:1176
 msgid "Supermarket"
 msgstr "Supermarkt"
 
-#: data/civ1/buildings.ruleset:1013 data/civ2/buildings.ruleset:997 data/default/buildings.ruleset:1191
+#: data/civ1/buildings.ruleset:1014 data/civ2/buildings.ruleset:999 data/default/buildings.ruleset:1193
 #, c-format
 msgid "Increases the food resources by 50% on each farmland square which is being used around the city.  Farmland squares are those which have been irrigated a second time."
 msgstr "Vergroot de voedingsopbrengst met 50% op elk weilandvlak dat in gebruik is rond de stad. Weilandvlakken zijn die vlakken die tweemaal geïrigeerd zijn."
 
-#: data/civ1/buildings.ruleset:1020 data/civ2/buildings.ruleset:1004 data/default/buildings.ruleset:1198
+#: data/civ1/buildings.ruleset:1021 data/civ2/buildings.ruleset:1006 data/default/buildings.ruleset:1200
 msgid "Temple"
 msgstr "Tempel"
 
-#: data/civ1/buildings.ruleset:1038 data/civ2/buildings.ruleset:1022 data/default/buildings.ruleset:1216
+#: data/civ1/buildings.ruleset:1039 data/civ2/buildings.ruleset:1024 data/default/buildings.ruleset:1218
 msgid "Makes one unhappy citizen content.  Both the Mysticism advance and the Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 citizens are made content."
 msgstr "Maakt één ontevreden burger tevreden. Zowel de Mystiek als het Orakel werldwonder verdubbelen dit effect. Met zowel Mystiek als het Orakel worden vier burgers tevreden."
 
-#: data/civ1/buildings.ruleset:1045 data/civ1/techs.ruleset:559 data/civ2/buildings.ruleset:1029 data/civ2/techs.ruleset:559 data/default/buildings.ruleset:1223 data/default/techs.ruleset:559
+#: data/civ1/buildings.ruleset:1046 data/civ1/techs.ruleset:559 data/civ2/buildings.ruleset:1031 data/civ2/techs.ruleset:559 data/default/buildings.ruleset:1225 data/default/techs.ruleset:559
 msgid "University"
 msgstr "Universiteit"
 
-#: data/civ1/buildings.ruleset:1062 data/civ2/buildings.ruleset:1046 data/default/buildings.ruleset:1240
+#: data/civ1/buildings.ruleset:1063 data/civ2/buildings.ruleset:1048 data/default/buildings.ruleset:1242
 #, c-format
 msgid "Together with a Library, a University increases the science production of a city by 100%."
 msgstr "Samen met een Bibliotheek vergroot een Universiteit het wetenschappelijk onderzoek van een stad met 100%."
 
-#: data/civ1/buildings.ruleset:1068 data/civ2/buildings.ruleset:1052 data/default/buildings.ruleset:1246
+#: data/civ1/buildings.ruleset:1069 data/civ2/buildings.ruleset:1054 data/default/buildings.ruleset:1248
 msgid "Apollo Program"
 msgstr "Apollo Programma"
 
-#: data/civ2/buildings.ruleset:1070 data/default/buildings.ruleset:1264
+#: data/civ2/buildings.ruleset:1072 data/default/buildings.ruleset:1266
 msgid "Entire map becomes visible for the player who owns it.  It allows all players to start building spaceship parts (assuming they have researched the necessary technologies)."
 msgstr "Alle steden op de kaart worden zichtbaar voor de speler die dit bezit. Het stelt alle spelers in de gelegenheid om te beginnen met het bouwen van ruimteschepen (aangenomen dat zij alle benodigde technologieën verworven hebben)."
 
-#: data/civ1/buildings.ruleset:1093 data/civ2/buildings.ruleset:1077 data/default/buildings.ruleset:1271
+#: data/civ1/buildings.ruleset:1094 data/civ2/buildings.ruleset:1079 data/default/buildings.ruleset:1273
 msgid "A.Smith's Trading Co."
 msgstr "J.Jansen's Handels Organisatie"
 
-#: data/civ1/buildings.ruleset:1110 data/civ2/buildings.ruleset:1094 data/default/buildings.ruleset:1288
+#: data/civ1/buildings.ruleset:1111 data/civ2/buildings.ruleset:1096 data/default/buildings.ruleset:1290
 msgid "City improvements which would normally have an upkeep of 1 are free of upkeep, for all cities."
 msgstr "Stadsverbeteringen die normaal een onderhoud van 1 zouden hebben zijn vrij van onderhoud voor alle steden."
 
-#: data/civ1/buildings.ruleset:1116 data/civ2/buildings.ruleset:1100 data/default/buildings.ruleset:1294
+#: data/civ1/buildings.ruleset:1117 data/civ2/buildings.ruleset:1102 data/default/buildings.ruleset:1296
 msgid "Colossus"
 msgstr "Colossus"
 
-#: data/civ1/buildings.ruleset:1133 data/civ2/buildings.ruleset:1117 data/default/buildings.ruleset:1311
+#: data/civ1/buildings.ruleset:1134 data/civ2/buildings.ruleset:1119 data/default/buildings.ruleset:1313
 msgid "Each square around the city where this wonder is built that is already generating some trade produces one extra trade resource."
 msgstr "Elk vlag rond de stad waar dit wonder is gebouwd krijgt en die al enige handel produceert krijgt een extra handelspunt."
 
-#: data/civ1/buildings.ruleset:1139 data/civ2/buildings.ruleset:1123 data/default/buildings.ruleset:1317
+#: data/civ1/buildings.ruleset:1140 data/civ2/buildings.ruleset:1125 data/default/buildings.ruleset:1319
 msgid "Copernicus' Observatory"
 msgstr "Copernicus's Observatorium"
 
-#: data/civ1/buildings.ruleset:1156 data/civ2/buildings.ruleset:1140 data/default/buildings.ruleset:1334
+#: data/civ1/buildings.ruleset:1157 data/civ2/buildings.ruleset:1142 data/default/buildings.ruleset:1336
 #, c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Versterkt het wetenschappelijk onderzoek met 50% in de stad waarin het gebouwd is."
 
-#: data/civ1/buildings.ruleset:1161 data/civ2/buildings.ruleset:1145 data/default/buildings.ruleset:1339
+#: data/civ1/buildings.ruleset:1162 data/civ2/buildings.ruleset:1147 data/default/buildings.ruleset:1341
 msgid "Cure For Cancer"
 msgstr "Genezing voor Kanker"
 
-#: data/civ1/buildings.ruleset:1178 data/civ2/buildings.ruleset:1162 data/default/buildings.ruleset:1356
+#: data/civ1/buildings.ruleset:1179 data/civ2/buildings.ruleset:1164 data/default/buildings.ruleset:1358
 msgid "This stunning technological achievement makes one unhappy citizen content in all cities."
 msgstr "Deze verbijsterende technologische prestatie maakt één ontevreden burger tevreden in elke stad."
 
-#: data/civ1/buildings.ruleset:1184 data/civ2/buildings.ruleset:1168 data/default/buildings.ruleset:1364
+#: data/civ1/buildings.ruleset:1185 data/civ2/buildings.ruleset:1170 data/default/buildings.ruleset:1366
 msgid "Darwin's Voyage"
 msgstr "Darwin's Reis"
 
-#: data/civ1/buildings.ruleset:1201 data/civ2/buildings.ruleset:1185 data/default/buildings.ruleset:1381
+#: data/civ1/buildings.ruleset:1202 data/civ2/buildings.ruleset:1187 data/default/buildings.ruleset:1383
 msgid "Charles Darwin's voyage sparked the discovery of the evolution of the species, which inspired greater confidence in science. Gives two immediate technology advances."
 msgstr "Charles Darwin's reis markeerde de ontdekking van de evolutie van de soorten, wat een groter vertrouwen in de wetenschap bewerkstelligde. Geeft twee onmiddelijke technologische vooruitgangen."
 
-#: data/civ1/buildings.ruleset:1208 data/civ2/buildings.ruleset:1192 data/default/buildings.ruleset:1388
+#: data/civ1/buildings.ruleset:1209 data/civ2/buildings.ruleset:1194 data/default/buildings.ruleset:1390
 msgid "Eiffel Tower"
 msgstr "Eiffeltoren"
 
-#: data/civ1/buildings.ruleset:1225 data/civ2/buildings.ruleset:1209 data/default/buildings.ruleset:1405
+#: data/civ1/buildings.ruleset:1226 data/civ2/buildings.ruleset:1211 data/default/buildings.ruleset:1407
 #, c-format
 msgid "When built, every civilization's attitude toward you is improved by 25%."
 msgstr "Wanneer deze wordt gebouwt, dan verbetert de houding van elke beschaving ten opzichte van u met 25%."
 
-#: data/civ1/buildings.ruleset:1233 data/civ2/buildings.ruleset:1217 data/default/buildings.ruleset:1413
+#: data/civ1/buildings.ruleset:1234 data/civ2/buildings.ruleset:1219 data/default/buildings.ruleset:1415
 msgid "Great Library"
 msgstr "Grote Bibliotheek"
 
-#: data/civ1/buildings.ruleset:1250 data/civ2/buildings.ruleset:1234 data/default/buildings.ruleset:1430
+#: data/civ1/buildings.ruleset:1251 data/civ2/buildings.ruleset:1236 data/default/buildings.ruleset:1432
 msgid "The civilization which builds the Great Library gets every advance that at least two other civilizations have achieved."
 msgstr "De beschaving die de Grote Bibliotheek bouwt krijgt elke vooruitgang die tenminste twee andere beschavingen kregen."
 
-#: data/civ1/buildings.ruleset:1256 data/civ2/buildings.ruleset:1240 data/default/buildings.ruleset:1436
+#: data/civ1/buildings.ruleset:1257 data/civ2/buildings.ruleset:1242 data/default/buildings.ruleset:1438
 msgid "Great Wall"
 msgstr "Chinese Muur"
 
-#: data/civ1/buildings.ruleset:1275 data/civ2/buildings.ruleset:1259 data/default/buildings.ruleset:1454
+#: data/civ1/buildings.ruleset:1276 data/civ2/buildings.ruleset:1261 data/default/buildings.ruleset:1456
 msgid "Works as a City Wall in all cities."
 msgstr "Werkt als Stadswallen in elke stad."
 
-#: data/civ1/buildings.ruleset:1282 data/civ2/buildings.ruleset:1266 data/default/buildings.ruleset:1462
+#: data/civ1/buildings.ruleset:1283 data/civ2/buildings.ruleset:1268 data/default/buildings.ruleset:1464
 msgid "Hanging Gardens"
 msgstr "Hangende Tuinen"
 
-#: data/civ1/buildings.ruleset:1300 data/civ2/buildings.ruleset:1284 data/default/buildings.ruleset:1480
+#: data/civ1/buildings.ruleset:1301 data/civ2/buildings.ruleset:1286 data/default/buildings.ruleset:1482
 msgid "Makes one content citizen happy in every city. Makes two extra content citizens happy in the city containing the Hanging Gardens (that is, a total of 3).  In the unlikely event where there are no content citizens to get the effect of Hanging Gardens, the wonder applies to unhappy citizens (making them content instead)."
 msgstr "Maakt één ontevreden burger tevreden in elke stad. Maakt twee extra tevreden burgers gelukkig in de stad waar de Hangende Tuinen gebouwd zijn (in totaal dus drie). In het onwaarschijnlijke geval dat er geen tevreden burgers zijn om het effect te voelen, geldt het wonder voor alle ontevreden burgers (maakt ze in plaats daarvan tevreden)."
 
-#: data/civ1/buildings.ruleset:1309 data/civ2/buildings.ruleset:1293 data/default/buildings.ruleset:1489
+#: data/civ1/buildings.ruleset:1310 data/civ2/buildings.ruleset:1295 data/default/buildings.ruleset:1491
 msgid "Hoover Dam"
 msgstr "Hoover Dam"
 
-#: data/civ2/buildings.ruleset:1312 data/default/buildings.ruleset:1509
+#: data/civ2/buildings.ruleset:1314 data/default/buildings.ruleset:1511
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution and increases the effects of Factories and Mfg. Plants.)\n"
 "\n"
@@ -8613,156 +8613,156 @@ msgstr ""
 "Werkt als een Waterkrachtcentrale in iedere stad. (Dit vermindert de vervuiling en vergroot het effect van Fabrieken en Fabrikagehallen.)\n"
 "Net zoals een waterkrachtcentrale kan de Hoover Dam alleen gebouwd worden in een stad die naast (of op) een Berg- of Riviervlak staat. Echter, het effect geldt voor alle steden in uw beschaving, ongeacht hun locatie."
 
-#: data/civ1/buildings.ruleset:1343 data/civ2/buildings.ruleset:1323 data/default/buildings.ruleset:1520
+#: data/civ1/buildings.ruleset:1344 data/civ2/buildings.ruleset:1325 data/default/buildings.ruleset:1522
 msgid "Isaac Newton's College"
 msgstr "Isaac Newton's School"
 
-#: data/civ1/buildings.ruleset:1360 data/civ2/buildings.ruleset:1340 data/default/buildings.ruleset:1537
+#: data/civ1/buildings.ruleset:1361 data/civ2/buildings.ruleset:1342 data/default/buildings.ruleset:1539
 #, c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Versterkt het wetenschappelijk onderzoek met 100% in de stad waar het gebouwd is."
 
-#: data/civ1/buildings.ruleset:1365 data/civ2/buildings.ruleset:1345 data/default/buildings.ruleset:1542
+#: data/civ1/buildings.ruleset:1366 data/civ2/buildings.ruleset:1347 data/default/buildings.ruleset:1544
 msgid "J.S. Bach's Cathedral"
 msgstr "J.S. Bach's Kathedraal"
 
-#: data/civ2/buildings.ruleset:1362 data/default/buildings.ruleset:1559
+#: data/civ2/buildings.ruleset:1364 data/default/buildings.ruleset:1561
 msgid "Makes two unhappy citizens content in every city."
 msgstr "Maakt twee ontevreden burgers tevreden in elke stad."
 
-#: data/civ1/buildings.ruleset:1389 data/civ2/buildings.ruleset:1367 data/default/buildings.ruleset:1564
+#: data/civ1/buildings.ruleset:1390 data/civ2/buildings.ruleset:1369 data/default/buildings.ruleset:1566
 msgid "King Richard's Crusade"
 msgstr "Koning Richard's Kruistocht"
 
-#: data/civ1/buildings.ruleset:1406 data/civ2/buildings.ruleset:1384 data/default/buildings.ruleset:1581
+#: data/civ1/buildings.ruleset:1407 data/civ2/buildings.ruleset:1386 data/default/buildings.ruleset:1583
 msgid "Adds one extra shield resource on every square around the city where it is built."
 msgstr "Geeft een extra hulpbron op elk vlak rond de stad waar het gebouwd is."
 
-#: data/civ1/buildings.ruleset:1412 data/civ2/buildings.ruleset:1390 data/default/buildings.ruleset:1587
+#: data/civ1/buildings.ruleset:1413 data/civ2/buildings.ruleset:1392 data/default/buildings.ruleset:1589
 msgid "Leonardo's Workshop"
 msgstr "Leonardo's Werkplaats"
 
-#: data/civ1/buildings.ruleset:1429 data/civ2/buildings.ruleset:1407 data/default/buildings.ruleset:1604
+#: data/civ1/buildings.ruleset:1430 data/civ2/buildings.ruleset:1409 data/default/buildings.ruleset:1606
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "Waardeert een verouderde eenheid op per beurt."
 
-#: data/civ1/buildings.ruleset:1434 data/civ2/buildings.ruleset:1412 data/default/buildings.ruleset:1609
+#: data/civ1/buildings.ruleset:1435 data/civ2/buildings.ruleset:1414 data/default/buildings.ruleset:1611
 msgid "Lighthouse"
 msgstr "Vuurtoren"
 
-#: data/civ1/buildings.ruleset:1453 data/civ2/buildings.ruleset:1431 data/default/buildings.ruleset:1628
+#: data/civ1/buildings.ruleset:1454 data/civ2/buildings.ruleset:1433 data/default/buildings.ruleset:1630
 msgid "Gives all sea units 1 additional movement point and eliminates the risk of losing Triremes on the high seas.  Makes all new sea units veterans (for all cities)."
 msgstr "Geeft alle zee-eenheden 1 extra bewegingspunt en verwijdert het risico van het verliezen van Triremen in de diepzee.  Maakt alle nieuwe zee-eenheden veteraan (voor alle steden)."
 
-#: data/civ1/buildings.ruleset:1462 data/civ2/buildings.ruleset:1438 data/default/buildings.ruleset:1635
+#: data/civ1/buildings.ruleset:1463 data/civ2/buildings.ruleset:1440 data/default/buildings.ruleset:1637
 msgid "Magellan's Expedition"
 msgstr "Magellan's Expeditie"
 
-#: data/civ2/buildings.ruleset:1455 data/default/buildings.ruleset:1652
+#: data/civ2/buildings.ruleset:1457 data/default/buildings.ruleset:1654
 msgid "Gives all sea units 2 additional movement points."
 msgstr "Geeft alle zee-eenheden twee extra bewegingspunten."
 
-#: data/civ1/buildings.ruleset:1485 data/civ2/buildings.ruleset:1460 data/default/buildings.ruleset:1657
+#: data/civ1/buildings.ruleset:1486 data/civ2/buildings.ruleset:1462 data/default/buildings.ruleset:1659
 msgid "Manhattan Project"
 msgstr "Manhattan Project"
 
-#: data/civ1/buildings.ruleset:1502 data/civ2/buildings.ruleset:1477 data/default/buildings.ruleset:1674
+#: data/civ1/buildings.ruleset:1503 data/civ2/buildings.ruleset:1479 data/default/buildings.ruleset:1676
 msgid "Allows all players with knowledge of Rocketry to build Nuclear units."
 msgstr "Stelt alle spelers met kennis van Raketten in staat om Nucleaire eenheden te bouwen.  "
 
-#: data/civ1/buildings.ruleset:1507 data/civ2/buildings.ruleset:1482 data/default/buildings.ruleset:1679
+#: data/civ1/buildings.ruleset:1508 data/civ2/buildings.ruleset:1484 data/default/buildings.ruleset:1681
 msgid "Marco Polo's Embassy"
 msgstr "Marco Polo's Ambassade"
 
-#: data/civ1/buildings.ruleset:1524 data/civ2/buildings.ruleset:1499 data/default/buildings.ruleset:1696
+#: data/civ1/buildings.ruleset:1525 data/civ2/buildings.ruleset:1501 data/default/buildings.ruleset:1698
 msgid "The player who owns it gets an embassy with all players."
 msgstr "De speler die dit bezit krijgt een ambassade bij alle spelers."
 
-#: data/civ1/buildings.ruleset:1529 data/civ2/buildings.ruleset:1504 data/default/buildings.ruleset:1701
+#: data/civ1/buildings.ruleset:1530 data/civ2/buildings.ruleset:1506 data/default/buildings.ruleset:1703
 msgid "Michelangelo's Chapel"
 msgstr "Michelangelo's Kapel"
 
-#: data/civ2/buildings.ruleset:1523 data/default/buildings.ruleset:1720
+#: data/civ2/buildings.ruleset:1525 data/default/buildings.ruleset:1722
 msgid "Counts as having a Cathedral in each of your cities.  (This makes 3 unhappy citizens content in each city.  The discovery of Theology increases the affect of a Cathedral, making an additional unhappy citizen content.  The discovery of Communism lessens the affect of a Cathedral, reducing by one the number of unhappy citizens made content."
 msgstr "Telt als een Kathedraal in elk van uw steden. (Dit maakt drie ontevreden burgers tevreden in een stad. De ontdekking van Theologie vergroot het effect van een Kathedraal door een extra ontevreden burger tevreden te maken. De ontdekking van het Communisme vermindert het effect van een Kathedraal, er wordt dan één ontevreden burger minder tevreden."
 
-#: data/civ1/buildings.ruleset:1552 data/civ2/buildings.ruleset:1533 data/default/buildings.ruleset:1730
+#: data/civ1/buildings.ruleset:1553 data/civ2/buildings.ruleset:1535 data/default/buildings.ruleset:1732
 msgid "Oracle"
 msgstr "Orakel"
 
-#: data/civ1/buildings.ruleset:1570 data/civ2/buildings.ruleset:1551 data/default/buildings.ruleset:1748
+#: data/civ1/buildings.ruleset:1571 data/civ2/buildings.ruleset:1553 data/default/buildings.ruleset:1750
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "Verdubbelt het effect van Tempels in alle steden."
 
-#: data/civ1/buildings.ruleset:1575 data/civ2/buildings.ruleset:1556 data/default/buildings.ruleset:1753
+#: data/civ1/buildings.ruleset:1576 data/civ2/buildings.ruleset:1558 data/default/buildings.ruleset:1755
 msgid "Pyramids"
 msgstr "Pyramiden"
 
-#: data/civ2/buildings.ruleset:1573 data/default/buildings.ruleset:1770
+#: data/civ2/buildings.ruleset:1575 data/default/buildings.ruleset:1772
 msgid "Counts as having a Granary in every city."
 msgstr "Telt als een Graanschuur in elke stad."
 
-#: data/civ1/buildings.ruleset:1601 data/civ2/buildings.ruleset:1578 data/default/buildings.ruleset:1775
+#: data/civ1/buildings.ruleset:1602 data/civ2/buildings.ruleset:1580 data/default/buildings.ruleset:1777
 msgid "SETI Program"
 msgstr "SETI Programma"
 
-#: data/civ2/buildings.ruleset:1595 data/default/buildings.ruleset:1792
+#: data/civ2/buildings.ruleset:1597 data/default/buildings.ruleset:1794
 msgid "Boosts science production in each city with a Library by 50%.  (Counts as having a Research Lab in all of your cities.)"
 msgstr "Versterkt het wetenschappelijke onderzoek in elke stad met 50%. (Telt als een onderzoekslab in elke stad.)"
 
-#: data/civ1/buildings.ruleset:1623 data/civ2/buildings.ruleset:1601 data/default/buildings.ruleset:1798
+#: data/civ1/buildings.ruleset:1624 data/civ2/buildings.ruleset:1603 data/default/buildings.ruleset:1800
 msgid "Shakespeare's Theatre"
 msgstr "Shakespeare's Theater"
 
-#: data/civ1/buildings.ruleset:1640 data/civ2/buildings.ruleset:1618 data/default/buildings.ruleset:1815
+#: data/civ1/buildings.ruleset:1641 data/civ2/buildings.ruleset:1620 data/default/buildings.ruleset:1817
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "Maakt alle ontevreden burgers tevreden in de stad waar hij staat."
 
-#: data/civ1/buildings.ruleset:1645 data/civ2/buildings.ruleset:1623 data/default/buildings.ruleset:1820
+#: data/civ1/buildings.ruleset:1646 data/civ2/buildings.ruleset:1625 data/default/buildings.ruleset:1822
 msgid "Statue of Liberty"
 msgstr "Vrijheidsbeeld"
 
-#: data/civ1/buildings.ruleset:1594 data/civ1/buildings.ruleset:1663 data/civ1/buildings.ruleset:1714 data/civ2/buildings.ruleset:1641 data/default/buildings.ruleset:1838
+#: data/civ1/buildings.ruleset:1595 data/civ1/buildings.ruleset:1664 data/civ1/buildings.ruleset:1715 data/civ2/buildings.ruleset:1643 data/default/buildings.ruleset:1840
 msgid "Allows you to choose any government, including those that have not yet been researched by your civilization, and without the transition period of Anarchy."
 msgstr "Staat u toe elke regeringsvorm te kiezen, inclusief degeen die u nog niet onderzocht hebt en zonder de overgangsperiode van Anarchie."
 
-#: data/civ1/buildings.ruleset:1670 data/civ2/buildings.ruleset:1648 data/default/buildings.ruleset:1845
+#: data/civ1/buildings.ruleset:1671 data/civ2/buildings.ruleset:1650 data/default/buildings.ruleset:1847
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzu's Gevechts Academie"
 
-#: data/civ1/buildings.ruleset:1688 data/civ2/buildings.ruleset:1666 data/default/buildings.ruleset:1863
+#: data/civ1/buildings.ruleset:1689 data/civ2/buildings.ruleset:1668 data/default/buildings.ruleset:1865
 msgid "All your new ground units become veterans (for all cities).  The chance of a unit becoming a veteran after a battle increases from 50% to 100%."
 msgstr "Al uw nieuwe grond-eenheden worden veteraan (in alle steden). De kans dat een eenheid veteraan wordt na een slag wordt verhoogd van 50% naar 100%."
 
-#: data/civ1/buildings.ruleset:1695 data/civ2/buildings.ruleset:1673 data/default/buildings.ruleset:1870
+#: data/civ1/buildings.ruleset:1696 data/civ2/buildings.ruleset:1675 data/default/buildings.ruleset:1872
 msgid "United Nations"
 msgstr "Verenigde Naties"
 
-#: data/civ2/buildings.ruleset:1694 data/default/buildings.ruleset:1891
+#: data/civ2/buildings.ruleset:1696 data/default/buildings.ruleset:1893
 msgid "Units regain two extra hitpoints per turn."
 msgstr "Eenheden krijgen twee extra gevechtspunten per beurt."
 
-#: data/civ1/buildings.ruleset:1726 data/civ2/buildings.ruleset:1707 data/default/buildings.ruleset:1904
+#: data/civ1/buildings.ruleset:1727 data/civ2/buildings.ruleset:1709 data/default/buildings.ruleset:1906
 msgid "Women's Suffrage"
 msgstr "Vrouwen Kiesrecht"
 
-#: data/civ2/buildings.ruleset:1725 data/default/buildings.ruleset:1922
+#: data/civ2/buildings.ruleset:1727 data/default/buildings.ruleset:1924
 msgid "Counts as a Police Station in every city.  (That is, for each city, reduces unhappiness for military units outside the city by 2 under Democracy and 1 under Republic.  This wonder has no effect under other governments.)"
 msgstr "Telt als een Politie Bureau in elke stad. (Dat houdt in dat voor elke stad de onrust over militaire eenheden buiten de stad onder Democratie met twee afneemt, en onder Republiek met 1. Dit wonder heeft geen effect onder andere regeringsvormen.)"
 
-#: data/civ1/buildings.ruleset:1751 data/civ2/buildings.ruleset:1733 data/default/buildings.ruleset:1933
+#: data/civ1/buildings.ruleset:1752 data/civ2/buildings.ruleset:1735 data/default/buildings.ruleset:1935
 msgid "Capitalization"
 msgstr "Kapitalisatie"
 
-#: data/civ1/buildings.ruleset:1768 data/civ2/buildings.ruleset:1750 data/default/buildings.ruleset:1950
+#: data/civ1/buildings.ruleset:1769 data/civ2/buildings.ruleset:1752 data/default/buildings.ruleset:1952
 msgid "This is not a normal improvement.  Instead, setting a city's production to Capitalization means its shield production is converted to tax output (money)."
 msgstr "Dit is niet een normale verbetering. Een stad op Kapitalisatie zetten betekent dat alle produktie wordt omgezet naar belasting (geld)."
 
-#: data/civ2/buildings.ruleset:286
+#: data/civ2/buildings.ruleset:287
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four after the discovery of Electronics.)"
 msgstr "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden stedelingen tevreden. (Vier na de ontdekking van Electriciteit)"
 
-#: data/civ2/buildings.ruleset:411
+#: data/civ2/buildings.ruleset:412
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Hydro Plant together give a 100% production bonus, and a Factory, Mfg. Plant and Hydro Plant together give a 150% production bonus.\n"
 "\n"
@@ -8772,7 +8772,7 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten. Een stad kan alleen een Waterkrachtcentrale bouwen als het op of naast een Berg- of Riviervlak ligt."
 
-#: data/civ2/buildings.ruleset:536
+#: data/civ2/buildings.ruleset:537
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Nuclear Plant together give a 100% production bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% production bonus.\n"
 "\n"
@@ -8782,7 +8782,7 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten."
 
-#: data/civ1/buildings.ruleset:690 data/civ2/buildings.ruleset:674
+#: data/civ1/buildings.ruleset:691 data/civ2/buildings.ruleset:675
 #, c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a Factory and a Power Plant together give a 100% production bonus, and a Factory, Mfg. Plant and Power Plant together give a 150% production bonus.  The extra production may lead to the city generating more pollution.\n"
@@ -8793,7 +8793,7 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten."
 
-#: data/civ1/buildings.ruleset:843 data/civ2/buildings.ruleset:827
+#: data/civ1/buildings.ruleset:844 data/civ2/buildings.ruleset:829
 #, c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Solar Plant together give a 100% production bonus, and a Factory, Mfg. Plant and Solar Plant together give a 150% production bonus.\n"
@@ -8804,27 +8804,27 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten."
 
-#: data/civ1/buildings.ruleset:76
-msgid "Allows a city to grow larger than size 10."
-msgstr "Staat een stad toe voorbij grootte 10 te groeien."
+#: data/civ1/buildings.ruleset:77
+msgid "; Allows a city to grow larger than size 10.; "
+msgstr "; Staat een stad toe voorbij grootte 10 te groeien."
 
-#: data/civ1/buildings.ruleset:132 data/civ1/buildings.ruleset:167 data/civ1/buildings.ruleset:202
+#: data/civ1/buildings.ruleset:133 data/civ1/buildings.ruleset:168 data/civ1/buildings.ruleset:203
 msgid "With a Barracks, each new unit built in a city will automatically have Veteran status, which means that its attack and defence strengths are increased by 50%.  Also, damaged units which stay in town for one full turn without moving are completely restored."
 msgstr "Met Barakken krijgt iedere nieuw te bouwen eenheid in de stad automatisch Veteranen status, wat inhoud dat zijn aanvals- en verdedigingssterkte vergroot worden met 50%. Ook worden beschadigde eenheden die een volle beurt zonder beweging in de stad blijven, volledig hersteld."
 
-#: data/civ1/buildings.ruleset:228
+#: data/civ1/buildings.ruleset:229
 msgid "A Cathedral makes 4 unhappy citizens content in a city, making it easier to maintain order in that city."
 msgstr "Een Kathedraal maakt vier ontevreden stedelingen in een stad tevreden, wat het makkelijker maakt om de orde te bewaren."
 
-#: data/civ1/buildings.ruleset:255
+#: data/civ1/buildings.ruleset:256
 msgid "City Walls make it easier to defend a city.  They triple the defence strength of units within the city against ground, sea, and helicopter units.  They are ineffective against non-helicopter airborne units as well as Artillery.  City Walls also prevent the loss of population which occurs when a defending unit is destroyed by a land unit."
 msgstr "Stadswallen maken het gemakkelijker om een stad te verdedigen. Ze verdrievoudigen de sterkte van de eenheden binnen de stad tegen grond-, zee- en helicopter-eenheden. Ze hebben geen effect op lucht-eenheden of Artillerie. Stadswallen voorkomen ook het verlies van bevolking die optreedt wanneer een verdedigende eenheid wordt vernietigd door een land-eenheid."
 
-#: data/civ1/buildings.ruleset:304
+#: data/civ1/buildings.ruleset:305
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
 msgstr "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden stedelingen tevreden."
 
-#: data/civ1/buildings.ruleset:428
+#: data/civ1/buildings.ruleset:429
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Hydro Plant together give a 100% production bonus, and a Factory, Mfg. Plant and Hydro Plant together give a 150% production bonus.\n"
 "\n"
@@ -8834,7 +8834,7 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten. Een stad kan pas een Waterkrachtcentrale bouwen als het op of naast een Berg- of Riviervlak ligt."
 
-#: data/civ1/buildings.ruleset:553
+#: data/civ1/buildings.ruleset:554
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Nuclear Plant together give a 100% production bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% production bonus.\n"
 "\n"
@@ -8844,11 +8844,15 @@ msgstr ""
 "\n"
 "Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale of één Kerncentrale bezitten."
 
-#: data/civ1/buildings.ruleset:1086
+#: data/civ1/buildings.ruleset:819
+msgid "Allows a city to grow larger than size 12.  An Aqueduct is first required for a city to grow larger than size 8."
+msgstr "Staat een stad in staat om groter dan grootte 12 te groeien. Een Aquaduct is eerst nodig om de stad groter dan grootte 8 te laten groeien."
+
+#: data/civ1/buildings.ruleset:1087
 msgid "All cities on the map become visible for the player who owns it.  It allows all players to start building spaceship parts (assuming they have researched the necessary technologies)."
 msgstr "Alle steden op de kaart worden zichtbaar voor de speler die dit bezit. Het stelt alle spelers in de gelegenheid om te beginnen met het bouwen van ruimteschepen (aangenomen dat zij alle benodigde technologieën onderzocht hebben)."
 
-#: data/civ1/buildings.ruleset:1329
+#: data/civ1/buildings.ruleset:1330
 msgid ""
 "Works as if you had a Hydro Plant in every city on the same continent where the wonder is built.  (This reduces pollution and increases the effects of Factories and Mfg. Plants.)\n"
 "\n"
@@ -8858,24 +8862,24 @@ msgstr ""
 "\n"
 "Net zoals een waterkrachtcentrale kan de Hoover Dam alleen gebouwd worden in een stad die naast (of op) een Berg- of Riviervlak staat. Echter, het effect geldt voor alle steden in uw beschaving op hetzelfde continent, ongeacht hun locatie."
 
-#: data/civ1/buildings.ruleset:1383
+#: data/civ1/buildings.ruleset:1384
 msgid "Makes two unhappy citizens content in every city of yours on the same continent where the wonder is built."
 msgstr "Maakt twee ontevreden burgers tevreden in elke stad van u op hetzelfde continent waar het wonder is gebouwd."
 
-#: data/civ1/buildings.ruleset:1480
+#: data/civ1/buildings.ruleset:1481
 msgid "Gives all sea units 1 additional movement point."
 msgstr "Geeft alle zee-eenheden 1 extra bewegingpunt."
 
-#: data/civ1/buildings.ruleset:1547
+#: data/civ1/buildings.ruleset:1548
 msgid "Double effects of Cathedrals."
 msgstr "Verdubbelt het effect van Kathedralen."
 
-#: data/civ1/buildings.ruleset:1618
+#: data/civ1/buildings.ruleset:1619
 #, c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "Versterkt de wetenschap in elke stad met 50%"
 
-#: data/civ1/buildings.ruleset:1744
+#: data/civ1/buildings.ruleset:1745
 msgid "In all cities, the unhappiness effect of every unit is reduced by 1. This means that in a Republic, units do not cause unhappiness, and in a Democracy, aggressive units cause only 1 unhappy citizen each."
 msgstr "In alle steden wordt het ontvredenheids-effect van elke eenheid verminderd met 1. Dit betekent dat in een Republiek eenheden geen ongemak veroorzaken en dat in een Democratie aggressieve eenheden elk slechts 1 ontevreden burger veroorzaken."
 
