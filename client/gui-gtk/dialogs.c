@@ -1920,7 +1920,7 @@ void create_races_dialog(void)
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->vbox ),
 	fs, FALSE, FALSE, 0 );
-  races_sex_toggles_form = gtk_table_new( 2, 1, FALSE );
+  races_sex_toggles_form = gtk_table_new( 1, 2, FALSE );
   gtk_container_add( GTK_CONTAINER( fs ), races_sex_toggles_form ); 
 
   races_sex_toggles[0]= gtk_radio_button_new_with_label( sgroup, _("Male") );

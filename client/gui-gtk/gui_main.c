@@ -389,7 +389,7 @@ static void setup_widgets(void)
       box4 = gtk_hbox_new( FALSE, 0 );
       gtk_box_pack_start(GTK_BOX(avbox), box4, FALSE, FALSE, 0);
 
-      table = gtk_table_new(10, 3, FALSE);
+      table = gtk_table_new(3, 10, FALSE);
       gtk_table_set_row_spacing(GTK_TABLE(table), 0, 0);
       gtk_table_set_col_spacing(GTK_TABLE(table), 0, 0);
       gtk_box_pack_start(GTK_BOX(box4), table, TRUE, FALSE, 0);
@@ -462,7 +462,7 @@ static void setup_widgets(void)
     ubox = gtk_hbox_new(FALSE,0);
     gtk_box_pack_start(GTK_BOX(avbox), ubox, FALSE, FALSE, 0);
 
-    table = gtk_table_new( 2, 5, FALSE );
+    table = gtk_table_new( 2, num_units_below, FALSE );
     gtk_box_pack_start(GTK_BOX(ubox),table,FALSE,FALSE,5);
 
     gtk_table_set_row_spacings(GTK_TABLE(table), 2);

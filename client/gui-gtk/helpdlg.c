@@ -484,7 +484,7 @@ static void create_help_dialog(void)
   gtk_pixmap_set_build_insensitive(GTK_PIXMAP(unit_tile), FALSE);
   gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
 
-  help_itable = gtk_table_new(6, 1, FALSE);
+  help_itable = gtk_table_new(1, 6, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_itable, FALSE, FALSE, 0);
 
   for (i=0; i<6; i++) {
@@ -500,7 +500,7 @@ static void create_help_dialog(void)
 					help_ilabel[i], i, i+1, 0, 1);
   }
 
-  help_wtable = gtk_table_new(6, 1, FALSE);
+  help_wtable = gtk_table_new(1, 6, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_wtable, FALSE, FALSE, 0);
 
   for (i=0; i<6; i++) {
@@ -517,7 +517,7 @@ static void create_help_dialog(void)
   }
 
 
-  help_utable = gtk_table_new(5, 4, FALSE);
+  help_utable = gtk_table_new(5, 5, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_utable, FALSE, FALSE, 0);
 
   for (i=0; i<5; i++)
@@ -542,7 +542,7 @@ static void create_help_dialog(void)
     }
 
 
-  help_ttable = gtk_table_new(5, 4, FALSE);
+  help_ttable = gtk_table_new(5, 5, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_ttable, FALSE, FALSE, 0);
 
   for (i=0; i<5; i++) {
