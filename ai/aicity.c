@@ -79,7 +79,7 @@ void ai_city_build_settler(struct city *pcity)
 /************************************************************************** 
 ...
 **************************************************************************/
-int ai_city_build_peaceful_unit(struct city *pcity)
+bool ai_city_build_peaceful_unit(struct city *pcity)
 {
   Unit_Type_id i;
 

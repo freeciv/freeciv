@@ -41,7 +41,7 @@ static GtkWidget *connw, *quitw;
 static GtkWidget *dialog;
 
 /* meta Server */
-static int update_meta_dialog(GtkWidget *meta_list);
+static bool update_meta_dialog(GtkWidget *meta_list);
 static void meta_list_callback(GtkWidget *w, gint row, gint column);
 static void meta_update_callback(GtkWidget *w, gpointer data);
 
@@ -70,7 +70,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static int update_meta_dialog(GtkWidget *meta_list)
+static bool update_meta_dialog(GtkWidget *meta_list)
 {
   char errbuf[128];
 

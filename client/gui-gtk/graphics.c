@@ -61,7 +61,7 @@ GdkCursor *		patrol_cursor;
 /***************************************************************************
 ...
 ***************************************************************************/
-int isometric_view_supported(void)
+bool isometric_view_supported(void)
 {
   return TRUE;
 }
@@ -69,7 +69,7 @@ int isometric_view_supported(void)
 /***************************************************************************
 ...
 ***************************************************************************/
-int overhead_view_supported(void)
+bool overhead_view_supported(void)
 {
   return TRUE;
 }

@@ -69,7 +69,7 @@ The info string should look like this:
 
 #include "meta.h"
 
-int server_is_open = FALSE;
+bool server_is_open = FALSE;
 
 #ifdef GENERATING_MAC    /* mac network globals */
 TEndpointInfo meta_info;
@@ -135,7 +135,7 @@ char *meta_addr_port(void)
 ...
   Returns true if able to send 
 *************************************************************************/
-static int send_to_metaserver(char *desc, char *info)
+static bool send_to_metaserver(char *desc, char *info)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 #ifdef GENERATING_MAC       /* mac alternate networking */
@@ -270,7 +270,7 @@ void server_open_udp(void)
 /**************************************************************************
 ...
 **************************************************************************/
-int send_server_info_to_metaserver(bool do_send, bool reset_timer)
+bool send_server_info_to_metaserver(bool do_send, bool reset_timer)
 {
   static struct timer *time_since_last_send = NULL;
   char desc[4096], info[4096];

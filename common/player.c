@@ -233,7 +233,7 @@ struct player *find_player_by_user(char *name)
 /***************************************************************
 no map visibility check here!
 ***************************************************************/
-int player_can_see_unit(struct player *pplayer, struct unit *punit)
+bool player_can_see_unit(struct player *pplayer, struct unit *punit)
 {
   if (punit->owner==pplayer->player_no)
     return TRUE;

@@ -330,7 +330,7 @@ int map_distance(int x0, int y0, int x1, int y1)
 /***************************************************************
 ...
 ***************************************************************/
-int is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
+bool is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 {
   adjc_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) == t)
@@ -358,7 +358,7 @@ int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 /***************************************************************
   determines if any tile close to x,y has special spe
 ***************************************************************/
-int is_special_near_tile(int x, int y, enum tile_special_type spe)
+bool is_special_near_tile(int x, int y, enum tile_special_type spe)
 {
   adjc_iterate(x, y, x1, y1) {
     if (map_has_special(x1, y1, spe))
@@ -386,7 +386,7 @@ int count_special_near_tile(int x, int y, enum tile_special_type spe)
 /***************************************************************
 ...
 ***************************************************************/
-int is_at_coast(int x, int y)
+bool is_at_coast(int x, int y)
 {
   cartesian_adjacent_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) == T_OCEAN)
@@ -399,7 +399,7 @@ int is_at_coast(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-int is_coastline(int x, int y)
+bool is_coastline(int x, int y)
 {
   adjc_iterate(x, y, x1, y1) {
     enum tile_terrain_type ter = map_get_terrain(x1, y1);
@@ -414,7 +414,7 @@ int is_coastline(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-int terrain_is_clean(int x, int y)
+bool terrain_is_clean(int x, int y)
 {
   square_iterate(x, y, 2, x1, y1) {
     if (map_get_terrain(x1,y1) != T_GRASSLAND
@@ -436,7 +436,7 @@ int terrain_is_clean(int x, int y)
   'nr' is the number of other start positions in
   map.start_positions to check for too closeness.
 ***************************************************************/
-int is_starter_close(int x, int y, int nr, int dist) 
+bool is_starter_close(int x, int y, int nr, int dist) 
 {
   int i;
   enum tile_terrain_type t = map_get_terrain(x, y);
@@ -668,7 +668,7 @@ int get_preferred_pillage(int pset)
 /***************************************************************
 ...
 ***************************************************************/
-int is_water_adjacent_to_tile(int x, int y)
+bool is_water_adjacent_to_tile(int x, int y)
 {
   struct tile *ptile;
 
@@ -910,7 +910,7 @@ This function returns true if the tile at the given location can be
 "reclaimed" from ocean into land.  This is the case only when there are
 a sufficient number of adjacent tiles that are not ocean.
 **************************************************************************/
-int can_reclaim_ocean(int x, int y)
+bool can_reclaim_ocean(int x, int y)
 {
   int landtiles = terrain_control.ocean_reclaim_requirement;
 
@@ -933,7 +933,7 @@ This function returns true if the tile at the given location can be
 "channeled" from land into ocean.  This is the case only when there are
 a sufficient number of adjacent tiles that are ocean.
 **************************************************************************/
-int can_channel_land(int x, int y)
+bool can_channel_land(int x, int y)
 {
   int oceantiles = terrain_control.land_channel_requirement;
 

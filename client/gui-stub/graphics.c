@@ -4,15 +4,14 @@
 
 #include "graphics.h"
 
-
-int
+bool
 isometric_view_supported(void)
 {
 	/* PORTME */
 	return FALSE;
 }
 
-int
+bool
 overhead_view_supported(void)
 {
 	/* PORTME */

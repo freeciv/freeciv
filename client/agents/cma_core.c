@@ -1783,7 +1783,7 @@ void cma_release_city(struct city *pcity)
 /****************************************************************************
 ...
 *****************************************************************************/
-int cma_is_city_under_agent(struct city *pcity,
+bool cma_is_city_under_agent(struct city *pcity,
 			    struct cma_parameter *parameter)
 {
   struct cma_parameter my_parameter;
@@ -1830,7 +1830,7 @@ const char *const cma_get_stat_name(enum stat stat)
 /**************************************************************************
  Returns true if the two cma_parameters are equal.
 **************************************************************************/
-int cma_are_parameter_equal(const struct cma_parameter *const p1,
+bool cma_are_parameter_equal(const struct cma_parameter *const p1,
 			    const struct cma_parameter *const p2)
 {
   int i;

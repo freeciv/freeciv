@@ -513,7 +513,7 @@ void goto_add_waypoint(void)
 Returns whether there were any waypoint popped (we don't remove the
 initial position)
 ***********************************************************************/
-int goto_pop_waypoint(void)
+bool goto_pop_waypoint(void)
 {
   int dest_x, dest_y, new_way_x, new_way_y;
   struct unit *punit = find_unit_by_id(goto_map.unit_id);

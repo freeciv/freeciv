@@ -466,9 +466,9 @@ void popup_city_dialog(struct city *pcity, bool make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-int city_dialog_is_open(struct city *pcity)
+bool city_dialog_is_open(struct city *pcity)
 {
-  return get_city_dialog(pcity) ? 1 : 0;
+  return get_city_dialog(pcity) != NULL;
 }
 
 /****************************************************************

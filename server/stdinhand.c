@@ -140,11 +140,11 @@ Triggers used in settings_s.  valid_ruleset() is clumsy because of
 the fixed number of arguments and the reject_message - change? - rp
 *********************************************************************/
 
-static int valid_notradesize(int value, char **reject_message);
-static int valid_fulltradesize(int value, char **reject_message);
-static int autotoggle(int value, char **reject_message);
+static bool valid_notradesize(int value, char **reject_message);
+static bool valid_fulltradesize(int value, char **reject_message);
+static bool autotoggle(int value, char **reject_message);
 
-static int valid_ruleset(char *whichset, char *subdir, char **reject_message)
+static bool valid_ruleset(char *whichset, char *subdir, char **reject_message)
 {
   static char buffer[MAX_LEN_CONSOLE_LINE];
 
@@ -163,23 +163,23 @@ static int valid_ruleset(char *whichset, char *subdir, char **reject_message)
   return TRUE;
 }
 
-static int valid_techs_ruleset(char *v, char **r_m)
+static bool valid_techs_ruleset(char *v, char **r_m)
   { return valid_ruleset("techs",v,r_m); }
-static int valid_governments_ruleset(char *v, char **r_m)
+static bool valid_governments_ruleset(char *v, char **r_m)
   { return valid_ruleset("governments",v,r_m); }
-static int valid_units_ruleset(char *v, char **r_m)
+static bool valid_units_ruleset(char *v, char **r_m)
   { return valid_ruleset("units",v,r_m); }
-static int valid_buildings_ruleset(char *v, char **r_m)
+static bool valid_buildings_ruleset(char *v, char **r_m)
   { return valid_ruleset("buildings",v,r_m); }
-static int valid_terrain_ruleset(char *v, char **r_m)
+static bool valid_terrain_ruleset(char *v, char **r_m)
   { return valid_ruleset("terrain",v,r_m); }
-static int valid_nations_ruleset(char *v, char **r_m)
+static bool valid_nations_ruleset(char *v, char **r_m)
   { return valid_ruleset("nations",v,r_m); }
-static int valid_cities_ruleset(char *v, char **r_m)
+static bool valid_cities_ruleset(char *v, char **r_m)
   { return valid_ruleset("cities",v,r_m); }
-static int valid_game_ruleset(char *v, char **r_m)
+static bool valid_game_ruleset(char *v, char **r_m)
   { return valid_ruleset("game",v,r_m); }
-static int valid_max_players(int v, char **r_m)
+static bool valid_max_players(int v, char **r_m)
 {
   static char buffer[MAX_LEN_CONSOLE_LINE];
 
@@ -907,7 +907,7 @@ static struct settings_s settings[] = {
 Returns whether the specified server setting (option) can currently
 be changed.  Does not indicate whether it can be changed by clients or not.
 *********************************************************************/
-static int sset_is_changeable(int idx)
+static bool sset_is_changeable(int idx)
 {
   struct settings_s *op = &settings[idx];
 
@@ -940,7 +940,7 @@ static int sset_is_changeable(int idx)
 Returns whether the specified server setting (option) should be
 sent to the client.
 *********************************************************************/
-static int sset_is_to_client(int idx)
+static bool sset_is_to_client(int idx)
 {
   return (settings[idx].to_client == SSET_TO_CLIENT);
 }
@@ -1317,7 +1317,7 @@ static enum command_id command_named(const char *token, int accept_ambiguity)
   Whether the caller can use the specified command.
   caller == NULL means console.
 **************************************************************************/
-static int may_use(struct connection *caller, enum command_id cmd)
+static bool may_use(struct connection *caller, enum command_id cmd)
 {
   if (!caller) {
     return TRUE;  /* on the console, everything is allowed */
@@ -1329,7 +1329,7 @@ static int may_use(struct connection *caller, enum command_id cmd)
   Whether the caller cannot use any commands at all.
   caller == NULL means console.
 **************************************************************************/
-static int may_use_nothing(struct connection *caller)
+static bool may_use_nothing(struct connection *caller)
 {
   if (!caller) {
     return FALSE;  /* on the console, everything is allowed */
@@ -1342,7 +1342,7 @@ static int may_use_nothing(struct connection *caller)
   the state of the game would allow changing the option at all).
   caller == NULL means console.
 **************************************************************************/
-static int may_set_option(struct connection *caller, int option_idx)
+static bool may_set_option(struct connection *caller, int option_idx)
 {
   if (!caller) {
     return TRUE;  /* on the console, everything is allowed */
@@ -1357,7 +1357,7 @@ static int may_set_option(struct connection *caller, int option_idx)
   Whether the caller can set the specified option, taking into account
   both access and the game state.  caller == NULL means console.
 **************************************************************************/
-static int may_set_option_now(struct connection *caller, int option_idx)
+static bool may_set_option_now(struct connection *caller, int option_idx)
 {
   return (may_set_option(caller, option_idx)
 	  && sset_is_changeable(option_idx));
@@ -1369,7 +1369,7 @@ static int may_set_option_now(struct connection *caller, int option_idx)
   client players can see "to client" options, or if player
   has command access level to change option.
 **************************************************************************/
-static int may_view_option(struct connection *caller, int option_idx)
+static bool may_view_option(struct connection *caller, int option_idx)
 {
   if (!caller) {
     return TRUE;  /* on the console, everything is allowed */
@@ -2049,7 +2049,7 @@ static void rulesout_command(struct connection *caller, char *arg)
 /**************************************************************************
  set ptarget's cmdlevel to level if caller is allowed to do so
 **************************************************************************/
-static int set_cmdlevel(struct connection *caller,
+static bool set_cmdlevel(struct connection *caller,
 			struct connection *ptarget,
 			enum cmdlevel_id level)
 {
@@ -2078,15 +2078,15 @@ static int set_cmdlevel(struct connection *caller,
 /********************************************************************
   Returns true if there is at least one established connection.
 *********************************************************************/
-static int a_connection_exists(void)
+static bool a_connection_exists(void)
 {
-  return BOOL_VAL(conn_list_size(&game.est_connections));
+  return conn_list_size(&game.est_connections) > 0;
 }
 
 /********************************************************************
 ...
 *********************************************************************/
-static int first_access_level_is_taken(void)
+static bool first_access_level_is_taken(void)
 {
   conn_list_iterate(game.est_connections, pconn) {
     if (pconn->access_level >= first_access_level) {
@@ -2645,7 +2645,7 @@ static void show_command(struct connection *caller, char *str)
 /******************************************************************
   Which characters are allowed within option names: (for 'set')
 ******************************************************************/
-static int is_ok_opt_name_char(char c)
+static bool is_ok_opt_name_char(char c)
 {
   return isalnum(c);
 }
@@ -2653,7 +2653,7 @@ static int is_ok_opt_name_char(char c)
 /******************************************************************
   Which characters are allowed within option values: (for 'set')
 ******************************************************************/
-static int is_ok_opt_value_char(char c)
+static bool is_ok_opt_value_char(char c)
 {
   return (c == '-') || (c == '*') || (c == '+') || (c == '=') || isalnum(c);
 }
@@ -2661,7 +2661,7 @@ static int is_ok_opt_value_char(char c)
 /******************************************************************
   Which characters are allowed between option names and values: (for 'set')
 ******************************************************************/
-static int is_ok_opt_name_value_sep_char(char c)
+static bool is_ok_opt_name_value_sep_char(char c)
 {
   return (c == '=') || isspace(c);
 }
@@ -3412,7 +3412,7 @@ static void show_connections(struct connection *caller)
 /**************************************************************************
   Verify that notradesize is always smaller than fulltradesize
 **************************************************************************/
-static int valid_notradesize(int value, char **reject_message)
+static bool valid_notradesize(int value, char **reject_message)
 {
   if (value < game.fulltradesize)
     return TRUE;
@@ -3425,7 +3425,7 @@ static int valid_notradesize(int value, char **reject_message)
 /**************************************************************************
   Verify that fulltradesize is always bigger than notradesize
 **************************************************************************/
-static int valid_fulltradesize(int value, char **reject_message)
+static bool valid_fulltradesize(int value, char **reject_message)
 {
   if (value > game.notradesize)
     return TRUE;
@@ -3435,7 +3435,7 @@ static int valid_fulltradesize(int value, char **reject_message)
   return FALSE;
 }
 
-static int autotoggle(int value, char **reject_message)
+static bool autotoggle(int value, char **reject_message)
 {
   if (value == 0)
     return TRUE;
@@ -3591,7 +3591,7 @@ returns whether the characters before the start position in rl_line_buffer
 is of the form [non-alpha]*cmd[non-alpha]*
 allow_fluff changes the regexp to [non-alpha]*cmd[non-alpha].*
 **************************************************************************/
-static int contains_str_before_start(int start, char *cmd, int allow_fluff)
+static bool contains_str_before_start(int start, char *cmd, bool allow_fluff)
 {
   char *str_itr = rl_line_buffer;
   int cmd_len = strlen(cmd);
@@ -3618,7 +3618,7 @@ static int contains_str_before_start(int start, char *cmd, int allow_fluff)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_command(int start)
+static bool is_command(int start)
 {
   char *str_itr;
 
@@ -3674,7 +3674,7 @@ static int num_tokens(int start)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_player(int start)
+static bool is_player(int start)
 {
   int i = 0;
 
@@ -3691,7 +3691,7 @@ static int is_player(int start)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_connection(int start)
+static bool is_connection(int start)
 {
   return contains_str_before_start(start, commands[CMD_CUT].name, FALSE);
 }
@@ -3699,7 +3699,7 @@ static int is_connection(int start)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_cmdlevel_arg2(int start)
+static bool is_cmdlevel_arg2(int start)
 {
   return (contains_str_before_start(start, commands[CMD_CMDLEVEL].name, TRUE)
 	  && num_tokens(start) == 2);
@@ -3708,7 +3708,7 @@ static int is_cmdlevel_arg2(int start)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_cmdlevel_arg1(int start)
+static bool is_cmdlevel_arg1(int start)
 {
   return contains_str_before_start(start, commands[CMD_CMDLEVEL].name, FALSE);
 }
@@ -3726,7 +3726,7 @@ static const int server_option_cmd[] = {
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_server_option(int start)
+static bool is_server_option(int start)
 {
   int i = 0;
 
@@ -3742,7 +3742,7 @@ static int is_server_option(int start)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_rulesout(int start)
+static bool is_rulesout(int start)
 {
   return contains_str_before_start(start, commands[CMD_RULESOUT].name, FALSE);
 }
@@ -3761,7 +3761,7 @@ static const int filename_cmd[] = {
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_filename(int start)
+static bool is_filename(int start)
 {
   int i = 0;
 
@@ -3783,7 +3783,7 @@ static int is_filename(int start)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_help(int start)
+static bool is_help(int start)
 {
   return contains_str_before_start(start, commands[CMD_HELP].name, FALSE);
 }
@@ -3791,7 +3791,7 @@ static int is_help(int start)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_list(int start)
+static bool is_list(int start)
 {
   return contains_str_before_start(start, commands[CMD_LIST].name, FALSE);
 }

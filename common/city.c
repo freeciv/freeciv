@@ -434,7 +434,7 @@ bool can_build_unit(struct city *pcity, Unit_Type_id id)
 Whether player can eventually build given unit in the city;
 returns 0 if unit can never possibily be built in this city.
 **************************************************************************/
-int can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
+bool can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
 {
   /* Can the _player_ ever build this unit? */
   if (!can_player_eventually_build_unit(city_owner(pcity), id))

@@ -69,7 +69,7 @@ static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask,
 /***************************************************************************
 ...
 ***************************************************************************/
-int isometric_view_supported(void)
+bool isometric_view_supported(void)
 {
   return FALSE;
 }
@@ -77,7 +77,7 @@ int isometric_view_supported(void)
 /***************************************************************************
 ...
 ***************************************************************************/
-int overhead_view_supported(void)
+bool overhead_view_supported(void)
 {
   return TRUE;
 }
