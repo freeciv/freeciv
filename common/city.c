@@ -576,62 +576,119 @@ int improvement_upkeep(const struct city *pcity, Impr_Type_id i)
 }
 
 /**************************************************************************
-  Calculate the shields for the tile.  If pcity is specified then
+  Calculate the output for the tile.  If pcity is specified then
   (city_x, city_y) must be valid city coordinates and is_celebrating tells
-  whether the city is celebrating.
+  whether the city is celebrating.  otype gives the output type we're
+  looking for (generally O_FOOD, O_TRADE, or O_SHIELD).
 **************************************************************************/
-static int base_get_shields_tile(const struct tile *ptile,
-				 const struct city *pcity,
-				 int city_x, int city_y, bool is_celebrating)
+static int base_get_output_tile(const struct tile *ptile,
+				const struct city *pcity,
+				int city_x, int city_y, bool is_celebrating,
+				Output_type_id otype)
 {
-  enum tile_special_type spec_t = map_get_special(ptile);
-  Terrain_type_id tile_t = ptile->terrain;
-  int s = get_tile_output_base(ptile, O_SHIELD);
+  const struct tile_type *ptype = get_tile_type(ptile->terrain);
+  struct tile tile;
+  int prod = get_tile_output_base(ptile, otype);
+  const bool auto_water = (pcity && is_city_center(city_x, city_y)
+			   && ptile->terrain == ptype->irrigation_result
+			   && terrain_control.may_irrigate);
 
-  if (contains_special(spec_t, S_MINE)) {
-    s += get_tile_type(tile_t)->mining_shield_incr;
+  assert(otype >= 0 && otype < O_LAST);
+
+  /* create dummy tile which has the city center bonuses. */
+  tile.terrain = map_get_terrain(ptile);
+  tile.special = map_get_special(ptile);
+
+  if (auto_water) {
+    /* The center tile is auto-irrigated. */
+    tile.special |= S_IRRIGATION;
+
+    if (player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
+      tile.special |= S_FARMLAND;
+    }
   }
 
-  if (contains_special(spec_t, S_RAILROAD)) {
-    s += (s * terrain_control.rail_tile_bonus[O_SHIELD]) / 100;
+  switch (otype) {
+  case O_SHIELD:
+    if (contains_special(tile.special, S_MINE)) {
+      prod += ptype->mining_shield_incr;
+    }
+    break;
+  case O_FOOD:
+    if (contains_special(tile.special, S_IRRIGATION)) {
+      prod += ptype->irrigation_food_incr;
+    }
+    break;
+  case O_TRADE:
+    if (contains_special(tile.special, S_RIVER) && !is_ocean(tile.terrain)) {
+      prod += terrain_control.river_trade_incr;
+    }
+    if (contains_special(tile.special, S_ROAD)) {
+      prod += ptype->road_trade_incr;
+    }
+    break;
+  case O_GOLD:
+  case O_SCIENCE:
+  case O_LUXURY:
+  case O_LAST:
+    break;
+  }
+
+  if (contains_special(tile.special, S_RAILROAD)) {
+    prod += (prod * terrain_control.rail_tile_bonus[otype]) / 100;
   }
 
   if (pcity) {
     struct government *g = get_gov_pcity(pcity);
     int before_penalty = (is_celebrating
-			  ? g->celeb_output_before_penalty[O_SHIELD]
-			  : g->output_before_penalty[O_SHIELD]);
+			  ? g->celeb_output_before_penalty[otype]
+			  : g->output_before_penalty[otype]);
+    enum effect_type add[O_MAX] = {EFT_FOOD_ADD_TILE, EFT_PROD_ADD_TILE,
+				   EFT_TRADE_ADD_TILE, EFT_LAST, EFT_LAST,
+				   EFT_LAST};
+    enum effect_type inc[O_MAX] = {EFT_FOOD_INC_TILE, EFT_PROD_INC_TILE,
+				   EFT_TRADE_INC_TILE, EFT_LAST, EFT_LAST,
+				   EFT_LAST};
+    enum effect_type per[O_MAX] = {EFT_FOOD_PER_TILE, EFT_PROD_PER_TILE,
+				   EFT_TRADE_PER_TILE, EFT_LAST, EFT_LAST,
+				   EFT_LAST};
 
-    s += get_city_tile_bonus(pcity, ptile, EFT_PROD_ADD_TILE);
-
-    /* Government & effect shield bonus/penalty. */
-    if (s > 0) {
-      s += (is_celebrating ? g->celeb_output_inc_tile[O_SHIELD]
-	    : g->output_inc_tile[O_SHIELD]);
-      s += get_city_tile_bonus(pcity, ptile, EFT_PROD_INC_TILE);
+    if (add[otype] != EFT_LAST) {
+      prod += get_city_tile_bonus(pcity, ptile, add[otype]);
     }
 
-    s += (s * get_city_tile_bonus(pcity, ptile, EFT_PROD_PER_TILE)) / 100;
+    /* Government & effect bonus/penalty. */
+    if (prod > 0) {
+      prod += (is_celebrating
+	    ? g->celeb_output_inc_tile[otype]
+	    : g->output_inc_tile[otype]);
+      if (inc[otype] != EFT_LAST) {
+	prod += get_city_tile_bonus(pcity, ptile, inc[otype]);
+      }
+    }
 
-    if (before_penalty > 0 && s > before_penalty) {
-      s--;
+    if (per[otype] != EFT_LAST) {
+      prod += (prod * get_city_tile_bonus(pcity, ptile, per[otype])) / 100;
+    }
+
+    if (before_penalty > 0 && prod > before_penalty) {
+      prod--;
     }
   }
 
-  if (contains_special(spec_t, S_POLLUTION)) {
-    /* The shields here are icky */
-    s -= (s * terrain_control.pollution_tile_penalty[O_SHIELD]) / 100;
+  if (contains_special(tile.special, S_POLLUTION)) {
+    prod -= (prod * terrain_control.pollution_tile_penalty[otype]) / 100;
   }
 
-  if (contains_special(spec_t, S_FALLOUT)) {
-    s -= (s * terrain_control.fallout_tile_penalty[O_SHIELD]) / 100;
+  if (contains_special(tile.special, S_FALLOUT)) {
+    prod -= (prod * terrain_control.fallout_tile_penalty[otype]) / 100;
   }
 
   if (pcity && is_city_center(city_x, city_y)) {
-    s = MAX(s, game.rgame.min_city_center_output[O_SHIELD]);
+    prod = MAX(prod, game.rgame.min_city_center_output[otype]);
   }
 
-  return s;
+  return prod;
 }
 
 /**************************************************************************
@@ -640,7 +697,7 @@ static int base_get_shields_tile(const struct tile *ptile,
 **************************************************************************/
 int get_shields_tile(const struct tile *ptile)
 {
-  return base_get_shields_tile(ptile, NULL, -1, -1, FALSE);
+  return base_get_output_tile(ptile, NULL, -1, -1, FALSE, O_SHIELD);
 }
 
 /**************************************************************************
@@ -670,73 +727,8 @@ int base_city_get_shields_tile(int city_x, int city_y,
     return 0;
   }
 
-  return base_get_shields_tile(ptile, pcity,
-			       city_x, city_y, is_celebrating);
-}
-
-/**************************************************************************
-  Calculate the trade for the tile.  If pcity is specified then
-  (city_x, city_y) must be valid city coordinates and is_celebrating tells
-  whether the city is celebrating.
-**************************************************************************/
-static int base_get_trade_tile(const struct tile *ptile,
-			       const struct city *pcity,
-			       int city_x, int city_y, bool is_celebrating)
-{
-  enum tile_special_type spec_t = map_get_special(ptile);
-  Terrain_type_id tile_t = ptile->terrain;
-  int t = get_tile_output_base(ptile, O_TRADE);
-
-  if (contains_special(spec_t, S_RIVER) && !is_ocean(tile_t)) {
-    t += terrain_control.river_trade_incr;
-  }
-
-  if (contains_special(spec_t, S_ROAD)) {
-    t += get_tile_type(tile_t)->road_trade_incr;
-  }
-
-  if (contains_special(spec_t, S_RAILROAD)) {
-    t += (t * terrain_control.rail_tile_bonus[O_TRADE]) / 100;
-  }
-
-  /* Civ1 specifically documents that Railroad trade increase is before 
-   * Democracy/Republic [government in general now -- SKi] bonus  -AJS */
-  if (pcity) {
-    struct government *g = get_gov_pcity(pcity);
-    int before_penalty = (is_celebrating
-			  ? g->celeb_output_before_penalty[O_TRADE]
-			  : g->output_before_penalty[O_TRADE]);
-
-    t += get_city_tile_bonus(pcity, ptile, EFT_TRADE_ADD_TILE);
-
-    if (t > 0) {
-      t += (is_celebrating ? g->celeb_output_inc_tile[O_TRADE]
-	    : g->output_inc_tile[O_TRADE]);
-      t += get_city_tile_bonus(pcity, ptile, EFT_TRADE_INC_TILE);
-    }
-
-    t += (t * get_city_tile_bonus(pcity, ptile, EFT_TRADE_PER_TILE)) / 100;
-
-    /* government trade penalty -- SKi */
-    if (before_penalty > 0 && t > before_penalty) {
-      t--;
-    }
-  }
-
-  if (contains_special(spec_t, S_POLLUTION)) {
-    /* The trade here is dirty */
-    t -= (t * terrain_control.pollution_tile_penalty[O_TRADE]) / 100;
-  }
-
-  if (contains_special(spec_t, S_FALLOUT)) {
-    t -= (t * terrain_control.fallout_tile_penalty[O_TRADE]) / 100;
-  }
-
-  if (pcity && is_city_center(city_x, city_y)) {
-    t = MAX(t, game.rgame.min_city_center_output[O_TRADE]);
-  }
-
-  return t;
+  return base_get_output_tile(ptile, pcity,
+			      city_x, city_y, is_celebrating, O_SHIELD);
 }
 
 /**************************************************************************
@@ -745,7 +737,7 @@ static int base_get_trade_tile(const struct tile *ptile,
 **************************************************************************/
 int get_trade_tile(const struct tile *ptile)
 {
-  return base_get_trade_tile(ptile, NULL, -1, -1, FALSE);
+  return base_get_output_tile(ptile, NULL, -1, -1, FALSE, O_TRADE);
 }
 
 /**************************************************************************
@@ -774,82 +766,8 @@ int base_city_get_trade_tile(int city_x, int city_y,
     return 0;
   }
 
-  return base_get_trade_tile(ptile, pcity, city_x, city_y, is_celebrating);
-}
-
-/**************************************************************************
-  Calculate the food for the tile.  If pcity is specified then
-  (city_x, city_y) must be valid city coordinates and is_celebrating tells
-  whether the city is celebrating.
-**************************************************************************/
-static int base_get_food_tile(const struct tile *ptile,
-			      const struct city *pcity,
-			      int city_x, int city_y, bool is_celebrating)
-{
-  const enum tile_special_type spec_t = map_get_special(ptile);
-  const Terrain_type_id tile_t = ptile->terrain;
-  struct tile_type *type = get_tile_type(tile_t);
-  struct tile tile;
-  int f = get_tile_output_base(ptile, O_FOOD);
-  const bool auto_water = (pcity && is_city_center(city_x, city_y)
-			   && tile_t == type->irrigation_result
-			   && terrain_control.may_irrigate);
-
-  /* create dummy tile which has the city center bonuses. */
-  tile.terrain = tile_t;
-  tile.special = spec_t;
-
-  if (auto_water) {
-    /* The center tile is auto-irrigated. */
-    tile.special |= S_IRRIGATION;
-
-    if (player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
-      tile.special |= S_FARMLAND;
-    }
-  }
-
-  if (contains_special(tile.special, S_IRRIGATION)) {
-    f += type->irrigation_food_incr;
-  }
-
-  if (contains_special(tile.special, S_RAILROAD)) {
-    f += (f * terrain_control.rail_tile_bonus[O_FOOD]) / 100;
-  }
-
-  if (pcity) {
-    struct government *g = get_gov_pcity(pcity);
-    int before_penalty = (is_celebrating
-			  ? g->celeb_output_before_penalty[O_FOOD]
-			  : g->output_before_penalty[O_FOOD]);
-
-    f += get_city_tile_bonus(pcity, &tile, EFT_FOOD_ADD_TILE);
-
-    if (f > 0) {
-      f += (is_celebrating ? g->celeb_output_inc_tile[O_FOOD]
-	    : g->output_inc_tile[O_FOOD]);
-      f += get_city_tile_bonus(pcity, &tile, EFT_FOOD_INC_TILE);
-    }
-
-    f += (f * get_city_tile_bonus(pcity, &tile, EFT_FOOD_PER_TILE) / 100);
-
-    if (before_penalty > 0 && f > before_penalty) {
-      f--;
-    }
-  }
-
-  if (contains_special(tile.special, S_POLLUTION)) {
-    /* The food here is yucky */
-    f -= (f * terrain_control.pollution_tile_penalty[O_FOOD]) / 100;
-  }
-  if (contains_special(tile.special, S_FALLOUT)) {
-    f -= (f * terrain_control.fallout_tile_penalty[O_FOOD]) / 100;
-  }
-
-  if (pcity && is_city_center(city_x, city_y)) {
-    f = MAX(f, game.rgame.min_city_center_output[O_FOOD]);
-  }
-
-  return f;
+  return base_get_output_tile(ptile, pcity, city_x, city_y, is_celebrating,
+			      O_TRADE);
 }
 
 /**************************************************************************
@@ -858,7 +776,7 @@ static int base_get_food_tile(const struct tile *ptile,
 **************************************************************************/
 int get_food_tile(const struct tile *ptile)
 {
-  return base_get_food_tile(ptile, NULL, -1, -1, FALSE);
+  return base_get_output_tile(ptile, NULL, -1, -1, FALSE, O_FOOD);
 }
 
 /**************************************************************************
@@ -887,7 +805,8 @@ int base_city_get_food_tile(int city_x, int city_y, const struct city *pcity,
     return 0;
   }
 
-  return base_get_food_tile(ptile, pcity, city_x, city_y, is_celebrating);
+  return base_get_output_tile(ptile, pcity, city_x, city_y, is_celebrating,
+			      O_FOOD);
 }
 
 /**************************************************************************
