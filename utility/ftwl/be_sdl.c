@@ -40,11 +40,12 @@ static int other_fd = -1;
 #define P IMAGE_GET_ADDRESS
 
 /*************************************************************************
-  ...
+  Initialize video mode and SDL.
 *************************************************************************/
 void be_init(const struct ct_size *screen_size, bool fullscreen)
 {
-  Uint32 flags = SDL_HWSURFACE | (fullscreen ? SDL_FULLSCREEN : 0);
+  Uint32 flags = SDL_HWSURFACE | (fullscreen ? SDL_FULLSCREEN : 0)
+                 | SDL_DOUBLEBUF | SDL_ANYFORMAT;
 
   char device[20];
 
@@ -57,6 +58,9 @@ void be_init(const struct ct_size *screen_size, bool fullscreen)
     exit(1);
   }
   atexit(SDL_Quit);
+
+  /* Track events in another thread. */
+  // SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
 
   freelog(LOG_NORMAL, "Using Video Output: %s",
 	  SDL_VideoDriverName(device, sizeof(device)));
@@ -89,7 +93,7 @@ void be_init(const struct ct_size *screen_size, bool fullscreen)
 #endif
 
   screen =
-      SDL_SetVideoMode(screen_size->width, screen_size->height, 0, flags);
+      SDL_SetVideoMode(screen_size->width, screen_size->height, 24, flags);
   if (screen == NULL) {
     freelog(LOG_FATAL, _("Can't set video mode: %s"), SDL_GetError());
     exit(1);
@@ -209,6 +213,8 @@ void be_next_event(struct be_event *event, struct timeval *timeout)
       SDL_GetTicks() + timeout->tv_sec * 1000 + timeout->tv_usec / 1000;
 
   for (;;) {
+    SDL_Event sdl_event;
+
     /* Test the network socket. */
     if (other_fd != -1) {
       fd_set readfds, exceptfds;
@@ -241,12 +247,9 @@ void be_next_event(struct be_event *event, struct timeval *timeout)
     }
 
     /* Normal SDL events */
-    {
-      SDL_Event sdl_event;
-      while (SDL_PollEvent(&sdl_event)) {
-	if (copy_event(event, &sdl_event)) {
-	  return;
-	}
+    while (SDL_PollEvent(&sdl_event)) {
+      if (copy_event(event, &sdl_event)) {
+        return;
       }
     }
 
@@ -356,7 +359,9 @@ void be_copy_osda_to_screen(struct osda *src)
 {
   assert(screen->w == src->image->width && screen->h == src->image->height);
 
-  SDL_LockSurface(screen);
+  if (SDL_MUSTLOCK(screen)) {
+    SDL_LockSurface(screen);
+  }
 
   if (screen->format->Rmask == 0xf800 && screen->format->Gmask == 0x7e0 &&
       screen->format->Bmask == 0x1f && screen->format->Amask == 0 &&
@@ -385,8 +390,10 @@ void be_copy_osda_to_screen(struct osda *src)
     assert(0);
   }
 
-  SDL_UnlockSurface(screen);
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
+  if (SDL_MUSTLOCK(screen)) {
+    SDL_UnlockSurface(screen);
+  }
+  SDL_Flip(screen);
 }
 
 /*************************************************************************
@@ -403,5 +410,5 @@ void be_screen_get_size(struct ct_size *size)
 *************************************************************************/
 bool be_supports_fullscreen(void)
 {
-    return TRUE;
+  return TRUE;
 }
