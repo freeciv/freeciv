@@ -956,12 +956,8 @@ PACKET_RULESET_UNIT=96;sc,lsend
 end
 
 PACKET_RULESET_GAME=97;sc,lsend
-  UINT8 min_size_elvis; add-cap(spec)
-  UINT8 min_size_taxman; add-cap(spec)
-  UINT8 min_size_scientist; add-cap(spec)
-  UINT8 base_elvis; add-cap(spec)
-  UINT8 base_scientist; add-cap(spec)
-  UINT8 base_taxman; add-cap(spec)
+  UINT8 specialist_min_size[SP_COUNT];
+  UINT8 specialist_bonus[SP_COUNT];
   BOOL changable_tax; add-cap(spec)
   UINT8 forced_science; add-cap(spec)
   UINT8 forced_luxury; add-cap(spec)

@@ -186,12 +186,9 @@ struct civ_game {
 
   /* values from game.ruleset */
   struct {
-    int min_size_elvis;
-    int min_size_taxman;
-    int min_size_scientist;
-    int base_elvis;
-    int base_scientist;
-    int base_taxman;
+    struct {
+      int min_size, bonus;
+    } specialists[SP_COUNT];
     bool changable_tax;
     int forced_science; /* only relevant if !changable_tax */
     int forced_luxury;

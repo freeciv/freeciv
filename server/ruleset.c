@@ -2495,17 +2495,17 @@ static void load_ruleset_cities(struct section_file *file)
 
   /* Specialist options */
 
-  game.rgame.min_size_elvis = 
+  game.rgame.specialists[SP_ELVIS].min_size =
     secfile_lookup_int_default(file, 0, "specialist.min_size_elvis");
-  game.rgame.min_size_taxman = 
-    secfile_lookup_int_default(file, 5, "specialist.min_size_taxman");
-  game.rgame.min_size_scientist = 
+  game.rgame.specialists[SP_SCIENTIST].min_size =
     secfile_lookup_int_default(file, 5, "specialist.min_size_scientist");
-  game.rgame.base_elvis = 
+  game.rgame.specialists[SP_TAXMAN].min_size =
+    secfile_lookup_int_default(file, 5, "specialist.min_size_taxman");
+  game.rgame.specialists[SP_ELVIS].bonus =
     secfile_lookup_int_default(file, 2, "specialist.base_elvis");
-  game.rgame.base_scientist = 
+  game.rgame.specialists[SP_SCIENTIST].bonus =
     secfile_lookup_int_default(file, 3, "specialist.base_scientist");
-  game.rgame.base_taxman = 
+  game.rgame.specialists[SP_TAXMAN].bonus =
     secfile_lookup_int_default(file, 3, "specialist.base_taxman");
   game.rgame.changable_tax = 
     secfile_lookup_bool_default(file, TRUE, "specialist.changable_tax");
@@ -2520,9 +2520,8 @@ static void load_ruleset_cities(struct section_file *file)
     freelog(LOG_FATAL, "Forced taxes do not add up in ruleset!");
     exit(EXIT_FAILURE);
   }
-  if (game.rgame.min_size_elvis > 0 && game.rgame.min_size_taxman > 0
-      && game.rgame.min_size_scientist > 0) {
-    freelog(LOG_FATAL, "At least one specialist must be available without a "
+  if (game.rgame.specialists[SP_ELVIS].min_size > 0) {
+    freelog(LOG_FATAL, "Elvises must be available without a "
 	    "city size restriction!");
     exit(EXIT_FAILURE);
   }
@@ -3095,12 +3094,10 @@ static void send_ruleset_game(struct conn_list *dest)
   int i;
   struct packet_ruleset_game misc_p;
 
-  misc_p.min_size_elvis = game.rgame.min_size_elvis;
-  misc_p.min_size_taxman = game.rgame.min_size_taxman;
-  misc_p.min_size_scientist = game.rgame.min_size_scientist;
-  misc_p.base_elvis = game.rgame.base_elvis;
-  misc_p.base_scientist = game.rgame.base_scientist;
-  misc_p.base_taxman = game.rgame.base_taxman;
+  for (i = 0; i < SP_COUNT; i++) {
+    misc_p.specialist_min_size[i] = game.rgame.specialists[i].min_size;
+    misc_p.specialist_bonus[i] = game.rgame.specialists[i].bonus;
+  }
   misc_p.changable_tax = game.rgame.changable_tax;
   misc_p.forced_science = game.rgame.forced_science;
   misc_p.forced_luxury = game.rgame.forced_luxury;

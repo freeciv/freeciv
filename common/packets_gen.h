@@ -736,12 +736,8 @@ struct packet_ruleset_unit {
 };
 
 struct packet_ruleset_game {
-  int min_size_elvis;
-  int min_size_taxman;
-  int min_size_scientist;
-  int base_elvis;
-  int base_scientist;
-  int base_taxman;
+  int specialist_min_size[SP_COUNT];
+  int specialist_bonus[SP_COUNT];
   bool changable_tax;
   int forced_science;
   int forced_luxury;

@@ -21672,7 +21672,7 @@ void lsend_packet_ruleset_unit(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_game_100 cmp_const
 
-BV_DEFINE(packet_ruleset_game_100_fields, 28);
+BV_DEFINE(packet_ruleset_game_100_fields, 24);
 
 static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connection *pc, enum packet_type type)
 {
@@ -21697,56 +21697,58 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_size_elvis);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialist_min_size[i]);
+      }
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_size_taxman);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialist_bonus[i]);
+      }
+    }
   }
-  if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_size_scientist);
-  }
+  real_packet->changable_tax = BV_ISSET(fields, 2);
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->base_elvis);
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->base_scientist);
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->base_taxman);
-  }
-  real_packet->changable_tax = BV_ISSET(fields, 6);
-  if (BV_ISSET(fields, 7)) {
     dio_get_uint8(&din, (int *) &real_packet->forced_science);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 4)) {
     dio_get_uint8(&din, (int *) &real_packet->forced_luxury);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 5)) {
     dio_get_uint8(&din, (int *) &real_packet->forced_gold);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 6)) {
     dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 7)) {
     dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 8)) {
     dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 9)) {
     dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 10)) {
     dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 11)) {
     dio_get_uint8(&din, (int *) &real_packet->hut_overflight);
   }
-  real_packet->pillage_select = BV_ISSET(fields, 16);
-  if (BV_ISSET(fields, 17)) {
+  real_packet->pillage_select = BV_ISSET(fields, 12);
+  if (BV_ISSET(fields, 13)) {
     dio_get_uint8(&din, (int *) &real_packet->nuke_contamination);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 14)) {
     
     {
       int i;
@@ -21756,23 +21758,23 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 15)) {
     dio_get_uint8(&din, (int *) &real_packet->granary_num_inis);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 16)) {
     dio_get_uint8(&din, (int *) &real_packet->granary_food_inc);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 17)) {
     dio_get_uint8(&din, (int *) &real_packet->tech_cost_style);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 18)) {
     dio_get_uint8(&din, (int *) &real_packet->tech_leakage);
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 19)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
   }
-  real_packet->killstack = BV_ISSET(fields, 24);
-  if (BV_ISSET(fields, 25)) {
+  real_packet->killstack = BV_ISSET(fields, 20);
+  if (BV_ISSET(fields, 21)) {
     
     {
       int i;
@@ -21782,7 +21784,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 22)) {
     
     {
       int i;
@@ -21792,7 +21794,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 23)) {
     
     {
       int i;
@@ -21836,77 +21838,85 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->min_size_elvis != real_packet->min_size_elvis);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->min_size_taxman != real_packet->min_size_taxman);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialist_bonus[i] != real_packet->specialist_bonus[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->min_size_scientist != real_packet->min_size_scientist);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
-
-  differ = (old->base_elvis != real_packet->base_elvis);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
-
-  differ = (old->base_scientist != real_packet->base_scientist);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
-
-  differ = (old->base_taxman != real_packet->base_taxman);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
-
   differ = (old->changable_tax != real_packet->changable_tax);
   if(differ) {different++;}
-  if(packet->changable_tax) {BV_SET(fields, 6);}
+  if(packet->changable_tax) {BV_SET(fields, 2);}
 
   differ = (old->forced_science != real_packet->forced_science);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 3);}
 
   differ = (old->forced_luxury != real_packet->forced_luxury);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 4);}
 
   differ = (old->forced_gold != real_packet->forced_gold);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 5);}
 
   differ = (old->min_city_center_food != real_packet->min_city_center_food);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 6);}
 
   differ = (old->min_city_center_shield != real_packet->min_city_center_shield);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 7);}
 
   differ = (old->min_city_center_trade != real_packet->min_city_center_trade);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 8);}
 
   differ = (old->min_dist_bw_cities != real_packet->min_dist_bw_cities);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 9);}
 
   differ = (old->init_vis_radius_sq != real_packet->init_vis_radius_sq);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
+  if(differ) {BV_SET(fields, 10);}
 
   differ = (old->hut_overflight != real_packet->hut_overflight);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 11);}
 
   differ = (old->pillage_select != real_packet->pillage_select);
   if(differ) {different++;}
-  if(packet->pillage_select) {BV_SET(fields, 16);}
+  if(packet->pillage_select) {BV_SET(fields, 12);}
 
   differ = (old->nuke_contamination != real_packet->nuke_contamination);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 13);}
 
 
     {
@@ -21922,23 +21932,23 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 14);}
 
   differ = (old->granary_num_inis != real_packet->granary_num_inis);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 15);}
 
   differ = (old->granary_food_inc != real_packet->granary_food_inc);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 16);}
 
   differ = (old->tech_cost_style != real_packet->tech_cost_style);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 17);}
 
   differ = (old->tech_leakage != real_packet->tech_leakage);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 18);}
 
 
     {
@@ -21954,11 +21964,11 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 19);}
 
   differ = (old->killstack != real_packet->killstack);
   if(differ) {different++;}
-  if(packet->killstack) {BV_SET(fields, 24);}
+  if(packet->killstack) {BV_SET(fields, 20);}
 
 
     {
@@ -21974,7 +21984,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
+  if(differ) {BV_SET(fields, 21);}
 
 
     {
@@ -21990,7 +22000,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
+  if(differ) {BV_SET(fields, 22);}
 
 
     {
@@ -22006,7 +22016,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
+  if(differ) {BV_SET(fields, 23);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -22015,56 +22025,58 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->min_size_elvis);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->min_size_taxman);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialist_bonus[i]);
+      }
+    } 
   }
-  if (BV_ISSET(fields, 2)) {
-    dio_put_uint8(&dout, real_packet->min_size_scientist);
-  }
+  /* field 2 is folded into the header */
   if (BV_ISSET(fields, 3)) {
-    dio_put_uint8(&dout, real_packet->base_elvis);
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_put_uint8(&dout, real_packet->base_scientist);
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_put_uint8(&dout, real_packet->base_taxman);
-  }
-  /* field 6 is folded into the header */
-  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->forced_science);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 4)) {
     dio_put_uint8(&dout, real_packet->forced_luxury);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 5)) {
     dio_put_uint8(&dout, real_packet->forced_gold);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 6)) {
     dio_put_uint8(&dout, real_packet->min_city_center_food);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->min_city_center_shield);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 8)) {
     dio_put_uint8(&dout, real_packet->min_city_center_trade);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_uint8(&dout, real_packet->min_dist_bw_cities);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 10)) {
     dio_put_uint8(&dout, real_packet->init_vis_radius_sq);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint8(&dout, real_packet->hut_overflight);
   }
-  /* field 16 is folded into the header */
-  if (BV_ISSET(fields, 17)) {
+  /* field 12 is folded into the header */
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint8(&dout, real_packet->nuke_contamination);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 14)) {
   
     {
       int i;
@@ -22074,23 +22086,23 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_uint8(&dout, real_packet->granary_num_inis);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 16)) {
     dio_put_uint8(&dout, real_packet->granary_food_inc);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 17)) {
     dio_put_uint8(&dout, real_packet->tech_cost_style);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint8(&dout, real_packet->tech_leakage);
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 19)) {
     dio_put_tech_list(&dout, real_packet->global_init_techs);
   }
-  /* field 24 is folded into the header */
-  if (BV_ISSET(fields, 25)) {
+  /* field 20 is folded into the header */
+  if (BV_ISSET(fields, 21)) {
   
     {
       int i;
@@ -22100,7 +22112,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 22)) {
   
     {
       int i;
@@ -22110,7 +22122,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 23)) {
   
     {
       int i;
@@ -22137,7 +22149,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
 
 #define cmp_packet_ruleset_game_101 cmp_const
 
-BV_DEFINE(packet_ruleset_game_101_fields, 18);
+BV_DEFINE(packet_ruleset_game_101_fields, 20);
 
 static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connection *pc, enum packet_type type)
 {
@@ -22162,28 +22174,48 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialist_min_size[i]);
+      }
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialist_bonus[i]);
+      }
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
+    dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
+    dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
+    dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
   }
   if (BV_ISSET(fields, 5)) {
+    dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
+  }
+  if (BV_ISSET(fields, 7)) {
     dio_get_uint8(&din, (int *) &real_packet->hut_overflight);
   }
-  real_packet->pillage_select = BV_ISSET(fields, 6);
-  if (BV_ISSET(fields, 7)) {
+  real_packet->pillage_select = BV_ISSET(fields, 8);
+  if (BV_ISSET(fields, 9)) {
     dio_get_uint8(&din, (int *) &real_packet->nuke_contamination);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 10)) {
     
     {
       int i;
@@ -22193,23 +22225,23 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 11)) {
     dio_get_uint8(&din, (int *) &real_packet->granary_num_inis);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 12)) {
     dio_get_uint8(&din, (int *) &real_packet->granary_food_inc);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 13)) {
     dio_get_uint8(&din, (int *) &real_packet->tech_cost_style);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 14)) {
     dio_get_uint8(&din, (int *) &real_packet->tech_leakage);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 15)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
   }
-  real_packet->killstack = BV_ISSET(fields, 14);
-  if (BV_ISSET(fields, 15)) {
+  real_packet->killstack = BV_ISSET(fields, 16);
+  if (BV_ISSET(fields, 17)) {
     
     {
       int i;
@@ -22219,7 +22251,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 18)) {
     
     {
       int i;
@@ -22229,7 +22261,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 19)) {
     
     {
       int i;
@@ -22273,37 +22305,69 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->min_city_center_food != real_packet->min_city_center_food);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->min_city_center_shield != real_packet->min_city_center_shield);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialist_bonus[i] != real_packet->specialist_bonus[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->min_city_center_trade != real_packet->min_city_center_trade);
+  differ = (old->min_city_center_food != real_packet->min_city_center_food);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (old->min_dist_bw_cities != real_packet->min_dist_bw_cities);
+  differ = (old->min_city_center_shield != real_packet->min_city_center_shield);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (old->init_vis_radius_sq != real_packet->init_vis_radius_sq);
+  differ = (old->min_city_center_trade != real_packet->min_city_center_trade);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (old->hut_overflight != real_packet->hut_overflight);
+  differ = (old->min_dist_bw_cities != real_packet->min_dist_bw_cities);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
+  differ = (old->init_vis_radius_sq != real_packet->init_vis_radius_sq);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 6);}
+
+  differ = (old->hut_overflight != real_packet->hut_overflight);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
   differ = (old->pillage_select != real_packet->pillage_select);
   if(differ) {different++;}
-  if(packet->pillage_select) {BV_SET(fields, 6);}
+  if(packet->pillage_select) {BV_SET(fields, 8);}
 
   differ = (old->nuke_contamination != real_packet->nuke_contamination);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 9);}
 
 
     {
@@ -22319,23 +22383,23 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 10);}
 
   differ = (old->granary_num_inis != real_packet->granary_num_inis);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 11);}
 
   differ = (old->granary_food_inc != real_packet->granary_food_inc);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 12);}
 
   differ = (old->tech_cost_style != real_packet->tech_cost_style);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 13);}
 
   differ = (old->tech_leakage != real_packet->tech_leakage);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 14);}
 
 
     {
@@ -22351,11 +22415,11 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 15);}
 
   differ = (old->killstack != real_packet->killstack);
   if(differ) {different++;}
-  if(packet->killstack) {BV_SET(fields, 14);}
+  if(packet->killstack) {BV_SET(fields, 16);}
 
 
     {
@@ -22371,7 +22435,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 17);}
 
 
     {
@@ -22387,7 +22451,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
+  if(differ) {BV_SET(fields, 18);}
 
 
     {
@@ -22403,7 +22467,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 19);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -22412,28 +22476,48 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->min_city_center_food);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->min_city_center_shield);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialist_bonus[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 2)) {
-    dio_put_uint8(&dout, real_packet->min_city_center_trade);
+    dio_put_uint8(&dout, real_packet->min_city_center_food);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_put_uint8(&dout, real_packet->min_dist_bw_cities);
+    dio_put_uint8(&dout, real_packet->min_city_center_shield);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_put_uint8(&dout, real_packet->init_vis_radius_sq);
+    dio_put_uint8(&dout, real_packet->min_city_center_trade);
   }
   if (BV_ISSET(fields, 5)) {
+    dio_put_uint8(&dout, real_packet->min_dist_bw_cities);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_put_uint8(&dout, real_packet->init_vis_radius_sq);
+  }
+  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->hut_overflight);
   }
-  /* field 6 is folded into the header */
-  if (BV_ISSET(fields, 7)) {
+  /* field 8 is folded into the header */
+  if (BV_ISSET(fields, 9)) {
     dio_put_uint8(&dout, real_packet->nuke_contamination);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 10)) {
   
     {
       int i;
@@ -22443,23 +22527,23 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint8(&dout, real_packet->granary_num_inis);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 12)) {
     dio_put_uint8(&dout, real_packet->granary_food_inc);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint8(&dout, real_packet->tech_cost_style);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_uint8(&dout, real_packet->tech_leakage);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_tech_list(&dout, real_packet->global_init_techs);
   }
-  /* field 14 is folded into the header */
-  if (BV_ISSET(fields, 15)) {
+  /* field 16 is folded into the header */
+  if (BV_ISSET(fields, 17)) {
   
     {
       int i;
@@ -22469,7 +22553,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 18)) {
   
     {
       int i;
@@ -22479,7 +22563,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 19)) {
   
     {
       int i;
@@ -22506,7 +22590,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
 
 #define cmp_packet_ruleset_game_102 cmp_const
 
-BV_DEFINE(packet_ruleset_game_102_fields, 25);
+BV_DEFINE(packet_ruleset_game_102_fields, 21);
 
 static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connection *pc, enum packet_type type)
 {
@@ -22531,56 +22615,58 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_size_elvis);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialist_min_size[i]);
+      }
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_size_taxman);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialist_bonus[i]);
+      }
+    }
   }
-  if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_size_scientist);
-  }
+  real_packet->changable_tax = BV_ISSET(fields, 2);
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->base_elvis);
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->base_scientist);
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_get_uint8(&din, (int *) &real_packet->base_taxman);
-  }
-  real_packet->changable_tax = BV_ISSET(fields, 6);
-  if (BV_ISSET(fields, 7)) {
     dio_get_uint8(&din, (int *) &real_packet->forced_science);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 4)) {
     dio_get_uint8(&din, (int *) &real_packet->forced_luxury);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 5)) {
     dio_get_uint8(&din, (int *) &real_packet->forced_gold);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 6)) {
     dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 7)) {
     dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 8)) {
     dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 9)) {
     dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 10)) {
     dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 11)) {
     dio_get_uint8(&din, (int *) &real_packet->hut_overflight);
   }
-  real_packet->pillage_select = BV_ISSET(fields, 16);
-  if (BV_ISSET(fields, 17)) {
+  real_packet->pillage_select = BV_ISSET(fields, 12);
+  if (BV_ISSET(fields, 13)) {
     dio_get_uint8(&din, (int *) &real_packet->nuke_contamination);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 14)) {
     
     {
       int i;
@@ -22590,22 +22676,22 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 15)) {
     dio_get_uint8(&din, (int *) &real_packet->granary_num_inis);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 16)) {
     dio_get_uint8(&din, (int *) &real_packet->granary_food_inc);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 17)) {
     dio_get_uint8(&din, (int *) &real_packet->tech_cost_style);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 18)) {
     dio_get_uint8(&din, (int *) &real_packet->tech_leakage);
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 19)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
   }
-  real_packet->killstack = BV_ISSET(fields, 24);
+  real_packet->killstack = BV_ISSET(fields, 20);
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -22640,77 +22726,85 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->min_size_elvis != real_packet->min_size_elvis);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->min_size_taxman != real_packet->min_size_taxman);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialist_bonus[i] != real_packet->specialist_bonus[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->min_size_scientist != real_packet->min_size_scientist);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
-
-  differ = (old->base_elvis != real_packet->base_elvis);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
-
-  differ = (old->base_scientist != real_packet->base_scientist);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
-
-  differ = (old->base_taxman != real_packet->base_taxman);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
-
   differ = (old->changable_tax != real_packet->changable_tax);
   if(differ) {different++;}
-  if(packet->changable_tax) {BV_SET(fields, 6);}
+  if(packet->changable_tax) {BV_SET(fields, 2);}
 
   differ = (old->forced_science != real_packet->forced_science);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 3);}
 
   differ = (old->forced_luxury != real_packet->forced_luxury);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 4);}
 
   differ = (old->forced_gold != real_packet->forced_gold);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 5);}
 
   differ = (old->min_city_center_food != real_packet->min_city_center_food);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 6);}
 
   differ = (old->min_city_center_shield != real_packet->min_city_center_shield);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 7);}
 
   differ = (old->min_city_center_trade != real_packet->min_city_center_trade);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 8);}
 
   differ = (old->min_dist_bw_cities != real_packet->min_dist_bw_cities);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 9);}
 
   differ = (old->init_vis_radius_sq != real_packet->init_vis_radius_sq);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
+  if(differ) {BV_SET(fields, 10);}
 
   differ = (old->hut_overflight != real_packet->hut_overflight);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 11);}
 
   differ = (old->pillage_select != real_packet->pillage_select);
   if(differ) {different++;}
-  if(packet->pillage_select) {BV_SET(fields, 16);}
+  if(packet->pillage_select) {BV_SET(fields, 12);}
 
   differ = (old->nuke_contamination != real_packet->nuke_contamination);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 13);}
 
 
     {
@@ -22726,23 +22820,23 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 14);}
 
   differ = (old->granary_num_inis != real_packet->granary_num_inis);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 15);}
 
   differ = (old->granary_food_inc != real_packet->granary_food_inc);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 16);}
 
   differ = (old->tech_cost_style != real_packet->tech_cost_style);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 17);}
 
   differ = (old->tech_leakage != real_packet->tech_leakage);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 18);}
 
 
     {
@@ -22758,11 +22852,11 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 19);}
 
   differ = (old->killstack != real_packet->killstack);
   if(differ) {different++;}
-  if(packet->killstack) {BV_SET(fields, 24);}
+  if(packet->killstack) {BV_SET(fields, 20);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -22771,56 +22865,58 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->min_size_elvis);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->min_size_taxman);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialist_bonus[i]);
+      }
+    } 
   }
-  if (BV_ISSET(fields, 2)) {
-    dio_put_uint8(&dout, real_packet->min_size_scientist);
-  }
+  /* field 2 is folded into the header */
   if (BV_ISSET(fields, 3)) {
-    dio_put_uint8(&dout, real_packet->base_elvis);
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_put_uint8(&dout, real_packet->base_scientist);
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_put_uint8(&dout, real_packet->base_taxman);
-  }
-  /* field 6 is folded into the header */
-  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->forced_science);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 4)) {
     dio_put_uint8(&dout, real_packet->forced_luxury);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 5)) {
     dio_put_uint8(&dout, real_packet->forced_gold);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 6)) {
     dio_put_uint8(&dout, real_packet->min_city_center_food);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->min_city_center_shield);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 8)) {
     dio_put_uint8(&dout, real_packet->min_city_center_trade);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_uint8(&dout, real_packet->min_dist_bw_cities);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 10)) {
     dio_put_uint8(&dout, real_packet->init_vis_radius_sq);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint8(&dout, real_packet->hut_overflight);
   }
-  /* field 16 is folded into the header */
-  if (BV_ISSET(fields, 17)) {
+  /* field 12 is folded into the header */
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint8(&dout, real_packet->nuke_contamination);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 14)) {
   
     {
       int i;
@@ -22830,22 +22926,22 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_uint8(&dout, real_packet->granary_num_inis);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 16)) {
     dio_put_uint8(&dout, real_packet->granary_food_inc);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 17)) {
     dio_put_uint8(&dout, real_packet->tech_cost_style);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint8(&dout, real_packet->tech_leakage);
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 19)) {
     dio_put_tech_list(&dout, real_packet->global_init_techs);
   }
-  /* field 24 is folded into the header */
+  /* field 20 is folded into the header */
 
 
   if (old_from_hash) {
@@ -22863,7 +22959,7 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
 
 #define cmp_packet_ruleset_game_103 cmp_const
 
-BV_DEFINE(packet_ruleset_game_103_fields, 15);
+BV_DEFINE(packet_ruleset_game_103_fields, 17);
 
 static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connection *pc, enum packet_type type)
 {
@@ -22888,28 +22984,48 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connec
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialist_min_size[i]);
+      }
+    }
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialist_bonus[i]);
+      }
+    }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
+    dio_get_uint8(&din, (int *) &real_packet->min_city_center_food);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
+    dio_get_uint8(&din, (int *) &real_packet->min_city_center_shield);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
+    dio_get_uint8(&din, (int *) &real_packet->min_city_center_trade);
   }
   if (BV_ISSET(fields, 5)) {
+    dio_get_uint8(&din, (int *) &real_packet->min_dist_bw_cities);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_get_uint8(&din, (int *) &real_packet->init_vis_radius_sq);
+  }
+  if (BV_ISSET(fields, 7)) {
     dio_get_uint8(&din, (int *) &real_packet->hut_overflight);
   }
-  real_packet->pillage_select = BV_ISSET(fields, 6);
-  if (BV_ISSET(fields, 7)) {
+  real_packet->pillage_select = BV_ISSET(fields, 8);
+  if (BV_ISSET(fields, 9)) {
     dio_get_uint8(&din, (int *) &real_packet->nuke_contamination);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 10)) {
     
     {
       int i;
@@ -22919,22 +23035,22 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 11)) {
     dio_get_uint8(&din, (int *) &real_packet->granary_num_inis);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 12)) {
     dio_get_uint8(&din, (int *) &real_packet->granary_food_inc);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 13)) {
     dio_get_uint8(&din, (int *) &real_packet->tech_cost_style);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 14)) {
     dio_get_uint8(&din, (int *) &real_packet->tech_leakage);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 15)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
   }
-  real_packet->killstack = BV_ISSET(fields, 14);
+  real_packet->killstack = BV_ISSET(fields, 16);
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -22969,37 +23085,69 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->min_city_center_food != real_packet->min_city_center_food);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->min_city_center_shield != real_packet->min_city_center_shield);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialist_bonus[i] != real_packet->specialist_bonus[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->min_city_center_trade != real_packet->min_city_center_trade);
+  differ = (old->min_city_center_food != real_packet->min_city_center_food);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (old->min_dist_bw_cities != real_packet->min_dist_bw_cities);
+  differ = (old->min_city_center_shield != real_packet->min_city_center_shield);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (old->init_vis_radius_sq != real_packet->init_vis_radius_sq);
+  differ = (old->min_city_center_trade != real_packet->min_city_center_trade);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (old->hut_overflight != real_packet->hut_overflight);
+  differ = (old->min_dist_bw_cities != real_packet->min_dist_bw_cities);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
+  differ = (old->init_vis_radius_sq != real_packet->init_vis_radius_sq);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 6);}
+
+  differ = (old->hut_overflight != real_packet->hut_overflight);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
   differ = (old->pillage_select != real_packet->pillage_select);
   if(differ) {different++;}
-  if(packet->pillage_select) {BV_SET(fields, 6);}
+  if(packet->pillage_select) {BV_SET(fields, 8);}
 
   differ = (old->nuke_contamination != real_packet->nuke_contamination);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 9);}
 
 
     {
@@ -23015,23 +23163,23 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 10);}
 
   differ = (old->granary_num_inis != real_packet->granary_num_inis);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 11);}
 
   differ = (old->granary_food_inc != real_packet->granary_food_inc);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 12);}
 
   differ = (old->tech_cost_style != real_packet->tech_cost_style);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 13);}
 
   differ = (old->tech_leakage != real_packet->tech_leakage);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 14);}
 
 
     {
@@ -23047,11 +23195,11 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 15);}
 
   differ = (old->killstack != real_packet->killstack);
   if(differ) {different++;}
-  if(packet->killstack) {BV_SET(fields, 14);}
+  if(packet->killstack) {BV_SET(fields, 16);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -23060,28 +23208,48 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->min_city_center_food);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->min_city_center_shield);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialist_bonus[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 2)) {
-    dio_put_uint8(&dout, real_packet->min_city_center_trade);
+    dio_put_uint8(&dout, real_packet->min_city_center_food);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_put_uint8(&dout, real_packet->min_dist_bw_cities);
+    dio_put_uint8(&dout, real_packet->min_city_center_shield);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_put_uint8(&dout, real_packet->init_vis_radius_sq);
+    dio_put_uint8(&dout, real_packet->min_city_center_trade);
   }
   if (BV_ISSET(fields, 5)) {
+    dio_put_uint8(&dout, real_packet->min_dist_bw_cities);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_put_uint8(&dout, real_packet->init_vis_radius_sq);
+  }
+  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->hut_overflight);
   }
-  /* field 6 is folded into the header */
-  if (BV_ISSET(fields, 7)) {
+  /* field 8 is folded into the header */
+  if (BV_ISSET(fields, 9)) {
     dio_put_uint8(&dout, real_packet->nuke_contamination);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 10)) {
   
     {
       int i;
@@ -23091,22 +23259,22 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint8(&dout, real_packet->granary_num_inis);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 12)) {
     dio_put_uint8(&dout, real_packet->granary_food_inc);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint8(&dout, real_packet->tech_cost_style);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_uint8(&dout, real_packet->tech_leakage);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_tech_list(&dout, real_packet->global_init_techs);
   }
-  /* field 14 is folded into the header */
+  /* field 16 is folded into the header */
 
 
   if (old_from_hash) {

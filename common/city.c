@@ -1821,13 +1821,13 @@ static void set_tax_income(struct city *pcity)
   pcity->tax_total = tax;
   pcity->luxury_total = lux;
 
-  pcity->luxury_total
-    += (pcity->specialists[SP_ELVIS] * game.rgame.base_elvis);
-  pcity->science_total
-    += (pcity->specialists[SP_SCIENTIST] * game.rgame.base_scientist);
-  pcity->tax_total
-    += ((pcity->specialists[SP_TAXMAN] * game.rgame.base_taxman) 
-	+ get_city_tithes_bonus(pcity));
+  pcity->luxury_total += (pcity->specialists[SP_ELVIS]
+			  * game.rgame.specialists[SP_ELVIS].bonus);
+  pcity->science_total += (pcity->specialists[SP_SCIENTIST]
+			   * game.rgame.specialists[SP_SCIENTIST].bonus);
+  pcity->tax_total += ((pcity->specialists[SP_TAXMAN]
+			* game.rgame.specialists[SP_TAXMAN].bonus) 
+		       + get_city_tithes_bonus(pcity));
 }
 
 /**************************************************************************

@@ -2675,12 +2675,10 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 {
   int i;
 
-  game.rgame.min_size_elvis = packet->min_size_elvis;
-  game.rgame.min_size_taxman = packet->min_size_taxman;
-  game.rgame.min_size_scientist = packet->min_size_scientist;
-  game.rgame.base_elvis = packet->base_elvis;
-  game.rgame.base_scientist = packet->base_scientist;
-  game.rgame.base_taxman = packet->base_taxman;
+  for (i = 0; i < SP_COUNT; i++) {
+    game.rgame.specialists[i].min_size = packet->specialist_min_size[i];
+    game.rgame.specialists[i].bonus = packet->specialist_bonus[i];
+  }
   game.rgame.changable_tax = packet->changable_tax;
   game.rgame.forced_science = packet->forced_science;
   game.rgame.forced_luxury = packet->forced_luxury;
