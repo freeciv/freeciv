@@ -15,17 +15,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.13\n"
 "POT-Creation-Date: 2002-06-20 09:23+0000\n"
-"PO-Revision-Date: 2002-06-21 16:23+0000\n"
-"Last-Translator: \n"
-"Language-Team:  <no@li.org>\n"
+"PO-Revision-Date: 2002-06-22 11:45+0000\n"
+"Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 "X-Generator: KBabel 0.9.6\n"
+"Language-Team: Norwegian\n"
 
 #: common/city.c:263
 msgid "?redundant:*"
-msgstr ""
+msgstr "?redundant:*"
 
 #: common/city.c:264
 msgid "?obsolete:O"
@@ -917,9 +917,7 @@ msgstr ""
 
 #: client/civclient.c:131 server/civserver.c:131
 msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
-msgstr ""
-"  -d, --debug NUM\t\tSett debuggings-loggnivå (0-4, eller 4:fil1,min,"
-"max:...)\n"
+msgstr "  -d, --debug NUM\tSett debuggings-loggnivå (0-4, eller 4:fil1,min,max:...)\n"
 
 #: client/civclient.c:134 server/civserver.c:134
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
@@ -5129,7 +5127,7 @@ msgstr "Spill: Du fant %d gull."
 #: server/unittools.c:2321
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
-msgstr "Spill: Du fant %s eldgamle skriftruller med kunnskap."
+msgstr "Spill: Du fant %s i eldgamle skriftruller med kunnskap."
 
 #: server/unittools.c:2323
 #, c-format
@@ -5161,9 +5159,8 @@ msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spill: Dine %s har blitt slaktet av en gjeng med pinglete barbarer."
 
 #: server/unittools.c:2393
-#, fuzzy
 msgid "Game: You found a friendly city."
-msgstr "Spill: Du fant %d gull."
+msgstr "Spill: Du fant en vennlig by."
 
 #: server/unittools.c:2398
 msgid "Game: Friendly nomads are impressed by you, and join you."
@@ -5219,19 +5216,17 @@ msgid "Will continue with disabled sounds."
 msgstr "Fortsetter uten lydeffekter."
 
 #: client/audio.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load audio spec-file: %s"
-msgstr "Klarte ikke laste inn lagret spill i: %s"
+msgstr "Klarte ikke å laste inn lydspesifikasjonene i filen: %s"
 
 #: client/audio.c:151
-#, fuzzy
 msgid "soundspec file appears incompatible:"
-msgstr "%s filen ser inkompatibel ut:"
+msgstr "lydspesifikasjonene i filen ser inkompatibel ut:"
 
 #: client/audio.c:158
-#, fuzzy
 msgid "soundspec file claims required option(s) which we don't support:"
-msgstr "%s filen krever opsjon(er) vi ikke støtter:"
+msgstr "lydspesifikasjonene i filen krever opsjon(er) som vi ikke støtter:"
 
 #: client/audio.c:173
 msgid "No real audio subsystem managed to initialize!"
@@ -5242,9 +5237,9 @@ msgid "For sound support, install either esound or SDL_mixer"
 msgstr "For å få lyd må du installere esound eller SDL_mixer"
 
 #: client/audio.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find audio file %s"
-msgstr "Klarer ikke finne din hjemmekatalog"
+msgstr "Klarer ikke å finne lydfilen %s"
 
 #: client/audio_esd.c:120
 #, c-format
@@ -5257,14 +5252,13 @@ msgid "Error while caching sample <%d>: confirm value != samples[].id\n"
 msgstr ""
 
 #: client/citydlg_common.c:108
-#, fuzzy
 msgid "?filler:XXX/XXX XXX turns"
-msgstr "%3d/XXX XXX runder"
+msgstr "?filler:XXX/XXX XXX runder"
 
 #: client/citydlg_common.c:123
-#, fuzzy, c-format, ycp-format
+#, c-format, ycp-format
 msgid "%3d gold per turn"
-msgstr "%3d/%3d %3d runde"
+msgstr "%3d gull per runde"
 
 #: client/citydlg_common.c:133
 #, c-format
@@ -5367,14 +5361,12 @@ msgid "Workers"
 msgstr "Arbeidere"
 
 #: client/cityrepdata.c:211
-#, fuzzy
 msgid "H/C/U/A"
-msgstr "L/F/U"
+msgstr "H/C/U/A"
 
 #: client/cityrepdata.c:212
-#, fuzzy
 msgid "Workers: Happy, Content, Unhappy, Angry"
-msgstr "Arbeidere: Lykkelig, Fornøyd, Ulykkelig"
+msgstr "Arbeidere: Lykkelig, Fornøyd, Ulykkelig, Sinte"
 
 #: client/cityrepdata.c:214
 msgid "Special"
@@ -5478,11 +5470,11 @@ msgstr "  -a, --autoconnect\tHopper over Koble til dialogen\n"
 
 #: client/civclient.c:138
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr "  -m, --meta S\\tKoble til metaserveren S\n"
+msgstr "  -m, --meta HOST\tKoble til metaserveren på HOST\n"
 
 #: client/civclient.c:140
 msgid "  -n, --name NAME\tUse NAME as name\n"
-msgstr "  -n, --name NAVN\\tBruk NAVN som navn\n"
+msgstr "  -n, --name NAVN\tBruk NAVN som navn\n"
 
 #: client/civclient.c:141
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
@@ -5495,12 +5487,11 @@ msgstr "  -P, --Plugin PLUGIN\tBenytter PLUGIN for lydstøtte %s\n"
 
 #: client/civclient.c:144
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
-msgstr "  -s, --server S\\tKoble til serveren S\n"
+msgstr "  -s, --server S\tKoble til serveren S\n"
 
 #: client/civclient.c:145
-#, fuzzy
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
-msgstr "  -s, --sound FIL\\tLes lyd-informasjon fra FIL\n"
+msgstr "  -s, --sound FIL\tLes lyd-informasjon fra FIL\n"
 
 #: client/civclient.c:146
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
@@ -5512,9 +5503,8 @@ msgid "Unrecognized option: \"%s\"\n"
 msgstr "Ukjent opsjon: \"%s\"\n"
 
 #: client/civclient.c:575
-#, fuzzy
 msgid "Game started."
-msgstr "Spill lagret som %s"
+msgstr "Spillet har startet."
 
 #: client/civclient.c:596
 msgid "There was an error while auto connecting; aborting."
@@ -5650,7 +5640,7 @@ msgstr[0] "Masse:  %5d tonn"
 msgstr[1] "Masse:  %5d tonn"
 
 #: client/climisc.c:1130
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -5660,13 +5650,13 @@ msgid ""
 "Success prob.:   %5d %%\n"
 "Year of arrival: %8s"
 msgstr ""
-"Befolkning:       %5d\n"
-"Support:          %5d %%\n"
-"Energi:           %5d %%\n"
-"Vekt:             %5d tonn\n"
+"Befolkning:      %5d\n"
+"Støtte:       %5d %%\n"
+"Energi:          %5d %%\n"
 "%s\n"
-"Suksess sanns.:   %5d %%\n"
-"Ankomstår:        %8s"
+"%s\n"
+"Sann. for å lykkes:%5d %%\n"
+"Ankomst:       %8s"
 
 #: client/climisc.c:1172
 msgid "Exporting output window to civgame.log ..."
@@ -5677,9 +5667,8 @@ msgid "Export complete."
 msgstr "Eksport fullført."
 
 #: client/climisc.c:1178
-#, fuzzy
 msgid "Export failed, couldn't write to file."
-msgstr "Klarer ikke skrive til fil %s"
+msgstr "Klarer ikke skrive til fil."
 
 #: client/clinet.c:114
 msgid "Lost connection to server!"
@@ -5811,28 +5800,26 @@ msgstr[0] "* Kan frakte og fylle drivtoff på %d flyenhet.\n"
 msgstr[1] "* Kan frakte og fylle drivtoff på %d flyenheter.\n"
 
 #: client/helpdata.c:600
-#, fuzzy, c-format
+#, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
 msgstr[0] "* Kan transportere og fylle drivstoff på %d rakettenhet.\n"
 msgstr[1] "* Kan transportere og fylle drivstoff på %d rakettenheter.\n"
 
 #: client/helpdata.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "* Can carry %d ground unit across water.\n"
 msgid_plural "* Can carry %d ground units across water.\n"
 msgstr[0] "* Kan transportere %d landenhet over vann.\n"
 msgstr[1] "* Kan transportere %d landenheter over vann.\n"
 
 #: client/helpdata.c:611
-#, fuzzy
 msgid "* Can establish trade routes.\n"
-msgstr "Etabler handelsrute"
+msgstr "* Kan etablere handelsruteer.\n"
 
 #: client/helpdata.c:614
-#, fuzzy
 msgid "* Can help build wonders.\n"
-msgstr "Hjelpe til å bygge underverk"
+msgstr "* Kan hjelpe til å bygge underverk.\n"
 
 #: client/helpdata.c:617
 msgid "* Can build new cities.\n"
@@ -5963,7 +5950,7 @@ msgstr ", eller den vil gå tom for drivstoff og gå tapt.\n"
 #: client/helpdata.c:738
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
-msgstr "Dersom vi hadde startet med %s ville vi trengt %d pærer."
+msgstr "Dersom vi hadde startet med %s ville vi trengt %d forskningspoeng."
 
 #: client/helpdata.c:743
 #, c-format
@@ -6118,123 +6105,100 @@ msgid "Use Alt/Meta for accelerators (GTK only)"
 msgstr "Bruker Alt/Meta for akseleratorer (kun GTK)"
 
 #: client/options.c:142
-#, fuzzy
 msgid "City: Building Unavailable Item"
-msgstr "Bygger noe som ikke er tilgjengelig"
+msgstr "By: Bygger utilgjengelig objekt"
 
 #: client/options.c:143
-#, fuzzy
 msgid "City: Captured/Destroyed"
-msgstr "By fanget/ødelagt"
+msgstr "By: fanget/ødelagt"
 
 #: client/options.c:144
-#, fuzzy
 msgid "City: Celebrating"
-msgstr "Byen feirer"
+msgstr "By: Feirer"
 
 #: client/options.c:145
-#, fuzzy
 msgid "City: Civil Disorder"
-msgstr "Urolighet"
+msgstr "By: Urolighet"
 
 #: client/options.c:146
-#, fuzzy
 msgid "City: Famine"
-msgstr "Bynavn"
+msgstr "By: Hungersnød"
 
 #: client/options.c:147
-#, fuzzy
 msgid "City: Famine Feared"
-msgstr "Hungersnød fryktet i by"
+msgstr "By: Hungersnød fryktet"
 
 #: client/options.c:148
-#, fuzzy
 msgid "City: Growth"
-msgstr "Byvekst"
+msgstr "By: Tilvekst"
 
 #: client/options.c:149
-#, fuzzy
 msgid "City: May Soon Grow"
-msgstr "Byen kan vokse snart"
+msgstr "By: Kan vokse snart"
 
 #: client/options.c:150
-#, fuzzy
 msgid "City: Needs Aqueduct"
-msgstr "By trenger akvedukt"
+msgstr "By: Trenger akvedukt"
 
 #: client/options.c:151
-#, fuzzy
 msgid "City: Needs Aqueduct Being Built"
-msgstr "By trenger akvedukt"
+msgstr "By: Trenger akvedukt, som bygges"
 
 #: client/options.c:152
-#, fuzzy
 msgid "City: Normal"
-msgstr "Byen normal"
+msgstr "By: Normal"
 
 #: client/options.c:153
-#, fuzzy
 msgid "City: Nuked"
-msgstr "Atomangrepet by"
+msgstr "By: Atomangrep"
 
 #: client/options.c:154
 msgid "City: Released from CMA"
 msgstr "By: Løslatt fra Byforvaltning"
 
 #: client/options.c:155
-#, fuzzy
 msgid "City: Suggest Growth Throttling"
-msgstr "Forslag om stanset vekst"
+msgstr "By: Forslag om stanset vekst"
 
 #: client/options.c:156
-#, fuzzy
 msgid "City: Transfer"
-msgstr "Endre"
+msgstr "By: Overføring"
 
 #: client/options.c:157
-#, fuzzy
 msgid "City: Was Built"
-msgstr "Enhet bygget"
+msgstr "By: bygget"
 
 #: client/options.c:158
-#, fuzzy
 msgid "City: Worklist Events"
-msgstr "Arbeidsliste hendelser"
+msgstr "By: Arbeidsliste hendelser"
 
 #: client/options.c:159
-#, fuzzy
 msgid "Civ: Barbarian Uprising"
-msgstr "Barbaropprør"
+msgstr "Civ: Barbaropprør"
 
 #: client/options.c:160
-#, fuzzy
 msgid "Civ: Civil War"
-msgstr " Borgerkrig"
+msgstr "Civ: Borgerkrig"
 
 #: client/options.c:161
-#, fuzzy
 msgid "Civ: Collapse to Anarchy"
-msgstr "Kollaps til anarki"
+msgstr "Civ: Kollaps til anarki"
 
 #: client/options.c:162
-#, fuzzy
 msgid "Civ: First Contact"
-msgstr "Første kontakt"
+msgstr "Civ: Første kontakt"
 
 #: client/options.c:163
-#, fuzzy
 msgid "Civ: Learned New Government"
-msgstr "Lærte om ny styreform"
+msgstr "Civ: Lærte om ny styreform"
 
 #: client/options.c:164
-#, fuzzy
 msgid "Civ: Low Funds"
-msgstr "Lite gull"
+msgstr "Civ: Lite gull"
 
 #: client/options.c:165
-#, fuzzy
 msgid "Civ: Pollution"
-msgstr "Forurensning"
+msgstr "Civ: Forurensning"
 
 #: client/options.c:166
 msgid "Civ: Revolt Ended"
@@ -6245,19 +6209,16 @@ msgid "Civ: Revolt Started"
 msgstr "Opprør startet"
 
 #: client/options.c:168
-#, fuzzy
 msgid "Civ: Spaceship Events"
-msgstr "Romskip hendelser"
+msgstr "Civ: Romskip hendelser"
 
 #: client/options.c:169
-#, fuzzy
 msgid "Diplomat Action: Bribe"
-msgstr "Diplomataktivitet - Fienden"
+msgstr "Diplomataktivitet: Bestikkelse"
 
 #: client/options.c:170
-#, fuzzy
 msgid "Diplomat Action: Caused Incident"
-msgstr "Diplomatisk hendelse"
+msgstr "Diplomatisk hendelse: Forårsaket ulykke"
 
 #: client/options.c:171
 msgid "Diplomat Action: Escape"
@@ -6392,34 +6353,28 @@ msgid "Hut: Unit Spared by Barbarians"
 msgstr "Hytte: Enhet reddet fra barbarer"
 
 #: client/options.c:204
-#, fuzzy
 msgid "Improvement: Bought"
-msgstr "Forbedringer kjøpt"
+msgstr "Byforbedring: Kjøpt"
 
 #: client/options.c:205
-#, fuzzy
 msgid "Improvement: Built"
-msgstr "Forbedringer bygd ferdig"
+msgstr "Byforbedring: Bygd ferdig"
 
 #: client/options.c:206
-#, fuzzy
 msgid "Improvement: Forced to Sell"
-msgstr "Forbedringer solgt"
+msgstr "Byforbedring: Tvangssolgt"
 
 #: client/options.c:207
-#, fuzzy
 msgid "Improvement: New Improvement Selected"
-msgstr "Ny forbedring valgt"
+msgstr "Byforbedring: Ny forbedring valgt"
 
 #: client/options.c:208
-#, fuzzy
 msgid "Improvement: Sold"
-msgstr "Forbedringer solgt"
+msgstr "Byforbedring: Solgt"
 
 #: client/options.c:209
-#, fuzzy
 msgid "Tech: Learned From Great Library"
-msgstr "Teknologi fra Verdensiblioteket"
+msgstr "Teknologi: Lært fra Verdensbiblioteket"
 
 #: client/options.c:210
 msgid "Tech: Learned New Tech"
@@ -6442,74 +6397,60 @@ msgid "Treaty: Peace"
 msgstr "Avtale: Fred"
 
 #: client/options.c:215
-#, fuzzy
 msgid "Treaty: Shared Vision"
-msgstr "Delt utsyn"
+msgstr "Avtale: Delt utsyn"
 
 #: client/options.c:216
-#, fuzzy
 msgid "Unit: Attack Failed"
-msgstr "Angrep fra enheter mislykket"
+msgstr "Enhet: Angrep mislykket"
 
 #: client/options.c:217
-#, fuzzy
 msgid "Unit: Attack Succeeded"
-msgstr "Angrep fra enheter vellykket"
+msgstr "Enhet: Angrep vellykket"
 
 #: client/options.c:218
-#, fuzzy
 msgid "Unit: Bought"
-msgstr "Enheter kjøpt"
+msgstr "Enhet: Kjøpt"
 
 #: client/options.c:219
-#, fuzzy
 msgid "Unit: Built"
-msgstr "Enhet bygget"
+msgstr "Enhet: Bygget ferdig"
 
 #: client/options.c:220
-#, fuzzy
 msgid "Unit: Defender Destroyed"
-msgstr "Enhet som forsvarte seg ble knust"
+msgstr "Enhet: Forsvarer ble knust"
 
 #: client/options.c:221
-#, fuzzy
 msgid "Unit: Defender Survived"
-msgstr "Enhet som forsvarte seg overlevde"
+msgstr "Enhet: Forsvarer overlevde"
 
 #: client/options.c:222
-#, fuzzy
 msgid "Unit: Production Upgraded"
-msgstr "Produksjon oppgradert"
+msgstr "Enhet: Produksjon oppgradert"
 
 #: client/options.c:223
-#, fuzzy
 msgid "Unit: Relocated"
-msgstr "Valg av enheter"
+msgstr "Enhet: Omplassert"
 
 #: client/options.c:224
-#, fuzzy
 msgid "Wonder: Finished"
-msgstr "Underverk fullført"
+msgstr "Underverk: Fullført"
 
 #: client/options.c:225
-#, fuzzy
 msgid "Wonder: Made Obsolete"
-msgstr "Underverk foreldet"
+msgstr "Underverk: Foreldet"
 
 #: client/options.c:226
-#, fuzzy
 msgid "Wonder: Started"
-msgstr "Underverk startet"
+msgstr "Underverk: Startet"
 
 #: client/options.c:227
-#, fuzzy
 msgid "Wonder: Stopped"
-msgstr "Arbeid på underverk stanset"
+msgstr "Underverk: Arbeid på underverk stanset"
 
 #: client/options.c:228
-#, fuzzy
 msgid "Wonder: Will Finish Next Turn"
-msgstr "Underverk blir fullført neste runde"
+msgstr "Underverk: Blir fullført neste runde"
 
 #: client/options.c:353
 msgid "Cannot find your home directory"
@@ -6526,14 +6467,14 @@ msgstr ""
 "oppdatere \"number_of_presets\""
 
 #: client/options.c:534
-#, fuzzy, c-format
+#, c-format
 msgid "Save failed, cannot write to file %s"
-msgstr "Klarer ikke skrive til fil %s"
+msgstr "Lagring avbrutt; Klarer ikke skrive til fil %s"
 
 #: client/options.c:537
-#, fuzzy, c-format
+#, c-format
 msgid "Saved settings to file %s"
-msgstr "Oppsettsfilen er %s"
+msgstr "Lagrer oppsett til filen %s"
 
 #: client/packhand.c:128
 #, c-format
@@ -6672,9 +6613,8 @@ msgstr "Gull"
 #: client/agents/cma_fec.c:226 client/gui-gtk-2.0/cityrep.c:389
 #: client/gui-gtk-2.0/cityrep.c:409 client/gui-gtk/cityrep.c:414
 #: client/gui-gtk/cityrep.c:433
-#, fuzzy
 msgid "none"
-msgstr "Fullført"
+msgstr "ingen"
 
 #: client/agents/cma_fec.c:242 client/gui-gtk-2.0/cityrep.c:431
 #: client/gui-gtk/cityrep.c:454
@@ -6727,9 +6667,8 @@ msgid "Food:"
 msgstr "Mat:"
 
 #: client/gui-gtk-2.0/citydlg.c:551 client/gui-gtk/citydlg.c:544
-#, fuzzy
 msgid "Prod:"
-msgstr "Eget:"
+msgstr "Prod:"
 
 #: client/gui-gtk-2.0/citydlg.c:552 client/gui-gtk/citydlg.c:545
 #: client/gui-mui/citydlg.c:1395 client/gui-mui/citydlg.c:1618
@@ -6755,9 +6694,8 @@ msgstr "Kornlager:"
 
 #: client/gui-gtk-2.0/citydlg.c:557 client/gui-gtk/citydlg.c:550
 #: client/gui-mui/citydlg.c:1407
-#, fuzzy
 msgid "Change in:"
-msgstr "Endre"
+msgstr "Vokser om:"
 
 #: client/gui-gtk-2.0/citydlg.c:558 client/gui-gtk/citydlg.c:551
 #: client/gui-mui/citydlg.c:1410
@@ -6807,9 +6745,9 @@ msgid ">"
 msgstr ">"
 
 #: client/gui-gtk-2.0/citydlg.c:816 client/gui-gtk/citydlg.c:815
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d %d turns"
-msgstr "%3d/%3d %3d runder"
+msgstr "%d/%d %d runder"
 
 #: client/gui-gtk-2.0/citydlg.c:819 client/gui-gtk/citydlg.c:818
 #: client/gui-gtk/cityrep.c:597 client/gui-mui/citydlg.c:1522
@@ -6827,16 +6765,15 @@ msgstr "_Endre"
 #: client/gui-gtk-2.0/citydlg.c:3240 client/gui-gtk/citydlg.c:865
 #: client/gui-gtk/citydlg.c:1983 client/gui-gtk/citydlg.c:3209
 #: client/gui-win32/citydlg.c:858
-#, fuzzy
 msgid "Sell"
-msgstr "_Selg"
+msgstr "Selg"
 
 #: client/gui-gtk-2.0/citydlg.c:895 client/gui-gtk-2.0/menu.c:710
 #: client/gui-gtk-2.0/menu.c:753 client/gui-gtk/citydlg.c:898
 #: client/gui-gtk/menu.c:709 client/gui-gtk/menu.c:752
 #: client/gui-win32/menu.c:354 client/gui-win32/menu.c:373
 msgid "_Units"
-msgstr "Enheter"
+msgstr "_Enheter"
 
 #: client/gui-gtk-2.0/citydlg.c:937 client/gui-gtk/citydlg.c:940
 #: client/gui-win32/citydlg.c:887
@@ -6850,19 +6787,16 @@ msgid "Units present"
 msgstr "Enheter tilstede"
 
 #: client/gui-gtk-2.0/citydlg.c:1071 client/gui-gtk/citydlg.c:1074
-#, fuzzy
 msgid "Acti_vate present units"
-msgstr "Aktiver enhet"
+msgstr "Akti_ver nåværende enheter"
 
 #: client/gui-gtk-2.0/citydlg.c:1077 client/gui-gtk/citydlg.c:1080
-#, fuzzy
 msgid "_Sentry idle units"
-msgstr "Hold _stand"
+msgstr "Inaktive enheter hold _stand"
 
 #: client/gui-gtk-2.0/citydlg.c:1083 client/gui-gtk/citydlg.c:1086
-#, fuzzy
 msgid "_List present units"
-msgstr "List opp enheter"
+msgstr "_List opp enheter"
 
 #: client/gui-gtk-2.0/citydlg.c:1108 client/gui-gtk/citydlg.c:1111
 msgid "_Worklist"
@@ -6881,18 +6815,16 @@ msgid "_Trade Routes"
 msgstr "_Handelsruter"
 
 #: client/gui-gtk-2.0/citydlg.c:1213 client/gui-gtk/citydlg.c:1220
-#, fuzzy
 msgid "Established trade routes"
-msgstr "Etabler handelsrute"
+msgstr "Etablerte handelsruter"
 
 #: client/gui-gtk-2.0/citydlg.c:1235 client/gui-gtk/citydlg.c:1242
 msgid "_Misc. Settings"
 msgstr "_Innstillinger"
 
 #: client/gui-gtk-2.0/citydlg.c:1238 client/gui-gtk/citydlg.c:1245
-#, fuzzy
 msgid "Entertainers"
-msgstr "Ingeniørbrigade"
+msgstr "Underholdere"
 
 #: client/gui-gtk-2.0/citydlg.c:1239 client/gui-gtk/citydlg.c:1246
 #: client/gui-mui/citydlg.c:1432 client/gui-win32/citydlg.c:2164
@@ -6907,24 +6839,20 @@ msgid "Taxmen"
 msgstr "Skattefuter"
 
 #: client/gui-gtk-2.0/citydlg.c:1244 client/gui-gtk/citydlg.c:1251
-#, fuzzy
 msgid "Land units"
-msgstr "Oppløs enhet"
+msgstr "Landenheter"
 
 #: client/gui-gtk-2.0/citydlg.c:1245 client/gui-gtk/citydlg.c:1252
-#, fuzzy
 msgid "Sea units"
-msgstr " enhet"
+msgstr "Sjøenheter"
 
 #: client/gui-gtk-2.0/citydlg.c:1246 client/gui-gtk/citydlg.c:1253
-#, fuzzy
 msgid "Helicopters"
 msgstr "Helikopter"
 
 #: client/gui-gtk-2.0/citydlg.c:1247 client/gui-gtk/citydlg.c:1254
-#, fuzzy
 msgid "Air units"
-msgstr " enhet"
+msgstr "Flyenheter"
 
 #: client/gui-gtk-2.0/citydlg.c:1248 client/gui-gtk/citydlg.c:1255
 #: client/gui-win32/citydlg.c:2169
@@ -6933,49 +6861,43 @@ msgstr "Oppløs hvis en bygger nybygger på størrelse 1"
 
 #: client/gui-gtk-2.0/citydlg.c:1252 client/gui-gtk/citydlg.c:1259
 msgid "City Overview page"
-msgstr "Oversikt over Byen"
+msgstr "Byoversikt"
 
 #: client/gui-gtk-2.0/citydlg.c:1253 client/gui-gtk/citydlg.c:1260
-#, fuzzy
 msgid "Units page"
-msgstr "Enhets-type"
+msgstr "Enheter"
 
 #: client/gui-gtk-2.0/citydlg.c:1254 client/gui-gtk/citydlg.c:1261
-#, fuzzy
 msgid "Worklist page"
 msgstr "Arbeidsliste"
 
 #: client/gui-gtk-2.0/citydlg.c:1255 client/gui-gtk/citydlg.c:1262
-#, fuzzy
 msgid "Happiness page"
 msgstr "Lykke"
 
 #: client/gui-gtk-2.0/citydlg.c:1256 client/gui-gtk/citydlg.c:1263
 msgid "CMA page"
-msgstr "Byforvaltnings side"
+msgstr "Byforvaltning"
 
 #: client/gui-gtk-2.0/citydlg.c:1257 client/gui-gtk/citydlg.c:1264
-#, fuzzy
 msgid "Trade Routes page"
 msgstr "Handelsruter"
 
 #: client/gui-gtk-2.0/citydlg.c:1258 client/gui-gtk/citydlg.c:1265
 msgid "This Misc. Settings page"
-msgstr "Dette er Innstillingssiden"
+msgstr "Dette er innstillingssiden"
 
 #: client/gui-gtk-2.0/citydlg.c:1259 client/gui-gtk/citydlg.c:1266
 msgid "Last active page"
 msgstr "Forrige aktive side"
 
 #: client/gui-gtk-2.0/citydlg.c:1277 client/gui-gtk/citydlg.c:1284
-#, fuzzy
 msgid "City options"
-msgstr "Bytilpassning"
+msgstr "Byalternativer"
 
 #: client/gui-gtk-2.0/citydlg.c:1286 client/gui-gtk/citydlg.c:1293
-#, fuzzy
 msgid "Auto attack vs"
-msgstr "Autoangrep"
+msgstr "Autoangrep mot"
 
 #: client/gui-gtk-2.0/citydlg.c:1323 client/gui-gtk/citydlg.c:1330
 #: client/gui-win32/citydlg.c:2161
@@ -6983,9 +6905,8 @@ msgid "New citizens are"
 msgstr "Nye borgere er"
 
 #: client/gui-gtk-2.0/citydlg.c:1343 client/gui-gtk/citydlg.c:1350
-#, fuzzy
 msgid "City name"
-msgstr "By_navn"
+msgstr "Byens navn"
 
 #: client/gui-gtk-2.0/citydlg.c:1349 client/gui-gtk-2.0/wldlg.c:222
 #: client/gui-gtk/citydlg.c:1356 client/gui-gtk/wldlg.c:222
@@ -7000,23 +6921,21 @@ msgstr "Neste gang åpen"
 
 #: client/gui-gtk-2.0/citydlg.c:1447 client/gui-gtk-2.0/citydlg.c:1455
 #: client/gui-gtk/citydlg.c:1454 client/gui-gtk/citydlg.c:1462
-#, fuzzy, c-format
+#, c-format
 msgid "City of %s"
-msgstr "By %s"
+msgstr "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:1513 client/gui-gtk/citydlg.c:1520
 msgid "Close dialog"
 msgstr "Lukk dialog"
 
 #: client/gui-gtk-2.0/citydlg.c:1520 client/gui-gtk/citydlg.c:1527
-#, fuzzy
 msgid "_Prev city"
-msgstr "For_gift byens drikkevann"
+msgstr "_Forrige by"
 
 #: client/gui-gtk-2.0/citydlg.c:1528 client/gui-gtk/citydlg.c:1535
-#, fuzzy
 msgid "_Next city"
-msgstr "Ingen by"
+msgstr "_Neste by"
 
 #: client/gui-gtk-2.0/citydlg.c:1588 client/gui-gtk/citydlg.c:1595
 #: client/gui-xaw/citydlg.c:1866
@@ -7031,15 +6950,13 @@ msgstr " - OPPRØR"
 
 #: client/gui-gtk-2.0/citydlg.c:1595 client/gui-gtk/citydlg.c:1602
 #: client/gui-mui/citydlg.c:2153
-#, fuzzy
 msgid " - celebrating"
-msgstr "Byen feirer"
+msgstr " - feirer"
 
 #: client/gui-gtk-2.0/citydlg.c:1597 client/gui-gtk/citydlg.c:1604
 #: client/gui-mui/citydlg.c:2155
-#, fuzzy
 msgid " - happy"
-msgstr "%s%d ulykkelig"
+msgstr " - lykkelige"
 
 #: client/gui-gtk-2.0/citydlg.c:1703 client/gui-gtk/citydlg.c:1710
 #: client/gui-mui/citydlg.c:1873
@@ -7047,9 +6964,8 @@ msgid "blocked"
 msgstr "blokkert"
 
 #: client/gui-gtk-2.0/citydlg.c:1904 client/gui-gtk/citydlg.c:1912
-#, fuzzy
 msgid " (worklist)"
-msgstr "(arbeidsliste)"
+msgstr " (arbeidsliste)"
 
 #: client/gui-gtk-2.0/citydlg.c:1969 client/gui-gtk/citydlg.c:1978
 #, c-format
@@ -7057,9 +6973,9 @@ msgid "Upkeep (Total: %d)"
 msgstr "Driftskostnader(Totalt: %d)"
 
 #: client/gui-gtk-2.0/citydlg.c:2114 client/gui-gtk/citydlg.c:2127
-#, fuzzy, c-format
+# c-format
 msgid "Supported units (%d)"
-msgstr "Støttede enheter"
+msgstr "Støttede enheter (%d)"
 
 #: client/gui-gtk-2.0/citydlg.c:2247 client/gui-gtk/citydlg.c:2262
 #, c-format
@@ -7074,23 +6990,20 @@ msgstr "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2277 client/gui-gtk/citydlg.c:2292
 #: client/gui-mui/citydlg.c:2129 client/gui-win32/citydlg.c:1390
-#, fuzzy, c-format
+#, c-format
 msgid "Trade with %s gives %d trade.\n"
-msgstr "%s gir deg %d gull"
+msgstr "Handel med %s gir %d handel.\n"
 
 #: client/gui-gtk-2.0/citydlg.c:2283 client/gui-gtk/citydlg.c:2298
 #: client/gui-mui/citydlg.c:2135 client/gui-win32/citydlg.c:1396
-#, fuzzy
 msgid "No trade routes exist."
-msgstr "Ingen handelsruter eksisterer.\n"
+msgstr "Ingen handelsruter eksisterer."
 
 #: client/gui-gtk-2.0/citydlg.c:2286 client/gui-gtk/citydlg.c:2301
 #: client/gui-mui/citydlg.c:2138 client/gui-win32/citydlg.c:1399
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade routes: %d"
-msgstr ""
-"\n"
-"Total handel %d Handel/År\n"
+msgstr "Total handel fra handelsruter: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2456 client/gui-gtk-2.0/citydlg.c:2486
 #: client/gui-gtk/citydlg.c:2471 client/gui-gtk/citydlg.c:2502
@@ -7343,9 +7256,9 @@ msgid "Sell It!"
 msgstr "Selg!"
 
 #: client/gui-gtk-2.0/citydlg.c:3250 client/gui-gtk/citydlg.c:3219
-#, fuzzy, c-format
+#, c-format
 msgid "Sell (worth %d gold)"
-msgstr "Selg %s for %d gull?"
+msgstr "Selg (verdt %d gull)"
 
 #: client/gui-gtk-2.0/citydlg.c:3351 client/gui-gtk/citydlg.c:3321
 #: client/gui-win32/citydlg.c:1331 data/Freeciv:524
@@ -7358,14 +7271,12 @@ msgid "What should we rename the city to?"
 msgstr "Hva skal vi omdøpe byen til?"
 
 #: client/gui-gtk-2.0/cityrep.c:521 client/gui-gtk/cityrep.c:602
-#, fuzzy
 msgid "_Change..."
-msgstr "_Endre"
+msgstr "_Endre..."
 
 #: client/gui-gtk-2.0/cityrep.c:526 client/gui-gtk/cityrep.c:607
-#, fuzzy
 msgid "_Select..."
-msgstr "_Velg"
+msgstr "_Velg..."
 
 #: client/gui-gtk-2.0/cityrep.c:530
 msgid "S_how..."
@@ -7516,29 +7427,24 @@ msgid "Improvements in City"
 msgstr "Forbedringer i by"
 
 #: client/gui-gtk-2.0/cityrep.c:1180
-#, fuzzy
 msgid "Wonders in City"
-msgstr "Hungersnød i by"
+msgstr "Underverk i byen"
 
 #: client/gui-gtk-2.0/cityrep.c:1189 client/gui-gtk/cityrep.c:878
-#, fuzzy
 msgid "Available Units"
-msgstr "Tilgjengelige arbeidslister"
+msgstr "Tilgjengelige enheter"
 
 #: client/gui-gtk-2.0/cityrep.c:1192 client/gui-gtk/cityrep.c:874
-#, fuzzy
 msgid "Available Improvements"
-msgstr "Saboter Forbedringer"
+msgstr "Tilgjengelige Forbedringer"
 
 #: client/gui-gtk-2.0/cityrep.c:1195 client/gui-gtk/cityrep.c:882
-#, fuzzy
 msgid "Available Wonders"
-msgstr "Tilgjengelige arbeidslister"
+msgstr "Tilgjengelige underverker"
 
 #: client/gui-gtk-2.0/cma_fe.c:136 client/gui-gtk/cma_fe.c:132
-#, fuzzy
 msgid "Presets"
-msgstr "President"
+msgstr "Forhåndsvalg"
 
 #: client/gui-gtk-2.0/cma_fe.c:149 client/gui-gtk/cma_fe.c:145
 #: data/helpdata.txt:717
@@ -7546,14 +7452,12 @@ msgid "Citizen Management Agent"
 msgstr "Byforvaltning"
 
 #: client/gui-gtk-2.0/cma_fe.c:180 client/gui-gtk/cma_fe.c:176
-#, fuzzy
 msgid "Add preset"
-msgstr "Enheter tilstede"
+msgstr "Legg til forhåndsvalg"
 
 #: client/gui-gtk-2.0/cma_fe.c:187 client/gui-gtk/cma_fe.c:183
-#, fuzzy
 msgid "Delete preset"
-msgstr "Slett"
+msgstr "Slett forhåndsvalg"
 
 #: client/gui-gtk-2.0/cma_fe.c:201 client/gui-gtk/cma_fe.c:197
 #: client/gui-gtk/repodlgs.c:711 client/gui-mui/citydlg.c:1599
@@ -7564,36 +7468,31 @@ msgstr "Resultat"
 
 #: client/gui-gtk-2.0/cma_fe.c:215 client/gui-gtk/cma_fe.c:211
 #: client/gui-mui/citydlg.c:1638
-#, fuzzy
 msgid "Minimal Surplus"
-msgstr "Overskudd"
+msgstr "Minste overskudd"
 
 #: client/gui-gtk-2.0/cma_fe.c:218 client/gui-gtk/cma_fe.c:214
 #: client/gui-mui/citydlg.c:1639
-#, fuzzy
 msgid "Factor"
-msgstr "Fabrikk"
+msgstr "Faktor"
 
 #: client/gui-gtk-2.0/cma_fe.c:253 client/gui-gtk/cma_fe.c:249
 #: client/gui-mui/citydlg.c:1665 client/gui-mui/citydlg.c:1666
-#, fuzzy
 msgid "Celebrate"
-msgstr "Slett"
+msgstr "Feiring"
 
 #: client/gui-gtk-2.0/cma_fe.c:289 client/gui-gtk/cma_fe.c:285
 msgid "Apply onc_e"
 msgstr "Beny_tt en gang"
 
 #: client/gui-gtk-2.0/cma_fe.c:295 client/gui-gtk/cma_fe.c:291
-#, fuzzy
 msgid "Control c_ity"
-msgstr "Kontroll"
+msgstr "For_valt by"
 
 #: client/gui-gtk-2.0/cma_fe.c:302 client/gui-gtk/cma_fe.c:298
 #: client/gui-mui/citydlg.c:1675
-#, fuzzy
 msgid "_Release city"
-msgstr "Velg en by"
+msgstr "F_rigi byen"
 
 #: client/gui-gtk-2.0/cma_fe.c:388 client/gui-gtk/cma_fe.c:384
 msgid "For information on:"
@@ -7612,18 +7511,16 @@ msgid "see README.cma."
 msgstr "se README.cma"
 
 #: client/gui-gtk-2.0/cma_fe.c:465 client/gui-gtk/cma_fe.c:461
-#, fuzzy
 msgid "new preset"
-msgstr "Enheter tilstede"
+msgstr "Nytt forhåndsvalg"
 
 #: client/gui-gtk-2.0/cma_fe.c:469 client/gui-gtk/cma_fe.c:465
 msgid "Name new preset"
 msgstr "Navngi ny innstilling"
 
 #: client/gui-gtk-2.0/cma_fe.c:470 client/gui-gtk/cma_fe.c:466
-#, fuzzy
 msgid "What should we name the preset?"
-msgstr "Hva skal vi omdøpe byen til?"
+msgstr "Hva skal vi kalle forhåndsvalget?"
 
 #: client/gui-gtk-2.0/cma_fe.c:579 client/gui-gtk/cma_fe.c:551
 msgid "Remove this preset?"
@@ -7836,9 +7733,9 @@ msgstr "Byproduksjon"
 #: client/gui-gtk-2.0/dialogs.c:951 client/gui-gtk/dialogs.c:941
 #: client/gui-mui/dialogs.c:504 client/gui-win32/dialogs.c:1563
 #: client/gui-xaw/dialogs.c:1018
-#, fuzzy, c-format
+#, c-format
 msgid "You can't incite a revolt in %s."
-msgstr "Spill: Du avslørte og fanget %s %s som forsøkte å lage opprør i %s!"
+msgstr "Du kan ikke starte opprør i %s."
 
 #: client/gui-gtk-2.0/dialogs.c:953 client/gui-gtk/dialogs.c:943
 #: client/gui-mui/dialogs.c:506 client/gui-win32/dialogs.c:1565
@@ -8348,7 +8245,7 @@ msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1056 client/gui-gtk/gui_main.c:1016
 #: client/gui-xaw/gui_main.c:686
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s People\n"
 "Year: %s Turn: %d\n"
@@ -8357,11 +8254,12 @@ msgid ""
 "Tax:%d Lux:%d Sci:%d\n"
 "Researching %s: %d/%d"
 msgstr ""
-"%s folk\n"
+"%s Innbyggere\n"
 "År: %s\n"
+"Runde: %d\n"
 "Gull: %d\n"
-"Netto inntekt: %d\n"
-"Skatt:%d Lux:%d Forsk:%d\n"
+"Nettoinntektt: %d\n"
+"Skatt:%d Luksus:%d Forskning:%d\n"
 "Forsker på %s: %d/%d"
 
 #: client/gui-gtk-2.0/happiness.c:101 client/gui-gtk/happiness.c:101
@@ -8397,9 +8295,8 @@ msgstr "Luksus: %d totalt (maksimum %d tilgjengelig)"
 
 #: client/gui-gtk-2.0/happiness.c:289 client/gui-gtk/happiness.c:289
 #: client/gui-mui/citydlg.c:2326 client/gui-win32/happiness.c:234
-#, fuzzy
 msgid "Buildings: "
-msgstr "Bygning"
+msgstr "Bygninger:"
 
 #: client/gui-gtk-2.0/happiness.c:296 client/gui-gtk-2.0/happiness.c:303
 #: client/gui-gtk-2.0/happiness.c:310 client/gui-gtk-2.0/happiness.c:331
@@ -8418,41 +8315,40 @@ msgstr "Bygning"
 #: client/gui-win32/happiness.c:340 client/gui-win32/happiness.c:347
 #: client/gui-win32/happiness.c:360 client/gui-win32/happiness.c:367
 msgid ". "
-msgstr ""
+msgstr ". "
 
 #: client/gui-gtk-2.0/happiness.c:316 client/gui-gtk-2.0/happiness.c:408
 #: client/gui-gtk/happiness.c:316 client/gui-gtk/happiness.c:408
 #: client/gui-mui/citydlg.c:2353 client/gui-mui/citydlg.c:2430
 #: client/gui-win32/happiness.c:261 client/gui-win32/happiness.c:353
-#, fuzzy
 msgid ""
 "\n"
 "              "
-msgstr "Reisetid:           N/A     "
+msgstr ""
+"\n"
+"              "
 
 #: client/gui-gtk-2.0/happiness.c:324 client/gui-gtk/happiness.c:324
 #: client/gui-mui/citydlg.c:2361 client/gui-win32/happiness.c:269
 msgid "("
-msgstr ""
+msgstr "("
 
 #: client/gui-gtk-2.0/happiness.c:328 client/gui-gtk/happiness.c:328
 #: client/gui-mui/citydlg.c:2365 client/gui-win32/happiness.c:273
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: client/gui-gtk-2.0/happiness.c:336 client/gui-gtk-2.0/happiness.c:427
 #: client/gui-gtk/happiness.c:336 client/gui-gtk/happiness.c:427
 #: client/gui-mui/citydlg.c:2373 client/gui-mui/citydlg.c:2449
 #: client/gui-win32/happiness.c:281 client/gui-win32/happiness.c:372
-#, fuzzy
 msgid "None. "
-msgstr "Ingen"
+msgstr "Ingen. "
 
 #: client/gui-gtk-2.0/happiness.c:354 client/gui-gtk/happiness.c:354
 #: client/gui-mui/citydlg.c:2383 client/gui-win32/happiness.c:299
-#, fuzzy
 msgid "Units: "
-msgstr "Enheter"
+msgstr "Enheter: "
 
 #: client/gui-gtk-2.0/happiness.c:358 client/gui-gtk/happiness.c:358
 #: client/gui-mui/citydlg.c:2387 client/gui-win32/happiness.c:303
@@ -8485,9 +8381,8 @@ msgstr "Millitære enheter i felten kan føre til ulykkelighet. "
 
 #: client/gui-gtk-2.0/happiness.c:388 client/gui-gtk/happiness.c:388
 #: client/gui-mui/citydlg.c:2410 client/gui-win32/happiness.c:333
-#, fuzzy
 msgid "Wonders: "
-msgstr "Underverk"
+msgstr "Underverk: "
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-gtk/helpdlg.c:85
@@ -8850,9 +8745,8 @@ msgstr "Infrastruktur: "
 
 #: client/gui-gtk-2.0/mapctrl.c:132 client/gui-gtk/mapctrl.c:130
 #: client/gui-win32/mapctrl.c:162
-#, fuzzy
 msgid "Activity: "
-msgstr "Aktiver"
+msgstr "Aktivitet: "
 
 #: client/gui-gtk-2.0/mapctrl.c:149 client/gui-gtk/mapctrl.c:147
 #: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:177
@@ -9272,9 +9166,8 @@ msgid "_Go to"
 msgstr "_Gå til"
 
 #: client/gui-gtk-2.0/menu.c:687
-#, fuzzy
 msgid "Go\\/Airlift to City"
-msgstr "Gå/Fly til by"
+msgstr "Gå\\/Fly til by"
 
 #: client/gui-gtk-2.0/menu.c:691 client/gui-gtk/menu.c:690
 #: client/gui-mui/gui_main.c:298 client/gui-win32/menu.c:344
@@ -9283,9 +9176,8 @@ msgid "Disband Unit"
 msgstr "Oppløs enhet"
 
 #: client/gui-gtk-2.0/menu.c:693
-#, fuzzy
 msgid "Diplomat\\/Spy Actions"
-msgstr "Diplomat/Spion - Handlinger"
+msgstr "Diplomat\\/Spion - Handlinger"
 
 #: client/gui-gtk-2.0/menu.c:695 client/gui-gtk/menu.c:694
 #: client/gui-mui/gui_main.c:302 client/gui-mui/mapclass.c:1809
@@ -9421,7 +9313,6 @@ msgid "C_hatline"
 msgstr "Snakkekanal"
 
 #: client/gui-gtk-2.0/menu.c:743 client/gui-gtk/menu.c:742
-#, fuzzy
 msgid "_Worklist Editor"
 msgstr "_Arbeidsliste"
 
@@ -9482,7 +9373,7 @@ msgstr "_Romkappløp"
 #: client/gui-gtk-2.0/menu.c:773 client/gui-gtk/menu.c:772
 #: client/gui-win32/menu.c:383
 msgid "_Copying"
-msgstr "Kopierer"
+msgstr "_Kopiering"
 
 #: client/gui-gtk-2.0/menu.c:775 client/gui-gtk/menu.c:774
 #: client/gui-win32/menu.c:384
@@ -9543,34 +9434,29 @@ msgid "Message Options"
 msgstr "Beskjed innstillinger"
 
 #: client/gui-gtk-2.0/messagedlg.c:72
-#, fuzzy
 msgid ""
 "<span foreground=\"blue\"><i>Where to display messages?\n"
 "<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual "
 "window</i></span>"
 msgstr ""
-"Hvor skal beskjeder vises\n"
-"Txt = Tekstvindu, Bsk = Beskjed vindu, Eget = Eget vindu"
+"<span foreground=\"blue\"><i>Hvor skal meldingene vises?\n"
+"<b>T</b>ekst vindu; <b>B</b>eskjed vindu ; <b>E</b>get vindu</i></span>"
 
 #: client/gui-gtk-2.0/messagedlg.c:119
-#, fuzzy
 msgid "Event"
-msgstr "felt"
+msgstr "Hendelse"
 
 #: client/gui-gtk-2.0/messagedlg.c:126 client/gui-gtk/messagedlg.c:96
-#, fuzzy
 msgid "Out"
-msgstr "Txt:"
+msgstr "T"
 
 #: client/gui-gtk-2.0/messagedlg.c:133 client/gui-gtk/messagedlg.c:98
-#, fuzzy
 msgid "Mes"
-msgstr "Bsk:"
+msgstr "B"
 
 #: client/gui-gtk-2.0/messagedlg.c:140 client/gui-gtk/messagedlg.c:100
-#, fuzzy
 msgid "Pop"
-msgstr "Eget:"
+msgstr "E"
 
 #: client/gui-gtk-2.0/messagewin.c:154 client/gui-gtk-2.0/messagewin.c:163
 #: client/gui-gtk/messagewin.c:125 client/gui-gtk/messagewin.c:137
@@ -9596,9 +9482,8 @@ msgid "Game: "
 msgstr "Spill: "
 
 #: client/gui-gtk-2.0/plrdlg.c:142 client/gui-gtk/plrdlg.c:142
-#, fuzzy
 msgid "Flag"
-msgstr "Fly"
+msgstr "Flagg"
 
 #: client/gui-gtk-2.0/plrdlg.c:142 client/gui-gtk/plrdlg.c:142
 #: client/gui-mui/plrdlg.c:181 client/gui-win32/plrdlg.c:371
@@ -9608,7 +9493,7 @@ msgstr "Nasjon"
 #: client/gui-gtk-2.0/plrdlg.c:142 client/gui-gtk/plrdlg.c:142
 #: client/gui-win32/plrdlg.c:371
 msgid "Ai"
-msgstr ""
+msgstr "Ai"
 
 #: client/gui-gtk-2.0/plrdlg.c:143 client/gui-gtk/plrdlg.c:143
 #: client/gui-mui/plrdlg.c:182 client/gui-win32/plrdlg.c:372
@@ -9771,14 +9656,13 @@ msgid "No %s could be sold"
 msgstr "Ingen %s kunne selges"
 
 #: client/gui-gtk-2.0/repodlgs.c:744
-#, fuzzy
 msgid "Sell-Off: Results"
-msgstr "Salg:"
+msgstr "Salg: Resultater"
 
 #: client/gui-gtk-2.0/repodlgs.c:781
-#, fuzzy, c-format
+#, c-format
 msgid "Income: %d    Total Costs: %d"
-msgstr "Inntekt: %6d   Total Kostnad: %6d"
+msgstr "Inntekt: %d   Total Kostnad: %d"
 
 #: client/gui-gtk-2.0/repodlgs.c:845 client/gui-gtk/repodlgs.c:798
 #: client/gui-mui/repodlgs.c:731 client/gui-win32/repodlgs.c:709
@@ -9866,9 +9750,8 @@ msgstr "Ned"
 
 #: client/gui-gtk-2.0/wldlg.c:411 client/gui-gtk/wldlg.c:411
 #: client/gui-win32/wldlg.c:708
-#, fuzzy
 msgid "Available items"
-msgstr "Tilgjengelige mål"
+msgstr "Tilgjengelige objekter"
 
 #: client/gui-gtk-2.0/wldlg.c:463 client/gui-gtk/wldlg.c:463
 #: client/gui-mui/worklistclass.c:648 client/gui-mui/worklistclass.c:649
@@ -9878,9 +9761,8 @@ msgstr "Vis framtidige mål"
 
 #: client/gui-gtk-2.0/wldlg.c:473 client/gui-gtk/wldlg.c:473
 #: client/gui-win32/wldlg.c:722
-#, fuzzy
 msgid "Undo"
-msgstr "."
+msgstr "Angre"
 
 #: client/gui-gtk-2.0/wldlg.c:599 client/gui-gtk/wldlg.c:599
 #: client/gui-win32/wldlg.c:240
@@ -9917,9 +9799,8 @@ msgid "No Wonders Available"
 msgstr "Ingen underverk tilgjengelig"
 
 #: client/gui-gtk/cityrep.c:524
-#, fuzzy
 msgid "Change All..."
-msgstr "Endre alle"
+msgstr "Endre alle..."
 
 #: client/gui-gtk/cityrep.c:587 client/gui-mui/cityrep.c:389
 msgid "Cen_ter"
@@ -9930,24 +9811,20 @@ msgid "_Popup"
 msgstr "Vis _By"
 
 #: client/gui-gtk/cityrep.c:612
-#, fuzzy
 msgid "Con_figure..."
-msgstr "_Tilpass"
+msgstr "_Tilpass..."
 
 #: client/gui-gtk/cityrep.c:843
-#, fuzzy
 msgid "Building Improvements"
-msgstr "Byforbedringer"
+msgstr "Bygger byforbedringer"
 
 #: client/gui-gtk/cityrep.c:849
-#, fuzzy
 msgid "Building Units"
-msgstr "Bygg by"
+msgstr "Bygger enheter"
 
 #: client/gui-gtk/cityrep.c:855
-#, fuzzy
 msgid "Building Wonders"
-msgstr "Hjelp bygging av underverk"
+msgstr "Bygger underverk"
 
 #: client/gui-gtk/cityrep.c:915 client/gui-win32/cityrep.c:706
 msgid "Game: Select a unit or improvement to change production to."
@@ -10001,14 +9878,14 @@ msgid "_Diplomat/Spy Actions"
 msgstr "_Diplomat/Spion - Handlinger"
 
 #: client/gui-gtk/messagedlg.c:81
-#, fuzzy
 msgid ""
 "Where to Display Messages\n"
 "Out = Output window, Mes = Messages window,\n"
 "Pop = Popup individual window"
 msgstr ""
 "Hvor skal beskjeder vises\n"
-"Txt = Tekstvindu, Bsk = Beskjed vindu, Eget = Eget vindu"
+"T = Tekstvindu, B = Beskjed vindu,\n"
+"E = Eget vindu"
 
 #: client/gui-gtk/messagewin.c:151 client/gui-mui/citydlg.c:1686
 #: client/gui-mui/cityrep.c:388 client/gui-mui/dialogs.c:136
@@ -10096,18 +9973,16 @@ msgid "Chan_ge"
 msgstr "Endre"
 
 #: client/gui-mui/citydlg.c:1393
-#, fuzzy
 msgid "Shields"
-msgstr "Skjold:"
+msgstr "Skjold"
 
 #: client/gui-mui/citydlg.c:1398 client/gui-mui/citydlg.c:1609
 msgid "Gold:"
 msgstr "Gull:"
 
 #: client/gui-mui/citydlg.c:1436 client/gui-win32/citydlg.c:776
-#, fuzzy
 msgid "City Overview"
-msgstr "Militærtjeneste"
+msgstr "Byoversikt"
 
 #: client/gui-mui/citydlg.c:1441 client/gui-win32/citydlg.c:778
 #: data/Freeciv:2166
@@ -10115,9 +9990,8 @@ msgid "Trade Routes"
 msgstr "Handelsruter"
 
 #: client/gui-mui/citydlg.c:1442 client/gui-win32/citydlg.c:779
-#, fuzzy
 msgid "Misc. Settings"
-msgstr "Lagre innstillinger"
+msgstr "Diverse Innstillinger"
 
 #: client/gui-mui/citydlg.c:1463
 msgid "Freeciv - Cityview"
@@ -10144,28 +10018,24 @@ msgid "_Add preset"
 msgstr "_Legg til innstilling"
 
 #: client/gui-mui/citydlg.c:1595
-#, fuzzy
 msgid "_Delete preset"
-msgstr "Slett"
+msgstr "_Slett forhåndsvalg"
 
 #: client/gui-mui/citydlg.c:1612
-#, fuzzy
 msgid "Production:"
-msgstr "Produksjon"
+msgstr "Produksjon:"
 
 #: client/gui-mui/citydlg.c:1626
 msgid "People (W/E/S/T):"
 msgstr "Folk (A/U/F/S):"
 
 #: client/gui-mui/citydlg.c:1629
-#, fuzzy
 msgid "City grows:"
-msgstr "Byvekst"
+msgstr "Byvekst:"
 
 #: client/gui-mui/citydlg.c:1632
-#, fuzzy
 msgid "Production completed:"
-msgstr "Arbeidsliste for produksjon"
+msgstr "Produksjon fullført:"
 
 #: client/gui-mui/citydlg.c:1674
 msgid "C_hange permanent"
@@ -10218,14 +10088,14 @@ msgid "%s (%s) (worklist)"
 msgstr "%s (%s) (arbeidsliste)"
 
 #: client/gui-mui/citydlg.c:2161
-#, fuzzy, c-format
+#, c-format
 msgid "%s citizens%s"
-msgstr "%s borgere"
+msgstr "%s borgere%s"
 
 #: client/gui-mui/citydlg.c:2165
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens%s"
-msgstr "%s - %s borgere"
+msgstr "%s - %s borgere%s"
 
 #: client/gui-mui/cityrep.c:292 client/gui-win32/cityrep.c:101
 msgid "Configure City Report"
@@ -11062,67 +10932,58 @@ msgid "Available To Build"
 msgstr "Tilgjengelig for bygging"
 
 #: client/gui-win32/cityrep.c:697
-#, fuzzy
 msgid "Game: Select a unit or improvement to change production from."
-msgstr "Spill: Velg en enhet eller forbedring å endre produksjon i."
+msgstr "Spill: Velg en enhet eller forbedring å endre produksjon fra."
 
 #: client/gui-win32/cityrep.c:712
-#, fuzzy
 msgid "Game: That's the same thing!"
-msgstr "Spill: %s avbrøt møtet!"
+msgstr "Spill: Det er den samme tingen!"
 
 #: client/gui-win32/cityrep.c:892 data/Freeciv:1593
 msgid "Change All"
 msgstr "Endre alle"
 
 #: client/gui-win32/cityrep.c:894
-#, fuzzy
 msgid "Select"
-msgstr "_Velg"
+msgstr "Velg"
 
 #: client/gui-win32/cityrep.c:895 data/Freeciv:1609
 msgid "Configure"
 msgstr "Innstillinger"
 
 #: client/gui-win32/connectdlg.c:80
-#, fuzzy
 msgid "Start Game"
-msgstr "Starter spill."
+msgstr "Start spill."
 
 #: client/gui-win32/connectdlg.c:82
-#, fuzzy
 msgid "Save Game"
-msgstr "Servernavn"
+msgstr "Lagre Spill"
 
 #: client/gui-win32/connectdlg.c:84
-#, fuzzy
 msgid "End Game"
-msgstr "Spill"
+msgstr "Avslutt"
 
 #: client/gui-win32/connectdlg.c:86
 msgid "Get Score"
 msgstr "Få Poengsum"
 
 #: client/gui-win32/connectdlg.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Port: %d"
-msgstr "Port:"
+msgstr "Port: %d"
 
 #: client/gui-win32/connectdlg.c:723 client/gui-win32/connectdlg.c:727
 #: client/gui-win32/connectdlg.c:731
-#, fuzzy
 msgid "Cannot create pipe"
-msgstr "Klarer ikke skrive til fil %s"
+msgstr "Kan ikke lage rørledning"
 
 #: client/gui-win32/connectdlg.c:736
-#, fuzzy
 msgid "Game Control"
-msgstr "Kontroll"
+msgstr "Spill Kontroll"
 
 #: client/gui-win32/connectdlg.c:914
-#, fuzzy
 msgid "Select connection"
-msgstr "Velg ny produksjon"
+msgstr "Velg tilkobling"
 
 #: client/gui-win32/connectdlg.c:919
 msgid "Choose player to be"
@@ -11133,9 +10994,8 @@ msgid "Start game automatically?"
 msgstr "Start spillet automatisk?"
 
 #: client/gui-win32/connectdlg.c:1132
-#, fuzzy
 msgid "Start New Game"
-msgstr "Starter spill."
+msgstr "Start Nytt Spill"
 
 #: client/gui-win32/connectdlg.c:1138
 msgid "Your name:"
@@ -11146,32 +11006,28 @@ msgid "Difficulty:"
 msgstr "Vanskelighetsgrad:"
 
 #: client/gui-win32/connectdlg.c:1143
-#, fuzzy
 msgid "easy"
-msgstr "Seler"
+msgstr "lett"
 
 #: client/gui-win32/connectdlg.c:1144
 msgid "medium"
 msgstr "middels"
 
 #: client/gui-win32/connectdlg.c:1145
-#, fuzzy
 msgid "hard"
-msgstr "."
+msgstr "vanskelig"
 
 #: client/gui-win32/connectdlg.c:1148
-#, fuzzy
 msgid "Total players (fill with AIs)"
-msgstr "Antall spillere som skal være AIer"
+msgstr "Antall spillere (fyller opp med datastyrte spillere)"
 
 #: client/gui-win32/connectdlg.c:1167 client/gui-win32/inputdlg.c:128
 msgid "OK"
 msgstr "OK"
 
 #: client/gui-win32/connectdlg.c:1203
-#, fuzzy
 msgid "Start a game"
-msgstr "Starter spill."
+msgstr "Start et spill"
 
 #: client/gui-win32/connectdlg.c:1204
 msgid "What do you wish to to?"
@@ -11198,17 +11054,14 @@ msgid "Quit Game"
 msgstr "Avslutt"
 
 #: client/gui-win32/dialogs.c:464
-#, fuzzy
 msgid "What nation will you be?"
 msgstr "Hvilken nasjon vil du være?"
 
 #: client/gui-win32/dialogs.c:478
-#, fuzzy
 msgid "Your leader name"
-msgstr "_Leders navn"
+msgstr "Din leders navn"
 
 #: client/gui-win32/diplodlg.c:148
-#, fuzzy
 msgid "Wold-map"
 msgstr "Verdenskart"
 
@@ -11221,9 +11074,8 @@ msgid "Tax Rates"
 msgstr "Skattenivå"
 
 #: client/gui-win32/menu.c:323
-#, fuzzy
 msgid "Transf_orm to Hills"
-msgstr "Endre til %s"
+msgstr "Endre til åser"
 
 #: client/gui-win32/menu.c:895 client/gui-xaw/menu.c:161
 #, c-format
@@ -11243,20 +11095,20 @@ msgid "Meet"
 msgstr "Møt"
 
 #: client/gui-win32/plrdlg.c:388
-#, fuzzy
 msgid "Cancel Treaty"
-msgstr "_Avbryt avtale"
+msgstr "Avbryt avtale"
 
 #: client/gui-win32/plrdlg.c:389 data/Freeciv:3153
 msgid "Withdraw vision"
 msgstr "Fjern utsyn"
 
 #: client/gui-win32/repodlgs.c:120 client/gui-xaw/repodlgs.c:501
-#, fuzzy
 msgid ""
 "\n"
 "(no research)"
-msgstr "Forsker på"
+msgstr ""
+"\n"
+"(ingen forskning)"
 
 #: client/gui-win32/repodlgs.c:123 client/gui-xaw/repodlgs.c:504
 #, c-format
@@ -11279,19 +11131,16 @@ msgid "(%d steps)"
 msgstr "(%d steg)"
 
 #: client/gui-win32/repodlgs.c:276
-#, fuzzy
 msgid "Science Report"
-msgstr "Forskningsrapport..."
+msgstr "Forskningsrapport"
 
 #: client/gui-win32/repodlgs.c:682
-#, fuzzy
 msgid "Totals"
-msgstr "K Sum"
+msgstr "Totalt"
 
 #: client/gui-win32/wldlg.c:704
-#, fuzzy
 msgid "Remove"
-msgstr "Fjernet"
+msgstr "Fjern"
 
 #: client/gui-xaw/citydlg.c:194
 #, c-format, ycp-format
@@ -11626,16 +11475,16 @@ msgid "Where to Display Messages"
 msgstr "Hvor beskjeder skal vises"
 
 #: data/Freeciv:1261
-#, fuzzy
 msgid ""
 "Out = Output window, Mes = Messages window,\n"
 "Pop = Popup individual window"
-msgstr "Txt = Tekstvindu, Bsk = Beskjedvindu, Eget = Eget vindu"
+msgstr ""
+"Txt = Tekstvindu, Bsk = Beskjedvindu, \n"
+"Eget = Eget vindu"
 
 #: data/Freeciv:1272
-#, fuzzy
 msgid " Out Mes Pop"
-msgstr "Txt: Bsk: Eget:"
+msgstr "Txt Bsk Eget"
 
 #: data/Freeciv:1283
 msgid "Rates"
@@ -11886,11 +11735,13 @@ msgid ""
 "  freeciv-dev@freeciv.org"
 msgstr ""
 "Dette er den norske oversettelsen av Freeciv.\n"
-"Det hadde vært fint om du kunne rapportere feil ved oversettelsen til: \n"
+"Det hadde vært fint om du kunne rapportere feil\n"
+"ved oversettelsen til: \n"
 "Andreas Røsdal.<andrearo@stud.ntnu.no>\n"
 "\n"
-"For mer informasjon om oversettelser av Freeciv, gå til http://www.freeciv.org/l10n.phtml\n"
-"Du kan også sende inn spørsmål til utviklerne av freeciv slik\n"
+"For mer informasjon om oversettelser av Freeciv,\n"
+"gå til http://www.freeciv.org/l10n.phtml\n"
+"Du kan også sende inn spørsmål til utviklerne av freeciv til\n"
 "freeciv-dev mailing listen:   freeciv-dev@freeciv.org"
 
 #: data/helpdata.txt:401
@@ -12092,9 +11943,8 @@ msgstr ""
 "det."
 
 #: data/helpdata.txt:509
-#, fuzzy
 msgid "Worklist Editor"
-msgstr "Arbeidsliste hendelser"
+msgstr "Arbeidsliste"
 
 #: data/helpdata.txt:510
 msgid ""
@@ -14969,12 +14819,11 @@ msgid "Philosophy"
 msgstr "Filosofi"
 
 #: data/default/techs.ruleset:409
-#, fuzzy
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
-"Spill: Kloke filosofer fra hele verden flytter til din sivilisasjon; du får "
+"Kloke filosofer fra hele verden flytter til din sivilisasjon; du får "
 "et umiddelbart gjennombrudd."
 
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
