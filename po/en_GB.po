@@ -69,7 +69,7 @@ msgstr ""
 #: common/map.c:541 common/unit.c:1078 data/civ1/techs.ruleset:438
 #: data/civ2/techs.ruleset:438 data/default/techs.ruleset:438
 msgid "Railroad"
-msgstr ""
+msgstr "Railway"
 
 #: common/map.c:543 common/unit.c:1082
 msgid "Irrigation"
@@ -375,7 +375,7 @@ msgstr ""
 #: server/cityturn.c:1333
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
-msgstr ""
+msgstr "Game: We Love The %s Day cancelled in %s."
 
 #: server/cityturn.c:1363
 #, c-format
@@ -783,7 +783,7 @@ msgstr ""
 #: server/diplhand.c:126 server/diplhand.c:129
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr ""
+msgstr "Game: The %s don't have the promised amount of gold! Treaty cancelled!"
 
 #: server/diplhand.c:146
 #, c-format
@@ -823,7 +823,7 @@ msgstr ""
 #: server/diplhand.c:311
 #, c-format
 msgid "Game: %s canceled the meeting!"
-msgstr ""
+msgstr "Game: %s cancelled the meeting!"
 
 #: server/gamelog.c:62
 #, c-format
@@ -846,6 +846,9 @@ msgid ""
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
+"Game: New hope sweeps like fire through the country as the invention of "
+"railways is announced.\n"
+"      Workers spontaneously gather and upgrade all cities with railways."
 
 #: server/maphand.c:288
 msgid ""
@@ -853,6 +856,9 @@ msgid ""
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
+"Game: The people are pleased to hear that your scientists finally know about "
+"railways.\n"
+"      Workers spontaneously gather and upgrade all cities with railways."
 
 #: server/maphand.c:439
 #, c-format
@@ -947,7 +953,7 @@ msgstr ""
 
 #: server/plrhand.c:182 server/plrhand.c:206
 msgid "Traveler's Report:"
-msgstr ""
+msgstr "Traveller's Report:"
 
 #: server/plrhand.c:183
 msgid "The Five Greatest Cities in the World!"
