@@ -2,5 +2,8 @@
 
 
 EXTRA_DIST = \
-	README.txt \
+	config.h_vms \
+	freeciv_h.vms \
+	imlib_config.h_vms \
+	readme.vms \
 	vms_build.com

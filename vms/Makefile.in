@@ -104,7 +104,7 @@ USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
 
-EXTRA_DIST =  	README.txt 	vms_build.com
+EXTRA_DIST =  	config.h_vms 	freeciv_h.vms 	imlib_config.h_vms 	readme.vms 	vms_build.com
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
