@@ -50,6 +50,7 @@
 #include "aidata.h"
 #include "aiferry.h"
 #include "ailog.h"
+#include "aitech.h"
 #include "aiunit.h"
 
 #include "aitools.h"
@@ -681,6 +682,20 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
     best->want = cur->want;
     best->type = cur->type;
     best->need_boat = cur->need_boat;
+  }
+}
+
+/**************************************************************************
+  Calls ai_wants_role_unit to choose the best unit with the given role and 
+  set tech wants.  Sets choice->choice if we can build something.
+**************************************************************************/
+void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
+			 struct ai_choice *choice, int role, int want)
+{
+  Unit_Type_id iunit = ai_wants_role_unit(pplayer, pcity, role, want);
+
+  if (iunit != U_LAST) {
+    choice->choice = iunit;
   }
 }
 

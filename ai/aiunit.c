@@ -2217,44 +2217,6 @@ void ai_manage_units(struct player *pplayer)
 }
 
 /**************************************************************************
- Assign tech wants for techs to get better units with given role/flag.
- Returns the best we can build so far, or U_LAST if none.  (dwp)
-**************************************************************************/
-Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
-                                int role, int want)
-{
-  Unit_Type_id iunit;
-  Tech_Type_id itech;
-  int i, n;
-
-  n = num_role_units(role);
-  for (i=n-1; i>=0; i--) {
-    iunit = get_role_unit(role, i);
-    if (can_build_unit(pcity, iunit)) {
-      return iunit;
-    } else {
-      /* careful; might be unable to build for non-tech reason... */
-      itech = get_unit_type(iunit)->tech_requirement;
-      if (get_invention(pplayer, itech) != TECH_KNOWN) {
-	pplayer->ai.tech_want[itech] += want;
-      }
-    }
-  }
-  return U_LAST;
-}
-
-/**************************************************************************
- As ai_wants_role_unit, but also set choice->choice if we can build something.
-**************************************************************************/
-void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
-			 struct ai_choice *choice, int role, int want)
-{
-  Unit_Type_id iunit = ai_wants_role_unit(pplayer, pcity, role, want);
-  if (iunit != U_LAST)
-    choice->choice = iunit;
-}
-
-/**************************************************************************
  Whether unit_type test is on the "upgrade path" of unit_type base,
  even if we can't upgrade now.
 **************************************************************************/

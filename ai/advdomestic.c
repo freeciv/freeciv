@@ -34,10 +34,12 @@
 #include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
+#include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
 
 #include "advdomestic.h"
+
 
 /***************************************************************************
  * Evaluate the need for units (like caravans) that aid wonder construction.

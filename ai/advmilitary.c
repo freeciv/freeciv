@@ -37,6 +37,7 @@
 #include "aihand.h"
 #include "aihunt.h"
 #include "ailog.h"
+#include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
 
@@ -663,7 +664,6 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
                                   unsigned int danger, struct ai_choice *choice)
 {
   bool walls = city_got_citywalls(pcity);
-  bool shore = is_ocean_near_tile(pcity->tile);
   /* Technologies we would like to have. */
   int tech_desire[U_LAST];
   /* Our favourite unit. */
@@ -674,13 +674,15 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   
   simple_ai_unit_type_iterate (unit_type) {
       int move_type = unit_types[unit_type].move_type;
-    
-      /* How many technologies away it is? */
-      int tech_dist = num_unknown_techs_for_goal(pplayer,
-                        unit_types[unit_type].tech_requirement);
+      int desire; /* How much we want the unit? */
 
-      /* How much we want the unit? */
-      int desire = ai_unit_defence_desirability(unit_type);
+      /* Only consider proper defenders - otherwise waste CPU and
+       * bump tech want needlessly. */
+      if (!unit_has_role(unit_type, L_DEFEND_GOOD)) {
+        continue;
+      }
+
+      desire = ai_unit_defence_desirability(unit_type);
 
       if (unit_type_flag(unit_type, F_FIELDUNIT)) {
         /* Causes unhappiness even when in defense, so not a good
@@ -707,9 +709,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
           best = desire;
           best_unit_type = unit_type;
         }
-        
-      } else if (tech_dist > 0 && (shore || move_type == LAND_MOVING)
-                 && unit_types[unit_type].tech_requirement != A_LAST) {
+      } else if (can_eventually_build_unit(pcity, unit_type)) {
         /* We first need to develop the tech required by the unit... */
 
         /* Cost (shield equivalent) of gaining these techs. */

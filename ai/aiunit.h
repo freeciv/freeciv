@@ -77,10 +77,6 @@ int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 
 bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base);
 
-Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
-                                int role, int want);
-void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
-                         struct ai_choice *choice, int role, int want);
 void update_simple_ai_types(void);
 
 #define simple_ai_unit_type_iterate(m_i)                                      \

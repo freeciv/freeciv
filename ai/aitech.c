@@ -197,3 +197,68 @@ void ai_manage_tech(struct player *pplayer)
     choose_tech_goal(pplayer, goal.choice);
   }
 }
+
+/**************************************************************************
+  Returns the best unit we can build, or U_LAST if none.  "Best" here
+  means last in the unit list as defined in the ruleset.  Assigns tech 
+  wants for techs to get better units with given role, but only for the
+  cheapest to research "next" unit up the "chain".
+**************************************************************************/
+Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
+                                int role, int want)
+{
+  int i, n;
+  Tech_Type_id best_tech = A_NONE;
+  int best_cost = FC_INFINITY;
+  Unit_Type_id best_unit = U_LAST;
+  Unit_Type_id build_unit = U_LAST;
+
+  n = num_role_units(role);
+  for (i = n - 1; i >= 0; i--) {
+    Unit_Type_id iunit = get_role_unit(role, i);
+    Tech_Type_id itech = get_unit_type(iunit)->tech_requirement;
+    Impr_Type_id iimpr = get_unit_type(iunit)->impr_requirement;
+    Tech_Type_id iimprtech = get_improvement_type(iimpr)->tech_req;
+
+    if (can_build_unit(pcity, iunit)) {
+      build_unit = iunit;
+      break;
+    } else if (can_eventually_build_unit(pcity, iunit)) {
+      int cost = 0;
+
+      if (itech != A_LAST && get_invention(pplayer, itech) != TECH_KNOWN) {
+        /* See if we want to invent this. */
+        cost = total_bulbs_required_for_goal(pplayer, itech);
+      }
+      if (iimpr != B_LAST 
+          && get_invention(pplayer, iimprtech) != TECH_KNOWN) {
+        int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
+
+        if (imprcost < cost || cost == 0) {
+          /* If we already have the primary tech (cost==0), or the building's
+           * tech is cheaper, go for the building's required tech. */
+          itech = iimprtech; /* get this first */
+        }
+        cost += imprcost;
+      }
+
+      if (cost < best_cost) {
+        best_tech = itech;
+        best_cost = cost;
+        best_unit = iunit;
+      }
+    }
+  }
+
+  if (best_tech != A_NONE) {
+    /* Crank up chosen tech want */
+    if (build_unit != U_LAST) {
+      /* We already have a role unit of this kind */
+      want /= 2;
+    }
+    pplayer->ai.tech_want[best_tech] += want;
+    TECH_LOG(LOG_DEBUG, pplayer, best_tech, "+ %d for %s by role",
+             want, unit_name(best_unit));
+  }
+  return build_unit;
+}
