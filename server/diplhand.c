@@ -193,6 +193,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 	  
 	  city_check_workers(pdest ,pnewcity);
+	  update_map_with_city_workers(pnewcity);
 	  city_refresh(pnewcity);
 	  initialize_infrastructure_cache(pnewcity);
 	  send_city_info(0, pnewcity, 0);

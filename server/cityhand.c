@@ -668,3 +668,17 @@ void remove_city(struct city *pcity)
   game_remove_city(pcity);
   reset_move_costs(x, y);
 }
+
+
+/**************************************************************************
+...
+**************************************************************************/
+
+void update_map_with_city_workers(struct city *pcity)
+{
+  int x, y;
+    city_map_iterate(x,y) {
+	if (pcity->city_map[x][y] == C_TILE_WORKER)
+	       set_worker_city(pcity, x, y, C_TILE_WORKER);
+       }
+}

@@ -44,6 +44,7 @@ void handle_city_rename(struct player *pplayer,
 int establish_trade_route(struct city *pc1, struct city *pc2);
 void remove_trade_route(int c1, int c2); 
 void send_player_cities(struct player *pplayer);
+void update_map_with_city_workers(struct city *pcity);
 
 #endif
 
