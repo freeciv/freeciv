@@ -1043,7 +1043,7 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 
 /*************************************************************************
   Calculate amount of gold remaining in city after paying for buildings 
-  and units.
+  and units.  Does not count capitalization.
 *************************************************************************/
 int city_gold_surplus(const struct city *pcity, int tax_total)
 {
