@@ -225,7 +225,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
     if (tech_found == governments[i].required_tech) {
       notify_player_ex(plr,-1,-1, E_NEW_GOVERNMENT,
 		       _("Game: Discovery of %s makes the government form %s"
-			 "available. You may want to start a revolution."),
+			 " available. You may want to start a revolution."),
 		       advances[tech_found].name, get_government_name(i));
     }
   }
