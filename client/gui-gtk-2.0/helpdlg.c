@@ -800,8 +800,15 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
 
-    create_overlay_unit(unit_tile
-    , i);
+    gtk_pixcomm_freeze(GTK_PIXCOMM(unit_tile));
+    {
+      struct canvas store;
+
+      store.type = CANVAS_PIXCOMM;
+      store.v.pixcomm = GTK_PIXCOMM(unit_tile);
+      create_overlay_unit(&store, i);
+    }
+    gtk_pixcomm_thaw(GTK_PIXCOMM(unit_tile));
     gtk_widget_show(unit_tile);
   }
   else {

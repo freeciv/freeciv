@@ -16,6 +16,7 @@
 #include <gtk/gtk.h>
 
 #include "graphics_g.h"
+#include "mapview_common.h"
 
 struct Sprite
 {
@@ -30,7 +31,7 @@ struct Sprite
 
 typedef struct Sprite SPRITE;
 
-void	create_overlay_unit	(GtkWidget *pixcomm, int i);
+void create_overlay_unit(struct canvas *pcanvas, int i);
 
 extern SPRITE *    intro_gfx_sprite;
 extern SPRITE *    radar_gfx_sprite;

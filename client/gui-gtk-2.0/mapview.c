@@ -794,7 +794,8 @@ void canvas_put_rectangle(struct canvas *pcanvas,
       break;
     case CANVAS_PIXBUF:
       gdk_pixbuf_fill(pcanvas->v.pixbuf,
-	  col->red >> 24 | col->green >> 16 | col->blue >> 8 | 0xFF);
+	  ((guint32)(col->red & 0xff00) << 16)
+	  | ((col->green & 0xff00) << 8) | (col->blue & 0xff00) | 0xff);
       break;
     default:
       break;

@@ -37,6 +37,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "options.h"
+#include "tilespec.h"
 
 #include "wldlg.h"
 #include "citydlg.h"
@@ -777,27 +778,107 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 			     GtkTreeModel *model, GtkTreeIter *it,
 			     gpointer data)
 {
-  struct city **pcity;
-  gint column;
-  char *row[4];
-  char  buf[4][64];
-  gint  cid;
-  int   i;
-  bool  is_unit;
-
-  pcity = (struct city **) data;
-  column = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(rend), "column"));
-
-  for (i = 0; i < ARRAY_SIZE(row); i++) {
-    row[i] = buf[i];
-  }
+  gint cid, id;
+  bool is_unit;
 
   gtk_tree_model_get(model, it, 0, &cid, -1);
   is_unit = cid_is_unit(cid);
+  id = cid_id(cid);
 
-  get_city_dialog_production_row(row, sizeof(buf[0]), cid_id(cid),
-				 is_unit, *pcity);
-  g_object_set(rend, "text", row[column], NULL);
+  if (GTK_IS_CELL_RENDERER_PIXBUF(rend)) {
+    GdkPixbuf *pix;
+
+    if (is_unit) {
+      struct canvas store;
+
+      pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+	  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+
+      store.type = CANVAS_PIXBUF;
+      store.v.pixbuf = pix;
+      create_overlay_unit(&store, id);
+
+      g_object_set(rend, "pixbuf", pix, NULL);
+      g_object_unref(pix);
+    } else {
+      struct impr_type *impr = get_improvement_type(id);
+
+      pix = sprite_get_pixbuf(impr->sprite);
+      g_object_set(rend, "pixbuf", pix, NULL);
+    }
+  } else {
+    struct city **pcity;
+    struct player *plr;
+    gint column;
+    char *row[4];
+    char  buf[4][64];
+    int   i;
+    gboolean useless;
+
+    pcity = (struct city **) data;
+
+    for (i = 0; i < ARRAY_SIZE(row); i++) {
+      row[i] = buf[i];
+    }
+    column = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(rend), "column"));
+
+    get_city_dialog_production_row(row, sizeof(buf[0]), id, is_unit, *pcity);
+    g_object_set(rend, "text", row[column], NULL);
+
+    if (*pcity) {
+      plr = city_owner(*pcity);
+      useless = improvement_obsolete(plr, id)
+	|| improvement_redundant(plr, *pcity, id, FALSE);
+      g_object_set(rend, "strikethrough", useless, NULL);
+    }
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void populate_view(GtkTreeView *view, struct city **ppcity,
+			  GtkTreeViewColumn **pcol)
+{
+  static char *titles[] =
+  { N_("Type"), N_("Name"), N_("Info"), N_("Cost"), N_("Turns") };
+
+  static bool titles_done;
+  gint i;
+
+
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
+
+  for (i = 0; i < ARRAY_SIZE(titles); i++) {
+    GtkCellRenderer *rend;
+    GtkTreeViewColumn *col;
+
+    if (i == 0) {
+      rend = gtk_cell_renderer_pixbuf_new();
+
+      gtk_tree_view_insert_column_with_data_func(view,
+	  i, titles[i], rend, cell_render_func, ppcity, NULL);
+    } else {
+      gint pos = i-1;
+
+      rend = gtk_cell_renderer_text_new();
+      g_object_set_data(G_OBJECT(rend), "column", GINT_TO_POINTER(pos));
+
+      gtk_tree_view_insert_column_with_data_func(view,
+	  i, titles[i], rend, cell_render_func, ppcity, NULL); 
+      col = gtk_tree_view_get_column(view, i);
+
+      if (pos >= 2) {
+	g_object_set(G_OBJECT(rend), "xalign", 1.0, NULL);
+	gtk_tree_view_column_set_alignment(col, 1.0);
+      }
+
+      if (pos == 3) {
+	*pcol = col;
+      }
+    }
+    g_object_set(rend, "height", UNIT_TILE_HEIGHT, NULL);
+  }
 }
 
 /****************************************************************
@@ -813,12 +894,6 @@ GtkWidget *create_worklist()
 
   GtkListStore *src_store, *dst_store;
 
-  static char *titles[] =
-  { N_("Type"), N_("Info"), N_("Cost"), N_("Turns") };
-
-  static bool titles_done;
-  gint i;
-
   struct worklist_data *ptr;
 
 
@@ -833,8 +908,6 @@ GtkWidget *create_worklist()
   ptr->dst = dst_store;
   ptr->future = FALSE;
 
-
-  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   /* create shell. */ 
   editor = gtk_vbox_new(FALSE, 6);
@@ -861,29 +934,7 @@ GtkWidget *create_worklist()
   g_object_unref(src_store);
   gtk_size_group_add_widget(group, src_view);
 
-  for (i = 0; i < ARRAY_SIZE(titles); i++) {
-    GtkCellRenderer *rend;
-    GtkTreeViewColumn *col;
-
-    rend = gtk_cell_renderer_text_new();
-    g_object_set_data(G_OBJECT(rend), "column", GINT_TO_POINTER(i));
-
-    gtk_tree_view_insert_column_with_data_func(GTK_TREE_VIEW(src_view),
-					       i, titles[i], rend,
-					       cell_render_func,
-					       &ptr->pcity, NULL);
-
-    col = gtk_tree_view_get_column(GTK_TREE_VIEW(src_view), i);
-
-    if (i >= 2) {
-      g_object_set(G_OBJECT(rend), "xalign", 1.0, NULL);
-      gtk_tree_view_column_set_alignment(col, 1.0);
-    }
-
-    if (i == 3) {
-      ptr->src_col = col;
-    }
-  }
+  populate_view(GTK_TREE_VIEW(src_view), &ptr->pcity, &ptr->src_col);
   gtk_container_add(GTK_CONTAINER(sw), src_view);
 
   label = g_object_new(GTK_TYPE_LABEL,
@@ -920,29 +971,7 @@ GtkWidget *create_worklist()
   g_object_unref(dst_store);
   gtk_size_group_add_widget(group, dst_view);
 
-  for (i = 0; i < ARRAY_SIZE(titles); i++) {
-    GtkCellRenderer *rend;
-    GtkTreeViewColumn *col;
-
-    rend = gtk_cell_renderer_text_new();
-    g_object_set_data(G_OBJECT(rend), "column", GINT_TO_POINTER(i));
-
-    gtk_tree_view_insert_column_with_data_func(GTK_TREE_VIEW(dst_view),
-					       i, titles[i], rend,
-					       cell_render_func,
-					       &ptr->pcity, NULL);
-
-    col = gtk_tree_view_get_column(GTK_TREE_VIEW(dst_view), i);
-
-    if (i >= 2) {
-      g_object_set(G_OBJECT(rend), "xalign", 1.0, NULL);
-      gtk_tree_view_column_set_alignment(col, 1.0);
-    }
-
-    if (i == 3) {
-      ptr->dst_col = col;
-    }
-  }
+  populate_view(GTK_TREE_VIEW(dst_view), &ptr->pcity, &ptr->dst_col);
   gtk_container_add(GTK_CONTAINER(sw), dst_view);
 
   label = g_object_new(GTK_TYPE_LABEL,

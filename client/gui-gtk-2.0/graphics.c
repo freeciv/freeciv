@@ -382,7 +382,7 @@ void free_sprite(SPRITE * s)
 /***************************************************************************
  ...
 ***************************************************************************/
-void create_overlay_unit(GtkWidget *pixcomm, int i)
+void create_overlay_unit(struct canvas *pcanvas, int i)
 {
   enum color_std bg_color;
   
@@ -394,23 +394,23 @@ void create_overlay_unit(GtkWidget *pixcomm, int i)
     case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
     default:	      bg_color = COLOR_STD_BLACK;  break;
   }
-  gtk_pixcomm_freeze(GTK_PIXCOMM(pixcomm));
-  gtk_pixcomm_fill(GTK_PIXCOMM(pixcomm), colors_standard[bg_color]);
+  canvas_put_rectangle(pcanvas, bg_color,
+      0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
+ 
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {
     struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
 
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pixcomm), flag, 0, 0);
+    canvas_put_sprite_full(pcanvas, 0, 0, flag);
   }
 
   /* Finally, put a picture of the unit in the tile */
   if(i<game.num_unit_types) {
     struct Sprite *s=get_unit_type(i)->sprite;
 
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pixcomm), s, 0, 0);
+    canvas_put_sprite_full(pcanvas, 0, 0, s);
   }
-  gtk_pixcomm_thaw(GTK_PIXCOMM(pixcomm));
 }
 
 /***************************************************************************
