@@ -658,21 +658,6 @@ AC_CONFIG_COMMANDS([fc_default-2],[[if test -f po/Makefile ; then
      fi
    fi]],[[]])
 
-dnl The default behavior of msgmerge breaks 2-byte character
-dnl encodings, as used in ja.po and others.
-dnl We fix this by forcing the "-w 0" option on all msgmerge calls.
-AC_CONFIG_COMMANDS([fc_default-3],[[if test -f po/Makefile ; then
-     if grep 'MSGMERGE = PATH=../src:$$PATH msgmerge -w 0' po/Makefile >/dev/null 2>&1 ; then
-       # has already been modified
-       :
-     else
-       echo modifying po/Makefile msgmerge
-       mv -f po/Makefile po/Makefile.tmp
-       sed -e 's/MSGMERGE = PATH=..\/src:$$PATH msgmerge/MSGMERGE = PATH=..\/src:$$PATH msgmerge -w 0/' po/Makefile.tmp > po/Makefile
-       rm po/Makefile.tmp
-     fi
-   fi]],[[]])
-
 dnl Most of the C comments copied to freeciv.pot are spurious; 
 dnl change to only copy those with prefix "TRANS:"
 dnl Also add --escape to the arguments to convert extended
