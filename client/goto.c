@@ -270,13 +270,16 @@ static void remove_last_part(void)
 ***********************************************************************/
 void goto_add_waypoint(void)
 {
-  int x, y;
+  struct part *p = &goto_map.parts[goto_map.num_parts - 1];
 
   assert(is_active);
   assert(find_unit_by_id(goto_map.unit_id)
 	 && find_unit_by_id(goto_map.unit_id) == get_unit_in_focus());
-  get_line_dest(&x, &y);
-  add_part();
+
+  if (!same_pos(p->start_x, p->start_y, p->end_x, p->end_y)) {
+    /* Otherwise the last part has zero length. */
+    add_part();
+  }
 }
 
 /********************************************************************** 
