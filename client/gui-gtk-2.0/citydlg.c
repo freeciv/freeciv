@@ -2482,9 +2482,9 @@ static void sell_callback(Impr_Type_id id, gpointer data)
 *****************************************************************/
 static void sell_callback_response(GtkWidget *w, gint response, gpointer data)
 {
-  if (response == GTK_RESPONSE_YES) {
-    struct city_dialog *pdialog = data;
+  struct city_dialog *pdialog = data;
 
+  if (response == GTK_RESPONSE_YES) {
     city_sell_improvement(pdialog->pcity, pdialog->sell_id);
   }
   gtk_widget_destroy(w);
