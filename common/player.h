@@ -260,8 +260,6 @@ int player_get_expected_income(struct player *pplayer);
 
 void player_limit_to_government_rates(struct player *pplayer);
 
-const char *player_addr_hack(struct player *pplayer);
-
 struct city *find_palace(struct player *pplayer);
 
 bool ai_handicap(struct player *pplayer, enum handicap_type htype);

@@ -1580,6 +1580,22 @@ void handle_player_info(struct packet_player_info *pinfo)
     update_info_label();
   }
 
+  /* if the server requests that the client reset, then information about
+   * connections to this player are lost. If this is the case, insert the
+   * correct conn back into the player->connections list */
+  if (conn_list_size(&pplayer->connections) == 0) {
+    conn_list_iterate(game.est_connections, pconn) {
+      if (pconn->player == pplayer) {
+        /* insert the controller into first position */
+        if (pconn->observer) {
+          conn_list_insert_back(&pplayer->connections, pconn);
+        } else {
+          conn_list_insert(&pplayer->connections, pconn);
+        }
+      }
+    } conn_list_iterate_end;
+  }
+
   /* Just about any changes above require an update to the intelligence
    * dialog. */
   update_intel_dialog(pplayer);
@@ -1610,9 +1626,11 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     client_remove_cli_conn(pconn);
     pconn = NULL;
   } else {
-    /* Add or update the connection */
+    /* Add or update the connection.  Note the connection may refer to
+     * a player we don't know about yet. */
     struct player *pplayer =
-      ((pinfo->player_num >= 0 && pinfo->player_num < game.nplayers)
+      ((pinfo->player_num >= 0 
+        && pinfo->player_num < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)
        ? get_player(pinfo->player_num) : NULL);
     
     if (!pconn) {
