@@ -181,7 +181,7 @@ void make_pseudofractal1_hmap(int extra_div)
   /* just need something > log(max(xsize, ysize)) for the recursion */
   int step = map.xsize + map.ysize; 
   /* edges are avoided more strongly as this increases */
-  int avoidedge = (50 - map.landpercent) * step / 100 + step / 3; 
+  int avoidedge = (100 - map.landpercent) * step / 100 + step / 3; 
 
   height_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
 

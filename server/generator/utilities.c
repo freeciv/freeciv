@@ -116,6 +116,10 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
     total++;
   } whole_map_iterate_filtered_end;
 
+  if (total == 0) {
+    return;
+  }
+
   {
     int const size = 1 + maxval - minval;
     int i, count = 0, frequencies[size];
@@ -126,7 +130,7 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
        and count the number of occurencies of all values to initialize the 
        frequencies[] */
     whole_map_iterate_filtered(ptile, data, filter) {
-      int_map[ptile->index] = (int_map[ptile->index] - minval);
+      int_map[ptile->index] -= minval;
       frequencies[int_map[ptile->index]]++;
     } whole_map_iterate_filtered_end;
 
