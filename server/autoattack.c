@@ -255,9 +255,7 @@ void auto_attack(void)
 
   /* re-use shuffle order from civserver.c */
   for (i = 0; i < game.nplayers; i++) {
-    if(shuffled[i]) {
-      auto_attack_player(shuffled[i]);
-    }
+    auto_attack_player(shuffled_player(i));
   }
   if (timer_in_use(t)) {
     freelog(LOG_VERBOSE, "autoattack consumed %g milliseconds.",

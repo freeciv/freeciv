@@ -2081,3 +2081,63 @@ void unassociate_player_connection(struct player *pplayer,
   }
   conn_list_iterate_end;
 }
+
+/**************************************************************************
+  To be used only by shuffle_players() and shuffled_player() below:
+**************************************************************************/
+static struct player *shuffled_plr[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+static int shuffled_nplayers = 0;
+
+/**************************************************************************
+  Shuffle or reshuffle the player order, storing in static variables above.
+**************************************************************************/
+void shuffle_players(void)
+{
+  int i, pos;
+  struct player *tmp_plr;
+
+  freelog(LOG_DEBUG, "shuffling %d players", game.nplayers);
+
+  /* Initialize array in unshuffled order: */
+  for(i=0; i<game.nplayers; i++) {
+    shuffled_plr[i] = &game.players[i];
+  }
+
+  /* Now shuffle them: */
+  for(i=0; i<game.nplayers-1; i++) {
+    /* for each run: shuffled[ <i ] is already shuffled [Kero+dwp] */
+    pos = i + myrand(game.nplayers-i);
+    tmp_plr = shuffled_plr[i]; 
+    shuffled_plr[i] = shuffled_plr[pos];
+    shuffled_plr[pos] = tmp_plr;
+  }
+
+  /* Record how many players there were when shuffled: */
+  shuffled_nplayers = game.nplayers;
+}
+
+/**************************************************************************
+  Return i'th shuffled player.  If number of players has grown between
+  re-shuffles, added players are given in unshuffled order at the end.
+  Number of players should not have shrunk.
+**************************************************************************/
+struct player *shuffled_player(int i)
+{
+  assert(i>=0 && i<game.nplayers);
+  
+  if (shuffled_nplayers == 0) {
+    freelog(LOG_ERROR, "shuffled_player() called before shuffled");
+    return &game.players[i];
+  }
+  /* This shouldn't happen: */
+  if (game.nplayers < shuffled_nplayers) {
+    freelog(LOG_ERROR, "number of players shrunk between shuffles (%d < %d)",
+	    game.nplayers, shuffled_nplayers);
+    return &game.players[i];	/* ?? */
+  }
+  if (i < shuffled_nplayers) {
+    return shuffled_plr[i];
+  } else {
+    return &game.players[i];
+  }
+}

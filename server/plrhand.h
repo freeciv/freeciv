@@ -86,4 +86,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file);
 void associate_player_connection(struct player *plr, struct connection *pconn);
 void unassociate_player_connection(struct player *plr, struct connection *pconn);
 
+void shuffle_players(void);
+struct player *shuffled_player(int i);
+
 #endif  /* FC__PLRHAND_H */

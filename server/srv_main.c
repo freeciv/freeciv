@@ -92,7 +92,6 @@ static void begin_turn(void);
 static void before_end_year(void);
 static int end_turn(void);
 static void send_all_info(struct conn_list *dest);
-static void shuffle_players(void);
 static void ai_start_turn(void);
 static int is_game_over(void);
 static void save_game_auto(void);
@@ -130,9 +129,6 @@ int nocity_send = 0;
    force end-of-tick asap
 */
 int force_end_of_sniff;
-
-/* shuffled player order */
-struct player *shuffled[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
 
 /* The next three variables make selecting nations for AI players cleaner */
@@ -754,38 +750,14 @@ static void before_end_year(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void shuffle_players(void)
-{
-  int i, pos;
-  struct player *tmpplr;
-  /* shuffle players */
-
-  for(i=0; i<game.nplayers; i++) {
-    shuffled[i] = &game.players[i];
-  }
-
-  for(i=0; i<game.nplayers-1; i++) {
-    /* for each run: shuffled[ <i ] is already shuffled [Kero+dwp] */
-    pos = i + myrand(game.nplayers-i);
-    tmpplr = shuffled[i]; 
-    shuffled[i] = shuffled[pos];
-    shuffled[pos] = tmpplr;
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static void ai_start_turn(void)
 {
   int i;
 
-  if(!shuffled[game.nplayers-1])
-    shuffle_players();
-
   for (i = 0; i < game.nplayers; i++) {
-    if(shuffled[i] && shuffled[i]->ai.control) 
-      ai_do_first_activities(shuffled[i]);
+    struct player *pplayer = shuffled_player(i);
+    if (pplayer->ai.control) 
+      ai_do_first_activities(pplayer);
   }
 }
 
@@ -833,13 +805,7 @@ static int end_turn(void)
 
   nocity_send = 1;
   for(i=0; i<game.nplayers; i++) {
-    /* game.nplayers may increase during this loop, due to
-       goto-ing units causing a civil war.  Thus shuffled[i]
-       may be NULL; we do any new players in non-shuffled order
-       at the end.  --dwp
-    */
-    struct player *pplayer = shuffled[i];
-    if (pplayer==NULL) pplayer = &game.players[i];
+    struct player *pplayer = shuffled_player(i);
     freelog(LOG_DEBUG, "updating player activities for #%d (%s)",
 		  i, pplayer->name);
     update_player_activities(pplayer);

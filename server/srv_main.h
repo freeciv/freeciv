@@ -61,6 +61,4 @@ extern int nocity_send;
 
 extern int force_end_of_sniff;
 
-extern struct player *shuffled[];
-
 #endif /* FC__SRV_MAIN_H */

@@ -349,9 +349,7 @@ void check_spaceship_arrivals(void)
   struct player_spaceship *ship;
 
   for(i=0; i<game.nplayers; i++) {
-    if (!shuffled[i]) continue;
-
-    pplayer = shuffled[i];
+    pplayer = shuffled_player(i);
     ship = &pplayer->spaceship;
     
     if (ship->state == SSHIP_LAUNCHED) {
