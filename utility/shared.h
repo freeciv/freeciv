@@ -16,6 +16,12 @@
 #include <stdlib.h>		/* size_t */
 #include <string.h>		/* memset */
 
+#ifdef HAVE_CONFIG_H
+#ifndef FC_CONFIG_H            /* this should be defined in config.h */
+#error Files including fcintl.h should also include config.h directly
+#endif
+#endif
+
 #if __BEOS__
 #include <posix/be_prim.h>
 #define __bool_true_false_are_defined 1
