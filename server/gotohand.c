@@ -576,7 +576,7 @@ static bool find_the_shortest_path(struct unit *punit,
   int maxcost = MAXCOST;
   int move_cost, total_cost;
   int straight_dir = 0;	/* init to silence compiler warning */
-  static dir_vector *local_vector = NULL;
+  dir_vector local_vector[MAX_MAP_INDEX];
 #define LOCAL_VECTOR(x, y) local_vector[map_pos_to_index((x), (y))]
   struct unit *pcargo;
   /* 
@@ -592,9 +592,6 @@ static bool find_the_shortest_path(struct unit *punit,
     return TRUE;		/* [Kero] */
   }
 
-  if (!local_vector) {
-    local_vector = fc_malloc(map.xsize * map.ysize * sizeof(*local_vector));
-  }
   BV_CLR_ALL(LOCAL_VECTOR(orig_x, orig_y));
 
   init_warmap(punit->x, punit->y, move_type);
