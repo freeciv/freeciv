@@ -10,12 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include <time.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -638,10 +643,10 @@ void flood_it(int loaded)
 	guard1+=5;
       }
       freelog(LOG_NORMAL,
-	      "mapgen.c#flood_it, not enough start positions, fixing.");
+	      _("Map generator: not enough start positions, fixing."));
     }
   }
-  freelog(LOG_NORMAL, "The map has %i starting positions on %i isles.",
+  freelog(LOG_NORMAL, _("The map has %i starting positions on %i isles."),
 	  starters, goodisles);
 }
 /**************************************************************************
@@ -1204,7 +1209,7 @@ static void makeisland(int islemass, int starters)
 
     /* caveat: this should really be sent to all players */
     if(totalmass>3000)
-      freelog(LOG_NORMAL,"high landmass - this may take a few seconds");
+      freelog(LOG_NORMAL, _("High landmass - this may take a few seconds."));
 
     i = map.riverlength + map.mountains
 		+ map.deserts + map.forestsize + map.swampsize;
@@ -1397,7 +1402,7 @@ static void mapgenerator3(void)
     islandmass= (landmass)/(bigislands);
 
   if( map.xsize < 40 || map.ysize < 40 || map.landpercent>80 )
-    { freelog(LOG_NORMAL,"falling back to generator 2"); mapgenerator2(); return; }
+    { freelog(LOG_NORMAL,_("Falling back to generator 2.")); mapgenerator2(); return; }
 
   if(islandmass<2)
     islandmass= 2;
@@ -1411,7 +1416,7 @@ static void mapgenerator3(void)
   }
 
   if(j==500){
-    freelog(LOG_NORMAL, "generator 3 didn't place all big islands.");
+    freelog(LOG_NORMAL, _("Generator 3 didn't place all big islands."));
   }
   
   islandmass= (islandmass*11)/8;
@@ -1434,7 +1439,7 @@ static void mapgenerator3(void)
   free(height_map);
     
   if(j==1500) {
-    freelog(LOG_NORMAL, "generator 3 left %li landmass unplaced.", checkmass);
+    freelog(LOG_NORMAL, _("Generator 3 left %li landmass unplaced."), checkmass);
   } else if(checkmass>map.xsize+map.ysize+totalweight) {
     freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
   }

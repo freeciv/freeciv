@@ -13,6 +13,7 @@ server/console.c
 server/diplhand.c
 server/gamelog.c
 server/handchat.c
+server/mapgen.c
 server/maphand.c
 server/meta.c
 server/plrhand.c
