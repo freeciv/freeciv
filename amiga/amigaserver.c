@@ -80,6 +80,8 @@ const char *version = "$VER: civserver " VERSION_STRING " (" __DATE__ ")";
 #ifdef __SASC
 /* Stack for the server */
 __near LONG __stack = 150000;
+#elif defined(__VBCC__)
+LONG __stack = 150000;
 #endif
 
 /*********************************************************/

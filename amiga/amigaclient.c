@@ -68,6 +68,8 @@ static char *stdargv[1] = {"civclient"}; /* standard arg, if WB parsing failed *
 #ifdef __SASC
 /* Stack for the server */
 __near LONG __stack = 120000;
+#elif defined(__VBCC)
+LONG _stack = 120000;
 #endif
 
 /*********************************************************/

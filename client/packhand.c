@@ -966,8 +966,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.nuclearwinter=pinfo->nuclearwinter;
   game.cooling=pinfo->cooling;
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    game.player_idx=pinfo->player_idx;
-    game.player_ptr=&game.players[game.player_idx];
+    game.player_idx = pinfo->player_idx;
+    game.player_ptr = &game.players[game.player_idx];
   }
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     game.global_advances[i]=pinfo->global_advances[i];
@@ -1007,7 +1007,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   int i;
   int poptechup;
   char msg[MAX_LEN_MSG];
-  struct player *pplayer=&game.players[pinfo->playerno];
+  struct player *pplayer = &game.players[pinfo->playerno];
 
   sz_strlcpy(pplayer->name, pinfo->name);
   pplayer->nation=pinfo->nation;
@@ -1318,7 +1318,7 @@ static int spaceship_autoplace(struct player *pplayer,
 void handle_spaceship_info(struct packet_spaceship_info *p)
 {
   int i;
-  struct player *pplayer=&game.players[p->player_num];
+  struct player *pplayer = &game.players[p->player_num];
   struct player_spaceship *ship = &pplayer->spaceship;
   
   ship->state        = p->sship_state;

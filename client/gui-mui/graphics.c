@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -422,7 +423,7 @@ VOID MyBltBitMapRastPort( CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, 
 
   if (xSize > 0 && ySize > 0)
   {
-    BltBitMapRastPort(srcBitMap, xSrc, ySrc, destRP, xDest, yDest, xSize, ySize, minterm);
+    BltBitMapRastPort((struct BitMap *)srcBitMap, xSrc, ySrc, destRP, xDest, yDest, xSize, ySize, minterm);
   }
 }
 
@@ -458,9 +459,9 @@ struct ExtBltMaskHook
 static VOID MyBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct BitMap *destBitMap,
                             LONG xDest, LONG yDest, LONG xSize, LONG ySize, struct BitMap *maskBitMap )
 {
-  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+  BltBitMap((struct BitMap *)srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
   BltBitMap(maskBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
-  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+  BltBitMap((struct BitMap *)srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
 }
 
 /* Simliar to BltMaskBitMapRastPort but for BitMaps only and Mask can have differnt dimensions/offsets than Source BitMap */
@@ -482,11 +483,13 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
 
   if (!use_cgfx)
   {
-    BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+    BltBitMap((struct BitMap *)srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
     BltBitMap(maskBitMap,xMask,yMask,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
-    BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+    BltBitMap((struct BitMap *)srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
   } else
   {
+// Doesn't work for > 8 bit screens yet
+#ifdef DISABLED
     APTR src_handle;
     LONG src_height, src_width, src_depth, src_pixfmt, src_bytesperpix, src_bytesperrow;
     UBYTE *src_address;
@@ -497,9 +500,6 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
 
     LONG mask_width, mask_height;
     UBYTE *mask_address;
-
-    /* Doesn't work for > 8 bit screens yet */
-    return;
 
     if ((src_handle = LockBitMapTags(srcBitMap,
 	LBMI_WIDTH, &src_width,
@@ -548,12 +548,12 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
 	      {
 	      	if (dest_bytesperpix == 2)
 	      	{
-	      	  *((UWORD*)dest) = 0xffff;// *((UWORD*)src);
+	      	  *((UWORD*)dest) = 0xffff; /* *((UWORD*)src); */
 	      	} else if (dest_bytesperpix == 3)
 	      	{
 	      	} else if (dest_bytesperpix == 4)
 	      	{
-//	      	  *((ULONG*)dest) = *((ULONG*)src);
+	      	  *((ULONG*)dest) = *((ULONG*)src);
 	      	}
 	      }
 	      src += src_bytesperpix;
@@ -571,6 +571,7 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
       }
       UnLockBitMap(src_handle);
     }
+#endif
   }
 }
 

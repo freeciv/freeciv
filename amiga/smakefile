@@ -30,6 +30,14 @@ TCPSDK = #AmiTCP SDK (no define for this one!)
 
 # comment, if not debugging, disabled by default
 DEBFLAGS = #LIB LIB:debug.lib DEBUG=LINE NOSTRIPDEBUG WARN=ALL IGNORE=61,63,120,148,165,178,212
+# disabled warning types:
+# (in includes)   61 - undefined struct/union tag "tag-name"
+# (GCC)           63 - item "name" already declared
+#                120 - Integral type mismatch: possible portability problem
+# (in includes)  148 - use of incomplete struct/union/enum tag "name"
+#                165 - use of narrow type in prototype
+# (old style C)  178 - indirect call without indirection operator
+# (GCC)          212 - item "name" already declared
 
 # The optimize flags, set the comment mark, where you want. The options at the end
 # need much more time. Disabled by default.
@@ -66,7 +74,8 @@ LNFLAGS1 = WITH
 OBJDIR  = ${OBJDIR1}/
 
 COMMONOBJS = ${OBJDIR}common/astring.o ${OBJDIR}common/capability.o ${OBJDIR}common/capstr.o \
- ${OBJDIR}common/city.o ${OBJDIR}common/connection.o ${OBJDIR}common/diptreaty.o ${OBJDIR}common/fcintl.o \
+ ${OBJDIR}common/city.o ${OBJDIR}common/combat.o ${OBJDIR}common/connection.o \
+ ${OBJDIR}common/diptreaty.o ${OBJDIR}common/fcintl.o \
  ${OBJDIR}common/game.o ${OBJDIR}common/genlist.o ${OBJDIR}common/government.o ${OBJDIR}common/hash.o \
  ${OBJDIR}common/idex.o ${OBJDIR}common/improvement.o ${OBJDIR}common/inputfile.o ${OBJDIR}common/ioz.o \
  ${OBJDIR}common/log.o \
@@ -260,6 +269,9 @@ ${OBJDIR}common/capstr.o: ${FREECIV_DIR}common/capstr.c
 
 ${OBJDIR}common/city.o: ${FREECIV_DIR}common/city.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/city.c ${COMMONDIRS} ${TO}$@
+
+${OBJDIR}common/combat.o: ${FREECIV_DIR}common/combat.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}common/combat.c ${COMMONDIRS} ${TO}$@
 
 ${OBJDIR}common/connection.o: ${FREECIV_DIR}common/connection.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/connection.c ${COMMONDIRS} ${TO}$@

@@ -7,13 +7,13 @@ And I did not want to port gettext completely, which would have been
 much more work!
 
 Modification history;
-08.08.2000 : Dirk Stöcker <stoecker@amigaworld.com>
+08.08.2000 : Dirk Stöcker <stoecker@epost.de>
   Initial version
-27.08.2000 : Dirk Stöcker <stoecker@amigaworld.com>
+27.08.2000 : Dirk Stöcker <stoecker@epost.de>
   fixes to match changed calling mechanism
 26.09.2000 : Oliver Gantert <lucyg@t-online.de>
   changed includes to work with vbcc WarpOS
-16.12.2000 : Dirk Stöcker <stoecker@amigaworld.com>
+16.12.2000 : Dirk Stöcker <stoecker@epost.de>
   removed changes, as it works without also
 */
 

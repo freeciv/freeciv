@@ -78,20 +78,17 @@ xx is the language identifier as used im po directory of source tree.
 
 The vsnprintf.c file.
 ~~~~~~~~~~~~~~~~~~~~~
-The current Amiga development systems (especially SAS) do not support
-argument reordering in their printf-style functions. So the sprintf
-function must be added to the project. And as freeciv needs vsnprintf
-(which has better error checking) instead of sprintf we also removed
-the need to use the internal workaround of freeciv.
+The current Amiga development systems (especially SAS and VBCC) do not
+support argument reordering in their printf-style functions. So the
+sprintf function must be added to the project. And as freeciv needs
+vsnprintf (which has better error checking) instead of sprintf we also
+removed the need to use the internal workaround of freeciv.
 
-How to make with VBCC?
+How to make with VBCC (at least 0.8)?
 ~~~~~~~~~~~~~~~~~~~~~~
 - Get a make program.
 - Get FD2Pragma (Aminet/dev/misc/FD2Pragma.lha) and create prototype files
-  as well as socket.lib, usergroup.lib, muimaster.lib and guigfx.lib.
-- Modify -pp and -ppv lines in vc.config that -Ivincludem68k: is behind
-  first %s (this is necessary to include the AmiTCP/Miami includes before
-  vbcc includes (because of errno.h)).
+  as well as usergroup.lib and guigfx.lib.
 - Start make and fix all the other problems, which may have been added in
   between releases (example: make -f vmakefile). Ignore warnings.
 
@@ -99,7 +96,4 @@ Problems:
 - Starting server from WB is nearly useless as it misses the input and
   output dialog.
 - Starting client from WB misses the output dialog (client uses no input).
-- Stacksizes are not changed to 150000 automatically.
 
-Current development releases of vbcc implement stuff to remove these
-problems, so expect them to disappear in future.

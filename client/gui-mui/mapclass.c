@@ -486,7 +486,7 @@ static void show_desc_at_tile(Object *o, struct Map_Data *data, int x, int y)
     }
 
     if (draw_city_productions && (pcity->owner==game.player_idx)) {
-      int turns, y_offset;
+      int turns;
       struct unit_type *punit_type;
       struct impr_type *pimprovement_type;
 
@@ -516,7 +516,6 @@ static void show_desc_at_tile(Object *o, struct Map_Data *data, int x, int y)
       SetAPen(rp, data->white_pen);
       Move(rp, pix_x - 1, pix_y - 1);
       Text(rp, buffer, strlen(buffer));
-      pix_y += rp->TxHeight + 2;
     }
   }
 }
@@ -547,7 +546,7 @@ static void Map_Priv_ShowCityDescriptions(Object *o, struct Map_Data *data)
       int x, y;
       int w, h;
 
-      for (h=-1; h<map_canvas_store_theight*2; h++) {
+      for (h = -1; h<map_canvas_store_theight*2; h++) {
         int x_base = map_view_x0 + h/2 + (h != -1 ? h%2 : 0);
         int y_base = map_view_y0 + h/2 + (h == -1 ? -1 : 0);
         for (w=0; w<=map_canvas_store_twidth; w++) {
@@ -578,7 +577,7 @@ static void Map_Priv_ShowCityDescriptions(Object *o, struct Map_Data *data)
 
 static void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
 {
-  int x0, y0, dx, dy, dest_x, dest_y, w, h;
+  int x0, y0, dx, dy, w, h;
   struct unit *punit;
   static struct timer *anim_timer = NULL; 
 
@@ -587,8 +586,6 @@ static void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
   y0 = data->y0;
   dx = data->dx;
   dy = data->dy;
-  dest_x = data->dest_x;
-  dest_y = data->dest_y;
 
   {
     int i, steps;
@@ -640,9 +637,6 @@ static void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
     if (is_isometric) {
       start_y -= NORMAL_TILE_HEIGHT/2;
     }
-
-    this_x = start_x;
-    this_y = start_y;
 
     ox = NORMAL_TILE_WIDTH / steps;
     oy = NORMAL_TILE_HEIGHT / steps;
@@ -1111,7 +1105,6 @@ static ULONG Map_Hide(struct IClass * cl, Object * o, Msg msg)
 static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
-  ULONG drmd = GetDrMd(_rp(o));
 
   DoSuperMethodA(cl, o, (Msg) msg);
 
@@ -1132,7 +1125,9 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       	return 0;
       }
 
-/*      if (data->update == 6)
+// following is disabled. Needs to be fixed.
+#ifdef DISABLED
+      if (data->update == 6)
       {
       	/* Draw Mushroom */
 	int x, y, w, h;
@@ -1140,19 +1135,19 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	for(y=0; y<3; y++) {
 	  for(x=0; x<3; x++) {
-/*	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) * get_normal_tile_width();
+	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) * get_normal_tile_width();
 	    int map_y = map_canvas_adjust_y(y - 1 + data->mushroom_y0) * get_normal_tile_height();
 	    struct Sprite *mysprite = sprites.explode.nuke[y][x];
 
-	    put_sprite_overlay( _rp(o), mysprite, _mleft(o) + map_x, _mtop(o) + map_y);*/
+	    put_sprite_overlay( _rp(o), mysprite, _mleft(o) + map_x, _mtop(o) + map_y);
 	  }
 	}
 
 	TimeDelay( UNIT_VBLANK, 1,0);
 
 	/* Restore the map */
-//	x = map_canvas_adjust_x(data->mushroom_x0-1) * get_normal_tile_width();
-//	y = map_canvas_adjust_y(data->mushroom_y0-1) * get_normal_tile_height();
+	x = map_canvas_adjust_x(data->mushroom_x0-1) * get_normal_tile_width();
+	y = map_canvas_adjust_y(data->mushroom_y0-1) * get_normal_tile_height();
 
 	w = get_normal_tile_width() * 3;
 	h = get_normal_tile_height() * 3;
@@ -1191,8 +1186,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  if (data->worker_colornum == 3) data->worker_colornum = 0;
 	}
 
-//	x = map_canvas_adjust_x(pcity->x);
-//	y = map_canvas_adjust_y(pcity->y);
+	x = map_canvas_adjust_x(pcity->x);
+	y = map_canvas_adjust_y(pcity->y);
 
 	SetAPen(_rp(o),color);
 
@@ -1236,7 +1231,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
 	return 0;
-      }*/
+      }
+#endif
 
       if (data->update == 8)
       {

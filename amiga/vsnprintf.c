@@ -37,7 +37,7 @@
 /* This file has been created with use of vfprintf.c sources from FreeBSD
 distribution. It changed a lot, but the main work remained.
 
-Dirk Stöcker <stoecker@amigaworld.com>
+Dirk Stöcker <stoecker@epost.de>
 2000-12-28
 */
 
@@ -49,7 +49,7 @@ Dirk Stöcker <stoecker@amigaworld.com>
 
 static char * __ultoa(register unsigned long, char *, int, int, char *);
 static void __find_arguments(const char *, va_list, void ***);
-static void __grow_type_table(int, unsigned char **, int *);
+static int __grow_type_table(int, unsigned char **, int *);
 
 /*
  * Macros for converting digits to letters and vice versa
@@ -208,14 +208,14 @@ int vsnprintf(char *buffer, int buffersize, const char *fmt0, va_list ap)
     n2 = 10 * n2 + to_digit(*cp); \
     cp++; \
   } \
-  if (*cp == '$') { \
+  if (*cp == '$') { \
   int hold = nextarg; \
   if (argtable == NULL) { \
     argtable = statargtable; \
-    __find_arguments (fmt0, orgap, &argtable); \
+    __find_arguments (fmt0, orgap, &argtable); \
   } \
   nextarg = n2; \
-  val = GETARG (int); \
+  val = GETARG (int); \
   nextarg = hold; \
   fmt = ++cp; \
   } else { \
@@ -700,6 +700,12 @@ done:
   (*argtable) [0] = NULL;
   for (n = 1; n <= tablemax; n++)
   {
+#ifdef __VBCC__
+    /* VBCC cannot build address of va_arg, thus we need to do the va_arg
+       ourself (assuming all types are 4 byte). */
+    (*argtable)[n] = (void *) ap;
+    ap += 4;
+#else
     switch (typetable [n])
     {
     case T_UNUSED:  (*argtable) [n] = (void *) &va_arg (ap, int); break;
@@ -715,6 +721,7 @@ done:
     case TP_CHAR:   (*argtable) [n] = (void *) &va_arg (ap, char *); break;
     case TP_VOID:   (*argtable) [n] = (void *) &va_arg (ap, void *); break;
     }
+#endif
   }
 
   if ((typetable != NULL) && (typetable != stattypetable))
@@ -724,7 +731,7 @@ done:
 /*
  * Increase the size of the type table.
  */
-static void __grow_type_table (int nextarg, unsigned char **typetable, int *tablesize)
+static int __grow_type_table (int nextarg, unsigned char **typetable, int *tablesize)
 {
   unsigned char *oldtable = *typetable;
   int newsize = *tablesize * 2;
@@ -732,7 +739,7 @@ static void __grow_type_table (int nextarg, unsigned char **typetable, int *tabl
   if (*tablesize == STATIC_ARG_TBL_SIZE) {
     *typetable = (unsigned char *)
         malloc (sizeof (unsigned char) * newsize);
-    bcopy (oldtable, *typetable, *tablesize);
+    memmove(*typetable, oldtable, *tablesize);
   } else {
     *typetable = (unsigned char *)
         realloc(typetable, sizeof (unsigned char) * newsize);
@@ -741,6 +748,7 @@ static void __grow_type_table (int nextarg, unsigned char **typetable, int *tabl
   memset (&typetable [*tablesize], T_UNUSED, (newsize - *tablesize));
 
   *tablesize = newsize;
+  return 0;
 }
 
 /*
