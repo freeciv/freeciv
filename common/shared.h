@@ -68,8 +68,10 @@ char *get_sane_name(char *name);
 char *textyear(int year);
 char *get_dot_separated_int(unsigned val);
 int mystrcasecmp(char *str0, char *str1);
-char *mystrerror(int errnum);
 int string_ptr_compare(const void *first, const void *second);
+
+char *mystrerror(int errnum);
+void myusleep(unsigned long usec);
 
 RANDOM_TYPE myrand(int size);
 void mysrand(RANDOM_TYPE seed);

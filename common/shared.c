@@ -16,6 +16,10 @@
 #include <ctype.h>
 #include <assert.h>
 
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 #include "log.h"
 #include "mem.h"
 
@@ -266,6 +270,22 @@ char *mystrerror(int errnum)
   static char buf[64];
   sprintf(buf, "error %d (compiled without strerror)", errnum);
   return buf;
+#endif
+}
+
+/***************************************************************
+...
+***************************************************************/
+void myusleep(unsigned long usec)
+{
+#ifndef HAVE_USLEEP
+  struct timeval tv;
+
+  tv.tv_sec=0;
+  tv.tv_usec=100;
+  select(0, NULL, NULL, NULL, &tv);
+#else
+  usleep(usec);
 #endif
 }
 

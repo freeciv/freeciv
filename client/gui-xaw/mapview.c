@@ -25,6 +25,7 @@
 
 #include "game.h"
 #include "map.h"
+#include "shared.h"		/* myusleep() */
 #include "unit.h"
 
 #include "civclient.h"
@@ -103,25 +104,13 @@ int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
 			     struct unit *punit1, int hp1)
 {
-#ifndef HAVE_USLEEP
-  struct timeval tv;
-
-  tv.tv_sec=0;
-  tv.tv_usec=100;
-#endif
-
   set_unit_focus_no_center(punit0);
   set_unit_focus_no_center(punit1);
   
   do {
     refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
     refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
-
-#ifndef HAVE_USLEEP
-    select(0, NULL, NULL, NULL, &tv);
-#else
-    usleep(100);
-#endif
+    myusleep(100);
 
     if(punit0->hp>hp0)
       punit0->hp--;
