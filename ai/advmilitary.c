@@ -43,6 +43,30 @@
 
 static unsigned int assess_danger(struct city *pcity);
 
+/**************************************************************************
+  Choose the best unit the city can build to defend against attacker v.
+**************************************************************************/
+Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
+{
+  Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
+  int j, m;
+  int best = 0;
+
+  simple_ai_unit_type_iterate(i) {
+    m = unit_types[i].move_type;
+    if (can_build_unit(pcity, i) && (m == LAND_MOVING || m == SEA_MOVING)) {
+      j = get_virtual_defense_power(v, i, pcity->x, pcity->y, FALSE, FALSE);
+      if (j > best || (j == best && unit_build_shield_cost(i) <=
+                                    unit_build_shield_cost(bestid))) {
+        best = j;
+        bestid = i;
+      }
+    }
+  } simple_ai_unit_type_iterate_end;
+
+  return bestid;
+}
+
 /********************************************************************** 
 This function should assign a value to choice and want, where want is a value
 between 1 and 100.
