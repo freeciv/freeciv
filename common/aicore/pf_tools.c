@@ -46,6 +46,15 @@ static int seamove(int x, int y, enum direction8 dir,
 }
 
 /*************************************************************
+  SINGLE_MOVE cost function for AIR_MOVING
+*************************************************************/
+static int single_airmove(int x, int y, enum direction8 dir,
+			  int x1, int y1, struct pf_parameter *param)
+{
+  return SINGLE_MOVE; /* simple, eh? */
+}
+
+/*************************************************************
   A cost function for SEA_MOVING.  Does not allow shore 
   bombardment.
 *************************************************************/
@@ -408,6 +417,9 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     } else {
       parameter->get_MC = seamove;
     }
+    break;
+  case AIR_MOVING:
+    parameter->get_MC = single_airmove;
     break;
   default:
     die("unknown move_type");

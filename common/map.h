@@ -27,10 +27,7 @@
  * <0.
  */
 #define MOVE_COST_FOR_VALID_SEA_STEP	(-3)
-
-struct map_position {
-  int x,y;
-};
+#define MOVE_COST_FOR_VALID_AIR_STEP	(-3)
 
 /* For client Area Selection */
 enum tile_hilite {

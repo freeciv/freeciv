@@ -426,7 +426,9 @@ bool ai_unit_goto(struct unit *punit, int x, int y)
 /**************************************************************************
   Ensure unit sanity by telling charge that we won't bodyguard it anymore,
   tell bodyguard it can roam free if our job is done, add and remove city 
-  spot reservation, and set destination.
+  spot reservation, and set destination. If we set a unit to hunter, also
+  reserve its target, and try to load it with cruise missiles or nukes
+  to bring along.
 **************************************************************************/
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 {
@@ -435,6 +437,9 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 
   /* If the unit is under (human) orders we shouldn't control it. */
   assert(!unit_has_orders(punit));
+
+  UNIT_LOG(LOG_DEBUG, punit, "changing role from %d to %d",
+           punit->activity, task);
 
   /* Free our ferry.  Most likely it has been done already. */
   if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {
@@ -448,6 +453,17 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
     remove_city_from_minimap(goto_dest_x(punit), goto_dest_y(punit));
+  }
+
+  if (punit->ai.ai_role == AIUNIT_HUNTER) {
+    /* Clear victim's hunted bit - we're no longer chasing. */
+    struct unit *target = find_unit_by_id(punit->ai.target);
+
+    if (target) {
+      target->ai.hunted &= ~(1 << unit_owner(punit)->player_no);
+      UNIT_LOG(LOGLEVEL_HUNT, target, "no longer hunted (new role %d, old %d)",
+               task, punit->ai.ai_role);
+    }
   }
 
   if (charge && (charge->ai.bodyguard == punit->id)) {
@@ -474,6 +490,30 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
     assert(is_normal_map_pos(x, y));
     add_city_to_minimap(x, y);
+  }
+  if (punit->ai.ai_role == AIUNIT_HUNTER) {
+    /* Set victim's hunted bit - the hunt is on! */
+    struct unit *target = find_unit_by_id(punit->ai.target);
+
+    assert(target != NULL);
+    target->ai.hunted |= (1 << unit_owner(punit)->player_no);
+    UNIT_LOG(LOGLEVEL_HUNT, target, "is being hunted");
+
+    /* Grab missiles lying around and bring them along */
+    if (unit_flag(punit, F_MISSILE_CARRIER)
+        || unit_flag(punit, F_CARRIER)) {
+      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, missile) {
+        if (missile->ai.ai_role != AIUNIT_ESCORT
+            && missile->transported_by == -1
+            && missile->owner == punit->owner
+            && unit_flag(missile, F_MISSILE)
+            && can_unit_load(missile, punit)) {
+          UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
+          ai_unit_new_role(missile, AIUNIT_ESCORT, target->x, target->y);
+          load_unit_onto_transporter(missile, punit);
+        }
+      } unit_list_iterate_end;
+    }
   }
 }
 

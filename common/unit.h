@@ -22,6 +22,10 @@ struct city;
 struct tile;
 struct unit_order;
 
+struct map_position {
+  int x,y;
+};
+
 #define BARBARIAN_LIFE    5
 
 /* Changing this enum will break savegame and network compatability. */
@@ -57,7 +61,7 @@ enum diplomat_actions {
 enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
                     AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE,
-                    AIUNIT_PILLAGE, AIUNIT_RECOVER };
+                    AIUNIT_PILLAGE, AIUNIT_RECOVER, AIUNIT_HUNTER };
 
 enum goto_move_restriction {
   GOTO_MOVE_ANY,
@@ -117,6 +121,13 @@ struct unit_ai {
   int passenger; /* the unit assigned to this ferryboat */
   int bodyguard; /* the unit bodyguarding us */
   int charge; /* the unit this unit is bodyguarding */
+
+  struct map_position prev_struct;
+  struct map_position cur_struct;
+  struct map_position *prev_pos;
+  struct map_position *cur_pos;
+  int target; /* target we hunt */
+  int hunted; /* if a player is hunting us, set by that player */
 };
 
 struct unit {

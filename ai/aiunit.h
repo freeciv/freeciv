@@ -37,6 +37,9 @@
 #define HOSTILE_PLAYER(pplayer, ai, aplayer) \
   (pplayers_at_war(pplayer, aplayer)         \
    || ai->diplomacy.target == aplayer)
+#define UNITTYPE_COSTS(ut)                             \
+  (ut->pop_cost * 3 + ut->happy_cost + ut->shield_cost \
+   + ut->food_cost + ut->gold_cost)
 
 struct player;
 struct city;

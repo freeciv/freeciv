@@ -54,6 +54,7 @@
 #include "aidata.h"
 #include "aidiplomat.h"
 #include "aihand.h"
+#include "aihunt.h"
 #include "ailog.h"
 #include "aitools.h"
 
@@ -1395,6 +1396,19 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     return;
   }
 
+  /* Make unit a seahunter? */
+  if (punit->ai.ai_role == AIUNIT_HUNTER) {
+    return; /* Continue mission. */
+  }
+  if (ai_hunter_qualify(pplayer, punit)) {
+    UNIT_LOG(LOGLEVEL_HUNT, punit, "is qualified as hunter");
+    if (ai_hunter_findjob(pplayer, punit) > 0) {
+      UNIT_LOG(LOGLEVEL_HUNT, punit, "set as HUNTER");
+      ai_unit_new_role(punit, AIUNIT_HUNTER, -1, -1);
+      return;
+    }
+  }
+
 /* I'm not 100% sure this is the absolute best place for this... -- Syela */
   generate_warmap(map_get_city(punit->x, punit->y), punit);
 /* I need this in order to call unit_move_turns, here and in look_for_charge */
@@ -2500,13 +2514,20 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
 }
 
 /**************************************************************************
-decides what to do with a military unit.
+  Decide what to do with a military unit. It will be managed once only.
+  It is up to the caller to try again if it has moves left.
 **************************************************************************/
 static void ai_manage_military(struct player *pplayer, struct unit *punit)
 {
   int id = punit->id;
 
   CHECK_UNIT(punit);
+
+  /* "Escorting" aircraft should not do anything. They are activated
+   * by their transport or charge. */
+  if (punit->ai.ai_role == AIUNIT_ESCORT && is_air_unit(punit)) {
+    return;
+  }
 
   if ((punit->activity == ACTIVITY_SENTRY
        || punit->activity == ACTIVITY_FORTIFIED)
@@ -2549,6 +2570,9 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
     break;
   case AIUNIT_RECOVER:
     ai_manage_hitpoint_recovery(punit);
+    break;
+  case AIUNIT_HUNTER:
+    ai_hunter_manage(pplayer, punit);
     break;
   default:
     assert(FALSE);
@@ -2653,10 +2677,13 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
   } else if (unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
     ai_manage_barbarian_leader(pplayer, punit);
     return;
-  } else if (get_transporter_capacity(punit) > 0) {
+  } else if (get_transporter_capacity(punit) > 0
+             && !unit_flag(punit, F_MISSILE_CARRIER)
+             && punit->ai.ai_role != AIUNIT_HUNTER) {
     ai_manage_ferryboat(pplayer, punit);
     return;
-  } else if (is_air_unit(punit)) {
+  } else if (is_air_unit(punit)
+             && punit->ai.ai_role != AIUNIT_ESCORT) {
     ai_manage_airunit(pplayer, punit);
     return;
   } else if (is_heli_unit(punit)) {

@@ -306,6 +306,30 @@ void ai_data_turn_init(struct player *pplayer)
   ai->pollution_priority = POLLUTION_WEIGHTING;
 
   ai_best_government(pplayer);
+
+  /*** Interception engine ***/
+
+  /* We are tracking a unit if punit->ai.cur_pos is not NULL. If we
+   * are not tracking, start tracking by setting cur_pos. If we are, 
+   * fill prev_pos with previous cur_pos. This way we get the 
+   * necessary coordinates to calculate a probably trajectory. */
+  players_iterate(aplayer) {
+    if (!aplayer->is_alive || aplayer == pplayer) {
+      continue;
+    }
+    unit_list_iterate(aplayer->units, punit) {
+      if (!punit->ai.cur_pos) {
+        /* Start tracking */
+        punit->ai.cur_pos = &punit->ai.cur_struct;
+        punit->ai.prev_pos = NULL;
+      } else {
+        punit->ai.prev_struct = punit->ai.cur_struct;
+        punit->ai.prev_pos = &punit->ai.prev_struct;
+      }
+      punit->ai.cur_pos->x = punit->x;
+      punit->ai.cur_pos->y = punit->y;
+    } unit_list_iterate_end;
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -386,6 +410,7 @@ void ai_set_ferry(struct unit *punit, struct unit *ferry)
   } else if (ferry) {
     /* Make sure we delete punit from the list of potential passengers */
     ai_clear_ferry(punit);
+    ferry->ai.passenger = punit->id;
     punit->ai.ferryboat = ferry->id;
   }
 }

@@ -28,6 +28,7 @@ struct ai_data;
 #define LOGLEVEL_GOTO LOG_DEBUG
 #define LOGLEVEL_CITY LOG_DEBUG
 #define LOGLEVEL_BUILD LOG_DEBUG
+#define LOGLEVEL_HUNT LOG_DEBUG
 
 void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai,
                 const char *msg, ...);

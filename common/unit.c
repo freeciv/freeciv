@@ -1669,6 +1669,10 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   if (is_barbarian(pplayer)) {
     punit->fuel = BARBARIAN_LIFE;
   }
+  punit->ai.cur_pos = NULL;
+  punit->ai.prev_pos = NULL;
+  punit->ai.target = 0;
+  punit->ai.hunted = 0;
   punit->ai.control = FALSE;
   punit->ai.ai_role = AIUNIT_NONE;
   punit->ai.ferryboat = 0;

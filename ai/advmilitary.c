@@ -34,6 +34,7 @@
 #include "aidata.h"
 #include "aidiplomat.h"
 #include "aihand.h"
+#include "aihunt.h"
 #include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
@@ -1326,6 +1327,9 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     kill_something_with(pplayer, pcity, virtualunit, choice);
     destroy_unit_virtual(virtualunit);
   }
+
+  /* Consider a hunter */
+  ai_hunter_choice(pplayer, pcity, choice);
 
   /* Consider veteran level enhancing buildings before non-urgent units */
   adjust_ai_unit_choice(pcity, choice);
