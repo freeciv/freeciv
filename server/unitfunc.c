@@ -1209,7 +1209,9 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   }
   
    if(punit->activity==ACTIVITY_PILLAGE && punit->activity_count>=1) {
-      if(map_get_special(punit->x, punit->y)&S_IRRIGATION)
+      if(map_get_special(punit->x, punit->y)&S_FARMLAND)
+	map_clear_special(punit->x, punit->y, S_FARMLAND);
+      else if(map_get_special(punit->x, punit->y)&S_IRRIGATION)
 	map_clear_special(punit->x, punit->y, S_IRRIGATION);
       else if(map_get_special(punit->x, punit->y)&S_MINE)
         map_clear_special(punit->x, punit->y, S_MINE);
@@ -1264,7 +1266,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   }
 
   if(punit->activity==ACTIVITY_ROAD) {
-    if (total_activity (punit->x, punit->y, ACTIVITY_ROAD) >	/* not >= ? */
+    if (total_activity (punit->x, punit->y, ACTIVITY_ROAD) >=
         map_build_road_time(punit->x, punit->y)) {
       map_set_special(punit->x, punit->y, S_ROAD);
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)

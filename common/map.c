@@ -29,33 +29,9 @@ struct civ_map map;
 /* this is used for map yval out of range: */
 static struct tile void_tile;
 
-struct tile_type tile_types[T_LAST]= 
-{
-  {"Arctic", "Seals",   0,0,0, 2,0,0, 2, 10, 3,
-    T_LAST,0,      T_LAST,0,	T_TUNDRA,24},
-  {"Desert", "Oasis",   0,1,0, 3,1,0, 1, 10, 1,
-    T_DESERT,5,    T_DESERT,5,	T_PLAINS,24},
-  {"Forest", "Game" ,   1,2,0, 3,2,0, 2, 15, 3,
-    T_PLAINS,5,    T_LAST,0,	T_GRASSLAND,24},
-  {"Grassland", "Resources", 2,0,0, 2,1,0, 1, 10, 1,
-    T_GRASSLAND,5, T_FOREST,10,	T_HILLS,24},
-  {"Hills", "Coals",    1,0,0, 1,2,0, 2, 20, 3,
-    T_HILLS,10,    T_HILLS,10,	T_PLAINS,24},
-  {"Jungle", "Gems",    1,0,0, 1,0,4, 2, 15, 3,
-    T_GRASSLAND,15,T_FOREST,15,	T_PLAINS,24},
-  {"Mountains","Gold",  0,1,0, 0,1,5, 3, 30, 5,
-    T_LAST,0,      T_MOUNTAINS,10,	T_HILLS,24},
-  {"Ocean", "Fish",     1,0,2, 3,0,2, 1, 10, 0,
-    T_LAST,0,      T_LAST,0,	T_LAST,0},
-  {"Plains", "Horses",  1,1,0, 3,1,0, 1, 10, 1,
-    T_PLAINS,5,    T_FOREST,15,	T_GRASSLAND,24},
-  {"River", "Resources",2,0,1, 2,1,1, 1, 15, 1,
-    T_RIVER,5,     T_LAST,0,	T_LAST,0},
-  {"Swamp", "Oil",      1,0,0, 1,4,0, 2, 15, 3,
-    T_GRASSLAND,15,T_FOREST,15,	T_PLAINS,24},
-  {"Tundra", "Game",    1,0,0, 3,0,0, 1, 10, 1,
-    T_LAST,0,      T_LAST,0,	T_DESERT,24}
-};
+/* these are initialized from the terrain ruleset */
+struct terrain_misc terrain_control;
+struct tile_type tile_types[T_LAST];
 
 /***************************************************************
   Return a (static) string with terrain name;
@@ -71,8 +47,12 @@ char *map_get_tile_info_text(int x, int y)
   sprintf(s, "%s%s",
 	  (ptile->special&S_POLLUTION ? "Polluted " : ""),
 	  tile_types[ptile->terrain].terrain_name);
-  if(ptile->special&S_SPECIAL) 
-    sprintf(s+strlen(s), "(%s)", tile_types[ptile->terrain].special_name);
+  if(ptile->special&S_RIVER) 
+    sprintf(s+strlen(s), "/River");
+  if(ptile->special&S_SPECIAL_1) 
+    sprintf(s+strlen(s), "(%s)", tile_types[ptile->terrain].special_1_name);
+  else if(ptile->special&S_SPECIAL_2) 
+    sprintf(s+strlen(s), "(%s)", tile_types[ptile->terrain].special_2_name);
 
   return s;
 }
@@ -143,6 +123,22 @@ void map_allocate(void)
 struct tile_type *get_tile_type(enum tile_terrain_type type)
 {
   return &tile_types[type];
+}
+
+/***************************************************************
+...
+***************************************************************/
+enum tile_terrain_type get_terrain_by_name(char * name)
+{
+  enum tile_terrain_type tt;
+  for (tt = T_FIRST; tt < T_COUNT; tt++)
+    {
+      if (0 == strcmp (tile_types[tt].terrain_name, name))
+	{
+	  break;
+	}
+    }
+  return (tt);
 }
 
 /***************************************************************
@@ -234,6 +230,39 @@ int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 }
 
 /***************************************************************
+  determines if any tile close to x,y has special spe
+***************************************************************/
+int is_special_near_tile(int x, int y, enum tile_special_type spe)
+{
+  if (map_get_special(x-1, y+1)&spe) return 1;
+  if (map_get_special(x+1, y-1)&spe) return 1;
+  if (map_get_special(x-1, y-1)&spe) return 1;
+  if (map_get_special(x+1, y+1)&spe) return 1;
+  if (map_get_special(x, y+1)&spe)   return 1;
+  if (map_get_special(x-1, y)&spe)   return 1;
+  if (map_get_special(x+1, y)&spe)   return 1;
+  if (map_get_special(x, y-1)&spe)   return 1;
+  return 0;
+}
+
+/***************************************************************
+  counts tiles close to x,y having special spe
+***************************************************************/
+int count_special_near_tile(int x, int y, enum tile_special_type spe)
+{
+  int rval= 0;
+  if (map_get_special(x, y+1)&spe)   rval++;
+  if (map_get_special(x-1, y-1)&spe) rval++;
+  if (map_get_special(x-1, y)&spe)   rval++;
+  if (map_get_special(x-1, y+1)&spe) rval++;
+  if (map_get_special(x+1, y-1)&spe) rval++;
+  if (map_get_special(x+1, y)&spe)   rval++;
+  if (map_get_special(x+1, y+1)&spe) rval++;
+  if (map_get_special(x, y-1)&spe)   rval++;
+  return rval;
+}
+
+/***************************************************************
 ...
 ***************************************************************/
 int is_at_coast(int x, int y)
@@ -308,6 +337,10 @@ int is_starter_close(int x, int y, int nr, int dist)
   if (map_get_tile(x, y)->special&S_HUT)
     return 1;
   
+  /* don't start on a river: */
+  if (map_get_tile(x, y)->special&S_RIVER)
+    return 1;
+  
   /* don't want them starting on the poles: */
   if (map_get_continent(x, y)<=2)
     return 1;
@@ -373,7 +406,9 @@ int is_water_adjacent(int x, int y)
   int x1,y1;
   for (y1=y-1;y1<y+2;y1++) 
     for (x1=x-1;x1<x+2;x1++) {
-      if (map_get_terrain(x1,y1)==T_OCEAN || map_get_terrain(x1, y1)==T_RIVER)
+      if (map_get_terrain(x1,y1)==T_OCEAN
+	  || map_get_terrain(x1, y1)==T_RIVER
+	  || map_get_special(x1, y1)&S_RIVER)
 	return 1;
     } 
   return 0;
@@ -410,6 +445,19 @@ int is_special_close(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
+int is_special_type_close(int x, int y, enum tile_special_type spe)
+{
+  int x1,y1;
+  for (x1=x-1;x1<x+2;x1++)
+    for (y1=y-1;y1<=y+2;y1++) 
+      if((map_get_tile(x1,y1)->special)&spe)
+	return 1;
+  return 0;
+}
+
+/***************************************************************
+...
+***************************************************************/
 int is_sea_usable(int x, int y)
 {
   int x1,y1;
@@ -421,6 +469,44 @@ int is_sea_usable(int x, int y)
   return 0;
 }
 
+/***************************************************************
+...
+***************************************************************/
+int get_tile_food_base(struct tile * ptile)
+{
+  if(ptile->special&S_SPECIAL_1) 
+    return (tile_types[ptile->terrain].food_special_1);
+  else if(ptile->special&S_SPECIAL_2) 
+    return (tile_types[ptile->terrain].food_special_2);
+  else
+    return (tile_types[ptile->terrain].food);
+}
+
+/***************************************************************
+...
+***************************************************************/
+int get_tile_shield_base(struct tile * ptile)
+{
+  if(ptile->special&S_SPECIAL_1) 
+    return (tile_types[ptile->terrain].shield_special_1);
+  else if(ptile->special&S_SPECIAL_2) 
+    return (tile_types[ptile->terrain].shield_special_2);
+  else
+    return (tile_types[ptile->terrain].shield);
+}
+
+/***************************************************************
+...
+***************************************************************/
+int get_tile_trade_base(struct tile * ptile)
+{
+  if(ptile->special&S_SPECIAL_1) 
+    return (tile_types[ptile->terrain].trade_special_1);
+  else if(ptile->special&S_SPECIAL_2) 
+    return (tile_types[ptile->terrain].trade_special_2);
+  else
+    return (tile_types[ptile->terrain].trade);
+}
 
 /***************************************************************
 ...
@@ -435,14 +521,17 @@ int is_water_adjacent_to_tile(int x, int y)
   ptile_s=map_get_tile(x, y+1);
   ptile_w=map_get_tile(x-1, y);
 
-  return (ptile->terrain==T_OCEAN   || ptile->terrain==T_RIVER   || ptile->special&S_IRRIGATION ||
-	  ptile_n->terrain==T_OCEAN || ptile_n->terrain==T_RIVER || ptile_n->special&S_IRRIGATION ||
-	  ptile_e->terrain==T_OCEAN || ptile_e->terrain==T_RIVER || ptile_e->special&S_IRRIGATION ||
-	  ptile_s->terrain==T_OCEAN || ptile_s->terrain==T_RIVER || ptile_s->special&S_IRRIGATION ||
-	  ptile_w->terrain==T_OCEAN || ptile_w->terrain==T_RIVER || ptile_w->special&S_IRRIGATION);
+  return (ptile->terrain==T_OCEAN   || ptile->terrain==T_RIVER
+	  || ptile->special&S_RIVER || ptile->special&S_IRRIGATION ||
+	  ptile_n->terrain==T_OCEAN || ptile_n->terrain==T_RIVER
+	  || ptile_n->special&S_RIVER || ptile_n->special&S_IRRIGATION ||
+	  ptile_e->terrain==T_OCEAN || ptile_e->terrain==T_RIVER
+	  || ptile_e->special&S_RIVER || ptile_e->special&S_IRRIGATION ||
+	  ptile_s->terrain==T_OCEAN || ptile_s->terrain==T_RIVER
+	  || ptile_s->special&S_RIVER || ptile_s->special&S_IRRIGATION ||
+	  ptile_w->terrain==T_OCEAN || ptile_w->terrain==T_RIVER
+	  || ptile_w->special&S_RIVER || ptile_w->special&S_IRRIGATION);
 }
-
-
 
 /***************************************************************
 ..
@@ -485,9 +574,15 @@ void map_irrigate_tile(int x, int y)
   
   now=map_get_terrain(x, y);
   result=tile_types[now].irrigation_result;
-  
+
   if(now==result) {
-    map_set_special(x, y, S_IRRIGATION);
+    if (map_get_special(x, y)&S_IRRIGATION) {
+      if (improvement_exists(B_SUPERMARKET)) {
+	map_set_special(x, y, S_FARMLAND);
+      }
+    } else {
+      map_set_special(x, y, S_IRRIGATION);
+    }
   }
   else if(result!=T_LAST) {
     map_set_terrain(x, y, result);
@@ -495,8 +590,6 @@ void map_irrigate_tile(int x, int y)
   }
   map_clear_special(x, y, S_MINE);
 }
-
-
 
 /***************************************************************
 ...
@@ -514,6 +607,7 @@ void map_mine_tile(int x, int y)
     map_set_terrain(x, y, result);
     reset_move_costs(x, y);
   }
+  map_clear_special(x,y, S_FARMLAND);
   map_clear_special(x,y, S_IRRIGATION);
 }
 
@@ -538,8 +632,10 @@ void map_transform_tile(int x, int y)
      future ruleset expansion. -GJW) */
   if (tile_types[result].mining_result != result)
     map_clear_special(x, y, S_MINE);
-  if (tile_types[result].irrigation_result != result)
+  if (tile_types[result].irrigation_result != result) {
+    map_clear_special(x, y, S_FARMLAND);
     map_clear_special(x, y, S_IRRIGATION);
+  }
 }
 
 /***************************************************************
@@ -597,7 +693,9 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
      (to match Civ2(?)) remove the "1 ||" below:
   */
   if( (1 || y1==y2 || map_adjust_x(x1)==map_adjust_x(x2))
-      && (t1->terrain==T_RIVER) && (t2->terrain==T_RIVER) )
+      && ( ( (t1->terrain==T_RIVER) && (t2->terrain==T_RIVER) )
+	   ||
+	   ( (t1->special&S_RIVER) && (t2->special&S_RIVER) ) ) )
     return 1;
   return(get_tile_type(t2->terrain)->movement_cost*3);
 }

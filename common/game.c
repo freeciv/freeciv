@@ -269,6 +269,7 @@ void game_init(void)
   game.rail_trade  = GAME_DEFAULT_RAILTRADE;
   game.rail_food   = GAME_DEFAULT_RAILFOOD;
   game.rail_prod   = GAME_DEFAULT_RAILPROD;
+  game.farmfood    = GAME_DEFAULT_FARMFOOD;
   game.foodbox     = GAME_DEFAULT_FOODBOX;
   game.aqueductloss= GAME_DEFAULT_AQUEDUCTLOSS;
   game.scorelog    = GAME_DEFAULT_SCORELOG;
@@ -285,6 +286,7 @@ void game_init(void)
   strcpy(game.ruleset.techs, GAME_DEFAULT_RULESET);
   strcpy(game.ruleset.units, GAME_DEFAULT_RULESET);
   strcpy(game.ruleset.buildings, GAME_DEFAULT_RULESET);
+  strcpy(game.ruleset.terrain, GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
   
   map_init();

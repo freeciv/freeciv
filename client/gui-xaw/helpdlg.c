@@ -36,6 +36,7 @@
 #include "shared.h"
 #include "tech.h"
 #include "unit.h"
+#include "map.h"
 #include "version.h"
 
 #include "climisc.h"
@@ -80,9 +81,18 @@ Widget help_unit_cost, help_unit_cost_data;
 Widget help_unit_visrange, help_unit_visrange_data;
 Widget help_unit_tile;
 
+Widget help_terrain_movement_defense, help_terrain_movement_defense_data;
+Widget help_terrain_food_shield_trade, help_terrain_food_shield_trade_data;
+Widget help_terrain_special_1, help_terrain_special_1_data;
+Widget help_terrain_special_2, help_terrain_special_2_data;
+Widget help_terrain_road_result_time, help_terrain_road_result_time_data;
+Widget help_terrain_irrigation_result_time, help_terrain_irrigation_result_time_data;
+Widget help_terrain_mining_result_time, help_terrain_mining_result_time_data;
+Widget help_terrain_transform_result_time, help_terrain_transform_result_time_data;
+
 char *help_type_names[] = { "", "TEXT", "UNIT", "IMPROVEMENT",
-			    "WONDER", "TECH", 0 };
-#define MAX_LAST (MAX(MAX(A_LAST,B_LAST),U_LAST))
+			    "WONDER", "TECH", "TERRAIN", 0 };
+#define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),T_COUNT))
 
 void create_help_page(enum help_page_type type);
 
@@ -122,6 +132,52 @@ char long_buffer[64000];
 #define TREE_NODE_REMOVED_TECH_BG "magenta"
 
 
+/****************************************************************
+...
+*****************************************************************/
+static void insert_generated_table(char* name, char* outbuf)
+{
+  if (0 == strcmp (name, "TerrainAlterations"))
+    {
+      int i;
+      strcat (outbuf, "Terrain     Road   Irrigation     Mining         Transform\n");
+      strcat (outbuf, "---------------------------------------------------------------\n");
+      for (i = T_FIRST; i < T_COUNT; i++)
+	{
+	  if (*(tile_types[i].terrain_name))
+	    {
+	      outbuf = strchr (outbuf, '\0');
+	      sprintf
+		(
+		 outbuf,
+		 "%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
+		 tile_types[i].terrain_name,
+		 tile_types[i].road_time,
+		 tile_types[i].irrigation_time,
+		 ((tile_types[i].irrigation_result == i) ||
+		  (tile_types[i].irrigation_result == T_LAST)) ? "" :
+		  tile_types[tile_types[i].irrigation_result].terrain_name,
+		 tile_types[i].mining_time,
+		 ((tile_types[i].mining_result == i) ||
+		  (tile_types[i].mining_result == T_LAST)) ? "" :
+		  tile_types[tile_types[i].mining_result].terrain_name,
+		 tile_types[i].transform_time,
+		 ((tile_types[i].transform_result == i) ||
+		  (tile_types[i].transform_result == T_LAST)) ? "" :
+		  tile_types[tile_types[i].transform_result].terrain_name
+                );
+	    }
+	}
+      strcat (outbuf, "\n");
+      strcat (outbuf, "(Railroads and fortresses require 3 turns, regardless of terrain.)\n");
+    }
+  return;
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
 static struct help_item *find_help_item_position(int pos)
 {
   return genlist_get(&help_nodes, pos);
@@ -265,6 +321,16 @@ void boot_help_texts(void)
 	      genlist_insert(&category_nodes, pitem, -1);
 	    }
 	  }
+	} else if(current_type==HELP_TERRAIN) {
+	  for(i=T_FIRST; i<T_COUNT; i++) {
+	    if(!seen[i] && *(tile_types[i].terrain_name)) {
+	      pitem = new_help_item(current_type);
+	      sprintf(name, " %s", tile_types[i].terrain_name);
+	      pitem->topic = mystrdup(name);
+	      pitem->text = mystrdup("");
+	      genlist_insert(&category_nodes, pitem, -1);
+	    }
+	  }
 	} else if(current_type==HELP_IMPROVEMENT) {
 	  for(i=0; i<B_LAST; i++) {
 	    if(!seen[i] && improvement_exists(i) && !is_wonder(i)) {
@@ -330,6 +396,14 @@ void boot_help_texts(void)
 	filter_this = 1;
       }
       break;
+    case HELP_TERRAIN:
+      i = get_terrain_by_name(pname);
+      if(i >= T_COUNT) {
+	if(booted)
+	  freelog(LOG_VERBOSE, "Filtering terrain %s from help", pname);
+	filter_this = 1;
+      }
+      break;
     case HELP_IMPROVEMENT:
       i = find_improvement_by_name(pname);
       if(!improvement_exists(i) || is_wonder(i)) {
@@ -365,13 +439,17 @@ void boot_help_texts(void)
       buf[strlen(buf)-1]='\0';
       if(!strncmp(buf, "%%", 2))
 	continue;
+      if(!strncmp(buf, "$", 1)) {
+	insert_generated_table (buf+1, long_buffer);
+	continue;
+      }
       if(!strcmp(buf, "---"))
 	break;
       if(!filter_this) {
 	strcat(long_buffer, buf);
 	strcat(long_buffer, "\n");
       }
-    } 
+    }
 
     if(!filter_this) {
       pitem->text=mystrdup(long_buffer);
@@ -822,6 +900,139 @@ void create_help_page(enum help_page_type type)
 					   NULL);
     XawTreeForceLayout(help_tech_tree);  
   }
+  else if(type==HELP_TERRAIN) {
+    help_text =
+      XtVaCreateManagedWidget
+      (
+       "helptext",
+       asciiTextWidgetClass,
+       help_right_form,
+       XtNeditType, XawtextRead,
+       XtNscrollVertical, XawtextScrollAlways,
+       XtNwidth, w2,
+       XtNheight, 140,
+       NULL);
+
+    help_terrain_movement_defense =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_movement_defense",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+    help_terrain_movement_defense_data =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_movement_defense_data",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+
+    help_terrain_food_shield_trade =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_food_shield_trade",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+    help_terrain_food_shield_trade_data =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_food_shield_trade_data",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+
+    help_terrain_special_1 =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_special_1",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+    help_terrain_special_1_data =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_special_1_data",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+
+    help_terrain_special_2 =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_special_2",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+    help_terrain_special_2_data =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_special_2_data",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+
+    help_terrain_road_result_time =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_road_result_time",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+    help_terrain_road_result_time_data =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_road_result_time_data",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+
+    help_terrain_irrigation_result_time =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_irrigation_result_time",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+    help_terrain_irrigation_result_time_data =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_irrigation_result_time_data",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+
+    help_terrain_mining_result_time =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_mining_result_time",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+    help_terrain_mining_result_time_data =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_mining_result_time_data",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+
+    help_terrain_transform_result_time =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_transform_result_time",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+    help_terrain_transform_result_time_data =
+      XtVaCreateManagedWidget
+      (
+       "help_terrain_transform_result_time_data",
+       labelWidgetClass,
+       help_right_form,
+       NULL);
+  }
 }
 
 static void help_cathedral_techs_append(char *buf)
@@ -1183,6 +1394,126 @@ static void help_update_tech(struct help_item *pitem, char *title, int i)
 /**************************************************************************
 ...
 **************************************************************************/
+static void help_update_terrain(struct help_item *pitem, char *title, int i)
+{
+  char buf[1024];
+
+  create_help_page(HELP_TERRAIN);
+  set_title_topic(pitem);
+
+  XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
+
+  if (i < T_COUNT)
+    {
+      sprintf (buf, "%d/%d.%d",
+	       tile_types[i].movement_cost,
+	       (int)(tile_types[i].defense_bonus/10), tile_types[i].defense_bonus%10);
+      xaw_set_label (help_terrain_movement_defense_data, buf);
+
+      sprintf (buf, "%d/%d/%d",
+	       tile_types[i].food,
+	       tile_types[i].shield,
+	       tile_types[i].trade);
+      xaw_set_label (help_terrain_food_shield_trade_data, buf);
+
+      if (*(tile_types[i].special_1_name))
+	{
+	  sprintf (buf, "%s F/R/T:",
+		   tile_types[i].special_1_name);
+	  xaw_set_label (help_terrain_special_1, buf);
+	  sprintf (buf, "%d/%d/%d",
+		   tile_types[i].food_special_1,
+		   tile_types[i].shield_special_1,
+		   tile_types[i].trade_special_1);
+	  xaw_set_label (help_terrain_special_1_data, buf);
+	} else {
+	  xaw_set_label (help_terrain_special_1, "");
+	  xaw_set_label (help_terrain_special_1_data, "");
+	}
+
+      if (*(tile_types[i].special_2_name))
+	{
+	  sprintf (buf, "%s F/R/T:",
+		   tile_types[i].special_2_name);
+	  xaw_set_label (help_terrain_special_2, buf);
+	  sprintf (buf, "%d/%d/%d",
+		   tile_types[i].food_special_2,
+		   tile_types[i].shield_special_2,
+		   tile_types[i].trade_special_2);
+	  xaw_set_label (help_terrain_special_2_data, buf);
+	} else {
+	  xaw_set_label (help_terrain_special_2, "");
+	  xaw_set_label (help_terrain_special_2_data, "");
+	}
+
+      if (tile_types[i].road_trade_incr > 0)
+	{
+	  sprintf (buf, "+%d Trade / %d",
+		   tile_types[i].road_trade_incr,
+		   tile_types[i].road_time);
+	}
+      else if (tile_types[i].road_time > 0)
+	{
+	  sprintf (buf, "no extra / %d",
+		   tile_types[i].road_time);
+	}
+      else
+	{
+	  strcpy (buf, "n/a");
+	}
+      xaw_set_label (help_terrain_road_result_time_data, buf);
+
+      strcpy (buf, "n/a");
+      if (tile_types[i].irrigation_result == i)
+	{
+	  if (tile_types[i].irrigation_food_incr > 0)
+	    {
+	      sprintf (buf, "+%d Food / %d",
+		       tile_types[i].irrigation_food_incr,
+		       tile_types[i].irrigation_time);
+	    }
+	}
+      else if (tile_types[i].irrigation_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].irrigation_result].terrain_name,
+		   tile_types[i].irrigation_time);
+	}
+      xaw_set_label (help_terrain_irrigation_result_time_data, buf);
+
+      strcpy (buf, "n/a");
+      if (tile_types[i].mining_result == i)
+	{
+	  if (tile_types[i].mining_shield_incr > 0)
+	    {
+	      sprintf (buf, "+%d Res. / %d",
+		       tile_types[i].mining_shield_incr,
+		       tile_types[i].mining_time);
+	    }
+	}
+      else if (tile_types[i].mining_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].mining_result].terrain_name,
+		   tile_types[i].mining_time);
+	}
+      xaw_set_label (help_terrain_mining_result_time_data, buf);
+
+      if (tile_types[i].transform_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].transform_result].terrain_name,
+		   tile_types[i].transform_time);
+	} else {
+	  strcpy (buf, "n/a");
+	}
+      xaw_set_label (help_terrain_transform_result_time_data, buf);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void help_update_dialog(struct help_item *pitem)
 {
   int i;
@@ -1208,6 +1539,9 @@ static void help_update_dialog(struct help_item *pitem)
     break;
   case HELP_TECH:
     help_update_tech(pitem, top, find_tech_by_name(top));
+    break;
+  case HELP_TERRAIN:
+    help_update_terrain(pitem, top, get_terrain_by_name(top));
     break;
   case HELP_TEXT:
   default:

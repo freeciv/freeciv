@@ -23,6 +23,7 @@
 #include "registry.h"
 #include "tech.h"
 #include "unit.h"
+#include "map.h"
 
 #include "ruleset.h"
 
@@ -37,19 +38,22 @@ static int lookup_tech(struct section_file *file, char *prefix,
 		       char *entry, int required, char *filename,
 		       char *description);
 static int match_name_from_list(char *name, char **list, int n_list);
+static enum tile_terrain_type lookup_terrain(char *name, int this);
 
 static void load_ruleset_techs(char *ruleset_subdir);
 static void load_ruleset_units(char *ruleset_subdir);
 static void load_ruleset_buildings(char *ruleset_subdir);
+static void load_ruleset_terrain(char *ruleset_subdir);
 
 static void send_ruleset_techs(struct player *dest);
 static void send_ruleset_units(struct player *dest);
 static void send_ruleset_buildings(struct player *dest);
+static void send_ruleset_terrain(struct player *dest);
 
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
   "subdir" = "default", "civ1", "custom", ...
-  "whichset" = "techs", "units", "buildings" (...)
+  "whichset" = "techs", "units", "buildings", "terrain" (...)
   returns ptr to static memory with full filename including data directory. 
 **************************************************************************/
 static char *openload_ruleset_file(struct section_file *file,
@@ -180,6 +184,34 @@ static int match_name_from_list(char *name, char **list, int n_list)
     }
   }
   return -1;
+}
+
+
+/**************************************************************************
+ Lookup a terrain name in the tile_types array; return its index.
+**************************************************************************/
+static enum tile_terrain_type lookup_terrain(char *name, int this)
+{
+  int i;
+
+  if ((!(*name)) || (0 == strcmp(name, "none")) || (0 == strcmp(name, "no")))
+    {
+      return (T_LAST);
+    }
+  else if (0 == strcmp(name, "yes"))
+    {
+      return (this);
+    }
+
+  for (i = T_FIRST; i < T_COUNT; i++)
+    {
+      if (0 == strcmp(name, tile_types[i].terrain_name))
+	{
+	  return (i);
+	}
+    }
+
+  return (T_UNKNOWN);
 }
 
 /**************************************************************************
@@ -552,6 +584,115 @@ static void load_ruleset_buildings(char *ruleset_subdir)
 }
 
 /**************************************************************************
+...  
+**************************************************************************/
+static void load_ruleset_terrain(char *ruleset_subdir)
+{
+  struct section_file file;
+  char *filename, *datafile_options;
+  char prefix[64];
+  int i;
+  struct tile_type *t;
+
+  filename = openload_ruleset_file(&file, ruleset_subdir, "terrain");
+  datafile_options = check_ruleset_capabilities(&file, "1.8.2", filename);
+  section_file_lookup(&file,"datafile.description"); /* unused */
+
+  /* options */
+
+  terrain_control.river_style =
+    secfile_lookup_int_default(&file, R_AS_SPECIAL, "options.river_style");
+
+  terrain_control.may_road =
+    secfile_lookup_int_default(&file, TRUE, "options.may_road");
+  terrain_control.may_irrigate =
+    secfile_lookup_int_default(&file, TRUE, "options.may_irrigate");
+  terrain_control.may_mine =
+    secfile_lookup_int_default(&file, TRUE, "options.may_mine");
+  terrain_control.may_transform =
+    secfile_lookup_int_default(&file, TRUE, "options.may_transform");
+
+  /* graphics */
+
+  terrain_control.border_base =
+    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.border_base");
+  terrain_control.corner_base =
+    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.corner_base");
+  terrain_control.river_base =
+    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.river_base");
+  terrain_control.outlet_base =
+    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.outlet_base");
+  terrain_control.denmark_base =
+    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.denmark_base");
+
+  /* terrain names */
+
+  for (i = T_FIRST; i < T_COUNT; i++)
+    {
+      t = &(tile_types[i]);
+
+      strcpy(t->terrain_name,
+	     secfile_lookup_str(&file, "terrains.t%d.terrain_name", i));
+      if (0 == strcmp(t->terrain_name, "unused")) *(t->terrain_name) = '\0';
+    }
+
+  /* terrain details */
+
+  for (i = T_FIRST; i < T_COUNT; i++)
+    {
+      t = &(tile_types[i]);
+      sprintf(prefix, "terrains.t%d", i);
+
+      t->graphic_base = secfile_lookup_int(&file, "%s.graphic_base", prefix);
+      t->graphic_count = secfile_lookup_int(&file, "%s.graphic_count", prefix);
+
+      t->movement_cost = secfile_lookup_int(&file, "%s.movement_cost", prefix);
+      t->defense_bonus = secfile_lookup_int(&file, "%s.defense_bonus", prefix);
+
+      t->food = secfile_lookup_int(&file, "%s.food", prefix);
+      t->shield = secfile_lookup_int(&file, "%s.shield", prefix);
+      t->trade = secfile_lookup_int(&file, "%s.trade", prefix);
+
+      strcpy(t->special_1_name, secfile_lookup_str(&file, "%s.special_1_name", prefix));
+      if (0 == strcmp(t->special_1_name, "none")) *(t->special_1_name) = '\0';
+      t->graphic_special_1 = secfile_lookup_int(&file, "%s.graphic_special_1", prefix);
+      t->food_special_1 = secfile_lookup_int(&file, "%s.food_special_1", prefix);
+      t->shield_special_1 = secfile_lookup_int(&file, "%s.shield_special_1", prefix);
+      t->trade_special_1 = secfile_lookup_int(&file, "%s.trade_special_1", prefix);
+
+      strcpy(t->special_2_name, secfile_lookup_str(&file, "%s.special_2_name", prefix));
+      if (0 == strcmp(t->special_2_name, "none")) *(t->special_2_name) = '\0';
+      t->graphic_special_2 = secfile_lookup_int(&file, "%s.graphic_special_2", prefix);
+      t->food_special_2 = secfile_lookup_int(&file, "%s.food_special_2", prefix);
+      t->shield_special_2 = secfile_lookup_int(&file, "%s.shield_special_2", prefix);
+      t->trade_special_2 = secfile_lookup_int(&file, "%s.trade_special_2", prefix);
+
+      t->road_trade_incr =
+	secfile_lookup_int(&file, "%s.road_trade_incr", prefix);
+      t->road_time = secfile_lookup_int(&file, "%s.road_time", prefix);
+
+      t->irrigation_result =
+	lookup_terrain(secfile_lookup_str(&file, "%s.irrigation_result", prefix), i);
+      t->irrigation_food_incr =
+	secfile_lookup_int(&file, "%s.irrigation_food_incr", prefix);
+      t->irrigation_time = secfile_lookup_int(&file, "%s.irrigation_time", prefix);
+
+      t->mining_result =
+	lookup_terrain(secfile_lookup_str(&file, "%s.mining_result", prefix), i);
+      t->mining_shield_incr =
+	secfile_lookup_int(&file, "%s.mining_shield_incr", prefix);
+      t->mining_time = secfile_lookup_int(&file, "%s.mining_time", prefix);
+
+      t->transform_result =
+	lookup_terrain(secfile_lookup_str(&file, "%s.transform_result", prefix), i);
+      t->transform_time = secfile_lookup_int(&file, "%s.transform_time", prefix);
+    }
+
+  section_file_check_unused(&file, filename);
+  section_file_free(&file);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void send_ruleset_units(struct player *dest)
@@ -640,12 +781,83 @@ void send_ruleset_buildings(struct player *dest)
 /**************************************************************************
 ...  
 **************************************************************************/
+static void send_ruleset_terrain(struct player *dest)
+{
+  struct packet_ruleset_terrain packet;
+  struct tile_type *t;
+  int i, to;
+
+  for (to = 0; to < game.nplayers; to++)      /* dests */
+    {
+      if (dest==0 || get_player(to)==dest)
+	{
+	  send_packet_ruleset_terrain_control(get_player(to)->conn, &terrain_control);
+	}
+    }
+
+  for (i = T_FIRST; i < T_COUNT; i++)
+    {
+      t = &(tile_types[i]);
+
+      packet.id = i;
+
+      strcpy (packet.terrain_name, t->terrain_name);
+      packet.graphic_base = t->graphic_base;
+      packet.graphic_count = t->graphic_count;
+
+      packet.movement_cost = t->movement_cost;
+      packet.defense_bonus = t->defense_bonus;
+
+      packet.food = t->food;
+      packet.shield = t->shield;
+      packet.trade = t->trade;
+
+      strcpy (packet.special_1_name, t->special_1_name);
+      packet.graphic_special_1 = t->graphic_special_1;
+      packet.food_special_1 = t->food_special_1;
+      packet.shield_special_1 = t->shield_special_1;
+      packet.trade_special_1 = t->trade_special_1;
+
+      strcpy (packet.special_2_name, t->special_2_name);
+      packet.graphic_special_2 = t->graphic_special_2;
+      packet.food_special_2 = t->food_special_2;
+      packet.shield_special_2 = t->shield_special_2;
+      packet.trade_special_2 = t->trade_special_2;
+
+      packet.road_trade_incr = t->road_trade_incr;
+      packet.road_time = t->road_time;
+
+      packet.irrigation_result = t->irrigation_result;
+      packet.irrigation_food_incr = t->irrigation_food_incr;
+      packet.irrigation_time = t->irrigation_time;
+
+      packet.mining_result = t->mining_result;
+      packet.mining_shield_incr = t->mining_shield_incr;
+      packet.mining_time = t->mining_time;
+
+      packet.transform_result = t->transform_result;
+      packet.transform_time = t->transform_time;
+
+      for (to = 0; to < game.nplayers; to++)      /* dests */
+	{
+	  if (dest==0 || get_player(to)==dest)
+	    {
+	      send_packet_ruleset_terrain(get_player(to)->conn, &packet);
+	    }
+	}
+    }
+}
+
+/**************************************************************************
+...  
+**************************************************************************/
 void load_rulesets(void)
 {
   freelog(LOG_NORMAL, "Loading rulesets");
   load_ruleset_techs(game.ruleset.techs);
   load_ruleset_units(game.ruleset.units);
   load_ruleset_buildings(game.ruleset.buildings);
+  load_ruleset_terrain(game.ruleset.terrain);
 }
 
 /**************************************************************************
@@ -664,6 +876,7 @@ void send_rulesets(struct player *dest)
   send_ruleset_techs(dest);
   send_ruleset_units(dest);
   send_ruleset_buildings(dest);
+  send_ruleset_terrain(dest);
   
   for(to=0; to<game.nplayers; to++) {
     if(dest==0 || get_player(to)==dest) {

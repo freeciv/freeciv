@@ -291,6 +291,15 @@ static struct settings_s settings[] = {
     "  See also README.rulesets.",
     game.ruleset.buildings, GAME_DEFAULT_RULESET },
 
+  { "terrain", NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    0, 0, 0,
+    "Data subdir containing terrain.ruleset",
+    "  This should specify a subdirectory of the data directory, containing a\n"
+    "  file called \"terrain.ruleset\".  The terrain types present in the game\n"
+    "  will be initialized from this file.  See also README.rulesets.",
+    game.ruleset.terrain, GAME_DEFAULT_RULESET },
+
   { "researchspeed", &game.techlevel,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,
@@ -352,6 +361,14 @@ static struct settings_s settings[] = {
     "  The trade production of a square with a railroad is increased by this\n"
     "  percentage, with the final value rounded down." },
 
+  { "farmfood", &game.farmfood,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_FARMFOOD, GAME_MAX_FARMFOOD, GAME_DEFAULT_FARMFOOD,
+    "Farmland modifier to food production",
+    "  The food production of a square with farmland is increased by this\n"
+    "  percentage, with the final value rounded down, if the city contains\n"
+    "  a Supermarket." },
+
   { "foodbox", &game.foodbox, 
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX,
@@ -394,7 +411,8 @@ static struct settings_s settings[] = {
     "Style of Civ rules",
     "  Sets some basic rules; 1 means style of Civ1, 2 means Civ2.  Currently\n"
     "  this option is mostly unimplemented and only affects a few rules.\n"
-    "  See also README.rulesets and the techs, units, and buildings options." },
+    "  See also README.rulesets and the techs, units, buildings and terrain\n"
+    "  options." },
 
 /* Flexible rules: these can be changed after the game has started.
  * Should such flexible rules exist?  diplchance is included here

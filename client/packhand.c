@@ -1026,6 +1026,59 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
  
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
+{
+  struct tile_type *t = &(tile_types[p->id]);
+
+  strcpy(t->terrain_name, p->terrain_name);
+  t->graphic_base = p->graphic_base;
+  t->graphic_count = p->graphic_count;
+  t->movement_cost = p->movement_cost;
+  t->defense_bonus = p->defense_bonus;
+  t->food = p->food;
+  t->shield = p->shield;
+  t->trade = p->trade;
+  strcpy(t->special_1_name, p->special_1_name);
+  t->graphic_special_1 = p->graphic_special_1;
+  t->food_special_1 = p->food_special_1;
+  t->shield_special_1 = p->shield_special_1;
+  t->trade_special_1 = p->trade_special_1;
+  strcpy(t->special_2_name, p->special_2_name);
+  t->graphic_special_2 = p->graphic_special_2;
+  t->food_special_2 = p->food_special_2;
+  t->shield_special_2 = p->shield_special_2;
+  t->trade_special_2 = p->trade_special_2;
+  t->road_time = p->road_time;
+  t->road_trade_incr = p->road_trade_incr;
+  t->irrigation_result = p->irrigation_result;
+  t->irrigation_food_incr = p->irrigation_food_incr;
+  t->irrigation_time = p->irrigation_time;
+  t->mining_result = p->mining_result;
+  t->mining_shield_incr = p->mining_shield_incr;
+  t->mining_time = p->mining_time;
+  t->transform_result = p->transform_result;
+  t->transform_time = p->transform_time;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_terrain_control(struct terrain_misc *p)
+{
+  terrain_control.river_style = p->river_style;
+  terrain_control.may_road = p->may_road;
+  terrain_control.may_irrigate = p->may_irrigate;
+  terrain_control.may_mine = p->may_mine;
+  terrain_control.may_transform = p->may_transform;
+  terrain_control.border_base = p->border_base;
+  terrain_control.corner_base = p->corner_base;
+  terrain_control.river_base = p->river_base;
+  terrain_control.outlet_base = p->outlet_base;
+  terrain_control.denmark_base = p->denmark_base;
+}
 
 /**************************************************************************
 ...

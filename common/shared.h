@@ -25,6 +25,13 @@
 #define MAX_LEN_NAME     32
 #define MAX_LEN_ADDR     32
 
+#ifndef TRUE
+#define TRUE (1)
+#endif
+#ifndef FALSE
+#define FALSE (0)
+#endif
+
 #ifndef MAX
 #define MAX(x,y) (((x)>(y))?(x):(y))
 #define MIN(x,y) (((x)<(y))?(x):(y))

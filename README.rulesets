@@ -7,8 +7,7 @@ Quickstart:
  Rulesets allow modifiable sets of data for units, advances, 
  improvements, and wonders, without requiring recompilation, in a way
  which is consistent across a network and through savegames.  (In the
- future there could be other categories of rulesets, eg terrain, 
- governments?)
+ future there could be other categories of rulesets, eg governments?)
 
 - To play freeciv normally: don't do anything special; the new
   features all have defaults which give the standard freeciv 
@@ -42,7 +41,7 @@ of "./ser -r data/civ1.serv" just reads a file which sets these
 options (as well as a few of the standard server options).  
 The new server options are:
 
-        techs, units, buildings.
+        terrain, techs, units, buildings.
 
 They are special server options in that they take string values, but 
 otherwise the behave like normal server options.  Eg, try the server 
@@ -54,12 +53,14 @@ name techs.ruleset, units.ruleset, or buildings.ruleset, respectively.
 
 Eg, the commands:
    
+	set terrain civ2
 	set techs default 
 	set units civ1
 	set buildings custom
 
 would specify the files:
 
+	data/civ2/terrain.ruleset
 	data/default/techs.ruleset
 	data/civ1/units.ruleset
 	data/custom/buildings.ruleset
@@ -71,9 +72,10 @@ not exist in standard freeciv.)
 The ruleset files in the data directory are user-editable, so you can
 modify them to create modified or custom rulesets (without having to
 recompile freeciv).  It is suggested that you _don't_ edit the 
-existing files in the "default" and "civ1" directories, but rather 
-copy them to another directory and edit the copies.  This is so that 
-its clear when you are using modified rules and not the standard ones.
+existing files in the "default", "civ1" and "civ2" directories, but
+rather copy them to another directory and edit the copies.  This is so
+that its clear when you are using modified rules and not the standard
+ones.
 
 The format used in the ruleset files should be fairly 
 self-explanatory.  A few points:
@@ -247,7 +249,7 @@ TODO:
   Eg, scores for units/techs/buildings, to help the AI know which 
   ones to prefer?
 
-- Rulesets for: terrain, governments, ... ??
+- Rulesets for: governments, ... ??
 
 - Should generalise improvements and wonders better than 
   using variants, which are still largely hardwired.

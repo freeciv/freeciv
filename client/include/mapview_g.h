@@ -19,8 +19,6 @@ struct city;
 /* don't change this unless you also put more entries in data/Freeciv */
 #define MAX_NUM_UNITS_BELOW 4
 
-#define CORNER_TILES     0
-
 /* number of "rows" in each graphics file */
 #define ROWS_TILES   (19)
 #define ROWS_UNITS   (3)
@@ -40,13 +38,6 @@ struct city;
 #define NUKE_TILE7        3*20+18
 #define NUKE_TILE8        3*20+19
 
-#define GRASSLAND_TILES  1*20
-#define DESERT_TILES     2*20
-#define ARCTIC_TILES     3*20
-#define JUNGLE_TILES     4*20
-#define PLAINS_TILES     5*20
-#define SWAMP_TILES      6*20
-#define TUNDRA_TILES     7*20
 
 /* jjm@codewell.com 30dec1998a
    Moved road and rail tiles to roads.xpm; added tiles for diagonals.
@@ -56,13 +47,6 @@ struct city;
 extern int ROAD_TILES;
 extern int RAIL_TILES;
 
-#define RIVER_TILES      8*20
-#define OUTLET_TILES     8*20+16
-#define OCEAN_TILES      9*20
-#define HILLS_TILES      10*20
-#define FOREST_TILES     10*20+4
-#define MOUNTAINS_TILES  10*20+8
-#define DENMARK_TILES    10*20+12
 #define X_TILE           10*20+19
 
 #define OCCUPIED_TILE    9*20+16
@@ -89,6 +73,7 @@ The tiles for the units are now stored in units.xpm
 */
 extern int UNIT_TILES;
 
+#define FARMLAND_TILE    12*20+7
 #define IRRIGATION_TILE  12*20+8
 #define HILLMINE_TILE    12*20+9
 #define DESERTMINE_TILE  12*20+10
@@ -98,7 +83,6 @@ extern int UNIT_TILES;
 #define HUT_TILE         12*20+14
 #define FORTRESS_TILE    12*20+15
 
-#define BORDER_TILES     13*20
 
 #define NUMBER_TILES     14*20
 #define NUMBER_MSD_TILES 14*20+9

@@ -829,9 +829,12 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
     return 0;
   if ((id == B_HYDRO || id == B_HOOVER)
       && !(map_get_terrain(pcity->x, pcity->y) == T_RIVER)
+      && !(map_get_special(pcity->x, pcity->y) & S_RIVER)
       && !(map_get_terrain(pcity->x, pcity->y) == T_MOUNTAINS)
       && !is_terrain_near_tile(pcity->x, pcity->y, T_MOUNTAINS)
-      && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER))
+      && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER)
+      && !is_special_near_tile(pcity->x, pcity->y, S_RIVER)
+     )
     return 0;
   if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
     if (!game.global_wonders[B_APOLLO]) {
@@ -968,8 +971,11 @@ int get_shields_tile(int x, int y, struct city *pcity)
   int gov=get_government(pcity->owner);
   if (city_celebrating(pcity))
     gov+=2;
-  if (spec_t & S_SPECIAL) 
-    s=get_tile_type(tile_t)->shield_special;
+
+  if (spec_t & S_SPECIAL_1) 
+    s=get_tile_type(tile_t)->shield_special_1;
+  else if (spec_t & S_SPECIAL_2) 
+    s=get_tile_type(tile_t)->shield_special_2;
   else
     s=get_tile_type(tile_t)->shield;
 
@@ -977,9 +983,7 @@ int get_shields_tile(int x, int y, struct city *pcity)
     s=1;
   
   if (spec_t & S_MINE) {
-    s++;
-    if (tile_t == T_HILLS) 
-      s+=2;
+    s += (get_tile_type(tile_t))->mining_shield_incr;
   }
   if (spec_t & S_RAILROAD)
     s+=(s*game.rail_prod)/100;
@@ -1006,20 +1010,18 @@ int get_trade_tile(int x, int y, struct city *pcity)
   if (city_celebrating(pcity)) 
     gov+=2;
  
-  if (spec_t & S_SPECIAL) 
-    t=get_tile_type(tile_t)->trade_special;
+  if (spec_t & S_SPECIAL_1) 
+    t=get_tile_type(tile_t)->trade_special_1;
+  else if (spec_t & S_SPECIAL_2) 
+    t=get_tile_type(tile_t)->trade_special_2;
   else
     t=get_tile_type(tile_t)->trade;
     
+  if (spec_t & S_RIVER) {
+    t++;
+  }
   if (spec_t & S_ROAD) {
-    switch (tile_t) {
-    case T_DESERT:
-    case T_GRASSLAND:
-    case T_PLAINS:
-      t++;
-    default:
-      break;
-    }
+    t += (get_tile_type(tile_t))->road_trade_incr;
   }
   if (t) {
     if (spec_t & S_RAILROAD)
@@ -1057,28 +1059,34 @@ int get_food_tile(int x, int y, struct city *pcity)
   enum tile_terrain_type tile_t=map_get_terrain(pcity->x+x-2, pcity->y+y-2);
   struct tile_type *type;
   int gov=get_government(pcity->owner);
+  int city_auto_water;
 
   type=get_tile_type(tile_t);
+  city_auto_water = (x==2 && y==2 && tile_t==type->irrigation_result);
 
   if (city_celebrating(pcity))
     gov+=2;
 
-  if (spec_t & S_SPECIAL) 
-    f=get_tile_type(tile_t)->food_special;
+  if (spec_t & S_SPECIAL_1) 
+    f=get_tile_type(tile_t)->food_special_1;
+  else if (spec_t & S_SPECIAL_2) 
+    f=get_tile_type(tile_t)->food_special_2;
   else
     f=get_tile_type(tile_t)->food;
 
-  if (spec_t & S_IRRIGATION || (x==2 && y==2 && tile_t==type->irrigation_result)) {
-    f++;
+  if ((spec_t & S_IRRIGATION) || city_auto_water) {
+    f += type->irrigation_food_incr;
+    if (((spec_t & S_FARMLAND) || city_auto_water) &&
+	city_got_building(pcity, B_SUPERMARKET)) {
+      f += (f * game.farmfood) / 100;
+    }
   }
+
   if (city_got_building(pcity, B_HARBOUR) && tile_t==T_OCEAN)
     f++;
 
   if (spec_t & S_RAILROAD)
     f+=(f*game.rail_food)/100;
-
-  if (city_got_building(pcity, B_SUPERMARKET) && (spec_t & S_IRRIGATION))
-    f *= 1.5;
 
   if (f>2 && gov <=G_DESPOTISM) 
     f--;

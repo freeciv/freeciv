@@ -37,5 +37,7 @@ void handle_remove_player(struct packet_generic_integer *packet);
 void handle_ruleset_unit(struct packet_ruleset_unit *packet);
 void handle_ruleset_tech(struct packet_ruleset_tech *packet);
 void handle_ruleset_building(struct packet_ruleset_building *packet);
+void handle_ruleset_terrain(struct packet_ruleset_terrain *packet);
+void handle_ruleset_terrain_control(struct terrain_misc *packet);
 
 #endif /* FC__PACKHAND_H */

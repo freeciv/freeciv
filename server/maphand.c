@@ -56,6 +56,7 @@ void global_warming(int effect)
 	case T_GRASSLAND:
 	  effect--;
 	  map_set_terrain(x, y, T_SWAMP);
+	  map_clear_special(x, y, S_FARMLAND);
 	  map_clear_special(x, y, S_IRRIGATION);
           reset_move_costs(x, y);
           relight_square_if_known(0, x, y);
@@ -337,7 +338,7 @@ void map_save(struct section_file *file)
     return;
   }
 
-  /* get lower 4 bits of special flags */
+  /* put lower 4 bits of special flags */
   for(y=0; y<map.ysize; y++) {
     for(x=0; x<map.xsize; x++)
       pbuf[x]=dec2hex[map_get_tile(x, y)->special&0xf];
@@ -346,7 +347,6 @@ void map_save(struct section_file *file)
     secfile_insert_str(file, pbuf, "map.l%03d", y);
   }
 
-
   /* put upper 4 bits of special flags */
   for(y=0; y<map.ysize; y++) {
     for(x=0; x<map.xsize; x++)
@@ -354,6 +354,15 @@ void map_save(struct section_file *file)
     pbuf[x]='\0';
 
     secfile_insert_str(file, pbuf, "map.u%03d", y);
+  }
+
+  /* put "next" 4 bits of special flags */
+  for(y=0; y<map.ysize; y++) {
+    for(x=0; x<map.xsize; x++)
+      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf00)>>8];
+    pbuf[x]='\0';
+
+    secfile_insert_str(file, pbuf, "map.n%03d", y);
   }
 
   /* put bit 0-3 of known bits */
@@ -483,6 +492,25 @@ void map_load(struct section_file *file)
  	freelog(LOG_FATAL, "unknown special flag(upper) (map.u) in map "
 		"at position(%d,%d): %d '%c'", x, y, ch, ch);
 	exit(1);
+      }
+    }
+  }
+
+  /* get "next" 4 bits of special flags */
+  for(y=0; y<map.ysize; y++) {
+    char *terline=secfile_lookup_str_default(file, NULL, "map.n%03d", y);
+
+    if (terline) {
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+
+	if(isxdigit(ch)) {
+	  map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown special flag(next) (map.n) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
       }
     }
   }

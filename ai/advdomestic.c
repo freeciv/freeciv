@@ -122,7 +122,7 @@ static int farmland_food(struct city *pcity)
   int x, y, i = 0; 
   city_map_iterate(x, y) {
     if (is_worker_here(pcity, x, y)) {
-      if (map_get_special(pcity->x+x-2, pcity->y+y-2) & S_IRRIGATION) i++;
+      if (map_get_special(pcity->x+x-2, pcity->y+y-2) & S_FARMLAND) i++;
     }
   }  
   return(i); 

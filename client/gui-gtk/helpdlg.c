@@ -29,6 +29,7 @@
 #include "shared.h"
 #include "tech.h"
 #include "unit.h"
+#include "map.h"
 #include "version.h"
 
 #include "climisc.h"
@@ -44,8 +45,8 @@
 
 
 char *help_type_names[] = { "", "TEXT", "UNIT", "IMPROVEMENT",
-                           "WONDER", "TECH", 0 };
-#define MAX_LAST (MAX(MAX(A_LAST,B_LAST),U_LAST))
+                           "WONDER", "TECH", "TERRAIN", 0 };
+#define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),T_COUNT))
 
 void select_help_item_string(char *item, enum help_page_type htype);
 
@@ -86,11 +87,13 @@ GtkWidget *		help_box;
 GtkWidget *		help_itable;
 GtkWidget *		help_wtable;
 GtkWidget *		help_utable;
+GtkWidget *		help_ttable;
 GtkWidget *		help_tree;
 GtkWidget *		help_tree_scrolled;
 GtkWidget *		help_ilabel	[6];
 GtkWidget *		help_wlabel	[6];
 GtkWidget *		help_ulabel	[4][5];
+GtkWidget *		help_tlabel	[4][5];
 
 char *help_ilabel_name[6] =
 { "Cost:", "", "Upkeep:", "", "Requirement:", "" };
@@ -106,11 +109,60 @@ char *help_ulabel_name[4][5] =
     { "Requirement:",	"", "",	"Obsolete by:",	"" }
 };
 
+char *help_tlabel_name[4][5] =
+{
+    { "Move/Defense:",	"", "",	"Food/Res/Trade:",	"" },
+    { "Sp1 F/R/T:",	"", "",	"Sp2 F/R/T:",		"" },
+    { "Road Rslt/Time:","", "",	"Irrig. Rslt/Time:",	"" },
+    { "Mine Rslt/Time:","", "",	"Trans. Rslt/Time:",	"" }
+};
+
 
 void create_help_dialog(void);
 void help_update_dialog(struct help_item *pitem);
 void create_help_page(enum help_page_type type);
 
+/****************************************************************
+...
+*****************************************************************/
+static void insert_generated_table(char* name, char* outbuf)
+{
+  if (0 == strcmp (name, "TerrainAlterations"))
+    {
+      int i;
+      strcat (outbuf, "Terrain     Road   Irrigation     Mining         Transform\n");
+      strcat (outbuf, "---------------------------------------------------------------\n");
+      for (i = T_FIRST; i < T_COUNT; i++)
+	{
+	  if (*(tile_types[i].terrain_name))
+	    {
+	      outbuf = strchr (outbuf, '\0');
+	      sprintf
+		(
+		 outbuf,
+		 "%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
+		 tile_types[i].terrain_name,
+		 tile_types[i].road_time,
+		 tile_types[i].irrigation_time,
+		 ((tile_types[i].irrigation_result == i) ||
+		  (tile_types[i].irrigation_result == T_LAST)) ? "" :
+		  tile_types[tile_types[i].irrigation_result].terrain_name,
+		 tile_types[i].mining_time,
+		 ((tile_types[i].mining_result == i) ||
+		  (tile_types[i].mining_result == T_LAST)) ? "" :
+		  tile_types[tile_types[i].mining_result].terrain_name,
+		 tile_types[i].transform_time,
+		 ((tile_types[i].transform_result == i) ||
+		  (tile_types[i].transform_result == T_LAST)) ? "" :
+		  tile_types[tile_types[i].transform_result].terrain_name
+                );
+	    }
+	}
+      strcat (outbuf, "\n");
+      strcat (outbuf, "(Railroads and fortresses require 3 turns, regardless of terrain.)\n");
+    }
+  return;
+}
 
 #ifdef UNUSED
 /****************************************************************
@@ -264,6 +316,16 @@ void boot_help_texts(void)
 	      genlist_insert(&category_nodes, pitem, -1);
 	    }
 	  }
+	} else if(current_type==HELP_TERRAIN) {
+	  for(i=T_FIRST; i<T_COUNT; i++) {
+	    if(!seen[i] && *(tile_types[i].terrain_name)) {
+	      pitem = new_help_item(current_type);
+	      sprintf(name, " %s", tile_types[i].terrain_name);
+	      pitem->topic = mystrdup(name);
+	      pitem->text = mystrdup("");
+	      genlist_insert(&category_nodes, pitem, -1);
+	    }
+	  }
 	} else if(current_type==HELP_IMPROVEMENT) {
 	  for(i=0; i<B_LAST; i++) {
 	    if(!seen[i] && improvement_exists(i) && !is_wonder(i)) {
@@ -329,6 +391,14 @@ void boot_help_texts(void)
 	filter_this = 1;
       }
       break;
+    case HELP_TERRAIN:
+      i = get_terrain_by_name(pname);
+      if(i >= T_COUNT) {
+	if(booted)
+	  freelog(LOG_VERBOSE, "Filtering terrain %s from help", pname);
+	filter_this = 1;
+      }
+      break;
     case HELP_IMPROVEMENT:
       i = find_improvement_by_name(pname);
       if(!improvement_exists(i) || is_wonder(i)) {
@@ -364,6 +434,10 @@ void boot_help_texts(void)
       buf[strlen(buf)-1]='\0';
       if(!strncmp(buf, "%%", 2))
 	continue;
+      if(!strncmp(buf, "$", 1)) {
+	insert_generated_table (buf+1, long_buffer);
+	continue;
+      }
       if(!strcmp(buf, "---"))
 	break;
       if(!filter_this) {
@@ -651,6 +725,21 @@ void create_help_dialog(void)
       gtk_table_attach_defaults(GTK_TABLE(help_utable),
 					  help_ulabel[j][i], i, i+1, j, j+1);
     }
+
+
+  help_ttable = gtk_table_new(5, 4, FALSE);
+  gtk_box_pack_start(GTK_BOX(help_box), help_ttable, FALSE, FALSE, 0);
+
+  for (i=0; i<5; i++)
+    for (j=0; j<4; j++)
+    {
+      help_tlabel[j][i] = gtk_label_new(help_tlabel_name[j][i]);
+      gtk_widget_set_style(help_tlabel[j][i], style);
+
+      gtk_table_attach_defaults(GTK_TABLE(help_ttable),
+					  help_tlabel[j][i], i, i+1, j, j+1);
+    }
+
 
   help_vbox=gtk_vbox_new(FALSE, 1);
   gtk_box_pack_start( GTK_BOX(help_box), help_vbox, FALSE, FALSE, 0 );
@@ -1133,6 +1222,131 @@ static void help_update_tech(struct help_item *pitem, char *title, int i)
 /**************************************************************************
 ...
 **************************************************************************/
+static void help_update_terrain(struct help_item *pitem, char *title, int i)
+{
+  char buf[1024];
+
+  create_help_page(HELP_TERRAIN);
+
+  if (i < T_COUNT)
+    {
+      sprintf (buf, "%d/%d.%d",
+	       tile_types[i].movement_cost,
+	       (int)(tile_types[i].defense_bonus/10), tile_types[i].defense_bonus%10);
+      gtk_set_label (help_tlabel[0][1], buf);
+
+      sprintf (buf, "%d/%d/%d",
+	       tile_types[i].food,
+	       tile_types[i].shield,
+	       tile_types[i].trade);
+      gtk_set_label (help_tlabel[0][4], buf);
+
+      if (*(tile_types[i].special_1_name))
+	{
+	  sprintf (buf, "%s F/R/T:",
+		   tile_types[i].special_1_name);
+	  gtk_set_label (help_tlabel[1][0], buf);
+	  sprintf (buf, "%d/%d/%d",
+		   tile_types[i].food_special_1,
+		   tile_types[i].shield_special_1,
+		   tile_types[i].trade_special_1);
+	  gtk_set_label (help_tlabel[1][1], buf);
+	} else {
+	  gtk_set_label (help_tlabel[1][0], "");
+	  gtk_set_label (help_tlabel[1][1], "");
+	}
+
+      if (*(tile_types[i].special_2_name))
+	{
+	  sprintf (buf, "%s F/R/T:",
+		   tile_types[i].special_2_name);
+	  gtk_set_label (help_tlabel[1][3], buf);
+	  sprintf (buf, "%d/%d/%d",
+		   tile_types[i].food_special_2,
+		   tile_types[i].shield_special_2,
+		   tile_types[i].trade_special_2);
+	  gtk_set_label (help_tlabel[1][4], buf);
+	} else {
+	  gtk_set_label (help_tlabel[1][3], "");
+	  gtk_set_label (help_tlabel[1][4], "");
+	}
+
+      if (tile_types[i].road_trade_incr > 0)
+	{
+	  sprintf (buf, "+%d Trade / %d",
+		   tile_types[i].road_trade_incr,
+		   tile_types[i].road_time);
+	}
+      else if (tile_types[i].road_time > 0)
+	{
+	  sprintf (buf, "no extra / %d",
+		   tile_types[i].road_time);
+	}
+      else
+	{
+	  strcpy (buf, "n/a");
+	}
+      gtk_set_label (help_tlabel[2][1], buf);
+
+      strcpy (buf, "n/a");
+      if (tile_types[i].irrigation_result == i)
+	{
+	  if (tile_types[i].irrigation_food_incr > 0)
+	    {
+	      sprintf (buf, "+%d Food / %d",
+		       tile_types[i].irrigation_food_incr,
+		       tile_types[i].irrigation_time);
+	    }
+	}
+      else if (tile_types[i].irrigation_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].irrigation_result].terrain_name,
+		   tile_types[i].irrigation_time);
+	}
+      gtk_set_label (help_tlabel[2][4], buf);
+
+      strcpy (buf, "n/a");
+      if (tile_types[i].mining_result == i)
+	{
+	  if (tile_types[i].mining_shield_incr > 0)
+	    {
+	      sprintf (buf, "+%d Res. / %d",
+		       tile_types[i].mining_shield_incr,
+		       tile_types[i].mining_time);
+	    }
+	}
+      else if (tile_types[i].mining_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].mining_result].terrain_name,
+		   tile_types[i].mining_time);
+	}
+      gtk_set_label (help_tlabel[3][1], buf);
+
+      if (tile_types[i].transform_result != T_LAST)
+	{
+	  sprintf (buf, "%s / %d",
+		   tile_types[tile_types[i].transform_result].terrain_name,
+		   tile_types[i].transform_time);
+	} else {
+	  strcpy (buf, "n/a");
+	}
+      gtk_set_label (help_tlabel[3][4], buf);
+    }
+
+  gtk_text_freeze(GTK_TEXT(help_text));
+  gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, pitem->text, -1);
+  gtk_text_thaw(GTK_TEXT(help_text));
+  gtk_widget_show(help_text);
+  gtk_widget_show(help_text_scrolled);
+
+  gtk_widget_show_all(help_ttable);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void help_update_dialog(struct help_item *pitem)
 {
   int i;
@@ -1163,6 +1377,9 @@ void help_update_dialog(struct help_item *pitem)
     break;
   case HELP_TECH:
     help_update_tech(pitem, top, find_tech_by_name(top));
+    break;
+  case HELP_TERRAIN:
+    help_update_terrain(pitem, top, get_terrain_by_name(top));
     break;
   case HELP_TEXT:
   default:

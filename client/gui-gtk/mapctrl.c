@@ -784,7 +784,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 
     if(ptile->special&S_ROAD || ptile->special&S_IRRIGATION ||
        ptile->special&S_RAILROAD || ptile->special&S_MINE ||
-       ptile->special&S_FORTRESS) {
+       ptile->special&S_FORTRESS || ptile->special&S_FARMLAND) {
       sprintf(s, "Infrastructure: ");
       if(ptile->special&S_ROAD)
 	strcat(s, "Road/");
@@ -792,6 +792,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	strcat(s, "Railroad/");
       if(ptile->special&S_IRRIGATION)
 	strcat(s, "Irrigation/");
+      if(ptile->special&S_FARMLAND)
+	strcat(s, "Farmland/");
       if(ptile->special&S_MINE)
 	strcat(s, "Mine/");
       if(ptile->special&S_FORTRESS)

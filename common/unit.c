@@ -722,15 +722,17 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
            (ptile->special&S_POLLUTION);
 
   case ACTIVITY_ROAD:
-    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+    return terrain_control.may_road &&
+           unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
            !(ptile->special&S_ROAD) && ptile->terrain!=T_OCEAN &&
-	   (ptile->terrain!=T_RIVER || 
+	   ((ptile->terrain!=T_RIVER && !(ptile->special&S_RIVER)) || 
 	    get_invention(pplayer, A_BRIDGE)==TECH_KNOWN);
 
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.
      * *Do* allow it if they're transforming - the mine may survive */
-    if (unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+    if (terrain_control.may_mine &&
+	unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
 	type->mining_result!=T_LAST && !(ptile->special&S_MINE)) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_IRRIGATE) return 0;
@@ -742,12 +744,15 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
   case ACTIVITY_IRRIGATE:
     /* Don't allow it if someone else is mining this tile.
      * *Do* allow it if they're transforming - the irrigation may survive */
-    if (unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
-	   !(ptile->special&S_IRRIGATION) &&
-	   ( (ptile->terrain==type->irrigation_result && 
-	      is_water_adjacent_to_tile(punit->x, punit->y)) ||
-	     (ptile->terrain!=type->irrigation_result &&
-            type->irrigation_result!=T_LAST))) {
+    if (terrain_control.may_irrigate &&
+	unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+	(!(ptile->special&S_IRRIGATION) ||
+	 (!(ptile->special&S_FARMLAND) &&
+	  player_knows_improvement_tech(pplayer, B_SUPERMARKET))) &&
+	( (ptile->terrain==type->irrigation_result && 
+	   is_water_adjacent_to_tile(punit->x, punit->y)) ||
+	  (ptile->terrain!=type->irrigation_result &&
+	   type->irrigation_result!=T_LAST))) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_MINE) return 0;
       }
@@ -769,19 +774,22 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 
   case ACTIVITY_RAILROAD:
     /* if the tile has road, the terrain must be ok.. */
-    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+    return terrain_control.may_road &&
+           unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
            (ptile->special&S_ROAD) && !(ptile->special&S_RAILROAD) &&
 	   get_invention(&game.players[punit->owner], A_RAILROAD)==TECH_KNOWN;
 
   case ACTIVITY_PILLAGE:
     return is_ground_unit(punit) && punit->moves_left &&
            ((ptile->special&S_ROAD) || (ptile->special&S_RAILROAD) ||
-	    (ptile->special&S_FORTRESS) ||
+	    (ptile->special&S_FORTRESS) || (ptile->special&S_FARMLAND) ||
 	    (ptile->special&S_IRRIGATION) || (ptile->special&S_MINE)) &&
 	   !is_unit_activity_on_tile(ACTIVITY_PILLAGE, punit->x, punit->y);
 
   case ACTIVITY_TRANSFORM:
-    return (ptile->terrain != T_OCEAN) && (ptile->terrain != T_RIVER) &&
+    return terrain_control.may_transform &&
+           (ptile->terrain != T_OCEAN) &&
+           (ptile->terrain != T_RIVER) &&
 	   unit_flag(punit->type, F_TRANSFORM) && punit->moves_left;
 
   default:

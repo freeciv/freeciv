@@ -264,6 +264,10 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return receive_packet_ruleset_unit(pc);
   case PACKET_RULESET_BUILDING:
     return receive_packet_ruleset_building(pc);
+  case PACKET_RULESET_TERRAIN:
+    return receive_packet_ruleset_terrain(pc);
+  case PACKET_RULESET_TERRAIN_CONTROL:
+    return receive_packet_ruleset_terrain_control(pc);
 
   case PACKET_SPACESHIP_INFO:
     return receive_packet_spaceship_info(pc);
@@ -1101,6 +1105,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->rail_food);
   cptr=put_int8(cptr, pinfo->rail_prod);
   cptr=put_int8(cptr, pinfo->rail_trade);
+  cptr=put_int8(cptr, pinfo->farmfood);
   
   for(i=0; i<A_LAST; i++)
     cptr=put_int8(cptr, pinfo->global_advances[i]);
@@ -1157,6 +1162,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_int8(&iter, &pinfo->rail_food);
   iget_int8(&iter, &pinfo->rail_prod);
   iget_int8(&iter, &pinfo->rail_trade);
+  iget_int8(&iter, &pinfo->farmfood);
   
   for(i=0; i<A_LAST; i++)
     iget_int8(&iter, &pinfo->global_advances[i]);
@@ -1232,7 +1238,7 @@ receive_packet_tile_info(struct connection *pc)
   iget_int8(&iter, &packet->x);
   iget_int8(&iter, &packet->y);
   iget_int8(&iter, &packet->type);
-  iget_int8(&iter, &packet->special);
+  iget_int16(&iter, &packet->special);
   iget_int8(&iter, &packet->known);
 
   pack_iter_end(&iter, pc);
@@ -1270,7 +1276,7 @@ int send_packet_tile_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->x);
   cptr=put_int8(cptr, pinfo->y);
   cptr=put_int8(cptr, pinfo->type);
-  cptr=put_int8(cptr, pinfo->special);
+  cptr=put_int16(cptr, pinfo->special);
   cptr=put_int8(cptr, pinfo->known);
   put_int16(buffer, cptr-buffer);
 
@@ -1984,6 +1990,150 @@ receive_packet_ruleset_building(struct connection *pc)
   iget_int8(&iter, &packet->obsolete_by);
   iget_int8(&iter, &packet->variant);
   iget_string(&iter, packet->name, sizeof(packet->name));
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_terrain(struct connection *pc,
+				struct packet_ruleset_terrain *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_int8(buffer+2, PACKET_RULESET_TERRAIN);
+
+  cptr=put_int8(cptr, packet->id);
+  cptr=put_string(cptr, packet->terrain_name);
+  cptr=put_int16(cptr, packet->graphic_base);
+  cptr=put_int16(cptr, packet->graphic_count);
+  cptr=put_int8(cptr, packet->movement_cost);
+  cptr=put_int8(cptr, packet->defense_bonus);
+  cptr=put_int8(cptr, packet->food);
+  cptr=put_int8(cptr, packet->shield);
+  cptr=put_int8(cptr, packet->trade);
+  cptr=put_string(cptr, packet->special_1_name);
+  cptr=put_int16(cptr, packet->graphic_special_1);
+  cptr=put_int8(cptr, packet->food_special_1);
+  cptr=put_int8(cptr, packet->shield_special_1);
+  cptr=put_int8(cptr, packet->trade_special_1);
+  cptr=put_string(cptr, packet->special_2_name);
+  cptr=put_int16(cptr, packet->graphic_special_2);
+  cptr=put_int8(cptr, packet->food_special_2);
+  cptr=put_int8(cptr, packet->shield_special_2);
+  cptr=put_int8(cptr, packet->trade_special_2);
+  cptr=put_int8(cptr, packet->road_trade_incr);
+  cptr=put_int8(cptr, packet->road_time);
+  cptr=put_int8(cptr, packet->irrigation_result);
+  cptr=put_int8(cptr, packet->irrigation_food_incr);
+  cptr=put_int8(cptr, packet->irrigation_time);
+  cptr=put_int8(cptr, packet->mining_result);
+  cptr=put_int8(cptr, packet->mining_shield_incr);
+  cptr=put_int8(cptr, packet->mining_time);
+  cptr=put_int8(cptr, packet->transform_result);
+  cptr=put_int8(cptr, packet->transform_time);
+
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_terrain *
+receive_packet_ruleset_terrain(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_ruleset_terrain *packet=
+    fc_malloc(sizeof(struct packet_ruleset_terrain));
+
+  pack_iter_init(&iter, pc);
+
+  iget_int8(&iter, &packet->id);
+  iget_string(&iter, packet->terrain_name, sizeof(packet->terrain_name));
+  iget_int16(&iter, &packet->graphic_base);
+  iget_int16(&iter, &packet->graphic_count);
+  iget_int8(&iter, &packet->movement_cost);
+  iget_int8(&iter, &packet->defense_bonus);
+  iget_int8(&iter, &packet->food);
+  iget_int8(&iter, &packet->shield);
+  iget_int8(&iter, &packet->trade);
+  iget_string(&iter, packet->special_1_name, sizeof(packet->special_1_name));
+  iget_int16(&iter, &packet->graphic_special_1);
+  iget_int8(&iter, &packet->food_special_1);
+  iget_int8(&iter, &packet->shield_special_1);
+  iget_int8(&iter, &packet->trade_special_1);
+  iget_string(&iter, packet->special_2_name, sizeof(packet->special_2_name));
+  iget_int16(&iter, &packet->graphic_special_2);
+  iget_int8(&iter, &packet->food_special_2);
+  iget_int8(&iter, &packet->shield_special_2);
+  iget_int8(&iter, &packet->trade_special_2);
+  iget_int8(&iter, &packet->road_trade_incr);
+  iget_int8(&iter, &packet->road_time);
+  iget_int8(&iter, (int*)&packet->irrigation_result);
+  iget_int8(&iter, &packet->irrigation_food_incr);
+  iget_int8(&iter, &packet->irrigation_time);
+  iget_int8(&iter, (int*)&packet->mining_result);
+  iget_int8(&iter, &packet->mining_shield_incr);
+  iget_int8(&iter, &packet->mining_time);
+  iget_int8(&iter, (int*)&packet->transform_result);
+  iget_int8(&iter, &packet->transform_time);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_terrain_control(struct connection *pc,
+					struct terrain_misc *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_int8(buffer+2, PACKET_RULESET_TERRAIN_CONTROL);
+
+  cptr=put_int8(cptr, packet->river_style);
+  cptr=put_int8(cptr, packet->may_road);
+  cptr=put_int8(cptr, packet->may_irrigate);
+  cptr=put_int8(cptr, packet->may_mine);
+  cptr=put_int8(cptr, packet->may_transform);
+  cptr=put_int16(cptr, packet->border_base);
+  cptr=put_int16(cptr, packet->corner_base);
+  cptr=put_int16(cptr, packet->river_base);
+  cptr=put_int16(cptr, packet->outlet_base);
+  cptr=put_int16(cptr, packet->denmark_base);
+
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct terrain_misc *
+receive_packet_ruleset_terrain_control(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct terrain_misc *packet=
+    fc_malloc(sizeof(struct terrain_misc));
+
+  pack_iter_init(&iter, pc);
+
+  iget_int8(&iter, (int*)&packet->river_style);
+  iget_int8(&iter, &packet->may_road);
+  iget_int8(&iter, &packet->may_irrigate);
+  iget_int8(&iter, &packet->may_mine);
+  iget_int8(&iter, &packet->may_transform);
+  iget_int16(&iter, &packet->border_base);
+  iget_int16(&iter, &packet->corner_base);
+  iget_int16(&iter, &packet->river_base);
+  iget_int16(&iter, &packet->outlet_base);
+  iget_int16(&iter, &packet->denmark_base);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

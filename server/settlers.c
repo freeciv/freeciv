@@ -227,15 +227,17 @@ int city_desirability(struct player *pplayer, int x, int y)
       ptile = map_get_tile(x+i-2, y+j-2);
       con2 = ptile->continent;
       ptype = get_tile_type(ptile->terrain);
-      food[i][j] = ((ptile->special&S_SPECIAL ? ptype->food_special : ptype->food) - 2) * MORT;
+      food[i][j] = (get_tile_food_base(ptile) - 2) * MORT;
       if (i == 2 && j == 2) food[i][j] += 2 * MORT;
       if (ptype->irrigation_result == ptile->terrain && con2 == con) {
-        if (ptile->special&S_IRRIGATION || (i == 2 && j == 2)) irrig[i][j] = MORT;
+        if (ptile->special&S_IRRIGATION || (i == 2 && j == 2))
+	  irrig[i][j] = MORT * ptype->irrigation_food_incr;
         else if (is_water_adjacent_to_tile(x+i-2, y+j-2) &&
-                 ptile->terrain != T_HILLS) irrig[i][j] = MORT - 9; /* KLUGE */
+                 ptile->terrain != T_HILLS)
+	  irrig[i][j] = MORT * ptype->irrigation_food_incr - 9; /* KLUGE */
 /* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
       } else if (ptile->terrain == T_OCEAN && har) food[i][j] += MORT; /* harbor */
-      shield[i][j] = (ptile->special&S_SPECIAL ? ptype->shield_special : ptype->shield) * sh;
+      shield[i][j] = get_tile_shield_base(ptile) * sh;
       if (i == 2 && j == 2 && !shield[i][j]) shield[i][j] = sh;
       if (ptile->terrain == T_OCEAN && har) shield[i][j] += sh;
 /* above line is not sufficiently tested.  AI was building on shores, but not
@@ -243,14 +245,16 @@ as far out in the ocean as possible, which limits growth in the very long
 term (after SEWER).  These cities will all eventually have OFFSHORE, and
 I need to acknowledge that.  I probably shouldn't treat it as free, but
 that's the easiest, and I doubt pathological behavior will result. -- Syela */
-      if (ptile->special&S_MINE) mine[i][j] = (ptile->terrain == T_HILLS ? sh * 3 : sh);
-      else if (ptile->terrain == T_HILLS && con2 == con) mine[i][j] = sh * 3 - 300; /* KLUGE */
-      trade[i][j] =(ptile->special&S_SPECIAL ? ptype->trade_special : ptype->trade) * t;
-      if (ptile->terrain == T_DESERT || ptile->terrain == T_GRASSLAND ||
-        ptile->terrain == T_PLAINS) {
-        if (ptile->special&S_ROAD || (i == 2 && j == 2)) road[i][j] = t;
+      if (ptile->special&S_MINE)
+	mine[i][j] = sh * ptype->mining_shield_incr;
+      else if (ptile->terrain == T_HILLS && con2 == con)
+	mine[i][j] = sh * ptype->mining_shield_incr - 300; /* KLUGE */
+      trade[i][j] = get_tile_trade_base(ptile) * t;
+      if (ptype->road_trade_incr > 0) {
+        if (ptile->special&S_ROAD || (i == 2 && j == 2))
+	  road[i][j] = t * ptype->road_trade_incr;
         else if (con2 == con)
-          road[i][j] = t - 70; /* KLUGE */ /* actualy exactly 70 1/2 */
+          road[i][j] = t * ptype->road_trade_incr - 70; /* KLUGE */ /* actualy exactly 70 1/2 */
       }
       if (trade[i][j]) trade[i][j] += t;
       else if (road[i][j]) road[i][j] += t;
@@ -484,7 +488,7 @@ static int is_wet(struct player *pplayer, int x, int y)
 {
   if (!map_get_known(x, y, pplayer) && !pplayer->ai.control) return 0;
   if (map_get_terrain(x,y) == T_OCEAN || map_get_terrain(x,y) == T_RIVER ||
-      map_get_special(x,y)&S_IRRIGATION) return 1;
+      map_get_special(x,y)&S_RIVER || map_get_special(x,y)&S_IRRIGATION) return 1;
   return 0;
 }
 
@@ -513,6 +517,16 @@ int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_IRRIGATION);
     return(m);
+  } else if((ptile->terrain==type->irrigation_result &&
+     (ptile->special&S_IRRIGATION) && !(ptile->special&S_FARMLAND) &&
+     player_knows_improvement_tech(pplayer, B_SUPERMARKET) &&
+     !(ptile->special&S_MINE) && !(ptile->city) &&
+     (is_wet(pplayer,x,y) || is_wet(pplayer,x,y-1) || is_wet(pplayer,x,y+1) ||
+     is_wet(pplayer,x-1,y) || is_wet(pplayer,x+1,y)))) {
+    map_set_special(x, y, S_FARMLAND);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(x, y, S_FARMLAND);
+    return(m);
   } else return(-1);
 }
 
@@ -528,6 +542,7 @@ int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
   if (ptile->terrain != type->mining_result &&
       type->mining_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
     ptile->terrain = type->mining_result;
+    map_clear_special(x, y, S_FARMLAND);
     map_clear_special(x, y, S_IRRIGATION);
     m = city_tile_value(pcity, i, j, 0, 0);
     ptile->terrain = t;
@@ -561,8 +576,10 @@ int ai_calc_transform(struct city *pcity, struct player *pplayer, int i, int j)
     if (get_tile_type(r)->mining_result != r) 
       map_clear_special(x, y, S_MINE);
 
-    if (get_tile_type(r)->irrigation_result != r) 
+    if (get_tile_type(r)->irrigation_result != r) {
+      map_clear_special(x, y, S_FARMLAND);
       map_clear_special(x, y, S_IRRIGATION);
+    }
 
     m = city_tile_value(pcity, i, j, 0, 0);
     ptile->terrain = t;
@@ -612,8 +629,9 @@ int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
   struct tile *ptile;
   x = pcity->x + i - 2; y = pcity->y + j - 2;
   ptile = map_get_tile(x, y);
-  if (ptile->terrain != T_OCEAN && (ptile->terrain != T_RIVER ||
-      get_invention(pplayer, A_BRIDGE) == TECH_KNOWN) &&
+  if (ptile->terrain != T_OCEAN &&
+      (((ptile->terrain != T_RIVER) && !(ptile->special&S_RIVER)) ||
+       get_invention(pplayer, A_BRIDGE) == TECH_KNOWN) &&
       !(ptile->special&S_ROAD)) {
     ptile->special|=S_ROAD; /* have to do this to avoid reset_move_costs -- Syela */
     m = city_tile_value(pcity, i, j, 0, 0);
@@ -662,7 +680,12 @@ int is_ok_city_spot(int x, int y)
   case T_LAST:
     return 0;
   case T_DESERT:
-    if (!((map_get_tile(x, y))->special&S_SPECIAL))
+    if
+    (
+     !((map_get_tile(x, y))->special&S_SPECIAL_1)
+    &&
+     !((map_get_tile(x, y))->special&S_SPECIAL_2)
+    )
       return 0;
   case T_GRASSLAND:
   case T_PLAINS:

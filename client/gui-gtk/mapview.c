@@ -31,12 +31,6 @@
 
 #include "mapview.h"
 
-int terrain_to_tile_map[13]= {
-  ARCTIC_TILES, DESERT_TILES, FOREST_TILES, GRASSLAND_TILES,
-  HILLS_TILES, JUNGLE_TILES, MOUNTAINS_TILES, OCEAN_TILES,
-  PLAINS_TILES, RIVER_TILES, SWAMP_TILES, TUNDRA_TILES
-};
-
 extern int		seconds_to_turndone;
 
 /* adjusted depending on tile size: */
@@ -1268,10 +1262,19 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
   ttype_south_east=map_get_terrain(abs_x0+1, abs_y0+1);
   ttype_south_west=map_get_terrain(abs_x0-1, abs_y0+1);
   ttype_north_west=map_get_terrain(abs_x0-1, abs_y0-1);
+
   tspecial=map_get_special(abs_x0, abs_y0);
+  tspecial_north=map_get_special(abs_x0, abs_y0-1);
+  tspecial_east=map_get_special(abs_x0+1, abs_y0);
+  tspecial_south=map_get_special(abs_x0, abs_y0+1);
+  tspecial_west=map_get_special(abs_x0-1, abs_y0);
+  tspecial_north_east=map_get_special(abs_x0+1, abs_y0-1);
+  tspecial_south_east=map_get_special(abs_x0+1, abs_y0+1);
+  tspecial_south_west=map_get_special(abs_x0-1, abs_y0+1);
+  tspecial_north_west=map_get_special(abs_x0-1, abs_y0-1);
 
 
-  tileno=terrain_to_tile_map[ttype];
+  tileno=tile_types[ttype].graphic_base;
 
   switch(ttype) {
   case T_OCEAN:
@@ -1282,7 +1285,7 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
     break;
 
   case T_RIVER:
-    tileno=RIVER_TILES;
+    tileno=tile_types[T_RIVER].graphic_base;
     tileno+=(ttype_north==T_RIVER || ttype_north==T_OCEAN) ? 1 : 0;
     tileno+=(ttype_east==T_RIVER  || ttype_east== T_OCEAN) ? 2 : 0;
     tileno+=(ttype_south==T_RIVER || ttype_south==T_OCEAN) ? 4 : 0;
@@ -1316,8 +1319,10 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
 
   }
 
-  if(map.is_earth && abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) 
-    tileno=(abs_y0-den_y)*3+abs_x0-34+DENMARK_TILES;
+  if(map.is_earth &&
+     (terrain_control.denmark_base<NO_SUCH_GRAPHIC) &&
+     abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) 
+    tileno=(abs_y0-den_y)*3+abs_x0-34+terrain_control.denmark_base;
 
   mysprite=get_tile_sprite(tileno);
   
@@ -1328,7 +1333,8 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
 
 
   if(ttype==T_OCEAN) {
-    tileno=CORNER_TILES-1;
+    if (terrain_control.corner_base<NO_SUCH_GRAPHIC) {
+      tileno=terrain_control.corner_base-1;
       if((ttype_north==T_OCEAN && ttype_east==T_OCEAN && 
 	  ttype_north_east!=T_OCEAN))
 	tileno+=1;
@@ -1342,39 +1348,39 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
 	  ttype_north_west!=T_OCEAN))
 	tileno+=8;
 
-    if(tileno!=CORNER_TILES-1)
-      pixmap_put_overlay_tile(pm, x, y, tileno);
+      if(tileno!=terrain_control.corner_base-1)
+	pixmap_put_overlay_tile(pm, x, y, tileno);
+    }
 
-    if(ttype_north==T_RIVER)
-      pixmap_put_overlay_tile(pm, x, y, OUTLET_TILES+0);
-    if(ttype_west==T_RIVER)
-      pixmap_put_overlay_tile(pm, x, y, OUTLET_TILES+1);
-    if(ttype_south==T_RIVER)
-      pixmap_put_overlay_tile(pm, x, y, OUTLET_TILES+2);
-    if(ttype_east==T_RIVER)
-      pixmap_put_overlay_tile(pm, x, y, OUTLET_TILES+3);
-
+    if (terrain_control.outlet_base<NO_SUCH_GRAPHIC) {
+      if(tspecial_north&S_RIVER || ttype_north==T_RIVER)
+	pixmap_put_overlay_tile(pm, x, y, terrain_control.outlet_base+0);
+      if(tspecial_west&S_RIVER || ttype_west==T_RIVER)
+	pixmap_put_overlay_tile(pm, x, y, terrain_control.outlet_base+1);
+      if(tspecial_south&S_RIVER || ttype_south==T_RIVER)
+	pixmap_put_overlay_tile(pm, x, y, terrain_control.outlet_base+2);
+      if(tspecial_east&S_RIVER || ttype_east==T_RIVER)
+	pixmap_put_overlay_tile(pm, x, y, terrain_control.outlet_base+3);
+    }
   }  
 
-  if(tspecial & S_IRRIGATION)
-    pixmap_put_overlay_tile(pm, x, y, IRRIGATION_TILE);
+  if ((tspecial&S_RIVER) && ((tileno=terrain_control.river_base)<NO_SUCH_GRAPHIC)) {
+    tileno+=(tspecial_north&S_RIVER || ttype_north==T_OCEAN) ? 1 : 0;
+    tileno+=(tspecial_east&S_RIVER  || ttype_east==T_OCEAN) ? 2 : 0;
+    tileno+=(tspecial_south&S_RIVER || ttype_south==T_OCEAN) ? 4 : 0;
+    tileno+=(tspecial_west&S_RIVER  || ttype_west== T_OCEAN) ? 8 : 0;
 
-  /* jjm@codewell.com 30dec1998a
-     Lots of rearranging of drawing stuff.
-     (Old code "#if 00000"d out below.)
-  */
+    pixmap_put_overlay_tile(pm, x, y, tileno);
+  }
+
+  if(tspecial & S_IRRIGATION) {
+    if(tspecial & S_FARMLAND)
+      pixmap_put_overlay_tile(pm, x, y, FARMLAND_TILE);
+    else
+      pixmap_put_overlay_tile(pm, x, y, IRRIGATION_TILE);
+  }
 
   if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
-    tspecial_north=map_get_special(abs_x0, abs_y0-1);
-    tspecial_east=map_get_special(abs_x0+1, abs_y0);
-    tspecial_south=map_get_special(abs_x0, abs_y0+1);
-    tspecial_west=map_get_special(abs_x0-1, abs_y0);
-
-    tspecial_north_east=map_get_special(abs_x0+1, abs_y0-1);
-    tspecial_south_east=map_get_special(abs_x0+1, abs_y0+1);
-    tspecial_south_west=map_get_special(abs_x0-1, abs_y0+1);
-    tspecial_north_west=map_get_special(abs_x0-1, abs_y0-1);
-
     rail_card_tileno+=(tspecial_north&S_RAILROAD) ? (rail_card_count++, 1) : 0;
     rail_card_tileno+=(tspecial_east&S_RAILROAD)  ? (rail_card_count++, 2) : 0;
     rail_card_tileno+=(tspecial_south&S_RAILROAD) ? (rail_card_count++, 4) : 0;
@@ -1436,8 +1442,10 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
     }
   }
 
-  if(tspecial & S_SPECIAL)
-     pixmap_put_overlay_tile(pm, x, y, SPECIAL_TILES+ttype);
+  if(tspecial & S_SPECIAL_1)
+     pixmap_put_overlay_tile(pm, x, y, tile_types[ttype].graphic_special_1);
+  else if(tspecial & S_SPECIAL_2)
+     pixmap_put_overlay_tile(pm, x, y, tile_types[ttype].graphic_special_2);
 
   if(tspecial & S_MINE) {
     if(ttype==T_HILLS || ttype==T_MOUNTAINS)
@@ -1461,46 +1469,6 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
       pixmap_put_overlay_tile(pm, x, y, ROAD_TILES);
   }
 
-#if 00000
-
-  if(tspecial & S_MINE) {
-    if(ttype==T_HILLS || ttype==T_MOUNTAINS)
-      pixmap_put_overlay_tile(pm, x, y, HILLMINE_TILE);
-    else /* desert */
-      pixmap_put_overlay_tile(pm, x, y, DESERTMINE_TILE);
-  }
-
-  if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
-    tspecial_north=map_get_special(abs_x0, abs_y0-1);
-    tspecial_east=map_get_special(abs_x0+1, abs_y0);
-    tspecial_south=map_get_special(abs_x0, abs_y0+1);
-    tspecial_west=map_get_special(abs_x0-1, abs_y0);
-
-    if(tspecial & S_ROAD) {
-      tileno=ROAD_TILES;
-      tileno+=(tspecial_north&S_ROAD) ? 1 : 0;
-      tileno+=(tspecial_east&S_ROAD)  ? 2 : 0;
-      tileno+=(tspecial_south&S_ROAD) ? 4 : 0;
-      tileno+=(tspecial_west&S_ROAD)  ? 8 : 0;
-      pixmap_put_overlay_tile(pm, x, y, tileno);
-    }
-
-    if(tspecial & S_RAILROAD) {
-      tileno=RAIL_TILES;
-      tileno+=(tspecial_north&S_RAILROAD) ? 1 : 0;
-      tileno+=(tspecial_east&S_RAILROAD)  ? 2 : 0;
-      tileno+=(tspecial_south&S_RAILROAD) ? 4 : 0;
-      tileno+=(tspecial_west&S_RAILROAD)  ? 8 : 0;
-      pixmap_put_overlay_tile(pm, x, y, tileno);
-    }
-
-  }
-
-  if(tspecial & S_SPECIAL)
-     pixmap_put_overlay_tile(pm, x, y, SPECIAL_TILES+ttype);
-
-#endif
-
   if(tspecial & S_HUT)
     pixmap_put_overlay_tile(pm, x, y, HUT_TILE);
     
@@ -1510,8 +1478,8 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
   if(tspecial & S_POLLUTION)
     pixmap_put_overlay_tile(pm, x, y, POLLUTION_TILE);
 
-  if(!citymode) {
-    tileno=BORDER_TILES;
+  if(!citymode && (terrain_control.border_base<NO_SUCH_GRAPHIC)) {
+    tileno=terrain_control.border_base;
     if(tile_is_known(abs_x0, abs_y0-1)==TILE_UNKNOWN)
       tileno+=1;
     if(tile_is_known(abs_x0+1, abs_y0)==TILE_UNKNOWN)
@@ -1520,7 +1488,7 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
       tileno+=4;
     if(tile_is_known(abs_x0-1, abs_y0)==TILE_UNKNOWN)
       tileno+=8;
-    if(tileno!=BORDER_TILES)
+    if(tileno!=terrain_control.border_base)
       pixmap_put_overlay_tile(pm, x, y, tileno);
   }
 

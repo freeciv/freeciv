@@ -16,9 +16,14 @@
 #include "player.h"
 #include "unit.h"
 
+enum terrain_river_type {
+  R_AS_TERRAIN=1, R_AS_SPECIAL=2
+};
+
 enum tile_special_type {
-  S_NONE=0, S_SPECIAL=1, S_ROAD=2, S_IRRIGATION=4, S_RAILROAD=8,
-  S_MINE=16, S_POLLUTION=32, S_HUT=64, S_FORTRESS=128
+  S_NONE=0, S_SPECIAL_1=1, S_ROAD=2, S_IRRIGATION=4, S_RAILROAD=8,
+  S_MINE=16, S_POLLUTION=32, S_HUT=64, S_FORTRESS=128, S_SPECIAL_2=256,
+  S_RIVER=512, S_FARMLAND=1024
 };
 
 enum tile_terrain_type {
@@ -26,6 +31,8 @@ enum tile_terrain_type {
   T_MOUNTAINS, T_OCEAN, T_PLAINS, T_RIVER, T_SWAMP, T_TUNDRA, T_UNKNOWN,
   T_LAST
 };
+#define T_FIRST (T_ARCTIC)
+#define T_COUNT (T_UNKNOWN)
 
 enum known_type {
  TILE_UNKNOWN, TILE_KNOWN_NODRAW, TILE_KNOWN
@@ -49,30 +56,65 @@ struct tile {
 
 
 /****************************************************************
+miscellaneous terrain information
+*****************************************************************/
+
+struct terrain_misc
+{
+  /* options */
+  enum terrain_river_type river_style;
+  int may_road;       /* boolean: may build roads/railroads */
+  int may_irrigate;   /* boolean: may build irrigation/farmland */
+  int may_mine;       /* boolean: may build mines */
+  int may_transform;  /* boolean: may transform terrain */
+  /* graphics */
+  int border_base;    /* NO_SUCH_GRAPHIC (999) means no such tiles */
+  int corner_base;    /* NO_SUCH_GRAPHIC (999) means no such tiles */
+  int river_base;     /* NO_SUCH_GRAPHIC (999) means no such tiles */
+  int outlet_base;    /* NO_SUCH_GRAPHIC (999) means no such tiles */
+  int denmark_base;   /* NO_SUCH_GRAPHIC (999) means no such tiles */
+};
+
+#define NO_SUCH_GRAPHIC (999)
+
+/****************************************************************
 tile_type for each terrain type
 expand with government bonuses??
 *****************************************************************/
+
 struct tile_type {
-  char *terrain_name;
-  char *special_name;
+  char terrain_name[MAX_LEN_NAME];     /* "" if unused */
+  int graphic_base;
+  int graphic_count;
+
+  int movement_cost;
+  int defense_bonus;
 
   int food;
   int shield;
   int trade;
 
-  int food_special;
-  int shield_special;
-  int trade_special;
-  
-  int movement_cost;
-  int defense_bonus;
+  char special_1_name[MAX_LEN_NAME];   /* "" if none */
+  int graphic_special_1;
+  int food_special_1;
+  int shield_special_1;
+  int trade_special_1;
 
+  char special_2_name[MAX_LEN_NAME];   /* "" if none */
+  int graphic_special_2;
+  int food_special_2;
+  int shield_special_2;
+  int trade_special_2;
+
+  int road_trade_incr;
   int road_time;
-  
+
   enum tile_terrain_type irrigation_result;
+  int irrigation_food_incr;
   int irrigation_time;
 
   enum tile_terrain_type mining_result;
+  int mining_shield_incr;
   int mining_time;
 
   enum tile_terrain_type transform_result;
@@ -143,9 +185,12 @@ int is_tiles_adjacent(int x0, int y0, int x1, int y1);
 int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2);
 int map_move_cost(struct unit *punit, int x1, int y1);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
+enum tile_terrain_type get_terrain_by_name(char * name);
 int is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int isnt_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int count_terrain_near_tile(int x, int y, enum tile_terrain_type t);
+int is_special_near_tile(int x, int y, enum tile_special_type spe);
+int count_special_near_tile(int x, int y, enum tile_special_type spe);
 int is_coastline(int x,int y);
 int terrain_is_clean(int x, int y);
 int is_at_coast(int x, int y);
@@ -154,7 +199,11 @@ int is_hut_close(int x, int y);
 int is_starter_close(int x, int y, int nr, int dist); 
 int is_good_tile(int x, int y);
 int is_special_close(int x, int y);
+int is_special_type_close(int x, int y, enum tile_special_type spe);
 int is_sea_usable(int x, int y);
+int get_tile_food_base(struct tile * ptile);
+int get_tile_shield_base(struct tile * ptile);
+int get_tile_trade_base(struct tile * ptile);
 
 void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);
@@ -166,6 +215,9 @@ int map_build_mine_time(int x, int y);
 int map_transform_time(int x, int y);
 
 extern struct civ_map map;
+
+extern struct terrain_misc terrain_control;
+extern struct tile_type tile_types[T_LAST];
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0

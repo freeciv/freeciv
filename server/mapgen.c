@@ -259,18 +259,25 @@ static int make_river(int x,int y)
   if (map_get_terrain(x, y)==T_OCEAN)
     return 1;
   if (is_at_coast(x, y)) {
-    map_set_terrain(x, y, T_RIVER);
+    if (terrain_control.river_style==R_AS_TERRAIN)
+      map_set_terrain(x, y, T_RIVER);
+    else if (terrain_control.river_style==R_AS_SPECIAL)
+      map_set_special(x, y, S_RIVER);
+    else
+      return 0;
     return 1;
   }
 
   if (map_get_terrain(x, y)==T_RIVER )
     return 0;
+  if (map_get_special(x, y)&S_RIVER)
+    return 0;
+
   map_set_terrain(x, y, map_get_terrain(x,y)+16);
   if (full_map(x, y-1)<mini+myrand(10) && map_get_terrain(x, y-1)<16) {
     mini=full_map(x, y-1);
     mp=0;
   }
-  
   if (full_map(x, y+1)<mini+myrand(11) && map_get_terrain(x, y+1)<16) {
     mini=full_map(x, y+1);
     mp=1;
@@ -302,10 +309,21 @@ static int make_river(int x,int y)
   }
   
   if (res) {
-    map_set_terrain(x, y, T_RIVER);
+    if (terrain_control.river_style==R_AS_TERRAIN) {
+      map_set_terrain(x, y, T_RIVER);
+    }
+    else if (terrain_control.river_style==R_AS_SPECIAL) {
+      map_set_special(x, y, S_RIVER);
+      map_set_terrain(x, y, map_get_terrain(x ,y) - 16);
+    }
+    else {
+      map_set_terrain(x, y, map_get_terrain(x ,y) - 16);
+    }
   }
-  else
+  else {
     map_set_terrain(x, y, map_get_terrain(x ,y) - 16);
+  }
+
   return res;
 }
 
@@ -322,7 +340,9 @@ static void make_rivers(void)
   while (i<map.riverlength) {
     y=myrand(map.ysize);
     x=myrand(map.xsize);
-    if (map_get_terrain(x, y)==T_OCEAN ||map_get_terrain(x, y)==T_RIVER)
+    if (map_get_terrain(x, y)==T_OCEAN ||
+	map_get_terrain(x, y)==T_RIVER ||
+	map_get_special(x, y)&S_RIVER)
       continue;
     i+=make_river(x,y);
     i+=1;
@@ -423,9 +443,9 @@ static void make_land(void)
   make_forests();
   make_swamps();
   make_deserts();
-  make_rivers(); 
   make_plains();
   make_polar();
+  make_rivers();
   make_fair();
 }
 
@@ -939,13 +959,21 @@ static void make_huts(int number)
 static void add_specials(int prob)
 {
   int x,y;
+  enum tile_terrain_type ttype;
   for (y=1;y<map.ysize-1;y++)
     for (x=0;x<map.xsize; x++) {
-      if ((map_get_terrain(x, y)==T_OCEAN && is_coastline(x,y)) 
-	  || (map_get_terrain(x,y)!=T_OCEAN)) {
+      ttype = map_get_terrain(x, y);
+      if ((ttype==T_OCEAN && is_coastline(x,y)) || (ttype!=T_OCEAN)) {
 	if (myrand(1000)<prob) {
-	  if (!is_special_close(x,y))
-	    map_get_tile(x,y)->special|=S_SPECIAL;
+	  if (!is_special_close(x,y)) {
+	    if (tile_types[ttype].special_1_name[0] &&
+		(!(tile_types[ttype].special_2_name[0]) || (myrand(100)<50))) {
+	      map_get_tile(x,y)->special|=S_SPECIAL_1;
+	    }
+	    else if (tile_types[ttype].special_2_name[0]) {
+	      map_get_tile(x,y)->special|=S_SPECIAL_2;
+	    }
+	  }
 	}
       }
     }
@@ -1019,6 +1047,48 @@ static void fillisland(int coast, long int *bucket,
     }
   }
 }
+
+/**************************************************************************
+  fill an island with rivers, when river style is R_AS_SPECIAL
+**************************************************************************/
+static void fillislandrivers(int coast, long int *bucket)
+{
+  int x, y, i, k, capac;
+  long int failsafe;
+
+  if (*bucket <= 0 ) return;
+  capac = totalmass;
+  i = *bucket / capac;
+  i++;
+  *bucket -= i * capac;
+
+  k= i;
+  failsafe= i*(s-n)*(e-w);
+  if(failsafe<0){ failsafe= -failsafe; }
+
+  while (i && failsafe--) {
+    y = myrand(s - n) + n;
+    x = myrand(e - w) + w;
+    if (map_get_continent(x,y) == isleindex &&
+		map_get_terrain(x,y) == T_GRASSLAND) {
+
+      /* the first condition helps make terrain more contiguous,
+	 the second lets it avoid the coast: */
+      if ( ( i*3>k*2 
+	     || is_special_type_close(x,y,S_RIVER)
+	     || myrand(100)<50 
+	     )
+	  &&( !is_terrain_near_tile(x, y, T_OCEAN) || myrand(100) < coast )) {
+	if (is_water_adjacent_to_tile(x, y) &&
+            count_special_near_tile(x, y, S_RIVER) < 3) {
+	  map_set_special(x, y, S_RIVER);
+	  i--;
+	}
+      }
+    }
+  }
+}
+
 
 static long int checkmass;
 
@@ -1182,10 +1252,12 @@ static void makeisland(int islemass, int starters)
 	    islemass, i, balance, checkmass);
 
     i *= tilefactor;
-    riverbuck += map.riverlength / 10 * i;
-    fillisland(1, &riverbuck,
-	       1,1,1,1,
-		T_RIVER, T_RIVER, T_RIVER, T_RIVER);
+    if (terrain_control.river_style==R_AS_TERRAIN) {
+      riverbuck += map.riverlength / 10 * i;
+      fillisland(1, &riverbuck,
+		 1,1,1,1,
+		 T_RIVER, T_RIVER, T_RIVER, T_RIVER);
+    }
     mountbuck += map.mountains * i;
     fillisland(20, &mountbuck,
 	       3,1, 3,1,
@@ -1202,6 +1274,11 @@ static void makeisland(int islemass, int starters)
     fillisland(80, &swampbuck,
 	       map.swampsize, map.swampsize, map.swampsize, map.swampsize,
 		T_SWAMP, T_SWAMP, T_SWAMP, T_SWAMP);
+    if (terrain_control.river_style==R_AS_SPECIAL) {
+      riverbuck += map.riverlength / 10 * i;
+      fillislandrivers(1, &riverbuck);
+    }
+
     isleindex++;
   }
 }

@@ -273,10 +273,13 @@ void update_menus(void)
 			 (game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     if((punit=get_unit_in_focus())) {
-      char *irrtext  ="Build Irrigation    i",
-           *mintext  ="Build Mine          m",
-	   *roadtext ="Build Road          r",
-	   *transtext="Transform terrain    ";
+      char * chgfmt      = "Change to %-9s %c";
+      char irrtext[64]   = "Build Irrigation    i",
+           mintext[64]   = "Build Mine          m",
+	   transtext[64] = "Transform terrain   o";
+      char *roadtext     = "Build Road          r";
+      enum tile_terrain_type  ttype;
+      struct tile_type *      tinfo;
 
       menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO_SETTLER,
 			   (can_unit_do_auto(punit)
@@ -332,47 +335,28 @@ void update_menus(void)
 	menu_entry_rename(orders_menu, MENU_ORDER_CITY, "Build City          b");
       }
 
-      switch(map_get_tile(punit->x, punit->y)->terrain) {
-      case T_ARCTIC:
-        transtext="Change to Tundra    o";
-	break;
-      case T_DESERT:
-        transtext="Change to Plains    o";
-        break;
-      case T_FOREST:
-        irrtext  ="Change to Plains    i";
-	transtext="Change to Grassland o";
-	break;
-      case T_GRASSLAND:
-	mintext  ="Change to Forest    m";
-	transtext="Change to Hills     o";
-	break;
-      case T_HILLS:
-        transtext="Change to Plains    o";
-	break;
-      case T_JUNGLE:
-	irrtext  ="Change to Grassland i";
-	mintext  ="Change to Forest    m";
-	transtext="Change to Plains    o";
-	break;
-      case T_MOUNTAINS:
-        transtext="Change to Hills     o";
-	break;
-      case T_PLAINS:
-	mintext  ="Change to Forest    m";
-	transtext="Change to Grassland o";
-	break;
-      case T_SWAMP:
-	irrtext  ="Change to Grassland i";
-	mintext  ="Change to Forest    m";
-	transtext="Change to Plains    o";
-	break;
-      case T_TUNDRA:
-        transtext="Change to Desert    o";
-	break;
-      default:
-	break;
-      };
+      ttype = map_get_tile(punit->x, punit->y)->terrain;
+      tinfo = get_tile_type(ttype);
+      if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype))
+	{
+	  sprintf (irrtext, chgfmt,
+		   (get_tile_type(tinfo->irrigation_result))->terrain_name, 'i');
+	}
+      else if ((map_get_tile(punit->x,punit->y)->special&S_IRRIGATION) &&
+	       improvement_exists(B_SUPERMARKET))
+	{
+	  strcpy (irrtext, "Build Farmland      i");
+	}
+      if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
+	{
+	  sprintf (mintext, chgfmt,
+		   (get_tile_type(tinfo->mining_result))->terrain_name, 'm');
+	}
+      if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype))
+	{
+	  sprintf (transtext, chgfmt,
+		   (get_tile_type(tinfo->transform_result))->terrain_name, 'o');
+	}
     
       menu_entry_rename(orders_menu, MENU_ORDER_IRRIGATE, irrtext);
       menu_entry_rename(orders_menu, MENU_ORDER_MINE, mintext);

@@ -157,6 +157,7 @@ void send_game_info(struct player *dest)
   ginfo.rail_food = game.rail_food;
   ginfo.rail_trade = game.rail_trade;
   ginfo.rail_prod = game.rail_prod;
+  ginfo.farmfood = game.farmfood;
   ginfo.spacerace = game.spacerace;
   for(i=0; i<A_LAST; i++)
     ginfo.global_advances[i]=game.global_advances[i];
@@ -274,6 +275,8 @@ int game_load(struct section_file *file)
     game.rail_food  = secfile_lookup_int(file, "game.rail_food");
     game.rail_prod  = secfile_lookup_int(file, "game.rail_prod");
     game.rail_trade = secfile_lookup_int(file, "game.rail_trade");
+    game.farmfood   = secfile_lookup_int_default(file, GAME_DEFAULT_FARMFOOD,
+						"game.farmfood");
 
     game.foodbox     = secfile_lookup_int(file, "game.foodbox");
     game.techpenalty = secfile_lookup_int(file, "game.techpenalty");
@@ -319,14 +322,14 @@ int game_load(struct section_file *file)
     rand_init=1;
   }
 
-  if (has_capability("rulesets",savefile_options)) {
-    strcpy(game.ruleset.techs,
-	   secfile_lookup_str(file, "game.ruleset.techs"));
-    strcpy(game.ruleset.units,
-	   secfile_lookup_str(file, "game.ruleset.units"));
-    strcpy(game.ruleset.buildings,
-	   secfile_lookup_str(file, "game.ruleset.buildings"));
-  }
+  strcpy(game.ruleset.techs,
+	 secfile_lookup_str_default(file, "default", "game.ruleset.techs"));
+  strcpy(game.ruleset.units,
+	 secfile_lookup_str_default(file, "default", "game.ruleset.units"));
+  strcpy(game.ruleset.buildings,
+	 secfile_lookup_str_default(file, "default", "game.ruleset.buildings"));
+  strcpy(game.ruleset.terrain,
+	 secfile_lookup_str_default(file, "classic", "game.ruleset.terrain"));
 
   game.spacerace = secfile_lookup_int_default(file, game.spacerace,
 					      "game.spacerace");
@@ -479,6 +482,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.rail_food, "game.rail_food");
   secfile_insert_int(file, game.rail_prod, "game.rail_prod");
   secfile_insert_int(file, game.rail_trade, "game.rail_trade");
+  secfile_insert_int(file, game.farmfood, "game.farmfood");
   secfile_insert_int(file, game.foodbox, "game.foodbox");
   secfile_insert_int(file, game.techpenalty, "game.techpenalty");
   secfile_insert_int(file, game.razechance, "game.razechance");
@@ -493,6 +497,7 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, game.ruleset.techs, "game.ruleset.techs");
   secfile_insert_str(file, game.ruleset.units, "game.ruleset.units");
   secfile_insert_str(file, game.ruleset.buildings, "game.ruleset.buildings");
+  secfile_insert_str(file, game.ruleset.terrain, "game.ruleset.terrain");
 
   if (1) {
     /* Now always save these, so the server options reflect the

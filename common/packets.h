@@ -16,6 +16,7 @@
 #include "player.h"
 #include "shared.h"		/* MAX_LEN_NAME, MAX_LEN_ADDR */
 #include "spaceship.h"
+#include "map.h"
 
 #define MAX_LEN_PACKET    4096
 #define MAX_LEN_USERNAME    10	     /* see below */
@@ -91,7 +92,9 @@ enum packet_type {
   PACKET_CITY_OPTIONS,
   PACKET_SPACESHIP_INFO,
   PACKET_SPACESHIP_ACTION,
-  PACKET_UNIT_NUKE
+  PACKET_UNIT_NUKE,
+  PACKET_RULESET_TERRAIN,
+  PACKET_RULESET_TERRAIN_CONTROL
 };
 
 enum report_type {
@@ -454,6 +457,47 @@ struct packet_ruleset_building {
   int variant;
 };
 
+struct packet_ruleset_terrain {
+  int id;			/* index for tile_types[] */
+
+  char terrain_name[MAX_LEN_NAME];
+  int graphic_base;
+  int graphic_count;
+
+  int movement_cost;
+  int defense_bonus;
+
+  int food;
+  int shield;
+  int trade;
+
+  char special_1_name[MAX_LEN_NAME];
+  int graphic_special_1;
+  int food_special_1;
+  int shield_special_1;
+  int trade_special_1;
+
+  char special_2_name[MAX_LEN_NAME];
+  int graphic_special_2;
+  int food_special_2;
+  int shield_special_2;
+  int trade_special_2;
+
+  int road_trade_incr;
+  int road_time;
+
+  enum tile_terrain_type irrigation_result;
+  int irrigation_food_incr;
+  int irrigation_time;
+
+  enum tile_terrain_type mining_result;
+  int mining_shield_incr;
+  int mining_time;
+
+  enum tile_terrain_type transform_result;
+  int transform_time;
+};
+
 
 /*********************************************************
 ...
@@ -475,6 +519,7 @@ struct packet_game_info {
   int unhappysize;
   int diplcost,freecost,conquercost;
   int rail_food, rail_trade, rail_prod; 
+  int farmfood;
   int global_advances[A_LAST];
   int global_wonders[B_LAST];
   int foodbox;
@@ -665,6 +710,15 @@ int send_packet_ruleset_building(struct connection *pc,
 			     struct packet_ruleset_building *packet);
 struct packet_ruleset_building *
 receive_packet_ruleset_building(struct connection *pc);
+
+int send_packet_ruleset_terrain(struct connection *pc,
+			     struct packet_ruleset_terrain *packet);
+struct packet_ruleset_terrain *
+receive_packet_ruleset_terrain(struct connection *pc);
+int send_packet_ruleset_terrain_control(struct connection *pc,
+					struct terrain_misc *packet);
+struct terrain_misc *
+receive_packet_ruleset_terrain_control(struct connection *pc);
 
 int send_packet_before_end_year(struct connection *pc);
 
