@@ -2676,6 +2676,8 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 ****************************************************************************/
 int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
 		      const struct tile *ptile,
+		      const struct tile_edge *pedge,
+		      const struct tile_corner *pcorner,
 		      const struct unit *punit, const struct city *pcity,
 		      bool citymode)
 {

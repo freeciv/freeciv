@@ -26,6 +26,21 @@
 
 struct Sprite;			/* opaque; gui-dep */
 
+/* An edge is the border between two tiles.  This structure represents one
+ * edge.  The tiles are in unspecified order for the moment. */
+struct tile_edge {
+  enum {
+    EDGE_NS, EDGE_EW
+  } type;
+  struct tile *tile[2];
+};
+
+/* A corner is the endpoint of several edges.  At each corner 4 tiles will
+ * meet (3 in hex view).  Tiles are in clockwise order NESW. */
+struct tile_corner {
+  struct tile *tile[4];
+};
+
 struct drawn_sprite {
   enum {
     DRAWN_SPRITE,	/* Draw a sprite. */
@@ -115,6 +130,8 @@ void tilespec_free_city_tiles(int count);
 
 int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
 		      const struct tile *ptile,
+		      const struct tile_edge *pedge,
+		      const struct tile_corner *pcorner,
 		      const struct unit *punit, const struct city *pcity,
 		      bool citymode);
 

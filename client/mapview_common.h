@@ -70,24 +70,30 @@ enum update_type {
 /*
  * Iterate over all map tiles that intersect with the given GUI rectangle.
  * The order of iteration is guaranteed to satisfy the painter's algorithm.
+ * The iteration covers not only tiles but tile edges and corners.
  *
  * gui_x0, gui_y0: gives the GUI origin of the rectangle.
  * width, height: gives the GUI width and height of the rectangle.  These
  * values may be negative.
  *
- * map_x, map_y: variables that will give the current tile of iteration.
- * These coordinates are unnormalized.
+ * ptile, pedge, pcorner: gives the tile, edge, or corner that is being
+ * iterated over.  These are declared inside the macro.  Usually only
+ * one of them will be non-NULL at a time.  These values may be passed in
+ * directly to fill_sprite_array.
  *
- * draw: A variable that tells which parts of the tiles overlap with the
- * GUI rectangle.  Only applies in iso-view.
+ * canvas_x, canvas_y: the canvas position of the current element.  Each
+ * element is assumed to be NORMAL_TILE_WIDTH * NORMAL_TILE_HEIGHT in
+ * size.  If an element is larger the caller needs to use a larger rectangle
+ * of iteration.
  *
- * The classic-view iteration is pretty simple.  Documentation of the
- * iso-view iteration is at
- * http://rt.freeciv.org/Ticket/Attachment/51374/37363/isogrid.png.
+ * The grid of iteration is rather complicated.  For a picture of it see
+ * http://bugs.freeciv.org/Ticket/Attachment/89565/56824/newgrid.png
+ * or the other text in PR#12085.
  */
-#define gui_rect_iterate(gui_x0, gui_y0, width, height, ptile)	            \
+#define gui_rect_iterate(GRI_gui_x0, GRI_gui_y0, width, height,		    \
+			 ptile, pedge, pcorner, canvas_x, canvas_y)	    \
 {									    \
-  int _gui_x0 = (gui_x0), _gui_y0 = (gui_y0);				    \
+  int _gui_x0 = (GRI_gui_x0), _gui_y0 = (GRI_gui_y0);			    \
   int _width = (width), _height = (height);				    \
 									    \
   if (_width < 0) {							    \
@@ -99,38 +105,105 @@ enum update_type {
     _height = -_height;							    \
   }									    \
   if (_width > 0 && _height > 0) {					    \
-    int W = (is_isometric ? (NORMAL_TILE_WIDTH / 2) : NORMAL_TILE_WIDTH);   \
-    int H = (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : NORMAL_TILE_HEIGHT); \
-    int GRI_x0 = DIVIDE(_gui_x0, W), GRI_y0 = DIVIDE(_gui_y0, H);	    \
-    int GRI_x1 = DIVIDE(_gui_x0 + _width + W - 1, W);			    \
-    int GRI_y1 = DIVIDE(_gui_y0 + _height + H - 1, H);			    \
-    int GRI_itr, GRI_x_itr, GRI_y_itr, _map_x, _map_y;			    \
-    int count;								    \
-    struct tile *ptile;							    \
+    const int _ratio = (is_isometric ? 2 : 1);				    \
+    const int _W = NORMAL_TILE_WIDTH / (_ratio * 2);			    \
+    const int _H = NORMAL_TILE_HEIGHT / (_ratio * 2);			    \
+    const int GRI_x0 = DIVIDE(_gui_x0, _W) - 1;				    \
+    const int GRI_y0 = DIVIDE(_gui_y0, _H) - 1;				    \
+    const int GRI_x1 = DIVIDE(_gui_x0 + _width + _W - 1, _W) + _ratio;	    \
+    const int GRI_y1 = DIVIDE(_gui_y0 + _height + _H - 1, _H) + _ratio;	    \
+    const int _count = (GRI_x1 - GRI_x0) * (GRI_y1 - GRI_y0);		    \
+    int GRI_itr, GRI_x_itr, GRI_y_itr, GRI_sum, GRI_diff;		    \
 									    \
-    if (is_isometric) {							    \
-      /* Tiles to the left/above overlap with us. */			    \
-      GRI_x0--;								    \
-      GRI_y0--;								    \
-    }									    \
-    count = (GRI_x1 - GRI_x0) * (GRI_y1 - GRI_y0);			    \
-    for (GRI_itr = 0; GRI_itr < count; GRI_itr++) {			    \
+    for (GRI_itr = 0; GRI_itr < _count; GRI_itr++) {			    \
+      struct tile *ptile = NULL;					    \
+      struct tile_edge *pedge = NULL;					    \
+      struct tile_corner *pcorner = NULL;				    \
+      struct tile_edge GRI_edge;					    \
+      struct tile_corner GRI_corner;					    \
+      int canvas_x, canvas_y;						    \
+									    \
       GRI_x_itr = GRI_x0 + (GRI_itr % (GRI_x1 - GRI_x0));		    \
       GRI_y_itr = GRI_y0 + (GRI_itr / (GRI_x1 - GRI_x0));		    \
+      GRI_sum = GRI_x_itr + GRI_y_itr;					    \
+      GRI_diff = GRI_y_itr - GRI_x_itr;					    \
       if (is_isometric) {						    \
 	if ((GRI_x_itr + GRI_y_itr) % 2 != 0) {				    \
 	  continue;							    \
 	}								    \
-	_map_x = (GRI_x_itr + GRI_y_itr) / 2;				    \
-	_map_y = (GRI_y_itr - GRI_x_itr) / 2;				    \
+	if (GRI_x_itr % 2 == 0 && GRI_y_itr % 2 == 0) {			    \
+	  if ((GRI_x_itr + GRI_y_itr) % 4 == 0) {			    \
+	    /* Tile */							    \
+	    ptile = map_pos_to_tile(GRI_sum / 4 - 1, GRI_diff / 4);	    \
+	  } else {							    \
+	    /* Corner */						    \
+	    pcorner = &GRI_corner;					    \
+	    pcorner->tile[0] = map_pos_to_tile((GRI_sum - 6) / 4,	    \
+					       (GRI_diff - 2) / 4);	    \
+	    pcorner->tile[1] = map_pos_to_tile((GRI_sum - 2) / 4,	    \
+					       (GRI_diff - 2) / 4);	    \
+	    pcorner->tile[2] = map_pos_to_tile((GRI_sum - 2) / 4,	    \
+					       (GRI_diff + 2) / 4);	    \
+	    pcorner->tile[3] = map_pos_to_tile((GRI_sum - 6) / 4,	    \
+					       (GRI_diff + 2) / 4);	    \
+	  }								    \
+	} else {							    \
+	  /* Edge. */							    \
+	  pedge = &GRI_edge; 						    \
+	  if (GRI_sum % 4 == 0) {					    \
+	    pedge->type = EDGE_NS;					    \
+	    pedge->tile[0] = map_pos_to_tile((GRI_sum - 4) / 4, /* N */	    \
+					     (GRI_diff - 2) / 4);	    \
+	    pedge->tile[1] = map_pos_to_tile((GRI_sum - 4) / 4, /* S */	    \
+					     (GRI_diff + 2) / 4);	    \
+	  } else {							    \
+	    pedge->type = EDGE_EW;					    \
+	    pedge->tile[0] = map_pos_to_tile((GRI_sum - 6) / 4,		    \
+					     GRI_diff / 4); /* E */	    \
+	    pedge->tile[1] = map_pos_to_tile((GRI_sum - 2) / 4,		    \
+					     GRI_diff / 4); /* W */	    \
+	  }								    \
+	}								    \
       } else {								    \
-	_map_x = GRI_x_itr;						    \
-	_map_y = GRI_y_itr;						    \
+	if (GRI_sum % 2 == 0) {						    \
+	  if (GRI_x_itr % 2 == 0) {					    \
+	    /* Corner. */						    \
+	    pcorner = &GRI_corner;					    \
+	    pcorner->tile[0] = map_pos_to_tile(GRI_x_itr / 2 - 1,	    \
+					       GRI_y_itr / 2 - 1); /* NW */ \
+	    pcorner->tile[1] = map_pos_to_tile(GRI_x_itr / 2,		    \
+					       GRI_y_itr / 2 - 1); /* NE */ \
+	    pcorner->tile[2] = map_pos_to_tile(GRI_x_itr / 2,		    \
+					       GRI_y_itr / 2); /* SE */	    \
+	    pcorner->tile[3] = map_pos_to_tile(GRI_x_itr / 2 - 1,	    \
+					       GRI_y_itr / 2); /* SW */	    \
+	  } else {							    \
+	    /* Tile. */							    \
+	    ptile = map_pos_to_tile((GRI_x_itr - 1) / 2,		    \
+				    (GRI_y_itr - 1) / 2);		    \
+	  }								    \
+	} else {							    \
+	  /* Edge. */							    \
+	  pedge = &GRI_edge;						    \
+	  if (GRI_y_itr % 2 == 0) {					    \
+	    pedge->type = EDGE_EW;					    \
+	    pedge->tile[0] = map_pos_to_tile(GRI_x_itr / 2 - 1,		    \
+					     (GRI_y_itr - 1) / 2);	    \
+	    pedge->tile[1] = map_pos_to_tile(GRI_x_itr / 2,		    \
+					     (GRI_y_itr - 1) / 2);	    \
+	  } else {							    \
+	    pedge->type = EDGE_NS;					    \
+	    pedge->tile[0] = map_pos_to_tile((GRI_x_itr - 1) / 2,	    \
+					     GRI_y_itr / 2 - 1);	    \
+	    pedge->tile[1] = map_pos_to_tile((GRI_x_itr - 1) / 2,	    \
+					     GRI_y_itr / 2);		    \
+	  }								    \
+	}								    \
       }									    \
-      ptile = map_pos_to_tile(_map_x, _map_y);				    \
-      if (!ptile) {							    \
-	continue;							    \
-      }
+      canvas_x								    \
+	= GRI_x_itr * _W - NORMAL_TILE_WIDTH / 2 - mapview_canvas.gui_x0;   \
+      canvas_y								    \
+	= GRI_y_itr * _H - NORMAL_TILE_HEIGHT / 2 - mapview_canvas.gui_y0;
 
 #define gui_rect_iterate_end						    \
     }									    \

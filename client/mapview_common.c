@@ -873,21 +873,37 @@ static void put_drawn_sprites(struct canvas *pcanvas,
 }
 
 /**************************************************************************
+  Draw one layer of a tile, edge, corner, unit, and/or city onto the
+  canvas at the given position.
+**************************************************************************/
+static void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
+			    struct tile *ptile,
+			    const struct tile_edge *pedge,
+			    const struct tile_corner *pcorner,
+			    const struct unit *punit, struct city *pcity,
+			    int canvas_x, int canvas_y, bool citymode)
+{
+  struct drawn_sprite tile_sprs[80];
+  int count = fill_sprite_array(tile_sprs, layer, ptile, pedge, pcorner,
+				punit, pcity, citymode);
+  bool fog = (ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED 
+	      && draw_fog_of_war && fogstyle == FOG_AUTO);
+
+  /*** Draw terrain and specials ***/
+  put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);
+}
+
+/**************************************************************************
   Draw the given unit onto the canvas store at the given location.  The
   area of drawing is UNIT_TILE_HEIGHT x UNIT_TILE_WIDTH.
 **************************************************************************/
 void put_unit(const struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
-  struct drawn_sprite drawn_sprites[40];
-
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   mapview_layer_iterate(layer) {
-    int count = fill_sprite_array(drawn_sprites, layer,
-				  NULL, punit, NULL, FALSE);
-
-    put_drawn_sprites(pcanvas, canvas_x, canvas_y,
-		      count, drawn_sprites, FALSE);
+    put_one_element(pcanvas, layer, NULL, NULL, NULL,
+		    punit, NULL, canvas_x, canvas_y, FALSE);
   } mapview_layer_iterate_end;
 }
 
@@ -898,15 +914,11 @@ void put_unit(const struct unit *punit,
 void put_city(struct city *pcity,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
-  struct drawn_sprite drawn_sprites[40];
-
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   mapview_layer_iterate(layer) {
-    int count = fill_sprite_array(drawn_sprites, layer,
-				  NULL, NULL, pcity, FALSE);
-
-    put_drawn_sprites(pcanvas, canvas_x, canvas_y,
-		      count, drawn_sprites, FALSE);
+    put_one_element(pcanvas, layer,
+		    NULL, NULL, NULL, NULL, pcity,
+		    canvas_x, canvas_y, FALSE);
   } mapview_layer_iterate_end;
 }
 
@@ -918,16 +930,11 @@ void put_city(struct city *pcity,
 void put_terrain(struct tile *ptile,
 		 struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
-  struct drawn_sprite drawn_sprites[40];
-
   /* Use full tile height, even for terrains. */
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   mapview_layer_iterate(layer) {
-    int count = fill_sprite_array(drawn_sprites, layer,
-				  ptile, NULL, NULL, FALSE);
-
-    put_drawn_sprites(pcanvas, canvas_x, canvas_y,
-		      count, drawn_sprites, FALSE);
+    put_one_element(pcanvas, layer, ptile, NULL, NULL, NULL, NULL,
+		    canvas_x, canvas_y, FALSE);
   } mapview_layer_iterate_end;
 }
 
@@ -1439,15 +1446,11 @@ void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
 		  struct tile *ptile,
 		  int canvas_x, int canvas_y, bool citymode)
 {
-  struct drawn_sprite tile_sprs[80];
-  int count = fill_sprite_array(tile_sprs, layer, ptile,
-				get_drawable_unit(ptile, citymode),
-				ptile->city, citymode);
-  bool fog = (tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war
-	      && fogstyle == FOG_AUTO);
-
-  /*** Draw terrain and specials ***/
-  put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);
+  if (tile_get_known(ptile) != TILE_UNKNOWN) {
+    put_one_element(pcanvas, layer, ptile, NULL, NULL,
+		    get_drawable_unit(ptile, citymode),
+		    ptile->city, canvas_x, canvas_y, citymode);
+  }
 }
 
 /**************************************************************************
@@ -1509,12 +1512,17 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   mapview_layer_iterate(layer) {
     gui_rect_iterate(gui_x0, gui_y0, width,
 		     height + (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : 0),
-		     ptile) {
-      int cx, cy;
-
-      if (tile_get_known(ptile) != TILE_UNKNOWN
-	  && tile_to_canvas_pos(&cx, &cy, ptile)) {
+		     ptile, pedge, pcorner, cx, cy) {
+      if (ptile) {
 	put_one_tile(mapview_canvas.store, layer, ptile, cx, cy, FALSE);
+      } else if (pedge) {
+	put_one_element(mapview_canvas.store, layer, NULL, pedge, NULL,
+			NULL, NULL, cx, cy, FALSE);
+      } else if (pcorner) {
+	put_one_element(mapview_canvas.store, layer, NULL, NULL, pcorner,
+			NULL, NULL, cx, cy, FALSE);
+      } else {
+	/* This can happen, for instance for unreal tiles. */
       }
     } gui_rect_iterate_end;
   } mapview_layer_iterate_end;
@@ -1527,7 +1535,10 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    * from adjacent tiles (if they're close enough). */
   gui_rect_iterate(gui_x0 - GOTO_WIDTH, gui_y0 - GOTO_WIDTH,
 		   width + 2 * GOTO_WIDTH, height + 2 * GOTO_WIDTH,
-		   ptile) {
+		   ptile, pedge, pcorner, cx, cy) {
+    if (!ptile) {
+      continue;
+    }
     adjc_dir_iterate(ptile, adjc_tile, dir) {
       if (is_drawn_line(ptile, dir)) {
 	draw_segment(ptile, dir);
@@ -1536,17 +1547,17 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   } gui_rect_iterate_end;
 
   /* Draw citymap overlays on top. */
-  gui_rect_iterate(gui_x0, gui_y0, width, height, ptile) {
-    if (tile_get_known(ptile) != TILE_UNKNOWN) {
+  gui_rect_iterate(gui_x0, gui_y0, width, height,
+		   ptile, pedge, pcorner, canvas_x2, canvas_y2) {
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
       struct unit *punit;
       struct city *pcity;
-      int city_x, city_y, canvas_x2, canvas_y2;
+      int city_x, city_y;
 
       pcity = find_city_or_settler_near_tile(ptile, &punit);
       if (pcity
 	  && city_colors[pcity->client.color] != COLOR_STD_LAST
-	  && map_to_city_map(&city_x, &city_y, pcity, ptile)
-	  && tile_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
+	  && map_to_city_map(&city_x, &city_y, pcity, ptile)) {
 	enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
 
 	put_city_worker(mapview_canvas.store,
@@ -1557,8 +1568,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 			       mapview_canvas.store, canvas_x2, canvas_y2);
 	}
       } else if (punit
-		 && city_colors[punit->client.color] != COLOR_STD_LAST
-		 && tile_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
+		 && city_colors[punit->client.color] != COLOR_STD_LAST) {
 	/* Draw citymap overlay for settlers. */
 	put_city_worker(mapview_canvas.store,
 			city_colors[punit->client.color], C_TILE_EMPTY,
@@ -1656,14 +1666,11 @@ void show_city_descriptions(int canvas_x, int canvas_y,
   gui_rect_iterate(mapview_canvas.gui_x0 + canvas_x - dx / 2,
 		   mapview_canvas.gui_y0 + canvas_y - dy,
 		   width + dx, height + dy - NORMAL_TILE_HEIGHT,
-		   ptile) {
-    int canvas_x, canvas_y;
-    struct city *pcity = ptile->city;
-
-    if (pcity) {
+		   ptile, pedge, pcorner, canvas_x, canvas_y) {
+    if (ptile && ptile->city) {
       int width = 0, height = 0;
+      struct city *pcity = ptile->city;
 
-      (void) tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
       show_city_desc(mapview_canvas.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
 
