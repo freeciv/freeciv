@@ -100,6 +100,7 @@ if test x$client = xtrue; then
     else
 	FC_CHECK_X_LIB(Xaw3d, main)
     fi
+    dnl Don't do following because don't want server to link with X:
     dnl LIBS="$LIBS $X_LIBS $X_EXTRA_LIBS"
 fi
 
@@ -112,7 +113,11 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(sys/ioctl.h sys/time.h unistd.h)
 if test x$client = xtrue; then
+    dnl Want to get appropriate -I flags:
+    SAVE_CPPFLAGS="$CPPFLAGS"
+    CPPFLAGS="$CPPFLAGS $X_CFLAGS"
     AC_CHECK_HEADERS(X11/xpm.h)
+    CPPFLAGS="$SAVE_CPPFLAGS"
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
