@@ -54,6 +54,7 @@
 static void package_dumb_city(struct player* pplayer, int x, int y,
 			      struct packet_short_city *packet);
 static void remove_trade_route(int c1, int c2); 
+static void send_adjacent_cities(struct city *pcity);
 
 char **misc_city_names; 
 int num_misc_city_names;
