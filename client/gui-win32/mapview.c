@@ -173,50 +173,6 @@ void map_expose(HDC hdc)
 /**************************************************************************
 
 **************************************************************************/
-void put_unit_pixmap(struct unit *punit, HDC hdc,int canvas_x,int canvas_y)
-{
-  bool solid_bg;
-
-  if (is_isometric) {
-    struct Sprite *sprites[40];        
-    int count = fill_unit_sprite_array(sprites, punit,&solid_bg);        
-    int i;
-  
-    assert(!solid_bg);
-    for (i=0; i<count; i++) {
-      if (sprites[i]) {
-	draw_sprite(sprites[i],hdc,canvas_x,canvas_y);
-      }
-    }
-    
-  } else {
-    struct Sprite *sprites[40];
-    int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
-    if (count) {
-      int i=0;
-      if (solid_bg) {
-	RECT rc;
-	rc.left=canvas_x;
-	rc.top=canvas_y;
-	rc.right=rc.left+UNIT_TILE_WIDTH;
-	rc.bottom=rc.top+UNIT_TILE_HEIGHT;
-	FillRect(hdc,&rc,brush_std[player_color(unit_owner(punit))]);
-      } else {
-	
-	draw_sprite(sprites[0],hdc,canvas_x,canvas_y);
-	
-	i++;
-      }
-      for(;i<count;i++) {
-	if (sprites[i])
-	  draw_sprite(sprites[i],hdc,canvas_x,canvas_y);
-      }
-    }
-  }
-}
-/**************************************************************************
-
-**************************************************************************/
 void put_unit_city_overlays(struct unit *punit, HDC hdc, int x, int y)
 {
   int upkeep_food = CLIP(0, punit->upkeep_food, 2);
@@ -728,7 +684,7 @@ void draw_unit_animation_frame(struct unit *punit,
 {
   static HDC mapstoredc, hdc, hdcwin;
   static HBITMAP old, oldbmp;
-
+  static struct canvas_store canvas_store;
   /* Create extra backing store.  This should be done statically. */
   if (first_frame) {
     mapstoredc = CreateCompatibleDC(NULL);
@@ -736,6 +692,8 @@ void draw_unit_animation_frame(struct unit *punit,
     hdc = CreateCompatibleDC(NULL);
     oldbmp = SelectObject(hdc, single_tile_pixmap);
     hdcwin = GetDC(map_window);
+    canvas_store.hdc = hdc;
+    canvas_store.bitmap = NULL;
   }
 
   /* Clear old sprite. */
@@ -745,7 +703,7 @@ void draw_unit_animation_frame(struct unit *punit,
   /* Draw the new sprite. */
   BitBlt(hdc, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, mapstoredc,
 	 new_canvas_x, new_canvas_y, SRCCOPY);
-  put_unit_pixmap(punit, hdc, 0, 0);
+  put_unit_full(punit, &canvas_store, 0, 0);
 
   /* Write to screen. */
   BitBlt(hdcwin, new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
@@ -821,7 +779,7 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       struct canvas_store store = {NULL, single_tile_pixmap};
 
       put_one_tile(&store, losing_unit->x, losing_unit->y, 0, 0, FALSE);
-      put_unit_pixmap(losing_unit, hdc, 0, 0);
+      put_unit_full(losing_unit, &store, 0, 0);
       draw_sprite(sprites.explode.unit[i],hdc,NORMAL_TILE_WIDTH/4,0);
       BitBlt(hdcwin,canvas_x,canvas_y,
 	     NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
@@ -897,6 +855,7 @@ refresh_overview_canvas(void)
 void
 refresh_overview_viewrect_real(HDC hdcp)
 {
+  int i;
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
   int y0 = OVERVIEW_TILE_HEIGHT * map_overview_y0;
@@ -911,10 +870,10 @@ refresh_overview_viewrect_real(HDC hdcp)
 
   /* (map_overview_x0, map_overview_y0) splits the map into four
    * rectangles.  Draw each of these rectangles to the screen, in turn. */
-  BitBlt(hdc, overview_win_x, overview_win_y, x1, y1, x0, y0);
-  BitBlt(hdc, overview_win_x + x1, overview_win_y, x0, y1, 0, y0);
-  BitBlt(hdc, overview_win_x, overview_win_y + y1, x1, y0, x0, 0);
-  BitBlt(hdc, overview_win_x + x1, overview_win_y + y1, x0, y0, 0, 0);
+  BitBlt(hdc, overview_win_x, overview_win_y, x1, y1, overviewstoredc, x0, y0, SRCCOPY);
+  BitBlt(hdc, overview_win_x + x1, overview_win_y, x0, y1, overviewstoredc, 0, y0, SRCCOPY);
+  BitBlt(hdc, overview_win_x, overview_win_y + y1, x1, y0, overviewstoredc, x0, 0, SRCCOPY);
+  BitBlt(hdc, overview_win_x + x1, overview_win_y + y1, x0, y0, overviewstoredc, 0, 0, SRCCOPY);
 
   /* Now draw the mapview window rectangle onto the overview. */
   oldpen = SelectObject(hdc, pen_std[COLOR_STD_WHITE]);
@@ -1250,15 +1209,19 @@ void gui_put_sprite(struct canvas_store *pcanvas_store,
   HBITMAP old;
 
   /* FIXME: we don't want to have to recreate the hdc each time! */
-  hdc = CreateCompatibleDC(pcanvas_store->hdc);
-  old = SelectObject(hdc, pcanvas_store->bitmap);
-
+  if (pcanvas_store->bitmap) {
+    hdc = CreateCompatibleDC(pcanvas_store->hdc);
+    old = SelectObject(hdc, pcanvas_store->bitmap);
+  } else {
+    hdc = pcanvas_store->hdc;
+  }
   pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y,
 			       sprite, offset_x, offset_y,
 			       width, height, 0);
-
-  SelectObject(hdc, old);
-  DeleteDC(hdc);
+  if (pcanvas_store->bitmap) {
+    SelectObject(hdc, old);
+    DeleteDC(hdc);
+  }
 }
 
 /**************************************************************************
@@ -1305,27 +1268,29 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
   DeleteDC(hdc);
 }
 
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-static void put_unit_pixmap_draw(struct unit *punit, HDC hdc,
-                                 int canvas_x, int canvas_y,
-                                 int offset_x, int offset_y_unit,
-                                 int width, int height_unit)
-{
-  struct Sprite *sprites[40];
-  bool dummy;
-  int count = fill_unit_sprite_array(sprites, punit, &dummy);
-  int i;
 
-  for (i=0; i<count; i++) {
-    if (sprites[i]) {
-      pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y, sprites[i],
-                                   offset_x, offset_y_unit,
-                                   width, height_unit, 0);
-    }
-  }
+/**************************************************************************
+  Put a drawn sprite (with given offset) onto the pixmap.
+**************************************************************************/
+static void pixmap_put_drawn_sprite(HDC hdc,
+                                    int canvas_x, int canvas_y,
+                                    struct drawn_sprite *pdsprite,
+                                    int offset_x, int offset_y,
+                                    int width, int height,
+                                    bool fog)
+{
+   
+  int ox = pdsprite->offset_x, oy = pdsprite->offset_y;
+  
+  
+  pixmap_put_overlay_tile_draw(hdc, canvas_x + ox, canvas_y + oy,
+                               pdsprite->sprite,
+                               offset_x - ox, offset_y - oy,
+                               width - ox, height - oy,
+                               fog);
+  
 }
+
 
 
 /**************************************************************************
@@ -1337,13 +1302,13 @@ static void put_city_pixmap_draw(struct city *pcity,HDC hdc,
                                  int width, int height_unit,
 				 bool fog)
 {
-  struct Sprite *sprites[80];
+  struct drawn_sprite sprites[80];
   int count = fill_city_sprite_array_iso(sprites, pcity);
   int i;
 
   for (i=0; i<count; i++) {
-    if (sprites[i]) {
-      pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y, sprites[i],
+    if (sprites[i].sprite) {
+      pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &sprites[i],
                                    offset_x, offset_y_unit,
                                    width, height_unit,
                                    fog);
@@ -1362,11 +1327,12 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 int width, int height, int height_unit,
                                 enum draw_type draw)
 {
-  struct Sprite *tile_sprs[80];
+  struct drawn_sprite tile_sprs[80];
   struct Sprite *coasts[4];
   struct Sprite *dither[4];
   struct city *pcity;
   struct unit *punit, *pfocus;
+  struct canvas_store canvas_store={hdc,NULL};
   enum tile_special_type special;
   int count, i = 0;
   bool fog, solid_bg, is_real;
@@ -1451,7 +1417,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                    fog);
 
     } else {
-      pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y, tile_sprs[0],
+      pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[0],
                                    offset_x, offset_y, width, height, fog);
       i++;
     }
@@ -1466,8 +1432,8 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   
   /*** Rest of terrain and specials ***/
   for (; i<count; i++) {
-    if (tile_sprs[i])
-      pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y, tile_sprs[i],
+    if (tile_sprs[i].sprite)
+      pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
                                    offset_x, offset_y, width, height, fog);
     else
       freelog(LOG_ERROR, "sprite is NULL");
@@ -1562,10 +1528,10 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
 
     /*** Unit ***/
   if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
-    put_unit_pixmap_draw(punit, hdc,
-                         canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
-                         offset_x, offset_y_unit,
-                         width, height_unit);
+    put_unit(punit, &canvas_store,
+             canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
+             offset_x, offset_y_unit,
+             width, height_unit);
     if (!pcity && unit_list_size(&map_get_tile(x, y)->units) > 1)
       pixmap_put_overlay_tile_draw(hdc,
                                    canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,

@@ -294,6 +294,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
   struct unit_list *plist;
   struct genlist_link *myiter;
   struct unit *punit;
+  struct canvas_store canvas_store = {hdc, NULL};
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->present_unit_ids[i]==unitid)
@@ -321,9 +322,9 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
       rc.right=rc.left+NORMAL_TILE_WIDTH;
       rc.bottom=rc.top+SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
       FillRect(hdc,&rc,(HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
-      put_unit_pixmap(punit,hdc,
-		      pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
-		      pdialog->present_y); 
+      put_unit_full(punit,&canvas_store,
+		    pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
+		    pdialog->present_y); 
       pdialog->present_unit_ids[i]=punit->id;       
       
     }
@@ -349,6 +350,7 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
   struct unit_list *plist;
   struct genlist_link *myiter;
   struct unit *punit;    
+  struct canvas_store canvas_store = {hdc, NULL};
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->support_unit_ids[i]==unitid)
@@ -374,9 +376,9 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
       rc.right=rc.left+NORMAL_TILE_WIDTH;
       rc.bottom=rc.top+SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
       FillRect(hdc,&rc,(HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
-      put_unit_pixmap(punit,hdc,
-		      pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
-		      pdialog->supported_y);
+      put_unit_full(punit,&canvas_store,
+		    pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
+		    pdialog->supported_y);
       put_unit_city_overlays(punit,hdc,
 		      pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
 		      pdialog->supported_y);

@@ -142,6 +142,21 @@ static int min_free_port()
 
 
 /*************************************************************************
+ PORTME
+*************************************************************************/
+void handle_authentication_request(struct packet_authentication_request *
+                                   packet)
+{
+}
+
+/*************************************************************************
+ PORTME
+*************************************************************************/
+void close_connection_dialog()
+{
+}
+
+/*************************************************************************
 
 *************************************************************************/
 static void remove_server_control_buttons()
@@ -1050,7 +1065,8 @@ static void handle_hscroll(HWND hWnd,HWND hWndCtl,UINT code,int pos)
 **************************************************************************/
 static void set_new_game_params(HWND win)
 {
-  int aifill, char aifill_str[MAX_LEN_MSG - MAX_LEN_USERNAME + 1];
+  int aifill;
+  char aifill_str[MAX_LEN_MSG - MAX_LEN_USERNAME + 1];
 
   if (!is_server_running())
     start_server_for_new_game();
@@ -1070,7 +1086,7 @@ static void set_new_game_params(HWND win)
   aifill=ScrollBar_GetPos(GetDlgItem(win,ID_AIFILL));
 
   my_snprintf(aifill_str, sizeof(aifill_str), "/set aifill %d", aifill);
-  send_chat(aifill);
+  send_chat(aifill_str);
    
   if (Button_GetCheck(GetDlgItem(win,ID_STARTGAME))==BST_CHECKED) {
     send_chat("/start");

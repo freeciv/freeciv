@@ -24,6 +24,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
+#include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
 #include "packets.h"
@@ -88,8 +89,8 @@ static void players_war(int player_index)
 
   packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
   packet.id = player_index;
-  send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-			      &packet);
+  send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+			     &packet);
 }
 
 /******************************************************************
@@ -127,7 +128,7 @@ static void players_sship(int player_index)
  * Builds the text for the cells of a row in the player report. If
  * update is 1, only the changable entries are build.
  */
-static void build_row(char **row, int i, int update)
+static void build_row(const char **row, int i, int update)
 {
   static char namebuf[MAX_LEN_NAME],  aibuf[2], dsbuf[32],
       repbuf[32], statebuf[32], idlebuf[32];
@@ -211,7 +212,7 @@ static int CALLBACK sort_proc(LPARAM lParam1, LPARAM lParam2,
 {
   char text1[128];
   char text2[128];
-  char *row_texts[NUM_COLUMNS];
+  const char *row_texts[NUM_COLUMNS];
   build_row(row_texts,lParam1,0);
   sz_strlcpy(text1,row_texts[lParamSort]);
   build_row(row_texts,lParam2,0);
@@ -410,7 +411,7 @@ update_players_dialog(void)
   if (players_dialog && !is_plrdlg_frozen()) {
     LV_ITEM lvi;
     HWND lv;
-    char *row_texts[NUM_COLUMNS];
+    const char *row_texts[NUM_COLUMNS];
     int i,row;
     lv=GetDlgItem(players_dialog,ID_PLAYERS_LIST);
     ListView_DeleteAllItems(lv);

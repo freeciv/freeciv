@@ -43,6 +43,7 @@
 #include "chatline.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
+#include "graphics.h"
 #include "mapview.h"
 #include "gui_main.h" 
                              
@@ -772,6 +773,7 @@ popup_unit_select_dialog(struct tile *ptile)
   max_height+=4;
   for (i=0;i<n;i++)
     {
+      struct canvas_store canvas_store={unitsel_dc, NULL};
       struct unit *punit=unit_list_get(&ptile->units, i);
       struct unit_type *punittemp=unit_type(punit);
       struct city *pcity;
@@ -793,7 +795,7 @@ popup_unit_select_dialog(struct tile *ptile)
       SelectObject(unitsel_dc,unit_select_bitmaps[i]);
       BitBlt(unitsel_dc,0,0,UNIT_TILE_WIDTH,UNIT_TILE_HEIGHT,NULL,
 	     0,0,WHITENESS);
-      put_unit_pixmap(punit,unitsel_dc,0,0);
+      put_unit_full(punit,&canvas_store,0,0);
       SelectObject(unitsel_dc,old);
       unit_select_but[i]=CreateWindow("BUTTON",NULL,
 				      WS_CHILD | WS_VISIBLE | BS_BITMAP,

@@ -17,7 +17,6 @@
 
 void put_city_tile_output(HDC hdc, int x, int y,
                           int food, int shield, int trade);    
-void put_unit_pixmap(struct unit *punit, HDC hdc,int x,int y);
 void pixmap_frame_tile_red(HDC hdc, int x, int y);
 void put_unit_city_overlays(struct unit *punit, HDC hdc, int x, int y);
 void put_one_tile_full(HDC hdc, int x, int y,
