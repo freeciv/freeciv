@@ -459,7 +459,7 @@ void gamelog(int level, ...)
   case GAMELOG_INFO:
     pplayer = va_arg(args, struct player *);
     {
-      int workers = 0, food = 0, shields = 0, trade = 0, settlers = 0;
+      int food = 0, shields = 0, trade = 0, settlers = 0;
 
       unit_list_iterate(pplayer->units, punit) {
         if (unit_flag(punit, F_CITIES)) {
@@ -467,7 +467,6 @@ void gamelog(int level, ...)
         }
       } unit_list_iterate_end;
       city_list_iterate(pplayer->cities, pcity) {
-        workers += pcity->size;
         shields += pcity->prod[O_SHIELD];
         food += pcity->prod[O_FOOD];
         trade += pcity->surplus[O_TRADE];
@@ -477,8 +476,8 @@ void gamelog(int level, ...)
                   "<pop>%d</pop><food>%d</food><prod>%d</prod>"
                   "<trade>%d</trade><settlers>%d</settlers><units>%d</units>",
                   pplayer->player_no, city_list_size(&pplayer->cities),
-                  workers, food, shields, trade, settlers,
-                  unit_list_size(&pplayer->units));
+                  total_player_citizens(pplayer), food, shields, trade, 
+                  settlers, unit_list_size(&pplayer->units));
     }
     gamelog_put_prefix(buf, sizeof(buf), "info");
     break;
@@ -653,6 +652,6 @@ static void gamelog_status(char *buffer, int len) {
   for (i = 0; i < count; i++) {
     cat_snprintf(buffer, len, "<plr><no>%d</no><r>%d</r><s>%d</s></plr>",
 		 game.players[rank[i].idx].player_no,
-                 rank[i].value, size[i].value);
+                 rank[i].value, size[rank[i].idx].value);
   }
 }
