@@ -2299,8 +2299,6 @@ void handle_processing_finished(void)
 
   aconnection.client.request_id_of_currently_handled_packet = 0;
 
-  agents_processing_finished();
-
   for (i = 0; i < reports_thaw_requests_size; i++) {
     if (reports_thaw_requests[i] != 0 &&
 	reports_thaw_requests[i] ==
@@ -2309,6 +2307,8 @@ void handle_processing_finished(void)
       reports_thaw_requests[i] = 0;
     }
   }
+
+  agents_processing_finished();
 }
 
 /**************************************************************************
