@@ -774,7 +774,7 @@ int send_packet_city_request(struct connection *pc,
   dio_put_uint8(&dout, packet->worker_y);
   dio_put_uint8(&dout, packet->specialist_from);
   dio_put_uint8(&dout, packet->specialist_to);
-  dio_put_worklist(&dout, &copy, TRUE);
+  dio_put_worklist(&dout, &copy);
   if (req_type == PACKET_CITY_RENAME) {
     dio_put_string(&dout, packet->name);
   } else {
@@ -1278,7 +1278,7 @@ int send_packet_city_info(struct connection *pc,
   dio_put_uint16(&dout, req->disbanded_shields);
   dio_put_uint16(&dout, req->caravan_shields);
 
-  dio_put_worklist(&dout, &req->worklist, TRUE);
+  dio_put_worklist(&dout, &req->worklist);
 
   dio_put_uint8(&dout, (COND_SET_BIT(req->is_building_unit, 0) |
 			COND_SET_BIT(req->did_buy, 1) |

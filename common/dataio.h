@@ -93,8 +93,7 @@ void dio_put_string(struct data_out *dout, const char *value);
 void dio_put_bit_string(struct data_out *dout, const char *value);
 void dio_put_city_map(struct data_out *dout, const char *value);
 void dio_put_tech_list(struct data_out *dout, const int *value);
-void dio_put_worklist(struct data_out *dout, const struct worklist *pwl,
-		      bool real_wl);
+void dio_put_worklist(struct data_out *dout, const struct worklist *pwl);
 
 void dio_put_uint8_vec8(struct data_out *dout, int *values, int stop_value);
 void dio_put_uint16_vec8(struct data_out *dout, int *values, int stop_value);
