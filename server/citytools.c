@@ -660,7 +660,6 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 {
   struct player *from_player = unit_owner(punit);
   struct player *to_player = city_owner(tocity);
-  struct unit *punit2;
 
   if (from_player == to_player) {
     freelog(LOG_VERBOSE, "Changed homecity of %s's %s to %s",
@@ -695,9 +694,10 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
   /* FIXME: Creating a new unit and deleting the old one is a gross hack.
    * instead we should make the change on the existing unit, even though
    * it's more work. */
-  punit2 = create_unit_full(to_player, punit->x, punit->y, punit->type,
-			    punit->veteran, tocity->id, punit->moves_left,
-			    punit->hp, punit);
+  (void) create_unit_full(to_player, punit->x, punit->y, punit->type,
+			  punit->veteran, tocity->id, punit->moves_left,
+			  punit->hp,
+			  find_unit_by_id(punit->transported_by));
 }
 
 /*********************************************************************
