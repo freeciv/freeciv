@@ -15,7 +15,7 @@
 
 #define ObjectTreeObject NewObject(CL_ObjectTree->mcc_Class, NULL
 
-IMPORT struct MUI_CustomClass *CL_ObjectTree;
+extern struct MUI_CustomClass *CL_ObjectTree;
 
 #define MUIM_ObjectTree_AddNode    (0x7287830) /* returns APTR */
 #define MUIM_ObjectTree_Clear      (0x7287831)

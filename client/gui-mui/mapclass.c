@@ -15,45 +15,34 @@
 #endif
 
 #include <string.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <errno.h>
 
-#include <exec/memory.h>
 #include <graphics/gfxmacros.h>
 #include <graphics/rpattr.h>
 #include <libraries/mui.h>
 #include <guigfx/guigfx.h>
-
 #include <clib/alib_protos.h>
-
 #include <proto/exec.h>
-#include <proto/dos.h>
 #include <proto/muimaster.h>
 #include <proto/utility.h>
 #include <proto/graphics.h>
-#include <proto/intuition.h>
 #include <proto/layers.h>
 #include <proto/guigfx.h>
-#include <proto/datatypes.h>
 
 #include "fcintl.h"
 #include "map.h"
-#include "game.h"
-#include "spaceship.h"
 #include "support.h"
 #include "timing.h"
 
 #include "civclient.h"
-#include "climisc.h"
-#include "clinet.h"
 #include "citydlg.h"
 #include "control.h"
 #include "dialogs.h"
-#include "mapview.h"
 #include "goto.h"
 #include "graphics.h"
 #include "gui_main.h"
+#include "mapctrl.h"
+#include "mapview.h"
 #include "options.h"
 #include "tilespec.h"
 
@@ -61,38 +50,6 @@
 #include "muistuff.h"
 #include "overviewclass.h"
 #include "scrollbuttonclass.h"
-
-/* TODO: Split this file! */
-
-APTR pen_shared_map;
-
-extern int draw_diagonal_roads;
-extern struct client_goto_map goto_map;
-
-/****************************************************************
-...
-*****************************************************************/
-int get_normal_tile_height(void)
-{
-  return NORMAL_TILE_HEIGHT;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-int get_normal_tile_width(void)
-{
-  return NORMAL_TILE_WIDTH;
-}
-
-/****************************************************************
- Request a unit to go to a location
- (GUI Independend)
-*****************************************************************/
-void request_unit_goto_location(struct unit *punit, int x, int y)
-{
-  send_goto_unit(punit, x, y);
-}
 
 /**************************************************************************
   Find the "best" city to associate with the selected tile.  
@@ -127,621 +84,6 @@ static struct city *find_city_near_tile(int x, int y)
   return last_pcity = pcity2;
 }
 
-/* Own sprite list - used so we can reload the sprites if needed */
-
-static struct MinList sprite_list;
-static LONG sprite_initialized;
-
-struct SpriteNode /* could better embed this in struct Sprite */
-{
-  struct MinNode node;
-  struct Sprite *sprite;
-  STRPTR filename;
-};
-
-
-/****************************************************************
- Return the gfx file extension the client supports
-*****************************************************************/
-char **gfx_fileextensions(void)
-{
-  static char *ext[] =
-  {
-    "png",
-    "ilbm",
-    "xpm",
-    NULL
-  };
-
-  return ext;
-}
-
-/****************************************************************
- Allocate and load a sprite
-*****************************************************************/
-static struct Sprite *load_sprite(const char *filename, ULONG usemask)
-{
-  struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite)); /*AllocVec(sizeof(struct Sprite),MEMF_CLEAR);*/
-
-  if (sprite)
-  {
-    APTR picture;
-    memset(sprite, 0, sizeof(*sprite));
-
-    picture = LoadPicture((char *) filename,
-			  GGFX_UseMask, usemask,
-			  TAG_DONE);
-    if (picture)
-    {
-      if (AddPicture(pen_shared_map, picture,
-                     GGFX_Weight, (usemask ? (strstr(filename, "tiles") ? 200 : 10) : (1)),
-		     TAG_DONE))
-      {
-	sprite->picture = picture;
-
-	GetPictureAttrs(picture,
-			PICATTR_Width, &sprite->width,
-			PICATTR_Height, &sprite->height,
-			PICATTR_AlphaPresent, &sprite->hasmask,
-			TAG_DONE);
-
-	if (usemask && !sprite->hasmask)
-	{
-	  printf(_("Could not get the mask although there must be one! Graphics may look corrupt.\n"));
-	}
-
-	return sprite;
-      }
-    }
-    free(sprite);
-  }
-  return NULL;
-}
-
-/****************************************************************
- Load a gfxfile as a sprite (called from the gui independend
- part)
-*****************************************************************/
-struct Sprite *load_gfxfile(const char *filename)
-{
-  struct SpriteNode *node = (struct SpriteNode *) AllocVec(sizeof(*node), 0x10000);
-  if (node)
-  {
-    struct Sprite *sprite = load_sprite(filename, TRUE);
-    if (sprite)
-    {
-      if (!sprite_initialized)
-      {
-	NewList((struct List *) &sprite_list);
-	sprite_initialized = TRUE;
-      }
-      node->sprite = sprite;
-      node->filename = StrCopy((STRPTR) filename);
-      AddTail((struct List *) &sprite_list, (struct Node *) node);
-      return sprite;
-    }
-    FreeVec(node);
-  }
-
-  return NULL;
-}
-
-/****************************************************************
- Crop a sprite from a bigger sprite (called from the gui
- independend part)
- Note that the ImageData is not copied but only referenced,
- this saves memory (because Data of BitMaps are aligned) and
- loading time
-*****************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source, int x, int y, int width, int height)
-{
-  struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite)); /*AllocVec(sizeof(struct Sprite),MEMF_CLEAR);*/
-
-  if (sprite)
-  {
-    memset(sprite, 0, sizeof(*sprite));
-
-    source->numsprites++;
-
-    sprite->width = width;
-    sprite->height = height;
-    sprite->offx = x;
-    sprite->offy = y;
-    sprite->reference = TRUE;
-    sprite->parent = source;
-
-    return sprite;
-  }
-  return NULL;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void free_intro_radar_sprites(void)
-{
-}
-
-/****************************************************************
- Cleanup the sprites
-*****************************************************************/
-static void cleanup_sprite(struct Sprite *sprite)
-{
-  if (!sprite->reference)
-  {
-    if (sprite->bitmap)
-    {
-      FreeBitMap((struct BitMap *) sprite->bitmap);
-      sprite->bitmap = NULL;
-    }
-    if (sprite->mask)
-    {
-      FreeVec(sprite->mask);
-      sprite->mask = NULL;
-    }
-    if (sprite->picture)
-    {
-      DeletePicture(sprite->picture);
-      sprite->picture = NULL;
-    }
-  }
-}
-
-/****************************************************************
- Cleanup all sprites
-*****************************************************************/
-static void cleanup_sprites(void)
-{
-  struct SpriteNode *node = (struct SpriteNode *) sprite_list.mlh_Head;
-  while (node->node.mln_Succ)
-  {
-    cleanup_sprite(node->sprite);
-    node = (struct SpriteNode *) node->node.mln_Succ;
-  }
-}
-
-/****************************************************************
- Dummy (used by the gui independent part)
-*****************************************************************/
-void free_sprite(struct Sprite *sprite)
-{
-  /* Just a dummy */
-}
-
-/****************************************************************
- Free the sprite
-*****************************************************************/
-static void real_free_sprite(struct Sprite *sprite)
-{
-  cleanup_sprite(sprite);
-  free(sprite);
-}
-
-/****************************************************************
- Free all sprites
-*****************************************************************/
-static void free_sprites(void)
-{
-  struct SpriteNode *node;
-  if(sprite_initialized)
-  {
-    while ((node = (struct SpriteNode *) RemHead((struct List *) &sprite_list)))
-    {
-      real_free_sprite(node->sprite);
-      if (node->filename)
-        FreeVec(node->filename);
-      FreeVec(node);
-    }
-  }
-}
-
-/****************************************************************
- Render the sprite for this drawhandle
-*****************************************************************/
-static int render_sprite(APTR drawhandle, struct SpriteNode *node)
-{
-  struct Sprite *sprite = node->sprite;
-
-  if (!sprite->picture)
-  {
-    struct Sprite *ns;
-
-    cleanup_sprite(sprite);
-
-    if ((ns = load_sprite(node->filename, sprite->hasmask)))
-    {
-      sprite->picture = ns->picture;
-      sprite->hasmask = ns->hasmask;
-      sprite->width = ns->width;
-      sprite->height = ns->height;
-      free(ns);
-    }
-  }
-
-
-  if (!sprite->picture)
-    return FALSE;
-
-  if ((sprite->bitmap = CreatePictureBitMap(drawhandle, sprite->picture,
-					    GGFX_DitherMode, DITHERMODE_EDD,
-					    TAG_DONE)))
-  {
-    if (sprite->hasmask)
-    {
-      ULONG flags = GetBitMapAttr(sprite->bitmap, BMA_FLAGS);
-      ULONG mem_flags = MEMF_ANY;
-      LONG array_width = GetBitMapAttr(sprite->bitmap, BMA_WIDTH) / 8;
-      LONG len;
-      UBYTE *data;
-
-      if (flags & BMF_STANDARD)
-	mem_flags = MEMF_CHIP;
-
-      len = array_width * sprite->height;
-
-      if ((data = AllocVec(len + 8, mem_flags)))
-      {
-	sprite->mask = data;
-
-	if (CreatePictureMaskA(sprite->picture, data, array_width /*(((sprite->width+15)>>4)<<1) */ , NULL))
-	{
-	  DeletePicture(sprite->picture);
-	  sprite->picture = NULL;
-	  return TRUE;
-	}
-      }
-
-      sprite->mask = NULL;
-    }
-    else
-    {
-      DeletePicture(sprite->picture);
-      sprite->picture = NULL;
-      return TRUE;
-    }
-  }
-  return FALSE;
-}
-
-/****************************************************************
- Render all sprites
-*****************************************************************/
-static int render_sprites(APTR drawhandle)
-{
-  struct SpriteNode *node = (struct SpriteNode *) sprite_list.mlh_Head;
-  while (node->node.mln_Succ)
-  {
-    if (!render_sprite(drawhandle, node))
-      return FALSE;
-    node = (struct SpriteNode *) node->node.mln_Succ;
-  }
-  return TRUE;
-}
-
-/****************************************************************
- Returns a cititen sprite
-*****************************************************************/
-struct Sprite *get_citizen_sprite(int frame)
-{
-  frame = CLIP(0, frame, NUM_TILES_CITIZEN - 1);
-  return sprites.citizen[frame];
-}
-
-/****************************************************************
- Returns a thumb sprite
-*****************************************************************/
-struct Sprite *get_thumb_sprite(int onoff)
-{
-  return sprites.treaty_thumb[BOOL_VAL(onoff)];
-}
-
-
-/****************************************************************
- Preload all sprites (but don't render them)
- Also makes necessary initialisations
-*****************************************************************/
-int load_all_sprites(void)
-{
-  if ((pen_shared_map = CreatePenShareMapA(NULL)))
-  {
-    tilespec_load_tiles();
-    return TRUE;
-  }
-  return FALSE;
-}
-
-/****************************************************************
- Free everything related wit the sprites (and sprites itself)
-*****************************************************************/
-void free_all_sprites(void)
-{
-  free_sprites();
-
-  if (pen_shared_map)
-  {
-    DeletePenShareMap(pen_shared_map);
-    pen_shared_map = NULL;
-  }
-}
-
-
-/****************************************************************
- Draw the whole sprite on position x,y in the Rastport
-*****************************************************************/
-static void put_sprite(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y)
-{
-  struct BitMap *bmap;
-  if (!sprite)
-    return;
-
-  bmap = (struct BitMap *) sprite->bitmap;
-  if (!bmap)
-    bmap = (struct BitMap *) sprite->parent->bitmap;
-  BltBitMapRastPort(bmap, sprite->offx, sprite->offy,
-		    rp, x, y, sprite->width, sprite->height, 0xc0);
-
-}
-
-struct LayerHookMsg
-{
-  struct Layer *layer;
-  struct Rectangle bounds;
-  LONG offsetx;
-  LONG offsety;
-};
-
-struct BltMaskHook
-{
-  struct Hook hook;
-  struct BitMap maskBitMap;
-  struct BitMap *srcBitMap;
-  LONG srcx,srcy;
-  LONG destx,desty;
-};
-
-VOID MyBltMaskBitMap( CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct BitMap *destBitMap, LONG xDest, LONG yDest, LONG xSize, LONG ySize, struct BitMap *maskBitMap )
-{
-  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
-  BltBitMap(maskBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
-  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
-}
-
-HOOKPROTO(HookFunc_BltMask, void, struct RastPort *rp, struct LayerHookMsg *msg)
-{
-  struct BltMaskHook *h = (struct BltMaskHook*)hook;
-
-  LONG width = msg->bounds.MaxX - msg->bounds.MinX+1;
-  LONG height = msg->bounds.MaxY - msg->bounds.MinY+1;
-  LONG offsetx = h->srcx + msg->offsetx - h->destx;
-  LONG offsety = h->srcy + msg->offsety - h->desty;
-
-  MyBltMaskBitMap( h->srcBitMap, offsetx, offsety, rp->BitMap, msg->bounds.MinX, msg->bounds.MinY, width, height, &h->maskBitMap);
-}
-
-/****************************************************************
- Draw the sprite on position x,y in the Rastport (masked)
- restricted to height
-*****************************************************************/
-static void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y, LONG height)
-{
-  struct BitMap *bmap;
-  APTR mask = NULL;
-  if (!sprite)
-    return;
-
-  if (!(bmap = (struct BitMap *) sprite->bitmap))
-  {
-    bmap = (struct BitMap *) sprite->parent->bitmap;
-    mask = sprite->parent->mask;
-  }
-
-  if (mask)
-  {
-    if (GetBitMapAttr(bmap,BMA_FLAGS)&BMF_INTERLEAVED)
-    {
-      LONG src_depth = GetBitMapAttr(bmap,BMA_DEPTH);
-      struct Rectangle rect;
-      struct BltMaskHook hook;
-
-      /* Define the destination rectangle in the rastport */
-      rect.MinX = x;
-      rect.MinY = y;
-      rect.MaxX = x + sprite->width - 1;
-      rect.MaxY = y + height - 1;
-
-      /* Initialize the hook */
-      hook.hook.h_Entry = (HOOKFUNC)HookFunc_BltMask;
-      hook.srcBitMap = bmap;
-      hook.srcx = sprite->offx;
-      hook.srcy = sprite->offy;
-      hook.destx = x;
-      hook.desty = y;
-
-      /* Initialize a bitmap where all plane pointers points to the mask */
-      InitBitMap(&hook.maskBitMap,src_depth,GetBitMapAttr(bmap,BMA_WIDTH),GetBitMapAttr(bmap,BMA_HEIGHT));
-      while (src_depth)
-	hook.maskBitMap.Planes[--src_depth] = mask;
-
-      /* Blit onto the Rastport */
-      DoHookClipRects(&hook.hook,rp,&rect);
-    } else
-    {
-      BltMaskBitMapRastPort(bmap, sprite->offx, sprite->offy,
-			    rp, x, y, sprite->width, height, 0xe2, mask);
-
-    }
-  }
-}
-
-/****************************************************************
- Draw the whole sprite on position x,y in the Rastport (masked)
-*****************************************************************/
-static void put_sprite_overlay(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y)
-{
-  put_sprite_overlay_height(rp, sprite, x, y, sprite->height);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void put_city_output_tile(struct RastPort *rp,
-                          int food, int shield, int trade,
-                          int offx, int offy, int x_tile, int y_tile)
-{
-  int destx = x_tile * get_normal_tile_width() + offx;
-  int desty = y_tile * get_normal_tile_height() + offy;
-
-  food = CLIP(0, food, NUM_TILES_DIGITS - 1);
-  trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
-  shield = CLIP(0, shield, NUM_TILES_DIGITS - 1);
-
-  put_sprite_overlay(rp, sprites.city.tile_foodnum[food], destx, desty);
-  put_sprite_overlay(rp, sprites.city.tile_shieldnum[shield], destx, desty);
-  put_sprite_overlay(rp, sprites.city.tile_tradenum[trade], destx, desty);
-}
-
-/****************************************************************
- Draw a unit into the rastport at location x1,y1
-*****************************************************************/
-void put_unit_tile(struct RastPort *rp, struct unit *punit, int x1, int y1)
-{
-
-  struct Sprite *sprites[40];
-  int count = fill_unit_sprite_array(sprites, punit);
-
-  if (count)
-  {
-    int i;
-
-    if (sprites[0])
-    {
-      if (flags_are_transparent)
-      {
-	put_sprite_overlay(rp, sprites[0], x1, y1);
-      }
-      else
-      {
-	put_sprite(rp, sprites[0], x1, y1);
-      }
-    }
-    else
-    {
-      SetAPen(rp, 1);
-      RectFill(rp, x1, y1, x1 + NORMAL_TILE_WIDTH - 1, y1 + NORMAL_TILE_HEIGHT - 1);
-    }
-
-    for (i = 1; i < count; i++)
-    {
-      if (sprites[i])
-	put_sprite_overlay(rp, sprites[i], x1, y1);
-    }
-  }
-}
-
-/**************************************************************************
- put a tile onto the screen
- x,y = coordinates of tile on the visible area
- abs_x0, abs_y0 = real coordinates of the tile on the mao
- citymode = Drawed for the CityMap
-**************************************************************************/
-void put_tile(struct RastPort *rp, int destx, int desty, int x, int y, int abs_x0, int abs_y0, int citymode)
-{
-  struct Sprite *sprites[80];
-  int count = fill_tile_sprite_array(sprites, abs_x0, abs_y0, citymode);
-
-  int x1 = destx + x * NORMAL_TILE_WIDTH;
-  int y1 = desty + y * NORMAL_TILE_HEIGHT;
-  int x2 = x1 + NORMAL_TILE_WIDTH - 1;
-  int y2 = y1 + NORMAL_TILE_HEIGHT - 1;
-
-  if (count)
-  {
-    int i;
-
-    if (sprites[0])
-    {
-      /* first tile without mask */
-      put_sprite(rp, sprites[0], x1, y1);
-    }
-    else
-    {
-      /* normally when solid_color_behind_units */
-      struct city *pcity;
-      struct player *pplayer = NULL;
-
-      if (count > 1 && !sprites[1])
-      {
-	/* it's the unit */
-	struct tile *ptile;
-	struct unit *punit;
-	ptile = map_get_tile(abs_x0, abs_y0);
-	if ((punit = find_visible_unit(ptile)))
-	  pplayer = &game.players[punit->owner];
-
-      }
-      else
-      {
-	/* it's the city */
-	if ((pcity = map_get_city(abs_x0, abs_y0)))
-	  pplayer = &game.players[pcity->owner];
-      }
-
-      if (pplayer)
-      {
-	SetAPen(rp, 1);
-	RectFill(rp, x1, y1, x2, y2);
-      }
-    }
-
-    for (i = 1; i < count; i++)
-    {
-      /* to be on the safe side (should not happen) */
-      if (sprites[i])
-	put_sprite_overlay(rp, sprites[i], x1, y1);
-    }
-
-
-    if (draw_map_grid && !citymode)
-    {
-      int here_in_radius = player_in_city_radius(game.player_ptr, abs_x0, abs_y0);
-
-      /* left side... */
-
-      if ((map_get_tile(abs_x0 - 1, abs_y0))->known && (here_in_radius || player_in_city_radius(game.player_ptr, abs_x0 - 1, abs_y0)))
-      {
-	SetAPen(rp, 2);		/* white */
-      }
-      else
-      {
-	SetAPen(rp, 1);		/* white */
-      }
-
-      Move(rp, x1, y1);
-      Draw(rp, x1, y2 + 1);
-
-      /* top side... */
-      if ((map_get_tile(abs_x0, abs_y0 - 1))->known && (here_in_radius || player_in_city_radius(game.player_ptr, abs_x0, abs_y0 - 1)))
-      {
-	SetAPen(rp, 2);		/* white */
-      }
-      else
-      {
-	SetAPen(rp, 1);		/* black */
-      }
-
-      Move(rp, x1, y1);
-      Draw(rp, x2 + 1, y1);
-    }
-  }
-  else
-  {
-    /* tile is unknow */
-    SetAPen(rp, 1);
-    RectFill(rp, x1, y1, x2, y2);
-  }
-}
-
-
 /****************************************************************
  TilePopWindow Custom Class
 *****************************************************************/
@@ -749,7 +91,7 @@ void put_tile(struct RastPort *rp, int destx, int desty, int x, int y, int abs_x
 static struct MUI_CustomClass *CL_TilePopWindow;	/* only here used */
 
 
-STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   Object *obj = NULL;
 
@@ -1045,7 +387,7 @@ struct Command_List
   APTR pool;
 };
 
-STATIC VOID Command_List_Sort(struct Command_List *list)
+static VOID Command_List_Sort(struct Command_List *list)
 {
   BOOL notfinished = TRUE;
 
@@ -1117,7 +459,7 @@ struct Command_Node *Map_InsertCommand(struct Command_List *list, STRPTR name, U
   return node;
 }
 
-STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
+static VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
 {
   struct TextFont *new_font;
   struct RastPort *rp;
@@ -1152,12 +494,12 @@ STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
 	{
 	  int w,pix_x,pix_y;
 
-	  pix_y = _mtop(o) + (y + 1) * NORMAL_TILE_HEIGHT + 1 + rp->TxBaseline - 2;
+	  pix_y = _mtop(o) + (y + 1) * get_normal_tile_height() + 1 + rp->TxBaseline - 2;
 
 	  if (draw_city_names)
 	  {
 	    w = TextLength(rp, pcity->name, strlen(pcity->name));
-	    pix_x = _mleft(o) + x * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH / 2 - w / 2 + 1;
+	    pix_x = _mleft(o) + x * get_normal_tile_width() + get_normal_tile_width() / 2 - w / 2 + 1;
 
 	    SetAPen(rp, data->black_pen);
 	    Move(rp, pix_x, pix_y);
@@ -1192,7 +534,7 @@ STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
 	    }
 
 	    w = TextLength(rp, buffer, strlen(buffer));
-	    pix_x = _mleft(o) + x * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH / 2 - w / 2 + 1;
+	    pix_x = _mleft(o) + x * get_normal_tile_width() + get_normal_tile_width() / 2 - w / 2 + 1;
 
 	    SetAPen(rp, data->black_pen);
 	    Move(rp, pix_x, pix_y);
@@ -1210,18 +552,18 @@ STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
   }
 }
 
-STATIC VOID Map_Priv_PutLine(struct Map_Data *data, struct RastPort *rp,
+static VOID Map_Priv_PutLine(struct Map_Data *data, struct RastPort *rp,
                              int canvas_src_x, int canvas_src_y,
                              int map_src_x, int map_src_y, int dir, int first_draw)
 {
   int dir2;
-  int canvas_dest_x = canvas_src_x + DIR_DX[dir] * NORMAL_TILE_WIDTH/2;
-  int canvas_dest_y = canvas_src_y + DIR_DY[dir] * NORMAL_TILE_WIDTH/2;
+  int canvas_dest_x = canvas_src_x + DIR_DX[dir] * get_normal_tile_width()/2;
+  int canvas_dest_y = canvas_src_y + DIR_DY[dir] * get_normal_tile_width()/2;
   int start_pixel = 1;
   int has_only25 = 1;
   int num_other = 0;
   /* if they are not equal we cannot draw nicely */
-  int equal = NORMAL_TILE_WIDTH == NORMAL_TILE_HEIGHT;
+  int equal = get_normal_tile_width() == get_normal_tile_height();
 
   if (map_src_y == map.ysize)
   {
@@ -1312,7 +654,7 @@ STATIC VOID Map_Priv_PutLine(struct Map_Data *data, struct RastPort *rp,
 }
 
 
-STATIC ULONG Map_New(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG Map_New(struct IClass * cl, Object * o, struct opSet * msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
@@ -1324,7 +666,7 @@ STATIC ULONG Map_New(struct IClass * cl, Object * o, struct opSet * msg)
   return (ULONG) o;
 }
 
-STATIC ULONG Map_Dispose(struct IClass * cl, Object * o, Msg msg)
+static ULONG Map_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   if (data->context_menu)
@@ -1332,7 +674,7 @@ STATIC ULONG Map_Dispose(struct IClass * cl, Object * o, Msg msg)
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG Map_Set(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG Map_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
@@ -1437,24 +779,24 @@ STATIC ULONG Map_Set(struct IClass * cl, Object * o, struct opSet * msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG Map_Get(struct IClass * cl, Object * o, struct opGet * msg)
+static ULONG Map_Get(struct IClass * cl, Object * o, struct opGet * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   switch (msg->opg_AttrID)
   {
   case MUIA_Map_HorizVisible:
-    if (NORMAL_TILE_WIDTH && data->shown)
+    if (get_normal_tile_width() && data->shown)
     {
-      *msg->opg_Storage = (_mwidth(o) + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
+      *msg->opg_Storage = (_mwidth(o) + get_normal_tile_width() - 1) / get_normal_tile_width();
     }
     else
       *msg->opg_Storage = 0;
     break;
 
   case MUIA_Map_VertVisible:
-    if (NORMAL_TILE_HEIGHT && data->shown)
+    if (get_normal_tile_height() && data->shown)
     {
-      *msg->opg_Storage = (_mheight(o) + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
+      *msg->opg_Storage = (_mheight(o) + get_normal_tile_height() - 1) / get_normal_tile_height();
     }
     else
       *msg->opg_Storage = 0;
@@ -1498,7 +840,7 @@ STATIC ULONG Map_Get(struct IClass * cl, Object * o, struct opGet * msg)
   return 1;
 }
 
-STATIC ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
+static ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
@@ -1545,7 +887,7 @@ STATIC ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
   return FALSE;
 }
 
-STATIC ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
+static ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
@@ -1600,7 +942,7 @@ STATIC ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG Map_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
+static ULONG Map_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   DoSuperMethodA(cl, o, (Msg) msg);
 
@@ -1616,7 +958,7 @@ STATIC ULONG Map_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax
   return 0;
 }
 
-STATIC ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
+static ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   ULONG flags;
@@ -1669,7 +1011,7 @@ STATIC ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
   return 0;
 }
 
-STATIC ULONG Map_Hide(struct IClass * cl, Object * o, Msg msg)
+static ULONG Map_Hide(struct IClass * cl, Object * o, Msg msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   if (data->map_layer)
@@ -1694,7 +1036,7 @@ STATIC ULONG Map_Hide(struct IClass * cl, Object * o, Msg msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
+static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   ULONG drmd = GetDrMd(_rp(o));
@@ -1761,8 +1103,8 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	for(y=0; y<3; y++) {
 	  for(x=0; x<3; x++) {
-	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) * NORMAL_TILE_WIDTH;
-	    int map_y = map_canvas_adjust_y(y - 1 + data->mushroom_y0) * NORMAL_TILE_HEIGHT;
+	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) * get_normal_tile_width();
+	    int map_y = map_canvas_adjust_y(y - 1 + data->mushroom_y0) * get_normal_tile_height();
 	    struct Sprite *mysprite = sprites.explode.nuke[y][x];
 
 	    put_sprite_overlay( _rp(o), mysprite, _mleft(o) + map_x, _mtop(o) + map_y);
@@ -1772,11 +1114,11 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	TimeDelay( UNIT_VBLANK, 1,0);
 
 	/* Restore the map */
-	x = map_canvas_adjust_x(data->mushroom_x0-1) * NORMAL_TILE_WIDTH;
-	y = map_canvas_adjust_y(data->mushroom_y0-1) * NORMAL_TILE_HEIGHT;
+	x = map_canvas_adjust_x(data->mushroom_x0-1) * get_normal_tile_width();
+	y = map_canvas_adjust_y(data->mushroom_y0-1) * get_normal_tile_height();
 
-	w = NORMAL_TILE_WIDTH * 3;
-	h = NORMAL_TILE_HEIGHT * 3;
+	w = get_normal_tile_width() * 3;
+	h = get_normal_tile_height() * 3;
 
 	if (x<0) {
 	  w +=x;
@@ -1823,8 +1165,8 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	  if (!(i==2 && j==2))
 	  {
-	    int pix_x = (x + i - 2) * NORMAL_TILE_WIDTH + _mleft(o);
-	    int pix_y = (y + j - 2) * NORMAL_TILE_HEIGHT + _mtop(o);
+	    int pix_x = (x + i - 2) * get_normal_tile_width() + _mleft(o);
+	    int pix_y = (y + j - 2) * get_normal_tile_height() + _mtop(o);
 
 	    if (t == C_TILE_EMPTY)
 	    {
@@ -1838,8 +1180,8 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    } else continue;
 
 	    RectFill(_rp(o),pix_x, pix_y,
-	             pix_x + NORMAL_TILE_WIDTH - 1,
-	             pix_y + NORMAL_TILE_HEIGHT - 1);
+	             pix_x + get_normal_tile_width() - 1,
+	             pix_y + get_normal_tile_height() - 1);
 
 	    SetAfPt( _rp(o), NULL, 0);
 
@@ -1879,15 +1221,15 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  y = src_y + DIR_DY[dir];
 	  if (x == dest_x && y == dest_y) {
 	    if (!(goto_map.drawn[src_x][src_y] & (1<<dir))) {
-	      map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-	      map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
+	      map_start_x = map_canvas_adjust_x(src_x) * get_normal_tile_width() + get_normal_tile_width()/2;
+	      map_start_y = map_canvas_adjust_y(src_y) * get_normal_tile_height() + get_normal_tile_height()/2;
 	      if (tile_visible_mapcanvas(src_x, src_y))
 		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), src_x, src_y, dir, 0);
 	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, src_x, src_y, dir, 0);
 	      goto_map.drawn[src_x][src_y] |= (1<<dir);
 
-	      map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
-	      map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
+	      map_start_x += DIR_DX[dir] * get_normal_tile_width();
+	      map_start_y += DIR_DY[dir] * get_normal_tile_height();
 	      if (tile_visible_mapcanvas(dest_x, dest_y))
 		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), dest_x, dest_y, 7-dir, 0);
 	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
@@ -1922,15 +1264,15 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  y = src_y + DIR_DY[dir];
 	  if (x == dest_x && y == dest_y) {
 	    if (goto_map.drawn[src_x][src_y] & (1<<dir)) {
-	      map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-	      map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
+	      map_start_x = map_canvas_adjust_x(src_x) * get_normal_tile_width() + get_normal_tile_width()/2;
+	      map_start_y = map_canvas_adjust_y(src_y) * get_normal_tile_height() + get_normal_tile_height()/2;
 	      if (tile_visible_mapcanvas(src_x, src_y))
 		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), src_x, src_y, dir, 0);
 	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, src_x, src_y, dir, 0);
 	      goto_map.drawn[src_x][src_y] &= ~(1<<dir);
 
-	      map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
-	      map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
+	      map_start_x += DIR_DX[dir] * get_normal_tile_width();
+	      map_start_y += DIR_DY[dir] * get_normal_tile_height();
 	      if (tile_visible_mapcanvas(dest_x, dest_y))
 		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), dest_x, dest_y, 7-dir, 0);
 	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
@@ -2210,7 +1552,7 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
   return 0;
 }
 
-STATIC ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleInput * msg)
+static ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleInput * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
 
@@ -2316,7 +1658,7 @@ STATIC ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
   return 0;
 }
 
-STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_ContextMenuBuild * msg)
+static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_ContextMenuBuild * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   Object *context_menu = NULL;
@@ -2507,7 +1849,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
   return (ULONG) context_menu;
 }
 
-STATIC ULONG Map_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_ContextMenuChoice * msg)
+static ULONG Map_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_ContextMenuChoice * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   ULONG udata = muiUserData(msg->item);
@@ -2530,7 +1872,7 @@ STATIC ULONG Map_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_C
       struct unit *punit = UNPACK_UNIT(udata);
       if (punit)
       {
-	request_unit_goto_location(punit, data->click.x, data->click.y);
+	send_goto_unit(punit, data->click.x, data->click.y);
       }
     }
     break;
@@ -2558,7 +1900,7 @@ STATIC ULONG Map_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_C
   return (ULONG) NULL;
 }
 
-STATIC ULONG Map_Refresh(struct IClass * cl, Object * o, struct MUIP_Map_Refresh * msg)
+static ULONG Map_Refresh(struct IClass * cl, Object * o, struct MUIP_Map_Refresh * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
 
@@ -2574,7 +1916,7 @@ STATIC ULONG Map_Refresh(struct IClass * cl, Object * o, struct MUIP_Map_Refresh
   return 0;
 }
 
-STATIC ULONG Map_MoveUnit(struct IClass * cl, Object * o, struct MUIP_Map_MoveUnit * msg)
+static ULONG Map_MoveUnit(struct IClass * cl, Object * o, struct MUIP_Map_MoveUnit * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
 
@@ -2591,7 +1933,7 @@ STATIC ULONG Map_MoveUnit(struct IClass * cl, Object * o, struct MUIP_Map_MoveUn
   return 0;
 }
 
-STATIC ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o/*, Msg msg*/)
+static ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o/*, Msg msg*/)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   data->update = 4;
@@ -2599,10 +1941,9 @@ STATIC ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o/*, Msg msg*
   return 0;
 }
 
-STATIC ULONG Map_PutCityWorkers(struct IClass * cl, Object * o, struct MUIP_Map_PutCityWorkers * msg)
+static ULONG Map_PutCityWorkers(struct IClass * cl, Object * o, struct MUIP_Map_PutCityWorkers * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
-  extern struct city *city_workers_display; /* inside mapctrl.c */
 
   data->update = 7;
   data->worker_pcity = msg->pcity;
@@ -2611,18 +1952,16 @@ STATIC ULONG Map_PutCityWorkers(struct IClass * cl, Object * o, struct MUIP_Map_
   } else data->worker_iteratecolor = 1;
   MUI_Redraw(o, MADF_DRAWUPDATE);
 
-/*  city_workers_display = msg->pcity;*/
-/*  extern struct city *city_workers_display;*/ /* inside mapctrl.c */
   return 0;
 }
 /*
-STATIC ULONG Map_PutCrossTile(struct IClass * cl, Object * o, struct MUIP_Map_PutCrossTile * msg)
+static ULONG Map_PutCrossTile(struct IClass * cl, Object * o, struct MUIP_Map_PutCrossTile * msg)
 {
   return NULL;
 }
 */
 
-STATIC ULONG Map_DrawMushroom(struct IClass * cl, Object *o, struct MUIP_Map_DrawMushroom *msg)
+static ULONG Map_DrawMushroom(struct IClass * cl, Object *o, struct MUIP_Map_DrawMushroom *msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   data->update = 6;
@@ -2632,7 +1971,7 @@ STATIC ULONG Map_DrawMushroom(struct IClass * cl, Object *o, struct MUIP_Map_Dra
   return 0;
 }
 
-STATIC ULONG Map_ExplodeUnit(struct IClass * cl, Object * o, struct MUIP_Map_ExplodeUnit * msg)
+static ULONG Map_ExplodeUnit(struct IClass * cl, Object * o, struct MUIP_Map_ExplodeUnit * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   data->update = 5;
@@ -2641,7 +1980,7 @@ STATIC ULONG Map_ExplodeUnit(struct IClass * cl, Object * o, struct MUIP_Map_Exp
   return 0;
 }
 
-STATIC ULONG Map_DrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawSegment *msg)
+static ULONG Map_DrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawSegment *msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   data->update = 8;
@@ -2653,7 +1992,7 @@ STATIC ULONG Map_DrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawS
   return 0;
 }
 
-STATIC ULONG Map_UndrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawSegment *msg)
+static ULONG Map_UndrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawSegment *msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   data->update = 9;
@@ -2744,7 +2083,7 @@ struct CityMap_Data
 };
 
 
-STATIC ULONG CityMap_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG CityMap_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
@@ -2767,7 +2106,7 @@ STATIC ULONG CityMap_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG CityMap_Set(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG CityMap_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
@@ -2793,7 +2132,7 @@ STATIC ULONG CityMap_Set(struct IClass * cl, Object * o, struct opSet * msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG CityMap_Setup(struct IClass * cl, Object * o, Msg msg)
+static ULONG CityMap_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
@@ -2810,7 +2149,7 @@ STATIC ULONG CityMap_Setup(struct IClass * cl, Object * o, Msg msg)
   return TRUE;
 }
 
-STATIC ULONG CityMap_Cleanup(struct IClass * cl, Object * o, Msg msg)
+static ULONG CityMap_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
@@ -2825,7 +2164,7 @@ STATIC ULONG CityMap_Cleanup(struct IClass * cl, Object * o, Msg msg)
   return 0;
 }
 
-STATIC ULONG CityMap_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
+static ULONG CityMap_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   DoSuperMethodA(cl, o, (Msg) msg);
 
@@ -2839,7 +2178,7 @@ STATIC ULONG CityMap_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMi
   return 0;
 }
 
-STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
+static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
   struct RastPort *rp = _rp(o);
@@ -2909,7 +2248,7 @@ STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
   return 0;
 }
 
-STATIC ULONG CityMap_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleInput * msg)
+static ULONG CityMap_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleInput * msg)
 {
   struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
 
@@ -2983,7 +2322,7 @@ struct SpaceShip_Data
 };
 
 
-STATIC ULONG SpaceShip_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG SpaceShip_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
@@ -3004,7 +2343,7 @@ STATIC ULONG SpaceShip_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG SpaceShip_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
+static ULONG SpaceShip_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   LONG width, height;
   DoSuperMethodA(cl, o, (Msg) msg);
@@ -3022,7 +2361,7 @@ STATIC ULONG SpaceShip_AskMinMax(struct IClass * cl, Object * o, struct MUIP_Ask
   return 0;
 }
 
-STATIC ULONG SpaceShip_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
+static ULONG SpaceShip_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct SpaceShip_Data *data = (struct SpaceShip_Data *) INST_DATA(cl, o);
   struct RastPort *rp = _rp(o);
@@ -3137,7 +2476,7 @@ struct Sprite_Data
 };
 
 
-STATIC ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
@@ -3171,7 +2510,7 @@ STATIC ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
@@ -3222,7 +2561,7 @@ STATIC ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG Sprite_Setup(struct IClass * cl, Object * o, Msg msg)
+static ULONG Sprite_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
@@ -3242,7 +2581,7 @@ STATIC ULONG Sprite_Setup(struct IClass * cl, Object * o, Msg msg)
   return TRUE;
 }
 
-STATIC ULONG Sprite_Cleanup(struct IClass * cl, Object * o, Msg msg)
+static ULONG Sprite_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
 
@@ -3258,7 +2597,7 @@ STATIC ULONG Sprite_Cleanup(struct IClass * cl, Object * o, Msg msg)
 }
 
 
-STATIC ULONG Sprite_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
+static ULONG Sprite_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl, o, (Msg) msg);
@@ -3281,7 +2620,7 @@ STATIC ULONG Sprite_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMin
   return 0;
 }
 
-STATIC ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
+static ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl, o, (Msg) msg);
@@ -3344,7 +2683,7 @@ struct Unit_Data
 };
 
 
-STATIC ULONG Unit_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG Unit_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
@@ -3369,12 +2708,12 @@ STATIC ULONG Unit_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG Unit_Dispose(struct IClass * cl, Object * o, Msg msg)
+static ULONG Unit_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG Unit_Set(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG Unit_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct Unit_Data *data = (struct Unit_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
@@ -3407,7 +2746,7 @@ STATIC ULONG Unit_Set(struct IClass * cl, Object * o, struct opSet * msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG Unit_Get(struct IClass * cl, Object * o, struct opGet * msg)
+static ULONG Unit_Get(struct IClass * cl, Object * o, struct opGet * msg)
 {
   struct Unit_Data *data = (struct Unit_Data *) INST_DATA(cl, o);
   if (msg->opg_AttrID == MUIA_Unit_Unit) *msg->opg_Storage = (LONG)data->punit;
@@ -3416,7 +2755,7 @@ STATIC ULONG Unit_Get(struct IClass * cl, Object * o, struct opGet * msg)
 }
 
 
-STATIC ULONG Unit_Setup(struct IClass * cl, Object * o, Msg msg)
+static ULONG Unit_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   if (!DoSuperMethodA(cl, o, msg))
     return FALSE;
@@ -3427,7 +2766,7 @@ STATIC ULONG Unit_Setup(struct IClass * cl, Object * o, Msg msg)
 
 }
 
-STATIC ULONG Unit_Cleanup(struct IClass * cl, Object * o, Msg msg)
+static ULONG Unit_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   MUI_RejectIDCMP(o, IDCMP_MOUSEBUTTONS);
 
@@ -3435,7 +2774,7 @@ STATIC ULONG Unit_Cleanup(struct IClass * cl, Object * o, Msg msg)
   return 0;
 }
 
-STATIC ULONG Unit_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
+static ULONG Unit_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   struct Unit_Data *data = (struct Unit_Data *) INST_DATA(cl, o);
   LONG w = get_normal_tile_width();
@@ -3455,7 +2794,7 @@ STATIC ULONG Unit_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMa
   return 0;
 }
 
-STATIC ULONG Unit_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
+static ULONG Unit_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Unit_Data *data = (struct Unit_Data *) INST_DATA(cl, o);
   struct unit *punit = data->punit;
@@ -3539,7 +2878,7 @@ struct PresentUnit_Data
 };
 
 
-STATIC ULONG PresentUnit_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG PresentUnit_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
@@ -3548,7 +2887,7 @@ STATIC ULONG PresentUnit_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG PresentUnit_Dispose(struct IClass * cl, Object * o, Msg msg)
+static ULONG PresentUnit_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
   struct PresentUnit_Data *data = (struct PresentUnit_Data *) INST_DATA(cl, o);
   if (data->context_menu)
@@ -3557,7 +2896,7 @@ STATIC ULONG PresentUnit_Dispose(struct IClass * cl, Object * o, Msg msg)
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_ContextMenuBuild * msg)
+static ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_ContextMenuBuild * msg)
 {
   Object *context_menu = NULL;
   struct PresentUnit_Data *data = (struct PresentUnit_Data *) INST_DATA(cl, o);
@@ -3644,7 +2983,7 @@ STATIC ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct
   return (ULONG) context_menu;
 }
 
-STATIC ULONG PresentUnit_ContextMenuChoice(/*struct IClass * cl,*/ Object * o, struct MUIP_ContextMenuChoice * msg)
+static ULONG PresentUnit_ContextMenuChoice(/*struct IClass * cl,*/ Object * o, struct MUIP_ContextMenuChoice * msg)
 {
   ULONG udata = muiUserData(msg->item);
   ULONG command = UNPACK_COMMAND(udata);
@@ -3695,7 +3034,7 @@ struct SupportedUnit_Data
 };
 
 
-STATIC ULONG SupportedUnit_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG SupportedUnit_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
@@ -3704,7 +3043,7 @@ STATIC ULONG SupportedUnit_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG SupportedUnit_Dispose(struct IClass * cl, Object * o, Msg msg)
+static ULONG SupportedUnit_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
   struct SupportedUnit_Data *data = (struct SupportedUnit_Data *) INST_DATA(cl, o);
   if (data->context_menu)
@@ -3713,7 +3052,7 @@ STATIC ULONG SupportedUnit_Dispose(struct IClass * cl, Object * o, Msg msg)
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG SupportedUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_ContextMenuBuild * msg)
+static ULONG SupportedUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_ContextMenuBuild * msg)
 {
   Object *context_menu = NULL;
   struct SupportedUnit_Data *data = (struct SupportedUnit_Data *) INST_DATA(cl, o);
@@ -3748,7 +3087,7 @@ STATIC ULONG SupportedUnit_ContextMenuBuild(struct IClass * cl, Object * o, stru
   return (ULONG) context_menu;
 }
 
-STATIC ULONG SupportedUnit_ContextMenuChoice(/*struct IClass * cl,*/ Object * o, struct MUIP_ContextMenuChoice * msg)
+static ULONG SupportedUnit_ContextMenuChoice(/*struct IClass * cl,*/ Object * o, struct MUIP_ContextMenuChoice * msg)
 {
   ULONG udata = muiUserData(msg->item);
   ULONG command = UNPACK_COMMAND(udata);
@@ -3789,7 +3128,7 @@ struct MyGauge_Data
   STRPTR info_text;
 };
 
-STATIC ULONG MyGauge_Dispose(struct IClass *cl, Object * o, Msg msg)
+static ULONG MyGauge_Dispose(struct IClass *cl, Object * o, Msg msg)
 {
   struct MyGauge_Data *data = (struct MyGauge_Data *) INST_DATA(cl, o);
   if (data->info_text)
@@ -3797,7 +3136,7 @@ STATIC ULONG MyGauge_Dispose(struct IClass *cl, Object * o, Msg msg)
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG MyGauge_SetGauge(struct IClass * cl, Object * o, struct MUIP_MyGauge_SetGauge * msg)
+static ULONG MyGauge_SetGauge(struct IClass * cl, Object * o, struct MUIP_MyGauge_SetGauge * msg)
 {
   struct MyGauge_Data *data = (struct MyGauge_Data *) INST_DATA(cl, o);
   if (data->info_text)

@@ -15,7 +15,7 @@
 
 #define AutoGroup NewObject(CL_AutoGroup->mcc_Class, NULL
 
-IMPORT struct MUI_CustomClass *CL_AutoGroup;
+extern struct MUI_CustomClass *CL_AutoGroup;
 
 #define MUIA_AutoGroup_DefVertObjects   (TAG_USER+0x3000101) /* I.. LONG */
 

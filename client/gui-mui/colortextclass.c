@@ -52,7 +52,7 @@ struct ColorText_Data
 };
 
 
-STATIC ULONG ColorText_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG ColorText_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperNew(cl, o,
   				 MUIA_InnerLeft,0,
@@ -92,14 +92,14 @@ STATIC ULONG ColorText_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG ColorText_Dispose(struct IClass * cl, Object * o, Msg msg)
+static ULONG ColorText_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   if (data->contents) FreeVec(data->contents);
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG ColorText_Set(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG ColorText_Set(struct IClass *cl, Object * o, struct opSet *msg)
 {
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
@@ -156,7 +156,7 @@ STATIC ULONG ColorText_Set(struct IClass *cl, Object * o, struct opSet *msg)
   return DoSuperMethodA(cl,o,(Msg)msg);
 }
 
-STATIC ULONG ColorText_Get(struct IClass * cl, Object * o, struct opGet * msg)
+static ULONG ColorText_Get(struct IClass * cl, Object * o, struct opGet * msg)
 {
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   switch (msg->opg_AttrID)
@@ -172,7 +172,7 @@ STATIC ULONG ColorText_Get(struct IClass * cl, Object * o, struct opGet * msg)
 }
 
 
-STATIC ULONG ColorText_Setup(struct IClass * cl, Object * o, Msg msg)
+static ULONG ColorText_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
@@ -199,7 +199,7 @@ STATIC ULONG ColorText_Setup(struct IClass * cl, Object * o, Msg msg)
   return TRUE;
 }
 
-STATIC ULONG ColorText_Cleanup(struct IClass * cl, Object * o, Msg msg)
+static ULONG ColorText_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
@@ -213,7 +213,7 @@ STATIC ULONG ColorText_Cleanup(struct IClass * cl, Object * o, Msg msg)
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG ColorText_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
+static ULONG ColorText_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   LONG width,height;
   struct RastPort rp;
@@ -240,7 +240,7 @@ STATIC ULONG ColorText_AskMinMax(struct IClass * cl, Object * o, struct MUIP_Ask
   return 0;
 }
 
-STATIC ULONG ColorText_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
+static ULONG ColorText_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
 

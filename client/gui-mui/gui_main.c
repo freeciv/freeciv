@@ -96,9 +96,6 @@
 
 void popup_option_dialog(void);	/* gamedlg.c */
 
-
-extern int seconds_to_turndone;
-
 /**************************************************************************
   Print extra usage information, including one line help on each option,
   to stderr.
@@ -172,8 +169,8 @@ static void handle_timer(void)
 }
 
 
-STATIC BOOL connected;		/* TRUE, if connected to the server */
-STATIC int connected_sock;
+static BOOL connected;		/* TRUE, if connected to the server */
+static int connected_sock;
 
 Object *app;
 static Object *main_menu;

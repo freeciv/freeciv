@@ -21,11 +21,8 @@
 #include "fcintl.h"
 #include "shared.h"
 #include "inputdlg.h"
-
-/* Amiga client stuff */
+#include "gui_main.h"
 #include "muistuff.h"
-
-IMPORT Object *app;
 
 /**************************************************************************
  Supply the input information

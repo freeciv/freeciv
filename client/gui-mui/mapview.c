@@ -35,9 +35,11 @@
 #include "support.h"		/* myusleep() */
 #include "timing.h"
 
+#include "civclient.h"
 #include "control.h"
 #include "goto.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "options.h"
 #include "tilespec.h"
 #include "climisc.h"
@@ -66,29 +68,6 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 #include "muistuff.h"
 #include "mapclass.h"
 #include "overviewclass.h"
-
-IMPORT Object *app;
-IMPORT Object *main_people_text;
-IMPORT Object *main_year_text;
-IMPORT Object *main_gold_text;
-IMPORT Object *main_tax_text;
-IMPORT Object *main_bulb_sprite;
-IMPORT Object *main_sun_sprite;
-IMPORT Object *main_flake_sprite;
-IMPORT Object *main_government_sprite;
-IMPORT Object *main_timeout_text;
-IMPORT Object *main_econ_sprite[10];
-IMPORT Object *main_overview_area;
-IMPORT Object *main_overview_group;
-IMPORT Object *main_unitname_text;
-IMPORT Object *main_moves_text;
-IMPORT Object *main_terrain_text;
-IMPORT Object *main_hometown_text;
-IMPORT Object *main_unit_unit;
-IMPORT Object *main_map_area;
-IMPORT Object *main_turndone_button;
-
-extern int seconds_to_turndone;
 
 /**************************************************************************
  Some support functions
@@ -553,9 +532,6 @@ void undraw_segment(int src_x, int src_y, int dest_x, int dest_y)
 {
   DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dest_x, dest_y);
 }
-
-extern int line_dest_x; /* from goto.c */
-extern int line_dest_y;
 
 /**************************************************************************
 ...

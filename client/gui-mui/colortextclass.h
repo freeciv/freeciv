@@ -23,7 +23,7 @@
 #define MUIV_ColorText_Align_Left 0
 #define MUIV_ColorText_Align_Center 1
 
-IMPORT struct MUI_CustomClass *CL_ColorText;
+extern struct MUI_CustomClass *CL_ColorText;
 
 BOOL create_colortext_class(void);
 VOID delete_colortext_class(void);

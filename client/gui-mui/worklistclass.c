@@ -222,7 +222,7 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 /****************************************************************
  Initialize the listview
 *****************************************************************/
-STATIC ULONG Worklistview_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG Worklistview_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperNew(cl, o,
 	MUIA_NList_AutoVisible, TRUE,
@@ -259,7 +259,7 @@ STATIC ULONG Worklistview_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG)o;
 }
 
-STATIC ULONG Worklistview_Set(struct IClass *cl, Object *o, struct opSet *msg)
+static ULONG Worklistview_Set(struct IClass *cl, Object *o, struct opSet *msg)
 {
   struct TagItem *ti = FindTagItem(MUIA_Worklistview_City,msg->ops_AttrList);
   struct Worklistview_Data *data = (struct Worklistview_Data *) INST_DATA(cl, o);
@@ -540,7 +540,7 @@ void worklist_populate_worklist(struct Worklist_Data *data)
   set(data->available_listview, MUIA_NList_Quiet, FALSE);
 }
 
-STATIC VOID worklist_close_real(Object **pobj)
+static VOID worklist_close_real(Object **pobj)
 {
   Object *obj = *pobj;
   Object *app = (Object*)xget(obj, MUIA_ApplicationObject);
@@ -548,7 +548,7 @@ STATIC VOID worklist_close_real(Object **pobj)
   MUI_DisposeObject(obj);
 }
 
-STATIC VOID worklist_close(Object **pobj)
+static VOID worklist_close(Object **pobj)
 {
   Object *obj = *pobj;
   Object *app = (Object*)xget(obj, MUIA_ApplicationObject);
@@ -558,20 +558,20 @@ STATIC VOID worklist_close(Object **pobj)
   }
 }
 
-STATIC VOID worklist_future_check(struct Worklist_Data **pdata)
+static VOID worklist_future_check(struct Worklist_Data **pdata)
 {
   struct Worklist_Data *data = *pdata;
   data->show_advanced_targets = xget(data->future_check, MUIA_Selected);
   worklist_populate_targets(data);
 }
 
-STATIC VOID worklist_remove_button(struct Worklist_Data **pdata)
+static VOID worklist_remove_button(struct Worklist_Data **pdata)
 {
   struct Worklist_Data *data = *pdata;
   DoMethod(data->current_listview,MUIM_List_Remove,MUIV_List_Remove_Active);
 }
 
-STATIC VOID worklist_ok(struct Worklist_Data **pdata)
+static VOID worklist_ok(struct Worklist_Data **pdata)
 {
   struct Worklist_Data *data = *pdata;
   struct worklist wl;
@@ -616,7 +616,7 @@ STATIC VOID worklist_ok(struct Worklist_Data **pdata)
     (*data->ok_callback)(&wl, data->parent_data);
 }
 
-STATIC VOID worklist_cancel(struct Worklist_Data **pdata)
+static VOID worklist_cancel(struct Worklist_Data **pdata)
 {
   struct Worklist_Data *data = *pdata;
   /* Invoke the dialog's parent-specified callback */
@@ -624,7 +624,7 @@ STATIC VOID worklist_cancel(struct Worklist_Data **pdata)
     (*data->cancel_callback)(data->parent_data);
 }
 
-STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   Object *clv, *alv, *clist, *alist, *check, *remove_button, *ok_button, *cancel_button, *name_text, *name_label;
 
@@ -746,7 +746,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
   return 0;
 }
 
-STATIC VOID Worklist_Dispose(struct IClass * cl, Object * o, Msg msg)
+static VOID Worklist_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
 /*  struct Worklist_Data *data = (struct Worklist_Data *) INST_DATA(cl, o); */
   DoSuperMethodA(cl, o, msg);

@@ -22,11 +22,10 @@
 #include "fcintl.h"
 #include "options.h"
 #include "messagedlg.h"
+#include "gui_main.h"
 
 /* MUI Stuff */
 #include "muistuff.h"
-
-IMPORT Object *app;
 
 static struct message_option_object {
   Object *Out;
@@ -56,7 +55,7 @@ static void message_option_ok(void)
 **************************************************************************/
 void popup_messageopt_dialog(void)
 {
-  STATIC Object *option_wnd = 0;
+  static Object *option_wnd = 0;
   LONG i, err = 0;
 
   if(!option_wnd)

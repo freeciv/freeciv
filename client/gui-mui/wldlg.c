@@ -37,13 +37,12 @@
 #include "worklist.h"
 
 #include "clinet.h"
+#include "gui_main.h"
 #include "wldlg.h"
 
 /* MUI Stuff */
 #include "muistuff.h"
 #include "worklistclass.h"
-
-IMPORT Object *app;
 
 #define WORKLIST_ADVANCED_TARGETS  1
 #define WORKLIST_CURRENT_TARGETS   0

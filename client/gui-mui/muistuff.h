@@ -57,7 +57,7 @@ Object *MakeCycle(STRPTR label, STRPTR *array);
 Object *MakeRadio(STRPTR label, STRPTR *array);
 Object *MakeCheck(STRPTR label, ULONG check);
 
-IMPORT struct Hook civstandard_hook;
+extern struct Hook civstandard_hook;
 void init_civstandard_hook(void);
 
 #define _between(a,x,b) ((x)>=(a) && (x)<=(b))

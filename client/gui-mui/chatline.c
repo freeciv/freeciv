@@ -25,10 +25,8 @@
 #include <proto/intuition.h>
 
 #include "fcintl.h"
-
+#include "gui_main.h"
 #include "muistuff.h"
-
-IMPORT Object *main_output_listview;
 
 void append_output_window(char *astring)
 {

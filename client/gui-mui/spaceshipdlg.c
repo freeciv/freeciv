@@ -40,6 +40,7 @@
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "helpdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
@@ -52,8 +53,6 @@
 /* Amiga Client Stuff */
 #include "muistuff.h"
 #include "mapclass.h"
-
-IMPORT Object *app;
 
 struct spaceship_dialog
 {

@@ -138,4 +138,27 @@ enum{
 
 void do_unit_function( struct unit *punit, ULONG value);
 
+extern Object *app;
+extern Object *main_people_text;
+extern Object *main_year_text;
+extern Object *main_gold_text;
+extern Object *main_tax_text;
+extern Object *main_bulb_sprite;
+extern Object *main_sun_sprite;
+extern Object *main_flake_sprite;
+extern Object *main_government_sprite;
+extern Object *main_timeout_text;
+extern Object *main_econ_sprite[10];
+extern Object *main_overview_area;
+extern Object *main_overview_group;
+extern Object *main_unitname_text;
+extern Object *main_moves_text;
+extern Object *main_terrain_text;
+extern Object *main_hometown_text;
+extern Object *main_unit_unit;
+extern Object *main_map_area;
+extern Object *main_turndone_button;
+extern Object *main_output_listview;
+extern Object *main_wnd;
+
 #endif  /* FC__GUI_MAIN_H */

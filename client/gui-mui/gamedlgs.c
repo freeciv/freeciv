@@ -41,12 +41,9 @@
 
 #include "ratesdlg.h"
 #include "optiondlg.h"
-
-/* MUI Stuff */
+#include "gui_main.h"
 #include "muistuff.h"
 
-IMPORT Object *app;
-IMPORT Object *main_turndone_button;
 
 /**************************************************************************
  Gui independend
@@ -64,11 +61,11 @@ void request_player_rates(int rates_tax_value, int rates_sci_value, int rates_lu
 
 /******************************************************************/
 
-STATIC Object *rates_wnd;
-STATIC Object *rates_title_text;
-STATIC Object *rates_tax_slider;
-STATIC Object *rates_luxury_slider;
-STATIC Object *rates_science_slider;
+static Object *rates_wnd;
+static Object *rates_title_text;
+static Object *rates_tax_slider;
+static Object *rates_luxury_slider;
+static Object *rates_science_slider;
 
 static int rates_tax_value, rates_lux_value, rates_sci_value;
 
@@ -308,7 +305,7 @@ static void option_ok(void)
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  STATIC Object * option_wnd;
+  static Object * option_wnd;
   client_option *o;
 
   if (!option_wnd)

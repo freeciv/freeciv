@@ -43,16 +43,14 @@
 #include "climisc.h"
 #include "colors.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "helpdata.h"
-
 #include "helpdlg.h"
 
-/* Amiga Client Stuff */
 #include "colortextclass.h"
 #include "mapclass.h"
 #include "objecttreeclass.h"
 #include "muistuff.h"
-IMPORT Object *app;
 
 static Object *help_wnd;
 static Object *help_topic_listview;
@@ -93,7 +91,6 @@ static Object *help_terrain_dynamic_group; /* the tile types */
 static Object *help_terrain_static_group;
 
 static enum help_page_type help_last_page;
-extern char long_buffer[64000];	/* helpdata.c */
 
 static void clear_page_objects(void);
 static void free_help_page(void);

@@ -28,27 +28,20 @@
 #include "support.h"
 #include "version.h"
 
+#include "civclient.h"
 #include "connectdlg.h"
 #include "chatline.h"
 #include "clinet.h"
-
-/* in civclient.c; FIXME hardcoded sizes */
-extern char name[];
-extern char server_host[];
-extern int  server_port;
-
-/* MUI Imports */
+#include "gui_main.h"
 #include "muistuff.h"
 
-IMPORT Object *app;
-
-Object *connect_wnd;
-Object *connect_name_string;
-Object *connect_host_string;
-Object *connect_port_string;
-Object *connect_connect_button;
-Object *connect_quit_button;
-Object *connect_meta_listview;
+static Object *connect_wnd;
+static Object *connect_name_string;
+static Object *connect_host_string;
+static Object *connect_port_string;
+static Object *connect_connect_button;
+static Object *connect_quit_button;
+static Object *connect_meta_listview;
 
 /**************************************************************************
  Callback for the Connect Button
@@ -57,8 +50,8 @@ static void connect_connect(void)
 {
   char errbuf [512];
 
-  mystrlcpy(name, getstring(connect_name_string), 512);
-  mystrlcpy(server_host, getstring(connect_host_string), 512);
+  sz_strlcpy(name, getstring(connect_name_string));
+  sz_strlcpy(server_host, getstring(connect_host_string));
   server_port = xget(connect_port_string, MUIA_String_Integer);
   
   if(connect_to_server(name, server_host, server_port,
@@ -173,7 +166,7 @@ HOOKPROTONH(connect_meta_display, void, char **array, struct server *entry)
 void gui_server_connect(void)
 {
   Object *page_group;
-  STATIC STRPTR pages[3];
+  static STRPTR pages[3];
   
   pages[0] = _("Server Selection");
   pages[1] = _("Metaserver");
@@ -181,9 +174,9 @@ void gui_server_connect(void)
 
   if(!connect_wnd)
   {
-    STATIC struct Hook const_hook;
-    STATIC struct Hook dest_hook;
-    STATIC struct Hook display_hook;
+    static struct Hook const_hook;
+    static struct Hook dest_hook;
+    static struct Hook display_hook;
 
     const_hook.h_Entry = (HOOKFUNC)connect_meta_construct;
     dest_hook.h_Entry = (HOOKFUNC)connect_meta_destruct;

@@ -45,7 +45,7 @@ struct ObjectTree_Node
   Object *object;
 };
 
-STATIC struct ObjectTree_Node *CreateObjectPooled( APTR pool, Object *o)
+static struct ObjectTree_Node *CreateObjectPooled( APTR pool, Object *o)
 {
   struct ObjectTree_Node *node;
   if((node = (struct ObjectTree_Node *)AllocPooled(pool,sizeof(struct ObjectTree_Node))))
@@ -57,7 +57,7 @@ STATIC struct ObjectTree_Node *CreateObjectPooled( APTR pool, Object *o)
 }
 
 /*
-STATIC ULONG Tree_Length(struct ObjectTree_Node *node)
+static ULONG Tree_Length(struct ObjectTree_Node *node)
 {
   struct ObjectTree_Node *n = (struct ObjectTree_Node *)List_First(&node->list);
   ULONG max_depth = 0;
@@ -169,7 +169,7 @@ static VOID ObjectTree_Clear_Group(APTR pool, Object *group, struct ObjectTree_N
   }
 }
 
-STATIC APTR ObjectTree_Find(struct ObjectTree_Node *node, Object *o)
+static APTR ObjectTree_Find(struct ObjectTree_Node *node, Object *o)
 {
   struct ObjectTree_Node *n;
 
@@ -249,7 +249,7 @@ HOOKPROTONH(ObjectTree_Group_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *l
 }
 
 
-STATIC ULONG ObjectTree_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG ObjectTree_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   static struct Hook layout_hook = { {0,0}, (HOOKFUNC)ObjectTree_Group_Layout, NULL, NULL };
 	
@@ -269,14 +269,14 @@ STATIC ULONG ObjectTree_New(struct IClass *cl, Object * o, struct opSet *msg)
   return 0;
 }
 
-STATIC ULONG ObjectTree_Dispose(struct IClass * cl, Object * o, Msg msg)
+static ULONG ObjectTree_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
   struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
   if (data->pool) DeletePool(data->pool);
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG ObjectTree_Draw(struct IClass * cl, Object * o, struct MUIP_Draw *msg)
+static ULONG ObjectTree_Draw(struct IClass * cl, Object * o, struct MUIP_Draw *msg)
 {
   struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
   APTR cliphandle;
@@ -288,7 +288,7 @@ STATIC ULONG ObjectTree_Draw(struct IClass * cl, Object * o, struct MUIP_Draw *m
   return TRUE;
 }
 
-STATIC APTR ObjectTree_AddNode(struct IClass *cl, Object *o, struct MUIP_ObjectTree_AddNode *msg)
+static APTR ObjectTree_AddNode(struct IClass *cl, Object *o, struct MUIP_ObjectTree_AddNode *msg)
 {
   struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
   if (!msg->object) return NULL;
@@ -311,14 +311,14 @@ STATIC APTR ObjectTree_AddNode(struct IClass *cl, Object *o, struct MUIP_ObjectT
   }
 }
 
-STATIC VOID ObjectTree_Clear(struct IClass * cl, Object * o, Msg msg)
+static VOID ObjectTree_Clear(struct IClass * cl, Object * o, Msg msg)
 {
   struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
   ObjectTree_Clear_Group(data->pool,o,data->first_node);
   data->first_node = NULL;
 }
 
-STATIC VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP_ObjectTree_ClearSubNodes *msg)
+static VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP_ObjectTree_ClearSubNodes *msg)
 {
   struct ObjectTree_Data *data = (struct ObjectTree_Data *)INST_DATA(cl, o);
   struct ObjectTree_Node *node = (struct ObjectTree_Node *)msg->parent;
@@ -332,7 +332,7 @@ STATIC VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP
   }
 }
 
-STATIC BOOL ObjectTree_HasSubNodes(/*struct IClass * cl, */Object * o, struct MUIP_ObjectTree_HasSubNodes *msg)
+static BOOL ObjectTree_HasSubNodes(/*struct IClass * cl, */Object * o, struct MUIP_ObjectTree_HasSubNodes *msg)
 {
   struct ObjectTree_Node *node = (struct ObjectTree_Node *)msg->parent;
 
@@ -345,7 +345,7 @@ STATIC BOOL ObjectTree_HasSubNodes(/*struct IClass * cl, */Object * o, struct MU
   return TRUE;
 }
 
-STATIC APTR ObjectTree_FindObject(struct IClass * cl, Object * o, struct MUIP_ObjectTree_FindObject *msg)
+static APTR ObjectTree_FindObject(struct IClass * cl, Object * o, struct MUIP_ObjectTree_FindObject *msg)
 {
   struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
   return ObjectTree_Find(data->first_node,msg->object);

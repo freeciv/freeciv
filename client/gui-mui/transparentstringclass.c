@@ -29,6 +29,7 @@
 #include <proto/muimaster.h>
 #include <proto/locale.h>
 
+#include "support.h"
 #include "transparentstringclass.h"
 #include "muistuff.h"
 
@@ -48,7 +49,7 @@ struct TransparentString_Data {
   struct Locale *locale;
 };
 
-STATIC ULONG TransparentString_New(struct IClass * cl, Object * o, struct opSet *msg)
+static ULONG TransparentString_New(struct IClass * cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperNew(cl, o,
 				 MUIA_CycleChain, 1,
@@ -62,13 +63,13 @@ STATIC ULONG TransparentString_New(struct IClass * cl, Object * o, struct opSet 
   return 0;
 }
 
-STATIC ULONG TransparentString_Dispose(struct IClass * cl, Object * o, Msg msg)
+static ULONG TransparentString_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
 
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG TransparentString_Get(struct IClass * cl, Object * o, struct opGet * msg)
+static ULONG TransparentString_Get(struct IClass * cl, Object * o, struct opGet * msg)
 {
   struct TransparentString_Data *data = (struct TransparentString_Data *) INST_DATA(cl, o);
   switch (msg->opg_AttrID) {
@@ -81,7 +82,7 @@ STATIC ULONG TransparentString_Get(struct IClass * cl, Object * o, struct opGet 
   }
 }
 
-STATIC ULONG TransparentString_Set(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG TransparentString_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct TransparentString_Data *data = (struct TransparentString_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
@@ -91,7 +92,7 @@ STATIC ULONG TransparentString_Set(struct IClass * cl, Object * o, struct opSet 
     switch (ti->ti_Tag) {
     case MUIA_TransparentString_Contents:
       if (ti->ti_Data) {
-	strcpy(data->edit_buffer, (char *) ti->ti_Data);
+	sz_strlcpy(data->edit_buffer, (char *) ti->ti_Data);
       } else {
 	data->edit_buffer[0] = 0;
 	data->cursor_pos = 0;
@@ -103,7 +104,7 @@ STATIC ULONG TransparentString_Set(struct IClass * cl, Object * o, struct opSet 
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG TransparentString_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
+static ULONG TransparentString_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   DoSuperMethodA(cl, o, (Msg) msg);
 
@@ -117,7 +118,7 @@ STATIC ULONG TransparentString_AskMinMax(struct IClass * cl, Object * o, struct 
   return 0;
 }
 
-STATIC ULONG TransparentString_Setup(struct IClass * cl, Object * o, Msg msg)
+static ULONG TransparentString_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   struct TransparentString_Data *data = (struct TransparentString_Data *) INST_DATA(cl, o);
 
@@ -132,7 +133,7 @@ STATIC ULONG TransparentString_Setup(struct IClass * cl, Object * o, Msg msg)
   return TRUE;
 }
 
-STATIC ULONG TransparentString_Cleanup(struct IClass * cl, Object * o, Msg msg)
+static ULONG TransparentString_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   struct TransparentString_Data *data = (struct TransparentString_Data *) INST_DATA(cl, o);
   DoMethod(_win(o), MUIM_Window_RemEventHandler, &data->ehnode);
@@ -140,7 +141,7 @@ STATIC ULONG TransparentString_Cleanup(struct IClass * cl, Object * o, Msg msg)
   return 0;
 }
 
-STATIC VOID TransparentString_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
+static VOID TransparentString_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct TransparentString_Data *data = (struct TransparentString_Data *) INST_DATA(cl, o);
   UBYTE *buf = data->edit_buffer;
@@ -185,7 +186,7 @@ STATIC VOID TransparentString_Draw(struct IClass * cl, Object * o, struct MUIP_D
   }
 }
 
-STATIC ULONG TransparentString_HandleEvent(struct IClass *cl, Object * o, struct MUIP_HandleEvent *msg)
+static ULONG TransparentString_HandleEvent(struct IClass *cl, Object * o, struct MUIP_HandleEvent *msg)
 {
   struct TransparentString_Data *data = (struct TransparentString_Data *) INST_DATA(cl, o);
   ULONG retval = 0;
@@ -332,7 +333,7 @@ STATIC ULONG TransparentString_HandleEvent(struct IClass *cl, Object * o, struct
   return retval;
 }
 
-STATIC ULONG TransparentString_GoActive(struct IClass * cl, Object * o)
+static ULONG TransparentString_GoActive(struct IClass * cl, Object * o)
 {
   struct TransparentString_Data *data = (struct TransparentString_Data *) INST_DATA(cl, o);
 
@@ -344,7 +345,7 @@ STATIC ULONG TransparentString_GoActive(struct IClass * cl, Object * o)
   return 0;
 }
 
-STATIC ULONG TransparentString_GoInactive(struct IClass * cl, Object * o)
+static ULONG TransparentString_GoInactive(struct IClass * cl, Object * o)
 {
   struct TransparentString_Data *data = (struct TransparentString_Data *) INST_DATA(cl, o);
 

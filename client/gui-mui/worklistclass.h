@@ -15,7 +15,7 @@
 
 #define WorklistObject NewObject(CL_Worklist->mcc_Class, NULL
 
-IMPORT struct MUI_CustomClass *CL_Worklist;
+extern struct MUI_CustomClass *CL_Worklist;
 
 #define MUIA_Worklist_Worklist			(TAG_USER+0x454545) /* struct worklist * */
 #define MUIA_Worklist_City					(TAG_USER+0x454546) /* struct city * */

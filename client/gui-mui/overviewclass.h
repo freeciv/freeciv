@@ -36,7 +36,7 @@
 
 struct MUIP_Overview_RefreshSingle { ULONG MethodID; int x; int y;};
 
-IMPORT struct MUI_CustomClass *CL_Overview;
+extern struct MUI_CustomClass *CL_Overview;
 
 BOOL create_overview_class(void);
 VOID delete_overview_class(void);

@@ -86,19 +86,19 @@ AIDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}common ${INC}${FREECIV_DIR}se
 
 SERVEROBJS = ${OBJDIR}server/autoattack.o ${OBJDIR}server/barbarian.o ${OBJDIR}server/cityhand.o \
  ${OBJDIR}server/citytools.o ${OBJDIR}server/cityturn.o ${OBJDIR}server/civserver.o \
- ${OBJDIR}server/console.o ${OBJDIR}server/diplhand.o ${OBJDIR}server/gamehand.o \
+ ${OBJDIR}server/console.o ${OBJDIR}server/diplhand.o ${OBJDIR}server/diplomats.o ${OBJDIR}server/gamehand.o \
  ${OBJDIR}server/gamelog.o ${OBJDIR}server/gotohand.o ${OBJDIR}server/handchat.o \
  ${OBJDIR}server/mapgen.o ${OBJDIR}server/maphand.o ${OBJDIR}server/meta.o \
  ${OBJDIR}server/plrhand.o ${OBJDIR}server/report.o ${OBJDIR}server/ruleset.o \
  ${OBJDIR}server/rulesout.o ${OBJDIR}server/savegame.o ${OBJDIR}server/sernet.o \
  ${OBJDIR}server/settlers.o ${OBJDIR}server/spacerace.o ${OBJDIR}server/srv_main.o ${OBJDIR}server/stdinhand.o \
- ${OBJDIR}server/unitfunc.o ${OBJDIR}server/unithand.o ${OBJDIR}server/unittools.o
+ ${OBJDIR}server/unithand.o ${OBJDIR}server/unittools.o
 SERVERDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}server ${INC}${FREECIV_DIR}common ${INC}${FREECIV_DIR}ai
 
 AMIGASERVEROBJS = ${OBJDIR}amigaserver.o
 
 CLIENTOBJS = ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
- ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/helpdata.o ${OBJDIR}client/options.o \
+ ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/goto.o ${OBJDIR}client/helpdata.o \
  ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/tilespec.o
 CLIENTDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}client ${INC}${FREECIV_DIR}common \
  ${INC}${FREECIV_DIR}client/include
@@ -109,6 +109,7 @@ CLIENTGUIOBJS = ${OBJDIR}client/gui-mui/chatline.o ${OBJDIR}client/gui-mui/cityd
  ${OBJDIR}client/gui-mui/connectdlg.o ${OBJDIR}client/gui-mui/dialogs.o \
  ${OBJDIR}client/gui-mui/diplodlg.o ${OBJDIR}client/gui-mui/finddlg.o \
  ${OBJDIR}client/gui-mui/gamedlgs.o ${OBJDIR}client/gui-mui/gotodlg.o \
+ ${OBJDIR}client/gui-mui/graphics.o \
  ${OBJDIR}client/gui-mui/gui_main.o ${OBJDIR}client/gui-mui/helpdlg.o \
  ${OBJDIR}client/gui-mui/inputdlg.o ${OBJDIR}client/gui-mui/inteldlg.o \
  ${OBJDIR}client/gui-mui/mapctrl.o ${OBJDIR}client/gui-mui/mapview.o \
@@ -379,6 +380,9 @@ ${OBJDIR}server/console.o: ${FREECIV_DIR}server/console.c
 ${OBJDIR}server/diplhand.o: ${FREECIV_DIR}server/diplhand.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/diplhand.c ${SERVERDIRS} ${TO}$@
 
+${OBJDIR}server/diplomats.o: ${FREECIV_DIR}server/diplomats.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}server/diplomats.c ${SERVERDIRS} ${TO}$@
+
 ${OBJDIR}server/gamehand.o: ${FREECIV_DIR}server/gamehand.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/gamehand.c ${SERVERDIRS} ${TO}$@
 
@@ -429,9 +433,6 @@ ${OBJDIR}server/srv_main.o: ${FREECIV_DIR}server/srv_main.c
 
 ${OBJDIR}server/stdinhand.o: ${FREECIV_DIR}server/stdinhand.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/stdinhand.c ${SERVERDIRS} ${TO}$@
-
-${OBJDIR}server/unitfunc.o: ${FREECIV_DIR}server/unitfunc.c
-  ${CC} ${CCFLAGS} ${FREECIV_DIR}server/unitfunc.c ${SERVERDIRS} ${TO}$@
 
 ${OBJDIR}server/unithand.o: ${FREECIV_DIR}server/unithand.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}server/unithand.c ${SERVERDIRS} ${TO}$@
@@ -502,6 +503,9 @@ ${OBJDIR}client/gui-mui/gamedlgs.o: ${CGP}gamedlgs.c
 
 ${OBJDIR}client/gui-mui/gotodlg.o: ${CGP}gotodlg.c
   ${CC} ${CCFLAGS} ${CGP}gotodlg.c ${CLIENTGUIDIRS} ${TO}$@
+
+${OBJDIR}client/gui-mui/graphics.o: ${CGP}graphics.c
+  ${CC} ${CCFLAGS} ${CGP}graphics.c ${CLIENTGUIDIRS} ${TO}$@
 
 ${OBJDIR}client/gui-mui/gui_main.o: ${CGP}gui_main.c ${CGP}gui_main.h
   ${CC} ${CCFLAGS} ${CGP}gui_main.c ${CLIENTGUIDIRS} ${TO}$@

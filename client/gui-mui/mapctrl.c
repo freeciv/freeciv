@@ -37,6 +37,7 @@
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "inputdlg.h"
 #include "mapview.h"
 
@@ -47,13 +48,10 @@
 #include "muistuff.h"
 #include "mapclass.h"
 
-IMPORT Object *app;
-IMPORT Object *main_turndone_button;
-
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 /* Color to use to display the workers */
-int city_workers_color=COLOR_STD_WHITE;
+static int city_workers_color=COLOR_STD_WHITE;
 
 /****************************************************************
 ...

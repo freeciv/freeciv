@@ -38,6 +38,7 @@
 
 #include "control.h"
 
+#include "graphics.h"
 #include "overviewclass.h"
 #include "muistuff.h"
 
@@ -105,7 +106,7 @@ struct Overview_Data
   LONG x, y, color;		/* 1 */
 };
 
-STATIC VOID Overview_HandleMouse(Object * o, struct Overview_Data *data, LONG x, LONG y)
+static VOID Overview_HandleMouse(Object * o, struct Overview_Data *data, LONG x, LONG y)
 {
   x = x % _mwidth(o);
 
@@ -130,7 +131,7 @@ STATIC VOID Overview_HandleMouse(Object * o, struct Overview_Data *data, LONG x,
 }
 
 /* TODO: Use overview_tile_color */
-STATIC LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
+static LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
 {
   struct tile *ptile = map_get_tile(x, y);
   struct unit *punit;
@@ -181,7 +182,7 @@ STATIC LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
   }
 }
 
-STATIC VOID Overview_FillBuffer(struct Overview_Data * data)
+static VOID Overview_FillBuffer(struct Overview_Data * data)
 {
   LONG scalex = data->ov_ScaleX;
   LONG scaley = data->ov_ScaleY;
@@ -209,7 +210,7 @@ STATIC VOID Overview_FillBuffer(struct Overview_Data * data)
   }
 }
 
-STATIC VOID Overview_DrawRect( Object *o, struct Overview_Data *data)
+static VOID Overview_DrawRect( Object *o, struct Overview_Data *data)
 {
   struct RastPort *rp = _rp(o);
   LONG x1,x2,y1,y2,scalex,scaley;
@@ -251,7 +252,7 @@ STATIC VOID Overview_DrawRect( Object *o, struct Overview_Data *data)
   }
 }
 
-STATIC ULONG Overview_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG Overview_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {
@@ -283,12 +284,12 @@ STATIC ULONG Overview_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG Overview_Dispose(struct IClass * cl, Object * o, Msg msg)
+static ULONG Overview_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
   return DoSuperMethodA(cl, o, msg);
 }
 
-STATIC ULONG Overview_Set(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG Overview_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
@@ -335,7 +336,7 @@ STATIC ULONG Overview_Set(struct IClass * cl, Object * o, struct opSet * msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG Overview_Get(struct IClass * cl, Object * o, struct opGet * msg)
+static ULONG Overview_Get(struct IClass * cl, Object * o, struct opGet * msg)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   switch (msg->opg_AttrID)
@@ -362,7 +363,7 @@ STATIC ULONG Overview_Get(struct IClass * cl, Object * o, struct opGet * msg)
   return 1;
 }
 
-STATIC ULONG Overview_Setup(struct IClass * cl, Object * o, Msg msg)
+static ULONG Overview_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
 
@@ -401,7 +402,7 @@ STATIC ULONG Overview_Setup(struct IClass * cl, Object * o, Msg msg)
   return FALSE;
 }
 
-STATIC ULONG Overview_Cleanup(struct IClass * cl, Object * o, Msg msg)
+static ULONG Overview_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   struct ColorMap *cm = _screen(o)->ViewPort.ColorMap;
@@ -427,7 +428,7 @@ STATIC ULONG Overview_Cleanup(struct IClass * cl, Object * o, Msg msg)
   return 0;
 }
 
-STATIC ULONG Overview_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
+static ULONG Overview_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   LONG scalex = data->ov_ScaleX;
@@ -444,7 +445,7 @@ STATIC ULONG Overview_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskM
   return 0;
 }
 
-STATIC ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
+static ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   struct RastPort *rp = _rp(o);
@@ -496,8 +497,6 @@ STATIC ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
   {
     if (!(msg->flags & MADF_DRAWUPDATE))
     {
-      IMPORT APTR pen_shared_map;	/* should happen with Tags... */
-
       if (pen_shared_map && data->radar_picture)
       {
 	APTR dh = ObtainDrawHandleA(pen_shared_map, _rp(o), _screen(o)->ViewPort.ColorMap, NULL);
@@ -517,7 +516,7 @@ STATIC ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
   return 0;
 }
 
-STATIC ULONG Overview_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleInput * msg)
+static ULONG Overview_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleInput * msg)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   if (msg->imsg)
@@ -553,7 +552,7 @@ STATIC ULONG Overview_HandleInput(struct IClass * cl, Object * o, struct MUIP_Ha
   return 0;
 }
 
-STATIC ULONG Overview_Refresh(struct IClass * cl, Object * o)
+static ULONG Overview_Refresh(struct IClass * cl, Object * o)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   Overview_FillBuffer(data);
@@ -562,7 +561,7 @@ STATIC ULONG Overview_Refresh(struct IClass * cl, Object * o)
   return 0;
 }
 
-STATIC ULONG Overview_RefreshSingle(struct IClass * cl, Object * o, struct MUIP_Overview_RefreshSingle * msg)
+static ULONG Overview_RefreshSingle(struct IClass * cl, Object * o, struct MUIP_Overview_RefreshSingle * msg)
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   LONG x, y;

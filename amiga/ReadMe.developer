@@ -27,7 +27,7 @@ There are some settings you may change in the smakefile:
 
 To make the server call 'smake dirs civserver' (dirs creates directories).
 To make the client call 'smake dirs civclient' (dirs creates directories).
-To transform the locale files call 'smake dirs civclient' (dirs creates
+To transform the locale files call 'smake dirs locale' (dirs creates
 directories)
 You need not add the dirs always, when they have been created already.
 
@@ -76,6 +76,14 @@ does not work add a new conversion entry to LocaleConvTab in gettext.c.
 The language files are stored in locale directory in form xx.mo. Where
 xx is the language identifier as used im po directory of source tree.
 
+The vsnprintf.c file.
+~~~~~~~~~~~~~~~~~~~~~
+The current Amiga development systems (especially SAS) do not support
+argument reordering in their printf-style functions. So the sprintf
+function must be added to the project. And as freeciv needs vsnprintf
+(which has better error checking) instead of sprintf we also removed
+the need to use the internal workaround of freeciv.
+
 How to make with VBCC?
 ~~~~~~~~~~~~~~~~~~~~~~
 - Get a make program.
@@ -92,3 +100,6 @@ Problems:
   output dialog.
 - Starting client from WB misses the output dialog (client uses no input).
 - Stacksizes are not changed to 150000 automatically.
+
+Current development releases of vbcc implement stuff to remove these
+problems, so expect them to disappear in future.

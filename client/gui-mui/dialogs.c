@@ -44,17 +44,13 @@
 #include "connectdlg.h"
 #include "control.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "mapview.h"
+#include "options.h"
 
-/* MUI Stuff */
 #include "muistuff.h"
 #include "mapclass.h"
 #include "autogroupclass.h"
-
-IMPORT Object *app;
-IMPORT Object *main_wnd;
-
-extern struct connection aconnection;
 
 /****************************************************************
  ...
@@ -75,15 +71,12 @@ void request_player_government(int g)
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
 }
 
-
-extern int ai_popup_windows;
-
 static Object *unitsel_wnd;
 
-int is_showing_government_dialog;
+static int is_showing_government_dialog;
 
-int is_showing_pillage_dialog = FALSE;
-int unit_to_use_to_pillage;
+static int is_showing_pillage_dialog = FALSE;
+static int unit_to_use_to_pillage;
 
 static int diplomat_dialog_open;
 static int diplomat_id;
@@ -1570,9 +1563,9 @@ void popup_unit_select_dialog(struct tile *ptile)
 }
 
 
-STATIC STRPTR styles_entries[64];
-STATIC int styles_basic_index[64];
-STATIC int styles_basic_nums;
+static STRPTR styles_entries[64];
+static int styles_basic_index[64];
+static int styles_basic_nums;
 
 Object *nations_wnd;
 Object *nations_leader_string;

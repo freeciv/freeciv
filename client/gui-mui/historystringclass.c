@@ -98,7 +98,7 @@ HOOKPROTO(string_edit, int, struct SGWork *sgw, ULONG *msg)
   return 0;
 }
 
-STATIC ULONG HistoryString_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG HistoryString_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
   {

@@ -16,7 +16,7 @@
 #define MUIA_TransparentString_Contents 		(TAG_USER+0x1000030)
 #define MUIA_TransparentString_Acknowledge	(TAG_USER+0x1000031)
 
-IMPORT struct MUI_CustomClass *CL_TransparentString;
+extern struct MUI_CustomClass *CL_TransparentString;
 
 #define TransparentStringObject (Object*)NewObject(CL_TransparentString->mcc_Class, NULL
 

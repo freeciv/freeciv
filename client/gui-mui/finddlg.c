@@ -32,14 +32,11 @@
 #include "game.h"
 #include "player.h"
 #include "mapview.h"
-
-/* MUI Stuff */
+#include "gui_main.h"
 #include "muistuff.h"
 
-IMPORT Object *app;
-
-STATIC Object *find_wnd;
-STATIC Object *find_cities_listview;
+static Object *find_wnd;
+static Object *find_cities_listview;
 
 /****************************************************************
  Updates the contents of the find dialog

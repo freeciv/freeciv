@@ -39,7 +39,7 @@
 #include "clinet.h"
 #include "dialogs.h"
 #include "helpdlg.h"
-
+#include "gui_main.h"
 #include "repodlgs.h"
 
 /* Amiga Client stuff */
@@ -47,21 +47,19 @@
 #include "muistuff.h"
 #include "autogroupclass.h"
 
-IMPORT Object *app;
+static Object *science_wnd;
+static Object *science_title_text;
+static Object *science_cycle_group;
+static Object *science_research_popup;
+static LONG science_research_active;
+static Object *science_goal_popup;
+static LONG science_goal_active;
+static Object *science_steps_text;
+static Object *science_help_button;
+static Object *science_researched_group;
 
-STATIC Object *science_wnd;
-STATIC Object *science_title_text;
-STATIC Object *science_cycle_group;
-STATIC Object *science_research_popup;
-STATIC LONG science_research_active;
-STATIC Object *science_goal_popup;
-STATIC LONG science_goal_active;
-STATIC Object *science_steps_text;
-STATIC Object *science_help_button;
-STATIC Object *science_researched_group;
-
-STATIC STRPTR *help_goal_entries;
-STATIC STRPTR *help_research_entries;
+static STRPTR *help_goal_entries;
+static STRPTR *help_research_entries;
 
 int delay_report_update = 0;
 
@@ -211,7 +209,7 @@ static void science_researched(ULONG * tech)
 ****************************************************************/
 void popup_science_dialog(int make_modal)
 {
-  STATIC STRPTR def_entries[2];
+  static STRPTR def_entries[2];
   STRPTR *goal_entries = def_entries;
   STRPTR *research_entries = def_entries;
   int i, j;
@@ -342,7 +340,7 @@ void popup_science_dialog(int make_modal)
 
     DoMethod(science_cycle_group, MUIM_Group_InitChange);
     {
-      STATIC Object *o;
+      static Object *o;
       Object *status_text;
 
       if (o)
@@ -434,16 +432,16 @@ struct trade_imprv_entry
   struct city *pcity;
 };
 
-STATIC Object *trade_wnd;
-STATIC Object *trade_title_text;
-STATIC Object *trade_imprv_listview;
-STATIC struct Hook trade_imprv_consthook;
-STATIC struct Hook trade_imprv_desthook;
-STATIC struct Hook trade_imprv_disphook;
-STATIC Object *trade_total_text;
-STATIC Object *trade_close_button;
-STATIC Object *trade_sellobsolete_button;
-STATIC Object *trade_sellall_button;
+static Object *trade_wnd;
+static Object *trade_title_text;
+static Object *trade_imprv_listview;
+static struct Hook trade_imprv_consthook;
+static struct Hook trade_imprv_desthook;
+static struct Hook trade_imprv_disphook;
+static Object *trade_total_text;
+static Object *trade_close_button;
+static Object *trade_sellobsolete_button;
+static Object *trade_sellall_button;
 
 /****************************************************************
  Constructor of a new entry in the trade listview
@@ -674,15 +672,15 @@ void economy_report_dialog_update(void)
  
 ****************************************************************/
 
-STATIC Object *actunit_wnd;
-STATIC Object *actunit_title_text;
-STATIC Object *actunit_units_listview;
-STATIC struct Hook actunit_units_consthook;
-STATIC struct Hook actunit_units_desthook;
-STATIC struct Hook actunit_units_disphook;
-STATIC Object *actunit_total_text;
-STATIC Object *actunit_close_button;
-STATIC Object *actunit_upgrade_button;
+static Object *actunit_wnd;
+static Object *actunit_title_text;
+static Object *actunit_units_listview;
+static struct Hook actunit_units_consthook;
+static struct Hook actunit_units_desthook;
+static struct Hook actunit_units_disphook;
+static Object *actunit_total_text;
+static Object *actunit_close_button;
+static Object *actunit_upgrade_button;
 
 /****************************************************************
 ...

@@ -38,7 +38,7 @@ struct ScrollButton_Data
   ULONG pos;
 };
 
-STATIC ULONG ScrollButton_New(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG ScrollButton_New(struct IClass * cl, Object * o, struct opSet * msg)
 {
   if ((o = (Object *) DoSuperNew(cl, o,
   		ButtonFrame,
@@ -51,7 +51,7 @@ STATIC ULONG ScrollButton_New(struct IClass * cl, Object * o, struct opSet * msg
   return (ULONG) o;
 }
 
-STATIC ULONG ScrollButton_Get(struct IClass * cl, Object * o, struct opGet * msg)
+static ULONG ScrollButton_Get(struct IClass * cl, Object * o, struct opGet * msg)
 {
   struct ScrollButton_Data *data = (struct ScrollButton_Data *) INST_DATA(cl, o);
   switch (msg->opg_AttrID)
@@ -66,7 +66,7 @@ STATIC ULONG ScrollButton_Get(struct IClass * cl, Object * o, struct opGet * msg
   }
 }
 
-STATIC ULONG ScrollButton_Set(struct IClass * cl, Object * o, struct opSet * msg)
+static ULONG ScrollButton_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct ScrollButton_Data *data = (struct ScrollButton_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
@@ -88,7 +88,7 @@ STATIC ULONG ScrollButton_Set(struct IClass * cl, Object * o, struct opSet * msg
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG ScrollButton_AskMinMax(struct IClass *cl, Object *o, struct MUIP_AskMinMax *msg)
+static ULONG ScrollButton_AskMinMax(struct IClass *cl, Object *o, struct MUIP_AskMinMax *msg)
 {
   DoSuperMethodA(cl, o, (Msg) msg);
 
@@ -102,7 +102,7 @@ STATIC ULONG ScrollButton_AskMinMax(struct IClass *cl, Object *o, struct MUIP_As
   return 0;
 }
 
-STATIC ULONG ScrollButton_Setup(struct IClass * cl, Object * o, Msg msg)
+static ULONG ScrollButton_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   if (!DoSuperMethodA(cl, o, msg))
     return FALSE;
@@ -112,7 +112,7 @@ STATIC ULONG ScrollButton_Setup(struct IClass * cl, Object * o, Msg msg)
   return TRUE;
 }
 
-STATIC ULONG ScrollButton_Cleanup(struct IClass * cl, Object * o, Msg msg)
+static ULONG ScrollButton_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   MUI_RejectIDCMP(o, IDCMP_MOUSEBUTTONS);
 
@@ -120,7 +120,7 @@ STATIC ULONG ScrollButton_Cleanup(struct IClass * cl, Object * o, Msg msg)
   return 0;
 }
 
-STATIC ULONG ScrollButton_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleInput * msg)
+static ULONG ScrollButton_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleInput * msg)
 {
   struct ScrollButton_Data *data = (struct ScrollButton_Data *) INST_DATA(cl, o);
   if (msg->imsg)

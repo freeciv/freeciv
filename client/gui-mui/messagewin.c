@@ -40,6 +40,7 @@
 #include "citydlg.h"
 #include "clinet.h"
 #include "colors.h"
+#include "gui_main.h"
 #include "mapview.h"
 #include "options.h"
 
@@ -48,19 +49,16 @@
 /* Amiga client stuff */
 #include "muistuff.h"
 
-IMPORT Object *app;
-IMPORT Object *main_wnd;
+static Object *mes_wnd;
+static struct Hook mes_consthook;
+static struct Hook mes_desthook;
+static struct Hook mes_disphook;
+static Object *mes_listview;
+static Object *mes_close_button;
+static Object *mes_goto_button;
+static Object *mes_popcity_button;
 
-STATIC Object *mes_wnd;
-STATIC struct Hook mes_consthook;
-STATIC struct Hook mes_desthook;
-STATIC struct Hook mes_disphook;
-STATIC Object *mes_listview;
-STATIC Object *mes_close_button;
-STATIC Object *mes_goto_button;
-STATIC Object *mes_popcity_button;
-
-void create_meswin_dialog(void);
+static void create_meswin_dialog(void);
 
 static int delay_meswin_update = 0;
 
@@ -215,7 +213,7 @@ static void mes_popcity(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void create_meswin_dialog(void)
+static void create_meswin_dialog(void)
 {
   if (mes_wnd)
     return;

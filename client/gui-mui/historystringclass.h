@@ -15,7 +15,7 @@
 
 #define HistoryStringObject NewObject(CL_HistoryString->mcc_Class, NULL
 
-IMPORT struct MUI_CustomClass *CL_HistoryString;
+extern struct MUI_CustomClass *CL_HistoryString;
 
 BOOL create_historystring_class(void);
 VOID delete_historystring_class(void);

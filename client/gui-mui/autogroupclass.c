@@ -145,7 +145,7 @@ HOOKPROTONH(AutoGroup_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *lm)
   return MUILM_UNKNOWN;
 }
 
-STATIC ULONG AutoGroup_New(struct IClass *cl, Object * o, struct opSet *msg)
+static ULONG AutoGroup_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   static struct Hook layout_hook = { {0,0}, (HOOKFUNC)AutoGroup_Layout, NULL, NULL }; 
 	
@@ -165,7 +165,7 @@ STATIC ULONG AutoGroup_New(struct IClass *cl, Object * o, struct opSet *msg)
   return 0;
 }
 
-STATIC VOID AutoGroup_DisposeChilds(/*struct IClass *cl,*/ Object *o/*, Msg msg*/)
+static VOID AutoGroup_DisposeChilds(/*struct IClass *cl,*/ Object *o/*, Msg msg*/)
 {
   struct List *child_list = (struct List*)xget(o,MUIA_Group_ChildList);
   Object *cstate = (Object *)child_list->lh_Head;

@@ -42,18 +42,14 @@
 #include "dialogs.h"
 #include "mapctrl.h"
 #include "mapview.h"
-
+#include "gui_main.h"
 #include "gotodlg.h"
-
-/* MUI Stuff */
 #include "muistuff.h"
 
-IMPORT Object *app;
-
-STATIC Object *goto_wnd;
-STATIC Object *goto_cities_listview;
-STATIC struct Hook goto_cities_disphook;
-STATIC Object *goto_airlift_button;
+static Object *goto_wnd;
+static Object *goto_cities_listview;
+static struct Hook goto_cities_disphook;
+static Object *goto_airlift_button;
 
 /****************************************************************
  Display function for the cities listview

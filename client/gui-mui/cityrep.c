@@ -37,8 +37,10 @@
 
 #include "chatline.h"
 #include "climisc.h"
+#include "clinet.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
+#include "gui_main.h"
 #include "mapview.h"
 #include "optiondlg.h"
 #include "options.h"
@@ -46,26 +48,18 @@
 #include "support.h"
 
 #include "cityrep.h"
-
-/* Amiga Client stuff */
 #include "muistuff.h"
 
-IMPORT Object *app;
-IMPORT Object *main_wnd;
-
-extern struct connection aconnection;
-extern int delay_report_update;
-
-STATIC Object *cityrep_wnd;
-STATIC Object *cityrep_listview;
-STATIC struct Hook cityreq_disphook;
-STATIC struct Hook cityreq_comparehook;
-STATIC Object *cityrep_title_text;
-STATIC Object *cityrep_center_button;
-STATIC Object *cityrep_popup_button;
-STATIC Object *cityrep_buy_button;
-STATIC Object *cityrep_change_button;
-STATIC Object *cityrep_configure_objects[NUM_CREPORT_COLS];
+static Object *cityrep_wnd;
+static Object *cityrep_listview;
+static struct Hook cityreq_disphook;
+static struct Hook cityreq_comparehook;
+static Object *cityrep_title_text;
+static Object *cityrep_center_button;
+static Object *cityrep_popup_button;
+static Object *cityrep_buy_button;
+static Object *cityrep_change_button;
+static Object *cityrep_configure_objects[NUM_CREPORT_COLS];
 
 /**************************************************************************
  Display function for the listview in the city report window
@@ -290,7 +284,7 @@ static void cityrep_configure_ok(void)
 *****************************************************************/
 static void cityrep_configure(void)
 {
-  STATIC Object *config_wnd = 0;
+  static Object *config_wnd = 0;
   LONG i, err = 0;
 
   if(!config_wnd)

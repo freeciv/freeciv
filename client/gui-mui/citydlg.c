@@ -40,6 +40,7 @@
 #include "shared.h"
 
 #include "cityrep.h"
+#include "clinet.h"
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
@@ -53,19 +54,13 @@
 #include "tilespec.h"
 #include "wldlg.h"
 
+#include "gui_main.h"
 #include "citydlg.h"
-
-/* MUI Imports */
-
 #include "autogroupclass.h"
 #include "muistuff.h"
 #include "mapclass.h"
 #include "transparentstringclass.h"
 #include "worklistclass.h"
-
-IMPORT Object *app;
-
-/* TODO: Unit Context Menu */
 
 #define NUM_CITYOPT_TOGGLES 5
 
@@ -129,9 +124,6 @@ struct city_dialog
 
   Object *worklist_wnd;
 };
-
-extern struct connection aconnection;
-extern int map_view_x0, map_view_y0;
 
 /****************************************************************
  ...

@@ -34,6 +34,7 @@
 #include "player.h"
 #include "shared.h"
 
+#include "gui_main.h"
 #include "helpdlg.h"
 #include "inteldlg.h"
 
@@ -43,10 +44,7 @@
 #include "colortextclass.h"
 #include "muistuff.h"
 
-IMPORT Object *app;
-
-STATIC Object * intel_wnd;
-
+static Object * intel_wnd;
 static void intel_create_dialog(struct player *p);
 
 /****************************************************************

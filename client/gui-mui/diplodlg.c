@@ -44,13 +44,9 @@
 #include "mapview.h"
 
 #include "diplodlg.h"
-
-/* MUI Imports */
-
+#include "gui_main.h"
 #include "muistuff.h"
 #include "mapclass.h"
-
-IMPORT Object *app;
 
 struct Diplomacy_dialog {
   struct Treaty treaty;

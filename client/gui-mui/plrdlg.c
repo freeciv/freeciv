@@ -37,28 +37,26 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "inteldlg.h"
+#include "gui_main.h"
 #include "spaceshipdlg.h"
-
 #include "plrdlg.h"
 
 /* Amiga Client stuff */
 #include "muistuff.h"
 
-IMPORT Object *app;
-
-STATIC Object *player_wnd;
-STATIC Object *player_players_listview;
-STATIC Object *player_close_button;
-STATIC Object *player_intelligence_button;
-STATIC Object *player_meet_button;
-STATIC Object *player_war_button;
-STATIC Object *player_vision_button;
-STATIC Object *player_spaceship_button;
-STATIC struct Hook player_players_disphook;
+static Object *player_wnd;
+static Object *player_players_listview;
+static Object *player_close_button;
+static Object *player_intelligence_button;
+static Object *player_meet_button;
+static Object *player_war_button;
+static Object *player_vision_button;
+static Object *player_spaceship_button;
+static struct Hook player_players_disphook;
 
 static int delay_plrdlg_update=0;
 
-void create_players_dialog(void);
+static void create_players_dialog(void);
 
 /****************************************************************
  GUI Independend
@@ -330,7 +328,7 @@ static void players_spaceship(void)
 /****************************************************************
 ...
 *****************************************************************/
-void create_players_dialog(void)
+static void create_players_dialog(void)
 {
   player_players_disphook.h_Entry = (HOOKFUNC) players_render;
 
