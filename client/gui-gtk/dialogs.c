@@ -109,6 +109,7 @@ static void city_style_toggles_callback ( GtkWidget *w, gpointer data );
 
 static int selected_nation;
 static int selected_leader;
+static bool is_name_unique = FALSE;
 static int selected_sex;
 static int selected_city_style;
 static int city_style_idx[64];        /* translation table basic style->city_style  */
@@ -1860,28 +1861,41 @@ static void select_random_leader(void)
 {
   int j, leader_num;
   char **leaders;
+  char unique_name[MAX_LEN_NAME];
+  
+  /* weirdness happens by not doing it this way */
+  sz_strlcpy(unique_name, 
+             gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_name)->entry)));
 
+  gtk_signal_handler_block_by_func(GTK_OBJECT(GTK_COMBO(races_name)->list), 
+                                   races_name_callback, NULL);
   g_list_free(leader_strings);
   leader_strings = NULL;
 
   /* fill leader names combo box */
-  leaders = get_nation_leader_names( selected_nation, &leader_num);
-  for( j=0; j<leader_num; j++) {
+  leaders = get_nation_leader_names(selected_nation, &leader_num);
+  for(j = 0; j < leader_num; j++) {
     leader_strings = g_list_append(leader_strings, leaders[j]);
   }
-  gtk_combo_set_value_in_list( GTK_COMBO(races_name), FALSE, FALSE);
-  gtk_combo_set_popdown_strings( GTK_COMBO(races_name), leader_strings);
+  gtk_combo_set_value_in_list(GTK_COMBO(races_name), FALSE, FALSE);
+  gtk_combo_set_popdown_strings(GTK_COMBO(races_name), leader_strings);
 
-  /* initialize leader names */
-  selected_leader = myrand(leader_num);
-  gtk_entry_set_text( GTK_ENTRY(GTK_COMBO(races_name)->entry),
-		      leaders[selected_leader]);
+  gtk_signal_handler_unblock_by_func(GTK_OBJECT(GTK_COMBO(races_name)->list), 
+                                     races_name_callback, NULL);
+  if (!is_name_unique) {
+    /* initialize leader names */
+    selected_leader = myrand(leader_num);
+    gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(races_name)->entry),
+		       leaders[selected_leader]);
 
-  /* initialize leader sex */
-  selected_sex = get_nation_leader_sex(selected_nation,
-				       leaders[selected_leader]);
-  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
-			races_sex_toggles[selected_sex?0:1]), TRUE);
+    /* initialize leader sex */
+    selected_sex = get_nation_leader_sex(selected_nation,
+                                         leaders[selected_leader]);
+    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
+                              races_sex_toggles[selected_sex ? 0 : 1]), TRUE);
+  } else {
+    gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(races_name)->entry), unique_name);
+  }
 }
 
 /****************************************************************
@@ -2077,17 +2091,6 @@ void create_races_dialog(void)
   gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->action_area );
 }
 
-/****************************************************************
-...
-*****************************************************************/
-/*
-void races_dialog_returnkey(Widget w, XEvent *event, String *params,
-			    Cardinal *num_params)
-{
-  x_simulate_button_click(XtNameToWidget(XtParent(w), "racesokcommand"));
-}
-*/
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -2126,13 +2129,16 @@ static void races_name_callback(GtkWidget * w, gpointer data)
 {
   Nation_Type_id nation = races_buttons_get_current();
   const char *leader =
-      gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_name)->entry));
+                  gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_name)->entry));
 
   if (check_nation_leader_name(nation, leader)) {
+    is_name_unique = FALSE;
     selected_sex = get_nation_leader_sex(nation, leader);
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
 				(races_sex_toggles[selected_sex ? 0 : 1]),
 				TRUE);
+  } else {
+    is_name_unique = TRUE;
   }
 }
 
@@ -2141,13 +2147,16 @@ static void races_name_callback(GtkWidget * w, gpointer data)
 **************************************************************************/
 static void races_toggles_callback( GtkWidget *w, gpointer race_id_p )
 {
-  selected_nation = GPOINTER_TO_INT(race_id_p);
+  /* don't do anything if signal is untoggling the button */
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w))) {
+    selected_nation = GPOINTER_TO_INT(race_id_p);
+    select_random_leader();
 
-  select_random_leader();
-
-  selected_city_style = city_style_ridx[get_nation_city_style(selected_nation)];
-  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
-				city_style_toggles[selected_city_style] ), TRUE );
+    selected_city_style = 
+                      city_style_ridx[get_nation_city_style(selected_nation)];
+    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
+                              city_style_toggles[selected_city_style]), TRUE);
+  }
 }
 
 /**************************************************************************
