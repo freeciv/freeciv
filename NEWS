@@ -42,6 +42,9 @@ WHAT'S CHANGED SINCE 1.12.0
  - The Communism government's food cost in default ruleset has
    been changed to 1, while it has been changed to 2 for the Civ2
    ruleset. 
+ - Stealth fighter and bomber now really are stealthy, and are
+   partially invisible just like subs. Also, stealth bombers have
+   increased their attack strength from 14 to 18.
  - Civ2 ruleset now has Fundamentalism.
  - Improved modpack abilities: The caravan ability has been split.
    New ways to calculate technology costs. Better documentation.
