@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-12 11:12+0200\n"
+"POT-Creation-Date: 2004-07-12 22:13+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -227,14 +227,14 @@ msgstr "?diplomatic_state:Team"
 msgid "tech \"%s\": requires itself"
 msgstr "Fortschritt \"%s\": benötigt sich selbst"
 
-#: common/tech.c:551 client/gui-gtk-2.0/inteldlg.c:159
+#: common/tech.c:552 client/gui-gtk-2.0/inteldlg.c:159
 #: client/gui-gtk-2.0/inteldlg.c:179 client/gui-gtk/inteldlg.c:140
 #: client/gui-mui/inteldlg.c:149 client/gui-sdl/inteldlg.c:162
 #: client/gui-win32/inteldlg.c:133 client/gui-xaw/inteldlg.c:158
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
 
-#: common/tech.c:556 client/gui-gtk-2.0/repodlgs.c:365
+#: common/tech.c:557 client/gui-gtk-2.0/repodlgs.c:365
 #: client/gui-gtk-2.0/repodlgs.c:373 client/gui-gtk-2.0/repodlgs.c:478
 #: client/gui-gtk/repodlgs.c:351 client/gui-gtk/repodlgs.c:359
 #: client/gui-gtk/repodlgs.c:455
@@ -2948,7 +2948,7 @@ msgstr "Ruleset-Datei benötigt Optionen, die nicht unterstützt werden:"
 msgid "Terrain %s has unknown flag %s"
 msgstr "Fehler im Ruleset: Terrain %s has unknown flag %s"
 
-#: server/ruleset.c:3169
+#: server/ruleset.c:3172
 msgid "Loading rulesets"
 msgstr "Lade rulesets"
 
@@ -4561,17 +4561,14 @@ msgstr ""
 "Auf jedem angeschlossenen Client wird ein Fenster mit der eingegebenen "
 "Nachricht geöffnet."
 
-# ? code buggy
 #: server/stdinhand.c:1210
 msgid "vote yes|no [vote number]"
-msgstr ""
+msgstr "vote yes|no [Abstimmungsnummer]"
 
-# ? code buggy
 #: server/stdinhand.c:1211
-msgid "Start or participate in a vote."
-msgstr ""
+msgid "Cast a vote."
+msgstr "Abstimmung durchführen."
 
-# ? code buggy
 #: server/stdinhand.c:1213
 #, no-c-format
 msgid ""
@@ -4582,10 +4579,17 @@ msgid ""
 "time.  Voting concludes after a full turn has passed or more than 50% of the "
 "votes have been cast for or against."
 msgstr ""
+"Ein Spieler mit Zugangsberechtigung Info, der einen Befehl der Kontrollebene "
+"gibt, leitet damit eine Abstimmung ein. Jeder Spieler kann dan seine Stimme "
+"abgeben, indem er '/vote', gefolgt von 'yes' oder 'no', wahlweise gefolgt von "
+"einer Abstimmungsnummer, eingibt. Ohne Abstimmunsnummer bezieht sich die "
+"Stimmangabe immer auf die letzte Abstimmung. Die Abstimmung dauert bis zum Ende "
+"der Runde oder bis ein klares Votum (mehr als 50%) erreicht ist. Erst danach kann "
+"derselbe Spieler eine neue Abstimmung einleiten."
 
 #: server/stdinhand.c:1222
-msgid "debug <player <player> | city <x> <y> | units <x> <y> | unit <id>>"
-msgstr "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"
+msgid "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"
+msgstr "debug  player <player> | city <x> <y> | units <x> <y> | unit <id> "
 
 #: server/stdinhand.c:1223
 msgid "Turn on or off AI debugging of given entity."
@@ -5524,12 +5528,8 @@ msgid "Player %s set to team %s."
 msgstr "Spieler %s gehört zu Team %s."
 
 #: server/stdinhand.c:3230
-msgid ""
-"Undefined arguments. Usage: vote new <command>   or   vote yes|no [vote "
-"number]."
-msgstr ""
-"Unvollständig. Anwendung: vote new <Befehl>   oder   vote yes|no "
-"[Wahlnummer]."
+msgid "Undefined arguments. Usage: vote yes|no [vote number]."
+msgstr "Befehl unvollständig. Anwendung: vote yes|no [Wahlnummer]."
 
 #: server/stdinhand.c:3246
 #, c-format
@@ -5568,8 +5568,8 @@ msgid ""
 "Undefined arguments. Usage: debug <player <player> | city <x> <y> | units "
 "<x> <y> | unit <id>>."
 msgstr ""
-"Undefined arguments. Usage: debug [ player <player> | city <x> <y> "
-"| units <x> <y> | unit <id> ]."
+"Undefined arguments. Usage: debug [ player <player> | city <x> <y> | units "
+"<x> <y> | unit <id> ]."
 
 #: server/stdinhand.c:3331
 msgid "Can only use this command once game has begun."
@@ -10766,10 +10766,9 @@ msgstr "Nachrichtendienst: Das Reich der %s"
 msgid "_Diplomacy"
 msgstr "Diplomatie"
 
-# ?
 #: client/gui-gtk-2.0/inteldlg.c:295
 msgid "_Techs"
-msgstr ""
+msgstr "Fortschritte"
 
 #: client/gui-gtk-2.0/mapctrl.c:152 client/gui-gtk/mapctrl.c:175
 #: client/gui-sdl/mapctrl.c:2184 client/gui-sdl/menu.c:713
@@ -13702,10 +13701,9 @@ msgstr ""
 "Server\n"
 "Einstellungen"
 
-# ?
 #: client/gui-sdl/chatline.c:519
 msgid "Tabs"
-msgstr ""
+msgstr "Reiter"
 
 #: client/gui-sdl/citydlg.c:464 data/Freeciv:1166 data/Freeciv:1202
 msgid "Activate unit"
@@ -14107,8 +14105,9 @@ msgstr ""
 msgid "Veteran"
 msgstr "Veteran"
 
+# ? M?
 #: client/gui-sdl/dialogs.c:679
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%s %s %s(A:%d V:%d M:%d FK:%d) TP:%d%%"
 
@@ -14142,7 +14141,7 @@ msgstr ""
 "Kleine Siedlung"
 
 #: client/gui-sdl/dialogs.c:921
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Infrastructure: %s"
@@ -14562,10 +14561,9 @@ msgstr ""
 "Steuern: %d%% Forschung: %d%% Luxus: %d%%\n"
 "Erforscht: %s(%d/%d)"
 
-# ?
 #: client/gui-sdl/inteldlg.c:218
 msgid "Their techs that we don't have :"
-msgstr ""
+msgstr "Uns fehlende Technologien :"
 
 #: client/gui-sdl/mapctrl.c:256
 msgid "Show Unit Info Window"
@@ -14939,11 +14937,11 @@ msgid ""
 msgstr ""
 "Name : %s\n"
 "Nation : %s\n"
-"Team : %s\n"  
+"Team : %s\n"
 "Reputation : %s\n"
 "Botschaft :%s\n"
-"Status : %s\n" 
-"Letzter Zug : %d %s" 
+"Status : %s\n"
+"Letzter Zug : %d %s"
 
 #: client/gui-sdl/plrdlg.c:620
 msgid "Nations"
@@ -15056,47 +15054,50 @@ msgstr ""
 "%s"
 
 #: client/gui-sdl/repodlgs.c:2666 client/gui-sdl/repodlgs.c:3058
-#, fuzzy
 msgid "step"
 msgid_plural "steps"
-msgstr[0] "Müll"
-msgstr[1] "Müll"
+msgstr[0] "Schritt"
+msgstr[1] "Schritte"
 
 #: client/gui-sdl/repodlgs.c:2811
-#, fuzzy
 msgid "What should we focus on now?"
-msgstr "Wie soll die neue Stadt heißen?"
+msgstr "Auf welches Ziel sollen wir uns jetzt konzentrieren?"
 
 #: client/gui-sdl/repodlgs.c:2995
-#, fuzzy
 msgid "Sellect target :"
-msgstr "Wähle eine Stadt:"
+msgstr "Wähle Ziel :"
 
 #: client/gui-sdl/spaceshipdlg.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s's SpaceShip"
-msgstr "Raumschiff"
+msgstr "das %s Raumschiff"
 
 #: client/gui-sdl/wldlg.c:994 client/gui-sdl/wldlg.c:1177
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "%d gold per turn"
-msgstr "%3d Goldstücke pro Runde"
+msgstr ""
+"%s\n"  
+"%d Goldstücke pro Runde"
 
 #: client/gui-sdl/wldlg.c:1001 client/gui-sdl/wldlg.c:1184
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "blocked!"
-msgstr "gesperrt"
+msgstr ""
+"%s\n"  
+"gesperrt!"
 
 #: client/gui-sdl/wldlg.c:1003 client/gui-sdl/wldlg.c:1186
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "%d %s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"%s\n"  
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1007 client/gui-sdl/wldlg.c:1190
 #, c-format
@@ -15110,7 +15111,7 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1049 client/gui-sdl/wldlg.c:1159
 #, c-format
 msgid "( %d elements )"
-msgstr ""
+msgstr "(%d Elemente)"
 
 #: client/gui-sdl/wldlg.c:1145
 #, c-format
@@ -15138,51 +15139,60 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1477 client/gui-sdl/wldlg.c:1482
 #: client/gui-sdl/wldlg.c:1567 client/gui-sdl/wldlg.c:1574
 #: client/gui-sdl/wldlg.c:1583
-#, fuzzy
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "Schild"
-msgstr[1] "Schild"
+msgstr[1] "Schilde"
 
 #: client/gui-sdl/wldlg.c:1445
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"%d/%d %s\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1452
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d/%d %s\n"
 "%d %s"
-msgstr "%d/%d %d Runden"
+msgstr ""
+"(%s)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1459
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%d %s"
-msgstr "%d/%d %d Runden"
+msgstr ""   
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1468
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold per turn"
-msgstr "%3d Goldstücke pro Runde"
+msgstr "%d Goldstücke pro Runde"
 
 #: client/gui-sdl/wldlg.c:1475
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d %s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"(%s)\n"
+"%d %s" 
 
 #: client/gui-sdl/wldlg.c:1480
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s"
-msgstr "%3d/%3d %s"
+msgstr "%d %s"
 
+# ?
 #: client/gui-sdl/wldlg.c:1486
 msgid "shields into gold"
 msgstr ""
@@ -15194,6 +15204,9 @@ msgid ""
 "%d/%d %s\n"
 "never"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"nie"
 
 #: client/gui-sdl/wldlg.c:1570
 #, c-format
@@ -15202,13 +15215,18 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1579
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%d)\n"
 "%d %s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"(%d/%d/%d)\n"
+"%d %s"
 
 #: client/gui-win32/citydlg.c:414
 #, c-format
@@ -15407,19 +15425,16 @@ msgid "Transf_orm to Hills"
 msgstr "Zu Hügeln verändern"
 
 #: client/gui-win32/menu.c:345
-#, fuzzy
 msgid "Connect/_road"
-msgstr "Verbinden"
+msgstr "Verbinden/Straße"
 
 #: client/gui-win32/menu.c:346
-#, fuzzy
 msgid "Connect/rai_l"
-msgstr "Verbinden"
+msgstr "Verbinden/Eisenbahn"
 
 #: client/gui-win32/menu.c:347
-#, fuzzy
 msgid "Connect/_irrigate"
-msgstr "Verbindungsaufbau"
+msgstr "Verbinden/Bewässern"
 
 #: client/gui-win32/menu.c:923 client/gui-xaw/menu.c:167
 #, c-format
@@ -15515,14 +15530,13 @@ msgid "%s - %s citizens  CMA: %s"
 msgstr "%s - %s Bürger  ASV: %s"
 
 #: client/gui-xaw/cma_fe.c:434
-#, fuzzy
 msgid "What should we name the new preset?"
 msgstr "Wie soll die Vorgabe heißen?"
 
 #: client/gui-xaw/cma_fe.c:451
 #, c-format
 msgid "Do you really want to remove %s?"
-msgstr ""
+msgstr "Wollen Sie %s wirklich entfernen?"
 
 #: client/gui-xaw/connectdlg.c:164
 msgid "Pass"
@@ -15652,24 +15666,20 @@ msgid "City Growth"
 msgstr "Städtewachstum"
 
 #: client/gui-xaw/menu.c:179
-#, fuzzy
 msgid "Unload Transporter"
-msgstr "Landungsschiff"
+msgstr "Transporter ausladen"
 
 #: client/gui-xaw/menu.c:188
-#, fuzzy
 msgid "Connect/Road"
-msgstr "Verbinden"
+msgstr "Verbinden/Straße"
 
 #: client/gui-xaw/menu.c:189
-#, fuzzy
 msgid "Connect/Rail"
-msgstr "Verbinden"
+msgstr "Verbinden/Eisenbahn"
 
 #: client/gui-xaw/menu.c:190
-#, fuzzy
 msgid "Connect/Irrigation"
-msgstr "Bewässerung"
+msgstr "Verbinden/Bewässerung"
 
 #: client/gui-xaw/menu.c:223 data/helpdata.txt:381
 msgid "Languages"
@@ -15730,12 +15740,11 @@ msgstr "Gesamt:                     %9d%9d%9d%9d"
 
 #: data/Freeciv:108
 msgid "LAN Servers"
-msgstr ""
+msgstr "LAN Server"
 
 #: data/Freeciv:126
-#, fuzzy
 msgid "Freeciv Server List"
-msgstr "Freeciv-Server wählen"
+msgstr "Liste der Freeciv-Server"
 
 #: data/Freeciv:129
 msgid ""
@@ -16167,9 +16176,31 @@ msgid ""
 "  The cities that become highlighted on the map,\n"
 "  will also be highlighted in the City List window."
 msgstr ""
+"Maus:\n"
+"=====\n"
+"  Links-Klick:     auf Stadt:   Stadtfenster öffnen\n"
+"                 auf Einheit:   Einheit alarmieren\n"
+"  Mittel-Klick:                 Information über das Feld\n"
+"  Rechts-Klick:                 Feld in der Karte zentrieren\n"
+"\n"
+"  Shift-links-Klick: auf Stadt oder Einheit:  Produktion kopieren (GTK)\n"
+"  Shift-rechts-Klick:             auf Stadt:  Produktion einfügen (GTK)\n"
+"\n"
+"  Shift-Strg-links-Klick:       Arbeiter in der Hauptkarte umverteilen\n"
+"  Strg-mittel-Klick:            Einheiten alarmieren\n"
+"\n"
+"  Rechts-klicken-und-ziehen:    Gebietsauswahlmodus einschalten (GTK)\n"
+"\n"
+"  Im Gebietsauswahlmodus\n"
+"  ======================\n"
+"  Links-Klick:                  Feldmarkierung ein/aus\n"
+"  Rechts-Klick:                 Gebietsauswahlmodus ausschalten\n"
+"\n"
+"  Shift-rechts-Klick:           Produktion in markierte Städte kopieren\n"
+"\n"
+"  Die markierten Städte werden gleichzeitig auch im Stadtbericht markiert."
 
 #: data/helpdata.txt:456
-#, fuzzy
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -16275,6 +16306,7 @@ msgstr ""
 "  8: nach Norden gehen\n"
 "  9: nach Nordosten gehen\n"
 "\n"
+"  Pos1:        Auf Hauptstadt zentrieren\n"
 "  Pfeiltasten: Einheit bewegen\n"
 "  Leertaste:   Einheit stehen lassen\n"
 "  Tabulator:   nächste Einheit\n"
@@ -16293,7 +16325,7 @@ msgstr ""
 "\n"
 "  Strg-g: Gitterlinien an/aus\n"
 "  Strg-n: Städtenamen an/aus\n"
-"  Strg-p: Stadtproduktion an/aus"
+"  Strg-p: Stadtproduktion an/aus\n"
 
 #: data/helpdata.txt:514
 msgid ""
@@ -17016,6 +17048,8 @@ msgid ""
 "Default Combat Rules\n"
 "---------------------"
 msgstr ""
+"Standard Kampfregeln\n"
+"--------------------"
 
 #: data/helpdata.txt:902
 msgid ""
@@ -17215,25 +17249,31 @@ msgstr ""
 
 #: data/helpdata.txt:998
 msgid " Modifying Combat Rules"
-msgstr ""
+msgstr " Kampfregeln modifizieren"
 
 #: data/helpdata.txt:999
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
 msgstr ""
+"Kampfregeln modifizieren\n"
+"------------------------"
 
 #: data/helpdata.txt:1000
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
 msgstr ""
+"Die oben beschriebenen Kampfregeln können verändert werden, wenn man die "
+"folgenden Werte in der Datei game.ruleset im Abschnitt combat_rules ändert:"
 
 #: data/helpdata.txt:1003
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
 msgstr ""
+" - killstack. (Standard: 1) Bei '0' werden Einheiten auf demselben Feld wie "
+" ein unterlegener Verteidiger nicht zerstört."
 
 #: data/helpdata.txt:1009
 msgid " Combat example 1"
@@ -21682,12 +21722,11 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr ""
+msgstr "afghanisch"
 
 #: data/nation/afghani.ruleset:4
-#, fuzzy
 msgid "?plural:Afghanis"
-msgstr "?plural:Thailänder"
+msgstr "Afghanen"
 
 #: data/nation/afghani.ruleset:14 data/nation/australian.ruleset:15
 #: data/nation/canadian.ruleset:12 data/nation/danish.ruleset:26
@@ -23126,25 +23165,6 @@ msgstr ""
 #~ "%s\n"
 #~ "%s der %s\n"
 #~ "%s %s: %s%s"
-
-#~ msgid ""
-#~ "Mouse:\n"
-#~ "======\n"
-#~ "  Left-click:  (on city):  Pop up city window\n"
-#~ "               (on unit):  Activate unit\n"
-#~ "  Center-click or\n"
-#~ "     Control-right-click:  Show tile info\n"
-#~ "  Right-click:             Center tile in view\n"
-#~ "  Shift-click:             Adjust city workers from main map"
-#~ msgstr ""
-#~ "Maus:\n"
-#~ "=====\n"
-#~ " Links-Klick auf eine Stadt:                    Stadtfenster öffnen\n"
-#~ " Links-Klick auf eine Einheit:                   Einheit alarmieren\n"
-#~ " Mittel-Klick oder Strg-Rechts-Klick:\n"
-#~ "                         Information über das Gelände / die Einheit\n"
-#~ " Rechts-Klick:                                     Karte zentrieren\n"
-#~ " Shift-Links-Klick:        Arbeiter umverteilen (in der Hauptkarte)"
 
 #~ msgid ""
 #~ " 10. Interacting with other players (Diplomacy).\n"
