@@ -668,7 +668,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   /* Technologies we would like to have. */
   int tech_desire[U_LAST];
   /* Our favourite unit. */
-  int best = 0;
+  int best = -1;
   Unit_Type_id best_unit_type = 0; /* zero is settler but not a problem */
 
   memset(tech_desire, 0, sizeof(tech_desire));
@@ -679,11 +679,16 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
 
       /* Only consider proper defenders - otherwise waste CPU and
        * bump tech want needlessly. */
-      if (!unit_has_role(unit_type, L_DEFEND_GOOD)) {
+      if (!unit_has_role(unit_type, L_DEFEND_GOOD)
+          && !unit_has_role(unit_type, L_DEFEND_OK)) {
         continue;
       }
 
       desire = ai_unit_defence_desirability(unit_type);
+
+      if (!unit_has_role(unit_type, L_DEFEND_OK)) {
+        desire /= 2; /* not good, just ok */
+      }
 
       if (unit_type_flag(unit_type, F_FIELDUNIT)) {
         /* Causes unhappiness even when in defense, so not a good
@@ -734,13 +739,17 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
 				   + tech_cost));
       }
   } simple_ai_unit_type_iterate_end;
-  
+
+  if (best == -1) {
+    CITY_LOG(LOG_DEBUG, pcity, "Ooops - we cannot build any defender!");
+  }
+
   if (!walls && unit_types[best_unit_type].move_type == LAND_MOVING) {
     best *= pcity->ai.wallvalue;
     best /= POWER_FACTOR;
   }
 
-  if (best == 0) best = 1; /* Avoid division by zero below. */
+  if (best <= 0) best = 1; /* Avoid division by zero below. */
 
   /* Update tech_want for appropriate techs for units we want to build. */
   simple_ai_unit_type_iterate (unit_type) {
@@ -1239,7 +1248,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 {
   struct ai_data *ai = ai_data_get(pplayer);
   Unit_Type_id unit_type;
-  unsigned int our_def, danger, urgency;
+  unsigned int our_def, urgency;
   struct tile *ptile = pcity->tile;
   struct unit *virtualunit;
 
@@ -1251,8 +1260,6 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
    * of small units -- Syela */
   /* It has to be AFTER assess_danger thanks to wallvalue. */
   our_def = assess_defense_quadratic(pcity); 
-  freelog(LOG_DEBUG, "%s: danger = %d, grave_danger = %d, our_def = %d",
-          pcity->name, pcity->ai.danger, pcity->ai.grave_danger, our_def);
 
   if (pcity->id == ai->wonder_city && pcity->ai.grave_danger == 0) {
     return; /* Other cities can build our defenders, thank you! */
@@ -1263,7 +1270,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Otherwise no need to defend yet */
   if (pcity->ai.danger != 0) { 
     int num_defenders = unit_list_size(ptile->units);
-    int land_id, sea_id, air_id;
+    int land_id, sea_id, air_id, danger;
 
     /* First determine the danger.  It is measured in percents of our 
      * defensive strength, capped at 200 + urgency */
@@ -1283,6 +1290,9 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
       /* Won't be able to support anything */
       danger = 0;
     }
+
+    CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d urgency=%d danger=%d num_def=%d "
+             "our_def=%d", urgency, danger, num_defenders, our_def);
 
     /* FIXME: 1. Will tend to build walls beofre coastal irrespectfully what
      * type of danger we are facing
@@ -1311,7 +1321,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
         choice->want = 100;
       }
       choice->type = CT_BUILDING;
-
+      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants land defense building with %d",
+               choice->want);
     } else if (sea_id != B_LAST
 	       && pcity->ai.building_want[sea_id] != 0 && our_def != 0 
                && can_build_improvement(pcity, sea_id) 
@@ -1324,7 +1335,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
         choice->want = 100;
       }
       choice->type = CT_BUILDING;
-
+      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants sea defense building with %d",
+               choice->want);
     } else if (air_id != B_LAST
 	       && pcity->ai.building_want[air_id] != 0 && our_def != 0 
                && can_build_improvement(pcity, air_id) 
@@ -1337,7 +1349,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
         choice->want = 100;
       }
       choice->type = CT_BUILDING;
-
+      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants air defense building with %d",
+               choice->want);
     } else if (danger > 0 && num_defenders <= urgency) {
       /* Consider building defensive units units */
       process_defender_want(pplayer, pcity, danger, choice);
@@ -1351,9 +1364,10 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
       } else {
         choice->want = danger;
       }
-      freelog(LOG_DEBUG, "%s wants %s to defend with desire %d.",
-                    pcity->name, get_unit_type(choice->choice)->name,
-                    choice->want);
+      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire %d",
+               get_unit_type(choice->choice)->name, choice->want);
+    } else {
+      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d does not want defenders");
     }
   } /* ok, don't need to defend */
 
