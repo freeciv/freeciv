@@ -480,7 +480,8 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
       }
     } else { /* no pdef */
       pcity = map_get_city(xx[i], yy[j]);
-      if (pcity && is_ground_unit(punit)) {
+      if (pcity && is_ground_unit(punit) &&
+          map_get_terrain(punit->x, punit->y) != T_OCEAN) {
         if (pcity->owner != pplayer->player_no) { /* free goodies */
           best = 99999; *dest_y = yy[j]; *dest_x = xx[i];
         }
@@ -1006,7 +1007,8 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
           } /* let's hope this works! */
           if (!is_ground_unit(punit) && !is_heli_unit(punit) &&
               (!(acity->ai.invasion&1))) b -= 40; /* boats can't conquer cities */
-          if (!punit->id && (is_ground_unit(punit) || is_heli_unit(punit)) && c > 2 &&
+          if (!punit->id && (is_ground_unit(punit) || is_heli_unit(punit)) &&
+              c > (get_invention(aplayer, A_MASONRY) == TECH_KNOWN ? 2 : 4) &&
               !unit_flag(punit->type, F_IGWALL) && !city_got_citywalls(acity)) d *= 9;
 
           a = (ab + acity->ai.a) * (ab + acity->ai.a);
