@@ -962,12 +962,14 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 				&best_newv, &best_oldv, &best_act, &gx, &gy,
 				x, y);
 
-	d = (map_transform_time(x, y)*3 + mv_rate - 1)/mv_rate +
-	  mv_turns;
-	consider_settler_action(pplayer, ACTIVITY_TRANSFORM, -1,
-				pcity->ai.transform[i][j], oldv, in_use, d,
-				&best_newv, &best_oldv, &best_act, &gx, &gy,
-				x, y);
+	if (unit_flag(punit->type, F_TRANSFORM)) {
+	  d = (map_transform_time(x, y)*3 + mv_rate - 1)/mv_rate +
+	    mv_turns;
+	  consider_settler_action(pplayer, ACTIVITY_TRANSFORM, -1,
+				  pcity->ai.transform[i][j], oldv, in_use, d,
+				  &best_newv, &best_oldv, &best_act, &gx, &gy,
+				  x, y);
+	}
 
 	d = (map_build_mine_time(x, y)*3 + mv_rate - 1)/mv_rate +
 	  mv_turns;
