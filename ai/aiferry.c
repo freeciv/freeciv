@@ -758,8 +758,9 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     
       /* Try to select passanger-in-charge from among our passengers */
       unit_list_iterate(ptile->units, aunit) {
-        if (aunit->ai.ferryboat != punit->id 
-            && aunit->ai.ferryboat != FERRY_WANTED) {
+        if (unit_owner(aunit) != pplayer 
+            || (aunit->ai.ferryboat != punit->id 
+                && aunit->ai.ferryboat != FERRY_WANTED)) {
           continue;
         }
       
