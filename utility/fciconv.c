@@ -294,6 +294,8 @@ char *src ## _to_ ## dst ## _string_static(const char *text)                \
 
 CONV_FUNC_MALLOC(data, internal)
 CONV_FUNC_MALLOC(internal, data)
+CONV_FUNC_MALLOC(internal, local)
+CONV_FUNC_MALLOC(local, internal)
 
 static CONV_FUNC_BUFFER(internal, local)
 static CONV_FUNC_STATIC(internal, local)

@@ -29,6 +29,8 @@
 #endif
 #endif
 
+#include "fciconv.h"
+
 #include "astring.h"
 #include "capability.h"
 #include "events.h"
@@ -3986,13 +3988,21 @@ static char *generic_generator(const char *text, int state, int num,
 {
   static int list_index, len;
   const char *name;
+  char *mytext = local_to_internal_string_malloc(text);
+
+  /* This function takes a string (text) in the local format and must return
+   * a string in the local format.  However comparisons are done against
+   * names that are in the internal format (UTF-8).  Thus we have to convert
+   * the text function from the local to the internal format before doing
+   * the comparison, and convert the string we return *back* to the
+   * local format when returning it. */
 
   /* If this is a new word to complete, initialize now.  This includes
      saving the length of TEXT for efficiency, and initializing the index
      variable to 0. */
   if (state == 0) {
     list_index = 0;
-    len = strlen (text);
+    len = strlen (mytext);
   }
 
   /* Return the next name which partially matches: */
@@ -4000,9 +4010,12 @@ static char *generic_generator(const char *text, int state, int num,
     name = index2str(list_index);
     list_index++;
 
-    if (mystrncasecmp (name, text, len) == 0)
-      return mystrdup(name);
+    if (mystrncasecmp (name, mytext, len) == 0) {
+      free(mytext);
+      return internal_to_local_string_malloc(name);
+    }
   }
+  free(mytext);
 
   /* If no names matched, then return NULL. */
   return ((char *)NULL);
