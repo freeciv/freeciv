@@ -3104,13 +3104,19 @@ static bool show_command(struct connection *caller, char *str, bool check)
   *cptr_d='\0';
 
   if (*command != '\0') {
+    /* In "/show forests", figure out that it's the forests option we're
+     * looking at. */
     cmd=lookup_option(command);
-    if (cmd >= 0 && !may_view_option(caller, cmd)) {
+    if (cmd >= 0) {
+      /* Ignore levels when a particular option is specified. */
       level = SSET_NONE;
-      cmd_reply(CMD_SHOW, caller, C_FAIL,
-		_("Sorry, you do not have access to view option '%s'."),
-		command);
-      return FALSE;
+
+      if (!may_view_option(caller, cmd)) {
+        cmd_reply(CMD_SHOW, caller, C_FAIL,
+		  _("Sorry, you do not have access to view option '%s'."),
+		  command);
+        return FALSE;
+      }
     }
     if (cmd == -1) {
       cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), command);
@@ -3172,7 +3178,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
       struct settings_s *op = &settings[i];
       int len = 0;
 
-      if (level == SSET_ALL || op->level == level) {
+      if (level == SSET_ALL || op->level == level || cmd >= 0) {
         switch (op->type) {
         case SSET_BOOL:
 	  len = my_snprintf(buf, sizeof(buf),
