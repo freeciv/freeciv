@@ -1825,7 +1825,7 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 static int unit_can_be_retired(struct unit *punit)
 {
-  if( punit->fuel ) {   /* fuel abused for barbarian life span */
+  if (punit->fuel > 0) {	/* fuel abused for barbarian life span */
     punit->fuel--;
     return 0;
   }
@@ -2235,7 +2235,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   }
 
   /* Disappearance - 33% chance on coast, when older than barbarian life span */
-  if( is_at_coast(leader->x, leader->y) && !leader->fuel) {
+  if (is_at_coast(leader->x, leader->y) && leader->fuel == 0) {
     if(myrand(3) == 0) {
       freelog(LOG_DEBUG, "Barbarian leader disappeared at %d %d", leader->x, leader->y);
       wipe_unit(leader);

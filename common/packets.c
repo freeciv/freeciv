@@ -2247,7 +2247,7 @@ int send_packet_unit_info(struct connection *pc,
   cptr=put_uint16(cptr, req->info_city_id);
   cptr=put_uint16(cptr, req->serial_num);
 
-  if(req->fuel) cptr=put_uint8(cptr, req->fuel);
+  if(req->fuel > 0) cptr=put_uint8(cptr, req->fuel);
 
   put_uint16(buffer, cptr-buffer);
   return send_packet_data(pc, buffer, cptr-buffer);

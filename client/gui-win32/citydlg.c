@@ -1214,7 +1214,7 @@ void change_callback(struct city_dialog *pdialog)
 	  
 	  /* from unit.h get_unit_name() */
 	  ptype = get_unit_type(i);
-	  if (ptype->fuel)
+	  if (ptype->fuel > 0)
 	    my_snprintf(buf[1], sizeof(buf[1]), "%d/%d/%d(%d)",
 			ptype->attack_strength, ptype->defense_strength,
 			ptype->move_rate / 3, (ptype->move_rate / 3) * ptype->fuel);

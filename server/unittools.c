@@ -393,7 +393,7 @@ static void refuel_air_units_from_carriers(struct player *pplayer)
    * refuel as many missiles as possible */
 
   unit_list_iterate(missile_carriers, punit) {
-    while(punit->fuel) {
+    while(punit->fuel > 0) {
       punit_to_refuel= find_best_air_unit_to_refuel(
           pplayer, punit->x, punit->y, TRUE /*missile */);
       if (!punit_to_refuel)
@@ -406,7 +406,7 @@ static void refuel_air_units_from_carriers(struct player *pplayer)
   /* Now refuel air units from carriers (also not yet refuelled missiles) */
 
   unit_list_iterate(carriers, punit) {
-    while(punit->fuel) {
+    while(punit->fuel > 0) {
       punit_to_refuel= find_best_air_unit_to_refuel(
           pplayer, punit->x, punit->y, FALSE /* any */);
       if (!punit_to_refuel) 

@@ -117,7 +117,7 @@ char *get_unit_info(int id)
   static char info[64];
   struct unit_type *ptype = get_unit_type(id);
 
-  if (ptype->fuel)
+  if (ptype->fuel > 0)
   {
     my_snprintf(info, sizeof(info), "%d/%d/%d(%d)", ptype->attack_strength,
 		ptype->defense_strength,

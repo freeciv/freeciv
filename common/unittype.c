@@ -219,7 +219,7 @@ char *get_unit_name(Unit_Type_id id)
   struct unit_type *ptype;
   static char buffer[256];
   ptype =get_unit_type(id);
-  if (ptype->fuel) {
+  if (ptype->fuel > 0) {
     my_snprintf(buffer, sizeof(buffer),
 		"%s [%d/%d/%d(%d)]", ptype->name, ptype->attack_strength,
 		ptype->defense_strength,

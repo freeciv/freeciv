@@ -1372,7 +1372,7 @@ void id_to_info_row(char *buf[], int column_size, int id, int is_unit,
 
     /* from unit.h get_unit_name() */
     ptype = get_unit_type(id);
-    if (ptype->fuel) {
+    if (ptype->fuel > 0) {
       my_snprintf(buf[1], column_size, "%d/%d/%d(%d)",
 		  ptype->attack_strength, ptype->defense_strength,
 		  ptype->move_rate / 3,
