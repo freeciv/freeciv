@@ -64,63 +64,112 @@ enum table_label {
   LABEL_LAST
 };
 /******************************************************************/
-static GtkWidget *intel_dialog_shell;
+struct intel_dialog {
+  struct player *pplayer;
+  GtkWidget *shell;
 
-static GtkTreeStore *intel_diplstates;
-static GtkListStore *intel_techs;
-static GtkWidget *intel_table_labels[LABEL_LAST];
+  GtkTreeStore *diplstates;
+  GtkListStore *techs;
+  GtkWidget *table_labels[LABEL_LAST];
+};
+
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct intel_dialog
+#include "speclist.h"
+
+#define dialog_list_iterate(dialoglist, pdialog) \
+    TYPED_LIST_ITERATE(struct intel_dialog, dialoglist, pdialog)
+#define dialog_list_iterate_end  LIST_ITERATE_END
+
+static struct dialog_list dialog_list;
+static bool dialog_list_has_been_initialised = FALSE;
 /******************************************************************/
 
 
-static void intel_create_dialog(struct player *p);
+static struct intel_dialog *create_intel_dialog(struct player *p);
+
+/****************************************************************
+...
+*****************************************************************/
+static struct intel_dialog *get_intel_dialog(struct player *pplayer)
+{
+  if (!dialog_list_has_been_initialised) {
+    dialog_list_init(&dialog_list);
+    dialog_list_has_been_initialised = TRUE;
+  }
+
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->pplayer == pplayer) {
+      return pdialog;
+    }
+  } dialog_list_iterate_end;
+
+  return NULL;
+}
 
 /****************************************************************
 ... 
 *****************************************************************/
 void popup_intel_dialog(struct player *p)
 {
-  if(!intel_dialog_shell) {
-    intel_create_dialog(p);
+  struct intel_dialog *pdialog;
+
+  if (!(pdialog = get_intel_dialog(p))) {
+    pdialog = create_intel_dialog(p);
   }
 
-  gtk_window_present(GTK_WINDOW(intel_dialog_shell));
+  update_intel_dialog(p);
+
+  gtk_window_present(GTK_WINDOW(pdialog->shell));
 }
-
-
 
 /****************************************************************
 ...
 *****************************************************************/
-static void intel_create_dialog(struct player *p)
+static void intel_destroy_callback(GtkWidget *w, gpointer data)
 {
-  GtkWidget *notebook, *label, *sw, *view, *table, *alignment;
+  struct intel_dialog *pdialog = (struct intel_dialog *)data;
+
+  dialog_list_unlink(&dialog_list, pdialog);
+
+  free(pdialog);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static struct intel_dialog *create_intel_dialog(struct player *p)
+{
+  struct intel_dialog *pdialog;
+
+  GtkWidget *shell, *notebook, *label, *sw, *view, *table, *alignment;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
 
   int i;
  
+  pdialog = fc_malloc(sizeof(*pdialog));
+  pdialog->pplayer = p;
  
-  intel_dialog_shell =
-    gtk_dialog_new_with_buttons(NULL,
+  shell = gtk_dialog_new_with_buttons(NULL,
       NULL,
       0,
       GTK_STOCK_CLOSE,
       GTK_RESPONSE_CLOSE,
       NULL);
-  gtk_window_set_default_size(GTK_WINDOW(intel_dialog_shell), 350, 350);
-  setup_dialog(intel_dialog_shell, toplevel);
-  gtk_dialog_set_default_response(GTK_DIALOG(intel_dialog_shell),
-        GTK_RESPONSE_CLOSE);
+  pdialog->shell = shell;
+  gtk_window_set_default_size(GTK_WINDOW(shell), 350, 350);
+  setup_dialog(shell, toplevel);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
 
-  g_signal_connect(intel_dialog_shell, "response",
+  g_signal_connect(shell, "destroy",
+                   G_CALLBACK(intel_destroy_callback), pdialog);
+  g_signal_connect(shell, "response",
                    G_CALLBACK(gtk_widget_destroy), NULL);
-  g_signal_connect(intel_dialog_shell, "destroy",
-                   G_CALLBACK(gtk_widget_destroyed), &intel_dialog_shell);
 
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(intel_dialog_shell)->vbox),
-      notebook);
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), notebook);
  
   /* overview tab. */
   table = gtk_table_new(ARRAY_SIZE(table_text), 2, FALSE);
@@ -143,21 +192,21 @@ static void intel_create_dialog(struct player *p)
 	  0, 1, i, i+1, GTK_FILL, GTK_FILL|GTK_EXPAND, 0, 0);
 
       label = gtk_label_new(NULL);
-      intel_table_labels[i] = label;
+      pdialog->table_labels[i] = label;
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_table_attach(GTK_TABLE(table), label,
 	  1, 2, i, i+1, GTK_FILL, GTK_FILL|GTK_EXPAND, 0, 0);
     } else {
-      intel_table_labels[i] = NULL;
+      pdialog->table_labels[i] = NULL;
       gtk_table_set_row_spacing(GTK_TABLE(table), i, 12);
     }
   }
 
   /* diplomacy tab. */
-  intel_diplstates = gtk_tree_store_new(1, G_TYPE_STRING);
+  pdialog->diplstates = gtk_tree_store_new(1, G_TYPE_STRING);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(intel_diplstates));
-  g_object_unref(intel_diplstates);
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->diplstates));
+  g_object_unref(pdialog->diplstates);
   gtk_container_set_border_width(GTK_CONTAINER(view), 6);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
@@ -184,10 +233,10 @@ static void intel_create_dialog(struct player *p)
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), alignment, label);
 
   /* techs tab. */
-  intel_techs = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
+  pdialog->techs = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(intel_techs));
-  g_object_unref(intel_techs);
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->techs));
+  g_object_unref(pdialog->techs);
   gtk_container_set_border_width(GTK_CONTAINER(view), 6);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
@@ -216,9 +265,11 @@ static void intel_create_dialog(struct player *p)
   label = gtk_label_new_with_mnemonic(_("_Techs"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), alignment, label);
 
-  gtk_widget_show_all(GTK_DIALOG(intel_dialog_shell)->vbox);
+  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
 
-  update_intel_dialog(p);
+  dialog_list_insert(&dialog_list, pdialog);
+
+  return pdialog;
 }
 
 /****************************************************************************
@@ -227,7 +278,9 @@ static void intel_create_dialog(struct player *p)
 ****************************************************************************/
 void update_intel_dialog(struct player *p)
 {
-  if (intel_dialog_shell) {
+  struct intel_dialog *pdialog = get_intel_dialog(p);
+
+  if (pdialog) {
     GtkTreeIter diplstates[DS_LAST];
     char buf[64];
     int i;
@@ -235,19 +288,19 @@ void update_intel_dialog(struct player *p)
     /* window title. */
     my_snprintf(buf, sizeof(buf),
 	_("Foreign Intelligence: %s Empire"), get_nation_name(p->nation));
-    gtk_window_set_title(GTK_WINDOW(intel_dialog_shell), buf);
+    gtk_window_set_title(GTK_WINDOW(pdialog->shell), buf);
 
     /* diplomacy tab. */
-    gtk_tree_store_clear(intel_diplstates);
+    gtk_tree_store_clear(pdialog->diplstates);
 
     for (i = 0; i < ARRAY_SIZE(diplstates); i++) {
       GtkTreeIter it;
       GValue v = { 0, };
 
-      gtk_tree_store_append(intel_diplstates, &it, NULL);
+      gtk_tree_store_append(pdialog->diplstates, &it, NULL);
       g_value_init(&v, G_TYPE_STRING);
       g_value_set_static_string(&v, diplstate_text(i));
-      gtk_tree_store_set_value(intel_diplstates, &it, 0, &v);
+      gtk_tree_store_set_value(pdialog->diplstates, &it, 0, &v);
       g_value_unset(&v);
       diplstates[i] = it;
     }
@@ -261,31 +314,32 @@ void update_intel_dialog(struct player *p)
 	continue;
       }
       state = pplayer_get_diplstate(p, other);
-      gtk_tree_store_append(intel_diplstates, &it, &diplstates[state->type]);
+      gtk_tree_store_append(pdialog->diplstates, &it,
+			    &diplstates[state->type]);
       g_value_init(&v, G_TYPE_STRING);
       g_value_set_static_string(&v, other->name);
-      gtk_tree_store_set_value(intel_diplstates, &it, 0, &v);
+      gtk_tree_store_set_value(pdialog->diplstates, &it, 0, &v);
       g_value_unset(&v);
     } players_iterate_end;
 
     /* techs tab. */
-    gtk_list_store_clear(intel_techs);
+    gtk_list_store_clear(pdialog->techs);
 
     for(i=A_FIRST; i<game.num_tech_types; i++)
       if(get_invention(p, i)==TECH_KNOWN) {
 	GtkTreeIter it;
 
-	gtk_list_store_append(intel_techs, &it);
+	gtk_list_store_append(pdialog->techs, &it);
 
-	gtk_list_store_set(intel_techs, &it,
+	gtk_list_store_set(pdialog->techs, &it,
 			   0, (get_invention(game.player_ptr, i)!=TECH_KNOWN),
 			   1, get_tech_name(p, i),
 			   -1);
       }
 
     /* table labels. */
-    for (i = 0; i < ARRAY_SIZE(intel_table_labels); i++) {
-      if (intel_table_labels[i]) {
+    for (i = 0; i < ARRAY_SIZE(pdialog->table_labels); i++) {
+      if (pdialog->table_labels[i]) {
 	struct city *pcity;
 
 	switch (i) {
@@ -327,7 +381,7 @@ void update_intel_dialog(struct player *p)
 	}
 
 	if (buf[0] != '\0') {
-	  gtk_label_set_text(GTK_LABEL(intel_table_labels[i]), buf);
+	  gtk_label_set_text(GTK_LABEL(pdialog->table_labels[i]), buf);
 	}
       }
     }
