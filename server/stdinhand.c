@@ -3006,7 +3006,7 @@ void handle_stdin_input(struct connection *caller, char *str)
     set_rulesetdir(caller, arg);
     break;
   case CMD_SCORE:
-    if(server_state==RUN_GAME_STATE) {
+    if (server_state == RUN_GAME_STATE || server_state == GAME_OVER_STATE) {
       report_scores(FALSE);
     } else {
       cmd_reply(cmd, caller, C_SYNTAX,
