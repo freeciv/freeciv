@@ -642,7 +642,7 @@ static void log_civ_score(void)
 		{
 		  if (!(fgets (line, sizeof (line), fp)))
 		    {
-		      if (ferror (fp)) {
+		      if (ferror(fp) != 0) {
 			freelog(LOG_ERROR, "Can't read scorelog file header!");
 		      } else {
 			freelog(LOG_ERROR, "Unterminated scorelog file header!");
@@ -717,7 +717,7 @@ static void log_civ_score(void)
 
 	      if (oper == SL_UNSPEC)
 		{
-		  if (fseek (fp, -100, SEEK_END))
+		  if (fseek(fp, -100, SEEK_END) != 0)
 		    {
 		      freelog (LOG_ERROR,
 			       "Can't seek to end of scorelog file!");
@@ -726,7 +726,7 @@ static void log_civ_score(void)
 
 		  if (!(fgets (line, sizeof (line), fp)))
 		    {
-		      if (ferror (fp)) {
+		      if (ferror(fp) != 0) {
 			freelog(LOG_ERROR, "Can't read scorelog file!");
 		      } else {
 			freelog(LOG_ERROR, "Unterminated scorelog file!");
@@ -744,7 +744,7 @@ static void log_civ_score(void)
 
 		  if (!(fgets (line, sizeof (line), fp)))
 		    {
-		      if (ferror (fp))
+		      if (ferror(fp) != 0)
 			{
 			  freelog (LOG_ERROR,
 				   "Can't read scorelog file!");

@@ -2874,7 +2874,7 @@ void handle_stdin_input(struct connection *caller, char *str)
     return;
   }
 
-  for (; *cptr_s && isspace(*cptr_s); cptr_s++) {
+  for (; *cptr_s != '\0' && isspace(*cptr_s); cptr_s++) {
     /* nothing */
   }
   sz_strlcpy(arg, cptr_s);
