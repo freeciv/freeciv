@@ -440,7 +440,8 @@ void city_add_improvement(struct city *pcity,Impr_Type_id impr);
 void city_remove_improvement(struct city *pcity,Impr_Type_id impr);
 
 /* city update functions */
-void generic_city_refresh(struct city *pcity);
+void generic_city_refresh(struct city *pcity,
+			  bool refresh_trade_route_cities);
 void adjust_city_free_cost(int *num_free, int *this_cost);
 int city_corruption(struct city *pcity, int trade);
 int city_specialists(struct city *pcity);                 /* elv+tax+scie */

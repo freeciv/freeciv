@@ -1978,7 +1978,8 @@ static void city_support(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void generic_city_refresh(struct city *pcity)
+void generic_city_refresh(struct city *pcity,
+			  bool refresh_trade_route_cities)
 {
   int prev_tile_trade = pcity->tile_trade;
 
@@ -1993,14 +1994,14 @@ void generic_city_refresh(struct city *pcity)
   citizen_happy_wonders(pcity);	/* happy wonders & fundamentalism */
   unhappy_city_check(pcity);
 
-  if (pcity->tile_trade != prev_tile_trade) {
+  if (refresh_trade_route_cities && pcity->tile_trade != prev_tile_trade) {
     int i;
 
     for (i = 0; i < NUM_TRADEROUTES; i++) {
       struct city *pcity2 = find_city_by_id(pcity->trade[i]);
 
       if (pcity2) {
-	generic_city_refresh(pcity2);
+	generic_city_refresh(pcity2, FALSE);
       }
     }
   }
