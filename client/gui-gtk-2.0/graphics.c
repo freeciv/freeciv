@@ -385,32 +385,35 @@ void free_sprite(SPRITE * s)
 void create_overlay_unit(struct canvas *pcanvas, int i)
 {
   enum color_std bg_color;
-  
+  int x1, x2, y1, y2;
+  int width, height;
+  struct unit_type *type = get_unit_type(i);
+
+  sprite_get_bounding_box(type->sprite, &x1, &y1, &x2, &y2);
+  if (pcanvas->type == CANVAS_PIXBUF) {
+    width = gdk_pixbuf_get_width(pcanvas->v.pixbuf);
+    height = gdk_pixbuf_get_height(pcanvas->v.pixbuf);
+  } else {
+    /* Guess */
+    width = UNIT_TILE_WIDTH;
+    height = UNIT_TILE_HEIGHT;
+  }
+
   /* Give tile a background color, based on the type of unit */
-  switch (get_unit_type(i)->move_type) {
+  switch (type->move_type) {
     case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
     case SEA_MOVING:  bg_color = COLOR_STD_OCEAN;  break;
     case HELI_MOVING: bg_color = COLOR_STD_YELLOW; break;
     case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
     default:	      bg_color = COLOR_STD_BLACK;  break;
   }
-  canvas_put_rectangle(pcanvas, bg_color,
-      0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-
- 
-  /* If we're using flags, put one on the tile */
-  if(!solid_color_behind_units)  {
-    struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
-
-    canvas_put_sprite_full(pcanvas, 0, 0, flag);
-  }
+  canvas_put_rectangle(pcanvas, bg_color, 0, 0, width, height);
 
   /* Finally, put a picture of the unit in the tile */
-  if(i<game.num_unit_types) {
-    struct Sprite *s=get_unit_type(i)->sprite;
-
-    canvas_put_sprite_full(pcanvas, 0, 0, s);
-  }
+  canvas_put_sprite(pcanvas, 0, 0, type->sprite, 
+      (x2 + x1 - width) / 2, (y1 + y2 - height) / 2, 
+      UNIT_TILE_WIDTH - (x2 + x1 - width) / 2, 
+      UNIT_TILE_HEIGHT - (y1 + y2 - height) / 2);
 }
 
 /***************************************************************************

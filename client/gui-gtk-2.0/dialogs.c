@@ -51,6 +51,7 @@
 #include "tilespec.h"
 
 #include "dialogs.h"
+#include "wldlg.h"
 
 /******************************************************************/
 GtkWidget *message_dialog_start(GtkWindow *parent, const gchar *name,
@@ -1877,7 +1878,12 @@ void popdown_races_dialog(void)
   if (races_shell) {
     gtk_widget_destroy(races_shell);
   }
+
+  /* We're probably starting a new game, maybe with a new ruleset.
+     So we warn the worklist dialog. */
+  blank_max_unit_size();
 }
+
 
 /****************************************************************
   ...

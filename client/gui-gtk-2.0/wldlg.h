@@ -33,4 +33,6 @@ void refresh_worklist(GtkWidget *editor);
 
 void add_worklist_dnd_target(GtkWidget *w);
 
+void blank_max_unit_size(void);
+
 #endif				/* FC__WLDLG_H */

@@ -47,6 +47,7 @@
 #include "options.h"
 #include "tilespec.h"
 #include "text.h"
+#include "wldlg.h"
 
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
@@ -1125,4 +1126,5 @@ void tileset_changed(void)
 {
   reset_city_dialogs();
   reset_unit_table();
+  blank_max_unit_size();
 }

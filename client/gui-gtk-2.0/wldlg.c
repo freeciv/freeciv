@@ -55,9 +55,38 @@ enum {
 
 static GtkListStore *worklists_store;
 
+static int max_unit_height = -1, max_unit_width = -1;
 
 static void popup_worklist(struct worklist *pwl);
 static void popdown_worklist(struct worklist *pwl);
+
+
+/****************************************************************
+...
+*****************************************************************/
+void blank_max_unit_size(void)
+{
+  max_unit_height = -1;
+  max_unit_width = -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void update_max_unit_size(void)
+{
+  max_unit_height = 0;
+  max_unit_width = 0;
+
+  unit_type_iterate(i) {
+    struct unit_type *type = get_unit_type(i);
+    int x1, x2, y1, y2;
+
+    sprite_get_bounding_box(type->sprite, &x1, &y1, &x2, &y2);
+    max_unit_width = MAX(max_unit_width, x2 - x1);
+    max_unit_height = MAX(max_unit_height, y2 - y1);
+  } unit_type_iterate_end;
+}
 
 
 /****************************************************************
@@ -896,7 +925,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
       struct canvas store;
 
       pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-	  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+	  max_unit_width, max_unit_height);
 
       store.type = CANVAS_PIXBUF;
       store.v.pixbuf = pix;
@@ -966,7 +995,11 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
 	  i, titles[i], rend, cell_render_func, ppcity, NULL);
       col = gtk_tree_view_get_column(view, i);
 
-      if (!show_task_icons) {
+      if (show_task_icons) {
+	if (max_unit_width == -1 || max_unit_height == -1) {
+	  update_max_unit_size();
+	}
+      } else {
 	g_object_set(col, "visible", FALSE, NULL);
       }
     } else {
@@ -989,7 +1022,7 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
       }
     }
     if (show_task_icons) {
-      g_object_set(rend, "height", UNIT_TILE_HEIGHT, NULL);
+      g_object_set(rend, "height", max_unit_height, NULL);
     }
   }
 }
