@@ -31,7 +31,7 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo);
 void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 				struct unit *pdefender);
 void handle_unit_enter_hut(struct unit *punit);
-void handle_unit_move_request(struct player *pplayer, struct unit *punit,
+int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y);
 void handle_unit_help_build_wonder(struct player *pplayer, 
 				   struct packet_unit_request *req);

@@ -439,9 +439,10 @@ void handle_unit_enter_hut(struct unit *punit)
   send_player_info(pplayer, pplayer);
 }
 /**************************************************************************
-...
+  Will try to move to/attack the tile dest_x,dest_y.  Returns true if this
+  could be done, false if it couldn't for some reason.
 **************************************************************************/
-void handle_unit_move_request(struct player *pplayer, struct unit *punit,
+int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y)
 {
   int unit_id;
@@ -450,21 +451,25 @@ void handle_unit_move_request(struct player *pplayer, struct unit *punit,
   
   unit_id=punit->id;
   if (do_airline(punit, dest_x, dest_y))
-    return;
+    return 1;
   pdefender=get_defender(pplayer, punit, dest_x, dest_y);
 
   if(pdefender && pdefender->owner!=punit->owner) {
     if(can_unit_attack_tile(punit,dest_x , dest_y)) {
-      if(punit->moves_left<=0)
+      if(punit->moves_left<=0)  {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 			 "Game: This unit has no moves left.");
-      else
-	  handle_unit_attack_request(pplayer, punit, pdefender);
-    } else
+        return 0;
+      } else {
+	handle_unit_attack_request(pplayer, punit, pdefender);
+        return 1;
+      };
+    } else {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       "Game: You can't attack there.");
-  }
-  else if(can_unit_move_to_tile(punit, dest_x, dest_y) && try_move_unit(punit, dest_x, dest_y)) {
+      return 0;
+    };
+  } else if(can_unit_move_to_tile(punit, dest_x, dest_y) && try_move_unit(punit, dest_x, dest_y)) {
     int src_x, src_y;
     struct city *pcity;
     
@@ -473,14 +478,13 @@ void handle_unit_move_request(struct player *pplayer, struct unit *punit,
 					  !is_military_unit(punit)))) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 			 "Game: Only ground troops can take over a city.");
-	return;
+	return 0;
       }
     }
 
     if(!unit_list_find(&pplayer->units, unit_id))
-      return; /* diplomat or caravan action killed unit */
+      return 0; /* diplomat or caravan action killed unit */
 
-    
     /* light the squares the unit is entering */
     light_square(pplayer, dest_x, dest_y, 
 		 get_unit_type(punit->type)->vision_range);
@@ -524,7 +528,10 @@ void handle_unit_move_request(struct player *pplayer, struct unit *punit,
 
     if((map_get_tile(dest_x, dest_y)->special&S_HUT))
       handle_unit_enter_hut(punit);
+    
+    return 1;
   }
+  return 0;
 }
 /**************************************************************************
 ...

@@ -147,12 +147,14 @@ void do_unit_goto(struct player *pplayer, struct unit *punit)
       x=me->from_x;
       y=me->from_y;
 
-      if(!can_unit_move_to_tile(punit, x, y)) {
-	punit->activity=ACTIVITY_IDLE;
-	send_unit_info(0, punit, 0);
-	return;
+      if(!punit->moves_left) return;
+      if(!handle_unit_move_request(pplayer, punit, x, y)) {
+	if(punit->moves_left) {
+	  punit->activity=ACTIVITY_IDLE;
+	  send_unit_info(0, punit, 0);
+	  return;
+	};
       }
-      handle_unit_move_request(pplayer, punit, x, y);
       if(!unit_list_find(&pplayer->units, id))
 	return; /* unit died during goto! */
 
