@@ -14,6 +14,9 @@
 #ifndef FC__MEM_H
 #define FC__MEM_H
 
+#include <stdlib.h>		/* size_t; actually stddef.h, but stdlib.h
+				   might be more reliable? --dwp */
+
 /* fc_malloc, fc_realloc, fc_calloc:
  * fc_ stands for freeciv; the return value is checked,
  * and freeciv-specific processing occurs if it is NULL:
