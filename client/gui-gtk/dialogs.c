@@ -2365,3 +2365,12 @@ void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 }
 
 void dummy_close_callback(gpointer data){}
+
+/********************************************************************** 
+  This function is called when the client disconnects or the game is
+  over.  It should close all dialog windows for that game.
+***********************************************************************/
+void popdown_all_game_dialogs(void)
+{
+  /* TODO */
+}

@@ -2448,3 +2448,12 @@ void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data)
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
 
 }
+
+/********************************************************************** 
+  This function is called when the client disconnects or the game is
+  over.  It should close all dialog windows for that game.
+***********************************************************************/
+void popdown_all_game_dialogs(void)
+{
+  /* TODO */
+}

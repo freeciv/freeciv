@@ -1985,3 +1985,12 @@ popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   fcwin_set_box(hdlg,vbox);
   ShowWindow(hdlg,SW_SHOWNORMAL);
 }
+
+/********************************************************************** 
+  This function is called when the client disconnects or the game is
+  over.  It should close all dialog windows for that game.
+***********************************************************************/
+void popdown_all_game_dialogs(void)
+{
+  /* TODO */
+}

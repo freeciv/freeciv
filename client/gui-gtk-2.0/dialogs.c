@@ -2306,3 +2306,12 @@ gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
   return TRUE;
 }
+
+/********************************************************************** 
+  This function is called when the client disconnects or the game is
+  over.  It should close all dialog windows for that game.
+***********************************************************************/
+void popdown_all_game_dialogs(void)
+{
+  /* TODO */
+}

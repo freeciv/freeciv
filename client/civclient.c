@@ -679,6 +679,7 @@ void set_client_state(enum client_states newstate)
     }
     else if(client_state==CLIENT_PRE_GAME_STATE) {
       popdown_all_city_dialogs();
+      popdown_all_game_dialogs();
       close_all_diplomacy_dialogs();
       set_unit_focus_no_center(NULL);
       clear_notify_window();
