@@ -434,7 +434,7 @@ void city_report_dialog_update(void)
 
   if (!cityrep_wnd)
     return;
-  if (delay_report_update)
+  if (is_report_dialogs_frozen())
     return;
 
   report_title = get_report_title(_("City Advisor"));
@@ -466,7 +466,7 @@ void city_report_dialog_update_city(struct city *pcity)
 
   if (!cityrep_wnd)
     return;
-  if (delay_report_update)
+  if (is_report_dialogs_frozen())
     return;
 
   entries = xget(cityrep_listview, MUIA_NList_Entries);

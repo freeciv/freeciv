@@ -60,25 +60,6 @@ static void meswin_popcity_callback(GtkWidget * w, gpointer data);
 
 #define N_MSG_VIEW 24	       /* max before scrolling happens */
 
-static int delay_meswin_update=0;
-
-/******************************************************************
- Turn off updating of message window
-*******************************************************************/
-void meswin_update_delay_on(void)
-{
-  delay_meswin_update=1;
-}
-
-/******************************************************************
- Turn on updating of message window
-*******************************************************************/
-void meswin_update_delay_off(void)
-{
-  delay_meswin_update=0;
-}
-
-
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
@@ -98,6 +79,13 @@ void popup_meswin_dialog(void)
     update_meswin_dialog();
 }
 
+/****************************************************************
+...
+*****************************************************************/
+bool is_meswin_open(void)
+{
+  return meswin_dialog_shell != NULL;
+}
 
 /****************************************************************
 ...
@@ -149,7 +137,7 @@ static void meswin_cell_data_func(GtkTreeViewColumn *col,
 /****************************************************************
 ...
 *****************************************************************/
-void create_meswin_dialog(void)
+static void create_meswin_dialog(void)
 {
   static gchar *titles_[1] = { N_("Messages") };
   static gchar **titles;
@@ -263,7 +251,7 @@ static void meswin_allocate(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void clear_notify_window(void)
+void real_clear_notify_window(void)
 {
   int i;
   meswin_allocate();
@@ -276,7 +264,6 @@ void clear_notify_window(void)
   }
   string_ptrs[0] = NULL;
   messages_total = 0;
-  update_meswin_dialog();
 
   if(meswin_dialog_shell) {
     gtk_widget_set_sensitive(meswin_goto_command, FALSE);
@@ -287,7 +274,7 @@ void clear_notify_window(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void add_notify_window(struct packet_generic_message *packet)
+void real_add_notify_window(struct packet_generic_message *packet)
 {
   char *s;
   int nspc;
@@ -316,45 +303,29 @@ void add_notify_window(struct packet_generic_message *packet)
   string_ptrs[messages_total] = s;
   messages_total++;
   string_ptrs[messages_total] = NULL;
-
-  if (!delay_meswin_update) {
-    update_meswin_dialog();
-  }
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void update_meswin_dialog(void)
+void real_update_meswin_dialog(void)
 {
-  if (!meswin_dialog_shell) { 
-    if (messages_total > 0 &&
-        (!game.player_ptr->ai.control || ai_popup_windows)) {
-      popup_meswin_dialog();
-      /* Can return here because popup_meswin_dialog will call
-       * this very function again.
-       */
-      return;
-    }
-  }
-  if(meswin_dialog_shell) {
-    int i;
-    GtkTreeIter it;
+  int i;
+  GtkTreeIter it;
 
-    gtk_list_store_clear(meswin_store);
+  gtk_list_store_clear(meswin_store);
 
-    for (i=0; i<messages_total; i++) {
-      GValue value = { 0, };
+  for (i = 0; i < messages_total; i++) {
+    GValue value = { 0, };
 
-      gtk_list_store_append(meswin_store, &it);
+    gtk_list_store_append(meswin_store, &it);
 
-      g_value_init(&value, G_TYPE_STRING);
-      g_value_set_static_string(&value, string_ptrs[i]);
-      gtk_list_store_set_value(meswin_store, &it, 0, &value);
-      g_value_unset(&value);
-      
-      meswin_not_visited_item(i);
-    }
+    g_value_init(&value, G_TYPE_STRING);
+    g_value_set_static_string(&value, string_ptrs[i]);
+    gtk_list_store_set_value(meswin_store, &it, 0, &value);
+    g_value_unset(&value);
+
+    meswin_not_visited_item(i);
   }
 }
 
@@ -450,7 +421,7 @@ void meswin_goto_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void meswin_popcity_callback(GtkWidget *w, gpointer data)
+static void meswin_popcity_callback(GtkWidget *w, gpointer data)
 {
   struct city *pcity;
   int x, y;

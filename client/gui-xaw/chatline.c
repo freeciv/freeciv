@@ -73,15 +73,14 @@ void chatline_key_send(Widget w)
 
  Now uses window's font size and width.  Assumes fixed-width font.  --jjm
 **************************************************************************/
-void append_output_window(char *astring)
+void real_append_output_window(const char *input_string)
 {
   static int m_width=0;
 
   Dimension windowwth;
   int maxlinelen;
   String theoutput;
-  char *newout, *rmcr;
-  char *input_string = astring;
+  char *newout, *rmcr, *astring = mystrdup(input_string);
 
   if (!m_width) {
     XFontStruct *out_font;
@@ -100,7 +99,6 @@ void append_output_window(char *astring)
 	  m_width, (int)windowwth, maxlinelen);
 
   if (strlen(astring) > maxlinelen) {
-    astring = mystrdup(astring);
     wordwrap_string(astring, maxlinelen);
   }
   
@@ -120,9 +118,7 @@ void append_output_window(char *astring)
   XawTextEnableRedisplay(outputwindow_text);
   
   free(newout);
-  if (astring != input_string) {
-    free(astring);
-  }
+  free(astring);
 }
 
 /**************************************************************************

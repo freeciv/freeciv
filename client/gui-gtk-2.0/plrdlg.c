@@ -73,25 +73,6 @@ static void players_sship_callback(GtkWidget *w, gpointer data);
 #define NUM_COLUMNS 11    /* number of columns in total */
 #define DEF_SORT_COLUMN 2 /* default sort column (1 = nation) */
 
-static int delay_plrdlg_update=0;
-
-/******************************************************************
- Turn off updating of player dialog
-*******************************************************************/
-void plrdlg_update_delay_on(void)
-{
-  delay_plrdlg_update=1;
-}
-
-/******************************************************************
- Turn on updating of player dialog
-*******************************************************************/
-void plrdlg_update_delay_off(void)
-{
-  delay_plrdlg_update=0;
-}
-
-
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
@@ -395,7 +376,7 @@ static void build_flag(int playerindex)
 **************************************************************************/
 void update_players_dialog(void)
 {
-  if (players_dialog_shell && !delay_plrdlg_update) {
+  if (players_dialog_shell && !is_plrdlg_frozen()) {
     GdkColor *state_col;
     char *row_texts[NUM_COLUMNS];
     int i, j, row, sort_needed = 0;

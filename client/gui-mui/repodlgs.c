@@ -61,8 +61,6 @@ static Object *science_researched_group;
 static STRPTR *help_goal_entries;
 static STRPTR *help_research_entries;
 
-int delay_report_update = 0;
-
 static void create_trade_report_dialog(void);
 void create_activeunits_report_dialog(bool make_modal);
 
@@ -86,30 +84,12 @@ void request_player_research(int to)
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RESEARCH);
 }
 
-
-/******************************************************************
- Turn off updating of reports
-*******************************************************************/
-void report_update_delay_on(void)
-{
-  delay_report_update = 1;
-}
-
-/******************************************************************
- Turn on updating of reports
-*******************************************************************/
-
-void report_update_delay_off(void)
-{
-  delay_report_update = 0;
-}
-
 /******************************************************************
 ...
 *******************************************************************/
 void update_report_dialogs(void)
 {
-  if (delay_report_update)
+  if (is_report_dialogs_frozen())
     return;
   activeunits_report_dialog_update();
   economy_report_dialog_update();
@@ -610,7 +590,7 @@ void economy_report_dialog_update(void)
   static struct improvement_entry entries[B_LAST];
   int i, entries_used = 0;
 
-  if (delay_report_update)
+  if (is_report_dialogs_frozen())
     return;
 
   if (!trade_wnd)
@@ -871,7 +851,7 @@ void activeunits_report_dialog_update(void)
 
   if (!actunit_wnd)
     return;
-  if (delay_report_update)
+  if (is_report_dialogs_frozen())
     return;
 
   report_title = get_report_title(_("Military Report"));

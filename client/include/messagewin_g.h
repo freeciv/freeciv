@@ -15,12 +15,12 @@
 
 #include "packets.h"
 
-void popup_meswin_dialog(void);
-void update_meswin_dialog(void);
-void clear_notify_window(void);
-void add_notify_window(struct packet_generic_message *packet);
+#include "messagewin_common.h"
 
-void meswin_update_delay_on(void);
-void meswin_update_delay_off(void);
+void popup_meswin_dialog(void);
+bool is_meswin_open(void);
+void real_update_meswin_dialog(void);
+void real_clear_notify_window(void);
+void real_add_notify_window(struct packet_generic_message *packet);
      
 #endif  /* FC__MESSAGEWIN_G_H */

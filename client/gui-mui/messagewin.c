@@ -59,25 +59,6 @@ static Object *mes_popcity_button;
 
 static void create_meswin_dialog(void);
 
-static int delay_meswin_update = 0;
-
-/******************************************************************
- Turn off updating of message window
-*******************************************************************/
-void meswin_update_delay_on(void)
-{
-  delay_meswin_update = 1;
-}
-
-/******************************************************************
- Turn on updating of message window
-*******************************************************************/
-void meswin_update_delay_off(void)
-{
-  delay_meswin_update = 0;
-}
-
-
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
@@ -90,6 +71,14 @@ void popup_meswin_dialog(void)
     update_meswin_dialog();
     set(mes_wnd, MUIA_Window_Open, TRUE);
   }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+bool is_meswin_open(void)
+{
+  return mes_wnd != NULL;
 }
 
 struct message_entry
@@ -270,8 +259,7 @@ static void create_meswin_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-
-void clear_notify_window(void)
+void real_clear_notify_window(void)
 {
   if (mes_wnd)
   {
@@ -282,7 +270,7 @@ void clear_notify_window(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void add_notify_window(struct packet_generic_message *packet)
+void real_add_notify_window(struct packet_generic_message *packet)
 {
   struct message_entry entry;
 
@@ -310,13 +298,6 @@ void add_notify_window(struct packet_generic_message *packet)
 **************************************************************************/
 void update_meswin_dialog(void)
 {
-  if (!mes_wnd)
-  {
-    create_meswin_dialog();
-    if (!mes_wnd)
-      return;
-  }
-
   if (xget(mes_listview, MUIA_NList_Entries))
   {
     if (!xget(mes_wnd, MUIA_Window_Open))

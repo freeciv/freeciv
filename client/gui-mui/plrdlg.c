@@ -53,8 +53,6 @@ static Object *player_vision_button;
 static Object *player_spaceship_button;
 static struct Hook player_players_disphook;
 
-static int delay_plrdlg_update=0;
-
 static void create_players_dialog(void);
 
 /****************************************************************
@@ -68,22 +66,6 @@ void request_diplomacy_init_meeting(int plrno0, int plrno1)
   pa.plrno1 = plrno1;
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
 			     &pa);
-}
-
-/******************************************************************
- Turn off updating of player dialog
-*******************************************************************/
-void plrdlg_update_delay_on(void)
-{
-  delay_plrdlg_update=1;
-}
-
-/******************************************************************
- Turn on updating of player dialog
-*******************************************************************/
-void plrdlg_update_delay_off(void)
-{
-  delay_plrdlg_update=0;
 }
 
 /****************************************************************
@@ -377,7 +359,7 @@ void update_players_dialog(void)
 {
   int i;
 
-  if (!player_wnd || delay_plrdlg_update)
+  if (!player_wnd || is_plrdlg_frozen())
     return;
 
   set(player_players_listview, MUIA_NList_Quiet, TRUE);

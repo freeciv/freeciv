@@ -75,25 +75,6 @@ static void players_sship_callback(Widget w, XtPointer client_data,
 
 /******************************************************************/
 
-static int delay_plrdlg_update=0;
-
-/******************************************************************
- Turn off updating of player dialog
-*******************************************************************/
-void plrdlg_update_delay_on(void)
-{
-  delay_plrdlg_update=1;
-}
-
-/******************************************************************
- Turn on updating of player dialog
-*******************************************************************/
-void plrdlg_update_delay_off(void)
-{
-  delay_plrdlg_update=0;
-}
-
-
 /****************************************************************
 popup the dialog somewhat inside the main-window 
 *****************************************************************/
@@ -202,7 +183,7 @@ void create_players_dialog(void)
 **************************************************************************/
 void update_players_dialog(void)
 {
-   if(players_dialog_shell && !delay_plrdlg_update) {
+   if(players_dialog_shell && !is_plrdlg_frozen()) {
     int i,j;
     Dimension width;
     static char *namelist_ptrs[MAX_NUM_PLAYERS];

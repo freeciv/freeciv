@@ -13,7 +13,9 @@
 #ifndef FC__CHATLINE_G_H
 #define FC__CHATLINE_G_H
 
-void append_output_window(char *astring);
+#include "chatline_common.h"
+
+void real_append_output_window(const char *astring);
 void log_output_window(void);
 void clear_output_window(void);
 

@@ -26,6 +26,7 @@
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
+#include "log.h"
 #include "packets.h"
 #include "shared.h"
 #include "support.h"
@@ -38,6 +39,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "packhand.h"
 #include "optiondlg.h"
 #include "options.h"
 #include "repodlgs.h"
@@ -260,20 +262,24 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
   else
     {
       bool is_unit = cid_is_unit(cid);
-      int id = cid_id(cid);
+      int last_request_id = 0, id = cid_id(cid);
       GList* selection = GTK_CLIST(city_list)->selection;
 
       g_assert(selection);
-  
-      for(; selection; selection = g_list_next(selection))
-	{
-	  struct packet_city_request packet;
 
-	  packet.city_id=city_from_glist(selection)->id;
-	  packet.build_id=id;
-	  packet.is_build_id_unit_id=is_unit;
-	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-	}
+      connection_do_buffer(&aconnection);  
+      for (; selection; selection = g_list_next(selection)) {
+	struct packet_city_request packet;
+
+	packet.city_id = city_from_glist(selection)->id;
+	packet.build_id = id;
+	packet.is_build_id_unit_id = is_unit;
+	last_request_id = send_packet_city_request(&aconnection, &packet,
+						   PACKET_CITY_CHANGE);
+      }
+
+      connection_do_unbuffer(&aconnection);
+      reports_freeze_till(last_request_id);
     }
 }
 
@@ -382,6 +388,8 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
       copy = g_list_append(copy, city_from_glist(selection));
     }
 
+    reports_freeze();
+
     for (; copy; copy = g_list_next(copy)) {
       struct city *pcity = copy->data;
 
@@ -392,6 +400,7 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
       }
       refresh_city_dialog(pcity);
     }
+    reports_thaw();
 
     g_list_free(copy);
   }
@@ -1221,7 +1230,7 @@ void city_report_dialog_update(void)
     int   i;
     struct city_report_spec *spec;
 
-  if(delay_report_update) return;
+  if(is_report_dialogs_frozen()) return;
   if(!city_dialog_shell) return;
 
     for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)
@@ -1264,7 +1273,7 @@ void city_report_dialog_update_city(struct city *pcity)
   int   i;
   struct city_report_spec *spec;
 
-  if(delay_report_update) return;
+  if(is_report_dialogs_frozen()) return;
   if(!city_dialog_shell) return;
 
   for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)

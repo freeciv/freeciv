@@ -45,7 +45,6 @@
                            
 #include "cityrep.h"
 extern HINSTANCE freecivhinst;
-extern int delay_report_update;   
 extern HFONT font_12courier;
 extern struct connection aconnection;   
 int max_changemenu_id;
@@ -501,8 +500,7 @@ static void cityrep_select(HWND hWnd)
 static void cityrep_change_menu(HWND hWnd, cid cid)
 {  
   int cityids[256];
-  int selcount;
-  int i;
+  int selcount, i, last_request_id = 0;
   struct city *pcity; 
   bool is_unit = cid_is_unit(cid);
   int number = cid_id(cid);
@@ -512,18 +510,23 @@ static void cityrep_change_menu(HWND hWnd, cid cid)
   selcount=MIN(256,selcount);
   selcount=ListBox_GetSelItems(GetDlgItem(hWnd,ID_CITYREP_LIST),
 			       selcount,&cityids[0]);
-  for (i=0;i<selcount;i++)
-    {          
-      struct packet_city_request packet;         
-      pcity=(struct city *)ListBox_GetItemData(GetDlgItem(hWnd,
-							  ID_CITYREP_LIST),
-					       cityids[i]);
-      packet.city_id=pcity->id;
-      packet.build_id=number;
-      packet.is_build_id_unit_id=is_unit;
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);  
-      ListBox_SetSel(GetDlgItem(hWnd,ID_CITYREP_LIST),FALSE,cityids[i]);
-    }
+
+  connection_do_buffer(&aconnection);
+  for (i = 0; i < selcount; i++) {
+    struct packet_city_request packet;
+    pcity = (struct city *) ListBox_GetItemData(GetDlgItem(hWnd,
+							   ID_CITYREP_LIST),
+						cityids[i]);
+    packet.city_id = pcity->id;
+    packet.build_id = number;
+    packet.is_build_id_unit_id = is_unit;
+    last_request_id =
+	send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+    ListBox_SetSel(GetDlgItem(hWnd, ID_CITYREP_LIST), FALSE, cityids[i]);
+  }
+
+  connection_do_unbuffer(&aconnection);
+  disable_cityrep_update_till(last_request_id);
 }
 
 /**************************************************************************
@@ -1142,7 +1145,7 @@ city_report_dialog_update(void)
   int   i;
   char *report_title;
   struct city_report_spec *spec; 
-  if(delay_report_update) return;    
+  if(is_report_dialogs_frozen()) return;    
   if (!hCityRep)
     return;
   report_title=get_report_title(_("City Advisor"));      
@@ -1180,7 +1183,7 @@ city_report_dialog_update_city(struct city *pcity)
   int   i,nCount;     
   struct city_report_spec *spec; 
   HWND hLst; 
-  if(delay_report_update) return;
+  if(is_report_dialogs_frozen()) return;
   if(!hCityRep) return;     
   hLst=GetDlgItem(hCityRep,ID_CITYREP_LIST);
   for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)

@@ -70,6 +70,7 @@
 
 static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate);
+static int reports_thaw_request_id = 0;
 
 /**************************************************************************
 ...
@@ -122,6 +123,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
     aconnection.established = TRUE;
     game.conn_id = packet->conn_id;
+    reports_freeze();
     agents_game_joined();
   } else {
     my_snprintf(msg, sizeof(msg),
@@ -669,15 +671,6 @@ void handle_new_year(struct packet_new_year *ppacket)
   turn_gold_difference=game.player_ptr->economic.gold-last_turn_gold_amount;
   last_turn_gold_amount=game.player_ptr->economic.gold;
 
-  plrdlg_update_delay_off();
-  update_players_dialog();
-
-  report_update_delay_off();
-  update_report_dialogs();
-
-  meswin_update_delay_off();
-  update_meswin_dialog();
-
   update_city_descriptions();
 
   if (sound_bell_at_new_turn &&
@@ -694,9 +687,7 @@ void handle_new_year(struct packet_new_year *ppacket)
 void handle_before_new_year(void)
 {
   clear_notify_window();
-  plrdlg_update_delay_on();
-  report_update_delay_on();
-  meswin_update_delay_on();
+  reports_freeze();
   /*
    * The local idea of the game turn is increased here since the
    * client will get unit updates (reset of move points for example)
@@ -715,6 +706,8 @@ void handle_before_new_year(void)
 **************************************************************************/
 void handle_start_turn(void)
 {
+  reports_thaw();
+
   agents_start_turn();
 
   if(game.player_ptr->ai.control && !ai_manual_turn_done) {
@@ -2311,6 +2304,12 @@ void handle_processing_finished(void)
   aconnection.client.request_id_of_currently_handled_packet = 0;
 
   agents_processing_finished();
+
+  if (reports_thaw_request_id != 0 && reports_thaw_request_id ==
+      aconnection.client.last_processed_request_id_seen) {
+    reports_thaw();
+    reports_thaw_request_id = 0;
+  }
 }
 
 /**************************************************************************
@@ -2336,4 +2335,12 @@ void notify_about_outgoing_packet(struct connection *pc,
 	  packet_type, size, request_id);
 
   assert(request_id);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void set_reports_thaw_request(int request_id)
+{
+  reports_thaw_request_id = request_id;
 }

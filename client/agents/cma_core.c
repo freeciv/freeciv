@@ -710,6 +710,7 @@ static bool apply_result_on_server(struct city *pcity,
 				    &packet);
     stats.refresh_forced++;
   }
+  reports_freeze_till(last_request_id);
 
   connection_do_unbuffer(&aconnection);
 

@@ -15,8 +15,8 @@
 
 #include "shared.h"		/* bool type */
 
-void report_update_delay_on(void);
-void report_update_delay_off(void);
+#include "repodlgs_common.h"
+
 char *get_report_title(char *report_name);
 void update_report_dialogs(void);
 

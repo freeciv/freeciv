@@ -22,6 +22,4 @@ void activeunits_msg_close(Widget w);
 void sciencereport_msg_close(Widget w);
 void economyreport_msg_close(Widget w);
 
-extern int delay_report_update;
-
 #endif  /* FC__REPODLGS_H */

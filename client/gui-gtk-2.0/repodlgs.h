@@ -15,6 +15,4 @@
 
 #include "repodlgs_g.h"
 
-extern int delay_report_update;
-
 #endif  /* FC__REPODLGS_H */

@@ -68,7 +68,7 @@ void inputline_return(GtkEntry *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void append_output_window(char *astring)
+void real_append_output_window(const char *astring)
 {
   GtkTextBuffer *buf;
   GtkTextIter i;

@@ -294,8 +294,10 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
     packet.build_id = id;
     packet.is_build_id_unit_id = is_unit;
 
+    connection_do_buffer(&aconnection);
     gtk_tree_selection_selected_foreach(city_selection, impr_or_unit_iterate,
 	&packet);
+    connection_do_unbuffer(&aconnection);
   }
 }
 
@@ -365,8 +367,10 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
       }
     }
   } else {
+    reports_freeze();
     gtk_tree_selection_selected_foreach(city_selection,
-	cma_iterate, GINT_TO_POINTER(idx));
+					cma_iterate, GINT_TO_POINTER(idx));
+    reports_thaw();
   }
 }
 
@@ -999,7 +1003,7 @@ static void update_row(GtkTreeIter *row, struct city *pcity, bool init)
 *****************************************************************/
 static void city_model_init(void)
 {
-  if (city_dialog_shell && !delay_report_update) {
+  if (city_dialog_shell && !is_report_dialogs_frozen()) {
 
     city_list_iterate(game.player_ptr->cities, pcity) {
       GtkTreeIter it;
@@ -1015,7 +1019,7 @@ static void city_model_init(void)
 *****************************************************************/
 void city_report_dialog_update(void)
 {
-  if (city_dialog_shell && !delay_report_update) {
+  if (city_dialog_shell && !is_report_dialogs_frozen()) {
     ITree it, it_next;
     GtkTreeModel *model = GTK_TREE_MODEL(city_model);
 
@@ -1050,7 +1054,7 @@ void city_report_dialog_update(void)
 *****************************************************************/
 void city_report_dialog_update_city(struct city *pcity)
 {
-  if (city_dialog_shell && !delay_report_update) {
+  if (city_dialog_shell && !is_report_dialogs_frozen()) {
     ITree it;
     GtkTreeModel *model = GTK_TREE_MODEL(city_model);
     bool found;

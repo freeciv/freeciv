@@ -6,7 +6,7 @@
 #include "chatline.h"
 
 void
-append_output_window(char *astring)		// HOOK
+real_append_output_window(const char *astring)		// HOOK
 {
 	BMessage *msg = new BMessage( UI_APPEND_OUTPUT_WINDOW );
 	msg->AddString( "string", astring );

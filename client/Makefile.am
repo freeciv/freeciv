@@ -133,6 +133,8 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
 	cityrepdata.h	\
 	civclient.c	\
 	civclient.h	\
+	chatline_common.c \
+	chatline_common.h \
 	climisc.c	\
 	climisc.h	\
 	clinet.c	\
@@ -145,8 +147,12 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
 	helpdata.h	\
 	mapview_common.c \
 	mapview_common.h \
+	messagewin_common.c \
+	messagewin_common.h \
 	packhand.c	\
 	packhand.h	\
+	plrdlg_common.c \
+	plrdlg_common.h \
 	options.c	\
 	options.h	\
 	repodlgs_common.c \

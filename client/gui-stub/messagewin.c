@@ -9,32 +9,25 @@ popup_meswin_dialog(void)
 	/* PORTME */
 }
 
-void
-update_meswin_dialog(void)
+bool is_meswin_open(void)
 {
 	/* PORTME */
 }
 
 void
-clear_notify_window(void)
+real_update_meswin_dialog(void)
 {
 	/* PORTME */
 }
 
 void
-add_notify_window(struct packet_generic_message *packet)
+real_clear_notify_window(void)
 {
 	/* PORTME */
 }
 
 void
-meswin_update_delay_on(void)
-{
-	/* PORTME */
-}
-
-void
-meswin_update_delay_off(void)
+real_add_notify_window(struct packet_generic_message *packet)
 {
 	/* PORTME */
 }

@@ -38,16 +38,19 @@ used throughout the client.
 #include "packets.h"
 #include "support.h"
 
-#include "clinet.h"
-#include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
+#include "civclient.h"
+#include "chatline_g.h"
+#include "clinet.h"
 #include "control.h"
 #include "mapview_g.h"
-#include "tilespec.h"
-#include "civclient.h"
-#include "spaceship.h"
+#include "messagewin_common.h"
 #include "packhand.h"
+#include "plrdlg_common.h"
+#include "repodlgs_common.h"
+#include "spaceship.h"
+#include "tilespec.h"
 
 #include "climisc.h"
 
@@ -300,6 +303,7 @@ void client_change_all(cid x, cid y)
   bool fr_is_unit = cid_is_unit(x), to_is_unit = cid_is_unit(y);
   struct packet_city_request packet;
   char buf[512];
+  int last_request_id = 0;
 
   my_snprintf(buf, sizeof(buf),
 	      _("Game: Changing production of every %s into %s."),
@@ -309,6 +313,7 @@ void client_change_all(cid x, cid y)
 	      name : get_improvement_name(to_id));
   append_output_window(buf);
 
+  connection_do_buffer(&aconnection);
   city_list_iterate (game.player_ptr->cities, pcity) {
     if (((fr_is_unit &&
 	  (pcity->is_building_unit) &&
@@ -324,11 +329,13 @@ void client_change_all(cid x, cid y)
 	packet.city_id = pcity->id;
 	packet.build_id = to_id;
 	packet.is_build_id_unit_id = to_is_unit;
-	send_packet_city_request (&aconnection, &packet,
-				  PACKET_CITY_CHANGE);
+	last_request_id = send_packet_city_request(&aconnection, &packet,
+						   PACKET_CITY_CHANGE);
       }
-  }
-  city_list_iterate_end;
+  } city_list_iterate_end;
+
+  connection_do_unbuffer(&aconnection);
+  reports_freeze_till(last_request_id);
 }
 
 /***************************************************************************
@@ -1177,4 +1184,49 @@ void write_chatline_content(const char *txt)
   } else {
     append_output_window(_("Export failed, couldn't write to file."));
   }
+}
+
+/**************************************************************************
+  Freeze all reports and other GUI elements.
+**************************************************************************/
+void reports_freeze(void)
+{
+  meswin_freeze();
+  plrdlg_freeze();
+  report_dialogs_freeze();
+  output_window_freeze();
+}
+
+/**************************************************************************
+  Freeze all reports and other GUI elements until the given request
+  was executed.
+**************************************************************************/
+void reports_freeze_till(int request_id)
+{
+  if (request_id != 0) {
+    reports_freeze();
+    set_reports_thaw_request(request_id);
+  }
+}
+
+/**************************************************************************
+  Thaw all reports and other GUI elements.
+**************************************************************************/
+void reports_thaw(void)
+{
+  meswin_thaw();
+  plrdlg_thaw();
+  report_dialogs_thaw();
+  output_window_thaw();
+}
+
+/**************************************************************************
+  Thaw all reports and other GUI elements unconditionally.
+**************************************************************************/
+void reports_force_thaw(void)
+{
+  meswin_force_thaw();
+  plrdlg_force_thaw();
+  report_dialogs_force_thaw();
+  output_window_force_thaw();
 }

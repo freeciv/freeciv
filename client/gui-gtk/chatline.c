@@ -33,7 +33,6 @@
 struct genlist	history_list;
 int		history_pos;
 
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -66,11 +65,12 @@ void inputline_return(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void append_output_window(char *astring)
+void real_append_output_window(const char *astring)
 {
   gtk_text_freeze(GTK_TEXT(main_message_area));
   gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, "\n", -1);
-  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, astring, -1);
+  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, astring,
+		  -1);
   gtk_text_thaw(GTK_TEXT(main_message_area));
 
   /* move the scrollbar forward by a ridiculous amount */

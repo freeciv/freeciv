@@ -88,30 +88,12 @@ static GtkWidget *upgrade_command;
 static int activeunits_dialog_shell_is_modal;
 /******************************************************************/
 
-int delay_report_update=0;
-
-/******************************************************************
- Turn off updating of reports
-*******************************************************************/
-void report_update_delay_on(void)
-{
-  delay_report_update=1;
-}
-
-/******************************************************************
- Turn on updating of reports
-*******************************************************************/
-void report_update_delay_off(void)
-{
-  delay_report_update=0;
-}
-
 /******************************************************************
 ...
 *******************************************************************/
 void update_report_dialogs(void)
 {
-  if(delay_report_update) return;
+  if(is_report_dialogs_frozen()) return;
   activeunits_report_dialog_update();
   economy_report_dialog_update();
   city_report_dialog_update(); 
@@ -371,7 +353,7 @@ void science_dialog_update(void)
   int turns_to_advance;
   int steps;
 
-  if(delay_report_update) return;
+  if(is_report_dialogs_frozen()) return;
 
   turns_to_advance = tech_turns_to_advance(game.player_ptr);
   if (turns_to_advance == FC_INFINITY) {
@@ -718,7 +700,7 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void economy_report_dialog_update(void)
 {
-  if(delay_report_update) return;
+  if(is_report_dialogs_frozen()) return;
   if(economy_dialog_shell) {
     int tax, total, i, entries_used;
     char   buf0 [64];
@@ -961,7 +943,7 @@ void activeunits_report_dialog_update(void)
     /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
     int building_count;
   };
-  if(delay_report_update) return;
+  if(is_report_dialogs_frozen()) return;
   if(activeunits_dialog_shell) {
     int    i, k, can;
     struct repoinfo unitarray[U_LAST];

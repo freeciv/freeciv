@@ -65,6 +65,7 @@
 
 #include "chatline_g.h"
 #include "civclient.h"
+#include "climisc.h"
 #include "dialogs_g.h"		/* popdown_races_dialog() */
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
 #include "messagewin_g.h"
@@ -98,9 +99,7 @@ static void close_socket_nomessage(struct connection *pc)
   remove_net_input();
   popdown_races_dialog(); 
 
-  plrdlg_update_delay_off();
-  report_update_delay_off();
-  meswin_update_delay_off();
+  reports_force_thaw();
   
   set_client_state(CLIENT_PRE_GAME_STATE);
   agents_disconnect();

@@ -45,7 +45,6 @@
 
 extern HWND root_window;
 extern HINSTANCE freecivhinst;
-static int delay_meswin_update=0;    
 static HWND meswin_dlg;
 static struct fcwin_box *meswin_box;
 static int max_list_width;
@@ -177,8 +176,7 @@ static void list_del(void *data)
 /**************************************************************************
 
 **************************************************************************/
-
-void create_meswin_dialog(void)
+static void create_meswin_dialog(void)
 {
   HWND meswin_list;
   struct fcwin_box *hbox;
@@ -218,8 +216,7 @@ void create_meswin_dialog(void)
 /**************************************************************************
 
 **************************************************************************/
-void
-popup_meswin_dialog(void)
+void popup_meswin_dialog(void)
 {
   int updated = 0;
  
@@ -229,6 +226,15 @@ popup_meswin_dialog(void)
   }
   
 }
+
+/****************************************************************
+...
+*****************************************************************/
+bool is_meswin_open(void)
+{
+  return meswin_dlg != 0;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -263,8 +269,7 @@ static void meswin_allocate(void)
 /**************************************************************************
 ...
 **************************************************************************/
-
-void clear_notify_window(void)
+void real_clear_notify_window(void)
 {
   int i;
   meswin_allocate();
@@ -277,7 +282,6 @@ void clear_notify_window(void)
   }
   string_ptrs[0]=0;
   messages_total = 0;
-  update_meswin_dialog();
   if(meswin_dlg) {
     EnableWindow(GetDlgItem(meswin_dlg,ID_MESSAGEWIN_GOTO),FALSE);
     EnableWindow(GetDlgItem(meswin_dlg,ID_MESSAGEWIN_POPUP),FALSE);
@@ -287,7 +291,7 @@ void clear_notify_window(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void add_notify_window(struct packet_generic_message *packet)
+void real_add_notify_window(struct packet_generic_message *packet)
 {
   char *s;
   int nspc;
@@ -316,64 +320,26 @@ void add_notify_window(struct packet_generic_message *packet)
   string_ptrs[messages_total] = s;
   messages_total++;
   string_ptrs[messages_total] = 0;
-  if (!delay_meswin_update) {
-    update_meswin_dialog();
-    /* meswin_scroll_down(); */
-  }
 }
 
 
 /**************************************************************************
 
 **************************************************************************/
-void
-update_meswin_dialog(void)
+void real_update_meswin_dialog(void)
 {
-  if (!meswin_dlg) {
-    if (messages_total > 0 &&
-	(!game.player_ptr->ai.control || ai_popup_windows)) {
-      popup_meswin_dialog();
-      /* Can return here because popup_meswin_dialog will call
-       * this very function again.
-       */
-      return;
-    }
-  }               
-  if (meswin_dlg)
-    {
-      RECT rc;
-      int id;
-      int i;
-      HWND hLst;   
-      max_list_width=0;
-      hLst=GetDlgItem(meswin_dlg,ID_MESSAGEWIN_LIST);
-      ListBox_ResetContent(hLst);
-      for(i=0;i<messages_total;i++)
-	{
-	  id=ListBox_AddString(hLst,string_ptrs[i]);
-	  ListBox_SetItemData(hLst,id,i);
-	  ListBox_GetItemRect(hLst,id,&rc);
-	  max_list_width=MAX(max_list_width,rc.right-rc.left);
-	}
-      max_list_width+=20;
-    }
-}
-
-
-/******************************************************************
- Turn off updating of message window
-*******************************************************************/    
-void
-meswin_update_delay_on(void)
-{
-	/* PORTME */
-}
-
-/******************************************************************
- Turn on updating of message window
-*******************************************************************/         
-void
-meswin_update_delay_off(void)
-{
-	/* PORTME */
+  RECT rc;
+  int id;
+  int i;
+  HWND hLst;
+  max_list_width = 0;
+  hLst = GetDlgItem(meswin_dlg, ID_MESSAGEWIN_LIST);
+  ListBox_ResetContent(hLst);
+  for (i = 0; i < messages_total; i++) {
+    id = ListBox_AddString(hLst, string_ptrs[i]);
+    ListBox_SetItemData(hLst, id, i);
+    ListBox_GetItemRect(hLst, id, &rc);
+    max_list_width = MAX(max_list_width, rc.right - rc.left);
+  }
+  max_list_width += 20;
 }

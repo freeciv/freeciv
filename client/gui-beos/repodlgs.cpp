@@ -6,24 +6,6 @@
 #include "MainWindow.hpp"
 #include "repodlgs.h"
 
-void
-report_update_delay_on(void)	// HOOK
-{
-    BMessage *msg = new BMessage( UI_REPORT_UPDATE_DELAY );
-    msg->AddBool( "delay", false );
-    ui->PostMessage( msg );
-}
-
-
-void
-report_update_delay_off(void)	// HOOK
-{
-    BMessage *msg = new BMessage( UI_REPORT_UPDATE_DELAY );
-    msg->AddBool( "delay", false );
-    ui->PostMessage( msg );
-}
-
-
 char *
 get_report_title(char *report_name)	// HOOK
 {

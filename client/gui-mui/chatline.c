@@ -29,7 +29,7 @@
 #include "gui_main.h"
 #include "muistuff.h"
 
-void append_output_window(char *astring)
+void real_append_output_window(const char *astring)
 {
   DoMethod(main_output_listview, MUIM_NList_Insert, astring, -2, MUIV_List_Insert_Bottom);
   set(main_output_listview,MUIA_NList_First,  MUIV_NList_First_Bottom);

@@ -4,7 +4,7 @@
 
 
 void
-append_output_window(char *astring)
+real_append_output_window(const char *astring)
 {
 	/* PORTME */
 }

@@ -85,7 +85,7 @@ void append_output_window_real(char *astring)
 /**************************************************************************
 
 **************************************************************************/
-void append_output_window(char *astring) 
+void real_append_output_window(const char *astring) 
      /* We need to add \r to lineends */ 
 {
 

@@ -45,7 +45,6 @@
 
 
 static HWND players_dialog;
-static int delay_plrdlg_update=0;
 static int sort_dir=1;
 static int sort_column=2;
 
@@ -57,24 +56,6 @@ static int sort_column=2;
 #define ID_PLAYERS_SSHIP 106
 
 #define NUM_COLUMNS 10
-
- 
-
-/******************************************************************
- Turn off updating of player dialog
-*******************************************************************/
-void plrdlg_update_delay_on(void)
-{
-  delay_plrdlg_update=1;
-}
-
-/******************************************************************
- Turn on updating of player dialog
-*******************************************************************/
-void plrdlg_update_delay_off(void)
-{
-  delay_plrdlg_update=0;
-}
 
 /******************************************************************
 
@@ -423,7 +404,7 @@ popup_players_dialog(void)
 void
 update_players_dialog(void)
 {
-  if (players_dialog && !delay_plrdlg_update) {
+  if (players_dialog && !is_plrdlg_frozen()) {
     LV_ITEM lvi;
     HWND lv;
     char *row_texts[NUM_COLUMNS];

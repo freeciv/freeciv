@@ -26,4 +26,9 @@ void get_economy_report_data(struct improvement_entry *entries,
 			     int *num_entries_used, int *total_cost,
 			     int *total_income);
 
+void report_dialogs_freeze(void);
+void report_dialogs_thaw(void);
+void report_dialogs_force_thaw(void);
+bool is_report_dialogs_frozen(void);
+
 #endif /* FC__REPODLGS_COMMON_H */

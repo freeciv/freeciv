@@ -113,4 +113,9 @@ void create_event(int x, int y, int event, const char *format, ...)
      fc__attribute((format (printf, 4, 5)));
 void write_chatline_content(const char *txt);
 
+void reports_freeze(void);
+void reports_freeze_till(int request_id);
+void reports_thaw(void);
+void reports_force_thaw(void);
+
 #endif  /* FC__CLIMISC_H */

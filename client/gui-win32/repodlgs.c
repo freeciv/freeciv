@@ -48,25 +48,6 @@ extern HWND root_window;
 extern struct connection aconnection;               
 int economy_improvement_type[B_LAST];   
 int activeunits_type[U_LAST]; 
-int delay_report_update=0;    
-
-/**************************************************************************
-
-**************************************************************************/
-void
-report_update_delay_on(void)
-{
-  delay_report_update=1;                
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void
-report_update_delay_off(void)
-{
-  delay_report_update=0;     
-}
 
 /**************************************************************************
 
@@ -94,7 +75,7 @@ get_report_title(char *report_name)
 void
 update_report_dialogs(void)
 {
-  if(delay_report_update) return;
+  if(is_report_dialogs_frozen()) return;
   activeunits_report_dialog_update();
   economy_report_dialog_update();
   city_report_dialog_update();
@@ -329,7 +310,7 @@ economy_report_dialog_update(void)
   char economy_total[48];
   struct improvement_entry entries[B_LAST];
 
-  if(delay_report_update) return;      
+  if(is_report_dialogs_frozen()) return;      
   if(!economy_dlg) return;
   lv=GetDlgItem(economy_dlg,ID_TRADEREP_LIST);
   report_title=get_report_title(_("Economy"));
