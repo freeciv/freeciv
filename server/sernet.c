@@ -125,7 +125,7 @@ static void handle_readline_input_callback(char *line)
   readline_handled_input = 1;
 }
 
-#endif
+#endif /* HAVE_LIBREADLINE */
 /*****************************************************************************
 ...
 *****************************************************************************/
@@ -232,7 +232,7 @@ int sniff_packets(void)
       readline_initialized = 1;
     }
   }
-#endif
+#endif /* HAVE_LIBREADLINE */
 
   if(year!=game.year) {
     if (server_state == RUN_GAME_STATE) year=game.year;
@@ -290,12 +290,12 @@ int sniff_packets(void)
 	else
 	  continue;
       }
-#else
+#else  /* !__VMS */
 #ifdef SOCKET_ZERO_ISNT_STDIN
     if (feof(stdin))
 #endif
       continue;
-#endif
+#endif /* !__VMS */
     }
     if (!game.timeout)
       game.turn_start = time(NULL);
@@ -325,7 +325,7 @@ int sniff_packets(void)
 	con_prompt_enter_clear();
       }
       continue;
-#else
+#else  /* !HAVE_LIBREADLINE */
       int didget;
       char buf[BUF_SIZE+1];
       
@@ -336,9 +336,9 @@ int sniff_packets(void)
       *(buf+didget)='\0';
       con_prompt_enter();	/* will need a new prompt, regardless */
       handle_stdin_input((struct connection *)NULL, buf);
-#endif
+#endif /* !HAVE_LIBREADLINE */
     }
-#else
+#else  /* SOCKET_ZERO_ISNT_STDIN */
     if(!feof(stdin)) {    /* input from server operator */
       /* fetch chars until \n or run out of space in buffer */
       while ((*bufptr=fgetc(stdin)) != EOF) {
@@ -352,7 +352,7 @@ int sniff_packets(void)
           if ((bufptr-buf) <= BUF_SIZE) bufptr++; /* prevent overrun */
       }
     }
-#endif
+#endif /* SOCKET_ZERO_ISNT_STDIN */
     else {                             /* input from a player */
       for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
   	struct connection *pconn = &connections[i];
