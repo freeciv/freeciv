@@ -13,7 +13,9 @@
 #ifndef FC__MAP_H
 #define FC__MAP_H
 
-#include "assert.h"
+#include <assert.h>
+#include <math.h>
+
 #include "player.h"
 #include "terrain.h"
 #include "unit.h"
@@ -414,27 +416,59 @@ extern struct tile_type tile_types[T_LAST];
   }                                                                           \
 }
 
-/* Iterate through all tiles in a square with given center and radius.
-   Positions returned will have adjusted x, and positions with illegal y will be
-   automatically discarded.
+/* 
+ * Iterate through all tiles in a square with given center and radius.
+ * The position (x_itr, y_itr) that is returned will be normalized;
+ * unreal positions will be automatically discarded. (dx_itr, dy_itr)
+ * is the standard distance vector between the position and the center
+ * position. Note that when the square is larger than the map the
+ * distance vector may not be the minimum distance vector.
  */
-#define square_iterate(SI_center_x, SI_center_y, radius, SI_x_itr, SI_y_itr)  \
+#define square_dxy_iterate(center_x, center_y, radius, x_itr, y_itr,          \
+                           dx_itr, dy_itr)                                    \
 {                                                                             \
-  int SI_x_itr, SI_y_itr;                                                     \
-  int SI_x_itr1, SI_y_itr1;                                                   \
-  CHECK_MAP_POS(SI_center_x, SI_center_y);                                    \
-  for (SI_y_itr1 = (SI_center_y) - (radius);                                  \
-       SI_y_itr1 <= (SI_center_y) + (radius); SI_y_itr1++) {                  \
-    for (SI_x_itr1 = (SI_center_x) - (radius);                                \
-	 SI_x_itr1 <= (SI_center_x) + (radius); SI_x_itr1++) {                \
-      SI_x_itr = SI_x_itr1;                                                   \
-      SI_y_itr = SI_y_itr1;                                                   \
-      if (!normalize_map_pos(&SI_x_itr, &SI_y_itr)) continue;
+  int dx_itr, dy_itr;                                                         \
+  CHECK_MAP_POS((center_x), (center_y));                                      \
+  for (dy_itr = -(radius); dy_itr <= (radius); dy_itr++) {                    \
+    for (dx_itr = -(radius); dx_itr <= (radius); dx_itr++) {                  \
+      int x_itr = dx_itr + (center_x), y_itr = dy_itr + (center_y);           \
+      if (normalize_map_pos(&x_itr, &y_itr)) {
 
-#define square_iterate_end                                                    \
+#define square_dxy_iterate_end                                                \
+      }                                                                       \
     }                                                                         \
   }                                                                           \
 }
+
+/*
+ * Iterate through all tiles in a square with given center and radius.
+ * Positions returned will have adjusted x, and positions with illegal
+ * y will be automatically discarded.
+ */
+#define square_iterate(center_x, center_y, radius, x_itr, y_itr)              \
+{                                                                             \
+  square_dxy_iterate(center_x, center_y, radius, x_itr, y_itr,                \
+                     _dummy_x, _dummy_y);
+
+#define square_iterate_end  square_dxy_iterate_end                            \
+}
+
+/* 
+ * Iterate through all tiles in a circle with given center and squared
+ * radius.  Positions returned will have adjusted (x, y); unreal
+ * positions will be automatically discarded. 
+ */
+#define circle_iterate(center_x, center_y, sq_radius, x_itr, y_itr)           \
+{                                                                             \
+  int _cr_radius = (int)sqrt(sq_radius);                                     \
+  square_dxy_iterate(center_x, center_y, _cr_radius,                          \
+		     x_itr, y_itr, _dx, _dy) {                                \
+    if (_dy * _dy + _dx * _dx <= (sq_radius)) {
+
+#define circle_iterate_end                                                    \
+    }                                                                         \
+  } square_dxy_iterate_end;                                                   \
+}									       
 
 /* Iterate through all tiles adjacent to a tile */
 #define adjc_iterate(RI_center_x, RI_center_y, RI_x_itr, RI_y_itr)            \

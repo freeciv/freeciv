@@ -35,7 +35,7 @@
 void init_new_game(void)
 {
   int i, j, x, y;
-  int vx, vy, dx, dy;
+  int dx, dy;
   Unit_Type_id utype;
   int start_pos[MAX_NUM_PLAYERS]; /* indices into map.start_positions[] */
 
@@ -130,16 +130,9 @@ void init_new_game(void)
 		game.players[i].name);
       }
       /* Expose visible area. */
-      for (vx = 1; (vx * vx) <= game.rgame.init_vis_radius_sq; vx++) {
-	for (vy = 1; (vy * vy) <= game.rgame.init_vis_radius_sq; vy++) {
-	  if (((vx *vx) + (vy *vy)) <= game.rgame.init_vis_radius_sq) {
-	    show_area(&game.players[i], dx-vx+1, dy-vy+1, 1);
-	    show_area(&game.players[i], dx+vx-1, dy-vy+1, 1);
-	    show_area(&game.players[i], dx-vx+1, dy+vy-1, 1);
-	    show_area(&game.players[i], dx+vx-1, dy+vy-1, 1);
-	  }
-	}
-      }
+      circle_iterate(dx, dy, game.rgame.init_vis_radius_sq, cx, cy) {
+	show_area(&game.players[i], cx, cy, 0);
+      } circle_iterate_end;
       /* Create the unit of an appropriate type. */
       utype = get_role_unit((j < game.settlers) ? F_CITIES : L_EXPLORER, 0);
       create_unit(&game.players[i], dx, dy, utype, 0, 0, -1);
