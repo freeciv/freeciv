@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-19 01:18-0500\n"
+"POT-Creation-Date: 2004-11-19 19:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -7947,7 +7947,7 @@ msgstr "Kann Server nicht kontrollieren, versuche zu beenden."
 
 #: client/control.c:718
 msgid "Game: Only transporter units can be unloaded."
-msgstr "Spiel: Nur Transporter können ausgeladen werden."
+msgstr "Spiel: Nur Schiffe können entladen werden."
 
 #: client/control.c:920
 msgid ""
@@ -9187,8 +9187,8 @@ msgstr "Unser Gebiet"
 #, c-format
 msgid "%s territory (%d turn ceasefire)"
 msgid_plural "%s territory (%d turn ceasefire)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%ses Gebiet (%d Runde Waffenstillstand)"
+msgstr[1] "%ses Gebiet (%d Runden Waffenstillstand)"
 
 #. TRANS: "Territory of the friendly Polish".  See the
 #. * ?nation adjectives.
@@ -9212,8 +9212,8 @@ msgstr "Stadt: %s (%s)"
 #, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
 msgid_plural "City: %s (%s, %d turn ceasefire)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Stadt: %s (%s, %d Runde Waffenstillstand)"
+msgstr[1] "Stadt: %s (%s, %d Runden Waffenstillstand)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:208
@@ -9767,7 +9767,7 @@ msgstr "Verschmutzung:"
 
 #: client/gui-gtk-2.0/citydlg.c:552 client/gui-gtk-2.0/inteldlg.c:135
 msgid "_Overview"
-msgstr "Übersicht"
+msgstr "_Übersicht"
 
 #: client/gui-gtk-2.0/citydlg.c:580 client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:315
@@ -9802,7 +9802,7 @@ msgstr "%d/%d %d Runden"
 #: client/gui-gtk/cityrep.c:645 client/gui-mui/citydlg.c:1466
 #: client/gui-mui/cityrep.c:369
 msgid "_Buy"
-msgstr "Kaufen"
+msgstr "_Kaufen"
 
 #: client/gui-gtk-2.0/citydlg.c:722 client/gui-gtk-2.0/dialogs.c:616
 msgid "_Improvements:"
@@ -9810,23 +9810,23 @@ msgstr "_Stadterweiterungen:"
 
 #: client/gui-gtk-2.0/citydlg.c:780
 msgid "Pro_duction"
-msgstr "Produktion"
+msgstr "_Produktion"
 
 #: client/gui-gtk-2.0/citydlg.c:831 client/gui-gtk/citydlg.c:1156
 msgid "_Happiness"
-msgstr "Zufriedenheit"
+msgstr "_Zufriedenheit"
 
 #: client/gui-gtk-2.0/citydlg.c:882
 msgid "C_MA"
-msgstr "ASV"
+msgstr "_ASV"
 
 #: client/gui-gtk-2.0/citydlg.c:902
 msgid "Trade Ro_utes"
-msgstr "Handelswege"
+msgstr "_Handelswege"
 
 #: client/gui-gtk-2.0/citydlg.c:927
 msgid "_Settings"
-msgstr "Einstellungen"
+msgstr "_Einstellungen"
 
 #: client/gui-gtk-2.0/citydlg.c:936 client/gui-gtk/citydlg.c:1273
 #: client/gui-mui/citydlg.c:1647 client/gui-mui/citydlg.c:1648
@@ -9914,11 +9914,11 @@ msgstr "_Stationierte Einheiten anzeigen..."
 
 #: client/gui-gtk-2.0/citydlg.c:1188 client/gui-gtk/citydlg.c:1551
 msgid "_Prev city"
-msgstr "Vorherige Stadt"
+msgstr "_Vorherige Stadt"
 
 #: client/gui-gtk-2.0/citydlg.c:1193 client/gui-gtk/citydlg.c:1559
 msgid "_Next city"
-msgstr "Nächste Stadt"
+msgstr "_Nächste Stadt"
 
 #: client/gui-gtk-2.0/citydlg.c:1248
 #, c-format
@@ -10003,11 +10003,11 @@ msgstr "Einheit a_uflösen"
 
 #: client/gui-gtk-2.0/citydlg.c:1949
 msgid "_Load unit"
-msgstr "Einschiffen"
+msgstr "_Einschiffen"
 
 #: client/gui-gtk-2.0/citydlg.c:1959
 msgid "_Unload unit"
-msgstr "Ausschiffen"
+msgstr "_Ausschiffen"
 
 #: client/gui-gtk-2.0/citydlg.c:1970 client/gui-gtk/citydlg.c:2408
 #: client/gui-win32/citydlg.c:1512
@@ -10026,7 +10026,7 @@ msgstr "Standort als neue _Heimatstadt wählen"
 
 #: client/gui-gtk-2.0/citydlg.c:2008
 msgid "U_pgrade unit"
-msgstr "Einheit modernisieren"
+msgstr "Einheit _modernisieren"
 
 #: client/gui-gtk-2.0/citydlg.c:2221 client/gui-gtk/citydlg.c:2595
 #: client/gui-mui/dialogs.c:1747 client/gui-mui/dialogs.c:1771
@@ -10098,19 +10098,19 @@ msgstr "Wie soll die Stadt heißen?"
 #: client/gui-gtk-2.0/cityrep.c:680 client/gui-mui/citydlg.c:1248
 #: client/gui-mui/citydlg.c:1467 client/gui-mui/cityrep.c:370
 msgid "Chan_ge"
-msgstr "Ä_ndern"
+msgstr "_Ändern"
 
 #: client/gui-gtk-2.0/cityrep.c:685
 msgid "Add _First"
-msgstr "Vorne einfügen"
+msgstr "_Vorne einfügen"
 
 #: client/gui-gtk-2.0/cityrep.c:690
 msgid "Add _Next"
-msgstr "Einfügen"
+msgstr "_Einfügen"
 
 #: client/gui-gtk-2.0/cityrep.c:695
 msgid "Add _Last"
-msgstr "Hinten anhängen"
+msgstr "_Hinten anhängen"
 
 #: client/gui-gtk-2.0/cityrep.c:700
 msgid "_Select"
@@ -10253,7 +10253,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:193
 msgid "_Presets:"
-msgstr "Vorgaben:"
+msgstr "_Vorgaben:"
 
 #: client/gui-gtk-2.0/cma_fe.c:226 client/gui-gtk/cma_fe.c:205
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/citydlg.c:1555
@@ -10353,7 +10353,7 @@ msgstr "_Gehe nach"
 #: client/gui-gtk-2.0/dialogs.c:224 client/gui-gtk-2.0/messagewin.c:194
 #: client/gui-gtk/messagewin.c:167 client/gui-mui/messagewin.c:210
 msgid "_Popup City"
-msgstr "Stadtschirm _anzeigen"
+msgstr "_Stadtschirm anzeigen"
 
 #: client/gui-gtk-2.0/dialogs.c:280 client/gui-gtk/dialogs.c:439
 #: client/gui-win32/dialogs.c:1272
@@ -10687,7 +10687,7 @@ msgstr "Gruppe"
 
 #: client/gui-gtk-2.0/dialogs.c:1667
 msgid "_Properties"
-msgstr "Eigenschaften"
+msgstr "_Eigenschaften"
 
 #: client/gui-gtk-2.0/dialogs.c:1687
 msgid "_Leader:"
@@ -10703,11 +10703,11 @@ msgstr "_männlich"
 
 #: client/gui-gtk-2.0/dialogs.c:1726
 msgid "_City Styles:"
-msgstr "_Bauweise:"
+msgstr "Bauwei_se:"
 
 #: client/gui-gtk-2.0/dialogs.c:1767
 msgid "L_egend"
-msgstr "Legende"
+msgstr "_Legende"
 
 #: client/gui-gtk-2.0/dialogs.c:2094 client/gui-gtk/dialogs.c:2295
 #: client/gui-xaw/dialogs.c:2137
@@ -10744,7 +10744,7 @@ msgstr "Seekarte"
 
 #: client/gui-gtk-2.0/diplodlg.c:226
 msgid "_Maps"
-msgstr "Karten"
+msgstr "_Karten"
 
 #: client/gui-gtk-2.0/diplodlg.c:256
 msgid "_Advances"
@@ -10757,15 +10757,15 @@ msgstr "_Städte"
 
 #: client/gui-gtk-2.0/diplodlg.c:315
 msgid "_Give shared vision"
-msgstr "Karteneinsicht erlauben"
+msgstr "_Karteneinsicht erlauben"
 
 #: client/gui-gtk-2.0/diplodlg.c:328
 msgid "Give _embassy"
-msgstr "Botschaft erlauben"
+msgstr "_Botschaft erlauben"
 
 #: client/gui-gtk-2.0/diplodlg.c:370
 msgid "_Pacts"
-msgstr "Abkommen"
+msgstr "_Abkommen"
 
 #: client/gui-gtk-2.0/diplodlg.c:461 client/gui-gtk/diplodlg.c:302
 #: client/gui-mui/diplodlg.c:480 client/gui-win32/diplodlg.c:596
@@ -10779,19 +10779,19 @@ msgstr "Treffen _absagen"
 
 #: client/gui-gtk-2.0/diplodlg.c:474
 msgid "Accept _treaty"
-msgstr "Abkommen unterzeichnen"
+msgstr "Abkommen _unterzeichnen"
 
 #: client/gui-gtk-2.0/diplodlg.c:503
 msgid "C_lauses:"
-msgstr "Klauseln:"
+msgstr "_Klauseln:"
 
 #: client/gui-gtk-2.0/diplodlg.c:550 client/gui-gtk-2.0/diplodlg.c:606
 msgid "_Gold:"
-msgstr "Gold:"
+msgstr "_Gold:"
 
 #: client/gui-gtk-2.0/diplodlg.c:562 client/gui-gtk-2.0/diplodlg.c:618
 msgid "_Add Clause..."
-msgstr "Neue Klausel..."
+msgstr "_Neue Klausel..."
 
 #: client/gui-gtk-2.0/diplodlg.c:858 client/gui-gtk/diplodlg.c:894
 #: client/gui-mui/diplodlg.c:382 client/gui-win32/diplodlg.c:261
@@ -10842,7 +10842,7 @@ msgstr "Gehe nach / Fliege nach"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
 msgid "Air_lift"
-msgstr "Lufttransport"
+msgstr "_Lufttransport"
 
 #: client/gui-gtk-2.0/gotodlg.c:141 client/gui-gtk/gotodlg.c:95
 #: client/gui-gtk/mapview.c:186 client/gui-mui/mapview.c:247
@@ -10893,11 +10893,11 @@ msgstr "Fertig!"
 
 #: client/gui-gtk-2.0/gui_main.c:877
 msgid "_Map"
-msgstr "Karte"
+msgstr "_Karte"
 
 #: client/gui-gtk-2.0/gui_main.c:951
 msgid "_Chat"
-msgstr "Chat"
+msgstr "_Chat"
 
 #: client/gui-gtk-2.0/gui_main.c:967 client/gui-gtk/gui_main.c:779
 #: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:452
@@ -11254,11 +11254,11 @@ msgstr "Erforsche:"
 
 #: client/gui-gtk-2.0/inteldlg.c:183
 msgid "_Diplomacy"
-msgstr "Diplomatie"
+msgstr "_Diplomatie"
 
 #: client/gui-gtk-2.0/inteldlg.c:216
 msgid "_Techs"
-msgstr "Fortschritte"
+msgstr "_Fortschritte"
 
 #: client/gui-gtk-2.0/inteldlg.c:237
 #, c-format
@@ -11322,43 +11322,43 @@ msgstr "Spiel"
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #: client/gui-gtk-2.0/menu.c:632 client/gui-win32/menu.c:299
 msgid "Local _Options"
-msgstr "Lokale Optionen"
+msgstr "_Lokale Optionen"
 
 #: client/gui-gtk-2.0/menu.c:634 client/gui-win32/menu.c:300
 msgid "_Message Options"
-msgstr "Nachrichtendarstellung"
+msgstr "_Nachrichtendarstellung"
 
 #: client/gui-gtk-2.0/menu.c:636 client/gui-win32/menu.c:301
 msgid "Sa_ve Settings"
-msgstr "Einstellungen speichern"
+msgstr "_Einstellungen speichern"
 
 #: client/gui-gtk-2.0/menu.c:640 client/gui-win32/menu.c:303
 msgid "_Initial Server Options"
-msgstr "Serveroptionen vor Spielbeginn"
+msgstr "Servero_ptionen vor Spielbeginn"
 
 #: client/gui-gtk-2.0/menu.c:642 client/gui-win32/menu.c:304
 msgid "Server O_ptions"
-msgstr "Serveroptionen"
+msgstr "Server_optionen"
 
 #: client/gui-gtk-2.0/menu.c:646 client/gui-win32/menu.c:306
 msgid "_Save Game"
-msgstr "Spiel speichern"
+msgstr "_Spiel speichern"
 
 #: client/gui-gtk-2.0/menu.c:649 client/gui-win32/menu.c:307
 msgid "Save Game _As..."
-msgstr "Spiel speichern als..."
+msgstr "Spiel speichern _als..."
 
 #: client/gui-gtk-2.0/menu.c:654 client/gui-win32/menu.c:309
 msgid "E_xport Log"
-msgstr "Textfenster speichern"
+msgstr "_Textfenster speichern"
 
 #: client/gui-gtk-2.0/menu.c:656 client/gui-win32/menu.c:310
 msgid "Clear _Log"
-msgstr "Textfenster löschen"
+msgstr "Textfenster l_öschen"
 
 #: client/gui-gtk-2.0/menu.c:660
 msgid "L_eave"
-msgstr "Spiel verlassen"
+msgstr "Spiel _verlassen"
 
 #: client/gui-gtk-2.0/menu.c:662 client/gui-gtk/menu.c:612
 #: client/gui-mui/connectdlg.c:226 client/gui-mui/dialogs.c:1659
@@ -11368,7 +11368,7 @@ msgstr "_Beenden"
 
 #: client/gui-gtk-2.0/menu.c:666
 msgid "Gover_nment"
-msgstr "Regierung"
+msgstr "_Regierung"
 
 #: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:670
 #: client/gui-gtk-2.0/menu.c:672 client/gui-gtk-2.0/menu.c:674
@@ -11389,14 +11389,14 @@ msgstr "Stadt _suchen"
 
 #: client/gui-gtk-2.0/menu.c:676
 msgid "_Worklists"
-msgstr "Arbeitslisten"
+msgstr "_Arbeitslisten"
 
 #: client/gui-gtk-2.0/menu.c:680 client/gui-gtk-2.0/menu.c:682
 #: client/gui-gtk-2.0/menu.c:685 client/gui-gtk/menu.c:629
 #: client/gui-gtk/menu.c:631 client/gui-gtk/menu.c:634
 #: client/gui-win32/menu.c:323
 msgid "_Change Government"
-msgstr "Regierung ändern"
+msgstr "_Regierung ändern"
 
 #: client/gui-gtk-2.0/menu.c:682
 msgid "_Revolution..."
@@ -11405,7 +11405,7 @@ msgstr "_Revolution..."
 #: client/gui-gtk-2.0/menu.c:685 client/gui-gtk-2.0/menu.c:874
 #: client/gui-gtk/menu.c:823 client/gui-win32/menu.c:425
 msgid "_Government"
-msgstr "Regierungsformen"
+msgstr "_Regierungsformen"
 
 #: client/gui-gtk-2.0/menu.c:688 client/gui-gtk/menu.c:637
 #: client/gui-gtk/menu.c:639 client/gui-gtk/menu.c:641
@@ -11518,7 +11518,7 @@ msgstr "Nebel des Krieges"
 
 #: client/gui-gtk-2.0/menu.c:735 client/gui-gtk/menu.c:684
 msgid "_Center View"
-msgstr "Zentrieren"
+msgstr "_Zentrieren"
 
 #: client/gui-gtk-2.0/menu.c:738 client/gui-gtk/menu.c:687
 #: client/gui-gtk/menu.c:689 client/gui-gtk/menu.c:691
@@ -11541,7 +11541,7 @@ msgstr "Zentrieren"
 #: client/gui-gtk/menu.c:757 client/gui-gtk/menu.c:759
 #: client/gui-win32/menu.c:354
 msgid "_Orders"
-msgstr "Befehle"
+msgstr "_Befehle"
 
 #: client/gui-gtk-2.0/menu.c:740 client/gui-gtk-2.0/menu.c:742
 #: client/gui-gtk-2.0/menu.c:744 client/gui-gtk-2.0/menu.c:746
@@ -11630,15 +11630,15 @@ msgstr "Standort zur neuen Heimatstadt machen"
 
 #: client/gui-gtk-2.0/menu.c:770 client/gui-win32/menu.c:369
 msgid "_Load"
-msgstr "Laden"
+msgstr "Einschiffen"
 
 #: client/gui-gtk-2.0/menu.c:772 client/gui-gtk/menu.c:719
 msgid "_Unload Transporter"
-msgstr "Ausladen"
+msgstr "Schiff entladen"
 
 #: client/gui-gtk-2.0/menu.c:774 client/gui-win32/menu.c:370
 msgid "_Unload"
-msgstr "Ausladen"
+msgstr "Ausschiffen"
 
 #: client/gui-gtk-2.0/menu.c:776 client/gui-gtk/menu.c:725
 #: client/gui-win32/menu.c:371
@@ -11665,17 +11665,17 @@ msgstr "_Verbinden"
 #: client/gui-gtk-2.0/menu.c:784 client/gui-gtk/menu.c:733
 #: client/gui-win32/menu.c:376
 msgid "_Road"
-msgstr "Straße"
+msgstr "_Straße"
 
 #: client/gui-gtk-2.0/menu.c:786 client/gui-gtk/menu.c:735
 #: client/gui-win32/menu.c:377
 msgid "Rai_l"
-msgstr "Eisenbahn"
+msgstr "_Eisenbahn"
 
 #: client/gui-gtk-2.0/menu.c:788 client/gui-gtk/menu.c:737
 #: client/gui-win32/menu.c:378
 msgid "_Irrigate"
-msgstr "Bewässern"
+msgstr "_Bewässern"
 
 #: client/gui-gtk-2.0/menu.c:790 client/gui-gtk/menu.c:739
 msgid "Patrol (_Q)"
@@ -11713,7 +11713,7 @@ msgstr "Atombombe zünden"
 #: client/gui-gtk-2.0/menu.c:808 client/gui-gtk/menu.c:757
 #: client/gui-win32/menu.c:389
 msgid "_Wait"
-msgstr "Warten"
+msgstr "_Warten"
 
 #: client/gui-gtk-2.0/menu.c:810 client/gui-gtk/menu.c:759
 #: client/gui-mui/gui_main.c:275 client/gui-win32/menu.c:390
@@ -11730,7 +11730,7 @@ msgstr "Fertig"
 #: client/gui-gtk/menu.c:784 client/gui-gtk/menu.c:786
 #: client/gui-win32/menu.c:394
 msgid "_Reports"
-msgstr "Be_richte"
+msgstr "Berich_te"
 
 #: client/gui-gtk-2.0/menu.c:815 client/gui-gtk-2.0/menu.c:817
 #: client/gui-gtk-2.0/menu.c:819 client/gui-gtk-2.0/menu.c:821
@@ -11747,12 +11747,12 @@ msgstr "Berichte"
 #: client/gui-gtk/menu.c:811 client/gui-win32/menu.c:396
 #: client/gui-win32/menu.c:419
 msgid "_Units"
-msgstr "Einheiten"
+msgstr "_Einheiten"
 
 #: client/gui-gtk-2.0/menu.c:821 client/gui-gtk/menu.c:770
 #: client/gui-win32/menu.c:397
 msgid "_Players"
-msgstr "_Spieler"
+msgstr "S_pieler"
 
 #: client/gui-gtk-2.0/menu.c:823 client/gui-gtk/menu.c:772
 #: client/gui-win32/menu.c:398
@@ -11849,67 +11849,67 @@ msgstr "_Chatten"
 #: client/gui-gtk-2.0/menu.c:852 client/gui-gtk/menu.c:801
 #: client/gui-win32/menu.c:414
 msgid "_Worklist Editor"
-msgstr "Arbeitsliste bearbeiten"
+msgstr "_Arbeitsliste bearbeiten"
 
 #: client/gui-gtk-2.0/menu.c:854 client/gui-gtk/menu.c:803
 #: client/gui-win32/menu.c:415
 msgid "Citizen _Management"
-msgstr "Automatisierte Stadtverwaltung"
+msgstr "_Automatisierte Stadtverwaltung"
 
 #: client/gui-gtk-2.0/menu.c:856 client/gui-gtk/menu.c:805
 #: client/gui-win32/menu.c:416
 msgid "_Playing"
-msgstr "Spiel"
+msgstr "_Spiel"
 
 #: client/gui-gtk-2.0/menu.c:860 client/gui-gtk/menu.c:809
 #: client/gui-win32/menu.c:418
 msgid "City _Improvements"
-msgstr "Stadterweiterungen"
+msgstr "_Stadterweiterungen"
 
 #: client/gui-gtk-2.0/menu.c:864 client/gui-gtk/menu.c:813
 #: client/gui-win32/menu.c:420
 msgid "Com_bat"
-msgstr "Kampf"
+msgstr "_Kampf"
 
 #: client/gui-gtk-2.0/menu.c:866 client/gui-gtk/menu.c:815
 #: client/gui-win32/menu.c:421
 msgid "_ZOC"
-msgstr "Kontrollzonen"
+msgstr "_Kontrollzonen"
 
 #: client/gui-gtk-2.0/menu.c:868 client/gui-gtk/menu.c:817
 #: client/gui-win32/menu.c:422
 msgid "Techno_logy"
-msgstr "Forschung"
+msgstr "_Forschung"
 
 #: client/gui-gtk-2.0/menu.c:870 client/gui-gtk/menu.c:819
 #: client/gui-win32/menu.c:423
 msgid "_Terrain"
-msgstr "Geländeformen"
+msgstr "_Geländeformen"
 
 #: client/gui-gtk-2.0/menu.c:872 client/gui-gtk/menu.c:821
 #: client/gui-win32/menu.c:424
 msgid "Won_ders"
-msgstr "Weltwunder"
+msgstr "_Weltwunder"
 
 #: client/gui-gtk-2.0/menu.c:876 client/gui-gtk/menu.c:825
 #: client/gui-win32/menu.c:426
 msgid "Happin_ess"
-msgstr "Zufriedenheit"
+msgstr "_Zufriedenheit"
 
 #: client/gui-gtk-2.0/menu.c:878 client/gui-gtk/menu.c:827
 #: client/gui-win32/menu.c:427
 msgid "Space _Race"
-msgstr "Weltraum"
+msgstr "_Weltraum"
 
 #: client/gui-gtk-2.0/menu.c:882 client/gui-gtk/menu.c:831
 #: client/gui-win32/menu.c:429
 msgid "_Copying"
-msgstr "Lizenz"
+msgstr "_Lizenz"
 
 #: client/gui-gtk-2.0/menu.c:884 client/gui-gtk/menu.c:833
 #: client/gui-win32/menu.c:430
 msgid "_About"
-msgstr "Über"
+msgstr "_Über"
 
 #: client/gui-gtk-2.0/menu.c:1203
 #, c-format
@@ -12007,23 +12007,23 @@ msgstr "Nachrichtenfenster"
 
 #: client/gui-gtk-2.0/messagewin.c:190
 msgid "Goto _location"
-msgstr "Gehe nach"
+msgstr "_Gehe nach"
 
 #: client/gui-gtk-2.0/pages.c:185
 msgid "Start _New Game"
-msgstr "Neues Spiel beginnen"
+msgstr "_Neues Spiel beginnen"
 
 #: client/gui-gtk-2.0/pages.c:191
 msgid "Start _Scenario Game"
-msgstr "Szenariospiel beginnen"
+msgstr "_Szenariospiel beginnen"
 
 #: client/gui-gtk-2.0/pages.c:197
 msgid "_Load Saved Game"
-msgstr "Gespeichertes Spiel laden"
+msgstr "Gespeichertes Spiel _laden"
 
 #: client/gui-gtk-2.0/pages.c:206
 msgid "C_onnect to Network Game"
-msgstr "Mit Netzwerkspiel verbinden"
+msgstr "Mit Netzwerkspiel _verbinden"
 
 #: client/gui-gtk-2.0/pages.c:551 client/gui-gtk/connectdlg.c:189
 #: client/gui-win32/connectdlg.c:289 client/gui-xaw/connectdlg.c:311
@@ -12087,23 +12087,23 @@ msgstr "_Name:"
 
 #: client/gui-gtk-2.0/pages.c:806
 msgid "Pass_word:"
-msgstr "Passwort:"
+msgstr "_Passwort:"
 
 #: client/gui-gtk-2.0/pages.c:824
 msgid "Conf_irm Password:"
-msgstr "Passwort wiederholen:"
+msgstr "Passwort _wiederholen:"
 
 #: client/gui-gtk-2.0/pages.c:947
 msgid "_Number of Players (including AI):"
-msgstr "Anzahl der Spieler (einschließlich KI):"
+msgstr "An_zahl der Spieler (einschließlich KI):"
 
 #: client/gui-gtk-2.0/pages.c:970
 msgid "_AI Skill Level:"
-msgstr "KI Stärke:"
+msgstr "_KI Stärke:"
 
 #: client/gui-gtk-2.0/pages.c:978
 msgid "More Game _Options..."
-msgstr "Weitere Spieloptionen..."
+msgstr "Weitere Spiel_optionen..."
 
 #: client/gui-gtk-2.0/pages.c:1043 client/gui-gtk-2.0/pages.c:1542
 msgid "_Start"
@@ -12141,11 +12141,11 @@ msgstr "Bezeichnung"
 
 #: client/gui-gtk-2.0/pages.c:1511
 msgid "Choose a _nation to play:"
-msgstr "Wählen Sie Ihre Nation:"
+msgstr "Wählen Sie Ihre _Nation:"
 
 #: client/gui-gtk-2.0/pages.c:1531
 msgid "Game _Options..."
-msgstr "Spieloptionen..."
+msgstr "Spiel_optionen..."
 
 #: client/gui-gtk-2.0/pages.c:1689 client/gui-win32/menu.c:578
 msgid "Select Location to Save"
@@ -12157,11 +12157,11 @@ msgstr "Spiel speichern"
 
 #: client/gui-gtk-2.0/pages.c:1815
 msgid "Saved _Games:"
-msgstr "Gespeicherte Spiele:"
+msgstr "_Gespeicherte Spiele:"
 
 #: client/gui-gtk-2.0/pages.c:1842
 msgid "Save _Filename:"
-msgstr "Speichere Datei:"
+msgstr "_Speichere Datei:"
 
 #: client/gui-gtk-2.0/plrdlg.c:362
 msgid "_Player"
@@ -12170,27 +12170,27 @@ msgstr "_Spieler"
 #: client/gui-gtk-2.0/plrdlg.c:368 client/gui-gtk/plrdlg.c:188
 #: client/gui-mui/plrdlg.c:332
 msgid "_Intelligence"
-msgstr "Geheimdienst"
+msgstr "_Geheimdienst"
 
 #: client/gui-gtk-2.0/plrdlg.c:375 client/gui-gtk/plrdlg.c:194
 #: client/gui-mui/plrdlg.c:333
 msgid "_Meet"
-msgstr "Konferenz"
+msgstr "_Konferenz"
 
 #: client/gui-gtk-2.0/plrdlg.c:379 client/gui-gtk/plrdlg.c:200
 #: client/gui-mui/plrdlg.c:334
 msgid "_Cancel Treaty"
-msgstr "Abkommen aufkündigen"
+msgstr "_Abkommen aufkündigen"
 
 #: client/gui-gtk-2.0/plrdlg.c:383 client/gui-gtk/plrdlg.c:206
 #: client/gui-mui/plrdlg.c:335
 msgid "_Withdraw vision"
-msgstr "Karteneinsicht verbieten"
+msgstr "Karteneinsicht _verbieten"
 
 #: client/gui-gtk-2.0/plrdlg.c:390 client/gui-gtk/plrdlg.c:212
 #: client/gui-mui/plrdlg.c:336
 msgid "_Spaceship"
-msgstr "Raumschiff"
+msgstr "_Raumschiff"
 
 #: client/gui-gtk-2.0/plrdlg.c:395
 msgid "_AI"
@@ -12296,7 +12296,7 @@ msgstr "aktiv"
 
 #: client/gui-gtk-2.0/repodlgs.c:1003
 msgid "Find _Nearest"
-msgstr "Finde nächste"
+msgstr "_Finde nächste"
 
 #: client/gui-gtk-2.0/repodlgs.c:1008 client/gui-mui/repodlgs.c:764
 msgid "_Upgrade"
@@ -12424,27 +12424,27 @@ msgstr "Arbeitslisten bearbeiten"
 
 #: client/gui-gtk-2.0/wldlg.c:282
 msgid "_Worklists:"
-msgstr "Arbeitslisten:"
+msgstr "_Arbeitslisten:"
 
 #: client/gui-gtk-2.0/wldlg.c:529
 msgid "Edit Global _Worklists"
-msgstr "Bearbeite generelle Arbeitsliste"
+msgstr "Bearbeite _generelle Arbeitsliste"
 
 #: client/gui-gtk-2.0/wldlg.c:1100
 msgid "Source _Tasks:"
-msgstr "Mögliche Aufgaben:"
+msgstr "_Mögliche Aufgaben:"
 
 #: client/gui-gtk-2.0/wldlg.c:1105
 msgid "Show _Future Targets"
-msgstr "Zeige alle Aufträge"
+msgstr "_Zeige alle Aufträge"
 
 #: client/gui-gtk-2.0/wldlg.c:1180
 msgid "Target _Worklist:"
-msgstr "Arbeitsliste:"
+msgstr "Arbeits_liste:"
 
 #: client/gui-gtk-2.0/wldlg.c:1198
 msgid "_Add Global Worklist"
-msgstr "Neue generelle Arbeitsliste"
+msgstr "Neue _generelle Arbeitsliste"
 
 #: client/gui-gtk-2.0/wldlg.c:1214
 msgid "Chan_ge Production"
@@ -12461,7 +12461,7 @@ msgstr "Unterhalt"
 
 #: client/gui-gtk/citydlg.c:623
 msgid "City _Overview"
-msgstr "Übersicht"
+msgstr "_Übersicht"
 
 #: client/gui-gtk/citydlg.c:647 client/gui-win32/citydlg.c:747
 msgid "City info"
@@ -12480,7 +12480,7 @@ msgstr ">"
 #: client/gui-gtk/citydlg.c:845 client/gui-gtk/citydlg.c:2846
 #: client/gui-mui/citydlg.c:1629
 msgid "_Change"
-msgstr "Ändern"
+msgstr "_Ändern"
 
 #: client/gui-gtk/citydlg.c:887 client/gui-gtk/citydlg.c:1884
 #: client/gui-gtk/citydlg.c:3051 client/gui-win32/citydlg.c:771
@@ -12498,27 +12498,27 @@ msgstr "stationierte Einheiten"
 
 #: client/gui-gtk/citydlg.c:1096
 msgid "Acti_vate present units"
-msgstr "Einheiten aktivieren"
+msgstr "Einheiten _aktivieren"
 
 #: client/gui-gtk/citydlg.c:1102
 msgid "_Sentry idle units"
-msgstr "Einheiten stationieren"
+msgstr "Einheiten _stationieren"
 
 #: client/gui-gtk/citydlg.c:1108
 msgid "_List present units"
-msgstr "Einheiten anzeigen"
+msgstr "Einheiten _anzeigen"
 
 #: client/gui-gtk/citydlg.c:1133
 msgid "_Worklist"
-msgstr "Arbeitsliste"
+msgstr "Arbeits_liste"
 
 #: client/gui-gtk/citydlg.c:1210
 msgid "CM_A"
-msgstr "ASV"
+msgstr "_ASV"
 
 #: client/gui-gtk/citydlg.c:1232
 msgid "_Trade Routes"
-msgstr "Handelswege"
+msgstr "_Handelswege"
 
 #: client/gui-gtk/citydlg.c:1242
 msgid "Established trade routes"
@@ -12526,7 +12526,7 @@ msgstr "Bestehende Handelswege"
 
 #: client/gui-gtk/citydlg.c:1264
 msgid "_Misc. Settings"
-msgstr "Sonstige Einstellungen"
+msgstr "Sonstige _Einstellungen"
 
 #: client/gui-gtk/citydlg.c:1281 client/gui-mui/citydlg.c:1379
 msgid "City Overview page"
@@ -12698,15 +12698,15 @@ msgstr "_Schließen"
 
 #: client/gui-gtk/cityrep.c:650
 msgid "_Change..."
-msgstr "Ändern..."
+msgstr "_Ändern..."
 
 #: client/gui-gtk/cityrep.c:655
 msgid "_Select..."
-msgstr "Auswählen..."
+msgstr "_Auswählen..."
 
 #: client/gui-gtk/cityrep.c:660
 msgid "Con_figure..."
-msgstr "Einstellungen..."
+msgstr "_Einstellungen..."
 
 #: client/gui-gtk/cityrep.c:966 client/gui-win32/cityrep.c:693
 msgid "Game: Select a unit or improvement to change production to."
@@ -13196,7 +13196,7 @@ msgstr "_Lokale Optionen"
 
 #: client/gui-gtk/menu.c:592
 msgid "Messa_ge Options"
-msgstr "Nachrichten_darstellung"
+msgstr "_Nachrichtendarstellung"
 
 #: client/gui-gtk/menu.c:594
 msgid "_Save Settings"
@@ -13225,7 +13225,7 @@ msgstr "Textfenster _löschen"
 #: client/gui-gtk/menu.c:631 client/gui-gtk/menu.c:634
 #: client/gui-win32/menu.c:317
 msgid "Gov_ernment"
-msgstr "Regierungsformen"
+msgstr "_Regierungsformen"
 
 #: client/gui-gtk/menu.c:625 client/gui-win32/menu.c:321
 msgid "Work_lists"
@@ -13237,12 +13237,12 @@ msgstr "_Revolution!"
 
 #: client/gui-gtk/menu.c:721 client/gui-xaw/menu.c:188
 msgid "Load"
-msgstr "Laden"
+msgstr "Einschiffen"
 
 #: client/gui-gtk/menu.c:723 client/gui-mui/gui_main.c:257
 #: client/gui-mui/mapclass.c:1694 client/gui-xaw/menu.c:189
 msgid "Unload"
-msgstr "Ausladen"
+msgstr "Ausschiffen"
 
 #: client/gui-gtk/menu.c:743
 msgid "Go|Airlift to City"
@@ -13250,7 +13250,7 @@ msgstr "Gehe|Fliege zu Stadt"
 
 #: client/gui-gtk/menu.c:749
 msgid "_Disband Unit"
-msgstr "Einheit auflösen"
+msgstr "Einheit _auflösen"
 
 #: client/gui-gtk/menu.c:751
 msgid "Diplomat|Spy Actions"
@@ -13262,7 +13262,7 @@ msgstr "Gehe (fliege) nach Stadt"
 
 #: client/gui-gtk/menu.c:925
 msgid "_Diplomat/Spy Actions"
-msgstr "Aktionen für Diplomaten/Spionen"
+msgstr "Aktionen für _Diplomaten/Spionen"
 
 #: client/gui-gtk/messagedlg.c:83
 msgid ""
@@ -13509,11 +13509,11 @@ msgstr "_Verkaufen"
 
 #: client/gui-mui/citydlg.c:1550
 msgid "_Add preset"
-msgstr "Vorgabe speichern"
+msgstr "Vorgabe _speichern"
 
 #: client/gui-mui/citydlg.c:1551
 msgid "_Delete preset"
-msgstr "Vorgabe löschen"
+msgstr "Vorgabe _löschen"
 
 #: client/gui-mui/citydlg.c:1582
 msgid "People (W/E/S/T):"
@@ -13529,7 +13529,7 @@ msgstr "Produktion fertig:"
 
 #: client/gui-mui/citydlg.c:1630
 msgid "C_hange permanent"
-msgstr "Aktivieren"
+msgstr "_Aktivieren"
 
 #: client/gui-mui/citydlg.c:1661 client/gui-mui/citydlg.c:1662
 msgid "_Disband if build settler at size 1"
@@ -13688,7 +13688,7 @@ msgstr "Freeciv - Nation wählen"
 
 #: client/gui-mui/dialogs.c:1635
 msgid "_Leader Name"
-msgstr "Name des _Führers"
+msgstr "_Anführer"
 
 #: client/gui-mui/dialogs.c:1650 client/gui-mui/dialogs.c:1651
 msgid "_City Style"
@@ -14787,7 +14787,7 @@ msgstr "Befestigungen und Fliegerhorste"
 
 #: client/gui-xaw/menu.c:186
 msgid "Unload Transporter"
-msgstr "Transporter ausladen"
+msgstr "Schiff entladen"
 
 #: client/gui-xaw/menu.c:195
 msgid "Connect/Road"
@@ -15479,7 +15479,7 @@ msgstr ""
 "  s: Einheit stationieren\n"
 "  t: zeige von Stadt genutztes Gelände (Mauszeiger über der Stadt)\n"
 "  T: Dialog für Steuerquote öffnen\n"
-"  u: Einheiten ausladen (Schiffe)\n"
+"  u: Einheiten ausschiffen\n"
 "  w: warten\n"
 "  W: andere stationierte Einheiten auf dem Feld alarmieren\n"
 "  x: Gelände selbständig erkunden\n"
