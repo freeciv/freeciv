@@ -2199,6 +2199,7 @@ void place_partisans(struct city *pcity,int count)
   while(count && total)  {
     for(i=0,x=myrand(total)+1;x;i++) if(ok[i]) x--;
     ok[--i]=0; x=(i/5)-2+pcity->x; y=(i%5)-2+pcity->y;
+    light_square(city_owner(pcity), map_adjust_x(x), map_adjust_y(y), 0);
     create_unit(&game.players[pcity->owner], map_adjust_x(x), map_adjust_y(y),
 		get_role_unit(L_PARTISAN,0), 0, 0, -1);
     count--; total--;
