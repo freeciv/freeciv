@@ -528,8 +528,19 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
 {
   int x, y, bx, by, best, cur;
   int conflict[5][5];
-  *foodneed -= 2 * (*workers - 1);
-  *prodneed -= (*workers - 1);
+  int e, pwr, luxneed = 0; /* I should have thought of this earlier, it is so simple */
+
+  city_refresh(pcity);
+  if (city_unhappy(pcity))
+    luxneed = 2 * (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]);
+
+  pwr = (2 * city_tax_bonus(pcity)) / 100;
+  e = (luxneed + pwr - 1) / pwr;
+
+/* If I were real clever, I would optimize trade by luxneed and tax_bonus -- Syela */
+
+  *foodneed -= 2 * (*workers - 1 - e);
+  *prodneed -= (*workers - 1 - e);
 
   city_map_iterate(x, y) {
     conflict[x][y] = -1 - minimap[map_adjust_x(pcity->x+x-2)][map_adjust_y(pcity->y+y-2)];
@@ -556,8 +567,8 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
       *prodneed -= get_shields_tile(bx,by,pcity) - 1;
     }
   } while(*workers && (bx || by));
-  *foodneed += 2 * (*workers - 1);
-  *prodneed += (*workers - 1);
+  *foodneed += 2 * (*workers - 1 - e);
+  *prodneed += (*workers - 1 - e);
   if (*prodneed > 0) printf("Ignored prodneed? in %s (%d)\n", pcity->name, *prodneed);
 }
 
@@ -617,12 +628,14 @@ void auto_arrange_workers(struct city *pcity)
   if (gov == G_DESPOTISM) prodneed -= pcity->size;
   if (gov == G_MONARCHY || gov == G_COMMUNISM) prodneed -= 3;
   
-  worker_loop(pcity, &foodneed, &prodneed, &workers);
-
   taxwanted=pcity->ppl_taxman;
   sciwanted=pcity->ppl_scientist;
   pcity->ppl_taxman=0;
   pcity->ppl_scientist=0;
+  pcity->ppl_elvis=0;
+
+  worker_loop(pcity, &foodneed, &prodneed, &workers);
+
   while (workers && (taxwanted ||sciwanted)) {
     if (taxwanted) {
       workers--;
