@@ -717,7 +717,8 @@ int can_unit_do_activity_targeted(struct unit *punit,
   case ACTIVITY_FORTIFYING:
     return (is_ground_unit(punit) &&
 	    (punit->activity != ACTIVITY_FORTIFIED) &&
-	    !unit_flag(punit->type, F_SETTLERS));
+	    !unit_flag(punit->type, F_SETTLERS) &&
+	    ptile->terrain != T_OCEAN);
 
   case ACTIVITY_FORTIFIED:
     return 0;

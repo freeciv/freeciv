@@ -112,9 +112,19 @@ void global_warming(int effect)
 	}
       }
       unit_list_iterate(map_get_tile(x, y)->units, punit) {
-	if (!can_unit_do_activity(punit, punit->activity)
-	    && !punit->connecting)
+	/* Because of the way can_unit_do_activity() works we do
+	   fortified as a special case. (since you can never go
+	   straight to ACTIVITY_FORTIFY can_unit_do_activity()
+	   returns 0.) */
+	if (punit->activity == ACTIVITY_FORTIFIED) {
+	  punit->activity = ACTIVITY_IDLE;
+	  if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+	    punit->activity = ACTIVITY_FORTIFIED;
+	  } /* else let it remain on idle. */
+	} else if (!can_unit_do_activity(punit, punit->activity)
+		   && !punit->connecting) {
 	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	}
       } unit_list_iterate_end;
     }
   }
