@@ -492,6 +492,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->research.researched=pinfo->researched;
   pplayer->research.researchpoints=pinfo->researchpoints;
   pplayer->research.researching=pinfo->researching;
+  pplayer->ai.tech_goal=pinfo->tech_goal;
 
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
     strcpy(name, pplayer->name);

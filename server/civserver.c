@@ -652,6 +652,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_player_rates(pplayer, (struct packet_player_request *)packet);
     break;
 
+   case PACKET_PLAYER_TECH_GOAL:
+    handle_player_tech_goal(pplayer, (struct packet_player_request *)packet);
+    break;
+
    case PACKET_PLAYER_REVOLUTION:
     handle_player_revolution(pplayer);
     break;

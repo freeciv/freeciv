@@ -41,6 +41,7 @@ void init_tech(struct player *plr, int tech);
 void update_research(struct player *plr); 
 void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, int tech);
+void choose_tech_goal(struct player *plr, int tech);
 int choose_goal_tech(struct player *plr);
 void wonders_of_the_world(struct player *pplayer);
 void demographics_report(struct player *pplayer);

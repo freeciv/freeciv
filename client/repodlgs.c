@@ -63,15 +63,19 @@ void science_help_callback(Widget w, XtPointer client_data,
 			   XtPointer call_data);
 void science_change_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data);
+void science_goal_callback(Widget w, XtPointer client_data, 
+			   XtPointer call_data);
+
 
 
 /******************************************************************/
 Widget science_dialog_shell;
 Widget science_label;
-Widget science_current_label;
-Widget science_change_menu_button, science_list, science_help_toggle;
+Widget science_current_label, science_goal_label;
+Widget science_change_menu_button, science_goal_menu_button;
+Widget science_list, science_help_toggle;
 int science_dialog_shell_is_modal;
-Widget popupmenu;
+Widget popupmenu, goalmenu;
 
 
 /******************************************************************/
@@ -203,12 +207,17 @@ void create_science_dialog(int make_modal)
   int i, j, flag;
   Dimension width;
   char current_text[512];
+  char goal_text[512];
   char *report_title;
   
   sprintf(current_text, "Researching %s: %d/%d",
 	  advances[game.player_ptr->research.researching].name,
 	  game.player_ptr->research.researched,
 	  research_time(game.player_ptr));
+
+  sprintf(goal_text, "Goal: %s (%d steps)",
+	  advances[game.player_ptr->ai.tech_goal].name,
+          tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
   
   for(i=1, j=0; i<A_LAST; i++)
     if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
@@ -246,11 +255,22 @@ void create_science_dialog(int make_modal)
 						  current_text,
 						  NULL);
 
+  science_goal_label = XtVaCreateManagedWidget("sciencegoallabel", 
+					       labelWidgetClass, 
+					       science_form,
+					       XtNlabel, goal_text,
+					       NULL);
+
   science_change_menu_button = XtVaCreateManagedWidget(
 				       "sciencechangemenubutton", 
 				       menuButtonWidgetClass,
 				       science_form,
 				       NULL);
+
+  science_goal_menu_button = XtVaCreateManagedWidget("sciencegoalmenubutton", 
+						     menuButtonWidgetClass,
+				                     science_form,
+						     NULL);
 
   science_help_toggle = XtVaCreateManagedWidget("sciencehelptoggle", 
 						toggleWidgetClass, 
@@ -274,6 +294,11 @@ void create_science_dialog(int make_modal)
 				 science_change_menu_button, 
 				 NULL);
 
+  goalmenu=XtVaCreatePopupShell("menu", 
+				simpleMenuWidgetClass, 
+				science_goal_menu_button, 
+				NULL);
+
   
   for(i=1, flag=0; i<A_LAST; i++)
     if(get_invention(game.player_ptr, i)==TECH_REACHABLE) {
@@ -288,6 +313,21 @@ void create_science_dialog(int make_modal)
   if(!flag)
     XtSetSensitive(science_change_menu_button, FALSE);
   
+ for(i=1, flag=0; i<A_LAST; i++)
+    if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
+       advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
+       tech_goal_turns(game.player_ptr, i) < 11) {
+      Widget entry=
+      XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
+			      goalmenu, NULL);
+      XtAddCallback(entry, XtNcallback, science_goal_callback, 
+		    (XtPointer) i); 
+      flag=1;
+    }
+  
+  if(!flag)
+    XtSetSensitive(science_goal_menu_button, FALSE);
+
   XtAddCallback(close_command, XtNcallback, science_close_callback, NULL);
   XtAddCallback(science_list, XtNcallback, science_help_callback, NULL);
 
@@ -327,6 +367,33 @@ void science_change_callback(Widget w, XtPointer client_data,
     }
 }
 
+/****************************************************************
+...
+*****************************************************************/
+void science_goal_callback(Widget w, XtPointer client_data, 
+			   XtPointer call_data)
+{
+  char goal_text[512];
+  struct packet_player_request packet;
+  int to;
+  Boolean b;
+
+  to=(int)client_data;
+
+  XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
+  if (b == TRUE)
+    popup_help_dialog_string(advances[to].name);
+  else {  
+    sprintf(goal_text, "Goal: %s (%d steps)",
+	advances[to].name, tech_goal_turns(game.player_ptr, to),
+	  tech_goal_turns(game.player_ptr, to));
+
+    XtVaSetValues(science_goal_label, XtNlabel, goal_text, NULL);
+  
+    packet.tech=to;
+    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_TECH_GOAL);
+  }
+}
 
 /****************************************************************
 ...
@@ -386,6 +453,12 @@ void science_dialog_update(void)
     
     xaw_set_label(science_current_label, text);
 
+    sprintf(text, "Goal: %s (%d steps)",
+	    advances[game.player_ptr->ai.tech_goal].name,
+            tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
+
+    xaw_set_label(science_goal_label, text);
+
     for(i=1, j=0; i<A_LAST; i++)
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
 	strcpy(tech_list_names[j], advances[i].name);
@@ -415,6 +488,28 @@ void science_dialog_update(void)
     
     if(!flag)
       XtSetSensitive(science_change_menu_button, FALSE);
+
+    XtDestroyWidget(goalmenu);
+    
+    goalmenu=XtVaCreatePopupShell("menu", 
+				  simpleMenuWidgetClass, 
+				  science_goal_menu_button, 
+				  NULL);
+    
+    for(i=1, flag=0; i<A_LAST; i++)
+      if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
+         advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
+         tech_goal_turns(game.player_ptr, i) < 11) {
+	Widget entry=
+	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
+				  goalmenu, NULL);
+	XtAddCallback(entry, XtNcallback, science_goal_callback, 
+		      (XtPointer) i); 
+	flag=1;
+      }
+    
+    if(!flag)
+      XtSetSensitive(science_goal_menu_button, FALSE);
 
   }
   

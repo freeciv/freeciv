@@ -537,14 +537,14 @@ int update_tech(struct player *plr, int bulbs)
 
   if (choose_goal_tech(plr)) {
     notify_player(plr, 
-		  "Game: Learned %s. Our scientist focus on %s, goal is %s",
+		  "Game: Learned %s. Our scientists focus on %s, goal is %s",
 		  advances[old].name, 
 		  advances[plr->research.researching].name,
 		  advances[plr->ai.tech_goal].name);
   } else {
     choose_random_tech(plr);
     if (plr->research.researching == A_NONE) 
-      notify_player(plr, "Game: Our scientist are researching future technology");
+      notify_player(plr, "Game: Our scientists are researching future technology");
     else
       notify_player(plr, "Game: Learned %s. Scientists choose to research %s",
 		    advances[old].name,
@@ -552,8 +552,8 @@ int update_tech(struct player *plr, int bulbs)
   }
   for (i = 0; i<game.nplayers;i++) {
     if (player_has_embassy(&game.players[i], plr))
-      notify_player(&game.players[i], "Game: the %s has Researched %s.", 
-		   get_race_name(plr->race),
+      notify_player(&game.players[i], "Game: the %s have researched %s.", 
+		    get_race_name_plural(plr->race),
 		    advances[old].name);
   }
 
@@ -572,9 +572,13 @@ int choose_goal_tech(struct player *plr)
     plr->research.researched = 0;
   update_research(plr);
   sub_goal = get_next_tech(plr, plr->ai.tech_goal);
-  if (!sub_goal && plr->ai.control) {
-    ai_next_tech_goal(plr);
-    sub_goal = get_next_tech(plr, plr->ai.tech_goal);
+  if (!sub_goal) {
+    if (plr->ai.control || plr->research.researchpoints == 1) {
+      ai_next_tech_goal(plr);
+      sub_goal = get_next_tech(plr, plr->ai.tech_goal);
+    } else {
+      plr->ai.tech_goal = A_NONE; /* clear goal when it is achieved */
+    }
   }
 
   if (sub_goal) {
@@ -619,6 +623,10 @@ void choose_random_tech(struct player *plr)
 
 void choose_tech(struct player *plr, int tech)
 {
+  if (get_invention(plr, tech) == TECH_UNKNOWN) {
+    return;
+  }
+
   if (plr->research.researching==tech)
     return;
   update_research(plr);
@@ -628,6 +636,15 @@ void choose_tech(struct player *plr, int tech)
   plr->research.researching=tech;
   if (!plr->got_tech && plr->research.researched > 0)
     plr->research.researched -= ((plr->research.researched * game.techpenalty) / 100);     /* subtract a penalty because we changed subject */
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void choose_tech_goal(struct player *plr, int tech)
+{
+  notify_player(plr, "Game: Technology goal is %s.", advances[tech].name);
+  plr->ai.tech_goal = tech;
 }
 
 /**************************************************************************
@@ -646,7 +663,7 @@ void init_tech(struct player *plr, int tech)
     choose_random_tech(plr);
     set_invention(plr, plr->research.researching, TECH_KNOWN);
   }
-  choose_random_tech(plr);
+  choose_goal_tech(plr);
   update_research(plr);	
 }
 
@@ -679,6 +696,12 @@ void handle_player_research(struct player *pplayer,
   send_player_info(pplayer, pplayer);
 }
 
+void handle_player_tech_goal(struct player *pplayer,
+			     struct packet_player_request *preq)
+{
+  choose_tech_goal(pplayer, preq->tech);
+  send_player_info(pplayer, pplayer);
+}  
 
 /**************************************************************************
 ...
@@ -810,6 +833,7 @@ void send_player_info(struct player *src, struct player *dest)
 	     info.researched=game.players[i].research.researched;
              info.researchpoints=game.players[i].research.researchpoints;
              info.researching=game.players[i].research.researching;
+             info.tech_goal=game.players[i].ai.tech_goal;
              for(j=0; j<A_LAST; j++)
                info.inventions[j]=game.players[i].research.inventions[j]+'0';
              info.inventions[j]='\0';

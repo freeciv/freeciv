@@ -73,7 +73,8 @@ enum packet_type {
   PACKET_BEFORE_NEW_YEAR,
   PACKET_REMOVE_PLAYER,
   PACKET_UNIT_UPGRADE,
-  PACKET_UNIT_UNLOAD
+  PACKET_UNIT_UNLOAD,
+  PACKET_PLAYER_TECH_GOAL
 };
 
 enum report_type {
@@ -332,6 +333,7 @@ struct packet_player_info {
   int researched;
   int researchpoints;
   int researching;
+  int tech_goal;
   unsigned char inventions[A_LAST+1];
   int is_connected;
   char addr[MAX_LENGTH_ADDRESS];

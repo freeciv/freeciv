@@ -111,6 +111,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_PLAYER_REVOLUTION:
   case PACKET_PLAYER_GOVERNMENT:
   case PACKET_PLAYER_RESEARCH:
+  case PACKET_PLAYER_TECH_GOAL:
     return recieve_packet_player_request(pc);
 
   case PACKET_UNIT_BUILD_CITY:
@@ -527,12 +528,6 @@ recieve_packet_city_request(struct connection *pc)
 }
 
 
-
-
-
-
-
-
 /*************************************************************************
 ...
 **************************************************************************/
@@ -562,12 +557,12 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int32(cptr, pinfo->is_connected);
   cptr=put_string(cptr, pinfo->addr);
   cptr=put_int32(cptr, pinfo->revolution);
+  cptr=put_int32(cptr, pinfo->tech_goal);
+
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
-
-
 
 
 /*************************************************************************
@@ -577,10 +572,11 @@ struct packet_player_info *
 recieve_packet_player_info(struct connection *pc)
 {
   unsigned char *cptr;
+  int length;
   struct packet_player_info *pinfo=
      malloc(sizeof(struct packet_player_info));
 
-  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int16(pc->buffer.data, &length);
   cptr=get_int16(cptr, NULL);
 
   cptr=get_int32(cptr,  &pinfo->playerno);
@@ -605,6 +601,11 @@ recieve_packet_player_info(struct connection *pc)
   cptr=get_int32(cptr,  &pinfo->is_connected);
   cptr=get_string(cptr, pinfo->addr);
   cptr=get_int32(cptr,  &pinfo->revolution);
+  if(pc->buffer.data+length-cptr >= 4)  {
+    cptr=get_int32(cptr, &pinfo->tech_goal);
+  } else {
+    pinfo->tech_goal=A_NONE;
+  }
 
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;
