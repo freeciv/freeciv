@@ -482,134 +482,31 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-Animates punit's "smooth" move from (x0,y0) to (x0+dx,y0+dy).
-Note: Works only for adjacent-square moves.
-(Tiles need not be square.)
-FIXME: The unit flickers while it is moved because we first undraw the unit
-and then draw it. The correct way to do this is to have an internal pixmap
-where we draw the complete scene onto, and then draw it onto the screen in
-one go.
+  Draw a single frame of animation.  This function needs to clear the old
+  image and draw the new one.  It must flush output to the display.
 **************************************************************************/
-void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
+void draw_unit_animation_frame(struct unit *punit,
+			       bool first_frame, bool last_frame,
+			       int old_canvas_x, int old_canvas_y,
+			       int new_canvas_x, int new_canvas_y)
 {
-  static struct timer *anim_timer = NULL; 
-  int dest_x, dest_y, is_real;
+  /* Clear old sprite. */
+  gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
+		  old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
+		  UNIT_TILE_HEIGHT);
 
-  /* only works for adjacent-square moves */
-  if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
-      ((dx == 0) && (dy == 0))) {
-    return;
-  }
+  /* Draw the new sprite. */
+  gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
+		  new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
 
-  if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
-    set_hover_state(NULL, HOVER_NONE);
-    update_unit_info_label(punit);
-  }
+  /* Write to screen. */
+  gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
+		  new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
+		  UNIT_TILE_HEIGHT);
 
-  dest_x = x0 + dx;
-  dest_y = y0 + dy;
-  is_real = normalize_map_pos(&dest_x, &dest_y);
-  assert(is_real);
-
-  if (player_can_see_unit(game.player_ptr, punit) &&
-      (tile_visible_mapcanvas(x0, y0) ||
-       tile_visible_mapcanvas(dest_x, dest_y))) {
-    int i, steps;
-    int start_x, start_y;
-    int this_x, this_y;
-    int canvas_dx, canvas_dy;
-
-    if (is_isometric) {
-      if (dx == 0) {
-	canvas_dx = -NORMAL_TILE_WIDTH/2 * dy;
-	canvas_dy = NORMAL_TILE_HEIGHT/2 * dy;
-      } else if (dy == 0) {
-	canvas_dx = NORMAL_TILE_WIDTH/2 * dx;
-	canvas_dy = NORMAL_TILE_HEIGHT/2 * dx;
-      } else {
-	if (dx > 0) {
-	  if (dy > 0) {
-	    canvas_dx = 0;
-	    canvas_dy = NORMAL_TILE_HEIGHT;
-	  } else { /* dy < 0 */
-	    canvas_dx = NORMAL_TILE_WIDTH;
-	    canvas_dy = 0;
-	  }
-	} else { /* dx < 0 */
-	  if (dy > 0) {
-	    canvas_dx = -NORMAL_TILE_WIDTH;
-	    canvas_dy = 0;
-	  } else { /* dy < 0 */
-	    canvas_dx = 0;
-	    canvas_dy = -NORMAL_TILE_HEIGHT;
-	  }
-	}
-      }
-    } else {
-      canvas_dx = NORMAL_TILE_WIDTH * dx;
-      canvas_dy = NORMAL_TILE_HEIGHT * dy;
-    }
-
-    if (smooth_move_unit_steps < 2) {
-      steps = 2;
-    } else if (smooth_move_unit_steps > MAX(ABS(canvas_dx), ABS(canvas_dy))) {
-      steps = MAX(ABS(canvas_dx), ABS(canvas_dy));
-    } else {
-      steps = smooth_move_unit_steps;
-    }
-
-    get_canvas_xy(x0, y0, &start_x, &start_y);
-    if (is_isometric) {
-      start_y -= NORMAL_TILE_HEIGHT/2;
-    }
-
-    this_x = start_x;
-    this_y = start_y;
-
-    for (i = 1; i <= steps; i++) {
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-      if (is_isometric) {
-	/* FIXME: We need to draw units on tiles below the moving unit on top. */
-	gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-			this_x, this_y, this_x, this_y,
-			single_tile_pixmap_width, single_tile_pixmap_height);
-
-	this_x = start_x + ((i * canvas_dx)/steps);
-	this_y = start_y + ((i * canvas_dy)/steps);
-
-	gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
-			this_x, this_y, 0, 0,
-			single_tile_pixmap_width, single_tile_pixmap_height);
-	put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
-
-	gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-			0, 0, this_x, this_y,
-			single_tile_pixmap_width, single_tile_pixmap_height);
-      } else {
-	gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-			this_x, this_y, this_x, this_y,
-			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-	this_x = start_x + ((i * canvas_dx)/steps);
-	this_y = start_y + ((i * canvas_dy)/steps);
-
-	gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
-			this_x, this_y, 0, 0,
-			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-	put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
-
-	gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-			0, 0, this_x, this_y,
-			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      }
-
-      gdk_flush();
-      if (i < steps) {
-	usleep_since_timer_start(anim_timer, 10000);
-      }
-    }
-  }
+  /* Flush. */
+  gdk_flush();
 }
 
 /**************************************************************************

@@ -135,6 +135,9 @@ void update_map_canvas_visible(void);
 void show_city_descriptions(void);
 
 void undraw_segment(int src_x, int src_y, int dir);
+
+void move_unit_map_canvas(struct unit *punit,
+			  int map_x, int map_y, int dx, int dy);
 				
 struct city *find_city_near_tile(int x, int y);
 

@@ -1885,131 +1885,45 @@ void update_map_canvas_scrollbars(void)
 }
 
 /**************************************************************************
-  Animates punit's "smooth" move from (x0,y0) to (x0+dx,y0+dy).
-  Note: Works only for adjacent-square moves.
-  (Tiles need not be square.)
+  Draw a single frame of animation.  This function needs to clear the old
+  image and draw the new one.  It must flush output to the display.
 **************************************************************************/
-void move_unit_map_canvas(struct unit *pUnit, int col0, int row0, int dx,
-			  int dy)
+void draw_unit_animation_frame(struct unit *punit, int frame_number,
+			       int old_canvas_x, int old_canvas_y,
+			       int new_canvas_x, int new_canvas_y)
 {
+  SDL_Rect src =
+      { old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT };
+  SDL_Rect dest =
+      { new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT };
+  static SDL_Surface *pMap_Copy, *pUnit_Surf;
 
-  static struct timer *anim_timer = NULL;
-  int dest_col, dest_row;
-  int i, steps;
-  int start_x, start_y;
-  int canvas_dx, canvas_dy;
-
-  SDL_Rect dest, src = { 0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT +
-	NORMAL_TILE_HEIGHT / 2
-  };
-
-  SDL_Surface *pMap_Copy = create_surf(src.w, src.h, SDL_SWSURFACE);
-  SDL_Surface *pUnit_Surf = create_surf(src.w, src.h, SDL_SWSURFACE);
-
-  SDL_SetColorKey(pUnit_Surf, SDL_SRCCOLORKEY, 0x0);
-
-  put_unit_pixmap_draw(pUnit, pUnit_Surf, 0, 0);
-
-  /* only works for adjacent-square moves */
-  if (dx < -1 || dx > 1 || dy < -1 || dy > 1 || (dx == 0 && dy == 0)) {
-    return;
+  if (first_frame) {
+    /* Create extra backing stores. */
+    pMap_Copy =
+	create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, SDL_SWSURFACE);
+    pUnit_Surf =
+	create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, SDL_SWSURFACE);
+    SDL_SetColorKey(pUnit_Surf, SDL_SRCCOLORKEY, 0x0);
+    put_unit_pixmap_draw(pUnit, pUnit_Surf, 0, 0);
   }
 
-  if (pUnit == get_unit_in_focus() && hover_state != HOVER_NONE) {
-    set_hover_state(NULL, HOVER_NONE);
-    update_unit_info_label(pUnit);
+  /* Clear old sprite. */
+  SDL_BlitSurface(pMap_Copy, NULL, Main.screen, &src);
+  add_refresh_rect(src);
+
+  /* Draw the new sprite. */
+  SDL_BlitSurface(Main.screen, &dest, pMap_Copy, NULL);
+  SDL_BlitSurface(pUnit_Surf, NULL, Main.screen, &dest);
+  add_refresh_rect(dest);
+
+  /* Write to screen. */
+  refresh_rects();
+
+  if (last_frame) {
+    FREESURFACE(pMap_Copy);
+    FREESURFACE(pUnit_Surf);
   }
-
-  dest_col = col0 + dx;
-  dest_row = row0 + dy;
-  correction_map_pos(&dest_col, &dest_row);
-/*	
-  is_real = normalize_map_pos(&dest_x, &dest_y);
-  assert(is_real);
-*/
-  if (player_can_see_unit(game.player_ptr, pUnit) &&
-      (tile_visible_mapcanvas(col0, row0) ||
-       tile_visible_mapcanvas(dest_col, dest_row))) {
-
-
-    if (dx == 0) {
-      canvas_dx = -NORMAL_TILE_WIDTH / 2 * dy;
-      canvas_dy = NORMAL_TILE_HEIGHT / 2 * dy;
-    } else if (dy == 0) {
-      canvas_dx = NORMAL_TILE_WIDTH / 2 * dx;
-      canvas_dy = NORMAL_TILE_HEIGHT / 2 * dx;
-    } else {
-      if (dx > 0) {
-	if (dy > 0) {
-	  canvas_dx = 0;
-	  canvas_dy = NORMAL_TILE_HEIGHT;
-	} else {		/* dy < 0 */
-	  canvas_dx = NORMAL_TILE_WIDTH;
-	  canvas_dy = 0;
-	}
-      } else {			/* dx < 0 */
-	if (dy > 0) {
-	  canvas_dx = -NORMAL_TILE_WIDTH;
-	  canvas_dy = 0;
-	} else {		/* dy < 0 */
-	  canvas_dx = 0;
-	  canvas_dy = -NORMAL_TILE_HEIGHT;
-	}
-      }
-    }
-
-    if (smooth_move_unit_steps < 2) {
-      steps = 2;
-    } else if (smooth_move_unit_steps >
-	       MAX(abs(canvas_dx), abs(canvas_dy))) {
-      steps = MAX(abs(canvas_dx), abs(canvas_dy));
-    } else {
-      steps = smooth_move_unit_steps;
-    }
-
-    get_mcell_xy(col0, row0, &start_x, &start_y);
-
-    start_y -= NORMAL_TILE_HEIGHT / 2;
-
-
-    dest = src;
-    dest.x = start_x;
-    dest.y = start_y;
-    add_refresh_rect(dest);
-
-    for (i = 1; i <= steps; i++) {
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-
-      /* FIXME: We need to draw units on tiles below the moving unit on top. */
-
-      /* TODO: Fix bug with transparent windows: log, unit, etc... */
-
-      dest = src;
-      if (src.x) {
-	SDL_BlitSurface(pMap_Copy, NULL, Main.screen, &dest);
-	add_refresh_rect(dest);
-      }
-
-      src.x = start_x + ((i * canvas_dx) / steps);
-      src.y = start_y + ((i * canvas_dy) / steps);
-      dest = src;
-
-      SDL_BlitSurface(Main.screen, &src, pMap_Copy, NULL);
-      SDL_BlitSurface(pUnit_Surf, NULL, Main.screen, &dest);
-
-      add_refresh_rect(dest);
-
-      refresh_rects();
-
-      if (i < steps) {
-	usleep_since_timer_start(anim_timer, 10000);
-      }
-    }
-  }
-
-  FREESURFACE(pMap_Copy);
-  FREESURFACE(pUnit_Surf);
 }
 
 /**************************************************************************

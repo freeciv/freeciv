@@ -366,10 +366,11 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-...
+  This function has been replaced by draw_unit_animation_frame().
 **************************************************************************/
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
+#error
   int dest_x, dest_y, is_real;
   /* only works for adjacent-square moves */
   if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||

@@ -20,9 +20,11 @@
 #include "log.h"
 #include "map.h"
 #include "support.h"
+#include "timing.h"
 
 #include "mapview_g.h"
 
+#include "control.h"
 #include "goto.h"
 #include "mapview_common.h"
 #include "tilespec.h"
@@ -497,6 +499,110 @@ void undraw_segment(int src_x, int src_y, int dir)
 	  assert(0);
 	}
 	refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
+      }
+    }
+  }
+}
+
+/**************************************************************************
+  Animates punit's "smooth" move from (x0, y0) to (x0+dx, y0+dy).
+  Note: Works only for adjacent-tile moves.
+**************************************************************************/
+void move_unit_map_canvas(struct unit *punit,
+			  int map_x, int map_y, int dx, int dy)
+{
+  static struct timer *anim_timer = NULL; 
+  int dest_x, dest_y;
+
+  /* only works for adjacent-square moves */
+  if (dx < -1 || dx > 1 || dy < -1 || dy > 1 || (dx == 0 && dy == 0)) {
+    return;
+  }
+
+  if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
+    set_hover_state(NULL, HOVER_NONE);
+    update_unit_info_label(punit);
+  }
+
+  dest_x = map_x + dx;
+  dest_y = map_y + dy;
+  if (!normalize_map_pos(&dest_x, &dest_y)) {
+    assert(0);
+  }
+
+  if (player_can_see_unit(game.player_ptr, punit) &&
+      (tile_visible_mapcanvas(map_x, map_y) ||
+       tile_visible_mapcanvas(dest_x, dest_y))) {
+    int i, steps;
+    int start_x, start_y;
+    int this_x, this_y;
+    int canvas_dx, canvas_dy;
+
+    if (is_isometric) {
+      if (dx == 0) {
+	canvas_dx = -NORMAL_TILE_WIDTH / 2 * dy;
+	canvas_dy = NORMAL_TILE_HEIGHT / 2 * dy;
+      } else if (dy == 0) {
+	canvas_dx = NORMAL_TILE_WIDTH / 2 * dx;
+	canvas_dy = NORMAL_TILE_HEIGHT / 2 * dx;
+      } else {
+	if (dx > 0) {
+	  if (dy > 0) {
+	    canvas_dx = 0;
+	    canvas_dy = NORMAL_TILE_HEIGHT;
+	  } else { /* dy < 0 */
+	    canvas_dx = NORMAL_TILE_WIDTH;
+	    canvas_dy = 0;
+	  }
+	} else { /* dx < 0 */
+	  if (dy > 0) {
+	    canvas_dx = -NORMAL_TILE_WIDTH;
+	    canvas_dy = 0;
+	  } else { /* dy < 0 */
+	    canvas_dx = 0;
+	    canvas_dy = -NORMAL_TILE_HEIGHT;
+	  }
+	}
+      }
+    } else {
+      canvas_dx = NORMAL_TILE_WIDTH * dx;
+      canvas_dy = NORMAL_TILE_HEIGHT * dy;
+    }
+
+    /* Sanity check on the number of steps. */
+    if (smooth_move_unit_steps < 2) {
+      steps = 2;
+    } else if (smooth_move_unit_steps > MAX(abs(canvas_dx),
+					    abs(canvas_dy))) {
+      steps = MAX(abs(canvas_dx), abs(canvas_dy));
+    } else {
+      steps = smooth_move_unit_steps;
+    }
+
+    get_canvas_xy(map_x, map_y, &start_x, &start_y);
+    if (is_isometric) {
+      start_y -= NORMAL_TILE_HEIGHT / 2;
+    }
+
+    this_x = start_x;
+    this_y = start_y;
+
+    for (i = 1; i <= steps; i++) {
+      int new_x, new_y;
+
+      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+      new_x = start_x + (i * canvas_dx) / steps;
+      new_y = start_y + (i * canvas_dy) / steps;
+
+      draw_unit_animation_frame(punit, i == 1, i == steps,
+				this_x, this_y, new_x, new_y);
+
+      this_x = new_x;
+      this_y = new_y;
+
+      if (i < steps) {
+	usleep_since_timer_start(anim_timer, 10000);
       }
     }
   }

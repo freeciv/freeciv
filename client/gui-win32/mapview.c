@@ -899,119 +899,49 @@ put_city_workers(struct city *pcity, int color)
 }
 
 /**************************************************************************
-
+  Draw a single frame of animation.  This function needs to clear the old
+  image and draw the new one.  It must flush output to the display.
 **************************************************************************/
-void
-move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
+void draw_unit_animation_frame(struct unit *punit,
+			       bool first_frame, bool last_frame,
+			       int old_canvas_x, int old_canvas_y,
+			       int new_canvas_x, int new_canvas_y)
 {
-  HDC mapstoredc;
-  HBITMAP old;
-  static struct timer *anim_timer = NULL; 
-  int dest_x, dest_y, is_real;
-  
-  
-  /* only works for adjacent-square moves */
-  if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
-      ((dx == 0) && (dy == 0))) {
-    return;
-  }
-  
-  if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
-    set_hover_state(NULL, HOVER_NONE);
-    update_unit_info_label(punit);
-  }
-  
-  dest_x = x0 + dx;
-  dest_y = y0 + dy;
-  is_real = normalize_map_pos(&dest_x, &dest_y);
-  assert(is_real);
+  static HDC mapstoredc, hdc, hdcwin;
+  static HBITMAP old, oldbmp;
 
-  mapstoredc=CreateCompatibleDC(NULL);
-  old=SelectObject(mapstoredc,mapstorebitmap);
-  if (player_can_see_unit(game.player_ptr, punit) &&
-      (tile_visible_mapcanvas(x0, y0) ||
-       tile_visible_mapcanvas(dest_x, dest_y))) {
-    int i, steps;
-    int start_x, start_y;
-    int this_x, this_y;
-    int canvas_dx, canvas_dy;
-    HDC hdc,hdcwin;
-    HBITMAP oldbmp;
-    hdc=CreateCompatibleDC(NULL);
-    oldbmp=SelectObject(hdc,single_tile_pixmap);
-    hdcwin=GetDC(map_window);
-    if (is_isometric) {
-      if (dx == 0) {
-        canvas_dx = -NORMAL_TILE_WIDTH/2 * dy;
-        canvas_dy = NORMAL_TILE_HEIGHT/2 * dy;
-      } else if (dy == 0) {
-        canvas_dx = NORMAL_TILE_WIDTH/2 * dx;
-        canvas_dy = NORMAL_TILE_HEIGHT/2 * dx;
-      } else {
-        if (dx > 0) {
-          if (dy > 0) {
-            canvas_dx = 0;
-            canvas_dy = NORMAL_TILE_HEIGHT;
-          } else { /* dy < 0 */
-            canvas_dx = NORMAL_TILE_WIDTH;
-            canvas_dy = 0;
-          }
-        } else { /* dx < 0 */
-          if (dy > 0) {
-            canvas_dx = -NORMAL_TILE_WIDTH;
-            canvas_dy = 0;
-          } else { /* dy < 0 */
-            canvas_dx = 0;
-            canvas_dy = -NORMAL_TILE_HEIGHT;
-          }
-        }
-      }
-    } else {
-      canvas_dx = NORMAL_TILE_WIDTH * dx;
-      canvas_dy = NORMAL_TILE_HEIGHT * dy;
-    }
-    
-    if (smooth_move_unit_steps < 2) {
-      steps = 2;
-    } else if (smooth_move_unit_steps > MAX(abs(canvas_dx), abs(canvas_dy))) {
-      steps = MAX(abs(canvas_dx), abs(canvas_dy));
-    } else {
-      steps = smooth_move_unit_steps;
-    }
-    
-    get_canvas_xy(x0, y0, &start_x, &start_y);
-    if (is_isometric) {
-      start_y -= NORMAL_TILE_HEIGHT/2;
-    }
-    
-    this_x = start_x;
-    this_y = start_y;
-    
-    for (i = 1; i <= steps; i++) {
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-      /* FIXME: We need to draw units on tiles below the moving unit on top. */
-      BitBlt(hdcwin,this_x,this_y,UNIT_TILE_WIDTH,
-	     UNIT_TILE_HEIGHT,mapstoredc,this_x,this_y,SRCCOPY);
-      this_x = start_x + ((i * canvas_dx)/steps);
-      this_y = start_y + ((i * canvas_dy)/steps);
-      BitBlt(hdc,0,0,UNIT_TILE_WIDTH,UNIT_TILE_HEIGHT,mapstoredc,
-	     this_x,this_y,SRCCOPY);
-      put_unit_pixmap(punit, hdc, 0, 0);
-      BitBlt(hdcwin,this_x,this_y,UNIT_TILE_WIDTH,
-	     UNIT_TILE_HEIGHT,hdc,0,0,SRCCOPY);
-      
-      GdiFlush();
-      if (i < steps) {
-	
-	usleep_since_timer_start(anim_timer, 10000);
-      }
-    }
-    SelectObject(hdc,oldbmp);
-    DeleteDC(hdc);
-    ReleaseDC(map_window,hdcwin);
+  /* Create extra backing store.  This should be done statically. */
+  if (first_frame) {
+    mapstoredc = CreateCompatibleDC(NULL);
+    old = SelectObject(mapstoredc, mapstorebitmap);
+    hdc = CreateCompatibleDC(NULL);
+    oldbmp = SelectObject(hdc, single_tile_pixmap);
+    hdcwin = GetDC(map_window);
   }
-  SelectObject(mapstoredc,old);
-  DeleteDC(mapstoredc);
+
+  /* Clear old sprite. */
+  BitBlt(hdcwin, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
+	 UNIT_TILE_HEIGHT, mapstoredc, old_canvas_x, old_canvas_y, SRCCOPY);
+
+  /* Draw the new sprite. */
+  BitBlt(hdc, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, mapstoredc,
+	 new_canvas_x, new_canvas_y, SRCCOPY);
+  put_unit_pixmap(punit, hdc, 0, 0);
+
+  /* Write to screen. */
+  BitBlt(hdcwin, new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
+	 UNIT_TILE_HEIGHT, hdc, 0, 0, SRCCOPY);
+
+  /* Flush. */
+  GdiFlush();
+
+  if (last_frame) {
+    SelectObject(hdc, oldbmp);
+    DeleteDC(hdc);
+    ReleaseDC(map_window, hdcwin);
+    SelectObject(mapstoredc, old);
+    DeleteDC(mapstoredc);
+  }
 }
 
 /**************************************************************************

@@ -45,7 +45,10 @@ void update_map_canvas_scrollbars(void);
 void put_cross_overlay_tile(int x,int y);
 void put_city_workers(struct city *pcity, int color);
 
-void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy);
+void draw_unit_animation_frame(struct unit *punit,
+			       bool first_frame, bool last_frame,
+			       int old_canvas_x, int old_canvas_y,
+			       int new_canvas_x, int new_canvas_y);
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
 			     struct unit *punit1, int hp1);
 void put_nuke_mushroom_pixmaps(int x, int y);

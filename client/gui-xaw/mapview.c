@@ -346,72 +346,31 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-Animates punit's "smooth" move from (x0,y0) to (x0+dx,y0+dy).
-Note: Works only for adjacent-square moves.
-(Tiles need not be square.)
+  Draw a single frame of animation.  This function needs to clear the old
+  image and draw the new one.  It must flush output to the display.
 **************************************************************************/
-void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
+void draw_unit_animation_frame(struct unit *punit,
+			       bool first_frame, bool last_frame,
+			       int old_canvas_x, int old_canvas_y,
+			       int new_canvas_x, int new_canvas_y)
 {
-  static struct timer *anim_timer = NULL; 
-  int dest_x, dest_y, is_real;
+  /* Clear old sprite. */
+  XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc,
+	    old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
+	    old_canvas_x, old_canvas_y);
 
-  /* only works for adjacent-square moves */
-  if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
-      ((dx == 0) && (dy == 0))) {
-    return;
-  }
+  /* Draw the new sprite. */
+  XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
+	    new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, 0,
+	    0);
+  put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
 
-  dest_x = x0 + dx;
-  dest_y = y0 + dy;
-  is_real = normalize_map_pos(&dest_x, &dest_y);
-  assert(is_real);
+  /* Write to screen. */
+  XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc, 0, 0,
+	    UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, new_canvas_x, new_canvas_y);
 
-  if (player_can_see_unit(game.player_ptr, punit) &&
-      (tile_visible_mapcanvas(x0, y0) ||
-       tile_visible_mapcanvas(dest_x, dest_y))) {
-    int i, steps;
-    int start_x, start_y;
-    int this_x, this_y;
-
-    if (smooth_move_unit_steps < 2) {
-      steps = 2;
-    } else if (smooth_move_unit_steps >
-	       MIN(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT)) {
-      steps = MIN(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    } else {
-      steps = smooth_move_unit_steps;
-    }
-
-    get_canvas_xy(x0, y0, &start_x, & start_y);
-
-    this_x = start_x;
-    this_y = start_y;
-
-    for (i = 1; i <= steps; i++) {
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-      XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc,
-		this_x, this_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		this_x, this_y);
-
-      this_x = start_x + (dx * ((i * NORMAL_TILE_WIDTH) / steps));
-      this_y = start_y + (dy * ((i * NORMAL_TILE_HEIGHT) / steps));
-
-      XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
-		this_x, this_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		0, 0);
-      put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
-
-      XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
-		0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		this_x, this_y);
-
-      XSync(display, 0);
-      if (i < steps) {
-	usleep_since_timer_start(anim_timer, 10000);
-      }
-    }
-  }
+  /* Flush. */
+  XSync(display, 0);
 }
 
 /**************************************************************************
