@@ -243,12 +243,18 @@ bool client_start_server(void)
    * get an iso-map and for a classic tileset you get a classic map.  In
    * both cases the map wraps in the X direction by default.
    *
+   * This works with hex maps too now.  A hex map always has is_isometric
+   * set.  An iso-hex map has hex_height != 0, while a non-iso hex map
+   * has hex_width != 0.
+   *
    * Setting the option here is a bit of a hack, but so long as the client
    * has sufficient permissions to do so (it doesn't have HACK access yet) it
    * is safe enough.  Note that if you load a savegame the topology will be
    * set but then overwritten during the load. */
   my_snprintf(buf, sizeof(buf), "/set topology %d",
-	      TF_WRAPX | (is_isometric ? TF_ISO : 0));
+	      (TF_WRAPX
+	       | ((is_isometric && hex_height == 0) ? TF_ISO : 0)
+	       | ((hex_width != 0 || hex_height != 0) ? TF_HEX : 0)));
   send_chat(buf);
 
   return TRUE;

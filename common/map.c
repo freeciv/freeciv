@@ -318,7 +318,7 @@ static void set_ratio(double base_size, int Xratio, int Yratio)
 {
   /* In TF_ISO we need to double the map.ysize factor, since xsize is
    * in native coordinates which are compressed 2x in the X direction. */ 
-  const int iso = topo_has_flag(TF_ISO) ? 2 : 1;
+  const int iso = (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX)) ? 2 : 1;
 
   /* We have:
    *
@@ -551,7 +551,13 @@ const char *get_special_name(enum tile_special_type type)
 ****************************************************************************/
 static int map_vector_to_distance(int dx, int dy)
 {
-  return abs(dx) + abs(dy);
+  if (topo_has_flag(TF_HEX)) {
+    /* Hex: all directions are cardinal so the distance is equivalent to
+     * the real distance. */
+    return map_vector_to_real_distance(dx, dy);
+  } else {
+    return abs(dx) + abs(dy);
+  }
 }
 
 /****************************************************************************
@@ -559,7 +565,33 @@ static int map_vector_to_distance(int dx, int dy)
 ****************************************************************************/
 int map_vector_to_real_distance(int dx, int dy)
 {
-  return MAX(abs(dx), abs(dy));
+  if (topo_has_flag(TF_HEX)) {
+    if (topo_has_flag(TF_ISO)) {
+      /* Iso-hex: you can't move NE or SW. */
+      if ((dx < 0 && dy > 0)
+	  || (dx > 0 && dy < 0)) {
+	/* Diagonal moves in this direction aren't allowed, so it will take
+	 * the full number of moves. */
+	return abs(dx) + abs(dy);
+      } else {
+	/* Diagonal moves in this direction *are* allowed. */
+	return MAX(abs(dx), abs(dy));
+      }
+    } else {
+      /* Hex: you can't move SE or NW. */
+      if ((dx > 0 && dy > 0)
+	  || (dx < 0 && dy < 0)) {
+	/* Diagonal moves in this direction aren't allowed, so it will take
+	 * the full number of moves. */
+	return abs(dx) + abs(dy);
+      } else {
+	/* Diagonal moves in this direction *are* allowed. */
+	return MAX(abs(dx), abs(dy));
+      }
+    }
+  } else {
+    return MAX(abs(dx), abs(dy));
+  }
 }
 
 /****************************************************************************
@@ -567,7 +599,15 @@ int map_vector_to_real_distance(int dx, int dy)
 ****************************************************************************/
 int map_vector_to_sq_distance(int dx, int dy)
 {
-  return dx * dx + dy * dy;
+  if (topo_has_flag(TF_HEX)) {
+    /* Hex: The square distance is just the square of the real distance; we
+     * don't worry about pythagorean calculations. */
+    int dist = map_vector_to_real_distance(dx, dy);
+
+    return dist * dist;
+  } else {
+    return dx * dx + dy * dy;
+  }
 }
 
 /***************************************************************
@@ -1736,14 +1776,16 @@ enum direction8 dir_ccw(enum direction8 dir)
 bool is_valid_dir(enum direction8 dir)
 {
   switch (dir) {
-  case DIR8_NORTH:
-  case DIR8_NORTHEAST:
-  case DIR8_EAST:
   case DIR8_SOUTHEAST:
-  case DIR8_SOUTH:
-  case DIR8_SOUTHWEST:
-  case DIR8_WEST:
   case DIR8_NORTHWEST:
+    return !(topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO));
+  case DIR8_NORTHEAST:
+  case DIR8_SOUTHWEST:
+    return !(topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO));
+  case DIR8_NORTH:
+  case DIR8_EAST:
+  case DIR8_SOUTH:
+  case DIR8_WEST:
     return TRUE;
   default:
     return FALSE;

@@ -274,7 +274,15 @@ static struct settings_s settings[] = {
 	     "  4 Flat Earth (isometric)\n"
 	     "  5 Earth (isometric)\n"
 	     "  6 Uranus (isometric)\n"
-	     "  7 Donut World (isometric)"
+	     "  7 Donut World (isometric)\n"
+	     "  8 Flat Earth (hexagonal)\n"
+	     "  9 Earth (hexagonal)\n"
+	     " 10 Uranus (hexagonal)\n"
+	     " 11 Donut World (hexagonal)\n"
+	     " 12 Flat Earth (iso-hex)\n"
+	     " 13 Earth (iso-hex)\n"
+	     " 14 Uranus (iso-hex)\n"
+	     " 15 Donut World (iso-hex)"
           ), NULL, 
 	  MAP_MIN_TOPO, MAP_MAX_TOPO, MAP_DEFAULT_TOPO)
 

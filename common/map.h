@@ -183,7 +183,8 @@ enum topo_flag {
   /* Changing these values will break map_init_topology. */
   TF_WRAPX = 1,
   TF_WRAPY = 2,
-  TF_ISO = 4
+  TF_ISO = 4,
+  TF_HEX = 8
 };
 
 #define CURRENT_TOPOLOGY (map.topology_id)
@@ -236,13 +237,13 @@ void reset_move_costs(int x, int y);
 
 /* Obscure math.  See explanation in doc/HACKING. */
 #define native_to_map_pos(pmap_x, pmap_y, nat_x, nat_y)                     \
-  (topo_has_flag(TF_ISO)                                                    \
+  ((topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))                         \
    ? (*(pmap_x) = ((nat_y) + ((nat_y) & 1)) / 2 + (nat_x),                  \
       *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define map_to_native_pos(pnat_x, pnat_y, map_x, map_y)                     \
-  (topo_has_flag(TF_ISO)                                                    \
+  ((topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))			    \
    ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
@@ -581,9 +582,23 @@ struct unit_order {
 
 /* is the direction "cardinal"?  Cardinal directions
  * (also called cartesian) are the four main ones */
-#define DIR_IS_CARDINAL(dir)                           \
-  ((dir) == DIR8_NORTH || (dir) == DIR8_EAST ||        \
-   (dir) == DIR8_WEST || (dir) == DIR8_SOUTH)
+static inline bool DIR_IS_CARDINAL(enum direction8 dir)
+{
+  switch (dir) {
+  case DIR8_NORTH:
+  case DIR8_SOUTH:
+  case DIR8_EAST:
+  case DIR8_WEST:
+    return TRUE;
+  case DIR8_SOUTHEAST:
+  case DIR8_NORTHWEST:
+    return !(topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO));
+  case DIR8_NORTHEAST:
+  case DIR8_SOUTHWEST:
+    return !(topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO));
+  }
+  return FALSE;
+}
 
 enum direction8 dir_cw(enum direction8 dir);
 enum direction8 dir_ccw(enum direction8 dir);
@@ -616,7 +631,7 @@ extern const int DIR_DY[8];
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
 #define MAP_DEFAULT_TOPO         TF_WRAPX
 #define MAP_MIN_TOPO             0
-#define MAP_MAX_TOPO             7
+#define MAP_MAX_TOPO             15
 
 #define MAP_DEFAULT_SEED         0
 #define MAP_MIN_SEED             0
@@ -697,7 +712,9 @@ static inline bool IS_BORDER_MAP_POS(int map_x, int map_y, int dist)
     /* HACK: An iso-map compresses the value in the X direction but not in
      * the Y direction.  Hence (x+1,y) is 1 tile away while (x,y+2) is also
      * one tile away. */
-    int xdist = dist, ydist = topo_has_flag(TF_ISO) ? (2 * dist) : dist;
+    int xdist = dist;
+    int ydist = ((topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))
+		 ? (2 * dist) : dist);
 
     return (nat_x < xdist 
 	    || nat_y < ydist
