@@ -675,7 +675,9 @@ static void response_callback(GtkWidget *w, gint response_id)
     break;
   case CMD_PREV:
     /* It will also kill internal server if there's one */
-    disconnect_from_server();
+    if (aconnection.used) {
+      disconnect_from_server();
+    }
 
     gtk_notebook_set_current_page(GTK_NOTEBOOK(uberbook), FIRST_PAGE);
     break;
