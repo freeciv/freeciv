@@ -187,14 +187,8 @@ void blink_active_unit(void)
 **************************************************************************/
 void set_overview_dimensions(int x, int y)
 {
-/*
-  Dimension h;
-*/
   gtk_widget_set_usize(overview_canvas, 2*x, 2*y);
-/*
-  XtVaGetValues(left_column_form, XtNheight, &h, NULL);
-  XtVaSetValues(map_form, XtNheight, h, NULL);
-*/
+
   overview_canvas_store_width=2*x;
   overview_canvas_store_height=2*y;
 
@@ -204,8 +198,6 @@ void set_overview_dimensions(int x, int y)
   overview_canvas_store	= gdk_pixmap_new(root_window,
 			  overview_canvas_store_width,
 			  overview_canvas_store_height, -1);
-
-  update_map_canvas_scrollbars_size();
 }
 
 
@@ -341,8 +333,7 @@ void update_unit_pix_label(struct unit *punit)
   
   if(punit) {
     if(punit->type!=utemplate || punit->activity!=uactivity) {
-      if (flags_are_transparent)
-        gtk_clear_pixmap(unit_pixmap); /* STG */
+      gtk_clear_pixmap(unit_pixmap); /* STG */
       put_unit_gpixmap(punit, GTK_PIXMAP(unit_pixmap), 0, 0);
       gtk_changed_pixmap(unit_pixmap);
       utemplate=punit->type;
@@ -363,8 +354,7 @@ void update_unit_pix_label(struct unit *punit)
       /* IS THIS INTENTIONAL?? - mjd */
       if(1 || unit_ids[i]!=id) {
 	if(id) {
-	  if (flags_are_transparent)
-	    gtk_clear_pixmap(unit_below_pixmap[i]); /* STG */
+	  gtk_clear_pixmap(unit_below_pixmap[i]); /* STG */
 	  put_unit_gpixmap((struct unit *)ITERATOR_PTR(myiter),
 			  GTK_PIXMAP(unit_below_pixmap[i]),
 			  0, 0);
@@ -722,12 +712,38 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
 {
   gint height, width;
   int tile_width, tile_height;
+  gboolean map_resized;
 
   gdk_window_get_size( widget->window, &width, &height );
 
   tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
   
+  map_resized=FALSE;
+  if(map_canvas_store_twidth !=tile_width ||
+     map_canvas_store_theight!=tile_height) { /* resized? */
+    gdk_pixmap_unref(map_canvas_store);
+  
+    map_canvas_store_twidth=tile_width;
+    map_canvas_store_theight=tile_height;
+/*
+    gtk_drawing_area_size(GTK_DRAWING_AREA(map_canvas),
+  		    map_canvas_store_twidth,
+  		    map_canvas_store_theight);
+*/
+    map_canvas_store= gdk_pixmap_new( map_canvas->window,
+  		    tile_width*NORMAL_TILE_WIDTH,
+  		    tile_height*NORMAL_TILE_HEIGHT,
+  		    -1 );
+  				 
+    gdk_draw_rectangle( map_canvas_store, fill_bg_gc, TRUE,
+  		    0, 0,
+  		    NORMAL_TILE_WIDTH*map_canvas_store_twidth,
+  		    NORMAL_TILE_HEIGHT*map_canvas_store_theight );
+    update_map_canvas_scrollbars_size();
+    map_resized=TRUE;
+  }
+
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     if(!intro_gfx_sprite)  load_intro_gfx();
     if(height!=scaled_intro_pixmap_height || width!=scaled_intro_pixmap_width) {
@@ -746,53 +762,31 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
 	gdk_draw_pixmap( map_canvas->window, civ_gc, scaled_intro_pixmap,
 		event->area.x, event->area.y, event->area.x, event->area.y,
 		event->area.width, event->area.height );
-    return TRUE;
   }
-  if(scaled_intro_pixmap) {
-    gdk_imlib_free_pixmap(scaled_intro_pixmap);
-    scaled_intro_pixmap=0; scaled_intro_pixmap_height=0;
-  };
-  
-  if(map.xsize) { /* do we have a map at all */
-    int tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
-    int tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
-
-    if(map_canvas_store_twidth !=tile_width ||
-       map_canvas_store_theight!=tile_height) { /* resized? */
-      
-      gdk_pixmap_unref(map_canvas_store);
-      
-      map_canvas_store_twidth=tile_width;
-      map_canvas_store_theight=tile_height;
-/*
-      gtk_drawing_area_size(GTK_DRAWING_AREA(map_canvas),
-			    map_canvas_store_twidth,
-			    map_canvas_store_theight);
-*/
-      map_canvas_store	= gdk_pixmap_new( map_canvas->window,
-			tile_width*NORMAL_TILE_WIDTH,
-			tile_height*NORMAL_TILE_HEIGHT,
-			-1 );
-				     
-      gdk_draw_rectangle( map_canvas_store, fill_bg_gc, TRUE,
-		0, 0,
-		NORMAL_TILE_WIDTH*map_canvas_store_twidth,
-		NORMAL_TILE_HEIGHT*map_canvas_store_theight );
-      
-      update_map_canvas(0, 0, map_canvas_store_twidth,
-			map_canvas_store_theight, 1);
-      
-      update_map_canvas_scrollbars_size();
-      update_map_canvas_scrollbars();
-      refresh_overview_viewrect();
+  else
+  {
+    if(scaled_intro_pixmap) {
+      gdk_imlib_free_pixmap(scaled_intro_pixmap);
+      scaled_intro_pixmap=0; scaled_intro_pixmap_height=0;
     }
-    else {
-      gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
+
+    if(map.xsize) { /* do we have a map at all */
+      if(map_resized) {
+	update_map_canvas(0, 0, map_canvas_store_twidth,
+			map_canvas_store_theight, 1);
+
+	update_map_canvas_scrollbars();
+
+    	refresh_overview_viewrect();
+      }
+      else {
+	gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
 		event->area.x, event->area.y, event->area.x, event->area.y,
 		event->area.width, event->area.height );
+      }
     }
+    refresh_overview_canvas();
   }
-  refresh_overview_canvas();
   return TRUE;
 }
 
@@ -857,11 +851,10 @@ void update_map_canvas_scrollbars(void)
 **************************************************************************/
 void update_map_canvas_scrollbars_size(void)
 {
-  map_hadj=gtk_adjustment_new(0, 0, map.xsize, 1,
+  map_hadj=gtk_adjustment_new(-1, 0, map.xsize, 1,
 	   map_canvas_store_twidth, map_canvas_store_twidth);
-  map_vadj=gtk_adjustment_new(0, 0, map.ysize, 1,
+  map_vadj=gtk_adjustment_new(-1, 0, map.ysize, 1,
 	   map_canvas_store_theight, map_canvas_store_theight);
-
   gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar),
 	GTK_ADJUSTMENT(map_hadj));
   gtk_range_set_adjustment(GTK_RANGE(map_vertical_scrollbar),
