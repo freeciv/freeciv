@@ -458,6 +458,9 @@ Configuring server without readline support.)
 	    fi
 	fi
     fi
+
+    AC_CHECK_LIB(m, pow, SERVER_LIBS="$SERVER_LIBS -lm",
+		 AC_MSG_ERROR(Did not find math lib!))
 fi
 AC_SUBST(SERVER_LIBS)
 
