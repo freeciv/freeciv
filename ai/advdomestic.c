@@ -396,6 +396,23 @@ static int pollution_benefit(struct player *pplayer, struct city *pcity,
   return cost;
 }
 
+/****************************************************************************
+  Return TRUE if the given wonder is already being built by pcity owner in
+  another city (if so we probably don't want to build it here, although
+  we may want to start building it and switch later).
+****************************************************************************/
+static bool built_elsewhere(struct city *pcity, Impr_Type_id wonder)
+{
+  city_list_iterate(city_owner(pcity)->cities, acity) {
+    if (pcity != acity && !acity->is_building_unit
+	&& pcity->currently_building == wonder) {
+      return TRUE;
+    }
+  } city_list_iterate_end;
+
+  return FALSE;
+}
+
 /**************************************************************************
   Evaluate the current desirability of all city improvements for the given 
   city to update pcity->ai.building_want.

@@ -550,44 +550,6 @@ int settler_eats(struct city *pcity)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-bool is_building_other_wonder(struct city *pc)
-{
-  struct player *pplayer = city_owner(pc);
-
-  city_list_iterate(pplayer->cities, pcity) {
-    if ((pc != pcity) 
-        && !pcity->is_building_unit
-        && is_wonder(pcity->currently_building) 
-        && (map_get_continent(pcity->x, pcity->y)
-            == map_get_continent(pc->x, pc->y))) {
-      return TRUE;
-    }
-  } city_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-  Return TRUE iff the given wonder has been built somewhere other than in
-  the given city.
-****************************************************************************/
-bool built_elsewhere(struct city *pc, Impr_Type_id wonder)
-{
-  struct player *pplayer = city_owner(pc);
-
-  city_list_iterate(pplayer->cities, pcity) {
-    if (pc != pcity && !pcity->is_building_unit
-	&& pcity->currently_building == wonder) {
-      return TRUE;
-    }
-  } city_list_iterate_end;
-
-  return FALSE;
-}
-
-/**************************************************************************
   Will unit of this type be created as veteran?
 **************************************************************************/
 int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)

@@ -38,8 +38,6 @@ bool is_worked_here(int x, int y);
 int food_weighting(int city_size);
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
 int settler_eats(struct city *pcity);
-bool is_building_other_wonder(struct city *pc);
-bool built_elsewhere(struct city *pc, Impr_Type_id wonder);
 int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
 int city_shield_bonus(struct city *pcity);
 int city_luxury_bonus(struct city *pcity);

@@ -695,7 +695,29 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 }
 
 /**************************************************************************
-...
+  Returns TRUE if pcity's owner is building any wonder in another city on
+  the same continent (if so, we may want to build a caravan here).
+**************************************************************************/
+static bool is_building_other_wonder(struct city *pcity)
+{
+  struct player *pplayer = city_owner(pcity);
+
+  city_list_iterate(pplayer->cities, acity) {
+    if (pcity != acity
+	&& !acity->is_building_unit
+	&& is_wonder(acity->currently_building)
+	&& (map_get_continent(acity->x, acity->y)
+	    == map_get_continent(pcity->x, pcity->y))) {
+      return TRUE;
+    }
+  } city_list_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Choose improvement we like most and put it into ai_choice.
+  TODO: Clean, update the log calls.
 **************************************************************************/
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 { /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
