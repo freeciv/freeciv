@@ -2477,7 +2477,8 @@ static bool unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   bool ok = TRUE;
-
+  int hut_chance = myrand(12);
+  
   if (game.rgame.hut_overflight==OVERFLIGHT_NOTHING && is_air_unit(punit)) {
     return ok;
   }
@@ -2491,8 +2492,14 @@ static bool unit_enter_hut(struct unit *punit)
 		       " they scatter in terror."));
     return ok;
   }
+  
+  /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
+  if (pplayer->ai.control && ai_handicap(pplayer, H_LIMITEDHUTS) 
+      && hut_chance != 10) {
+    hut_chance = 0;
+  }
 
-  switch (myrand(12)) {
+  switch (hut_chance) {
   case 0:
     hut_get_gold(punit, 25);
     break;

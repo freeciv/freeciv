@@ -42,7 +42,7 @@ enum handicap_type {
   H_NONE=0, /* no handicaps */
   H_RIGIDPROD=1, /* can't switch to/from building_unit without penalty */
   H_MAP=2, /* only knows map_get_known tiles */
-  H_TECH=4, /* doesn't know what enemies have researched */
+  H_LIMITEDHUTS=4, /* Can get only 25 gold and barbs from huts */
   H_CITYBUILDINGS=8, /* doesn't know what buildings are in enemy cities */
   H_CITYUNITS=16, /* doesn't know what units are in enemy cities */
   H_DEFENSIVE=32, /* builds lots of defensive buildings without calculating need */
