@@ -614,8 +614,8 @@ int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
 **************************************************************************/
 int is_ok_city_spot(int x, int y)
 {
-  int dx, dy;
-  int i;
+  int dx, dy, i;
+
   switch (map_get_terrain(x,y)) {
   case T_OCEAN:
   case T_UNKNOWN:
@@ -623,12 +623,14 @@ int is_ok_city_spot(int x, int y)
   case T_FOREST:
   case T_HILLS:
   case T_ARCTIC:
-  case T_DESERT:
   case T_JUNGLE:
   case T_SWAMP:
   case T_TUNDRA:
   case T_LAST:
     return 0;
+  case T_DESERT:
+    if (!((map_get_tile(x, y))->special&S_SPECIAL))
+      return 0;
   case T_GRASSLAND:
   case T_PLAINS:
   case T_RIVER:
