@@ -56,13 +56,13 @@ struct tile {
   enum tile_special_type special;
   struct city *city;
   struct unit_list units;
-  unsigned short known;   /* A bitvector on the server side, an
-			     enum known_type on the client side.
-			     Player_no is index */
-  unsigned short sent;    /* Indicates if  the client know the tile
-			     as TILE_KNOWN_NODRAW. A bitvector like known.
-			     Not used on the client side. */
-  short assigned; /* these can save a lot of CPU usage -- Syela */
+  unsigned int known;   /* A bitvector on the server side, an
+			   enum known_type on the client side.
+			   Player_no is index */
+  unsigned int sent;    /* Indicates if  the client know the tile
+			   as TILE_KNOWN_NODRAW. A bitvector like known.
+			   Not used on the client side. */
+  int assigned; /* these can save a lot of CPU usage -- Syela */
   struct city *worked;      /* city working tile, or NULL if none */
   signed short continent;
   signed char move_cost[8]; /* don't know if this helps! */

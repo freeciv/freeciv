@@ -90,10 +90,13 @@ static int secompare(const void *a, const void *b)
 	  ((const struct player_score_entry *)a)->value);
 }
 
-static char *greatness[] = {
+static char *greatness[MAX_NUM_PLAYERS] = {
   N_("Magnificent"),  N_("Glorious"), N_("Great"), N_("Decent"),
   N_("Mediocre"), N_("Hilarious"), N_("Worthless"), N_("Pathetic"),
-  N_("Useless"), "Useless", "Useless", "Useless", "Useless", "Useless"
+  N_("Useless"), "Useless", "Useless", "Useless", "Useless", "Useless",
+  "Useless", "Useless", "Useless", "Useless", "Useless", "Useless",
+  "Useless", "Useless", "Useless", "Useless", "Useless", "Useless",
+  "Useless", "Useless", "Useless", "Useless"
 };
 
 static void historian_generic(enum historian_type which_news)

@@ -1640,7 +1640,8 @@ int send_packet_unit_info(struct connection *pc,
 
   cptr=put_uint8(buffer+2, PACKET_UNIT_INFO);
   cptr=put_uint16(cptr, req->id);
-  pack=(req->owner)|(req->veteran?0x10:0)|(req->ai?0x20:0)|(req->paradropped?0x40:0)|(req->connecting?0x80:0);
+  cptr=put_uint8(cptr, req->owner);
+  pack=(req->veteran?0x10:0)|(req->ai?0x20:0)|(req->paradropped?0x40:0)|(req->connecting?0x80:0);
   cptr=put_uint8(cptr, pack);
   cptr=put_uint8(cptr, req->x);
   cptr=put_uint8(cptr, req->y);
@@ -1817,8 +1818,8 @@ receive_packet_unit_info(struct connection *pc)
   pack_iter_init(&iter, pc);
 
   iget_uint16(&iter, &packet->id);
+  iget_uint8(&iter, &packet->owner);
   iget_uint8(&iter, &pack);
-  packet->owner=pack&0x0f;
   packet->veteran=(pack&0x10)?1:0;
   packet->ai=(pack&0x20)?1:0;
   packet->paradropped=(pack&0x40)?1:0;

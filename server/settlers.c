@@ -38,8 +38,8 @@
 
 extern struct move_cost_map warmap;
 
-signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-static unsigned short int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+static unsigned int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 /* negative: in_city_radius, 0: unassigned, positive: city_des */
 
 /*************************************************************************/
@@ -1372,7 +1372,7 @@ static void assign_territory(void)
   int i, x, y;
   for (x = 0; x < map.xsize; x++)
     for (y = 0; y < map.ysize; y++)
-      territory[x][y] = 65535;
+      territory[x][y] = 0xFFFFFFFF;
 
   for (i = 0; i < game.nplayers; i++) {
     assign_territory_player(&game.players[i]);

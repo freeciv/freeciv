@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
-ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet"
+ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet +30players"
 
 /* "+1.10" is protocol for 1.10.0 stable release
 
@@ -90,6 +90,8 @@ ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet"
 
    "advance_focus_packet" is a protocol extension that the server uses to
    tell the client that the server does not intend to move a unit further.
+
+   "30players" is raising the MAX_NUM_PLAYERS value from 14 to 30.
 */
 
 void init_our_capability(void)
