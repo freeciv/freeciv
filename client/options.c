@@ -225,7 +225,7 @@ void load_options(void)
 
     /* parse variable names */
     if ((s = strstr(buffer, "message_where_"))) {
-      if (sscanf(s+14, "%d", &ind) == 1) {
+      if (sscanf(s+14, "%d", &ind) == 1 && (0 <= ind && ind < E_LAST)) {
        messages_where[ind] = val;
        goto next_line;
       }
