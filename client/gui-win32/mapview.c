@@ -891,28 +891,9 @@ static void show_desc_at_tile(HDC hdc,int x, int y)
       y_offset=rc.bottom+2;
     }      
     if (draw_city_productions && (pcity->owner==game.player_idx)) {
-      int turns;
       RECT rc;
-      struct unit_type *punit_type;
-      struct impr_type *pimprovement_type;
-      
-      turns = city_turns_to_build(pcity, pcity->currently_building,
-				  pcity->is_building_unit,TRUE);
-      
-      if (pcity->is_building_unit) {
-	punit_type = get_unit_type(pcity->currently_building);
-	my_snprintf(buffer, sizeof(buffer), "%s %d",
-		    punit_type->name, turns);
-      } else {
-	pimprovement_type =
-	  get_improvement_type(pcity->currently_building);
-	if (pcity->currently_building == B_CAPITAL) {
-	  sz_strlcpy(buffer, pimprovement_type->name);
-	} else {
-	  my_snprintf(buffer, sizeof(buffer), "%s %d",
-		      pimprovement_type->name, turns);
-	}
-      }
+
+      get_city_mapview_production(pcity, buffer, sizeof(buffer));
       
       DrawText(hdc,buffer,strlen(buffer),&rc,DT_CALCRECT);
       rc.left=canvas_x+NORMAL_TILE_WIDTH/2-10;

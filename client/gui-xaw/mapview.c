@@ -793,28 +793,9 @@ static void show_city_descriptions(void)
 	}
 
 	if (draw_city_productions && (pcity->owner==game.player_idx)) {
-	  int turns, show_turns = 1;
-	  struct unit_type *punit_type;
-	  struct impr_type *pimpr_type;
-	  char *name;
 	  char buffer[512];
-
-	  turns = city_turns_to_build(pcity, pcity->currently_building,
-				      pcity->is_building_unit, TRUE);
-
-	  if (pcity->is_building_unit) {
-	    punit_type = get_unit_type(pcity->currently_building);
-	    name = punit_type->name;
-	  } else {
-	    pimpr_type = get_improvement_type(pcity->currently_building);
-	    name = pimpr_type->name;
-	    show_turns = (pcity->currently_building != B_CAPITAL);
-	  }
-	  if (show_turns) {
-	    my_snprintf(buffer, sizeof(buffer), "%s %d", name, turns);
-	  } else {
-	    sz_strlcpy(buffer, name);
-	  }
+	
+          get_city_mapview_production(pcity, buffer, sizeof(buffer));
 
 	  draw_shadowed_string(prod_font_struct, prod_font_gc,
 			       x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2,

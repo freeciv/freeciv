@@ -18,6 +18,8 @@
 #include <assert.h>
 
 #include "map.h"
+#include "support.h"
+
 #include "mapview_g.h"
 
 #include "mapview_common.h"
@@ -312,4 +314,39 @@ struct city *find_city_near_tile(int x, int y)
   /* rule e */
   last_pcity = pcity2;
   return pcity2;
+}
+
+/**************************************************************************
+  Find the mapview city production text for the given city, and place it
+  into the buffer.
+**************************************************************************/
+void get_city_mapview_production(struct city *pcity,
+                                 char *buffer, size_t buffer_len)
+{
+  int turns = city_turns_to_build(pcity, pcity->currently_building,
+				  pcity->is_building_unit, TRUE);
+				
+  if (pcity->is_building_unit) {
+    struct unit_type *punit_type =
+		get_unit_type(pcity->currently_building);
+    if (turns < 999) {
+      my_snprintf(buffer, buffer_len, "%s %d",
+                  punit_type->name, turns);
+    } else {
+      my_snprintf(buffer, buffer_len, "%s -",
+                  punit_type->name);
+    }
+  } else {
+    struct impr_type *pimprovement_type =
+		get_improvement_type(pcity->currently_building);
+    if (pcity->currently_building == B_CAPITAL) {
+      my_snprintf(buffer, buffer_len, "%s", pimprovement_type->name);
+    } else if (turns < 999) {
+      my_snprintf(buffer, buffer_len, "%s %d",
+		  pimprovement_type->name, turns);
+    } else {
+      my_snprintf(buffer, buffer_len, "%s -",
+                  pimprovement_type->name);
+    }
+  }
 }
