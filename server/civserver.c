@@ -510,15 +510,25 @@ main_start_players:
   return 0;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static int is_game_over(void)
 {
+  int barbs = 0;
   int alive = 0;
   int i;
-  if (game.nplayers == 1)
-    return 0;
+
   for (i=0;i<game.nplayers; i++) {
-    if (game.players[i].is_alive)
-      alive ++;
+    if (is_barbarian(&(game.players[i])))
+      barbs++;
+  }
+  if (game.nplayers == (barbs + 1))
+    return 0;
+
+  for (i=0;i<game.nplayers; i++) {
+    if (game.players[i].is_alive && !(is_barbarian(&(game.players[i]))))
+      alive++;
   }
   return (alive <= 1);
 }
@@ -526,7 +536,6 @@ static int is_game_over(void)
 /**************************************************************************
 ...
 **************************************************************************/
-
 int send_server_info_to_metaserver(int do_send,int reset_timer)
 {
   static struct timer *time_since_last_send = NULL;
