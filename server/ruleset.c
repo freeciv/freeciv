@@ -1872,11 +1872,6 @@ static void load_nation_names(struct section_file *file)
 	    "There must be at least one nation defined; number is %d",
 	    game.playable_nation_count);
     exit(EXIT_FAILURE);
-  } else if (game.playable_nation_count >= MAX_NUM_NATIONS) {
-    freelog(LOG_ERROR,
-	    "There are too many nations; only using %d of %d available.",
-	    MAX_NUM_NATIONS - 1, game.playable_nation_count);
-    game.playable_nation_count = MAX_NUM_NATIONS - 1;
   }
   nations_alloc(game.nation_count);
 

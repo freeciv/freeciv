@@ -18,8 +18,7 @@
 
 #define MAX_NUM_TECH_GOALS 10
 
-/* Changing either of these values will break network compatibility. */
-#define MAX_NUM_NATIONS  63
+/* Changing this value will break network compatibility. */
 #define NO_NATION_SELECTED (Nation_Type_id)(-1)
 
 /* 

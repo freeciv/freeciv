@@ -78,7 +78,8 @@ const char * const our_capability = our_capability_internal;
                    "city_struct_minor_cleanup obsolete_last class_legend " \
                    "+impr_req +waste +fastfocus +continent +small_dipl " \
                    "+no_nation_selected +diplomacy +no_extra_tiles " \
-                   "+diplomacy2 +citizens_style +root_tech auth"
+                   "+diplomacy2 +citizens_style +root_tech auth " \
+                   "+nat_ulimit "
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -131,6 +132,9 @@ const char * const our_capability = our_capability_internal;
  * "root_tech" restricts who can acquire technology
  *
  * "auth": client can authenticate and server has the ability to.
+ *
+ * "nat_ulimit" means that the MAX_NUM_NATIONS limit has been removed,
+ * allowing easy adding of arbitrarily many nations.
  */
 
 void init_our_capability(void)

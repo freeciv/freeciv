@@ -176,7 +176,7 @@ struct civ_map {
   struct tile *tiles;
 
   /* Only used by server. */
-  struct map_position start_positions[MAX_NUM_NATIONS];
+  struct map_position *start_positions;	/* allocated at runtime */
 };
 
 bool map_is_empty(void);

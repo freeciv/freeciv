@@ -277,7 +277,12 @@ static void map_startpos_load(struct section_file *file)
 
   map.fixed_start_positions = secfile_lookup_bool_default(file, FALSE, "map.fixed_start_positions");
 
-  while( (pos = secfile_lookup_int_default(file, -1, "map.r%dsx", i)) != -1) {
+  map.start_positions = fc_realloc(map.start_positions,
+				   game.max_players
+				   * sizeof(*map.start_positions));
+  while (i < game.max_players
+	 && (pos = secfile_lookup_int_default(file, -1,
+					      "map.r%dsx", i)) != -1) {
     map.start_positions[i].x = pos;
     map.start_positions[i].y = secfile_lookup_int(file, "map.r%dsy", i);
     i++;

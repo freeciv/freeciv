@@ -2282,7 +2282,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   int i;
   struct nation_type *pl;
 
-  if(p->id < 0 || p->id >= game.nation_count || p->id >= MAX_NUM_NATIONS) {
+  if (p->id < 0 || p->id >= game.nation_count) {
     freelog(LOG_ERROR, "Received bad nation id %d in handle_ruleset_nation()",
 	    p->id);
     return;

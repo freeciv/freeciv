@@ -1102,6 +1102,9 @@ void create_start_positions(void)
   }
   assert(game.nplayers<=nr+sum);
 
+  map.start_positions = fc_realloc(map.start_positions,
+				   game.nplayers
+				   * sizeof(*map.start_positions));
   while (nr<game.nplayers) {
     rand_map_pos(&x, &y);
     if (islands[(int)map_get_continent(x, y)].starters != 0) {
