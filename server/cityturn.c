@@ -125,8 +125,6 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
     }
   } built_impr_iterate_end;
 
-  if (sold) update_all_effects();
-
   if (sold && refresh) {
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
@@ -951,7 +949,6 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     } else {
       space_part = FALSE;
       city_add_improvement(pcity, pcity->currently_building);
-      update_all_effects();
     }
     pcity->before_change_shields -=
 	improvement_value(pcity->currently_building);

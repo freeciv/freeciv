@@ -144,7 +144,7 @@ graphic	= "b.bank"
 graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
-equiv_range	= "City"
+equiv_range	= "Island"
 ;equiv_dupl	=
 ;equiv_repl	=
 obsolete_by	= "None"
@@ -174,8 +174,8 @@ graphic_alt	= "-"
 ;terr_gate	=
 ;spec_gate	=
 equiv_range	= "City"
-;equiv_dupl	= 
-equiv_repl	= "Sun Tzu's War Academy","Barracks II", "Barracks III"
+equiv_dupl	= "Bank"
+;equiv_repl	= "Bank"
 obsolete_by	= "Gunpowder"
 is_wonder	= 0
 build_cost	= 40
@@ -206,7 +206,7 @@ graphic_alt	= "-"
 ;spec_gate	=
 equiv_range	= "City"
 ;equiv_dupl	=
-equiv_repl	= "Sun Tzu's War Academy", "Barracks III"
+equiv_repl	= "Bank"
 obsolete_by	= "Mobile Warfare"
 is_wonder	= 0
 build_cost	= 40
@@ -406,7 +406,7 @@ effect		=
 sound		= "b_courthouse"
 sound_alt	= "b_generic"
 helptext	= _("\
-Reduces the corruption and waste in a city by 50%.  Under a Democracy, a\
+Reduces the corruption in a city by 50%.  Under a Democracy, a\
  Courthouse makes 1 unhappy citizen content. \
  Also halves the effective distance to the capital, for the purpose\
  of calculating revolt cost.\

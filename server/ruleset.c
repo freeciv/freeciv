@@ -984,12 +984,12 @@ static void load_ruleset_buildings(struct section_file *file)
     free(list);
 
     item = secfile_lookup_str(file, "%s.equiv_range", sec[i]);
-    b->equiv_range = effect_range_from_str(item);
-    if (b->equiv_range == EFR_LAST) {
+    b->equiv_range = impr_range_from_str(item);
+    if (b->equiv_range == IR_LAST) {
       freelog(LOG_ERROR,
 	      "for %s equiv_range couldn't match range \"%s\" (%s)",
 	      b->name, item, filename);
-      b->equiv_range = EFR_NONE;
+      b->equiv_range = IR_NONE;
     }
 
     list = secfile_lookup_str_vec(file, &count, "%s.equiv_dupl", sec[i]);

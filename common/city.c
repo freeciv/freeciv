@@ -2268,41 +2268,39 @@ int get_colosseum_power(struct city *pcity)
  Adds an improvement (and its effects) to a city, and sets the global
  arrays if the improvement has effects and/or an equiv_range that
  extend outside of the city.
- N.B. The building is created "active" and its effects "inactive"; however,
-      a global wonder (or other building) may render the building redundant,
-      and the necessary techs/other effects/buildings may be present to
-      activate the effects, so update_all_effects() must be called to resolve
-      these dependencies.
 **************************************************************************/
 void city_add_improvement(struct city *pcity, Impr_Type_id impr)
 {
-  mark_improvement(pcity,impr,I_ACTIVE);
+  struct player *pplayer = city_owner(pcity);
+
+  if (improvement_obsolete(pplayer, impr)) {
+    mark_improvement(pcity, impr, I_OBSOLETE);
+  } else {
+    mark_improvement(pcity, impr, I_ACTIVE);
+  }
+
+  improvements_update_redundant(pplayer, pcity, 
+                                map_get_continent(pcity->x, pcity->y),
+                                improvement_types[impr].equiv_range);
 }
 
 /**************************************************************************
  Removes an improvement (and its effects) from a city, and updates the global
  arrays if the improvement has effects and/or an equiv_range that
  extend outside of the city.
- N.B. Must call update_all_effects() to resolve dependencies.
 **************************************************************************/
 void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
 {
-
+  struct player *pplayer = city_owner(pcity);
+  
   freelog(LOG_DEBUG,"Improvement %s removed from city %s",
-          improvement_types[impr].name,pcity->name);
-  mark_improvement(pcity,impr,I_NONE);
+          improvement_types[impr].name, pcity->name);
+  
+  mark_improvement(pcity, impr, I_NONE);
 
-  /* If the building had a larger equiv_range than just this city, there may
-     be other improvements in the same range - so make sure they are restored */
-  if (improvement_types[impr].equiv_range>EFR_CITY) {
-    players_iterate(pothplayer) {
-      city_list_iterate(pothplayer->cities,pothcity) {
-        if (pothcity->improvements[impr]!=I_NONE) {
-          mark_improvement(pothcity,impr,pothcity->improvements[impr]);
-        }
-      } city_list_iterate_end;
-    } players_iterate_end;
-  }
+  improvements_update_redundant(pplayer, pcity,
+                                map_get_continent(pcity->x, pcity->y),
+                                improvement_types[impr].equiv_range);
 }
 
 /**************************************************************************

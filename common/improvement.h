@@ -203,6 +203,21 @@ struct impr_type {
 
 extern struct impr_type improvement_types[B_LAST];
 
+/* Range of equivalence (used in equiv_range fields)
+ * These must correspond to impr_range_names[] in improvement.c. */
+enum impr_range {
+  IR_NONE,
+  IR_CITY,
+  IR_ISLAND,
+  IR_PLAYER,
+  IR_WORLD,
+  IR_LAST      /* keep this last */
+};
+
+/* impr range id/string converters */
+enum impr_range impr_range_from_str(const char *str);
+const char *impr_range_name(enum impr_range id);
+
 /* improvement effect functions */
 enum effect_range effect_range_from_str(const char *str);
 const char *effect_range_name(enum effect_range id);
@@ -235,6 +250,10 @@ bool can_player_build_improvement(struct player *p, Impr_Type_id id);
 
 /* city related improvement functions */
 void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status);
+void allot_island_improvs(void);
+void improvements_update_obsolete(void);
+void improvements_update_redundant(struct player *pplayer, struct city *pcity,
+                                   int cont, enum impr_range range);
 
 /* Iterates over all improvements. Creates a new variable names m_i
  * with type Impr_Type_id which holds the id of the current improvement. */

@@ -948,6 +948,7 @@ void assign_continent_numbers(void)
     }
   } whole_map_iterate_end;
   map.num_continents = isle-1;
+
   freelog(LOG_VERBOSE, "Map has %d continents", map.num_continents);
 }
 

@@ -251,8 +251,6 @@ void translate_data_names(void);
 struct player *get_player(int player_id);
 int get_num_human_and_ai_players(void);
 
-void update_all_effects(void);
-
 extern struct civ_game game;
 extern bool is_server;
 

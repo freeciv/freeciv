@@ -135,8 +135,9 @@ void client_remove_city(struct city *pcity)
     city_remove_improvement(pcity, i);
   } built_impr_iterate_end;
 
-  if (effect_update)
-    update_all_effects();
+  if (effect_update) {
+    /* nothing yet */
+  }
 
   popdown_city_dialog(pcity);
   game_remove_city(pcity);

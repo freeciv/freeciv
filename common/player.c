@@ -107,9 +107,17 @@ void player_init(struct player *plr)
   /* Initialise list of improvements with Player-wide equiv_range */
   improvement_status_init(plr->improvements, ARRAY_SIZE(plr->improvements));
 
-  /* Blank lists of Island-range improvements and effects (these are
-     initialised by player_init_island_impr) */
+  /* Initialise list of improvements with Island-wide equiv_range */
   plr->island_improv = NULL;
+
+  if (map.num_continents > 0) {
+    plr->island_improv = fc_malloc((map.num_continents + 1) * 
+                                   game.num_impr_types * sizeof(Impr_Status));
+    for (i = 1; i <= map.num_continents; i++) {
+      improvement_status_init(&plr->island_improv[i * game.num_impr_types],
+                              game.num_impr_types);
+    }
+  }
 
   plr->attribute_block.data = NULL;
   plr->attribute_block.length = 0;

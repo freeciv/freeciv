@@ -1031,7 +1031,6 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
     /* Do it. */
     building_lost(pcity, target);
-    update_all_effects();
   }
 
   /* Update clients. */

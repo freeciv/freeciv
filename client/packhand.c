@@ -267,7 +267,7 @@ static void update_improvement_from_packet(struct city *pcity,
 static void try_update_effects(bool need_update)
 {
   if (need_update) {
-    update_all_effects();
+    /* nothing yet... */
   }
 }
 
@@ -1207,7 +1207,7 @@ static void read_player_info_techs(struct player *pplayer,
     }
   }
   if (need_effect_update) {
-    update_all_effects();
+    /* nothing yet */
   }
   update_research(pplayer);
 }
@@ -1631,7 +1631,7 @@ void handle_tile_info(struct packet_tile_info *packet)
 
   if (ptile->continent > map.num_continents) {
     map.num_continents = ptile->continent;
-    /* reallot island effects here */
+    allot_island_improvs();
   }
 
   /* refresh tiles */

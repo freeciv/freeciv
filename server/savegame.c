@@ -2082,6 +2082,10 @@ void game_load(struct section_file *file)
     } impr_type_iterate_end;
   out:
 
+    /* This is done after continents are assigned, but before effects 
+     * are added. */
+    allot_island_improvs();
+
     for(i=0; i<game.nplayers; i++) {
       player_load(&game.players[i], i, file); 
     }
@@ -2132,7 +2136,7 @@ void game_load(struct section_file *file)
 
   if (!game.is_new_game) {
     /* Set active city improvements/wonders and their effects */
-    update_all_effects();
+    improvements_update_obsolete();
   }
 
   game.player_idx=0;

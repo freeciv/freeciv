@@ -1467,6 +1467,8 @@ static bool check_for_continent_change(int x, int y)
     if (con == 0) {
       /* we raised atlantis */
       map_set_continent(x, y, ++map.num_continents);
+
+      allot_island_improvs();
     } else {
       /* set the tile to something adjacent to it */
       map_set_continent(x, y, con);
@@ -1496,6 +1498,9 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
 
     if (check_for_continent_change(x, y)) {
       assign_continent_numbers();
+
+      allot_island_improvs();
+
       send_all_known_tiles(NULL);
     }
 
@@ -1506,6 +1511,9 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
 
     if (check_for_continent_change(x, y)) {
       assign_continent_numbers();
+
+      allot_island_improvs();
+
       send_all_known_tiles(NULL);
     }
 

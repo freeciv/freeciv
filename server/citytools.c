@@ -930,7 +930,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   built_impr_iterate(pcity, i) {
     city_add_improvement(pcity, i);
   } built_impr_iterate_end;
-  update_all_effects();
 
   /* If the city was building something we haven't invented we
      must change production. */
@@ -1040,7 +1039,6 @@ void create_city(struct player *pplayer, const int x, const int y,
   if (!pplayer->capital) {
     pplayer->capital = TRUE;
     city_add_improvement(pcity,B_PALACE);
-    update_all_effects();
   }
   pcity->turn_last_built = game.year;
   pcity->changed_from_id = 0;
@@ -1151,9 +1149,6 @@ void remove_city(struct city *pcity)
     effect_update = TRUE;
     city_remove_improvement(pcity, i);
   } built_impr_iterate_end;
-
-  if (effect_update)
-    update_all_effects();
 
   /* This is cutpasted with modifications from transfer_city_units. Yes, it is ugly.
      But I couldn't see a nice way to make them use the same code */

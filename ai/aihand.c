@@ -344,7 +344,6 @@ static void ai_manage_government(struct player *pplayer)
     /* Ideally we should change tax rates here, but since
      * this is a rather big CPU operation, we'd rather not. */
     check_player_government_rates(pplayer);
-    update_all_effects();
     city_list_iterate(pplayer->cities, acity) {
       generic_city_refresh(acity, TRUE);
       auto_arrange_workers(acity);
