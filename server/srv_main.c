@@ -101,6 +101,7 @@
 #include "srv_main.h"
 
 
+static void after_game_advance_year(void);
 static void before_end_year(void);
 static void end_turn(void);
 static void ai_start_turn(void);
@@ -507,10 +508,22 @@ static void begin_phase(bool is_new_phase)
 }
 
 /**************************************************************************
-...
+  End a phase of movement.  This handles all end-of-phase actions
+  for one or more players.
 **************************************************************************/
-static void end_turn(void)
+static void end_phase(void)
 {
+  freelog(LOG_DEBUG, "Endphase");
+ 
+  /* 
+   * This empties the client Messages window; put this before
+   * everything else below, since otherwise any messages from the
+   * following parts get wiped out before the user gets a chance to
+   * see them.  --dwp
+   */
+  before_end_year();
+
+  /* Freeze sending of cities. */
   nocity_send = TRUE;
 
   /* AI end of turn activities */
@@ -532,12 +545,35 @@ static void end_turn(void)
 
   kill_dying_players();
 
+  /* Unfreeze sending of cities. */
   nocity_send = FALSE;
   players_iterate(pplayer) {
     send_player_cities(pplayer);
     ai_data_turn_done(pplayer);
   } players_iterate_end;
   flush_packets();  /* to curb major city spam */
+
+  do_apollo_program();
+  marco_polo_make_contact();
+
+  /* Moved this to after the human turn for efficiency -- Syela */
+  freelog(LOG_DEBUG, "Autosettlers");
+  auto_settlers();
+
+  freelog(LOG_DEBUG, "Auto-Attack phase");
+  auto_attack();
+}
+
+/**************************************************************************
+  Handle the end of each turn.
+**************************************************************************/
+static void end_turn(void)
+{
+  freelog(LOG_DEBUG, "Endturn");
+
+  freelog(LOG_DEBUG, "Season of native unrests");
+  summon_barbarians(); /* wild guess really, no idea where to put it, but
+			  I want to give them chance to move their units */
 
   update_environmental_upset(S_POLLUTION, &game.heating,
 			     &game.globalwarming, &game.warminglevel,
@@ -546,8 +582,6 @@ static void end_turn(void)
 			     &game.nuclearwinter, &game.coolinglevel,
 			     nuclear_winter);
   update_diplomatics();
-  do_apollo_program();
-  marco_polo_make_contact();
   make_history_report();
   stdinhand_turn();
   send_player_turn_notifications(NULL);
@@ -578,6 +612,24 @@ static void end_turn(void)
 
   freelog(LOG_DEBUG, "Turn ended.");
   game.turn_start = time(NULL);
+
+  freelog(LOG_DEBUG, "Gamenextyear");
+  game_advance_year();
+  after_game_advance_year();
+
+  freelog(LOG_DEBUG, "Updatetimeout");
+  update_timeout();
+
+  check_spaceship_arrivals();
+
+  freelog(LOG_DEBUG, "Sendplayerinfo");
+  send_player_info(NULL, NULL);
+
+  freelog(LOG_DEBUG, "Sendgameinfo");
+  send_game_info(NULL);
+
+  freelog(LOG_DEBUG, "Sendyeartoclients");
+  send_year_to_clients(game.year);
 }
 
 /**************************************************************************
@@ -1409,40 +1461,12 @@ static void main_loop(void)
     sanity_check();
 
     /* 
-     * This empties the client Messages window; put this before
-     * everything else below, since otherwise any messages from the
-     * following parts get wiped out before the user gets a chance to
-     * see them.  --dwp
-    */
-    before_end_year();
-
-    /* 
      * This will freeze the reports and agents at the client.
      */
     lsend_packet_freeze_hint(&game.game_connections);
 
-    freelog(LOG_DEBUG, "Season of native unrests");
-    summon_barbarians(); /* wild guess really, no idea where to put it, but
-                            I want to give them chance to move their units */
-    /* Moved this to after the human turn for efficiency -- Syela */
-    freelog(LOG_DEBUG, "Autosettlers");
-    auto_settlers();
-    freelog(LOG_DEBUG, "Auto-Attack phase");
-    auto_attack();
-    freelog(LOG_DEBUG, "Endturn");
+    end_phase();
     end_turn();
-    freelog(LOG_DEBUG, "Gamenextyear");
-    game_advance_year();
-    after_game_advance_year();
-    freelog(LOG_DEBUG, "Updatetimeout");
-    update_timeout();
-    check_spaceship_arrivals();
-    freelog(LOG_DEBUG, "Sendplayerinfo");
-    send_player_info(NULL, NULL);
-    freelog(LOG_DEBUG, "Sendgameinfo");
-    send_game_info(NULL);
-    freelog(LOG_DEBUG, "Sendyeartoclients");
-    send_year_to_clients(game.year);
     freelog(LOG_DEBUG, "Sendinfotometaserver");
     (void) send_server_info_to_metaserver(FALSE, FALSE);
 
