@@ -62,12 +62,14 @@ int flog(int level, char *message, ...)
       if(repeated&mask){
 	fprintf(fs, "%d: message repeated %d times\n", level, mask );
 	mask<<=1;if(mask<=0) mask=1;
+	repeated-= mask;
       }
     }else{
       if(repeated>0){
-	fprintf(fs, "%d: message repeated %d times\n", level, repeated-mask/2 );	
-	repeated=0; mask=1;
+	fprintf(fs, "%d: message repeated %d times\n", level, repeated );	
+	repeated=0;
       }
+      mask=1;
       fprintf(fs, "%d: %s\n", level, bufbuf[whichbuf]);
     }
     whichbuf= (whichbuf+1)&1;
