@@ -213,7 +213,7 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 	abs_y = map_adjust_y(dy);
 	ptile = map_get_tile(abs_x,abs_y);
 	
-	freelog (LOG_DEBUG, "Unfogging %i,%i. Previous fog: %i.\n",
+	freelog (LOG_DEBUG, "Unfogging %i,%i. Previous fog: %i.",
 		 abs_x, abs_y, ptile->seen[pplayer->player_no]);
 	
 	/* Did the tile just become visible?
@@ -291,7 +291,7 @@ void fog_area(struct player *pplayer, int x, int y, int len)
       if (is_real_tile(dx,dy)) {
 	abs_y = map_adjust_y(dy);
 	ptile = map_get_tile(abs_x,abs_y);
-	freelog (LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.\n",
+	freelog (LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.",
 		 x,y,ptile->seen[pplayer->player_no]);
 	ptile->seen[pplayer->player_no]--;
 	if (ptile->seen[pplayer->player_no] > 60000)
