@@ -1493,7 +1493,7 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
 
 void wipe_unit_safe(struct player *dest, struct unit *punit,
 		    struct genlist_iterator *iter){
-  wipe_unit_spec_safe(dest, punit, NULL, 1);
+  wipe_unit_spec_safe(dest, punit, iter, 1);
 }
 
 
