@@ -98,7 +98,7 @@ extern GdkGC *		mask_bg_gc;
 extern GdkFont *	main_font;
 
 void pixmap_put_overlay_tile(GdkPixmap *pixmap, int x, int y, int tileno);
-void put_overlay_tile_gpixmap(GtkPixmap *pixmap, int x, int y, int tileno);
+void put_overlay_tile_gpixmap(GtkPixcomm *pixmap, int x, int y, int tileno);
 void show_city_names(void);
 
 
@@ -323,9 +323,9 @@ void update_unit_pix_label(struct unit *punit)
   
   if(punit) {
     if(punit->type!=utemplate || punit->activity!=uactivity) {
-      gtk_clear_pixmap(unit_pixmap); /* STG */
-      put_unit_gpixmap(punit, GTK_PIXMAP(unit_pixmap), 0, 0);
-      gtk_changed_pixmap(unit_pixmap);
+      gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap)); /* STG */
+      put_unit_gpixmap(punit, GTK_PIXCOMM(unit_pixmap), 0, 0);
+      gtk_pixcomm_changed(GTK_PIXCOMM(unit_pixmap));
       utemplate=punit->type;
       uactivity=punit->activity;
     }
@@ -344,14 +344,14 @@ void update_unit_pix_label(struct unit *punit)
       /* IS THIS INTENTIONAL?? - mjd */
       if(1 || unit_ids[i]!=id) {
 	if(id) {
-	  gtk_clear_pixmap(unit_below_pixmap[i]); /* STG */
+	  gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i])); /* STG */
 	  put_unit_gpixmap((struct unit *)ITERATOR_PTR(myiter),
-			  GTK_PIXMAP(unit_below_pixmap[i]),
+			  GTK_PIXCOMM(unit_below_pixmap[i]),
 			  0, 0);
-	  gtk_changed_pixmap(unit_below_pixmap[i]);
+	  gtk_pixcomm_changed(GTK_PIXCOMM(unit_below_pixmap[i]));
 	}
 	else
-	  gtk_clear_pixmap(unit_below_pixmap[i]);
+	  gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
 
 	  
 	unit_ids[i]=id;
@@ -361,7 +361,7 @@ void update_unit_pix_label(struct unit *punit)
 
     
     for(; i<num_units_below; i++) {
-      gtk_clear_pixmap(unit_below_pixmap[i]);
+      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
       unit_ids[i]=0;
     }
 
@@ -380,11 +380,11 @@ void update_unit_pix_label(struct unit *punit)
     }
   }
   else {
-    gtk_clear_pixmap(unit_pixmap);
+    gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
     utemplate=U_LAST;
     uactivity=ACTIVITY_UNKNOWN;
     for(i=0; i<num_units_below; i++) {
-      gtk_clear_pixmap(unit_below_pixmap[i]);
+      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
       unit_ids[i]=0;
     }
     gtk_widget_hide(more_arrow_pixmap);
@@ -1025,17 +1025,17 @@ void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile)
 /**************************************************************************
 ...
 **************************************************************************/
-void put_unit_gpixmap(struct unit *punit, GtkPixmap *p, int xtile, int ytile)
+void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
 {
   SPRITE *mysprite;
 
   if(use_solid_color_behind_units) {
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_RACE0+
                                         game.players[punit->owner].race]);
-    gdk_draw_rectangle(GTK_PIXMAP(p)->pixmap, fill_bg_gc, TRUE,
+    gdk_draw_rectangle(GTK_PIXCOMM(p)->pixmap, fill_bg_gc, TRUE,
                     xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
                     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    gdk_draw_rectangle(GTK_PIXMAP(p)->mask, mask_fg_gc, TRUE,
+    gdk_draw_rectangle(GTK_PIXCOMM(p)->mask, mask_fg_gc, TRUE,
                     xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
                     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   }
@@ -1045,11 +1045,11 @@ void put_unit_gpixmap(struct unit *punit, GtkPixmap *p, int xtile, int ytile)
 			      game.players[punit->owner].race+FLAG_TILES);
     } else {
       mysprite=get_tile_sprite(game.players[punit->owner].race+FLAG_TILES);
-      gdk_draw_pixmap(GTK_PIXMAP(p)->pixmap, civ_gc, mysprite->pixmap,
+      gdk_draw_pixmap(GTK_PIXCOMM(p)->pixmap, civ_gc, mysprite->pixmap,
 		0, 0,
 		xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT,
 		mysprite->width, mysprite->height);
-      gdk_draw_rectangle(GTK_PIXMAP(p)->mask, mask_fg_gc, TRUE,
+      gdk_draw_rectangle(GTK_PIXCOMM(p)->mask, mask_fg_gc, TRUE,
 		0, 0, 
 		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
@@ -1103,17 +1103,17 @@ void put_unit_gpixmap(struct unit *punit, GtkPixmap *p, int xtile, int ytile)
   put_overlay_tile_gpixmap(p, xtile, ytile, HP_BAR_TILES+
 			  (11*(get_unit_type(punit->type)->hp-punit->hp))/
 			  (get_unit_type(punit->type)->hp));
-  gtk_changed_pixmap(GTK_WIDGET(p));
+  gtk_pixcomm_changed(GTK_PIXCOMM(p));
 }
 
 
 /**************************************************************************
 ...
 **************************************************************************/
-void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixmap *p, 
+void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p, 
 				   int unhappiness, int upkeep)
 {
-  gdk_draw_rectangle(GTK_PIXMAP(p)->mask, mask_bg_gc, TRUE,
+  gdk_draw_rectangle(GTK_PIXCOMM(p)->mask, mask_bg_gc, TRUE,
 		    0, NORMAL_TILE_WIDTH,
 		    NORMAL_TILE_HEIGHT, NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT);
 
@@ -1542,7 +1542,7 @@ void pixmap_put_overlay_tile(GdkDrawable *pixmap, int x, int y, int tileno)
 /**************************************************************************
 ...
 **************************************************************************/
-void put_overlay_tile_gpixmap(GtkPixmap *p, int x, int y, int tileno)
+void put_overlay_tile_gpixmap(GtkPixcomm *p, int x, int y, int tileno)
 {
   SPRITE *ssprite=get_tile_sprite(tileno);
 
@@ -1550,11 +1550,11 @@ void put_overlay_tile_gpixmap(GtkPixmap *p, int x, int y, int tileno)
   gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
   gdk_gc_set_clip_origin(mask_fg_gc, x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
 
-  gdk_draw_pixmap(GTK_PIXMAP(p)->pixmap, civ_gc, ssprite->pixmap,
+  gdk_draw_pixmap(GTK_PIXCOMM(p)->pixmap, civ_gc, ssprite->pixmap,
 	    0, 0,
 	    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
 	    ssprite->width, ssprite->height );
-  gdk_draw_pixmap(GTK_PIXMAP(p)->mask, mask_fg_gc, ssprite->mask,
+  gdk_draw_pixmap(GTK_PIXCOMM(p)->mask, mask_fg_gc, ssprite->mask,
 	    0, 0,
 	    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
 	    ssprite->width, ssprite->height );

@@ -15,6 +15,8 @@
 
 #include <gtk/gtk.h>
 
+#include "gtkpixcomm.h"
+
 #include "mapview_g.h"
 
 #include "graphics.h"
@@ -32,9 +34,9 @@ void put_city_pixmap(struct city *pcity, GdkPixmap *pm, int xtile, int ytile);
 void put_city_tile_output(GdkDrawable *pm, int x, int y, 
 			  int food, int shield, int trade);
 void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile);
-void put_unit_gpixmap(struct unit *punit, GtkPixmap *p, int xtile, int ytile);
+void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile);
 
-void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixmap *p,
+void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
 				    int unhappiness, int upkeep);
 void pixmap_put_black_tile(GdkDrawable *pm, int x, int y);
 void pixmap_frame_tile_red(GdkDrawable *pm, int x, int y);

@@ -338,18 +338,22 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
   
   for(i=0; i<NUM_CITIZENS_SHOWN; i++) {
+    GdkPixmap *p;
+  
     pdialog->citizen_boxes[i]=gtk_event_box_new();
     gtk_widget_set_events(pdialog->citizen_boxes[i], GDK_BUTTON_PRESS_MASK);
 
     gtk_box_pack_start(GTK_BOX(box), pdialog->citizen_boxes[i], FALSE, FALSE,0);
     gtk_widget_show(pdialog->citizen_boxes[i]);
 
-    pdialog->citizen_pixmaps[i]=
-     gtk_new_pixmap(SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+    p=gdk_pixmap_new(root_window, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT, -1);
+    pdialog->citizen_pixmaps[i]= gtk_pixmap_new(p, NULL);
     gtk_pixmap_set_build_insensitive (GTK_PIXMAP (pdialog->citizen_pixmaps[i]),
-				      FALSE);
+                                      FALSE);
     gtk_container_add(GTK_CONTAINER(pdialog->citizen_boxes[i]),
 	pdialog->citizen_pixmaps[i]);
+    gtk_object_set_data_by_id_full (GTK_OBJECT (pdialog->citizen_pixmaps[i]), 1,
+						p,(GtkDestroyNotify)gdk_pixmap_unref);
   }
   pdialog->sub_form=gtk_hbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->sub_form, TRUE, TRUE, 0);
@@ -452,7 +456,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     gtk_widget_show(pdialog->support_unit_boxes[i]);
 
     pdialog->support_unit_pixmaps[i]=
-     gtk_new_pixmap(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2);
+     gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2);
     gtk_container_add(GTK_CONTAINER(pdialog->support_unit_boxes[i]),
 	pdialog->support_unit_pixmaps[i]);
 
@@ -483,7 +487,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     gtk_widget_show(pdialog->present_unit_boxes[i]);
 
     pdialog->present_unit_pixmaps[i]=
-     gtk_new_pixmap(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+     gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     gtk_container_add(GTK_CONTAINER(pdialog->present_unit_boxes[i]),
 	pdialog->present_unit_pixmaps[i]);
 
@@ -1114,7 +1118,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 	toplevel->style->bg_gc[GTK_STATE_NORMAL], TRUE,
 	0, 0,
 	SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
-      gtk_changed_pixmap(pdialog->citizen_pixmaps[i]);
+/*      gtk_widget_queue_clear(pdialog->citizen_pixmaps[i]);*/
 
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], FALSE);
       gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
@@ -1187,14 +1191,14 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
       continue;
 
     if (flags_are_transparent)
-      gtk_clear_pixmap(pdialog->support_unit_pixmaps[i]); /* STG */
+      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i])); /* STG */
 
-    put_unit_gpixmap(punit, GTK_PIXMAP(pdialog->support_unit_pixmaps[i]), 0, 0);
+    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), 0, 0);
     put_unit_gpixmap_city_overlays(punit, 
-				  GTK_PIXMAP(pdialog->support_unit_pixmaps[i]),
+				  GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]),
 				  punit->unhappiness, punit->upkeep);   
 
-    gtk_changed_pixmap(pdialog->support_unit_pixmaps[i]);
+    gtk_pixcomm_changed(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]));
 
     pdialog->support_unit_ids[i]=punit->id;
 
@@ -1209,14 +1213,9 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   }
     
   for(; i<NUM_UNITS_SHOWN; i++) {
-    gtk_clear_pixmap(pdialog->support_unit_pixmaps[i]);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]));
     pdialog->support_unit_ids[i]=0;
     gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], FALSE);
-  }
-
-  for(i=0; i<NUM_UNITS_SHOWN; i++) {
-    gtk_widget_hide(pdialog->support_unit_boxes[i]);
-    gtk_widget_show(pdialog->support_unit_boxes[i]);
   }
 }
 
@@ -1247,14 +1246,14 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
       continue;
 
     if (flags_are_transparent)
-      gtk_clear_pixmap(pdialog->present_unit_pixmaps[i]); /* STG */
+      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i])); /* STG */
 
-    put_unit_gpixmap(punit, GTK_PIXMAP(pdialog->present_unit_pixmaps[i]), 0, 0);
+    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), 0, 0);
     put_unit_gpixmap_city_overlays(punit, 
-				  GTK_PIXMAP(pdialog->present_unit_pixmaps[i]),
+				  GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]),
 				  0, 0);   
 
-    gtk_changed_pixmap(pdialog->present_unit_pixmaps[i]);
+    gtk_pixcomm_changed(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]));
 
     pdialog->present_unit_ids[i]=punit->id;
 
@@ -1268,14 +1267,9 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], TRUE);
   }
   for(; i<NUM_UNITS_SHOWN; i++) {
-    gtk_clear_pixmap(pdialog->present_unit_pixmaps[i]);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]));
     pdialog->present_unit_ids[i]=0;
     gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], FALSE);
-  }
-
-  for(i=0; i<NUM_UNITS_SHOWN; i++) {
-    gtk_widget_hide(pdialog->present_unit_boxes[i]);
-    gtk_widget_show(pdialog->present_unit_boxes[i]);
   }
 }
 
@@ -1900,9 +1894,12 @@ void cityopt_callback(GtkWidget *w, gpointer data)
 GtkWidget *create_cityopt_dialog(char *city_name)
 {
   GtkWidget *shell, *label, *ok, *cancel;
+  GtkAccelGroup *accel=gtk_accel_group_new();
 
   shell = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (shell), "City Options");
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
+  gtk_accel_group_attach(accel, GTK_OBJECT(shell));
 
   label = gtk_label_new (city_name);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
@@ -1946,7 +1943,9 @@ GtkWidget *create_cityopt_dialog(char *city_name)
 	cityopt_toggles[2], FALSE, FALSE, 0);
 
   ok = gtk_button_new_with_label ("Ok");
+  gtk_widget_add_accelerator(ok, "clicked", accel, GDK_Return, 0, 0);
   cancel = gtk_button_new_with_label ("Cancel");
+  gtk_widget_add_accelerator(cancel, "clicked", accel, GDK_Escape, 0, 0);
 
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->action_area),
 	ok, TRUE, TRUE, 0);
