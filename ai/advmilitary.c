@@ -60,14 +60,27 @@ void generate_warmap(struct city *pcity)
   int x, y, c, i, j, k, xx[3], yy[3], tm;
   int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
-  int maxcost = 72; /* should be big enough without being TOO big */
+  int maxcost = THRESHOLD * 6; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
   struct city *acity;
 
   warmap.warcity = pcity;
-  for (x = 0; x < map.xsize; x++)
-    for (y = 0; y < map.ysize; y++)
-      warmap.cost[x][y] = maxcost;
+  for (x = 0; x < map.xsize; x++) {
+    if (x > pcity->x)
+      i = MIN(x - pcity->x, pcity->x + map.xsize - x);
+    else
+      i = MIN(pcity->x - x, x + map.xsize - pcity->x);      
+    for (y = 0; y < map.ysize; y++) {
+      if (y > pcity->y)
+        j = MAX(y - pcity->y, i);
+      else
+        j = MAX(pcity->y - y, i);
+      j *= 3;
+      if (j < maxcost) j = maxcost;
+      if (j > 255) j = 255;
+      warmap.cost[x][y] = j;
+    }
+  }
   warmap.cost[pcity->x][pcity->y] = 0;
   warstacksize = 0;
   warnodes = 0;
@@ -89,7 +102,7 @@ void generate_warmap(struct city *pcity)
       i = ii[k]; j = jj[k]; /* saves CPU cycles? */
       c = tile0->move_cost[k];
       tm = warmap.cost[x][y] + c;
-      if (warmap.cost[xx[i]][yy[j]] > tm) {
+      if (warmap.cost[xx[i]][yy[j]] > tm && tm < maxcost) {
         warmap.cost[xx[i]][yy[j]] = tm;
         add_to_stack(xx[i], yy[j]);
 /*       if (acity = map_get_city(xx[i], yy[j])) printf("%s to %s: %d\n",
@@ -105,11 +118,17 @@ void assess_danger(struct city *pcity)
 {
   struct unit *punit;
   int i, danger = 0, v, dist, con, m;
+  int danger2 = 0; /* linear for walls */
   struct player *aplayer;
+  int pikemen = 0;
 
   con = map_get_continent(pcity->x, pcity->y); /* Not using because of boats */
 
   generate_warmap(pcity);  
+
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
+    if (unit_flag(punit->type, F_PIKEMEN)) pikemen++;
+  unit_list_iterate_end;
 
   for(i=0; i<game.nplayers; i++) {
     if (i != pcity->owner) {
@@ -122,6 +141,7 @@ void assess_danger(struct city *pcity)
         v *= punit->hp * get_unit_type(punit->type)->firepower;
         if (city_got_citywalls(pcity) && (unit_ignores_citywalls(punit) ||
             (!is_heli_unit(punit) && !is_ground_unit(punit)))) v *= 3;
+        if (pikemen && unit_flag(punit->type, F_HORSE)) v /= 2;
         v *= v;
         dist = real_map_distance(punit->x, punit->y, pcity->x, punit->y) * 3;
         if (unit_flag(punit->type, F_IGTER)) dist /= 3;
@@ -132,13 +152,18 @@ void assess_danger(struct city *pcity)
         dist /= m;
         dist--; /* because of random turn shuffling; fixes Samarkand bug -- Syela */
         if (dist < 1) dist = 1;
+        danger2 += v / dist;
         v /= (dist * dist);
         danger += v;
       unit_list_iterate_end;
     }
   } /* end for */
   pcity->ai.danger = danger;
-/*  return(danger); NOT returning this so I don't miss anything this time! */
+  if (pcity->ai.building_want[B_CITY] > 0 && danger2) {
+    i = assess_defense(pcity); 
+    if (danger2 > i / 2) pcity->ai.building_want[B_CITY] = 101;
+    else pcity->ai.building_want[B_CITY] += danger2 * 100 / i;
+  }
 }
 
 int assess_defense(struct city *pcity)
@@ -169,6 +194,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   int def, danger, dist, ag, v;
   struct unit *punit;
   struct city *acity;
+  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   choice->choice = 0;
   choice->want   = 0;
   choice->type   = 0;
@@ -177,18 +203,19 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* logically we should adjust this for race attack tendencies */
   assess_danger(pcity); /* calling it now, rewriting old wall code */
   danger = pcity->ai.danger; /* we now have our warmap and will use it! */
-/* printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def); */
-  danger -= def;
+ printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def); 
 
   if (danger > 1000) { /* might be able to wait a little longer to defend */
+    danger -= def;
     if (danger >= def) danger = 101; /* > 100 means BUY RIGHT NOW */
     else { danger *= 100; danger /= def; }
-    if (pcity->ai.building_want[B_CITY] && def && def < 101) {
+    if (pcity->ai.building_want[B_CITY] && def &&
+        (danger < 101 || unit_list_size(&ptile->units) > 1)) {
 /* walls before a second defender, unless we need it RIGHT NOW */
       choice->choice = B_CITY; /* great wall is under domestic */
-      choice->want = danger + pcity->ai.building_want[B_CITY]; /* guessing! */
+      choice->want = pcity->ai.building_want[B_CITY]; /* hacked by assess_danger */
       choice->type = 0;
-    } else {
+    } else if (danger > 0) {
       choice->choice = ai_choose_defender(pcity);
       choice->want = danger;
       choice->type = 1;
@@ -208,7 +235,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
       dist = real_map_distance(pcity->x, pcity->y, acity->x, acity->y);
     else dist = warmap.cost[acity->x][acity->y]; /* had pcity - OOPS! */
 
-    danger = 100 - (dist * 100) / get_unit_type(v)->move_rate / 12;
+    danger = 100 - (dist * 100) / get_unit_type(v)->move_rate / THRESHOLD;
     /* 0 if we're 12 turns away, 91 if we're one turn away */
     if (danger <= 0) danger = 0;
 /*    else printf("%s wants %s to attack %s (%d away) with desire %d.\n",

@@ -19,4 +19,6 @@ void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice);
 void assess_danger(struct city *pcity);
 
+#define THRESHOLD 12
+
 #endif
