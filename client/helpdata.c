@@ -466,8 +466,10 @@ const struct help_item *help_iter_next(void)
   const struct help_item *pitem;
   
   check_help_nodes_init();
-  pitem = help_nodes_iterator->dataptr;
-  help_nodes_iterator = help_nodes_iterator->next;
+  pitem = ITERATOR_PTR(help_nodes_iterator);
+  if (pitem) {
+    ITERATOR_NEXT(help_nodes_iterator);
+  }
 
   return pitem;
 }
