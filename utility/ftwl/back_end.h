@@ -13,6 +13,13 @@
 #ifndef __BE_H
 #define __BE_H
 
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
+
 #include "common_types.h"
 
 /* don't change */
