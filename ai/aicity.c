@@ -582,22 +582,6 @@ we don't rely on the seamap being current since we will recalculate. -- Syela */
   }
 }
 
-/**************************************************************************
-... find a good (bad) tile to remove
-**************************************************************************/
-static bool worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
-			    int foodneed, int prodneed)
-{
-  int a, b;
-  a = city_tile_value(pcity, x, y,
-		      foodneed + city_get_food_tile(x, y, pcity),
-		      prodneed + city_get_shields_tile(x, y, pcity));
-  b = city_tile_value(pcity, bx, by,
-		      foodneed + city_get_food_tile(bx, by, pcity),
-		      prodneed + city_get_shields_tile(bx, by, pcity));
-  return (a < b);
-}
-
 void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice)
 {
   ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT,  choice->want);
@@ -799,8 +783,7 @@ static void ai_manage_city(struct player *pplayer, struct city *pcity)
 static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 {
   struct government *g = get_gov_pcity(pcity);
-  int foodneed, prodneed;
-  int luxneed, pwr, e;
+  int foodneed, prodneed, luxneed, pwr, e, worst_value = 0;
 
   foodneed=(pcity->size *2) + settler_eats(pcity);
   foodneed -= pcity->food_prod; /* much more robust now -- Syela */
@@ -827,14 +810,15 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
     if (is_city_center(x, y))
       continue; 
     if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
-      if (*xp==0 && *yp==0) { 
-	*xp=x;
-	*yp=y;
-      } else {
-	if (worst_elvis_tile(pcity, x, y, *xp, *yp, foodneed, prodneed)) {
-	  *xp=x;
-	  *yp=y;
-	}
+      int value = city_tile_value(pcity, x, y,
+				  foodneed + city_get_food_tile(x, y, pcity),
+				  prodneed + city_get_shields_tile(x, y,
+								   pcity));
+
+      if ((*xp == 0 && *yp == 0) || value < worst_value) {
+	*xp = x;
+	*yp = y;
+	worst_value = value;
       }
     }
   } city_map_iterate_end;
