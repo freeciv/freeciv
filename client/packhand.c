@@ -17,6 +17,7 @@
 #include <plrdlg.h>
 #include <civclient.h>
 #include <graphics.h>
+#include <menu.h>
 
 extern int seconds_to_turndone;
 extern int turn_gold_difference;
@@ -307,8 +308,8 @@ void handle_unit_info(struct packet_unit_info *packet)
       update_unit_focus(); */
 
       /* These two lines force the menus to be updated as appropriate when
-	 the unit focus changes. */
-      if(punit == punit_focus)
+	 the unit activity changes. */
+      if(punit == get_unit_in_focus())
          update_menus();
     }
     
