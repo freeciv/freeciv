@@ -353,14 +353,11 @@ static void ai_new_spend_gold(struct player *pplayer)
           if (cost < buycost) { /* and the upgrade would be cheaper */
             if (cost < pplayer->economic.gold) { /* let's just upgrade */
               pplayer->economic.gold -= cost;
-              if (punit->hp==get_unit_type(punit->type)->hp)
-                punit->hp=get_unit_type(id)->hp;
               notify_player(pplayer,
 			    _("Game: %s upgraded to %s in %s for %d credits."),
 			    unit_types[punit->type].name, unit_types[id].name,
 			    pcity->name, cost);
-              punit->type = id;
-              send_unit_info(0, punit);
+	      upgrade_unit(punit, id);
               send_player_info(pplayer, pplayer);
               bestchoice.want = 0; /* no reason to buy unit we already made */
               pcity->ai.choice.want = 0; /* or deal with this city again */
@@ -483,14 +480,11 @@ static void ai_new_spend_gold(struct player *pplayer)
       if (cost < pplayer->economic.gold && ai_fuzzy(pplayer,1)) {
 	/* let's just upgrade */
         pplayer->economic.gold -= cost;
-        if (punit->hp==get_unit_type(punit->type)->hp)
-          punit->hp=get_unit_type(id)->hp;
+	upgrade_unit(punit, id);
         notify_player(pplayer,
 		      _("Game: %s upgraded to %s in %s for %d credits."),
 		      unit_types[punit->type].name, unit_types[id].name,
 		      pcity->name, cost);
-        punit->type = id;
-        send_unit_info(0, punit);
         send_player_info(pplayer, pplayer);
       } /* end if upgrade */
     unit_list_iterate_end;
