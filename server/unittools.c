@@ -567,6 +567,7 @@ static void update_unit_activity(struct unit *punit)
   enum unit_activity activity = punit->activity;
   enum ocean_land_change solvency = OLC_NONE;
   struct tile *ptile = punit->tile;
+  bool check_adjacent_units = FALSE;
   
   if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
       && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE) {
@@ -611,6 +612,7 @@ static void update_unit_activity(struct unit *punit)
 	  map_clear_special(punit->tile, what);
 	  update_tile_knowledge(punit->tile);
 	  set_unit_activity(punit, ACTIVITY_IDLE);
+	  check_adjacent_units = TRUE;
 	}
 
 	/* If a watchtower has been pillaged, reduce sight to normal */
@@ -748,6 +750,7 @@ static void update_unit_activity(struct unit *punit)
       map_mine_tile(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
       unit_activity_done = TRUE;
+      check_adjacent_units = TRUE;
     }
   }
 
@@ -758,6 +761,7 @@ static void update_unit_activity(struct unit *punit)
       map_transform_tile(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
       unit_activity_done = TRUE;
+      check_adjacent_units = TRUE;
     }
   }
 
@@ -769,6 +773,17 @@ static void update_unit_activity(struct unit *punit)
 	send_unit_info(NULL, punit2);
       }
     } unit_list_iterate_end;
+  }
+
+  /* Some units nearby can not continue irrigating */
+  if (check_adjacent_units) {
+    adjc_iterate(punit->tile, ptile2) {
+      unit_list_iterate(ptile2->units, punit2) {
+        if (!can_unit_continue_current_activity(punit2)) {
+          handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+        }
+      } unit_list_iterate_end;
+    } adjc_iterate_end;
   }
 
   if (activity==ACTIVITY_FORTIFYING) {
