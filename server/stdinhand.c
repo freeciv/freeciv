@@ -975,7 +975,7 @@ void set_command(char *str)
   } else {
     if (strlen(arg)<MAX_LENGTH_NAME) {
       strcpy(op->svalue, arg);
-      con_write(C_OK, "Option: %s has been set to \"%s\".\n",
+      con_write(C_OK, "Option: %s has been set to \"%s\".",
 		settings[cmd].name, arg);
       if (sset_is_to_client(cmd)) {
 	notify_player(0, "Option: %s has been set to \"%s\".", 
