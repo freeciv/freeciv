@@ -15,12 +15,13 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+#include <stdarg.h>
+
 #include "combat.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
-
-#include <assert.h>
 
 #include "agents.h"
 #include "chatline_common.h"
