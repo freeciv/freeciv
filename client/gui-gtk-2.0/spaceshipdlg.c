@@ -279,7 +279,7 @@ parts differently.
 void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 {
   struct canvas store = {.type = CANVAS_PIXMAP,
-			 .v.pixmap = pdialog->image_canvas->window};
+			 .v = {.pixmap = pdialog->image_canvas->window}};
 
   put_spaceship(&store, 0, 0, pdialog->pplayer);
 }

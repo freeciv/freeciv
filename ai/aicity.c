@@ -247,7 +247,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
   struct government *gov = get_gov_pplayer(pplayer);
   struct req_source source = {
     .type = REQ_BUILDING,
-    .value.building = id
+    .value = {.building = id}
   };
 
   /* Base want is calculated above using a more direct approach. */

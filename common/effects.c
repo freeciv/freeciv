@@ -380,7 +380,7 @@ void ruleset_cache_free(void)
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.buildings); i++) {
     struct req_source source = {
       .type = REQ_BUILDING,
-      .value.building = i
+      .value = {.building = i}
     };
     struct effect_list *plist = get_req_source_effects(&source);
 
@@ -802,7 +802,7 @@ int get_current_construction_bonus(const struct city *pcity,
 
     struct req_source source = {
       .type = REQ_BUILDING,
-      .value.building = id
+      .value = {.building = id}
     };
     struct effect_list *plist = get_req_source_effects(&source);
 

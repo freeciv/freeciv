@@ -48,9 +48,14 @@ AC_DEFUN([AC_C99_VARIABLE_ARRAYS],
 
 # Check C99-style initializers (required):
 #
-# struct timeval tv = {.tv_sec = 0, .tv_usec = 500000};
-# int fibonacci[6] = {[0] = 0, [1] = 1, [2] = 1, [3] = 2, [4] = 3, [5] = 5};
-#
+# Examples:
+#   struct timeval tv = {.tv_sec = 0, .tv_usec = 500000};
+#   int fibonacci[6] = {[0] = 0, [1] = 1, [2] = 1, [3] = 2, [4] = 3, [5] = 5};
+# Note we do not check for multi-field initializers like
+#   struct { struct { int b; } a; } = {.a.b = 5}
+# which are not supported by many compilers.  It is best to avoid this
+# problem by writing these using nesting.  The above case becomes
+#   struct { struct { int b; } a; } = {.a = {.b = 5}}
 AC_DEFUN([AC_C99_INITIALIZERS],
 [
   dnl Check for C99 initializers
@@ -66,7 +71,6 @@ AC_DEFUN([AC_C99_INITIALIZERS],
         ],
         [struct foo bar = {.an_array = {0, [3] = 2, [2] = 1, [4] = 3},
                            .an_integer = 999,
-                           .an_array[1] = 1,
                            .a_string = "does it work?",
                            .a_union = {.y = 243}};],
         [ac_cv_c99_initializers=yes],

@@ -61,7 +61,7 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
   impr_type_iterate(id) {
     struct req_source source = {
       .type = REQ_BUILDING,
-      .value.building = id
+      .value = {.building = id}
     };
 
     ai->impr_calc[id] = AI_IMPR_ESTIMATE;
