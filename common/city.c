@@ -1170,7 +1170,12 @@ int get_style_by_name(char *style_name)
 **************************************************************************/
 int city_turns_to_build(struct city *pcity, int id, int id_is_unit)
 {
-  if (pcity->shield_surplus > 0)
+  int city_shield_surplus = pcity->shield_surplus;
+
+  if(city_shield_surplus==0 && !city_unhappy(pcity))
+    city_shield_surplus=1;
+
+  if (city_shield_surplus > 0)
   {
     int rounds, cost;
     int shield_stock = pcity->shield_stock;
@@ -1189,10 +1194,11 @@ int city_turns_to_build(struct city *pcity, int id, int id_is_unit)
       cost = get_improvement_type(id)->build_cost;
     }
 
-    rounds = (cost - shield_stock + pcity->shield_surplus - 1) /
-      pcity->shield_surplus;
+    rounds = (cost - shield_stock + city_shield_surplus - 1) /
+      city_shield_surplus;
 
     return (rounds > 0) ? rounds : 1;
   }
+
   return 999;
 }

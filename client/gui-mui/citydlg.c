@@ -446,37 +446,6 @@ static void city_list_sort(struct MinList *list)
 }
 
 /**************************************************************************
- Calculates the turns which are needed to build the requested
- type in the city. GUI Independend
-**************************************************************************/
-int city_turns_to_build(struct city *pcity, int id, int id_is_unit)
-{
-  if (pcity->shield_surplus > 0)
-  {
-    int rounds, cost;
-    int shield_stock = pcity->shield_stock;
-
-    if (id_is_unit)
-    {
-      if (!pcity->is_building_unit)
-	shield_stock /= 2;
-      cost = get_unit_type(id)->build_cost;
-    }
-    else
-    {
-      if (pcity->is_building_unit || (is_wonder(pcity->currently_building) != is_wonder(id)))
-	shield_stock /= 2;
-      cost = get_improvement_type(id)->build_cost;
-    }
-
-    rounds = (cost - shield_stock + pcity->shield_surplus - 1) / pcity->shield_surplus;
-
-    return (rounds > 0) ? rounds : 0;
-  }
-  return 999;
-}
-
-/**************************************************************************
  Display function for the listview in the production window
 **************************************************************************/
 __asm __saveds static int city_prod_display(register __a0 struct Hook *h, register __a2 char **array, register __a1 ULONG which)
