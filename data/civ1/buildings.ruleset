@@ -666,8 +666,9 @@ Makes a city the capital and the center of your government. \
  upon the city's distance from the capital (under all forms of\
  government).\
 \n\n\
-Take good care of your capital, as it's loss may result in your\
- empire plunging into civil war.\
+Take good care of your capital, as its loss may result in your\
+ empire plunging into civil war. Losing your current palace also\
+ results in losing whatever spaceship you might have.\
 ")
 
 [building_police_station]
@@ -1671,7 +1672,7 @@ variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_michelangelos_chapel"
 sound_alt	= "w_generic"
 helptext	= _("\
-Double effects of Cathedrals.\
+Double effects of Cathedrals, in all cities.\
 ")
 
 [building_oracle]

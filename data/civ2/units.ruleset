@@ -4,17 +4,18 @@
 ; for other "maintenance".  If you want to make custom changes,
 ; you should create a new datadir subdirectory and copy this file
 ; into that directory, and then modify that copy.  Then use the
-; command "set units <mysubdir>" in the server to have freeciv
+; command "rulesetdir <mysubdir>" in the server to have freeciv
 ; use your new customized file.
 
 ; See data/default/units.ruleset for more information.
 
 [datafile]
-description="Civ2 unit_type data for Freeciv (incomplete)"
+description="Civ2 unit_type data for Freeciv (approximate)"
 options="1.9"
 
 [units_adjust]
-firepower_factor=1              ; convenient for Civ1
+firepower_factor=1     ; Divide hitpoints by this value. It has to be
+                       ; set higher than zero.
 
 ; Below: The individual units, one per section.
 ;
@@ -29,7 +30,7 @@ firepower_factor=1              ; convenient for Civ1
 ; it must be unique within this file, and it may be used in debug 
 ; output when reading this file.
 ;
-; Notes:
+; ** Fields **
 ;
 ; name          = name as seen by user 
 ; graphic       = tag specifing preferred graphic
@@ -39,13 +40,21 @@ firepower_factor=1              ; convenient for Civ1
 ;		  for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start; "Never" => never available
-; obsolete_by   = another unit name
+; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; move_type     = "Land" or "Sea" or "Air" or "Heli"
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)
-; fuel          = number of turns, for air units
+; fuel          = number of turns air units can fly before they crash. For
+;                 barbarians this is used as lifetime instead
 ; uk_*          = upkeep costs, these are used as base values in the game
-; flags         = special flag strings, as in common/unittype.h,unittype.c
-; roles         = special role strings, as in common/unittype.h,unittype.c
+;		  (NOTE: gold upkeep is still not implemented)
+; flags         = special flag strings
+; roles         = special role strings
+; sound_move	= optional sound effect when the unit moves
+; sound_move_alt= optional alternative sound effect if above not
+;		  supported in client
+; sound_fight	= optional sound effect when the unit fights
+; sound_fight_alt= optional alternative sound effect if above not
+;		   supported in client
 ; helptext	= optional help text string; should escape all raw newlines 
 ;		  so that xgettext parsing works
 ;
