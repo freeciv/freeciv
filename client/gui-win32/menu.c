@@ -237,7 +237,7 @@ static void my_add_menu_accelerator(char *item,int cmd)
   tab=strchr(item,'\t');
   if(!tab)
     return;
-  plus=strchr(item,'+');
+  plus=strrchr(item,'+');
   if (!plus)
     plus=tab;
   plus++;
@@ -258,12 +258,15 @@ static void my_add_menu_accelerator(char *item,int cmd)
   if (mystrncasecmp(plus,"Space",5)==0)
     newaccel.key=VK_SPACE;
   /* Modifiers (Alt,Shift,Ctl) */
-  if (mystrncasecmp(tab,"Shift",5)==0)
-    newaccel.fVirt|=FSHIFT;
-  else if (mystrncasecmp(tab,"Ctl",3)==0)
-    newaccel.fVirt|=FCONTROL;
-  else if (mystrncasecmp(tab,"Alt",3)==0)
-    newaccel.fVirt|=FALT;
+  if (strstr(tab, "Shift") != NULL) {
+    newaccel.fVirt |= FSHIFT;
+  }
+  if (strstr(tab, "Ctl") != NULL) {
+    newaccel.fVirt |= FCONTROL;
+  }
+  if (strstr(tab, "Alt") != NULL) {
+    newaccel.fVirt |= FALT;
+  }
   newaccel.cmd=cmd;
   if (accelcount<MAX_ACCEL) {
     menuaccel[accelcount]=newaccel;
