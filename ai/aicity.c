@@ -320,19 +320,15 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
 static void ai_spend_gold(struct player *pplayer)
 {
   struct ai_choice bestchoice;
-  struct ai_data *ai = ai_data_get(pplayer);
   int cached_limit = ai_gold_reserve(pplayer);
 
-  /* Disband troops that are at home but don't serve a purpose.
-   * If we don't have surplus shield production, or the enemy
-   * has not started sailing yet, we also disband military units
-   * we don't need. */
+  /* Disband troops that are at home but don't serve a purpose. */
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *ptile = map_get_tile(pcity->x, pcity->y);
     unit_list_iterate(ptile->units, punit) {
       if (((unit_types[punit->type].shield_cost > 0
-           && (pcity->shield_prod == 0 || !ai->threats.invasions))
-          || unit_has_role(punit->type, L_EXPLORER))
+            && pcity->shield_prod == 0)
+           || unit_has_role(punit->type, L_EXPLORER))
           && pcity->id == punit->homecity
           && pcity->ai.urgency == 0
           && is_ground_unit(punit)) {
