@@ -111,7 +111,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP = --best
 SOURCES = $(libcivcommon_a_SOURCES)
 OBJECTS = $(libcivcommon_a_OBJECTS)
