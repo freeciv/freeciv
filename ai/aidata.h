@@ -72,7 +72,7 @@ struct ai_data {
   struct {
     bool invasions;   /* check if we need to consider invasions */
     bool *continent;  /* non-allied cities on continent? */
-    bool sea;         /* check if exists non-allied offensive ships */
+    bool *ocean;      /* non-allied offensive ships in ocean? */
     bool air;         /* check for non-allied offensive aircraft */
     bool missile;     /* check for non-allied missiles */
     int nuclear;      /* nuke check: 0=no, 1=capability, 2=built */
@@ -80,6 +80,7 @@ struct ai_data {
 
   /* Keeps track of which continents are fully explored already */
   struct {
+    bool *ocean;      /* are we done exploring this ocean? */
     bool *continent;  /* are we done exploring this continent? */
     bool land_done;   /* nothing more on land to explore anywhere */
     bool sea_done;    /* nothing more to explore at sea */
@@ -98,6 +99,7 @@ struct ai_data {
   } stats;
 
   int num_continents; /* last time we updated our continent data */
+  int num_oceans; /* last time we updated our continent data */
 
   /* Dynamic weights used in addition to Syela's hardcoded weights */
   int shield_priority;

@@ -59,21 +59,18 @@ void ai_data_turn_init(struct player *pplayer)
   struct ai_data *ai = &aidata[pplayer->player_no];
   int i, nuke_units = num_role_units(F_NUCLEAR);
   bool danger_of_nukes = FALSE;
-  bool can_build_antisea = can_player_build_improvement(pplayer, B_COASTAL);
-  bool can_build_antiair =  can_player_build_improvement(pplayer, B_SAM);
-  bool can_build_antinuke = can_player_build_improvement(pplayer, B_SDI);
-  bool can_build_antimissile = can_player_build_improvement(pplayer, B_SDI);
   int ally_strength = -1;
   struct player *ally_strongest = NULL;
 
   /*** Threats ***/
 
-  ai->num_continents = map.num_continents;
+  ai->num_continents    = map.num_continents;
+  ai->num_oceans        = map.num_oceans;
   ai->threats.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
   ai->threats.invasions = FALSE;
   ai->threats.air       = FALSE;
   ai->threats.nuclear   = 0; /* none */
-  ai->threats.sea       = FALSE;
+  ai->threats.ocean     = fc_calloc(ai->num_oceans + 1, sizeof(bool));
 
   players_iterate(aplayer) {
     if (!is_player_dangerous(pplayer, aplayer)) {
@@ -93,43 +90,35 @@ void ai_data_turn_init(struct player *pplayer)
       if (is_sailing_unit(punit)) {
         /* If the enemy has not started sailing yet, or we have total
          * control over the seas, don't worry, keep attacking. */
-        if (!ai->threats.invasions && is_ground_units_transport(punit)) {
+        if (is_ground_units_transport(punit)) {
           ai->threats.invasions = TRUE;
         }
 
         /* The idea is that while our enemies don't have any offensive
          * seaborne units, we don't have to worry. Go on the offensive! */
-        if (can_build_antisea && unit_type(punit)->attack_strength > 1) {
-          ai->threats.sea = TRUE;
+        if (unit_type(punit)->attack_strength > 1) {
+          Continent_id continent = map_get_continent(punit->x, punit->y);
+          ai->threats.ocean[-continent] = TRUE;
         }
+        continue;
       }
 
       /* The next idea is that if our enemies don't have any offensive
        * airborne units, we don't have to worry. Go on the offensive! */
-      if (can_build_antiair && (is_air_unit(punit) || is_heli_unit(punit))
+      if ((is_air_unit(punit) || is_heli_unit(punit))
            && unit_type(punit)->attack_strength > 1) {
         ai->threats.air = TRUE;
       }
 
       /* If our enemy builds missiles, worry about missile defence. */
-      if (can_build_antimissile && unit_flag(punit, F_MISSILE)
+      if (unit_flag(punit, F_MISSILE)
           && unit_type(punit)->attack_strength > 1) {
         ai->threats.missile = TRUE;
       }
 
       /* If he builds nukes, worry a lot. */
-      if (can_build_antinuke && unit_flag(punit, F_NUCLEAR)) {
+      if (unit_flag(punit, F_NUCLEAR)) {
         danger_of_nukes = TRUE;
-      }
-
-      /* If all our darkest fears have come true, we're done here. It
-       * can't possibly get any worse! This shorts very long loops. */
-      if ((ai->threats.air || !can_build_antiair)
-          && (ai->threats.missile || !can_build_antimissile)
-          && (danger_of_nukes || !can_build_antinuke)
-          && (ai->threats.sea || !can_build_antisea)
-          && ai->threats.invasions) {
-        break;
       }
     } unit_list_iterate_end;
 
@@ -150,6 +139,7 @@ void ai_data_turn_init(struct player *pplayer)
   ai->explore.land_done = TRUE;
   ai->explore.sea_done = TRUE;
   ai->explore.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
+  ai->explore.ocean = fc_calloc(ai->num_oceans + 1, sizeof(bool));
   whole_map_iterate(x, y) {
     struct tile *ptile = map_get_tile(x, y);
     Continent_id continent = map_get_continent(x, y);
@@ -159,6 +149,7 @@ void ai_data_turn_init(struct player *pplayer)
           && !map_is_known(x, y, pplayer)) {
 	/* We're not done there. */
         ai->explore.sea_done = FALSE;
+        ai->explore.ocean[-continent] = TRUE;
       }
       /* skip rest, which is land only */
       continue;
@@ -167,12 +158,9 @@ void ai_data_turn_init(struct player *pplayer)
       /* we don't need more explaining, we got the point */
       continue;
     }
-    if ((map_has_special(x, y, S_HUT) 
-         && (!ai_handicap(pplayer, H_HUTS)
-             || map_is_known(x, y, pplayer)))
-        || (ptile->city && unit_list_size(&ptile->units) == 0
-            && pplayers_at_war(pplayer, city_owner(ptile->city)))) {
-      /* hut, empty city... what is the difference? :) */
+    if (map_has_special(x, y, S_HUT) 
+        && (!ai_handicap(pplayer, H_HUTS)
+             || map_is_known(x, y, pplayer))) {
       ai->explore.land_done = FALSE;
       ai->explore.continent[continent] = TRUE;
       continue;
@@ -324,6 +312,7 @@ void ai_data_turn_done(struct player *pplayer)
 {
   struct ai_data *ai = &aidata[pplayer->player_no];
 
+  free(ai->explore.ocean);     ai->explore.ocean = NULL;
   free(ai->explore.continent); ai->explore.continent = NULL;
   free(ai->threats.continent); ai->threats.continent = NULL;
   free(ai->stats.workers);     ai->stats.workers = NULL;
@@ -337,7 +326,8 @@ struct ai_data *ai_data_get(struct player *pplayer)
 {
   struct ai_data *ai = &aidata[pplayer->player_no];
 
-  if (ai->num_continents != map.num_continents) {
+  if (ai->num_continents != map.num_continents
+      || ai->num_oceans != map.num_oceans) {
     /* we discovered more continents, recalculate! */
     ai_data_turn_done(pplayer);
     ai_data_turn_init(pplayer);

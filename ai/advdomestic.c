@@ -85,7 +85,8 @@ static int ai_eval_threat_sea(struct player *pplayer, struct city *pcity)
   }
 
   /* trump coinage, and wall, and sam */
-  return ai->threats.sea ? TRADE_WEIGHTING + 3 : 1;
+  return ai->threats.ocean[map_get_continent(pcity->x, pcity->y)] 
+         ? TRADE_WEIGHTING + 3 : 1;
 }
 
 /**************************************************************************
