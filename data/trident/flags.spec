@@ -16,6 +16,7 @@ artists = "
     Tomasz Wegrzanowski <maniek@beer.com> (more flags added, Silesia)
     Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
     Jan Heidefuss <jan_heidefuss@yahoo.de> (Bavarian)
+    Ivan kosak <ivan.kosak@sk.tel.hr> (Croatia,Slovenia,Serbia)
 "
 
 [file]
@@ -108,4 +109,7 @@ tiles = { "row", "column", "tag"
   5,  5, "f.singapore"
   5,  6, "f.chile"
   5,  7, "f.catalan"
+  5,  8, "f.croatia"
+  5,  9, "f.slovenia"
+  5, 10, "f.serbia"
 }

@@ -19,6 +19,7 @@ pkgdata_DATA =			\
 	catalan.ruleset		\
 	chilean.ruleset		\
 	chinese.ruleset		\
+	croatian.ruleset		\
 	cornish.ruleset		\
 	czech.ruleset		\
 	danish.ruleset		\
@@ -54,9 +55,11 @@ pkgdata_DATA =			\
 	roman.ruleset		\
 	russian.ruleset		\
 	scottish.ruleset	\
+	serbian.ruleset	\
 	silesian.ruleset	\
 	singaporean.ruleset	\
 	sioux.ruleset		\
+	slovenian.ruleset	\
 	spanish.ruleset		\
 	swedish.ruleset		\
 	thai.ruleset		\
