@@ -71,9 +71,9 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix
- game_ruleset nuclear_fallout"
+ game_ruleset nuclear_fallout land_channel_requirement"
 
-/* "+1.11" is protocol for 1.11.0 stable release
+/* "+1.11" is protocol for 1.11.0 stable release.
 
    "diplomat_investigate_fix" extends the protocol so that diplomat
    investigation of a city reveals the correct supported and present
@@ -87,6 +87,10 @@ const char * const our_capability = our_capability_internal;
 
    "nuclear_fallout" is protocol extension for having nuclear fallout
    be distinct from industrial pollution.
+
+   "land_channel_requirement" extends the protocol for the requirement
+   of a minimum number of ocean tiles adjacent to a land tile wished to
+   be changed to ocean.
 */
 
 void init_our_capability(void)

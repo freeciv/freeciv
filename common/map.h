@@ -58,6 +58,7 @@ struct terrain_misc
   int may_transform;  /* boolean: may transform terrain */
   /* parameters */
   int ocean_reclaim_requirement;       /* # adjacent land tiles for reclaim */
+  int land_channel_requirement;        /* # adjacent ocean tiles for channel */
   enum special_river_move river_move_mode;
   int river_defense_bonus;             /* % added to defense if Civ2 river */
   int river_trade_incr;                /* added to trade if Civ2 river */

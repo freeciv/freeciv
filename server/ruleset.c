@@ -1149,6 +1149,8 @@ static void load_ruleset_terrain(char *ruleset_subdir)
 
   terrain_control.ocean_reclaim_requirement =
     secfile_lookup_int_default(&file, 9, "parameters.ocean_reclaim_requirement");
+  terrain_control.land_channel_requirement =
+    secfile_lookup_int_default(&file, 9, "parameters.land_channel_requirement");
   terrain_control.river_move_mode =
     secfile_lookup_int_default(&file, RMV_FAST_STRICT, "parameters.river_move_mode");
   terrain_control.river_defense_bonus =
