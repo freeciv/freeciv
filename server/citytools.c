@@ -1147,9 +1147,12 @@ void remove_city(struct city *pcity)
   
   game_remove_city(pcity);
 
-  for(o=0; o<game.nplayers; o++)           /* dests */
-    if (map_get_known_and_seen(x, y, get_player(o)))
-      reality_check_city(&game.players[o], x, y);
+  players_iterate(other_player) {
+    if (map_get_known_and_seen(x, y, other_player)) {
+      reality_check_city(other_player, x, y);
+    }
+  } players_iterate_end;
+
   map_fog_pseudo_city_area(pplayer, x, y);
 
   reset_move_costs(x, y);
@@ -1346,7 +1349,6 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
 **************************************************************************/
 static void broadcast_city_info(struct city *pcity)
 {
-  int o;
   struct player *powner = city_owner(pcity);
   struct packet_city_info packet;
   struct packet_short_city sc_pack;
@@ -1361,16 +1363,16 @@ static void broadcast_city_info(struct city *pcity)
   }
 
   /* send to all others who can see the city: */
-  for(o=0; o<game.nplayers; o++) {
-    struct player *pplayer = &game.players[o];
-    if(pcity->owner==o) continue; /* already sent above */
+  players_iterate(pplayer) {
+    if(city_owner(pcity) == pplayer) continue; /* already sent above */
     if (map_get_known_and_seen(pcity->x, pcity->y, pplayer) ||
 	player_has_traderoute_with_city(pplayer, pcity)) {
       update_dumb_city(pplayer, pcity);
       package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
       lsend_packet_short_city(&pplayer->connections, &sc_pack);
     }
-  }
+  } players_iterate_end;
+
   /* send to non-player observers:
    * should these only get dumb_city type info?
    */

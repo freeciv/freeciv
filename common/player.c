@@ -183,11 +183,11 @@ void player_set_unit_focus_status(struct player *pplayer)
 ***************************************************************/
 struct player *find_player_by_name(char *name)
 {
-  int i;
-
-  for(i=0; i<game.nplayers; i++)
-    if (mystrcasecmp(name, game.players[i].name) == 0)
-	return &game.players[i];
+  players_iterate(pplayer) {
+    if (mystrcasecmp(name, pplayer->name) == 0) {
+      return pplayer;
+    }
+  } players_iterate_end;
 
   return NULL;
 }
@@ -221,12 +221,12 @@ Find player by its user name (not player/leader name)
 ***************************************************************/
 struct player *find_player_by_user(char *name)
 {
-  int i;
-
-  for(i=0; i<game.nplayers; i++)
-    if (mystrcasecmp(name, game.players[i].username) == 0)
-	return &game.players[i];
-
+  players_iterate(pplayer) {
+    if (mystrcasecmp(name, pplayer->username) == 0) {
+      return pplayer;
+    }
+  } players_iterate_end;
+  
   return NULL;
 }
 

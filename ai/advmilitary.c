@@ -235,7 +235,7 @@ int assess_danger(struct city *pcity)
   int danger3 = 0; /* linear for coastal */
   int danger4 = 0; /* linear for SAM */
   int danger5 = 0; /* linear for SDI */
-  struct player *aplayer, *pplayer;
+  struct player *pplayer;
   bool pikemen = FALSE;
   bool diplomat = FALSE; /* TRUE mean that this town can defend
 		     * against diplomats or spies */
@@ -261,9 +261,8 @@ int assess_danger(struct city *pcity)
     if (unit_flag(punit, F_DIPLOMAT)) diplomat = TRUE;
   unit_list_iterate_end;
 
-  for(i=0; i<game.nplayers; i++) {
-    if (i != pcity->owner) {
-      aplayer = &game.players[i];
+  players_iterate(aplayer) {
+    if (aplayer != city_owner(pcity)) {
       boatspeed = (get_invention(aplayer, game.rtech.nav)
 		   == TECH_KNOWN ? 12 : 6);
       boatid = find_boat(aplayer, &x, &y, 0);
@@ -275,7 +274,7 @@ int assess_danger(struct city *pcity)
         if (acity->is_building_unit &&
             build_points_left(acity) <= acity->shield_surplus &&
 	    ai_fuzzy(pplayer, TRUE)) {
-          virtualunit.owner = i;
+          virtualunit.owner = aplayer->player_no;
           virtualunit.x = acity->x;
           virtualunit.y = acity->y;
           utype = acity->currently_building;
@@ -365,7 +364,7 @@ content to let it remain that way for now. -- Syela 980805 */
         }
       unit_list_iterate_end;
     }
-  } /* end for */
+  } players_iterate_end;
 
   if (!badmojo) pcity->ai.wallvalue = 90;
   else pcity->ai.wallvalue = (danger * 9 - badmojo * 8) * 10 / (danger);

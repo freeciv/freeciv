@@ -112,16 +112,16 @@ void spaceship_calc_derived(struct player_spaceship *ship)
 **************************************************************************/
 void send_spaceship_info(struct player *src, struct conn_list *dest)
 {
-  int i, j;
+  int j;
 
   if (!dest) dest = &game.game_connections;
-  
-  for(i=0; i<game.nplayers; i++) {      /* srcs  */
-    if(!src || &game.players[i]==src) {
+
+  players_iterate(pplayer) {
+    if (!src || pplayer == src) {
       struct packet_spaceship_info info;
-      struct player_spaceship *ship = &game.players[i].spaceship;
+      struct player_spaceship *ship = &pplayer->spaceship;
 	  
-      info.player_num = i;
+      info.player_num = pplayer->player_no;
       info.sship_state = ship->state;
       info.structurals = ship->structurals;
       info.components = ship->components;
@@ -146,7 +146,7 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
 	  
       lsend_packet_spaceship_info(dest, &info);
     }
-  }
+  } players_iterate_end;
 }
 
 /**************************************************************************

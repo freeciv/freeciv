@@ -189,22 +189,25 @@ static bool is_game_over(void)
 {
   int barbs = 0;
   int alive = 0;
-  int i;
 
   if (game.year > game.end_year)
     return TRUE;
 
-  for (i=0;i<game.nplayers; i++) {
-    if (is_barbarian(&(game.players[i])))
+  players_iterate(pplayer) {
+    if (is_barbarian(pplayer)) {
       barbs++;
-  }
+    }
+  } players_iterate_end;
+
   if (game.nplayers == (barbs + 1))
     return FALSE;
 
-  for (i=0;i<game.nplayers; i++) {
-    if (game.players[i].is_alive && !(is_barbarian(&(game.players[i]))))
+  players_iterate(pplayer) {
+    if (pplayer->is_alive && !is_barbarian(pplayer)) {
       alive++;
-  }
+    }
+  } players_iterate_end;
+
   return (alive <= 1);
 }
 
@@ -236,18 +239,17 @@ static void send_all_info(struct conn_list *dest)
 static void do_apollo_program(void)
 {
   int cityid;
-  int i;
   struct player *pplayer;
   struct city *pcity;
   if ((cityid=game.global_wonders[B_APOLLO]) && 
       (pcity=find_city_by_id(cityid))) {
     pplayer=city_owner(pcity);
     if (game.civstyle == 1) {
-      for(i=0; i<game.nplayers; i++) {
-	city_list_iterate(game.players[i].cities, pcity)
+      players_iterate(other_player) {
+	city_list_iterate(other_player->cities, pcity)
 	  show_area(pplayer, pcity->x, pcity->y, 0);
 	city_list_iterate_end;
-      }
+      } players_iterate_end;
     } else {
       map_know_all(pplayer);
       send_all_known_tiles(&pplayer->connections);
@@ -376,8 +378,6 @@ Note: This does not give "time" to any player;
 **************************************************************************/
 static void begin_turn(void)
 {
-  int i;
-
   /* See if the value of fog of war has changed */
   if (game.fogofwar != game.fogofwar_old) {
     if (game.fogofwar == 1) {
@@ -391,15 +391,16 @@ static void begin_turn(void)
 
   conn_list_do_buffer(&game.game_connections);
 
-  for(i=0; i<game.nplayers; i++) {
-    struct player *pplayer = &game.players[i];
+  players_iterate(pplayer) {
     freelog(LOG_DEBUG, "beginning player turn for #%d (%s)",
-	    i, pplayer->name);
+	    pplayer->player_no, pplayer->name);
     begin_player_turn(pplayer);
-  }
-  for (i=0; i<game.nplayers;i++) {
-    send_player_cities(&game.players[i]);
-  }
+  } players_iterate_end;
+
+  players_iterate(pplayer) {
+    send_player_cities(pplayer);
+  } players_iterate_end;
+
   flush_packets();			/* to curb major city spam */
 
   conn_list_do_unbuffer(&game.game_connections);
@@ -426,9 +427,9 @@ static bool end_turn(void)
     pplayer->turn_done = FALSE;
   }
   nocity_send = FALSE;
-  for (i=0; i<game.nplayers;i++) {
-    send_player_cities(&game.players[i]);
-  }
+  players_iterate(pplayer) {
+    send_player_cities(pplayer);
+  } players_iterate_end;
   flush_packets();			/* to curb major city spam */
 
   update_environmental_upset(S_POLLUTION, &game.heating,
@@ -870,13 +871,11 @@ bool handle_packet_input(struct connection *pconn, char *packet, int type)
 **************************************************************************/
 static bool check_for_full_turn_done(void)
 {
-  int i;
-
   /* fixedlength is only applicable if we have a timeout set */
   if (game.fixedlength && game.timeout)
     return FALSE;
-  for(i=0; i<game.nplayers; i++) {
-    struct player *pplayer = &game.players[i];
+
+  players_iterate(pplayer) {
     if (game.turnblock) {
       if (!pplayer->ai.control && pplayer->is_alive && !pplayer->turn_done)
         return FALSE;
@@ -885,7 +884,8 @@ static bool check_for_full_turn_done(void)
         return FALSE;
       }
     }
-  }
+  } players_iterate_end;
+
   force_end_of_sniff = TRUE;
   return TRUE;
 }
@@ -909,7 +909,7 @@ static void handle_turn_done(struct player *pplayer)
 static void handle_alloc_nation(struct player *pplayer,
 				struct packet_alloc_nation *packet)
 {
-  int i, nation_used_count;
+  int nation_used_count;
   struct packet_generic_values select_nation; 
 
   if (server_state != SELECT_RACES_STATE) {
@@ -926,8 +926,8 @@ static void handle_alloc_nation(struct player *pplayer,
     return;
   }
 
-  for(i=0; i<game.nplayers; i++)
-    if(game.players[i].nation==packet->nation_no) {
+  players_iterate(other_player) {
+    if(other_player->nation==packet->nation_no) {
        send_select_nation(pplayer); /* it failed - nation taken */
        return;
     } else
@@ -940,14 +940,15 @@ static void handle_alloc_nation(struct player *pplayer,
        * times (for server commands etc), including during nation
        * allocation phase.
        */
-      if (i != pplayer->player_no
-	  && mystrcasecmp(game.players[i].name,packet->name) == 0) {
+      if (other_player->player_no != pplayer->player_no
+	  && mystrcasecmp(other_player->name,packet->name) == 0) {
 	notify_player(pplayer,
 		     _("Another player already has the name '%s'.  "
 		       "Please choose another name."), packet->name);
        send_select_nation(pplayer);
        return;
     }
+  } players_iterate_end;
 
   freelog(LOG_NORMAL, _("%s is the %s ruler %s."), pplayer->name, 
       get_nation_name(packet->nation_no), packet->name);
@@ -964,25 +965,28 @@ static void handle_alloc_nation(struct player *pplayer,
 
   /* tell the other players, that the nation is now unavailable */
   nation_used_count = 0;
-  for(i=0; i<game.nplayers; i++)
-    if(game.players[i].nation==MAX_NUM_NATIONS) 
-      send_select_nation(&game.players[i]);
-    else
-      nation_used_count++;                     /* count used nations */
+
+  players_iterate(other_player) {
+    if (other_player->nation == MAX_NUM_NATIONS) {
+      send_select_nation(other_player);
+    } else {
+      nation_used_count++;	/* count used nations */
+    }
+  } players_iterate_end;
 
   mark_nation_as_used(packet->nation_no);
 
   /* if there's no nation left, reject remaining players, sorry */
   if( nation_used_count == game.playable_nation_count ) {   /* barb */
-    for(i=0; i<game.nplayers; i++) {
-      if( game.players[i].nation == MAX_NUM_NATIONS ) {
+    players_iterate(other_player) {
+      if (other_player->nation == MAX_NUM_NATIONS) {
 	freelog(LOG_NORMAL, _("No nations left: Removing player %s."),
-		game.players[i].name);
-	notify_player(&game.players[i],
+		other_player->name);
+	notify_player(other_player,
 		      _("Game: Sorry, there are no nations left."));
-	server_remove_player(&game.players[i]);
+	server_remove_player(other_player);
       }
-    }
+    } players_iterate_end;
   }
 }
 
@@ -992,20 +996,20 @@ already selected and are not available
 **************************************************************************/
 static void send_select_nation(struct player *pplayer)
 {
-  int i;
   struct packet_generic_values select_nation;
                                            
   select_nation.value1=0;                     /* assume int is 32 bit, safe */
   select_nation.value2=0;
 
   /* set bits in mask corresponding to nations already selected by others */
-  for( i=0; i<game.nplayers; i++)
-    if(game.players[i].nation != MAX_NUM_NATIONS) {
-      if( game.players[i].nation < 32)
-        select_nation.value1 |= 1<<game.players[i].nation;
+  players_iterate(other_player) {
+    if (other_player->nation != MAX_NUM_NATIONS) {
+      if (other_player->nation < 32)
+	select_nation.value1 |= 1 << other_player->nation;
       else
-        select_nation.value2 |= 1<<(game.players[i].nation-32);
+	select_nation.value2 |= 1 << (other_player->nation - 32);
     }
+  } players_iterate_end;
 
   lsend_packet_generic_values(&pplayer->connections, PACKET_SELECT_NATION,
 			      &select_nation);
@@ -1053,8 +1057,6 @@ static void introduce_game_to_connection(struct connection *pconn)
 {
   struct conn_list *dest;
   char hostname[512];
-  struct player *cplayer;
-  int i;
 
   if (!pconn) {
     return;
@@ -1071,8 +1073,7 @@ static void introduce_game_to_connection(struct connection *pconn)
 
   /* tell who we're waiting on to end the game turn */
   if (game.turnblock) {
-    for(i=0; i<game.nplayers;++i) {
-      cplayer = &game.players[i];
+    players_iterate(cplayer) {
       if (cplayer->is_alive
 	  && !cplayer->ai.control
 	  && !cplayer->turn_done
@@ -1081,7 +1082,7 @@ static void introduce_game_to_connection(struct connection *pconn)
 			    "waiting on %s to finish turn..."),
 		    cplayer->name);
       }
-    }
+    } players_iterate_end;
   }
 
   if (server_state==RUN_GAME_STATE) {
@@ -1640,17 +1641,15 @@ static int mark_nation_as_used (int nation)
 ...
 *************************************************************************/
 static void announce_ai_player (struct player *pplayer) {
-   int i;
-
    freelog(LOG_NORMAL, _("AI is controlling the %s ruled by %s."),
                     get_nation_name_plural(pplayer->nation),
                     pplayer->name);
 
-   for(i=0; i<game.nplayers; ++i)
-     notify_player(&game.players[i],
-  	     _("Game: %s rules the %s."), pplayer->name,
-                    get_nation_name_plural(pplayer->nation));
-
+  players_iterate(other_player) {
+    notify_player(other_player,
+		  _("Game: %s rules the %s."), pplayer->name,
+		  get_nation_name_plural(pplayer->nation));
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -1849,12 +1848,11 @@ main_start_players:
   }
 
   if (game.auto_ai_toggle) {
-    for (i=0;i<game.nplayers;i++) {
-      struct player *pplayer = get_player(i);
+    players_iterate(pplayer) {
       if (!pplayer->is_connected && !pplayer->ai.control) {
 	toggle_ai_player_direct(NULL, pplayer);
       }
-    }
+    } players_iterate_end;
   }
 
   /* Allow players to select a nation (case new game).
@@ -1928,13 +1926,12 @@ main_start_players:
     /* Before the player map is allocated (and initiailized)! */
     game.fogofwar_old = game.fogofwar;
 
-    for(i=0; i<game.nplayers; i++) {
-      struct player *pplayer = &game.players[i];
+    players_iterate(pplayer) {
       player_map_allocate(pplayer);
       init_tech(pplayer, game.tech);
       player_limit_to_government_rates(pplayer);
       pplayer->economic.gold=game.gold;
-    }
+    } players_iterate_end;
     game.max_players=game.nplayers;
 
     /* we don't want random start positions in a scenario which already
@@ -1948,14 +1945,13 @@ main_start_players:
   generate_minimap(); /* for city_desire; saves a lot of calculations */
 
   if (!game.is_new_game) {
-    for (i=0;i<game.nplayers;i++) {
-      struct player *pplayer = get_player(i);
+    players_iterate(pplayer) {
       civ_score(pplayer);	/* if we don't, the AI gets really confused */
       if (pplayer->ai.control) {
 	set_ai_level_direct(pplayer, pplayer->ai.skill_level);
 	assess_danger_player(pplayer); /* a slowdown, but a necessary one */
       }
-    }
+    } players_iterate_end;
   }
   
   send_all_info(&game.game_connections);

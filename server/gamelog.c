@@ -116,21 +116,23 @@ static int secompare1(const void *a, const void *b)
 
 void gamelog_save(void){
   /*lifted from historian_largest()*/
-  int i, count;
+  int i, count = 0;
   char buffer[4096];
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
   struct player_score_entry *rank=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
-  for (i=0,count=0;i<game.nplayers;i++) {
-    if (!is_barbarian (&(game.players[i]))) {
-      rank[count].value=civ_score(&game.players[i]);
-      rank[count].idx=i;
-      size[count].value=total_player_citizens(&game.players[i]);
-      size[count].idx=i;
+
+  players_iterate(pplayer) {
+    if (!is_barbarian(pplayer)) {
+      rank[count].value = civ_score(pplayer);
+      rank[count].idx = pplayer->player_no;
+      size[count].value = total_player_citizens(pplayer);
+      size[count].idx = pplayer->player_no;
       count++;
     }
-  }
+  } players_iterate_end;
+
   qsort(size, count, sizeof(struct player_score_entry), secompare1);
   buffer[0]=0;
   for (i=0;i<count;i++) {

@@ -1607,20 +1607,20 @@ static void player_save(struct player *plr, int plrno,
 ***************************************************************/
 static void calc_unit_ordering(void)
 {
-  int i, j;
-  
-  for(i=0; i<game.nplayers; i++) {
+  int j;
+
+  players_iterate(pplayer) {
     /* to avoid junk values for unsupported units: */
-    unit_list_iterate(get_player(i)->units, punit) {
+    unit_list_iterate(pplayer->units, punit) {
       punit->ord_city = 0;
     } unit_list_iterate_end;
-    city_list_iterate(get_player(i)->cities, pcity) {
+    city_list_iterate(pplayer->cities, pcity) {
       j = 0;
       unit_list_iterate(pcity->units_supported, punit) {
 	punit->ord_city = j++;
       } unit_list_iterate_end;
     } city_list_iterate_end;
-  }
+  } players_iterate_end;
 
   whole_map_iterate(x, y) {
     j = 0;
@@ -1636,14 +1636,12 @@ static void calc_unit_ordering(void)
 ***************************************************************/
 static void apply_unit_ordering(void)
 {
-  int i;
-  
-  for(i=0; i<game.nplayers; i++) {
-    city_list_iterate(get_player(i)->cities, pcity) {
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
       unit_list_sort_ord_city(&pcity->units_supported);
     }
     city_list_iterate_end;
-  }
+  } players_iterate_end;
 
   whole_map_iterate(x, y) {
     unit_list_sort_ord_map(&map_get_tile(x, y)->units);
@@ -2236,9 +2234,9 @@ void game_save(struct section_file *file)
     secfile_insert_str(file, temp, "game.destroyed_wonders");
 
     calc_unit_ordering();
-  
-    for (i=0; i<game.nplayers; i++) {
-      player_save(&game.players[i], i, file);
-    }
+
+    players_iterate(pplayer) {
+      player_save(pplayer, pplayer->player_no, file);
+    } players_iterate_end;
   }
 }

@@ -94,14 +94,11 @@ void send_player_turn_notifications(struct conn_list *dest)
     conn_list_iterate_end;
   }
   else {
-    int i;
-    for (i=0; i<game.nplayers; i++) {
-      struct player *pplayer = &game.players[i];
+    players_iterate(pplayer) {
       city_list_iterate(pplayer->cities, pcity) {
 	send_city_turn_notifications(&pplayer->connections, pcity);
-      }
-      city_list_iterate_end;
-    }
+      } city_list_iterate_end;
+    } players_iterate_end;
   }
 
   send_global_city_turn_notifications(dest);
@@ -1009,7 +1006,6 @@ void notify_player(const struct player *pplayer, const char *format, ...)
 void notify_embassies(struct player *pplayer, struct player *exclude,
 		      const char *format, ...) 
 {
-  int i;
   struct packet_generic_message genmsg;
   va_list args;
   va_start(args, format);
@@ -1018,13 +1014,14 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
   genmsg.x = -1;
   genmsg.y = -1;
   genmsg.event = E_NOEVENT;
-  for(i=0; i<game.nplayers; i++) {
-    if(player_has_embassy(&game.players[i], pplayer)
-       && exclude != &game.players[i]) {
-      lsend_packet_generic_message(&game.players[i].connections,
+
+  players_iterate(other_player) {
+    if (player_has_embassy(other_player, pplayer)
+	&& exclude != other_player) {
+      lsend_packet_generic_message(&other_player->connections,
 				   PACKET_CHAT_MSG, &genmsg);
     }
-  }
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -1532,12 +1529,12 @@ struct player *split_player(struct player *pplayer)
     nations_used[i]=i;
   }
 
-  for(i = 0; i < game.nplayers; i++){
-    if( game.players[i].nation < game.playable_nation_count ) {
-      nations_used[game.players[i].nation] = -1;
+  players_iterate(other_player) {
+    if (other_player->nation < game.playable_nation_count) {
+      nations_used[other_player->nation] = -1;
       num_nations_avail--;
     }
-  }
+  } players_iterate_end;
 
   pick = myrand(num_nations_avail);
 

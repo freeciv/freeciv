@@ -81,10 +81,8 @@ static struct player *create_barbarian_player(bool land)
 {
   int newplayer = game.nplayers;
   struct player *barbarians;
-  int i;
 
-  for( i = 0; i < game.nplayers; i++ ) {
-    barbarians = &game.players[i];
+  players_iterate(barbarians) {
     if( (land && is_land_barbarian(barbarians)) ||
         (!land && is_sea_barbarian(barbarians)) ) {
       if (!barbarians->is_alive) {
@@ -100,7 +98,7 @@ static struct player *create_barbarian_player(bool land)
       barbarians->economic.gold += 100;  /* New leader, new money */
       return barbarians;
     }
-  }
+  } players_iterate_end;
 
   if( newplayer >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS ) {
     freelog( LOG_FATAL, "Too many players?");

@@ -1308,12 +1308,11 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 **************************************************************************/
 int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
 {
-  int a=0, b, c, d, e, m, n, v, i, f, b0, ab, g;
+  int a=0, b, c, d, e, m, n, v, f, b0, ab, g;
 #ifdef DEBUG
   int aa = 0, bb = 0, cc = 0, dd = 0, bestb0 = 0;
 #endif
   int con = map_get_continent(punit->x, punit->y);
-  struct player *aplayer;
   struct unit *pdef;
   int best = 0, maxd, boatid = 0, needferry;
   int harborcity = 0, bx = 0, by = 0;
@@ -1329,15 +1328,14 @@ p_a_w isn't called, and we end up not wanting ironclads and therefore never
 learning steam engine, even though ironclads would be very useful. -- Syela */
 
 /* this is horrible, but I need to do something like this somewhere. -- Syela */
-  for (i = 0; i < game.nplayers; i++) {
-    aplayer = &game.players[i];
+  players_iterate(aplayer) {
     if (aplayer == pplayer) continue;
     /* AI will try to conquer only enemy cities. -- Nb */
     city_list_iterate(aplayer->cities, acity)
       city_reinforcements_cost_and_value(acity, punit);
       acity->ai.invasion = 0;
     city_list_iterate_end;
-  }
+  } players_iterate_end;
 
   unit_list_iterate(pplayer->units, aunit)
     if (aunit == punit) continue;
@@ -1399,8 +1397,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
       is_terrain_near_tile(punit->x, punit->y, T_OCEAN)) harborcity++;
 
   handicap=ai_handicap(pplayer, H_TARGETS);
-  for (i = 0; i < game.nplayers; i++) {
-    aplayer = &game.players[i];
+  players_iterate(aplayer) {
     if (aplayer != pplayer) { /* enemy */
       city_list_iterate(aplayer->cities, acity)
         if (handicap && !map_get_known(acity->x, acity->y, pplayer)) continue;
@@ -1566,7 +1563,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
         }
       unit_list_iterate_end;
     } /* end if enemy */
-  } /* end for all players */
+  } players_iterate_end;
 
 #ifdef DEBUG
   if (best && map_get_city(*x, *y) && !punit->id) {
@@ -2309,7 +2306,7 @@ not possible it runs away. When on coast, it may disappear with 33% chance.
 **************************************************************************/
 static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader)
 {
-  int i, con = map_get_continent(leader->x, leader->y);
+  int con = map_get_continent(leader->x, leader->y);
   int safest = 0, safest_x = leader->x, safest_y = leader->y;
   struct unit *closest_unit = NULL;
   int dist, mindist = 10000;
@@ -2348,8 +2345,9 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   freelog(LOG_DEBUG, "Barbarian leader needs to flee");
   mindist = 1000000;
   closest_unit = NULL;
-  for (i = 0; i < game.nplayers; i++) {
-    unit_list_iterate(game.players[i].units, aunit) {
+
+  players_iterate(other_player) {
+    unit_list_iterate(other_player->units, aunit) {
       if (is_military_unit(aunit)
 	  && is_ground_unit(aunit)
 	  && map_get_continent(aunit->x, aunit->y) == con) {
@@ -2364,7 +2362,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 	}
       }
     } unit_list_iterate_end;
-  }
+  } players_iterate_end;
 
   /* Disappearance - 33% chance on coast, when older than barbarian life span */
   if (is_at_coast(leader->x, leader->y) && leader->fuel == 0) {

@@ -550,12 +550,13 @@ int civ_population(struct player *pplayer)
 **************************************************************************/
 struct city *game_find_city_by_name(char *name)
 {
-  int i;
-  struct city *pcity;
+  players_iterate(pplayer) {
+    struct city *pcity = city_list_find_name(&pplayer->cities, name);
 
-  for(i=0; i<game.nplayers; i++)
-    if((pcity=city_list_find_name(&game.players[i].cities, name)))
+    if (pcity) {
       return pcity;
+    }
+  } players_iterate_end;
 
   return NULL;
 }
@@ -848,9 +849,10 @@ void game_advance_year(void)
 ***************************************************************/
 void game_remove_all_players(void)
 {
-  int i;
-  for(i=0; i<game.nplayers; ++i)
-    game_remove_player(get_player(i));
+  players_iterate(pplayer) {
+    game_remove_player(pplayer);
+  } players_iterate_end;
+
   game.nplayers=0;
 }
 

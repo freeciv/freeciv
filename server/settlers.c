@@ -736,7 +736,7 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 **************************************************************************/
 bool is_ok_city_spot(int x, int y)
 {
-  int dx, dy, i;
+  int dx, dy;
 
   switch (map_get_terrain(x,y)) {
   case T_OCEAN:
@@ -761,8 +761,9 @@ bool is_ok_city_spot(int x, int y)
   default:
     break;
   }
-  for (i = 0; i < game.nplayers; i++) {
-    city_list_iterate(game.players[i].cities, pcity) {
+
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
       if (map_distance(x, y, pcity->x, pcity->y)<=8) {
 	map_distance_vector(&dx, &dy, pcity->x, pcity->y, x, y);
 	dx = abs(dx), dy = abs(dy);
@@ -775,9 +776,9 @@ bool is_ok_city_spot(int x, int y)
 	if (dx<game.rgame.min_dist_bw_cities && dy<game.rgame.min_dist_bw_cities)
           return FALSE;
       }
-    }
-    city_list_iterate_end;
-  }
+    } city_list_iterate_end;
+  } players_iterate_end;
+
   return TRUE;
 }
 

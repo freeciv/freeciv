@@ -2501,7 +2501,6 @@ static void set_ai_level(struct connection *caller, char *name, int level)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
-  int i;
   enum command_id cmd = (level <= 3) ?	CMD_EASY :
 			(level >= 6) ?	CMD_HARD :
 					CMD_NORMAL;
@@ -2521,14 +2520,13 @@ static void set_ai_level(struct connection *caller, char *name, int level)
 		_("%s is not controlled by the AI."), pplayer->name);
     }
   } else if(match_result == M_PRE_EMPTY) {
-    for (i = 0; i < game.nplayers; i++) {
-      pplayer = get_player(i);
+    players_iterate(pplayer) {
       if (pplayer->ai.control) {
 	set_ai_level_directer(pplayer, level);
 	cmd_reply(cmd, caller, C_OK,
 		  _("%s is now %s."), pplayer->name, name_of_skill_level(level));
       }
-    }
+    } players_iterate_end;
     cmd_reply(cmd, caller, C_OK,
 	      _("Setting game.skill_level to %d."), level);
     game.skill_level = level;
@@ -2964,7 +2962,6 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_START_GAME:
     if (server_state==PRE_GAME_STATE) {
       int plrs=0;
-      int i;
 
       /* Sanity check scenario */
       if (game.is_new_game) {
@@ -2989,9 +2986,11 @@ void handle_stdin_input(struct connection *caller, char *str)
 	}
       }
 
-      for (i=0;i<game.nplayers;i++) {
-        if (game.players[i].is_connected || game.players[i].ai.control) plrs++ ;
-      }
+      players_iterate(pplayer) {
+	if (pplayer->is_connected || pplayer->ai.control) {
+	  plrs++;
+	}
+      } players_iterate_end;
 
       if (plrs<game.min_players) {
         cmd_reply(cmd,caller, C_FAIL,
@@ -3306,7 +3305,7 @@ static void show_list(struct connection *caller, char *arg)
 void show_players(struct connection *caller)
 {
   char buf[MAX_LEN_CONSOLE_LINE], buf2[MAX_LEN_CONSOLE_LINE];
-  int i, n;
+  int n;
   
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of players:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
@@ -3315,8 +3314,7 @@ void show_players(struct connection *caller)
     cmd_reply(CMD_LIST, caller, C_WARNING, _("<no players>"));
   else
   {
-    for(i=0; i<game.nplayers; i++) {
-      struct player *pplayer = &game.players[i];
+    players_iterate(pplayer) {
 
       /* Low access level callers don't get to see barbarians in list: */
       if (is_barbarian(pplayer) && caller
@@ -3375,9 +3373,8 @@ void show_players(struct connection *caller)
 	  sz_strlcat(buf, _(" (observer mode)"));
 	}
 	cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
-      }
-      conn_list_iterate_end;
-    }
+      } conn_list_iterate_end;
+    } players_iterate_end;
   }
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }

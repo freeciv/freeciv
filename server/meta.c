@@ -274,8 +274,7 @@ bool send_server_info_to_metaserver(bool do_send, bool reset_timer)
 {
   static struct timer *time_since_last_send = NULL;
   char desc[4096], info[4096];
-  int num_nonbarbarians;
-  int i;
+  int num_nonbarbarians = 0;
 
   if (reset_timer && time_since_last_send)
   {
@@ -294,11 +293,11 @@ bool send_server_info_to_metaserver(bool do_send, bool reset_timer)
     time_since_last_send = new_timer(TIMER_USER, TIMER_ACTIVE);
   }
 
-  for (num_nonbarbarians=0, i=0; i<game.nplayers; ++i) {
-    if (!is_barbarian(&game.players[i])) {
+  players_iterate(pplayer) {
+    if (!is_barbarian(pplayer)) {
       ++num_nonbarbarians;
     }
-  }
+  } players_iterate_end;
 
   /* build description block */
   desc[0]='\0';
@@ -340,16 +339,17 @@ bool send_server_info_to_metaserver(bool do_send, bool reset_timer)
 	       "NO:  NAME:               HOST:\n");
   cat_snprintf(info, sizeof(info),
 	       "----------------------------------------\n");
-  for(i=0; i<game.nplayers; ++i) {
-    struct player *pplayer = &game.players[i];
+
+  players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {
       /* Fixme: how should metaserver handle multi-connects?
        * Uses player_addr_hack() for now.
        */
-      cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n", i, pplayer->name,
+      cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n",
+		   pplayer->player_no, pplayer->name,
 		   player_addr_hack(pplayer));
     }
-  }
+  } players_iterate_end;
 
   clear_timer_start(time_since_last_send);
   return send_to_metaserver(desc, info);

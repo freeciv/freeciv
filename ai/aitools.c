@@ -51,14 +51,11 @@ If (pplayer != NULL) it looks for cities known to pplayer
 struct city *dist_nearest_city(struct player *pplayer, int x, int y,
                                bool everywhere, bool enemy)
 { 
-  struct player *pplay;
   struct city *pc=NULL;
-  int i;
   int dist = MAX(map.xsize / 2, map.ysize);
   int con = map_get_continent(x, y);
 
-  for(i = 0; i < game.nplayers; i++) {
-    pplay = &game.players[i];
+  players_iterate(pplay) {
     if(enemy && pplay == pplayer) continue;
 
     city_list_iterate(pplay->cities, pcity)
@@ -69,7 +66,8 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
         pc = pcity;
       }
     city_list_iterate_end;
-  }
+  } players_iterate_end;
+
   return(pc);
 }
 
