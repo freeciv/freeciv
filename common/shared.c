@@ -879,7 +879,7 @@ const char **datafilelist(const char* suffix)
 		dirs[dir_num]);
       } else {
 	freelog(LOG_ERROR, _("Could not read data directory %s: %s."),
-		dirs[dir_num], strerror(errno));
+		dirs[dir_num], mystrerror(errno));
       }
       continue;
     }

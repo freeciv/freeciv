@@ -288,7 +288,7 @@ static int read_from_connection(struct connection *pc, bool block)
       }
 
       freelog(LOG_NORMAL, "error in select() return=%d errno=%d (%s)",
-	      n, errno, strerror(errno));
+	      n, errno, mystrerror(errno));
       return -1;
     }
 
