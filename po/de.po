@@ -30,19 +30,14 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.11  1999/11/12 13:33:37  jjm
-# Update to de.po file.
+# Revision 1.12  1999/11/14 22:47:32  jjm
+# Update to German translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
 #
-# Revision 1.9.1.18  1999/11/11 23:21:34  egbert
-# additions because of source code changings
-#
-# Revision 1.9.1.17  1999/11/10 07:25:19  egbert
-# some bugs removed
-# hints for translators added
+# Revision 1.9.1.19  1999/11/14 22:13:00  egbert
+# includes source code changings until Nov, 13th.
 #
 # Revision 1.9.1.16  1999/11/08 18:59:27  egbert
-# some bugs corrected
 # lines with "too many %s" translated, but they may cause trouble
 #
 # Revision 1.9.1.13  1999/11/02 04:33:23  egbert
@@ -57,7 +52,19 @@
 # ###################################
 # ## The real PO file starts here: ##
 # ###################################
-#
+
+#: common/city.c:175
+msgid "?wonder:w"
+msgstr "?wonder:+"
+
+#: common/city.c:183
+msgid "?built:B"
+msgstr "?built:-"
+
+#: common/city.c:184
+msgid "?obsolete:O"
+msgstr "?obsolete:0"
+
 #: common/log.c:81
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
@@ -2574,7 +2581,7 @@ msgstr "Spiel: %s hat erfolgreich die Zukunftstechnologie %d von %s gestohlen."
 #: server/unitfunc.c:246
 #, c-format
 msgid "Game: A%s %s %s stole Future Tech. %d from %s."
-msgstr "Spiel: Ein %2$s %3$s hat Zukunftstechnologie %4$d von %5$s gestohlen."
+msgstr "Spiel: %2$ser %3$s hat Zukunftstechnologie %4$d von %5$s gestohlen."
 
 #: server/unitfunc.c:255
 #, c-format
@@ -2620,8 +2627,7 @@ msgstr "Spiel: %s wurde von einem Wächter (%s) in %s getötet."
 #: server/unitfunc.c:362
 #, c-format
 msgid "Game: A%s %s %s was eliminated while infiltrating %s."
-msgstr ""
-"Spiel: Ein %2$s %3$s wurde bei dem Versuch %4$s zu unterwandern getötet."
+msgstr "Spiel: %2$ser %3$s wurde bei dem Versuch %4$s zu unterwandern getötet."
 
 #: server/unitfunc.c:375
 #, c-format
@@ -2703,7 +2709,7 @@ msgstr "Spiel: %s wurde bei einem Sabotageversuch festgenommen!"
 #: server/unitfunc.c:613
 #, c-format
 msgid "Game: You caught a%s %s %s attempting sabotage in %s!"
-msgstr "Spiel: %2$s %3$s bei Sabotageversuch in %4$s gefaßt!"
+msgstr "Spiel: %2$ser %3$s bei Sabotageversuch in %4$s gefaßt!"
 
 #: server/unitfunc.c:637
 #, c-format
@@ -2719,7 +2725,7 @@ msgstr "Spiel: %s wurde bei einem Sabotageversuch festgenommen!"
 #: server/unitfunc.c:654
 #, c-format
 msgid "Game: You caught a%s %s %s attempting to sabotage the %s in %s!"
-msgstr "Spiel: %2$s %3$s bei dem Versuch gefaßt, %4$s in %5$s zu sabotieren!"
+msgstr "Spiel: %2$ser %3$s bei dem Versuch gefaßt, %4$s in %5$s zu sabotieren!"
 
 #: server/unitfunc.c:691
 #, c-format
