@@ -12,6 +12,16 @@ else
 SSUBDIRS =
 endif
 
+if SERVER
+if CLIENT
+MSUBDIRS = manual
+else
+MSUBDIRS = 
+endif
+else
+MSUBDIRS = 
+endif
+
 if MAKE_DATA
 DSUBDIRS = data
 else
@@ -19,7 +29,7 @@ DSUBDIRS =
 endif
 
 
-SUBDIRS=	$(DSUBDIRS) intl utility common tests $(SSUBDIRS) $(CSUBDIRS) po doc
+SUBDIRS=	$(DSUBDIRS) intl utility common tests $(SSUBDIRS) $(CSUBDIRS) po doc $(MSUBDIRS)
 
 EXTRA_DIST=	acconfig.old			\
 		autogen.sh 			\

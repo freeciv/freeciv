@@ -641,6 +641,7 @@ AC_CONFIG_FILES([Makefile
 	  client/gui-stub/Makefile 
 	  server/Makefile 
 	  server/userdb/Makefile
+	  manual/Makefile
 	  intl/Makefile
 	  po/Makefile.in
 	  doc/Makefile
