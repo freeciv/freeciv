@@ -946,6 +946,7 @@ enum command_id {
   
   /* mostly non-harmful: */
   CMD_SET,
+  CMD_TEAM,
   CMD_FIX,
   CMD_UNFIX,
   CMD_RULESETDIR,
@@ -1071,6 +1072,15 @@ static const struct command commands[] = {
   {"set",	ALLOW_CTRL,
    N_("set <option-name> <value>"),
    N_("Set server option."), NULL
+  },
+  {"team",	ALLOW_CTRL,
+   N_("team <player> [team]"),
+   N_("Change, add or remove a player's team affiliation."),
+   N_("Sets a player as member of a team. If no team specified, the "
+      "player is set teamless. Use \"\" if names contain whitespace. "
+      "A team is a group of players that start out allied, with shared "
+      "vision and embassies, and fight together to achieve team victory "
+      "with averaged individual scores.")
   },
   {"fix",       ALLOW_CTRL,
    N_("fix <option-name>"),
@@ -1803,6 +1813,7 @@ static void remove_player(struct connection *caller, char *arg)
   }
 
   sz_strlcpy(name, pplayer->name);
+  team_remove_player(pplayer);
   server_remove_player(pplayer);
   if (!caller || caller->used) {     /* may have removed self */
     cmd_reply(CMD_REMOVE, caller, C_OK,
@@ -2658,6 +2669,59 @@ static bool is_ok_opt_name_value_sep_char(char c)
 /******************************************************************
   ...
 ******************************************************************/
+static void team_command(struct connection *caller, char *str) 
+{
+  struct player *pplayer;
+  enum m_pre_result match_result;
+  char buf[MAX_LEN_CONSOLE_LINE];
+  char *arg[2];
+  int ntokens = 0;
+
+  if (server_state != PRE_GAME_STATE) {
+    cmd_reply(CMD_TEAM, caller, C_SYNTAX,
+              _("Cannot change teams once game has begun."));
+    return;
+  }
+
+  if (str != NULL || strlen(str) > 0) {
+    sz_strlcpy(buf, str);
+    ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
+  }
+  if (ntokens > 2 || ntokens < 1) {
+    cmd_reply(CMD_TEAM, caller, C_SYNTAX,
+	      _("Undefined argument.  Usage: team <player> [team]."));
+    return;
+  }
+
+  pplayer = find_player_by_name_prefix(arg[0], &match_result);
+  if (pplayer == NULL) {
+    cmd_reply_no_such_player(CMD_TEAM, caller, arg[0], match_result);
+    return;
+  }
+
+  if (pplayer->team != TEAM_NONE) {
+    team_remove_player(pplayer);
+  }
+
+  if (ntokens == 1) {
+    /* Remove from team */
+    cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s is made teamless."), 
+        pplayer->name);
+    return;
+  }
+
+  if (get_sane_name(arg[1]) == NULL) {
+    cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Bad team name."));
+    return;
+  }
+  team_add_player(pplayer, arg[1]);
+  cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
+	    pplayer->name, team_get_by_id(pplayer->team)->name);
+}
+
+/******************************************************************
+  ...
+******************************************************************/
 static void set_command(struct connection *caller, char *str) 
 {
   char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
@@ -3152,12 +3216,15 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_SET:
     set_command(caller,arg);
     break;
-   case CMD_FIX:
-     fix_command(caller,arg, CMD_FIX);
-     break;
-   case CMD_UNFIX:
-     fix_command(caller, arg, CMD_UNFIX);
-     break;
+  case CMD_TEAM:
+    team_command(caller, arg);
+    break;
+  case CMD_FIX:
+    fix_command(caller,arg, CMD_FIX);
+    break;
+  case CMD_UNFIX:
+    fix_command(caller, arg, CMD_UNFIX);
+    break;
   case CMD_RULESETDIR:
     set_rulesetdir(caller, arg);
     break;
@@ -3592,6 +3659,10 @@ void show_players(struct connection *caller)
       if (!game.is_new_game) {
 	cat_snprintf(buf2, sizeof(buf2), _(", nation %s"),
 		     get_nation_name_plural(pplayer->nation));
+      }
+      if (pplayer->team != TEAM_NONE) {
+        cat_snprintf(buf2, sizeof(buf2), (", team %s"),
+                     team_get_by_id(pplayer->team)->name);
       }
       my_snprintf(buf, sizeof(buf), "%s (%s)", pplayer->name, buf2);
       

@@ -820,6 +820,9 @@ int send_packet_player_info(struct connection *pc,
   dio_put_string(&dout, pinfo->name);
 
   dio_put_bool8(&dout, pinfo->is_male);
+  if (has_capability("team", pc->capability)) {
+    dio_put_uint8(&dout, pinfo->team);
+  }
   dio_put_uint8(&dout, pinfo->government);
   dio_put_uint32(&dout, pinfo->embassy);
   dio_put_uint8(&dout, pinfo->city_style);
@@ -872,6 +875,11 @@ struct packet_player_info *receive_packet_player_info(struct connection *pc)
   dio_get_string(&din, pinfo->name, sizeof(pinfo->name));
 
   dio_get_bool8(&din, &pinfo->is_male);
+  if (has_capability("team", pc->capability)) {
+    dio_get_uint8(&din, &pinfo->team);
+  } else {
+    pinfo->team = TEAM_NONE;
+  }
   dio_get_uint8(&din, &pinfo->government);
   dio_get_uint32(&din, &pinfo->embassy);
   dio_get_uint8(&din, &pinfo->city_style);
@@ -1799,6 +1807,14 @@ int send_packet_ruleset_control(struct connection *pc,
 
   dio_put_tech_list(&dout, packet->rtech.partisan_req);
 
+  if (has_capability("team", pc->capability)) {
+    int i;
+
+    for (i = 0; i < MAX_NUM_TEAMS; i++) {
+      dio_put_string(&dout, packet->team_name[i]);
+    }
+  }
+
   SEND_PACKET_END;
 }
 
@@ -1808,6 +1824,8 @@ int send_packet_ruleset_control(struct connection *pc,
 struct packet_ruleset_control *
 receive_packet_ruleset_control(struct connection *pc)
 {
+  int i;
+
   RECEIVE_PACKET_START(packet_ruleset_control, packet);
 
   dio_get_uint8(&din, &packet->aqueduct_size);
@@ -1834,6 +1852,15 @@ receive_packet_ruleset_control(struct connection *pc)
   dio_get_uint8(&din, &packet->style_count);
 
   dio_get_tech_list(&din, packet->rtech.partisan_req);
+
+  for (i = 0; i < MAX_NUM_TEAMS; i++) {
+    if (has_capability("team", pc->capability)) {
+      dio_get_string(&din, packet->team_name[i], 
+                     sizeof(packet->team_name[i]));
+    } else {
+      packet->team_name[i][0] = '\0';
+    }
+  }
 
   RECEIVE_PACKET_END(packet);
 }

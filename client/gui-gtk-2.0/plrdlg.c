@@ -63,7 +63,7 @@ static void players_vision_callback(GtkMenuItem *item, gpointer data);
 static void players_intel_callback(GtkMenuItem *item, gpointer data);
 static void players_sship_callback(GtkMenuItem *item, gpointer data);
 
-#define NUM_COLUMNS 11                /* number of columns in total */
+#define NUM_COLUMNS 12                /* number of columns in total */
 #define DEF_SORT_COLUMN 2             /* default sort column (2 = nation) */
 #define COLOR_COLUMN (NUM_COLUMNS)    /* color column */
 #define PLRNO_COLUMN (NUM_COLUMNS+1)  /* plrno column */
@@ -183,6 +183,7 @@ void create_players_dialog(void)
     N_("Name"),
     N_("Flag"),
     N_("Nation"),
+    N_("Team"),
     N_("AI"),
     N_("Embassy"),
     N_("Dipl.State"),
@@ -197,6 +198,7 @@ void create_players_dialog(void)
   static GType model_types[NUM_COLUMNS+2] = {
     G_TYPE_STRING,
     G_TYPE_NONE,
+    G_TYPE_STRING,
     G_TYPE_STRING,
     G_TYPE_BOOLEAN,
     G_TYPE_STRING,
@@ -418,16 +420,24 @@ static void build_flag(Nation_Type_id nation)
 static void build_row(GtkTreeIter *it, int i)
 {
   static char dsbuf[32];
-  gchar *state;
+  gchar *team, *state;
   const struct player_diplstate *pds;
   gint idle;
   struct player *plr = get_player(i);
   GdkColor *state_col;
   GValue value = { 0, };
 
+  /* the team */
+  if (plr->team != TEAM_NONE) {
+    team = team_get_by_id(plr->team)->name;
+  } else {
+    team = "";
+  }
+
   gtk_list_store_set(store, it,
     0, (gchar *)plr->name,   	      	      /* the playername */
     2, (gchar *)get_nation_name(plr->nation), /* the nation */
+    3, (gchar *)team,
     PLRNO_COLUMN, (gint)i,    	      	      /* the playerid */
     -1);
 
@@ -469,17 +479,17 @@ static void build_row(GtkTreeIter *it, int i)
   /* assemble the whole lot */
   g_value_init(&value, G_TYPE_STRING);
   g_value_set_static_string(&value, state);
-  gtk_list_store_set_value(store, it, 8, &value);
+  gtk_list_store_set_value(store, it, 9, &value);
   g_value_unset(&value);
 
   gtk_list_store_set(store, it,
-     3, (gboolean)plr->ai.control,
-     4, (gchar *)get_embassy_status(game.player_ptr, plr),
-     5, (gchar *)dsbuf,
-     6, (gchar *)get_vision_status(game.player_ptr, plr),
-     7, (gchar *)reputation_text(plr->reputation),
-     9, (gchar *)player_addr_hack(plr),   	      	    /* Fixme */
-    10, (gint)idle,
+     4, (gboolean)plr->ai.control,
+     5, (gchar *)get_embassy_status(game.player_ptr, plr),
+     6, (gchar *)dsbuf,
+     7, (gchar *)get_vision_status(game.player_ptr, plr),
+     8, (gchar *)reputation_text(plr->reputation),
+    10, (gchar *)player_addr_hack(plr),   	      	    /* Fixme */
+    11, (gint)idle,
     -1);
 
    /* set flag. */

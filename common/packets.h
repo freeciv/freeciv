@@ -460,6 +460,7 @@ struct packet_player_info {
   int playerno;
   char name[MAX_LEN_NAME];
   bool is_male;
+  int team;
   int government;
   int embassy;
   int city_style;
@@ -573,6 +574,7 @@ struct packet_ruleset_control {
   int nation_count;
   int playable_nation_count;
   int style_count;
+  char team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 };
 
 /*********************************************************

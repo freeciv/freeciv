@@ -1746,6 +1746,10 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.playable_nation_count = game.playable_nation_count;
   packet.style_count = game.styles_count;
 
+  for(i = 0; i < MAX_NUM_TEAMS; i++) {
+    sz_strlcpy(packet.team_name[i], team_get_by_id(i)->name);
+  }
+
   lsend_packet_ruleset_control(dest, &packet);
 }
 

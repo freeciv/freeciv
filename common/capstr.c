@@ -70,12 +70,14 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.14.0 conn_info"
+#define CAPABILITY "+1.14.0 conn_info team"
   
 /* "+1.14.0" is protocol for 1.14.0 release.
   
    "conn_info" is sending the conn_id field. To preserve compatability
    with old clients trying to connect this should persist across releases.
+
+   "team" is support for player teams.
 */
 
 void init_our_capability(void)

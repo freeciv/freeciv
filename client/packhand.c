@@ -1171,6 +1171,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
+  pplayer->team = pinfo->team;
 
   pplayer->economic.gold=pinfo->gold;
   pplayer->economic.tax=pinfo->tax;
@@ -1679,6 +1680,11 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 
   city_styles_alloc(packet->style_count);
   tilespec_alloc_city_tiles(game.styles_count);
+
+  for(i = 0; i < MAX_NUM_TEAMS; i++) {
+    mystrlcpy(team_get_by_id(i)->name, packet->team_name[i],
+              MAX_LEN_NAME);
+  }
 }
 
 /**************************************************************************

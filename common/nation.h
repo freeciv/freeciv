@@ -19,8 +19,11 @@
 #define MAX_NUM_TECH_GOALS 10
 #define MAX_NUM_NATIONS  63
 #define MAX_NUM_LEADERS  16
+#define MAX_NUM_TEAMS MAX_NUM_PLAYERS
+#define TEAM_NONE 255
 
 typedef int Nation_Type_id;
+typedef int Team_Type_id;
 
 struct Sprite;			/* opaque; client-gui specific */
 struct player;
@@ -89,6 +92,11 @@ struct nation_type {
   } goals;
 };
 
+struct team {
+  char name[MAX_LEN_NAME];
+  Team_Type_id id; /* equal to array index if active, else TEAM_NONE */
+};
+
 Nation_Type_id find_nation_by_name(const char *name);
 const char *get_nation_name(Nation_Type_id nation);
 const char *get_nation_name_plural(Nation_Type_id nation);
@@ -102,5 +110,26 @@ void nations_free(void);
 void nation_free(Nation_Type_id nation);
 void nation_city_names_free(struct city_name *city_names);
 int get_nation_city_style(Nation_Type_id nation);
+
+void team_init(void);
+Team_Type_id team_find_by_name(const char *team_name);
+struct team *team_get_by_id(Team_Type_id id);
+void team_add_player(struct player *pplayer, const char *team_name);
+void team_remove_player(struct player *pplayer);
+int team_count_members_alive(Team_Type_id id);
+
+#define team_iterate(PI_team)                                                 \
+{                                                                             \
+  struct team *PI_team;                                                       \
+  Team_Type_id PI_p_itr;                                                      \
+  for (PI_p_itr = 0; PI_p_itr < MAX_NUM_TEAMS; PI_p_itr++) {                  \
+    PI_team = team_get_by_id(PI_p_itr);                                       \
+    if (PI_team->id == TEAM_NONE) {                                           \
+      continue;                                                               \
+    }
+
+#define team_iterate_end                                                      \
+  }                                                                           \
+}
 
 #endif  /* FC__NATION_H */

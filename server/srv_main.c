@@ -176,6 +176,9 @@ void srv_init(void)
 
   srvarg.extra_metaserver_info[0] = '\0';
 
+  /* initialize teams */
+  team_init();
+
   /* mark as initialized */
   has_been_srv_init = TRUE;
 
@@ -184,32 +187,92 @@ void srv_init(void)
 }
 
 /**************************************************************************
-...
+  Returns TRUE if any one game end condition is fulfilled, FALSE otherwise
 **************************************************************************/
 static bool is_game_over(void)
 {
-  int barbs = 0;
-  int alive = 0;
+  int barbs = 0, alive = 0;
+  bool all_allied;
+  struct player *victor = NULL;
 
-  if (game.year > game.end_year)
+  /* quit if we are past the year limit */
+  if (game.year > game.end_year) {
+    notify_conn(&game.est_connections, 
+       _("Game ended in a draw as end year exceeded"));
+    gamelog(GAMELOG_NORMAL, _("Game ended in a draw as end year exceeded"));
     return TRUE;
+  }
 
+  /* count barbarians */
   players_iterate(pplayer) {
     if (is_barbarian(pplayer)) {
       barbs++;
     }
   } players_iterate_end;
 
-  if (game.nplayers == (barbs + 1))
+  /* the game does not quit if we are playing solo */
+  if (game.nplayers == (barbs + 1)) {
     return FALSE;
+  }
 
+  /* count the living */
   players_iterate(pplayer) {
     if (pplayer->is_alive && !is_barbarian(pplayer)) {
       alive++;
+      victor = pplayer;
     }
   } players_iterate_end;
 
-  return (alive <= 1);
+  /* quit if we have team victory */
+  team_iterate(pteam) {
+    if (team_count_members_alive(pteam->id) == alive) {
+      notify_conn(&game.est_connections, 
+          _("Team victory to %s"), pteam->name);
+      gamelog(GAMELOG_NORMAL, _("Team victory to %s"), pteam->name);
+      gamelog(GAMELOG_TEAM, "TEAMVICTORY %s", pteam->name);
+      return TRUE;
+    }
+  } team_iterate_end;
+
+  /* quit if only one player is left alive */
+  if (alive == 1) {
+    notify_conn(&game.est_connections, 
+        _("Game ended in victory for %s"), victor->name);
+    gamelog(GAMELOG_NORMAL, _("Game ended in victory for %s"), 
+        victor->name);
+    gamelog(GAMELOG_TEAM, "SINGLEWINNER %s", victor->name);
+    return TRUE;
+  } else if (alive == 0) {
+    notify_conn(&game.est_connections, _("Game ended in a draw"));
+    gamelog(GAMELOG_NORMAL, _("Game ended in a draw"));
+    gamelog(GAMELOG_TEAM, "NOWINNER");
+    return TRUE;
+  }
+
+  /* quit if all remaining players are allied to each other */
+  all_allied = TRUE;
+  players_iterate(pplayer) {
+    if (!pplayer->is_alive) {
+      continue;
+    }
+    players_iterate(aplayer) {
+      if (!pplayers_allied(pplayer, aplayer) && aplayer->is_alive) {
+        all_allied = FALSE;
+        break;
+      }
+    } players_iterate_end;
+    if (!all_allied) {
+      break;
+    }
+  } players_iterate_end;
+  if (all_allied) {
+    notify_conn(&game.est_connections, _("Game ended in allied victory"));
+    gamelog(GAMELOG_NORMAL, _("Game ended in allied victory"));
+    gamelog(GAMELOG_TEAM, "ALLIEDVICTORY");
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**************************************************************************
@@ -1977,6 +2040,20 @@ main_start_players:
     if(map.num_start_positions==0) {
       create_start_positions();
     }
+  }
+
+  /* Set up alliances based on team selections */
+  if (game.is_new_game) {
+   players_iterate(pplayer) {
+     players_iterate(pdest) {
+      if (pplayer->team == pdest->team && pplayer->team != TEAM_NONE
+          && pplayer->player_no != pdest->player_no) {
+        pplayer->diplstates[pdest->player_no].type = DS_ALLIANCE;
+        give_shared_vision(pplayer, pdest);
+        pplayer->embassy |= (1 << pdest->player_no);
+      }
+    } players_iterate_end;
+   } players_iterate_end;
   }
 
   initialize_move_costs(); /* this may be the wrong place to do this */
