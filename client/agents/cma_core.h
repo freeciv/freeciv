@@ -36,7 +36,7 @@ enum factor_target {
   FT_EXTRA			/* will use (minimal_surplus-surplus) as base */
 };
 
-enum stat { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, NUM_STATS };
+enum cma_stat { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, NUM_STATS };
 
 /* A description of the goal. */
 struct cma_parameter {
@@ -96,7 +96,7 @@ bool cma_is_city_under_agent(struct city *pcity,
 			    struct cma_parameter *parameter);
 
 /***************** utility methods *************************************/
-const char *const cma_get_stat_name(enum stat stat);
+const char *const cma_get_stat_name(enum cma_stat stat);
 bool cma_are_parameter_equal(const struct cma_parameter *const p1,
 			    const struct cma_parameter *const p2);
 void cma_copy_parameter(struct cma_parameter *dest,
