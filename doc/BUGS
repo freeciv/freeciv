@@ -22,6 +22,10 @@ KNOWN BUGS:
    turn done, and therefore changes you make to CMA in the same
    turn as you save a game will be lost.
 
+ - If you use the CMA the resulting savegame isn't endian and 64 bit
+   safe. So you can't use the savegame on a computer with a different
+   architecture.
+
  - The easy AI is not easy enough for novice players.  If the AI is
    beating you up early in the game, try setting the "generator" server
    option to 2 or 3.  That is, in the server, before starting a game,
