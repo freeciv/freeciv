@@ -362,6 +362,7 @@ bool can_eventually_build_improvement(struct city *pcity, Impr_Type_id id);
 bool can_build_unit(struct city *pcity, Unit_Type_id id);
 bool can_build_unit_direct(struct city *pcity, Unit_Type_id id);
 bool can_eventually_build_unit(struct city *pcity, Unit_Type_id id);
+bool city_can_use_specialist(struct city *pcity, enum specialist_type type);
 bool city_got_building(struct city *pcity,  Impr_Type_id id); 
 bool city_affected_by_wonder(struct city *pcity, Impr_Type_id id);
 bool city_got_effect(struct city *pcity, Impr_Type_id id);

@@ -302,21 +302,6 @@ static bool can_field_be_used_for_worker(struct city *pcity, int x, int y)
 }
 
 /****************************************************************************
- Returns TRUE iff if the given city can use this kind of specialists.
-*****************************************************************************/
-static bool can_use_specialist(struct city *pcity,
-			       enum specialist_type specialist_type)
-{
-  if (specialist_type == SP_ELVIS) {
-    return TRUE;
-  }
-  if (pcity->size >= 5) {
-    return TRUE;
-  }
-  return FALSE;
-}
-
-/****************************************************************************
  Returns TRUE iff is the result has the required surplus and the city
  isn't in disorder and the city is happy if this is required.
 *****************************************************************************/
@@ -1258,13 +1243,13 @@ static void find_best_specialist_arrangement(struct city *pcity, const struct cm
 
     int i, items;
 
-    if (can_use_specialist(pcity, SP_SCIENTIST)) {
+    if (city_can_use_specialist(pcity, SP_SCIENTIST)) {
       base_combination->max_scientists = specialists;
     } else {
       base_combination->max_scientists = 0;
     }
 
-    if (can_use_specialist(pcity, SP_TAXMAN)) {
+    if (city_can_use_specialist(pcity, SP_TAXMAN)) {
       base_combination->max_taxmen = specialists;
     } else {
       base_combination->max_taxmen = 0;

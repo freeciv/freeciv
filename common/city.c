@@ -461,6 +461,14 @@ bool can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
   return TRUE;
 }
 
+/****************************************************************************
+  Returns TRUE iff if the given city can use this kind of specialist.
+****************************************************************************/
+bool city_can_use_specialist(struct city *pcity,
+			     enum specialist_type type)
+{
+  return pcity->size >= game.rgame.specialists[type].min_size;
+}
 
 /**************************************************************************
  Returns how many thousand citizen live in this city.

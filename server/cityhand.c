@@ -74,7 +74,7 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
 
   if (to < 0 || to >= SP_COUNT
       || from < 0 || from >= SP_COUNT
-      || pcity->size < game.rgame.specialists[to].min_size
+      || !city_can_use_specialist(pcity, to)
       || pcity->specialists[from] == 0) {
     freelog(LOG_ERROR, "Error in specialist change request from client.");
     return;

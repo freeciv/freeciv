@@ -420,21 +420,28 @@ void city_rotate_specialist(struct city *pcity, int citizen_index)
   switch (citizens[citizen_index]) {
   case CITIZEN_ELVIS:
     from = SP_ELVIS;
-    to = SP_SCIENTIST;
     break;
   case CITIZEN_SCIENTIST:
     from = SP_SCIENTIST;
-    to = SP_TAXMAN;
     break;
   case CITIZEN_TAXMAN:
     from = SP_TAXMAN;
-    to = SP_ELVIS;
     break;
   default:
     return;
   }
 
-  city_change_specialist(pcity, from, to);
+  /* Loop through all specialists in order until we find a usable one
+   * (or run out of choices). */
+  to = from;
+  assert(to >= 0 && to < SP_COUNT);
+  do {
+    to = (to + 1) % SP_COUNT;
+  } while (to != from && !city_can_use_specialist(pcity, to));
+
+  if (from != to) {
+    city_change_specialist(pcity, from, to);
+  }
 }
     
 /**************************************************************************
