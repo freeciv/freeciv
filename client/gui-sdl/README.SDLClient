@@ -34,7 +34,7 @@ Default tileset for SDLClient is "Deluxe" tileset which can be found in
 ftp.freeciv.org/pub/freeciv/incoming ftp site.
 Please run client with -t deluxe option.
 
-Current Deluxe version is DELUXE4.tar.bz2
+Current Deluxe version is DELUXE5.tar.bz2
 
 Please link/copy/move unicode ttf font to game/data dir as "stdfont.ttf".
 
@@ -69,6 +69,11 @@ In Game:
     - <F3> - players report    
     - <F5> - economy report
     - <F6> - science report
+    - <F7> - wonder list
+    - <F8> - top 5 cities
+    - <F10> - hide/show log
+    - <F11> - demographic
+    - <F12> - your space ship
     - <MMB> - advenced menu    
     - <Left Shift + LMB> - advenced menu
     - <left CTRL + LBM on city> - open prduction dialog.

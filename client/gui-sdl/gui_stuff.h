@@ -250,21 +250,6 @@ bool move_window_group_dialog(struct GUI *pBeginGroupWidgetList,
 			     struct GUI *pEndGroupWidgetList);
 int std_move_window_group_callback(struct GUI *pBeginWidgetList,
 				struct GUI *pWindow);
-
-/* Vertic scrolling */
-struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
-				    struct GUI *pBeginActiveWidgetLIST,
-				    struct GUI *pBeginWidgetLIST,
-				    struct GUI *pEndWidgetLIST);
-struct GUI *up_scroll_widget_list(struct ScrollBar *pVscroll,
-				  struct GUI *pBeginActiveWidgetLIST,
-				  struct GUI *pBeginWidgetLIST,
-				  struct GUI *pEndWidgetLIST);
-struct GUI *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
-				      struct GUI *pBeginActiveWidgetLIST,
-				      struct GUI *pBeginWidgetLIST,
-				      struct GUI *pEndWidgetLIST);
-
 				      
 Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
 	Uint8 step, Uint8 active, bool create_scrollbar, bool create_buttons);
@@ -287,8 +272,8 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 				      
 /* Horizontal scrolling */
 Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
-		  Sint16 start_x, Sint16 start_y, Uint16 width, Uint16 active,
-		  bool create_scrollbar, bool create_buttons, bool swap_start_y);
+	  Sint16 start_x, Sint16 start_y, Uint16 width, Uint16 active,
+	  bool create_scrollbar, bool create_buttons, bool swap_start_y);
 
 /* ICON */
 void set_new_icon_theme(struct GUI *pIcon_Widget,

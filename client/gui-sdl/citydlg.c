@@ -99,12 +99,9 @@ static struct city_dialog {
   /* Imprvm. vscrollbar */
   struct ADVANCED_DLG *pImprv;
   
-  /* penel group list */
-  struct GUI *pBeginCityPanelWidgetList;
-  struct GUI *pBeginActiveCityPanelWidgetList;
-  struct GUI *pEndCityPanelWidgetList;
-  struct ScrollBar *pPanelVscroll;
-
+  /* Penel group list */
+  struct ADVANCED_DLG *pPanel;
+    
   /* Menu imprv. dlg. */
   struct GUI *pBeginCityMenuWidgetList;
   struct GUI *pEndCityMenuWidgetList;
@@ -165,6 +162,13 @@ static void del_city_dialog(void)
     FREE(pCityDlg->pImprv->pScroll);
     FREE(pCityDlg->pImprv);
 
+    if (pCityDlg->pPanel) {
+      del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
+					 pCityDlg->pPanel->pEndWidgetList);
+      FREE(pCityDlg->pPanel->pScroll);
+      FREE(pCityDlg->pPanel);
+    }
+        
     if (pHurry_Prod_Dlg)
     {
       del_group_of_widgets_from_gui_list(pHurry_Prod_Dlg->pBeginWidgetList,
@@ -621,60 +625,6 @@ static int units_orders_city_dlg_callback(struct GUI *pButton)
 /* ======================================================================= */
 
 /**************************************************************************
-  up scrollbar unit list button callback
-**************************************************************************/
-static int up_army_city_dlg_callback(struct GUI *pButton)
-{
-  struct GUI *pBegin = up_scroll_widget_list(pCityDlg->pPanelVscroll,
-					     pCityDlg->
-					     pBeginActiveCityPanelWidgetList,
-					     pCityDlg->
-					     pBeginCityPanelWidgetList->
-					     next->next,
-					     pCityDlg->
-					     pEndCityPanelWidgetList);
-
-  if (pBegin) {
-    pCityDlg->pBeginActiveCityPanelWidgetList = pBegin;
-  }
-
-  unsellect_widget_action();
-  pSellected_Widget = pButton;
-  set_wstate(pButton, FC_WS_SELLECTED);
-  redraw_tibutton(pButton);
-  flush_rect(pButton->size);
-
-  return -1;
-}
-
-/**************************************************************************
-  down scrollbar unit list button callback
-**************************************************************************/
-static int down_army_city_dlg_callback(struct GUI *pButton)
-{
-  struct GUI *pBegin = down_scroll_widget_list(pCityDlg->pPanelVscroll,
-					       pCityDlg->
-					       pBeginActiveCityPanelWidgetList,
-					       pCityDlg->
-					       pBeginCityPanelWidgetList->
-					       next->next,
-					       pCityDlg->
-					       pEndCityPanelWidgetList);
-
-  if (pBegin) {
-    pCityDlg->pBeginActiveCityPanelWidgetList = pBegin;
-  }
-
-  unsellect_widget_action();
-  pSellected_Widget = pButton;
-  set_wstate(pButton, FC_WS_SELLECTED);
-  redraw_tibutton(pButton);
-  flush_rect(pButton->size);
-
-  return -1;
-}
-
-/**************************************************************************
   create unit icon with support icons.
 **************************************************************************/
 static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
@@ -806,52 +756,41 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 
     ITERATOR_NEXT(myiter);
   }
-
-  pCityDlg->pBeginActiveCityPanelWidgetList = pEnd;
-  pCityDlg->pEndCityPanelWidgetList = pEnd;
-  pCityDlg->pBeginCityPanelWidgetList = pBuf;
-
+  
+  pCityDlg->pPanel = MALLOC(sizeof(struct ADVANCED_DLG));
+  pCityDlg->pPanel->pEndWidgetList = pEnd;
+  pCityDlg->pPanel->pEndActiveWidgetList = pEnd;
+  pCityDlg->pPanel->pBeginWidgetList = pBuf;
+  pCityDlg->pPanel->pBeginActiveWidgetList = pBuf;
+  pCityDlg->pPanel->pActiveWidgetList = pEnd;
+  
   setup_vertical_widgets_position(NUM_UNITS_SHOWN,
 	pWindow->size.x + 7,
 	pWindow->size.y + WINDOW_TILE_HIGH + 40,
-	  0, 0, pCityDlg->pBeginCityPanelWidgetList,
-			  pCityDlg->pEndCityPanelWidgetList);
+	  0, 0, pCityDlg->pPanel->pBeginActiveWidgetList,
+			  pCityDlg->pPanel->pEndActiveWidgetList);
   
   if (i > NUM_UNITS_SHOWN * NUM_UNITS_SHOWN) {
-    int tmp, high;
     
-    pCityDlg->pPanelVscroll = MALLOC(sizeof(struct ScrollBar));
-    pCityDlg->pPanelVscroll->active = NUM_UNITS_SHOWN;
-    pCityDlg->pPanelVscroll->step = NUM_UNITS_SHOWN;
-    pCityDlg->pPanelVscroll->count = i;
+    pCityDlg->pPanel->pScroll = MALLOC(sizeof(struct ScrollBar));
+    pCityDlg->pPanel->pScroll->active = NUM_UNITS_SHOWN;
+    pCityDlg->pPanel->pScroll->step = NUM_UNITS_SHOWN;
+    pCityDlg->pPanel->pScroll->count = i;
+    
+    create_vertical_scrollbar(pCityDlg->pPanel,
+	NUM_UNITS_SHOWN, NUM_UNITS_SHOWN, FALSE, TRUE);
     
     /* create up button */
-    pBuf = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, 0);
+    pBuf = pCityDlg->pPanel->pScroll->pUp_Left_Button;
     pBuf->size.x = pWindow->size.x + 6;
     pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 20;
     pBuf->size.w = 103;
-    tmp = pBuf->size.h;
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-    pBuf->action = up_army_city_dlg_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pCityDlg->pPanelVscroll->pUp_Left_Button = pBuf;
-    add_to_gui_list(ID_BUTTON, pBuf);
-
+        
     /* create down button */
-    pBuf = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, 0);
+    pBuf = pCityDlg->pPanel->pScroll->pDown_Right_Button;
     pBuf->size.x = pWindow->size.x + 6 + 104;
     pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 20;
-    high = pBuf->size.y;
     pBuf->size.w = 103;
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-    pBuf->action = down_army_city_dlg_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pCityDlg->pPanelVscroll->pDown_Right_Button = pBuf;
-    add_to_gui_list(ID_BUTTON, pBuf);
-    
-    pCityDlg->pPanelVscroll->min = pBuf->size.y;
-    pCityDlg->pPanelVscroll->max = high;
-    pCityDlg->pBeginCityPanelWidgetList = pBuf;
     
   }
     
@@ -862,11 +801,11 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 **************************************************************************/
 void free_city_units_lists(void)
 {
-  if (pCityDlg && pCityDlg->pEndCityPanelWidgetList) {
-    del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityPanelWidgetList,
-					 pCityDlg->pEndCityPanelWidgetList);
-    pCityDlg->pEndCityPanelWidgetList = NULL;
-    FREE(pCityDlg->pPanelVscroll);
+  if (pCityDlg && pCityDlg->pPanel) {
+    del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
+					 pCityDlg->pPanel->pEndWidgetList);
+    FREE(pCityDlg->pPanel->pScroll);
+    FREE(pCityDlg->pPanel);
   }
 }
 
@@ -1023,8 +962,8 @@ static void create_city_options_widget_list(struct city *pCity)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = misc_panel_city_dlg_callback;
   add_to_gui_list(MAX_ID - 1, pBuf);
-  pCityDlg->pBeginActiveCityPanelWidgetList = pBuf;
-  pCityDlg->pEndCityPanelWidgetList = pBuf;
+  pCityDlg->pPanel = MALLOC(sizeof(struct ADVANCED_DLG));
+  pCityDlg->pPanel->pEndWidgetList = pBuf;
   /* ---- */
   
   my_snprintf(cBuf, sizeof(cBuf), "%s\n%s" , _("Auto attack vs"), _("sea units"));
@@ -1116,8 +1055,7 @@ static void create_city_options_widget_list(struct city *pCity)
 
   pBuf->size.x = pBuf->next->size.x;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + 5;
-
-  pCityDlg->pBeginCityPanelWidgetList = pBuf;
+  pCityDlg->pPanel->pBeginWidgetList = pBuf;
 }
 
 /**************************************************************************
@@ -1648,9 +1586,9 @@ void enable_city_dlg_widgets(void)
       set_wstate(pCityDlg->pBuy_Button, FC_WS_DISABLED);
     }
 
-    if (pCityDlg->pEndCityPanelWidgetList) {
-      set_group_state(pCityDlg->pBeginCityPanelWidgetList,
-		    pCityDlg->pEndCityPanelWidgetList, FC_WS_NORMAL);
+    if (pCityDlg->pPanel) {
+      set_group_state(pCityDlg->pPanel->pBeginWidgetList,
+		    pCityDlg->pPanel->pEndWidgetList, FC_WS_NORMAL);
     }
 
     if (cma_is_city_under_agent(pCityDlg->pCity, NULL)) {
@@ -1666,9 +1604,9 @@ void enable_city_dlg_widgets(void)
 **************************************************************************/
 static void disable_city_dlg_widgets(void)
 {
-  if (pCityDlg->pEndCityPanelWidgetList) {
-    set_group_state(pCityDlg->pBeginCityPanelWidgetList,
-		    pCityDlg->pEndCityPanelWidgetList, FC_WS_DISABLED);
+  if (pCityDlg->pPanel) {
+    set_group_state(pCityDlg->pPanel->pBeginWidgetList,
+		    pCityDlg->pPanel->pEndWidgetList, FC_WS_DISABLED);
   }
 
 
@@ -2002,14 +1940,11 @@ static void redraw_misc_city_dialog(struct GUI *pCityWindow,
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
 
-  if (pCityDlg->pEndCityPanelWidgetList) {
-    redraw_group(pCityDlg->pBeginCityPanelWidgetList,
-		 pCityDlg->pEndCityPanelWidgetList, 0);
-  } else {
+  if (!pCityDlg->pPanel) {
     create_city_options_widget_list(pCity);
-    redraw_group(pCityDlg->pBeginCityPanelWidgetList,
-		 pCityDlg->pEndCityPanelWidgetList, 0);
   }
+  redraw_group(pCityDlg->pPanel->pBeginWidgetList,
+		 pCityDlg->pPanel->pEndWidgetList, 0);
 }
 
 /**************************************************************************
@@ -2053,24 +1988,21 @@ static void redraw_supported_units_city_dialog(struct GUI *pCityWindow,
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
 
-  if (pCityDlg->pEndCityPanelWidgetList) {
+  if (pCityDlg->pPanel) {
     if (size) {
-      redraw_group(pCityDlg->pBeginCityPanelWidgetList,
-		   pCityDlg->pEndCityPanelWidgetList, 0);
+      redraw_group(pCityDlg->pPanel->pBeginWidgetList,
+		   pCityDlg->pPanel->pEndWidgetList, 0);
     } else {
-      del_group_of_widgets_from_gui_list(pCityDlg->
-					 pBeginCityPanelWidgetList,
-					 pCityDlg->
-					 pEndCityPanelWidgetList);
-      pCityDlg->pEndCityPanelWidgetList = NULL;
-      FREE(pCityDlg->pPanelVscroll);
+      del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
+					 pCityDlg->pPanel->pEndWidgetList);
+      FREE(pCityDlg->pPanel->pScroll);
+      FREE(pCityDlg->pPanel);
     }
-
   } else {
     if (size) {
       create_present_supported_units_widget_list(pList);
-      redraw_group(pCityDlg->pBeginCityPanelWidgetList,
-		   pCityDlg->pEndCityPanelWidgetList, 0);
+      redraw_group(pCityDlg->pPanel->pBeginWidgetList,
+		   pCityDlg->pPanel->pEndWidgetList, 0);
     }
   }
 }
@@ -2117,26 +2049,21 @@ static void redraw_army_city_dialog(struct GUI *pCityWindow,
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
 
-  if (pCityDlg->pEndCityPanelWidgetList) {
+  if (pCityDlg->pPanel) {
     if (size) {
-      redraw_group(pCityDlg->pBeginCityPanelWidgetList,
-		   pCityDlg->pEndCityPanelWidgetList, 0);
+      redraw_group(pCityDlg->pPanel->pBeginWidgetList,
+		   pCityDlg->pPanel->pEndWidgetList, 0);
     } else {
-      del_group_of_widgets_from_gui_list(pCityDlg->
-					 pBeginCityPanelWidgetList,
-					 pCityDlg->
-					 pEndCityPanelWidgetList);
-      pCityDlg->pEndCityPanelWidgetList = NULL;
-      FREE(pCityDlg->pPanelVscroll);
+      del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
+					 pCityDlg->pPanel->pEndWidgetList);
+      FREE(pCityDlg->pPanel->pScroll);
+      FREE(pCityDlg->pPanel);
     }
   } else {
     if (size) {
-
       create_present_supported_units_widget_list(pList);
-
-      redraw_group(pCityDlg->pBeginCityPanelWidgetList,
-		   pCityDlg->pEndCityPanelWidgetList, 0);
-
+      redraw_group(pCityDlg->pPanel->pBeginWidgetList,
+		   pCityDlg->pPanel->pEndWidgetList, 0);
     }
   }
 }
@@ -4003,6 +3930,13 @@ void popdown_all_city_dialogs(void)
     FREE(pCityDlg->pImprv->pScroll);
     FREE(pCityDlg->pImprv);
 
+    if (pCityDlg->pPanel) {
+      del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
+					 pCityDlg->pPanel->pEndWidgetList);
+      FREE(pCityDlg->pPanel->pScroll);
+      FREE(pCityDlg->pPanel);
+    }
+    
     if (pHurry_Prod_Dlg)
     {
       del_group_of_widgets_from_gui_list(pHurry_Prod_Dlg->pBeginWidgetList,

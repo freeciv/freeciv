@@ -966,6 +966,20 @@ void set_new_group_start_pos(const struct GUI *pBeginGroupWidgetList,
     pTmpWidget->size.x += Xrel;
     pTmpWidget->size.y += Yrel;
 
+    if (get_wtype(pTmpWidget) == WT_VSCROLLBAR
+      && pTmpWidget->private_data.adv
+      && pTmpWidget->private_data.adv->pScroll) {
+      pTmpWidget->private_data.adv->pScroll->max += Yrel;
+      pTmpWidget->private_data.adv->pScroll->min += Yrel;
+    }
+    
+    if (get_wtype(pTmpWidget) == WT_HSCROLLBAR
+      && pTmpWidget->private_data.adv
+      && pTmpWidget->private_data.adv->pScroll) {
+      pTmpWidget->private_data.adv->pScroll->max += Xrel;
+      pTmpWidget->private_data.adv->pScroll->min += Xrel;
+    }
+    
     if (pTmpWidget == pBeginGroupWidgetList) {
       break;
     }
@@ -1436,7 +1450,7 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
 /**************************************************************************
   ...
 **************************************************************************/
-static inline int get_step(struct ScrollBar *pScroll)
+static int get_step(struct ScrollBar *pScroll)
 {
   float step = pScroll->max - pScroll->min;
   step *= (float) (1.0 - (float) (pScroll->active * pScroll->step) /
@@ -1484,8 +1498,8 @@ static void inside_scroll_down_loop(void *pData)
 {
   struct UP_DOWN *pDown = (struct UP_DOWN *)pData;
   if (pDown->pEnd != pDown->pBeginWidgetLIST) {
-      if (pDown->pVscroll->pScrollBar &&
-	  pDown->pVscroll->pScrollBar->size.y <
+      if (pDown->pVscroll->pScrollBar
+	&& pDown->pVscroll->pScrollBar->size.y <=
 	  pDown->pVscroll->max - pDown->pVscroll->pScrollBar->size.h) {
 
 	/* draw bcgd */
@@ -1534,8 +1548,8 @@ static void inside_scroll_up_loop(void *pData)
   struct UP_DOWN *pUp = (struct UP_DOWN *)pData;
   if (pUp && pUp->pBegin != pUp->pEndWidgetLIST) {
 
-    if (pUp->pVscroll->pScrollBar &&
-      (pUp->pVscroll->pScrollBar->size.y > pUp->pVscroll->min)) {
+    if (pUp->pVscroll->pScrollBar
+      && (pUp->pVscroll->pScrollBar->size.y >= pUp->pVscroll->min)) {
 
       /* draw bcgd */
       blit_entire_src(pUp->pVscroll->pScrollBar->gfx,
@@ -1658,7 +1672,7 @@ static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent, void *p
 /**************************************************************************
   ...
 **************************************************************************/
-struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
+static struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
 				    struct GUI *pBeginActiveWidgetLIST,
 				    struct GUI *pBeginWidgetLIST,
 				    struct GUI *pEndWidgetLIST)
@@ -1687,7 +1701,7 @@ struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
 /**************************************************************************
   ...
 **************************************************************************/
-struct GUI *up_scroll_widget_list(struct ScrollBar *pVscroll,
+static struct GUI *up_scroll_widget_list(struct ScrollBar *pVscroll,
 				  struct GUI *pBeginActiveWidgetLIST,
 				  struct GUI *pBeginWidgetLIST,
 				  struct GUI *pEndWidgetLIST)
@@ -1709,7 +1723,7 @@ struct GUI *up_scroll_widget_list(struct ScrollBar *pVscroll,
 /**************************************************************************
   FIXME
 **************************************************************************/
-struct GUI *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
+static struct GUI *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 				      struct GUI *pBeginActiveWidgetLIST,
 				      struct GUI *pBeginWidgetLIST,
 				      struct GUI *pEndWidgetLIST)
@@ -2098,7 +2112,7 @@ STD:  while (pBuf != pWidget) {
 **************************************************************************/
 static int std_up_advanced_dlg(struct GUI *pWidget)
 {
-  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pWidget->data.ptr;
+  struct ADVANCED_DLG *pDlg = pWidget->private_data.adv;
   struct GUI *pBegin = up_scroll_widget_list(
 			pDlg->pScroll,
 			pDlg->pActiveWidgetList,
@@ -2122,7 +2136,7 @@ static int std_up_advanced_dlg(struct GUI *pWidget)
 **************************************************************************/
 static int std_down_advanced_dlg(struct GUI *pWidget)
 {
-  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pWidget->data.ptr;
+  struct ADVANCED_DLG *pDlg = pWidget->private_data.adv;
   struct GUI *pBegin = down_scroll_widget_list(
 			pDlg->pScroll,
 			pDlg->pActiveWidgetList,
@@ -2146,7 +2160,7 @@ static int std_down_advanced_dlg(struct GUI *pWidget)
 **************************************************************************/
 static int std_vscroll_advanced_dlg(struct GUI *pScrollBar)
 {
-  struct ADVANCED_DLG *pDlg = (struct ADVANCED_DLG *)pScrollBar->data.ptr;
+  struct ADVANCED_DLG *pDlg = pScrollBar->private_data.adv;
   struct GUI *pBegin = vertic_scroll_widget_list(
 			pDlg->pScroll,
 			pDlg->pActiveWidgetList,
@@ -2199,7 +2213,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     pBuf = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, 0);
     
     pBuf->ID = ID_BUTTON;
-    pBuf->data.ptr = (void *)pDlg;
+    pBuf->private_data.adv = pDlg;
     pBuf->action = std_up_advanced_dlg;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -2214,7 +2228,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     pBuf = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, 0);
     
     pBuf->ID = ID_BUTTON;
-    pBuf->data.ptr = (void *)pDlg;
+    pBuf->private_data.adv = pDlg;
     pBuf->action = std_down_advanced_dlg;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -2231,7 +2245,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
 				10, WF_DRAW_THEME_TRANSPARENT);
     
     pBuf->ID = ID_SCROLLBAR;
-    pBuf->data.ptr = (void *)pDlg;
+    pBuf->private_data.adv = pDlg;
     pBuf->action = std_vscroll_advanced_dlg;
     set_wstate(pBuf, FC_WS_NORMAL);
   
