@@ -1031,7 +1031,7 @@ void notify_player(const struct player *pplayer, const char *format, ...)
 
 /**************************************************************************
   Send message to all players who have an embassy with pplayer,
-  but excluding specified player.
+  but excluding pplayer and specified player.
 **************************************************************************/
 void notify_embassies(struct player *pplayer, struct player *exclude,
 		      const char *format, ...) 
@@ -1047,7 +1047,8 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 
   players_iterate(other_player) {
     if (player_has_embassy(other_player, pplayer)
-	&& exclude != other_player) {
+	&& exclude != other_player
+        && pplayer != other_player) {
       lsend_packet_generic_message(&other_player->connections,
 				   PACKET_CHAT_MSG, &genmsg);
     }
