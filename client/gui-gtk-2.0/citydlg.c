@@ -1320,20 +1320,20 @@ static void city_dialog_update_information(GtkWidget **info_label,
   /* fill the buffers with the necessary info */
 
   my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
-	      pcity->food_prod, pcity->surplus[O_FOOD]);
+	      pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
   my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
-	      pcity->shield_prod + pcity->waste[O_SHIELD],
+	      pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD],
 	      pcity->surplus[O_SHIELD]);
   my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
 	      pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
 	      pcity->surplus[O_TRADE]);
   my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
-	      pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total));
+	      pcity->prod[O_GOLD], city_gold_surplus(pcity, pcity->prod[O_GOLD]));
   my_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
-	      pcity->luxury_total);
+	      pcity->prod[O_LUXURY]);
 
   my_snprintf(buf[SCIENCE], sizeof(buf[SCIENCE]), "%2d",
-	      pcity->science_total);
+	      pcity->prod[O_SCIENCE]);
 
   my_snprintf(buf[GRANARY], sizeof(buf[GRANARY]), "%d/%-d",
 	      pcity->food_stock, city_granary_size(pcity->size));

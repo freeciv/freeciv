@@ -390,7 +390,7 @@ int num_known_tech_with_flag(const struct player *pplayer,
   Return the expected net income of the player this turn.  This includes
   tax revenue and upkeep, but not one-time purchases or found gold.
 
-  This function depends on pcity->tax_total being set for all cities, so
+  This function depends on pcity->prod[O_GOLD] being set for all cities, so
   make sure the player's cities have been refreshed.
 **************************************************************************/
 int player_get_expected_income(const struct player *pplayer)
@@ -400,7 +400,7 @@ int player_get_expected_income(const struct player *pplayer)
   /* City income/expenses. */
   city_list_iterate(pplayer->cities, pcity) {
     /* Gold suplus accounts for imcome plus building and unit upkeep. */
-    income += city_gold_surplus(pcity, pcity->tax_total);
+    income += city_gold_surplus(pcity, pcity->prod[O_GOLD]);
 
     /* Capitalization income. */
     if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {

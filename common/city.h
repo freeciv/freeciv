@@ -239,19 +239,14 @@ struct city {
   /* the productions */
   int surplus[O_MAX]; /* Final surplus in each category. */
   int waste[O_MAX]; /* Waste/corruption in each category. */
+  int prod[O_MAX]; /* Production is total minus waste. */
 
-  int food_prod;
-
-  /* Shield production is shields produced minus shield_waste*/
-  int shield_prod;
+  /* tile_trade is a special case for trade routes. */
   int tile_trade;
 
   /* Cached values for CPU savings. */
   int bonus[O_MAX];
 
-  /* the totals */
-  int luxury_total, tax_total, science_total;
-  
   /* the physics */
   int food_stock;
   int shield_stock;

@@ -218,7 +218,7 @@ static void happiness_dialog_update_luxury(struct happiness_dlg
   struct city *pcity = pdialog->pcity;
 
   my_snprintf(bptr, nleft, _("Luxury: %d total."),
-              pcity->luxury_total);
+              pcity->prod[O_LUXURY]);
 
   SetWindowText(pdialog->mod_label[LUXURIES], buf);
 }

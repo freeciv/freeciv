@@ -1722,17 +1722,17 @@ static inline void set_tax_income(struct city *pcity)
   int output[O_COUNT];
 
   memset(output, 0, O_COUNT * sizeof(*output));
-  pcity->luxury_total = 0;
-  pcity->science_total = 0;
-  pcity->tax_total = 0;
+  pcity->prod[O_LUXURY] = 0;
+  pcity->prod[O_SCIENCE] = 0;
+  pcity->prod[O_GOLD] = 0;
   output[O_TRADE] = pcity->surplus[O_TRADE];
   add_tax_income(city_owner(pcity), output);
   add_specialist_output(pcity, output);
-  pcity->luxury_total += output[O_LUXURY];
-  pcity->science_total += output[O_SCIENCE];
-  pcity->tax_total += output[O_GOLD];
+  pcity->prod[O_LUXURY] += output[O_LUXURY];
+  pcity->prod[O_SCIENCE] += output[O_SCIENCE];
+  pcity->prod[O_GOLD] += output[O_GOLD];
 
-  pcity->tax_total += get_city_tithes_bonus(pcity);
+  pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
 }
 
 /**************************************************************************
@@ -1747,12 +1747,12 @@ static void add_buildings_effect(struct city *pcity)
     pcity->bonus[o] = get_city_output_bonus(pcity, o);
   } output_type_iterate_end;
 
-  pcity->shield_prod = (pcity->shield_prod * pcity->bonus[O_SHIELD]) / 100;
-  pcity->luxury_total = (pcity->luxury_total * pcity->bonus[O_LUXURY]) / 100;
-  pcity->tax_total = (pcity->tax_total * pcity->bonus[O_GOLD]) / 100;
-  pcity->science_total = (pcity->science_total
+  pcity->prod[O_SHIELD] = (pcity->prod[O_SHIELD] * pcity->bonus[O_SHIELD]) / 100;
+  pcity->prod[O_LUXURY] = (pcity->prod[O_LUXURY] * pcity->bonus[O_LUXURY]) / 100;
+  pcity->prod[O_GOLD] = (pcity->prod[O_GOLD] * pcity->bonus[O_GOLD]) / 100;
+  pcity->prod[O_SCIENCE] = (pcity->prod[O_SCIENCE]
 			  * pcity->bonus[O_SCIENCE]) / 100;
-  pcity->surplus[O_SHIELD] = pcity->shield_prod;
+  pcity->surplus[O_SHIELD] = pcity->prod[O_SHIELD];
 }
 
 /**************************************************************************
@@ -1760,9 +1760,9 @@ static void add_buildings_effect(struct city *pcity)
 **************************************************************************/
 static void set_tax_surplus(struct city *pcity)
 {
-  pcity->surplus[O_SCIENCE] = pcity->science_total;
-  pcity->surplus[O_LUXURY] = pcity->luxury_total;
-  pcity->surplus[O_GOLD] = city_gold_surplus(pcity, pcity->tax_total);
+  pcity->surplus[O_SCIENCE] = pcity->prod[O_SCIENCE];
+  pcity->surplus[O_LUXURY] = pcity->prod[O_LUXURY];
+  pcity->surplus[O_GOLD] = city_gold_surplus(pcity, pcity->prod[O_GOLD]);
 }
 
 /**************************************************************************
@@ -1849,7 +1849,7 @@ static inline void citizen_luxury_happy(const struct city *pcity, int *luxuries,
 **************************************************************************/
 static inline void citizen_happy_luxury(struct city *pcity)
 {
-  int x = pcity->luxury_total;
+  int x = pcity->prod[O_LUXURY];
 
   happy_copy(pcity, 0);
 
@@ -1967,14 +1967,14 @@ static inline void unhappy_city_check(struct city *pcity)
 
     /* FIXME: These are special cases because many parts of the code still
      * check tax_total and science_total instead of the surplus[] array. */
-    pcity->tax_total = 0;
-    pcity->science_total = 0;
+    pcity->prod[O_GOLD] = 0;
+    pcity->prod[O_SCIENCE] = 0;
   }
 }
 
 /**************************************************************************
   Calculate pollution for the city.  The shield_total must be passed in
-  (most callers will want to pass pcity->shield_prod).
+  (most callers will want to pass pcity->prod[O_SHIELD]).
 **************************************************************************/
 int city_pollution(struct city *pcity, int shield_total)
 {
@@ -2011,12 +2011,12 @@ static inline void set_food_trade_shields(struct city *pcity)
   pcity->surplus[O_SHIELD] = 0;
 
   get_worked_tile_output(pcity, output);
-  pcity->food_prod = output[O_FOOD];
-  pcity->shield_prod = output[O_SHIELD];
+  pcity->prod[O_FOOD] = output[O_FOOD];
+  pcity->prod[O_SHIELD] = output[O_SHIELD];
   pcity->surplus[O_TRADE] = output[O_TRADE];
   
   pcity->tile_trade = pcity->surplus[O_TRADE];
-  pcity->surplus[O_FOOD] = pcity->food_prod - pcity->size * 2;
+  pcity->surplus[O_FOOD] = pcity->prod[O_FOOD] - pcity->size * 2;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade_value[i] =
@@ -2025,9 +2025,10 @@ static inline void set_food_trade_shields(struct city *pcity)
   }
   pcity->waste[O_TRADE] = city_waste(pcity, O_TRADE, pcity->surplus[O_TRADE]);
   pcity->surplus[O_TRADE] -= pcity->waste[O_TRADE];
+  pcity->prod[O_TRADE] = pcity->surplus[O_TRADE]; /* Set it here. */
 
-  pcity->waste[O_SHIELD] = city_waste(pcity, O_SHIELD, pcity->shield_prod);
-  pcity->shield_prod -= pcity->waste[O_SHIELD];
+  pcity->waste[O_SHIELD] = city_waste(pcity, O_SHIELD, pcity->prod[O_SHIELD]);
+  pcity->prod[O_SHIELD] -= pcity->waste[O_SHIELD];
 }
 
 /**************************************************************************
@@ -2177,7 +2178,7 @@ void generic_city_refresh(struct city *pcity,
   set_tax_income(pcity);	/* calc base luxury, tax & bulbs */
   add_buildings_effect(pcity);	/* marketplace, library wonders.. */
   set_tax_surplus(pcity);
-  pcity->pollution = city_pollution(pcity, pcity->shield_prod);
+  pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   citizen_content_buildings(pcity);	/* temple cathedral colosseum */
   city_support(pcity, send_unit_info);	/* manage settlers, and units */

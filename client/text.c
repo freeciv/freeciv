@@ -415,7 +415,7 @@ const char *science_dialog_text(void)
 
     if (plr == pplayer) {
       city_list_iterate(pplayer->cities, pcity) {
-        ours += pcity->science_total;
+        ours += pcity->prod[O_SCIENCE];
       } city_list_iterate_end;
     } else if (ds == DS_TEAM) {
       theirs += pplayer->research.bulbs_last_turn;

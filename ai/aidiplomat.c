@@ -177,11 +177,11 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
         && (incite_cost < pplayer->economic.gold - pplayer->ai.est_upkeep)) {
       /* incite gain (FIXME: we should count wonders too but need to
          cache that somehow to avoid CPU hog -- Per) */
-      gain_incite = acity->food_prod * FOOD_WEIGHTING
-                    + acity->shield_prod * SHIELD_WEIGHTING
-                    + (acity->luxury_total
-                       + acity->tax_total
-                       + acity->science_total) * TRADE_WEIGHTING;
+      gain_incite = acity->prod[O_FOOD] * FOOD_WEIGHTING
+                    + acity->prod[O_SHIELD] * SHIELD_WEIGHTING
+                    + (acity->prod[O_LUXURY]
+                       + acity->prod[O_GOLD]
+                       + acity->prod[O_SCIENCE]) * TRADE_WEIGHTING;
       gain_incite *= SHIELD_WEIGHTING; /* WAG cost to take city otherwise */
       gain_incite -= incite_cost * TRADE_WEIGHTING;
     }

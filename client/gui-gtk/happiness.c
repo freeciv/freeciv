@@ -265,7 +265,7 @@ static void happiness_dialog_update_luxury(struct happiness_dialog
   struct city *pcity = pdialog->pcity;
 
   my_snprintf(bptr, nleft, _("Luxury: %d total."),
-	      pcity->luxury_total);
+	      pcity->prod[O_LUXURY]);
 
   gtk_set_label(pdialog->hlabels[LUXURIES], buf);
 }

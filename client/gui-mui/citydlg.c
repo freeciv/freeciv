@@ -1806,14 +1806,14 @@ static void city_dialog_update_information(struct city_dialog *pdialog, struct c
   granarystyle = (pcity->food_surplus < 0 && granaryturns < 4) ? RED : NORMAL;
   pollutionstyle = (pcity->pollution >= 10) ? RED : NORMAL;
 
-  settextf(info->food_text, "%2d (%+2d)", pcity->food_prod, pcity->food_surplus);
-  settextf(info->shield_text, "%2d (%+2d)", pcity->shield_prod + pcity->waste[O_SHIELD], pcity->shield_surplus);
+  settextf(info->food_text, "%2d (%+2d)", pcity->prod[O_FOOD], pcity->food_surplus);
+  settextf(info->shield_text, "%2d (%+2d)", pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD], pcity->shield_surplus);
   settextf(info->trade_text, "%2d (%+2d)",
 	   pcity->trade_prod + pcity->waste[O_TRADE],
 	   pcity->trade_prod);
-  settextf(info->gold_text, "%2d (%+2d)", pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total));
-  settextf(info->luxury_text, "%2d", pcity->luxury_total);
-  settextf(info->science_text, "%2d", pcity->science_total);
+  settextf(info->gold_text, "%2d (%+2d)", pcity->prod[O_GOLD], city_gold_surplus(pcity, pcity->prod[O_GOLD]));
+  settextf(info->luxury_text, "%2d", pcity->prod[O_LUXURY]);
+  settextf(info->science_text, "%2d", pcity->prod[O_SCIENCE]);
 
   set(info->granary_text, MUIA_Text_PreParse, granarystyle==RED?MUIX_B:"");
   set(info->growth_text, MUIA_Text_PreParse, growthstyle==RED?MUIX_B:"");
@@ -2228,7 +2228,7 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
 
   /* LUXURY */
   my_snprintf(bptr, nleft, _("Luxury: %d total (maximum %d usable). "),
-	      pcity->luxury_total, 2 * pcity->size);
+	      pcity->prod[O_LUXURY], 2 * pcity->size);
 
   settext(pdialog->happiness_citizen_text[1], buf);
 

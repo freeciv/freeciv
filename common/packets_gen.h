@@ -177,16 +177,12 @@ struct packet_city_info {
   int specialists[SP_MAX];
   int surplus[O_MAX];
   int waste[O_MAX];
-  int food_prod;
-  int shield_prod;
+  int prod[O_MAX];
   int tile_trade;
   int food_stock;
   int shield_stock;
   int trade[NUM_TRADEROUTES];
   int trade_value[NUM_TRADEROUTES];
-  int luxury_total;
-  int tax_total;
-  int science_total;
   int pollution;
   int currently_building;
   bool is_building_unit;

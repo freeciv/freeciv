@@ -1547,15 +1547,10 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   output_type_iterate(o) {
     packet->surplus[o] = pcity->surplus[o];
     packet->waste[o] = pcity->waste[o];
+    packet->prod[o] = pcity->prod[o];
   } output_type_iterate_end;
-  packet->food_prod = pcity->food_prod;
-  packet->shield_prod = pcity->shield_prod;
   packet->tile_trade = pcity->tile_trade;
 
-  packet->luxury_total=pcity->luxury_total;
-  packet->tax_total=pcity->tax_total;
-  packet->science_total=pcity->science_total;
-  
   packet->food_stock=pcity->food_stock;
   packet->shield_stock=pcity->shield_stock;
   packet->pollution=pcity->pollution;

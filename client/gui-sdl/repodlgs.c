@@ -2515,7 +2515,7 @@ void science_dialog_update(void)
     /* ------------------------------------- */
 
     city_list_iterate(game.player_ptr->cities, pCity) {
-      curent_output += pCity->science_total;
+      curent_output += pCity->prod[O_SCIENCE];
     } city_list_iterate_end;
 
     if (curent_output <= 0) {

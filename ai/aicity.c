@@ -111,9 +111,9 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 {
   int i = (pcity->surplus[O_FOOD] * ai->food_priority
            + pcity->surplus[O_SHIELD] * ai->shield_priority
-           + pcity->luxury_total * ai->luxury_priority
-           + pcity->tax_total * ai->gold_priority
-           + pcity->science_total * ai->science_priority
+           + pcity->prod[O_LUXURY] * ai->luxury_priority
+           + pcity->prod[O_GOLD] * ai->gold_priority
+           + pcity->prod[O_SCIENCE] * ai->science_priority
            + pcity->ppl_happy[4] * ai->happy_priority
            - pcity->ppl_unhappy[4] * ai->unhappy_priority
            - pcity->ppl_angry[4] * ai->angry_priority

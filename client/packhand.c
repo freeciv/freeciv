@@ -455,19 +455,14 @@ void handle_city_info(struct packet_city_info *packet)
     pcity->trade[i]=packet->trade[i];
     pcity->trade_value[i]=packet->trade_value[i];
   }
-  
-  pcity->food_prod=packet->food_prod;
+
   output_type_iterate(o) {
     pcity->surplus[o] = packet->surplus[o];
     pcity->waste[o] = packet->waste[o];
+    pcity->prod[o] = packet->prod[o];
   } output_type_iterate_end;
-  pcity->shield_prod=packet->shield_prod;
   pcity->tile_trade=packet->tile_trade;
 
-  pcity->luxury_total=packet->luxury_total;
-  pcity->tax_total=packet->tax_total;
-  pcity->science_total=packet->science_total;
-  
   pcity->food_stock=packet->food_stock;
   pcity->shield_stock=packet->shield_stock;
   pcity->pollution=packet->pollution;
@@ -745,13 +740,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
       pcity->trade[i] = 0;
       pcity->trade_value[i] = 0;
     }
-    pcity->food_prod          = 0;
     memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
-    pcity->shield_prod        = 0;
     memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));
-    pcity->luxury_total       = 0;
-    pcity->tax_total          = 0;
-    pcity->science_total      = 0;
+    memset(pcity->prod, 0, O_COUNT * sizeof(*pcity->prod));
     pcity->food_stock         = 0;
     pcity->shield_stock       = 0;
     pcity->pollution          = 0;

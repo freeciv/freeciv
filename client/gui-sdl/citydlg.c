@@ -2726,7 +2726,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
   /* food label */
   my_snprintf(cBuf, sizeof(cBuf), _("Food : %d per turn"),
-	      pCity->food_prod);
+	      pCity->prod[O_FOOD]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_GROUND);
@@ -2745,9 +2745,9 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + 203;
 
   if (pCity->food_surplus >= 0) {
-    count = pCity->food_prod - pCity->food_surplus;
+    count = pCity->prod[O_FOOD] - pCity->food_surplus;
   } else {
-    count = pCity->food_prod;
+    count = pCity->prod[O_FOOD];
   }
 
   if (((pIcons->pBIG_Food->w + 1) * count) > 200) {
@@ -2811,7 +2811,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* productions label */
   my_snprintf(cBuf, sizeof(cBuf), _("Production : %d (%d) per turn"),
 	      pCity->shield_surplus ,
-		  pCity->shield_prod + pCity->waste[O_SHIELD]);
+		  pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_PROD);
@@ -2856,7 +2856,7 @@ static void redraw_city_dialog(struct city *pCity)
 
   /* support shields label */
   my_snprintf(cBuf, sizeof(cBuf), Q_("?production:Support : %d"),
-	  pCity->shield_prod + pCity->waste[O_SHIELD] - pCity->shield_surplus);
+	  pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD] - pCity->shield_surplus);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_SUPPORT);
@@ -2871,20 +2871,20 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw support shields */
-  if (pCity->shield_prod - pCity->shield_surplus) {
+  if (pCity->prod[O_SHIELD] - pCity->shield_surplus) {
     dest.x = pWindow->size.x + 423;
     dest.y =
 	pWindow->size.y + 281 + (16 - pIcons->pBIG_Shield->h) / 2;
-    if ((pIcons->pBIG_Shield->w + 1) * (pCity->shield_prod -
+    if ((pIcons->pBIG_Shield->w + 1) * (pCity->prod[O_SHIELD] -
 					    pCity->shield_surplus) > 30) {
       step =
-	  (30 - pIcons->pBIG_Food->w) / (pCity->shield_prod -
+	  (30 - pIcons->pBIG_Food->w) / (pCity->prod[O_SHIELD] -
 					     pCity->shield_surplus - 1);
     } else {
       step = pIcons->pBIG_Shield->w + 1;
     }
 
-    for (i = 0; i < (pCity->shield_prod - pCity->shield_surplus); i++) {
+    for (i = 0; i < (pCity->prod[O_SHIELD] - pCity->shield_surplus); i++) {
       SDL_BlitSurface(pIcons->pBIG_Shield, NULL, pWindow->dst, &dest);
       dest.x -= step;
     }
@@ -2966,7 +2966,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
   /* gold label */
   my_snprintf(cBuf, sizeof(cBuf), _("Gold: %d (%d) per turn"),
-	      city_gold_surplus(pCity, pcity->tax_total), pCity->tax_total);
+	      city_gold_surplus(pCity, pcity->prod[O_GOLD]), pCity->prod[O_GOLD]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_GOLD);
@@ -2981,7 +2981,7 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw coins */
-  count = city_gold_surplus(pCity, pcity->tax_total);
+  count = city_gold_surplus(pCity, pcity->prod[O_GOLD]);
   if (count) {
 
     if (count > 0) {
@@ -3012,8 +3012,8 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   /* upkeep label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Upkeep : %d"), pCity->tax_total -
-	      city_gold_surplus(pCity, pcity->tax_total));
+  my_snprintf(cBuf, sizeof(cBuf), _("Upkeep : %d"), pCity->prod[O_GOLD] -
+	      city_gold_surplus(pCity, pcity->prod[O_GOLD]));
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_UNKEEP);
@@ -3028,22 +3028,22 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw upkeep */
-  count = city_gold_surplus(pCity, pcity->tax_total);
-  if (pCity->tax_total - count) {
+  count = city_gold_surplus(pCity, pcity->prod[O_GOLD]);
+  if (pCity->prod[O_GOLD] - count) {
 
     dest.x = pWindow->size.x + 423;
     dest.y = pWindow->size.y + 359
       + (16 - pIcons->pBIG_Coin_UpKeep->h) / 2;
 
     if (((pIcons->pBIG_Coin_UpKeep->w + 1) *
-	 (pCity->tax_total - count)) > 110) {
+	 (pCity->prod[O_GOLD] - count)) > 110) {
       step = (110 - pIcons->pBIG_Coin_UpKeep->w) /
-	  (pCity->tax_total - count - 1);
+	  (pCity->prod[O_GOLD] - count - 1);
     } else {
       step = pIcons->pBIG_Coin_UpKeep->w + 1;
     }
 
-    for (i = 0; i < (pCity->tax_total - count); i++) {
+    for (i = 0; i < (pCity->prod[O_GOLD] - count); i++) {
       SDL_BlitSurface(pIcons->pBIG_Coin_UpKeep, NULL, pWindow->dst,
 		      &dest);
       dest.x -= step;
@@ -3052,7 +3052,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
   /* science label */
   my_snprintf(cBuf, sizeof(cBuf), _("Science: %d per turn"),
-	      pCity->science_total);
+	      pCity->prod[O_SCIENCE]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_SCIENCE);
@@ -3067,7 +3067,7 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw colb */
-  count = pCity->science_total;
+  count = pCity->prod[O_SCIENCE];
   if (count) {
 
     dest.y =
@@ -3092,7 +3092,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
   /* luxury label */
   my_snprintf(cBuf, sizeof(cBuf), _("Luxury: %d per turn"),
-	      pCity->luxury_total);
+	      pCity->prod[O_LUXURY]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_LUX);
@@ -3107,20 +3107,20 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw luxury */
-  if (pCity->luxury_total) {
+  if (pCity->prod[O_LUXURY]) {
 
     dest.y =
 	pWindow->size.y + 429 + (16 - pIcons->pBIG_Luxury->h) / 2;
     dest.x = pWindow->size.x + 203;
 
-    if ((pIcons->pBIG_Luxury->w * pCity->luxury_total) > 235) {
+    if ((pIcons->pBIG_Luxury->w * pCity->prod[O_LUXURY]) > 235) {
       step =
-	  (235 - pIcons->pBIG_Luxury->w) / (pCity->luxury_total - 1);
+	  (235 - pIcons->pBIG_Luxury->w) / (pCity->prod[O_LUXURY] - 1);
     } else {
       step = pIcons->pBIG_Luxury->w;
     }
 
-    for (i = 0; i < pCity->luxury_total; i++) {
+    for (i = 0; i < pCity->prod[O_LUXURY]; i++) {
       SDL_BlitSurface(pIcons->pBIG_Luxury, NULL, pWindow->dst, &dest);
       dest.x += step;
     }

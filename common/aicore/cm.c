@@ -1530,7 +1530,7 @@ static void init_min_production(struct cm_state *state)
    * prod-surplus; otherwise, we know it's at least 2*size but we
    * can't easily compute the settlers. */
   if (!city_unhappy(pcity)) {
-    usage[O_FOOD] = pcity->food_prod - pcity->surplus[O_FOOD];
+    usage[O_FOOD] = pcity->prod[O_FOOD] - pcity->surplus[O_FOOD];
   } else {
     usage[O_FOOD] = pcity->size * 2;
   }
@@ -1547,13 +1547,13 @@ static void init_min_production(struct cm_state *state)
    * 'factories' is the pcity->bonus[O_SHIELD]/100.  Increase it a bit to avoid
    * rounding errors.
    *
-   * pcity->shield_prod = (factories-waste) * production.
-   * Therefore, shield_usage = pcity->shield_prod - pcity->shield_surplus
+   * pcity->prod[O_SHIELD] = (factories-waste) * production.
+   * Therefore, shield_usage = pcity->prod[O_SHIELD] - pcity->shield_surplus
    */
   if (!city_unhappy(pcity)) {
     double sbonus;
 
-    usage[O_SHIELD] = pcity->shield_prod - pcity->surplus[O_SHIELD];
+    usage[O_SHIELD] = pcity->prod[O_SHIELD] - pcity->surplus[O_SHIELD];
 
     sbonus = ((double)pcity->bonus[O_SHIELD]) / 100.0;
     sbonus += .1;
@@ -2063,15 +2063,15 @@ void cm_print_city(const struct city *pcity)
   } my_city_map_iterate_end;
 
   freelog(LOG_NORMAL, "  food    = %3d (%+3d)",
-          pcity->food_prod, pcity->surplus[O_FOOD]);
+          pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
   freelog(LOG_NORMAL, "  shield  = %3d (%+3d)",
-          pcity->shield_prod, pcity->surplus[O_SHIELD]);
+          pcity->prod[O_SHIELD], pcity->surplus[O_SHIELD]);
   freelog(LOG_NORMAL, "  trade   = %3d", pcity->surplus[O_TRADE]);
 
-  freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->tax_total,
-          city_gold_surplus(pcity, pcity->tax_total));
-  freelog(LOG_NORMAL, "  luxury  = %3d", pcity->luxury_total);
-  freelog(LOG_NORMAL, "  science = %3d", pcity->science_total);
+  freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->prod[O_GOLD],
+          city_gold_surplus(pcity, pcity->prod[O_GOLD]));
+  freelog(LOG_NORMAL, "  luxury  = %3d", pcity->prod[O_LUXURY]);
+  freelog(LOG_NORMAL, "  science = %3d", pcity->prod[O_SCIENCE]);
 }
 
 

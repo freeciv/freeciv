@@ -410,7 +410,7 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.population += city_population(pcity);
     pplayer->score.cities++;
     pplayer->score.pollution += pcity->pollution;
-    pplayer->score.techout += pcity->science_total;
+    pplayer->score.techout += pcity->prod[O_SCIENCE];
     pplayer->score.bnp += pcity->surplus[O_TRADE];
     pplayer->score.mfg += pcity->surplus[O_SHIELD];
 
