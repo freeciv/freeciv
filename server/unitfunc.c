@@ -649,7 +649,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
     }
   }
 
-  send_city_info(0, pcity, 1);
+  send_city_info(0, pcity, 0);
   
   /* Check if a spy survives her mission */
   
