@@ -197,7 +197,14 @@ void meswin_popup_city(int message_index)
     if (center_when_popup_city) {
       center_tile_mapcanvas(x, y);
     }
-    popup_city_dialog(pcity, 0);
+
+    if (pcity) {
+      /* If the event was the city being destroyed, pcity will be NULL
+       * and we'd better not try to pop it up.  In this case, it would
+       * be better if the popup button weren't highlighted at all, but
+       * that's OK. */
+      popup_city_dialog(pcity, 0);
+    }
   }
 }
 
