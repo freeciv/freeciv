@@ -388,8 +388,11 @@ You may need to install a readline \"development\" package.]))
 	AC_CHECK_HEADER(readline/readline.h, have_readline_h=1, have_readline_h=0)
 	if test "$have_readline_h" = "1"; then
 	    AC_CHECK_LIB(readline, rl_callback_handler_install, 
-		[SERVER_LIBS="-lreadline $SERVER_LIBS"
-		 AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE)], , $SERVER_LIBS)
+                         have_readline_lib=1, have_readline_lib=0)
+	    if test "$have_readline_lib" = "1"; then
+                FC_CHECK_READLINE_RUNTIME($SERVER_LIBS,
+	              [SERVER_LIBS="-lreadline $SERVER_LIBS"])
+	    fi
 	fi
     fi
 fi
