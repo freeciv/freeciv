@@ -142,6 +142,7 @@ extern int seconds_to_turndone;
 
 extern int use_solid_color_behind_units;
 extern int flags_are_transparent;
+extern int ai_manual_turn_done;
 
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
@@ -257,7 +258,7 @@ void update_turn_done_button(int do_restore)
    static int flip;
    Pixel fore, back;
  
-   if(game.player_ptr->ai.control && !game.player_ptr->ai.manual_turn_done)
+   if(game.player_ptr->ai.control && !ai_manual_turn_done)
      return;
    if((do_restore && flip) || !do_restore) { 
    

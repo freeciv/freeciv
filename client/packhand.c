@@ -23,6 +23,7 @@ extern int turn_gold_difference;
 extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
 extern int ai_popup_windows;
+extern int ai_manual_turn_done;
 extern char name[512];
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
@@ -212,6 +213,8 @@ void handle_new_year(struct packet_new_year *ppacket)
   turn_gold_difference=game.player_ptr->economic.gold-last_turn_gold_amount;
   last_turn_gold_amount=game.player_ptr->economic.gold;
   update_report_dialogs();
+
+  if(game.player_ptr->ai.control && !ai_manual_turn_done) user_ended_turn();
 }
 
 void handle_before_new_year()
@@ -525,7 +528,6 @@ void handle_player_info(struct packet_player_info *pinfo)
       append_output_window(msg);
     }
   }
-  pplayer->ai.manual_turn_done=pinfo->ai_manual_turn_done;
   
   if(pplayer==game.player_ptr && pplayer->revolution==0 && 
      pplayer->government==G_ANARCHY &&

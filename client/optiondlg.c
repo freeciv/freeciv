@@ -42,6 +42,7 @@ extern int sound_bell_at_new_turn;
 extern int smooth_move_units;
 extern int flags_are_transparent;
 extern int ai_popup_windows;
+extern int ai_manual_turn_done;
 
 /******************************************************************/
 Widget option_dialog_shell;
@@ -69,7 +70,7 @@ void popup_option_dialog(void)
   XtVaSetValues(option_move_toggle, XtNstate, smooth_move_units, NULL);
   XtVaSetValues(option_flag_toggle, XtNstate, flags_are_transparent, NULL);
   XtVaSetValues(option_aipopup_toggle, XtNstate, ai_popup_windows, NULL);
-  XtVaSetValues(option_aiturndone_toggle, XtNstate, game.player_ptr->ai.manual_turn_done, NULL);
+  XtVaSetValues(option_aiturndone_toggle, XtNstate, ai_manual_turn_done, NULL);
 
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
   XtPopup(option_dialog_shell, XtGrabNone);
@@ -169,7 +170,6 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
 			       XtPointer call_data)
 {
   Boolean b;
-  struct packet_player_request packet;
   
   XtSetSensitive(main_form, TRUE);
   XtDestroyWidget(option_dialog_shell);
@@ -185,8 +185,5 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   XtVaGetValues(option_aipopup_toggle, XtNstate, &b, NULL);
   ai_popup_windows=b;
   XtVaGetValues(option_aiturndone_toggle, XtNstate, &b, NULL);
-  if(b != game.player_ptr->ai.manual_turn_done)  {
-    packet.ai_manual_turn_done=b;
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_AI_MANUAL_TURNDONE);
-  }
+  ai_manual_turn_done=b;
 }

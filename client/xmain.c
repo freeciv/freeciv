@@ -107,6 +107,7 @@ static XrmOptionDescRec options[] = {
 
 extern int sound_bell_at_new_turn;
 extern int turn_gold_difference;
+extern int ai_manual_turn_done;
 
 void timer_callback(caddr_t client_data, XtIntervalId *id);
 void show_info_popup(Widget w, XEvent *event, String *argv, Cardinal *argc);
@@ -709,7 +710,10 @@ void show_info_popup(Widget w, XEvent *event, String *argv, Cardinal *argc)
 **************************************************************************/
 void enable_turn_done_button(void)
 {
-  XtSetSensitive(turn_done_button, TRUE);
+  if(game.player_ptr->ai.control && !ai_manual_turn_done)
+    user_ended_turn();
+  XtSetSensitive(turn_done_button, 
+                 !game.player_ptr->ai.control||ai_manual_turn_done);
 
   if(sound_bell_at_new_turn)
     XBell(display, 100);
