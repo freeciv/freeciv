@@ -258,7 +258,7 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
 
     redraw_ibutton(pTmp);
     
-    if (!pModes_Rect[i+1])
+    if (!pModes_Rect[i+1] && pTmp->prev)
     {
       add_refresh_rect(pTmp->size);
       if (get_checkbox_state(pWidget)) {

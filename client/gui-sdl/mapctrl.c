@@ -578,7 +578,7 @@ void Init_MapView(void)
 }
 
 /**************************************************************************
-  FIXME: active sentry units and turn off automations !
+  mouse click handler
 **************************************************************************/
 void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
 {
@@ -598,17 +598,12 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
   
   if (pButtonEvent->button == SDL_BUTTON_LEFT) {
     do_map_click(col, row);
-
-#if 0
-    gtk_widget_grab_focus(turn_done_button);
-  } else if ((ev->button == 2) || (ev->state & GDK_CONTROL_MASK)) {
-    popit(ev, xtile, ytile);
-#endif
   } else {
     if (pButtonEvent->button == SDL_BUTTON_MIDDLE) {
       popup_advanced_terrain_dialog(col , row);
     } else {
       center_tile_mapcanvas(col, row);
+      
     }
   }
 }
@@ -623,81 +618,68 @@ int map_event_handler(SDL_keysym Key)
       (Key.mod & KMOD_LCTRL || Key.mod & KMOD_RCTRL)) {
     switch (Key.sym) {
     case SDLK_g:
-      draw_map_grid ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_map_grid();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_n:
-      draw_city_names ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_city_names();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_p:
-      draw_city_productions ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_city_productions();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_t:
-      draw_terrain ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_terrain();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_r:
-      draw_roads_rails ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_roads_rails();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_i:
-      draw_irrigation ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_irrigation();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_m:
-      draw_mines ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_mines();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_f:
-      draw_fortress_airbase ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_fortress_airbase();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_s:
-      draw_specials ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_specials();
+      /* refresh_fullscreen(); */
       return 0;
 
     case SDLK_o:
-      draw_pollution ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_pollution();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_c:
-      draw_cities ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_cities();
+      /*refresh_fullscreen();*/
       return 0;
 
     case SDLK_u:
-      draw_units ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_units();
+      /* refresh_fullscreen(); */
       return 0;
 
     case SDLK_w:
-      draw_fog_of_war ^= TRUE;
-      update_map_canvas_visible();
-      refresh_fullscreen();
+      request_toggle_fog_of_war();
+      /* refresh_fullscreen(); */
       return 0;
 
     default:
