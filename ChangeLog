@@ -1,3 +1,230 @@
+Tue Oct 19 13:21:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* BUGS, NEWS, README, configure, configure.in,
+	client/gui-xaw/Freeciv.h, data/Freeciv, common/version.h: Version
+	number to 1.9.0.
+
+Tue Oct 19 13:04:32 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in: Commented out (for now) commands which
+	massage po/Makefile to make xgettext recognise Q_() as marking
+	strings, since has a minor problem and there are no strings marked
+	this way yet.
+
+Tue Oct 19 12:52:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* po/de.po, po/es.po, po/fr.po, po/hu.po, po/pl.po, po/pt.po,
+	po/pt_BR.po: Ran 'make update-po' (mostly line numbers, some minor
+	updates and reformatting).
+
+Tue Oct 19 11:57:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* po/es.po: Updated (still only partial) Spanish translations,
+	submitted by David Perez Serrada <dperezs@nexo.es>, with some
+	small fixes by me.
+
+Mon Oct 18 12:14:36 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* NEWS, PEOPLE, data/default/nations.ruleset,
+	data/trident/flags.spec, data/trident/flags.xpm,
+	data/engels/flags.spec, data/engels/flags.xpm: Added Czech nation,
+	by Jarda Benkovsky <pvt.benkovsk@pvtnet.cz>, and Australian
+	nation, by Jerzy Klek <qpkjeek@epk.ericsson.se>.  New flag for
+	Czech, and also a barbarian flag for future use.  Patch submitted
+	by Jerzy Klek.
+
+Mon Oct 18 10:23:55 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* po/pl.po: Updated (still partial) Polish translations, submitted
+	by Artur Biesiadowski <abies@pg.gda.pl>.
+
+Sun Oct 17 15:38:12 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in: Fixed bug where '--keyword=Q_' was
+	being added to 'po/Makefile' multiple times, in some
+	circumstances.  Bug reported by David Pfitzner
+	<dwp@mso.anu.edu.au>.
+
+Sun Oct 17 13:02:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* PEOPLE: Added recent bug reporters.
+
+Sun Oct 17 12:47:26 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* BUGS: Added Known Bugs info about Gtk+ chatline focus problem
+	(and moving units with arrow keys), and Great Wall not allowing
+	building City Walls.
+
+Sun Oct 17 12:29:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* NEWS: Added some NEWS information about maintainer and webmaster
+	changes, and noted which languages are included with (partial)
+	translations.
+
+Sun Oct 17 12:10:59 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/capstr.c: Changed capability string to final "+1.9".
+
+Sun Oct 17 12:04:46 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ1/buildings.ruleset, data/civ1/governments.ruleset,
+	data/civ1/techs.ruleset, data/civ1/terrain.ruleset,
+	data/civ1/units.ruleset, data/civ2/buildings.ruleset,
+	data/civ2/governments.ruleset, data/civ2/techs.ruleset,
+	data/civ2/terrain.ruleset, data/civ2/units.ruleset,
+	data/classic/terrain.ruleset, data/default/buildings.ruleset,
+	data/default/cities.ruleset, data/default/governments.ruleset,
+	data/default/nations.ruleset, data/default/techs.ruleset,
+	data/default/terrain.ruleset, data/default/units.ruleset,
+	server/ruleset.c: Simplified all ruleset options strings to be
+	just: "1.9" (all are new or incompatibly changed since previous
+	stable release).
+
+Sun Oct 17 11:35:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/dialogs.c: Added call to gtk_widget_realize() in
+	popup_notify_dialog(), to avoid strange warnings when using
+	gtk-1.2.6.  Problem/fix/patch all by Jeff Mallatt.
+
+Sun Oct 17 11:28:27 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* BUGS, INSTALL, README, README.AI, TODO: Minor documentation
+	updates, with help from Jeff Mallatt.  - INSTALL: updated version
+	numbers for external packages listed here; - README: adjusted
+	'help' example; adjusted comments about tilesets re trident as
+	default; fixed metaserver address; updated comment about games on
+	the metaserver.  - README.AI: AI spaceships and traderoutes.  -
+	TODO: some items removed (done), some new or altered.  Others/all:
+	minor fixes.
+
+Sat Oct 16 16:20:58 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/packhand.c, client/gui-xaw/mapview.c,
+	client/gui-gtk/mapview.c: Add code to update the map grid in the
+	case of a new city being created.  It also changes the grid
+	drawing code to draw a more symmetric/consistent grid when part of
+	a city's radius is in unknown territory.  Bug reported by Nils
+	Jeppe <nils@jeppe.de>.
+
+Sat Oct 16 15:35:14 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/citydlg.c,
+	data/Freeciv: Change layout code in city dialog to use translated
+	strings during the initial layout.  Now, long translated strings
+	will not be truncated.  Bug submitted by Christoph Kutzinski
+	<kutzi@gmx.de>.
+
+Sat Oct 16 08:03:51 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/tilespec.c: Fixed a typo whereby life support modules
+	used solar panels graphic.
+
+Sat Oct 16 07:20:54 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* README.rulesets: Update to README.rulesets reflecting various
+	changes in current code.  Removed "Changes outline" section since
+	no longer very interesting.
+
+Sat Oct 16 07:16:16 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* po/hu.po: Updated (partial) Hungarian translation, submitted by
+	"Ba'rdosi Zolta'n" <hck@lin.lkg.c3.hu>.
+
+Sat Oct 16 02:06:14 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* PEOPLE, configure, configure.in, po/.cvsignore, po/pt_BR.po:
+	Added Brazilian Portuguese translation (partial), based on pt.po,
+	submitted by Lalo Martins <lalo@webcom.com>.
+
+Fri Oct 15 14:47:34 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/helpdata.txt: Changed a lingering
+	http://www.freeciv.org/metaserver/ to
+	http://meta.freeciv.org/metaserver/ in helpdata.txt.
+
+Fri Oct 15 12:16:24 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, client/clinet.h, data/Freeciv,
+	server/meta.h: Use meta.freeciv.org for default metaserver URLs
+	instead of www.freeciv.org; idea and host setup thanks to Paul
+	Zastoupil <paulz@adnc.com>.
+
+Fri Oct 15 11:53:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* PEOPLE, data/helpdata.txt: List Jeff Mallatt <jjm@codewell.com>
+	as Freeciv administrator.
+
+Wed Oct 13 13:59:36 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/fcintl.c, common/fcintl.h: Removed "const" from return of
+	skip_intl_qualifier_prefix() function, so its prototype matches
+	that of gettext(), so we can use Q_() anywhere that we could use
+	_().
+
+Wed Oct 13 13:17:20 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in: Arranged for qualified translatable
+	strings to be "marked" by their use of the Q_() macro.
+
+	This was done by extending configure (via configure.in) to add
+	"--keyword=Q_" to the xgettext call in 'po/Makefile'.
+
+Wed Oct 13 12:02:29 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* Imakefile, Makefile.noimake: Removed no-longer supported files
+	'Imakefile' and 'Makefile.noimake'.
+
+Tue Oct 12 13:12:24 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/Makefile.am, data/Makefile.in: Here are data/Makefile.am
+	and data/Makefile.in for the previous commit.
+
+Tue Oct 12 13:04:17 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/tilespec.c, data/default.tilespec, data/trident.tilespec:
+	Changed to use 'trident.tilespec' as default tilespec filename. 
+	Renamed data/default.tilespec to data/trident.tilespec.  After
+	long discussion with Tony Stuckey <stuckey@jaka.ece.uiuc.edu> and
+	David Pfitzner <dwp@mso.anu.edu.au> :)
+
+Tue Oct 12 11:03:06 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* NEWS, data/default/nations.ruleset: Added Sioux nation; patch
+	submitted by Jerzy Klek <qpkjeek@epk.ericsson.se>.
+
+Sun Oct 10 04:25:38 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/plrhand.c: Added pcity->did_sell to savefile, otherwise
+	selling was messed up on first turn from reload.
+
+Sun Oct 10 02:33:29 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* po/de.po, po/es.po, po/fr.po, po/hu.po, po/pl.po, po/pt.po:
+	Updated po files to match latest freeciv.pot (via 'make
+	update-po').
+
+Sun Oct 10 02:30:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: Removed _("") in a comment because gettext
+	was picking it up!
+
+Sun Oct 10 02:29:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdata.c, server/unittools.c: Check return of
+	get_units_with_flag_string() in two cases where it could be NULL
+	(ruleset dependent), before printing.
+
+Sun Oct 10 02:29:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* NEWS, PEOPLE: Updated PEOPLE file for contributions since 1.8.1.
+	Updated NEWS with changes since 1.8.1 -- lots!
+
+Sat Oct  9 11:36:30 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/citydlg.c: Fix bug in GTK+ client where some
+	citizen icons look "faded" (PR#100).  Bug reported by David
+	Pfitzner <dwp@mso.anu.edu.au>.
+
 Sat Oct  9 03:54:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
 
 	* data/default/nations.ruleset: Add the Finnish nation, and
