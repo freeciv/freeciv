@@ -44,7 +44,7 @@
 char server_host[512];
 char name[512];
 int server_port;
-unsigned char *used_ids=NULL;  /* kludge */
+int is_server = 0;
 
 enum client_states client_state=CLIENT_BOOT_STATE;
 int use_solid_color_behind_units;

@@ -87,6 +87,7 @@ struct player *shuffled[MAX_PLAYERS];
 /* use get_next_id_number()                     */
 unsigned short global_id_counter=100;
 unsigned char used_ids[8192]={0};
+int is_server = 1;
 
 int is_new_game=1;
 
