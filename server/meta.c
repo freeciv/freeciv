@@ -244,6 +244,10 @@ static bool send_to_metaserver(enum meta_flag flag)
                 my_url_encode(get_meta_topic_string()));
     s = end_of_strn(s, &rest);
 
+    my_snprintf(s, rest, "serverid=%s&",
+                my_url_encode(srvarg.serverid));
+    s = end_of_strn(s, &rest);
+
     my_snprintf(s, rest, "message=%s&",
                 my_url_encode(get_meta_message_string()));
     s = end_of_strn(s, &rest);

@@ -356,6 +356,10 @@ const struct command commands[] = {
   {"rfcstyle",	ALLOW_HACK,
    "rfcstyle",
    N_("Switch server output between 'RFC-style' and normal style."), NULL
+  },
+  {"serverid",	ALLOW_INFO,
+   N_("serverid"),
+   N_("Simply returns the id of the server."),
   }
 };
 
