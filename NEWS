@@ -8,6 +8,10 @@ to John Stonebraker, the AI is ever-increasingly capable.
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
 
+WHAT'S CHANGED SINCE 1.6.4:
+
+ - Added some files which got missed out.  Sorry!!
+
 WHAT'S CHANGED SINCE 1.6.3:
 
  - Tracy Reed (who provides www.freeciv.org) reports that our site is
