@@ -1418,7 +1418,7 @@ bool enemies_at(struct unit *punit, int x, int y)
 /**************************************************************************
 Disband given unit because of a stack conflict.
 **************************************************************************/
-static void disband_stack_conflict_unit(struct unit *punit, bool verbose)
+void disband_stack_conflict_unit(struct unit *punit, bool verbose)
 {
   freelog(LOG_VERBOSE, "Disbanded %s's %s at (%d, %d)",
 	  unit_owner(punit)->name, unit_name(punit->type),

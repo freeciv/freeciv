@@ -47,6 +47,7 @@ bool enemies_at(struct unit *punit, int x, int y);
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,
 			  bool verbose);
 void resolve_unit_stack(int x, int y, bool verbose);
+void disband_stack_conflict_unit(struct unit *punit, bool verbose);
 int get_watchtower_vision(struct unit *punit);
 bool unit_profits_of_watchtower(struct unit *punit);
 
