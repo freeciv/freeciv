@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"\
-" fund_added processing_packets angrycitizen tile_trade"
+" fund_added processing_packets angrycitizen tile_trade init_techs"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -100,6 +100,9 @@ const char * const our_capability = our_capability_internal;
    a city can become unhappy.
    
    "tile_trade" sends the tile_trade field from struct city.
+
+   "init_techs" allows global and nation specific initial techs to be
+   specified in rulesets.
 */
 
 void init_our_capability(void)

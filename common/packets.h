@@ -763,6 +763,7 @@ struct packet_ruleset_nation {
   char leader_name[MAX_NUM_LEADERS][MAX_LEN_NAME];
   int leader_sex[MAX_NUM_LEADERS];
   int city_style;
+  int init_techs[MAX_NUM_TECH_LIST];
 };
 
 struct packet_ruleset_city {
@@ -785,6 +786,7 @@ struct packet_ruleset_game {
   int nuke_contamination;
   int granary_food_ini;
   int granary_food_inc;
+  int global_init_techs[MAX_NUM_TECH_LIST];
 };
 
 /*********************************************************

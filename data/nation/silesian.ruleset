@@ -16,6 +16,7 @@ attack=0
 expand=2
 civilized=1
 advisors=100,100,100,100,100,100,100
+init_techs=""
 
 tech_goals="The Republic", "Trade", "Navigation", "Railroad", "Steel"
 wonder="Great Wall" ; Yes, we had own great wall ( iso-8896-2 ("Wa³y ¦l±skie") )

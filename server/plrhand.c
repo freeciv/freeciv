@@ -468,11 +468,34 @@ void choose_tech_goal(struct player *plr, int tech)
 void init_tech(struct player *plr, int tech)
 {
   int i;
+  struct nation_type *nation = get_nation_by_plr(plr);
+
   for (i=0;i<game.num_tech_types;i++) 
     set_invention(plr, i, 0);
   set_invention(plr, A_NONE, TECH_KNOWN);
 
   plr->research.researchpoints=1;
+
+  /*
+   * Give game wide initial techs
+   */
+  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+    if (game.rgame.global_init_techs[i] == A_LAST) {
+      break;
+    }
+    set_invention(plr, game.rgame.global_init_techs[i], TECH_KNOWN);
+  }
+
+  /*
+   * Give nation specific initial techs
+   */
+  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+    if (nation->init_techs[i] == A_LAST) {
+      break;
+    }
+    set_invention(plr, nation->init_techs[i], TECH_KNOWN);
+  }
+
   for (i=0;i<tech;i++) {
     choose_random_tech(plr); /* could be choose_goal_tech -- Syela */
     set_invention(plr, plr->research.researching, TECH_KNOWN);

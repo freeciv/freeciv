@@ -182,6 +182,11 @@ struct civ_game {
     int nuke_contamination;
     int granary_food_ini;
     int granary_food_inc;
+
+    /* 
+     * Advances given to all players at game start.
+     */
+    int global_init_techs[MAX_NUM_TECH_LIST];
   } rgame;
 
   char demography[MAX_LEN_DEMOGRAPHY];

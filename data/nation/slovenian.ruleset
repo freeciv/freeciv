@@ -17,6 +17,7 @@ attack=0
 expand=1
 civilized=1
 advisors=100,100,100,100,100,100,100
+init_techs=""
 
 tech_goals="The Republic", "Trade", "Engineering", "Democracy",
            "Railroad", "Explosives", "Automobile"

@@ -15,6 +15,7 @@ attack=2
 expand=2
 civilized=0
 advisors=100,100,100,100,100,100,100
+init_techs=""
 
 tech_goals = "Map Making", "The Republic", "Trade", "Gunpowder"
 wonder="Magellan's Expedition"

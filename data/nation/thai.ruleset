@@ -14,6 +14,7 @@ attack=1
 expand=2
 civilized=1
 advisors=100,100,100,100,100,100,100
+init_techs=""
 tech_goals = "The Republic", "Engineering", "Invention", "Railroad",
              "Explosives"
 wonder= "Marco Polo's Embassy"

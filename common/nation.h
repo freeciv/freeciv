@@ -43,6 +43,11 @@ struct nation_type {
   char name_orig[MAX_LEN_NAME];
   char name_plural_orig[MAX_LEN_NAME];
 
+  /* 
+   * Advances given to this nation at game start.
+   */
+  int init_techs[MAX_NUM_TECH_LIST];
+
   /* AI hints */
   int attack;               /* c 0 = optimize for food, 2 =  optimize for prod  */
                             /* c0 = large amount of buildings, 2 = units */

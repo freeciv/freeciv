@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "capability.h"
 #include "city.h"
@@ -215,10 +216,11 @@ static int lookup_tech(struct section_file *file, char *prefix,
 
 /**************************************************************************
  Lookup a prefix.entry string vector in the file and fill in the
- array, which should hold MAX_NUM_TECH_LIST items.  Output array is
- A_LAST terminated, and all entries before that are guaranteed to
- tech_exist().  There should be at least one value, but it may be
- "", meaning empty list.
+ array, which should hold MAX_NUM_TECH_LIST items. The output array is
+ either A_LAST terminated or full (contains MAX_NUM_TECH_LIST
+ items). All valid entries of the output array are guaranteed to
+ tech_exist(). There should be at least one value, but it may be "",
+ meaning empty list.
 **************************************************************************/
 static void lookup_tech_list(struct section_file *file, char *prefix,
 			     char *entry, int *output, const char *filename)
@@ -1937,6 +1939,10 @@ static void load_ruleset_nations(struct section_file *file)
       pl->advisors[j] = res[j];
     if(res) free(res);
 
+    /* Load nation specific initial techs */
+
+    lookup_tech_list(file, sec[i], "init_techs", pl->init_techs, filename);
+
     /* AI techs */
 
     techs = secfile_lookup_str_vec(file, &dim, "%s.tech_goals", sec[i]);
@@ -2183,6 +2189,12 @@ static void load_ruleset_game(char *ruleset_subdir)
 	    game.rgame.granary_food_inc);
     game.rgame.granary_food_inc = 100;
   }
+
+  /*
+   * Load global initial techs
+   */
+  lookup_tech_list(&file, "options", "global_init_techs",
+		   game.rgame.global_init_techs, filename);
 
   section_file_check_unused(&file, filename);
   section_file_free(&file);
@@ -2443,6 +2455,9 @@ static void send_ruleset_nations(struct conn_list *dest)
   struct nation_type *n;
   int i, k;
 
+  assert(sizeof(packet.init_techs) == sizeof(n->init_techs));
+  assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
+
   for( k=0; k<game.nation_count; k++) {
     n = get_nation_by_idx(k);
     packet.id = k;
@@ -2456,6 +2471,7 @@ static void send_ruleset_nations(struct conn_list *dest)
       packet.leader_sex[i] = n->leader_is_male[i];
     }
     packet.city_style = n->city_style;
+    memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
 
     lsend_packet_ruleset_nation(dest, &packet);
   }
@@ -2502,6 +2518,13 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.granary_food_ini = game.rgame.granary_food_ini;
   misc_p.granary_food_inc = game.rgame.granary_food_inc;
 
+  assert(sizeof(misc_p.global_init_techs) ==
+	 sizeof(game.rgame.global_init_techs));
+  assert(ARRAY_SIZE(misc_p.global_init_techs) ==
+	 ARRAY_SIZE(game.rgame.global_init_techs));
+  memcpy(misc_p.global_init_techs, game.rgame.global_init_techs,
+	 sizeof(misc_p.global_init_techs));
+
   lsend_packet_ruleset_game(dest, &misc_p);
 }
 
@@ -2514,7 +2537,6 @@ void load_rulesets(void)
   struct section_file cityfile, nationfile;
 
   freelog(LOG_NORMAL, _("Loading rulesets"));
-  load_ruleset_game(game.ruleset.game);
 
   openload_ruleset_file(&techfile, game.ruleset.techs, "techs");
   load_tech_names(&techfile);
@@ -2544,6 +2566,7 @@ void load_rulesets(void)
   load_ruleset_terrain(&terrfile);
   load_ruleset_buildings(&buildfile);
   load_ruleset_nations(&nationfile);
+  load_ruleset_game(game.ruleset.game);
   translate_data_names();
 }
 

@@ -24,6 +24,7 @@ attack=2
 expand=1
 civilized=2
 advisors=100,100,100,100,100,100,100
+init_techs=""
 tech_goals = "The Republic", "Trade", "Engineering", "Monotheism",
              "Gunpowder", "Railroad"
 wonder="Copernicus' Observatory"

@@ -12,6 +12,7 @@ attack=2
 expand=1
 civilized=1
 advisors=100,100,100,100,100,100,100
+init_techs=""
 
 tech_goals = "Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
              "Railroad", "Communism"

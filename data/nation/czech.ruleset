@@ -25,6 +25,7 @@ attack = 2
 expand = 0
 civilized = 0
 advisors = 100,100,100,100,100,100,100
+init_techs=""
 
 tech_goals = "Iron Working", "Literacy", "Astronomy", "Bridge Building",
              "The Republic", "Metallurgy", "Medicine", "University",

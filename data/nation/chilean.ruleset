@@ -23,6 +23,7 @@ attack=1
 expand=1
 civilized=2
 advisors=100,100,100,100,100,100,100
+init_techs=""
 
 tech_goals="Iron Working", "Trade", "Navigation", "The Republic",
            "Railroad", "Steel", "Industrialization"

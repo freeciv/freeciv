@@ -34,6 +34,7 @@ attack=1
 expand=2
 civilized=2
 advisors=100,100,100,100,100,100,100
+init_techs=""
 tech_goals = "Monarchy", "Iron Working", "Trade", "Monotheism", "Navigation",
   "Railroad", "Steel", "Industrialization"
 wonder="J.S. Bach's Cathedral"

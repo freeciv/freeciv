@@ -21,6 +21,7 @@ attack=0
 expand=1
 civilized=0
 advisors=100,100,100,100,100,100,100
+init_techs=""
 tech_goals = "Ceremonial Burial", "Code of Laws", "Bridge Building",
              "Flight","Banking", "Conscription", "The Corporation", "Labor Union"
 wonder="Marco Polo's Embassy"

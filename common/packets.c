@@ -3643,6 +3643,9 @@ int send_packet_ruleset_nation(struct connection *pc,
     cptr=put_uint8(cptr, packet->leader_sex[i]);
   }
   cptr=put_uint8(cptr, packet->city_style);
+  if (has_capability("init_techs", pc->capability)) {
+    cptr = put_tech_list(cptr, packet->init_techs);
+  }
 
   put_uint16(buffer, cptr-buffer);
 
@@ -3674,6 +3677,9 @@ receive_packet_ruleset_nation(struct connection *pc)
     iget_uint8(&iter, &packet->leader_sex[i]);
   }
   iget_uint8(&iter, &packet->city_style);
+  if (has_capability("init_techs", pc->capability)) {
+    iget_tech_list(&iter, packet->init_techs);
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -3747,6 +3753,9 @@ int send_packet_ruleset_game(struct connection *pc,
   cptr=put_uint8(cptr, packet->nuke_contamination);
   cptr=put_uint8(cptr, packet->granary_food_ini);
   cptr=put_uint8(cptr, packet->granary_food_inc);
+  if (has_capability("init_techs", pc->capability)) {
+    cptr = put_tech_list(cptr, packet->global_init_techs);
+  }
 
   put_uint16(buffer, cptr-buffer);
   return send_packet_data(pc, buffer, cptr-buffer);
@@ -3774,6 +3783,9 @@ receive_packet_ruleset_game(struct connection *pc)
   iget_uint8(&iter, &packet->nuke_contamination);
   iget_uint8(&iter, &packet->granary_food_ini);
   iget_uint8(&iter, &packet->granary_food_inc);
+  if (has_capability("init_techs", pc->capability)) {
+    iget_tech_list(&iter, packet->global_init_techs);
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);

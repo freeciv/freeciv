@@ -17,6 +17,7 @@ attack=2
 expand=0
 civilized=1
 advisors=100,100,100,100,100,100,100
+init_techs=""
 tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working"
 wonder="Sun Tzu's War Academy"
 government="Republic"

@@ -14,6 +14,9 @@
 description="Default game rules for Freeciv"
 options="1.11.1"
 
+[options]
+global_init_techs=""
+
 [civstyle]
 min_city_center_food	= 1
 min_city_center_shield	= 1
