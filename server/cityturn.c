@@ -669,14 +669,7 @@ void auto_arrange_workers(struct city *pcity)
   foodneed=(pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity);
   prodneed = 0;
   prodneed -= get_shields_tile(2,2,pcity);
-  
-  /* FIXME: I think this 'if' test should probably be removed,
-     (the action should always be taken) but it is here for now
-     for regression testing --dwp
-  */
-  if (g->index != game.government_when_anarchy) {
-    prodneed -= citygov_free_shield(pcity, g);
-  }
+  prodneed -= citygov_free_shield(pcity, g);
 
   unit_list_iterate(pcity->units_supported, this_unit) {
     int shield_cost = utype_shield_cost(get_unit_type(this_unit->type), g);

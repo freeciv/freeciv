@@ -801,13 +801,7 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
     prodneed += utype_shield_cost(get_unit_type(punit->type), g);
   unit_list_iterate_end;
   
-  /* FIXME: I think this 'if' test should probably be removed,
-     (the action should always be taken) but it is here for now
-     for regression testing --dwp
-  */
-  if (g->index != game.government_when_anarchy) {
-    prodneed -= citygov_free_shield(pcity, g);
-  }
+  prodneed -= citygov_free_shield(pcity, g);
 
   *xp = 0;
   *yp = 0;

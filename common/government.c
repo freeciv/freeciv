@@ -23,12 +23,8 @@
 #include "government.h"
 
 /* TODO:
- * o Update government.ruleset to be untabulated (like the new
- *   units.ruleset).
- * o Update and turn on evaluation code currently disabled for
- *   regression testing purposes.
- * o Undo some other regression-testing constraints, and check
- *   exact government rules vs Civ1,Civ2.
+ * o Update and turn on government evaluation code.
+ * o Check exact government rules vs Civ1,Civ2.
  * o The clients display wrong upkeep icons in the city display,
  *   not sure what to do here.  (Does the new terrain-ruleset code
  *   have icons that could be used here?)
@@ -37,8 +33,7 @@
  * o Implement actual cost for unit gold upkeep.
  * o Possibly remove ai_gov_tech_hint stuff?
  *   (See usage in ai_manage_cities() in aicity.c)
- * o Update help system: meaning of Nonmil and FieldUnit unit flags;
- *   dynamic help on governments.
+ * o Update help system, including dynamic help on governments.
  * o Test the new government evaluation code (AI).
  *   [ It seems fine to me, although it favours Democracy very early
  *   on. This is because of the huge trade bonus. -SKi ]
