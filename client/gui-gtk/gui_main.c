@@ -398,37 +398,29 @@ void setup_widgets(void)
 
   vbox = gtk_vbox_new( FALSE, 5 );
   gtk_container_add( GTK_CONTAINER( toplevel ), vbox );
-  gtk_widget_realize (vbox);
   
   setup_menus( toplevel, &menubar );
-  gtk_widget_realize (menubar);
 
   gtk_box_pack_start( GTK_BOX( vbox ), menubar, FALSE, FALSE, 0 );
 
   paned = gtk_vpaned_new();
   gtk_box_pack_start( GTK_BOX( vbox ), paned, TRUE, TRUE, 0 );
-  gtk_widget_realize (paned);
 
   hbox = gtk_hbox_new( FALSE, 0 );
   gtk_paned_pack1(GTK_PANED(paned), hbox, TRUE, FALSE);
-  gtk_widget_realize (hbox);
 
   vbox1 = gtk_vbox_new( FALSE, 0 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox1, FALSE, FALSE, 0 );
-  gtk_widget_realize (vbox1);
 
   hbox2 = gtk_hbox_new( FALSE, 0 );
   gtk_box_pack_start( GTK_BOX( vbox1 ), hbox2, FALSE, FALSE, 0 );
-  gtk_widget_realize (hbox2);
 
   frame = gtk_frame_new( NULL );
   gtk_box_pack_start( GTK_BOX( hbox2 ), frame, FALSE, FALSE, 0 );
-  gtk_widget_realize (frame);
-
+  
   overview_canvas	      = gtk_drawing_area_new();
   gtk_container_add( GTK_CONTAINER( frame ), overview_canvas );
   gtk_drawing_area_size( GTK_DRAWING_AREA( overview_canvas ), 160, 100 );
-  gtk_widget_realize (overview_canvas);
 
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "expose_event",
         	      (GtkSignalFunc) overview_canvas_expose, NULL );
@@ -468,19 +460,16 @@ void setup_widgets(void)
       /* make a box so the table will be centered */
       box4 = gtk_hbox_new( FALSE, 0 );
       gtk_box_pack_start(GTK_BOX(vbox1), box4, FALSE, FALSE, 5);
-      gtk_widget_realize (box4);
 
       table = gtk_table_new(10, 2, FALSE);
       gtk_table_set_row_spacing(GTK_TABLE(table), 0, 0);
       gtk_table_set_col_spacing(GTK_TABLE(table), 0, 0);
       gtk_box_pack_start(GTK_BOX(box4), table, TRUE, FALSE, 0);
-      gtk_widget_realize (table);
 
       for (i=0 ; i<10 ; i++)
       {
           ebox = gtk_event_box_new();
           gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 0, 1);
-	  gtk_widget_realize (ebox);
 
           gtk_widget_set_events( ebox, GDK_BUTTON_PRESS_MASK );
           gtk_signal_connect( GTK_OBJECT( ebox ), "button_press_event",
@@ -560,21 +549,17 @@ void setup_widgets(void)
 
   vbox2 = gtk_vbox_new( FALSE, 0 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox2, TRUE, TRUE, 0 );
-  gtk_widget_realize (vbox2);
 
   table = gtk_table_new( 2, 2, FALSE );
   gtk_box_pack_start( GTK_BOX( vbox2 ), table, TRUE, TRUE, 0 );
-  gtk_widget_realize (table);
 
   frame = gtk_frame_new( NULL );
   gtk_table_attach(GTK_TABLE(table), frame,
 		0, 1, 0, 1,
 		GTK_EXPAND|GTK_SHRINK|GTK_FILL,
 		GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0 );
-  gtk_widget_realize (frame);
 
   map_canvas		      = gtk_drawing_area_new();
-  gtk_widget_realize (map_canvas);
 
   gtk_widget_set_events(map_canvas, GDK_EXPOSURE_MASK
         			      |GDK_BUTTON_PRESS_MASK
