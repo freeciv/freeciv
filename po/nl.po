@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.0\n"
-"POT-Creation-Date: 2001-10-31 12:31+0100\n"
-"PO-Revision-Date: 2001-10-31 12:35+0200\n"
+"POT-Creation-Date: 2001-11-01 11:04+0100\n"
+"PO-Revision-Date: 2001-11-01 12:20+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2288,7 +2288,7 @@ msgstr "Sorry, geen waarnemers van barbaren in dit spel."
 #: server/srv_main.c:1275
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
-msgstr "%s is gewijgerd: Geen waarnemers van barbaren."
+msgstr "%s is geweigerd: Geen waarnemers van barbaren."
 
 #: server/srv_main.c:1281
 msgid "Sorry, no observation of dead players in this game."
@@ -2297,7 +2297,7 @@ msgstr "Sorry, geen waarnemers van dode spelers in dit spel."
 #: server/srv_main.c:1284
 #, c-format
 msgid "%s was rejected: No observation of dead players."
-msgstr "%s is gewijgerd: Geen waarnemers van dode spelers."
+msgstr "%s is geweigerd: Geen waarnemers van dode spelers."
 
 #: server/srv_main.c:1290
 msgid "Sorry, no observation of AI players in this game."
@@ -2306,7 +2306,7 @@ msgstr "Sorry, geen waarnemers van KI-spelers in dit spel."
 #: server/srv_main.c:1293
 #, c-format
 msgid "%s was rejected: No observation of AI players."
-msgstr "%s is gewijgerd: Geen waarnemers van KI-spelers."
+msgstr "%s is geweigerd: Geen waarnemers van KI-spelers."
 
 #: server/srv_main.c:1299
 msgid "Sorry, no reconnections to human-mode players in this game."
@@ -2316,7 +2316,7 @@ msgstr ""
 #: server/srv_main.c:1302
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
-msgstr "%s is gewijgerd: Geen verbindingsherstel met menselijke spelers."
+msgstr "%s is geweigerd: Geen verbindingsherstel met menselijke spelers."
 
 #: server/srv_main.c:1320
 msgid "Sorry, someone else already has that name."
@@ -2353,7 +2353,7 @@ msgstr "Sorry, het spel is vol."
 #: server/srv_main.c:1368
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
-msgstr "%s is gewijgerd: Maximum aantal spelers bereikt."
+msgstr "%s is geweigerd: Maximum aantal spelers bereikt."
 
 #: server/srv_main.c:1374
 msgid "Sorry, no new players allowed in this game."
@@ -2362,7 +2362,7 @@ msgstr "Sorry, geen nieuwe spelers toegestaan in dit spel."
 #: server/srv_main.c:1375
 #, c-format
 msgid "%s was rejected: No connections as new player."
-msgstr "%s is gewijgerd: Geen verbindingen als nieuwe speler."
+msgstr "%s is geweigerd: Geen verbindingen als nieuwe speler."
 
 #: server/srv_main.c:1397
 #, c-format
@@ -6095,7 +6095,7 @@ msgstr "Graansilo:"
 
 #: client/gui-gtk/citydlg.c:551
 msgid "Change in:"
-msgstr "Verander naar:"
+msgstr "Wijziging in:"
 
 #: client/gui-gtk/citydlg.c:552
 msgid "Corruption:"
@@ -6311,6 +6311,24 @@ msgstr "Volge_nde stad"
 #, c-format
 msgid "%s - %s citizens"
 msgstr "%s - %s inwoners"
+
+#: client/gui-gtk/citydlg.c:1697
+msgid "blocked"
+msgstr "geblokkeerd"
+
+#: client/gui-gtk/citydlg.c:1699
+msgid "never"
+msgstr "nooit"
+
+#: client/gui-gtk/citydlg.c:1702
+#, c-format
+msgid "%d turn"
+msgstr "%d beurt"
+
+#: client/gui-gtk/citydlg.c:1702
+#, c-format
+msgid "%d turns"
+msgstr "%d beurten"
 
 #: client/gui-gtk/citydlg.c:1878 client/gui-gtk/citydlg.c:1902
 #: client/gui-mui/citydlg.c:1499 client/gui-mui/citydlg.c:1522
@@ -6849,7 +6867,7 @@ msgstr ""
 
 #: client/gui-gtk/connectdlg.c:321 client/gui-gtk/connectdlg.c:323
 msgid "Connection to server refused. Please start the server."
-msgstr "Verbinding met server gewijgerd. Herstart de server alstublieft."
+msgstr "Verbinding met server geweigerd. Herstart de server alstublieft."
 
 #: client/gui-gtk/connectdlg.c:330 client/gui-gtk/connectdlg.c:360
 #: client/gui-win32/connectdlg.c:336 client/gui-win32/connectdlg.c:373
