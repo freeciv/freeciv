@@ -475,8 +475,10 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
     handle_unit_move_request(pplayer, punit, pmove->x, pmove->y, FALSE);
   }
 }
+
 /**************************************************************************
-...
+This function assumes the attack is legal. The calling function should have
+already made all neccesary checks.
 **************************************************************************/
 void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 				struct unit *pdefender)
@@ -494,13 +496,13 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 	  game.players[pdefender->owner].name, 
 	  unit_types[pdefender->type].name);
 
+  /* Sanity checks */
   if (players_non_attack(punit->owner, pdefender->owner)) {
     freelog(LOG_FATAL,
 	    "Trying to attack a unit with which you have peace or cease-fire at %i, %i",
 	    def_x, def_y);
     abort();
   }
-
   if (players_allied(punit->owner, pdefender->owner)
       && !(unit_flag(punit->type, F_NUCLEAR) && punit == pdefender)) {
     freelog(LOG_FATAL,
@@ -508,6 +510,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 	    def_x, def_y);
     abort();
   }
+
 
   if(unit_flag(punit->type, F_NUCLEAR)) {
     struct packet_nuke_tile packet;
