@@ -707,6 +707,13 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
       }
       pplayer->ai.love[aplayer->player_no] -= ai->diplomacy.love_incr;
     }
+    /* Reduce love by number of units in our territory.
+     * AI is so naive, that we have to count it even if players are allied */
+    pplayer->ai.love[aplayer->player_no] -=
+      MIN(player_in_territory(pplayer, aplayer),
+          pplayers_allied(aplayer, pplayer) ? 
+	    ai->diplomacy.love_incr - 1 : 50);
+	  
     /* Massage our numbers to keep love and its opposite on the ground. 
      * Gravitate towards zero. */
     pplayer->ai.love[aplayer->player_no] -= 
