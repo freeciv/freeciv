@@ -38,6 +38,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit);
 int unit_defensiveness(struct unit *punit);
 
 extern struct move_cost_map warmap;
+unsigned char minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
 /**************************************************************************
  do all the gritty nitty chess like analysis here... (argh)
@@ -207,20 +208,6 @@ void ai_do_immigrate(struct player *pplayer, struct unit *punit)
 ...
 **************************************************************************/
 
-void ai_do_move_build_city(struct player *pplayer, struct unit *punit)
-{
-  int cont = map_get_continent(punit->x, punit->y);
-  punit->ai.control = 0;
-  punit->ai.ai_role = AIUNIT_BUILD_CITY;
-  auto_settler_do_goto(pplayer,punit, 
-		       pplayer->ai.island_data[cont].cityspot.x, 
-		       pplayer->ai.island_data[cont].cityspot.y);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-
 int ai_want_immigrate(struct player *pplayer, struct unit *punit)
 {
   return 0;
@@ -232,87 +219,6 @@ int ai_want_immigrate(struct player *pplayer, struct unit *punit)
 
 int ai_want_work(struct player *pplayer, struct unit *punit)
 {
-  return 1;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-
-int city_move_penalty(int x, int y, int x1, int x2) 
-{
-  int dist =  map_distance(x,y, x1, x2);
-/* leaving. not changing to real_map_distance -- Syela */
-  if (dist == 0) return 100;
-  if (dist == 1) return 99;
-  if (dist == 2) return 98;
-  if (dist == 3) return 97;
-  if (dist < 6) return 95;
-  return 50;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-
-int city_close_modifier(struct city *pcity, int x, int y)
-{
-  int dist = map_distance(x,y, pcity->x, pcity->y);
-/* leaving. not changing to real_map_distance -- Syela */
-  if (dist < 4) return 0;
-  if (dist == 5) return 125;
-  if (dist == 6) return 105;
-  if (dist == 7) return 90;
-  return 100;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-
-int ai_want_city(struct player *pplayer, struct unit *punit)
-{
-  int best;
-  int val;
-  struct city *pcity;
-  int cont;
-  cont = map_get_continent(punit->x, punit->y);
-  if (cont < 3) 
-    return 0;
-  if ((pplayer->ai.island_data[cont].cityspot.x == 0) && 
-      (pplayer->ai.island_data[cont].cityspot.y == 0)) {
-    best =0;
-    ISLAND_ITERATE(cont) { 
-      if (map_get_city_value(x, y)) {
-	pcity = dist_nearest_enemy_city(NULL,x, y);
-	if (!pcity) {
-	  val = (map_get_city_value(x,y) * 
-		 city_move_penalty(x,y, punit->x, punit->y)) / 100;
-	} else if (pcity->owner == punit->owner) {
-	  val = (((map_get_city_value(x,y) * 
-		   city_move_penalty(x,y, punit->x, punit->y)) / 100) * 
-		 city_close_modifier(pcity, x, y))/100;  
-	} else {
-	  val = 0;
-	}
-	if (val > best) {
-	  pplayer->ai.island_data[cont].cityspot.x = x;
-	  pplayer->ai.island_data[cont].cityspot.y = y;
-	  best = val;
-	}
-      }
-  }
-   ISLAND_END;
-    if (best == 0) 
-      return 0;
-  }
-  if (!is_free_work_tile(pplayer,
-			pplayer->ai.island_data[cont].cityspot.x, 
-			pplayer->ai.island_data[cont].cityspot.y)
-     && !same_pos(punit->x, punit->y, /* added by Syela for saved games */
-			pplayer->ai.island_data[cont].cityspot.x, 
-			pplayer->ai.island_data[cont].cityspot.y))
-    return 0;
   return 1;
 }
 
@@ -340,33 +246,6 @@ int get_cities_on_island(struct player *pplayer, int cont)
       cit++;
   city_list_iterate_end;
   return cit;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int ai_enough_auto_settlers(struct player *pplayer, int cont) 
-{
-  int expand_factor[3] = {1,3,8};
-
-  return (pplayer->ai.island_data[cont].workremain + 1 - pplayer->ai.island_data[cont].settlers <= expand_factor[get_race(pplayer)->expand]); 
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int ai_want_settlers(struct player *pplayer, int cont)
-{
-  int set = get_settlers_on_island(pplayer, cont);
-  int cit = get_cities_on_island(pplayer, cont);
-
-  if (ai_in_initial_expand(pplayer))
-    return 1;
-  if (!ai_enough_auto_settlers(pplayer, cont))
-    return 1;
-  if (pplayer->ai.island_data[cont].workremain + 1 >= cit / 2)
-    return 1;
-  return (set * 3 < cit);
 }
 
 /**************************************************************************
@@ -687,20 +566,10 @@ unit_types[punit->type].name, pcity->name, assess_defense(pcity), def, pcity->ai
     return;
   }
 
-/* here follows the old code */
-if (ai_military_findtarget(pplayer,punit) || punit->unhappiness)
-   {
-   punit->ai.ai_role=AIUNIT_ATTACK;
-   }
-else 
-   {
-   punit->ai.ai_role=AIUNIT_NONE;
-   if (unit_attack_desirability(punit->type)) punit->ai.ai_role=AIUNIT_EXPLORE;
-/* this is disabled until cities know that units are coming home and behave! -- Syela
-   else if (pcity && !pcity->ai.danger) punit->ai.ai_role=AIUNIT_EXPLORE; */
-   else if (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y)) punit->ai.ai_role=AIUNIT_EXPLORE; 
-/* else printf("%s's %s doesn't know what to do!\n", pplayer->name, unit_types[punit->type].name); */
-   }
+  if (unit_attack_desirability(punit->type) ||
+      (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y)))
+     punit->ai.ai_role = AIUNIT_ATTACK;
+  else punit->ai.ai_role = AIUNIT_DEFEND_HOME;
 }
 
 
@@ -879,9 +748,10 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
     return;
   if (punit->ai.ai_role == AIUNIT_NONE) {
     if ((pcity = wonder_on_continent(pplayer, map_get_continent(punit->x, punit->y))) && build_points_left(pcity)) {
-      if (!same_pos(pcity->x, pcity->y, punit->x, punit->y))
+      if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
 	auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
-      else {
+        handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
+      } else {
 	req.unit_id = punit->id;
 	req.city_id = pcity->id;
 	handle_unit_help_build_wonder(pplayer, &req);
@@ -890,54 +760,210 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   }
 }
 
+int amortize(int b, int d)
+{
+  int num = MORT - 1;
+  int denom;
+  int i = 0;
+  int s = 1;
+  if (b < 0) { s = -1; b *= s; }
+  while (d && b) {
+    denom = 1;
+    while (d >= 12 && !(b>>29) && !(denom>>28)) {
+      b *= 3;          /* this is a kluge but it is 99.9% accurate and saves time */
+      denom *= 5;      /* as long as MORT remains 24! -- Syela */
+      i++;
+      d -= 12;
+    }
+    while (!(b>>26) && d && !(denom>>26)) {
+      b *= num;
+      denom *= MORT;
+      i++;
+      d--;
+    }
+    if (i) {
+      b = (b + (denom>>1)) / denom;
+      i = 0;
+    }
+  }
+  return(b * s);
+}
+
+void generate_minimap(struct player *pplayer)
+{
+  int a, i, j;
+
+  memset(minimap, 0, sizeof(minimap));
+  for (a = 0; a < game.nplayers; a++) {
+    city_list_iterate(game.players[a].cities, pcity)
+      city_map_iterate(i, j) {
+        minimap[map_adjust_x(pcity->x+i-2)][map_adjust_y(pcity->y+j-2)]++;
+      }
+    city_list_iterate_end;
+  }
+  unit_list_iterate(pplayer->units, punit)
+    if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+      city_map_iterate(i, j) {
+        minimap[map_adjust_x(punit->goto_dest_x+i-2)][map_adjust_y(punit->goto_dest_y+j-2)]++;
+      }
+    }
+  unit_list_iterate_end;
+}
+
+int city_desirability(int x, int y, int dist, struct player *pplayer)
+{ /* this whole funct assumes G_REPUBLIC -- Syela */
+  int taken[5][5], food[5][5], shield[5][5], trade[5][5];
+  int irrig[5][5], mine[5][5], road[5][5];
+  int i, j, f, n = 0;
+  int worst, b2, best, ii, jj, val, cur;
+  int d = 0;
+  int a, i0, j0; /* need some temp variables */
+  int temp, tmp;
+  int debug = 0;
+  int g = 1;
+  struct tile *ptile;
+  int con, con2;
+  int har, t, ff, sh;
+  struct tile_type *ptype;
+  
+  har = is_terrain_near_tile(x, y, T_OCEAN);
+
+  ff = FOOD_WEIGHTING * MORT;
+  sh = SHIELD_WEIGHTING * MORT;
+  t = 8 * MORT - (8 * MORT * dist * 3 / (20 * 10));
+
+  ptile = map_get_tile(x, y);
+  if (ptile->terrain == T_OCEAN) return(0);
+  con = ptile->continent;
+
+  city_list_iterate(pplayer->cities, pcity)
+    if (city_got_building(pcity, B_PYRAMIDS)) g++;
+  city_list_iterate_end;
+
+  memset(taken, 0, sizeof(taken));
+  memset(food, 0, sizeof(food));
+  memset(shield, 0, sizeof(shield));
+  memset(trade, 0, sizeof(trade));
+  memset(irrig, 0, sizeof(irrig));
+  memset(mine, 0, sizeof(mine));
+  memset(road, 0, sizeof(road));
+
+  city_map_iterate(i, j) {
+    if (minimap[map_adjust_x(x+i-2)][map_adjust_y(y+j-2)]) {
+      food[i][j] = 0;
+      shield[i][j] = 0;
+      trade[i][j] = 0;
+    } else {
+      ptile = map_get_tile(x+i-2, y+j-2);
+      con2 = ptile->continent;
+      ptype = get_tile_type(ptile->terrain);
+      food[i][j] = ((ptile->special&S_SPECIAL ? ptype->food_special : ptype->food) - 2) * ff;
+      if (i == 2 && j == 2) food[i][j] += 2 * ff;
+      if (ptype->irrigation_result == ptile->terrain && con2 == con) {
+        if (ptile->special&S_IRRIGATION || (i == 2 && j == 2)) irrig[i][j] = ff;
+        else if (is_water_adjacent_to_tile(x+i-2, y+j-2) &&
+                 ptile->terrain != T_HILLS) irrig[i][j] = ff - 165; /* KLUGE */
+/* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
+      } else if (ptile->terrain == T_OCEAN && har) food[i][j] += ff; /* harbor */
+      shield[i][j] = (ptile->special&S_SPECIAL ? ptype->shield_special : ptype->shield) * sh;
+      if (i == 2 && j == 2 && !shield[i][j]) shield[i][j] = sh;
+      if (ptile->special&S_MINE) mine[i][j] = (ptile->terrain == T_HILLS ? sh * 3 : sh);
+      else if (ptile->terrain == T_HILLS && con2 == con) mine[i][j] = sh * 3 - 300; /* KLUGE */
+      trade[i][j] =(ptile->special&S_SPECIAL ? ptype->trade_special : ptype->trade) * t;
+      if (ptile->terrain == T_DESERT || ptile->terrain == T_GRASSLAND ||
+        ptile->terrain == T_PLAINS) {
+        if (ptile->special&S_ROAD || (i == 2 && j == 2)) road[i][j] = t;
+        else if (con2 == con)
+          road[i][j] = t - 70; /* KLUGE */ /* actualy exactly 70 1/2 */
+      }
+      if (trade[i][j]) trade[i][j] += t;
+      else if (road[i][j]) road[i][j] += t;
+    } /* end else */
+  }
+
+  f = food[2][2] + irrig[2][2];
+  if (!f) return(0); /* no starving cities, thank you! -- Syela */
+  val = food[2][2] + irrig[2][2] + /* this feels wrong but works better */
+        (shield[2][2] + mine[2][2]) +
+        (trade[2][2] + road[2][2]);
+  taken[2][2]++;
+  /* val is mort times the real value */
+  /* treating harbor as free to approximate advantage of building boats. -- Syela */
+  val += (4 * (get_tile_type(map_get_tile(x, y)->terrain)->defense_bonus) - 40) * SHIELD_WEIGHTING;
+/* don't build cities in danger!! FIX! -- Syela */
+  val += 8 * MORT; /* one science per city */
+if (debug)
+printf("City value (%d, %d) = %d, har = %d, f = %d\n", x, y, val, har, f);
+
+  for (n = 1; n <= 20 && f > 0; n++) {
+    for (a = 1; a; a--) {
+      best = 0; worst = -1; b2 = 0;
+      city_map_iterate(i, j) {
+        cur = (food[i][j] + 0 * irrig[i][j]) * 4 / n +
+              (shield[i][j] + mine[i][j]) +
+              (trade[i][j] + road[i][j]);
+        if (!taken[i][j]) {
+          if (cur > best) { b2 = best; best = cur; ii = i; jj = j; }
+          else if (cur > b2) b2 = cur;
+        } else if (i != 2 || j != 2) {
+          if (cur < worst || worst < 0) { worst = cur; i0 = i; j0 = j; }
+        }
+      }
+      if (!best) break;
+      cur = amortize((shield[ii][jj] + mine[ii][jj]) +
+            (food[ii][jj] + irrig[ii][jj]) + /* seems to be needed */
+            (trade[ii][jj] + road[ii][jj]), d);
+      f += food[ii][jj] + irrig[ii][jj];
+      if (cur > 0) val += cur;
+      taken[ii][jj]++;
+if (debug)
+printf("Value of (%d, %d) = %d food = %d, type = %s, n = %d, d = %d\n",
+ ii, jj, cur, (food[ii][jj] + irrig[ii][jj]) / FOOD_WEIGHTING,
+get_tile_type(map_get_tile(x + ii - 2, y + jj - 2)->terrain)->terrain_name, n, d);
+
+/* I hoped to avoid the following, but it seems I can't take ANY shortcuts
+in this unspeakable routine, so here comes even more CPU usage in order to
+get this EXACTLY right instead of just reasonably close. -- Syela */
+      if (worst < b2 && worst >= 0) {
+        cur = amortize((shield[i0][j0] + mine[i0][j0]) +
+              (trade[i0][j0] + road[i0][j0]), d);
+        f -= (food[i0][j0] + irrig[i0][j0]) / FOOD_WEIGHTING;
+        val -= cur;
+        taken[i0][j0]--;
+        a++;
+if (debug)
+printf("REJECTING Value of (%d, %d) = %d food = %d, type = %s, n = %d, d = %d\n",
+ i0, j0, cur, (food[i0][j0] + irrig[i0][j0]) / FOOD_WEIGHTING,
+get_tile_type(map_get_tile(x + i0 - 2, y + j0 - 2)->terrain)->terrain_name, n, d);
+      }
+    }
+    if (!best) break;
+    if (f > 0) d += (game.foodbox * MORT * n * FOOD_WEIGHTING + (f*g) - 1) / (f*g);
+    if (n == 4) {
+      val -= amortize(40 * SHIELD_WEIGHTING + (50 - 20 * g) * FOOD_WEIGHTING, d); /* lers */
+      temp = amortize(40 * SHIELD_WEIGHTING, d); /* temple */
+      tmp = val;
+    }
+  } /* end while */
+  if (n > 4) {
+    if (val - temp > tmp) val -= temp;
+    else val = tmp;
+  }
+  val -= 110 * SHIELD_WEIGHTING; /* WAG: walls, defenders */
+
+if (debug)
+printf("Total value of (%d, %d) [%d workers] = %d\n", x, y, n, val);
+  return(val);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
 void ai_manage_settler(struct player *pplayer, struct unit *punit)
 {
-  int cont = map_get_continent(punit->x, punit->y);
-
-  if (punit->ai.control && 
-      pplayer->score.cities > 5) /* controlled by standard ai */
-    return;
-  if (punit->ai.control && 
-      !ai_enough_auto_settlers(pplayer, map_get_continent(punit->x, punit->y)))
-    return;
-  if (punit->activity != ACTIVITY_IDLE)
-    return;
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-    if (same_pos(punit->x, punit->y, 
-		 pplayer->ai.island_data[cont].cityspot.x, 
-		 pplayer->ai.island_data[cont].cityspot.y)) {
-      pplayer->ai.island_data[cont].cityspot.x = 0;
-      pplayer->ai.island_data[cont].cityspot.y = 0;
-      punit->ai.ai_role = AIUNIT_NONE;
-      if (map_get_city_value(punit->x, punit->y)) {
-	if (ai_do_build_city(pplayer, punit)) 
-	  return;
-      }  
-    }
-  }
-  if (ai_want_city(pplayer, punit) && 
-      ai_enough_auto_settlers(pplayer, 
-			      map_get_continent(punit->x, punit->y))) {
-    ai_do_move_build_city(pplayer, punit); /* yes, this wastes a turn */
-    return;
-  }
-  if (ai_want_immigrate(pplayer, punit) > ai_want_work(pplayer, punit)) {
-    ai_do_immigrate(pplayer, punit);
-    return;
-  } else {
-    punit->ai.control = 1;
+  punit->ai.control = 1;
+  if (punit->ai.ai_role == AIUNIT_NONE) /* if BUILD_CITY must remain BUILD_CITY */
     punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
-  }
+/* gonna handle city-building in the auto-settler routine -- Syela */
+  return;
 }
-
-
-
-
-
-
-
-
-
