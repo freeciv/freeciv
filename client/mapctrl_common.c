@@ -305,6 +305,24 @@ void toggle_tile_hilite(int tile_x, int tile_y)
 }
 
 /**************************************************************************
+  The user pressed the overlay-city button (t) while the mouse was at the
+  given canvas position.
+**************************************************************************/
+void key_city_overlay(int canvas_x, int canvas_y)
+{
+  int map_x, map_y;
+
+  if (can_client_change_view()
+      && canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
+    struct city *pcity = find_city_near_tile(map_x, map_y);
+
+    if (pcity) {
+      toggle_city_color(pcity);
+    }
+  }
+}
+
+/**************************************************************************
  Shift-Left-Click on owned city or any visible unit to copy.
 **************************************************************************/
 void clipboard_copy_production(int tile_x, int tile_y)

@@ -259,23 +259,7 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 void mapctrl_key_city_workers(XEvent *event)
 {
-  int x,y;
-  XButtonEvent *ev=&event->xbutton;
-  struct city *pcity;
-
-  if (!can_client_change_view()) {
-    return;
-  }
-
-  if (!canvas_to_map_pos(&x, &y, ev->x, ev->y)) {
-    return;
-  }
-
-  pcity = find_city_near_tile(x,y);
-  if(!pcity) return;
-
-  /* Shade tiles on usage */
-  toggle_city_color(pcity);
+  key_city_overlay(event->xbutton->x, event->xbutton->y);
 }
 
 /**************************************************************************

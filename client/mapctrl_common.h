@@ -35,6 +35,8 @@ bool is_city_hilited(struct city *pcity);
 void cancel_tile_hiliting(void);
 void toggle_tile_hilite(int tile_x, int tile_y);
 
+void key_city_overlay(int canvas_x, int canvas_y);
+
 void clipboard_copy_production(int tile_x, int tile_y);
 void clipboard_paste_production(struct city *pcity);
 void upgrade_canvas_clipboard(void);

@@ -393,25 +393,8 @@ void center_on_unit(void)
 **************************************************************************/
 void key_city_workers(GtkWidget *w, GdkEventKey *ev)
 {
-  int x,y;
-  struct city *pcity;
-
-  if (!can_client_change_view()) {
-    return;
-  }
+  int x, y;
   
   gdk_window_get_pointer(map_canvas->window, &x, &y, NULL);
-  if (!canvas_to_map_pos(&x, &y, x, y)) {
-    nearest_real_pos(&x, &y);
-  }
-
-  pcity = find_city_near_tile(x, y);
-  if (!pcity) {
-    return;
-  }
-
-  /* Shade tiles on usage */
-  toggle_city_color(pcity);
+  key_city_overlay(x, y);
 }
-
-
