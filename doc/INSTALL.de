@@ -1,10 +1,8 @@
 ============================
 Die Installation von Freeciv
 ============================
-
 Diese Datei beschreibt die Compilierung und Installation von Freeciv.
-Stand: 17.06.01
-
+Stand: 04.07.01
 
 0. Voraussetzungen:
 ===================
@@ -17,7 +15,7 @@ sollte man es einfach ausprobieren.
 
  - Unix (oder etwas vergleichbares)
  
-   Unix, ein Unix-ähnliches System wie Linux oder *BSD oder ein
+   Unix, ein Unix-ähnliches System wie Linux oder FreeBSD oder ein
    Betriebssystem, daß eine Unix-artige Umgebung bereitstellt, wie z.B.
    EMX unter OS/2 oder das Cygwin-Toolkit von Cygnus für Windows
    (http://sourceware.cygnus.com/cygwin/). Des weiteren müssen sog.
@@ -60,7 +58,6 @@ sollte man es einfach ausprobieren.
    Die Ausgabe von make sollte dann irgendwo die Zeichenkette "GNU Make"
    enthalten.
 
-
 1. Voraussetzungen der Clients:
 ===============================
 
@@ -78,7 +75,6 @@ die eigentlichen Libraries und die zur Programmentwicklung nötigen
 Dateien. D.h., daß man auf diesen Distributionen die entsprechenden
 "development"-Pakete installieren muß (gilt z.B. für Debian GNU/Linux,
 RedHat Linux und SuSE Linux).
-
 
 1a. Anforderungen des Xaw-Clients:
 ==================================
@@ -135,7 +131,6 @@ RedHat Linux und SuSE Linux).
      ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz
      ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz
    
-
 1b. Anforderungen des GTK+-Clients:
 ===================================
 
@@ -185,7 +180,6 @@ RedHat Linux und SuSE Linux).
    
 Compiliert man selbst, sollte (oder muß) folgende Reihenfolge
 eingehalten werden: Glib, Gtk+, Imlib
-
 
 2. Generierung des Makefiles:
 =============================
@@ -278,13 +272,13 @@ folgenden Schritte durchführen:
     erstellt.
     
     Mehr zur Mailingliste freeciv-dev gibt es unter
-    http://www.freeciv.org/
+    http://www.freeciv.org
 
 Achtung: Seit der Freeciv Version 1.7.2 wird Imake nicht mehr
 unterstützt, und seit Version 1.8.1 gehört die Datei Makefile.noimake
 nicht mehr zur Freeciv-Distribution.
-
-
+    
+    
 3. Freeciv compilieren:
 =======================
 
@@ -314,7 +308,6 @@ README.de
 (Allerdings kann man so die Lokalisierung nicht benutzten. Um in der
 jeweiligen Landessprache (also Deutsch) zu spielen, muß man Freeciv
 installieren.)
-
 
 4. Installation:
 ================
@@ -352,7 +345,6 @@ als Englisch benutzen zu können. Näheres in README und README.de
 Wenn man den Xaw-Client benutzt, sollte man die Datei data/Freeciv in
 das app-defaults Verzeichnis kopieren. (Normalerweise in
 /usr/lib/X11/app-defaults)
-
 
 5. NLS (Unterstützung der Landessprache)
 =======================================================
@@ -392,7 +384,6 @@ ausprobieren:
 
      ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
 
-
 6. Unterstützung von Readline
 =============================
 
@@ -420,25 +411,13 @@ die Option "--with-readline" mitgeben:
 Bei einigen Linux-Distributionen (und evtl. auch andere Betriebssystemen) ist
 readline in der Version 4 nicht korrekt installiert, und zwar so, daß
 readline nicht konfiguriert ist, seine dynamischen Abhängigkeiten zu
-deklarieren. In diesem Fall wird sich configure so verhalten, als ob readline
-nicht installiert ist und wird ohne deren Unterstützung kompilieren. Unter
-Un*x kann man nachprüfen, ob readline korrekt installiert ist durch:
-
- % ldd /usr/lib/libreadline.so
-
-Dabei sollten so etwas wie folgende Zeilen ausgegeben werden:
-
-   libncurses.so.5 => /lib/libncurses.so.5 (0x4002e000)
-   libc.so.6 => /lib/libc.so.6 (0x4006e000)
-   /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x2aaaa000)
-
-(/usr/lib/readline.so ist durch den Pfad zu Ihrer readline-Library zu
-ersetzen). Wenn die Abhängigkeit zu curses (oder etwas vergleichbarem)
-aufgeführt ist, sollte es funktionieren. Falls nicht, und freeciv configure
-kann readline nicht zum laufen bewegen, dann ist readline nicht richtig
-installiert. In diesem Fall ist es unter Umständen angebracht, demjenigen, der
-für Ihre readline-Library verantwortlich ist, einen Bugreport zu schicken.
-
+deklarieren. In diesem Fall versucht configure zu "raten", gegen welche
+zusätzlichen Libraries noch gelinkt werden soll und fügt diese hinzu.
+Das configure Skript wird eine Warnung ausgeben, wenn es zusätzliche Libraries
+benutzen musste, damit readline funktioniert. Diese Warnung sollte harmlos sein,
+sie ist nur als Erinnerung für die Leute gedacht, die für die Installation von
+readline verantwortlich sind, sprich Admins oder Paketersteller der
+Distributionen.
 
 7. Reiniers Hinweise zur Installation unter Solaris
 ===================================================
@@ -490,8 +469,7 @@ nur GNU Tools benutzt werden. Des weiteren compiliert Freeciv auch unter
 MIT X und bestimmten Kombinationen aus GNU und Sun-Tools, wobei das
 genaue Vorgehen von der lokalen Installation abhängt.
 
-
-8. Reinier's Installationshinweise  zur libXpm unter Solaris:
+8. Reinier's Installationshinweise zur libXpm unter Solaris:
 =============================================================
 
 Als ich root auf meinem Solarissystem war, wollte ich trotzdem keine
@@ -537,32 +515,31 @@ Der Ablauf:
 
   Dies bewirkt, daß bei den Aufrufen von Compiler und Linker die
   Optionen -I/-L/-R entsprechend gesetzt werden.
-	
 
-9. Hinweise zu Mac Betriesbssystemen und Darwin:
-================================================
+9. Hinweise zu Mac OS X/Darwin
+==============================
 
-Apples GCC Version unterstützt nicht alle Erweiterungen des "normalen" GCCs.
-Prüfen Sie deshalb, ob die Systemvariable
+Apples Version des GCC benutzt sog. "precompiled headers" die das 
+vararg-Macro (eine GCC-Erweiterung) nicht unterstützen. Dies führt
+dazu, das GCC während des Kompiliervorgangs von Freeciv scheitert,
+da der Compiler sonst (größtenteils) nicht vom "normalen" GCC zu
+unterscheiden ist. Anstatt des normalen
 
-	CC=gcc -no-cpp-precomp
+ % ./configure <...>
+ 
+sollte entweder
 
-gesetzt ist. Sollte dies nicht der Fall sein, müssen Sie
-anstatt der Anweisung
+ für die Bourne Shell:
+   $ CC="gcc -no-cpp-precomp" ./configure <...>
 
-	> ./configure [...]
+oder
 
-die Anweisung
+ für die C shell:
+   % env CC="gcc -no-cpp-precomp" ./configure <...>
 
-	> CC="gcc -no-cpp-precomp" ./configure [...] 		# Bourne Shell
-	bzw.
-	% env CC="gcc -no-cpp-precomp" ./configure [...]	# C Shell
+benutzt werden, abhängig davon, ob die benutzte Shell eine Bourne- oder
+eine C-Shell Variante ist (Falls Zweifel bestehen, einfach beide Varianten
+ausprobieren, und sehen, welche funktioniert).
 
-eingeben.
-
-HINWEISE:
-- [...] steht für die etwaigen Optionen von "configure".
-
-- Da sich diese Problematik nicht nur bei der Konfiguration von "freeciv"
-  ergibt, empfiehlt sich die Systemvariable CC standardmäßig mit der Option
-  "-no-cpp-precomp" zu setzen.
+<...> steht dabei für welche zusätzlichen Parameter sie auch immer
+an configure übergeben wollen.
