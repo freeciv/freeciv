@@ -4,21 +4,21 @@
 pkgdatadir = $(datadir)/@PACKAGE@/isotrident
 
 pkgdata_DATA =          \
-	cities.xpm	\
+	cities.png	\
 	cities.spec	\
-	flags.xpm	\
+	flags.png	\
 	flags.spec	\
 	nuke.spec	\
-	nuke.xpm	\
+	nuke.png	\
 	small.spec	\
-	small.xpm	\
+	small.png	\
 	terrain1.spec	\
-	terrain1.xpm	\
+	terrain1.png	\
 	terrain2.spec	\
-	terrain2.xpm	\
-	tiles.xpm	\
+	terrain2.png	\
+	tiles.png	\
 	tiles.spec	\
-	units.xpm	\
+	units.png	\
 	units.spec
 
 EXTRA_DIST = $(pkgdata_DATA)
