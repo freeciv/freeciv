@@ -143,7 +143,7 @@ void boot_help_texts(void)
   
   fs=fopen(datafilename("helpdata.txt"), "r");
   if(fs==NULL) {
-    log(LOG_NORMAL, "failed reading help-texts");
+    flog(LOG_NORMAL, "failed reading help-texts");
     return;
   }
 

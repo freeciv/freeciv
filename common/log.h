@@ -18,7 +18,7 @@
 #define LOG_DEBUG  2
 
 void log_init(char *filename);
-int log(int level, char *message, ...);
+int flog(int level, char *message, ...);
 void log_set_level(int level);
 void log_kill(void);
 

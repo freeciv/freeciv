@@ -40,7 +40,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   strcpy(s_capability, packet->capability);
 
   if (packet->you_can_join) {
-    log(LOG_DEBUG, "join game accept:%s", packet->message);
+    flog(LOG_DEBUG, "join game accept:%s", packet->message);
   } else {
     sprintf(msg, "You were rejected from the game: %s", packet->message);
     append_output_window(msg);
@@ -453,7 +453,7 @@ void handle_map_info(struct packet_map_info *pinfo)
 
   if(!(map.tiles=(struct tile*)malloc(map.xsize*map.ysize*
 				      sizeof(struct tile)))) {
-    log(LOG_FATAL, "malloc failed in handle_map_info");
+    flog(LOG_FATAL, "malloc failed in handle_map_info");
     exit(1);
   }
   for(y=0; y<map.ysize; y++)
@@ -657,7 +657,7 @@ void handle_select_race(struct packet_generic_integer *packet)
     races_toggles_set_sensitive(packet->value);
   }
   else
-    log(LOG_DEBUG, "got a select race packet in an incompatible state");
+    flog(LOG_DEBUG, "got a select race packet in an incompatible state");
 }
 
 /**************************************************************************

@@ -693,7 +693,7 @@ char *unit_activity_text(struct unit *punit)
    case ACTIVITY_EXPLORE:
     return "Explore";
    default:
-    log(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()", punit->activity);
+    flog(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()", punit->activity);
     exit(0);
   }
   return 0;

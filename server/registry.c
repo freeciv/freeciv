@@ -143,7 +143,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
       for(++cptr; *cptr && *cptr!=']'; cptr++);
       
       if(!*cptr) {
-	log(LOG_FATAL, "missing ] in %s - line %d", filename, lineno);
+	flog(LOG_FATAL, "missing ] in %s - line %d", filename, lineno);
 	exit(1);
       }
 
@@ -173,7 +173,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
       for(; *cptr && *cptr!='='; cptr++);
       
       if(!*cptr) {
-	log(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
+	flog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
 	exit(1);
       }
 
@@ -189,7 +189,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 	for(; *cptr && *cptr!='\"'; cptr++);
 	
 	if(!*cptr) {
-	  log(LOG_FATAL, "expected end of string in %s - line %d", filename, lineno);
+	  flog(LOG_FATAL, "expected end of string in %s - line %d", filename, lineno);
 	  exit(1);
 	}
 
@@ -197,13 +197,13 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 
       }
       else {
-	log(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
+	flog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
 	exit(1);
       }
 
 
       if(!current_section) {
-	log(LOG_FATAL, "entry defined before first section in %s - line %d", 
+	flog(LOG_FATAL, "entry defined before first section in %s - line %d", 
 	    filename, lineno);
 	exit(1);
       }
@@ -291,12 +291,12 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
 
 
   if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
-    log(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
+    flog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
     exit(1);
   }
 
   if(!entry->svalue) {
-    log(LOG_FATAL, "sectionfile entry '%s' doesn't contain a string", buf);
+    flog(LOG_FATAL, "sectionfile entry '%s' doesn't contain a string", buf);
     exit(1);
   }
   
@@ -363,12 +363,12 @@ int secfile_lookup_int(struct section_file *my_section_file,
   va_end(ap);
 
   if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
-    log(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
+    flog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
     exit(1);
   }
 
   if(entry->svalue) {
-    log(LOG_FATAL, "sectionfile entry '%s' doesn't contain an integer", buf);
+    flog(LOG_FATAL, "sectionfile entry '%s' doesn't contain an integer", buf);
     exit(1);
   }
   
@@ -395,7 +395,7 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
     return def;
   }
   if(entry->svalue) {
-    log(LOG_FATAL, "sectionfile contains a '%s', but string not integer", buf);
+    flog(LOG_FATAL, "sectionfile contains a '%s', but string not integer", buf);
     exit(1);
   }
   return entry->ivalue;
@@ -421,7 +421,7 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
   }
 
   if(!entry->svalue) {
-    log(LOG_FATAL, "sectionfile contains a '%s', but integer not string ", buf);
+    flog(LOG_FATAL, "sectionfile contains a '%s', but integer not string", buf);
     exit(1);
   }
   
@@ -593,11 +593,11 @@ static int secfilehash_hashash(struct section_file *file)
 static void secfilehash_check(struct section_file *file)
 {
   if (!secfilehash_hashash(file)) {
-    log(LOG_FATAL, "hash operation before setup" );
+    flog(LOG_FATAL, "hash operation before setup" );
     exit(1);
   }
   if (file->num_entries != file->hashd->num_entries_hashbuild) {
-    log(LOG_FATAL, "section_file has more entries than when hash built" );
+    flog(LOG_FATAL, "section_file has more entries than when hash built" );
     exit(1);
   }
 }
@@ -629,14 +629,14 @@ static struct hash_entry *secfilehash_lookup(struct section_file *file,
     }
     file->hashd->num_collisions++;
     if (HASH_DEBUG>=2) {
-      log(LOG_DEBUG, "Hash collision for \"%s\", %d", key, hash_val);
+      flog(LOG_DEBUG, "Hash collision for \"%s\", %d", key, hash_val);
     }
     i++;
     if (i==file->hashd->num_buckets) {
       i=0;
     }
   } while (i!=hash_val);	/* catch loop all the way round  */
-  log(LOG_FATAL, "Full hash table??");
+  flog(LOG_FATAL, "Full hash table??");
   exit(1);
 }
 
@@ -653,7 +653,7 @@ static void secfilehash_insert(struct section_file *file,
 
   hentry = secfilehash_lookup(file, key, &hash_val);
   if (hentry->key_val != NULL) {
-    log(LOG_FATAL, "Tried to insert same value twice: %s", key );
+    flog(LOG_FATAL, "Tried to insert same value twice: %s", key );
     exit(1);
   }
   hentry->data = data;
@@ -682,7 +682,7 @@ static void secfilehash_build(struct section_file *file)
   
   hashd->table = malloc(hashd->num_buckets*sizeof(struct hash_entry));
   if (hashd==NULL || hashd->table==NULL) {
-    log(LOG_FATAL, "malloc error for hash table" );
+    flog(LOG_FATAL, "malloc error for hash table" );
     exit(1);
   }
   for(i=0; i<hashd->num_buckets; i++) {
@@ -705,7 +705,7 @@ static void secfilehash_build(struct section_file *file)
     }
   }
   if (HASH_DEBUG>=1) {
-    log(LOG_DEBUG, "Hash collisions during build: %d (%d entries, %d buckets)",
+    flog(LOG_DEBUG, "Hash collisions during build: %d (%d entries, %d buckets)",
 	hashd->num_collisions, file->num_entries, hashd->num_buckets );
   }
 }

@@ -97,7 +97,7 @@ void load_tile_gfx(void)
   ntiles= (20*21) + (20*3) + (31*1) + 3;
 
   if(!(tile_sprites=malloc(ntiles*sizeof(struct Sprite *)))) {
-    log(LOG_FATAL, "couldn't malloc tile_sprites array");
+    flog(LOG_FATAL, "couldn't malloc tile_sprites array");
     exit(1);
   }
 
@@ -261,15 +261,15 @@ again:
       goto again;
     }
     
-    log(LOG_FATAL, "Failed reading XPM file: %s", filename);
-    log(LOG_FATAL, "The environment variable FREECIV_DATADIR is '%s'",
+    flog(LOG_FATAL, "Failed reading XPM file: %s", filename);
+    flog(LOG_FATAL, "The environment variable FREECIV_DATADIR is '%s'",
 	getenv("FREECIV_DATADIR") ? getenv("FREECIV_DATADIR") : "");
-    log(LOG_FATAL, "Check if you got read permissions to the file");
+    flog(LOG_FATAL, "Check if you got read permissions to the file");
     exit(1);
   }
 
   if(!(mysprite=(struct Sprite *)malloc(sizeof(struct Sprite)))) {
-    log(LOG_FATAL, "failed mallocing sprite struct for %s", filename);
+    flog(LOG_FATAL, "failed mallocing sprite struct for %s", filename);
     exit(1);
   }
   

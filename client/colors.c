@@ -76,11 +76,11 @@ void color_error(void)
   static int using_private_cmap;
   
   if(using_private_cmap) {
-    log(LOG_FATAL, "Private colormap ran out of entries -  exiting");
+    flog(LOG_FATAL, "Private colormap ran out of entries -  exiting");
     exit(1);
   }
   else {
-    log(LOG_NORMAL, "Ran out of colors -  trying with a private colormap"); 
+    flog(LOG_NORMAL, "Ran out of colors -  trying with a private colormap"); 
     cmap=XCopyColormapAndFree(display, cmap);
     XtVaSetValues(toplevel, XtNcolormap, cmap, NULL);
     using_private_cmap=1;
@@ -129,7 +129,7 @@ enum Display_color_type get_visual(void)
 
   if (default_depth == 1) { 
     /* Must be StaticGray, use black and white */
-    log(LOG_DEBUG, "found B/W display.");
+    flog(LOG_DEBUG, "found B/W display.");
     return BW_DISPLAY;
   }
 
@@ -140,7 +140,7 @@ enum Display_color_type get_visual(void)
   
 
 /*
-  log(LOG_DEBUG, "Found a %s class visual at default depth.",
+  flog(LOG_DEBUG, "Found a %s class visual at default depth.",
       visual_class[++i]); */
    
   if(i < StaticColor) { /* Color visual classes are 2 to 5 */
@@ -149,7 +149,7 @@ enum Display_color_type get_visual(void)
      * here to try for a GrayScale visual if they
      * can use gray to advantage, before giving up
      * and using black and white */
-    log(LOG_DEBUG, "found grayscale(?) display.");
+    flog(LOG_DEBUG, "found grayscale(?) display.");
     return GRAYSCALE_DISPLAY;
   }
 
@@ -161,11 +161,11 @@ enum Display_color_type get_visual(void)
     * code will work (or fail in a controlled way) */
    /* Let's check just out of curiosity: */
   if (visual_info.visual != default_visual) {
-/*    log(LOG_DEBUG, "Found: %s class visual at default depth",
+/*    flog(LOG_DEBUG, "Found: %s class visual at default depth",
 	visual_class[i]); */
   }
 
-  log(LOG_DEBUG, "color system booted ok.");
+  flog(LOG_DEBUG, "color system booted ok.");
 
   return COLOR_DISPLAY;
 }

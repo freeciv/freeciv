@@ -369,7 +369,7 @@ void map_load(struct section_file *file)
   
   if(!(map.tiles=(struct tile*)malloc(map.xsize*map.ysize*
 					 sizeof(struct tile)))) {
-    log(LOG_FATAL, "malloc failed in load_map");
+    flog(LOG_FATAL, "malloc failed in load_map");
     exit(1);
   }
 
@@ -384,7 +384,7 @@ void map_load(struct section_file *file)
     for(x=0; x<map.xsize; x++) {
       char *pch;
       if(!(pch=strchr(terrain_chars, terline[x]))) {
-	log(LOG_FATAL, "unknown terrain type in map at position (%d,%d)",
+	flog(LOG_FATAL, "unknown terrain type in map at position (%d,%d)",
 	    x, y, terline[x]);
 	exit(1);
       }
@@ -402,7 +402,7 @@ void map_load(struct section_file *file)
       if(isxdigit(ch))
 	map_get_tile(x, y)->special=ch-(isdigit(ch) ? '0' : ('a'-10));
       else if(ch!=' ') {
-	log(LOG_FATAL, "unknown special flag(lower) in map at position(%d,%d)",
+	flog(LOG_FATAL, "unknown special flag(lower) in map at position(%d,%d)",
 	    x, y, ch);
 	exit(1);
       }
@@ -421,7 +421,7 @@ void map_load(struct section_file *file)
       if(isxdigit(ch))
 	map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
       else if(ch!=' ') {
-	log(LOG_FATAL, "unknown special flag(lower) in map at position(%d,%d)",
+	flog(LOG_FATAL, "unknown special flag(lower) in map at position(%d,%d)",
 	    x, y, ch);
 	exit(1);
       }
@@ -436,7 +436,7 @@ void map_load(struct section_file *file)
       if(isxdigit(ch))
 	map_get_tile(x, y)->known=ch-(isdigit(ch) ? '0' : ('a'-10));
       else if(ch!=' ') {
-	log(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
+	flog(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
 	    x, y, ch);
 	exit(1);
       }
@@ -453,7 +453,7 @@ void map_load(struct section_file *file)
       if(isxdigit(ch))
 	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
       else if(ch!=' ') {
-	log(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
+	flog(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
 	    x, y, ch);
 	exit(1);
       }
@@ -468,7 +468,7 @@ void map_load(struct section_file *file)
       if(isxdigit(ch))
 	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
       else if(ch!=' ') {
-	log(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
+	flog(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
 	    x, y, ch);
 	exit(1);
       }
@@ -484,7 +484,7 @@ void map_load(struct section_file *file)
       if(isxdigit(ch))
 	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
       else if(ch!=' ') {
-	log(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
+	flog(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
 	    x, y, ch);
 	exit(1);
       }

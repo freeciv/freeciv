@@ -51,7 +51,7 @@ void reallocate_cache(void)
 {
   int i;
 
-  log(LOG_NORMAL,"Increasing max city id index from %d to %d",
+  flog(LOG_NORMAL,"Increasing max city id index from %d to %d",
       citycachesize,citycachesize*2);
   citycachesize*=2;
   citycache=realloc(citycache,sizeof(*citycache)*citycachesize);

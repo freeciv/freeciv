@@ -103,7 +103,7 @@ void handle_packet_input(char *packet, int type)
     break;
 
   case PACKET_SERVER_SHUTDOWN:
-    log(LOG_DEBUG, "server shutdown");
+    flog(LOG_DEBUG, "server shutdown");
     break;
 
   case PACKET_BEFORE_NEW_YEAR:
@@ -203,7 +203,7 @@ void handle_packet_input(char *packet, int type)
     break;
     
   default:
-    log(LOG_FATAL, "Received unknown packet from server!");
+    flog(LOG_FATAL, "Received unknown packet from server!");
     exit(1);
     break;
   }

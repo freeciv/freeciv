@@ -144,7 +144,7 @@ void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
   }
   else {
     append_output_window("Lost connection to server!");
-    log(LOG_NORMAL, "lost connection to server");
+    flog(LOG_NORMAL, "lost connection to server");
     close(*fid);
     remove_net_input();
     set_client_state(CLIENT_PRE_GAME_STATE);

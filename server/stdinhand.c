@@ -520,7 +520,7 @@ void cut_player_connection(char *playername)
 
   pplayer=find_player_by_name(playername);
   if(pplayer && pplayer->conn) {
-    log(LOG_NORMAL, "cutting connection to %s", playername);
+    flog(LOG_NORMAL, "cutting connection to %s", playername);
     close_connection(pplayer->conn);
     pplayer->conn=NULL;
   }
