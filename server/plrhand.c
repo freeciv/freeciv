@@ -910,9 +910,9 @@ static void start_revolution(struct player *pplayer)
   /* Set revolution_finishes value. */
   if (pplayer->revolution_finishes > 0) {
     /* Player already has an active revolution. */
-  } else if (pplayer->ai.control
+  } else if ((pplayer->ai.control && !ai_handicap(pplayer, H_REVOLUTION))
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
-    /* TODO: Make this a handicap. */
+    /* AI players without the H_REVOLUTION handicap can skip anarchy */
     pplayer->revolution_finishes = game.turn;
   } else if (game.revolution_length == 0) {
     pplayer->revolution_finishes = game.turn + myrand(5) + 1;

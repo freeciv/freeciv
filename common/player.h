@@ -54,7 +54,8 @@ enum handicap_type {
   H_FOG = 256,        /* Can't see through fog of war */
   H_NOPLANES = 512,   /* Doesn't build air units */
   H_MAP = 1024,       /* Only knows map_is_known tiles */
-  H_DIPLOMACY = 2048  /* Not very good at diplomacy */
+  H_DIPLOMACY = 2048, /* Not very good at diplomacy */
+  H_REVOLUTION = 4096 /* Cannot skip anarchy */
 };
 
 struct player_economic {

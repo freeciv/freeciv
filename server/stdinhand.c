@@ -678,10 +678,11 @@ const char *name_of_skill_level(int level)
 static int handicap_of_skill_level(int level)
 {
   int h[11] = { -1,
- /* away   */	H_AWAY  | H_RATES | H_TARGETS | H_HUTS | H_FOG | H_MAP,
+ /* away   */	H_AWAY  | H_RATES | H_TARGETS | H_HUTS | H_FOG | H_MAP
+                        | H_REVOLUTION,
  /* novice */   H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
                         | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE
-			| H_DIPLOMACY,
+			| H_DIPLOMACY | H_REVOLUTION,
  /* easy */	H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
                         | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE,
 		H_NONE,
