@@ -106,6 +106,7 @@ struct pf_map {
   struct pf_node *lattice;      /* Lattice of nodes */
   utiny_t *status;		/* Array of node statuses 
 				 * (enum pf_node_status really) */
+  bool extras;                  /* Are any extra-cost callbacks supplied? */
   struct pqueue *danger_queue;	/* Dangerous positions go there */
   struct danger_node *d_lattice;	/* Lattice with danger stuff */
 };
@@ -306,11 +307,18 @@ bool pf_next(struct pf_map *pf_map)
       /* Total cost at xy1.  Cost may be negative; see get_turn(). */
       cost += node->cost;
 
-      /* Evaluate the extra cost of the destination,
-       * if it's relevant */
-      if (pf_map->params->get_EC) {
-	extra = node1->extra_tile;
-	extra += node->extra_cost;
+      /* Evaluate the extra cost if it's relevant */
+      if (pf_map->extras) {
+        extra = node->extra_cost;
+        if (pf_map->params->get_EC) {
+          /* Add the cached value */
+          extra += node1->extra_tile;
+        }
+        if (pf_map->params->get_moveEC) {
+          /* This one cannot be cached */
+          extra += pf_map->params->get_moveEC(pf_map->x, pf_map->y, dir, 
+                                              x1, y1, pf_map->params);
+        }
       }
 
       /* Update costs and add to queue, if we found a better route to xy1. */
@@ -408,6 +416,9 @@ struct pf_map *pf_create_map(const struct pf_parameter *const parameter)
     /* Initialize step counter */
     pf_map->d_lattice[pf_map->index].step = 0;
   }
+
+  pf_map->extras = (parameter->get_EC != NULL 
+                    || parameter->get_moveEC != NULL);
 
   return pf_map;
 }

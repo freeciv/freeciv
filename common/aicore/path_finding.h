@@ -324,6 +324,11 @@ struct pf_parameter {
   int (*get_EC) (int x, int y, enum known_type known,
 		 struct pf_parameter * param);
 
+  /* Same as above but this extra cost may depend on both origin and target
+   * tiles. Can be NULL. */
+  int (*get_moveEC) (int from_x, int from_y, enum direction8 dir,
+                     int to_x, int to_y, struct pf_parameter * param);
+
   /* Although the rules governing ZoC are universal, the amount of
    * information available at server and client is different. To 
    * compensate for it, we might need to supply our own version 
