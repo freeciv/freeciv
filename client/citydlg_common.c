@@ -175,11 +175,7 @@ void city_dialog_redraw_map(struct city *pcity,
 
   citydlg_known_iterate(pcity, city_x, city_y,
 			ptile, canvas_x, canvas_y) {
-    if (is_isometric) {
-      put_one_tile_iso(pcanvas, ptile, canvas_x, canvas_y, TRUE);
-    } else {
-      put_one_tile(pcanvas, ptile, canvas_x, canvas_y, TRUE);
-    }
+    put_one_tile(pcanvas, ptile, canvas_x, canvas_y, TRUE);
   } citydlg_known_iterate_end;
 
   /* We have to put the output afterwards or it will be covered

@@ -181,8 +181,6 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile);
 
 void put_one_tile(struct canvas *pcanvas, struct tile *ptile,
 		  int canvas_x, int canvas_y, bool citymode);
-void put_one_tile_iso(struct canvas *pcanvas, struct tile *ptile,
-		      int canvas_x, int canvas_y, bool citymode);
 void tile_draw_grid(struct canvas *pcanvas, struct tile *ptile,
 		    int canvas_x, int canvas_y, bool citymode);
 

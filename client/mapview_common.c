@@ -1303,41 +1303,6 @@ static void tile_draw_borders(struct canvas *pcanvas,
   }
 }
 
-/**************************************************************************
-  Draw the given map tile at the given canvas position in non-isometric
-  view.
-**************************************************************************/
-void put_one_tile(struct canvas *pcanvas, struct tile *ptile,
-		  int canvas_x, int canvas_y, bool citymode)
-{
-  if (tile_get_known(ptile) != TILE_UNKNOWN) {
-    /* FIXME: These two functions should be merged. */
-    put_one_tile_iso(pcanvas, ptile, canvas_x, canvas_y, citymode);
-  } else {
-    /* tile is unknown */
-    canvas_put_rectangle(pcanvas, COLOR_STD_BLACK,
-			 canvas_x, canvas_y,
-			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  }
-}
-
-/**************************************************************************
-  Draw the unique tile for the given map position, in non-isometric view.
-  The coordinates have not been normalized, and are not guaranteed to be
-  real (we have to draw unreal tiles too).
-**************************************************************************/
-static void put_tile(struct tile *ptile)
-{
-  int canvas_x, canvas_y;
-
-  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
-	    TILE_XY(ptile), canvas_x, canvas_y);
-    put_one_tile(mapview_canvas.store, ptile,
-		 canvas_x, canvas_y, FALSE);
-  }
-}
-
 /****************************************************************************
    Draw the map grid around the given map tile at the given canvas position.
 ****************************************************************************/
@@ -1449,10 +1414,10 @@ void tile_draw_grid(struct canvas *pcanvas, struct tile *ptile,
 }
 
 /**************************************************************************
-  Draw some or all of a tile onto the canvas, in iso-view.
+  Draw some or all of a tile onto the canvas.
 **************************************************************************/
-void put_one_tile_iso(struct canvas *pcanvas, struct tile *ptile,
-		      int canvas_x, int canvas_y, bool citymode)
+void put_one_tile(struct canvas *pcanvas, struct tile *ptile,
+		  int canvas_x, int canvas_y, bool citymode)
 {
   struct drawn_sprite tile_sprs[80];
   int count = fill_sprite_array(tile_sprs, ptile,
@@ -1463,25 +1428,6 @@ void put_one_tile_iso(struct canvas *pcanvas, struct tile *ptile,
 
   /*** Draw terrain and specials ***/
   put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);
-}
-
-/**************************************************************************
-  Draw the unique tile for the given map position, in isometric view.
-  The coordinates have not been normalized, and are not guaranteed to be
-  real (we have to draw unreal tiles too).
-**************************************************************************/
-static void put_tile_iso(struct tile *ptile)
-{
-  int canvas_x, canvas_y;
-
-  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
-	    TILE_XY(ptile), canvas_x, canvas_y);
-
-    put_one_tile_iso(mapview_canvas.store,
-		     ptile, canvas_x, canvas_y,
-		     FALSE);
-  }
 }
 
 /**************************************************************************
@@ -1540,23 +1486,16 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
 		       canvas_x, canvas_y, width, height);
 
-  /* FIXME: we don't have to draw black (unknown) tiles since they're already
-   * cleared. */
-  if (is_isometric) {
-    gui_rect_iterate(gui_x0, gui_y0, width, height + NORMAL_TILE_HEIGHT / 2,
-		     ptile) {
-      put_tile_iso(ptile);
-    } gui_rect_iterate_end;
-  } else {
-    /* not isometric */
-    gui_rect_iterate(gui_x0, gui_y0, width, height, ptile) {
-      /*
-       * We don't normalize until later because we want to draw
-       * black tiles for unreal positions.
-       */
-      put_tile(ptile);
-    } gui_rect_iterate_end;
-  }
+  gui_rect_iterate(gui_x0, gui_y0, width,
+		   height + (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : 0),
+		   ptile) {
+    int cx, cy;
+
+    if (tile_get_known(ptile) != TILE_UNKNOWN
+	&& tile_to_canvas_pos(&cx, &cy, ptile)) {
+      put_one_tile(mapview_canvas.store, ptile, cx, cy, FALSE);
+    }
+  } gui_rect_iterate_end;
 
   /* Draw the goto lines on top of the whole thing. This is done last as
    * we want it completely on top.
