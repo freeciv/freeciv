@@ -307,11 +307,11 @@ struct Sprite *client_research_sprite(void)
 {
   if (can_client_change_view() && game.player_ptr) {
     int index = (NUM_TILES_PROGRESS
-		 * game.player_ptr->research.bulbs_researched)
+		 * game.player_ptr->research->bulbs_researched)
       / (total_bulbs_required(game.player_ptr) + 1);
 
     /* This clipping can be necessary since we can end up with excess
-     * research. */
+     * research */
     index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
     return get_indicator_sprite(INDICATOR_BULB, index);
   } else {

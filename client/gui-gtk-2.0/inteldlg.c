@@ -374,10 +374,10 @@ void update_intel_dialog(struct player *p)
 	    my_snprintf(buf, sizeof(buf), "%d%%", p->economic.luxury);
 	    break;
 	  case LABEL_RESEARCHING:
-	    if (p->research.researching != A_NOINFO) {
+	    if (p->research->researching != A_NOINFO) {
 	      my_snprintf(buf, sizeof(buf), "%s(%d/%d)",
-		  get_tech_name(p, p->research.researching),
-		  p->research.bulbs_researched, total_bulbs_required(p));
+		  get_tech_name(p, p->research->researching),
+		  p->research->bulbs_researched, total_bulbs_required(p));
 	    } else {
 	      my_snprintf(buf, sizeof(buf), _("(Unknown)"));
 	    }

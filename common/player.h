@@ -66,7 +66,6 @@ struct player_economic {
 };
 
 struct player_research {
-  int bulbs_last_turn;    /* # bulbs researched last turn only */
   int bulbs_researched;   /* # bulbs reseached for the current tech */    
   int techs_researched;   /* # techs the player has researched/acquired */
   /* 
@@ -81,6 +80,7 @@ struct player_research {
   int bulbs_researched_before;  /* if the player changed techs, how
 				   many points they had before the
 				   change */
+  bool got_tech; /* if he can change research without penalty */
   struct {
     /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_REACHABLE. */
     enum tech_state state;
@@ -194,7 +194,6 @@ struct player {
   bool is_alive;
   bool is_observer; /* is the player a global observer */ 
   bool is_dying; /* set once the player is in the process of dying */
-  bool got_tech; /* set once the player is fully dead */
 
   /* Turn in which the player's revolution is over; see update_revolution. */
   int revolution_finishes;
@@ -208,7 +207,8 @@ struct player {
   struct city_list *cities;
   struct player_score score;
   struct player_economic economic;
-  struct player_research research;
+  struct player_research* research;
+  int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
   int future_tech;
   struct player_ai ai;
@@ -303,6 +303,8 @@ bool is_barbarian(const struct player *pplayer);
 
 bool gives_shared_vision(const struct player *me, const struct player *them);
 
+void merge_players_research(struct player* p1, struct player* p2);
+void clean_players_research(void);
 #define players_iterate(PI_player)                                            \
 {                                                                             \
   struct player *PI_player;                                                   \

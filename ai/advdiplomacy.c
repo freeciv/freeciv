@@ -559,7 +559,7 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
         && (pclause->type != CLAUSE_ADVANCE 
             || game.rgame.tech_cost_style != 0
             || pclause->value == pplayer->ai.tech_goal
-            || pclause->value == pplayer->research.researching
+            || pclause->value == pplayer->research->researching
             || is_tech_a_req_for_goal(pplayer, pclause->value, 
                                       pplayer->ai.tech_goal))) {
       /* We accept the above list of clauses as gifts, even if we are
@@ -706,8 +706,8 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
   } city_list_iterate_end;
 
   /* Tech lead is worrisome */
-  kill_desire += MAX(aplayer->research.techs_researched -
-                     pplayer->research.techs_researched, 0);
+  kill_desire += MAX(aplayer->research->techs_researched -
+                     pplayer->research->techs_researched, 0);
 
   /* Spacerace loss we will not allow! */
   if (ship->state >= SSHIP_STARTED) {

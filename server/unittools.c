@@ -2263,14 +2263,14 @@ static void hut_get_tech(struct unit *punit)
   const char *tech_name;
   
   /* Save old values, choose tech, then restore old values: */
-  res_ed = pplayer->research.bulbs_researched;
-  res_ing = pplayer->research.researching;
+  res_ed = pplayer->research->bulbs_researched;
+  res_ing = pplayer->research->researching;
   
   choose_random_tech(pplayer);
-  new_tech = pplayer->research.researching;
+  new_tech = pplayer->research->researching;
   
-  pplayer->research.bulbs_researched = res_ed;
-  pplayer->research.researching = res_ing;
+  pplayer->research->bulbs_researched = res_ed;
+  pplayer->research->researching = res_ing;
 
   tech_name = get_tech_name(pplayer, new_tech);
   notify_player_ex(pplayer, punit->tile, E_HUT_TECH,

@@ -136,7 +136,7 @@ static void ai_select_tech(struct player *pplayer,
     choice->choice = newtech;
     choice->want = values[newtech] / num_cities_nonzero;
     choice->current_want = 
-      values[pplayer->research.researching] / num_cities_nonzero;
+      values[pplayer->research->researching] / num_cities_nonzero;
   }
 
   if (goal) {
@@ -161,7 +161,7 @@ void ai_manage_tech(struct player *pplayer)
 {
   struct ai_tech_choice choice, goal;
   /* Penalty for switching research */
-  int penalty = (pplayer->got_tech ? 0 : pplayer->research.bulbs_researched);
+  int penalty = (pplayer->research->got_tech ? 0 : pplayer->research->bulbs_researched);
 
   /* If there are humans in our team, they will choose the techs */
   players_iterate(aplayer) {
@@ -173,14 +173,14 @@ void ai_manage_tech(struct player *pplayer)
   } players_iterate_end;
 
   ai_select_tech(pplayer, &choice, &goal);
-  if (choice.choice != pplayer->research.researching) {
+  if (choice.choice != pplayer->research->researching) {
     /* changing */
     if ((choice.want - choice.current_want) > penalty &&
-	penalty + pplayer->research.bulbs_researched <=
+	penalty + pplayer->research->bulbs_researched <=
 	total_bulbs_required(pplayer)) {
       TECH_LOG(LOG_DEBUG, pplayer, choice.choice, "new research, was %s, "
                "penalty was %d", 
-               get_tech_name(pplayer, pplayer->research.researching),
+               get_tech_name(pplayer, pplayer->research->researching),
                penalty);
       choose_tech(pplayer, choice.choice);
     }

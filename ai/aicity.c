@@ -412,7 +412,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_GIVE_IMM_TECH:
 	  v += ((total_bulbs_required(pplayer) * amount 
 		+ game.researchcost)
-	      * TRADE_WEIGHTING - pplayer->research.bulbs_researched 
+	      * TRADE_WEIGHTING - pplayer->research->bulbs_researched 
 	      * TRADE_WEIGHTING) / MORT;
 	  break;
 	case EFT_HAVE_EMBASSIES:

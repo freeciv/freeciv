@@ -593,7 +593,7 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
-    if (pplayer->research.researching == A_UNSET) {
+    if (pplayer->research->researching == A_UNSET) {
       choose_random_tech(pplayer);
       update_tech(pplayer, 0);
     }
@@ -616,10 +616,14 @@ static void end_phase(void)
 
   /* Refresh cities */
   phase_players_iterate(pplayer) {
+    pplayer->research->got_tech = FALSE;
+  } phase_players_iterate_end;
+  
+  phase_players_iterate(pplayer) {
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
-    pplayer->research.changed_from=-1;
+    pplayer->research->changed_from=-1;
     flush_packets();
   } phase_players_iterate_end;
 
@@ -1876,7 +1880,15 @@ main_start_players:
     } players_iterate_end;
    } players_iterate_end;
   }
-
+  
+  players_iterate(pplayer) {
+    players_iterate(pdest) {
+      if (players_on_same_team(pplayer, pdest)
+          && pplayer->player_no != pdest->player_no) {
+    	merge_players_research(pplayer, pdest);
+      }
+    } players_iterate_end;
+  } players_iterate_end;
   /* tell the gamelog about the players */
   players_iterate(pplayer) {
     gamelog(GAMELOG_PLAYER, pplayer);
@@ -1936,4 +1948,5 @@ void server_game_free()
   game_free();
   ruleset_cache_free();
   BV_CLR_ALL(srvarg.draw);
+  clean_players_research();
 }

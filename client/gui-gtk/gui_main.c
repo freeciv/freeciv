@@ -1126,8 +1126,8 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 	    game.player_ptr->economic.science,
 
 	    get_tech_name(game.player_ptr,
-			  game.player_ptr->research.researching),
-	    game.player_ptr->research.bulbs_researched,
+			  game.player_ptr->research->researching),
+	    game.player_ptr->research->bulbs_researched,
 	    total_bulbs_required(game.player_ptr),
 	    get_government_name(game.player_ptr->government));
     

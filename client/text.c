@@ -418,7 +418,7 @@ const char *science_dialog_text(void)
         ours += pcity->prod[O_SCIENCE];
       } city_list_iterate_end;
     } else if (ds == DS_TEAM) {
-      theirs += pplayer->research.bulbs_last_turn;
+      theirs += pplayer->bulbs_last_turn;
     }
   } players_iterate_end;
 
@@ -535,8 +535,8 @@ const char *get_bulb_tooltip(void)
   add(_("Shows your progress in researching "
 	"the current technology.\n%s: %d/%d."),
       get_tech_name(game.player_ptr,
-		    game.player_ptr->research.researching),
-      game.player_ptr->research.bulbs_researched,
+		    game.player_ptr->research->researching),
+      game.player_ptr->research->bulbs_researched,
       total_bulbs_required(game.player_ptr));
   RETURN;
 }

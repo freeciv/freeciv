@@ -54,7 +54,7 @@ enum tech_state get_invention(const struct player *pplayer,
 {
   assert(tech >= 0 || tech < game.num_tech_types);
 
-  return pplayer->research.inventions[tech].state;
+  return pplayer->research->inventions[tech].state;
 }
 
 /**************************************************************************
@@ -63,11 +63,11 @@ enum tech_state get_invention(const struct player *pplayer,
 void set_invention(struct player *pplayer, Tech_Type_id tech,
 		   enum tech_state value)
 {
-  if (pplayer->research.inventions[tech].state == value) {
+  if (pplayer->research->inventions[tech].state == value) {
     return;
   }
 
-  pplayer->research.inventions[tech].state = value;
+  pplayer->research->inventions[tech].state = value;
 
   if (value == TECH_KNOWN) {
     game.global_advances[tech]++;
@@ -84,13 +84,13 @@ bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_Type_id tech,
   if (tech == goal) {
     return FALSE;
   } else {
-    return BV_ISSET(pplayer->research.inventions[goal].required_techs, tech);
+    return BV_ISSET(pplayer->research->inventions[goal].required_techs, tech);
   }
 }
 
 /**************************************************************************
   Marks all techs which are requirements for goal in
-  pplayer->research.inventions[goal].required_techs. Works recursive.
+  pplayer->research->inventions[goal].required_techs. Works recursive.
 **************************************************************************/
 static void build_required_techs_helper(struct player *pplayer,
 					Tech_Type_id tech,
@@ -105,7 +105,7 @@ static void build_required_techs_helper(struct player *pplayer,
   }
 
   /* Mark the tech as required for the goal */
-  BV_SET(pplayer->research.inventions[goal].required_techs, tech);
+  BV_SET(pplayer->research->inventions[goal].required_techs, tech);
 
   if (advances[tech].req[0] == goal || advances[tech].req[1] == goal) {
     /* TRANS: Obscure ruleset error */
@@ -121,26 +121,26 @@ static void build_required_techs_helper(struct player *pplayer,
 
 /**************************************************************************
   Updates required_techs, num_required_techs and bulbs_required in
-  pplayer->research.inventions[goal].
+  pplayer->research->inventions[goal].
 **************************************************************************/
 static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
 {
   int counter;
 
-  BV_CLR_ALL(pplayer->research.inventions[goal].required_techs);
+  BV_CLR_ALL(pplayer->research->inventions[goal].required_techs);
 
   if (get_invention(pplayer, goal) == TECH_KNOWN) {
-    pplayer->research.inventions[goal].num_required_techs = 0;
-    pplayer->research.inventions[goal].bulbs_required = 0;
+    pplayer->research->inventions[goal].num_required_techs = 0;
+    pplayer->research->inventions[goal].bulbs_required = 0;
     return;
   }
   
   build_required_techs_helper(pplayer, goal, goal);
 
   /* Include the goal tech */
-  pplayer->research.inventions[goal].bulbs_required =
+  pplayer->research->inventions[goal].bulbs_required =
       base_total_bulbs_required(pplayer, goal);
-  pplayer->research.inventions[goal].num_required_techs = 1;
+  pplayer->research->inventions[goal].num_required_techs = 1;
 
   counter = 0;
   tech_type_iterate(i) {
@@ -152,16 +152,16 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
      * This is needed to get a correct result for the
      * base_total_bulbs_required call.
      */
-    pplayer->research.techs_researched++;
+    pplayer->research->techs_researched++;
     counter++;
 
-    pplayer->research.inventions[goal].num_required_techs++;
-    pplayer->research.inventions[goal].bulbs_required +=
+    pplayer->research->inventions[goal].num_required_techs++;
+    pplayer->research->inventions[goal].bulbs_required +=
 	base_total_bulbs_required(pplayer, i);
   } tech_type_iterate_end;
 
   /* Undo the changes made above */
-  pplayer->research.techs_researched -= counter;
+  pplayer->research->techs_researched -= counter;
 }
 
 /**************************************************************************
@@ -213,11 +213,11 @@ void update_research(struct player *pplayer)
   } tech_type_iterate_end;
 
   for (flag = 0; flag < TF_LAST; flag++) {
-    pplayer->research.num_known_tech_with_flag[flag] = 0;
+    pplayer->research->num_known_tech_with_flag[flag] = 0;
 
     tech_type_iterate(i) {
       if (get_invention(pplayer, i) == TECH_KNOWN && tech_flag(i, flag)) {
-	pplayer->research.num_known_tech_with_flag[flag]++;
+	pplayer->research->num_known_tech_with_flag[flag]++;
       }
     } tech_type_iterate_end;
   }
@@ -335,14 +335,14 @@ Tech_Type_id find_tech_by_flag(int index, enum tech_flag_id flag)
 /**************************************************************************
   Returns the number of bulbs which are required to finished the
   currently researched tech denoted by
-  pplayer->research.researching. This is _NOT_ the number of bulbs
+  pplayer->research->researching. This is _NOT_ the number of bulbs
   which are left to get the advance. Use the term
-  "total_bulbs_required(pplayer) - pplayer->research.bulbs_researched"
+  "total_bulbs_required(pplayer) - pplayer->research->bulbs_researched"
   if you want this.
 **************************************************************************/
 int total_bulbs_required(const struct player *pplayer)
 {
-  return base_total_bulbs_required(pplayer, pplayer->research.researching);
+  return base_total_bulbs_required(pplayer, pplayer->research->researching);
 }
 
 /**************************************************************************
@@ -389,7 +389,7 @@ int base_total_bulbs_required(const struct player *pplayer,
 
   switch (tech_cost_style) {
   case 0:
-    cost = pplayer->research.techs_researched * game.researchcost;
+    cost = pplayer->research->techs_researched * game.researchcost;
     break;
   case 1:
     cost = techcoststyle1[tech];
@@ -495,7 +495,7 @@ int base_total_bulbs_required(const struct player *pplayer,
 int num_unknown_techs_for_goal(const struct player *pplayer,
 			       Tech_Type_id goal)
 {
-  return pplayer->research.inventions[goal].num_required_techs;
+  return pplayer->research->inventions[goal].num_required_techs;
 }
 
 /**************************************************************************
@@ -506,7 +506,7 @@ int num_unknown_techs_for_goal(const struct player *pplayer,
 int total_bulbs_required_for_goal(const struct player *pplayer,
 				  Tech_Type_id goal)
 {
-  return pplayer->research.inventions[goal].bulbs_required;
+  return pplayer->research->inventions[goal].bulbs_required;
 }
 
 /**************************************************************************

@@ -129,8 +129,8 @@ void intel_create_dialog(struct player *p)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
   my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
-	      get_tech_name(p, p->research.researching),
-	      p->research.bulbs_researched, total_bulbs_required(p));
+	      get_tech_name(p, p->research->researching),
+	      p->research->bulbs_researched, total_bulbs_required(p));
 
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 2);

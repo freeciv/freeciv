@@ -194,8 +194,8 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       gain_incite *= SHIELD_WEIGHTING; /* WAG cost to take city otherwise */
       gain_incite -= incite_cost * TRADE_WEIGHTING;
     }
-    if (city_owner(acity)->research.techs_researched <
-             pplayer->research.techs_researched
+    if (city_owner(acity)->research->techs_researched <
+             pplayer->research->techs_researched
              && !pplayers_allied(pplayer, city_owner(acity))) {
       /* tech theft gain */
       gain_theft = total_bulbs_required(pplayer) * TRADE_WEIGHTING;
@@ -359,8 +359,8 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
      * 2. stealing techs OR
      * 3. inciting revolt */
     if (!has_embassy
-        || (acity->steal == 0 && pplayer->research.techs_researched < 
-            aplayer->research.techs_researched && !dipldef)
+        || (acity->steal == 0 && pplayer->research->techs_researched < 
+            aplayer->research->techs_researched && !dipldef)
         || (incite_cost < (pplayer->economic.gold - pplayer->ai.est_upkeep)
             && can_incite && !dipldef)) {
       /* We have the closest enemy city on the continent */

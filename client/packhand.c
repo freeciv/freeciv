@@ -1416,10 +1416,10 @@ static bool read_player_info_techs(struct player *pplayer,
   bool need_effect_update = FALSE;
 
   tech_type_iterate(i) {
-    enum tech_state oldstate = pplayer->research.inventions[i].state;
+    enum tech_state oldstate = pplayer->research->inventions[i].state;
     enum tech_state newstate = inventions[i] - '0';
 
-    pplayer->research.inventions[i].state = newstate;
+    pplayer->research->inventions[i].state = newstate;
     if (newstate != oldstate
 	&& (newstate == TECH_KNOWN || oldstate == TECH_KNOWN)) {
       need_effect_update = TRUE;
@@ -1513,12 +1513,12 @@ void handle_player_info(struct packet_player_info *pinfo)
    * game is running. */
   new_tech = read_player_info_techs(pplayer, pinfo->inventions);
 
-  poptechup = (pplayer->research.researching != pinfo->researching
+  poptechup = (pplayer->research->researching != pinfo->researching
                || pplayer->ai.tech_goal != pinfo->tech_goal);
-  pplayer->research.bulbs_last_turn = pinfo->bulbs_last_turn;
-  pplayer->research.bulbs_researched = pinfo->bulbs_researched;
-  pplayer->research.techs_researched = pinfo->techs_researched;
-  pplayer->research.researching=pinfo->researching;
+  pplayer->bulbs_last_turn = pinfo->bulbs_last_turn;
+  pplayer->research->bulbs_researched = pinfo->bulbs_researched;
+  pplayer->research->techs_researched = pinfo->techs_researched;
+  pplayer->research->researching=pinfo->researching;
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
   

@@ -361,8 +361,7 @@ void update_city_activities(struct player *pplayer)
 {
   int gold;
   gold=pplayer->economic.gold;
-  pplayer->got_tech = FALSE;
-  pplayer->research.bulbs_last_turn = 0;
+  pplayer->bulbs_last_turn = 0;
   city_list_iterate(pplayer->cities, pcity)
      update_city_activity(pplayer, pcity);
   city_list_iterate_end;
@@ -374,8 +373,8 @@ void update_city_activities(struct player *pplayer)
 		     _("WARNING, we're LOW on FUNDS sire."));  
   }
     /* uncomment to unbalance the game, like in civ1 (CLG)
-      if (pplayer->got_tech && pplayer->research.researched > 0)    
-        pplayer->research.researched=0;
+      if (pplayer->got_tech && pplayer->research->researched > 0)    
+        pplayer->research->researched=0;
     */
 }
 
@@ -998,14 +997,14 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		    get_improvement_name(id), mod);
 
       for (i = 0; i < mod; i++) {
-	Tech_Type_id tech = pplayer->research.researching;
+	Tech_Type_id tech = pplayer->research->researching;
 
 	if (tech == A_UNSET) {
 	  choose_random_tech(pplayer);
-	  tech = pplayer->research.researching;
+	  tech = pplayer->research->researching;
 	}
 	do_free_cost(pplayer);
-	found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE, 
+	found_new_tech(pplayer, pplayer->research->researching, TRUE, TRUE, 
 		       A_NONE);
 
 	notify_embassies(pplayer, NULL,

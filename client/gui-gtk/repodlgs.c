@@ -272,9 +272,9 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     gtk_widget_set_sensitive(science_change_menu_button,
 			     can_client_issue_orders());
     my_snprintf(text, sizeof(text), "%d/%d",
-		game.player_ptr->research.bulbs_researched,
+		game.player_ptr->research->bulbs_researched,
 		total_bulbs_required(game.player_ptr));
-    pct=CLAMP((gfloat) game.player_ptr->research.bulbs_researched /
+    pct=CLAMP((gfloat) game.player_ptr->research->bulbs_researched /
 		total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
     gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
@@ -414,16 +414,16 @@ void science_dialog_update(void)
   popupmenu = gtk_menu_new();
 
   my_snprintf(text, sizeof(text), "%d/%d",
-	      game.player_ptr->research.bulbs_researched,
+	      game.player_ptr->research->bulbs_researched,
 	      total_bulbs_required(game.player_ptr));
 
-  pct=CLAMP((gfloat) game.player_ptr->research.bulbs_researched /
+  pct=CLAMP((gfloat) game.player_ptr->research->bulbs_researched /
 	    total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
   gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
   gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
 
-  if (game.player_ptr->research.researching == A_UNSET) {
+  if (game.player_ptr->research->researching == A_UNSET) {
     item = gtk_menu_item_new_with_label(advances[A_NONE].name);
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
   }
@@ -432,12 +432,12 @@ void science_dialog_update(void)
    * hist will hold afterwards the techid of the current choice
    */
   hist=0;
-  if (!is_future_tech(game.player_ptr->research.researching)) {
+  if (!is_future_tech(game.player_ptr->research->researching)) {
     for(i=A_FIRST; i<game.num_tech_types; i++) {
       if(get_invention(game.player_ptr, i)!=TECH_REACHABLE)
 	continue;
 
-      if (i==game.player_ptr->research.researching)
+      if (i==game.player_ptr->research->researching)
 	hist=i;
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }

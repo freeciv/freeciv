@@ -1776,26 +1776,26 @@ static void player_load(struct player *plr, int plrno,
   /* We use default values for bulbs_researched_before, changed_from
    * and got_tech to preserve backwards-compatibility with save files
    * that didn't store this information. */
-  plr->research.bulbs_researched=secfile_lookup_int(file, 
+  plr->research->bulbs_researched=secfile_lookup_int(file, 
 					     "player%d.researched", plrno);
-  plr->research.bulbs_researched_before =
+  plr->research->bulbs_researched_before =
 	  secfile_lookup_int_default(file, 0,
 				     "player%d.researched_before", plrno);
-  plr->research.changed_from = 
+  plr->research->changed_from = 
           load_technology(file, "player%d.research_changed_from", plrno);
-  plr->got_tech = secfile_lookup_bool_default(file, FALSE,
+  plr->research->got_tech = secfile_lookup_bool_default(file, FALSE,
 					      "player%d.research_got_tech",
 					      plrno);
-  plr->research.techs_researched=secfile_lookup_int(file, 
+  plr->research->techs_researched=secfile_lookup_int(file, 
 					     "player%d.researchpoints", plrno);
-  plr->research.researching = 
+  plr->research->researching = 
 	load_technology(file, "player%d.researching", plrno);
-  if (plr->research.researching == A_NONE) {
+  if (plr->research->researching == A_NONE) {
     /* Old servers (1.14.1) used to save A_FUTURE by 0 
      * This has to be interpreted from context because A_NONE was also
      * saved by 0
      */
-    plr->research.researching = A_FUTURE;
+    plr->research->researching = A_FUTURE;
   }
   
   p = secfile_lookup_str_default(file, NULL, "player%d.invs_new", plrno);
@@ -2482,18 +2482,18 @@ static void player_save(struct player *plr, int plrno,
 
   secfile_insert_int(file,plr->future_tech,"player%d.futuretech", plrno);
 
-  secfile_insert_int(file, plr->research.bulbs_researched, 
+  secfile_insert_int(file, plr->research->bulbs_researched, 
 		     "player%d.researched", plrno);
-  secfile_insert_int(file, plr->research.bulbs_researched_before,
+  secfile_insert_int(file, plr->research->bulbs_researched_before,
 		     "player%d.researched_before", plrno);
-  secfile_insert_bool(file, plr->got_tech,
+  secfile_insert_bool(file, plr->research->got_tech,
 		      "player%d.research_got_tech", plrno);
   save_technology(file, "player%d.research_changed_from", plrno, 
-                  plr->research.changed_from);
-  secfile_insert_int(file, plr->research.techs_researched,
+                  plr->research->changed_from);
+  secfile_insert_int(file, plr->research->techs_researched,
 		     "player%d.researchpoints", plrno);
   save_technology(file, "player%d.researching", plrno,
-                  plr->research.researching);  
+                  plr->research->researching);  
 
   secfile_insert_bool(file, plr->capital, "player%d.capital", plrno);
 
