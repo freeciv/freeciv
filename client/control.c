@@ -407,6 +407,7 @@ void update_unit_pix_label(struct unit *punit)
   static enum unit_activity prev_activity = ACTIVITY_UNKNOWN;
   static bool prev_has_orders = FALSE;
   static Unit_Type_id prev_unit_type = U_LAST;
+  static int prev_veteran = -1;
   static int prev_hp = -1;	         /* or could store ihp cf tilespec.c */
   
   int i;
@@ -417,11 +418,13 @@ void update_unit_pix_label(struct unit *punit)
     if (punit->type != prev_unit_type
        || punit->activity != prev_activity
        || punit->has_orders != prev_has_orders
+	|| punit->veteran != prev_veteran
        || punit->hp != prev_hp) {
       set_unit_icon(-1, punit);
       prev_unit_type = punit->type;
       prev_activity = punit->activity;
       prev_has_orders = punit->has_orders;
+      prev_veteran = punit->veteran;
       prev_hp = punit->hp;
     }
 
@@ -449,6 +452,7 @@ void update_unit_pix_label(struct unit *punit)
     prev_unit_type = U_LAST;
     prev_activity = ACTIVITY_UNKNOWN;
     prev_has_orders = FALSE;
+    prev_veteran = -1;
     prev_hp = -1;
     for(i=-1; i<num_units_below; i++) {
       set_unit_icon(i, NULL);
