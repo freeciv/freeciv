@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.13\n"
 "POT-Creation-Date: 2002-08-01 09:41+0000\n"
-"PO-Revision-Date: 2002-08-01 17:27+0000\n"
+"PO-Revision-Date: 2002-08-03 08:33+0000\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -174,7 +174,7 @@ msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
 msgstr ""
-"Serveren som du prøvde å kople til er for gammel (1.12.0 eller tidligere). "
+"Serveren som du prøvde å koble til er for gammel (1.12.0 eller tidligere). "
 "Prøv en annen server neste gang. Adjø."
 
 #: common/player.c:488
@@ -4730,7 +4730,7 @@ msgstr " %d tilkoblinger:"
 #: server/stdinhand.c:3563
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
-msgstr "  %s fra %s (kommando tilgangsnivå %s), buffer størrelse=%dkb"
+msgstr "  %s fra %s (kommando tilgangsnivå: %s), buffer størrelse=%dkb"
 
 # heter AI på norsk.. ingen skjønner KI
 #: server/stdinhand.c:3568
@@ -5601,7 +5601,7 @@ msgstr "  -n, --name NAVN\tBruk NAVN som navn\n"
 
 #: client/civclient.c:132
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
-msgstr "  -p, --port PORT\tKople til PORT.\n"
+msgstr "  -p, --port PORT\tKoble til PORT.\n"
 
 #: client/civclient.c:133
 #, c-format
@@ -5803,7 +5803,7 @@ msgstr "Feilet i forsøk på å finne server"
 
 #: client/clinet.c:233
 msgid "Disconnecting from server."
-msgstr "Kopler fra serveren."
+msgstr "Kobler fra serveren."
 
 #: client/clinet.c:474
 msgid "Invalid $http_proxy value, must start with 'http://'"
@@ -7646,7 +7646,7 @@ msgstr "Fjern denne innstillingen?"
 
 #: client/gui-gtk-2.0/connectdlg.c:152 client/gui-gtk/connectdlg.c:144
 msgid " Connect to Freeciv Server"
-msgstr " Kople til Freeciv server"
+msgstr " Koble til Freeciv server"
 
 #: client/gui-gtk-2.0/connectdlg.c:170 client/gui-gtk/connectdlg.c:150
 #: client/gui-win32/connectdlg.c:363 data/Freeciv:68
@@ -8100,7 +8100,7 @@ msgstr "Avbryt"
 #: client/gui-win32/connectdlg.c:413 client/gui-win32/dialogs.c:1966
 #: client/gui-xaw/menu.c:179 data/Freeciv:95 data/Freeciv:2445
 msgid "Connect"
-msgstr "Kople til"
+msgstr "Koble til"
 
 #: client/gui-gtk-2.0/dialogs.c:1489 client/gui-gtk/dialogs.c:1409
 #: client/gui-mui/dialogs.c:1324 client/gui-win32/dialogs.c:1973
@@ -8151,7 +8151,7 @@ msgstr "Velg stil for byene"
 #: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
 #: client/gui-win32/menu.c:287
 msgid "_Disconnect"
-msgstr "_Kople fra"
+msgstr "_Koble fra"
 
 #: client/gui-gtk-2.0/dialogs.c:2172 client/gui-gtk/dialogs.c:2174
 #: client/gui-xaw/dialogs.c:2342
@@ -9273,7 +9273,7 @@ msgstr "Auto utfors_k"
 #: client/gui-gtk-2.0/menu.c:681 client/gui-gtk/menu.c:680
 #: client/gui-mui/connectdlg.c:224 client/gui-win32/menu.c:341
 msgid "_Connect"
-msgstr "_Kople til"
+msgstr "_Koble til"
 
 #: client/gui-gtk-2.0/menu.c:683 client/gui-gtk/menu.c:682
 msgid "Patrol (_Q)"
@@ -10006,7 +10006,7 @@ msgstr "Avslutt"
 #: client/gui-gtk/dialogs.c:1995 client/gui-mui/gui_main.c:201
 #: client/gui-win32/dialogs.c:520 client/gui-xaw/menu.c:113 data/Freeciv:3078
 msgid "Disconnect"
-msgstr "Kople fra"
+msgstr "Koble fra"
 
 #: client/gui-gtk/finddlg.c:92 client/gui-win32/cityrep.c:894
 #: client/gui-win32/finddlg.c:126 data/Freeciv:1089 data/Freeciv:1561
@@ -10294,7 +10294,7 @@ msgstr "Server valg"
 #: client/gui-mui/connectdlg.c:191 client/gui-win32/connectdlg.c:376
 #: data/Freeciv:63
 msgid "Connect to Freeciv Server"
-msgstr "Kople til Freeciv server"
+msgstr "Koble til Freeciv server"
 
 #: client/gui-mui/connectdlg.c:200 client/gui-mui/connectdlg.c:201
 msgid "_Name"
@@ -11146,7 +11146,7 @@ msgstr "Innstillinger"
 
 #: client/gui-win32/connectdlg.c:80
 msgid "Start Game"
-msgstr "Start spill."
+msgstr "Start spill"
 
 #: client/gui-win32/connectdlg.c:82
 msgid "Save Game"
@@ -11158,7 +11158,7 @@ msgstr "Avslutt"
 
 #: client/gui-win32/connectdlg.c:86
 msgid "Get Score"
-msgstr "Få Poengsum"
+msgstr "Vis Poengsum"
 
 #: client/gui-win32/connectdlg.c:161
 #, c-format
@@ -11168,7 +11168,7 @@ msgstr "Port: %d"
 #: client/gui-win32/connectdlg.c:725 client/gui-win32/connectdlg.c:729
 #: client/gui-win32/connectdlg.c:733
 msgid "Cannot create pipe"
-msgstr "Kan ikke lage rørledning"
+msgstr "Kan ikke lage kobling"
 
 #: client/gui-win32/connectdlg.c:738
 msgid "Game Control"
@@ -11228,11 +11228,11 @@ msgstr "Hva ønsker du å gjøre?"
 
 #: client/gui-win32/connectdlg.c:1213
 msgid "New Game"
-msgstr "Start nytt spill"
+msgstr "Nytt spill"
 
 #: client/gui-win32/connectdlg.c:1214
 msgid "Load Game"
-msgstr "Fortsett fra lagret spill"
+msgstr "Fortsette et spill"
 
 #: client/gui-win32/connectdlg.c:1215
 msgid "Load Scenario"
@@ -11240,7 +11240,7 @@ msgstr "Spill et scenario"
 
 #: client/gui-win32/connectdlg.c:1217
 msgid "Join Game"
-msgstr "Spill på nettet"
+msgstr "Delta i spill online"
 
 #: client/gui-win32/connectdlg.c:1218
 msgid "Quit Game"
@@ -11518,7 +11518,7 @@ msgstr "Språk"
 
 #: client/gui-xaw/menu.c:212 data/helpdata.txt:400
 msgid "Connecting"
-msgstr "Kopler til"
+msgstr "Kobler til"
 
 #: client/gui-xaw/menu.c:213 data/helpdata.txt:428
 msgid "Controls"
@@ -15876,7 +15876,7 @@ msgstr "Murkunst"
 #: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
 #: data/default/techs.ruleset:338
 msgid "Mass Production"
-msgstr "Masse produksjon"
+msgstr "Masseproduksjon"
 
 #: data/civ1/techs.ruleset:337 data/civ2/techs.ruleset:337
 #: data/default/techs.ruleset:344
@@ -16852,7 +16852,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1522 data/civ2/units.ruleset:1591
 #: data/default/units.ruleset:1663
 msgid "Freight"
-msgstr "Frakt"
+msgstr "Frakteskip"
 
 #: data/civ2/units.ruleset:1617 data/default/units.ruleset:1689
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
