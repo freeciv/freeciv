@@ -35,6 +35,7 @@
 #include "cityturn.h"
 #include "civserver.h"
 #include "gamelog.h"
+#include "gotohand.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "settlers.h"
@@ -47,8 +48,6 @@
 #include "aiunit.h"
 
 #include "unithand.h"
-
-void do_unit_goto(struct player *pplayer, struct unit *punit);
 
 /**************************************************************************
 ...
