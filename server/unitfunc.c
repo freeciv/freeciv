@@ -221,7 +221,8 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
 			 struct city *pcity)
 {
   
-  if (pdiplomat->type == U_DIPLOMAT || myrand(game.diplchance)) {
+  if (pdiplomat->type == U_DIPLOMAT)
+    if (myrand(game.diplchance)) {
       
     /* Attacking Spy/Diplomat dies (N-1:N) chance */
       
@@ -237,9 +238,14 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
 		     "Game: Your spy has successfully completed her mission and returned unharmed to  %s.", spyhome->name);
       
     /* move back to home city */
-      
-    create_unit(pplayer, spyhome->x, spyhome->y, pdiplomat->type, 1,
-		pdiplomat->homecity);
+    pdiplomat->x = map_adjust_x(spyhome->x);
+    pdiplomat->y = spyhome->y;
+    pdiplomat->veteran = 1;
+    pdiplomat->moves_left = 0;
+    send_unit_info(0, pdiplomat, 0);
+
+    return;
+
   }
   wipe_unit(0, pdiplomat);
 }
