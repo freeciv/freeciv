@@ -133,6 +133,9 @@ const char *message_text[E_LAST]={
   N_("First Contact"),               /* E_FIRST_CONTACT */
   N_("City May Soon Grow"),          /* E_CITY_MAY_SOON_GROW */
   N_("Wonder Made Obsolete"),        /* E_WONDER_OBSOLETE */
+  N_("Famine Feared in City"),       /* E_CITY_FAMINE_FEARED */
+  N_("Wonder Will Be Finished Next Turn"),   /* E_CITY_WONDER_WILL_BE_BUILT */
+  N_("Learned New Government"),	     /* E_NEW_GOVERNMENT */
 };
 
 /**************************************************************************

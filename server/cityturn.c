@@ -762,6 +762,14 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
   int turns_growth, turns_granary;
   int can_grow;
 
+  if (!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
+      (city_turns_to_build(pcity,pcity->currently_building,0) <= 1)) {
+    notify_conn_ex(dest, pcity->x, pcity->y,
+		   E_CITY_WONDER_WILL_BE_BUILT,
+		   _("Game: Notice: Wonder %s in %s will be finished next turn"), 
+		   get_improvement_name(pcity->currently_building), pcity->name);
+  }
+ 
   if (pcity->food_surplus > 0) {
     turns_growth = (city_granary_size(pcity->size) - pcity->food_stock - 1)
 		   / pcity->food_surplus;
@@ -793,7 +801,15 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 		       _("Game: %s may soon grow to size %i."),
 		       pcity->name, pcity->size + 1);
     }
+  } else {
+    if (pcity->food_stock + pcity->food_surplus <= 0 && pcity->food_surplus < 0) {
+      notify_conn_ex(dest, pcity->x, pcity->y,
+		     E_CITY_FAMINE_FEARED,
+		     _("Game: Warning: Famine feared in %s."),
+		     pcity->name);
+    }
   }
+  
 }
 
 /**************************************************************************
@@ -955,7 +971,7 @@ static void city_increase_size(struct city *pcity)
 static void city_reduce_size(struct city *pcity)
 {
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
-		   _("Game: Famine feared in %s."), pcity->name);
+		   _("Game: Famine causes population loss in %s."), pcity->name);
   if (city_got_effect(pcity, B_GRANARY))
     pcity->food_stock=city_granary_size(pcity->size-1)/2;
   else

@@ -56,6 +56,9 @@ enum {
   E_FIRST_CONTACT,
   E_CITY_MAY_SOON_GROW,
   E_WONDER_OBSOLETE,
+  E_CITY_FAMINE_FEARED,
+  E_CITY_WONDER_WILL_BE_BUILT,
+  E_NEW_GOVERNMENT,
   /* Note:  If you add a new event, make sure you make a similar change to
      message_text in client/options.c
      */
