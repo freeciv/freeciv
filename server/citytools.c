@@ -230,9 +230,9 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
 /* *= 10 led to stupidity with foodneed = 1, mine, and farmland -- Syela */
   i *= food_weighting(MAX(2,pcity->size));
   
-  j = get_shields_tile(x, y, pcity) * SHIELD_WEIGHTING *
-      city_shield_bonus(pcity);
+  j = get_shields_tile(x, y, pcity);
   if (prodneed > 0) j += 9 * (MIN(j, prodneed));
+  j *= SHIELD_WEIGHTING * city_shield_bonus(pcity);
   j /= 100;
   k = get_trade_tile(x, y, pcity) * pcity->ai.trade_want *
       (city_tax_bonus(pcity) * (plr->economic.tax + plr->economic.luxury) +
