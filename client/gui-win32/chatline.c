@@ -78,15 +78,9 @@ void append_output_window_real(char *astring)
 {
   int len;
   len=Edit_GetTextLength(logoutput_win);
-  if (len>(32767-strlen(astring)))
-    {
-      Edit_SetSel(logoutput_win,0,len);
-    }
-  else
-    {
-      Edit_SetSel(logoutput_win,len,len);
-    }
+  Edit_SetSel(logoutput_win,len,len);
   Edit_ReplaceSel(logoutput_win,astring);
+  Edit_ScrollCaret(logoutput_win);
 }
 
 /**************************************************************************

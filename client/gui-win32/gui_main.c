@@ -17,6 +17,7 @@
 #include <winsock.h>
 #include <windowsx.h>
 #include <commctrl.h>
+#include <richedit.h>
 
 #include "fcintl.h"
 #include "game.h"
@@ -357,7 +358,7 @@ LONG APIENTRY FreecivWndProc (
 **************************************************************************/
 void create_main_window()
 {
- 
+  HINSTANCE riched;
   struct fcwin_box *upper;
   struct fcwin_box *leftrow;
   struct fcwin_box *hbox;
@@ -399,8 +400,10 @@ void create_main_window()
   fcwin_box_add_generic(output_box,box_fixedsize,textwin_setsize,NULL,
 			(void *)&textwin_size,TRUE,TRUE,0);
   fcwin_box_add_box(main_win_box,output_box,FALSE,FALSE,0);
+  
+  riched=LoadLibrary("RICHED32.DLL");
   logoutput_win=CreateWindowEx(WS_EX_CLIENTEDGE,
-			       "EDIT",
+			       (riched != NULL) ? "RichEdit" : "EDIT",
 			       " ",
 			       WS_CHILD | ES_READONLY | WS_VISIBLE | 
 			       WS_VSCROLL | ES_LEFT | ES_WANTRETURN |
@@ -409,7 +412,11 @@ void create_main_window()
 			       root_window,
 			       (HMENU) ID_OUTPUTWINDOW,
 			       freecivhinst,
-			       NULL);      
+			       NULL);
+  if (riched != NULL) {
+    SendMessage(logoutput_win, EM_EXLIMITTEXT, 0, 1<<20);
+  }
+  
   ShowWindow(logoutput_win,SW_SHOWNORMAL);
   map_scroll_v=CreateWindow("SCROLLBAR",NULL,
 			    WS_CHILD | WS_VISIBLE | SBS_VERT,
