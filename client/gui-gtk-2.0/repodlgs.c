@@ -33,10 +33,12 @@
 #include "cityrep.h"
 #include "civclient.h"
 #include "clinet.h"
+#include "control.h"
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
+#include "mapview_common.h"
 #include "options.h"
 #include "control.h"
 
@@ -88,7 +90,9 @@ static GtkWidget *activeunits_dialog_shell = NULL;
 static GtkListStore *activeunits_store;
 static GtkTreeSelection *activeunits_selection;
 
-static GtkWidget *upgrade_command;
+enum {
+  ACTIVEUNITS_NEAREST = 1, ACTIVEUNITS_UPGRADE, ACTIVEUNITS_REFRESH
+};
 
 static int activeunits_dialog_shell_is_modal;
 
@@ -959,7 +963,7 @@ void create_activeunits_report_dialog(bool make_modal)
     G_TYPE_BOOLEAN
   };
   GtkWidget *view, *sw;
-  GtkWidget *refresh_command;
+  GtkWidget *command;
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
@@ -1032,14 +1036,21 @@ void create_activeunits_report_dialog(bool make_modal)
   }
   gtk_container_add(GTK_CONTAINER(sw), view);
 
-  upgrade_command = gtk_button_new_with_mnemonic(_("_Upgrade"));
+  command = gtk_stockbutton_new(GTK_STOCK_FIND, _("Find _Nearest"));
   gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
-			       upgrade_command, 1);
-  gtk_widget_set_sensitive(upgrade_command, FALSE);
+			       command, ACTIVEUNITS_NEAREST);
+  gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+      				    ACTIVEUNITS_NEAREST, FALSE);	
+  
+  command = gtk_button_new_with_mnemonic(_("_Upgrade"));
+  gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
+			       command, ACTIVEUNITS_UPGRADE);
+  gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+      				    ACTIVEUNITS_UPGRADE, FALSE);	
 
-  refresh_command = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
+  command = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
   gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
-			       refresh_command, 2);
+			       command, ACTIVEUNITS_REFRESH);
 
   gtk_dialog_add_button(GTK_DIALOG(activeunits_dialog_shell),
 			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
@@ -1064,22 +1075,70 @@ void create_activeunits_report_dialog(bool make_modal)
 static void activeunits_selection_callback(GtkTreeSelection *selection,
 					   gpointer data)
 {
-  gint row, n;
-
+  gint row;
+  gboolean is_unit_type;
+  
   if ((row = gtk_tree_selection_get_row(selection)) == -1) {
-    gtk_widget_set_sensitive(upgrade_command, FALSE);
-    return;
-  }
-
-  n = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(activeunits_store), NULL);
-
-  if (row < n-2 &&
-      unit_type_exists(activeunits_type[row]) &&
-      can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1) {
-    gtk_widget_set_sensitive(upgrade_command, can_client_issue_orders());
+    is_unit_type = FALSE;
   } else {
-    gtk_widget_set_sensitive(upgrade_command, FALSE);
+    gint n;
+    
+    n = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(activeunits_store), NULL);
+
+    if (row < n-2 && unit_type_exists(activeunits_type[row])) {
+      is_unit_type = TRUE;
+    } else {
+      is_unit_type = FALSE;
+    }
   }
+
+  if (!is_unit_type) {
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+				      ACTIVEUNITS_NEAREST, FALSE);
+
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+				      ACTIVEUNITS_UPGRADE, FALSE);
+  } else {
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+				      ACTIVEUNITS_NEAREST,
+				      can_client_issue_orders());	
+    
+    if (can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1) {
+      gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+					ACTIVEUNITS_UPGRADE,
+					can_client_issue_orders());	
+    } else {
+      gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+					ACTIVEUNITS_UPGRADE, FALSE);
+    }
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static struct unit *find_nearest_unit(Unit_Type_id type, int x, int y)
+{
+  struct unit *best_candidate;
+  int best_dist = 99999;
+
+  best_candidate = NULL;
+  unit_list_iterate(game.player_ptr->units, punit) {
+    if (punit->type == type) {
+      if (punit->focus_status==FOCUS_AVAIL && (punit->activity==ACTIVITY_IDLE
+            || punit->activity==ACTIVITY_SENTRY) 
+	  && punit->moves_left > 0 && !punit->ai.control) {
+	int d;
+	d=sq_map_distance(punit->x, punit->y, x, y);
+	if(d<best_dist) {
+	  best_candidate = punit;
+	  best_dist = d;
+	}
+      }
+    }
+  }
+  unit_list_iterate_end;
+  return best_candidate;
 }
 
 /****************************************************************
@@ -1092,36 +1151,55 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
   GtkWidget *shell;
 
   switch (response_id) {
-    case 1:     break;
-    case 2:	activeunits_report_dialog_update();		return;
-    default:	gtk_widget_destroy(activeunits_dialog_shell);	return;
+    case ACTIVEUNITS_NEAREST:
+    case ACTIVEUNITS_UPGRADE:
+      break;
+    case ACTIVEUNITS_REFRESH:
+      activeunits_report_dialog_update();
+      return;
+    default:
+      gtk_widget_destroy(activeunits_dialog_shell);
+      return;
   }
 
-  /* upgrade command. */
+  /* nearest & upgrade commands. */
   row = gtk_tree_selection_get_row(activeunits_selection);
   ut1 = activeunits_type[row];
 
-  if (!unit_type_exists(ut1))
+  if (!unit_type_exists(ut1)) {
     return;
-
-  ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
-
-  shell = gtk_message_dialog_new(
-	GTK_WINDOW(activeunits_dialog_shell),
-	GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-	GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-	_("Upgrade as many %s to %s as possible for %d gold each?\n"
-	  "Treasury contains %d gold."),
-	unit_types[ut1].name, unit_types[ut2].name,
-	unit_upgrade_price(game.player_ptr, ut1, ut2),
-	game.player_ptr->economic.gold);
-  gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
-
-  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-    send_packet_unittype_info(&aconnection, ut1, PACKET_UNITTYPE_UPGRADE);
   }
 
-  gtk_widget_destroy(shell);
+  if (response_id == ACTIVEUNITS_NEAREST) {
+    int cx, cy;
+    struct unit *punit;
+
+    get_center_tile_mapcanvas(&cx, &cy);
+    if ((punit = find_nearest_unit(ut1, cx, cy))) {
+      if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+	set_unit_focus_and_select(punit);
+      }
+    }
+  } else {
+    ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
+
+    shell = gtk_message_dialog_new(
+	  GTK_WINDOW(activeunits_dialog_shell),
+	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
+	    "Treasury contains %d gold."),
+	  unit_types[ut1].name, unit_types[ut2].name,
+	  unit_upgrade_price(game.player_ptr, ut1, ut2),
+	  game.player_ptr->economic.gold);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
+
+    if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+      send_packet_unittype_info(&aconnection, ut1, PACKET_UNITTYPE_UPGRADE);
+    }
+
+    gtk_widget_destroy(shell);
+  }
 }
 
 /****************************************************************
