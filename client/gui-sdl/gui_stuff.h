@@ -22,6 +22,8 @@
 #ifndef FC__GUI_STUFF_H
 #define FC__GUI_STUFF_H
 
+#include "fc_types.h"
+
 #include "gui_mem.h"
 
 #define	WINDOW_TILE_HIGH	20
@@ -96,10 +98,6 @@ enum Edit_Return_Codes {
   ED_FORCE_EXIT = 4
 };
 
-struct city;
-struct unit;
-struct player;
-  
 struct CONTAINER {
   int id0;
   int id1;

@@ -15,14 +15,13 @@
 
 #include <X11/Intrinsic.h>
 
+#include "fc_types.h"
+
 #include "mapview_g.h"
 
 #include "citydlg_common.h"
 
 #include "graphics.h"
-
-struct unit;
-struct city;
 
 Pixmap get_thumb_pixmap(int onoff);
 Pixmap get_citizen_pixmap(struct citizen_type type, int cnum,

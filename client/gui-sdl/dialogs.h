@@ -22,10 +22,10 @@
 #ifndef FC__DIALOGS_H
 #define FC__DIALOGS_H
 
+#include "fcintl.h"
 
 #include "dialogs_g.h"
 
-struct tile;
 struct GUI;
   
 void popup_advanced_terrain_dialog(int x , int y);

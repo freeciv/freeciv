@@ -15,9 +15,9 @@
 
 #include <X11/Intrinsic.h>
 
-#include "dialogs_g.h"
+#include "fcintl.h"
 
-struct tile;
+#include "dialogs_g.h"
 
 void popup_revolution_dialog(int government);
 Widget popup_message_dialog(Widget parent, const char *shellname,

@@ -14,9 +14,7 @@
 #ifndef FC__GUI_TEXT_H
 #define FC__GUI_TEXT_H
 
-struct tile;
-struct unit;
-struct city;
+#include "fc_types.h"
 
 const char *mapview_get_terrain_tooltip_text(struct tile *ptile);
 const char *mapview_get_unit_action_tooltip(struct unit *punit,

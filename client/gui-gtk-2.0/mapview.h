@@ -15,6 +15,8 @@
 
 #include <gtk/gtk.h>
 
+#include "fc_types.h"
+
 #include "gtkpixcomm.h"
 
 #include "citydlg_common.h"
@@ -23,9 +25,6 @@
 
 #include "canvas.h"
 #include "graphics.h"
-
-struct unit;
-struct city;
 
 GdkPixbuf *get_thumb_pixbuf(int onoff);
 

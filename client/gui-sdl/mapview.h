@@ -22,12 +22,11 @@
 #ifndef FC__MAPVIEW_H
 #define FC__MAPVIEW_H
 
+#include "fc_types.h"
+
 #include "mapview_g.h"
 #include "mapview_common.h"
 
-struct unit;
-struct city;
-  
 void center_minimap_on_minimap_window(void);
 void tmp_map_surfaces_init(void);
 void redraw_unit_info_label(struct unit *pUnit);

@@ -15,9 +15,9 @@
 
 #include <gtk/gtk.h>
 
-#include "dialogs_g.h"
+#include "fcintl.h"
 
-struct tile;
+#include "dialogs_g.h"
 
 void popup_revolution_dialog(int government);
 void message_dialog_button_set_sensitive(GtkWidget *shl, int button,

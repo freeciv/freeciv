@@ -16,9 +16,9 @@
 
 #include <gtk/gtk.h>
 
-#include "cma_core.h"
+#include "fc_types.h"
 
-struct city;
+#include "cma_core.h"
 
 enum cma_refresh {
   REFRESH_ALL,
