@@ -562,15 +562,22 @@ void fog_sprite(struct Sprite *sprite)
   sprite->fog = sprite->img;
   sprite->fog.bmBits = fc_malloc(bmpsize);
 
+#define FOG_BRIGHTNESS 65
+
   /* RGBA 8888 */
   if (sprite->img.bmBitsPixel == 32) {
     unsigned int *src, *dst;
+    unsigned int r, g, b, a;
 
     src = sprite->img.bmBits;
     dst = sprite->fog.bmBits;
 
     for (i = 0; i < bmpsize; i += 4) {
-      *dst++ = ((*src >> 1) & 0x007F7F7F) | (*src & 0xFF000000);
+      a =  (*src & 0xFF000000) >> 24;
+      r = ((*src & 0x00FF0000) >> 16) * FOG_BRIGHTNESS / 100;
+      g = ((*src & 0x0000FF00) >> 8 ) * FOG_BRIGHTNESS / 100;
+      b = ((*src & 0x000000FF)      ) * FOG_BRIGHTNESS / 100;
+      *dst++ = (a << 24) | (r << 16) | (g << 8) | b;
       src++;
     }
   /* RGB 888 */
@@ -581,29 +588,41 @@ void fog_sprite(struct Sprite *sprite)
     dst = sprite->fog.bmBits;
 
     for (i = 0; i < bmpsize; i++) {
-      *dst++ = *src++ >> 1;
+      *dst++ = *src++ * FOG_BRIGHTNESS / 100;
     }
   /* RGB 565 */
   } else if (sprite->img.bmBitsPixel == 16) {
     unsigned short *src, *dst;
+    unsigned int r, g, b;
 
     src = sprite->img.bmBits;
     dst = sprite->fog.bmBits;
 
     for (i = 0; i < bmpsize; i += 2) {
-      *dst++ = (*src++ >> 1) & 0x7AEF;
+      r = ((*src & 0xF800) >> 11) * FOG_BRIGHTNESS / 100;
+      g = ((*src & 0x07E0) >> 5 ) * FOG_BRIGHTNESS / 100;
+      b = ((*src & 0x001F)      ) * FOG_BRIGHTNESS / 100;
+      *dst++ = (r << 11) | (g << 5) | b;
+      src++;
     }
   /* RGB 555 */
   } else if (sprite->img.bmBitsPixel == 15) {
     unsigned short *src, *dst;
+    unsigned int r, g, b;
 
     src = sprite->img.bmBits;
     dst = sprite->fog.bmBits;
 
     for (i = 0; i < bmpsize; i += 2) {
-      *dst++ = (*src++ >> 1) & 0x3DEF;
+      r = ((*src & 0x7C00) >> 10) * FOG_BRIGHTNESS / 100;
+      g = ((*src & 0x03E0) >> 5 ) * FOG_BRIGHTNESS / 100;
+      b = ((*src & 0x001F)      ) * FOG_BRIGHTNESS / 100;
+      *dst++ = (r << 10) | (g << 5) | b;
+      src++;
     }
   }
+
+#undef FOG_BRIGHTNESS
 
   sprite->has_fog = 1;
 }
