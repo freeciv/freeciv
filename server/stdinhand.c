@@ -179,7 +179,23 @@ static int valid_cities_ruleset(char *v, char **r_m)
   { return valid_ruleset("cities",v,r_m); }
 static int valid_game_ruleset(char *v, char **r_m)
   { return valid_ruleset("game",v,r_m); }
+static int valid_max_players(int v, char **r_m)
+{
+  static char buffer[MAX_LEN_CONSOLE_LINE];
 
+  *r_m = buffer;
+
+  if (v < game.nplayers) {
+    my_snprintf(buffer, sizeof(buffer), _("Number of players is higher "
+					  "than requested value, keeping "
+					  "old value"));
+    return 0;
+  }
+
+  buffer[0] = '\0';
+  return 1;
+}
+  
 #define SETTING_IS_INT(s) ((s)->value!=NULL)
 #define SETTING_IS_STRING(s) ((s)->value==NULL)
 
@@ -308,7 +324,7 @@ static struct settings_s settings[] = {
     N_("There must be at least this many players (connected players or AI's) "
        "before the game can start.") },
   
-  { "maxplayers", &game.max_players, NULL, NULL,
+  { "maxplayers", &game.max_players, valid_max_players, NULL,
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS,
     N_("Maximum number of players"),
