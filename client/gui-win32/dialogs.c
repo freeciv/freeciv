@@ -48,19 +48,35 @@
 #define UNITSELECT_READY_ALL 301
 #define UNITSELECT_UNITS_BASE 305
 #define MAX_NUM_GOVERNMENTS 10
-#define ID_RACESDLG_STYLE_BASE 1200
-HWND unit_select_main;
-HWND unit_select_ready;
-HWND unit_select_close;
-HWND unit_select_labels[100];
-HWND unit_select_but[100];
-HBITMAP unit_select_bitmaps[100];
-int unit_select_ids[100];
-int unit_select_no;
+#define ID_RACESDLG_NATION_BASE 2000
+#define ID_RACESDLG_STYLE_BASE 1000
+#define ID_PILLAGE_BASE 1000
+
+static HWND unit_select_main;
+static HWND unit_select_ready;
+static HWND unit_select_close;
+static HWND unit_select_labels[100];
+static HWND unit_select_but[100];
+static HBITMAP unit_select_bitmaps[100];
+static int unit_select_ids[100];
+static int unit_select_no;
+
 static HWND caravan_dialog;
+static int caravan_city_id;
+static int caravan_unit_id;
+
+static int is_showing_pillage_dialog = FALSE;
+static int unit_to_use_to_pillage;
+
+static HWND spy_tech_dialog;
+static int advance_type[A_LAST+1];
+
+static HWND spy_sabotage_dialog;
+static int improvement_type[B_LAST+1];
+
 static int is_showing_government_dialog;
-int caravan_city_id;
-int caravan_unit_id;
+
+
                             
 struct message_dialog_button
 {
@@ -101,13 +117,70 @@ static LONG APIENTRY msgdialog_proc(HWND hWnd,
 			       UINT message,
 			       UINT wParam,
 			       LONG lParam);                         
+
+
+/**************************************************************************
+
+**************************************************************************/
+static LONG CALLBACK notify_goto_proc(HWND dlg,UINT message,
+				      WPARAM wParam,
+				      LPARAM lParam)
+{
+  switch(message) {
+  case WM_DESTROY:
+    free(fcwin_get_user_data(dlg));
+    break;
+  case WM_CREATE:
+  case WM_SIZE:
+  case WM_GETMINMAXINFO:
+    break;
+  case WM_CLOSE:
+    DestroyWindow(dlg);
+    break;
+  case WM_COMMAND:
+    switch(LOWORD(wParam)) {
+    case IDOK:
+      {
+	POINT *pt=fcwin_get_user_data(dlg);
+	center_tile_mapcanvas(pt->x,pt->y);
+      }
+    case IDCANCEL:
+      DestroyWindow(dlg);
+      break;
+    }
+    break;
+  default:
+    return DefWindowProc(dlg,message,wParam,lParam);
+  }
+  return 0;
+}
+
 /**************************************************************************
 
 **************************************************************************/
 void
 popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
 {
-	/* PORTME */
+  POINT *pt;
+  struct fcwin_box *hbox;
+  struct fcwin_box *vbox;
+  HWND dlg;
+  pt=fc_malloc(sizeof(POINT));
+  pt->x=x;
+  pt->y=y;
+  dlg=fcwin_create_layouted_window(notify_goto_proc,
+				   headline,WS_OVERLAPPEDWINDOW,
+				   CW_USEDEFAULT,CW_USEDEFAULT,
+				   root_window,NULL,pt);
+  vbox=fcwin_vbox_new(dlg,FALSE);
+  fcwin_box_add_static(vbox,lines,0,SS_LEFT,
+		       TRUE,TRUE,10);
+  hbox=fcwin_hbox_new(dlg,TRUE);
+  fcwin_box_add_button(hbox,_("Close"),IDCANCEL,0,TRUE,TRUE,10);
+  fcwin_box_add_button(hbox,_("Goto and Close"),IDOK,0,TRUE,TRUE,10);
+  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,10);
+  fcwin_set_box(dlg,vbox);
+  ShowWindow(dlg,SW_SHOWNORMAL);
 }
 
 /**************************************************************************
@@ -161,7 +234,7 @@ popup_notify_dialog(char *caption, char *headline, char *lines)
       fcwin_box_add_static(vbox,headline,ID_NOTIFY_HEADLINE,SS_LEFT,
 			   FALSE,FALSE,5);
       
-      edit=CreateWindow("EDIT","", ES_WANTRETURN | ES_READONLY | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | WS_CHILD | WS_VISIBLE,0,0,0,0,dlg,
+      edit=CreateWindow("EDIT","", ES_WANTRETURN | ES_READONLY | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | WS_CHILD | WS_VISIBLE,0,0,30,30,dlg,
       (HMENU)ID_NOTIFY_MSG,freecivhinst,NULL); 
       fcwin_box_add_win(vbox,edit,TRUE,TRUE,5);
       buf=convertnl2crnl(lines);
@@ -174,16 +247,34 @@ popup_notify_dialog(char *caption, char *headline, char *lines)
     }
 }
 
+
+/**************************************************************************
+ WS_GROUP seems not to work here
+**************************************************************************/
+static void update_radio_buttons(int id)
+{  
+  /*
+  if (id!=(selected_leader+ID_RACESDLG_NATION))
+    CheckRadioButton(races_dlg,ID_RACESDLG_NATION_BASE,
+		     ID_RACESDLG_NATION_BASE+game.playable_nation_count-1,
+		     selected_leader+ID_RACESDLG_NATION);
+  */
+  if (id!=selected_leader_sex)
+    CheckRadioButton(races_dlg,ID_RACESDLG_MALE,
+		     ID_RACESDLG_FEMALE,selected_leader_sex);
+  if (id!=selected_style)
+    CheckRadioButton(races_dlg,ID_RACESDLG_STYLE_BASE,
+		     ID_RACESDLG_STYLE_BASE+b_s_num-1,selected_style);
+}
+
+
 /**************************************************************************
 
 **************************************************************************/
 static void select_random_race(HWND hWnd)
 {
-  HWND lb;
-  lb=GetDlgItem(hWnd,ID_RACESDLG_NATION);
   selected_nation=myrand(game.playable_nation_count);
-  ListBox_SetCurSel(lb,selected_nation);
-  selected_nation=ListBox_GetItemData(lb,selected_nation);
+  update_radio_buttons(0);
 }
 
 /**************************************************************************
@@ -238,6 +329,7 @@ static void do_select(HWND hWnd)
   
 }
 
+
 /**************************************************************************
 
 **************************************************************************/
@@ -246,6 +338,7 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 				   WPARAM wParam,
 				   LPARAM lParam)  
 {
+  int id;
   switch(message)
     {
     case WM_CREATE:
@@ -261,28 +354,13 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
     case WM_GETMINMAXINFO:
       break;
     case WM_COMMAND:
-      switch(LOWORD(wParam))
-	{
-	case ID_RACESDLG_NATION:
-	  if (HIWORD(wParam)==LBN_SELCHANGE) {
-	    selected_nation=ListBox_GetCurSel(GetDlgItem(hWnd,
-							 ID_RACESDLG_NATION));
-	    if (selected_nation!=LB_ERR)
-	      {
-		selected_nation=
-		  ListBox_GetItemData(GetDlgItem(hWnd,ID_RACESDLG_NATION),
-				      selected_nation);
-		select_random_leader(hWnd);
-	      }
-	  }
-	  break;
-	  
+      id=LOWORD(wParam);
+      switch(id)
+	{ 
 	case ID_RACESDLG_MALE:
 	case ID_RACESDLG_FEMALE:
-	    selected_leader_sex=LOWORD(wParam);
-	    CheckRadioButton(hWnd,ID_RACESDLG_STYLE_BASE,
-			     ID_RACESDLG_STYLE_BASE+b_s_num-1,selected_style);
-	    
+	    selected_leader_sex=id;	    
+	    update_radio_buttons(id);
 	  break;
 	case ID_RACESDLG_QUIT:
 	  exit(0);
@@ -295,12 +373,18 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	  do_select(hWnd);
 	  break;
 	default:
-	  if ((LOWORD(wParam)>=ID_RACESDLG_STYLE_BASE)&&
-	      (LOWORD(wParam)<ID_RACESDLG_STYLE_BASE+b_s_num)) {
-	    selected_style=LOWORD(wParam);
-	    CheckRadioButton(hWnd,ID_RACESDLG_MALE,
-			     ID_RACESDLG_FEMALE,selected_leader_sex);
+	
+	  if ((id>=ID_RACESDLG_STYLE_BASE)&&
+	      (id<ID_RACESDLG_STYLE_BASE+b_s_num)) {
+	    selected_style=id;
+	    update_radio_buttons(id);
+	  } else if ((id>=ID_RACESDLG_NATION_BASE)&&
+		     (id<ID_RACESDLG_NATION_BASE+game.playable_nation_count)) {
+	    selected_nation=id-ID_RACESDLG_NATION_BASE;
+	    select_random_leader(hWnd);
+	    update_radio_buttons(id);
 	  }
+
 	  break;
 	}
       break;
@@ -310,6 +394,54 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
   return 0;
 }
 
+
+/****************************************************************
+...
+*****************************************************************/
+static int cmp_func(const void * a_p, const void * b_p)
+{
+  return strcmp(get_nation_name((*(int *)a_p)-ID_RACESDLG_NATION_BASE),
+                get_nation_name((*(int *)b_p)-ID_RACESDLG_NATION_BASE));
+}
+
+#define NATIONS_PER_ROW 5
+/**************************************************************************
+
+**************************************************************************/
+static void add_nations(struct fcwin_box *vbox)
+{
+  int i;
+  struct fcwin_box *hbox;
+  struct fcwin_box *vboxes[NATIONS_PER_ROW];
+  struct genlist nation_list;
+  struct genlist_iterator myiter;
+  genlist_init(&nation_list);
+  for(i=0; i<game.playable_nation_count; i++) { 
+    /* Don't use a NULL pointer */
+    genlist_insert(&nation_list,(void *)(i+ID_RACESDLG_NATION_BASE),0);
+  }
+  genlist_sort(&nation_list,cmp_func);
+  for(i=0;i<NATIONS_PER_ROW;i++) {  
+    vboxes[i]=fcwin_vbox_new(races_dlg,TRUE);
+  }
+  genlist_iterator_init(&myiter,&nation_list,0);
+  i=0;
+  for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter),i++) {
+    int id;
+    if (i>=NATIONS_PER_ROW)
+      i=0;
+    id=(int)ITERATOR_PTR(myiter);
+    fcwin_box_add_radiobutton(vboxes[i],
+			      get_nation_name(id-ID_RACESDLG_NATION_BASE),
+			      id,0,FALSE,FALSE,0);			      
+  }
+  genlist_unlink_all(&nation_list);
+  hbox=fcwin_hbox_new(races_dlg,TRUE);
+  for(i=0;i<NATIONS_PER_ROW;i++)
+    fcwin_box_add_box(hbox,vboxes[i],TRUE,TRUE,10);
+  fcwin_box_add_box(vbox,hbox,TRUE,TRUE,10);
+}
+
 /**************************************************************************
 
 **************************************************************************/
@@ -317,7 +449,7 @@ void popup_races_dialog(void)
 {
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
-  int i,id;
+  int i;
   races_dlg=fcwin_create_layouted_window(racesdlg_proc,
 					 _("What nation will you be?"),
 					 WS_OVERLAPPEDWINDOW,
@@ -327,11 +459,9 @@ void popup_races_dialog(void)
 					 NULL,NULL);
   vbox=fcwin_vbox_new(races_dlg,FALSE);
   fcwin_box_add_static(vbox,_("Select nation and name"),
-		       0,SS_LEFT,TRUE,TRUE,5);
-  fcwin_box_add_list(vbox,
-		     10,ID_RACESDLG_NATION,
-		     WS_VSCROLL | LBS_HASSTRINGS | LBS_SORT,
-		     FALSE,FALSE,5);
+		       0,SS_LEFT | WS_GROUP,TRUE,TRUE,5);
+  add_nations(vbox);
+  
   fcwin_box_add_static(vbox,_("Your leader name"),
 		       0,SS_LEFT,FALSE,FALSE,5);
   fcwin_box_add_combo(vbox,10,ID_RACESDLG_LEADER,CBS_DROPDOWN,
@@ -372,14 +502,6 @@ void popup_races_dialog(void)
 		       TRUE,TRUE,25);
   fcwin_box_add_button(hbox,_("Quit"),ID_RACESDLG_QUIT,0,TRUE,TRUE,25);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-  ListBox_ResetContent(GetDlgItem(races_dlg,ID_RACESDLG_NATION));
-  for (i=0;i<game.playable_nation_count;i++)
-    {
-      id=ListBox_AddString(GetDlgItem(races_dlg,ID_RACESDLG_NATION),
-			   get_nation_name(i));
-      if (id!=LB_ERR)
-	ListBox_SetItemData(GetDlgItem(races_dlg,ID_RACESDLG_NATION),id,i);
-    }
   selected_style=0;
   CheckRadioButton(races_dlg,
 		   ID_RACESDLG_STYLE_BASE,ID_RACESDLG_STYLE_BASE+b_s_num-1,
@@ -671,7 +793,38 @@ popup_unit_select_dialog(struct tile *ptile)
 void
 races_toggles_set_sensitive(int bits1, int bits2)
 {
-	/* PORTME */
+  int i,mybits;
+  
+  mybits=bits1;
+  for(i=0; i<game.playable_nation_count && i<32; i++) {
+    if(mybits&1) {
+      EnableWindow(GetDlgItem(races_dlg,ID_RACESDLG_NATION_BASE+i),
+		   FALSE);
+      if(i==selected_nation)
+        select_random_race(races_dlg);
+    } else {
+      EnableWindow(GetDlgItem(races_dlg,ID_RACESDLG_NATION_BASE+i),
+		   TRUE);
+    }
+    mybits>>=1;
+  }
+
+  mybits=bits2;
+
+  for(i=32; i<game.playable_nation_count; i++) {
+    if(mybits&1) {
+      EnableWindow(GetDlgItem(races_dlg,ID_RACESDLG_NATION_BASE+i),
+		   FALSE);
+      
+      if(i==selected_nation)
+        select_random_race(races_dlg);
+    } else {
+      EnableWindow(GetDlgItem(races_dlg,ID_RACESDLG_NATION_BASE+i),
+		   TRUE);
+    }
+    mybits>>=1;
+  }
+
 }
 
 /****************************************************************
@@ -995,6 +1148,98 @@ static void spy_poison_callback(HWND w, void * data)
   process_diplomat_arrival(NULL, 0);
 }
 
+/****************************************************************
+...
+*****************************************************************/
+static void create_advances_list(struct player *pplayer,
+                                struct player *pvictim, HWND lb)
+{
+  int i, j;
+  j = 0;
+  advance_type[j] = -1;
+  
+  if (pvictim) { /* you don't want to know what lag can do -- Syela */
+    
+    for(i=A_FIRST; i<game.num_tech_types; i++) {
+      if(get_invention(pvictim, i)==TECH_KNOWN && 
+         (get_invention(pplayer, i)==TECH_UNKNOWN || 
+          get_invention(pplayer, i)==TECH_REACHABLE)) {
+	ListBox_AddString(lb,advances[i].name);
+        advance_type[j++] = i;
+      }
+    }
+    
+    if(j > 0) {
+      ListBox_AddString(lb,_("At Spy's Discretion"));
+      advance_type[j++] = game.num_tech_types;
+    }
+  }
+  if(j == 0) {
+    ListBox_AddString(lb,_("NONE"));
+    j++;
+  }
+  
+  
+}
+
+#define ID_SPY_LIST 100
+/****************************************************************
+
+*****************************************************************/
+static LONG CALLBACK spy_tech_proc(HWND dlg,UINT message,WPARAM wParam,
+				   LPARAM lParam)
+{
+  switch(message)
+    {
+    case WM_CREATE:
+    case WM_SIZE:
+    case WM_GETMINMAXINFO:
+      break;
+    case WM_DESTROY:
+      spy_tech_dialog=NULL;
+      process_diplomat_arrival(NULL, 0);
+      break;
+    case WM_CLOSE:
+      DestroyWindow(dlg);
+      break;
+    case WM_COMMAND:
+      switch(LOWORD(wParam)) {
+      case ID_SPY_LIST:
+	if (ListBox_GetCurSel(GetDlgItem(dlg,ID_SPY_LIST))!=LB_ERR) {
+	  EnableWindow(GetDlgItem(dlg,IDOK),TRUE);
+	}
+	break;
+      case IDOK:
+	{
+	  int steal_advance;
+	  steal_advance=ListBox_GetCurSel(GetDlgItem(dlg,ID_SPY_LIST));
+	  if (steal_advance==LB_ERR)
+	    break;
+	  steal_advance=advance_type[steal_advance];
+	  if(find_unit_by_id(diplomat_id) && 
+	     find_city_by_id(diplomat_target_id)) { 
+	    struct packet_diplomat_action req;
+	    
+	    req.action_type=DIPLOMAT_STEAL;
+	    req.value=steal_advance;
+	    req.diplomat_id=diplomat_id;
+	    req.target_id=diplomat_target_id;
+	    
+	    send_packet_diplomat_action(&aconnection, &req);
+	  }
+	  
+	  
+	}
+      case IDCANCEL:
+	DestroyWindow(dlg);
+	break;
+      }
+      break;
+    default:
+      return DefWindowProc(dlg,message,wParam,lParam);
+    }
+  return 0;
+}
 
 /****************************************************************
 ...
@@ -1013,16 +1258,31 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
-  /* PORTME 
-  if(!spy_tech_shell){
-    spy_tech_shell_is_modal=1;
-
-    create_advances_list(game.player_ptr, pvictim, spy_tech_shell_is_modal);
-    gtk_set_relative_position (toplevel, spy_tech_shell, 10, 10);
-
-    gtk_widget_show(spy_tech_shell);
+  if(!spy_tech_dialog){
+    HWND lb;
+    struct fcwin_box *hbox;
+    struct fcwin_box *vbox;
+    spy_tech_dialog=fcwin_create_layouted_window(spy_tech_proc,
+						 _("Steal Technology"),
+						 WS_OVERLAPPEDWINDOW,
+						 CW_USEDEFAULT,
+						 CW_USEDEFAULT,
+						 root_window,
+						 NULL,NULL);
+    hbox=fcwin_hbox_new(spy_tech_dialog,TRUE);
+    vbox=fcwin_vbox_new(spy_tech_dialog,FALSE);
+    fcwin_box_add_static(vbox,_("Select Advance to Steal"),
+			 0,SS_LEFT,FALSE,FALSE,5);
+    lb=fcwin_box_add_list(vbox,5,ID_SPY_LIST,WS_VSCROLL,TRUE,TRUE,5);
+    fcwin_box_add_button(hbox,_("Close"),IDCANCEL,0,TRUE,TRUE,10);
+    fcwin_box_add_button(hbox,_("Steal"),IDOK,0,TRUE,TRUE,10);
+    EnableWindow(GetDlgItem(spy_tech_dialog,IDOK),FALSE);
+    fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
+    create_advances_list(game.player_ptr, pvictim, lb);
+    fcwin_set_box(spy_tech_dialog,vbox);
+    ShowWindow(spy_tech_dialog,SW_SHOWNORMAL);
   }
-  */
+ 
 }
 
 /****************************************************************
@@ -1118,21 +1378,122 @@ Too Much!"), buf,
 }
 
 /****************************************************************
+
+****************************************************************/
+static void create_improvements_list(struct player *pplayer,
+                                    struct city *pcity, HWND lb)
+{
+  int i,j;
+  j=0;
+  ListBox_AddString(lb,_("City Production"));
+  improvement_type[j++] = -1;
+  
+  for(i=0; i<game.num_impr_types; i++) {
+    if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
+      ListBox_AddString(lb,get_impr_name_ex(pcity,i));
+      improvement_type[j++] = i;
+    }  
+  }
+  if(j > 1) {
+    ListBox_AddString(lb,_("At Spy's Discretion"));
+    improvement_type[j++] = B_LAST;
+    } else {
+    improvement_type[0] = B_LAST; 
+    /* fake "discretion", since must be production */
+  }
+  
+  
+}
+
+/****************************************************************
+
+*****************************************************************/
+static LONG CALLBACK spy_sabotage_proc(HWND dlg,UINT message,WPARAM wParam,
+				       LPARAM lParam)
+{
+  switch(message)
+    {
+    case WM_CREATE:
+    case WM_SIZE:
+    case WM_GETMINMAXINFO:
+      break;
+    case WM_DESTROY:
+      spy_sabotage_dialog=NULL;
+      process_diplomat_arrival(NULL, 0);
+      break;
+    case WM_CLOSE:
+      DestroyWindow(dlg);
+      break;
+    case WM_COMMAND:
+      switch(LOWORD(wParam)) {
+      case ID_SPY_LIST:
+	if (ListBox_GetCurSel(GetDlgItem(dlg,ID_SPY_LIST))!=LB_ERR) {
+	  EnableWindow(GetDlgItem(dlg,IDOK),TRUE);
+	}
+	break;
+      case IDOK:
+	{
+	  int sabotage_improvement;
+	  sabotage_improvement=ListBox_GetCurSel(GetDlgItem(dlg,ID_SPY_LIST));
+	  if (sabotage_improvement==LB_ERR)
+	    break;
+	  sabotage_improvement=improvement_type[sabotage_improvement];
+	  if(find_unit_by_id(diplomat_id) && 
+	     find_city_by_id(diplomat_target_id)) { 
+	    struct packet_diplomat_action req;
+	    
+	    req.action_type=DIPLOMAT_SABOTAGE;
+	    req.value=sabotage_improvement+1;
+
+	    req.diplomat_id=diplomat_id;
+	    req.target_id=diplomat_target_id;
+	    
+	    send_packet_diplomat_action(&aconnection, &req);
+	  }
+	  
+	}
+      case IDCANCEL:
+	DestroyWindow(dlg);
+	break;
+      }
+      break;
+    default:
+      return DefWindowProc(dlg,message,wParam,lParam);
+    }
+  return 0;
+}
+
+/****************************************************************
  Pops-up the Spy sabotage dialog, upon return of list of
  available improvements requested by the above function.
 *****************************************************************/
 void popup_sabotage_dialog(struct city *pcity)
 {
-#if 0
-  if(!spy_sabotage_shell){
-    spy_sabotage_shell_is_modal=1;
-
-    create_improvements_list(game.player_ptr, pcity, spy_sabotage_shell_is_modal);
-    gtk_set_relative_position (toplevel, spy_sabotage_shell, 10, 10);
-
-    gtk_widget_show(spy_sabotage_shell);
+  
+  if(!spy_sabotage_dialog){
+    HWND lb;
+    struct fcwin_box *hbox;
+    struct fcwin_box *vbox;
+    spy_sabotage_dialog=fcwin_create_layouted_window(spy_sabotage_proc,
+						     _("Sabotage Improvements"),
+						     WS_OVERLAPPEDWINDOW,
+						     CW_USEDEFAULT,
+						     CW_USEDEFAULT,
+						     root_window,
+						     NULL,NULL);
+    hbox=fcwin_hbox_new(spy_sabotage_dialog,TRUE);
+    vbox=fcwin_vbox_new(spy_sabotage_dialog,FALSE);
+    fcwin_box_add_static(vbox,_("Select Improvement to Sabotage"),
+			 0,SS_LEFT,FALSE,FALSE,5);
+    lb=fcwin_box_add_list(vbox,5,ID_SPY_LIST,WS_VSCROLL,TRUE,TRUE,5);
+    fcwin_box_add_button(hbox,_("Close"),IDCANCEL,0,TRUE,TRUE,10);
+    fcwin_box_add_button(hbox,_("Sabotage"),IDOK,0,TRUE,TRUE,10);
+    EnableWindow(GetDlgItem(spy_sabotage_dialog,IDOK),FALSE);
+    fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
+    create_improvements_list(game.player_ptr, pcity, lb);
+    fcwin_set_box(spy_sabotage_dialog,vbox);
+    ShowWindow(spy_sabotage_dialog,SW_SHOWNORMAL);
   }
-#endif
 }
 
 /****************************************************************
@@ -1324,13 +1685,70 @@ int diplomat_dialog_is_open(void)
 /**************************************************************************
 
 **************************************************************************/
+static LONG CALLBACK pillage_proc(HWND dlg,UINT message,
+				  WPARAM wParam,LPARAM lParam)
+{
+  int id;
+  switch(message) {
+  case WM_DESTROY:
+    is_showing_pillage_dialog=FALSE;
+    break;
+  case WM_CLOSE:
+    DestroyWindow(dlg);
+    break;
+  case WM_GETMINMAXINFO:
+  case WM_SIZE:
+    break;
+  case WM_COMMAND:
+    id=LOWORD(wParam);
+    if (id==IDCANCEL) {
+      DestroyWindow(dlg);
+    } else if (id>=ID_PILLAGE_BASE) {
+      struct unit *punit=find_unit_by_id(unit_to_use_to_pillage);
+      if (punit) {
+	request_new_unit_activity_targeted(punit,
+					   ACTIVITY_PILLAGE,
+					   id-ID_PILLAGE_BASE);
+	DestroyWindow(dlg);
+      }
+    }
+    break;
+  default:
+    return DefWindowProc(dlg,message,wParam,lParam);
+  }
+  return 0;
+}
 
+/**************************************************************************
+
+**************************************************************************/
 void
 popup_pillage_dialog(struct unit *punit, int may_pillage)
 {
-	/* PORTME */
+  int what;
+  HWND dlg;
+  struct fcwin_box *vbox;
+  if (!is_showing_pillage_dialog) {
+    is_showing_pillage_dialog = TRUE;   
+    unit_to_use_to_pillage = punit->id;
+    dlg=fcwin_create_layouted_window(pillage_proc,_("What To Pillage"),
+				     WS_OVERLAPPEDWINDOW,
+				     CW_USEDEFAULT,CW_USEDEFAULT,
+				     root_window,NULL,NULL);
+    vbox=fcwin_vbox_new(dlg,FALSE);
+    fcwin_box_add_static(vbox,_("Select what to pillage:"),0,SS_LEFT,
+			 FALSE,FALSE,10);
+    while(may_pillage) {
+      what=get_preferred_pillage(may_pillage);
+      fcwin_box_add_button(vbox,map_get_infrastructure_text(what),
+			   ID_PILLAGE_BASE+what,0,TRUE,FALSE,5);
+      may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
+    }
+    fcwin_box_add_button(vbox,_("Cancel"),IDCANCEL,0,TRUE,FALSE,5);
+    fcwin_set_box(dlg,vbox);
+    ShowWindow(dlg,SW_SHOWNORMAL);
+  }
 }
-
 /**************************************************************************
 
 **************************************************************************/
