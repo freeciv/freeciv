@@ -767,7 +767,7 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 
   case ACTIVITY_TRANSFORM:
     return (ptile->terrain != T_OCEAN) && (ptile->terrain != T_RIVER) &&
-	   unit_flag(punit->type, F_TRANSFORM);
+	   unit_flag(punit->type, F_TRANSFORM) && punit->moves_left;
 
   default:
     freelog(LOG_NORMAL,"Unknown activity %d\n",activity);
