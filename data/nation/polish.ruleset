@@ -14,7 +14,7 @@ city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Dyktator"),     _("Dyktatorka")
                  "Fundamentalism",  _("Prymas"),       _("Prymas")
-                 "Monarchy",        _("Król"),         _("Królowa")
+                 "Monarchy",        _("King"),         _("Queen")
       "Communism",       _("Pierwszy Sekretarz"),      _("Pierwszy Sekretarz")
                  "Republic",        _("Prezydent"),    _("Prezydent")
                  "Democracy",       _("Prezydent"),    _("Prezydent")

@@ -14,7 +14,6 @@
 # なら喜んで Primary Contacter を譲ります。
 #
 # メールをお待ちしています。
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.7-devel\n"

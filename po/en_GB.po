@@ -2,7 +2,6 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Robert Brady <rwb197@ecs.soton.ac.uk>, 1999.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.9.0\n"
@@ -11,7 +10,7 @@ msgstr ""
 "Last-Translator: Robert Brady <rwb197@ecs.soton.ac.uk>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
@@ -13028,12 +13027,12 @@ msgid "?plural:Danes"
 msgstr ""
 
 #: data/nation/dunedain.ruleset:3
-msgid "Dnedain"
-msgstr ""
+msgid "Dunedain"
+msgstr "Dúndedain"
 
 #: data/nation/dunedain.ruleset:4
-msgid "?plural:Dnedan"
-msgstr ""
+msgid "?plural:Dunedan"
+msgstr "Dúnedan"
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
