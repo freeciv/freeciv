@@ -64,8 +64,8 @@
 struct government *governments;
 
 static char *flag_names[] = {
-  "BUILD_VETERAN_DIPLOMAT", "REVOLUTION_WHEN_UNHAPPY", "HAS_SENATE",
-  "UNBRIBABLE", "INSPIRES_PARTISANS", "IS_NICE", "FAVORS_GROWTH"
+  "Build_Veteran_Diplomats", "Revolution_When_Unhappy", "Has_Senate",
+  "Unbribable", "Inspires_Partisans", "Is_Nice", "Favors_Growth"
 };
 
 /***************************************************************

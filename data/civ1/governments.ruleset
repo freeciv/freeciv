@@ -10,162 +10,357 @@
 ; Note that the freeciv AI may not cope well with anything more
 ; than minor changes.
 
+; TODO: check values really match Civ1!
+
 [datafile]
 description="Civilization I governments data for Freeciv"
-options="1.8.2 +tilespec"
+options="1.8.2 +tilespec +nontab"
 
 [governments]
-count=6
 default="Despotism"
 when_anarchy="Anarchy"
 
-names = { "name"
-          "Anarchy"
-          "Despotism"
-          "Monarchy"
-          "Communism"
-          "Republic"
-          "Democracy"
-};
+; Below: The individual government types, one per section.
+;
+; The actual tag used (the * in [government_*]) doesn't matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; For the "official" rulesets, the order of these sections should not
+; be changed because that would break backward compatability with 
+; savegames.
+;
+; Notes on fields:
 
-; at present an empty list is required here, even for those government forms
-; that always are available -SKi
-required_tech = { "government",       "tech"
-                   "Anarchy"
-                   "Despotism"
-                   "Monarchy",         "Monarchy"
-                   "Communism",        "Communism"
-                   "Republic",         "The Republic"
-                   "Democracy",        "Democracy"
-};
+; name        = name of this government form as seen by user 
+; tech_req    = required advance, names from techs.ruleset, or special:
+;               "None" => available from start
+; graphic     = tag specifing preferred graphic
+; graphic_alt = alternate graphics tag if preferred is not found;
+;               should be a standard tag if preferred is not;
+;		otherwise may be "-"
+; flags       = special effects; see government.c for strings
 
-graphic = { "government",  "pref",   "alt"
-                "Anarchy",          "gov.anarchy",        "-"
-                "Despotism",        "gov.despotism",      "-"
-                "Monarchy",         "gov.monarchy",       "-"
-                "Communism",        "gov.communism",      "-"
-                "Republic",         "gov.republic",       "-"
-                "Democracy",        "gov.democracy",      "-"
-};
+; martial_law_max  = maximum number of units which can enforce martial law
+;		     in the city
+; martial_law_per  = number of unhappy citizens made content by each
+;		     enforcer unit
+; max_single_rate  = maximum which can be allocated to single one of
+;		     taxation/luxuries/science
+; empire_size_mod  = signed modifier added to cityfactor to determine
+;		     empire size when base unhappiness is increased
+; civil_war_chance = percentage change of civil war when capital is captured
+;		     (and player has enough cities etc)
+; rapture_size     = if non-zero, city can grow by celebrating, when size is
+;		     this value or larger
 
-; Unit upkeep cost factors:
-unit_upkeep = { "government",  "happy_factor", "shield_factor", "food_factor", "gold_factor"
-                "Anarchy",          0,      1,    1,     0
-                "Despotism",        0,      1,    1,     1
-                "Monarchy",         0,      1,    1,     1
-                "Communism",        0,      1,    1,     1
-                "Republic",         1,      1,    2,     1
-                "Democracy",        2,      1,    2,     1
-};
-
-; Base cost which does not have to be paid for:
-; Special value: "CitySize"
-free_upkeep = { "government",       "free_happy",  "free_shield",  "free_food",  "free_gold"
-               "Anarchy",          0,           "CitySize",   0,          0
-               "Despotism",        0,           "CitySize",   0,          0
-               "Monarchy",         0,           0,            0,          0
-               "Communism",        0,           0,            0,          0
-               "Republic",         0,           0,            0,          0
-               "Democracy",        0,           0,            0,          0
-};
+; unit_*_factor = factor applied to individual unit upkeep for different 
+;		  upkeep forms
+; unit_free_*   = base unit upkeep cost which the city gets "free"; only
+;	          upkeep above this value applies; special value: "City_Size"
 
 ; corruption:
-;  level:           percent of actual calculated corruption that is applied
-;  modifier:        greater-than-zero divisor; the higher the less corruption
-;  fixed_distance:  use this distance for all cities
-;  distance_factor: multiply actual distance with this
-;  extra_distance:  add this to the calculated distance
-corruption = { "government",      "level", "modifier", "fixed_distance", "distance_factor", "extra_distance"
-               "Anarchy",         100,     40,         0,                1,                 0
-               "Despotism",       100,     27,         0,                2,                 3
-               "Monarchy",        100,     67,         0,                1,                 0
-               "Communism",       50,      80,         10,               1,                 0
-               "Republic",        100,     67,         0,                1,                 0
-               "Democracy",       0,       1,          0,                0,                 0
-};
+ 
+; _level           = percentage factor applied to corruption; 
+;		     if 0, Courthouse effect changes
+; _modifier        = non-zero divisor to corruption; higher value 
+;		     means less corruption 
+;		     TODO: why have both level and modifier??
+; _fixed_distance  = if non-zero, used instead of actual calculation of 
+;		     distance from Palace; also used for distances in 
+;		     unit and city bribe cost calculations
+; _distance_factor = multiply distance by this factor for corruption 
+;		     (but not bribe costs)
+; _extra_distance  = add this to distance after applying distance factor
 
-; production bonuses
-bonus = { "government",      "trade_bonus", "shield_bonus", "food_bonus"
-          "Anarchy",         0,             0,              0
-          "Despotism",       0,             0,              0
-          "Monarchy",        0,             0,              0
-          "Communism",       0,             0,              0
-          "Republic",        0,             0,              0
-          "Democracy",       1,             0,              0
-};
+; production_*_bonus   = added to base production for each worked tile;
+;			 second value is used instead when city is celebrating
+; production_*_penalty = if non-zero, tile production above this amount is 
+;			 reduced by one; second value used when celebrating
 
-; celebrating production bonuses
-celeb_bonus = { "government",      "trade_bonus", "shield_bonus", "food_bonus"
-          "Anarchy",         0,             0,              0
-          "Despotism",       0,             0,              0
-          "Monarchy",        1,             0,              0
-          "Communism",       1,             0,              0
-          "Republic",        1,             0,              0
-          "Democracy",       1,             0,              0
-};
+; ruler_titles = ruler titles by nation, "-" is default, and non-matched 
+;	         nations are ignored 
 
-; production penalties
-penalty = { "government",      "trade_before", "shields_before", "food_before"
-            "Anarchy",         2,              2,                2
-            "Despotism",       2,              2,                2
-            "Monarchy",        0,              0,                0
-            "Communism",       0,              0,                0
-            "Republic",        0,              0,                0
-            "Democracy",       0,              0,                0
-};
+;------------------------------------------------------------------------
+[government_anarchy]
 
-; celebrating production penalties
-celeb_penalty = { "government",      "trade_before", "shields_before", "food_before"
-            "Anarchy",         0,              0,                0
-            "Despotism",       0,              0,                0
-            "Monarchy",        0,              0,                0
-            "Communism",       0,              0,                0
-            "Republic",        0,              0,                0
-            "Democracy",       0,              0,                0
-};
+name        = "Anarchy"
+tech_req    = "None"
+graphic     = "gov.anarchy"
+graphic_alt = "-"
+flags       = "Favors_Growth"
 
-flags = {  "government",     "flags"
-           "Anarchy",        "FAVORS_GROWTH"
-           "Despotism",      "FAVORS_GROWTH"
-           "Monarchy",       "FAVORS_GROWTH"
-           "Communism",      "BUILD_VETERAN_DIPLOMAT", "FAVORS_GROWTH"
-           "Republic",       "HAS_SENATE", "IS_NICE"
-           "Democracy",      "HAS_SENATE", "REVOLUTION_WHEN_UNHAPPY", "IS_NICE"
-};
+martial_law_max  = 100  ; unlimited
+martial_law_per  = 1
+max_single_rate  = 100  ; rates are irrelevant under Anarchy; use 100
+		        ; to avoid unnecessary changes during revolution
+civil_war_chance = 90
+empire_size_mod  = -5
+rapture_size     = 0
 
-; Max rates: no limits in Civ1?
-; Martial law: simplified in Civ1?
-; TODO: check rapture size for Civ1?
-; Assume martial_law_max=100 is enough to correspond to unlimited...
-others = { "government",      "martial_law_max", "martial_law_per",  "max_rates",    "civil_war", "empire_size_mod", "rapture_size"
-           "Anarchy",       100,      1,        100,            90,         -5,                    0
-           "Despotism",     100,      1,        100,            80,         -4,                    0
-           "Monarchy",      100,      1,        100,            70,         -3,                    0
-           "Communism",     100,      1,        100,            50,         -2,                    0
-           "Republic",        0,      0,        100,            40,         -1,                    3
-           "Democracy",       0,      0,        100,            30,          0,                    3
-};
+unit_unhappy_factor = 0
+unit_shield_factor  = 1
+unit_food_factor    = 1
+unit_gold_factor    = 0   ; ??
 
-; "-" is the default title
-ruler_titles = { "government",       "race",        "male_title",      "female_title"
-                 "Anarchy",          "-",           "Mr.",             "Ms."
-                 "Despotism",        "-",           "Emperor",         "Empress"
-                 "Despotism",        "Roman",       "Dictator",        "Dictator"
-                 "Despotism",        "Egyptian",    "Pharaoh",         "Pharaoh"
-                 "Monarchy",         "-",           "King",            "Queen"
-                 "Monarchy",         "Roman",       "Imperator",       "Imperatrix"
-                 "Monarchy",         "Egyptian",    "Great Pharaoh",   "Great Pharaoh"
-                 "Monarchy",         "Indian",      "Maharaja",        "Maharaja"
-                 "Monarchy",         "Russian",     "Czar",            "Czarina"
-                 "Communism",        "-",           "Comrade",         "Comrade"
-                 "Communism",        "Chinese",     "Chairman",        "Chairperson"
-                 "Republic",         "-",           "Consul",          "Consul"
-                 "Republic",         "American",    "Speaker",         "Speaker"
-                 "Democracy",        "-",           "President",       "President"
-                 "Democracy",        "German",      "Chancellor",      "Chancellor"
-                 "Democracy",        "Greek",       "Prime Minister",  "Prime Minister"
-                 "Democracy",        "French",      "Premier",         "Premier"
-                 "Democracy",        "English",     "Prime Minister",  "Prime Minister"
-;                "Democracy",        "Japanese",    "Prime Minister",  "Prime Minister"
-};
+unit_free_unhappy = 0
+unit_free_shield  = "City_Size"
+unit_free_food    = 0
+unit_free_gold    = 0
 
+corruption_level           = 100
+corruption_modifier        = 40
+corruption_fixed_distance  = 0
+corruption_distance_factor = 1 
+corruption_extra_distance  = 0 
+
+production_trade_bonus    = 0, 0
+production_shield_bonus   = 0, 0
+production_food_bonus     = 0, 0
+
+production_trade_penalty  = 2, 0
+production_shield_penalty = 2, 0
+production_food_penalty   = 2, 0
+
+ruler_titles = { "nation",      "male_title",      "female_title"
+                 "-",           "Mr.",             "Ms."
+}
+
+;------------------------------------------------------------------------
+[government_despotism]
+
+name        = "Despotism"
+tech_req    = "None"
+graphic     = "gov.despotism"
+graphic_alt = "-"
+flags       = "Favors_Growth"
+
+martial_law_max  = 100  ; unlimited
+martial_law_per  = 1
+max_single_rate  = 100
+civil_war_chance = 80
+empire_size_mod  = -4
+rapture_size     = 0
+
+unit_unhappy_factor = 0 
+unit_shield_factor  = 1
+unit_food_factor    = 1
+unit_gold_factor    = 1 
+
+unit_free_unhappy = 0
+unit_free_shield  = "City_Size"
+unit_free_food    = 0
+unit_free_gold    = 0
+
+corruption_level           = 100
+corruption_modifier        = 27
+corruption_fixed_distance  = 0
+corruption_distance_factor = 2 
+corruption_extra_distance  = 3 
+
+production_trade_bonus    = 0, 0
+production_shield_bonus   = 0, 0
+production_food_bonus     = 0, 0
+
+production_trade_penalty  = 2, 0
+production_shield_penalty = 2, 0
+production_food_penalty   = 2, 0
+
+ruler_titles = { "nation",      "male_title",      "female_title"
+                 "-",           "Emperor",         "Empress"
+                 "Roman",       "Dictator",        "Dictator"
+                 "Egyptian",    "Pharaoh",         "Pharaoh"
+                 "Vikings",     "Warlord",         "Warlord"
+                 "Sioux",       "Chief",           "Chief"
+}
+
+;------------------------------------------------------------------------
+[government_monarchy]
+
+name        = "Monarchy"
+tech_req    = "Monarchy"
+graphic     = "gov.monarchy"
+graphic_alt = "-"
+flags       = "Favors_Growth"
+
+martial_law_max  = 100  ; unlimited
+martial_law_per  = 1
+max_single_rate  = 100
+civil_war_chance = 70
+empire_size_mod  = -3
+rapture_size     = 0
+
+unit_unhappy_factor = 0
+unit_shield_factor  = 1
+unit_food_factor    = 1
+unit_gold_factor    = 1 
+
+unit_free_unhappy = 0
+unit_free_shield  = 0
+unit_free_food    = 0
+unit_free_gold    = 0
+
+corruption_level           = 100
+corruption_modifier        = 67
+corruption_fixed_distance  = 0
+corruption_distance_factor = 1 
+corruption_extra_distance  = 0 
+
+production_trade_bonus    = 0, 1
+production_shield_bonus   = 0, 0
+production_food_bonus     = 0, 0
+
+production_trade_penalty  = 0, 0
+production_shield_penalty = 0, 0
+production_food_penalty   = 0, 0
+
+ruler_titles = { "nation",      "male_title",      "female_title"
+                 "-",           "King",            "Queen"
+                 "Roman",       "Imperator",       "Imperatrix"
+                 "Egyptian",    "Great Pharaoh",   "Great Pharaoh"
+                 "Indian",      "Maharaja",        "Maharaja"
+                 "Russian",     "Czar",            "Czarina"
+                 "Japanese",    "Shogun",          "Shogun"
+                 "Persian",     "Shah",            "Shah"
+                 "Sioux",       "Great Chief",     "Great Chief"
+                 "Arab",        "Sultan",          "Sultan"
+}
+
+;------------------------------------------------------------------------
+[government_communism]
+
+name        = "Communism"
+tech_req    = "Communism"
+graphic     = "gov.communism"
+graphic_alt = "-"
+flags       = "Favors_Growth", "Build_Veteran_Diplomats"
+
+martial_law_max  = 100  ; unlimited
+martial_law_per  = 1
+max_single_rate  = 100
+civil_war_chance = 50
+empire_size_mod  = -2
+rapture_size     = 0
+
+unit_unhappy_factor = 0
+unit_shield_factor  = 1
+unit_food_factor    = 1
+unit_gold_factor    = 1 
+
+unit_free_unhappy = 0
+unit_free_shield  = 0
+unit_free_food    = 0
+unit_free_gold    = 0
+
+corruption_level           = 50
+corruption_modifier        = 80
+corruption_fixed_distance  = 10
+corruption_distance_factor = 1 
+corruption_extra_distance  = 0 
+
+production_trade_bonus    = 0, 1
+production_shield_bonus   = 0, 0
+production_food_bonus     = 0, 0
+
+production_trade_penalty  = 0, 0
+production_shield_penalty = 0, 0
+production_food_penalty   = 0, 0
+
+ruler_titles = { "nation",      "male_title",      "female_title"
+                 "-",           "Comrade",         "Comrade"
+                 "Chinese",     "Chairman",        "Chairperson"
+}
+
+;------------------------------------------------------------------------
+[government_republic]
+
+name        = "Republic"
+tech_req    = "The Republic"
+graphic     = "gov.republic"
+graphic_alt = "-"
+flags       = "Has_Senate", "Is_Nice"
+
+martial_law_max  = 0
+martial_law_per  = 0
+max_single_rate  = 100
+civil_war_chance = 40
+empire_size_mod  = -1
+rapture_size     = 3
+
+unit_unhappy_factor = 1
+unit_shield_factor  = 1
+unit_food_factor    = 2
+unit_gold_factor    = 1 
+
+unit_free_unhappy = 0
+unit_free_shield  = 0
+unit_free_food    = 0
+unit_free_gold    = 0
+
+corruption_level           = 100
+corruption_modifier        = 67
+corruption_fixed_distance  = 0
+corruption_distance_factor = 1 
+corruption_extra_distance  = 0 
+
+production_trade_bonus    = 1, 1
+production_shield_bonus   = 0, 0
+production_food_bonus     = 0, 0
+
+production_trade_penalty  = 0, 0
+production_shield_penalty = 0, 0
+production_food_penalty   = 0, 0
+
+ruler_titles = { "nation",      "male_title",      "female_title"
+                 "-",           "Consul",          "Consul"
+                 "American",    "Speaker",         "Speaker"
+}
+
+;------------------------------------------------------------------------
+[government_democracy]
+
+name        = "Democracy"
+tech_req    = "Democracy"
+graphic     = "gov.democracy"
+graphic_alt = "-"
+flags       = "Has_Senate", "Is_Nice", "Revolution_When_Unhappy" 
+
+martial_law_max  = 0
+martial_law_per  = 0
+max_single_rate  = 100
+civil_war_chance = 30
+empire_size_mod  = 0
+rapture_size     = 3
+
+unit_unhappy_factor = 2
+unit_shield_factor  = 1
+unit_food_factor    = 2
+unit_gold_factor    = 1 
+
+unit_free_unhappy = 0
+unit_free_shield  = 0
+unit_free_food    = 0
+unit_free_gold    = 0
+
+corruption_level           = 0
+corruption_modifier        = 1
+corruption_fixed_distance  = 0
+corruption_distance_factor = 0 
+corruption_extra_distance  = 0 
+
+production_trade_bonus    = 1, 1
+production_shield_bonus   = 0, 0
+production_food_bonus     = 0, 0
+
+production_trade_penalty  = 0, 0
+production_shield_penalty = 0, 0
+production_food_penalty   = 0, 0
+
+ruler_titles = { "nation",      "male_title",      "female_title"
+                 "-",           "President",       "President"
+                 "German",      "Chancellor",      "Chancellor"
+                 "Greek",       "Prime Minister",  "Prime Minister"
+                 "French",      "Premier",         "Premier"
+                 "English",     "Prime Minister",  "Prime Minister"
+                 "Japanese",    "Prime Minister",  "Prime Minister"
+}
