@@ -678,13 +678,14 @@ void economy_list_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret;
   int i;
-  ret=XawListShowCurrent(economy_list);
+  ret = XawListShowCurrent(economy_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    i=economy_improvement_type[ret->list_index];
-    if(i>=0 && i<game.num_impr_types && !is_wonder(i))
+    i = economy_improvement_type[ret->list_index];
+    if (i >= 0 && i < game.num_impr_types && !is_wonder(i)) {
       XtSetSensitive(sellobsolete_command, TRUE);
       XtSetSensitive(sellall_command, TRUE);
+    }
     return;
   }
   XtSetSensitive(sellobsolete_command, FALSE);
