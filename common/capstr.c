@@ -70,8 +70,8 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix
- game_ruleset nuclear_fallout land_channel_requirement"
+#define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
+" game_ruleset nuclear_fallout land_channel_requirement"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
