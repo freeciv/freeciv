@@ -44,6 +44,9 @@
    which _is_ itself protected against multiple inclusions.
 */
 
+#include <assert.h>
+#include <string.h>		/* for memcpy */
+
 #include "astring.h"
 
 #ifndef SPECVEC_TAG
@@ -64,12 +67,62 @@ SPECVEC_VECTOR {
   struct athing vector;
 };
 
-void SPECVEC_FOO(_vector_init) (SPECVEC_VECTOR *tthis);
-void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis, int n);
-size_t SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis);
-SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis, int index);
-void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to, SPECVEC_VECTOR *from);
-void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis);
+#ifndef SPECVEC_TAG
+#error Must define a SPECVEC_TAG to use this header
+#endif
+
+#ifndef SPECVEC_TYPE
+#define SPECVEC_TYPE struct SPECVEC_TAG
+#endif
+
+#define SPECVEC_PASTE_(x,y) x ## y
+#define SPECVEC_PASTE(x,y) SPECVEC_PASTE_(x,y)
+
+#define SPECVEC_VECTOR struct SPECVEC_PASTE(SPECVEC_TAG, _vector)
+
+#define SPECVEC_FOO(suffix) SPECVEC_PASTE(SPECVEC_TAG, suffix)
+
+static inline void SPECVEC_FOO(_vector_init) (SPECVEC_VECTOR *tthis)
+{
+  ath_init(&tthis->vector, sizeof(SPECVEC_TYPE));
+}
+
+static inline void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis, int n)
+{
+  ath_minnum(&tthis->vector, n);
+}
+
+static inline size_t SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis)
+{
+  return tthis->vector.n;
+}
+
+static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis, int index)
+{
+  assert(index>=0 && index<tthis->vector.n);
+
+  return ((SPECVEC_TYPE *)ath_get(&tthis->vector, index));
+}
+
+/* You must _init "*to" before using this function */
+static inline void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to, SPECVEC_VECTOR *from)
+{
+  int i;
+  size_t size = SPECVEC_FOO(_vector_size) (from);
+
+  SPECVEC_FOO(_vector_reserve) (to, size);
+
+  for (i = 0; i < size; i++) {
+    memcpy(SPECVEC_FOO(_vector_get) (to, i), 
+           SPECVEC_FOO(_vector_get) (from, i),
+           sizeof(SPECVEC_TYPE));
+  }
+}
+
+static inline void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis)
+{
+  ath_free(&tthis->vector);
+}
 
 #undef SPECVEC_TAG
 #undef SPECVEC_TYPE
