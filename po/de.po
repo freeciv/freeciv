@@ -107,7 +107,7 @@ msgstr "Angaben zum Loglevel unzulässig ('%s').\n"
 #: common/log.c:134 common/log.c:139
 #, c-format
 msgid "Not an integer: '%s'\n"
-msgstr "Kein Integerwert: '%s'\n"
+msgstr "Nicht ganzzahlig: '%s'\n"
 
 #: common/log.c:146
 #, c-format
@@ -749,7 +749,7 @@ msgstr "Spiel: %s eroberte %s und machte Beute im Wert von %d Goldstücken."
 #: server/citytools.c:1320
 #, c-format
 msgid "%s (%s) (%i,%i) conquered by %s"
-msgstr "%s (%s) (%i,%i) von den %s erorbert"
+msgstr "%s (%s) (%i,%i) von den %s erobert"
 
 #: server/citytools.c:1325
 #, c-format
@@ -2307,7 +2307,7 @@ msgid ""
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
 msgstr ""
-"Die Karte wurde nicht komplett gespeichert. Das kann entwedder daran liegen, "
+"Die Karte wurde nicht komplett gespeichert. Das kann entweder daran liegen, "
 "daß es sich um eine ältere Sicherung handelt oder daß die Sicherungsdatei "
 "beschädigt ist. Wenn Sie weitermachen wollen: Auf eigene Gefahr!"
 
@@ -2516,7 +2516,7 @@ msgstr "Es muß ein Name gewählt werden."
 
 #: server/srv_main.c:1012
 msgid "Please choose a legal name."
-msgstr "Bitte einen erlaubten Namen wählen."
+msgstr "Bitte einen gültigen Namen wählen."
 
 #: server/srv_main.c:1036
 #, c-format
@@ -3070,7 +3070,7 @@ msgid ""
 "has a Granary)."
 msgstr ""
 "Wenn eine Stadt wachsen würde, aber mangels eines fehlenden Aquädukts (oder "
-"Abwassersystems) nicht kann, geht dieser Prozentsatz (oder die Häfte davon, "
+"Abwassersystems) nicht kann, geht dieser Prozentsatz (oder die Hälfte davon, "
 "falls ein Kornspeicher vorhanden ist) verloren."
 
 #: server/stdinhand.c:428
@@ -3295,7 +3295,7 @@ msgstr ""
 "0 keine Einschränkungen:\n"
 "   Spieler können verschiedene Städte mit gleichen Namen haben.\n"
 "1 Die Städte eines Spielers müssen unterschiedliche Namen haben.\n"
-"2 Alle Städte müßen unterschiedliche Namen haben.\n"
+"2 Alle Städte müssen unterschiedliche Namen haben.\n"
 "3 wie 2. Zusätzlich dürfen keine Standardnamen anderer Nationen verwendet "
 "werden."
 
@@ -3590,7 +3590,7 @@ msgstr ""
 "Hier die möglichen Zeichen und ihre Bedeutung:\n"
 "    N = Bevölkerung                  P = Produktion\n"
 "    A = Landfläche                   E = Wirtschaft\n"
-"    S = besiedelte Landläche         M = Wehrdienst\n"
+"    S = besiedelte Landfläche        M = Wehrdienst\n"
 "    R = Forschungstempo              O = Umweltverschmutzung\n"
 "    L = Bildung\n"
 "Die folgendenden Buchstaben erlauben die Ausgabe zusätzlicher Spalten:\n"
@@ -3626,15 +3626,15 @@ msgstr ""
 
 #: server/stdinhand.c:802
 msgid "Auto-save name prefix"
-msgstr "Autosave Prefix"
+msgstr "Autosave Präfix"
 
 #: server/stdinhand.c:803
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\".\n"
 "This setting sets the <prefix> part."
 msgstr ""
-"Automatisch gespeicherte Spiele heißen '<prefix><Jahr>.sav'.\n"
-"Mit dieser Option kann das <Prefix> festgelegt werden."
+"Automatisch gespeicherte Spiele heißen '<Präfix><Jahr>.sav'.\n"
+"Mit dieser Option kann das <Präfix> festgelegt werden."
 
 #: server/stdinhand.c:809
 msgid "Whether to log player statistics"
@@ -3663,7 +3663,7 @@ msgstr ""
 "Hierzu muß der Server mit der Option '-g' aufgerufen worden sein.\n"
 " 0 = kein Log\n"
 "20 = Standard\n"
-"30 = detailiertes Log\n"
+"30 = detailliertes Log\n"
 "40 = für Fehlersuche"
 
 #: server/stdinhand.c:990
@@ -4133,7 +4133,7 @@ msgid ""
 "with the option \"timeout\". Defaults are 0 0 0 1"
 msgstr ""
 "Der Timeout-Timer wird alle <n1> Runden um <n2> erhöht; danach erhöht sich "
-"<n1> um <n3> und <n2> wird mit <n4> multipliziert. Dieser Befehl wird iVm "
+"<n1> um <n3> und <n2> wird mit <n4> multipliziert. Dieser Befehl wird von "
 "der Option 'timeout' benutzt. Die Standardwerte sind 0 0 0 1."
 
 #: server/stdinhand.c:1219
@@ -4183,8 +4183,8 @@ msgid ""
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
-"Speichert das Spiel in der angegebenen Datei. Wenn kein Dateiname angegeben "
-"wird, heißt die Datei '<auto-save nameprefix><year>m.sav[.gz]'.\n"
+"Speichert das Spiel in der Datei <Dateiname>. Wenn kein Dateiname angegeben "
+"wird, heißt die Datei '<Auto-save Präfix><Jahr>m.sav[.gz]'.\n"
 "Um ein gespeichertes Spiel fortzuführen, ruft man den Server mit dem "
 "Argument\n"
 "      --file <Dateiname>\n"
@@ -4209,7 +4209,7 @@ msgid ""
 "and server options are lost.\n"
 msgstr ""
 "Spieldatei <Dateiname> laden. Alle derzeitigen Daten (auch über Spieler, "
-"rulesets und Serveropotionen) gehen dabei verloren.\n"
+"rulesets und Serveroptionen) gehen dabei verloren.\n"
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1251
@@ -4658,7 +4658,7 @@ msgstr "Diese Einstellung kann nach Spielstart nicht mehr geändert werden."
 
 #: server/stdinhand.c:2789 server/stdinhand.c:2811
 msgid "Value must be an integer."
-msgstr "Integer gefordert."
+msgstr "Wert muß ganzzahlig sein."
 
 #: server/stdinhand.c:2792
 msgid "Value out of range (minimum: 0, maximum: 1)."
@@ -4969,7 +4969,7 @@ msgid ""
 "characters.  Try \"help allowconnect\"."
 msgstr ""
 "Der Optionsstring zu zulässigen Verbindungen enthält ungültige Zeichen. "
-"Nähere Infomrmationen sind mit 'help allowconnect' erhältlich."
+"Nähere Informationen sind mit 'help allowconnect' erhältlich."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/unithand.c:159
@@ -5209,7 +5209,7 @@ msgstr "Spiel: %s ist auf hoher See gesunken."
 #: server/unittools.c:489
 #, c-format
 msgid "%s Trireme lost at sea"
-msgstr "%s Tireme auf hoher See gesunken."
+msgstr "%s Trireme auf hoher See gesunken."
 
 #: server/unittools.c:517
 #, c-format
@@ -5294,7 +5294,7 @@ msgstr " in der Nähe von %s"
 #: server/unittools.c:1422
 #, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
-msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
+msgstr "Spiel: Einheit %s bei (%d, %d) aufgelöst."
 
 #: server/unittools.c:1446
 #, c-format
@@ -5837,7 +5837,7 @@ msgstr "Spiel begonnen."
 
 #: client/civclient.c:677
 msgid "There was an error while auto connecting; aborting."
-msgstr "Fehler bei automatischem Verbindungsaubau: Abbruch."
+msgstr "Fehler bei automatischem Verbindungsaufbau: Abbruch."
 
 #: client/climisc.c:304
 #, c-format
@@ -5947,10 +5947,10 @@ msgstr ""
 "Passagiere:                 1234\n"
 "Lebenserhaltungssysteme:     100 %\n"
 "Energieversorgung:           100 %\n"
-"Masse:                     12345 tons\n"
-"Reisezeit:                  1234 years\n"
+"Masse:                     12345 Tonnen\n"
+"Reisezeit:                  1234 Jahre\n"
 "Erfolgswahrscheinlichkeit:   100 %\n"
-"Ankunftsjahr:               1234 AD"
+"Ankunftsjahr:               1234"
 
 #: client/climisc.c:1114
 #, c-format
@@ -6053,7 +6053,7 @@ msgstr "Spiel: Es gibt keinen Weg zu diesem Ziel!"
 
 #: client/control.c:1322
 msgid "Game: Sorry, airunit patrol not yet implemented."
-msgstr "Spiel: Patrouillien für Luftwaffeneinheiten gibt es noch nicht."
+msgstr "Spiel: Patrouillen für Luftwaffeneinheiten gibt es noch nicht."
 
 #: client/helpdata.c:109
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -12618,7 +12618,7 @@ msgid ""
 "steps are: "
 msgstr ""
 "Die Reihenfolge der Punkte kann abhängig von den Servereinstellungen "
-"unterschiedlich sein, normalerweise ist die Reihefolge aber:"
+"unterschiedlich sein, normalerweise ist die Reihenfolge aber:"
 
 #: data/helpdata.txt:539
 msgid ""
@@ -12740,7 +12740,7 @@ msgstr ""
 "Produktion auf Siedler umgestellt werden. Der zweite Siedler kann dazu "
 "benutzt werden, in der Umgebung der Stadt Straßen zu bauen und das Land zu "
 "bewässern, der dritte sollte zum Bau einer weiteren Stadt verwendet werden. "
-"Es ist zu bachten, daß eine größere Bevölkerung nicht nur mehr produziert, "
+"Es ist zu beachten, daß eine größere Bevölkerung nicht nur mehr produziert, "
 "sondern auch bessere Forschungsergebnisse erzielt."
 
 #: data/helpdata.txt:599
@@ -13031,7 +13031,7 @@ msgstr ""
 "erwirtschaften soll, als sie selbst benötigt, um ihre Einrichtungen zu "
 "unterhalten. Mit den Schiebereglern auf der rechten Seite läßt sich "
 "einstellen, welche Arten von Produktion bevorzugt werden; Forschung = 3 "
-"bedeutet, daß ein einziger Foschungspunkt 3 Schildern (oder Gold, "
+"bedeutet, daß ein einziger Forschungspunkt 3 Schildern (oder Gold, "
 "Handel ...) vorgezogen wird. Für jede Art von Produktion lassen sich "
 "unterschiedliche Faktoren festlegen.\n"
 "\n"
@@ -13371,7 +13371,7 @@ msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
 msgstr ""
-" - Wenn der Verteider ein Schiff innerhalb einer Stadt ist, wird die "
+" - Wenn der Verteidiger ein Schiff innerhalb einer Stadt ist, wird die "
 "Feuerkraft des Angreifers verdoppelt und die Feuerkraft des Schiffes auf 1 "
 "reduziert."
 
@@ -13576,7 +13576,7 @@ msgstr ""
 "gewinnen. Zwar hat das Schlachtschiff eine um 25 % kleinere Chance zu "
 "treffen, dafür aber doppelt so viele Trefferpunkte. Wahrscheinlich wird das "
 "Schlachtschiff während des Kampfes 60 % seiner Trefferpunkte verlieren und "
-"keine Bewgungspunkte übrig behalten."
+"keine Bewegungspunkte übrig behalten."
 
 #: data/helpdata.txt:1064
 msgid "Zones of Control"
@@ -13599,7 +13599,7 @@ msgid ""
 "surrounding a unit."
 msgstr ""
 "Grundsätzlich gilt, daß eine Landeinheit, die sich auf einem Feld befindet, "
-"das an ein von einer gegenerischen Einheit besetzes Feld angrenzt, sich "
+"das an ein von einer gegnerischen Einheit besetzes Feld angrenzt, sich "
 "nicht direkt auf ein anderes Feld begeben kann, das ebenfalls an ein von "
 "einer gegnerischen Einheit besetztes Feld angrenzt."
 
@@ -13820,7 +13820,7 @@ msgstr ""
 "Alle Landeinheiten haben die Fähigkeit, Geländeverbesserungen zu zerstören. "
 "Brandschatzen zerstört 1 Geländeverbesserung pro Runde und Einheit. Abhängig "
 "von den Servereinstellungen kann es sein, daß die zu zerstörende "
-"Verbesserung ausgesucht werden kann. Ansonsten wird in folgender Reihefolge "
+"Verbesserung ausgesucht werden kann. Ansonsten wird in folgender Reihenfolge "
 "zerstört:"
 
 #: data/helpdata.txt:1190
@@ -13993,7 +13993,7 @@ msgstr ""
 "Wenn eine Stadt mehr unzufriedene als glückliche Bürger hat, kommt es zu "
 "Aufruhr. Während eines Aufruhrs wird nichts produziert; außerdem haben es "
 "feindliche Diplomaten und Spione leichter, eine Revolte in Gang zu bringen. "
-"Fortgesetzer Aufruhr kann unter einer 'Demokratie' zum spontanen Ausbruch "
+"Fortgesetzter Aufruhr kann unter einer 'Demokratie' zum spontanen Ausbruch "
 "einer Revolution führen."
 
 #: data/helpdata.txt:1288
@@ -14516,7 +14516,7 @@ msgid ""
 "Democracy and 1 under Republic.  This improvement has no effect under other "
 "governments."
 msgstr ""
-"Stellt in einer 'Demokratie' 2 und in einer 'Republik' 1 über miltärische "
+"Stellt in einer 'Demokratie' 2 und in einer 'Republik' 1 über militärische "
 "Aktionen Unzufriedenen zufrieden. Unter anderen Regierungsformen hat eine "
 "Polizeiwache keine Auswirkungen."
 
@@ -15373,7 +15373,7 @@ msgid ""
 msgstr ""
 "In jeder eigenen Stadt wird die Unzufriedenheit aufgrund militärischer "
 "Maßnahmen um 1 reduziert. In einer 'Republik' wird also niemand durch "
-"miltärische Maßnahmen unzufrieden und in einer 'Demokratie' nur einer."
+"militärische Maßnahmen unzufrieden und in einer 'Demokratie' nur einer."
 
 #: data/default/cities.ruleset:26
 msgid "European"
@@ -15864,7 +15864,7 @@ msgid ""
 "convert, and require no maintenance."
 msgstr ""
 "Fundamentalismus ist eine Regierungsform, die auf Glaubensregeln aufgebaut "
-"ist. Diese Glaubensregeln (üblicherweise eine Relegion) bestimmen sehr "
+"ist. Diese Glaubensregeln (üblicherweise eine Religion) bestimmen sehr "
 "streng über das Leben der Herrscher und des Volkes.\n"
 "\n"
 "In einer fundamentalistischen Gesellschaft sind Volk und Herrscher ihrem "
@@ -17374,7 +17374,7 @@ msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
 msgstr ""
-"Fanaktiker gibt es nur in fundamentalistischen Staaten.\n"
+"Fanatiker gibt es nur in fundamentalistischen Staaten.\n"
 "\n"
 "Diese Staaten können Fanatiker ohne Erhaltungskosten  einsetzen."
 
