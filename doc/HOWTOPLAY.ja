@@ -18,16 +18,17 @@ Civilization ゲームを一度も遊んだことがないなら、マニュアルを読むこと
 Freeciv の遊び方のアイディアを探しているなら、このまま読み進めて下さい。
 
 
-        今あなたは起動中の Freeciv を目の前にして、最初にちょっとゲー
+	今あなたは起動中の Freeciv を目の前にして、最初にちょっとゲー
 ムをしてみたいでしょう。数回独りで遊んでみることを勧めます。そうすると
 ものごとがどうなっているかの感触が捕めます。ただ、これは必須ではありま
 せん。他のプレイヤーや AIと遊んで勉強するのもいいでしょう。
 
 Q: 基本的な戦略を教えてもらえますか?
 
-        まず言っておきたいことは、これは「完璧」な戦略ではありません。
-非常によい戦略でもありません。ですが、この戦略で Freeciv を遊び開める
-ことができるでしょう。 Freeciv の魅力の一つは、新しい戦略の発見です。
+	まず言っておきたいことは、これは「完璧」な戦略ではありません。
+非常によい戦略でもありません。しかしこの戦略で Freeciv を遊び始めるこ
+とができるではずです。 Freeciv の魅力の一つは、新しい戦略の発見にあり
+ます。
 
         ゲームを幾つかの段階に分けることができます:
 
@@ -37,12 +38,12 @@ Q: 基本的な戦略を教えてもらえますか?
                 生産過程
                 敵の完全絶滅過程
 
-第一期発展:
+第一期発展過程:
 
-        この過程は最も重要です。最初に行なうべきことは、都市を建て島を
+	この過程は最も重要です。最初に行なうべきことは、都市を建て島を
 調査することです。沢山の都市、最低でも 7個か8個の都市が必要です。
 
-        一番肝心なことは、できるだけ多くの土地を占領することです。都市
+	一番肝心なことは、できるだけ多くの土地を占領することです。都市
 を作る時、自分の他の都市と領土があまり重ならないように気をつけましょう。
 都市の上でマウスをクリックすると、都市が利用している土地が分かります。
 表示される都市とその周辺の地図が、その都市の領土です。このことを頭に入
@@ -50,204 +51,190 @@ Q: 基本的な戦略を教えてもらえますか?
 の防御とこの過程を管理することが難しくなります。(ヒント: 都市は、馬の
 上か魚の近くに作りましょう。)
 
-        都市を一つか二つ持ったら、科学の割合を現在の政治体制で許されて
+	都市を一つか二つ持ったら、科学の割合を現在の政治体制で許されて
 いる最大に設定します。税率について心配する必要はありません。どの建築物
 を建てても、お金は出て行きません。どの都市にも、開拓者を作らせます。開
 拓者を作れば作るほど、沢山の都市を持つことができます。都市が多ければ技
 術の獲得が速くなり、技術の獲得が速ければ勝つのが速くなります。できるだ
 けの都市を作った後は、開拓者を潅漑と道路建築に向けます。
 
-(注: 沢山の開拓者支援の影響で都市の食料生産が +1 を下回り、食料増産の
-ために人をやりくりできないなら、寺院の建築に切り替えます。他のプレイヤー
-とまだ接触していないなら、まだ軍事部隊を作る必要はありません。)
+(注意: 沢山の開拓者支援の影響で都市の食料生産が +1 を下回り、食料増産
+のために人をやりくりできないなら、寺院の建築に切り替えます。他のプレイ
+ヤーとまだ接触していないなら、まだ軍事部隊を作る必要はありません。)
 
-        上記の間、可能なだけ速く技術を獲得しています。最初に「共和制」、
+        上記の間、可能なだけ速く技術を獲得しています。最初に「共和制」
 次に「民主制」「鉄道」「産業化」を狙います(人によっては共和制の前に君
-主制に向かいます)。新しい政治体制を発見したらすぐに革命を起こし、その
-政治体制に変更します。都市の扱いは、専制政治下で行なうより共和制下の方
-が簡単です。しかし共和制下では、都市制限の外で軍事部隊を維持するのがと
-ても難しくなることに注意しておいて下さい。他に、政治体制によって許され
-る科学の割合が変化するので、新しい政治体制に変更した後は科学が最大になっ
-ているか調べるのを忘れないようにします。
+主制にを狙います)。新しい政治体制を発見したらすぐに革命を起こし、政治
+体制を変更します。都市の扱いは、専制政治下で行なうより共和制下の方が簡
+単です。しかし共和制下では、都市制限の外で軍事部隊を維持するのがとても
+難しくなることに注意しておいて下さい。他に、政治体制によって許される科
+学の割合が変化するので、新しい政治体制に変更した後は科学が最大になって
+いるか調べるのを忘れないようにします。
 
-        When you get Democracy, you are equipped to go into the Second
-Expansion phase.  This is accomplished by changing the government to a
-Democracy, making all cities build temples, and setting the luxury
-rate to 100%.  When you do this, all cities will immediately begin
-celebrating, and will grow at a rate of one per turn as long as
-there is surplus food.  When they've gotten big enough, set the luxury
-down to a reasonable level of 20-40%.  This places you in the Second
-Expansion phase.
+        民主主義を獲得したら、第二期発展過程へ突入する準備ができました。
+民主主義政府へ変更し、全ての都市に寺院を建築し、贅沢の割合を 100% に設
+定します。すると即座に全ての都市で祝典が催され、余剰食料がある限り一ター
+ンにつき一つの割合で大きくなります。都市が十分大きくなったら、贅沢の割
+合を 20-40% の適当な割合に下げます。この時が第二期発展過程です。
 
-        The down-side to this is that setting luxury to 100% means
-that your science research will all but stop.  After your cities have
-grown, and you put science back up to 50% or so, you will again gain
-techs, but at a slightly slower rate.  If you have done some
-exploring, and are not immediately threatened by another player, it
-can be a good idea to keep science at maximum until techs start to
-take too long to generate.
+        このマイナス面は、贅沢を 100% に設定することで、科学研究がほぼ
+停止することです。都市が発展した後、科学への支援を 50%程度にし、少しゆっ
+くりな速度で技術獲得を再開します。ある程度探索を終えていて、近い中に他
+のプレイヤーにより脅かされることがないなら、獲得に時間がかかる研究を始
+めるまで、科学を最大の保つのもいい考えです。
         
-Second Expansion Phase:
+第二期発展過程:
 
-        When you get your cities to a good sized population, wean them
-off luxuries gradually and increase taxes.  Once they're down to 30%
-luxury or so, put as much of the taxes as you can into science, while
-maintaining a positive income.  When you get railroad, turn all your
-roads into rails, or at least the squares used for production, or
-those that form part of a transport network.  (Tip: turn every square
-used by a city into a road/rail, it increases that city's output.
-There's no need to upgrade the very centre square - that's done
-automatically).
+        都市が適当な人口になったら、贅沢を徐々に減らし税を増やします。
+一旦 30% 程度に贅沢を下げ、税収が黒字になるだけ維持しつつ税をできるだ
+け科学にします。鉄道を手に入れたら道路を全て鉄道にします。不可能なら、
+最低でも生産用の土地と輸送網を形成している土地は鉄道にします。(ヒント: 
+都市で利用されている土地を道路や鉄道にすると、都市の生産が増えます。中
+心の土地はアップグレードする必要はありません。自動的に行なわれます。)
+ 
+        産業化と軍事技術を発展させる時がきました。他の島に都市を建て始
+める時でもあります。まだ重要な探索が残っているなら、それも行ないます。
+敵がどこにいるか知る必要があります。船に適している技術に科学を向け、マ
+ゼランの探検航海を建てることを考えます。準備ができているなら、次の過程
+に進みます。
 
-        Now is the time to develop industrialization, and military
-technologies.  You should also begin building cities on other islands,
-and do some serious exploring if you have not already done so.  You
-need to find out where your enemies are.  Go for techs good for ships,
-and try to build Magellan's Expedition.  When you feel ready, go into:
+生産過程:
 
-Production Phase:
+        今、あなたは都市に工場や発電所を建てています。各都市でできるだ
+け多くの生産を行ないたい。すると、公害が問題になってきます。できるだけ
+早く、大量輸送を建てるための大量生産、リサイクル・センターを建てるため
+のリサイクルに到達するように務めます。全ての都市を強くしたら、軍事部隊
+を作ります。(注意: 他のプレイヤーと接触したら、すぐに小数の攻撃部隊と、
+最低でも一都市につき一つの防御部隊を作るべきです。)
 
-        Now you're building factories and power plants in your cities.
-You want to get as much production as possible out of each city.
-Pollution becomes a problem.  As soon as you can, try to research Mass
-Production for Mass Transits, and Recycling so you can build
-Recycling Centers.  Once you've got all your cities going strong, you
-must build military units. (Note: If you come into contact with
-another player, you should immediately build a few attack units, and
-at least one defense unit per city.)
-
-        When you want to begin thinking about attacking someone, set
-science to 0%, and put raise taxes as high as you can without
-provoking disorder.  Remember, money can build units too!
+        何者かに攻撃しようと考えているなら、科学を 0%にし、混乱を引き
+起こさない範囲で税率を最大に設定します。忘れないで下さい、お金で部隊を
+作ることができるということを!
 
 
-Utter Annihilation of Your Enemies Phase:
+敵の完全絶滅過程:
 
-        This can happen at any time, but it's more fun with the
-advanced weapons.
+        この過程はしばしば起こりますが、高度な武器を用いるとても楽しい
+ものです。
 
-        Pick a relatively weak enemy, and send over a few ship-loads of
-troops.  Take over his cities, and use them to build more units to
-take out the rest of them with.  Show no quarter!  To the death!
+        比較的弱そうな敵を選び、2,3の船に乗せた軍隊を送ります。敵の都
+市を占領し、都市をより沢山の部隊を作るために使用します。そして、作った
+部隊で残りの都市を排除します。1/4 以上を敵に見せてはいけません。命取り
+になります。
 
-Repeat as often as necessary! ;-)
+必要なだけ繰り返す ;-)
 
-[Note for pacifists:  Freeciv also allows a player to win by building
-and launching a spaceship which arrives at Alpha Centauri before anyone
-else.]
+[平和主義者への注: Freeciv では、だれよりも早くアルファ・ケンタウリに
+着く宇宙船を作って打ち上げることでも勝つことができます。]
 
 
-Additional questions:
+追加質問:
 
-Q. What other strategies are there?
+Q. ほかにどんな戦略がありますか?
 
-        There are a number of tutorials and strategy guides available at
-the Freeciv web pages, at:
+多くのチュートリアルと戦略ガイドが Freeciv ウェブ・ページにあります:
 
          http://www.freeciv.org/tutorials/tutorials.phtml
 
-Plus, the Freeciv online help describes another strategy.
+
+加えて、Freeciv オンライン・ヘルプには別の戦略があります。
 
 
-Q. In multiplayer games, what timeout should I set?
+Q. マルチプレイヤーのゲームでは、 timeout をどのぐらいに設定すべきです
+か?
 
-        That depends upon the number of players.  If there are just
-two of you playing, you can usually get away with using timeout 0.  If
-there are more than two, or if one of the two is going to be away from
-his terminal at random intervals and you don't want to halt play, a
-timeout of 60 seconds is usually sufficient.  Later in the game,
-however, as things get more complex, you may want to extend the
-timeout to 240 seconds.  In general, the more players you have, the
-longer a timeout you will need.  Feel free to set whatever timeout
-seems comfortable, but remember that going above 300 will tend to
-bother people.
-
-
-Q. What size map should I use?
-
-        The map size depends upon how many players there are, and how
-fast you want the game to end.  The default map size (80x50) is big
-enough for a fairly quick two player game, but will result in a *very*
-fast game if any more than three people are participating.  
-
-        Fast games tend to be frustrating for everyone but the winner,
-as nobody has really had any time to develop any defense.  If you have
-more than three people playing, you should use an 80x80 map.  If you
-have five or more people, you probably want to consider one that's
-100x100.
+        答えはプレイヤーの数に依存します。二人で遊んでいるなら、普通は 
+timeout 0 を使って逃げることができます。二人以上の場合、もしくは二人の
+うち一人が勝手に端末から離れた時にゲームを中断したくない場合には、60秒
+の timeout で通常は十分です。ゲーム後半では、事態が複雑になるので 240 
+秒まで timeout を延ばすのがいいかもしれません。一般に、プレイヤーが多
+くなるほど、 timeout を延ばす必要があります。快適と思える timeout を自
+由に設定して下さい。ただし、 timeout が 300 以上になると不快に思うプレ
+イヤーが出てくることを忘れないで下さい。
 
 
-Q. What is that "generator" option?
+Q. 地図のサイズはどう設定すべきですか?
 
-        That alters the map generation process.  If you play Freeciv
-a few times without changing this setting, you are sure to hear of (or
-experience) the horrors of a tiny island.  Tiny Island Syndrome (TIS)
-is known to make people go insane.  To fix this, our loving and kind
-coders installed the generator option.  When set to 1, it gives the 
-normal map, with islands of different (and possibly unfair) sizes.
-But when set to 2, 3, or 4, it generates islands of equal size 
-(sometimes with some smaller islands thrown in).  This way, nobody 
-can whine about losing "on account of that d**ned island."
+        地図のサイズはどのくらいプレイヤーが存在するか、どのくらい速く
+ゲームの修了したいかに依存します。デフォルトの地図サイズ(80x50)は、二
+人で軽くゲームするには大きすぎますが、四人以上参加するような場合にはと
+ても早く決着がつきます。
 
-
-Q. Should I make the game easier by increasing the starting gold?
-
-        If you are inexperienced, and are playing with inexperienced
-people, probably no one will object to an increase in the amount of
-gold they start with.  This is, however, not a good way to learn how
-to play.  Starting out with lots of money makes the game much easier,
-and makes it more difficult for you to learn how to cope with the
-default amount.  Most experienced players don't increase this setting,
-and if they know how to cope with it and you don't, you are going to
-go the way of Atlantis.
-
-Note: The same thing applied to the "techlevel" and "researchspeed"
-settings.
+        速いゲームでは、防御部隊を作る時間が全然ないために、勝者以外の
+誰もが挫折する傾向があります。四人以上で遊ぶなら、 80x80 を使うべきで
+す。五人以上なら、 100x100 ぐらいがいいかもしれません。
 
 
-Q. What about those other settings?
+Q. "generator" オプションとは何ですか?
 
-        The rest of them mainly have to do with what sort of world
-will be generated and game mechanics.  Increasing "specials" gives you
-a high chance of resources/square, and huts determines how many
-freebie huts there are.  Increasing the amount of settlers or
-explorers one starts with makes the game go faster, and allows people
-to survive "those $#@! barbarians" which sometimes live in huts.
-
-        The rail-related settings determine how much more a square
-will produce in food/trade/production with a railroad on it, and the
-foodbox setting determines how much food each person in a city has to
-have before a new person can be added.
-
-        As for the rest, higher "mountains" means a more mountainous
-map, higher "deserts" means more deserts, etc.
+        "generator" オプションは、地図生成の処理を変更します。この設定
+を変更せずに数回遊んだことがあるなら、小さな島の恐ろしさをきっと聞いた
+ことがあるでしょう。小さな島症候群(Tiny Island Syndrome, TIS)は、人を
+気違いに導くものとして知られています。この対策として、我々の愛する、そ
+して親切なプログラマが generator オプションを導入しました。値が 1 なら、
+異なる(そしてたぶん不公平な)大きさの島を持つ通常の地図を生成されます。
+しかし、 2, 3, 4 に設定した時は、等しい大きさの島(と、時々幾つかの小さ
+な島)が生成されます。この方法だと、「だめな島のせいで」負けたと言い訳
+することができなくなります。
 
 
-Q. How do I get _____ tech?
+Q. 開始時の金を増やしてゲームを簡単にしてもかまいませんか?
 
-Look the tech up in the online help.  It will show you the
-technologies you need to get first.
+	もしあなたが不慣れで相手も不慣れなら、開始時のお金を増やすこと
+に恐らく誰も反対しないでしょう。しかし、遊び方の勉強のためにはよい方法
+ではありません。沢山のお金を持って開始するとゲームが簡単になり、デフォ
+ルトのお金で対処する方法が学びづらくなります。多くの経験を積んだプレイ
+ヤーは、この設定を増やしません。敵が少ないお金で対処する方法を知ってい
+たら、あなたの島はアトランティス大陸と同じ道を辿り、沈んでしまうでしょ
+う。
 
-Alternatively, you could download David Pfitzner's "techtree" map,
-from http://msowww.anu.edu.au/~dwp/freeciv/.
-
-Failing that, you could read the technology ruleset in 
-'data/default/techs.ruleset'.  It shows a list of all the techs,
-and what techs are necessary to get them.
+注意: 同じことは、 "techlevel" と "researchspeed" の設定にも当てはまり
+ます。
 
 
-Q. What kinds of military units are the most useful?
+Q. その他の設定についてはどうですか?
 
-   For Attack:
+	残りの設定は主に、生成された世界とゲームの方法を決めるものです。
+"specials" を増加させると土地に対する資源の割合が増えます。"huts" はタ
+ダで手に入る小屋の量を決めます。 "settlers" や "explorer" を増加させる
+とゲームの進行が速くなったり、小屋に時々住んでいる「$#@! バーバリアン」
+から助かり易くなります。
 
-        Armor (tanks), Helicopters, Cruise Missiles, Battleships,
-        Transports, Nuclears, Howitzers, Bombers.
+	鉄道関連の設定は、土地の上に鉄道を敷くことでどのくらい食料/交
+易/生産が増えるかを決定します。(訳注: 鉄道に関する設定は 
+terrain.ruleset によって行なわれます。) "foodbox" 設定は、新しい人が加
+わわる前に都市内の一人一人が持たなければいけない食料の量です。
 
-   For Defense:
+	"mountains" が多いと山が多い地図、 "deserts" が多いと砂漠が多
+い地図、他も同様です。
 
-        Armor (tanks), Mech Inf., Howitzers, Battleships,
-        Cruise Missiles, Nuclears.
 
-Remember, the best defense is a strong offense.
+Q. 〜という科学を得るにはどうしたらいいですか?
 
-<Additions to this document are welcome>
+オンライン・ヘルプの科学の項目を見て下さい。得たい科学より先に得る必要
+のある科学が表示されます。
+
+かわりに David Pfitzner の "techtree" 図を 
+http://msowww.anu.edu.au/~dwp/freeciv/ からダウンロードすることもでき
+ます。(訳注: 拙者の翻訳版が 
+http://amanatto.hoops.ne.jp/freeciv.ja.html にあります。)
+
+これらがうまくいかないなら、 'data/default/techs.ruleset' の科学ルール
+セットを読むこともできます。これには全ての科学のリストと、その科学を得
+るためにどの科学が必要かが示されています。
+
+
+Q. 一番役に立つ軍事部隊は何ですか?
+
+   攻撃用:
+
+        装甲車(戦車), ヘリコプター, 巡航ミサイル, 戦艦, 輸送船, 核兵器, 
+        榴弾砲, 爆撃機
+
+   防御用:
+
+        装甲車(戦車), 自動化歩兵, 榴弾砲, 戦艦, 巡航ミサイル, 核兵器
+
+攻撃は最大の防御だということを忘れないで下さい。
+
+<この文章への追加を歓迎します>
