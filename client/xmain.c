@@ -58,6 +58,7 @@
 #include <helpdlg.h>
 #include <optiondlg.h>
 #include <spaceshipdlg.h>
+#include <repodlgs.h>
 
 AppResources appResources;
 
@@ -237,6 +238,9 @@ XtActionsRec Actions[] = {
   { "select-citymap", button_down_citymap},
   { "quit-freeciv", quit_freeciv},
   { "close-citydialog", close_city_dialog_action},
+  { "close-sciencedialog", close_science_dialog_action },
+  { "close-tradedialog", close_trade_dialog_action },
+  { "close-activeunitsdialog", close_activeunits_dialog_action },
   { "key-goto-dialog", popup_goto_dialog_action },
   { "key-city-workers", key_city_workers },
   { "adjust-workers", adjust_workers },

@@ -40,6 +40,8 @@
 #include <dialogs.h>
 #include <optiondlg.h>
 
+extern Display	*display;
+extern Atom wm_delete_window;
 extern Widget toplevel, main_form;
 
 extern struct connection aconnection;
@@ -338,6 +340,13 @@ void create_science_dialog(int make_modal)
 
   XtRealizeWidget(science_dialog_shell);
 
+  if(!make_modal)  {
+    XSetWMProtocols(display, XtWindow(science_dialog_shell), 
+		    &wm_delete_window, 1);
+    XtOverrideTranslations(science_dialog_shell,
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: close-sciencedialog()"));
+  }
+
   width=500;
   XtVaSetValues(science_label, XtNwidth, &width, NULL);
 }
@@ -399,6 +408,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
   }
 }
 
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -412,10 +422,20 @@ void science_close_callback(Widget w, XtPointer client_data,
   science_dialog_shell=0;
 }
 
+
 /****************************************************************
 ...
 *****************************************************************/
+void close_science_dialog_action(Widget w, XEvent *event, 
+				 String *argv, Cardinal *argc)
+{
+  science_close_callback(w, NULL, NULL);
+}
 
+
+/****************************************************************
+...
+*****************************************************************/
 void science_help_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
@@ -628,6 +648,14 @@ void create_trade_report_dialog(int make_modal)
   XtAddCallback(sellobsolete_command, XtNcallback, trade_selloff_callback, (XtPointer)0);
   XtAddCallback(sellall_command, XtNcallback, trade_selloff_callback, (XtPointer)1);
   XtRealizeWidget(trade_dialog_shell);
+
+  if(!make_modal)  {
+    XSetWMProtocols(display, XtWindow(trade_dialog_shell), 
+		    &wm_delete_window, 1);
+    XtOverrideTranslations(trade_dialog_shell,
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: close-tradedialog()"));
+  }
+
   trade_report_dialog_update();
 }
 
@@ -665,6 +693,15 @@ void trade_close_callback(Widget w, XtPointer client_data,
      XtSetSensitive(main_form, TRUE);
   XtDestroyWidget(trade_dialog_shell);
   trade_dialog_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void close_trade_dialog_action(Widget w, XEvent *event, 
+			       String *argv, Cardinal *argc)
+{
+  trade_close_callback(w, NULL, NULL);
 }
 
 /****************************************************************
@@ -870,6 +907,14 @@ void create_activeunits_report_dialog(int make_modal)
   XtAddCallback(close_command, XtNcallback, activeunits_close_callback, NULL);
   XtAddCallback(upgrade_command, XtNcallback, activeunits_upgrade_callback, NULL);
   XtRealizeWidget(activeunits_dialog_shell);
+
+  if(!make_modal)  {
+    XSetWMProtocols(display, XtWindow(activeunits_dialog_shell), 
+		    &wm_delete_window, 1);
+    XtOverrideTranslations(activeunits_dialog_shell,
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: close-activeunitsdialog()"));
+  }
+
   activeunits_report_dialog_update();
 }
 
@@ -946,6 +991,15 @@ void activeunits_close_callback(Widget w, XtPointer client_data,
      XtSetSensitive(main_form, TRUE);
    XtDestroyWidget(activeunits_dialog_shell);
    activeunits_dialog_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void close_activeunits_dialog_action(Widget w, XEvent *event, 
+			       String *argv, Cardinal *argc)
+{
+  activeunits_close_callback(w, NULL, NULL);
 }
 
 /****************************************************************

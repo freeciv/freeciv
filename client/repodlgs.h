@@ -20,9 +20,12 @@ void update_report_dialogs();
 
 void science_dialog_update(void);
 void popup_science_dialog(int make_modal);
+void close_science_dialog_action(Widget, XEvent *, String *, Cardinal *);
 void trade_report_dialog_update();
 void popup_trade_report_dialog(int make_modal);
+void close_trade_dialog_action(Widget, XEvent *, String *, Cardinal *);
 void activeunits_report_dialog_update();
 void popup_activeunits_report_dialog(int make_modal);
+void close_activeunits_dialog_action(Widget, XEvent *, String *, Cardinal *);
 
 #endif
