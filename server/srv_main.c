@@ -916,6 +916,10 @@ static void handle_alloc_nation(struct player *pplayer,
 			 "of SELECT_RACES_STATE!"));
     return;
   }  
+  
+  if (packet->nation_no < 0 || packet->nation_no >= game.nation_count) {
+    return;
+  }
 
   remove_leading_trailing_spaces(packet->name);
 

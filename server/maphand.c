@@ -1201,10 +1201,16 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 void handle_player_remove_vision(struct player *pplayer,
 				 struct packet_generic_integer *packet)
 {
-  struct player *pplayer2 = get_player(packet->value);
-  if (pplayer == pplayer2) return;
-  if (!pplayer2->is_alive) return;
-  if (!gives_shared_vision(pplayer, pplayer2)) return;
+  struct player *pplayer2;
+
+  if (packet->value < 0 || packet->value >= game.nplayers) {
+    return;
+  }
+  pplayer2 = get_player(packet->value);
+  if (pplayer == pplayer2 || !pplayer2->is_alive
+      || !gives_shared_vision(pplayer, pplayer2)) {
+    return;
+  }
 
   remove_shared_vision(pplayer, pplayer2);
   notify_player(pplayer2, _("%s no longer gives us shared vision!"),

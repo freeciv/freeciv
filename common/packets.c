@@ -1563,6 +1563,10 @@ static void iget_worklist(struct connection *pc, struct pack_iter *piter,
       pwl->wlids[length] = 0;
     }
 
+    if (length > MAX_LEN_WORKLIST) {
+      length = MAX_LEN_WORKLIST;
+    }
+
     for (i = 0; i < length; i++) {
       iget_uint8(piter, (int *) &pwl->wlefs[i]);
       iget_uint8(piter, &pwl->wlids[i]);
@@ -3626,8 +3630,14 @@ receive_packet_ruleset_nation(struct connection *pc)
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
   iget_uint8(&iter, &packet->leader_count);
-  for( i=0; i<packet->leader_count; i++ ) {
-    iget_string(&iter, packet->leader_name[i], sizeof(packet->leader_name[i]));
+
+  if (packet->leader_count > MAX_NUM_LEADERS) {
+    packet->leader_count = MAX_NUM_LEADERS;
+  }
+ 
+  for (i = 0; i < packet->leader_count; i++) {
+    iget_string(&iter, packet->leader_name[i],
+		sizeof(packet->leader_name[i]));
     iget_bool8(&iter, &packet->leader_sex[i]);
   }
   iget_uint8(&iter, &packet->city_style);
@@ -4063,13 +4073,8 @@ struct packet_nations_used *receive_packet_nations_used(struct connection
 
   packet->num_nations_used = 0;
 
-  for (;;) {
-    assert((pack_iter_remaining(&iter) % 2) == 0);
-
-    if (pack_iter_remaining(&iter) == 0) {
-      break;
-    }
-
+  while (pack_iter_remaining(&iter) >= 2 &&
+	 packet->num_nations_used < MAX_NUM_PLAYERS) {
     iget_uint16(&iter, &packet->nations_used[packet->num_nations_used]);
     packet->num_nations_used++;
   }

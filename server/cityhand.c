@@ -54,6 +54,10 @@ void handle_city_name_suggest_req(struct connection *pconn,
 	    conn_description(pconn));
     return;
   }
+  
+  if (!punit) {
+    return;
+  }
 
   freelog(LOG_VERBOSE, "handle_city_name_suggest_req(unit_pos=(%d,%d))",
 	  punit->x, punit->y);

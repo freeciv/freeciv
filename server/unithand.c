@@ -348,12 +348,13 @@ void handle_unit_change_homecity(struct player *pplayer,
 				 struct packet_unit_request *req)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
-  struct city *old_pcity = player_find_city_by_id(pplayer, punit->homecity);
-  struct city *new_pcity = player_find_city_by_id(pplayer, req->city_id);
+  struct city *old_pcity, *new_pcity =
+      player_find_city_by_id(pplayer, req->city_id);
 
-  if(!punit || !new_pcity) {
-      return;
+  if (!punit || !new_pcity) {
+    return;
   }
+  old_pcity = player_find_city_by_id(pplayer, punit->homecity);
 
   unit_list_insert(&new_pcity->units_supported, punit);
   if (old_pcity) {

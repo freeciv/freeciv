@@ -710,10 +710,11 @@ void handle_player_tech_goal(struct player *pplayer,
 void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq)
 {
-  if( pplayer->government!=game.government_when_anarchy || 
-     !can_change_to_government(pplayer, preq->government) 
-    )
+  if (pplayer->government != game.government_when_anarchy ||
+      preq->government < 0 || preq->government >= game.government_count ||
+      !can_change_to_government(pplayer, preq->government)) {
     return;
+  }
 
   if((pplayer->revolution<=5) && (pplayer->revolution>0))
     return;
@@ -811,12 +812,19 @@ Handles a player cancelling a "pact" with another player.
 **************************************************************************/
 void handle_player_cancel_pact(struct player *pplayer, int other_player)
 {
-  enum diplstate_type old_type = pplayer->diplstates[other_player].type;
+  enum diplstate_type old_type;
   enum diplstate_type new_type;
-  struct player *pplayer2 = &game.players[other_player];
+  struct player *pplayer2;
   int reppenalty = 0;
-  bool has_senate =
-    government_has_flag(get_gov_pplayer(pplayer), G_HAS_SENATE);
+  bool has_senate;
+    
+  if (other_player < 0 || other_player >= game.nplayers) {
+    return;
+  }
+
+  old_type = pplayer->diplstates[other_player].type;
+  pplayer2 = get_player(other_player);
+  has_senate = government_has_flag(get_gov_pplayer(pplayer), G_HAS_SENATE);
 
   /* can't break a pact with yourself */
   if (pplayer == pplayer2)
