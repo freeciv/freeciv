@@ -1142,6 +1142,55 @@ int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity)
   return sprs - save_sprs;
 }
 
+/**************************************************************************
+  Assemble some data that is used in building the tile sprite arrays.
+    (map_x, map_y) : the (normalized) map position
+  The values we fill in:
+    ttype          : the terrain type of the tile
+    tspecial       : all specials the tile has
+    ttype_near     : terrain types of all adjacent terrain
+    tspecial_near  : specials of all adjacent terrain
+**************************************************************************/
+static void build_tile_data(int map_x, int map_y,
+			    enum tile_terrain_type *ttype,
+			    enum tile_special_type *tspecial,
+			    enum tile_terrain_type *ttype_near,
+			    enum tile_special_type *tspecial_near)
+{
+  enum direction8 dir;
+
+  *tspecial = map_get_special(map_x, map_y);
+  *ttype = map_get_terrain(map_x, map_y);
+
+  /* In iso view a river is drawn as an overlay on top of an underlying
+   * grassland terrain. */
+  if (is_isometric && *ttype == T_RIVER) {
+    *ttype = T_GRASSLAND;
+    *tspecial |= S_RIVER;
+  }
+
+  /* Loop over all adjacent tiles.  We should have an iterator for this. */
+  for (dir = 0; dir < 8; dir++) {
+    int x1, y1;
+
+    if (MAPSTEP(x1, y1, map_x, map_y, dir)) {
+      tspecial_near[dir] = map_get_special(x1, y1);
+      ttype_near[dir] = map_get_terrain(x1, y1);
+
+      /* hacking away the river here... */
+      if (is_isometric && ttype_near[dir] == T_RIVER) {
+	tspecial_near[dir] |= S_RIVER;
+	ttype_near[dir] = T_GRASSLAND;
+      }
+    } else {
+      /* We draw the edges of the map as if the same terrain just
+       * continued off the edge of the map. */
+      tspecial_near[dir] = S_NO_SPECIAL;
+      ttype_near[dir] = *ttype;
+    }
+  }
+}
+
 /**********************************************************************
   Fill in the sprite array for the unit
 ***********************************************************************/
@@ -1284,8 +1333,8 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       int x, int y, bool citymode,
 			       int *solid_bg)
 {
-  int ttype, ttype_near[8];
-  int tspecial, tspecial_near[8];
+  enum tile_terrain_type ttype, ttype_near[8];
+  enum tile_special_type tspecial, tspecial_near[8];
   int tileno, dir, i;
   struct city *pcity;
   struct Sprite **save_sprs = sprs;
@@ -1296,34 +1345,9 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     return -1;
 
   pcity = map_get_city(x, y);
-  tspecial = map_get_special(x, y);
-  ttype = map_get_terrain(x, y);
 
-  /* A little hack to avoid drawing seperate T_RIVER isometric tiles. */
-  if (ttype == T_RIVER) {
-    ttype = T_GRASSLAND;
-    tspecial |= S_RIVER;
-  }
+  build_tile_data(x, y, &ttype, &tspecial, ttype_near, tspecial_near);
 
-  /* Any unreal tile have no specials and the terrain type of (x, y). */
-  for (dir = 0; dir < 8; dir++) {
-    int x1, y1;
-  
-    if (MAPSTEP(x1, y1, x, y, dir)) {
-      tspecial_near[dir] = map_get_special(x1, y1);
-      ttype_near[dir] = map_get_terrain(x1, y1);
-
-      /* hacking away the river here... */
-      if (ttype_near[dir] == T_RIVER) {
-      	tspecial_near[dir] |= S_RIVER;
-        ttype_near[dir] = T_GRASSLAND;
-      }
-    } else {
-      tspecial_near[dir] = S_NO_SPECIAL;
-      ttype_near[dir] = ttype;
-    }
-  }
-  
   if (draw_terrain) {
     if (ttype == T_OCEAN) {
       /* painted via coasts. */
@@ -1518,8 +1542,8 @@ The sprites are drawn in the following order:
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 			   bool citymode, int *solid_bg, struct player **pplayer)
 {
-  int ttype, ttype_near[8];
-  int tspecial, tspecial_near[8];
+  enum tile_terrain_type ttype, ttype_near[8];
+  enum tile_special_type tspecial, tspecial_near[8];
   int rail_card_tileno=0, rail_semi_tileno=0, road_card_tileno=0, road_semi_tileno=0;
   int rail_card_count=0, rail_semi_count=0, road_card_count=0, road_semi_count=0;
 
@@ -1564,21 +1588,8 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     }
   }
 
-  tspecial = map_get_special(abs_x0, abs_y0);
-  ttype = map_get_terrain(abs_x0, abs_y0);
-
-  /* Any unreal tile have no specials and the terrain type of (x, y). */
-  for (dir = 0; dir < 8; dir++) {
-    int x, y;
-  
-    if (MAPSTEP(x, y, abs_x0, abs_y0, dir)) {
-      tspecial_near[dir] = map_get_special(x, y);
-      ttype_near[dir] = map_get_terrain(x, y);
-    } else {
-      tspecial_near[dir] = S_NO_SPECIAL;
-      ttype_near[dir] = ttype;
-    }
-  }
+  build_tile_data(abs_x0, abs_y0, 
+		  &ttype, &tspecial, ttype_near, tspecial_near);
 
   if(map.is_earth &&
      abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) {
