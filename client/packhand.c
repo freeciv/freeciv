@@ -134,7 +134,8 @@ void handle_game_state(struct packet_generic_integer *packet)
     refresh_overview_viewrect();
     enable_turn_done_button();
     player_set_unit_focus_status(game.player_ptr);
-    
+
+    update_info_label();	/* get initial population right */
     update_unit_focus();
     update_unit_info_label(get_unit_in_focus());
 
