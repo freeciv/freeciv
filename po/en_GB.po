@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.9.0\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 10:10+0200\n"
 "PO-Revision-Date: 1999-10-21 20:02+0100\n"
 "Last-Translator: Robert Brady <rwb197@ecs.soton.ac.uk>\n"
 "Language-Team: \n"
@@ -889,9 +889,9 @@ msgid ""
 msgstr ""
 
 #: server/diplhand.c:247 server/diplhand.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
-msgstr "Game: The %s don't have the promised amount of gold! Treaty cancelled!"
+msgstr ""
 
 #: server/diplhand.c:262 server/diplhand.c:266
 #, c-format
@@ -964,9 +964,9 @@ msgid "Game: %s canceled the meeting!"
 msgstr "Game: %s cancelled the meeting!"
 
 #: server/diplhand.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Meeting with %s canceled."
-msgstr "Game: We Love The %s Day cancelled in %s."
+msgstr ""
 
 #: server/diplomats.c:88
 #, c-format
@@ -1556,9 +1556,9 @@ msgstr ""
 
 # DWP: fix msgid? - elsewhere msgid strings use "canceled" with single 'l'.
 #: server/plrhand.c:826
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
-msgstr "Game: %s cancelled the meeting!"
+msgstr ""
 
 #: server/plrhand.c:1239
 #, c-format
@@ -4274,9 +4274,9 @@ msgid "Game: %s lost to an attack from %s's %s."
 msgstr ""
 
 #: server/unittools.c:2196
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was nuked by %s."
-msgstr "Game: We Love The %s Day cancelled in %s."
+msgstr ""
 
 #: server/unittools.c:2198 server/unittools.c:2214
 msgid "yourself"
@@ -4870,7 +4870,7 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 
 #: client/helpdata.c:688
-#, c-format
+#, ycp-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -5013,14 +5013,12 @@ msgid "Manual Turn Done in AI Mode"
 msgstr ""
 
 #: client/options.c:63
-#, fuzzy
 msgid "Auto Center on Units"
-msgstr "Auto Centre on Units       "
+msgstr "Auto Centre on Units"
 
 #: client/options.c:64
-#, fuzzy
 msgid "Auto Center on Combat"
-msgstr "Auto Centre on Combat      "
+msgstr "Auto Centre on Combat"
 
 #: client/options.c:65
 msgid "Focus on Awakened Units"
@@ -5031,9 +5029,8 @@ msgid "Draw Diagonal Roads/Rails"
 msgstr ""
 
 #: client/options.c:67
-#, fuzzy
 msgid "Center map when Popup city"
-msgstr "Centre map when Popup city "
+msgstr "Centre map when Popup city"
 
 #: client/options.c:68
 msgid "Concise City Production"
@@ -5444,7 +5441,7 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1142 client/gui-gtk/citydlg.c:1147
 #: client/gui-xaw/citydlg.c:1462 client/gui-xaw/citydlg.c:1466
-#, c-format
+#, c-format, ycp-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr ""
 
@@ -5471,7 +5468,7 @@ msgid "Done"
 msgstr ""
 
 #: client/gui-gtk/citydlg.c:1177
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:   %3d"
 msgstr ""
 
@@ -5482,18 +5479,18 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1225 client/gui-gtk/citydlg.c:1246
 #: client/gui-mui/citydlg.c:1493 client/gui-mui/citydlg.c:1515
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/%3d %3d turn"
 msgstr ""
 
 #: client/gui-gtk/citydlg.c:1225 client/gui-gtk/citydlg.c:1246
 #: client/gui-mui/citydlg.c:1493 client/gui-mui/citydlg.c:1515
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/%3d %3d turns"
 msgstr ""
 
 #: client/gui-gtk/citydlg.c:1238
-#, c-format
+#, c-format, ycp-format
 msgid "%3d/XXX XXX turns"
 msgstr ""
 
@@ -6331,7 +6328,6 @@ msgstr ""
 
 #: client/gui-gtk/gamedlgs.c:359 client/gui-mui/gamedlgs.c:258
 #: client/gui-xaw/ratesdlg.c:93
-#, c-format
 msgid "%s max rate: %d%%"
 msgstr ""
 
@@ -6595,19 +6591,16 @@ msgstr ""
 
 #: client/gui-gtk/inteldlg.c:117 client/gui-mui/inteldlg.c:143
 #: client/gui-xaw/inteldlg.c:126 client/gui-xaw/ratesdlg.c:303
-#, c-format
 msgid "Tax: %d%%"
 msgstr ""
 
 #: client/gui-gtk/inteldlg.c:121 client/gui-mui/inteldlg.c:144
 #: client/gui-xaw/inteldlg.c:133 client/gui-xaw/ratesdlg.c:319
-#, c-format
 msgid "Science: %d%%"
 msgstr ""
 
 #: client/gui-gtk/inteldlg.c:125 client/gui-mui/inteldlg.c:145
 #: client/gui-xaw/inteldlg.c:140 client/gui-xaw/ratesdlg.c:311
-#, c-format
 msgid "Luxury: %d%%"
 msgstr ""
 
@@ -6699,7 +6692,6 @@ msgstr ""
 
 #: client/gui-gtk/mapctrl.c:193 client/gui-mui/mapclass.c:199
 #: client/gui-xaw/mapctrl.c:175
-#, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr ""
 
@@ -6889,9 +6881,8 @@ msgid "Fog of War"
 msgstr ""
 
 #: client/gui-gtk/menu.c:631
-#, fuzzy
 msgid "_Center View"
-msgstr "Centre View"
+msgstr "_Centre View"
 
 #: client/gui-gtk/menu.c:634
 msgid "_Orders"
@@ -6955,9 +6946,8 @@ msgid "Clean _Nuclear Fallout"
 msgstr ""
 
 #: client/gui-gtk/menu.c:658
-#, fuzzy
 msgid "_Sentry"
-msgstr "Centre"
+msgstr ""
 
 #: client/gui-gtk/menu.c:664
 msgid "Make _Homecity"
@@ -7183,9 +7173,8 @@ msgid "Make Trade _Route"
 msgstr ""
 
 #: client/gui-gtk/menu.c:1067
-#, fuzzy
 msgid "Build _Railroad"
-msgstr "Railway"
+msgstr "Build _Railway"
 
 #: client/gui-gtk/menu.c:1089
 msgid "Bu_ild Farmland"
@@ -7412,7 +7401,7 @@ msgstr ""
 
 #: client/gui-gtk/repodlgs.c:802 client/gui-mui/repodlgs.c:666
 #: client/gui-xaw/repodlgs.c:836
-#, c-format
+#, c-format, ycp-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr ""
 
@@ -7497,7 +7486,7 @@ msgid "Launch"
 msgstr ""
 
 #: client/gui-gtk/spaceshipdlg.c:257 client/gui-xaw/spaceshipdlg.c:258
-#, c-format
+#, c-format, ycp-format
 msgid "Travel time:     %5.1f years"
 msgstr ""
 
@@ -7506,7 +7495,6 @@ msgid "Travel time:        N/A     "
 msgstr ""
 
 #: client/gui-gtk/spaceshipdlg.c:270 client/gui-xaw/spaceshipdlg.c:271
-#, c-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -8094,9 +8082,8 @@ msgid "Science Report..."
 msgstr ""
 
 #: client/gui-mui/gui_main.c:314
-#, fuzzy
 msgid "Trade Report..."
-msgstr "Traveller's Report:"
+msgstr ""
 
 #: client/gui-mui/gui_main.c:315
 msgid "Military Report..."
@@ -8338,7 +8325,7 @@ msgid "_Launch"
 msgstr ""
 
 #: client/gui-mui/spaceshipdlg.c:265
-#, c-format
+#, ycp-format
 msgid ""
 "%5d\n"
 "%5d %%\n"
@@ -8370,14 +8357,12 @@ msgid "_Remove"
 msgstr ""
 
 #: client/gui-mui/worklistclass.c:182
-#, fuzzy
 msgid "entry"
-msgstr "Centre"
+msgstr ""
 
 #: client/gui-mui/worklistclass.c:182
-#, fuzzy
 msgid "entries"
-msgstr "Centre View"
+msgstr ""
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:208
@@ -8405,7 +8390,7 @@ msgid "Name of Worklist"
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:193
-#, c-format
+#, c-format, ycp-format
 msgid "Pollution:    %3d"
 msgstr ""
 
@@ -8431,17 +8416,17 @@ msgid ""
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:306
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/XXX XXX turns "
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:311
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/%3d %3d turn "
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:312
-#, c-format
+#, c-format, ycp-format
 msgid " %3d/%3d %3d turns "
 msgstr ""
 
@@ -8648,7 +8633,7 @@ msgid "Goal: %s (%d steps)"
 msgstr ""
 
 #: client/gui-xaw/repodlgs.c:1150
-#, c-format
+#, c-format, ycp-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr ""
 
@@ -9069,7 +9054,6 @@ msgstr ""
 "  Shift-click:             Adjust city workers from main map"
 
 #: data/helpdata.txt:438
-#, fuzzy
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -9129,48 +9113,55 @@ msgstr ""
 "=========\n"
 "  a: (a)uto-settler  (settler units)\n"
 "  a: (a)uto-attack  (military units)\n"
-"  c: (c)entre view on unit\n"
-"  C: unit (C)onnect (then left-click mouse to select destination)\n"
 "  b: (b)uild city  (settler units)\n"
 "  b: help (b)uild wonder  (caravan units)\n"
+"  c: (c)entre view on unit\n"
+"  C: unit (c)onnect  (then left-click mouse to select destination)\n"
+"  d: (d)iplomat/spy actions  (diplomat/spy units)\n"
 "  D: (D)isband unit\n"
-"  e: build airbas(e) (airbase units)\n"
+"  e: build airbas(e)  (airbase units)\n"
 "  f: (f)ortify unit  (military units)\n"
 "  f: build (f)ortress on tile  (settler units)\n"
+"  F: open (F)ind City dialog\n"
 "  g: unit (g)oto  (then left-click mouse to select destination)\n"
 "  h: change (h)omecity  (to city at current location)\n"
-"  i: build (i)rrigation/farmland  (may convert terrain)\n"
+"  i: build (i)rrigation/farmland  (settler units; may convert terr)\n"
 "  l: go/air(l)ift to city\n"
-"  m: build (m)ine  (may convert terrain)\n"
+"  L: open Work(L)ists dialog\n"
+"  m: build (m)ine  (settler units; may convert terrain)\n"
+"  n: clean (n)uclear fallout\n"
 "  N: explode (N)uclear\n"
 "  o: transf(o)rm terrain\n"
-"  p: clean (p)ollution\n"
+"  p: clean (p)ollution  (settler units)\n"
+"  p: (p)aradrop  (paratroop units)\n"
 "  P: (P)illage terrain alteration\n"
+"  q: unit patrol  (then left-click mouse to select destination)\n"
 "  r: build (r)oad/railway  (settler units)\n"
 "  r: establish trade (r)oute  (caravan units)\n"
 "  R: incite a (R)evolution\n"
 "  s: (s)entry unit\n"
+"  t: show (t)iles city is using  (mouse over or near city)\n"
+"  T: open (T)ax/Lux/Sci Rates dialog\n"
 "  u: (u)nload boat\n"
 "  w: (w)ait until later in turn\n"
 "  W: (W)ake up other units on tile\n"
-"  t: show (t)iles city is using  (mouse over or near city)\n"
-"  T: open (t)ax/lux/sci rates dialog\n"
 "  x: auto-e(x)plore\n"
 "\n"
 "  1: move south-west                  F1: open City Report\n"
-"  2: move south                       F2: open Military Report\n"
+"  2: move south                       F2: open Unit Report\n"
 "  3: move south-east                  F3: open Players dialog\n"
-"  4: move west                        F4: open Messages dialog\n"
-"  5: focus on next unit               F5: open Trade Report\n"
-"  6: move east                        F6: open Science Report\n"
-"  7: move north-west                  F7: open World Wonders\n"
-"  8: move north                       F8: open Top Five Cities\n"
+"  4: move west                        F5: open Economy Report\n"
+"  5: focus on next unit               F6: open Science Report\n"
+"  6: move east                        F7: open World Wonders\n"
+"  7: move north-west                  F8: open Top Five Cities\n"
+"  8: move north                      F10: open Messages dialog\n"
 "  9: move north-east                 F11: open Demographics\n"
 "                                     F12: open Spaceship\n"
 "\n"
-"  arrows: move unit            control-f: open (f)ind city dialog\n"
-"   space: unit stay put        control-g: grid lines on/off\n"
-"     tab: focus on next unit      return: turn done"
+"  arrows: move unit            Control-g: grid lines on/off\n"
+"   space: unit stay put        Control-n: city names on/off\n"
+"     tab: focus on next unit   Control-p: city production on/off\n"
+"  return: turn done"
 
 #: data/helpdata.txt:496
 msgid ""
@@ -9978,7 +9969,6 @@ msgstr ""
 " - a road"
 
 #: data/helpdata.txt:1119
-#, fuzzy
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -12298,7 +12288,6 @@ msgid "Settlers"
 msgstr ""
 
 #: data/civ2/units.ruleset:85 data/default/units.ruleset:85
-#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses, airbases and "
@@ -12746,7 +12735,6 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:94
-#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -12761,10 +12749,11 @@ msgid ""
 "though; excess effort can be wasted, and a group of Settlers is highly "
 "vulnerable to enemy attacks."
 msgstr ""
-"Setters are one of the key units in the game.  They can be used to found new "
-"cities, irrigate land, build roads, railways, fortresses and mines, and "
-"clean up pollution.  Upkeep for Settlers is in food as well as production, "
-"and a Setter can die if its supporting city runs out of food.\n"
+"Settlers are one of the key units in the game.  They can be used to found "
+"new cities, irrigate land, build roads, railways, fortresses and mines, and "
+"clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as "
+"well as production, and a Settler can die if its supporting city runs out of "
+"food.\n"
 "\n"
 "Settlers may work together to decrease the amount of time required for long "
 "projects.  If two or more Settlers are both working on the same task in the "
@@ -13066,7 +13055,7 @@ msgstr ""
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xFA.
 #: data/nation/dunedain.ruleset:7
 msgid "Dunedain"
-msgstr "Dúndedain"
+msgstr "Dúnedain"
 
 #: data/nation/dunedain.ruleset:8
 msgid "?plural:Dunedan"
