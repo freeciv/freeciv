@@ -557,6 +557,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     wipe_unit(pplayer, plooser);
   }
   else {
+    punit->moved=1; /* We moved */
+
     if (incity) notify_player_ex(&game.players[pwinner->owner], 
 		     punit->x, punit->y, E_UNIT_WIN_ATT, 
 		     "Game: Your attacking %s was successful against %s's %s at %s!",
@@ -894,6 +896,9 @@ handle_unit_move_request(pplayer, bodyguard, dest_x, dest_y));*/
         }
       }
     }
+
+    punit->moved=1;
+
     return 1;
   }
   return 0;

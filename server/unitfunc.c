@@ -834,18 +834,30 @@ void player_restore_units(struct player *pplayer)
 void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
-  
-  punit->hp+=hp_gain_coord(punit);
-  
-  pcity=city_list_find_id(&pplayer->cities, game.global_wonders[B_UNITED]);
+  int was_lower;
 
-  if(pcity && !wonder_obsolete(B_UNITED))
-    punit->hp+=2;
+  if(punit->moved)
+    punit->moved=0;
+  else {
+    was_lower=(punit->hp < get_unit_type(punit->type)->hp);
+  
+    punit->hp+=hp_gain_coord(punit);
+  
+    pcity=city_list_find_id(&pplayer->cities, game.global_wonders[B_UNITED]);
+
+    if(pcity && !wonder_obsolete(B_UNITED))
+      punit->hp+=2;
     
-  if(punit->hp>get_unit_type(punit->type)->hp)
-    punit->hp=get_unit_type(punit->type)->hp;
-  if(punit->hp<0)
-    punit->hp=0;
+    if(!pcity && (punit->type==U_HELICOPTER))
+      punit->hp-=get_unit_type(punit->type)->hp/10;
+    if(punit->hp>=get_unit_type(punit->type)->hp) {
+      punit->hp=get_unit_type(punit->type)->hp;
+      if(was_lower&&punit->activity==ACTIVITY_SENTRY)
+        set_unit_activity(punit,ACTIVITY_IDLE);
+    }
+    if(punit->hp<0)
+      punit->hp=0;
+  }
 }
   
 
@@ -1388,6 +1400,8 @@ int do_airline(struct unit *punit, int x, int y)
   notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
 		   "Game: unit transported succesfully.");
   connection_do_unbuffer(game.players[punit->owner].conn);
+
+  punit->moved=1;
   
   return 1;
 }
