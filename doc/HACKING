@@ -548,7 +548,7 @@ The paragraph above isn't true anymore for player, units and cities. -RF
 
 ===========================================================================
 
-Player-related entities in Freeciv - by rp@win.tue.nl 
+Player-related entities in Freeciv - by Reinier Post <reinpost@win.tue.nl>
 + by dwp@mso.anu.edu.au
 
 Freeciv is confused about the meaning of 'player'.  As a participant in

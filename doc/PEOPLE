@@ -55,7 +55,7 @@ contributions to the Freeciv project.
      Daniel L Speyer <dspeyer@wam.umd.edu> (improved graphics support)
      Gregory Berkolaiko <Gregory.Berkolaiko@strath.ac.uk> 
 	(AI cleanup, goto cleanup, debug, bugfixes)
-     Reinier Post <rp@win.tue.nl> (portability, bugfixes)
+     Reinier Post <reinpost@win.tue.nl> (portability, bugfixes)
      Gregor Zeitlinger <zeitling@informatik.hu-berlin.de> 
 	(caravan flag split)
      Markus Linnala <maage@cs.tut.fi> (AI cleanup, bugfixes)
@@ -118,7 +118,7 @@ contributions to the Freeciv project.
      Robert Rendell <rob@universe.serc.rmit.edu.au> (patches)
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (patches)
      Lauri Tarkkala <ltarkkal@hutcs.cs.hut.fi> (improved networking)
-     Reinier Post <rp@win.tue.nl> (patches)
+     Reinier Post <reinpost@win.tue.nl> (patches)
      Mike Kaufman <mkaufman@math.ukans.edu> (patch)
      Tuomas Airaksinen <tuomas.airaksinen@tuma.stc.cx> (patches)
      Kero van Gelder <kero@ipc3799cba.dial.wxs.nl>
@@ -542,7 +542,7 @@ contributions to the Freeciv project.
      Todd Goodman <tgoodman@bonedaddy.net>
      Egbert Hinzen <garfy@ehinzen.de>
      Raahul Kumar <raahul_da_man@yahoo.com>
-     Reinier Post <rp@win.tue.nl>
+     Reinier Post <reinpost@win.tue.nl>
      SAWADA Katsuya <ama@petmail.net>
      Marco Tarini <tarini@iei.pi.cnr.it>
      Kevin Turner <Kevin.Turner@oberlin.edu>

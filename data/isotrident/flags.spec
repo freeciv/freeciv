@@ -10,7 +10,7 @@ artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
     David Pfitzner <dwp@mso.anu.edu.au> (revised)
     Jerzy Klek <qpkjeek@epk.ericsson.se> (more flags added)
-    Reineir Post <rp@win.tue.nl> (Sweden, Holland)
+    Reineir Post <reinpost@win.tue.nl> (Sweden, Holland)
     Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
     Robert Brady <rwb197@ecs.soton.ac.uk> (more flags)
     Tomasz Wegrzanowski <maniek@beer.com> (more flags added, Silesia)
