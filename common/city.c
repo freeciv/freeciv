@@ -529,12 +529,20 @@ int get_shields_tile(int x, int y)
 **************************************************************************/
 int city_get_shields_tile(int x, int y, struct city *pcity)
 {
+  return base_city_get_shields_tile(x, y, pcity, city_celebrating(pcity));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int base_city_get_shields_tile(int x, int y, struct city *pcity,
+			       int is_celebrating)
+{
   int is_real, map_x, map_y, s = 0;
   enum tile_special_type spec_t;
   enum tile_terrain_type tile_t;
   struct government *g = get_gov_pcity(pcity);
-  int celeb = city_celebrating(pcity);
-  int before_penalty = (celeb ? g->celeb_shields_before_penalty
+  int before_penalty = (is_celebrating ? g->celeb_shields_before_penalty
 			: g->shields_before_penalty);
   
   is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
@@ -561,7 +569,7 @@ int city_get_shields_tile(int x, int y, struct city *pcity)
     s++;
   /* government shield bonus & penalty */
   if (s)
-    s += (celeb ? g->celeb_shield_bonus : g->shield_bonus);
+    s += (is_celebrating ? g->celeb_shield_bonus : g->shield_bonus);
   if (before_penalty && s > before_penalty)
     s--;
   if (spec_t & S_POLLUTION)
@@ -614,6 +622,15 @@ int get_trade_tile(int x, int y)
 **************************************************************************/
 int city_get_trade_tile(int x, int y, struct city *pcity)
 {
+  return base_city_get_trade_tile(x, y, pcity, city_celebrating(pcity));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int base_city_get_trade_tile(int x, int y, struct city *pcity,
+			     int is_celebrating)
+{
   enum tile_special_type spec_t;
   enum tile_terrain_type tile_t;
   struct government *g = get_gov_pcity(pcity);
@@ -639,8 +656,7 @@ int city_get_trade_tile(int x, int y, struct city *pcity)
     t += (get_tile_type(tile_t))->road_trade_incr;
   }
   if (t) {
-    int celeb = city_celebrating(pcity);
-    int before_penalty = (celeb ? g->celeb_trade_before_penalty
+    int before_penalty = (is_celebrating ? g->celeb_trade_before_penalty
 			  : g->trade_before_penalty);
     
     if (spec_t & S_RAILROAD)
@@ -649,7 +665,7 @@ int city_get_trade_tile(int x, int y, struct city *pcity)
     /* Civ1 specifically documents that Railroad trade increase is before 
      * Democracy/Republic [government in general now -- SKi] bonus  -AJS */
     if (t)
-      t += (celeb ? g->celeb_trade_bonus : g->trade_bonus);
+      t += (is_celebrating ? g->celeb_trade_bonus : g->trade_bonus);
 
     if(city_affected_by_wonder(pcity, B_COLLOSSUS)) 
       t++;
@@ -705,19 +721,27 @@ int get_food_tile(int x, int y)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+int city_get_food_tile(int x, int y, struct city *pcity)
+{
+  return base_city_get_food_tile(x, y, pcity, city_celebrating(pcity));
+}
+
+/**************************************************************************
 Here the exact food production should be calculated. That is
 including ALL modifiers. 
 Center tile acts as irrigated...
 **************************************************************************/
-int city_get_food_tile(int x, int y, struct city *pcity)
+int base_city_get_food_tile(int x, int y, struct city *pcity,
+			    int is_celebrating)
 {
   int is_real, map_x, map_y, f;
   enum tile_special_type spec_t;
   enum tile_terrain_type tile_t;
   struct tile_type *type;
   struct government *g = get_gov_pcity(pcity);
-  int celeb = city_celebrating(pcity);
-  int before_penalty = (celeb ? g->celeb_food_before_penalty
+  int before_penalty = (is_celebrating ? g->celeb_food_before_penalty
 			: g->food_before_penalty);
   int city_auto_water;
 
@@ -756,7 +780,7 @@ int city_get_food_tile(int x, int y, struct city *pcity)
     f+=(f*terrain_control.rail_food_bonus)/100;
 
   if (f)
-    f += (celeb ? g->celeb_food_bonus : g->food_bonus);
+    f += (is_celebrating ? g->celeb_food_bonus : g->food_bonus);
   if (before_penalty && f > before_penalty) 
     f--;
 
@@ -967,12 +991,20 @@ int city_unhappy(struct city *pcity)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static int base_city_celebrating(struct city *pcity)
+{
+  return (pcity->size >= get_gov_pcity(pcity)->rapture_size
+	  && pcity->was_happy);
+}
+
+/**************************************************************************
 cities celebrate only after consecutive happy turns
 **************************************************************************/
 int city_celebrating(struct city *pcity)
 {
-  struct government *g = get_gov_pcity(pcity);
-  return (pcity->size>=g->rapture_size && pcity->was_happy && city_happy(pcity));
+  return base_city_celebrating(pcity) && city_happy(pcity);
 }
 
 /**************************************************************************
@@ -1729,6 +1761,8 @@ static void set_pollution(struct city *pcity)
 static void set_food_trade_shields(struct city *pcity)
 {
   int i;
+  int is_celebrating = base_city_celebrating(pcity);
+
   pcity->food_prod = 0;
   pcity->shield_prod = 0;
   pcity->trade_prod = 0;
@@ -1739,9 +1773,12 @@ static void set_food_trade_shields(struct city *pcity)
 
   city_map_iterate(x, y) {
     if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
-      pcity->food_prod += city_get_food_tile(x, y, pcity);
-      pcity->shield_prod += city_get_shields_tile(x, y, pcity);
-      pcity->trade_prod += city_get_trade_tile(x, y, pcity);
+      pcity->food_prod +=
+	  base_city_get_food_tile(x, y, pcity, is_celebrating);
+      pcity->shield_prod +=
+	  base_city_get_shields_tile(x, y, pcity, is_celebrating);
+      pcity->trade_prod +=
+	  base_city_get_trade_tile(x, y, pcity, is_celebrating);
     }
   }
   city_map_iterate_end;
