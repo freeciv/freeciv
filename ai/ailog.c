@@ -32,20 +32,57 @@
 /* General AI logging functions */
 
 /**************************************************************************
+  Log player tech messages.
+**************************************************************************/
+void TECH_LOG(int level, struct player *pplayer, Tech_Type_id id,
+              const char *msg, ...)
+{
+  char buffer[500];
+  char buffer2[500];
+  va_list ap;
+  int minlevel = MIN(LOGLEVEL_TECH, level);
+
+  if (!tech_exists(id) || id == A_NONE) {
+    return;
+  }
+
+  if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH)) {
+    minlevel = LOG_NORMAL;
+  } else if (minlevel > fc_log_level) {
+    return;
+  }
+
+  my_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ", 
+              pplayer->name, get_tech_name(pplayer, id), 
+              pplayer->ai.tech_want[id], 
+              num_unknown_techs_for_goal(pplayer, id));
+
+  va_start(ap, msg);
+  my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
+  va_end(ap);
+
+  cat_snprintf(buffer, sizeof(buffer), buffer2);
+  if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH)) {
+    notify_conn(&game.est_connections, buffer);
+  }
+  freelog(minlevel, buffer);
+}
+
+/**************************************************************************
   Log player messages, they will appear like this
     2: perrin [ti12 co6 lo5 e]  Increased love for a (now 9)
   where ti is timer, co countdown and lo love for target, who is e.
 **************************************************************************/
-void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai, 
-                const char *msg, ...)
+void DIPLO_LOG(int level, struct player *pplayer, struct ai_data *ai, 
+               const char *msg, ...)
 {
   char targetbuffer[250];
   char buffer[500];
   char buffer2[500];
   va_list ap;
-  int minlevel = MIN(LOGLEVEL_CITY, level);
+  int minlevel = MIN(LOGLEVEL_PLAYER, level);
 
-  if (pplayer->debug) {
+  if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
     minlevel = LOG_NORMAL;
   } else if (minlevel > fc_log_level) {
     return;
@@ -70,7 +107,7 @@ void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai,
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
-  if (pplayer->debug) {
+  if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
     notify_conn(&game.est_connections, buffer);
   }
   freelog(minlevel, buffer);

@@ -29,9 +29,14 @@ struct ai_data;
 #define LOGLEVEL_CITY LOG_DEBUG
 #define LOGLEVEL_BUILD LOG_DEBUG
 #define LOGLEVEL_HUNT LOG_DEBUG
+#define LOGLEVEL_PLAYER LOG_DEBUG
+#define LOGLEVEL_TECH LOG_DEBUG
 
-void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai,
-                const char *msg, ...)
+void TECH_LOG(int level, struct player *pplayer, Tech_Type_id id,
+              const char *msg, ...)
+     fc__attribute((format (printf, 4, 5)));
+void DIPLO_LOG(int level, struct player *pplayer, struct ai_data *ai,
+               const char *msg, ...)
      fc__attribute((format (printf, 4, 5)));
 void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
      fc__attribute((format (printf, 3, 4)));

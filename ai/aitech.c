@@ -26,6 +26,7 @@
 #include "plrhand.h"
 
 #include "advmilitary.h"
+#include "ailog.h"
 #include "aitools.h"
 
 #include "aitech.h"
@@ -185,9 +186,13 @@ static void ai_select_tech(struct player *pplayer,
       }
     }
   } tech_type_iterate_end;
-  freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", 
-	  pplayer->name, get_tech_name(pplayer, newtech), values[newtech], 
-	  pplayer->ai.tech_want[newtech]);
+#ifdef REALLY_DEBUG_THIS
+  tech_type_iterate(id) {
+    if (values[id] > 0 && get_invention(pplayer, id) == TECH_REACHABLE) {
+      TECH_LOG(LOG_DEBUG, pplayer, id, "turn end want: %d", values[id]);
+    }
+  } tech_type_iterate_end;
+#endif
   if (choice) {
     choice->choice = newtech;
     choice->want = values[newtech] / num_cities_nonzero;

@@ -2191,9 +2191,9 @@ static bool debug_command(struct connection *caller, char *str,
   char buf[MAX_LEN_CONSOLE_LINE];
   char *arg[3];
   int ntokens = 0, i;
-  const char *usage = _("Undefined arguments. Usage: debug <player "
+  const char *usage = _("Undefined arguments. Usage: debug <diplomacy "
 			"<player> | city <x> <y> | units <x> <y> | "
-			"unit <id>>.");
+			"unit <id> | tech <player>>.");
 
   if (server_state != RUN_GAME_STATE) {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
@@ -2209,7 +2209,7 @@ static bool debug_command(struct connection *caller, char *str,
     ntokens = get_tokens(buf, arg, 3, TOKEN_DELIMITERS);
   }
 
-  if (strcmp(arg[0], "player") == 0) {
+  if (strcmp(arg[0], "diplomacy") == 0) {
     struct player *pplayer;
     enum m_pre_result match_result;
 
@@ -2222,13 +2222,37 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply_no_such_player(CMD_DEBUG, caller, arg[1], match_result);
       goto cleanup;
     }
-    if (pplayer->debug) {
-      pplayer->debug = FALSE;
-      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s no longer debugged"), 
+    if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
+      BV_CLR(pplayer->debug, PLAYER_DEBUG_DIPLOMACY);
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s diplomacy no longer debugged"), 
                 pplayer->name);
     } else {
-      pplayer->debug = TRUE;
-      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s debugged"), pplayer->name);
+      BV_SET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY);
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s diplomacy debugged"), 
+                pplayer->name);
+      /* TODO: print some info about the player here */
+    } 
+  } else if (strcmp(arg[0], "tech") == 0) {
+    struct player *pplayer;
+    enum m_pre_result match_result;
+
+    if (ntokens != 2) {
+      cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
+      goto cleanup;
+    }
+    pplayer = find_player_by_name_prefix(arg[1], &match_result);
+    if (pplayer == NULL) {
+      cmd_reply_no_such_player(CMD_DEBUG, caller, arg[1], match_result);
+      goto cleanup;
+    }
+    if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH)) {
+      BV_CLR(pplayer->debug, PLAYER_DEBUG_TECH);
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s tech no longer debugged"), 
+                pplayer->name);
+    } else {
+      BV_SET(pplayer->debug, PLAYER_DEBUG_TECH);
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("%s tech debugged"), 
+                pplayer->name);
       /* TODO: print some info about the player here */
     }
   } else if (strcmp(arg[0], "city") == 0) {

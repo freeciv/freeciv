@@ -140,7 +140,7 @@ void player_init(struct player *plr)
 
   plr->attribute_block.data = NULL;
   plr->attribute_block.length = 0;
-  plr->debug = FALSE;
+  BV_CLR_ALL(plr->debug);
 }
 
 /***************************************************************

@@ -129,7 +129,12 @@ static void ai_choose_help_wonder(struct city *pcity,
         int tech_req = get_unit_type(unit_type)->tech_requirement;
 
         /* XXX (FIXME): Had to add the scientist guess here too. -- Syela */
+        /* What Syela probably means is that this addition to tech want
+         * is in addition to the tech want implitictly added by 
+         * ai_choose_rule_unit() above. - Per */
         pplayer->ai.tech_want[tech_req] += want;
+        TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to build wonders",
+                 want, unit_name(unit_type));
       }
     }
   } city_list_iterate_end;

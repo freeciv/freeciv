@@ -175,6 +175,11 @@ struct player_diplstate {
   see doc/HACKING
 ***************************************************************************/
 
+enum player_debug_types {
+  PLAYER_DEBUG_DIPLOMACY, PLAYER_DEBUG_TECH, PLAYER_DEBUG_LAST
+};
+
+BV_DEFINE(bv_debug, PLAYER_DEBUG_LAST);
 struct player {
   int player_no;
   char name[MAX_LEN_NAME];
@@ -222,7 +227,7 @@ struct player {
     int length;
     void *data;
   } attribute_block;
-  bool debug;
+  bv_debug debug;
 };
 
 void player_init(struct player *plr);

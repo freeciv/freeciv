@@ -727,6 +727,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
         }
 
         /* Yes, there's some similarity with kill_desire(). */
+        /* TODO: Explain what shield cost has to do with tech want. */
         tech_desire[unit_type] = (desire * danger /
 				  (unit_build_shield_cost(unit_type)
 				   + tech_cost));
@@ -744,14 +745,14 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   simple_ai_unit_type_iterate (unit_type) {
     if (tech_desire[unit_type] > 0) {
       Tech_Type_id tech_req = unit_types[unit_type].tech_requirement;
+      /* TODO: Document or fix the algorithm below. I have no idea why
+       * it is written this way, and the results seem strange to me. - Per */
       int desire = tech_desire[unit_type]
                    * unit_build_shield_cost(best_unit_type) / best;
       
       pplayer->ai.tech_want[tech_req] += desire;
-      
-      freelog(LOG_DEBUG, "%s wants %s for defense with desire %d <%d>",
-              pcity->name, get_tech_name(pplayer, tech_req), desire,
-              tech_desire[unit_type]);
+      TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to defend %s",
+               desire, unit_name(unit_type), pcity->name);
     }
   } simple_ai_unit_type_iterate_end;
   
@@ -921,12 +922,9 @@ static void process_attacker_want(struct city *pcity,
         if (tech_dist > 0) {
           /* This is a future unit, tell the scientist how much we need it */
           pplayer->ai.tech_want[tech_req] += want;
-          
-          CITY_LOG(LOG_DEBUG, pcity, "wants %s to build %s to punish %s@(%d,%d)"
-                   " with desire %d", get_tech_name(pplayer, tech_req), 
-                   unit_name(unit_type), (acity ? acity->name : "enemy"),
-                   TILE_XY(ptile), want);
-
+          TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s vs %s(%d,%d)",
+                   want, unit_name(unit_type), (acity ? acity->name : 
+                   unit_name(victim_unit_type)), TILE_XY(ptile));
         } else if (want > best_choice->want) {
           if (can_build_unit(pcity, unit_type)) {
             /* This is a real unit and we really want it */

@@ -353,9 +353,9 @@ static void ai_manage_government(struct player *pplayer)
     return; /* already got it! */
   }
   pplayer->ai.tech_want[ai->goal.govt.req] += ai->goal.govt.val;
-  freelog(LOG_DEBUG, "%s wants %s with want %d", pplayer->name,
-          get_tech_name(pplayer, ai->goal.govt.req), 
-          pplayer->ai.tech_want[ai->goal.govt.req]);
+  TECH_LOG(LOG_DEBUG, pplayer, ai->goal.govt.req, "+ %d for %s in "
+           "ai_manage_government", ai->goal.govt.val,
+           get_government_name(ai->goal.govt.idx));
 }
 
 /**************************************************************************

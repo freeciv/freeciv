@@ -54,6 +54,10 @@
 #define LOG_DIPLOMAT LOG_DEBUG
 #define LOG_DIPLOMAT_BUILD LOG_DEBUG
 
+/* 3000 is a just a large number, but not hillariously large as the
+ * previously used one. This is important for diplomacy. - Per */
+#define DIPLO_DEFENSE_WANT 3000
+
 static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                   struct city **ctarget, int *move_dist,
                                   struct pf_map *map);
@@ -119,9 +123,13 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
       freelog(LOG_DIPLOMAT_BUILD,
               "A defensive diplomat is wanted badly in city %s.", pcity->name);
       u = get_role_unit(F_DIPLOMAT, 0);
-      /* 3000 is a just a large number, but not hillariously large as the
-         previously used one. This is important for diplomacy later - Per */
-      pplayer->ai.tech_want[get_unit_type(u)->tech_requirement] += 3000;
+      if (u != U_LAST) {
+        Tech_Type_id tech_req = get_unit_type(u)->tech_requirement;
+
+        pplayer->ai.tech_want[tech_req] += DIPLO_DEFENSE_WANT;
+        TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s in diplo defense",
+                 DIPLO_DEFENSE_WANT, unit_name(u));
+      }
     }
   }
 }
