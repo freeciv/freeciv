@@ -1062,7 +1062,9 @@ City improvements which would normally have an upkeep of 1 are free
 of upkeep, for all cities.
 ---
 # Apollo Program
-All cities on the map become visible.
+All cities on the map become visible for the player who owns it.
+It allows all players to start building spaceship parts (assuming
+they have researched the necessary technologies).
 ---
 # Colossus
 Each square around the city where this wonder is built produces one
@@ -1090,15 +1092,17 @@ Works as a City Wall in all cities.
 # Hanging Gardens
 Makes one content citizen happy in every city. Makes two extra
 content citizens happy in the city containing the Hanging Gardens
-(that is, a total of 3).  In the unlikely event where there are no 
-content citizens to get the effect of Hanging Gardens, the wonder 
+(that is, a total of 3).  In the unlikely event where there are no
+content citizens to get the effect of Hanging Gardens, the wonder
 applies to unhappy citizens (making them content instead).
 ---
 # Hoover Dam
 Works as if you had a Hydro Plant in every city.  (This reduces
 pollution and increases the effects of Factories and Mfg. Plants.)
 Like a Hydro Plant, the Hoover Dam can only be built in a city
-which is next to (or on) a Mountain or River tile.
+which is next to (or on) a Mountain or River tile.  However, its
+effect is applicable to the whole of your civilization (regardless
+of whether a city is next to, or on, a Mountain or River tile).
 
 Variant 1: As above, but works only on the same continent as the
 city where it is built.
@@ -1160,8 +1164,9 @@ a Research Lab in all of your cities.)
 Makes all unhappy citizens content, in the city where it is located.
 ---
 # Statue of Liberty
-Allows you to choose any government without the transition period of
-Anarchy.
+Allows you to choose any government (including those that have not
+been researched yet by your civilization) without the transition
+period of Anarchy.
 ---
 # Sun Tzu's War Academy
 All your new ground units become veterans (for all cities).
@@ -1507,8 +1512,8 @@ An improved Fighter, with improved attack and a higher movement
 radius.
 ---
 # Submarine
-This unit is invisible unless the enemy is very close.  It cannot
-make shore bombardments against enemy land units or cities.
+This unit is invisible unless it is next to an enemy unit or city.
+It cannot make shore bombardments against enemy land units or cities.
 %% It can carry up to 8 missiles.
 
 Submarines have a very high strategic value, but have a weak
@@ -1685,7 +1690,7 @@ controlled) by enemy forces.
 The general rule is that a land unit which is adjacent to an enemy
 occupied square cannot move directly to another square which is
 also adjacent to an enemy occupied square.  Here an enemy occupied
-square means a land square with an enemy unit on it.  Adjacency 
+square means a land square with an enemy unit on it.  Adjacency
 means any of the eight squares surrounding a unit.
 
 In the following special cases ZOC does not apply:
@@ -1701,9 +1706,9 @@ Notes:
   sea units cannot impose ZOC, and air units (including helicopters)
   do not impose ZOC if they are over ocean squares.
 - ZOC does not restrict unit attacks, only movement.
-- An enemy city counts as an enemy occupied square if they are any 
+- An enemy city counts as an enemy occupied square if they are any
   units inside the city, but not if the city is empty.
-- Moving from an ocean square is a special case; moving _to_ an 
+- Moving from an ocean square is a special case; moving _to_ an
   ocean square (moving back onto a boat) is also permitted, by the
   special case of moving onto a friendly unit (the boat).
 
@@ -1714,7 +1719,7 @@ TIP: You can infiltrate enemy zones by first moving in a Diplomat
      behind to keep squares occupied), you can make a path through
      enemy territory.
 
-These rules differ slightly from previous versions of freeciv 
+These rules differ slightly from previous versions of freeciv
 (release 1.8.0 and before) in the following ways:
 - Enemy cities with no units in them no longer impose ZOC.
 - The special case for land units disembarking is new.
@@ -1846,6 +1851,28 @@ Settlers and Engineers may also build a fortress.  Units inside a
 fortress defend at twice their normal strength; also, units inside
 a fortress must be destroyed one at a time.  See the Combat help
 section for further details.
+
+The following table shows the number of turns required for one unit
+of Settlers to complete an activity. These numbers are reduced to
+half (rounded up) for Engineers, and they can be reduced further by
+stockpiling several Settlers/Engineers, doing teamwork.
+
+Terrain Type  Road  Irrigation   Mining      Transform (Engin. only)
+--------------------------------------------------------------------
+Arctic         4      0            0             24 (tundra)
+Desert         2      5            5             24 (plains)
+Forest         4      5 (plains)   -              -
+Grassland      2      5           10             24 (hills)
+Hills          4     10           10             24 (plains)
+Jungle         4     15 (grass.)  15 (forest)    24 (plains)
+Mountains      6      -           10             24 (hills)
+Plains         2      5           15             24 (grassland)
+River          2      5            -              -
+Swamp          4     15 (grass.)  15 (forest)    24 (plains)
+Tundra         2      -            -             24 (desert)
+
+(Railroads and fortresses require 3 turns, regardless of terrain.)
+
 ---
 #Government
 Your government type influences your cities' productivity and
@@ -1885,12 +1912,12 @@ will loot half of your treasury and retain all of your
 scientific advances.
 
 Players remain in the civil war state for just one turn, after
-which the empire enters a state of anarchy.  
+which the empire enters a state of anarchy.
 
 The capture of your capital does not always lead to civil war.  If
 you have treated your people with kindness, you are more likely to
 retain their loyalty.  Each city that is celebrating reduces the
-chance of civil war, while each revolting city increases the 
+chance of civil war, while each revolting city increases the
 likelihood.
 
 In addition, the form of government directly contributes to the
@@ -2095,38 +2122,51 @@ government type:
 
 The normal state of a citizen is contentment.  However, as your
 cities grow larger, crowding causes citizens to become unhappy.
-Each citizen in a city after the 4th will be generated unhappy,
+Each citizen in a city after the 4th (that is, the default value of
+the option unhappysize in the server) will be generated unhappy,
 instead of content.  If you have a large number of cities (depending
-on your government), the limit on content citizens is reduced to 3.
+on your government as well as the server option cityfactor), the
+limit on content citizens is reduced to 3.
 %% See content_citizens() in server/citytools.c.
 
-In order to offset unhappiness, you may build city improvements and
-wonders of the world, or convert a fraction of your trade into
-luxuries.  For every 2 luxuries produced in a city, one content
-citizen is made happy.  After converting all content citizens to
-happy citizens, unhappy citizens are converted to happy and/or
-content.  Some city improvements and wonders of the world have
-effects on citizens' happiness (see the appropriate sections for
-details).
+In order to offset unhappiness, you may build city improvements that
+make unhappy citizens content  (such as, a Temple, a Colosseum, or a
+Cathedral - or even a Courthouse if your government is a Democracy),
+and/or relevant wonders of the world, and/or convert part of your
+trade into luxuries.  For every two luxuries produced in a city, one
+content citizen is made happy.  After converting all content
+citizens to happy citizens, unhappy citizens are converted to happy
+and/or content.  Some wonders of the world have also effects on
+citizens' happiness (see the appropriate sections for details).
 
 Under many forms of government, the presence of military units in a
 city can create contentment by imposing martial law.  Under a
 Republic or a Democracy, however, military units can cause
-unhappiness.  See Government for details.
+unhappiness (see Government for details).  It is noted that, in this
+case, city improvements, such as those mentioned above, do not have
+any effect on citizens' unhappiness.  This form of unhappiness can
+be offset by building a Police Station, relevant wonders of the
+world (such as the Hanging Gardens, J.S. Bach's Cathedral, the Cure
+for Cancer, Shakespeare's Theatre, and, of course, the Women's
+Suffrage; note, however, that the Michelangelo's Chapel will not
+have an effect in this case, since it counts as a Cathedral in every
+city), or converting part of your trade into luxuries.
+%%For more details check city_refresh() in server/cityturn.c
+
 ---
 #Space Race
-The Space Race is a second option to win the game, besides 
+The Space Race is a second option to win the game, besides
 eliminating all other civilizations.  If your spaceship arrives
 first at Alpha Centauri, the game is over and you have won.
-(However it is possible for this option to be off as a server 
+(However it is possible for this option to be off as a server
 option.)
 
 Before you can build spaceship parts, the Apollo Program wonder
 must have been built by any player.  You also need specific
 technologies to build the different spaceship parts: see the
 help texts for Space Structural, Space Component, and Space Module,
-under City Improvements.  (If there are no help texts for these 
-items, it probably means the spacerace server option is off for 
+under City Improvements.  (If there are no help texts for these
+items, it probably means the spacerace server option is off for
 your game.)
 
 When you have started building your spaceship, you can see it with
