@@ -33,6 +33,7 @@
 #include "government.h"
 #include "map.h"
 #include "mem.h"
+#include "packets.h"
 #include "player.h"
 #include "shared.h"
 
@@ -137,8 +138,8 @@ void request_diplomacy_accept_treaty(struct Treaty *treaty, int from)
 struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 						 struct player *plr1);
 
-struct genlist diplomacy_dialogs;
-int diplomacy_dialogs_list_has_been_initialised;
+static struct genlist diplomacy_dialogs;
+static int diplomacy_dialogs_list_has_been_initialised;
 
 struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0, 
 					       struct player *plr1);
@@ -699,4 +700,20 @@ struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
       return pdialog;
   }
   return 0;
+}
+
+/*****************************************************************
+  Close all dialogs, for when client disconnects from game.
+*****************************************************************/
+void close_all_diplomacy_dialogs(void)
+{
+  struct Diplomacy_dialog *pdialog;
+  
+  if (!diplomacy_dialogs_list_has_been_initialised) {
+    return;
+  }
+  while (genlist_size(&diplomacy_dialogs)) {
+    pdialog = genlist_get(&diplomacy_dialogs, 0);
+    close_diplomacy_dialog(pdialog);
+  }
 }

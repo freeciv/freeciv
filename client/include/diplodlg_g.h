@@ -13,12 +13,14 @@
 #ifndef FC__DIPLODLG_G_H
 #define FC__DIPLODLG_G_H
 
-#include "packets.h"
+struct packet_diplomacy_info;
 
 void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa);
 void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa);
 void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa);
 void handle_diplomacy_cancel_meeting(struct packet_diplomacy_info *pa);
 void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa);
+
+void close_all_diplomacy_dialogs(void);
 
 #endif  /* FC__DIPLODLG_G_H */

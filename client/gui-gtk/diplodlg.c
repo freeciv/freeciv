@@ -27,6 +27,7 @@
 #include "government.h"
 #include "map.h"
 #include "mem.h"
+#include "packets.h"
 #include "player.h"
 #include "shared.h"
 #include "support.h"
@@ -78,13 +79,11 @@ struct Diplomacy_dialog {
   GtkWidget *dip_erase_clause_command;
 };
 
-char *dummy_clause_list_strings[]={ "\n", "\n", "\n", "\n", "\n", "\n", 0};
+static struct genlist diplomacy_dialogs;
+static int diplomacy_dialogs_list_has_been_initialised;
 
 struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 						 struct player *plr1);
-
-struct genlist diplomacy_dialogs;
-int diplomacy_dialogs_list_has_been_initialised;
 
 struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0, 
 					       struct player *plr1);
@@ -868,5 +867,21 @@ void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
     }
     else
       append_output_window(_("Game: Invalid amount of gold specified."));
+  }
+}
+
+/*****************************************************************
+  Close all dialogs, for when client disconnects from game.
+*****************************************************************/
+void close_all_diplomacy_dialogs(void)
+{
+  struct Diplomacy_dialog *pdialog;
+  
+  if (!diplomacy_dialogs_list_has_been_initialised) {
+    return;
+  }
+  while (genlist_size(&diplomacy_dialogs)) {
+    pdialog = genlist_get(&diplomacy_dialogs, 0);
+    close_diplomacy_dialog(pdialog);
   }
 }

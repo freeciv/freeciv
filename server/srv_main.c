@@ -1584,6 +1584,7 @@ static void handle_request_join_game(struct connection *pconn,
       send_all_info(&pconn->self);
       send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
       send_player_info(NULL,NULL);
+      send_diplomatic_meetings(pconn);
     }
     if (game.auto_ai_toggle && pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
@@ -1662,15 +1663,17 @@ void lost_connection_to_client(struct connection *pconn)
   send_conn_info_remove(&pconn->self, &game.est_connections);
   send_player_info(pplayer, 0);
 
-  /* Cancel meetings. FIXME: port to multiple connections */
-  players_iterate(other_player) {
-    if (find_treaty(pplayer, other_player)) {
-      struct packet_diplomacy_info packet;
-     packet.plrno0 = pplayer->player_no;
-      packet.plrno1 = other_player->player_no;
-      handle_diplomacy_cancel_meeting(pplayer, &packet);
-    }
-  } players_iterate_end;
+  /* Cancel diplomacy meetings */
+  if (!pplayer->is_connected) { /* may be still true if multiple connections */
+    players_iterate(other_player) {
+      if (find_treaty(pplayer, other_player)) {
+	struct packet_diplomacy_info packet;
+	packet.plrno0 = pplayer->player_no;
+	packet.plrno1 = other_player->player_no;
+	handle_diplomacy_cancel_meeting(pplayer, &packet);
+      }
+    } players_iterate_end;
+  }
 
   if (game.is_new_game
       && !pplayer->is_connected /* eg multiple controllers */

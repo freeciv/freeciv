@@ -38,8 +38,8 @@
 
 #include "diplhand.h"
 
-struct genlist treaties;
-int did_init_treaties;
+static struct genlist treaties;
+static int did_init_treaties;
 
 
 /**************************************************************************
@@ -324,6 +324,12 @@ void handle_diplomacy_cancel_meeting(struct player *pplayer,
 			       packet);
     notify_player(theother, _("Game: %s canceled the meeting!"), 
 		  pplayer->name);
+    /* Need to send to pplayer too, for multi-connects: */
+    lsend_packet_diplomacy_info(&pplayer->connections, 
+			       PACKET_DIPLOMACY_CANCEL_MEETING, 
+			       packet);
+    notify_player(pplayer, _("Game: Meeting with %s canceled."), 
+		  theother->name);
     genlist_unlink(&treaties, ptreaty);
     free(ptreaty);
   }
@@ -366,3 +372,40 @@ void handle_diplomacy_init(struct player *pplayer,
 
 }
 
+/**************************************************************************
+  Send information on any on-going diplomatic meetings for connection's
+  player.  (For re-connection in multi-connect case.)
+**************************************************************************/
+void send_diplomatic_meetings(struct connection *dest)
+{
+  struct Treaty *ptreaty;
+  struct player *pplayer = dest->player;
+
+  if (pplayer==NULL) {
+    return;
+  }
+  players_iterate(other_player) {
+    if ( (ptreaty=find_treaty(pplayer, other_player))) {
+      struct genlist_iterator myiter;
+      struct packet_diplomacy_info packet;
+      
+      packet.plrno0 = pplayer->player_no;
+      packet.plrno1 = other_player->player_no;
+      
+      send_packet_diplomacy_info(dest, PACKET_DIPLOMACY_INIT_MEETING, &packet);
+      
+      genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
+      
+      for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+	struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+
+	packet.clause_type = pclause->type;
+	packet.plrno_from = pclause->from->player_no;
+	packet.value = pclause->value;
+  
+	send_packet_diplomacy_info(dest, PACKET_DIPLOMACY_CREATE_CLAUSE,
+				   &packet);
+      }
+    }
+  } players_iterate_end;
+}

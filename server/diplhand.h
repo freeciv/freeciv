@@ -13,8 +13,13 @@
 #ifndef FC__DIPLHAND_H
 #define FC__DIPLHAND_H
 
-#include "packets.h"
+struct Treaty;
+struct player;
+struct packet_diplomacy_info;
+struct connection;
+
 struct Treaty *find_treaty(struct player *plr0, struct player *plr1);
+
 void handle_diplomacy_cancel_meeting(struct player *pplayer, 
 				     struct packet_diplomacy_info *packet);
 void handle_diplomacy_create_clause(struct player *pplayer, 
@@ -25,5 +30,7 @@ void handle_diplomacy_init(struct player *pplayer,
 			   struct packet_diplomacy_info *packet);
 void handle_diplomacy_accept_treaty(struct player *pplayer, 
 				    struct packet_diplomacy_info *packet);
+
+void send_diplomatic_meetings(struct connection *dest);
 
 #endif  /* FC__DIPLHAND_H */
