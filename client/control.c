@@ -144,6 +144,7 @@ void advance_unit_focus(void)
   goto_state=0;
   nuke_state=0;
   paradrop_state=0;
+  connect_state=0;
 
   if(!punit_focus) {
     unit_list_iterate(game.player_ptr->units, punit) {
@@ -621,6 +622,7 @@ void do_map_click(int xtile, int ytile)
         goto_state=0;
         nuke_state=0;
         paradrop_state=0;
+	connect_state=0;
         return;
       }
 
@@ -633,23 +635,30 @@ void do_map_click(int xtile, int ytile)
         return;
       }
 
-      if(nuke_state && 3*real_map_distance(punit->x,punit->y,xtile,ytile) > punit->moves_left) {
+      if(nuke_state &&
+	 3*real_map_distance(punit->x,punit->y,xtile,ytile) > punit->moves_left) {
         append_output_window(_("Game: Too far for this unit."));
         goto_state=0;
         nuke_state=0;
+        paradrop_state=0;
+        connect_state=0;
         update_unit_info_label(punit);
-      } else {
-        req.unit_id=punit->id;
-        req.name[0]='\0';
-        req.x=xtile;
-        req.y=ytile;
-        send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
-        if(nuke_state && (!pcity))
-          do_unit_nuke(punit);
-        goto_state=0;
-        nuke_state=0;
+        return;
       }
+
+      req.unit_id=punit->id;
+      req.name[0]='\0';
+      req.x=xtile;
+      req.y=ytile;
+      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+      if(nuke_state && (!pcity))
+	do_unit_nuke(punit);
     }
+
+    goto_state=0;
+    nuke_state=0;
+    paradrop_state=0;
+    connect_state=0;
     return;
   }
   
@@ -751,6 +760,7 @@ void key_cancel_action(void)
     goto_state=0;
     nuke_state=0;
     paradrop_state=0;
+    connect_state=0;
 
     update_unit_info_label(punit);
   }
