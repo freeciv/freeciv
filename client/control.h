@@ -53,6 +53,8 @@ struct unit *get_unit_in_focus(void);
 void set_unit_focus(struct unit *punit);
 void set_unit_focus_no_center(struct unit *punit);
 void update_unit_focus(void);
+struct unit *find_visible_unit(struct tile *ptile);
+void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 
 void key_cancel_action(void);
 void key_end_turn(void);

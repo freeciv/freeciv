@@ -149,7 +149,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
 
-    if((punit=player_find_visible_unit(game.player_ptr, ptile)) && !pcity) {
+    if((punit=find_visible_unit(ptile)) && !pcity) {
       char cn[64];
       struct unit_type *ptype=get_unit_type(punit->type);
       cn[0]='\0';

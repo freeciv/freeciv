@@ -563,7 +563,7 @@ void put_tile(struct RastPort *rp, int destx, int desty, int x, int y, int abs_x
 	struct tile *ptile;
 	struct unit *punit;
 	ptile = map_get_tile(abs_x0, abs_y0);
-	if ((punit = player_find_visible_unit(game.player_ptr, ptile)))
+	if ((punit = find_visible_unit(ptile)))
 	  pplayer = &game.players[punit->owner];
 
       }
@@ -708,7 +708,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	DoMethod(group, OM_ADDMEMBER, text_obj);
       }
 
-      if ((punit = player_find_visible_unit(game.player_ptr, ptile)) && !pcity)
+      if ((punit = find_visible_unit(ptile)) && !pcity)
       {
 	char cn[64];
 	struct unit_type *ptype = get_unit_type(punit->type);
@@ -1741,7 +1741,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	static char title[256];
 
 	pcity = map_get_city(x, y);
-	punit = player_find_visible_unit(game.player_ptr, ptile);
+	punit = find_visible_unit(ptile);
 	focus = get_unit_in_focus();
 
 	if (pcity)

@@ -157,7 +157,6 @@ void player_set_unit_focus_status(struct player *pplayer);
 int player_has_embassy(struct player *pplayer, struct player *pplayer2);
 
 int player_can_see_unit(struct player *pplayer, struct unit *punit);
-struct unit *player_find_visible_unit(struct player *pplayer, struct tile *);
 int player_owns_city(struct player *pplayer, struct city *pcity);
 
 struct city *player_find_city_by_id(struct player *pplayer, int city_id);

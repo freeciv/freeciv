@@ -124,7 +124,7 @@ STATIC LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
   }
   else
   {
-    if ((punit = player_find_visible_unit(game.player_ptr, ptile)))
+    if ((punit = find_visible_unit(ptile)))
     {
       if (punit->owner == game.player_idx)
       {

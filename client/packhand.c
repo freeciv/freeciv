@@ -128,12 +128,8 @@ void handle_unit_combat(struct packet_unit_combat *packet)
 
   if(punit0 && tile_visible_mapcanvas(punit0->x, punit0->y) &&
      punit1 && tile_visible_mapcanvas(punit1->x, punit1->y)) {
-    struct unit *pfocus;
-    pfocus=get_unit_in_focus();
-  
     decrease_unit_hp_smooth(punit0, packet->attacker_hp,
 			    punit1, packet->defender_hp);
-    set_unit_focus(pfocus);
   }
 }
 

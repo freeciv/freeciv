@@ -938,7 +938,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
       return sprs - save_sprs;
     }
 
-    if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
+    if ((punit=find_visible_unit(ptile))) {
       if(!citymode || punit->owner!=game.player_idx) {
         sprs += fill_unit_sprite_array(sprs,punit);
         if(unit_list_size(&ptile->units)>1)
@@ -1156,7 +1156,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
       sprs+=fill_city_sprite_array(sprs,pcity);
     }
 
-    if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
+    if ((punit=find_visible_unit(ptile))) {
       if(pcity && punit!=get_unit_in_focus()) return sprs - save_sprs;
       if(!citymode || punit->owner!=game.player_idx) {
         sprs+=fill_unit_sprite_array(sprs,punit);

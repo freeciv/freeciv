@@ -50,6 +50,12 @@ int paradrop_state;
 /* set high if the player has selected connect */
 int connect_state;
 
+/* units involved in current combat */
+static struct unit *punit_attacking;
+static struct unit *punit_defending;
+
+/*************************************************************************/
+
 static struct unit *find_best_focus_candidate(void);
 
 /**************************************************************************
@@ -103,9 +109,6 @@ void set_unit_focus_no_center(struct unit *punit)
   }
 }
 
-
-
-
 /**************************************************************************
 If there is no unit currently in focus, or if the current unit in
 focus should not be in focus, then get a new focus unit.
@@ -122,7 +125,6 @@ void update_unit_focus(void)
     advance_unit_focus();
   }
 }
-
 
 /**************************************************************************
 ...
@@ -211,6 +213,58 @@ static struct unit *find_best_focus_candidate(void)
   }
   unit_list_iterate_end;
   return best_candidate;
+}
+
+/**************************************************************************
+Return a pointer to a visible unit, if there is one.
+**************************************************************************/
+struct unit *find_visible_unit(struct tile *ptile)
+{
+  if(unit_list_size(&ptile->units)==0) return NULL;
+
+  /* If a unit is attacking we should show that on top */
+  if (punit_attacking && map_get_tile(punit_attacking->x,punit_attacking->y) == ptile) {
+    unit_list_iterate(ptile->units, punit)
+      if(punit == punit_attacking) return punit;
+    unit_list_iterate_end;
+  }
+
+  /* If a unit is defending we should show that on top */
+  if (punit_defending && map_get_tile(punit_defending->x,punit_defending->y) == ptile) {
+    unit_list_iterate(ptile->units, punit)
+      if(punit == punit_defending) return punit;
+    unit_list_iterate_end;
+  }
+
+  /* If the unit in focus is at this tile, show that on top */
+  if (punit_focus && map_get_tile(punit_focus->x,punit_focus->y) == ptile) {
+    unit_list_iterate(ptile->units, punit)
+      if(punit == punit_focus) return punit;
+    unit_list_iterate_end;
+  }
+
+  /* If there is a transporter in the stack we will show that on top */
+  unit_list_iterate(ptile->units, punit)
+    if (get_transporter_capacity(punit) &&
+	player_can_see_unit(game.player_ptr, punit))
+      return punit;
+  unit_list_iterate_end;
+
+  /* Else just return the first unit we can see */
+  unit_list_iterate(ptile->units, punit)
+    if(player_can_see_unit(game.player_ptr, punit)) return punit;
+  unit_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
+{
+  punit_attacking = pattacker;
+  punit_defending = pdefender;
 }
 
 /**************************************************************************

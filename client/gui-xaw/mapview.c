@@ -130,17 +130,18 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
   int i;
 
-  set_unit_focus_no_center(punit0);
-  set_unit_focus_no_center(punit1);
-  
   if (!do_combat_animation) {
     punit0->hp = hp0;
     punit1->hp = hp1;
+
+    set_units_in_combat(NULL, NULL);
     refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
     refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
 
     return;
   }
+
+  set_units_in_combat(punit0, punit1);
 
   do {
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
@@ -179,6 +180,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     usleep_since_timer_start(anim_timer, 20000);
   }
 
+  set_units_in_combat(NULL, NULL);
   refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
   refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
 }
@@ -667,7 +669,7 @@ static void set_overview_tile_foreground_color(int x, int y)
   
   if(!ptile->known)
     XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  else if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
+  else if ((punit=find_visible_unit(ptile))) {
     if(punit->owner==game.player_idx)
       XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_YELLOW]);
     else
@@ -1164,7 +1166,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
         struct tile *ptile;
         struct unit *punit;
         ptile=map_get_tile(abs_x0, abs_y0);
-        if((punit=player_find_visible_unit(game.player_ptr, ptile)))
+        if ((punit=find_visible_unit(ptile)))
           pplayer = &game.players[punit->owner];
 
       } else

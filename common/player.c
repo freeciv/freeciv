@@ -180,20 +180,6 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit)
 }
 
 /***************************************************************
-  Return a pointer to a visible unit, if there is one.
-***************************************************************/
-struct unit *player_find_visible_unit(struct player *pplayer, struct tile *ptile)
-{
-  if(unit_list_size(&ptile->units)==0) return NULL;
-
-  unit_list_iterate(ptile->units, punit)
-    if(player_can_see_unit(pplayer, punit)) return punit;
-  unit_list_iterate_end;
-
-  return NULL;
-}
-
-/***************************************************************
  If the specified player owns the city with the specified id,
  return pointer to the city struct.  Else return 0.
  In the server we want to use find_city_by_id, which is fast due
