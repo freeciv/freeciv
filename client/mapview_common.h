@@ -75,7 +75,7 @@ enum update_type {
  *
  * The classic-view iteration is pretty simple.  Documentation of the
  * iso-view iteration is at
- * http://rt.freeciv.org/Ticket/Attachment/51374/37363/isogrid.png.
+ * http://bugs.freeciv.org/Ticket/Attachment/51374/37363/isogrid.png.
  */
 #define gui_rect_iterate(gui_x0, gui_y0, width, height, ptile)	            \
 {									    \

@@ -182,7 +182,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
      * Here the division is proper mathematical floating point division.
      *
      * A picture demonstrating this can be seen at
-     * http://rt.freeciv.org/Ticket/Attachment/16782/9982/grid1.png.
+     * http://bugs.freeciv.org/Ticket/Attachment/16782/9982/grid1.png.
      *
      * We have to subtract off a half-tile in the X direction before doing
      * the transformation.  This is because, although the origin of the tile
