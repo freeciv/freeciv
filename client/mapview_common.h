@@ -138,7 +138,7 @@ enum update_type {
 }
 
 void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen);
-enum color_std get_grid_color(struct tile *ptile, enum direction8 dir);
+enum color_std get_grid_color(const struct tile *ptile, enum direction8 dir);
 
 void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy);
 bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile);
@@ -182,7 +182,7 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile);
 void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
 		  struct tile *ptile,
 		  int canvas_x, int canvas_y, bool citymode);
-void tile_draw_grid(struct canvas *pcanvas, struct tile *ptile,
+void tile_draw_grid(struct canvas *pcanvas, const struct tile *ptile,
 		    int canvas_x, int canvas_y, bool citymode);
 
 void update_map_canvas(int canvas_x, int canvas_y, int width, int height);

@@ -1865,9 +1865,9 @@ void tilespec_setup_nation_flag(int id)
 }
 
 /**********************************************************************
-  ...
+  Return the flag graphic to be used by the city.
 ***********************************************************************/
-static struct Sprite *get_city_nation_flag_sprite(struct city *pcity)
+static struct Sprite *get_city_nation_flag_sprite(const struct city *pcity)
 {
   return get_nation_by_plr(city_owner(pcity))->flag_sprite;
 }
@@ -1883,7 +1883,7 @@ static struct Sprite *get_unit_nation_flag_sprite(const struct unit *punit)
 /**************************************************************************
 Return the sprite needed to draw the city
 **************************************************************************/
-static struct Sprite *get_city_sprite(struct city *pcity)
+static struct Sprite *get_city_sprite(const struct city *pcity)
 {
   int size, style;
 
@@ -1907,7 +1907,7 @@ static struct Sprite *get_city_sprite(struct city *pcity)
 Return the sprite needed to draw the city wall
 Not used for isometric view.
 **************************************************************************/
-static struct Sprite *get_city_wall_sprite(struct city *pcity)
+static struct Sprite *get_city_wall_sprite(const struct city *pcity)
 {
   int style = get_city_style(pcity);
 
@@ -1917,7 +1917,7 @@ static struct Sprite *get_city_wall_sprite(struct city *pcity)
 /**************************************************************************
 Return the sprite needed to draw the occupied tile
 **************************************************************************/
-static struct Sprite *get_city_occupied_sprite(struct city *pcity)
+static struct Sprite *get_city_occupied_sprite(const struct city *pcity)
 {
   int style = get_city_style(pcity);
 
@@ -1956,7 +1956,7 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
     ttype_near     : terrain types of all adjacent terrain
     tspecial_near  : specials of all adjacent terrain
 **************************************************************************/
-static void build_tile_data(struct tile *ptile,
+static void build_tile_data(const struct tile *ptile,
 			    Terrain_type_id *ttype,
 			    enum tile_special_type *tspecial,
 			    Terrain_type_id *ttype_near,
@@ -2202,7 +2202,7 @@ static int fill_rail_corner_sprites(struct drawn_sprite *sprs,
 static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
 				       enum tile_special_type tspecial,
 				       enum tile_special_type *tspecial_near,
-				       struct city *pcity)
+				       const struct city *pcity)
 {
   struct drawn_sprite *saved_sprs = sprs;
   bool road, road_near[8], rail, rail_near[8];
@@ -2407,7 +2407,7 @@ static int get_irrigation_index(enum tile_special_type *tspecial_near)
 static int fill_irrigation_sprite_array(struct drawn_sprite *sprs,
 					enum tile_special_type tspecial,
 					enum tile_special_type *tspecial_near,
-					struct city *pcity)
+					const struct city *pcity)
 {
   struct drawn_sprite *saved_sprs = sprs;
 
@@ -2436,7 +2436,7 @@ static int fill_irrigation_sprite_array(struct drawn_sprite *sprs,
   Fill in the sprite array for blended terrain.
 ****************************************************************************/
 static int fill_blending_sprite_array(struct drawn_sprite *sprs,
-				      struct tile *ptile,
+				      const struct tile *ptile,
 				      Terrain_type_id *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
@@ -2479,7 +2479,7 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
 ****************************************************************************/
 static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 				     int layer,
-				     struct tile *ptile,
+				     const struct tile *ptile,
 				     Terrain_type_id *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
@@ -2675,8 +2675,8 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
   is done differently.
 ****************************************************************************/
 int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
-		      struct tile *ptile,
-		      const struct unit *punit, struct city *pcity,
+		      const struct tile *ptile,
+		      const struct unit *punit, const struct city *pcity,
 		      bool citymode)
 {
   Terrain_type_id ttype, ttype_near[8];

@@ -47,7 +47,7 @@ struct drawn_sprite {
     } sprite;
 
     struct {
-      struct tile *tile;
+      const struct tile *tile;
       bool citymode;
     } grid;
 
@@ -114,8 +114,8 @@ void tilespec_free_city_tiles(int count);
 /* Gfx support */
 
 int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
-		      struct tile *ptile,
-		      const struct unit *punit, struct city *pcity,
+		      const struct tile *ptile,
+		      const struct unit *punit, const struct city *pcity,
 		      bool citymode);
 
 enum color_std player_color(const struct player *pplayer);

@@ -81,7 +81,7 @@ void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
 Returns the color the grid should have between tile (x1,y1) and
 (x2,y2).
 **************************************************************************/
-enum color_std get_grid_color(struct tile *tile1, enum direction8 dir)
+enum color_std get_grid_color(const struct tile *tile1, enum direction8 dir)
 {
   enum city_tile_type city_tile_type1, city_tile_type2;
   struct city *dummy_pcity;
@@ -1267,7 +1267,7 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile)
    Draw the borders of the given map tile at the given canvas position.
 **************************************************************************/
 static void tile_draw_borders(struct canvas *pcanvas,
-			      struct tile *ptile,
+			      const struct tile *ptile,
 			      int canvas_x, int canvas_y)
 {
   struct player *this_owner = map_get_owner(ptile), *adjc_owner;
@@ -1326,7 +1326,7 @@ static void tile_draw_borders(struct canvas *pcanvas,
    Draw the map grid around the given map tile at the given canvas position.
 ****************************************************************************/
 static void tile_draw_map_grid(struct canvas *pcanvas,
-			       struct tile *ptile,
+			       const struct tile *ptile,
 			       int canvas_x, int canvas_y)
 {
   enum direction8 dir;
@@ -1355,7 +1355,7 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
   If the map grid is drawn this will cover it up.
 ****************************************************************************/
 static void tile_draw_coastline(struct canvas *pcanvas,
-				struct tile *ptile,
+				const struct tile *ptile,
 				int canvas_x, int canvas_y)
 {
   Terrain_type_id t1 = map_get_terrain(ptile), t2;
@@ -1384,7 +1384,7 @@ static void tile_draw_coastline(struct canvas *pcanvas,
    position.
 ****************************************************************************/
 static void tile_draw_selection(struct canvas *pcanvas,
-				struct tile *ptile,
+				const struct tile *ptile,
 				int canvas_x, int canvas_y, bool citymode)
 {
   const int inset = (is_isometric ? 0 : 1);
@@ -1423,7 +1423,7 @@ static void tile_draw_selection(struct canvas *pcanvas,
    Draw the grid lines of the given map tile at the given canvas position
    in isometric view.  (This include the map grid, borders, and coastline).
 ****************************************************************************/
-void tile_draw_grid(struct canvas *pcanvas, struct tile *ptile,
+void tile_draw_grid(struct canvas *pcanvas, const struct tile *ptile,
 		    int canvas_x, int canvas_y, bool citymode)
 {
   tile_draw_map_grid(pcanvas, ptile, canvas_x, canvas_y);
