@@ -166,6 +166,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
+DEP_FILES =  .deps/canvas.P .deps/chatline.P .deps/citydlg.P \
+.deps/civclient.P .deps/climisc.P .deps/clinet.P .deps/colors.P \
+.deps/connectdlg.P .deps/dialogs.P .deps/diplodlg.P .deps/finddlg.P \
+.deps/gotodlg.P .deps/graphics.P .deps/helpdlg.P .deps/inputdlg.P \
+.deps/inteldlg.P .deps/mapctrl.P .deps/mapview.P .deps/menu.P \
+.deps/messagedlg.P .deps/messagewin.P .deps/optiondlg.P \
+.deps/packhand.P .deps/pixcomm.P .deps/plrdlg.P .deps/ratesdlg.P \
+.deps/repodlgs.P .deps/resources.P .deps/xmain.P .deps/xstuff.P
 SOURCES = $(civclient_SOURCES)
 OBJECTS = $(civclient_OBJECTS)
 
@@ -174,9 +182,9 @@ all: Makefile $(PROGRAMS)
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps client/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu client/Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -205,9 +213,6 @@ uninstall-binPROGRAMS:
 	list='$(bin_PROGRAMS)'; for p in $$list; do \
 	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
 	done
-
-.c.o:
-	$(COMPILE) -c $<
 
 .s.o:
 	$(COMPILE) -c $<
@@ -259,12 +264,41 @@ distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 subdir = client
 
 distdir: $(DISTFILES)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(top_distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu client/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  test -f $(distdir)/$$file \
 	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$d/$$file $(distdir)/$$file; \
 	done
+
+DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
+
+-include $(DEP_FILES)
+
+mostlyclean-depend:
+
+clean-depend:
+
+distclean-depend:
+
+maintainer-clean-depend:
+	-rm -rf .deps
+
+%.o: %.c
+	@echo '$(COMPILE) -c $<'; \
+	$(COMPILE) -Wp,-MD,.deps/$(*F).P -c $<
+
+%.lo: %.c
+	@echo '$(LTCOMPILE) -c $<'; \
+	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).p -c $<
+	@-sed -e 's/^\([^:]*\)\.o:/\1.lo \1.o:/' \
+	  < .deps/$(*F).p > .deps/$(*F).P
+	@-rm -f .deps/$(*F).p
 info:
 dvi:
 check: all
@@ -302,18 +336,18 @@ maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 mostlyclean:  mostlyclean-binPROGRAMS mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+		mostlyclean-tags mostlyclean-depend mostlyclean-generic
 
-clean:  clean-binPROGRAMS clean-compile clean-tags clean-generic \
-		mostlyclean
+clean:  clean-binPROGRAMS clean-compile clean-tags clean-depend \
+		clean-generic mostlyclean
 
 distclean:  distclean-binPROGRAMS distclean-compile distclean-tags \
-		distclean-generic clean
+		distclean-depend distclean-generic clean
 	-rm -f config.status
 
 maintainer-clean:  maintainer-clean-binPROGRAMS maintainer-clean-compile \
-		maintainer-clean-tags maintainer-clean-generic \
-		distclean
+		maintainer-clean-tags maintainer-clean-depend \
+		maintainer-clean-generic distclean
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
@@ -321,9 +355,10 @@ maintainer-clean:  maintainer-clean-binPROGRAMS maintainer-clean-compile \
 maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir info dvi installcheck \
-install-exec install-data install uninstall all installdirs \
-mostlyclean-generic distclean-generic clean-generic \
+clean-tags maintainer-clean-tags distdir mostlyclean-depend \
+distclean-depend clean-depend maintainer-clean-depend info dvi \
+installcheck install-exec install-data install uninstall all \
+installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
