@@ -390,7 +390,8 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
     if (get_unit_type(u_type)->move_type != AIR_MOVING) continue;
     if (can_build_unit(pcity, u_type)) {
       struct unit *virtual_unit = 
-	create_unit_virtual(pplayer, pcity, u_type, TRUE);
+	create_unit_virtual(pplayer, pcity, u_type, 
+                            do_make_unit_veteran(pcity, u_type));
       int profit = find_something_to_bomb(virtual_unit, pcity->x, pcity->y);
       if (profit > choice->want){
 	/* Update choice */

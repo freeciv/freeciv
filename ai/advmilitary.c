@@ -770,9 +770,6 @@ static void process_attacker_want(struct city *pcity,
             !can_build_unit_direct(pcity, unit_types[unit_type].obsoleted_by))
         && unit_types[unit_type].attack_strength > 0 /* or we'll get SIGFPE */
         && move_type == orig_move_type) {
-      /* TODO: Case for B_AIRPORT. -- Raahul */
-      bool will_be_veteran = (move_type == LAND_MOVING ||
-                              player_knows_improvement_tech(pplayer, B_PORT));
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
@@ -785,7 +782,8 @@ static void process_attacker_want(struct city *pcity,
       /* See description of kill_desire() for info about this variables. */
       int bcost = unit_types[unit_type].build_cost;
       int vuln;
-      int attack = unittype_att_rating(unit_type, will_be_veteran,
+      int attack = unittype_att_rating(unit_type,
+                                       do_make_unit_veteran(pcity, unit_type),
                                        SINGLE_MOVE,
                                        unit_types[unit_type].hp);
       /* Values to be computed */
@@ -1310,7 +1308,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   unit_type = ai_choose_attacker(pcity, SEA_MOVING);
   if (unit_type >= 0) {
     virtualunit = create_unit_virtual(pplayer, pcity, unit_type,
-                              player_knows_improvement_tech(pplayer, B_PORT));
+                                      do_make_unit_veteran(pcity, unit_type));
     kill_something_with(pplayer, pcity, virtualunit, choice);
     destroy_unit_virtual(virtualunit);
   }
@@ -1318,7 +1316,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Consider a land attacker */
   unit_type = ai_choose_attacker(pcity, LAND_MOVING);
   if (unit_type >= 0) {
-    virtualunit = create_unit_virtual(pplayer, pcity, unit_type, TRUE);
+    virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 
+                                      do_make_unit_veteran(pcity, unit_type));
     kill_something_with(pplayer, pcity, virtualunit, choice);
     destroy_unit_virtual(virtualunit);
   }

@@ -160,7 +160,8 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     int want, loss, p_success, p_failure, time_to_dest;
     int gain_incite = 0, gain_theft = 0, gain = 1;
     int incite_cost;
-    struct unit *punit = create_unit_virtual(pplayer, pcity, u, FALSE);
+    struct unit *punit = create_unit_virtual(pplayer, pcity, u,
+                                             do_make_unit_veteran(pcity, u));
 
     pft_fill_default_parameter(&parameter);
     pft_fill_unit_parameter(&parameter, punit);
