@@ -1,19 +1,18 @@
 # FREECIV CATALAN TRANSLATION
-# Copyright (C) 2003
-# This file is distributed under the same license as the freeciv package.
+# Copyright (C) 2003 Free Software Foundation, Inc.
 # Albert Astals Cid <astals11@terra.es>, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 1.14\n"
+"Project-Id-Version: freeciv\n"
 "POT-Creation-Date: 2003-03-18 21:59-0800\n"
-"PO-Revision-Date: 2003-03-29 13:12+0100\n"
+"PO-Revision-Date: 2003-04-01 18:00+0200\n"
 "Last-Translator: Albert Astals Cid <astals11@terra.es>\n"
 "Language-Team: Catalan\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=; plural=n>1;\n"
 "X-Generator: KBabel 0.9.6\n"
 
 #: common/city.c:261
@@ -1886,7 +1885,7 @@ msgstr ""
 
 #: server/report.c:110
 msgid "Research Speed"
-msgstr ""
+msgstr "Velocidad de recerca"
 
 #: server/report.c:111 data/default/techs.ruleset:395
 #: data/civ2/techs.ruleset:301 data/civ1/techs.ruleset:301
@@ -5058,7 +5057,7 @@ msgstr "%s (XX) %d/torn"
 msgid "%s (%d) %d turn"
 msgid_plural "%s (%d) %d turns"
 msgstr[0] "%s (%d) %d torn"
-msgstr[1] ""
+msgstr[1] "%s (%d) %d torns"
 
 #: client/citydlg_common.c:250 client/gui-mui/citydlg.c:671
 #: client/gui-mui/worklistclass.c:114
@@ -6454,7 +6453,7 @@ msgstr "Meravelles: S'acabarà el proper torn"
 
 #: client/options.c:408
 msgid "Cannot find your home directory"
-msgstr ""
+msgstr "No s'ha pogut trobar el teu directori d'inici"
 
 #: client/options.c:534
 msgid "Save failed, cannot find a filename."
@@ -6467,7 +6466,7 @@ msgstr ""
 #: client/options.c:597
 #, c-format
 msgid "Save failed, cannot write to file %s"
-msgstr ""
+msgstr "Error al guardar, no s'ha pogut escriure al fitxer %s"
 
 #: client/options.c:600
 #, c-format
@@ -6482,12 +6481,12 @@ msgstr "Has estat refusat del joc: %s"
 #: client/packhand.c:143
 #, c-format
 msgid "Client capability string: %s"
-msgstr ""
+msgstr "Capacitats del client: %s"
 
 #: client/packhand.c:146
 #, c-format
 msgid "Server capability string: %s"
-msgstr ""
+msgstr "Capacitats del servidor: %s"
 
 #: client/packhand.c:701
 #, c-format
@@ -6526,27 +6525,27 @@ msgstr "%6d.%02d ms"
 
 #: client/tilespec.c:220
 msgid "No usable default tileset found, aborting!"
-msgstr ""
+msgstr "No s'ha trobat cap conjunt de caselles usable, s'avorta l'execució!"
 
 #: client/tilespec.c:223
 #, c-format
 msgid "Trying \"%s\" tileset."
-msgstr ""
+msgstr "S'està provant el conjunt de caselles \"%s\"."
 
 #: client/tilespec.c:240
 #, c-format
 msgid "%s file appears incompatible:"
-msgstr ""
+msgstr "El fitxer %s sembla ser incompatible."
 
 #: client/tilespec.c:247
 #, c-format
 msgid "%s file claims required option(s) which we don't support:"
-msgstr ""
+msgstr "El fitxer %s requereix unes opcions que no soportem."
 
 #: client/tilespec.c:406 client/tilespec.c:452 client/tilespec.c:570
 #, c-format
 msgid "Could not open \"%s\"."
-msgstr ""
+msgstr "No s'ha pogut obrir \"%s\"."
 
 #: client/tilespec.c:433
 #, c-format
@@ -6560,13 +6559,13 @@ msgstr ""
 
 #: client/tilespec.c:579
 msgid "Client does not support isometric tilesets. Using default tileset instead."
-msgstr ""
+msgstr "EL client no suporta conjunts de caselles isomètrics. Per tant s'usarà el conjunt de caselles per defecte."
 
 #: client/tilespec.c:588
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
-msgstr ""
+msgstr "EL client no suporta conjunts de caselles cenitals. Per tant s'usarà el conjunt de caselles per defecte."
 
 #: client/agents/cma_core.c:332
 #, c-format
@@ -6600,7 +6599,7 @@ msgstr "cap"
 #: client/agents/cma_fec.c:249 client/gui-gtk-2.0/cityrep.c:469
 #: client/gui-gtk/cityrep.c:505
 msgid "custom"
-msgstr ""
+msgstr "a mida"
 
 #: client/agents/cma_fec.c:284 client/agents/cma_fec.c:327
 #: client/gui-gtk-2.0/citydlg.c:1346 client/gui-gtk/citydlg.c:1723
@@ -6609,8 +6608,8 @@ msgstr ""
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d torn"
+msgstr[1] "%d torns"
 
 #: client/agents/cma_fec.c:367 client/gui-mui/citydlg.c:2229
 msgid " happy"
@@ -7221,16 +7220,16 @@ msgstr ""
 #: client/gui-gtk-2.0/cityrep.c:1218 client/gui-gtk/cityrep.c:922
 #: client/gui-win32/cityrep.c:456
 msgid "Units Present"
-msgstr ""
+msgstr "Unitats presents"
 
 #: client/gui-gtk-2.0/cityrep.c:1222 client/gui-gtk/cityrep.c:925
 #: client/gui-win32/cityrep.c:471
 msgid "Improvements in City"
-msgstr ""
+msgstr "Edificis de la ciutat"
 
 #: client/gui-gtk-2.0/cityrep.c:1226
 msgid "Wonders in City"
-msgstr ""
+msgstr "Meravelles de la ciutat"
 
 #: client/gui-gtk-2.0/cityrep.c:1235 client/gui-gtk/cityrep.c:932
 msgid "Available Units"
@@ -7238,11 +7237,11 @@ msgstr "Unitats disponibles"
 
 #: client/gui-gtk-2.0/cityrep.c:1238 client/gui-gtk/cityrep.c:928
 msgid "Available Improvements"
-msgstr ""
+msgstr "Edificis disponibles"
 
 #: client/gui-gtk-2.0/cityrep.c:1241 client/gui-gtk/cityrep.c:936
 msgid "Available Wonders"
-msgstr ""
+msgstr "Meravelles disponibles"
 
 #: client/gui-gtk-2.0/cma_fe.c:134 client/gui-gtk/cma_fe.c:142
 msgid "Presets"
@@ -7285,7 +7284,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:285 client/gui-gtk/cma_fe.c:297
 msgid "Apply onc_e"
-msgstr ""
+msgstr "Aplicar un _cop"
 
 #: client/gui-gtk-2.0/cma_fe.c:291 client/gui-gtk/cma_fe.c:303
 msgid "Control c_ity"
@@ -7298,7 +7297,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:387 client/gui-gtk/cma_fe.c:399
 msgid "For information on:"
-msgstr ""
+msgstr "Per informació en quant a "
 
 #: client/gui-gtk-2.0/cma_fe.c:388 client/gui-gtk/cma_fe.c:400
 msgid "CMA and presets"
@@ -7310,7 +7309,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:390 client/gui-gtk/cma_fe.c:402
 msgid "see README.cma."
-msgstr ""
+msgstr "consulta README.cma."
 
 #: client/gui-gtk-2.0/cma_fe.c:463 client/gui-gtk/cma_fe.c:476
 msgid "new preset"
@@ -9348,8 +9347,8 @@ msgstr "Velocitat d'investigació: no hi ha investigació"
 #, c-format
 msgid "Research speed: %d turn/advance"
 msgid_plural "Research speed: %d turns/advance"
-msgstr[0] "Velocitat d'investigació: %d torns/avenç"
-msgstr[1] ""
+msgstr[0] "Velocitat d'investigació: %d torn/avenç"
+msgstr[1] "Velocitat d'investigació: %d torns/avenç"
 
 #: client/gui-gtk-2.0/repodlgs.c:570 client/gui-gtk/repodlgs.c:574
 #: client/gui-mui/repodlgs.c:477 client/gui-win32/repodlgs.c:467
@@ -10764,6 +10763,8 @@ msgid ""
 "%s\n"
 "(no research)"
 msgstr ""
+"%s\n"
+"(no hi ha investigació)"
 
 #: client/gui-mui/repodlgs.c:326
 #, c-format
@@ -10774,15 +10775,17 @@ msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
 msgstr[0] ""
+"%s\n"
+"(%d torn/avenç)"
 msgstr[1] ""
 
 #: client/gui-mui/repodlgs.c:344 client/gui-mui/repodlgs.c:345
 msgid "_Goal"
-msgstr ""
+msgstr "_Objectiu"
 
 #: client/gui-mui/repodlgs.c:349 client/gui-mui/repodlgs.c:350
 msgid "_Research"
-msgstr ""
+msgstr "_Recerca"
 
 #: client/gui-mui/repodlgs.c:548 client/gui-win32/repodlgs.c:446
 msgid "Trade Report"
@@ -10790,7 +10793,7 @@ msgstr "Informe de comerç"
 
 #: client/gui-mui/repodlgs.c:564
 msgid "Sell _Obsolete"
-msgstr ""
+msgstr "Vendre _obsolets"
 
 #: client/gui-mui/repodlgs.c:565
 msgid "Sell _All"
@@ -10798,7 +10801,7 @@ msgstr "Vendre _tots"
 
 #: client/gui-mui/repodlgs.c:572 client/gui-mui/repodlgs.c:600
 msgid "Trade Advisor"
-msgstr ""
+msgstr "Informe de comerç"
 
 #: client/gui-mui/repodlgs.c:795 client/gui-mui/repodlgs.c:821
 #: client/gui-mui/repodlgs.c:858
