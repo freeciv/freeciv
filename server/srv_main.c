@@ -1754,7 +1754,7 @@ void srv_main(void)
   con_log_init(srvarg.log_filename, srvarg.loglevel);
   gamelog_init(srvarg.gamelog_filename);
   gamelog_set_level(GAMELOG_FULL);
-  gamelog(GAMELOG_NORMAL,"Starting new log");
+  gamelog(GAMELOG_NORMAL, _("Starting new log"));
   
 #ifdef GENERATING_MAC	/* mac beta notice */
   con_puts(C_COMMENT, "");
@@ -1966,7 +1966,7 @@ main_start_players:
   report_scores(TRUE);
   show_map_to_all();
   notify_player(NULL, _("Game: The game is over..."));
-  gamelog(GAMELOG_NORMAL, "The game is over!");
+  gamelog(GAMELOG_NORMAL, _("The game is over!"));
   save_game_auto();
 
   while (server_state == GAME_OVER_STATE) {

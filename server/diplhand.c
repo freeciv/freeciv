@@ -209,7 +209,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
     notify_player(plr1,
 		  _("Game: A treaty containing %d clauses was agreed upon."),
 		  clause_list_size(&ptreaty->clauses));
-    gamelog(GAMELOG_TREATY, "%s and %s agree to a treaty",
+    gamelog(GAMELOG_TREATY, _("%s and %s agree to a treaty"),
 	    get_nation_name_plural(plr0->nation),
 	    get_nation_name_plural(plr1->nation));
 
@@ -281,7 +281,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			 advances[pclause->value].name,
 			 get_nation_name_plural(pgiver->nation));
 
-	gamelog(GAMELOG_TECH, "%s acquire %s (Treaty) from %s",
+	gamelog(GAMELOG_TECH, _("%s acquire %s (Treaty) from %s"),
 		get_nation_name_plural(pdest->nation),
 		advances[pclause->value].name,
 		get_nation_name_plural(pgiver->nation));

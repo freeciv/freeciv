@@ -462,7 +462,7 @@ void player_restore_units(struct player *pplayer)
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
           _("Game: Your %s has run out of hit points."), 
           unit_name(punit->type));
-      gamelog(GAMELOG_UNITF, "%s lose a %s (out of hp)", 
+      gamelog(GAMELOG_UNITF, _("%s lose a %s (out of hp)"),
 	      get_nation_name_plural(pplayer->nation),
 	      unit_name(punit->type));
       wipe_unit_safe(punit, &myiter);
@@ -475,7 +475,7 @@ void player_restore_units(struct player *pplayer)
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 		       _("Game: Your %s has been lost on the high seas."),
 		       unit_name(punit->type));
-      gamelog(GAMELOG_UNITTRI, "%s Trireme lost at sea",
+      gamelog(GAMELOG_UNITTRI, _("%s Trireme lost at sea"),
 	      get_nation_name_plural(pplayer->nation));
       wipe_unit_safe(punit, &myiter);
       continue; /* Continue iterating... */
@@ -530,8 +530,9 @@ void player_restore_units(struct player *pplayer)
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 		       _("Game: Your %s has run out of fuel."),
 		       unit_name(punit->type));
-      gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
-	      get_nation_name_plural(pplayer->nation), unit_name(punit->type));
+      gamelog(GAMELOG_UNITF, _("%s lose a %s (fuel)"),
+	      get_nation_name_plural(pplayer->nation),
+	      unit_name(punit->type));
       wipe_unit_safe(punit, &myiter);
     } 
   } unit_list_iterate_end;
@@ -749,12 +750,12 @@ static enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
     ocean_to_land_fix_rivers(x, y);
     city_landlocked_sell_coastal_improvements(x, y);
     assign_continent_numbers();
-    gamelog(GAMELOG_MAP, "(%d,%d) land created from ocean", x, y);
+    gamelog(GAMELOG_MAP, _("(%d,%d) land created from ocean"), x, y);
     return OLC_OCEAN_TO_LAND;
   } else if ((oldter != T_OCEAN) && (newter == T_OCEAN)) {
     /* land to ocean ... */
     assign_continent_numbers();
-    gamelog(GAMELOG_MAP, "(%d,%d) ocean created from land", x, y);
+    gamelog(GAMELOG_MAP, _("(%d,%d) ocean created from land"), x, y);
     return OLC_LAND_TO_OCEAN;
   }
   return OLC_NONE;
@@ -1815,10 +1816,9 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 			 _("Game: %s lost when %s was lost."),
 			 unit_type(pcargo)->name,
 			 unit_type(punit)->name);
-	gamelog(GAMELOG_UNITL, "%s lose %s when %s lost", 
+	gamelog(GAMELOG_UNITL, _("%s lose %s when %s lost"),
 		get_nation_name_plural(unit_owner(punit)->nation),
-		unit_type(pcargo)->name,
-		unit_type(punit)->name);
+		unit_type(pcargo)->name, unit_type(punit)->name);
 	server_remove_unit(pcargo);
 	capacity++;
       }
@@ -1887,9 +1887,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		     _("Game: %s lost to an attack by %s's %s%s."),
 		     unit_type(punit)->name, destroyer->name,
 		     unit_name(pkiller->type), loc_str);
-    gamelog(GAMELOG_UNITL, "%s lose %s to the %s",
-	    get_nation_name_plural(pplayer->nation),
-	    unit_type(punit)->name,
+    gamelog(GAMELOG_UNITL, _("%s lose %s to the %s"),
+	    get_nation_name_plural(pplayer->nation), unit_type(punit)->name,
 	    get_nation_name_plural(destroyer->nation));
 
     wipe_unit(punit);
@@ -1933,7 +1932,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 			   " from %s's %s."),
 			 unit_type(punit2)->name, destroyer->name,
 			 unit_name(pkiller->type));
-	gamelog(GAMELOG_UNITL, "%s lose %s to the %s",
+	gamelog(GAMELOG_UNITL, _("%s lose %s to the %s"),
 		get_nation_name_plural(unit_owner(punit2)->nation),
 		unit_type(punit2)->name,
 		get_nation_name_plural(destroyer->nation));
@@ -2318,7 +2317,7 @@ static void hut_get_tech(struct unit *punit)
 		   _("Game: You found %s in ancient scrolls of wisdom."),
 		   tech_name);
   gamelog(GAMELOG_TECH, _("%s discover %s (Hut)"),
-	    get_nation_name_plural(pplayer->nation), tech_name);
+	  get_nation_name_plural(pplayer->nation), tech_name);
   notify_embassies(pplayer, NULL, _("Game: The %s have aquired %s"
 				    " from ancient scrolls of wisdom."),
 		   get_nation_name_plural(pplayer->nation), tech_name);

@@ -890,9 +890,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   map_fog_pseudo_city_area(pgiver, pcity->x, pcity->y);
   maybe_make_first_contact(pcity->x, pcity->y, ptaker);
 
-  gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
-          get_nation_name_plural(pgiver->nation),
-          pcity->name, pcity->x, pcity->y);
+  gamelog(GAMELOG_LOSEC, _("%s lose %s (%i,%i)"),
+	  get_nation_name_plural(pgiver->nation), pcity->name, pcity->x,
+	  pcity->y);
 
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
@@ -912,8 +912,8 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   int i, x_itr, y_itr;
 
   freelog(LOG_DEBUG, "Creating city %s", name);
-  gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
-	  x,y, get_nation_name_plural(pplayer->nation));
+  gamelog(GAMELOG_FOUNDC, _("%s (%i, %i) founded by the %s"), name, x, y,
+	  get_nation_name_plural(pplayer->nation));
 
   if (terrain_control.may_road) {
     map_set_special(x, y, S_ROAD);
@@ -1062,9 +1062,9 @@ void remove_city(struct city *pcity)
   bool effect_update, had_palace = pcity->improvements[B_PALACE] != I_NONE;
   char *city_name = strdup(pcity->name);
 
-  gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
-          get_nation_name_plural(pplayer->nation),
-          pcity->name,pcity->x,pcity->y);
+  gamelog(GAMELOG_LOSEC, _("%s lose %s (%i,%i)"),
+	  get_nation_name_plural(pplayer->nation), pcity->name, pcity->x,
+	  pcity->y);
 
   /* Explicitly remove all improvements, to properly remove any global effects
      and to handle the preservation of "destroyed" effects. */
@@ -1237,7 +1237,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
 		     _("Game: %s has been destroyed by %s."), 
 		     pcity->name, pplayer->name);
-    gamelog(GAMELOG_LOSEC, "%s (%s) (%i,%i) destroyed by %s", pcity->name,
+    gamelog(GAMELOG_LOSEC, _("%s (%s) (%i,%i) destroyed by %s"), pcity->name,
 	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y,
 	    get_nation_name_plural(pplayer->nation));
     remove_city_from_minimap(pcity->x, pcity->y);
@@ -1262,9 +1262,9 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 		     _("Game: %s conquered %s and looted %d gold"
 		       " from the city."),
 		     pplayer->name, pcity->name, coins);
-    gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) conquered by %s", pcity->name,
+    gamelog(GAMELOG_CONQ, _("%s (%s) (%i,%i) conquered by %s"), pcity->name,
 	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y,
-	    get_nation_name_plural(pplayer->nation));    
+	    get_nation_name_plural(pplayer->nation));
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		     _("Game: You have liberated %s!!"
@@ -1275,7 +1275,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 		     _("Game: %s liberated %s and looted %d gold"
 		       " from the city."),
 		     pplayer->name, pcity->name, coins);
-    gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) liberated by %s", pcity->name,
+    gamelog(GAMELOG_CONQ, _("%s (%s) (%i,%i) liberated by %s"), pcity->name,
 	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y,
 	    get_nation_name_plural(pplayer->nation));
   }

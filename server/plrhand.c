@@ -128,8 +128,8 @@ static void great_library(struct player *pplayer)
 	  notify_player_ex(pplayer, -1, -1, E_TECH_GAIN,
 			   _("Game: %s acquired from The Great Library!"),
 			   advances[i].name);
-	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",
-		  get_nation_name_plural(pplayer->nation),advances[i].name);
+	  gamelog(GAMELOG_TECH, _("%s discover %s (Library)"),
+		  get_nation_name_plural(pplayer->nation), advances[i].name);
 	  notify_embassies(pplayer, NULL,
 			   _("Game: The %s have aquired %s"
 			     " from the Great Library."),
@@ -194,8 +194,8 @@ static void update_player_aliveness(struct player *pplayer)
 	notify_player_ex(NULL, -1, -1, E_DESTROYED,
 			 _("Game: The %s are no more!"),
 			 get_nation_name_plural(pplayer->nation));
-        gamelog(GAMELOG_GENO, "%s civilization destroyed",
-                get_nation_name(pplayer->nation));
+	gamelog(GAMELOG_GENO, _("%s civilization destroyed"),
+		get_nation_name(pplayer->nation));
       }
       players_iterate(pplayer2) {
 	if (gives_shared_vision(pplayer, pplayer2))
@@ -228,9 +228,8 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   was_first = (game.global_advances[tech_found] == 0);
 
   if (was_first) {
-    gamelog(GAMELOG_TECH,_("%s are first to learn %s"),
-	    get_nation_name_plural(plr->nation),
-	    advances[tech_found].name);
+    gamelog(GAMELOG_TECH, _("%s are first to learn %s"),
+	    get_nation_name_plural(plr->nation), advances[tech_found].name);
     
     /* Alert the owners of any wonders that have been made obsolete */
     impr_type_iterate(id) {
@@ -384,20 +383,17 @@ void tech_researched(struct player* plr)
 		     get_nation_name_plural(plr->nation),
 		     advances[plr->research.researching].name);
 
-    gamelog(GAMELOG_TECH,_("%s discover %s"),
+    gamelog(GAMELOG_TECH, _("%s discover %s"),
 	    get_nation_name_plural(plr->nation),
-	    advances[plr->research.researching].name
-	    );
+	    advances[plr->research.researching].name);
   } else {
     notify_embassies(plr, NULL,
 		     _("Game: The %s have researched Future Tech. %d."), 
 		     get_nation_name_plural(plr->nation),
 		     plr->future_tech);
   
-    gamelog(GAMELOG_TECH,_("%s discover Future Tech %d"),
-	    get_nation_name_plural(plr->nation),
-	    plr->future_tech
-	    );
+    gamelog(GAMELOG_TECH, _("%s discover Future Tech %d"),
+	    get_nation_name_plural(plr->nation), plr->future_tech);
   }
 
   /* do all the updates needed after finding new tech */
@@ -606,10 +602,9 @@ void get_a_tech(struct player *pplayer, struct player *target)
   if (i==game.num_tech_types) {
     freelog(LOG_ERROR, "Bug in get_a_tech");
   }
-  gamelog(GAMELOG_TECH,"%s acquire %s from %s",
-          get_nation_name_plural(pplayer->nation),
-          advances[i].name,
-          get_nation_name_plural(target->nation));
+  gamelog(GAMELOG_TECH, _("%s acquire %s from %s"),
+	  get_nation_name_plural(pplayer->nation), advances[i].name,
+	  get_nation_name_plural(target->nation));
 
   notify_player(pplayer, _("Game: You acquired %s from %s."),
 		advances[i].name, target->name); 
@@ -659,9 +654,9 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.tax=preq->tax;
     pplayer->economic.luxury=preq->luxury;
     pplayer->economic.science=preq->science;
-    gamelog(GAMELOG_EVERYTHING, "RATE CHANGE: %s %i %i %i", 
-	    get_nation_name_plural(pplayer->nation), preq->tax, 
-	    preq->luxury, preq->science);
+    gamelog(GAMELOG_EVERYTHING, _("RATE CHANGE: %s %i %i %i"),
+	    get_nation_name_plural(pplayer->nation), preq->tax, preq->luxury,
+	    preq->science);
     conn_list_do_buffer(&pplayer->connections);
     send_player_info(pplayer, pplayer);
     global_city_refresh(pplayer);
@@ -708,9 +703,9 @@ void handle_player_government(struct player *pplayer,
 		pplayer->name, 
   	        get_nation_name_plural(pplayer->nation),
 		get_government_name(preq->government));  
-  gamelog(GAMELOG_GOVERNMENT,"%s form a %s",
-          get_nation_name_plural(pplayer->nation),
-          get_government_name(preq->government));
+  gamelog(GAMELOG_GOVERNMENT, _("%s form a %s"),
+	  get_nation_name_plural(pplayer->nation),
+	  get_government_name(preq->government));
 
   if (!pplayer->ai.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
@@ -742,8 +737,8 @@ void handle_player_revolution(struct player *pplayer)
   notify_player_ex(pplayer, -1, -1, E_REVOLT_START,
 		   _("Game: The %s have incited a revolt!"),
 		   get_nation_name_plural(pplayer->nation));
-  gamelog(GAMELOG_REVOLT,"The %s revolt!",
-                get_nation_name_plural(pplayer->nation));
+  gamelog(GAMELOG_REVOLT, _("The %s revolt!"),
+	  get_nation_name_plural(pplayer->nation));
 
   check_player_government_rates(pplayer);
 
@@ -784,7 +779,7 @@ void check_player_government_rates(struct player *pplayer)
   }
 
   if (changed) {
-    gamelog(GAMELOG_EVERYTHING, "RATE CHANGE: %s %i %i %i",
+    gamelog(GAMELOG_EVERYTHING, _("RATE CHANGE: %s %i %i %i"),
 	    get_nation_name_plural(pplayer->nation), pplayer->economic.tax,
 	    pplayer->economic.luxury, pplayer->economic.science);
   }

@@ -585,9 +585,8 @@ static void city_populate(struct city *pcity)
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: Famine feared in %s, %s lost!"), 
 			 pcity->name, utname);
-	gamelog(GAMELOG_UNITFS, "%s lose %s (famine)",
-		get_nation_name_plural(city_owner(pcity)->nation),
-		utname);
+	gamelog(GAMELOG_UNITFS, _("%s lose %s (famine)"),
+		get_nation_name_plural(city_owner(pcity)->nation), utname);
 	if (city_got_effect(pcity, B_GRANARY))
 	  pcity->food_stock=city_granary_size(pcity->size)/2;
 	else
@@ -954,13 +953,13 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		       get_nation_name_plural(pplayer->nation),
 		       get_impr_name_ex(pcity, pcity->currently_building),
 		       pcity->name);
-      gamelog(GAMELOG_WONDER, "%s build %s in %s",
+      gamelog(GAMELOG_WONDER, _("%s build %s in %s"),
 	      get_nation_name_plural(pplayer->nation),
 	      get_impr_name_ex(pcity, pcity->currently_building),
 	      pcity->name);
 
     } else
-      gamelog(GAMELOG_IMP, "%s build %s in %s",
+      gamelog(GAMELOG_IMP, _("%s build %s in %s"),
 	      get_nation_name_plural(pplayer->nation),
 	      get_impr_name_ex(pcity, pcity->currently_building),
 	      pcity->name);
@@ -1055,10 +1054,10 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		     pcity->name,
 		     unit_types[pcity->currently_building].name);
 
-    gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
+    gamelog(GAMELOG_UNIT, _("%s build %s in %s (%i,%i)"),
 	    get_nation_name_plural(pplayer->nation),
-	    unit_types[pcity->currently_building].name,
-	    pcity->name, pcity->x, pcity->y);
+	    unit_types[pcity->currently_building].name, pcity->name,
+	    pcity->x, pcity->y);
 
     /* If there's something in the worklist, change the build
        target. If there's nothing there, worklist_change_build_target
@@ -1356,8 +1355,8 @@ static bool disband_city(struct city *pcity)
   notify_player_ex(pplayer, x, y, E_UNIT_BUILD,
 		   _("Game: %s is disbanded into %s."), 
 		   pcity->name, unit_types[pcity->currently_building].name);
-  gamelog(GAMELOG_UNIT, "%s (%i, %i) disbanded into %s by the %s", pcity->name, 
-	  x,y, unit_types[pcity->currently_building].name,
+  gamelog(GAMELOG_UNIT, _("%s (%i, %i) disbanded into %s by the %s"),
+	  pcity->name, x, y, unit_types[pcity->currently_building].name,
 	  get_nation_name_plural(pplayer->nation));
 
   remove_city(pcity);
