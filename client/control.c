@@ -90,8 +90,7 @@ Center on the focus unit, if off-screen and auto_center_on_unit is true.
 **************************************************************************/
 void auto_center_on_focus_unit(void)
 {
-  if (punit_focus &&
-      auto_center_on_unit && punit_focus->activity!=ACTIVITY_SENTRY &&
+  if (punit_focus && auto_center_on_unit &&
       !tile_visible_and_not_on_border_mapcanvas(punit_focus->x, punit_focus->y))
     center_tile_mapcanvas(punit_focus->x, punit_focus->y);
 }
