@@ -94,7 +94,7 @@ static void ai_unit_bodyguard_move(int unitid, int x, int y)
   pplayer = unit_owner(bodyguard);
   assert(pplayer != NULL);
   punit = find_unit_by_id(bodyguard->ai.charge);
-  assert(punit);
+  assert(punit != NULL);
 
   if (!is_tiles_adjacent(x, y, bodyguard->x, bodyguard->y)) {
     BODYGUARD_LOG(LOG_DEBUG, bodyguard, "is too far from its charge");
