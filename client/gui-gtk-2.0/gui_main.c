@@ -638,7 +638,7 @@ void reset_unit_table(void)
 static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *vbox;
-  GtkWidget *avbox, *ahbox;
+  GtkWidget *avbox, *ahbox, *align;
   GtkWidget *frame, *table, *paned, *menubar, *sw, *text;
   GtkStyle *style;
   int i;
@@ -669,13 +669,16 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(vbox), ahbox);
   avbox = detached_widget_fill(ahbox);
 
+  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+  gtk_box_pack_start(GTK_BOX(avbox), align, TRUE, TRUE, 0);
+
   overview_canvas = gtk_drawing_area_new();
 
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
         			       | GDK_BUTTON_PRESS_MASK);
 
   gtk_widget_set_size_request(overview_canvas, 160, 100);
-  gtk_box_pack_start(GTK_BOX(avbox), overview_canvas, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(align), overview_canvas);
 
   g_signal_connect(overview_canvas, "expose_event",
         	   G_CALLBACK(overview_canvas_expose), NULL);
@@ -993,6 +996,7 @@ void ui_main(int argc, char **argv)
   }
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = toplevel->window;
