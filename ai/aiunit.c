@@ -1803,7 +1803,14 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
         if (punit->moves_left <= 0) {
           return;
         }
-        /* Must be adjacent now. */
+        /* Either we're adjacent or we sitting on the tile. We might be
+         * sitting on the tile if the enemy that _was_ sitting there 
+         * attacked us and died _and_ we had enough movement to get there */
+        if (same_pos(punit->tile, dest_tile)) {
+          UNIT_LOG(LOG_DEBUG, punit, "mil att made it -> (%d,%d)",
+                 dest_tile->x, dest_tile->y);
+          break;
+        }
       }
       
       /* Close combat. fstk sometimes want us to attack an adjacent
