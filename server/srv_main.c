@@ -1212,8 +1212,11 @@ static void generate_ai_players(void)
 	pplayer->nation = nation;
 	pplayer->city_style = get_nation_city_style(nation);
 	pplayer->is_male = get_nation_leader_sex(nation, pplayer->name);
-	continue;
+	break;
       }
+    }
+    if (pplayer->nation != NO_NATION_SELECTED) {
+      continue;
     }
 
     nation = select_random_nation(common_class);
