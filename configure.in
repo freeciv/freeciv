@@ -54,4 +54,7 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_HEADER_TIME
 
+dnl export where the datadir is going to be installed
+CPPFLAGS="$CPPFLAGS -DFREECIV_DATADIR=\\\"\$(pkgdatadir)\\\""
+
 AC_OUTPUT(Makefile data/Makefile common/Makefile ai/Makefile client/Makefile server/Makefile)
