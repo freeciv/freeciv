@@ -289,8 +289,10 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_HANGING) /* will add the global effect to this. */
         values[i] = building_value(3, pcity, val) -
                     building_value(1, pcity, val);
-      if (i == B_HOOVER && !city_got_building(pcity, B_HYDRO))
-        values[i] = prod / 2; /* has to be this way or city will flip-flop */
+      if (i == B_HOOVER && !city_got_building(pcity, B_HYDRO)) {
+        if (city_got_building(pcity, B_MFG)) values[i] = prod / 2;
+        else if (city_got_building(pcity, B_FACTORY)) values[i] = prod / 4;
+      } /* otherwise, no benefit because no benefit construed */
       if (i == B_ISAAC)
         values[i] = sci;
       if (i == B_LEONARDO) {
