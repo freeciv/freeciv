@@ -10,6 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-
+#ifndef FC__HAPPINESS_H
+#define FC__HAPPINESS_H
 
 #include "citydlg.h"
+
+#endif				/* FC__HAPPINESS_H */
