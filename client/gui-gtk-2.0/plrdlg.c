@@ -208,21 +208,6 @@ void create_players_dialog(void)
     G_TYPE_INT
   };
 
-  static GtkStateType base[] = {
-    COLOR_STD_BLACK,
-    COLOR_STD_OCEAN,
-    COLOR_STD_BLACK,
-    COLOR_STD_OCEAN,
-    COLOR_STD_BLACK
-  };
-  static GtkStateType text[] = {
-    COLOR_STD_WHITE,
-    COLOR_STD_WHITE,
-    COLOR_STD_WHITE,
-    COLOR_STD_WHITE,
-    COLOR_STD_WHITE
-  };
-
   int i;
   GtkAccelGroup *accel = gtk_accel_group_new();
   GtkWidget *sep, *sw;
@@ -251,13 +236,6 @@ void create_players_dialog(void)
   players_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(players_list));
   g_signal_connect(players_selection, "changed",
         G_CALLBACK(selection_callback), NULL);
-
-  for (i = 0; i < ARRAY_SIZE(base); i++) {
-    gtk_widget_modify_base(players_list, i, colors_standard[base[i]]);
-  }
-  for (i = 0; i < ARRAY_SIZE(text); i++) {
-    gtk_widget_modify_text(players_list, i, colors_standard[text[i]]);
-  }
 
   for (i = 0; i < NUM_COLUMNS; i++) {
     GtkCellRenderer *renderer;
@@ -508,7 +486,7 @@ static void build_row(GtkTreeIter *it, int i)
      state_col = colors_standard[COLOR_STD_GROUND];
      break;
    default:
-     state_col = colors_standard[COLOR_STD_WHITE];
+     state_col = colors_standard[COLOR_STD_BLACK];
    }
    gtk_list_store_set(store, it, COLOR_COLUMN, state_col, -1);
 }
