@@ -488,8 +488,7 @@ static void city_map_canvas_expose(Widget w, XEvent *event, Region exposed,
 struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 {
   char *dummy_improvement_list[]={ 
-    concise_city_production
-    ? "XXXXXXXXXXXXXXXXXXXXXXXXXXXX" : "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "2",
     "3",
     "4",
@@ -517,6 +516,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   if (NORMAL_TILE_HEIGHT<45) dummy_improvement_list[5]=0;
 
+  if (concise_city_production) {
+    dummy_improvement_list[0] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+  }
 
   pdialog=fc_malloc(sizeof(struct city_dialog));
   pdialog->pcity=pcity;
