@@ -1075,7 +1075,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   Weuse ai_unit_attack which means "move if target unoccupied, attack 
   otherwise" and also brings our bodyguard along.
 *************************************************************************/
-static bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
+bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
 {
   int i;
 
