@@ -231,7 +231,8 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
 {
   if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
 /*    printf("Venturing into the unknown at (%d, %d).\n", x1, y1);*/
-    return(3);
+/*    return(3);   People seemed not to like this. -- Syela */
+    return(15); /* arbitrary deterrent. */
   }
   if (get_defender(pplayer, punit, x1, y1)) {
      if (same_pos(punit->goto_dest_x, punit->goto_dest_y, x1, y1))
@@ -352,14 +353,13 @@ and independently I can worry about optimizing them. -- Syela */
 
   if (punit && unit_flag(punit->type, F_IGTER)) igter++;
   if (which == SEA_MOVING) passenger = other_passengers(punit);
-  else passenger = punit;
+  else passenger = 0;
 
   if (passenger)
     if (map_get_terrain(dest_x, dest_y) == T_OCEAN ||
           is_friendly_unit_tile(dest_x, dest_y, passenger->owner) ||
           is_friendly_city_tile(dest_x, dest_y, passenger->owner) ||
-          (unit_flag(passenger->type, F_MARINES) &&
-          get_defender(pplayer, passenger, dest_x, dest_y)) ||
+          unit_flag(passenger->type, F_MARINES) ||
           is_my_zoc(passenger, dest_x, dest_y)) passenger = 0;
 
 /* if passenger is nonzero, the next-to-last tile had better be zoc-ok! */
@@ -387,6 +387,15 @@ and independently I can worry about optimizing them. -- Syela */
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
         if (!c && !dir_ect(x, y, dest_x, dest_y, k)) c = 1;
         tm = warmap.cost[x][y] + c;
+#ifdef ACTUALLYTESTED
+        if (warmap.cost[x][y] < punit->moves_left && tm < maxcost &&
+            tm >= punit->moves_left - MIN(3, c) && enemies_at(punit, xx[i], yy[j])) {
+          tm += unit_types[punit->type].move_rate;
+/*printf("%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)\n",
+unit_types[punit->type].name, punit->id, punit->x, punit->y, xx[i], yy[j],
+punit->goto_dest_x, punit->goto_dest_y);*/
+        }
+#endif
         if (tm < maxcost) {
           if (warmap.cost[xx[i]][yy[j]] > tm) {
             warmap.cost[xx[i]][yy[j]] = tm;
@@ -402,13 +411,21 @@ and independently I can worry about optimizing them. -- Syela */
         if (tile0->move_cost[k] != -3) c = maxcost;
         else if (punit->type == U_TRIREME && !is_coastline(xx[i], yy[j])) c = 7;
         else c = 3;
+/* I want to disable these totally but for some reason it bugs. -- Syela */
         c = goto_tile_cost(pplayer, punit, x, y, xx[i], yy[j], c);
+        if (xx[i] == dest_x && yy[j] == dest_y && passenger && c < 60 &&
+            !is_my_zoc(passenger, x, y)) c = 60; /* passenger cannot disembark */
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
         tm = warmap.seacost[x][y] + c;
+        if (warmap.seacost[x][y] < punit->moves_left && tm < maxcost &&
+            tm >= punit->moves_left - 3 && enemies_at(punit, xx[i], yy[j])) {
+          tm += unit_types[punit->type].move_rate;
+/*printf("%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)\n",
+unit_types[punit->type].name, punit->id, punit->x, punit->y, xx[i], yy[j],
+punit->goto_dest_x, punit->goto_dest_y);*/
+        }
         if (tm < maxcost) {
-          if (xx[i] == dest_x && yy[j] == dest_y && passenger &&
-              !is_my_zoc(passenger, x, y)) ; /* passenger cannot disembark */
-          else if (warmap.seacost[xx[i]][yy[j]] > tm) {
+          if (warmap.seacost[xx[i]][yy[j]] > tm) {
             warmap.seacost[xx[i]][yy[j]] = tm;
             add_to_stack(xx[i], yy[j]);
             local_vector[xx[i]][yy[j]] = 128>>k;
@@ -463,17 +480,28 @@ is not adequate to prevent RR loops.  Bummer. -- Syela */
 
 int find_a_direction(struct unit *punit)
 {
-  int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u;
+  int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u, c;
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   struct tile *ptile, *adjtile;
   int nearland;
   struct city *pcity;
+  struct unit *passenger;
+
+  if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
+    passenger = other_passengers(punit);
+  else passenger = 0;
 
   for (k = 0; k < 8; k++) {
     if (!(warmap.vector[punit->x][punit->y]&(1<<k))) d[k] = 0;
     else {
+      if (is_ground_unit(punit))
+        c = map_get_tile(punit->x, punit->y)->move_cost[k];
+      else c = 3;
+      if (unit_flag(punit->type, F_IGTER) && c) c = 1;
       x = map_adjust_x(punit->x + ii[k]); y = map_adjust_y(punit->y + jj[k]);
+/*if (passenger) printf("%d@(%d,%d) evaluating (%d,%d)[%d/%d]\n",
+punit->id, punit->x, punit->y, x, y, c, punit->moves_left);*/
       ptile = map_get_tile(x, y);
       d0 = get_virtual_defense_power(U_HOWITZER, punit->type, x, y);
       pcity = map_get_city(x, y);
@@ -508,12 +536,15 @@ int find_a_direction(struct unit *punit)
       for (n = 0; n < 8; n++) {
         adjtile = map_get_tile(x + ii[n], y + jj[n]);
         if (adjtile->terrain != T_OCEAN) nearland++;
-        if (!((adjtile->known)&(1u<<punit->owner))) d[k]++; /* nice but not important */
-        else { /* NOTE: Not being omniscient here!! -- Syela */
+        if (!((adjtile->known)&(1u<<punit->owner))) {
+          if (punit->moves_left <= c) d[k] -= (d[k]>>4); /* Avoid the unknown */
+          else d[k]++; /* nice but not important */
+        } else { /* NOTE: Not being omniscient here!! -- Syela */
           unit_list_iterate(adjtile->units, aunit) /* lookin for trouble */
             if (aunit->owner != punit->owner && (a = get_attack_power(aunit))) {
-              if (punit->moves_left < ptile->move_cost[n] + 3) { /* can't fight */
-                d[k] -= d1 * (aunit->hp * a * a / (a * a + d1 * d1));
+              if (punit->moves_left < c + 3) { /* can't fight */
+                if (passenger && !is_ground_unit(aunit)) d[k] = -99;
+                else d[k] -= d1 * (aunit->hp * a * a / (a * a + d1 * d1));
               }
             }
           unit_list_iterate_end;
@@ -532,13 +563,19 @@ int find_a_direction(struct unit *punit)
         }
       }
 
-      if (d[k] < 1) d[k] = 1;
+      if (d[k] < 1 && (!game.players[punit->owner].ai.control ||
+         !punit->ai.passenger || punit->moves_left >= 6)) d[k] = 1;
       if (d[k] > best) { 
         best = d[k];
 /*printf("New best = %d: (%d, %d) -> (%d, %d)\n", best, punit->x, punit->y, x, y);*/
       }
     } /* end is-a-valid-vector */
   } /* end for */
+
+  if (!best) {
+    return(-1);
+  }
+
   do {
     k = myrand(8);
   } while (d[k] < best);
@@ -550,6 +587,7 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int k, possible = 0;
+  if (same_pos(punit->x, punit->y, x, y)) return 1;
   if (is_ground_unit(punit) && 
           (omni || map_get_known(x, y, pplayer))) {
     if (map_get_terrain(x, y) == T_OCEAN) {
@@ -608,11 +646,24 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 
   punit->activity = ACTIVITY_GOTO; /* adding this as a failsafe -- Syela */
 
+  if(!punit->moves_left) {
+    send_unit_info(0, punit, 0);
+    return;
+  }
+
   if(find_the_shortest_path(pplayer, punit, 
 			    punit->goto_dest_x, punit->goto_dest_y)) {
 
     do {
+      if(!punit->moves_left) return;
       k = find_a_direction(punit);
+      if (k < 0) {
+printf("%s#%d@(%d,%d) stalling so it won't be killed.\n",
+unit_types[punit->type].name, punit->id, punit->x, punit->y);
+/*        punit->activity=ACTIVITY_IDLE;*/
+	send_unit_info(0, punit, 0);
+	return;
+      }
 /*printf("Going %s\n", d[k]);*/
       x = map_adjust_x(punit->x + ii[k]);
       y = punit->y + jj[k]; /* no need to adjust this */
