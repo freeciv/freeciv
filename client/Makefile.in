@@ -57,6 +57,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+ARFLAGS = @ARFLAGS@
 AWK = @AWK@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
@@ -94,13 +95,17 @@ POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
 SERVER_LIBS = @SERVER_LIBS@
+UNAME = @UNAME@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
 l = @l@
 @CLIENT_GUI_GTK_TRUE@GUI_SUBDIR = gui-gtk
-@CLIENT_GUI_GTK_FALSE@GUI_SUBDIR = gui-xaw
+@CLIENT_GUI_XAW_TRUE@GUI_SUBDIR = gui-xaw
+@CLIENT_GUI_BEOS_TRUE@GUI_SUBDIR = gui-beos
+@CLIENT_GUI_STUB_TRUE@GUI_SUBDIR = gui-stub
+@CLIENT_GUI_WIN32_TRUE@GUI_SUBDIR = gui-win32
 @MAKE_CLIENT_INCLUDE_TRUE@CLI_INCLUDE = include
 @MAKE_CLIENT_INCLUDE_FALSE@CLI_INCLUDE = 
 
@@ -143,7 +148,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DIST_SUBDIRS =  gui-gtk gui-xaw include
+DIST_SUBDIRS =  gui-gtk gui-xaw gui-beos gui-stub gui-win32 include
 DEP_FILES =  .deps/cityrepdata.P .deps/civclient.P .deps/climisc.P \
 .deps/clinet.P .deps/control.P .deps/helpdata.P .deps/options.P \
 .deps/packhand.P .deps/tilespec.P

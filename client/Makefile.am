@@ -6,8 +6,18 @@
 
 if CLIENT_GUI_GTK
 GUI_SUBDIR = gui-gtk
-else
+endif
+if CLIENT_GUI_XAW
 GUI_SUBDIR = gui-xaw
+endif
+if CLIENT_GUI_BEOS
+GUI_SUBDIR = gui-beos
+endif
+if CLIENT_GUI_STUB
+GUI_SUBDIR = gui-stub
+endif
+if CLIENT_GUI_WIN32
+GUI_SUBDIR = gui-win32
 endif
 
 ## This is usually false, so "include" is not recursed into 

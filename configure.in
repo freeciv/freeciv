@@ -41,7 +41,7 @@ AM_MAINTAINER_MODE
 
 dnl Evaluate options. Example:
 AC_ARG_ENABLE(debug,
- 	[  --enable-debug=[no/minimum/yes] 
+ 	[  --enable-debug[=no/minimum/yes] 
  	                  turn on debugging [default=minimum]],,
 	enable_debug=minimum
 )
@@ -55,29 +55,7 @@ else
   fi
 fi
 
-AC_ARG_WITH(xaw3d,
- 	[  --with-xaw3d            use the Xaw3d widget set ],
-	WITH_XAW3D=1
-)
-AC_ARG_WITH(xaw,
-	[  --with-xaw              use the Xaw widget set],
-	WITH_XAW=1
-)
-
-AC_ARG_WITH(efence,
-	[  --with-efence           use Electric Fence, malloc debugger ],
-	WITH_EFENCE=1
-)
-
-AC_ARG_ENABLE(client,
-[  --disable-client        do not compile the client],
-[case "${enableval}" in
-  yes) client=true ;;
-  no)  client=false ;;
-  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-client) ;;
-esac], [client=true])
-AM_CONDITIONAL(CLIENT, test x$client = xtrue)
-
+dnl  no=do not compile server,  yes=compile server,  *=error
 AC_ARG_ENABLE(server,
 [  --disable-server        do not compile the server],
 [case "${enableval}" in
@@ -86,6 +64,25 @@ AC_ARG_ENABLE(server,
   *)   AC_MSG_ERROR(bad value ${enableval} for --disable-server) ;;
 esac], [server=true])
 AM_CONDITIONAL(SERVER, test x$server = xtrue)
+
+dnl  no=do not compile client,  yes=guess it,  *=use this client or error
+AC_ARG_ENABLE(client,
+[  --enable-client[=no/yes/type]
+                          compile a client [default=yes] (if yes, guess type)],
+[case "${enableval}" in
+  yes) client=yes ;;
+  no)  client=no ;;
+  *)   client="${enableval}"
+       if test ! -d "client/gui-$client" ; then
+	 AC_MSG_ERROR(bad value ${enableval} for --enable-client)
+       fi ;;
+esac], [client=yes])
+AM_CONDITIONAL(CLIENT, test x$client != xno)
+
+AC_ARG_WITH(xaw3d,
+[  --with-xaw3d            use the Xaw3d widget set for the xaw client],
+WITH_XAW3D=1
+)
 
 AC_ARG_ENABLE(make_data,
 [  --disable-make-data     do not recurse make into data directories
@@ -114,6 +111,11 @@ AC_ARG_ENABLE(cvs_deps,
 CVS_DEPS=$enable_cvs_deps
 AC_SUBST(CVS_DEPS)
 
+AC_ARG_WITH(efence,
+	[  --with-efence           use Electric Fence, malloc debugger ],
+	WITH_EFENCE=1
+)
+
 dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
@@ -122,6 +124,8 @@ AC_PROG_LN_S
 AC_PROG_RANLIB
 
 AC_ARG_PROGRAM
+
+AC_CHECK_PROG(UNAME,uname,uname,:)
 
 dnl Programs already checked by AM_INIT_AUTOMAKE:
 dnl  AC_PROG_MAKE_SET
@@ -148,19 +152,50 @@ if test "$CVS_DEPS" = "maybe"; then
    fi
 fi
 
-if test x$client = xtrue; then
-  if test "x$WITH_XAW3D" = "x" && test "x$WITH_XAW" = "x"; then
+dnl BeOS-specific settings
+if test x`$UNAME -s` = xBeOS ; then
+  AC_DEFINE(SOCKET_ZERO_ISNT_STDIN)
+  AC_OUTPUT_COMMANDS([echo "#undef HAVE_SYS_UIO_H" >> config.h])
+  CFLAGS="$CFLAGS -Wno-multichar -gdwarf-2"
+  LDFLAGS="$LDFLAGS -x none -gdwarf-2"
+  ARFLAGS=${ARFLAGS:-cru}
+  AC_SUBST(ARFLAGS)
+fi
+
+dnl Check and choose clients
+if test x$client != xno; then
+
+  dnl if specified --with-xaw3d, assume --enable-client=xaw
+  if test x$client = xyes && test -n "$WITH_XAW3D"; then
+    client=xaw
+  fi
+
+  dnl if need to guess client, announce checking
+  if test x$client = xyes; then
+    AC_CHECKING([for which client to compile:])
+  fi
+
+  dnl Gtk-specific overrides
+  if test "$client" = gtk || test "$client" = yes ; then
     AM_PATH_GTK(1.2.1, gtk_found="yes", gtk_found="", imlib_found="")
     if test "x$gtk_found" = "xyes"; then
       AM_PATH_GDK_IMLIB(1.9.2, imlib_found="yes", imlib_found="")
+      if test "x$imlib_found" = "xyes"; then
+        CLIENT_CFLAGS="$GDK_IMLIB_CFLAGS"
+        CLIENT_LIBS="$GDK_IMLIB_LIBS"
+	found_client=yes
+      fi
+    fi
+
+    if test "x$found_client" = "xyes"; then
+      client=gtk
+    elif test "$client" = "gtk"; then
+      AC_MSG_ERROR(specified client 'gtk' not configurable)
     fi
   fi
-    
-  if test "x$imlib_found" = "xyes"; then
-    CLIENT_CFLAGS="$GDK_IMLIB_CFLAGS"
-    CLIENT_LIBS="$GDK_IMLIB_LIBS"
-    gui_sources="gui-gtk"
-  else
+
+  dnl Xaw-specific overrides
+  if test "$client" = xaw || test "$client" = yes ; then
     dnl Checks for X:
     AC_PATH_XTRA
 
@@ -178,71 +213,117 @@ if test x$client = xtrue; then
     FC_XPM_PATHS
 
     if test "$xpm_incdir" != "no"; then
-        X_CFLAGS="$X_CFLAGS -I$xpm_incdir"
+      X_CFLAGS="$X_CFLAGS -I$xpm_incdir"
     fi
     if test "$xpm_libdir" != "no"; then
-        X_LIBS="$X_LIBS -L$xpm_libdir"
-	dnl Try using R values set in AC_PATH_XTRA:
-        if test "$ac_R_nospace" = "yes"; then
-            X_LIBS="$X_LIBS -R$xpm_libdir"
-        elif test "$ac_R_space" = "yes"; then
-            X_LIBS="$X_LIBS -R $xpm_libdir"
-        fi
-	dnl Some sites may put xpm.h in a directory whose parent isn't "X11"
-	if test "x$xpm_h_no_x11" = "xyes"; then
-	    AC_DEFINE(XPM_H_NO_X11)
-	fi
+      X_LIBS="$X_LIBS -L$xpm_libdir"
+      dnl Try using R values set in AC_PATH_XTRA:
+      if test "$ac_R_nospace" = "yes"; then
+        X_LIBS="$X_LIBS -R$xpm_libdir"
+      elif test "$ac_R_space" = "yes"; then
+        X_LIBS="$X_LIBS -R $xpm_libdir"
+      fi
+      dnl Some sites may put xpm.h in a directory whose parent isn't "X11"
+      if test "x$xpm_h_no_x11" = "xyes"; then
+        AC_DEFINE(XPM_H_NO_X11)
+      fi
     fi
-    fc_save_X_LIBS="$X_LIBS"
-    X_LIBS="$X_LIBS $X_PRE_LIBS"
 
     dnl Checks for X libs:
-    FC_CHECK_X_LIB(X11, XOpenDisplay, , 
-        AC_MSG_ERROR(Need X11 libraries and development headers; perhaps try/adjust --x-libraries))
-    FC_CHECK_X_LIB(Xext, XShapeCombineMask)
+    fc_save_X_LIBS="$X_LIBS"
+    X_LIBS="$X_LIBS $X_PRE_LIBS"
+    FC_CHECK_X_LIB(X11, XOpenDisplay, , haveX11=no)
+    if test "x$haveX11" != "xno"; then
+      FC_CHECK_X_LIB(Xext, XShapeCombineMask)
 
-    dnl Insert X_PRE_LIBS (eg -lSM -lICE) into X_EXTRA_LIBS here:
-    X_EXTRA_LIBS="$X_PRE_LIBS $X_EXTRA_LIBS"
-    X_LIBS="$fc_save_X_LIBS"
+      dnl Insert X_PRE_LIBS (eg -lSM -lICE) into X_EXTRA_LIBS here:
+      X_EXTRA_LIBS="$X_PRE_LIBS $X_EXTRA_LIBS"
+      X_LIBS="$fc_save_X_LIBS"
 
-    FC_CHECK_X_LIB(Xt, main)
-    FC_CHECK_X_LIB(Xmu, main)
-    FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , 
-        AC_MSG_ERROR(Need Xpm library and development headers; perhaps try/adjust --with-xpm-lib))
+      FC_CHECK_X_LIB(Xt, main)
+      FC_CHECK_X_LIB(Xmu, main)
+      FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , haveXpm=no)
+      if test "x$haveXpm" != "xno"; then
+	dnl Xaw or Xaw3d:
+	if test -n "$WITH_XAW3D"; then
+	  FC_CHECK_X_LIB(Xaw3d, main, , AC_MSG_ERROR(did not find Xaw3d library))
+	else
+	  FC_CHECK_X_LIB(Xaw, main, , AC_MSG_ERROR(did not find Xaw library))
+	fi
 
-    dnl Xaw or Xaw3d:
-    dnl If we specified Xaw or Xaw3d explicitly, check and require that.
-    dnl Else: Check Xaw3d first, in case Xaw is linked there.
-    dnl       If didn't find Xaw3d, check Xaw, and complain if neither.
-    if test -n "$WITH_XAW3D"; then
-	FC_CHECK_X_LIB(Xaw3d, main, , AC_MSG_ERROR(Did not find Xaw3d library))
-    elif test -n "$WITH_XAW"; then
-	FC_CHECK_X_LIB(Xaw, main, , AC_MSG_ERROR(Did not find Xaw library))
-    else
-	FC_CHECK_X_LIB(Xaw3d, main, ,[NO_XAW3D=1])
-        if test -n "$NO_XAW3D"; then
-	    FC_CHECK_X_LIB(Xaw, main, , 
-               AC_MSG_ERROR(Did not find either Xaw or Xaw3d library))
-        fi
+	CLIENT_CFLAGS="$X_CFLAGS"
+	CLIENT_LIBS="$X_LIBS $X_EXTRA_LIBS"
+
+	found_client=yes
+      fi
     fi
 
-    dnl Don't do following because don't want server to link with X:
-    dnl LIBS="$LIBS $X_LIBS $X_EXTRA_LIBS"
-    CLIENT_CFLAGS="$X_CFLAGS"
-    CLIENT_LIBS="$X_LIBS $X_EXTRA_LIBS"
-    gui_sources="gui-xaw"
+    if test "x$found_client" = "xyes"; then
+      client=xaw
+    elif test "$client" = "xaw"; then
+      if test "x$haveXpm" = "xno"; then
+	AC_MSG_ERROR(specified client 'xaw' not configurable -- need Xpm library and development headers; perhaps try/adjust --with-xpm-lib)
+      else
+	AC_MSG_ERROR(specified client 'xaw' not configurable -- need X11 libraries and development headers; perhaps try/adjust --x-libraries)
+      fi
+    fi
   fi
+
+  dnl BeOS-specific overrides
+  if test "$client" = beos || test "$client" = yes ; then
+    if test x`$UNAME -s` = xBeOS ; then
+      CLIENT_CFLAGS=
+      CLIENT_LIBS=
+      found_client=yes
+    fi
+
+    if test "x$found_client" = "xyes"; then
+      client=beos
+    elif test "$client" = "beos"; then
+      AC_MSG_ERROR(specified client 'beos' not configurable)
+    fi
+  fi
+
+  dnl Win32-specific overrides
+  if test "$client" = win32 || test "$client" = yes ; then
+    # ADD WIN32 TEST HERE
+
+    if test "x$found_client" = "xyes"; then
+      client=win32
+    elif test "$client" = "win32"; then
+      AC_MSG_ERROR(specified client 'win32' not configurable)
+    fi
+  fi
+
+  dnl Stub-specific overrides
+  if test "$client" = stub ; then
+    found_client=yes
+
+    if test "x$found_client" = "xyes"; then
+      client=stub
+    elif test "$client" = "stub"; then
+      AC_MSG_ERROR(specified client 'stub' not configurable)
+    fi
+  fi
+
+  dnl If client still "yes", error out since we couldn't guess it
+  if test "$client" = yes ; then
+    AC_MSG_ERROR(could not guess which client to compile)
+  fi
+
+  gui_sources="gui-$client"
 fi
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
 AC_SUBST(CLIENT_LIBS)
 AM_CONDITIONAL(CLIENT_GUI_GTK, test "$gui_sources" = "gui-gtk")
+AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")
+AM_CONDITIONAL(CLIENT_GUI_BEOS, test "$gui_sources" = "gui-beos")
+AM_CONDITIONAL(CLIENT_GUI_STUB, test "$gui_sources" = "gui-stub")
+AM_CONDITIONAL(CLIENT_GUI_WIN32, test "$gui_sources" = "gui-win32")
 
-dnl Checks for non-X libraries:
+dnl Checks for additional server libraries:
 if test x$server = xtrue; then
-    dnl For the client, these libs (if required) should already be present
-    dnl in X_EXTRA_LIBS, due to AC_PATH_XTRA, and we don't want to include 
-    dnl them multiple times on the link line.
     dnl The use of AC_CHECK_FUNC is to avoid wrong libs on IRIX.
     AC_CHECK_FUNC(gethostbyname)
     if test $ac_cv_func_gethostbyname = no; then
@@ -262,16 +343,12 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS(arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
                  sys/select.h sys/signal.h sys/socket.h sys/termio.h \
 		 sys/time.h sys/types.h sys/uio.h termios.h unistd.h)
-if test x$client = xtrue; then
+if test x$client = xxaw; then
   dnl Want to get appropriate -I flags:
   fc_save_CPPFLAGS="$CPPFLAGS"
-  if test "x$imlib_found" = "xyes"; then
-    CPPFLAGS="$CPPFLAGS $GDK_IMLIB_CFLAGS"
-  else
-    CPPFLAGS="$CPPFLAGS $X_CFLAGS"
-    AC_CHECK_HEADER(X11/xpm.h, , 
-        AC_MSG_ERROR(Need X11/xpm.h header; perhaps try/adjust --with-xpm-include))
-  fi
+  CPPFLAGS="$CPPFLAGS $CLIENT_CFLAGS"
+  AC_CHECK_HEADER(X11/xpm.h, , 
+    AC_MSG_ERROR(need X11/xpm.h header; perhaps try/adjust --with-xpm-include))
   CPPFLAGS="$fc_save_CPPFLAGS"
 fi
 
@@ -352,6 +429,9 @@ AC_OUTPUT(Makefile
 	  client/include/Makefile 
 	  client/gui-gtk/Makefile 
 	  client/gui-xaw/Makefile 
+	  client/gui-beos/Makefile 
+	  client/gui-win32/Makefile 
+	  client/gui-stub/Makefile 
 	  server/Makefile 
 	  intl/Makefile
 	  po/Makefile.in
