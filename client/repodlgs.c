@@ -994,6 +994,7 @@ void city_report_dialog_update_city(struct city *pcity)
 {
   int i;
 
+  if(delay_report_update) return;
   if(!city_dialog_shell) return;
 
   for(i=0; cities_in_list[i]; i++)  {
@@ -1206,7 +1207,7 @@ void trade_report_dialog_update(void)
 {
   if(delay_report_update) return;
   if(trade_dialog_shell) {
-    int j, k, count, cost, total;
+    int j, k, count, tax, cost, total;
     Dimension width; 
     static char *trade_list_names_ptrs[B_APOLLO+1];
     static char trade_list_names[B_APOLLO][200];
@@ -1218,11 +1219,12 @@ void trade_report_dialog_update(void)
     xaw_set_label(trade_label, report_title);
     free(report_title);
     total = 0;
+    tax=0;
     k = 0;
     pcity = city_list_get(&game.player_ptr->cities,0);
     if(pcity)  {
       for (j=0;j<B_APOLLO;j++) {
-	count = 0;
+	count = 0; 
 	city_list_iterate(game.player_ptr->cities,pcity)
 	  if (city_got_building(pcity, j)) count++;
 	city_list_iterate_end;
@@ -1235,6 +1237,12 @@ void trade_report_dialog_update(void)
 	trade_improvement_type[k]=j;
 	k++;
       }
+      city_list_iterate(game.player_ptr->cities,pcity) {
+	tax+=pcity->tax_total;
+	if (!pcity->is_building_unit && 
+	    pcity->currently_building==B_CAPITAL)
+	  tax+=pcity->shield_surplus;
+      } city_list_iterate_end;
     }
     
     if(k==0) {
@@ -1244,8 +1252,7 @@ void trade_report_dialog_update(void)
     }
     trade_list_names_ptrs[k]=NULL;
 
-    sprintf(trade_total, "Income:%6d    Total Costs: %6d", 
-            total+turn_gold_difference, total); 
+    sprintf(trade_total, "Income:%6d    Total Costs: %6d", tax, total); 
     xaw_set_label(trade_label2, trade_total); 
     
     XawListChange(trade_list, trade_list_names_ptrs, 0, 0, 1);
