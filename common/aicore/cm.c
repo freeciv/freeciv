@@ -149,7 +149,7 @@
 
 #define NUM_SPECIALISTS_ROLES				3
 #define MAX_FIELDS_USED	       	(CITY_MAP_SIZE * CITY_MAP_SIZE - 4 - 1)
-#define MAX_COMBINATIONS				100
+#define MAX_COMBINATIONS				150
 
 /* Maps scientists and taxmen to result for a certain combination. */
 static struct {
