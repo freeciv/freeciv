@@ -2164,7 +2164,8 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     s = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_leader)->entry));
 
     /* Perform a minimum of sanity test on the name. */
-    if (!is_sane_name(s)) {
+    /* This could call is_allowed_player_name if it were available. */
+    if (strlen(s) == 0) {
       append_output_window(_("You must type a legal name."));
       return;
     }

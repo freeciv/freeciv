@@ -497,14 +497,11 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 static void city_build(struct player *pplayer, struct unit *punit,
 		       char *name)
 {
-  if (!is_sane_name(name)) {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: Let's not build a city with "
-		       "such a stupid name."));
-    return;
-  }
+  char message[1024];
 
-  if (!is_allowed_city_name(pplayer, name, punit->x, punit->y, TRUE)) {
+  if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: %s"), message);
     return;
   }
 

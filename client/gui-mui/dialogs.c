@@ -1574,7 +1574,7 @@ static void nations_ok(void)
 
   sz_strlcpy(packet.name, (char*)s);
   
-  if (!is_sane_name(packet.name)) {
+  if (strlen(packet.name) == 0) {
     append_output_window(_("You must type a legal name."));
     return;
   }

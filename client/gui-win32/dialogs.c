@@ -342,7 +342,7 @@ static void do_select(HWND hWnd)
   ComboBox_GetText(GetDlgItem(hWnd,ID_RACESDLG_LEADER),
 		   name,MAX_LEN_NAME);
  
-  if (!is_sane_name(name)) {
+  if (strlen(name) == 0) {
     append_output_window(_("You must type a legal name."));
     return;
   }

@@ -77,7 +77,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 			 int target, bool is_unit, enum event_type event);
 
 bool is_allowed_city_name(struct player *pplayer, const char *city_name,
-			  int x, int y, bool notify_player);
+			  char *error_buf, size_t bufsz);
 char *city_name_suggestion(struct player *pplayer, int x, int y);
 
 

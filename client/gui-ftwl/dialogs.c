@@ -67,7 +67,7 @@ static void connect_callback(struct sw_widget *list, void *data)
   int leader_count, leader=sw_list_get_selected_row(leaders_list);
   struct leader *leaders = get_nation_leaders(selected_nation, &leader_count);
 
-  if (!is_sane_name(leaders[leader].name)) {
+  if (strlen(leaders[leader].name) == 0) {
     append_output_window(_("You must type a legal name."));
     return;
   }

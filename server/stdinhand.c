@@ -1981,8 +1981,9 @@ static bool team_command(struct connection *caller, char *str, bool check)
     goto cleanup;
   }
 
-  if (!is_sane_name(arg[1])) {
-    cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Bad team name."));
+  if (!is_ascii_name(arg[1])) {
+    cmd_reply(CMD_TEAM, caller, C_SYNTAX,
+	      _("Only ASCII characters are allowed for team names."));
     goto cleanup;
   }
   if (is_barbarian(pplayer)) {

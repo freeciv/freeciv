@@ -367,7 +367,7 @@ static bool is_ascii(char ch)
   Returns TRUE iff the name is acceptable.
   FIXME:  Not internationalised.
 ***************************************************************/
-bool is_sane_name(const char *name)
+bool is_ascii_name(const char *name)
 {
   const char illegal_chars[] = {'|', '%', '"', ',', '*', '\0'};
   int i, j;
@@ -731,7 +731,7 @@ const char *user_username(void)
 
     if (env) {
       sz_strlcpy(username, env);
-      if (is_sane_name(username)) {
+      if (is_ascii_name(username)) {
 	freelog(LOG_VERBOSE, "USER username is %s", username);
 	return username;
       }
@@ -746,7 +746,7 @@ const char *user_username(void)
 
     if (pwent) {
       sz_strlcpy(username, pwent->pw_name);
-      if (is_sane_name(username)) {
+      if (is_ascii_name(username)) {
 	freelog(LOG_VERBOSE, "getpwuid username is %s", username);
 	return username;
       }
@@ -762,7 +762,7 @@ const char *user_username(void)
 
     if (GetUserName(name, &length)) {
       sz_strlcpy(username, name);
-      if (is_sane_name(username)) {
+      if (is_ascii_name(username)) {
 	freelog(LOG_VERBOSE, "GetUserName username is %s", username);
 	return username;
       }
@@ -776,7 +776,7 @@ const char *user_username(void)
   my_snprintf(username, MAX_LEN_NAME, "name%d", (int)getuid());
 #endif
   freelog(LOG_VERBOSE, "fake username is %s", username);
-  assert(is_sane_name(username));
+  assert(is_ascii_name(username));
   return username;
 }
 

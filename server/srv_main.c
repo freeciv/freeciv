@@ -1002,6 +1002,89 @@ void check_for_full_turn_done(void)
 }
 
 /**************************************************************************
+  Checks if the player name belongs to the default player names of a
+  particular player.
+**************************************************************************/
+static bool is_default_nation_name(const char *name,
+				   Nation_Type_id nation_id)
+{
+  const struct nation_type *nation = get_nation_by_idx(nation_id);
+
+  int choice;
+
+  for (choice = 0; choice < nation->leader_count; choice++) {
+    if (mystrcasecmp(name, nation->leaders[choice].name) == 0) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Check if this name is allowed for the player.  Fill out the error message
+  (a translated string to be sent to the client) if not.
+**************************************************************************/
+static bool is_allowed_player_name(struct player *pplayer,
+				   Nation_Type_id nation,
+				   const char *name,
+				   char *error_buf, size_t bufsz)
+{
+  /* An empty name is surely not allowed. */
+  if (strlen(name) == 0) {
+    if (error_buf) {
+      my_snprintf(error_buf, bufsz, _("Please choose a non-blank name."));
+    }
+    return FALSE;
+  }
+
+  /* Any name already taken is not allowed. */
+  players_iterate(other_player) {
+    if (other_player->nation == nation) {
+      if (error_buf) {
+	my_snprintf(error_buf, bufsz, _("That nation is already in use."));
+      }
+      return FALSE;
+    } else {
+      /* Check to see if name has been taken.
+       * Ignore case because matches elsewhere are case-insenstive.
+       * Don't limit this check to just players with allocated nation:
+       * otherwise could end up with same name as pre-created AI player
+       * (which have no nation yet, but will keep current player name).
+       * Also want to keep all player names strictly distinct at all
+       * times (for server commands etc), including during nation
+       * allocation phase.
+       */
+      if (other_player->player_no != pplayer->player_no
+	  && mystrcasecmp(other_player->name, name) == 0) {
+	if (error_buf) {
+	  my_snprintf(error_buf, bufsz,
+		      _("Another player already has the name '%s'.  Please "
+			"choose another name."), name);
+	}
+	return FALSE;
+      }
+    }
+  } players_iterate_end;
+
+  /* Any name from the default list is always allowed. */
+  if (is_default_nation_name(name, nation)) {
+    return TRUE;
+  }
+
+  /* Otherwise only ascii names are allowed. */
+  if (!is_ascii_name(name)) {
+    if (error_buf) {
+      my_snprintf(error_buf, bufsz, _("Please choose a name containing "
+				      "only ASCII characters."));
+    }
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void handle_nation_select_req(struct player *pplayer,
@@ -1009,7 +1092,7 @@ void handle_nation_select_req(struct player *pplayer,
 			      char *name, int city_style)
 {
   int nation_used_count;
-  char real_name[MAX_LEN_NAME];
+  char message[1024];
 
   if (server_state != SELECT_RACES_STATE) {
     freelog(LOG_ERROR, _("Trying to alloc nation outside "
@@ -1026,43 +1109,14 @@ void handle_nation_select_req(struct player *pplayer,
 
   remove_leading_trailing_spaces(name);
 
-  if (strlen(name)==0) {
-    notify_player(pplayer, _("Please choose a non-blank name."));
-    send_select_nation(pplayer);
-    return;
-  }
-
-  if (!is_sane_name(name)) {
-    notify_player(pplayer, _("Please choose a legal name."));
+  if (!is_allowed_player_name(pplayer, nation_no, name,
+			      message, sizeof(message))) {
+    notify_player(pplayer, "%s", message);
     send_select_nation(pplayer);
     return;
   }
 
   name[0] = my_toupper(name[0]);
-
-  players_iterate(other_player) {
-    if (other_player->nation == nation_no) {
-       send_select_nation(pplayer); /* it failed - nation taken */
-       return;
-    } else
-      /* Check to see if name has been taken.
-       * Ignore case because matches elsewhere are case-insenstive.
-       * Don't limit this check to just players with allocated nation:
-       * otherwise could end up with same name as pre-created AI player
-       * (which have no nation yet, but will keep current player name).
-       * Also want to keep all player names strictly distinct at all
-       * times (for server commands etc), including during nation
-       * allocation phase.
-       */
-      if (other_player->player_no != pplayer->player_no
-	  && mystrcasecmp(other_player->name, real_name) == 0) {
-	notify_player(pplayer,
-		     _("Another player already has the name '%s'.  "
-		       "Please choose another name."), real_name);
-       send_select_nation(pplayer);
-       return;
-    }
-  } players_iterate_end;
 
   notify_conn_ex(&game.game_connections, -1, -1, E_NATION_SELECTED,
 		 _("Game: %s is the %s ruler %s."), pplayer->username,

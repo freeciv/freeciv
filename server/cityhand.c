@@ -371,17 +371,15 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
 void handle_city_rename(struct player *pplayer, int city_id, char *name)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  char message[1024];
 
   if (!pcity) {
     return;
   }
 
-  if (!is_sane_name(name)) {
-    notify_player(pplayer, _("Game: %s is not a valid name."), name);
-    return;
-  }
-
-  if (!is_allowed_city_name(pplayer, name, pcity->x, pcity->y, TRUE)) {
+  if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		     _("Game: %s"),  message);
     return;
   }
 

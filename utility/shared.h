@@ -182,7 +182,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
 const char *big_int_to_text(unsigned int mantissa, unsigned int exponent);
 const char *int_to_text(unsigned int number);
 
-bool is_sane_name(const char *name);
+bool is_ascii_name(const char *name);
 const char *textyear(int year);
 int compare_strings(const void *first, const void *second);
 int compare_strings_ptrs(const void *first, const void *second);

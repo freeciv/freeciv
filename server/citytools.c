@@ -180,8 +180,8 @@ static char *search_for_city_name(int x, int y, struct city_name *city_names,
   char* best_name = NULL;
 
   for (choice = 0; city_names[choice].name; choice++) {
-    if (!game_find_city_by_name(city_names[choice].name) &&
-	is_allowed_city_name(pplayer, city_names[choice].name, x, y, FALSE)) {
+    if (!game_find_city_by_name(city_names[choice].name)
+	&& is_allowed_city_name(pplayer, city_names[choice].name, NULL, 0)) {
       int priority = evaluate_city_name_priority(x, y, &city_names[choice],
 						 choice);
 
@@ -202,32 +202,43 @@ reason for rejection. There's 4 different modes:
 1: a city name has to be unique to player
 2: a city name has to be globally unique
 3: a city name has to be globally unique, and players can't use names
-   that are in another player's default city names. (E.g. Swedish may not
+   that are in another player's default city names. (E.g., Swedish may not
    call new cities or rename old cities as Helsinki, because it's in
-   Finns' default city names)
+   Finns' default city names.  Duplicated names may be used by
+   either nation.)
 **************************************************************************/
 bool is_allowed_city_name(struct player *pplayer, const char *city_name,
-			  int x, int y, bool notify_player)
+			  char *error_buf, size_t bufsz)
 {
-  /* Mode 0: No restrictions to city names */
-  if (game.allowed_city_names == 0) {
-    return TRUE;
-  }
-
-  /* Mode 1: A city name has to be unique to player */
+  /* Mode 1: A city name has to be unique for each player. */
   if (game.allowed_city_names == 1 &&
       city_list_find_name(&pplayer->cities, city_name)) {
-    if (notify_player) {
-      notify_player_ex(pplayer, x, y, E_NOEVENT,
-		       _("Game: You already have a city called %s"),
-		       city_name);
+    if (error_buf) {
+      my_snprintf(error_buf, bufsz, _("You already have a city called %s."),
+		  city_name);
     }
     return FALSE;
   }
 
+  /* Modes 2,3: A city name has to be globally unique. */
+  if ((game.allowed_city_names == 2 || game.allowed_city_names == 3)
+      && game_find_city_by_name(city_name)) {
+    if (error_buf) {
+      my_snprintf(error_buf, bufsz,
+		  _("A city called %s already exists."), city_name);
+    }
+    return FALSE;
+  }
+
+  /* General rule: any name in our ruleset is allowed. */
+  if (is_default_city_name(city_name, pplayer)) {
+    return TRUE;
+  }
+
   /* 
-   * Mode 3: Check first that the proposed city name is not in another
-   * player's default city names.
+   * Mode 3: Check that the proposed city name is not in another
+   * player's default city names.  Note the name will already have been
+   * allowed if it is in this player's default city names list.
    */
   if (game.allowed_city_names == 3) {
     struct player *pother = NULL;
@@ -240,26 +251,25 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
     } players_iterate_end;
 
     if (pother != NULL) {
-      if (notify_player) {
-	notify_player_ex(pplayer, x, y, E_NOEVENT,
-			 _("Game: Can't use %s as a city name. "
-			   "It is reserved for %s."),
-			 city_name, get_nation_name_plural(pother->nation));
+      if (error_buf) {
+	my_snprintf(error_buf, bufsz, _("Can't use %s as a city name. It is "
+					"reserved for %s."),
+		    city_name, get_nation_name_plural(pother->nation));
       }
       return FALSE;
     }
   }
 
-  /* Modes 2,3: A city name has to be globally unique */
-  if ((game.allowed_city_names == 2 ||
-       game.allowed_city_names == 3) && game_find_city_by_name(city_name)) {
-    if (notify_player) {
-      notify_player_ex(pplayer, x, y, E_NOEVENT,
-		       _("Game: A city called %s already exists."),
-		       city_name);
+  if (!is_ascii_name(city_name)) {
+    if (error_buf) {
+      my_snprintf(error_buf, bufsz,
+		  _("%s is not a valid name. Only ASCII or "
+		    "ruleset names are allowed for cities."),
+		  city_name);
     }
     return FALSE;
   }
+
 
   return TRUE;
 }

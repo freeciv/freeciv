@@ -3799,7 +3799,7 @@ static int start_callback(struct GUI *pStart_Button)
   char *pStr = convert_to_chars(pSetup->pName_Edit->string16->text);
 
   /* perform a minimum of sanity test on the name */
-  if (!is_sane_name(pStr)) {
+  if (strlen(pStr) == 0) {
     append_output_window(_("You must type a legal name."));
     pSellected_Widget = pStart_Button;
     set_wstate(pStart_Button, FC_WS_SELLECTED);

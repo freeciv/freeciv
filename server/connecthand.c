@@ -251,7 +251,9 @@ bool handle_login_request(struct connection *pconn,
   remove_leading_trailing_spaces(req->username);
 
   /* Name-sanity check: could add more checks? */
-  if (strlen(req->username) == 0 || my_isdigit(req->username[0])
+  if (strlen(req->username) == 0
+      || my_isdigit(req->username[0])
+      || !is_ascii_name(req->username)
       || mystrcasecmp(req->username, "all") == 0
       || mystrcasecmp(req->username, "none") == 0
       || mystrcasecmp(req->username, ANON_USER_NAME) == 0) {
@@ -512,7 +514,7 @@ static bool is_good_password(const char *password, char *msg)
     return FALSE;
   }
 
-  if (!is_sane_name(password)) {
+  if (!is_ascii_name(password)) {
     return FALSE;
   }
 

@@ -2202,7 +2202,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
   XtVaGetValues(races_leader, XtNstring, &dp, NULL);
 
   /* perform a minimum of sanity test on the name */
-  if (!is_sane_name(dp)) {
+  if (strlen(dp) == 0) {
     append_output_window(_("You must type a legal name."));
     return;
   }
