@@ -620,8 +620,9 @@ void popdown_economy_report_dialog(void)
 *****************************************************************/
 void create_economy_report_dialog(bool make_modal)
 {
-  static const char *titles[4] = {
-    N_("Building Name"),
+  static const char *titles[5] = {
+    N_("Type"),
+    N_("Name"),
     N_("Count"),
     N_("Cost"),
     N_("U Total")
@@ -629,13 +630,16 @@ void create_economy_report_dialog(bool make_modal)
   static bool titles_done;
   int i;
 
-  static GType model_types[4] = {
+  static GType model_types[5] = {
+    G_TYPE_NONE,
     G_TYPE_STRING,
     G_TYPE_INT,
     G_TYPE_INT,
     G_TYPE_INT
   };
   GtkWidget *view, *sw, *align;
+
+  model_types[0] = GDK_TYPE_PIXBUF;
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
   
@@ -662,24 +666,31 @@ void create_economy_report_dialog(bool make_modal)
   g_signal_connect(economy_selection, "changed",
 		   G_CALLBACK(economy_selection_callback), NULL);
 
-  for (i=0; i<4; i++) {
+  for (i=0; i<ARRAY_SIZE(model_types); i++) {
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *col;
 
-    renderer = gtk_cell_renderer_text_new();
-      
-    col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-	"text", i, NULL);
+    if (model_types[i] == GDK_TYPE_PIXBUF) {
+      renderer = gtk_cell_renderer_pixbuf_new();
 
-    if (i > 0) {
-      GValue value = { 0, };
+      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+	  "pixbuf", i, NULL);
+    } else {
+      renderer = gtk_cell_renderer_text_new();
 
-      g_value_init(&value, G_TYPE_FLOAT);
-      g_value_set_float(&value, 1.0);
-      g_object_set_property(G_OBJECT(renderer), "xalign", &value);
-      g_value_unset(&value);
+      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+	  "text", i, NULL);
 
-      gtk_tree_view_column_set_alignment(col, 1.0);
+      if (i > 1) {
+	GValue value = { 0, };
+
+	g_value_init(&value, G_TYPE_FLOAT);
+	g_value_set_float(&value, 1.0);
+	g_object_set_property(G_OBJECT(renderer), "xalign", &value);
+	g_value_unset(&value);
+
+	gtk_tree_view_column_set_alignment(col, 1.0);
+      }
     }
 
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
@@ -826,15 +837,17 @@ void economy_report_dialog_update(void)
 
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
+      struct impr_type *impr = get_improvement_type(p->type);
 
       gtk_list_store_append(economy_store, &it);
       gtk_list_store_set(economy_store, &it,
-	1, p->count,
-	2, p->cost,
-	3, p->total_cost, -1);
+	0, sprite_get_pixbuf(impr->sprite),
+	2, p->count,
+	3, p->cost,
+	4, p->total_cost, -1);
       g_value_init(&value, G_TYPE_STRING);
-      g_value_set_static_string(&value, get_improvement_name(p->type));
-      gtk_list_store_set_value(economy_store, &it, 0, &value);
+      g_value_set_static_string(&value, impr->name);
+      gtk_list_store_set_value(economy_store, &it, 1, &value);
       g_value_unset(&value);
 
       economy_row_type[i].is_impr = TRUE;
@@ -848,13 +861,12 @@ void economy_report_dialog_update(void)
     for (i = 0; i < entries_used; i++) {
       gtk_list_store_append(economy_store, &it);
       gtk_list_store_set(economy_store, &it,
-			 1, entries_units[i].count,
-			 2, entries_units[i].cost,
-			 3, entries_units[i].total_cost,
-			 -1);
+			 2, entries_units[i].count,
+			 3, entries_units[i].cost,
+			 4, entries_units[i].total_cost, -1);
       g_value_init(&value, G_TYPE_STRING);
       g_value_set_static_string(&value, unit_name(entries_units[i].type));
-      gtk_list_store_set_value(economy_store, &it, 0, &value);
+      gtk_list_store_set_value(economy_store, &it, 1, &value);
       g_value_unset(&value);
     
       economy_row_type[i + nbr_impr].is_impr = FALSE;
