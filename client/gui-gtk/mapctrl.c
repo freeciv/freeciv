@@ -14,11 +14,7 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <assert.h>
-
 #include <gtk/gtk.h>
 
 #include "fcintl.h"
@@ -50,43 +46,12 @@
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 /* Color to use to display the workers */
-int city_workers_color=COLOR_STD_WHITE;
+int city_workers_color = COLOR_STD_WHITE;
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void name_new_city_callback(GtkWidget *w, gpointer data)
-{
-  size_t unit_id;
-  
-  if((unit_id=(size_t)data)) {
-    struct packet_unit_request req;
-    req.unit_id=unit_id;
-    sz_strlcpy(req.name, input_dialog_get_input(w));
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
-  }
-  input_dialog_destroy(w);
-}
-
-/**************************************************************************
- Popup dialog where the user choose the name of the new city
- punit = (settler) unit which builds the city
- suggestname = suggetion of the new city's name
-**************************************************************************/
-void popup_newcity_dialog(struct unit *punit, char *suggestname)
-{
-  input_dialog_create(toplevel, /*"shellnewcityname" */
-		      _("Build New City"),
-		      _("What should we call our new city?"), suggestname,
-		      name_new_city_callback, GINT_TO_POINTER(punit->id),
-		      name_new_city_callback, GINT_TO_POINTER(0));
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static gint
-popit_button_release(GtkWidget *w, GdkEventButton *event)
+static gint popit_button_release(GtkWidget *w, GdkEventButton *event)
 {
   gtk_grab_remove(w);
   gdk_pointer_ungrab(GDK_CURRENT_TIME);
@@ -100,7 +65,7 @@ popit_button_release(GtkWidget *w, GdkEventButton *event)
 static void popit(GdkEventButton *event, int xtile, int ytile)
 {
   GtkWidget *p, *b;
-  static struct map_position cross_list[2+1];
+  static struct map_position cross_list[2 + 1];
   struct map_position *cross_head = cross_list;
   int i, count = 0;
   int popx, popy;
@@ -140,7 +105,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       count++;
     }
     
-    if((pcity=map_get_city(xtile, ytile))) {
+    if((pcity = map_get_city(xtile, ytile))) {
       my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name,
 		  get_nation_name(city_owner(pcity)->nation));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
@@ -169,11 +134,11 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       count++;
     }
     
-    if((punit=find_visible_unit(ptile)) && !pcity) {
+    if((punit = find_visible_unit(ptile)) && !pcity) {
       char cn[64];
-      struct unit_type *ptype=unit_type(punit);
-      cn[0]='\0';
-      if(punit->owner==game.player_idx) {
+      struct unit_type *ptype = unit_type(punit);
+      cn[0] = '\0';
+      if(punit->owner == game.player_idx) {
 	struct city *pcity;
 	pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
 	if(pcity)
@@ -185,18 +150,18 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				     "GtkLabel::label", s, NULL);
       count++;
 
-      if(punit->owner==game.player_idx)  {
+      if(punit->owner == game.player_idx)  {
 	char uc[64] = "";
-	if(unit_list_size(&ptile->units)>=2) {
+	if(unit_list_size(&ptile->units) >= 2) {
 	  my_snprintf(uc, sizeof(uc), _("  (%d more)"),
 		      unit_list_size(&ptile->units) - 1);
 	}
         my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d/%d%s%s"),
 		    ptype->attack_strength, 
 		    ptype->defense_strength, ptype->firepower, punit->hp, 
-		    ptype->hp, punit->veteran?_(" V"):"", uc);
+		    ptype->hp, punit->veteran ? _(" V") : "", uc);
 
-        if(punit->activity==ACTIVITY_GOTO || punit->connecting)  {
+        if(punit->activity == ACTIVITY_GOTO || punit->connecting)  {
 	  cross_head->x = punit->goto_dest_x;
 	  cross_head->y = punit->goto_dest_y;
 	  cross_head++;
@@ -205,7 +170,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
         my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d0%%"),
 		    ptype->attack_strength, 
 		    ptype->defense_strength, ptype->firepower, 
-		    (punit->hp*100/ptype->hp + 9)/10 );
+		    (punit->hp * 100 / ptype->hp + 9) / 10);
       }
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s, NULL);
@@ -220,17 +185,17 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 
     cross_head->x = -1;
     for (i = 0; cross_list[i].x >= 0; i++) {
-      put_cross_overlay_tile(cross_list[i].x,cross_list[i].y);
+      put_cross_overlay_tile(cross_list[i].x, cross_list[i].y);
     }
     gtk_signal_connect(GTK_OBJECT(p),"destroy",
 		       GTK_SIGNAL_FUNC(popupinfo_popdown_callback),
 		       cross_list);
 
     /* displace popup so as not to obscure it by the mouse cursor */
-    popx= event->x_root+16;
-    popy= event->y_root-(8*count);
-    if( popy<0 )
-      popy= 0;      
+    popx = event->x_root + 16;
+    popy = event->y_root - (8 * count);
+    if (popy < 0)
+      popy = 0;      
     gtk_widget_popup(p, popx, popy);
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, event->time);
@@ -255,6 +220,45 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void name_new_city_callback(GtkWidget *w, gpointer data)
+{
+  size_t unit_id;
+  
+  if((unit_id = (size_t)data)) {
+    struct packet_unit_request req;
+    req.unit_id = unit_id;
+    sz_strlcpy(req.name, input_dialog_get_input(w));
+    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
+  }
+  input_dialog_destroy(w);
+}
+
+/**************************************************************************
+ Popup dialog where the user choose the name of the new city
+ punit = (settler) unit which builds the city
+ suggestname = suggetion of the new city's name
+**************************************************************************/
+void popup_newcity_dialog(struct unit *punit, char *suggestname)
+{
+  input_dialog_create(toplevel, /*"shellnewcityname" */
+		      _("Build New City"),
+		      _("What should we call our new city?"), suggestname,
+		      name_new_city_callback, GINT_TO_POINTER(punit->id),
+		      name_new_city_callback, GINT_TO_POINTER(0));
+}
+
+/**************************************************************************
+ Enable or disable the turn done button.
+ Should probably some where else.
+**************************************************************************/
+void set_turn_done_button_state(bool state)
+{
+  gtk_widget_set_sensitive(turn_done_button, state);
+}
+
+/**************************************************************************
 (RP:) wake up my own sentried units on the tile that was clicked
 **************************************************************************/
 gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev)
@@ -269,7 +273,7 @@ gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev)
 
   get_map_xy(ev->x, ev->y, &xtile, &ytile);
 
-  wakeup_sentried_units(xtile,ytile);
+  wakeup_sentried_units(xtile, ytile);
   return TRUE;
 }
 
@@ -280,7 +284,7 @@ gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
 {
   int xtile, ytile;
   
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if(get_client_state() != CLIENT_GAME_RUNNING_STATE)
     return TRUE;
   
   if ((ev->button == 1) && (ev->state & GDK_SHIFT_MASK)) {
@@ -368,22 +372,20 @@ void adjust_workers(GtkWidget *widget, GdkEventButton *ev)
   is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
   assert(is_valid);
 
-  packet.city_id=pcity->id;
-  packet.worker_x=x;
-  packet.worker_y=y;
+  packet.city_id = pcity->id;
+  packet.worker_x = x;
+  packet.worker_y = y;
   
   wrk = get_worker_city(pcity, x, y);
-  if(wrk==C_TILE_WORKER)
+  if (wrk == C_TILE_WORKER)
     send_packet_city_request(&aconnection, &packet, 
 			    PACKET_CITY_MAKE_SPECIALIST);
-  else if(wrk==C_TILE_EMPTY)
-    send_packet_city_request(&aconnection, &packet, 
-			    PACKET_CITY_MAKE_WORKER);
+  else if (wrk == C_TILE_EMPTY)
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
 
   /* When the city info packet is received, update the workers on the map*/
   city_workers_display = pcity;
 }
-
 
 /**************************************************************************
 ...
@@ -406,7 +408,7 @@ gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev)
   }
   ytile = ev->y / 2;
   
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+  if(get_client_state() != CLIENT_GAME_RUNNING_STATE)
      return TRUE;
 
   if (ev->button == 1) {
@@ -440,13 +442,13 @@ void key_city_workers(GtkWidget *w, GdkEventKey *ev)
   gdk_window_get_pointer(map_canvas->window, &x, &y, NULL);
   get_map_xy(x, y, &x, &y);
 
-  pcity = find_city_near_tile(x,y);
+  pcity = find_city_near_tile(x, y);
   if (!pcity) {
     return;
   }
 
   /* Shade tiles on usage */
-  city_workers_color = (city_workers_color%3)+1;
+  city_workers_color = (city_workers_color % 3) + 1;
   put_city_workers(pcity, city_workers_color);
 }
 
@@ -457,13 +459,4 @@ void key_city_workers(GtkWidget *w, GdkEventKey *ev)
 void focus_to_next_unit(void)
 {
   advance_unit_focus();
-}
-
-/**************************************************************************
- Enable or disable the turn done button.
- Should probably some where else.
-**************************************************************************/
-void set_turn_done_button_state(bool state)
-{
-  gtk_widget_set_sensitive(turn_done_button, state);
 }
