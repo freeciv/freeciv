@@ -1247,11 +1247,11 @@ static void player_load(struct player *plr, int plrno,
 
     pcity->steal=secfile_lookup_int(file, "player%d.c%d.steal", plrno, i);
 
-    for (j = 0; j < SP_COUNT; j++) {
-      pcity->specialists[j]
+    specialist_type_iterate(sp) {
+      pcity->specialists[sp]
 	= secfile_lookup_int(file, "player%d.c%d.n%s", plrno, i,
-			     game.rgame.specialists[j].name);
-    }
+			     game.rgame.specialists[sp].name);
+    } specialist_type_iterate_end;
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
       pcity->trade[j]=secfile_lookup_int(file, "player%d.c%d.traderoute%d",
@@ -1871,11 +1871,11 @@ static void player_save(struct player *plr, int plrno,
 		       plrno, i);
     secfile_insert_int(file, pcity->size, "player%d.c%d.size", plrno, i);
     secfile_insert_int(file, pcity->steal, "player%d.c%d.steal", plrno, i);
-    for (j = 0; j < SP_COUNT; j++) {
-      secfile_insert_int(file, pcity->specialists[j],
+    specialist_type_iterate(sp) {
+      secfile_insert_int(file, pcity->specialists[sp],
 			 "player%d.c%d.n%s", plrno, i,
-			 game.rgame.specialists[j].name);
-    }
+			 game.rgame.specialists[sp].name);
+    } specialist_type_iterate_end;
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
       secfile_insert_int(file, pcity->trade[j], "player%d.c%d.traderoute%d", 

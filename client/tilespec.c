@@ -1055,13 +1055,12 @@ static char *cw_str(int idx)
 ****************************************************************************/
 void tilespec_setup_specialist_types(void)
 {
-  int i, j;
-  char buffer[512];
-
   /* Load the specialist sprite graphics. */
-  for (i = 0; i < SP_COUNT; i++) {
+  specialist_type_iterate(i) {
     struct citizen_type c = {.type = CITIZEN_SPECIALIST, .spec_type = i};
     const char *name = get_citizen_name(c);
+    char buffer[512];
+    int j;
 
     for (j = 0; j < NUM_TILES_CITIZEN; j++) {
       my_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
@@ -1075,7 +1074,7 @@ void tilespec_setup_specialist_types(void)
       freelog(LOG_NORMAL, _("No graphics for specialist %s."), name);
       exit(EXIT_FAILURE);
     }
-  }
+  } specialist_type_iterate_end;
 }
 
 /****************************************************************************

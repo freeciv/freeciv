@@ -2530,11 +2530,11 @@ int city_waste(const struct city *pcity, int shields)
 **************************************************************************/
 int city_specialists(const struct city *pcity)
 {
-  int count = 0, i;
+  int count = 0;
 
-  for (i = 0; i < SP_COUNT; i++) {
-    count += pcity->specialists[i];
-  }
+  specialist_type_iterate(sp) {
+    count += pcity->specialists[sp];
+  } specialist_type_iterate_end;
 
   return count;
 }
@@ -2686,9 +2686,9 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->y = y;
   sz_strlcpy(pcity->name, name);
   pcity->size = 1;
-  for (i = 0; i < SP_COUNT; i++) {
-    pcity->specialists[i] = 0;
-  }
+  specialist_type_iterate(sp) {
+    pcity->specialists[sp] = 0;
+  } specialist_type_iterate_end;
   pcity->specialists[SP_ELVIS] = 1;
   pcity->ppl_happy[4] = 0;
   pcity->ppl_content[4] = 1;

@@ -307,11 +307,11 @@ static bool can_field_be_used_for_worker(struct city *pcity, int x, int y)
 ****************************************************************************/
 static int get_num_specialists(const struct cm_result *const result)
 {
-  int sp, count = 0;
+  int count = 0;
 
-  for (sp = 0; sp < SP_COUNT; sp++) {
+  specialist_type_iterate(sp) {
     count += result->specialists[sp];
-  }
+  } specialist_type_iterate_end;
 
   return count;
 }

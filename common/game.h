@@ -501,4 +501,14 @@ extern bool is_server;
 
 #define GAME_START_YEAR -4000
 
+#define specialist_type_iterate(sp)					    \
+{									    \
+  int sp;                                                                   \
+                                                                            \
+  for (sp = 0; sp < SP_COUNT; sp++) {
+
+#define specialist_type_iterate_end                                         \
+  }                                                                         \
+}
+
 #endif  /* FC__GAME_H */

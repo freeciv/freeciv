@@ -148,8 +148,6 @@ void remove_obsolete_buildings(struct player *pplayer)
 **************************************************************************/
 void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
 {
-  int i;
-
   /* The caller had better check this! */
   if (!cmr->found_a_valid) {
     freelog(LOG_ERROR, "apply_cmresult_to_city() called with non-valid "
@@ -171,9 +169,9 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
       server_set_worker_city(pcity, x, y);
     }
   } city_map_checked_iterate_end;
-  for (i = 0; i < SP_COUNT; i++) {
-    pcity->specialists[i] = cmr->specialists[i];
-  }
+  specialist_type_iterate(sp) {
+    pcity->specialists[sp] = cmr->specialists[sp];
+  } specialist_type_iterate_end;
 }
 
 /**************************************************************************

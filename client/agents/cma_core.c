@@ -269,7 +269,7 @@ static void copy_stats(struct city *pcity, struct cm_result *result)
 static void get_current_as_result(struct city *pcity,
 				  struct cm_result *result)
 {
-  int worker = 0, i;
+  int worker = 0;
 
   memset(result->worker_positions_used, 0,
 	 sizeof(result->worker_positions_used));
@@ -282,9 +282,9 @@ static void get_current_as_result(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  for (i = 0; i < SP_COUNT; i++) {
-    result->specialists[i] = pcity->specialists[i];
-  }
+  specialist_type_iterate(sp) {
+    result->specialists[sp] = pcity->specialists[sp];
+  } specialist_type_iterate_end;
 
   assert(worker + result->specialists[SP_ELVIS]
 	 + result->specialists[SP_SCIENTIST]

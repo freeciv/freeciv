@@ -3111,11 +3111,11 @@ static void send_ruleset_game(struct conn_list *dest)
   int i;
   struct packet_ruleset_game misc_p;
 
-  for (i = 0; i < SP_COUNT; i++) {
-    sz_strlcpy(misc_p.specialist_name[i], game.rgame.specialists[i].name);
-    misc_p.specialist_min_size[i] = game.rgame.specialists[i].min_size;
-    misc_p.specialist_bonus[i] = game.rgame.specialists[i].bonus;
-  }
+  specialist_type_iterate(sp) {
+    sz_strlcpy(misc_p.specialist_name[sp], game.rgame.specialists[sp].name);
+    misc_p.specialist_min_size[sp] = game.rgame.specialists[sp].min_size;
+    misc_p.specialist_bonus[sp] = game.rgame.specialists[sp].bonus;
+  } specialist_type_iterate_end;
   misc_p.changable_tax = game.rgame.changable_tax;
   misc_p.forced_science = game.rgame.forced_science;
   misc_p.forced_luxury = game.rgame.forced_luxury;

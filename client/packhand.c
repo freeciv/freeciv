@@ -434,9 +434,9 @@ void handle_city_info(struct packet_city_info *packet)
     pcity->ppl_unhappy[i] = packet->ppl_unhappy[i];
     pcity->ppl_angry[i] = packet->ppl_angry[i];
   }
-  for (i = 0; i < SP_COUNT; i++) {
-    pcity->specialists[i] = packet->specialists[i];
-  }
+  specialist_type_iterate(sp) {
+    pcity->specialists[sp] = packet->specialists[sp];
+  } specialist_type_iterate_end;
 
   pcity->city_options = packet->city_options;
 
@@ -712,9 +712,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     int i;
     int x, y;
 
-    for (i = 0; i < SP_COUNT; i++) {
-      pcity->specialists[i] = 0;
-    }
+    specialist_type_iterate(sp) {
+      pcity->specialists[sp] = 0;
+    } specialist_type_iterate_end;
     for (i = 0; i < NUM_TRADEROUTES; i++) {
       pcity->trade[i] = 0;
       pcity->trade_value[i] = 0;
@@ -2710,11 +2710,11 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 {
   int i;
 
-  for (i = 0; i < SP_COUNT; i++) {
-    sz_strlcpy(game.rgame.specialists[i].name, packet->specialist_name[i]);
-    game.rgame.specialists[i].min_size = packet->specialist_min_size[i];
-    game.rgame.specialists[i].bonus = packet->specialist_bonus[i];
-  }
+  specialist_type_iterate(sp) {
+    sz_strlcpy(game.rgame.specialists[sp].name, packet->specialist_name[sp]);
+    game.rgame.specialists[sp].min_size = packet->specialist_min_size[sp];
+    game.rgame.specialists[sp].bonus = packet->specialist_bonus[sp];
+  } specialist_type_iterate_end;
   tilespec_setup_specialist_types();
 
   game.rgame.changable_tax = packet->changable_tax;

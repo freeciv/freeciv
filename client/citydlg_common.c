@@ -389,7 +389,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
 void get_city_citizen_types(struct city *pcity, int index,
 			    struct citizen_type *citizens)
 {
-  int i = 0, n, sp;
+  int i = 0, n;
   assert(index >= 0 && index < 5);
 
   for (n = 0; n < pcity->ppl_happy[index]; n++, i++) {
@@ -405,12 +405,12 @@ void get_city_citizen_types(struct city *pcity, int index,
     citizens[i].type = CITIZEN_ANGRY;
   }
 
-  for (sp = 0; sp < SP_COUNT; sp++) {
+  specialist_type_iterate(sp) {
     for (n = 0; n < pcity->specialists[sp]; n++, i++) {
       citizens[i].type = CITIZEN_SPECIALIST;
       citizens[i].spec_type = sp;
     }
-  }
+  } specialist_type_iterate_end;
 
   assert(i == pcity->size);
 }
