@@ -272,15 +272,20 @@ static void adjust_building_want_by_effects(struct city *pcity,
 
     if (is_effect_disabled(TARGET_BUILDING, pplayer, pcity,
 	  		   id, NULL, peffect)) {
+      CITY_LOG(LOG_DEBUG, pcity, "%s has a disabled effect: %s", 
+               get_improvement_name(id), effect_type_name(peffect->type));
       continue;
     }
 
     mypreq = NULL;
     useful = TRUE;
     requirement_list_iterate(peffect->reqs, preq) {
+      /* Check if all the requirements for the currently evaluated effect
+       * are met, except for having the building that we are evaluating. */
       if (preq->source.type == REQ_BUILDING
 	  && preq->source.value.building == id) {
 	mypreq = preq;
+        continue;
       }
       if (!is_req_active(TARGET_BUILDING, pplayer, pcity, id, NULL, preq)) {
 	useful = FALSE;
