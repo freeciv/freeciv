@@ -292,7 +292,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 
       UNIT_LOG(LOGLEVEL_GOTHERE, punit, "got boat[%d], going (%d,%d)",
                ferryboat->id, dest_x, dest_y);
-      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+      handle_unit_load(pplayer, punit->id, ferryboat->id);
       ai_set_passenger(ferryboat, punit);
 
       /* If the location is not accessible directly from sea
@@ -316,7 +316,6 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
       UNIT_LOG(LOGLEVEL_GOTHERE, punit, "All aboard!");
       set_goto_dest(ferryboat, beach_x, beach_y);
       set_goto_dest(punit, dest_x, dest_y);
-      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
       /* Grab bodyguard */
       if (bodyguard
           && !same_pos(punit->x, punit->y, bodyguard->x, bodyguard->y)) {
@@ -339,7 +338,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
       }
       if (bodyguard) {
         assert(same_pos(punit->x, punit->y, bodyguard->x, bodyguard->y));
-        handle_unit_activity_request(bodyguard, ACTIVITY_SENTRY);
+	handle_unit_load(pplayer, bodyguard->id, ferryboat->id);
       }
       if (!ai_unit_goto(ferryboat, beach_x, beach_y)) {
         /* died */
