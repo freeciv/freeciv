@@ -716,7 +716,9 @@ popup_unit_select_dialog(struct tile *ptile)
   RECT rc,rc2;
   HBITMAP old;
   static HDC unitsel_dc;
+  struct unit *unit_list[unit_list_size(&ptile->units)];
   
+  fill_tile_unit_list(ptile, unit_list);
   
   /* unit select box might already be open; if so, close it */
   if (unit_select_main) {
@@ -744,7 +746,7 @@ popup_unit_select_dialog(struct tile *ptile)
   max_height=0;
   for(i=0;i<n;i++)
     {
-      struct unit *punit=unit_list_get(&ptile->units, i);
+      struct unit *punit = unit_list[i];
       struct unit_type *punittemp=unit_type(punit);
       struct city *pcity;
       unit_select_ids[i]=punit->id;

@@ -1651,6 +1651,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   GtkWidget *pix, *hbox, *table;
   GtkWidget *unit_select_all_command, *unit_select_close_command;
   bool can_ready = FALSE;
+  struct unit *unit_list[unit_list_size(&ptile->units)];
 
   if (!unit_select_dialog_shell){
   gtk_widget_set_sensitive(top_vbox, FALSE);
@@ -1670,8 +1671,10 @@ void popup_unit_select_dialog(struct tile *ptile)
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(unit_select_dialog_shell)->vbox),
 	table);  
 
+  fill_tile_unit_list(ptile, unit_list);
+
   for(i=0; i<n; i++) {
-    struct unit *punit=unit_list_get(&ptile->units, i);
+    struct unit *punit = unit_list[i];
     struct unit_type *punittemp=unit_type(punit);
     struct city *pcity;
 

@@ -59,6 +59,8 @@ char* popup_info_text(int xtile, int ytile);
 bool get_chance_to_win(int *att_chance, int *def_chance,
 		       int map_x, int map_y);
 
+void fill_tile_unit_list(struct tile *ptile, struct unit **unit_list);
+
 extern struct city *city_workers_display;
 
 #endif /* FC__MAPCTRL_COMMON_H */

@@ -656,6 +656,60 @@ bool get_chance_to_win(int *att_chance, int *def_chance,
   return TRUE;
 }
 
+/****************************************************************************
+  We sort according to the following logic:
+
+  - Transported units should immediately follow their transporter (note that
+    transporting may be recursive).
+  - Otherwise we sort by ID (which is what the list is originally sorted by).
+****************************************************************************/
+static int unit_list_compare(const void *a, const void *b)
+{
+  const struct unit *punit1 = *(struct unit **)a;
+  const struct unit *punit2 = *(struct unit **)b;
+
+  if (punit1->transported_by == punit2->transported_by) {
+    /* For units with the same transporter or no transporter: sort by id. */
+    /* Perhaps we should sort by name instead? */
+    return punit1->id - punit2->id;
+  } else if (punit1->transported_by == punit2->id) {
+    return 1;
+  } else if (punit2->transported_by == punit1->id) {
+    return -1;
+  } else {
+    /* If the transporters aren't the same, put in order by the
+     * transporters. */
+    const struct unit *ptrans1 = find_unit_by_id(punit1->transported_by);
+    const struct unit *ptrans2 = find_unit_by_id(punit2->transported_by);
+
+    if (!ptrans1) {
+      ptrans1 = punit1;
+    }
+    if (!ptrans2) {
+      ptrans2 = punit2;
+    }
+
+    return unit_list_compare(&ptrans1, &ptrans2);
+  }
+}
+
+/****************************************************************************
+  Fill and sort the list of units on the tile.
+****************************************************************************/
+void fill_tile_unit_list(struct tile *ptile, struct unit **unit_list)
+{
+  int i = 0;
+
+  /* First populate the unit list. */
+  unit_list_iterate(ptile->units, punit) {
+    unit_list[i] = punit;
+    i++;
+  } unit_list_iterate_end;
+
+  /* Then sort it. */
+  qsort(unit_list, i, sizeof(*unit_list), unit_list_compare);
+}
+
 static void add_line(char* buf, size_t bufsz, char *format, ...)
                      fc__attribute((format(printf, 3, 4)));
 

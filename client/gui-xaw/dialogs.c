@@ -1555,6 +1555,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   Widget unit_select_all_command, unit_select_close_command;
   Widget firstcolumn=0,column=0;
   Pixel bg;
+  struct unit *unit_list[unit_list_size(&ptile->units)];
 
   XtSetSensitive(main_form, FALSE);
 
@@ -1573,8 +1574,10 @@ void popup_unit_select_dialog(struct tile *ptile)
   n = MIN(MAX_SELECT_UNITS, unit_list_size(&ptile->units));
   r = number_of_rows(n);
 
+  fill_tile_unit_list(ptile, unit_list);
+
   for(i=0; i<n; i++) {
-    struct unit *punit=unit_list_get(&ptile->units, i);
+    struct unit *punit = unit_list[i];
     struct unit_type *punittemp=unit_type(punit);
     struct city *pcity;
     struct canvas store;
