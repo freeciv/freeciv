@@ -1442,7 +1442,8 @@ static gint popup_mes_del_callback(GtkWidget * widget, GdkEvent * event,
 static void popup_mes_handle_callback(GtkWidget * widget, gpointer data)
 {
   GtkWidget *dialog_shell = GTK_WIDGET(data);
-  int button = (int)gtk_object_get_data(GTK_OBJECT(widget), "button");
+  int button =
+	GPOINTER_TO_INT(gtk_object_get_data(GTK_OBJECT(widget), "button"));
   struct button_descr *buttons =
       gtk_object_get_data(GTK_OBJECT(dialog_shell), "buttons");
 
@@ -1530,7 +1531,7 @@ GtkWidget *base_popup_message_dialog(GtkWidget * parent,
     my_snprintf(button_name, sizeof(button_name), "button%d", i);
     gtk_object_set_data(GTK_OBJECT(dshell), button_name, button);
 
-    gtk_object_set_data(GTK_OBJECT(button), "button",(gpointer)i);
+    gtk_object_set_data(GTK_OBJECT(button), "button", GINT_TO_POINTER(i));
     
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
 		       GTK_SIGNAL_FUNC(popup_mes_handle_callback),
