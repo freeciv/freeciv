@@ -1,0 +1,1 @@
+?package(freeciv-xaw):needs="x11" section="Games/Strategy" icon="none" title="FreeCiv client (Old Athena version)" command="/usr/games/civclient-xaw"

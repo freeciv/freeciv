@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+if [ -x /usr/bin/update-menus ] ; then update-menus ; fi
+update-alternatives --remove civ /usr/games/civclient-gtk
+

@@ -6,127 +6,116 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-build: build-stamp
+build: build-xaw build-xaw3d build-gtk build-base
 build-stamp:
 	dh_testdir
 
-	# We can't build both at once because of the configure files...
-	if [ -f build-xaw3d ]; then debian/rules cleantop; fi
-
-	./configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games
-	$(MAKE)
-
 	touch build-stamp
+
+build-base:
+	dh_testdir
+
+	mkdir build-base
+	(cd build-base; ../configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --disable-client; $(MAKE))
+
+build-xaw:
+	dh_testdir
+
+	mkdir build-xaw
+	(cd build-xaw; ../configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --with-xaw --disable-server; $(MAKE))
 
 build-xaw3d:
 	dh_testdir
 
-	# We can't build both at once because of the configure files...
-	if [ -f build-stamp ]; then debian/rules cleantop; fi
+	mkdir build-xaw3d
+	(cd build-xaw3d; ../configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --with-xaw3d --disable-server; $(MAKE))
 
-	./configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --with-xaw3d --disable-server
-	$(MAKE)
+build-gtk:
+	dh_testdir
 
-	touch build-xaw3d
+	mkdir build-gtk
+	(cd build-gtk; ../configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --disable-server; $(MAKE))
 
-clean: internal-clean
+clean:
 	dh_testdir
 	dh_testroot
-	rm -f *-stamp
+	-rm -Rf build-stamp build-xaw3d build-xaw build-gtk build-base install-stamp
 	dh_clean
 
-internal-clean: cleantop
-	dh_testdir
-	rm -f install-stamp install-xaw3d
-
-cleantop:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp build-xaw3d
-
-	# Assume that if the makefile doesn't exist, it was deleted by a previous
-	# "make clean" so there's no need to repeat it.
-	-$(MAKE) distclean
-	# this assumption may lead to stray binaries and objects hanging around, so
-	# we try to remove them by hand just in case.
-	-rm -f config.log config.cache config.status
-	-rm -f */*.o
-	-rm -f */*.a
-	-rm -f server/civserver client/civclient
 	-rm -f debian/*~ Makefile Makefile.bak core */Makefile
 
 install: install-stamp
-install-stamp:
+install-stamp: build-stamp
 	dh_testdir
 	dh_testroot
 	dh_clean -k
-	# this can't be a regular dependency or we get an infinite loop
-	if [ ! -f build-stamp ]; then debian/rules build; fi
-	dh_installdirs -p freeciv
+	dh_installdirs
+	dh_installdirs -pfreeciv-xaw
+	dh_installdirs -pfreeciv-xaw3d
+	dh_installdirs -pfreeciv-gtk
 
-	$(MAKE) DESTDIR=`pwd`/debian/tmp install
+	(cd build-base; $(MAKE) DESTDIR=`pwd`/../debian/tmp install)
+	(cd build-xaw; $(MAKE) DESTDIR=`pwd`/../debian/freeciv-xaw install)
+	mv debian/freeciv-xaw/usr/games/civclient debian/freeciv-xaw/usr/games/civclient-xaw.real
+	rm -rf debian/freeciv-xaw/usr/share
+	(cd build-xaw3d; $(MAKE) DESTDIR=`pwd`/../debian/freeciv-xaw3d install)
+	mv debian/freeciv-xaw3d/usr/games/civclient debian/freeciv-xaw3d/usr/games/civclient-xaw3d
+	rm -rf debian/freeciv-xaw3d/usr/share
+	(cd build-gtk; $(MAKE) DESTDIR=`pwd`/../debian/freeciv-gtk install)
+	mv debian/freeciv-gtk/usr/games/civclient debian/freeciv-gtk/usr/games/civclient-gtk
+	rm -rf debian/freeciv-gtk/usr/share
 
 	touch install-stamp
-
-install-xaw3d:
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	# this can't be a regular dependency or we get an infinite loop
-	if [ ! -f build-xaw3d ]; then debian/rules build-xaw3d; fi
-	dh_installdirs -p freeciv-xaw3d
-
-	/usr/bin/install client/civclient debian/freeciv-xaw3d/usr/games/civclient-xaw3d
-
-	touch install-xaw3d
 
 # Build architecture-independent files here (ie none).
 binary-indep:
 
 # Build architecture-dependent files here.
-binary-arch: normal-deb-stamp xaw3d-deb-stamp
-
-normal-deb-stamp: build install
+binary-arch: build install
 #	dh_testversion
 	dh_testdir
 	dh_testroot
 	dh_installdocs -pfreeciv
-	dh_installexamples -pfreeciv
-	dh_installmenu -pfreeciv
-	dh_installmanpages -pfreeciv
-	/usr/bin/install debian/xaw-wrappers debian/tmp/usr/lib/xaw-wrappers/conf/freeciv
-#	dh_undocumented -pfreeciv
-	dh_installchangelogs  -pfreeciv
-	dh_strip -pfreeciv
-	dh_compress -pfreeciv
-	dh_fixperms -pfreeciv
-	dh_suidregister -pfreeciv
-	dh_installdeb -pfreeciv
-	dh_shlibdeps -pfreeciv
-	dh_gencontrol -pfreeciv
-#	dh_makeshlibs -pfreeciv
-	dh_md5sums -pfreeciv
-	dh_builddeb -pfreeciv
-
-xaw3d-deb-stamp: build-xaw3d install-xaw3d
-#	dh_testversion
-	dh_testdir
-	dh_testroot
+	ln -fs freeciv debian/freeciv-xaw/usr/doc/freeciv-xaw
 	ln -fs freeciv debian/freeciv-xaw3d/usr/doc/freeciv-xaw3d
-	dh_installmenu -pfreeciv-xaw3d
-	ln -s civclient.6.gz debian/freeciv-xaw3d/usr/man/man6/civclient-xaw3d.6.gz
-#	dh_installchangelogs -pfreeciv-xaw3d
+	ln -fs freeciv debian/freeciv-gtk/usr/doc/freeciv-gtk
+	dh_installexamples
+	dh_installmenu
+	dh_installxaw
+	dh_installmanpages
+#	/usr/bin/install debian/xaw-wrappers debian/tmp/usr/lib/xaw-wrappers/conf/freeciv
+#	dh_undocumented
+	dh_installchangelogs -pfreeciv
+	dh_strip
+	dh_strip -pfreeciv-xaw
 	dh_strip -pfreeciv-xaw3d
-	dh_compress -pfreeciv-xaw3d
-	dh_fixperms -pfreeciv-xaw3d
-	dh_suidregister -pfreeciv-xaw3d
+	dh_strip -pfreeciv-gtk
+	dh_compress
+	dh_fixperms
+	dh_suidregister
+	dh_installdeb
+	dh_installdeb -pfreeciv-xaw
 	dh_installdeb -pfreeciv-xaw3d
+	dh_installdeb -pfreeciv-gtk
+	dh_shlibdeps
+	dh_shlibdeps -pfreeciv-xaw
 	dh_shlibdeps -pfreeciv-xaw3d
+	dh_shlibdeps -pfreeciv-gtk
+	dh_gencontrol
+	dh_gencontrol -pfreeciv-xaw
 	dh_gencontrol -pfreeciv-xaw3d
+	dh_gencontrol -pfreeciv-gtk
+#	dh_makeshlibs
+	dh_md5sums
+	dh_md5sums -pfreeciv-xaw
 	dh_md5sums -pfreeciv-xaw3d
+	dh_md5sums -pfreeciv-gtk
+	dh_builddeb
+	dh_builddeb -pfreeciv-xaw
 	dh_builddeb -pfreeciv-xaw3d
+	dh_builddeb -pfreeciv-gtk
 
-source diff:                                                                  
+source diff:
 	@echo 'source and diff are obsolete - use dpkg-source -b' >&2 ; false
 
 binary: binary-indep binary-arch

@@ -1,15 +1,22 @@
-freeciv (1.8.0+cvs19990517) experimental; urgency=low
+freeciv (1.8.0+cvs19990610) experimental; urgency=low
 
   * New upstream release (CVS snapshot); highlights:
-  * GTK version (freeciv-gtk)
+    * GTK version (freeciv-gtk)
 
- -- Lalo Martins <lalo@webcom.com>  Mon, 17 May 1999 18:43:01 -0300
+ -- Lalo Martins <lalo@webcom.com>  Thu, 10 Jun 1999 12:32:04 -0300
 
 freeciv (1.8.0-1) unstable; urgency=low
 
   * New upstream release
+  * Main package (freeciv) no longer contains a client, to get rid of
+    superfulous dependencies; instead it Recommends: freeciv-client which is
+    a virtual package Provided by the 2 client packages (3 for the CVS
+    snapshots). The xaw client is moved to the freeciv-xaw package.
+  * Fixed the xaw-wrappers incompatibility (xaw-wrappers changed its
+    interface since the last FreeCiv release, and this made freeciv-xaw
+    incompatible)
 
- -- Lalo Martins <lalo@webcom.com>  Wed, 28 Apr 1999 00:40:35 -0400
+ -- Lalo Martins <lalo@webcom.com>  Thu, 10 Jun 1999 12:32:04 -0300
 
 freeciv (1.7.2+cvs19990223) experimental; urgency=low
 
