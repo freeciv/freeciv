@@ -331,7 +331,7 @@ void prepare_show_city_descriptions(void)
 /****************************************************************************
   Draw a cross-hair overlay on a tile.
 ****************************************************************************/
-void put_cross_overlay_tile(int map_x, int map_y)
+void put_cross_overlay_tile(struct tile *ptile)
 {
   /* PORTME */
 }
