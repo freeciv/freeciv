@@ -869,6 +869,23 @@ void help_update_improvement(struct help_item *pitem, char *title, int which)
 	      advances[t].name);
     }
   }
+  if(which==B_BARRACKS
+     && tech_exists(improvement_types[B_BARRACKS].obsolete_by)
+     && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
+    sprintf(buf+strlen(buf),
+	    "\nNote that discovering %s or %s will obsolete\n"
+	    "any existing %s.\n",
+	    advances[improvement_types[B_BARRACKS].obsolete_by].name,
+	    advances[improvement_types[B_BARRACKS2].obsolete_by].name,
+	    improvement_types[B_BARRACKS].name);
+  }
+  if(which==B_BARRACKS2
+     && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
+    sprintf(buf+strlen(buf),
+	    "\nThe discovery of %s will make %s obsolete.\n",
+	    advances[improvement_types[B_BARRACKS2].obsolete_by].name,
+	    improvement_types[B_BARRACKS2].name);
+  }
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
   

@@ -594,9 +594,9 @@ automatically have Veteran status, which means that its attack and
 defence strengths are increased by 50%.  Also, damaged land units
 which stay in town for one turn are completely restored.
 
-Note that discovering Gunpowder and Combustion will obsolete any
-existing Barracks.
-
+%%Note that discovering Gunpowder and Combustion will obsolete any
+%%existing Barracks.
+%%
 Variant 1: Affects all units, not just land units.
 ---
 # Barracks II
@@ -605,8 +605,8 @@ automatically have Veteran status, which means that its attack and
 defence strengths are increased by 50%.  Also, damaged land units
 which stay in town for one turn are completely restored.
 
-The discovery of Combustion will make Barracks II obsolete.
-
+%%The discovery of Combustion will make Barracks II obsolete.
+%%
 Variant: Uses Barracks variant (see Barracks).
 ---
 # Barracks III
