@@ -1902,6 +1902,8 @@ void cma_put_city_under_agent(struct city *pcity,
   freelog(LOG_DEBUG, "cma_put_city_under_agent(city='%s'(%d))",
 	  pcity->name, pcity->id);
 
+  assert(city_owner(pcity) == game.player_ptr);
+
   attr_city_set(ATTR_CITY_CMA_PARAMETER, pcity->id,
 		sizeof(struct cma_parameter), parameter);
 
