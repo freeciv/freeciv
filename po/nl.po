@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.0\n"
 "POT-Creation-Date: 2001-10-26 11:54+0200\n"
-"PO-Revision-Date: 2001-10-26 12:00+0200\n"
+"PO-Revision-Date: 2001-10-26 13:55+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6101,7 +6101,7 @@ msgstr "Onderhoud"
 
 #: client/gui-gtk/citydlg.c:598
 msgid "City _Overview"
-msgstr "Stads _Overzicht"
+msgstr "Stads_overzicht"
 
 #: client/gui-gtk/citydlg.c:622
 msgid "City info"
@@ -6149,7 +6149,7 @@ msgstr "Verkoop"
 #: client/gui-gtk/menu.c:748 client/gui-win32/menu.c:354
 #: client/gui-win32/menu.c:373
 msgid "_Units"
-msgstr "Eenheden (_U)"
+msgstr "_Eenheden"
 
 #: client/gui-gtk/citydlg.c:937 client/gui-win32/citydlg.c:890
 msgid "Supported units"
@@ -6178,11 +6178,11 @@ msgstr "_Werklijst"
 
 #: client/gui-gtk/citydlg.c:1132
 msgid "_Happiness"
-msgstr "Geluk (_H)"
+msgstr "_Geluk"
 
 #: client/gui-gtk/citydlg.c:1186
 msgid "_Trade Routes"
-msgstr "Handelsrou_tes"
+msgstr "_Handelsroutes"
 
 #: client/gui-gtk/citydlg.c:1196
 msgid "Established trade routes"
