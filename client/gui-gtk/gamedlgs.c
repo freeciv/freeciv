@@ -55,7 +55,7 @@ static guint      rates_tax_sig, rates_lux_sig, rates_sci_sig;
 static int rates_tax_value, rates_lux_value, rates_sci_value;
 
 
-void rates_changed_callback(GtkAdjustment *adj);
+static void rates_changed_callback(GtkAdjustment *adj);
 
 
 /**************************************************************************
@@ -163,7 +163,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 /**************************************************************************
 ...
 **************************************************************************/
-void rates_changed_callback(GtkAdjustment *adj)
+static void rates_changed_callback(GtkAdjustment *adj)
 {
   int percent=adj->value;
 
@@ -349,7 +349,7 @@ static void create_rates_dialog(void)
 /****************************************************************
 ... 
 *****************************************************************/
-void popup_rates_dialog( void )
+void popup_rates_dialog(void)
 {
     char buf[64];
 
@@ -368,7 +368,7 @@ void popup_rates_dialog( void )
   Option dialog 
 **************************************************************************/
 
-GtkWidget *option_dialog_shell;
+static GtkWidget *option_dialog_shell;
 
 /**************************************************************************
 ...

@@ -39,9 +39,9 @@ static GtkWidget *connw, *quitw;
 static GtkWidget *dialog;
 
 /* meta Server */
-int  update_meta_dialog(GtkWidget *meta_list);
-void meta_list_callback(GtkWidget *w, gint row, gint column);
-void meta_update_callback(GtkWidget *w, gpointer data);
+static int update_meta_dialog(GtkWidget *meta_list);
+static void meta_list_callback(GtkWidget *w, gint row, gint column);
+static void meta_update_callback(GtkWidget *w, gpointer data);
 
 static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf);
 
@@ -68,7 +68,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-int update_meta_dialog(GtkWidget *meta_list)
+static int update_meta_dialog(GtkWidget *meta_list)
 {
   char errbuf[128];
 
@@ -83,7 +83,7 @@ int update_meta_dialog(GtkWidget *meta_list)
 /**************************************************************************
 ...
 **************************************************************************/
-void meta_update_callback(GtkWidget *w, gpointer data)
+static void meta_update_callback(GtkWidget *w, gpointer data)
 {
   update_meta_dialog(GTK_WIDGET(data));
 }
@@ -91,7 +91,7 @@ void meta_update_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void meta_list_callback(GtkWidget *w, gint row, gint column)
+static void meta_list_callback(GtkWidget *w, gint row, gint column)
 {
   gchar *name, *port;
 

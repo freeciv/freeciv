@@ -17,6 +17,4 @@
 
 #include "diplodlg_g.h"
 
-void diplo_dialog_returnkey(GtkWidget *w, gpointer data);
-
 #endif  /* FC__DIPLODLG_H */

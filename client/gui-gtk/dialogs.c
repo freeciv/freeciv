@@ -95,37 +95,37 @@ static GtkWidget  *unit_select_labels[100];
 static int         unit_select_ids[100];
 static int         unit_select_no;
 
-int races_buttons_get_current(void);
-int sex_buttons_get_current(void);
-int city_style_get_current(void);
+static int races_buttons_get_current(void);
+static int sex_buttons_get_current(void);
+static int city_style_get_current(void);
 
-void create_races_dialog	(void);
-void races_buttons_callback	( GtkWidget *w, gpointer data );
-void races_toggles_callback	( GtkWidget *w, gpointer data );
-void races_sex_toggles_callback ( GtkWidget *w, gpointer data );
-void races_name_callback	( GtkWidget *w, gpointer data );
-void city_style_toggles_callback ( GtkWidget *w, gpointer data );
+static void create_races_dialog	(void);
+static void races_buttons_callback	( GtkWidget *w, gpointer data );
+static void races_toggles_callback	( GtkWidget *w, gpointer data );
+static void races_sex_toggles_callback ( GtkWidget *w, gpointer data );
+static void races_name_callback	( GtkWidget *w, gpointer data );
+static void city_style_toggles_callback ( GtkWidget *w, gpointer data );
 
-int selected_nation;
-int selected_leader;
-int selected_sex;
-int selected_city_style;
-int city_style_idx[64];        /* translation table basic style->city_style  */
-int city_style_ridx[64];       /* translation table the other way            */
+static int selected_nation;
+static int selected_leader;
+static int selected_sex;
+static int selected_city_style;
+static int city_style_idx[64];        /* translation table basic style->city_style  */
+static int city_style_ridx[64];       /* translation table the other way            */
                                /* they in fact limit the num of styles to 64 */
-int b_s_num; /* number of basic city styles, i.e. those that you can start with */
+static int b_s_num; /* number of basic city styles, i.e. those that you can start with */
 
-int is_showing_government_dialog;
+static int is_showing_government_dialog;
 
-int is_showing_pillage_dialog = FALSE;
-int unit_to_use_to_pillage;
+static int is_showing_pillage_dialog = FALSE;
+static int unit_to_use_to_pillage;
 
-int caravan_city_id;
-int caravan_unit_id;
+static int caravan_city_id;
+static int caravan_unit_id;
 
-int diplomat_dialog_open = 0;
-int diplomat_id;
-int diplomat_target_id;
+static int diplomat_dialog_open = 0;
+static int diplomat_id;
+static int diplomat_target_id;
 
 struct city *pcity_caravan_dest;
 struct unit *punit_caravan;
@@ -146,7 +146,10 @@ static void notify_command_callback(GtkWidget *w, GtkWidget *t)
   gtk_widget_set_sensitive( toplevel, TRUE );
 }
 
-gint deleted_callback( GtkWidget *widget, GdkEvent *event, gpointer data )
+/****************************************************************
+...
+*****************************************************************/
+gint deleted_callback(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
   gtk_widget_set_sensitive( toplevel, TRUE );
   return FALSE;
@@ -1134,7 +1137,6 @@ int diplomat_dialog_is_open(void)
   return diplomat_dialog_open;
 }
 
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -1562,7 +1564,7 @@ void message_dialog_button_set_sensitive(GtkWidget *shl, char *bname,int state)
 ...
 *****************************************************************/
 GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
-								char *text, ...)
+				char *text, ...)
 {
   va_list args;
   GtkWidget *dshell, *button, *dlabel, *vbox;
@@ -2102,7 +2104,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 /**************************************************************************
 ...
 **************************************************************************/
-void races_name_callback( GtkWidget *w, gpointer data )
+static void races_name_callback( GtkWidget *w, gpointer data )
 {
   char *lead;
   int nat;
@@ -2117,7 +2119,7 @@ void races_name_callback( GtkWidget *w, gpointer data )
 /**************************************************************************
 ...
 **************************************************************************/
-void races_toggles_callback( GtkWidget *w, gpointer race_id_p )
+static void races_toggles_callback( GtkWidget *w, gpointer race_id_p )
 {
   selected_nation = GPOINTER_TO_INT(race_id_p);
 
@@ -2131,7 +2133,7 @@ void races_toggles_callback( GtkWidget *w, gpointer race_id_p )
 /**************************************************************************
 ...
 **************************************************************************/
-void races_sex_toggles_callback( GtkWidget *w, gpointer data )
+static void races_sex_toggles_callback( GtkWidget *w, gpointer data )
 {
   if(w==races_sex_toggles[0]) 
       selected_sex = 1;
@@ -2142,7 +2144,7 @@ void races_sex_toggles_callback( GtkWidget *w, gpointer data )
 /**************************************************************************
 ...
 **************************************************************************/
-void city_style_toggles_callback( GtkWidget *w, gpointer data )
+static void city_style_toggles_callback( GtkWidget *w, gpointer data )
 {
   int i;
 
@@ -2156,17 +2158,17 @@ void city_style_toggles_callback( GtkWidget *w, gpointer data )
 /**************************************************************************
 ...
 **************************************************************************/
-int races_buttons_get_current(void)
+static int races_buttons_get_current(void)
 {
   return selected_nation;
 }
 
-int sex_buttons_get_current(void)
+static int sex_buttons_get_current(void)
 {
   return selected_sex;
 }
 
-int city_style_get_current(void)
+static int city_style_get_current(void)
 {
   return selected_city_style;
 }
@@ -2174,7 +2176,7 @@ int city_style_get_current(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void races_buttons_callback( GtkWidget *w, gpointer data )
+static void races_buttons_callback( GtkWidget *w, gpointer data )
 {
   int selected, selected_sex, selected_style;
   char *s;
@@ -2236,7 +2238,7 @@ void destroy_me_callback( GtkWidget *w, gpointer data)
 /**************************************************************************
   Adjust tax rates from main window
 **************************************************************************/
-void taxrates_callback( GtkWidget *w, GdkEventButton *event, gpointer data )
+void taxrates_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
 {
   int tax_end,lux_end,sci_end;
   size_t i;

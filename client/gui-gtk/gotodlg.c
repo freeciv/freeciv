@@ -48,17 +48,20 @@ static GtkWidget *goto_airlift_command;
 static GtkWidget *goto_all_toggle;
 static GtkWidget *goto_cancel_command;
 
-void update_goto_dialog			(GtkWidget *goto_list);
+static void update_goto_dialog			(GtkWidget *goto_list);
 
-void goto_cancel_command_callback	(GtkWidget *w, gpointer data);
-void goto_goto_command_callback		(GtkWidget *w, gpointer data);
-void goto_airlift_command_callback	(GtkWidget *w, gpointer data);
-void goto_all_toggle_callback		(GtkWidget *w, gpointer data);
-void goto_list_callback			(GtkWidget *w, gint row, gint column);
-void goto_list_ucallback		(GtkWidget *w, gint row, gint column);
+static void goto_cancel_command_callback	(GtkWidget *w, gpointer data);
+static void goto_goto_command_callback		(GtkWidget *w, gpointer data);
+static void goto_airlift_command_callback	(GtkWidget *w, gpointer data);
+static void goto_all_toggle_callback		(GtkWidget *w, gpointer data);
+static void goto_list_callback			(GtkWidget *w, gint row, gint column);
+static void goto_list_ucallback		(GtkWidget *w, gint row, gint column);
 
 static int original_x, original_y;
 
+/****************************************************************
+...
+*****************************************************************/
 void popup_goto_dialog_action(void)
 {
   popup_goto_dialog();
@@ -175,7 +178,7 @@ static struct city *get_selected_city(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_goto_dialog(GtkWidget *goto_list)
+static void update_goto_dialog(GtkWidget *goto_list)
 {
   int    i, j;
   int    all_cities;
@@ -215,7 +218,7 @@ static void popdown_goto_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void goto_list_callback(GtkWidget *w, gint row, gint column)
+static void goto_list_callback(GtkWidget *w, gint row, gint column)
 {
   struct city *pdestcity;
 
@@ -232,7 +235,7 @@ void goto_list_callback(GtkWidget *w, gint row, gint column)
 /**************************************************************************
 ...
 **************************************************************************/
-void goto_list_ucallback(GtkWidget *w, gint row, gint column)
+static void goto_list_ucallback(GtkWidget *w, gint row, gint column)
 {
   gtk_widget_set_sensitive(goto_airlift_command, FALSE);
 }
@@ -240,7 +243,7 @@ void goto_list_ucallback(GtkWidget *w, gint row, gint column)
 /**************************************************************************
 ...
 **************************************************************************/
-void goto_airlift_command_callback(GtkWidget *w, gpointer data)
+static void goto_airlift_command_callback(GtkWidget *w, gpointer data)
 {
   struct city *pdestcity=get_selected_city();
   if(pdestcity) {
@@ -259,7 +262,7 @@ void goto_airlift_command_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void goto_all_toggle_callback(GtkWidget *w, gpointer data)
+static void goto_all_toggle_callback(GtkWidget *w, gpointer data)
 {
   update_goto_dialog(goto_list);
 }
@@ -267,7 +270,7 @@ void goto_all_toggle_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void goto_goto_command_callback(GtkWidget *w, gpointer data)
+static void goto_goto_command_callback(GtkWidget *w, gpointer data)
 {
   struct city *pdestcity=get_selected_city();
   if (pdestcity) {
@@ -282,7 +285,7 @@ void goto_goto_command_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void goto_cancel_command_callback(GtkWidget *w, gpointer data)
+static void goto_cancel_command_callback(GtkWidget *w, gpointer data)
 {
   center_tile_mapcanvas(original_x, original_y);
   popdown_goto_dialog();

@@ -38,11 +38,11 @@ static GtkWidget *find_list;
 static GtkWidget *find_center_command;
 static GtkWidget *find_cancel_command;
 
-void update_find_dialog(GtkWidget *find_list);
+static void update_find_dialog(GtkWidget *find_list);
 
-void find_center_command_callback(GtkWidget *w, gpointer data);
-void find_cancel_command_callback(GtkWidget *w, gpointer data);
-void find_list_callback(GtkWidget *w, gint row, gint column);
+static void find_center_command_callback(GtkWidget *w, gpointer data);
+static void find_cancel_command_callback(GtkWidget *w, gpointer data);
+static void find_list_callback(GtkWidget *w, gint row, gint column);
 
 static int original_x, original_y;
 
@@ -129,7 +129,7 @@ void popup_find_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_find_dialog(GtkWidget *find_list)
+static void update_find_dialog(GtkWidget *find_list)
 {
   int i;
   
@@ -161,7 +161,7 @@ static void popdown_find_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void find_center_command_callback(GtkWidget *w, gpointer data)
+static void find_center_command_callback(GtkWidget *w, gpointer data)
 {
   struct city *pcity;
   GList *selection;
@@ -183,7 +183,7 @@ void find_center_command_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void find_cancel_command_callback(GtkWidget *w, gpointer data)
+static void find_cancel_command_callback(GtkWidget *w, gpointer data)
 {
   center_tile_mapcanvas(original_x, original_y);
   popdown_find_dialog();
@@ -192,7 +192,7 @@ void find_cancel_command_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void find_list_callback(GtkWidget *w, gint row, gint column)
+static void find_list_callback(GtkWidget *w, gint row, gint column)
 {
   struct city *pcity;
   gchar *string;

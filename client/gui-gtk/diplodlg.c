@@ -83,27 +83,27 @@ struct Diplomacy_dialog {
 static struct genlist diplomacy_dialogs;
 static int diplomacy_dialogs_list_has_been_initialised;
 
-struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
+static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 						 struct player *plr1);
 
-struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0, 
+static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0, 
 					       struct player *plr1);
-void popup_diplomacy_dialog(struct player *plr0, struct player *plr1);
-void diplomacy_dialog_close_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_accept_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
-void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
-void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
-void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
+static void popup_diplomacy_dialog(struct player *plr0, struct player *plr1);
+static void diplomacy_dialog_close_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_accept_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
+static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
+static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static gint diplomacy_dialog_mbutton_callback(GtkWidget *w, GdkEvent *event);
-
+static void diplo_dialog_returnkey(GtkWidget *w, gpointer data);
 
 /****************************************************************
 ...
@@ -182,7 +182,7 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_diplomacy_dialog(struct player *plr0, struct player *plr1)
+static void popup_diplomacy_dialog(struct player *plr0, struct player *plr1)
 {
   struct Diplomacy_dialog *pdialog;
   
@@ -263,8 +263,8 @@ static int fill_diplomacy_city_menu(GtkWidget *popupmenu,
 /****************************************************************
 ...
 *****************************************************************/
-struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
-						 struct player *plr1)
+static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
+							struct player *plr1)
 {
   char buf[512];
   static gchar *titles_[1]
@@ -557,7 +557,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 /**************************************************************************
 ...
 **************************************************************************/
-void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
+static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
          int               i;
          char              buf		[64];
@@ -590,7 +590,7 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
 {
   size_t choice;
   struct packet_diplomacy_info pa;
@@ -611,7 +611,7 @@ void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
 Callback for trading cities
 			      - Kris Bubendorfer
 *****************************************************************/
-void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data)
 {
   size_t choice;
   struct packet_diplomacy_info pa;
@@ -635,7 +635,7 @@ void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data)
 {
   struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
   GList              *selection;
@@ -687,7 +687,7 @@ static gint diplomacy_dialog_mbutton_callback(GtkWidget *w, GdkEvent *event)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data)
 {
   struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
   struct packet_diplomacy_info pa;
@@ -708,7 +708,7 @@ void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data)
 {
   struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
   struct packet_diplomacy_info pa;
@@ -730,7 +730,7 @@ void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data)
 ...
 *****************************************************************/
 static void diplomacy_dialog_add_pact_clause(GtkWidget *w, gpointer data,
-					     int type)
+						    int type)
 {
   struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
   struct packet_diplomacy_info pa;
@@ -747,7 +747,7 @@ static void diplomacy_dialog_add_pact_clause(GtkWidget *w, gpointer data,
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data)
 {
   diplomacy_dialog_add_pact_clause(w, data, CLAUSE_CEASEFIRE);
 }
@@ -755,7 +755,7 @@ void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data)
 {
   diplomacy_dialog_add_pact_clause(w, data, CLAUSE_PEACE);
 }
@@ -763,7 +763,7 @@ void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
 {
   diplomacy_dialog_add_pact_clause(w, data, CLAUSE_ALLIANCE);
 }
@@ -771,7 +771,7 @@ void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
 {
   struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
   struct packet_diplomacy_info pa;
@@ -801,7 +801,7 @@ void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_close_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_close_callback(GtkWidget *w, gpointer data)
 {
   struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
   struct packet_diplomacy_info pa;
@@ -818,7 +818,7 @@ void diplomacy_dialog_close_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomacy_dialog_accept_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_accept_callback(GtkWidget *w, gpointer data)
 {
   struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
   struct packet_diplomacy_info pa;
@@ -845,8 +845,8 @@ void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 /*****************************************************************
 ...
 *****************************************************************/
-struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0, 
-					       struct player *plr1)
+static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0, 
+						      struct player *plr1)
 {
   struct genlist_iterator myiter;
 
@@ -889,7 +889,7 @@ static struct Diplomacy_dialog *find_diplomacy_by_input(GtkWidget *w)
 /*****************************************************************
 ...
 *****************************************************************/
-void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
+static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
 {
   struct Diplomacy_dialog *pdialog;
   

@@ -113,7 +113,7 @@ GtkWidget *	unit_below_pixmap		[MAX_NUM_UNITS_BELOW];
 GtkWidget *     unit_below_pixmap_button        [MAX_NUM_UNITS_BELOW];
 GtkWidget *	more_arrow_pixmap;
 
-gint		gtk_interval_id;
+static gint	gtk_interval_id;
 
 GtkWidget *	unit_info_label, *unit_info_frame;
 GtkWidget *	text_scrollbar;

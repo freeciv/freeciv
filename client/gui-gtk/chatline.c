@@ -47,6 +47,9 @@ void inputline_return(GtkWidget *w, gpointer data)
   gtk_entry_set_text(GTK_ENTRY(w), "");
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void append_output_window(char *astring)
 {
   gtk_text_freeze(GTK_TEXT(main_message_area));
