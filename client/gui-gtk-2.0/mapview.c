@@ -46,6 +46,7 @@
 #include "options.h"
 #include "tilespec.h"
 
+#include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
 /* contains the x0, y0 coordinates of the upper left corner block */
@@ -2136,8 +2137,6 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 **************************************************************************/
 void tileset_changed(void)
 {
-  /* PORTME */
-  /* Here you should do any necessary redraws (for instance, the city
-   * dialogs usually need to be resized).
-   */
+  reset_city_dialogs();
+  reset_unit_table();
 }

@@ -320,6 +320,23 @@ static void close_callback(GtkWidget * w, gpointer data);
 static void switch_city_callback(GtkWidget * w, gpointer data);
 
 /****************************************************************
+  Called to set the dimensions of the city dialog, both on
+  startup and if the tileset is changed.
+*****************************************************************/
+static void init_citydlg_dimensions(void)
+{
+  if (is_isometric) {
+    canvas_width = 4 * NORMAL_TILE_WIDTH;
+    canvas_height = 4 * NORMAL_TILE_HEIGHT;
+    MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT));
+  } else {
+    canvas_width = 5 * NORMAL_TILE_WIDTH;
+    canvas_height = 5 * NORMAL_TILE_HEIGHT;
+    MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT + 6));
+  }
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static void initialize_city_dialogs(void)
@@ -331,15 +348,7 @@ static void initialize_city_dialogs(void)
   assert(!city_dialogs_have_been_initialised);
 
   dialog_list_init(&dialog_list);
-  if (is_isometric) {
-    canvas_width = 4 * NORMAL_TILE_WIDTH;
-    canvas_height = 4 * NORMAL_TILE_HEIGHT;
-    MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT));
-  } else {
-    canvas_width = 5 * NORMAL_TILE_WIDTH;
-    canvas_height = 5 * NORMAL_TILE_HEIGHT;
-    MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT + 6));
-  }
+  init_citydlg_dimensions();
 
   NUM_UNITS_SHOWN = (int) (MAX_UNIT_ROWS * 500) / (UNIT_TILE_WIDTH);
 
@@ -355,6 +364,27 @@ static void initialize_city_dialogs(void)
   info_label_style[RED]->fg[GTK_STATE_NORMAL] = red;
 
   city_dialogs_have_been_initialised = TRUE;
+}
+
+/****************************************************************
+  Called when the tileset changes.
+*****************************************************************/
+void reset_city_dialogs(void)
+{
+  if (!city_dialogs_have_been_initialised) {
+    return;
+  }
+
+  init_citydlg_dimensions();
+
+  dialog_list_iterate(dialog_list, pdialog) {
+    /* There's no reasonable way to resize a GtkPixcomm, so we don't try.
+       Instead we just redraw the overview within the existing area.  The
+       player has to close and reopen the dialog to fix this. */
+    city_dialog_update_map(pdialog);
+  } dialog_list_iterate_end;
+
+  popdown_all_city_dialogs();
 }
 
 /****************************************************************
