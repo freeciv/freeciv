@@ -52,7 +52,7 @@
 
 #include "cityicon.ico"
 
-extern GtkWidget *toplevel, *map_canvas;
+extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
 extern struct connection aconnection;
 extern int map_view_x0, map_view_y0;
@@ -76,6 +76,7 @@ struct city_dialog {
   GtkWidget *pollution_label;
   GtkWidget *sub_form;
   GtkWidget *map_canvas;
+  GdkPixmap *map_canvas_store;
   GtkWidget *sell_command;
   GtkWidget *close_command, *rename_command, *trade_command, *activate_command;
   GtkWidget *show_units_command, *cityopt_command;
@@ -112,7 +113,8 @@ struct city_dialog {
 };
 
 static struct genlist dialog_list;
-static int dialog_list_has_been_initialised;
+static int city_dialogs_have_been_initialised;
+static int canvas_width, canvas_height;
 
 struct city_dialog *get_city_dialog(struct city *pcity);
 struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);
@@ -162,14 +164,30 @@ GdkBitmap *icon_bitmap;
 /****************************************************************
 ...
 *****************************************************************/
+static void initialize_city_dialogs(void)
+{
+  assert(!city_dialogs_have_been_initialised);
+
+  genlist_init(&dialog_list);
+#ifdef ISOMETRIC
+  canvas_width = 4 * NORMAL_TILE_WIDTH;
+  canvas_height = 4 * NORMAL_TILE_HEIGHT;
+#else
+  canvas_width = 5 * NORMAL_TILE_WIDTH;
+  canvas_height = 5 * NORMAL_TILE_HEIGHT;
+#endif
+  city_dialogs_have_been_initialised=1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
 struct city_dialog *get_city_dialog(struct city *pcity)
 {
   struct genlist_iterator myiter;
 
-  if(!dialog_list_has_been_initialised) {
-    genlist_init(&dialog_list);
-    dialog_list_has_been_initialised=1;
-  }
+  if (!city_dialogs_have_been_initialised)
+     initialize_city_dialogs();
   
   genlist_iterator_init(&myiter, &dialog_list, 0);
     
@@ -276,7 +294,7 @@ popdown all dialogs
 *****************************************************************/
 void popdown_all_city_dialogs(void)
 {
-  if(!dialog_list_has_been_initialised) {
+  if(!city_dialogs_have_been_initialised) {
     return;
   }
   while(genlist_size(&dialog_list)) {
@@ -292,7 +310,9 @@ void popdown_all_city_dialogs(void)
 static gint city_map_canvas_expose(GtkWidget *w, GdkEventExpose *ev,
 				   gpointer data)
 {
-  city_dialog_update_map((struct city_dialog *)data);
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,
+		  0, 0, 0, 0, canvas_width, canvas_height);
   return TRUE;
 }
 
@@ -351,6 +371,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   struct city_dialog *pdialog;
   GtkWidget *box, *frame, *vbox, *scrolled, *hbox, *vbox2;
   GtkAccelGroup *accel=gtk_accel_group_new();
+
+  if (!city_dialogs_have_been_initialised)
+    initialize_city_dialogs();
 
   pdialog=fc_malloc(sizeof(struct city_dialog));
   pdialog->pcity=pcity;
@@ -439,17 +462,15 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   frame=gtk_frame_new(NULL);
   gtk_box_pack_start(GTK_BOX(box), frame, TRUE, FALSE, 0);
 
-  pdialog->map_canvas=gtk_drawing_area_new();
+  pdialog->map_canvas = gtk_drawing_area_new();
+  pdialog->map_canvas_store = gdk_pixmap_new(root_window,
+					     canvas_width, canvas_height, -1);
+
   gtk_widget_set_events(pdialog->map_canvas,
 	GDK_EXPOSURE_MASK|GDK_BUTTON_PRESS_MASK);
 
-#ifdef ISOMETRIC
   gtk_drawing_area_size(GTK_DRAWING_AREA(pdialog->map_canvas),
-			NORMAL_TILE_WIDTH*4, NORMAL_TILE_HEIGHT*4);
-#else
-  gtk_drawing_area_size(GTK_DRAWING_AREA(pdialog->map_canvas),
-			NORMAL_TILE_WIDTH*5, NORMAL_TILE_HEIGHT*5);
-#endif
+			canvas_width, canvas_height);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->map_canvas);
   
   gtk_widget_realize (pdialog->map_canvas);
@@ -1241,20 +1262,18 @@ static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 }
 
 /****************************************************************
-FIXME: we should have a canvas_store like the main map to avoid
-flickering.
+...
 *****************************************************************/
 void city_dialog_update_map(struct city_dialog *pdialog)
 {
   int x, y;
-  struct city *pcity=pdialog->pcity;
+  struct city *pcity = pdialog->pcity;
 
   gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
 
   /* First make it all black. */
-  gdk_draw_rectangle(pdialog->map_canvas->window, fill_bg_gc, TRUE,
-		     0, 0,
-		     4 * NORMAL_TILE_WIDTH, 4 *NORMAL_TILE_HEIGHT);
+  gdk_draw_rectangle(pdialog->map_canvas_store, fill_bg_gc, TRUE,
+		     0, 0, canvas_width, canvas_height);
 
   /* This macro happens to iterate correct to draw the top tiles first,
    so getting the overlap right.
@@ -1268,7 +1287,7 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 	&& tile_is_known(map_x, map_y)) {
       int canvas_x, canvas_y;
       city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
-      put_one_tile_full(pdialog->map_canvas->window, map_x, map_y, 
+      put_one_tile_full(pdialog->map_canvas_store, map_x, map_y, 
 			canvas_x, canvas_y, 1);
     }
   }
@@ -1281,7 +1300,7 @@ void city_dialog_update_map(struct city_dialog *pdialog)
       int canvas_x, canvas_y;
       city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
       if (pcity->city_map[x][y]==C_TILE_WORKER) {
-	put_city_tile_output(pdialog->map_canvas->window,
+	put_city_tile_output(pdialog->map_canvas_store,
 			     canvas_x, canvas_y,
 			     city_get_food_tile(x, y, pcity),
 			     city_get_shields_tile(x, y, pcity), 
@@ -1302,11 +1321,15 @@ void city_dialog_update_map(struct city_dialog *pdialog)
       int canvas_x, canvas_y;
       city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
       if (pcity->city_map[x][y]==C_TILE_UNAVAILABLE) {
-	pixmap_frame_tile_red(pdialog->map_canvas->window,
+	pixmap_frame_tile_red(pdialog->map_canvas_store,
 				     canvas_x, canvas_y);
       }
     }
   }
+
+  /* draw to real window */
+  gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,
+		  0, 0, 0, 0, canvas_width, canvas_height);
 }
 #else
 #ifdef UNUSED
@@ -1330,8 +1353,7 @@ static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 }
 
 /****************************************************************
-FIXME: we should have a canvas_store like the main map to avoid
-flickering.
+...
 *****************************************************************/
 void city_dialog_update_map(struct city_dialog *pdialog)
 {
@@ -1344,24 +1366,28 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 	 !(x==CITY_MAP_SIZE-1 && y==CITY_MAP_SIZE-1) &&
 	 tile_is_known(pcity->x+x-CITY_MAP_SIZE/2, 
 		       pcity->y+y-CITY_MAP_SIZE/2)) {
-	pixmap_put_tile(pdialog->map_canvas->window,
+	pixmap_put_tile(pdialog->map_canvas_store,
 			pcity->x+x-CITY_MAP_SIZE/2,
 			pcity->y+y-CITY_MAP_SIZE/2,
 			x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT, 1);
 	if(pcity->city_map[x][y]==C_TILE_WORKER)
-	  put_city_tile_output(pdialog->map_canvas->window,
+	  put_city_tile_output(pdialog->map_canvas_store,
 			       x * NORMAL_TILE_WIDTH, y *NORMAL_TILE_HEIGHT,
 			       city_get_food_tile(x, y, pcity),
 			       city_get_shields_tile(x, y, pcity), 
 			       city_get_trade_tile(x, y, pcity));
 	else if(pcity->city_map[x][y]==C_TILE_UNAVAILABLE)
-	  pixmap_frame_tile_red(pdialog->map_canvas->window, x, y);
+	  pixmap_frame_tile_red(pdialog->map_canvas_store, x, y);
       }
       else {
-	pixmap_put_black_tile(pdialog->map_canvas->window,
+	pixmap_put_black_tile(pdialog->map_canvas_store,
 			      x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
       }
     }
+
+  /* draw to real window */
+  gdk_draw_pixmap(pdialog->map_canvas->window, civ_gc, pdialog->map_canvas_store,
+		  0, 0, 0, 0, canvas_width, canvas_height);
 }
 #endif
 
@@ -2395,6 +2421,8 @@ void close_city_dialog(struct city_dialog *pdialog)
     gtk_widget_destroy(pdialog->sell_shell);
   if (pdialog->rename_shell)
     gtk_widget_destroy(pdialog->rename_shell);
+
+  gdk_pixmap_unref(pdialog->map_canvas_store);
 
   unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
     free(psunit);
