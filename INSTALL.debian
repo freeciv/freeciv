@@ -31,7 +31,7 @@ dpkg-dev
 dh-make
 
 For the gtk client:
-gdk-imlib1-dev
+gdk-imlib-dev
 libglib1.2-dev
 libgtk1.2-dev
 imlib-progs
