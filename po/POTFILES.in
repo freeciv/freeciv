@@ -42,6 +42,7 @@ client/gui-gtk/cityrep.c
 client/gui-gtk/connectdlg.c
 client/gui-gtk/dialogs.c
 client/gui-gtk/diplodlg.c
+client/gui-gtk/finddlg.c
 client/gui-gtk/gamedlgs.c
 client/gui-gtk/gotodlg.c
 client/gui-gtk/gui_main.c

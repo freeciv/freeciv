@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,6 +22,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "player.h"
 
@@ -55,7 +60,7 @@ void popup_find_dialog(void)
   gtk_widget_set_sensitive(toplevel, FALSE);
   
   find_dialog_shell=gtk_widget_new(GTK_TYPE_DIALOG,
-				   "GtkWindow::title", "Find City",
+				   "GtkWindow::title", _("Find City"),
 				   "GtkWindow::window_position",
 				     GTK_WIN_POS_MOUSE,
 				   "GtkObject::signal::delete_event",
@@ -64,7 +69,7 @@ void popup_find_dialog(void)
   gtk_accel_group_attach(accel, GTK_OBJECT(find_dialog_shell));
 
   find_label=gtk_widget_new(GTK_TYPE_FRAME,
-			    "GtkFrame::label", "Select a city",
+			    "GtkFrame::label", _("Select a city:"),
 			    "GtkWidget::parent",
 			      GTK_DIALOG(find_dialog_shell)->vbox,
 			    "GtkWidget::visible", TRUE,
@@ -86,7 +91,7 @@ void popup_find_dialog(void)
   
   find_center_command=
     gtk_widget_new(GTK_TYPE_BUTTON,
-		   "GtkButton::label", "Center",
+		   "GtkButton::label", _("Center"),
 		   "GtkWidget::parent",
 		     GTK_DIALOG(find_dialog_shell)->action_area,
 		   "GtkObject::signal::clicked",
@@ -101,7 +106,7 @@ void popup_find_dialog(void)
 
   find_cancel_command=
     gtk_widget_new(GTK_TYPE_BUTTON,
-		   "GtkButton::label", "Cancel",
+		   "GtkButton::label", _("Cancel"),
 		   "GtkWidget::parent",
 		     GTK_DIALOG(find_dialog_shell)->action_area,
 		   "GtkObject::signal::clicked",
