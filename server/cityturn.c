@@ -196,28 +196,30 @@ void citizen_happy_luxury(struct city *pcity)
 **************************************************************************/
 void citizen_happy_units(struct city *pcity, int unhap)
 {
+  int step;         
+
   if (city_got_effect(pcity, B_POLICE)) {
     if (get_government(pcity->owner)==G_DEMOCRACY)
       unhap-=2;
     else
       unhap--;
   }
-  if (unhap>0 && (pcity->ppl_happy[3] + pcity->ppl_content[3])) { 
-    while (unhap> 0  && pcity->ppl_content[3]) {
-      pcity->ppl_content[3]--;
-      pcity->ppl_unhappy[3]++;
-      unhap--;
+  if (unhap>0) {                                                           
+    step=min(unhap,pcity->ppl_content[3]);                          
+    pcity->ppl_content[3]-=step;
+    pcity->ppl_unhappy[3]+=step;
+    unhap-=step;                     
+    if (unhap>0) {                       
+      step=min((unhap/2),pcity->ppl_happy[3]);    
+      pcity->ppl_happy[3]-=step;
+      pcity->ppl_unhappy[3]+=step;
+      unhap -= step * 2;                                                
+      if ((unhap > 0) && pcity->ppl_happy[3]) {                      
+	pcity->ppl_happy[3]--;                                   
+	pcity->ppl_content[3]++;                
+	unhap--;              
+      }                                                           
     }
-    while (unhap > 2 && pcity->ppl_happy[3]) {
-      pcity->ppl_happy[3]--;
-      pcity->ppl_unhappy[3]++;
-      unhap -= 2;
-    } 
-    if (unhap > 0 && pcity->ppl_happy[3]) {
-      pcity->ppl_happy[3]--;
-      pcity->ppl_content[3]++;
-      unhap--;
-    } 
   }
     /* MAKE VERY UNHAPPY CITIZENS WITH THE REST, but that is not documented */
 
