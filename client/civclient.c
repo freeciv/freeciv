@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 
   init_nls();
   audio_init();
-  init_character_encodings(gui_character_encoding);
+  init_character_encodings(gui_character_encoding, gui_use_transliteration);
 
   /* default argument values are set in options.c */
   loglevel=LOG_NORMAL;

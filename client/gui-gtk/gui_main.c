@@ -125,6 +125,8 @@ static gint timer_id;                               /*       ditto        */
 static gint gdk_input_id;
 
 const char * const gui_character_encoding = NULL;
+const bool gui_use_transliteration = TRUE;
+
 client_option gui_options[] = {
   GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators"),
 		  COC_INTERFACE),

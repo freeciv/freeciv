@@ -94,6 +94,8 @@ struct fcwin_box *main_win_box;
 struct fcwin_box *output_box;
 
 const char * const gui_character_encoding = NULL;
+const bool gui_use_transliteration = TRUE;
+
 client_option gui_options[] = {
   /* None. */
 };

@@ -202,7 +202,7 @@ void srv_init(void)
   has_been_srv_init = TRUE;
 
   /* init character encodings. */
-  init_character_encodings(FC_DEFAULT_DATA_ENCODING);
+  init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
   /* Initialize callbacks. */
   game.callbacks.unit_deallocate = dealloc_id;

@@ -40,6 +40,8 @@
 #include "gui_main.h"
 
 const char * const gui_character_encoding = "UTF-8";
+const bool gui_use_transliteration = FALSE;
+
 client_option gui_options[] = {
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);

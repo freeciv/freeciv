@@ -133,6 +133,8 @@ GtkWidget *flake_ebox;
 GtkWidget *government_ebox;
 
 const char * const gui_character_encoding = "UTF-8";
+const bool gui_use_transliteration = FALSE;
+
 client_option gui_options[] = {
   GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators"),
 		  COC_INTERFACE),
