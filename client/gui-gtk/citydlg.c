@@ -2002,10 +2002,8 @@ static void city_dialog_update_improvement_list(struct city_dialog
 *****************************************************************/
 static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 {
-  int i;
+  int i, j;
   struct unit_list *plist;
-  struct genlist_iterator myiter;
-  struct unit *punit;
   int size, mini_size;
   char buf[30];
 
@@ -2040,13 +2038,15 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
   /* mini */
 
-  genlist_iterator_init(&myiter, &(plist->list),
-			pdialog->overview.supported_unit_pos *
-			MINI_NUM_UNITS);
-
-  for (i = 0; i < MINI_NUM_UNITS && ITERATOR_PTR(myiter);
-       ITERATOR_NEXT(myiter), i++) {
-    punit = (struct unit *) ITERATOR_PTR(myiter);
+  i = 0; /* number of displayed units */
+  j = 0; /* index into list */
+  unit_list_iterate(*plist, punit) {
+    if (j++ < pdialog->overview.supported_unit_pos * MINI_NUM_UNITS) {
+      continue;
+    }
+    if (i >= MINI_NUM_UNITS) {
+      break;
+    }
 
     gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->
 				  overview.supported_unit_pixmaps[i]),
@@ -2080,8 +2080,10 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(pdialog->overview.supported_unit_boxes[i],
 			     TRUE);
-  }
+    i++;
+  } unit_list_iterate_end;
 
+  /* Disable any empty slots */
   for (; i < MINI_NUM_UNITS; i++) {
     gtk_pixcomm_clear(GTK_PIXCOMM
 		      (pdialog->overview.supported_unit_pixmaps[i]), TRUE);
@@ -2092,13 +2094,15 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
   /* normal */
 
-  genlist_iterator_init(&myiter, &(plist->list),
-			pdialog->unit.supported_unit_pos *
-			NUM_UNITS_SHOWN);
-
-  for (i = 0; i < NUM_UNITS_SHOWN && ITERATOR_PTR(myiter);
-       ITERATOR_NEXT(myiter), i++) {
-    punit = (struct unit *) ITERATOR_PTR(myiter);
+  i = 0; /* number of displayed units */
+  j = 0; /* index into list */
+  unit_list_iterate(*plist, punit) {
+    if (j++ < pdialog->overview.supported_unit_pos * NUM_UNITS_SHOWN) {
+      continue;
+    }
+    if (i >= NUM_UNITS_SHOWN) {
+      break;
+    }
 
     gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]),
 		      FALSE);
@@ -2126,7 +2130,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 		       GTK_SIGNAL_FUNC(supported_unit_middle_callback),
 		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(pdialog->unit.supported_unit_boxes[i], TRUE);
-  }
+    i++;
+  } unit_list_iterate_end;
 
   for (; i < NUM_UNITS_SHOWN; i++) {
     gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]),
@@ -2147,10 +2152,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_present_units(struct city_dialog *pdialog)
 {
-  int i;
+  int i, j;
   struct unit_list *plist;
-  struct genlist_iterator myiter;
-  struct unit *punit;
   int size, mini_size;
   char buf[30];
 
@@ -2184,13 +2187,15 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
   /* mini */
 
-  genlist_iterator_init(&myiter, &(plist->list),
-			pdialog->overview.present_unit_pos *
-			MINI_NUM_UNITS);
-
-  for (i = 0; i < MINI_NUM_UNITS && ITERATOR_PTR(myiter);
-       ITERATOR_NEXT(myiter), i++) {
-    punit = (struct unit *) ITERATOR_PTR(myiter);
+  i = 0; /* number of displayed units */
+  j = 0; /* index into list */
+  unit_list_iterate(*plist, punit) {
+    if (j++ < pdialog->overview.present_unit_pos * MINI_NUM_UNITS) {
+      continue;
+    }
+    if (i >= MINI_NUM_UNITS) {
+      break;
+    }
 
     gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->overview.present_unit_pixmaps[i]),
 		      FALSE);
@@ -2218,7 +2223,9 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(pdialog->overview.present_unit_boxes[i],
 			     TRUE);
-  }
+    i++;
+  } unit_list_iterate_end;
+
   for (; i < MINI_NUM_UNITS; i++) {
     gtk_pixcomm_clear(GTK_PIXCOMM
 		      (pdialog->overview.present_unit_pixmaps[i]), TRUE);
@@ -2229,13 +2236,15 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
   /* normal */
 
-
-  genlist_iterator_init(&myiter, &(plist->list),
-			pdialog->unit.present_unit_pos * NUM_UNITS_SHOWN);
-
-  for (i = 0; i < NUM_UNITS_SHOWN && ITERATOR_PTR(myiter);
-       ITERATOR_NEXT(myiter), i++) {
-    punit = (struct unit *) ITERATOR_PTR(myiter);
+  i = 0; /* number of displayed units */
+  j = 0; /* index into list */
+  unit_list_iterate(*plist, punit) {
+    if (j++ < pdialog->overview.present_unit_pos * NUM_UNITS_SHOWN) {
+      continue;
+    }
+    if (i >= NUM_UNITS_SHOWN) {
+      break;
+    }
 
     gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]),
 		      FALSE);
@@ -2259,7 +2268,9 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 		       GTK_SIGNAL_FUNC(present_unit_middle_callback),
 		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(pdialog->unit.present_unit_boxes[i], TRUE);
-  }
+    i++;
+  } unit_list_iterate_end;
+
   for (; i < NUM_UNITS_SHOWN; i++) {
     gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]),
 		      TRUE);
