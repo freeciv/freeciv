@@ -64,7 +64,7 @@ civclient -name "King Richard"  -ser io.daimi.aau.dk
 civclient only works with the real Athena-widget-library. Linking with
 Athena replacement libraries, such as Xaw3d, causes crash at runtime.
 .SH "MORE INFO"
-The Freeciv homepage is located at http://freeciv.ultraviolet.org.
+The Freeciv homepage is located at http://www.freeciv.org.
 Updates and new info is first posted there.
 
 .SH AUTHORS

@@ -28,7 +28,7 @@
 
 extern char metaserver_info_line[];
 
-#define SAVEFILE_OPTIONS "1.6"
+#define SAVEFILE_OPTIONS "1.7"
 
 /**************************************************************************
 ...

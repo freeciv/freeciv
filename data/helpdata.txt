@@ -1,4 +1,4 @@
-%% Helpfile for Freeciv 1.6.x
+%% Helpfile for Freeciv 1.7.x
 %%
 %% The number of spaces after the "#" indicates nesting level when 
 %% displayed in the online help.
@@ -24,7 +24,7 @@ find our email addresses in the "About" box in the help browser.
 Helpful details on submitting bug reports, as well as the Freeciv 
 FAQ, can be found on the Freeciv website at:
 
-  http://freeciv.ultraviolet.org
+  http://www.freeciv.org
 ---
 #Copying
 
@@ -486,7 +486,7 @@ general, the steps are:
     you need to study the various units and advances, and PRACTICE,
     PRACTICE, PRACTICE!  Freeciv has many twists, so if you haven't
     played a similar game before, try consulting the Freeciv WWW
-    pages at http://freeciv.ultraviolet.org
+    pages at http://www.freeciv.org
     You'll find more tips for playing, and details of how to contact
     other players.
 

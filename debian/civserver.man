@@ -58,7 +58,7 @@ civserver -file oldgame.sav -port 2244
 .PP
 No known
 .SH "MORE INFO"
-The Freeciv homepage is located at http://freeciv.ultraviolet.org.
+The Freeciv homepage is located at http://www.freeciv.org.
 Updates and new info is first posted there.
 
 .SH AUTHORS

@@ -12,7 +12,7 @@
 #include <xstuff.h>
 #include <clinet.h>
 #include <chatline.h>
-
+#include <shared.h>
 
 extern AppResources appResources;
 extern Widget toplevel;

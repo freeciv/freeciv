@@ -3,13 +3,13 @@ This is the Debian GNU/Linux prepackaged version of freeciv.
 This version of the package was made by Richard Braakman
 <dark@xs4all.nl>, from sources obtained from:
 
-	ftp://freeciv.ultraviolet.org/pub/freeciv/freeciv154.tar.gz
+	ftp://www.freeciv.org/pub/freeciv/freeciv154.tar.gz
 
 Earlier versions were maintained by Karl Sackett <krs@debian.org>.
 
 For more information see:
 
-	http://freeciv.ultraviolet.org/
+	http://www.freeciv.org/
 
 Freeciv is Copyright (C) 1996 by A. Kjeldberg, L. Gregersen, and P. Unold.
 
