@@ -28,7 +28,7 @@
 
 extern char metaserver_info_line[];
 
-#define SAVEFILE_OPTIONS "1.7"
+#define SAVEFILE_OPTIONS "1.7, scorelog"
 
 /**************************************************************************
 ...
@@ -201,9 +201,12 @@ int game_load(struct section_file *file)
      game.version) to determine which variables you can expect to 
      find in a savegame file */
 
-  if (has_capability("1.6",savefile_options)) {
+  if (has_capability("1.6", savefile_options)) {
     game.aifill = secfile_lookup_int(file, "game.aifill");
   }
+
+  if (has_capability("scorelog", savefile_options))
+    game.scorelog = secfile_lookup_int(file, "game.scorelog");
 
   game.heating=0;
   if(tmp_server_state==PRE_GAME_STATE) {
@@ -287,6 +290,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.civstyle, "game.civstyle");
   secfile_insert_int(file, game.save_nturns, "game.save_nturns");
   secfile_insert_int(file, game.aifill, "game.aifill");
+  secfile_insert_int(file, game.scorelog, "game.scorelog");
 
   if(server_state==PRE_GAME_STATE) {
     secfile_insert_int(file, game.settlers, "game.settlers");
