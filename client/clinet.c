@@ -317,15 +317,18 @@ void input_from_server(int fd)
 
   if (read_from_connection(&aconnection, FALSE) >= 0) {
     enum packet_type type;
-    bool result;
-    void *packet;
 
     while (TRUE) {
-      packet = get_packet_from_connection(&aconnection, &type, &result);
+      bool result;
+      void *packet = get_packet_from_connection(&aconnection,
+						&type, &result);
+
       if (result) {
+	assert(packet != NULL);
 	handle_packet_input(packet, type);
-	packet = NULL;
+	free(packet);
       } else {
+	assert(packet == NULL);
 	break;
       }
     }
@@ -355,17 +358,19 @@ void input_from_server_till_request_got_processed(int fd,
   while (TRUE) {
     if (read_from_connection(&aconnection, TRUE) >= 0) {
       enum packet_type type;
-      bool result;
-      void *packet;
 
       while (TRUE) {
-	packet = get_packet_from_connection(&aconnection, &type, &result);
+	bool result;
+	void *packet = get_packet_from_connection(&aconnection,
+						  &type, &result);
 	if (!result) {
+	  assert(packet == NULL);
 	  break;
 	}
 
+	assert(packet != NULL);
 	handle_packet_input(packet, type);
-	packet = NULL;
+	free(packet);
 
 	if (type == PACKET_PROCESSING_FINISHED) {
 	  freelog(LOG_DEBUG, "ifstrgp: expect=%d, seen=%d",

@@ -274,8 +274,6 @@ void handle_packet_input(void *packet, int type)
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!",
 	    type);
   }
-
-  free(packet);
 }
 
 /**************************************************************************
