@@ -35,6 +35,7 @@
 #include <aiunit.h>
 #include <sys/time.h>
 #include <gotohand.h>
+#include <settlers.h>
 
 extern struct move_cost_map warmap;
 
@@ -343,6 +344,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
 
   pnewcity->shield_stock=0;
   city_refresh(pnewcity);
+  initialize_infrastructure_cache(pnewcity);
   send_city_info(0, pnewcity, 0);
   send_player_info(pplayer, pplayer);
 

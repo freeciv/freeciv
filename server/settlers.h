@@ -44,6 +44,7 @@ void generate_minimap(void);
 void remove_city_from_minimap(int x, int y);
 void add_city_to_minimap(int x, int y);
 void locally_zero_minimap(int x, int y); /* I should imp this someday -- Syela */
+void initialize_infrastructure_cache(struct city *pcity);
 
 #endif
 

@@ -792,6 +792,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 /* maybe should auto_arr or otherwise reset ->worked? -- Syela */
 
     city_refresh(pnewcity);
+    initialize_infrastructure_cache(pnewcity);
     send_city_info(0, pnewcity, 0);
     send_player_info(pplayer, pplayer);
   }

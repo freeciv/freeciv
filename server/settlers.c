@@ -926,20 +926,19 @@ printf("We have FOUND BOAT, %d ABOARD %d.\n", punit->id, ferryboat->id);
   return(0);
 }
 
-void initialize_infrastructure_cache(struct player *pplayer)
+void initialize_infrastructure_cache(struct city *pcity)
 {
   int i, j;
-  city_list_iterate(pplayer->cities, pcity)
-    city_map_iterate(i, j) {
-      pcity->ai.detox[i][j] = ai_calc_pollution(pcity, pplayer, i, j);
-      pcity->ai.mine[i][j] = ai_calc_mine(pcity, pplayer, i, j);
-      pcity->ai.irrigate[i][j] = ai_calc_irrigate(pcity, pplayer, i, j);
-      pcity->ai.road[i][j] = ai_calc_road(pcity, pplayer, i, j);
+  struct player *pplayer = &game.players[pcity->owner];
+  city_map_iterate(i, j) {
+    pcity->ai.detox[i][j] = ai_calc_pollution(pcity, pplayer, i, j);
+    pcity->ai.mine[i][j] = ai_calc_mine(pcity, pplayer, i, j);
+    pcity->ai.irrigate[i][j] = ai_calc_irrigate(pcity, pplayer, i, j);
+    pcity->ai.road[i][j] = ai_calc_road(pcity, pplayer, i, j);
 /* gonna handle road_bo dynamically for now since it can change
 as punits arrive at adjacent tiles and start laying road -- Syela */
-      pcity->ai.railroad[i][j] = ai_calc_railroad(pcity, pplayer, i, j);
-    }
-  city_list_iterate_end;
+    pcity->ai.railroad[i][j] = ai_calc_railroad(pcity, pplayer, i, j);
+  }
 }
 
 /************************************************************************** 
@@ -954,7 +953,9 @@ void auto_settlers_player(struct player *pplayer)
   gettimeofday(&tv, 0);
   sec = tv.tv_sec; usec = tv.tv_usec; 
 #endif
-  initialize_infrastructure_cache(pplayer); /* saves oodles of time -- Syela */
+  city_list_iterate(pplayer->cities, pcity)
+    initialize_infrastructure_cache(pcity); /* saves oodles of time -- Syela */
+  city_list_iterate_end;
   unit_list_iterate(pplayer->units, punit) {
 /* printf("%s's settler at (%d, %d)\n", pplayer->name, punit->x, punit->y); */
     if (punit->ai.control) {

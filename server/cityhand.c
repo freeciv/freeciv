@@ -195,6 +195,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
 
   city_refresh(pcity);
   city_incite_cost(pcity);
+  initialize_infrastructure_cache(pcity);
   send_city_info(0, pcity, 0);
 /* fnord -- Syela */
 }
