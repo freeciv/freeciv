@@ -533,10 +533,20 @@ void prepare_show_city_descriptions(void)
   /* Nothing to do */
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
+/****************************************************************************
+  Draw a description for the given city.  This description may include the
+  name, turns-to-grow, production, and city turns-to-build (depending on
+  client options).
+
+  (canvas_x, canvas_y) gives the location on the given canvas at which to
+  draw the description.  This is the location of the city itself so the
+  text must be drawn underneath it.  pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_ctiy_desc to contain the
+  width and height of the text block (centered directly underneath the
+  city's tile).
+****************************************************************************/
+void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		    struct city *pcity, int *width, int *height)
 {
   static char buffer[512], buffer2[32];
   int w, w2, ascent;
@@ -544,6 +554,8 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 
   canvas_x += NORMAL_TILE_WIDTH / 2;
   canvas_y += NORMAL_TILE_HEIGHT;
+
+  *width = *height = 0;
 
   get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
 				   buffer2, sizeof(buffer2), &color);
@@ -555,32 +567,37 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
   }
   w2 = gdk_string_width(prod_fontset, buffer2);
 
-  gtk_draw_shadowed_string(map_canvas_store, main_fontset,
+  gtk_draw_shadowed_string(pcanvas->pixmap, main_fontset,
 			   toplevel->style->black_gc,
 			   toplevel->style->white_gc,
 			   canvas_x - (w + w2) / 2,
 			   canvas_y + ascent,
 			   buffer);
   gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-  gtk_draw_shadowed_string(map_canvas_store, prod_fontset,
+  gtk_draw_shadowed_string(pcanvas->pixmap, prod_fontset,
 			   toplevel->style->black_gc,
 			   civ_gc,
 			   canvas_x - (w + w2) / 2 + w,
 			   canvas_y + ascent,
 			   buffer2);
 
+  *width = w + w2;
+  *height = gdk_string_height(main_fontset, buffer) + 3;
+
   if (draw_city_productions && (pcity->owner==game.player_idx)) {
     if (draw_city_names) {
-      canvas_y += gdk_string_height(main_fontset, buffer);
+      canvas_y += *height;
     }
 
     get_city_mapview_production(pcity, buffer, sizeof(buffer));
 
     gdk_string_extents(prod_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
-    gtk_draw_shadowed_string(map_canvas_store, prod_fontset,
+    gtk_draw_shadowed_string(pcanvas->pixmap, prod_fontset,
 			     toplevel->style->black_gc,
 			     toplevel->style->white_gc, canvas_x - w / 2,
-			     canvas_y + ascent + 3, buffer);
+			     canvas_y + ascent, buffer);
+
+    *height += gdk_string_height(prod_fontset, buffer);
   }
 }
 

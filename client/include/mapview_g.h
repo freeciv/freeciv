@@ -33,7 +33,8 @@ struct canvas *canvas_create(int width, int height);
 void canvas_free(struct canvas *store);
 struct canvas *get_overview_window(void);
 
-void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
+void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		    struct city *pcity, int *width, int *height);
 void prepare_show_city_descriptions(void);
 
 void put_one_tile_iso(struct canvas *pcanvas,

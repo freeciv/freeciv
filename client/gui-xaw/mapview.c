@@ -627,7 +627,8 @@ void prepare_show_city_descriptions(void)
 /**************************************************************************
 Draw at x = left of string, y = top of string.
 **************************************************************************/
-static void draw_shadowed_string(XFontStruct * font, GC font_gc,
+static void draw_shadowed_string(struct canvas *pcanvas,
+				 XFontStruct * font, GC font_gc,
 				 enum color_std foreground,
 				 enum color_std shadow,
 				 int x, int y, const char *string)
@@ -637,16 +638,26 @@ static void draw_shadowed_string(XFontStruct * font, GC font_gc,
   y += font->ascent;
 
   XSetForeground(display, font_gc, colors_standard[shadow]);
-  XDrawString(display, map_canvas_store, font_gc, x + 1, y + 1, string, len);
+  XDrawString(display, pcanvas->pixmap, font_gc, x + 1, y + 1, string, len);
 
   XSetForeground(display, font_gc, colors_standard[foreground]);
-  XDrawString(display, map_canvas_store, font_gc, x, y, string, len);
+  XDrawString(display, pcanvas->pixmap, font_gc, x, y, string, len);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
+/****************************************************************************
+  Draw a description for the given city.  This description may include the
+  name, turns-to-grow, production, and city turns-to-build (depending on
+  client options).
+
+  (canvas_x, canvas_y) gives the location on the given canvas at which to
+  draw the description.  This is the location of the city itself so the
+  text must be drawn underneath it.  pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_ctiy_desc to contain the
+  width and height of the text block (centered directly underneath the
+  city's tile).
+****************************************************************************/
+void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		    struct city *pcity, int *width, int *height)
 {
   char buffer[512], buffer2[512];
   enum color_std color;
@@ -665,15 +676,18 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
   }
   w2 = XTextWidth(main_font_struct, buffer2, strlen(buffer2));
 
-  draw_shadowed_string(main_font_struct, font_gc,
+  draw_shadowed_string(pcanvas, main_font_struct, font_gc,
 		       COLOR_STD_WHITE, COLOR_STD_BLACK,
 		       canvas_x - (w + w2) / 2,
 		       canvas_y, buffer);
 
-  draw_shadowed_string(prod_font_struct, prod_font_gc, color,
+  draw_shadowed_string(pcanvas, prod_font_struct, prod_font_gc, color,
 		       COLOR_STD_BLACK,
 		       canvas_x - (w + w2) / 2 + w,
 		       canvas_y, buffer2);
+
+  *width = w + w2;
+  *height = main_font_struct->ascent + main_font_struct->descent;
 
   if (draw_city_productions && (pcity->owner == game.player_idx)) {
     if (draw_city_names) {
@@ -683,10 +697,13 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
     get_city_mapview_production(pcity, buffer, sizeof(buffer));
     w = XTextWidth(prod_font_struct, buffer, strlen(buffer));
 
-    draw_shadowed_string(prod_font_struct, prod_font_gc,
+    draw_shadowed_string(pcanvas, prod_font_struct, prod_font_gc,
 			 COLOR_STD_WHITE, COLOR_STD_BLACK,
 			 canvas_x - w / 2,
 			 canvas_y, buffer);
+
+    *width = MAX(*width, w);
+    *height += prod_font_struct->ascent + prod_font_struct->descent;
   }
 }
 

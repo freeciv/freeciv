@@ -497,10 +497,20 @@ void prepare_show_city_descriptions(void)
   /* Nothing to do */
 }
 
-/**************************************************************************
+/****************************************************************************
+  Draw a description for the given city.  This description may include the
+  name, turns-to-grow, production, and city turns-to-build (depending on
+  client options).
 
-**************************************************************************/
-void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
+  (canvas_x, canvas_y) gives the location on the given canvas at which to
+  draw the description.  This is the location of the city itself so the
+  text must be drawn underneath it.  pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_ctiy_desc to contain the
+  width and height of the text block (centered directly underneath the
+  city's tile).
+****************************************************************************/
+void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		    struct city *pcity, int *width, int *height)
 {
   char buffer[500];
   int y_offset;
@@ -508,9 +518,12 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
   HBITMAP old;
 
   /* TODO: hdc should be stored statically */
+  /* FIXME: we should draw to the given pcanvas. */
   hdc = CreateCompatibleDC(NULL);
   old = SelectObject(hdc, mapstorebitmap);
   SetBkMode(hdc,TRANSPARENT);
+
+  *width = *height = 0;
 
   y_offset = canvas_y + NORMAL_TILE_HEIGHT;
   if (draw_city_names && pcity->name) {
@@ -535,6 +548,10 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
     SetTextColor(hdc, RGB(255, 255, 255));
     DrawText(hdc, pcity->name, strlen(pcity->name), &rc,
 	     DT_NOCLIP | DT_CENTER);
+
+    *width = rc.right - rc.left + 1;
+    *height = rc.bottom - rc.top + 2;
+
     y_offset = rc.bottom + 2;
   }
 
@@ -557,6 +574,9 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
     rc.bottom--;
     SetTextColor(hdc, RGB(255, 255, 255));
     DrawText(hdc, buffer, strlen(buffer), &rc, DT_NOCLIP | DT_CENTER);
+
+    *width = MAX(*width, rc.right - rc.left + 1);
+    *height += rc.bottom - rc.top + 1;
   }
 
   SelectObject(hdc, old);

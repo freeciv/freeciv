@@ -1370,8 +1370,8 @@ void update_map_canvas_visible(void)
 void show_city_descriptions(int canvas_x, int canvas_y,
 			    int width, int height)
 {
-  const int dx = MAX(MAX_CITY_DESC_WIDTH - NORMAL_TILE_WIDTH, 0);
-  const int dy = MAX_CITY_DESC_HEIGHT;
+  static int max_desc_width = 0, max_desc_height = 0;
+  const int dx = max_desc_width - NORMAL_TILE_WIDTH, dy = max_desc_height;
 
   if (!draw_city_names && !draw_city_productions) {
     return;
@@ -1399,15 +1399,21 @@ void show_city_descriptions(int canvas_x, int canvas_y,
    */
   gui_rect_iterate(mapview_canvas.gui_x0 + canvas_x - dx / 2,
 		   mapview_canvas.gui_y0 + canvas_y - dy,
-		   width + dx, height + dy,
+		   width + dx, height + dy - NORMAL_TILE_HEIGHT,
 		   map_x, map_y, draw) {
     int canvas_x, canvas_y;
     struct city *pcity;
 
     if (normalize_map_pos(&map_x, &map_y)
 	&& (pcity = map_get_city(map_x, map_y))) {
+      int width = 0, height = 0;
+
       (void) map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y);
-      show_city_desc(pcity, canvas_x, canvas_y);
+      show_city_desc(mapview_canvas.store, canvas_x, canvas_y,
+		     pcity, &width, &height);
+
+      max_desc_width = MAX(width, max_desc_width);
+      max_desc_height = MAX(height, max_desc_height);
     }
   } gui_rect_iterate_end;
 }

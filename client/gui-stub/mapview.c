@@ -121,10 +121,19 @@ void map_size_changed(void)
 }
 
 /****************************************************************************
-  Draw a description for the given city.  (canvas_x, canvas_y) is the
-  canvas position of the city itself.
+  Draw a description for the given city.  This description may include the
+  name, turns-to-grow, production, and city turns-to-build (depending on
+  client options).
+
+  (canvas_x, canvas_y) gives the location on the given canvas at which to
+  draw the description.  This is the location of the city itself so the
+  text must be drawn underneath it.  pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_ctiy_desc to contain the
+  width and height of the text block (centered directly underneath the
+  city's tile).
 ****************************************************************************/
-void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
+void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		    struct city *pcity, int *width, int *height)
 {
   /* PORTME */
 }

@@ -507,10 +507,20 @@ void prepare_show_city_descriptions(void)
   /* Nothing to do */
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
+/****************************************************************************
+  Draw a description for the given city.  This description may include the
+  name, turns-to-grow, production, and city turns-to-build (depending on
+  client options).
+
+  (canvas_x, canvas_y) gives the location on the given canvas at which to
+  draw the description.  This is the location of the city itself so the
+  text must be drawn underneath it.  pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_ctiy_desc to contain the
+  width and height of the text block (centered directly underneath the
+  city's tile).
+****************************************************************************/
+void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		    struct city *pcity, int *width, int *height)
 {
   static char buffer[512], buffer2[32];
   PangoRectangle rect, rect2;
@@ -521,6 +531,8 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
   if (!layout) {
     layout = pango_layout_new(gdk_pango_context_get());
   }
+
+  *width = *height = 0;
 
   canvas_x += NORMAL_TILE_WIDTH / 2;
   canvas_y += NORMAL_TILE_HEIGHT;
@@ -554,7 +566,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
       rect2.width = 0;
     }
 
-    gtk_draw_shadowed_string(map_canvas_store,
+    gtk_draw_shadowed_string(pcanvas->v.pixmap,
 			     toplevel->style->black_gc,
 			     toplevel->style->white_gc,
 			     canvas_x - (rect.width + rect2.width) / 2,
@@ -564,7 +576,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
       pango_layout_set_font_description(layout, city_productions_font);
       pango_layout_set_text(layout, buffer2, -1);
       gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-      gtk_draw_shadowed_string(map_canvas_store,
+      gtk_draw_shadowed_string(pcanvas->v.pixmap,
 			       toplevel->style->black_gc,
 			       civ_gc,
 			       canvas_x - (rect.width + rect2.width) / 2
@@ -575,6 +587,9 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
     }
 
     canvas_y += rect.height + 3;
+
+    *width = rect.width + rect2.width;
+    *height += rect.height + 3;
   }
 
   if (draw_city_productions && (pcity->owner==game.player_idx)) {
@@ -584,11 +599,14 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
     pango_layout_set_text(layout, buffer, -1);
 
     pango_layout_get_pixel_extents(layout, &rect, NULL);
-    gtk_draw_shadowed_string(map_canvas_store,
+    gtk_draw_shadowed_string(pcanvas->v.pixmap,
 			     toplevel->style->black_gc,
 			     toplevel->style->white_gc,
 			     canvas_x - rect.width / 2,
 			     canvas_y + PANGO_ASCENT(rect), layout);
+
+    *width = MAX(*width, rect.width);
+    *height += rect.height;
   }
 }
 
