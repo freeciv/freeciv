@@ -146,11 +146,11 @@
 #define SHOW_EXPAND_CACHE3_RESULT                       FALSE
 #define SHOW_CACHE_STATS                                FALSE
 #define SHOW_TIME_STATS                                 FALSE
+#define SHOW_CM_STORAGE_USED                            FALSE
 #define DISABLE_CACHE3                                  FALSE
 
 #define NUM_SPECIALISTS_ROLES				3
 #define MAX_FIELDS_USED	       	                        (CITY_TILES - 1)
-#define MAX_COMBINATIONS				150
 
 /*
  * Maps (trade, taxmen) -> (gold_production, gold_surplus)
@@ -173,13 +173,20 @@ static struct {
 /* 
  * Contains all combinations. Caches all the data about a city across
  * multiple cm_query_result calls about the same city.
+ * struct combination:
+ *      store one allocation of some number of workers to fields; if there
+ *      is leftover population, store all allocations of leftovers to
+ *      specialists
+ * struct results_set:
+ *      store all combinations for a given number of workers
+ * struct cache3:
+ *      store a results_set for each number of workers
  */
 static struct {
   int fields_available_total;
 
-  struct {
+  struct results_set {
     struct combination {
-      bool is_valid;
       int max_scientists, max_taxmen, worker;
       int production2[NUM_PRIMARY_STATS];
       enum city_tile_type worker_positions[CITY_MAP_SIZE][CITY_MAP_SIZE];
@@ -190,7 +197,9 @@ static struct {
        */
       struct cm_result *cache1;
       struct cm_result all_entertainer;
-    } combinations[MAX_COMBINATIONS];
+     } **combinations;
+     int ncombinations; /* number of valid combinations */
+     int ncombinations_allocated; /* amount of room in combinations array */
   } *results;
 
   struct city *pcity;
@@ -271,17 +280,7 @@ int cm_count_specialist(const struct city *pcity,
 *****************************************************************************/
 static int count_valid_combinations(int fields_used)
 {
-  int i, result = 0;
-
-  for (i = 0; i < MAX_COMBINATIONS; i++) {
-    struct combination *current =
-	&cache3.results[fields_used].combinations[i];
-
-    if (current->is_valid) {
-      result++;
-    }
-  }
-  return result;
+  return cache3.results[fields_used].ncombinations;
 }
 
 /****************************************************************************
@@ -329,6 +328,20 @@ static int get_num_specialists(const struct cm_result *const result)
   } specialist_type_iterate_end;
 
   return count;
+}
+
+/****************************************************************************
+  Make sure the parameter is valid.
+  Currently, this means that all the weights must be positive.
+****************************************************************************/
+static void assert_valid_param(const struct cm_parameter *const parameter)
+{
+  enum cm_stat stat;
+
+  for (stat = 0; stat < NUM_STATS; stat++) {
+    assert(parameter->factor[stat] >= 0);
+  }
+  assert(parameter->happy_factor >= 0);
 }
 
 /****************************************************************************
@@ -455,8 +468,6 @@ void cm_print_result(const struct city *pcity,
 static void print_combination(struct city *pcity,
 			      struct combination *combination)
 {
-  assert(combination->is_valid);
-
   freelog(LOG_NORMAL, "combination:  workers at:");
   my_city_map_iterate(pcity, x, y) {
     if (combination->worker_positions[x][y] == C_TILE_WORKER) {
@@ -468,6 +479,16 @@ static void print_combination(struct city *pcity,
 	  "combination:  food=%d shield=%d trade=%d",
 	  combination->production2[FOOD], combination->production2[SHIELD],
 	  combination->production2[TRADE]);
+}
+
+/****************************************************************************
+  Eliminate all the storage for which this combination is responsible.
+  At the moment, that is the cache1 and the combination itself.
+****************************************************************************/
+static void free_combination(struct combination *combination)
+{
+  free(combination->cache1);
+  free(combination);
 }
 
 /****************************************************************************
@@ -585,21 +606,21 @@ static void update_cache2(struct city *pcity,
 }
 
 /****************************************************************************
-...
-*****************************************************************************/
+  Clear the results of the cache.  Does NOT free all storage; arrays stay
+  allocated so we don't thrash memory.
+****************************************************************************/
 static void clear_cache(void)
 {
   int i, j;
+
   for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
-    for (j = 0; j < MAX_COMBINATIONS; j++) {
-      if (!cache3.results[i].combinations[j].is_valid) {
-	continue;
-      }
-      if (cache3.results[i].combinations[j].cache1) {
-	free(cache3.results[i].combinations[j].cache1);
-	cache3.results[i].combinations[j].cache1 = NULL;
-      }
+    struct results_set *results = &cache3.results[i];
+
+    for (j = 0; j < results->ncombinations; j++) {
+      free_combination(results->combinations[j]);
+      results->combinations[j] = NULL;
     }
+    results->ncombinations = 0;
   }
   cache3.pcity = NULL;
 }
@@ -736,6 +757,27 @@ static void report_one_cache_stat(struct cache_stats *cache_stat,
 }
 #endif
 
+/****************************************************************************
+ Calculates how much storage is used by the CM.
+ Used by report_stats only if the define is on, so compile it only if the
+ define is on.
+*****************************************************************************/
+#if SHOW_CM_STORAGE_USED
+static void report_cm_storage_used(void)
+{
+  int i, sum = 0;
+
+  for (i = 0; i <= MAX_FIELDS_USED; i++) {
+    sum += cache3.results[i].ncombinations_allocated
+      * sizeof(*cache3.results.combinations);
+    sum += cache3.results[i].ncombinations
+      * sizeof(**cache3.results.combinations);
+  }
+  sum += sizeof(cache3);
+  freelog(LOG_NORMAL, "CM: cache3 uses %d bytes", sum);
+  /* we should compute the cache1 and cache2 usage as well. */
+}
+#endif
 
 /****************************************************************************
  Prints the data of the stats struct via freelog(LOG_NORMAL,...).
@@ -754,6 +796,10 @@ static void report_stats(void)
   report_one_cache_stat(&stats.cache2, "CACHE2");
   report_one_cache_stat(&stats.cache3, "CACHE3");
 #endif
+
+#if SHOW_CM_STORAGE_USED
+  report_cm_storage_used();
+#endif
 }
 
 /****************************************************************************
@@ -770,8 +816,6 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
 {
   struct cm_result *slot;
   bool got_all;
-
-  assert(base_combination->is_valid);
 
   /*
    * First try to get a filled out result from cache1 or from the
@@ -907,22 +951,12 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
 static void add_combination(int fields_used,
 			    struct combination *combination)
 {
-  static int max_used = 0;
-  int i, used;
-  /* This one is cached for later. Avoids another loop. */
-  struct combination *invalid_slot_for_insert = NULL;
+  int i;
+  struct results_set *results = &cache3.results[fields_used];
 
   /* Try to find a better combination. */
-  for (i = 0; i < MAX_COMBINATIONS; i++) {
-    struct combination *current =
-	&cache3.results[fields_used].combinations[i];
-
-    if (!current->is_valid) {
-      if (!invalid_slot_for_insert) {
-	invalid_slot_for_insert = current;
-      }
-      continue;
-    }
+  for (i = 0; i < results->ncombinations; i++) {
+    struct combination *current = results->combinations[i];
 
     if (current->production2[FOOD] >= combination->production2[FOOD] &&
 	current->production2[SHIELD] >= combination->production2[SHIELD] &&
@@ -945,47 +979,48 @@ static void add_combination(int fields_used,
      print_combination(combination);
    */
 
-  for (i = 0; i < MAX_COMBINATIONS; i++) {
-    struct combination *current =
-	&cache3.results[fields_used].combinations[i];
+  for (i = 0; i < results->ncombinations; i++) {
+    struct combination *current = results->combinations[i];
 
-    if (!current->is_valid) {
-      continue;
-    }
-
-    if (current->production2[FOOD] <= combination->production2[FOOD] &&
-	current->production2[SHIELD] <= combination->production2[SHIELD] &&
-	current->production2[TRADE] <= combination->production2[TRADE]) {
+    if (current->production2[FOOD] <= combination->production2[FOOD]
+	&& current->production2[SHIELD] <= combination->production2[SHIELD]
+	&& current->production2[TRADE] <= combination->production2[TRADE]) {
       /*
          freelog(LOG_NORMAL, "the following is now obsolete:");
          print_combination(current);
        */
-      current->is_valid = FALSE;
+
+      /* free it and remove it from the list */
+      free_combination(current);
+      results->combinations[i]
+        = results->combinations[results->ncombinations - 1];
+      results->ncombinations--;
+      i--; /* then we do i++ , so we end up at the same index again */
     }
   }
 
-  /* Insert the given combination. */
-  if (invalid_slot_for_insert == NULL) {
-    freelog(LOG_FATAL,
-	    "No more free combinations left. You may increase "
-	    "MAX_COMBINATIONS or \nreport this error to "
-	    "freeciv-dev@freeciv.org.\nCurrent MAX_COMBINATIONS=%d",
-	    MAX_COMBINATIONS);
-    exit(EXIT_FAILURE);
+  /* Insert the given combination. Grow the array if needed. */
+  if (results->ncombinations >= results->ncombinations_allocated) {
+    if (results->ncombinations_allocated == 0) {
+      results->ncombinations_allocated = 1;
+    } else {
+      /* Double for amortized constant-time growing. */
+      results->ncombinations_allocated *= 2;
+    }
+    results->combinations
+      = fc_realloc(results->combinations,
+		   results->ncombinations_allocated
+		   * sizeof(*results->combinations));
   }
 
-  memcpy(invalid_slot_for_insert, combination, sizeof(struct combination));
-  invalid_slot_for_insert->all_entertainer.found_a_valid = FALSE;
-  invalid_slot_for_insert->cache1 = NULL;
-
-  used = count_valid_combinations(fields_used);
-  if (used > (MAX_COMBINATIONS * 9) / 10
-      && (used > max_used || max_used == 0)) {
-    max_used = used;
-    freelog(LOG_ERROR,
-	    "Warning: there are currently %d out of %d combinations used",
-	    used, MAX_COMBINATIONS);
-  }
+  /* finally, actually insert it. */
+  i = results->ncombinations;
+  results->combinations[i] = fc_malloc(sizeof(*results->combinations[i]));
+  memcpy(results->combinations[i], combination,
+	 sizeof(*results->combinations[i]));
+  results->combinations[i]->all_entertainer.found_a_valid = FALSE;
+  results->combinations[i]->cache1 = NULL;
+  results->ncombinations++;
 
   freelog(LOG_DEBUG, "there are now %d combination which use %d tiles",
 	  count_valid_combinations(fields_used), fields_used);
@@ -994,11 +1029,15 @@ static void add_combination(int fields_used,
 /****************************************************************************
  Will create combinations which use (fields_to_use) fields from the
  combinations which use (fields_to_use-1) fields.
+ Precondition: cache3.results[fields_to_use-1] is valid.
+               cache3.results[fields_to_use]   is empty.
 *****************************************************************************/
 static void expand_cache3(struct city *pcity, int fields_to_use,
 			  const struct tile_stats *const stats)
 {
   int i;
+  struct results_set *results = &cache3.results[fields_to_use];
+  struct results_set *prev_results = &cache3.results[fields_to_use - 1];
 
   freelog(EXPAND_CACHE3_LOG_LEVEL,
 	  "expand_cache3(fields_to_use=%d) results[%d] "
@@ -1006,17 +1045,10 @@ static void expand_cache3(struct city *pcity, int fields_to_use,
 	  fields_to_use, fields_to_use - 1,
 	  count_valid_combinations(fields_to_use - 1));
 
-  for (i = 0; i < MAX_COMBINATIONS; i++) {
-    cache3.results[fields_to_use].combinations[i].is_valid = FALSE;
-  }
+  assert(results->ncombinations == 0);
 
-  for (i = 0; i < MAX_COMBINATIONS; i++) {
-    struct combination *current =
-	&cache3.results[fields_to_use - 1].combinations[i];
-
-    if (!current->is_valid) {
-      continue;
-    }
+  for (i = 0; i < prev_results->ncombinations; i++) {
+    struct combination *current = prev_results->combinations[i];
 
     my_city_map_iterate(pcity, x, y) {
       struct combination new_pc;
@@ -1042,15 +1074,8 @@ static void expand_cache3(struct city *pcity, int fields_to_use,
 	  fields_to_use, count_valid_combinations(fields_to_use));
 
   if (SHOW_EXPAND_CACHE3_RESULT) {
-    for (i = 0; i < MAX_COMBINATIONS; i++) {
-      struct combination *current =
-	  &cache3.results[fields_to_use].combinations[i];
-
-      if (!current->is_valid) {
-	continue;
-      }
-
-      print_combination(pcity, current);
+    for (i = 0; i < results->ncombinations; i++) {
+      print_combination(pcity, results->combinations[i]);
     }
   }
 }
@@ -1157,15 +1182,14 @@ static void build_cache3(struct city *pcity)
   cache3.pcity = pcity;
   stats.cache3.misses++;
 
-  /* Make as invalid the parts of cache3 we'll use. */
+  /* For speed, only clear the parts of cache3 we'll use */
   for (i = 0; i < MIN(pcity->size, MAX_FIELDS_USED) + 1; i++) {
-    for (j = 0; j < MAX_COMBINATIONS; j++) {
-      cache3.results[i].combinations[j].is_valid = FALSE;
-      if (cache3.results[i].combinations[j].cache1) {
-        free(cache3.results[i].combinations[j].cache1);
-        cache3.results[i].combinations[j].cache1 = NULL;
-      }
+    struct results_set *results = &cache3.results[i];
+    for (j = 0; j < results->ncombinations; j++) {
+      free_combination(results->combinations[j]);
+      results->combinations[j] = NULL;
     }
+    results->ncombinations = 0;
   }
 
   /*
@@ -1208,7 +1232,6 @@ static void build_cache3(struct city *pcity)
   } my_city_map_iterate_end;
 
   /* Add root combination. */
-  root_combination.is_valid = TRUE;
   add_combination(0, &root_combination);
 
   for (i = 1; i <= MIN(cache3.fields_available_total, pcity->size); i++) {
@@ -1331,18 +1354,14 @@ static void optimize_final(struct city *pcity,
   for (fields_used = 0;
        fields_used <= MIN(cache3.fields_available_total, pcity->size);
        fields_used++) {
+    struct results_set *results = &cache3.results[fields_used];
     freelog(OPTIMIZE_FINAL_LOG_LEVEL,
 	    "there are %d combinations which use %d fields",
 	    count_valid_combinations(fields_used), fields_used);
-    for (i = 0; i < MAX_COMBINATIONS; i++) {
-      struct combination *current =
-	  &cache3.results[fields_used].combinations[i];
+    for (i = 0; i < results->ncombinations; i++) {
+      struct combination *current = results->combinations[i];
       int major_fitness, minor_fitness;
       struct cm_result result;
-
-      if (!current->is_valid) {
-	continue;
-      }
 
       freelog(OPTIMIZE_FINAL_LOG_LEVEL2, "  trying combination %d", i);
 
@@ -1403,12 +1422,21 @@ static void optimize_final(struct city *pcity,
 }
 
 /*************************** public interface *******************************/
+
 /****************************************************************************
 ...
-*****************************************************************************/
+****************************************************************************/
 void cm_init(void)
 {
+  int i;
+
   cache3.pcity = NULL;
+
+  for (i = 0; i <= MAX_FIELDS_USED; i++) {
+    cache3.results[i].combinations = NULL;
+    cache3.results[i].ncombinations = 0;
+    cache3.results[i].ncombinations_allocated = 0;
+  }
 
   /* Reset the stats. */
   memset(&stats, 0, sizeof(stats));
@@ -1433,6 +1461,7 @@ void cm_init_citymap(void)
 *****************************************************************************/
 void cm_free(void)
 {
+  int i;
   free_timer(stats.wall_timer);
   stats.wall_timer = NULL;
 
@@ -1445,7 +1474,14 @@ void cm_free(void)
   cache2.allocated_size = 0;
   cache2.allocated_trade = 0;
   cache2.allocated_luxury = 0;
+
   clear_cache();
+  for (i = 0; i <= MAX_FIELDS_USED; i++) {
+    free(cache3.results[i].combinations);
+    cache3.results[i].combinations = NULL;
+    cache3.results[i].ncombinations = 0;
+    cache3.results[i].ncombinations_allocated = 0;
+  }
 }
 
 /****************************************************************************
@@ -1457,6 +1493,8 @@ void cm_query_result(struct city *pcity,
 {
   freelog(CM_QUERY_RESULT_LOG_LEVEL, "cm_query_result(city='%s'(%d))",
 	  pcity->name, pcity->id);
+
+  assert_valid_param(parameter);
 
   start_timer(stats.wall_timer);
   optimize_final(pcity, parameter, result);
