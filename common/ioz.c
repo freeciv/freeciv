@@ -103,6 +103,8 @@ fz_FILE *fz_fopen(const char *filename, const char *in_mode,
   switch (fp->method) {
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
+    /*  gz files are binary files, so we should add "b" to mode! */
+    sz_strlcat(mode,"b");
     if (mode[0] == 'w') {
       cat_snprintf(mode, sizeof(mode), "%d", compress_level);
     }
