@@ -7,7 +7,7 @@
 # + '# ?'  markiert Stellen, die noch nicht übersetzt wurden.           +
 # + '# NN' markiert Kommentare des Übersetzers mit den Initialen NN.    +
 # + Hinweis: Diese Markierungen müssen direkt über die mit '#:'         +
-# +          beginnenden Adressverweise gesetzt werden.                 +
+# +          beginnenden Adreßverweise gesetzt werden.                  +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # ÄNDERUNGEN / ERGÄNZUNGEN / KORREKTUREN / MITARBEIT
@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-09 14:00+0100\n"
+"POT-Creation-Date: 2005-02-10 12:12+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -715,14 +715,14 @@ msgstr ""
 msgid "*%s (AI)* First break alliance with %s, %s"
 msgstr "*%s (KI)* Lösen Sie zuerst die Allianz mit den %s, %s"
 
-#: ai/advdiplomacy.c:276
+#: ai/advdiplomacy.c:279
 #, c-format
 msgid "*%s (AI)* Begone scoundrel, we all know that you cannot be trusted!"
 msgstr ""
 "*%s (KI)* Verschwinde, Verräter, wir alle wußten daß man Dir nicht trauen "
 "kann!"
 
-#: ai/advdiplomacy.c:288
+#: ai/advdiplomacy.c:291
 #, c-format
 msgid ""
 "*%s (AI)* I will not let you go that easy, %s. The current treaty stands."
@@ -730,7 +730,7 @@ msgstr ""
 "*%s (KI)* So leicht werde ich Dich nicht davonkommen lassen, %s. Ich bestehe "
 "auf unserem Abkommen!"
 
-#: ai/advdiplomacy.c:305
+#: ai/advdiplomacy.c:308
 #, c-format
 msgid ""
 "*%s (AI)* %s recommended that I give you a ceasefire. This is your lucky day."
@@ -738,55 +738,55 @@ msgstr ""
 "*%s (KI)* %s hat mir empfohlen, mit Dir Waffenstillsatnd zu schließen.Dies "
 "ist Dein Glückstag."
 
-#: ai/advdiplomacy.c:328
+#: ai/advdiplomacy.c:331
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s"
 msgstr "*%s (KI)* Lass uns erst die Feindseligkeiten beenden, %s"
 
-#: ai/advdiplomacy.c:337
+#: ai/advdiplomacy.c:340
 #, c-format
 msgid "*%s (AI)* Let us first make peace, %s"
 msgstr "*%s (KI)* Lass uns erst Frieden schließen, %s"
 
-#: ai/advdiplomacy.c:405
+#: ai/advdiplomacy.c:408
 #, c-format
 msgid "*%s (AI)* You don't have the offered city!"
 msgstr "*%s (KI)* Du besitzt die angebotene Stadt nicht!"
 
-#: ai/advdiplomacy.c:430
+#: ai/advdiplomacy.c:433
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr ""
 "*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir Karteneinsicht zu "
 "geben."
 
-#: ai/advdiplomacy.c:524
+#: ai/advdiplomacy.c:528
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (KI)* Willkommen in unserer Allianz, %s!"
 
-#: ai/advdiplomacy.c:527
+#: ai/advdiplomacy.c:531
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s"
 msgstr "*%s (KI)* Ja, mögen wir für immer verbunden sein, %s"
 
-#: ai/advdiplomacy.c:532
+#: ai/advdiplomacy.c:536
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (KI)* Ja, wir brauchen Frieden!"
 
-#: ai/advdiplomacy.c:536
+#: ai/advdiplomacy.c:540
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s"
 msgstr "*%s (KI)* Einverstanden. Keine Feindseligkeiten mehr, %s"
 
-#: ai/advdiplomacy.c:960
+#: ai/advdiplomacy.c:964
 #, c-format
 msgid "*%s (AI)* I will NOT accept such behaviour! This means WAR!"
 msgstr ""
 "*%s (KI)* Ich werde solches Verhalten nicht dulden! Das bedeutet Krieg!"
 
-#: ai/advdiplomacy.c:983
+#: ai/advdiplomacy.c:987
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
@@ -795,7 +795,7 @@ msgstr ""
 "*%s (KI)* Dein Versuch, allein den Weltraum zu erobern, zeigt Deine wahren "
 "Absichten. Unsere Allianz ist beendet!"
 
-#: ai/advdiplomacy.c:996
+#: ai/advdiplomacy.c:1000
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -804,7 +804,7 @@ msgstr ""
 "*%s (KI)* Dein Versuch, einseitig den Weltraum zu beherrschen, ist äußerst "
 "bedrohlich."
 
-#: ai/advdiplomacy.c:998
+#: ai/advdiplomacy.c:1002
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -813,12 +813,12 @@ msgstr ""
 "*%s (KI)* Wenn Du nicht den Raumschiffbau beendest, könnte ich gezwungen "
 "sein zu reagieren!"
 
-#: ai/advdiplomacy.c:1022
+#: ai/advdiplomacy.c:1026
 #, c-format
 msgid "*%s (AI)* Your despicable actions will not go unpunished!"
 msgstr "*%s (KI)* Deine schäbigen Taten werden nicht unbestraft bleiben!"
 
-#: ai/advdiplomacy.c:1026
+#: ai/advdiplomacy.c:1030
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -827,25 +827,25 @@ msgstr ""
 "*%s (KI)* Endlich kriege ich Dich! Dachtest Du wirklich, Du könntest mit "
 "Deinen Verbrechen davonkommen?"
 
-#: ai/advdiplomacy.c:1031
+#: ai/advdiplomacy.c:1035
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time"
 msgstr "*%s (KI)* Frieden ... vielleicht ein anderes Mal."
 
-#: ai/advdiplomacy.c:1048
+#: ai/advdiplomacy.c:1052
 #, c-format
 msgid "*%s (AI)* Your aggression against my allies was your last mistake!"
 msgstr ""
-"*%s (KI)* Deine Agression gegen meine Verbündeten war Dein letzter Fehler!"
+"*%s (KI)* Deine Aggression gegen meine Verbündeten war Dein letzter Fehler!"
 
-#: ai/advdiplomacy.c:1070
+#: ai/advdiplomacy.c:1074
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir länger Karteneinsicht "
 "zu geben"
 
-#: ai/advdiplomacy.c:1138
+#: ai/advdiplomacy.c:1142
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally, we call upon you to destroy "
@@ -854,7 +854,7 @@ msgstr ""
 "*%s (KI)* Sei gegrüßt, ehrenwerter Verbündeter, wir rufen Dich auf, unseren "
 "Feind %s zu vernichten."
 
-#: ai/advdiplomacy.c:1143
+#: ai/advdiplomacy.c:1147
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
@@ -864,7 +864,7 @@ msgstr ""
 "keinen Krieg gegen unseren Feind %s. Warum müssen wir Dich an Deine "
 "Versprechen erinnern?"
 
-#: ai/advdiplomacy.c:1148
+#: ai/advdiplomacy.c:1152
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -875,14 +875,14 @@ msgstr ""
 "und immer noch bist Du im Frieden mit unserem Todfeind %s! Das ist "
 "unakzeptabel, unsere Allianz ist beendet!"
 
-#: ai/advdiplomacy.c:1177
+#: ai/advdiplomacy.c:1181
 #, c-format
 msgid "*%s (AI)* Greetings friend, may we suggest a joint campaign against %s?"
 msgstr ""
 "*%s (KI)* Sei gegrüßt, Freund, dürfen wir Dir eine gemeinsame Kampagne gegen "
 "%s vorschlagen?"
 
-#: ai/advdiplomacy.c:1192
+#: ai/advdiplomacy.c:1196
 #, c-format
 msgid ""
 "*%s (AI)* Greetings neighbour, may we suggest a joint campaign against %s?"
@@ -890,7 +890,7 @@ msgstr ""
 "*%s (KI)* Sei gegrüßt, Nachbar, dürfen wir Dir eine gemeinsame Kampagne "
 "gegen %s vorschlagen?"
 
-#: ai/advdiplomacy.c:1206
+#: ai/advdiplomacy.c:1210
 #, c-format
 msgid ""
 "*%s (AI)* %s is threatening us both, may we suggest a cessation of "
@@ -2222,7 +2222,7 @@ msgstr "Es steht kein neuer Spieler mehr zur Verfügung."
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
 msgstr ""
-"Sie sind als '%s' mit dem Spiel verbunden, kontrollieren aber keinenSpieler."
+"Sie sind als '%s' mit dem Spiel verbunden, kontrollieren aber keinen Spieler."
 
 #: server/connecthand.c:152
 #, c-format
@@ -2540,19 +2540,19 @@ msgstr "Spiel: %s darf unsere Karte einsehen."
 msgid "Game: %s gives you shared vision."
 msgstr "Spiel: %s läßt uns die Karte einsehen."
 
-#: server/diplhand.c:593
+#: server/diplhand.c:594
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Spiel: %s hat die Konferenz abgesagt!"
 
-#: server/diplhand.c:599
+#: server/diplhand.c:600
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Spiel: Treffen mit %s abgesagt."
 
-#: server/diplhand.c:639
+#: server/diplhand.c:640
 msgid "Your diplomatic envoy was decapitated!"
-msgstr "Ihr Unterhändler wurde enthaupted"
+msgstr "Ihr Unterhändler wurde enthauptet!"
 
 #: server/diplomats.c:93
 #, c-format
@@ -3321,7 +3321,7 @@ msgstr "Thucydides"
 
 #: server/report.c:62
 msgid "Pliny the Elder's"
-msgstr "Plinus des Älteren"
+msgstr "Plinius des Älteren"
 
 #: server/report.c:63
 msgid "Livy's"
@@ -4150,7 +4150,7 @@ msgid ""
 "map with more swamps, jungles, and rivers."
 msgstr ""
 "Kleinere Werte bedeuten viel trockenes, wüstenähnliches Land; größere Werte "
-"ergeben eine feuchtere Karte mit vielen Sümpfen, Dschungeln und Flüssen."
+"ergeben eine feuchtere Karte mit vielen Sümpfen, Dschungel und Flüssen."
 
 #: server/settings.c:364
 msgid "Map generation random seed"
@@ -4391,7 +4391,7 @@ msgid ""
 "System), it loses this percentage of its foodbox (or half that amount if it "
 "has a Granary)."
 msgstr ""
-"Wenn eine Stadt wachsen würde, aber mangels eines fehlenden Aquädukts (oder "
+"Wenn eine Stadt wachsen würde, aber mangels eines fehlenden Aquäduktes (oder "
 "Abwassersystems) nicht kann, geht dieser Prozentsatz (oder die Hälfte davon, "
 "falls ein Kornspeicher vorhanden ist) verloren."
 
@@ -4616,7 +4616,7 @@ msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
 msgstr ""
-"Falls gesetzt, erzeugen Einheiten, die sich innerhalb der eigenenGrenzen "
+"Falls gesetzt, erzeugen Einheiten, die sich innerhalb der eigenen Grenzen "
 "befinden, keine Unzufriedenheit."
 
 #: server/settings.c:700
@@ -5033,7 +5033,7 @@ msgstr ""
 "    E = Wirtschaft\n"
 "    M = Militärdienst\n"
 "    O = Umweltverschmutzung\n"
-"Die folgendenden Buchstaben erlauben die Ausgabe zusätzlicher Spalten:\n"
+"Die folgenden Buchstaben erlauben die Ausgabe zusätzlicher Spalten:\n"
 "    q = Spalte 'Menge' anzeigen\n"
 "    r = Spalte 'Rangfolge' anzeigen\n"
 "    b = Spalte 'Beste Nation' anzeigen\n"
@@ -6594,7 +6594,7 @@ msgstr ""
 #: server/unithand.c:1069
 msgid "Game: This unit is being transported, and so cannot bombard."
 msgstr ""
-"Spiel: Diese Einheit wird transportiert und kann daher nicht bombadieren."
+"Spiel: Diese Einheit wird transportiert und kann daher nicht bombardieren."
 
 #: server/unithand.c:1084
 msgid "Game: You can't attack there."
@@ -8121,8 +8121,8 @@ msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender but has no risk to the attacker.\n"
 msgstr ""
-"* Kann Bombardements durchführen (%d pro Runde). Diese Angriffe können den "
-"Verteidiger nur beschädigen, nicht töten, sind aber ohne Risiko für den "
+"* Kann Bombardierungen durchführen (%d pro Runde). Diese Angriffe können "
+"den Verteidiger nur beschädigen, nicht töten, sind aber ohne Risiko für den "
 "Angreifer.\n"
 
 #: client/helpdata.c:847
@@ -11663,7 +11663,7 @@ msgstr "Fertig"
 #: client/gui-gtk/menu.c:784 client/gui-gtk/menu.c:786
 #: client/gui-win32/menu.c:397
 msgid "_Reports"
-msgstr "Berich_te"
+msgstr "Ber_ichte"
 
 #: client/gui-gtk-2.0/menu.c:815 client/gui-gtk-2.0/menu.c:817
 #: client/gui-gtk-2.0/menu.c:819 client/gui-gtk-2.0/menu.c:821
@@ -15964,7 +15964,7 @@ msgstr ""
 "Umgebung zu erkunden. Da es aber sehr gefährlich ist, eine Stadt "
 "unverteidigt zu lassen, sollte man den ersten Krieger sicherheitshalber in "
 "der Stadt stationieren und erst den nächsten zum Erkunden verwenden. Dies "
-"gilt insbesonders dann, wenn man zu Spielbeginn einen Kundschafter erhalten "
+"gilt insbesondere dann, wenn man zu Spielbeginn einen Kundschafter erhalten "
 "hat!"
 
 #: data/helpdata.txt:626
@@ -17390,7 +17390,7 @@ msgid ""
 "number of cities (depending on your government as well as the server option "
 "cityfactor), the limit on content citizens is reduced to 3."
 msgstr ""
-"Normalweise sind Bürger zufrieden. Allerdings sorgt wachsende Bevölkerung "
+"Normalerweise sind Bürger zufrieden. Allerdings sorgt die wachsende Bevölkerung "
 "für Unzufriedenheit. Standardmäßig sind bei Städten ab Größe 4 alle neu "
 "hinzukommenden Bürger unzufrieden. Gibt es viele Städte, sinkt - abhängig "
 "von der Servereinstellung und der Regierungsform - die Anzahl der "
@@ -18233,7 +18233,7 @@ msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
 msgstr ""
-"Diese faszienierende technologische Errungenschaft macht in jeder Stadt "
+"Diese faszinierende technologische Errungenschaft macht in jeder Stadt "
 "einen Unzufriedenen zufrieden."
 
 #: data/default/buildings.ruleset:1492 data/civ2/buildings.ruleset:1416
@@ -19190,7 +19190,7 @@ msgstr ""
 "\n"
 "Jede Kampfeinheit außer der ersten verursacht 1 Unzufriedenen.\n"
 "Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer "
-"Angriffstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
+"Angriffsstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
 "oder befestigten Stellung innerhalb von 3 Feldern im Umkreis einer "
 "befreundeten Stadt.\n"
 "In einer Republik zählen alle stationierte Einheiten außer Landeinheiten als "
@@ -19270,7 +19270,7 @@ msgstr ""
 "\n"
 "Jede Kampfeinheit verursacht 2 Unzufriedene.\n"
 "Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer "
-"Angriffstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
+"Angriffsstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
 "oder einer befestigten Stellung innerhalb von 3 Feldern im Umkreis einer "
 "befreundeten Stadt.\n"
 "Stationierte Einheiten außer Landeinheiten verursachen 1 Unzufriedenen.\n"
@@ -19562,7 +19562,7 @@ msgstr ""
 "\n"
 "Jede Kampfeinheit außer der ersten verursacht 1 Unzufriedenen.\n"
 "Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer "
-"Angriffstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
+"Angriffsstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
 "oder befestigten Stellung innerhalb von 3 Feldern im Umkreis einer "
 "befreundeten Stadt.\n"
 "In einer Republik zählen alle stationierte Einheiten außer Landeinheiten als "
@@ -19618,7 +19618,7 @@ msgstr ""
 "\n"
 "Jede Kampfeinheit verursacht 2 Unzufriedene.\n"
 "Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer "
-"Angriffstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
+"Angriffsstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
 "oder einer befestigten Stellung innerhalb von 3 Feldern im Umkreis einer "
 "befreundeten Stadt.\n"
 "Stationierte Einheiten außer Landeinheiten verursachen 1 Unzufriedenen.\n"
@@ -19797,7 +19797,7 @@ msgstr ""
 "\n"
 "Jede Kampfeinheit außer der ersten verursacht 1 Unzufriedenen.\n"
 "Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer "
-"Angriffstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
+"Angriffsstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
 "oder einer befestigten Stellung innerhalb von 3 Feldern im Umkreis einer "
 "befreundeten Stadt.\n"
 "In einer Republik zählen stationierte Einheiten außer Landeinheiten als "
@@ -19848,7 +19848,7 @@ msgstr ""
 "\n"
 "Jede Kampfeinheit verursacht 2 Unzufriedene.\n"
 "Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer "
-"Angriffstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
+"Angriffsstärke größer 0; ausgenommen sind Einheiten innerhalb einer Stadt "
 "oder einer befestigten Stellung innerhalb von 3 Feldern im Umkreis einer "
 "befreundeten Stadt.\n"
 "Stationierte Einheiten außer Landeinheiten verursachen 1 Unzufriedenen.\n"
@@ -20143,7 +20143,7 @@ msgstr "Miniaturisierung"
 #: data/default/techs.ruleset:475 data/civ2/techs.ruleset:354
 #: data/civ1/techs.ruleset:354 data/history/techs.ruleset:354
 msgid "Mobile Warfare"
-msgstr "Mobile Kriegsführung"
+msgstr "Mobile Kriegführung"
 
 #: data/default/techs.ruleset:491 data/civ2/techs.ruleset:366
 #: data/civ1/techs.ruleset:366 data/history/techs.ruleset:366
@@ -20217,7 +20217,7 @@ msgstr "Recycling"
 #: data/default/techs.ruleset:597 data/civ2/techs.ruleset:444
 #: data/civ1/techs.ruleset:444 data/history/techs.ruleset:446
 msgid "Refining"
-msgstr "Raffinierung"
+msgstr "Raffination"
 
 #: data/default/techs.ruleset:605 data/civ2/techs.ruleset:450
 #: data/civ1/techs.ruleset:450 data/history/techs.ruleset:452
@@ -20941,7 +20941,7 @@ msgstr "Karavelle"
 #: data/default/units.ruleset:1258 data/civ2/units.ruleset:1117
 #: data/civ1/units.ruleset:1076 data/history/units.ruleset:1184
 msgid "Galleon"
-msgstr "Galleone"
+msgstr "Galeone"
 
 #: data/default/units.ruleset:1286 data/civ2/units.ruleset:1145
 #: data/civ1/units.ruleset:1104 data/history/units.ruleset:1212
@@ -21775,11 +21775,11 @@ msgstr "Dowager"
 
 #: data/nation/columbian.ruleset:3
 msgid "Columbian"
-msgstr "kolumbisch"
+msgstr "kolumbianisch"
 
 #: data/nation/columbian.ruleset:4
 msgid "?plural:Columbians"
-msgstr "Kolumbier"
+msgstr "Kolumbianer"
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -21989,11 +21989,11 @@ msgstr "Kaiser"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "filipinisch"
+msgstr "philippinisch"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr "?plural:Filipinos"
+msgstr "Filipinos"
 
 #: data/nation/filipino.ruleset:6
 msgid ""
@@ -22702,7 +22702,7 @@ msgid ""
 "Moslems.  The Reconquista was completed in 1492AD, the same year Columbus "
 "sailed."
 msgstr ""
-"Das moderne Spanien wurde gebildet, als die Herrscher Castilliens und "
+"Das moderne Spanien wurde gebildet, als die Herrscher Kastiliens und "
 "Aragons die Rückeroberung der iberischen Halbinsel von den Moslems "
 "anführten. Die Reconquista wurde 1492 erreicht, im gleichen Jahr, in dem "
 "Kolumbus in See stach."
@@ -22809,7 +22809,7 @@ msgid ""
 "Union. It includes some of the most fertile black-soil cropland on Earth."
 msgstr ""
 "Die Ukraine ist eine weite Region im westlichen Grenzgebiet der früheren "
-"Sowietunion. Sie besitzt eines der fruchtbarsten Kornanbaugebiete der Erde."
+"Sowjetunion. Sie besitzt eines der fruchtbarsten Kornanbaugebiete der Erde."
 
 #: data/nation/ukrainian.ruleset:15
 msgid "Hetman"
@@ -22847,7 +22847,7 @@ msgid ""
 msgstr ""
 "Die Wikinger raubten und handelten an Europas Küsten zwischen 800 und 1100. "
 "Wikingische Räuber wurden schließlich die Herrscher der Normandie, von "
-"Russland, und, für kurze Zeit, des Königsreichs Sizilien."
+"Russland, und, für kurze Zeit, des Königsreiches Sizilien."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
