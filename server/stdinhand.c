@@ -206,8 +206,8 @@ static struct settings_s settings[] = {
     SSET_MAP_ADD, SSET_TO_CLIENT,
     MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES,
     "Amount of \"special\" resource squares", 
-    "Special resources improve the basic terrain type they are on.\n" 
-    "The server variable's scale is parts per thousand." },
+    "  Special resources improve the basic terrain type they are on.\n" 
+    "  The server variable's scale is parts per thousand." },
 
   { "huts", &map.huts, 
     SSET_MAP_ADD, SSET_TO_CLIENT,
