@@ -2,7 +2,7 @@
 PROGRAMFEL
 ==========
 
-Freeciv 1.13.0 är en "driftssäker" utgåva och anses vara tillräckligt
+Freeciv 1.14.0 är en "driftssäker" utgåva och anses vara tillräckligt
 fri från programfel för dagligt bruk. Om man ändå hittar ett
 programfel skulle vi vilja få reda på det så att vi kan rätta
 det. Denna fil listar kända programfel i denna utgåva och ger
@@ -46,6 +46,10 @@ KÄNDA PROGRAMFEL:
    när man använder ljuddrivrutinen esound. Detta är inget att oroa
    sig för.
 
+ - Om man trycker Ctrl+C i klienten när man använder ljuddrivrutinen
+   esound kan det hända att den ljudslinga som för närvarande spelas
+   upp inte avbryts ordentligt.
+
  - Vissa världsunder börjar inte verka förrän omgången efter att de
    har färdigställts. När man till exempel färdigställer Fyrtornet får
    vissa triremer sitt extra drag först nästa omgång.
@@ -67,9 +71,6 @@ KÄNDA PROGRAMFEL:
  - Triremer hanteras inte bra i självständigt läge.
 
  - LOG_DEBUG fungerar inte med andra kompilatorer än GCC.
-
- - Färgmarkeringarna i GTK-meddelandedialogen försvinner om den stängs
-   och öppnas.
 
  - När man sätter servervariabler kontrollerar servern ofta inte
    värdena så bra som den skulle kunna.

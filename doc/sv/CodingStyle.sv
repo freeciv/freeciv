@@ -6,33 +6,34 @@ Om man vill koda Freeciv och få sina patchar antagna så hjälper det
 att följa några enkla stilregler. Ja, några av dessa är en aning
 petiga, men krig utkämpas över de fånigaste saker...
 
-- Använd K&R-indragsstil med ingrag 2 (vid tveksamhet, använd
-  "indent -kr -i2"). Men man ska inte ändra stilen på kodstycken som
-  man inte ändrar på annat sätt eller skapar.
+- Freeciv är skrivet i C (förutom BEOS-klienten). Detta innebär att
+  C++-drag som "//"-kommentarer och variabeldeklarationer som inte är
+  i början av block är förbjudna.
 
-- Sätt radlängden till 80 kolumner. Rader ska aldrig någonsin brytas.
+- Använd K&R-indragsstil med indrag 2 (vid tveksamhet, använd
+  "indent -kr -i2 -l77"). Men man ska inte ändra stilen på kodstycken
+  som man inte ändrar på annat sätt eller skapar. Här är de viktigaste
+  egenskaperna:
+    - den största tillåtna radlängden är 77 tecken
+    - blanksteg infogas före och efter operatorer ("int i, j, k;" i
+      stället för "int i,j,k;" och "if (foo <= bar) c = a + b;" i
+      stället för "if(foo<=bar) c=a+b;")
+    - funktionsklammern skall stå i den första kolonnen:
+        int foo()
+        {
+          return 0;
+        }
+      i stället för
+        int foo() {
+          return 0;
+        }
+    - tabavståndet skall vara 8
 
 - En tom rad ska sättas mellan 2 åtskilda kodstycken.
-
-- Blanksteg ska sättas före och efter operatorer och efter
-  kommatecken:
-
-int a,b,c;   /* dåligt */
-int i, j, k; /* bra */
-
-if(foo<=bar) {   /* dåligt */
-  c=a+b;
-}
-
-if(foo <= bar) { /* bra */
-  c = a + b;
-}
 
 ================================
  Kommentarer
 ================================
-
-- Använd inte kommentarer i C++-stil (det vill säga "//").
 
 - Varje funktion ska ha ett kommentarhuvud. Det ska vara ovanför
   funktionens implementering, inte prototypen:
@@ -123,19 +124,6 @@ int foo(struct city *pcity)
  Klamrar
 ================================
 
-- Funktionsklamrar ska stå i första kolumnen:
-
-int foo()
-{
-  return 0;
-}
-
- och inte:
-
-int foo() {
-  return 0;
-}
-
 - Ytterligare klamrar på upprepningar: Lägg märke till att
   *_iterate_end; ska stå på samma rad som slutklammern:
 
@@ -143,22 +131,27 @@ int foo() {
     kill(punit);
   } unit_list_iterate_end;
 
-- I switchsatser ska kramrar bara sättas där de behövs, till exempel
+- I switchsatser skall klamrar bara sättas där de behövs, till exempel
   för att skydda variabler.
 
-- I allmännhet ska (onödiga) klamrar sättas efter villkorssatser:
+- Klammrar skall användas efter villkorssatser:
 
-  if(x == 3) {
+  if (x == 3) {
     return;
   }
 
  och 
 
-  if(x == 3) {
+  if (x == 3) {
     return 1;
   } else {
     return 0;
   }
+
+ inte
+
+  if (x == 3)
+    return 1;  /* DÅLIGT! */
 
 ================================
  Annat
@@ -180,17 +173,21 @@ int foo() {
 
 - Om man använder systemberoende funktioner så ska man inte lägga till
   #ifdef __CRAY__ eller liknande. Man ska i stället skriva ett prov
-	för funktionen i configure.in och använda ett meningsfullt makronamn
-	i källkoden.
+  för funktionen i både configure.in och configure.ac och använda ett
+  meningsfullt makronamn i källkoden.
 
 - Globala funktioner ska alltid ha prototyper i lämpliga
   inkluderingsfiler. Lokala funktioner ska alltid deklareras som
-  static.
+  statiska. För att upptäcka detta och några andra problem skall man
+  använda följande varningsargument för gcc; "-Wall -Wpointer-arith
+  -Wcast-align -Wmissing-prototypes -Wmissing-declarations
+  -Wstrict-prototypes -Wnested-externs".
 
 - Om man skickar patchar så ska man använda "diff -u" (eller "diff -r
-  -u"). Se <http://www.freeciv.org/contribute.html> för ytterligare
-	upplysningar. Man ska även namnge patcharna beskrivande (till
-	exempel "fix-foo-0.diff", men inte "freeciv.diff").
+  -u" eller "cvs diff -u"). Se
+  <http://www.freeciv.org/contribute.html> för ytterligare
+  upplysningar. Man ska även ge patcharna beskrivande namn (till
+  exempel "fix-foo-0.diff", men inte "freeciv.diff").
 
 - När man kör "diff" för en patch så ska man se till att utesluta
   onödiga filer genom att använda kommandoradsargumentet "-X" för

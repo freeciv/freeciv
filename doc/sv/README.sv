@@ -16,9 +16,8 @@ många inställbara parametrar för att anpassa sina spel.
 Freeciv har skapats helt oberoende av Civilization; man behöver inte
 äga Civilization för att spela Freeciv.
 
-Fastän vi ännu inte har stöd för ljud och datorspelarna inte kan
-förhandla är reglerna i det närmaste fullständiga och vårt
-flerspelarstöd är utmärkt.
+Fastän datorspelarna ännu inte kan förhandla är reglerna i det
+närmaste fullständiga och vårt flerspelarstöd är utmärkt.
 
 Detta är den svenska översättningen av filen "../README". Eftersom
 denna översättning har färre läsare än originalet är det större risk
@@ -237,8 +236,8 @@ sig där kör man civserver med kommandoradsargumentet "--meta" eller
 Varningar:
 
  1) På grund av nya funktioner är olika versioner av server och klient
-    ofta oförenliga. Versionen 1.13.0 är till exempel oförenlig med
-    1.12.0 och tidigare versioner.
+    ofta oförenliga. Versionen 1.14.0 är till exempel oförenlig med
+    1.13.0 och tidigare versioner.
 
  2) Om metaserverknappen i anslutningsdialogen inte fungerar, undersök
     om internetanslutningen kräver en WWW-proxy, och se till att
@@ -442,7 +441,7 @@ information om att anmäla programfel.
 Sändlistor:
 ===========
 
-Vi har 6 sändlistor:
+Vi har 8 sändlistor:
 
   freeciv          Allmänt samtal.
   freeciv-announce Kungörelser av allmänt intresse.
@@ -450,6 +449,10 @@ Vi har 6 sändlistor:
                    meddelanden. Man kan alltså inte skicka brev till
                    listan utan bara ta emot. Kungörelser som skickas
                    hit skickas även till sändlistan freeciv.
+  freeciv-i18n     Översättning av Freeciv.
+                   Samtal om översättning av Freecivkoden,
+                   dokumentation och websida till andra språk än 
+                   engelska.
   freeciv-dev      Freecivutveckling.
   freeciv-data     Utveckling av innehåll i "data"-katalogen
                    (regeluppsättningar, rutbildsuppsättningar med
@@ -473,20 +476,25 @@ Man följer dessa anvisningar för att anmäla sig eller avanmäla sig:
       För att anmäla:
         subscribe freeciv
         subscribe freeciv-announce
+        subscribe freeciv-i18n
         subscribe freeciv-dev
         subscribe freeciv-data
         subscribe freeciv-java
+        subscribe freeciv-ai
         subscribe freeciv-cvs
       För att avanmäla:
         unsubscribe freeciv
         unsubscribe freeciv-announce
+        unsubscribe freeciv-i18n
         unsubscribe freeciv-dev
         unsubscribe freeciv-data
         unsubscribe freeciv-java
+        unsubscribe freeciv-ai
         unsubscribe freeciv-cvs
 
 Använd följande adresser för att skicka brev till sändlistorna:
   <freeciv@freeciv.org>.
+  <freeciv-i18n@freeciv.org>.
   <freeciv-dev@freeciv.org>.
   <freeciv-data@freeciv.org>.
   <freeciv-java@freeciv.org>.
