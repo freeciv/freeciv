@@ -97,6 +97,7 @@ void city_change_callback(Widget w, XtPointer client_data,
 void city_list_callback(Widget w, XtPointer client_data, 
 			XtPointer call_data);
 
+Widget city_form;
 Widget city_dialog_shell;
 Widget city_label;
 Widget city_viewport;
@@ -657,7 +658,6 @@ void popup_city_report_dialog(int make_modal)
 *****************************************************************/
 void create_city_report_dialog(int make_modal)
 {
-  Widget city_form;
   Widget close_command;
   char *report_title;
   
@@ -978,14 +978,18 @@ void city_report_dialog_update(void)
     qsort(city_list_names_ptrs,i,sizeof(char *),(void *)string_ptr_compare);
     qsort(cities_in_list,i,sizeof(int),(void *)city_name_compare);
 
-    XawListChange(city_list, city_list_names_ptrs, i, 0, 1);
+    XawFormDoLayout(city_form, False);
+    XawListChange(city_list, city_list_names_ptrs, i, 0, True);
 
-    XtVaGetValues(city_list, XtNlongest, &width, NULL);
+    XtVaGetValues(city_list, XtNlongest, &i, NULL);
+    width=i+10;
     /* I don't know the proper way to set the width of this viewport widget.
        Someone who knows is more than welcome to fix this */
-    XtVaSetValues(city_viewport, XtNwidth, width+25, NULL); 
-    XtVaSetValues(city_list_label, XtNwidth, width+10, NULL);
-    XtVaSetValues(city_label, XtNwidth, width+25, NULL);
+    XtVaSetValues(city_viewport, XtNwidth, width+15, NULL); 
+    XtVaSetValues(city_list_label, XtNwidth, width, NULL);
+    XtVaSetValues(city_label, XtNwidth, width+15, NULL);
+    XawFormDoLayout(city_form, True);
+
     XtSetSensitive(city_change_command, FALSE);
     XtSetSensitive(city_center_command, FALSE);
     XtSetSensitive(city_popup_command, FALSE);
@@ -1016,11 +1020,14 @@ void city_report_dialog_update_city(struct city *pcity)
       /* It seems really inefficient to regenerate the whole list just to
          change one line.  It's also annoying to have to set the size
 	 of each widget explicitly, since Xt is supposed to handle that. */
-      XawListChange(city_list, list, n, 0, 1);
-      XtVaGetValues(city_list, XtNlongest, &w, NULL);
-      XtVaSetValues(city_viewport, XtNwidth, w+25, NULL);
-      XtVaSetValues(city_list_label, XtNwidth, w+10, NULL);
-      XtVaSetValues(city_label, XtNwidth, w+25, NULL);
+      XawFormDoLayout(city_form, False);
+      XawListChange(city_list, list, n, 0, False);
+      XtVaGetValues(city_list, XtNlongest, &n, NULL);
+      w=n+10;
+      XtVaSetValues(city_viewport, XtNwidth, w+15, NULL);
+      XtVaSetValues(city_list_label, XtNwidth, w, NULL);
+      XtVaSetValues(city_label, XtNwidth, w+15, NULL);
+      XawFormDoLayout(city_form, True);
       return;
     };
   }

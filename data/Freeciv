@@ -1215,12 +1215,6 @@ Freeciv.iconName: Freeciv
 *reportcitypopup.allowShellResize: True
 
 *reportcityform.background:          lightblue
-*reportcityform.resizable:           true
-*reportcityform.top:                 chainTop
-*reportcityform.bottom:              chainBottom
-*reportcityform.left:                chainLeft
-*reportcityform.right:               chainRight
-
 *reportcitylabel.width:              600
 *reportcitylabel.resizable:          True
 *reportcitylabel.justify:            center
@@ -1231,7 +1225,7 @@ Freeciv.iconName: Freeciv
 *reportcitylabel.left:               chainLeft
 *reportcitylabel.right:              chainRight
 
-*reportcitylistlabel.resizable:          True
+*reportcitylistlabel.label:Name            Happy(H/C/U)    (F/P/T)     (G/L/S)     Food      Production          
 *reportcitylistlabel.justify:            left
 *reportcitylistlabel.borderWidth:        1
 *reportcitylistlabel.background:         grey
@@ -1242,25 +1236,25 @@ Freeciv.iconName: Freeciv
 *reportcitylistlabel.right:              chainRight
 *reportcitylistlabel.fromVert:           reportcitylabel
 *reportcitylistlabel.horizDistance:      20
-*reportcitylistlabel.label:Name              Happy(H/C/U)    (F/P/T)     (G/L/S)     Food      Production          
 
-*reportcityviewport.fromVert: reportcitylistlabel
-*reportcityviewport.allowVert: True
+*reportcityviewport.width:               600
+*reportcityviewport.allowVert:           True
+*reportcityviewport.allowHoriz:          False
 *reportcityviewport.forceColumns:        true
 *reportcityviewport.defaultColumns:      1
 *reportcityviewport.verticalList:        true
 *reportcityviewport.background:          cyan
-*reportcityviewport.resizable:           true
+*reportcityviewport.resizable:           True
 *reportcityviewport.top:                 chainTop
 *reportcityviewport.bottom:              chainBottom
 *reportcityviewport.left:                chainLeft
 *reportcityviewport.right:               chainRight
+*reportcityviewport.fromVert:            reportcitylistlabel
 
 *reportcitylist.forceColumns:        true
 *reportcitylist.defaultColumns:      1
 *reportcitylist.verticalList:        true
 *reportcitylist.background:          cyan
-*reportcitylist.resizable:           False
 
 *reportcityclosecommand.label:       Close
 *reportcityclosecommand.fromVert:    reportcityviewport
