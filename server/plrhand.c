@@ -982,7 +982,7 @@ void notify_conn(struct conn_list *dest, const char *format, ...)
 /**************************************************************************
   Similar to vnotify_conn_ex (see also), but takes player as "destination".
   If player != NULL, sends to all connections for that player.
-  If player == NULL, sends to all established connections, to support
+  If player == NULL, sends to all game connections, to support
   old code, but this feature may go away - should use notify_conn with
   explicitly game.est_connections or game.game_connections as dest.
 **************************************************************************/
@@ -995,7 +995,7 @@ void notify_player_ex(const struct player *pplayer, int x, int y,
   if (pplayer) {
     dest = (struct conn_list*)&pplayer->connections;
   } else {
-    dest = &game.est_connections;
+    dest = &game.game_connections;
   }
   
   va_start(args, format);
@@ -1014,7 +1014,7 @@ void notify_player(const struct player *pplayer, const char *format, ...)
   if (pplayer) {
     dest = (struct conn_list*)&pplayer->connections;
   } else {
-    dest = &game.est_connections;
+    dest = &game.game_connections;
   }
   
   va_start(args, format);
@@ -1086,12 +1086,11 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
   Send information about player src, or all players if src is NULL,
   to specified players dest (that is, to dest->connections).
   As convenience to old code, dest may be NULL meaning send to
-  game.est_connections.  (In general this may be overkill and may only
-  want game.game_connections, but this is safest for now...?)
+  game.game_connections.  
 **************************************************************************/
 void send_player_info(struct player *src, struct player *dest)
 {
-  send_player_info_c(src, (dest ? &dest->connections : &game.est_connections));
+  send_player_info_c(src, (dest ? &dest->connections : &game.game_connections));
 }
 
 /**************************************************************************
@@ -1276,7 +1275,8 @@ void server_player_init(struct player *pplayer, bool initmap)
 }
 
 /********************************************************************** 
-...
+ This function does _not_ close any connections attached to this player.
+ cut_connection is used for that.
 ***********************************************************************/
 void server_remove_player(struct player *pplayer)
 {
@@ -1291,19 +1291,19 @@ void server_remove_player(struct player *pplayer)
   freelog(LOG_NORMAL, _("Removing player %s."), pplayer->name);
   notify_player(pplayer, _("Game: You've been removed from the game!"));
 
-  /* Note it is ok to remove the _current_ item in a list_iterate: */
-  conn_list_iterate(pplayer->connections, pconn) {
-    unassociate_player_connection(pplayer, pconn);
-    close_connection(pconn);
-  }
-  conn_list_iterate_end;
-  
   notify_conn(&game.est_connections,
 	      _("Game: %s has been removed from the game."), pplayer->name);
   
   pack.value=pplayer->player_no;
-  lsend_packet_generic_integer(&game.est_connections,
+  lsend_packet_generic_integer(&game.game_connections,
 			       PACKET_REMOVE_PLAYER, &pack);
+
+  /* Note it is ok to remove the _current_ item in a list_iterate. */
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (!unattach_connection_from_player(pconn)) {
+      die("player had a connection attached that didn't belong to it!");
+    }
+  } conn_list_iterate_end;
 
   game_remove_player(pplayer);
   game_renumber_players(pplayer->player_no);

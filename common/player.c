@@ -66,8 +66,8 @@ void player_init(struct player *plr)
 
   plr->player_no=plr-game.players;
 
-  sz_strlcpy(plr->name, "YourName");
-  sz_strlcpy(plr->username, "UserName");
+  sz_strlcpy(plr->name, ANON_PLAYER_NAME);
+  sz_strlcpy(plr->username, ANON_USER_NAME);
   plr->is_male = TRUE;
   plr->government=game.default_government;
   plr->nation = NO_NATION_SELECTED;

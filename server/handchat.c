@@ -135,7 +135,7 @@ static void chat_msg_to_player_multi(struct connection *sender,
      to a single connection, and send there.  (For a player, send to
      all clients connected as that player, in multi-connect case);
   3. Or it may be intended for all allied players.
-  4. Else send to all connections (game.est_connections).
+  4. Else send to all connections (game.game_connections).
 
   In case 2, there can sometimes be ambiguity between player and
   connection names.  By default this tries to match player name first,
@@ -305,6 +305,6 @@ void handle_chat_msg(struct connection *pconn,
   form_chat_name(pconn, sender_name, sizeof(sender_name));
   my_snprintf(genmsg.message, sizeof(genmsg.message),
 	      "<%s> %s", sender_name, packet->message);
-  lsend_packet_generic_message(&game.est_connections, PACKET_CHAT_MSG, 
+  lsend_packet_generic_message(&game.game_connections, PACKET_CHAT_MSG, 
 			       &genmsg);
 }

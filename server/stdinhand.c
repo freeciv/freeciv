@@ -64,7 +64,7 @@
 
 
 static enum cmdlevel_id default_access_level = ALLOW_INFO;
-static enum cmdlevel_id   first_access_level = ALLOW_INFO;
+static enum cmdlevel_id   first_access_level = ALLOW_CTRL;
 
 static void cut_client_connection(struct connection *caller, char *name);
 static void show_help(struct connection *caller, char *arg);
@@ -74,6 +74,7 @@ static void set_ai_level(struct connection *caller, char *name, int level);
 static void set_away(struct connection *caller, char *name);
 
 static void fix_command(struct connection *caller, char *str, int cmd_enum);
+static void take_command(struct connection *caller, char *name);
 
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -962,6 +963,7 @@ enum command_id {
   CMD_METACONN,
   CMD_METASERVER,
   CMD_AITOGGLE,
+  CMD_TAKE,
   CMD_CREATE,
   CMD_AWAY,
   CMD_EASY,
@@ -1131,6 +1133,14 @@ static const struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("aitoggle <player-name>"),
    N_("Toggle AI status of player."), NULL
+  },
+  {"take",    ALLOW_INFO,
+   /* TRANS: translate text between [] and <> only */
+   N_("take [connection-name] <player-name>"),
+   N_("Take over a player's place in the game."),
+   N_("Only the console and connections with cmdlevel 'hack' can force "
+      "other connections to take over a player. If you're not one of these, "
+      "only the <player-name> argument is allowed")
   },
   {"create",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
@@ -1728,7 +1738,10 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
       check_player_government_rates(pplayer);
     }
   }
-  send_player_info(pplayer, NULL);
+
+  if (server_state == RUN_GAME_STATE) {
+    send_player_info(pplayer, NULL);
+  }
 }
 
 /**************************************************************************
@@ -1783,14 +1796,29 @@ static void create_ai_player(struct connection *caller, char *arg)
     return;
   }
 
-  if ((pplayer=find_player_by_name(arg)))
-  {
+  if ((pplayer=find_player_by_name(arg))) {
     cmd_reply(CMD_CREATE, caller, C_BOUNCE,
 	      _("A player already exists by that name."));
     return;
   }
 
-  accept_new_player(arg, NULL);
+  if ((pplayer=find_player_by_user(arg))) {
+    cmd_reply(CMD_CREATE, caller, C_BOUNCE,
+              _("A user already exists by that name."));
+    return;
+  }
+
+  pplayer = &game.players[game.nplayers];
+  server_player_init(pplayer, FALSE);
+  sz_strlcpy(pplayer->name, arg);
+  sz_strlcpy(pplayer->username, "Unassigned");
+
+  game.nplayers++;
+
+  notify_player(NULL, _("Game: %s has been added as an AI-controlled player."),
+                arg);
+  (void) send_server_info_to_metaserver(TRUE, FALSE);
+
   pplayer = find_player_by_name(arg);
   if (!pplayer)
   {
@@ -2983,6 +3011,161 @@ static void fix_command(struct connection *caller, char *str, int cmd_enum)
 }
 
 /**************************************************************************
+  take over a player. If a connection already has control of that player, 
+  disallow unless the connection can multiconnect to the player 
+  (not implemented yet).
+
+  if there are two arguments, treat the first as the connection name and the
+  second as the player name. (only hack and the console can do this)
+  otherwise, there should be one argument, that being the player that the 
+  caller wants to take.
+**************************************************************************/
+static void take_command(struct connection *caller, char *str)
+{
+  int i = 0, ntokens = 0;
+  char buf[MAX_LEN_CONSOLE_LINE];
+  char *arg[2];  
+  bool was_connected;
+
+  enum m_pre_result match_result;
+  struct connection *pconn = NULL;
+  struct player *pplayer = NULL;
+  
+  sz_strlcpy(buf, str);
+  ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
+  
+  /* check syntax */
+  if (ntokens == 0) {
+    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
+              _("Usage: take [connection-name] <player-name>"));
+    return;
+  } 
+  
+  if (!caller && ntokens != 2) {
+    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
+              _("Usage: take [connection-name] <player-name>"));
+    goto end;
+  } 
+  
+  if (ntokens == 2 && (caller && caller->access_level != ALLOW_HACK)) {
+     cmd_reply(CMD_TAKE, caller, C_SYNTAX, 
+              _("Usage: take <player-name>"));
+    goto end;
+  } 
+  
+  /* match the connection and player */
+  if (!caller || (caller && caller->access_level == ALLOW_HACK)) {
+    if (!(pconn = find_conn_by_name_prefix(arg[i], &match_result))) {
+      cmd_reply_no_such_conn(CMD_TAKE, caller, arg[i], match_result);
+      goto end;
+    }
+    i++; /* found a conn, now reference the second argument */
+  } 
+  
+  if (!(pplayer = find_player_by_name_prefix(arg[i], &match_result))) {
+    cmd_reply_no_such_player(CMD_TAKE, caller, arg[i], match_result);
+    goto end;
+  } 
+  
+  /* if we can't assign other connections to players, assign us to be pconn. */
+  if (!pconn) {
+    pconn = caller;
+  }
+
+  /* If the connection controls a player and the game is running, don't
+   * let the user perform this command. The client isn't yet prepared
+   * for this kind of power ;) It'll segfault and/or do crazy things. */
+  if (pconn->player && server_state == RUN_GAME_STATE) {
+    cmd_reply(CMD_TAKE, caller, C_FAIL,
+              _("You can't switch players with \"take\" "
+                "after the game has started."));
+    goto end;
+  }
+
+  if (pconn->player == pplayer) {
+    cmd_reply(CMD_TAKE, caller, C_FAIL,
+              _("%s already controls or observes %s"),
+              pconn->name, pplayer->name);
+    goto end;
+  } 
+
+  was_connected = pplayer->is_connected;
+
+  /* FIXME: remove when multiconnect becomes mature */
+  conn_list_iterate(pplayer->connections, aconn) {
+    cmd_reply(CMD_TAKE, caller, C_FAIL,
+              _("%s already controls or observes %s.\n"
+                "  multiple controlling connections aren't allowed yet."),
+              pplayer->username, pplayer->name);
+    goto end;
+  } conn_list_iterate_end;
+
+  /* if the connection is already attached to a player,
+   * unattach and cleanup old player (rename, remove, etc) */
+  if (pconn->player) {
+    struct player *old_plr = pconn->player;
+
+    /* FIXME: need to reset the client somehow, if this
+     * happens while the game is running */
+
+    unattach_connection_from_player(pconn);
+
+    /* need to reattach before we possibly remove the old player */
+    attach_connection_to_player(pconn, pplayer);
+
+    cmd_reply(CMD_TAKE, caller, C_COMMENT,
+              _("%s unconnecting from  %s"), pconn->name, old_plr->name);
+
+    /* only remove the player if the game is new and in pregame, nobody 
+     * is connected to it anymore and it wasn't AI-controlled. */
+    if (!old_plr->is_connected && game.is_new_game && !old_plr->ai.control 
+          && (server_state == PRE_GAME_STATE
+              || server_state == SELECT_RACES_STATE)) {
+
+      /* debugging, should we keep this around? */
+      cmd_reply(CMD_TAKE, caller, C_COMMENT,
+                _("removing %s [%d]"), old_plr->name, old_plr->player_no);
+
+      game_remove_player(old_plr);
+      game_renumber_players(old_plr->player_no);
+
+      /* we screwed up the pplayer pointer by removing old_plr; get it back */
+      pplayer = pconn->player;
+    } else {
+      sz_strlcpy(old_plr->username, ANON_USER_NAME);
+    }
+  } else {
+    attach_connection_to_player(pconn, pplayer);
+  }
+
+  if (server_state == RUN_GAME_STATE) {
+    send_packet_generic_empty(pconn, PACKET_FREEZE_HINT);
+    send_rulesets(&pconn->self);
+    send_all_info(&pconn->self);
+    send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
+    send_player_info(NULL, NULL);
+    send_diplomatic_meetings(pconn);
+    send_packet_generic_empty(pconn, PACKET_THAW_HINT);
+    send_packet_generic_empty(pconn, PACKET_START_TURN);
+  }
+
+  /* if the player we're taking was already connected, then the primary
+   * controller set that player to ai control. don't undo that decision */
+  if (!was_connected && pplayer->ai.control) {
+    toggle_ai_player_direct(pconn, pplayer);
+  }
+
+  cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s"),
+            pconn->name, pplayer->name);
+
+  end:;
+  /* free our args */
+  for (i = 0; i < ntokens; i++) {
+    free(arg[i]);
+  }
+}
+
+/**************************************************************************
   ...
 **************************************************************************/
 void load_command(struct connection *caller, char *arg)
@@ -3026,17 +3209,16 @@ void load_command(struct connection *caller, char *arg)
           read_timer_seconds_free(loadtimer),
           read_timer_seconds_free(uloadtimer));
 
-  /* associate players with any connections that may  
-   * be present. currently, this applies only to connections 
-   * that have the correct username */
-
+  /* attach connections to players. currently, this applies only 
+   * to connections that have the correct username. Any attachments
+   * made before the game load are unattached. */
   conn_list_iterate(game.est_connections, pconn) {
     if (pconn->player) {
-      unassociate_player_connection(pconn->player, pconn);
+      unattach_connection_from_player(pconn);
     }
     players_iterate(pplayer) {
       if (strcmp(pconn->name, pplayer->username) == 0) {
-        associate_player_connection(pplayer, pconn);
+        attach_connection_to_player(pconn, pplayer);
         break;
       }
     } players_iterate_end;
@@ -3230,6 +3412,9 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_AITOGGLE:
     toggle_ai_player(caller,arg);
     break;
+  case CMD_TAKE:
+    take_command(caller, arg);
+    break;
   case CMD_CREATE:
     create_ai_player(caller,arg);
     break;
@@ -3308,7 +3493,6 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_START_GAME:
     if (server_state==PRE_GAME_STATE) {
-      int plrs=0;
 
       /* Sanity check scenario */
       if (game.is_new_game) {
@@ -3323,8 +3507,9 @@ void handle_stdin_input(struct connection *caller, char *str)
 	if (game.nplayers > game.max_players) {
 	  /* Because of the way player ids are renumbered during
 	     server_remove_player() this is correct */
-	  while (game.nplayers > game.max_players)
+	  while (game.nplayers > game.max_players) {
 	    server_remove_player(get_player(game.max_players));
+          }
 
 	  freelog(LOG_VERBOSE,
 		  "Had to cut down the number of players to the "
@@ -3334,28 +3519,15 @@ void handle_stdin_input(struct connection *caller, char *str)
 	}
       }
 
-      players_iterate(pplayer) {
-	if (pplayer->is_connected || pplayer->ai.control) {
-	  plrs++;
-	}
-      } players_iterate_end;
-
-      if (plrs<game.min_players) {
+      /* check min_players */
+      if (game.nplayers < game.min_players) {
         cmd_reply(cmd,caller, C_FAIL,
 		  _("Not enough players, game will not start."));
-      } else {
-        conn_list_iterate(game.est_connections, pconn) {
-          if (!pconn->player) {
-            notify_conn(&pconn->self, _("You're not associated with a player "
-                                        "and the game is starting. Bye."));
-            close_connection(pconn);
-          }
-        } conn_list_iterate_end;
-
-        start_game();
+        break;
       }
-    }
-    else {
+
+      start_game();
+    } else {
       cmd_reply(cmd,caller, C_FAIL,
 		_("Cannot start the game: it is already running."));
     }
@@ -3385,6 +3557,7 @@ static void cut_client_connection(struct connection *caller, char *name)
 {
   enum m_pre_result match_result;
   struct connection *ptarget;
+  struct player *pplayer;
 
   ptarget=find_conn_by_name_prefix(name, &match_result);
 
@@ -3393,10 +3566,17 @@ static void cut_client_connection(struct connection *caller, char *name)
     return;
   }
 
+  pplayer = ptarget->player;
+
   cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
 	    _("Cutting connection %s."), ptarget->name);
   lost_connection_to_client(ptarget);
   close_connection(ptarget);
+
+  /* if we cut the connection, unassign the login name */
+  if (pplayer) {
+    sz_strlcpy(pplayer->username, ANON_USER_NAME);
+  }
 }
 
 /**************************************************************************
@@ -3652,9 +3832,10 @@ void show_players(struct connection *caller)
 {
   char buf[MAX_LEN_CONSOLE_LINE], buf2[MAX_LEN_CONSOLE_LINE];
   int n;
-  
+
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of players:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+
 
   if (game.nplayers == 0)
     cmd_reply(CMD_LIST, caller, C_WARNING, _("<no players>"));

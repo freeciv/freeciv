@@ -24,14 +24,12 @@ bool handle_login_request(struct connection *pconn,
                           struct packet_login_request *req);
 
 void lost_connection_to_client(struct connection *pconn);
-void accept_new_player(char *name, struct connection *pconn);
 
 void send_conn_info(struct conn_list *src, struct conn_list *dest);
 void send_conn_info_remove(struct conn_list *src, struct conn_list *dest);
 
-void associate_player_connection(struct player *pplayer,
-                                 struct connection *pconn);
-void unassociate_player_connection(struct player *pplayer,
-                                   struct connection *pconn);
+bool attach_connection_to_player(struct connection *pconn, 
+                                 struct player *pplayer);
+bool unattach_connection_from_player(struct connection *pconn);
 
 #endif /* FC__CONNECTHAND_H */

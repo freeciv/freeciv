@@ -413,7 +413,7 @@ static void update_diplomatics(void)
 **************************************************************************/
 static void before_end_year(void)
 {
-  lsend_packet_generic_empty(&game.est_connections, PACKET_BEFORE_NEW_YEAR);
+  lsend_packet_generic_empty(&game.game_connections, PACKET_BEFORE_NEW_YEAR);
 }
 
 /**************************************************************************
@@ -712,6 +712,19 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     return TRUE;
   }
   
+  if (type == PACKET_CONN_PONG) {
+    handle_conn_pong(pconn);
+    free(packet);
+    return TRUE;
+  }
+
+  /* valid packets from established connections but non-players */
+  if (type == PACKET_CHAT_MSG) {
+    handle_chat_msg(pconn, (struct packet_generic_message *)packet);
+    free(packet);
+    return TRUE;
+  }
+
   pplayer = pconn->player;
 
   if(!pplayer) {
@@ -724,7 +737,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 
   if (server_state != RUN_GAME_STATE
       && type != PACKET_ALLOC_NATION
-      && type != PACKET_CHAT_MSG
       && type != PACKET_CONN_PONG
       && type != PACKET_REPORT_REQUEST) {
     if (server_state == GAME_OVER_STATE) {
@@ -743,8 +755,7 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   pplayer->nturns_idle=0;
 
   if((!pplayer->is_alive || pconn->observer)
-     && !(type == PACKET_CHAT_MSG || type == PACKET_REPORT_REQUEST
-	  || type == PACKET_CONN_PONG)) {
+     && !(type == PACKET_REPORT_REQUEST || type == PACKET_CONN_PONG)) {
     freelog(LOG_ERROR, _("Got a packet of type %d from a "
 			 "dead or observer player"), type);
     free(packet);
@@ -772,10 +783,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     handle_move_unit(pplayer, (struct packet_move_unit *)packet);
     break;
  
-  case PACKET_CHAT_MSG:
-    handle_chat_msg(pconn, (struct packet_generic_message *)packet);
-    break;
-
   case PACKET_CITY_SELL:
     handle_city_sell(pplayer, (struct packet_city_request *)packet);
     break;
@@ -927,9 +934,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   case PACKET_PATROL_ROUTE:
     handle_patrol_route(pplayer, (struct packet_goto_route *)packet);
     break;
-  case PACKET_CONN_PONG:
-    handle_conn_pong(pconn);
-    break;
   case PACKET_UNIT_AIRLIFT:
     handle_unit_airlift(pplayer, (struct packet_unit_request *)packet);
     break;
@@ -1040,8 +1044,8 @@ static void handle_alloc_nation(struct player *pplayer,
     }
   } players_iterate_end;
 
-  notify_conn_ex(&game.est_connections, -1, -1, E_NATION_SELECTED,
-		 _("Game: %s is the %s ruler %s."), pplayer->name,
+  notify_conn_ex(&game.game_connections, -1, -1, E_NATION_SELECTED,
+		 _("Game: %s is the %s ruler %s."), pplayer->username,
 		 get_nation_name(packet->nation_no), packet->name);
 
   /* inform player his choice was ok */
@@ -1270,9 +1274,21 @@ static void generate_ai_players(void)
     pick_ai_player_name(nation, player_name);
 
     old_nplayers = game.nplayers;
-    accept_new_player(player_name, NULL);
     pplayer = get_player(old_nplayers);
      
+    sz_strlcpy(pplayer->name, player_name);
+    sz_strlcpy(pplayer->username, player_name);
+
+    freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
+            player_name);
+    notify_player(NULL,
+                  _("Game: %s has been added as an AI-controlled player."),
+                  player_name);
+
+    game.nplayers++;
+
+    (void) send_server_info_to_metaserver(TRUE, FALSE);
+
     if (!((game.nplayers == old_nplayers+1)
 	  && strcmp(player_name, pplayer->name)==0)) {
       con_write(C_FAIL, _("Error creating new ai player: %s\n"),
@@ -1299,7 +1315,7 @@ static void generate_ai_players(void)
  Used in pick_ai_player_name() below; buf has size at least MAX_LEN_NAME;
 *************************************************************************/
 static bool good_name(char *ptry, char *buf) {
-  if (!find_player_by_name(ptry)) {
+  if (!(find_player_by_name(ptry) || find_player_by_user(ptry))) {
      (void) mystrlcpy(buf, ptry, MAX_LEN_NAME);
      return TRUE;
   }
@@ -1394,7 +1410,7 @@ static void main_loop(void)
    * Do this before the body so that the PACKET_THAW_HINT packet is
    * balanced. 
    */
-  lsend_packet_generic_empty(&game.est_connections, PACKET_FREEZE_HINT);
+  lsend_packet_generic_empty(&game.game_connections, PACKET_FREEZE_HINT);
 
   while(server_state==RUN_GAME_STATE) {
     /* absolute beginning of a turn */
@@ -1416,7 +1432,7 @@ static void main_loop(void)
     /* 
      * This will thaw the reports and agents at the client.
      */
-    lsend_packet_generic_empty(&game.est_connections, PACKET_THAW_HINT);
+    lsend_packet_generic_empty(&game.game_connections, PACKET_THAW_HINT);
 
     /* Before sniff (human player activites), report time to now: */
     freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
@@ -1458,7 +1474,7 @@ static void main_loop(void)
     /* 
      * This will freeze the reports and agents at the client.
      */
-    lsend_packet_generic_empty(&game.est_connections, PACKET_FREEZE_HINT);
+    lsend_packet_generic_empty(&game.game_connections, PACKET_FREEZE_HINT);
 
     freelog(LOG_DEBUG, "Season of native unrests");
     summon_barbarians(); /* wild guess really, no idea where to put it, but
@@ -1498,7 +1514,7 @@ static void main_loop(void)
   /* 
    * This will thaw the reports and agents at the client.
    */
-  lsend_packet_generic_empty(&game.est_connections, PACKET_THAW_HINT);
+  lsend_packet_generic_empty(&game.game_connections, PACKET_THAW_HINT);
 }
 
 /**************************************************************************
@@ -1561,7 +1577,7 @@ void srv_main(void)
       server_quit();
     }
 
-    send_game_state(&game.est_connections, CLIENT_GAME_OVER_STATE);
+    send_game_state(&game.game_connections, CLIENT_GAME_OVER_STATE);
     report_scores(TRUE);
     show_map_to_all();
     notify_player(NULL, _("Game: The game is over..."));
@@ -1609,7 +1625,7 @@ static void srv_loop(void)
 
 main_start_players:
 
-  send_rulesets(&game.est_connections);
+  send_rulesets(&game.game_connections);
 
   num_nations_avail = game.playable_nation_count;
   for (i = 0; i < game.playable_nation_count; i++) {
@@ -1753,9 +1769,9 @@ main_start_players:
    * sent to the clients */
   game.turn_start = time(NULL);
 
-  lsend_packet_generic_empty(&game.est_connections, PACKET_FREEZE_HINT);
+  lsend_packet_generic_empty(&game.game_connections, PACKET_FREEZE_HINT);
   send_all_info(&game.game_connections);
-  lsend_packet_generic_empty(&game.est_connections, PACKET_THAW_HINT);
+  lsend_packet_generic_empty(&game.game_connections, PACKET_THAW_HINT);
   
   if(game.is_new_game) {
     init_new_game();
@@ -1763,7 +1779,7 @@ main_start_players:
 
   game.is_new_game = FALSE;
 
-  send_game_state(&game.est_connections, CLIENT_GAME_RUNNING_STATE);
+  send_game_state(&game.game_connections, CLIENT_GAME_RUNNING_STATE);
 
   /*** Where the action is. ***/
   main_loop();
