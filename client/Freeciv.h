@@ -1706,6 +1706,7 @@ Now.. Go give'em hell!",
    <Key>g:            key-unit-goto()       \\n\
    Shift<Key>d:       key-unit-disband()    \\n\
    Shift<Key>p:       key-unit-pillage()    \\n\
+   <Key>x:            key-unit-explore()    \\n\
    <Key>s:            key-unit-sentry()     \\n\
    <Key>w:            key-unit-wait()       \\n\
    <Key>space:        key-unit-done()       \\n\
