@@ -85,15 +85,17 @@ int military_amortize(struct player *pplayer, struct city *pcity,
 bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  struct ai_dip_intel *adip 
-    = &ai->diplomacy.player_intel[aplayer->player_no];
+  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+  int reason = pplayer->diplstates[aplayer->player_no].has_reason_to_cancel;
 
-  return (pplayer != aplayer)
-         && ((pplayers_at_war(pplayer, aplayer)
-           || ai->diplomacy.target == aplayer
-           || pplayer->diplstates[aplayer->player_no].has_reason_to_cancel != 0
-           || ai->diplomacy.acceptable_reputation > aplayer->reputation
-           || adip->is_allied_with_enemy));
+  /* Have to check if aplayer == pplayer explicitly because our reputation
+   * can be so low that we'd fear being stabbed in the back by ourselves */ 
+  return (pplayer != aplayer
+          && (pplayers_at_war(pplayer, aplayer)
+              || ai->diplomacy.target == aplayer
+              || reason != 0
+              || ai->diplomacy.acceptable_reputation > aplayer->reputation
+              || adip->is_allied_with_enemy));
 }
 
 /*************************************************************************
