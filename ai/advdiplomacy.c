@@ -102,8 +102,8 @@ static void notify(struct player *pplayer, const char *text, ...)
 static int greed(int missing_love)
 #define NUM_BANDS 5
 {
-  int band_incr[NUM_BANDS] = {5, 5, 10, 20, 30};
-  int band_rate[NUM_BANDS+1] = {10, 25, 50, 100, 250, 500};
+  int band_incr[NUM_BANDS] = {50, 50, 100, 200, 300};
+  int band_rate[NUM_BANDS+1] = {1, 3, 5, 10, 25, 50};
   int greed = 0;
   int i = 0;
   int n_love = -missing_love;
@@ -175,7 +175,7 @@ static bool ai_players_can_agree_on_ceasefire(struct player* player1,
   return (ai1->diplomacy.target != player2 && 
           (player1 == ai1->diplomacy.alliance_leader ||
            !pplayers_at_war(player2, ai1->diplomacy.alliance_leader)) &&
-	  player1->ai.love[player2->player_no] > -40 &&
+	  player1->ai.love[player2->player_no] > -400 &&
 	  (ai1->diplomacy.target == NULL || 
 	   !pplayers_allied(ai1->diplomacy.target, player2)));
 }
@@ -569,7 +569,7 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
   if (total_balance > 0 && gift) {
     int i = total_balance / ((city_list_size(&pplayer->cities) * 50) + 1);
 
-    i = MIN(i, ai->diplomacy.love_incr * 150);
+    i = MIN(i, ai->diplomacy.love_incr * 150) * 10;
     pplayer->ai.love[aplayer->player_no] += i;
     PLAYER_LOG(LOG_DIPL2, pplayer, ai, "%s's gift to %s increased love by %d",
             aplayer->name, pplayer->name, i);
@@ -652,7 +652,7 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
   /* Modify by love. Increase the divisor to make ai go to war earlier */
   kill_desire -= MAX(0, kill_desire 
                         * pplayer->ai.love[aplayer->player_no] 
-                        / 200);
+                        / 2000);
 
   /* Amortize by distance */
   return amortize(kill_desire, adip->distance);
@@ -720,7 +720,7 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
       if (ai->diplomacy.target != aplayer && 
           pplayer->ai.love[aplayer->player_no] < 0) {
         /* Give him a better chance for a cease fire */
-        pplayer->ai.love[aplayer->player_no] += 3;
+        pplayer->ai.love[aplayer->player_no] += 30;
       }
       PLAYER_LOG(LOG_DEBUG, pplayer, ai, "Reduced love for %s (now %d) ",
                  aplayer->name, pplayer->ai.love[aplayer->player_no]);
@@ -739,16 +739,16 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
     pplayer->ai.love[aplayer->player_no] -=
       MIN(player_in_territory(pplayer, aplayer),
           pplayers_allied(aplayer, pplayer) ? 
-	    ai->diplomacy.love_incr - 1 : 50);
+	    ai->diplomacy.love_incr - 1 : 50) * 10;
 	  
     /* Massage our numbers to keep love and its opposite on the ground. 
      * Gravitate towards zero. */
     pplayer->ai.love[aplayer->player_no] -= 
        (pplayer->ai.love[aplayer->player_no] * ai->diplomacy.love_coeff / 100);
        
-    /* ai love should always be in range [-100..100] */
+    /* ai love should always be in range [-1000..1000] */
     pplayer->ai.love[aplayer->player_no] = 
-      MAX(-100, MIN(100, pplayer->ai.love[aplayer->player_no]));
+      MAX(-1000, MIN(1000, pplayer->ai.love[aplayer->player_no]));
   } players_iterate_end;
 
   /* Stop war against a dead player */
