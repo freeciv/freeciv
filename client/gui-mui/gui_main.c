@@ -418,7 +418,7 @@ static void control_callback(ULONG * value)
       key_end_turn();
       break;
     case NEXT_UNIT:
-      advance_unit_focus();	/*focus_to_next_unit(); */
+      advance_unit_focus();
       break;
 
     case MENU_GAME_OPTIONS:

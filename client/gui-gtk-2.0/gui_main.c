@@ -450,7 +450,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
         scroll_mapview(DIR8_SOUTH);
         break;
 
-      case GDK_KP_Begin:
       case GDK_Return:
       case GDK_KP_Enter:
         key_end_turn();
@@ -458,7 +457,8 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
   
       case GDK_5:
       case GDK_KP_5: 
-        focus_to_next_unit(); 
+      case GDK_KP_Begin:
+        key_recall_previous_focus_unit(); 
         break;
   
       case GDK_Escape:

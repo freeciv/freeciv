@@ -47,6 +47,11 @@ int num_units_below = MAX_NUM_UNITS_BELOW;
 /* unit_focus points to the current unit in focus */
 static struct unit *punit_focus;
 
+/* The previously focused unit.  Focus can generally be recalled on this
+ * unit with keypad 5.  FIXME: this is not reset when the client
+ * disconnects. */
+static int previous_focus_id = -1;
+
 /* These should be set via set_hover_state() */
 int hover_unit = 0; /* id of unit hover_state applies to */
 enum cursor_hover_state hover_state = HOVER_NONE;
@@ -67,6 +72,7 @@ bool non_ai_unit_focus;
 /*************************************************************************/
 
 static struct unit *find_best_focus_candidate(void);
+static void store_focus(void);
 
 /**************************************************************************
 ...
@@ -103,6 +109,10 @@ void set_unit_focus(struct unit *punit)
 {
   struct unit *punit_old_focus=punit_focus;
 
+  if (punit != punit_focus) {
+    store_focus();
+  }
+
   punit_focus=punit;
 
   if(punit) {
@@ -138,6 +148,10 @@ thats not necessary.  (I think...) --dwp
 **************************************************************************/
 void set_unit_focus_no_center(struct unit *punit)
 {
+  if (punit != punit_focus) {
+    store_focus();
+  }
+
   punit_focus=punit;
 
   if(punit) {
@@ -154,6 +168,17 @@ void set_unit_focus_and_select(struct unit *punit)
   set_unit_focus(punit);
   if (punit) {
     put_cross_overlay_tile(punit->x, punit->y);
+  }
+}
+
+/**************************************************************************
+  Store the focus unit.  This is used so that we can return to the
+  previously focused unit with an appropriate keypress.
+**************************************************************************/
+static void store_focus(void)
+{
+  if (punit_focus) {
+    previous_focus_id = punit_focus->id;
   }
 }
 
@@ -189,6 +214,7 @@ void advance_unit_focus(void)
 {
   struct unit *punit_old_focus=punit_focus;
 
+  store_focus();
   punit_focus=find_best_focus_candidate();
 
   set_hover_state(NULL, HOVER_NONE);
@@ -1400,6 +1426,18 @@ void key_center_capital(void)
 void key_end_turn(void)
 {
   send_turn_done();
+}
+
+/**************************************************************************
+  Recall the previous focus unit and focus on it.  See store_focus().
+**************************************************************************/
+void key_recall_previous_focus_unit(void)
+{
+  struct unit *punit = player_find_unit_by_id(game.player_ptr,
+                                              previous_focus_id);
+  if (punit) {
+    set_unit_focus_and_select(punit);
+  }
 }
 
 /**************************************************************************
