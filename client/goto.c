@@ -412,13 +412,13 @@ static int get_activity_time(const struct tile *ptile,
     break;
   case ACTIVITY_RAILROAD:
   case ACTIVITY_ROAD:
-    if (ttype->road_time == 0
-        || (tile_has_special(ptile, S_RIVER)
-            && !player_knows_techs_with_flag(pplayer, TF_BRIDGE))) {
-      /* 0 means road is impossible here (??) */
-      return -1;
-    }
     if (!tile_has_special(ptile, S_ROAD)) {
+      if (ttype->road_time == 0
+	  || (tile_has_special(ptile, S_RIVER)
+	      && !player_knows_techs_with_flag(pplayer, TF_BRIDGE))) {
+	/* 0 means road is impossible here (??) */
+	return -1;
+      }
       activity_mc += ttype->road_time;
     }
     if (connect_activity == ACTIVITY_ROAD 
