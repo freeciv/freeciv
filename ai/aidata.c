@@ -22,7 +22,6 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
-#include "rand.h"
 #include "unit.h"
 
 #include "citytools.h"
