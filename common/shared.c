@@ -710,59 +710,73 @@ char *user_home_dir(void)
   Gets value once, and then caches result.
   Note the caller should not mess with returned string.
 ***************************************************************************/
-char *user_username(void)
+const char *user_username(void)
 {
-  static char *username = NULL;	  /* allocated once, never free()d */
+  static char username[MAX_LEN_NAME];
 
-  if (username)
+  /* This function uses a number of different methods to try to find a
+   * username.  This username then has to be truncated to MAX_LEN_NAME
+   * characters (including terminator) and checked for sanity.  Note that
+   * truncating a sane name can leave you with an insane name under some
+   * charsets. */
+
+  if (username[0] != '\0') {
+    /* Username is already known; just return it. */
     return username;
+  }
 
+  /* If the environment variable $USER is present and sane, use it. */
   {
     char *env = getenv("USER");
+
     if (env) {
-      username = mystrdup(env);
-      freelog(LOG_VERBOSE, "USER username is %s", username);
-      return username;
+      sz_strlcpy(username, env);
+      if (is_sane_name(username)) {
+	freelog(LOG_VERBOSE, "USER username is %s", username);
+	return username;
+      }
     }
   }
+
 #ifdef HAVE_GETPWUID
+  /* Otherwise if getpwuid() is available we can use it to find the true
+   * username. */
   {
     struct passwd *pwent = getpwuid(getuid());
+
     if (pwent) {
-      username = mystrdup(pwent->pw_name);
-      freelog(LOG_VERBOSE, "getpwuid username is %s", username);
-      return username;
+      sz_strlcpy(username, pwent->pw_name);
+      if (is_sane_name(username)) {
+	freelog(LOG_VERBOSE, "getpwuid username is %s", username);
+	return username;
+      }
     }
   }
 #endif
 
 #ifdef WIN32_NATIVE
+  /* On win32 the GetUserName function will give us the login name. */
   {
     DWORD length;
+    char name[UNLEN + 1];
 
-    /* On Win32 use the GetUserName function to find a name. */
-    username = fc_malloc(UNLEN + 1);
-    if (GetUserName(username, &length)) {
-      /* Length includes the NUL terminator. */
-      if (length > MAX_LEN_NAME) {
-	username[MAX_LEN_NAME - 1] = '\0';
-      }
+    if (GetUserName(name, &length)) {
+      sz_strlcpy(username, name);
       if (is_sane_name(username)) {
 	freelog(LOG_VERBOSE, "GetUserName username is %s", username);
 	return username;
       }
     }
-    free(username);
   }
 #endif
-  username = fc_malloc(MAX_LEN_NAME);
 
 #ifdef ALWAYS_ROOT
-  my_snprintf(username, MAX_LEN_NAME, "name");
+  sz_strlcpy(username, "name");
 #else
   my_snprintf(username, MAX_LEN_NAME, "name%d", (int)getuid());
 #endif
   freelog(LOG_VERBOSE, "fake username is %s", username);
+  assert(is_sane_name(username));
   return username;
 }
 

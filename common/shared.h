@@ -197,7 +197,7 @@ void real_die(const char *file, int line, const char *format, ...)
       fc__attribute((format (printf, 3, 4)));
 
 char *user_home_dir(void);
-char *user_username(void);
+const char *user_username(void);
 const char **datafilelist(const char *suffix);
 char *datafilename(const char *filename);
 char *datafilename_required(const char *filename);
