@@ -45,6 +45,7 @@ WHAT'S CHANGED SINCE 1.11.4
  - Capitalization is available from the start of the game in the default
    ruleset. (renamed coinage)
  - Cities can have 0 trade. (used to be at least 1)
+ - Settlers can only be added to cities less than size 8, as in civ 2.
  - If you paradrop a unit into unknown terrain and the terrain contains
    an enemy unit the paradropping unit is lost. If you drop into terrain
    you thought was land, but which has changed to water, the unit is
