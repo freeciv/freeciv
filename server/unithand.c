@@ -1148,7 +1148,8 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     */
 
     if(city_got_building(pcity, B_PALACE)
-       && cplayer->spaceship.state == SSHIP_LAUNCHED) {
+       && ((cplayer->spaceship.state == SSHIP_STARTED)
+	   || (cplayer->spaceship.state == SSHIP_LAUNCHED))) {
       spaceship_lost(cplayer);
     }
        
