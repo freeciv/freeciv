@@ -77,7 +77,7 @@ msgstr ""
 
 #: client/clinet.c:100
 msgid "Invalid hostname"
-msgstr ""
+msgstr "Nome de servidor inválido"
 
 #: client/clinet.c:107
 msgid "Failed looking up host"
@@ -128,17 +128,17 @@ msgstr ""
 #: client/helpdata.c:587
 #, c-format
 msgid "The discovery of %s will reduce this by 1.  "
-msgstr ""
+msgstr "A descoberta de %s reduzirá este valor por 1.  "
 
 #: client/helpdata.c:593 client/helpdata.c:636
 #, c-format
 msgid "The discovery of %s will increase this by 1.  "
-msgstr ""
+msgstr "A descoberta de %s aumentará este valor por 1.  "
 
 #: client/helpdata.c:610 client/helpdata.c:622
 #, c-format
 msgid "Allows a city to grow larger than size %d.  "
-msgstr ""
+msgstr "Permite que uma cidade cresça para além do tamanho %d.  "
 
 #: client/helpdata.c:615
 #, c-format
@@ -159,53 +159,56 @@ msgid ""
 "\n"
 "\n"
 "The discovery of %s will make %s obsolete.  "
-msgstr ""
+msgstr "A descoberta de %s tornará %s obsoleto.  "
 
 #: client/helpdata.c:680
 #, c-format
 msgid "Allows all players with knowledge of %s to build %s units.  "
-msgstr ""
+msgstr "Permite a todos os jogadores com o conhecimento de %s a contrução de "
+"unidades de %s.  "
 
 #: client/helpdata.c:713
 #, c-format
 msgid "* Can carry and refuel %d missile units.\n"
-msgstr ""
+msgstr "* Pode transportar e reabastecer %d unidades mísseis.\n"
 
 #: client/helpdata.c:716
 #, c-format
 msgid "* Can carry and refuel %d air units.\n"
-msgstr ""
+msgstr "* * Pode transportar e reabastecer %d unidades aéreas.\n"
 
 #: client/helpdata.c:719
 #, c-format
 msgid "* Can carry %d ground units across water.\n"
-msgstr ""
+msgstr "* Pode transportar %d unidades terrestres através do oceano.\n"
 
 #: client/helpdata.c:725
 msgid "* Can establish trade routes and help build wonders.\n"
-msgstr ""
+msgstr "* Pode estabelecer rotas comerciais e ajudar a contruir maravilhas.\n"
 
 #: client/helpdata.c:728
 msgid "* Can perform settler actions.\n"
-msgstr ""
+msgstr "* Pode executar acções de colonização.\n"
 
 #: client/helpdata.c:732
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
-msgstr ""
+msgstr "* Pode executar acções diplomáticas, mais acções especiais de "
+"espionagem.\n"
 
 #: client/helpdata.c:735
 msgid "* Can perform diplomatic actions.\n"
-msgstr ""
+msgstr "* Pode executar acções diplomáticas.\n"
 
 #: client/helpdata.c:738
 msgid "* Can attack enemy air units.\n"
-msgstr ""
+msgstr "* Pode atacar unidades aéreas inimigas.\n"
 
 #: client/helpdata.c:741
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares."
-msgstr ""
+msgstr "Pode atacar a bordo de unidades navais: contra cidades inimigas e "
+"contra quadrados terrestres."
 
 #: client/helpdata.c:745
 #, c-format
@@ -222,23 +225,23 @@ msgstr ""
 
 #: client/helpdata.c:758
 msgid "* A missile unit: gets used up in making an attack.\n"
-msgstr ""
+msgstr "* Uma unidade míssil: é gasta após um ataque.\n"
 
 #: client/helpdata.c:760
 msgid "* Making an attack ends this unit's turn.\n"
-msgstr ""
+msgstr "* Executar um ataque termina a vez desta unidade.\n"
 
 #: client/helpdata.c:764
 msgid "* This unit's attack causes a nuclear explosion!\n"
-msgstr ""
+msgstr "* O ataque desta unidade causa uma explosão nuclear!\n"
 
 #: client/helpdata.c:767
 msgid "* Ignores the effects of city walls.\n"
-msgstr ""
+msgstr "* Ignora os efeitos das muralhas.\n"
 
 #: client/helpdata.c:771
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
-msgstr ""
+msgstr "* Dá 5x mais defesa contra mísseis e aeronaves.\n"
 
 #: client/helpdata.c:775
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
@@ -246,11 +249,11 @@ msgstr ""
 
 #: client/helpdata.c:778
 msgid "* Ignores zones of control.\n"
-msgstr ""
+msgstr "* Ignora zonas de controlo.\n"
 
 #: client/helpdata.c:781
 msgid "* A non-military unit (cannot attack; no martial law).\n"
-msgstr ""
+msgstr "* Uma unidade não-militar (não pode atacar; não pode impôr lei marcial).\n"
 
 #: client/helpdata.c:785
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
@@ -268,38 +271,39 @@ msgstr ""
 
 #: client/helpdata.c:796
 msgid "second "
-msgstr ""
+msgstr "segundo "
 
 #: client/helpdata.c:798
 msgid "third "
-msgstr ""
+msgstr "terceiro "
 
 #: client/helpdata.c:800
 #, c-format
 msgid "%dth "
-msgstr ""
+msgstr "%dº "
 
 #: client/helpdata.c:802
 msgid "turn in a city, or on a Carrier"
-msgstr ""
+msgstr "vez numa cidade, ou num Porta-Aviões"
 
 #: client/helpdata.c:806
 msgid " or Submarine"
-msgstr ""
+msgstr " ou Submarino"
 
 #: client/helpdata.c:808
 msgid ", or will run out of fuel and be lost.\n"
-msgstr ""
+msgstr ", ou ficará sem combustível e será perdida.\n"
 
 #: client/helpdata.c:833
 #, c-format
 msgid "Allows changing government to %s.\n"
-msgstr ""
+msgstr "Permite mudar o governo para %s.\n"
 
 #: client/helpdata.c:839
 #, c-format
 msgid "The first player to research %s gets an immediate advance.\n"
-msgstr ""
+msgstr "O primeiro jogador a pesquisar %s recebe um avanço técnico "
+"imediatamente.\n"
 
 #: client/helpdata.c:843
 msgid "Gives sea units one extra move.\n"
@@ -307,43 +311,43 @@ msgstr ""
 
 #: client/helpdata.c:845
 msgid "Increases the pollution generated by the population.\n"
-msgstr ""
+msgstr "Aumenta a poluição gerada pela população.\n"
 
 #: client/helpdata.c:847
 msgid "Improves the effect of Cathedrals.\n"
-msgstr ""
+msgstr "Melhora o efeito das Catedrais.\n"
 
 #: client/helpdata.c:849
 msgid "Reduces the effect of Cathedrals.\n"
-msgstr ""
+msgstr "Reduz o efeito das Catedrais.\n"
 
 #: client/helpdata.c:851
 msgid "Improves the effect of Colosseums.\n"
-msgstr ""
+msgstr "Melhora o efeito dos Coliseus.\n"
 
 #: client/helpdata.c:853
 msgid "Improves the effect of Temples.\n"
-msgstr ""
+msgstr "Melhora o efeito dos Templos.\n"
 
 #: client/helpdata.c:857
 #, c-format
 msgid "Allows %s to build roads on river squares.\n"
-msgstr ""
+msgstr "Permite aos %s contruir estradas em quadrados com rios.\n"
 
 #: client/helpdata.c:863
 #, c-format
 msgid "Allows %s to build fortresses.\n"
-msgstr ""
+msgstr "Permite aos %s contruir fortalezas.\n"
 
 #: client/helpdata.c:869
 #, c-format
 msgid "Allows %s to build airbases.\n"
-msgstr ""
+msgstr "Permite aos %s contruir bases aéreas.\n"
 
 #: client/helpdata.c:875
 #, c-format
 msgid "Allows %s to upgrade roads to railroads.\n"
-msgstr ""
+msgstr "Permite aos %s melhorar as estradas para ferrovias.\n"
 
 #: client/helpdata.c:929
 #, c-format
@@ -396,63 +400,63 @@ msgstr ""
 #. E_LOW_ON_FUNDS
 #: client/options.c:64
 msgid "Pollution                "
-msgstr ""
+msgstr "Poluição                 "
 
 #: client/options.c:65
 msgid "Global Warming           "
-msgstr ""
+msgstr "Aquecimento Global       "
 
 #: client/options.c:66
 msgid "Civil Disorder           "
-msgstr ""
+msgstr "Desordem Civil           "
 
 #: client/options.c:67
 msgid "City Celebrating         "
-msgstr ""
+msgstr "Cidade em Celebração     "
 
 #: client/options.c:68
 msgid "City Normal              "
-msgstr ""
+msgstr "Cidade Normal            "
 
 #: client/options.c:69
 msgid "City Growth              "
-msgstr ""
+msgstr "Cidade Cresceu           "
 
 #: client/options.c:70
 msgid "City Needs Aqueduct      "
-msgstr ""
+msgstr "Cidade Requer Aqueduto   "
 
 #: client/options.c:71
 msgid "Famine in City           "
-msgstr ""
+msgstr "Fome na Cidade           "
 
 #: client/options.c:72
 msgid "City Captured/Destroyed  "
-msgstr ""
+msgstr "Cidade Capturada/Destruída "
 
 #: client/options.c:73
 msgid "Building Unavailable Item"
-msgstr ""
+msgstr "Contruíndo Item Não-Existente"
 
 #: client/options.c:74
 msgid "Wonder Started           "
-msgstr ""
+msgstr "Maravilha Iniciada"
 
 #: client/options.c:75
 msgid "Wonder Finished          "
-msgstr ""
+msgstr "Maravilha Terminada"
 
 #: client/options.c:76
 msgid "Improvement Built        "
-msgstr ""
+msgstr "Melhoramento Contruído"
 
 #: client/options.c:77
 msgid "New Improvement Selected "
-msgstr ""
+msgstr "Novo Melhoramento Selecionado"
 
 #: client/options.c:78
 msgid "Forced Improvement Sale  "
-msgstr ""
+msgstr "Venda de Melhoramento Forçada"
 
 #: client/options.c:79
 msgid "Production Upgraded      "
@@ -460,15 +464,15 @@ msgstr ""
 
 #: client/options.c:80
 msgid "Unit Built               "
-msgstr ""
+msgstr "Unidade Contruída"
 
 #: client/options.c:81
 msgid "Unit Defender Destroyed  "
-msgstr ""
+msgstr "Unidade Defensora Destruída"
 
 #: client/options.c:82
 msgid "Unit Defender Survived   "
-msgstr ""
+msgstr "Unidade Defensora Sobreviveu"
 
 #: client/options.c:83
 msgid "Collapse to Anarchy      "
@@ -476,55 +480,55 @@ msgstr ""
 
 #: client/options.c:84
 msgid "Diplomat Actions - Enemy "
-msgstr ""
+msgstr "Acção Diplomática - Inimigo "
 
 #: client/options.c:85
 msgid "Tech from Great Library  "
-msgstr ""
+msgstr "Tecnologia da Grande Biblioteca "
 
 #: client/options.c:86
 msgid "Player Destroyed         "
-msgstr ""
+msgstr "Jogador Destruído "
 
 #. E_DESTROYED
 #: client/options.c:87
 msgid "Improvement Bought       "
-msgstr ""
+msgstr "Melhoramento Comprado "
 
 #. E_IMP_BUY
 #: client/options.c:88
 msgid "Improvement Sold         "
-msgstr ""
+msgstr "Melhoramento Vendido "
 
 #. E_IMP_SOLD
 #: client/options.c:89
 msgid "Unit Bought              "
-msgstr ""
+msgstr "Unidade Comprada "
 
 #. E_UNIT_BUY
 #: client/options.c:90
 msgid "Wonder Stopped           "
-msgstr ""
+msgstr "Maravilha Parada "
 
 #. E_WONDER_STOPPED
 #: client/options.c:91
 msgid "City Needs Aq Being Built"
-msgstr ""
+msgstr "Cidade Necessita de Aqueduto "
 
 #. E_CITY_AQ_BUILDING
 #: client/options.c:92
 msgid "Diplomat Actions - Own   "
-msgstr ""
+msgstr "Acção Diplomática - "
 
 #. E_MY_DIPLOMAT
 #: client/options.c:93
 msgid "Unit Attack Failed       "
-msgstr ""
+msgstr "Ataque de Unidade Falhou "
 
 #. E_UNIT_LOST_ATT
 #: client/options.c:94
 msgid "Unit Attack Succeeded    "
-msgstr ""
+msgstr "Ataque de Unidade Bem-Sucedido "
 
 #. E_UNIT_WIN_ATT
 #: client/options.c:95
@@ -538,7 +542,7 @@ msgstr ""
 
 #: client/options.c:156
 msgid "Cannot find your home directory"
-msgstr ""
+msgstr "Não consigo encontrar a directoria raíz do utilizador"
 
 #: client/options.c:171
 msgid "Settings file is "
@@ -546,55 +550,55 @@ msgstr ""
 
 #: client/options.c:174
 msgid "Cannot write to file "
-msgstr ""
+msgstr "Não consigo escrever no ficheiro "
 
 #: client/options.c:221
 msgid "Parse error while loading option file: input is:"
-msgstr ""
+msgstr "Erro de parsing ao ler o ficheiro de opções: entrada é:"
 
 #: client/options.c:251
 msgid "Unknown variable found in option file: input is:"
-msgstr ""
+msgstr "Variável desconhecida no ficheiro de opções: entrada é:"
 
 #: client/options.c:272
 msgid "Cannot save settings."
-msgstr ""
+msgstr "Não consigo gravar as opções."
 
 #: client/options.c:295
 msgid "Saved settings."
-msgstr ""
+msgstr "Gravei as opções."
 
 #: client/packhand.c:78
 #, c-format
 msgid "You were rejected from the game: %s"
-msgstr ""
+msgstr "Foi rejeitado pelo jogo: %s"
 
 #: client/packhand.c:83
 #, c-format
 msgid "Client capability string: %s"
-msgstr ""
+msgstr "String de capacidade do cliente: %s"
 
 #: client/packhand.c:85
 #, c-format
 msgid "Server capability string: %s"
-msgstr ""
+msgstr "String de capacidade do servidor: %s"
 
 #: client/packhand.c:560
 msgid "(unknown)"
-msgstr ""
+msgstr "(desconhecido)"
 
 #: client/packhand.c:708
 #, c-format
 msgid "AI Mode is now %s."
-msgstr ""
+msgstr "Mode IA agora está %s."
 
 #: client/packhand.c:708
 msgid "ON"
-msgstr ""
+msgstr "LIGADO"
 
 #: client/packhand.c:708
 msgid "OFF"
-msgstr ""
+msgstr "DESLIGADO"
 
 #: client/gui-gtk/chatline.c:72
 msgid "Exporting output window to civgame.log ..."
@@ -606,36 +610,36 @@ msgstr ""
 
 #: client/gui-gtk/chatline.c:88
 msgid "Cleared output window.\n"
-msgstr ""
+msgstr "Limpei a janela de saída.\n"
 
 #: client/gui-gtk/citydlg.c:417 client/gui-gtk/cityrep.c:461
 msgid "_Buy"
-msgstr ""
+msgstr "_Compra"
 
 #: client/gui-gtk/citydlg.c:420 client/gui-gtk/citydlg.c:1664
 #: client/gui-gtk/cityrep.c:466
 msgid "_Change"
-msgstr ""
+msgstr "_Muda"
 
 #: client/gui-gtk/citydlg.c:433
 msgid "_Sell"
-msgstr ""
+msgstr "_Vende"
 
 #. "supported units" frame
 #: client/gui-gtk/citydlg.c:438
 msgid "Supported units"
-msgstr ""
+msgstr "Unidades suportadas"
 
 #. "present units" frame
 #: client/gui-gtk/citydlg.c:469
 msgid "Units present"
-msgstr ""
+msgstr "Unidades presentes"
 
 #. "action area" buttons
 #: client/gui-gtk/citydlg.c:499 client/gui-gtk/cityrep.c:445
 #: client/gui-gtk/plrdlg.c:100
 msgid "C_lose"
-msgstr ""
+msgstr "_Fechar"
 
 #: client/gui-gtk/citydlg.c:504
 msgid "_Rename"
@@ -643,35 +647,35 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:509
 msgid "_Trade"
-msgstr ""
+msgstr "_Comércio"
 
 #: client/gui-gtk/citydlg.c:514
 msgid "_Activate Units"
-msgstr ""
+msgstr "_Activar Unidades"
 
 #: client/gui-gtk/citydlg.c:519
 msgid "_Unit List"
-msgstr ""
+msgstr "_Lista de Unidades"
 
 #: client/gui-gtk/citydlg.c:524 client/gui-gtk/cityrep.c:486
 msgid "Con_figure"
-msgstr ""
+msgstr "Con_figurar"
 
 #. "presentunitsdialog"
 #: client/gui-gtk/citydlg.c:778 client/gui-gtk/citydlg.c:1138
 #: data/Freeciv:1128 data/Freeciv:1156
 msgid "Unit Commands"
-msgstr ""
+msgstr "Comandos de Unidade"
 
 #: client/gui-gtk/citydlg.c:780 client/gui-gtk/citydlg.c:1140
 #: data/Freeciv:1130 data/Freeciv:1158
 msgid "Activate unit"
-msgstr ""
+msgstr "Activar unidade"
 
 #: client/gui-gtk/citydlg.c:782 client/gui-gtk/citydlg.c:1142
 #: data/Freeciv:1134 data/Freeciv:1162
 msgid "Activate unit, close dialog"
-msgstr ""
+msgstr "Activar unidade, fechar janela"
 
 #. act+c
 #: client/gui-gtk/citydlg.c:784 client/gui-gtk/citydlg.c:1144
@@ -698,7 +702,7 @@ msgstr ""
 #: data/Freeciv:1823 data/Freeciv:2055 data/Freeciv:2141 data/Freeciv:2175
 #: data/Freeciv:2286 data/Freeciv:2354
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. "shellrenamecity"
 #: client/gui-gtk/citydlg.c:828 data/Freeciv:489
@@ -712,15 +716,15 @@ msgstr ""
 #: client/gui-gtk/citydlg.c:855 client/gui-xaw/citydlg.c:1184
 #, c-format
 msgid "These trade routes have been established with %s:\n"
-msgstr ""
+msgstr "Estas são as rotas comerciais estabelecidas com %s:\n"
 
 #: client/gui-gtk/citydlg.c:870 client/gui-xaw/citydlg.c:1198
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: client/gui-gtk/citydlg.c:877 client/gui-xaw/citydlg.c:1204
 msgid "No trade routes exist.\n"
-msgstr ""
+msgstr "Não existem rotas comerciais.\n"
 
 #: client/gui-gtk/citydlg.c:879 client/gui-xaw/citydlg.c:1206
 #, c-format
@@ -732,22 +736,22 @@ msgstr ""
 #. "citytradedialog"
 #: client/gui-gtk/citydlg.c:882 data/Freeciv:2082
 msgid "Trade Routes"
-msgstr ""
+msgstr "Rotas Comerciais"
 
 #: client/gui-gtk/citydlg.c:884 client/gui-gtk/menu.c:567
 #: client/gui-xaw/menu.c:258
 msgid "Done"
-msgstr ""
+msgstr "Acabei"
 
 #: client/gui-gtk/citydlg.c:899
 #, c-format
 msgid "Pollution:   %3d"
-msgstr ""
+msgstr "Poluição:    %3d"
 
 #: client/gui-gtk/citydlg.c:924
 #, c-format
 msgid "Granary: %3d/%-3d"
-msgstr ""
+msgstr "Silos:   %3d/%-3d"
 
 #: client/gui-gtk/citydlg.c:970
 #, c-format
@@ -756,6 +760,9 @@ msgid ""
 "Prod:    %2d (%+2d)\n"
 "Trade:   %2d (%+2d)"
 msgstr ""
+"Comida:  %2d (%+2d)\n"
+"Prod:    %2d (%+2d)\n"
+"Comércio:%2d (%+2d)"
 
 #: client/gui-gtk/citydlg.c:985
 #, c-format
@@ -764,11 +771,14 @@ msgid ""
 "Luxury:  %2d\n"
 "Science: %2d"
 msgstr ""
+"Ouro:    %2d (%+2d)\n"
+"Luxo:    %2d\n"
+"Ciência: %2d"
 
 #: client/gui-gtk/citydlg.c:1268 client/gui-xaw/citydlg.c:1629
 #, c-format
 msgid "%s - %s citizens"
-msgstr ""
+msgstr "%s - %s cidadãos"
 
 #: client/gui-gtk/citydlg.c:1454 client/gui-xaw/citydlg.c:1813
 #, c-format
@@ -776,12 +786,14 @@ msgid ""
 "Buy %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"Compro %s por %d moedas de ouro?\n"
+"O Tesouro contém %d moedas?\n"
 
 #. "buydialog"
 #: client/gui-gtk/citydlg.c:1457 client/gui-gtk/citydlg.c:1465
 #: data/Freeciv:2071 data/Freeciv:2101
 msgid "Buy It!"
-msgstr ""
+msgstr "Compra!"
 
 #: client/gui-gtk/citydlg.c:1458 client/gui-gtk/citydlg.c:1526
 #: client/gui-gtk/citydlg.c:1784 client/gui-gtk/dialogs.c:387
@@ -791,7 +803,7 @@ msgstr ""
 #: data/Freeciv:2073 data/Freeciv:2092 data/Freeciv:2269 data/Freeciv:2294
 #: data/Freeciv:2313 data/Freeciv:2324
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: client/gui-gtk/citydlg.c:1459 client/gui-gtk/citydlg.c:1528
 #: client/gui-gtk/citydlg.c:1785 client/gui-gtk/dialogs.c:388
@@ -801,7 +813,7 @@ msgstr ""
 #: data/Freeciv:2075 data/Freeciv:2094 data/Freeciv:2271 data/Freeciv:2296
 #: data/Freeciv:2315 data/Freeciv:2326
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: client/gui-gtk/citydlg.c:1462 client/gui-xaw/citydlg.c:1821
 #, c-format
@@ -815,7 +827,7 @@ msgstr ""
 #: client/gui-gtk/dialogs.c:910 data/Freeciv:2103 data/Freeciv:2305
 #: data/Freeciv:2335
 msgid "Darn"
-msgstr ""
+msgstr "Irra"
 
 #. this shouldn't generally happen, but it is conceivable
 #: client/gui-gtk/citydlg.c:1512 client/gui-xaw/citydlg.c:1872
@@ -851,19 +863,19 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1637 data/Freeciv:2037
 msgid "Select new production"
-msgstr ""
+msgstr "Selecione uma nova produção"
 
 #: client/gui-gtk/citydlg.c:1651 data/Freeciv:2035
 msgid "Change Production"
-msgstr ""
+msgstr "Mudar Produção"
 
 #: client/gui-gtk/citydlg.c:1673
 msgid "Ca_ncel"
-msgstr ""
+msgstr "Cancelar"
 
 #: client/gui-gtk/citydlg.c:1682 client/gui-gtk/menu.c:593
 msgid "_Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: client/gui-gtk/citydlg.c:1779 client/gui-xaw/citydlg.c:2155
 #, c-format
@@ -877,15 +889,15 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1834 client/gui-gtk/cityrep.c:227
 msgid "Workers"
-msgstr ""
+msgstr "Operários"
 
 #: client/gui-gtk/citydlg.c:1834 client/gui-gtk/citydlg.c:1896
 msgid "Scientists"
-msgstr ""
+msgstr "Cientistas"
 
 #: client/gui-gtk/citydlg.c:1834
 msgid "Taxmen"
-msgstr ""
+msgstr "Fiscais"
 
 #: client/gui-gtk/citydlg.c:1887 data/Freeciv:1520 data/Freeciv:2794
 msgid "City Options"
@@ -916,19 +928,19 @@ msgstr ""
 #: client/gui-gtk/messagedlg.c:141 client/gui-xaw/inputdlg.c:103
 #: data/Freeciv:1302 data/Freeciv:1341 data/Freeciv:1418 data/Freeciv:1568
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: client/gui-gtk/cityrep.c:91
 msgid "Rapture"
-msgstr ""
+msgstr "Celebração"
 
 #: client/gui-gtk/cityrep.c:92
 msgid "Disorder"
-msgstr ""
+msgstr "Desordem"
 
 #: client/gui-gtk/cityrep.c:92
 msgid "Peace"
-msgstr ""
+msgstr "Paz"
 
 #: client/gui-gtk/cityrep.c:219 client/gui-gtk/plrdlg.c:76 data/Freeciv:63
 msgid "Name"
@@ -936,102 +948,102 @@ msgstr ""
 
 #: client/gui-gtk/cityrep.c:219
 msgid "City Name"
-msgstr ""
+msgstr "Nome"
 
 #: client/gui-gtk/cityrep.c:221
 msgid "Sz"
-msgstr ""
+msgstr "Tm"
 
 #: client/gui-gtk/cityrep.c:221
 msgid "Size"
-msgstr ""
+msgstr "Tamanho"
 
 #: client/gui-gtk/cityrep.c:223 client/gui-gtk/plrdlg.c:77
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #: client/gui-gtk/cityrep.c:223
 msgid "Rapture/Peace/Disorder"
-msgstr ""
+msgstr "Celebração/Paz/Desordem"
 
 #: client/gui-gtk/cityrep.c:225
 msgid "Concise *=Rapture, X=Disorder"
-msgstr ""
+msgstr "Conciso *=Celebração, X=Desordem"
 
 #: client/gui-gtk/cityrep.c:227
 msgid "H/C/U"
-msgstr ""
+msgstr "F/C/D"
 
 #: client/gui-gtk/cityrep.c:227
 msgid "Workers: Happy, Content, Unhappy"
-msgstr ""
+msgstr "Operários: Feliz, Contente, Descontente"
 
 #: client/gui-gtk/cityrep.c:229
 msgid "Special"
-msgstr ""
+msgstr "Especial"
 
 #: client/gui-gtk/cityrep.c:229
 msgid "E/S/T"
-msgstr ""
+msgstr "A/S/F"
 
 #: client/gui-gtk/cityrep.c:229
 msgid "Entertainers, Scientists, Taxmen"
-msgstr ""
+msgstr "Artistas, Cientistas, Fiscais"
 
 #: client/gui-gtk/cityrep.c:231
 msgid "Surplus"
-msgstr ""
+msgstr "Excedentes"
 
 #: client/gui-gtk/cityrep.c:231
 msgid "F/P/T"
-msgstr ""
+msgstr "C/P/C"
 
 #: client/gui-gtk/cityrep.c:231
 msgid "Surplus: Food, Production, Trade"
-msgstr ""
+msgstr "Excedentes: Comida, Produção, Comércio"
 
 #: client/gui-gtk/cityrep.c:233
 msgid "Economy"
-msgstr ""
+msgstr "Economia"
 
 #: client/gui-gtk/cityrep.c:233
 msgid "G/L/S"
-msgstr ""
+msgstr "O/L/C"
 
 #: client/gui-gtk/cityrep.c:233
 msgid "Economy: Gold, Luxuries, Science"
-msgstr ""
+msgstr "Economia: Ouro, Luxo, Ciência"
 
 #: client/gui-gtk/cityrep.c:235
 msgid "Number of Trade Routes"
-msgstr ""
+msgstr "Número de Rotas Comerciais"
 
 #: client/gui-gtk/cityrep.c:237 client/gui-gtk/repodlgs.c:763
 msgid "Food"
-msgstr ""
+msgstr "Comida"
 
 #: client/gui-gtk/cityrep.c:237
 msgid "Stock"
-msgstr ""
+msgstr "Stock"
 
 #: client/gui-gtk/cityrep.c:237
 msgid "Food Stock"
-msgstr ""
+msgstr "Stock de Comida"
 
 #: client/gui-gtk/cityrep.c:239
 msgid "Pol"
-msgstr ""
+msgstr "Pol"
 
 #: client/gui-gtk/cityrep.c:239
-msgid "Pollution"
+msgid "Poluição"
 msgstr ""
 
 #: client/gui-gtk/cityrep.c:241
 msgid "Cor"
-msgstr ""
+msgstr "Cor"
 
 #: client/gui-gtk/cityrep.c:241
-msgid "Corruption"
+msgid "Corrupção"
 msgstr ""
 
 #: client/gui-gtk/cityrep.c:243 client/gui-gtk/cityrep.c:244
@@ -1045,15 +1057,15 @@ msgstr ""
 #: client/gui-gtk/cityrep.c:415 client/gui-gtk/menu.c:574
 #: client/gui-xaw/menu.c:263 data/Freeciv:1581
 msgid "City Report"
-msgstr ""
+msgstr "Relatório das Cidades"
 
 #: client/gui-gtk/cityrep.c:417 client/gui-gtk/cityrep.c:1007
 msgid "City Advisor"
-msgstr ""
+msgstr "Conselheiro Doméstico"
 
 #: client/gui-gtk/cityrep.c:451
 msgid "Cen_ter"
-msgstr ""
+msgstr "Cen_tra"
 
 #: client/gui-gtk/cityrep.c:456
 msgid "_Popup"
@@ -1061,11 +1073,11 @@ msgstr ""
 
 #: client/gui-gtk/cityrep.c:476
 msgid "Change _All"
-msgstr ""
+msgstr "Muda Todos"
 
 #: client/gui-gtk/cityrep.c:481
 msgid "_Refresh"
-msgstr ""
+msgstr "_Refresca"
 
 #: client/gui-gtk/cityrep.c:682
 msgid "Game: Select a unit or improvement to change production from."
@@ -1126,33 +1138,33 @@ msgstr ""
 #: data/Freeciv:1885 data/Freeciv:1961 data/Freeciv:2207 data/Freeciv:2250
 #: data/Freeciv:2781 data/Freeciv:2948 data/Freeciv:3015
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: client/gui-gtk/connectdlg.c:121
 msgid "Server Name"
-msgstr ""
+msgstr "Nome Servidor"
 
 #: client/gui-gtk/connectdlg.c:121 data/Freeciv:79
 msgid "Port"
-msgstr ""
+msgstr "Porto"
 
 #: client/gui-gtk/connectdlg.c:121
 msgid "Version"
-msgstr ""
+msgstr "Versão"
 
 #: client/gui-gtk/connectdlg.c:122
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: client/gui-gtk/connectdlg.c:122 client/gui-gtk/menu.c:458
 #: client/gui-gtk/plrdlg.c:89 client/gui-xaw/menu.c:192 data/Freeciv:2918
 #: data/Freeciv:2919
 msgid "Players"
-msgstr ""
+msgstr "Jogadores"
 
 #: client/gui-gtk/connectdlg.c:122
 msgid "Comment"
-msgstr ""
+msgstr "Comentário"
 
 #: client/gui-gtk/connectdlg.c:135
 msgid " Connect to Freeciv Server"
@@ -1164,15 +1176,15 @@ msgstr ""
 
 #: client/gui-gtk/connectdlg.c:152
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 #: client/gui-gtk/connectdlg.c:160
 msgid "Host:"
-msgstr ""
+msgstr "Servidor:"
 
 #: client/gui-gtk/connectdlg.c:168
 msgid "Port:"
-msgstr ""
+msgstr "Porto:"
 
 #: client/gui-gtk/connectdlg.c:182 data/Freeciv:98
 msgid ""
@@ -1180,27 +1192,30 @@ msgid ""
 "Freeciv 1.9 will be released early\n"
 "October, at http://www.freeciv.org"
 msgstr ""
+"ESTA É UMA VERSÃO BETA\n"
+"O Freeciv 1.9 será lançado no princípio\n"
+"de Outubro, em http://www.freeciv.org"
 
 #: client/gui-gtk/connectdlg.c:193 data/Freeciv:90
 msgid "Metaserver"
-msgstr ""
+msgstr "Metaservidor"
 
 #: client/gui-gtk/connectdlg.c:210
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #: client/gui-gtk/connectdlg.c:218 data/Freeciv:87
 msgid "Connect"
-msgstr ""
+msgstr "Ligar"
 
 #: client/gui-gtk/connectdlg.c:224 client/gui-gtk/menu.c:478
 #: client/gui-xaw/menu.c:202 data/Freeciv:94 data/Freeciv:2906
 msgid "Quit"
-msgstr ""
+msgstr "Sair"
 
 #: client/gui-gtk/dialogs.c:296
 msgid "Message:"
-msgstr ""
+msgstr "Mensagem:"
 
 #: client/gui-gtk/dialogs.c:313
 msgid "Goto and Close"
@@ -1262,7 +1277,7 @@ msgstr ""
 
 #: client/gui-gtk/dialogs.c:762 data/Freeciv:2256
 msgid "Sabotage"
-msgstr ""
+msgstr "Sabotagem"
 
 #: client/gui-gtk/dialogs.c:900 client/gui-xaw/dialogs.c:939
 #, c-format
@@ -1415,27 +1430,27 @@ msgstr ""
 
 #: client/gui-gtk/dialogs.c:1599
 msgid "Select nation and name"
-msgstr ""
+msgstr "Escolha nação e nome"
 
 #: client/gui-gtk/dialogs.c:1636
 msgid "Select your sex"
-msgstr ""
+msgstr "Escolha o seu sexo"
 
 #: client/gui-gtk/dialogs.c:1642
 msgid "Male"
-msgstr ""
+msgstr "Masculino"
 
 #: client/gui-gtk/dialogs.c:1646 data/Freeciv:2894
 msgid "Female"
-msgstr ""
+msgstr "Feminino"
 
 #: client/gui-gtk/dialogs.c:1827
 msgid "You must select a nation."
-msgstr ""
+msgstr "Tem de escolher uma nação."
 
 #: client/gui-gtk/dialogs.c:1832
 msgid "You must select your sex."
-msgstr ""
+msgstr "Tem de escolher o sexo."
 
 #: client/gui-gtk/dialogs.c:1845
 msgid "You must type a legal name."
@@ -1465,7 +1480,7 @@ msgstr ""
 #: client/gui-gtk/diplodlg.c:307 client/gui-gtk/diplodlg.c:325
 #: data/Freeciv:328 data/Freeciv:337
 msgid "Maps"
-msgstr ""
+msgstr "Mapas"
 
 #: client/gui-gtk/diplodlg.c:333 client/gui-gtk/diplodlg.c:345
 #: data/Freeciv:346 data/Freeciv:355
@@ -1475,7 +1490,7 @@ msgstr ""
 #: client/gui-gtk/diplodlg.c:359 client/gui-gtk/diplodlg.c:371
 #: data/Freeciv:364 data/Freeciv:373
 msgid "Cities"
-msgstr ""
+msgstr "Cidades"
 
 #: client/gui-gtk/diplodlg.c:388 client/gui-gtk/diplodlg.c:395
 #: client/gui-xaw/diplodlg.c:439 client/gui-xaw/diplodlg.c:446
@@ -3057,7 +3072,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:344 data/civ2/buildings.ruleset:364
 #: data/default/buildings.ruleset:364
 msgid "Palace"
-msgstr ""
+msgstr "Palácio"
 
 #: data/civ1/buildings.ruleset:351 data/civ2/buildings.ruleset:371
 #: data/default/buildings.ruleset:371
@@ -3075,7 +3090,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:364 data/civ2/buildings.ruleset:384
 #: data/default/buildings.ruleset:384
 msgid "Police Station"
-msgstr ""
+msgstr "Esquadra de Polícia"
 
 #: data/civ2/buildings.ruleset:391 data/default/buildings.ruleset:391
 msgid ""
@@ -3165,7 +3180,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:453 data/civ2/buildings.ruleset:489
 #: data/default/buildings.ruleset:489
 msgid "Sewer System"
-msgstr ""
+msgstr "Sistema de Esgotos"
 
 #: data/civ1/buildings.ruleset:463 data/civ2/buildings.ruleset:499
 #: data/default/buildings.ruleset:499
@@ -3255,7 +3270,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:551 data/civ2/buildings.ruleset:595
 #: data/default/buildings.ruleset:595
 msgid "Supermarket"
-msgstr ""
+msgstr "Supermercado"
 
 #: data/civ2/buildings.ruleset:602 data/default/buildings.ruleset:602
 #, c-format
@@ -3268,7 +3283,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:560 data/civ2/buildings.ruleset:609
 #: data/default/buildings.ruleset:609
 msgid "Temple"
-msgstr ""
+msgstr "Templo"
 
 #: data/civ1/buildings.ruleset:567 data/civ2/buildings.ruleset:616
 #: data/default/buildings.ruleset:616
@@ -3282,7 +3297,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:623 data/civ2/techs.ruleset:558
 #: data/default/buildings.ruleset:623 data/default/techs.ruleset:558
 msgid "University"
-msgstr ""
+msgstr "Universidade"
 
 #: data/civ1/buildings.ruleset:581 data/civ2/buildings.ruleset:630
 #: data/default/buildings.ruleset:630
@@ -3295,7 +3310,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:587 data/civ2/buildings.ruleset:636
 #: data/default/buildings.ruleset:636
 msgid "Apollo Program"
-msgstr ""
+msgstr "Programa Apolo"
 
 #: data/civ2/buildings.ruleset:643 data/default/buildings.ruleset:643
 msgid ""
@@ -3319,7 +3334,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:610 data/civ2/buildings.ruleset:663
 #: data/default/buildings.ruleset:663
 msgid "Colossus"
-msgstr ""
+msgstr "Colosso"
 
 #: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:670
 #: data/default/buildings.ruleset:670
@@ -3342,7 +3357,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:635 data/civ2/buildings.ruleset:688
 #: data/default/buildings.ruleset:688
 msgid "Cure For Cancer"
-msgstr ""
+msgstr "Cura do Cancro"
 
 #: data/civ1/buildings.ruleset:642 data/civ2/buildings.ruleset:695
 #: data/default/buildings.ruleset:695
@@ -3352,7 +3367,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:647 data/civ2/buildings.ruleset:700
 #: data/default/buildings.ruleset:700
 msgid "Darwin's Voyage"
-msgstr ""
+msgstr "Viagem de Darwin"
 
 #: data/civ1/buildings.ruleset:654 data/civ2/buildings.ruleset:707
 #: data/default/buildings.ruleset:707
@@ -3362,12 +3377,12 @@ msgstr ""
 #: data/civ1/buildings.ruleset:659 data/civ2/buildings.ruleset:712
 #: data/default/buildings.ruleset:712
 msgid "Eiffel Tower"
-msgstr ""
+msgstr "Torre Eiffel"
 
 #: data/civ1/buildings.ruleset:669 data/civ2/buildings.ruleset:722
 #: data/default/buildings.ruleset:722
 msgid "Great Library"
-msgstr ""
+msgstr "Grande Biblioteca"
 
 #: data/civ1/buildings.ruleset:676 data/civ2/buildings.ruleset:729
 #: data/default/buildings.ruleset:729
@@ -3379,7 +3394,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:682 data/civ2/buildings.ruleset:735
 #: data/default/buildings.ruleset:735
 msgid "Great Wall"
-msgstr ""
+msgstr "Grande Muralha"
 
 #: data/civ1/buildings.ruleset:689 data/civ2/buildings.ruleset:742
 #: data/default/buildings.ruleset:742
@@ -3389,7 +3404,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:694 data/civ2/buildings.ruleset:747
 #: data/default/buildings.ruleset:747
 msgid "Hanging Gardens"
-msgstr ""
+msgstr "Jardins Suspensos"
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:754
 #: data/default/buildings.ruleset:754
@@ -3404,7 +3419,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:710 data/civ2/buildings.ruleset:763
 #: data/default/buildings.ruleset:763
 msgid "Hoover Dam"
-msgstr ""
+msgstr "Barragem Hoover"
 
 #: data/civ2/buildings.ruleset:770 data/default/buildings.ruleset:770
 msgid ""
@@ -3459,7 +3474,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:778 data/civ2/buildings.ruleset:834
 #: data/default/buildings.ruleset:834
 msgid "Lighthouse"
-msgstr ""
+msgstr "Farol"
 
 #: data/civ1/buildings.ruleset:785 data/civ2/buildings.ruleset:841
 #: data/default/buildings.ruleset:841
@@ -3472,7 +3487,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:792 data/civ2/buildings.ruleset:848
 #: data/default/buildings.ruleset:848
 msgid "Magellan's Expedition"
-msgstr ""
+msgstr "Expedição de Magalhães"
 
 #: data/civ2/buildings.ruleset:855 data/default/buildings.ruleset:855
 msgid "Gives all sea units 2 additional movement points."
@@ -3481,12 +3496,12 @@ msgstr ""
 #: data/civ1/buildings.ruleset:805 data/civ2/buildings.ruleset:861
 #: data/default/buildings.ruleset:861
 msgid "Manhattan Project"
-msgstr ""
+msgstr "Projecto Manhattan"
 
 #: data/civ1/buildings.ruleset:815 data/civ2/buildings.ruleset:871
 #: data/default/buildings.ruleset:871
 msgid "Marco Polo's Embassy"
-msgstr ""
+msgstr "Embaixada de Marco Polo"
 
 #: data/civ2/buildings.ruleset:878 data/default/buildings.ruleset:878
 msgid "The player who owns it gets an embassy with all players."
@@ -3495,7 +3510,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:883
 #: data/default/buildings.ruleset:883
 msgid "Michelangelo's Chapel"
-msgstr ""
+msgstr "Capela Sistina"
 
 #: data/civ1/buildings.ruleset:831 data/civ2/buildings.ruleset:890
 #: data/default/buildings.ruleset:890
@@ -3507,7 +3522,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:838 data/civ2/buildings.ruleset:897
 #: data/default/buildings.ruleset:897
 msgid "Oracle"
-msgstr ""
+msgstr "Oráculo"
 
 #: data/civ1/buildings.ruleset:845 data/civ2/buildings.ruleset:904
 #: data/default/buildings.ruleset:904
@@ -3517,7 +3532,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:850 data/civ2/buildings.ruleset:909
 #: data/default/buildings.ruleset:909
 msgid "Pyramids"
-msgstr ""
+msgstr "Pirâmides"
 
 #: data/civ2/buildings.ruleset:916 data/default/buildings.ruleset:916
 msgid "Counts as having a Granary in every city."
@@ -3526,7 +3541,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:865 data/civ2/buildings.ruleset:925
 #: data/default/buildings.ruleset:925
 msgid "SETI Program"
-msgstr ""
+msgstr "Programa SETI"
 
 #: data/civ2/buildings.ruleset:932 data/default/buildings.ruleset:932
 msgid ""
@@ -3560,7 +3575,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:898 data/civ2/buildings.ruleset:964
 #: data/default/buildings.ruleset:964
 msgid "Sun Tzu's War Academy"
-msgstr ""
+msgstr "Academia Militar de Sun Tzu"
 
 #: data/civ2/buildings.ruleset:971 data/default/buildings.ruleset:971
 msgid ""
@@ -3571,7 +3586,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:907 data/civ2/buildings.ruleset:979
 #: data/default/buildings.ruleset:979
 msgid "United Nations"
-msgstr ""
+msgstr "Nações Unidas"
 
 #: data/civ2/buildings.ruleset:986 data/default/buildings.ruleset:986
 msgid "Units regain one extra hitpoint per turn."
@@ -3580,7 +3595,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:928 data/civ2/buildings.ruleset:1001
 #: data/default/buildings.ruleset:1001
 msgid "Women's Suffrage"
-msgstr ""
+msgstr "Sufrágio Feminino"
 
 #: data/civ2/buildings.ruleset:1008 data/default/buildings.ruleset:1008
 msgid ""
@@ -3592,7 +3607,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:943 data/civ2/buildings.ruleset:1020
 #: data/default/buildings.ruleset:1020
 msgid "Capitalization"
-msgstr ""
+msgstr "Capitalização"
 
 #: data/civ1/buildings.ruleset:950 data/civ2/buildings.ruleset:1027
 #: data/default/buildings.ruleset:1027
@@ -3657,17 +3672,17 @@ msgstr ""
 #: data/civ1/governments.ruleset:97 data/civ2/governments.ruleset:95
 #: data/default/governments.ruleset:96
 msgid "Anarchy"
-msgstr ""
+msgstr "Anarquia"
 
 #: data/civ1/governments.ruleset:136 data/civ2/governments.ruleset:134
 #: data/default/governments.ruleset:135
 msgid "Mr."
-msgstr ""
+msgstr "Sr."
 
 #: data/civ1/governments.ruleset:137 data/civ2/governments.ruleset:135
 #: data/default/governments.ruleset:136
 msgid "Ms."
-msgstr ""
+msgstr "Sra."
 
 #: data/civ1/governments.ruleset:139 data/civ2/governments.ruleset:137
 #: data/default/governments.ruleset:138
@@ -3697,17 +3712,17 @@ msgstr ""
 #: data/civ1/governments.ruleset:166 data/civ2/governments.ruleset:164
 #: data/default/governments.ruleset:165
 msgid "Despotism"
-msgstr ""
+msgstr "Despotismo"
 
 #: data/civ1/governments.ruleset:204 data/civ2/governments.ruleset:202
 #: data/default/governments.ruleset:203
 msgid "Emperor"
-msgstr ""
+msgstr "Imperador"
 
 #: data/civ1/governments.ruleset:205 data/civ2/governments.ruleset:203
 #: data/default/governments.ruleset:204
 msgid "Empress"
-msgstr ""
+msgstr "Imperatriz"
 
 #: data/civ1/governments.ruleset:207 data/civ2/governments.ruleset:205
 #: data/default/governments.ruleset:206
@@ -3737,17 +3752,17 @@ msgstr ""
 #: data/civ2/governments.ruleset:231 data/civ2/techs.ruleset:366
 #: data/default/governments.ruleset:232 data/default/techs.ruleset:366
 msgid "Monarchy"
-msgstr ""
+msgstr "Monarquia"
 
 #: data/civ1/governments.ruleset:271 data/civ2/governments.ruleset:269
 #: data/default/governments.ruleset:270
 msgid "King"
-msgstr ""
+msgstr "Rei"
 
 #: data/civ1/governments.ruleset:272 data/civ2/governments.ruleset:270
 #: data/default/governments.ruleset:271
 msgid "Queen"
-msgstr ""
+msgstr "Rainha"
 
 #: data/civ1/governments.ruleset:274 data/civ2/governments.ruleset:272
 #: data/default/governments.ruleset:273
@@ -3776,13 +3791,13 @@ msgstr ""
 #: data/civ2/governments.ruleset:297 data/civ2/techs.ruleset:138
 #: data/default/governments.ruleset:298 data/default/techs.ruleset:138
 msgid "Communism"
-msgstr ""
+msgstr "Comunismo"
 
 #: data/civ1/governments.ruleset:337 data/civ1/governments.ruleset:338
 #: data/civ2/governments.ruleset:335 data/civ2/governments.ruleset:336
 #: data/default/governments.ruleset:336 data/default/governments.ruleset:337
 msgid "Comrade"
-msgstr ""
+msgstr "Camarada"
 
 #: data/civ1/governments.ruleset:340 data/civ2/governments.ruleset:338
 #: data/default/governments.ruleset:339
@@ -3817,13 +3832,13 @@ msgstr ""
 #: data/civ1/governments.ruleset:372 data/civ2/governments.ruleset:419
 #: data/default/governments.ruleset:371
 msgid "Republic"
-msgstr ""
+msgstr "República"
 
 #: data/civ1/governments.ruleset:410 data/civ1/governments.ruleset:411
 #: data/civ2/governments.ruleset:457 data/civ2/governments.ruleset:458
 #: data/default/governments.ruleset:409 data/default/governments.ruleset:410
 msgid "Consul"
-msgstr ""
+msgstr "Cônsul"
 
 #: data/civ1/governments.ruleset:413 data/civ2/governments.ruleset:460
 #: data/default/governments.ruleset:412
@@ -3859,13 +3874,13 @@ msgstr ""
 #: data/civ2/governments.ruleset:495 data/civ2/techs.ruleset:168
 #: data/default/governments.ruleset:447 data/default/techs.ruleset:168
 msgid "Democracy"
-msgstr ""
+msgstr "Democracia"
 
 #: data/civ1/governments.ruleset:486 data/civ1/governments.ruleset:487
 #: data/civ2/governments.ruleset:534 data/civ2/governments.ruleset:535
 #: data/default/governments.ruleset:486 data/default/governments.ruleset:487
 msgid "President"
-msgstr ""
+msgstr "Presidente"
 
 #: data/civ1/governments.ruleset:489 data/civ2/governments.ruleset:537
 #: data/default/governments.ruleset:489
@@ -3904,15 +3919,15 @@ msgstr ""
 #: data/civ1/techs.ruleset:228 data/civ2/governments.ruleset:370
 #: data/civ2/techs.ruleset:228 data/default/techs.ruleset:228
 msgid "Fundamentalism"
-msgstr ""
+msgstr "Fundamentalismo"
 
 #: data/civ2/governments.ruleset:408
 msgid "High Priest"
-msgstr ""
+msgstr "Sumo Sacerdote"
 
 #: data/civ2/governments.ruleset:409
 msgid "High Priestess"
-msgstr ""
+msgstr "Suma Sacedotiza"
 
 #: data/civ2/governments.ruleset:412
 msgid "(Sorry, no helptext available.)"
@@ -3920,15 +3935,15 @@ msgstr ""
 
 #: data/default/nations.ruleset:52
 msgid "Roman"
-msgstr ""
+msgstr "Romano"
 
 #: data/default/nations.ruleset:53
 msgid "Romans"
-msgstr ""
+msgstr "Romanos"
 
 #: data/default/nations.ruleset:60
 msgid "Dictator"
-msgstr ""
+msgstr "Ditador"
 
 #: data/default/nations.ruleset:61
 msgid "Imperator"
@@ -3940,51 +3955,51 @@ msgstr ""
 
 #: data/default/nations.ruleset:94
 msgid "Babylonian"
-msgstr ""
+msgstr "Babilónio"
 
 #: data/default/nations.ruleset:95
 msgid "Babylonians"
-msgstr ""
+msgstr "Babilónios"
 
 #: data/default/nations.ruleset:122
 msgid "German"
-msgstr ""
+msgstr "Alemão"
 
 #: data/default/nations.ruleset:123
 msgid "Germans"
-msgstr ""
+msgstr "Alemães"
 
 #: data/default/nations.ruleset:129
 msgid "Chancellor"
-msgstr ""
+msgstr "Chanceler"
 
 #: data/default/nations.ruleset:130 data/default/nations.ruleset:362
 msgid "Archbishop"
-msgstr ""
+msgstr "Arcebispo"
 
 #: data/default/nations.ruleset:161
 msgid "Egyptian"
-msgstr ""
+msgstr "Egípcio"
 
 #: data/default/nations.ruleset:162
 msgid "Egyptians"
-msgstr ""
+msgstr "Egípcios"
 
 #: data/default/nations.ruleset:169
 msgid "Pharaoh"
-msgstr ""
+msgstr "Faraó"
 
 #: data/default/nations.ruleset:170
 msgid "Great Pharaoh"
-msgstr ""
+msgstr "Grande Faraó"
 
 #: data/default/nations.ruleset:193
 msgid "American"
-msgstr ""
+msgstr "Americano"
 
 #: data/default/nations.ruleset:194
 msgid "Americans"
-msgstr ""
+msgstr "Americanos"
 
 #: data/default/nations.ruleset:201
 msgid "Speaker"
@@ -3992,70 +4007,70 @@ msgstr ""
 
 #: data/default/nations.ruleset:202
 msgid "Reverend"
-msgstr ""
+msgstr "Reverendo"
 
 #: data/default/nations.ruleset:230
 msgid "Greek"
-msgstr ""
+msgstr "Grego"
 
 #: data/default/nations.ruleset:231
 msgid "Greeks"
-msgstr ""
+msgstr "Gregos"
 
 #: data/default/nations.ruleset:237 data/default/nations.ruleset:447
 #: data/default/nations.ruleset:539 data/default/nations.ruleset:772
 #: data/default/nations.ruleset:803 data/default/nations.ruleset:845
 #: data/default/nations.ruleset:877
 msgid "Prime Minister"
-msgstr ""
+msgstr "Primeiro Ministro"
 
 #: data/default/nations.ruleset:266
 msgid "Indian"
-msgstr ""
+msgstr "Indiano"
 
 #: data/default/nations.ruleset:267
 msgid "Indians"
-msgstr ""
+msgstr "Indianos"
 
 #: data/default/nations.ruleset:274
 msgid "Maharaja"
-msgstr ""
+msgstr "Marajá"
 
 #: data/default/nations.ruleset:295
 msgid "Russian"
-msgstr ""
+msgstr "Russo"
 
 #: data/default/nations.ruleset:296
 msgid "Russians"
-msgstr ""
+msgstr "Russos"
 
 #: data/default/nations.ruleset:303
 msgid "Czar"
-msgstr ""
+msgstr "Czar"
 
 #: data/default/nations.ruleset:303
 msgid "Czarina"
-msgstr ""
+msgstr "Czarina"
 
 #: data/default/nations.ruleset:304
 msgid "Patriarch"
-msgstr ""
+msgstr "Patriarca"
 
 #: data/default/nations.ruleset:304
 msgid "Matriarch"
-msgstr ""
+msgstr "Matriarca"
 
 #: data/default/nations.ruleset:328
 msgid "Zulu"
-msgstr ""
+msgstr "Zulu"
 
 #: data/default/nations.ruleset:329
 msgid "Zulus"
-msgstr ""
+msgstr "Zulus"
 
 #: data/default/nations.ruleset:354 data/default/nations.ruleset:355
 msgid "French"
-msgstr ""
+msgstr "Françês"
 
 #: data/default/nations.ruleset:361
 msgid "Premier"
@@ -4063,15 +4078,15 @@ msgstr ""
 
 #: data/default/nations.ruleset:384
 msgid "Aztec"
-msgstr ""
+msgstr "Axteca"
 
 #: data/default/nations.ruleset:385
 msgid "Aztecs"
-msgstr ""
+msgstr "Axtecas"
 
 #: data/default/nations.ruleset:411 data/default/nations.ruleset:412
 msgid "Chinese"
-msgstr ""
+msgstr "Chinês"
 
 #: data/default/nations.ruleset:418
 msgid "Chairman"
@@ -4083,139 +4098,139 @@ msgstr ""
 
 #: data/default/nations.ruleset:440 data/default/nations.ruleset:441
 msgid "English"
-msgstr ""
+msgstr "Inglês"
 
 #: data/default/nations.ruleset:448
 msgid "Lord Protector"
-msgstr ""
+msgstr "Lorde Protector"
 
 #: data/default/nations.ruleset:448
 msgid "Lady Protector"
-msgstr ""
+msgstr "Dama Protectora"
 
 #: data/default/nations.ruleset:470
 msgid "Mongol"
-msgstr ""
+msgstr "Mongol"
 
 #: data/default/nations.ruleset:471
 msgid "Mongols"
-msgstr ""
+msgstr "Mongóis"
 
 #: data/default/nations.ruleset:477
 msgid "Khan"
-msgstr ""
+msgstr "Cão"
 
 #: data/default/nations.ruleset:478
 msgid "Great Khan"
-msgstr ""
+msgstr "Grande Cão"
 
 #: data/default/nations.ruleset:500
 msgid "Turk"
-msgstr ""
+msgstr "Turco"
 
 #: data/default/nations.ruleset:501
 msgid "Turks"
-msgstr ""
+msgstr "Turcos"
 
 #: data/default/nations.ruleset:508
 msgid "Sultan"
-msgstr ""
+msgstr "Sultão"
 
 #: data/default/nations.ruleset:532 data/default/nations.ruleset:533
 msgid "Spanish"
-msgstr ""
+msgstr "Espanhol"
 
 #: data/default/nations.ruleset:561
 msgid "Persian"
-msgstr ""
+msgstr "Persa"
 
 #: data/default/nations.ruleset:562
 msgid "Persians"
-msgstr ""
+msgstr "Persas"
 
 #: data/default/nations.ruleset:569
 msgid "Shah"
-msgstr ""
+msgstr "Xá"
 
 #: data/default/nations.ruleset:592
 msgid "Arab"
-msgstr ""
+msgstr "Árabe"
 
 #: data/default/nations.ruleset:593
 msgid "Arabs"
-msgstr ""
+msgstr "Árabes"
 
 #: data/default/nations.ruleset:600
 msgid "Caliph"
-msgstr ""
+msgstr "Califa"
 
 #: data/default/nations.ruleset:622
 msgid "Carthaginian"
-msgstr ""
+msgstr "Cartaginês"
 
 #: data/default/nations.ruleset:623
 msgid "Carthaginians"
-msgstr ""
+msgstr "Cartagineses"
 
 #: data/default/nations.ruleset:650
 msgid "Inca"
-msgstr ""
+msgstr "Inca"
 
 #: data/default/nations.ruleset:651
 msgid "Incas"
-msgstr ""
+msgstr "Incas"
 
 #: data/default/nations.ruleset:658
 msgid "Warlord"
-msgstr ""
+msgstr "Senhor da Guerra"
 
 #: data/default/nations.ruleset:682
 msgid "Viking"
-msgstr ""
+msgstr "Viking"
 
 #: data/default/nations.ruleset:683
 msgid "Vikings"
-msgstr ""
+msgstr "Vikings"
 
 #: data/default/nations.ruleset:713 data/default/nations.ruleset:714
 msgid "Polish"
-msgstr ""
+msgstr "Polaco"
 
 #: data/default/nations.ruleset:740
 msgid "Hungarian"
-msgstr ""
+msgstr "Húngaro"
 
 #: data/default/nations.ruleset:741
 msgid "Hungarians"
-msgstr ""
+msgstr "Húngaros"
 
 #: data/default/nations.ruleset:765
 msgid "Danish"
-msgstr ""
+msgstr "Dinamarquês"
 
 #: data/default/nations.ruleset:766
 msgid "Danes"
-msgstr ""
+msgstr "Dinamarqueses"
 
 #: data/default/nations.ruleset:796 data/default/nations.ruleset:797
 msgid "Dutch"
-msgstr ""
+msgstr "Holandês"
 
 #: data/default/nations.ruleset:838
 msgid "Swedish"
-msgstr ""
+msgstr "Sueco"
 
 #: data/default/nations.ruleset:839
 msgid "Swedes"
-msgstr ""
+msgstr "Suecos"
 
 #: data/default/nations.ruleset:868 data/default/nations.ruleset:869
 msgid "Japanese"
-msgstr ""
+msgstr "Japonês"
 
 #: data/default/nations.ruleset:876
 msgid "Shogun"
-msgstr ""
+msgstr "Shogun"
 
 #: data/civ1/techs.ruleset:48 data/civ2/techs.ruleset:48
 #: data/default/techs.ruleset:48
@@ -4225,7 +4240,7 @@ msgstr ""
 #: data/civ1/techs.ruleset:54 data/civ2/techs.ruleset:54
 #: data/default/techs.ruleset:54
 msgid "Alphabet"
-msgstr ""
+msgstr "Alfabeto"
 
 #: data/civ1/techs.ruleset:60 data/civ2/techs.ruleset:60
 #: data/default/techs.ruleset:60
@@ -4235,7 +4250,7 @@ msgstr ""
 #: data/civ1/techs.ruleset:66 data/civ2/techs.ruleset:66
 #: data/default/techs.ruleset:66
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomia"
 
 #: data/civ1/techs.ruleset:72 data/civ2/techs.ruleset:72
 #: data/default/techs.ruleset:72
@@ -4270,7 +4285,7 @@ msgstr ""
 #: data/civ1/techs.ruleset:108 data/civ2/techs.ruleset:108
 #: data/default/techs.ruleset:108
 msgid "Chemistry"
-msgstr ""
+msgstr "Química"
 
 #: data/civ1/techs.ruleset:114 data/civ2/techs.ruleset:114
 #: data/default/techs.ruleset:114
@@ -4280,7 +4295,7 @@ msgstr ""
 #: data/civ1/techs.ruleset:120 data/civ2/techs.ruleset:120
 #: data/default/techs.ruleset:120
 msgid "Code of Laws"
-msgstr ""
+msgstr "Código de Leis"
 
 #: data/civ1/techs.ruleset:126 data/civ2/techs.ruleset:126
 #: data/default/techs.ruleset:126
@@ -4290,72 +4305,72 @@ msgstr ""
 #: data/civ1/techs.ruleset:132 data/civ2/techs.ruleset:132
 #: data/default/techs.ruleset:132
 msgid "Combustion"
-msgstr ""
+msgstr "Combustão"
 
 #: data/civ1/techs.ruleset:144 data/civ2/techs.ruleset:144
 #: data/default/techs.ruleset:144
 msgid "Computers"
-msgstr ""
+msgstr "Computadores"
 
 #: data/civ1/techs.ruleset:150 data/civ2/techs.ruleset:150
 #: data/default/techs.ruleset:150
 msgid "Conscription"
-msgstr ""
+msgstr "Conscripção"
 
 #: data/civ1/techs.ruleset:156 data/civ2/techs.ruleset:156
 #: data/default/techs.ruleset:156
 msgid "Construction"
-msgstr ""
+msgstr "Contrução"
 
 #: data/civ1/techs.ruleset:162 data/civ2/techs.ruleset:162
 #: data/default/techs.ruleset:162
 msgid "Currency"
-msgstr ""
+msgstr "Moeda"
 
 #: data/civ1/techs.ruleset:174 data/civ2/techs.ruleset:174
 #: data/default/techs.ruleset:174
 msgid "Economics"
-msgstr ""
+msgstr "Economia"
 
 #: data/civ1/techs.ruleset:180 data/civ2/techs.ruleset:180
 #: data/default/techs.ruleset:180
 msgid "Electricity"
-msgstr ""
+msgstr "Electricidade"
 
 #: data/civ1/techs.ruleset:186 data/civ2/techs.ruleset:186
 #: data/default/techs.ruleset:186
 msgid "Electronics"
-msgstr ""
+msgstr "Electrónica"
 
 #: data/civ1/techs.ruleset:192 data/civ2/techs.ruleset:192
 #: data/default/techs.ruleset:192
 msgid "Engineering"
-msgstr ""
+msgstr "Engenharia"
 
 #: data/civ1/techs.ruleset:198 data/civ2/techs.ruleset:198
 #: data/default/techs.ruleset:198
 msgid "Environmentalism"
-msgstr ""
+msgstr "Ambientalismo"
 
 #: data/civ1/techs.ruleset:204 data/civ2/techs.ruleset:204
 #: data/default/techs.ruleset:204
 msgid "Espionage"
-msgstr ""
+msgstr "Espionagem"
 
 #: data/civ1/techs.ruleset:210 data/civ2/techs.ruleset:210
 #: data/default/techs.ruleset:210
 msgid "Explosives"
-msgstr ""
+msgstr "Explosivos"
 
 #: data/civ1/techs.ruleset:216 data/civ2/techs.ruleset:216
 #: data/default/techs.ruleset:216
 msgid "Feudalism"
-msgstr ""
+msgstr "Feudalismo"
 
 #: data/civ1/techs.ruleset:222 data/civ2/techs.ruleset:222
 #: data/default/techs.ruleset:222
 msgid "Flight"
-msgstr ""
+msgstr "Vôo"
 
 #: data/civ1/techs.ruleset:234 data/civ2/techs.ruleset:234
 #: data/default/techs.ruleset:234
@@ -4365,7 +4380,7 @@ msgstr ""
 #: data/civ1/techs.ruleset:240 data/civ2/techs.ruleset:240
 #: data/default/techs.ruleset:240
 msgid "Genetic Engineering"
-msgstr ""
+msgstr "Engenharia Genética"
 
 #: data/civ1/techs.ruleset:246 data/civ2/techs.ruleset:246
 #: data/default/techs.ruleset:246
@@ -4375,7 +4390,7 @@ msgstr ""
 #: data/civ1/techs.ruleset:252 data/civ2/techs.ruleset:252
 #: data/default/techs.ruleset:252
 msgid "Gunpowder"
-msgstr ""
+msgstr "Pólvora"
 
 #: data/civ1/techs.ruleset:258 data/civ2/techs.ruleset:258
 #: data/default/techs.ruleset:258
@@ -4385,12 +4400,12 @@ msgstr ""
 #: data/civ1/techs.ruleset:264 data/civ2/techs.ruleset:264
 #: data/default/techs.ruleset:264
 msgid "Industrialization"
-msgstr ""
+msgstr "Industrialização"
 
 #: data/civ1/techs.ruleset:270 data/civ2/techs.ruleset:270
 #: data/default/techs.ruleset:270
 msgid "Invention"
-msgstr ""
+msgstr "Invenção"
 
 #: data/civ1/techs.ruleset:276 data/civ2/techs.ruleset:276
 #: data/default/techs.ruleset:276
