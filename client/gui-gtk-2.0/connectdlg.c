@@ -347,7 +347,9 @@ static int try_to_autoconnect(gpointer data)
 {
   char errbuf[512];
   static int count = 0;
+#ifndef WIN32_NATIVE
   static int warning_shown = 0;
+#endif
 
   count++;
 
