@@ -681,6 +681,7 @@ static void setup_widgets(void)
   GtkWidget *frame, *table, *table2, *paned, *sw, *text;
   GtkStyle *style;
   int i;
+  char buf[256];
   struct Sprite *sprite;
 
   GtkWidget *notebook, *statusbar;
@@ -884,7 +885,10 @@ static void setup_widgets(void)
 
   g_signal_connect(turn_done_button, "clicked",
                    G_CALLBACK(end_turn_callback), NULL);
- 
+
+  my_snprintf(buf, sizeof(buf), "%s:\n%s", _("Turn Done"), _("Shift+Return"));
+  gtk_tooltips_set_tip(main_tips, turn_done_button, buf, "");
+
   /* Selected unit status */
 
   unit_info_frame = gtk_frame_new("");
