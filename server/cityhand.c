@@ -111,7 +111,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
     sync_cities();
   } else {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
-		     _("Game: You don't have a worker here.")); 
+		     _("You don't have a worker here.")); 
   }
   sanity_check_city(pcity);
 }
@@ -168,7 +168,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 {  
   if (pcity->did_sell) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT, 
-		  _("Game: You have already sold something here this turn."));
+		  _("You have already sold something here this turn."));
     return;
   }
 
@@ -177,7 +177,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 
   pcity->did_sell=TRUE;
   notify_player_ex(pplayer, pcity->tile, E_IMP_SOLD,
-		   _("Game: You sell %s in %s for %d gold."), 
+		   _("You sell %s in %s for %d gold."), 
 		   get_improvement_name(id), pcity->name,
 		   impr_sell_gold(id));
   do_sell_building(pplayer, pcity, id);
@@ -214,27 +214,27 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
  
   if (pcity->turn_founded == game.turn) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
-		  _("Game: Cannot buy in city created this turn."));
+		  _("Cannot buy in city created this turn."));
     return;
   }
 
   if (pcity->did_buy) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
-		  _("Game: You have already bought this turn."));
+		  _("You have already bought this turn."));
     return;
   }
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     assert(!pcity->is_building_unit);
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
-                     _("Game: You don't buy %s!"),
+                     _("You don't buy %s!"),
 		     improvement_types[pcity->currently_building].name);
     return;
   }
 
   if (pcity->is_building_unit && pcity->anarchy != 0) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT, 
-		     _("Game: Can't buy units when city is in disorder."));
+		     _("Can't buy units when city is in disorder."));
     return;
   }
 
@@ -272,7 +272,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   conn_list_do_buffer(pplayer->connections);
   notify_player_ex(pplayer, pcity->tile, 
                    pcity->is_building_unit?E_UNIT_BUY:E_IMP_BUY,
-		   _("Game: %s bought in %s for %d gold."), 
+		   _("%s bought in %s for %d gold."), 
 		   name, pcity->name, cost);
   send_city_info(pplayer, pcity);
   send_player_info(pplayer,pplayer);
@@ -353,7 +353,7 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
      return;
   if (pcity->did_buy && pcity->shield_stock > 0) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
-		     _("Game: You have bought this turn, can't change."));
+		     _("You have bought this turn, can't change."));
     return;
   }
 
@@ -379,7 +379,7 @@ void handle_city_rename(struct player *pplayer, int city_id, char *name)
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
-		     _("Game: %s"),  message);
+		     _("%s"),  message);
     return;
   }
 

@@ -622,17 +622,17 @@ msgstr "error %d (compilat sense strerror)"
 
 #: ai/aicity.c:707 server/citytools.c:1798
 #, c-format
-msgid "Game: The %s have stopped building The %s in %s."
+msgid "The %s have stopped building The %s in %s."
 msgstr "Joc: Els %s han deixat de construir %s a %s."
 
 #: ai/aicity.c:717 server/citytools.c:1845
 #, c-format
-msgid "Game: The %s have started building The %s in %s."
+msgid "The %s have started building The %s in %s."
 msgstr "Joc: Els %s han començat a construir %s a %s."
 
 #: ai/aicity.c:1011
 #, c-format
-msgid "Game: %s is selling %s (not needed) for %d."
+msgid "%s is selling %s (not needed) for %d."
 msgstr "Joc: %s està venent %s (innecessari) per %d."
 
 #: ai/advdiplomacy.c:250
@@ -845,49 +845,49 @@ msgid "Sea raiders seen near %s!"
 msgstr "S'han vist pirates prop de %s!"
 
 #: server/cityhand.c:114
-msgid "Game: You don't have a worker here."
+msgid "You don't have a worker here."
 msgstr "Joc: Aquí no hi ha cap treballador."
 
 #: server/cityhand.c:171
-msgid "Game: You have already sold something here this turn."
+msgid "You have already sold something here this turn."
 msgstr "Joc: Ja has venut quelcom aquest torn en aquesta ciutat."
 
 #: server/cityhand.c:180
 #, c-format
-msgid "Game: You sell %s in %s for %d gold."
+msgid "You sell %s in %s for %d gold."
 msgstr "Joc: Vens %s a %s per %d d'or."
 
 #: server/cityhand.c:217
-msgid "Game: Cannot buy in city created this turn."
+msgid "Cannot buy in city created this turn."
 msgstr "Joc: No pots comprar en una ciutat creada aquest torn."
 
 #: server/cityhand.c:223
-msgid "Game: You have already bought this turn."
+msgid "You have already bought this turn."
 msgstr "Joc: Ja has comprat en aquest torn."
 
 #: server/cityhand.c:230
 #, c-format
-msgid "Game: You don't buy %s!"
+msgid "You don't buy %s!"
 msgstr "Joc: No compres %s!"
 
 #: server/cityhand.c:237
-msgid "Game: Can't buy units when city is in disorder."
+msgid "Can't buy units when city is in disorder."
 msgstr "Joc: No pots comprar unitats quan la ciutat està en desordre."
 
 #: server/cityhand.c:275
 #, c-format
-msgid "Game: %s bought in %s for %d gold."
+msgid "%s bought in %s for %d gold."
 msgstr "Joc: Has comprat %s a %s per %d d'or."
 
 #: server/cityhand.c:356 client/gui-gtk/wldlg.c:1006
 #: client/gui-gtk/wldlg.c:1180 client/gui-gtk/wldlg.c:1207
-msgid "Game: You have bought this turn, can't change."
+msgid "You have bought this turn, can't change."
 msgstr "Joc: Has comprat en aquest torn, per tant no pots canviar."
 
 #: server/cityhand.c:382 server/plrhand.c:407 server/stdinhand.c:366
 #: server/unithand.c:176 server/unithand.c:480
 #, c-format
-msgid "Game: %s"
+msgid "%s"
 msgstr "Joc: %s"
 
 #: server/citytools.c:263
@@ -922,27 +922,27 @@ msgstr "Una ciutat amb un nom pobre"
 
 #: server/citytools.c:513
 #, c-format
-msgid "Game: Changed homecity of %s to %s."
+msgid "Changed homecity of %s to %s."
 msgstr "Joc: Canviat la ciutat llar de %s a %s."
 
 #: server/citytools.c:523
 #, c-format
-msgid "Game: Transfered %s in %s from %s to %s."
+msgid "Transfered %s in %s from %s to %s."
 msgstr "Joc:: Transferit %s a %s des de %s fins %s."
 
 #: server/citytools.c:532
 #, c-format
-msgid "Game: Transfered %s from %s to %s."
+msgid "Transfered %s from %s to %s."
 msgstr "Joc: Transferit %s des de %s fins %s."
 
 #: server/citytools.c:611
 #, c-format
-msgid "Game: %s lost along with control of %s."
+msgid "%s lost along with control of %s."
 msgstr "Joc: Has perdut %s al perdre el control de %s."
 
 #: server/citytools.c:730
 #, c-format
-msgid "Game: You lost your capital %s. A new palace was built in %s."
+msgid "You lost your capital %s. A new palace was built in %s."
 msgstr "Joc: Has perdut la capital (%s). S'ha construït un nou palau a %s."
 
 #: server/citytools.c:790
@@ -953,7 +953,7 @@ msgstr "Ja tenies una ciutat anomenada %s. La ciutat s'ha renomenat a %s."
 #: server/citytools.c:879
 #, c-format
 msgid ""
-"Game: The people in %s are stunned by your technological insight!\n"
+"The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 "Joc: La gent de %s estan sorpresos del teu nivell tecnològic!\n"
@@ -971,17 +971,17 @@ msgstr "%s (%i, %i) fundada per els %s"
 
 #: server/citytools.c:1008
 #, c-format
-msgid "Game: You have founded %s"
+msgid "You have founded %s"
 msgstr "Joc: Has fundat %s"
 
 #: server/citytools.c:1060
 #, c-format
-msgid "Game: Changed homecity of %s in %s."
+msgid "Changed homecity of %s in %s."
 msgstr "Joc: Canviat la ciutat llar de %s a %s."
 
 #: server/citytools.c:1090
 #, c-format
-msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
+msgid "Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr ""
 "Joc: S'ha mogut %s fora de la ciutat %s que s'ha desmantellat per evitar "
 "quedar atrapat a terra."
@@ -989,7 +989,7 @@ msgstr ""
 #: server/citytools.c:1101
 #, c-format
 msgid ""
-"Game: When %s was disbanded your %s could not get out, and it was therefore "
+"When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
 msgstr ""
 "Joc Quan %s ha estat desmantellada %s no ha pogut sortir-ne'n i per tant, ha "
@@ -997,12 +997,12 @@ msgstr ""
 
 #: server/citytools.c:1207
 #, c-format
-msgid "Game: You destroy %s completely."
+msgid "You destroy %s completely."
 msgstr "Joc: Destrueixes %s completament."
 
 #: server/citytools.c:1209
 #, c-format
-msgid "Game: %s has been destroyed by %s."
+msgid "%s has been destroyed by %s."
 msgstr "Joc: %s ha estat destruïda per %s."
 
 #: server/citytools.c:1211
@@ -1012,12 +1012,12 @@ msgstr "%s (%s) (%i,%i) destruïda per %s"
 
 #: server/citytools.c:1229
 #, c-format
-msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
+msgid "You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Joc: Conquereixes %s, el botí puja a %d peces d'or!"
 
 #: server/citytools.c:1233
 #, c-format
-msgid "Game: %s conquered %s and looted %d gold from the city."
+msgid "%s conquered %s and looted %d gold from the city."
 msgstr ""
 "Joc: %s ha conquerit %s i ha fet un botí de %d peces d'or de la ciutat."
 
@@ -1028,12 +1028,12 @@ msgstr "%s (%s) (%i,%i) conquerida per %s"
 
 #: server/citytools.c:1242
 #, c-format
-msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
+msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgstr "Joc: Has alliberat %s!! Els botí suma %d peces d'or."
 
 #: server/citytools.c:1247
 #, c-format
-msgid "Game: %s liberated %s and looted %d gold from the city."
+msgid "%s liberated %s and looted %d gold from the city."
 msgstr ""
 "Joc: %s ha alliberat %s i ha fet un botí de %d peces d'or de la ciutat."
 
@@ -1049,34 +1049,34 @@ msgstr " de la llista de treball"
 #. TRANS: "<city> is building <production><source>."
 #: server/citytools.c:1832
 #, c-format
-msgid "Game: %s is building %s%s."
+msgid "%s is building %s%s."
 msgstr "Joc: %s està construint %s%s."
 
 #. TRANS: "<city> is building <production>."
 #: server/citytools.c:1837
 #, c-format
-msgid "Game: %s is building %s."
+msgid "%s is building %s."
 msgstr "Joc: %s està construint %s."
 
 #: server/citytools.c:2092
 #, c-format
-msgid "Game: You sell %s in %s (now landlocked) for %d gold."
+msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Joc: Vens %s a %s (encallat) per %d peces d'or."
 
 #: server/cityturn.c:120
 #, c-format
-msgid "Game: %s is selling %s (obsolete) for %d."
+msgid "%s is selling %s (obsolete) for %d."
 msgstr "Joc: %s està venent %s (obsolet) per %d."
 
 #: server/cityturn.c:298
 #, c-format
-msgid "Game: Notice: Wonder %s in %s will be finished next turn."
+msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Joc: Avís: La Meravella %s de %s s'acabarà el proper torn."
 
 #: server/cityturn.c:332
 #, c-format
 msgid ""
-"Game: Suggest throttling growth in %s to use %s (being built) more "
+"Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
 msgstr ""
 "Joc:  Accelera el creixement de %s per usar %s (en construcció) més "
@@ -1084,36 +1084,36 @@ msgstr ""
 
 #: server/cityturn.c:343
 #, c-format
-msgid "Game: %s may soon grow to size %i."
+msgid "%s may soon grow to size %i."
 msgstr "Joc: %s creixerà dintre de poc a %i."
 
 #: server/cityturn.c:351
 #, c-format
-msgid "Game: Warning: Famine feared in %s."
+msgid "Warning: Famine feared in %s."
 msgstr "Joc: Perill: Es tem fam a %s."
 
 #: server/cityturn.c:375
-msgid "Game: WARNING, we're LOW on FUNDS sire."
+msgid "WARNING, we're LOW on FUNDS sire."
 msgstr "Joc: ATENCIÓ, ens estem quedant SENSE DINERS."
 
 #: server/cityturn.c:465
 #, c-format
-msgid "Game: %s needs %s (being built) to grow any further."
+msgid "%s needs %s (being built) to grow any further."
 msgstr "Joc: %s necessita %s (que ja s'està construint) per créixer més."
 
 #: server/cityturn.c:470
 #, fuzzy, c-format
-msgid "Game: %s needs an improvement to grow any further."
+msgid "%s needs an improvement to grow any further."
 msgstr "Joc: %s necessita %s per créixer més."
 
 #: server/cityturn.c:513
 #, c-format
-msgid "Game: %s grows to size %d."
+msgid "%s grows to size %d."
 msgstr "Joc: %s ha crescut a %d."
 
 #: server/cityturn.c:543
 #, c-format
-msgid "Game: Famine feared in %s, %s lost!"
+msgid "Famine feared in %s, %s lost!"
 msgstr "Joc: Es tem fam a %s, s'han perdut %s !"
 
 #: server/cityturn.c:545
@@ -1123,18 +1123,18 @@ msgstr "%s ha perdut %s (fam)"
 
 #: server/cityturn.c:553
 #, c-format
-msgid "Game: Famine causes population loss in %s."
+msgid "Famine causes population loss in %s."
 msgstr "Joc: La fam causa pèrdua de població a %s."
 
 #: server/cityturn.c:622 server/cityturn.c:662
 #, c-format
-msgid "Game: %s can't build %s from the worklist.  Purging..."
+msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "Joc: %s no es pot construir %s de la llista de treballs.  Depurant..."
 
 #: server/cityturn.c:641 server/cityturn.c:682
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; tech not yet available.  "
+"%s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
 "Joc: %s no pot construir %s de la llista de treball, la tecnologia encara no "
@@ -1143,13 +1143,13 @@ msgstr ""
 #: server/cityturn.c:649 server/cityturn.c:706 server/cityturn.c:773
 #: server/cityturn.c:820
 #, c-format
-msgid "Game: Production of %s is upgraded to %s in %s."
+msgid "Production of %s is upgraded to %s in %s."
 msgstr "Joc: La construcció de %s s'ha millorat a %s a %s."
 
 #: server/cityturn.c:688
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; need to have %s first.  "
+"%s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
 msgstr ""
 "Joc: %s no pot construir %s de la llista de treball, necessita abans %s.  Es "
@@ -1158,34 +1158,34 @@ msgstr ""
 #: server/cityturn.c:697
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
+"%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
 "Joc: %s no pot construir %s de la llista de treball, raó desconeguda!!!.  Es "
 "posposa..."
 
 #: server/cityturn.c:731
 #, c-format
-msgid "Game: %s's worklist is now empty."
+msgid "%s's worklist is now empty."
 msgstr "Joc: La llista de treball de %s està buida."
 
 #: server/cityturn.c:842
 #, c-format
-msgid "Game: %s can't upkeep %s, unit disbanded."
+msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Joc: %s no pot mantenir %s, s'ha desmantellat la unitat."
 
 #: server/cityturn.c:861
 #, c-format
-msgid "Game: Citizens in %s perish for their failure to upkeep %s!"
+msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Joc: Ciutadans de %s moren perque no poden mantenir %s!"
 
 #: server/cityturn.c:900 server/cityturn.c:1026
 #, c-format
-msgid "Game: %s is building %s, which is no longer available."
+msgid "%s is building %s, which is no longer available."
 msgstr "Joc: %s està construint %s que ja no està disponible."
 
 #: server/cityturn.c:937
 #, c-format
-msgid "Game: The %s have finished building %s in %s."
+msgid "The %s have finished building %s in %s."
 msgstr "Joc: Els %s han acabat de construir %s a %s."
 
 #: server/cityturn.c:941 server/cityturn.c:947
@@ -1195,24 +1195,24 @@ msgstr "%s construeix %s a %s"
 
 #: server/cityturn.c:953
 #, c-format
-msgid "Game: %s has finished building %s."
+msgid "%s has finished building %s."
 msgstr "Joc: %s ha acabat de construir %s."
 
 #: server/cityturn.c:960
 #, fuzzy, c-format
-msgid "Game: %s boosts research; you gain %d immediate advance."
-msgid_plural "Game: %s boosts research; you gain %d immediate advances."
+msgid "%s boosts research; you gain %d immediate advance."
+msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] "Joc: %s dispara la recerca, obtens dos avenços immediats."
 msgstr[1] "Joc: %s dispara la recerca, obtens dos avenços immediats."
 
 #: server/cityturn.c:979 server/plrhand.c:162
 #, fuzzy, c-format
-msgid "Game: The %s have acquired %s from %s."
+msgid "The %s have acquired %s from %s."
 msgstr "Joc: Els %s han adquirit %s dels %s."
 
 #: server/cityturn.c:987
 #, c-format
-msgid "Game: The %s have started building a spaceship!"
+msgid "The %s have started building a spaceship!"
 msgstr "Joc: Els %s han començat a construir una nau espacial!"
 
 #: server/cityturn.c:1028
@@ -1222,13 +1222,13 @@ msgstr "Joc: %2$s de %1$s està construint %3$s que ja no està disponible."
 
 #: server/cityturn.c:1044
 #, c-format
-msgid "Game: %s can't build %s yet."
+msgid "%s can't build %s yet."
 msgstr "Joc: %s encara no pot construir %s."
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1074
 #, c-format
-msgid "Game: %s is finished building %s."
+msgid "%s is finished building %s."
 msgstr "Joc: %s ha acabat de construir %s."
 
 #: server/cityturn.c:1078
@@ -1238,47 +1238,47 @@ msgstr "%s construeix %s a %s (%i,%i)"
 
 #: server/cityturn.c:1124
 #, c-format
-msgid "Game: Can't afford to maintain %s in %s, building sold!"
+msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Joc: No es pot mantenir %s a %s, s'ha venut l'edifici!"
 
 #: server/cityturn.c:1159
 #, c-format
-msgid "Game: Pollution near %s."
+msgid "Pollution near %s."
 msgstr "Joc: Pol·lució prop de %s."
 
 #: server/cityturn.c:1312
 #, c-format
-msgid "Game: We Love The %s Day celebrated in %s."
+msgid "We Love The %s Day celebrated in %s."
 msgstr "Joc: Es celebra el dia Amem el %s a %s."
 
 #: server/cityturn.c:1320
 #, c-format
-msgid "Game: We Love The %s Day canceled in %s."
+msgid "We Love The %s Day canceled in %s."
 msgstr "Joc: Es cancel·la el dia Amem el %s a %s."
 
 #: server/cityturn.c:1350
 #, c-format
-msgid "Game: Civil disorder in %s."
+msgid "Civil disorder in %s."
 msgstr "Joc: Desordre civil a %s."
 
 #: server/cityturn.c:1353
 #, c-format
-msgid "Game: CIVIL DISORDER CONTINUES in %s."
+msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "Joc: EL DESORDRE CIVIL CONTINUA A %s."
 
 #: server/cityturn.c:1359
 #, c-format
-msgid "Game: Order restored in %s."
+msgid "Order restored in %s."
 msgstr "Joc: S'ha restablert l'ordre a %s."
 
 #: server/cityturn.c:1367
 #, c-format
-msgid "Game: The people have overthrown your %s, your country is in turmoil."
+msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Joc: La gent a destronat al teu %s, el país està en aixecament."
 
 #: server/cityturn.c:1391
 #, c-format
-msgid "Game: %s can't build %s yet, and we can't disband our only city."
+msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Joc: %s no pot construir %s encara, i no podem desmantellar l'única ciutat "
 "que tenim."
@@ -1286,7 +1286,7 @@ msgstr ""
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1409
 #, c-format
-msgid "Game: %s is disbanded into %s."
+msgid "%s is disbanded into %s."
 msgstr "Joc: %s desmantellada a %s."
 
 #: server/cityturn.c:1411
@@ -2330,11 +2330,6 @@ msgstr ""
 msgid "Lost connection: %s."
 msgstr "Connexió perduda: %s."
 
-#: server/connecthand.c:546
-#, c-format
-msgid "Game: Lost connection: %s."
-msgstr "Joc: Connexió perduda: %s."
-
 #: server/console.c:166
 msgid "Ok. RFC-style set."
 msgstr "D'acord. Conjunt d'estil RFC."
@@ -2349,12 +2344,12 @@ msgstr "Per obtenir ajuda, escriu 'help'."
 
 #: server/diplhand.c:140
 #, c-format
-msgid "Game: The %s can't accept %s."
+msgid "The %s can't accept %s."
 msgstr "Joc: Els %s no poden acceptar %s."
 
 #: server/diplhand.c:152
 #, c-format
-msgid "Game: You don't have tech %s, you can't accept treaty."
+msgid "You don't have tech %s, you can't accept treaty."
 msgstr "Joc: No tens la tecnologia %s, no pots acceptar el tractat."
 
 #: server/diplhand.c:161
@@ -2369,13 +2364,13 @@ msgstr "No ets el propietari de %s, no pots acceptar el tractat."
 
 #: server/diplhand.c:173 server/diplhand.c:278
 #, c-format
-msgid "Game: Your capital (%s) is requested, you can't accept treaty."
+msgid "Your capital (%s) is requested, you can't accept treaty."
 msgstr "Joc: Han demanat la teva capital (%s), no pots acceptar el tractat."
 
 #: server/diplhand.c:182 server/diplhand.c:300
 #, c-format
 msgid ""
-"Game: You are at war with one of %s's allies - an alliance with %s is "
+"You are at war with one of %s's allies - an alliance with %s is "
 "impossible."
 msgstr ""
 "Joc: estan en guerra amb un dels aliats de %s, una aliança amb %s és del tot "
@@ -2384,20 +2379,20 @@ msgstr ""
 #: server/diplhand.c:189 server/diplhand.c:296
 #, c-format
 msgid ""
-"Game: %s is at war with one of your allies - an alliance with %s is "
+"%s is at war with one of your allies - an alliance with %s is "
 "impossible."
 msgstr ""
 "Joc: %s està en guerra amb un dels nostres aliats, una aliança amb %s és del "
 "tot impossible."
 
 #: server/diplhand.c:198
-msgid "Game: You don't have enough gold, you can't accept treaty."
+msgid "You don't have enough gold, you can't accept treaty."
 msgstr "Joc: No tens or suficient, no pots acceptar el tractat."
 
 #: server/diplhand.c:230 server/diplhand.c:235
 #, c-format
-msgid "Game: A treaty containing %d clause was agreed upon."
-msgid_plural "Game: A treaty containing %d clauses was agreed upon."
+msgid "A treaty containing %d clause was agreed upon."
+msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] "Joc: S'ha acordat un tractat que conté %d clàusula."
 msgstr[1] "Joc: S'ha acordat un tractat que conté %d clàusules."
 
@@ -2409,38 +2404,38 @@ msgstr "%s i %s accepten un tractat"
 #: server/diplhand.c:254 server/diplhand.c:258
 #, c-format
 msgid ""
-"Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+"One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Joc: Una de les ciutats que %s està donant es destruïda! Tractat cancel·lat!"
 
 #: server/diplhand.c:265 server/diplhand.c:270
 #, c-format
-msgid "Game: The %s no longer control %s! Treaty canceled!"
+msgid "The %s no longer control %s! Treaty canceled!"
 msgstr "Joc: Els %s ja no controlen %s! Tractat cancel·lat!"
 
 #: server/diplhand.c:309 server/diplhand.c:313
 #, c-format
-msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
+msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Joc: Els %s no tenen la quantitat d'or promesa! Tractat cancel·lat!"
 
 #: server/diplhand.c:340
 #, fuzzy, c-format
-msgid "Game: You gave an embassy to %s."
+msgid "You gave an embassy to %s."
 msgstr "Joc: Has establert una ambaixada a %s."
 
 #: server/diplhand.c:343
 #, fuzzy, c-format
-msgid "Game: %s allowed you to create an embassy!"
+msgid "%s allowed you to create an embassy!"
 msgstr "Joc: Has adquirit %s de la Gran Biblioteca!"
 
 #: server/diplhand.c:359
 #, c-format
-msgid "Game: You are taught the knowledge of %s."
+msgid "You are taught the knowledge of %s."
 msgstr "Joc: T'ensenyen el coneixement de %s."
 
 #: server/diplhand.c:363
 #, c-format
-msgid "Game: The %s have acquired %s from the %s."
+msgid "The %s have acquired %s from the %s."
 msgstr "Joc: Els %s han adquirit %s dels %s."
 
 #: server/diplhand.c:368
@@ -2450,7 +2445,7 @@ msgstr "%s adquireix %s (tractat) de %s"
 
 #: server/diplhand.c:378
 #, c-format
-msgid "Game: You get %d gold."
+msgid "You get %d gold."
 msgstr "Joc: Obtens %d peces d'or."
 
 #: server/diplhand.c:381
@@ -2460,22 +2455,22 @@ msgstr "%s adquireix %d or de %s"
 
 #: server/diplhand.c:387
 #, c-format
-msgid "Game: You receive %s's worldmap."
+msgid "You receive %s's worldmap."
 msgstr "Joc: Reps el mapa del mon de %s."
 
 #: server/diplhand.c:392
 #, c-format
-msgid "Game: You receive %s's seamap."
+msgid "You receive %s's seamap."
 msgstr "Joc: Reps el mapa marítim de %s."
 
 #: server/diplhand.c:407
 #, c-format
-msgid "Game: You receive city of %s from %s."
+msgid "You receive city of %s from %s."
 msgstr "Joc: Reps la ciutat de %s de %s."
 
 #: server/diplhand.c:411
 #, c-format
-msgid "Game: You give city of %s to %s."
+msgid "You give city of %s to %s."
 msgstr "Joc: Dones la ciutat de %s a %s."
 
 #: server/diplhand.c:414
@@ -2485,17 +2480,17 @@ msgstr "%s adquireix la ciutat %s de %s"
 
 #: server/diplhand.c:426 server/diplhand.c:429
 #, c-format
-msgid "Game: You agree on a cease-fire with %s."
+msgid "You agree on a cease-fire with %s."
 msgstr "Joc: Signes una treva amb %s."
 
 #: server/diplhand.c:438 server/diplhand.c:441
 #, c-format
-msgid "Game: You agree on a peace treaty with %s."
+msgid "You agree on a peace treaty with %s."
 msgstr "Joc: Signes una tractat de pau amb %s."
 
 #: server/diplhand.c:450 server/diplhand.c:453
 #, c-format
-msgid "Game: You agree on an alliance with %s."
+msgid "You agree on an alliance with %s."
 msgstr "Joc: Signes una aliança amb %s."
 
 #: server/diplhand.c:455
@@ -2505,17 +2500,17 @@ msgstr "%s està d'acord amb una aliança amb %s."
 
 #: server/diplhand.c:463 server/diplhand.c:466
 #, fuzzy, c-format
-msgid "Game: You start a research pool with %s."
+msgid "You start a research pool with %s."
 msgstr "Joc: Signes una treva amb %s."
 
 #: server/diplhand.c:505
 #, c-format
-msgid "Game: You give shared vision to %s."
+msgid "You give shared vision to %s."
 msgstr "Joc: Dones visió compartida a %s."
 
 #: server/diplhand.c:508
 #, c-format
-msgid "Game: %s gives you shared vision."
+msgid "%s gives you shared vision."
 msgstr "Joc: %s et dona la visió compartida"
 
 #: server/diplhand.c:510
@@ -2525,12 +2520,12 @@ msgstr "%s comparteix visió amb %s"
 
 #: server/diplhand.c:648
 #, c-format
-msgid "Game: %s canceled the meeting!"
+msgid "%s canceled the meeting!"
 msgstr "Joc: %s cancel·la la cimera!"
 
 #: server/diplhand.c:654
 #, c-format
-msgid "Game: Meeting with %s canceled."
+msgid "Meeting with %s canceled."
 msgstr "Joc: La cimera amb %s ha estat cancel·lada."
 
 #: server/diplhand.c:694
@@ -2539,23 +2534,23 @@ msgstr "El teu enviat diplomàtic ha estat decapitat!"
 
 #: server/diplomats.c:93
 #, c-format
-msgid "Game: Your %s could not poison the water supply in %s."
+msgid "Your %s could not poison the water supply in %s."
 msgstr "Joc: El teu %s no ha pogut enverinar l'aigua de %s."
 
 #: server/diplomats.c:107
 #, c-format
-msgid "Game: Your %s poisoned the water supply of %s."
+msgid "Your %s poisoned the water supply of %s."
 msgstr "Joc: El teu %s ha enverinat l'aigua de %s."
 
 #: server/diplomats.c:110
 #, c-format
-msgid "Game: %s is suspected of poisoning the water supply of %s."
+msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Joc: %s està sota sospita d'haver enverinat l'aigua de %s."
 
 #: server/diplomats.c:257
 #, c-format
 msgid ""
-"Game: Your %s was executed in %s on suspicion of spying.  The %s welcome "
+"Your %s was executed in %s on suspicion of spying.  The %s welcome "
 "future diplomatic efforts providing the Ambassador is reputable."
 msgstr ""
 "Joc: El teu %s ha estat executat a %s sota sospita d'espionatge. Els %s "
@@ -2572,17 +2567,17 @@ msgstr ""
 
 #: server/diplomats.c:274
 #, c-format
-msgid "Game: Your %s was executed in %s by primitive %s."
+msgid "Your %s was executed in %s by primitive %s."
 msgstr "Joc: El teu %s ha estat executat a %s pels primitius %s."
 
 #: server/diplomats.c:287
 #, c-format
-msgid "Game: You have established an embassy in %s."
+msgid "You have established an embassy in %s."
 msgstr "Joc: Has establert una ambaixada a %s."
 
 #: server/diplomats.c:290
 #, c-format
-msgid "Game: The %s have established an embassy in %s."
+msgid "The %s have established an embassy in %s."
 msgstr "Joc: Els %s han establert una ambaixada a %s."
 
 #: server/diplomats.c:292
@@ -2592,77 +2587,77 @@ msgstr "%s estableix una ambaixada a %s (%s) (%i,%i)"
 
 #: server/diplomats.c:348
 #, c-format
-msgid "Game: Your %s could not sabotage %s's %s."
+msgid "Your %s could not sabotage %s's %s."
 msgstr "Joc: El teu %1$s no ha pogut sabotejar el %3$s de %2$s."
 
 #: server/diplomats.c:369
 #, c-format
-msgid "Game: Your %s succeeded in sabotaging %s's %s."
+msgid "Your %s succeeded in sabotaging %s's %s."
 msgstr "Joc: El teu %1$s té èxit en sabotejar el %3$s de %2$s"
 
 #: server/diplomats.c:374
 #, c-format
-msgid "Game: Your %s was sabotaged by %s!"
+msgid "Your %s was sabotaged by %s!"
 msgstr "Joc: El teu %s ha estat sabotejat per %s!"
 
 #: server/diplomats.c:429
-msgid "Game: You can't bribe a unit from this nation."
+msgid "You can't bribe a unit from this nation."
 msgstr "Joc: No pots subornar una unitat d'aquesta nació."
 
 #: server/diplomats.c:438
 #, c-format
-msgid "Game: You don't have enough gold to bribe %s's %s."
+msgid "You don't have enough gold to bribe %s's %s."
 msgstr "Joc: No tens or suficient per subornar al %2$s de %1$s"
 
 #: server/diplomats.c:447
 #, c-format
-msgid "Game: You cannot bribe %s!"
+msgid "You cannot bribe %s!"
 msgstr "Joc: No pots subornar %s!"
 
 #: server/diplomats.c:465
 #, fuzzy, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
+msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Joc: El teu %1$s té èxit subornant al %3$s de %2$s"
 
 #: server/diplomats.c:471
 #, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s."
+msgid "Your %s succeeded in bribing %s's %s."
 msgstr "Joc: El teu %1$s té èxit subornant al %3$s de %2$s"
 
 #: server/diplomats.c:475
 #, c-format
-msgid "Game: Your %s was bribed by %s."
+msgid "Your %s was bribed by %s."
 msgstr "Joc: El teu %s ha estat subornat per %s."
 
 #: server/diplomats.c:572
 #, c-format
-msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
+msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Joc: El teu %s ha estat atrapat intentant robar una tecnologia de %s."
 
 #: server/diplomats.c:576
 #, c-format
-msgid "Game: %s's %s failed to steal technology from %s."
+msgid "%s's %s failed to steal technology from %s."
 msgstr "Joc: El %2$s %1$s ha fallat al robar tecnologia de %3$s."
 
 #: server/diplomats.c:609
 #, c-format
-msgid "Game: No new technology found in %s."
+msgid "No new technology found in %s."
 msgstr "Joc: No s'ha trobat cap tecnologia nova a %s."
 
 #: server/diplomats.c:646
 #, c-format
-msgid "Game: Your %s could not find the %s technology to steal in %s."
+msgid "Your %s could not find the %s technology to steal in %s."
 msgstr ""
 "Joc: El teu %1$s no ha pogut trobat a %3$s la tecnologia %2$s per robar-la."
 
 #: server/diplomats.c:667
 #, c-format
-msgid "Game: Your %s stole Future Tech. %d from %s."
+msgid "Your %s stole Future Tech. %d from %s."
 msgstr "Joc: El teu %s ha robat la tecnologia del futur %d de %s."
 
 #: server/diplomats.c:671
 #, c-format
-msgid "Game: Future Tech. %d stolen by %s %s from %s."
+msgid "Future Tech. %d stolen by %s %s from %s."
 msgstr "Joc: Tecnologia del futur %d robada per %s %s dels %s."
 
 #: server/diplomats.c:674
@@ -2672,17 +2667,17 @@ msgstr "%s roba la tecnologia del futur %d dels %s"
 
 #: server/diplomats.c:687
 #, c-format
-msgid "Game: Your %s stole %s from %s."
+msgid "Your %s stole %s from %s."
 msgstr "Joc: El teu %s roba %s de %s."
 
 #: server/diplomats.c:691
 #, c-format
-msgid "Game: %s's %s stole %s from %s."
+msgid "%s's %s stole %s from %s."
 msgstr "Joc: %s %s roba %s de %s."
 
 #: server/diplomats.c:695 server/plrhand.c:763
 #, c-format
-msgid "Game: The %s have stolen %s from the %s."
+msgid "The %s have stolen %s from the %s."
 msgstr "Joc: Els %s han robat %s dels %s."
 
 #: server/diplomats.c:699
@@ -2691,144 +2686,144 @@ msgid "%s steals %s from the %s"
 msgstr "%s roba %s dels %s"
 
 #: server/diplomats.c:755
-msgid "Game: You can't subvert a city from this nation."
+msgid "You can't subvert a city from this nation."
 msgstr "Joc: No pots subvertir una ciutat d'aquesta nació."
 
 #: server/diplomats.c:763
 #, fuzzy
-msgid "Game: You can't subvert this city."
+msgid "You can't subvert this city."
 msgstr "Joc: No pots subvertir una ciutat d'aquesta nació."
 
 #: server/diplomats.c:774
 #, c-format
-msgid "Game: You don't have enough gold to subvert %s."
+msgid "You don't have enough gold to subvert %s."
 msgstr "Joc: No tens or suficient per a subvertir %s."
 
 #: server/diplomats.c:791
 #, c-format
-msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
+msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Joc: El teu %s ha estat atrapat mentre intentava incitar una revolta!"
 
 #: server/diplomats.c:795
 #, c-format
-msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
+msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Joc: Has agafat %s %s intentant incitar una revolta a %s !"
 
 #: server/diplomats.c:817
 #, c-format
-msgid "Game: Revolt incited in %s, you now rule the city!"
+msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Joc: Has incitat la revolta a %s, ara governes la ciutat!"
 
 #: server/diplomats.c:820
 #, c-format
-msgid "Game: %s has revolted, %s influence suspected."
+msgid "%s has revolted, %s influence suspected."
 msgstr "Joc: %s s'ha revoltat, es sospita la influència de %s."
 
 #: server/diplomats.c:900
 #, c-format
-msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
+msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr ""
 "Joc: El teu %s ha estat atrapat mentre intentava fer sabotatge industrial!"
 
 #: server/diplomats.c:904
 #, c-format
-msgid "Game: You caught %s %s attempting sabotage in %s!"
+msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Joc: Has agafat a %s %s intentant sabotejar a %s !"
 
 #: server/diplomats.c:938
 #, c-format
-msgid "Game: Your %s could not find anything to sabotage in %s."
+msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Joc: El teu %s no ha trobat res per sabotejar a %s."
 
 #: server/diplomats.c:980
 #, fuzzy, c-format
-msgid "Game: You cannot sabotage a %s!"
+msgid "You cannot sabotage a %s!"
 msgstr "Joc: No es poden sabotejar les meravelles ni %s!"
 
 #: server/diplomats.c:990
 #, c-format
-msgid "Game: Your %s could not find the %s to sabotage in %s."
+msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Joc: El teu %s no ha pogut trobar %s per sabotejar-lo a %s."
 
 #: server/diplomats.c:1015
 #, c-format
-msgid "Game: Your %s succeeded in destroying the production of %s in %s."
+msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Joc: El teu %s ha tingut èxit destruint la producció de %s a %s."
 
 #: server/diplomats.c:1019
 #, c-format
-msgid "Game: The production of %s was destroyed in %s, %s are suspected."
+msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "Joc: La producció de %s ha estat destruïda a %s, es sospita dels %s."
 
 #: server/diplomats.c:1040
 #, c-format
-msgid "Game: Your %s was caught in the attempt of sabotage!"
+msgid "Your %s was caught in the attempt of sabotage!"
 msgstr ""
 "Joc: El teu %s ha estat atrapat mentre intentava dur a terme un sabotatge!"
 
 #: server/diplomats.c:1044
 #, c-format
-msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
+msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Joc: Has agafat a %s %s intentant sabotejar el %s a %s !"
 
 #: server/diplomats.c:1056
 #, c-format
-msgid "Game: Your %s destroyed the %s in %s."
+msgid "Your %s destroyed the %s in %s."
 msgstr "Joc: El teu %s ha destruït %s a %s."
 
 #: server/diplomats.c:1060
 #, c-format
-msgid "Game: The %s destroyed the %s in %s."
+msgid "The %s destroyed the %s in %s."
 msgstr "Joc: Els %s han destruït %s a %s."
 
 #: server/diplomats.c:1164
 #, fuzzy, c-format
-msgid "Game: Your %s has been eliminated defending %s against a %s."
+msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Joc: El teu %s ha estat eliminat mentre es defenia contra un %s a %s."
 
 #: server/diplomats.c:1168 server/diplomats.c:1176
 #, c-format
-msgid "Game: An enemy %s has been eliminated defending %s."
+msgid "An enemy %s has been eliminated defending %s."
 msgstr "Joc: Un %s enemic ha estat eliminat mentre defenia %s."
 
 #: server/diplomats.c:1172
 #, c-format
-msgid "Game: Your %s has been eliminated defending against a %s in %s."
+msgid "Your %s has been eliminated defending against a %s in %s."
 msgstr "Joc: El teu %s ha estat eliminat mentre es defenia contra un %s a %s."
 
 #: server/diplomats.c:1190
 #, fuzzy, c-format
-msgid "Game: Your %s was eliminated by a defending %s."
+msgid "Your %s was eliminated by a defending %s."
 msgstr "Joc: El teu %s ha estat eliminat per la %s defensora a %s."
 
 #: server/diplomats.c:1197
 #, fuzzy, c-format
 msgid ""
-"Game: Eliminated %s %s while infiltrating %s. The defender became more "
+"Eliminated %s %s while infiltrating %s. The defender became more "
 "experienced."
 msgstr "Joc: Eliminat %s %s quan s'infiltrava a %s."
 
 #: server/diplomats.c:1204
 #, fuzzy, c-format
 msgid ""
-"Game: Eliminated %s %s while infiltrating our troops. The defender became "
+"Eliminated %s %s while infiltrating our troops. The defender became "
 "more experienced."
 msgstr "Joc: Eliminat %s %s quan s'infiltrava a %s."
 
 #: server/diplomats.c:1214
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating %s."
+msgid "Eliminated %s %s while infiltrating %s."
 msgstr "Joc: Eliminat %s %s quan s'infiltrava a %s."
 
 #: server/diplomats.c:1220
 #, fuzzy, c-format
-msgid "Game: Eliminated %s %s while infiltrating our troops."
+msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "Joc: Eliminat %s %s quan s'infiltrava a %s."
 
 #: server/diplomats.c:1273
 #, fuzzy, c-format
 msgid ""
-"Game: Your %s has successfully completed her mission and returned unharmed "
+"Your %s has successfully completed her mission and returned unharmed "
 "to %s and has become more experienced."
 msgstr ""
 "Joc: El teu %s ha acomplert la seva missió amb èxit i retorna indemne a %s."
@@ -2836,50 +2831,50 @@ msgstr ""
 #: server/diplomats.c:1279
 #, c-format
 msgid ""
-"Game: Your %s has successfully completed her mission and returned unharmed "
+"Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr ""
 "Joc: El teu %s ha acomplert la seva missió amb èxit i retorna indemne a %s."
 
 #: server/diplomats.c:1295
 #, c-format
-msgid "Game: Your %s was captured after completing her mission in %s."
+msgid "Your %s was captured after completing her mission in %s."
 msgstr ""
 "Joc: El teu %s ha estat capturat després d'acomplir la seva missió a %s."
 
 #: server/diplomats.c:1300
 #, c-format
-msgid "Game: Your %s was captured after completing her mission."
+msgid "Your %s was captured after completing her mission."
 msgstr "Joc: El teu %s ha estat capturat després d'acomplir la seva missió."
 
 #: server/diplomats.c:1335
 #, c-format
-msgid "Game: You have caused an incident while bribing %s's %s."
+msgid "You have caused an incident while bribing %s's %s."
 msgstr "Joc: Has causat un incident al subornar el %2$s de %1$s"
 
 #: server/diplomats.c:1340
 #, c-format
-msgid "Game: %s has caused an incident while bribing your %s."
+msgid "%s has caused an incident while bribing your %s."
 msgstr "Joc: %s ha causat un incident al intentar el teu %s."
 
 #: server/diplomats.c:1347
 #, c-format
-msgid "Game: You have caused an incident while stealing tech from %s."
+msgid "You have caused an incident while stealing tech from %s."
 msgstr "Joc: Has causat un incident al robar tecnologia de %s."
 
 #: server/diplomats.c:1351
 #, c-format
-msgid "Game: %s has caused an incident while stealing tech from you."
+msgid "%s has caused an incident while stealing tech from you."
 msgstr "Joc: %s ha causat un incident al robar-te tecnologia."
 
 #: server/diplomats.c:1357
 #, c-format
-msgid "Game: You have caused an incident while inciting a revolt in %s."
+msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Joc: Has causat un incident al incitar una revolta a %s."
 
 #: server/diplomats.c:1360
 #, c-format
-msgid "Game: %s have caused an incident while inciting a revolt in %s."
+msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr "Joc: %s ha causat un incident al incitar una revolta a %s."
 
 #: server/gamehand.c:131
@@ -2913,22 +2908,22 @@ msgstr ""
 
 #: server/handchat.c:66
 #, c-format
-msgid "Game: %s is an ambiguous player name-prefix."
+msgid "%s is an ambiguous player name-prefix."
 msgstr "Joc: %s és un prefixe de nom de jugador ambigu."
 
 #: server/handchat.c:70
 #, c-format
-msgid "Game: %s is an ambiguous connection name-prefix."
+msgid "%s is an ambiguous connection name-prefix."
 msgstr "Joc: %s és un prefixe de nom de connexió ambigu."
 
 #: server/handchat.c:74
 #, c-format
-msgid "Game: %s is an anonymous name. Use connection name"
+msgid "%s is an anonymous name. Use connection name"
 msgstr "Joc: %s és un nom anònim. Usar nom de connexió."
 
 #: server/handchat.c:186
 #, fuzzy
-msgid "Game: You are not attached to a player."
+msgid "You are not attached to a player."
 msgstr "%s no s'ha unit a cap jugador."
 
 #: server/handchat.c:194
@@ -2938,45 +2933,45 @@ msgstr "%s als aliats: %s"
 
 #: server/handchat.c:288
 #, c-format
-msgid "Game: %s is not connected."
+msgid "%s is not connected."
 msgstr "Joc: %s no està connectat."
 
 #: server/handchat.c:300
 #, c-format
-msgid "Game: There is no connection by the name %s."
+msgid "There is no connection by the name %s."
 msgstr "Joc: No hi ha cap connexió amb el nom %s."
 
 #: server/handchat.c:303
 #, c-format
-msgid "Game: There is no player nor connection by the name %s."
+msgid "There is no player nor connection by the name %s."
 msgstr "Joc: No hi ha cap connexió ni jugador amb el nom %s."
 
 #: server/maphand.c:238
-msgid "Game: Global warming has occurred!"
+msgid "Global warming has occurred!"
 msgstr "Joc: Ha ocorregut l'escalfament global!"
 
 #: server/maphand.c:239
 msgid ""
-"Game: Coastlines have been flooded and vast ranges of grassland have become "
+"Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr ""
 "Joc: Les costes han estat inundades i grans quantitats de prats s'han "
 "convertir en deserts."
 
 #: server/maphand.c:280
-msgid "Game: Nuclear winter has occurred!"
+msgid "Nuclear winter has occurred!"
 msgstr "Joc: Ha arrivat el hivern nuclear!"
 
 #: server/maphand.c:281
 msgid ""
-"Game: Wetlands have dried up and vast ranges of grassland have become tundra."
+"Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr ""
 "Joc: Les àrees humides s'han assecat i grans quantitats de prats s'han "
 "convertit en tundra."
 
 #: server/maphand.c:302
 msgid ""
-"Game: New hope sweeps like fire through the country as the discovery of "
+"New hope sweeps like fire through the country as the discovery of "
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
@@ -2987,7 +2982,7 @@ msgstr ""
 
 #: server/maphand.c:308
 msgid ""
-"Game: The people are pleased to hear that your scientists finally know about "
+"The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
@@ -3017,7 +3012,7 @@ msgstr "Metaservidor: adreça incorrecta: [%s:%d]."
 
 #: server/plrhand.c:154
 #, fuzzy, c-format
-msgid "Game: %s acquired from %s!"
+msgid "%s acquired from %s!"
 msgstr "Joc: Els %s han adquirit %s dels %s."
 
 #: server/plrhand.c:157
@@ -3032,7 +3027,7 @@ msgstr "El temut dirigent bàrbar %s ja no ho és."
 
 #: server/plrhand.c:227
 #, c-format
-msgid "Game: The %s are no more!"
+msgid "The %s are no more!"
 msgstr "Joc: Els %s han desaparegut!"
 
 #: server/plrhand.c:229
@@ -3047,13 +3042,13 @@ msgstr "%s són els primers en aprendre %s"
 
 #: server/plrhand.c:307
 #, c-format
-msgid "Game: Discovery of %s OBSOLETES %s in %s!"
+msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "Joc: El descobriment de %s DEIXA OBSOLET %s a %s!"
 
 #: server/plrhand.c:317
 #, c-format
 msgid ""
-"Game: Discovery of %s makes the government form %s available. You may want "
+"Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
 msgstr ""
 "Joc: El descobriment de %s et proporciona una nova forma de govern (%s). "
@@ -3061,20 +3056,20 @@ msgstr ""
 
 #: server/plrhand.c:356
 #, c-format
-msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
+msgid "Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
 "Joc: Un cop descobert %s els nostres científics es dediquen a %s, l'objectiu "
 "és %s."
 
 #: server/plrhand.c:374
 #, c-format
-msgid "Game: Learned %s.  Scientists choose to research %s."
+msgid "Learned %s.  Scientists choose to research %s."
 msgstr ""
 "Joc: Un cop descobert %s els nostres científics escullen dedicar-se a %s"
 
 #: server/plrhand.c:382
 #, c-format
-msgid "Game: Learned %s. "
+msgid "Learned %s. "
 msgstr "Joc: Has descobert %s. "
 
 #: server/plrhand.c:385
@@ -3084,13 +3079,13 @@ msgstr "S'està investigant %s."
 
 #: server/plrhand.c:391
 #, fuzzy, c-format
-msgid "Game: Learned %s.  Scientists do not know what to research next."
+msgid "Learned %s.  Scientists do not know what to research next."
 msgstr ""
 "Joc: Un cop descobert %s els nostres científics escullen dedicar-se a %s"
 
 #: server/plrhand.c:410
 msgid ""
-"Game: Great scientists from all the world join your civilization: you get an "
+"Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
 "Joc: Grans científics de tot el mon s'uneixen a la teva civilització, obtens "
@@ -3099,21 +3094,21 @@ msgstr ""
 #: server/plrhand.c:469
 #, fuzzy, c-format
 msgid ""
-"Game: Learned %s in cooperation with %s. Scientists choose to research %s."
+"Learned %s in cooperation with %s. Scientists choose to research %s."
 msgstr ""
 "Joc: Un cop descobert %s els nostres científics escullen dedicar-se a %s"
 
 #: server/plrhand.c:475
 #, fuzzy, c-format
 msgid ""
-"Game: Learned %s in cooperation with %s. Scientists do not know what to "
+"Learned %s in cooperation with %s. Scientists do not know what to "
 "research next."
 msgstr ""
 "Joc: Un cop descobert %s els nostres científics escullen dedicar-se a %s"
 
 #: server/plrhand.c:504
 #, c-format
-msgid "Game: The %s have researched %s."
+msgid "The %s have researched %s."
 msgstr "Joc: Els %s descobreixen %s."
 
 #: server/plrhand.c:508
@@ -3123,7 +3118,7 @@ msgstr "%s descobreixen %s"
 
 #: server/plrhand.c:513
 #, c-format
-msgid "Game: The %s have researched Future Tech. %d."
+msgid "The %s have researched Future Tech. %d."
 msgstr "Joc: Els %s descobreixen la tecnologia del futur %d."
 
 #: server/plrhand.c:517
@@ -3133,7 +3128,7 @@ msgstr "%s descobreixen la tecnologia del futur %d"
 
 #: server/plrhand.c:651
 #, c-format
-msgid "Game: Technology goal is %s."
+msgid "Technology goal is %s."
 msgstr "Joc: L'objectiu tecnològic és %s."
 
 #: server/plrhand.c:747
@@ -3143,16 +3138,16 @@ msgstr "%s roba %s de %s"
 
 #: server/plrhand.c:753
 #, c-format
-msgid "Game: You steal %s from the %s."
+msgid "You steal %s from the %s."
 msgstr "Joc: Robes %s dels %s."
 
 #: server/plrhand.c:758
 #, c-format
-msgid "Game: The %s stole %s from you!"
+msgid "The %s stole %s from you!"
 msgstr "Joc: Els %s et roben %s!"
 
 #: server/plrhand.c:785
-msgid "Game: Cannot change rates before game start."
+msgid "Cannot change rates before game start."
 msgstr "Joc: No pots canviar les taxes abans de que comenci el joc."
 
 #: server/plrhand.c:801 client/gui-gtk-2.0/gamedlgs.c:242
@@ -3162,7 +3157,7 @@ msgstr "Impostos"
 
 #: server/plrhand.c:808
 #, c-format
-msgid "Game: %s rate exceeds the max rate for %s."
+msgid "%s rate exceeds the max rate for %s."
 msgstr "Joc: La taxa de %s excedeix la taxa màxima del %s."
 
 #: server/plrhand.c:814 server/plrhand.c:1091
@@ -3172,7 +3167,7 @@ msgstr "CANVI TAXA: %s %i %i %i"
 
 #: server/plrhand.c:893
 #, c-format
-msgid "Game: %s now governs the %s as a %s."
+msgid "%s now governs the %s as a %s."
 msgstr "Joc: %s ara governa els %s com a %s."
 
 #: server/plrhand.c:897
@@ -3182,7 +3177,7 @@ msgstr "%s forma un %s"
 
 #: server/plrhand.c:945
 #, c-format
-msgid "Game: The %s have incited a revolt!"
+msgid "The %s have incited a revolt!"
 msgstr "Joc: Els %s han incitat una revolta !"
 
 #: server/plrhand.c:947
@@ -3196,17 +3191,17 @@ msgstr ""
 
 #: server/plrhand.c:1074
 #, c-format
-msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
+msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Joc: La taxa d'impostos excedeix la taxa màxima de %s, s'ha ajustat."
 
 #: server/plrhand.c:1080
 #, c-format
-msgid "Game: Science rate exceeded the max rate for %s; adjusted."
+msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "Joc: La taxa de ciència excedeix la taxa màxima de %s, s'ha ajustat."
 
 #: server/plrhand.c:1086
 #, c-format
-msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
+msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Joc: La taxa de luxes excedeix la taxa màxima de %s, s'ha ajustat."
 
 #: server/plrhand.c:1141
@@ -3223,12 +3218,12 @@ msgstr ""
 
 #: server/plrhand.c:1217
 #, c-format
-msgid "Game: Your reputation is now %s."
+msgid "Your reputation is now %s."
 msgstr "Joc: La teva reputació és ara %s."
 
 #: server/plrhand.c:1222
 msgid ""
-"Game: The senate decides to dissolve rather than support your actions any "
+"The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
 "Joc: El senat decideix dissoldre's en comptes de seguir recolzant les teves "
@@ -3236,13 +3231,13 @@ msgstr ""
 
 #: server/plrhand.c:1253
 #, c-format
-msgid "Game: The diplomatic state between the %s and the %s is now %s."
+msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Joc: L'estat diplomàtic entre %s i %s ara és %s."
 
 #: server/plrhand.c:1259
 #, c-format
 msgid ""
-"Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
+" %s cancelled the diplomatic agreement! The diplomatic state between "
 "the %s and the %s is now %s."
 msgstr ""
 "Joc: %s ha cancel·lat el tractat diplomàtic. L'estat diplomàtic entre %s i %"
@@ -3251,7 +3246,7 @@ msgstr ""
 #: server/plrhand.c:1276
 #, fuzzy, c-format
 msgid ""
-"Game: %s has attacked your ally %s! You cancel your alliance to the "
+"%s has attacked your ally %s! You cancel your alliance to the "
 "aggressor."
 msgstr ""
 "Joc: %s ha atacat a un dels nostres aliats! L'aliança també et porta a la "
@@ -3260,7 +3255,7 @@ msgstr ""
 #: server/plrhand.c:1287
 #, fuzzy, c-format
 msgid ""
-"Game: Your team mate %s declared war on %s. You are obligated to cancel "
+"Your team mate %s declared war on %s. You are obligated to cancel "
 "alliance with %s."
 msgstr ""
 "Joc: estan en guerra amb un dels aliats de %s, una aliança amb %s és del tot "
@@ -3272,17 +3267,17 @@ msgid "Removing player %s."
 msgstr "S'elimina el jugador %s."
 
 #: server/plrhand.c:1691
-msgid "Game: You've been removed from the game!"
+msgid "You've been removed from the game!"
 msgstr "Joc: Has estat eliminat de la partida!"
 
 #: server/plrhand.c:1694
 #, c-format
-msgid "Game: %s has been removed from the game."
+msgid "%s has been removed from the game."
 msgstr "Joc: %s ha estat eliminat de la partida."
 
 #: server/plrhand.c:1737 server/plrhand.c:1741
 #, c-format
-msgid "Game: You have made contact with the %s, ruled by %s."
+msgid "You have made contact with the %s, ruled by %s."
 msgstr "Joc: Has contactat amb els %s, governats per %s."
 
 #: server/plrhand.c:2131
@@ -3293,7 +3288,7 @@ msgstr ""
 #: server/plrhand.c:2153
 #, c-format
 msgid ""
-"Game: Your nation is thrust into civil war,  %s is declared the leader of "
+"Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
 "Joc: La teva nació es veu abocada a una guerra civil, %s és declara el líder "
@@ -3301,13 +3296,13 @@ msgstr ""
 
 #: server/plrhand.c:2173
 #, c-format
-msgid "Game: %s declares allegiance to %s."
+msgid "%s declares allegiance to %s."
 msgstr "Joc: %s es declara aliat de %s."
 
 #: server/plrhand.c:2187
 #, c-format
 msgid ""
-"Game: The capture of %s's capital and the destruction of the empire's "
+"The capture of %s's capital and the destruction of the empire's "
 "administrative\n"
 "      structures have sparked a civil war.  Opportunists have flocked to the "
 "rebel cause,\n"
@@ -5117,89 +5112,84 @@ msgid "Server: bad address: [%s:%d]."
 msgstr "Metaservidor: adreça incorrecta: [%s:%d]."
 
 #: server/spacerace.c:164
-msgid "Game: You need to have a capital in order to launch your spaceship."
+msgid "You need to have a capital in order to launch your spaceship."
 msgstr ""
 "Joc: Necessites tenir una capital per tal de poder llençar la nau espacial."
 
 #: server/spacerace.c:169
-msgid "Game: Your spaceship is already launched!"
+msgid "Your spaceship is already launched!"
 msgstr "Joc: Ja has llançat la teva nau espacial!"
 
 #: server/spacerace.c:174
-msgid "Game: Your spaceship can't be launched yet!"
+msgid "Your spaceship can't be launched yet!"
 msgstr "Joc: Encara no pots llançar la teva nau espacial!"
 
 #: server/spacerace.c:183
 #, c-format
 msgid ""
-"Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
 "Joc: Els %s han llançat la seva nau espacial! S'espera que arribi a Alpha "
 "Centauri el %s."
 
 #: server/spacerace.c:200
-msgid "Game: Spaceship action received, but you don't have a spaceship!"
+msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr ""
 "Joc: S'ha rebut una acció de la nau espacial, però tu no tens cap nau "
 "espacial!"
 
 #: server/spacerace.c:205
-msgid "Game: You can't modify your spaceship after launch!"
+msgid "You can't modify your spaceship after launch!"
 msgstr "Joc: No pots modificar la teva nau espacial un cop ha estat llançada!"
 
 #: server/spacerace.c:214
-msgid "Game: You don't have any unplaced Space Structurals!"
+msgid "You don't have any unplaced Space Structurals!"
 msgstr "Joc: No tens cap Estructura Espacial sense col·locar !"
 
 #: server/spacerace.c:219
-msgid "Game: That Space Structural would not be connected!"
+msgid "That Space Structural would not be connected!"
 msgstr "Joc: Aquesta Estructura Espacial no s'ha pogut connectar !"
 
 #: server/spacerace.c:233 server/spacerace.c:252
-msgid "Game: You don't have any unplaced Space Components!"
+msgid "You don't have any unplaced Space Components!"
 msgstr "Joc: No tens cap Component Espacial sense col·locar!"
 
 #: server/spacerace.c:238
-msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
+msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr ""
 "Joc: La teva nau espacial ja te el nombre màxim de components de combustible!"
 
 #: server/spacerace.c:257
 msgid ""
-"Game: Your spaceship already has the maximum number of Propulsion Components!"
+"Your spaceship already has the maximum number of Propulsion Components!"
 msgstr ""
 "Joc: La teva nau espacial ja te el nombre màxim de components de propulsió!"
 
 #: server/spacerace.c:272 server/spacerace.c:292 server/spacerace.c:312
-msgid "Game: You don't have any unplaced Space Modules!"
+msgid "You don't have any unplaced Space Modules!"
 msgstr "Joc: No tens cap Mòdul Espacial sense col·locar!"
 
 #: server/spacerace.c:277
 msgid ""
-"Game: Your spaceship already has the maximum number of Habitation Modules!"
+"Your spaceship already has the maximum number of Habitation Modules!"
 msgstr "Joc: La teva nau espacial ja te el nombre màxim de mòduls habitables!"
 
 #: server/spacerace.c:297
 msgid ""
-"Game: Your spaceship already has the maximum number of Life Support Modules!"
+"Your spaceship already has the maximum number of Life Support Modules!"
 msgstr ""
 "Joc: La teva nau espacial ja te el nombre màxim de mòduls de suport de vida!"
 
 #: server/spacerace.c:317
 msgid ""
-"Game: Your spaceship already has the maximum number of Solar Panel Modules!"
+"Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "Joc: La teva nau espacial ja te el nombre màxim de plafons solars!"
 
 #: server/spacerace.c:336
 #, c-format
-msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
+msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Joc: Sense el guiament de la capital, la nau espacial %s s'ha perdut!"
-
-#: server/spacerace.c:367
-#, c-format
-msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr "Joc: La nau espacial %s ha arribat a Alpha Centauri."
 
 #: server/spacerace.c:370
 #, c-format
@@ -5231,14 +5221,14 @@ msgstr "El joc ha acabat en una victòria aliada"
 #: server/srv_main.c:426
 #, c-format
 msgid ""
-"Game: Concerned citizens point out that the cease-fire with %s will run out "
+"Concerned citizens point out that the cease-fire with %s will run out "
 "soon."
 msgstr "Joc: Ciutadans preocupats avisen que la treva amb %s s'acabarà aviat."
 
 #: server/srv_main.c:432
 #, c-format
 msgid ""
-"Game: The cease-fire with %s has run out. You are now neutral towards the %s."
+"The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr ""
 "Joc: La treva amb %s s'ha acabat. Estàs en situació neutral respecte els %s."
 
@@ -5262,7 +5252,7 @@ msgstr "S'està iniciant la partida."
 
 #: server/srv_main.c:847
 #, c-format
-msgid "Game: request for unknown report (type %d)"
+msgid "request for unknown report (type %d)"
 msgstr "Joc: sol·licitud d'un informe desconegut (tipus %d)"
 
 #: server/srv_main.c:910
@@ -5306,7 +5296,7 @@ msgstr "Intentant fer alloc de nació fora de SELECT_RACES_STATE!"
 
 #: server/srv_main.c:1171
 #, c-format
-msgid "Game: %s is the %s ruler %s."
+msgid "%s is the %s ruler %s."
 msgstr "Joc: %s és el mandatari %s %s."
 
 #: server/srv_main.c:1199
@@ -5315,7 +5305,7 @@ msgid "No nations left: Removing player %s."
 msgstr "No queden nacions: es suprimeix al jugador %s."
 
 #: server/srv_main.c:1202
-msgid "Game: Sorry, there are no nations left."
+msgid "Sorry, there are no nations left."
 msgstr "Joc: Ho sento, no queden nacions lliures."
 
 #: server/srv_main.c:1349
@@ -5338,11 +5328,6 @@ msgstr "Maxplayers menor que aifill; es redueix aifill a %d."
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s ha estat afegit com un jugador controlat per IA."
 
-#: server/srv_main.c:1422 server/stdinhand.c:877
-#, c-format
-msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Joc: %s ha estat afegit com un jugador controlat per IA."
-
 #: server/srv_main.c:1429
 #, c-format
 msgid "Error creating new AI player: %s\n"
@@ -5360,7 +5345,7 @@ msgstr "La IA està control·lant els %s governats per %s."
 
 #: server/srv_main.c:1516
 #, c-format
-msgid "Game: %s rules the %s."
+msgid "%s rules the %s."
 msgstr "Joc: %s governa els %s."
 
 #: server/srv_main.c:1627
@@ -5373,7 +5358,7 @@ msgid "Sending info to metaserver [%s]"
 msgstr "S'està enviant informació al metaservidor [%s]"
 
 #: server/srv_main.c:1674
-msgid "Game: The game is over..."
+msgid "The game is over..."
 msgstr "Joc: La partida ha acabat..."
 
 #: server/srv_main.c:1675
@@ -5605,7 +5590,7 @@ msgstr ""
 #: server/stdinhand.c:1139
 #, c-format
 msgid ""
-"Game: Anyone can assume command access level '%s' now by issuing the "
+"Anyone can assume command access level '%s' now by issuing the "
 "'firstlevel' command."
 msgstr ""
 "Joc: Ara qualsevol pot assumir el nivell d'accés de comanda '%s' llançant la "
@@ -6075,11 +6060,11 @@ msgid "Usage: observe [player-name]"
 msgstr "Ús: observe [nom-jugador]"
 
 #: server/stdinhand.c:2621
-msgid "Game: A global observer cannot be created: too many regular players."
+msgid "A global observer cannot be created: too many regular players."
 msgstr ""
 
 #: server/stdinhand.c:2652
-msgid "Game: A global observer has been created"
+msgid "A global observer has been created"
 msgstr ""
 
 #: server/stdinhand.c:2668
@@ -6413,215 +6398,215 @@ msgstr "<no hi ha cap connexió>"
 
 #: server/unithand.c:117
 #, c-format
-msgid "Game: Illegal packet, can't upgrade %s (yet)."
+msgid "Illegal packet, can't upgrade %s (yet)."
 msgstr "Joc: Paquet il·legal, no es pot actualitzar %s (encara)."
 
 #: server/unithand.c:144
 #, c-format
-msgid "Game: %d %s upgraded to %s for %d gold."
+msgid "%d %s upgraded to %s for %d gold."
 msgstr "Joc: %d %s millorat a %s per %d d'or."
 
 #: server/unithand.c:150
-msgid "Game: No units could be upgraded."
+msgid "No units could be upgraded."
 msgstr "Joc: No s'ha pogut millorar cap unitat."
 
 #: server/unithand.c:173
 #, c-format
-msgid "Game: %s upgraded to %s for %d gold."
+msgid "%s upgraded to %s for %d gold."
 msgstr "Joc: %s millorat a %s per %d d'or."
 
 #: server/unithand.c:330
 #, c-format
-msgid "Game: %s refuses to disband!"
+msgid "%s refuses to disband!"
 msgstr "Joc: %s rebutja ser desmantellat!"
 
 #: server/unithand.c:383
-msgid "Game: Can't place city here."
+msgid "Can't place city here."
 msgstr "Joc: No es pot ubicar una ciutat en aquesta posició."
 
 #: server/unithand.c:390
 #, c-format
-msgid "Game: Only %s can build a city."
+msgid "Only %s can build a city."
 msgstr "Joc: Només %s pot construir una ciutat."
 
 #: server/unithand.c:395
-msgid "Game: Can't build a city."
+msgid "Can't build a city."
 msgstr "Joc: No es pot construir una ciutat."
 
 #: server/unithand.c:404
 #, c-format
-msgid "Game: Only %s can add to a city."
+msgid "Only %s can add to a city."
 msgstr "Joc: Només %s es pot afegir a una ciutat."
 
 #: server/unithand.c:409
-msgid "Game: Can't add to a city."
+msgid "Can't add to a city."
 msgstr "Joc: No es pot afegir a una ciutat."
 
 #: server/unithand.c:415
 #, c-format
-msgid "Game: %s unit has no moves left to add to %s."
+msgid "%s unit has no moves left to add to %s."
 msgstr "Joc: l'unitat %s no té més moviments per a afegir a %s."
 
 #: server/unithand.c:420
 #, c-format
-msgid "Game: %s unit has no moves left to build city."
+msgid "%s unit has no moves left to build city."
 msgstr "Joc: la unitat %s no té més moviments per a construir una ciutat."
 
 #: server/unithand.c:425
 #, c-format
-msgid "Game: %s is too big to add %s."
+msgid "%s is too big to add %s."
 msgstr "Joc: %s és massa gran per a afegir %s."
 
 #: server/unithand.c:430
 #, fuzzy, c-format
-msgid "Game: %s needs an improvement to grow, so you cannot add %s."
+msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr "Joc: %s necessita %s per a créixer, no pots afegir %s."
 
 #: server/unithand.c:439
 #, c-format
-msgid "Game: Can't add %s to %s."
+msgid "Can't add %s to %s."
 msgstr "Joc: No pots afegir %s a %s."
 
 #: server/unithand.c:463
 #, c-format
-msgid "Game: %s added to aid %s in growing."
+msgid "%s added to aid %s in growing."
 msgstr "Joc: %s afegit per a ajudar al creixement de %s."
 
 #: server/unithand.c:706
 #, c-format
-msgid "Game: Your bombarding %s%s became more experienced!"
+msgid "Your bombarding %s%s became more experienced!"
 msgstr ""
 
 #: server/unithand.c:748
-msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
+msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
 "Joc: El teu míssil nuclear ha estat destruït per la defensa SDI, quina "
 "pèrdua."
 
 #: server/unithand.c:751
 #, c-format
-msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
+msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Joc: L'atac nuclear a %s vas evitat per la teva defensa SDI."
 
 #: server/unithand.c:819
 #, fuzzy, c-format
 msgid ""
-"Game: Your %s%s survived the pathetic attack from %s's %s and became more "
+"Your %s%s survived the pathetic attack from %s's %s and became more "
 "experienced!"
 msgstr "Joc: El teu %1$s ha sobreviscut%2$s el patètic atac de %4$s de %3$s"
 
 #: server/unithand.c:828
 #, c-format
-msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
+msgid "Your %s%s survived the pathetic attack from %s's %s."
 msgstr "Joc: El teu %1$s ha sobreviscut%2$s el patètic atac de %4$s de %3$s"
 
 #: server/unithand.c:838
 #, c-format
-msgid "Game: Your attacking %s failed against %s's %s%s!"
+msgid "Your attacking %s failed against %s's %s%s!"
 msgstr "Joc: El teu %1$s ha fallat%4$s contra %3$s de %2$s"
 
 #: server/unithand.c:855
 #, fuzzy, c-format
 msgid ""
-"Game: Your attacking %s succeeded against %s's %s%s and became more "
+"Your attacking %s succeeded against %s's %s%s and became more "
 "experienced!"
 msgstr "Joc: El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s"
 
 #: server/unithand.c:864
 #, c-format
-msgid "Game: Your attacking %s succeeded against %s's %s%s!"
+msgid "Your attacking %s succeeded against %s's %s%s!"
 msgstr "Joc: El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s"
 
 #: server/unithand.c:913
-msgid "Game: Cancel treaty in the players dialog first (F3)."
+msgid "Cancel treaty in the players dialog first (F3)."
 msgstr "Joc: Abans ha de cancel·lar el tractat en el diàleg de jugadors (F3)."
 
 #: server/unithand.c:937
 #, c-format
-msgid "Game: Only %s can attack from sea."
+msgid "Only %s can attack from sea."
 msgstr "Joc: Només %s pot atacar des del mar."
 
 #: server/unithand.c:942
-msgid "Game: Cannot attack from sea."
+msgid "Cannot attack from sea."
 msgstr "Joc: No pots atacar des del mar."
 
 #: server/unithand.c:947 server/unittools.c:2168
-msgid "Game: Cannot attack unless you declare war first."
+msgid "Cannot attack unless you declare war first."
 msgstr "Joc: No pots atacar a no ser de que declaris la guerra abans."
 
 #: server/unithand.c:950
 #, c-format
-msgid "Game: %s can only move into your own zone of control."
+msgid "%s can only move into your own zone of control."
 msgstr "Joc: %s només es pot moure cap a la teva zona de control."
 
 #: server/unithand.c:987
-msgid "Game: This unit has no moves left."
+msgid "This unit has no moves left."
 msgstr "Joc: A aquesta no li queden moviments."
 
 #: server/unithand.c:1041
-msgid "Game: Unit must be on land to perform diplomatic action."
+msgid "Unit must be on land to perform diplomatic action."
 msgstr ""
 "Joc: La unitat ha d'estar a terra per a dur a terme accions diplomàtiques."
 
 #: server/unithand.c:1043
-msgid "Game: No diplomat action possible."
+msgid "No diplomat action possible."
 msgstr "Joc: No hi ha cap acció diplomàtica possible."
 
 #: server/unithand.c:1058
 #, c-format
-msgid "Game: Can't attack %s because you are not at war with %s."
+msgid "Can't attack %s because you are not at war with %s."
 msgstr "Joc: No pots atacar a %s ja que no estàs en guerra amb %s."
 
 #: server/unithand.c:1069
 #, fuzzy, c-format
-msgid "Game: Can't attack %s's unit because you are not at war with %s."
+msgid "Can't attack %s's unit because you are not at war with %s."
 msgstr "Joc: No pots atacar la unitat de %s ja que no estàs en guerra amb %s."
 
 #: server/unithand.c:1087
 #, fuzzy
-msgid "Game: This unit is being transported, and so cannot bombard."
+msgid "This unit is being transported, and so cannot bombard."
 msgstr "Joc: Aquesta unitat no pot ser llançada amb paracaigudes."
 
 #: server/unithand.c:1102
-msgid "Game: You can't attack there."
+msgid "You can't attack there."
 msgstr "Joc: No pots atacar-hi."
 
 #: server/unithand.c:1122
-msgid "Game: This type of troops cannot take over a city."
+msgid "This type of troops cannot take over a city."
 msgstr "Joc: Aquest tipus de tropes no poden conquerir una ciutat."
 
 #: server/unithand.c:1140
 msgid ""
-"Game: A transported unit is not allied to all units or city on target tile."
+"A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Joc: Una unitat transportada no està aliada a totes les unitats o ciutat de "
 "la casella destí."
 
 #: server/unithand.c:1184
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d remaining)."
+msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Joc: La teva %s ajuda a construir %s a %s (en queda %d)."
 
 #: server/unithand.c:1186
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d surplus)."
+msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Joc: La teva %s ajuda a construir %s a %s (excedent %d)."
 
 #: server/unithand.c:1230
 #, fuzzy, c-format
 msgid ""
-"Game: Sorry, your %s cannot establish a trade route because it has no home "
+"Sorry, your %s cannot establish a trade route because it has no home "
 "city"
 msgstr "Joc: Ho sento, el teu %s no pot establir una ruta de comerç aquí!"
 
 #: server/unithand.c:1240
 #, fuzzy, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route between %s and %s"
+msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr "Joc: Ho sento, el teu %s no pot establir una ruta de comerç aquí!"
 
 #: server/unithand.c:1268 server/unithand.c:1285
 #, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route here!"
+msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Joc: Ho sento, el teu %s no pot establir una ruta de comerç aquí!"
 
 #: server/unithand.c:1271 server/unithand.c:1288
@@ -6631,7 +6616,7 @@ msgstr "      La ciutat de %s ja té %d millors rutes de comerç!"
 
 #: server/unithand.c:1300 server/unithand.c:1311
 #, c-format
-msgid "Game: Sorry, %s has canceled the trade route from %s to your city %s."
+msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr ""
 "Joc: Ho sento, %s ha cancelat la ruta comercial des de %s a la teva ciutat %"
 "s."
@@ -6639,7 +6624,7 @@ msgstr ""
 #: server/unithand.c:1343
 #, c-format
 msgid ""
-"Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold "
 "and research."
 msgstr ""
 "Joc: La teva %s des de %s ha arrivat a %s, i et dóna la quantitat de %d en "
@@ -6647,7 +6632,7 @@ msgstr ""
 
 #: server/unittools.c:233
 #, fuzzy, c-format
-msgid "Game: %s was upgraded for free to %s%s."
+msgid "%s was upgraded for free to %s%s."
 msgstr "Joc: %s ha millorat %s a %s%s."
 
 #: server/unittools.c:269
@@ -6657,7 +6642,7 @@ msgstr "No hi ha prou or. %s desmantellada."
 
 #: server/unittools.c:314
 #, c-format
-msgid "Game: Your %s has run out of hit points."
+msgid "Your %s has run out of hit points."
 msgstr "Joc: El teu %s s'ha quedat sense punts de vida."
 
 #: server/unittools.c:316
@@ -6667,7 +6652,7 @@ msgstr "%s ha perdut un %s (sense punts de vida)"
 
 #: server/unittools.c:333
 #, c-format
-msgid "Game: Your %s has been lost on the high seas."
+msgid "Your %s has been lost on the high seas."
 msgstr "Joc: El teu %s s'ha perdut a alta mar."
 
 #: server/unittools.c:335
@@ -6677,12 +6662,12 @@ msgstr "%s Trirrem perdut al mar"
 
 #: server/unittools.c:343
 #, c-format
-msgid "Game: Your %s survived on the high seas and became more experienced!"
+msgid "Your %s survived on the high seas and became more experienced!"
 msgstr ""
 
 #: server/unittools.c:354
 #, fuzzy, c-format
-msgid "Game: Your %s has been lost on unsafe terrain."
+msgid "Your %s has been lost on unsafe terrain."
 msgstr "Joc: El teu %s s'ha perdut a alta mar."
 
 #: server/unittools.c:356
@@ -6692,12 +6677,12 @@ msgstr ""
 
 #: server/unittools.c:381
 #, c-format
-msgid "Game: Your %s has returned to refuel."
+msgid "Your %s has returned to refuel."
 msgstr "Joc: El teu %s ha tornat per carregar fuel."
 
 #: server/unittools.c:407
 #, c-format
-msgid "Game: Your %s has run out of fuel."
+msgid "Your %s has run out of fuel."
 msgstr "Joc: El teu %s s'ha quedat sense fuel."
 
 #: server/unittools.c:409
@@ -6707,37 +6692,37 @@ msgstr "%s ha perdut un %s (fuel)"
 
 #: server/unittools.c:589
 #, c-format
-msgid "Game: Your %s became more experienced!"
+msgid "Your %s became more experienced!"
 msgstr ""
 
 #: server/unittools.c:842
 #, c-format
-msgid "Game: Moved your %s due to changing land to sea."
+msgid "Moved your %s due to changing land to sea."
 msgstr "Joc: S'ha mogut el teu %s degut a un canvi de terra per mar."
 
 #: server/unittools.c:863
 #, c-format
-msgid "Game: Embarked your %s due to changing land to sea."
+msgid "Embarked your %s due to changing land to sea."
 msgstr "Joc: S'ha embarcat el teu %s degut a un canvi de terra per mar."
 
 #: server/unittools.c:878
 #, c-format
-msgid "Game: Disbanded your %s due to changing land to sea."
+msgid "Disbanded your %s due to changing land to sea."
 msgstr "Joc: Desmantellat el teu %s degut a un canvi de terra per mar."
 
 #: server/unittools.c:900
 #, c-format
-msgid "Game: Moved your %s due to changing sea to land."
+msgid "Moved your %s due to changing sea to land."
 msgstr "Joc: S'ha mogut el teu %s degut a un canvi de mar per terra."
 
 #: server/unittools.c:920
 #, c-format
-msgid "Game: Docked your %s due to changing sea to land."
+msgid "Docked your %s due to changing sea to land."
 msgstr "Joc: S'ha entrat a port el teu %s degut a un canvi de mar per terra."
 
 #: server/unittools.c:935
 #, c-format
-msgid "Game: Disbanded your %s due to changing sea to land."
+msgid "Disbanded your %s due to changing sea to land."
 msgstr "Joc: S'ha desmantellat el teu %s degut a un canvi de mar per terra."
 
 #: server/unittools.c:967
@@ -6762,12 +6747,12 @@ msgstr " prop de %s"
 
 #: server/unittools.c:1189
 #, c-format
-msgid "Game: Teleported your %s to %s."
+msgid "Teleported your %s to %s."
 msgstr "Joc: S'ha teleportat el teu %s a %s."
 
 #: server/unittools.c:1215
 #, c-format
-msgid "Game: Disbanded your %s."
+msgid "Disbanded your %s."
 msgstr "Joc: S'ha desmantellat el teu %s."
 
 #: server/unittools.c:1533
@@ -6789,12 +6774,12 @@ msgstr "El jugador %s ha perdut una unitat i el joc"
 
 #: server/unittools.c:1625
 #, c-format
-msgid "Game: %s escaped the destruction of %s, and fled to %s."
+msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Joc: %s s'ha escapat de la destrucció de %s i s'ha refugiat a %s."
 
 #: server/unittools.c:1632
 #, c-format
-msgid "Game: %s lost when %s was lost."
+msgid "%s lost when %s was lost."
 msgstr "Joc: %s perdut al perdre %s."
 
 #: server/unittools.c:1635
@@ -6804,12 +6789,12 @@ msgstr "%s ha perdut un %s al perdre %s"
 
 #: server/unittools.c:1693
 #, c-format
-msgid "Game: Barbarian leader captured, %d gold ransom paid."
+msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Joc: S'ha capturat el líder bàrbar, ens paguen un rescar de %d."
 
 #: server/unittools.c:1710
 #, c-format
-msgid "Game: %s lost to an attack by %s's %s%s."
+msgid "%s lost to an attack by %s's %s%s."
 msgstr "Joc: %s perdut en un atac de %s amb %s%s."
 
 #: server/unittools.c:1713 server/unittools.c:1757
@@ -6819,19 +6804,19 @@ msgstr "%s perdut %s al %s"
 
 #: server/unittools.c:1738
 #, c-format
-msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
+msgid "You lost %d unit to an attack from %s's %s%s."
+msgid_plural "You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Joc: Has perdut %d unitat en un atac de %s amb %s%s."
 msgstr[1] "Joc: Has perdut %d unitats en un atac de %s amb %s%s."
 
 #: server/unittools.c:1753
 #, c-format
-msgid "Game: %s lost to an attack from %s's %s."
+msgid "%s lost to an attack from %s's %s."
 msgstr "Joc: Has perdut %s en un atac de %s amb %s."
 
 #: server/unittools.c:2013
 #, c-format
-msgid "Game: Your %s was nuked by %s."
+msgid "Your %s was nuked by %s."
 msgstr "Joc: %s atacada nuclear per %s."
 
 #: server/unittools.c:2015 server/unittools.c:2031
@@ -6840,74 +6825,74 @@ msgstr "tu mateix"
 
 #: server/unittools.c:2019
 #, c-format
-msgid "Game: %s's %s was nuked."
+msgid "%s's %s was nuked."
 msgstr "Joc: %2$s de %1$s atacada nuclear."
 
 #: server/unittools.c:2029
 #, c-format
-msgid "Game: %s was nuked by %s."
+msgid "%s was nuked by %s."
 msgstr "Joc: %s atacada nuclear per %s."
 
 #: server/unittools.c:2036
 #, c-format
-msgid "Game: You nuked %s."
+msgid "You nuked %s."
 msgstr "Joc: Has atacat nuclearment a %s."
 
 #: server/unittools.c:2074
 #, c-format
-msgid "Game: %s detonated a nuke!"
+msgid "%s detonated a nuke!"
 msgstr "Joc: %s ha detonat una arma nuclear!"
 
 #: server/unittools.c:2114
 #, c-format
-msgid "Game: %s transported succesfully."
+msgid "%s transported succesfully."
 msgstr "Joc: s'ha transportat a %s satisfactoriament"
 
 #: server/unittools.c:2137
-msgid "Game: This unit type can not be paradropped."
+msgid "This unit type can not be paradropped."
 msgstr "Joc: Aquesta unitat no pot ser llançada amb paracaigudes."
 
 #: server/unittools.c:2147
 #, fuzzy
-msgid "Game: You cannot paradrop a transporter unit."
+msgid "You cannot paradrop a transporter unit."
 msgstr "Joc: Aquesta unitat no es pot llançar en paracaigudes a l'oceà."
 
 #: server/unittools.c:2152
-msgid "Game: The destination location is not known."
+msgid "The destination location is not known."
 msgstr "Joc: L'ubicació de destí és desconeguda."
 
 #: server/unittools.c:2159
-msgid "Game: This unit cannot paradrop into ocean."
+msgid "This unit cannot paradrop into ocean."
 msgstr "Joc: Aquesta unitat no es pot llançar en paracaigudes a l'oceà."
 
 #: server/unittools.c:2177
 #, c-format
 msgid ""
-"Game: The distance to the target (%i) is greater than the unit's range (%i)."
+"The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Joc: La distància a l'objectiu (%i) és més gran que el rang de la unitat (%"
 "i)."
 
 #: server/unittools.c:2191
 #, c-format
-msgid "Game: Your %s paradropped into the ocean and was lost."
+msgid "Your %s paradropped into the ocean and was lost."
 msgstr "Joc: El teu %s s'ha llançat en paracaigudes sobre l'oceà i ha mort."
 
 #: server/unittools.c:2204
 #, c-format
-msgid "Game: Your %s was killed by enemy units at the paradrop destination."
+msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Joc: El teu %s ha estat mort per unitats enemigues a la destinació de "
 "llançament."
 
 #: server/unittools.c:2226
 #, c-format
-msgid "Game: You found %d gold."
+msgid "You found %d gold."
 msgstr "Joc: Has trobat %d peces d'or."
 
 #: server/unittools.c:2252
 #, c-format
-msgid "Game: You found %s in ancient scrolls of wisdom."
+msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Joc: Has trobat uns antics pergamins sobre %s."
 
 #: server/unittools.c:2254
@@ -6917,79 +6902,79 @@ msgstr "%s descobreix %s (Cabana)"
 
 #: server/unittools.c:2256
 #, c-format
-msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
+msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Joc: Els %s han adquirit %s d'antics pergamins."
 
 #: server/unittools.c:2276
-msgid "Game: A band of friendly mercenaries joins your cause."
+msgid "A band of friendly mercenaries joins your cause."
 msgstr "Joc: Una banda de mercenaris s'uneix a la teva causa."
 
 #: server/unittools.c:2294
-msgid "Game: An abandoned village is here."
+msgid "An abandoned village is here."
 msgstr "Joc: Només hi ha un poble abandonat."
 
 #: server/unittools.c:2304
-msgid "Game: You have unleashed a horde of barbarians!"
+msgid "You have unleashed a horde of barbarians!"
 msgstr "Joc: Has alliberat a una horda de bàrbars!"
 
 #: server/unittools.c:2307
 #, c-format
-msgid "Game: Your %s has been killed by barbarians!"
+msgid "Your %s has been killed by barbarians!"
 msgstr "Joc: El teu %s ha mort a mans de bàrbars!"
 
 #: server/unittools.c:2323
-msgid "Game: You found a friendly city."
+msgid "You found a friendly city."
 msgstr "Joc: Has trobat una ciutat amistosa."
 
 #: server/unittools.c:2328
-msgid "Game: Friendly nomads are impressed by you, and join you."
+msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Joc: Impressiones a uns nòmades i s'uneixen a tu."
 
 #: server/unittools.c:2353
-msgid "Game: Your overflight frightens the tribe; they scatter in terror."
+msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Joc: La teva sobrevolada ha espantat a la tribu, s'escampen plens de terror."
 
 #: server/unittools.c:2921
 #, c-format
-msgid "Game: %s aborted GOTO as there are units in the way."
+msgid "%s aborted GOTO as there are units in the way."
 msgstr "Joc: %s interromput ANAR A perque hi ha unitats al mig."
 
 #: server/unittools.c:2964
 #, c-format
 msgid ""
-"Game: Your %s cancelled patrol order because it encountered a foreign unit."
+"Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr ""
 "Joc: El teu %s ha cancel·lat la patrulla ja que ha trobat una unitat enemiga."
 
 #: server/unittools.c:3037
 #, fuzzy, c-format
-msgid "Game: Orders for %s aborted as there are units nearby."
+msgid "Orders for %s aborted as there are units nearby."
 msgstr "Joc: %s interromput ANAR A perque hi ha unitats al mig."
 
 #: server/unittools.c:3083
 #, c-format
-msgid "Game: Orders for %s aborted since they give an invalid activity."
+msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 
 #: server/unittools.c:3097
 #, c-format
-msgid "Game: Orders for %s aborted since they give an invalid location."
+msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 
 #: server/unittools.c:3107
 #, fuzzy, c-format
-msgid "Game: Orders for %s aborted as there are units in the way."
+msgid "Orders for %s aborted as there are units in the way."
 msgstr "Joc: %s interromput ANAR A perque hi ha unitats al mig."
 
 #: server/unittools.c:3133
 #, c-format
-msgid "Game: Orders for %s aborted because of failed move."
+msgid "Orders for %s aborted because of failed move."
 msgstr ""
 
 #: server/unittools.c:3160
 #, fuzzy, c-format
-msgid "Game: Your %s has invalid orders."
+msgid "Your %s has invalid orders."
 msgstr "Joc: El teu %s ha tornat per carregar fuel."
 
 #: server/generator/mapgen.c:1584
@@ -7593,7 +7578,7 @@ msgstr ""
 
 #: client/climisc.c:162
 #, c-format
-msgid "Game: Changing production of every %s into %s."
+msgid "Changing production of every %s into %s."
 msgstr "Joc: Canvi de la producció de totes les %s a %s."
 
 #: client/climisc.c:202
@@ -7699,12 +7684,12 @@ msgstr "Ha fallat l'exportació, no s'ha pogut escriure a l'arxiu."
 
 #: client/climisc.c:1017
 #, c-format
-msgid "Game: You don't buy %s in %s!"
+msgid "You don't buy %s in %s!"
 msgstr "Joc: No compres %s a %s !"
 
 #: client/climisc.c:1037
 #, c-format
-msgid "Game: %s costs %d gold and you only have %d gold."
+msgid "%s costs %d gold and you only have %d gold."
 msgstr "Joc: %s costa %d d'or i només en tens %d d'or."
 
 #: client/clinet.c:126
@@ -7787,44 +7772,44 @@ msgid "We can't take control of server, attempting to kill it."
 msgstr ""
 
 #: client/control.c:718
-msgid "Game: Only transporter units can be unloaded."
+msgid "Only transporter units can be unloaded."
 msgstr "Joc: Només es pot descarregar les unitats de transport."
 
 #: client/control.c:920
 msgid ""
-"Game: Only settler units and military units in cities can be put in auto-"
+"Only settler units and military units in cities can be put in auto-"
 "mode."
 msgstr ""
 "Joc: Només es poden ficar en mode automàtic els colons i les unitats militar "
 "que estan a ciutats."
 
 #: client/control.c:992
-msgid "Game: Only nuclear units can do this."
+msgid "Only nuclear units can do this."
 msgstr "Joc: Només les unitats nuclears poden fer això."
 
 #: client/control.c:1009
-msgid "Game: Only paratrooper units can do this."
+msgid "Only paratrooper units can do this."
 msgstr "Joc: Només els paracaigudistes poden fer això."
 
 #: client/control.c:1432
-msgid "Game: Too far for this unit."
+msgid "Too far for this unit."
 msgstr "Joc: Massa lluny per a aquesta unitat."
 
 #: client/control.c:1639 client/control.c:1679 client/control.c:1703
-msgid "Game: Didn't find a route to the destination!"
+msgid "Didn't find a route to the destination!"
 msgstr "Joc: No he trobat una ruta al destí."
 
 #: client/control.c:1669
-msgid "Game: Sorry, airunit patrol not yet implemented."
+msgid "Sorry, airunit patrol not yet implemented."
 msgstr "Joc: Ho sento, les patrulles aèries encara no funcionen."
 
 #: client/control.c:1693
 #, fuzzy
-msgid "Game: Sorry, airunit connect not yet implemented."
+msgid "Sorry, airunit connect not yet implemented."
 msgstr "Joc: Ho sento, les patrulles aèries encara no funcionen."
 
 #: client/control.c:1748
-msgid "Game: Oh my! You seem to have no capital!"
+msgid "Oh my! You seem to have no capital!"
 msgstr "Joc: Hòstia! Pel que sembla no tens capital!"
 
 #: client/helpdata.c:104
@@ -8346,22 +8331,18 @@ msgstr "%s%d descontents"
 
 #: client/mapctrl_common.c:341
 #, fuzzy, c-format
-msgid "Game: You don't know how to build %s!"
+msgid "You don't know how to build %s!"
 msgstr "Joc: No compres %s!"
 
 #: client/mapctrl_common.c:351
 #, c-format
-msgid "Game: Copy %s to clipboard."
+msgid "Copy %s to clipboard."
 msgstr ""
 
 #: client/mapctrl_common.c:368
 #, fuzzy
-msgid "Game: Clipboard is empty."
+msgid "Clipboard is empty."
 msgstr "Joc: La llista de treball de %s està buida."
-
-#: client/messagewin_common.c:113
-msgid "Game: "
-msgstr "Joc: "
 
 #: client/options.c:82
 msgid "Save the options when exiting the game"
@@ -8628,39 +8609,35 @@ msgid "Enemy Diplomat: Theft"
 msgstr "Diplomàtic enemic: Robar"
 
 #: client/options.c:249
-msgid "Game: Broadcast Report"
+msgid "Broadcast Report"
 msgstr "Joc: Informe ampli"
 
 #: client/options.c:250
-msgid "Game: Game Ended"
+msgid "Game Ended"
 msgstr "Joc: La partida acaba"
 
 #: client/options.c:251
-msgid "Game: Game Started"
+msgid "Game Started"
 msgstr "Joc: El partida comença"
 
 #: client/options.c:252
-msgid "Game: Message from Server Operator"
+msgid "Message from Server Operator"
 msgstr "Joc: Missatge del operador del servidor"
 
 #: client/options.c:253
-msgid "Game: Nation Selected"
+msgid "Nation Selected"
 msgstr "Joc: S'escull la nació"
 
 #: client/options.c:254
-msgid "Game: Player Destroyed"
+msgid "Player Destroyed"
 msgstr "Joc: Es destrueix un jugador"
 
-#: client/options.c:255
-msgid "Game: Report"
-msgstr "Joc: Informe"
-
 #: client/options.c:256
-msgid "Game: Turn Bell"
+msgid "Turn Bell"
 msgstr "Joc: Activar campana"
 
 #: client/options.c:257
-msgid "Game: Year Advance"
+msgid "Year Advance"
 msgstr "Joc: Any avenç"
 
 #: client/options.c:258
@@ -9807,12 +9784,6 @@ msgstr "Unitats suportades %d"
 msgid "Present units %d"
 msgstr "Unitats presents %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1749 client/gui-gtk/citydlg.c:2197
-#: client/gui-mui/citydlg.c:2039 client/gui-win32/citydlg.c:1255
-#, c-format
-msgid "%s"
-msgstr "%s"
-
 #: client/gui-gtk-2.0/citydlg.c:1752 client/gui-gtk/citydlg.c:2200
 #: client/gui-mui/citydlg.c:2042 client/gui-win32/citydlg.c:1258
 #, c-format
@@ -10653,7 +10624,7 @@ msgstr "_Afegir clàusula..."
 #: client/gui-gtk-2.0/diplodlg.c:858 client/gui-gtk/diplodlg.c:894
 #: client/gui-mui/diplodlg.c:382 client/gui-win32/diplodlg.c:261
 #: client/gui-xaw/diplodlg.c:948
-msgid "Game: Invalid amount of gold specified."
+msgid "Invalid amount of gold specified."
 msgstr "Joc: La quantitat d'or especificada és invàlida."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-gtk/finddlg.c:62
@@ -12623,7 +12594,7 @@ msgid "Con_figure..."
 msgstr "Con_figurar..."
 
 #: client/gui-gtk/cityrep.c:969 client/gui-win32/cityrep.c:693
-msgid "Game: Select a unit or improvement to change production to."
+msgid "Select a unit or improvement to change production to."
 msgstr "Joc: Selecciona una unitat o millora a la que canviar la producció."
 
 #: client/gui-gtk/cityrep.c:1003 client/gui-win32/cityrep.c:742
@@ -13203,7 +13174,7 @@ msgstr[1] "(ociós %d torns)"
 
 #: client/gui-gtk/plrdlg.c:568 client/gui-mui/plrdlg.c:255
 #: client/gui-win32/plrdlg.c:72 client/gui-xaw/plrdlg.c:366
-msgid "Game: You need an embassy to establish a diplomatic meeting."
+msgid "You need an embassy to establish a diplomatic meeting."
 msgstr "Joc: Necessites una ambaixada per fer una cimera diplomàtica."
 
 #: client/gui-gtk/repodlgs.c:626 client/gui-win32/repodlgs.c:422
@@ -13685,10 +13656,6 @@ msgstr "Missatge..."
 #: client/gui-mui/gui_main.c:203
 msgid "Server opt initial..."
 msgstr "Opcions inicials del servidor..."
-
-#: client/gui-mui/gui_main.c:204
-msgid "Server opt ongoing..."
-msgstr "Opcions actuals del servidor..."
 
 #: client/gui-mui/gui_main.c:205 client/gui-xaw/menu.c:115
 msgid "Export Log"
@@ -14330,12 +14297,12 @@ msgid "Available To Build"
 msgstr "Disponible per construir"
 
 #: client/gui-win32/cityrep.c:684
-msgid "Game: Select a unit or improvement to change production from."
+msgid "Select a unit or improvement to change production from."
 msgstr ""
 "Joc: Seleccionar una unitat o millora des de la que es canviarà la producció"
 
 #: client/gui-win32/cityrep.c:699
-msgid "Game: That's the same thing!"
+msgid "That's the same thing!"
 msgstr "Joc: Això és el mateix!"
 
 #: client/gui-win32/cityrep.c:878 data/Freeciv.in:1623
@@ -21708,16 +21675,16 @@ msgstr ""
 "central cap al sud de l'Àfrica al començament del 1700, conquerint els "
 "pobles Khoisan natius i enfrontant-se als colons europeus."
 
-#~ msgid "Game: Auto-Attack: %s's %s found a too tough enemy (%s)"
+#~ msgid "Auto-Attack: %s's %s found a too tough enemy (%s)"
 #~ msgstr "Joc: Auto-Atac: %2$s de %1$s ha trobat un enemic massa fort (%3$s)"
 
-#~ msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
+#~ msgid "Auto-Attack: %s's %s attacking %s's %s"
 #~ msgstr "Joc: Auto-Atac: %2$s de %1$s està atacant a %4$s de %3$s "
 
-#~ msgid "Game: %s is not a valid name."
+#~ msgid "%s is not a valid name."
 #~ msgstr "Joc: %s no és un nom vàlid."
 
-#~ msgid "Game: The %s have acquired %s and %s from %s."
+#~ msgid "The %s have acquired %s and %s from %s."
 #~ msgstr "Joc: Els %s adquireixen %s i %s de %s."
 
 #~ msgid ""
@@ -21734,7 +21701,7 @@ msgstr ""
 #~ "El teu client sense autenticació està accedint a un servidor amb "
 #~ "autenticació. Els accessos de convidat no estan permesos. Ho sento."
 
-#~ msgid "Game: You can't subvert the capital of a nation."
+#~ msgid "You can't subvert the capital of a nation."
 #~ msgstr "Joc: No pots subvertir la capital d'una nació."
 
 #~ msgid "Pregame"
@@ -21752,7 +21719,7 @@ msgstr ""
 #~ msgid "%s discover %s (Library)"
 #~ msgstr "%s descobreix %s (Biblioteca)"
 
-#~ msgid "Game: The %s have acquired %s from the Great Library."
+#~ msgid "The %s have acquired %s from the Great Library."
 #~ msgstr "Joc: Els %s han adquirit %s de la Gran Biblioteca"
 
 #~ msgid "Please choose a legal name."
@@ -21929,16 +21896,16 @@ msgstr ""
 #~ msgid "Loading saved game: %s..."
 #~ msgstr "Carregant partida guardada: %s..."
 
-#~ msgid "Game: Illegal move, unit not in city!"
+#~ msgid "Illegal move, unit not in city!"
 #~ msgstr "Joc: Moviment il·legal, la unitat no és a una ciutat!"
 
-#~ msgid "Game: Illegal package, can't upgrade %s (yet)."
+#~ msgid "Illegal package, can't upgrade %s (yet)."
 #~ msgstr "Joc: Paquet il·legal, no es pot actualitzar %s (encara)."
 
-#~ msgid "Game: Insufficient funds, upgrade costs %d."
+#~ msgid "Insufficient funds, upgrade costs %d."
 #~ msgstr "Joc: Or insuficient, la millora costa %d."
 
-#~ msgid "Game: Let's not build a city with such a stupid name."
+#~ msgid "Let's not build a city with such a stupid name."
 #~ msgstr "Joc: No construiré una ciutat amb un nom tan estúpid."
 
 #~ msgid "?Entertainers:E"
@@ -22024,7 +21991,7 @@ msgstr ""
 #~ msgid "Draw Diagonal Roads/Rails"
 #~ msgstr "Fes Camins/Ferrocarril en diagonal"
 
-#~ msgid "Game: Revolution finished"
+#~ msgid "Revolution finished"
 #~ msgstr "Joc: S'ha acabat la revolució"
 
 #~ msgid "%s file appears incompatible:"

@@ -482,27 +482,27 @@ msgstr ""
 
 #: ai/aicity.c:211 server/citytools.c:1805
 #, c-format
-msgid "Game: The %s have stopped building The %s in %s."
+msgid "The %s have stopped building The %s in %s."
 msgstr "Játék: A(z) %s abbahagyták a(z) %s építését %s városában."
 
 #: ai/aicity.c:220 server/citytools.c:1847
 #, c-format
-msgid "Game: The %s have started building The %s in %s."
+msgid "The %s have started building The %s in %s."
 msgstr "Játék: A(z) %s elkezdték a(z) %s építését %s városában."
 
 #: ai/aicity.c:715
 #, c-format
-msgid "Game: %s is selling %s (not needed) for %d."
+msgid "%s is selling %s (not needed) for %d."
 msgstr "Játék: %s eladja a (szükségtelen) %s épületet %d aranyért."
 
 #: server/autoattack.c:135
 #, c-format
-msgid "Game: Auto-Attack: %s's %s found a too tough enemy (%s)"
+msgid "Auto-Attack: %s's %s found a too tough enemy (%s)"
 msgstr "Játék: Automata Támadás: A(z) %si %s túl kemény ellenfelet talált (%s)"
 
 #: server/autoattack.c:164
 #, c-format
-msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
+msgid "Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Játék: Automata Támadás: A(z) %si %s %s %s egységét támadja"
 
 #: server/barbarian.c:397
@@ -516,64 +516,64 @@ msgid "Sea raiders seen near %s!"
 msgstr "Kalózok %s közelében!"
 
 #: server/cityhand.c:141
-msgid "Game: you don't have a worker here."
+msgid "you don't have a worker here."
 msgstr "Játék: nincs itt munkásod."
 
 #: server/cityhand.c:193
-msgid "Game: You have already sold something here this turn."
+msgid "You have already sold something here this turn."
 msgstr "Játék: Valamit már eladtál itt ebben a körben."
 
 #: server/cityhand.c:202
 #, c-format
-msgid "Game: You sell %s in %s for %d gold."
+msgid "You sell %s in %s for %d gold."
 msgstr "Játék: Eladod a(z) %s épületet %s városában %d aranyért."
 
 #: server/cityhand.c:239
-msgid "Game: Cannot buy in city created this turn."
+msgid "Cannot buy in city created this turn."
 msgstr "Játék: Nem vehetsz olyan városban, amit ebben a körben hoztál létre."
 
 #: server/cityhand.c:245
-msgid "Game: You have already bought this turn."
+msgid "You have already bought this turn."
 msgstr "Játék: Már vettél ebben a körben."
 
 #: server/cityhand.c:251
 #, c-format
-msgid "Game: You don't buy %s!"
+msgid "You don't buy %s!"
 msgstr "Játék: Nem veszel %s egységet/épületet!"
 
 #: server/cityhand.c:258
-msgid "Game: Can't buy units when city is in disorder."
+msgid "Can't buy units when city is in disorder."
 msgstr "Játék: Nem vehetsz egységeket, amíg a városban zavargások vannak."
 
 #: server/cityhand.c:295
 #, c-format
-msgid "Game: %s bought in %s for %d gold."
+msgid "%s bought in %s for %d gold."
 msgstr "Játék: A(z) %2$si %1$s %3$d aranyért megvéve."
 
 #: server/cityhand.c:369
-msgid "Game: You have bought this turn, can't change."
+msgid "You have bought this turn, can't change."
 msgstr "Játék: Vettél ebben a körben, nem cserélheted ki."
 
 #: server/cityhand.c:395
 #, c-format
-msgid "Game: %s is not a valid name."
+msgid "%s is not a valid name."
 msgstr "Játék: A(z) \"%s\" érvénytelen városnév."
 
 #: server/citytools.c:221
 #, c-format
-msgid "Game: You already have a city called %s"
+msgid "You already have a city called %s"
 msgstr "Játék: Már van %s nevû városod"
 
 #: server/citytools.c:244
 #, c-format
-msgid "Game: Can't use %s as a city name. It is reserved for %s."
+msgid "Can't use %s as a city name. It is reserved for %s."
 msgstr ""
 "Játék: Nem használhatod a(z)  %s városnevet. Ez a név a(z) %s számára van "
 "lefoglalva."
 
 #: server/citytools.c:257
 #, c-format
-msgid "Game: A city called %s already exists."
+msgid "A city called %s already exists."
 msgstr "Játék: Van már %s nevû város."
 
 #: server/citytools.c:301
@@ -587,22 +587,22 @@ msgstr "Névtelen Város"
 
 #: server/citytools.c:567
 #, c-format
-msgid "Game: Changed homecity of %s to %s."
+msgid "Changed homecity of %s to %s."
 msgstr "Játék: A(z) %s ellátóvárosa mostantól %s."
 
 #: server/citytools.c:577
 #, c-format
-msgid "Game: Transfered %s in %s from %s to %s."
+msgid "Transfered %s in %s from %s to %s."
 msgstr "Játék: %3$s átadta %2$si %1$s egységét %4$s játékosnak."
 
 #: server/citytools.c:586
 #, c-format
-msgid "Game: Transfered %s from %s to %s."
+msgid "Transfered %s from %s to %s."
 msgstr "Játék: %2$s átadta egy %1$s egységét %3$s játékosnak."
 
 #: server/citytools.c:764
 #, c-format
-msgid "Game: You lost your capital %s. A new palace was built in %s."
+msgid "You lost your capital %s. A new palace was built in %s."
 msgstr "Játék: Elesett a fõvárosod, %s. Új palota épült %s városában."
 
 #: server/citytools.c:823
@@ -615,7 +615,7 @@ msgstr ""
 #: server/citytools.c:920
 #, c-format
 msgid ""
-"Game: The people in %s are stunned by your technological insight!\n"
+"The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 "Játék: A(z) %si embereket megdöbbenti a technológiai fejlettséged.\n"
@@ -634,35 +634,35 @@ msgstr "A(z) %4$s megalapították %1$s városát (%2$i,%3$i)"
 
 #: server/citytools.c:1089
 #, c-format
-msgid "Game: You have founded %s"
+msgid "You have founded %s"
 msgstr "Játék: Megalapítottad %s városát"
 
 #: server/citytools.c:1136
 #, c-format
-msgid "Game: Changed homecity of %s in %s."
+msgid "Changed homecity of %s in %s."
 msgstr "Játék: A(z) %s ellátóvárosa mostantól %s."
 
 #: server/citytools.c:1167
 #, c-format
-msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
+msgid "Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr "Játék: Egy %s kihajózott a feloszlatott %s városából."
 
 #: server/citytools.c:1178
 #, c-format
 msgid ""
-"Game: When %s was disbanded your %s could not get out, and it was therefore "
+"When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
 msgstr ""
 "Játék: %s feloszlatásakor egy %s nem tudott kihajózni, ezért megsemmisült."
 
 #: server/citytools.c:1281
 #, c-format
-msgid "Game: You destroy %s completely."
+msgid "You destroy %s completely."
 msgstr "Játék: %s városát teljesen megsemmisítetted."
 
 #: server/citytools.c:1283
 #, c-format
-msgid "Game: %s has been destroyed by %s."
+msgid "%s has been destroyed by %s."
 msgstr "Játék: %2$s megsemmisítette %1$s városát."
 
 #: server/citytools.c:1285
@@ -672,12 +672,12 @@ msgstr "%s városát (%s) (%i,%i) megsemmisítették a(z) %s"
 
 #: server/citytools.c:1303
 #, c-format
-msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
+msgid "You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Játék: Elfoglaltad %s városát, %d aranyat zsákmányoltál!"
 
 #: server/citytools.c:1307
 #, c-format
-msgid "Game: %s conquered %s and looted %d gold from the city."
+msgid "%s conquered %s and looted %d gold from the city."
 msgstr "Játék: %s elfoglalta %s városát, és %d aranyat zsákmányolt."
 
 #: server/citytools.c:1310
@@ -687,12 +687,12 @@ msgstr "%s városát (%s) (%i,%i) elfoglalták a(z) %s"
 
 #: server/citytools.c:1315
 #, c-format
-msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
+msgid "You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Játék: Felszabadítottad %s városát!! %d aranyat zsákmányoltál."
 
 #: server/citytools.c:1320
 #, c-format
-msgid "Game: %s liberated %s and looted %d gold from the city."
+msgid "%s liberated %s and looted %d gold from the city."
 msgstr "Játék: %s felszabadította %s városát, és %d aranyat zsákmányolt."
 
 #: server/citytools.c:1323
@@ -706,28 +706,28 @@ msgstr " a munkatervbõl"
 
 #: server/citytools.c:1836
 #, c-format
-msgid "Game: %s is building %s%s."
+msgid "%s is building %s%s."
 msgstr "Játék: %s városában %s%s épül."
 
 #: server/citytools.c:1840
 #, c-format
-msgid "Game: %s is building %s."
+msgid "%s is building %s."
 msgstr "Játék: %s városában %s épül."
 
 #: server/cityturn.c:120
 #, c-format
-msgid "Game: %s is selling %s (obsolete) for %d."
+msgid "%s is selling %s (obsolete) for %d."
 msgstr "Játék: %s %s (elavult) épületet ad el %d aranyért."
 
 #: server/cityturn.c:334
 #, c-format
-msgid "Game: Notice: Wonder %s in %s will be finished next turn."
+msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Játék: Figyelem, a(z) %2$si %1$s a következõ körben megépül."
 
 #: server/cityturn.c:366
 #, c-format
 msgid ""
-"Game: Suggest throttling growth in %s to use %s (being built) more "
+"Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
 msgstr ""
 "Játék: Javasolom a növekedés visszafogását %s városában, mert így a (most "
@@ -735,36 +735,36 @@ msgstr ""
 
 #: server/cityturn.c:380
 #, c-format
-msgid "Game: %s may soon grow to size %i."
+msgid "%s may soon grow to size %i."
 msgstr "Játék: %s hamarosan %i méretûre nõhet."
 
 #: server/cityturn.c:387
 #, c-format
-msgid "Game: Warning: Famine feared in %s."
+msgid "Warning: Famine feared in %s."
 msgstr "Játék: Figyelmeztetés: Éhínség van %s városában."
 
 #: server/cityturn.c:418
-msgid "Game: WARNING, we're LOW on FUNDS sire."
+msgid "WARNING, we're LOW on FUNDS sire."
 msgstr "Játék: FIGYELEM, KEVÉS PÉNZÜNK van."
 
 #: server/cityturn.c:482 server/cityturn.c:501
 #, c-format
-msgid "Game: %s needs %s (being built) to grow any further."
+msgid "%s needs %s (being built) to grow any further."
 msgstr "Játék: %s növekedéséhez %s szükséges. (épül)"
 
 #: server/cityturn.c:487 server/cityturn.c:506
 #, c-format
-msgid "Game: %s needs %s to grow any further."
+msgid "%s needs %s to grow any further."
 msgstr "Játék: %s növekedéséhez %s szükséges."
 
 #: server/cityturn.c:558
 #, c-format
-msgid "Game: %s grows to size %d."
+msgid "%s grows to size %d."
 msgstr "Játék: %s %d méretûre nõtt."
 
 #: server/cityturn.c:587
 #, c-format
-msgid "Game: Famine feared in %s, %s lost!"
+msgid "Famine feared in %s, %s lost!"
 msgstr "Játék: Éhínség van %s városában, egy %s elveszett!"
 
 #: server/cityturn.c:589
@@ -774,19 +774,19 @@ msgstr "Elveszett egy %s %s (éhínség)"
 
 #: server/cityturn.c:600
 #, c-format
-msgid "Game: Famine causes population loss in %s."
+msgid "Famine causes population loss in %s."
 msgstr "Játék: Éhínség miatt csökken a népesség %s városában."
 
 #: server/cityturn.c:681 server/cityturn.c:721
 #, c-format
-msgid "Game: %s can't build %s from the worklist.  Purging..."
+msgid "%s can't build %s from the worklist.  Purging..."
 msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s.  Törölve..."
 
 #: server/cityturn.c:700 server/cityturn.c:741
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; tech not yet available.  "
+"%s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; a technológia "
@@ -794,13 +794,13 @@ msgstr ""
 
 #: server/cityturn.c:708 server/cityturn.c:765 server/cityturn.c:868
 #, c-format
-msgid "Game: Production of %s is upgraded to %s in %s."
+msgid "Production of %s is upgraded to %s in %s."
 msgstr "Játék: A(z) %s helyett inkább %s épül %s városában."
 
 #: server/cityturn.c:747
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; need to have %s first.  "
+"%s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
 msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; %s szökséges "
@@ -809,30 +809,30 @@ msgstr ""
 #: server/cityturn.c:756
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
+"%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; Az ok "
 "ismeretlen!  Elhalasztva..."
 
 #: server/cityturn.c:790
 #, c-format
-msgid "Game: %s's worklist is now empty."
+msgid "%s's worklist is now empty."
 msgstr "Játék: %s munkaterve most üres."
 
 #: server/cityturn.c:887
 #, c-format
-msgid "Game: %s can't upkeep %s, unit disbanded."
+msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Játék: Egy %si %s feloszlott, mert a város nem tudja fenntartani."
 
 #: server/cityturn.c:917
 #, c-format
-msgid "Game: %s is building %s, which is no longer available."
+msgid "%s is building %s, which is no longer available."
 msgstr ""
 "Játék: %s olyan épületet próbál építeni (%s), ami már nem építhetõ meg."
 
 #: server/cityturn.c:954
 #, c-format
-msgid "Game: The %s have finished building %s in %s."
+msgid "The %s have finished building %s in %s."
 msgstr "Játék: A(z) %s befejezték a(z) %s építését %s városában."
 
 #: server/cityturn.c:958 server/cityturn.c:964
@@ -842,32 +842,32 @@ msgstr "Megépült a(z) %2$s a(z) %1$s %3$s városában"
 
 #: server/cityturn.c:970
 #, c-format
-msgid "Game: %s has finished building %s."
+msgid "%s has finished building %s."
 msgstr "Játék: %s befejezte a(z) %s építését."
 
 #: server/cityturn.c:977
 #, c-format
-msgid "Game: %s boosts research, you gain 2 immediate advances."
+msgid "%s boosts research, you gain 2 immediate advances."
 msgstr "Játék: A(z) %s felgyorsítja a kutatást, kapsz 2 tudományt."
 
 #: server/cityturn.c:993
 #, c-format
-msgid "Game: The %s have acquired %s and %s from %s."
+msgid "The %s have acquired %s and %s from %s."
 msgstr "Játék: A(z) %s megszerezték a(z) %s és a(z) %s tudományt a(z) %s segítségével."
 
 #: server/cityturn.c:1000
 #, c-format
-msgid "Game: The %s have started building a spaceship!"
+msgid "The %s have started building a spaceship!"
 msgstr "Játék: A(z) %s ûrhajó építésébe kezdtek!"
 
 #: server/cityturn.c:1043
 #, c-format
-msgid "Game: %s can't build %s yet."
+msgid "%s can't build %s yet."
 msgstr "Játék: %s városában még nem épülhet %s."
 
 #: server/cityturn.c:1070
 #, c-format
-msgid "Game: %s is finished building %s."
+msgid "%s is finished building %s."
 msgstr "Játék: %s befejezte a(z) %s építését."
 
 #: server/cityturn.c:1074
@@ -877,58 +877,58 @@ msgstr "A(z) %s %s egységet építenek %s városában (%i,%i)"
 
 #: server/cityturn.c:1113
 #, c-format
-msgid "Game: Can't afford to maintain %s in %s, building sold!"
+msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Játék: Nem tudsz pénzt fordítani a(z) %2$si %1$s fenntartására, ezért azt "
 "eladtuk!"
 
 #: server/cityturn.c:1149
 #, c-format
-msgid "Game: Pollution near %s."
+msgid "Pollution near %s."
 msgstr "Játék: Szennyezés %s közelében."
 
 #: server/cityturn.c:1279
 #, c-format
-msgid "Game: We Love The %s Day celebrated in %s."
+msgid "We Love The %s Day celebrated in %s."
 msgstr "Játék: Éljen a(z) %s napot ünnepelnek %s városában."
 
 #: server/cityturn.c:1287
 #, c-format
-msgid "Game: We Love The %s Day canceled in %s."
+msgid "We Love The %s Day canceled in %s."
 msgstr "Játék: Az Éljen a(z) %s napot megszüntették %s városában."
 
 #: server/cityturn.c:1319
 #, c-format
-msgid "Game: Civil disorder in %s."
+msgid "Civil disorder in %s."
 msgstr "Játék: Polgári lázadás %s városában."
 
 #: server/cityturn.c:1322
 #, c-format
-msgid "Game: CIVIL DISORDER CONTINUES in %s."
+msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "Játék: A(z) %si POLGÁRI LÁZADÁS TOVÁBB FOLYTATÓDIK."
 
 #: server/cityturn.c:1328
 #, c-format
-msgid "Game: Order restored in %s."
+msgid "Order restored in %s."
 msgstr "Játék: Helyreállt a rend %s városában."
 
 #: server/cityturn.c:1337
 #, c-format
-msgid "Game: The people have overthrown your %s, your country is in turmoil."
+msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Játék: Országodban megdõlt a(z) %s, az emberek között nagy nyugtalanság "
 "uralkodik."
 
 #: server/cityturn.c:1361
 #, c-format
-msgid "Game: %s can't build %s yet, and we can't disband our only city."
+msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Játék: %s még nem építhet %s egységet, nem szüntethetjük meg az egyetlen "
 "városunkat."
 
 #: server/cityturn.c:1378
 #, c-format
-msgid "Game: %s is disbanded into %s."
+msgid "%s is disbanded into %s."
 msgstr "Játék: A(z) %s beolvasztva %s városába."
 
 #: server/cityturn.c:1380
@@ -1044,7 +1044,7 @@ msgstr "Rövid segítségért írd be, hogy 'help'!"
 
 #: server/diplhand.c:148
 #, c-format
-msgid "Game: You don't have tech %s, you can't accept treaty."
+msgid "You don't have tech %s, you can't accept treaty."
 msgstr ""
 "Játék: Nem ismered a(z) %s technológiát, nem kötheted meg az egyezményt."
 
@@ -1061,18 +1061,18 @@ msgstr "%s nem a te városod, nem kötheted meg az egyezményt."
 
 #: server/diplhand.c:169
 #, c-format
-msgid "Game: Your capital (%s) is requested, you can't accept treaty."
+msgid "Your capital (%s) is requested, you can't accept treaty."
 msgstr ""
 "Játék: A fõvárosodat (%s) kéne odaadnod, nem kötheted meg az egyezményt."
 
 #: server/diplhand.c:178
-msgid "Game: You don't have enough gold, you can't accept treaty."
+msgid "You don't have enough gold, you can't accept treaty."
 msgstr "Játék: Nincs elég pénzed, nem kötheted meg az egyezményt."
 
 #: server/diplhand.c:210 server/diplhand.c:215
 #, c-format
-msgid "Game: A treaty containing %d clause was agreed upon."
-msgid_plural "Game: A treaty containing %d clauses was agreed upon."
+msgid "A treaty containing %d clause was agreed upon."
+msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] "Játék: Egy %d pontból álló egyezmény köttetett meg."
 
 #: server/diplhand.c:219
@@ -1083,32 +1083,32 @@ msgstr "A(z) %s és a(z) %s egyezményt kötöttek"
 #: server/diplhand.c:234 server/diplhand.c:238
 #, c-format
 msgid ""
-"Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+"One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Játék: Megsemmisült az egyik %s által felajánlott város! Az egyezmény "
 "visszavonva!"
 
 #: server/diplhand.c:245 server/diplhand.c:250
 #, c-format
-msgid "Game: The %s no longer control %s! Treaty canceled!"
+msgid "The %s no longer control %s! Treaty canceled!"
 msgstr ""
 "Játék: %2$s városa már nem a(z) %1$s kezén van! Az egyezmény visszavonva!"
 
 #: server/diplhand.c:260 server/diplhand.c:264
 #, c-format
-msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
+msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 "Játék: A(z) %s nem rendelkeznek a megígért aranymennyiséggel! Az egyezmény "
 "visszavonva!"
 
 #: server/diplhand.c:283
 #, c-format
-msgid "Game: You are taught the knowledge of %s."
+msgid "You are taught the knowledge of %s."
 msgstr "Játék: Megkaptad a(z) %s tudományt."
 
 #: server/diplhand.c:287
 #, c-format
-msgid "Game: The %s have acquired %s from the %s."
+msgid "The %s have acquired %s from the %s."
 msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt a(z) %s népétõl."
 
 #: server/diplhand.c:292
@@ -1118,62 +1118,62 @@ msgstr "A(z) %s megszerezték a(z) %s tudományt a(z) %s népétõl (Egyezmény)"
 
 #: server/diplhand.c:302
 #, c-format
-msgid "Game: You get %d gold."
+msgid "You get %d gold."
 msgstr "Játék: Kapsz %d aranyat."
 
 #: server/diplhand.c:308
 #, c-format
-msgid "Game: You receive %s's worldmap."
+msgid "You receive %s's worldmap."
 msgstr "Játék: Megkapod %s világtérképét."
 
 #: server/diplhand.c:313
 #, c-format
-msgid "Game: You receive %s's seamap."
+msgid "You receive %s's seamap."
 msgstr "Játék: Megkapod %s hajózási térképét."
 
 #: server/diplhand.c:328
 #, c-format
-msgid "Game: You receive city of %s from %s."
+msgid "You receive city of %s from %s."
 msgstr "Játék: %2$s átadja neked %1$s városát."
 
 #: server/diplhand.c:332
 #, c-format
-msgid "Game: You give city of %s to %s."
+msgid "You give city of %s to %s."
 msgstr "Játék: %2$s megkapja tõled %1$s városát."
 
 #: server/diplhand.c:344 server/diplhand.c:347
 #, c-format
-msgid "Game: You agree on a cease-fire with %s."
+msgid "You agree on a cease-fire with %s."
 msgstr "Játék: Tûzszünetet kötöttél %s játékossal."
 
 #: server/diplhand.c:356 server/diplhand.c:359
 #, c-format
-msgid "Game: You agree on a peace treaty with %s."
+msgid "You agree on a peace treaty with %s."
 msgstr "Játék: Békét kötöttél %s játékossal."
 
 #: server/diplhand.c:368 server/diplhand.c:371
 #, c-format
-msgid "Game: You agree on an alliance with %s."
+msgid "You agree on an alliance with %s."
 msgstr "Játék: Szövetséget kötöttél %s játékossal."
 
 #: server/diplhand.c:379
 #, c-format
-msgid "Game: You give shared vision to %s."
+msgid "You give shared vision to %s."
 msgstr "Játék: Közös látványt biztosítasz %s számára."
 
 #: server/diplhand.c:382
 #, c-format
-msgid "Game: %s gives you shared vision."
+msgid "%s gives you shared vision."
 msgstr "Játék: %s közös látványt biztosít neked."
 
 #: server/diplhand.c:483
 #, c-format
-msgid "Game: %s canceled the meeting!"
+msgid "%s canceled the meeting!"
 msgstr "Játék: %s megszakította a találkozót!"
 
 #: server/diplhand.c:489
 #, c-format
-msgid "Game: Meeting with %s canceled."
+msgid "Meeting with %s canceled."
 msgstr "Játék: Megszakítottuk a találkozót %s játékossal."
 
 #: server/diplhand.c:532
@@ -1182,23 +1182,23 @@ msgstr "MI irányította játékosok nem vehetnek részt diplomáciai találkozókon."
 
 #: server/diplomats.c:88
 #, c-format
-msgid "Game: Your %s could not poison the water supply in %s."
+msgid "Your %s could not poison the water supply in %s."
 msgstr "Játék: A %s nem tudta megmérgezni %s vízellátását."
 
 #: server/diplomats.c:102
 #, c-format
-msgid "Game: Your %s poisoned the water supply of %s."
+msgid "Your %s poisoned the water supply of %s."
 msgstr "Játék: A %s megmérgezte %s vízellátását."
 
 #: server/diplomats.c:105
 #, c-format
-msgid "Game: %s is suspected of poisoning the water supply of %s."
+msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Játék: Megmérgezték %1$s vízellátását. (Feltehetõen %2$s követte el.)"
 
 #: server/diplomats.c:252
 #, c-format
 msgid ""
-"Game: Your %s was executed in %s on suspicion of spying.  The %s welcome "
+"Your %s was executed in %s on suspicion of spying.  The %s welcome "
 "future diplomatic efforts providing the Ambassador is reputable."
 msgstr "Játék: A(z) %3$s kivégezték a %1$s egységedet %2$s városában kémkedés gyanúja miatt.  Egy jó hírû nagykövetet szívesen fogadnának."
 
@@ -1211,17 +1211,17 @@ msgstr "Kivégeztél egy %s egységet, akit a(z) %s küldtek %s városába nagykövetsé
 
 #: server/diplomats.c:269
 #, c-format
-msgid "Game: Your %s was executed in %s by primitive %s."
+msgid "Your %s was executed in %s by primitive %s."
 msgstr "Játék: A barbár %3$s kivégezték a %1$s egységedet %2$s városában."
 
 #: server/diplomats.c:286
 #, c-format
-msgid "Game: You have established an embassy in %s."
+msgid "You have established an embassy in %s."
 msgstr "Játék: Nagykövetséget alapítottál %s városában."
 
 #: server/diplomats.c:289
 #, c-format
-msgid "Game: The %s have established an embassy in %s."
+msgid "The %s have established an embassy in %s."
 msgstr "Játék: A(z) %s nagykövetséget alapítottak %s városában."
 
 #: server/diplomats.c:291
@@ -1231,66 +1231,66 @@ msgstr "A(z) %s nagykövetséget alapítottak %s városában (%s) (%i,%i)"
 
 #: server/diplomats.c:347
 #, c-format
-msgid "Game: Your %s could not sabotage %s's %s."
+msgid "Your %s could not sabotage %s's %s."
 msgstr "Játék: A %s nem tudta szabotálni %s %s egységét."
 
 #: server/diplomats.c:362
 #, c-format
-msgid "Game: Your %s succeeded in sabotaging %s's %s."
+msgid "Your %s succeeded in sabotaging %s's %s."
 msgstr "Játék: A %s szabotálta %s %s egységét."
 
 #: server/diplomats.c:367
 #, c-format
-msgid "Game: Your %s was sabotaged by %s!"
+msgid "Your %s was sabotaged by %s!"
 msgstr "Játék: %2$s szabotálta egy %1$s egységedet!"
 
 #: server/diplomats.c:420
-msgid "Game: You can't bribe a unit from this nation."
+msgid "You can't bribe a unit from this nation."
 msgstr "Játék: Ennek a népnek az egységeit nem lehet lefizetni."
 
 #: server/diplomats.c:429
 #, c-format
-msgid "Game: You don't have enough gold to bribe %s's %s."
+msgid "You don't have enough gold to bribe %s's %s."
 msgstr "Játék: Nincs elég aranyad %s %s egységének lefizetésére."
 
 #: server/diplomats.c:446
 #, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s."
+msgid "Your %s succeeded in bribing %s's %s."
 msgstr "Játék: A %s lefizette %s %s egységét."
 
 #: server/diplomats.c:450
 #, c-format
-msgid "Game: Your %s was bribed by %s."
+msgid "Your %s was bribed by %s."
 msgstr "Játék: %2$s lefizetett egy %1$s egységedet."
 
 #: server/diplomats.c:546
 #, c-format
-msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
+msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Játék: Elfogták a %s egységedet, miközben technológiát próbált lopni %s városából."
 
 #: server/diplomats.c:550
 #, c-format
-msgid "Game: %s's %s failed to steal technology from %s."
+msgid "%s's %s failed to steal technology from %s."
 msgstr "Játék: %s %s egységének nem sikerült technológiát lopnia %s városából."
 
 #: server/diplomats.c:580
 #, c-format
-msgid "Game: No new technology found in %s."
+msgid "No new technology found in %s."
 msgstr "Játék: Nem találtál új technológiát %s városában."
 
 #: server/diplomats.c:616
 #, c-format
-msgid "Game: Your %s could not find the %s technology to steal in %s."
+msgid "Your %s could not find the %s technology to steal in %s."
 msgstr "Játék: A %s nem tudta ellopni a(z) %s tudományt %s városából."
 
 #: server/diplomats.c:637
 #, c-format
-msgid "Game: Your %s stole Future Tech. %d from %s."
+msgid "Your %s stole Future Tech. %d from %s."
 msgstr "Játék: A %s ellopta a(z) %d. Jövõbeli Tudományt %s játékostól."
 
 #: server/diplomats.c:641
 #, c-format
-msgid "Game: Future Tech. %d stolen by %s %s from %s."
+msgid "Future Tech. %d stolen by %s %s from %s."
 msgstr ""
 "Játék: Egy %2$s %3$s ellopta a(z) %1$d. Jövõbeli Tudományt %4$s városából."
 
@@ -1301,17 +1301,17 @@ msgstr "A(z) %s ellopták a(z) %d. Jövõbeli Tudományt a(z) %s népétõl"
 
 #: server/diplomats.c:657
 #, c-format
-msgid "Game: Your %s stole %s from %s."
+msgid "Your %s stole %s from %s."
 msgstr "Játék: A %s ellopta a(z) %s tudományt %s játékostól."
 
 #: server/diplomats.c:661
 #, c-format
-msgid "Game: %s's %s stole %s from %s."
+msgid "%s's %s stole %s from %s."
 msgstr "Játék: %s %s egysége ellopta a(z) %s tudományt %s városából."
 
 #: server/diplomats.c:665 server/plrhand.c:613
 #, c-format
-msgid "Game: The %s have stolen %s from the %s."
+msgid "The %s have stolen %s from the %s."
 msgstr "Játék: A(z) %s ellopták a(z) %s tudományt a(z) %s népétõl."
 
 #: server/diplomats.c:669
@@ -1320,155 +1320,155 @@ msgid "%s steals %s from the %s"
 msgstr "A(z) %s ellopták a(z) %s tudományt a(z) %s népétõl"
 
 #: server/diplomats.c:726
-msgid "Game: You can't subvert a city from this nation."
+msgid "You can't subvert a city from this nation."
 msgstr "Játék: Ennek a népnek a városait nem lehet fellázítani."
 
 #: server/diplomats.c:735
-msgid "Game: You can't subvert the capital of a nation."
+msgid "You can't subvert the capital of a nation."
 msgstr "Játék: Egy nép fõvárosát nem lehet fellázítani."
 
 #: server/diplomats.c:754
 #, c-format
-msgid "Game: You don't have enough gold to subvert %s."
+msgid "You don't have enough gold to subvert %s."
 msgstr "Játék: Nincs elég aranyad %s fellázításához."
 
 #: server/diplomats.c:769
 #, c-format
-msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
+msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Játék: Elfogták a %s egységedet, miközben lázadást próbált kirobbantani!"
 
 #: server/diplomats.c:773
 #, c-format
-msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
+msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Játék: Elfogtál egy %s %s egységet, miközben lázadást próbált kirobbantani %s városában!"
 
 #: server/diplomats.c:795
 #, c-format
-msgid "Game: Revolt incited in %s, you now rule the city!"
+msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Játék: Felkelés tört ki %s városában, mostantól te irányítod a várost!"
 
 #: server/diplomats.c:798
 #, c-format
-msgid "Game: %s has revolted, %s influence suspected."
+msgid "%s has revolted, %s influence suspected."
 msgstr "Játék: %s fellázadt, feltehetõen %s közremûködés hatására."
 
 #: server/diplomats.c:876
 #, c-format
-msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
+msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Játék: Elfogták a %s egységedet, miközben szabotázsakciót próbált végrehajtani!"
 
 #: server/diplomats.c:880
 #, c-format
-msgid "Game: You caught %s %s attempting sabotage in %s!"
+msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Játék: Elfogtál egy %s %s egységet, miközben szabotázsakciót próbált végrehajtani %s városában!"
 
 #: server/diplomats.c:914
 #, c-format
-msgid "Game: Your %s could not find anything to sabotage in %s."
+msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Játék: A %s nem talált szabotálható dolgot %s városában."
 
 #: server/diplomats.c:956
 #, c-format
-msgid "Game: You cannot sabotage a wonder or a %s!"
+msgid "You cannot sabotage a wonder or a %s!"
 msgstr "Játék: Nem lehet szabotálni világcsodát vagy %s épületet!"
 
 #: server/diplomats.c:966
 #, c-format
-msgid "Game: Your %s could not find the %s to sabotage in %s."
+msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Játék: A %s nem tudta szabotálni a(z) %s épületet %s városában."
 
 #: server/diplomats.c:991
 #, c-format
-msgid "Game: Your %s succeeded in destroying the production of %s in %s."
+msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Játék: A %s megsemmisítette a(z) épülõ %s egységet/épületet %s városában."
 
 #: server/diplomats.c:995
 #, c-format
-msgid "Game: The production of %s was destroyed in %s, %s are suspected."
+msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "Játék: A(z) épülõ %s megsemmisült %s városában feltehetõen a(z) %s szabotázsakciójának köszönhetõen."
 
 #: server/diplomats.c:1012
 #, c-format
-msgid "Game: Your %s was caught in the attempt of sabotage!"
+msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Játék: Elfogták a %s egységedet, miközben szabotázsakciót próbált végrehajtani!"
 
 #: server/diplomats.c:1016
 #, c-format
-msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
+msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Játék: Elfogtál egy %s %s egységet, miközben szabotálni próbálta a(z) %s épületet %s városában!"
 
 #: server/diplomats.c:1029
 #, c-format
-msgid "Game: Your %s destroyed the %s in %s."
+msgid "Your %s destroyed the %s in %s."
 msgstr "Játék: A %s megsemmisítette a(z) %s épületet %s városában."
 
 #: server/diplomats.c:1033
 #, c-format
-msgid "Game: The %s destroyed the %s in %s."
+msgid "The %s destroyed the %s in %s."
 msgstr "Játék: A(z) %s megsemmisítették a(z) %s épületet %s városában."
 
 #: server/diplomats.c:1117
 #, c-format
-msgid "Game: Your %s has been eliminated defending against a %s in %s."
+msgid "Your %s has been eliminated defending against a %s in %s."
 msgstr "Játék: Egy támadó %2$s megsemmisített egy védõ %1$s egységedet %3$s városában."
 
 #: server/diplomats.c:1126
 #, c-format
-msgid "Game: Your %s was eliminated by a defending %s in %s."
+msgid "Your %s was eliminated by a defending %s in %s."
 msgstr "Játék: A %s egységedet elfogta egy védõ %s %s városában."
 
 #: server/diplomats.c:1132
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating %s."
+msgid "Eliminated %s %s while infiltrating %s."
 msgstr "Játék: Elfogtak egy %s %s egységet, miközben megpróbált beépülni az ellenséghez %s városában."
 
 #: server/diplomats.c:1180
 #, c-format
 msgid ""
-"Game: Your %s has successfully completed her mission and returned unharmed "
+"Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr "Játék: A %s teljesítette a küldetését és sértetlenül visszatért %s városába."
 
 #: server/diplomats.c:1200
 #, c-format
-msgid "Game: Your %s was captured after completing her mission in %s."
+msgid "Your %s was captured after completing her mission in %s."
 msgstr "Játék: A %s egységedet elfogták %s városában, miután teljesítette a küldetését."
 
 #: server/diplomats.c:1205
 #, c-format
-msgid "Game: Your %s was captured after completing her mission."
+msgid "Your %s was captured after completing her mission."
 msgstr "Játék: A %s egységedet elfogták, miután teljesítette a küldetését."
 
 #: server/diplomats.c:1245
 #, c-format
-msgid "Game: You have caused an incident while bribing %s's %s."
+msgid "You have caused an incident while bribing %s's %s."
 msgstr "Játék: %s %s egységének lefizetésével diplomáciai incidenst okozotál."
 
 #: server/diplomats.c:1250
 #, c-format
-msgid "Game: %s has caused an incident while bribing your %s."
+msgid "%s has caused an incident while bribing your %s."
 msgstr "Játék: %s diplomáciai incidenst okozott egy %s egységed lefizetésével."
 
 #: server/diplomats.c:1257
 #, c-format
-msgid "Game: You have caused an incident while stealing tech from %s."
+msgid "You have caused an incident while stealing tech from %s."
 msgstr ""
 "Játék: A(z) %s játékostól való tudománylopással diplomáciai incidenst "
 "okoztál."
 
 #: server/diplomats.c:1261
 #, c-format
-msgid "Game: %s has caused an incident while stealing tech from you."
+msgid "%s has caused an incident while stealing tech from you."
 msgstr "Játék: %s diplomáciai incidenst okozott a tudománylopással."
 
 #: server/diplomats.c:1267
 #, c-format
-msgid "Game: You have caused an incident while inciting a revolt in %s."
+msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Játék: A(z) %si lázadás kirobbantásával diplomáciai incidenst okoztál."
 
 #: server/diplomats.c:1270
 #, c-format
-msgid "Game: %s have caused an incident while inciting a revolt in %s."
+msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr ""
 "Játék: A(z) %2$si lázadás kirobbantásával %1$s diplomáciai incidenst okozott."
 
@@ -1495,27 +1495,27 @@ msgstr ""
 
 #: server/handchat.c:69
 #, c-format
-msgid "Game: %s is an ambiguous player name-prefix."
+msgid "%s is an ambiguous player name-prefix."
 msgstr "Játék: A(z) %s játékosnév-prefix nem egyértelmû."
 
 #: server/handchat.c:72
 #, c-format
-msgid "Game: %s is an ambiguous connection name-prefix."
+msgid "%s is an ambiguous connection name-prefix."
 msgstr "Játék: A(z) %s kapcsolatnév-prefix nem egyértelmû."
 
 #: server/handchat.c:259
 #, c-format
-msgid "Game: %s is not connected."
+msgid "%s is not connected."
 msgstr "Játék: %s játékossal nem áll fenn a kapcsolat."
 
 #: server/handchat.c:271
 #, c-format
-msgid "Game: There is no connection by the name %s."
+msgid "There is no connection by the name %s."
 msgstr "Játék: Nincs %s nevû kapcsolat."
 
 #: server/handchat.c:274
 #, c-format
-msgid "Game: There is no player nor connection by the name %s."
+msgid "There is no player nor connection by the name %s."
 msgstr "Játék: Sem %1$s nevû játékos sem %1$s nevû kapcsolat nincsen."
 
 #: server/mapgen.c:1102
@@ -1541,30 +1541,30 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "A 3-as generálóeljárás %li szárazföldi mezõt nem helyezett el."
 
 #: server/maphand.c:119
-msgid "Game: Global warming has occurred!"
+msgid "Global warming has occurred!"
 msgstr "Játék: Globális felmelegedés történt!"
 
 #: server/maphand.c:120
 msgid ""
-"Game: Coastlines have been flooded and vast ranges of grassland have become "
+"Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr ""
 "Játék: A partvonalakat elöntötte a víz, és nagy területû síkságok "
 "sivasagosodtak el."
 
 #: server/maphand.c:163
-msgid "Game: Nuclear winter has occurred!"
+msgid "Nuclear winter has occurred!"
 msgstr "Játék: Nukleáris tél következett be!"
 
 #: server/maphand.c:164
 msgid ""
-"Game: Wetlands have dried up and vast ranges of grassland have become tundra."
+"Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr ""
 "Játék: A mocsarak kiszáradtak, és nagy mennyiségû füves puszta vált tundrává."
 
 #: server/maphand.c:185
 msgid ""
-"Game: New hope sweeps like fire through the country as the discovery of "
+"New hope sweeps like fire through the country as the discovery of "
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
@@ -1573,7 +1573,7 @@ msgstr ""
 
 #: server/maphand.c:191
 msgid ""
-"Game: The people are pleased to hear that your scientists finally know about "
+"The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
@@ -1617,7 +1617,7 @@ msgstr "Várakozik"
 
 #: server/plrhand.c:128
 #, c-format
-msgid "Game: %s acquired from The Great Library!"
+msgid "%s acquired from The Great Library!"
 msgstr "Játék: Megszerezted a(z) %s tudományt a Nagy Könyvtárból!"
 
 #: server/plrhand.c:130
@@ -1627,16 +1627,16 @@ msgstr "A(z) %s felfedezték a(z) %s tudományt (Nagy Könyvtárból)"
 
 #: server/plrhand.c:133
 #, c-format
-msgid "Game: The %s have acquired %s from the Great Library."
+msgid "The %s have acquired %s from the Great Library."
 msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt a Nagy Könyvtárból."
 
 #: server/plrhand.c:175
-msgid "Game: You are dead!"
+msgid "You are dead!"
 msgstr "Játék: Legyõztek!"
 
 #: server/plrhand.c:179
 #, c-format
-msgid "Game: The %s are no more!"
+msgid "The %s are no more!"
 msgstr "Játék: Nincsenek többé %s!"
 
 #: server/plrhand.c:181
@@ -1651,13 +1651,13 @@ msgstr "A(z) %2$s tudományt a(z) %1$s tanulták meg elsõnek"
 
 #: server/plrhand.c:223
 #, c-format
-msgid "Game: Discovery of %s OBSOLETES %s in %s!"
+msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "Játék: A(z) %1$s felfedezésével ELAVULT a(z) %3$si %2$s!"
 
 #: server/plrhand.c:234
 #, c-format
 msgid ""
-"Game: Discovery of %s makes the government form %s available. You may want "
+"Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
 msgstr ""
 "Játék: A(z) %s felfedezése lehetõvé teszi a(z) %s államformát. Indíts "
@@ -1665,21 +1665,21 @@ msgstr ""
 
 #: server/plrhand.c:275
 #, c-format
-msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
+msgid "Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
 "Játék: Megtanultuk a(z) %s tudományt.  Tudósaink a(z) %s tudományra "
 "koncentrálnak, cél a(z) %s."
 
 #: server/plrhand.c:285
 #, c-format
-msgid "Game: Learned %s.  Scientists choose to research %s."
+msgid "Learned %s.  Scientists choose to research %s."
 msgstr ""
 "Játék: Megtanultuk a(z) %s tudományt.  Tudósaink a(z) %s tudományt "
 "választották kutatásuk céljául."
 
 #: server/plrhand.c:293
 #, c-format
-msgid "Game: Learned %s. "
+msgid "Learned %s. "
 msgstr "Játék: Megtanultuk a(z) %st. "
 
 #: server/plrhand.c:296
@@ -1689,12 +1689,12 @@ msgstr "Kutatás alatt: %s."
 
 #: server/plrhand.c:309 server/stdinhand.c:1375
 #, c-format
-msgid "Game: %s"
+msgid "%s"
 msgstr "Játék: %s"
 
 #: server/plrhand.c:312
 msgid ""
-"Game: Great scientists from all the world join your civilization: you get an "
+"Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
 "Játék: Nagy tudósok csatlakoznak civilizációdhoz az egész világból; kapsz "
@@ -1702,7 +1702,7 @@ msgstr ""
 
 #: server/plrhand.c:379
 #, c-format
-msgid "Game: The %s have researched %s."
+msgid "The %s have researched %s."
 msgstr "Játék: A(z) %s felfedezték a(z) %s tudományt."
 
 #: server/plrhand.c:383
@@ -1712,7 +1712,7 @@ msgstr "A(z) %s felfedezték a(z) %s tudományt."
 
 #: server/plrhand.c:388
 #, c-format
-msgid "Game: The %s have researched Future Tech. %d."
+msgid "The %s have researched Future Tech. %d."
 msgstr "Játék: A(z) %s felfedezték a(z) %d. Jövõbeli Tudományt."
 
 #: server/plrhand.c:392
@@ -1722,7 +1722,7 @@ msgstr "A(z) %s felfedezték a(z) %d. Jövõbeli Tudományt"
 
 #: server/plrhand.c:510
 #, c-format
-msgid "Game: Technology goal is %s."
+msgid "Technology goal is %s."
 msgstr "Játék: A technológiai cél a(z) %s."
 
 #: server/plrhand.c:598
@@ -1732,16 +1732,16 @@ msgstr "A(z) %s ellopták a(z) %s tudományt a(z) %s népétõl"
 
 #: server/plrhand.c:604
 #, c-format
-msgid "Game: You steal %s from the %s."
+msgid "You steal %s from the %s."
 msgstr "Játék: Elloptad a(z) %s tudományt a(z) %s népétõl."
 
 #: server/plrhand.c:608
 #, c-format
-msgid "Game: The %s stole %s from you!"
+msgid "The %s stole %s from you!"
 msgstr "Játék: A(z) %s ellopták tõled a(z) %s tudományt!"
 
 #: server/plrhand.c:633
-msgid "Game: Cannot change rates before game start."
+msgid "Cannot change rates before game start."
 msgstr "Játék: Nem állíthatod át a rátákat a játék elkezdõdése elõtt."
 
 #: server/plrhand.c:646 client/gui-gtk-2.0/gamedlgs.c:245
@@ -1767,7 +1767,7 @@ msgstr "Tudomány"
 
 #: server/plrhand.c:651
 #, c-format
-msgid "Game: %s rate exceeds the max rate for %s."
+msgid "%s rate exceeds the max rate for %s."
 msgstr ""
 "Játék: A(z) %sráta meghaladja a(z) %s államforma esetén lehetséges maximális "
 "értéket."
@@ -1779,7 +1779,7 @@ msgstr "RÁTAVÁLTOZTATÁS: %s %i %i %i"
 
 #: server/plrhand.c:703
 #, c-format
-msgid "Game: %s now governs the %s as a %s."
+msgid "%s now governs the %s as a %s."
 msgstr "Játék: %1$s mostantól %3$s államformában irányítja a(z) %2$s népét."
 
 #: server/plrhand.c:707
@@ -1789,7 +1789,7 @@ msgstr "A(z) %s államformája mostantól %s"
 
 #: server/plrhand.c:740
 #, c-format
-msgid "Game: The %s have incited a revolt!"
+msgid "The %s have incited a revolt!"
 msgstr "Játék: A(z) %s népénél kitört a forradalom!"
 
 #: server/plrhand.c:742
@@ -1799,21 +1799,21 @@ msgstr "A(z) %s népénél forradalom van!"
 
 #: server/plrhand.c:767
 #, c-format
-msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
+msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Játék: Az adó mértéke meghaladta a(z) %s államforma esetén lehetséges "
 "maximális mértéket; kiigazítva."
 
 #: server/plrhand.c:773
 #, c-format
-msgid "Game: Science rate exceeded the max rate for %s; adjusted."
+msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Játék: A tudományráta meghaladta a(z) %s államforma esetén lehetséges "
 "maximális értéket; kiigazítva."
 
 #: server/plrhand.c:779
 #, c-format
-msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
+msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Játék: A luxusráta meghaladta a(z) %s államforma esetén lehetséges maximális "
 "értéket; kiigazítva."
@@ -1827,12 +1827,12 @@ msgstr ""
 
 #: server/plrhand.c:851
 #, c-format
-msgid "Game: Your reputation is now %s."
+msgid "Your reputation is now %s."
 msgstr "Játék: A hírneved most %s."
 
 #: server/plrhand.c:855
 msgid ""
-"Game: The senate decides to dissolve rather than support your actions any "
+"The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
 "Játék: A szenátus nem hajlandó továbbra is támogatni, inkább feloszlatja "
@@ -1840,13 +1840,13 @@ msgstr ""
 
 #: server/plrhand.c:916
 #, c-format
-msgid "Game: The diplomatic state between the %s and the %s is now %s."
+msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Játék: A(z) %s és a(z) %s között a diplomáciai helyzet mostantól %s."
 
 #: server/plrhand.c:922
 #, c-format
 msgid ""
-"Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
+" %s cancelled the diplomatic agreement! The diplomatic state between "
 "the %s and the %s is now %s."
 msgstr ""
 "Játék:  %s megszegte az egyezményt! A(z) %s és a(z) %s között a diplomáciai "
@@ -1858,36 +1858,36 @@ msgid "Removing player %s."
 msgstr "%s játékos törlése."
 
 #: server/plrhand.c:1337
-msgid "Game: You've been removed from the game!"
+msgid "You've been removed from the game!"
 msgstr "Játék: Kiutasítottak a játékból!"
 
 #: server/plrhand.c:1347
 #, c-format
-msgid "Game: %s has been removed from the game."
+msgid "%s has been removed from the game."
 msgstr "Játék: %s játékost kiutasították a játékból."
 
 #: server/plrhand.c:1378 server/plrhand.c:1382
 #, c-format
-msgid "Game: You have made contact with the %s, ruled by %s."
+msgid "You have made contact with the %s, ruled by %s."
 msgstr "Játék: Elõször találkoztál a(z) %s népével. Vezetõjük: %s."
 
 #: server/plrhand.c:1744
 #, c-format
 msgid ""
-"Game: Your nation is thrust into civil war,  %s is declared the leader of "
+"Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
 "Játék: Az országban polgárháború tört ki, %s a lett a lázadók vezetõje."
 
 #: server/plrhand.c:1764
 #, c-format
-msgid "Game: %s declares allegiance to %s."
+msgid "%s declares allegiance to %s."
 msgstr "Játék: %s hûségesküt tesz le %s mellett."
 
 #: server/plrhand.c:1787
 #, c-format
 msgid ""
-"Game: The capture of %s's capital and the destruction of the empire's "
+"The capture of %s's capital and the destruction of the empire's "
 "administrative\n"
 "      structures have sparked a civil war.  Opportunists have flocked to the "
 "rebel cause,\n"
@@ -2259,87 +2259,82 @@ msgstr ""
 "hagyása."
 
 #: server/spacerace.c:163
-msgid "Game: You need to have a capital in order to launch your spaceship."
+msgid "You need to have a capital in order to launch your spaceship."
 msgstr "Játék: Nem indíthatod el az ûrhajódat, amíg nincs fõvárosod."
 
 #: server/spacerace.c:168
-msgid "Game: Your spaceship is already launched!"
+msgid "Your spaceship is already launched!"
 msgstr "Játék: Az ûrhajód már elindult!"
 
 #: server/spacerace.c:173
-msgid "Game: Your spaceship can't be launched yet!"
+msgid "Your spaceship can't be launched yet!"
 msgstr "Játék: Az ûrhajódat még nem lehet elindítani!"
 
 #: server/spacerace.c:182
 #, c-format
 msgid ""
-"Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
 "Játék: A(z) %s elindítottak egy ûrhajót! Az Alpha Centaurira való érkezés "
 "várható idõpontja %s."
 
 #: server/spacerace.c:201
-msgid "Game: Spaceship action received, but you don't have a spaceship!"
+msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr "Játék: Nincsen még ûrhajód!"
 
 #: server/spacerace.c:210
-msgid "Game: You can't modify your spaceship after launch!"
+msgid "You can't modify your spaceship after launch!"
 msgstr "Játék: Kilövés után nem módosíthatod az ûrhajódat!"
 
 #: server/spacerace.c:219
-msgid "Game: You don't have any unplaced Space Structurals!"
+msgid "You don't have any unplaced Space Structurals!"
 msgstr "Játék: Nincsen elhelyezetlen Ûrhajóváz elemed!"
 
 #: server/spacerace.c:224
-msgid "Game: That Space Structural would not be connected!"
+msgid "That Space Structural would not be connected!"
 msgstr "Játék: Azt az Ûrhajóváz elemet nem lehetne már beépíteni!"
 
 #: server/spacerace.c:238 server/spacerace.c:257
-msgid "Game: You don't have any unplaced Space Components!"
+msgid "You don't have any unplaced Space Components!"
 msgstr "Játék: Nincsen elhelyezetlen Ûrhajó-részegységed!"
 
 #: server/spacerace.c:243
-msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
+msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr ""
 "Játék: Az ûrhajód már maximális számú összes Üzemagyag-részegységgel "
 "rendelkezik!"
 
 #: server/spacerace.c:262
 msgid ""
-"Game: Your spaceship already has the maximum number of Propulsion Components!"
+"Your spaceship already has the maximum number of Propulsion Components!"
 msgstr ""
 "Játék: Az ûrhajód már maximális számú Hajtómû-részegységgel rendelkezik!"
 
 #: server/spacerace.c:277 server/spacerace.c:297 server/spacerace.c:317
-msgid "Game: You don't have any unplaced Space Modules!"
+msgid "You don't have any unplaced Space Modules!"
 msgstr "Játék: Nincsen elhelyezetlen Ûrhajómodulod!"
 
 #: server/spacerace.c:282
 msgid ""
-"Game: Your spaceship already has the maximum number of Habitation Modules!"
+"Your spaceship already has the maximum number of Habitation Modules!"
 msgstr "Játék: Az ûrhajód már maximális számú Lakómodullal rendelkezik!"
 
 #: server/spacerace.c:302
 msgid ""
-"Game: Your spaceship already has the maximum number of Life Support Modules!"
+"Your spaceship already has the maximum number of Life Support Modules!"
 msgstr ""
 "Játék: Az ûrhajód már maximális számú Létfenntartó modullal rendelkezik!"
 
 #: server/spacerace.c:322
 msgid ""
-"Game: Your spaceship already has the maximum number of Solar Panel Modules!"
+"Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "Játék: Az ûrhajód már maximális számú Napelem modullal rendelkezik!"
 
 #: server/spacerace.c:341
 #, c-format
-msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
+msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Játék: A fõváros irányítása nélkül a(z) %s ûrhajó elveszett!"
-
-#: server/spacerace.c:376
-#, c-format
-msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr "Játék: A(z) %s ûrhajó megérkezett az Alpha Centaurira."
 
 #: server/spacerace.c:379
 #, c-format
@@ -2349,7 +2344,7 @@ msgstr "A(z) %s ûrhajó megérkezett az Alpha Centaurira."
 #: server/srv_main.c:327
 #, c-format
 msgid ""
-"Game: Concerned citizens point out that the cease-fire with %s will run out "
+"Concerned citizens point out that the cease-fire with %s will run out "
 "soon."
 msgstr ""
 "Játék: Az aggódó állampolgárok arra hívják fel a figyelmedet, hogy a(z) %s "
@@ -2358,7 +2353,7 @@ msgstr ""
 #: server/srv_main.c:333
 #, c-format
 msgid ""
-"Game: The cease-fire with %s has run out. You are now neutral towards the %s."
+"The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr ""
 "Játék: Lejárt a(z) %s játékossal kötött tûzszünet. Mostantól semleges vagy a"
 "(z) %s felé."
@@ -2403,7 +2398,7 @@ msgstr "Van már '%s' nevû játékos.  Válassz másik nevet."
 
 #: server/srv_main.c:975
 #, c-format
-msgid "Game: %s is the %s ruler %s."
+msgid "%s is the %s ruler %s."
 msgstr "Játék: %s a(z) %s uralkodó %s néven."
 
 #: server/srv_main.c:1004
@@ -2412,7 +2407,7 @@ msgid "No nations left: Removing player %s."
 msgstr "Kifogytak a népek, ezért %s játékost a szerver törölte a játékból."
 
 #: server/srv_main.c:1007
-msgid "Game: Sorry, there are no nations left."
+msgid "Sorry, there are no nations left."
 msgstr "Játék: Sajnos nem jutott már neked nép."
 
 #: server/srv_main.c:1057
@@ -2422,7 +2417,7 @@ msgstr "%s belépett a játékba %s játékosként."
 
 #: server/srv_main.c:1062
 #, c-format
-msgid "Game: Connection %s from %s has joined as player %s."
+msgid "Connection %s from %s has joined as player %s."
 msgstr "Játék: %s (%s) belépett a játékba %s játékosként."
 
 #: server/srv_main.c:1083
@@ -2446,11 +2441,6 @@ msgstr ""
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "A szerver felvette a játékba %s MI irányította játékost."
-
-#: server/srv_main.c:1143
-#, c-format
-msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Játék: A szerver felvette a játékba %s MI irányította játékost."
 
 #: server/srv_main.c:1231
 #, c-format
@@ -2595,11 +2585,6 @@ msgstr "%s visszautasítva: Nem csatlakozhatnak új játékosok."
 msgid "Lost connection: %s."
 msgstr "Megszakadt a(z) %s kapcsolat."
 
-#: server/srv_main.c:1425
-#, c-format
-msgid "Game: Lost connection: %s."
-msgstr "Játék: Megszakadt a(z) %s kapcsolat."
-
 #: server/srv_main.c:1511
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
@@ -2640,7 +2625,7 @@ msgstr "MI irányítja a(z) %2$s vezette %1$s népét."
 
 #: server/srv_main.c:1668
 #, c-format
-msgid "Game: %s rules the %s."
+msgid "%s rules the %s."
 msgstr "Játék: %s a(z) %s uralkodója."
 
 #: server/srv_main.c:1812
@@ -2662,7 +2647,7 @@ msgstr ""
 "Az utolsó játékossal is megszakadt a kapcsolat: a játékot újra kell indítani."
 
 #: server/srv_main.c:2013
-msgid "Game: The game is over..."
+msgid "The game is over..."
 msgstr "Játék: Vége a játéknak..."
 
 #: server/srv_main.c:2014
@@ -4338,7 +4323,7 @@ msgstr ""
 #: server/stdinhand.c:2026
 #, c-format
 msgid ""
-"Game: Anyone can assume command access level '%s' now by issuing the "
+"Anyone can assume command access level '%s' now by issuing the "
 "'firstlevel' command."
 msgstr ""
 "Játék: Most bárki felveheti a(z) '%s' parancselérési szintet a 'firstlevel' "
@@ -4881,200 +4866,200 @@ msgstr ""
 
 #: server/unithand.c:159
 #, c-format
-msgid "Game: Illegal packet, can't upgrade %s (yet)."
+msgid "Illegal packet, can't upgrade %s (yet)."
 msgstr ""
 "Játék: Érvénytelen csomag, a(z) %s egységet (még) nem lehet felfejleszteni."
 
 #: server/unithand.c:180
 #, c-format
-msgid "Game: %d %s upgraded to %s for %d gold."
+msgid "%d %s upgraded to %s for %d gold."
 msgstr "Játék: %d %s felfejlesztve %s egységgé %d aranyért."
 
 #: server/unithand.c:185
-msgid "Game: No units could be upgraded."
+msgid "No units could be upgraded."
 msgstr "Játék: Nem volt felfejlesztendõ egység."
 
 #: server/unithand.c:206
-msgid "Game: Illegal move, unit not in city!"
+msgid "Illegal move, unit not in city!"
 msgstr "Játék: Érvénytelen lépés, az egység nincs városban!"
 
 #: server/unithand.c:211
 #, c-format
-msgid "Game: Illegal package, can't upgrade %s (yet)."
+msgid "Illegal package, can't upgrade %s (yet)."
 msgstr ""
 "Játék: Érvénytelen csomag, a(z) %s egységet (még) nem lehet felfejleszteni."
 
 #: server/unithand.c:217
 #, c-format
-msgid "Game: Insufficient funds, upgrade costs %d."
+msgid "Insufficient funds, upgrade costs %d."
 msgstr "Játék: Nincs elég aranyad, a felfejlesztés költsége %d."
 
 #: server/unithand.c:224
 #, c-format
-msgid "Game: %s upgraded to %s for %d gold."
+msgid "%s upgraded to %s for %d gold."
 msgstr "Játék: Egy %s felfejlesztve %s egységgé %d aranyért."
 
 #: server/unithand.c:444
-msgid "Game: Can't place city here."
+msgid "Can't place city here."
 msgstr "Játék: Nem helyezhetsz el itt várost."
 
 #: server/unithand.c:451
 #, c-format
-msgid "Game: Only %s can build a city."
+msgid "Only %s can build a city."
 msgstr "Játék: Csak %s építhet várost."
 
 #: server/unithand.c:456
-msgid "Game: Can't build a city."
+msgid "Can't build a city."
 msgstr "Játék: Nem építhet várost."
 
 #: server/unithand.c:465
 #, c-format
-msgid "Game: Only %s can add to a city."
+msgid "Only %s can add to a city."
 msgstr "Játék: Csak %s adható hozzá városhoz."
 
 #: server/unithand.c:470
-msgid "Game: Can't add to a city."
+msgid "Can't add to a city."
 msgstr "Játék: Nem adható hozzá városhoz."
 
 #: server/unithand.c:476
 #, c-format
-msgid "Game: %s unit has no moves left to add to %s."
+msgid "%s unit has no moves left to add to %s."
 msgstr ""
 "Játék: A(z) %s nem adható hozzá %s városához, mert elfogytak a lépései."
 
 #: server/unithand.c:481
 #, c-format
-msgid "Game: %s unit has no moves left to build city."
+msgid "%s unit has no moves left to build city."
 msgstr "Játék: A(z) %s nem építhet várost, mert elfogytak a lépései."
 
 #: server/unithand.c:486
 #, c-format
-msgid "Game: %s is too big to add %s."
+msgid "%s is too big to add %s."
 msgstr "Játék: %s már túl nagy, a(z) %s nem adható hozzá."
 
 #: server/unithand.c:491 server/unithand.c:497
 #, c-format
-msgid "Game: %s needs %s to grow, so you cannot add %s."
+msgid "%s needs %s to grow, so you cannot add %s."
 msgstr "Játék: %s növekedéséhez %s szükséges, ezért a(z) %s nem adható hozzá."
 
 #: server/unithand.c:506
 #, c-format
-msgid "Game: Can't add %s to %s."
+msgid "Can't add %s to %s."
 msgstr "Játék: A(z) %s nem adható hozzá %s városához."
 
 #: server/unithand.c:528
 #, c-format
-msgid "Game: %s added to aid %s in growing."
+msgid "%s added to aid %s in growing."
 msgstr ""
 "Játék: Egy %s hozzáadódott %s városához ezzel segítve a város növekedését."
 
 #: server/unithand.c:545
-msgid "Game: Let's not build a city with such a stupid name."
+msgid "Let's not build a city with such a stupid name."
 msgstr "Játék: Nem alapíthatsz várost ilyen buta névvel."
 
 #: server/unithand.c:670
-msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
+msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr "Játék: Az Atomrakétádat lelõtte az SDI védelem."
 
 #: server/unithand.c:673
 #, c-format
-msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
+msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Játék: A(z) %s elleni atomtámadást kivédte az SDI védelmed."
 
 #: server/unithand.c:745
 #, c-format
-msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
+msgid "Your %s%s survived the pathetic attack from %s's %s."
 msgstr ""
 "Játék: %1$s egységed túlélte %3$s %4$s egységének hõsies támadását %2$s."
 
 #: server/unithand.c:754
 #, c-format
-msgid "Game: Your attacking %s failed against %s's %s%s!"
+msgid "Your attacking %s failed against %s's %s%s!"
 msgstr "Játék: A támadó %s egységed vereséget szenvedett %s %s egységétõl %s!"
 
 #: server/unithand.c:772
 #, c-format
-msgid "Game: Your attacking %s succeeded against %s's %s%s!"
+msgid "Your attacking %s succeeded against %s's %s%s!"
 msgstr "Játék: a támadó %s egységed legyõzte %s %s egységét %s!"
 
 #: server/unithand.c:819
-msgid "Game: Cancel treaty in the players dialog first (F3)."
+msgid "Cancel treaty in the players dialog first (F3)."
 msgstr ""
 "Játék: Elõször fel kell bontanod az egyezményt a Játékosok ablakban (F3)."
 
 #: server/unithand.c:842
 #, c-format
-msgid "Game: Only %s can attack from sea."
+msgid "Only %s can attack from sea."
 msgstr "Játék: Csak %s támadhatnak tengerrõl."
 
 #: server/unithand.c:847
-msgid "Game: Cannot attack from sea."
+msgid "Cannot attack from sea."
 msgstr "Játék: Nem támadhatsz tengerrõl."
 
 #: server/unithand.c:852
-msgid "Game: Cannot attack unless you declare war first."
+msgid "Cannot attack unless you declare war first."
 msgstr "Játék: Nem támadhatsz, ha nem üzensz hadat elõbb."
 
 #: server/unithand.c:855
 #, c-format
-msgid "Game: %s can only move into your own zone of control."
+msgid "%s can only move into your own zone of control."
 msgstr "Játék: A(z) %s csak általad ellenõrzött területre léphet."
 
 #: server/unithand.c:940
-msgid "Game: Unit must be on land to perform diplomatic action."
+msgid "Unit must be on land to perform diplomatic action."
 msgstr ""
 "Játék: Az egység csak szárazföldi mezõrõl hajthat végre diplomáciai akciót."
 
 #: server/unithand.c:942
-msgid "Game: No diplomat action possible."
+msgid "No diplomat action possible."
 msgstr "Játék: Nem lehetséges a diplomatatevékenység."
 
 #: server/unithand.c:952
-msgid "Game: You can't attack there."
+msgid "You can't attack there."
 msgstr "Játék: Ott nem támadhatsz."
 
 #: server/unithand.c:958
-msgid "Game: This unit has no moves left."
+msgid "This unit has no moves left."
 msgstr "Játék: Ennek az egységnek nincsen több lépése."
 
 #: server/unithand.c:964
 #, c-format
 msgid ""
-"Game: Can't attack %s's unit in the city of %s because you are not at war "
+"Can't attack %s's unit in the city of %s because you are not at war "
 "with %s."
 msgstr "Játék: Nem támadhatod meg %s egységét %s városában, mert nem állsz háborúban %s játékossal."
 
 #: server/unithand.c:976
 #, c-format
-msgid "Game: %s aborted GOTO as there are units in the way."
+msgid "%s aborted GOTO as there are units in the way."
 msgstr ""
 "Játék: Egy %s félbeszakította a kijelölt útvonalon haladását (GOTO), mert "
 "útban vannak neki más egységek."
 
 #: server/unithand.c:990
 #, c-format
-msgid "Game: No war declared against %s, cannot attack."
+msgid "No war declared against %s, cannot attack."
 msgstr "Játék: Nem állsz háborúban %s játékossal, nem támadhatsz."
 
 #: server/unithand.c:1001
-msgid "Game: Only ground troops can take over a city."
+msgid "Only ground troops can take over a city."
 msgstr "Játék: Csak földi egységek foglalhatnak el várost."
 
 #: server/unithand.c:1008
 #, c-format
-msgid "Game: No war declared against %s, cannot take over city."
+msgid "No war declared against %s, cannot take over city."
 msgstr "Játék: Nem üzentél hadat %s játékosnak, nem foglalhatod el a várost."
 
 #: server/unithand.c:1058
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d remaining)."
+msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr ""
 "Játék: Egy %1$s egységed besegít a(z) %3$si %2$s építésébe (%4$d pajzs van "
 "hátra)."
 
 #: server/unithand.c:1100
 #, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route here!"
+msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr ""
 "Játék: Sajnálom, a(z) %s egységed itt nem alapíthat kereskedelmi útvonalat."
 
@@ -5091,7 +5076,7 @@ msgstr "      %s városa már %d kereskedelmi útvonallal rendelkezik!"
 #: server/unithand.c:1131
 #, c-format
 msgid ""
-"Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold "
 "and research."
 msgstr ""
 "Játék: A(z) %si %s egységed megérkezett %s városába, a bevételek %d aranyat "
@@ -5099,12 +5084,12 @@ msgstr ""
 
 #: server/unittools.c:315
 #, c-format
-msgid "Game: %s has upgraded %s to %s%s."
+msgid "%s has upgraded %s to %s%s."
 msgstr "Játék: %s felfejlesztett egy %s egységet %s egységgé %s."
 
 #: server/unittools.c:474
 #, c-format
-msgid "Game: Your %s has run out of hit points."
+msgid "Your %s has run out of hit points."
 msgstr "Játék: Elfogytak a(z) %s egységed életpontjai."
 
 #: server/unittools.c:476
@@ -5114,7 +5099,7 @@ msgstr "A(z) %s elvesztettek egy %s egységet (elfogytak az életpontjai)"
 
 #: server/unittools.c:487
 #, c-format
-msgid "Game: Your %s has been lost on the high seas."
+msgid "Your %s has been lost on the high seas."
 msgstr "Játék: Az óceánba süllyedt a(z) %s egységed."
 
 #: server/unittools.c:489
@@ -5124,12 +5109,12 @@ msgstr "Elsüllyedt egy %s Evezõs Gálya"
 
 #: server/unittools.c:517
 #, c-format
-msgid "Game: Your %s has returned to refuel."
+msgid "Your %s has returned to refuel."
 msgstr "Játék: A(z) %s egységed visszatért üzemanyagfelvételre."
 
 #: server/unittools.c:542
 #, c-format
-msgid "Game: Your %s has run out of fuel."
+msgid "Your %s has run out of fuel."
 msgstr "Játék: A(z) %s egységednek kifogyott az üzemanyaga."
 
 #: server/unittools.c:544
@@ -5139,7 +5124,7 @@ msgstr "A(z) %s elvesztettek egy %s egységet (kifogyott az üzemanyag)"
 
 #: server/unittools.c:708
 #, c-format
-msgid "Game: You sell %s in %s (now landlocked) for %d gold."
+msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr ""
 "Játék: Eladsz egy %s épületet %s városában %d aranyért (a város már nem "
 "tengerparti)."
@@ -5156,42 +5141,42 @@ msgstr "(%d,%d) óceán keletkezett a szárazföldbõl"
 
 #: server/unittools.c:1060
 #, c-format
-msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
+msgid "Moved your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Játék: Arrébbment egy %s egységed, mert a(z) (%d, %d) mezõ szárazföldbõl "
 "tengerré alakult."
 
 #: server/unittools.c:1083
 #, c-format
-msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
+msgid "Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Játék: Hajóra szállt egy %s egységed, mert a(z) (%d, %d) mezõ szárazföldbõl "
 "tengerré alakult."
 
 #: server/unittools.c:1099
 #, c-format
-msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
+msgid "Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Játék: Feloszlott egy %s egységed, mert a(z) (%d, %d) mezõ szárazföldbõl "
 "tengerré alakult."
 
 #: server/unittools.c:1123
 #, c-format
-msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
+msgid "Moved your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Játék: Arrébbment egy %s egységed, mert a(z) (%d, %d) mezõ tengerbõl "
 "szárazfölddé alakult."
 
 #: server/unittools.c:1145
 #, c-format
-msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
+msgid "Docked your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Játék: Kikötött egy %s egységed, mert a(z) (%d, %d) mezõ tengerbõl "
 "szárazfölddé alakult."
 
 #: server/unittools.c:1161
 #, c-format
-msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
+msgid "Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Játék: Feloszlott egy %s egységed, mert a(z) (%d, %d) mezõ tengerbõl "
 "szárazfölddé alakult."
@@ -5218,17 +5203,17 @@ msgstr " %s mellett"
 
 #: server/unittools.c:1422
 #, c-format
-msgid "Game: Disbanded your %s at (%d, %d)."
+msgid "Disbanded your %s at (%d, %d)."
 msgstr "Játék: Feloszlott egy %s egységed a(z) (%d, %d) mezõn."
 
 #: server/unittools.c:1446
 #, c-format
-msgid "Game: Teleported your %s from (%d, %d) to %s."
+msgid "Teleported your %s from (%d, %d) to %s."
 msgstr "Játék: Egy %s egységed teleportált a(z) (%d, %d) mezõrõl %s városába."
 
 #: server/unittools.c:1852
 #, c-format
-msgid "Game: %s lost when %s was lost."
+msgid "%s lost when %s was lost."
 msgstr "Játék: A(z) %2$s elvesztésével a(z) %1$s is elveszett."
 
 #: server/unittools.c:1855
@@ -5238,12 +5223,12 @@ msgstr "A(z) %1$s a(z) %3$s elvesztésével egy %2$s egységet is vesztettek"
 
 #: server/unittools.c:1903
 #, c-format
-msgid "Game: Barbarian leader captured, %d gold ransom paid."
+msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Játék: Az elfogott barbár fõnökért %d arany váltságdíjat fizettek."
 
 #: server/unittools.c:1923
 #, c-format
-msgid "Game: %s lost to an attack by %s's %s%s."
+msgid "%s lost to an attack by %s's %s%s."
 msgstr "Játék: %2$s %3$s egysége megsemmisített egy %1$s egységedet %4$s."
 
 #: server/unittools.c:1926 server/unittools.c:1971
@@ -5253,18 +5238,18 @@ msgstr "A(z) %s vesztettek egy %s egységet a(z) %s támadása miatt"
 
 #: server/unittools.c:1952
 #, c-format
-msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
+msgid "You lost %d unit to an attack from %s's %s%s."
+msgid_plural "You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Játék: %2$s %3$s egysége megsemmisített %1$d egységedet %4$s."
 
 #: server/unittools.c:1967
 #, c-format
-msgid "Game: %s lost to an attack from %s's %s."
+msgid "%s lost to an attack from %s's %s."
 msgstr "Játék: %2$s %3$s egysége megsemmisített egy %1$s egységedet."
 
 #: server/unittools.c:2139
 #, c-format
-msgid "Game: Your %s was nuked by %s."
+msgid "Your %s was nuked by %s."
 msgstr "Játék: A(z) %s egységedet atomtámadás érte %s részérõl."
 
 #: server/unittools.c:2141 server/unittools.c:2157
@@ -5273,68 +5258,68 @@ msgstr "a saját magad"
 
 #: server/unittools.c:2145
 #, c-format
-msgid "Game: %s's %s was nuked."
+msgid "%s's %s was nuked."
 msgstr "Játék: %s %s egységét atomtámadás érte."
 
 #: server/unittools.c:2155
 #, c-format
-msgid "Game: %s was nuked by %s."
+msgid "%s was nuked by %s."
 msgstr "Játék: %s városát atomtámadás érte %s részérõl."
 
 #: server/unittools.c:2162
 #, c-format
-msgid "Game: You nuked %s."
+msgid "You nuked %s."
 msgstr "Játék: Atombombát dobtál le %s városára."
 
 #: server/unittools.c:2199
 #, c-format
-msgid "Game: %s detonated a nuke!"
+msgid "%s detonated a nuke!"
 msgstr "Játék: %s atombombát robbantott!"
 
 #: server/unittools.c:2237
 #, c-format
-msgid "Game: %s transported succesfully."
+msgid "%s transported succesfully."
 msgstr "Játék: A(z) %s átszállítása sikerült."
 
 #: server/unittools.c:2258
-msgid "Game: This unit type can not be paradropped."
+msgid "This unit type can not be paradropped."
 msgstr "Játék: Ez az egységtípus nem hajthat végre ejtõernyõs támadást."
 
 #: server/unittools.c:2267
-msgid "Game: The destination location is not known."
+msgid "The destination location is not known."
 msgstr "Játék: A célmezõ ismeretlen."
 
 #: server/unittools.c:2273
-msgid "Game: Cannot paradrop into ocean."
+msgid "Cannot paradrop into ocean."
 msgstr "Játék: Nem lehet óceánba ejtõernyõzni."
 
 #: server/unittools.c:2282
 #, c-format
 msgid ""
-"Game: The distance to the target (%i) is greater than the unit's range (%i)."
+"The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Játék: A célmezõ távolsága (%i) nagyobb mint az egység hatótávolsága (%i)."
 
 #: server/unittools.c:2294
 #, c-format
-msgid "Game: Your %s paradropped into the ocean and was lost."
+msgid "Your %s paradropped into the ocean and was lost."
 msgstr "Játék: A(z) %s egységed az óceánba esett, és elveszett."
 
 #: server/unittools.c:2306
 #, c-format
-msgid "Game: Your %s was killed by enemy units at the paradrop destination."
+msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Játék: A(z) %s egységedet ellenséges egységek ölték meg a leérkezés "
 "helyszínén."
 
 #: server/unittools.c:2329
 #, c-format
-msgid "Game: You found %d gold."
+msgid "You found %d gold."
 msgstr "Játék: Találtál %d aranyat."
 
 #: server/unittools.c:2355
 #, c-format
-msgid "Game: You found %s in ancient scrolls of wisdom."
+msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Játék: Megtaláltad a(z) %s tudományt õsi papírtekercseken."
 
 #: server/unittools.c:2357
@@ -5344,44 +5329,44 @@ msgstr "A(z) %s felfedezték a(z) %s tudományt (Kunyhóból)"
 
 #: server/unittools.c:2359
 #, c-format
-msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
+msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt õsi papírtekercsekbõl."
 
 #: server/unittools.c:2379
-msgid "Game: A band of friendly mercenaries joins your cause."
+msgid "A band of friendly mercenaries joins your cause."
 msgstr "Játék: Egy csapat szolgálatkész zsoldos csatlakozott hozzád."
 
 #: server/unittools.c:2396
-msgid "Game: An abandoned village is here."
+msgid "An abandoned village is here."
 msgstr "Játék: Egy elhagyatott falu van itt."
 
 #: server/unittools.c:2408
-msgid "Game: You have unleashed a horde of barbarians!"
+msgid "You have unleashed a horde of barbarians!"
 msgstr "Játék: Elszabadítottál egy barbár hordát!"
 
 #: server/unittools.c:2411
 #, c-format
-msgid "Game: Your %s has been killed by barbarians!"
+msgid "Your %s has been killed by barbarians!"
 msgstr "Játék: Barbárok ölték meg a(z) %s egységedet!"
 
 #: server/unittools.c:2427
-msgid "Game: You found a friendly city."
+msgid "You found a friendly city."
 msgstr "Játék: Találtál egy szövetséges várost."
 
 #: server/unittools.c:2432
-msgid "Game: Friendly nomads are impressed by you, and join you."
+msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Játék: Jó benyomást tettél egy csapat nomádra, ezért csatlakoztak hozzád."
 
 #: server/unittools.c:2456
-msgid "Game: Your overflight frightens the tribe; they scatter in terror."
+msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Játék: A primitív törzs nagyon megijed a repülõdtõl; rémülten szétszélednek."
 
 #: server/unittools.c:3095
 #, c-format
 msgid ""
-"Game: Your %s cancelled patrol order because it encountered a foreign unit."
+"Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr ""
 "Játék: A(z) %s egységed abbahagyta az õrjáratozást, mert idegen egységgel "
 "találkozott."
@@ -5755,7 +5740,7 @@ msgstr "Hiba történt az automatikus kapcsolódás közben; félbeszakítás."
 
 #: client/climisc.c:304
 #, c-format
-msgid "Game: Changing production of every %s into %s."
+msgid "Changing production of every %s into %s."
 msgstr "Játék: Minden %s gyártásának cseréje %s egységre/épületre."
 
 #: client/climisc.c:344
@@ -5937,35 +5922,35 @@ msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Érvénytelen $http_proxy érték (hiányzik az elválasztó '/' jel)"
 
 #: client/control.c:586
-msgid "Game: Only transporter units can be unloaded."
+msgid "Only transporter units can be unloaded."
 msgstr "Játék: Csak szállító egységek tudnak kirakodni."
 
 #: client/control.c:780
 msgid ""
-"Game: Only settler units and military units in cities can be put in auto-"
+"Only settler units and military units in cities can be put in auto-"
 "mode."
 msgstr ""
 "Játék: Csak telepesek és városban lévõ katonai egységek tehetõk automata "
 "módba."
 
 #: client/control.c:813
-msgid "Game: Only nuclear units can do this."
+msgid "Only nuclear units can do this."
 msgstr "Játék: Csak nukleáris egységek tehetik ezt."
 
 #: client/control.c:830
-msgid "Game: Only paratrooper units can do this."
+msgid "Only paratrooper units can do this."
 msgstr "Játék: Csak ejtõernyõs egységet tehetik ezt."
 
 #: client/control.c:1206
-msgid "Game: Too far for this unit."
+msgid "Too far for this unit."
 msgstr "Játék: Túl messze van az egységtõl."
 
 #: client/control.c:1272 client/control.c:1321
-msgid "Game: Didn't find a route to the destination!"
+msgid "Didn't find a route to the destination!"
 msgstr "Játék: Nem sikerült útvonalat találni a célhoz!"
 
 #: client/control.c:1312
-msgid "Game: Sorry, airunit patrol not yet implemented."
+msgid "Sorry, airunit patrol not yet implemented."
 msgstr ""
 "Játék: Sajnálom, a légi egységek õrjáratozása egyelõre nincs megvalósítva."
 
@@ -6554,39 +6539,39 @@ msgid "Enemy Diplomat: Theft"
 msgstr "Ellenséges diplomata: Lopás"
 
 #: client/options.c:219
-msgid "Game: Broadcast Report"
+msgid "Broadcast Report"
 msgstr "Játék: Mindenknek szóló jelentés"
 
 #: client/options.c:220
-msgid "Game: Game Ended"
+msgid "Game Ended"
 msgstr "Játék: Játék vége"
 
 #: client/options.c:221
-msgid "Game: Game Started"
+msgid "Game Started"
 msgstr "Játék: Játék kezdete"
 
 #: client/options.c:222
-msgid "Game: Message from Server Operator"
+msgid "Message from Server Operator"
 msgstr "Játék: Üzenetek a szerveroperátortól"
 
 #: client/options.c:223
-msgid "Game: Nation Selected"
+msgid "Nation Selected"
 msgstr "Játék: Nép kiválasztása"
 
 #: client/options.c:224
-msgid "Game: Player Destroyed"
+msgid "Player Destroyed"
 msgstr "Játék: Játékos megsemmisülése"
 
 #: client/options.c:225
-msgid "Game: Report"
+msgid "Report"
 msgstr "Játék: Jelentés"
 
 #: client/options.c:226
-msgid "Game: Turn Bell"
+msgid "Turn Bell"
 msgstr "Játék: Hangjelzés új kör esetén"
 
 #: client/options.c:227
-msgid "Game: Year Advance"
+msgid "Year Advance"
 msgstr "Játék: Évek haladása"
 
 #: client/options.c:228
@@ -6791,7 +6776,7 @@ msgid "OFF"
 msgstr "KI"
 
 #: client/packhand.c:1234
-msgid "Game: Revolution finished"
+msgid "Revolution finished"
 msgstr "Játék: Forradalom vége"
 
 #: client/tilespec.c:166
@@ -7256,12 +7241,6 @@ msgstr "Eltartott egységek: %d"
 msgid "Present units: %d"
 msgstr "Jelenlévõ egységek: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2237 client/gui-gtk/citydlg.c:2290
-#: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
-#, c-format
-msgid "%s"
-msgstr "%s"
-
 #: client/gui-gtk-2.0/citydlg.c:2240 client/gui-gtk/citydlg.c:2293
 #: client/gui-mui/citydlg.c:2164 client/gui-win32/citydlg.c:1415
 #, c-format
@@ -7578,7 +7557,7 @@ msgstr "F_rissít"
 #: client/gui-mui/cityrep.c:186 client/gui-win32/cityrep.c:384
 #: client/gui-xaw/cityrep.c:419
 #, c-format
-msgid "Game: %s costs %d gold and you only have %d gold."
+msgid "%s costs %d gold and you only have %d gold."
 msgstr "Játék: %s ára %d arany, de neked csak %d aranyad van."
 
 #: client/gui-gtk-2.0/cityrep.c:1080 client/gui-gtk-2.0/menu.c:628
@@ -8440,7 +8419,7 @@ msgstr "Találkozó megszakítása"
 #: client/gui-gtk-2.0/diplodlg.c:902 client/gui-gtk/diplodlg.c:977
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
 #: client/gui-xaw/diplodlg.c:995
-msgid "Game: Invalid amount of gold specified."
+msgid "Invalid amount of gold specified."
 msgstr "Játék: Nem megfelelõ aranymennyiséget adtál meg."
 
 #: client/gui-gtk-2.0/finddlg.c:65 client/gui-gtk/finddlg.c:61
@@ -9835,7 +9814,7 @@ msgstr[0] "(%d kör óta tétlen)"
 #: client/gui-gtk-2.0/plrdlg.c:534 client/gui-gtk/plrdlg.c:534
 #: client/gui-mui/plrdlg.c:259 client/gui-win32/plrdlg.c:74
 #: client/gui-xaw/plrdlg.c:358
-msgid "Game: You need an embassy to establish a diplomatic meeting."
+msgid "You need an embassy to establish a diplomatic meeting."
 msgstr ""
 "Játék: Egy követségre van szükséged diplomáciai találkozó létrehozásához."
 
@@ -10104,7 +10083,7 @@ msgid "Con_figure..."
 msgstr "Abak _konfigurálása..."
 
 #: client/gui-gtk/cityrep.c:932 client/gui-win32/cityrep.c:715
-msgid "Game: Select a unit or improvement to change production to."
+msgid "Select a unit or improvement to change production to."
 msgstr "Játék: Válassz egységet/épületet, amire át szeretnél váltani."
 
 #: client/gui-gtk/cityrep.c:966 client/gui-win32/cityrep.c:764
@@ -10801,10 +10780,6 @@ msgstr "Diplomata-/Kémtevékenység"
 msgid "Wait"
 msgstr "Várakozik"
 
-#: client/gui-mui/gui_main.c:271
-msgid "Report"
-msgstr "Jelentés"
-
 #: client/gui-mui/gui_main.c:272
 msgid "City Report..."
 msgstr "Jelentés a városokról..."
@@ -11023,10 +10998,6 @@ msgstr "Fel:"
 #: client/gui-mui/messagewin.c:237
 msgid "_Goto Location"
 msgstr "_Menj a Helyszínre"
-
-#: client/gui-mui/messagewin.c:284
-msgid "Game: "
-msgstr "Játék: "
 
 #: client/gui-mui/repodlgs.c:107 client/gui-win32/repodlgs.c:60
 #: client/gui-xaw/repodlgs.c:133
@@ -11268,11 +11239,11 @@ msgid "Available To Build"
 msgstr "Megépíthetõ/Legyártható"
 
 #: client/gui-win32/cityrep.c:706
-msgid "Game: Select a unit or improvement to change production from."
+msgid "Select a unit or improvement to change production from."
 msgstr "Játék: Válassz egységet/épületet amirõl át szeretnél váltani."
 
 #: client/gui-win32/cityrep.c:721
-msgid "Game: That's the same thing!"
+msgid "That's the same thing!"
 msgstr "Játék: Ez ugyanaz a dolog!"
 
 #: client/gui-win32/cityrep.c:900 data/Freeciv:1569

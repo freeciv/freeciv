@@ -478,28 +478,28 @@ msgstr ""
 
 #: ai/aicity.c:240 server/citytools.c:1752
 #, c-format
-msgid "Game: The %s have stopped building The %s in %s."
+msgid "The %s have stopped building The %s in %s."
 msgstr "Jogo: Os %s pararam de construir %s em %s."
 
 #: ai/aicity.c:249 server/citytools.c:1794
 #, c-format
-msgid "Game: The %s have started building The %s in %s."
+msgid "The %s have started building The %s in %s."
 msgstr "Jogo: Os %s iniciaram a construção de %s em %s."
 
 #: ai/aicity.c:685
 #, c-format
-msgid "Game: %s is selling %s (not needed) for %d."
+msgid "%s is selling %s (not needed) for %d."
 msgstr "Jogo: %s está a vender %s (desnecessária) por %d."
 
 #: server/autoattack.c:135
 #, c-format
-msgid "Game: Auto-Attack: %s's %s found a too tough enemy (%s)"
+msgid "Auto-Attack: %s's %s found a too tough enemy (%s)"
 msgstr ""
 "Jogo: Auto-Ataque: %s de %s encontraram um enimigo demasiado forte (%s)"
 
 #: server/autoattack.c:164
 #, c-format
-msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
+msgid "Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Jogo: Auto-Ataque: %s de %s a atacar %s de %s"
 
 #: server/barbarian.c:401
@@ -513,63 +513,63 @@ msgid "Sea raiders seen near %s!"
 msgstr "Piratas avistados próximo de %s!"
 
 #: server/cityhand.c:142
-msgid "Game: You don't have a worker here."
+msgid "You don't have a worker here."
 msgstr "Jogo: Você não possui um trabalhador aqui."
 
 #: server/cityhand.c:194
-msgid "Game: You have already sold something here this turn."
+msgid "You have already sold something here this turn."
 msgstr "Jogo: Você já vendeu algo aqui neste turno."
 
 #: server/cityhand.c:203
 #, c-format
-msgid "Game: You sell %s in %s for %d gold."
+msgid "You sell %s in %s for %d gold."
 msgstr "Jogo: Você vende %s em %s por %d moedas."
 
 #: server/cityhand.c:240
-msgid "Game: Cannot buy in city created this turn."
+msgid "Cannot buy in city created this turn."
 msgstr "Jogo: Não pode comprar em cidades criadas neste turno."
 
 #: server/cityhand.c:246
-msgid "Game: You have already bought this turn."
+msgid "You have already bought this turn."
 msgstr "Jogo: Você já efectuou compras neste turno."
 
 #: server/cityhand.c:252
 #, c-format
-msgid "Game: You don't buy %s!"
+msgid "You don't buy %s!"
 msgstr "Jogo: Você não compra %s!"
 
 #: server/cityhand.c:259
-msgid "Game: Can't buy units when city is in disorder."
+msgid "Can't buy units when city is in disorder."
 msgstr "Jogo: Não pode comprar unidades quando a cidade está em tumulto."
 
 #: server/cityhand.c:296
 #, c-format
-msgid "Game: %s bought in %s for %d gold."
+msgid "%s bought in %s for %d gold."
 msgstr "Jogo: %s comprou %s por %d moedas."
 
 #: server/cityhand.c:370
-msgid "Game: You have bought this turn, can't change."
+msgid "You have bought this turn, can't change."
 msgstr "Jogo: Você já comprou neste turno, não pode alterar."
 
 #: server/cityhand.c:394
 #, c-format
-msgid "Game: %s is not a valid name."
+msgid "%s is not a valid name."
 msgstr "Jogo: %s não é um nome válido."
 
 #: server/citytools.c:224
 #, c-format
-msgid "Game: You already have a city called %s"
+msgid "You already have a city called %s"
 msgstr "Jogo: Você já possui uma cidade denominada %s"
 
 #: server/citytools.c:247
 #, c-format
-msgid "Game: Can't use %s as a city name. It is reserved for %s."
+msgid "Can't use %s as a city name. It is reserved for %s."
 msgstr ""
 "Jogo: Não pode utilizar %s como um nome de cidade. Está reservado para %s."
 
 #: server/citytools.c:260
 #, c-format
-msgid "Game: A city called %s already exists."
+msgid "A city called %s already exists."
 msgstr "Jogo: Já existe uma cidade denominada %s."
 
 #: server/citytools.c:304
@@ -583,22 +583,22 @@ msgstr "Uma cidade de nome incorrecto"
 
 #: server/citytools.c:577
 #, c-format
-msgid "Game: Changed homecity of %s to %s."
+msgid "Changed homecity of %s to %s."
 msgstr "Jogo: Alterada cidade base de %s para %s."
 
 #: server/citytools.c:587
 #, c-format
-msgid "Game: Transfered %s in %s from %s to %s."
+msgid "Transfered %s in %s from %s to %s."
 msgstr "Jogo: Transferido %s em %s de %s para %s."
 
 #: server/citytools.c:596
 #, c-format
-msgid "Game: Transfered %s from %s to %s."
+msgid "Transfered %s from %s to %s."
 msgstr "Jogo: Transferido %s de %s para %s."
 
 #: server/citytools.c:784
 #, c-format
-msgid "Game: You lost your capital %s. A new palace was built in %s."
+msgid "You lost your capital %s. A new palace was built in %s."
 msgstr "Jogo: Perdeu a sua capital %s. Foi construido um novo palácio em %s."
 
 #: server/citytools.c:842
@@ -609,7 +609,7 @@ msgstr "Já possui uma cidade denominada %s. A cidade foi renomeada para %s."
 #: server/citytools.c:924
 #, c-format
 msgid ""
-"Game: The people in %s are stunned by your technological insight!\n"
+"The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 "Jogo: As pessoas em %s estão maravilhadas pela sua visão tecnológica!\n"
@@ -628,24 +628,24 @@ msgstr "%s (%i,%i) fundado pelos %s"
 
 #: server/citytools.c:1029
 #, c-format
-msgid "Game: You have founded %s"
+msgid "You have founded %s"
 msgstr "Jogo: Você fundou %s"
 
 #: server/citytools.c:1073
 #, c-format
-msgid "Game: Changed homecity of %s in %s."
+msgid "Changed homecity of %s in %s."
 msgstr "Jogo: Alterada a cidade base de %s em %s."
 
 #: server/citytools.c:1104
 #, c-format
-msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
+msgid "Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr ""
 "Jogo: Movido %s para fora da cidade dispersa %s para evitar ficar preso."
 
 #: server/citytools.c:1115
 #, c-format
 msgid ""
-"Game: When %s was disbanded your %s could not get out, and it was therefore "
+"When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
 msgstr ""
 "Jogo: Quando %s foi dispersa a sua %s não conseguiu sair, pelo que ficou "
@@ -653,12 +653,12 @@ msgstr ""
 
 #: server/citytools.c:1218
 #, c-format
-msgid "Game: You destroy %s completely."
+msgid "You destroy %s completely."
 msgstr "Jogo: Você destruiu completamente %s."
 
 #: server/citytools.c:1220
 #, c-format
-msgid "Game: %s has been destroyed by %s."
+msgid "%s has been destroyed by %s."
 msgstr "Jogo: %s foi destruido por %s."
 
 #: server/citytools.c:1222
@@ -668,12 +668,12 @@ msgstr "%s (%s) (%i,%i) foi destruida por %s"
 
 #: server/citytools.c:1240
 #, c-format
-msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
+msgid "You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Jogo: Você conquistou %s, a pilhagem acumulou %d moedas!"
 
 #: server/citytools.c:1244
 #, c-format
-msgid "Game: %s conquered %s and looted %d gold from the city."
+msgid "%s conquered %s and looted %d gold from the city."
 msgstr "Jogo: %s conquistou %s e pilhou %d moedas da cidade."
 
 #: server/citytools.c:1247
@@ -683,12 +683,12 @@ msgstr "%s (%s) (%i,%i) conquistada por %s"
 
 #: server/citytools.c:1252
 #, c-format
-msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
+msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgstr "Jogo: Você libertou %s! A pilhagem acumulou %d moedas."
 
 #: server/citytools.c:1257
 #, c-format
-msgid "Game: %s liberated %s and looted %d gold from the city."
+msgid "%s liberated %s and looted %d gold from the city."
 msgstr "Jogo: %s libertou %s e pilhou %d moedas da cidade."
 
 #: server/citytools.c:1260
@@ -702,33 +702,33 @@ msgstr " da lista de tarefas"
 
 #: server/citytools.c:1783
 #, c-format
-msgid "Game: %s is building %s%s."
+msgid "%s is building %s%s."
 msgstr "Jogo: %s está a construir %s%s."
 
 #: server/citytools.c:1787
 #, c-format
-msgid "Game: %s is building %s."
+msgid "%s is building %s."
 msgstr "Jogo: %s está a construir %s."
 
 #: server/citytools.c:2036
 #, c-format
-msgid "Game: You sell %s in %s (now landlocked) for %d gold."
+msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Jogo: Você vende %s em %s (agora isolado) por %d moedas."
 
 #: server/cityturn.c:121
 #, c-format
-msgid "Game: %s is selling %s (obsolete) for %d."
+msgid "%s is selling %s (obsolete) for %d."
 msgstr "Jogo: %s está a vender %s (obsoleto) por %d."
 
 #: server/cityturn.c:334
 #, c-format
-msgid "Game: Notice: Wonder %s in %s will be finished next turn."
+msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Jogo: Notícia: Maravilha %s em %s será terminada no próximo turno."
 
 #: server/cityturn.c:366
 #, c-format
 msgid ""
-"Game: Suggest throttling growth in %s to use %s (being built) more "
+"Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
 msgstr ""
 "Jogo: Sugere-se acelerar o crescimento em %s para utilizar %s (em "
@@ -736,36 +736,36 @@ msgstr ""
 
 #: server/cityturn.c:380
 #, c-format
-msgid "Game: %s may soon grow to size %i."
+msgid "%s may soon grow to size %i."
 msgstr "Jogo: %s deverá brevemente crescer para tamanho %i."
 
 #: server/cityturn.c:387
 #, c-format
-msgid "Game: Warning: Famine feared in %s."
+msgid "Warning: Famine feared in %s."
 msgstr "Jogo: Aviso: Receia-se fome em %s."
 
 #: server/cityturn.c:418
-msgid "Game: WARNING, we're LOW on FUNDS sire."
+msgid "WARNING, we're LOW on FUNDS sire."
 msgstr "Jogo: AVISO, senhor estamos com POUCOS FUNDOS."
 
 #: server/cityturn.c:482 server/cityturn.c:501
 #, c-format
-msgid "Game: %s needs %s (being built) to grow any further."
+msgid "%s needs %s (being built) to grow any further."
 msgstr "Jogo: %s necessita de %s (em construção) para crescer mais."
 
 #: server/cityturn.c:487 server/cityturn.c:506
 #, c-format
-msgid "Game: %s needs %s to grow any further."
+msgid "%s needs %s to grow any further."
 msgstr "Jogo: %s precisa de %s para crescer mais."
 
 #: server/cityturn.c:558
 #, c-format
-msgid "Game: %s grows to size %d."
+msgid "%s grows to size %d."
 msgstr "Jogo: %s cresce para tamanho %d."
 
 #: server/cityturn.c:587
 #, c-format
-msgid "Game: Famine feared in %s, %s lost!"
+msgid "Famine feared in %s, %s lost!"
 msgstr "Jogo: Receia-se fome em %s, perdeu-se %s!"
 
 #: server/cityturn.c:589
@@ -775,18 +775,18 @@ msgstr "%s perdeu %s (fome)"
 
 #: server/cityturn.c:600
 #, c-format
-msgid "Game: Famine causes population loss in %s."
+msgid "Famine causes population loss in %s."
 msgstr "Jogo: Fome causa redução de população em %s."
 
 #: server/cityturn.c:686 server/cityturn.c:726
 #, c-format
-msgid "Game: %s can't build %s from the worklist.  Purging..."
+msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "Jogo: %s não pode construir %s da lista de tarefas.  Item eliminado..."
 
 #: server/cityturn.c:705 server/cityturn.c:746
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; tech not yet available.  "
+"%s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
 "Jogo: %s não pode construir %s da lista de tarefas; tecn. ainda não está "
@@ -794,13 +794,13 @@ msgstr ""
 
 #: server/cityturn.c:713 server/cityturn.c:770 server/cityturn.c:881
 #, c-format
-msgid "Game: Production of %s is upgraded to %s in %s."
+msgid "Production of %s is upgraded to %s in %s."
 msgstr "Jogo: Produção de %s é incrementada para %s em %s."
 
 #: server/cityturn.c:752
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; need to have %s first.  "
+"%s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
 msgstr ""
 "Jogo: %s não pode construir %s da lista de tarefas; tem de possuir %s "
@@ -809,29 +809,29 @@ msgstr ""
 #: server/cityturn.c:761
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
+"%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
 "Jogo: %s não pode construir %s da lista de tarefas; Motivo desconhecido! A "
 "adiar..."
 
 #: server/cityturn.c:795
 #, c-format
-msgid "Game: %s's worklist is now empty."
+msgid "%s's worklist is now empty."
 msgstr "Jogo: a lista de tarefas de %s está agora vazia."
 
 #: server/cityturn.c:900
 #, c-format
-msgid "Game: %s can't upkeep %s, unit disbanded."
+msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Jogo: %s não pode manter %s, unidade dissolvida."
 
 #: server/cityturn.c:932
 #, c-format
-msgid "Game: %s is building %s, which is no longer available."
+msgid "%s is building %s, which is no longer available."
 msgstr "Jogo: %s está a construir %s, que já não se encontra disponível."
 
 #: server/cityturn.c:968
 #, c-format
-msgid "Game: The %s have finished building %s in %s."
+msgid "The %s have finished building %s in %s."
 msgstr "Jogo: Os %s terminaram a construção de %s em %s."
 
 #: server/cityturn.c:972 server/cityturn.c:978
@@ -841,32 +841,32 @@ msgstr "%s construiu %s em %s"
 
 #: server/cityturn.c:984
 #, c-format
-msgid "Game: %s has finished building %s."
+msgid "%s has finished building %s."
 msgstr "Jogo: %s terminou a construção de %s."
 
 #: server/cityturn.c:991
 #, c-format
-msgid "Game: %s boosts research, you gain 2 immediate advances."
+msgid "%s boosts research, you gain 2 immediate advances."
 msgstr "Jogo: %s potencia a investigação, você ganha imediatamente 2 avanços."
 
 #: server/cityturn.c:1007
 #, c-format
-msgid "Game: The %s have acquired %s and %s from %s."
+msgid "The %s have acquired %s and %s from %s."
 msgstr "Jogo: Os %s adquiriram %s e %s dos %s."
 
 #: server/cityturn.c:1014
 #, c-format
-msgid "Game: The %s have started building a spaceship!"
+msgid "The %s have started building a spaceship!"
 msgstr "Jogo: Os %s iniciaram a construção de uma nave espacial!"
 
 #: server/cityturn.c:1057
 #, c-format
-msgid "Game: %s can't build %s yet."
+msgid "%s can't build %s yet."
 msgstr "Jogo: %s ainda não podem construir %s."
 
 #: server/cityturn.c:1084
 #, c-format
-msgid "Game: %s is finished building %s."
+msgid "%s is finished building %s."
 msgstr "Jogo: %s terminou a construção de %s."
 
 #: server/cityturn.c:1088
@@ -876,54 +876,54 @@ msgstr "%s construiu %s em %s (%i,%i)"
 
 #: server/cityturn.c:1127
 #, c-format
-msgid "Game: Can't afford to maintain %s in %s, building sold!"
+msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Jogo: Não dispõe de fundos para manter %s em %s, edifício vendido!"
 
 #: server/cityturn.c:1163
 #, c-format
-msgid "Game: Pollution near %s."
+msgid "Pollution near %s."
 msgstr "Jogo: Poluição perto de %s."
 
 #: server/cityturn.c:1295
 #, c-format
-msgid "Game: We Love The %s Day celebrated in %s."
+msgid "We Love The %s Day celebrated in %s."
 msgstr "Jogo: Celebração do \"Dia de Adoração de %s\" em %s."
 
 #: server/cityturn.c:1303
 #, c-format
-msgid "Game: We Love The %s Day canceled in %s."
+msgid "We Love The %s Day canceled in %s."
 msgstr "Jogo: Cancelamento das celebrações do \"Dia de Adoração de %s\" em %s."
 
 #: server/cityturn.c:1335
 #, c-format
-msgid "Game: Civil disorder in %s."
+msgid "Civil disorder in %s."
 msgstr "Jogo: Desordem pública em %s."
 
 #: server/cityturn.c:1338
 #, c-format
-msgid "Game: CIVIL DISORDER CONTINUES in %s."
+msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "Jogo: DESORDEM PÚBLICA CONTINUA em %s."
 
 #: server/cityturn.c:1344
 #, c-format
-msgid "Game: Order restored in %s."
+msgid "Order restored in %s."
 msgstr "Jogo: Ordem reposta em %s."
 
 #: server/cityturn.c:1352
 #, c-format
-msgid "Game: The people have overthrown your %s, your country is in turmoil."
+msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Jogo: O povo derrubou a(o) sua(seu) %s, o seu país está em tumulto."
 
 #: server/cityturn.c:1376
 #, c-format
-msgid "Game: %s can't build %s yet, and we can't disband our only city."
+msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Jogo: %s ainda não pode construir %s, e não podemos dissolver a nossa única "
 "cidade."
 
 #: server/cityturn.c:1393
 #, c-format
-msgid "Game: %s is disbanded into %s."
+msgid "%s is disbanded into %s."
 msgstr "Jogo: %s é dissolvida em %s."
 
 #: server/cityturn.c:1395
@@ -1118,11 +1118,6 @@ msgstr ""
 msgid "Lost connection: %s."
 msgstr "Perdida a ligação: %s."
 
-#: server/connecthand.c:260
-#, c-format
-msgid "Game: Lost connection: %s."
-msgstr "Jogo: Perdida a ligação: %s."
-
 #: server/console.c:164
 msgid "Ok. RFC-style set."
 msgstr "Ok. Seleccionado RFC estilo."
@@ -1137,7 +1132,7 @@ msgstr "Para ajuda inicial, escreva 'help'."
 
 #: server/diplhand.c:157
 #, c-format
-msgid "Game: You don't have tech %s, you can't accept treaty."
+msgid "You don't have tech %s, you can't accept treaty."
 msgstr "Jogo: Você não possui a tecn. %s, não pode aceitar o tratado."
 
 #: server/diplhand.c:166
@@ -1152,13 +1147,13 @@ msgstr "Você não é o senhor de %s, não pode aceitar o tratado."
 
 #: server/diplhand.c:178
 #, c-format
-msgid "Game: Your capital (%s) is requested, you can't accept treaty."
+msgid "Your capital (%s) is requested, you can't accept treaty."
 msgstr "Jogo: A sua capital (%s) é requerida, não pode aceitar o tratado."
 
 #: server/diplhand.c:187 server/diplhand.c:291
 #, c-format
 msgid ""
-"Game: You are at war with one of %s's allies - an alliance with %s is "
+"You are at war with one of %s's allies - an alliance with %s is "
 "impossible."
 msgstr ""
 "Jogo: Você está em guerra com um dos aliados de %s - é impossível uma "
@@ -1167,20 +1162,20 @@ msgstr ""
 #: server/diplhand.c:194 server/diplhand.c:287
 #, c-format
 msgid ""
-"Game: %s is at war with one of your allies - an alliance with %s is "
+"%s is at war with one of your allies - an alliance with %s is "
 "impossible."
 msgstr ""
 "Jogo: %s está em guerra com um dos seus aliados - é impossível uma "
 "aliança com %s."
 
 #: server/diplhand.c:203
-msgid "Game: You don't have enough gold, you can't accept treaty."
+msgid "You don't have enough gold, you can't accept treaty."
 msgstr "Jogo: Você não tem moedas suficientes, não pode aceitar o tratado."
 
 #: server/diplhand.c:235 server/diplhand.c:240
 #, c-format
-msgid "Game: A treaty containing %d clause was agreed upon."
-msgid_plural "Game: A treaty containing %d clauses was agreed upon."
+msgid "A treaty containing %d clause was agreed upon."
+msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] "Jogo: Foi acordado um tratado contendo %d cláusula."
 msgstr[1] "Jogo: Foi acordado um tratado contendo %d cláusulas."
 
@@ -1192,30 +1187,30 @@ msgstr "%s e %s acordam um tratado"
 #: server/diplhand.c:259 server/diplhand.c:263
 #, c-format
 msgid ""
-"Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+"One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Jogo: Uma das cidades que %s está a oferecer está cancelada! Tratado "
 "cancelado!"
 
 #: server/diplhand.c:270 server/diplhand.c:275
 #, c-format
-msgid "Game: The %s no longer control %s! Treaty canceled!"
+msgid "The %s no longer control %s! Treaty canceled!"
 msgstr "Jogo: Os %s já não controlam %s! Tratado cancelado!"
 
 #: server/diplhand.c:300 server/diplhand.c:304
 #, c-format
-msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
+msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 "Jogo: Os %s não possuem a quantia de moedas prometida! Tratado cancelado!"
 
 #: server/diplhand.c:329
 #, c-format
-msgid "Game: You are taught the knowledge of %s."
+msgid "You are taught the knowledge of %s."
 msgstr "Jogo: É-lhe ensinado o conhecimento de %s."
 
 #: server/diplhand.c:333
 #, c-format
-msgid "Game: The %s have acquired %s from the %s."
+msgid "The %s have acquired %s from the %s."
 msgstr "Jogo: Os %s adquiriram %s dos %s."
 
 #: server/diplhand.c:338
@@ -1225,62 +1220,62 @@ msgstr "Os %s adquiriram %s (Tratado) aos %s"
 
 #: server/diplhand.c:348
 #, c-format
-msgid "Game: You get %d gold."
+msgid "You get %d gold."
 msgstr "Jogo: Você obteve %d moedas."
 
 #: server/diplhand.c:354
 #, c-format
-msgid "Game: You receive %s's worldmap."
+msgid "You receive %s's worldmap."
 msgstr "Jogo: Você recebeu o mapa mundo de %s."
 
 #: server/diplhand.c:359
 #, c-format
-msgid "Game: You receive %s's seamap."
+msgid "You receive %s's seamap."
 msgstr "Jogo: Você recebeu o mapa marítimo de %s."
 
 #: server/diplhand.c:374
 #, c-format
-msgid "Game: You receive city of %s from %s."
+msgid "You receive city of %s from %s."
 msgstr "Jogo: Você recebeu a cidade %s dos %s."
 
 #: server/diplhand.c:378
 #, c-format
-msgid "Game: You give city of %s to %s."
+msgid "You give city of %s to %s."
 msgstr "Jogo: Você dá a cidade de %s aos %s."
 
 #: server/diplhand.c:390 server/diplhand.c:393
 #, c-format
-msgid "Game: You agree on a cease-fire with %s."
+msgid "You agree on a cease-fire with %s."
 msgstr "Jogo: Você assina um acordo de cessar-fogo com %s."
 
 #: server/diplhand.c:402 server/diplhand.c:405
 #, c-format
-msgid "Game: You agree on a peace treaty with %s."
+msgid "You agree on a peace treaty with %s."
 msgstr "Jogo: Você assina um tratado de paz com %s."
 
 #: server/diplhand.c:414 server/diplhand.c:417
 #, c-format
-msgid "Game: You agree on an alliance with %s."
+msgid "You agree on an alliance with %s."
 msgstr "Jogo: Você forma uma aliança com %s."
 
 #: server/diplhand.c:425
 #, c-format
-msgid "Game: You give shared vision to %s."
+msgid "You give shared vision to %s."
 msgstr "Jogo: Você partilha a visão com %s."
 
 #: server/diplhand.c:428
 #, c-format
-msgid "Game: %s gives you shared vision."
+msgid "%s gives you shared vision."
 msgstr "Jogo: %s partilhou a visão consigo."
 
 #: server/diplhand.c:543
 #, c-format
-msgid "Game: %s canceled the meeting!"
+msgid "%s canceled the meeting!"
 msgstr "Jogo: %s cancelou o encontro!"
 
 #: server/diplhand.c:549
 #, c-format
-msgid "Game: Meeting with %s canceled."
+msgid "Meeting with %s canceled."
 msgstr "Jogo: Encontro com %s cancelado."
 
 #: server/diplhand.c:592
@@ -1290,23 +1285,23 @@ msgstr ""
 
 #: server/diplomats.c:89
 #, c-format
-msgid "Game: Your %s could not poison the water supply in %s."
+msgid "Your %s could not poison the water supply in %s."
 msgstr "Jogo: O seu %s não conseguiu envenenar o abastecimento de água em %s."
 
 #: server/diplomats.c:103
 #, c-format
-msgid "Game: Your %s poisoned the water supply of %s."
+msgid "Your %s poisoned the water supply of %s."
 msgstr "Jogo: O seu %s envenenou o abastecimento de água em %s."
 
 #: server/diplomats.c:106
 #, c-format
-msgid "Game: %s is suspected of poisoning the water supply of %s."
+msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Jogo: Suspeita-se que %s envenenou o abastecimento de água de %s."
 
 #: server/diplomats.c:253
 #, c-format
 msgid ""
-"Game: Your %s was executed in %s on suspicion of spying.  The %s welcome "
+"Your %s was executed in %s on suspicion of spying.  The %s welcome "
 "future diplomatic efforts providing the Ambassador is reputable."
 msgstr ""
 "Jogo: O seu %s foi executado em %s por suspeita de espionagem. Os %s "
@@ -1324,17 +1319,17 @@ msgstr ""
 
 #: server/diplomats.c:270
 #, c-format
-msgid "Game: Your %s was executed in %s by primitive %s."
+msgid "Your %s was executed in %s by primitive %s."
 msgstr "Jogo: O seu %s foi executado em %s pelos primitivos %s."
 
 #: server/diplomats.c:283
 #, c-format
-msgid "Game: You have established an embassy in %s."
+msgid "You have established an embassy in %s."
 msgstr "Jogo: Você criou uma embaixada em %s."
 
 #: server/diplomats.c:286
 #, c-format
-msgid "Game: The %s have established an embassy in %s."
+msgid "The %s have established an embassy in %s."
 msgstr "Jogo: Os %s criaram uma embaixada em %s."
 
 #: server/diplomats.c:288
@@ -1344,66 +1339,66 @@ msgstr "%s criaram uma embaixada em %s (%s) (%i,%i)"
 
 #: server/diplomats.c:344
 #, c-format
-msgid "Game: Your %s could not sabotage %s's %s."
+msgid "Your %s could not sabotage %s's %s."
 msgstr "Jogo: O seu %s não conseguiu sabotar o %s de %s."
 
 #: server/diplomats.c:359
 #, c-format
-msgid "Game: Your %s succeeded in sabotaging %s's %s."
+msgid "Your %s succeeded in sabotaging %s's %s."
 msgstr "Jogo: O seu %s conseguiu sabotar o %s de %s."
 
 #: server/diplomats.c:364
 #, c-format
-msgid "Game: Your %s was sabotaged by %s!"
+msgid "Your %s was sabotaged by %s!"
 msgstr "Jogo: O seu %s foi sabotado por %s!"
 
 #: server/diplomats.c:417
-msgid "Game: You can't bribe a unit from this nation."
+msgid "You can't bribe a unit from this nation."
 msgstr "Jogo: Você não pode subornar uma unidade desta nação."
 
 #: server/diplomats.c:426
 #, c-format
-msgid "Game: You don't have enough gold to bribe %s's %s."
+msgid "You don't have enough gold to bribe %s's %s."
 msgstr "Jogo: Você não tem moedas suficientes para subornar o %s de %s."
 
 #: server/diplomats.c:443
 #, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s."
+msgid "Your %s succeeded in bribing %s's %s."
 msgstr "Jogo: O seu %s conseguiu subornar o %s de %s."
 
 #: server/diplomats.c:447
 #, c-format
-msgid "Game: Your %s was bribed by %s."
+msgid "Your %s was bribed by %s."
 msgstr "Jogo: O seu %s foi subornado por %s."
 
 #: server/diplomats.c:543
 #, c-format
-msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
+msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Jogo: O seu %s foi apanhada ao tentar roubar tecnologia de %s."
 
 #: server/diplomats.c:547
 #, c-format
-msgid "Game: %s's %s failed to steal technology from %s."
+msgid "%s's %s failed to steal technology from %s."
 msgstr "Jogo: %s de %s falhou o roubo de tecnologia de %s."
 
 #: server/diplomats.c:577
 #, c-format
-msgid "Game: No new technology found in %s."
+msgid "No new technology found in %s."
 msgstr "Jogo: Nenhuma nova tecnologia encontrada em %s."
 
 #: server/diplomats.c:613
 #, c-format
-msgid "Game: Your %s could not find the %s technology to steal in %s."
+msgid "Your %s could not find the %s technology to steal in %s."
 msgstr "Jogo: O seu %s não encontrou a tecnologia %s em %s para a roubar."
 
 #: server/diplomats.c:634
 #, c-format
-msgid "Game: Your %s stole Future Tech. %d from %s."
+msgid "Your %s stole Future Tech. %d from %s."
 msgstr "Jogo: O seu %s roubou a Tecnologia Futura %d de %s."
 
 #: server/diplomats.c:638
 #, c-format
-msgid "Game: Future Tech. %d stolen by %s %s from %s."
+msgid "Future Tech. %d stolen by %s %s from %s."
 msgstr "Jogo: Tecn. Futura %d roubada por %s %s dos %s."
 
 #: server/diplomats.c:641
@@ -1413,17 +1408,17 @@ msgstr "%s roubaram Tecn. Futura %d aos %s"
 
 #: server/diplomats.c:654
 #, c-format
-msgid "Game: Your %s stole %s from %s."
+msgid "Your %s stole %s from %s."
 msgstr "Jogo: O seu %s roubou %s aos %s."
 
 #: server/diplomats.c:658
 #, c-format
-msgid "Game: %s's %s stole %s from %s."
+msgid "%s's %s stole %s from %s."
 msgstr "Jogo: %s dos %s roubou %s aos %s."
 
 #: server/diplomats.c:662 server/plrhand.c:628
 #, c-format
-msgid "Game: The %s have stolen %s from the %s."
+msgid "The %s have stolen %s from the %s."
 msgstr "Jogo: Os %s roubaram %s aos %s."
 
 #: server/diplomats.c:666
@@ -1432,159 +1427,159 @@ msgid "%s steals %s from the %s"
 msgstr "Os %s roubaram %s aos %s"
 
 #: server/diplomats.c:723
-msgid "Game: You can't subvert a city from this nation."
+msgid "You can't subvert a city from this nation."
 msgstr "Jogo: Você não pode subverter uma cidade desta nação."
 
 #: server/diplomats.c:732
-msgid "Game: You can't subvert the capital of a nation."
+msgid "You can't subvert the capital of a nation."
 msgstr "Jogo: Você não pode subverter a capital de uma nação."
 
 #: server/diplomats.c:743
 #, c-format
-msgid "Game: You don't have enough gold to subvert %s."
+msgid "You don't have enough gold to subvert %s."
 msgstr "Jogo: Você não tem moedas suficiente para subverter %s."
 
 #: server/diplomats.c:758
 #, c-format
-msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
+msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Jogo: O seu %s foi capturado ao tentar incitar uma revolta!"
 
 #: server/diplomats.c:762
 #, c-format
-msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
+msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Jogo: Você capturou um %s %s a tentar incitar uma revolta em %s!"
 
 #: server/diplomats.c:784
 #, c-format
-msgid "Game: Revolt incited in %s, you now rule the city!"
+msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Jogo: Revolta incitada em %s, você agora governa a cidade!"
 
 #: server/diplomats.c:787
 #, c-format
-msgid "Game: %s has revolted, %s influence suspected."
+msgid "%s has revolted, %s influence suspected."
 msgstr "Jogo: %s revoltou-se, suspeita-se da influência de %s."
 
 #: server/diplomats.c:865
 #, c-format
-msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
+msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Jogo: O seu %s foi apanhado a tentar efectuar sabotagem industrial!"
 
 #: server/diplomats.c:869
 #, c-format
-msgid "Game: You caught %s %s attempting sabotage in %s!"
+msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Jogo: Você capturou um %s %s a tentar sabotar em %s!"
 
 #: server/diplomats.c:903
 #, c-format
-msgid "Game: Your %s could not find anything to sabotage in %s."
+msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Jogo: O seu %s não encontrou nada para sabotar em %s."
 
 #: server/diplomats.c:945
 #, c-format
-msgid "Game: You cannot sabotage a wonder or a %s!"
+msgid "You cannot sabotage a wonder or a %s!"
 msgstr "Jogo: Você não pode sabotar uma maravilha ou uma %s!"
 
 #: server/diplomats.c:955
 #, c-format
-msgid "Game: Your %s could not find the %s to sabotage in %s."
+msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Jogo: O seu %s não encontrou o %s a sabotar em %s."
 
 #: server/diplomats.c:980
 #, c-format
-msgid "Game: Your %s succeeded in destroying the production of %s in %s."
+msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Jogo: O seu %s foi bem sucedido na destruição da produção de %s em %s."
 
 #: server/diplomats.c:984
 #, c-format
-msgid "Game: The production of %s was destroyed in %s, %s are suspected."
+msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "Jogo: A produção de %s foi destruida em %s, suspeita-se de %s."
 
 #: server/diplomats.c:1001
 #, c-format
-msgid "Game: Your %s was caught in the attempt of sabotage!"
+msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Jogo: O seu %s foi apanhado a tentar sabotar!"
 
 #: server/diplomats.c:1005
 #, c-format
-msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
+msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Jogo: Você capturou um %s %s a tentar sabotar %s em %s!"
 
 #: server/diplomats.c:1018
 #, c-format
-msgid "Game: Your %s destroyed the %s in %s."
+msgid "Your %s destroyed the %s in %s."
 msgstr "Jogo: O seu %s destruiu %s em %s."
 
 #: server/diplomats.c:1022
 #, c-format
-msgid "Game: The %s destroyed the %s in %s."
+msgid "The %s destroyed the %s in %s."
 msgstr "Jogo: Os %s destruíram %s em %s."
 
 #: server/diplomats.c:1105
 #, c-format
-msgid "Game: Your %s has been eliminated defending against a %s in %s."
+msgid "Your %s has been eliminated defending against a %s in %s."
 msgstr "Jogo: O seu %s foi eliminado ao defender-se contra %s em %s."
 
 #: server/diplomats.c:1109
 #, c-format
-msgid "Game: An enemy %s has been eliminated defending %s."
+msgid "An enemy %s has been eliminated defending %s."
 msgstr "Jogo: Uma %s inimiga foi eliminada ao defender %s."
 
 #: server/diplomats.c:1117
 #, c-format
-msgid "Game: Your %s was eliminated by a defending %s in %s."
+msgid "Your %s was eliminated by a defending %s in %s."
 msgstr "Jogo: O seu %s foi eliminado por um %s em defesa de %s."
 
 #: server/diplomats.c:1123
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating %s."
+msgid "Eliminated %s %s while infiltrating %s."
 msgstr "Jogo: Eliminado %s %s ao infiltrar-se em %s."
 
 #: server/diplomats.c:1171
 #, c-format
 msgid ""
-"Game: Your %s has successfully completed her mission and returned unharmed "
+"Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr ""
 "Jogo: O seu %s completou a sua missão com sucesso e voltou ileso para %s."
 
 #: server/diplomats.c:1191
 #, c-format
-msgid "Game: Your %s was captured after completing her mission in %s."
+msgid "Your %s was captured after completing her mission in %s."
 msgstr "Jogo: O seu %s foi capturado após completar a sua missão em %s."
 
 #: server/diplomats.c:1196
 #, c-format
-msgid "Game: Your %s was captured after completing her mission."
+msgid "Your %s was captured after completing her mission."
 msgstr "Jogo: O seu %s foi capturado após terminar a sua missão."
 
 #: server/diplomats.c:1235
 #, c-format
-msgid "Game: You have caused an incident while bribing %s's %s."
+msgid "You have caused an incident while bribing %s's %s."
 msgstr "Jogo: Você causou um incidente ao subornar o %s de %s."
 
 #: server/diplomats.c:1240
 #, c-format
-msgid "Game: %s has caused an incident while bribing your %s."
+msgid "%s has caused an incident while bribing your %s."
 msgstr "Jogo: %s causou um incidente ao subornar o seu %s."
 
 #: server/diplomats.c:1247
 #, c-format
-msgid "Game: You have caused an incident while stealing tech from %s."
+msgid "You have caused an incident while stealing tech from %s."
 msgstr "Jogo: Você causou um incidente ao roubar tecnologia de %s."
 
 #: server/diplomats.c:1251
 #, c-format
-msgid "Game: %s has caused an incident while stealing tech from you."
+msgid "%s has caused an incident while stealing tech from you."
 msgstr "Jogo: %s causou um incidente ao roubar-lhe tecnologia."
 
 #: server/diplomats.c:1257
 #, c-format
-msgid "Game: You have caused an incident while inciting a revolt in %s."
+msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Jogo: Você causou um incidente ao incitar uma revolta em %s."
 
 #: server/diplomats.c:1260
 #, c-format
-msgid "Game: %s have caused an incident while inciting a revolt in %s."
+msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr "Jogo: %s causou um incidente ao incitar uma revolta em %s."
 
 #: server/gamehand.c:187 client/gui-mui/mapview.c:198
@@ -1608,12 +1603,12 @@ msgstr "Incapaz de abrir o registo do jogo \"%s\" para acrescentar."
 
 #: server/handchat.c:70
 #, c-format
-msgid "Game: %s is an ambiguous player name-prefix."
+msgid "%s is an ambiguous player name-prefix."
 msgstr "Jogo: %s é um prefixo de nome de jogador ambíguo."
 
 #: server/handchat.c:73
 #, c-format
-msgid "Game: %s is an ambiguous connection name-prefix."
+msgid "%s is an ambiguous connection name-prefix."
 msgstr "Jogo: %s é um prefixo de nome de ligação ambíguo."
 
 #: server/handchat.c:194
@@ -1623,17 +1618,17 @@ msgstr "%s para aliados: %s"
 
 #: server/handchat.c:282
 #, c-format
-msgid "Game: %s is not connected."
+msgid "%s is not connected."
 msgstr "Jogo: %s não está ligado."
 
 #: server/handchat.c:294
 #, c-format
-msgid "Game: There is no connection by the name %s."
+msgid "There is no connection by the name %s."
 msgstr "Jogo: Não existe nenhuma ligação com o nome %s."
 
 #: server/handchat.c:297
 #, c-format
-msgid "Game: There is no player nor connection by the name %s."
+msgid "There is no player nor connection by the name %s."
 msgstr "Jogo: Não existe nenhum jogador or ligação com o nome %s."
 
 #: server/mapgen.c:1650
@@ -1654,30 +1649,30 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "Gerador 3 deixou %li massas terrestres por colocar."
 
 #: server/maphand.c:118
-msgid "Game: Global warming has occurred!"
+msgid "Global warming has occurred!"
 msgstr "Jogo: Ocorreu um aquecimento global!"
 
 #: server/maphand.c:119
 msgid ""
-"Game: Coastlines have been flooded and vast ranges of grassland have become "
+"Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr ""
 "Jogo: As regiões costeiras foram inundadas e vastas zonas de pastos tornaram-"
 "se em desertos."
 
 #: server/maphand.c:162
-msgid "Game: Nuclear winter has occurred!"
+msgid "Nuclear winter has occurred!"
 msgstr "Jogo: Ocorreu um inverno nuclear!"
 
 #: server/maphand.c:163
 msgid ""
-"Game: Wetlands have dried up and vast ranges of grassland have become tundra."
+"Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr ""
 "Jogo: A costa marítima secou e vastas zonas de pastos tornaram-se em tundra."
 
 #: server/maphand.c:184
 msgid ""
-"Game: New hope sweeps like fire through the country as the discovery of "
+"New hope sweeps like fire through the country as the discovery of "
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
@@ -1688,7 +1683,7 @@ msgstr ""
 
 #: server/maphand.c:190
 msgid ""
-"Game: The people are pleased to hear that your scientists finally know about "
+"The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
@@ -1734,7 +1729,7 @@ msgstr "A aguardar"
 
 #: server/plrhand.c:136
 #, c-format
-msgid "Game: %s acquired from The Great Library!"
+msgid "%s acquired from The Great Library!"
 msgstr "Jogo: %s foi adquirido pela Grande Biblioteca!"
 
 #: server/plrhand.c:138
@@ -1744,16 +1739,16 @@ msgstr "%s descobrem %s (Biblioteca)"
 
 #: server/plrhand.c:141
 #, c-format
-msgid "Game: The %s have acquired %s from the Great Library."
+msgid "The %s have acquired %s from the Great Library."
 msgstr "Jogo: Os %s aquiriram %s pela Grande Biblioteca."
 
 #: server/plrhand.c:183
-msgid "Game: You are dead!"
+msgid "You are dead!"
 msgstr "Jogo: Você está morto!"
 
 #: server/plrhand.c:187
 #, c-format
-msgid "Game: The %s are no more!"
+msgid "The %s are no more!"
 msgstr "Jogo: Os %s foram extintos!"
 
 #: server/plrhand.c:189
@@ -1768,13 +1763,13 @@ msgstr "%s são os primeiros a aprender %s"
 
 #: server/plrhand.c:235
 #, c-format
-msgid "Game: Discovery of %s OBSOLETES %s in %s!"
+msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "Jogo: Descoberta de %s torna OBSOLETO %s em %s!"
 
 #: server/plrhand.c:245
 #, c-format
 msgid ""
-"Game: Discovery of %s makes the government form %s available. You may want "
+"Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
 msgstr ""
 "Jogo: Descoberta de %s torna disponível a forma de governo %s. Poderá "
@@ -1782,18 +1777,18 @@ msgstr ""
 
 #: server/plrhand.c:286
 #, c-format
-msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
+msgid "Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
 "Jogo: Descoberto %s. Os nossos cientistas focam-se em %s, objectivo é %s."
 
 #: server/plrhand.c:296
 #, c-format
-msgid "Game: Learned %s.  Scientists choose to research %s."
+msgid "Learned %s.  Scientists choose to research %s."
 msgstr "Jogo: Descoberto %s.  Os cientistas decidem investigar %s."
 
 #: server/plrhand.c:304
 #, c-format
-msgid "Game: Learned %s. "
+msgid "Learned %s. "
 msgstr "Jogo: Descoberto %s. "
 
 #: server/plrhand.c:307
@@ -1803,12 +1798,12 @@ msgstr "A pesquisar %s."
 
 #: server/plrhand.c:320 server/stdinhand.c:1428
 #, c-format
-msgid "Game: %s"
+msgid "%s"
 msgstr "Jogo: %s"
 
 #: server/plrhand.c:323
 msgid ""
-"Game: Great scientists from all the world join your civilization: you get an "
+"Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
 "Jogo: Grandes cientistas de todo o mundo juntam-se à sua civilização: obtém "
@@ -1816,7 +1811,7 @@ msgstr ""
 
 #: server/plrhand.c:390
 #, c-format
-msgid "Game: The %s have researched %s."
+msgid "The %s have researched %s."
 msgstr "Jogo: Os %s aprenderam %s."
 
 #: server/plrhand.c:394
@@ -1826,7 +1821,7 @@ msgstr "%s descobrem %s"
 
 #: server/plrhand.c:399
 #, c-format
-msgid "Game: The %s have researched Future Tech. %d."
+msgid "The %s have researched Future Tech. %d."
 msgstr "Jogo: Os %s aprenderam a Tecn. Futura %d."
 
 #: server/plrhand.c:403
@@ -1836,7 +1831,7 @@ msgstr "%s descobrem Tecn. Futura %d"
 
 #: server/plrhand.c:523
 #, c-format
-msgid "Game: Technology goal is %s."
+msgid "Technology goal is %s."
 msgstr "Jogo: Objectivo tecnológico é %s."
 
 #: server/plrhand.c:612
@@ -1846,16 +1841,16 @@ msgstr "%s roubam %s aos %s"
 
 #: server/plrhand.c:618
 #, c-format
-msgid "Game: You steal %s from the %s."
+msgid "You steal %s from the %s."
 msgstr "Jogo: Você roubou %s aos %s."
 
 #: server/plrhand.c:623
 #, c-format
-msgid "Game: The %s stole %s from you!"
+msgid "The %s stole %s from you!"
 msgstr "Jogo: Os %s roubaram-lhe %s!"
 
 #: server/plrhand.c:648
-msgid "Game: Cannot change rates before game start."
+msgid "Cannot change rates before game start."
 msgstr "Jogo: Não pode alterar as taxas antes do jogo começar."
 
 #: server/plrhand.c:661 client/gui-gtk-2.0/gamedlgs.c:252
@@ -1881,7 +1876,7 @@ msgstr "Ciência"
 
 #: server/plrhand.c:666
 #, c-format
-msgid "Game: %s rate exceeds the max rate for %s."
+msgid "%s rate exceeds the max rate for %s."
 msgstr "Jogo: a taxa de %s excede a taxa máxima de %s."
 
 #: server/plrhand.c:672 server/plrhand.c:795
@@ -1891,7 +1886,7 @@ msgstr "ALTERAÇÃO DE TAXA: %s %i %i %i"
 
 #: server/plrhand.c:718
 #, c-format
-msgid "Game: %s now governs the %s as a %s."
+msgid "%s now governs the %s as a %s."
 msgstr "Jogo: %s governa agora os %s como uma %s."
 
 #: server/plrhand.c:722
@@ -1901,7 +1896,7 @@ msgstr "%s formam uma %s"
 
 #: server/plrhand.c:753
 #, c-format
-msgid "Game: The %s have incited a revolt!"
+msgid "The %s have incited a revolt!"
 msgstr "Jogo: Os %s incitaram uma revolta!"
 
 #: server/plrhand.c:755
@@ -1911,17 +1906,17 @@ msgstr "Os %s revoltam-se!"
 
 #: server/plrhand.c:778
 #, c-format
-msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
+msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Jogo: Taxa de imposto excede o máximo para %s; ajustada."
 
 #: server/plrhand.c:784
 #, c-format
-msgid "Game: Science rate exceeded the max rate for %s; adjusted."
+msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "Jogo: Taxa de ciência excede o máximo para %s; ajustada."
 
 #: server/plrhand.c:790
 #, c-format
-msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
+msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Jogo: Taxa de luxo excede o máximo para %s; ajustada."
 
 #: server/plrhand.c:844
@@ -1937,25 +1932,25 @@ msgstr "O senado passa a sua moção devido às constantes provocações dos %s.
 
 #: server/plrhand.c:892
 #, c-format
-msgid "Game: Your reputation is now %s."
+msgid "Your reputation is now %s."
 msgstr "Jogo: A sua reputação é agora %s."
 
 #: server/plrhand.c:896
 msgid ""
-"Game: The senate decides to dissolve rather than support your actions any "
+"The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
 "Jogo: O senado decide demitir-se por não tolerar mais as suas decisões."
 
 #: server/plrhand.c:937
 #, c-format
-msgid "Game: The diplomatic state between the %s and the %s is now %s."
+msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Jogo: O estado diplomático entre os %s e os %s é agora de %s."
 
 #: server/plrhand.c:943
 #, c-format
 msgid ""
-"Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
+" %s cancelled the diplomatic agreement! The diplomatic state between "
 "the %s and the %s is now %s."
 msgstr ""
 "Jogo:  %s cancelam o acordo diplomático! O estado diplomático entre os %s e "
@@ -1967,23 +1962,23 @@ msgid "Removing player %s."
 msgstr "A remover o jogador %s."
 
 #: server/plrhand.c:1337
-msgid "Game: You've been removed from the game!"
+msgid "You've been removed from the game!"
 msgstr "Jogo: Você foi removido do jogo!"
 
 #: server/plrhand.c:1340
 #, c-format
-msgid "Game: %s has been removed from the game."
+msgid "%s has been removed from the game."
 msgstr "Jogo: %s foi removido do jogo."
 
 #: server/plrhand.c:1383 server/plrhand.c:1387
 #, c-format
-msgid "Game: You have made contact with the %s, ruled by %s."
+msgid "You have made contact with the %s, ruled by %s."
 msgstr "Jogo: Estabeleceu contacto com os %s, governados por %s."
 
 #: server/plrhand.c:1715
 #, c-format
 msgid ""
-"Game: Your nation is thrust into civil war,  %s is declared the leader of "
+"Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
 "Jogo: A sua nação caíu numa guerra civil,  %s é declarado líder dos estados "
@@ -1991,13 +1986,13 @@ msgstr ""
 
 #: server/plrhand.c:1735
 #, c-format
-msgid "Game: %s declares allegiance to %s."
+msgid "%s declares allegiance to %s."
 msgstr "Jogo: %s forma uma aliança com %s."
 
 #: server/plrhand.c:1749
 #, c-format
 msgid ""
-"Game: The capture of %s's capital and the destruction of the empire's "
+"The capture of %s's capital and the destruction of the empire's "
 "administrative\n"
 "      structures have sparked a civil war.  Opportunists have flocked to the "
 "rebel cause,\n"
@@ -2364,87 +2359,82 @@ msgid "Server cannot read standard input. Ignoring input."
 msgstr "Servidor incapaz de ler da consola. A ignorar consola."
 
 #: server/spacerace.c:164
-msgid "Game: You need to have a capital in order to launch your spaceship."
+msgid "You need to have a capital in order to launch your spaceship."
 msgstr ""
 "Jogo: Você tem de possuir uma capital para poder lançar a sua nave espacial."
 
 #: server/spacerace.c:169
-msgid "Game: Your spaceship is already launched!"
+msgid "Your spaceship is already launched!"
 msgstr "Jogo: A sua nave espacial já foi lançada!"
 
 #: server/spacerace.c:174
-msgid "Game: Your spaceship can't be launched yet!"
+msgid "Your spaceship can't be launched yet!"
 msgstr "Jogo: A sua nave espacial ainda não pode ser lançada!"
 
 #: server/spacerace.c:183
 #, c-format
 msgid ""
-"Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
 "Jogo: Os %s lançaram uma nave espacial!  Estima-se a chegada a Alfa Centauro "
 "em %s."
 
 #: server/spacerace.c:202
-msgid "Game: Spaceship action received, but you don't have a spaceship!"
+msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr "Jogo: Recebida uma acção de Nave Espacial, mas você não possui uma!"
 
 #: server/spacerace.c:211
-msgid "Game: You can't modify your spaceship after launch!"
+msgid "You can't modify your spaceship after launch!"
 msgstr "Jogo: Você não pode alterar a sua nave espacial após o lançamento!"
 
 #: server/spacerace.c:220
-msgid "Game: You don't have any unplaced Space Structurals!"
+msgid "You don't have any unplaced Space Structurals!"
 msgstr "Jogo: Você não possui Estruturas Espaciais por colocar!"
 
 #: server/spacerace.c:225
-msgid "Game: That Space Structural would not be connected!"
+msgid "That Space Structural would not be connected!"
 msgstr "Jogo: Essa Estrutura Espacial não estaria ligada!"
 
 #: server/spacerace.c:239 server/spacerace.c:258
-msgid "Game: You don't have any unplaced Space Components!"
+msgid "You don't have any unplaced Space Components!"
 msgstr "Jogo: Você não possui Componentes Espaciais por colocar!"
 
 #: server/spacerace.c:244
-msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
+msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr ""
 "Jogo: A sua nave já possui o número máximo de Componentes de Combustível!"
 
 #: server/spacerace.c:263
 msgid ""
-"Game: Your spaceship already has the maximum number of Propulsion Components!"
+"Your spaceship already has the maximum number of Propulsion Components!"
 msgstr ""
 "Jogo: A sua nave já possui o número máximo de Componentes de Propulsão!"
 
 #: server/spacerace.c:278 server/spacerace.c:298 server/spacerace.c:318
-msgid "Game: You don't have any unplaced Space Modules!"
+msgid "You don't have any unplaced Space Modules!"
 msgstr "Jogo: Você não possui Módulos Espaciais por colocar!"
 
 #: server/spacerace.c:283
 msgid ""
-"Game: Your spaceship already has the maximum number of Habitation Modules!"
+"Your spaceship already has the maximum number of Habitation Modules!"
 msgstr "Jogo: A sua nave já possui o número máximo de Módulos Habitacionais!"
 
 #: server/spacerace.c:303
 msgid ""
-"Game: Your spaceship already has the maximum number of Life Support Modules!"
+"Your spaceship already has the maximum number of Life Support Modules!"
 msgstr ""
 "Jogo: A sua nave já possui o número máximo de Módulos de Suporte de Vida!"
 
 #: server/spacerace.c:323
 msgid ""
-"Game: Your spaceship already has the maximum number of Solar Panel Modules!"
+"Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "Jogo: A sua nave já possui o número máximo de Módulos de Painel Solar!"
 
 #: server/spacerace.c:342
 #, c-format
-msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
+msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Jogo: Sem orientação da capital, a nave espacial %s foi perdida!"
-
-#: server/spacerace.c:377
-#, c-format
-msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr "Jogo: A nave espacial dos %s chegou a Alfa Centauro."
 
 #: server/spacerace.c:380
 #, c-format
@@ -2476,7 +2466,7 @@ msgstr "Jogo terminou com uma vitória de aliança"
 #: server/srv_main.c:390
 #, c-format
 msgid ""
-"Game: Concerned citizens point out that the cease-fire with %s will run out "
+"Concerned citizens point out that the cease-fire with %s will run out "
 "soon."
 msgstr ""
 "Jogo: Cidadãos preocupados lembram-lhe que o cessar-fogo com %s vai expirar "
@@ -2485,7 +2475,7 @@ msgstr ""
 #: server/srv_main.c:396
 #, c-format
 msgid ""
-"Game: The cease-fire with %s has run out. You are now neutral towards the %s."
+"The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr ""
 "Jogo: O cessar-fogo com %s expirou. Você e os %s então agora em neutralidade."
 
@@ -2509,7 +2499,7 @@ msgstr "A iniciar o jogo."
 
 #: server/srv_main.c:652
 #, c-format
-msgid "Game: request for unknown report (type %d)"
+msgid "request for unknown report (type %d)"
 msgstr "Jogo: pedido de relatório desconhecido (tipo %d)"
 
 #: server/srv_main.c:762
@@ -2532,7 +2522,7 @@ msgstr "Já existe outro jogador de nome '%s'.  Seleccione outro nome."
 
 #: server/srv_main.c:1047
 #, c-format
-msgid "Game: %s is the %s ruler %s."
+msgid "%s is the %s ruler %s."
 msgstr "Jogo: %s é o governante %s %s."
 
 #: server/srv_main.c:1076
@@ -2541,7 +2531,7 @@ msgid "No nations left: Removing player %s."
 msgstr "Não existem mais nações: A remover o jogador %s."
 
 #: server/srv_main.c:1079
-msgid "Game: Sorry, there are no nations left."
+msgid "Sorry, there are no nations left."
 msgstr "Jogo: Desculpe, mas nâo existem mais nações."
 
 #: server/srv_main.c:1212
@@ -2564,11 +2554,6 @@ msgstr "Número máximo de nações menor que aifill; aifill reduzido para %d."
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s foi acrescentado como um jogador controlado por IA."
 
-#: server/srv_main.c:1284 server/stdinhand.c:1855
-#, c-format
-msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Jogo: %s foi acrescentado como um jogador controlado por IA."
-
 #: server/srv_main.c:1293
 #, c-format
 msgid "Error creating new AI player: %s\n"
@@ -2586,7 +2571,7 @@ msgstr "A IA controla os %s governados por %s."
 
 #: server/srv_main.c:1391
 #, c-format
-msgid "Game: %s rules the %s."
+msgid "%s rules the %s."
 msgstr "Jogo: %s governa os %s."
 
 #: server/srv_main.c:1534
@@ -2599,7 +2584,7 @@ msgid "Sending info to metaserver [%s]"
 msgstr "A enviar informação para o metaservidor [%s]"
 
 #: server/srv_main.c:1582
-msgid "Game: The game is over..."
+msgid "The game is over..."
 msgstr "Jogo: O jogo terminou..."
 
 #: server/srv_main.c:1583
@@ -4345,7 +4330,7 @@ msgstr ""
 #: server/stdinhand.c:2122
 #, c-format
 msgid ""
-"Game: Anyone can assume command access level '%s' now by issuing the "
+"Anyone can assume command access level '%s' now by issuing the "
 "'firstlevel' command."
 msgstr ""
 "Jogo: Qualquer um pode agora assumir o nível de acesso '%s' emitindo o "
@@ -4961,155 +4946,155 @@ msgstr ""
 
 #: server/unithand.c:167
 #, c-format
-msgid "Game: Illegal packet, can't upgrade %s (yet)."
+msgid "Illegal packet, can't upgrade %s (yet)."
 msgstr "Jogo: Pacote ilegal, (ainda) não pode actualizar %s."
 
 #: server/unithand.c:199
 #, c-format
-msgid "Game: %d %s upgraded to %s for %d gold."
+msgid "%d %s upgraded to %s for %d gold."
 msgstr "Jogo: %d %s actualizado para %s por %d moedas."
 
 #: server/unithand.c:205
-msgid "Game: No units could be upgraded."
+msgid "No units could be upgraded."
 msgstr "Jogo: Nenhuma unidade pode ser actualizada."
 
 #: server/unithand.c:227
-msgid "Game: Illegal move, unit not in city!"
+msgid "Illegal move, unit not in city!"
 msgstr "Jogo: Movimento ilegal, unidade fora de cidade!"
 
 #: server/unithand.c:232
 #, c-format
-msgid "Game: Illegal package, can't upgrade %s (yet)."
+msgid "Illegal package, can't upgrade %s (yet)."
 msgstr "Jogo: Pacote ilegal, (ainda) não pode actualizar %s."
 
 #: server/unithand.c:238
 #, c-format
-msgid "Game: Insufficient funds, upgrade costs %d."
+msgid "Insufficient funds, upgrade costs %d."
 msgstr "Jogo: Fundos insuficientes, custo de actualização de %d moedas."
 
 #: server/unithand.c:245
 #, c-format
-msgid "Game: %s upgraded to %s for %d gold."
+msgid "%s upgraded to %s for %d gold."
 msgstr "Jogo: %s actualizado para %s por %d moedas."
 
 #: server/unithand.c:463
-msgid "Game: Can't place city here."
+msgid "Can't place city here."
 msgstr "Jogo: Impossível fundar uma cidade aqui."
 
 #: server/unithand.c:470
 #, c-format
-msgid "Game: Only %s can build a city."
+msgid "Only %s can build a city."
 msgstr "Jogo: Apenas %s podem construir uma cidade."
 
 #: server/unithand.c:475
-msgid "Game: Can't build a city."
+msgid "Can't build a city."
 msgstr "Jogo: Incapaz de fundar uma cidade."
 
 #: server/unithand.c:484
 #, c-format
-msgid "Game: Only %s can add to a city."
+msgid "Only %s can add to a city."
 msgstr "Jogo: Apenas %s podem juntar-se a uma cidade."
 
 #: server/unithand.c:489
-msgid "Game: Can't add to a city."
+msgid "Can't add to a city."
 msgstr "Jogo: Incapaz de se juntar a uma cidade."
 
 #: server/unithand.c:495
 #, c-format
-msgid "Game: %s unit has no moves left to add to %s."
+msgid "%s unit has no moves left to add to %s."
 msgstr ""
 "Jogo: Unidade %s não possui mais pontos de movimento para adicionar a %s."
 
 #: server/unithand.c:500
 #, c-format
-msgid "Game: %s unit has no moves left to build city."
+msgid "%s unit has no moves left to build city."
 msgstr ""
 "Jogo: Unidade %s não possui mais pontos de movimento para fundar cidade."
 
 #: server/unithand.c:505
 #, c-format
-msgid "Game: %s is too big to add %s."
+msgid "%s is too big to add %s."
 msgstr "Jogo: %s é demasiado grande para se juntar a %s."
 
 #: server/unithand.c:510 server/unithand.c:516
 #, c-format
-msgid "Game: %s needs %s to grow, so you cannot add %s."
+msgid "%s needs %s to grow, so you cannot add %s."
 msgstr "Jogo: %s precisa de %s para crescer, pelo que não pode juntar %s."
 
 #: server/unithand.c:525
 #, c-format
-msgid "Game: Can't add %s to %s."
+msgid "Can't add %s to %s."
 msgstr "Jogo: Não pode juntar %s a %s."
 
 #: server/unithand.c:547
 #, c-format
-msgid "Game: %s added to aid %s in growing."
+msgid "%s added to aid %s in growing."
 msgstr "Jogo: %s adicionados para ajudar %s a crescer."
 
 #: server/unithand.c:562
-msgid "Game: Let's not build a city with such a stupid name."
+msgid "Let's not build a city with such a stupid name."
 msgstr "Jogo: Não vamos fundar uma cidade com um nome tão ridículo."
 
 #: server/unithand.c:699
-msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
+msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
 "Jogo: O seu missíl Nuclear foi abatido por defesas SDI, que desperdício."
 
 #: server/unithand.c:702
 #, c-format
-msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
+msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Jogo: O ataque nuclear a %s foi evitado pelas suas defesas SDI."
 
 #: server/unithand.c:796
 #, c-format
-msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
+msgid "Your %s%s survived the pathetic attack from %s's %s."
 msgstr "Jogo: Os seus %s%s sobreviveram ao patético ataque dos %s, unidade %s."
 
 #: server/unithand.c:805
 #, c-format
-msgid "Game: Your attacking %s failed against %s's %s%s!"
+msgid "Your attacking %s failed against %s's %s%s!"
 msgstr "Jogo: Os seus %s atacantes falharam contra os %s, %s%s!"
 
 #: server/unithand.c:822
 #, c-format
-msgid "Game: Your attacking %s succeeded against %s's %s%s!"
+msgid "Your attacking %s succeeded against %s's %s%s!"
 msgstr "Jogo: Os seus %s atacantes venceram contra os %s, %s%s!"
 
 #: server/unithand.c:873
-msgid "Game: Cancel treaty in the players dialog first (F3)."
+msgid "Cancel treaty in the players dialog first (F3)."
 msgstr "Jogo: Primeiro cancele tratado no diálogo de jogadores (F3)."
 
 #: server/unithand.c:896
 #, c-format
-msgid "Game: Only %s can attack from sea."
+msgid "Only %s can attack from sea."
 msgstr "Jogo: Apenas %s podem atacar a partir do mar."
 
 #: server/unithand.c:901
-msgid "Game: Cannot attack from sea."
+msgid "Cannot attack from sea."
 msgstr "Jogo: Não pode atacar a partir do mar."
 
 #: server/unithand.c:906 server/unittools.c:2061
-msgid "Game: Cannot attack unless you declare war first."
+msgid "Cannot attack unless you declare war first."
 msgstr "Jogo: Não pode atacar sem primeiro declarar guerra."
 
 #: server/unithand.c:909
 #, c-format
-msgid "Game: %s can only move into your own zone of control."
+msgid "%s can only move into your own zone of control."
 msgstr "Jogo: %s apenas se podem mover para a sua zona de controlo."
 
 #: server/unithand.c:995
-msgid "Game: Unit must be on land to perform diplomatic action."
+msgid "Unit must be on land to perform diplomatic action."
 msgstr ""
 "Jogo: Unidade tem de estar em terra para poder executar acções diplomáticas."
 
 #: server/unithand.c:997
-msgid "Game: No diplomat action possible."
+msgid "No diplomat action possible."
 msgstr "Jogo: Nenhuma acção diplomática possível."
 
 #: server/unithand.c:1007
 #, c-format
 msgid ""
-"Game: Can't attack %s's unit in the city of %s because you are not at war "
+"Can't attack %s's unit in the city of %s because you are not at war "
 "with %s."
 msgstr ""
 "Jogo: Não pode atacar a unidade dos %s na cidade de %s pois você não se "
@@ -5118,53 +5103,53 @@ msgstr ""
 #: server/unithand.c:1020
 #, c-format
 msgid ""
-"Game: Can't attack %s's unit since it is stacked with %s's unit(s) and you "
+"Can't attack %s's unit since it is stacked with %s's unit(s) and you "
 "are not at war with %s."
 msgstr ""
 "Jogo: Não pode atacar a unidade dos %s pois está empilhada com unidade(s) dos "
 "%s e você não se encontra em guerra com os %s."
 
 #: server/unithand.c:1033
-msgid "Game: You can't attack there."
+msgid "You can't attack there."
 msgstr "Jogo: Não pode atacar aqui."
 
 #: server/unithand.c:1039
-msgid "Game: This unit has no moves left."
+msgid "This unit has no moves left."
 msgstr "Jogo: Esta unidade não possui mais pontos de movimento."
 
 #: server/unithand.c:1049
 #, c-format
-msgid "Game: %s aborted GOTO as there are units in the way."
+msgid "%s aborted GOTO as there are units in the way."
 msgstr "Jogo: %s abortaram IR PARA visto existirem unidades no caminho."
 
 #: server/unithand.c:1063
 #, c-format
-msgid "Game: No war declared against %s, cannot attack."
+msgid "No war declared against %s, cannot attack."
 msgstr "Jogo: Guerra não foi declarada contra os %s, não pode atacar."
 
 #: server/unithand.c:1074
-msgid "Game: Only ground troops can take over a city."
+msgid "Only ground troops can take over a city."
 msgstr "Jogo: Apenas unidades terrestres podem invadir uma cidade."
 
 #: server/unithand.c:1081
 #, c-format
-msgid "Game: No war declared against %s, cannot take over city."
+msgid "No war declared against %s, cannot take over city."
 msgstr ""
 "Jogo: Não foi declarada guerra contra os %s, não pode invadir a cidade."
 
 #: server/unithand.c:1133
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d remaining)."
+msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Jogo: A sua %s ajuda a construir %s em %s (faltam %d)."
 
 #: server/unithand.c:1135
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d surplus)."
+msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Jogo: A sua %s ajuda a construir %s em %s (%d excedente)."
 
 #: server/unithand.c:1180
 #, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route here!"
+msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr ""
 "Jogo: Desculpe, os seus %s não podem estabelecer uma rota comercial aqui!"
 
@@ -5181,7 +5166,7 @@ msgstr "      A cidade de %s já possui %d rotas comerciais!"
 #: server/unithand.c:1211
 #, c-format
 msgid ""
-"Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold "
 "and research."
 msgstr ""
 "Jogo: Os seus %s de %s chegaram a %s, e receitas ascendem a %d em moedas e "
@@ -5189,12 +5174,12 @@ msgstr ""
 
 #: server/unittools.c:246
 #, c-format
-msgid "Game: %s has upgraded %s to %s%s."
+msgid "%s has upgraded %s to %s%s."
 msgstr "Jogo: %s actualizou %s para %s%s."
 
 #: server/unittools.c:405
 #, c-format
-msgid "Game: Your %s has run out of hit points."
+msgid "Your %s has run out of hit points."
 msgstr "Jogo: Os seus %s ficaram sem resistência."
 
 #: server/unittools.c:407
@@ -5204,7 +5189,7 @@ msgstr "%s perde uma %s (sem pontos de ataque)"
 
 #: server/unittools.c:418
 #, c-format
-msgid "Game: Your %s has been lost on the high seas."
+msgid "Your %s has been lost on the high seas."
 msgstr "Jogo: O seu %s foi perdido no alto mar."
 
 #: server/unittools.c:420
@@ -5214,12 +5199,12 @@ msgstr "Trireme de %s perdido no mar"
 
 #: server/unittools.c:448
 #, c-format
-msgid "Game: Your %s has returned to refuel."
+msgid "Your %s has returned to refuel."
 msgstr "Jogo: O seu %s voltou para se reabastecer."
 
 #: server/unittools.c:473
 #, c-format
-msgid "Game: Your %s has run out of fuel."
+msgid "Your %s has run out of fuel."
 msgstr "Jogo: O seu %s ficou sem combustível."
 
 #: server/unittools.c:475
@@ -5229,39 +5214,39 @@ msgstr "%s perde um %s (combustível)"
 
 #: server/unittools.c:911
 #, c-format
-msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
+msgid "Moved your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Jogo: Foi movido o seu %s devido à alteração de terra para mar em (%d, %d)."
 
 #: server/unittools.c:934
 #, c-format
-msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
+msgid "Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Jogo: Foi embarcado o seu %s devido à alteração de terra para mar em (%d, %"
 "d)."
 
 #: server/unittools.c:950
 #, c-format
-msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
+msgid "Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Jogo: Foi dissolvido o seu %s devido à alteração de terra para mar em (%d, %"
 "d)."
 
 #: server/unittools.c:974
 #, c-format
-msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
+msgid "Moved your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Jogo: Foi movido o seu %s devido à alteração de mar para terra em (%d, %d)."
 
 #: server/unittools.c:996
 #, c-format
-msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
+msgid "Docked your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Jogo: Foi atracado o seu %s devido à alteração de mar para terra em (%d, %d)."
 
 #: server/unittools.c:1012
 #, c-format
-msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
+msgid "Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Jogo: Foi dissolvido o seu %s devido à alteração de mar para terra em (%d, %"
 "d)."
@@ -5288,17 +5273,17 @@ msgstr " próximo de %s"
 
 #: server/unittools.c:1262
 #, c-format
-msgid "Game: Disbanded your %s at (%d, %d)."
+msgid "Disbanded your %s at (%d, %d)."
 msgstr "Jogo: Foi dissolvida a sua %s em (%d, %d)."
 
 #: server/unittools.c:1286
 #, c-format
-msgid "Game: Teleported your %s from (%d, %d) to %s."
+msgid "Teleported your %s from (%d, %d) to %s."
 msgstr "Jogo: Foi teleportada a sua %s de (%d, %d) para %s."
 
 #: server/unittools.c:1605
 #, c-format
-msgid "Game: %s lost when %s was lost."
+msgid "%s lost when %s was lost."
 msgstr "Jogo: %s perdida quando %s foi perdida."
 
 #: server/unittools.c:1608
@@ -5308,12 +5293,12 @@ msgstr "%s perdeu %s quando %s foi perdida"
 
 #: server/unittools.c:1655
 #, c-format
-msgid "Game: Barbarian leader captured, %d gold ransom paid."
+msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Jogo: Lider bárbaro capturado, recebidas %d moedas de resgate."
 
 #: server/unittools.c:1672
 #, c-format
-msgid "Game: %s lost to an attack by %s's %s%s."
+msgid "%s lost to an attack by %s's %s%s."
 msgstr "Jogo: %s perdida num ataque dos %s, unidade %s%s."
 
 #: server/unittools.c:1675 server/unittools.c:1719
@@ -5323,19 +5308,19 @@ msgstr "%s perde %s com os %s"
 
 #: server/unittools.c:1700
 #, c-format
-msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
+msgid "You lost %d unit to an attack from %s's %s%s."
+msgid_plural "You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Jogo: Você perdeu %d unidade num ataque dos %s, unidade %s%s."
 msgstr[1] "Jogo: Você perdeu %d unidades num ataque dos %s, unidade %s%s."
 
 #: server/unittools.c:1715
 #, c-format
-msgid "Game: %s lost to an attack from %s's %s."
+msgid "%s lost to an attack from %s's %s."
 msgstr "Jogo: %s perdido num ataque dos %s, unidade %s."
 
 #: server/unittools.c:1916
 #, c-format
-msgid "Game: Your %s was nuked by %s."
+msgid "Your %s was nuked by %s."
 msgstr "Jogo: O seu %s foi atacado com armas nucleares por %s."
 
 #: server/unittools.c:1918 server/unittools.c:1934
@@ -5344,69 +5329,69 @@ msgstr "você próprio"
 
 #: server/unittools.c:1922
 #, c-format
-msgid "Game: %s's %s was nuked."
+msgid "%s's %s was nuked."
 msgstr "Jogo: %s, unidade %s, sofreu um ataque nuclear."
 
 #: server/unittools.c:1932
 #, c-format
-msgid "Game: %s was nuked by %s."
+msgid "%s was nuked by %s."
 msgstr "Jogo: %s sofreu um ataque nuclear dos %s."
 
 #: server/unittools.c:1939
 #, c-format
-msgid "Game: You nuked %s."
+msgid "You nuked %s."
 msgstr "Jogo: Você atacou os %s com armas nucleares."
 
 #: server/unittools.c:1976
 #, c-format
-msgid "Game: %s detonated a nuke!"
+msgid "%s detonated a nuke!"
 msgstr "Jogo: %s detonou uma arma nuclear!"
 
 #: server/unittools.c:2014
 #, c-format
-msgid "Game: %s transported succesfully."
+msgid "%s transported succesfully."
 msgstr "Jogo: %s transportado com sucesso."
 
 #: server/unittools.c:2038
-msgid "Game: This unit type can not be paradropped."
+msgid "This unit type can not be paradropped."
 msgstr "Jogo: Este tipo de unidade não pode ser lançada de paraquedas."
 
 #: server/unittools.c:2047
-msgid "Game: The destination location is not known."
+msgid "The destination location is not known."
 msgstr "Jogo: O local de destino não é conhecido."
 
 #: server/unittools.c:2053
-msgid "Game: Cannot paradrop into ocean."
+msgid "Cannot paradrop into ocean."
 msgstr "Jogo: Impossível lançar de paraquedas no oceano."
 
 #: server/unittools.c:2070
 #, c-format
 msgid ""
-"Game: The distance to the target (%i) is greater than the unit's range (%i)."
+"The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Jogo: A distância para o alvo (%i) é maior do que o alcance da unidade (%i)."
 
 #: server/unittools.c:2082
 #, c-format
-msgid "Game: Your %s paradropped into the ocean and was lost."
+msgid "Your %s paradropped into the ocean and was lost."
 msgstr ""
 "Jogo: Os seus %s lançaram-se de paraquedas sobre o oceano e foram perdidos."
 
 #: server/unittools.c:2095
 #, c-format
-msgid "Game: Your %s was killed by enemy units at the paradrop destination."
+msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Jogo: Os seus %s foram mortos por unidades inimigas no destino do lançamento "
 "de paraquedas."
 
 #: server/unittools.c:2118
 #, c-format
-msgid "Game: You found %d gold."
+msgid "You found %d gold."
 msgstr "Jogo: Você encontrou %d moedas."
 
 #: server/unittools.c:2144
 #, c-format
-msgid "Game: You found %s in ancient scrolls of wisdom."
+msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Jogo: Você encontrou %s em antigos pergaminhos de sabedoria."
 
 #: server/unittools.c:2146
@@ -5416,42 +5401,42 @@ msgstr "%s descobrem %s (Cabana)"
 
 #: server/unittools.c:2148
 #, c-format
-msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
+msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Jogo: Os %s adquiriram %s em antigos pergaminhos de sabedoria."
 
 #: server/unittools.c:2168
-msgid "Game: A band of friendly mercenaries joins your cause."
+msgid "A band of friendly mercenaries joins your cause."
 msgstr "Jogo: Um bando de mercenários amistosos juntam-se à sua causa."
 
 #: server/unittools.c:2185
-msgid "Game: An abandoned village is here."
+msgid "An abandoned village is here."
 msgstr "Jogo: Existe aqui uma povoação abandonada."
 
 #: server/unittools.c:2197
-msgid "Game: You have unleashed a horde of barbarians!"
+msgid "You have unleashed a horde of barbarians!"
 msgstr "Jogo: Você incitou uma horda de bárbaros!"
 
 #: server/unittools.c:2200
 #, c-format
-msgid "Game: Your %s has been killed by barbarians!"
+msgid "Your %s has been killed by barbarians!"
 msgstr "Jogo: O seu %s foi morto por bárbaros!"
 
 #: server/unittools.c:2216
-msgid "Game: You found a friendly city."
+msgid "You found a friendly city."
 msgstr "Jogo: Você encontrou uma cidade amistosa."
 
 #: server/unittools.c:2221
-msgid "Game: Friendly nomads are impressed by you, and join you."
+msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Jogo: Você impressiona nómadas amistosos, que se juntam à sua causa."
 
 #: server/unittools.c:2246
-msgid "Game: Your overflight frightens the tribe; they scatter in terror."
+msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Jogo: O seu vôo rasante assusta a tribo; eles dispersam em terror."
 
 #: server/unittools.c:2897
 #, c-format
 msgid ""
-"Game: Your %s cancelled patrol order because it encountered a foreign unit."
+"Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr ""
 "Jogo: Os seus %s cancelaram a ordem de patrulha pois encontraram uma unidade "
 "inimiga."
@@ -6015,7 +6000,7 @@ msgstr "Ocorreu um erro ao liga-se automaticamente; a abortar."
 
 #: client/climisc.c:161
 #, c-format
-msgid "Game: Changing production of every %s into %s."
+msgid "Changing production of every %s into %s."
 msgstr "Jogo: A alterar a produção de todos os %s para %s."
 
 #: client/climisc.c:205
@@ -6204,12 +6189,12 @@ msgstr "%s (veterana)"
 
 #: client/climisc.c:1154
 #, c-format
-msgid "Game: You don't buy %s in %s!"
+msgid "You don't buy %s in %s!"
 msgstr "Jogo: Você não compra %s em %s!"
 
 #: client/climisc.c:1176
 #, c-format
-msgid "Game: %s costs %d gold and you only have %d gold."
+msgid "%s costs %d gold and you only have %d gold."
 msgstr "Jogo: %s custa %d moedas e você apenas tem %d moedas."
 
 #: client/clinet.c:114
@@ -6237,39 +6222,39 @@ msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Valor $http_proxy inválido, incapaz de encontrar '/' separador"
 
 #: client/control.c:608
-msgid "Game: Only transporter units can be unloaded."
+msgid "Only transporter units can be unloaded."
 msgstr "Jogo: Apenas as unidades de transporte podem ser descarregadas."
 
 #: client/control.c:785
 msgid ""
-"Game: Only settler units and military units in cities can be put in auto-"
+"Only settler units and military units in cities can be put in auto-"
 "mode."
 msgstr ""
 "Jogo: Apenas colonos e unidades militares em cidades podem ser colocadas em "
 "modo automático."
 
 #: client/control.c:818
-msgid "Game: Only nuclear units can do this."
+msgid "Only nuclear units can do this."
 msgstr "Jogo: Apenas as unidades nucleares podem fazer isso."
 
 #: client/control.c:835
-msgid "Game: Only paratrooper units can do this."
+msgid "Only paratrooper units can do this."
 msgstr "Jogo: Apenas as unidades páraquedistas podem fazer isso."
 
 #: client/control.c:1240
-msgid "Game: Too far for this unit."
+msgid "Too far for this unit."
 msgstr "Jogo: Demasiado longe para esta unidade."
 
 #: client/control.c:1306 client/control.c:1355
-msgid "Game: Didn't find a route to the destination!"
+msgid "Didn't find a route to the destination!"
 msgstr "Jogo: Incapaz de encontrar uma rota para o destino!"
 
 #: client/control.c:1346
-msgid "Game: Sorry, airunit patrol not yet implemented."
+msgid "Sorry, airunit patrol not yet implemented."
 msgstr "Jogo: Desculpe, patrula aérea ainda não implementada."
 
 #: client/control.c:1393
-msgid "Game: Oh my! You seem to have no capital!"
+msgid "Oh my! You seem to have no capital!"
 msgstr "Jogo: Oh! Parece que você não tem uma capital!"
 
 #: client/helpdata.c:110
@@ -6872,39 +6857,35 @@ msgid "Enemy Diplomat: Theft"
 msgstr "Diplomata Inimigo: Roubar"
 
 #: client/options.c:242
-msgid "Game: Broadcast Report"
+msgid "Broadcast Report"
 msgstr "Jogo: Relatório Geral"
 
 #: client/options.c:243
-msgid "Game: Game Ended"
+msgid "Game Ended"
 msgstr "Jogo: Jogo Terminado"
 
 #: client/options.c:244
-msgid "Game: Game Started"
+msgid "Game Started"
 msgstr "Jogo: Jogo Iniciado"
 
 #: client/options.c:245
-msgid "Game: Message from Server Operator"
+msgid "Message from Server Operator"
 msgstr "Jogo: Mensagem do Operador do Servidor"
 
 #: client/options.c:246
-msgid "Game: Nation Selected"
+msgid "Nation Selected"
 msgstr "Jogo: Nação Seleccionada"
 
 #: client/options.c:247
-msgid "Game: Player Destroyed"
+msgid "Player Destroyed"
 msgstr "Jogo: Jogador Destruído"
 
-#: client/options.c:248
-msgid "Game: Report"
-msgstr "Jogo: Relatório"
-
 #: client/options.c:249
-msgid "Game: Turn Bell"
+msgid "Turn Bell"
 msgstr "Jogo: Activar Campainha"
 
 #: client/options.c:250
-msgid "Game: Year Advance"
+msgid "Year Advance"
 msgstr "Jogo: Ano Incrementado"
 
 #: client/options.c:251
@@ -7109,7 +7090,7 @@ msgid "OFF"
 msgstr "INACTIVO"
 
 #: client/packhand.c:1368
-msgid "Game: Revolution finished"
+msgid "Revolution finished"
 msgstr "Jogo: Revolução terminada"
 
 #: client/packhand.c:2289
@@ -7495,12 +7476,6 @@ msgstr "Unidades suportadas %d"
 #, c-format
 msgid "Present units %d"
 msgstr "Unidades presentes %d"
-
-#: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2299
-#: client/gui-mui/citydlg.c:2118 client/gui-win32/citydlg.c:1371
-#, c-format
-msgid "%s"
-msgstr "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:1804 client/gui-gtk/citydlg.c:2302
 #: client/gui-mui/citydlg.c:2121 client/gui-win32/citydlg.c:1374
@@ -8418,7 +8393,7 @@ msgstr "_Moedas:"
 #: client/gui-gtk-2.0/diplodlg.c:843 client/gui-gtk/diplodlg.c:923
 #: client/gui-mui/diplodlg.c:385 client/gui-win32/diplodlg.c:276
 #: client/gui-xaw/diplodlg.c:999
-msgid "Game: Invalid amount of gold specified."
+msgid "Invalid amount of gold specified."
 msgstr "Jogo: Quantia monetária especificada inválida."
 
 #: client/gui-gtk-2.0/finddlg.c:67 client/gui-gtk/finddlg.c:62
@@ -10269,7 +10244,7 @@ msgid "Con_figure..."
 msgstr "Con_figurar..."
 
 #: client/gui-gtk/cityrep.c:969 client/gui-win32/cityrep.c:696
-msgid "Game: Select a unit or improvement to change production to."
+msgid "Select a unit or improvement to change production to."
 msgstr "Jogo: Selectione a unidade ou construção para a qual alterar produção."
 
 #: client/gui-gtk/cityrep.c:1003 client/gui-win32/cityrep.c:745
@@ -10666,7 +10641,7 @@ msgstr[1] "(inactivo à %d turnos)"
 
 #: client/gui-gtk/plrdlg.c:549 client/gui-mui/plrdlg.c:255
 #: client/gui-win32/plrdlg.c:77 client/gui-xaw/plrdlg.c:362
-msgid "Game: You need an embassy to establish a diplomatic meeting."
+msgid "You need an embassy to establish a diplomatic meeting."
 msgstr ""
 "Jogo: Você necessita de uma embaixada para efectuar um encontro diplomático."
 
@@ -11759,11 +11734,11 @@ msgid "Available To Build"
 msgstr "Disponível Para Construção"
 
 #: client/gui-win32/cityrep.c:687
-msgid "Game: Select a unit or improvement to change production from."
+msgid "Select a unit or improvement to change production from."
 msgstr "Jogo: Selectione uma unidade ou melhoramento a deixar de produzir."
 
 #: client/gui-win32/cityrep.c:702
-msgid "Game: That's the same thing!"
+msgid "That's the same thing!"
 msgstr "Jogo: Isso é a mesma coisa!"
 
 #: client/gui-win32/cityrep.c:881 data/Freeciv:1565
@@ -19631,7 +19606,7 @@ msgstr ""
 #~ msgid "Trying to write invalid map data: '%c' %d"
 #~ msgstr "A tentar escrever dados de mapa inválidos: '%c' %d"
 
-#~ msgid "Game: Connection %s from %s has joined as player %s."
+#~ msgid "Connection %s from %s has joined as player %s."
 #~ msgstr "Jogo: Ligação %s de %s juntou-se como jogador %s."
 
 #~ msgid "Connection request from %s from %s (connection named %s)"
@@ -19697,9 +19672,6 @@ msgstr ""
 
 #~ msgid "more"
 #~ msgstr "mais"
-
-#~ msgid "Game: "
-#~ msgstr "Jogo: "
 
 #~ msgid "Private colormap ran out of entries -  exiting."
 #~ msgstr "Mapa de cores privado esgotou as entradas -  a terminar."

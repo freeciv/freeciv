@@ -139,7 +139,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                     get_nation_name_plural(pother->nation),
 		    get_tech_name(pplayer, pclause->value));
 	    notify_player(pplayer,
-                          _("Game: The %s can't accept %s."),
+                          _("The %s can't accept %s."),
                           get_nation_name_plural(pother->nation),
 			  get_tech_name(pplayer, pclause->value));
 	    return;
@@ -151,7 +151,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 		    get_tech_name(pplayer, pclause->value),
 		    get_nation_name_plural(pother->nation));
 	    notify_player(pplayer,
-			  _("Game: You don't have tech %s, you can't accept treaty."),
+			  _("You don't have tech %s, you can't accept treaty."),
 			  get_tech_name(pplayer, pclause->value));
 	    return;
 	  }
@@ -172,7 +172,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  }
 	  if (is_capital(pcity)) {
 	    notify_player(pplayer,
-			  _("Game: Your capital (%s) is requested, "
+			  _("Your capital (%s) is requested, "
 			    "you can't accept treaty."),
 			  pcity->name);
 	    return;
@@ -181,14 +181,14 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_ALLIANCE:
           if (!pplayer_can_ally(pplayer, pother)) {
 	    notify_player(pplayer,
-			  _("Game: You are at war with one of %s's "
+			  _("You are at war with one of %s's "
 			    "allies - an alliance with %s is impossible."),
 			  pother->name, pother->name);
             return;
           }
           if (!pplayer_can_ally(pother, pplayer)) {
 	    notify_player(pplayer,
-			  _("Game: %s is at war with one of your allies "
+			  _("%s is at war with one of your allies "
 			    "- an alliance with %s is impossible."),
 			  pother->name, pother->name);
             return;
@@ -197,7 +197,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_GOLD:
 	  if (pplayer->economic.gold < pclause->value) {
 	    notify_player(pplayer,
-			  _("Game: You don't have enough gold, "
+			  _("You don't have enough gold, "
 			    "you can't accept treaty."));
 	    return;
 	  }
@@ -229,13 +229,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
  					   pplayer->player_no);
 
     notify_player(pplayer,
-		  PL_("Game: A treaty containing %d clause was agreed upon.",
-		      "Game: A treaty containing %d clauses was agreed upon.",
+		  PL_("A treaty containing %d clause was agreed upon.",
+		      "A treaty containing %d clauses was agreed upon.",
 		      nclauses),
 		  nclauses);
     notify_player(pother,
-		  PL_("Game: A treaty containing %d clause was agreed upon.",
-		      "Game: A treaty containing %d clauses was agreed upon.",
+		  PL_("A treaty containing %d clause was agreed upon.",
+		      "A treaty containing %d clauses was agreed upon.",
 		      nclauses),
 		  nclauses);
 
@@ -250,23 +250,23 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  pcity = find_city_by_id(pclause->value);
 	  if (!pcity) { /* Can't find out cityname any more. */
 	    notify_player(pplayer,
-			  _("Game: One of the cities %s is giving away is destroyed! "
+			  _("One of the cities %s is giving away is destroyed! "
 			    "Treaty canceled!"),
 			  get_nation_name_plural(pother->nation));
 	    notify_player(pother,
-			  _("Game: One of the cities %s is giving away is destroyed! "
+			  _("One of the cities %s is giving away is destroyed! "
 			    "Treaty canceled!"),
 			  get_nation_name_plural(pother->nation));
 	    goto cleanup;
 	  }
 	  if (pcity->owner != pother->player_no) {
 	    notify_player(pplayer,
-			  _("Game: The %s no longer control %s! "
+			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  get_nation_name_plural(pother->nation),
 			  pcity->name);
 	    notify_player(pother,
-			  _("Game: The %s no longer control %s! "
+			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  get_nation_name_plural(pother->nation),
 			  pcity->name);
@@ -274,7 +274,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  }
 	  if (is_capital(pcity)) {
 	    notify_player(pother,
-			  _("Game: Your capital (%s) is requested, "
+			  _("Your capital (%s) is requested, "
 			    "you can't accept treaty."), pcity->name);
 	    goto cleanup;
 	  }
@@ -285,11 +285,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
            * changed. */
           if (!pplayer_can_ally(pother, pplayer)) {
 	    notify_player(pplayer,
-			  _("Game: %s is at war with one of your "
+			  _("%s is at war with one of your "
 			    "allies - an alliance with %s is impossible."),
 			  pother->name, pother->name);
 	    notify_player(pother,
-			  _("Game: You are at war with one of %s's "
+			  _("You are at war with one of %s's "
 			    "allies - an alliance with %s is impossible."),
 			  pplayer->name, pplayer->name);
 	    goto cleanup;
@@ -298,11 +298,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_GOLD:
 	  if (pother->economic.gold < pclause->value) {
 	    notify_player(pplayer,
-			  _("Game: The %s don't have the promised amount "
+			  _("The %s don't have the promised amount "
 			    "of gold! Treaty canceled!"),
 			  get_nation_name_plural(pother->nation));
 	    notify_player(pother,
-			  _("Game: The %s don't have the promised amount "
+			  _("The %s don't have the promised amount "
 			    "of gold! Treaty canceled!"),
 			  get_nation_name_plural(pother->nation));
 	    goto cleanup;
@@ -329,10 +329,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       case CLAUSE_EMBASSY:
         establish_embassy(pdest, pgiver); /* sic */
         notify_player_ex(pgiver, NULL, E_TREATY_SHARED_VISION,
-                         _("Game: You gave an embassy to %s."),
+                         _("You gave an embassy to %s."),
                          pdest->name);
         notify_player_ex(pdest, NULL, E_TREATY_SHARED_VISION,
-                         _("Game: %s allowed you to create an embassy!"),
+                         _("%s allowed you to create an embassy!"),
                          pgiver->name);
         gamelog(GAMELOG_TREATY, GL_EMBASSY, pgiver, pdest);
         break;
@@ -349,11 +349,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           break;
         }
 	notify_player_ex(pdest, NULL, E_TECH_GAIN,
-			 _("Game: You are taught the knowledge of %s."),
+			 _("You are taught the knowledge of %s."),
 			 get_tech_name(pdest, pclause->value));
 
 	notify_embassies(pdest, pgiver,
-			 _("Game: The %s have acquired %s from the %s."),
+			 _("The %s have acquired %s from the %s."),
 			 get_nation_name_plural(pdest->nation),
 			 get_tech_name(pdest, pclause->value),
 			 get_nation_name_plural(pgiver->nation));
@@ -365,20 +365,20 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	found_new_tech(pdest, pclause->value, FALSE, TRUE, A_NONE);
 	break;
       case CLAUSE_GOLD:
-	notify_player(pdest, _("Game: You get %d gold."), pclause->value);
+	notify_player(pdest, _("You get %d gold."), pclause->value);
 	pgiver->economic.gold -= pclause->value;
 	pdest->economic.gold += pclause->value;
         gamelog(GAMELOG_TREATY, GL_GOLD, pgiver, pdest);
 	break;
       case CLAUSE_MAP:
 	give_map_from_player_to_player(pgiver, pdest);
-	notify_player(pdest, _("Game: You receive %s's worldmap."),
+	notify_player(pdest, _("You receive %s's worldmap."),
 		      pgiver->name);
         gamelog(GAMELOG_TREATY, GL_MAP, pgiver, pdest);
 	break;
       case CLAUSE_SEAMAP:
 	give_seamap_from_player_to_player(pgiver, pdest);
-	notify_player(pdest, _("Game: You receive %s's seamap."),
+	notify_player(pdest, _("You receive %s's seamap."),
 		      pgiver->name);
         gamelog(GAMELOG_TREATY, GL_SEAMAP, pgiver, pdest);
 	break;
@@ -394,11 +394,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  }
 
 	  notify_player_ex(pdest, pcity->tile, E_CITY_TRANSFER,
-			   _("Game: You receive city of %s from %s."),
+			   _("You receive city of %s from %s."),
 			   pcity->name, pgiver->name);
 
 	  notify_player_ex(pgiver, pcity->tile, E_CITY_LOST,
-			   _("Game: You give city of %s to %s."),
+			   _("You give city of %s to %s."),
 			   pcity->name, pdest->name);
 
           gamelog(GAMELOG_LOSECITY, pgiver, pdest, pcity, "acquired");
@@ -412,10 +412,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	pdest->diplstates[pgiver->player_no].type=DS_CEASEFIRE;
 	pdest->diplstates[pgiver->player_no].turns_left=16;
 	notify_player_ex(pgiver, NULL, E_TREATY_CEASEFIRE,
-			 _("Game: You agree on a cease-fire with %s."),
+			 _("You agree on a cease-fire with %s."),
 			 pdest->name);
 	notify_player_ex(pdest, NULL, E_TREATY_CEASEFIRE,
-			 _("Game: You agree on a cease-fire with %s."),
+			 _("You agree on a cease-fire with %s."),
 			 pgiver->name);
         gamelog(GAMELOG_TREATY, GL_CEASEFIRE, pgiver, pdest);
 	check_city_workers(pplayer);
@@ -425,10 +425,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	pgiver->diplstates[pdest->player_no].type=DS_PEACE;
 	pdest->diplstates[pgiver->player_no].type=DS_PEACE;
 	notify_player_ex(pgiver, NULL, E_TREATY_PEACE,
-			 _("Game: You agree on a peace treaty with %s."),
+			 _("You agree on a peace treaty with %s."),
 			 pdest->name);
 	notify_player_ex(pdest, NULL, E_TREATY_PEACE,
-			 _("Game: You agree on a peace treaty with %s."),
+			 _("You agree on a peace treaty with %s."),
 			 pgiver->name);
         gamelog(GAMELOG_TREATY, GL_PEACE, pgiver, pdest);
 	check_city_workers(pplayer);
@@ -438,10 +438,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	pgiver->diplstates[pdest->player_no].type=DS_ALLIANCE;
 	pdest->diplstates[pgiver->player_no].type=DS_ALLIANCE;
 	notify_player_ex(pgiver, NULL, E_TREATY_ALLIANCE,
-			 _("Game: You agree on an alliance with %s."),
+			 _("You agree on an alliance with %s."),
 			 pdest->name);
 	notify_player_ex(pdest, NULL, E_TREATY_ALLIANCE,
-			 _("Game: You agree on an alliance with %s."),
+			 _("You agree on an alliance with %s."),
 			 pgiver->name);
 
         gamelog(GAMELOG_TREATY, GL_ALLIANCE, pgiver, pdest);
@@ -451,10 +451,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       case CLAUSE_VISION:
 	give_shared_vision(pgiver, pdest);
 	notify_player_ex(pgiver, NULL, E_TREATY_SHARED_VISION,
-			 _("Game: You give shared vision to %s."),
+			 _("You give shared vision to %s."),
 			 pdest->name);
 	notify_player_ex(pdest, NULL, E_TREATY_SHARED_VISION,
-			 _("Game: %s gives you shared vision."),
+			 _("%s gives you shared vision."),
 			 pgiver->name);
         gamelog(GAMELOG_TREATY, GL_VISION, pgiver, pdest);
 	break;
@@ -592,13 +592,13 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
     dlsend_packet_diplomacy_cancel_meeting(pother->connections,
 					   pplayer->player_no,
 					   pplayer->player_no);
-    notify_player(pother, _("Game: %s canceled the meeting!"), 
+    notify_player(pother, _("%s canceled the meeting!"), 
 		  pplayer->name);
     /* Need to send to pplayer too, for multi-connects: */
     dlsend_packet_diplomacy_cancel_meeting(pplayer->connections,
 					   pother->player_no,
 					   pplayer->player_no);
-    notify_player(pplayer, _("Game: Meeting with %s canceled."), 
+    notify_player(pplayer, _("Meeting with %s canceled."), 
 		  pother->name);
     treaty_list_unlink(treaties, ptreaty);
     clear_treaty(ptreaty);

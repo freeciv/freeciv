@@ -468,27 +468,27 @@ msgstr ""
 
 #: ai/aicity.c:240 server/citytools.c:1752
 #, c-format
-msgid "Game: The %s have stopped building The %s in %s."
+msgid "The %s have stopped building The %s in %s."
 msgstr "Joc: %si au oprit să construiască %s în %s."
 
 #: ai/aicity.c:249 server/citytools.c:1794
 #, c-format
-msgid "Game: The %s have started building The %s in %s."
+msgid "The %s have started building The %s in %s."
 msgstr "Joc: %si au început să construiască %s în %s."
 
 #: ai/aicity.c:685
 #, c-format
-msgid "Game: %s is selling %s (not needed) for %d."
+msgid "%s is selling %s (not needed) for %d."
 msgstr "Joc: %s vinde %s (inutil) pentru %d."
 
 #: server/autoattack.c:135
 #, c-format
-msgid "Game: Auto-Attack: %s's %s found a too tough enemy (%s)"
+msgid "Auto-Attack: %s's %s found a too tough enemy (%s)"
 msgstr ""
 
 #: server/autoattack.c:164
 #, fuzzy, c-format
-msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
+msgid "Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Joc: Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s%4$s a reuşit!"
 
 #: server/barbarian.c:409
@@ -502,62 +502,62 @@ msgid "Sea raiders seen near %s!"
 msgstr "Au fost observaţi piraţi în apropiere de %s!"
 
 #: server/cityhand.c:142
-msgid "Game: You don't have a worker here."
+msgid "You don't have a worker here."
 msgstr "Joc: Aici nu aveţi un lucrător."
 
 #: server/cityhand.c:194
-msgid "Game: You have already sold something here this turn."
-msgstr "Game: Aici aţi vîndut deja ceva în runda aceasta."
+msgid "You have already sold something here this turn."
+msgstr "Aici aţi vîndut deja ceva în runda aceasta."
 
 #: server/cityhand.c:203
 #, c-format
-msgid "Game: You sell %s in %s for %d gold."
-msgstr "Game: Vindeţi %s în %s pentru %d galbeni."
+msgid "You sell %s in %s for %d gold."
+msgstr "Vindeţi %s în %s pentru %d galbeni."
 
 #: server/cityhand.c:240
-msgid "Game: Cannot buy in city created this turn."
-msgstr "Game: Nu puteţi cumpăra intrun oraş creat în runda aceasta."
+msgid "Cannot buy in city created this turn."
+msgstr "Nu puteţi cumpăra intrun oraş creat în runda aceasta."
 
 #: server/cityhand.c:246
-msgid "Game: You have already bought this turn."
-msgstr "Game: Aţi cumpărat deja în runda aceasta."
+msgid "You have already bought this turn."
+msgstr "Aţi cumpărat deja în runda aceasta."
 
 #: server/cityhand.c:252
 #, c-format
-msgid "Game: You don't buy %s!"
+msgid "You don't buy %s!"
 msgstr "Joc: Nu cumpăraţi %s!"
 
 #: server/cityhand.c:259
-msgid "Game: Can't buy units when city is in disorder."
+msgid "Can't buy units when city is in disorder."
 msgstr "Joc: Nu puteţi cumpăra dacă oraşul este în dezordine."
 
 #: server/cityhand.c:296
 #, c-format
-msgid "Game: %s bought in %s for %d gold."
+msgid "%s bought in %s for %d gold."
 msgstr "Joc: Aţi cumpărat %s în %s pentru %d galbeni."
 
 #: server/cityhand.c:370
-msgid "Game: You have bought this turn, can't change."
+msgid "You have bought this turn, can't change."
 msgstr "Joc: Aţi cumpărat in runda aceasta şi nu puteţi schimba."
 
 #: server/cityhand.c:394
 #, c-format
-msgid "Game: %s is not a valid name."
+msgid "%s is not a valid name."
 msgstr "Joc: %s nu este un nume valid."
 
 #: server/citytools.c:224
 #, c-format
-msgid "Game: You already have a city called %s"
+msgid "You already have a city called %s"
 msgstr "Joc: Aveţi deja un oraş cu numele %s"
 
 #: server/citytools.c:247
 #, c-format
-msgid "Game: Can't use %s as a city name. It is reserved for %s."
+msgid "Can't use %s as a city name. It is reserved for %s."
 msgstr "Joc: Nu pot folosi %s ca nume de oraş. Este reservat pentru %s."
 
 #: server/citytools.c:260
 #, c-format
-msgid "Game: A city called %s already exists."
+msgid "A city called %s already exists."
 msgstr "Joc: Există deja un oraş cu numele %s."
 
 #: server/citytools.c:304
@@ -571,22 +571,22 @@ msgstr "Un oraş prost denumit"
 
 #: server/citytools.c:577
 #, c-format
-msgid "Game: Changed homecity of %s to %s."
+msgid "Changed homecity of %s to %s."
 msgstr "Joc: Noul oraş natal al %s este %s."
 
 #: server/citytools.c:587
 #, c-format
-msgid "Game: Transfered %s in %s from %s to %s."
+msgid "Transfered %s in %s from %s to %s."
 msgstr "Joc: %s în %s transferat de la %s la %s."
 
 #: server/citytools.c:596
 #, c-format
-msgid "Game: Transfered %s from %s to %s."
+msgid "Transfered %s from %s to %s."
 msgstr "Joc: Transferat %s de la %s la %s."
 
 #: server/citytools.c:784
 #, c-format
-msgid "Game: You lost your capital %s. A new palace was built in %s."
+msgid "You lost your capital %s. A new palace was built in %s."
 msgstr "Joc: Aţi pierdut capitala %s. Un nou palat a fost construit în %s."
 
 #: server/citytools.c:842
@@ -597,7 +597,7 @@ msgstr ""
 #: server/citytools.c:924
 #, c-format
 msgid ""
-"Game: The people in %s are stunned by your technological insight!\n"
+"The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 "Joc: Locuitori din %s sunt uimiţi de cunoştinţele dumneavoastră "
@@ -616,23 +616,23 @@ msgstr "%s (%i, %i) fondat de %s"
 
 #: server/citytools.c:1029
 #, c-format
-msgid "Game: You have founded %s"
+msgid "You have founded %s"
 msgstr "Joc: Aţi fondat %s"
 
 #: server/citytools.c:1073
 #, c-format
-msgid "Game: Changed homecity of %s in %s."
+msgid "Changed homecity of %s in %s."
 msgstr "Joc: Noul oraş natal al %s este %s."
 
 #: server/citytools.c:1104
 #, c-format
-msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
+msgid "Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr "Joc: %s a parăsit oraşul lichidat %s pentru a nu eşua."
 
 #: server/citytools.c:1115
 #, c-format
 msgid ""
-"Game: When %s was disbanded your %s could not get out, and it was therefore "
+"When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
 msgstr ""
 "Joc: Când %s a fost lichidat %s dumneavoastră n-a putut fugii şi ca atare a "
@@ -640,12 +640,12 @@ msgstr ""
 
 #: server/citytools.c:1218
 #, c-format
-msgid "Game: You destroy %s completely."
+msgid "You destroy %s completely."
 msgstr "Joc: Aţi distrus complet %s."
 
 #: server/citytools.c:1220
 #, c-format
-msgid "Game: %s has been destroyed by %s."
+msgid "%s has been destroyed by %s."
 msgstr "Joc: %s a fost distrus de %s."
 
 #: server/citytools.c:1222
@@ -655,12 +655,12 @@ msgstr "%s (%s) (%i,%i) distrus de %s"
 
 #: server/citytools.c:1240
 #, c-format
-msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
+msgid "You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Joc: Aţi cucerit oraşul %s! %d galbeni vă cad pradă."
 
 #: server/citytools.c:1244
 #, c-format
-msgid "Game: %s conquered %s and looted %d gold from the city."
+msgid "%s conquered %s and looted %d gold from the city."
 msgstr "Joc: %s a cucerit oraşul %s şi %d galbeni i-au căzut pradă."
 
 #: server/citytools.c:1247
@@ -670,12 +670,12 @@ msgstr "%s (%s) (%i,%i) cucerit de %s"
 
 #: server/citytools.c:1252
 #, c-format
-msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
+msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgstr "Joc: Aţi eliberat oraşul %s! Prada este de %d galbeni."
 
 #: server/citytools.c:1257
 #, c-format
-msgid "Game: %s liberated %s and looted %d gold from the city."
+msgid "%s liberated %s and looted %d gold from the city."
 msgstr "Joc: %s a eliberat oraşul %s şi %d galbeni i-au căzut pradă."
 
 #: server/citytools.c:1260
@@ -689,33 +689,33 @@ msgstr " din planul de lucru"
 
 #: server/citytools.c:1783
 #, c-format
-msgid "Game: %s is building %s%s."
+msgid "%s is building %s%s."
 msgstr "Joc: %s construieşte %s%s."
 
 #: server/citytools.c:1787
 #, c-format
-msgid "Game: %s is building %s."
+msgid "%s is building %s."
 msgstr "Joc: %s construieşte %s."
 
 #: server/citytools.c:2036
 #, c-format
-msgid "Game: You sell %s in %s (now landlocked) for %d gold."
+msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr ""
 
 #: server/cityturn.c:121
 #, c-format
-msgid "Game: %s is selling %s (obsolete) for %d."
+msgid "%s is selling %s (obsolete) for %d."
 msgstr "Joc: %s vinde %s (învechit) pentru %d."
 
 #: server/cityturn.c:334
 #, c-format
-msgid "Game: Notice: Wonder %s in %s will be finished next turn."
+msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Joc: Atenţie: Minunea %s va fi gata în %s în runda următoare"
 
 #: server/cityturn.c:366
 #, c-format
 msgid ""
-"Game: Suggest throttling growth in %s to use %s (being built) more "
+"Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
 msgstr ""
 "Se recomandă micşorarea vitezei de creştere în %s pentru a se folosi mai "
@@ -723,36 +723,36 @@ msgstr ""
 
 #: server/cityturn.c:380
 #, c-format
-msgid "Game: %s may soon grow to size %i."
+msgid "%s may soon grow to size %i."
 msgstr "Joc: %s va creşte în curând la mărimea %i."
 
 #: server/cityturn.c:387
 #, c-format
-msgid "Game: Warning: Famine feared in %s."
+msgid "Warning: Famine feared in %s."
 msgstr "Joc: Atenţie: Pericol de foamete în %s."
 
 #: server/cityturn.c:418
-msgid "Game: WARNING, we're LOW on FUNDS sire."
+msgid "WARNING, we're LOW on FUNDS sire."
 msgstr "Joc: ATENŢIE, TRESORERIA este aproape GOALĂ."
 
 #: server/cityturn.c:482 server/cityturn.c:501
 #, c-format
-msgid "Game: %s needs %s (being built) to grow any further."
+msgid "%s needs %s (being built) to grow any further."
 msgstr "Joc: %s are nevoie de %s (în construcţie) ca să crească."
 
 #: server/cityturn.c:487 server/cityturn.c:506
 #, c-format
-msgid "Game: %s needs %s to grow any further."
+msgid "%s needs %s to grow any further."
 msgstr "Joc: %s are nevoie de %s ca să crească."
 
 #: server/cityturn.c:558
 #, c-format
-msgid "Game: %s grows to size %d."
+msgid "%s grows to size %d."
 msgstr "Joc: %s creşte la mărimea %d."
 
 #: server/cityturn.c:587
 #, c-format
-msgid "Game: Famine feared in %s, %s lost!"
+msgid "Famine feared in %s, %s lost!"
 msgstr "Joc: Pericol de foamete în %s. %s a fost pierdut!"
 
 #: server/cityturn.c:589
@@ -762,18 +762,18 @@ msgstr "%s pierd %s (foamete)"
 
 #: server/cityturn.c:600
 #, c-format
-msgid "Game: Famine causes population loss in %s."
+msgid "Famine causes population loss in %s."
 msgstr "Joc: Foametea în %s provoacă pierderi de populaţie."
 
 #: server/cityturn.c:686 server/cityturn.c:726
 #, c-format
-msgid "Game: %s can't build %s from the worklist.  Purging..."
+msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "Joc: %s nu poate construi %s din planul de lucru.  Anulez dispoziţia."
 
 #: server/cityturn.c:705 server/cityturn.c:746
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; tech not yet available.  "
+"%s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
 "Joc: %s nu poate construi %s din planul de lucru deoarece lipsesc "
@@ -781,13 +781,13 @@ msgstr ""
 
 #: server/cityturn.c:713 server/cityturn.c:770 server/cityturn.c:881
 #, c-format
-msgid "Game: Production of %s is upgraded to %s in %s."
+msgid "Production of %s is upgraded to %s in %s."
 msgstr "Joc: Producţia de %s este modernizată în %s în %s."
 
 #: server/cityturn.c:752
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; need to have %s first.  "
+"%s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
 msgstr ""
 "Joc: %s nu poate construi %s din planul de lucru deoarece are nevoie întâi "
@@ -795,29 +795,29 @@ msgstr ""
 
 #: server/cityturn.c:761
 #, c-format
-msgid "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
+msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
 "Joc: %s nu poate construi %s din planul de lucru; motivul este necunoscut! "
 "Amânez dispoziţia."
 
 #: server/cityturn.c:795
 #, c-format
-msgid "Game: %s's worklist is now empty."
+msgid "%s's worklist is now empty."
 msgstr "Joc: Planul de lucru în %s este acum gol."
 
 #: server/cityturn.c:900
 #, c-format
-msgid "Game: %s can't upkeep %s, unit disbanded."
+msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Joc: %s nu mai poate întreţine %s. Unitatea a fost dizolvată."
 
 #: server/cityturn.c:932
 #, c-format
-msgid "Game: %s is building %s, which is no longer available."
+msgid "%s is building %s, which is no longer available."
 msgstr "Joc: %s construieşte %s, care nu mai este disponibil."
 
 #: server/cityturn.c:968
 #, c-format
-msgid "Game: The %s have finished building %s in %s."
+msgid "The %s have finished building %s in %s."
 msgstr "Joc: %si au terminat de construit %s în %s."
 
 #: server/cityturn.c:972 server/cityturn.c:978
@@ -827,34 +827,34 @@ msgstr "%s au construit %s în %s"
 
 #: server/cityturn.c:984
 #, c-format
-msgid "Game: %s has finished building %s."
+msgid "%s has finished building %s."
 msgstr "Joc: %s a terminat de construit: %s."
 
 #: server/cityturn.c:991
 #, c-format
-msgid "Game: %s boosts research, you gain 2 immediate advances."
+msgid "%s boosts research, you gain 2 immediate advances."
 msgstr ""
 "Joc: %s accelerează cercetările ştiinţifice.\n"
 "     Aţi dobândit 2 noi tehnologii."
 
 #: server/cityturn.c:1007
 #, c-format
-msgid "Game: The %s have acquired %s and %s from %s."
+msgid "The %s have acquired %s and %s from %s."
 msgstr "Joc: %si au obţinut %s şi %s de la %s."
 
 #: server/cityturn.c:1014
 #, c-format
-msgid "Game: The %s have started building a spaceship!"
+msgid "The %s have started building a spaceship!"
 msgstr "Joc: %s au început construcţia unei nave spaţiale!"
 
 #: server/cityturn.c:1057
 #, c-format
-msgid "Game: %s can't build %s yet."
+msgid "%s can't build %s yet."
 msgstr "Joc: %s nu poate construi încă %s."
 
 #: server/cityturn.c:1084
 #, c-format
-msgid "Game: %s is finished building %s."
+msgid "%s is finished building %s."
 msgstr "Joc: %s a terminat de construit: %s."
 
 #: server/cityturn.c:1088
@@ -864,54 +864,54 @@ msgstr "%s au construit %s în %s (%i,%i)"
 
 #: server/cityturn.c:1127
 #, c-format
-msgid "Game: Can't afford to maintain %s in %s, building sold!"
+msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Joc: %s nu poate fi întreţinut în %s şi este vândut!"
 
 #: server/cityturn.c:1163
 #, c-format
-msgid "Game: Pollution near %s."
+msgid "Pollution near %s."
 msgstr "Joc: Poluare în apropiere de %s."
 
 #: server/cityturn.c:1295
 #, c-format
-msgid "Game: We Love The %s Day celebrated in %s."
+msgid "We Love The %s Day celebrated in %s."
 msgstr "Joc: Ziua Mult Iubitului %s sărbatorită în %s."
 
 #: server/cityturn.c:1303
 #, c-format
-msgid "Game: We Love The %s Day canceled in %s."
+msgid "We Love The %s Day canceled in %s."
 msgstr "Joc: Ziua Mult Iubitului %s a fost anulată în %s."
 
 #: server/cityturn.c:1335
 #, c-format
-msgid "Game: Civil disorder in %s."
+msgid "Civil disorder in %s."
 msgstr "Joc: Dezordine publică în %s."
 
 #: server/cityturn.c:1338
 #, c-format
-msgid "Game: CIVIL DISORDER CONTINUES in %s."
+msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "Joc: DEZORDINEA PUBLICĂ CONTINUĂ în %s."
 
 #: server/cityturn.c:1344
 #, c-format
-msgid "Game: Order restored in %s."
+msgid "Order restored in %s."
 msgstr "Joc: Ordinea a fost restaurată în %s."
 
 #: server/cityturn.c:1352
 #, c-format
-msgid "Game: The people have overthrown your %s, your country is in turmoil."
+msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Joc: Poporul a răsturnat %s dvs. Ţara se află în răzmeriţă."
 
 #: server/cityturn.c:1376
 #, c-format
-msgid "Game: %s can't build %s yet, and we can't disband our only city."
+msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Joc: %s nu poate construi încă%s, pentru că nu putem părăsi singurul nostru "
 "oraş."
 
 #: server/cityturn.c:1393
 #, c-format
-msgid "Game: %s is disbanded into %s."
+msgid "%s is disbanded into %s."
 msgstr "Joc: %s a fost dizolvat pentru a obţine %s."
 
 #: server/cityturn.c:1395
@@ -1094,11 +1094,6 @@ msgstr ""
 msgid "Lost connection: %s."
 msgstr "Legătura pierdută cu %s."
 
-#: server/connecthand.c:260
-#, c-format
-msgid "Game: Lost connection: %s."
-msgstr "Joc: Legătura pierdută cu %s."
-
 #: server/console.c:164
 msgid "Ok. RFC-style set."
 msgstr ""
@@ -1113,7 +1108,7 @@ msgstr ""
 
 #: server/diplhand.c:157
 #, c-format
-msgid "Game: You don't have tech %s, you can't accept treaty."
+msgid "You don't have tech %s, you can't accept treaty."
 msgstr "Joc: Neavând tehnologia %s nu puteţi accepta tratatul."
 
 #: server/diplhand.c:166
@@ -1127,31 +1122,31 @@ msgstr ""
 
 #: server/diplhand.c:178
 #, c-format
-msgid "Game: Your capital (%s) is requested, you can't accept treaty."
+msgid "Your capital (%s) is requested, you can't accept treaty."
 msgstr ""
 
 #: server/diplhand.c:187 server/diplhand.c:291
 #, c-format
 msgid ""
-"Game: You are at war with one of %s's allies - an alliance with %s is "
+"You are at war with one of %s's allies - an alliance with %s is "
 "impossible."
 msgstr "Joc: Sunteţi în război cu unul din aliaţi lui %s. O alianţă cu %s nu este posibilă."
 
 #: server/diplhand.c:194 server/diplhand.c:287
 #, c-format
 msgid ""
-"Game: %s is at war with one of your allies - an alliance with %s is "
+"%s is at war with one of your allies - an alliance with %s is "
 "impossible."
 msgstr ""
 
 #: server/diplhand.c:203
-msgid "Game: You don't have enough gold, you can't accept treaty."
+msgid "You don't have enough gold, you can't accept treaty."
 msgstr "Joc: Neavând destui galbeni, nu puteţi accepta tratatul."
 
 #: server/diplhand.c:235 server/diplhand.c:240
 #, c-format
-msgid "Game: A treaty containing %d clause was agreed upon."
-msgid_plural "Game: A treaty containing %d clauses was agreed upon."
+msgid "A treaty containing %d clause was agreed upon."
+msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1162,27 +1157,27 @@ msgstr ""
 
 #: server/diplhand.c:259 server/diplhand.c:263
 #, c-format
-msgid "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
 
 #: server/diplhand.c:270 server/diplhand.c:275
 #, c-format
-msgid "Game: The %s no longer control %s! Treaty canceled!"
+msgid "The %s no longer control %s! Treaty canceled!"
 msgstr ""
 
 #: server/diplhand.c:300 server/diplhand.c:304
 #, c-format
-msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
+msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 
 #: server/diplhand.c:329
 #, c-format
-msgid "Game: You are taught the knowledge of %s."
+msgid "You are taught the knowledge of %s."
 msgstr ""
 
 #: server/diplhand.c:333
 #, c-format
-msgid "Game: The %s have acquired %s from the %s."
+msgid "The %s have acquired %s from the %s."
 msgstr "Joc: %si au obţinut %s de la %s."
 
 #: server/diplhand.c:338
@@ -1192,62 +1187,62 @@ msgstr "%s au obţinut %s (Tratat) de la %s"
 
 #: server/diplhand.c:348
 #, c-format
-msgid "Game: You get %d gold."
+msgid "You get %d gold."
 msgstr "Joc: Aţi primit %d galbeni."
 
 #: server/diplhand.c:354
 #, c-format
-msgid "Game: You receive %s's worldmap."
+msgid "You receive %s's worldmap."
 msgstr "Joc: Aţi primit harta lumi a %slor."
 
 #: server/diplhand.c:359
 #, c-format
-msgid "Game: You receive %s's seamap."
+msgid "You receive %s's seamap."
 msgstr "Joc: Aţi primit harta maritimă a %slor."
 
 #: server/diplhand.c:374
 #, c-format
-msgid "Game: You receive city of %s from %s."
+msgid "You receive city of %s from %s."
 msgstr "Joc: Aţi obţinut oraşul %s de la %s."
 
 #: server/diplhand.c:378
 #, c-format
-msgid "Game: You give city of %s to %s."
+msgid "You give city of %s to %s."
 msgstr "Joc: Aţi cedat oraşul %s %slor"
 
 #: server/diplhand.c:390 server/diplhand.c:393
 #, c-format
-msgid "Game: You agree on a cease-fire with %s."
+msgid "You agree on a cease-fire with %s."
 msgstr ""
 
 #: server/diplhand.c:402 server/diplhand.c:405
 #, c-format
-msgid "Game: You agree on a peace treaty with %s."
+msgid "You agree on a peace treaty with %s."
 msgstr "Joc: Aţi semnat un tratat de pace cu %s."
 
 #: server/diplhand.c:414 server/diplhand.c:417
 #, c-format
-msgid "Game: You agree on an alliance with %s."
+msgid "You agree on an alliance with %s."
 msgstr "Joc: Tratat de alianză încheiat cu %s."
 
 #: server/diplhand.c:425
 #, c-format
-msgid "Game: You give shared vision to %s."
+msgid "You give shared vision to %s."
 msgstr ""
 
 #: server/diplhand.c:428
 #, c-format
-msgid "Game: %s gives you shared vision."
+msgid "%s gives you shared vision."
 msgstr ""
 
 #: server/diplhand.c:543
 #, c-format
-msgid "Game: %s canceled the meeting!"
+msgid "%s canceled the meeting!"
 msgstr ""
 
 #: server/diplhand.c:549
 #, c-format
-msgid "Game: Meeting with %s canceled."
+msgid "Meeting with %s canceled."
 msgstr ""
 
 #: server/diplhand.c:592
@@ -1256,23 +1251,23 @@ msgstr ""
 
 #: server/diplomats.c:89
 #, c-format
-msgid "Game: Your %s could not poison the water supply in %s."
+msgid "Your %s could not poison the water supply in %s."
 msgstr "Joc: %sul dumneavoastră n-a putut otrăvi apa în %s."
 
 #: server/diplomats.c:103
 #, c-format
-msgid "Game: Your %s poisoned the water supply of %s."
+msgid "Your %s poisoned the water supply of %s."
 msgstr "Joc: %sul dumneavoastră a otrăvit apa în %s."
 
 #: server/diplomats.c:106
 #, c-format
-msgid "Game: %s is suspected of poisoning the water supply of %s."
+msgid "%s is suspected of poisoning the water supply of %s."
 msgstr ""
 
 #: server/diplomats.c:253
 #, c-format
 msgid ""
-"Game: Your %s was executed in %s on suspicion of spying.  The %s welcome "
+"Your %s was executed in %s on suspicion of spying.  The %s welcome "
 "future diplomatic efforts providing the Ambassador is reputable."
 msgstr ""
 
@@ -1285,17 +1280,17 @@ msgstr ""
 
 #: server/diplomats.c:270
 #, c-format
-msgid "Game: Your %s was executed in %s by primitive %s."
+msgid "Your %s was executed in %s by primitive %s."
 msgstr ""
 
 #: server/diplomats.c:283
 #, c-format
-msgid "Game: You have established an embassy in %s."
+msgid "You have established an embassy in %s."
 msgstr "Joc: Aţi deschis o ambasadă în %s."
 
 #: server/diplomats.c:286
 #, c-format
-msgid "Game: The %s have established an embassy in %s."
+msgid "The %s have established an embassy in %s."
 msgstr "Joc: %si au deschis o ambasadă în %s."
 
 #: server/diplomats.c:288
@@ -1305,66 +1300,66 @@ msgstr "%s au deschis o ambasadă în %s (%s) (%i,%i)"
 
 #: server/diplomats.c:344
 #, c-format
-msgid "Game: Your %s could not sabotage %s's %s."
+msgid "Your %s could not sabotage %s's %s."
 msgstr ""
 
 #: server/diplomats.c:359
 #, c-format
-msgid "Game: Your %s succeeded in sabotaging %s's %s."
+msgid "Your %s succeeded in sabotaging %s's %s."
 msgstr ""
 
 #: server/diplomats.c:364
 #, c-format
-msgid "Game: Your %s was sabotaged by %s!"
+msgid "Your %s was sabotaged by %s!"
 msgstr "Joc: %s dumneavoastră a fost sabotat de %s!"
 
 #: server/diplomats.c:417
-msgid "Game: You can't bribe a unit from this nation."
+msgid "You can't bribe a unit from this nation."
 msgstr "Joc: Nu puteţi mitui o unitate a acestei naţiuni."
 
 #: server/diplomats.c:426
 #, c-format
-msgid "Game: You don't have enough gold to bribe %s's %s."
+msgid "You don't have enough gold to bribe %s's %s."
 msgstr ""
 
 #: server/diplomats.c:443
 #, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s."
+msgid "Your %s succeeded in bribing %s's %s."
 msgstr ""
 
 #: server/diplomats.c:447
 #, c-format
-msgid "Game: Your %s was bribed by %s."
+msgid "Your %s was bribed by %s."
 msgstr "Joc: %s dumneavostră a fost mituit de %s."
 
 #: server/diplomats.c:543
 #, c-format
-msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
+msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Joc: %s-ul dvs. a fost prins când a încercat să fure technologie de la %si."
 
 #: server/diplomats.c:547
 #, c-format
-msgid "Game: %s's %s failed to steal technology from %s."
+msgid "%s's %s failed to steal technology from %s."
 msgstr ""
 
 #: server/diplomats.c:577
 #, c-format
-msgid "Game: No new technology found in %s."
+msgid "No new technology found in %s."
 msgstr "Joc: O tehnologie nouă n-a fost găsită în %s."
 
 #: server/diplomats.c:613
 #, c-format
-msgid "Game: Your %s could not find the %s technology to steal in %s."
+msgid "Your %s could not find the %s technology to steal in %s."
 msgstr "Joc: %s-ul dvs. n-a găsit technologia %s în %s."
 
 #: server/diplomats.c:634
 #, c-format
-msgid "Game: Your %s stole Future Tech. %d from %s."
+msgid "Your %s stole Future Tech. %d from %s."
 msgstr "Joc: %sul dumneavoastră a furat Teh. Avansată %d de la %s."
 
 #: server/diplomats.c:638
 #, c-format
-msgid "Game: Future Tech. %d stolen by %s %s from %s."
+msgid "Future Tech. %d stolen by %s %s from %s."
 msgstr ""
 
 #: server/diplomats.c:641
@@ -1374,17 +1369,17 @@ msgstr "Joc: %sul dumneavoastră a furat Teh. Avansată %d de la %s."
 
 #: server/diplomats.c:654
 #, c-format
-msgid "Game: Your %s stole %s from %s."
+msgid "Your %s stole %s from %s."
 msgstr "Joc: %sul dumneavoastră a furat %s de la %s."
 
 #: server/diplomats.c:658
 #, c-format
-msgid "Game: %s's %s stole %s from %s."
+msgid "%s's %s stole %s from %s."
 msgstr "Joc: %2$sul lui %1$s a furat %3$s de la %4$s."
 
 #: server/diplomats.c:662 server/plrhand.c:628
 #, c-format
-msgid "Game: The %s have stolen %s from the %s."
+msgid "The %s have stolen %s from the %s."
 msgstr "Joc: %si au furat %s de la %s."
 
 #: server/diplomats.c:666
@@ -1393,117 +1388,117 @@ msgid "%s steals %s from the %s"
 msgstr "%si au furat %s de la %s."
 
 #: server/diplomats.c:723
-msgid "Game: You can't subvert a city from this nation."
+msgid "You can't subvert a city from this nation."
 msgstr ""
 
 #: server/diplomats.c:732
-msgid "Game: You can't subvert the capital of a nation."
+msgid "You can't subvert the capital of a nation."
 msgstr ""
 
 #: server/diplomats.c:743
 #, c-format
-msgid "Game: You don't have enough gold to subvert %s."
+msgid "You don't have enough gold to subvert %s."
 msgstr ""
 
 #: server/diplomats.c:758
 #, c-format
-msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
+msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr ""
 
 #: server/diplomats.c:762
 #, c-format
-msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
+msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr ""
 
 #: server/diplomats.c:784
 #, c-format
-msgid "Game: Revolt incited in %s, you now rule the city!"
+msgid "Revolt incited in %s, you now rule the city!"
 msgstr ""
 
 #: server/diplomats.c:787
 #, c-format
-msgid "Game: %s has revolted, %s influence suspected."
+msgid "%s has revolted, %s influence suspected."
 msgstr "Joc: %s s-a revoltat. Se bănuieşte influenza %să."
 
 #: server/diplomats.c:865
 #, c-format
-msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
+msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr ""
 
 #: server/diplomats.c:869
 #, c-format
-msgid "Game: You caught %s %s attempting sabotage in %s!"
+msgid "You caught %s %s attempting sabotage in %s!"
 msgstr ""
 
 #: server/diplomats.c:903
 #, c-format
-msgid "Game: Your %s could not find anything to sabotage in %s."
+msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Joc: %sul dumneavoastră n-a găsit nimic de sabotat în %s."
 
 #: server/diplomats.c:945
 #, c-format
-msgid "Game: You cannot sabotage a wonder or a %s!"
+msgid "You cannot sabotage a wonder or a %s!"
 msgstr "Joc: Nu puteţi sabota o minune sau %s!"
 
 #: server/diplomats.c:955
 #, c-format
-msgid "Game: Your %s could not find the %s to sabotage in %s."
+msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Joc: %sul dumneavoastră n-a găsit %s să saboteze în %s."
 
 #: server/diplomats.c:980
 #, c-format
-msgid "Game: Your %s succeeded in destroying the production of %s in %s."
+msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Joc: %sul dumneavoastră a distrus producţia de %s în %s."
 
 #: server/diplomats.c:984
 #, c-format
-msgid "Game: The production of %s was destroyed in %s, %s are suspected."
+msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "Joc: Producţia de %s a fost distrusă în %s. Suspectaţi sunt %si."
 
 #: server/diplomats.c:1001
 #, c-format
-msgid "Game: Your %s was caught in the attempt of sabotage!"
+msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Joc: %sul dumneavoastră a fost prins încercând să saboteze!"
 
 #: server/diplomats.c:1005
 #, c-format
-msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
+msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr ""
 
 #: server/diplomats.c:1018
 #, c-format
-msgid "Game: Your %s destroyed the %s in %s."
+msgid "Your %s destroyed the %s in %s."
 msgstr "Joc: %sul dumneavoastră a distrus %s în %s."
 
 #: server/diplomats.c:1022
 #, c-format
-msgid "Game: The %s destroyed the %s in %s."
+msgid "The %s destroyed the %s in %s."
 msgstr "Joc: %si au distrus %s în %s."
 
 #: server/diplomats.c:1105
 #, c-format
-msgid "Game: Your %s has been eliminated defending against a %s in %s."
+msgid "Your %s has been eliminated defending against a %s in %s."
 msgstr "%sul dvs a fost ucis în timpul serviciului de un %s în %s."
 
 #: server/diplomats.c:1109
 #, fuzzy, c-format
-msgid "Game: An enemy %s has been eliminated defending %s."
+msgid "An enemy %s has been eliminated defending %s."
 msgstr "%sul dvs a fost ucis în timpul serviciului de un %s în %s."
 
 #: server/diplomats.c:1117
 #, c-format
-msgid "Game: Your %s was eliminated by a defending %s in %s."
+msgid "Your %s was eliminated by a defending %s in %s."
 msgstr "Joc: %sul dumneavoastră a fost eliminat de un %s apărător în %s."
 
 #: server/diplomats.c:1123
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating %s."
+msgid "Eliminated %s %s while infiltrating %s."
 msgstr ""
 
 #: server/diplomats.c:1171
 #, c-format
 msgid ""
-"Game: Your %s has successfully completed her mission and returned unharmed "
+"Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr ""
 "Joc: %sul dumneavoastră şi-a terminat misiunea cu succes şi s-a întors "
@@ -1511,42 +1506,42 @@ msgstr ""
 
 #: server/diplomats.c:1191
 #, c-format
-msgid "Game: Your %s was captured after completing her mission in %s."
+msgid "Your %s was captured after completing her mission in %s."
 msgstr "Joc: %sul dumneavoastră a fost prins după ce şi-a terminat misiunea în %s."
 
 #: server/diplomats.c:1196
 #, c-format
-msgid "Game: Your %s was captured after completing her mission."
+msgid "Your %s was captured after completing her mission."
 msgstr "Joc: %sul dumneavoastră a fost prins după ce şi-a terminat misiunea."
 
 #: server/diplomats.c:1235
 #, c-format
-msgid "Game: You have caused an incident while bribing %s's %s."
+msgid "You have caused an incident while bribing %s's %s."
 msgstr ""
 
 #: server/diplomats.c:1240
 #, c-format
-msgid "Game: %s has caused an incident while bribing your %s."
+msgid "%s has caused an incident while bribing your %s."
 msgstr ""
 
 #: server/diplomats.c:1247
 #, c-format
-msgid "Game: You have caused an incident while stealing tech from %s."
+msgid "You have caused an incident while stealing tech from %s."
 msgstr ""
 
 #: server/diplomats.c:1251
 #, c-format
-msgid "Game: %s has caused an incident while stealing tech from you."
+msgid "%s has caused an incident while stealing tech from you."
 msgstr ""
 
 #: server/diplomats.c:1257
 #, c-format
-msgid "Game: You have caused an incident while inciting a revolt in %s."
+msgid "You have caused an incident while inciting a revolt in %s."
 msgstr ""
 
 #: server/diplomats.c:1260
 #, c-format
-msgid "Game: %s have caused an incident while inciting a revolt in %s."
+msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr ""
 
 #: server/gamehand.c:187 client/gui-mui/mapview.c:198
@@ -1569,12 +1564,12 @@ msgstr ""
 
 #: server/handchat.c:70
 #, c-format
-msgid "Game: %s is an ambiguous player name-prefix."
+msgid "%s is an ambiguous player name-prefix."
 msgstr ""
 
 #: server/handchat.c:73
 #, c-format
-msgid "Game: %s is an ambiguous connection name-prefix."
+msgid "%s is an ambiguous connection name-prefix."
 msgstr ""
 
 #: server/handchat.c:194
@@ -1584,17 +1579,17 @@ msgstr "%s de la %s"
 
 #: server/handchat.c:282
 #, c-format
-msgid "Game: %s is not connected."
+msgid "%s is not connected."
 msgstr "Joc: %s nu este conectat."
 
 #: server/handchat.c:294
 #, c-format
-msgid "Game: There is no connection by the name %s."
+msgid "There is no connection by the name %s."
 msgstr "Joc: Nu există o conexiune cu numele %s."
 
 #: server/handchat.c:297
 #, c-format
-msgid "Game: There is no player nor connection by the name %s."
+msgid "There is no player nor connection by the name %s."
 msgstr "Joc: Nu există jucător sau conexiune cu numele %s."
 
 #: server/mapgen.c:1650
@@ -1615,33 +1610,33 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr ""
 
 #: server/maphand.c:118
-msgid "Game: Global warming has occurred!"
+msgid "Global warming has occurred!"
 msgstr ""
 
 #: server/maphand.c:119
 msgid ""
-"Game: Coastlines have been flooded and vast ranges of grassland have become "
+"Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr ""
 
 #: server/maphand.c:162
-msgid "Game: Nuclear winter has occurred!"
+msgid "Nuclear winter has occurred!"
 msgstr ""
 
 #: server/maphand.c:163
-msgid "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
+msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr ""
 
 #: server/maphand.c:184
 msgid ""
-"Game: New hope sweeps like fire through the country as the discovery of "
+"New hope sweeps like fire through the country as the discovery of "
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
 
 #: server/maphand.c:190
 msgid ""
-"Game: The people are pleased to hear that your scientists finally know about "
+"The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
@@ -1683,7 +1678,7 @@ msgstr "Aştept"
 
 #: server/plrhand.c:136
 #, c-format
-msgid "Game: %s acquired from The Great Library!"
+msgid "%s acquired from The Great Library!"
 msgstr "Joc: Aţi obţinut %s de la Marea Bibliotecă!"
 
 #: server/plrhand.c:138
@@ -1693,16 +1688,16 @@ msgstr "%s descoperă %s (Marea Bibliotecă)"
 
 #: server/plrhand.c:141
 #, c-format
-msgid "Game: The %s have acquired %s from the Great Library."
+msgid "The %s have acquired %s from the Great Library."
 msgstr "Joc: %si au obţinut %s de la Marea Bibliotecă."
 
 #: server/plrhand.c:183
-msgid "Game: You are dead!"
+msgid "You are dead!"
 msgstr "Joc: Sunteţi mort!"
 
 #: server/plrhand.c:187
 #, c-format
-msgid "Game: The %s are no more!"
+msgid "The %s are no more!"
 msgstr "Joc: %si au fost extinşi!"
 
 #: server/plrhand.c:189
@@ -1717,13 +1712,13 @@ msgstr "%si sunt primi care au cercetat %s."
 
 #: server/plrhand.c:235
 #, c-format
-msgid "Game: Discovery of %s OBSOLETES %s in %s!"
+msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "Joc: Descoperirea %s ÎNVECHEŞTE %s în %s!"
 
 #: server/plrhand.c:245
 #, c-format
 msgid ""
-"Game: Discovery of %s makes the government form %s available. You may want "
+"Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
 msgstr ""
 "Joc: Descoperirea %s permite schimbarea formei de guvernământ în %s. Poate "
@@ -1731,17 +1726,17 @@ msgstr ""
 
 #: server/plrhand.c:286
 #, c-format
-msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
+msgid "Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Joc: Aţi învăţat %s. Oamenii de ştiinţă se concentrează pe %s, scopul fiind %s"
 
 #: server/plrhand.c:296
 #, c-format
-msgid "Game: Learned %s.  Scientists choose to research %s."
+msgid "Learned %s.  Scientists choose to research %s."
 msgstr "Joc: Aţi învăţat %s. Oamenii de ştiinţă cercetează %s."
 
 #: server/plrhand.c:304
 #, c-format
-msgid "Game: Learned %s. "
+msgid "Learned %s. "
 msgstr "Joc: Aţi învăţat %s."
 
 #: server/plrhand.c:307
@@ -1751,12 +1746,12 @@ msgstr "Cercetând %s."
 
 #: server/plrhand.c:320 server/stdinhand.c:1428
 #, c-format
-msgid "Game: %s"
+msgid "%s"
 msgstr "Joc: %s"
 
 #: server/plrhand.c:323
 msgid ""
-"Game: Great scientists from all the world join your civilization: you get an "
+"Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
 "Joc: Mari oameni de ştiinţă din toată lumea s-au ataşat civilizaţiei dvs.\n"
@@ -1764,7 +1759,7 @@ msgstr ""
 
 #: server/plrhand.c:390
 #, c-format
-msgid "Game: The %s have researched %s."
+msgid "The %s have researched %s."
 msgstr "Joc: %si au dezvoltat %s."
 
 #: server/plrhand.c:394
@@ -1774,7 +1769,7 @@ msgstr "%s descoperă %s"
 
 #: server/plrhand.c:399
 #, c-format
-msgid "Game: The %s have researched Future Tech. %d."
+msgid "The %s have researched Future Tech. %d."
 msgstr "Joc: %si au cercetat Teh. Avansată %d."
 
 #: server/plrhand.c:403
@@ -1784,7 +1779,7 @@ msgstr "%si au cercetat Teh. Avansată %d."
 
 #: server/plrhand.c:523
 #, c-format
-msgid "Game: Technology goal is %s."
+msgid "Technology goal is %s."
 msgstr "Joc: Scopul cercetărilor este %s."
 
 #: server/plrhand.c:612
@@ -1794,16 +1789,16 @@ msgstr "%si fură %s de la %s"
 
 #: server/plrhand.c:618
 #, c-format
-msgid "Game: You steal %s from the %s."
+msgid "You steal %s from the %s."
 msgstr "Joc: Aţi furat %s de la %s."
 
 #: server/plrhand.c:623
 #, c-format
-msgid "Game: The %s stole %s from you!"
+msgid "The %s stole %s from you!"
 msgstr "Joc: %si au furat %s de la dvs.!"
 
 #: server/plrhand.c:648
-msgid "Game: Cannot change rates before game start."
+msgid "Cannot change rates before game start."
 msgstr ""
 
 #: server/plrhand.c:661 client/gui-gtk-2.0/gamedlgs.c:252
@@ -1829,7 +1824,7 @@ msgstr "Ştiinţă"
 
 #: server/plrhand.c:666
 #, c-format
-msgid "Game: %s rate exceeds the max rate for %s."
+msgid "%s rate exceeds the max rate for %s."
 msgstr ""
 
 #: server/plrhand.c:672 server/plrhand.c:795
@@ -1839,7 +1834,7 @@ msgstr ""
 
 #: server/plrhand.c:718
 #, c-format
-msgid "Game: %s now governs the %s as a %s."
+msgid "%s now governs the %s as a %s."
 msgstr "Joc: %s îi guvernează acum pe %s într-o %s."
 
 #: server/plrhand.c:722
@@ -1849,7 +1844,7 @@ msgstr "%s de la %s"
 
 #: server/plrhand.c:753
 #, c-format
-msgid "Game: The %s have incited a revolt!"
+msgid "The %s have incited a revolt!"
 msgstr "Joc: %si au incitat o revoltă!"
 
 #: server/plrhand.c:755
@@ -1859,17 +1854,17 @@ msgstr "%si se revoltă!"
 
 #: server/plrhand.c:778
 #, c-format
-msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
+msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Joc: Rata de impozit depăşeşte rata maximă sub %s; ajustez."
 
 #: server/plrhand.c:784
 #, c-format
-msgid "Game: Science rate exceeded the max rate for %s; adjusted."
+msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "Joc: Rata de ştiinţă depăşeşte rata maximă sub %s; ajustez."
 
 #: server/plrhand.c:790
 #, c-format
-msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
+msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Joc: Rata de lux depăşeşte rata maximă sub %s; ajustez."
 
 #: server/plrhand.c:844
@@ -1884,24 +1879,24 @@ msgstr ""
 
 #: server/plrhand.c:892
 #, c-format
-msgid "Game: Your reputation is now %s."
+msgid "Your reputation is now %s."
 msgstr "Joc: Reputaţia dvs este acum %s."
 
 #: server/plrhand.c:896
 msgid ""
-"Game: The senate decides to dissolve rather than support your actions any "
+"The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr "Joc: Senatul a hotărât să se dizolve în loc să vă suporte acţiunile dvs."
 
 #: server/plrhand.c:937
 #, c-format
-msgid "Game: The diplomatic state between the %s and the %s is now %s."
+msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr ""
 
 #: server/plrhand.c:943
 #, c-format
 msgid ""
-"Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
+" %s cancelled the diplomatic agreement! The diplomatic state between "
 "the %s and the %s is now %s."
 msgstr ""
 
@@ -1911,35 +1906,35 @@ msgid "Removing player %s."
 msgstr ""
 
 #: server/plrhand.c:1337
-msgid "Game: You've been removed from the game!"
+msgid "You've been removed from the game!"
 msgstr ""
 
 #: server/plrhand.c:1340
 #, c-format
-msgid "Game: %s has been removed from the game."
+msgid "%s has been removed from the game."
 msgstr ""
 
 #: server/plrhand.c:1383 server/plrhand.c:1387
 #, c-format
-msgid "Game: You have made contact with the %s, ruled by %s."
+msgid "You have made contact with the %s, ruled by %s."
 msgstr "Joc: Aţi făcut contact cu %si conduşi de %s."
 
 #: server/plrhand.c:1715
 #, c-format
 msgid ""
-"Game: Your nation is thrust into civil war,  %s is declared the leader of "
+"Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
 
 #: server/plrhand.c:1735
 #, c-format
-msgid "Game: %s declares allegiance to %s."
+msgid "%s declares allegiance to %s."
 msgstr ""
 
 #: server/plrhand.c:1749
 #, c-format
 msgid ""
-"Game: The capture of %s's capital and the destruction of the empire's "
+"The capture of %s's capital and the destruction of the empire's "
 "administrative\n"
 "      structures have sparked a civil war.  Opportunists have flocked to the "
 "rebel cause,\n"
@@ -2289,79 +2284,74 @@ msgid "Server cannot read standard input. Ignoring input."
 msgstr ""
 
 #: server/spacerace.c:164
-msgid "Game: You need to have a capital in order to launch your spaceship."
+msgid "You need to have a capital in order to launch your spaceship."
 msgstr "Joc: Aveţi nevoie de o capitală pentru a putea lansa nava spaţială."
 
 #: server/spacerace.c:169
-msgid "Game: Your spaceship is already launched!"
+msgid "Your spaceship is already launched!"
 msgstr "Joc: Nava dumneavoastră spaţială a fost deja lansată!"
 
 #: server/spacerace.c:174
-msgid "Game: Your spaceship can't be launched yet!"
+msgid "Your spaceship can't be launched yet!"
 msgstr "Joc: Nava dumneavoastră spaţială nu poate fi încă lansată!"
 
 #: server/spacerace.c:183
 #, c-format
 msgid ""
-"Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
 "Joc: %si au lansat o navă spaţială!  Se estimează că va ajunge pe Alpha "
 "Centauri în anul %s."
 
 #: server/spacerace.c:202
-msgid "Game: Spaceship action received, but you don't have a spaceship!"
+msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr ""
 
 #: server/spacerace.c:211
-msgid "Game: You can't modify your spaceship after launch!"
+msgid "You can't modify your spaceship after launch!"
 msgstr ""
 
 #: server/spacerace.c:220
-msgid "Game: You don't have any unplaced Space Structurals!"
+msgid "You don't have any unplaced Space Structurals!"
 msgstr ""
 
 #: server/spacerace.c:225
-msgid "Game: That Space Structural would not be connected!"
+msgid "That Space Structural would not be connected!"
 msgstr ""
 
 #: server/spacerace.c:239 server/spacerace.c:258
-msgid "Game: You don't have any unplaced Space Components!"
+msgid "You don't have any unplaced Space Components!"
 msgstr ""
 
 #: server/spacerace.c:244
-msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
+msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr ""
 
 #: server/spacerace.c:263
-msgid "Game: Your spaceship already has the maximum number of Propulsion Components!"
+msgid "Your spaceship already has the maximum number of Propulsion Components!"
 msgstr ""
 
 #: server/spacerace.c:278 server/spacerace.c:298 server/spacerace.c:318
-msgid "Game: You don't have any unplaced Space Modules!"
+msgid "You don't have any unplaced Space Modules!"
 msgstr ""
 
 #: server/spacerace.c:283
-msgid "Game: Your spaceship already has the maximum number of Habitation Modules!"
+msgid "Your spaceship already has the maximum number of Habitation Modules!"
 msgstr ""
 
 #: server/spacerace.c:303
-msgid "Game: Your spaceship already has the maximum number of Life Support Modules!"
+msgid "Your spaceship already has the maximum number of Life Support Modules!"
 msgstr ""
 
 #: server/spacerace.c:323
-msgid "Game: Your spaceship already has the maximum number of Solar Panel Modules!"
+msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr ""
 
 #: server/spacerace.c:342
 #, c-format
-msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
+msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Joc: Pierzând legătura cu capitala, nava spaţială %să este pierdută!"
-
-#: server/spacerace.c:377
-#, c-format
-msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr "Joc: Nava spaţială %să a ajuns pe Alpha Centauri."
 
 #: server/spacerace.c:380
 #, c-format
@@ -2393,13 +2383,13 @@ msgstr "Jocul s-a terminat cu victoria aliaţilor"
 #: server/srv_main.c:390
 #, c-format
 msgid ""
-"Game: Concerned citizens point out that the cease-fire with %s will run out "
+"Concerned citizens point out that the cease-fire with %s will run out "
 "soon."
 msgstr ""
 
 #: server/srv_main.c:396
 #, c-format
-msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
+msgid "The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr ""
 
 #: server/srv_main.c:568
@@ -2422,7 +2412,7 @@ msgstr "Pornesc jocul."
 
 #: server/srv_main.c:652
 #, c-format
-msgid "Game: request for unknown report (type %d)"
+msgid "request for unknown report (type %d)"
 msgstr ""
 
 #: server/srv_main.c:762
@@ -2445,7 +2435,7 @@ msgstr "Un alt jucător are deja numele '%s'.  Selectaţi un alt nume."
 
 #: server/srv_main.c:1047
 #, c-format
-msgid "Game: %s is the %s ruler %s."
+msgid "%s is the %s ruler %s."
 msgstr "Joc: %s este conducătorul %s %s"
 
 #: server/srv_main.c:1076
@@ -2454,7 +2444,7 @@ msgid "No nations left: Removing player %s."
 msgstr ""
 
 #: server/srv_main.c:1079
-msgid "Game: Sorry, there are no nations left."
+msgid "Sorry, there are no nations left."
 msgstr ""
 
 #: server/srv_main.c:1212
@@ -2477,11 +2467,6 @@ msgstr "Numărul maxim de jucători mai mic decât aifill; aifill redus la %d."
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s a fost adăugat ca jucător AI."
 
-#: server/srv_main.c:1284 server/stdinhand.c:1855
-#, c-format
-msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Joc: %s a fost adăugat ca jucător AI."
-
 #: server/srv_main.c:1293
 #, c-format
 msgid "Error creating new AI player: %s\n"
@@ -2499,7 +2484,7 @@ msgstr "AI controlează pe %s conduşi de %s."
 
 #: server/srv_main.c:1391
 #, c-format
-msgid "Game: %s rules the %s."
+msgid "%s rules the %s."
 msgstr "Joc: %s îi conduce pe %s."
 
 #: server/srv_main.c:1534
@@ -2513,7 +2498,7 @@ msgid "Sending info to metaserver [%s]"
 msgstr ""
 
 #: server/srv_main.c:1582
-msgid "Game: The game is over..."
+msgid "The game is over..."
 msgstr "Joc: Jocul sa terminat ..."
 
 #: server/srv_main.c:1583
@@ -3948,7 +3933,7 @@ msgstr ""
 #: server/stdinhand.c:2122
 #, c-format
 msgid ""
-"Game: Anyone can assume command access level '%s' now by issuing the "
+"Anyone can assume command access level '%s' now by issuing the "
 "'firstlevel' command."
 msgstr ""
 
@@ -4539,153 +4524,153 @@ msgstr ""
 
 #: server/unithand.c:167
 #, fuzzy, c-format
-msgid "Game: Illegal packet, can't upgrade %s (yet)."
+msgid "Illegal packet, can't upgrade %s (yet)."
 msgstr "Joc: %s nu poate construi încă %s."
 
 #: server/unithand.c:199
 #, c-format
-msgid "Game: %d %s upgraded to %s for %d gold."
+msgid "%d %s upgraded to %s for %d gold."
 msgstr "Joc: %d %s modernizaţi în %s pentru %d galbeni."
 
 #: server/unithand.c:205
-msgid "Game: No units could be upgraded."
+msgid "No units could be upgraded."
 msgstr "Joc: Nici o unitate n-a putut fi modernizată."
 
 #: server/unithand.c:227
-msgid "Game: Illegal move, unit not in city!"
+msgid "Illegal move, unit not in city!"
 msgstr ""
 
 #: server/unithand.c:232
 #, c-format
-msgid "Game: Illegal package, can't upgrade %s (yet)."
+msgid "Illegal package, can't upgrade %s (yet)."
 msgstr ""
 
 #: server/unithand.c:238
 #, c-format
-msgid "Game: Insufficient funds, upgrade costs %d."
+msgid "Insufficient funds, upgrade costs %d."
 msgstr "Joc: Fonduri insuficiente; modernizarea costă %d."
 
 #: server/unithand.c:245
 #, c-format
-msgid "Game: %s upgraded to %s for %d gold."
+msgid "%s upgraded to %s for %d gold."
 msgstr "Joc: %s modernizat în %s pentru %d galbeni."
 
 #: server/unithand.c:463
-msgid "Game: Can't place city here."
+msgid "Can't place city here."
 msgstr "Joc: Aici nu poate fi construit un oraş."
 
 #: server/unithand.c:470
 #, c-format
-msgid "Game: Only %s can build a city."
+msgid "Only %s can build a city."
 msgstr "Joc: Doar %s poate construi un oraş."
 
 #: server/unithand.c:475
-msgid "Game: Can't build a city."
+msgid "Can't build a city."
 msgstr "Joc: Nu pot construi un oraş."
 
 #: server/unithand.c:484
 #, c-format
-msgid "Game: Only %s can add to a city."
+msgid "Only %s can add to a city."
 msgstr "Joc: Doar %s poate fi adăugat unui oraş."
 
 #: server/unithand.c:489
-msgid "Game: Can't add to a city."
+msgid "Can't add to a city."
 msgstr "Joc: Nu pot adăuga la un oraş."
 
 #: server/unithand.c:495
 #, c-format
-msgid "Game: %s unit has no moves left to add to %s."
+msgid "%s unit has no moves left to add to %s."
 msgstr ""
 
 #: server/unithand.c:500
 #, c-format
-msgid "Game: %s unit has no moves left to build city."
+msgid "%s unit has no moves left to build city."
 msgstr ""
 
 #: server/unithand.c:505
 #, c-format
-msgid "Game: %s is too big to add %s."
+msgid "%s is too big to add %s."
 msgstr "Joc: %s este prea mare pentru a adăuga %sul."
 
 #: server/unithand.c:510 server/unithand.c:516
 #, c-format
-msgid "Game: %s needs %s to grow, so you cannot add %s."
+msgid "%s needs %s to grow, so you cannot add %s."
 msgstr "Joc: %s are nevoie de %s ca să crească; deci nu puteţi adăuga %si."
 
 #: server/unithand.c:525
 #, c-format
-msgid "Game: Can't add %s to %s."
+msgid "Can't add %s to %s."
 msgstr "Joc: %s nu poate fi adăugat la %s."
 
 #: server/unithand.c:547
 #, c-format
-msgid "Game: %s added to aid %s in growing."
+msgid "%s added to aid %s in growing."
 msgstr "Joc: %s a fost adăugat la oraşul %s pentru al ajuta la creştere."
 
 #: server/unithand.c:562
-msgid "Game: Let's not build a city with such a stupid name."
+msgid "Let's not build a city with such a stupid name."
 msgstr "Joc: Un oraş nu merită să aibă aşa un nume."
 
 #: server/unithand.c:699
-msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
+msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr "Joc: Bomba atomică a dvs a fost anihilată de apărarea SDI, ce risipă."
 
 #: server/unithand.c:702
 #, c-format
-msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
+msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Joc: Atacul nuclear asupra %s a fost anihilat de apărarea SDI."
 
 #: server/unithand.c:796
 #, c-format
-msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
+msgid "Your %s%s survived the pathetic attack from %s's %s."
 msgstr ""
 "Joc: Un %1$s al dvs %2$s a supravieţuit atacul patetic al unui %4$s a lui %3"
 "$s."
 
 #: server/unithand.c:805
 #, c-format
-msgid "Game: Your attacking %s failed against %s's %s%s!"
+msgid "Your attacking %s failed against %s's %s%s!"
 msgstr "Joc: Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s%4$s a eşuat!"
 
 #: server/unithand.c:822
 #, c-format
-msgid "Game: Your attacking %s succeeded against %s's %s%s!"
+msgid "Your attacking %s succeeded against %s's %s%s!"
 msgstr "Joc: Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s%4$s a reuşit!"
 
 #: server/unithand.c:873
-msgid "Game: Cancel treaty in the players dialog first (F3)."
+msgid "Cancel treaty in the players dialog first (F3)."
 msgstr "Joc: Anulaţi întâi tratatul în dialogul jucătorilor (F3)."
 
 #: server/unithand.c:896
 #, c-format
-msgid "Game: Only %s can attack from sea."
+msgid "Only %s can attack from sea."
 msgstr "Joc: Doar %s poate ataca de pe mare."
 
 #: server/unithand.c:901
-msgid "Game: Cannot attack from sea."
+msgid "Cannot attack from sea."
 msgstr "Joc: Nu puteţi ataca de pe mare."
 
 #: server/unithand.c:906 server/unittools.c:2058
-msgid "Game: Cannot attack unless you declare war first."
+msgid "Cannot attack unless you declare war first."
 msgstr "Joc: Nu puteţi ataca înainte de a declara război."
 
 #: server/unithand.c:909
 #, c-format
-msgid "Game: %s can only move into your own zone of control."
+msgid "%s can only move into your own zone of control."
 msgstr "Joc: %s se poate doar mişca în zona de control a dumneavoastră."
 
 #: server/unithand.c:997
-msgid "Game: Unit must be on land to perform diplomatic action."
+msgid "Unit must be on land to perform diplomatic action."
 msgstr "Joc: Unitatea trebuie să fie pe uscat pentru a executa acţiuni diplomatice."
 
 #: server/unithand.c:999
-msgid "Game: No diplomat action possible."
+msgid "No diplomat action possible."
 msgstr "Joc: Nici o acţiune diplomatica posibilă."
 
 #: server/unithand.c:1009
 #, c-format
 msgid ""
-"Game: Can't attack %s's unit in the city of %s because you are not at war "
+"Can't attack %s's unit in the city of %s because you are not at war "
 "with %s."
 msgstr ""
 "Joc: Nu puteţi ataca unităţile lui %s în oraşul %s deoarece nu sunteţi în "
@@ -4694,50 +4679,50 @@ msgstr ""
 #: server/unithand.c:1022
 #, c-format
 msgid ""
-"Game: Can't attack %s's unit since it is stacked with %s's unit(s) and you "
+"Can't attack %s's unit since it is stacked with %s's unit(s) and you "
 "are not at war with %s."
 msgstr ""
 
 #: server/unithand.c:1035
-msgid "Game: You can't attack there."
+msgid "You can't attack there."
 msgstr "Joc: Aici nu puteţi ataca."
 
 #: server/unithand.c:1041
-msgid "Game: This unit has no moves left."
+msgid "This unit has no moves left."
 msgstr "Joc: Această unitate nu mai poate mişca."
 
 #: server/unithand.c:1051
 #, c-format
-msgid "Game: %s aborted GOTO as there are units in the way."
+msgid "%s aborted GOTO as there are units in the way."
 msgstr ""
 
 #: server/unithand.c:1065
 #, c-format
-msgid "Game: No war declared against %s, cannot attack."
+msgid "No war declared against %s, cannot attack."
 msgstr "Joc: Războiul n-a fost declarat cu %s. Imposibil să atac."
 
 #: server/unithand.c:1076
-msgid "Game: Only ground troops can take over a city."
+msgid "Only ground troops can take over a city."
 msgstr "Joc: Doar unităţi terestre pot cuceri un oraş."
 
 #: server/unithand.c:1083
 #, c-format
-msgid "Game: No war declared against %s, cannot take over city."
+msgid "No war declared against %s, cannot take over city."
 msgstr "Joc: Războiul n-a fost declarat cu %s, oraşul nu poate fi cucerit."
 
 #: server/unithand.c:1135
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d remaining)."
+msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Joc: %s dumneavoastră ajută la construcţia %s în %s (%d rămân)."
 
 #: server/unithand.c:1137
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d surplus)."
+msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Joc: %s dumneavoastră ajută la construcţia %s în %s (%d surplus)."
 
 #: server/unithand.c:1182
 #, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route here!"
+msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Joc: Din păcate %s dvs nu poate stabili aici un schimb comercial!"
 
 #: server/unithand.c:1188
@@ -4753,7 +4738,7 @@ msgstr "      Oraşul %s are deja %d schimburi comerciale!"
 #: server/unithand.c:1213
 #, c-format
 msgid ""
-"Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold "
 "and research."
 msgstr ""
 "Joc: %s dumneavoastră din %s a ajuns în %s şi a obţinut %d galbeni şi "
@@ -4761,12 +4746,12 @@ msgstr ""
 
 #: server/unittools.c:246
 #, c-format
-msgid "Game: %s has upgraded %s to %s%s."
+msgid "%s has upgraded %s to %s%s."
 msgstr "Joc: %s a modernizat %s în %s%s."
 
 #: server/unittools.c:399
 #, c-format
-msgid "Game: Your %s has run out of hit points."
+msgid "Your %s has run out of hit points."
 msgstr ""
 
 #: server/unittools.c:401
@@ -4776,7 +4761,7 @@ msgstr ""
 
 #: server/unittools.c:412
 #, c-format
-msgid "Game: Your %s has been lost on the high seas."
+msgid "Your %s has been lost on the high seas."
 msgstr "Joc: %s dumneavoastră a fost pierdută în largul oceanului."
 
 #: server/unittools.c:414
@@ -4786,12 +4771,12 @@ msgstr "Trirema %silor pierdută în larg"
 
 #: server/unittools.c:442
 #, c-format
-msgid "Game: Your %s has returned to refuel."
+msgid "Your %s has returned to refuel."
 msgstr "Joc: %s dumneavoastră s-a întors la realimentare."
 
 #: server/unittools.c:468
 #, c-format
-msgid "Game: Your %s has run out of fuel."
+msgid "Your %s has run out of fuel."
 msgstr "Joc: %sul dumneavoastră a ramas fară combustibil."
 
 #: server/unittools.c:470
@@ -4801,32 +4786,32 @@ msgstr ""
 
 #: server/unittools.c:906
 #, c-format
-msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
+msgid "Moved your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 
 #: server/unittools.c:929
 #, c-format
-msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
+msgid "Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 
 #: server/unittools.c:945
 #, c-format
-msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
+msgid "Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 
 #: server/unittools.c:969
 #, c-format
-msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
+msgid "Moved your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 
 #: server/unittools.c:991
 #, c-format
-msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
+msgid "Docked your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 
 #: server/unittools.c:1007
 #, c-format
-msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
+msgid "Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 
 #: server/unittools.c:1040
@@ -4851,17 +4836,17 @@ msgstr " în apropiere de %s"
 
 #: server/unittools.c:1257
 #, c-format
-msgid "Game: Disbanded your %s at (%d, %d)."
+msgid "Disbanded your %s at (%d, %d)."
 msgstr ""
 
 #: server/unittools.c:1281
 #, c-format
-msgid "Game: Teleported your %s from (%d, %d) to %s."
+msgid "Teleported your %s from (%d, %d) to %s."
 msgstr ""
 
 #: server/unittools.c:1600
 #, c-format
-msgid "Game: %s lost when %s was lost."
+msgid "%s lost when %s was lost."
 msgstr "Joc: %s a fost pierdut după pierderea %s."
 
 #: server/unittools.c:1603
@@ -4871,12 +4856,12 @@ msgstr "%s a pierdut %s după pierderea %s."
 
 #: server/unittools.c:1650
 #, c-format
-msgid "Game: Barbarian leader captured, %d gold ransom paid."
+msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Joc: Aţi capturat Seful Barbarilor şi aţi primit %d galbeni ca răscumpărare."
 
 #: server/unittools.c:1667
 #, c-format
-msgid "Game: %s lost to an attack by %s's %s%s."
+msgid "%s lost to an attack by %s's %s%s."
 msgstr "Joc: %1$s pierdut într-un atac al unui %3$s a lui %2$s%4$s."
 
 #: server/unittools.c:1670 server/unittools.c:1714
@@ -4886,19 +4871,19 @@ msgstr "%s %slor"
 
 #: server/unittools.c:1695
 #, c-format
-msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
+msgid "You lost %d unit to an attack from %s's %s%s."
+msgid_plural "You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Joc: Aţi pierdut %1$d unitate într-un atac al unui %3$s a lui %2$s%4$s."
 msgstr[1] "Joc: Aţi pierdut %1$d unităţi într-un atac al unui %3$s a lui %2$s%4$s."
 
 #: server/unittools.c:1710
 #, c-format
-msgid "Game: %s lost to an attack from %s's %s."
+msgid "%s lost to an attack from %s's %s."
 msgstr "Joc: %1$s pierdut într-un atac al unui %3$s a lui %2$s."
 
 #: server/unittools.c:1911
 #, c-format
-msgid "Game: Your %s was nuked by %s."
+msgid "Your %s was nuked by %s."
 msgstr ""
 
 #: server/unittools.c:1913 server/unittools.c:1929
@@ -4907,66 +4892,66 @@ msgstr ""
 
 #: server/unittools.c:1917
 #, c-format
-msgid "Game: %s's %s was nuked."
+msgid "%s's %s was nuked."
 msgstr ""
 
 #: server/unittools.c:1927
 #, c-format
-msgid "Game: %s was nuked by %s."
+msgid "%s was nuked by %s."
 msgstr "Joc: %s a fost atomiyat de %s."
 
 #: server/unittools.c:1934
 #, c-format
-msgid "Game: You nuked %s."
+msgid "You nuked %s."
 msgstr "Joc: Aţi atomiyat %s."
 
 #: server/unittools.c:1971
 #, c-format
-msgid "Game: %s detonated a nuke!"
+msgid "%s detonated a nuke!"
 msgstr "Joc: %si au explodat o bombă atomică!"
 
 #: server/unittools.c:2009
 #, c-format
-msgid "Game: %s transported succesfully."
+msgid "%s transported succesfully."
 msgstr "Joc: %s a fost transportat cu succes."
 
 #: server/unittools.c:2033
-msgid "Game: This unit type can not be paradropped."
+msgid "This unit type can not be paradropped."
 msgstr "Joc: Această unitate nu poate fi paraşutată."
 
 #: server/unittools.c:2043
-msgid "Game: The destination location is not known."
+msgid "The destination location is not known."
 msgstr "Joc: Locul destinaţiei nu este cunoscut."
 
 #: server/unittools.c:2050
-msgid "Game: This unit cannot paradrop into ocean."
+msgid "This unit cannot paradrop into ocean."
 msgstr "Joc: Această unitate nu poate paraşuta în ocean."
 
 #: server/unittools.c:2067
 #, c-format
-msgid "Game: The distance to the target (%i) is greater than the unit's range (%i)."
+msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Joc: Distanţa la ţintă (%i) este mai mare decât raza de acţiune a unităţi (%"
 "i)."
 
 #: server/unittools.c:2080
 #, c-format
-msgid "Game: Your %s paradropped into the ocean and was lost."
+msgid "Your %s paradropped into the ocean and was lost."
 msgstr "Joc: %s dumneavoastră paraşutaţi în ocean sunt pierduţi."
 
 #: server/unittools.c:2093
 #, c-format
-msgid "Game: Your %s was killed by enemy units at the paradrop destination."
+msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Joc: %s dvs a fost ucis de trupe inamice la locul paraşutătri."
 
 #: server/unittools.c:2115
 #, c-format
-msgid "Game: You found %d gold."
+msgid "You found %d gold."
 msgstr "Joc: Aţi găsit %d galbeni."
 
 #: server/unittools.c:2141
 #, c-format
-msgid "Game: You found %s in ancient scrolls of wisdom."
+msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Joc: Ati găsit %s intr-o scriptură veche."
 
 #: server/unittools.c:2143
@@ -4976,43 +4961,43 @@ msgstr "%s descoperă %s"
 
 #: server/unittools.c:2145
 #, c-format
-msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
+msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Joc: %si au dobândit %s dintr-o scriptură veche."
 
 #: server/unittools.c:2165
-msgid "Game: A band of friendly mercenaries joins your cause."
+msgid "A band of friendly mercenaries joins your cause."
 msgstr "Joc: Un trup de mercenari vrea să lupte sub comanda dvs."
 
 #: server/unittools.c:2182
-msgid "Game: An abandoned village is here."
+msgid "An abandoned village is here."
 msgstr "Joc: Aici este o localitate abandonată."
 
 #: server/unittools.c:2194
-msgid "Game: You have unleashed a horde of barbarians!"
+msgid "You have unleashed a horde of barbarians!"
 msgstr "Joc: Aţi dezlegat o hoardă de barbari!"
 
 #: server/unittools.c:2197
 #, c-format
-msgid "Game: Your %s has been killed by barbarians!"
+msgid "Your %s has been killed by barbarians!"
 msgstr "Joc: %s dumneavoastră a fost ucis de barbari!"
 
 #: server/unittools.c:2213
-msgid "Game: You found a friendly city."
+msgid "You found a friendly city."
 msgstr "Joc: Aţi găsit un oraş prietenos."
 
 #: server/unittools.c:2218
-msgid "Game: Friendly nomads are impressed by you, and join you."
+msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Joc: Un grup de nomazi vi se alătură."
 
 #: server/unittools.c:2243
-msgid "Game: Your overflight frightens the tribe; they scatter in terror."
+msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Joc: Zborul dvs deasupra tribului i-a speriat pe locuitori, care în panică\n"
 "     au fugit în toate direcţile."
 
 #: server/unittools.c:2894
 #, c-format
-msgid "Game: Your %s cancelled patrol order because it encountered a foreign unit."
+msgid "Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr "%s dvs şi-a întrerupt patrularea deoarece sa întâlnit o unitate străină."
 
 #: client/audio.c:128
@@ -5579,7 +5564,7 @@ msgstr ""
 
 #: client/climisc.c:161
 #, c-format
-msgid "Game: Changing production of every %s into %s."
+msgid "Changing production of every %s into %s."
 msgstr "Joc: Schimb producţia a fiecărui %s în %s."
 
 #: client/climisc.c:205
@@ -5769,12 +5754,12 @@ msgstr "%s (veteran)"
 
 #: client/climisc.c:1154
 #, c-format
-msgid "Game: You don't buy %s in %s!"
+msgid "You don't buy %s in %s!"
 msgstr "Joc: Nu cumpăraţi %s în %s!"
 
 #: client/climisc.c:1176
 #, c-format
-msgid "Game: %s costs %d gold and you only have %d gold."
+msgid "%s costs %d gold and you only have %d gold."
 msgstr "Joc: %s costă %d galbeni pe când dumneavoastră aveţi doar %d galbeni."
 
 #: client/clinet.c:114
@@ -5802,39 +5787,39 @@ msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr ""
 
 #: client/control.c:608
-msgid "Game: Only transporter units can be unloaded."
+msgid "Only transporter units can be unloaded."
 msgstr "Joc: Doar unităţile transportatoare pot fi descărcate."
 
 #: client/control.c:785
 msgid ""
-"Game: Only settler units and military units in cities can be put in auto-"
+"Only settler units and military units in cities can be put in auto-"
 "mode."
 msgstr ""
 "Joc: Doar unităţi cu acţiuni de colonişti şi unitătile militare pot fi puse"
 "în modul autonom"
 
 #: client/control.c:818
-msgid "Game: Only nuclear units can do this."
+msgid "Only nuclear units can do this."
 msgstr "Joc: Doar bomba atomică poate face aşa ceva."
 
 #: client/control.c:835
-msgid "Game: Only paratrooper units can do this."
+msgid "Only paratrooper units can do this."
 msgstr "Joc: Doar paraşutişti pot face aşa ceva."
 
 #: client/control.c:1240
-msgid "Game: Too far for this unit."
+msgid "Too far for this unit."
 msgstr "Joc: Prea departe pentru această unitate."
 
 #: client/control.c:1306 client/control.c:1355
-msgid "Game: Didn't find a route to the destination!"
+msgid "Didn't find a route to the destination!"
 msgstr "Joc: N-am găsit o rută spre destinaţie!"
 
 #: client/control.c:1346
-msgid "Game: Sorry, airunit patrol not yet implemented."
+msgid "Sorry, airunit patrol not yet implemented."
 msgstr "Joc: Din păcate patrularea unităţilor aeriene nu este incă implementată"
 
 #: client/control.c:1393
-msgid "Game: Oh my! You seem to have no capital!"
+msgid "Oh my! You seem to have no capital!"
 msgstr "Joc: Uliu maică! Se pare că nu aveţi o capitală!"
 
 #: client/helpdata.c:110
@@ -6432,39 +6417,39 @@ msgid "Enemy Diplomat: Theft"
 msgstr "Diplomat inamic: Furt"
 
 #: client/options.c:242
-msgid "Game: Broadcast Report"
+msgid "Broadcast Report"
 msgstr ""
 
 #: client/options.c:243
-msgid "Game: Game Ended"
+msgid "Game Ended"
 msgstr "Joc: Jocul s-a terminat"
 
 #: client/options.c:244
-msgid "Game: Game Started"
+msgid "Game Started"
 msgstr "Joc: Jocul a pornit"
 
 #: client/options.c:245
-msgid "Game: Message from Server Operator"
+msgid "Message from Server Operator"
 msgstr "Joc: Mesaj de la operator"
 
 #: client/options.c:246
-msgid "Game: Nation Selected"
+msgid "Nation Selected"
 msgstr "Joc: Naţiune selectată"
 
 #: client/options.c:247
-msgid "Game: Player Destroyed"
+msgid "Player Destroyed"
 msgstr "Joc: Jucător Distrus"
 
 #: client/options.c:248
-msgid "Game: Report"
+msgid "Report"
 msgstr "Joc: Raport"
 
 #: client/options.c:249
-msgid "Game: Turn Bell"
+msgid "Turn Bell"
 msgstr ""
 
 #: client/options.c:250
-msgid "Game: Year Advance"
+msgid "Year Advance"
 msgstr "Joc: An nou"
 
 #: client/options.c:251
@@ -6668,7 +6653,7 @@ msgid "OFF"
 msgstr "Deactivat"
 
 #: client/packhand.c:1368
-msgid "Game: Revolution finished"
+msgid "Revolution finished"
 msgstr "Joc: Revoluţia sa terminat"
 
 #: client/packhand.c:2289
@@ -7035,12 +7020,6 @@ msgstr "Unităţi întreţinute %d"
 #, c-format
 msgid "Present units %d"
 msgstr "Unităţi prezente %d"
-
-#: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2299
-#: client/gui-mui/citydlg.c:2118 client/gui-win32/citydlg.c:1371
-#, c-format
-msgid "%s"
-msgstr "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:1804 client/gui-gtk/citydlg.c:2302
 #: client/gui-mui/citydlg.c:2121 client/gui-win32/citydlg.c:1374
@@ -7954,7 +7933,7 @@ msgstr "_Galbeni:"
 #: client/gui-gtk-2.0/diplodlg.c:843 client/gui-gtk/diplodlg.c:923
 #: client/gui-mui/diplodlg.c:385 client/gui-win32/diplodlg.c:276
 #: client/gui-xaw/diplodlg.c:999
-msgid "Game: Invalid amount of gold specified."
+msgid "Invalid amount of gold specified."
 msgstr "Joc: Un număr invalid de galbeni specificat."
 
 #: client/gui-gtk-2.0/finddlg.c:67 client/gui-gtk/finddlg.c:62
@@ -9807,7 +9786,7 @@ msgid "Con_figure..."
 msgstr "Con_figurează..."
 
 #: client/gui-gtk/cityrep.c:969 client/gui-win32/cityrep.c:696
-msgid "Game: Select a unit or improvement to change production to."
+msgid "Select a unit or improvement to change production to."
 msgstr "Joc: Alegeţi o unitate sau îmbunătăţire în care să se schimbe producţia."
 
 #: client/gui-gtk/cityrep.c:1003 client/gui-win32/cityrep.c:745
@@ -10203,7 +10182,7 @@ msgstr[1] "(inactiv %d runde)"
 
 #: client/gui-gtk/plrdlg.c:549 client/gui-mui/plrdlg.c:255
 #: client/gui-win32/plrdlg.c:77 client/gui-xaw/plrdlg.c:362
-msgid "Game: You need an embassy to establish a diplomatic meeting."
+msgid "You need an embassy to establish a diplomatic meeting."
 msgstr ""
 
 #: client/gui-gtk/repodlgs.c:718 client/gui-mui/repodlgs.c:534
@@ -10834,10 +10813,6 @@ msgstr "Acţiuni de Diplomat/Spion"
 msgid "Wait"
 msgstr "Aşteaptă"
 
-#: client/gui-mui/gui_main.c:271
-msgid "Report"
-msgstr "Raport"
-
 #: client/gui-mui/gui_main.c:272
 msgid "City Report..."
 msgstr "Raportul Oraşului..."
@@ -11278,12 +11253,12 @@ msgid "Available To Build"
 msgstr ""
 
 #: client/gui-win32/cityrep.c:687
-msgid "Game: Select a unit or improvement to change production from."
+msgid "Select a unit or improvement to change production from."
 msgstr "Joc: Alegeţi o unitate sau îmbunătăţire a cărei producţie să fie schimbată."
 
 #: client/gui-win32/cityrep.c:702
 #, fuzzy
-msgid "Game: That's the same thing!"
+msgid "That's the same thing!"
 msgstr "Joc: %si au fost extinşi!"
 
 #: client/gui-win32/cityrep.c:881 data/Freeciv:1565
@@ -17723,16 +17698,13 @@ msgstr ""
 #~ msgid "Transform terrain"
 #~ msgstr "Transformează terenul"
 
-#~ msgid "Game: "
-#~ msgstr "Joc: "
-
 #~ msgid "Princebishop"
 #~ msgstr "Arhiepiscop"
 
-#~ msgid "Game: %s is now AI-controlled."
+#~ msgid "%s is now AI-controlled."
 #~ msgstr "Joc: %s este controlat acum de AI."
 
-#~ msgid "Game: %s is now human."
+#~ msgid "%s is now human."
 #~ msgstr "Joc: %s este acum un om."
 
 #~ msgid "%s is now %s."
@@ -17741,10 +17713,10 @@ msgstr ""
 #~ msgid "last message repeated once"
 #~ msgstr "ultimul mesaj repetat odată"
 
-#~ msgid "Game: %s upgraded to %s in %s for %d gold."
+#~ msgid "%s upgraded to %s in %s for %d gold."
 #~ msgstr "Joc: %s modernizat la %s în %s pentru %d galbeni."
 
-#~ msgid "Game: %s disbanded in %s."
+#~ msgid "%s disbanded in %s."
 #~ msgstr "Joc: %s dizolvat în %s."
 
 #~ msgid "boats move +1"
@@ -17771,16 +17743,16 @@ msgstr ""
 #~ msgid " 1 connection:"
 #~ msgstr " o conexiune:"
 
-#~ msgid "Game: Aborting GOTO for AI attack procedures."
+#~ msgid "Aborting GOTO for AI attack procedures."
 #~ msgstr "Joc: GOTO oprit pentru a porni atacul automat."
 
-#~ msgid "Game: A %s cannot attack other units."
+#~ msgid "A %s cannot attack other units."
 #~ msgstr "Joc: Un %s nu poate ataca alte unităţi."
 
-#~ msgid "Game: %s doesn't want to leave its bodyguard."
+#~ msgid "%s doesn't want to leave its bodyguard."
 #~ msgstr "Joc: %s nu vrea să-şi părăsească bodyguardul."
 
-#~ msgid "Game: %s ending move early to stay out of trouble."
+#~ msgid "%s ending move early to stay out of trouble."
 #~ msgstr "Joc: %s termină runda prematur pentru a nu se băga în bucluc."
 
 #~ msgid "H/C/U/A"
@@ -17873,16 +17845,16 @@ msgstr ""
 #~ msgid "The map has %i starting positions on %i isles."
 #~ msgstr "Harta are %i poziţii de start pe %i insule."
 
-#~ msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
+#~ msgid "Learned %s.  Scientists choose to research Future Tech. 1."
 #~ msgstr "Joc: Aţi învăţat %s. Oamenii de ştiinţă cercetează Teh. Viitoare 1."
 
-#~ msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
+#~ msgid "Learned Future Tech. %d.  Researching Future Tech. %d."
 #~ msgstr "Joc: Aţi învăţat Teh. Viitoare %d. Cercetând Teh. Viitoare %d."
 
-#~ msgid "Game: You acquire Future Tech %d from %s."
+#~ msgid "You acquire Future Tech %d from %s."
 #~ msgstr "Joc: Aţi obţinut Teh. Avansată %d de la %s."
 
-#~ msgid "Game: %s discovered %s in the city."
+#~ msgid "%s discovered %s in the city."
 #~ msgstr "Joc: %s a descoperit %s în oraş."
 
 #~ msgid ""
@@ -17891,10 +17863,10 @@ msgstr ""
 #~ "the game will be initialized from this file.  See also README.rulesets."
 #~ msgstr " "
 
-#~ msgid "Game: You gain knowledge about %s."
+#~ msgid "You gain knowledge about %s."
 #~ msgstr "Joc: Aţi dobândit cunoştinţe despre %s."
 
-#~ msgid "Game: You gain knowledge about Future Tech. %d."
+#~ msgid "You gain knowledge about Future Tech. %d."
 #~ msgstr "Joc: Aţi dobândid cunoştinţe despre Teh. Avansată %d."
 
 #~ msgid "Pact Cancelled"

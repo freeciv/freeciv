@@ -547,7 +547,7 @@ void lost_connection_to_client(struct connection *pconn)
    * Safe to unlink even if not in list: */
   conn_list_unlink(game.est_connections, pconn);
   delayed_disconnect++;
-  notify_conn(game.est_connections, _("Game: Lost connection: %s."), desc);
+  notify_conn(game.est_connections, _("Lost connection: %s."), desc);
 
   if (!pplayer) {
     delayed_disconnect--;

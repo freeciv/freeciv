@@ -419,13 +419,13 @@ static void update_diplomatics(void)
 	switch(--pdiplstate->turns_left) {
 	case 1:
 	  notify_player(player1,
-			_("Game: Concerned citizens point "
+			_("Concerned citizens point "
   			  "out that the cease-fire with %s will run out soon."),
 			player2->name);
   	  break;
   	case 0:
 	  notify_player(player1,
-  			_("Game: The cease-fire with %s has "
+  			_("The cease-fire with %s has "
   			  "run out. You are now neutral towards the %s."),
 			player2->name,
 			get_nation_name_plural(player2->nation));
@@ -824,7 +824,7 @@ void handle_report_req(struct connection *pconn, enum report_type type)
     break;
   case REPORT_SERVER_OPTIONS: /* obsolete */
   default:
-    notify_conn(dest, _("Game: request for unknown report (type %d)"), type);
+    notify_conn(dest, _("request for unknown report (type %d)"), type);
   }
 }
 
@@ -1148,7 +1148,7 @@ void handle_nation_select_req(struct player *pplayer,
   name[0] = my_toupper(name[0]);
 
   notify_conn_ex(game.game_connections, NULL, E_NATION_SELECTED,
-		 _("Game: %s is the %s ruler %s."), pplayer->username,
+		 _("%s is the %s ruler %s."), pplayer->username,
 		 get_nation_name(nation_no), name);
 
   /* inform player his choice was ok */
@@ -1179,7 +1179,7 @@ void handle_nation_select_req(struct player *pplayer,
 	freelog(LOG_NORMAL, _("No nations left: Removing player %s."),
 		other_player->name);
 	notify_player(other_player,
-		      _("Game: Sorry, there are no nations left."));
+		      _("Sorry, there are no nations left."));
 	server_remove_player(other_player);
       }
     } players_iterate_end;
@@ -1399,7 +1399,7 @@ static void generate_ai_players(void)
     freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
             player_name);
     notify_player(NULL,
-                  _("Game: %s has been added as an AI-controlled player."),
+                  _("%s has been added as an AI-controlled player."),
                   player_name);
 
     game.nplayers++;
@@ -1493,7 +1493,7 @@ static void announce_ai_player (struct player *pplayer) {
 
   players_iterate(other_player) {
     notify_player(other_player,
-		  _("Game: %s rules the %s."), pplayer->name,
+		  _("%s rules the %s."), pplayer->name,
 		  get_nation_name_plural(pplayer->nation));
   } players_iterate_end;
 }
@@ -1651,7 +1651,7 @@ void srv_main(void)
     send_game_state(game.game_connections, CLIENT_GAME_OVER_STATE);
     report_final_scores();
     show_map_to_all();
-    notify_player(NULL, _("Game: The game is over..."));
+    notify_player(NULL, _("The game is over..."));
     gamelog(GAMELOG_JUDGE, GL_NONE);
     send_server_info_to_metaserver(META_INFO);
     if (game.save_nturns > 0) {

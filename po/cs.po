@@ -707,18 +707,18 @@ msgstr "chyba %d (přeloženo bez strerror)"
 #: ai/aicity.c:707
 #: server/citytools.c:1830
 #, c-format
-msgid "Game: The %s have stopped building The %s in %s."
+msgid "The %s have stopped building The %s in %s."
 msgstr "Hra: %s přerušili stavbu divu %s ve městě %s."
 
 #: ai/aicity.c:717
 #: server/citytools.c:1877
 #, c-format
-msgid "Game: The %s have started building The %s in %s."
+msgid "The %s have started building The %s in %s."
 msgstr "Hra: %s zahájili stavbu divu %s ve městě %s."
 
 #: ai/aicity.c:1011
 #, c-format
-msgid "Game: %s is selling %s (not needed) for %d."
+msgid "%s is selling %s (not needed) for %d."
 msgstr "Hra: %s prodal %s (nepotřebuje) za %d."
 
 #: ai/advdiplomacy.c:248
@@ -882,55 +882,46 @@ msgid "Sea raiders seen near %s!"
 msgstr "Nájezdníci z moře byli viděni poblíž města %s!"
 
 #: server/cityhand.c:114
-msgid "Game: You don't have a worker here."
+msgid "You don't have a worker here."
 msgstr "Hra: Nemáte zde žádného dělníka."
 
 #: server/cityhand.c:171
-msgid "Game: You have already sold something here this turn."
+msgid "You have already sold something here this turn."
 msgstr "Hra: V tomto kole jste zde už něco prodal(a)."
 
 #: server/cityhand.c:180
 #, c-format
-msgid "Game: You sell %s in %s for %d gold."
+msgid "You sell %s in %s for %d gold."
 msgstr "Hra: Prodal(a) jste %s v %s za %d zlatých."
 
 #: server/cityhand.c:217
-msgid "Game: Cannot buy in city created this turn."
+msgid "Cannot buy in city created this turn."
 msgstr "Hra: Nelze nakupovat ve městě, které bylo založeno v tomto kole."
 
 #: server/cityhand.c:223
-msgid "Game: You have already bought this turn."
+msgid "You have already bought this turn."
 msgstr "Hra: V tomto kole jste již nakoupil(a)."
 
 #: server/cityhand.c:230
 #, c-format
-msgid "Game: You don't buy %s!"
+msgid "You don't buy %s!"
 msgstr "Hra: %s si nemůžete koupit!"
 
 #: server/cityhand.c:237
-msgid "Game: Can't buy units when city is in disorder."
+msgid "Can't buy units when city is in disorder."
 msgstr "Hra: Nelze kupovat jednotky pokud je ve městě nepokoj."
 
 #: server/cityhand.c:275
 #, c-format
-msgid "Game: %s bought in %s for %d gold."
+msgid "%s bought in %s for %d gold."
 msgstr "Hra: %s - koupeno ve městě %s za %d zlatých."
 
 #: server/cityhand.c:356
 #: client/gui-gtk/wldlg.c:1006
 #: client/gui-gtk/wldlg.c:1180
 #: client/gui-gtk/wldlg.c:1207
-msgid "Game: You have bought this turn, can't change."
+msgid "You have bought this turn, can't change."
 msgstr "Hra: Koupeno v tomto kole - nelze změnit."
-
-#: server/cityhand.c:382
-#: server/plrhand.c:390
-#: server/stdinhand.c:366
-#: server/unithand.c:175
-#: server/unithand.c:461
-#, c-format
-msgid "Game: %s"
-msgstr "Hra: %s"
 
 #: server/citytools.c:263
 #, c-format
@@ -963,27 +954,27 @@ msgstr "Špatně pojmenované město"
 
 #: server/citytools.c:545
 #, c-format
-msgid "Game: Changed homecity of %s to %s."
+msgid "Changed homecity of %s to %s."
 msgstr "Hra: Domovské město jednotky %s změněno na %s."
 
 #: server/citytools.c:555
 #, c-format
-msgid "Game: Transfered %s in %s from %s to %s."
+msgid "Transfered %s in %s from %s to %s."
 msgstr "Hra: přesunuta %s v %s z %s do %s."
 
 #: server/citytools.c:564
 #, c-format
-msgid "Game: Transfered %s from %s to %s."
+msgid "Transfered %s from %s to %s."
 msgstr "Hra: %s patřící %s převedena na %s."
 
 #: server/citytools.c:643
 #, c-format
-msgid "Game: %s lost along with control of %s."
+msgid "%s lost along with control of %s."
 msgstr "Hra: %s ztraceno spolu s kontrolou %s."
 
 #: server/citytools.c:762
 #, c-format
-msgid "Game: You lost your capital %s. A new palace was built in %s."
+msgid "You lost your capital %s. A new palace was built in %s."
 msgstr "Hra: Ztratil(a) jste vaše hlavní město %s. Nový palác byl postaven v %s."
 
 #: server/citytools.c:822
@@ -994,7 +985,7 @@ msgstr "Již jsme měli město pojmenované %s. Město bylo přejmenováno na %s
 #: server/citytools.c:911
 #, c-format
 msgid ""
-"Game: The people in %s are stunned by your technological insight!\n"
+"The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 "Hra: Lidé ve městě %s jsou ohromeni vaším technologickým postupem!\n"
@@ -1013,32 +1004,32 @@ msgstr "%s (%i, %i) založeno %s"
 
 #: server/citytools.c:1040
 #, c-format
-msgid "Game: You have founded %s"
+msgid "You have founded %s"
 msgstr "Hra: Založil(a) jste město %s"
 
 #: server/citytools.c:1092
 #, c-format
-msgid "Game: Changed homecity of %s in %s."
+msgid "Changed homecity of %s in %s."
 msgstr "Hra: Změněno domovské město jednotky %s ve městě %s."
 
 #: server/citytools.c:1122
 #, c-format
-msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
+msgid "Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr "Hra: Jednotka %s opustila zrušené město %s, aby neuvízla na souši."
 
 #: server/citytools.c:1133
 #, c-format
-msgid "Game: When %s was disbanded your %s could not get out, and it was therefore stranded."
+msgid "When %s was disbanded your %s could not get out, and it was therefore stranded."
 msgstr "Hra: Protože byla jednotka %s rozpuštěna, byla ztracena jednotka %s, protože se nemohla dostat ven."
 
 #: server/citytools.c:1239
 #, c-format
-msgid "Game: You destroy %s completely."
+msgid "You destroy %s completely."
 msgstr "Hra: Úplně jste zničil(a) %s."
 
 #: server/citytools.c:1241
 #, c-format
-msgid "Game: %s has been destroyed by %s."
+msgid "%s has been destroyed by %s."
 msgstr "Hra: Město %s bylo zcela zničeno hráčem %s."
 
 #: server/citytools.c:1243
@@ -1048,12 +1039,12 @@ msgstr "%s (%s) (%i,%i) zničili %s"
 
 #: server/citytools.c:1261
 #, c-format
-msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
+msgid "You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Hra: Dobyl(a) jste město %s, Vaše kořist činí %d zlatých!"
 
 #: server/citytools.c:1265
 #, c-format
-msgid "Game: %s conquered %s and looted %d gold from the city."
+msgid "%s conquered %s and looted %d gold from the city."
 msgstr "Hra: Hráč %s dobyl město %s a ukořistil v něm %d zlatých."
 
 #: server/citytools.c:1268
@@ -1063,12 +1054,12 @@ msgstr "Město %s (%s) (%i,%i) dobyto hráčem %s"
 
 #: server/citytools.c:1274
 #, c-format
-msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
+msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgstr "Hra: Dobyli jsme město %s! Naše kořist činí %d zlatých!"
 
 #: server/citytools.c:1279
 #, c-format
-msgid "Game: %s liberated %s and looted %d gold from the city."
+msgid "%s liberated %s and looted %d gold from the city."
 msgstr "Hra: Hráč %s osvobodil město %s a ukořistil v něm %d zlatých."
 
 #: server/citytools.c:1282
@@ -1083,67 +1074,67 @@ msgstr " podle seznamu prací"
 #. TRANS: "<city> is building <production><source>."
 #: server/citytools.c:1864
 #, c-format
-msgid "Game: %s is building %s%s."
+msgid "%s is building %s%s."
 msgstr "Hra: %s staví %s%s."
 
 #. TRANS: "<city> is building <production>."
 #: server/citytools.c:1869
 #, c-format
-msgid "Game: %s is building %s."
+msgid "%s is building %s."
 msgstr "Hra: %s staví %s."
 
 #: server/citytools.c:2124
 #, c-format
-msgid "Game: You sell %s in %s (now landlocked) for %d gold."
+msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Hra: Prodal(a) jste %s v %s (nyní ve vnitrozemí) za %d zlatých."
 
 #: server/cityturn.c:120
 #, c-format
-msgid "Game: %s is selling %s (obsolete) for %d."
+msgid "%s is selling %s (obsolete) for %d."
 msgstr "Hra: %s prodává %s (zastaralé) za %d."
 
 #: server/cityturn.c:298
 #, c-format
-msgid "Game: Notice: Wonder %s in %s will be finished next turn."
+msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Hra: Oznámení: Div světa %s ve městě %s bude dokončen v příštím kole."
 
 #: server/cityturn.c:331
 #, c-format
-msgid "Game: Suggest throttling growth in %s to use %s (being built) more effectively."
+msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr "Hra: Doporučuje se přiškrcení růstu ve městě %s pro použití %s (probíhá stavba) více efektivně."
 
 #: server/cityturn.c:342
 #, c-format
-msgid "Game: %s may soon grow to size %i."
+msgid "%s may soon grow to size %i."
 msgstr "Hra: %s se může brzy rozrůst na velikost %i."
 
 #: server/cityturn.c:349
 #, c-format
-msgid "Game: Warning: Famine feared in %s."
+msgid "Warning: Famine feared in %s."
 msgstr "Hra: Varování: Hrozí hladomor ve městě %s."
 
 #: server/cityturn.c:373
-msgid "Game: WARNING, we're LOW on FUNDS sire."
+msgid "WARNING, we're LOW on FUNDS sire."
 msgstr "Hra: POZOR, dochází nám PENÍZE pane."
 
 #: server/cityturn.c:463
 #, c-format
-msgid "Game: %s needs %s (being built) to grow any further."
+msgid "%s needs %s (being built) to grow any further."
 msgstr "Hra: Město %s potřebuje %s (staví se) aby se mohlo dále rozrůstat."
 
 #: server/cityturn.c:468
 #, c-format
-msgid "Game: %s needs an improvement to grow any further."
+msgid "%s needs an improvement to grow any further."
 msgstr "Hra: Město %s potřebuje vylepšení, aby se mohlo dále rozrůstat."
 
 #: server/cityturn.c:515
 #, c-format
-msgid "Game: %s grows to size %d."
+msgid "%s grows to size %d."
 msgstr "Hra: Město %s se rozrostlo na velikost %d."
 
 #: server/cityturn.c:546
 #, c-format
-msgid "Game: Famine feared in %s, %s lost!"
+msgid "Famine feared in %s, %s lost!"
 msgstr "Hra: Obavy z hladomoru ve městě %s - %s ztraceni!"
 
 #: server/cityturn.c:548
@@ -1153,19 +1144,19 @@ msgstr "%s ztratili %s (hladomor)"
 
 #: server/cityturn.c:556
 #, c-format
-msgid "Game: Famine causes population loss in %s."
+msgid "Famine causes population loss in %s."
 msgstr "Hra: Hladomor ve městě %s vedl ke ztrátě obyvatel."
 
 #: server/cityturn.c:625
 #: server/cityturn.c:665
 #, c-format
-msgid "Game: %s can't build %s from the worklist.  Purging..."
+msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "Hra: Město %s nemůže postavit %s podle seznamu prací.  Odstraňuji..."
 
 #: server/cityturn.c:644
 #: server/cityturn.c:685
 #, c-format
-msgid "Game: %s can't build %s from the worklist; tech not yet available.  Postponing..."
+msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr "Hra: %s nemůže postavit %s ze seznamu prací, protože tato technologie ještě není k dispozici.Pozdržuji..."
 
 #: server/cityturn.c:652
@@ -1173,43 +1164,43 @@ msgstr "Hra: %s nemůže postavit %s ze seznamu prací, protože tato technologi
 #: server/cityturn.c:776
 #: server/cityturn.c:823
 #, c-format
-msgid "Game: Production of %s is upgraded to %s in %s."
+msgid "Production of %s is upgraded to %s in %s."
 msgstr "Hra: Stavba %s byla změněna na %s ve městě %s."
 
 #: server/cityturn.c:691
 #, c-format
-msgid "Game: %s can't build %s from the worklist; need to have %s first.  Postponing..."
+msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
 msgstr "Hra: %s nemůže postavit %s ze seznamu prací, protože %s musí byt postaveno dřív.  Odkládám..."
 
 #: server/cityturn.c:700
 #, c-format
-msgid "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
+msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr "Hra: %s nemůže stavět %s ze seznamu prací; Neznámý důvod!  Odkládá se..."
 
 #: server/cityturn.c:734
 #, c-format
-msgid "Game: %s's worklist is now empty."
+msgid "%s's worklist is now empty."
 msgstr "Hra: Město %s má nyní prázdný seznam prací."
 
 #: server/cityturn.c:845
 #, c-format
-msgid "Game: %s can't upkeep %s, unit disbanded."
+msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Hra: Město %s nemůže uržovat %s, jednotka rozpuštěna."
 
 #: server/cityturn.c:864
 #, c-format
-msgid "Game: Citizens in %s perish for their failure to upkeep %s!"
+msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Hra: Oyvatelé v %s umírají, protože se jim nedaří uživit %s!"
 
 #: server/cityturn.c:903
 #: server/cityturn.c:1029
 #, c-format
-msgid "Game: %s is building %s, which is no longer available."
+msgid "%s is building %s, which is no longer available."
 msgstr "Hra: Město %s staví %s, který již není dostupný."
 
 #: server/cityturn.c:940
 #, c-format
-msgid "Game: The %s have finished building %s in %s."
+msgid "The %s have finished building %s in %s."
 msgstr "Hra: %s dokončili stavbu %s ve městě %s."
 
 #: server/cityturn.c:944
@@ -1220,25 +1211,25 @@ msgstr "Pouze v %s: %s\n"
 
 #: server/cityturn.c:956
 #, c-format
-msgid "Game: %s has finished building %s."
+msgid "%s has finished building %s."
 msgstr "Hra: Město %s dokončilo stavbu %s."
 
 #: server/cityturn.c:963
 #, c-format
-msgid "Game: %s boosts research; you gain %d immediate advance."
-msgid_plural "Game: %s boosts research; you gain %d immediate advances."
+msgid "%s boosts research; you gain %d immediate advance."
+msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] "Hra: %s urychluje výzkum; okamžitě získáváte %d objev."
 msgstr[1] "Hra: %s urychluje výzkum; okamžitě získáváte %d objevy."
 msgstr[2] "Hra: %s urychluje výzkum; okamžitě získáváte %d objevů."
 
 #: server/cityturn.c:982
 #, c-format
-msgid "Game: The %s have acquired %s from %s."
+msgid "The %s have acquired %s from %s."
 msgstr "Hra: %s získali %s od %s."
 
 #: server/cityturn.c:990
 #, c-format
-msgid "Game: The %s have started building a spaceship!"
+msgid "The %s have started building a spaceship!"
 msgstr "Hra: %s začali se stavbou vesmírn lodi!"
 
 #: server/cityturn.c:1031
@@ -1248,13 +1239,13 @@ msgstr "%s %s se pokouší stavět %s, který již není dostupný"
 
 #: server/cityturn.c:1047
 #, c-format
-msgid "Game: %s can't build %s yet."
+msgid "%s can't build %s yet."
 msgstr "Hra: Město %s zatím nemůže postavit %s."
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1077
 #, c-format
-msgid "Game: %s is finished building %s."
+msgid "%s is finished building %s."
 msgstr "Hra: Město %s dokončilo stavbu %s."
 
 #: server/cityturn.c:1081
@@ -1264,53 +1255,53 @@ msgstr "Pouze v %s: %s\n"
 
 #: server/cityturn.c:1127
 #, c-format
-msgid "Game: Can't afford to maintain %s in %s, building sold!"
+msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Hra: Nadále nelze udržovat %s ve městě %s - stavba prodána!"
 
 #: server/cityturn.c:1162
 #, c-format
-msgid "Game: Pollution near %s."
+msgid "Pollution near %s."
 msgstr "Hra: Znečištění poblíž města %s."
 
 #: server/cityturn.c:1315
 #, c-format
-msgid "Game: We Love The %s Day celebrated in %s."
+msgid "We Love The %s Day celebrated in %s."
 msgstr "Hra: %s oslavován ve městě %s."
 
 #: server/cityturn.c:1323
 #, c-format
-msgid "Game: We Love The %s Day canceled in %s."
+msgid "We Love The %s Day canceled in %s."
 msgstr "Hra: %s už nadále není oslavován ve městě %s."
 
 #: server/cityturn.c:1353
 #, c-format
-msgid "Game: Civil disorder in %s."
+msgid "Civil disorder in %s."
 msgstr "Hra: Občanské nepokoje ve městě %s."
 
 #: server/cityturn.c:1356
 #, c-format
-msgid "Game: CIVIL DISORDER CONTINUES in %s."
+msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "Hra: OBČANSKÉ NEPOKOJE POKRAČUJÍ ve městě %s."
 
 #: server/cityturn.c:1362
 #, c-format
-msgid "Game: Order restored in %s."
+msgid "Order restored in %s."
 msgstr "Hra: Pořádek obnoven ve městě %s."
 
 #: server/cityturn.c:1370
 #, c-format
-msgid "Game: The people have overthrown your %s, your country is in turmoil."
+msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Hra: Lidé svrhli Vaší %s - země upadla do zmatku."
 
 #: server/cityturn.c:1394
 #, c-format
-msgid "Game: %s can't build %s yet, and we can't disband our only city."
+msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr "Hra: %s nemůže ještě postavit %s, protože nesmíme rozpustit naše jediné město."
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1412
 #, c-format
-msgid "Game: %s is disbanded into %s."
+msgid "%s is disbanded into %s."
 msgstr "Hra: Město %s je zrušeno a z jeho obyvatel jsou jednotky %s."
 
 #: server/cityturn.c:1414
@@ -2150,11 +2141,6 @@ msgstr "Heslo musí mít nejméně %d velkých písmen, %d číslic a být minim
 msgid "Lost connection: %s."
 msgstr "Ztraceno spojení: %s."
 
-#: server/connecthand.c:546
-#, c-format
-msgid "Game: Lost connection: %s."
-msgstr "Hra: Ztraceno spojení: %s."
-
 #: server/console.c:166
 msgid "Ok. RFC-style set."
 msgstr "Ok. Použit RFC styl."
@@ -2169,12 +2155,12 @@ msgstr "Pro úvodní seznámení napište 'help'."
 
 #: server/diplhand.c:140
 #, c-format
-msgid "Game: The %s can't accept %s."
+msgid "The %s can't accept %s."
 msgstr "Hra: %s nemohou přijmout %s."
 
 #: server/diplhand.c:152
 #, c-format
-msgid "Game: You don't have tech %s, you can't accept treaty."
+msgid "You don't have tech %s, you can't accept treaty."
 msgstr "Hra: Nemáte technologii %s - nemůžete přijmout dohodu."
 
 #: server/diplhand.c:161
@@ -2189,29 +2175,29 @@ msgstr "Nejste vlastníkem města %s - nemůžete přijmout dohodu."
 #: server/diplhand.c:173
 #: server/diplhand.c:278
 #, c-format
-msgid "Game: Your capital (%s) is requested, you can't accept treaty."
+msgid "Your capital (%s) is requested, you can't accept treaty."
 msgstr "Hra: Je požadováno Vaše hlavní město (%s) - nemůžete přijmout dohodu."
 
 #: server/diplhand.c:182
 #: server/diplhand.c:300
 #, c-format
-msgid "Game: You are at war with one of %s's allies - an alliance with %s is impossible."
+msgid "You are at war with one of %s's allies - an alliance with %s is impossible."
 msgstr "Hra: Jste ve válce s %s spojencem.- aliance s %s není možná."
 
 #: server/diplhand.c:189
 #: server/diplhand.c:296
 #, c-format
-msgid "Game: %s is at war with one of your allies - an alliance with %s is impossible."
+msgid "%s is at war with one of your allies - an alliance with %s is impossible."
 msgstr "Hra: %s je ve válce s jedním ze tvých spojenců - aliance s %s je nemožná."
 
 #: server/diplhand.c:198
-msgid "Game: You don't have enough gold, you can't accept treaty."
+msgid "You don't have enough gold, you can't accept treaty."
 msgstr "Hra: Nemáte dostatek zlata - nemůžete přijmout dohodu."
 
 #: server/diplhand.c:230
 #: server/diplhand.c:235
 #, c-format
-msgid "Game: A treaty containing %d clause was agreed upon."
+msgid "A treaty containing %d clause was agreed upon."
 msgstr "Hra: Dohoda obsahuje %d již potvrzenou klauzuli."
 
 #: server/diplhand.c:239
@@ -2222,39 +2208,39 @@ msgstr "%s a %s uzavřeli dohodu"
 #: server/diplhand.c:254
 #: server/diplhand.c:258
 #, c-format
-msgid "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr "Hra: Jedno z měst, kterého se %s vzdávají je zničeno! Dohoda zrušena."
 
 #: server/diplhand.c:265
 #: server/diplhand.c:270
 #, c-format
-msgid "Game: The %s no longer control %s! Treaty canceled!"
+msgid "The %s no longer control %s! Treaty canceled!"
 msgstr "Hra: %s už neovládají město %s! Dohoda zrušena."
 
 #: server/diplhand.c:309
 #: server/diplhand.c:313
 #, c-format
-msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
+msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Hra: %s nemají slíbené množství zlata! Dohoda zrušena."
 
 #: server/diplhand.c:340
 #, c-format
-msgid "Game: You gave an embassy to %s."
+msgid "You gave an embassy to %s."
 msgstr "Hra: Povolili jsme u nás zřídit vyslanectví %s."
 
 #: server/diplhand.c:343
 #, c-format
-msgid "Game: %s allowed you to create an embassy!"
+msgid "%s allowed you to create an embassy!"
 msgstr "Hra: %s vám povolil zřízení ambasády!"
 
 #: server/diplhand.c:359
 #, c-format
-msgid "Game: You are taught the knowledge of %s."
+msgid "You are taught the knowledge of %s."
 msgstr "Hra: Je Vám objasněna znalost technologie %s."
 
 #: server/diplhand.c:363
 #, c-format
-msgid "Game: The %s have acquired %s from the %s."
+msgid "The %s have acquired %s from the %s."
 msgstr "Hra: %s získali %s od %s."
 
 #: server/diplhand.c:368
@@ -2264,7 +2250,7 @@ msgstr "%s získali %s (Dohoda) od %s"
 
 #: server/diplhand.c:378
 #, c-format
-msgid "Game: You get %d gold."
+msgid "You get %d gold."
 msgstr "Hra: Dostal(a) jste %d zlatých."
 
 #: server/diplhand.c:381
@@ -2274,22 +2260,22 @@ msgstr "%s získal %d zlatých z %s"
 
 #: server/diplhand.c:387
 #, c-format
-msgid "Game: You receive %s's worldmap."
+msgid "You receive %s's worldmap."
 msgstr "Hra: Získal(a) jste mapu kontinentů, které %s zná."
 
 #: server/diplhand.c:392
 #, c-format
-msgid "Game: You receive %s's seamap."
+msgid "You receive %s's seamap."
 msgstr "Hra: Získal(a) jste mapu moří, které %s zná."
 
 #: server/diplhand.c:407
 #, c-format
-msgid "Game: You receive city of %s from %s."
+msgid "You receive city of %s from %s."
 msgstr "Hra: Získala(a) jste město %s od %s."
 
 #: server/diplhand.c:411
 #, c-format
-msgid "Game: You give city of %s to %s."
+msgid "You give city of %s to %s."
 msgstr "Hra: Hráč %2$s od Vás dostal město %1$s."
 
 #: server/diplhand.c:414
@@ -2300,19 +2286,19 @@ msgstr "%s získali město %s od %s."
 #: server/diplhand.c:426
 #: server/diplhand.c:429
 #, c-format
-msgid "Game: You agree on a cease-fire with %s."
+msgid "You agree on a cease-fire with %s."
 msgstr "Hra: Dohodl(a) jste se na příměří s hráčem %s."
 
 #: server/diplhand.c:438
 #: server/diplhand.c:441
 #, c-format
-msgid "Game: You agree on a peace treaty with %s."
+msgid "You agree on a peace treaty with %s."
 msgstr "Hra: Dohodl(a) jste se na míru s hráčem %s."
 
 #: server/diplhand.c:450
 #: server/diplhand.c:453
 #, c-format
-msgid "Game: You agree on an alliance with %s."
+msgid "You agree on an alliance with %s."
 msgstr "Hra: Dohodl(a) jste se na alianci s hráčem %s."
 
 #: server/diplhand.c:455
@@ -2323,17 +2309,17 @@ msgstr "%s se dohodli na alianci s %s."
 #: server/diplhand.c:463
 #: server/diplhand.c:466
 #, c-format
-msgid "Game: You start a research pool with %s."
+msgid "You start a research pool with %s."
 msgstr "Hra: Zahájili jsme společný výzkum s %s."
 
 #: server/diplhand.c:505
 #, c-format
-msgid "Game: You give shared vision to %s."
+msgid "You give shared vision to %s."
 msgstr "Hra: Dovolil(a) jste hráči %s nahlížet do vašich map."
 
 #: server/diplhand.c:508
 #, c-format
-msgid "Game: %s gives you shared vision."
+msgid "%s gives you shared vision."
 msgstr "Hra: Hráč %s vám dovolil nahlížet do svých map."
 
 #: server/diplhand.c:510
@@ -2343,12 +2329,12 @@ msgstr "Sdílet s ostatními společnostmi"
 
 #: server/diplhand.c:648
 #, c-format
-msgid "Game: %s canceled the meeting!"
+msgid "%s canceled the meeting!"
 msgstr "Hra: %s zrušil(a) schůzku!"
 
 #: server/diplhand.c:654
 #, c-format
-msgid "Game: Meeting with %s canceled."
+msgid "Meeting with %s canceled."
 msgstr "Hra: Schůzka s hráčem %s zrušena."
 
 #: server/diplhand.c:694
@@ -2357,22 +2343,22 @@ msgstr "Vaši vyslanci byli popraveni!"
 
 #: server/diplomats.c:93
 #, c-format
-msgid "Game: Your %s could not poison the water supply in %s."
+msgid "Your %s could not poison the water supply in %s."
 msgstr "Hra: Váš %s nemohl otrávit vodu ve městě %s."
 
 #: server/diplomats.c:107
 #, c-format
-msgid "Game: Your %s poisoned the water supply of %s."
+msgid "Your %s poisoned the water supply of %s."
 msgstr "Hra: Váš %s otrávil vodu ve městě %s."
 
 #: server/diplomats.c:110
 #, c-format
-msgid "Game: %s is suspected of poisoning the water supply of %s."
+msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Hra: Hráč %s je podezřelý z otrávení vody ve městě %s."
 
 #: server/diplomats.c:257
 #, c-format
-msgid "Game: Your %s was executed in %s on suspicion of spying.  The %s welcome future diplomatic efforts providing the Ambassador is reputable."
+msgid "Your %s was executed in %s on suspicion of spying.  The %s welcome future diplomatic efforts providing the Ambassador is reputable."
 msgstr "Hra: Váš %s byl popraven v %s s obviněním ze špionáže.  %s uvítají diplomatické snahy v případě, že příští ambasador bude důvěryhodný.."
 
 #: server/diplomats.c:263
@@ -2382,17 +2368,17 @@ msgstr "Provedli jsme %s %s a měli poslat zřídit ambasádu v %s pro zvýšen�
 
 #: server/diplomats.c:274
 #, c-format
-msgid "Game: Your %s was executed in %s by primitive %s."
+msgid "Your %s was executed in %s by primitive %s."
 msgstr "Hra: Váš %s ve městě %s byl poraven primitivními %s."
 
 #: server/diplomats.c:287
 #, c-format
-msgid "Game: You have established an embassy in %s."
+msgid "You have established an embassy in %s."
 msgstr "Hra: Založil(a) jste vyslanectví ve městě %s."
 
 #: server/diplomats.c:290
 #, c-format
-msgid "Game: The %s have established an embassy in %s."
+msgid "The %s have established an embassy in %s."
 msgstr "Hra: %s založili vyslanectví ve městě %s."
 
 #: server/diplomats.c:292
@@ -2402,76 +2388,76 @@ msgstr "%s zřídili ambasádu v %s (%s) (%i,%i)"
 
 #: server/diplomats.c:348
 #, c-format
-msgid "Game: Your %s could not sabotage %s's %s."
+msgid "Your %s could not sabotage %s's %s."
 msgstr "Hra: Váš %1$s neuspěl při sabotáži jednotky %3$s hráče %2$s."
 
 #: server/diplomats.c:369
 #, c-format
-msgid "Game: Your %s succeeded in sabotaging %s's %s."
+msgid "Your %s succeeded in sabotaging %s's %s."
 msgstr "Hra: Váš %1$s uspěl při sabotáži jdnotky %3$s hráče %2$s."
 
 #: server/diplomats.c:374
 #, c-format
-msgid "Game: Your %s was sabotaged by %s!"
+msgid "Your %s was sabotaged by %s!"
 msgstr "Hra: Váš %s byl sabotován hráčem %s!"
 
 #: server/diplomats.c:429
-msgid "Game: You can't bribe a unit from this nation."
+msgid "You can't bribe a unit from this nation."
 msgstr "Hra: Nemůžete uplácet jednotky tohoto národa."
 
 #: server/diplomats.c:438
 #, c-format
-msgid "Game: You don't have enough gold to bribe %s's %s."
+msgid "You don't have enough gold to bribe %s's %s."
 msgstr "Hra: Nemátek dostatek peněz na uplacení jednotky %2$s hráče %1$s."
 
 #: server/diplomats.c:447
 #, c-format
-msgid "Game: You cannot bribe %s!"
+msgid "You cannot bribe %s!"
 msgstr "Hra: %s nemůžete uplatit!"
 
 #: server/diplomats.c:465
 #, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
+msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Hra: Váš %s uspěl při uplácení jednotky %s %s a získal více zkušeností."
 
 #: server/diplomats.c:471
 #, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s."
+msgid "Your %s succeeded in bribing %s's %s."
 msgstr "Hra: Váš %1$s uspěl při uplácení jednotky %3$s hráče %2$s."
 
 #: server/diplomats.c:475
 #, c-format
-msgid "Game: Your %s was bribed by %s."
+msgid "Your %s was bribed by %s."
 msgstr "Hra: Jednotka %s byla uplacena hráčem %s."
 
 #: server/diplomats.c:572
 #, c-format
-msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
+msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Hra: Váš %s byl chycen při pokusu o krádež technologie ve městě %s."
 
 #: server/diplomats.c:576
 #, c-format
-msgid "Game: %s's %s failed to steal technology from %s."
+msgid "%s's %s failed to steal technology from %s."
 msgstr "Hra: %2$s hráče %1$s neuspěla při krádeži technologie ve městě %3$s."
 
 #: server/diplomats.c:609
 #, c-format
-msgid "Game: No new technology found in %s."
+msgid "No new technology found in %s."
 msgstr "Hra: Ve městě %s nabyla nalezena žádná nová technologie."
 
 #: server/diplomats.c:646
 #, c-format
-msgid "Game: Your %s could not find the %s technology to steal in %s."
+msgid "Your %s could not find the %s technology to steal in %s."
 msgstr "Hra: Váš %s nenašel kradenou technologii %s ve městě %s."
 
 #: server/diplomats.c:667
 #, c-format
-msgid "Game: Your %s stole Future Tech. %d from %s."
+msgid "Your %s stole Future Tech. %d from %s."
 msgstr "Hra: Váš %s ukradl technologii budoucnosti %d hráči %s."
 
 #: server/diplomats.c:671
 #, c-format
-msgid "Game: Future Tech. %d stolen by %s %s from %s."
+msgid "Future Tech. %d stolen by %s %s from %s."
 msgstr "Hra: %3$s hráče %2$s ukradl technologii budoucnosti %1$d od %4$s."
 
 #: server/diplomats.c:674
@@ -2481,18 +2467,18 @@ msgstr "Hra: Váš %s ukradl technologii budoucnosti %d hráči %s."
 
 #: server/diplomats.c:687
 #, c-format
-msgid "Game: Your %s stole %s from %s."
+msgid "Your %s stole %s from %s."
 msgstr "Hra: Váš %s ukradl %s od %s."
 
 #: server/diplomats.c:691
 #, c-format
-msgid "Game: %s's %s stole %s from %s."
+msgid "%s's %s stole %s from %s."
 msgstr "Hra: %2$s (%1$s) ukradl %3$s ve městě %4$s."
 
 #: server/diplomats.c:695
 #: server/plrhand.c:745
 #, c-format
-msgid "Game: The %s have stolen %s from the %s."
+msgid "The %s have stolen %s from the %s."
 msgstr "Hra: %s ukradli %s od %s."
 
 #: server/diplomats.c:699
@@ -2501,182 +2487,182 @@ msgid "%s steals %s from the %s"
 msgstr "Hra: %s ukradli %s od %s."
 
 #: server/diplomats.c:755
-msgid "Game: You can't subvert a city from this nation."
+msgid "You can't subvert a city from this nation."
 msgstr "Hra: Nemůžete rozvrátit město tohoto národa."
 
 #: server/diplomats.c:763
-msgid "Game: You can't subvert this city."
+msgid "You can't subvert this city."
 msgstr "Hra: Nemůžete rozvrátit toto město."
 
 #: server/diplomats.c:774
 #, c-format
-msgid "Game: You don't have enough gold to subvert %s."
+msgid "You don't have enough gold to subvert %s."
 msgstr "Hra: Nemáte dostatek zlata na rozvrácení města %s."
 
 #: server/diplomats.c:791
 #, c-format
-msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
+msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Hra: Váš %s byl chycen při pokusu o vyvolání převratu!"
 
 #: server/diplomats.c:795
 #, c-format
-msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
+msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Hra: Chytili jsme %s %s podněcující povstání v %s!"
 
 #: server/diplomats.c:817
 #, c-format
-msgid "Game: Revolt incited in %s, you now rule the city!"
+msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Hra: Ve městě %s došlo k převratu a Vy jste převzal(a) kontrolu!"
 
 #: server/diplomats.c:820
 #, c-format
-msgid "Game: %s has revolted, %s influence suspected."
+msgid "%s has revolted, %s influence suspected."
 msgstr "Hra: Převrat ve městě %s. %s jej pravděpodobně podporovali."
 
 #: server/diplomats.c:900
 #, c-format
-msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
+msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Hra: Váš %s byl chycen při pokusu o sabotáž!"
 
 #: server/diplomats.c:904
 #, c-format
-msgid "Game: You caught %s %s attempting sabotage in %s!"
+msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Hra: %2$s (%1$s) chycen při pokusu o sabotáž ve městě %3$s!"
 
 #: server/diplomats.c:938
 #, c-format
-msgid "Game: Your %s could not find anything to sabotage in %s."
+msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Hra: Váš %s nenalezl ve městě %s nic co by stálo za sabotáž."
 
 #: server/diplomats.c:980
 #, c-format
-msgid "Game: You cannot sabotage a %s!"
+msgid "You cannot sabotage a %s!"
 msgstr "Hra: Nemůžete sabotovat %s!"
 
 #: server/diplomats.c:990
 #, c-format
-msgid "Game: Your %s could not find the %s to sabotage in %s."
+msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Hra: Váš %s nemohl sabotovat %s, protože ve městě %s není."
 
 #: server/diplomats.c:1015
 #, c-format
-msgid "Game: Your %s succeeded in destroying the production of %s in %s."
+msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Hra: Váš %s byl úspěšný a zničil probíhající stavbu %s ve městě %s."
 
 #: server/diplomats.c:1019
 #, c-format
-msgid "Game: The production of %s was destroyed in %s, %s are suspected."
+msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "Hra: Stavba %s ve městě %s byla zničena, podezřelý je %s."
 
 #: server/diplomats.c:1040
 #, c-format
-msgid "Game: Your %s was caught in the attempt of sabotage!"
+msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Hra: Váš %s byl chycen při pokusu o sabotáž!"
 
 #: server/diplomats.c:1044
 #, c-format
-msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
+msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Hra: Byl chycen %2$s (%1$s) při pokusu o sabotáž %3$s ve městě %4$s!\""
 
 #: server/diplomats.c:1056
 #, c-format
-msgid "Game: Your %s destroyed the %s in %s."
+msgid "Your %s destroyed the %s in %s."
 msgstr "Hra: Váš %s zničil %s ve městě %s."
 
 #: server/diplomats.c:1060
 #, c-format
-msgid "Game: The %s destroyed the %s in %s."
+msgid "The %s destroyed the %s in %s."
 msgstr "Hra: %s zničili %s ve městě %s."
 
 #: server/diplomats.c:1164
 #, c-format
-msgid "Game: Your %s has been eliminated defending %s against a %s."
+msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Hra: Váš %s byl zlikvidován při obraně města %s proti %s."
 
 #: server/diplomats.c:1168
 #: server/diplomats.c:1176
 #, c-format
-msgid "Game: An enemy %s has been eliminated defending %s."
+msgid "An enemy %s has been eliminated defending %s."
 msgstr "Hra: Nepřátelský %s byl zlikvidován při obraně %s."
 
 #: server/diplomats.c:1172
 #, c-format
-msgid "Game: Your %s has been eliminated defending against a %s in %s."
+msgid "Your %s has been eliminated defending against a %s in %s."
 msgstr "Hra: Váš %s byl zlikvidován při obraně před %s ve městě %s."
 
 #: server/diplomats.c:1190
 #, c-format
-msgid "Game: Your %s was eliminated by a defending %s."
+msgid "Your %s was eliminated by a defending %s."
 msgstr "Hra: Váš %s byl zlikvidován při obraně %s."
 
 #: server/diplomats.c:1197
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating %s. The defender became more experienced."
+msgid "Eliminated %s %s while infiltrating %s. The defender became more experienced."
 msgstr "Hra: Byl zlikvidován %s %s při pokusu o infiltrování města %s. Obránce je nyní zkušenější."
 
 #: server/diplomats.c:1204
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating our troops. The defender became more experienced."
+msgid "Eliminated %s %s while infiltrating our troops. The defender became more experienced."
 msgstr "Hra: Byl zlikvidován %s %s při pokusu o infiltrování našich jednotek. Obránce je nyní zkušenější."
 
 #: server/diplomats.c:1214
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating %s."
+msgid "Eliminated %s %s while infiltrating %s."
 msgstr "Hra: Byl zlikvidován %2$s (%1$s) při pokusu o infiltrování města %3$s."
 
 #: server/diplomats.c:1220
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating our troops."
+msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "Hra: Byl zlikvidován %s %s při pokusu o infiltrování našich jednotek."
 
 #: server/diplomats.c:1273
 #, c-format
-msgid "Game: Your %s has successfully completed her mission and returned unharmed to %s and has become more experienced."
+msgid "Your %s has successfully completed her mission and returned unharmed to %s and has become more experienced."
 msgstr "Hra: Váš %s úspěšně spnil misi a vrátil se nezraněn do města %s. Stal se zkušenějším."
 
 #: server/diplomats.c:1279
 #, c-format
-msgid "Game: Your %s has successfully completed her mission and returned unharmed to %s."
+msgid "Your %s has successfully completed her mission and returned unharmed to %s."
 msgstr "Hra: Váš %s úspěšně spnil misi a vrátil se nezraněn do města %s."
 
 #: server/diplomats.c:1295
 #, c-format
-msgid "Game: Your %s was captured after completing her mission in %s."
+msgid "Your %s was captured after completing her mission in %s."
 msgstr "Hra: Váš %s byl zajat poté co dokončil svoji misi ve městě %s."
 
 #: server/diplomats.c:1300
 #, c-format
-msgid "Game: Your %s was captured after completing her mission."
+msgid "Your %s was captured after completing her mission."
 msgstr "Hra: Váš %s byl zajat poté co dokončil svoji misi."
 
 #: server/diplomats.c:1335
 #, c-format
-msgid "Game: You have caused an incident while bribing %s's %s."
+msgid "You have caused an incident while bribing %s's %s."
 msgstr "Hra: Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
 
 #: server/diplomats.c:1340
 #, c-format
-msgid "Game: %s has caused an incident while bribing your %s."
+msgid "%s has caused an incident while bribing your %s."
 msgstr "Hra: Hráč %s vyvolal incident svým pokusem o uplacení Vašeho %s."
 
 #: server/diplomats.c:1347
 #, c-format
-msgid "Game: You have caused an incident while stealing tech from %s."
+msgid "You have caused an incident while stealing tech from %s."
 msgstr "Hra: Při pokusu o krádež technologie hráči %s došlo k incidentu."
 
 #: server/diplomats.c:1351
 #, c-format
-msgid "Game: %s has caused an incident while stealing tech from you."
+msgid "%s has caused an incident while stealing tech from you."
 msgstr "Hra: Hráč %s vyvolal incident svým pokusem o krádež technologie."
 
 #: server/diplomats.c:1357
 #, c-format
-msgid "Game: You have caused an incident while inciting a revolt in %s."
+msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Hra: Způsobil jste incident při pokusu vyvolat povstání ve městě %s."
 
 #: server/diplomats.c:1360
 #, c-format
-msgid "Game: %s have caused an incident while inciting a revolt in %s."
+msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr "Hra: %s způsobil incident při pokusu vyvolat povstání ve městě %s."
 
 #: server/gamehand.c:131
@@ -2711,21 +2697,21 @@ msgstr "Hra: Nelze otevřít log soubor hry \"%s\" pro přidávání."
 
 #: server/handchat.c:66
 #, c-format
-msgid "Game: %s is an ambiguous player name-prefix."
+msgid "%s is an ambiguous player name-prefix."
 msgstr "Hra: %s je nejednoznačné jméno hráče."
 
 #: server/handchat.c:70
 #, c-format
-msgid "Game: %s is an ambiguous connection name-prefix."
+msgid "%s is an ambiguous connection name-prefix."
 msgstr "Hra: %s je nejednoznačné jméno spojení."
 
 #: server/handchat.c:74
 #, c-format
-msgid "Game: %s is an anonymous name. Use connection name"
+msgid "%s is an anonymous name. Use connection name"
 msgstr "Hra: %s je anonymní jméno. Použijte název spojení"
 
 #: server/handchat.c:186
-msgid "Game: You are not attached to a player."
+msgid "You are not attached to a player."
 msgstr "Hra: Nejste připojeni k hráči."
 
 #: server/handchat.c:194
@@ -2735,38 +2721,38 @@ msgstr "%s spojencům: %s"
 
 #: server/handchat.c:288
 #, c-format
-msgid "Game: %s is not connected."
+msgid "%s is not connected."
 msgstr "Hra: %s není připojen."
 
 #: server/handchat.c:300
 #, c-format
-msgid "Game: There is no connection by the name %s."
+msgid "There is no connection by the name %s."
 msgstr "Hra: Neexistuje žádné spojení se jménem %s."
 
 #: server/handchat.c:303
 #, c-format
-msgid "Game: There is no player nor connection by the name %s."
+msgid "There is no player nor connection by the name %s."
 msgstr "Hra: Neexistuje žádný hráč ani spojení se jménem %s."
 
 #: server/maphand.c:238
-msgid "Game: Global warming has occurred!"
+msgid "Global warming has occurred!"
 msgstr "Hra: Došlo ke globálnímu oteplení!"
 
 #: server/maphand.c:239
-msgid "Game: Coastlines have been flooded and vast ranges of grassland have become deserts."
+msgid "Coastlines have been flooded and vast ranges of grassland have become deserts."
 msgstr "Hra: Pobřeží bylo zaplaveno vodou a suché okraje pastvin se staly pouštěmi."
 
 #: server/maphand.c:280
-msgid "Game: Nuclear winter has occurred!"
+msgid "Nuclear winter has occurred!"
 msgstr "Hra: Nastala nukleární zima!"
 
 #: server/maphand.c:281
-msgid "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
+msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr "Hra: Bažiny zamrzly a z mnoha pastvin se stala tundra."
 
 #: server/maphand.c:302
 msgid ""
-"Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n"
+"New hope sweeps like fire through the country as the discovery of railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
 "Hra: Nové nadšení prolétlo krajem po té, co byl ohlášen objev železnice.\n"
@@ -2774,7 +2760,7 @@ msgstr ""
 
 #: server/maphand.c:308
 msgid ""
-"Game: The people are pleased to hear that your scientists finally know about railroads.\n"
+"The people are pleased to hear that your scientists finally know about railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
 "Hra: Lidé jsou potěšeni, že naši vědci konečně pochopili jak vlastně železnice funguje.\n"
@@ -2801,7 +2787,7 @@ msgstr "Metaserver: špatná adresa: [%s:%d]."
 
 #: server/plrhand.c:142
 #, c-format
-msgid "Game: %s acquired from a building!"
+msgid "%s acquired from a building!"
 msgstr "Hra: %s získáno ze stavby!"
 
 #: server/plrhand.c:144
@@ -2811,7 +2797,7 @@ msgstr "%s objevují %s (stavba)"
 
 #: server/plrhand.c:147
 #, c-format
-msgid "Game: The %s have acquired %s from a building."
+msgid "The %s have acquired %s from a building."
 msgstr "Hra: %s získali %s ze stavby."
 
 #: server/plrhand.c:206
@@ -2821,7 +2807,7 @@ msgstr "Obávaný vůdce barbarů %s již není mezi živými"
 
 #: server/plrhand.c:210
 #, c-format
-msgid "Game: The %s are no more!"
+msgid "The %s are no more!"
 msgstr "Hra: %s již neexistují!"
 
 #: server/plrhand.c:212
@@ -2836,27 +2822,27 @@ msgstr "%s jako první objevili %s"
 
 #: server/plrhand.c:290
 #, c-format
-msgid "Game: Discovery of %s OBSOLETES %s in %s!"
+msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "Hra: Objev %s dělá ZASTARALÝM %s ve městě %s!"
 
 #: server/plrhand.c:300
 #, c-format
-msgid "Game: Discovery of %s makes the government form %s available. You may want to start a revolution."
+msgid "Discovery of %s makes the government form %s available. You may want to start a revolution."
 msgstr "Hra: Objev %s umožňuje změnu státního zřízení na %s. Můžete zahájit revoluci."
 
 #: server/plrhand.c:339
 #, c-format
-msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
+msgid "Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Hra: Objeveno %s.  Naši vědci se nyní zaměří na %s - cílem je %s."
 
 #: server/plrhand.c:357
 #, c-format
-msgid "Game: Learned %s.  Scientists choose to research %s."
+msgid "Learned %s.  Scientists choose to research %s."
 msgstr "Hra: Objeveno %s.  Vědci se rozhodli dále bádat nad %s."
 
 #: server/plrhand.c:365
 #, c-format
-msgid "Game: Learned %s. "
+msgid "Learned %s. "
 msgstr "Hra: Objeveno %s. "
 
 #: server/plrhand.c:368
@@ -2866,26 +2852,26 @@ msgstr "Bádá se nad %s."
 
 #: server/plrhand.c:374
 #, c-format
-msgid "Game: Learned %s.  Scientists do not know what to research next."
+msgid "Learned %s.  Scientists do not know what to research next."
 msgstr "Hra: Objeveno %s.  Vědci neví, co mají dále zkoumat."
 
 #: server/plrhand.c:393
-msgid "Game: Great scientists from all the world join your civilization: you get an immediate advance."
+msgid "Great scientists from all the world join your civilization: you get an immediate advance."
 msgstr "Hra: Velcí vědci z celého světa se připojili k naší civilizaci: Získali jsme okamžitě nový objev."
 
 #: server/plrhand.c:452
 #, c-format
-msgid "Game: Learned %s in cooperation with %s. Scientists choose to research %s."
+msgid "Learned %s in cooperation with %s. Scientists choose to research %s."
 msgstr "Hra: Objeveno %s ve spolupráci s %s. Vědci se rozhodli dále zkoumat %s."
 
 #: server/plrhand.c:458
 #, c-format
-msgid "Game: Learned %s in cooperation with %s. Scientists do not know what to research next."
+msgid "Learned %s in cooperation with %s. Scientists do not know what to research next."
 msgstr "Hra: Objeveno %s ve spolupráci s %s. Vědci neví, co mají dále zkoumat."
 
 #: server/plrhand.c:487
 #, c-format
-msgid "Game: The %s have researched %s."
+msgid "The %s have researched %s."
 msgstr "Hra: %s objevili %s."
 
 #: server/plrhand.c:491
@@ -2895,7 +2881,7 @@ msgstr "%s objevují %s"
 
 #: server/plrhand.c:496
 #, c-format
-msgid "Game: The %s have researched Future Tech. %d."
+msgid "The %s have researched Future Tech. %d."
 msgstr "Hra: %s objevili technologii budoucnosti %d."
 
 #: server/plrhand.c:500
@@ -2905,7 +2891,7 @@ msgstr "%s objevují technologii budoucnosti %d"
 
 #: server/plrhand.c:634
 #, c-format
-msgid "Game: Technology goal is %s."
+msgid "Technology goal is %s."
 msgstr "Hra: Technologickým cílem je %s."
 
 #: server/plrhand.c:729
@@ -2915,16 +2901,16 @@ msgstr "%s ukradl %s %s"
 
 #: server/plrhand.c:735
 #, c-format
-msgid "Game: You steal %s from the %s."
+msgid "You steal %s from the %s."
 msgstr "Hra: Ukradli jsme %s od %s."
 
 #: server/plrhand.c:740
 #, c-format
-msgid "Game: The %s stole %s from you!"
+msgid "The %s stole %s from you!"
 msgstr "Hra: %s nám ukradli %s!"
 
 #: server/plrhand.c:767
-msgid "Game: Cannot change rates before game start."
+msgid "Cannot change rates before game start."
 msgstr "Hra: Před začátkem hry nelze úrovně měnit."
 
 #: server/plrhand.c:783
@@ -2936,7 +2922,7 @@ msgstr "Daň"
 
 #: server/plrhand.c:790
 #, c-format
-msgid "Game: %s rate exceeds the max rate for %s."
+msgid "%s rate exceeds the max rate for %s."
 msgstr "Hra: Úroveň pro %s přesahuje maximální hodnotu povolenou pro %s."
 
 #: server/plrhand.c:796
@@ -2947,7 +2933,7 @@ msgstr "ZMĚNA ÚROVNĚ: %s %i %i %i"
 
 #: server/plrhand.c:875
 #, c-format
-msgid "Game: %s now governs the %s as a %s."
+msgid "%s now governs the %s as a %s."
 msgstr "Hra: %s ovládá nyní %s jako %s."
 
 #: server/plrhand.c:879
@@ -2957,7 +2943,7 @@ msgstr "%s zformovali %s"
 
 #: server/plrhand.c:927
 #, c-format
-msgid "Game: The %s have incited a revolt!"
+msgid "The %s have incited a revolt!"
 msgstr "Hra: %s zahájili revoluci!"
 
 #: server/plrhand.c:929
@@ -2971,17 +2957,17 @@ msgstr "Můžete si zvolit nové státní zřízení z menu Státní zřízení 
 
 #: server/plrhand.c:1055
 #, c-format
-msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
+msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Hra: Úroveň pro daně přesahuje maximální hodnotu povolenou pro %s; upraveno."
 
 #: server/plrhand.c:1061
 #, c-format
-msgid "Game: Science rate exceeded the max rate for %s; adjusted."
+msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "Hra: Úroveň pro vědu přesahuje maximální hodnotu povolenou pro %s; upraveno."
 
 #: server/plrhand.c:1067
 #, c-format
-msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
+msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Hra: Úroveň pro luxus přesahuje maximální hodnotu povolenou pro %s; upraveno."
 
 #: server/plrhand.c:1122
@@ -2996,31 +2982,31 @@ msgstr "Senát souhlasil s vaším návrhem kvůli neustálým provokacím ze st
 
 #: server/plrhand.c:1198
 #, c-format
-msgid "Game: Your reputation is now %s."
+msgid "Your reputation is now %s."
 msgstr "Hra: Vaše reputace je nyní %s."
 
 #: server/plrhand.c:1203
-msgid "Game: The senate decides to dissolve rather than support your actions any longer."
+msgid "The senate decides to dissolve rather than support your actions any longer."
 msgstr "Hra: Senát rozhodl proti, raději než by podporoval nadále vaše akce."
 
 #: server/plrhand.c:1234
 #, c-format
-msgid "Game: The diplomatic state between the %s and the %s is now %s."
+msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Hra: Diplomatický stav mezi %s a %s je nyní %s."
 
 #: server/plrhand.c:1240
 #, c-format
-msgid "Game:  %s cancelled the diplomatic agreement! The diplomatic state between the %s and the %s is now %s."
+msgid " %s cancelled the diplomatic agreement! The diplomatic state between the %s and the %s is now %s."
 msgstr "Hra:  %s zrušili diplomatické dohody! Diplomatický stav mezi %s a %s je nyní %s."
 
 #: server/plrhand.c:1257
 #, c-format
-msgid "Game: %s has attacked your ally %s! You cancel your alliance to the aggressor."
+msgid "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr "Hra: %s zaútočili na na naše spojence %s! Zrušili jsme alianci s agresorem."
 
 #: server/plrhand.c:1268
 #, c-format
-msgid "Game: Your team mate %s declared war on %s. You are obligated to cancel alliance with %s."
+msgid "Your team mate %s declared war on %s. You are obligated to cancel alliance with %s."
 msgstr "Hra: Váš týmový spoluhráč %s vyhlásil válku %s. Jsme povinni zrušit alianci s %s."
 
 #: server/plrhand.c:1671
@@ -3029,18 +3015,18 @@ msgid "Removing player %s."
 msgstr "Odstraňuji hráče %s."
 
 #: server/plrhand.c:1672
-msgid "Game: You've been removed from the game!"
+msgid "You've been removed from the game!"
 msgstr "Hra: Byl jste odstraněn ze hry."
 
 #: server/plrhand.c:1675
 #, c-format
-msgid "Game: %s has been removed from the game."
+msgid "%s has been removed from the game."
 msgstr "Hra: %s byl(a) odstraněn(a) ze hry."
 
 #: server/plrhand.c:1718
 #: server/plrhand.c:1722
 #, c-format
-msgid "Game: You have made contact with the %s, ruled by %s."
+msgid "You have made contact with the %s, ruled by %s."
 msgstr "Hra: Učinil(a) jste kontakt s %s, kterým vládne %s."
 
 #: server/plrhand.c:2112
@@ -3050,18 +3036,18 @@ msgstr "Nelze uvrhnout %s do občanské války - příliš mnoho hráčů"
 
 #: server/plrhand.c:2134
 #, c-format
-msgid "Game: Your nation is thrust into civil war,  %s is declared the leader of the rebel states."
+msgid "Your nation is thrust into civil war,  %s is declared the leader of the rebel states."
 msgstr "Hra: Váš národ byl strhnut do občanské války,  %s je nyní vůdce rebelů."
 
 #: server/plrhand.c:2154
 #, c-format
-msgid "Game: %s declares allegiance to %s."
+msgid "%s declares allegiance to %s."
 msgstr "Hra: Město %s vyhlásilo věrnost %s."
 
 #: server/plrhand.c:2168
 #, c-format
 msgid ""
-"Game: The capture of %s's capital and the destruction of the empire's administrative\n"
+"The capture of %s's capital and the destruction of the empire's administrative\n"
 "      structures have sparked a civil war.  Opportunists have flocked to the rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
@@ -4541,80 +4527,75 @@ msgid "Server: bad address: [%s:%d]."
 msgstr "Server: špatná adresa: [%s:%d]."
 
 #: server/spacerace.c:164
-msgid "Game: You need to have a capital in order to launch your spaceship."
+msgid "You need to have a capital in order to launch your spaceship."
 msgstr "Hra: Abyste mol(a) vypustit vesmírnou loď musíte mít hlavní město."
 
 #: server/spacerace.c:169
-msgid "Game: Your spaceship is already launched!"
+msgid "Your spaceship is already launched!"
 msgstr "Hra: Vaše vesmírná loď již byla vypuštěna!"
 
 #: server/spacerace.c:174
-msgid "Game: Your spaceship can't be launched yet!"
+msgid "Your spaceship can't be launched yet!"
 msgstr "Hra: Vaše vesmírná loď ještě nemůže být vypuštěna!"
 
 #: server/spacerace.c:183
 #, c-format
-msgid "Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha Centauri in %s."
+msgid "The %s have launched a spaceship!  It is estimated to arrive on Alpha Centauri in %s."
 msgstr "Hra: %s provedli úspěšný start kosmické lodi!  Plánovaný dolet k Alpha Centauri v roce %s."
 
 #: server/spacerace.c:200
-msgid "Game: Spaceship action received, but you don't have a spaceship!"
+msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr "Hra: Obdržena akce týkající se vesmírné lodi, kterou Vy nemáte!"
 
 #: server/spacerace.c:205
-msgid "Game: You can't modify your spaceship after launch!"
+msgid "You can't modify your spaceship after launch!"
 msgstr "Hra: Nemůžete měnit Vaši vesmírnou loď poté co odstartovala!"
 
 #: server/spacerace.c:214
-msgid "Game: You don't have any unplaced Space Structurals!"
+msgid "You don't have any unplaced Space Structurals!"
 msgstr "Hra: Nemáte žádné součásti konstrukce vesmírné lodi!"
 
 #: server/spacerace.c:219
-msgid "Game: That Space Structural would not be connected!"
+msgid "That Space Structural would not be connected!"
 msgstr "Hra: Tuto součást konstrukce nelze připojit!"
 
 #: server/spacerace.c:233
 #: server/spacerace.c:252
-msgid "Game: You don't have any unplaced Space Components!"
+msgid "You don't have any unplaced Space Components!"
 msgstr "Hra: Nemáte žádné nepoužité komponenty vesmírné lodi!"
 
 #: server/spacerace.c:238
-msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
+msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr "Hra: Vaše vesmírná loď má již plný počet palivových komponent!"
 
 #: server/spacerace.c:257
-msgid "Game: Your spaceship already has the maximum number of Propulsion Components!"
+msgid "Your spaceship already has the maximum number of Propulsion Components!"
 msgstr "Hra: Vaše vesmírná loď má již plný počet pohonných komponent!"
 
 #: server/spacerace.c:272
 #: server/spacerace.c:292
 #: server/spacerace.c:312
-msgid "Game: You don't have any unplaced Space Modules!"
+msgid "You don't have any unplaced Space Modules!"
 msgstr "Hra: Nemáte žádné nepoužité moduly vesmírné lodi!"
 
 #: server/spacerace.c:277
-msgid "Game: Your spaceship already has the maximum number of Habitation Modules!"
+msgid "Your spaceship already has the maximum number of Habitation Modules!"
 msgstr "Hra: Vaše vesmírná loď má již plný počet obytných modulů!"
 
 #: server/spacerace.c:297
-msgid "Game: Your spaceship already has the maximum number of Life Support Modules!"
+msgid "Your spaceship already has the maximum number of Life Support Modules!"
 msgstr "Hra: Vaše vesmírná loď má již plný počet modulů pro podporu života!"
 
 #: server/spacerace.c:317
-msgid "Game: Your spaceship already has the maximum number of Solar Panel Modules!"
+msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "Hra: Vaše vesmírná loď má již plný počet slunečních modulů!"
 
 #: server/spacerace.c:336
 #, c-format
-msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
+msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Hra: Bez navádění z hlavního města je %s vesmírná loď ztracena!"
 
 #: server/spacerace.c:367
-#, c-format
-msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr "Hra: Vesmírná loď %s dorazila na Alfu Centauri."
-
-#: server/spacerace.c:370
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "Hra: Vesmírná loď %s dorazila na Alfu Centauri."
@@ -4648,12 +4629,12 @@ msgstr "Hra skončila vítězstvím spojenců"
 
 #: server/srv_main.c:423
 #, c-format
-msgid "Game: Concerned citizens point out that the cease-fire with %s will run out soon."
+msgid "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "Hra: obyvatelé upozorňují, že příměří s %s brzy končí."
 
 #: server/srv_main.c:429
 #, c-format
-msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
+msgid "The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr "Hra: Příměří s %s skončilo.  K %s jste nyní neutrální."
 
 #: server/srv_main.c:747
@@ -4676,7 +4657,7 @@ msgstr "Zahajuji hru."
 
 #: server/srv_main.c:830
 #, c-format
-msgid "Game: request for unknown report (type %d)"
+msgid "request for unknown report (type %d)"
 msgstr "Hra: požadavek pro neznámé hlášení (typ %d)"
 
 #: server/srv_main.c:893
@@ -4716,7 +4697,7 @@ msgstr "Pokus o výběr národa mimo SELECT_RACES_STATE!"
 
 #: server/srv_main.c:1151
 #, c-format
-msgid "Game: %s is the %s ruler %s."
+msgid "%s is the %s ruler %s."
 msgstr "%s je %s známý(á) jako %s."
 
 #: server/srv_main.c:1179
@@ -4725,7 +4706,7 @@ msgid "No nations left: Removing player %s."
 msgstr "Nezbývá již žádný národ: Odstraňuji hráče %s."
 
 #: server/srv_main.c:1182
-msgid "Game: Sorry, there are no nations left."
+msgid "Sorry, there are no nations left."
 msgstr "Hra: Lituji, již nezbývají žádné národy."
 
 #: server/srv_main.c:1329
@@ -4748,12 +4729,6 @@ msgstr "Maxplayers menší než aifill; aifill sníženo na %d."
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s byl přidán jako počítačem ovládaný hráč."
 
-#: server/srv_main.c:1398
-#: server/stdinhand.c:877
-#, c-format
-msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Hra: %s byl přidán jako počítačem řízený hráč."
-
 #: server/srv_main.c:1405
 #, c-format
 msgid "Error creating new AI player: %s\n"
@@ -4771,7 +4746,7 @@ msgstr "Počítač ovládá %s, které vede %s."
 
 #: server/srv_main.c:1492
 #, c-format
-msgid "Game: %s rules the %s."
+msgid "%s rules the %s."
 msgstr "Hra: %s ovládá %s."
 
 #: server/srv_main.c:1603
@@ -4784,7 +4759,7 @@ msgid "Sending info to metaserver [%s]"
 msgstr "Posílám info metaserveru [%s]"
 
 #: server/srv_main.c:1650
-msgid "Game: The game is over..."
+msgid "The game is over..."
 msgstr "Hra: Hra je u konce..."
 
 #: server/srv_main.c:1651
@@ -4972,11 +4947,6 @@ msgstr "Hráč s tímto jménem již existuje."
 msgid "A user already exists by that name."
 msgstr "Hráč s tímto jménem již existuje."
 
-#: server/stdinhand.c:884
-#, c-format
-msgid "Error creating new AI player: %s."
-msgstr "Chyba vytvoření nového počítačem ovládaného hráče: %s."
-
 #: server/stdinhand.c:914
 msgid "Players cannot be removed once the game has started."
 msgstr "Po začátku hry již nelze odstraňovat hráče."
@@ -5013,7 +4983,7 @@ msgstr "Nelze snížit příkazovou přístupovou úroveň '%s' pro spojení '%s
 
 #: server/stdinhand.c:1139
 #, c-format
-msgid "Game: Anyone can assume command access level '%s' now by issuing the 'firstlevel' command."
+msgid "Anyone can assume command access level '%s' now by issuing the 'firstlevel' command."
 msgstr "Hra: Kdokoliv může nyní získat úroveň oprávnění '%s' pomocí příkazu 'firstlevel'."
 
 #: server/stdinhand.c:1172
@@ -5477,11 +5447,11 @@ msgid "Usage: observe [player-name]"
 msgstr "Použití: observe [jméno-hráče]"
 
 #: server/stdinhand.c:2621
-msgid "Game: A global observer cannot be created: too many regular players."
+msgid "A global observer cannot be created: too many regular players."
 msgstr "Hra: Globální pozorovatel nemůže být vytvořen: příliš mnoho hráčů."
 
 #: server/stdinhand.c:2652
-msgid "Game: A global observer has been created"
+msgid "A global observer has been created"
 msgstr "Hra: Globální pozorovatel vytvořen "
 
 #: server/stdinhand.c:2668
@@ -5819,204 +5789,204 @@ msgstr "<žádná spojení>"
 
 #: server/unithand.c:116
 #, c-format
-msgid "Game: Illegal packet, can't upgrade %s (yet)."
+msgid "Illegal packet, can't upgrade %s (yet)."
 msgstr "Hra: Neplatný package, nemohu vylepšit %s (prozatím)."
 
 #: server/unithand.c:143
 #, c-format
-msgid "Game: %d %s upgraded to %s for %d gold."
+msgid "%d %s upgraded to %s for %d gold."
 msgstr "Hra: %d jednotek %s vylepšeno na %s za %d zlatých."
 
 #: server/unithand.c:149
-msgid "Game: No units could be upgraded."
+msgid "No units could be upgraded."
 msgstr "Hra: Žádné jednotky nemohou být vylepšeny."
 
 #: server/unithand.c:172
 #, c-format
-msgid "Game: %s upgraded to %s for %d gold."
+msgid "%s upgraded to %s for %d gold."
 msgstr "Hra: Jednotka %s vylepšena na %s za %d zlatých."
 
 #: server/unithand.c:341
 #, c-format
-msgid "Game: %s refuses to disband!"
+msgid "%s refuses to disband!"
 msgstr "Hra: %s zamítli rozpuštění!"
 
 #: server/unithand.c:364
-msgid "Game: Can't place city here."
+msgid "Can't place city here."
 msgstr "Hra: Zde nelze založit město."
 
 #: server/unithand.c:371
 #, c-format
-msgid "Game: Only %s can build a city."
+msgid "Only %s can build a city."
 msgstr "Hra: Pouze jednotky %s mohou založit město."
 
 #: server/unithand.c:376
-msgid "Game: Can't build a city."
+msgid "Can't build a city."
 msgstr "Hra: Nelze založit město."
 
 #: server/unithand.c:385
 #, c-format
-msgid "Game: Only %s can add to a city."
+msgid "Only %s can add to a city."
 msgstr "Hra: Pouze jednotky %s se mohou usadit ve městě."
 
 #: server/unithand.c:390
-msgid "Game: Can't add to a city."
+msgid "Can't add to a city."
 msgstr "Hra: Nelze se usadit ve městě."
 
 #: server/unithand.c:396
 #, c-format
-msgid "Game: %s unit has no moves left to add to %s."
+msgid "%s unit has no moves left to add to %s."
 msgstr "Hra: Jednotce %s nezbývají tahy na usazení ve městě %s."
 
 #: server/unithand.c:401
 #, c-format
-msgid "Game: %s unit has no moves left to build city."
+msgid "%s unit has no moves left to build city."
 msgstr "Hra: Jednotce %s nezbývají tahy na založení města."
 
 #: server/unithand.c:406
 #, c-format
-msgid "Game: %s is too big to add %s."
+msgid "%s is too big to add %s."
 msgstr "Hra: Město %s je příliš veliké pro usazení jednotky %s."
 
 #: server/unithand.c:411
 #, c-format
-msgid "Game: %s needs an improvement to grow, so you cannot add %s."
+msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr "Hra: Město %s potřebuje vylepšení, aby se mohlo rozrůstat a proto nemůžete přidat %s."
 
 #: server/unithand.c:420
 #, c-format
-msgid "Game: Can't add %s to %s."
+msgid "Can't add %s to %s."
 msgstr "Hra: Jednotka %s se nemůže usadit ve městě %s."
 
 #: server/unithand.c:444
 #, c-format
-msgid "Game: %s added to aid %s in growing."
+msgid "%s added to aid %s in growing."
 msgstr "Hra: Jednotka %s se usadila ve městě %s."
 
 #: server/unithand.c:687
 #, c-format
-msgid "Game: Your bombarding %s%s became more experienced!"
+msgid "Your bombarding %s%s became more experienced!"
 msgstr "Hra: Vaše bombardování %s%s přidalo více zkušeností!"
 
 #: server/unithand.c:729
-msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
+msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr "Hra: Vaše atomová střela byla sestřelena SDI obranou - jaká škoda."
 
 #: server/unithand.c:732
 #, c-format
-msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
+msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Hra: Vaše SDI obrana zabránila atomovému útoku na město %s."
 
 #: server/unithand.c:800
 #, c-format
-msgid "Game: Your %s%s survived the pathetic attack from %s's %s and became more experienced!"
+msgid "Your %s%s survived the pathetic attack from %s's %s and became more experienced!"
 msgstr "Hra: Vaše %s%s přežila patetický útok %s %s a stala se více zkušenou jednotkou!"
 
 #: server/unithand.c:809
 #, c-format
-msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
+msgid "Your %s%s survived the pathetic attack from %s's %s."
 msgstr "Hra: Vaše %s%s přežila patetický útok %s %s."
 
 #: server/unithand.c:819
 #, c-format
-msgid "Game: Your attacking %s failed against %s's %s%s!"
+msgid "Your attacking %s failed against %s's %s%s!"
 msgstr "Hra: Vaše útočící %s selhala proti %s's %s%s!"
 
 #: server/unithand.c:836
 #, c-format
-msgid "Game: Your attacking %s succeeded against %s's %s%s and became more experienced!"
+msgid "Your attacking %s succeeded against %s's %s%s and became more experienced!"
 msgstr "Hra: Vaše útočící jednotka %s zvítězila proti %s %s%s a stala se více zkušenou!"
 
 #: server/unithand.c:845
 #, c-format
-msgid "Game: Your attacking %s succeeded against %s's %s%s!"
+msgid "Your attacking %s succeeded against %s's %s%s!"
 msgstr "Hra: Vaše útočící %s byla uspěšná proti %s %s%s!"
 
 #: server/unithand.c:894
-msgid "Game: Cancel treaty in the players dialog first (F3)."
+msgid "Cancel treaty in the players dialog first (F3)."
 msgstr "Hra: Nejdříve zrušte dohodu, kterou s hráčem máte (F3)."
 
 #: server/unithand.c:918
 #, c-format
-msgid "Game: Only %s can attack from sea."
+msgid "Only %s can attack from sea."
 msgstr "Hra: Pouze %s může útočit z moře."
 
 #: server/unithand.c:923
-msgid "Game: Cannot attack from sea."
+msgid "Cannot attack from sea."
 msgstr "Hra: Nelze útočit z moře."
 
 #: server/unithand.c:928
 #: server/unittools.c:2169
-msgid "Game: Cannot attack unless you declare war first."
+msgid "Cannot attack unless you declare war first."
 msgstr "Hra: Nelze útočit dokud nevyhlásíte válku."
 
 #: server/unithand.c:931
 #, c-format
-msgid "Game: %s can only move into your own zone of control."
+msgid "%s can only move into your own zone of control."
 msgstr "Hra: %s se může pohybovat jen v našich zónach kontroly."
 
 #: server/unithand.c:968
-msgid "Game: This unit has no moves left."
+msgid "This unit has no moves left."
 msgstr "Hra: Této jednotce nezbývají tahy pro přesun."
 
 #: server/unithand.c:1022
-msgid "Game: Unit must be on land to perform diplomatic action."
+msgid "Unit must be on land to perform diplomatic action."
 msgstr "Hra: Jednotka musí být na pevnině k provedení diplomatické akce."
 
 #: server/unithand.c:1024
-msgid "Game: No diplomat action possible."
+msgid "No diplomat action possible."
 msgstr "Hra: Diplomatická akce není možná."
 
 #: server/unithand.c:1039
 #, c-format
-msgid "Game: Can't attack %s because you are not at war with %s."
+msgid "Can't attack %s because you are not at war with %s."
 msgstr "Hra: Nelze zaútočit na %s dokud nevyhlásíte válku %s."
 
 #: server/unithand.c:1050
 #, c-format
-msgid "Game: Can't attack %s's unit because you are not at war with %s."
+msgid "Can't attack %s's unit because you are not at war with %s."
 msgstr "Hra: Nelze zaútočit na %s jednotku, dokud nevyhlásíme válku %s."
 
 #: server/unithand.c:1068
-msgid "Game: This unit is being transported, and so cannot bombard."
+msgid "This unit is being transported, and so cannot bombard."
 msgstr "Hra: Tato jednotka je transportována, takže nemůže bombardovat."
 
 #: server/unithand.c:1083
-msgid "Game: You can't attack there."
+msgid "You can't attack there."
 msgstr "Hra: Zde nemůžete útočit."
 
 #: server/unithand.c:1103
-msgid "Game: This type of troops cannot take over a city."
+msgid "This type of troops cannot take over a city."
 msgstr "Hra: Tento typ jednotek nemůže ovládnout město."
 
 #: server/unithand.c:1121
-msgid "Game: A transported unit is not allied to all units or city on target tile."
+msgid "A transported unit is not allied to all units or city on target tile."
 msgstr "Hra: Transportovaná jednotka není spojenecká vůči všem jednotkám nebo městu v cílové lokaci."
 
 #: server/unithand.c:1165
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d remaining)."
+msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Hra: Náš %s pomohl se stavbou %s v %s (%d zbývá)."
 
 #: server/unithand.c:1167
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d surplus)."
+msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Hra: Náš %s pomohl se stavbou %s v %s (%d přebytek)."
 
 #: server/unithand.c:1211
 #, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route because it has no home city"
+msgid "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr "Hra: Lituji, ale jednotka %s nemůže založit obchodní cestu, protože nemá domovské město"
 
 #: server/unithand.c:1221
 #, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route between %s and %s"
+msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr "Hra: Lituji, ale jednotka %s nemůže založit obchodní cestu mezi %s a %s"
 
 #: server/unithand.c:1249
 #: server/unithand.c:1266
 #, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route here!"
+msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Hra: Lituji, ale jednotka %s zde nemůže založit obchodní cestu!"
 
 #: server/unithand.c:1252
@@ -6028,17 +5998,17 @@ msgstr "      Město %s již má %d lepší obchodní cesty!"
 #: server/unithand.c:1281
 #: server/unithand.c:1292
 #, c-format
-msgid "Game: Sorry, %s has canceled the trade route from %s to your city %s."
+msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr "Hra: Lituji, %s zrušil obchodní cestu z %s do Vašeho města %s."
 
 #: server/unithand.c:1324
 #, c-format
-msgid "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold and research."
+msgid "Your %s from %s has arrived in %s, and revenues amount to %d in gold and research."
 msgstr "Hra: Jednotka %s z města %s dorazila do města %s.  Výtěžek ve formě zlata a výzkumu je %d."
 
 #: server/unittools.c:233
 #, c-format
-msgid "Game: %s was upgraded for free to %s%s."
+msgid "%s was upgraded for free to %s%s."
 msgstr "Hra: Jednotka %s vylepšena zdarma na %s%s."
 
 #: server/unittools.c:269
@@ -6048,7 +6018,7 @@ msgstr "Nedostatek zlata. %s zrušeni."
 
 #: server/unittools.c:314
 #, c-format
-msgid "Game: Your %s has run out of hit points."
+msgid "Your %s has run out of hit points."
 msgstr "Hra: Vaší jednotce %s došly síly."
 
 #: server/unittools.c:316
@@ -6058,7 +6028,7 @@ msgstr "%s ztratili %s (síla)"
 
 #: server/unittools.c:333
 #, c-format
-msgid "Game: Your %s has been lost on the high seas."
+msgid "Your %s has been lost on the high seas."
 msgstr "Hra: Jednotka %s se ztratila na moři."
 
 #: server/unittools.c:335
@@ -6068,12 +6038,12 @@ msgstr "%s %s ztracena v moři"
 
 #: server/unittools.c:343
 #, c-format
-msgid "Game: Your %s survived on the high seas and became more experienced!"
+msgid "Your %s survived on the high seas and became more experienced!"
 msgstr "Hra: Vaše %s přežila na moři a stala se zkušenější!"
 
 #: server/unittools.c:354
 #, c-format
-msgid "Game: Your %s has been lost on unsafe terrain."
+msgid "Your %s has been lost on unsafe terrain."
 msgstr "Hra: Jednotka %s se ztratila v nebezpečném terénu."
 
 #: server/unittools.c:356
@@ -6083,12 +6053,12 @@ msgstr "%s jednotka ztracena v nebezpečném terénu"
 
 #: server/unittools.c:381
 #, c-format
-msgid "Game: Your %s has returned to refuel."
+msgid "Your %s has returned to refuel."
 msgstr "Hra: Jednotka %s se vrátila dotankovat."
 
 #: server/unittools.c:407
 #, c-format
-msgid "Game: Your %s has run out of fuel."
+msgid "Your %s has run out of fuel."
 msgstr "Hra: Jednotce %s došlo palivo."
 
 #: server/unittools.c:409
@@ -6098,37 +6068,37 @@ msgstr "%s ztratili %s (palivo)"
 
 #: server/unittools.c:589
 #, c-format
-msgid "Game: Your %s became more experienced!"
+msgid "Your %s became more experienced!"
 msgstr "Hra: Váš %s se stal zkušenější!"
 
 #: server/unittools.c:842
 #, c-format
-msgid "Game: Moved your %s due to changing land to sea."
+msgid "Moved your %s due to changing land to sea."
 msgstr "Hra: Přesunuta naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:863
 #, c-format
-msgid "Game: Embarked your %s due to changing land to sea."
+msgid "Embarked your %s due to changing land to sea."
 msgstr "Hra: Rozpuštěna naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:878
 #, c-format
-msgid "Game: Disbanded your %s due to changing land to sea."
+msgid "Disbanded your %s due to changing land to sea."
 msgstr "Hra: Rozpuštěna naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:900
 #, c-format
-msgid "Game: Moved your %s due to changing sea to land."
+msgid "Moved your %s due to changing sea to land."
 msgstr "Hra: Přesunuta naše %s kvůli změně moře na pobřeží."
 
 #: server/unittools.c:920
 #, c-format
-msgid "Game: Docked your %s due to changing sea to land."
+msgid "Docked your %s due to changing sea to land."
 msgstr "Hra: Naše %s přesunuta do do doku kvůli změně moře na pobřeží."
 
 #: server/unittools.c:935
 #, c-format
-msgid "Game: Disbanded your %s due to changing sea to land."
+msgid "Disbanded your %s due to changing sea to land."
 msgstr "Hra: Rozpuštěna naše %s kvůli změně moře na pobřeží."
 
 #: server/unittools.c:967
@@ -6153,12 +6123,12 @@ msgstr " poblíž %s"
 
 #: server/unittools.c:1189
 #, c-format
-msgid "Game: Teleported your %s to %s."
+msgid "Teleported your %s to %s."
 msgstr "Hra: Teleportována jednotka %s do %s."
 
 #: server/unittools.c:1215
 #, c-format
-msgid "Game: Disbanded your %s."
+msgid "Disbanded your %s."
 msgstr "Hra: Rozpuštěn náš %s."
 
 #: server/unittools.c:1533
@@ -6178,12 +6148,12 @@ msgstr "Hráč %s prohrál hru ztrátou jednotky a smrtí"
 
 #: server/unittools.c:1625
 #, c-format
-msgid "Game: %s escaped the destruction of %s, and fled to %s."
+msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Hra: Jednotka %s unikla před zničením %s a stáhla se do %s."
 
 #: server/unittools.c:1632
 #, c-format
-msgid "Game: %s lost when %s was lost."
+msgid "%s lost when %s was lost."
 msgstr "Hra: Jednotka %s ztracena spolu s jednotkou %s."
 
 #: server/unittools.c:1635
@@ -6193,12 +6163,12 @@ msgstr "Hra: Jednotka %s ztracena spolu s jednotkou %s."
 
 #: server/unittools.c:1693
 #, c-format
-msgid "Game: Barbarian leader captured, %d gold ransom paid."
+msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Hra: Vůdce barbarů byl zajat a prodán za výkupné %d zlatých."
 
 #: server/unittools.c:1710
 #, c-format
-msgid "Game: %s lost to an attack by %s's %s%s."
+msgid "%s lost to an attack by %s's %s%s."
 msgstr "Hra: %s ztracena při útoku %s %s%s."
 
 #: server/unittools.c:1713
@@ -6209,17 +6179,17 @@ msgstr "Odkazuje na : %s\n"
 
 #: server/unittools.c:1738
 #, c-format
-msgid "Game: You lost %d unit to an attack from %s's %s%s."
+msgid "You lost %d unit to an attack from %s's %s%s."
 msgstr "Hra: Ztratili jsme %d jednotku při útoku %s %s%s."
 
 #: server/unittools.c:1753
 #, c-format
-msgid "Game: %s lost to an attack from %s's %s."
+msgid "%s lost to an attack from %s's %s."
 msgstr "Hra: %s ztracena při útoku %s %s."
 
 #: server/unittools.c:2014
 #, c-format
-msgid "Game: Your %s was nuked by %s."
+msgid "Your %s was nuked by %s."
 msgstr "Hra: Na náš %s podnikli %s jaderný útok!"
 
 #: server/unittools.c:2016
@@ -6229,68 +6199,68 @@ msgstr "Vy"
 
 #: server/unittools.c:2020
 #, c-format
-msgid "Game: %s's %s was nuked."
+msgid "%s's %s was nuked."
 msgstr "Hra: Na %s %s byl proveden jaderný útok."
 
 #: server/unittools.c:2030
 #, c-format
-msgid "Game: %s was nuked by %s."
+msgid "%s was nuked by %s."
 msgstr "Hra: Na %s podnikli %s jaderný útok!"
 
 #: server/unittools.c:2037
 #, c-format
-msgid "Game: You nuked %s."
+msgid "You nuked %s."
 msgstr "Hra: Při atomovém útoku jste ozářil(a) město %s."
 
 #: server/unittools.c:2075
 #, c-format
-msgid "Game: %s detonated a nuke!"
+msgid "%s detonated a nuke!"
 msgstr "Hra: %s odpálili atomovou zbraň."
 
 #: server/unittools.c:2115
 #, c-format
-msgid "Game: %s transported succesfully."
+msgid "%s transported succesfully."
 msgstr "Hra: Jednotka %s byla úspěšně transportována."
 
 #: server/unittools.c:2138
-msgid "Game: This unit type can not be paradropped."
+msgid "This unit type can not be paradropped."
 msgstr "Hra: Tento typ jednotky nemůže provést výsadek."
 
 #: server/unittools.c:2148
-msgid "Game: You cannot paradrop a transporter unit."
+msgid "You cannot paradrop a transporter unit."
 msgstr "Hra: Nelze provést výsadek transportní jednotky."
 
 #: server/unittools.c:2153
-msgid "Game: The destination location is not known."
+msgid "The destination location is not known."
 msgstr "Hra: Cílová oblast není prozkoumána."
 
 #: server/unittools.c:2160
-msgid "Game: This unit cannot paradrop into ocean."
+msgid "This unit cannot paradrop into ocean."
 msgstr "Hra: Tato jednotka nemůže provést výsadek do oceánu."
 
 #: server/unittools.c:2178
 #, c-format
-msgid "Game: The distance to the target (%i) is greater than the unit's range (%i)."
+msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Hra: Vzdálenost k cíli (%i) je větší než dosah jednotky (%i)."
 
 #: server/unittools.c:2192
 #, c-format
-msgid "Game: Your %s paradropped into the ocean and was lost."
+msgid "Your %s paradropped into the ocean and was lost."
 msgstr "Hra: Jednotka %s vysazena do oceánu a ztracena."
 
 #: server/unittools.c:2205
 #, c-format
-msgid "Game: Your %s was killed by enemy units at the paradrop destination."
+msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Hra: Jednotka %s byla zabita nepřátelskými jednotkami v místě výsadku."
 
 #: server/unittools.c:2227
 #, c-format
-msgid "Game: You found %d gold."
+msgid "You found %d gold."
 msgstr "Hra: Nalezl(a) jste %d zlatých."
 
 #: server/unittools.c:2253
 #, c-format
-msgid "Game: You found %s in ancient scrolls of wisdom."
+msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Hra: Nalezl(a) jste %s ve starodávných svitcích moudrosti."
 
 #: server/unittools.c:2255
@@ -6300,76 +6270,76 @@ msgstr "%s objevují %s (Chýše)"
 
 #: server/unittools.c:2257
 #, c-format
-msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
+msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Hra: %s Nalezli %s ve starodávných svitcích moudrosti."
 
 #: server/unittools.c:2277
-msgid "Game: A band of friendly mercenaries joins your cause."
+msgid "A band of friendly mercenaries joins your cause."
 msgstr "Hra: Připojila se k vám skupina žoldáků."
 
 #: server/unittools.c:2295
-msgid "Game: An abandoned village is here."
+msgid "An abandoned village is here."
 msgstr "Hra: Nalezla(a) jste opuštěnou osadu."
 
 #: server/unittools.c:2305
-msgid "Game: You have unleashed a horde of barbarians!"
+msgid "You have unleashed a horde of barbarians!"
 msgstr "Hra: Vyrušil(a) jste skupinu barbarů!"
 
 #: server/unittools.c:2308
 #, c-format
-msgid "Game: Your %s has been killed by barbarians!"
+msgid "Your %s has been killed by barbarians!"
 msgstr "Hra: Jednotka %s byla zničena barbary!"
 
 #: server/unittools.c:2324
-msgid "Game: You found a friendly city."
+msgid "You found a friendly city."
 msgstr "Hra: Nalezl(a) jste přátelské město."
 
 #: server/unittools.c:2329
-msgid "Game: Friendly nomads are impressed by you, and join you."
+msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Hra: Udělal(a) jste dojem na skupinu kočovných nomádů, kteří se k Vám rozhodli připojit."
 
 #: server/unittools.c:2354
-msgid "Game: Your overflight frightens the tribe; they scatter in terror."
+msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Hra: Přelet nad osadou vyděsil její obyvatele, kteří se v hrůze rozprchli."
 
 #: server/unittools.c:2922
 #, c-format
-msgid "Game: %s aborted GOTO as there are units in the way."
+msgid "%s aborted GOTO as there are units in the way."
 msgstr "Hra: %s zrušili přesun, protože narazili cestou na jednotky."
 
 #: server/unittools.c:2965
 #, c-format
-msgid "Game: Your %s cancelled patrol order because it encountered a foreign unit."
+msgid "Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr "Hra: Jednotka %s přerušila hlídku neboť narazila na cizí jednotku."
 
 #: server/unittools.c:3038
 #, c-format
-msgid "Game: Orders for %s aborted as there are units nearby."
+msgid "Orders for %s aborted as there are units nearby."
 msgstr "Hra: Příkazy pro %s byly zrušeny, protože poblíž jsou jednotky."
 
 #: server/unittools.c:3084
 #, c-format
-msgid "Game: Orders for %s aborted since they give an invalid activity."
+msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Hra: Rozkazy pro %s zrušeny, protože určují neplatnou činnost."
 
 #: server/unittools.c:3098
 #, c-format
-msgid "Game: Orders for %s aborted since they give an invalid location."
+msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Hra: Rozkazy pro %s zrušeny, protože určují neplatnou polohu."
 
 #: server/unittools.c:3108
 #, c-format
-msgid "Game: Orders for %s aborted as there are units in the way."
+msgid "Orders for %s aborted as there are units in the way."
 msgstr "Hra: Rozkazy pro %s zrušeny, v cestě jsou jednotky."
 
 #: server/unittools.c:3134
 #, c-format
-msgid "Game: Orders for %s aborted because of failed move."
+msgid "Orders for %s aborted because of failed move."
 msgstr "Hra: Rozkazy pro %s zrušeny kvůli selhání pohybu."
 
 #: server/unittools.c:3161
 #, c-format
-msgid "Game: Your %s has invalid orders."
+msgid "Your %s has invalid orders."
 msgstr "Hra: Jednotka %s má neplatné rozkazy."
 
 #: server/generator/mapgen.c:1553
@@ -7012,7 +6982,7 @@ msgstr "Při autoamtickém spojení nastala chyba; končím."
 
 #: client/climisc.c:162
 #, c-format
-msgid "Game: Changing production of every %s into %s."
+msgid "Changing production of every %s into %s."
 msgstr "Hra: Měním výrobu z %s na %s."
 
 #: client/climisc.c:202
@@ -7117,12 +7087,12 @@ msgstr "Export se nepovedl, nelze psát do souboru."
 
 #: client/climisc.c:1017
 #, c-format
-msgid "Game: You don't buy %s in %s!"
+msgid "You don't buy %s in %s!"
 msgstr "Hra: Nemůžete si koupit %s v %s!"
 
 #: client/climisc.c:1037
 #, c-format
-msgid "Game: %s costs %d gold and you only have %d gold."
+msgid "%s costs %d gold and you only have %d gold."
 msgstr "Hra: %s stojí %d zlatých a vy máte pouze %d zlatých."
 
 #: client/clinet.c:126
@@ -7199,41 +7169,41 @@ msgid "We can't take control of server, attempting to kill it."
 msgstr "Nelze převzít kontrolu nad serverem, zkusíme kill."
 
 #: client/control.c:718
-msgid "Game: Only transporter units can be unloaded."
+msgid "Only transporter units can be unloaded."
 msgstr "Hra: Vyloženy mohou být pouze transportní jednotky."
 
 #: client/control.c:920
-msgid "Game: Only settler units and military units in cities can be put in auto-mode."
+msgid "Only settler units and military units in cities can be put in auto-mode."
 msgstr "Hra: Pouze osadníci a vojenské jednotky ve městech mohou být přepnutydo auto-módu."
 
 #: client/control.c:992
-msgid "Game: Only nuclear units can do this."
+msgid "Only nuclear units can do this."
 msgstr "Hra: Toto může jen jaderná střela."
 
 #: client/control.c:1009
-msgid "Game: Only paratrooper units can do this."
+msgid "Only paratrooper units can do this."
 msgstr "Hra: Toto mohou jen výsadkáři."
 
 #: client/control.c:1432
-msgid "Game: Too far for this unit."
+msgid "Too far for this unit."
 msgstr "Hra: Příliš daleko pro tuto jednotku."
 
 #: client/control.c:1639
 #: client/control.c:1679
 #: client/control.c:1703
-msgid "Game: Didn't find a route to the destination!"
+msgid "Didn't find a route to the destination!"
 msgstr "Hra: Nepodařilo se nalézt cestu k cíli!"
 
 #: client/control.c:1669
-msgid "Game: Sorry, airunit patrol not yet implemented."
+msgid "Sorry, airunit patrol not yet implemented."
 msgstr "Hra: Lituji, hlídkování letectvem není ještě implementováno."
 
 #: client/control.c:1693
-msgid "Game: Sorry, airunit connect not yet implemented."
+msgid "Sorry, airunit connect not yet implemented."
 msgstr "Hra: Lituji, propojení letectvem není ještě implementováno."
 
 #: client/control.c:1748
-msgid "Game: Oh my! You seem to have no capital!"
+msgid "Oh my! You seem to have no capital!"
 msgstr "Hra: Sakra! Vypadá to, že nemáme hlavní město!"
 
 #: client/helpdata.c:104
@@ -7709,21 +7679,17 @@ msgstr "%s%d zlata"
 
 #: client/mapctrl_common.c:341
 #, c-format
-msgid "Game: You don't know how to build %s!"
+msgid "You don't know how to build %s!"
 msgstr "Hra: Nevíte jak postavit %s!"
 
 #: client/mapctrl_common.c:351
 #, c-format
-msgid "Game: Copy %s to clipboard."
+msgid "Copy %s to clipboard."
 msgstr "Hra: Kopírovat %s do schránky."
 
 #: client/mapctrl_common.c:368
-msgid "Game: Clipboard is empty."
+msgid "Clipboard is empty."
 msgstr "Hra: Schránka je prázdná."
-
-#: client/messagewin_common.c:113
-msgid "Game: "
-msgstr "Hra: "
 
 #: client/options.c:82
 msgid "Save the options when exiting the game"
@@ -7732,10 +7698,6 @@ msgstr "Uloží nastavení při ukončení hry"
 #: client/options.c:83
 msgid "Default player's login name"
 msgstr "Výchozí uživatelské jméno hráče"
-
-#: client/options.c:85
-msgid "Default server"
-msgstr "Výchozí server"
 
 #: client/options.c:87
 msgid "Default server's port"
@@ -7990,40 +7952,36 @@ msgid "Enemy Diplomat: Theft"
 msgstr "Nepřátelský diplomat: Krádež"
 
 #: client/options.c:231
-msgid "Game: Broadcast Report"
+msgid "Broadcast Report"
 msgstr "Hra: Vysílání hlášení"
 
 #: client/options.c:232
-msgid "Game: Game Ended"
+msgid "Game Ended"
 msgstr "Hra: Konec hry"
 
 #: client/options.c:233
-msgid "Game: Game Started"
+msgid "Game Started"
 msgstr "Hra: Hra spuštěna"
 
 #: client/options.c:234
-msgid "Game: Message from Server Operator"
+msgid "Message from Server Operator"
 msgstr "Hra: Zpráva od operátora serveru"
 
 #: client/options.c:235
-msgid "Game: Nation Selected"
+msgid "Nation Selected"
 msgstr "Hra: Vybrán národ"
 
 #: client/options.c:236
-msgid "Game: Player Destroyed"
+msgid "Player Destroyed"
 msgstr "Hra: Hráč zničen"
 
 #: client/options.c:237
-msgid "Game: Report"
+msgid "Report"
 msgstr "Hra: Přehled"
 
 #: client/options.c:238
-msgid "Game: Turn Bell"
+msgid "Turn Bell"
 msgstr "Hra: Konec tahu"
-
-#: client/options.c:239
-msgid "Game: Year Advance"
-msgstr "Hra: Další rok"
 
 #: client/options.c:240
 msgid "Global: Eco-Disaster"
@@ -10298,7 +10256,7 @@ msgstr "_Přidat klauzuli..."
 #: client/gui-mui/diplodlg.c:382
 #: client/gui-win32/diplodlg.c:261
 #: client/gui-xaw/diplodlg.c:948
-msgid "Game: Invalid amount of gold specified."
+msgid "Invalid amount of gold specified."
 msgstr "Hra: Určeno neplatné množství zlata."
 
 #: client/gui-gtk-2.0/finddlg.c:64
@@ -12766,7 +12724,7 @@ msgstr "Kon_figurovat..."
 
 #: client/gui-gtk/cityrep.c:966
 #: client/gui-win32/cityrep.c:693
-msgid "Game: Select a unit or improvement to change production to."
+msgid "Select a unit or improvement to change production to."
 msgstr "Hra: Vyberte jednotku nebo vylepšení, aby se mohla změnit produkce."
 
 #: client/gui-gtk/cityrep.c:1000
@@ -13537,7 +13495,7 @@ msgstr[2] "(nečinný %d tahů)"
 #: client/gui-mui/plrdlg.c:255
 #: client/gui-win32/plrdlg.c:72
 #: client/gui-xaw/plrdlg.c:355
-msgid "Game: You need an embassy to establish a diplomatic meeting."
+msgid "You need an embassy to establish a diplomatic meeting."
 msgstr "Hra: Potřebujeme ambasádu pro diplomatická setkání."
 
 #: client/gui-gtk/repodlgs.c:626
@@ -14315,10 +14273,6 @@ msgstr "Diplomatické/Špionážní akce"
 msgid "Wait"
 msgstr "Čekat"
 
-#: client/gui-mui/gui_main.c:277
-msgid "Report"
-msgstr "Přehled"
-
 #: client/gui-mui/gui_main.c:278
 msgid "City Report..."
 msgstr "Přehled měst..."
@@ -14330,10 +14284,6 @@ msgstr "Přehled výzkumu..."
 #: client/gui-mui/gui_main.c:280
 msgid "Trade Report..."
 msgstr "Obchodní bilance..."
-
-#: client/gui-mui/gui_main.c:281
-msgid "Military Report..."
-msgstr "Vojenský přehled..."
 
 #: client/gui-mui/gui_main.c:284
 #: client/gui-xaw/menu.c:222
@@ -14815,11 +14765,11 @@ msgid "Available To Build"
 msgstr "Dostupné stavby"
 
 #: client/gui-win32/cityrep.c:684
-msgid "Game: Select a unit or improvement to change production from."
+msgid "Select a unit or improvement to change production from."
 msgstr "Hra: Vyberte jednotku nebo vylepšení, ze které chcete změnit produkci.."
 
 #: client/gui-win32/cityrep.c:699
-msgid "Game: That's the same thing!"
+msgid "That's the same thing!"
 msgstr "Hra: To je stejná věc!"
 
 #: client/gui-win32/cityrep.c:878

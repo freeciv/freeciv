@@ -63,15 +63,15 @@ static void complain_ambiguous(struct connection *pconn, const char *name,
   switch(player_conn) {
   case 0:
     my_snprintf(message, sizeof(message),
-		_("Game: %s is an ambiguous player name-prefix."), name);
+		_("%s is an ambiguous player name-prefix."), name);
     break;
   case 1:
     my_snprintf(message, sizeof(message),
-		_("Game: %s is an ambiguous connection name-prefix."), name);
+		_("%s is an ambiguous connection name-prefix."), name);
     break;
   case 2:
     my_snprintf(message, sizeof(message),
-                _("Game: %s is an anonymous name. Use connection name"), name);
+                _("%s is an anonymous name. Use connection name"), name);
     break;
   default:
     assert(0);
@@ -183,7 +183,7 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
     /* this won't work if we aren't attached to a player */
     if (!pconn->player) {
       my_snprintf(chat, sizeof(chat),
-                  _("Game: You are not attached to a player."));
+                  _("You are not attached to a player."));
       dsend_packet_chat_msg(pconn, chat, -1, -1, E_NOEVENT, -1);
       return;
     }
@@ -285,7 +285,7 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
       if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
 	/* Would have done something above if connected */
 	my_snprintf(chat, sizeof(chat),
-		    _("Game: %s is not connected."), pdest->name);
+		    _("%s is not connected."), pdest->name);
 	dsend_packet_chat_msg(pconn, chat, -1, -1, E_NOEVENT, -1);
 	return;
       }
@@ -297,10 +297,10 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
     if (!cpblank || (cp < cpblank)) {
       if (double_colon) {
 	my_snprintf(chat, sizeof(chat),
-		    _("Game: There is no connection by the name %s."), name);
+		    _("There is no connection by the name %s."), name);
       } else {
 	my_snprintf(chat, sizeof(chat),
-		    _("Game: There is no player nor connection by the name %s."),
+		    _("There is no player nor connection by the name %s."),
 		    name);
       }
       dsend_packet_chat_msg(pconn, chat, -1, -1, E_NOEVENT, -1);

@@ -366,7 +366,7 @@ msgstr ""
 #: common/unit.c:1908
 #, fuzzy
 msgid "You can only upgrade units in your cities."
-msgstr "Game: 落下傘兵部隊だけがこれを行なえます。"
+msgstr "落下傘兵部隊だけがこれを行なえます。"
 
 #: common/unit.c:1912
 #, c-format
@@ -654,18 +654,18 @@ msgstr "エラー %d (stderror 無しでコンパイルされました)"
 
 #: ai/aicity.c:654 server/citytools.c:1779
 #, c-format
-msgid "Game: The %s have stopped building The %s in %s."
-msgstr "Game: %sは%sを%sに建てるのを中断しました。"
+msgid "The %s have stopped building The %s in %s."
+msgstr "%sは%sを%sに建てるのを中断しました。"
 
 #: ai/aicity.c:664 server/citytools.c:1826
 #, c-format
-msgid "Game: The %s have started building The %s in %s."
-msgstr "Game: %sは%sを%sに建て始めました。"
+msgid "The %s have started building The %s in %s."
+msgstr "%sは%sを%sに建て始めました。"
 
 #: ai/aicity.c:958
 #, c-format
-msgid "Game: %s is selling %s (not needed) for %d."
-msgstr "Game: %sで(不必要な)%sを金%dで売ります。"
+msgid "%s is selling %s (not needed) for %d."
+msgstr "%sで(不必要な)%sを金%dで売ります。"
 
 #: ai/advdiplomacy.c:258
 #, c-format
@@ -849,13 +849,13 @@ msgstr "*%s (AI)* %sは我々両国を脅かしている。我々は停戦をす
 
 #: server/autoattack.c:163
 #, c-format
-msgid "Game: Auto-Attack: %s's %s found a too tough enemy (%s)"
-msgstr "Game: 自動攻撃: %sの%sは、非常に強い敵(%s)を発見"
+msgid "Auto-Attack: %s's %s found a too tough enemy (%s)"
+msgstr "自動攻撃: %sの%sは、非常に強い敵(%s)を発見"
 
 #: server/autoattack.c:192
 #, c-format
-msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
-msgstr "Game: 自動攻撃: %sの%sが、%sの%sを攻撃中"
+msgid "Auto-Attack: %s's %s attacking %s's %s"
+msgstr "自動攻撃: %sの%sが、%sの%sを攻撃中"
 
 #: server/barbarian.c:156
 #, c-format
@@ -877,69 +877,69 @@ msgstr "海賊が%sのそばに見えます!"
 # yasu
 #: server/cityhand.c:114
 #, fuzzy
-msgid "Game: You don't have a worker here."
-msgstr "Game: ここには労働者はいません。"
+msgid "You don't have a worker here."
+msgstr "ここには労働者はいません。"
 
 # yasu
 #: server/cityhand.c:171
-msgid "Game: You have already sold something here this turn."
-msgstr "Game: このターンですでに売却しています。"
+msgid "You have already sold something here this turn."
+msgstr "このターンですでに売却しています。"
 
 #: server/cityhand.c:180
 #, c-format
-msgid "Game: You sell %s in %s for %d gold."
-msgstr "Game: %2$sの%1$sを金%3$dで売りました。"
+msgid "You sell %s in %s for %d gold."
+msgstr "%2$sの%1$sを金%3$dで売りました。"
 
 # yasu
 #: server/cityhand.c:217
-msgid "Game: Cannot buy in city created this turn."
-msgstr "Game: このターンに作られた都市では買えません。"
+msgid "Cannot buy in city created this turn."
+msgstr "このターンに作られた都市では買えません。"
 
 #: server/cityhand.c:223
-msgid "Game: You have already bought this turn."
-msgstr "Game: 既にこのターンに買っています。"
+msgid "You have already bought this turn."
+msgstr "既にこのターンに買っています。"
 
 # yasu
 #: server/cityhand.c:230
 #, c-format
-msgid "Game: You don't buy %s!"
-msgstr "Game: %sは買えません!"
+msgid "You don't buy %s!"
+msgstr "%sは買えません!"
 
 # yasu
 #: server/cityhand.c:237
-msgid "Game: Can't buy units when city is in disorder."
-msgstr "Game: 都市が混乱してる時は部隊は買えません。"
+msgid "Can't buy units when city is in disorder."
+msgstr "都市が混乱してる時は部隊は買えません。"
 
 #: server/cityhand.c:275
 #, c-format
-msgid "Game: %s bought in %s for %d gold."
-msgstr "Game: %2$sで金%3$dを払って%1$sを買いました。"
+msgid "%s bought in %s for %d gold."
+msgstr "%2$sで金%3$dを払って%1$sを買いました。"
 
 #: server/cityhand.c:356 client/gui-gtk/wldlg.c:1006
 #: client/gui-gtk/wldlg.c:1180 client/gui-gtk/wldlg.c:1207
-msgid "Game: You have bought this turn, can't change."
-msgstr "Game: このターンに買ったので変更できません。"
+msgid "You have bought this turn, can't change."
+msgstr "このターンに買ったので変更できません。"
 
 #: server/cityhand.c:382 server/plrhand.c:421 server/stdinhand.c:363
 #: server/unithand.c:212 server/unithand.c:498
 #, c-format
-msgid "Game: %s"
-msgstr "Game: %s"
+msgid "%s"
+msgstr "%s"
 
 #: server/citytools.c:217
 #, fuzzy, c-format
 msgid "You already have a city called %s."
-msgstr "Game: 既に%sという名前の都市を持っています"
+msgstr "既に%sという名前の都市を持っています"
 
 #: server/citytools.c:228
 #, fuzzy, c-format
 msgid "A city called %s already exists."
-msgstr "Game: %sと呼ばれる都市は既に存在します。"
+msgstr "%sと呼ばれる都市は既に存在します。"
 
 #: server/citytools.c:255
 #, fuzzy, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
-msgstr "Game: 都市名として%sは利用できません。%sに予約されています"
+msgstr "都市名として%sは利用できません。%sに予約されています"
 
 #: server/citytools.c:266
 #, c-format
@@ -958,30 +958,30 @@ msgstr "いいかげんに名付けられた都市"
 
 #: server/citytools.c:501
 #, c-format
-msgid "Game: Changed homecity of %s to %s."
-msgstr "Game: %sの所属を%sへ変更します。"
+msgid "Changed homecity of %s to %s."
+msgstr "%sの所属を%sへ変更します。"
 
 #: server/citytools.c:511
 #, c-format
-msgid "Game: Transfered %s in %s from %s to %s."
-msgstr "Game: %2$sにある%1$sを%3$sから%4$sへ輸送しました。"
+msgid "Transfered %s in %s from %s to %s."
+msgstr "%2$sにある%1$sを%3$sから%4$sへ輸送しました。"
 
 # yasu
 #: server/citytools.c:520
 #, c-format
-msgid "Game: Transfered %s from %s to %s."
-msgstr "Game: %sを%sから%sへ輸送しました。"
+msgid "Transfered %s from %s to %s."
+msgstr "%sを%sから%sへ輸送しました。"
 
 #: server/citytools.c:600
 #, c-format
-msgid "Game: %s lost along with control of %s."
-msgstr "Game: %2$sのコントロールを失うと共に%1$sを失いました。"
+msgid "%s lost along with control of %s."
+msgstr "%2$sのコントロールを失うと共に%1$sを失いました。"
 
 #: server/citytools.c:719
 #, c-format
-msgid "Game: You lost your capital %s. A new palace was built in %s."
+msgid "You lost your capital %s. A new palace was built in %s."
 msgstr ""
-"Game: あなたは 首都 %s を失いました。新しい宮殿が %s に建てられました。"
+"あなたは 首都 %s を失いました。新しい宮殿が %s に建てられました。"
 
 #: server/citytools.c:777
 #, c-format
@@ -991,10 +991,10 @@ msgstr "既に%sと呼ばれる都市があります。都市は%sと改名さ�
 #: server/citytools.c:865
 #, c-format
 msgid ""
-"Game: The people in %s are stunned by your technological insight!\n"
+"The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
-"Game: %s の市民は、あなたの技術を垣間見、驚愕しました。\n"
+"%s の市民は、あなたの技術を垣間見、驚愕しました。\n"
 "      労働者は自発的に集まり、都市に鉄道を引きました。"
 
 #: server/citytools.c:876 server/citytools.c:1025
@@ -1009,38 +1009,38 @@ msgstr "%4$sによって%1$s (%2$i, %3$i)が作られました。"
 
 #: server/citytools.c:994
 #, c-format
-msgid "Game: You have founded %s"
-msgstr "Game: %sを作りました。"
+msgid "You have founded %s"
+msgstr "%sを作りました。"
 
 # yasu
 #: server/citytools.c:1045
 #, c-format
-msgid "Game: Changed homecity of %s in %s."
-msgstr "Game: %sの帰属を%sに変えました。"
+msgid "Changed homecity of %s in %s."
+msgstr "%sの帰属を%sに変えました。"
 
 #: server/citytools.c:1076
 #, c-format
-msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
+msgid "Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr ""
-"Game: 陸地で動けなくなることを避けるために、解散した都市%2$sの外に%1$sを移動"
+"陸地で動けなくなることを避けるために、解散した都市%2$sの外に%1$sを移動"
 "しました。"
 
 #: server/citytools.c:1087
 #, c-format
 msgid ""
-"Game: When %s was disbanded your %s could not get out, and it was therefore "
+"When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
-msgstr "Game: %sが解散した時、%sは外に出ることができなかったため座礁しました。"
+msgstr "%sが解散した時、%sは外に出ることができなかったため座礁しました。"
 
 #: server/citytools.c:1191
 #, c-format
-msgid "Game: You destroy %s completely."
-msgstr "Game: %sを完全に破壊しました。"
+msgid "You destroy %s completely."
+msgstr "%sを完全に破壊しました。"
 
 #: server/citytools.c:1193
 #, c-format
-msgid "Game: %s has been destroyed by %s."
-msgstr "Game: %s は %s によって破壊されました。"
+msgid "%s has been destroyed by %s."
+msgstr "%s は %s によって破壊されました。"
 
 #: server/citytools.c:1195
 #, c-format
@@ -1049,13 +1049,13 @@ msgstr "%s (%s) (%i,%i) は %s によって破壊されました。"
 
 #: server/citytools.c:1212
 #, c-format
-msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
-msgstr "Game: %s を制圧し、金 %d を略奪しました!"
+msgid "You conquer %s, your lootings accumulate to %d gold!"
+msgstr "%s を制圧し、金 %d を略奪しました!"
 
 #: server/citytools.c:1216
 #, c-format
-msgid "Game: %s conquered %s and looted %d gold from the city."
-msgstr "Game: %s は %s を制圧し、金 %d を略奪しました。"
+msgid "%s conquered %s and looted %d gold from the city."
+msgstr "%s は %s を制圧し、金 %d を略奪しました。"
 
 #: server/citytools.c:1219
 #, c-format
@@ -1064,13 +1064,13 @@ msgstr "%5$sによって%1$s (%2$s) (%3$i,%4$i)は制圧されました"
 
 #: server/citytools.c:1224
 #, fuzzy, c-format
-msgid "Game: You have liberated %s! Lootings accumulate to %d gold."
-msgstr "Game: %sを解放しました。金 %d を略奪しました。"
+msgid "You have liberated %s! Lootings accumulate to %d gold."
+msgstr "%sを解放しました。金 %d を略奪しました。"
 
 #: server/citytools.c:1229
 #, c-format
-msgid "Game: %s liberated %s and looted %d gold from the city."
-msgstr "Game: %s は %s を解放し、金 %d が都市から略奪されました。"
+msgid "%s liberated %s and looted %d gold from the city."
+msgstr "%s は %s を解放し、金 %d が都市から略奪されました。"
 
 #: server/citytools.c:1232
 #, c-format
@@ -1084,73 +1084,73 @@ msgstr "作業リストから"
 #. TRANS: "<city> is building <production><source>."
 #: server/citytools.c:1813
 #, c-format
-msgid "Game: %s is building %s%s."
-msgstr "Game: %sで%sを%s作り始めました。"
+msgid "%s is building %s%s."
+msgstr "%sで%sを%s作り始めました。"
 
 #. TRANS: "<city> is building <production>."
 #: server/citytools.c:1818
 #, c-format
-msgid "Game: %s is building %s."
-msgstr "Game: %2$sを%1$sで作り始めました。"
+msgid "%s is building %s."
+msgstr "%2$sを%1$sで作り始めました。"
 
 #: server/citytools.c:2081
 #, c-format
-msgid "Game: You sell %s in %s (now landlocked) for %d gold."
-msgstr "Game: (今は陸地で囲まれている)%2$sの%1$sを%3$dで売ります。"
+msgid "You sell %s in %s (now landlocked) for %d gold."
+msgstr "(今は陸地で囲まれている)%2$sの%1$sを%3$dで売ります。"
 
 # yasu
 #: server/cityturn.c:120
 #, c-format
-msgid "Game: %s is selling %s (obsolete) for %d."
-msgstr "Game: %sで(古い)%sを金%dで売ります。"
+msgid "%s is selling %s (obsolete) for %d."
+msgstr "%sで(古い)%sを金%dで売ります。"
 
 #: server/cityturn.c:287
 #, c-format
-msgid "Game: Notice: Wonder %s in %s will be finished next turn."
-msgstr "Game: 予告: 次のターン、%2$sの不思議%1$sが完成します。"
+msgid "Notice: Wonder %s in %s will be finished next turn."
+msgstr "予告: 次のターン、%2$sの不思議%1$sが完成します。"
 
 # yasu
 #: server/cityturn.c:320
 #, c-format
 msgid ""
-"Game: Suggest throttling growth in %s to use %s (being built) more "
+"Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
 msgstr "%sの成長を絞った方がいいです。%s(建設中)をより効果的に利用できます。"
 
 #: server/cityturn.c:331
 #, c-format
-msgid "Game: %s may soon grow to size %i."
-msgstr "Game: %sはまもなく大きさ%iに増えます。"
+msgid "%s may soon grow to size %i."
+msgstr "%sはまもなく大きさ%iに増えます。"
 
 #: server/cityturn.c:338
 #, c-format
-msgid "Game: Warning: Famine feared in %s."
-msgstr "Game: 警告: %sは飢饉の恐れがあります。"
+msgid "Warning: Famine feared in %s."
+msgstr "警告: %sは飢饉の恐れがあります。"
 
 # yasu
 #: server/cityturn.c:362
-msgid "Game: WARNING, we're LOW on FUNDS sire."
-msgstr "Game: 警告、資金が足りません。"
+msgid "WARNING, we're LOW on FUNDS sire."
+msgstr "警告、資金が足りません。"
 
 #: server/cityturn.c:452
 #, c-format
-msgid "Game: %s needs %s (being built) to grow any further."
-msgstr "Game: %s がこれ以上大きくなるには %s(建築中)を作る必要があります。"
+msgid "%s needs %s (being built) to grow any further."
+msgstr "%s がこれ以上大きくなるには %s(建築中)を作る必要があります。"
 
 #: server/cityturn.c:457
 #, fuzzy, c-format
-msgid "Game: %s needs an improvement to grow any further."
-msgstr "Game: %s がこれ以上大きくなるには %s を作る必要があります。"
+msgid "%s needs an improvement to grow any further."
+msgstr "%s がこれ以上大きくなるには %s を作る必要があります。"
 
 #: server/cityturn.c:503
 #, c-format
-msgid "Game: %s grows to size %d."
-msgstr "Game: %sの大きさは%dに増えました。"
+msgid "%s grows to size %d."
+msgstr "%sの大きさは%dに増えました。"
 
 #: server/cityturn.c:534
 #, c-format
-msgid "Game: Famine feared in %s, %s lost!"
-msgstr "Game: 飢饉が%sで起こり、%sを失いました。"
+msgid "Famine feared in %s, %s lost!"
+msgstr "飢饉が%sで起こり、%sを失いました。"
 
 #: server/cityturn.c:536
 #, c-format
@@ -1159,74 +1159,74 @@ msgstr "%sは%sを失います(飢饉)"
 
 #: server/cityturn.c:544
 #, c-format
-msgid "Game: Famine causes population loss in %s."
-msgstr "Game: 飢饉で%sの人口を失いました。"
+msgid "Famine causes population loss in %s."
+msgstr "飢饉で%sの人口を失いました。"
 
 #: server/cityturn.c:609 server/cityturn.c:649
 #, c-format
-msgid "Game: %s can't build %s from the worklist.  Purging..."
+msgid "%s can't build %s from the worklist.  Purging..."
 msgstr ""
-"Game: %sで作業リストから%sを建てることができません。 purge しています..."
+"%sで作業リストから%sを建てることができません。 purge しています..."
 
 #: server/cityturn.c:628 server/cityturn.c:669
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; tech not yet available.  "
+"%s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
-"Game: %sで作業リストから%sを建てることができません。科学がまだ利用できませ"
+"%sで作業リストから%sを建てることができません。科学がまだ利用できませ"
 "ん。延期しています..."
 
 #: server/cityturn.c:636 server/cityturn.c:693 server/cityturn.c:761
 #: server/cityturn.c:805
 #, c-format
-msgid "Game: Production of %s is upgraded to %s in %s."
-msgstr "Game: %3$sで、%1$sの生産を%2$sへアップグレードしました。"
+msgid "Production of %s is upgraded to %s in %s."
+msgstr "%3$sで、%1$sの生産を%2$sへアップグレードしました。"
 
 # yasu
 #: server/cityturn.c:675
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; need to have %s first.  "
+"%s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
 msgstr ""
-"Game: %sで作業リストから%sを建てることができません。まず、%sが必要です。延期"
+"%sで作業リストから%sを建てることができません。まず、%sが必要です。延期"
 "しています..."
 
 # yasu
 #: server/cityturn.c:684
 #, c-format
 msgid ""
-"Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
+"%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
-"Game: %sで作業リストから%sを建てることができません。理由はわかりません! 延期"
+"%sで作業リストから%sを建てることができません。理由はわかりません! 延期"
 "しています..."
 
 #: server/cityturn.c:718
 #, c-format
-msgid "Game: %s's worklist is now empty."
-msgstr "Game: %sの作業リストはなくなりました。"
+msgid "%s's worklist is now empty."
+msgstr "%sの作業リストはなくなりました。"
 
 #: server/cityturn.c:827
 #, c-format
-msgid "Game: %s can't upkeep %s, unit disbanded."
-msgstr "Game: %sは%sを援助できません。部隊は解散しました。"
+msgid "%s can't upkeep %s, unit disbanded."
+msgstr "%sは%sを援助できません。部隊は解散しました。"
 
 #: server/cityturn.c:846
 #, c-format
-msgid "Game: Citizens in %s perish for their failure to upkeep %s!"
+msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr ""
 
 # clefs
 #: server/cityturn.c:885 server/cityturn.c:1011
 #, c-format
-msgid "Game: %s is building %s, which is no longer available."
-msgstr "Game: %sで%sを建設中ですが、これはもう無意味です。"
+msgid "%s is building %s, which is no longer available."
+msgstr "%sで%sを建設中ですが、これはもう無意味です。"
 
 #: server/cityturn.c:922
 #, c-format
-msgid "Game: The %s have finished building %s in %s."
-msgstr "Game: %sは%sを%sに建て終わりました。"
+msgid "The %s have finished building %s in %s."
+msgstr "%sは%sを%sに建て終わりました。"
 
 #: server/cityturn.c:926 server/cityturn.c:932
 #, c-format
@@ -1235,41 +1235,41 @@ msgstr "%1$s は %3$s に %2$s を建てました。"
 
 #: server/cityturn.c:938
 #, c-format
-msgid "Game: %s has finished building %s."
-msgstr "Game: %sで%sを建て終わりました。"
+msgid "%s has finished building %s."
+msgstr "%sで%sを建て終わりました。"
 
 #: server/cityturn.c:945
 #, fuzzy, c-format
-msgid "Game: %s boosts research; you gain %d immediate advance."
-msgid_plural "Game: %s boosts research; you gain %d immediate advances."
-msgstr[0] "Game: %sは研究を加速させます。即座に科学を2つ覚えます。"
+msgid "%s boosts research; you gain %d immediate advance."
+msgid_plural "%s boosts research; you gain %d immediate advances."
+msgstr[0] "%sは研究を加速させます。即座に科学を2つ覚えます。"
 
 #: server/cityturn.c:964
 #, fuzzy, c-format
-msgid "Game: The %s have acquired %s from %s."
-msgstr "Game: %1$sは%3$sから%2$sを得ました。"
+msgid "The %s have acquired %s from %s."
+msgstr "%1$sは%3$sから%2$sを得ました。"
 
 #: server/cityturn.c:972
 #, c-format
-msgid "Game: The %s have started building a spaceship!"
-msgstr "Game: %sは宇宙船の製作を開始しました!"
+msgid "The %s have started building a spaceship!"
+msgstr "%sは宇宙船の製作を開始しました!"
 
 # clefs
 #: server/cityturn.c:1013
 #, fuzzy, c-format
 msgid "%s's %s tried build %s, which is not available"
-msgstr "Game: %sで%sを建設中ですが、これはもう無意味です。"
+msgstr "%sで%sを建設中ですが、これはもう無意味です。"
 
 #: server/cityturn.c:1029
 #, c-format
-msgid "Game: %s can't build %s yet."
-msgstr "Game: %sではまだ%sを作ることができません。"
+msgid "%s can't build %s yet."
+msgstr "%sではまだ%sを作ることができません。"
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1059
 #, c-format
-msgid "Game: %s is finished building %s."
-msgstr "Game: %sで%sを作り終えました。"
+msgid "%s is finished building %s."
+msgstr "%sで%sを作り終えました。"
 
 #: server/cityturn.c:1063
 #, c-format
@@ -1279,56 +1279,56 @@ msgstr "%1$s は %3$s (%4$i,%5$i) に %2$s を建てました。"
 # yasu, ama
 #: server/cityturn.c:1109
 #, c-format
-msgid "Game: Can't afford to maintain %s in %s, building sold!"
-msgstr "Game: %2$sで%1$sを維持できません。建物を売りました。"
+msgid "Can't afford to maintain %s in %s, building sold!"
+msgstr "%2$sで%1$sを維持できません。建物を売りました。"
 
 #: server/cityturn.c:1144
 #, c-format
-msgid "Game: Pollution near %s."
-msgstr "Game: 公害が%sへ広がりつつあります。"
+msgid "Pollution near %s."
+msgstr "公害が%sへ広がりつつあります。"
 
 #: server/cityturn.c:1297
 #, c-format
-msgid "Game: We Love The %s Day celebrated in %s."
-msgstr "Game: %sを愛する日が%sで催されました。"
+msgid "We Love The %s Day celebrated in %s."
+msgstr "%sを愛する日が%sで催されました。"
 
 #: server/cityturn.c:1305
 #, c-format
-msgid "Game: We Love The %s Day canceled in %s."
-msgstr "Game: %sを愛する日が%sで中止されました。"
+msgid "We Love The %s Day canceled in %s."
+msgstr "%sを愛する日が%sで中止されました。"
 
 #: server/cityturn.c:1335
 #, c-format
-msgid "Game: Civil disorder in %s."
-msgstr "Game: %sで市民が混乱しています。"
+msgid "Civil disorder in %s."
+msgstr "%sで市民が混乱しています。"
 
 #: server/cityturn.c:1338
 #, c-format
-msgid "Game: CIVIL DISORDER CONTINUES in %s."
-msgstr "Game: %sで市民の混乱が続いています。"
+msgid "CIVIL DISORDER CONTINUES in %s."
+msgstr "%sで市民の混乱が続いています。"
 
 #: server/cityturn.c:1344
 #, c-format
-msgid "Game: Order restored in %s."
-msgstr "Game: %sの秩序が復活しました。"
+msgid "Order restored in %s."
+msgstr "%sの秩序が復活しました。"
 
 # yasu
 #: server/cityturn.c:1352
 #, c-format
-msgid "Game: The people have overthrown your %s, your country is in turmoil."
-msgstr "Game: 人々はあなたの%sを投げ捨てました。国は騒乱に陥ってます。"
+msgid "The people have overthrown your %s, your country is in turmoil."
+msgstr "人々はあなたの%sを投げ捨てました。国は騒乱に陥ってます。"
 
 # yasu
 #: server/cityturn.c:1376
 #, c-format
-msgid "Game: %s can't build %s yet, and we can't disband our only city."
-msgstr "Game: %sはまだ%sを建設できません。唯一の都市を解散できません。"
+msgid "%s can't build %s yet, and we can't disband our only city."
+msgstr "%sはまだ%sを建設できません。唯一の都市を解散できません。"
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1394
 #, c-format
-msgid "Game: %s is disbanded into %s."
-msgstr "Game: %sは解散して%sになりました。"
+msgid "%s is disbanded into %s."
+msgstr "%sは解散して%sになりました。"
 
 #: server/cityturn.c:1396
 #, c-format
@@ -2157,7 +2157,7 @@ msgstr "プレイヤー %2$s として %1$s が参加しました。"
 #: server/connecthand.c:109
 #, fuzzy, c-format
 msgid "Server: %s has connected from %s."
-msgstr "Game: %s は接続されていません"
+msgstr "%s は接続されていません"
 
 #: server/connecthand.c:136
 #, fuzzy
@@ -2309,15 +2309,10 @@ msgid ""
 "minimum %d [printable] characters long. Try again."
 msgstr ""
 
-#: server/connecthand.c:538
+#: server/connecthand.c:546
 #, c-format
 msgid "Lost connection: %s."
 msgstr "接続消失: %s"
-
-#: server/connecthand.c:546
-#, c-format
-msgid "Game: Lost connection: %s."
-msgstr "Game: 接続消失: %s"
 
 #: server/console.c:165
 msgid "Ok. RFC-style set."
@@ -2333,14 +2328,14 @@ msgstr "初歩的なヘルプが欲しければ、 'help' と打って下さい�
 
 #: server/diplhand.c:140
 #, fuzzy, c-format
-msgid "Game: The %s can't accept %s."
-msgstr "Game: %sは%sを発見しました。"
+msgid "The %s can't accept %s."
+msgstr "%sは%sを発見しました。"
 
 # yasu
 #: server/diplhand.c:152
 #, c-format
-msgid "Game: You don't have tech %s, you can't accept treaty."
-msgstr "Game: 技術%sはありません。条約は承認できません。"
+msgid "You don't have tech %s, you can't accept treaty."
+msgstr "技術%sはありません。条約は承認できません。"
 
 # yasu
 #: server/diplhand.c:161
@@ -2356,35 +2351,35 @@ msgstr "%sの所有者ではないので、条約は承認できません。"
 # yasu
 #: server/diplhand.c:173 server/diplhand.c:278
 #, c-format
-msgid "Game: Your capital (%s) is requested, you can't accept treaty."
-msgstr "Game: 首都(%s)が要求されましたので条約を承認できません。"
+msgid "Your capital (%s) is requested, you can't accept treaty."
+msgstr "首都(%s)が要求されましたので条約を承認できません。"
 
 # yasu
 #: server/diplhand.c:182 server/diplhand.c:300
 #, fuzzy, c-format
 msgid ""
-"Game: You are at war with one of %s's allies - an alliance with %s is "
+"You are at war with one of %s's allies - an alliance with %s is "
 "impossible."
-msgstr "Game: %s との同盟に合意しました。"
+msgstr "%s との同盟に合意しました。"
 
 #: server/diplhand.c:189 server/diplhand.c:296
 #, c-format
 msgid ""
-"Game: %s is at war with one of your allies - an alliance with %s is "
+"%s is at war with one of your allies - an alliance with %s is "
 "impossible."
 msgstr ""
 
 # yasu
 #: server/diplhand.c:198
-msgid "Game: You don't have enough gold, you can't accept treaty."
-msgstr "Game: お金がないので、条約を承認できません。"
+msgid "You don't have enough gold, you can't accept treaty."
+msgstr "お金がないので、条約を承認できません。"
 
 # yasu
 #: server/diplhand.c:230 server/diplhand.c:235
 #, c-format
-msgid "Game: A treaty containing %d clause was agreed upon."
-msgid_plural "Game: A treaty containing %d clauses was agreed upon."
-msgstr[0] "Game: %d 条項を含む条約が合意されました。"
+msgid "A treaty containing %d clause was agreed upon."
+msgid_plural "A treaty containing %d clauses was agreed upon."
+msgstr[0] "%d 条項を含む条約が合意されました。"
 
 #: server/diplhand.c:239
 #, c-format
@@ -2395,42 +2390,42 @@ msgstr "%sと%sは条約に合意します"
 #: server/diplhand.c:254 server/diplhand.c:258
 #, c-format
 msgid ""
-"Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+"One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
-"Game: %s が提供しようとした都市の一つが破壊されました! 条約は破棄されました。"
+"%s が提供しようとした都市の一つが破壊されました! 条約は破棄されました。"
 
 # yasu
 #: server/diplhand.c:265 server/diplhand.c:270
 #, c-format
-msgid "Game: The %s no longer control %s! Treaty canceled!"
-msgstr "Game: %s はもう %s を所有してません! 条約は破棄されました。"
+msgid "The %s no longer control %s! Treaty canceled!"
+msgstr "%s はもう %s を所有してません! 条約は破棄されました。"
 
 #: server/diplhand.c:309 server/diplhand.c:313
 #, c-format
-msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr "Game: %sは約束した金を持っていません! 条約は破棄されました。"
+msgid "The %s don't have the promised amount of gold! Treaty canceled!"
+msgstr "%sは約束した金を持っていません! 条約は破棄されました。"
 
 #: server/diplhand.c:340
 #, c-format
-msgid "Game: You gave an embassy to %s."
-msgstr "Game: %sに大使館の開設を許可しました。"
+msgid "You gave an embassy to %s."
+msgstr "%sに大使館の開設を許可しました。"
 
 # yasu ntaka
 #: server/diplhand.c:343
 #, c-format
-msgid "Game: %s allowed you to create an embassy!"
-msgstr "Game: %sはあなたに大使館の開設を許可しました。"
+msgid "%s allowed you to create an embassy!"
+msgstr "%sはあなたに大使館の開設を許可しました。"
 
 # yasu
 #: server/diplhand.c:359
 #, c-format
-msgid "Game: You are taught the knowledge of %s."
-msgstr "Game: %sの知識を得ました。"
+msgid "You are taught the knowledge of %s."
+msgstr "%sの知識を得ました。"
 
 #: server/diplhand.c:363
 #, c-format
-msgid "Game: The %s have acquired %s from the %s."
-msgstr "Game: %1$sは%3$sから%2$sを得ました。"
+msgid "The %s have acquired %s from the %s."
+msgstr "%1$sは%3$sから%2$sを得ました。"
 
 #: server/diplhand.c:368
 #, c-format
@@ -2440,8 +2435,8 @@ msgstr "%1$sは%3$sから%2$sを習得しました(条約)"
 # yasu
 #: server/diplhand.c:378
 #, c-format
-msgid "Game: You get %d gold."
-msgstr "Game: 金 %d を得ました。"
+msgid "You get %d gold."
+msgstr "金 %d を得ました。"
 
 #: server/diplhand.c:381
 #, fuzzy, c-format
@@ -2451,26 +2446,26 @@ msgstr "%1$sは%3$sから%2$sを習得しました(条約)"
 # yasu
 #: server/diplhand.c:387
 #, c-format
-msgid "Game: You receive %s's worldmap."
-msgstr "Game: %s の世界地図を得ました。"
+msgid "You receive %s's worldmap."
+msgstr "%s の世界地図を得ました。"
 
 # yasu
 #: server/diplhand.c:392
 #, c-format
-msgid "Game: You receive %s's seamap."
-msgstr "Game: %s の海図を得ました。"
+msgid "You receive %s's seamap."
+msgstr "%s の海図を得ました。"
 
 # yasu
 #: server/diplhand.c:407
 #, c-format
-msgid "Game: You receive city of %s from %s."
-msgstr "Game: 都市 %s を %s から得ました。"
+msgid "You receive city of %s from %s."
+msgstr "都市 %s を %s から得ました。"
 
 # yasu
 #: server/diplhand.c:411
 #, c-format
-msgid "Game: You give city of %s to %s."
-msgstr "Game: 都市 %s を %s に与えました。"
+msgid "You give city of %s to %s."
+msgstr "都市 %s を %s に与えました。"
 
 #: server/diplhand.c:414
 #, fuzzy, c-format
@@ -2480,44 +2475,44 @@ msgstr "%1$sは%3$sから%2$sを習得しました(条約)"
 # yasu
 #: server/diplhand.c:426 server/diplhand.c:429
 #, c-format
-msgid "Game: You agree on a cease-fire with %s."
-msgstr "Game: %s との停戦に合意しました。"
+msgid "You agree on a cease-fire with %s."
+msgstr "%s との停戦に合意しました。"
 
 # yasu
 #: server/diplhand.c:438 server/diplhand.c:441
 #, c-format
-msgid "Game: You agree on a peace treaty with %s."
-msgstr "Game: %s との和平条約に合意しました。"
+msgid "You agree on a peace treaty with %s."
+msgstr "%s との和平条約に合意しました。"
 
 # yasu
 #: server/diplhand.c:450 server/diplhand.c:453
 #, c-format
-msgid "Game: You agree on an alliance with %s."
-msgstr "Game: %s との同盟に合意しました。"
+msgid "You agree on an alliance with %s."
+msgstr "%s との同盟に合意しました。"
 
 # yasu
 #: server/diplhand.c:455
 #, fuzzy, c-format
 msgid "%s agree on an alliance with %s"
-msgstr "Game: %s との同盟に合意しました。"
+msgstr "%s との同盟に合意しました。"
 
 # yasu
 #: server/diplhand.c:463 server/diplhand.c:466
 #, fuzzy, c-format
-msgid "Game: You start a research pool with %s."
-msgstr "Game: %s との停戦に合意しました。"
+msgid "You start a research pool with %s."
+msgstr "%s との停戦に合意しました。"
 
 # yasu
 #: server/diplhand.c:505
 #, c-format
-msgid "Game: You give shared vision to %s."
-msgstr "Game: %s と視界の共有を許可しました。"
+msgid "You give shared vision to %s."
+msgstr "%s と視界の共有を許可しました。"
 
 # yasu
 #: server/diplhand.c:508
 #, c-format
-msgid "Game: %s gives you shared vision."
-msgstr "Game: %s の視界の共有を許可されました。"
+msgid "%s gives you shared vision."
+msgstr "%s の視界の共有を許可されました。"
 
 # clefs
 #: server/diplhand.c:510
@@ -2528,14 +2523,14 @@ msgstr "%1$sは%3$sによる攻撃で%2$sを失いました。"
 # yasu
 #: server/diplhand.c:648
 #, c-format
-msgid "Game: %s canceled the meeting!"
-msgstr "Game: %s は会合を中止しました。"
+msgid "%s canceled the meeting!"
+msgstr "%s は会合を中止しました。"
 
 # yasu
 #: server/diplhand.c:654
 #, c-format
-msgid "Game: Meeting with %s canceled."
-msgstr "Game: %s との会合は中止されました。"
+msgid "Meeting with %s canceled."
+msgstr "%s との会合は中止されました。"
 
 #: server/diplhand.c:694
 msgid "Your diplomatic envoy was decapitated!"
@@ -2544,28 +2539,28 @@ msgstr ""
 # yasu
 #: server/diplomats.c:92
 #, c-format
-msgid "Game: Your %s could not poison the water supply in %s."
-msgstr "Game: %sは%sの水道を汚染できません。"
+msgid "Your %s could not poison the water supply in %s."
+msgstr "%sは%sの水道を汚染できません。"
 
 # yasu
 #: server/diplomats.c:106
 #, c-format
-msgid "Game: Your %s poisoned the water supply of %s."
-msgstr "Game: %sが%sの水道を汚染しました。"
+msgid "Your %s poisoned the water supply of %s."
+msgstr "%sが%sの水道を汚染しました。"
 
 # yasu
 #: server/diplomats.c:109
 #, c-format
-msgid "Game: %s is suspected of poisoning the water supply of %s."
-msgstr "Game: %sは%sの水道を汚染した疑いがあります。"
+msgid "%s is suspected of poisoning the water supply of %s."
+msgstr "%sは%sの水道を汚染した疑いがあります。"
 
 #: server/diplomats.c:256
 #, c-format
 msgid ""
-"Game: Your %s was executed in %s on suspicion of spying.  The %s welcome "
+"Your %s was executed in %s on suspicion of spying.  The %s welcome "
 "future diplomatic efforts providing the Ambassador is reputable."
 msgstr ""
-"Game: %sは%sでのスパイ容疑で死刑にされました。%sは大使の評判がよくなれば将来"
+"%sは%sでのスパイ容疑で死刑にされました。%sは大使の評判がよくなれば将来"
 "の外交行動を歓迎します。"
 
 # clefs
@@ -2580,19 +2575,19 @@ msgstr ""
 
 #: server/diplomats.c:273
 #, c-format
-msgid "Game: Your %s was executed in %s by primitive %s."
-msgstr "Game: %sは%sで原始的な%sによって死刑にされました。"
+msgid "Your %s was executed in %s by primitive %s."
+msgstr "%sは%sで原始的な%sによって死刑にされました。"
 
 #: server/diplomats.c:286
 #, c-format
-msgid "Game: You have established an embassy in %s."
-msgstr "Game: %sに大使館を開設しました。"
+msgid "You have established an embassy in %s."
+msgstr "%sに大使館を開設しました。"
 
 # yasu
 #: server/diplomats.c:289
 #, c-format
-msgid "Game: The %s have established an embassy in %s."
-msgstr "Game: %sは%sに大使館を開設しました。"
+msgid "The %s have established an embassy in %s."
+msgstr "%sは%sに大使館を開設しました。"
 
 #: server/diplomats.c:291
 #, c-format
@@ -2601,87 +2596,87 @@ msgstr "%sは、%s (%s) (%i,%i)に大使館を開設します。"
 
 #: server/diplomats.c:347
 #, c-format
-msgid "Game: Your %s could not sabotage %s's %s."
-msgstr "Game: %sは%sの%sを暗殺できませんでした。"
+msgid "Your %s could not sabotage %s's %s."
+msgstr "%sは%sの%sを暗殺できませんでした。"
 
 #: server/diplomats.c:368
 #, c-format
-msgid "Game: Your %s succeeded in sabotaging %s's %s."
-msgstr "Game: %sは%sの%sの暗殺に成功しました。"
+msgid "Your %s succeeded in sabotaging %s's %s."
+msgstr "%sは%sの%sの暗殺に成功しました。"
 
 #: server/diplomats.c:373
 #, c-format
-msgid "Game: Your %s was sabotaged by %s!"
-msgstr "Game: あなたの%sは%sに暗殺されました!"
+msgid "Your %s was sabotaged by %s!"
+msgstr "あなたの%sは%sに暗殺されました!"
 
 # yasu
 #: server/diplomats.c:427
-msgid "Game: You can't bribe a unit from this nation."
-msgstr "Game: この国の部隊は買収できません。"
+msgid "You can't bribe a unit from this nation."
+msgstr "この国の部隊は買収できません。"
 
 # yasu
 #: server/diplomats.c:436
 #, c-format
-msgid "Game: You don't have enough gold to bribe %s's %s."
-msgstr "Game: %sの%sを買収するお金がありません。"
+msgid "You don't have enough gold to bribe %s's %s."
+msgstr "%sの%sを買収するお金がありません。"
 
 # yasu
 #: server/diplomats.c:445
 #, fuzzy, c-format
-msgid "Game: You cannot bribe %s!"
-msgstr "Game: %sは買えません!"
+msgid "You cannot bribe %s!"
+msgstr "%sは買えません!"
 
 # yasu, ama, ntaka
 #: server/diplomats.c:463
 #, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
-msgstr "Game: %sは、%sの%sの買収に成功し、練度が増しました。"
+msgid "Your %s succeeded in bribing %s's %s and became more experienced."
+msgstr "%sは、%sの%sの買収に成功し、練度が増しました。"
 
 # yasu, ama
 #: server/diplomats.c:469
 #, c-format
-msgid "Game: Your %s succeeded in bribing %s's %s."
-msgstr "Game: %sは、%sの%sの買収に成功しました。"
+msgid "Your %s succeeded in bribing %s's %s."
+msgstr "%sは、%sの%sの買収に成功しました。"
 
 # yasu
 #: server/diplomats.c:473
 #, c-format
-msgid "Game: Your %s was bribed by %s."
-msgstr "Game: あなたの%sは%sにより買収されました。"
+msgid "Your %s was bribed by %s."
+msgstr "あなたの%sは%sにより買収されました。"
 
 # yasu
 #: server/diplomats.c:571
 #, c-format
-msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
-msgstr "Game: あなたの%sは%sから科学を盗もうとして捕まりました。"
+msgid "Your %s was caught in the attempt of stealing technology from %s."
+msgstr "あなたの%sは%sから科学を盗もうとして捕まりました。"
 
 # yasu
 #: server/diplomats.c:575
 #, c-format
-msgid "Game: %s's %s failed to steal technology from %s."
-msgstr "Game: %sの%sは%sの科学を盗もうとして失敗しました。"
+msgid "%s's %s failed to steal technology from %s."
+msgstr "%sの%sは%sの科学を盗もうとして失敗しました。"
 
 #: server/diplomats.c:608
 #, c-format
-msgid "Game: No new technology found in %s."
-msgstr "Game: %sに目新しい技術はありませんでした。"
+msgid "No new technology found in %s."
+msgstr "%sに目新しい技術はありませんでした。"
 
 # yasu
 #: server/diplomats.c:645
 #, c-format
-msgid "Game: Your %s could not find the %s technology to steal in %s."
-msgstr "Game: あなたの %s は盗もうとした %s 科学を %s で発見できませんでした。"
+msgid "Your %s could not find the %s technology to steal in %s."
+msgstr "あなたの %s は盗もうとした %s 科学を %s で発見できませんでした。"
 
 # yasu, ama
 #: server/diplomats.c:666
 #, c-format
-msgid "Game: Your %s stole Future Tech. %d from %s."
-msgstr "Game: あなたの %s は先端技術 %d を%sから盗みました。"
+msgid "Your %s stole Future Tech. %d from %s."
+msgstr "あなたの %s は先端技術 %d を%sから盗みました。"
 
 #: server/diplomats.c:670
 #, c-format
-msgid "Game: Future Tech. %d stolen by %s %s from %s."
-msgstr "Game: 先端技術 %d が %s の %s によって %s から盗まれました。"
+msgid "Future Tech. %d stolen by %s %s from %s."
+msgstr "先端技術 %d が %s の %s によって %s から盗まれました。"
 
 #: server/diplomats.c:673
 #, c-format
@@ -2691,20 +2686,20 @@ msgstr "%s は先端技術 %d を%sから盗みました"
 # yasu, ama
 #: server/diplomats.c:686
 #, c-format
-msgid "Game: Your %s stole %s from %s."
-msgstr "Game: あなたの%1$sは%3$sから%2$sを盗みました。"
+msgid "Your %s stole %s from %s."
+msgstr "あなたの%1$sは%3$sから%2$sを盗みました。"
 
 # yasu, ama
 #: server/diplomats.c:690
 #, c-format
-msgid "Game: %s's %s stole %s from %s."
-msgstr "Game: %1$sの%2$sは%4$sから%3$sを盗みました。"
+msgid "%s's %s stole %s from %s."
+msgstr "%1$sの%2$sは%4$sから%3$sを盗みました。"
 
 # yasu, ama
 #: server/diplomats.c:694 server/plrhand.c:776
 #, c-format
-msgid "Game: The %s have stolen %s from the %s."
-msgstr "Game: %1$sは%3$sから%2$sを盗みました。"
+msgid "The %s have stolen %s from the %s."
+msgstr "%1$sは%3$sから%2$sを盗みました。"
 
 #: server/diplomats.c:698
 #, c-format
@@ -2713,204 +2708,204 @@ msgstr "%1$sは%3$sから%2$sを盗みます。"
 
 # yasu
 #: server/diplomats.c:754
-msgid "Game: You can't subvert a city from this nation."
-msgstr "Game: この国から都市は陥落できません。"
+msgid "You can't subvert a city from this nation."
+msgstr "この国から都市は陥落できません。"
 
 # yasu
 #: server/diplomats.c:762
 #, fuzzy
-msgid "Game: You can't subvert this city."
-msgstr "Game: この国から都市は陥落できません。"
+msgid "You can't subvert this city."
+msgstr "この国から都市は陥落できません。"
 
 # yasu
 #: server/diplomats.c:773
 #, c-format
-msgid "Game: You don't have enough gold to subvert %s."
-msgstr "Game: %sを陥落するのに十分なお金がありません。"
+msgid "You don't have enough gold to subvert %s."
+msgstr "%sを陥落するのに十分なお金がありません。"
 
 # yasu
 #: server/diplomats.c:790
 #, c-format
-msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
-msgstr "Game: あなたの%sは革命煽動のため捕まりました。"
+msgid "Your %s was caught in the attempt of inciting a revolt!"
+msgstr "あなたの%sは革命煽動のため捕まりました。"
 
 # yasu, ama
 #: server/diplomats.c:794
 #, c-format
-msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
-msgstr "Game: %3$sで%1$sの%2$sを革命煽動の容疑で逮捕しました。"
+msgid "You caught %s %s attempting to incite a revolt in %s!"
+msgstr "%3$sで%1$sの%2$sを革命煽動の容疑で逮捕しました。"
 
 # yasu
 #: server/diplomats.c:816
 #, c-format
-msgid "Game: Revolt incited in %s, you now rule the city!"
-msgstr "Game: %sで革命が煽動されました。今その都市を支配しました。"
+msgid "Revolt incited in %s, you now rule the city!"
+msgstr "%sで革命が煽動されました。今その都市を支配しました。"
 
 # yasu
 #: server/diplomats.c:819
 #, c-format
-msgid "Game: %s has revolted, %s influence suspected."
-msgstr "Game: %sが反逆しました。%sの関与が疑われます。"
+msgid "%s has revolted, %s influence suspected."
+msgstr "%sが反逆しました。%sの関与が疑われます。"
 
 #: server/diplomats.c:898
 #, c-format
-msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
-msgstr "Game: %sは建造物破壊で捕まりました。"
+msgid "Your %s was caught in the attempt of industrial sabotage!"
+msgstr "%sは建造物破壊で捕まりました。"
 
 #: server/diplomats.c:902
 #, c-format
-msgid "Game: You caught %s %s attempting sabotage in %s!"
-msgstr "Game: %3$sで破壊工作を行なっている%1$sの%2$sを捕まえました。"
+msgid "You caught %s %s attempting sabotage in %s!"
+msgstr "%3$sで破壊工作を行なっている%1$sの%2$sを捕まえました。"
 
 #: server/diplomats.c:936
 #, c-format
-msgid "Game: Your %s could not find anything to sabotage in %s."
-msgstr "Game: %sは破壊する対象を%sで見つけれませんでした。"
+msgid "Your %s could not find anything to sabotage in %s."
+msgstr "%sは破壊する対象を%sで見つけれませんでした。"
 
 #: server/diplomats.c:978
 #, fuzzy, c-format
-msgid "Game: You cannot sabotage a %s!"
-msgstr "Game: 不思議や%sは破壊できません!"
+msgid "You cannot sabotage a %s!"
+msgstr "不思議や%sは破壊できません!"
 
 #: server/diplomats.c:988
 #, c-format
-msgid "Game: Your %s could not find the %s to sabotage in %s."
-msgstr "Game: %1$sは%3$sで破壊するつもりの%2$sを見つけられませんでした。"
+msgid "Your %s could not find the %s to sabotage in %s."
+msgstr "%1$sは%3$sで破壊するつもりの%2$sを見つけられませんでした。"
 
 #: server/diplomats.c:1013
 #, c-format
-msgid "Game: Your %s succeeded in destroying the production of %s in %s."
-msgstr "Game: %1$sは%3$sにある%2$s建造物の破壊に成功しました。"
+msgid "Your %s succeeded in destroying the production of %s in %s."
+msgstr "%1$sは%3$sにある%2$s建造物の破壊に成功しました。"
 
 #: server/diplomats.c:1017
 #, c-format
-msgid "Game: The production of %s was destroyed in %s, %s are suspected."
-msgstr "Game: %2$sにある%1$s建造物が破壊されました。%3$sが疑わしいです。"
+msgid "The production of %s was destroyed in %s, %s are suspected."
+msgstr "%2$sにある%1$s建造物が破壊されました。%3$sが疑わしいです。"
 
 #: server/diplomats.c:1038
 #, c-format
-msgid "Game: Your %s was caught in the attempt of sabotage!"
-msgstr "Game: %sは破壊しようとして捕まりました!"
+msgid "Your %s was caught in the attempt of sabotage!"
+msgstr "%sは破壊しようとして捕まりました!"
 
 #: server/diplomats.c:1042
 #, c-format
-msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
-msgstr "Game: %4$sで%3$sを破壊しようとした%1$sの%2$sを捕まえました!"
+msgid "You caught %s %s attempting to sabotage the %s in %s!"
+msgstr "%4$sで%3$sを破壊しようとした%1$sの%2$sを捕まえました!"
 
 #: server/diplomats.c:1054
 #, c-format
-msgid "Game: Your %s destroyed the %s in %s."
-msgstr "Game: %1$sは%3$sの%2$sを破壊しました。"
+msgid "Your %s destroyed the %s in %s."
+msgstr "%1$sは%3$sの%2$sを破壊しました。"
 
 #: server/diplomats.c:1058
 #, c-format
-msgid "Game: The %s destroyed the %s in %s."
-msgstr "Game: %1$sは%3$sの%2$sを破壊しました。"
+msgid "The %s destroyed the %s in %s."
+msgstr "%1$sは%3$sの%2$sを破壊しました。"
 
 #: server/diplomats.c:1162
 #, fuzzy, c-format
-msgid "Game: Your %s has been eliminated defending %s against a %s."
-msgstr "Game: %1$sは%2$sから%3$sを守ろうとして消されました。"
+msgid "Your %s has been eliminated defending %s against a %s."
+msgstr "%1$sは%2$sから%3$sを守ろうとして消されました。"
 
 #: server/diplomats.c:1166 server/diplomats.c:1174
 #, fuzzy, c-format
-msgid "Game: An enemy %s has been eliminated defending %s."
-msgstr "Game: %1$sは%2$sから%3$sを守ろうとして消されました。"
+msgid "An enemy %s has been eliminated defending %s."
+msgstr "%1$sは%2$sから%3$sを守ろうとして消されました。"
 
 #: server/diplomats.c:1170
 #, c-format
-msgid "Game: Your %s has been eliminated defending against a %s in %s."
-msgstr "Game: %1$sは%2$sから%3$sを守ろうとして消されました。"
+msgid "Your %s has been eliminated defending against a %s in %s."
+msgstr "%1$sは%2$sから%3$sを守ろうとして消されました。"
 
 #: server/diplomats.c:1188
 #, fuzzy, c-format
-msgid "Game: Your %s was eliminated by a defending %s."
-msgstr "Game: %1$sは%3$sで守っている%2$sによって消されました。"
+msgid "Your %s was eliminated by a defending %s."
+msgstr "%1$sは%3$sで守っている%2$sによって消されました。"
 
 #: server/diplomats.c:1195
 #, fuzzy, c-format
 msgid ""
-"Game: Eliminated %s %s while infiltrating %s. The defender became more "
+"Eliminated %s %s while infiltrating %s. The defender became more "
 "experienced."
-msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
+msgstr "%3$sへ潜入中の%1$sの%2$sを消しました。"
 
 #: server/diplomats.c:1202
 #, fuzzy, c-format
 msgid ""
-"Game: Eliminated %s %s while infiltrating our troops. The defender became "
+"Eliminated %s %s while infiltrating our troops. The defender became "
 "more experienced."
-msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
+msgstr "%3$sへ潜入中の%1$sの%2$sを消しました。"
 
 #: server/diplomats.c:1212
 #, c-format
-msgid "Game: Eliminated %s %s while infiltrating %s."
-msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
+msgid "Eliminated %s %s while infiltrating %s."
+msgstr "%3$sへ潜入中の%1$sの%2$sを消しました。"
 
 #: server/diplomats.c:1218
 #, fuzzy, c-format
-msgid "Game: Eliminated %s %s while infiltrating our troops."
-msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
+msgid "Eliminated %s %s while infiltrating our troops."
+msgstr "%3$sへ潜入中の%1$sの%2$sを消しました。"
 
 #: server/diplomats.c:1271
 #, fuzzy, c-format
 msgid ""
-"Game: Your %s has successfully completed her mission and returned unharmed "
+"Your %s has successfully completed her mission and returned unharmed "
 "to %s and has become more experienced."
-msgstr "Game: %sは任務を完了して無事%sへ戻り、練度が増しました。"
+msgstr "%sは任務を完了して無事%sへ戻り、練度が増しました。"
 
 #: server/diplomats.c:1277
 #, c-format
 msgid ""
-"Game: Your %s has successfully completed her mission and returned unharmed "
+"Your %s has successfully completed her mission and returned unharmed "
 "to %s."
-msgstr "Game: %sは任務を完了し、無事%sへ戻りました。"
+msgstr "%sは任務を完了し、無事%sへ戻りました。"
 
 #: server/diplomats.c:1293
 #, c-format
-msgid "Game: Your %s was captured after completing her mission in %s."
-msgstr "Game: %sは%sで任務を完了した後、逮捕されました。"
+msgid "Your %s was captured after completing her mission in %s."
+msgstr "%sは%sで任務を完了した後、逮捕されました。"
 
 #: server/diplomats.c:1298
 #, c-format
-msgid "Game: Your %s was captured after completing her mission."
-msgstr "Game: %sは任務を完了した後、逮捕されました。"
+msgid "Your %s was captured after completing her mission."
+msgstr "%sは任務を完了した後、逮捕されました。"
 
 # clefs
 # 'incident' => '事変'で訳してみました
 #: server/diplomats.c:1334
 #, c-format
-msgid "Game: You have caused an incident while bribing %s's %s."
-msgstr "Game: %sの%sを買収する試みは事変に発展しました。"
+msgid "You have caused an incident while bribing %s's %s."
+msgstr "%sの%sを買収する試みは事変に発展しました。"
 
 # clefs
 #: server/diplomats.c:1339
 #, c-format
-msgid "Game: %s has caused an incident while bribing your %s."
-msgstr "Game: %sは%sを買収しようとして事変を引き起こしました。"
+msgid "%s has caused an incident while bribing your %s."
+msgstr "%sは%sを買収しようとして事変を引き起こしました。"
 
 # clefs
 #: server/diplomats.c:1346
 #, c-format
-msgid "Game: You have caused an incident while stealing tech from %s."
-msgstr "Game: %sから技術を盗む試みは事変に発展しました。"
+msgid "You have caused an incident while stealing tech from %s."
+msgstr "%sから技術を盗む試みは事変に発展しました。"
 
 # clefs
 #: server/diplomats.c:1350
 #, c-format
-msgid "Game: %s has caused an incident while stealing tech from you."
-msgstr "Game: %sはあなたから技術を盗もうとして事変を引き起こしました。"
+msgid "%s has caused an incident while stealing tech from you."
+msgstr "%sはあなたから技術を盗もうとして事変を引き起こしました。"
 
 # clefs
 #: server/diplomats.c:1356
 #, c-format
-msgid "Game: You have caused an incident while inciting a revolt in %s."
-msgstr "Game: %sで革命を煽動する試みは事変に発展しました。"
+msgid "You have caused an incident while inciting a revolt in %s."
+msgstr "%sで革命を煽動する試みは事変に発展しました。"
 
 # clefs
 #: server/diplomats.c:1359
 #, c-format
-msgid "Game: %s have caused an incident while inciting a revolt in %s."
-msgstr "Game: %sは%sで革命を煽動しようとして事変を引き起こしました。"
+msgid "%s have caused an incident while inciting a revolt in %s."
+msgstr "%sは%sで革命を煽動しようとして事変を引き起こしました。"
 
 #: server/gamehand.c:254 client/text.c:442 client/gui-mui/mapview.c:192
 #, c-format
@@ -2932,18 +2927,18 @@ msgstr "ゲームログファイル \"%s\" を追記用として開けません�
 
 #: server/handchat.c:64
 #, c-format
-msgid "Game: %s is an ambiguous player name-prefix."
-msgstr "Game: %s は、プレイヤー名の先頭としてはあいまいです。"
+msgid "%s is an ambiguous player name-prefix."
+msgstr "%s は、プレイヤー名の先頭としてはあいまいです。"
 
 #: server/handchat.c:68
 #, c-format
-msgid "Game: %s is an ambiguous connection name-prefix."
-msgstr "Game: %s は、接続名の先頭としてはあいまいです。"
+msgid "%s is an ambiguous connection name-prefix."
+msgstr "%s は、接続名の先頭としてはあいまいです。"
 
 #: server/handchat.c:72
 #, fuzzy, c-format
-msgid "Game: %s is an anonymous name. Use connection name"
-msgstr "Game: %s は、接続名の先頭としてはあいまいです。"
+msgid "%s is an anonymous name. Use connection name"
+msgstr "%s は、接続名の先頭としてはあいまいです。"
 
 #: server/handchat.c:184
 #, fuzzy, c-format
@@ -2952,58 +2947,58 @@ msgstr "%sは%sを形成します"
 
 #: server/handchat.c:278
 #, c-format
-msgid "Game: %s is not connected."
-msgstr "Game: %s は接続されていません"
+msgid "%s is not connected."
+msgstr "%s は接続されていません"
 
 #: server/handchat.c:290
 #, c-format
-msgid "Game: There is no connection by the name %s."
-msgstr "Game: %sという名前の接続はありません。"
+msgid "There is no connection by the name %s."
+msgstr "%sという名前の接続はありません。"
 
 #: server/handchat.c:293
 #, c-format
-msgid "Game: There is no player nor connection by the name %s."
-msgstr "Game: %s という名前のプレイヤーもしくは接続はありません。"
+msgid "There is no player nor connection by the name %s."
+msgstr "%s という名前のプレイヤーもしくは接続はありません。"
 
 # yasu
 #: server/maphand.c:221
-msgid "Game: Global warming has occurred!"
-msgstr "Game: 地球温暖化が起こりました!"
+msgid "Global warming has occurred!"
+msgstr "地球温暖化が起こりました!"
 
 # yasu
 #: server/maphand.c:222
 msgid ""
-"Game: Coastlines have been flooded and vast ranges of grassland have become "
+"Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
-msgstr "Game: 海岸が洪水になり、多くの草原が砂漠に変わりました。"
+msgstr "海岸が洪水になり、多くの草原が砂漠に変わりました。"
 
 #: server/maphand.c:262
-msgid "Game: Nuclear winter has occurred!"
-msgstr "Game: 核の冬が起こりました!"
+msgid "Nuclear winter has occurred!"
+msgstr "核の冬が起こりました!"
 
 # yasu
 #: server/maphand.c:263
 msgid ""
-"Game: Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr "Game: 湿潤な土地は乾燥し、草原の多くがツンドラになりました。"
+"Wetlands have dried up and vast ranges of grassland have become tundra."
+msgstr "湿潤な土地は乾燥し、草原の多くがツンドラになりました。"
 
 #: server/maphand.c:284
 msgid ""
-"Game: New hope sweeps like fire through the country as the discovery of "
+"New hope sweeps like fire through the country as the discovery of "
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Game: 鉄道の発見が公表されたことで、新しい希望が火のように国を駆け巡りま"
+"鉄道の発見が公表されたことで、新しい希望が火のように国を駆け巡りま"
 "す。\n"
 "      労働者が自発的に集まり、全ての都市に鉄道を引きます。"
 
 #: server/maphand.c:290
 msgid ""
-"Game: The people are pleased to hear that your scientists finally know about "
+"The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Game: 科学者が鉄道についての知識を得たことを国民は喜んでいます。\n"
+"科学者が鉄道についての知識を得たことを国民は喜んでいます。\n"
 "      労働者は自発的に集まり、全ての都市に鉄道を引きます。"
 
 #: server/maphand.c:1466
@@ -3044,8 +3039,8 @@ msgstr "待機中"
 # yasu
 #: server/plrhand.c:142
 #, fuzzy, c-format
-msgid "Game: %s acquired from a building!"
-msgstr "Game: 王立図書館から%sを得ました!"
+msgid "%s acquired from a building!"
+msgstr "王立図書館から%sを得ました!"
 
 #: server/plrhand.c:144
 #, fuzzy, c-format
@@ -3054,8 +3049,8 @@ msgstr "%sは%sを発見しました(小屋)"
 
 #: server/plrhand.c:147
 #, fuzzy, c-format
-msgid "Game: The %s have acquired %s from a building."
-msgstr "Game: %1$sは%3$sから%2$sを得ました。"
+msgid "The %s have acquired %s from a building."
+msgstr "%1$sは%3$sから%2$sを得ました。"
 
 #: server/plrhand.c:239
 #, c-format
@@ -3064,8 +3059,8 @@ msgstr ""
 
 #: server/plrhand.c:243
 #, c-format
-msgid "Game: The %s are no more!"
-msgstr "Game: %sは絶滅しました"
+msgid "The %s are no more!"
+msgstr "%sは絶滅しました"
 
 #: server/plrhand.c:245
 #, c-format
@@ -3080,33 +3075,33 @@ msgstr "%sは%sを初めて学びました。"
 
 #: server/plrhand.c:324
 #, c-format
-msgid "Game: Discovery of %s OBSOLETES %s in %s!"
-msgstr "Game: %1$sの発見により、 %3$s の%2$sは古くなります!"
+msgid "Discovery of %s OBSOLETES %s in %s!"
+msgstr "%1$sの発見により、 %3$s の%2$sは古くなります!"
 
 # ama, clefs
 #: server/plrhand.c:334
 #, c-format
 msgid ""
-"Game: Discovery of %s makes the government form %s available. You may want "
+"Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
 msgstr ""
-"Game: %s を発見したことで、政治体制「%s」が増えました。革命を起こすのもいいで"
+"%s を発見したことで、政治体制「%s」が増えました。革命を起こすのもいいで"
 "しょう。"
 
 #: server/plrhand.c:373
 #, c-format
-msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
-msgstr "Game: %sを覚えました。科学の興味は%sに向かいます。目標は%sです。"
+msgid "Learned %s.  Our scientists focus on %s, goal is %s."
+msgstr "%sを覚えました。科学の興味は%sに向かいます。目標は%sです。"
 
 #: server/plrhand.c:388
 #, c-format
-msgid "Game: Learned %s.  Scientists choose to research %s."
-msgstr "Game: %sを覚えました。科学者は%sの研究を選択しました。"
+msgid "Learned %s.  Scientists choose to research %s."
+msgstr "%sを覚えました。科学者は%sの研究を選択しました。"
 
 #: server/plrhand.c:396
 #, c-format
-msgid "Game: Learned %s. "
-msgstr "Game: %sを覚えました。"
+msgid "Learned %s. "
+msgstr "%sを覚えました。"
 
 #: server/plrhand.c:399
 #, c-format
@@ -3115,35 +3110,35 @@ msgstr "%sを研究しています。"
 
 #: server/plrhand.c:405
 #, c-format
-msgid "Game: Learned %s.  Scientists do not know what to research next."
+msgid "Learned %s.  Scientists do not know what to research next."
 msgstr ""
-"Game: %sを覚えました。科学者は次に何を研究するべきかの指示を求めています。"
+"%sを覚えました。科学者は次に何を研究するべきかの指示を求めています。"
 
 #: server/plrhand.c:424
 msgid ""
-"Game: Great scientists from all the world join your civilization: you get an "
+"Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
-"Game: 世界中の偉大な科学者があなたの文明に加わりました。即座に科学を一つ得ま"
+"世界中の偉大な科学者があなたの文明に加わりました。即座に科学を一つ得ま"
 "した。"
 
 #: server/plrhand.c:483
 #, fuzzy, c-format
 msgid ""
-"Game: Learned %s in cooperation with %s. Scientists choose to research %s."
-msgstr "Game: %sを覚えました。科学者は%sの研究を選択しました。"
+"Learned %s in cooperation with %s. Scientists choose to research %s."
+msgstr "%sを覚えました。科学者は%sの研究を選択しました。"
 
 #: server/plrhand.c:489
 #, fuzzy, c-format
 msgid ""
-"Game: Learned %s in cooperation with %s. Scientists do not know what to "
+"Learned %s in cooperation with %s. Scientists do not know what to "
 "research next."
-msgstr "Game: %sを覚えました。科学者は%sの研究を選択しました。"
+msgstr "%sを覚えました。科学者は%sの研究を選択しました。"
 
 #: server/plrhand.c:518
 #, c-format
-msgid "Game: The %s have researched %s."
-msgstr "Game: %sは%sを発見しました。"
+msgid "The %s have researched %s."
+msgstr "%sは%sを発見しました。"
 
 #: server/plrhand.c:522
 #, c-format
@@ -3153,8 +3148,8 @@ msgstr "%sは%sを発見しました"
 # yasu, ama
 #: server/plrhand.c:527
 #, c-format
-msgid "Game: The %s have researched Future Tech. %d."
-msgstr "Game: %s は先端技術%d を発見しました。"
+msgid "The %s have researched Future Tech. %d."
+msgstr "%s は先端技術%d を発見しました。"
 
 # yasu, ama
 #: server/plrhand.c:531
@@ -3164,8 +3159,8 @@ msgstr "%sは先端技術%d を発見しました。"
 
 #: server/plrhand.c:665
 #, c-format
-msgid "Game: Technology goal is %s."
-msgstr "Game: 科学の目標は%sです。"
+msgid "Technology goal is %s."
+msgstr "科学の目標は%sです。"
 
 #: server/plrhand.c:760
 #, c-format
@@ -3174,18 +3169,18 @@ msgstr "%1$sは%3$sから%2$sを盗みます"
 
 #: server/plrhand.c:766
 #, c-format
-msgid "Game: You steal %s from the %s."
-msgstr "Game: %2$sから%1$sを盗みます。"
+msgid "You steal %s from the %s."
+msgstr "%2$sから%1$sを盗みます。"
 
 #: server/plrhand.c:771
 #, c-format
-msgid "Game: The %s stole %s from you!"
-msgstr "Game: %sはあなたから%sを盗みました!"
+msgid "The %s stole %s from you!"
+msgstr "%sはあなたから%sを盗みました!"
 
 # yasu
 #: server/plrhand.c:798
-msgid "Game: Cannot change rates before game start."
-msgstr "Game: ゲーム開始前に比率は変えられません。"
+msgid "Cannot change rates before game start."
+msgstr "ゲーム開始前に比率は変えられません。"
 
 #: server/plrhand.c:814 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-gtk/gamedlgs.c:241 client/gui-win32/ratesdlg.c:309
@@ -3194,8 +3189,8 @@ msgstr "税"
 
 #: server/plrhand.c:821
 #, c-format
-msgid "Game: %s rate exceeds the max rate for %s."
-msgstr "Game: %sの割合が%sの最大を越えています。"
+msgid "%s rate exceeds the max rate for %s."
+msgstr "%sの割合が%sの最大を越えています。"
 
 #: server/plrhand.c:827 server/plrhand.c:975
 #, c-format
@@ -3204,8 +3199,8 @@ msgstr "割合変更: %s %i %i %i"
 
 #: server/plrhand.c:890
 #, c-format
-msgid "Game: %s now governs the %s as a %s."
-msgstr "Game: %sは%sを%sで治めるようになりました。"
+msgid "%s now governs the %s as a %s."
+msgstr "%sは%sを%sで治めるようになりました。"
 
 #: server/plrhand.c:894
 #, c-format
@@ -3214,8 +3209,8 @@ msgstr "%sは%sを形成します"
 
 #: server/plrhand.c:932
 #, c-format
-msgid "Game: The %s have incited a revolt!"
-msgstr "Game: %sは革命を促されました。"
+msgid "The %s have incited a revolt!"
+msgstr "%sは革命を促されました。"
 
 #: server/plrhand.c:934
 #, c-format
@@ -3225,20 +3220,20 @@ msgstr "%sは革命を起こしています!"
 # yasu
 #: server/plrhand.c:958
 #, c-format
-msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
-msgstr "Game: 税金の割合が %s の最大値を超えました。修正しました。"
+msgid "Tax rate exceeded the max rate for %s; adjusted."
+msgstr "税金の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
 #: server/plrhand.c:964
 #, c-format
-msgid "Game: Science rate exceeded the max rate for %s; adjusted."
-msgstr "Game: 科学の割合が %s の最大値を超えました。修正しました。"
+msgid "Science rate exceeded the max rate for %s; adjusted."
+msgstr "科学の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
 #: server/plrhand.c:970
 #, c-format
-msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
-msgstr "Game: 贅沢の割合が %s の最大値を超えました。修正しました。"
+msgid "Luxury rate exceeded the max rate for %s; adjusted."
+msgstr "贅沢の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
 #: server/plrhand.c:1025
@@ -3255,13 +3250,13 @@ msgstr "%s の絶え間ない挑発のため、上院はあなたの予算を通
 
 #: server/plrhand.c:1099
 #, c-format
-msgid "Game: Your reputation is now %s."
-msgstr "Game: あなたの評判は%sになりました。"
+msgid "Your reputation is now %s."
+msgstr "あなたの評判は%sになりました。"
 
 # yasu
 #: server/plrhand.c:1104
 msgid ""
-"Game: The senate decides to dissolve rather than support your actions any "
+"The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
 "Game:上院はあなたの行動をこれ以上支援するのをやめて、解散することにしました。"
@@ -3269,21 +3264,21 @@ msgstr ""
 # yasu
 #: server/plrhand.c:1135
 #, c-format
-msgid "Game: The diplomatic state between the %s and the %s is now %s."
-msgstr "Game: %sと%sの外交状態はいま%sです。"
+msgid "The diplomatic state between the %s and the %s is now %s."
+msgstr "%sと%sの外交状態はいま%sです。"
 
 # yasu, ama
 #: server/plrhand.c:1141
 #, c-format
 msgid ""
-"Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
+" %s cancelled the diplomatic agreement! The diplomatic state between "
 "the %s and the %s is now %s."
-msgstr "Game: %sは外交条約を破棄しました! %sと%sの外交状態はいま%sです。"
+msgstr "%sは外交条約を破棄しました! %sと%sの外交状態はいま%sです。"
 
 #: server/plrhand.c:1158
 #, c-format
 msgid ""
-"Game: %s has attacked your ally %s! You cancel your alliance to the "
+"%s has attacked your ally %s! You cancel your alliance to the "
 "aggressor."
 msgstr ""
 
@@ -3291,9 +3286,9 @@ msgstr ""
 #: server/plrhand.c:1169
 #, fuzzy, c-format
 msgid ""
-"Game: Your team mate %s declared war on %s. You are obligated to cancel "
+"Your team mate %s declared war on %s. You are obligated to cancel "
 "alliance with %s."
-msgstr "Game: %s との同盟に合意しました。"
+msgstr "%s との同盟に合意しました。"
 
 # yasu
 #: server/plrhand.c:1569
@@ -3303,19 +3298,19 @@ msgstr "プレイヤー %s を中止させます。"
 
 # yasu
 #: server/plrhand.c:1570
-msgid "Game: You've been removed from the game!"
-msgstr "Game: あなたはゲームを中止させられました。"
+msgid "You've been removed from the game!"
+msgstr "あなたはゲームを中止させられました。"
 
 # yasu
 #: server/plrhand.c:1573
 #, c-format
-msgid "Game: %s has been removed from the game."
-msgstr "Game: %sはゲームを中止させられました。"
+msgid "%s has been removed from the game."
+msgstr "%sはゲームを中止させられました。"
 
 #: server/plrhand.c:1617 server/plrhand.c:1621
 #, c-format
-msgid "Game: You have made contact with the %s, ruled by %s."
-msgstr "Game: あなたは %2$s によって統治された %1$s と接触しました。"
+msgid "You have made contact with the %s, ruled by %s."
+msgstr "あなたは %2$s によって統治された %1$s と接触しました。"
 
 #: server/plrhand.c:2005
 #, c-format
@@ -3326,27 +3321,27 @@ msgstr ""
 #: server/plrhand.c:2027
 #, c-format
 msgid ""
-"Game: Your nation is thrust into civil war,  %s is declared the leader of "
+"Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
-msgstr "Game: あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
+msgstr "あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
 
 # yasu
 #: server/plrhand.c:2047
 #, c-format
-msgid "Game: %s declares allegiance to %s."
-msgstr "Game: %sは%sに対する忠誠を宣言しました。"
+msgid "%s declares allegiance to %s."
+msgstr "%sは%sに対する忠誠を宣言しました。"
 
 # clefs
 #: server/plrhand.c:2061
 #, c-format
 msgid ""
-"Game: The capture of %s's capital and the destruction of the empire's "
+"The capture of %s's capital and the destruction of the empire's "
 "administrative\n"
 "      structures have sparked a civil war.  Opportunists have flocked to the "
 "rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
-"Game: %sの首都が陥落し、帝国の行政機構が破壊されたため内戦となりました。\n"
+"%sの首都が陥落し、帝国の行政機構が破壊されたため内戦となりました。\n"
 "      日和見主義者たちは反逆運動に味方し、担ぎ出された%sが今や%dの反乱都市"
 "を\n"
 "      支配しています。"
@@ -3663,7 +3658,7 @@ msgstr ""
 #: server/ruleset.c:1190
 #, fuzzy, c-format
 msgid "Group %s lists unknown building: \"%s\" (%s)"
-msgstr "Game: %sで%sを%s作り始めました。"
+msgstr "%sで%sを%s作り始めました。"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1201
@@ -3836,7 +3831,7 @@ msgstr ""
 #: server/savegame.c:1474
 #, fuzzy, c-format
 msgid "Nation %s (used by %s) isn't available."
-msgstr "Game: %sで%sを建設中ですが、これはもう無意味です。"
+msgstr "%sで%sを建設中ですが、これはもう無意味です。"
 
 #: server/savegame.c:1506
 #, fuzzy, c-format
@@ -4990,96 +4985,90 @@ msgstr "メタサーバ: 間違ったアドレス: [%s:%d]"
 
 # yasu
 #: server/spacerace.c:164
-msgid "Game: You need to have a capital in order to launch your spaceship."
-msgstr "Game: 宇宙船を発射するには首都が必要です。"
+msgid "You need to have a capital in order to launch your spaceship."
+msgstr "宇宙船を発射するには首都が必要です。"
 
 #: server/spacerace.c:169
-msgid "Game: Your spaceship is already launched!"
-msgstr "Game: 宇宙船は既に打ち上げられました!"
+msgid "Your spaceship is already launched!"
+msgstr "宇宙船は既に打ち上げられました!"
 
 #: server/spacerace.c:174
-msgid "Game: Your spaceship can't be launched yet!"
-msgstr "Game: 宇宙船はまだ打ち上げできません!"
+msgid "Your spaceship can't be launched yet!"
+msgstr "宇宙船はまだ打ち上げできません!"
 
 # yasu
 #: server/spacerace.c:183
 #, c-format
 msgid ""
-"Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
-"Game: %sは宇宙船を発射しました! %sにアルファケンタウリに着くと推測されます。"
+"%sは宇宙船を発射しました! %sにアルファケンタウリに着くと推測されます。"
 
 # yasu
 #: server/spacerace.c:200
-msgid "Game: Spaceship action received, but you don't have a spaceship!"
-msgstr "Game: 宇宙船の行動を受け取りましたが、宇宙船がありません。"
+msgid "Spaceship action received, but you don't have a spaceship!"
+msgstr "宇宙船の行動を受け取りましたが、宇宙船がありません。"
 
 #: server/spacerace.c:205
-msgid "Game: You can't modify your spaceship after launch!"
-msgstr "Game: 打ち上げ後に宇宙船を変更できません!"
+msgid "You can't modify your spaceship after launch!"
+msgstr "打ち上げ後に宇宙船を変更できません!"
 
 #: server/spacerace.c:214
-msgid "Game: You don't have any unplaced Space Structurals!"
-msgstr "Game: 未配置の宇宙船構造物を持っていません!"
+msgid "You don't have any unplaced Space Structurals!"
+msgstr "未配置の宇宙船構造物を持っていません!"
 
 # yasu
 #: server/spacerace.c:219
-msgid "Game: That Space Structural would not be connected!"
-msgstr "Game: その宇宙船構造物は接続できません。"
+msgid "That Space Structural would not be connected!"
+msgstr "その宇宙船構造物は接続できません。"
 
 #: server/spacerace.c:233 server/spacerace.c:252
-msgid "Game: You don't have any unplaced Space Components!"
-msgstr "Game: 未配置の宇宙コンポーネントを持っていません!"
+msgid "You don't have any unplaced Space Components!"
+msgstr "未配置の宇宙コンポーネントを持っていません!"
 
 # yasu
 #: server/spacerace.c:238
-msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
-msgstr "Game: 宇宙船にはすでに最大限の燃料コンポーネントがあります。"
+msgid "Your spaceship already has the maximum number of Fuel Components!"
+msgstr "宇宙船にはすでに最大限の燃料コンポーネントがあります。"
 
 # yasu
 #: server/spacerace.c:257
 msgid ""
-"Game: Your spaceship already has the maximum number of Propulsion Components!"
-msgstr "Game: 宇宙船にはすでに最大限の推進コンポーネントがあります。"
+"Your spaceship already has the maximum number of Propulsion Components!"
+msgstr "宇宙船にはすでに最大限の推進コンポーネントがあります。"
 
 #: server/spacerace.c:272 server/spacerace.c:292 server/spacerace.c:312
-msgid "Game: You don't have any unplaced Space Modules!"
-msgstr "Game: 未配置の宇宙モジュールを持っていません!"
+msgid "You don't have any unplaced Space Modules!"
+msgstr "未配置の宇宙モジュールを持っていません!"
 
 # yasu
 #: server/spacerace.c:277
 msgid ""
-"Game: Your spaceship already has the maximum number of Habitation Modules!"
-msgstr "Game: 宇宙船にはすでに最大限の居住モジュールがあります。"
+"Your spaceship already has the maximum number of Habitation Modules!"
+msgstr "宇宙船にはすでに最大限の居住モジュールがあります。"
 
 # yasu
 #: server/spacerace.c:297
 msgid ""
-"Game: Your spaceship already has the maximum number of Life Support Modules!"
-msgstr "Game: 宇宙船にはすでに最大限の生命維持モジュールがあります。"
+"Your spaceship already has the maximum number of Life Support Modules!"
+msgstr "宇宙船にはすでに最大限の生命維持モジュールがあります。"
 
 # yasu
 #: server/spacerace.c:317
 #, fuzzy
 msgid ""
-"Game: Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr "Game: 宇宙船にはすでに最大限の太陽電池モジュールがあります。"
+"Your spaceship already has the maximum number of Solar Panel Modules!"
+msgstr "宇宙船にはすでに最大限の太陽電池モジュールがあります。"
 
 # yasu
 #: server/spacerace.c:336
 #, c-format
-msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
-msgstr "Game: 首都からの誘導がないため、%sの宇宙船は失われました。"
+msgid "Without guidance from the capital, the %s spaceship is lost!"
+msgstr "首都からの誘導がないため、%sの宇宙船は失われました。"
 
 # yasu
 #: server/spacerace.c:367
-#, c-format
-msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr "Game: %sの宇宙船がアルファケンタウリに着きました。"
-
-# yasu
-#: server/spacerace.c:370
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "%sの宇宙船がアルファケンタウリに着きました。"
@@ -5110,16 +5099,16 @@ msgstr ""
 #: server/srv_main.c:425
 #, c-format
 msgid ""
-"Game: Concerned citizens point out that the cease-fire with %s will run out "
+"Concerned citizens point out that the cease-fire with %s will run out "
 "soon."
-msgstr "Game: 心配した市民が、%sとの停戦はまもなく終了すると指摘している。"
+msgstr "心配した市民が、%sとの停戦はまもなく終了すると指摘している。"
 
 # yasu
 #: server/srv_main.c:431
 #, c-format
 msgid ""
-"Game: The cease-fire with %s has run out. You are now neutral towards the %s."
-msgstr "Game: %sとの停戦は終了しました。以後、%sに対しては中立になります。"
+"The cease-fire with %s has run out. You are now neutral towards the %s."
+msgstr "%sとの停戦は終了しました。以後、%sに対しては中立になります。"
 
 #: server/srv_main.c:723
 #, c-format
@@ -5141,7 +5130,7 @@ msgstr "ゲームを開始しています。"
 
 #: server/srv_main.c:806
 #, c-format
-msgid "Game: request for unknown report (type %d)"
+msgid "request for unknown report (type %d)"
 msgstr ""
 
 #: server/srv_main.c:869
@@ -5190,8 +5179,8 @@ msgstr "SELECT_RACES_STATE の外で民族を選択しようとしています!"
 
 #: server/srv_main.c:1126
 #, c-format
-msgid "Game: %s is the %s ruler %s."
-msgstr "Game: %sは%sの支配者%sです。"
+msgid "%s is the %s ruler %s."
+msgstr "%sは%sの支配者%sです。"
 
 # yasu, ama
 #: server/srv_main.c:1154
@@ -5200,7 +5189,7 @@ msgid "No nations left: Removing player %s."
 msgstr "国が残ってません。プレイヤー %s を排除中。"
 
 #: server/srv_main.c:1157
-msgid "Game: Sorry, there are no nations left."
+msgid "Sorry, there are no nations left."
 msgstr "残念ですが遊べません。もう国がありません。"
 
 #: server/srv_main.c:1304
@@ -5218,15 +5207,10 @@ msgstr "民族の数が aifill より小さいです; aifill を %d に減らし
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "maxplayers が aifill より小さいです; aifill を %d に減らしました。"
 
-#: server/srv_main.c:1370
+#: server/srv_main.c:1373 server/stdinhand.c:824
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s は AI プレイヤーとして加わりました。"
-
-#: server/srv_main.c:1373 server/stdinhand.c:824
-#, c-format
-msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Game: %s は AI プレイヤーとして加わりました。"
 
 #: server/srv_main.c:1382
 #, fuzzy, c-format
@@ -5245,8 +5229,8 @@ msgstr "AIは %2$s によって治世された%1$sをコントロールしてい
 
 #: server/srv_main.c:1469
 #, c-format
-msgid "Game: %s rules the %s."
-msgstr "Game: %sは%sを支配します。"
+msgid "%s rules the %s."
+msgstr "%sは%sを支配します。"
 
 #: server/srv_main.c:1580
 msgid "Starting new log"
@@ -5258,8 +5242,8 @@ msgid "Sending info to metaserver [%s]"
 msgstr "メタサーバに情報を送っています [%s]"
 
 #: server/srv_main.c:1627
-msgid "Game: The game is over..."
-msgstr "Game: ゲームオーバー..."
+msgid "The game is over..."
+msgstr "ゲームオーバー..."
 
 #: server/srv_main.c:1628
 msgid "The game is over!"
@@ -5469,10 +5453,10 @@ msgstr ""
 #: server/stdinhand.c:1083
 #, c-format
 msgid ""
-"Game: Anyone can assume command access level '%s' now by issuing the "
+"Anyone can assume command access level '%s' now by issuing the "
 "'firstlevel' command."
 msgstr ""
-"Game: 誰でも 'firstlevel' コマンドを発行することで、コマンド利用権レベル '%"
+"誰でも 'firstlevel' コマンドを発行することで、コマンド利用権レベル '%"
 "s' になれます。"
 
 #: server/stdinhand.c:1116
@@ -5938,11 +5922,11 @@ msgid "Usage: observe [player-name]"
 msgstr "remove <プレイヤー名>"
 
 #: server/stdinhand.c:2540
-msgid "Game: A global observer cannot be created: too many regular players."
+msgid "A global observer cannot be created: too many regular players."
 msgstr ""
 
 #: server/stdinhand.c:2565
-msgid "Game: A global observer has been created"
+msgid "A global observer has been created"
 msgstr ""
 
 #: server/stdinhand.c:2581
@@ -6034,7 +6018,7 @@ msgstr "cut <接続名>"
 #: server/stdinhand.c:2859
 #, fuzzy
 msgid "You can not detach other users."
-msgstr "Game: そこへ攻撃できません。"
+msgstr "そこへ攻撃できません。"
 
 #: server/stdinhand.c:2868
 #, c-format
@@ -6280,215 +6264,215 @@ msgstr "<接続なし>"
 
 #: server/unithand.c:153
 #, c-format
-msgid "Game: Illegal packet, can't upgrade %s (yet)."
-msgstr "Game: 不正なパケット, %sへは(まだ)アップグレードできません。"
+msgid "Illegal packet, can't upgrade %s (yet)."
+msgstr "不正なパケット, %sへは(まだ)アップグレードできません。"
 
 #: server/unithand.c:180
 #, c-format
-msgid "Game: %d %s upgraded to %s for %d gold."
-msgstr "Game: %1$dの%2$sを%4$dで%3$sへアップグレードしました。"
+msgid "%d %s upgraded to %s for %d gold."
+msgstr "%1$dの%2$sを%4$dで%3$sへアップグレードしました。"
 
 #: server/unithand.c:186
-msgid "Game: No units could be upgraded."
-msgstr "Game: アップグレードされる部隊がいません。"
+msgid "No units could be upgraded."
+msgstr "アップグレードされる部隊がいません。"
 
 #: server/unithand.c:209
 #, c-format
-msgid "Game: %s upgraded to %s for %d gold."
-msgstr "Game: %1$sを金%3$dで%2$sへ新型にしました。"
+msgid "%s upgraded to %s for %d gold."
+msgstr "%1$sを金%3$dで%2$sへ新型にしました。"
 
 #: server/unithand.c:378
 #, fuzzy, c-format
-msgid "Game: %s refuses to disband!"
-msgstr "Game: %sは%sを支配します。"
+msgid "%s refuses to disband!"
+msgstr "%sは%sを支配します。"
 
 #: server/unithand.c:401
-msgid "Game: Can't place city here."
-msgstr "Game: ここに都市は配置できません。"
+msgid "Can't place city here."
+msgstr "ここに都市は配置できません。"
 
 #: server/unithand.c:408
 #, c-format
-msgid "Game: Only %s can build a city."
-msgstr "Game: %sだけが都市を作ることができます。"
+msgid "Only %s can build a city."
+msgstr "%sだけが都市を作ることができます。"
 
 #: server/unithand.c:413
-msgid "Game: Can't build a city."
-msgstr "Game: 都市を作れません。"
+msgid "Can't build a city."
+msgstr "都市を作れません。"
 
 #: server/unithand.c:422
 #, c-format
-msgid "Game: Only %s can add to a city."
-msgstr "Game: %sだけが都市に加わることができます。"
+msgid "Only %s can add to a city."
+msgstr "%sだけが都市に加わることができます。"
 
 #: server/unithand.c:427
-msgid "Game: Can't add to a city."
-msgstr "Game: 都市に加えることはできません。"
+msgid "Can't add to a city."
+msgstr "都市に加えることはできません。"
 
 #: server/unithand.c:433
 #, c-format
-msgid "Game: %s unit has no moves left to add to %s."
-msgstr "Game: %s部隊は%sへ加わるための移動力が残っていません。"
+msgid "%s unit has no moves left to add to %s."
+msgstr "%s部隊は%sへ加わるための移動力が残っていません。"
 
 #: server/unithand.c:438
 #, c-format
-msgid "Game: %s unit has no moves left to build city."
-msgstr "Game: %s 部隊は都市を建てるのに十分な移動力が残っていません。"
+msgid "%s unit has no moves left to build city."
+msgstr "%s 部隊は都市を建てるのに十分な移動力が残っていません。"
 
 #: server/unithand.c:443
 #, c-format
-msgid "Game: %s is too big to add %s."
-msgstr "Game: %sは大き過ぎて%sは加われません。"
+msgid "%s is too big to add %s."
+msgstr "%sは大き過ぎて%sは加われません。"
 
 #: server/unithand.c:448
 #, fuzzy, c-format
-msgid "Game: %s needs an improvement to grow, so you cannot add %s."
-msgstr "Game: %sが大きくなるためには%sが必要です。%sは加われません。"
+msgid "%s needs an improvement to grow, so you cannot add %s."
+msgstr "%sが大きくなるためには%sが必要です。%sは加われません。"
 
 #: server/unithand.c:457
 #, c-format
-msgid "Game: Can't add %s to %s."
-msgstr "Game: %sを%sへ加えることはできません。"
+msgid "Can't add %s to %s."
+msgstr "%sを%sへ加えることはできません。"
 
 #: server/unithand.c:481
 #, c-format
-msgid "Game: %s added to aid %s in growing."
-msgstr "Game: %sは%sの拡大を助けるために加わりました。"
+msgid "%s added to aid %s in growing."
+msgstr "%sは%sの拡大を助けるために加わりました。"
 
 #: server/unithand.c:721
 #, fuzzy, c-format
-msgid "Game: Your bombarding %s%s became more experienced!"
-msgstr "Game: %s の練度が増しました。"
+msgid "Your bombarding %s%s became more experienced!"
+msgstr "%s の練度が増しました。"
 
 #: server/unithand.c:763
-msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
+msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
-"Game: あなたの核ミサイルは SDI 防衛システムによって撃ち落とされました。あぁ。"
+"あなたの核ミサイルは SDI 防衛システムによって撃ち落とされました。あぁ。"
 
 #: server/unithand.c:766
 #, c-format
-msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
-msgstr "Game: %s への核攻撃は SDI 防衛システムによって避けられました。"
+msgid "The nuclear attack on %s was avoided by your SDI defense."
+msgstr "%s への核攻撃は SDI 防衛システムによって避けられました。"
 
 #: server/unithand.c:833
 #, c-format
 msgid ""
-"Game: Your %s%s survived the pathetic attack from %s's %s and became more "
+"Your %s%s survived the pathetic attack from %s's %s and became more "
 "experienced!"
-msgstr "Game: %2$s%1$sは、%3$sの%4$sからの攻撃を切り抜け、練度が増しました。"
+msgstr "%2$s%1$sは、%3$sの%4$sからの攻撃を切り抜け、練度が増しました。"
 
 #: server/unithand.c:842
 #, c-format
-msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
-msgstr "Game: %2$s%1$sは、%3$sの%4$sからの攻撃を切り抜けました。"
+msgid "Your %s%s survived the pathetic attack from %s's %s."
+msgstr "%2$s%1$sは、%3$sの%4$sからの攻撃を切り抜けました。"
 
 #: server/unithand.c:852
 #, c-format
-msgid "Game: Your attacking %s failed against %s's %s%s!"
-msgstr "Game: %1$sは%4$s%2$sの%3$sを攻撃し、失敗しました。"
+msgid "Your attacking %s failed against %s's %s%s!"
+msgstr "%1$sは%4$s%2$sの%3$sを攻撃し、失敗しました。"
 
 #: server/unithand.c:869
 #, c-format
 msgid ""
-"Game: Your attacking %s succeeded against %s's %s%s and became more "
+"Your attacking %s succeeded against %s's %s%s and became more "
 "experienced!"
-msgstr "Game: %1$sは%4$s%2$sの%3$sの攻撃に成功し、練度が増しました。"
+msgstr "%1$sは%4$s%2$sの%3$sの攻撃に成功し、練度が増しました。"
 
 #: server/unithand.c:878
 #, c-format
-msgid "Game: Your attacking %s succeeded against %s's %s%s!"
-msgstr "Game: %1$sは%4$s%2$sの%3$sを攻撃し、成功しました。"
+msgid "Your attacking %s succeeded against %s's %s%s!"
+msgstr "%1$sは%4$s%2$sの%3$sを攻撃し、成功しました。"
 
 #: server/unithand.c:927
-msgid "Game: Cancel treaty in the players dialog first (F3)."
-msgstr "Game: まずプレイヤー・ダイアログ(F3)で条約を破棄して下さい。"
+msgid "Cancel treaty in the players dialog first (F3)."
+msgstr "まずプレイヤー・ダイアログ(F3)で条約を破棄して下さい。"
 
 #: server/unithand.c:950
 #, c-format
-msgid "Game: Only %s can attack from sea."
-msgstr "Game: %sだけが海から攻撃できます。"
+msgid "Only %s can attack from sea."
+msgstr "%sだけが海から攻撃できます。"
 
 #: server/unithand.c:955
-msgid "Game: Cannot attack from sea."
-msgstr "Game: 海から攻撃できません。"
+msgid "Cannot attack from sea."
+msgstr "海から攻撃できません。"
 
 #: server/unithand.c:960 server/unittools.c:2209
-msgid "Game: Cannot attack unless you declare war first."
-msgstr "Game: 戦争を宣言しなければ攻撃できません。"
+msgid "Cannot attack unless you declare war first."
+msgstr "戦争を宣言しなければ攻撃できません。"
 
 #: server/unithand.c:963
 #, c-format
-msgid "Game: %s can only move into your own zone of control."
-msgstr "Game: %sはあなたのゾーンコントロールへだけ移動できます。"
+msgid "%s can only move into your own zone of control."
+msgstr "%sはあなたのゾーンコントロールへだけ移動できます。"
 
 #: server/unithand.c:1005
-msgid "Game: This unit has no moves left."
-msgstr "Game: この部隊はもう移動できません。"
+msgid "This unit has no moves left."
+msgstr "この部隊はもう移動できません。"
 
 #: server/unithand.c:1058
-msgid "Game: Unit must be on land to perform diplomatic action."
-msgstr "Game: 部隊が外交行為を行なうには地上にいなければなりません。"
+msgid "Unit must be on land to perform diplomatic action."
+msgstr "部隊が外交行為を行なうには地上にいなければなりません。"
 
 #: server/unithand.c:1060
-msgid "Game: No diplomat action possible."
-msgstr "Game: 外交行為を行なえません。"
+msgid "No diplomat action possible."
+msgstr "外交行為を行なえません。"
 
 # ntaka
 #: server/unithand.c:1075
 #, c-format
-msgid "Game: Can't attack %s because you are not at war with %s."
-msgstr "Game: %2$sと戦闘を行なっていないので、都市%1$sを攻撃できません。"
+msgid "Can't attack %s because you are not at war with %s."
+msgstr "%2$sと戦闘を行なっていないので、都市%1$sを攻撃できません。"
 
 # ntaka
 #: server/unithand.c:1086
 #, fuzzy, c-format
-msgid "Game: Can't attack %s's unit because you are not at war with %s."
-msgstr "Game: %2$sと戦闘を行なっていないので、%1$sのユニットを攻撃できません。"
+msgid "Can't attack %s's unit because you are not at war with %s."
+msgstr "%2$sと戦闘を行なっていないので、%1$sのユニットを攻撃できません。"
 
 #: server/unithand.c:1104
 #, fuzzy
-msgid "Game: This unit is being transported, and so cannot bombard."
-msgstr "Game: この部隊のタイプは落下傘降下させられません。"
+msgid "This unit is being transported, and so cannot bombard."
+msgstr "この部隊のタイプは落下傘降下させられません。"
 
 #: server/unithand.c:1119
-msgid "Game: You can't attack there."
-msgstr "Game: そこへ攻撃できません。"
+msgid "You can't attack there."
+msgstr "そこへ攻撃できません。"
 
 #: server/unithand.c:1139
 #, fuzzy
-msgid "Game: This type of troops cannot take over a city."
-msgstr "Game: 地上の軍隊だけが都市を占領できます。"
+msgid "This type of troops cannot take over a city."
+msgstr "地上の軍隊だけが都市を占領できます。"
 
 #: server/unithand.c:1157
 msgid ""
-"Game: A transported unit is not allied to all units or city on target tile."
+"A transported unit is not allied to all units or city on target tile."
 msgstr ""
 
 #: server/unithand.c:1201
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d remaining)."
-msgstr "Game: %1$sは%3$sの%2$s建築を手伝いました(残り %4$d)。"
+msgid "Your %s helps build the %s in %s (%d remaining)."
+msgstr "%1$sは%3$sの%2$s建築を手伝いました(残り %4$d)。"
 
 #: server/unithand.c:1203
 #, c-format
-msgid "Game: Your %s helps build the %s in %s (%d surplus)."
-msgstr "Game: %1$sは%3$sの%2$s建築を手伝いました(余剰 %4$d)。"
+msgid "Your %s helps build the %s in %s (%d surplus)."
+msgstr "%1$sは%3$sの%2$s建築を手伝いました(余剰 %4$d)。"
 
 #: server/unithand.c:1247
 #, fuzzy, c-format
 msgid ""
-"Game: Sorry, your %s cannot establish a trade route because it has no home "
+"Sorry, your %s cannot establish a trade route because it has no home "
 "city"
-msgstr "Game: 残念ながら、%sはここに交易路を確立できません!"
+msgstr "残念ながら、%sはここに交易路を確立できません!"
 
 #: server/unithand.c:1257
 #, fuzzy, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route between %s and %s"
-msgstr "Game: 残念ながら、%sはここに交易路を確立できません!"
+msgid "Sorry, your %s cannot establish a trade route between %s and %s"
+msgstr "残念ながら、%sはここに交易路を確立できません!"
 
 #: server/unithand.c:1285 server/unithand.c:1302
 #, c-format
-msgid "Game: Sorry, your %s cannot establish a trade route here!"
-msgstr "Game: 残念ながら、%sはここに交易路を確立できません!"
+msgid "Sorry, your %s cannot establish a trade route here!"
+msgstr "残念ながら、%sはここに交易路を確立できません!"
 
 #: server/unithand.c:1288 server/unithand.c:1305
 #, fuzzy, c-format
@@ -6497,21 +6481,21 @@ msgstr "      都市%sには既に %dの交易路があります!"
 
 #: server/unithand.c:1317 server/unithand.c:1328
 #, c-format
-msgid "Game: Sorry, %s has canceled the trade route from %s to your city %s."
+msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr ""
 
 # ama, clefs
 #: server/unithand.c:1360
 #, c-format
 msgid ""
-"Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold "
 "and research."
 msgstr "%3$sへ、%2$sからの%1$sが到着し、 %4$d の現金と研究が得られました。"
 
 #: server/unittools.c:231
 #, fuzzy, c-format
-msgid "Game: %s was upgraded for free to %s%s."
-msgstr "Game: %1$sによって、%4$s%2$sは%3$sへアップグレードされました。"
+msgid "%s was upgraded for free to %s%s."
+msgstr "%1$sによって、%4$s%2$sは%3$sへアップグレードされました。"
 
 #: server/unittools.c:267
 #, c-format
@@ -6520,8 +6504,8 @@ msgstr ""
 
 #: server/unittools.c:312
 #, c-format
-msgid "Game: Your %s has run out of hit points."
-msgstr "Game: %sは体力が尽きました。"
+msgid "Your %s has run out of hit points."
+msgstr "%sは体力が尽きました。"
 
 #: server/unittools.c:314
 #, c-format
@@ -6530,8 +6514,8 @@ msgstr "%sは%sを失います(体力なし)"
 
 #: server/unittools.c:331
 #, c-format
-msgid "Game: Your %s has been lost on the high seas."
-msgstr "Game: %sを外洋で失いました。"
+msgid "Your %s has been lost on the high seas."
+msgstr "%sを外洋で失いました。"
 
 #: server/unittools.c:333
 #, fuzzy, c-format
@@ -6540,13 +6524,13 @@ msgstr "%sのトライリームを海で消失"
 
 #: server/unittools.c:341
 #, c-format
-msgid "Game: Your %s survived on the high seas and became more experienced!"
-msgstr "Game: %sは外洋でも耐え、練度が増しました。"
+msgid "Your %s survived on the high seas and became more experienced!"
+msgstr "%sは外洋でも耐え、練度が増しました。"
 
 #: server/unittools.c:352
 #, fuzzy, c-format
-msgid "Game: Your %s has been lost on unsafe terrain."
-msgstr "Game: %sを外洋で失いました。"
+msgid "Your %s has been lost on unsafe terrain."
+msgstr "%sを外洋で失いました。"
 
 #: server/unittools.c:354
 #, c-format
@@ -6555,13 +6539,13 @@ msgstr ""
 
 #: server/unittools.c:381
 #, c-format
-msgid "Game: Your %s has returned to refuel."
-msgstr "Game: %s は補給のため帰還しました。"
+msgid "Your %s has returned to refuel."
+msgstr "%s は補給のため帰還しました。"
 
 #: server/unittools.c:407
 #, c-format
-msgid "Game: Your %s has run out of fuel."
-msgstr "Game: %s の燃料が切れました。"
+msgid "Your %s has run out of fuel."
+msgstr "%s の燃料が切れました。"
 
 #: server/unittools.c:409
 #, c-format
@@ -6570,38 +6554,38 @@ msgstr "%sは%sを失う(燃料)"
 
 #: server/unittools.c:591
 #, c-format
-msgid "Game: Your %s became more experienced!"
-msgstr "Game: %s の練度が増しました。"
+msgid "Your %s became more experienced!"
+msgstr "%s の練度が増しました。"
 
 #: server/unittools.c:869
 #, fuzzy, c-format
-msgid "Game: Moved your %s due to changing land to sea."
-msgstr "Game: (%2$d, %3$d)で陸地から海へ変更したため%1$sを移動しました。"
+msgid "Moved your %s due to changing land to sea."
+msgstr "(%2$d, %3$d)で陸地から海へ変更したため%1$sを移動しました。"
 
 #: server/unittools.c:891
 #, fuzzy, c-format
-msgid "Game: Embarked your %s due to changing land to sea."
-msgstr "Game: (%2$d, %3$d)で陸地から海へ変更したため%1$sを乗船させました。"
+msgid "Embarked your %s due to changing land to sea."
+msgstr "(%2$d, %3$d)で陸地から海へ変更したため%1$sを乗船させました。"
 
 #: server/unittools.c:906
 #, fuzzy, c-format
-msgid "Game: Disbanded your %s due to changing land to sea."
-msgstr "Game: (%2$d, %3$d)で陸地から海へ変更したため%1$sを解散しました。"
+msgid "Disbanded your %s due to changing land to sea."
+msgstr "(%2$d, %3$d)で陸地から海へ変更したため%1$sを解散しました。"
 
 #: server/unittools.c:929
 #, fuzzy, c-format
-msgid "Game: Moved your %s due to changing sea to land."
-msgstr "Game: (%2$d, %3$d)で海から陸地へ変更したため%1$sを移動しました。"
+msgid "Moved your %s due to changing sea to land."
+msgstr "(%2$d, %3$d)で海から陸地へ変更したため%1$sを移動しました。"
 
 #: server/unittools.c:950
 #, fuzzy, c-format
-msgid "Game: Docked your %s due to changing sea to land."
-msgstr "Game: (%2$d, %3$d)で海から陸地へ変更したため%1$sをドックに入れました。"
+msgid "Docked your %s due to changing sea to land."
+msgstr "(%2$d, %3$d)で海から陸地へ変更したため%1$sをドックに入れました。"
 
 #: server/unittools.c:965
 #, fuzzy, c-format
-msgid "Game: Disbanded your %s due to changing sea to land."
-msgstr "Game: (%2$d, %3$d)で海から陸地へ変更したため%1$sを解散しました。"
+msgid "Disbanded your %s due to changing sea to land."
+msgstr "(%2$d, %3$d)で海から陸地へ変更したため%1$sを解散しました。"
 
 #: server/unittools.c:997
 #, c-format
@@ -6625,13 +6609,13 @@ msgstr "%sの近くにいる"
 
 #: server/unittools.c:1223
 #, fuzzy, c-format
-msgid "Game: Teleported your %s to %s."
-msgstr "Game: %sを(%d, %d)から%sへテレポートしました。"
+msgid "Teleported your %s to %s."
+msgstr "%sを(%d, %d)から%sへテレポートしました。"
 
 #: server/unittools.c:1249
 #, c-format
-msgid "Game: Disbanded your %s."
-msgstr "Game: %sを解散しました。"
+msgid "Disbanded your %s."
+msgstr "%sを解散しました。"
 
 #: server/unittools.c:1567
 #, c-format
@@ -6650,13 +6634,13 @@ msgstr ""
 
 #: server/unittools.c:1660
 #, fuzzy, c-format
-msgid "Game: %s escaped the destruction of %s, and fled to %s."
-msgstr "Game: %1$sは%3$sにある%2$s建造物の破壊に成功しました。"
+msgid "%s escaped the destruction of %s, and fled to %s."
+msgstr "%1$sは%3$sにある%2$s建造物の破壊に成功しました。"
 
 #: server/unittools.c:1667
 #, c-format
-msgid "Game: %s lost when %s was lost."
-msgstr "Game: %2$sを失った時に%1$sを失いました。"
+msgid "%s lost when %s was lost."
+msgstr "%2$sを失った時に%1$sを失いました。"
 
 #: server/unittools.c:1670
 #, c-format
@@ -6666,13 +6650,13 @@ msgstr "%1$sは%3$sを失った時に%2$sを失いました。"
 # ama, clefs
 #: server/unittools.c:1728
 #, c-format
-msgid "Game: Barbarian leader captured, %d gold ransom paid."
-msgstr "Game: バーバリアンの指導者が捕えられ、身代金%dが支払われました。"
+msgid "Barbarian leader captured, %d gold ransom paid."
+msgstr "バーバリアンの指導者が捕えられ、身代金%dが支払われました。"
 
 #: server/unittools.c:1745
 #, c-format
-msgid "Game: %s lost to an attack by %s's %s%s."
-msgstr "Game: %2$sの%3$sによる攻撃で%4$s%1$sを失いました。"
+msgid "%s lost to an attack by %s's %s%s."
+msgstr "%2$sの%3$sによる攻撃で%4$s%1$sを失いました。"
 
 # clefs
 #: server/unittools.c:1748 server/unittools.c:1792
@@ -6680,23 +6664,23 @@ msgstr "Game: %2$sの%3$sによる攻撃で%4$s%1$sを失いました。"
 msgid "%s lose %s to the %s"
 msgstr "%1$sは%3$sによる攻撃で%2$sを失いました。"
 
-# Game: You lost 2 units to an attack from Lluis Company's チャリオット Fukuokaの外にいる.
+# You lost 2 units to an attack from Lluis Company's チャリオット Fukuokaの外にいる.
 #: server/unittools.c:1773
 #, c-format
-msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] "Game: %4$s%2$sの%3$sからの攻撃で%1$d部隊を失いました。"
+msgid "You lost %d unit to an attack from %s's %s%s."
+msgid_plural "You lost %d units to an attack from %s's %s%s."
+msgstr[0] "%4$s%2$sの%3$sからの攻撃で%1$d部隊を失いました。"
 
 # 射手 lost to an attack from Lluis Companys's チャリオット.
 #: server/unittools.c:1788
 #, c-format
-msgid "Game: %s lost to an attack from %s's %s."
-msgstr "Game: %2$sの%3$sからの攻撃で%1$sを失いました。"
+msgid "%s lost to an attack from %s's %s."
+msgstr "%2$sの%3$sからの攻撃で%1$sを失いました。"
 
 #: server/unittools.c:2052
 #, c-format
-msgid "Game: Your %s was nuked by %s."
-msgstr "Game: %sは%sによって核攻撃されました。"
+msgid "Your %s was nuked by %s."
+msgstr "%sは%sによって核攻撃されました。"
 
 #: server/unittools.c:2054 server/unittools.c:2070
 msgid "yourself"
@@ -6704,71 +6688,71 @@ msgstr "あなた自身"
 
 #: server/unittools.c:2058
 #, c-format
-msgid "Game: %s's %s was nuked."
-msgstr "Game: %sの%sは核攻撃されました。"
+msgid "%s's %s was nuked."
+msgstr "%sの%sは核攻撃されました。"
 
 #: server/unittools.c:2068
 #, c-format
-msgid "Game: %s was nuked by %s."
-msgstr "Game: %sは%sによって核攻撃されました。"
+msgid "%s was nuked by %s."
+msgstr "%sは%sによって核攻撃されました。"
 
 #: server/unittools.c:2075
 #, c-format
-msgid "Game: You nuked %s."
-msgstr "Game: %sを核攻撃しました。"
+msgid "You nuked %s."
+msgstr "%sを核攻撃しました。"
 
 #: server/unittools.c:2113
 #, c-format
-msgid "Game: %s detonated a nuke!"
-msgstr "Game: %sは核を爆発させました。"
+msgid "%s detonated a nuke!"
+msgstr "%sは核を爆発させました。"
 
 #: server/unittools.c:2154
 #, c-format
-msgid "Game: %s transported succesfully."
-msgstr "Game: %sは首尾よく輸送しました。"
+msgid "%s transported succesfully."
+msgstr "%sは首尾よく輸送しました。"
 
 #: server/unittools.c:2178
-msgid "Game: This unit type can not be paradropped."
-msgstr "Game: この部隊のタイプは落下傘降下させられません。"
+msgid "This unit type can not be paradropped."
+msgstr "この部隊のタイプは落下傘降下させられません。"
 
 #: server/unittools.c:2188
 #, fuzzy
-msgid "Game: You cannot paradrop a transporter unit."
-msgstr "Game: 海へは落下傘降下できません。"
+msgid "You cannot paradrop a transporter unit."
+msgstr "海へは落下傘降下できません。"
 
 #: server/unittools.c:2193
-msgid "Game: The destination location is not known."
-msgstr "Game: 目的地は知られていません。"
+msgid "The destination location is not known."
+msgstr "目的地は知られていません。"
 
 #: server/unittools.c:2200
-msgid "Game: This unit cannot paradrop into ocean."
-msgstr "Game: 海へは落下傘降下できません。"
+msgid "This unit cannot paradrop into ocean."
+msgstr "海へは落下傘降下できません。"
 
 #: server/unittools.c:2218
 #, c-format
 msgid ""
-"Game: The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr "Game: 目的への距離(%i)は、部隊の行動範囲(%i)を越えています。"
+"The distance to the target (%i) is greater than the unit's range (%i)."
+msgstr "目的への距離(%i)は、部隊の行動範囲(%i)を越えています。"
 
 #: server/unittools.c:2232
 #, c-format
-msgid "Game: Your %s paradropped into the ocean and was lost."
-msgstr "Game: %sは海に落下傘降下し消滅しました。"
+msgid "Your %s paradropped into the ocean and was lost."
+msgstr "%sは海に落下傘降下し消滅しました。"
 
 #: server/unittools.c:2245
 #, c-format
-msgid "Game: Your %s was killed by enemy units at the paradrop destination."
-msgstr "Game: %sは落下傘降下目標の敵部隊によって殺されました。"
+msgid "Your %s was killed by enemy units at the paradrop destination."
+msgstr "%sは落下傘降下目標の敵部隊によって殺されました。"
 
 #: server/unittools.c:2267
 #, c-format
-msgid "Game: You found %d gold."
-msgstr "Game: 金%dを見つけました。"
+msgid "You found %d gold."
+msgstr "金%dを見つけました。"
 
 #: server/unittools.c:2293
 #, c-format
-msgid "Game: You found %s in ancient scrolls of wisdom."
-msgstr "Game: %sを古代の知識の巻物の中から見つけました。"
+msgid "You found %s in ancient scrolls of wisdom."
+msgstr "%sを古代の知識の巻物の中から見つけました。"
 
 #: server/unittools.c:2295
 #, c-format
@@ -6777,78 +6761,78 @@ msgstr "%sは%sを発見しました(小屋)"
 
 #: server/unittools.c:2297
 #, c-format
-msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
-msgstr "Game: %sは古代の知識の巻物から%sを得ました。"
+msgid "The %s have acquired %s from ancient scrolls of wisdom."
+msgstr "%sは古代の知識の巻物から%sを得ました。"
 
 #: server/unittools.c:2317
-msgid "Game: A band of friendly mercenaries joins your cause."
-msgstr "Game: 友好的な部隊が加わりました。"
+msgid "A band of friendly mercenaries joins your cause."
+msgstr "友好的な部隊が加わりました。"
 
 #: server/unittools.c:2335
-msgid "Game: An abandoned village is here."
-msgstr "Game: 廃虚の村があります。"
+msgid "An abandoned village is here."
+msgstr "廃虚の村があります。"
 
 #: server/unittools.c:2346
-msgid "Game: You have unleashed a horde of barbarians!"
-msgstr "Game: バーバリアンの大群を解放してしまいました!"
+msgid "You have unleashed a horde of barbarians!"
+msgstr "バーバリアンの大群を解放してしまいました!"
 
 #: server/unittools.c:2349
 #, c-format
-msgid "Game: Your %s has been killed by barbarians!"
-msgstr "Game: %s はバーバリアンによって殺されました。"
+msgid "Your %s has been killed by barbarians!"
+msgstr "%s はバーバリアンによって殺されました。"
 
 #: server/unittools.c:2365
-msgid "Game: You found a friendly city."
-msgstr "Game: 友好的な都市を見つけました。"
+msgid "You found a friendly city."
+msgstr "友好的な都市を見つけました。"
 
 #: server/unittools.c:2370
-msgid "Game: Friendly nomads are impressed by you, and join you."
-msgstr "Game: 友好的な放浪者があなたに感銘し、部隊に加わりました。"
+msgid "Friendly nomads are impressed by you, and join you."
+msgstr "友好的な放浪者があなたに感銘し、部隊に加わりました。"
 
 #: server/unittools.c:2395
-msgid "Game: Your overflight frightens the tribe; they scatter in terror."
-msgstr "Game: 飛行物体を見て部族は驚き、逃走しました。"
+msgid "Your overflight frightens the tribe; they scatter in terror."
+msgstr "飛行物体を見て部族は驚き、逃走しました。"
 
 #: server/unittools.c:2848
 #, c-format
-msgid "Game: %s aborted GOTO as there are units in the way."
-msgstr "Game: 道をふさいでいる部隊がいるので、%sは移動を中断しました。"
+msgid "%s aborted GOTO as there are units in the way."
+msgstr "道をふさいでいる部隊がいるので、%sは移動を中断しました。"
 
 #: server/unittools.c:2891
 #, c-format
 msgid ""
-"Game: Your %s cancelled patrol order because it encountered a foreign unit."
-msgstr "Game: 外国の部隊に遭遇したため、%sはパトロールを中断しました。"
+"Your %s cancelled patrol order because it encountered a foreign unit."
+msgstr "外国の部隊に遭遇したため、%sはパトロールを中断しました。"
 
 #: server/unittools.c:2964
 #, fuzzy, c-format
-msgid "Game: Orders for %s aborted as there are units nearby."
-msgstr "Game: 道をふさいでいる部隊がいるので、%sは移動を中断しました。"
+msgid "Orders for %s aborted as there are units nearby."
+msgstr "道をふさいでいる部隊がいるので、%sは移動を中断しました。"
 
 #: server/unittools.c:3005
 #, fuzzy, c-format
-msgid "Game: Orders for %s aborted since they give an invalid activity."
-msgstr "Game: 道をふさいでいる部隊がいるので、%sは移動を中断しました。"
+msgid "Orders for %s aborted since they give an invalid activity."
+msgstr "道をふさいでいる部隊がいるので、%sは移動を中断しました。"
 
 #: server/unittools.c:3019
 #, c-format
-msgid "Game: Orders for %s aborted since they give an invalid location."
+msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 
 #: server/unittools.c:3029
 #, fuzzy, c-format
-msgid "Game: Orders for %s aborted as there are units in the way."
-msgstr "Game: 道をふさいでいる部隊がいるので、%sは移動を中断しました。"
+msgid "Orders for %s aborted as there are units in the way."
+msgstr "道をふさいでいる部隊がいるので、%sは移動を中断しました。"
 
 #: server/unittools.c:3055
 #, c-format
-msgid "Game: Orders for %s aborted because of failed move."
-msgstr "Game: 移動に失敗したため、%sは移動を中断しました。"
+msgid "Orders for %s aborted because of failed move."
+msgstr "移動に失敗したため、%sは移動を中断しました。"
 
 #: server/unittools.c:3065
 #, fuzzy, c-format
-msgid "Game: Your %s has invalid orders."
-msgstr "Game: %s は補給のため帰還しました。"
+msgid "Your %s has invalid orders."
+msgstr "%s は補給のため帰還しました。"
 
 #: server/generator/mapgen.c:1630
 msgid "High landmass - this may take a few seconds."
@@ -7458,8 +7442,8 @@ msgstr "自動接続中にエラーが起こりました。中断しています
 
 #: client/climisc.c:161
 #, c-format
-msgid "Game: Changing production of every %s into %s."
-msgstr "Game: 全ての%s生産物を%sへ変更します。"
+msgid "Changing production of every %s into %s."
+msgstr "全ての%s生産物を%sへ変更します。"
 
 #: client/climisc.c:201
 msgid "?embassy:Both"
@@ -7561,13 +7545,13 @@ msgstr "保存が失敗しました。ファイルへ書き込めません。"
 # yasu
 #: client/climisc.c:991
 #, fuzzy, c-format
-msgid "Game: You don't buy %s in %s!"
-msgstr "Game: %sは買えません!"
+msgid "You don't buy %s in %s!"
+msgstr "%sは買えません!"
 
 #: client/climisc.c:1011
 #, c-format
-msgid "Game: %s costs %d gold and you only have %d gold."
-msgstr "Game: %sには金%dかかりますが、金%dしか持っていません。"
+msgid "%s costs %d gold and you only have %d gold."
+msgstr "%sには金%dかかりますが、金%dしか持っていません。"
 
 #: client/clinet.c:119
 msgid "Lost connection to server!"
@@ -7654,37 +7638,37 @@ msgid ""
 msgstr ""
 
 #: client/control.c:648
-msgid "Game: Only transporter units can be unloaded."
-msgstr "Game: 輸送部隊だけが降ろせます。"
+msgid "Only transporter units can be unloaded."
+msgstr "輸送部隊だけが降ろせます。"
 
 #: client/control.c:871
 msgid ""
-"Game: Only settler units and military units in cities can be put in auto-"
+"Only settler units and military units in cities can be put in auto-"
 "mode."
-msgstr "Game: 開拓者部隊と都市に所属する軍事部隊だけが自動モードにできます。"
+msgstr "開拓者部隊と都市に所属する軍事部隊だけが自動モードにできます。"
 
 #: client/control.c:939
-msgid "Game: Only nuclear units can do this."
-msgstr "Game: 核兵器部隊だけがこれを行なえます。"
+msgid "Only nuclear units can do this."
+msgstr "核兵器部隊だけがこれを行なえます。"
 
 #: client/control.c:956
-msgid "Game: Only paratrooper units can do this."
-msgstr "Game: 落下傘兵部隊だけがこれを行なえます。"
+msgid "Only paratrooper units can do this."
+msgstr "落下傘兵部隊だけがこれを行なえます。"
 
 #: client/control.c:1384
-msgid "Game: Too far for this unit."
-msgstr "Game: この部隊から遠すぎます。"
+msgid "Too far for this unit."
+msgstr "この部隊から遠すぎます。"
 
 #: client/control.c:1591 client/control.c:1630
-msgid "Game: Didn't find a route to the destination!"
-msgstr "Game: 目的地までの経路を探せません。"
+msgid "Didn't find a route to the destination!"
+msgstr "目的地までの経路を探せません。"
 
 #: client/control.c:1621
-msgid "Game: Sorry, airunit patrol not yet implemented."
-msgstr "Game: ごめんなさい。空軍のパトロールはまだ実装していません。"
+msgid "Sorry, airunit patrol not yet implemented."
+msgstr "ごめんなさい。空軍のパトロールはまだ実装していません。"
 
 #: client/control.c:1690
-msgid "Game: Oh my! You seem to have no capital!"
+msgid "Oh my! You seem to have no capital!"
 msgstr ""
 
 #: client/helpdata.c:104
@@ -8118,22 +8102,18 @@ msgstr "%s%d 金"
 # yasu
 #: client/mapctrl_common.c:351
 #, fuzzy, c-format
-msgid "Game: You don't know how to build %s!"
-msgstr "Game: %sは買えません!"
+msgid "You don't know how to build %s!"
+msgstr "%sは買えません!"
 
 #: client/mapctrl_common.c:361
 #, c-format
-msgid "Game: Copy %s to clipboard."
+msgid "Copy %s to clipboard."
 msgstr ""
 
 #: client/mapctrl_common.c:378
 #, fuzzy
-msgid "Game: Clipboard is empty."
-msgstr "Game: %sの作業リストはなくなりました。"
-
-#: client/messagewin_common.c:112
-msgid "Game: "
-msgstr "Game: "
+msgid "Clipboard is empty."
+msgstr "%sの作業リストはなくなりました。"
 
 #: client/options.c:79
 msgid "Default player's login name"
@@ -8397,39 +8377,39 @@ msgid "Enemy Diplomat: Theft"
 msgstr "敵外交官: 盗み"
 
 #: client/options.c:225
-msgid "Game: Broadcast Report"
+msgid "Broadcast Report"
 msgstr "ゲーム: 報告"
 
 #: client/options.c:226
-msgid "Game: Game Ended"
+msgid "Game Ended"
 msgstr "ゲーム: 終了"
 
 #: client/options.c:227
-msgid "Game: Game Started"
+msgid "Game Started"
 msgstr "ゲーム: 開始"
 
 #: client/options.c:228
-msgid "Game: Message from Server Operator"
+msgid "Message from Server Operator"
 msgstr "ゲーム: サーバオペレータからのメッセージ"
 
 #: client/options.c:229
-msgid "Game: Nation Selected"
+msgid "Nation Selected"
 msgstr "ゲーム: 民族選択"
 
 #: client/options.c:230
-msgid "Game: Player Destroyed"
+msgid "Player Destroyed"
 msgstr "ゲーム: プレイヤー全滅"
 
 #: client/options.c:231
-msgid "Game: Report"
+msgid "Report"
 msgstr "ゲーム: 報告"
 
 #: client/options.c:232
-msgid "Game: Turn Bell"
+msgid "Turn Bell"
 msgstr "ゲーム: ターン合図"
 
 #: client/options.c:233
-msgid "Game: Year Advance"
+msgid "Year Advance"
 msgstr "ゲーム: 年進行"
 
 #: client/options.c:234
@@ -8656,8 +8636,8 @@ msgid "OFF"
 msgstr "オフ"
 
 #: client/packhand.c:1649
-msgid "Game: Revolution finished"
-msgstr "Game: 革命が終了しました"
+msgid "Revolution finished"
+msgstr "革命が終了しました"
 
 #: client/plrdlg_common.c:173 client/gui-gtk/plrdlg.c:325
 #: client/gui-mui/plrdlg.c:119 client/gui-sdl/plrdlg.c:218
@@ -9565,12 +9545,6 @@ msgstr "援助されている部隊: %d"
 msgid "Present units %d"
 msgstr "都市にいる部隊: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1734 client/gui-gtk/citydlg.c:2196
-#: client/gui-mui/citydlg.c:2040 client/gui-win32/citydlg.c:1253
-#, c-format
-msgid "%s"
-msgstr "%s"
-
 #: client/gui-gtk-2.0/citydlg.c:1737 client/gui-gtk/citydlg.c:2199
 #: client/gui-mui/citydlg.c:2043 client/gui-win32/citydlg.c:1256
 #, c-format
@@ -10158,7 +10132,7 @@ msgstr "オプション..."
 #: client/gui-win32/dialogs.c:1335 client/gui-xaw/dialogs.c:446
 #, fuzzy
 msgid "This unit cannot be bribed!"
-msgstr "Game: この部隊のタイプは落下傘降下させられません。"
+msgstr "この部隊のタイプは落下傘降下させられません。"
 
 #: client/gui-gtk-2.0/dialogs.c:297 client/gui-gtk/dialogs.c:444
 #: client/gui-mui/dialogs.c:221 client/gui-sdl/dialogs.c:3222
@@ -10614,8 +10588,8 @@ msgstr "条項を加える(_A)"
 #: client/gui-gtk-2.0/diplodlg.c:858 client/gui-gtk/diplodlg.c:894
 #: client/gui-mui/diplodlg.c:382 client/gui-sdl/diplodlg.c:421
 #: client/gui-win32/diplodlg.c:261 client/gui-xaw/diplodlg.c:948
-msgid "Game: Invalid amount of gold specified."
-msgstr "Game: 無効な金額が指定されました。"
+msgid "Invalid amount of gold specified."
+msgstr "無効な金額が指定されました。"
 
 #: client/gui-gtk-2.0/finddlg.c:67 client/gui-gtk/finddlg.c:62
 #: client/gui-mui/finddlg.c:96 client/gui-sdl/finddlg.c:129
@@ -12325,8 +12299,8 @@ msgid "Con_figure..."
 msgstr "設定(_F)..."
 
 #: client/gui-gtk/cityrep.c:966 client/gui-win32/cityrep.c:693
-msgid "Game: Select a unit or improvement to change production to."
-msgstr "Game: 変更後の部隊もしくは建築物を選択して下さい。"
+msgid "Select a unit or improvement to change production to."
+msgstr "変更後の部隊もしくは建築物を選択して下さい。"
 
 #: client/gui-gtk/cityrep.c:1000 client/gui-win32/cityrep.c:742
 #: data/Freeciv:1744
@@ -12896,8 +12870,8 @@ msgstr[0] "(アイドル %dターン)"
 
 #: client/gui-gtk/plrdlg.c:568 client/gui-mui/plrdlg.c:255
 #: client/gui-win32/plrdlg.c:72 client/gui-xaw/plrdlg.c:355
-msgid "Game: You need an embassy to establish a diplomatic meeting."
-msgstr "Game: 外交会談を開くには大使館が必要です。"
+msgid "You need an embassy to establish a diplomatic meeting."
+msgstr "外交会談を開くには大使館が必要です。"
 
 #: client/gui-gtk/repodlgs.c:626 client/gui-win32/repodlgs.c:409
 #: data/Freeciv:1875
@@ -13559,10 +13533,6 @@ msgstr "外交官/スパイ活動"
 msgid "Wait"
 msgstr "待機"
 
-#: client/gui-mui/gui_main.c:276
-msgid "Report"
-msgstr "報告"
-
 #: client/gui-mui/gui_main.c:277
 msgid "City Report..."
 msgstr "都市報告..."
@@ -14034,7 +14004,7 @@ msgstr "大きさ1の時に開拓者を作ったら解散"
 #: client/gui-sdl/citydlg.c:1217
 #, fuzzy
 msgid "Sorry, You have already bought here in this turn"
-msgstr "Game: 既にこのターンに買っています。"
+msgstr "既にこのターンに買っています。"
 
 #: client/gui-sdl/citydlg.c:1221
 msgid "Buy It?"
@@ -15506,12 +15476,12 @@ msgstr "製作可能"
 
 # clefs
 #: client/gui-win32/cityrep.c:684
-msgid "Game: Select a unit or improvement to change production from."
-msgstr "Game: 変更する部隊もしくは建築物を選択して下さい。"
+msgid "Select a unit or improvement to change production from."
+msgstr "変更する部隊もしくは建築物を選択して下さい。"
 
 #: client/gui-win32/cityrep.c:699
-msgid "Game: That's the same thing!"
-msgstr "Game: それは同じことです!"
+msgid "That's the same thing!"
+msgstr "それは同じことです!"
 
 #: client/gui-win32/cityrep.c:878 data/Freeciv:1620
 msgid "Popup"
@@ -23315,21 +23285,21 @@ msgid ""
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
 
-#~ msgid "Game: %s is not a valid name."
-#~ msgstr "Game: %s は不正な名前です。"
+#~ msgid "%s is not a valid name."
+#~ msgstr "%s は不正な名前です。"
 
-#~ msgid "Game: The %s have acquired %s and %s from %s."
-#~ msgstr "Game: %1$sは%4$sから%2$sと%3$sを得ました。"
+#~ msgid "The %s have acquired %s and %s from %s."
+#~ msgstr "%1$sは%4$sから%2$sと%3$sを得ました。"
 
 # yasu
-#~ msgid "Game: You can't subvert the capital of a nation."
-#~ msgstr "Game: 首都は陥落できません。"
+#~ msgid "You can't subvert the capital of a nation."
+#~ msgstr "首都は陥落できません。"
 
 #~ msgid "%s discover %s (Library)"
 #~ msgstr "%sは%sを発見しました(図書館)"
 
-#~ msgid "Game: The %s have acquired %s from the Great Library."
-#~ msgstr "Game: %1$sは王立図書館から%2$sを得ました。"
+#~ msgid "The %s have acquired %s from the Great Library."
+#~ msgstr "%1$sは王立図書館から%2$sを得ました。"
 
 # yasu
 #, fuzzy
@@ -23339,8 +23309,8 @@ msgstr ""
 #~ msgid "Bad team name."
 #~ msgstr "チーム名は不正です。"
 
-#~ msgid "Game: Let's not build a city with such a stupid name."
-#~ msgstr "Game: そのような名前の都市は建築できません。"
+#~ msgid "Let's not build a city with such a stupid name."
+#~ msgstr "そのような名前の都市は建築できません。"
 
 #~ msgid ""
 #~ "\n"

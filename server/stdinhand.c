@@ -370,7 +370,7 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
     players_iterate(pplayer) {
       /* Do not tell caller, since he was told above! */
       if (!(caller && caller->player && caller->player == pplayer)) {
-        notify_player(pplayer, _("Game: %s"), line);
+        notify_player(pplayer, _("%s"), line);
       }
     } players_iterate_end;
   }
@@ -894,7 +894,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   game.nplayers++;
 
-  notify_player(NULL, _("Game: %s has been added as an AI-controlled player."),
+  notify_player(NULL, _("%s has been added as an AI-controlled player."),
                 arg);
 
   pplayer = find_player_by_name(arg);
@@ -1164,7 +1164,7 @@ void notify_if_first_access_level_is_available(void)
 {
   if (first_access_level > default_access_level
       && !first_access_level_is_taken()) {
-    notify_player(NULL, _("Game: Anyone can assume command access level "
+    notify_player(NULL, _("Anyone can assume command access level "
 			  "'%s' now by issuing the 'firstlevel' command."),
 		  cmdlevel_name(first_access_level));
   }
@@ -2675,7 +2675,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     /* we need to create a new player */
     if (!pplayer) {
       if (game.nplayers >= MAX_NUM_PLAYERS) {
-        notify_player(NULL, _("Game: A global observer cannot be created: too "
+        notify_player(NULL, _("A global observer cannot be created: too "
                               "many regular players."));
         goto end;
       }
@@ -2706,7 +2706,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
       send_game_info(NULL);
       send_player_info(pplayer, NULL);
 
-      notify_player(NULL, _("Game: A global observer has been created"));
+      notify_player(NULL, _("A global observer has been created"));
     }
   }
 

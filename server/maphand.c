@@ -235,8 +235,8 @@ void global_warming(int effect)
   }
 
   notify_player_ex(NULL, NULL, E_GLOBAL_ECO,
-		   _("Game: Global warming has occurred!"));
-  notify_player(NULL, _("Game: Coastlines have been flooded and vast "
+		   _("Global warming has occurred!"));
+  notify_player(NULL, _("Coastlines have been flooded and vast "
 			"ranges of grassland have become deserts."));
 }
 
@@ -277,8 +277,8 @@ void nuclear_winter(int effect)
   }
 
   notify_player_ex(NULL, NULL, E_GLOBAL_ECO,
-		   _("Game: Nuclear winter has occurred!"));
-  notify_player(NULL, _("Game: Wetlands have dried up and vast "
+		   _("Nuclear winter has occurred!"));
+  notify_player(NULL, _("Wetlands have dried up and vast "
 			"ranges of grassland have become tundra."));
 }
 
@@ -299,13 +299,13 @@ void upgrade_city_rails(struct player *pplayer, bool discovery)
 
   if (discovery) {
     notify_player(pplayer,
-		  _("Game: New hope sweeps like fire through the country as "
+		  _("New hope sweeps like fire through the country as "
 		    "the discovery of railroad is announced.\n"
 		    "      Workers spontaneously gather and upgrade all "
 		    "cities with railroads."));
   } else {
     notify_player(pplayer,
-		  _("Game: The people are pleased to hear that your "
+		  _("The people are pleased to hear that your "
 		    "scientists finally know about railroads.\n"
 		    "      Workers spontaneously gather and upgrade all "
 		    "cities with railroads."));

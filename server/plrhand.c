@@ -151,11 +151,11 @@ void do_tech_parasite_effect(struct player *pplayer)
 	  && tech_is_available(pplayer, i)
 	  && game.global_advances[i] >= mod) {
 	notify_player_ex(pplayer, NULL, E_TECH_GAIN,
-			 _("Game: %s acquired from %s!"),
+			 _("%s acquired from %s!"),
 			 get_tech_name(pplayer, i), buf);
         gamelog(GAMELOG_TECH, pplayer, NULL, i, "steal");
 	notify_embassies(pplayer, NULL,
-			 _("Game: The %s have acquired %s from %s."),
+			 _("The %s have acquired %s from %s."),
 			 get_nation_name_plural(pplayer->nation),
 			 get_tech_name(pplayer, i), buf);
 
@@ -219,7 +219,7 @@ void kill_player(struct player *pplayer) {
                           "The feared barbarian leader %s is no more");
     return;
   } else {
-    notify_player_ex(NULL, NULL, E_DESTROYED, _("Game: The %s are no more!"),
+    notify_player_ex(NULL, NULL, E_DESTROYED, _("The %s are no more!"),
                      get_nation_name_plural(pplayer->nation));
     gamelog(GAMELOG_GENO, pplayer, "%s civilization destroyed");
   }
@@ -297,7 +297,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	  improvement_types[id].obsolete_by == tech_found &&
 	  (pcity = find_city_from_great_wonder(id))) {
 	notify_player_ex(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
-	                 _("Game: Discovery of %s OBSOLETES %s in %s!"), 
+	                 _("Discovery of %s OBSOLETES %s in %s!"), 
 	                 get_tech_name(city_owner(pcity), tech_found),
 			 get_improvement_name(id),
 	                 pcity->name);
@@ -308,7 +308,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   government_iterate(gov) {
     if (tech_found == gov->required_tech) {
       notify_player_ex(plr, NULL, E_NEW_GOVERNMENT,
-		       _("Game: Discovery of %s makes the government form %s"
+		       _("Discovery of %s makes the government form %s"
 			 " available. You may want to start a revolution."),
 		       get_tech_name(plr, tech_found), gov->name);
     }
@@ -347,7 +347,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 
     if (choose_goal_tech(plr)) {
       notify_player_ex(plr, NULL, E_TECH_LEARNED,
-		       _("Game: Learned %s.  "
+		       _("Learned %s.  "
 			 "Our scientists focus on %s, goal is %s."),
 		       get_tech_name(plr, tech_found),
 		       get_tech_name(plr, plr->research.researching),
@@ -365,7 +365,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
           && (!is_future_tech(plr->research.researching)
 	      || !is_future_tech(tech_found))) {
 	notify_player_ex(plr, NULL, E_TECH_LEARNED,
-			 _("Game: Learned %s.  Scientists "
+			 _("Learned %s.  Scientists "
 			   "choose to research %s."),
 			 get_tech_name(plr, tech_found),
 			 get_tech_name(plr, plr->research.researching));
@@ -373,7 +373,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	char buffer1[300];
 	char buffer2[300];
 
-	my_snprintf(buffer1, sizeof(buffer1), _("Game: Learned %s. "),
+	my_snprintf(buffer1, sizeof(buffer1), _("Learned %s. "),
 		    get_tech_name(plr, plr->research.researching));
 	plr->future_tech++;
 	my_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
@@ -382,7 +382,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 			 buffer2);
       } else {
 	notify_player_ex(plr, NULL, E_TECH_LEARNED,
-			 _("Game: Learned %s.  Scientists "
+			 _("Learned %s.  Scientists "
 			   "do not know what to research next."),
 			 get_tech_name(plr, tech_found));
       }
@@ -398,10 +398,10 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 
   if (bonus_tech_hack) {
     if (advances[tech_found].bonus_message) {
-      notify_player(plr, _("Game: %s"),
+      notify_player(plr, _("%s"),
 		    _(advances[tech_found].bonus_message));
     } else {
-      notify_player(plr, _("Game: Great scientists from all the "
+      notify_player(plr, _("Great scientists from all the "
 			   "world join your civilization: you get "
 			   "an immediate advance."));
     }
@@ -457,13 +457,13 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
         && get_invention(aplayer, tech_found) != TECH_KNOWN) {
       if (tech_exists(plr->research.researching)) {
         notify_player_ex(aplayer, NULL, E_TECH_LEARNED,
-                         _("Game: Learned %s in cooperation with %s. "
+                         _("Learned %s in cooperation with %s. "
                            "Scientists choose to research %s."),
                          get_tech_name(aplayer, tech_found), plr->name,
                          get_tech_name(plr, plr->research.researching));
       } else {
         notify_player_ex(aplayer, NULL, E_TECH_LEARNED,
-                         _("Game: Learned %s in cooperation with %s. "
+                         _("Learned %s in cooperation with %s. "
                            "Scientists do not know what to research next."),
                          get_tech_name(aplayer, tech_found), plr->name);
       }
@@ -492,13 +492,13 @@ static void tech_researched(struct player* plr)
 
   if (!is_future_tech(plr->research.researching)) {
     notify_embassies(plr, NULL,
-		     _("Game: The %s have researched %s."), 
+		     _("The %s have researched %s."), 
 		     get_nation_name_plural(plr->nation),
 		     get_tech_name(plr, plr->research.researching));
 
   } else {
     notify_embassies(plr, NULL,
-		     _("Game: The %s have researched Future Tech. %d."), 
+		     _("The %s have researched Future Tech. %d."), 
 		     get_nation_name_plural(plr->nation),
 		     plr->future_tech);
   
@@ -623,7 +623,7 @@ void choose_tech(struct player *plr, int tech)
 
 void choose_tech_goal(struct player *plr, int tech)
 {
-  notify_player(plr, _("Game: Technology goal is %s."),
+  notify_player(plr, _("Technology goal is %s."),
 		get_tech_name(plr, tech));
   plr->ai.tech_goal = tech;
 }
@@ -722,17 +722,17 @@ void get_a_tech(struct player *pplayer, struct player *target)
   gamelog(GAMELOG_TECH, pplayer, target, stolen_tech, "steal");
 
   notify_player_ex(pplayer, NULL, E_TECH_GAIN,
-		   _("Game: You steal %s from the %s."),
+		   _("You steal %s from the %s."),
 		   get_tech_name(pplayer, stolen_tech),
 		   get_nation_name_plural(target->nation));
 
   notify_player_ex(target, NULL, E_ENEMY_DIPLOMAT_THEFT,
-                   _("Game: The %s stole %s from you!"),
+                   _("The %s stole %s from you!"),
 		   get_nation_name_plural(pplayer->nation),
 		   get_tech_name(pplayer, stolen_tech));
 
   notify_embassies(pplayer, target,
-		   _("Game: The %s have stolen %s from the %s."),
+		   _("The %s have stolen %s from the %s."),
 		   get_nation_name_plural(pplayer->nation),
 		   get_tech_name(pplayer, stolen_tech),
 		   get_nation_name_plural(target->nation));
@@ -754,7 +754,7 @@ void handle_player_rates(struct player *pplayer,
     freelog(LOG_ERROR, "received player_rates packet from %s before start",
 	    pplayer->name);
     notify_player(pplayer,
-		  _("Game: Cannot change rates before game start."));
+		  _("Cannot change rates before game start."));
     return;
   }
 	
@@ -777,7 +777,7 @@ void handle_player_rates(struct player *pplayer,
       rtype = _("Science");
     }
 
-    notify_player(pplayer, _("Game: %s rate exceeds the max rate for %s."),
+    notify_player(pplayer, _("%s rate exceeds the max rate for %s."),
                   rtype, get_government_name(pplayer->government));
   } else {
     pplayer->economic.tax = tax;
@@ -861,7 +861,7 @@ static void finish_revolution(struct player *pplayer)
 	  pplayer->name, get_government_name(government),
 	  pplayer->revolution_finishes, game.turn);
   notify_player_ex(pplayer, NULL, E_REVOLT_DONE,
-		   _("Game: %s now governs the %s as a %s."), 
+		   _("%s now governs the %s as a %s."), 
 		   pplayer->name, 
 		   get_nation_name_plural(pplayer->nation),
 		   get_government_name(government));
@@ -912,7 +912,7 @@ static void start_revolution(struct player *pplayer)
 	  pplayer->name, get_government_name(pplayer->target_government),
 	  pplayer->revolution_finishes, game.turn);
   notify_player_ex(pplayer, NULL, E_REVOLT_START,
-		   _("Game: The %s have incited a revolt!"),
+		   _("The %s have incited a revolt!"),
 		   get_nation_name_plural(pplayer->nation));
   gamelog(GAMELOG_REVOLT, pplayer);
 
@@ -1040,19 +1040,19 @@ void check_player_government_rates(struct player *pplayer)
   if (pplayer->economic.tax != old_econ.tax) {
     changed = TRUE;
     notify_player(pplayer,
-		  _("Game: Tax rate exceeded the max rate for %s; adjusted."), 
+		  _("Tax rate exceeded the max rate for %s; adjusted."), 
 		  get_government_name(pplayer->government));
   }
   if (pplayer->economic.science != old_econ.science) {
     changed = TRUE;
     notify_player(pplayer,
-		  _("Game: Science rate exceeded the max rate for %s; adjusted."), 
+		  _("Science rate exceeded the max rate for %s; adjusted."), 
 		  get_government_name(pplayer->government));
   }
   if (pplayer->economic.luxury != old_econ.luxury) {
     changed = TRUE;
     notify_player(pplayer,
-		  _("Game: Luxury rate exceeded the max rate for %s; adjusted."), 
+		  _("Luxury rate exceeded the max rate for %s; adjusted."), 
 		  get_government_name(pplayer->government));
   }
 
@@ -1183,12 +1183,12 @@ repeat_break_treaty:
   else {
     pplayer->reputation = MAX(pplayer->reputation - reppenalty, 0);
     notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
-                     _("Game: Your reputation is now %s."),
+                     _("Your reputation is now %s."),
                      reputation_text(pplayer->reputation));
     if (has_senate && pplayer->revolution_finishes < 0) {
       if (myrand(GAME_MAX_REPUTATION) > pplayer->reputation) {
         notify_player_ex(pplayer, NULL, E_ANARCHY,
-                         _("Game: The senate decides to dissolve "
+                         _("The senate decides to dissolve "
                          "rather than support your actions any longer."));
 	handle_player_change_government(pplayer, pplayer->government);
       }
@@ -1219,13 +1219,13 @@ repeat_break_treaty:
   check_city_workers(pplayer2);
 
   notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
-		   _("Game: The diplomatic state between the %s "
+		   _("The diplomatic state between the %s "
 		     "and the %s is now %s."),
 		   get_nation_name_plural(pplayer->nation),
 		   get_nation_name_plural(pplayer2->nation),
 		   diplstate_text(new_type));
   notify_player_ex(pplayer2, NULL, E_TREATY_BROKEN,
-		   _("Game:  %s cancelled the diplomatic agreement! "
+		   _(" %s cancelled the diplomatic agreement! "
 		     "The diplomatic state between the %s and the %s "
 		     "is now %s."), pplayer->name,
 		   get_nation_name_plural(pplayer2->nation),
@@ -1242,7 +1242,7 @@ repeat_break_treaty:
          * to the aggressor. This prevents in-alliance wars, which are not
          * permitted. */
         notify_player_ex(other, NULL, E_TREATY_BROKEN,
-                         _("Game: %s has attacked your ally %s! "
+                         _("%s has attacked your ally %s! "
                            "You cancel your alliance to the aggressor."),
                        pplayer->name, pplayer2->name);
         other->diplstates[pplayer->player_no].has_reason_to_cancel = 1;
@@ -1253,7 +1253,7 @@ repeat_break_treaty:
          * alliance with him. We trust our team mate and break alliance
          * with the attacked player */
         notify_player_ex(other, NULL, E_TREATY_BROKEN,
-                         _("Game: Your team mate %s declared war on %s. "
+                         _("Your team mate %s declared war on %s. "
                            "You are obligated to cancel alliance with %s."),
                          pplayer->name,
                          get_nation_name_plural(pplayer2->nation),
@@ -1659,10 +1659,10 @@ void server_remove_player(struct player *pplayer)
   }
 
   freelog(LOG_NORMAL, _("Removing player %s."), pplayer->name);
-  notify_player(pplayer, _("Game: You've been removed from the game!"));
+  notify_player(pplayer, _("You've been removed from the game!"));
 
   notify_conn(game.est_connections,
-	      _("Game: %s has been removed from the game."), pplayer->name);
+	      _("%s has been removed from the game."), pplayer->name);
   
   dlsend_packet_player_remove(game.game_connections, pplayer->player_no);
 
@@ -1705,11 +1705,11 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
       = dipstate;
     notify_player_ex(pplayer1, ptile,
 		     E_FIRST_CONTACT,
-		     _("Game: You have made contact with the %s, ruled by %s."),
+		     _("You have made contact with the %s, ruled by %s."),
 		     get_nation_name_plural(pplayer2->nation), pplayer2->name);
     notify_player_ex(pplayer2, ptile,
 		     E_FIRST_CONTACT,
-		     _("Game: You have made contact with the %s, ruled by %s."),
+		     _("You have made contact with the %s, ruled by %s."),
 		     get_nation_name_plural(pplayer1->nation), pplayer1->name);
     send_player_info(pplayer1, pplayer2);
     send_player_info(pplayer2, pplayer1);
@@ -2122,7 +2122,7 @@ void civil_war(struct player *pplayer)
 	  "%s's nation is thrust into civil war, created AI player %s",
 	  pplayer->name, cplayer->name);
   notify_player_ex(pplayer, NULL, E_CIVIL_WAR,
-		   _("Game: Your nation is thrust into civil war, "
+		   _("Your nation is thrust into civil war, "
 		     " %s is declared the leader of the rebel states."),
 		   cplayer->name);
 
@@ -2142,7 +2142,7 @@ void civil_war(struct player *pplayer)
 	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
 		pcity->name, cplayer->name);
 	notify_player_ex(pplayer, pcity->tile, E_CITY_LOST,
-			 _("Game: %s declares allegiance to %s."),
+			 _("%s declares allegiance to %s."),
 			 pcity->name, cplayer->name);
 	i--;
       }
@@ -2156,7 +2156,7 @@ void civil_war(struct player *pplayer)
   resolve_unit_stacks(pplayer, cplayer, FALSE);
 
   notify_player(NULL,
-		_("Game: The capture of %s's capital and the destruction "
+		_("The capture of %s's capital and the destruction "
 		  "of the empire's administrative\n"
 		  "      structures have sparked a civil war.  "
 		  "Opportunists have flocked to the rebel cause,\n"
