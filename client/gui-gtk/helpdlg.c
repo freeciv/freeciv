@@ -328,7 +328,7 @@ static void create_help_dialog(void)
   gtk_container_add( GTK_CONTAINER( help_frame ), help_box );
 
 
-  unit_tile = gtk_pixmap_new( create_overlay_unit( 0 ), NULL );
+  unit_tile = gtk_pixmap_new( create_overlay_unit( -1 ), NULL );
   gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
 
 

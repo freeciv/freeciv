@@ -295,6 +295,11 @@ GdkPixmap *create_overlay_unit(int i)
   
   pm=gdk_pixmap_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
 
+  /* use -1 if you just want a tile, e.g. if the units aren't known yet */
+  if (i == -1) {
+    return pm;
+  }
+
   /* Give tile a background color, based on the type of unit */
   switch (get_unit_type(i)->move_type) {
     case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
