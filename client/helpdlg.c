@@ -279,8 +279,9 @@ void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   Widget l;
   int type=get_invention(game.player_ptr, tech);
   char *bg="";
+  char label[MAX_LENGTH_NAME+3];
   
-   switch(type) {
+  switch(type) {
     case TECH_UNKNOWN:
       bg=TREE_NODE_UNKNOWN_TECH_BG;
       break;
@@ -290,13 +291,17 @@ void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
     case TECH_REACHABLE:
       bg=TREE_NODE_REACHABLE_TECH_BG;
       break;
-   }
+  }
   
+  sprintf(label,"%s:%d",advances[tech].name,
+                        tech_goal_turns(game.player_ptr,tech));
+  
+
   if(parent) {
     l=XtVaCreateManagedWidget("treenode", 
 			      commandWidgetClass, 
 			      tree,
-			      XtNlabel, advances[tech].name,
+			      XtNlabel, label,
 			      XtNtreeParent, parent,
 			      NULL);
   }
@@ -304,7 +309,7 @@ void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
     l=XtVaCreateManagedWidget("treenode", 
 			      commandWidgetClass, 
 			      tree,
-			      XtNlabel, advances[tech].name,
+			      XtNlabel, label,
 			      NULL);
   }
 
