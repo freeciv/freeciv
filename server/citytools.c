@@ -579,24 +579,26 @@ int wants_to_be_bigger(struct city *pcity)
 }
 
 
-/*
- *  Units in a bought city are transferred to the new owner, units 
- * supported by the city, but held in other cities are updated to
- * reflect those cities as their new homecity.  Units supported 
- * by the bought city, that are not in a city square may be deleted.
- * This depends on the value of kill_outside.  If the units are in
- * an unexplored square the area is automatically reveiled when the
- * unit if created.
- *
- * - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
- *
- * If verbose is true, send extra messages to players detailing what
- * happens to all the units.  --dwp
- *
- * Interpretation of kill_outside changed to mean the radius outside
- * of which supported units are killed.  If 0, all supported units not
- * in the city are killed.  If -1, no supported units are killed.  --jjm
- */
+/*********************************************************************
+ Units in a bought city are transferred to the new owner, units 
+ supported by the city, but held in other cities are updated to
+ reflect those cities as their new homecity.  Units supported 
+ by the bought city, that are not in a city square may be deleted.
+ This depends on the value of kill_outside.  If the units are in
+ an unexplored square the area is automatically reveiled when the
+ unit if created.
+
+ - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
+
+ If verbose is true, send extra messages to players detailing what
+ happens to all the units.  --dwp
+
+ Interpretation of kill_outside changed to mean the radius outside
+ of which supported units are killed.  If 0, all supported units not
+ in the city are killed.  If -1, no supported units are killed.  --jjm
+
+ pcity can be NULL.
+***********************************************************************/
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct city *pcity, struct city *vcity, 
 			 int kill_outside, int verbose)
@@ -607,7 +609,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   /* Transfer enemy units in the city to the new owner */
   unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
     /* 000608 wegge Dont transfer units already owned by new city-owner */ 
-    if (unit_owner(vunit) != pplayer) {
+    if (unit_owner(vunit) != pplayer && pcity) {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
       if (verbose) {
@@ -651,14 +653,15 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	create_unit_full(city_owner(new_home_city), vunit->x, vunit->y,
 			 vunit->type, vunit->veteran, new_home_city->id,
 			 vunit->moves_left, vunit->hp);
-      } else {
+      } else if (pcity){
 	create_unit_full(pplayer, vunit->x, vunit->y,
 			 vunit->type, vunit->veteran, pcity->id,
 			 vunit->moves_left, vunit->hp);
       }
-    }else if((kill_outside < 0) ||
-	     ((kill_outside > 0) &&
-	      (real_map_distance(vunit->x, vunit->y, x, y) <= kill_outside))) {
+    } else if(((kill_outside < 0) ||
+	       ((kill_outside > 0) &&
+		(real_map_distance(vunit->x, vunit->y, x, y) <= kill_outside)))
+	      && pcity) {
       freelog(LOG_VERBOSE, "Transfered %s at (%d, %d) from %s to %s",
 	      unit_name(vunit->type), vunit->x, vunit->y,
 	      pvictim->name, pplayer->name);

@@ -841,8 +841,8 @@ void remove_city(struct city *pcity)
 		       punit->moves_left, punit->hp);
     }
 
-    wipe_unit_spec_safe(0, punit, NULL, 1);
-    resolve_unit_stack(x,y,1);
+    wipe_unit_spec_safe(0, punit, &myiter, 1);
+    resolve_unit_stack(x, y, 1);
   }
   unit_list_iterate_end;
 
