@@ -92,6 +92,15 @@ enum add_build_city_result {
 				   sewer but city has no sewer */
 };
 
+enum unit_upgrade_result {
+  UR_OK,
+  UR_NO_UNITTYPE,
+  UR_NO_MONEY,
+  UR_NOT_IN_CITY,
+  UR_NOT_CITY_OWNER,
+  UR_NOT_ENOUGH_ROOM
+};
+    
 struct unit_ai {
   bool control; /* 0: not automated    1: automated */
   enum ai_unit_task ai_role;
@@ -293,5 +302,11 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
                                  Unit_Type_id type, bool make_veteran);
 void destroy_unit_virtual(struct unit *punit);
 void free_unit_goto_route(struct unit *punit);
+
+int get_transporter_occupancy(struct unit *ptrans);
+
+enum unit_upgrade_result test_unit_upgrade(struct unit *punit, bool is_free);
+enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
+					       struct unit *punit);
 
 #endif  /* FC__UNIT_H */

@@ -2206,71 +2206,41 @@ static void unit_homecity_callback(GtkWidget * w, gpointer data)
 *****************************************************************/
 static void unit_upgrade_callback(GtkWidget *w, gpointer data)
 {
-  struct unit *punit;
-  int ut1, ut2;
-  int value;
+  struct unit *punit = player_find_unit_by_id(game.player_ptr,
+					      (size_t) data);
   GtkWidget *shell;
+  char buf[512];
 
-  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
-    ut1 = punit->type;
-    ut2 = can_upgrade_unittype(game.player_ptr, ut1);
+  if (!punit) {
+    return;
+  }
 
-    if (ut2 == -1) {
-      /* this shouldn't generally happen, but it is conceivable */
-      shell = gtk_message_dialog_new(NULL,
-        0,
-        GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-        _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
-
-      gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Unit!"));
-      if (dialogs_on_top) {
-	gtk_window_set_transient_for(GTK_WINDOW(shell),
-				     GTK_WINDOW(toplevel));
-      }
-      g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
-        NULL);
-      gtk_window_present(GTK_WINDOW(shell));
-    } else {
-      value = unit_upgrade_price(game.player_ptr, ut1, ut2);
-
-      if (game.player_ptr->economic.gold >= value) {
-        shell = gtk_message_dialog_new(NULL,
-              GTK_DIALOG_MODAL,
-              GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-              _("Upgrade %s to %s for %d gold?\n"
-                "Treasury contains %d gold."),
-              unit_types[ut1].name, unit_types[ut2].name,
-              value, game.player_ptr->economic.gold);
-        gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
-	if (dialogs_on_top) {
-	  gtk_window_set_transient_for(GTK_WINDOW(shell),
-				       GTK_WINDOW(toplevel));
-	}
-        gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_YES);
-
-        if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-          request_unit_upgrade(punit);
-        }
-        gtk_widget_destroy(shell);
-      } else {
-        shell = gtk_message_dialog_new(NULL,
-          0,
-          GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-          _("Upgrading %s to %s costs %d gold.\n"
-            "Treasury contains %d gold."),
-          unit_types[ut1].name, unit_types[ut2].name,
-          value, game.player_ptr->economic.gold);
-
-        gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Unit!"));
-	if (dialogs_on_top) {
-	  gtk_window_set_transient_for(GTK_WINDOW(shell),
-				       GTK_WINDOW(toplevel));
-	}
-        g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
-          NULL);
-        gtk_window_present(GTK_WINDOW(shell));
-      }
+  if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
+    shell = gtk_message_dialog_new(NULL, 0,
+				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, buf);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Unit!"));
+    if (dialogs_on_top) {
+      gtk_window_set_transient_for(GTK_WINDOW(shell),
+				   GTK_WINDOW(toplevel));
     }
+    g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
+		     NULL);
+    gtk_window_present(GTK_WINDOW(shell));
+  } else {
+    shell = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+				   GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+				   buf);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
+    if (dialogs_on_top) {
+      gtk_window_set_transient_for(GTK_WINDOW(shell),
+				   GTK_WINDOW(toplevel));
+    }
+    gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_YES);
+
+    if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+      request_unit_upgrade(punit);
+    }
+    gtk_widget_destroy(shell);
   }
 }
 

@@ -2688,48 +2688,25 @@ static void unit_homecity_callback(gpointer data)
 *****************************************************************/
 static void unit_upgrade_callback(gpointer data)
 {
-  struct unit *punit;
+  struct unit *punit = player_find_unit_by_id(game.player_ptr, (size_t) data);
   char buf[512];
-  int ut1, ut2;
-  int value;
 
-  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
-    ut1 = punit->type;
-    ut2 = can_upgrade_unittype(game.player_ptr, ut1);
+  if (!punit) {
+    return;
+  }
 
-    if (ut2 == -1) {
-      /* this shouldn't generally happen, but it is conceivable */
-      my_snprintf(buf, sizeof(buf),
-		  _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
-      popup_message_dialog(top_vbox,
-			   _("Upgrade Unit!"), buf,
-			   dummy_close_callback, NULL, 
-			   _("Darn"), NULL, 0, NULL);
-    } else {
-      value = unit_upgrade_price(game.player_ptr, ut1, ut2);
-
-      if (game.player_ptr->economic.gold >= value) {
-	my_snprintf(buf, sizeof(buf), _("Upgrade %s to %s for %d gold?\n"
-					"Treasury contains %d gold."),
-		    unit_types[ut1].name, unit_types[ut2].name,
-		    value, game.player_ptr->economic.gold);
-	popup_message_dialog(top_vbox,
-			     _("Upgrade Obsolete Units"), buf,
-			     dummy_close_callback, NULL,
-			     _("_Yes"), unit_upgrade_callback_yes,
-			     GINT_TO_POINTER(punit->id), _("_No"),
-			     NULL, 0, NULL);
-      } else {
-	my_snprintf(buf, sizeof(buf),
-		    _("Upgrading %s to %s costs %d gold.\n"
-		      "Treasury contains %d gold."), unit_types[ut1].name,
-		    unit_types[ut2].name, value,
-		    game.player_ptr->economic.gold);
-	popup_message_dialog(top_vbox,_("Upgrade Unit!"),buf,
-			     dummy_close_callback, NULL, 
-			     _("Darn"), NULL, 0, NULL);
-      }
-    }
+  if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
+    popup_message_dialog(top_vbox,
+			 _("Upgrade Obsolete Units"), buf,
+			 dummy_close_callback, NULL,
+			 _("_Yes"), unit_upgrade_callback_yes,
+			 GINT_TO_POINTER(punit->id), _("_No"),
+			 NULL, 0, NULL);
+  } else {
+    popup_message_dialog(top_vbox,
+			 _("Upgrade Unit!"), buf,
+			 dummy_close_callback, NULL,
+			 _("Darn"), NULL, 0, NULL);
   }
 }
 

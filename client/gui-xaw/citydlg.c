@@ -2020,50 +2020,26 @@ void unitupgrade_callback_no(Widget w, XtPointer client_data, XtPointer call_dat
 *****************************************************************/
 void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  struct unit *punit;
+  struct unit *punit = player_find_unit_by_id(game.player_ptr,
+					      (size_t)client_data);
   char buf[512];
-  int ut1,ut2;
-  int value;
 
-  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data))) {
-    ut1 = punit->type;
-    /* printf("upgrade_callback for %s\n", unit_types[ut1].name); */
-
-    ut2 = can_upgrade_unittype(game.player_ptr,ut1);
-
-    if ( ut2 == -1 ) {
-      /* this shouldn't generally happen, but it is conceivable */
-      my_snprintf(buf, sizeof(buf),
-		  _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
-      popup_message_dialog(toplevel, "upgradenodialog", buf,
-                           unitupgrade_callback_no, 0, 0,
-                           NULL);
-    } else {
-      value=unit_upgrade_price(game.player_ptr, ut1, ut2);
-
-      if(game.player_ptr->economic.gold>=value) {
-        my_snprintf(buf, sizeof(buf),
-		    _("Upgrade %s to %s for %d gold?\n"
-		      "Treasury contains %d gold."),
-		    unit_types[ut1].name, unit_types[ut2].name,
-		    value, game.player_ptr->economic.gold);
-	popup_message_dialog(toplevel, "upgradedialog", buf,
-			     unitupgrade_callback_yes,
-			     INT_TO_XTPOINTER(punit->id), 0,
-			     unitupgrade_callback_no, 0, 0, NULL);
-      } else {
-        my_snprintf(buf, sizeof(buf),
-		    _("Upgrading %s to %s costs %d gold.\n"
-		      "Treasury contains %d gold."),
-		    unit_types[ut1].name, unit_types[ut2].name,
-		    value, game.player_ptr->economic.gold);
-        popup_message_dialog(toplevel, "upgradenodialog", buf,
-                             unitupgrade_callback_no, 0, 0,
-                             NULL);
-      }
-    }
-    destroy_message_dialog(w);
+  if (!punit) {
+    return;
   }
+
+  if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
+    popup_message_dialog(toplevel, "upgradedialog", buf,
+			 unitupgrade_callback_yes,
+			 INT_TO_XTPOINTER(punit->id), 0,
+			 unitupgrade_callback_no, 0, 0, NULL);
+  } else {
+    popup_message_dialog(toplevel, "upgradenodialog", buf,
+			 unitupgrade_callback_no, 0, 0,
+			 NULL);
+  }
+
+  destroy_message_dialog(w);
 }
 
 

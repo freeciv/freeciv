@@ -59,7 +59,6 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
 static void wakeup_neighbor_sentries(struct unit *punit);
-static bool upgrade_would_strand(struct unit *punit, int upgrade_type);
 static void handle_leonardo(struct player *pplayer);
 
 static void sentry_transported_idle_units(struct unit *ptrans);
@@ -158,63 +157,11 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
 }
 
 /***************************************************************************
- Return 1 if upgrading this unit could cause passengers to
- get stranded at sea, due to transport capacity changes
- caused by the upgrade.
- Return 0 if ok to upgrade (as far as stranding goes).
-***************************************************************************/
-static bool upgrade_would_strand(struct unit *punit, int upgrade_type)
-{
-  int old_cap, new_cap, tile_cap, tile_ncargo;
-  
-  if (!is_sailing_unit(punit))
-    return FALSE;
-  if (!is_ocean(map_get_terrain(punit->x, punit->y))) {
-    return FALSE;
-  }
-
-  /* With weird non-standard unit types, upgrading these could
-     cause air units to run out of fuel; too bad. */
-  if (unit_flag(punit, F_CARRIER)
-      || unit_flag(punit, F_MISSILE_CARRIER))
-    return FALSE;
-
-  old_cap = get_transporter_capacity(punit);
-  new_cap = unit_types[upgrade_type].transport_capacity;
-
-  if (new_cap >= old_cap)
-    return FALSE;
-
-  tile_cap = 0;
-  tile_ncargo = 0;
-  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-    if (punit2->owner == punit->owner
-        || pplayers_allied(unit_owner(punit2), unit_owner(punit))) {
-      if (is_sailing_unit(punit2) && is_ground_units_transport(punit2)) { 
-	tile_cap += get_transporter_capacity(punit2);
-      } else if (is_ground_unit(punit2)) {
-	tile_ncargo++;
-      }
-    }
-  }
-  unit_list_iterate_end;
-
-  if (tile_ncargo <= tile_cap - old_cap + new_cap)
-    return FALSE;
-
-  freelog(LOG_VERBOSE, "Can't upgrade %s at (%d,%d)"
-	  " because would strand passenger(s)",
-	  unit_type(punit)->name, punit->x, punit->y);
-  return TRUE;
-}
-
-/***************************************************************************
 Do Leonardo's Workshop upgrade(s). Select unit to upgrade by random. --Zamar
 Now be careful not to strand units at sea with the Workshop. --dwp
 ****************************************************************************/
 static void handle_leonardo(struct player *pplayer)
 {
-  int upgrade_type; 
   int leonardo_variant;
 	
   struct unit_list candidates;
@@ -227,9 +174,9 @@ static void handle_leonardo(struct player *pplayer)
   unit_list_init(&candidates);
 	
   unit_list_iterate(pplayer->units, punit) {
-    if ((upgrade_type=can_upgrade_unittype(pplayer, punit->type))!=-1 &&
-       !upgrade_would_strand(punit, upgrade_type))
-      unit_list_insert(&candidates, punit); /* Potential candidate :) */
+    if (test_unit_upgrade(punit, TRUE) == UR_OK) {
+      unit_list_insert(&candidates, punit);	/* Potential candidate :) */
+    }
   } unit_list_iterate_end;
 	
   if (unit_list_size(&candidates) == 0)
@@ -241,7 +188,8 @@ static void handle_leonardo(struct player *pplayer)
   i=0;	
   unit_list_iterate(candidates, punit) {
     if (leonardo_variant != 0 || i == candidate_to_upgrade) {
-      upgrade_type=can_upgrade_unittype(pplayer, punit->type);
+      Unit_Type_id upgrade_type = can_upgrade_unittype(pplayer, punit->type);
+
       notify_player(pplayer,
             _("Game: %s has upgraded %s to %s%s."),
             improvement_types[B_LEONARDO].name,
@@ -249,7 +197,8 @@ static void handle_leonardo(struct player *pplayer)
             get_unit_type(upgrade_type)->name,
             get_location_str_in(pplayer, punit->x, punit->y));
       punit->veteran = FALSE;
-      upgrade_unit(punit, upgrade_type);
+      assert(test_unit_upgrade(punit, TRUE) == UR_OK);
+      upgrade_unit(punit, upgrade_type, FALSE);
     }
     i++;
   } unit_list_iterate_end;
@@ -1418,30 +1367,29 @@ bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
   }
 }
 
-/****************************************************************************
-  Expensive function to check how many units are in the transport.
-****************************************************************************/
-int get_transporter_occupancy(struct unit *ptrans)
-{
-  int occupied = 0;
-
-  unit_list_iterate(map_get_tile(ptrans->x, ptrans->y)->units, pcargo) {
-    if (pcargo->transported_by == ptrans->id) {
-      occupied++;
-    }
-  } unit_list_iterate_end;
-
-  return occupied;
-}
-
 /**************************************************************************
-...
+  Really upgrades a single unit.
+
+  Before calling this function you should use unit_upgrade to test if
+  this is possible.
+
+  is_free: Leonardo upgrade for free, in all other cases the unit
+  owner has to pay
+
+  Note that this function is strongly tied to unit.c:test_unit_upgrade().
 **************************************************************************/
-void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
+void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
   int range;
   int old_mr = unit_move_rate(punit), old_hp = unit_type(punit)->hp;
+
+  assert(test_unit_upgrade(punit, is_free) == UR_OK);
+
+  if (!is_free) {
+    pplayer->economic.gold -=
+	unit_upgrade_price(pplayer, punit->type, to_unit);
+  }
 
   /* save old vision range */
   if (map_has_special(punit->x, punit->y, S_FORTRESS)

@@ -29,7 +29,6 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender);
 /* move check related */
 bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
 			     Unit_Type_id type, bool unit_is_on_tile);
-int get_transporter_occupancy(struct unit *ptrans);
 
 /* turn update related */
 void player_restore_units(struct player *pplayer);
@@ -51,7 +50,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity);
 void bounce_unit(struct unit *punit, bool verbose);
 
 /* creation/deletion/upgrading */
-void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
+void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool has_to_pay);
 struct unit *create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
 			 bool make_veteran, int homecity_id, int moves_left);
 struct unit *create_unit_full(struct player *pplayer, int x, int y,

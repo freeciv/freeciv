@@ -1513,3 +1513,118 @@ void free_unit_goto_route(struct unit *punit)
     punit->pgr = NULL;
   }
 }
+
+/****************************************************************************
+  Expensive function to check how many units are in the transport.
+****************************************************************************/
+int get_transporter_occupancy(struct unit *ptrans)
+{
+  int occupied = 0;
+
+  unit_list_iterate(map_get_tile(ptrans->x, ptrans->y)->units, pcargo) {
+    if (pcargo->transported_by == ptrans->id) {
+      occupied++;
+    }
+  } unit_list_iterate_end;
+
+  return occupied;
+}
+
+/***************************************************************************
+  Tests if the unit could be updated. Returns UR_OK if is this is
+  possible.
+
+  is_free should be set if the unit upgrade is "free" (e.g., Leonardo's).
+  Otherwise money is needed and the unit must be in an owned city.
+
+  Note that this function is strongly tied to unittools.c:upgrade_unit().
+***************************************************************************/
+enum unit_upgrade_result test_unit_upgrade(struct unit *punit, bool is_free)
+{
+  struct player *pplayer = unit_owner(punit);
+  Unit_Type_id to_unittype = can_upgrade_unittype(pplayer, punit->type);
+  struct city *pcity;
+  int cost;
+
+  if (to_unittype == -1) {
+    return UR_NO_UNITTYPE;
+  }
+
+  if (!is_free) {
+    cost = unit_upgrade_price(pplayer, punit->type, to_unittype);
+    if (!pplayer->economic.gold < cost) {
+      return UR_NO_MONEY;
+    }
+
+    pcity = map_get_city(punit->x, punit->y);
+    if (!pcity) {
+      return UR_NOT_IN_CITY;
+    }
+    if (city_owner(pcity) != pplayer) {
+      /* TODO: should upgrades in allied cities be possible? */
+      return UR_NOT_CITY_OWNER;
+    }
+  }
+
+  if (get_transporter_occupancy(punit) >
+      unit_types[to_unittype].transport_capacity) {
+    /* TODO: allow transported units to be reassigned.  Check for
+     * ground_unit_transporter_capacity here and make changes to
+     * upgrade_unit. */
+    return UR_NOT_ENOUGH_ROOM;
+  }
+
+  return UR_OK;
+}
+
+/**************************************************************************
+  Find the result of trying to upgrade the unit, and a message that
+  most callers can use directly.
+**************************************************************************/
+enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
+					       struct unit *punit)
+{
+  enum unit_upgrade_result result = test_unit_upgrade(punit, FALSE);
+  int upgrade_cost;
+  Unit_Type_id from_unittype = punit->type;
+  Unit_Type_id to_unittype = can_upgrade_unittype(game.player_ptr,
+						  punit->type);
+
+  switch (result) {
+  case UR_OK:
+    upgrade_cost = unit_upgrade_price(game.player_ptr,
+				      from_unittype, to_unittype);
+    /* This message is targeted toward the GUI callers. */
+    my_snprintf(buf, bufsz, _("Upgrade %s to %s for %d gold?\n"
+			      "Treasury contains %d gold."),
+		unit_types[from_unittype].name, unit_types[to_unittype].name,
+		upgrade_cost, game.player_ptr->economic.gold);
+    break;
+  case UR_NO_UNITTYPE:
+    my_snprintf(buf, bufsz,
+		_("Sorry, cannot upgrade %s (yet)."),
+		unit_types[from_unittype].name);
+    break;
+  case UR_NO_MONEY:
+    upgrade_cost = unit_upgrade_price(game.player_ptr,
+				      from_unittype, to_unittype);
+    my_snprintf(buf, bufsz,
+		_("Upgrading %s to %s costs %d gold.\n"
+		  "Treasury contains %d gold."),
+		unit_types[from_unittype].name, unit_types[to_unittype].name,
+		upgrade_cost, game.player_ptr->economic.gold);
+    break;
+  case UR_NOT_IN_CITY:
+  case UR_NOT_CITY_OWNER:
+    my_snprintf(buf, bufsz,
+		_("You can only upgrade units in your cities."));
+    break;
+  case UR_NOT_ENOUGH_ROOM:
+    my_snprintf(buf, bufsz,
+		_("Upgrading this %s would strand units it transports."),
+		unit_types[from_unittype].name);
+    break;
+  }
+
+  return result;
+}

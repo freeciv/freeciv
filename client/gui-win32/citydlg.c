@@ -1523,52 +1523,29 @@ static void unitupgrade_callback_no(HWND w, void * data)
 *****************************************************************/       
 static void upgrade_callback(HWND w, void * data)
 {
-  struct unit *punit;
+  struct unit *punit = player_find_unit_by_id(game.player_ptr,
+					      (size_t) data);
   char buf[512];
-  int ut1,ut2;
-  int value;
- 
-  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
-    ut1=punit->type;
-    /* printf("upgrade_callback for %s\n", unit_types[ut1].name); */
- 
-    ut2=can_upgrade_unittype(game.player_ptr,ut1);
- 
-    if (ut2==-1) {
-      /* this shouldn't generally happen, but it is conceivable */
-      my_snprintf(buf, sizeof(buf),
-                  _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
-      popup_message_dialog(NULL, /*"upgradenodialog"*/_("Upgrade Unit!"), buf,
-                           _("Darn"), unitupgrade_callback_no, 0,
-                           NULL);
-    } else {
-      value=unit_upgrade_price(game.player_ptr, ut1, ut2);
- 
-      if(game.player_ptr->economic.gold>=value) {
-        my_snprintf(buf, sizeof(buf), _("Upgrade %s to %s for %d gold?\n"
-               "Treasury contains %d gold."),
-               unit_types[ut1].name, unit_types[ut2].name,
-               value, game.player_ptr->economic.gold);
-        popup_message_dialog(NULL,
-                             /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
-                             _("_Yes"),
-                               unitupgrade_callback_yes, (void *)(punit->id),
-                             _("_No"),
-                               unitupgrade_callback_no, 0,
-                             NULL);
-      } else {
-        my_snprintf(buf, sizeof(buf), _("Upgrading %s to %s costs %d gold.\n"
-               "Treasury contains %d gold."),
-               unit_types[ut1].name, unit_types[ut2].name,
-               value, game.player_ptr->economic.gold);
-        popup_message_dialog(NULL,
-                             /*"upgradenodialog"*/_("Upgrade Unit!"), buf,
-                             _("Darn"), unitupgrade_callback_no, 0,
-                             NULL);
-      }
-    }
-    destroy_message_dialog(w);
+
+  if (!punit) {
+    return;
   }
+
+  if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
+    popup_message_dialog(NULL,
+			 _("Upgrade Obsolete Units"), buf,
+			 _("_Yes"),
+			 unitupgrade_callback_yes, (void *)(punit->id),
+			 _("_No"),
+			 unitupgrade_callback_no, 0,
+			 NULL);
+  } else {
+    popup_message_dialog(NULL, _("Upgrade Unit!"), buf,
+			 _("Darn"), unitupgrade_callback_no, 0,
+			 NULL);
+  }
+
+  destroy_message_dialog(w);
 }
 
 /**************************************************************************
