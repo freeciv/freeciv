@@ -2306,7 +2306,7 @@ static void nuke_children(gpointer data, gpointer user_data)
 {
   if (data != user_data) {
     if (GTK_IS_WINDOW(data) && GTK_WINDOW(data)->type == GTK_WINDOW_TOPLEVEL) {
-      gtk_widget_destroy(GTK_WIDGET(data));
+      gtk_widget_destroy(data);
     }
   }
 }
@@ -2317,9 +2317,14 @@ static void nuke_children(gpointer data, gpointer user_data)
 ***********************************************************************/
 void popdown_all_game_dialogs(void)
 {
-  GList *res;
+  GList *res, *i;
 
   res = gtk_window_list_toplevels();
+
+  g_list_foreach(res, (GFunc)g_object_ref, NULL);
   g_list_foreach(res, nuke_children, toplevel);
+  g_list_foreach(res, (GFunc)g_object_unref, NULL);
+
   g_list_free(res);
 }
+
