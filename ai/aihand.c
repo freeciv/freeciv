@@ -99,7 +99,6 @@ static void ai_manage_taxes(struct player *pplayer)
   bool celebrate = TRUE;
   int can_celebrate = 0, total_cities = 0;
   struct government *g = get_gov_pplayer(pplayer);
-  struct timer *t = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
 
   /* Find minimum tax rate which gives us a positive balance. We assume
    * that we want science most and luxuries least here, and reverse or 
@@ -229,9 +228,6 @@ static void ai_manage_taxes(struct player *pplayer)
           pplayer->economic.luxury, pplayer->economic.tax,
           player_get_expected_income(pplayer), can_celebrate, total_cities);
   send_player_info(pplayer, pplayer);
-
-  freelog(LOGLEVEL_TAX, "%s with gov %s: tax code took %g",
-          pplayer->name, g->name, read_timer_seconds_free(t));
 }
 
 /**************************************************************************
