@@ -297,7 +297,7 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
   pkey.x = x;
   pkey.y = y;
 
-  pvalue = hash_lookup_data(attribute_hash, &key);
+  pvalue = hash_lookup_data(attribute_hash, &pkey);
 
   if (!pvalue) {
     freelog(ATTRIBUTE_LOG_LEVEL, "  not found");
