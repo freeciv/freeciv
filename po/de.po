@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-07-09 07:47+0200\n"
+"POT-Creation-Date: 2002-07-10 21:08+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -144,7 +144,7 @@ msgstr "Bewässerung"
 
 #: common/map.c:56 common/map.c:612 common/unit.c:550
 #: data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439
-#: data/default/techs.ruleset:443
+#: data/default/techs.ruleset:448
 msgid "Railroad"
 msgstr "Eisenbahn"
 
@@ -1021,8 +1021,8 @@ msgstr "  -r, --read DATEI\tStartscript DATEI laden\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
-#: client/gui-gtk-2.0/gui_main.c:264 client/gui-gtk/gui_main.c:167
-#: client/gui-mui/gui_main.c:102 client/gui-xaw/gui_main.c:227
+#: client/gui-gtk-2.0/gui_main.c:265 client/gui-gtk/gui_main.c:168
+#: client/gui-mui/gui_main.c:102 client/gui-xaw/gui_main.c:228
 #: server/civserver.c:148
 #, c-format
 msgid "Report bugs to <%s>.\n"
@@ -1653,8 +1653,8 @@ msgstr "Die %s entdecken %s (Große Bibliothek)"
 
 #: server/plrhand.c:134
 #, c-format
-msgid "Game: The %s have aquired %s from the Great Library."
-msgstr "Spiel: Die %s haben %s in der Großen Bibliothek entdeckt!"
+msgid "Game: The %s have acquired %s from the Great Library."
+msgstr "Spiel: Die %s haben %s in der Großen Bibliothek entdeckt."
 
 #: server/plrhand.c:194
 msgid "Game: You are dead!"
@@ -1992,7 +1992,7 @@ msgid "Research Speed"
 msgstr "Forschungstempo"
 
 #: data/civ1/techs.ruleset:301 data/civ2/techs.ruleset:301
-#: data/default/techs.ruleset:303 server/report.c:105
+#: data/default/techs.ruleset:308 server/report.c:105
 msgid "Literacy"
 msgstr "Bildung"
 
@@ -2001,7 +2001,7 @@ msgid "Production"
 msgstr "Produktion"
 
 #: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175
-#: data/default/techs.ruleset:177 server/report.c:107
+#: data/default/techs.ruleset:182 server/report.c:107
 msgid "Economics"
 msgstr "Wirtschaft"
 
@@ -4100,7 +4100,7 @@ msgstr "Das ist sinnvoll zu DEBUGGING Zwecken."
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: client/packhand.c:1005 server/stdinhand.c:1303
+#: client/packhand.c:1002 server/stdinhand.c:1303
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -4826,7 +4826,8 @@ msgstr ""
 #: server/stdinhand.c:3512
 msgid ""
 "fulltradesize must be always bigger than notradesize, keeping old value."
-msgstr "'fulltradesize' muß größer als 'notradesize' sein: Wert niht geändert."
+msgstr ""
+"'fulltradesize' muß größer als 'notradesize' sein: Wert nicht geändert."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/unithand.c:173
@@ -6659,29 +6660,29 @@ msgstr "Client capability string: %s"
 msgid "Server capability string: %s"
 msgstr "Server capability string: %s"
 
-#: client/packhand.c:680
+#: client/packhand.c:677
 #, c-format
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:751
+#: client/packhand.c:748
 msgid "Popup Request"
 msgstr "Sondermeldung"
 
-#: client/packhand.c:1224
+#: client/packhand.c:1221
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1225
+#: client/packhand.c:1222
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1225
+#: client/packhand.c:1222
 msgid "OFF"
 msgstr "AUS"
 
-#: client/packhand.c:1235
+#: client/packhand.c:1232
 msgid "Game: Revolution finished"
 msgstr "Spiel: Revolution beendet."
 
@@ -6780,7 +6781,7 @@ msgstr "Schild"
 
 #: client/agents/cma_core.c:1960 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
-#: data/default/techs.ruleset:557
+#: data/default/techs.ruleset:562
 msgid "Trade"
 msgstr "Handel"
 
@@ -8392,17 +8393,17 @@ msgstr "Bestimmungsort wählen"
 msgid "_Goto"
 msgstr "_Gehe nach"
 
-#: client/gui-gtk-2.0/gui_main.c:496 client/gui-gtk-2.0/gui_main.c:901
-#: client/gui-gtk/gui_main.c:389 client/gui-gtk/gui_main.c:773
+#: client/gui-gtk-2.0/gui_main.c:497 client/gui-gtk-2.0/gui_main.c:902
+#: client/gui-gtk/gui_main.c:390 client/gui-gtk/gui_main.c:774
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:673 client/gui-gtk/gui_main.c:570
+#: client/gui-gtk-2.0/gui_main.c:674 client/gui-gtk/gui_main.c:571
 #: client/gui-win32/gui_main.c:390 data/Freeciv:2553
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk-2.0/gui_main.c:806 client/gui-gtk/gui_main.c:705
+#: client/gui-gtk-2.0/gui_main.c:807 client/gui-gtk/gui_main.c:706
 #: client/gui-mui/gui_main.c:1072 client/gui-win32/gui_main.c:441
 #: data/Freeciv:2744
 msgid ""
@@ -8414,8 +8415,8 @@ msgstr ""
 "Sie darf unter Beachtung der unter 'Lizenz' aufgeführten Bedingungen kopiert "
 "und weitergegeben werden."
 
-#: client/gui-gtk-2.0/gui_main.c:1144 client/gui-gtk/gui_main.c:1038
-#: client/gui-xaw/gui_main.c:693
+#: client/gui-gtk-2.0/gui_main.c:1145 client/gui-gtk/gui_main.c:1039
+#: client/gui-xaw/gui_main.c:694
 #, c-format
 msgid ""
 "%s People\n"
@@ -8423,14 +8424,16 @@ msgid ""
 "Gold: %d\n"
 "Net Income: %d\n"
 "Tax:%d Lux:%d Sci:%d\n"
-"Researching %s: %d/%d"
+"Researching %s: %d/%d\n"
+"Government: %s"
 msgstr ""
-"%s Menschen\n"
+"%s Einwohner\n"
 "Jahr: %s Runde: %d\n"
 "Gold: %d\n"
 "Netto Einkommen: %d\n"
 "Steuern: %d Luxus: %d Forschung: %d\n"
-"Forschung %s: %d/%d"
+"Forschungsprojekt: %s (%d/%d)\n"
+"Staatsform: %s"
 
 #: client/gui-gtk-2.0/happiness.c:101 client/gui-gtk/happiness.c:101
 #: client/gui-mui/citydlg.c:1452 client/gui-mui/citydlg.c:1589
@@ -11434,42 +11437,42 @@ msgid "Failed reading XPM file: %s"
 msgstr "Failed reading XPM file: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:302
+#: client/gui-xaw/gui_main.c:303
 msgid "No version number in resources."
 msgstr "No version number in resources."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:303
+#: client/gui-xaw/gui_main.c:304
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:311
+#: client/gui-xaw/gui_main.c:312
 msgid "Game version does not match Resource version."
 msgstr "Game version does not match Resource version."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:312
+#: client/gui-xaw/gui_main.c:313
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Game version: %s - Resource version: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:314
+#: client/gui-xaw/gui_main.c:315
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
 "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 
-#: client/gui-xaw/gui_main.c:320
+#: client/gui-xaw/gui_main.c:321
 msgid "Using fallback resources - which is OK"
 msgstr "Benutze Reserveressourcen - OK"
 
-#: client/gui-xaw/gui_main.c:331
+#: client/gui-xaw/gui_main.c:332
 msgid "Only color displays are supported for now..."
 msgstr "Z.Zt. werden nur Farbbildschirme unterstützt..."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:351 client/gui-xaw/gui_main.c:363
+#: client/gui-xaw/gui_main.c:352 client/gui-xaw/gui_main.c:364
 #, c-format
 msgid "Failed loading font: %s"
 msgstr "Failed loading font: %s"
@@ -14092,7 +14095,6 @@ msgstr ""
 msgid "Palace"
 msgstr "Palast"
 
-#: data/civ1/buildings.ruleset:661 data/civ2/buildings.ruleset:649
 #: data/default/buildings.ruleset:849
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
@@ -14101,8 +14103,9 @@ msgid ""
 "revolt in a city also depends upon the city's distance from the capital "
 "(under all forms of government).\n"
 "\n"
-"Take good care of your capital, as it's loss may result in your empire "
-"plunging into civil war."
+"Take good care of your capital, as its loss may result in your empire "
+"plunging into civil war. Losing your current palace also results in losing "
+"whatever spaceship you might have."
 msgstr ""
 "Macht die Stadt zur Hauptstadt und somit zum Regierungssitz.\n"
 "Außer bei 'Demokratie' und 'Kommunismus' ist die Korruption davon abhängig, "
@@ -14111,12 +14114,12 @@ msgstr ""
 "der Verlust der Hauptstadt einen Bürgerkrieg verursachen."
 
 #: data/civ1/buildings.ruleset:674 data/civ2/buildings.ruleset:662
-#: data/default/buildings.ruleset:862
+#: data/default/buildings.ruleset:863
 msgid "Police Station"
 msgstr "Polizeiwache"
 
 #: data/civ1/buildings.ruleset:694 data/civ2/buildings.ruleset:682
-#: data/default/buildings.ruleset:882
+#: data/default/buildings.ruleset:883
 msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
@@ -14127,12 +14130,12 @@ msgstr ""
 "Polizeiwache keine Auswirkungen."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:689
-#: data/default/buildings.ruleset:892
+#: data/default/buildings.ruleset:893
 msgid "Port Facility"
 msgstr "Werft"
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:709
-#: data/default/buildings.ruleset:912
+#: data/default/buildings.ruleset:913
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
@@ -14143,11 +14146,11 @@ msgstr ""
 "vollständig repariert."
 
 #: data/civ1/buildings.ruleset:728 data/civ2/buildings.ruleset:716
-#: data/default/buildings.ruleset:919
+#: data/default/buildings.ruleset:920
 msgid "Power Plant"
 msgstr "Kohlekraftwerk"
 
-#: data/default/buildings.ruleset:940
+#: data/default/buildings.ruleset:941
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -14167,12 +14170,12 @@ msgstr ""
 "bauen."
 
 #: data/civ1/buildings.ruleset:760 data/civ2/buildings.ruleset:748
-#: data/default/buildings.ruleset:955
+#: data/default/buildings.ruleset:956
 msgid "Recycling Center"
 msgstr "Recycling-Zentrum"
 
 #: data/civ1/buildings.ruleset:780 data/civ2/buildings.ruleset:768
-#: data/default/buildings.ruleset:975
+#: data/default/buildings.ruleset:976
 #, no-c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
@@ -14182,12 +14185,12 @@ msgstr ""
 "Umweltverschmutzung einer Stadt um 66%."
 
 #: data/civ1/buildings.ruleset:786 data/civ2/buildings.ruleset:774
-#: data/default/buildings.ruleset:981
+#: data/default/buildings.ruleset:982
 msgid "Research Lab"
 msgstr "Forschunglabor"
 
 #: data/civ1/buildings.ruleset:805 data/civ2/buildings.ruleset:793
-#: data/default/buildings.ruleset:1000
+#: data/default/buildings.ruleset:1001
 msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
@@ -14199,12 +14202,12 @@ msgstr ""
 "150%."
 
 #: data/civ1/buildings.ruleset:813 data/civ2/buildings.ruleset:801
-#: data/default/buildings.ruleset:1008
+#: data/default/buildings.ruleset:1009
 msgid "SAM Battery"
 msgstr "SAM Batterie"
 
 #: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:821
-#: data/default/buildings.ruleset:1028
+#: data/default/buildings.ruleset:1029
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
@@ -14213,12 +14216,12 @@ msgstr ""
 "gegenüber allen nicht-nuklearen Luftwaffeneinheiten."
 
 #: data/civ1/buildings.ruleset:839 data/civ2/buildings.ruleset:827
-#: data/default/buildings.ruleset:1034
+#: data/default/buildings.ruleset:1035
 msgid "SDI Defense"
 msgstr "SDI Verteidigung"
 
 #: data/civ1/buildings.ruleset:859 data/civ2/buildings.ruleset:847
-#: data/default/buildings.ruleset:1054
+#: data/default/buildings.ruleset:1055
 msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
@@ -14230,16 +14233,16 @@ msgstr ""
 "Einheiten gegenüber nicht-nuklearen Raketen."
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:856
-#: data/default/buildings.ruleset:1063
+#: data/default/buildings.ruleset:1064
 msgid "Sewer System"
 msgstr "Kanalisation"
 
 #: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:884
-#: data/default/buildings.ruleset:1091
+#: data/default/buildings.ruleset:1092
 msgid "Solar Plant"
 msgstr "Solarkraftwerk"
 
-#: data/default/buildings.ruleset:1114
+#: data/default/buildings.ruleset:1115
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -14260,12 +14263,12 @@ msgstr ""
 "Atomkraftwerk bauen."
 
 #: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:921
-#: data/default/buildings.ruleset:1132
+#: data/default/buildings.ruleset:1133
 msgid "Space Component"
 msgstr "Komponenten"
 
 #: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:940
-#: data/default/buildings.ruleset:1151
+#: data/default/buildings.ruleset:1152
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -14282,12 +14285,12 @@ msgstr ""
 "'Apollo Programm' fertiggestellt hat."
 
 #: data/civ1/buildings.ruleset:959 data/civ2/buildings.ruleset:950
-#: data/default/buildings.ruleset:1161
+#: data/default/buildings.ruleset:1162
 msgid "Space Module"
 msgstr "Module"
 
 #: data/civ1/buildings.ruleset:978 data/civ2/buildings.ruleset:969
-#: data/default/buildings.ruleset:1180
+#: data/default/buildings.ruleset:1181
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:\n"
@@ -14318,12 +14321,12 @@ msgstr ""
 "'Apollo Programm' fertiggestellt hat."
 
 #: data/civ1/buildings.ruleset:997 data/civ2/buildings.ruleset:988
-#: data/default/buildings.ruleset:1199
+#: data/default/buildings.ruleset:1200
 msgid "Space Structural"
 msgstr "Verbindungsstücke"
 
 #: data/civ1/buildings.ruleset:1016 data/civ2/buildings.ruleset:1007
-#: data/default/buildings.ruleset:1218
+#: data/default/buildings.ruleset:1219
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -14340,12 +14343,12 @@ msgstr ""
 "'Apollo Programm' fertiggestellt hat."
 
 #: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1017
-#: data/default/buildings.ruleset:1228
+#: data/default/buildings.ruleset:1229
 msgid "Stock Exchange"
 msgstr "Börse"
 
 #: data/civ1/buildings.ruleset:1047 data/civ2/buildings.ruleset:1038
-#: data/default/buildings.ruleset:1249
+#: data/default/buildings.ruleset:1250
 #, no-c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
@@ -14355,12 +14358,12 @@ msgstr ""
 "Luxusproduktion und Steuereinnahmen einer Stadt um 150%."
 
 #: data/civ1/buildings.ruleset:1053 data/civ2/buildings.ruleset:1044
-#: data/default/buildings.ruleset:1255
+#: data/default/buildings.ruleset:1256
 msgid "Super Highways"
 msgstr "Autobahnen"
 
 #: data/civ1/buildings.ruleset:1074 data/civ2/buildings.ruleset:1065
-#: data/default/buildings.ruleset:1275
+#: data/default/buildings.ruleset:1276
 #, no-c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
@@ -14369,12 +14372,12 @@ msgstr ""
 "50 %."
 
 #: data/civ1/buildings.ruleset:1080 data/civ2/buildings.ruleset:1071
-#: data/default/buildings.ruleset:1283
+#: data/default/buildings.ruleset:1284
 msgid "Supermarket"
 msgstr "Supermarkt"
 
 #: data/civ1/buildings.ruleset:1100 data/civ2/buildings.ruleset:1091
-#: data/default/buildings.ruleset:1303
+#: data/default/buildings.ruleset:1304
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
@@ -14386,12 +14389,12 @@ msgstr ""
 "wurden."
 
 #: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1098
-#: data/default/buildings.ruleset:1310
+#: data/default/buildings.ruleset:1311
 msgid "Temple"
 msgstr "Tempel"
 
 #: data/civ1/buildings.ruleset:1127 data/civ2/buildings.ruleset:1118
-#: data/default/buildings.ruleset:1330
+#: data/default/buildings.ruleset:1331
 msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
@@ -14403,12 +14406,12 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:1134 data/civ1/techs.ruleset:559
 #: data/civ2/buildings.ruleset:1125 data/civ2/techs.ruleset:559
-#: data/default/buildings.ruleset:1337 data/default/techs.ruleset:563
+#: data/default/buildings.ruleset:1338 data/default/techs.ruleset:568
 msgid "University"
 msgstr "Universität"
 
 #: data/civ1/buildings.ruleset:1154 data/civ2/buildings.ruleset:1145
-#: data/default/buildings.ruleset:1357
+#: data/default/buildings.ruleset:1358
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
@@ -14418,11 +14421,11 @@ msgstr ""
 "verdoppelt."
 
 #: data/civ1/buildings.ruleset:1160 data/civ2/buildings.ruleset:1151
-#: data/default/buildings.ruleset:1363
+#: data/default/buildings.ruleset:1364
 msgid "Apollo Program"
 msgstr "das Apollo Programm"
 
-#: data/civ2/buildings.ruleset:1171 data/default/buildings.ruleset:1383
+#: data/civ2/buildings.ruleset:1171 data/default/buildings.ruleset:1384
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
@@ -14434,12 +14437,12 @@ msgstr ""
 "zu beginnen."
 
 #: data/civ1/buildings.ruleset:1185 data/civ2/buildings.ruleset:1178
-#: data/default/buildings.ruleset:1390
+#: data/default/buildings.ruleset:1391
 msgid "A.Smith's Trading Co."
 msgstr "A.Smiths Handelsgesellschaft"
 
 #: data/civ1/buildings.ruleset:1204 data/civ2/buildings.ruleset:1197
-#: data/default/buildings.ruleset:1409
+#: data/default/buildings.ruleset:1410
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
@@ -14448,12 +14451,12 @@ msgstr ""
 "von 1 kein Unterhalt mehr bezahlt zu werden."
 
 #: data/civ1/buildings.ruleset:1210 data/civ2/buildings.ruleset:1203
-#: data/default/buildings.ruleset:1415
+#: data/default/buildings.ruleset:1416
 msgid "Colossus"
 msgstr "Kolossus"
 
 #: data/civ1/buildings.ruleset:1229 data/civ2/buildings.ruleset:1222
-#: data/default/buildings.ruleset:1434
+#: data/default/buildings.ruleset:1435
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -14462,35 +14465,35 @@ msgstr ""
 "Handelspunkt erwirtschaftet, produziert einen zusätzlichen Handelspunkt."
 
 #: data/civ1/buildings.ruleset:1235 data/civ2/buildings.ruleset:1228
-#: data/default/buildings.ruleset:1440
+#: data/default/buildings.ruleset:1441
 msgid "Copernicus' Observatory"
 msgstr "Kopernikus Observatorium"
 
 #: data/civ1/buildings.ruleset:1255 data/civ2/buildings.ruleset:1248
-#: data/default/buildings.ruleset:1460
+#: data/default/buildings.ruleset:1461
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Das Forschungstempo der Stadt wird um 50% gesteigert."
 
 #: data/civ1/buildings.ruleset:1260 data/civ2/buildings.ruleset:1253
-#: data/default/buildings.ruleset:1465
+#: data/default/buildings.ruleset:1466
 msgid "Cure For Cancer"
 msgstr "das Krebs-Zentrum"
 
 #: data/civ1/buildings.ruleset:1279 data/civ2/buildings.ruleset:1272
-#: data/default/buildings.ruleset:1484
+#: data/default/buildings.ruleset:1485
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
 msgstr "Macht in jeder Stadt einen Unzufriedenen zufrieden."
 
 #: data/civ1/buildings.ruleset:1285 data/civ2/buildings.ruleset:1278
-#: data/default/buildings.ruleset:1492
+#: data/default/buildings.ruleset:1493
 msgid "Darwin's Voyage"
 msgstr "Darwins Reise"
 
 #: data/civ1/buildings.ruleset:1304 data/civ2/buildings.ruleset:1297
-#: data/default/buildings.ruleset:1511
+#: data/default/buildings.ruleset:1512
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -14498,13 +14501,13 @@ msgid ""
 msgstr "2 sofortige Forschungsergebnisse"
 
 #: data/civ1/buildings.ruleset:1311 data/civ2/buildings.ruleset:1304
-#: data/default/buildings.ruleset:1518
+#: data/default/buildings.ruleset:1519
 msgid "Eiffel Tower"
 msgstr "den Eiffelturm"
 
 # CK: Übersetzung wird nicht benötigt
 #: data/civ1/buildings.ruleset:1331 data/civ2/buildings.ruleset:1324
-#: data/default/buildings.ruleset:1538
+#: data/default/buildings.ruleset:1539
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
@@ -14512,12 +14515,12 @@ msgstr ""
 "When built, every civilization's attitude toward you is improved by 25%."
 
 #: data/civ1/buildings.ruleset:1339 data/civ2/buildings.ruleset:1332
-#: data/default/buildings.ruleset:1546
+#: data/default/buildings.ruleset:1547
 msgid "Great Library"
 msgstr "die Große Bibliothek"
 
 #: data/civ1/buildings.ruleset:1358 data/civ2/buildings.ruleset:1353
-#: data/default/buildings.ruleset:1565
+#: data/default/buildings.ruleset:1566
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
@@ -14526,22 +14529,22 @@ msgstr ""
 "steht auch der Zivilisation mit der Großen Bibliothek zur Verfügung."
 
 #: data/civ1/buildings.ruleset:1364 data/civ2/buildings.ruleset:1359
-#: data/default/buildings.ruleset:1571
+#: data/default/buildings.ruleset:1572
 msgid "Great Wall"
 msgstr "die Große Mauer"
 
 #: data/civ1/buildings.ruleset:1385 data/civ2/buildings.ruleset:1380
-#: data/default/buildings.ruleset:1591
+#: data/default/buildings.ruleset:1592
 msgid "Works as a City Wall in all cities."
 msgstr "Gilt als Stadtmauer für jede eigene Stadt."
 
 #: data/civ1/buildings.ruleset:1392 data/civ2/buildings.ruleset:1387
-#: data/default/buildings.ruleset:1599
+#: data/default/buildings.ruleset:1600
 msgid "Hanging Gardens"
 msgstr "die Hängenden Gärten"
 
 #: data/civ1/buildings.ruleset:1412 data/civ2/buildings.ruleset:1407
-#: data/default/buildings.ruleset:1619
+#: data/default/buildings.ruleset:1620
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -14557,11 +14560,11 @@ msgstr ""
 "Unzufriedene zufrieden."
 
 #: data/civ1/buildings.ruleset:1421 data/civ2/buildings.ruleset:1416
-#: data/default/buildings.ruleset:1628
+#: data/default/buildings.ruleset:1629
 msgid "Hoover Dam"
 msgstr "den Hoover-Staudamm"
 
-#: data/civ2/buildings.ruleset:1437 data/default/buildings.ruleset:1650
+#: data/civ2/buildings.ruleset:1437 data/default/buildings.ruleset:1651
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
@@ -14570,54 +14573,54 @@ msgstr ""
 "verringert und die Produktivität wird erhöht.)"
 
 #: data/civ1/buildings.ruleset:1451 data/civ2/buildings.ruleset:1443
-#: data/default/buildings.ruleset:1656
+#: data/default/buildings.ruleset:1657
 msgid "Isaac Newton's College"
 msgstr "Isaac Newtons Universität"
 
 #: data/civ1/buildings.ruleset:1471 data/civ2/buildings.ruleset:1463
-#: data/default/buildings.ruleset:1676
+#: data/default/buildings.ruleset:1677
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Verdoppelt das Forschungstempo in der Stadt, wo sie steht."
 
 #: data/civ1/buildings.ruleset:1476 data/civ2/buildings.ruleset:1468
-#: data/default/buildings.ruleset:1681
+#: data/default/buildings.ruleset:1682
 msgid "J.S. Bach's Cathedral"
 msgstr "J. S. Bachs Kathedrale"
 
-#: data/civ2/buildings.ruleset:1487 data/default/buildings.ruleset:1700
+#: data/civ2/buildings.ruleset:1487 data/default/buildings.ruleset:1701
 msgid "Makes two unhappy citizens content in every city."
 msgstr "Macht in jeder Stadt 2 Unzufriedene zufrieden."
 
 #: data/civ1/buildings.ruleset:1502 data/civ2/buildings.ruleset:1492
-#: data/default/buildings.ruleset:1705
+#: data/default/buildings.ruleset:1706
 msgid "King Richard's Crusade"
 msgstr "König Richards Kreuzzug"
 
 #: data/civ1/buildings.ruleset:1521 data/civ2/buildings.ruleset:1511
-#: data/default/buildings.ruleset:1724
+#: data/default/buildings.ruleset:1725
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
 msgstr "Jedes Feld der Stadt produziert einen zusätzlichen Schild."
 
 #: data/civ1/buildings.ruleset:1527 data/civ2/buildings.ruleset:1517
-#: data/default/buildings.ruleset:1730
+#: data/default/buildings.ruleset:1731
 msgid "Leonardo's Workshop"
 msgstr "Leonardos Werkstatt"
 
 #: data/civ1/buildings.ruleset:1546 data/civ2/buildings.ruleset:1536
-#: data/default/buildings.ruleset:1749
+#: data/default/buildings.ruleset:1750
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "Modernisiert eine veraltete Einheit pro Runde."
 
 #: data/civ1/buildings.ruleset:1551 data/civ2/buildings.ruleset:1541
-#: data/default/buildings.ruleset:1754
+#: data/default/buildings.ruleset:1755
 msgid "Lighthouse"
 msgstr "den Leuchtturm"
 
 #: data/civ1/buildings.ruleset:1572 data/civ2/buildings.ruleset:1562
-#: data/default/buildings.ruleset:1775
+#: data/default/buildings.ruleset:1776
 msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
@@ -14630,35 +14633,35 @@ msgstr ""
 "In allen eigenen Städten erhalten neue Marineeinheiten Veteran-Status."
 
 #: data/civ1/buildings.ruleset:1581 data/civ2/buildings.ruleset:1569
-#: data/default/buildings.ruleset:1782
+#: data/default/buildings.ruleset:1783
 msgid "Magellan's Expedition"
 msgstr "Magellans Expedition"
 
-#: data/civ2/buildings.ruleset:1588 data/default/buildings.ruleset:1801
+#: data/civ2/buildings.ruleset:1588 data/default/buildings.ruleset:1802
 msgid "Gives all sea units 2 additional movement points."
 msgstr "Alle Marineeinheiten erhalten 2 zusätzliche Bewegungspunkte."
 
 #: data/civ1/buildings.ruleset:1606 data/civ2/buildings.ruleset:1593
-#: data/default/buildings.ruleset:1806
+#: data/default/buildings.ruleset:1807
 msgid "Manhattan Project"
 msgstr "das Manhattan Projekt"
 
 #: data/civ1/buildings.ruleset:1629 data/civ2/buildings.ruleset:1616
-#: data/default/buildings.ruleset:1829
+#: data/default/buildings.ruleset:1830
 msgid "Marco Polo's Embassy"
 msgstr "Marco Polos Botschaft"
 
 #: data/civ1/buildings.ruleset:1648 data/civ2/buildings.ruleset:1635
-#: data/default/buildings.ruleset:1848
+#: data/default/buildings.ruleset:1849
 msgid "The player who owns it gets an embassy with all players."
 msgstr "Gilt als Botschaft bei allen Mitspielern."
 
 #: data/civ1/buildings.ruleset:1653 data/civ2/buildings.ruleset:1640
-#: data/default/buildings.ruleset:1853
+#: data/default/buildings.ruleset:1854
 msgid "Michelangelo's Chapel"
 msgstr "Michelangelos Kapelle"
 
-#: data/civ2/buildings.ruleset:1661 data/default/buildings.ruleset:1874
+#: data/civ2/buildings.ruleset:1661 data/default/buildings.ruleset:1875
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city.  The discovery of Theology increases the "
@@ -14668,53 +14671,53 @@ msgid ""
 msgstr "Zählt als Kathedrale in jeder eigenen Stadt."
 
 #: data/civ1/buildings.ruleset:1678 data/civ2/buildings.ruleset:1671
-#: data/default/buildings.ruleset:1884
+#: data/default/buildings.ruleset:1885
 msgid "Oracle"
 msgstr "das Orakel"
 
 #: data/civ1/buildings.ruleset:1698 data/civ2/buildings.ruleset:1691
-#: data/default/buildings.ruleset:1904
+#: data/default/buildings.ruleset:1905
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "In allen Städten verdoppelt sich der Effekt von Tempeln."
 
 #: data/civ1/buildings.ruleset:1703 data/civ2/buildings.ruleset:1696
-#: data/default/buildings.ruleset:1909
+#: data/default/buildings.ruleset:1910
 msgid "Pyramids"
 msgstr "die Pyramiden"
 
-#: data/civ2/buildings.ruleset:1715 data/default/buildings.ruleset:1928
+#: data/civ2/buildings.ruleset:1715 data/default/buildings.ruleset:1929
 msgid "Counts as having a Granary in every city."
 msgstr "Zählen als Kornspeicher in jeder eigenen Stadt."
 
 #: data/civ1/buildings.ruleset:1731 data/civ2/buildings.ruleset:1720
-#: data/default/buildings.ruleset:1933
+#: data/default/buildings.ruleset:1934
 msgid "SETI Program"
 msgstr "das SETI-Programm"
 
-#: data/civ2/buildings.ruleset:1739 data/default/buildings.ruleset:1952
+#: data/civ2/buildings.ruleset:1739 data/default/buildings.ruleset:1953
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
 msgstr "Zählt als Forschungslabor in jeder eigenen Stadt."
 
 #: data/civ1/buildings.ruleset:1756 data/civ2/buildings.ruleset:1745
-#: data/default/buildings.ruleset:1958
+#: data/default/buildings.ruleset:1959
 msgid "Shakespeare's Theatre"
 msgstr "Shakespeares Theater"
 
 #: data/civ1/buildings.ruleset:1775 data/civ2/buildings.ruleset:1764
-#: data/default/buildings.ruleset:1977
+#: data/default/buildings.ruleset:1978
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "Macht alle unzufriedenen Einwohner der Stadt zufrieden."
 
 #: data/civ1/buildings.ruleset:1780 data/civ2/buildings.ruleset:1769
-#: data/default/buildings.ruleset:1982
+#: data/default/buildings.ruleset:1983
 msgid "Statue of Liberty"
 msgstr "die Freiheitsstatue"
 
 #: data/civ1/buildings.ruleset:1724 data/civ1/buildings.ruleset:1800
 #: data/civ1/buildings.ruleset:1855 data/civ2/buildings.ruleset:1789
-#: data/default/buildings.ruleset:2002
+#: data/default/buildings.ruleset:2003
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -14724,12 +14727,12 @@ msgstr ""
 "ohne die Periode der Anarchie."
 
 #: data/civ1/buildings.ruleset:1807 data/civ2/buildings.ruleset:1796
-#: data/default/buildings.ruleset:2009
+#: data/default/buildings.ruleset:2010
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzus Militärakademie"
 
 #: data/civ1/buildings.ruleset:1827 data/civ2/buildings.ruleset:1816
-#: data/default/buildings.ruleset:2029
+#: data/default/buildings.ruleset:2030
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
@@ -14739,32 +14742,32 @@ msgstr ""
 "gewonnenen Kampf."
 
 #: data/civ1/buildings.ruleset:1834 data/civ2/buildings.ruleset:1823
-#: data/default/buildings.ruleset:2036
+#: data/default/buildings.ruleset:2037
 msgid "United Nations"
 msgstr "die Vereinten Nationen"
 
-#: data/civ2/buildings.ruleset:1846 data/default/buildings.ruleset:2059
+#: data/civ2/buildings.ruleset:1846 data/default/buildings.ruleset:2060
 msgid "Units regain two extra hitpoints per turn."
 msgstr ""
 "Alle eigenen Einheiten erhalten 2 zusätzliche Trefferpunkte pro Runde zurück."
 
 #: data/civ1/buildings.ruleset:1867 data/civ2/buildings.ruleset:1859
-#: data/default/buildings.ruleset:2072
+#: data/default/buildings.ruleset:2073
 msgid "Women's Suffrage"
 msgstr "das Frauenstimmrecht"
 
-#: data/civ2/buildings.ruleset:1879 data/default/buildings.ruleset:2092
+#: data/civ2/buildings.ruleset:1879 data/default/buildings.ruleset:2093
 msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
 "under Republic.  This wonder has no effect under other governments.)"
 msgstr "Zählt als Polizeiwache in jeder eigenen Stadt."
 
-#: data/default/buildings.ruleset:2108
+#: data/default/buildings.ruleset:2109
 msgid "Coinage"
 msgstr "Kapitalisierung"
 
-#: data/default/buildings.ruleset:2133
+#: data/default/buildings.ruleset:2134
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -14819,6 +14822,23 @@ msgstr ""
 "\n"
 "Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
 "bauen."
+
+#: data/civ1/buildings.ruleset:661 data/civ2/buildings.ruleset:649
+msgid ""
+"Makes a city the capital and the center of your government.  Corruption in "
+"other cities is related to how far away from the capital they are, except "
+"when the government is Democracy or Communism.  The cost of inciting a "
+"revolt in a city also depends upon the city's distance from the capital "
+"(under all forms of government).\n"
+"\n"
+"Take good care of your capital, as it's loss may result in your empire "
+"plunging into civil war."
+msgstr ""
+"Macht die Stadt zur Hauptstadt und somit zum Regierungssitz.\n"
+"Außer bei 'Demokratie' und 'Kommunismus' ist die Korruption davon abhängig, "
+"wie weit eine Stadt von der Hauptstadt entfernt ist. Auch die für das "
+"Anzetteln einer Revolution benötigten Kosten hängen davon ab. Außerdem kann "
+"der Verlust der Hauptstadt einen Bürgerkrieg verursachen."
 
 #: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:736
 #, no-c-format
@@ -15101,7 +15121,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:243 data/civ1/techs.ruleset:367
 #: data/civ2/governments.ruleset:243 data/civ2/techs.ruleset:367
-#: data/default/governments.ruleset:244 data/default/techs.ruleset:369
+#: data/default/governments.ruleset:244 data/default/techs.ruleset:374
 msgid "Monarchy"
 msgstr "Monarchie"
 
@@ -15159,7 +15179,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:311 data/civ1/techs.ruleset:139
 #: data/civ2/governments.ruleset:313 data/civ2/techs.ruleset:139
-#: data/default/governments.ruleset:314 data/default/techs.ruleset:141
+#: data/default/governments.ruleset:314 data/default/techs.ruleset:146
 msgid "Communism"
 msgstr "Kommunismus"
 
@@ -15280,7 +15300,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:464 data/civ1/techs.ruleset:169
 #: data/civ2/governments.ruleset:550 data/civ2/techs.ruleset:169
-#: data/default/governments.ruleset:471 data/default/techs.ruleset:171
+#: data/default/governments.ruleset:471 data/default/techs.ruleset:176
 msgid "Democracy"
 msgstr "Demokratie"
 
@@ -15358,7 +15378,7 @@ msgstr ""
 "Dauert ein Aufruhr länger als zwei Runden, löst er eine Revolution aus."
 
 #: data/civ1/techs.ruleset:229 data/civ2/governments.ruleset:390
-#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:231
+#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:236
 msgid "Fundamentalism"
 msgstr "Fundamentalismus"
 
@@ -15642,276 +15662,276 @@ msgstr ""
 "Dauert ein Aufruhr länger als zwei Runden, löst er eine Revolution aus."
 
 #: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
-#: data/default/techs.ruleset:51
+#: data/default/techs.ruleset:56
 msgid "Advanced Flight"
 msgstr "Moderne Flugtechnik"
 
 #: data/civ1/techs.ruleset:55 data/civ2/techs.ruleset:55
-#: data/default/techs.ruleset:57
+#: data/default/techs.ruleset:62
 msgid "Alphabet"
 msgstr "Alphabet"
 
 #: data/civ1/techs.ruleset:61 data/civ2/techs.ruleset:61
-#: data/default/techs.ruleset:63
+#: data/default/techs.ruleset:68
 msgid "Amphibious Warfare"
 msgstr "Amphibische Kriegführung"
 
 #: data/civ1/techs.ruleset:67 data/civ2/techs.ruleset:67
-#: data/default/techs.ruleset:69
+#: data/default/techs.ruleset:74
 msgid "Astronomy"
 msgstr "Astronomie"
 
 #: data/civ1/techs.ruleset:73 data/civ2/techs.ruleset:73
-#: data/default/techs.ruleset:75
+#: data/default/techs.ruleset:80
 msgid "Atomic Theory"
 msgstr "Atomtheorie"
 
 #: data/civ1/techs.ruleset:79 data/civ2/techs.ruleset:79
-#: data/default/techs.ruleset:81
+#: data/default/techs.ruleset:86
 msgid "Automobile"
 msgstr "Automobil"
 
 #: data/civ1/techs.ruleset:85 data/civ2/techs.ruleset:85
-#: data/default/techs.ruleset:87
+#: data/default/techs.ruleset:92
 msgid "Banking"
 msgstr "Bankwesen"
 
 #: data/civ1/techs.ruleset:91 data/civ2/techs.ruleset:91
-#: data/default/techs.ruleset:93
+#: data/default/techs.ruleset:98
 msgid "Bridge Building"
 msgstr "Brückenbau"
 
 #: data/civ1/techs.ruleset:97 data/civ2/techs.ruleset:97
-#: data/default/techs.ruleset:99
+#: data/default/techs.ruleset:104
 msgid "Bronze Working"
 msgstr "Bronzebearbeitung"
 
 #: data/civ1/techs.ruleset:103 data/civ2/techs.ruleset:103
-#: data/default/techs.ruleset:105
+#: data/default/techs.ruleset:110
 msgid "Ceremonial Burial"
 msgstr "Zeremonielle Bestattung"
 
 #: data/civ1/techs.ruleset:109 data/civ2/techs.ruleset:109
-#: data/default/techs.ruleset:111
+#: data/default/techs.ruleset:116
 msgid "Chemistry"
 msgstr "Chemie"
 
 #: data/civ1/techs.ruleset:115 data/civ2/techs.ruleset:115
-#: data/default/techs.ruleset:117
+#: data/default/techs.ruleset:122
 msgid "Chivalry"
 msgstr "Rittertum"
 
 #: data/civ1/techs.ruleset:121 data/civ2/techs.ruleset:121
-#: data/default/techs.ruleset:123
+#: data/default/techs.ruleset:128
 msgid "Code of Laws"
 msgstr "Gesetzbuch"
 
 #: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127
-#: data/default/techs.ruleset:129
+#: data/default/techs.ruleset:134
 msgid "Combined Arms"
 msgstr "Kombinierte Waffen"
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
-#: data/default/techs.ruleset:135
+#: data/default/techs.ruleset:140
 msgid "Combustion"
 msgstr "Verbrennung"
 
 #: data/civ1/techs.ruleset:145 data/civ2/techs.ruleset:145
-#: data/default/techs.ruleset:147
+#: data/default/techs.ruleset:152
 msgid "Computers"
 msgstr "Computer"
 
 #: data/civ1/techs.ruleset:151 data/civ2/techs.ruleset:151
-#: data/default/techs.ruleset:153
+#: data/default/techs.ruleset:158
 msgid "Conscription"
 msgstr "Wehrpflicht"
 
 #: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:157
-#: data/default/techs.ruleset:159
+#: data/default/techs.ruleset:164
 msgid "Construction"
 msgstr "Konstruktion"
 
 #: data/civ1/techs.ruleset:163 data/civ2/techs.ruleset:163
-#: data/default/techs.ruleset:165
+#: data/default/techs.ruleset:170
 msgid "Currency"
 msgstr "Währung"
 
 #: data/civ1/techs.ruleset:181 data/civ2/techs.ruleset:181
-#: data/default/techs.ruleset:183
+#: data/default/techs.ruleset:188
 msgid "Electricity"
 msgstr "Elektrizität"
 
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:187
-#: data/default/techs.ruleset:189
+#: data/default/techs.ruleset:194
 msgid "Electronics"
 msgstr "Elektronik"
 
 #: data/civ1/techs.ruleset:193 data/civ2/techs.ruleset:193
-#: data/default/techs.ruleset:195
+#: data/default/techs.ruleset:200
 msgid "Engineering"
 msgstr "Technik"
 
 #: data/civ1/techs.ruleset:199 data/civ2/techs.ruleset:199
-#: data/default/techs.ruleset:201
+#: data/default/techs.ruleset:206
 msgid "Environmentalism"
 msgstr "Umweltschutz"
 
 #: data/civ1/techs.ruleset:205 data/civ2/techs.ruleset:205
-#: data/default/techs.ruleset:207
+#: data/default/techs.ruleset:212
 msgid "Espionage"
 msgstr "Spionage"
 
 #: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:211
-#: data/default/techs.ruleset:213
+#: data/default/techs.ruleset:218
 msgid "Explosives"
 msgstr "Sprengstoff"
 
 #: data/civ1/techs.ruleset:217 data/civ2/techs.ruleset:217
-#: data/default/techs.ruleset:219
+#: data/default/techs.ruleset:224
 msgid "Feudalism"
 msgstr "Feudalismus"
 
 #: data/civ1/techs.ruleset:223 data/civ2/techs.ruleset:223
-#: data/default/techs.ruleset:225
+#: data/default/techs.ruleset:230
 msgid "Flight"
 msgstr "Flug"
 
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:235
-#: data/default/techs.ruleset:237
+#: data/default/techs.ruleset:242
 msgid "Fusion Power"
 msgstr "Kernfusion"
 
 #: data/civ1/techs.ruleset:241 data/civ2/techs.ruleset:241
-#: data/default/techs.ruleset:243
+#: data/default/techs.ruleset:248
 msgid "Genetic Engineering"
 msgstr "Gentechnik"
 
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
-#: data/default/techs.ruleset:249
+#: data/default/techs.ruleset:254
 msgid "Guerilla Warfare"
 msgstr "Guerillakrieg"
 
 #: data/civ1/techs.ruleset:253 data/civ2/techs.ruleset:253
-#: data/default/techs.ruleset:255
+#: data/default/techs.ruleset:260
 msgid "Gunpowder"
 msgstr "Schießpulver"
 
 #: data/civ1/techs.ruleset:259 data/civ2/techs.ruleset:259
-#: data/default/techs.ruleset:261
+#: data/default/techs.ruleset:266
 msgid "Horseback Riding"
 msgstr "Reiten"
 
 #: data/civ1/techs.ruleset:265 data/civ2/techs.ruleset:265
-#: data/default/techs.ruleset:267
+#: data/default/techs.ruleset:272
 msgid "Industrialization"
 msgstr "Industrialisierung"
 
 #: data/civ1/techs.ruleset:271 data/civ2/techs.ruleset:271
-#: data/default/techs.ruleset:273
+#: data/default/techs.ruleset:278
 msgid "Invention"
 msgstr "Patentierung"
 
 #: data/civ1/techs.ruleset:277 data/civ2/techs.ruleset:277
-#: data/default/techs.ruleset:279
+#: data/default/techs.ruleset:284
 msgid "Iron Working"
 msgstr "Eisenbearbeitung"
 
 #: data/civ1/techs.ruleset:283 data/civ2/techs.ruleset:283
-#: data/default/techs.ruleset:285
+#: data/default/techs.ruleset:290
 msgid "Labor Union"
 msgstr "Gewerkschaft"
 
 #: data/civ1/techs.ruleset:289 data/civ2/techs.ruleset:289
-#: data/default/techs.ruleset:291
+#: data/default/techs.ruleset:296
 msgid "Laser"
 msgstr "Laser"
 
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
-#: data/default/techs.ruleset:297
+#: data/default/techs.ruleset:302
 msgid "Leadership"
 msgstr "Führerschaft"
 
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
-#: data/default/techs.ruleset:309
+#: data/default/techs.ruleset:314
 msgid "Machine Tools"
 msgstr "Werkzeugmaschinen"
 
 #: data/civ1/techs.ruleset:313 data/civ2/techs.ruleset:313
-#: data/default/techs.ruleset:315
+#: data/default/techs.ruleset:320
 msgid "Magnetism"
 msgstr "Magnetismus"
 
 #: data/civ1/techs.ruleset:319 data/civ2/techs.ruleset:319
-#: data/default/techs.ruleset:321
+#: data/default/techs.ruleset:326
 msgid "Map Making"
 msgstr "Kartographie"
 
 #: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
-#: data/default/techs.ruleset:327
+#: data/default/techs.ruleset:332
 msgid "Masonry"
 msgstr "Mauern"
 
 #: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
-#: data/default/techs.ruleset:333
+#: data/default/techs.ruleset:338
 msgid "Mass Production"
 msgstr "Massenproduktion"
 
 #: data/civ1/techs.ruleset:337 data/civ2/techs.ruleset:337
-#: data/default/techs.ruleset:339
+#: data/default/techs.ruleset:344
 msgid "Mathematics"
 msgstr "Mathematik"
 
 #: data/civ1/techs.ruleset:343 data/civ2/techs.ruleset:343
-#: data/default/techs.ruleset:345
+#: data/default/techs.ruleset:350
 msgid "Medicine"
 msgstr "Medizin"
 
 #: data/civ1/techs.ruleset:349 data/civ2/techs.ruleset:349
-#: data/default/techs.ruleset:351
+#: data/default/techs.ruleset:356
 msgid "Metallurgy"
 msgstr "Metallurgie"
 
 #: data/civ1/techs.ruleset:355 data/civ2/techs.ruleset:355
-#: data/default/techs.ruleset:357
+#: data/default/techs.ruleset:362
 msgid "Miniaturization"
 msgstr "Miniaturisierung"
 
 #: data/civ1/techs.ruleset:361 data/civ2/techs.ruleset:361
-#: data/default/techs.ruleset:363
+#: data/default/techs.ruleset:368
 msgid "Mobile Warfare"
 msgstr "Mobile Kriegsführung"
 
 #: data/civ1/techs.ruleset:373 data/civ2/techs.ruleset:373
-#: data/default/techs.ruleset:375
+#: data/default/techs.ruleset:380
 msgid "Monotheism"
 msgstr "Monotheismus"
 
 #: data/civ1/techs.ruleset:379 data/civ2/techs.ruleset:379
-#: data/default/techs.ruleset:381
+#: data/default/techs.ruleset:386
 msgid "Mysticism"
 msgstr "Mystik"
 
 #: data/civ1/techs.ruleset:385 data/civ2/techs.ruleset:385
-#: data/default/techs.ruleset:387
+#: data/default/techs.ruleset:392
 msgid "Navigation"
 msgstr "Navigation"
 
 #: data/civ1/techs.ruleset:391 data/civ2/techs.ruleset:391
-#: data/default/techs.ruleset:393
+#: data/default/techs.ruleset:398
 msgid "Nuclear Fission"
 msgstr "Kernspaltung"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:397
-#: data/default/techs.ruleset:399
+#: data/default/techs.ruleset:404
 msgid "Nuclear Power"
 msgstr "Atomkraft"
 
 #: data/civ1/techs.ruleset:403 data/civ2/techs.ruleset:403
-#: data/default/techs.ruleset:405
+#: data/default/techs.ruleset:410
 msgid "Philosophy"
 msgstr "Philosophie"
 
-#: data/default/techs.ruleset:409
+#: data/default/techs.ruleset:414
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
@@ -15921,126 +15941,126 @@ msgstr ""
 "       Ein direkter Fortschritt ist die Folge."
 
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
-#: data/default/techs.ruleset:413
+#: data/default/techs.ruleset:418
 msgid "Physics"
 msgstr "Physik"
 
 #: data/civ1/techs.ruleset:415 data/civ2/techs.ruleset:415
-#: data/default/techs.ruleset:419
+#: data/default/techs.ruleset:424
 msgid "Plastics"
 msgstr "Kunststoffe"
 
 #: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:421
-#: data/default/techs.ruleset:425
+#: data/default/techs.ruleset:430
 msgid "Polytheism"
 msgstr "Polytheismus"
 
 #: data/civ1/techs.ruleset:427 data/civ2/techs.ruleset:427
-#: data/default/techs.ruleset:431
+#: data/default/techs.ruleset:436
 msgid "Pottery"
 msgstr "Töpferei"
 
 #: data/civ1/techs.ruleset:433 data/civ2/techs.ruleset:433
-#: data/default/techs.ruleset:437
+#: data/default/techs.ruleset:442
 msgid "Radio"
 msgstr "Radio"
 
 #: data/civ1/techs.ruleset:445 data/civ2/techs.ruleset:445
-#: data/default/techs.ruleset:449
+#: data/default/techs.ruleset:454
 msgid "Recycling"
 msgstr "Recycling"
 
 #: data/civ1/techs.ruleset:451 data/civ2/techs.ruleset:451
-#: data/default/techs.ruleset:455
+#: data/default/techs.ruleset:460
 msgid "Refining"
 msgstr "Raffinierung"
 
 #: data/civ1/techs.ruleset:457 data/civ2/techs.ruleset:457
-#: data/default/techs.ruleset:461
+#: data/default/techs.ruleset:466
 msgid "Refrigeration"
 msgstr "Kältetechnik"
 
 #: data/civ1/techs.ruleset:463 data/civ2/techs.ruleset:463
-#: data/default/techs.ruleset:467
+#: data/default/techs.ruleset:472
 msgid "Robotics"
 msgstr "Robotik"
 
 #: data/civ1/techs.ruleset:469 data/civ2/techs.ruleset:469
-#: data/default/techs.ruleset:473
+#: data/default/techs.ruleset:478
 msgid "Rocketry"
 msgstr "Raketentechnik"
 
 #: data/civ1/techs.ruleset:475 data/civ2/techs.ruleset:475
-#: data/default/techs.ruleset:479
+#: data/default/techs.ruleset:484
 msgid "Sanitation"
 msgstr "Hygiene"
 
 #: data/civ1/techs.ruleset:481 data/civ2/techs.ruleset:481
-#: data/default/techs.ruleset:485
+#: data/default/techs.ruleset:490
 msgid "Seafaring"
 msgstr "Seefahrt"
 
 #: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:487
-#: data/default/techs.ruleset:491
+#: data/default/techs.ruleset:496
 msgid "Space Flight"
 msgstr "Weltraumflug"
 
 #: data/civ1/techs.ruleset:493 data/civ2/techs.ruleset:493
-#: data/default/techs.ruleset:497
+#: data/default/techs.ruleset:502
 msgid "Stealth"
 msgstr "Stealth-Technologie"
 
 #: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:499
-#: data/default/techs.ruleset:503
+#: data/default/techs.ruleset:508
 msgid "Steam Engine"
 msgstr "Dampfmaschine"
 
 #: data/civ1/techs.ruleset:505 data/civ2/techs.ruleset:505
-#: data/default/techs.ruleset:509
+#: data/default/techs.ruleset:514
 msgid "Steel"
 msgstr "Stahl"
 
 #: data/civ1/techs.ruleset:511 data/civ2/techs.ruleset:511
-#: data/default/techs.ruleset:515
+#: data/default/techs.ruleset:520
 msgid "Superconductors"
 msgstr "Supraleiter"
 
 #: data/civ1/techs.ruleset:517 data/civ2/techs.ruleset:517
-#: data/default/techs.ruleset:521
+#: data/default/techs.ruleset:526
 msgid "Tactics"
 msgstr "Taktik"
 
 #: data/civ1/techs.ruleset:523 data/civ2/techs.ruleset:523
-#: data/default/techs.ruleset:527
+#: data/default/techs.ruleset:532
 msgid "The Corporation"
 msgstr "Die Firma"
 
 #: data/civ1/techs.ruleset:529 data/civ2/techs.ruleset:529
-#: data/default/techs.ruleset:533
+#: data/default/techs.ruleset:538
 msgid "The Republic"
 msgstr "Die Republik"
 
 #: data/civ1/techs.ruleset:535 data/civ2/techs.ruleset:535
-#: data/default/techs.ruleset:539
+#: data/default/techs.ruleset:544
 msgid "The Wheel"
 msgstr "Das Rad"
 
-#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:545
+#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:550
 msgid "Theology"
 msgstr "Theologie"
 
 #: data/civ1/techs.ruleset:547 data/civ2/techs.ruleset:547
-#: data/default/techs.ruleset:551
+#: data/default/techs.ruleset:556
 msgid "Theory of Gravity"
 msgstr "Gravitationstheorie"
 
 #: data/civ1/techs.ruleset:565 data/civ2/techs.ruleset:565
-#: data/default/techs.ruleset:569
+#: data/default/techs.ruleset:574
 msgid "Warrior Code"
 msgstr "Kriegerkodex"
 
 #: data/civ1/techs.ruleset:571 data/civ2/techs.ruleset:571
-#: data/default/techs.ruleset:575
+#: data/default/techs.ruleset:580
 msgid "Writing"
 msgstr "Schrift"
 
