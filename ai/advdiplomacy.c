@@ -456,6 +456,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       worth = 0; /* We don't need no stinkin' embassy, do we? */
     }
     break;
+  case CLAUSE_UNUSED:
   case CLAUSE_LAST:
     break;
   } /* end of switch */

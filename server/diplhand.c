@@ -457,6 +457,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         gamelog(GAMELOG_TREATY, GL_VISION, pgiver, pdest);
 	break;
       case CLAUSE_LAST:
+      case CLAUSE_UNUSED:
         freelog(LOG_ERROR, "Received bad clause type");
         break;
       }
