@@ -268,8 +268,7 @@ void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
 		    int canvas_x, int canvas_y,
 		    enum draw_type draw, bool citymode);
 
-void update_map_canvas(int x, int y, int width, int height,
-		       bool write_to_screen);
+void update_map_canvas(int canvas_x, int canvas_y, int width, int height);
 void update_map_canvas_visible(void);
 
 void show_city_descriptions(void);

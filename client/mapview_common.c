@@ -61,13 +61,16 @@ static void flush_dirty_overview(void);
 **************************************************************************/
 void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 {
+  int canvas_x, canvas_y;
+
   assert(is_real_map_pos(x, y));
   if (!normalize_map_pos(&x, &y)) {
     return;
   }
 
-  if (tile_visible_mapcanvas(x, y)) {
-    update_map_canvas(x, y, 1, 1, FALSE);
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+    canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
+    update_map_canvas(canvas_x, canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
     if (update_city_text_in_refresh_tile
 	&& (draw_city_names || draw_city_productions)) {
@@ -1294,132 +1297,43 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
   x, y, width, and height are in map coordinates; they need not be
   normalized or even real.
 **************************************************************************/
-void update_map_canvas(int x, int y, int width, int height, 
-		       bool write_to_screen)
+void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 {
-  int canvas_start_x, canvas_start_y;
+  const int gui_x0 = mapview_canvas.gui_x0 + canvas_x;
+  const int gui_y0 = mapview_canvas.gui_y0 + canvas_y;
 
   freelog(LOG_DEBUG,
-	  "update_map_canvas(pos=(%d,%d), size=(%d,%d), write_to_screen=%d)",
-	  x, y, width, height, write_to_screen);
+	  "update_map_canvas(pos=(%d,%d), size=(%d,%d))",
+	  canvas_x, canvas_y, width, height);
 
   if (is_isometric) {
-    int x_itr, y_itr, i;
-
-    /* First refresh the tiles above the area to remove the old tiles'
-     * overlapping graphics. */
-    put_tile_iso(x - 1, y - 1, D_B_LR); /* top_left corner */
-
-    for (i = 0; i < height - 1; i++) { /* left side - last tile. */
-      put_tile_iso(x - 1, y + i, D_MB_LR);
-    }
-    put_tile_iso(x - 1, y + height - 1, D_TMB_R); /* last tile left side. */
-
-    for (i = 0; i < width - 1; i++) {
-      /* top side */
-      put_tile_iso(x + i, y - 1, D_MB_LR);
-    }
-    if (width > 1) {
-      /* last tile top side. */
-      put_tile_iso(x + width - 1, y - 1, D_TMB_L);
-    } else {
-      put_tile_iso(x + width - 1, y - 1, D_MB_L);
-    }
-
-    /* Now draw the tiles to be refreshed, from the top down to get the
-     * overlapping areas correct. */
-    for (x_itr = x; x_itr < x + width; x_itr++) {
-      for (y_itr = y; y_itr < y + height; y_itr++) {
-	put_tile_iso(x_itr, y_itr, D_FULL);
-      }
-    }
-
-    /* Then draw the tiles underneath to refresh the parts of them that
-     * overlap onto the area just drawn. */
-    put_tile_iso(x, y + height, D_TM_R);  /* bottom side */
-    for (i = 1; i < width; i++) {
-      int x1 = x + i;
-      int y1 = y + height;
-      put_tile_iso(x1, y1, D_TM_R);
-      put_tile_iso(x1, y1, D_T_L);
-    }
-
-    put_tile_iso(x + width, y, D_TM_L); /* right side */
-    for (i=1; i < height; i++) {
-      int x1 = x + width;
-      int y1 = y + i;
-      put_tile_iso(x1, y1, D_TM_L);
-      put_tile_iso(x1, y1, D_T_R);
-    }
-
-    put_tile_iso(x + width, y + height, D_T_LR); /* right-bottom corner */
-
+    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
+      put_tile_iso(map_x, map_y, draw);
+    } gui_rect_iterate_end;
 
     /* Draw the goto lines on top of the whole thing. This is done last as
      * we want it completely on top. */
-    for (x_itr = x - 1; x_itr <= x + width; x_itr++) {
-      for (y_itr = y - 1; y_itr <= y + height; y_itr++) {
-	int x1 = x_itr;
-	int y1 = y_itr;
-	if (normalize_map_pos(&x1, &y1)) {
-	  adjc_dir_iterate(x1, y1, x2, y2, dir) {
-	    if (get_drawn(x1, y1, dir)) {
-	      draw_segment(x1, y1, dir);
-	    }
-	  } adjc_dir_iterate_end;
-	}
+    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
+      if (normalize_map_pos(&map_x, &map_y)) {
+	adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
+	  if (get_drawn(map_x, map_y, dir)) {
+	    draw_segment(map_x, map_y, dir);
+	  }
+	} adjc_dir_iterate_end;
       }
-    }
-
-
-    /* Lastly draw our changes to the screen. */
-    /* top left corner */
-    map_to_canvas_pos(&canvas_start_x, &canvas_start_y, x, y);
-
-    /* top left corner in isometric view */
-    canvas_start_x -= height * NORMAL_TILE_WIDTH / 2;
-
-    /* because of where get_canvas_xy() sets canvas_x */
-    canvas_start_x += NORMAL_TILE_WIDTH / 2;
-
-    /* And because units fill a little extra */
-    canvas_start_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
-
-    /* Here we draw a rectangle that includes the updated tiles.  This
-     * method can fail if the area wraps off one side of the screen and
-     * back to the other. */
-    dirty_rect(canvas_start_x, canvas_start_y,
-	       (height + width) * NORMAL_TILE_WIDTH / 2,
-	       (height + width) * NORMAL_TILE_HEIGHT / 2
-	       + NORMAL_TILE_HEIGHT / 2);
+    } gui_rect_iterate_end;
   } else {
     /* not isometric */
-    int map_x, map_y;
-
-    for (map_y = y; map_y < y + height; map_y++) {
-      for (map_x = x; map_x < x + width; map_x++) {
-	/*
-	 * We don't normalize until later because we want to draw
-	 * black tiles for unreal positions.
-	 */
-	put_tile(map_x, map_y);
-      }
-    }
-    /* Here we draw a rectangle that includes the updated tiles.  This
-     * method can fail if the area wraps off one side of the screen and
-     * back to the other. */
-    map_to_canvas_pos(&canvas_start_x, &canvas_start_y, x, y);
-    dirty_rect(canvas_start_x, canvas_start_y,
-	       width * NORMAL_TILE_WIDTH,
-	       height * NORMAL_TILE_HEIGHT);
+    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
+      /*
+       * We don't normalize until later because we want to draw
+       * black tiles for unreal positions.
+       */
+      put_tile(map_x, map_y);
+    } gui_rect_iterate_end;
   }
 
-  if (write_to_screen) {
-    /* We never want a partial flush; that would leave the screen in an
-     * inconsistent state.  If the caller tells us to write_to_screen we
-     * simply flush everything immediately. */
-    flush_dirty();
-  }
+  dirty_rect(canvas_x, canvas_y, width, height);
 }
 
 /**************************************************************************
@@ -1427,8 +1341,6 @@ void update_map_canvas(int x, int y, int width, int height,
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
-  int map_x0, map_y0;
-
   dirty_all();
 
   /* Clear the entire mapview.  This is necessary since if the mapview is
@@ -1439,24 +1351,7 @@ void update_map_canvas_visible(void)
    * cleared. */
   canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
 		       0, 0, mapview_canvas.width, mapview_canvas.height);
-
-  canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
-  if (is_isometric) {
-    /* just find a big rectangle that includes the whole visible area. The
-       invisible tiles will not be drawn. */
-    int width, height;
-
-    width = mapview_canvas.tile_width + mapview_canvas.tile_height + 2;
-    height = width;
-    update_map_canvas(map_x0 - 1, map_y0 - mapview_canvas.tile_width - 1,
-		      width, height, FALSE);
-  } else {
-    update_map_canvas(map_x0, map_y0,
-		      mapview_canvas.tile_width + 1,
-		      mapview_canvas.tile_height + 1,
-		      FALSE);
-  }
-
+  update_map_canvas(0, 0, mapview_canvas.width, mapview_canvas.height);
   show_city_descriptions();
 }
 

@@ -578,10 +578,18 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 
   if ((draw_map_grid || draw_borders) && can_client_change_view()) {
     /* We have to make sure we update any workers on the map grid, then
-     * redraw the city descriptions on top of them. */
-    update_map_canvas(pcity->x - CITY_MAP_SIZE / 2,
-		      pcity->y - CITY_MAP_SIZE / 2,
-		      CITY_MAP_SIZE, CITY_MAP_SIZE, FALSE);
+     * redraw the city descriptions on top of them.  So we calculate the
+     * rectangle covered by the city's map, and update that.  Then we
+     * queue up a city description redraw for later. */
+    int canvas_x, canvas_y;
+    int width = get_citydlg_canvas_width();
+    int height = get_citydlg_canvas_height();
+
+    (void) map_to_canvas_pos(&canvas_x, &canvas_y, pcity->x, pcity->y);
+
+    update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
+		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
+		      width, height);
     queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
   } else {
     refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
