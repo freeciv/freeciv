@@ -1802,12 +1802,14 @@ msgstr "Forschung"
 #: server/plrhand.c:671
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
-msgstr "Spiel: Die Quote für %s übersteigt die Höchstgrenze."
+msgstr ""
+"Spiel: Die Quote für %s übersteigt die für eine %s geltende "
+"Höchstgrenze."
 
 #: server/plrhand.c:677 server/plrhand.c:803
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
-msgstr "NEUE RATEN: %s %i %i %i"
+msgstr "NEUE QUOTEN: %s %i %i %i"
 
 #: server/plrhand.c:722
 #, c-format
@@ -8593,7 +8595,7 @@ msgstr ""
 "Jahr: %s Runde: %d\n"
 "Gold: %d\n"
 "Netto Einkommen: %d\n"
-"St: %d Luxus: %d Forschung: %d\n"
+"Steuern: %d Luxus: %d Forschung: %d\n"
 "Forschungsprojekt: %s (%d/%d)\n"
 "Staatsform: %s"
 
