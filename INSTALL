@@ -77,21 +77,149 @@ contains the generated files.
 1. Prerequisites for the clients:
 =================================
 
-The Freeciv client now comes in two different forms: one using
-the Athena widget library ("Xaw"), and one using the Gtk+ widget
-library.  The two forms have different prerequisites, explained
-separately below.  Your system will need to satisfy at least 
-one of the two sets of prerequisites.
-There is also a native amiga client.
+The Freeciv client comes in the following forms:
+* Gtk+ 1.2 widget library ("Gtk+ 1.2").
+* Gtk+ 2.0 widget library ("Gtk+ 2.0").
+* AmigaOS MUI ("Mui").
+* Native Microsoft Windows Common Controls ("Win32").
+* X Athena Widgets library ("Xaw").
 
-Note that some systems have separate library packages for "runtime" 
+These forms have different prerequisites, explained separately below.
+
+Your system will need to satisfy at least one of these sets of prerequisites.
+
+Note that some Linux systems have separate library packages for "runtime" 
 library support and for development support (for compiling programs 
 which use those libraries).  To compile Freeciv on such systems you 
 will need to have the appropriate "development" packages installed.
 (Attention Red Hat users: this means you! :-)
 
 
-1a. Prerequisites for the Xaw client:
+1a. Prerequisites for the Gtk+ 1.2 client:
+==========================================
+
+ - The "Glib" utility library.
+
+   The "Glib" utility library provides non-graphical functions used by the
+   "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
+
+   Freeciv requires a version of "Glib" greater or equal to 1.2.5.
+
+   If the Freeciv configure process tells you that you don't have the
+   Glib library installed, then it may be obtained from here:
+
+     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.10.tar.gz
+
+ - The "Gtk+" widget library.
+
+   The "Gtk+" widget library was designed for the GIMP graphics program.
+   Since then it has gained popularity as an easy to program, free toolkit.
+   The "Gtk+" library comes with a companion library "Gdk" which provides
+   an abstraction layer over X-Windows to implement basic drawing functions,
+   windows, clipping, etc.
+
+   To compile the client using the "Gtk+" library add "--enable-client=gtk"
+   to the Freeciv configure script.  See the section below for more 
+   information about the configure script.
+
+   Freeciv requires a version of "Gtk+" greater or equal to 1.2.5.
+
+   If the Freeciv configure process tells you that you don't have the
+   Gtk+ library installed, then it may be obtained from here:
+
+     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.10.tar.gz
+
+   Note: several bugs have been found in Gtk+ versions previous to 1.2.10.
+         Use those at your own risk.
+
+ - The "Imlib" library.
+
+   This library is essential for bitmap handling.  It is also
+   used by the GNOME project.
+
+   Freeciv requires a version of "Imlib" greater or equal to 1.9.2.
+
+   If the Freeciv configure process tells you that you don't have the
+   Imlib library installed, then it may be obtained from here:
+
+     ftp://ftp.gnome.org/pub/GNOME/sources/imlib/1.9/imlib-1.9.14.tar.gz
+
+   (Imlib documentation says that you require other libraries to use
+   certain features but none of those are needed by the Freeciv client).
+
+If you are going to make these yourself, build and install them in the
+following order: Glib, Gtk+, Imlib.
+
+
+1b. Prerequisites for the Gtk+ 2.0 client:
+==========================================
+
+ - "pkg-config".
+
+   "pkg-config" is a system for managing library compile/link flags that
+   works with automake and autoconf. You may obtain it at:
+
+      ftp://ftp.gtk.org/pub/gtk/v2.0/dependencies/pkgconfig-0.12.0.tar.gz
+
+ - The "Glib" utility library.
+
+   The "Glib" utility library provides non-graphical functions used by the
+   "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
+
+   Freeciv requires a version of "Glib" greater or equal to 2.0.0.
+
+   If the Freeciv configure process tells you that you don't have the
+   Glib library installed, then it may be obtained from here:
+
+     ftp://ftp.gtk.org/pub/gtk/v2.0/glib-2.0.7.tar.bz2
+
+ - The "Atk" accessibility library.
+
+   The "Atk" library provides a set of interfaces for accessibility.
+   It allows people with disabilities to utilize all the functionality
+   provided by Gtk+ apps. You may obtain it at:
+
+     ftp://ftp.gtk.org/pub/gtk/v2.0/atk-1.0.3.tar.bz2
+
+ - The "Pango" text layout and rendering library.
+
+   "Pango" is library for layout and rendering of text, with an emphasis
+   on internationalization. You may obtain it at:
+
+     ftp://ftp.gtk.org/pub/gtk/v2.0/pango-1.0.5.tar.bz2
+
+ - The "Gtk+" widget library.
+
+   The "Gtk+" widget library was designed for the GIMP graphics program.
+   Since then it has gained popularity as an easy to program, free toolkit.
+
+   To compile the client using the "Gtk+" library add "--enable-client=gtk-2.0"
+   to the Freeciv configure script.  See the section below for more 
+   information about the configure script.
+
+   The "Gtk+" library comes with two companion libraries:
+
+     "Gdk":
+       Provides an abstraction layer over X-Windows/LinuxFB/Win32 to implement
+       basic drawing functions, windows, clipping, etc.
+
+     "GdkPixbuf":
+       Provides image loading/saving facilities.
+
+   Freeciv requires a version of "Gtk+" greater or equal to 2.0.0.
+
+   If the Freeciv configure process tells you that you don't have the
+   Gtk+ library installed, then it may be obtained from here:
+
+     ftp://ftp.gtk.org/pub/gtk/v2.0/gtk+-2.0.9.tar.bz2
+
+   "Gtk+" depends on the "Glib", "Atk" and "Pango" libraries.
+
+If you are going to make these yourself, build and install them in the
+following order: pkg-config, Glib, Atk, Pango, Gtk+.
+
+
+1b. Prerequisites for the Xaw client:
 =====================================
 
  - X-Windows.
@@ -150,54 +278,6 @@ will need to have the appropriate "development" packages installed.
    install it as root, see Reinier's libXpm Solaris Installation Notes
    section near the end of this file.
 
-
-1b. Prerequisites for the Gtk+ client:
-======================================
-
- - The "Glib" utility library.
-
-   The "Glib" utility library provides non-graphical functions used by the
-   "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
-
-   Freeciv requires a version of "Glib" greater or equal to 1.2.1.
-
-   If the Freeciv configure process tells you that you don't have the
-   Glib library installed, then it may be obtained from here:
-
-     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.10.tar.gz
-
- - The "Gtk+" widget library.
-
-   The "Gtk+" widget library was designed for the GIMP graphics program.
-   Since then it has gained popularity as an easy to program, free toolkit.
-   The "Gtk+" library comes with a companion library "Gdk" which provides
-   an abstraction layer over X Windows to implement basic drawing functions,
-   windows, clipping, etc.
-
-   Freeciv requires a version of "Gtk+" greater or equal to 1.2.5.
-
-   If the Freeciv configure process tells you that you don't have the
-   Gtk+ library installed, then it may be obtained from here:
-
-     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.10.tar.gz
-
- - The "Imlib" library.
-
-   This library is essential for bitmap handling.  It is also
-   used by the GNOME project.
-
-   Freeciv requires a version of "Imlib" greater or equal to 1.9.2.
-
-   If the Freeciv configure process tells you that you don't have the
-   Imlib library installed, then it may be obtained from here:
-
-     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.10.tar.gz
-
-   (Imlib documentation says that you require other libraries to use
-   certain features but none of those are needed by the Freeciv client).
-
-If you are going to make these yourself, build and install them in the
-following order: Glib, Gtk+, Imlib.
 
 2a. Generating the Makefile for CVS versions:
 =============================================
@@ -275,7 +355,7 @@ If for some reason using "configure" gives you trouble, follow these steps:
   - Read the prerequisites section carefully, to determine if your
     system meets all the requirements.
 
-  - If you are compiling the Gtk+ version of the client: Ensure that
+  - If you are compiling the Gtk+ 1.2 version of the client: Ensure that
     you have the Gtk+, Gdk, Glib & Imlib libraries installed on your
     system.  Make sure that the configure script can find them,
     either by installing them in the standard places on your system,
@@ -302,10 +382,6 @@ If for some reason using "configure" gives you trouble, follow these steps:
 
     You can find out about the freeciv-dev mailing list on our web
     site, at http://www.freeciv.org/
-
-Please note that since Freeciv 1.7.2 we have stopped supporting 
-the use of Imake, and as of Freeciv 1.8.1 we no longer include 
-the Makefile.noimake fallback.
 
 
 3. Compiling Freeciv:
@@ -528,7 +604,7 @@ The Procedure:
 Apple's version of GCC uses precompiled headers that does not support
 vararg macros (a GCC extension).  This causes GCC to fail when
 compiling Freeciv since the compiler is otherwise (mostly)
-indistuingishable from vanilla GCC.  So instead of the usual
+indistinguishable from vanilla GCC.  So instead of the usual
 
   % ./configure <...>
 
@@ -561,7 +637,7 @@ To compile freeciv on a debian system you need the following packages:
    zlib1g-dev
    xlib6g-dev
 
- For the gtk client:
+ For the gtk+ 1.2 client:
    gdk-imlib-dev
    libglib1.2-dev
    libgtk1.2-dev
