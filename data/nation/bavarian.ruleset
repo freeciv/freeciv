@@ -5,8 +5,9 @@ plural=_("?plural:Bavarians")
 class=_("Historical")
 legend=_("Bavaria, before national unification in 1870, was one of the \
 largest of the German kingdoms.") 
-leader = "Ludwig II", "Maximilian", "Joseph", "Franz-Joseph Strauss"
-leader_sex = "Male", "Male", "Male", "Male"
+leader = "Tassilo III", "Welf I", "Ludwig II", "Maximilian", "Adelheid",
+         "Max II Emanuel", "Joseph"
+leader_sex = "Male", "Male", "Male", "Male", "Female", "Male", "Male"
 flag="f.bavarian"
 flag_alt = "-"
 city_style = "European"
