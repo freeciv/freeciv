@@ -246,18 +246,17 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     total = impr_build_shield_cost(pcity->currently_building);
   }
   cost = city_buy_cost(pcity);
-  if (cost == 0 || cost > pplayer->economic.gold) {
+  if (cost <= 0) {
+    return; /* sanity */
+  }
+  if (cost > pplayer->economic.gold) {
+    /* In case something changed while player tried to buy, or player 
+     * tried to cheat! */
+    notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
+		     _("%d gold required.  You only have %d gold."), cost,
+                     pplayer->economic.gold);
     return;
   }
-
-  /*
-   * Need to make this more restrictive.  AI is sometimes buying
-   * things that force it to sell buildings due to upkeep problems.
-   * upkeep expense is only known in ai_manage_taxes().
-   * Also, we should sort this list so cheapest things are bought first,
-   * and/or take danger into account.
-   * AJS, 1999110
-   */
 
   pplayer->economic.gold-=cost;
   if (pcity->shield_stock < total){
@@ -270,10 +269,6 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   city_refresh(pcity);
   
   conn_list_do_buffer(pplayer->connections);
-  notify_player_ex(pplayer, pcity->tile, 
-                   pcity->is_building_unit?E_UNIT_BUY:E_IMP_BUY,
-		   _("%s bought in %s for %d gold."), 
-		   name, pcity->name, cost);
   send_city_info(pplayer, pcity);
   send_player_info(pplayer,pplayer);
   conn_list_do_unbuffer(pplayer->connections);
