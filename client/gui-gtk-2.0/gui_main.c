@@ -1177,7 +1177,6 @@ void ui_main(int argc, char **argv)
   tilespec_load_tiles();
 
   setup_widgets();
-  load_intro_gfx();
   load_cursors();
 
   genlist_init(&history_list);

@@ -62,10 +62,6 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 struct Sprite *ssprite,
 					 bool fog);
 
-/* the intro picture is held in this pixmap, which is scaled to
-   the screen size */
-static SPRITE *scaled_intro_sprite = NULL;
-
 static GtkObject *map_hadj, *map_vadj;
 
 
@@ -342,43 +338,14 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
   static bool cleared = FALSE;
 
   if (!can_client_change_view()) {
-    if (map_configure || !scaled_intro_sprite) {
-
-      if (!intro_gfx_sprite) {
-        load_intro_gfx();
-      }
-
-      if (scaled_intro_sprite) {
-        free_sprite(scaled_intro_sprite);
-      }
-
-      scaled_intro_sprite = sprite_scale(intro_gfx_sprite,
-					 w->allocation.width,
-					 w->allocation.height);
-    }
-
-    if (scaled_intro_sprite) {
-      gdk_draw_drawable(map_canvas->window, civ_gc,
-			scaled_intro_sprite->pixmap,
-			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
-			ev->area.width, ev->area.height);
-      gtk_widget_queue_draw(overview_canvas);
-      cleared = FALSE;
-    } else {
-      if (!cleared) {
-	gtk_widget_queue_draw(w);
-	cleared = TRUE;
-      }
+    if (!cleared) {
+      gtk_widget_queue_draw(w);
+      cleared = TRUE;
     }
     map_center = TRUE;
   }
   else
   {
-    if (scaled_intro_sprite) {
-      free_sprite(scaled_intro_sprite);
-      scaled_intro_sprite = NULL;
-    }
-
     if (map_exists()) { /* do we have a map at all */
       gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store,
 			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
