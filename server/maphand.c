@@ -275,7 +275,7 @@ void give_citymap_from_player_to_player(struct city *pcity,
 **************************************************************************/
 void send_all_known_tiles(struct conn_list *dest)
 {
-  int y, x;
+  int tiles_sent;
 
   if (dest==NULL) dest = &game.game_connections;
   
@@ -285,10 +285,19 @@ void send_all_known_tiles(struct conn_list *dest)
     }
   } conn_list_iterate_end;
 
-  /* send whole map row by row to each player to balance the
-     load of the send buffers better */
-  for (y=0; y<map.ysize; y++) {
-    conn_list_do_buffer(dest);
+  /* send whole map piece by piece to each player to balance the load
+     of the send buffers better */
+  tiles_sent = 0;
+  conn_list_do_buffer(dest);
+
+  whole_map_iterate(x, y) {
+    tiles_sent++;
+    if ((tiles_sent % map.xsize) == 0) {
+      conn_list_do_unbuffer(dest);
+      flush_packets();
+      conn_list_do_buffer(dest);
+    }
+
     conn_list_iterate(*dest, pconn) {
       struct player *pplayer = pconn->player;
 
@@ -296,22 +305,17 @@ void send_all_known_tiles(struct conn_list *dest)
         continue;
       }
 
-      if (pplayer) {
-	for (x=0; x<map.xsize; x++) {
-	  if (map_get_known(x, y, pplayer)) {
-	    send_NODRAW_tiles(pplayer, &pconn->self, x, y, 0);
-	    send_tile_info_always(pplayer, &pconn->self, x, y);
-	  }
-	}
-      } else {
-	for (x=0; x<map.xsize; x++) {
-	  send_tile_info_always(pplayer, &pconn->self, x, y);
-	}
+      if (!pplayer) {
+	send_tile_info_always(pplayer, &pconn->self, x, y);
+      } else if (map_get_known(x, y, pplayer)) {
+	send_NODRAW_tiles(pplayer, &pconn->self, x, y, 0);
+	send_tile_info_always(pplayer, &pconn->self, x, y);
       }
     } conn_list_iterate_end;
-    conn_list_do_unbuffer(dest);
-    flush_packets();
-  }
+  } whole_map_iterate_end;
+
+  conn_list_do_unbuffer(dest);
+  flush_packets();
 }
 
 /**************************************************************************

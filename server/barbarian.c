@@ -81,7 +81,7 @@ static struct player *create_barbarian_player(int land)
 {
   int newplayer = game.nplayers;
   struct player *barbarians;
-  int i, j, k;
+  int i;
 
   for( i = 0; i < game.nplayers; i++ ) {
     barbarians = &game.players[i];
@@ -93,9 +93,9 @@ static struct player *create_barbarian_player(int land)
         pick_ai_player_name( game.nation_count-1, barbarians->name);
 	sz_strlcpy(barbarians->username, barbarians->name);
         /* I need to make them to forget the map, I think */
-        for( j = 0; j < map.xsize; j++ )
-          for( k = 0; k < map.ysize; k++ )
-            map_clear_known( j, k, barbarians);
+	whole_map_iterate(x, y) {
+	  map_clear_known(x, y, barbarians);
+	} whole_map_iterate_end;
       }
       barbarians->economic.gold += 100;  /* New leader, new money */
       return barbarians;

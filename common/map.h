@@ -277,6 +277,14 @@ void tile_init(struct tile *ptile);
 enum known_type tile_is_known(int x, int y);
 int is_real_tile(int x, int y);
 int is_normal_map_pos(int x, int y);
+
+/* 
+ * Determines whether the position is normal given that it's in the
+ * range 0<=x<map.xsize and 0<=y<map.ysize.  It's primarily a faster
+ * version of is_normal_map_pos since such checks are pretty common.
+ */
+#define regular_map_pos_is_normal(x, y) (1)
+
 /*
  * A "border position" is any one that has adjacent positions that are
  * not normal/proper.
@@ -480,9 +488,11 @@ extern struct tile_type tile_types[T_LAST];
 {                                                                             \
   int WMI_x_itr, WMI_y_itr;                                                   \
   for (WMI_y_itr = 0; WMI_y_itr < map.ysize; WMI_y_itr++)                     \
-    for (WMI_x_itr = 0; WMI_x_itr < map.xsize; WMI_x_itr++)
+    for (WMI_x_itr = 0; WMI_x_itr < map.xsize; WMI_x_itr++)                   \
+      if (regular_map_pos_is_normal(WMI_x_itr, WMI_y_itr)) {
 
 #define whole_map_iterate_end                                                 \
+      }                                                                       \
 }
 
 /*

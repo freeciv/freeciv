@@ -68,7 +68,7 @@
                                                         \
   for (y = 0; y < map.ysize; y++) {                     \
     for (x = 0; x < map.xsize; x++) {                   \
-      if (is_normal_map_pos(x, y)) {                    \
+      if (regular_map_pos_is_normal(x, y)) {            \
 	line[x] = get_xy_char;                          \
         if(!isprint(line[x] & 0x7f)) {                  \
           freelog(LOG_FATAL, "Trying to write invalid"  \
@@ -127,7 +127,7 @@
     }                                                         \
     for(x = 0; x < map.xsize; x++) {                          \
       char ch = line[x];                                      \
-      if (is_normal_map_pos(x, y)) {                          \
+      if (regular_map_pos_is_normal(x, y)) {                  \
 	set_xy_char;                                          \
       } else {                                                \
 	assert(ch == '#');                                    \

@@ -104,12 +104,38 @@ static char when_char (int when)
   return (((when >= 0) && (when < sizeof (list))) ? list[when] : '?');
 }
 
+/* 
+ * Writes the map_char_expr expression for each position on the map.
+ * map_char_expr is provided with the variables x,y to evaluate the
+ * position. The 'type' argument is used for formatting by printf; for
+ * instance it should be "%c" for characters.
+ */
+#define WRITE_MAP_DATA(type, map_char_expr)        \
+{                                                  \
+  int x, y;                                        \
+  for (x = 0; x < map.xsize; x++) {                \
+    printf("%d", x % 10);                          \
+  }                                                \
+  putchar('\n');                                   \
+  for (y = 0; y < map.ysize; y++) {                \
+    printf("%d ", y % 10);                         \
+    for (x = 0; x < map.xsize; x++) {              \
+      if (regular_map_pos_is_normal(x, y)) {       \
+	printf(type, map_char_expr);               \
+      } else {                                     \
+	putchar(' ');                              \
+      }                                            \
+    }                                              \
+    printf(" %d\n", y % 10);                        \
+  }                                                \
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
 static void print_landarea_map(struct claim_map *pcmap, int turn)
 {
-  int x, y, p;
+  int p;
 
   if (turn == 0) {
     putchar ('\n');
@@ -122,78 +148,27 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
       for (p = 0; p < game.nplayers; p++)
 	{
 	  printf (".know (%d)\n  ", p);
-	  for (x = 0; x < map.xsize; x++)
-	    {
-	      printf ("%d", x % 10);
-	    }
-	  putchar ('\n');
-	  for (y = 0; y < map.ysize; y++)
-	    {
-	      printf ("%d ", y % 10);
-	      for (x = 0; x < map.xsize; x++)
-		{
-		  printf ("%c",
-			  (pcmap->claims[map_inx(x,y)].know & (1u << p)) ?
-			  'X' :
-			  '-');
-		}
-	      printf (" %d\n", y % 10);
-	    }
+	  WRITE_MAP_DATA("%c",
+			 pcmap->claims[map_inx(x, y)].
+			 know & (1u << p) ? 'X' : '-');
 
 	  printf (".cities (%d)\n  ", p);
-	  for (x = 0; x < map.xsize; x++)
-	    {
-	      printf ("%d", x % 10);
-	    }
-	  putchar ('\n');
-	  for (y = 0; y < map.ysize; y++)
-	    {
-	      printf ("%d ", y % 10);
-	      for (x = 0; x < map.xsize; x++)
-		{
-		  printf ("%c",
-			  (pcmap->claims[map_inx(x,y)].cities & (1u << p)) ?
-			  'O' :
-			  '-');
-		}
-	      printf (" %d\n", y % 10);
-	    }
+	  WRITE_MAP_DATA("%c",
+			 pcmap->claims[map_inx(x, y)].
+			 cities & (1u << p) ? 'O' : '-');
 	}
     }
 
   printf ("Turn %d (%c)...\n", turn, when_char (turn));
 
   printf (".whom\n  ");
-  for (x = 0; x < map.xsize; x++)
-    {
-      printf ("%d", x % 10);
-    }
-  putchar ('\n');
-  for (y = 0; y < map.ysize; y++)
-    {
-      printf ("%d ", y % 10);
-      for (x = 0; x < map.xsize; x++)
-	{
-	  printf ("%X", pcmap->claims[map_inx(x,y)].whom);
-	}
-      printf (" %d\n", y % 10);
-    }
+  WRITE_MAP_DATA((pcmap->claims[map_inx(x, y)].whom ==
+		  32) ? "%c" : "%X",
+		 (pcmap->claims[map_inx(x, y)].whom ==
+		  32) ? '-' : pcmap->claims[map_inx(x, y)].whom);
 
   printf (".when\n  ");
-  for (x = 0; x < map.xsize; x++)
-    {
-      printf ("%d", x % 10);
-    }
-  putchar ('\n');
-  for (y = 0; y < map.ysize; y++)
-    {
-      printf ("%d ", y % 10);
-      for (x = 0; x < map.xsize; x++)
-	{
-	  printf ("%c", when_char (pcmap->claims[map_inx(x,y)].when));
-	}
-      printf (" %d\n", y % 10);
-    }
+  WRITE_MAP_DATA("%c", when_char(pcmap->claims[map_inx(x, y)].when));
 }
 
 #endif
