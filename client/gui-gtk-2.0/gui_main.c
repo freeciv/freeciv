@@ -298,6 +298,31 @@ static gboolean inputline_focus(GtkWidget *w, GdkEventFocus *ev, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
+static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
+{
+  switch (arg) {
+    case GTK_DIR_TAB_FORWARD:
+    case GTK_DIR_TAB_BACKWARD:
+      
+      if (!GTK_WIDGET_CAN_FOCUS(w)) {
+	return FALSE;
+      }
+
+      if (!gtk_widget_is_focus(w)) {
+	gtk_widget_grab_focus(w);
+	return TRUE;
+      }
+      break;
+
+    default:
+      break;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 {
   /* inputline history code */
@@ -329,11 +354,18 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 
     if (data)
       gtk_entry_set_text(GTK_ENTRY(inputline), data);
-
-    if (keypress)
-      g_signal_stop_emission_by_name(w, "key_press_event");
-
     return keypress;
+  }
+
+  if (ev->keyval == GDK_Page_Up) {
+    g_signal_emit_by_name(main_message_area, "move_cursor",
+			  GTK_MOVEMENT_PAGES, -1, FALSE);
+    return TRUE;
+  }
+  if (ev->keyval == GDK_Page_Down) {
+    g_signal_emit_by_name(main_message_area, "move_cursor",
+			  GTK_MOVEMENT_PAGES, 1, FALSE);
+    return TRUE;
   }
 
   if (!client_is_observer()) {
@@ -417,8 +449,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
         return FALSE;
     }
   }
-
-  g_signal_stop_emission_by_name(w, "key_press_event");
   return TRUE;
 }
 
@@ -924,6 +954,7 @@ void ui_main(int argc, char **argv)
   GdkBitmap *icon_bitmap;
   PangoLanguage *lang;
   const gchar *home;
+  guint sig;
 
   parse_options(argc, argv);
 
@@ -953,6 +984,13 @@ void ui_main(int argc, char **argv)
   gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
   g_signal_connect(toplevel, "delete_event", G_CALLBACK(gtk_main_quit), NULL);
+
+  /* Disable GTK+ cursor key focus movement */
+  sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
+  g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
+				       0, 0, 0, 0);
+  g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
+
 
   display_color_type = get_visual();
   init_color_system();
