@@ -1618,7 +1618,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
   if ( game.playable_nation_count >= MAX_NUM_NATIONS
        || game.playable_nation_count == 0) {
-    freelog(LOG_FATAL, "There can must be between 1 and %d nations", MAX_NUM_NATIONS);
+    freelog(LOG_FATAL, "There must be between 1 and %d nations", MAX_NUM_NATIONS);
     exit(1);    
   }
   alloc_nations(game.nation_count);
