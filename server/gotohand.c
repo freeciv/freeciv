@@ -563,10 +563,9 @@ static bool find_the_shortest_path(struct unit *punit,
   struct unit *pcargo;
   /* 
    * Land/air units use warmap.cost while sea units use
-   * warmap.seacost.  Don't ask me why.  --JDS 
+   * warmap.seacost.  Some code will use both.
    */
-  unsigned char *warmap_cost =
-      (move_type == SEA_MOVING) ? warmap.seacost : warmap.cost;
+  unsigned char *warmap_cost;
 
   orig_x = punit->x;
   orig_y = punit->y;
@@ -578,6 +577,7 @@ static bool find_the_shortest_path(struct unit *punit,
   local_vector[orig_x][orig_y] = 0;
 
   init_warmap(punit->x, punit->y, move_type);
+  warmap_cost = (move_type == SEA_MOVING) ? warmap.seacost : warmap.cost;
   add_to_mapqueue(0, orig_x, orig_y);
 
   if (punit && unit_flag(punit, F_IGTER))
