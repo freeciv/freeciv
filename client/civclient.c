@@ -76,9 +76,35 @@ void handle_remove_player(struct packet_generic_integer *packet);
 /**************************************************************************
 ...
 **************************************************************************/
+char usage[] = 
+"Usage: %s [-bhlpsv] [--bgcol] [--cmap] [--help] [--log] [--name]\n\t[--port] [--server] [--debug] [--version] [--tiles]\n";
+
+/**************************************************************************
+...
+**************************************************************************/
 
 int main(int argc, char *argv[])
 {
+  if(strstr(argv[1],"-help")) {
+    fprintf(stderr, "This is the Freeciv client\n");
+    fprintf(stderr, usage, argv[0]);
+    fprintf(stderr, "  -help\t\t\tPrint a summary of the options\n");
+    fprintf(stderr, "  -log F\t\tUse F as logfile\n");
+    fprintf(stderr, "  -name N\t\tUse N as name\n");
+    fprintf(stderr, "  -port N\t\tconnect to port N\n");
+    fprintf(stderr, "  -server S\t\tConnect to the server at S\n");
+    fprintf(stderr, "  -debug N\t\tSet debug log level (0,1,2)\n");
+    fprintf(stderr, "  -version\t\tPrint the version number (%s)\n", \
+                    FREECIV_NAME_VERSION);
+    fprintf(stderr, "  -tiles D\t\tLook in directory D for the tiles\n");
+    exit(0);
+  }
+  
+  if(strstr(argv[1],"-version")) {
+    fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
+    exit(0);
+  }
+
   /*  audio_init(); */
   init_messages_where();
   game_init();

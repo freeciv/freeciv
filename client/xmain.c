@@ -70,12 +70,6 @@ extern char *tile_set_dir;
 /**************************************************************************
 ...
 **************************************************************************/
-char usage[] = 
-"Usage: %s [-bhlpsv] [--bgcol] [--cmap] [--help] [--log] [--name]\n\t[--port] [--server] [--debug] [--version] [--tiles]\n";
-
-/**************************************************************************
-...
-**************************************************************************/
 XtResource resources[] = {
     { "GotAppDefFile", "gotAppDefFile", XtRBoolean, sizeof(Boolean),
       XtOffset(AppResources *,gotAppDefFile), XtRImmediate, (XtPointer)False},
@@ -91,10 +85,12 @@ XtResource resources[] = {
       XtOffset(AppResources *,loglevel), XtRImmediate, (XtPointer)False},
     { "version", "Version", XtRString, sizeof(String),
       XtOffset(AppResources *,version), XtRImmediate, (XtPointer)False},
+/*
     { "showHelp", "ShowHelp", XtRBoolean, sizeof(Boolean),
       XtOffset(AppResources *,showHelp), XtRImmediate, (XtPointer)False},
     { "showVersion", "ShowVersion", XtRBoolean, sizeof(Boolean),
       XtOffset(AppResources *,showVersion), XtRImmediate, (XtPointer)False},
+*/
     { "tileset", "TileSet", XtRString, sizeof(String),
       XtOffset(AppResources *,tileset), XtRImmediate, (XtPointer)False},
 };
@@ -103,22 +99,22 @@ XtResource resources[] = {
 ...
 **************************************************************************/
 static XrmOptionDescRec options[] = {
- { "-help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },
+/* { "-help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },*/
  { "-log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
  { "-name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
  { "-port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "-server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
  { "-debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "-tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" },
- { "-version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" },
- { "--help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },
+/* { "-version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" },
+ { "--help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },*/
  { "--log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
  { "--name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
  { "--port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "--debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "--server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
- { "--tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" },
- { "--version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" }
+ { "--tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" }
+/* { "--version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" }*/
 };
 
 extern int sound_bell_at_new_turn;
@@ -300,25 +296,6 @@ void x_main(int argc, char *argv[])
   
   if(!appResources.gotAppDefFile) {
     flog(LOG_NORMAL, "Using fallback resources - which is OK");
-  }
-
-  if(appResources.showHelp) {
-    fprintf(stderr, "This is the Freeciv client\n");
-    fprintf(stderr, usage, argv[0]);
-    fprintf(stderr, "  -help\t\t\tPrint a summary of the options\n");
-    fprintf(stderr, "  -log F\t\tUse F as logfile\n");
-    fprintf(stderr, "  -name N\t\tUse N as name\n");
-    fprintf(stderr, "  -port N\t\tconnect to port N\n");
-    fprintf(stderr, "  -server S\t\tConnect to the server at S\n");
-    fprintf(stderr, "  -debug N\t\tSet debug log level (0,1,2)\n");
-    fprintf(stderr, "  -version\t\tPrint the version number\n");
-    fprintf(stderr, "  -tiles D\t\tLook in directory D for the tiles\n");
-    exit(0);
-  }
-  
-  if(appResources.showVersion) {
-    fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
-    exit(0);
   }
 
   if(appResources.name) {
