@@ -560,20 +560,19 @@ ui_main(int argc, char *argv[])
   freecivaccel=my_create_menu_acceltable();
  
   set_client_state(CLIENT_PRE_GAME_STATE);
-  
-  SetTimer(root_window,1,100,socket_timer);
+
   SetTimer(root_window, 2, TIMER_INTERVAL, blink_timer);
-  while (GetMessage(&msg,NULL,0,0))
-    {
-      if (!((msg.hwnd==root_window)&&(TranslateAccelerator(root_window,
-                                                           freecivaccel,
-                                                           &msg))))
-        {     
-          TranslateMessage(&msg);
-          DispatchMessage(&msg);
-        }
-      
-    }      
+
+  while (1) {
+    socket_timer(NULL, 0, 0, 0);
+    while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+      if (!((msg.hwnd == root_window)
+	  && (TranslateAccelerator(root_window, freecivaccel, &msg)))) {
+	TranslateMessage(&msg);
+	DispatchMessage(&msg);   
+      }
+    }
+  }
 }
 
 
