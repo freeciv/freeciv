@@ -232,6 +232,34 @@ struct settings_s settings[] = {
     "Number of initial advances per player", "" },
 
 /* Various rules: these cannot be changed once the game has started. */
+  { "techs", NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    0, 0, 0,
+    "Data subdir containing techs.ruleset",
+    "  This should specify a subdirectory of the data directory, containing a\n"
+    "  file called \"techs.ruleset\".  The advances (technologies) present in\n"
+    "  the game will be initialized from this file.  See also README.rulesets.",
+    game.ruleset.techs, GAME_DEFAULT_RULESET },
+
+  { "units", NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    0, 0, 0,
+    "Data subdir containing units.ruleset",
+    "  This should specify a subdirectory of the data directory, containing a\n"
+    "  file called \"units.ruleset\".  The unit types present in the game will\n"
+    "  be initialized from this file.  See also README.rulesets.",
+    game.ruleset.units, GAME_DEFAULT_RULESET },
+
+  { "buildings", NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    0, 0, 0,
+    "Data subdir containing buildings.ruleset",
+    "  This should specify a subdirectory of the data directory, containing a\n"
+    "  file called \"buildings.ruleset\".  The building types (City Improvements\n"
+    "  and Wonders) in the game will be initialized from this file.\n"
+    "  See also README.rulesets.",
+    game.ruleset.buildings, GAME_DEFAULT_RULESET },
+
   { "researchspeed", &game.techlevel,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,
@@ -334,7 +362,8 @@ struct settings_s settings[] = {
     GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE,
     "Style of Civ rules",
     "  Sets some basic rules; 1 means style of Civ1, 2 means Civ2.  Currently\n"
-    "  this option is mostly unimplemented and only affects a few rules." },
+    "  this option is mostly unimplemented and only affects a few rules.\n"
+    "  See also README.rulesets and the techs, units, and buildings options." },
 
 /* Flexible rules: these can be changed after the game has started.
  * Should such flexible rules exist?  diplchance is included here
@@ -718,7 +747,7 @@ void explain_option(char *str)
     }
     else {
       struct settings_s *op = &settings[cmd];
-      
+
       printf("Option: %s\n", op->name);
       printf("Description: %s.\n", op->short_help);
       if(op->extra_help && strcmp(op->extra_help,"")!=0) {
