@@ -702,11 +702,16 @@ void init_sdl(int iFlags)
 
   Main.screen = NULL;
   Main.rects_count = 0;
-	
-  if (SDL_Init(iFlags) < 0) {
-    freelog(LOG_FATAL, _("(File %s line %d):"
-			 "Unable to initialize SDL library : %s"),
-	    __FILE__, __LINE__, SDL_GetError());
+  bool error;
+
+  if (SDL_WasInit(SDL_INIT_AUDIO)) {
+    error = (SDL_InitSubSystem(iFlags) < 0);
+  } else {
+    error = (SDL_Init(iFlags) < 0);
+  }
+  if (error) {
+    freelog(LOG_FATAL, _("Unable to initialize SDL library: %s"),
+	    SDL_GetError());
     exit(1);
   }
 
