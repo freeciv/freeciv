@@ -1036,7 +1036,9 @@ void ai_diplomacy_actions(struct player *pplayer)
     if (aplayer->is_alive
         && adip->at_war_with_ally
         && !adip->is_allied_with_ally
-        && !pplayers_at_war(pplayer, aplayer)) {
+        && !pplayers_at_war(pplayer, aplayer)
+	&& (pplayer_get_diplstate(pplayer, aplayer)->type != DS_CEASEFIRE || 
+	    myrand(5) < 1)) {
       notify(aplayer, _("*%s (AI)* Your aggression against my allies was "
 			"your last mistake!"), pplayer->name);
       ai_go_to_war(pplayer, ai, aplayer);
