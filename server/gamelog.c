@@ -36,14 +36,14 @@ filename can be NULL, which means no logging.
 ***************************************************************************/
 void gamelog_init(char *filename)
 {
-  gamelog_level=GAMELOG_FULL;
-  gamelog_filename=filename;
+  gamelog_level = GAMELOG_FULL;
+  gamelog_filename = filename;
 }
 
 /**************************************************************************/
 void gamelog_set_level(int level)
 {
-  gamelog_level=level;
+  gamelog_level = level;
 }
 
 /**************************************************************************/
@@ -59,7 +59,7 @@ void gamelog(int level, char *message, ...)
     return;
 
   fs=fopen(gamelog_filename, "a");
-  if(!fs) {
+  if (!fs) {
     freelog(LOG_FATAL, _("Couldn't open gamelogfile \"%s\" for appending."), 
 	    gamelog_filename);
     exit(EXIT_FAILURE);
@@ -69,15 +69,17 @@ void gamelog(int level, char *message, ...)
   my_vsnprintf(buf, sizeof(buf), message, args);
   if (level==GAMELOG_MAP){
     if (buf[0] == '(')  /* KLUGE!! FIXME: remove when we fix the gamelog format --jjm */
-      fprintf(fs,"%i %s\n", game.year,buf);
+      fprintf(fs, "%i %s\n", game.year, buf);
     else
-      fprintf(fs,"%s\n",buf);
-  } else if (level==GAMELOG_EOT){
-    fprintf(fs,"*** %s\n",buf);
-  } else if (level==GAMELOG_RANK){
-    fprintf(fs,"RANK %s\n",buf);
+      fprintf(fs,"%s\n", buf);
+  } else if (level == GAMELOG_EOT){
+    fprintf(fs,"*** %s\n", buf);
+  } else if (level == GAMELOG_RANK){
+    fprintf(fs,"RANK %s\n", buf);
+  } else if (level == GAMELOG_STATUS){   
+    fprintf(fs, "STATUS %s\n", buf);
   } else {
-    fprintf(fs,"%i %s\n", game.year,buf);
+    fprintf(fs, "%i %s\n", game.year,buf);
   }
   fflush(fs);
   fclose(fs);
@@ -87,17 +89,17 @@ void gamelog(int level, char *message, ...)
 void gamelog_map(void)
 {
   int x, y;
-  char *hline = fc_calloc(map.xsize+1,sizeof(char));
+  char *hline = fc_calloc(map.xsize+1, sizeof(char));
 
-  for (y=0;y<map.ysize;y++) {
-    for (x=0;x<map.xsize;x++) {
+  for (y = 0; y < map.ysize; y++) {
+    for (x = 0; x < map.xsize; x++) {
       if (regular_map_pos_is_normal(x, y)) {
 	hline[x] = (map_get_terrain(x, y) == T_OCEAN) ? ' ' : '.';
       } else {
 	hline[x] = '#';
       }
     }
-    gamelog(GAMELOG_MAP,"%s",hline);
+    gamelog(GAMELOG_MAP, "%s", hline);
   }
   free(hline);
 }
@@ -115,13 +117,13 @@ static int secompare1(const void *a, const void *b)
 }
 
 void gamelog_save(void){
-  /*lifted from historian_largest()*/
+  /* lifted from historian_largest() */
   int i, count = 0;
   char buffer[4096];
   struct player_score_entry *size=
-    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
+    fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
   struct player_score_entry *rank=
-    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
+    fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
 
   players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {
@@ -134,8 +136,8 @@ void gamelog_save(void){
   } players_iterate_end;
 
   qsort(size, count, sizeof(struct player_score_entry), secompare1);
-  buffer[0]=0;
-  for (i=0;i<count;i++) {
+  buffer[0] = 0;
+  for (i = 0; i < count; i++) {
     cat_snprintf(buffer, sizeof(buffer),
 		 "%2d: %s(%i)  ",
 		 i+1,
@@ -145,13 +147,24 @@ void gamelog_save(void){
   gamelog(GAMELOG_EOT,buffer);
   free(size);
   qsort(rank, count, sizeof(struct player_score_entry), secompare1);
-  buffer[0]=0;
-  for (i=0;i<count;i++) {
+  buffer[0] = 0;
+  for (i = 0; i < count; i++) {
     cat_snprintf(buffer, sizeof(buffer),
 		 "%s,%i|",
 		 game.players[rank[i].idx].name,
 		 rank[i].value);
   }
   gamelog(GAMELOG_RANK,buffer);
+  buffer[0] = 0;
+  for (i = 0; i < count; i++) {
+    cat_snprintf(buffer, sizeof(buffer),    
+         "%s,%i,%i,%i|",
+         game.players[rank[i].idx].name,
+         game.players[rank[i].idx].ai.control * game.players[rank[i].idx].ai.skill_level,
+         game.players[rank[i].idx].is_connected,
+         rank[i].value);
+  }
+  gamelog(GAMELOG_STATUS, buffer);
+
   free(rank);
 }
