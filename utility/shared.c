@@ -372,7 +372,7 @@ static bool is_ascii(char ch)
 ***************************************************************/
 bool is_ascii_name(const char *name)
 {
-  const char illegal_chars[] = {'|', '%', '"', ',', '*', '\0'};
+  const char illegal_chars[] = {'|', '%', '"', ',', '*', '<', '>', '\0'};
   int i, j;
 
   /* must not be NULL or empty */
