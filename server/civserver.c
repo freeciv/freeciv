@@ -311,27 +311,27 @@ int main(int argc, char *argv[])
       races_used[i]=i;
   }
 
-  /* allow players to select a race(case new game} */
-/* come on, this can't be right!
-  for(i=0; i<game.nplayers && game.players[i].race!=R_LAST
-      && !game.players[i].ai.control; i++); */
-  for(i=0; i<game.nplayers && game.players[i].race!=R_LAST; i++);
-  
-  /* at least one player is missing a race */
-  if(i<game.nplayers) { 
-/* this is bizarre!  Who wrote this and how long has it been this way?? -- Syela */
-    send_select_race(&game.players[i]);
-    for(i=0; i<game.nplayers; i++)
+  /* Allow players to select a race (case new game).
+   * AI players may not yet have a race; these will be selected
+   * in generate_ai_players() later
+   */
+  server_state = RUN_GAME_STATE;
+  for(i=0; i<game.nplayers; i++) {
+    if (game.players[i].race == R_LAST && !game.players[i].ai.control) {
       send_select_race(&game.players[i]);
-
-    while(server_state==SELECT_RACES_STATE) {
-      sniff_packets();
-      for(i=0; i<game.nplayers; i++)
-	if((game.players[i].race==R_LAST) && !game.players[i].ai.control)
-	  break;
-      if(i==game.nplayers)
-	server_state=RUN_GAME_STATE;
+      server_state = SELECT_RACES_STATE;
     }
+  }
+  
+  while(server_state==SELECT_RACES_STATE) {
+    sniff_packets();
+    for(i=0; i<game.nplayers; i++) {
+      if (game.players[i].race == R_LAST && !game.players[i].ai.control) {
+	break;
+      }
+    }
+    if(i==game.nplayers)
+      server_state=RUN_GAME_STATE;
   }
 
   if(!game.randseed) {
