@@ -77,10 +77,15 @@ static int *reports_thaw_requests = NULL;
 static int reports_thaw_requests_size = 0;
 
 /**************************************************************************
-...
+  Unpackage the unit information into a newly allocated unit structure.
 **************************************************************************/
-static void unpackage_unit(struct unit *punit, struct packet_unit_info *packet)
+static struct unit * unpackage_unit(struct packet_unit_info *packet)
 {
+  struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
+					   packet->type, packet->veteran);
+
+  /* Owner, veteran, and type fields are already filled in by
+   * create_unit_virtual. */
   punit->id = packet->id;
   punit->x = packet->x;
   punit->y = packet->y;
@@ -100,6 +105,8 @@ static void unpackage_unit(struct unit *punit, struct packet_unit_info *packet)
   punit->activity_target = packet->activity_target;
   punit->paradropped = packet->paradropped;
   punit->connecting = packet->connecting;
+
+  return punit;
 }
 
 /**************************************************************************
@@ -838,22 +845,20 @@ void handle_unit_info(struct packet_unit_info *packet)
     if (last_serial_num != packet->serial_num) {
       last_serial_num = packet->serial_num;
       unit_list_iterate(pcity->info_units_supported, psunit) {
-	free(psunit);
+	destroy_unit_virtual(psunit);
       } unit_list_iterate_end;
       unit_list_unlink_all(&(pcity->info_units_supported));
       unit_list_iterate(pcity->info_units_present, ppunit) {
-	free(ppunit);
+	destroy_unit_virtual(ppunit);
       } unit_list_iterate_end;
       unit_list_unlink_all(&(pcity->info_units_present));
     }
     /* okay, append a unit struct to the proper list */
+    punit = unpackage_unit(packet);
     if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
-      punit = fc_malloc(sizeof(struct unit));
-      unpackage_unit(punit, packet);
       unit_list_insert(&(pcity->info_units_supported), punit);
-    } else if (packet->packet_use == UNIT_INFO_CITY_PRESENT) {
-      punit = fc_malloc(sizeof(struct unit));
-      unpackage_unit(punit, packet);
+    } else {
+      assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
       unit_list_insert(&(pcity->info_units_present), punit);
     }
     /* done with special case */
@@ -1055,9 +1060,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     agents_unit_changed(punit);
   } else {
     /* create new unit */
-    punit = create_unit_virtual(get_player(packet->owner), NULL,
-                                packet->type, packet->veteran);
-    unpackage_unit(punit, packet);
+    punit = unpackage_unit(packet);
     idex_register_unit(punit);
 
     unit_list_insert(&get_player(packet->owner)->units, punit);
