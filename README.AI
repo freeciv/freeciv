@@ -1,19 +1,24 @@
-    While I've done quite a lot of work since 1.6.3, the AI is far
-from complete.  It's finally competent, at least, although there are
-certain situations it still doesn't handle well.  Over the final hours
-before the 1.7.0 release, I tried to teach it to handle a number of
-unusual cases, many of which haven't been tested.  If it does something
-stupid or questionable that isn't referred to as a Known Problem,
-send me mail describing the problem and attach a save file so I can
-take a look at it.  If you have opinions on which of the below are most
-important, send me mail about it.  I'm always happy to get user feedback.
+    I haven't worked on the AI as much for the past three weeks as
+I did for the previous three months.  I did substantially improve
+its ability to manage invasions and conquer cities, and prevent
+misbehaviors that I doubt anyone else would have realized were bugs.
+The AI seems capable of winning against experienced players now,
+although to my dismay it still hasn't beaten me.
+
+    The AI is getting so complicated that I'm sure there are problems
+that I haven't encountered.  If it does something stupid or questionable
+that isn't referred to as a Known Problem, send me mail mail describing
+the problem and attach a save file so I can take a look at it.  If you
+have opinions on which of the below are most important, send me mail
+about it.  I'm always happy to get user feedback.
 
     The AI difficulty levels aren't fully implemented.  I've done all my
 work getting the default level to work right, and based on what I've
-heard, I defined that level as 'hard'.  I made some minor changes to
-get the AI to acknowledge 'normal', but I don't know if it's going
-to behave reasonably at that level or not.  It seems to, but 'normal'
-mode has only existed for a few hours, so it hasn't really been tested.
+heard, I defined that level as 'hard'.  The only available alternative
+is 'normal', where the AI doesn't know where huts and military targets
+are before it sees them, and also must obey government max rates.
+It seems to behave sensibly in the few tests I've run in normal mode,
+and I haven't gotten any complaints that there are problems with it.
 There is no 'easy' mode yet, although I suspect there needs to be.
 
 John Stonebraker
@@ -45,57 +50,25 @@ AI doesn't know how to make trade routes or when
 AI is vulnerable to well co-ordinated mass attacks
 AI doesn't acknowledge effects of MAGELLAN in some of its calculations
 Boats sometimes sail away from landlocked would-be passengers
-Transport paranoia code is mostly working but not 100% reliable
 Ferryboats crossing at sea might lead to unwanted behavior
+Emergencies in two cities at once aren't handled properly
+Auto-settlers never change terrain types
 
 Partially fixed problems:
 -------------------------------------------------------------------------
-AI handicaps are not implemented
+AI handicaps are minimally implemented
 AI manages workers one at a time, which is not as dumb as it used to be
-
-Recently fixed problems:
--------------------------------------------------------------------------
-Caravans still waste turns helping with wonders
-Ferryboats remain on GOTO even after their passengers leave
-Settlers sometimes leave ferryboats too early just because they can
-When aboard ship, settlers calculate distances stupidly.
-Only ground units and ferryboats should be grave or urgent danger
-AI disbands units it can't upkeep rather than scrapping them
-Other cities should avail tiles to prevent famine or disorder
-AI doesn't really understand the consequences of pollution yet
-Something mungs the minimap
-Move costs were not being reset when a city was created or destroyed
-AI cities occasionally repeatedly have and resolve emergencies
-AI doesn't attack enough
-AI doesn't co-ordinate city defenders
-Only settlers use ferryboats when ground forces also should
-AI doesn't understand it needs ground forces to take over cities
-Bodyguard and charge are not yet implemented
-AI doesn't co-ordinate attacking forces
-In the near <city> combat messages, <city> may be unknown.
-Explorer routine should be available to players from the client
-Boats with both settlers and attackers aboard misbehave
-AI's economic rates are not limited by government
-Desire to build units to attack wounded enemy units was buggy
-In obscure circumstances, failed to find elvis pos even when it exists
-Asymmetry in move costs caused the AI to misjudge danger sometimes
-AI wouldn't buy units when danger was exactly equal to defense
-AI has widespread disorder when Railroad/Theology obsoletes a wonder
-AI buys extra defenders when it could instead buy walls
-AI will spend 1000 gold to buy a battleship for defense of a city
-Auto-settlers know tiles are irrigable even if water source is unseen
+Transport paranoia code is mostly working but not 100% reliable
+Auto-settlers have a simplistic idea of enemy territory
 
 Idea space:
 -------------------------------------------------------------------------
 Friendly cities can be used as beachheads
 It might be best to only sentry the #1 passenger and its bodyguard
-Unit_move_turns should be implemented more thorougly
-Assume to-be-built ground attackers are veterans once gunpowder is learned
+Unit_move_turns should be implemented more thoroughly
 Assess_danger should acknowledge positive feedback between multiple attackers
 Urgency and grave_danger should probably be ints showing magnitude of danger
 It would be nice for bodyguard and charge to meet en-route more elegantly
 It may be correct to starve workers instead of allowing disorder to continue
-
-For land attacks, a chariot might be better than a catapult, but
-for sea attacks it's probably worse.  Correct might be two fstk calls,
-one which forbids ferryboating, and one which almost demands it.
+Bodyguards could be used much more often
+AI should sell barracks (and other worthless buildings) voluntarily
