@@ -227,6 +227,8 @@ Settlers consume 1 food per turn under Despotism.  Squares which\
  Despotic rule).  (This penalty is removed if the city is\
  celebrating; see Happiness.)\
 \n\n\
+The maximum rate you can set for science, tax or luxuries is 60%.\
+\n\n\
 Under Despotism, each of your cities can support a number of\
  military units equal to its size without paying shields for\
  upkeep.  (Additional units require 1 production shield each.)\
@@ -294,6 +296,8 @@ Settlers consume 1 food per turn under Monarchy.\
 If a city governed by a Monarchy is celebrating, it will receive a\
  bonus of 1 trade in each square which already produces at least 1\
  trade.  See Happiness for details.\
+\n\n\
+The maximum rate you can set for science, tax or luxuries is 70%.\
 \n\n\
 Under Monarchy, your cities can support up to 3 military units\
  without paying shields for upkeep.  (Additional units require 1\
@@ -368,6 +372,8 @@ If a city governed by Communism is celebrating, it will receive a\
  bonus of 1 trade in each square which already produces at least 1\
  trade.  See Happiness for details.\
 \n\n\
+The maximum rate you can set for science, tax or luxuries is 80%.\
+\n\n\
 Diplomats and Spies created under Communism are always veterans.\
 \n\n\
 Under Communism, your cities can support up to 3 military units\
@@ -440,6 +446,8 @@ Settlers consume 2 food per turn under the Republic.  Squares with\
 \n\n\
 Republican cities which are celebrating grow at a rate of 1 citizen\
  per turn; see Happiness for details.\
+\n\n\
+The maximum rate you can set for science, tax or luxuries is 80%.\
 \n\n\
 Under the Republic, military units require 1 production shield each\
  for upkeep.  In addition the following units are considered\
@@ -515,6 +523,9 @@ Settlers consume 2 food per turn under Democracy.  Squares with\
 \n\n\
 Democratic cities which are celebrating grow at a rate of 1 citizen\
  per turn; see Happiness for details.\
+\n\n\
+There are no taxation limits under Democracy; you can set science, tax\
+ or luxuries to 100%.\
 \n\n\
 Under Democracy, military units require 1 production shield each for\
  upkeep.  In addition the following units generate unhappiness:\
