@@ -1006,22 +1006,13 @@ void initialize_move_costs(void)
 }
 
 /***************************************************************
-  The cost to move punit from x1,y1 to x2,y2
-  The tiles are assumed to be adjacent
+  The cost to move punit from where it is to tile x,y.
+  It is assumed the move is a valid one, e.g. the tiles are adjacent.
 ***************************************************************/
-int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2)
+int map_move_cost(struct unit *punit, int x, int y)
 {
-  return tile_move_cost_ptrs(punit, map_get_tile(x1,y1),
-			     map_get_tile(x2,y2), x1, y1, x2, y2);
-}
-
-/***************************************************************
-  The cost to move punit from where it is to tile x1,y1.
-  It is assumed the move is a valid one, e.g. the tiles are adjacent
-***************************************************************/
-int map_move_cost(struct unit *punit, int x1, int y1)
-{
-  return tile_move_cost(punit, punit->x, punit->y, x1, y1);
+  return tile_move_cost_ptrs(punit, map_get_tile(punit->x,punit->y),
+			     map_get_tile(x, y), punit->x, punit->y, x, y);
 }
 
 /***************************************************************

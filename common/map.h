@@ -195,8 +195,7 @@ int normalize_map_pos(int *x, int *y);
 
 int is_water_adjacent_to_tile(int x, int y);
 int is_tiles_adjacent(int x0, int y0, int x1, int y1);
-int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2);
-int map_move_cost(struct unit *punit, int x1, int y1);
+int map_move_cost(struct unit *punit, int x, int y);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
 enum tile_terrain_type get_terrain_by_name(char * name);
 char *get_terrain_name(enum tile_terrain_type type);
