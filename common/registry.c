@@ -306,10 +306,10 @@ void section_file_check_unused(struct section_file *file, const char *filename)
     entry_list_iterate(psection->entries, pentry) {
       if (pentry->used == 0) {
 	if (any == 0 && filename) {
-	  freelog(LOG_NORMAL, "Unused entries in file %s:", filename);
+	  freelog(LOG_VERBOSE, "Unused entries in file %s:", filename);
 	  any = 1;
 	}
-	freelog(LOG_NORMAL, "  unused entry: %s.%s",
+	freelog(LOG_VERBOSE, "  unused entry: %s.%s",
 		psection->name, pentry->name);
       }
     }
