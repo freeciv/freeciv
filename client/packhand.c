@@ -247,9 +247,11 @@ void handle_city_info(struct packet_city_info *packet)
 
   if(((city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
       pcity->owner==game.player_idx) || packet->diplomat_investigate) &&
-      (!game.player_ptr->ai.control || ai_popup_windows)) 
+     (!game.player_ptr->ai.control || ai_popup_windows)) {
+    update_menus();
     popup_city_dialog(pcity, 0);
-  
+  }
+
   if(!city_is_new && pcity->owner==game.player_idx) {
     struct unit *punit = get_unit_in_focus();
     if (punit && (punit->x == pcity->x) && (punit->y == pcity->y)) {

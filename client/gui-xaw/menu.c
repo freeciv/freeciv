@@ -246,16 +246,24 @@ void update_menus(void)
     menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS2, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 0);
-  
   }
   else {
     struct unit *punit;
+    int i;
+    int any_cities = FALSE;
+
+    for(i=0; i<game.nplayers; i++) {
+      if (city_list_size(&game.players[i].cities)) {
+	any_cities = TRUE;
+	break;
+      }
+    }
+
     XtVaSetValues(reports_menu->button, XtNsensitive, True, NULL);
     XtVaSetValues(orders_menu->button, XtNsensitive, True, NULL);
     XtVaSetValues(view_menu->button, XtNsensitive, True, NULL);
   
-    menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, any_cities);
     menu_entry_sensitive(game_menu, MENU_GAME_OPTIONS, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_MSG_OPTIONS, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_SAVE_SETTINGS, 1);
@@ -268,7 +276,6 @@ void update_menus(void)
     menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_DISCONNECT, 1);
-    menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 1);
 
     menu_entry_sensitive(reports_menu, MENU_REPORT_SPACESHIP,
 			 (game.player_ptr->spaceship.state!=SSHIP_NONE));
@@ -324,6 +331,8 @@ void update_menus(void)
       menu_entry_sensitive(orders_menu, MENU_ORDER_WAKEUP, 
 			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
 				punit->x,punit->y));
+      menu_entry_sensitive(orders_menu, MENU_ORDER_GOTO_CITY,
+			   any_cities);
       menu_entry_sensitive(orders_menu, MENU_ORDER_BUILD_WONDER,
 			   unit_can_help_build_wonder_here(punit));
       menu_entry_sensitive(orders_menu, MENU_ORDER_TRADE_ROUTE,

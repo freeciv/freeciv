@@ -95,6 +95,7 @@ void popup_goto_dialog(void)
 {
   Position x, y;
   Dimension width, height;
+  Boolean no_player_cities = !(city_list_size(&game.player_ptr->cities));
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
@@ -143,6 +144,8 @@ void popup_goto_dialog(void)
   goto_all_toggle = XtVaCreateManagedWidget("gotoalltoggle",
   					    toggleWidgetClass,
 					    goto_form,
+					    XtNstate, no_player_cities,
+					    XtNsensitive, !no_player_cities,
 					    NULL);
 
   goto_cancel_command = XtVaCreateManagedWidget("gotocancelcommand", 
@@ -334,6 +337,8 @@ static void cleanup_goto_list(void)
   int i;
 
   XawListChange(goto_list, dummy_city_list, 0, 0, FALSE);
+
+  XtSetSensitive(goto_airlift_command, False);
 
   if(city_name_ptrs) {
     for(i=0; i<ncities_total; i++) {
