@@ -24,6 +24,10 @@
 #include <Dialogs.h>
 #endif
 
+#ifdef WIN32_NATIVE
+#include <windows.h>
+#endif
+
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -53,6 +57,15 @@ int main(int argc, char *argv[])
   bool showhelp = FALSE;
   bool showvers = FALSE;
   char *option = NULL;
+
+  /* Load win32 post-crash debugger */
+#ifdef WIN32_NATIVE
+# ifndef NDEBUG
+  if (LoadLibrary("exchndl.dll") == NULL) {
+    fprintf(stderr, "exchndl.dll could not be loaded");
+  }
+# endif
+#endif
 
   /* initialize server */
   srv_init();
