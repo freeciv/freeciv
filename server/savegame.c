@@ -1992,12 +1992,6 @@ void game_load(struct section_file *file)
     /* Initialise lists of improvements with World and Island equiv_ranges */
     improvement_status_init(game.improvements,
 			    ARRAY_SIZE(game.improvements));
-
-    /* Blank vector of effects with world-wide range. */
-    geff_vector_free(&game.effects);
-
-    /* Blank vector of destroyed effects. */
-    ceff_vector_free(&game.destroyed_effects);
   }
 
   map_load(file);
@@ -2018,6 +2012,9 @@ void game_load(struct section_file *file)
     for(i=0; i<game.nplayers; i++) {
       player_load(&game.players[i], i, file); 
     }
+
+    update_island_impr_effect(-1, map.num_continents);
+
     /* Since the cities must be placed on the map to put them on the
        player map we do this afterwards */
     for(i=0; i<game.nplayers; i++) {

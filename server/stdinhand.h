@@ -28,6 +28,8 @@ bool read_init_script(struct connection *caller, char *script_filename);
 void show_players(struct connection *caller);
 
 void quit_game(struct connection *caller);
+void load_command(struct connection *caller, char *arg);
+
 
 void toggle_ai_player_direct(struct connection *caller,
 			     struct player *pplayer);

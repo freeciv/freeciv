@@ -768,6 +768,11 @@ int server_open_socket(void)
 void init_connections(void)
 {
   int i;
+
+  conn_list_init(&game.all_connections);
+  conn_list_init(&game.est_connections);
+  conn_list_init(&game.game_connections);
+
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) { 
     struct connection *pconn = &connections[i];
     pconn->used = FALSE;

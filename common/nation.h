@@ -100,6 +100,7 @@ bool check_nation_leader_name(Nation_Type_id nation, const char *name);
 void nations_alloc(int num);
 void nations_free(void);
 void nation_free(Nation_Type_id nation);
+void nation_city_names_free(struct city_name *city_names);
 int get_nation_city_style(Nation_Type_id nation);
 
 #endif  /* FC__NATION_H */

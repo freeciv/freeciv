@@ -1784,25 +1784,9 @@ void srv_main(void)
 
   /* load a saved game */
   
-  if(srvarg.load_filename) {
-    struct timer *loadtimer, *uloadtimer;
-    struct section_file file;
-    
-    freelog(LOG_NORMAL, _("Loading saved game: %s"), srvarg.load_filename);
-    loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
-    uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
-    if(!section_file_load_nodup(&file, srvarg.load_filename)) { 
-      freelog(LOG_FATAL, _("Couldn't load savefile: %s"), srvarg.load_filename);
-      exit(EXIT_FAILURE);
-    }
-    game_load(&file);
-    section_file_check_unused(&file, srvarg.load_filename);
-    section_file_free(&file);
-
-    freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
-	    read_timer_seconds_free(loadtimer),
-	    read_timer_seconds_free(uloadtimer));
-  }
+  if (srvarg.load_filename) {
+    load_command(NULL, srvarg.load_filename);
+  } 
 
   /* init network */  
   init_connections(); 
@@ -1920,8 +1904,10 @@ main_start_players:
   if(map_is_empty() || (map.generator == 0 && game.is_new_game))
     map_fractal_generate();
 
-  if (map.num_continents==0)
+  if (map.num_continents == 0) {
     assign_continent_numbers();
+    update_island_impr_effect(-1, map.num_continents);
+  }
 
   gamelog_map();
   /* start the game */

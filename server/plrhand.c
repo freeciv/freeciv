@@ -1821,3 +1821,24 @@ void handle_player_attribute_block(struct player *pplayer)
 {
   send_attribute_block(pplayer, pplayer->current_conn);
 }
+
+/***************************************************************
+ frees a player's private map.
+***************************************************************/
+void player_map_free(struct player *pplayer)
+{
+  struct player_tile *plrtile;
+
+  if (!pplayer->private_map) return;
+
+  whole_map_iterate(x, y) {
+    plrtile = map_get_player_tile(x, y, pplayer);
+    if (plrtile->city) {
+      free(plrtile->city);
+    }
+  } whole_map_iterate_end;
+
+  free(pplayer->private_map);
+  pplayer->private_map = NULL;
+}
+

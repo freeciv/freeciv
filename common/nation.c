@@ -200,16 +200,27 @@ void nation_free(Nation_Type_id nation)
     free(p->leader_name[i]);
   }
 
-  if (p->city_names) {
+  nation_city_names_free(p->city_names);
+}
+
+/***************************************************************
+ deallocates an array of city names. needs to be separate so 
+ server can use it individually (misc_city_names)
+***************************************************************/
+void nation_city_names_free(struct city_name *city_names)
+{
+  int i;
+
+  if (city_names) {
     /* 
      * Unfortunately, this monstrosity of a loop is necessary given
      * the setup of city_names.  But that setup does make things
      * simpler elsewhere.
      */
-    for (i = 0; p->city_names[i].name; i++) {
-      free(p->city_names[i].name);
+    for (i = 0; city_names[i].name; i++) {
+      free(city_names[i].name);
     }
-    free(p->city_names);
+    free(city_names);
   }
 }
 

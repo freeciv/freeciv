@@ -101,4 +101,6 @@ struct player *split_player(struct player *pplayer);
 enum plr_info_level player_info_level(struct player *plr,
                                       struct player *receiver);
 
+void player_map_free(struct player *pplayer);
+
 #endif  /* FC__PLRHAND_H */

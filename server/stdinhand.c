@@ -42,6 +42,7 @@
 #include "support.h"
 #include "version.h"
 
+#include "citytools.h"
 #include "console.h"
 #include "diplhand.h"
 #include "gamehand.h"
@@ -52,8 +53,10 @@
 #include "report.h"
 #include "ruleset.h"
 #include "rulesout.h"
+#include "savegame.h"
 #include "sernet.h"
 #include "srv_main.h"
+#include "timing.h"
 
 #include "advmilitary.h"	/* assess_danger_player() */
 
@@ -950,6 +953,7 @@ enum command_id {
   CMD_END_GAME,
   CMD_REMOVE,
   CMD_SAVE,
+  CMD_LOAD,
   CMD_READ_SCRIPT,
   CMD_WRITE_SCRIPT,
   CMD_RULESOUT,
@@ -1194,6 +1198,14 @@ static const struct command commands[] = {
       "the command-line argument:\n"
       "    --file <filename>\n"
       "and use the 'start' command once players have reconnected.")
+  },
+  {"load",      ALLOW_HACK,
+   /* TRANS: translate text between <> only */
+   N_("load\n"
+      "load <file-name>"),
+   N_("Load game from file."),
+   N_("Load a game from <file-name>. Any current data including players, "
+      "rulesets and server options are lost.\n")
   },
   {"read",	ALLOW_HACK,
    /* TRANS: translate text between <> only */
@@ -2922,6 +2934,56 @@ static void fix_command(struct connection *caller, char *str, int cmd_enum)
 /**************************************************************************
   ...
 **************************************************************************/
+void load_command(struct connection *caller, char *arg)
+{
+  struct timer *loadtimer, *uloadtimer;  
+  struct section_file file;
+
+  if (!arg || arg[0] == '\0') {
+    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <filename>"));
+    return;
+  }
+
+  if (server_state != PRE_GAME_STATE) {
+    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Can't load a game while another "
+                                          "is running."));
+    return;
+  }
+
+  /* attempt to load the file */
+
+  if (!section_file_load_nodup(&file, arg)) {
+    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Couldn't load savefile: %s"), arg);
+    return;
+  }
+
+  cmd_reply(CMD_LOAD, caller, C_COMMENT, _("Loading saved game: %s..."), arg);
+
+  /* we found it, free all structures */
+
+  players_iterate(pplayer) {
+    player_map_free(pplayer);
+  } players_iterate_end;
+
+  game_free();
+  nation_city_names_free(misc_city_names);
+  game_init();
+
+  loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+  uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
+
+  game_load(&file);
+  section_file_check_unused(&file, arg);
+  section_file_free(&file);
+
+  freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
+          read_timer_seconds_free(loadtimer),
+          read_timer_seconds_free(uloadtimer));
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static void set_rulesetdir(struct connection *caller, char *str)
 {
   char filename[512], *pfilename;
@@ -3063,6 +3125,9 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_SAVE:
     save_command(caller,arg);
+    break;
+  case CMD_LOAD:
+    load_command(caller, arg);
     break;
   case CMD_METAINFO:
     metainfo_command(caller,arg);

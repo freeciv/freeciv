@@ -186,6 +186,11 @@ int main(int argc, char *argv[])
   init_messages_where();
   init_our_capability();
   game_init();
+
+  conn_list_init(&game.all_connections);
+  conn_list_init(&game.est_connections);
+  conn_list_init(&game.game_connections);
+
   attribute_init();
   agents_init();
   load_general_options();

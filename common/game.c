@@ -743,10 +743,6 @@ void game_init(void)
   map_init();
   idex_init();
   
-  conn_list_init(&game.all_connections);
-  conn_list_init(&game.est_connections);
-  conn_list_init(&game.game_connections);
-
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
     player_init(&game.players[i]);
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
@@ -766,9 +762,6 @@ void game_free(void)
 {
   geff_vector_free(&game.effects);
   ceff_vector_free(&game.destroyed_effects);
-  conn_list_unlink_all(&game.all_connections);
-  conn_list_unlink_all(&game.est_connections);
-  conn_list_unlink_all(&game.game_connections);
   game_remove_all_players();
   map_free();
   idex_free();
