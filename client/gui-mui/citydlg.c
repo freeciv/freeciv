@@ -223,6 +223,9 @@ struct city_dialog
   Object *units_supported_group;
   Object *units_present_group;
 
+  /* Worklist */
+  Object *worklist_wl;
+
   /* Happines */
   Object *happines_map;
   struct city_info happines_city_info;
@@ -254,7 +257,6 @@ struct city_dialog
   struct Hook imprv_disphook;
   Object *imprv_listview;
   Object *sell_button;
-  Object *worklist_button;
 
   Object *present_group; /* auto group */
   Object *supported_group; /* auto group */
@@ -267,8 +269,6 @@ struct city_dialog
 
   int sell_id;
   Object *sell_wnd;
-
-  Object *worklist_wnd;
 };
 
 /****************************************************************
@@ -444,7 +444,6 @@ void refresh_city_dialog(struct city *pcity)
 	set(pdialog->buy_button, MUIA_Disabled, TRUE);
 	set(pdialog->sell_button, MUIA_Disabled, TRUE);
 	set(pdialog->change_button, MUIA_Disabled, TRUE);
-	set(pdialog->worklist_button, MUIA_Disabled, TRUE);
 	set(pdialog->activateunits_button, MUIA_Disabled, TRUE);
 	set(pdialog->unitlist_button, MUIA_Disabled, TRUE);
       } else
@@ -889,35 +888,60 @@ static void city_change(struct city_dialog **ppdialog)
 static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
-  struct city_dialog *pdialog = (struct city_dialog *)data;
-  int i, id;
+  struct city_dialog *pdialog = (struct city_dialog *) data;
+  int k, id;
   bool is_unit;
 
-  /* Update the worklist.  But, remember -- the first element of the 
-     worklist is actually just the current build target; don't send it
-     to the server as part of the worklist. */
-  packet.city_id=pdialog->pcity->id;
-  packet.worklist.is_valid = TRUE;
+  /* Update the worklist.  Remember, though -- the current build
+     target really isn't in the worklist; don't send it to the server
+     as part of the worklist.  Of course, we have to search through
+     the current worklist to find the first _now_available_ build
+     target (to cope with players who try mean things like adding a
+     Battleship to a city worklist when the player doesn't even yet
+     have the Map Making tech).  */
+
+  for (k = 0; k < MAX_LEN_WORKLIST; k++) {
+    int same_as_current_build;
+    if (!worklist_peek_ith(pwl, &id, &is_unit, k))
+      break;
+
+    same_as_current_build = id == pdialog->pcity->currently_building
+	&& is_unit == pdialog->pcity->is_building_unit;
+
+    /* Very special case: If we are currently building a wonder we
+       allow the construction to continue, even if we the wonder is
+       finished elsewhere, ie unbuildable. */
+    if (k == 0 && !is_unit && is_wonder(id) && same_as_current_build) {
+      worklist_remove(pwl, k);
+      break;
+    }
+
+    /* If it can be built... */
+    if ((is_unit && can_build_unit(pdialog->pcity, id)) ||
+	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
+      /* ...but we're not yet building it, then switch. */
+      if (!same_as_current_build) {
+
+	/* Change the current target */
+	packet.city_id = pdialog->pcity->id;
+	packet.build_id = id;
+	packet.is_build_id_unit_id = is_unit;
+	send_packet_city_request(&aconnection, &packet,
+				 PACKET_CITY_CHANGE);
+      }
+
+      /* This item is now (and may have always been) the current
+         build target.  Drop it out of the worklist. */
+      worklist_remove(pwl, k);
+      break;
+    }
+  }
+
+  /* Send the rest of the worklist on its way. */
+  packet.city_id = pdialog->pcity->id;
+  copy_worklist(&packet.worklist, pwl);
   packet.worklist.name[0] = '\0';
-  for (i = 0; i < MAX_LEN_WORKLIST-1; i++) {
-    packet.worklist.wlefs[i] = pwl->wlefs[i+1];
-    packet.worklist.wlids[i] = pwl->wlids[i+1];
-  }
-    
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
-
-  /* Additionally, if the first element in the worklist changed, then
-     send a change build target packet. */
-  worklist_peek(pwl, &id, &is_unit);
-
-  if (id != pdialog->pcity->currently_building || 
-      is_unit != pdialog->pcity->is_building_unit) {
-    /* Change the current target */
-    packet.build_id = id;
-    packet.is_build_id_unit_id = is_unit;
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-  }
-  pdialog->worklist_wnd = NULL;
 }
 
 /****************************************************************
@@ -926,23 +950,6 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 static void cancel_city_worklist(void *data)
 {
   struct city_dialog *pdialog = (struct city_dialog *)data;
-  pdialog->worklist_wnd = NULL;
-}
-
-
-/****************************************************************
-  Display the city's worklist.
-*****************************************************************/
-static void city_worklist(struct city_dialog **ppdialog)
-{
-  struct city_dialog *pdialog = *ppdialog;
-
-  if (!pdialog->worklist_wnd)
-  {
-    pdialog->worklist_wnd = popup_worklist(&pdialog->pcity->worklist,
-    		pdialog->pcity, (void *)pdialog,
-    		commit_city_worklist, cancel_city_worklist);
-  }
 }
 
 /**************************************************************************
@@ -1557,14 +1564,26 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	      Child, pdialog->unitlist_button = MakeButton(_("_Unit List")),
 	      Child, HVSpace,
 */
-	Child, VGroup, /* Units */
+
+        /* Units */
+	Child, VGroup,
 	    Child, HorizLineTextObject(_("Supported Units")),
 	    Child, pdialog->units_supported_group = AutoGroup, End,
 	    Child, HorizLineTextObject(_("Units present")),
 	    Child, pdialog->units_present_group = AutoGroup, End,
 	    End,
-	Child, HVSpace, /* Worklist */
-	Child, VGroup, /* Happiness */
+
+        /* Worklist */
+	Child, pdialog->worklist_wl = WorklistObject,
+	    MUIA_Worklist_Worklist, &pdialog->pcity->worklist,
+	    MUIA_Worklist_City, pdialog->pcity,
+	    MUIA_Worklist_PatentData, pdialog,
+	    MUIA_Worklist_OkCallBack, commit_city_worklist,
+	    MUIA_Worklist_Embedded, TRUE,
+	    End,
+
+        /* Happiness */
+	Child, VGroup,
 	  Child, HGroup,
 	    Child, VGroup,
 	      Child, HorizLineTextObject(_("Happiness")),
@@ -1787,7 +1806,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
     DoMethod(pdialog->map_area, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &civstandard_hook, city_click, pdialog, MUIV_TriggerValue);
     DoMethod(pdialog->happines_map, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &civstandard_hook, city_click, pdialog, MUIV_TriggerValue);
     DoMethod(pdialog->change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_change, pdialog);
-    DoMethod(pdialog->worklist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_worklist, pdialog);
     DoMethod(pdialog->buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_buy, pdialog);
     DoMethod(pdialog->sell_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_sell, pdialog);
 
@@ -2549,12 +2567,6 @@ static void close_city_dialog(struct city_dialog *pdialog)
       free(psunit);
     } unit_list_iterate_end;
     unit_list_unlink_all(&(pdialog->pcity->info_units_present));
-    if (pdialog->worklist_wnd)
-    {
-      set(pdialog->worklist_wnd, MUIA_Window_Open, FALSE);
-      DoMethod(app, OM_REMMEMBER, pdialog->worklist_wnd);
-      MUI_DisposeObject(pdialog->worklist_wnd);
-    }
     set(pdialog->wnd, MUIA_Window_Open, FALSE);
     if (pdialog->sell_wnd)
       destroy_message_dialog(pdialog->sell_wnd);

@@ -39,10 +39,15 @@
 #include "tech.h"
 #include "worklist.h"
 
+#include "citydlg_common.h"
+#include "climisc.h"
 #include "wldlg.h"
 
 #include "worklistclass.h"
 #include "muistuff.h"
+
+#define COLUMNS 4
+#define BUFFER_SIZE 100
 
 #define MUIA_Worklistview_City           (TAG_USER+0x554546) /* struct city * */
 #define MUIA_Worklistview_CurrentTargets (TAG_USER+0x554547) /* BOOL */
@@ -53,7 +58,8 @@ struct Worklistview_Data
   struct Hook destruct_hook;
   struct Hook display_hook;
   struct city *pcity;
-  char buf[256];
+  char buf[COLUMNS][BUFFER_SIZE];
+  char *row[COLUMNS];
   BOOL current_targets;
 };
 
@@ -61,9 +67,8 @@ struct Worklistview_Data
 struct worklist_entry
 {
   int type;
-  int id;
+  wid wid;
 };
-
 
 /****************************************************************
  Constructor of a new entry in the listview
@@ -86,6 +91,7 @@ HOOKPROTONHNO(worklistview_destruct, void, struct worklist_entry *entry)
   FreeVec(entry);
 }
 
+#if 0
 /****************************************************************
  Returns a information string about a building
 *****************************************************************/
@@ -130,6 +136,7 @@ char *get_unit_info(int id)
   }
   return info;
 }
+#endif
 
 /****************************************************************
  Display function for the listview
@@ -141,12 +148,26 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
   if (entry)
   {
     struct city *pcity = data->pcity;
-    char *buf = data->buf;
-    char *buf2 = buf + 128;
-    int id = entry->id;
+    struct player *pplr = game.player_ptr;
 
     switch (entry->type)
     {
+      case  0: /* id is a wid */
+            if (wid_is_worklist(entry->wid)) {
+	      my_snprintf(data->buf[0], BUFFER_SIZE, "%s", pplr->worklists[wid_id(entry->wid)].name);
+	      my_snprintf(data->buf[1], BUFFER_SIZE, _("Worklist"));
+	      my_snprintf(data->buf[2], BUFFER_SIZE, "---");
+	      my_snprintf(data->buf[3], BUFFER_SIZE, "---");
+	    } else {
+	      get_city_dialog_production_row(data->row, BUFFER_SIZE,
+	                                     wid_id(entry->wid), wid_is_unit(entry->wid),pcity);
+	    }
+	    *array++= data->buf[0];
+	    *array++= data->buf[1];
+	    *array++= data->buf[2];
+            break;
+
+#if 0
       case  0:
             /* id is improvement */
             mystrlcpy(buf,get_improvement_info(id,pcity),64);
@@ -184,6 +205,7 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 	      *array = "--";
 	    }
 	    break;
+#endif
 
       case  3:
             { /* TRANS: \033u\0338 before and \033n after the text are required */
@@ -230,6 +252,8 @@ static ULONG Worklistview_New(struct IClass *cl, Object * o, struct opSet *msg)
   {
     struct Worklistview_Data *data = (struct Worklistview_Data *) INST_DATA(cl, o);
     struct TagItem *ti;
+    int i;
+
     if ((ti = FindTagItem(MUIA_Worklistview_CurrentTargets, msg->ops_AttrList)))
       data->current_targets = ti->ti_Data;
 
@@ -244,10 +268,15 @@ static ULONG Worklistview_New(struct IClass *cl, Object * o, struct opSet *msg)
     data->display_hook.h_Entry = (HOOKFUNC)worklistview_display;
     data->display_hook.h_SubEntry = (HOOKFUNC)data;
 
+    /* So we can use the common functions */
+    for (i = 0; i < COLUMNS; i++)
+	data->row[i] = data->buf[i];
+
     SetAttrs(o, MUIA_NList_ConstructHook, &data->construct_hook,
                 MUIA_NList_DestructHook, &data->destruct_hook,
                 MUIA_NList_DisplayHook, &data->display_hook,
                 TAG_DONE);
+
   }
   return (ULONG)o;
 }
@@ -308,11 +337,31 @@ ULONG Worklistview_DragDrop(struct IClass *cl,Object *obj,struct MUIP_DragDrop *
     if (data->current_targets)
     {
       get(obj,MUIA_List_DropMark,&dropmark);
-      if (entry->type != 2)
+      if (entry->type == 0)
       {
-      	/* Insert eigher a building or an unit */
-      	Worklistview_Insert(obj,entry,dropmark,NULL);
-      } else
+	if (wid_is_worklist(entry->wid)) {
+		// TODO: Readd worklist insertion
+	} else
+	{
+	  /* Insert eigher a building or an unit */
+      	  Worklistview_Insert(obj,entry,dropmark,NULL);
+        }
+      }
+    }
+
+    /* remove source entry */
+    if (!data->current_targets)
+      DoMethod(msg->obj,MUIM_List_Remove,MUIV_List_Remove_Active);
+
+    get(obj,MUIA_List_InsertPosition,&dropmark);
+    set(obj,MUIA_List_Active,dropmark);
+    set(msg->obj,MUIA_List_Active,MUIV_List_Active_Off);
+    return 0;
+  }
+}
+
+#if 0
+ else
       {
       	if (entry->type == 2)
       	{
@@ -336,20 +385,7 @@ ULONG Worklistview_DragDrop(struct IClass *cl,Object *obj,struct MUIP_DragDrop *
 	      dropmark++;
 	    }
 	  }
-	}
-      }
-    }
-
-    /* remove source entry */
-    if (!data->current_targets)
-      DoMethod(msg->obj,MUIM_List_Remove,MUIV_List_Remove_Active);
-
-    get(obj,MUIA_List_InsertPosition,&dropmark);
-    set(obj,MUIA_List_Active,dropmark);
-    set(msg->obj,MUIA_List_Active,MUIV_List_Active_Off);
-    return 0;
-  }
-}
+#endif
 
 DISPATCHERPROTO(Worklistview_Dispatcher)
 {
@@ -385,15 +421,20 @@ struct Worklist_Data
   WorklistOkCallback ok_callback;
   WorklistCancelCallback cancel_callback;
   APTR parent_data;
+  int embedded_in_city;
 
   Object *current_listview;
   Object *available_listview;
   Object *future_check;
 
   BOOL show_advanced_targets;
+
+  
+  wid worklist_avail_wids[B_LAST + U_LAST + MAX_NUM_WORKLISTS + 1];
 };
 
 
+#if 0
 void worklist_populate_targets(struct Worklist_Data *data)
 {
   int i;
@@ -489,64 +530,86 @@ void worklist_populate_targets(struct Worklist_Data *data)
 
   set(data->available_listview, MUIA_NList_Quiet, FALSE);
 }
+#endif
 
-void worklist_populate_worklist(struct Worklist_Data *data)
+static void targets_list_update(struct Worklist_Data *data)
 {
-  int i, n;
-  int id;
-  int target;
-  bool is_unit;
+  int i = 0, wids_used = 0;
+  struct player *pplr = game.player_ptr;
+  int advanced_tech;
   struct worklist_entry entry;
+
+  /* Is the worklist limited to just the current targets, or */
+  /* to any available and future targets?                    */
+  advanced_tech = data->show_advanced_targets;
+
+  wids_used = collect_wids1(data->worklist_avail_wids, data->pcity,
+			    /*are_worklists_first*/0, advanced_tech);
+
+// checkout what this means
+#if 0
+  if (!game.player_ptr->worklists[0].is_valid)
+    gtk_clist_column_title_passive(GTK_CLIST(peditor->avail), 0);
+  else
+    gtk_clist_column_title_active(GTK_CLIST(peditor->avail), 0);
+#endif
 
   set(data->available_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(data->available_listview, MUIM_NList_Clear);
 
-  n = 0;
-  if (data->pcity)
+  for(i=0;i<wids_used;i++)
   {
-    /* First element is the current build target of the city. */
-    id = data->pcity->currently_building;
-    entry.type = data->pcity->is_building_unit;
-    entry.id = id;
-    DoMethod(data->current_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
-  }
-
-  /* Fill in the rest of the worklist list */
-  for (i = 0; n < MAX_LEN_WORKLIST &&
-	 data->worklist->wlefs[i] != WEF_END; i++, n++)
-  {
-    worklist_peek_ith(data->worklist, &target, &is_unit, i);
-    entry.type = is_unit;
-    entry.id = target;
-    DoMethod(data->current_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
+    wid wid = data->worklist_avail_wids[i];
+    entry.wid = wid;
+    entry.type = 0;
+    DoMethod(data->available_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
   }
 
   set(data->available_listview, MUIA_NList_Quiet, FALSE);
 }
 
-static VOID worklist_close_real(Object **pobj)
-{
-  Object *obj = *pobj;
-  Object *app = (Object*)xget(obj, MUIA_ApplicationObject);
-  if (app) DoMethod(app,OM_REMMEMBER,obj);
-  MUI_DisposeObject(obj);
-}
+/****************************************************************
 
-static VOID worklist_close(Object **pobj)
+*****************************************************************/
+static void worklist_list_update(struct Worklist_Data *data)
 {
-  Object *obj = *pobj;
-  Object *app = (Object*)xget(obj, MUIA_ApplicationObject);
-  if (app)
+  int i;
+  struct worklist_entry entry;
+
+  set(data->current_listview, MUIA_NList_Quiet, TRUE);
+  DoMethod(data->current_listview, MUIM_NList_Clear);
+
+  if (data->embedded_in_city)
   {
-    DoMethod(app,MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, worklist_close_real, obj);
+     entry.type = 0;
+     entry.wid = wid_encode(data->pcity->is_building_unit, FALSE, data->pcity->currently_building);
+     DoMethod(data->current_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
   }
+
+  /* Fill in the rest of the worklist list */
+  for (i = 0; i < MAX_LEN_WORKLIST - 1; i++) {
+    int target;
+    bool is_unit;
+
+    /* end of list */
+    if (!worklist_peek_ith(&data->pcity->worklist, &target, &is_unit, i))
+      break;
+
+    entry.type = 0;
+    entry.wid = wid_encode(is_unit, FALSE, target);
+
+    if (entry.wid == WORKLIST_END) break;
+    DoMethod(data->current_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
+  }
+
+  set(data->current_listview, MUIA_NList_Quiet, FALSE);
 }
 
 static VOID worklist_future_check(struct Worklist_Data **pdata)
 {
   struct Worklist_Data *data = *pdata;
   data->show_advanced_targets = xget(data->future_check, MUIA_Selected);
-  worklist_populate_targets(data);
+  targets_list_update(data);
 }
 
 static VOID worklist_remove_button(struct Worklist_Data **pdata)
@@ -571,12 +634,11 @@ static VOID worklist_ok(struct Worklist_Data **pdata)
   for (i = 0; i < entries; i++)
   {
     struct worklist_entry *entry;
+    wid wid;
     DoMethod(data->current_listview, MUIM_NList_GetEntry, i, &entry);
-    wl.wlids[i] = entry->id;
-    if (entry->type)
-      wl.wlefs[i] = WEF_UNIT;
-    else
-      wl.wlefs[i] = WEF_IMPR;
+    wid = entry->wid;
+    wl.wlefs[i] = wid_is_unit(wid) ? WEF_UNIT : WEF_IMPR;
+    wl.wlids[i] = wid_id(wid);
   }
 
   if (entries != 0)
@@ -612,10 +674,10 @@ static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   Object *clv, *alv, *clist, *alist, *check, *remove_button, *ok_button, *cancel_button, *name_text, *name_label;
 
+  int embedded = GetTagData(MUIA_Worklist_Embedded,FALSE,msg->ops_AttrList);
+
   if ((o = (Object *) DoSuperNew(cl, o,
-        MUIA_Window_Title, _("Freeciv - Edit Worklist"),
-        MUIA_Window_ID, MAKE_ID('W','R','K','L'),
-  	WindowContents, VGroup,
+  	Child, VGroup,
   	    Child, HGroup,
   	        Child, name_label = MakeLabel(""),
 		Child, name_text = TextObject,
@@ -698,14 +760,10 @@ static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 
     if (data->worklist)
     {
-      DoMethod(o,MUIM_Notify,MUIA_Window_CloseRequest, TRUE, o, 4, MUIM_CallHook, &civstandard_hook, worklist_cancel, data);
-      DoMethod(o,MUIM_Notify,MUIA_Window_CloseRequest, TRUE, o, 4, MUIM_CallHook, &civstandard_hook, worklist_close, o);
       DoMethod(check, MUIM_Notify, MUIA_Selected, MUIV_EveryTime, check, 4, MUIM_CallHook, &civstandard_hook, worklist_future_check, data);
       DoMethod(remove_button, MUIM_Notify, MUIA_Pressed, FALSE, remove_button, 4, MUIM_CallHook, &civstandard_hook, worklist_remove_button, data);
       DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, ok_button, 4, MUIM_CallHook, &civstandard_hook, worklist_ok, data);
-      DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, ok_button, 4, MUIM_CallHook, &civstandard_hook, worklist_close, o);
       DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 4, MUIM_CallHook, &civstandard_hook, worklist_cancel, data);
-      DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 4, MUIM_CallHook, &civstandard_hook, worklist_close, o);
 
       set(alist,MUIA_Worklistview_City, data->pcity);
       set(clist,MUIA_Worklistview_City, data->pcity);
@@ -720,8 +778,8 @@ static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
       	settext(name_text, data->worklist->name );
       }
 
-      worklist_populate_worklist(data);
-      worklist_populate_targets(data);
+      worklist_list_update(data);
+      targets_list_update(data);
       return (ULONG)o;
     }
 
@@ -742,6 +800,20 @@ DISPATCHERPROTO(Worklist_Dispatcher)
     case OM_NEW:
          return Worklist_New(cl, obj, (struct opSet *) msg);
 
+    case    MUIM_Worklist_Ok:
+	    {
+		struct Worklist_Data *data = (struct Worklist_Data *)INST_DATA(cl, obj);
+		worklist_ok(&data);
+		return 0;
+	    }
+
+    case    MUIM_Worklist_Cancel:
+	    {
+		struct Worklist_Data *data = (struct Worklist_Data *)INST_DATA(cl, obj);
+		worklist_cancel(&data);
+		return 0;
+	    }
+
     case OM_DISPOSE:
          Worklist_Dispose(cl, obj, msg);
          return 0;
@@ -753,7 +825,7 @@ struct MUI_CustomClass *CL_Worklist;
 
 BOOL create_worklist_class(void)
 {
-  if ((CL_Worklist = MUI_CreateCustomClass(NULL, MUIC_Window, NULL, sizeof(struct Worklist_Data), (APTR) Worklist_Dispatcher)))
+  if ((CL_Worklist = MUI_CreateCustomClass(NULL, MUIC_Group, NULL, sizeof(struct Worklist_Data), (APTR) Worklist_Dispatcher)))
     if ((CL_Worklistview = MUI_CreateCustomClass(NULL, MUIC_NList, NULL, sizeof(struct Worklistview_Data), (APTR) Worklistview_Dispatcher)))
       return TRUE;
   return FALSE;

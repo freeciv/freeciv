@@ -19,11 +19,6 @@ typedef void (*WorklistCancelCallback) (void *data);
 void popup_worklists_dialog(struct player *pplay); 
                                         /* The global worklist view */
 
-Object *popup_worklist(struct worklist *pwl,struct city *pcity,
-			  void *parent_data, WorklistOkCallback ok_cb,
-			  WorklistCancelCallback cancel_cb);
-                                        /* An individual worklist */
-
 void update_worklist_report_dialog(void);
 
 #endif  /* FC__WLDLG_H */

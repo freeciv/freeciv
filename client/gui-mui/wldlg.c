@@ -49,6 +49,10 @@
 #define WORKLIST_LIST_WIDTH   220
 #define WORKLIST_LIST_HEIGHT  150
 
+static Object *popup_worklist(struct worklist *pwl,struct city *pcity,
+		       void *parent_data, WorklistOkCallback ok_cb,
+		       WorklistCancelCallback cancel_cb);
+
 /*
   The Worklist Report dialog shows all the global worklists that the
   player has defined.  There can be at most MAX_NUM_WORKLISTS global
@@ -61,12 +65,15 @@ struct worklist_report_dialog {
   Object *edit_button;
   struct Hook listview_display_hook;
   struct player *pplr;
+
   int wl_idx;
+  Object *wl_wnd; /* current worklist window */
 };
 
 static struct worklist_report_dialog *report_dialog;
 
 static void commit_player_worklist(struct worklist *pwl, void *data);
+static void cancel_player_worklist(void *data);
 static void populate_worklist_report_list(struct worklist_report_dialog *pdialog);
 
 /****************************************************************
@@ -147,7 +154,7 @@ static void worklist_report_delete( struct worklist_report_dialog **ppdialog)
 /****************************************************************
   Edit the current worklist
 *****************************************************************/
-static void worklist_report_edit( struct worklist_report_dialog **ppdialog)
+static void worklist_report_edit(struct worklist_report_dialog **ppdialog)
 {
   struct worklist_report_dialog *pdialog = *ppdialog;
   int selection;
@@ -156,12 +163,27 @@ static void worklist_report_edit( struct worklist_report_dialog **ppdialog)
 
   if (!selection)
     return;
+
+  /* Currently we allow only one worklist opened */
+  if (pdialog->wl_wnd)
+  {
+     set(pdialog->wl_wnd,MUIA_Window_Open,FALSE);
+     DoMethod(app, OM_REMMEMBER, pdialog->wl_wnd);
+     MUI_DisposeObject(pdialog->wl_wnd);
+     pdialog->wl_wnd = NULL;
+  }
+
   selection--;
 
   pdialog->wl_idx = selection;
+  pdialog->wl_wnd = popup_worklist(&pdialog->pplr->worklists[selection], NULL, 
+		 pdialog, commit_player_worklist, cancel_player_worklist);
 
-  popup_worklist(&pdialog->pplr->worklists[selection], NULL, 
-		 pdialog, commit_player_worklist, NULL);
+  if (pdialog->wl_wnd)
+  {
+    DoMethod(app, OM_ADDMEMBER, pdialog->wl_wnd);
+    set(pdialog->wl_wnd, MUIA_Window_Open, TRUE);
+  }
 }
 
 /****************************************************************
@@ -272,22 +294,29 @@ void popup_worklists_dialog(struct player *pplr)
   that can be made.  Otherwise, just list everything that technology
   will allow.
 *************************************************************************/
-Object *popup_worklist(struct worklist *pwl,struct city *pcity,
+static Object *popup_worklist(struct worklist *pwl,struct city *pcity,
 		       void *parent_data, WorklistOkCallback ok_cb,
 		       WorklistCancelCallback cancel_cb)
 {
-  Object *workwnd = WorklistObject,
+  Object *wl;
+  Object *workwnd = WindowObject,
+    MUIA_Window_Title, _("Freeciv - Edit Worklist"),
+    MUIA_Window_ID, MAKE_ID('W','R','K','L'),
+    WindowContents, VGroup,
+      Child, wl = WorklistObject,
   	MUIA_Worklist_Worklist, pwl,
   	MUIA_Worklist_City, pcity,
-  	MUIA_Worklist_PatentData, parent_data,
+	MUIA_Worklist_PatentData, parent_data,
   	MUIA_Worklist_OkCallBack, ok_cb,
   	MUIA_Worklist_CancelCallBack, cancel_cb,
-  	End;
+  	MUIA_Worklist_Embedded, FALSE,
+  	End,
+     End,
+   End;
 
   if (workwnd)
   {
-    DoMethod(app, OM_ADDMEMBER, workwnd);
-    set(workwnd, MUIA_Window_Open, TRUE);
+    DoMethod(workwnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, wl, 1, MUIM_Worklist_Cancel);
   }
   return workwnd;
 }
@@ -306,16 +335,27 @@ void update_worklist_report_dialog(void)
 }
 
 /****************************************************************
-  Commit the changes to the worklist for this player.
+ Commit the changes to the worklist for this player.
 *****************************************************************/
 static void commit_player_worklist(struct worklist *pwl, void *data)
 {
   struct worklist_report_dialog *pdialog;
-
   pdialog = (struct worklist_report_dialog *)data;
 
   copy_worklist(&pdialog->pplr->worklists[pdialog->wl_idx], pwl);
+  set(pdialog->wl_wnd,MUIA_Window_Open,FALSE);
 }
+
+/****************************************************************
+ Called when canceled
+*****************************************************************/
+static void cancel_player_worklist(void *data)
+{
+  struct worklist_report_dialog *pdialog;
+  pdialog = (struct worklist_report_dialog *)data;
+  set(pdialog->wl_wnd,MUIA_Window_Open,FALSE);
+}
+
 
 /****************************************************************
   Fill in the worklist arrays in the pdialog.

@@ -17,11 +17,15 @@
 
 extern struct MUI_CustomClass *CL_Worklist;
 
-#define MUIA_Worklist_Worklist			(TAG_USER+0x454545) /* struct worklist * */
-#define MUIA_Worklist_City					(TAG_USER+0x454546) /* struct city * */
-#define MUIA_Worklist_PatentData		(TAG_USER+0x454547) /* APTR */
-#define MUIA_Worklist_OkCallBack    (TAG_USER+0x454548)
-#define MUIA_Worklist_CancelCallBack     (TAG_USER+0x454549)
+#define MUIA_Worklist_Worklist			 (TAG_USER+0x454545) /* struct worklist * */
+#define MUIA_Worklist_City					 (TAG_USER+0x454546) /* struct city * */
+#define MUIA_Worklist_PatentData		 (TAG_USER+0x454547) /* APTR */
+#define MUIA_Worklist_OkCallBack     (TAG_USER+0x454548)
+#define MUIA_Worklist_CancelCallBack (TAG_USER+0x454549)
+#define MUIA_Worklist_Embedded       (TAG_USER+0x45454a) /* BOOL */
+
+#define MUIM_Worklist_Ok             (TAG_USER+0x2671)
+#define MUIM_Worklist_Cancel         (TAG_USER+0x2672)
 
 BOOL create_worklist_class(void);
 VOID delete_worklist_class(void);
