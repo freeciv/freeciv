@@ -11,7 +11,7 @@
 ;
 ; 'generate' = means replace this node with generated list of game
 ;	       elements; current categories are: 
-;	          "Units", "Improvments", "Wonders", "Techs", 
+;	          "Units", "Improvements", "Wonders", "Techs", 
 ;		  "Terrain", "Governments"
 ;
 ; Within the text, the help engine recognizes a few "generated table"s.  
@@ -22,7 +22,7 @@
 ; hich can be referenced.
 ;
 ; This file no longer has a max line length: strings are wrapped 
-; internally.  However to do non-wrapping formating, make sure to 
+; internally.  However to do non-wrapping formatting, make sure to 
 ; insert hard newlines "\n" such that lines are less than 68 chars 
 ; long.
 ;  This marks 68 char limit -------------------------------------->|
@@ -440,9 +440,9 @@ Mouse:\n\
 "), _("\
 Keyboard:\n\
 =========\n\
-  a: (a)uto-settler  (settler units)\n\
+  a: (a)uto-settler  (settler/engineer units)\n\
   a: (a)uto-attack  (military units)\n\
-  b: (b)uild city  (settler units)\n\
+  b: (b)uild city  (settler/engineer units)\n\
   b: help (b)uild wonder  (caravan units)\n\
   c: (c)enter view on unit\n\
   C: unit (c)onnect  (then left-click mouse to select destination)\n\
@@ -450,22 +450,22 @@ Keyboard:\n\
   D: (D)isband unit\n\
   e: build airbas(e)  (airbase units)\n\
   f: (f)ortify unit  (military units)\n\
-  f: build (f)ortress  (settler units)\n\
+  f: build (f)ortress  (settler/engineer units)\n\
   F: open (F)ind City dialog\n\
   g: unit (g)oto  (then left-click mouse to select destination)\n\
   h: change (h)omecity  (to city at current location)\n\
-  i: build (i)rrigation/farmland  (settler units; may convert terr)\n\
+  i: build (i)rrigation/farmland  (settler/engineer units; may convert terr)\n\
   l: go/air(l)ift to city\n\
   L: open Work(L)ists dialog\n\
-  m: build (m)ine  (settler units; may convert terrain)\n\
+  m: build (m)ine  (settler/engineer units; may convert terrain)\n\
   n: clean (n)uclear fallout\n\
   N: explode (N)uclear\n\
   o: transf(o)rm terrain\n\
-  p: clean (p)ollution  (settler units)\n\
+  p: clean (p)ollution  (settler/engineer units)\n\
   p: (p)aradrop  (paratroop units)\n\
   P: (P)illage terrain alteration\n\
   q: unit patrol  (then left-click mouse to select destination)\n\
-  r: build (r)oad/railroad  (settler units)\n\
+  r: build (r)oad/railroad  (settler/engineer units)\n\
   r: establish trade (r)oute  (caravan units)\n\
   R: incite a (R)evolution\n\
   s: (s)entry unit\n\
@@ -911,7 +911,8 @@ Next, the defender's strength is modified.\
 of the terrain it occupies.\
 "), _("\
  - Next, the defender's strength is doubled if it is a Pikeman unit \
-defending against a mounted unit.\
+defending against a mounted unit.  Mounted units normally include \
+Horsemen, Chariots, Elephants, Crusaders and Cavalry, 
 "), _("\
  - If the defender is an AEGIS Cruiser defending against airborne \
 units (including missiles and Helicopters), the defense is \
