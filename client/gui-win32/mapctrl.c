@@ -76,12 +76,26 @@ void map_handle_move(int window_x, int window_y)
 static LONG CALLBACK popit_proc(HWND hwnd,UINT message,
 				WPARAM wParam,LPARAM lParam)
 {
+  struct map_position *cross_list;
   switch(message)
     {
     case WM_CREATE:
-    case WM_DESTROY:
     case WM_SIZE:
     case WM_GETMINMAXINFO:
+      break;
+    case WM_LBUTTONUP:
+    case WM_RBUTTONUP:
+      DestroyWindow(hwnd);
+      break;
+    case WM_DESTROY:
+      cross_list = fcwin_get_user_data(hwnd);
+      if (cross_list) {
+	  while (cross_list->x >= 0) {
+	    refresh_tile_mapcanvas(cross_list->x, cross_list->y, TRUE);
+	    cross_list++;
+	  }
+      }
+      popit_popup = NULL;
       break;
     default:
       return DefWindowProc(hwnd,message,wParam,lParam);
@@ -115,7 +129,7 @@ static void popit(int x, int y, int xtile, int ytile)
   
   popup=fcwin_create_layouted_window(popit_proc,NULL,WS_POPUP|WS_BORDER,
 				     0,0,root_window,NULL,
-				     NULL);
+				     cross_head);
   vbox=fcwin_vbox_new(popup,FALSE);
   
   my_snprintf(s, sizeof(s), _("Terrain: %s"),
@@ -207,7 +221,6 @@ static void popit(int x, int y, int xtile, int ytile)
 	     rc.right-rc.left,rc.bottom-rc.top,FALSE);
   ShowWindow(popup,SW_SHOWNORMAL);
   popit_popup=popup;
-  SetFocus(map_window);
 } 
 
 /**************************************************************************
