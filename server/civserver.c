@@ -133,9 +133,6 @@ int main(int argc, char *argv[])
   /* no  we don't use GNU's getopt or even the "standard" getopt */
   /* yes we do have reasons ;)                                   */
   
-  printf("This is the %s server\n",FREECIV_NAME_VERSION);
-  printf("You can learn a lot about Freeciv at %s\n",SITE);
-
   i=1;
   while(i<argc) {
     if(!strcmp("-f", argv[i]) || !strcmp("--file", argv[i])) { 
@@ -224,6 +221,14 @@ int main(int argc, char *argv[])
     i++;
   }
     
+  if(v && !h) {
+    fprintf(stderr, FREECIV_NAME_VERSION "\n");
+    exit(0);
+  }
+
+  printf("This is the server for %s\n",FREECIV_NAME_VERSION);
+  printf("You can learn a lot about Freeciv at %s\n",SITE);
+
   if(h) {
     fprintf(stderr, "  -f, --file F\t\t\tLoad saved game F\n");
     fprintf(stderr, "  -g, --gamelog F\t\tUse F as game logfile\n");
@@ -236,11 +241,6 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -d, --debug N\t\t\tSet debug log level (0,1,2)\n");
     fprintf(stderr, "  -v, --version\t\t\tPrint the version number\n");
     fprintf(stderr, "Report bugs to <%s>.\n",MAILING_LIST);
-    exit(0);
-  }
-
-  if(v) {
-    fprintf(stderr, FREECIV_NAME_VERSION "\n");
     exit(0);
   }
 
