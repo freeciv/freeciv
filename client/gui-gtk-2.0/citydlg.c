@@ -2878,11 +2878,11 @@ static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev)
 
       gdk_window_get_geometry(pdialog->overview.map_canvas->window, &x, &y,
 			      &width, &height, &depth);
-      freelog(LOG_NORMAL, "%d x %d at (%d,%d)", width, height, x, y);
+      freelog(LOG_DEBUG, "%d x %d at (%d,%d)", width, height, x, y);
 
       gdk_window_get_geometry(pdialog->overview.map_canvas_pixmap->window,
 			      &x, &y, &width, &height, &depth);
-      freelog(LOG_NORMAL, "%d x %d at (%d,%d)", width, height, x, y);
+      freelog(LOG_DEBUG, "%d x %d at (%d,%d)", width, height, x, y);
     }
 #endif
     if (pdialog->overview.map_canvas == w
