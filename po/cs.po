@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-30 18:37+0100\n"
+"PO-Revision-Date: 2005-01-31 16:35+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20691,7 +20691,7 @@ msgstr "?plural:Aztékové"
 
 #: data/nation/aztec.ruleset:6
 msgid "The Azteca, a group of barbarians from the Sonoran desert, seized control of the Toltec-derived civilizations of Central Mexico during the 15th century AD, reviving the practice of human sacrifice.  They were conquered by the Spanish under Cortez in 1524."
-msgstr ""
+msgstr "Aztékové, skupina barbarů ze Sonorské pouště, převzala kontrolu nadToltéckými civilizacemi středního Mexika během 15. století našeholetopočtu, obnovujíc praktiky lidských obětí. Ovládnuti byli v roce1524 Španělskem, zastoupeným Cortezem."
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -20743,7 +20743,7 @@ msgstr "?plural:Boerové"
 
 #: data/nation/boer.ruleset:6
 msgid "The Boers were Dutch settlers in British-controlled South Africa from 1650AD.  They briefly controlled two republics, the Transvaal and the Orange Free State, before being defeated by the British in the war of 1899-1902."
-msgstr ""
+msgstr "Boeři byli Dánští osadníci v Jižní Africe, ovládané Britanií od roku1650 nl. Než byli poraženi ve válce s Brity v letech 1899-1902,ovládali dvě republiky - Transvall a Orange Free State."
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
@@ -20927,7 +20927,7 @@ msgstr "?plural:Korňané"
 
 #: data/nation/cornish.ruleset:6
 msgid "Cornwall is a region in the extreme southwest of England, traditionally the home of the legendary King Arthur."
-msgstr ""
+msgstr "Cornwall je oblast na úplném jihozápadě Anglie, tradičně je označovánjako domov krále Artuše."
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -21049,7 +21049,7 @@ msgstr "?plural:Angličané"
 
 #: data/nation/english.ruleset:6
 msgid "England was unified by Alfred the Great of Wessex in the late 9th century AD, only to be conquered by William of Normandy a century later, in the last successful invasion of the country."
-msgstr ""
+msgstr "Anglie byla sjednocena Alfrédem Velikým Wessexským na konci 9. století n.l., aby byla ovládnuta jen o století později Williamem Normandským,během poslední úspěšné invaze."
 
 #: data/nation/english.ruleset:19
 msgid "Lord Protector"
@@ -21225,7 +21225,7 @@ msgstr "?plural:Inkové"
 
 #: data/nation/inca.ruleset:6
 msgid "The Inca were an Amerind people of the Northern Andes who conquered an empire stretching along the west coast of South America from what is now southern Chile nearly to the Equator. They had the bad timing to do it just a few decades before the Spanish conquistadores arrived in their part of the world in the mid-1500s AD."
-msgstr ""
+msgstr "Inkové byli původní američtí obyvatelé, žijící v severních Andách, kteří ovládli říši rozpínající se po západním pobřeží jižní Ameriky, na území dnešní jižní Chile, blízko rovníku. Nenačasovali si to úplně nejlíp, protože o pár desetiletí později sem dorazili španělští dobyvatelé zhruba v polovině 15. století n.l."
 
 #: data/nation/inca.ruleset:18
 msgid "Warlord"
@@ -21261,7 +21261,7 @@ msgstr "?plural:Irové"
 
 #: data/nation/irish.ruleset:6
 msgid "Ireland held out against the Romans and Vikings but was conquered by the Normans in 1171.  It was ruled by the English until 1922 when most of the country was granted limited autonomy, becoming a republic in 1949.  The North of Ireland was settled in the 17th century by Scottish and English planters and is now part of the United Kingdom."
-msgstr ""
+msgstr "Irsko odolávalo Římanům a Vikingům, ale bylo dobito Normany v roce 1171. Ovládáno bylo roku do 1922 Anglií, než dostala většina země omezenou autonomii a stala se republikou v roce 1949. Sever Irska byl obydlen v 17. stoleti skotskými a anglickými osadníky a nyní je součástí Spojeného království."
 
 #: data/nation/irish.ruleset:37
 msgid "Chieftain"
@@ -21305,7 +21305,7 @@ msgstr "?plural:Italové"
 
 #: data/nation/italian.ruleset:6
 msgid "The Italian nation was unified in 1870AD after decades of campaigning by indigenous nationalists. It was a monarchy under the House of Savoy until 1922, then a fascist state until 1945 after which democracy was restored by the WWII victors."
-msgstr ""
+msgstr "Italský národ byl sjednocen roku 1870 po desetiletích bojů domorodých obyvatel. Do roku 1922 to byla monarchie spravovaná Domem Savojským, posléze do roku 1945 fašitický stát a nakonec zde byla vítězi druhé sv.války obnovena demokracie."
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
@@ -21413,7 +21413,7 @@ msgstr "?plural:Mongolové"
 
 #: data/nation/mongol.ruleset:6
 msgid "In the centuries after their unification by Genghis Khan, the Mongols conquered the largest empire in human history, encompassing most of the continent of Asia.  They became notorious for the utter ruthlessness in warfare."
-msgstr ""
+msgstr "Během několika století po jejich sjednocení Genghisem Khanem, ovládalo Mongolsko největší říši v historii lidstva, zahrnujíce většinu z asijského kontinentu. Stali se znamými díky své maximalní krutosti během vedení válek."
 
 #: data/nation/mongol.ruleset:16
 msgid "Khan"
@@ -21517,7 +21517,7 @@ msgstr "?plural:Portugalci"
 
 #: data/nation/portuguese.ruleset:6
 msgid "Portugal founded the first of the great mercantile empires in the 1400s on the shipbuilding advances funded by Prince Henry the Navigator."
-msgstr ""
+msgstr "Portugalci založili první velkou kupeckou říši v letech kolem roku 1400, díky zkušenostem se stavbou lodí získaným za prince Henryho, řečeného Navigátor."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -21581,7 +21581,7 @@ msgstr "?plural:Skotové"
 
 #: data/nation/scottish.ruleset:5
 msgid "Scotland, originally settled in late Roman times by Irish raiders who displaced the native Picts, was an independent kingdom from around 1034AD to the Union of Crowns with England in 1701."
-msgstr ""
+msgstr "Skotsko, původně obývané Irskými nájezdníky v pozdních Římských dobách, kteří vytlačili rodilé obyvatele, bylo nezavislé království od roku 1034 n.l. až do Unie Korun s Anglií v roce 1701."
 
 #: data/nation/scottish.ruleset:18
 msgid "First Minister"
@@ -21684,7 +21684,7 @@ msgstr "?plural:Španělé"
 
 #: data/nation/spanish.ruleset:6
 msgid "The modern Spanish nation was formed when the rulers of the kingdoms of Castille and Aragon led the recapture of the Iberian peninsula from the Moslems.  The Reconquista was completed in 1492AD, the same year Columbus sailed."
-msgstr ""
+msgstr "Moderní španělský národ byl zformován, když se podařilo vládcům království Kastilského a Aragonského znovu dobýt Iberský poloostrov, ovládaný do té doby Muslimy. Znovudobytí bylo ukončeno v roce 1492 n.l., tedy ten samý rok, ve kterém připlul Kolumbus."
 
 #: data/nation/spanish.ruleset:18
 msgid "Caudillo"
@@ -21748,7 +21748,7 @@ msgstr "?plural:Thajové"
 
 #: data/nation/thai.ruleset:6
 msgid "The Thai kingdom was the only country in Southeast Asia to preserve its independence throught the colonial era of the 18th and 19th centuries AD."
-msgstr ""
+msgstr "Thajské království bylo jedinou zemí v Jižní asii, která si udržela svou nezávislost napříč koloniální érou 18. a 19. stolení n.l."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -21760,7 +21760,7 @@ msgstr "?plural:Turkové"
 
 #: data/nation/turk.ruleset:6
 msgid "Modern Turkey is the successor state of the Ottoman Empire, which collapsed and was dismembered by the victors in World War I after backing the Central Powers.  The country was subsequently reformed and secularized by Kemal Mustapha, the hero of the defense of Gallipoli."
-msgstr ""
+msgstr "Moderní Turecko je nastupním státem Ottomanské Říše, která upadla a byla rozdělena vítězi První světové války. Země byla postupně reformována a zesvetštěna Kemalem Mustafou, hrdinou od obrany Gallipole."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -21812,7 +21812,7 @@ msgstr "?plural:Welšané"
 
 #: data/nation/welsh.ruleset:6
 msgid "The Welsh at one time controlled all of what is now England until being driven into the mountainous western reaches by invading Saxons."
-msgstr ""
+msgstr "Welšané jednu dobu ovládali vše, co je nyní známé jako Anglie, dokud je však nájezdní Saxoni nezatlačili do hor na západě země."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
