@@ -636,7 +636,6 @@ void client_game_init()
 **************************************************************************/
 void client_game_free()
 {
-  cm_free();
   free_client_goto();
   free_help_texts();
   attribute_free();

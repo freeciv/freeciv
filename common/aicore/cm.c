@@ -572,6 +572,26 @@ static void update_cache2(struct city *pcity,
 }
 
 /****************************************************************************
+...
+*****************************************************************************/
+static void clear_cache(void)
+{
+  int i, j;
+  for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
+    for (j = 0; j < MAX_COMBINATIONS; j++) {
+      if (!cache3.results[i].combinations[j].is_valid) {
+	continue;
+      }
+      if (cache3.results[i].combinations[j].cache1) {
+	free(cache3.results[i].combinations[j].cache1);
+	cache3.results[i].combinations[j].cache1 = NULL;
+      }
+    }
+  }
+  cache3.pcity = NULL;
+}
+
+/****************************************************************************
  Uses worker_positions_used, entertainers, scientists and taxmen to
  get the remaining stats.
 *****************************************************************************/
@@ -1439,6 +1459,7 @@ void cm_free(void)
   cache2.allocated_size = 0;
   cache2.allocated_trade = 0;
   cache2.allocated_luxury = 0;
+  clear_cache();
 }
 
 /****************************************************************************
@@ -1474,19 +1495,7 @@ void cm_clear_cache(struct city *pcity)
 	  pcity->id);
 
   if (cache3.pcity == pcity) {
-    int i, j;
-    for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
-      for (j = 0; j < MAX_COMBINATIONS; j++) {
-	if (!cache3.results[i].combinations[j].is_valid) {
-	  continue;
-	}
-	if (cache3.results[i].combinations[j].cache1) {
-	  free(cache3.results[i].combinations[j].cache1);
-	  cache3.results[i].combinations[j].cache1 = NULL;
-	}
-      }
-    }
-    cache3.pcity = NULL;
+    clear_cache();
   }
 }
 
