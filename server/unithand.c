@@ -773,32 +773,6 @@ int handle_unit_enter_hut(struct unit *punit)
   return ok;
 }
 
-
-/*****************************************************************
-  Will wake up any neighboring enemy sentry units
-*****************************************************************/
-static void wakeup_neighbor_sentries(struct player *pplayer,
-				     int cent_x, int cent_y)
-{
-  int x,y;
-/*  struct unit *punit; The unit_list_iterate defines punit locally. -- Syela */
-
-  for (x = cent_x-1;x <= cent_x+1;x++)
-    for (y = cent_y-1;y <= cent_y+1;y++)
-      if ((x != cent_x)||(y != cent_y))
-	{
-	  unit_list_iterate(map_get_tile(x,y)->units, punit) {
-	    if ((pplayer->player_no != punit->owner)&&
-		(punit->activity == ACTIVITY_SENTRY))
-	      {
-		set_unit_activity(punit, ACTIVITY_IDLE);
-		send_unit_info(0,punit);
-	      }
-	  }
-	  unit_list_iterate_end;
-	}
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -834,15 +808,16 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     return 0;
   }
 
-  if (same_pos(punit->x, punit->y, dest_x, dest_y)) return 0;
-/* this occurs often during lag, and to the AI due to some quirks -- Syela */
+  /* this occurs often during lag, and to the AI due to some quirks -- Syela */
+  if (same_pos(punit->x, punit->y, dest_x, dest_y))
+    return 0;
  
-  unit_id=punit->id;
+  unit_id = punit->id;
   if (do_airline(punit, dest_x, dest_y))
     return 1;
 
   if (unit_flag(punit->type, F_CARAVAN)
-      && (pcity=map_get_city(dest_x, dest_y))
+      && (pcity = map_get_city(dest_x, dest_y))
       && (pcity->owner != punit->owner)
       && punit->homecity) {
     struct packet_unit_request req;
@@ -863,7 +838,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
       return 0;
     }
 
-  pdefender=get_defender(pplayer, punit, dest_x, dest_y);
+  pdefender = get_defender(pplayer, punit, dest_x, dest_y);
 
   if(pdefender && pdefender->owner!=punit->owner) {
     if(can_unit_attack_tile(punit,dest_x , dest_y)) {
@@ -944,15 +919,10 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     if(!player_find_unit_by_id(pplayer, unit_id))
       return 0; /* diplomat or caravan action killed unit */
 
+    /******* ok now move the unit *******/
     connection_do_buffer(pplayer->conn);
 
-    src_x=punit->x;
-    src_y=punit->y;
-
-    /* show new land and update fog-of-war */
-    teleport_unit_sight_points(src_x,src_y,dest_x,dest_y,punit);
-
-    /* ok now move the unit */
+    src_x = punit->x; src_y = punit->y;
 
     if (punit->ai.ferryboat) {
       ferryboat = unit_list_find(&map_get_tile(punit->x, punit->y)->units,
@@ -965,72 +935,62 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       }
     } /* just clearing that up */
 
-    if((punit->activity == ACTIVITY_GOTO) &&
-       get_defender(pplayer,punit,punit->goto_dest_x,punit->goto_dest_y) &&
+    if ((punit->activity == ACTIVITY_GOTO) &&
+       get_defender(pplayer, punit, punit->goto_dest_x, punit->goto_dest_y) &&
        (map_get_tile(punit->x,punit->y)->terrain != T_OCEAN)) {
         /* we should not take units with us -- fisch */
         transport_units = 0;
     }
-    
 
     unit_list_unlink(&map_get_tile(src_x, src_y)->units, punit);
-    if(get_transporter_capacity(punit) && transport_units) {
-        transporter_cargo_to_unitlist(punit, &cargolist);
-        
-        unit_list_iterate(cargolist, pcarried) { 
-            pcarried->x=dest_x;
-            pcarried->y=dest_y;
-            send_unit_info_to_onlookers(0, pcarried,src_x,src_y);
-	    teleport_unit_sight_points(src_x,src_y,dest_x,dest_y,pcarried);
-        }
-        unit_list_iterate_end;
+    if (get_transporter_capacity(punit) && transport_units) {
+      transporter_cargo_to_unitlist(punit, &cargolist);
+
+      unit_list_iterate(cargolist, pcarried) { 
+	pcarried->x=dest_x;
+	pcarried->y=dest_y;
+	send_unit_info_to_onlookers(0, pcarried,src_x,src_y);
+	handle_unit_move_consequences(pcarried, src_x, src_y, dest_x, dest_y, 0);
+      }
+      unit_list_iterate_end;
     }
-    
-    if((punit->moves_left-=map_move_cost(punit, dest_x, dest_y))<0)
+
+    if ((punit->moves_left-=map_move_cost(punit, dest_x, dest_y))<0)
       punit->moves_left=0;
 
-    punit->x=dest_x;
-    punit->y=dest_y;
+    punit->x = dest_x;
+    punit->y = dest_y;
 
     /*set activity to sentry if boarding a ship*/
-    if(is_ground_unit(punit) &&
-       map_get_terrain(punit->x, punit->y) == T_OCEAN &&
-       !(pplayer->ai.control)) {
+    if (is_ground_unit(punit) &&
+	map_get_terrain(punit->x, punit->y) == T_OCEAN &&
+	!(pplayer->ai.control)) {
       set_unit_activity(punit, ACTIVITY_SENTRY);
     }
 
-    send_unit_info_to_onlookers(0, punit, src_x, src_y);
-    
     unit_list_insert(&map_get_tile(dest_x, dest_y)->units, punit);
-    
-    if(get_transporter_capacity(punit) && transport_units) {
+
+    if (get_transporter_capacity(punit) && transport_units) {
       transporter_cargo_move_to_tile(&cargolist, punit->x, punit->y);
       genlist_unlink_all(&cargolist.list); 
     }
-    
-    /* ok entered new tile */
-    
-    if(pcity)
-      handle_unit_enter_city(pplayer, pcity);
 
-    ok = 1;
-    if((map_get_tile(dest_x, dest_y)->special&S_HUT)) {
-      /* punit might get killed by horde of barbarians */
-      ok = handle_unit_enter_hut(punit);
-    }
-     
-    wakeup_neighbor_sentries(pplayer,dest_x,dest_y);
-    
+    /***** ok entered new tile *****/
+
+    send_unit_info_to_onlookers(0, punit, src_x, src_y);
+    ok = handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y, 1);
+
     connection_do_unbuffer(pplayer->conn);
 
-    if (!ok) return 1;
-    
+    if (!ok) /* has it been killed? then exit here */
+      return 1;
+
     /* bodyguard code */
     if(pplayer->ai.control &&
        player_find_unit_by_id(pplayer, unit_id)) {
       if (punit->ai.bodyguard > 0) {
         bodyguard = unit_list_find(&(map_get_tile(src_x, src_y)->units),
-                    punit->ai.bodyguard);
+				   punit->ai.bodyguard);
         if (bodyguard) {
 	  int success;
           handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
@@ -1174,17 +1134,18 @@ int handle_unit_establish_trade(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
+void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 {
   int i, n, do_civil_war = 0;
   int coins;
+  struct player *pplayer = unit_owner(punit);
   struct player *cplayer;
   struct city *pnewcity;
 
-  if(pplayer->player_no==pcity->owner)
+  if (punit->owner==pcity->owner)
     return;
 
-  cplayer=city_owner(pcity);
+  cplayer = city_owner(pcity);
   
   /* If a capital is captured, then spark off a civil war 
      - Kris Bubendorfer
@@ -1401,48 +1362,25 @@ void handle_unit_paradrop_to(struct player *pplayer,
     do_paradrop(pplayer,punit,req->x, req->y);
   }
 }
+
 /**************************************************************************
-...
+We remove the unit and see if it's disapperance have affected the homecity
+and the city it was in.
 **************************************************************************/
 void server_remove_unit(struct unit *punit)
 {
+  struct city *pcity = map_get_city(punit->x, punit->y);
+  struct city *phomecity = find_city_by_id(punit->homecity);
+
   remove_unit_sight_points(punit);
-  game_remove_unit(punit->id);
-}
+  game_remove_unit(punit->id);  
 
-/**************************************************************************
-...
-**************************************************************************/
-void send_all_known_units(struct player *dest)
-{
-  int o,p;
-  for(p=0; p<game.nplayers; p++)  /* send the players units */
-    for(o=0; o<game.nplayers; o++)           /* dests */
-      if(!dest || &game.players[o]==dest) {
-	struct player *unitowner = &game.players[p];
-	struct player *pplayer = &game.players[o];
-	unit_list_iterate(unitowner->units,punit)
-	  send_unit_info(pplayer, punit);
-	unit_list_iterate_end;
-      }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
-{
-  struct player *pplayer = &game.players[punit->owner];
-  int range = get_unit_type(punit->type)->vision_range;
-
-  if (punit->hp==get_unit_type(punit->type)->hp) {
-    punit->hp=get_unit_type(to_unit)->hp;
+  if (phomecity) {
+    city_refresh(phomecity);
+    send_city_info(get_player(phomecity->owner), phomecity);
   }
-
-  connection_do_buffer(pplayer->conn);
-  punit->type = to_unit;
-  unfog_area(pplayer,punit->x,punit->y, get_unit_type(to_unit)->vision_range);
-  fog_area(pplayer,punit->x,punit->y,range);
-  send_unit_info(0, punit);
-  connection_do_unbuffer(pplayer->conn);
+  if (pcity && pcity != phomecity) {
+    city_refresh(pcity);
+    send_city_info(get_player(pcity->owner), pcity);
+  }
 }

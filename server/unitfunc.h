@@ -72,6 +72,10 @@ void raze_city(struct city *pcity);
 void get_a_tech(struct player *pplayer, struct player *target);
 void place_partisans(struct city *pcity,int count);
 void make_partisans(struct city *pcity);
+void send_all_known_units(struct player *dest);
+void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
+int handle_unit_move_consequences(struct unit *punit, int src_x, int src_y,
+				  int dest_x, int dest_y, int enter_hut);
 
 char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix);
 char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix);

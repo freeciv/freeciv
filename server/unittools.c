@@ -710,7 +710,6 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity,
 {
   int src_x = punit->x,src_y = punit->y;
   if(pcity->owner == punit->owner){
-    teleport_unit_sight_points(src_x, src_y, pcity->x, pcity->y, punit);
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
     punit->x = pcity->x;
     punit->y = pcity->y;
@@ -721,6 +720,7 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity,
     
     unit_list_insert(&map_get_tile(pcity->x, pcity->y)->units, punit);
     send_unit_info_to_onlookers(0, punit, src_x,src_y);
+    handle_unit_move_consequences(punit, src_x, src_y, pcity->x, pcity->y, 1);
 
     freelog(LOG_VERBOSE, "Teleported %s's %s from (%d, %d) to %s",
 	    get_player(punit->owner)->name, unit_name(punit->type),

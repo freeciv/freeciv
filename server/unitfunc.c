@@ -56,6 +56,8 @@ extern struct move_cost_map warmap;
 
 /****************************************************************************/
 
+static void wakeup_neighbor_sentries(struct player *pplayer,
+				     int cent_x, int cent_y);
 static void diplomat_charge_movement (struct unit *pdiplomat, int x, int y);
 static int diplomat_success_vs_defender (struct unit *pdefender);
 static int diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
@@ -1177,6 +1179,31 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
   wipe_unit (0, pdiplomat);
 }
 
+/*****************************************************************
+  Will wake up any neighboring enemy sentry units
+*****************************************************************/
+static void wakeup_neighbor_sentries(struct player *pplayer,
+				     int cent_x, int cent_y)
+{
+  int x,y;
+/*  struct unit *punit; The unit_list_iterate defines punit locally. -- Syela */
+
+  for (x = cent_x-1;x <= cent_x+1;x++)
+    for (y = cent_y-1;y <= cent_y+1;y++)
+      if ((x != cent_x)||(y != cent_y))
+	{
+	  unit_list_iterate(map_get_tile(x,y)->units, punit) {
+	    if ((pplayer->player_no != punit->owner)&&
+		(punit->activity == ACTIVITY_SENTRY))
+	      {
+		set_unit_activity(punit, ACTIVITY_IDLE);
+		send_unit_info(0,punit);
+	      }
+	  }
+	  unit_list_iterate_end;
+	}
+}
+
 /***************************************************************************
  Return 1 if upgrading this unit could cause passengers to
  get stranded at sea, due to transport capacity changes
@@ -2076,7 +2103,8 @@ int do_airline(struct unit *punit, int x, int y)
   unit_list_unlink(&map_get_tile(src_x, src_y)->units, punit);
   punit->x = x; punit->y = y;
   unit_list_insert(&map_get_tile(x, y)->units, punit);
-  teleport_unit_sight_points(src_x, src_y, x, y, punit);
+
+  punit->moved = 1;
 
   connection_do_buffer(game.players[punit->owner].conn);
   send_unit_info(&game.players[punit->owner], punit);
@@ -2085,10 +2113,9 @@ int do_airline(struct unit *punit, int x, int y)
   notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
 		   _("Game: %s transported succesfully."),
 		   unit_name(punit->type));
+  handle_unit_move_consequences(punit, src_x, src_y, x, y, 1);
   connection_do_unbuffer(game.players[punit->owner].conn);
 
-  punit->moved=1;
-  
   return 1;
 }
 
@@ -2144,40 +2171,21 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
 
   /* All ok */
   {
-    struct city *start_city = map_get_city(punit->x, punit->y);
-    struct city *dest_city = map_get_city(x, y);
-
-    /* unfog the squares the unit is entering */
-    teleport_unit_sight_points(punit->x, punit->y, x, y, punit);
+    int src_x = punit->x, src_y = punit->y;
 
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
     punit->x = x; punit->y = y;
     unit_list_insert(&map_get_tile(x, y)->units, punit);
 
     punit->moves_left -= get_unit_type(punit->type)->paratroopers_mr_sub;
-    if(punit->moves_left < 0) punit->moves_left = 0;
+    if(punit->moves_left < 0)
+      punit->moves_left = 0;
     punit->paradropped = 1;
+    punit->moved = 1;
     send_unit_info(0, punit);
 
-    if(start_city) {
-      send_city_info(pplayer, start_city);
-    }
-
-    if(dest_city) {
-      handle_unit_enter_city(pplayer, dest_city);
-      send_city_info(city_owner(dest_city), dest_city);
-    }
-
-    punit->moved = 1;
-
-    if(map_get_tile(x, y)->special&S_HUT) {
-      /* note: punit might get killed by horde of barbarians
-	 We let the function return 1 anyway as it did do the paradrop */
-      handle_unit_enter_hut(punit);
-    }
+    return handle_unit_move_consequences(punit, src_x, src_y, x, y, 1);
   }
-
-  return 1;
 }
 
 /**************************************************************************
@@ -2379,22 +2387,7 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
   }
 
   send_remove_unit(0, punit->id);
-  if (punit->homecity) {
-    /* Get a handle on the unit's home city before the unit is wiped */
-    struct city *pcity = find_city_by_id(punit->homecity);
-    if (pcity) {
-       server_remove_unit(punit);
-       city_refresh(pcity);
-       send_city_info(dest, pcity);
-    } else {
-      /* can this happen? --dwp */
-      freelog(LOG_NORMAL, "Can't find homecity of unit at (%d,%d)",
-	      punit->x, punit->y);
-      server_remove_unit(punit);
-    }
-  } else {
-    server_remove_unit(punit);
-  }
+  server_remove_unit(punit);
 }
 
 /**************************************************************************
@@ -2621,4 +2614,133 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
   }
 
   return (restr);
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+void send_all_known_units(struct player *dest)
+{
+  int o,p;
+  for(p=0; p<game.nplayers; p++)  /* send the players units */
+    for(o=0; o<game.nplayers; o++)           /* dests */
+      if(!dest || &game.players[o]==dest) {
+	struct player *unitowner = &game.players[p];
+	struct player *pplayer = &game.players[o];
+	unit_list_iterate(unitowner->units,punit)
+	  send_unit_info(pplayer, punit);
+	unit_list_iterate_end;
+      }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
+{
+  struct player *pplayer = &game.players[punit->owner];
+  int range = get_unit_type(punit->type)->vision_range;
+
+  if (punit->hp==get_unit_type(punit->type)->hp) {
+    punit->hp=get_unit_type(to_unit)->hp;
+  }
+
+  connection_do_buffer(pplayer->conn);
+  punit->type = to_unit;
+  unfog_area(pplayer,punit->x,punit->y, get_unit_type(to_unit)->vision_range);
+  fog_area(pplayer,punit->x,punit->y,range);
+  send_unit_info(0, punit);
+  connection_do_unbuffer(pplayer->conn);
+}
+
+/**************************************************************************
+Does: 1) updates  the units homecity and the city it enters/leaves (the
+         cities happiness varies). This also takes into account if the
+	 unit enters/leaves a fortress.
+      2) handles any huts at the units destination.
+      3) awakes any sentried units on neightborin tiles
+Returns: if the unit survived (it can die in the hut)
+
+send_unit_info should be called AFTER this function so that the little
+angry faces on units gets updated. send_unit_info will detect
+
+FIXME: Sometimes it is not neccesary to send cities because the goverment
+       doesn't care if a unit is away or not.
+**************************************************************************/
+int handle_unit_move_consequences(struct unit *punit, int src_x, int src_y,
+				  int dest_x, int dest_y, int enter_hut)
+{
+  struct city *fromcity = map_get_city(src_x, src_y);
+  struct city *tocity = map_get_city(dest_x, dest_y);
+  struct city *homecity = NULL;
+  struct player *pplayer = get_player(punit->owner);
+  /*  struct government *g = get_gov_pplayer(pplayer);*/
+  int sentfrom = 0, sentto = 0, senthome = 0;
+  if (punit->homecity)
+    homecity = find_city_by_id(punit->homecity);
+
+  teleport_unit_sight_points(src_x, src_y, dest_x, dest_y, punit);
+  wakeup_neighbor_sentries(pplayer, dest_x, dest_y);
+
+  if (tocity)
+    handle_unit_enter_city(punit, tocity);
+
+  /* We only do this for non-AI players to now make sure the AI turns
+     doesn't take too long. Perhaps we should make a special refresh_city
+     functions that only refreshed happiness. */
+  if (!pplayer->ai.control) {
+    /* might have changed owners or may be destroyed */
+    tocity = map_get_city(dest_x, dest_y);
+
+    if (tocity) { /* entering a city */
+      if (tocity->owner == punit->owner) {
+	if (tocity != homecity) {
+	  city_refresh(tocity);
+	  send_city_info(pplayer, tocity);
+	}
+      }
+
+      if (homecity) {
+	city_refresh(homecity);
+	send_city_info(pplayer, homecity);
+      }
+      senthome = sentto = 1;
+    }
+
+    if (fromcity && fromcity->owner == punit->owner) { /* leaving a city */
+      if (!senthome && homecity) {
+	city_refresh(homecity);
+	send_city_info(pplayer, homecity);
+      }
+      if (fromcity != homecity && !sentfrom) {
+	city_refresh(fromcity);
+	send_city_info(pplayer, fromcity);
+      }
+      senthome = sentfrom = 1;
+    }
+
+    /* entering/leaving a fortress */
+    if (map_get_tile(dest_x, dest_y)->special&S_FORTRESS
+	&& homecity
+	&& real_map_distance(homecity->x, homecity->y, dest_x, dest_y) <= 3
+	&& !senthome) {
+      city_refresh(homecity);
+      send_city_info(pplayer, homecity);
+    }
+
+    if (map_get_tile(src_x, src_y)->special&S_FORTRESS
+	&& homecity
+	&& real_map_distance(homecity->x, homecity->y, src_x, src_y) <= 3
+	&& !senthome) {
+      city_refresh(homecity);
+      send_city_info(pplayer, homecity);
+    }
+  }
+
+  /* punit might get killed by horde of barbarians */
+  if(enter_hut && (map_get_tile(dest_x, dest_y)->special&S_HUT)) {
+    return handle_unit_enter_hut(punit);
+  }
+  return 1;
 }
