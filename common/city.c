@@ -2331,6 +2331,29 @@ int city_specialists(const struct city *pcity)
   return count;
 }
 
+/****************************************************************************
+  Return the "best" specialist available in the game.  This specialist will
+  have the most of the given type of output.  If pcity is given then only
+  specialists usable by pcity will be considered.
+****************************************************************************/
+Specialist_type_id best_specialist(Output_type_id otype,
+				   const struct city *pcity)
+{
+  int best = DEFAULT_SPECIALIST;
+  int val = game.rgame.specialists[DEFAULT_SPECIALIST].bonus[otype];
+
+  specialist_type_iterate(i) {
+    if (!pcity || city_can_use_specialist(pcity, i)) {
+      if (game.rgame.specialists[i].bonus[otype] > val) {
+	best = i;
+	val = game.rgame.specialists[i].bonus[otype];
+      }
+    }
+  } specialist_type_iterate_end;
+
+  return best;
+}
+
 /**************************************************************************
   Return a string showing the number of specialists in the array.
 

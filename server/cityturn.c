@@ -496,19 +496,14 @@ static void city_increase_size(struct city *pcity)
       have_square = TRUE;
     }
   } city_map_iterate_end;
-  if (((pcity->surplus[O_FOOD] >= 2) || !have_square)
-      && pcity->size >= 5
-      && (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)
-	  || is_city_option_set(pcity, CITYO_NEW_TAXMAN))) {
-
-    if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
-      pcity->specialists[SP_SCIENTIST]++;
-    } else { /* now pcity->city_options & (1<<CITYO_NEW_TAXMAN) is true */
-      pcity->specialists[SP_TAXMAN]++;
-    }
-
+  if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
+      && is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
+    pcity->specialists[best_specialist(O_SCIENCE, pcity)]++;
+  } else if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
+	     && is_city_option_set(pcity, CITYO_NEW_TAXMAN)) {
+    pcity->specialists[best_specialist(O_GOLD, pcity)]++;
   } else {
-    pcity->specialists[SP_TAXMAN]++; /* or else city is !sane */
+    pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */
     auto_arrange_workers(pcity);
   }
 
