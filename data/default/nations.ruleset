@@ -18,8 +18,8 @@ options="1.9"
 [ngroup_ancient]
 name="Ancient"
 match=1
-[ngroup_mediaval]
-name="Mediaval"
+[ngroup_medieval]
+name="Medieval"
 match=1
 [ngroup_modern]
 name="Modern"

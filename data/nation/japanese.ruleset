@@ -2,7 +2,7 @@
 
 name=_("Japanese")
 plural=_("?plural:Japanese")
-groups=_("Mediaval"), _("Modern"), _("Asian")
+groups=_("Medieval"), _("Modern"), _("Asian")
 leader="Jimmu Tenno", "Mutsuhito", "Hirohito",
        "Oda Nobunaga", "Tokugawa Ieyasu"
 leader_sex="Male", "Male", "Male", "Male", "Male"

@@ -2,7 +2,7 @@
 
 name=_("Polish")
 plural=_("?plural:Polish")
-groups=_("Mediaval"), _("Modern"), _("European")
+groups=_("Medieval"), _("Modern"), _("European")
 leader="Mieszko I",
        "Bolesław Chrobry",
        "Władysław Łokietek", 

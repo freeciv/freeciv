@@ -2,7 +2,7 @@
 
 name=_("French")
 plural=_("?plural:French")
-groups=_("Modern"), _("Mediaval"), _("European")
+groups=_("Modern"), _("Medieval"), _("European")
 leader="Napoleon", "Charlemagne", "Louis XIV", "Charles de Gaulle",
        "Vercingetorix", "Chlodwig", "Charles Martel"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"

@@ -2,7 +2,7 @@
 
 name=_("Hungarian")
 plural=_("?plural:Hungarians")
-groups=_("Mediaval"), _("Modern"), _("European")
+groups=_("Medieval"), _("Modern"), _("European")
 leader="Árpád", "Szent István", "Károly Róbert",
        "Hunyadi Mátyás", "Mária Terézia", "Batthyány"
 leader_sex="Male", "Male", "Male", "Male", "Female", "Male"

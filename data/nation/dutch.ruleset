@@ -2,7 +2,7 @@
 
 name=_("Dutch")
 plural=_("?plural:Dutch")
-groups=_("Modern"), _("Mediaval"), _("European")
+groups=_("Modern"), _("Medieval"), _("European")
 leader="Willem", "Maurits", "Emma", "Wilhelmina", "Juliana", "Beatrix"
 leader_sex="Male", "Male", "Female", "Female", "Female", "Female"
 flag="f.netherlands"
