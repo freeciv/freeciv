@@ -11,9 +11,11 @@ TODO:
 =====
 
 - Sound support.
-- Fog Of War.
 - Server-side player scripting.
-- Alliances between players.
+- Diplomacy:
+  * Senate
+  * AI handle diplomacy
+  * Automatically shared vision between allies
 - Better graphics for city styles.
 - Better internationalization (fix some problems, modify those
   English sentences which can not be translated into most other
