@@ -160,6 +160,8 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit);
 int player_owns_city(struct player *pplayer, struct city *pcity);
 
 struct city *player_find_city_by_id(struct player *pplayer, int city_id);
+struct unit *player_find_unit_by_id(struct player *pplayer, int unit_id);
+
 int player_in_city_radius(struct player *pplayer, int x, int y);
 int player_owns_active_wonder(struct player *pplayer,
 			      Impr_Type_id id);

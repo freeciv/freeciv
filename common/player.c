@@ -203,6 +203,17 @@ struct city *player_find_city_by_id(struct player *pplayer, int city_id)
   }
 }
 
+/***************************************************************
+ If the specified player owns the unit with the specified id,
+ return pointer to the unit struct.  Else return 0.
+ Currently just a wrapper, but could be optimised similar to
+ player_find_city_by_id().
+***************************************************************/
+struct unit *player_find_unit_by_id(struct player *pplayer, int unit_id)
+{
+  return unit_list_find(&pplayer->units, unit_id);
+}
+
 /*************************************************************************
 Return 1 if x,y is inside any of the player's city radii.
 **************************************************************************/
