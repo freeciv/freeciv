@@ -126,7 +126,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 { /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
   int i;
   int id = B_LAST;
-  int prod = 0, danger = 0, downtown = 0, cities = 0;
+  int danger = 0, downtown = 0, cities = 0;
   int want=0;
   struct player *plr;
         
@@ -134,7 +134,6 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
      
   /* too bad plr->score isn't kept up to date. */
   city_list_iterate(plr->cities, acity)
-    prod += acity->shield_prod;
     danger += acity->ai.danger;
     downtown += acity->ai.downtown;
     cities++;
@@ -145,14 +144,10 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
        (!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
        pcity->shield_stock >= improvement_value(i) / 2) ||
        (!is_building_other_wonder(pcity) &&
-/* built_elsewhere removed; it was very, very bad with multi-continent empires */
-/* city_got_building(pcity, B_TEMPLE) && - too much to ask for, I think */
         !pcity->ai.grave_danger && /* otherwise caravans will be killed! */
-/*        pcity->shield_prod * cities >= prod &&         this shouldn't matter much */
         pcity->ai.downtown * cities >= downtown &&
         pcity->ai.danger * cities <= danger)) { /* too many restrictions? */
 /* trying to keep wonders in safe places with easy caravan access -- Syela */
-/* new code 980620; old code proved grossly inadequate after extensive testing -- Syela */
       if(pcity->ai.building_want[i]>want) {
 /* we have to do the can_build check to avoid Built Granary.  Now Building Granary. */
         if (can_build_improvement(pcity, i)) {
@@ -266,13 +261,8 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
   int trade_prod       = 0;
   int shield_need      = 0;
   int food_need        = 0;
-  /*
-  int happy            = 0;
-  int unhappy          = 0;
-  */
-  int unhappy_cities   = 0;
   int gov_overthrown   = 0;
-  int score            = 0;
+  int score;
 
   pplayer->government = g->index;
 
@@ -298,13 +288,8 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
       food_surplus   += tmp_city.food_surplus;
     else
       food_need      += tmp_city.food_surplus;
-    /*
-    happy            += tmp_city.happy;
-    unhappy          += tmp_city.unhappy;
-    */
 
     if (city_unhappy (&tmp_city)) {
-      unhappy_cities++;
       /* the following is essential to prevent falling into anarchy */
       if (tmp_city.anarchy > 0
 	  && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) 

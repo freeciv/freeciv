@@ -99,19 +99,17 @@ static Tech_Type_id get_government_tech(struct player *plr)
 **************************************************************************/
 static int get_wonder_tech(struct player *plr)
 {
-  Tech_Type_id tech = A_NONE;
   int building = get_nation_by_plr(plr)->goals.wonder;
   
-  if (!improvement_exists(building))
-    return A_NONE;
-  if (game.global_wonders[building] || wonder_obsolete(building)) 
-    return A_NONE;
-  tech = improvement_types[building].tech_req;
-  if (!tech_exists(tech))
-    return A_NONE;
-  if (get_invention(plr, tech) == TECH_KNOWN)
-    return A_NONE;
-  return tech;
+  if (improvement_exists(building)
+      && !game.global_wonders[building]
+      && !wonder_obsolete(building)) {
+    Tech_Type_id tech = improvement_types[building].tech_req;
+
+    if (tech_exists(tech) && get_invention(plr, tech) != TECH_KNOWN)
+      return tech;
+  }
+  return A_NONE;
 }
 
 static void ai_next_tech_goal_default(struct player *pplayer, 
@@ -147,7 +145,7 @@ static void ai_next_tech_goal_default(struct player *pplayer,
   if (tech != A_NONE) {
     dist = tech_goal_turns(pplayer, tech);
     if (dist < bestdist) { 
-      bestdist = dist;
+/*    bestdist = dist; */ /* useless, reinclude when adding a new if statement */
       goal = tech;
     }
   }
@@ -208,7 +206,8 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
 #define CACHE_SET(i,k)  cache[i][(k)/8] |= (1<<((k)%8))
 #define CACHE_TEST(i,k) cache[i][(k)/8] &  (1<<((k)%8))
   
-  num_cities_nonzero = MAX(1, city_list_size(&pplayer->cities));
+  if((num_cities_nonzero = city_list_size(&pplayer->cities)) < 1)
+    num_cities_nonzero = 1;
   memset(values, 0, sizeof(values));
   memset(goal_values, 0, sizeof(goal_values));
   memset(cache, 0, sizeof(cache));
