@@ -1585,6 +1585,14 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 	      pdialog->pcity->name,
 	      population_to_text(city_population(pdialog->pcity)));
 
+  if (city_unhappy(pdialog->pcity)) {
+    mystrlcat(buf, _(" - DISORDER"), sizeof(buf));
+  } else if (city_celebrating(pdialog->pcity)) {
+    mystrlcat(buf, _(" - celebrating"), sizeof(buf));
+  } else if (city_happy(pdialog->pcity)) {
+    mystrlcat(buf, _(" - happy"), sizeof(buf));
+  }
+
   now = GTK_WINDOW(pdialog->shell)->title;
   if (strcmp(now, buf)) {
     gtk_frame_set_label(GTK_FRAME(pdialog->title_frame), buf);
