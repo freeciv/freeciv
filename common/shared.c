@@ -1252,3 +1252,26 @@ bool bv_check_mask(unsigned char *vec1, unsigned char *vec2, size_t size1,
   }
   return FALSE;
 }
+
+/***************************************************************************
+  Returns string which gives the multicast group IP address for finding
+  servers on the LAN, as specified by $FREECIV_MULTICAST_GROUP.
+  Gets value once, and then caches result.
+***************************************************************************/
+char *get_multicast_group(void)
+{
+  static bool init = FALSE;
+  static char *group = NULL;
+  static char *default_multicast_group = "225.0.0.1";
+  
+  if (!init) {
+    char *env = getenv("FREECIV_MULTICAST_GROUP");
+    if (env) {
+      group = mystrdup(env);	        
+    } else {
+      group = mystrdup(default_multicast_group);
+    }
+    init = TRUE;
+  }
+  return group;
+}

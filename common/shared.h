@@ -223,4 +223,6 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 
 const char *freeciv_motto(void);
 
+char *get_multicast_group(void);
+
 #endif  /* FC__SHARED_H */

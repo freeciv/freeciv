@@ -27,6 +27,8 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/List.h>
+#include <X11/Xaw/Viewport.h>
+
 
 #include "fcintl.h"
 #include "log.h"
@@ -54,13 +56,14 @@ static enum {
 
 static Widget textsrc, shell;
 static Widget imsg, ilabel, iinput, ihost, iport;
-static Widget connw, metaw, quitw;
+static Widget connw, metaw, lanw, quitw;
 
 void server_address_ok_callback(Widget w, XtPointer client_data, 
 				XtPointer call_data);
 void quit_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void connect_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void connect_meta_callback(Widget w, XtPointer client_data, XtPointer call_data);
+void connect_lan_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 /****************************************************************/
 
@@ -75,8 +78,13 @@ void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data);
 void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void meta_close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
-static int get_meta_list(char **list, char *errbuf, int n_errbuf);
+void connect_lan_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
+static void server_list_timer(XtPointer client_data, XtIntervalId * id);
+static int get_server_list(char **list, char *errbuf, int n_errbuf);
+
+static bool lan_mode;  /* true for LAN mode, false when Meta mode */
+static int num_lanservers_timer = 0;
 
 /**************************************************************************
  close and destroy the dialog.
@@ -193,6 +201,7 @@ void gui_server_connect(void)
   I_L(connw=XtVaCreateManagedWidget("cconnectc", commandWidgetClass,
 				    form, NULL));
   I_L(metaw=XtVaCreateManagedWidget("cmetac", commandWidgetClass, form, NULL));
+  I_L(lanw=XtVaCreateManagedWidget("clanc", commandWidgetClass, form, NULL));
   I_L(quitw=XtVaCreateManagedWidget("cquitc", commandWidgetClass, form, NULL));
 
 #if IS_BETA_VERSION
@@ -205,6 +214,7 @@ void gui_server_connect(void)
   XtAddCallback(connw, XtNcallback, connect_callback, NULL);
   XtAddCallback(quitw, XtNcallback, quit_callback, NULL);
   XtAddCallback(metaw, XtNcallback, connect_meta_callback, (XtPointer)shell);
+  XtAddCallback(lanw, XtNcallback, connect_lan_callback, (XtPointer)shell);
 
   xaw_set_relative_position(toplevel, shell, 30, 0);
 
@@ -304,8 +314,61 @@ void connect_callback(Widget w, XtPointer client_data,
 void connect_meta_callback(Widget w, XtPointer client_data,
                            XtPointer call_data)
 {
-  if(meta_dialog_shell) return;  /* Metaserver window already poped up */
+  lan_mode = false;
+  if (meta_dialog_shell) {
+    /* Metaserver window already poped up */
+    return;
+  }
   create_meta_dialog((Widget)client_data);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void connect_lan_callback(Widget w, XtPointer client_data,
+                          XtPointer call_data)
+{
+  lan_mode = true;
+  if (meta_dialog_shell) {
+    /* Metaserver window already poped up */
+    return;
+  }
+  if (begin_lanserver_scan()) {
+    create_meta_dialog((Widget)client_data);
+  }
+}
+
+/**************************************************************************
+  This function updates the list of servers after the server dialog has been
+  displayed. LAN servers updated every 100 ms for 5 seconds, metaserver
+  updated only once.
+**************************************************************************/
+static void server_list_timer(XtPointer meta_list, XtIntervalId * id)
+{
+  char errbuf[128];
+
+  if (!meta_dialog_shell) {
+    return;
+  }
+
+  if (get_server_list(server_list, errbuf, sizeof(errbuf))!=-1)  {
+    XawListChange(meta_list, server_list, 0, 0, True);
+  } else if (!lan_mode) {
+    append_output_window(errbuf);
+  }
+  num_lanservers_timer++;
+
+  if (lan_mode) {
+    if (num_lanservers_timer == 50 && lan_mode) {
+      finish_lanserver_scan();
+      num_lanservers_timer = 0;
+      return;
+    }
+    (void)XtAppAddTimeOut(app_context, 100, server_list_timer,
+                          (XtPointer)meta_list);
+  } else {
+    num_lanservers_timer = 0;
+  }
 }
 
 /****************************************************************
@@ -313,8 +376,7 @@ void connect_meta_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void create_meta_dialog(Widget caller)
 {
-  Widget shell, form, label, list, update, close;
-  Dimension width;
+  Widget shell, form, label, list, update, close, viewport;
 
   I_T(shell=XtCreatePopupShell("metadialog", transientShellWidgetClass,
 			       toplevel, NULL, 0));
@@ -323,27 +385,29 @@ void create_meta_dialog(Widget caller)
   form=XtVaCreateManagedWidget("metaform", formWidgetClass, shell, NULL);
 
   I_L(label=XtVaCreateManagedWidget("legend", labelWidgetClass, form, NULL));
-  list=XtVaCreateManagedWidget("metalist", listWidgetClass, form, NULL);
+  viewport = XtVaCreateManagedWidget("metaviewport",
+                                     viewportWidgetClass, form, NULL);
+  list = XtVaCreateManagedWidget("metalist", listWidgetClass, viewport,
+                                 NULL);
   I_L(update=XtVaCreateManagedWidget("update", commandWidgetClass,
 				     form, NULL));
   I_L(close=XtVaCreateManagedWidget("closecommand", commandWidgetClass,
 				    form, NULL));
-
-  if(!update_meta_dialog(list))  {
-    XtDestroyWidget(shell);
-    meta_dialog_shell=0;
-    return;
-  }
-
+  
   XtAddCallback(list, XtNcallback, meta_list_callback, NULL);
   XtAddCallback(list, XtNdestroyCallback, meta_list_destroy, NULL);
   XtAddCallback(update, XtNcallback, meta_update_callback, (XtPointer)list);
   XtAddCallback(close, XtNcallback, meta_close_callback, NULL);
 
+  (void)XtAppAddTimeOut(app_context, 1, server_list_timer, (XtPointer)list);
+
   /* XtRealizeWidget(shell); */
 
-  XtVaGetValues(list, XtNwidth, &width, NULL);
-  XtVaSetValues(label, XtNwidth, width, NULL);
+  XtVaSetValues(shell, XtNwidth, 700, NULL);
+  XtVaSetValues(viewport, XtNwidth, 700, NULL);
+  XtVaSetValues(viewport, XtNheight, 350, NULL);
+  XtVaSetValues(list, XtNwidth, 700, NULL);
+  XtVaSetValues(label, XtNwidth, 700, NULL);
 
   xaw_set_relative_position(caller, shell, 0, 90);
   XtPopup(shell, XtGrabNone);
@@ -354,25 +418,17 @@ void create_meta_dialog(Widget caller)
 /****************************************************************
 ...
 *****************************************************************/
-int update_meta_dialog(Widget meta_list)
-{
-  char errbuf[128];
-
-  if(get_meta_list(server_list, errbuf, sizeof(errbuf))!=-1)  {
-    XawListChange(meta_list,server_list,0,0,True);
-    return 1;
-  } else {
-    append_output_window(errbuf);
-    return 0;
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
 void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  update_meta_dialog((Widget)client_data);
+  if (num_lanservers_timer == 0) {
+    if (lan_mode) {
+      if (begin_lanserver_scan()) {
+        server_list_timer((Widget)client_data, NULL);
+      }
+    } else {
+      server_list_timer((Widget)client_data, NULL);
+    }
+  }
 }
 
 /****************************************************************
@@ -408,27 +464,50 @@ void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data)
     free(server_list[i]);
     server_list[i]=NULL;
   }
+  if (num_lanservers_timer != 0) {    
+    finish_lanserver_scan();
+  }
 }
 
 /**************************************************************************
-  Get the list of servers from the metaserver
+  Get the list of servers from the metaserver or LAN servers
+  depending on lan_mode.
 **************************************************************************/
-static int get_meta_list(char **list, char *errbuf, int n_errbuf)
+static int get_server_list(char **list, char *errbuf, int n_errbuf)
 {
   char line[256];
-  struct server_list *server_list = create_server_list(errbuf, n_errbuf);
-  if(!server_list) return -1;
+  struct server_list *server_list = NULL;
 
-  server_list_iterate(*server_list,pserver)
+  if (lan_mode) {
+    server_list = get_lan_server_list();
+    if (server_list == NULL) {
+      if (num_lanservers_timer == 0) {
+        *list = mystrdup(" ");;
+        return 0;
+      } else {
+        return -1;
+      }
+    }
+  } else {
+    server_list = create_server_list(errbuf, n_errbuf); 
+    if (!server_list) {
+      return -1;
+    }
+  }
+
+  server_list_iterate(*server_list,pserver) {
+    if (pserver == NULL) continue;
     my_snprintf(line, sizeof(line), "%-35s %-5s %-11s %-11s %2s   %s",
 		pserver->name, pserver->port, pserver->version,
 		_(pserver->status), pserver->players, pserver->metastring);
-    if(*list) free(*list);
+    if (*list) free(*list);
     *list=mystrdup(line);
     list++;
-  server_list_iterate_end
+  } server_list_iterate_end;
 
-  delete_server_list(server_list);
+  if (!lan_mode) {
+    delete_server_list(server_list);
+  } 
   *list=NULL;
   return 0;
 }

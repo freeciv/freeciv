@@ -53,7 +53,8 @@ static enum {
 
 static GtkWidget *imsg, *ilabel, *iinput, *ihost, *iport;
 static GtkWidget *connw;
-static GtkListStore *store;
+static GtkListStore *storemeta;
+static GtkListStore *storelan;
 
 static GtkWidget *dialog, *book;
 
@@ -63,6 +64,13 @@ static void meta_list_callback(GtkTreeSelection *select, GtkTreeModel *model);
 static void meta_update_callback(GtkWidget *w, gpointer data);
 
 static int get_meta_list(char *errbuf, int n_errbuf);
+
+/* LAN Servers */
+static void lan_update_callback(GtkWidget *w, gpointer data);
+static void lan_list_callback(GtkTreeSelection *select, GtkTreeModel *model);
+static int get_lanservers(gpointer data);
+
+static int num_lanservers_timer = 0;
 
 /**************************************************************************
  close and destroy the dialog.
@@ -205,6 +213,65 @@ static void meta_update_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
+ This function updates the list of LAN servers every 100 ms for 5 seconds. 
+**************************************************************************/
+static int get_lanservers(gpointer data)
+{
+  struct server_list *server_list = get_lan_server_list();
+  gchar *row[6];
+
+  if (server_list != NULL) {
+    gtk_list_store_clear(storelan);
+
+    server_list_iterate(*server_list, pserver) {
+      GtkTreeIter it;
+      int i;
+
+      row[0] = ntoh_str(pserver->name);
+      row[1] = ntoh_str(pserver->port);
+      row[2] = ntoh_str(pserver->version);
+      row[3] = _(pserver->status);
+      row[4] = ntoh_str(pserver->players);
+      row[5] = ntoh_str(pserver->metastring);
+
+      gtk_list_store_append(storelan, &it);
+      gtk_list_store_set(storelan, &it,
+		         0, row[0], 1, row[1], 2, row[2],
+		         3, row[3], 4, row[4], 5, row[5], -1);
+
+      for (i = 0; i < 6; i++) {
+        if (i != 3) {
+          g_free(row[i]);
+        }
+      }
+    } server_list_iterate_end;
+  }
+
+  num_lanservers_timer++;
+  if (num_lanservers_timer == 50) {
+    finish_lanserver_scan();
+    num_lanservers_timer = 0;
+    return 0;
+  }
+  return 1;
+}
+
+/**************************************************************************
+  This function updates the list widget with LAN servers.
+**************************************************************************/
+static void lan_update_callback(GtkWidget *w, gpointer data)
+{
+  int get_lanservers_timer = 0;
+
+  if (num_lanservers_timer == 0) { 
+    gtk_list_store_clear(storelan);
+    if (begin_lanserver_scan()) {
+      get_lanservers_timer = gtk_timeout_add(100, get_lanservers, NULL);
+    }
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void meta_list_callback(GtkTreeSelection *select, GtkTreeModel *dummy)
@@ -215,7 +282,25 @@ static void meta_list_callback(GtkTreeSelection *select, GtkTreeModel *dummy)
   if (!gtk_tree_selection_get_selected(select, NULL, &it))
     return;
 
-  gtk_tree_model_get(GTK_TREE_MODEL(store), &it, 0, &name, 1, &port, -1);
+  gtk_tree_model_get(GTK_TREE_MODEL(storemeta), &it, 0, &name, 1, &port, -1);
+
+  gtk_entry_set_text(GTK_ENTRY(ihost), name);
+  gtk_entry_set_text(GTK_ENTRY(iport), port);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void lan_list_callback(GtkTreeSelection *select, GtkTreeModel *dummy)
+{
+  GtkTreeIter it;
+  char *name, *port;
+
+  if (!gtk_tree_selection_get_selected(select, NULL, &it)) {
+    return;
+  }
+
+  gtk_tree_model_get(GTK_TREE_MODEL(storelan), &it, 0, &name, 1, &port, -1);
 
   gtk_entry_set_text(GTK_ENTRY(ihost), name);
   gtk_entry_set_text(GTK_ENTRY(iport), port);
@@ -227,6 +312,17 @@ static void meta_list_callback(GtkTreeSelection *select, GtkTreeModel *dummy)
 static gboolean meta_click_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
 {
   if (event->type==GDK_2BUTTON_PRESS) connect_callback(w, data);
+  return FALSE;
+}
+
+/**************************************************************************
+...
+***************************************************************************/
+static gboolean lan_click_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
+{
+  if (event->type == GDK_2BUTTON_PRESS) {
+    connect_callback(w, data);
+  }
   return FALSE;
 }
 
@@ -270,10 +366,11 @@ static void connect_command_callback(GtkWidget *w, gint response_id)
 **************************************************************************/
 void gui_server_connect(void)
 {
-  GtkWidget *label, *table, *scrolled, *list, *vbox, *update;
+  GtkWidget *label, *table, *scrolled, *listmeta, *listlan;
+  GtkWidget  *vbox, *updatemeta, *updatelan;
   char buf [256];
   GtkCellRenderer *renderer;
-  GtkTreeSelection *selection;
+  GtkTreeSelection *selectionmeta, *selectionlan;
 
   if (dialog) {
     return;
@@ -383,41 +480,83 @@ void gui_server_connect(void)
   }
 #endif
 
-  label=gtk_label_new(_("Metaserver"));
+  /* Create the Metaserver notebook page  */
+  label = gtk_label_new(_("Metaserver"));
 
-  vbox=gtk_vbox_new(FALSE, 2);
+  vbox = gtk_vbox_new(FALSE, 2);
   gtk_notebook_append_page (GTK_NOTEBOOK (book), vbox, label);
 
-  store = gtk_list_store_new(6, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-			     G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+  storemeta = gtk_list_store_new(6, G_TYPE_STRING, G_TYPE_STRING,
+                                 G_TYPE_STRING, G_TYPE_STRING, 
+                                 G_TYPE_STRING, G_TYPE_STRING);
 
-  list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
-  g_object_unref(store);
-  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(list));
+  listmeta = gtk_tree_view_new_with_model(GTK_TREE_MODEL(storemeta));
+  selectionmeta = gtk_tree_view_get_selection(GTK_TREE_VIEW(listmeta));
+  g_object_unref(storemeta);
+  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(listmeta));
 
   renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listmeta),
 	-1, _("Server Name"), renderer, "text", 0, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listmeta),
 	-1, _("Port"), renderer, "text", 1, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listmeta),
 	-1, _("Version"), renderer, "text", 2, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listmeta),
 	-1, _("Status"), renderer, "text", 3, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listmeta),
 	-1, _("Players"), renderer, "text", 4, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listmeta),
 	-1, _("Comment"), renderer, "text", 5, NULL);
 
-  scrolled=gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), list);
+  scrolled = gtk_scrolled_window_new(NULL,NULL);
+  gtk_container_add(GTK_CONTAINER(scrolled), listmeta);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
 
-  update=gtk_button_new_from_stock(GTK_STOCK_REFRESH);
-  gtk_box_pack_start(GTK_BOX(vbox), update, FALSE, FALSE, 2);
+  updatemeta = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
+  gtk_box_pack_start(GTK_BOX(vbox), updatemeta, FALSE, FALSE, 2);
+
+  gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
+
+  /* Create the Local Area Network notebook page   */
+  label = gtk_label_new(_("Local Area Network"));
+
+  vbox = gtk_vbox_new(FALSE, 2);
+  gtk_notebook_append_page (GTK_NOTEBOOK (book), vbox, label);
+
+  storelan = gtk_list_store_new(6, G_TYPE_STRING, G_TYPE_STRING,
+                                G_TYPE_STRING, G_TYPE_STRING, 
+                                G_TYPE_STRING, G_TYPE_STRING);
+
+  listlan = gtk_tree_view_new_with_model(GTK_TREE_MODEL(storelan));
+  selectionlan = gtk_tree_view_get_selection(GTK_TREE_VIEW(listlan));
+  g_object_unref(storelan);
+  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(listlan));
+
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listlan),
+	-1, _("Server Name"), renderer, "text", 0, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listlan),
+	-1, _("Port"), renderer, "text", 1, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listlan),
+	-1, _("Version"), renderer, "text", 2, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listlan),
+	-1, _("Status"), renderer, "text", 3, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listlan),
+	-1, _("Players"), renderer, "text", 4, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(listlan),
+	-1, _("Comment"), renderer, "text", 5, NULL);
+
+  scrolled = gtk_scrolled_window_new(NULL,NULL);
+  gtk_container_add(GTK_CONTAINER(scrolled), listlan);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+  gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
+
+  updatelan = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
+  gtk_box_pack_start(GTK_BOX(vbox), updatelan, FALSE, FALSE, 2);
 
   gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
 
@@ -431,12 +570,19 @@ void gui_server_connect(void)
    * packets to the server until the dialog is up (which 
    * it may not be on very slow machines) */
 
-  g_signal_connect(list, "button_press_event",
+  g_signal_connect(listmeta, "button_press_event",
 		   G_CALLBACK(meta_click_callback), NULL);
-  g_signal_connect(selection, "changed",
+  g_signal_connect(selectionmeta, "changed",
                    G_CALLBACK(meta_list_callback), NULL);
-  g_signal_connect(update, "clicked",
+  g_signal_connect(updatemeta, "clicked",
 		   G_CALLBACK(meta_update_callback), NULL);
+
+  g_signal_connect(listlan, "button_press_event",
+                   G_CALLBACK(lan_click_callback), NULL);
+  g_signal_connect(selectionlan, "changed",
+                   G_CALLBACK(lan_list_callback), NULL);
+  g_signal_connect(updatelan, "clicked",
+                   G_CALLBACK(lan_update_callback), NULL);
 
   g_signal_connect(book, "switch-page", G_CALLBACK(switch_page_callback), NULL);
   g_signal_connect(iinput, "activate", G_CALLBACK(connect_callback), NULL);
@@ -458,11 +604,11 @@ static int get_meta_list(char *errbuf, int n_errbuf)
   struct server_list *server_list = create_server_list(errbuf, n_errbuf);
   gchar *row[6];
 
-  if(!server_list) {
+  if (!server_list) {
     return -1;
   }
 
-  gtk_list_store_clear(store);
+  gtk_list_store_clear(storemeta);
 
   server_list_iterate(*server_list, pserver) {
     GtkTreeIter it;
@@ -475,8 +621,8 @@ static int get_meta_list(char *errbuf, int n_errbuf)
     row[4] = ntoh_str(pserver->players);
     row[5] = ntoh_str(pserver->metastring);
 
-    gtk_list_store_append(store, &it);
-    gtk_list_store_set(store, &it,
+    gtk_list_store_append(storemeta, &it);
+    gtk_list_store_set(storemeta, &it,
 		       0, row[0], 1, row[1], 2, row[2],
 		       3, row[3], 4, row[4], 5, row[5], -1);
 

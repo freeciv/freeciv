@@ -19,6 +19,10 @@ struct connection;
 #define DEFAULT_SOCK_PORT 5555
 #define BUF_SIZE 512
 
+#define SERVER_LAN_PORT 4555
+#define SERVER_LAN_TTL 1
+#define SERVER_LAN_VERSION 1
+
 int server_open_socket(void);
 void flush_packets(void);
 int sniff_packets(void);

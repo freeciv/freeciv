@@ -105,9 +105,13 @@ Freeciv*connectdialog.*.cmetac.label: _("Metaserver")
 Freeciv*connectdialog.*.cmetac.fromVert: cportl
 Freeciv*connectdialog.*.cmetac.fromHoriz: cconnectc
 
+Freeciv*connectdialog.*.clanc.label: _("LAN Servers")
+Freeciv*connectdialog.*.clanc.fromVert: cportl
+Freeciv*connectdialog.*.clanc.fromHoriz: cmetac
+
 Freeciv*connectdialog.*.cquitc.label: _("Quit")
 Freeciv*connectdialog.*.cquitc.fromVert: cportl
-Freeciv*connectdialog.*.cquitc.fromHoriz: cmetac
+Freeciv*connectdialog.*.cquitc.fromHoriz: clanc
 
 Freeciv*connectdialog.*.cbetaline.fromVert: cconnectc
 Freeciv*connectdialog.*.cbetaline.justify: left
@@ -119,7 +123,7 @@ Freeciv*connectdialog.*.cbetaline.width: 300
 !
 ! Metaserver dialog
 !
-Freeciv*metadialog.title: _("Metaserver List")
+Freeciv*metadialog.title: _("Freeciv Server List")
 Freeciv*metadialog.allowShellResize: True
 
 Freeciv*metadialog.*.legend.label: _("\
@@ -131,14 +135,18 @@ Freeciv*metadialog.*.legend.top:		  ChainTop
 Freeciv*metadialog.*.legend.bottom:		  ChainTop
 Freeciv*metadialog.*.legend.resizable:		  True
 
+Freeciv*metadialog.*.metaviewport.allowVert:      True
+Freeciv*metadialog.*.metaviewport.allowHoriz:     True
+Freeciv*metadialog.*.metaviewport.useBottom:	  True
+Freeciv*metadialog.*.metaviewport.fromVert:       legend
+
 Freeciv*metadialog.*.metalist.forceColumns:      True
 Freeciv*metadialog.*.metalist.defaultColumns:    1
 Freeciv*metadialog.*.metalist.verticalList:      True
 Freeciv*metadialog.*.metalist.left:              ChainLeft
 Freeciv*metadialog.*.metalist.right:             ChainRight
-Freeciv*metadialog.*.metalist.top:		  ChainTop
-Freeciv*metadialog.*.metalist.bottom:		  ChainBottom
-Freeciv*metadialog.*.metalist.fromVert:	  legend
+Freeciv*metadialog.*.metalist.top:		 ChainTop
+Freeciv*metadialog.*.metalist.bottom:		 ChainBottom
 Freeciv*metadialog.*.metalist.resizable:         True
 
 Freeciv*metadialog.*.update.label:		  _("Update")
@@ -146,14 +154,14 @@ Freeciv*metadialog.*.update.left:		  ChainLeft
 Freeciv*metadialog.*.update.right:		  ChainLeft
 Freeciv*metadialog.*.update.top:		  ChainBottom
 Freeciv*metadialog.*.update.bottom:		  ChainBottom
-Freeciv*metadialog.*.update.fromVert:		  metalist
+Freeciv*metadialog.*.update.fromVert:		  metaviewport
 
 Freeciv*metadialog.*.closecommand.label:	  _("Close")
 Freeciv*metadialog.*.closecommand.left:	  ChainLeft
 Freeciv*metadialog.*.closecommand.right:	  ChainLeft
 Freeciv*metadialog.*.closecommand.top:		  ChainBottom
 Freeciv*metadialog.*.closecommand.bottom:	  ChainBottom
-Freeciv*metadialog.*.closecommand.fromVert:      metalist
+Freeciv*metadialog.*.closecommand.fromVert:       metaviewport
 Freeciv*metadialog.*.closecommand.fromHoriz:	  update
 
 !

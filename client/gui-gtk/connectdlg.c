@@ -54,7 +54,8 @@ static enum {
 
 static GtkWidget *imsg, *ilabel, *iinput, *ihost, *iport;
 static GtkWidget *connw, *quitw;
-static GtkWidget *server_clist;	/* sorted list of servers */
+static GtkWidget *meta_list;	/* Meta Server */
+static GtkWidget *lan_list;     /* LAN Servers */
 
 static GtkWidget *dialog, *book;
 static int sort_column;
@@ -65,6 +66,13 @@ static void meta_list_callback(GtkWidget *w, gint row, gint column);
 static void meta_update_callback(GtkWidget *w, gpointer data);
 
 static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf);
+
+/* LAN Servers */
+static void lan_update_callback(GtkWidget *w, gpointer data);
+static void lan_list_callback(GtkWidget *w, gint row, gint column);
+static int get_lanservers(gpointer data);
+
+static int num_lanservers_timer = 0;
 
 #define DEFAULT_SORT_COLUMN 0	/* default sort column  (server)  */
 
@@ -185,18 +193,18 @@ static void connect_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
- Sort the list of metaservers
+ Sort the list of servers
 **************************************************************************/
 static void sort_servers_callback(GtkButton * button, gpointer * data)
 {
   sort_column = GPOINTER_TO_INT(data);
-  if (GTK_CLIST(server_clist)->sort_type == GTK_SORT_ASCENDING) {
-    gtk_clist_set_sort_type(GTK_CLIST(server_clist), GTK_SORT_DESCENDING);
+  if (GTK_CLIST(data)->sort_type == GTK_SORT_ASCENDING) {
+    gtk_clist_set_sort_type(GTK_CLIST(data), GTK_SORT_DESCENDING);
   } else {
-    gtk_clist_set_sort_type(GTK_CLIST(server_clist), GTK_SORT_ASCENDING);
+    gtk_clist_set_sort_type(GTK_CLIST(data), GTK_SORT_ASCENDING);
   }
-  gtk_clist_set_sort_column(GTK_CLIST(server_clist), sort_column);
-  gtk_clist_sort(GTK_CLIST(server_clist));
+  gtk_clist_set_sort_column(GTK_CLIST(data), sort_column);
+  gtk_clist_sort(GTK_CLIST(data));
 }
 
 /**************************************************************************
@@ -223,9 +231,80 @@ static void meta_update_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
+ This function updates the list of LAN servers every 100 ms for 5 seconds.
+**************************************************************************/
+static gint get_lanservers(gpointer data)
+{
+  int i;
+  char *row[6];
+  char buf[6][64];
+  struct server_list *server_list = get_lan_server_list();
+
+  if (server_list != NULL) {
+    gtk_clist_freeze(GTK_CLIST(lan_list));
+    gtk_clist_clear(GTK_CLIST(lan_list));
+
+    for (i = 0; i < 6; i++) {
+      row[i] = buf[i];
+    }
+    server_list_iterate(*server_list,pserver) {
+      sz_strlcpy(buf[0], pserver->name);
+      sz_strlcpy(buf[1], pserver->port);
+      sz_strlcpy(buf[2], pserver->version);
+      sz_strlcpy(buf[3], _(pserver->status));
+      sz_strlcpy(buf[4], pserver->players);
+      sz_strlcpy(buf[5], pserver->metastring);
+
+      gtk_clist_append(GTK_CLIST(lan_list), row);
+    } server_list_iterate_end;
+
+    gtk_clist_thaw(GTK_CLIST(lan_list));
+    gtk_clist_set_sort_type(GTK_CLIST(lan_list), GTK_SORT_ASCENDING);
+    gtk_clist_set_sort_column(GTK_CLIST(lan_list), sort_column);
+    gtk_clist_sort(GTK_CLIST(lan_list));
+  }
+
+  num_lanservers_timer++;
+  if (num_lanservers_timer == 50) {
+    finish_lanserver_scan();
+    num_lanservers_timer = 0;
+    return 0;
+  }
+  return 1;
+}
+
+/**************************************************************************
+  This function updates the list widget with LAN servers.
+**************************************************************************/
+static void lan_update_callback(GtkWidget *w, gpointer data)
+{
+  int get_lanservers_timer = 0;
+
+  if (num_lanservers_timer == 0) {
+    gtk_clist_clear(GTK_CLIST(lan_list));
+    if (begin_lanserver_scan()) {
+      get_lanservers_timer = gtk_timeout_add(100, get_lanservers, NULL);
+    }
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void meta_list_callback(GtkWidget *w, gint row, gint column)
+{
+  gchar *name, *port;
+
+  gtk_clist_get_text(GTK_CLIST(w), row, 0, &name);
+  gtk_entry_set_text(GTK_ENTRY(ihost), name);
+  gtk_clist_get_text(GTK_CLIST(w), row, 1, &port);
+  gtk_entry_set_text(GTK_ENTRY(iport), port);
+}
+
+/**************************************************************************
+  This function sets the host and port field in the server selection.
+**************************************************************************/
+static void lan_list_callback(GtkWidget *w, gint row, gint column)
 {
   gchar *name, *port;
 
@@ -241,6 +320,16 @@ static void meta_list_callback(GtkWidget *w, gint row, gint column)
 static void meta_click_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
 {
   if (event->type==GDK_2BUTTON_PRESS) connect_callback(w, data);
+}
+
+/**************************************************************************
+...
+***************************************************************************/
+static void lan_click_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
+{
+  if (event->type == GDK_2BUTTON_PRESS) {
+    connect_callback(w, data);
+  }
 }
 
 /**************************************************************************
@@ -272,7 +361,7 @@ static void switch_page_callback(GtkNotebook * notebook,
 **************************************************************************/
 void gui_server_connect(void)
 {
-  GtkWidget *label, *table, *scrolled, *vbox, *update;
+  GtkWidget *label, *table, *scrolled, *vbox, *update_meta, *update_lan;
   static const char *titles_[6]= {N_("Server Name"), N_("Port"), N_("Version"),
 				  N_("Status"), N_("Players"), N_("Comment")};
   static char **titles;
@@ -365,20 +454,41 @@ void gui_server_connect(void)
   vbox=gtk_vbox_new(FALSE, 2);
   gtk_notebook_append_page (GTK_NOTEBOOK (book), vbox, label);
 
-  server_clist = gtk_clist_new_with_titles(6, titles);
+  meta_list = gtk_clist_new_with_titles(6, titles);
 
   for (i = 0; i < 6; i++) {
-    gtk_clist_set_column_auto_resize(GTK_CLIST(server_clist), i, TRUE);
+    gtk_clist_set_column_auto_resize(GTK_CLIST(meta_list), i, TRUE);
   }
 
   scrolled=gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), server_clist);
+  gtk_container_add(GTK_CONTAINER(scrolled), meta_list);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
 
-  update=gtk_button_new_with_label(_("Update"));
-  gtk_box_pack_start(GTK_BOX(vbox), update, FALSE, FALSE, 2);
+  update_meta = gtk_button_new_with_label(_("Update"));
+  gtk_box_pack_start(GTK_BOX(vbox), update_meta, FALSE, FALSE, 2);
+
+
+  label = gtk_label_new(_("Local Area Network"));
+
+  vbox = gtk_vbox_new(FALSE, 2);
+  gtk_notebook_append_page (GTK_NOTEBOOK (book), vbox, label);
+
+  lan_list = gtk_clist_new_with_titles(6, titles);
+
+  for (i = 0; i < 6; i++) {
+    gtk_clist_set_column_auto_resize(GTK_CLIST(lan_list), i, TRUE);
+  }
+
+  scrolled = gtk_scrolled_window_new(NULL,NULL);
+  gtk_container_add(GTK_CONTAINER(scrolled), lan_list);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+  gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
+
+  update_lan = gtk_button_new_with_label(_("Update"));
+  gtk_box_pack_start(GTK_BOX(vbox), update_lan, FALSE, FALSE, 2);
 
   connw = gtk_button_new_with_label(_("Connect"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), connw,
@@ -394,8 +504,8 @@ void gui_server_connect(void)
   gtk_widget_grab_focus (iinput);
 
   /*  default sort column  */
-  gtk_clist_set_sort_column(GTK_CLIST(server_clist), DEFAULT_SORT_COLUMN);
-
+  gtk_clist_set_sort_column(GTK_CLIST(meta_list), DEFAULT_SORT_COLUMN);
+  gtk_clist_set_sort_column(GTK_CLIST(lan_list), DEFAULT_SORT_COLUMN);
 
   gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
   gtk_widget_show_all(GTK_DIALOG(dialog)->action_area);
@@ -426,19 +536,31 @@ void gui_server_connect(void)
   gtk_signal_connect(GTK_OBJECT(quitw), "clicked",
         	      GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
 
-  gtk_signal_connect(GTK_OBJECT(server_clist), "select_row",
+  gtk_signal_connect(GTK_OBJECT(meta_list), "select_row",
 		     GTK_SIGNAL_FUNC(meta_list_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(server_clist), "button_press_event",
+  gtk_signal_connect(GTK_OBJECT(meta_list), "button_press_event",
 		     GTK_SIGNAL_FUNC(meta_click_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(update), "clicked",
+  gtk_signal_connect(GTK_OBJECT(update_meta), "clicked",
 		     GTK_SIGNAL_FUNC(meta_update_callback),
-		     (gpointer) server_clist);
+		     (gpointer) meta_list);
+  gtk_signal_connect(GTK_OBJECT(lan_list), "select_row",
+                     GTK_SIGNAL_FUNC(lan_list_callback), NULL);
+  gtk_signal_connect(GTK_OBJECT(lan_list), "button_press_event",
+                     GTK_SIGNAL_FUNC(lan_click_callback), NULL);
+  gtk_signal_connect(GTK_OBJECT(update_lan), "clicked",
+                     GTK_SIGNAL_FUNC(lan_update_callback),
+                     (gpointer) lan_list);
+
 
   /*  all columns are clickable  */
   for (i = 0; i <6 ; i++) {
-    gtk_signal_connect(GTK_OBJECT(GTK_CLIST(server_clist)->column[i].button),
+    gtk_signal_connect(GTK_OBJECT(GTK_CLIST(meta_list)->column[i].button),
 		       "clicked", GTK_SIGNAL_FUNC(sort_servers_callback),
-		       GINT_TO_POINTER(i));
+		       GINT_TO_POINTER(meta_list));
+    gtk_signal_connect(GTK_OBJECT(GTK_CLIST(lan_list)->column[i].button),
+                       "clicked", GTK_SIGNAL_FUNC(sort_servers_callback),
+                       GINT_TO_POINTER(lan_list));
+
   }
 }
 
@@ -453,8 +575,8 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
   struct server_list *server_list = create_server_list(errbuf, n_errbuf);
   if(!server_list) return -1;
 
-  gtk_clist_freeze(GTK_CLIST(server_clist));
-  gtk_clist_clear(GTK_CLIST(server_clist));
+  gtk_clist_freeze(GTK_CLIST(meta_list));
+  gtk_clist_clear(GTK_CLIST(meta_list));
 
   for (i=0; i<6; i++)
     row[i]=buf[i];
@@ -467,17 +589,17 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
     sz_strlcpy(buf[4], pserver->players);
     sz_strlcpy(buf[5], pserver->metastring);
 
-    gtk_clist_append(GTK_CLIST(server_clist), row);
+    gtk_clist_append(GTK_CLIST(meta_list), row);
   }
   server_list_iterate_end;
 
   delete_server_list(server_list);
-  gtk_clist_thaw(GTK_CLIST(server_clist));
+  gtk_clist_thaw(GTK_CLIST(meta_list));
 
   /* sort the list */
-  gtk_clist_set_sort_type(GTK_CLIST(server_clist), GTK_SORT_ASCENDING);
-  gtk_clist_set_sort_column(GTK_CLIST(server_clist), sort_column);
-  gtk_clist_sort(GTK_CLIST(server_clist));
+  gtk_clist_set_sort_type(GTK_CLIST(meta_list), GTK_SORT_ASCENDING);
+  gtk_clist_set_sort_column(GTK_CLIST(meta_list), sort_column);
+  gtk_clist_sort(GTK_CLIST(meta_list));
      
   return 0;
 }

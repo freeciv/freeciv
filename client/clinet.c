@@ -21,6 +21,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
@@ -53,6 +56,7 @@
 #endif
 
 #include "capstr.h"
+#include "dataio.h"
 #include "fcintl.h"
 #include "game.h"
 #include "hash.h"
@@ -80,6 +84,8 @@
 #include "clinet.h"
 
 struct connection aconnection;
+static int socklan;
+static struct server_list *lan_servers;
 static struct sockaddr_in server_addr;
 
 /**************************************************************************
@@ -664,4 +670,172 @@ void delete_server_list(struct server_list *server_list)
 
   server_list_unlink_all(server_list);
 	free(server_list);
+}
+
+/**************************************************************************
+  Broadcast an UDP package to all servers on LAN, requesting information 
+  about the server. The packet is send to all Freeciv servers in the same
+  multicast group as the client.
+**************************************************************************/
+int begin_lanserver_scan(void)
+{
+  struct sockaddr_in addr;
+  struct data_out dout;
+  int sock, opt = 1;
+  unsigned char buffer[MAX_LEN_PACKET];
+  struct ip_mreq mreq;
+  const char *group;
+  unsigned char ttl;
+  size_t size;
+
+  /* Create a socket for broadcasting to servers. */
+  if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+    freelog(LOG_ERROR, "socket failed: %s", mystrerror(errno));
+    return 0;
+  }
+
+  if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
+                 (char *)&opt, sizeof(opt)) == -1) {
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
+  }
+
+  /* Set the UDP Multicast group IP address. */
+  group = get_multicast_group();
+  memset(&addr, 0, sizeof(addr));
+  addr.sin_family = AF_INET;
+  addr.sin_addr.s_addr = inet_addr(get_multicast_group());
+  addr.sin_port = htons(SERVER_LAN_PORT);
+
+  /* Set the Time-to-Live field for the packet  */
+  ttl = SERVER_LAN_TTL;
+  if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
+                 sizeof(ttl))) {
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
+    return 0;
+  }
+
+  if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
+                 sizeof(opt))) {
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
+    return 0;
+  }
+
+  dio_output_init(&dout, buffer, sizeof(buffer));
+  dio_put_uint8(&dout, SERVER_LAN_VERSION);
+  size = dio_output_used(&dout);
+ 
+
+  if (sendto(sock, buffer, size, 0, (struct sockaddr *) &addr,
+      sizeof(addr)) < 0) {
+    freelog(LOG_ERROR, "sendto failed: %s", mystrerror(errno));
+    return 0;
+  } else {
+    freelog(LOG_DEBUG, ("Sending request for server announcement on LAN."));
+  }
+
+  my_closesocket(sock);
+
+  /* Create a socket for listening for server packets. */
+  if ((socklan = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+    freelog(LOG_ERROR, "socket failed: %s", mystrerror(errno));
+    return 0;
+  }
+
+  my_nonblock(socklan);
+
+  if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
+                 (char *)&opt, sizeof(opt)) == -1) {
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
+  }
+                                                                               
+  memset(&addr, 0, sizeof(addr));
+  addr.sin_family = AF_INET;
+  addr.sin_addr.s_addr = htonl(INADDR_ANY); 
+  addr.sin_port = htons(SERVER_LAN_PORT + 1);
+
+  if (bind(socklan, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
+    freelog(LOG_ERROR, "bind failed: %s", mystrerror(errno));
+    return 0;
+  }
+
+  mreq.imr_multiaddr.s_addr = inet_addr(group);
+  mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+  if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP, 
+                 (const char*)&mreq, sizeof(mreq)) < 0) {
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
+    return 0;
+  }
+
+  lan_servers = fc_malloc(sizeof(struct server_list));
+  server_list_init(lan_servers);
+
+  return 1;
+}
+
+/**************************************************************************
+  Listens for UDP packets broadcasted from a server that responded
+  to the request-packet sent from the client. 
+**************************************************************************/
+struct server_list *get_lan_server_list(void) {
+  char msgbuf[128];
+  int type;
+  struct data_in din;
+  char servername[512];
+  char port[256];
+  char version[256];
+  char status[256];
+  char players[256];
+  char metastring[1024];
+
+  dio_input_init(&din, msgbuf, sizeof(msgbuf));
+
+  /* Try to receive a packet from a server. */ 
+  if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0, NULL, NULL)) {
+    struct server *pserver =
+                (struct server*)fc_malloc(sizeof(struct server));
+
+    dio_get_uint8(&din, &type);
+    if (type != SERVER_LAN_VERSION) {
+      return FALSE;
+    }
+    dio_get_string(&din, servername, sizeof(servername));
+    dio_get_string(&din, port, sizeof(port));
+    dio_get_string(&din, version, sizeof(version));
+    dio_get_string(&din, status, sizeof(status));
+    dio_get_string(&din, players, sizeof(players));
+    dio_get_string(&din, metastring, sizeof(metastring));
+
+    /* UDP can send duplicate or delayed packets. */
+    server_list_iterate(*lan_servers, aserver) {
+      if (!mystrcasecmp(aserver->name, servername) 
+          && !mystrcasecmp(aserver->port, port)) {
+        return FALSE;
+      } 
+    } server_list_iterate_end;
+
+    freelog(LOG_DEBUG,
+            ("Received a valid announcement from a server on the LAN."));
+
+    pserver->name = mystrdup(servername);
+    pserver->port = mystrdup(port);
+    pserver->version = mystrdup(version);
+    pserver->status = mystrdup(status);
+    pserver->players = mystrdup(players);
+    pserver->metastring = mystrdup(metastring);
+                                                                                
+    server_list_insert(lan_servers, pserver);
+  } else {
+    return FALSE;
+  }                                       
+
+  return lan_servers;
+}
+
+/**************************************************************************
+  Closes the socket listening on the lan and frees the list of LAN servers.
+**************************************************************************/
+void finish_lanserver_scan(void) 
+{
+  my_closesocket(socklan);
+  delete_server_list(lan_servers);
 }

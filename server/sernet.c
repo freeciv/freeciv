@@ -61,6 +61,7 @@
 #endif
 
 #include "capability.h"
+#include "dataio.h"
 #include "events.h"
 #include "fcintl.h"
 #include "log.h"
@@ -87,6 +88,7 @@ TEndpointInfo serv_info;
 EndpointRef serv_ep;
 #else
 static int sock;
+static int socklan;
 #endif
 
 #if defined(__VMS)
@@ -123,6 +125,9 @@ static void start_processing_request(struct connection *pconn,
 static void finish_processing_request(struct connection *pconn);
 static void ping_connection(struct connection *pconn);
 static void send_ping_times_to_all(void);
+
+static void get_lanserver_announcement(void);
+static void send_lanserver_response(void);
 
 static bool no_input = FALSE;
 
@@ -220,6 +225,7 @@ void close_connections_and_socket(void)
     }
   }
   my_closesocket(sock);
+  my_closesocket(socklan);
 
 #ifdef HAVE_LIBREADLINE
   if (history_file) {
@@ -380,6 +386,8 @@ int sniff_packets(void)
       con_prompt_off();
       return 2;
     }
+
+    get_lanserver_announcement();
 
     /* end server if no players for 'srvarg.quitidle' seconds */
     if (srvarg.quitidle != 0 && server_state != PRE_GAME_STATE) {
@@ -767,13 +775,18 @@ static int server_accept_connection(int sockfd)
 
 /********************************************************************
  open server socket to be used to accept client connections
+ and open a server socket for server LAN announcements.
 ********************************************************************/
 int server_open_socket(void)
 {
   /* setup socket address */
   struct sockaddr_in src;
+  struct sockaddr_in addr;
+  struct ip_mreq mreq;
+  const char *group;
   int opt;
 
+  /* Create socket for client connections. */
   if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     die("socket failed: %s", mystrerror(errno));
   }
@@ -800,6 +813,37 @@ int server_open_socket(void)
   if(listen(sock, MAX_NUM_CONNECTIONS) == -1) {
     freelog(LOG_FATAL, "listen failed: %s", mystrerror(errno));
     exit(EXIT_FAILURE);
+  }
+
+  /* Create socket for server LAN announcements */
+  if ((socklan = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+     freelog(LOG_ERROR, "socket failed: %s", mystrerror(errno));
+  }
+
+  if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
+                 (char *)&opt, sizeof(opt)) == -1) {
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
+  }
+
+  my_nonblock(socklan);
+
+  group = get_multicast_group();
+
+  memset(&addr, 0, sizeof(addr));
+  addr.sin_family = AF_INET;
+  addr.sin_addr.s_addr = htonl(INADDR_ANY);
+  addr.sin_port = htons(SERVER_LAN_PORT);
+
+  if (bind(socklan, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+    freelog(LOG_ERROR, "bind failed: %s", mystrerror(errno));
+  }
+
+  mreq.imr_multiaddr.s_addr = inet_addr(group);
+  mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+
+  if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+                 (const char*)&mreq, sizeof(mreq)) < 0) {
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
   }
 
   close_socket_set_callback(close_socket_callback);
@@ -924,3 +968,122 @@ static void send_ping_times_to_all(void)
   } conn_list_iterate_end;
   lsend_packet_ping_info(&game.est_connections, &packet);
 }
+
+/********************************************************************
+  Listen for UDP packets multicasted from clients requesting
+  announcement of servers on the LAN.
+********************************************************************/
+static void get_lanserver_announcement(void)
+{
+  char msgbuf[128];
+  struct data_in din;
+  int type;
+
+  if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0, NULL, NULL)) {
+    dio_input_init(&din, msgbuf, 1);
+    dio_get_uint8(&din, &type);
+    if (type == SERVER_LAN_VERSION) {
+      freelog(LOG_DEBUG, 
+              "Received request for server LAN announcement.");
+      send_lanserver_response(); 
+    } else {
+      freelog(LOG_DEBUG,
+              "Received invalid request for server LAN announcement.");
+    }
+  }
+}
+
+/********************************************************************
+  This function broadcasts an UDP packet to clients with
+  that requests information about the server state.
+********************************************************************/
+static void send_lanserver_response(void)
+{
+  unsigned char buffer[MAX_LEN_PACKET];
+  unsigned char hostname[512];
+  unsigned char port[256];
+  unsigned char version[256];
+  unsigned char players[256];
+  unsigned char status[256];
+  struct data_out dout;
+  struct sockaddr_in addr;
+  int socksend, setting = 1;
+  const char *group;
+  size_t size;
+  unsigned char ttl;
+
+  /* Create a socket to broadcast to client. */
+  if ((socksend = socket(AF_INET,SOCK_DGRAM, 0)) < 0) {
+    freelog(LOG_ERROR, "socket failed: %s", mystrerror(errno));
+    return;
+  }
+
+  /* Set the UDP Multicast group IP address of the packet. */
+  group = get_multicast_group();
+  memset(&addr, 0, sizeof(addr));
+  addr.sin_family = AF_INET;
+  addr.sin_addr.s_addr = inet_addr(group);
+  addr.sin_port = htons(SERVER_LAN_PORT + 1);
+
+  /* Set the Time-to-Live field for the packet.  */
+  ttl = SERVER_LAN_TTL;
+  if (setsockopt(socksend, IPPROTO_IP, IP_MULTICAST_TTL, 
+                 (const char*)&ttl, sizeof(ttl))) {
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
+    return;
+  }
+
+  if (setsockopt(socksend, SOL_SOCKET, SO_BROADCAST, 
+                 (const char*)&setting, sizeof(setting))) {
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
+    return;
+  }
+
+  if (my_gethostname(hostname, sizeof(hostname)) != 0) {
+    freelog(LOG_ERROR, "gethostname failed: %s", mystrerror(errno));
+    return;
+  }
+
+  /* Create a description of server state to send to clients.  */
+  my_snprintf(version, sizeof(version), "%d.%d.%d%s",
+              MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL);
+
+  switch (server_state) {
+  case PRE_GAME_STATE:
+    my_snprintf(status, sizeof(status), "Pregame");
+    break;
+  case RUN_GAME_STATE:
+    my_snprintf(status, sizeof(status), "Running");
+    break;
+  case GAME_OVER_STATE:
+    my_snprintf(status, sizeof(status), "Game over");
+    break;
+  default:
+    my_snprintf(status, sizeof(status), "Waiting");
+  }
+
+   my_snprintf(players, sizeof(players), "%d",
+               get_num_human_and_ai_players());
+   my_snprintf(port, sizeof(port), "%d",
+              srvarg.port );
+
+  dio_output_init(&dout, buffer, sizeof(buffer));
+  dio_put_uint8(&dout, SERVER_LAN_VERSION);
+  dio_put_string(&dout, hostname);
+  dio_put_string(&dout, port);
+  dio_put_string(&dout, version);
+  dio_put_string(&dout, status);
+  dio_put_string(&dout, players);
+  dio_put_string(&dout, srvarg.metaserver_info_line);
+  size = dio_output_used(&dout);
+
+  /* Sending packet to client with the information gathered above. */
+  if (sendto(socksend, buffer,  size, 0, (struct sockaddr *)&addr,
+      sizeof(addr)) < 0) {
+    freelog(LOG_ERROR, "sendto failed: %s", mystrerror(errno));
+    return;
+  }
+
+  my_closesocket(socksend);
+}
+
