@@ -1332,14 +1332,11 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
 }
 
 /**************************************************************************
-  Return values: 
-  -1: died
-  0: didn't move
-  1: moved
-  TODO: Convert to bool.
+  Return values: FALSE if died or stuck, TRUE otherwise. (This function
+  is not server-side autoattack safe.)
 **************************************************************************/
-static int ai_military_gothere(struct player *pplayer, struct unit *punit,
-			       int dest_x, int dest_y)
+static bool ai_military_gothere(struct player *pplayer, struct unit *punit,
+                                int dest_x, int dest_y)
 {
   int id, x, y, boatid = 0, bx = -1, by = -1;
   struct unit *ferryboat = NULL;
@@ -1353,7 +1350,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 
   if (same_pos(dest_x, dest_y, x, y)) {
     /* Nowhere to go */
-    return 0;
+    return FALSE;
   }
 
   if (is_ground_unit(punit)) { 
@@ -1362,6 +1359,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
     ferryboat = unit_list_find(&(map_get_tile(x, y)->units), boatid);
   }
 
+  /* See if we need a bodyguard at our destination */
   ai_gothere_bodyguard(punit, dest_x, dest_y);
   
   if (!goto_is_sane(punit, dest_x, dest_y, TRUE) 
@@ -1373,7 +1371,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
       /* FIXME: this can lose bodyguard */
       if (!ai_unit_goto(punit, bx, by)) {
         /* Died. */
-        return -1;
+        return FALSE;
       }
     }
     ptile = map_get_tile(punit->x, punit->y);
@@ -1390,28 +1388,23 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 
       /* Last ingredient: a beachhead. */
       if (find_beachhead(punit, dest_x, dest_y, &boat_x, &boat_y)) {
-        UNIT_LOG(LOG_DEBUG, punit, "Found beachhead (%d,%d)", boat_x, boat_y);
+        UNIT_LOG(LOG_DEBUG, punit, "Found beachhead (%d,%d), all aboard", 
+                 boat_x, boat_y);
 	set_goto_dest(ferryboat, boat_x, boat_y);
 	set_goto_dest(punit, dest_x, dest_y);
-        if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer)
-            <= 0) {
-          /* FIXME: perhaps we should only require only two passengers */
-          UNIT_LOG(LOG_DEBUG, ferryboat, "All aboard!");
-          unit_list_iterate(ptile->units, mypass) {
-            if (mypass->ai.ferryboat == ferryboat->id
-                && punit->owner == mypass->owner) {
-              handle_unit_activity_request(mypass, ACTIVITY_SENTRY);
-              def = unit_list_find(&ptile->units, mypass->ai.bodyguard);
-              if (def) {
-                handle_unit_activity_request(def, ACTIVITY_SENTRY);
-              }
+        unit_list_iterate(ptile->units, mypass) {
+          if (mypass->ai.ferryboat == ferryboat->id
+              && punit->owner == mypass->owner) {
+            handle_unit_activity_request(mypass, ACTIVITY_SENTRY);
+            def = unit_list_find(&ptile->units, mypass->ai.bodyguard);
+            if (def) {
+              handle_unit_activity_request(def, ACTIVITY_SENTRY);
             }
-          } unit_list_iterate_end; /* passengers are safely stowed away */
-          if (!ai_unit_goto(ferryboat, dest_x, dest_y)) {
-            return -1;	/* died */
           }
-          handle_unit_activity_request(punit, ACTIVITY_IDLE);
-        } /* else wait, we can GOTO when more passengers come. */
+        } unit_list_iterate_end; /* passengers are safely stowed away */
+        if (!ai_unit_goto(ferryboat, dest_x, dest_y)) {
+          return FALSE; /* died */
+        }
       }
     } 
   }
@@ -1420,10 +1413,15 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
     /* we are on a ferry! did we arrive? */
     boat_arrived = same_pos(ferryboat->x, ferryboat->y,
                             goto_dest_x(ferryboat), goto_dest_y(ferryboat))
-                   || is_tiles_adjacent(ferryboat->x, ferryboat->y,
-                            goto_dest_x(ferryboat), goto_dest_y(ferryboat));
+      || is_tiles_adjacent(ferryboat->x, ferryboat->y,
+                           goto_dest_x(ferryboat), goto_dest_y(ferryboat));
   } else {
     boat_arrived = FALSE;
+  }
+
+  if (boat_arrived) {
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    UNIT_LOG(LOG_DEBUG, punit, "Our boat has arrived");
   }
 
   /* Go where we should be going if we can, and are at our destination 
@@ -1431,36 +1429,10 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
   if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0
       && (!ferryboat || boat_arrived)) {
     set_goto_dest(punit, dest_x, dest_y);
-    
-    /* The following code block is supposed to stop units from running away 
-     * from their bodyguards, and not interfere with those that don't have 
-     * bodyguards nearby -- Syela */
-    /* The case where the bodyguard has moves left and could meet us en route 
-     * is not handled properly.  There should be a way to do it with dir_ok 
-     * but I'm tired now. -- Syela */
-    if (punit->ai.bodyguard == BODYGUARD_WANTED) { 
-      adjc_iterate(punit->x, punit->y, i, j) {
-        unit_list_iterate(map_get_tile(i, j)->units, aunit) {
-          if (aunit->ai.charge != punit->id || punit->owner != aunit->owner) {
-            continue;
-          }
-          UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
-                   "our bodyguard %s[%d] is next to us at (%d, %d)",
-                   unit_type(aunit)->name, aunit->id, i, j);
-          /* FIXME: What is happening here? */
-          if (aunit->moves_left > 0) {
-            return 0;
-          } else {
-            return (ai_unit_move(punit, i, j) ? 1 : 0);
-          }
-        } unit_list_iterate_end;
-      } adjc_iterate_end;
-    }
-    /* end 'short leash' subroutine */
-    
     UNIT_LOG(LOG_DEBUG, punit, "Attempt to walk to (%d,%d)", dest_x, dest_y);
     if (!ai_unit_goto(punit, dest_x, dest_y)) {
-      return -1;		/* died */
+      /* died */
+      return FALSE;
     }
     /* liable to bump into someone that will kill us.  Should avoid? */
   } else {
@@ -1470,11 +1442,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
   /* Dead unit shouldn't reach this point */
   CHECK_UNIT(punit);
   
-  if (!same_pos(punit->x, punit->y, x, y)) {
-    return 1;			/* moved */
-  } else {
-    return 0;			/* didn't move, didn't die */
-  }
+  return (!same_pos(punit->x, punit->y, x, y));
 }
 
 /*************************************************************************
@@ -2333,9 +2301,9 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
           || (could_unit_move_to_tile(punit, dest_x, dest_y) == 0)) {
         /* Can't attack or move usually means we are adjacent but
          * on a ferry. This fixes the problem (usually). */
-        UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> %d, %d", 
+        UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> (%d,%d)", 
                  dest_x, dest_y);
-        if (ai_military_gothere(pplayer, punit, dest_x, dest_y) <= 0) {
+        if (!ai_military_gothere(pplayer, punit, dest_x, dest_y)) {
           /* Died or got stuck */
           return;
         }
@@ -2379,14 +2347,14 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     if ((pc = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, TRUE))) {
       if (!is_ocean(map_get_terrain(punit->x, punit->y))) {
         UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
-        ai_military_gothere(pplayer, punit, pc->x, pc->y);
+        (void) ai_military_gothere(pplayer, punit, pc->x, pc->y);
       } else {
         /* sometimes find_beachhead is not enough */
         if (!find_beachhead(punit, pc->x, pc->y, &fx, &fy)) {
           find_city_beach(pc, punit, &fx, &fy);
         }
         UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to %s", pc->name);
-        ai_military_gothere(pplayer, punit, fx, fy);
+        (void) ai_military_gothere(pplayer, punit, fx, fy);
       }
     }
   }
