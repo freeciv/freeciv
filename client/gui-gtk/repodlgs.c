@@ -746,7 +746,7 @@ void popup_activeunits_report_dialog(int make_modal)
 *****************************************************************/
 void create_activeunits_report_dialog(int make_modal)
 {
-  GtkWidget *close_command, *scrolled;
+  GtkWidget *close_command;
   char *report_title;
   gchar *titles [3] =	{ "Unit Type", "U", "Total" };
   int    i;
@@ -768,17 +768,15 @@ void create_activeunits_report_dialog(int make_modal)
 
   activeunits_list = gtk_clist_new_with_titles( 3, titles );
   gtk_clist_column_titles_passive(GTK_CLIST(activeunits_list));
-  scrolled = gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled),activeunits_list);
-  gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
-  			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-  gtk_widget_set_usize(scrolled, 200, 150);
 
   for ( i = 0; i < 3; i++ )
 	gtk_clist_set_column_auto_resize(GTK_CLIST(activeunits_list),i,TRUE);
 
+  gtk_clist_set_column_justification (GTK_CLIST(activeunits_list),
+		2, GTK_JUSTIFY_RIGHT);
+
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
-        scrolled, TRUE, TRUE, 0 );
+        activeunits_list, TRUE, TRUE, 0 );
 
   activeunits_label2 = gtk_label_new("Total Cost:");
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
