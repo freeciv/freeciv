@@ -84,4 +84,5 @@ void handle_player_remove_vision(struct player *pplayer,
 
 void enable_fog_of_war(void);
 void disable_fog_of_war(void);
+int is_coast_seen(int x, int y, struct player *pplayer);
 #endif  /* FC__MAPHAND_H */

@@ -866,139 +866,222 @@ the find_the_shortest_path() function.
 Returns a direction as used in DIR_DX[] and DIR_DY[] arrays, or -1 if none could be
 found.
 
-This function does not check for loops, which we currently rely on
+Notes on the implementation: 
+1. d[8] contains "goodness" of the directions.  Bigger number means safer
+direction.  It takes into account: how well the unit will be defended at 
+the next tile, how many possible attackers there are around it, whether it 
+is likely to sink there (for triremes).
+2. This function does not check for loops, which we currently rely on
 find_the_shortest_path() to make sure there are none of. If the warmap did
 contain a loop repeated calls of this function may result in the unit going
 in cycles forever.
+3. It doesn't check for ZOC as it has been done in find_the_shortest_path
+(which is called every turn).
 **************************************************************************/
 static int find_a_direction(struct unit *punit,
 			    enum goto_move_restriction restriction,
 			    const int dest_x, const int dest_y)
 {
-  int k, d[8], n, a, best = 0, d0, d1, h0, h1, u, c;
-  struct tile *ptile, *adjtile;
-  int nearland;
+  int k; /* direction we're interested in at a given point */ 
+  int d[8], best = 0;
+  int defence_multiplier, tmp;
+  int defence_of_unit, defence_of_ally, hp_of_unit, hp_of_ally, num_of_units;
+  int base_move_cost;
+  struct tile *ptile;
   struct city *pcity;
   struct unit *passenger;
   struct player *pplayer = unit_owner(punit);
+  int afraid_of_sinking = (unit_flag(punit, F_TRIREME) && 
+                           !player_owns_active_wonder(pplayer, B_LIGHTHOUSE));
+  int do_full_check = afraid_of_sinking; /* if the destination is one step 
+                                          * away, look around first or just 
+                                          * go there? */ 
 
-  if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
+  if (map_get_terrain(punit->x, punit->y) == T_OCEAN) {
     passenger = other_passengers(punit);
-  else passenger = NULL;
+  } else {
+    passenger = NULL;
+  }
 
-  /* If we can get to the destination rigth away there is nothing to be gained
-     from going round in little circles to move across desirable squares */
-  adjc_dir_iterate(punit->x, punit->y, x, y, dir) {
-    if (warmap.vector[punit->x][punit->y] & (1 << dir)
-	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY
-	     && !DIR_IS_CARDINAL(dir))) {
-      if (x == dest_x && y == dest_y)
+  /* If we can get to the destination right away there is nothing to be gained
+   * from going round in little circles to move across desirable squares */
+  /* Actually there are things to gain, in AI case, 
+   * like the safety checks -- GB */
+  if (!do_full_check) {
+    adjc_dir_iterate(punit->x, punit->y, x, y, dir) {
+      if ((x == dest_x && y == dest_y)
+	  && warmap.vector[punit->x][punit->y] & (1 << dir)
+	  && !(restriction == GOTO_MOVE_CARDINAL_ONLY
+	       && !DIR_IS_CARDINAL(dir))) {
 	return dir;
-    }
-  } adjc_dir_iterate_end;
-
+      }
+    } adjc_dir_iterate_end;
+  }
+  
   memset(d, 0, sizeof(d));
 
   adjc_dir_iterate(punit->x, punit->y, x, y, k) {
-    if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && !DIR_IS_CARDINAL(k))
+    /* is it an allowed direction?  is it marked on the warmap? */
+    if (!(warmap.vector[punit->x][punit->y] & (1 << k))
+	|| ((restriction == GOTO_MOVE_CARDINAL_ONLY) && !DIR_IS_CARDINAL(k))) {
+      /* make sure we don't select it later */
+      d[k] = -1;
       continue;
+    }
 
-    if (!(warmap.vector[punit->x][punit->y]&(1<<k))) d[k] = 0;
-    else {
-      if (is_ground_unit(punit))
-        c = map_get_tile(punit->x, punit->y)->move_cost[k];
-      else c = 3;
-      if (unit_flag(punit, F_IGTER) && c) c = 1;
-      if (passenger) {
-	freelog(LOG_DEBUG, "%d@(%d,%d) evaluating (%d,%d)[%d/%d]",
-		punit->id, punit->x, punit->y, x, y, c, punit->moves_left);
+    /* determine the cost of the proposed move */
+    if (is_ground_unit(punit)) {
+      /* assuming move is valid, but what if unit is trying to board? -- GB */
+      base_move_cost = map_get_tile(punit->x, punit->y)->move_cost[k];
+    } else {
+      base_move_cost = SINGLE_MOVE;
+    }
+
+    if (unit_flag(punit, F_IGTER) && base_move_cost >= MOVE_COST_ROAD) {
+      base_move_cost = MOVE_COST_ROAD;
+    }
+
+    freelog(LOG_DEBUG, "%d@(%d,%d) evaluating (%d,%d)[%d/%d]", punit->id, 
+            punit->x, punit->y, x, y, base_move_cost, punit->moves_left);
+
+    /* find everybody's defence stats */
+    ptile = map_get_tile(x, y);
+    defence_of_unit = get_simple_defense_power(punit->type, x, y);
+    pcity = map_get_city(x, y);
+    defence_multiplier = 2;
+    if (pcity) { /* this code block inspired by David Pfitzner -- Syela */
+      if (city_got_citywalls(pcity)) defence_multiplier += 2;
+      if (city_got_building(pcity, B_SDI)) defence_multiplier++;
+      if (city_got_building(pcity, B_SAM)) defence_multiplier++;
+      if (city_got_building(pcity, B_COASTAL)) defence_multiplier++;
+    }
+    defence_of_unit = (defence_of_unit * defence_multiplier) / 2;
+    hp_of_unit = punit->hp;
+    /* find the best friendly defensive unit at the target tile */
+    hp_of_ally = 0; 
+    defence_of_ally = 0; 
+    num_of_units = 1;
+    unit_list_iterate(ptile->units, aunit) {
+      if (!pplayers_allied(unit_owner(aunit), unit_owner(punit))) {
+	/* MINIMUM priority */
+	defence_of_ally = -1;
+      } else {
+	num_of_units++;
+	tmp = (get_simple_defense_power(aunit->type, x, y) * 
+               defence_multiplier) / 2;
+	if (tmp * aunit->hp > defence_of_ally * hp_of_ally) { 
+	  defence_of_ally = tmp; 
+	  hp_of_ally = aunit->hp; 
+	}
       }
-      ptile = map_get_tile(x, y);
-      d0 = get_simple_defense_power(punit->type, x, y);
-      pcity = map_get_city(x, y);
-      n = 2;
-      if (pcity) { /* this code block inspired by David Pfitzner -- Syela */
-        if (city_got_citywalls(pcity)) n += 2;
-        if (city_got_building(pcity, B_SDI)) n++;
-        if (city_got_building(pcity, B_SAM)) n++;
-        if (city_got_building(pcity, B_COASTAL)) n++;
+    } unit_list_iterate_end;
+
+    {
+      /* calculate some clever weights basing on defence stats */
+      int rating_of_unit = defence_of_unit * hp_of_unit;
+      int rating_of_ally = defence_of_ally * hp_of_ally;
+      if (num_of_units == 1) {
+	d[k] = rating_of_unit;
+      } else if (pcity || ptile->special & S_FORTRESS) {
+	d[k] = MAX(rating_of_unit, rating_of_ally);
+      } else if (rating_of_unit <= rating_of_ally) {
+	d[k] = rating_of_ally * (num_of_units - 1) / num_of_units;
+      } else { 
+	d[k] = MIN(rating_of_unit * num_of_units, 
+		   rating_of_unit * rating_of_unit * (num_of_units - 1) / 
+		   MAX(num_of_units, (rating_of_ally * num_of_units)));
       }
-      d0 = (d0 * n) / 2;
-      h0 = punit->hp; h1 = 0; d1 = 0; u = 1;
-      unit_list_iterate(ptile->units, aunit)
-	if (!pplayers_allied(unit_owner(aunit), unit_owner(punit)))
-	  d1 = -1;		/* MINIMUM priority */
-        else {
-          u++;
-          a = get_simple_defense_power(aunit->type, x, y) * n / 2;
-          if (a * aunit->hp > d1 * h1) { d1 = a; h1 = aunit->hp; }
-        }
-      unit_list_iterate_end;
-      if (u == 1) d[k] = d0 * h0;
-      else if (pcity || ptile->special&S_FORTRESS)
-        d[k] = MAX(d0 * h0, d1 * h1);
-      else if ((d0 * h0) <= (d1 * h1)) d[k] = (d1 * h1) * (u - 1) / u;
-      else d[k] = MIN(d0 * h0 * u, d0 * h0 * d0 * h0 * (u - 1) / MAX(u, (d1 * h1 * u)));
-      if (d0 > d1) d1 = d0;
-
-      if (ptile->special&S_ROAD) d[k] += 10; /* in case we change directions */
-      if (ptile->special&S_RAILROAD) d[k] += 10; /* next turn, roads are nice */
-
-      nearland = 0;
-      if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) nearland++;
-      adjc_iterate(x, y, tmp_x, tmp_y) {
-	adjtile = map_get_tile(tmp_x, tmp_y);
-        if (adjtile->terrain != T_OCEAN) nearland++;
-        if (!((adjtile->known)&(1u<<punit->owner))) {
-          if (punit->moves_left <= c) d[k] -= (d[k]/16); /* Avoid the unknown */
-          else d[k]++; /* nice but not important */
-        } else { /* NOTE: Not being omniscient here!! -- Syela */
-          unit_list_iterate(adjtile->units, aunit) /* lookin for trouble */
-            if (pplayers_at_war(unit_owner(aunit), unit_owner(punit))
-		&& (a = get_attack_power(aunit))) {
-              if (punit->moves_left < c + SINGLE_MOVE) { /* can't fight */
-                if (passenger && !is_ground_unit(aunit)) d[k] = -99;
-                else d[k] -= d1 * (aunit->hp * a * a / (a * a + d1 * d1));
-              }
-            }
-          unit_list_iterate_end;
-        } /* end this-tile-is-seen else */
-      } adjc_iterate_end;
- 
-      if (unit_flag(punit, F_TRIREME) && !nearland) {
-        if (punit->moves_left < 6) d[k] = -1; /* Tired of Kaput!! -- Syela */
-        else if (punit->moves_left == 6) {
-	  adjc_dir_iterate(x, y, tmp_x, tmp_y, n) {
-	    if ((warmap.vector[x][y] & (1 << n))) {
-	      if (is_coastline(tmp_x, tmp_y))
-		nearland++;
+    }
+    
+    /* in case we change directions next turn, roads are nice */
+    if ((ptile->special & S_ROAD) || (ptile->special & S_RAILROAD)) 
+      d[k] += 10; 
+    
+    defence_of_ally = MAX(defence_of_unit, defence_of_ally);
+    /* what is around the tile we are about to step to? */
+    adjc_iterate(x, y, tmp_x, tmp_y) {
+      struct tile *adjtile = map_get_tile(tmp_x, tmp_y);
+      if (!map_get_known(tmp_x, tmp_y, unit_owner(punit))) {
+	if (punit->moves_left <= base_move_cost) {
+	  /* Avoid the unknown (16 is experimentally(?) determined) */
+	  d[k] -= (d[k] / 16);
+	} else { 
+	  /* nice but not important */
+	  d[k]++;
+	}
+      } else {
+	/* NOTE: Not being omniscient here!! -- Syela */
+	/* lookin for trouble */
+	int attack_of_enemy;
+	unit_list_iterate(adjtile->units, aunit)
+	  if (pplayers_at_war(unit_owner(aunit), unit_owner(punit))
+	      && (attack_of_enemy = get_attack_power(aunit))) {
+	    if (punit->moves_left < base_move_cost + SINGLE_MOVE) { 
+	      /* can't fight */
+	      if (passenger && !is_ground_unit(aunit)) {
+                /* really don't want that direction */ 
+		d[k] = -99;
+	      } else { 
+		d[k] -= defence_of_ally * (aunit->hp * attack_of_enemy * 
+                        attack_of_enemy / (attack_of_enemy * attack_of_enemy + 
+                        defence_of_ally * defence_of_ally));
+	      }
 	    }
-	  } adjc_dir_iterate_end;
-          if (!nearland) d[k] = 1;
-        }
+	  }
+	unit_list_iterate_end;
+      } /* end this-tile-is-seen else */
+    } adjc_iterate_end;
+    
+    /* Try to make triremes safe */
+    if (afraid_of_sinking && !is_coast_seen(x, y, pplayer)) {
+      if (punit->moves_left < 2 * SINGLE_MOVE) {
+	/* Tired of Kaput!! -- Syela */
+	d[k] = -1; 
+	continue;
+      } else {
+	/* we have enough moves and will be able to get back, 
+	 * if gotomap was generated in the right way */
+	d[k] = 1;
       }
-
-      if (d[k] < 1 && (!unit_owner(punit)->ai.control ||
-         !punit->ai.passenger || punit->moves_left >= 6)) d[k] = 1;
-      if (d[k] > best) { 
-        best = d[k];
-	freelog(LOG_DEBUG, "New best = %d: (%d, %d) -> (%d, %d)",
-		best, punit->x, punit->y, x, y);
-      }
-    } /* end is-a-valid-vector */
+    }
+    
+    if (d[k] < 1 && (!unit_owner(punit)->ai.control
+                     || !punit->ai.passenger 
+                     || punit->moves_left >= 2 * SINGLE_MOVE)) {
+      d[k] = 1;
+    }
+    if (d[k] > best) { 
+      best = d[k];
+      freelog(LOG_DEBUG, "New best = %d: (%d, %d) -> (%d, %d)",
+	      best, punit->x, punit->y, x, y);
+    }
   } adjc_dir_iterate_end;
 
-  if (!best) {
-    return(-1);
+  if (!best && afraid_of_sinking && !is_coastline(punit->x, punit->y)) {
+    /* we've got a trireme in the middle of the sea. 
+     * With !best, it'll end its turn right there and 
+     * could very well die. we'll try to rescue. */
+    freelog(LOG_DEBUG, "%s's trireme in trouble at (%d,%d), looking for coast", 
+	    pplayer->name, punit->x, punit->y);
+    adjc_dir_iterate(punit->x, punit->y, x, y, k) {
+      if (is_coast_seen(x, y, pplayer)) {
+	d[k] = 1;
+	best = 1;
+	freelog(LOG_DEBUG, "found coast");
+      }
+    } adjc_dir_iterate_end;
   }
 
+  if (!best) { 
+    freelog(LOG_DEBUG, "find_a_direction: no good direction found");
+    return -1;
+  }
+
+  /* find random direction out of the best ones selected */
   do {
-    do {
-      k = myrand(8);
-    } while ((restriction == GOTO_MOVE_CARDINAL_ONLY)
-	     && !DIR_IS_CARDINAL(k));
+    k = myrand(8);
   } while (d[k] < best);
-  return(k);
+  return k;
 }
 
 /**************************************************************************
