@@ -13,6 +13,8 @@
 #ifndef __PLRHAND_H
 #define __PLRHAND_H
 
+#include "attribute.h"
+
 struct player;
 struct packet_player_request;
 struct section_file;
@@ -30,9 +32,13 @@ void check_player_government_rates(struct player *pplayer);
 void send_player_info(struct player *src, struct player *dest);
 
 void page_player(struct player *pplayer, char *headline, char *lines);
-void page_player_generic(struct player *pplayer, char *headline, char *lines, int event);
-void notify_player(struct player *pplayer, char *format, ...);
-void notify_player_ex(struct player *pplayer, int x, int y, int event, char *format, ...);
+void page_player_generic(struct player *pplayer, char *headline,
+			 char *lines, int event);
+void notify_player(struct player *pplayer, char *format, ...)
+                   fc__attribute((format (printf, 2, 3)));
+void notify_player_ex(struct player *pplayer, int x, int y,
+		      int event, char *format, ...)
+                      fc__attribute((format (printf, 5, 6)));
 void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq);
 void handle_player_research(struct player *pplayer,

@@ -10,19 +10,20 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __LOG_
-#define __LOG_
+#ifndef FC__ATTRIBUTE_H
+#define FC__ATTRIBUTE_H
 
-#include "attribute.h"
-
-#define LOG_FATAL  0
-#define LOG_NORMAL 1
-#define LOG_DEBUG  2
-
-void log_init(char *filename);
-int freelog(int level, char *message, ...)
-            fc__attribute((format (printf, 2, 3)));
-void log_set_level(int level);
-void log_kill(void);
-
+/* Want to use GCC's __attribute__ keyword to check variadic
+ * parameters to printf-like functions, without upsetting other
+ * compilers: put any required defines magic here.
+ * If other compilers have something equivalent, could also
+ * work that out here.   Should this use configure stuff somehow?
+ * --dwp
+ */
+#if defined(__GNUC__)
+#define fc__attribute(x)  __attribute__(x)
+#else
+#define fc__attribute(x)
 #endif
+
+#endif  /* FC__ATTRIBUTE_H */

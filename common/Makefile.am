@@ -5,6 +5,7 @@ noinst_LIBRARIES = libcivcommon.a
 INCLUDES =
 
 libcivcommon_a_SOURCES = \
+		attribute.h	\
 		capability.c	\
 		capability.h	\
 		city.c		\
