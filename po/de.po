@@ -1341,7 +1341,9 @@ msgstr "Spiel: %s wurde aufgegeben, um %s zu bekommen."
 
 #: server/civserver.c:73
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
-msgstr "Um Freeciv zu beenden, muss zweimal innerhalb einer Sekunde unterbrochen werden.\n"
+msgstr ""
+"Um Freeciv zu beenden, muss zweimal innerhalb einer Sekunde unterbrochen "
+"werden.\n"
 
 #: server/civserver.c:130
 #, c-format
@@ -4274,9 +4276,9 @@ msgid ""
 "next techs really expensive."
 msgstr ""
 "Die Anzahl von Fortschritten, die jeder Spieler bereits zu Beginn erhält. "
-"Die Fortschritte werden für jeden Spieler per Zufall bestimmt. Ein hoher Wert "
-"für techlevel kann das Erforschen der nächstnachfolgenden Technologien sehr "
-"teuer machen."
+"Die Fortschritte werden für jeden Spieler per Zufall bestimmt. Ein hoher "
+"Wert für techlevel kann das Erforschen der nächstnachfolgenden Technologien "
+"sehr teuer machen."
 
 #: server/settings.c:483
 msgid "Points required to gain a new tech"
@@ -4595,13 +4597,13 @@ msgid ""
 "1 = diplomacy is only allowed between human players.\n"
 "2 = diplomacy is only allowed between AI players.\n"
 "3 = diplomacy is restricted to teams.\n"
-"4 = diplomacy is disabled for everyone.\n"
+"4 = diplomacy is disabled for everyone."
 msgstr ""
 "0 - Diplomatie ist für alle erlaubt (Standard).\n"
 "1 - Diplomatie nur zwischen menschlichen Spielern.\n"
 "2 - Diplomatie nur unter KI-Spielern.\n"
 "3 - Diplomatie nur zwischen Teams.\n"
-"4 - Diplomatie nicht möglich.\n"
+"4 - Diplomatie nicht möglich."
 
 #: server/settings.c:707
 msgid "Allowed city names"
@@ -7154,53 +7156,53 @@ msgid "%d/turn"
 msgstr "%d/Runde"
 
 #: client/citydlg_common.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Citizens\n"
-msgstr "%s - %s Bürger"
+msgstr "%+4d : Bürger\n"
 
 #: client/citydlg_common.c:415
 #, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "%+4d : Handelssteuern\n"
 
 #: client/citydlg_common.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr ""
+msgstr "%+4d : Handelsroute mit %s\n"
 
 #: client/citydlg_common.c:442
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Building tithes\n"
-msgstr ""
+msgstr "%+4d : Gebäudeabgaben\n"
 
 #: client/citydlg_common.c:462
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
-msgstr ""
+msgstr "%+4d : Bonus von %s (%+d%%)\n"
 
 #: client/citydlg_common.c:473
 #, c-format
 msgid "%+4d : Waste\n"
-msgstr ""
+msgstr "%+4d : Müll\n"
 
 #: client/citydlg_common.c:479
 #, c-format
 msgid "%+4d : Disorder\n"
-msgstr ""
+msgstr "%+4d : Aufruhr\n"
 
 #: client/citydlg_common.c:485
 #, c-format
 msgid "%+4d : Used\n"
-msgstr ""
+msgstr "%+4d : Verbrauch\n"
 
 #: client/citydlg_common.c:490
 msgid "==== : Adds up to\n"
-msgstr ""
+msgstr "==== : ergibt\n"
 
 #: client/citydlg_common.c:492
 #, c-format
 msgid "%4d : Total surplus"
-msgstr ""
+msgstr "%4d : Gesamtüberschuß"
 
 #: client/cityrepdata.c:71
 msgid "?city_state:Rapture"
@@ -8368,16 +8370,15 @@ msgstr "Sound"
 
 #: client/options.c:84
 msgid "Interface"
-msgstr ""
+msgstr "Bedienung"
 
 #: client/options.c:85
 msgid "Network"
 msgstr "Netzwerk"
 
 #: client/options.c:90
-#, fuzzy
 msgid "Login name"
-msgstr "Spiel laden"
+msgstr "Login-Name"
 
 #: client/options.c:91
 msgid ""
@@ -8386,9 +8387,8 @@ msgid ""
 msgstr "Dies ist der Standard-Username, der für Verbindungen genutzt wird."
 
 #: client/options.c:96
-#, fuzzy
 msgid "Server"
-msgstr "nie"
+msgstr "Server"
 
 #: client/options.c:97
 msgid ""
@@ -8397,9 +8397,8 @@ msgid ""
 msgstr "Dies ist der Standard-Servername, der für Verbindungen genutzt wird."
 
 #: client/options.c:102
-#, fuzzy
 msgid "Server port"
-msgstr "Server_optionen"
+msgstr "Server-Port"
 
 #: client/options.c:103
 msgid ""
@@ -8424,12 +8423,10 @@ msgstr ""
 "sei denn, Sie wissen, was Sie tun."
 
 #: client/options.c:115
-#, fuzzy
 msgid "Soundset"
-msgstr "Runden"
+msgstr "Klangset"
 
 #: client/options.c:116
-#, fuzzy
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
@@ -8438,9 +8435,8 @@ msgstr ""
 "gesetzt werden."
 
 #: client/options.c:121
-#, fuzzy
 msgid "Sound plugin"
-msgstr "Vorgegebener Soundplugin"
+msgstr "Sound-Plugin"
 
 #: client/options.c:122
 msgid ""
@@ -10650,9 +10646,9 @@ msgid ""
 msgstr "Karawane aus %s erreicht die Stadt %s."
 
 #: client/gui-gtk-2.0/dialogs.c:978
-#, fuzzy, c-format
+#, c-format
 msgid "Help build _Wonder (%d remaining)"
-msgstr "Beim Bau des _Weltwunders helfen"
+msgstr "Beim Bau des _Weltwunders helfen (%d fehlen)"
 
 #: client/gui-gtk-2.0/dialogs.c:983 client/gui-gtk/dialogs.c:1156
 #: client/gui-win32/dialogs.c:982
@@ -10977,8 +10973,8 @@ msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
 msgstr ""
-"Diese Option ergibt eine bessere Art der Darstellung für den 'Nebel "
-"des Krieges'. Sie ist nicht langsamer, benötigt aber mehr Speicher."
+"Diese Option ergibt eine bessere Art der Darstellung für den 'Nebel des "
+"Krieges'. Sie ist nicht langsamer, benötigt aber mehr Speicher."
 
 #: client/gui-gtk-2.0/gui_main.c:514 client/gui-gtk-2.0/gui_main.c:1085
 #: client/gui-gtk/gui_main.c:401 client/gui-gtk/gui_main.c:873
@@ -11452,14 +11448,12 @@ msgid "_Message Options"
 msgstr "_Nachrichtendarstellung"
 
 #: client/gui-gtk-2.0/menu.c:660
-#, fuzzy
 msgid "Save Options on _Exit"
-msgstr "Serveroptionen (ständig)"
+msgstr "Option_en beim Verlassen speichern"
 
 #: client/gui-gtk-2.0/menu.c:662
-#, fuzzy
 msgid "Sa_ve Options"
-msgstr "Spieloptionen"
+msgstr "Opt_ionen sichern"
 
 #: client/gui-gtk-2.0/menu.c:666 client/gui-win32/menu.c:306
 msgid "_Initial Server Options"
@@ -11486,7 +11480,6 @@ msgid "_Clear Log"
 msgstr "Textfenster _löschen"
 
 #: client/gui-gtk-2.0/menu.c:686
-#, fuzzy
 msgid "_Leave"
 msgstr "Spiel _verlassen"
 
@@ -11648,9 +11641,8 @@ msgid "Fog of War"
 msgstr "Nebel des Krieges"
 
 #: client/gui-gtk-2.0/menu.c:761
-#, fuzzy
 msgid "_Full Screen"
-msgstr "Ganzer Bildschirm"
+msgstr "_Vollbildmodus"
 
 #: client/gui-gtk-2.0/menu.c:765 client/gui-gtk/menu.c:684
 msgid "_Center View"
@@ -11814,12 +11806,10 @@ msgid "_Irrigate"
 msgstr "_Bewässern"
 
 #: client/gui-gtk-2.0/menu.c:820
-#, fuzzy
 msgid "Go _to"
-msgstr "Gehe nach"
+msgstr "_Gehe nach"
 
 #: client/gui-gtk-2.0/menu.c:820
-#, fuzzy
 msgid "_Build city"
 msgstr "Stadt gründen (_B)"
 
@@ -12285,9 +12275,8 @@ msgid "_AI Skill Level:"
 msgstr "_KI Stärke:"
 
 #: client/gui-gtk-2.0/pages.c:1022
-#, fuzzy
 msgid "_Ruleset:"
-msgstr "Herrscher:"
+msgstr "_Regeln:"
 
 #: client/gui-gtk-2.0/pages.c:1030
 msgid "More Game _Options..."
@@ -14608,26 +14597,22 @@ msgid "Configure"
 msgstr "Einstellen"
 
 #: client/gui-win32/cma_fe.c:467
-#, fuzzy
 msgid "New"
-msgstr "_Neu"
+msgstr "Neu"
 
 #
 #: client/gui-win32/cma_fe.c:488 data/Freeciv.in:1497
-#, fuzzy
 msgid "Apply once"
-msgstr "_Testen"
+msgstr "Testen"
 
 #
 #: client/gui-win32/cma_fe.c:490
-#, fuzzy
 msgid "Control city"
-msgstr "_Aktivieren"
+msgstr "Aktivieren"
 
 #: client/gui-win32/cma_fe.c:492
-#, fuzzy
 msgid "Release city"
-msgstr "_Deaktivieren"
+msgstr "Deaktivieren"
 
 #: client/gui-win32/connectdlg.c:165
 msgid "Couldn't load the savegame"
@@ -20248,9 +20233,8 @@ msgstr "Verbrennung"
 
 #: data/default/techs.ruleset:185 data/civ2/techs.ruleset:136
 #: data/history/techs.ruleset:136
-#, fuzzy
 msgid "Reduces the effect of Cathedrals."
-msgstr "* Vermindert den Effekt einer Kathedrale.\n"
+msgstr "Vermindert den Effekt von Kathedralen."
 
 #: data/default/techs.ruleset:188 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:138 data/history/techs.ruleset:139
@@ -20279,9 +20263,8 @@ msgstr "Elektrizität"
 
 #: data/default/techs.ruleset:242 data/civ2/techs.ruleset:179
 #: data/history/techs.ruleset:179
-#, fuzzy
 msgid "Improves the effect of Colosseums."
-msgstr "* Vergrößert den Effekt von Kolosseen.\n"
+msgstr "Vergrößert den Effekt von Kolosseen."
 
 #: data/default/techs.ruleset:245 data/civ2/techs.ruleset:182
 #: data/civ1/techs.ruleset:180 data/history/techs.ruleset:182
@@ -20435,9 +20418,8 @@ msgstr "Mystik"
 
 #: data/default/techs.ruleset:507 data/civ2/techs.ruleset:378
 #: data/civ1/techs.ruleset:376 data/history/techs.ruleset:378
-#, fuzzy
 msgid "Improves the effect of Temples."
-msgstr "* Vergrößert den Effekt von Tempeln.\n"
+msgstr "Vergrößert den Effekt von Tempeln."
 
 #: data/default/techs.ruleset:510 data/civ2/techs.ruleset:381
 #: data/civ1/techs.ruleset:379 data/history/techs.ruleset:381
@@ -20580,9 +20562,8 @@ msgstr "Theologie"
 
 #: data/default/techs.ruleset:726 data/civ2/techs.ruleset:541
 #: data/history/techs.ruleset:543
-#, fuzzy
 msgid "Improves the effect of Cathedrals."
-msgstr "* Vergrößert den Effekt einer Kathedrale.\n"
+msgstr "Vergrößert den Effekt von Kathedralen."
 
 #: data/default/techs.ruleset:729 data/civ2/techs.ruleset:544
 #: data/civ1/techs.ruleset:541 data/history/techs.ruleset:546
