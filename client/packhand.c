@@ -1185,9 +1185,15 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->upkeep_gold = packet_unit->upkeep_gold;
       repaint_city = TRUE;
     }
-    if (repaint_city) {
+    if (repaint_city || repaint_unit) {
+      /* We repaint the city if the unit itself needs repainting or if
+       * there a special city-only redrawing to be done. */
       if((pcity=find_city_by_id(punit->homecity))) {
 	refresh_city_dialog(pcity);
+      }
+      if (repaint_unit && punit->tile->city && punit->tile->city != pcity) {
+	/* Refresh the city we're occupying too. */
+	refresh_city_dialog(punit->tile->city);
       }
     }
 
