@@ -400,7 +400,9 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
     return;
   }
 
-  if (pcity && pcity->size >= game.add_to_size_limit) {
+  if (pcity && (pcity->size + unit_pop_value(punit->type)
+		> game.add_to_size_limit)) {
+    /* Can't exceed population limit. */
     return;
   }
 
