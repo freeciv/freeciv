@@ -17,7 +17,6 @@ libcivcommon_a_SOURCES = \
 		game.h		\
 		genlist.c	\
 		genlist.h	\
-		handchat.h	\
 		log.c		\
 		log.h		\
 		map.c		\

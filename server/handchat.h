@@ -10,10 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __HANDCHAT_H
-#define __HANDCHAT_H
+#ifndef FC__HANDCHAT_H
+#define FC__HANDCHAT_H
 
 #include "packets.h"
+
+struct player;
 
 void handle_chat_msg(struct player *pplayer, 
 		     struct packet_generic_message *packet);

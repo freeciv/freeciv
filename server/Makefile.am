@@ -25,6 +25,7 @@ civserver_SOURCES = \
 		gotohand.c	\
 		gotohand.h	\
 		handchat.c	\
+		handchat.h	\
 		mapgen.c	\
 		mapgen.h	\
 		maphand.c	\
