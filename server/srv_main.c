@@ -1011,7 +1011,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   }
 
   if (!pconn->established) {
-    freelog(LOG_NORMAL, "Received game packet from unaccepted connection %s",
+    freelog(LOG_ERROR, "Received game packet from unaccepted connection %s",
 	    conn_description(pconn));
     free(packet);
     return;
@@ -1021,7 +1021,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
 
   if(pplayer == NULL) {
     /* don't support these yet */
-    freelog(LOG_NORMAL, "Received packet from non-player connection %s",
+    freelog(LOG_ERROR, "Received packet from non-player connection %s",
  	    conn_description(pconn));
     free(packet);
     return;
@@ -1207,7 +1207,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_unit_connect(pplayer, (struct packet_unit_connect *)packet);
     break;
   default:
-    freelog(LOG_NORMAL, "Received unknown packet %d from %s",
+    freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	    type, conn_description(pconn));
   }
 
