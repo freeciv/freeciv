@@ -357,6 +357,8 @@ static void ai_manage_government(struct player *pplayer)
     int want = MAX(ai->goal.govt.val, 100);
 
     if (pplayer->government == game.default_government) {
+      /* Default government is the crappy one we start in (like Despotism).
+       * We want something better pretty soon! */
       want += 25 * game.turn;
     }
     pplayer->ai.tech_want[ai->goal.govt.req] += want;
