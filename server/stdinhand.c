@@ -1007,8 +1007,8 @@ static struct command commands[] = {
       )
   },
 
-  {"end",	ALLOW_CTRL,
-   "end",
+  {"endgame",	ALLOW_CTRL,
+   "endgame",
    N_("End the game."),
    N_("This command ends the game immediately.")
   },
