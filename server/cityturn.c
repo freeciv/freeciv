@@ -901,9 +901,10 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 {
   struct government *g = get_gov_pplayer(pplayer);
 
-  while (pcity->shield_surplus < 0) {
+  if (pcity->shield_surplus < 0) {
     unit_list_iterate(pcity->units_supported, punit) {
       if (utype_shield_cost(unit_type(punit), g) > 0
+	  && pcity->shield_surplus < 0
           && !unit_flag(punit, F_UNDISBANDABLE)) {
 	struct packet_unit_request packet;
 
@@ -912,23 +913,32 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 			 pcity->name, unit_type(punit)->name);
         packet.unit_id = punit->id;
         handle_unit_disband(pplayer, &packet);
-	break;
+	/* pcity->shield_surplus is automatically updated. */
       }
     } unit_list_iterate_end;
-    /* Special case: F_UNDISBANDABLE. This nasty unit won't go so easily. It'd
-       rather make the citizens pay in blood for their failure to upkeep it! */
+  }
+
+  if (pcity->shield_surplus < 0) {
+    /* Special case: F_UNDISBANDABLE. This nasty unit won't go so easily.
+     * It'd rather make the citizens pay in blood for their failure to upkeep
+     * it! If we make it here all normal units are already disbanded, so only
+     * undisbandable ones remain. */
     unit_list_iterate(pcity->units_supported, punit) {
-      if (utype_shield_cost(unit_type(punit), g) > 0) {
+      int upkeep = utype_shield_cost(unit_type(punit), g);
+
+      if (upkeep > 0 && pcity->shield_surplus < 0) {
+	assert(unit_flag(punit, F_UNDISBANDABLE));
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: Citizens in %s perish for their failure to "
 			 "upkeep %s!"), pcity->name, unit_type(punit)->name);
 	if (!city_reduce_size(pcity, 1)) {
 	  return FALSE;
 	}
-	break;
+
+	/* No upkeep for the unit this turn. */
+	pcity->shield_surplus += upkeep;
       }
-    }
-    unit_list_iterate_end;
+    } unit_list_iterate_end;
   }
 
   /* Now we confirm changes made last turn. */
