@@ -840,7 +840,7 @@ bool can_establish_trade_route(struct city *pc1, struct city *pc2)
     return FALSE;
   }
 
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     if (pc1->trade[i] == pc2->id || pc2->trade[i] == pc1->id) {
       /* cities already have a traderoute */
       return FALSE;
@@ -883,8 +883,9 @@ int trade_between_cities(struct city *pc1, struct city *pc2)
 **************************************************************************/
 int city_num_trade_routes(struct city *pcity)
 {
-  int i,n;
-  for(i=0,n=0; i<4; i++)
+  int i, n = 0;
+
+  for (i = 0; i < NUM_TRADEROUTES; i++)
     if(pcity->trade[i] != 0) n++;
   
   return n;
@@ -1878,7 +1879,7 @@ static void set_food_trade_shields(struct city *pcity)
 
   pcity->food_surplus = pcity->food_prod - pcity->size * 2;
 
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade_value[i] =
 	trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
     pcity->trade_prod += pcity->trade_value[i];

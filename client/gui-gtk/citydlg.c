@@ -2308,7 +2308,7 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
 
   buf[0] = '\0';
 
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     if (pdialog->pcity->trade[i]) {
       struct city *pcity;
       x = 1;

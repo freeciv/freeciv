@@ -2326,7 +2326,7 @@ int send_packet_city_info(struct connection *pc,
   /* only 8 options allowed before need to extend protocol */
   cptr=put_uint8(cptr, req->city_options);
   
-  for(data=0;data<4;data++)  {
+  for (data = 0; data < NUM_TRADEROUTES; data++) {
     if(req->trade[data])  {
       cptr=put_uint16(cptr, req->trade[data]);
       cptr=put_uint8(cptr,req->trade_value[data]);
@@ -2419,14 +2419,15 @@ receive_packet_city_info(struct connection *pc)
 
   iget_uint8(&iter, &packet->city_options);
 
-  for(data=0;data<4;data++)  {
+  for (data = 0; data < NUM_TRADEROUTES; data++) {
     if (pack_iter_remaining(&iter) < 3)
       break;
     iget_uint16(&iter, &packet->trade[data]);
     iget_uint8(&iter, &packet->trade_value[data]);
   }
-  for(;data<4;data++) packet->trade_value[data]=packet->trade[data]=0;
-
+  for (; data < NUM_TRADEROUTES; data++) {
+    packet->trade_value[data] = packet->trade[data] = 0;
+  }
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
   return packet;

@@ -66,6 +66,11 @@ enum city_options {
 
 #define INCITE_IMPOSSIBLE_COST (1000 * 1000 * 1000)
 
+/*
+ * Number of traderoutes a city can have.
+ */
+#define NUM_TRADEROUTES		4
+
 /* Iterate a city map */
 
 #define city_map_iterate(x, y)                     \
@@ -221,7 +226,7 @@ struct city {
   int ppl_elvis, ppl_scientist, ppl_taxman;
 
   /* trade routes */
-  int trade[4],trade_value[4];
+  int trade[NUM_TRADEROUTES], trade_value[NUM_TRADEROUTES];
 
   /* the productions */
   int food_prod, food_surplus;

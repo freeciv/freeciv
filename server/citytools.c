@@ -685,7 +685,7 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[])
   int i;
   struct city *oldtradecity;
 
-  for (i=0; i<4; i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     if (cities[i]) {
       oldtradecity = find_city_by_id(cities[i]);
       assert(oldtradecity != NULL);
@@ -746,7 +746,7 @@ struct city *transfer_city(struct player *ptaker,
   int i, no_units = 0;
   struct unit_list old_city_units;
   struct player *pgiver = city_owner(pcity);
-  int old_trade_routes[4];
+  int old_trade_routes[NUM_TRADEROUTES];
   bool had_palace = pcity->improvements[B_PALACE] != I_NONE;
 
   assert(pgiver != ptaker);
@@ -813,9 +813,9 @@ struct city *transfer_city(struct player *ptaker,
   }
 
   /* Update the city's trade routes. */
-  for (i=0; i<4; i++)
+  for (i = 0; i < NUM_TRADEROUTES; i++)
     old_trade_routes[i] = pcity->trade[i];
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     struct city *pother_city = find_city_by_id(pcity->trade[i]);
 
     assert(pcity->trade[i] == 0 || pother_city != NULL);
@@ -830,7 +830,7 @@ struct city *transfer_city(struct player *ptaker,
    * Give the new owner infos about all cities which have a traderoute
    * with the transfered city.
    */
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     struct city *pother_city = find_city_by_id(pcity->trade[i]);
     if (pother_city) {
       update_dumb_city(ptaker, pother_city);
@@ -929,7 +929,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   pcity->ppl_angry[4] = 0;
   pcity->was_happy = FALSE;
   pcity->steal=0;
-  for (i=0;i<4;i++)
+  for (i = 0; i < NUM_TRADEROUTES; i++)
     pcity->trade_value[i]=pcity->trade[i]=0;
   pcity->food_stock=0;
   pcity->shield_stock=0;
@@ -1127,7 +1127,7 @@ void remove_city(struct city *pcity)
     goto MOVE_SEA_UNITS;
   } unit_list_iterate_end;
 
-  for (o = 0; o < 4; o++) {
+  for (o = 0; o < NUM_TRADEROUTES; o++) {
     struct city *pother_city = find_city_by_id(pcity->trade[o]);
 
     assert(pcity->trade[o] == 0 || pother_city != NULL);
@@ -1287,7 +1287,7 @@ static bool player_has_traderoute_with_city(struct player *pplayer,
 {
   int i;
 
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     struct city *other = find_city_by_id(pcity->trade[i]);
     if (other && city_owner(other) == pplayer) {
       return TRUE;
@@ -1535,7 +1535,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->ppl_elvis=pcity->ppl_elvis;
   packet->ppl_scientist=pcity->ppl_scientist;
   packet->ppl_taxman=pcity->ppl_taxman;
-  for (i=0;i<4;i++)  {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     packet->trade[i]=pcity->trade[i];
     packet->trade_value[i]=pcity->trade_value[i];
   }
@@ -1644,7 +1644,7 @@ void remove_trade_route(struct city *pc1, struct city *pc2)
 
   assert(pc1 && pc2);
 
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     if (pc1->trade[i] == pc2->id)
       pc1->trade[i] = 0;
     if (pc2->trade[i] == pc1->id)
@@ -1659,15 +1659,15 @@ returns the revenue aswell.
 **************************************************************************/
 int establish_trade_route(struct city *pc1, struct city *pc2)
 {
-  int i;
-  int tb;
-  for (i=0;i<4;i++) {
+  int i, tb;
+
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     if (!pc1->trade[i]) {
       pc1->trade[i]=pc2->id;
       break;
     }
   }
-  for (i=0;i<4;i++) {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     if (!pc2->trade[i]) {
       pc2->trade[i]=pc1->id;
       break;

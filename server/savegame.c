@@ -764,7 +764,7 @@ static void player_load(struct player *plr, int plrno,
     pcity->ppl_taxman=secfile_lookup_int(file, "player%d.c%d.ntaxman",
 					 plrno, i);
 
-    for(j=0; j<4; j++)
+    for (j = 0; j < NUM_TRADEROUTES; j++)
       pcity->trade[j]=secfile_lookup_int(file, "player%d.c%d.traderoute%d",
 					 plrno, i, j);
     
@@ -1435,7 +1435,7 @@ static void player_save(struct player *plr, int plrno,
 		       plrno, i);
     secfile_insert_int(file, pcity->ppl_taxman, "player%d.c%d.ntaxman", plrno, i);
 
-    for(j=0; j<4; j++)
+    for (j = 0; j < NUM_TRADEROUTES; j++)
       secfile_insert_int(file, pcity->trade[j], "player%d.c%d.traderoute%d", 
 			 plrno, i, j);
     

@@ -1373,7 +1373,7 @@ void trade_callback(struct city_dialog *pdialog)
   int x=0,total=0;
   char buf[512], *bptr=buf;
   int nleft = sizeof(buf);  
-  for(i=0; i<4; i++)
+  for (i = 0; i < NUM_TRADEROUTES; i++)
     if(pdialog->pcity->trade[i]) {
       struct city *pcity;
       x=1;

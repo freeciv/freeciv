@@ -1175,7 +1175,7 @@ bool handle_unit_establish_trade(struct player *pplayer,
 		     _("Game: Sorry, your %s cannot establish"
 		       " a trade route here!"),
 		     unit_name(punit->type));
-    for (i=0;i<4;i++) {
+    for (i = 0; i < NUM_TRADEROUTES; i++) {
       if (pcity_homecity->trade[i]==pcity_dest->id) {
 	notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
 		      _("      A traderoute already exists between %s and %s!"),
@@ -1183,16 +1183,18 @@ bool handle_unit_establish_trade(struct player *pplayer,
 	return FALSE;
       }
     }
-    if (city_num_trade_routes(pcity_homecity)==4) {
+    if (city_num_trade_routes(pcity_homecity) == NUM_TRADEROUTES) {
       notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		       _("      The city of %s already has 4 trade routes!"),
-		       pcity_homecity->name);
+		       _("      The city of %s already has %d "
+			 "trade routes!"), pcity_homecity->name,
+		       NUM_TRADEROUTES);
       return FALSE;
     }
-    if (city_num_trade_routes(pcity_dest)==4) {
+    if (city_num_trade_routes(pcity_dest) == NUM_TRADEROUTES) {
       notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		       _("      The city of %s already has 4 trade routes!"),
-		       pcity_dest->name);
+		       _("      The city of %s already has %d "
+			 "trade routes!"), pcity_dest->name,
+		       NUM_TRADEROUTES);
       return FALSE;
     }
     return FALSE;

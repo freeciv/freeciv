@@ -338,7 +338,7 @@ struct packet_city_info {
   int food_prod, food_surplus;
   int shield_prod, shield_surplus;
   int trade_prod, tile_trade, corruption;
-  int trade[4],trade_value[4];
+  int trade[NUM_TRADEROUTES], trade_value[NUM_TRADEROUTES];
   int luxury_total, tax_total, science_total;
 
   /* the physics */

@@ -384,7 +384,7 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity->city_options=packet->city_options;
 
-  for (i=0;i<4;i++)  {
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade[i]=packet->trade[i];
     pcity->trade_value[i]=packet->trade_value[i];
   }
@@ -637,7 +637,7 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->ppl_elvis          = pcity->size;
     pcity->ppl_scientist      = 0;
     pcity->ppl_taxman         = 0;
-    for (i=0;i<4;i++)  {
+    for (i = 0; i < NUM_TRADEROUTES; i++) {
       pcity->trade[i]=0;
       pcity->trade_value[i]     = 0;
     }
