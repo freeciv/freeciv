@@ -170,15 +170,18 @@ void create_meswin_dialog(void)
 		GTK_SIGNAL_FUNC(meswin_list_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(meswin_list), "unselect_row",
 		GTK_SIGNAL_FUNC(meswin_list_ucallback), NULL);
-	       
+
   gtk_signal_connect(GTK_OBJECT(meswin_close_command), "clicked",
 		GTK_SIGNAL_FUNC(meswin_close_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(meswin_goto_command), "clicked",
 		GTK_SIGNAL_FUNC(meswin_goto_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(meswin_popcity_command), "clicked",
 		GTK_SIGNAL_FUNC(meswin_popcity_callback), NULL);
-  
-  meswin_visited_style = gtk_style_new ();
+
+  if (gtk_rc_get_style(meswin_list))
+    meswin_visited_style = gtk_style_copy(gtk_rc_get_style(meswin_list));
+  else
+    meswin_visited_style = gtk_style_new();
   meswin_visited_style->fg[GTK_STATE_NORMAL]=
 					*colors_standard[COLOR_STD_RACE8];
   meswin_visited_style->fg[GTK_STATE_SELECTED]=
@@ -186,7 +189,7 @@ void create_meswin_dialog(void)
   meswin_visited_style->bg[GTK_STATE_SELECTED]=
 					*colors_standard[COLOR_STD_RACE13];
 
-  meswin_not_visited_style = gtk_style_new ();
+  meswin_not_visited_style = gtk_style_copy(meswin_visited_style);
   meswin_not_visited_style->fg[GTK_STATE_NORMAL]=
 					*colors_standard[COLOR_STD_OCEAN];
   meswin_not_visited_style->fg[GTK_STATE_SELECTED]=
