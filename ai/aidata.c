@@ -450,6 +450,10 @@ struct ai_data *ai_data_get(struct player *pplayer)
     ai_data_phase_done(pplayer);
     ai_data_phase_init(pplayer, FALSE);
   }
+  if (ai->wonder_city && ai->wonder_city->owner != pplayer->player_no) {
+    /* We lost our wonder city :( */
+    ai->wonder_city = NULL;
+  }
   return ai;
 }
 
