@@ -319,6 +319,8 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 		      pdest->name);
 	notify_player(pdest, _("Game: You agree on a cease-fire with %s."),
 		      pgiver->name);
+	check_city_workers(plr0);
+	check_city_workers(plr1);
 	break;
       case CLAUSE_PEACE:
 	pgiver->diplstates[pdest->player_no].type=DS_PEACE;
@@ -327,6 +329,8 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 		      pdest->name);
 	notify_player(pdest, _("Game: You agree on peace with %s."),
 		      pgiver->name);    
+	check_city_workers(plr0);
+	check_city_workers(plr1);
 	break;
       case CLAUSE_ALLIANCE:
 	pgiver->diplstates[pdest->player_no].type=DS_ALLIANCE;
@@ -335,6 +339,8 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 		      pdest->name);
 	notify_player(pdest, _("Game: You agree on an alliance with %s."),
 		      pgiver->name);
+	check_city_workers(plr0);
+	check_city_workers(plr1);
 	break;          
       case CLAUSE_VISION:
 	give_shared_vision(pgiver, pdest);

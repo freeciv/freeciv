@@ -1892,3 +1892,17 @@ void sync_cities(void)
     } city_list_iterate_end;
   } players_iterate_end;
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+void check_city_workers(struct player *pplayer)
+{
+  city_list_iterate(pplayer->cities, pcity) {
+    int x, y;
+    city_map_iterate(x, y) {
+      update_city_tile_status(pcity, x, y);
+    }
+  } city_list_iterate_end;
+  sync_cities();
+}

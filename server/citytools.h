@@ -103,5 +103,6 @@ void update_city_tile_status_map(struct city *pcity, int map_x, int map_y);
 void update_city_tile_status(struct city *pcity, int city_x, int city_y);
 void sync_cities(void);
 int can_place_worker_here(struct city *pcity, int city_x, int city_y);
+void check_city_workers(struct player *pplayer);
 
 #endif  /* FC__CITYTOOLS_H */

@@ -705,20 +705,6 @@ void check_player_government_rates(struct player *pplayer)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-static void check_city_workers(struct player *pplayer)
-{
-  city_list_iterate(pplayer->cities, pcity) {
-    int x, y;
-    city_map_iterate(x, y) {
-      update_city_tile_status(pcity, x, y);
-    }
-  } city_list_iterate_end;
-  sync_cities();
-}
-
-/**************************************************************************
 Handles a player cancelling a "pact" with another player.
 **************************************************************************/
 void handle_player_cancel_pact(struct player *pplayer, int other_player)

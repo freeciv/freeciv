@@ -329,6 +329,8 @@ static void update_diplomatics(void)
 			game.players[p2].name,
 			get_nation_name_plural(game.players[p2].nation));
 	  game.players[p].diplstates[p2].type = DS_NEUTRAL;
+	  check_city_workers(&game.players[p]);
+	  check_city_workers(&game.players[p2]);
 	  break;
 	}
       }
