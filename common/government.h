@@ -23,14 +23,16 @@ struct player;
 /* special values for free_* fields -- SKi */
 #define G_CITY_SIZE_FREE          G_MAGIC
 
-/* other flags (on/off) -- SKi */
-#define G_BUILD_VETERAN_DIPLOMAT  (0x01)  /* and Spies or other F_DIPLOMAT */
-#define G_REVOLUTION_WHEN_UNHAPPY (0x02)
-#define G_HAS_SENATE              (0x04)
-#define G_UNBRIBABLE              (0x08)
-#define G_INSPIRES_PARTISANS      (0x10)
-#define G_IS_NICE                 (0x20)
-#define G_FAVORS_GROWTH           (0x40)
+enum government_flag_id {
+  G_BUILD_VETERAN_DIPLOMAT=0,	/* and Spies (in general: all F_DIPLOMAT) */
+  G_REVOLUTION_WHEN_UNHAPPY,
+  G_HAS_SENATE,			/* not implemented */
+  G_UNBRIBABLE,
+  G_INSPIRES_PARTISANS,
+  G_IS_NICE,			/* hint to AI(?) + spaceship auto-placement */
+  G_FAVORS_GROWTH,		/* hint to AI(?) */
+  G_LAST_FLAG
+};
 
 /* each government has a NULL-record terminated list of ruler titles,
  * at least one entry (the default) should be in it, the list is traversed
@@ -110,7 +112,8 @@ struct government
   int   corruption_distance_factor;
   int   extra_corruption_distance;
   
-  /* various other flags */
+  /* other flags: bits in enum government_flag_id order,
+     use government_has_flag() to access */
   int   flags;
 };
 
@@ -122,6 +125,10 @@ struct government *get_gov_pplayer(struct player *pplayer);
 struct government *get_gov_pcity(struct city *pcity);
 
 struct government *find_government_by_name(char *name);
+
+enum government_flag_id government_flag_from_str(const char *s);
+int government_has_flag(const struct government *gov,
+			enum government_flag_id flag);
 
 int get_government_max_rate(int type);
 int get_government_civil_war_prob(int type);

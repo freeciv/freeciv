@@ -162,7 +162,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     pvictim->bribe_cost = unit_bribe_cost(pvictim);
   }
   if(pplayer->economic.gold>=pvictim->bribe_cost) {
-    if(get_gov_iplayer(pvictim->owner)->flags & G_UNBRIBABLE)
+    if(government_has_flag(get_gov_iplayer(pvictim->owner), G_UNBRIBABLE))
       notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT, 
 	"Game: You can't bribe a unit from this nation.");
     else {
@@ -427,7 +427,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   cplayer=city_owner(pcity);
   if (cplayer==pplayer || cplayer==NULL) 
     return;
-  if(get_gov_pplayer(cplayer)->flags & G_UNBRIBABLE) {
+  if(government_has_flag(get_gov_pplayer(cplayer), G_UNBRIBABLE)) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		       "Game: You can't subvert a city from this nation.");
       return;
@@ -1568,7 +1568,7 @@ void make_partisans(struct city *pcity)
   if (get_invention(city_owner(pcity), A_COMMUNISM) != TECH_KNOWN 
       && get_invention(city_owner(pcity), A_GUNPOWDER) != TECH_KNOWN)
     return;
-  if (!(g->flags & G_INSPIRES_PARTISANS))
+  if (!government_has_flag(g, G_INSPIRES_PARTISANS))
     return;
   
   partisans = myrand(1 + pcity->size/2) + 1;

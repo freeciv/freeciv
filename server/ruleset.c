@@ -979,23 +979,12 @@ static void load_ruleset_governments(char *ruleset_subdir)
 
     j = 0;
     while ((c = secfile_lookup_str_default(&file, NULL, "governments.flags%d.flags,%d", i, j)) != NULL) {
-      if (strcmp(c, "BUILD_VETERAN_DIPLOMAT") == 0) {
-        g->flags |= G_BUILD_VETERAN_DIPLOMAT;
-      } else if (strcmp(c, "REVOLUTION_WHEN_UNHAPPY") == 0) {
-        g->flags |= G_REVOLUTION_WHEN_UNHAPPY;
-      } else if (strcmp(c, "HAS_SENATE") == 0) {
-        g->flags |= G_HAS_SENATE;
-      } else if (strcmp(c, "UNBRIBABLE") == 0) {
-        g->flags |= G_UNBRIBABLE;
-      } else if (strcmp(c, "INSPIRES_PARTISANS") == 0) {
-        g->flags |= G_INSPIRES_PARTISANS;
-      } else if (strcmp(c, "IS_NICE") == 0) {
-        g->flags |= G_IS_NICE;
-      } else if (strcmp(c, "FAVORS_GROWTH") == 0) {
-        g->flags |= G_FAVORS_GROWTH;
-      } else {
+      enum government_flag_id flag = government_flag_from_str(c);
+      if (flag == G_LAST_FLAG) {
         freelog(LOG_FATAL, "government %s has unknown flag %s", g->name, c);
         exit(1);
+      } else {
+        g->flags |= (1<<flag);
       }
       ++j;
     }

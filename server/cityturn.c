@@ -1368,7 +1368,7 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     city_incite_cost(pcity);
 
     send_city_info(0, pcity, 0);
-    if (pcity->anarchy>2 && g->flags & G_REVOLUTION_WHEN_UNHAPPY) {
+    if (pcity->anarchy>2 && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_ANARCHY,
 		       "Game: The people have overthrown your democracy, your country is in turmoil");
       handle_player_revolution(pplayer);

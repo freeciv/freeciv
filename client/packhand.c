@@ -749,7 +749,7 @@ static int spaceship_autoplace(struct player *pplayer,
   if (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     
-    int nice = g->flags & G_IS_NICE;
+    int nice = government_has_flag(g, G_IS_NICE);
     /* "nice" governments prefer to keep success 100%;
      * others build habitation first (for score?)  (Thanks Massimo.)
      */

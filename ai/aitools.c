@@ -292,7 +292,8 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
     if (city_unhappy (&tmp_city)) {
       unhappy_cities++;
       /* the following is essential to prevent falling into anarchy */
-      if (tmp_city.anarchy > 0 && g->flags & G_REVOLUTION_WHEN_UNHAPPY) 
+      if (tmp_city.anarchy > 0
+	  && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) 
         gov_overthrown = 1;
     }
 
@@ -411,19 +412,19 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
    * -- SKi
    */
   rating_before = rating;
-  if (g->flags & G_BUILD_VETERAN_DIPLOMAT) {
+  if (government_has_flag(g, G_BUILD_VETERAN_DIPLOMAT)) {
     rating += 100; /* ignore this advantage for now -- SKi */
   }
-  if (g->flags & G_REVOLUTION_WHEN_UNHAPPY) {
+  if (government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) {
     rating -= 50000; /* very bad! */
   }
-  if (g->flags & G_HAS_SENATE) {
+  if (government_has_flag(g, G_HAS_SENATE)) {
     rating -= 300; /* undesirable */
   }
-  if (g->flags & G_UNBRIBABLE) {
+  if (government_has_flag(g, G_UNBRIBABLE)) {
     rating += 100; /* nice */
   }
-  if (g->flags & G_INSPIRES_PARTISANS) {
+  if (government_has_flag(g, G_INSPIRES_PARTISANS)) {
     rating += 100; /* nice */
   }
 

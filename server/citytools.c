@@ -303,7 +303,7 @@ void eval_buildings(struct city *pcity,int *values)
     values[i]=0;
   }
   
-  if (g->flags & G_FAVORS_GROWTH || pcity->size < 5) {
+  if (government_has_flag(g, G_FAVORS_GROWTH) || pcity->size < 5) {
     if (can_build_improvement(pcity, B_GRANARY)) 
       values[B_GRANARY]=pcity->food_surplus*50;
   }
@@ -330,10 +330,14 @@ void eval_buildings(struct city *pcity,int *values)
     if (can_build_improvement(pcity, B_BANK)) 
       values[B_BANK]=pcity->tax_total*100;
 
+    /* FIXME: I'm guessing this should really be included
+       in the above if(), like indentation/logic suggests?  --dwp */ 
     if (can_build_improvement(pcity, B_STOCK)) 
       values[B_STOCK]=pcity->tax_total*100;
-  
-  if (g->flags & G_IS_NICE)
+
+  /* FIXME: I think this should trigger on g->trade_bonus,
+     not G_IS_NICE --dwp */
+  if (government_has_flag(g, G_IS_NICE))
     if (can_build_improvement(pcity, B_SUPERHIGHWAYS)) 
       values[B_SUPERHIGHWAYS]=pcity->trade_prod*60;
   if (can_build_improvement(pcity, B_COURTHOUSE)) {
@@ -425,7 +429,7 @@ void eval_buildings(struct city *pcity,int *values)
 int do_make_unit_veteran(struct city *pcity, enum unit_type_id id)
 {
   if (unit_flag(id,F_DIPLOMAT))
-    return get_gov_pcity(pcity)->flags & G_BUILD_VETERAN_DIPLOMAT;
+    return government_has_flag(get_gov_pcity(pcity), G_BUILD_VETERAN_DIPLOMAT);
 
   if (is_ground_unittype(id) || improvement_variant(B_BARRACKS)==1)
     return city_got_barracks(pcity);
