@@ -40,8 +40,8 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y);
 void handle_unit_help_build_wonder(struct player *pplayer, 
 				   struct packet_unit_request *req);
-void handle_unit_establish_trade(struct player *pplayer, 
-				 struct packet_unit_request *req);
+int handle_unit_establish_trade(struct player *pplayer, 
+				struct packet_unit_request *req);
 void handle_unit_enter_city(struct player *pplayer, struct city *pcity);
 void handle_unit_auto_request(struct player *pplayer, 
 			      struct packet_unit_request *req);

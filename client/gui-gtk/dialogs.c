@@ -36,6 +36,7 @@ extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
 extern struct connection aconnection;
 extern int flags_are_transparent;
+extern int ai_popup_windows;
 extern GdkGC *fill_bg_gc;
 
 
@@ -91,6 +92,8 @@ int diplomat_target_id;
 
 struct city *pcity_caravan_dest;
 struct unit *punit_caravan;
+
+static GtkWidget *caravan_dialog;
 
 extern GtkStyle *notify_dialog_style;
 
@@ -979,6 +982,8 @@ void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
     
   destroy_message_dialog(w);
+  caravan_dialog = 0;
+  process_caravan_arrival(NULL);
 }
 
 
@@ -994,6 +999,8 @@ void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
 
   destroy_message_dialog(w);
+  caravan_dialog = 0;
+  process_caravan_arrival(NULL);
 }
 
 
@@ -1005,7 +1012,8 @@ void caravan_keep_moving_callback(GtkWidget *w, gpointer data)
   struct unit *punit;
   struct city *pcity;
   
-  if((punit=find_unit_by_id(caravan_unit_id)) && 
+  /* Now don't want to move at all in this case --dwp */
+  if(0 && (punit=find_unit_by_id(caravan_unit_id)) && 
      (pcity=find_city_by_id(caravan_city_id))) {
     struct unit req_unit;
 
@@ -1015,6 +1023,8 @@ void caravan_keep_moving_callback(GtkWidget *w, gpointer data)
     send_unit_info(&req_unit);
   }
   destroy_message_dialog(w);
+  caravan_dialog = 0;
+  process_caravan_arrival(NULL);
 }
 
 
@@ -1025,7 +1035,7 @@ void caravan_keep_moving_callback(GtkWidget *w, gpointer data)
 void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity)
 {
-  GtkWidget *shl, *b;
+  GtkWidget *b;
   char buf[128];
   
   sprintf(buf, "Your caravan from %s reaches the city of %s.\nWhat now?",
@@ -1034,7 +1044,8 @@ void popup_caravan_dialog(struct unit *punit,
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;
   
-  shl=popup_message_dialog(toplevel, /*"caravandialog"*/"Your Caravan Has Arrived", 
+  caravan_dialog=popup_message_dialog(toplevel,
+			   /*"caravandialog"*/"Your Caravan Has Arrived", 
 			   buf,
 			   "Establish traderoute",caravan_establish_trade_callback, 0,
 			   "Help build Wonder",caravan_help_build_wonder_callback, 0,
@@ -1043,13 +1054,13 @@ void popup_caravan_dialog(struct unit *punit,
   
   if(!can_establish_trade_route(phomecity, pdestcity))
   {
-    b = gtk_object_get_data( GTK_OBJECT( shl ), "button0" );
+    b = gtk_object_get_data( GTK_OBJECT( caravan_dialog ), "button0" );
     gtk_widget_set_sensitive( b, FALSE );
   }
   
   if(!unit_can_help_build_wonder(punit, pdestcity))
   {
-    b = gtk_object_get_data( GTK_OBJECT( shl ), "button1" );
+    b = gtk_object_get_data( GTK_OBJECT( caravan_dialog ), "button1" );
     gtk_widget_set_sensitive( b, FALSE );
   }
 }
@@ -1626,4 +1637,57 @@ void taxrates_callback( GtkWidget *w, GdkEventButton *event, gpointer data )
   }
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
 
+}
+
+/**************************************************************************
+  Add punit to queue of caravan arrivals, and popup a window for the
+  next arrival in the queue, if there is not already a popup, and
+  re-checking that a popup is appropriate.
+  If punit is NULL, just do for the next arrival in the queue.
+**************************************************************************/
+void process_caravan_arrival(struct unit *punit)
+{
+  static struct genlist arrival_queue;
+  static int is_init_arrival_queue = 0;
+  int *p_id;
+
+  /* arrival_queue is a list of individually malloc-ed ints with
+     punit.id values, for units which have arrived. */
+
+  if (!is_init_arrival_queue) {
+    genlist_init(&arrival_queue);
+    is_init_arrival_queue = 1;
+  }
+
+  if (punit) {
+    p_id = fc_malloc(sizeof(int));
+    *p_id = punit->id;
+    genlist_insert(&arrival_queue, p_id, -1);
+  }
+
+  /* There can only be one dialog at a time: */
+  if (caravan_dialog) {
+    return;
+  }
+  
+  while (genlist_size(&arrival_queue)) {
+    int id;
+    
+    p_id = genlist_get(&arrival_queue, 0);
+    genlist_unlink(&arrival_queue, p_id);
+    id = *p_id;
+    free(p_id);
+    punit = unit_list_find(&game.player_ptr->units, id);
+
+    if (punit && (unit_can_help_build_wonder_here(punit)
+		  || unit_can_est_traderoute_here(punit))
+	&& (!game.player_ptr->ai.control || ai_popup_windows)) {
+      struct city *pcity_dest = map_get_city(punit->x, punit->y);
+      struct city *pcity_homecity = find_city_by_id(punit->homecity);
+      if (pcity_dest && pcity_homecity) {
+	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
+	return;
+      }
+    }
+  }
 }

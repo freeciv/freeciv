@@ -722,6 +722,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
   int unit_id, transport_units = 1;
   struct unit *pdefender, *ferryboat, *bodyguard, *passenger;
   struct unit_list cargolist;
+  struct city *pcity;
 
   if (same_pos(punit->x, punit->y, dest_x, dest_y)) return 0;
 /* this occurs often during lag, and to the AI due to some quirks -- Syela */
@@ -729,6 +730,18 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
   unit_id=punit->id;
   if (do_airline(punit, dest_x, dest_y))
     return 1;
+
+  if (unit_flag(punit->type, F_CARAVAN)
+      && (pcity=map_get_city(dest_x, dest_y))
+      && (pcity->owner != punit->owner)
+      && punit->homecity) {
+    struct packet_unit_request req;
+    req.unit_id = punit->id;
+    req.city_id = pcity->id;
+    req.name[0] = '\0';
+    return handle_unit_establish_trade(pplayer, &req);
+  }
+  
   pdefender=get_defender(pplayer, punit, dest_x, dest_y);
 
   if(pdefender && pdefender->owner!=punit->owner) {
@@ -790,7 +803,6 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
        unit_types[punit->type].name);
   } else if(can_unit_move_to_tile(punit, dest_x, dest_y) && try_move_unit(punit, dest_x, dest_y)) {
     int src_x, src_y;
-    struct city *pcity;
     
     if((pcity=map_get_city(dest_x, dest_y))) {
       if (pcity->owner!=punit->owner &&  
@@ -901,6 +913,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
   }
   return 0;
 }
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -908,73 +921,115 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 				   struct packet_unit_request *req)
 {
   struct unit *punit;
-  
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
-    struct city *pcity_dest;
+  struct city *pcity_dest;
     
-    pcity_dest=find_city_by_id(req->city_id);
-    
-    if(unit_flag(punit->type, F_CARAVAN) && pcity_dest &&
-       unit_can_help_build_wonder(punit, pcity_dest)) {
-      pcity_dest->shield_stock+=50;
-      if (build_points_left(pcity_dest) < 0) {
-	pcity_dest->shield_stock = improvement_value(pcity_dest->currently_building);
-      }
+  punit = unit_list_find(&pplayer->units, req->unit_id);
+  if (!punit || !unit_flag(punit->type, F_CARAVAN))
+    return;
 
-      notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		  "Game: Your %s helps build the %s in %s. (%d remaining)", 
-		       unit_name(punit->type),
-		       get_improvement_type(pcity_dest->currently_building)->name,
-		       pcity_dest->name, 
-		       build_points_left(pcity_dest)
-		       );
+  pcity_dest = find_city_by_id(req->city_id);
+  if (!pcity_dest || !unit_can_help_build_wonder(punit, pcity_dest))
+    return;
 
-      wipe_unit(0, punit);
-      send_player_info(pplayer, pplayer);
-      send_city_info(pplayer, pcity_dest, 0);
-    }
+  if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y))
+    return;
+
+  if (!(same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
+	|| try_move_unit(punit, pcity_dest->x, pcity_dest->y)))
+    return;
+
+  /* we're there! */
+
+  pcity_dest->shield_stock+=50;
+  if (build_points_left(pcity_dest) < 0) {
+    pcity_dest->shield_stock = improvement_value(pcity_dest->currently_building);
   }
+
+  connection_do_buffer(pplayer->conn);
+  notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		   "Game: Your %s helps build the %s in %s. (%d remaining)", 
+		   unit_name(punit->type),
+		   get_improvement_type(pcity_dest->currently_building)->name,
+		   pcity_dest->name, 
+		   build_points_left(pcity_dest));
+
+  wipe_unit(0, punit);
+  send_player_info(pplayer, pplayer);
+  send_city_info(pplayer, pcity_dest, 0);
+  connection_do_unbuffer(pplayer->conn);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_establish_trade(struct player *pplayer, 
+int handle_unit_establish_trade(struct player *pplayer, 
 				 struct packet_unit_request *req)
 {
   struct unit *punit;
+  struct city *pcity_homecity, *pcity_dest;
+  int revenue;
   
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+  punit = unit_list_find(&pplayer->units, req->unit_id);
+  if (!punit || !unit_flag(punit->type, F_CARAVAN))
+    return 0;
     
-    struct city *pcity_homecity, *pcity_dest;
+  pcity_homecity=city_list_find_id(&pplayer->cities, punit->homecity);
+  pcity_dest=find_city_by_id(req->city_id);
+  if(!pcity_homecity || !pcity_dest)
+    return 0;
     
-    pcity_homecity=city_list_find_id(&pplayer->cities, punit->homecity);
-    pcity_dest=find_city_by_id(req->city_id);
-    
-    if(unit_flag(punit->type, F_CARAVAN) && pcity_homecity && pcity_dest && 
-       is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)) {
-          if (can_establish_trade_route(pcity_homecity, pcity_dest)) {
-             int revenue;
+  if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y))
+    return 0;
 
-             revenue=establish_trade_route(pcity_homecity, pcity_dest);
-             connection_do_buffer(pplayer->conn);
-             notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		       "Game: Your %s has arrived in %s, and revenues amount to %d in gold.", 
-		       unit_name(punit->type), pcity_dest->name, revenue);
-             wipe_unit(0, punit);
-             pplayer->economic.gold+=revenue;
-             send_player_info(pplayer, pplayer);
-             city_refresh(pcity_homecity);
-             city_refresh(pcity_dest);
-             send_city_info(pplayer, pcity_homecity, 0);
-             send_city_info(city_owner(pcity_dest), pcity_dest, 0);
-             connection_do_unbuffer(pplayer->conn);
-          } else 
-             notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-                    "Game: Sorry. Your %s cannot establish a trade route here!", unit_name(punit->type));
+  if (!(same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
+	|| try_move_unit(punit, pcity_dest->x, pcity_dest->y)))
+    return 0;
+
+  if (!can_establish_trade_route(pcity_homecity, pcity_dest)) {
+    int i;
+    notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		     "Game: Sorry. Your %s cannot establish a trade route here!",
+		     unit_name(punit->type));
+    for (i=0;i<4;i++) {
+      if (pcity_homecity->trade[i]==pcity_dest->id) {
+	notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		      "      A traderoute already exists between %s and %s!",
+		      pcity_homecity->name, pcity_dest->name);
+	return 0;
+      }
     }
+    if (city_num_trade_routes(pcity_homecity)==4) {
+      notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		       "      The city of %s already has 4 trade routes!",
+		       pcity_homecity->name);
+      return 0;
+    } 
+    if (city_num_trade_routes(pcity_dest)==4) {
+      notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		       "      The city of %s already has 4 trade routes!",
+		       pcity_dest->name);
+      return 0;
+    }
+    return 0;
   }
+  
+  revenue = establish_trade_route(pcity_homecity, pcity_dest);
+  connection_do_buffer(pplayer->conn);
+  notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		   "Game: Your %s has arrived in %s,"
+		   " and revenues amount to %d in gold.", 
+		   unit_name(punit->type), pcity_dest->name, revenue);
+  wipe_unit(0, punit);
+  pplayer->economic.gold+=revenue;
+  send_player_info(pplayer, pplayer);
+  city_refresh(pcity_homecity);
+  city_refresh(pcity_dest);
+  send_city_info(pplayer, pcity_homecity, 0);
+  send_city_info(city_owner(pcity_dest), pcity_dest, 0);
+  connection_do_unbuffer(pplayer->conn);
+  return 1;
 }
+
 /**************************************************************************
 ...
 **************************************************************************/

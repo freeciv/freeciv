@@ -450,6 +450,17 @@ void handle_unit_info(struct packet_unit_info *packet)
 	  repaint_city=1;
 	else
 	  refresh_city_dialog(pcity);
+	
+	if(unit_flag(punit->type, F_CARAVAN)
+	   && (!game.player_ptr->ai.control || ai_popup_windows)
+	   && punit->owner==game.player_idx
+	   && (punit->activity!=ACTIVITY_GOTO ||
+	       same_pos(punit->goto_dest_x, punit->goto_dest_y,
+			pcity->x, pcity->y))
+	   && (unit_can_help_build_wonder_here(punit)
+	       || unit_can_est_traderoute_here(punit))) {
+	  process_caravan_arrival(punit);
+	}
       }
       
       repaint_unit=0;

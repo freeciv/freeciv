@@ -33,6 +33,7 @@
 #include <menu.h>
 #include <colors.h>
 #include <log.h>
+#include <capability.h>
 
 extern int map_view_x0, map_view_y0;
 extern int map_canvas_store_twidth, map_canvas_store_theight;
@@ -166,36 +167,45 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
   dest_x=map_adjust_x(punit->x+dx);
   dest_y=punit->y+dy;   /* not adjusting on purpose*/
 
+  /* Now only do caravan stuff here for old servers and a caravan
+     entering an enemy city.  New servers do trade routes to enemy
+     cities automatically, and for friendly cities we wait for the
+     unit to enter the city.  --dwp
+  */
   if(unit_flag(punit->type, F_CARAVAN)) {
     struct city *pcity, *phomecity;
 
-    if((pcity=map_get_city(dest_x, dest_y)) &&
-       (phomecity=find_city_by_id(punit->homecity))) {
-      if(can_establish_trade_route(phomecity, pcity) ||
-	 unit_can_help_build_wonder(punit, pcity)) {
+    if((pcity=map_get_city(dest_x, dest_y))
+       && pcity->owner != game.player_idx
+       && !has_capability("caravan1", aconnection.capability)
+       && (phomecity=find_city_by_id(punit->homecity))) {
+      if (can_establish_trade_route(phomecity, pcity)) {
 	popup_caravan_dialog(punit, phomecity, pcity);
 	return;
-      } else if (game.player_idx != pcity->owner) {  
-		append_output_window("Game: You cannot establish a trade route here.");
-		for (i=0;i<4;i++)
-		    if (phomecity->trade[i]==pcity->id) {
-		       sprintf(buf, "	   A traderoute already exists between %s and %s!",
-				    phomecity->name, pcity->name);
-		       append_output_window(buf);
-		       return;
-		    }
-		if (city_num_trade_routes(phomecity)==4) {
-		   sprintf(buf, "      The city of %s has already 4 trade routes!",phomecity->name);
-		   append_output_window(buf);
-		   return;
-		} 
-		if (city_num_trade_routes(pcity)==4) {
-		   sprintf(buf, "      The city of %s has already 4 trade routes!",pcity->name);
-		   append_output_window(buf);
-		   return;
-		}
-		return;
-	     }
+      } else {
+	append_output_window("Game: You cannot establish a trade route here.");
+	for (i=0;i<4;i++) {
+	  if (phomecity->trade[i]==pcity->id) {
+	    sprintf(buf, "      A traderoute already exists between %s and %s!",
+		    phomecity->name, pcity->name);
+	    append_output_window(buf);
+	    return;
+	  }
+	}
+	if (city_num_trade_routes(phomecity)==4) {
+	  sprintf(buf, "      The city of %s already has 4 trade routes!",
+		  phomecity->name);
+	  append_output_window(buf);
+	  return;
+	} 
+	if (city_num_trade_routes(pcity)==4) {
+	  sprintf(buf, "      The city of %s already has 4 trade routes!",
+		  pcity->name);
+	  append_output_window(buf);
+	  return;
+	}
+	return;
+      }
     }
   }
   else if(unit_flag(punit->type, F_DIPLOMAT) &&

@@ -73,7 +73,11 @@
  */
 
 /* The default string is really simple */
-#define CAPABILITY "+1.8"
+#define CAPABILITY "+1.8 caravan1"
+/* caravan1 means to server automatically established a traderoute
+   when a caravan type unit moves into an enemy city.  For older
+   servers the client has to explicitly ask for a trade route.
+*/
 
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2

@@ -41,6 +41,8 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y);
 void popup_incite_dialog(struct city *pcity);
 void popup_bribe_dialog(struct unit *punit);
 
+void process_caravan_arrival(struct unit *punit);
+
 void free_bitmap_destroy_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data);
 void destroy_me_callback(Widget w, XtPointer client_data, 
