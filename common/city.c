@@ -19,7 +19,6 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
 #include "support.h"
 
