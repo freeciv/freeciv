@@ -40,7 +40,6 @@ void player_restore_units(struct player *pplayer);
 void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
 void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 void update_unit_activities(struct player *pplayer);
-void update_unit_activity(struct player *pplayer, struct unit *punit);
 
 void create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
 		 int make_veteran, int homecity_id, int moves_left);

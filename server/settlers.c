@@ -69,9 +69,10 @@ const char *get_a_name(struct player *pplayer)
 **************************************************************************/
 static int ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
-  int x,y;
+  int x, y;
   struct packet_unit_request req;
   struct city *pcity;
+  int i, j;
   req.unit_id=punit->id;
   sz_strlcpy(req.name, get_a_name(pplayer));
   x = punit->x; y = punit->y; /* Trevor Pering points out that punit gets freed */
@@ -79,12 +80,17 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
   pcity=map_get_city(x, y); /* so we need to cache x and y for a very short time */
   if (!pcity)
     return 0;
-  for (y=0;y<5;y++)
-    for (x=0;x<5;x++) {
-      if ((x==0 || x==4) && (y==0 || y==4)) 
-        continue;
-      show_area(pplayer, x+pcity->x-2, y+pcity->y-2, 0);
-    }
+
+  /* initialize infrastructure cache for both this city and other cities
+     nearby. This is neccesary to avoid having settlers want to transform
+     a city into the ocean. */
+  city_map_iterate(i, j) {
+    int x_itr = map_adjust_x(x+i-2);
+    int y_itr = map_adjust_y(y+j-2);
+    struct city *pcity2 = map_get_city(x_itr, y_itr);
+    if (pcity2 && city_owner(pcity2) == pplayer)
+      initialize_infrastructure_cache(pcity2);
+  }
   return 1;
 }
 
@@ -537,6 +543,8 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 
   if (ptile->terrain != type->irrigation_result &&
       type->irrigation_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
+    if (ptile->city && type->irrigation_result == T_OCEAN)
+      return -1;
     ptile->terrain = type->irrigation_result;
     map_clear_special(x, y, S_MINE);
     m = city_tile_value(pcity, i, j, 0, 0);
@@ -589,6 +597,7 @@ static int ai_calc_mine(struct city *pcity, struct player *pplayer,
     return(m);
   } else 
 #endif
+    /* Note that this code means we will never try to mine a city into the ocean */
   if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
       !(ptile->special&S_IRRIGATION) && !(ptile->special&S_MINE)) {
     map_set_special(x, y, S_MINE);
@@ -614,6 +623,9 @@ static int ai_calc_transform(struct city *pcity, struct player *pplayer,
   
   if ((t == T_ARCTIC || t == T_DESERT || t == T_JUNGLE || t == T_SWAMP  || 
        t == T_TUNDRA || t == T_MOUNTAINS) && r != T_LAST) {
+    if (r == T_OCEAN && ptile->city)
+      return -1;
+
     ptile->terrain = r;
 
     if (get_tile_type(r)->mining_result != r) 

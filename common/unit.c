@@ -846,7 +846,9 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 }
 
 /**************************************************************************
-...
+Note that if you make changes here you should also change the code for
+autosettlers in server/settler.c. The code there does not use this function
+as it would be a ajor CPU hog.
 **************************************************************************/
 int can_unit_do_activity_targeted(struct unit *punit,
 				  enum unit_activity activity, int target)
@@ -861,6 +863,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
 
   switch(activity) {
   case ACTIVITY_IDLE:
+  case ACTIVITY_GOTO:
     return 1;
 
   case ACTIVITY_POLLUTION:

@@ -66,8 +66,12 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 			     struct city *pcity);
 static void maybe_cause_incident(enum diplomat_actions action, struct player *offender,
 				 struct unit *victim_unit, struct city *victim_city);
+static void update_unit_activity(struct player *pplayer, struct unit *punit,
+				 struct genlist_iterator *iter);
 
 static int upgrade_would_strand(struct unit *punit, int upgrade_type);
+
+static void sentry_transported_idle_units(struct unit *ptrans);
 
 /******************************************************************************
   Poison a city's water supply.
@@ -1884,7 +1888,7 @@ void create_unit_full(struct player *pplayer, int x, int y,
 void update_unit_activities(struct player *pplayer)
 {
   unit_list_iterate(pplayer->units, punit)
-    update_unit_activity(pplayer, punit);
+    update_unit_activity(pplayer, punit, &myiter);
   unit_list_iterate_end;
 }
 
@@ -1972,9 +1976,12 @@ static void city_landlocked_sell_coastal_improvements(int x, int y)
 /**************************************************************************
   Checks for terrain change between ocean and land.  Handles side-effects.
   (Should be called after any potential ocean/land terrain changes.)
+  Also, returns an enum ocean_land_change, describing the change, if any.
 **************************************************************************/
-static void check_terrain_ocean_land_change(int x, int y,
-					    enum tile_terrain_type oldter)
+enum ocean_land_change { OLC_NONE, OLC_OCEAN_TO_LAND, OLC_LAND_TO_OCEAN };
+
+static enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
+					      enum tile_terrain_type oldter)
 {
   enum tile_terrain_type newter = map_get_terrain(x, y);
 
@@ -1983,11 +1990,14 @@ static void check_terrain_ocean_land_change(int x, int y,
     city_landlocked_sell_coastal_improvements(x, y);
     assign_continent_numbers();
     gamelog(GAMELOG_MAP, "(%d,%d) land created from ocean", x, y);
+    return OLC_OCEAN_TO_LAND;
   } else if ((oldter != T_OCEAN) && (newter == T_OCEAN)) {
     /* land to ocean ... */
     assign_continent_numbers();
     gamelog(GAMELOG_MAP, "(%d,%d) ocean created from land", x, y);
+    return OLC_LAND_TO_OCEAN;
   }
+  return OLC_NONE;
 }
 
 /**************************************************************************
@@ -1996,13 +2006,15 @@ static void check_terrain_ocean_land_change(int x, int y,
   also move units that is on a goto.
   restore unit move points (information needed for settler tasks)
 **************************************************************************/
-void update_unit_activity(struct player *pplayer, struct unit *punit)
+static void update_unit_activity(struct player *pplayer, struct unit *punit,
+				 struct genlist_iterator *iter)
 {
   int id = punit->id;
   int mr = get_unit_type (punit->type)->move_rate;
   int unit_activity_done = 0;
-
   int activity = punit->activity;
+  enum ocean_land_change solvency = OLC_NONE;
+  struct tile *ptile = map_get_tile(punit->x, punit->y);
 
   /* to allow a settler to begin a task with no moves left
      without it counting toward the time to finish */
@@ -2048,7 +2060,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
 				      ACTIVITY_PILLAGE, punit->activity_target) >= 1) {
       int what_pillaged = punit->activity_target;
       map_clear_special(punit->x, punit->y, what_pillaged);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+      unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	    (punit2->activity_target == what_pillaged)) {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
@@ -2085,7 +2097,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
         map_build_irrigation_time(punit->x, punit->y)) {
       enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
       map_irrigate_tile(punit->x, punit->y);
-      check_terrain_ocean_land_change(punit->x, punit->y, old);
+      solvency = check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = 1;
     }
   }
@@ -2111,7 +2123,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
         map_build_mine_time(punit->x, punit->y)) {
       enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
       map_mine_tile(punit->x, punit->y);
-      check_terrain_ocean_land_change(punit->x, punit->y, old);
+      solvency = check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = 1;
     }
   }
@@ -2121,14 +2133,14 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
         map_transform_time(punit->x, punit->y)) {
       enum tile_terrain_type old = map_get_terrain(punit->x, punit->y);
       map_transform_tile(punit->x, punit->y);
-      check_terrain_ocean_land_change(punit->x, punit->y, old);
+      solvency = check_terrain_ocean_land_change(punit->x, punit->y, old);
       unit_activity_done = 1;
     }
   }
 
   if (unit_activity_done) {
     send_tile_info(0, punit->x, punit->y);
-    unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+    unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
       if (punit2->activity == activity) {
 	if (punit2->connecting) {
 	  punit2->activity_count = 0;
@@ -2159,14 +2171,163 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     return;
   }
   
-  if (punit->activity==ACTIVITY_IDLE && 
-     map_get_terrain(punit->x, punit->y)==T_OCEAN &&
-     is_ground_unit(punit))
-    set_unit_activity(punit, ACTIVITY_SENTRY);
-
   send_unit_info(0, punit);
-}
 
+  /* Any units that landed in water or boats that landed on land as a
+     result of settlers changing terrain must be moved back into their
+     right environment.
+     We advance the unit_list iterator passed into this routine from
+     update_unit_activities() if we delete the unit it points to.
+     We go to START each time we moved a unit to avoid problems with the
+     tile unit list getting corrupted.
+
+     FIXME:  We shouldn't do this at all!  There seems to be another
+     bug which is expressed when units wind up on the "wrong" terrain;
+     this is the bug that should be fixed.  Also, introduction of the
+     "amphibious" movement category would allow the definition of units
+     that can "safely" change land<->ocean -- in which case all others
+     would (here) be summarily disbanded (suicide to accomplish their
+     task, for the greater good :).   --jjm
+  */
+ START:
+  switch (solvency) {
+  case OLC_NONE:
+    break; /* nothing */
+
+  case OLC_LAND_TO_OCEAN:
+    unit_list_iterate(ptile->units, punit2) {
+      int x, y;
+      if (is_ground_unit(punit2)) {
+	/* look for nearby land */
+	for (x = punit2->x-1; x <= punit2->x+1; x++)
+	  for (y = punit2->y-1; y <= punit2->y+1; y++) {
+	    struct tile *ptile2;
+	    x = map_adjust_x(x);
+	    y = map_adjust_y(y);
+	    ptile2 = map_get_tile(x, y);
+	    if (ptile2->terrain != T_OCEAN
+		&& !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	      if (get_transporter_capacity(punit2))
+		sentry_transported_idle_units(punit2);
+	      freelog(LOG_VERBOSE,
+		      "Moved %s's %s due to changing land to sea at (%d, %d).",
+		      unit_owner(punit2)->name, unit_name(punit2->type),
+		      punit2->x, punit2->y);
+	      notify_player(unit_owner(punit2),
+			    _("Game: Moved your %s due to changing"
+			      " land to sea at (%d, %d)."),
+			    unit_name(punit2->type), punit2->x, punit2->y);
+	      move_unit(punit2, x, y, 1, 0, 0);
+	      goto START;
+	    }
+	  }
+	/* look for nearby transport */
+	for (x = punit2->x-1; x <= punit2->x+1; x++)
+	  for (y = punit2->y-1; y <= punit2->y+1; y++) {
+	    struct tile *ptile2;
+	    x = map_adjust_x(x);
+	    y = map_adjust_y(y);
+	    ptile2 = map_get_tile(x, y);
+	    if (ptile2->terrain == T_OCEAN
+		&& ground_unit_transporter_capacity(x, y, punit2->owner) > 0) {
+	      if (get_transporter_capacity(punit2))
+		sentry_transported_idle_units(punit2);
+	      freelog(LOG_VERBOSE,
+		      "Embarked %s's %s due to changing land to sea at (%d, %d).",
+		      unit_owner(punit2)->name, unit_name(punit2->type),
+		      punit2->x, punit2->y);
+	      notify_player(unit_owner(punit2),
+			    _("Game: Embarked your %s due to changing"
+			      " land to sea at (%d, %d)."),
+			    unit_name(punit2->type), punit2->x, punit2->y);
+	      move_unit(punit2, x, y, 1, 0, 0);
+	      goto START;
+	    }
+	  }
+	/* if we get here we could not move punit2 */
+	freelog(LOG_VERBOSE,
+		"Disbanded %s's %s due to changing land to sea at (%d, %d).",
+		unit_owner(punit2)->name, unit_name(punit2->type),
+		punit2->x, punit2->y);
+	notify_player(unit_owner(punit2),
+		      _("Game: Disbanded your %s due to changing"
+			" land to sea at (%d, %d)."),
+		      unit_name(punit2->type), punit2->x, punit2->y);
+	if (iter && ((struct unit*)ITERATOR_PTR((*iter))) == punit2)
+	  ITERATOR_NEXT((*iter));
+	wipe_unit_spec_safe(punit2, NULL, 0);
+	goto START;
+      }
+    } unit_list_iterate_end;
+    break;
+  case OLC_OCEAN_TO_LAND:
+    unit_list_iterate(ptile->units, punit2) {
+      int x, y;
+      if (is_sailing_unit(punit2)) {
+	/* look for nearby water */
+	for (x = punit2->x-1; x <= punit2->x+1; x++)
+	  for (y = punit2->y-1; y <= punit2->y+1; y++) {
+	    struct tile *ptile2;
+	    x = map_adjust_x(x);
+	    y = map_adjust_y(y);
+	    ptile2 = map_get_tile(x, y);
+	    if (ptile2->terrain == T_OCEAN
+		&& !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	      if (get_transporter_capacity(punit2))
+		sentry_transported_idle_units(punit2);
+	      freelog(LOG_VERBOSE,
+		      "Moved %s's %s due to changing sea to land at (%d, %d).",
+		      unit_owner(punit2)->name, unit_name(punit2->type),
+		      punit2->x, punit2->y);
+	      notify_player(unit_owner(punit2),
+			    _("Game: Moved your %s due to changing"
+			      " sea to land at (%d, %d)."),
+			    unit_name(punit2->type), punit2->x, punit2->y);
+	      move_unit(punit2, x, y, 1, 1, 0);
+	      goto START;
+	    }
+	  }
+	/* look for nearby port */
+	for (x = punit2->x-1; x <= punit2->x+1; x++)
+	  for (y = punit2->y-1; y <= punit2->y+1; y++) {
+	    struct tile *ptile2;
+	    x = map_adjust_x(x);
+	    y = map_adjust_y(y);
+	    ptile2 = map_get_tile(x, y);
+	    if (is_allied_city_tile(ptile2, punit2->owner)
+		&& !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	      if (get_transporter_capacity(punit2))
+		sentry_transported_idle_units(punit2);
+	      freelog(LOG_VERBOSE,
+		      "Docked %s's %s due to changing sea to land at (%d, %d).",
+		      unit_owner(punit2)->name, unit_name(punit2->type),
+		      punit2->x, punit2->y);
+	      notify_player(unit_owner(punit2),
+			    _("Game: Docked your %s due to changing"
+			      " sea to land at (%d, %d)."),
+			    unit_name(punit2->type), punit2->x, punit2->y);
+	      move_unit(punit2, x, y, 1, 1, 0);
+	      goto START;
+	    }
+	  }
+	/* if we get here we could not move punit2 */
+	freelog(LOG_VERBOSE,
+		"Disbanded %s's %s due to changing sea to land at (%d, %d).",
+		unit_owner(punit2)->name, unit_name(punit2->type),
+		punit2->x, punit2->y);
+	notify_player(unit_owner(punit2),
+		      _("Game: Disbanded your %s due to changing"
+			" sea to land at (%d, %d)."),
+		      unit_name(punit2->type), punit2->x, punit2->y);
+	if (iter && ((struct unit*)ITERATOR_PTR((*iter))) == punit2)
+	  ITERATOR_NEXT((*iter));
+	wipe_unit_spec_safe(punit2, NULL, 0);
+	goto START;
+      }
+    } unit_list_iterate_end;
+    break;
+  }
+}
 
 /**************************************************************************
  nuke a square
@@ -2563,7 +2724,6 @@ void wipe_unit_safe(struct unit *punit, struct genlist_iterator *iter){
   wipe_unit_spec_safe(punit, iter, 1);
 }
 
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -2571,7 +2731,6 @@ void wipe_unit(struct unit *punit)
 {
   wipe_unit_safe(punit, NULL);
 }
-
 
 /**************************************************************************
 this is a highlevel routine
@@ -2784,7 +2943,7 @@ char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix)
 char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix)
 {
   return get_location_str(pplayer, x, y, prefix, 1);
- }
+}
 
 /**************************************************************************
 ...
@@ -2814,7 +2973,6 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
 
   return (restr);
 }
-
 
 /**************************************************************************
 ...
@@ -2857,8 +3015,28 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 }
 
 /**************************************************************************
-Assigns units on ptrans' tile to ptrans to ptrans if they should be. This
-is done by setting their transported_by fields to the id of ptrans.
+For all units which are transported by the given unit and that are
+currently idle, sentry them.
+**************************************************************************/
+void sentry_transported_idle_units(struct unit *ptrans)
+{
+  int x = ptrans->x;
+  int y = ptrans->y;
+  struct tile *ptile = map_get_tile(x, y);
+
+  unit_list_iterate(ptile->units, pcargo) {
+    if (pcargo->transported_by == ptrans->id
+	&& pcargo->id != ptrans->id
+	&& pcargo->activity == ACTIVITY_IDLE) {
+      pcargo->activity = ACTIVITY_SENTRY;
+      send_unit_info(unit_owner(pcargo), pcargo);
+    }
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
+Assigns units on ptrans' tile to ptrans if they should be. This is done by
+setting their transported_by fields to the id of ptrans.
 Checks a zillion things, some from situations that should never happen.
 First drop all previously assigned units that do not fit on the transport.
 If on land maybe pick up some extra units (decided by take_from_land variable)
@@ -3179,6 +3357,19 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
 }
 
 /**************************************************************************
+Check if the units activity is legal for a move , and reset it if it isn't.
+**************************************************************************/
+static void check_unit_activity(struct unit *punit)
+{
+  if (punit->activity != ACTIVITY_IDLE
+      && punit->activity != ACTIVITY_GOTO
+      && punit->activity != ACTIVITY_SENTRY
+      && punit->activity != ACTIVITY_EXPLORE
+      && !punit->connecting)
+    set_unit_activity(punit, ACTIVITY_IDLE);
+}
+
+/**************************************************************************
 Moves a unit. No checks whatsoever! This is meant as a practical function
 for other functions like handle_unit_move_consequences and do_airline,
 who do the checking themselves.
@@ -3248,6 +3439,7 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
       pcargo->x = dest_x;
       pcargo->y = dest_y;
       unit_list_insert(&pdesttile->units, pcargo);
+      check_unit_activity(pcargo);
       send_unit_info_to_onlookers(0, pcargo, src_x, src_y, 1, 0);
       handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
@@ -3261,6 +3453,7 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
   punit->transported_by = -1;
   punit->moves_left = MAX(0, punit->moves_left - move_cost);
   unit_list_insert(&pdesttile->units, punit);
+  check_unit_activity(punit);
 
   /* set activity to sentry if boarding a ship */
   if (is_ground_unit(punit) &&

@@ -33,6 +33,7 @@
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */
 #include "unitfunc.h"
+#include "unithand.h"
 
 #include "maphand.h"
 
@@ -91,6 +92,12 @@ void global_warming(int effect)
 	}
       }
     }
+
+    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+      if (!can_unit_do_activity(punit, punit->activity)
+	  && !punit->connecting)
+	handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    } unit_list_iterate_end;
   }
 }
 
