@@ -653,11 +653,11 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   struct player *pplayer = unit_owner(punit);
   struct packet_unit_combat combat;
   struct unit *plooser, *pwinner;
-  struct unit old_punit = *punit;	/* Used for new ship algorithm. -GJW */
   struct city *pcity;
+  int moves_used, def_moves_used; 
   int def_x = pdefender->x, def_y = pdefender->y;
   struct packet_unit_info unit_att_packet, unit_def_packet;
-  
+
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
 	  pplayer->name, unit_type(punit)->name, 
 	  unit_owner(pdefender)->name,
@@ -674,7 +674,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	def_x, def_y);
   }
 
-  if(unit_flag(punit, F_NUCLEAR)) {
+  if (unit_flag(punit, F_NUCLEAR)) {
     struct packet_nuke_tile packet;
     
     packet.x=def_x;
@@ -696,7 +696,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     do_nuclear_explosion(pplayer, def_x, def_y);
     return;
   }
-  
+  moves_used = unit_move_rate(punit) - punit->moves_left;
+  def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
+
   unit_versus_unit(punit, pdefender);
 
   /* Adjust attackers moves_left _after_ unit_versus_unit() so that
@@ -708,14 +710,21 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
    * that had been used so far this turn (plus the points used in the attack
    * itself). -GJW
    */
-  if (is_sailing_unit (punit)) {
-    int moves_used = unit_move_rate (&old_punit) - old_punit.moves_left;
-    punit->moves_left = unit_move_rate (punit) - moves_used - SINGLE_MOVE;
+  if (is_sailing_unit(punit)) {
+    punit->moves_left = unit_move_rate(punit) - moves_used - SINGLE_MOVE;
   } else {
     punit->moves_left -= SINGLE_MOVE;
   }
-  if(punit->moves_left<0)
-    punit->moves_left=0;
+  if (is_sailing_unit(pdefender)) {
+    pdefender->moves_left = unit_move_rate(pdefender) - def_moves_used;
+  }
+  
+  if (punit->moves_left < 0) {
+    punit->moves_left = 0;
+  }
+  if (pdefender->moves_left < 0) {
+    pdefender->moves_left = 0;
+  }
 
   if (punit->hp &&
       (pcity=map_get_city(def_x, def_y)) &&
@@ -768,7 +777,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     }
   } conn_list_iterate_end;
   
-  if(punit==plooser) {
+  if (punit == plooser) {
     /* The attacker lost */
     freelog(LOG_DEBUG, "Attacker lost: %s's %s against %s's %s.",
 	    pplayer->name, unit_type(punit)->name,
@@ -792,8 +801,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 		     get_location_str_at(unit_owner(plooser),
 					 pwinner->x, pwinner->y));
     wipe_unit(plooser);
-  }
-  else {
+  } else {
     /* The defender lost, the attacker punit lives! */
     freelog(LOG_DEBUG, "Defender lost: %s's %s against %s's %s.",
 	    pplayer->name, unit_type(punit)->name,
@@ -829,7 +837,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
        and adjust moves_left to afterward (if successful). */
 
     int old_moves = punit->moves_left;
-    int full_moves = unit_move_rate (punit);
+    int full_moves = unit_move_rate(punit);
     punit->moves_left = full_moves;
     if (handle_unit_move_request(punit, def_x, def_y, FALSE, FALSE)) {
       punit->moves_left = old_moves - (full_moves - punit->moves_left);
