@@ -1407,7 +1407,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   /* FIXME: we don't have to draw black (unknown) tiles since they're already
    * cleared. */
   if (is_isometric) {
-    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y) {
+    gui_rect_iterate(gui_x0, gui_y0, width, height + NORMAL_TILE_HEIGHT / 2,
+		     map_x, map_y) {
       put_tile_iso(map_x, map_y);
     } gui_rect_iterate_end;
   } else {

@@ -93,8 +93,6 @@ enum update_type {
     int count;								    \
 									    \
     if (is_isometric) {							    \
-      /* Extra half-tile of UNIT_TILE_HEIGHT. */			    \
-      GRI_y1++;								    \
       /* Tiles to the left/above overlap with us. */			    \
       GRI_x0--;								    \
       GRI_y0--;								    \
