@@ -734,7 +734,7 @@ void present_units_activate_close_callback(Widget w, XtPointer client_data,
   destroy_message_dialog(w);
 
   if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
-    if((pcity=game_find_city_by_coor(punit->x, punit->y)))
+    if((pcity=map_get_city(punit->x, punit->y)))
       if((pdialog=get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
 }
@@ -813,7 +813,7 @@ void present_units_callback(Widget w, XtPointer client_data,
   Widget wd;
   
   if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)) &&
-     (pcity=game_find_city_by_coor(punit->x, punit->y)) &&
+     (pcity=map_get_city(punit->x, punit->y)) &&
      (pdialog=get_city_dialog(pcity))) {
 
     wd=popup_message_dialog(pdialog->shell, 

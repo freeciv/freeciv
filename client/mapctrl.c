@@ -238,7 +238,7 @@ void request_unit_change_homecity(struct unit *punit)
 {
   struct city *pcity;
   
-  if((pcity=game_find_city_by_coor(punit->x, punit->y))) {
+  if((pcity=map_get_city(punit->x, punit->y))) {
     struct packet_unit_request req;
     req.unit_id=punit->id;
     req.city_id=pcity->id;
@@ -254,7 +254,7 @@ void request_unit_upgrade(struct unit *punit)
 {
   struct city *pcity;
 
-  if((pcity=game_find_city_by_coor(punit->x, punit->y)))  {
+  if((pcity=map_get_city(punit->x, punit->y)))  {
     struct packet_unit_request req;
     req.unit_id=punit->id;
     req.city_id=pcity->id;
