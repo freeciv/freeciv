@@ -219,6 +219,10 @@ struct city_dialog
 
   struct city_info overview_city_info;
 
+  /* Units */
+  Object *units_supported_group;
+  Object *units_present_group;
+
   /* Happines */
   Object *happines_map;
   struct city_info happines_city_info;
@@ -1539,7 +1543,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	      Child, pdialog->unitlist_button = MakeButton(_("_Unit List")),
 	      Child, HVSpace,
 */
-	Child, HVSpace, /* Units */
+	Child, VGroup, /* Units */
+	    Child, HorizLineTextObject(_("Supported Units")),
+	    Child, pdialog->units_supported_group = AutoGroup, End,
+	    Child, HorizLineTextObject(_("Units present")),
+	    Child, pdialog->units_present_group = AutoGroup, End,
+	    End,
 	Child, HVSpace, /* Worklist */
 	Child, VGroup, /* Happiness */
 	  Child, HGroup,
@@ -1983,10 +1992,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
   struct unit *punit;
 
   /* TODO: use unit id */
-
   DoMethod(pdialog->supported_group, MUIM_Group_InitChange);
   DoMethod(pdialog->supported_group, MUIM_AutoGroup_DisposeChilds);
-
 
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_supported);
@@ -2007,6 +2014,31 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
   }
 
   DoMethod(pdialog->supported_group, MUIM_Group_ExitChange);
+
+
+  /* The same for the supported_group within the units tab */
+  DoMethod(pdialog->units_supported_group, MUIM_Group_InitChange);
+  DoMethod(pdialog->units_supported_group, MUIM_AutoGroup_DisposeChilds);
+
+  if(pdialog->pcity->owner != game.player_idx) {
+    plist = &(pdialog->pcity->info_units_supported);
+  } else {
+    plist = &(pdialog->pcity->units_supported);
+  }
+
+  genlist_iterator_init(&myiter, &(plist->list), 0);
+
+  for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
+  {
+    Object *o;
+
+    punit = (struct unit *) ITERATOR_PTR(myiter);
+    o = MakeSupportedUnit(punit);
+    if (o)
+      DoMethod(pdialog->units_supported_group, OM_ADDMEMBER, o);
+  }
+
+  DoMethod(pdialog->units_supported_group, MUIM_Group_ExitChange);
 }
 
 /****************************************************************
@@ -2044,6 +2076,32 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
   }
 
   DoMethod(pdialog->present_group, MUIM_Group_ExitChange);
+
+  /* The same for the present_group within the units tab */
+  DoMethod(pdialog->units_present_group, MUIM_Group_InitChange);
+  DoMethod(pdialog->units_present_group, MUIM_AutoGroup_DisposeChilds); 
+
+  if(pdialog->pcity->owner != game.player_idx) {
+    plist = &(pdialog->pcity->info_units_present);
+  } else {
+    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+  }
+
+  genlist_iterator_init(&myiter, &(plist->list), 0);
+
+  for (; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
+  {
+    Object *o;
+
+    punit = (struct unit *) ITERATOR_PTR(myiter);
+    if ((o = MakePresentUnit(punit)))
+    {
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, city_present, pdialog, punit);
+      DoMethod(pdialog->units_present_group, OM_ADDMEMBER, o);
+    }
+  }
+
+  DoMethod(pdialog->units_present_group, MUIM_Group_ExitChange);
 }
 
 /****************************************************************
