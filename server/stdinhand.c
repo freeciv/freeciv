@@ -207,7 +207,8 @@ static bool valid_fulltradesize(int value, const char **reject_message);
 static bool autotoggle(bool value, const char **reject_message);
 static bool is_valid_allowtake(const char *allow_take,
 			       const char **error_string);
-
+static bool is_valid_startunits(const char *start_units,
+			       const char **error_string);
 static bool valid_max_players(int v, const char **r_m)
 {
   static char buffer[MAX_LEN_CONSOLE_LINE];
@@ -410,15 +411,24 @@ static struct settings_s settings[] = {
 /* Game initialization parameters (only affect the first start of the game,
  * and not reloads).  Can not be changed after first start of game.
  */
-  GEN_INT("settlers", game.settlers, SSET_GAME_INIT, SSET_SOCIOLOGY,
-          SSET_TO_CLIENT,
-	  N_("Number of initial settlers per player"), "", NULL, 
-	  GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS)
-
-  GEN_INT("explorer", game.explorer, SSET_GAME_INIT, SSET_SOCIOLOGY,
-          SSET_TO_CLIENT,
-	  N_("Number of initial explorers per player"), "", NULL, 
-	  GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER)
+  GEN_STRING("startunits", game.start_units, SSET_GAME_INIT, SSET_SOCIOLOGY,
+             SSET_TO_CLIENT,
+             N_("List of player's initial units"),
+             N_("This should be a string of characters, each of which "
+		"specifies a unit role. There must be at least one city "
+		"founder in the string. The characters and their "
+		"meanings are:\n"
+		"    c   = City founder (eg. Settlers)\n"
+		"    w   = Terrain worker (eg. Engineers)\n"
+		"    x   = Explorer (eg. Explorer)\n"
+		"    k   = Gameloss (eg. King)\n"
+		"    s   = Diplomat (eg. Diplomat)\n"
+		"    f   = Ferryboat (eg. Trireme)\n"
+		"    d   = Ok defense unit (eg. Warriors)\n"
+		"    D   = Good defense unit (eg. Phalanx)\n"
+		"    a   = Fast attack unit (eg. Horsemen)\n"
+		"    A   = Strong attack unit (eg. Catapult)\n"),
+		is_valid_startunits, GAME_DEFAULT_START_UNITS)
 
   GEN_INT("dispersion", game.dispersion, SSET_GAME_INIT, SSET_SOCIOLOGY,
           SSET_TO_CLIENT,
@@ -5045,6 +5055,46 @@ static bool is_valid_allowtake(const char *allow_take,
     return FALSE;
   }
 
+  /* All characters were valid. */
+  *error_string = NULL;
+  return TRUE;
+}
+
+/*************************************************************************
+  Verify that a given startunits string is valid.  See
+  game.start_units.
+*************************************************************************/
+static bool is_valid_startunits(const char *start_units,
+			       const char **error_string)
+{
+  int len = strlen(start_units), i;
+  bool have_founder = FALSE;
+
+  /* We check each character individually to see if it's valid, and
+   * also make sure there is at least one city founder. */
+
+  for (i = 0; i < len; i++) {
+    /* Check for a city founder */
+    if (start_units[i] == 'c') {
+      have_founder = TRUE;
+      continue;
+    }
+    if (strchr("cwxksfdDaA", start_units[i])) {
+      continue;
+    }
+
+    /* Looks like the character was invalid. */
+    *error_string = _("Starting units string contains invalid\n"
+		      "characters.  Try \"help startunits\".");
+    return FALSE;
+  }
+
+  if (!have_founder) {
+    *error_string = _("Starting units string does not contain\n"
+		      "at least one city founder.  Try \n"
+		      "\"help startunits\".");
+    return FALSE;
+  }
   /* All characters were valid. */
   *error_string = NULL;
   return TRUE;

@@ -123,7 +123,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
 flags         = "Settlers", "NonMil", "AddToCity", "Cities", "NoVeteran"
-roles         = ""
+roles         = "Settlers", "Cities"
 helptext      = _("\
 Settlers are one of the key units in the game.  They can be used to\
  found new cities, irrigate land, build roads, railroads, fortresses\
@@ -167,7 +167,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
 flags         = "Settlers", "NonMil", "AddToCity", "Cities", "NoVeteran"
-roles         = ""
+roles         = "Settlers", "Cities"
 
 [unit_militia]
 name          = _("Militia")        ; Civ2 Warriors
@@ -1466,7 +1466,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "NoVeteran"
-roles         = "Explorer"
+roles         = "Explorer", "Diplomat"
 helptext      = _("\
 - A Diplomat can establish embassies with other civilizations\
  by moving into another player's city.\
@@ -1513,7 +1513,7 @@ uk_food       = 0
 uk_gold       = 0
 veteran_power_fact = 100, 100
 flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
-roles         = ""
+roles         = "Diplomat"
 
 [unit_caravan]
 name          = _("Caravan")

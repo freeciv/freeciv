@@ -63,9 +63,10 @@ static void init_game_id(void)
   Place a starting unit for the player.
 ****************************************************************************/
 static void place_starting_unit(int x, int y, struct player *pplayer,
-				enum unit_flag_id role)
+				char crole)
 {
   Unit_Type_id utype;
+  enum unit_flag_id role;
 
   assert(!is_non_allied_unit_tile(map_get_tile(x, y), pplayer));
 
@@ -85,9 +86,25 @@ static void place_starting_unit(int x, int y, struct player *pplayer,
     show_area(pplayer, cx, cy, 0);
   } circle_iterate_end;
 
-  /* Create the unit of an appropriate type. */
-  utype = get_role_unit(role, 0);
-  (void) create_unit(pplayer, x, y, utype, FALSE, 0, -1);
+  switch(crole) {
+	case 'c': role = L_CITIES; break;
+	case 'w': role = L_SETTLERS; break;
+	case 'x': role = L_EXPLORER; break;
+	case 'k': role = L_GAMELOSS; break;
+	case 's': role = L_DIPLOMAT; break;
+	case 'f': role = L_FERRYBOAT; break;
+	case 'd': role = L_DEFEND_OK; break;
+	case 'D': role = L_DEFEND_GOOD; break;
+	case 'a': role = L_ATTACK_FAST; break;
+	case 'A': role = L_ATTACK_STRONG; break;
+	default: assert(FALSE);
+  }
+
+  /* Create the unit of an appropriate type, if it exists */
+  if (num_role_units(role) > 0) {
+    utype = get_role_unit(role, 0);
+    (void) create_unit(pplayer, x, y, utype, FALSE, 0, -1);
+  }
 }
 
 /****************************************************************************
@@ -164,8 +181,7 @@ void init_new_game(void)
       = map.start_positions[start_pos[pplayer->player_no]];
 
     /* Place the first unit. */
-    assert(game.settlers > 0);
-    place_starting_unit(pos.x, pos.y, pplayer, F_CITIES);
+    place_starting_unit(pos.x, pos.y, pplayer, game.start_units[0]);
   } players_iterate_end;
 
   /* Place all other units. */
@@ -174,7 +190,7 @@ void init_new_game(void)
     struct start_position p
       = map.start_positions[start_pos[pplayer->player_no]];
 
-    for (i = 1; i < (game.settlers + game.explorer); i++) {
+    for (i = 1; i < strlen(game.start_units); i++) {
       do {
 	x = p.x + myrand(2 * game.dispersion + 1) - game.dispersion;
 	y = p.y + myrand(2 * game.dispersion + 1) - game.dispersion;
@@ -186,8 +202,7 @@ void init_new_game(void)
 
 
       /* Create the unit of an appropriate type. */
-      place_starting_unit(x, y, pplayer,
-			  (i < game.settlers) ? F_CITIES : L_EXPLORER);
+      place_starting_unit(x, y, pplayer, game.start_units[i]);
     }
   } players_iterate_end;
 

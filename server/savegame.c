@@ -176,7 +176,8 @@
    and rulesets */
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
-"attributes watchtower rulesetdir client_worklists orders"
+"attributes watchtower rulesetdir client_worklists orders " \
+"startunits"
 
 static const char hex_chars[] = "0123456789abcdef";
 static const char terrain_chars[] = "adfghjm prstu";
@@ -2236,8 +2237,20 @@ void game_load(struct section_file *file)
   {
     if (game.version >= 10300) {
       {
-	game.settlers = secfile_lookup_int(file, "game.settlers");
-	game.explorer = secfile_lookup_int(file, "game.explorer");
+	if (!has_capability("startunits", savefile_options)) {
+	  int settlers = secfile_lookup_int(file, "game.settlers");
+	  int explorer = secfile_lookup_int(file, "game.explorer");
+	  int i;
+	  for (i = 0; settlers>0; i++, settlers--) {
+	    game.start_units[i] = 'c';
+	  }
+	  for (; explorer>0; i++, explorer--) {
+	    game.start_units[i] = 'x';
+	  }
+	  game.start_units[i] = '\0';
+	} else {
+	  secfile_lookup_str(file, "game.start_units");
+	}
 	game.dispersion =
 	  secfile_lookup_int_default(file, GAME_DEFAULT_DISPERSION, "game.dispersion");
       }
@@ -2552,8 +2565,7 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.topology_id, "map.topology_id");
     secfile_insert_int(file, map.xsize, "map.width");
     secfile_insert_int(file, map.ysize, "map.height");
-    secfile_insert_int(file, game.settlers, "game.settlers");
-    secfile_insert_int(file, game.explorer, "game.explorer");
+    secfile_insert_str(file, game.start_units, "game.start_units");
     secfile_insert_int(file, game.dispersion, "game.dispersion");
     secfile_insert_int(file, map.seed, "map.seed");
     secfile_insert_int(file, map.landpercent, "map.landpercent");

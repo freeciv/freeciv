@@ -29,6 +29,7 @@
 #define MAX_LEN_ALLOW_TAKE 16
 #define MAX_ID_LEN 33
 #define MAX_GRANARY_INIS 24
+#define MAX_LEN_STARTUNIT 16
 
 enum server_states { 
   PRE_GAME_STATE, 
@@ -61,7 +62,7 @@ struct civ_game {
   char id[MAX_ID_LEN];		/* server only */
   int civstyle;
   int gold;
-  int settlers, explorer;
+  char start_units[MAX_LEN_STARTUNIT];
   int dispersion;
   int tech;
   int skill_level;
@@ -290,13 +291,7 @@ extern bool is_server;
 #define GAME_MIN_GOLD            0
 #define GAME_MAX_GOLD            5000
 
-#define GAME_DEFAULT_SETTLERS    2
-#define GAME_MIN_SETTLERS        1
-#define GAME_MAX_SETTLERS        10
-
-#define GAME_DEFAULT_EXPLORER    1
-#define GAME_MIN_EXPLORER        0
-#define GAME_MAX_EXPLORER        10
+#define GAME_DEFAULT_START_UNITS  "ccx"
 
 #define GAME_DEFAULT_DISPERSION  0
 #define GAME_MIN_DISPERSION      0

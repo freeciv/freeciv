@@ -153,6 +153,10 @@ enum unit_role_id {
   L_BARBARIAN_LEADER,   /* barbarian leader */
   L_BARBARIAN_SEA,      /* sea raider unit */
   L_BARBARIAN_SEA_TECH, /* sea raider unit, global tech required */
+  L_CITIES,		/* can found cities */
+  L_SETTLERS,		/* can improve terrain */
+  L_GAMELOSS,		/* loss results in loss of game */
+  L_DIPLOMAT,		/* can do diplomat actions */
   L_LAST
 };
 #define L_MAX 64

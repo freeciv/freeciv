@@ -185,6 +185,11 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "BarbarianSea" = can be created as a sea barbarian
 ; "BarbarianSeaTech" = can be created as a sea barbarian if someone
 ;		       has researched its tech requirements
+; "Cities"	= can disband to produce a city
+; "Settlers"	= can irrigate and build roads
+; "GameLoss"	= losing one of these units means you lose the game, but it
+;		  is produced without homecity and upkeep
+; "Diplomat"	= can do diplomat actions (see diplchance server option)
 
 [unit_settlers]
 name          = _("Settlers")
@@ -212,7 +217,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
 flags         = "Settlers", "NonMil", "AddToCity", "Cities", "NoVeteran"
-roles         = ""
+roles         = "Cities"
 helptext      = _("\
 Settlers are one of the key units in the game.  They can be used to\
  found new cities, irrigate land, build roads, railroads,\
@@ -256,7 +261,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Settlers", "NonMil", "Airbase", "NoVeteran"
-roles         = ""
+roles         = "Settlers"
 helptext      = _("\
 Workers are one of the key units in the game.  They can be used to\
  irrigate land, build roads, railroads, fortresses, airbases and\
@@ -297,7 +302,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Settlers", "NonMil", "Transform", "Airbase", "NoVeteran"
-roles         = ""
+roles         = "Settlers"
 helptext      = _("\
 Engineers are similar to Workers, but they work twice as fast and\
  move twice as fast.  Engineers may also perform major terrain\
@@ -1648,7 +1653,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil"
-roles         = ""
+roles         = "Diplomat"
 helptext      = _("\
 - A Diplomat can establish embassies with other civilizations\
  by moving into another player's city.\
@@ -1694,7 +1699,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
-roles         = ""
+roles         = "Diplomat"
 helptext      = _("\
 A Spy is a full time professional and as such is much more\
  skilled in the arts of espionage than her Diplomat predecessor.\

@@ -77,7 +77,7 @@ const char * const our_capability = our_capability_internal;
                    "+starter +union +iso_maps +big_map_size +orders2client " \
                    "+change_production +tilespec1 +no_earth +trans " \
                    "+want_hack invasions bombard +killstack2 spec +spec2 " \
-                   "+city_map"
+                   "+city_map startunits"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -123,6 +123,8 @@ const char * const our_capability = our_capability_internal;
  * "spec2" is semi-configurable specialists in an array
  *
  * "city_map" means the city_map is sent as an array instead of a bitfield.
+ *
+ * "startunits" means the initial units are stored as a server string var.
  */
 
 void init_our_capability(void)

@@ -3,8 +3,7 @@
 # Use this as, eg, "./ser -r data/civ1.serv" 
 #
 # Civ1 start:
-set settlers 1
-set explorer 0
+set startunits c
 rulesetdir civ1
 #
 # Minor civ1 rules:

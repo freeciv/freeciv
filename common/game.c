@@ -218,8 +218,7 @@ void game_init(void)
   game.diplchance  = GAME_DEFAULT_DIPLCHANCE;
   game.freecost    = GAME_DEFAULT_FREECOST;
   game.conquercost = GAME_DEFAULT_CONQUERCOST;
-  game.settlers    = GAME_DEFAULT_SETTLERS;
-  game.explorer    = GAME_DEFAULT_EXPLORER;
+  sz_strlcpy(game.start_units, GAME_DEFAULT_START_UNITS);
   game.dispersion  = GAME_DEFAULT_DISPERSION;
   game.cityfactor  = GAME_DEFAULT_CITYFACTOR;
   game.citymindist = GAME_DEFAULT_CITYMINDIST;
