@@ -1594,6 +1594,9 @@ Freeciv.iconName: Freeciv
 ! diplomat dialog
 !
 *diplomatdialog.title: Choose Your Diplomat's Strategy
+*diplomatdialog.dform.*.justify: Center
+*diplomatdialog.dform.*.width:       160
+*diplomatdialog.dform.dlabel.width:  320
 *diplomatdialog.*.dlabel.borderWidth:  0
 *diplomatdialog.*.button0.label:     Establish embassy
 *diplomatdialog.*.button0.fromVert:  dlabel
@@ -1601,42 +1604,48 @@ Freeciv.iconName: Freeciv
 *diplomatdialog.*.button1.fromVert:  dlabel
 *diplomatdialog.*.button1.fromHoriz: button0
 *diplomatdialog.*.button2.label:     Sabotage city
-*diplomatdialog.*.button2.fromVert:  dlabel
-*diplomatdialog.*.button2.fromHoriz: button1
+*diplomatdialog.*.button2.fromVert:  button0
 *diplomatdialog.*.button3.label:     Steal technology
-*diplomatdialog.*.button3.fromVert:  dlabel
+*diplomatdialog.*.button3.fromVert:  button1
 *diplomatdialog.*.button3.fromHoriz: button2
 *diplomatdialog.*.button4.label:     Incite a revolt
-*diplomatdialog.*.button4.fromVert:  dlabel
-*diplomatdialog.*.button4.fromHoriz: button3
+*diplomatdialog.*.button4.fromVert:  button2
 *diplomatdialog.*.button5.label:     Cancel
-*diplomatdialog.*.button5.fromVert:  button0
+*diplomatdialog.*.button5.fromVert:  button3
+*diplomatdialog.*.button5.fromHoriz: button4
 
 !
 ! Spy Dialog
 !
 
 *spydialog.title: Choose Your Spy's Strategy
-*spydialog.*.dlabel.borderWidth:  0
-*spydialog.*.button0.label:     Establish embassy
+*spydialog.dform.*.justify: Center
+*spydialog.dform.*.width:   170
+*spydialog.dform.dlabel.width:       340
+*spydialog.dform.dlabel.borderWidth: 0
+*spydialog.*.button0.label:     Establish Embassy
 *spydialog.*.button0.fromVert:  dlabel
+
 *spydialog.*.button1.label:     Investigate City (free)
 *spydialog.*.button1.fromVert:  dlabel
 *spydialog.*.button1.fromHoriz: button0
+
 *spydialog.*.button2.label:     Poison City
-*spydialog.*.button2.fromVert:  dlabel
-*spydialog.*.button2.fromHoriz: button1
+*spydialog.*.button2.fromVert:  button0
+
 *spydialog.*.button3.label:     Industrial Sabotage
-*spydialog.*.button3.fromVert:  dlabel
+*spydialog.*.button3.fromVert:  button1
 *spydialog.*.button3.fromHoriz: button2
-*spydialog.*.button4.label:     Steal technology
-*spydialog.*.button4.fromVert:  dlabel
-*spydialog.*.button4.fromHoriz: button3
-*spydialog.*.button5.label:     Incite a revolt
-*spydialog.*.button5.fromVert:  dlabel
+
+*spydialog.*.button4.label:     Steal Technology
+*spydialog.*.button4.fromVert:  button2
+
+*spydialog.*.button5.label:     Incite a Revolt
+*spydialog.*.button5.fromVert:  button3
 *spydialog.*.button5.fromHoriz: button4
+
 *spydialog.*.button6.label:     Cancel
-*spydialog.*.button6.fromVert:  button0
+*spydialog.*.button6.fromVert:  button4
 
 !
 ! Spy Steal Tech Dialog
