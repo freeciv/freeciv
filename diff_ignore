@@ -41,6 +41,7 @@ config.sub
 configure
 core
 depcomp
+freeciv_user_database
 freeciv-*.tar.gz
 install-sh
 libintl.h
