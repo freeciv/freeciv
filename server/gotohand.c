@@ -1107,7 +1107,7 @@ of the stack, and fuelindex[i] is pointing at where we should start to
 iterate if we want to try a goto using i fuel. For i>0 these are initialized
 to zero.
 
-We the have a while(1) loop. This is exited once we have found a route or
+We the have a do while(...) loop. This is exited once we have found a route or
 there is no hope of ever finding one (the pointers into the stack of
 been_there nodes all point at the top). We have a "turns" variable that
 indicates how many turns we have used to build up the current been_there[]
