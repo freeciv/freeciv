@@ -1625,6 +1625,7 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
     send_unit_info(pplayer, punit);
   }
 
+  assign_units_to_transporter(punit, 1);
   goto_route_execute(punit);
 }
 
