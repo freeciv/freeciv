@@ -50,6 +50,7 @@
 #include "ratesdlg.h"
 #include "repodlgs.h"
 #include "spaceshipdlg.h"
+#include "wldlg.h"
 
 #include "menu.h"
 
@@ -123,6 +124,7 @@ static struct MenuEntry kingdom_menu_entries[]={
     { { N_("Tax Rates"), 0            },     "T", MENU_KINGDOM_RATES, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Find City"), 0            }, "ctl-f", MENU_KINGDOM_FIND_CITY, 0 },
+    { { N_("Worklists"), 0            },     "L", MENU_KINGDOM_WORKLISTS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Revolution"), 0           },     "R", MENU_KINGDOM_REVOLUTION, 0 },
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
@@ -451,6 +453,9 @@ static void kingdom_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_KINGDOM_RATES:
     popup_rates_dialog();
+    break;
+  case MENU_KINGDOM_WORKLISTS:
+    popup_worklists_dialog(game.player_ptr);
     break;
   case MENU_KINGDOM_REVOLUTION:
     popup_revolution_dialog();

@@ -1976,6 +1976,57 @@ Freeciv*reportactiveunitsrefreshcommand.right:       chainLeft
 
 
 !
+! Worklist report dialog
+!
+Freeciv*worklistreportdialog.title: Worklists
+
+Freeciv*worklistreportdialog.*.dlabel.label: 		_("Available worklists")
+Freeciv*worklistreportdialog.*.dlabel.borderWidth:  	0
+Freeciv*worklistreportdialog.*.dlabel.top:		chainTop
+Freeciv*worklistreportdialog.*.dlabel.bottom:		chainTop
+Freeciv*worklistreportdialog.*.dlabel.left:		chainLeft
+Freeciv*worklistreportdialog.*.dlabel.right:		chainLeft
+
+Freeciv*worklistreportdialog.*.dview.allowVert: 	True
+Freeciv*worklistreportdialog.*.dview.top:		chainTop
+Freeciv*worklistreportdialog.*.dview.bottom:		chainBottom
+Freeciv*worklistreportdialog.*.dview.left:		chainLeft
+
+Freeciv*worklistreportdialog.*.buttonclose.label: 	_("Close")
+Freeciv*worklistreportdialog.*.buttonclose.top:		chainBottom
+Freeciv*worklistreportdialog.*.buttonclose.bottom:	chainBottom
+Freeciv*worklistreportdialog.*.buttonclose.left:	chainLeft
+Freeciv*worklistreportdialog.*.buttonclose.right:	chainLeft
+
+Freeciv*worklistreportdialog.*.buttonedit.label: 	_("Edit")
+Freeciv*worklistreportdialog.*.buttonedit.top:		chainBottom
+Freeciv*worklistreportdialog.*.buttonedit.bottom:	chainBottom
+Freeciv*worklistreportdialog.*.buttonedit.left:		chainLeft
+Freeciv*worklistreportdialog.*.buttonedit.right:	chainLeft
+
+Freeciv*worklistreportdialog.*.buttonrename.label: 	_("Rename")
+Freeciv*worklistreportdialog.*.buttonrename.top:	chainBottom
+Freeciv*worklistreportdialog.*.buttonrename.bottom:	chainBottom
+Freeciv*worklistreportdialog.*.buttonrename.left:	chainLeft
+Freeciv*worklistreportdialog.*.buttonrename.right:	chainLeft
+Freeciv*renameworklist.title: 				_("Rename worklist")
+Freeciv*renameworklist*ilable.background: 		LightBlue
+Freeciv*renameworklist*iinput.width: 			200
+
+Freeciv*worklistreportdialog.*.buttoninsert.label: 	_("Insert")
+Freeciv*worklistreportdialog.*.buttoninsert.top:	chainBottom
+Freeciv*worklistreportdialog.*.buttoninsert.bottom:	chainBottom
+Freeciv*worklistreportdialog.*.buttoninsert.left:	chainLeft
+Freeciv*worklistreportdialog.*.buttoninsert.right:	chainLeft
+
+Freeciv*worklistreportdialog.*.buttondelete.label: 	_("Delete")
+Freeciv*worklistreportdialog.*.buttondelete.top:	chainBottom
+Freeciv*worklistreportdialog.*.buttondelete.bottom:	chainBottom
+Freeciv*worklistreportdialog.*.buttondelete.left:	chainLeft
+Freeciv*worklistreportdialog.*.buttondelete.right:	chainLeft
+
+
+!
 ! menus
 !
 Freeciv*gamemenu.label:                 _("Game")
@@ -2057,6 +2108,106 @@ Freeciv*changedialog.*.buttonhelp.bottom:	chainBottom
 Freeciv*changedialog.*.buttonhelp.left:		chainLeft
 Freeciv*changedialog.*.buttonhelp.right:	chainLeft
 
+
+!
+! city production worklist dialog
+!
+Freeciv*worklistdialog.title: Production Worklist
+
+Freeciv*worklistdialog.*.worklistlabel.label: 	_("Current worklist")
+Freeciv*worklistdialog.*.worklistlabel.borderWidth:  0
+Freeciv*worklistdialog.*.worklistlabel.top:	chainTop
+Freeciv*worklistdialog.*.worklistlabel.bottom:	chainTop
+Freeciv*worklistdialog.*.worklistlabel.left:	chainLeft
+Freeciv*worklistdialog.*.worklistlabel.right:	chainLeft
+
+Freeciv*worklistdialog.*.availlabel.label: 	_("Available targets")
+Freeciv*worklistdialog.*.availlabel.borderWidth:  0
+Freeciv*worklistdialog.*.availlabel.top:	chainTop
+Freeciv*worklistdialog.*.availlabel.bottom:	chainTop
+Freeciv*worklistdialog.*.availlabel.left:	chainLeft
+Freeciv*worklistdialog.*.availlabel.right:	chainLeft
+
+Freeciv*worklistdialog.*.wview.allowVert: 	True
+Freeciv*worklistdialog.*.wview.top:		chainTop
+Freeciv*worklistdialog.*.wview.bottom:		chainBottom
+Freeciv*worklistdialog.*.wview.left:		chainLeft
+
+Freeciv*worklistdialog.*.aview.allowVert: 	True
+Freeciv*worklistdialog.*.aview.top:		chainTop
+Freeciv*worklistdialog.*.aview.bottom:		chainBottom
+Freeciv*worklistdialog.*.aview.left:		chainLeft
+
+Freeciv*worklistdialog.*.buttonprepend.label: 	_("Prepend")
+Freeciv*worklistdialog.*.buttonprepend.top:	chainBottom
+Freeciv*worklistdialog.*.buttonprepend.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttonprepend.left:	chainLeft
+Freeciv*worklistdialog.*.buttonprepend.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttoninsert.label: 	_("Insert")
+Freeciv*worklistdialog.*.buttoninsert.top:	chainBottom
+Freeciv*worklistdialog.*.buttoninsert.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttoninsert.left:	chainLeft
+Freeciv*worklistdialog.*.buttoninsert.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttondelete.label: 	_("Delete")
+Freeciv*worklistdialog.*.buttondelete.top:	chainBottom
+Freeciv*worklistdialog.*.buttondelete.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttondelete.left:	chainLeft
+Freeciv*worklistdialog.*.buttondelete.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttonup.label: 	_("Up")
+Freeciv*worklistdialog.*.buttonup.top:		chainBottom
+Freeciv*worklistdialog.*.buttonup.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttonup.left:		chainLeft
+Freeciv*worklistdialog.*.buttonup.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttondown.label: 	_("Down")
+Freeciv*worklistdialog.*.buttondown.top:	chainBottom
+Freeciv*worklistdialog.*.buttondown.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttondown.left:	chainLeft
+Freeciv*worklistdialog.*.buttondown.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttoncancel.label: 	_("Cancel")
+Freeciv*worklistdialog.*.buttoncancel.top:	chainBottom
+Freeciv*worklistdialog.*.buttoncancel.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttoncancel.left:	chainLeft
+Freeciv*worklistdialog.*.buttoncancel.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttonok.label: 	_("  Ok  ")
+Freeciv*worklistdialog.*.buttonok.top:		chainBottom
+Freeciv*worklistdialog.*.buttonok.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttonok.left:		chainLeft
+Freeciv*worklistdialog.*.buttonok.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttonworklisthelp.label: 	_("Help")
+Freeciv*worklistdialog.*.buttonworklisthelp.top:	chainBottom
+Freeciv*worklistdialog.*.buttonworklisthelp.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttonworklisthelp.left:	chainLeft
+Freeciv*worklistdialog.*.buttonworklisthelp.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttonavailhelp.label: 	_("Help")
+Freeciv*worklistdialog.*.buttonavailhelp.top:		chainBottom
+Freeciv*worklistdialog.*.buttonavailhelp.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttonavailhelp.left:		chainLeft
+Freeciv*worklistdialog.*.buttonavailhelp.right:		chainLeft
+
+Freeciv*worklistdialog.*.showadvancedlabel.label: 	_("Show future targets:")
+Freeciv*worklistdialog.*.showadvancedlabel.background:  lightblue
+Freeciv*worklistdialog.*.showadvancedlabel.borderWidth:	0
+Freeciv*worklistdialog.*.showadvancedlabel.top:		chainBottom
+Freeciv*worklistdialog.*.showadvancedlabel.bottom:	chainBottom
+Freeciv*worklistdialog.*.showadvancedlabel.left:	chainLeft
+Freeciv*worklistdialog.*.showadvancedlabel.right:	chainLeft
+
+Freeciv*worklistdialog.*.buttonshowadvanced.label: 	_("Yes")
+Freeciv*worklistdialog.*.buttonshowadvanced.foreground: Black
+Freeciv*worklistdialog.*.buttonshowadvanced.background: Cyan
+Freeciv*worklistdialog.*.buttonshowadvanced.shapeStyle: ShapeOval
+Freeciv*worklistdialog.*.buttonshowadvanced.top:	chainBottom
+Freeciv*worklistdialog.*.buttonshowadvanced.bottom:	chainBottom
+Freeciv*worklistdialog.*.buttonshowadvanced.left:	chainLeft
+Freeciv*worklistdialog.*.buttonshowadvanced.right:	chainLeft
 
 !
 ! city buy production dialog
@@ -2663,6 +2814,7 @@ Freeciv*mapcanvas.translations:\
    Ctrl<Key>g:        key-map-grid-toggle()            \n\
    Shift<Key>c:       key-unit-connect()               \n\
    Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>l:       key-open-worklists()             \n\
    Shift<Key>n:       key-unit-nuke()                  \n\
    Shift<Key>p:       key-unit-pillage()               \n\
    Shift<Key>r:       key-open-revolution()            \n\
@@ -2734,6 +2886,7 @@ Freeciv*overviewcanvas.translations:\
    Ctrl<Key>g:        key-map-grid-toggle()            \n\
    Shift<Key>c:       key-unit-connect()               \n\
    Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>l:       key-open-worklists()             \n\
    Shift<Key>n:       key-unit-nuke()                  \n\
    Shift<Key>p:       key-unit-pillage()               \n\
    Shift<Key>r:       key-open-revolution()            \n\
@@ -2864,6 +3017,8 @@ Freeciv*cityprogresslabel.label: \
 Freeciv*citybuycommand.label:			_(" Buy ")
 
 Freeciv*citychangecommand.label:		_(" Change ")
+
+Freeciv*cityworklistcommand.label:		_(" Worklist ")
 
 Freeciv*supportunitlabel.label:			_("Supported units:")
 Freeciv*supportunitlabel.internalWidth:               0

@@ -137,24 +137,29 @@ static char *cr_entry_num_trade(struct city *pcity)
 
 static char *cr_entry_building(struct city *pcity)
 {
-  static char buf[64];
+  static char buf[128];
+  int using_worklist = !worklist_is_empty(pcity->worklist);
+  char *from_worklist = using_worklist?_("(worklist)"):"";
   if(pcity->is_building_unit)  {
-    my_snprintf(buf, sizeof(buf), "%s(%d/%d/%d)", 
-            get_unit_type(pcity->currently_building)->name,
-	    pcity->shield_stock,
-	    get_unit_type(pcity->currently_building)->build_cost,
-	    city_buy_cost(pcity));
+    my_snprintf(buf, sizeof(buf), "%s(%d/%d/%d)%s", 
+		get_unit_type(pcity->currently_building)->name,
+		pcity->shield_stock,
+		get_unit_type(pcity->currently_building)->build_cost,
+		city_buy_cost(pcity),
+		from_worklist);
   } else {
     if(pcity->currently_building==B_CAPITAL)  {
-      my_snprintf(buf, sizeof(buf), "%s(%d/X/X)",
-              get_imp_name_ex(pcity, pcity->currently_building),
-	      pcity->shield_stock);
+      my_snprintf(buf, sizeof(buf), "%s(%d/X/X)%s",
+		  get_imp_name_ex(pcity, pcity->currently_building),
+		  pcity->shield_stock,
+		  from_worklist);
     } else {
-      my_snprintf(buf, sizeof(buf), "%s(%d/%d/%d)", 
-	      get_imp_name_ex(pcity, pcity->currently_building),
-	      pcity->shield_stock,
-	      get_improvement_type(pcity->currently_building)->build_cost,
-	      city_buy_cost(pcity));
+      my_snprintf(buf, sizeof(buf), "%s(%d/%d/%d)%s", 
+		  get_imp_name_ex(pcity, pcity->currently_building),
+		  pcity->shield_stock,
+		  get_improvement_type(pcity->currently_building)->build_cost,
+		  city_buy_cost(pcity),
+		  from_worklist);
     }
   }
   return buf;

@@ -391,10 +391,16 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
   Whether player could build this improvement, assuming they had
   the tech req, and assuming a city with the right pre-reqs etc.
 *****************************************************************/
-int could_player_build_improvement(struct player *p, enum improvement_type_id id)
+int could_player_eventually_build_improvement(struct player *p, enum improvement_type_id id)
 {
   if (!improvement_exists(id))
     return 0;
+
+  /* You can't build an improvement if it's tech requirement is
+     Never. */
+  if (improvement_types[id].tech_requirement == A_LAST)
+    return 0;
+  
   if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
     if (!game.global_wonders[B_APOLLO]) {
       return 0;
@@ -416,6 +422,19 @@ int could_player_build_improvement(struct player *p, enum improvement_type_id id
   }
   return 1;
 }
+
+int could_player_build_improvement(struct player *p, enum improvement_type_id id)
+{
+  if (!could_player_eventually_build_improvement(p, id))
+    return 0;
+
+  /* Make sure we have the tech /now/.*/
+  if (get_invention(p, improvement_types[id].tech_requirement) == TECH_KNOWN)
+    return 1;
+  return 0;
+}
+  
+
 
 /****************************************************************
 Can this improvement get built in this city, by the player
@@ -500,6 +519,21 @@ int can_player_build_unit(struct player *p, Unit_Type_id id)
   if (!can_player_build_unit_direct(p, id))
     return 0;
   if (can_player_build_unit_direct(p, unit_types[id].obsoleted_by))
+    return 0;
+  return 1;
+}
+
+/****************************************************************
+Whether player can _eventually_ build given unit somewhere -- ie,
+returns 1 if unit is available with current tech OR will be available
+with future tech.  returns 0 if unit is obsolete.
+*****************************************************************/
+int can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
+{  
+  if (can_player_build_unit_direct(p, unit_types[id].obsoleted_by))
+    return 0;
+  /* Unit is "Never" (defined in ruleset.c) available. */
+  if (unit_types[id].tech_requirement == A_LAST)
     return 0;
   return 1;
 }

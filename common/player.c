@@ -53,6 +53,8 @@ int player_owns_city(struct player *pplayer, struct city *pcity)
 ***************************************************************/
 void player_init(struct player *plr)
 {
+  int i;
+
   plr->player_no=plr-game.players;
 
   sz_strlcpy(plr->name, "YourName");
@@ -80,6 +82,10 @@ void player_init(struct player *plr)
   plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;
   player_limit_to_government_rates(plr);
   spaceship_init(&plr->spaceship);
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+    init_worklist(&plr->worklists[i]);
+    plr->worklists[i].is_valid = 0;
+  }
 }
 
 /***************************************************************

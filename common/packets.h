@@ -13,10 +13,11 @@
 #ifndef FC__PACKETS_H
 #define FC__PACKETS_H
 
+#include "map.h"
 #include "player.h"
 #include "shared.h"		/* MAX_LEN_NAME, MAX_LEN_ADDR */
 #include "spaceship.h"
-#include "map.h"
+#include "worklist.h"
 
 #define MAX_LEN_PACKET    4096
 #define MAX_LEN_USERNAME    10	     /* see below */
@@ -48,6 +49,7 @@ enum packet_type {
   PACKET_CITY_SELL,
   PACKET_CITY_BUY,
   PACKET_CITY_CHANGE,
+  PACKET_CITY_WORKLIST,
   PACKET_CITY_MAKE_SPECIALIST,
   PACKET_CITY_MAKE_WORKER,
   PACKET_CITY_CHANGE_SPECIALIST,
@@ -56,6 +58,7 @@ enum packet_type {
   PACKET_PLAYER_REVOLUTION,
   PACKET_PLAYER_GOVERNMENT,
   PACKET_PLAYER_RESEARCH,
+  PACKET_PLAYER_WORKLIST,
   PACKET_UNIT_BUILD_CITY,
   PACKET_UNIT_DISBAND,
   PACKET_REMOVE_UNIT,
@@ -211,6 +214,8 @@ struct packet_player_request
   int tax, luxury, science;              /* rates */
   int government;                        /* government */
   int tech;                              /* research */
+  struct worklist worklist;              /* one worklist */
+  int wl_idx;                            /* which worklist */
 };
 
 /*********************************************************
@@ -224,6 +229,7 @@ struct packet_city_request
   int worker_x, worker_y;                /* make_worker, make_specialist */
   int specialist_from, specialist_to;    /* change_specialist */
   char name[MAX_LEN_NAME];            /* rename */
+  struct worklist worklist;              /* worklist */
 };
 
 
@@ -312,6 +318,8 @@ struct packet_city_info {
 
   int is_building_unit;
   int currently_building;
+
+  struct worklist worklist;
 
   char improvements[B_LAST+1];
   char city_map[CITY_MAP_SIZE*CITY_MAP_SIZE+1];
@@ -410,6 +418,7 @@ struct packet_player_info {
   int ai;
   int is_barbarian;
   char capability[MAX_LEN_CAPSTR];
+  struct worklist worklists[MAX_NUM_WORKLISTS];
 };
 
 /*********************************************************

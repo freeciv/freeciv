@@ -1639,6 +1639,14 @@ void handle_player_tech_goal(struct player *pplayer,
 }
 
 
+void handle_player_worklist(struct player *pplayer,
+			    struct packet_player_request *preq)
+{
+  copy_worklist(&pplayer->worklists[preq->wl_idx], &preq->worklist);
+  send_player_info(pplayer, pplayer);
+}
+
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1870,6 +1878,10 @@ void send_player_info(struct player *src, struct player *dest)
 	     if(game.players[i].conn)
 	       sz_strlcpy(info.capability,game.players[i].conn->capability);
 	     
+	     for (j = 0; j < MAX_NUM_WORKLISTS; j++)
+	       copy_worklist(&info.worklists[j], 
+			     &game.players[i].worklists[j]);
+
              send_packet_player_info(game.players[o].conn, &info);
 	   }
 }
@@ -1902,6 +1914,18 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
   plr->city_style=secfile_lookup_int_default(file, get_nation_city_style(plr->nation),
                                              "player%d.city_style", plrno);
+  for (j = 0; j < MAX_NUM_WORKLISTS; j++) {
+    plr->worklists[j].is_valid = 
+      secfile_lookup_int_default(file, 0, 
+				 "player%d.worklist%d.is_valid", plrno, j);
+    strcpy(plr->worklists[j].name, 
+	   secfile_lookup_str_default(file, "",
+				      "player%d.worklist%d.name", plrno, j));
+    for (i = 0; i < MAX_LEN_WORKLIST; i++)
+      plr->worklists[j].ids[i] = 
+	secfile_lookup_int_default(file, WORKLIST_END,
+				   "player%d.worklist%d.ids%d", plrno, j, i);
+  }
 
   sz_strlcpy(plr->addr, "---.---.---.---");
 
@@ -2049,6 +2073,10 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 						   plrno, i);
     pcity->tile_trade=pcity->trade_prod=0;
     pcity->anarchy=secfile_lookup_int(file, "player%d.c%d.anarchy", plrno,i);
+    pcity->turn_last_built=secfile_lookup_int_default(file, -1,
+						      "player%d.c%d.turn_last_built", plrno,i);
+    pcity->turn_changed_target=secfile_lookup_int_default(file, -1,
+							  "player%d.c%d.turn_changed_target", plrno,i);
     pcity->rapture=secfile_lookup_int_default(file, 0, "player%d.c%d.rapture", plrno,i);
     pcity->was_happy=secfile_lookup_int(file, "player%d.c%d.was_happy", plrno,i);
     pcity->is_building_unit=secfile_lookup_int(file, 
@@ -2109,6 +2137,12 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     
     for(x=0; x<B_LAST; x++)
       pcity->improvements[x]=(*p++=='1') ? 1 : 0;
+
+    pcity->worklist = create_worklist();
+    for(j=0; j<MAX_LEN_WORKLIST; j++)
+      pcity->worklist->ids[j]=
+	secfile_lookup_int_default(file, WORKLIST_END,
+				   "player%d.c%d.worklist%d", plrno, i, j);
 
     map_set_city(pcity->x, pcity->y, pcity);
 
@@ -2195,7 +2229,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 ***************************************************************/
 void player_save(struct player *plr, int plrno, struct section_file *file)
 {
-  int i;
+  int i, j;
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
 
@@ -2205,6 +2239,16 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
    
+  for (j = 0; j < MAX_NUM_WORKLISTS; j++) {
+    secfile_insert_int(file, plr->worklists[j].is_valid, 
+		       "player%d.worklist%d.is_valid", plrno, j);
+    secfile_insert_str(file, plr->worklists[j].name, 
+		       "player%d.worklist%d.name", plrno, j);
+    for (i = 0; i < MAX_LEN_WORKLIST; i++)
+      secfile_insert_int(file, plr->worklists[j].ids[i], 
+			 "player%d.worklist%d.ids%d", plrno, j, i);
+  }
+
   secfile_insert_int(file, plr->city_style, "player%d.city_style", plrno);
   secfile_insert_int(file, plr->is_male, "player%d.is_male", plrno);
   secfile_insert_int(file, plr->is_alive, "player%d.is_alive", plrno);
@@ -2337,6 +2381,8 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     secfile_insert_int(file, pcity->shield_stock, "player%d.c%d.shield_stock", 
 		       plrno, i);
     secfile_insert_int(file, pcity->anarchy, "player%d.c%d.anarchy", plrno,i);
+    secfile_insert_int(file, pcity->turn_last_built, "player%d.c%d.turn_last_built", plrno,i);
+    secfile_insert_int(file, pcity->turn_changed_target, "player%d.c%d.turn_changed_target", plrno,i);
     secfile_insert_int(file, pcity->rapture, "player%d.c%d.rapture", plrno,i);
     secfile_insert_int(file, pcity->was_happy, "player%d.c%d.was_happy", plrno,i);
     secfile_insert_int(file, pcity->did_buy, "player%d.c%d.did_buy", plrno,i);
@@ -2369,6 +2415,11 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
       buf[j]=(pcity->improvements[j]) ? '1' : '0';
     buf[j]='\0';
     secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
+
+    for(j=0; j<MAX_LEN_WORKLIST; j++)
+      secfile_insert_int(file, pcity->worklist->ids[j], 
+			 "player%d.c%d.worklist%d", plrno, i, j);
+
   }
   city_list_iterate_end;
 }

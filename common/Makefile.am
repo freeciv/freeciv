@@ -61,4 +61,6 @@ libcivcommon_a_SOURCES = \
 		timing.h	\
 		unit.c		\
 		unit.h		\
+		worklist.c	\
+		worklist.h	\
 		version.h

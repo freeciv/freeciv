@@ -248,6 +248,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_CITY_SELL:
   case PACKET_CITY_BUY:
   case PACKET_CITY_CHANGE:
+  case PACKET_CITY_WORKLIST:
   case PACKET_CITY_MAKE_SPECIALIST:
   case PACKET_CITY_MAKE_WORKER:
   case PACKET_CITY_CHANGE_SPECIALIST:
@@ -259,6 +260,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_PLAYER_GOVERNMENT:
   case PACKET_PLAYER_RESEARCH:
   case PACKET_PLAYER_TECH_GOAL:
+  case PACKET_PLAYER_WORKLIST:
     return receive_packet_player_request(pc);
 
   case PACKET_UNIT_BUILD_CITY:
@@ -885,6 +887,34 @@ static void iget_tech_list(struct pack_iter *piter, int *techs)
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static unsigned char *put_worklist(unsigned char *buffer, struct worklist *pwl)
+{
+  int i;
+
+  buffer = put_uint8(buffer, pwl->is_valid);
+  buffer = put_string(buffer, pwl->name);
+  for (i = 0; i < MAX_LEN_WORKLIST; i++)
+    buffer = put_uint16(buffer, pwl->ids[i]);
+
+  return buffer;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void iget_worklist(struct pack_iter *piter, struct worklist *pwl)
+{
+  int i;
+  
+  iget_uint8(piter, &pwl->is_valid);
+  iget_string(piter, pwl->name, MAX_LEN_NAME);
+  for (i = 0; i < MAX_LEN_WORKLIST; i++)
+    iget_uint16(piter, &pwl->ids[i]);
+}
+    
 /*************************************************************************
 ...
 **************************************************************************/
@@ -1147,6 +1177,8 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->science);
   cptr=put_uint8(cptr, packet->government);
   cptr=put_uint8(cptr, packet->tech);
+  cptr=put_worklist(cptr, &packet->worklist);
+  cptr=put_uint8(cptr, packet->wl_idx);
   put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1170,6 +1202,8 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->science);
   iget_uint8(&iter, &preq->government);
   iget_uint8(&iter, &preq->tech);
+  iget_worklist(&iter, &preq->worklist);
+  iget_uint8(&iter, &preq->wl_idx);
   
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1193,6 +1227,7 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->worker_y);
   cptr=put_uint8(cptr, packet->specialist_from);
   cptr=put_uint8(cptr, packet->specialist_to);
+  cptr=put_worklist(cptr, &packet->worklist);
   cptr=put_string(cptr, packet->name);
   put_uint16(buffer, cptr-buffer);
 
@@ -1219,6 +1254,7 @@ receive_packet_city_request(struct connection *pc)
   iget_uint8(&iter, &preq->worker_y);
   iget_uint8(&iter, &preq->specialist_from);
   iget_uint8(&iter, &preq->specialist_to);
+  iget_worklist(&iter, &preq->worklist);
   iget_string(&iter, preq->name, sizeof(preq->name));
   
   pack_iter_end(&iter, pc);
@@ -1233,6 +1269,8 @@ receive_packet_city_request(struct connection *pc)
 int send_packet_player_info(struct connection *pc, struct packet_player_info *pinfo)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  int i;
+
   cptr=put_uint8(buffer+2, PACKET_PLAYER_INFO);
   cptr=put_uint8(cptr, pinfo->playerno);
   cptr=put_string(cptr, pinfo->name);
@@ -1266,6 +1304,9 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   /* if (pc && has_capability("clientcapabilities", pc->capability)) */
   cptr=put_string(cptr, pinfo->capability);
 
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++)
+    cptr = put_worklist(cptr, &pinfo->worklists[i]);
+
   put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1281,6 +1322,7 @@ receive_packet_player_info(struct connection *pc)
   struct pack_iter iter;
   struct packet_player_info *pinfo=
      fc_malloc(sizeof(struct packet_player_info));
+  int i;
 
   pack_iter_init(&iter, pc);
 
@@ -1316,6 +1358,9 @@ receive_packet_player_info(struct connection *pc)
   /* if (has_capability("clientcapabilities", pc->capability)) */
   iget_string(&iter, pinfo->capability, sizeof(pinfo->capability));
   
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++)
+    iget_worklist(&iter, &pinfo->worklists[i]);
+
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;
@@ -1630,6 +1675,8 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   cptr=put_uint16(cptr, req->pollution);
   cptr=put_uint8(cptr, req->currently_building);
 
+  cptr=put_worklist(cptr, &req->worklist);
+
   data=req->is_building_unit?1:0;
   data|=req->did_buy?2:0;
   data|=req->did_sell?4:0;
@@ -1701,6 +1748,8 @@ receive_packet_city_info(struct connection *pc)
   iget_uint16(&iter, &packet->shield_stock);
   iget_uint16(&iter, &packet->pollution);
   iget_uint8(&iter, &packet->currently_building);
+
+  iget_worklist(&iter, &packet->worklist);
 
   iget_uint8(&iter, &data);
   packet->is_building_unit = data&1;

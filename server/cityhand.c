@@ -30,6 +30,7 @@
 #include "support.h"
 #include "tech.h"
 #include "unit.h"
+#include "worklist.h"
 
 #include "citytools.h"
 #include "cityturn.h"
@@ -157,6 +158,9 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->airlift=0;
   pcity->currently_building=best_role_unit(pcity, L_FIRSTBUILD);
 
+  /* Set up the worklist */
+  pcity->worklist = create_worklist();
+
   for (y = 0; y < CITY_MAP_SIZE; y++)
     for (x = 0; x < CITY_MAP_SIZE; x++)
       pcity->city_map[x][y]=C_TILE_EMPTY;
@@ -167,6 +171,8 @@ void create_city(struct player *pplayer, int x, int y, char *name)
     pplayer->capital=1;
     pcity->improvements[B_PALACE]=1;
   }
+  pcity->turn_last_built=game.year;
+  pcity->turn_changed_target = game.year;
   pcity->anarchy=0;
   pcity->rapture=0;
 
@@ -458,6 +464,19 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
+void handle_city_worklist(struct player *pplayer, struct packet_city_request *preq)
+{
+  struct city *pcity;
+  pcity=find_city_by_id(preq->city_id);
+
+  copy_worklist(pcity->worklist, &preq->worklist);
+
+  send_city_info(pplayer, pcity, 1);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
 {
   struct city *pcity;
@@ -473,6 +492,86 @@ void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *
     city_refresh(pcity);
     send_city_info(pplayer, pcity, 1);
   } else if (!preq->value) global_city_refresh(pplayer);
+}
+
+/**************************************************************************
+  Change the build target.  Added when adding worklists; target is encoded
+  as it is for worklists (0..B_LAST-1 are building and wonders, 
+  B_LAST..B_LAST+U_LAST-1 are units+B_LAST).
+**************************************************************************/
+void change_build_target(struct player *pplayer, struct city *pcity, 
+			 int target, int is_unit, int event)
+{
+  char *name;
+  char source[200];
+
+  /* If the city is already building this thing, don't do anything */
+  if (pcity->is_building_unit == is_unit &&
+      pcity->currently_building == target)
+    return;
+
+  /* Is the city no longer building a wonder? */
+  if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
+     (event != E_IMP_AUTO && event != E_WORKLIST)) {
+    /* If the build target is changed because of an advisor's suggestion or
+       because the worklist advances, then the wonder was completed -- 
+       don't announce that the player has *stopped* building that wonder. 
+       */
+    notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
+		     _("Game: The %s have stopped building The %s in %s."),
+		     get_nation_name_plural(pplayer->nation),
+		     get_imp_name_ex(pcity, pcity->currently_building),
+		     pcity->name);
+  }
+
+
+  /* If we switch the "type" of the target sometime after a city has
+     produced (ie, not on the turn immed, after), then there's a shield
+     loss.  But only on the first switch that turn. */
+  if ((pcity->is_building_unit != is_unit ||
+       (!is_unit&&is_wonder(pcity->currently_building)!=is_wonder(target))) &&
+      !(pcity->turn_changed_target == game.year ||
+	game_next_year(pcity->turn_last_built) >= game.year))
+    pcity->shield_stock /= 2;
+
+
+  /* Change build target. */
+  pcity->currently_building = target;
+  pcity->is_building_unit = is_unit;
+  pcity->turn_changed_target = game.year;
+
+  /* What's the name of the target? */
+  if (is_unit)
+    name = unit_types[pcity->currently_building].name;
+  else
+    name = improvement_types[pcity->currently_building].name;
+
+  switch (event) {
+    case E_WORKLIST: strcpy(source, _("from the worklist")); break;
+      /* Should we give the AI auto code credit?
+    case E_IMP_AUTO: strcpy(source, "as suggested by the AI advisor"); break;
+    */
+    default: strcpy(source, ""); break;
+  }
+
+  /* Tell the player what's up. */
+  if (event)
+    notify_player_ex(pplayer, pcity->x, pcity->y, event,
+		     _("Game: %s is building %s %s"),
+		     pcity->name, name, source);
+  else
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
+		     _("Game: %s is building %s"), 
+		     pcity->name, name);
+
+  /* If the city is building a wonder, tell the rest of the world
+     about it. */
+  if (!pcity->is_building_unit && is_wonder(pcity->currently_building))
+    notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
+		     _("Game: The %s have started building The %s in %s."),
+		     get_nation_name_plural(pplayer->nation),
+		     get_imp_name_ex(pcity, pcity->currently_building),
+		     pcity->name);
 }
 
 /**************************************************************************
@@ -500,36 +599,9 @@ void handle_city_change(struct player *pplayer,
     return;
   }
 
-   if(!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
-     notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
-		   _("Game: The %s have stopped building The %s in %s."),
-		   get_nation_name_plural(pplayer->nation),
-		   get_imp_name_ex(pcity, pcity->currently_building),
-		   pcity->name);
-   }
-  
-  if(preq->is_build_id_unit_id) {
-    if (!pcity->is_building_unit)
-      pcity->shield_stock/=2;
-      pcity->currently_building=preq->build_id;
-      pcity->is_building_unit=1;
-  }
-  else {
-    if (pcity->is_building_unit ||(is_wonder(pcity->currently_building)!=is_wonder(preq->build_id)))
-      pcity->shield_stock/=2;
-    
-    pcity->currently_building=preq->build_id;
-    pcity->is_building_unit=0;
-    
-    if(is_wonder(preq->build_id)) {
-      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
-		       _("Game: The %s have started building The %s in %s."),
-		       get_nation_name_plural(pplayer->nation),
-		       get_imp_name_ex(pcity, pcity->currently_building),
-		       pcity->name);
-    }
-  }
-  
+  change_build_target(pplayer, pcity, preq->build_id,
+		      preq->is_build_id_unit_id, E_NOEVENT);
+
   city_refresh(pcity);
   send_city_info(pplayer, pcity, 1);
 }
@@ -682,6 +754,7 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   
   packet.is_building_unit=pcity->is_building_unit;
   packet.currently_building=pcity->currently_building;
+  copy_worklist(&packet.worklist, pcity->worklist);
   packet.diplomat_investigate=(dosend < 0 ? 1 : 0);
 
 /* I'm declaring dosend < 0 to be a flag value to send the

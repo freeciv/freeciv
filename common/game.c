@@ -795,18 +795,18 @@ void initialize_globals(void)
 }
 
 /***************************************************************
-...
+  Returns the next year in the game.
 ***************************************************************/
-void game_next_year(void)
+int game_next_year(int year)
 {
   int spaceshipparts, i;
   int parts[] = { B_SCOMP, B_SMODULE, B_SSTRUCTURAL, B_LAST };
 
-  if (game.year == 1) /* hacked it to get rid of year 0 */
-    game.year = 0;
+  if (year == 1) /* hacked it to get rid of year 0 */
+    year = 0;
 
     /* !McFred: 
-       - want game.year += 1 for spaceship.
+       - want year += 1 for spaceship.
     */
 
   /* test game with 7 normal AI's, gen 4 map, foodbox 10, foodbase 0: 
@@ -827,24 +827,35 @@ void game_next_year(void)
     }
   }
 
-  if( game.year >= 1900 || ( spaceshipparts>=3 && game.year>0 ) )
-    game.year += 1;
-  else if( game.year >= 1750 || spaceshipparts>=2 )
-    game.year += 2;
-  else if( game.year >= 1500 || spaceshipparts>=1 )
-    game.year += 5;
-  else if( game.year >= 1000 )
-    game.year += 10;
-  else if( game.year >= 0 )
-    game.year += 20;
-  else if( game.year >= -1000 ) /* used this line for tuning (was -1250) */
-    game.year += 25;
+  if( year >= 1900 || ( spaceshipparts>=3 && year>0 ) )
+    year += 1;
+  else if( year >= 1750 || spaceshipparts>=2 )
+    year += 2;
+  else if( year >= 1500 || spaceshipparts>=1 )
+    year += 5;
+  else if( year >= 1000 )
+    year += 10;
+  else if( year >= 0 )
+    year += 20;
+  else if( year >= -1000 ) /* used this line for tuning (was -1250) */
+    year += 25;
   else
-    game.year += 50; 
+    year += 50; 
 
-  if (game.year == 0) 
-    game.year = 1;
+  if (year == 0) 
+    year = 1;
+
+  return year;
 }
+
+/***************************************************************
+  Advance the game year.
+***************************************************************/
+void game_advance_year(void)
+{
+  game.year = game_next_year(game.year);
+}
+
 
 /***************************************************************
 ...

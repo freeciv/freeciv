@@ -475,7 +475,7 @@ main_start_players:
     freelog(LOG_DEBUG, "Endturn");
     end_turn();
     freelog(LOG_DEBUG, "Gamenextyear");
-    game_next_year();
+    game_advance_year();
     check_spaceship_arrivals();
     freelog(LOG_DEBUG, "Sendplayerinfo");
     send_player_info(0, 0);
@@ -922,6 +922,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_city_change(pplayer, (struct packet_city_request *)packet);
     break;
 
+  case PACKET_CITY_WORKLIST:
+    handle_city_worklist(pplayer, (struct packet_city_request *)packet);
+    break;
+
   case PACKET_CITY_MAKE_SPECIALIST:
     handle_city_make_specialist(pplayer, (struct packet_city_request *)packet);
     break;
@@ -956,6 +960,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
 
   case PACKET_PLAYER_TECH_GOAL:
     handle_player_tech_goal(pplayer, (struct packet_player_request *)packet);
+    break;
+
+  case PACKET_PLAYER_WORKLIST:
+    handle_player_worklist(pplayer, (struct packet_player_request *)packet);
     break;
 
   case PACKET_UNIT_BUILD_CITY:

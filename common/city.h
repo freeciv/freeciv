@@ -16,6 +16,7 @@
 #include "genlist.h"
 #include "shared.h"		/* MAX_LEN_NAME */
 #include "unit.h"		/* struct unit_list */
+#include "worklist.h"
 
 struct player;
 struct government;
@@ -176,13 +177,17 @@ struct city {
   
   unsigned char improvements[B_LAST];
   
+  struct worklist *worklist;
+
   enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
 
   struct unit_list units_supported;
   int steal;                  /* diplomats can only steal once */
   /* turn states */
   int did_buy, did_sell, is_updated;
-  int anarchy;                /* anarchy rounds count */ 
+  int turn_last_built;	      /* The last year in which something was built */
+  int turn_changed_target;    /* Suffer shield loss at most once per turn */
+  int anarchy;		      /* anarchy rounds count */ 
   int rapture;                /* rapture rounds count */ 
   int was_happy;
   int airlift;
@@ -245,10 +250,12 @@ int improvement_variant(enum improvement_type_id id);
 
 /* player related improvement and unit functions */
 
+int could_player_eventually_build_improvement(struct player *p, enum improvement_type_id id);
 int could_player_build_improvement(struct player *p, enum improvement_type_id id);
 int can_player_build_improvement(struct player *p, enum improvement_type_id id);
 int can_player_build_unit_direct(struct player *p, Unit_Type_id id);
 int can_player_build_unit(struct player *p, Unit_Type_id id);
+int can_player_eventually_build_unit(struct player *p, Unit_Type_id id);
 
 
 /* city related improvement and unit functions */

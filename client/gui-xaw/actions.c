@@ -34,6 +34,7 @@
 #include "ratesdlg.h"
 #include "repodlgs.h"
 #include "spaceshipdlg.h"
+#include "wldlg.h"
 
 #include "actions.h"
 
@@ -266,6 +267,13 @@ static void xaw_key_open_wonders(Widget w, XEvent *event, String *argv, Cardinal
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_WOW))
     send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+}
+
+static void xaw_key_open_worklists(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+     is_menu_item_active(MENU_KINGDOM, MENU_KINGDOM_WORKLISTS))
+    popup_worklists_dialog(game.player_ptr);
 }
 
 static void xaw_key_unit_airbase(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -588,6 +596,7 @@ static XtActionsRec Actions[] = {
   { "key-open-trade-report", xaw_key_open_trade_report },
   { "key-open-top-five", xaw_key_open_top_five },
   { "key-open-wonders", xaw_key_open_wonders },
+  { "key-open-worklists", xaw_key_open_worklists },
   { "key-unit-airbase", xaw_key_unit_airbase },
   { "key-unit-auto-attack", xaw_key_unit_auto_attack },
   { "key-unit-auto-attack-or-settle", xaw_key_unit_auto_attack_or_settle },

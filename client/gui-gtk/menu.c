@@ -48,6 +48,7 @@
 #include "ratesdlg.h"
 #include "repodlgs.h"
 #include "spaceshipdlg.h"
+#include "wldlg.h"
 
 #include "menu.h"
 
@@ -76,6 +77,7 @@ enum MenuID {
   
   MENU_KINGDOM_TAX_RATE,
   MENU_KINGDOM_FIND_CITY,
+  MENU_KINGDOM_WORKLISTS,
   MENU_KINGDOM_REVOLUTION,
 
   MENU_VIEW_SHOW_MAP_GRID,
@@ -193,6 +195,9 @@ static void kingdom_menu_callback(gpointer callback_data,
     break;
   case MENU_KINGDOM_FIND_CITY:
     popup_find_dialog();
+    break;
+  case MENU_KINGDOM_WORKLISTS:
+    popup_worklists_dialog(game.player_ptr);
     break;
   case MENU_KINGDOM_REVOLUTION:
     popup_revolution_dialog();
@@ -498,6 +503,8 @@ static GtkItemFactoryEntry menu_items[]	=
     0,					"<Separator>"			      },
   { "/" N_("Kingdom") "/" N_("_Find City"),	"<control>f",	kingdom_menu_callback,
     MENU_KINGDOM_FIND_CITY							      },
+  { "/" N_("Kingdom") "/" N_("Work_lists"),	"<shift>l",	kingdom_menu_callback,
+    MENU_KINGDOM_WORKLISTS							      },
   { "/" N_("Kingdom") "/sep2",		NULL,		NULL,
     0,					"<Separator>"			      },
   { "/" N_("Kingdom") "/" N_("Revolution"),	NULL,	kingdom_menu_callback,

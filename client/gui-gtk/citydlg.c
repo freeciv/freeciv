@@ -44,6 +44,7 @@
 #include "mapview.h"
 #include "repodlgs.h"
 #include "tilespec.h"
+#include "wldlg.h"
 
 #include "citydlg.h"
 
@@ -79,7 +80,8 @@ struct city_dialog {
   GtkWidget *sell_command;
   GtkWidget *close_command, *rename_command, *trade_command, *activate_command;
   GtkWidget *show_units_command, *cityopt_command;
-  GtkWidget *building_label, *progress_label, *buy_command, *change_command;
+  GtkWidget *building_label, *progress_label, *buy_command, *change_command,
+    *worklist_command;
   GtkWidget *improvement_viewport, *improvement_list;
   GtkWidget *support_unit_label;
   GtkWidget *support_unit_boxes		[NUM_UNITS_SHOWN];
@@ -89,6 +91,7 @@ struct city_dialog {
   GtkWidget *present_unit_pixmaps	[NUM_UNITS_SHOWN];
   GtkWidget *change_list;
   GtkWidget *rename_input;
+  GtkWidget *worklist_shell;
   
   enum improvement_type_id sell_id;
   
@@ -129,6 +132,9 @@ void city_dialog_update_pollution(struct city_dialog *pdialog);
 void sell_callback	(GtkWidget *w, gpointer data);
 void buy_callback	(GtkWidget *w, gpointer data);
 void change_callback	(GtkWidget *w, gpointer data);
+void worklist_callback	(GtkWidget *w, gpointer data);
+void commit_city_worklist(struct worklist *pwl, void *data);
+void cancel_city_worklist(void *data);
 void close_callback	(GtkWidget *w, gpointer data);
 void rename_callback	(GtkWidget *w, gpointer data);
 void trade_callback	(GtkWidget *w, gpointer data);
@@ -210,6 +216,7 @@ void refresh_city_dialog(struct city *pcity)
       /* Set the buttons we do not want live while a Diplomat investigates */
       gtk_widget_set_sensitive(pdialog->buy_command, FALSE);
       gtk_widget_set_sensitive(pdialog->change_command, FALSE);
+      gtk_widget_set_sensitive(pdialog->worklist_command, FALSE);
       gtk_widget_set_sensitive(pdialog->sell_command, FALSE);
       gtk_widget_set_sensitive(pdialog->rename_command, FALSE);
       gtk_widget_set_sensitive(pdialog->activate_command, FALSE);
@@ -304,7 +311,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 {
   int i;
   struct city_dialog *pdialog;
-  GtkWidget *box, *table, *frame, *vbox, *scrolled;
+  GtkWidget *box, *table, *frame, *vbox, *scrolled, *hbox;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
   pdialog=fc_malloc(sizeof(struct city_dialog));
@@ -431,9 +438,15 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(box),scrolled, TRUE, TRUE, 0);
 
+  hbox = gtk_hbox_new(TRUE, 0);
   pdialog->sell_command=gtk_accelbutton_new(_("_Sell"), accel);
-  gtk_box_pack_start(GTK_BOX(box), pdialog->sell_command, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->sell_command, FALSE, TRUE, 0);
 
+  pdialog->worklist_command=gtk_accelbutton_new(_("_Worklist"), accel);
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->worklist_command, 
+			    FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, TRUE, 0);
+  pdialog->worklist_shell = NULL;
 
   /* "supported units" frame */
   pdialog->support_unit_label=gtk_frame_new(_("Supported units"));
@@ -535,6 +548,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   gtk_signal_connect(GTK_OBJECT(pdialog->change_command), "clicked",
 	GTK_SIGNAL_FUNC(change_callback), pdialog);
+
+  gtk_signal_connect(GTK_OBJECT(pdialog->worklist_command), "clicked",
+	GTK_SIGNAL_FUNC(worklist_callback), pdialog);
 
   gtk_signal_connect(GTK_OBJECT(pdialog->close_command), "clicked",
 	GTK_SIGNAL_FUNC(close_callback), pdialog);
@@ -935,7 +951,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[32], buf2[64];
+  char buf[32], buf2[64], buf3[128];
   struct city *pcity=pdialog->pcity;
   
   gtk_widget_set_sensitive(pdialog->buy_command, !pcity->did_buy);
@@ -956,7 +972,14 @@ void city_dialog_update_building(struct city_dialog *pdialog)
     }
     sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }    
-  gtk_frame_set_label(GTK_FRAME(pdialog->building_label), buf2);
+
+  if (!worklist_is_empty(pcity->worklist)) {
+    my_snprintf(buf3, sizeof(buf3), _("%s (worklist)"), buf2);
+  } else {
+    my_snprintf(buf3, sizeof(buf3), "%s", buf2);
+  }
+    
+  gtk_frame_set_label(GTK_FRAME(pdialog->building_label), buf3);
   gtk_set_label(pdialog->progress_label, buf);
 }
 
@@ -1739,6 +1762,68 @@ void change_callback(GtkWidget *w, gpointer data)
 
 
 /****************************************************************
+  Display the city's worklist.
+*****************************************************************/
+void worklist_callback(GtkWidget *w, gpointer data)
+{
+  struct city_dialog *pdialog;
+  
+  pdialog = (struct city_dialog *)data;
+
+  if (pdialog->worklist_shell) {
+    gtk_set_relative_position(pdialog->shell, pdialog->worklist_shell,
+			      20, 20);
+    gtk_widget_show(pdialog->worklist_shell);
+  } else {
+    pdialog->worklist_shell = 
+      popup_worklist(pdialog->pcity->worklist, pdialog->pcity, pdialog->shell, 
+		     (void *)pdialog, commit_city_worklist, 
+		     cancel_city_worklist);
+  }
+}
+
+/****************************************************************
+  Commit the changes to the worklist for the city.
+*****************************************************************/
+void commit_city_worklist(struct worklist *pwl, void *data)
+{
+  struct packet_city_request packet;
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  int i, id, is_unit;
+
+  /* Update the worklist.  But, remember -- the first element of the 
+     worklist is actually just the current build target; don't send it
+     to the server as part of the worklist. */
+  packet.city_id=pdialog->pcity->id;
+  packet.name[0] = '\0';
+  packet.worklist.is_valid = 1;
+  packet.worklist.name[0] = '\0';
+  for (i = 0; i < MAX_LEN_WORKLIST-1; i++) {
+    packet.worklist.ids[i] = pwl->ids[i+1];
+  }
+    
+  send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+
+  /* Additionally, if the first element in the worklist changed, then
+     send a change build target packet. */
+  worklist_peek(pwl, &id, &is_unit);
+
+  if (id != pdialog->pcity->currently_building || 
+      is_unit != pdialog->pcity->is_building_unit) {
+    /* Change the current target */
+    packet.build_id = id;
+    packet.is_build_id_unit_id = is_unit;
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+  }
+  pdialog->worklist_shell = NULL;
+}
+
+void cancel_city_worklist(void *data) {
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  pdialog->worklist_shell = NULL;
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static void sell_callback_yes(GtkWidget *w, gpointer data)
@@ -1812,6 +1897,9 @@ void close_city_dialog(struct city_dialog *pdialog)
 
   if(pdialog->is_modal)
     gtk_widget_set_sensitive(toplevel, TRUE);
+
+  if (pdialog->worklist_shell)
+    gtk_widget_destroy(pdialog->worklist_shell);
 
   gtk_widget_destroy(pdialog->shell);
   free(pdialog);

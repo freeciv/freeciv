@@ -132,7 +132,8 @@ struct lvldat {
 };
 
 void game_init(void);
-void game_next_year(void);
+int game_next_year(int);
+void game_advance_year(void);
 
 int civ_population(struct player *pplayer);
 struct unit *game_find_unit_by_id(int unit_id);

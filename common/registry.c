@@ -158,7 +158,7 @@
 
 #include "registry.h"
 
-#define MAX_LEN_BUFFER 512
+#define MAX_LEN_BUFFER 1024
 
 #define DO_HASH 1
 #define HASH_DEBUG 1		/* 0,1,2 */

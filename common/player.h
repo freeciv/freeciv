@@ -145,6 +145,7 @@ struct player {
   int is_connected;
   struct connection *conn;
   char addr[MAX_LEN_ADDR];
+  struct worklist worklists[MAX_NUM_WORKLISTS];
 };
 
 void player_init(struct player *plr);

@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "city.h"
 #include "events.h"
@@ -68,8 +69,13 @@ static void city_populate(struct city *pcity);
 static void city_increase_size(struct city *pcity);
 static void city_reduce_size(struct city *pcity);
 
+static int worklist_change_build_target(struct player *pplayer, 
+					struct city *pcity);
+
 static int city_build_stuff(struct player *pplayer, struct city *pcity);
+static int upgrade_improvement(struct city *pcity, int imp);
 static void upgrade_building_prod(struct city *pcity);
+static Unit_Type_id upgrade_unit(struct city *pcity, Unit_Type_id id);
 static void upgrade_unit_prod(struct city *pcity);
 static void obsolete_building_test(struct city *pcity, int b1, int b2);
 static void pay_for_buildings(struct player *pplayer, struct city *pcity);
@@ -908,7 +914,7 @@ static void city_populate(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int advisor_choose_build(struct city *pcity)
+int advisor_choose_build(struct player *pplayer, struct city *pcity)
 { /* Old stuff that I obsoleted deleted. -- Syela */
   struct ai_choice choice;
   int i;
@@ -925,14 +931,7 @@ int advisor_choose_build(struct city *pcity)
   want = choice.want;
 
   if (id!=-1 && id != B_LAST && want > 0) {
-    if(is_wonder(id)) {
-      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
-		    _("Game: The %s have started building The %s in %s."),
-		    get_nation_name_plural(city_owner(pcity)->nation),
-		    get_imp_name_ex(pcity, id), pcity->name);
-    }
-    pcity->currently_building=id;
-    pcity->is_building_unit=0;
+    change_build_target(pplayer, pcity, id, 0, E_IMP_AUTO);
     return 1; /* making something.  return value = 1 */
   }
 
@@ -946,6 +945,89 @@ int advisor_choose_build(struct city *pcity)
 }
 
 /**************************************************************************
+  Examine the worklist and change the build target.  Return 0 if no
+  targets are available to change to.  Otherwise return non-zero.
+**************************************************************************/
+int worklist_change_build_target(struct player *pplayer, struct city *pcity)
+{
+  int success = 0;
+
+  if (worklist_is_empty(pcity->worklist))
+    /* Nothing in the worklist; bail now. */
+    return 0;
+
+  while (!worklist_is_empty(pcity->worklist)) {
+    int target, is_unit;
+
+    worklist_peek(pcity->worklist, &target, &is_unit);
+    worklist_advance(pcity->worklist);
+
+    /* Sanity checks */
+    if (is_unit &&
+	!can_build_unit(pcity, target)) {
+      /* Maybe we can just upgrade the target to what the city /can/ build. */
+      int new_target = upgrade_unit(pcity, target);
+
+      if (new_target == target) {
+	/* Nope, we're stuck.  Dump this item from the worklist. */
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+			 _("Game: %s can't build %s from the worklist; %s is no longer available.  Purging..."),
+			 pcity->name,
+			 get_unit_type(target)->name, 
+			 get_unit_type(target)->name);
+	continue;
+      } else {
+	/* Yep, we can go after new_target instead.  Joy! */
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_WORKLIST,
+			 _("Game: Production of %s is upgraded to %s in %s."),
+			 get_unit_type(target)->name, 
+			 get_unit_type(new_target)->name,
+			 pcity->name);
+	target = new_target;
+      }
+    } else if (!is_unit && !can_build_improvement(pcity, target)) {
+      /* Maybe this improvement has been obsoleted by something that
+	 we can build. */
+      int new_target = upgrade_improvement(pcity, target);
+
+      if (new_target == target) {
+	/* Nope, no use.  *sigh*  */
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+			 _("Game: %s can't build %s from the worklist; %s is no longer available.  Purging..."),
+			 pcity->name,
+			 get_imp_name_ex(pcity, target), 
+			 get_imp_name_ex(pcity, target));
+	continue;
+      } else {
+	/* Hey, we can upgrade the improvement!  */
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_WORKLIST,
+			 _("Game: Production of %s is upgraded to %s in %s."),
+			 get_imp_name_ex(pcity, target), 
+			 get_imp_name_ex(pcity, new_target),
+			 pcity->name);
+	target = new_target;
+      }
+    }
+
+    /* All okay.  Switch targets. */
+    change_build_target(pplayer, pcity, target, is_unit, E_WORKLIST);
+
+    success = 1;
+    break;
+  }
+
+  if (worklist_is_empty(pcity->worklist)) {
+    /* There *was* something in the worklist, but it's empty now.  Bug the
+       player about it. */
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_WORKLIST,
+		     _("Game: %s's worklist is now empty."),
+		     pcity->name);
+  }
+
+  return success;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void obsolete_building_test(struct city *pcity, int b1, int b2)
@@ -953,6 +1035,26 @@ static void obsolete_building_test(struct city *pcity, int b1, int b2)
   if (pcity->currently_building==b1 && 
       can_build_improvement(pcity, b2))
     pcity->currently_building=b2;
+}
+
+/**************************************************************************
+  If imp is obsolete, return the improvement that _can_ be built that
+  lead to imp's obsolesence.
+  !!! Note:  I hear that the building ruleset code is going to be
+  overhauled soon.  If this happens, then this function should be updated
+  to follow the new model.  This function will probably look a lot like
+  upgrade_unit().
+**************************************************************************/
+static int upgrade_improvement(struct city *pcity, int imp)
+{
+  if (imp == B_BARRACKS && can_build_improvement(pcity, B_BARRACKS3))
+    return B_BARRACKS3;
+  else if (imp == B_BARRACKS && can_build_improvement(pcity, B_BARRACKS2))
+    return B_BARRACKS2;
+  else if (imp == B_BARRACKS2 && can_build_improvement(pcity, B_BARRACKS3))
+    return B_BARRACKS3;
+  else
+    return imp;
 }
 
 /**************************************************************************
@@ -966,19 +1068,30 @@ static void upgrade_building_prod(struct city *pcity)
 }
 
 /**************************************************************************
+  Follow the list of obsoleted_by units until we hit something that
+  we can build.  Return id if we can't upgrade at all.  NB:  returning
+  id doesn't guarantee that pcity really _can_ build id; just that
+  pcity can't build whatever _obsoletes_ id.
+**************************************************************************/
+static Unit_Type_id upgrade_unit(struct city *pcity, Unit_Type_id id)
+{
+  while(can_build_unit_direct(pcity, id) &&
+	can_build_unit_direct(pcity, unit_types[id].obsoleted_by))
+  {
+    id = unit_types[id].obsoleted_by;
+  }
+    
+  return id;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void upgrade_unit_prod(struct city *pcity)
 {
   struct player *pplayer=&game.players[pcity->owner];
   int id = pcity->currently_building;
-  int id2= unit_types[id].obsoleted_by;
-
-  while(can_build_unit_direct(pcity, id2) &&
-	can_build_unit_direct(pcity, unit_types[id2].obsoleted_by))
-  {
-    id2 = unit_types[id2].obsoleted_by;
-  }
+  int id2 = upgrade_unit(pcity, unit_types[id].obsoleted_by);
     
   if (can_build_unit_direct(pcity, id2)) {
     pcity->currently_building=id2;
@@ -1049,6 +1162,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	pcity->improvements[pcity->currently_building]=1;
       }
       pcity->shield_stock-=improvement_value(pcity->currently_building); 
+      pcity->turn_last_built = game.year;
       /* to eliminate micromanagement */
       if(is_wonder(pcity->currently_building)) {
 	game.global_wonders[pcity->currently_building]=pcity->id;
@@ -1091,12 +1205,13 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	send_spaceship_info(pplayer, 0);
       } else {
 	city_refresh(pcity);
-	freelog(LOG_DEBUG, "Trying advisor_choose_build.");
-	advisor_choose_build(pcity);
-	freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUTO,
-			 _("Game: %s is now building %s."), pcity->name, 
-			 improvement_types[pcity->currently_building].name);
+	/* If there's something in the worklist, change the build target. */
+	if (!worklist_change_build_target(pplayer, pcity)) {
+	  /* Fall back to the good old ways. */
+	  freelog(LOG_DEBUG, "Trying advisor_choose_build.");
+	  advisor_choose_build(pplayer, pcity);
+	  freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
+	}
       }
     } 
   } else {
@@ -1105,6 +1220,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
      * that 'contains' 1 (or more) pop -- sjolie
      */
     if(pcity->shield_stock>=unit_value(pcity->currently_building)) {
+      pcity->turn_last_built = game.year;
       if (unit_flag(pcity->currently_building, F_CITIES)) {
 	if (pcity->size==1) {
 
@@ -1133,6 +1249,13 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 		       _("Game: %s is finished building %s."), 
 		       pcity->name, 
 		       unit_types[pcity->currently_building].name);
+
+      /* If there's something in the worklist, change the build target. 
+	 If there's nothing there, worklist_change_build_target won't
+	 do anything. */
+      worklist_change_build_target(pplayer, pcity);
+
+
     gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
 	    get_nation_name_plural(pplayer->nation), 
 	    unit_types[pcity->currently_building].name,

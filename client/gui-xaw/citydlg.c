@@ -23,7 +23,9 @@
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
 #include <X11/Xaw/Command.h>
+#include <X11/Xaw/MenuButton.h>
 #include <X11/Xaw/SimpleMenu.h>
+#include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/Viewport.h>
@@ -58,6 +60,7 @@
 #include "optiondlg.h"		/* for toggle_callback */
 #include "repodlgs.h"
 #include "tilespec.h"
+#include "wldlg.h"
 
 #include "citydlg.h"
 
@@ -99,7 +102,8 @@ struct city_dialog {
   Widget sell_command;
   Widget close_command, rename_command, trade_command, activate_command;
   Widget show_units_command, cityopt_command;
-  Widget building_label, progress_label, buy_command, change_command;
+  Widget building_label, progress_label, buy_command, change_command,
+    worklist_command;
   Widget improvement_viewport, improvement_list;
   Widget support_unit_label;
   Widget *support_unit_pixcomms;
@@ -111,6 +115,7 @@ struct city_dialog {
   Widget present_unit_prev_command;
   Widget change_list;
   Widget rename_input;
+  Widget worklist_shell;
   
   enum improvement_type_id sell_id;
   
@@ -151,6 +156,9 @@ static void city_dialog_update_pollution(struct city_dialog *pdialog);
 static void sell_callback(Widget w, XtPointer client_data, XtPointer call_data);
 static void buy_callback(Widget w, XtPointer client_data, XtPointer call_data);
 static void change_callback(Widget w, XtPointer client_data, XtPointer call_data);
+static void worklist_callback(Widget w, XtPointer client_data, XtPointer call_data);
+void commit_city_worklist(struct worklist *pwl, void *data);
+void cancel_city_worklist(void *data);
 static void close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 static void rename_callback(Widget w, XtPointer client_data, XtPointer call_data);
 static void trade_callback(Widget w, XtPointer client_data, XtPointer call_data);
@@ -338,6 +346,7 @@ void refresh_city_dialog(struct city *pcity)
       /* Set the buttons we do not want live while a Diplomat investigates */
       XtSetSensitive(pdialog->buy_command, FALSE);
       XtSetSensitive(pdialog->change_command, FALSE);
+      XtSetSensitive(pdialog->worklist_command, FALSE);
       XtSetSensitive(pdialog->sell_command, FALSE);
       XtSetSensitive(pdialog->rename_command, FALSE);
       XtSetSensitive(pdialog->activate_command, FALSE);
@@ -460,7 +469,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   pdialog->pcity=pcity;
   pdialog->support_unit_base=0;
   pdialog->present_unit_base=0;
-
+  pdialog->worklist_shell = NULL;
 
   if(!icon_pixmap)
     icon_pixmap=
@@ -612,7 +621,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNfromHoriz, 
 			    (XtArgVal)pdialog->map_canvas,
 			    XtNfromVert, 
-			    pdialog->progress_label,
+			    pdialog->buy_command,
 			    NULL);
 
   pdialog->improvement_list=
@@ -636,6 +645,15 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    (XtArgVal)pdialog->map_canvas,
 			    NULL));
 
+  pdialog->worklist_command=
+    I_L(XtVaCreateManagedWidget("cityworklistcommand", 
+			    commandWidgetClass,
+			    pdialog->sub_form,
+			    XtNfromVert, 
+			    pdialog->improvement_viewport,
+			    XtNfromHoriz, 
+			    (XtArgVal)pdialog->sell_command,
+			    NULL));
 
   pdialog->support_unit_label=
     I_L(XtVaCreateManagedWidget("supportunitlabel",
@@ -936,6 +954,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 		(XtPointer)pdialog);
 
   XtAddCallback(pdialog->change_command, XtNcallback, change_callback,
+		(XtPointer)pdialog);
+
+  XtAddCallback(pdialog->worklist_command, XtNcallback, worklist_callback,
 		(XtPointer)pdialog);
 
   XtAddCallback(pdialog->close_command, XtNcallback, close_callback,
@@ -1361,7 +1382,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[32], buf2[64];
+  char buf[32], buf2[64], buf3[128];
   struct city *pcity=pdialog->pcity;
   
   XtSetSensitive(pdialog->buy_command, !pcity->did_buy);
@@ -1384,7 +1405,13 @@ void city_dialog_update_building(struct city_dialog *pdialog)
     sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }
     
-  xaw_set_label(pdialog->building_label, buf2);
+  if (!worklist_is_empty(pcity->worklist)) {
+    my_snprintf(buf3, sizeof(buf3), _("%s (worklist)"), buf2);
+  } else {
+    my_snprintf(buf3, sizeof(buf3), "%s", buf2);
+  }
+    
+  xaw_set_label(pdialog->building_label, buf3);
   xaw_set_label(pdialog->progress_label, buf);
 }
 
@@ -2203,6 +2230,67 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
 
 /****************************************************************
+  Display the city's worklist.
+*****************************************************************/
+void worklist_callback(Widget w, XtPointer client_data, XtPointer call_data)
+{
+  struct city_dialog *pdialog;
+  
+  pdialog = (struct city_dialog *)client_data;
+
+  if (pdialog->worklist_shell) {
+    XtPopup(pdialog->worklist_shell, XtGrabNone);
+  } else {
+    pdialog->worklist_shell = 
+      popup_worklist(pdialog->pcity->worklist, pdialog->pcity, pdialog->shell, 
+		     (void *)pdialog, commit_city_worklist,
+		     cancel_city_worklist);
+  }
+}
+
+/****************************************************************
+  Commit the changes to the worklist for the city.
+*****************************************************************/
+void commit_city_worklist(struct worklist *pwl, void *data)
+{
+  struct packet_city_request packet;
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  int i, id, is_unit;
+
+  /* Update the worklist.  But, remember -- the first element of the 
+     worklist is actually just the current build target; don't send it
+     to the server as part of the worklist. */
+  packet.city_id=pdialog->pcity->id;
+  packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
+  packet.worklist.is_valid = 1;
+  for (i = 0; i < MAX_LEN_WORKLIST-1; i++) {
+    packet.worklist.ids[i] = pwl->ids[i+1];
+  }
+    
+  send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+
+  /* Additionally, if the first element in the worklist changed, then
+     send a change build target packet. */
+  worklist_peek(pwl, &id, &is_unit);
+
+  if (id != pdialog->pcity->currently_building || 
+      is_unit != pdialog->pcity->is_building_unit) {
+    /* Change the current target */
+    packet.build_id = id;
+    packet.is_build_id_unit_id = is_unit;
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+  }
+  pdialog->worklist_shell = NULL;
+}
+
+void cancel_city_worklist(void *data) {
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  pdialog->worklist_shell = NULL;
+}
+
+
+/****************************************************************
 ...
 *****************************************************************/
 static void sell_callback_yes(Widget w, XtPointer client_data,
@@ -2276,6 +2364,9 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 *****************************************************************/
 void close_city_dialog(struct city_dialog *pdialog)
 {
+  if (pdialog->worklist_shell)
+    XtDestroyWidget(pdialog->worklist_shell);
+
   XtDestroyWidget(pdialog->shell);
   genlist_unlink(&dialog_list, pdialog);
 

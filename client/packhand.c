@@ -33,6 +33,7 @@
 #include "spaceship.h"
 #include "support.h"
 #include "unit.h"
+#include "worklist.h"
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
@@ -54,6 +55,7 @@
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
 #include "tilespec.h"
+#include "wldlg_g.h"
 
 #include "packhand.h"
 
@@ -221,6 +223,9 @@ void handle_city_info(struct packet_city_info *packet)
     
   pcity->is_building_unit=packet->is_building_unit;
   pcity->currently_building=packet->currently_building;
+  if (city_is_new)
+    pcity->worklist = create_worklist();
+  copy_worklist(pcity->worklist, &packet->worklist);
   pcity->did_buy=packet->did_buy;
   pcity->did_sell=packet->did_sell;
   pcity->was_happy=packet->was_happy;
@@ -689,6 +694,9 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->embassy=pinfo->embassy;
   pplayer->city_style=pinfo->city_style;
 
+  for (i = 0; i < MAX_NUM_WORKLISTS; i++)
+    copy_worklist(&pplayer->worklists[i], &pinfo->worklists[i]);
+
   for(i=0; i<game.num_tech_types; i++)
     pplayer->research.inventions[i]=pinfo->inventions[i]-'0';
   update_research(pplayer);
@@ -747,6 +755,7 @@ void handle_player_info(struct packet_player_info *pinfo)
     popup_government_dialog();
   
   update_players_dialog();
+  update_worklist_report_dialog();
 
   if(pplayer==game.player_ptr) {
     if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {

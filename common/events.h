@@ -50,6 +50,10 @@ enum {
   E_CITY_GRAN_THROTTLE,
   E_SPACESHIP,
   E_UPRISING,
+  E_WORKLIST,
+  /* Note:  If you add a new event, make sure you make a similar change to
+     message_text in client/options.c
+     */
   E_LAST
 };
 
