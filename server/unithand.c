@@ -689,6 +689,10 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     /* now set things up for the new owner */
     
     pnewcity->id=get_next_id_number();
+    for (i = 0; i < B_LAST; i++) {
+      if (is_wonder(i) && city_got_building(pnewcity, i))
+        game.global_wonders[i] = pnewcity->id;
+    }
     pnewcity->owner=pplayer->player_no;
 
     unit_list_init(&pnewcity->units_supported);

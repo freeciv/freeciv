@@ -217,6 +217,10 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
       establish_trade_route(pnewcity, pc2);
   }
   pnewcity->id=get_next_id_number();
+  for (i = 0; i < B_LAST; i++) {
+    if (is_wonder(i) && city_got_building(pnewcity, i))
+      game.global_wonders[i] = pnewcity->id;
+  }
   pnewcity->owner=pplayer->player_no;
   unit_list_init(&pnewcity->units_supported);
   city_list_insert(&pplayer->cities, pnewcity);
@@ -484,6 +488,38 @@ int get_total_attack_power(struct unit *attacker, struct unit *defender)
  An veteran aegis cruiser in a mountain city with SAM and SDI defense 
  being attacked by a missile gets defense 288.
 ***************************************************************************/
+int get_virtual_defense_power(int a_type, int d_type, int x, int y)
+{
+  int defensepower=unit_types[d_type].defense_strength;
+  int m_type = unit_types[a_type].move_type;
+  struct city *pcity = map_get_city(x, y);
+
+  defensepower *= get_tile_type(map_get_terrain(x, y))->defense_bonus;
+
+  if (unit_flag(d_type, F_PIKEMEN) && unit_flag(a_type, F_HORSE)) 
+    defensepower*=2;
+  if (unit_flag(d_type, F_AEGIS) &&
+       (m_type == AIR_MOVING || m_type == HELI_MOVING)) defensepower*=2;
+  if (m_type == AIR_MOVING && pcity) {
+    if (city_got_building(pcity, B_SAM))
+      defensepower*=2;
+    if (city_got_building(pcity, B_SDI) && unit_flag(a_type, F_MISSILE))
+      defensepower*=2;
+  } else if (m_type == SEA_MOVING && pcity) {
+    if (city_got_building(pcity, B_COASTAL))
+      defensepower*=2;
+  } else if (!unit_flag(a_type, F_IGTER) &&
+          (m_type == LAND_MOVING || m_type == HELI_MOVING) &&
+          pcity && city_got_citywalls(pcity))
+    defensepower*=3;
+  if (map_get_special(x, y)&S_FORTRESS && !pcity)
+    defensepower*=2;
+  if (pcity && unit_types[d_type].move_type == LAND_MOVING)
+    defensepower*=1.5;
+
+  return defensepower;
+}
+
 int get_total_defense_power(struct unit *attacker, struct unit *defender)
 {
   int defensepower=get_defense_power(defender);
