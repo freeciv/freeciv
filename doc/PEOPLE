@@ -61,7 +61,7 @@ contributions to the Freeciv project.
      Sami Liedes (fix)
      SAWADA Katsuya <ama@petmail.net> (i18n fixes)
      Sebastian Bauer <sebauer@t-online.de> (amiga client maintainer)
-     Thomas Strub <ue80@rz.uni-karlsruhe.de> (new tax algorithm, 
+     Thomas Strub <ue80@rz.uni-karlsruhe.de> (fixes, new tax algorithm,
 	end turn reorganisation)
      Teemu Kurppa <teemu@hoasnet.fi> (unique city names)
      Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt> (gtk and gtk2
@@ -823,7 +823,7 @@ contributions to the Freeciv project.
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
      Andreas Røsdal <andrearo@stud.ntnu.no> (no.po)
      Mateusz Stefek <matusik_s@o2.pl> (pl.po)
-     Erik Sigra <sigra@home.se> (sv.po)
+     Erik Sigra <sigra@home.se> (se.po)
 
   Localization (l10n) since 1.12.0 release:
 
@@ -945,7 +945,11 @@ contributions to the Freeciv project.
      James Blackwell <innocent@mercury.merconline.com> (Domain name)
      Geoffrey S. Rivell <grivell@home.com> (Tux Games)
 
+     Adolf J. Winterer
      Alex Volkov
+     Chris Landegent
+     Christian Knoke
+     David Pfitzner
      Geoffrey S. Rivell
      Ian Rees
      James Blackwell
@@ -954,12 +958,15 @@ contributions to the Freeciv project.
      Martin Willemoes Hansen
      Miguel Farah
      Mitch Davis
+     Nicholas Uniatowski
      Paul Carroll
      Per Mathisen
      Peter Kessler
+     Stephen Wille Padnos
      T. E. Evans
      T.J.T van Kooten
      Todd Goodman
+     Tom Woody
      William Ingram
 
   CivWorld (our map editor):
