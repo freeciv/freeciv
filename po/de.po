@@ -1,4 +1,4 @@
-## $Id$
+# $Id$
 # This translation is covered by the GNU General Public License Version 2.
 #
 # ###########################################################
@@ -576,7 +576,7 @@ msgstr "Spiel: VORSICHT, die STAATSKASSE ist fast LEER!"
 #: server/cityturn.c:833 server/cityturn.c:852
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
-msgstr "Spiel: %s muß %s bauen, um weiter wachsen zu können."
+msgstr "Spiel: %s muß %s fertig bauen, um weiter wachsen zu können."
 
 #: server/cityturn.c:838 server/cityturn.c:857
 #, c-format
@@ -4443,11 +4443,11 @@ msgstr "Nahrungsvorrat"
 
 #: client/cityrepdata.c:218
 msgid "Pol"
-msgstr "Verschm."
+msgstr "Ver"
 
 #: client/cityrepdata.c:220
 msgid "Cor"
-msgstr "Korrupt."
+msgstr "Kor"
 
 #: client/cityrepdata.c:220
 msgid "Corruption"
@@ -5103,7 +5103,7 @@ msgstr "abgebrochene Weltwunder  "
 #. E_WONDER_STOPPED
 #: client/options.c:121
 msgid "City Needs Aq Being Built"
-msgstr "Stadt benötigt Aquädukt  "
+msgstr "Stadt muß Aquädukt fertig stellen"
 
 #. E_CITY_AQ_BUILDING
 #: client/options.c:122
@@ -5125,11 +5125,10 @@ msgstr "Angriff erfolgreich      "
 msgid "Suggest Growth Throttling"
 msgstr "Schlage vor, das Wachstum zu verlangsamen"
 
-# ?
 #. E_CITY_GRAN_THROTTLE
 #: client/options.c:126
 msgid "Spaceship Events         "
-msgstr ""
+msgstr "Weltraum-Nachrichten     "
 
 #. E_SPACESHIP
 #: client/options.c:127
@@ -5986,7 +5985,7 @@ msgstr "_Forschungsergebnisse stehlen"
 
 #: client/gui-gtk/dialogs.c:1039 client/gui-gtk/dialogs.c:1061
 msgid "Incite a _Revolt"
-msgstr "_Revolte anstiften"
+msgstr "Zur _Revolte anstiften"
 
 #. "spydialog"
 #: client/gui-gtk/dialogs.c:1055 data/Freeciv:2211
@@ -7845,7 +7844,7 @@ msgid ""
 "Name             Race         Embassy  Dipl.State      Reputation    State   "
 " Host"
 msgstr ""
-"Name             Staat       Botschaft Dipl. Status    Reputation  "
+"Name             Staat       Botschaft Dipl. Status    Reputation    Status  "
 "Staatsform Server"
 
 #: data/Freeciv:3081
@@ -12984,11 +12983,11 @@ msgstr "Schirmherrin"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "estonisch"
+msgstr "estenisch"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr "?plural:Estonier"
+msgstr "?plural:Esten"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -13136,11 +13135,11 @@ msgstr "?plural:Krevier"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr "latinisch"
+msgstr "lettisch"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr "?plural:Latiner"
+msgstr "?plural:Letten"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
