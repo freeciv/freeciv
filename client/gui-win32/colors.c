@@ -24,6 +24,7 @@ struct rgbtriple {
   {  0, 255, 200},  /* Cyan */
   {  0, 200,   0},  /* Ground (green) */
   {  0,   0, 200},  /* Ocean (blue) */
+  { 86,  86,  86},  /* Background (gray) */
   {128,   0,   0},  /* race0 */
   {128, 255, 255},  /* race1 */
   {255,   0,   0},  /* race2 */
