@@ -568,20 +568,24 @@ void map_fractal_generate(void)
   else 
     mysrand(map.seed);
   
-  init_workmap();
+  /* don't generate tiles with mapgen==0 as we've loaded them from file */
+  /* also, don't delete (the handcrafted!) tiny islands in a scenario */
+  if (map.generator != 0) {
+    init_workmap();
 
-  if (map.generator == 1 || 
-      (map.xsize < 40 || map.ysize < 40 || map.landpercent>50 )
-     ) {
-    mapgenerator1();
-  } else if( map.generator == 2 || map.landpercent>40 ){
-    mapgenerator2();
-  } else {
-    mapgenerator3();
+    if (map.generator == 1 || 
+        (map.xsize < 40 || map.ysize < 40 || map.landpercent>50 )
+       ) {
+      mapgenerator1();
+    } else if( map.generator == 2 || map.landpercent>40 ){
+      mapgenerator2();
+    } else {
+      mapgenerator3();
+    }
+
+    filter_land();
   }
 
-
-  filter_land();
   add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
   
   /* print_map(); */

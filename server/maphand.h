@@ -29,6 +29,8 @@ void send_map_info(struct player *dest);
 void global_warming(int effect);
 
 void map_save(struct section_file *file);
+void map_startpos_load(struct section_file *file);
+void map_tiles_load(struct section_file *file);
 void map_load(struct section_file *file);
 
 #endif

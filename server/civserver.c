@@ -232,12 +232,15 @@ int main(int argc, char *argv[])
       flog(LOG_FATAL, "Couldn't load savefile: %s", load_filename);
       exit(1);
     }
-    if (game_load(&file)) {
+    game.scenario=game_load(&file);
+    /* game.scenario: 0=normal savegame, 1=everything but players,
+       2=just tile map and startpositions, 3=just tile map */
+    if (game.scenario) { /* we may have a scenario here */
       section_file_free(&file);
-      if(game.nplayers)
+      if(game.nplayers) { /* no, it's just a normal savegame */
 	is_new_game=0;
-      else
-	game.scenario=1;
+	game.scenario=0;
+      }
       while(is_id_allocated(global_id_counter++));
     } else 
       section_file_free(&file);
@@ -297,7 +300,9 @@ int main(int argc, char *argv[])
 
   generate_ai_players();
    
-  if(map_is_empty())
+  /* if we have a tile map, and map.generator==0, call map_fractal_generate
+     anyway, to make the specials and huts */
+  if(map_is_empty() || (map.generator == 0) )
     map_fractal_generate();
   else 
     flood_it(1);
@@ -315,8 +320,17 @@ int main(int argc, char *argv[])
       game.players[i].economic.gold=game.gold;
     }
     game.max_players=game.nplayers;
-    flood_it(game.scenario);
-    choose_start_positions();
+
+    /* we don't want random start positions in a scenario which already
+       provides them. btw, this function is misnamed: it doesn't choose
+       start positions, which is done in init_new_game(), it generates
+       them -- Gudy */
+    if(game.scenario==1 || game.scenario==2)
+      flood_it(1);
+    else {
+      flood_it(0);
+      choose_start_positions();
+    }
   }
 
   initialize_move_costs(); /* this may be the wrong place to do this */
@@ -342,6 +356,10 @@ int main(int argc, char *argv[])
   send_game_state(0, CLIENT_GAME_RUNNING_STATE);
   
   save_counter=game.save_nturns;
+
+  /* from here on, treat scenarios as normal games, as this is what
+     they have become (nothing special about them anymore)*/
+  game.scenario=0;
   
   while(server_state==RUN_GAME_STATE) {
     force_end_of_sniff=0;

@@ -1129,6 +1129,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
   struct Sprite *mysprite;
   struct unit *punit;
   struct city *pcity;
+  int den_y=map.ysize*.24;
 
   ptile=map_get_tile(abs_x0, abs_y0);
   punit=get_unit_in_focus();
@@ -1219,8 +1220,8 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
 
   }
 
-  if(map.is_earth && abs_x0>=34 && abs_x0<=36 && abs_y0>=12 && abs_y0<=13) 
-    tileno=(abs_y0-12)*3+abs_x0-34+DENMARK_TILES;
+  if(map.is_earth && abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) 
+    tileno=(abs_y0-den_y)*3+abs_x0-34+DENMARK_TILES;
 
   mysprite=get_tile_sprite(tileno);
   

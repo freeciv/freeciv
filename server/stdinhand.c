@@ -37,25 +37,27 @@ struct proto_settings {
   char *name;
   char *help;
   int *value;
+  /* afterstart: 0=can be changed pre-start, 1=can be changed always,
+     2=tile map generation option: can only be changed prior to having a tile map */
   int afterstart;
   int min_value, max_value, default_value;
 };
 
 struct proto_settings settings[] = {
   { "xsize", "Width of map in squares", 
-    &map.xsize, 0,  
+    &map.xsize, 2,  
     MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH},
 
   { "ysize", "Height of map in squares", 
-    &map.ysize, 0,
+    &map.ysize, 2,
     MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT},
 
   { "seed", "This single number defines the random sequence that generate the map\nSame seed will always produce same map, except 0, which gives a random map.", 
-    &map.seed, 0,
+    &map.seed, 2,
     MAP_MIN_SEED,MAP_MAX_SEED, MAP_DEFAULT_SEED},
   
   { "landmass", "This number defines the percentage of the map that becomes land.", 
-    &map.landpercent, 0,
+    &map.landpercent, 2,
     MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS},
 
   { "specials", "This number donates a percentage chance that a square is special.",
@@ -63,7 +65,7 @@ struct proto_settings settings[] = {
     MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES},
 
   { "swamps", "How many swamps to create on the map.",
-    &map.swampsize, 0,
+    &map.swampsize, 2,
     MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS},
 
   { "settlers", "How many settlers each player starts with.",
@@ -75,19 +77,19 @@ struct proto_settings settings[] = {
     GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER},
 
   { "deserts", "How many deserts to create on the map.",
-    &map.deserts, 0,
+    &map.deserts, 2,
     MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS},
 
   { "rivers", "Denotes the total length of the rivers on the map.",
-    &map.riverlength, 0,
+    &map.riverlength, 2,
     MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS},
 
   { "mountains", "How flat/high is the map, higher values give more mountains.", 
-    &map.mountains, 0,
+    &map.mountains, 2,
     MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS},
 
   { "forests", "How much forest to create, higher values give more forest.", 
-    &map.forestsize, 0,
+    &map.forestsize, 2,
     MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS},
 
   { "huts", "how many 'bonus huts' should be created.",
@@ -95,7 +97,7 @@ struct proto_settings settings[] = {
     MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS},
 
   { "generator", "made a more fair mapgenerator (2), but it only supports 7 players, and works on 80x50 maps only", 
-    &map.generator, 0,
+    &map.generator, 2,
     MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR}, 
 
   { "gold", "how much gold does each players start with.",
@@ -464,7 +466,8 @@ void set_command(char *str)
     puts("Undefined argument. Usage: set <variable> <value>.");
     return;
   }
-  if (!settings[cmd].afterstart && !map_is_empty()) {
+  if (!map_is_empty() &&
+      (settings[cmd].afterstart==2 || (settings[cmd].afterstart==0 && game.scenario==0 ))) {
     puts("This setting can't be modified after game has started");
     return;
   }

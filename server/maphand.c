@@ -350,23 +350,31 @@ void map_save(struct section_file *file)
 }
 
 /***************************************************************
-...
+load starting positions for the players from a savegame file
 ***************************************************************/
-void map_load(struct section_file *file)
+void map_startpos_load(struct section_file *file)
 {
-  int i, x ,y;
-
-  map_init();
-
-  map.xsize=secfile_lookup_int(file, "map.width");
-  map.ysize=secfile_lookup_int(file, "map.height");
-  map.is_earth=secfile_lookup_int(file, "map.is_earth");
+  int i;
 
   for(i=0; i<R_LAST; i++) {
     map.start_positions[i].x=secfile_lookup_int(file, "map.r%dsx", i);
     map.start_positions[i].y=secfile_lookup_int(file, "map.r%dsy", i);
   }
   
+}
+
+/***************************************************************
+load the tile map from a savegame file
+***************************************************************/
+void map_tiles_load(struct section_file *file)
+{
+  int x, y;
+
+  map.is_earth=secfile_lookup_int(file, "map.is_earth");
+
+  map.xsize=secfile_lookup_int(file, "map.width");
+  map.ysize=secfile_lookup_int(file, "map.height");
+
   if(!(map.tiles=(struct tile*)malloc(map.xsize*map.ysize*
 					 sizeof(struct tile)))) {
     flog(LOG_FATAL, "malloc failed in load_map");
@@ -391,6 +399,18 @@ void map_load(struct section_file *file)
       map_get_tile(x, y)->terrain=pch-terrain_chars;
     }
   }
+}
+/***************************************************************
+load a complete map from a savegame file
+***************************************************************/
+void map_load(struct section_file *file)
+{
+  int x ,y;
+
+  map_init();
+
+  map_tiles_load(file);
+  map_startpos_load(file);
 
   /* get lower 4 bits of special flags */
   for(y=0; y<map.ysize; y++) {

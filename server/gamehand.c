@@ -38,7 +38,9 @@ extern char metaserver_info_line[];
 void init_new_game(void)
 {
   int i, x, y,j;
-  if (!game.scenario) {
+  if (game.scenario!=1 && game.scenario!=2) {
+    /* except in a scenario which provides them,
+       shuffle the start positions around... */
     for (i=0; i<game.nplayers;i++) { /* no advantage to the romans!! */
       j=myrand(game.nplayers);
       x=map.start_positions[j].x;
@@ -50,8 +52,14 @@ void init_new_game(void)
     }
   }
   for(i=0; i<game.nplayers; i++) {
-    x=map.start_positions[i].x;
-    y=map.start_positions[i].y;
+    if(game.scenario==1 || game.scenario==2) {
+      /* in a scenario, choose starting positions by race */
+      x=map.start_positions[game.players[i].race].x;
+      y=map.start_positions[game.players[i].race].y;
+    } else {
+      x=map.start_positions[i].x;
+      y=map.start_positions[i].y;
+    }
     light_square(&game.players[i], x, y, 1);
     for (j=0;j<game.settlers;j++) 
       create_unit(&game.players[i], x, y, U_SETTLERS, 0, 0, -1);
@@ -216,18 +224,27 @@ int game_load(struct section_file *file)
       game.settlers = secfile_lookup_int(file, "game.settlers");
       game.explorer = secfile_lookup_int(file, "game.explorer");
       
+      map.riches = secfile_lookup_int(file, "map.riches");
+      map.huts = secfile_lookup_int(file, "map.huts");
+      map.generator = secfile_lookup_int(file, "map.generator");
+      if (map.generator == 0) { /* generator 0 = map done with map editor */
+        map_tiles_load(file);
+        if (has_capability("startpos",savefile_options)) {
+          map_startpos_load(file);
+          return 2; /* make this a scenario */
+        }
+	return 3; /* make this some kind of scenario */
+      } else {
       map.xsize = secfile_lookup_int(file, "map.xsize");
       map.ysize = secfile_lookup_int(file, "map.ysize");
       map.seed = secfile_lookup_int(file, "map.seed");
       map.landpercent = secfile_lookup_int(file, "map.landpercent");
-      map.riches = secfile_lookup_int(file, "map.riches");
       map.swampsize = secfile_lookup_int(file, "map.swampsize");
       map.deserts = secfile_lookup_int(file, "map.deserts");
       map.riverlength = secfile_lookup_int(file, "map.riverlength");
       map.mountains = secfile_lookup_int(file, "map.mountains");
       map.forestsize = secfile_lookup_int(file, "map.forestsize");
-      map.huts = secfile_lookup_int(file, "map.huts");
-      map.generator = secfile_lookup_int(file, "map.generator");      
+      }
     }
     return 0;
   }
