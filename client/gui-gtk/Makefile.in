@@ -110,6 +110,7 @@ INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common -I..
 # in the source dir (when compiling from another dir). --dwp
 
 BUILT_SOURCES = Freeciv.h
+CLEANFILES = Freeciv.h
 
 libguiclient_a_DEPENDENCIES = rc2c
 
@@ -308,6 +309,7 @@ installdirs:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)

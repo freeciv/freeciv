@@ -9,6 +9,7 @@ INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common -I..
 # in the source dir (when compiling from another dir). --dwp
 
 BUILT_SOURCES = Freeciv.h
+CLEANFILES = Freeciv.h
 
 Freeciv.h: $(top_srcdir)/data/freeciv.rc
 	echo '/*****************************************************/' > Freeciv.h
