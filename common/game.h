@@ -142,7 +142,6 @@ int game_next_year(int);
 void game_advance_year(void);
 
 int civ_population(struct player *pplayer);
-struct unit *game_find_unit_by_id(int unit_id);
 struct city *game_find_city_by_name(char *name);
 
 void game_remove_player(int plrno);

@@ -122,8 +122,8 @@ this piece of code below is about as bad as it can get
 **************************************************************************/
 void handle_unit_combat(struct packet_unit_combat *packet)
 {
-  struct unit *punit0=game_find_unit_by_id(packet->attacker_unit_id);
-  struct unit *punit1=game_find_unit_by_id(packet->defender_unit_id);
+  struct unit *punit0=find_unit_by_id(packet->attacker_unit_id);
+  struct unit *punit1=find_unit_by_id(packet->defender_unit_id);
 
   if(punit0 && tile_visible_mapcanvas(punit0->x, punit0->y) &&
      punit1 && tile_visible_mapcanvas(punit1->x, punit1->y)) {

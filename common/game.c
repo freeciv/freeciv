@@ -636,22 +636,6 @@ struct city *game_find_city_by_name(char *name)
 
 
 /**************************************************************************
-...
-**************************************************************************/
-struct unit *game_find_unit_by_id(int unit_id)
-{
-  int i;
-  struct unit *punit;
-
-  for(i=0; i<game.nplayers; i++)
-    if((punit=unit_list_find(&game.players[i].units, unit_id)))  
-      return punit;
-
-  return 0;
-}
-
-
-/**************************************************************************
 If called from server use the wrapper void server_remove_unit(punit);
 **************************************************************************/
 void game_remove_unit(int unit_id)
@@ -660,7 +644,7 @@ void game_remove_unit(int unit_id)
 
   freelog(LOG_DEBUG, "game_remove_unit %d", unit_id);
   
-  if((punit=game_find_unit_by_id(unit_id))) {
+  if((punit=find_unit_by_id(unit_id))) {
     struct city *pcity;
 
     freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",

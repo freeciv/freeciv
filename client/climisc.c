@@ -72,7 +72,7 @@ void client_remove_unit(int unit_id)
 
   freelog(LOG_DEBUG, "client_remove_unit %d", unit_id);
   
-  if((punit=game_find_unit_by_id(unit_id))) {
+  if((punit=find_unit_by_id(unit_id))) {
     int x=punit->x;
     int y=punit->y;
     int hc=punit->homecity;
