@@ -14,6 +14,7 @@
 #define FC__GAMEHAND_H
 
 struct section_file;
+struct connection;
 struct conn_list;
 
 void init_new_game(void);
@@ -23,5 +24,8 @@ void send_game_state(struct conn_list *dest, int state);
 void send_start_turn_to_clients(void);
 
 int update_timeout(void);
+
+const char *create_challenge_filename(void);
+void handle_single_want_hack_req(struct connection *pc, int challenge);
 
 #endif  /* FC__GAMEHAND_H */

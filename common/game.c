@@ -273,7 +273,8 @@ void game_init(void)
   game.num_unit_types = 0;
   game.num_impr_types = 0;
   game.num_tech_types = 0;
-
+ 
+  game.nation_count = 0;
   game.government_count = 0;
   game.default_government = G_MAGIC;        /* flag */
   game.government_when_anarchy = G_MAGIC;   /* flag */

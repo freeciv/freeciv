@@ -90,6 +90,7 @@ static void establish_new_connection(struct connection *pconn)
   sz_strlcpy(packet.capability, our_capability);
   my_snprintf(packet.message, sizeof(packet.message), _("%s Welcome"),
               pconn->username);
+  sz_strlcpy(packet.challenge_file, create_challenge_filename());
   packet.conn_id = pconn->id;
   send_packet_server_join_reply(pconn, &packet);
 

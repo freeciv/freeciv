@@ -920,6 +920,60 @@ Connections can be classified as follows:  (first match applies)
    "observer" or "controller".  (But observers not yet implemented.)
    Exists in game.game_connections, and in pconn->player->connections.
 
+
+===========================================================================
+Starting a Server from Within a Client
+===========================================================================
+
+After many years of complaints regarding the ease (or lack thereof) of
+starting a game of Freeciv [start a server, input settings on a command line,
+start a client, and connect, etc], a method has been developed for starting
+and playing a complete game using only the client. This has been called the
+"extended" or "new connect dialog". This is perhaps a misnomer, but there it 
+is. This win32 client has had this feature in some form for some time. 
+
+It works by forking a server from within the client and then controlling that
+server via chatline messages. The guts of the machinery to do this can be
+found in these files:
+
+client/connectdlg_common.[ch]
+client/gui-*/connectdlg.[ch]
+common/packets.def
+server/gamehand.[ch]
+server/stdinhand.[ch]
+
+When a player starts a client, he is presents with several options: start
+a new game, continue a saved game and connect to a networked game. For the 
+latter option, connect_to_server() is called and login proceeeds as normal.
+The the first two options, connectdlg_common.c:client_start_server() is 
+called. Here, a server is spawned, standard input and outputs to that process
+are closed, and then connect_to_server() is called so the client connects to 
+that server.
+
+At this point everything regarding the client/server connection is as usual;
+however, for the client to control the server, it must have access level HACK,
+so it must verify to the server that it is local (on the same machine or at
+least has access to the same disk as the server). The procedure is:
+
+1. the server creates a file using gamehand.c:create_challenge_filename() and
+   puts the name of this file in packet_server_join_reply that it sends back
+   to the client. The name of the file is semi-random.
+2. The client, upon receiving confirmation that it can join the server,
+   creates a file using the name the server selected and places a random number
+   inside that file.
+3. The client sends a packet [packet_single_want_hack_req] with that random 
+   number back to the server.
+4. The server upon receiving the packet [packet_single_want_hack_req], opens
+   the file and compares the two numbers. If the file exists and the numbers
+   are equal the server grants that client HACK access level and sends a
+   packet [packet_single_want_hack_reply] informing the client of its elevated
+   access level.
+
+Only one other packet is used --- packet_single_playerlist_req --- which asks
+the server to send a player list when a savegame is loaded. This list is used
+for player selection.
+
+
 ===========================================================================
 Style Guide
 ===========================================================================

@@ -1230,3 +1230,11 @@ static void endgame_destroy_callback(GtkObject *object, gpointer data)
     endgame_report_shell = NULL;
   }
 }
+
+/*************************************************************************
+  Server options dialog
+*************************************************************************/
+void popup_settable_options_dialog(void)
+{
+  /* PORT ME */
+}

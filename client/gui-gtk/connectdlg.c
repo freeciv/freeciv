@@ -78,6 +78,14 @@ static int num_lanservers_timer = 0;
 #define DEFAULT_SORT_COLUMN 0	/* default sort column  (server)  */
 
 /**************************************************************************
+ really close and destroy the dialog.
+**************************************************************************/
+void really_close_connection_dialog(void)
+{ 
+  /* PORTME */
+}
+
+/**************************************************************************
  close and destroy the dialog.
 **************************************************************************/
 void close_connection_dialog()
@@ -339,6 +347,16 @@ static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   gtk_main_quit();
   return FALSE;
+}
+
+/**************************************************************************
+  this regenerates the player information from a game on the server.
+  currently a stub. TODO
+**************************************************************************/
+void handle_single_playerlist_reply(struct packet_single_playerlist_reply
+                                    *packet)
+{ 
+  /* PORTME */
 }
 
 /****************************************************************

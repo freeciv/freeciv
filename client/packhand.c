@@ -51,6 +51,7 @@
 #include "climap.h"
 #include "climisc.h"
 #include "clinet.h"		/* aconnection */
+#include "connectdlg_common.h"
 #include "connectdlg_g.h"
 #include "control.h"
 #include "dialogs_g.h"
@@ -165,7 +166,8 @@ static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 ...
 **************************************************************************/
 void handle_server_join_reply(bool you_can_join, char *message,
-			      char *capability, int conn_id)
+                              char *capability, char *challenge_file,
+                              int conn_id)
 {
   char msg[MAX_LEN_MSG];
   char *s_capability = aconnection.capability;
@@ -178,6 +180,9 @@ void handle_server_join_reply(bool you_can_join, char *message,
     aconnection.established = TRUE;
     aconnection.id = conn_id;
     agents_game_joined();
+
+    /* we could always use hack, verify we're local */ 
+    send_client_wants_hack(challenge_file);
   } else {
     my_snprintf(msg, sizeof(msg),
 		_("You were rejected from the game: %s"), message);
@@ -2049,6 +2054,7 @@ void handle_nations_selected_info(int num_nations_used,
     set_client_state(CLIENT_SELECT_RACE_STATE);
 
     if (!client_is_observer()) {
+      really_close_connection_dialog();
       popup_races_dialog();
       races_toggles_set_sensitive(num_nations_used, nations_used);
     }

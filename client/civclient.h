@@ -39,6 +39,8 @@ enum client_states get_client_state(void);
 void client_remove_cli_conn(struct connection *pconn);
 void client_remove_all_cli_conn(void);
 
+extern char *logfile;
+extern char *scriptfile;
 extern char sound_plugin_name[512];
 extern char sound_set_name[512];
 extern char server_host[512];

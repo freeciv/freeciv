@@ -34,6 +34,8 @@
 #include "cityrep.h"
 #include "civclient.h"
 #include "clinet.h"
+#include "connectdlg_common.h"
+#include "connectdlg.h"
 #include "control.h"
 #include "dialogs.h"
 #include "finddlg.h"
@@ -72,9 +74,12 @@ enum MenuID {
   MENU_GAME_SAVE_SETTINGS,
   MENU_GAME_SERVER_OPTIONS1,
   MENU_GAME_SERVER_OPTIONS2,
+  MENU_GAME_SAVE_GAME,
+  MENU_GAME_SAVE_QUICK, 
   MENU_GAME_OUTPUT_LOG,
   MENU_GAME_CLEAR_OUTPUT,
   MENU_GAME_DISCONNECT,
+  MENU_GAME_END,
   MENU_GAME_QUIT,
   
   MENU_KINGDOM_TAX_RATE,
@@ -185,6 +190,12 @@ static void game_menu_callback(gpointer callback_data,
   case MENU_GAME_SERVER_OPTIONS2:
     send_report_request(REPORT_SERVER_OPTIONS2);
     break;
+  case MENU_GAME_SAVE_GAME:
+    create_file_selection(_("Select Location to Save"), TRUE);
+    break;
+  case MENU_GAME_SAVE_QUICK:
+    send_save_game(NULL);
+    break;
   case MENU_GAME_OUTPUT_LOG:
     log_output_window();
     break;
@@ -193,8 +204,18 @@ static void game_menu_callback(gpointer callback_data,
     break;
   case MENU_GAME_DISCONNECT:
     disconnect_from_server();
+    if (is_server_running()) {
+      append_output_window(_("A local server is still running. Use "
+                             "\"Connect to Network Game\" to connect to it."));
+    }
+    break;
+  case MENU_GAME_END:
+    disconnect_from_server();
+    client_kill_server();
     break;
   case MENU_GAME_QUIT:
+    disconnect_from_server();
+    client_kill_server();
     exit(EXIT_SUCCESS);
   }
 }
@@ -586,10 +607,14 @@ static GtkItemFactoryEntry menu_items[]	=
 	game_menu_callback,	MENU_GAME_SAVE_SETTINGS					},
   { "/" N_("Game") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("Server Opt _initial"),	NULL,
+  { "/" N_("Game") "/" N_("View _Fixed Server Options"),NULL,
 	game_menu_callback,	MENU_GAME_SERVER_OPTIONS1				},
-  { "/" N_("Game") "/" N_("Server Opt _ongoing"),	NULL,
+  { "/" N_("Game") "/" N_("_Change Server Options"),	NULL,
 	game_menu_callback,	MENU_GAME_SERVER_OPTIONS2				},
+  { "/" N_("Game") "/" N_("Save Game As..."),		NULL,
+	game_menu_callback,	MENU_GAME_SAVE_GAME					},
+  { "/" N_("Game") "/" N_("Quick Save Game"),	NULL,
+	game_menu_callback,	MENU_GAME_SAVE_QUICK					},
   { "/" N_("Game") "/sep3",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Export Log"),		NULL,
@@ -600,8 +625,10 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Disconnect"),		NULL,
 	game_menu_callback,	MENU_GAME_DISCONNECT					},
+  { "/" N_("Game") "/" N_("End Game"),		NULL,
+	game_menu_callback,	MENU_GAME_END						},
   { "/" N_("Game") "/" N_("_Quit"),			"<control>q",
-	gtk_main_quit,		0							},
+	game_menu_callback,	MENU_GAME_QUIT						},
   /* Kingdom menu ... */
   { "/" N_("_Kingdom"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -1034,6 +1061,19 @@ the string is used for a lookup via gtk_item_factory_get_widget()
 *****************************************************************/
 void update_menus(void)
 {
+
+  menus_set_sensitive("<main>/_Game/Save Game As...", client_has_hack &&
+		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+  menus_set_sensitive("<main>/_Game/Quick Save Game", client_has_hack &&
+		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+  menus_set_sensitive("<main>/_Game/End Game", client_has_hack &&
+		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+  menus_set_sensitive("<main>/_Game/_Change Server Options", 
+		      aconnection.established);
+  menus_set_sensitive("<main>/_Game/View _Fixed Server Options", 
+		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+  menus_set_sensitive("<main>/_Game/_Disconnect", aconnection.established);
+
   if (!can_client_change_view()) {
     menus_set_sensitive("<main>/_Reports", FALSE);
     menus_set_sensitive("<main>/_Kingdom", FALSE);

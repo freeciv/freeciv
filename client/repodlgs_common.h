@@ -48,4 +48,29 @@ void report_dialogs_thaw(void);
 void report_dialogs_force_thaw(void);
 bool is_report_dialogs_frozen(void);
 
+struct options_settable {
+  char *name;
+  char *short_help;
+  char *extra_help;
+  int type;
+  unsigned char category;
+
+  short val;
+  short default_val;
+  short min;
+  short max;
+
+  char *strval;
+  char *default_strval;
+};
+
+extern struct options_settable *settable_options;
+extern int num_settable_options;
+
+extern char **options_categories;
+extern int num_options_categories;
+
+void settable_options_init(void);
+void settable_options_free(void);
+
 #endif /* FC__REPODLGS_COMMON_H */

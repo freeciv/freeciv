@@ -73,6 +73,23 @@ static int popup_join_game_callback(struct GUI *pWidget);
 */
 
 /**************************************************************************
+ really close and destroy the dialog.
+**************************************************************************/
+void really_close_connection_dialog(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+ provide a packet handler for packet_single_playerlist_reply 
+**************************************************************************/
+void handle_single_playerlist_reply(struct packet_single_playerlist_reply
+                                    *packet)
+{ 
+  /* PORTME */
+}
+
+/**************************************************************************
   ...
 **************************************************************************/
 static int connect_callback(struct GUI *pWidget)

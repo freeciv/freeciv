@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
   inx = 1;
   while (inx < argc) {
     if ((option = get_option("--file", argv, &inx, argc)))
-      srvarg.load_filename = option;
+      sz_strlcpy(srvarg.load_filename, option);
     else if (is_option("--help", argv[inx])) {
       showhelp = TRUE;
       break;

@@ -26,6 +26,7 @@ void stdinhand_free(void);
 
 bool handle_stdin_input(struct connection *caller, char *str, bool check);
 void report_server_options(struct conn_list *dest, int which);
+void report_settable_server_options(struct connection *dest, int which);
 void set_ai_level_direct(struct player *pplayer, int level);
 void set_ai_level_directer(struct player *pplayer, int level);
 bool read_init_script(struct connection *caller, char *script_filename);

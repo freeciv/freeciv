@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h> /* for remove() */ 
 
 #include "events.h"
 #include "fcintl.h"
@@ -24,6 +25,9 @@
 #include "mem.h"
 #include "packets.h"
 #include "rand.h"
+#include "registry.h"
+#include "shared.h"
+#include "support.h"
 
 #include "maphand.h"
 #include "plrhand.h"
@@ -31,6 +35,14 @@
 
 #include "gamehand.h"
 
+#define NUMBER_OF_TRIES 500
+#ifndef __VMS
+#  define CHALLENGE_ROOT ".freeciv-tmp"
+#else /*VMS*/
+#  define CHALLENGE_ROOT "freeciv-tmp"
+#endif
+
+static char challenge_filename[MAX_LEN_PATH];
 
 /****************************************************************************
   Initialize the game.id variable to a random string of characters.
@@ -365,4 +377,72 @@ int update_timeout(void)
 	  game.timeoutint - game.timeoutcounter);
 
   return game.timeout;
+}
+
+/************************************************************************** 
+find a suitably random file that we can write too, and return it's name.
+**************************************************************************/
+const char *create_challenge_filename(void)
+{
+  int i;
+  unsigned int tmp = 0;
+
+  /* find a suitable file to place the challenge in, we'll remove the file
+   * once the challenge is  */
+  sz_strlcpy(challenge_filename, user_home_dir());
+  sz_strlcat(challenge_filename, "/");
+  sz_strlcat(challenge_filename, CHALLENGE_ROOT);
+
+  for (i = 0; i < NUMBER_OF_TRIES; i++) {
+    char test_str[MAX_LEN_PATH];
+
+    sz_strlcpy(test_str, challenge_filename);
+    tmp = time(NULL);
+    cat_snprintf(test_str, MAX_LEN_PATH, "-%d", tmp);
+
+    /* file doesn't exist but we can create one and write to it */
+    if (!is_reg_file_for_access(test_str, FALSE) &&
+        is_reg_file_for_access(test_str, TRUE)) {
+      cat_snprintf(challenge_filename, MAX_LEN_PATH, "-%d", tmp);
+      break;
+    } else {
+      die("we can't seem to write to the filesystem!");
+    }
+  }
+
+  return challenge_filename;
+}
+
+/************************************************************************** 
+opens a file specified by the packet and compares the packet values with
+the file values. Sends an answer to the client once it's done.
+**************************************************************************/
+void handle_single_want_hack_req(struct connection *pc, int challenge)
+{
+  struct section_file file;
+  int entropy = 0;
+  bool could_load = TRUE;
+  bool you_have_hack = FALSE;
+
+  if (section_file_load_nodup(&file, challenge_filename)) {
+    entropy = secfile_lookup_int_default(&file, 0, "challenge.entropy");
+    section_file_free(&file);
+  } else {
+    freelog(LOG_ERROR, "couldn't load temporary file: %s", challenge_filename);
+    could_load = FALSE;
+  }
+
+  you_have_hack = (could_load && entropy && entropy == challenge);
+
+  if (you_have_hack) {
+    pc->access_level = ALLOW_HACK;
+  }
+
+  /* remove temp file */
+  if (remove(challenge_filename) != 0) {
+    freelog(LOG_ERROR, "couldn't remove temporary file: %s",
+            challenge_filename);
+  }
+
+  dsend_packet_single_want_hack_reply(pc, you_have_hack);
 }

@@ -15,6 +15,6 @@
 
 #include "connectdlg_g.h"
 
-/* nothing to add */
+GtkWidget *create_file_selection(char *title, bool is_save);
 
 #endif  /* FC__CONNECTDLG_H */

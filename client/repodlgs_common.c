@@ -23,6 +23,13 @@
 #include "repodlgs_g.h"
 
 #include "repodlgs_common.h"
+#include "packhand_gen.h"
+
+struct options_settable *settable_options;
+int num_settable_options;
+
+char **options_categories;
+int num_options_categories;
 
 /****************************************************************
   Fills out the array of struct improvement_entry given by
@@ -159,4 +166,131 @@ void report_dialogs_force_thaw(void)
 bool is_report_dialogs_frozen(void)
 {
   return frozen_level > 0;
+}
+
+/******************************************************************
+ initialize settable_options[] and options_categories[]
+*******************************************************************/
+void settable_options_init(void)
+{
+  settable_options = NULL;
+  num_settable_options = 0;
+
+  options_categories = NULL;
+  num_options_categories = 0;
+}
+
+/******************************************************************
+ free settable_options[] and options_categories[]
+*******************************************************************/
+void settable_options_free(void)
+{
+  int i;
+
+  for (i = 0; i < num_settable_options; i++) {
+    if (settable_options[i].name) {
+      free(settable_options[i].name);
+    }
+    if (settable_options[i].short_help) {
+      free(settable_options[i].short_help);
+    }
+    if (settable_options[i].extra_help) {
+      free(settable_options[i].extra_help);
+    }
+    if (settable_options[i].strval) {
+      free(settable_options[i].strval);
+    }
+    if (settable_options[i].default_strval) {
+      free(settable_options[i].default_strval);
+    }
+  }
+  free(settable_options);
+
+  for (i = 0; i < num_options_categories; i++) {
+    free(options_categories[i]);
+  }
+  free(options_categories);
+
+  settable_options_init();
+}
+
+/******************************************************************
+ reinitialize the options_settable struct: allocate enough
+ space for all the options that the server is going to send us.
+*******************************************************************/
+void handle_options_settable_control(
+                               struct packet_options_settable_control *packet)
+{
+  int i; 
+
+  settable_options_free();
+
+  options_categories = fc_malloc(packet->ncategories * sizeof(char *));
+  num_options_categories = packet->ncategories;
+  
+  for (i = 0; i < num_options_categories; i++) {
+    options_categories[i] = mystrdup(packet->category_names[i]);
+  }
+
+  /* avoid a malloc of size 0 warning */
+  if (packet->nids == 0) {
+    return;
+  }
+
+  settable_options = fc_malloc(packet->nids * sizeof(struct options_settable));
+  num_settable_options = packet->nids;
+
+  for (i = 0; i < num_settable_options; i++) {
+    settable_options[i].name = NULL;
+    settable_options[i].short_help = NULL;
+    settable_options[i].extra_help = NULL;
+    settable_options[i].strval = NULL;
+    settable_options[i].default_strval = NULL;
+  }
+}
+
+/******************************************************************
+ Fill the settable_options array with an option.
+ If we've filled the last option, popup the dialog.
+*******************************************************************/
+void handle_options_settable(struct packet_options_settable *packet)
+{
+  int i = packet->id;
+
+  assert(i >= 0);
+
+  settable_options[i].name = mystrdup(packet->name);
+  settable_options[i].short_help = mystrdup(packet->short_help);
+  settable_options[i].extra_help = mystrdup(packet->extra_help);
+
+  settable_options[i].type = packet->type;
+  settable_options[i].category = packet->category;
+
+  switch (packet->type) {
+  case 0:
+    settable_options[i].val = packet->val;
+    settable_options[i].min = FALSE;
+    settable_options[i].max = TRUE;
+    settable_options[i].strval = NULL;
+    settable_options[i].default_strval = NULL;
+    break;
+  case 1:
+    settable_options[i].val = packet->val;
+    settable_options[i].min = packet->min;
+    settable_options[i].max = packet->max;
+    settable_options[i].strval = NULL;
+    settable_options[i].default_strval = NULL;
+    break;
+  case 2:
+    settable_options[i].strval = mystrdup(packet->strval);
+    settable_options[i].default_strval = mystrdup(packet->default_strval);
+    break;
+  default:
+    assert(0);
+  }
+
+  /* if we've received all the options, pop up the settings dialog */
+  if (i == num_settable_options - 1) {
+    popup_settable_options_dialog();
+  }
 }

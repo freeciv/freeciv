@@ -211,7 +211,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 107.
+The last used packet number is 113.
 ****************************************************/
 
 
@@ -245,7 +245,7 @@ PACKET_SERVER_JOIN_REPLY=5; sc,no-delta
   BOOL you_can_join;
   STRING message[MAX_LEN_MSG];
   STRING capability[MAX_LEN_CAPSTR];
-
+  STRING challenge_file[MAX_LEN_PATH];
   # clients conn id as known in server
   CONNECTION conn_id;
 end
@@ -1217,4 +1217,54 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 borders;
 
   STRING team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
+end
+
+
+/*********************************************************
+ Below are the packets that control single-player mode.  
+*********************************************************/
+PACKET_SINGLE_WANT_HACK_REQ=108;cs,handle-per-conn,no-handle,dsend
+ UINT32 challenge;
+end
+
+PACKET_SINGLE_WANT_HACK_REPLY=109;sc,dsend
+ BOOL you_have_hack;
+end
+
+PACKET_SINGLE_PLAYERLIST_REQ=110;cs,handle-per-conn,no-handle
+end
+
+PACKET_SINGLE_PLAYERLIST_REPLY=111;sc
+  UINT8 nplayers;
+  STRING load_filename[MAX_LEN_PACKET];
+  STRING name[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
+  STRING username[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
+  STRING nation_name[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
+  STRING nation_flag[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
+  BOOL is_alive[MAX_NUM_PLAYERS:nplayers];
+  BOOL is_ai[MAX_NUM_PLAYERS:nplayers];
+end
+
+PACKET_OPTIONS_SETTABLE_CONTROL=112;sc,handle-via-packet
+  UINT16 nids;
+  UINT8 ncategories;
+  STRING category_names[256:ncategories][MAX_LEN_NAME];
+end
+
+PACKET_OPTIONS_SETTABLE=113;sc
+  UINT16 id;
+  STRING name[MAX_LEN_NAME];
+  STRING short_help[MAX_LEN_PACKET];
+  STRING extra_help[MAX_LEN_PACKET];
+  UINT8  type;					/* 0:bool, 1:int, 2:string */
+
+  SINT32 val;					/* value for bool or int */
+  SINT32 default_val;				/* default for bool or int */
+  SINT32 min;					/* min value for int */
+  SINT32 max;					/* max value for int */
+
+  STRING strval[MAX_LEN_PACKET];		/* space for string */
+  STRING default_strval[MAX_LEN_PACKET];	/* space for string */
+
+  UINT8 category;				/* which category this is in */
 end

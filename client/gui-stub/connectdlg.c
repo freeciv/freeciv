@@ -33,6 +33,14 @@ static void try_to_autoconnect(void);
 
 
 /**************************************************************************
+ really close and destroy the dialog.
+**************************************************************************/
+void really_close_connection_dialog(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
  close and destroy the dialog.
 **************************************************************************/
 void close_connection_dialog()
@@ -75,6 +83,16 @@ void handle_authentication_req(enum authentication_type type, char *message)
 
   /* PORTME etc. */
 }
+
+/**************************************************************************
+ provide a packet handler for packet_single_playerlist_reply 
+**************************************************************************/
+void handle_single_playerlist_reply(struct packet_single_playerlist_reply
+                                    *packet)
+{ 
+  /* PORTME */
+}
+
 
 /**************************************************************************
   Provide an interface for connecting to a FreeCiv server.

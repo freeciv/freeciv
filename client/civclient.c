@@ -77,6 +77,8 @@
    needed (hence, it is not 'extern'd in civclient.h) */
 bool is_server = FALSE;
 
+char *logfile = NULL;
+char *scriptfile = NULL;
 static char tileset_name[512] = "\0";
 char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
@@ -109,7 +111,6 @@ int main(int argc, char *argv[])
   int i, loglevel;
   int ui_options = 0;
   bool ui_separator = FALSE;
-  char *logfile=NULL;
   char *option=NULL;
 
   init_nls();
@@ -135,13 +136,16 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
 #endif
     fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
-    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
+    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile "
+                      "(spawned server also uses this)\n"));
     fprintf(stderr, _("  -m, --meta HOST\t"
 		      "Connect to the metaserver at HOST\n"));
     fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
     fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
     fprintf(stderr, _("  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"),
 	    audio_get_all_plugin_names());
+    fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE "
+                      "(for spawned server only)\n"));
     fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
     fprintf(stderr, _("  -S, --Sound FILE\tRead sound tags from FILE\n"));
     fprintf(stderr, _("  -t, --tiles FILE\t"
@@ -154,8 +158,10 @@ int main(int argc, char *argv[])
    } else if (is_option("--version",argv[i])) {
     fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
     exit(EXIT_SUCCESS);
-   } else if ((option = get_option("--log",argv,&i,argc)))
+   } else if ((option = get_option("--log",argv,&i,argc))) {
       logfile = mystrdup(option); /* never free()d */
+   } else  if ((option = get_option("--read", argv, &i, argc)))
+      scriptfile = mystrdup(option); /* never free()d */
    else if ((option = get_option("--name",argv,&i,argc)))
       sz_strlcpy(user_name, option);
    else if ((option = get_option("--meta",argv,&i,argc)))
@@ -211,6 +217,7 @@ int main(int argc, char *argv[])
   my_init_network();
   init_messages_where();
   init_city_report_data();
+  settable_options_init();
 
   load_general_options();
 

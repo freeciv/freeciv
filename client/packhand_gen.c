@@ -40,6 +40,7 @@ bool client_handle_packet(enum packet_type type, void *packet)
       ((struct packet_server_join_reply *)packet)->you_can_join,
       ((struct packet_server_join_reply *)packet)->message,
       ((struct packet_server_join_reply *)packet)->capability,
+      ((struct packet_server_join_reply *)packet)->challenge_file,
       ((struct packet_server_join_reply *)packet)->conn_id);
     return TRUE;
 
@@ -296,6 +297,23 @@ bool client_handle_packet(enum packet_type type, void *packet)
 
   case PACKET_RULESET_CONTROL:
     handle_ruleset_control(packet);
+    return TRUE;
+
+  case PACKET_SINGLE_WANT_HACK_REPLY:
+    handle_single_want_hack_reply(
+      ((struct packet_single_want_hack_reply *)packet)->you_have_hack);
+    return TRUE;
+
+  case PACKET_SINGLE_PLAYERLIST_REPLY:
+    handle_single_playerlist_reply(packet);
+    return TRUE;
+
+  case PACKET_OPTIONS_SETTABLE_CONTROL:
+    handle_options_settable_control(packet);
+    return TRUE;
+
+  case PACKET_OPTIONS_SETTABLE:
+    handle_options_settable(packet);
     return TRUE;
 
   default:

@@ -35,6 +35,7 @@ struct packet_server_join_reply {
   bool you_can_join;
   char message[MAX_LEN_MSG];
   char capability[MAX_LEN_CAPSTR];
+  char challenge_file[MAX_LEN_PATH];
   int conn_id;
 };
 
@@ -967,6 +968,50 @@ struct packet_ruleset_control {
   char team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 };
 
+struct packet_single_want_hack_req {
+  int challenge;
+};
+
+struct packet_single_want_hack_reply {
+  bool you_have_hack;
+};
+
+struct packet_single_playerlist_req {
+  char __dummy;			/* to avoid malloc(0); */
+};
+
+struct packet_single_playerlist_reply {
+  int nplayers;
+  char load_filename[MAX_LEN_PACKET];
+  char name[MAX_NUM_PLAYERS][MAX_LEN_NAME];
+  char username[MAX_NUM_PLAYERS][MAX_LEN_NAME];
+  char nation_name[MAX_NUM_PLAYERS][MAX_LEN_NAME];
+  char nation_flag[MAX_NUM_PLAYERS][MAX_LEN_NAME];
+  bool is_alive[MAX_NUM_PLAYERS];
+  bool is_ai[MAX_NUM_PLAYERS];
+};
+
+struct packet_options_settable_control {
+  int nids;
+  int ncategories;
+  char category_names[256][MAX_LEN_NAME];
+};
+
+struct packet_options_settable {
+  int id;
+  char name[MAX_LEN_NAME];
+  char short_help[MAX_LEN_PACKET];
+  char extra_help[MAX_LEN_PACKET];
+  int type;
+  int val;
+  int default_val;
+  int min;
+  int max;
+  char strval[MAX_LEN_PACKET];
+  char default_strval[MAX_LEN_PACKET];
+  int category;
+};
+
 enum packet_type {
   PACKET_PROCESSING_STARTED,             /* 0 */
   PACKET_PROCESSING_FINISHED,
@@ -1076,6 +1121,12 @@ enum packet_type {
   PACKET_RULESET_TERRAIN,
   PACKET_RULESET_CONTROL,
   PACKET_UNIT_LOAD,
+  PACKET_SINGLE_WANT_HACK_REQ,
+  PACKET_SINGLE_WANT_HACK_REPLY,
+  PACKET_SINGLE_PLAYERLIST_REQ,          /* 110 */
+  PACKET_SINGLE_PLAYERLIST_REPLY,
+  PACKET_OPTIONS_SETTABLE_CONTROL,
+  PACKET_OPTIONS_SETTABLE,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1520,6 +1571,26 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 struct packet_ruleset_control *receive_packet_ruleset_control(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_control(struct connection *pc, const struct packet_ruleset_control *packet);
 void lsend_packet_ruleset_control(struct conn_list *dest, const struct packet_ruleset_control *packet);
+
+struct packet_single_want_hack_req *receive_packet_single_want_hack_req(struct connection *pc, enum packet_type type);
+int send_packet_single_want_hack_req(struct connection *pc, const struct packet_single_want_hack_req *packet);
+int dsend_packet_single_want_hack_req(struct connection *pc, int challenge);
+
+struct packet_single_want_hack_reply *receive_packet_single_want_hack_reply(struct connection *pc, enum packet_type type);
+int send_packet_single_want_hack_reply(struct connection *pc, const struct packet_single_want_hack_reply *packet);
+int dsend_packet_single_want_hack_reply(struct connection *pc, bool you_have_hack);
+
+struct packet_single_playerlist_req *receive_packet_single_playerlist_req(struct connection *pc, enum packet_type type);
+int send_packet_single_playerlist_req(struct connection *pc);
+
+struct packet_single_playerlist_reply *receive_packet_single_playerlist_reply(struct connection *pc, enum packet_type type);
+int send_packet_single_playerlist_reply(struct connection *pc, const struct packet_single_playerlist_reply *packet);
+
+struct packet_options_settable_control *receive_packet_options_settable_control(struct connection *pc, enum packet_type type);
+int send_packet_options_settable_control(struct connection *pc, const struct packet_options_settable_control *packet);
+
+struct packet_options_settable *receive_packet_options_settable(struct connection *pc, enum packet_type type);
+int send_packet_options_settable(struct connection *pc, const struct packet_options_settable *packet);
 
 
 void delta_stats_report(void);

@@ -64,6 +64,7 @@ typedef unsigned int fc_bool;
 #define MAX_LEN_ADDR     256	/* see also MAXHOSTNAMELEN and RFC 1123 2.1 */
 #define MAX_LEN_VET_SHORT_NAME 8
 #define MAX_VET_LEVELS 10
+#define MAX_LEN_PATH 4095
 
 /* Use FC_INFINITY to denote that a certain event will never occur or
    another unreachable condition. */

@@ -19,7 +19,7 @@ void handle_processing_started(void);
 void handle_processing_finished(void);
 void handle_freeze_hint(void);
 void handle_thaw_hint(void);
-void handle_server_join_reply(bool you_can_join, char *message, char *capability, int conn_id);
+void handle_server_join_reply(bool you_can_join, char *message, char *capability, char *challenge_file, int conn_id);
 void handle_authentication_req(enum authentication_type type, char *message);
 void handle_server_shutdown(void);
 void handle_nations_selected_info(int num_nations_used, Nation_Type_id *nations_used);
@@ -92,5 +92,12 @@ struct packet_ruleset_terrain;
 void handle_ruleset_terrain(struct packet_ruleset_terrain *packet);
 struct packet_ruleset_control;
 void handle_ruleset_control(struct packet_ruleset_control *packet);
+void handle_single_want_hack_reply(bool you_have_hack);
+struct packet_single_playerlist_reply;
+void handle_single_playerlist_reply(struct packet_single_playerlist_reply *packet);
+struct packet_options_settable_control;
+void handle_options_settable_control(struct packet_options_settable_control *packet);
+struct packet_options_settable;
+void handle_options_settable(struct packet_options_settable *packet);
 
 #endif /* FC__PACKHAND_GEN_H */

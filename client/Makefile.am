@@ -144,6 +144,8 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
 	civclient.h	\
 	chatline_common.c \
 	chatline_common.h \
+	connectdlg_common.c \
+	connectdlg_common.h \
 	climisc.c	\
 	climisc.h	\
 	climap.c	\

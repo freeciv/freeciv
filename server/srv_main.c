@@ -167,7 +167,7 @@ void srv_init(void)
 
   srvarg.log_filename = NULL;
   srvarg.gamelog_filename = NULL;
-  srvarg.load_filename = NULL;
+  srvarg.load_filename[0] = '\0';
   srvarg.script_filename = NULL;
 
   srvarg.quitidle = 0;
@@ -672,10 +672,10 @@ void handle_report_req(struct connection *pconn, enum report_type type)
     report_demographics(pconn);
     break;
   case REPORT_SERVER_OPTIONS1:
-    report_server_options(dest, 1);
+    report_settable_server_options(pconn, 1);
     break;
   case REPORT_SERVER_OPTIONS2:
-    report_server_options(dest, 2);
+    report_settable_server_options(pconn, 2);
     break;
   case REPORT_SERVER_OPTIONS: /* obsolete */
   default:
@@ -808,6 +808,17 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     handle_chat_msg_req(pconn,
 			((struct packet_chat_msg_req *) packet)->message);
     free(packet);
+    return TRUE;
+  }
+
+  if (type == PACKET_SINGLE_WANT_HACK_REQ) {
+    handle_single_want_hack_req(pconn,
+               ((struct packet_single_want_hack_req *)packet)->challenge);
+    return TRUE;
+  }
+
+  if (type == PACKET_SINGLE_PLAYERLIST_REQ) {
+    handle_single_playerlist_req(pconn);
     return TRUE;
   }
 
@@ -1455,7 +1466,7 @@ void srv_main(void)
   server_open_socket();
 
   /* load a saved game */
-  if (srvarg.load_filename) {
+  if (srvarg.load_filename[0] != '\0') {
     (void) load_command(NULL, srvarg.load_filename, FALSE);
   } 
 

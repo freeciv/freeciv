@@ -262,14 +262,15 @@ void vreal_freelog(int level, const char *message, va_list ap)
   if(level<=fc_log_level) {
     FILE *fs;
 
-    if(log_filename) {
+    if (log_filename) {
       if(!(fs=fopen(log_filename, "a"))) {
 	fprintf(stderr, _("Couldn't open logfile: %s for appending.\n"), 
 		log_filename);
 	exit(EXIT_FAILURE);
       }
+    } else {
+      fs = stderr;
     }
-    else fs=stderr;
 
     my_vsnprintf(bufbuf1 ? bufbuf[1] : bufbuf[0], MAX_LEN_LOG_LINE, message, ap);
     
@@ -316,8 +317,9 @@ void vreal_freelog(int level, const char *message, va_list ap)
     }
     bufbuf1 = !bufbuf1;
     fflush(fs);
-    if(log_filename)
+    if (log_filename) {
       fclose(fs);
+    }
   }
 }
 void real_freelog(int level, const char *message, ...)

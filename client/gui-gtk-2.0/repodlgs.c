@@ -30,6 +30,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "chatline_common.h"
 #include "cityrep.h"
 #include "civclient.h"
 #include "climisc.h"
@@ -41,6 +42,7 @@
 #include "helpdlg.h"
 #include "mapview_common.h"
 #include "options.h"
+#include "packhand_gen.h"
 #include "control.h"
 
 #include "repodlgs_common.h"
@@ -1434,7 +1436,6 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
   }
   gtk_window_present(GTK_WINDOW(endgame_report_shell));
 }
-
 /**************************************************************************
   Close the endgame report.
 **************************************************************************/
@@ -1443,3 +1444,169 @@ static void endgame_destroy_callback(GtkObject *object, gpointer data)
   endgame_report_shell = NULL;
 }
 
+/*************************************************************************
+  helper function for server options dialog
+*************************************************************************/
+static void option_changed_callback(GtkWidget *widget, gpointer data) 
+{
+  g_object_set_data(G_OBJECT(widget), "changed", (gpointer)TRUE); 
+}
+
+/*************************************************************************
+  helper function for server options dialog
+*************************************************************************/
+static void set_options(GtkWidget *w)
+{
+  GtkWidget *tmp;
+
+  /* if the entry has been changed, then send the changes to the server */
+  if (g_object_get_data(G_OBJECT(w), "changed")) {
+    char buffer[MAX_LEN_MSG];
+
+    /* append the name of the option */
+    my_snprintf(buffer, MAX_LEN_MSG, "/set %s ", gtk_widget_get_name(w));
+
+    /* append the setting */
+    if (GTK_IS_ENTRY(w)) {
+      sz_strlcat(buffer, gtk_entry_get_text(GTK_ENTRY(w)));
+    } else {
+      bool active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
+      sz_strlcat(buffer, active ? "1" : "0");
+    }
+    send_chat(buffer);
+  }
+
+  /* using the linked list, work backwards and check the previous widget */
+  tmp = (GtkWidget *)g_object_get_data(G_OBJECT(w), "prev");
+  if (tmp) {
+    set_options(tmp);
+  } else {
+    gtk_widget_destroy(gtk_widget_get_toplevel(w));
+  }
+}
+
+/*************************************************************************
+  Server options dialog
+*************************************************************************/
+void popup_settable_options_dialog(void)
+{
+  GtkWidget *win, *book, **vbox, *but, *label, *prev_widget = NULL;
+  GtkTooltips *tips;
+  bool *used = fc_malloc(num_options_categories * sizeof(bool));
+  int i;
+
+  for(i = 0; i < num_options_categories; i++){
+    used[i] = FALSE;
+  }
+
+  tips = gtk_tooltips_new();
+  win = gtk_dialog_new();
+  gtk_window_set_title(GTK_WINDOW(win), _("Server Options"));
+
+  /* create a notebook for the options */
+  book = gtk_notebook_new();
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(win)->vbox), book, FALSE, FALSE, 2);
+
+  /* create a number of notebook pages for each category */
+  vbox = fc_malloc(num_options_categories * sizeof(GtkWidget *));
+
+  for (i = 0; i < num_options_categories; i++) {
+    vbox[i] = gtk_vbox_new(FALSE, 2);
+    label = gtk_label_new(options_categories[i]);
+    gtk_notebook_append_page(GTK_NOTEBOOK(book), vbox[i], label);
+    gtk_box_pack_end(GTK_BOX(vbox[i]), gtk_label_new(""), FALSE, FALSE, 0);
+  }
+
+  /* fill each category */
+  for (i = 0; i < num_settable_options; i++) {
+    GtkWidget *ebox, *hbox, *ent;
+
+    /* create a box for the new option and insert it in the correct page */
+    hbox = gtk_hbox_new(FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox[settable_options[i].category]), 
+                       hbox, FALSE, FALSE, 0);
+    used[settable_options[i].category] = TRUE;
+
+    /* create an event box for the option label */
+    ebox = gtk_event_box_new();
+    gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 5);
+
+    /* insert the option short help as the label into the event box */
+    label = gtk_label_new(settable_options[i].short_help);
+    gtk_container_add(GTK_CONTAINER(ebox), label);
+
+    /* if we have extra help, use that as a tooltip */
+    if (settable_options[i].extra_help[0] != '\0') {
+      gtk_tooltips_set_tip(tips, ebox, settable_options[i].extra_help, NULL);
+    }
+
+    /* create the proper entry method depending on the type */
+    if (settable_options[i].type == 0) {
+      /* boolean */
+      GtkWidget *no;
+
+      ent = gtk_radio_button_new_with_label(NULL, _("Yes"));
+      no  = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(ent), 
+                                                        _("No"));
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent),
+                                   settable_options[i].val);
+      gtk_box_pack_end(GTK_BOX(hbox), no, FALSE, FALSE, 0);
+
+      g_signal_connect(G_OBJECT(ent), "toggled", 
+                       G_CALLBACK(option_changed_callback), NULL);
+    } else if (settable_options[i].type == 1) {
+      /* integer */
+      int step, max, min;
+      GtkObject *adj;
+
+      min = settable_options[i].min;
+      max = settable_options[i].max;
+ 
+      /* pick a reasonable step size */
+      step = (max - min) / 101 + 1;
+      if (step > 100) {
+	/* this is ridiculous, the bounds must be meaningless */
+	step = 5;
+      }
+      adj = gtk_adjustment_new(settable_options[i].val, min, max, step, 0, 0);
+      ent = gtk_spin_button_new(GTK_ADJUSTMENT(adj), 1, 0);
+
+      g_signal_connect(G_OBJECT(ent), "changed", 
+                       G_CALLBACK(option_changed_callback), NULL);
+    } else {
+      /* string */
+      ent = gtk_entry_new();
+      gtk_entry_set_text(GTK_ENTRY(ent), settable_options[i].strval);
+
+      g_signal_connect(G_OBJECT(ent), "changed", 
+                       G_CALLBACK(option_changed_callback), NULL);
+    }
+    gtk_box_pack_end(GTK_BOX(hbox), ent, FALSE, FALSE, 0);
+
+    /* set up a linked list so we can work our way through the widgets */
+    gtk_widget_set_name(ent, settable_options[i].name);
+    g_object_set_data(G_OBJECT(ent), "prev", prev_widget);
+    g_object_set_data(G_OBJECT(ent), "changed", FALSE);
+    prev_widget = ent;
+  }
+
+  /* remove any unused categories pages */
+  for (i = num_options_categories - 1; i >= 0; i--) {
+    if (!used[i]) {
+      gtk_notebook_remove_page(GTK_NOTEBOOK(book), i);
+    }
+  }
+  free(used);
+
+  but = gtk_button_new_with_label(_("OK"));
+  g_signal_connect_swapped(G_OBJECT(but), "clicked",
+			   G_CALLBACK(set_options), prev_widget);
+  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(win)->action_area), but, TRUE, TRUE, 2);
+
+  but = gtk_button_new_with_label(_("Cancel"));
+  g_signal_connect_swapped(G_OBJECT(but), "clicked",
+			   G_CALLBACK(gtk_widget_destroy), win);
+  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(win)->action_area), but, TRUE, TRUE, 2);
+
+  gtk_widget_show_all(win);
+}

@@ -59,7 +59,8 @@ void dio_get_uint32(struct data_in *din, int *dest);
 
 void dio_get_sint8(struct data_in *din, int *dest);
 void dio_get_sint16(struct data_in *din, int *dest);
-void dio_get_sint32(struct data_in *din, int *dest);
+#define dio_get_sint32(d,v) dio_get_uint32(d,v)
+
 
 void dio_get_bool8(struct data_in *din, bool *dest);
 void dio_get_bool32(struct data_in *din, bool *dest);

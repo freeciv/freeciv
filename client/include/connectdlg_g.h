@@ -14,6 +14,7 @@
 #define FC__CONNECTDLG_G_H
 
 void close_connection_dialog(void);
+void really_close_connection_dialog(void);
 
 void gui_server_connect(void);
 void server_autoconnect(void);

@@ -34,7 +34,7 @@ struct server_arguments {
   /* filenames */
   char *log_filename;
   char *gamelog_filename;
-  char *load_filename;
+  char load_filename[512]; /* FIXME: may not be long enough? use MAX_PATH? */
   char *script_filename;
   /* extra info for the metaserver */
   char extra_metaserver_info[256];

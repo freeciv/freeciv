@@ -40,6 +40,7 @@
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "connectdlg_common.h"
 #include "control.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -2295,6 +2296,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
   } else {
     popdown_races_dialog();
     disconnect_from_server();
+    client_kill_server();
   }
 }
 
