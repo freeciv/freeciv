@@ -270,10 +270,9 @@ int hp_gain_coord(struct unit *punit)
 }
 
 /**************************************************************************
-  this is a crude function!!!! 
   used to find the best defensive unit on a square
 **************************************************************************/
-int rate_unit(struct unit *punit, struct unit *against)
+int rate_unit_d(struct unit *punit, struct unit *against)
 {
   int val;
 
@@ -295,16 +294,53 @@ struct unit *get_defender(struct player *pplayer, struct unit *aunit,
 {
   struct unit *bestdef = 0;
   int bestvalue=-1;
+int ct=0;
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (pplayer->player_no==punit->owner)
       return 0;
-    if(unit_can_defend_here(punit) && rate_unit(punit, aunit)>bestvalue) {
-      bestvalue=rate_unit(punit, aunit);
+ct++;
+    if(unit_can_defend_here(punit) && rate_unit_d(punit, aunit)>bestvalue) {
+      bestvalue=rate_unit_d(punit, aunit);
       bestdef=punit;
     }
   }
   unit_list_iterate_end;
+if(ct&&!bestdef)printf("Get_def bugged at (%d,%d)\n", x, y);
   return bestdef;
+}
+
+/**************************************************************************
+  used to find the best offensive unit on a square
+**************************************************************************/
+int rate_unit_a(struct unit *punit, struct unit *against)
+{
+  int val;
+
+  if(!punit) return 0;
+  val = unit_types[punit->type].attack_strength *
+        (punit->veteran ? 15 : 10);
+
+  val *= punit->hp;
+  val *= val;
+  val /= get_unit_type(punit->type)->build_cost;
+  return val; /* designed to minimize expected losses */
+}
+
+struct unit *get_attacker(struct player *pplayer, struct unit *aunit, 
+			  int x, int y)
+{ /* get unit at (x, y) that wants to kill aunit */
+  struct unit *bestatt = 0;
+  int bestvalue=-1;
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    if (pplayer->player_no==punit->owner)
+      return 0;
+    if(rate_unit_a(punit, aunit)>bestvalue) {
+      bestvalue=rate_unit_a(punit, aunit);
+      bestatt=punit;
+    }
+  }
+  unit_list_iterate_end;
+  return bestatt;
 }
 
 /**************************************************************************
@@ -523,6 +559,7 @@ int enemies_at(struct unit *punit, int x, int y)
   struct player *pplayer = get_player(punit->owner);
   d = unit_vulnerability_virtual(punit) *
       get_tile_type(map_get_terrain(x, y))->defense_bonus;
+  if (is_friendly_city_tile(x, y, punit->owner)) return 0;
   for (j = y - 1; j <= y + 1; j++) {
     if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {

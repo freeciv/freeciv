@@ -25,8 +25,11 @@ int zoc_ok_move(struct unit *punit,int x, int y);
 int unit_bribe_cost(struct unit *punit);
 int diplomat_on_tile(int x, int y);
 int hp_gain_coord(struct unit *punit);
-int rate_unit(struct unit *punit, struct unit *against);
+int rate_unit_d(struct unit *punit, struct unit *against);
+int rate_unit_a(struct unit *punit, struct unit *against);
 struct unit *get_defender(struct player *pplayer, struct unit *aunit, 
+			  int x, int y);
+struct unit *get_attacker(struct player *pplayer, struct unit *aunit, 
 			  int x, int y);
 int get_attack_power(struct unit *punit);
 int get_defense_power(struct unit *punit);
