@@ -2,10 +2,12 @@
 # Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 # Copyright (C) 2001 SUENAGA Yasuo
 # Copyright (C) 2002 MITA Yuusuke
+# Copyright (C) 2003 TAKAHASHI Naoki
 # This translation is covered by the GNU General Public License Version 2.
 # SAWADA Katsuya <ama@petmail.net>, 2000, 2001, 2002
 # SUENAGA Yasuo <s_keishi@mutt.freemail.ne.jp>, 2001
 # MITA Yuusuke <clefs@lycos.jp>, 2002
+# TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>, 2003
 #
 # For Japanese users:
 # こんなことをわざわざ書くのは恥ずかしいんですが、はっきりいって私の訳は
@@ -18,12 +20,30 @@
 # なら喜んで Primary Contacter を譲ります。
 #
 # メールをお待ちしています。(澤田)
+#
+# 2003年11月から主に私が訳すことになりました。
+#
+# GTK2 でビルドすると変なところがあったのですが、なかなか日本語訳の
+# 更新が無かった事から、澤田氏に連絡してみたりしている内に、
+# まあ色々あって私が代わりに訳す事になった次第です。
+#
+# 大分更新しましたが、それでも変な所があると思います。
+# (というか沢山ありそうな気もしますが。)
+# お気付きになられた点がありましたら、気兼ね無く連絡してください。
+# 特に AI diplomacy 関連、各国の伝説(紹介文)関連は、
+# こういう訳の方が良いというのがありましたら、ぜひとも教えて下さい。
+# 変な文章が多いと思われますので。
+# ( ntaka とある所は私の訳もしくは私が大きく変更したところです。
+# ささいな変更程度では、ntaka とは書いていません。)
+#
+# by 高橋
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.3-devel\n"
 "POT-Creation-Date: 2003-10-20 12:57-0400\n"
-"PO-Revision-Date: 2002-12-23 14:05-0800\n"
-"Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
+"PO-Revision-Date: 2003-11-16 14:05+0900\n"
+"Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=EUC-JP\n"
@@ -6416,18 +6436,16 @@ msgid "End Turn when done moving"
 msgstr "移動を終えた時ターンを終了"
 
 #: client/options.c:109
-#, fuzzy
 msgid "Use Alt/Meta for accelerators (GTK+ only)"
 msgstr "Alt/Meta でアクセラレータ(GTKのみ)"
 
 #: client/options.c:110
-#, fuzzy
 msgid "Show Map Scrollbars (GTK+ only)"
 msgstr "地図のスクロールバーを表示(GTKのみ)"
 
 #: client/options.c:111
 msgid "Keep dialogs on top (GTK+ 2.0 only)"
-msgstr ""
+msgstr "ダイアログをトップレベルに保つ(GTK2のみ)"
 
 #: client/options.c:178
 msgid "City: Building Unavailable Item"
@@ -7047,7 +7065,6 @@ msgid "Pollution:"
 msgstr "公害:"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-#, fuzzy
 msgid "_Overview"
 msgstr "概観(_O)"
 
@@ -7066,7 +7083,7 @@ msgstr "都市地図"
 
 #: client/gui-gtk-2.0/citydlg.c:648
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr ""
+msgstr "建造物を売り払うには、ENTERキーを押すかダブルクリックしてください"
 
 #: client/gui-gtk-2.0/citydlg.c:663 client/gui-gtk-2.0/citydlg.c:753
 #: client/gui-mui/citydlg.c:1646
@@ -7080,14 +7097,12 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d ターン"
 
 #: client/gui-gtk-2.0/citydlg.c:675 client/gui-gtk-2.0/dialogs.c:700
-#, fuzzy
 msgid "_Improvements:"
-msgstr "建造物"
+msgstr "建造物(_I):"
 
 #: client/gui-gtk-2.0/citydlg.c:741
-#, fuzzy
 msgid "Pro_duction"
-msgstr "生産物"
+msgstr "生産物(_D)"
 
 #: client/gui-gtk-2.0/citydlg.c:770 client/gui-gtk-2.0/cityrep.c:679
 #: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
@@ -7100,18 +7115,16 @@ msgid "_Happiness"
 msgstr "幸福(_H)"
 
 #: client/gui-gtk-2.0/citydlg.c:843
-#, fuzzy
 msgid "C_MA"
-msgstr "CMA"
+msgstr "CMA(_M)"
 
 #: client/gui-gtk-2.0/citydlg.c:863 client/gui-gtk/citydlg.c:1210
 msgid "_Trade Routes"
 msgstr "交易路(_T)"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-#, fuzzy
 msgid "_Settings"
-msgstr "設定を保存(_S)"
+msgstr "設定(_S)"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
 msgid "Entertainers"
@@ -7155,14 +7168,12 @@ msgid "Disband if build settler at size 1"
 msgstr "大きさ1の時に開拓者を作ったら解散"
 
 #: client/gui-gtk-2.0/citydlg.c:906
-#, fuzzy
 msgid "Overview page"
 msgstr "概観ページ"
 
 #: client/gui-gtk-2.0/citydlg.c:907
-#, fuzzy
 msgid "Production page"
-msgstr "生産物"
+msgstr "生産物ページ"
 
 #: client/gui-gtk-2.0/citydlg.c:908 client/gui-gtk/citydlg.c:1262
 #: client/gui-mui/citydlg.c:1460
@@ -7180,9 +7191,8 @@ msgid "Trade Routes page"
 msgstr "交易路ページ"
 
 #: client/gui-gtk-2.0/citydlg.c:911
-#, fuzzy
 msgid "This Settings page"
-msgstr "その他ページ(これ)"
+msgstr "今見ている設定ページ"
 
 #: client/gui-gtk-2.0/citydlg.c:912 client/gui-gtk/citydlg.c:1266
 #: client/gui-mui/citydlg.c:1464
@@ -7205,17 +7215,14 @@ msgid "Next time open"
 msgstr "次回表示"
 
 #: client/gui-gtk-2.0/citydlg.c:999
-#, fuzzy
 msgid "City"
-msgstr "都市地図"
+msgstr "都市"
 
 #: client/gui-gtk-2.0/citydlg.c:1006
-#, fuzzy
 msgid "_Rename..."
-msgstr "改名"
+msgstr "改名(_R)"
 
 #: client/gui-gtk-2.0/citydlg.c:1140
-#, fuzzy
 msgid "_List present units..."
 msgstr "都市にいる部隊をリスト(_L)"
 
@@ -7255,12 +7262,12 @@ msgid "blocked"
 msgstr "拡大不能"
 
 #: client/gui-gtk-2.0/citydlg.c:1683
-#, fuzzy, c-format
+#,  c-format
 msgid "Supported units %d"
 msgstr "援助されている部隊: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1777
-#, fuzzy, c-format
+#, c-format
 msgid "Present units %d"
 msgstr "都市にいる部隊: %d"
 
@@ -7282,7 +7289,7 @@ msgid "No trade routes exist."
 msgstr "交易路は存在しません。"
 
 #: client/gui-gtk-2.0/citydlg.c:1813
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade route %d"
 msgstr "交易路による合計交易: %d"
 
@@ -7435,12 +7442,10 @@ msgid "_Change"
 msgstr "変更(_C)"
 
 #: client/gui-gtk-2.0/cityrep.c:555
-#, fuzzy
 msgid "_Select"
-msgstr "選択"
+msgstr "選択(_S)"
 
 #: client/gui-gtk-2.0/cityrep.c:559
-#, fuzzy
 msgid "S_how"
 msgstr "表示(_H)..."
 
@@ -7687,19 +7692,16 @@ msgid "Freeciv Server Selection"
 msgstr "Freeciv サーバ選択"
 
 #: client/gui-gtk-2.0/connectdlg.c:196
-#, fuzzy
 msgid "_Name:"
-msgstr "名前(_N)"
+msgstr "名前(_N):"
 
 #: client/gui-gtk-2.0/connectdlg.c:211
-#, fuzzy
 msgid "_Host:"
-msgstr "ホスト(_H)"
+msgstr "ホスト(_H):"
 
 #: client/gui-gtk-2.0/connectdlg.c:228
-#, fuzzy
 msgid "_Port:"
-msgstr "ポート(_P)"
+msgstr "ポート(_P):"
 
 #: client/gui-gtk-2.0/connectdlg.c:248 client/gui-gtk/connectdlg.c:205
 #: client/gui-mui/connectdlg.c:177 client/gui-win32/connectdlg.c:363
@@ -7847,9 +7849,8 @@ msgid "Select Advance to Steal"
 msgstr "盗む科学の選択"
 
 #: client/gui-gtk-2.0/dialogs.c:541
-#, fuzzy
 msgid "_Advances:"
-msgstr "科学"
+msgstr "科学(_A):"
 
 #: client/gui-gtk-2.0/dialogs.c:584 client/gui-gtk-2.0/dialogs.c:729
 #: client/gui-gtk/dialogs.c:737 client/gui-gtk/dialogs.c:831
@@ -8103,12 +8104,10 @@ msgid "Unit selection"
 msgstr "部隊の選択"
 
 #: client/gui-gtk-2.0/dialogs.c:1729
-#, fuzzy
 msgid "_Ready all"
-msgstr "全準備"
+msgstr "全準備(_R)"
 
 #: client/gui-gtk-2.0/dialogs.c:1737
-#, fuzzy
 msgid "_Sentry idle"
 msgstr "手空き部隊を見張り番へ(_S)"
 
@@ -8124,14 +8123,12 @@ msgid "_Disconnect"
 msgstr "切断(_D)"
 
 #: client/gui-gtk-2.0/dialogs.c:1800
-#, fuzzy
 msgid "Select a nation"
-msgstr "行き先の選択"
+msgstr "民族の選択"
 
 #: client/gui-gtk-2.0/dialogs.c:1827
-#, fuzzy
 msgid "_Nations:"
-msgstr "民族:"
+msgstr "民族(_N):"
 
 #: client/gui-gtk-2.0/dialogs.c:1842 client/gui-gtk-2.0/plrdlg.c:159
 #: client/gui-gtk/plrdlg.c:123
@@ -8145,24 +8142,20 @@ msgid "Nation"
 msgstr "民族"
 
 #: client/gui-gtk-2.0/dialogs.c:1890
-#, fuzzy
 msgid "_Leader:"
-msgstr "指揮:"
+msgstr "指揮(_L):"
 
 #: client/gui-gtk-2.0/dialogs.c:1897
-#, fuzzy
 msgid "_Female"
-msgstr "女"
+msgstr "女(_F)"
 
 #: client/gui-gtk-2.0/dialogs.c:1902
-#, fuzzy
 msgid "_Male"
-msgstr "男"
+msgstr "男(_M)"
 
 #: client/gui-gtk-2.0/dialogs.c:1929
-#, fuzzy
 msgid "_City Styles:"
-msgstr "都市スタイル(_C)"
+msgstr "都市スタイル(_C):"
 
 #: client/gui-gtk-2.0/dialogs.c:2278 client/gui-gtk/dialogs.c:2287
 #: client/gui-xaw/dialogs.c:2344
@@ -8198,14 +8191,12 @@ msgid "Sea-map"
 msgstr "海洋地図"
 
 #: client/gui-gtk-2.0/diplodlg.c:214
-#, fuzzy
 msgid "_Maps"
-msgstr "地図"
+msgstr "地図(_M)"
 
 #: client/gui-gtk-2.0/diplodlg.c:242
-#, fuzzy
 msgid "_Advances"
-msgstr "科学"
+msgstr "科学(_A)"
 
 #: client/gui-gtk-2.0/diplodlg.c:292 client/gui-gtk-2.0/menu.c:706
 #: client/gui-gtk/menu.c:707 client/gui-win32/menu.c:354
@@ -8213,14 +8204,12 @@ msgid "_Cities"
 msgstr "都市(_C)"
 
 #: client/gui-gtk-2.0/diplodlg.c:301
-#, fuzzy
 msgid "_Give shared vision"
 msgstr "視界の共有を与える"
 
 #: client/gui-gtk-2.0/diplodlg.c:331
-#, fuzzy
 msgid "_Pacts"
-msgstr "条約"
+msgstr "条約(_P)"
 
 #: client/gui-gtk-2.0/diplodlg.c:429 client/gui-gtk/diplodlg.c:362
 #: client/gui-mui/diplodlg.c:470 client/gui-win32/diplodlg.c:596
@@ -8233,23 +8222,20 @@ msgid "_Cancel meeting"
 msgstr "会合中止(_C)"
 
 #: client/gui-gtk-2.0/diplodlg.c:445
-#, fuzzy
 msgid "Accept _treaty"
-msgstr "条約調印"
+msgstr "条約調印(_T)"
 
 #: client/gui-gtk-2.0/diplodlg.c:474
-#, fuzzy
 msgid "C_lauses:"
-msgstr "閉じる(_l)"
+msgstr "条項(_L)"
 
 #: client/gui-gtk-2.0/diplodlg.c:521 client/gui-gtk-2.0/diplodlg.c:577
-#, fuzzy
 msgid "_Gold:"
-msgstr "金:"
+msgstr "金(_G):"
 
 #: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
 msgid "_Add Clause..."
-msgstr ""
+msgstr "条項に加える(_A)"
 
 # Game
 #: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
@@ -8265,9 +8251,8 @@ msgid "Find City"
 msgstr "都市をさがす"
 
 #: client/gui-gtk-2.0/finddlg.c:118 client/gui-gtk-2.0/gotodlg.c:180
-#, fuzzy
 msgid "Ci_ties:"
-msgstr "都市"
+msgstr "都市(_T):"
 
 #: client/gui-gtk-2.0/gamedlgs.c:232 client/gui-gtk/gamedlgs.c:238
 #: client/gui-win32/ratesdlg.c:301
@@ -8312,9 +8297,8 @@ msgid "Select destination"
 msgstr "行き先の選択"
 
 #: client/gui-gtk-2.0/gotodlg.c:188
-#, fuzzy
 msgid "Show _All Cities"
-msgstr "全ての都市"
+msgstr "全ての都市(_A)"
 
 #: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
@@ -9551,9 +9535,8 @@ msgid "Name"
 msgstr "名前"
 
 #: client/gui-gtk-2.0/plrdlg.c:161 client/gui-gtk/plrdlg.c:123
-#, fuzzy
 msgid "Team"
-msgstr "寺院"
+msgstr "チーム"
 
 #: client/gui-gtk-2.0/plrdlg.c:163 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:355
@@ -9585,7 +9568,6 @@ msgid "Idle Turns"
 msgstr "アイドルターン"
 
 #: client/gui-gtk-2.0/plrdlg.c:270
-#, fuzzy
 msgid "_Player"
 msgstr "プレイヤー(_P)"
 
@@ -9782,9 +9764,8 @@ msgid "Edit worklists"
 msgstr "作業リストの編集"
 
 #: client/gui-gtk-2.0/wldlg.c:257
-#, fuzzy
 msgid "_Worklists:"
-msgstr "作業リスト(_W)"
+msgstr "作業リスト(_W):"
 
 #: client/gui-gtk-2.0/wldlg.c:822 client/gui-gtk/citydlg.c:2954
 #: client/gui-gtk/wldlg.c:309 client/gui-gtk/wldlg.c:315
@@ -9805,24 +9786,20 @@ msgid "Source _Tasks:"
 msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:902
-#, fuzzy
 msgid "Show _Future Targets"
-msgstr "全表示"
+msgstr "全表示(_F)"
 
 #: client/gui-gtk-2.0/wldlg.c:956
-#, fuzzy
 msgid "Target _Worklist:"
-msgstr "作業リスト(_W)"
+msgstr "作業リスト(_W):"
 
 #: client/gui-gtk-2.0/wldlg.c:974
-#, fuzzy
 msgid "_Add Global Worklist"
-msgstr "利用できる作業リスト"
+msgstr "利用できる作業リスト(_A)"
 
 #: client/gui-gtk-2.0/wldlg.c:988
-#, fuzzy
 msgid "Chan_ge Production"
-msgstr "生産物の変更"
+msgstr "生産物の変更(_G)"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -15518,7 +15495,6 @@ msgstr "同志"
 
 # yasu
 #: data/default/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15552,7 +15528,7 @@ msgstr ""
 "はなく国に寄与します。共産主義は政府の軍国主義と商業主義のバランスをもたらし"
 "ます。\n"
 "\n"
-"共産主義では汚職は、都市からの距離によっては変わりません。全ての都市(首都も含"
+"共産主義では汚職は、首都からの距離によっては変わりません。全ての都市(首都も含"
 "む)で中等度の汚職があります。さらに、革命を起こすコストを計算する場合、首都よ"
 "り11マス以上遠い都市でも10マスしか離れていないとみなされます。部隊、外交参"
 "照。\n"
