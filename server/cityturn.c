@@ -1436,8 +1436,6 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	  }
 
 	}
-	pcity->size--;
-	city_auto_remove_worker(pcity);
       }
       
       pcity->turn_last_built = game.year;
@@ -1446,6 +1444,13 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
       create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
 		  do_make_unit_veteran(pcity, pcity->currently_building), 
 		  pcity->id, -1);
+      /* After we created the unit, so that removing the worker will take
+	 into account the extra resources (food) needed. */
+      if (unit_flag(pcity->currently_building, F_CITIES)) {
+	pcity->size--;
+	city_auto_remove_worker(pcity);
+      }
+
       /* to eliminate micromanagement, we only subtract the unit's cost */
       pcity->before_change_shields-=unit_value(pcity->currently_building); 
       pcity->shield_stock-=unit_value(pcity->currently_building);
