@@ -412,7 +412,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   
   - Can't bribe a unit if:
     - Owner runs an unbribable government (e.g., democracy).
-    - Player doesn't have enough money.
+    - Player doesn't have enough gold.
     - It's not the only unit on the square
       (this is handled outside this function).
     - You are allied with the unit owner.
@@ -451,14 +451,14 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
-  /* If player doesn't have enough money, can't bribe. */
+  /* If player doesn't have enough gold, can't bribe. */
   if (pplayer->economic.gold < pvictim->bribe_cost) {
     notify_player_ex (pplayer, pdiplomat->x, pdiplomat->y, E_MY_DIPLOMAT,
-		      _("Game: You don't have enough money to"
+		      _("Game: You don't have enough gold to"
 			" bribe %s's %s."),
 		      get_player (pvictim->owner)->name,
 		      unit_name (pvictim->type));
-    freelog (LOG_DEBUG, "bribe-unit: not enough money");
+    freelog (LOG_DEBUG, "bribe-unit: not enough gold");
     return;
   }
 
@@ -695,7 +695,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		      pplayer->name, unit_name (pdiplomat->type),
 		      advances[target].name, pcity->name);
     notify_embassies (pplayer, cplayer,
-		      _("Game: The %s have stolen %s from the %s"),
+		      _("Game: The %s have stolen %s from the %s."),
 		      get_nation_name_plural (pplayer->nation),
 		      advances[target].name,
 		      get_nation_name_plural (cplayer->nation));
@@ -724,7 +724,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   - Can't incite a city to disaffect if:
     - Owner runs an unbribable government (e.g., democracy).
-    - Player doesn't have enough money.
+    - Player doesn't have enough gold.
     - You are allied with the city owner.
   - Check for infiltration success.  Our provocateur may not survive this.
   - Check for basic success.  Again, our provocateur may not survive this.
@@ -779,13 +779,13 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   /* Special deal for former owners! */
   if (pplayer->player_no == pcity->original) revolt_cost /= 2;
 
-  /* If player doesn't have enough money, can't incite a revolt. */
+  /* If player doesn't have enough gold, can't incite a revolt. */
   if (pplayer->economic.gold < revolt_cost) {
     notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		      _("Game: You don't have enough money to"
+		      _("Game: You don't have enough gold to"
 			" subvert %s."),
 		      pcity->name);
-    freelog (LOG_DEBUG, "incite: not enough money");
+    freelog (LOG_DEBUG, "incite: not enough gold");
     return;
   }
 
@@ -2861,7 +2861,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
                      ransom);
     destroyer->economic.gold += ransom;
     pplayer->economic.gold -= ransom;
-    send_player_info(destroyer,0);   /* let me see my new money :-) */
+    send_player_info(destroyer,0);   /* let me see my new gold :-) */
     unitcount = 1;
   }
 
