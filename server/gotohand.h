@@ -31,7 +31,7 @@ enum goto_result {
 bool is_dist_finite(int dist);
 enum goto_result do_unit_goto(struct unit *punit,
 			      enum goto_move_restriction restriction,
-			      bool trigger_special_ability, int gx, int gy);
+			      bool trigger_special_ability);
 void generate_warmap(struct city *pcity, struct unit *punit);
 void really_generate_warmap(struct city *pcity, struct unit *punit,
 			    enum unit_move_type move_type);

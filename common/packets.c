@@ -1268,6 +1268,8 @@ int send_packet_unit_info(struct connection *pc,
   dio_put_uint8(&dout, req->unhappiness);
   dio_put_uint8(&dout, req->activity);
   dio_put_uint8(&dout, req->activity_count);
+  dio_put_uint8(&dout, req->goto_dest_x);
+  dio_put_uint8(&dout, req->goto_dest_y);
   dio_put_uint16(&dout, req->activity_target);
   dio_put_uint8(&dout, req->packet_use);
   dio_put_uint16(&dout, req->info_city_id);
@@ -1544,6 +1546,8 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc)
   dio_get_uint8(&din, &packet->unhappiness);
   dio_get_uint8(&din, &packet->activity);
   dio_get_uint8(&din, &packet->activity_count);
+  dio_get_uint8(&din, &packet->goto_dest_x);
+  dio_get_uint8(&din, &packet->goto_dest_y);
   dio_get_uint16(&din, (int *) &packet->activity_target);
   dio_get_uint8(&din, &packet->packet_use);
   dio_get_uint16(&din, &packet->info_city_id);

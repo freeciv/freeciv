@@ -520,8 +520,10 @@ void player_restore_units(struct player *pplayer)
 	      (air_can_move_between
 	       (punit->moves_left / 3, punit->x, punit->y, x_itr, y_itr,
 		unit_owner(punit)) >= 0)) {
+	    punit->goto_dest_x = x_itr;
+	    punit->goto_dest_y = y_itr;
 	    set_unit_activity(punit, ACTIVITY_GOTO);
-	    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE, x_itr, y_itr);
+	    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
 	    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
 			     _("Game: Your %s has returned to refuel."),
 			     unit_name(punit->type));
@@ -719,11 +721,10 @@ static void update_unit_activity(struct unit *punit)
 
   unit_restore_movepoints(pplayer, punit);
 
-  if (punit->connecting && !can_unit_do_activity(punit, activity)
-      && punit->go) {
+  if (punit->connecting && !can_unit_do_activity(punit, activity)) {
     punit->activity_count = 0;
-    if (do_unit_goto(punit, get_activity_move_restriction(activity), 
-                     FALSE, punit->go->x, punit->go->y) == GR_DIED) {
+    if (do_unit_goto(punit, get_activity_move_restriction(activity), FALSE)
+	== GR_DIED) {
       return;
     }
   }
@@ -906,12 +907,11 @@ static void update_unit_activity(struct unit *punit)
     unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2) {
       if (punit2->activity == activity) {
 	bool alive = TRUE;
-	if (punit2->connecting && punit->go) {
+	if (punit2->connecting) {
 	  punit2->activity_count = 0;
 	  alive = (do_unit_goto(punit2,
 				get_activity_move_restriction(activity),
-				FALSE, punit->go->x, punit->go->y)
-                  != GR_DIED);
+				FALSE) != GR_DIED);
 	} else {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	}
@@ -929,13 +929,11 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity==ACTIVITY_GOTO) {
-    assert(punit->go != NULL);
-    if (punit->go && !punit->ai.control && (!is_military_unit(punit)
-        || punit->ai.passenger != 0 || !pplayer->ai.control)) {
+    if (!punit->ai.control && (!is_military_unit(punit) ||
+       punit->ai.passenger != 0 || !pplayer->ai.control)) {
 /* autosettlers otherwise waste time; idling them breaks assignment */
 /* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
-      (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE, punit->go->x, 
-                          punit->go->y);
+      (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
     }
     return;
   }
@@ -1571,7 +1569,8 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   punit->x = x;
   punit->y = y;
 
-  punit->go = NULL;
+  punit->goto_dest_x=0;
+  punit->goto_dest_y=0;
   
   pcity=find_city_by_id(homecity_id);
   punit->veteran=make_veteran;
@@ -1925,6 +1924,8 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->upkeep_gold = punit->upkeep_gold;
   packet->ai = punit->ai.control;
   packet->fuel = punit->fuel;
+  packet->goto_dest_x = punit->goto_dest_x;
+  packet->goto_dest_y = punit->goto_dest_y;
   packet->activity_target = punit->activity_target;
   packet->paradropped = punit->paradropped;
   packet->connecting = punit->connecting;
@@ -2909,9 +2910,9 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
     }
   }
   /* A transporter should not take units with it when on an attack goto -- fisch */
-  if ((punit->activity == ACTIVITY_GOTO || punit->go)
-      && get_defender(punit, punit->go->x, punit->go->y)
-      && !is_ocean(psrctile->terrain)) {
+  if ((punit->activity == ACTIVITY_GOTO) &&
+      get_defender(punit, punit->goto_dest_x, punit->goto_dest_y) &&
+      !is_ocean(psrctile->terrain)) {
     transport_units = FALSE;
   }
 
@@ -2986,8 +2987,8 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
       && is_ocean(pdesttile->terrain)
       && !(pplayer->ai.control)
       && !(punit->activity == ACTIVITY_GOTO      /* if unit is GOTOing and the ship */ 
-	   && (dest_x != punit->go->x      /* isn't the final destination */
-	       || dest_y != punit->go->y)) /* then don't go to sleep */
+	   && (dest_x != punit->goto_dest_x      /* isn't the final destination */
+	       || dest_y != punit->goto_dest_y)) /* then don't go to sleep */
       ) {
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }

@@ -87,7 +87,8 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   CHECK_MAP_POS(pcity->x, pcity->y);
   punit->x = pcity->x;
   punit->y = pcity->y;
-  punit->go = NULL;
+  punit->goto_dest_x = 0;
+  punit->goto_dest_y = 0;
   punit->veteran = make_veteran;
   punit->homecity = pcity->id;
   punit->upkeep = 0;
@@ -138,15 +139,13 @@ void destroy_unit_virtual(struct unit *punit)
 
 /**************************************************************************
   This will eventually become the ferry-enabled goto. For now, it just
-  wraps ai_unit_goto().
-
-  You must set a valid punit->go first.
+  wraps ai_unit_goto()
 **************************************************************************/
 bool ai_unit_gothere(struct unit *punit)
 {
   CHECK_UNIT(punit);
-  punit->go->counter++;
-  if (ai_unit_goto(punit, punit->go->x, punit->go->y)) {
+  assert(punit->goto_dest_x != -1 && punit->goto_dest_y != -1);
+  if (ai_unit_goto(punit, punit->goto_dest_x, punit->goto_dest_y)) {
     return TRUE; /* ... and survived */
   } else {
     return FALSE; /* we died */
@@ -157,19 +156,24 @@ bool ai_unit_gothere(struct unit *punit)
   Go to specified destination but do not disturb existing role or activity
   and do not clear the role's destination. Return FALSE iff we died.
 
-  FIXME: add some logging functionality
+  FIXME: add some logging functionality to replace GOTO_LOG()
 **************************************************************************/
 bool ai_unit_goto(struct unit *punit, int x, int y)
 {
   enum goto_result result;
+  int oldx = punit->goto_dest_x, oldy = punit->goto_dest_y;
   enum unit_activity activity = punit->activity;
 
   CHECK_UNIT(punit);
   /* TODO: log error on same_pos with punit->x|y */
+  punit->goto_dest_x = x;
+  punit->goto_dest_y = y;
   handle_unit_activity_request(punit, ACTIVITY_GOTO);
-  result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE, x, y);
+  result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
   if (result != GR_DIED) {
     handle_unit_activity_request(punit, activity);
+    punit->goto_dest_x = oldx;
+    punit->goto_dest_y = oldy;
     return TRUE;
   }
   return FALSE;
@@ -179,17 +183,11 @@ bool ai_unit_goto(struct unit *punit, int x, int y)
   Ensure unit sanity by telling charge that we won't bodyguard it anymore,
   tell bodyguard it can roam free if our job is done, add and remove city 
   spot reservation, and set destination.
-
-  For AIUNIT_NONE, AIUNIT_EXPLORE and AINUNIT_AUTO_EXPLORE, set x and y 
-  to (-1, -1). This is just a convention, the numbers mean nothing. For 
-  all other roles, give valid (x, y) coordinates.
 **************************************************************************/
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 {
   struct unit *charge = find_unit_by_id(punit->ai.charge);
   struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
-
-  assert(task != AIUNIT_PILLAGE);
 
   if (punit->activity == ACTIVITY_GOTO) {
     /* It would indicate we're going somewhere otherwise */
@@ -197,9 +195,8 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   }
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-    assert(punit->go != NULL);
-    assert(is_normal_map_pos(punit->go->x, punit->go->y));
-    remove_city_from_minimap(punit->go->x, punit->go->y);
+    assert(is_normal_map_pos(punit->goto_dest_x, punit->goto_dest_y));
+    remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
   }
 
   if (charge && (charge->ai.bodyguard == punit->id)) {
@@ -209,32 +206,9 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   punit->ai.charge = BODYGUARD_NONE;
 
   punit->ai.ai_role = task;
-
-  switch (task) {
-    case AIUNIT_NONE:
-    case AIUNIT_EXPLORE:
-    case AIUNIT_AUTO_SETTLER:
-      /* No valid coordinates expected */
-      assert(x == -1 && y == -1);
-      punit->go = NULL;
-      break;
-    case AIUNIT_DEFEND_HOME:
-    case AIUNIT_BUILD_CITY:
-    case AIUNIT_ATTACK:
-    case AIUNIT_ESCORT:
-    case AIUNIT_RECOVER:
-    case AIUNIT_TRANSPORT:
-      assert(is_normal_map_pos(x, y));
-      punit->go = &punit->goto_struct;
-      punit->go->x = x;
-      punit->go->y = y;
-      punit->go->origin_x = punit->x;
-      punit->go->origin_y = punit->y;
-      break;
-    default:
-      assert(FALSE);
-      break;
-  }
+/* TODO:
+  punit->goto_dest_x = x;
+  punit->goto_dest_y = y; */
 
   if (punit->ai.ai_role == AIUNIT_NONE && bodyguard) {
     ai_unit_new_role(bodyguard, AIUNIT_NONE, -1, -1);

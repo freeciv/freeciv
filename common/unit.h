@@ -47,18 +47,10 @@ enum diplomat_client_actions {
   DIPLOMAT_CLIENT_POPUP_DIALOG
 };
 
-enum ai_unit_task {
-  AIUNIT_NONE,          /* default */
-  AIUNIT_AUTO_SETTLER,  /* make terrain improvements */
-  AIUNIT_BUILD_CITY,    /* build a city */
-  AIUNIT_DEFEND_HOME,   /* go to a city to _defend_ it */
-  AIUNIT_ATTACK,        /* attack designated target */
-  AIUNIT_ESCORT,        /* protect unit or city */
-  AIUNIT_EXPLORE,       /* explore */
-  AIUNIT_PILLAGE,       /* pseudo-role indicating pillage */
-  AIUNIT_RECOVER,       /* go to a place to recover or rest */
-  AIUNIT_TRANSPORT	/* transport other units */
-};
+enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
+                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
+                    AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE,
+                    AIUNIT_PILLAGE, AIUNIT_RECOVER };
 
 enum goto_move_restriction {
   GOTO_MOVE_ANY,
@@ -111,12 +103,6 @@ struct unit_ai {
   int charge; /* the unit this unit is bodyguarding */
 };
 
-struct unit_goto {
-  int x, y;               /* where are we going? */
-  int origin_x, origin_y; /* from where did we start? */
-  int counter;            /* how long has this taken? */
-};
-
 struct unit {
   Unit_Type_id type;
   int id;
@@ -135,8 +121,7 @@ struct unit {
   int bribe_cost;
   struct unit_ai ai;
   enum unit_activity activity;
-  struct unit_goto goto_struct; /* never refer to this directly */
-  struct unit_goto *go;
+  int goto_dest_x, goto_dest_y;
   int activity_count;
   enum tile_special_type activity_target;
   enum unit_focus_status focus_status;
@@ -147,7 +132,7 @@ struct unit {
   bool paradropped;
   bool connecting;
   int transported_by;
-  struct goto_route *pgr; /* client-side goto */
+  struct goto_route *pgr;
 };
 
 

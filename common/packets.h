@@ -310,6 +310,7 @@ struct packet_unit_info {
   int upkeep_gold;
   bool ai;
   int fuel;
+  int goto_dest_x, goto_dest_y;
   enum tile_special_type activity_target;
   bool paradropped;
   bool connecting;
