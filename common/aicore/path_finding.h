@@ -395,4 +395,7 @@ void pf_destroy_map(struct pf_map *pf_map);
 /* Returns the last position of the given path. */
 struct pf_position *pf_last_position(struct pf_path *path);
 
+/* Return the current parameters for the given map. */
+struct pf_parameter *pf_get_parameter(struct pf_map *map);
+
 #endif

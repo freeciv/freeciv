@@ -1117,3 +1117,11 @@ static struct pf_path *danger_get_path(struct pf_map *pf_map, int x, int y)
 
   return NULL;
 }
+
+/************************************************************************
+  Return current pf_parameter for given pf_map.
+************************************************************************/
+struct pf_parameter *pf_get_parameter(struct pf_map *map)
+{
+  return map->params;
+}
