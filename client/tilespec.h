@@ -49,12 +49,6 @@ struct tile_corner {
 };
 
 struct drawn_sprite {
-  enum {
-    /* Only applicable in iso-view.  "Full" sprites overlap into the top
-     * half-tile of UNIT_TILE_HEIGHT. */
-    DRAW_NORMAL,
-    DRAW_FULL
-  } style;
   bool foggable;	/* Set to FALSE for sprites that are never fogged. */
   struct Sprite *sprite;
   int offset_x, offset_y;	/* offset from tile origin */

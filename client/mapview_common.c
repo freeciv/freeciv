@@ -866,23 +866,14 @@ static void put_drawn_sprites(struct canvas *pcanvas,
   int i;
 
   for (i = 0; i < count; i++) {
-    int ox, oy, dx, dy;
-
     if (!pdrawn[i].sprite) {
       /* This can happen, although it should probably be avoided. */
       continue;
     }
-    ox = pdrawn[i].offset_x;
-    oy = pdrawn[i].offset_y;
-    if (pdrawn[i].style == DRAW_FULL) {
-      dx = UNIT_TILE_WIDTH - NORMAL_TILE_WIDTH;
-      dy = UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT;
-    } else {
-      dx = dy = 0;
-    }
     if (fog && pdrawn[i].foggable) {
       canvas_put_sprite_fogged(pcanvas,
-			       canvas_x + ox - dx, canvas_y + oy - dy,
+			       canvas_x + pdrawn[i].offset_x,
+			       canvas_y + pdrawn[i].offset_y,
 			       pdrawn[i].sprite,
 			       TRUE,
 			       canvas_x, canvas_y);
@@ -891,7 +882,8 @@ static void put_drawn_sprites(struct canvas *pcanvas,
        * should be a valid thing to do, because gui-gtk-2.0 doesn't have
        * a full implementation. */
       canvas_put_sprite_full(pcanvas,
-			     canvas_x + ox - dx, canvas_y + oy - dy,
+			     canvas_x + pdrawn[i].offset_x,
+			     canvas_y + pdrawn[i].offset_y,
 			     pdrawn[i].sprite);
     }
   }

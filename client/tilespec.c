@@ -2230,16 +2230,19 @@ static struct Sprite *get_city_occupied_sprite(const struct city *pcity)
   return sprites.city.tile[style][city_styles[style].tiles_num+1];
 }
 
-#define ADD_SPRITE(s, draw_style, draw_fog, x_offset, y_offset)		    \
+#define FULL_TILE_X_OFFSET ((NORMAL_TILE_WIDTH - UNIT_TILE_WIDTH) / 2)
+#define FULL_TILE_Y_OFFSET (NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT)
+
+#define ADD_SPRITE(s, draw_fog, x_offset, y_offset)			    \
   (assert(s != NULL),							    \
-   sprs->style = draw_style,						    \
    sprs->sprite = s,							    \
    sprs->foggable = (draw_fog && t->fogstyle == FOG_AUTO),		    \
    sprs->offset_x = x_offset,						    \
    sprs->offset_y = y_offset,						    \
    sprs++)
-#define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, DRAW_NORMAL, TRUE, 0, 0)
-#define ADD_SPRITE_FULL(s) ADD_SPRITE(s, DRAW_FULL, TRUE, 0, 0)
+#define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, TRUE, 0, 0)
+#define ADD_SPRITE_FULL(s)						    \
+  ADD_SPRITE(s, TRUE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET)
 
 /**************************************************************************
   Assemble some data that is used in building the tile sprite arrays.
@@ -2290,15 +2293,17 @@ static int fill_unit_sprite_array(struct tileset *t,
 
   if (backdrop) {
     if (!solid_color_behind_units) {
-      ADD_SPRITE(get_unit_nation_flag_sprite(punit),
-		 DRAW_FULL, TRUE, t->flag_offset_x, t->flag_offset_y);
+      ADD_SPRITE(get_unit_nation_flag_sprite(punit), TRUE,
+		 FULL_TILE_X_OFFSET + t->flag_offset_x,
+		 FULL_TILE_Y_OFFSET + t->flag_offset_y);
     } else {
       /* Taken care of in the LAYER_BACKGROUND. */
     }
   }
 
-  ADD_SPRITE(unit_type(punit)->sprite, DRAW_FULL, TRUE,
-	     t->unit_offset_x, t->unit_offset_y);
+  ADD_SPRITE(unit_type(punit)->sprite, TRUE,
+	     FULL_TILE_X_OFFSET + t->unit_offset_x,
+	     FULL_TILE_Y_OFFSET + t->unit_offset_y);
 
   if (sprites.unit.loaded && punit->transported_by != -1) {
     ADD_SPRITE_FULL(sprites.unit.loaded);
@@ -2762,7 +2767,7 @@ static int fill_blending_sprite_array(struct tileset *t,
 	continue;
       }
 
-      ADD_SPRITE(sprites.terrain[other]->blend[dir], DRAW_NORMAL, TRUE,
+      ADD_SPRITE(sprites.terrain[other]->blend[dir], TRUE,
 		 offsets[dir][0], offsets[dir][1]);
     }
   }
@@ -2860,6 +2865,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
 
   if (draw->layer[l].match_style == MATCH_NONE) {
     int count = sprite_vector_size(&draw->layer[l].base);
+    int ox = draw->layer[l].offset_x, oy = draw->layer[l].offset_y;
 
     /* Pseudo-random reproducable algorithm to pick a sprite. */
 #define LARGE_PRIME 10007
@@ -2868,9 +2874,11 @@ static int fill_terrain_sprite_array(struct tileset *t,
     assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
     count = ((ptile->index
 	      * LARGE_PRIME) % SMALL_PRIME) % count;
-    ADD_SPRITE(draw->layer[l].base.p[count],
-	       draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
-	       TRUE, draw->layer[l].offset_x, draw->layer[l].offset_y);
+    if (draw->layer[l].is_tall) {
+      ox += FULL_TILE_X_OFFSET;
+      oy += FULL_TILE_Y_OFFSET;
+    }
+    ADD_SPRITE(draw->layer[l].base.p[count], TRUE, ox, oy);
   } else {
     int match_type = draw->layer[l].match_type;
 
@@ -2879,6 +2887,8 @@ static int fill_terrain_sprite_array(struct tileset *t,
      ? sprites.terrain[ttype_near[(dir)]]->layer[l].match_type : -1)
 
     if (draw->layer[l].cell_type == CELL_SINGLE) {
+      int ox = draw->layer[l].offset_x, oy = draw->layer[l].offset_y;
+
       tileno = 0;
       assert(draw->layer[l].match_style == MATCH_BOOLEAN);
       for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
@@ -2889,9 +2899,11 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	}
       }
 
-      ADD_SPRITE(draw->layer[l].match[tileno],
-		 draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
-		 TRUE, draw->layer[l].offset_x, draw->layer[l].offset_y);
+      if (draw->layer[l].is_tall) {
+	ox += FULL_TILE_X_OFFSET;
+	oy += FULL_TILE_Y_OFFSET;
+      }
+      ADD_SPRITE(draw->layer[l].match[tileno], TRUE, ox, oy);
     } else if (draw->layer[l].cell_type == CELL_RECT) {
       /* Divide the tile up into four rectangular cells.  Now each of these
        * cells covers one corner, and each is adjacent to 3 different
@@ -2943,7 +2955,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
 
 	s = draw->layer[l].cells[array_index];
 	if (s) {
-	  ADD_SPRITE(s, DRAW_NORMAL, TRUE, x, y);
+	  ADD_SPRITE(s, TRUE, x, y);
 	}
       }
     }
@@ -2971,7 +2983,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
 
 	if (UNKNOWN(DIR4_TO_DIR8[i])) {
-	  ADD_SPRITE(sprites.tx.darkness[i], DRAW_NORMAL, TRUE,
+	  ADD_SPRITE(sprites.tx.darkness[i], TRUE,
 		     offsets[i][0], offsets[i][1]);
 	}
       }
@@ -3346,8 +3358,9 @@ int fill_sprite_array(struct tileset *t,
     /* City.  Some city sprites are drawn later. */
     if (pcity && draw_cities) {
       if (!solid_color_behind_units) {
-	ADD_SPRITE(get_city_nation_flag_sprite(pcity),
-		   DRAW_FULL, TRUE, t->flag_offset_x, t->flag_offset_y);
+	ADD_SPRITE(get_city_nation_flag_sprite(pcity), TRUE,
+		   FULL_TILE_X_OFFSET + t->flag_offset_x,
+		   FULL_TILE_Y_OFFSET + t->flag_offset_y);
       }
       ADD_SPRITE_FULL(get_city_sprite(t, pcity));
       if (pcity->client.occupied) {
@@ -3386,11 +3399,11 @@ int fill_sprite_array(struct tileset *t,
     /* City size.  Drawing this under fog makes it hard to read. */
     if (pcity && draw_cities) {
       if (pcity->size >= 10) {
-	ADD_SPRITE(sprites.city.size_tens[pcity->size / 10], DRAW_FULL,
-		   FALSE, 0, 0);
+	ADD_SPRITE(sprites.city.size_tens[pcity->size / 10],
+		   FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
       }
-      ADD_SPRITE(sprites.city.size[pcity->size % 10], DRAW_FULL,
-		 FALSE, 0, 0);
+      ADD_SPRITE(sprites.city.size[pcity->size % 10],
+		 FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
     }
     break;
 
