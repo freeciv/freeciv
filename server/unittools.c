@@ -1823,6 +1823,10 @@ static void server_remove_unit(struct unit *punit)
     city_refresh(pcity);
     send_city_info(city_owner(pcity), pcity);
   }
+  if (pcity && unit_list_size(&map_get_tile(punit_x, punit_y)->units) == 0) {
+    /* The last unit in the city was killed: update the occupied flag. */
+    send_city_info(NULL, pcity);
+  }
 }
 
 /**************************************************************************
