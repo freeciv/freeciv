@@ -14,6 +14,10 @@
 #ifndef FC__CITYDLG_COMMON_H
 #define FC__CITYDLG_COMMON_H
 
+#include <stddef.h>		/* size_t */
+
+#include "shared.h"		/* bool type */
+
 struct city;
 
 void city_pos_to_canvas_pos(int city_x, int city_y, int *canvas_x, int *canvas_y);

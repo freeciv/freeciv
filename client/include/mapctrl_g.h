@@ -13,6 +13,8 @@
 #ifndef FC__MAPCTRL_G_H
 #define FC__MAPCTRL_G_H
 
+#include "shared.h"		/* bool type */
+
 struct unit;
 struct city;
 

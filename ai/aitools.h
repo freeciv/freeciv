@@ -13,6 +13,8 @@
 #ifndef FC__AITOOLS_H
 #define FC__AITOOLS_H
 
+#include "shared.h"		/* bool type */
+
 struct ai_choice;
 struct city;
 struct government;

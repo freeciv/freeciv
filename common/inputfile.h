@@ -19,6 +19,8 @@
 #ifndef FC__INPUTFILE_H
 #define FC__INPUTFILE_H
 
+#include "shared.h"		/* bool type */
+
 struct inputfile;		/* opaque */
 
 typedef char *(*datafilename_fn_t)(const char *filename);

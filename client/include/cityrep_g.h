@@ -13,6 +13,8 @@
 #ifndef FC__CITYREP_G_H
 #define FC__CITYREP_G_H
 
+#include "shared.h"		/* bool type */
+
 struct city;
 
 void popup_city_report_dialog(bool make_modal);

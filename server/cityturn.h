@@ -14,6 +14,8 @@
 #ifndef FC__CITYTURN_H
 #define FC__CITYTURN_H
 
+#include "shared.h"		/* bool type */
+
 struct city;
 struct player;
 struct unit;

@@ -13,6 +13,8 @@
 #ifndef FC__RAND_H
 #define FC__RAND_H
 
+#include "shared.h"		/* bool type */
+
 /* This is duplicated in shared.h to avoid extra includes: */
 #define MAX_UINT32 0xFFFFFFFF
 

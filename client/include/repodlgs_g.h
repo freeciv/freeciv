@@ -13,6 +13,8 @@
 #ifndef FC__REPODLGS_G_H
 #define FC__REPODLGS_G_H
 
+#include "shared.h"		/* bool type */
+
 void report_update_delay_on(void);
 void report_update_delay_off(void);
 char *get_report_title(char *report_name);

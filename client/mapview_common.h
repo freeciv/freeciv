@@ -14,8 +14,9 @@
 #ifndef FC__MAPVIEW_COMMON_H
 #define FC__MAPVIEW_COMMON_H
 
-#include "colors_g.h"
+#include "shared.h"		/* bool type */
 
+#include "colors_g.h"
 
 /*
 The bottom row of the map was sometimes hidden.

@@ -13,6 +13,8 @@
 #ifndef FC__REPORT_H
 #define FC__REPORT_H
 
+#include "shared.h"		/* bool type */
+
 struct connection;
 struct conn_list;
 

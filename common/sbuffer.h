@@ -13,6 +13,8 @@
 #ifndef FC__SBUFFER_H
 #define FC__SBUFFER_H
 
+#include <stddef.h>		/* size_t */
+
 struct sbuffer;			/* opaque type */
 
 /* get a new initialized sbuffer: (uses default buffer size) */

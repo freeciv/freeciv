@@ -19,6 +19,8 @@
 #ifndef FC__ASTRING_H
 #define FC__ASTRING_H
 
+#include <stddef.h>		/* size_t */
+
 struct astring {
   char *str;			/* the string */
   size_t n;			/* size most recently requested */

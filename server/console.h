@@ -14,6 +14,7 @@
 #define FC__CONSOLE_H
 
 #include "attribute.h"
+#include "shared.h"		/* bool type */
 
 #define MAX_LEN_CONSOLE_LINE 512
 				/* closing \0 included */

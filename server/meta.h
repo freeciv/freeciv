@@ -13,6 +13,8 @@
 #ifndef FC__META_H
 #define FC__META_H
 
+#include "shared.h"		/* bool type */
+
 /*
  * Definitions for UDP.
  */

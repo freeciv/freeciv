@@ -13,6 +13,8 @@
 #ifndef FC__RULESOUT_H
 #define FC__RULESOUT_H
 
+#include "shared.h"		/* bool type */
+
 bool rulesout_techs(const char *filename);
 
 #endif /* FC__RULESOUT_H */
