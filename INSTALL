@@ -457,4 +457,55 @@ Freeciv, there are a few work-arounds you can try:
 
       ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
 
+8. Readline Support:
+====================
+
+Freeciv has optional support for the readline library.
+
+Readline support is what makes the server command line behave sensibly,
+making it possible to
+ - Use the backspace key.
+ - Use the cursor to move back and forth on the line you have written.
+ - Use TAB completion of commands and command arguments. Ie, when you
+   push tab the server will finish the word for you if there is only one
+   possible choice.
+ - Use the up and down cursor to scroll through the history of previously
+   entered commands.
+ - etc.
+
+The configure script will check if you have the readline library correctly
+installed. If so it will automatically set up the makefiles so that readline
+is compiled into the server. If not then it will just silently configure
+without readline support.
+Any version of the readline library will work. (as far as we know.)
+You can force configure to include readline or die trying by giving
+configure the --with-readline option:
+
+ % ./configure --with-readline
+
+Some linux distributions (and possibly other operating systems) have
+readline version 4 incorrectly installed, in that readline is not
+set up to declare it's dynamic dependencies. In that case configure
+will act as if readline was not installed and compile without. In unix
+you can check if your readline library is correctly installed by doing
+this:
+
+ % ldd /usr/lib/libreadline.so
+
+And it should answer something like
+
+   libncurses.so.5 => /lib/libncurses.so.5 (0x4002e000)
+   libc.so.6 => /lib/libc.so.6 (0x4006e000)
+   /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x2aaaa000)
+
+(/usr/lib/libreadline.so is wherever your readline lib is installed.)
+If the dependency on curses (or equivalent) is mentioned it should
+work. If it isn't listed and the freeciv configure can't make readline
+work it is because readline is not correctly installed. It is then
+recommented to file a bug against wherever you got your readline lib
+from.
+[Does anyone know how to add the dependency to the library?]
+[We are not 100% sure that it is a bug if dynamic dependencies are not
+set up correctly. Can anybody conferm/deny?]
+
 ** END **
