@@ -75,7 +75,7 @@ contributions to the Freeciv project.
      Michael Stefaniuc <mstefani@redhat.de> (i18n)
      Davide Pagnin <nightmare@freeciv.it> 
 	(angry citizens, portability, fundamentalism)
-     Tuomas Airaksinen <tuomas.airaksinen@pp.inet.fi> 
+     Tuomas Airaksinen <tuomas.airaksinen@tuma.stc.cx> 
 	(new gtk city dialog)
      Lino Mastrodomenico <mastro@freeciv.it> (tradesize, bugfixes)
      Arien Malec <arien_malec@yahoo.com> 
@@ -120,13 +120,13 @@ contributions to the Freeciv project.
      Lauri Tarkkala <ltarkkal@hutcs.cs.hut.fi> (improved networking)
      Reinier Post <rp@win.tue.nl> (patches)
      Mike Kaufman <mkaufman@math.ukans.edu> (patch)
-     Tuomas Airaksinen <tuomas.airaksinen@pp.inet.fi> (patches)
+     Tuomas Airaksinen <tuomas.airaksinen@tuma.stc.cx> (patches)
      Kero van Gelder <kero@ipc3799cba.dial.wxs.nl>
 	(patches, goto improvement)
      Chris Chittleborough <cchittleborough@yahoo.com.au> (patch)
      Raimar Falke <rf13@inf.tu-dresden.de> (patch)
      Daniel M Church <dchurch@crossbreed.mbhs.edu> (layer view)
-     Joona Kiiski <zamar@freenet.hut.fi> (patches, production fixes)
+     Joona Kiiski <joona.kiiski@iki.fi> (patches, production fixes)
      Arien Malec <arien_malec@yahoo.com> (patches)
      Andreas Kemnade <akemnade@informatik.uni-bremen.de> (patches, win32 server)
      Lino Mastrodomenico <l.mastrodomenico@studenti.to.it> (patches)
@@ -215,7 +215,7 @@ contributions to the Freeciv project.
 	paratroopers, airbases 1.8.1)
      Dan Gohman <gohmandj@mrs.umn.edu> (cleanup 1.11.0)
      Andrew McGuinness <cogers@yahoo.com> (cleanup 1.11.0, get-tech 1.10.0)
-     Tuomas Airaksinen <tuma@linuxfan.com> (cleanup 1.11.0)
+     Tuomas Airaksinen <tuomas.airaksinen@tuma.stc.cx> (cleanup 1.11.0)
      Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
 	(diplomatic states, patch 1.11.0, explode animation 1.10.0, mini style
 	guide 1.9.0, patches 1.8.x, spacerace, 1.7.0, 1.6.0, autoconf support)
@@ -437,7 +437,7 @@ contributions to the Freeciv project.
      Joaquin Cuenca Abela <cuenca@ie2.u-psud.fr> (nations 1.11.0)
      Lalo Martins <lalo@hackandroll.org> (nations 1.11.0)
      Richard Garrel <rgarrel@bhnet.com.br> (nations 1.11.0)
-     Tuomas Airaksinen <tuma@linuxfan.com> (nations 1.11.0)
+     Tuomas Airaksinen <tuomas.airaksinen@tuma.stc.cx> (nations 1.11.0)
      Jan Heidefuss <jan_heidefuss@yahoo.de> (nations 1.11.0)
      Paul Zastoupil <paulz@dunedain.net> (nations 1.11.0, 1.10.0)
      riq <riq@ciudad.com.ar> (nations 1.11.0)
@@ -567,12 +567,12 @@ contributions to the Freeciv project.
      Martin Olveyra <molv@adinet.com.uy>
      Thomas Aglassinger <agi@rieska.oulu.fi>
      Marko Lindqvist <caz@cc.tut.fi>
-     Tuomas Airaksinen <tuomas.airaksinen@pp.inet.fi>
+     Tuomas Airaksinen <tuomas.airaksinen@tuma.stc.cx>
      Lino Mastrodomenico <l.mastrodomenico@studenti.to.it>
      Patrice LaFlamme <ewd@patrix.org>
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
      Michael Kruglos <mike14@internet.il>
-     Joona Kiiski <zamar@learnet.freenet.hut.fi>
+     Joona Kiiski <joona.kiiski@iki.fi>
      Heikki Kniivilä <heikkikk@bestlinuxmail.com>
      Gordon Tetlow <gordont@bluemtn.net>
      Rigel Freden <rigelf@angelfire.com>
@@ -737,14 +737,16 @@ contributions to the Freeciv project.
   Manual:
 
      David King <crkinger@usa.net> (Freeciv Client and Server Guides)
+     Bart Coppens <coppensbart@pi.be>
 
   Localization (l10n) since 1.12.0 release:
 
      Egbert Hinzen <egbert@hinzen-koeln.de> (de.po)
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
-     Miguel Lobo <miguell@madrid.com> (es.po)
+     Miguel Lobo <miguell@miguell.cjb.net> (es.po)
      Erik Sigra <sigra@home.se> (sv.po)
-     SAWADA Katsuya <amanatto@mail2.dddd.ne.jp> (ja.po)
+     SAWADA Katsuya <ama@petmail.net> (ja.po)
+     SUENAGA Yasuo <s_keishi@mutt.freemail.ne.jp>
      Gabor Takacs <tg330@hszk.bme.hu> (hu.po)
      Anthony Ferrand <Anthony.Ferrand@wanadoo.fr> (fr.po)
      Sini Ruohomaa <sini.ruohomaa@student.uib.no> (fi.po)
@@ -773,7 +775,7 @@ contributions to the Freeciv project.
      Franck Reinquin <freinquin@fairesuivre.fr> (fr.po)
      Nicolas Lannier <archeide@yahoo.com> (fr.po)
      Francisco Javier Felix <fflix@ctv.es> (es.po)
-     Miguel Lobo <miguell@madrid.com> (es.po)
+     Miguel Lobo <miguell@miguell.cjb.net> (es.po)
      David Perez Serrada <dperezs@nexo.es> (es.po)
      SLUG Freeciv Team <http://freeciv.siena.linux.it/> (HOWTOPLAY.it)
      Olivier Beyssac <ob@fasterix.freenix.org>
