@@ -257,10 +257,10 @@ int main(int argc, char *argv[])
   if(load_filename) {
     clock_t loadtime;
     struct section_file file;
-    flog(LOG_NORMAL,"Loading saved game: %s", load_filename);
+    freelog(LOG_NORMAL,"Loading saved game: %s", load_filename);
     loadtime = clock();
     if(!section_file_load(&file, load_filename)) { 
-      flog(LOG_FATAL, "Couldn't load savefile: %s", load_filename);
+      freelog(LOG_FATAL, "Couldn't load savefile: %s", load_filename);
       exit(1);
     }
     game.scenario=game_load(&file);
@@ -283,21 +283,21 @@ int main(int argc, char *argv[])
       while(is_id_allocated(global_id_counter++));
     }
     loadtime = clock() - loadtime;
-    flog(LOG_DEBUG,"Load time: %g seconds", (float)loadtime/CLOCKS_PER_SEC);
+    freelog(LOG_DEBUG,"Load time: %g seconds", (float)loadtime/CLOCKS_PER_SEC);
   }
   
   /* init network */  
   init_connections(); 
   server_open_socket();
   if(n==0) {
-    flog(LOG_NORMAL, "Sending info to metaserver[%s %d]", METASERVER_ADDR, METASERVER_PORT);
+    freelog(LOG_NORMAL, "Sending info to metaserver[%s %d]", METASERVER_ADDR, METASERVER_PORT);
     server_open_udp(); /* open socket for meta server */ 
   }
 
   send_server_info_to_metaserver(1);
   
   /* accept new players, wait for serverop to start..*/
-  flog(LOG_NORMAL, "Now accepting new client connections");
+  freelog(LOG_NORMAL, "Now accepting new client connections");
   server_state=PRE_GAME_STATE;
 
   if (script_filename)
@@ -707,7 +707,7 @@ int end_turn()
     */
     struct player *pplayer = shuffled[i];
     if (pplayer==NULL) pplayer = &game.players[i];
-    flog(LOG_DEBUG, "updating player activities for #%d (%s)",
+    freelog(LOG_DEBUG, "updating player activities for #%d (%s)",
 	 i, pplayer->name);
     update_player_activities(pplayer);
          /* ai unit activity has been moved UP -- Syela */
@@ -837,7 +837,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     }
 
   if(i==game.nplayers) {
-    flog(LOG_DEBUG, "got game packet from unaccepted connection");
+    freelog(LOG_DEBUG, "got game packet from unaccepted connection");
     free(packet);
     return;
   }
@@ -989,7 +989,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
 
   default:
-    flog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);
+    freelog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);
   }
 
   free(packet);
@@ -1079,7 +1079,7 @@ void handle_alloc_race(int player_no, struct packet_alloc_race *packet)
        return;
     }
 
-  flog(LOG_NORMAL, "%s is the %s ruler %s", game.players[player_no].name, 
+  freelog(LOG_NORMAL, "%s is the %s ruler %s", game.players[player_no].name, 
       get_race_name(packet->race_no), packet->name);
 
   /* inform player his choice was ok */
@@ -1136,12 +1136,12 @@ void accept_new_player(char *name, struct connection *pconn)
     strcpy(game.players[game.nplayers].addr, pconn->addr); 
     sprintf(packet.message, "Welcome %s.", name);
     send_packet_join_game_reply(pconn, &packet);
-    flog(LOG_NORMAL, "<%s@%s> has joined the game.", name, pconn->addr);
+    freelog(LOG_NORMAL, "<%s@%s> has joined the game.", name, pconn->addr);
     for(i=0; i<game.nplayers; ++i)
       notify_player(&game.players[i],
 	  	    "Game: Player <%s@%s> has connected.", name, pconn->addr);
   } else {
-     flog(LOG_NORMAL, "%s[ai-player] has joined the game.", name, pconn->addr);
+     freelog(LOG_NORMAL, "%s[ai-player] has joined the game.", name, pconn->addr);
      for(i=0; i<game.nplayers; ++i)
        notify_player(&game.players[i],
 		     "Game: Player %s[ai-player] has connected.", name, pconn->addr);
@@ -1203,9 +1203,9 @@ void handle_request_join_game(struct connection *pconn,
   struct player *pplayer;
   char msg[MSG_SIZE];
   
-  flog(LOG_NORMAL, "Connection request from %s with client version %d.%d.%d",
+  freelog(LOG_NORMAL, "Connection request from %s with client version %d.%d.%d",
        req->name, req->major_version, req->minor_version, req->patch_version);
-  flog(LOG_DEBUG, "Client caps: %s Server Caps: %s", req->capability,
+  freelog(LOG_DEBUG, "Client caps: %s Server Caps: %s", req->capability,
        our_capability);
   strcpy(pconn->capability, req->capability);
   
@@ -1216,7 +1216,7 @@ void handle_request_join_game(struct connection *pconn,
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
 	    req->major_version, req->minor_version, req->patch_version);
     reject_new_player(msg, pconn);
-    flog(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
+    freelog(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
     close_connection(pconn);
     return;
   }
@@ -1228,7 +1228,7 @@ void handle_request_join_game(struct connection *pconn,
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
 	    req->major_version, req->minor_version, req->patch_version);
     reject_new_player(msg, pconn);
-    flog(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
+    freelog(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
     close_connection(pconn);
     return;
   }
@@ -1245,7 +1245,7 @@ void handle_request_join_game(struct connection *pconn,
       packet.you_can_join=1;
       strcpy(packet.capability, our_capability);
       send_packet_join_game_reply(pconn, &packet);
-      flog(LOG_NORMAL, "%s has reconnected.", pplayer->name);
+      freelog(LOG_NORMAL, "%s has reconnected.", pplayer->name);
       if(server_state==RUN_GAME_STATE) {
 	send_all_info(pplayer);
         send_game_state(pplayer, CLIENT_GAME_RUNNING_STATE);
@@ -1258,7 +1258,7 @@ void handle_request_join_game(struct connection *pconn,
     if(server_state==PRE_GAME_STATE) {
       if(game.nplayers==game.max_players) {
 	reject_new_player("Sorry you can't join. The game is full.", pconn);
-	flog(LOG_NORMAL, "game full - %s was rejected.", req->name);    
+	freelog(LOG_NORMAL, "game full - %s was rejected.", req->name);    
 	close_connection(pconn);
 
         return;
@@ -1271,7 +1271,7 @@ void handle_request_join_game(struct connection *pconn,
     sprintf(msg, "You can't join the game. %s is already connected.", 
 	    pplayer->name);
     reject_new_player(msg, pconn);
-    flog(LOG_NORMAL, "%s was rejected.", pplayer->name);
+    freelog(LOG_NORMAL, "%s was rejected.", pplayer->name);
     close_connection(pconn);
 
     return;
@@ -1282,7 +1282,7 @@ void handle_request_join_game(struct connection *pconn,
   if(server_state!=PRE_GAME_STATE) {
     reject_new_player("Sorry you can't join. The game is already running.",
 		      pconn);
-    flog(LOG_NORMAL, "game running - %s was rejected.", req->name);
+    freelog(LOG_NORMAL, "game running - %s was rejected.", req->name);
     lost_connection_to_player(pconn);
     close_connection(pconn);
 
@@ -1291,7 +1291,7 @@ void handle_request_join_game(struct connection *pconn,
 
   if(game.nplayers==game.max_players) {
     reject_new_player("Sorry you can't join. The game is full.", pconn);
-    flog(LOG_NORMAL, "game full - %s was rejected.", req->name);    
+    freelog(LOG_NORMAL, "game full - %s was rejected.", req->name);    
     close_connection(pconn);
 
     return;
@@ -1313,7 +1313,7 @@ void lost_connection_to_player(struct connection *pconn)
       game.players[i].conn=NULL;
       game.players[i].is_connected=0;
       strcpy(game.players[i].addr, "---.---.---.---");
-      flog(LOG_NORMAL, "lost connection to %s", game.players[i].name);
+      freelog(LOG_NORMAL, "lost connection to %s", game.players[i].name);
       send_player_info(&game.players[i], 0);
       notify_player(0, "Game: Lost connection to %s", game.players[i].name);
 
@@ -1324,7 +1324,7 @@ void lost_connection_to_player(struct connection *pconn)
       return;
     }
 
-  flog(LOG_FATAL, "lost connection to unknown");
+  freelog(LOG_FATAL, "lost connection to unknown");
 }
 
 /**************************************************************************
@@ -1425,7 +1425,7 @@ void pick_ai_player_name (enum race_type race, char *newname)
 int mark_race_as_used (int race) {
 
   if(num_races_avail <= 0) {/* no more unused races */
-      flog(LOG_FATAL, "Argh! ran out of races!");
+      freelog(LOG_FATAL, "Argh! ran out of races!");
       exit(1);
   }
 
@@ -1442,7 +1442,7 @@ int mark_race_as_used (int race) {
 void announce_ai_player (struct player *pplayer) {
    int i;
 
-   flog(LOG_NORMAL, "AI is controlling the %s ruled by %s",
+   freelog(LOG_NORMAL, "AI is controlling the %s ruled by %s",
                     races[pplayer->race].name_plural,
                     pplayer->name);
 

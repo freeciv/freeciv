@@ -73,7 +73,7 @@ void init_new_game(void)
        remove any such hut: */
     if(map_get_special(x,y)&S_HUT) {
       map_clear_special(x,y,S_HUT);
-      flog(LOG_DEBUG, "Removed hut on start position for %s",
+      freelog(LOG_DEBUG, "Removed hut on start position for %s",
 	  game.players[i].name);
     }
     /* Civ 1 exposes a single square radius of the map to start the game. */

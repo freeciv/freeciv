@@ -536,7 +536,7 @@ void flood_it(int loaded)
 
   starters= 100; oldisles= isles+1; goodisles= isles;
   while( starters>game.nplayers && oldisles>goodisles ){
-    flog(LOG_DEBUG,"goodisles=%i",goodisles);
+    freelog(LOG_DEBUG,"goodisles=%i",goodisles);
     oldisles= goodisles;
     maxgood= 1;
     mingood= riches;
@@ -582,7 +582,7 @@ void flood_it(int loaded)
 	if (( islands[x].goodies*4 > 3*(riches+oldisles-1)/oldisles )
 	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)
 	    )
-	  { flog(LOG_DEBUG,"islands[x].goodies=%i",islands[x].goodies);
+	  { freelog(LOG_DEBUG,"islands[x].goodies=%i",islands[x].goodies);
 	  islands[x].starters= (islands[x].goodies+guard1)/mingood; 
 	  if(!islands[x].starters)
 	    islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
@@ -596,7 +596,7 @@ void flood_it(int loaded)
       if ( islands[x].goodies > (riches+oldisles-1)/oldisles 
 	&&(assert(!islands[x].starters),!islands[x].starters)
 	   )
-	{ flog(LOG_DEBUG,"islands[x].goodies=%i",islands[x].goodies);
+	{ freelog(LOG_DEBUG,"islands[x].goodies=%i",islands[x].goodies);
 	  islands[x].starters= (islands[x].goodies+guard1)/mingood; 
 	  if(!islands[x].starters)
 	    islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
@@ -617,12 +617,12 @@ void flood_it(int loaded)
 	else
 	  guard1+=5;
 
-	flog(LOG_NORMAL,
+	freelog(LOG_NORMAL,
 	     "mapgen.c#flood_it, not enough start positions, fixing.");
       }
     }
   }
-  flog(LOG_NORMAL,"The map has %i starting positions on %i isles."
+  freelog(LOG_NORMAL,"The map has %i starting positions on %i isles."
        ,starters, goodisles);
 }
 /**************************************************************************
@@ -646,7 +646,7 @@ void choose_start_positions(void)
   for(k=0;k<99;k++){
     sum+= islands[k].starters;
     if(islands[k].starters!=0) 
-      flog(LOG_DEBUG,"starters on isle %i", k);
+      freelog(LOG_DEBUG,"starters on isle %i", k);
   }
   assert(game.nplayers<=nr+sum);
   }
@@ -1140,7 +1140,7 @@ void makeisland(void)
   
   if( xmax*ymax/2< size )
     {    
-     flog(LOG_NORMAL,"island too large(%i)\n",startsize);
+     freelog(LOG_NORMAL,"island too large(%i)\n",startsize);
      size= (xmax-1)*(ymax-1)/2;
     }
 
@@ -1246,7 +1246,7 @@ void mapgenerator2()
   islandmass= ( (landmass*7)/10+islands-1 )/islands;
 
   if( map.xsize < 40 || map.ysize < 25 || map.landpercent>50 || islandmass>350 )
-    { flog(LOG_NORMAL,"falling back to generator 1\n"); mapgenerator1(); return; }
+    { freelog(LOG_NORMAL,"falling back to generator 1\n"); mapgenerator1(); return; }
 
   if(islandmass<6)
     islandmass= 6;
@@ -1286,7 +1286,7 @@ void mapgenerator2()
     }
 
   if(j==500)
-    flog(LOG_NORMAL, "generator 2 didn't place all islands; %i islands not placed.", i );
+    freelog(LOG_NORMAL, "generator 2 didn't place all islands; %i islands not placed.", i );
   
     /*  print_map();*/
   free(height_map);
@@ -1320,10 +1320,10 @@ void mapgenerator3()
     islandmass= (landmass)/(bigislands);
 
   if( map.xsize < 40 || map.ysize < 40 || map.landpercent>80 )
-    { flog(LOG_NORMAL,"falling back to generator 2"); mapgenerator2(); return; }
+    { freelog(LOG_NORMAL,"falling back to generator 2"); mapgenerator2(); return; }
 
   if(map.landpercent>50)
-    { flog(LOG_NORMAL,"high landmass - this may take a few seconds"); }
+    { freelog(LOG_NORMAL,"high landmass - this may take a few seconds"); }
 
   if(islandmass<2)
     islandmass= 2;
@@ -1364,7 +1364,7 @@ void mapgenerator3()
     }
 
   if(j==500)
-    flog(LOG_NORMAL, "generator 3 didn't place all big islands.");
+    freelog(LOG_NORMAL, "generator 3 didn't place all big islands.");
 
   free(height_map);
 
@@ -1399,7 +1399,7 @@ void mapgenerator3()
     }
 
   if(j==1500)
-    flog(LOG_NORMAL, "generator 3 left %li landmass unplaced.",massleft);
+    freelog(LOG_NORMAL, "generator 3 left %li landmass unplaced.",massleft);
 
     /*  print_map();*/
   free(height_map);

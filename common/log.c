@@ -25,7 +25,7 @@ void log_init(char *filename)
 {
   log_level=LOG_NORMAL;
   log_filename=filename;
-/*  flog(LOG_NORMAL, "log started");*/
+/*  freelog(LOG_NORMAL, "log started");*/
 }
 
 /**************************************************************************/
@@ -35,7 +35,7 @@ void log_set_level(int level)
 }
 
 /**************************************************************************/
-int flog(int level, char *message, ...)
+int freelog(int level, char *message, ...)
 {
   static char bufbuf[2][512];
   static int whichbuf=0;

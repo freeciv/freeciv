@@ -59,7 +59,7 @@ static char *openload_ruleset_file(struct section_file *file,
   sprintf(filename, "%s/%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename);
   if(!section_file_load(file,dfilename)) {
-    flog(LOG_FATAL, "Could not load ruleset file %s", dfilename);
+    freelog(LOG_FATAL, "Could not load ruleset file %s", dfilename);
     exit(1);
   }
   return dfilename;
@@ -77,8 +77,8 @@ static char *check_ruleset_capabilities(struct section_file *file,
   
   datafile_options = secfile_lookup_str(file, "datafile.options");
   if (!has_capability(required, datafile_options)) {
-    flog(LOG_FATAL, "Datafile capability problem for file %s", filename );
-    flog(LOG_FATAL, "File capability: \"%s\", required: \"%s\"",
+    freelog(LOG_FATAL, "Datafile capability problem for file %s", filename );
+    freelog(LOG_FATAL, "File capability: \"%s\", required: \"%s\"",
 	 datafile_options, required);
     exit(1);
   }
@@ -106,7 +106,7 @@ static int lookup_unit_type(struct section_file *file, char *prefix,
   } else {
     i = find_unit_type_by_name(sval);
     if (i==U_LAST) {
-      flog((required?LOG_FATAL:LOG_NORMAL),
+      freelog((required?LOG_FATAL:LOG_NORMAL),
 	   "for %s %s couldn't match unit_type \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
@@ -140,7 +140,7 @@ static int lookup_tech(struct section_file *file, char *prefix,
   } else {
     i = find_tech_by_name(sval);
     if (i==A_LAST) {
-      flog((required?LOG_FATAL:LOG_NORMAL),
+      freelog((required?LOG_FATAL:LOG_NORMAL),
 	   "for %s %s couldn't match tech \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
@@ -200,12 +200,12 @@ static void load_ruleset_techs(char *ruleset_subdir)
     
     if ((a->req[0]==A_LAST && a->req[1]!=A_LAST) ||
 	(a->req[0]!=A_LAST && a->req[1]==A_LAST)) {
-      flog(LOG_NORMAL, "for tech %s: \"Never\" with non-\"Never\" (%s)",
+      freelog(LOG_NORMAL, "for tech %s: \"Never\" with non-\"Never\" (%s)",
 	   a->name, filename);
       a->req[0] = a->req[1] = A_LAST;
     }
     if (a->req[0]==A_NONE && a->req[1]!=A_NONE) {
-      flog(LOG_NORMAL, "tech %s: should have \"None\" second (%s)",
+      freelog(LOG_NORMAL, "tech %s: should have \"None\" second (%s)",
 	   a->name, filename);
       a->req[0] = a->req[1];
       a->req[1] = A_NONE;
@@ -220,12 +220,12 @@ static void load_ruleset_techs(char *ruleset_subdir)
     if (tech_exists(i)) {
       a = &advances[i];
       if (!tech_exists(a->req[0])) {
-	flog(LOG_FATAL, "tech \"%s\": req1 leads to removed tech \"%s\" (%s)",
+	freelog(LOG_FATAL, "tech \"%s\": req1 leads to removed tech \"%s\" (%s)",
 	     a->name, advances[a->req[0]].name, filename);
 	exit(1);
       } 
       if (!tech_exists(a->req[1])) {
-	flog(LOG_FATAL, "tech \"%s\": req2 leads to removed tech \"%s\" (%s)",
+	freelog(LOG_FATAL, "tech \"%s\": req2 leads to removed tech \"%s\" (%s)",
 	     a->name, advances[a->req[1]].name, filename);
 	exit(1);
       }
@@ -301,13 +301,13 @@ static void load_ruleset_units(char *ruleset_subdir)
     
     sval = secfile_lookup_str(&file, "%s.name", prefix);
     if (strcmp(u->name, sval) != 0) {
-      flog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
+      freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
 	   "block 2 (%s)", u->name, sval, filename);
     }
 
     u->move_type = ival = secfile_lookup_int(&file,"%s.move_type", prefix);
     if (ival<LAND_MOVING || ival>AIR_MOVING) {
-      flog(LOG_FATAL, "for unit_type \"%s\": bad move_type %d (%s)",
+      freelog(LOG_FATAL, "for unit_type \"%s\": bad move_type %d (%s)",
 	   u->name, ival, filename);
       exit(1);
     }
@@ -341,7 +341,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   flag_names = secfile_lookup_str_vec(&file, &num_flag_names,
 				      "units.flag_names");
   if (num_flag_names==0) {
-    flog(LOG_FATAL, "Couldn't find units.flag_names in %s", filename);
+    freelog(LOG_FATAL, "Couldn't find units.flag_names in %s", filename);
     exit(1);
   }
     
@@ -352,7 +352,7 @@ static void load_ruleset_units(char *ruleset_subdir)
     
     sval = secfile_lookup_str(&file, "%s.name", prefix);
     if (strcmp(u->name, sval) != 0) {
-      flog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
+      freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
 	   "block 3 (%s)", u->name, sval, filename);
     }
     slist = secfile_lookup_str_vec(&file, &nval, "%s.flags", prefix );
@@ -363,7 +363,7 @@ static void load_ruleset_units(char *ruleset_subdir)
       }
       ival = match_name_from_list(sval, flag_names, num_flag_names);
       if (ival==-1) {
-	flog(LOG_NORMAL, "for unit_type \"%s\": unmatched flag name \"%s\" (%s)",
+	freelog(LOG_NORMAL, "for unit_type \"%s\": unmatched flag name \"%s\" (%s)",
 	     u->name, sval, filename);
       }
       u->flags |= (1<<ival);
@@ -376,7 +376,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   flag_names = secfile_lookup_str_vec(&file, &num_flag_names,
 				      "units.role_names");
   if (num_flag_names==0) {
-    flog(LOG_FATAL, "Couldn't find units.role_names in %s", filename);
+    freelog(LOG_FATAL, "Couldn't find units.role_names in %s", filename);
     exit(1);
   }
     
@@ -387,7 +387,7 @@ static void load_ruleset_units(char *ruleset_subdir)
     
     sval = secfile_lookup_str(&file, "%s.name", prefix);
     if (strcmp(u->name, sval) != 0) {
-      flog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
+      freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
 	   "block 4 (%s)", u->name, sval, filename);
     }
     slist = secfile_lookup_str_vec(&file, &nval, "%s.roles", prefix );
@@ -398,7 +398,7 @@ static void load_ruleset_units(char *ruleset_subdir)
       }
       ival = match_name_from_list(sval, flag_names, num_flag_names);
       if (ival==-1) {
-	flog(LOG_NORMAL, "for unit_type \"%s\": unmatched role name \"%s\" (%s)",
+	freelog(LOG_NORMAL, "for unit_type \"%s\": unmatched role name \"%s\" (%s)",
 	     u->name, sval, filename);
       }
       u->roles |= (1<<ival);
@@ -412,12 +412,12 @@ static void load_ruleset_units(char *ruleset_subdir)
     if (unit_type_exists(i)) {
       u = &unit_types[i];
       if (!tech_exists(u->tech_requirement)) {
-	flog(LOG_NORMAL, "unit_type \"%s\" depends on removed tech \"%s\" (%s)",
+	freelog(LOG_NORMAL, "unit_type \"%s\" depends on removed tech \"%s\" (%s)",
 	     u->name, advances[u->tech_requirement].name, filename);
 	u->tech_requirement = A_LAST;
       }
       if (u->obsoleted_by!=-1 && !unit_type_exists(u->obsoleted_by)) {
-	flog(LOG_NORMAL, "unit_type \"%s\" obsoleted by removed unit \"%s\" (%s)",
+	freelog(LOG_NORMAL, "unit_type \"%s\" obsoleted by removed unit \"%s\" (%s)",
 	     u->name, unit_types[u->obsoleted_by].name, filename);
 	u->obsoleted_by = -1;
       }
@@ -429,28 +429,28 @@ static void load_ruleset_units(char *ruleset_subdir)
      
   /* Check some required flags and roles etc: */
   if(num_role_units(F_SETTLERS)==0) {
-    flog(LOG_FATAL, "No flag=settler units? (%s)", filename);
+    freelog(LOG_FATAL, "No flag=settler units? (%s)", filename);
     exit(1);
   }
   if(num_role_units(L_EXPLORER)==0) {
-    flog(LOG_FATAL, "No role=explorer units? (%s)", filename);
+    freelog(LOG_FATAL, "No role=explorer units? (%s)", filename);
     exit(1);
   }
   if(num_role_units(L_FERRYBOAT)==0) {
-    flog(LOG_FATAL, "No role=ferryboat units? (%s)", filename);
+    freelog(LOG_FATAL, "No role=ferryboat units? (%s)", filename);
     exit(1);
   }
   if(num_role_units(L_HUT)==0) {
-    flog(LOG_FATAL, "No role=hut units? (%s)", filename);
+    freelog(LOG_FATAL, "No role=hut units? (%s)", filename);
     exit(1);
   }
   if(num_role_units(L_FIRSTBUILD)==0) {
-    flog(LOG_FATAL, "No role=firstbuild units? (%s)", filename);
+    freelog(LOG_FATAL, "No role=firstbuild units? (%s)", filename);
     exit(1);
   }
   u = &unit_types[get_role_unit(L_FIRSTBUILD,0)];
   if(u->tech_requirement!=A_NONE) {
-    flog(LOG_FATAL, "First role=firstbuild unit (%s) should have req None (%s)",
+    freelog(LOG_FATAL, "First role=firstbuild unit (%s) should have req None (%s)",
 	 u->name, filename);
     exit(1);
   }
@@ -461,7 +461,7 @@ static void load_ruleset_units(char *ruleset_subdir)
     j = get_role_unit(L_FERRYBOAT,i);
     if (!unit_flag(j, F_TRIREME)) {
       j = get_unit_type(j)->tech_requirement;
-      if(0) flog(LOG_DEBUG, "nav tech is %s", advances[j].name);
+      if(0) freelog(LOG_DEBUG, "nav tech is %s", advances[j].name);
       game.rtech.nav = j;
       break;
     }
@@ -511,12 +511,12 @@ static void load_ruleset_buildings(char *ruleset_subdir)
     b = &improvement_types[i];
     if (improvement_exists(i)) {
       if (!tech_exists(b->tech_requirement)) {
-	flog(LOG_NORMAL, "improvement \"%s\": depends on removed tech \"%s\" (%s)",
+	freelog(LOG_NORMAL, "improvement \"%s\": depends on removed tech \"%s\" (%s)",
 	     b->name, advances[b->tech_requirement].name, filename);
 	b->tech_requirement = A_LAST;
       }
       if (!tech_exists(b->obsolete_by)) {
-	flog(LOG_NORMAL, "improvement \"%s\": obsoleted by removed tech \"%s\" (%s)",
+	freelog(LOG_NORMAL, "improvement \"%s\": obsoleted by removed tech \"%s\" (%s)",
 	     b->name, advances[b->obsolete_by].name, filename);
 	b->obsolete_by = A_NONE;
       }
@@ -628,7 +628,7 @@ void send_ruleset_buildings(struct player *dest)
 **************************************************************************/
 void load_rulesets(void)
 {
-  flog(LOG_NORMAL, "Loading rulesets");
+  freelog(LOG_NORMAL, "Loading rulesets");
   load_ruleset_techs(game.ruleset.techs);
   load_ruleset_units(game.ruleset.units);
   load_ruleset_buildings(game.ruleset.buildings);

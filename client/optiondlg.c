@@ -315,7 +315,7 @@ FILE *open_option_file(char *mode)
     name = name_buffer;
   }
   
-  flog(LOG_DEBUG, "settings file is %s", name);
+  freelog(LOG_DEBUG, "settings file is %s", name);
 
   f = fopen(name, mode);
 

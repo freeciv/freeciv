@@ -117,16 +117,16 @@ int sniff_packets(void)
     }
   
     if(FD_ISSET(sock, &readfs)) {	     /* new players connects */
-      flog(LOG_DEBUG, "got new connection");
+      freelog(LOG_DEBUG, "got new connection");
       if(server_accept_connection(sock)==-1)
-	flog(LOG_NORMAL, "failed accepting connection");
+	freelog(LOG_NORMAL, "failed accepting connection");
     }
     else if(FD_ISSET(0, &readfs)) {    /* input from server operator */
       int didget;
       char buf[BUF_SIZE+1];
       
       if((didget=read(0, buf, BUF_SIZE))==-1) {
-	flog(LOG_FATAL, "read from stdin failed");
+	freelog(LOG_FATAL, "read from stdin failed");
 	exit(1);
       }
       *(buf+didget)='\0';
@@ -194,7 +194,7 @@ int server_accept_connection(int sockfd)
 
 	return 0;
       }
-    flog(LOG_FATAL, "maximum number of connections reached");
+    freelog(LOG_FATAL, "maximum number of connections reached");
     return -1;
   }
 
@@ -221,7 +221,7 @@ int server_open_socket(void)
   signal (SIGPIPE, SIG_IGN);
   
   if((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-    flog(LOG_FATAL, "socket failed: %s", mystrerror(errno));
+    freelog(LOG_FATAL, "socket failed: %s", mystrerror(errno));
     exit(1);
   }
 
@@ -229,16 +229,16 @@ int server_open_socket(void)
   if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
 		(char*)&opt, sizeof(opt))) {
 /*		(const char*)&opt, sizeof(opt))) {      gave me warnings -- Syela */
-    flog(LOG_FATAL, "setsockopt failed: %s", mystrerror(errno));
+    freelog(LOG_FATAL, "setsockopt failed: %s", mystrerror(errno));
   }
 
   if(bind(sock, (struct sockaddr *) &src, sizeof (src)) < 0) {
-    flog(LOG_FATAL, "bind failed: %s", mystrerror(errno));
+    freelog(LOG_FATAL, "bind failed: %s", mystrerror(errno));
     exit(1);
   }
 
   if(listen(sock, MAX_CONNECTIONS) < 0) {
-    flog(LOG_FATAL, "listen failed: %s", mystrerror(errno));
+    freelog(LOG_FATAL, "listen failed: %s", mystrerror(errno));
     exit(1);
   }
 

@@ -809,7 +809,7 @@ void report_server_options(struct player *pplayer, int which)
   }
   i = strlen(buffer);
   assert(i<sizeof(buffer));
-  if(0) flog(LOG_DEBUG, "report_server_options buffer len %d", i);
+  if(0) freelog(LOG_DEBUG, "report_server_options buffer len %d", i);
   page_player(pplayer, title, buffer);
 }
 
@@ -1001,7 +1001,7 @@ void handle_stdin_input(char *str)
   else if (!strcmp("crash", command))
     crash_and_burn();
   else if (!strcmp("log", command)) /* undocumented */
-    flog(LOG_NORMAL, "%s", arg);
+    freelog(LOG_NORMAL, "%s", arg);
   else if (!strcmp("easy", command))
     set_ai_level(arg, 3);
   else if (!strcmp("normal", command))
@@ -1058,7 +1058,7 @@ void cut_player_connection(char *playername)
   pplayer=find_player_by_name(playername);
 
   if(pplayer && pplayer->conn) {
-    flog(LOG_NORMAL, "cutting connection to %s", playername);
+    freelog(LOG_NORMAL, "cutting connection to %s", playername);
     close_connection(pplayer->conn);
     pplayer->conn=NULL;
   }

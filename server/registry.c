@@ -236,10 +236,10 @@ void section_file_check_unused(struct section_file *file, char *filename)
       pentry = (struct section_entry *)ITERATOR_PTR(myiter2);
       if (!pentry->used) {
 	if (any==0 && filename!=NULL) {
-	  flog(LOG_NORMAL, "Unused entries in file %s:", filename);
+	  freelog(LOG_NORMAL, "Unused entries in file %s:", filename);
 	  any = 1;
 	}
-	flog(LOG_NORMAL, "  unused entry: %s.%s", psection->name, pentry->name);
+	freelog(LOG_NORMAL, "  unused entry: %s.%s", psection->name, pentry->name);
       }
     }
   }
@@ -284,7 +284,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
     for(; *cptr && isspace(*cptr); cptr++);
     if(!*cptr) {
       /* could just "break" here to allow trailing commas */
-      flog(LOG_FATAL, "missing expected value in %s - line %d",
+      freelog(LOG_FATAL, "missing expected value in %s - line %d",
 	   filename, lineno);
       exit(1);
     }
@@ -314,7 +314,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
       if(*cptr=='\0' || *cptr==';' || *cptr=='#') {
 	end=1;
       } else if (*cptr!=',') {
-	flog(LOG_FATAL, "junk after integer in %s - line %d",
+	freelog(LOG_FATAL, "junk after integer in %s - line %d",
 	     filename, lineno);
 	exit(1);
       } else {
@@ -330,7 +330,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
       start=++cptr;
       for(; *cptr && *cptr!='\"'; cptr++);
       if (!*cptr) {
-	flog(LOG_FATAL, "missing end of string in %s - line %d",
+	freelog(LOG_FATAL, "missing end of string in %s - line %d",
 	     filename, lineno);
 	exit(1);
       }
@@ -341,7 +341,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
       if(*cptr=='\0' || *cptr==';' || *cptr=='#') {
 	end=1;
       } else if (*cptr!=',') {
-	flog(LOG_FATAL, "junk after string in %s - line %d",
+	freelog(LOG_FATAL, "junk after string in %s - line %d",
 	     filename, lineno);
 	exit(1);
       } else {
@@ -352,7 +352,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
       this_entry->ivalue=0;
       
     } else {
-      flog(LOG_FATAL, "syntax error at value %d in %s - line %d",
+      freelog(LOG_FATAL, "syntax error at value %d in %s - line %d",
 	   entries->n, filename, lineno);
       exit(1);
     }
@@ -377,7 +377,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
   int i;
 
   if(!(fs=fopen(filename, "r"))) {
-    flog(LOG_NORMAL, "Could not open file \"%s\"", filename);
+    freelog(LOG_NORMAL, "Could not open file \"%s\"", filename);
     return 0;
   }
 
@@ -388,7 +388,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
     char *cptr;
 
     if (strlen(buffer)==sizeof(buffer)-1) {
-      flog(LOG_FATAL, "line too long in %s - line %d", filename, lineno);
+      freelog(LOG_FATAL, "line too long in %s - line %d", filename, lineno);
       exit(1);
     }
     lineno++;
@@ -403,14 +403,14 @@ int section_file_load(struct section_file *my_section_file, char *filename)
       char *sname;
 
       if (table_state) {
-	flog(LOG_FATAL, "new section during table in %s - line %d",
+	freelog(LOG_FATAL, "new section during table in %s - line %d",
 	     filename, lineno);
 	exit(1);
       }
       sname = cptr+1;
       for(++cptr; *cptr && *cptr!=']'; cptr++);
       if(!*cptr) {
-	flog(LOG_FATAL, "missing ] in %s - line %d", filename, lineno);
+	freelog(LOG_FATAL, "missing ] in %s - line %d", filename, lineno);
 	exit(1);
       }
       *cptr='\0';
@@ -424,14 +424,14 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 
     } else if(!current_section) {
       
-      flog(LOG_FATAL, "entry defined before first section in %s - line %d", 
+      freelog(LOG_FATAL, "entry defined before first section in %s - line %d", 
 	   filename, lineno);
       exit(1);
       
     } else if(*cptr=='}') {
 
       if (!table_state) {
-	flog(LOG_FATAL, "misplaced \"}\" in %s - line %d", filename, lineno);
+	freelog(LOG_FATAL, "misplaced \"}\" in %s - line %d", filename, lineno);
 	exit(1);
       }
       free(table_basename);
@@ -461,7 +461,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
       /* Name is ended by a space or equals sign: */
       for(; *cptr && (*cptr!='=' && !isspace(*cptr)); cptr++);
       if(!*cptr) {
-	flog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
+	freelog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
 	exit(1);
       }
       if (*cptr=='=') {
@@ -471,7 +471,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 	/* find the equals sign: */
 	for(; *cptr && *cptr!='='; cptr++);
 	if(!*cptr) {
-	  flog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
+	  freelog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
 	  exit(1);
 	}
 	cptr++;
@@ -499,7 +499,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 	parse_commalist(&columns, cptr+1, filename, lineno);
 	for(i=0; i<columns.n; i++) {
 	  if( !columns.plist[i]->svalue ) {
-	    flog(LOG_FATAL, "table format entry non-string in %s - line %d",
+	    freelog(LOG_FATAL, "table format entry non-string in %s - line %d",
 		 filename, lineno);
 	    exit(1);
 	  } 
@@ -510,7 +510,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
     }
   }
   if (table_state) {
-    flog(LOG_FATAL, "finished file %s before end of table\n", filename);
+    freelog(LOG_FATAL, "finished file %s before end of table\n", filename);
     exit(1);
   }
 
@@ -624,7 +624,7 @@ int section_file_save(struct section_file *my_section_file, char *filename)
 	  /* break out of tabular if doesn't match: */
 	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
 	    if(icol != 0) {
-	      flog(LOG_NORMAL, "unexpected exit from tabular at %s",
+	      freelog(LOG_NORMAL, "unexpected exit from tabular at %s",
 		   pentry->name);
 	      fprintf(fs, "\n");
 	    }
@@ -682,12 +682,12 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
 
 
   if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
-    flog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
+    freelog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
     exit(1);
   }
 
   if(!entry->svalue) {
-    flog(LOG_FATAL, "sectionfile entry '%s' doesn't contain a string", buf);
+    freelog(LOG_FATAL, "sectionfile entry '%s' doesn't contain a string", buf);
     exit(1);
   }
   
@@ -752,12 +752,12 @@ int secfile_lookup_int(struct section_file *my_section_file,
   va_end(ap);
 
   if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
-    flog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
+    freelog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
     exit(1);
   }
 
   if(entry->svalue) {
-    flog(LOG_FATAL, "sectionfile entry '%s' doesn't contain an integer", buf);
+    freelog(LOG_FATAL, "sectionfile entry '%s' doesn't contain an integer", buf);
     exit(1);
   }
   
@@ -784,7 +784,7 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
     return def;
   }
   if(entry->svalue) {
-    flog(LOG_FATAL, "sectionfile contains a '%s', but string not integer", buf);
+    freelog(LOG_FATAL, "sectionfile contains a '%s', but string not integer", buf);
     exit(1);
   }
   return entry->ivalue;
@@ -810,7 +810,7 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
   }
 
   if(!entry->svalue) {
-    flog(LOG_FATAL, "sectionfile contains a '%s', but integer not string", buf);
+    freelog(LOG_FATAL, "sectionfile contains a '%s', but integer not string", buf);
     exit(1);
   }
   
@@ -993,11 +993,11 @@ static int secfilehash_hashash(struct section_file *file)
 static void secfilehash_check(struct section_file *file)
 {
   if (!secfilehash_hashash(file)) {
-    flog(LOG_FATAL, "hash operation before setup" );
+    freelog(LOG_FATAL, "hash operation before setup" );
     exit(1);
   }
   if (file->num_entries != file->hashd->num_entries_hashbuild) {
-    flog(LOG_FATAL, "section_file has more entries than when hash built" );
+    freelog(LOG_FATAL, "section_file has more entries than when hash built" );
     exit(1);
   }
 }
@@ -1029,7 +1029,7 @@ static struct hash_entry *secfilehash_lookup(struct section_file *file,
     }
     file->hashd->num_collisions++;
     if (HASH_DEBUG>=2) {
-      flog(LOG_DEBUG, "Hash collision for \"%s\", %d\n   with \"%s\", %d",
+      freelog(LOG_DEBUG, "Hash collision for \"%s\", %d\n   with \"%s\", %d",
 	   key, hash_val, hentry->key_val, hentry->hash_val);
     }
     i++;
@@ -1037,7 +1037,7 @@ static struct hash_entry *secfilehash_lookup(struct section_file *file,
       i=0;
     }
   } while (i!=hash_val);	/* catch loop all the way round  */
-  flog(LOG_FATAL, "Full hash table??");
+  freelog(LOG_FATAL, "Full hash table??");
   exit(1);
 }
 
@@ -1054,7 +1054,7 @@ static void secfilehash_insert(struct section_file *file,
 
   hentry = secfilehash_lookup(file, key, &hash_val);
   if (hentry->key_val != NULL) {
-    flog(LOG_FATAL, "Tried to insert same value twice: %s", key );
+    freelog(LOG_FATAL, "Tried to insert same value twice: %s", key );
     exit(1);
   }
   hentry->data = data;
@@ -1094,7 +1094,7 @@ static void secfilehash_build(struct section_file *file)
   
   hashd->table = malloc(hashd->num_buckets*sizeof(struct hash_entry));
   if (hashd==NULL || hashd->table==NULL) {
-    flog(LOG_FATAL, "malloc error for hash table" );
+    freelog(LOG_FATAL, "malloc error for hash table" );
     exit(1);
   }
   for(i=0; i<hashd->num_buckets; i++) {
@@ -1117,7 +1117,7 @@ static void secfilehash_build(struct section_file *file)
     }
   }
   if (HASH_DEBUG>=1) {
-    flog(LOG_DEBUG, "Hash collisions during build: %d (%d entries, %d buckets)",
+    freelog(LOG_DEBUG, "Hash collisions during build: %d (%d entries, %d buckets)",
 	hashd->num_collisions, file->num_entries, hashd->num_buckets );
   }
 }

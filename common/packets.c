@@ -154,7 +154,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return recieve_packet_ruleset_building(pc);
     
   default:
-    flog(LOG_NORMAL, "unknown packet type received");
+    freelog(LOG_NORMAL, "unknown packet type received");
     remove_packet_from_buffer(&pc->buffer);
     return NULL;
   };
@@ -1705,7 +1705,7 @@ void flush_connection_send_buffer(struct connection *pc)
     if(pc->send_buffer.ndata) {
       if(write(pc->sock, pc->send_buffer.data, pc->send_buffer.ndata)!=
 	 pc->send_buffer.ndata) {
-	flog(LOG_NORMAL, "failed writing data to socket");
+	freelog(LOG_NORMAL, "failed writing data to socket");
       }
       pc->send_buffer.ndata=0;
     }
@@ -1732,7 +1732,7 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
     }
     else {
       if(write(pc->sock, data, len)!=len) {
-	flog(LOG_NORMAL, "failed writing data to socket");
+	freelog(LOG_NORMAL, "failed writing data to socket");
 	return -1;
       }
       

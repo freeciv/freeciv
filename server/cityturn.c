@@ -612,7 +612,7 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
   *foodneed += 2 * (*workers - 1 - e);
   *prodneed += (*workers - 1 - e);
   if (*prodneed > 0) {
-    flog(LOG_DEBUG, "Ignored prodneed? in %s (%d)",
+    freelog(LOG_DEBUG, "Ignored prodneed? in %s (%d)",
 	 pcity->name, *prodneed);
   }
 }

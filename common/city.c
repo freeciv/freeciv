@@ -1285,7 +1285,7 @@ static void reallocate_cache(void)
 {
   int i;
 
-  flog(LOG_DEBUG,"Increasing max city id index from %d to %d",
+  freelog(LOG_DEBUG,"Increasing max city id index from %d to %d",
        citycachesize,citycachesize*2);
   citycachesize*=2;
   citycache=realloc(citycache,sizeof(*citycache)*citycachesize);
@@ -1315,7 +1315,7 @@ void remove_city_from_cache(int id)
 {
   if(!citycachesize) return;		/* Not using the cache, return */
   if(id >= citycachesize) {
-    flog(LOG_FATAL, "Tried to delete bogus city id, %d",id);
+    freelog(LOG_FATAL, "Tried to delete bogus city id, %d",id);
     exit(0);
   }
   citycache[id]=NULL;

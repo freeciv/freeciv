@@ -175,7 +175,7 @@ void boot_help_texts(void)
   }
   
   if(!booted) {
-    flog(LOG_DEBUG, "Booting help texts");
+    freelog(LOG_DEBUG, "Booting help texts");
     genlist_init(&help_nodes);
   } else {
     /* free memory allocated last time booted */
@@ -186,12 +186,12 @@ void boot_help_texts(void)
     }
     help_list_iterate_end;
     genlist_unlink_all(&help_nodes);
-    flog(LOG_DEBUG, "Rebooting help texts");
+    freelog(LOG_DEBUG, "Rebooting help texts");
   }    
   
   fs=fopen(datafilename("helpdata.txt"), "r");
   if(fs==NULL) {
-    flog(LOG_NORMAL, "failed reading help-texts");
+    freelog(LOG_NORMAL, "failed reading help-texts");
     return;
   }
 
@@ -213,20 +213,20 @@ void boot_help_texts(void)
 	  }
 	}
 	if (current_type==-1) {
-	  flog(LOG_NORMAL, "bad help category \"%s\"", buf+1);
+	  freelog(LOG_NORMAL, "bad help category \"%s\"", buf+1);
 	  current_type = HELP_TEXT;
 	} else {
 	  genlist_init(&category_nodes);
 	  for(i=0; i<MAX_LAST; i++) {
 	    seen[i] = (booted?0:1); /* on initial boot data tables are empty */
 	  }
-	  /* flog(LOG_DEBUG, "Help category %s",
+	  /* freelog(LOG_DEBUG, "Help category %s",
 	     help_type_names[current_type]); */
 	}
       } else {
 	sprintf(expect, "END_%sS", help_type_names[current_type]);
 	if(strcmp(expect,buf+1)!=0) {
-	  flog(LOG_FATAL, "bad end to help category \"%s\"", buf+1);
+	  freelog(LOG_FATAL, "bad end to help category \"%s\"", buf+1);
 	  exit(1);
 	}
 	/* add defaults for those not seen: */
@@ -271,7 +271,7 @@ void boot_help_texts(void)
 	    }
 	  }
 	} else {
-	  flog(LOG_FATAL, "Bad current_type %d", current_type);
+	  freelog(LOG_FATAL, "Bad current_type %d", current_type);
 	  exit(1);
 	}
 	genlist_sort(&category_nodes, help_item_compar);
@@ -303,7 +303,7 @@ void boot_help_texts(void)
       i = find_unit_type_by_name(pname);
       if(!unit_type_exists(i)) {
 	if(booted)
-	  flog(LOG_DEBUG, "Filtering unit type %s from help", pname);
+	  freelog(LOG_DEBUG, "Filtering unit type %s from help", pname);
 	filter_this = 1;
       }
       break;
@@ -311,7 +311,7 @@ void boot_help_texts(void)
       i = find_tech_by_name(pname);
       if(!tech_exists(i)) {
 	if(booted)
-	  flog(LOG_DEBUG, "Filtering tech %s from help", pname);
+	  freelog(LOG_DEBUG, "Filtering tech %s from help", pname);
 	filter_this = 1;
       }
       break;
@@ -319,7 +319,7 @@ void boot_help_texts(void)
       i = find_improvement_by_name(pname);
       if(!improvement_exists(i) || is_wonder(i)) {
 	if(booted)
-	  flog(LOG_DEBUG, "Filtering city improvement %s from help", pname);
+	  freelog(LOG_DEBUG, "Filtering city improvement %s from help", pname);
 	filter_this = 1;
       }
       break;
@@ -327,7 +327,7 @@ void boot_help_texts(void)
       i = find_improvement_by_name(pname);
       if(!improvement_exists(i) || !is_wonder(i)) {
 	if(booted)
-	  flog(LOG_DEBUG, "Filtering wonder %s from help", pname);
+	  freelog(LOG_DEBUG, "Filtering wonder %s from help", pname);
 	filter_this = 1;
       }
       break;
@@ -369,7 +369,7 @@ void boot_help_texts(void)
   }
 
   if(current_type != HELP_TEXT) {
-    flog(LOG_FATAL, "Didn't finish help category %s",
+    freelog(LOG_FATAL, "Didn't finish help category %s",
 	 help_type_names[current_type]);
     exit(1);
   }

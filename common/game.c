@@ -180,13 +180,13 @@ void game_remove_unit(int unit_id)
 {
   struct unit *punit;
 
-  if (DEBUG) flog(LOG_DEBUG, "game_remove_unit %d", unit_id);
+  if (DEBUG) freelog(LOG_DEBUG, "game_remove_unit %d", unit_id);
   
   if((punit=game_find_unit_by_id(unit_id))) {
     struct city *pcity;
 
     if (DEBUG) {
-      flog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
+      freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	   unit_id, get_race_name(get_player(punit->owner)->race),
 	   unit_name(punit->type), punit->x, punit->y, punit->homecity);
     }
@@ -196,7 +196,7 @@ void game_remove_unit(int unit_id)
       unit_list_unlink(&pcity->units_supported, punit);
     
     if (pcity && DEBUG) {
-      flog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
+      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
 	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
     }
 
@@ -217,8 +217,8 @@ void game_remove_city(struct city *pcity)
   int x,y;
   
   if (DEBUG) {
-    flog(LOG_DEBUG, "game_remove_city %d", pcity->id);
-    flog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
+    freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
+    freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
 	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
   }
   

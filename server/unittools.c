@@ -664,7 +664,7 @@ void resolve_unit_stack(int x, int y, int verbose)
     if(map_distance(x, y, pcity->x, pcity->y) 
        < map_distance(x, y, ccity->x, ccity->y)){
       teleport_unit_to_city(cunit, ccity, 0);
-      flog(LOG_DEBUG,"Teleported %s's %s from (%d, %d) to %s",get_player(cunit->owner)->name, unit_name(cunit->type), x, y,ccity->name);
+      freelog(LOG_DEBUG,"Teleported %s's %s from (%d, %d) to %s",get_player(cunit->owner)->name, unit_name(cunit->type), x, y,ccity->name);
       if (verbose) {
 	notify_player(get_player(cunit->owner),
 		      "Game: Teleported your %s from (%d, %d) to %s",
@@ -672,7 +672,7 @@ void resolve_unit_stack(int x, int y, int verbose)
       }
     }else{
       teleport_unit_to_city(punit, pcity, 0);
-      flog(LOG_DEBUG,"Teleported %s's %s from (%d, %d) to %s",get_player(punit->owner)->name, unit_name(punit->type), x, y, pcity->name);
+      freelog(LOG_DEBUG,"Teleported %s's %s from (%d, %d) to %s",get_player(punit->owner)->name, unit_name(punit->type), x, y, pcity->name);
       if (verbose) {
 	notify_player(get_player(punit->owner),
 		      "Game: Teleported your %s from (%d, %d) to %s",
@@ -697,7 +697,7 @@ void resolve_unit_stack(int x, int y, int verbose)
       struct city *vcity = find_closest_owned_city(get_player(vunit->owner), x, y);
       if(is_ground_unit(vunit)){
 	teleport_unit_to_city(vunit, vcity, 0);	  
-	flog(LOG_DEBUG,"Teleported  %s's %s to %s as there is no transport space on square (%d, %d)",get_player(vunit->owner)->name, unit_name(vunit->type),vcity->name, x, y);
+	freelog(LOG_DEBUG,"Teleported  %s's %s to %s as there is no transport space on square (%d, %d)",get_player(vunit->owner)->name, unit_name(vunit->type),vcity->name, x, y);
 	if (verbose) {
 	  notify_player(get_player(vunit->owner), "Game: Teleported your"
 			" %s to %s as there is no transport space on"

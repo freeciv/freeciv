@@ -679,7 +679,7 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 	   !is_unit_activity_on_tile(ACTIVITY_PILLAGE, punit->x, punit->y);
 
   default:
-    flog(LOG_NORMAL,"Unknown activity %d\n",activity);
+    freelog(LOG_NORMAL,"Unknown activity %d\n",activity);
     return 0;
   }
 }
@@ -776,7 +776,7 @@ char *unit_activity_text(struct unit *punit)
    case ACTIVITY_EXPLORE:
     return "Explore";
    default:
-    flog(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()", punit->activity);
+    freelog(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()", punit->activity);
     exit(0);
   }
   return 0;

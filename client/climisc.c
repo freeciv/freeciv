@@ -85,7 +85,7 @@ void client_remove_unit(int unit_id)
   struct unit *punit;
   struct city *pcity;
 
-  if (DEBUG) flog(LOG_DEBUG, "client_remove_unit %d", unit_id);
+  if (DEBUG) freelog(LOG_DEBUG, "client_remove_unit %d", unit_id);
   
   if((punit=game_find_unit_by_id(unit_id))) {
     int x=punit->x;
@@ -93,7 +93,7 @@ void client_remove_unit(int unit_id)
     int hc=punit->homecity;
 
     if (DEBUG) {
-      flog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
+      freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	   unit_id, get_race_name(get_player(punit->owner)->race),
 	   unit_name(punit->type), punit->x, punit->y, hc);
     }
@@ -110,7 +110,7 @@ void client_remove_unit(int unit_id)
       refresh_city_dialog(pcity);
 
     if (pcity && DEBUG) {
-      flog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
+      freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
 	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
     }
     
@@ -118,7 +118,7 @@ void client_remove_unit(int unit_id)
       refresh_city_dialog(pcity);
 
     if (pcity && DEBUG) {
-      flog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
+      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
 	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
     }
     
@@ -135,14 +135,14 @@ void client_remove_city(int city_id)
 {
   struct city *pcity;
   
-  if (DEBUG) flog(LOG_DEBUG, "client_remove_city %d", city_id);
+  if (DEBUG) freelog(LOG_DEBUG, "client_remove_city %d", city_id);
   
   if((pcity=find_city_by_id(city_id))) {
     int x=pcity->x;
     int y=pcity->y;
     popdown_city_dialog(pcity);
     if (DEBUG) {
-      flog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
+      freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
 	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
     }
     game_remove_city(pcity);
@@ -207,7 +207,7 @@ void climap_update_continents(int x, int y)
 	if(this_con==-1) {
 	  ptile->continent = this_con = con;
 	} else if(con != this_con) {
-	  flog(LOG_DEBUG, "renumbering client continent %d to %d at (%d %d)",
+	  freelog(LOG_DEBUG, "renumbering client continent %d to %d at (%d %d)",
 	       con, this_con, x, y);
 	  climap_renumber_continent(i,j,this_con);
 	  used_continent_val[con] = 0;
@@ -218,7 +218,7 @@ void climap_update_continents(int x, int y)
   if(this_con==-1) {
     for(i=2; i<NCONT; i++) {
       if(!used_continent_val[i]) {
-	flog(LOG_DEBUG, "new client continent %d at (%d %d)", i, x, y);
+	freelog(LOG_DEBUG, "new client continent %d at (%d %d)", i, x, y);
 	ptile->continent = this_con = i;
 	used_continent_val[i] = 1;
 	break;
@@ -226,7 +226,7 @@ void climap_update_continents(int x, int y)
     }
   }
   if(this_con==-1) {
-    flog(LOG_NORMAL, "ran out of continent numbers in client");
+    freelog(LOG_NORMAL, "ran out of continent numbers in client");
     ptile->continent = 0;
   }
 }

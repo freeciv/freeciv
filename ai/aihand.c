@@ -389,13 +389,13 @@ pplayer->name, trade, expense, m, n);*/
             if (defender) {
               if (unit_vulnerability_virtual(punit) <
                   unit_vulnerability_virtual(defender)) {
-		flog(LOG_DEBUG, "Disbanding %s in %s",
+		freelog(LOG_DEBUG, "Disbanding %s in %s",
 		     unit_types[punit->type].name, pcity->name);
                 pack.unit_id = punit->id;
                 handle_unit_disband(pplayer, &pack);
                 city_refresh(pcity);
               } else {
-		flog(LOG_DEBUG, "Disbanding %s in %s",
+		freelog(LOG_DEBUG, "Disbanding %s in %s",
 		     unit_types[defender->type].name, pcity->name);
                 pack.unit_id = defender->id;
                 handle_unit_disband(pplayer, &pack);
@@ -408,7 +408,7 @@ pplayer->name, trade, expense, m, n);*/
             pack.city_id = incity->id;
             handle_unit_change_homecity(pplayer, &pack);
             city_refresh(pcity);
-	    flog(LOG_DEBUG, "Reassigning %s from %s to %s",
+	    freelog(LOG_DEBUG, "Reassigning %s from %s to %s",
 		 unit_types[punit->type].name, pcity->name, incity->name);
           }
         } /* end if */
@@ -417,7 +417,7 @@ pplayer->name, trade, expense, m, n);*/
         unit_list_iterate(pcity->units_supported, punit)
           if (punit != defender && pcity->shield_surplus < 0) {
 	    /* the defender MUST NOT be disbanded! -- Syela */
-	    flog(LOG_DEBUG, "Disbanding %s's %s",
+	    freelog(LOG_DEBUG, "Disbanding %s's %s",
 		 pcity->name, unit_types[punit->type].name);
             pack.unit_id = punit->id;
             handle_unit_disband_safe(pplayer, &pack, &myiter);

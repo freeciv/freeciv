@@ -60,7 +60,7 @@ int assess_defense_quadratic(struct city *pcity)
     if (is_military_unit(punit)) def += v;
   unit_list_iterate_end;
   if (def > 1<<12) {
-    flog(LOG_DEBUG, "Very large def in assess_defense_quadratic: %d in %s",
+    freelog(LOG_DEBUG, "Very large def in assess_defense_quadratic: %d in %s",
 	 def, pcity->name);
   }
   if (def > 1<<15) def = 1<<15; /* more defense than we know what to do with! */

@@ -150,7 +150,7 @@ This led to a bad bug where a unit in a swamp was considered too far away */
     } /* end for */
   } while (warstacksize > warnodes);
   if (warnodes > WARSTACK_DIM) {
-    flog(LOG_DEBUG, "Warning: %u nodes in map #%d for (%d, %d)",
+    freelog(LOG_DEBUG, "Warning: %u nodes in map #%d for (%d, %d)",
 	 warnodes, which, orig_x, orig_y);
   }
 /* printf("Generated warmap for (%d,%d) with %u nodes checked.\n", orig_x, orig_y, warnodes); */
@@ -744,7 +744,7 @@ unit_types[punit->type].name, punit->id, punit->x, punit->y);*/
     } while(!(x==punit->goto_dest_x && y==punit->goto_dest_y));
   }
   else {
-    flog(LOG_DEBUG, "Did not find the shortest path for "
+    freelog(LOG_DEBUG, "Did not find the shortest path for "
 	 "%s's %s at (%d, %d) -> (%d, %d)",
 	 pplayer->name, unit_types[punit->type].name,
 	 punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y);

@@ -173,7 +173,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  struct city *pnewcity = NULL;
 
 	  if (!pcity) {
-	    flog(LOG_NORMAL, "Treaty city id %d not found - skipping clause.");
+	    freelog(LOG_NORMAL, "Treaty city id %d not found - skipping clause.");
 	    break;
 	  }
 	  
@@ -184,7 +184,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			pcity->name, pdest->name);
 	  
 	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity))){
-	    flog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
+	    freelog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
 	    break;
 	  }
 	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);   

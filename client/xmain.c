@@ -280,22 +280,22 @@ void x_main(int argc, char *argv[])
   XSetErrorHandler(myerr);*/
 
   if(appResources.version==NULL)  {
-    flog(LOG_FATAL, "No version number in resources");
-    flog(LOG_FATAL, "You probably have an old (circa V1.0) Freeciv resource file somewhere");
+    freelog(LOG_FATAL, "No version number in resources");
+    freelog(LOG_FATAL, "You probably have an old (circa V1.0) Freeciv resource file somewhere");
     exit(1);
   }
 
   /* TODO: Use capabilities here instead of version numbers */
   if(strncmp(appResources.version, VERSION_STRING,strlen(appResources.version))) {
-    flog(LOG_FATAL, "Game version does not match Resource version");
-    flog(LOG_FATAL, "Game version: %s - Resource version: %s", 
+    freelog(LOG_FATAL, "Game version does not match Resource version");
+    freelog(LOG_FATAL, "Game version: %s - Resource version: %s", 
 	VERSION_STRING, appResources.version);
-    flog(LOG_FATAL, "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults");
+    freelog(LOG_FATAL, "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults");
     exit(1);
   }
   
   if(!appResources.gotAppDefFile) {
-    flog(LOG_NORMAL, "Using fallback resources - which is OK");
+    freelog(LOG_NORMAL, "Using fallback resources - which is OK");
   }
 
   if(appResources.name) {
@@ -307,7 +307,7 @@ void x_main(int argc, char *argv[])
     if (password)
       strcpy(name, password->pw_name);
     else {
-      flog(LOG_NORMAL, "Your getpwuid call failed.  Please report this.");
+      freelog(LOG_NORMAL, "Your getpwuid call failed.  Please report this.");
       strcpy(name, "operator 00000");
       sprintf(name+9, "%05i",getuid());
     }
@@ -338,7 +338,7 @@ void x_main(int argc, char *argv[])
 
   
   if(display_color_type!=COLOR_DISPLAY) {
-    flog(LOG_FATAL, "only color displays are supported for now...");
+    freelog(LOG_FATAL, "only color displays are supported for now...");
     /*    exit(1); */
   }
   
@@ -360,7 +360,7 @@ void x_main(int argc, char *argv[])
 
     main_font_struct=XLoadQueryFont(display, CITY_NAMES_FONT);
     if(main_font_struct==0) {
-      flog(LOG_FATAL, "failed loading font: " CITY_NAMES_FONT);
+      freelog(LOG_FATAL, "failed loading font: " CITY_NAMES_FONT);
       exit(1);
     }
     values.foreground = colors_standard[COLOR_STD_WHITE];

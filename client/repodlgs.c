@@ -1199,12 +1199,12 @@ void city_report_dialog_update(void)
     char *report_title;
 
     n = city_list_size(&game.player_ptr->cities);
-    flog(LOG_DEBUG, "%d cities in report", n);
+    freelog(LOG_DEBUG, "%d cities in report", n);
     if(n_alloc == 0 || n > n_alloc) {
       int j, n_prev = n_alloc;
       
       n_alloc = n + 32;
-      flog(LOG_DEBUG, "city report n_alloc increased to %d", n_alloc);
+      freelog(LOG_DEBUG, "city report n_alloc increased to %d", n_alloc);
       cities_in_list = realloc(cities_in_list, n_alloc*sizeof(int));
       city_list_ptrs = realloc(city_list_ptrs, n_alloc*sizeof(struct city*));
       city_list_names_ptrs = realloc(city_list_names_ptrs,

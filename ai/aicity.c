@@ -222,7 +222,7 @@ bestchoice.want); */
 
   /* fallbacks should never happen anymore, but probably
      could somehow. -- Syela */
-  flog(LOG_DEBUG, "Falling back - %s didn't want soldiers, settlers,"
+  freelog(LOG_DEBUG, "Falling back - %s didn't want soldiers, settlers,"
        " or buildings", pcity->name);
   if (can_build_improvement(pcity, B_BARRACKS)) {
     pcity->currently_building = B_BARRACKS;
@@ -316,7 +316,7 @@ unit_types[punit->type].name, unit_types[id].name); */
             cost=(total-build)*2+(total-build)*(total-build)/20;
             if ((bestchoice.want <= 100 && build >= total) ||
                   (pplayer->economic.gold >= cost)) {
-	      flog(LOG_DEBUG, "%s disbanding %s in %s to help get %s",
+	      freelog(LOG_DEBUG, "%s disbanding %s in %s to help get %s",
 		   pplayer->name, unit_types[punit->type].name, pcity->name,
 		   unit_types[bestchoice.choice].name);
               notify_player(pplayer, "Game: %s disbanded in %s.",
@@ -935,7 +935,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   struct packet_unit_request pack;
   int i, j;
    
-  flog(LOG_DEBUG, "Emergency in %s! (%d unhap, %d hap, %d food, %d prod)",
+  freelog(LOG_DEBUG, "Emergency in %s! (%d unhap, %d hap, %d food, %d prod)",
        pcity->name, pcity->ppl_unhappy[4], pcity->ppl_happy[4],
        pcity->food_surplus, pcity->shield_surplus);
   city_list_init(&minilist);
@@ -958,15 +958,15 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     ai_scientists_taxmen(pcity);
   if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
       pcity->food_stock + pcity->food_surplus < 0) {
-    flog(LOG_DEBUG, "Emergency unresolved");
+    freelog(LOG_DEBUG, "Emergency unresolved");
   } else {
-    flog(LOG_DEBUG, "Emergency resolved");
+    freelog(LOG_DEBUG, "Emergency resolved");
   }
   /*printf("Rearranging workers in %s\n", pcity->name);*/
 
   unit_list_iterate(pcity->units_supported, punit)
     if (city_unhappy(pcity) && punit->unhappiness && !punit->ai.passenger) {
-       flog(LOG_DEBUG, "%s's %s is unhappy and causing unrest, disbanding it",
+       freelog(LOG_DEBUG, "%s's %s is unhappy and causing unrest, disbanding it",
 	    pcity->name, unit_types[punit->type].name);
        pack.unit_id = punit->id;
        /* in rare cases the _safe might be needed? --dwp */

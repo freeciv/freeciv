@@ -50,7 +50,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   strcpy(s_capability, packet->capability);
 
   if (packet->you_can_join) {
-    flog(LOG_DEBUG, "join game accept:%s", packet->message);
+    freelog(LOG_DEBUG, "join game accept:%s", packet->message);
   } else {
     sprintf(msg, "You were rejected from the game: %s", packet->message);
     append_output_window(msg);
@@ -228,7 +228,7 @@ void handle_city_info(struct packet_city_info *packet)
     refresh_city_dialog(pcity);
 
   if(DEBUG && city_is_new) {
-    flog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
+    freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
 	 get_race_name(city_owner(pcity)->race),
 	 pcity->name, pcity->id, pcity->x, pcity->y);
   }
@@ -280,7 +280,7 @@ void handle_chat_msg(struct packet_generic_message *packet)
   int where = MW_OUTPUT;	/* where to display the message */
   
   if (packet->event >= E_LAST)  {
-    flog(LOG_NORMAL,"Unknown event type %d!", packet->event);
+    freelog(LOG_NORMAL,"Unknown event type %d!", packet->event);
   } else if (packet->event >= 0)  {
     where = messages_where[packet->event];
   }
@@ -476,7 +476,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       unit_list_insert(&pcity->units_supported, punit);
 
     if (DEBUG) {
-      flog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
+      freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
 	   get_race_name(get_player(punit->owner)->race),
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : "(unknown)"));
@@ -516,7 +516,7 @@ void handle_map_info(struct packet_map_info *pinfo)
 
   if(!(map.tiles=(struct tile*)malloc(map.xsize*map.ysize*
 				      sizeof(struct tile)))) {
-    flog(LOG_FATAL, "malloc failed in handle_map_info");
+    freelog(LOG_FATAL, "malloc failed in handle_map_info");
     exit(1);
   }
   for(y=0; y<map.ysize; y++)
@@ -759,7 +759,7 @@ void handle_select_race(struct packet_generic_integer *packet)
     races_toggles_set_sensitive(packet->value);
   }
   else
-    flog(LOG_DEBUG, "got a select race packet in an incompatible state");
+    freelog(LOG_DEBUG, "got a select race packet in an incompatible state");
 }
 
 /**************************************************************************

@@ -111,7 +111,7 @@ void load_tile_gfx(void)
   ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4) + 6;
 
   if(!(tile_sprites=malloc(ntiles*sizeof(struct Sprite *)))) {
-    flog(LOG_FATAL, "couldn't malloc tile_sprites array");
+    freelog(LOG_FATAL, "couldn't malloc tile_sprites array");
     exit(1);
   }
 
@@ -145,8 +145,8 @@ void load_tile_gfx(void)
 
   if(small_sprite->width != SMALL_TILE_WIDTH*31 ||
      small_sprite->height != SMALL_TILE_HEIGHT*1)  {
-    flog(LOG_FATAL, "XPM file small.xpm is the wrong size!");
-    flog(LOG_FATAL, "Expected %dx%d, got %dx%d",
+    freelog(LOG_FATAL, "XPM file small.xpm is the wrong size!");
+    freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
          SMALL_TILE_WIDTH*31,SMALL_TILE_HEIGHT*1,
 	 small_sprite->width, small_sprite->height);
     exit(1);
@@ -181,8 +181,8 @@ void load_tile_gfx(void)
 
   if(unit_sprite->width != NORMAL_TILE_WIDTH*20 ||
      unit_sprite->height != NORMAL_TILE_HEIGHT*3)  {
-    flog(LOG_FATAL, "XPM file units.xpm is the wrong size!");
-    flog(LOG_FATAL, "Expected %dx%d, got %dx%d",
+    freelog(LOG_FATAL, "XPM file units.xpm is the wrong size!");
+    freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
          NORMAL_TILE_WIDTH*20,NORMAL_TILE_HEIGHT*3,
 	 unit_sprite->width, unit_sprite->height);
     exit(1);
@@ -216,8 +216,8 @@ void load_tile_gfx(void)
 
   if(roads_sprite->width != NORMAL_TILE_WIDTH*16 ||
      roads_sprite->height != NORMAL_TILE_HEIGHT*4)  {
-    flog(LOG_FATAL, "XPM file roads.xpm is the wrong size!");
-    flog(LOG_FATAL, "Expected %dx%d, got %dx%d",
+    freelog(LOG_FATAL, "XPM file roads.xpm is the wrong size!");
+    freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
          NORMAL_TILE_WIDTH*16,NORMAL_TILE_HEIGHT*4,
 	 roads_sprite->width, roads_sprite->height);
     exit(1);
@@ -359,15 +359,15 @@ again:
       goto again;
     }
     
-    flog(LOG_FATAL, "Failed reading XPM file: %s", filename);
-    flog(LOG_FATAL, "The environment variable FREECIV_DATADIR is '%s'",
+    freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
+    freelog(LOG_FATAL, "The environment variable FREECIV_DATADIR is '%s'",
 	getenv("FREECIV_DATADIR") ? getenv("FREECIV_DATADIR") : "");
-    flog(LOG_FATAL, "Check if you got read permissions to the file");
+    freelog(LOG_FATAL, "Check if you got read permissions to the file");
     exit(1);
   }
 
   if(!(mysprite=(struct Sprite *)malloc(sizeof(struct Sprite)))) {
-    flog(LOG_FATAL, "failed mallocing sprite struct for %s", filename);
+    freelog(LOG_FATAL, "failed mallocing sprite struct for %s", filename);
     exit(1);
   }
   

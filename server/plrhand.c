@@ -1025,7 +1025,7 @@ void page_player_generic(struct player *pplayer, char *headline, char *lines, in
   struct packet_generic_message genmsg;
 
   if(strlen(headline)+1+strlen(lines) >= sizeof(genmsg.message)) {
-    flog(LOG_NORMAL, "Message too long in page_player_generic!!");
+    freelog(LOG_NORMAL, "Message too long in page_player_generic!!");
     return;
   }
   strcpy(genmsg.message, headline);
