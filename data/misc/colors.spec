@@ -57,4 +57,6 @@ tiles = { "row", "column", "tag"
   0, 1, "colors.player29"
   0, 2, "colors.player30"
   0, 3, "colors.player31"
+
+  3, 2, "colors.background"
 }

@@ -50,27 +50,14 @@ struct tile_corner {
 
 struct drawn_sprite {
   enum {
-    DRAWN_SPRITE,	/* Draw a sprite. */
-    DRAWN_BG            /* Draw a solid BG. */
-  } type;
-
-  union {
-    struct {
-      enum {
-	/* Only applicable in iso-view.  "Full" sprites overlap into the top
-	 * half-tile of UNIT_TILE_HEIGHT. */
-	DRAW_NORMAL,
-	DRAW_FULL
-      } style;
-      bool foggable;	/* Set to FALSE for sprites that are never fogged. */
-      struct Sprite *sprite;
-      int offset_x, offset_y;	/* offset from tile origin */
-    } sprite;
-
-    struct {
-      enum color_std color;
-    } bg;
-  } data;
+    /* Only applicable in iso-view.  "Full" sprites overlap into the top
+     * half-tile of UNIT_TILE_HEIGHT. */
+    DRAW_NORMAL,
+    DRAW_FULL
+  } style;
+  bool foggable;	/* Set to FALSE for sprites that are never fogged. */
+  struct Sprite *sprite;
+  int offset_x, offset_y;	/* offset from tile origin */
 };
 
 /* Items on the mapview are drawn in layers.  Each entry below represents
@@ -360,8 +347,12 @@ struct named_sprites {
       *player_borders[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS][EDGE_COUNT][2];
   } grid;
   struct {
+    struct Sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+    struct Sprite *background; /* Generic background */
+  } backgrounds;
+  struct {
     struct sprite_vector overlays;
-
+    struct Sprite *background; /* Generic background color */
     struct Sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   } colors;
 

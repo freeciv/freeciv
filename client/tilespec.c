@@ -1627,6 +1627,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     my_snprintf(buffer, sizeof(buffer), "colors.player%d", i);
     SET_SPRITE(colors.player[i], buffer);
   }
+  SET_SPRITE(colors.background, "colors.background");
   sprite_vector_init(&sprites.colors.overlays);
   for (i = 0; ; i++) {
     struct Sprite *sprite;
@@ -1661,6 +1662,16 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     free_sprite(color_mask);
     sprites.city.worked_tile_overlay.p[i] =  worked;
     sprites.city.unworked_tile_overlay.p[i] = unworked;
+  }
+
+  /* Chop up and build the background graphics. */
+  sprites.backgrounds.background
+    = crop_sprite(sprites.colors.background, 0, 0, W, H,
+		  sprites.mask.tile, 0, 0);
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    sprites.backgrounds.player[i]
+      = crop_sprite(sprites.colors.player[i], 0, 0, W, H,
+		    sprites.mask.tile, 0, 0);
   }
 
   {
@@ -2221,26 +2232,14 @@ static struct Sprite *get_city_occupied_sprite(const struct city *pcity)
 
 #define ADD_SPRITE(s, draw_style, draw_fog, x_offset, y_offset)		    \
   (assert(s != NULL),							    \
-   sprs->type = DRAWN_SPRITE,						    \
-   sprs->data.sprite.style = draw_style,				    \
-   sprs->data.sprite.sprite = s,					    \
-   sprs->data.sprite.foggable = (draw_fog && t->fogstyle == FOG_AUTO),	    \
-   sprs->data.sprite.offset_x = x_offset,				    \
-   sprs->data.sprite.offset_y = y_offset,				    \
+   sprs->style = draw_style,						    \
+   sprs->sprite = s,							    \
+   sprs->foggable = (draw_fog && t->fogstyle == FOG_AUTO),		    \
+   sprs->offset_x = x_offset,						    \
+   sprs->offset_y = y_offset,						    \
    sprs++)
 #define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, DRAW_NORMAL, TRUE, 0, 0)
 #define ADD_SPRITE_FULL(s) ADD_SPRITE(s, DRAW_FULL, TRUE, 0, 0)
-
-#define ADD_GRID(ptile, mode)						    \
-  (sprs->type = DRAWN_GRID,						    \
-   sprs->data.grid.tile = (ptile),					    \
-   sprs->data.grid.citymode = (mode),					    \
-   sprs++)
-
-#define ADD_BG(bg_color)						    \
-  (sprs->type = DRAWN_BG,						    \
-   sprs->data.bg.color = (bg_color),					    \
-   sprs++)
 
 /**************************************************************************
   Assemble some data that is used in building the tile sprite arrays.
@@ -3200,6 +3199,7 @@ int fill_sprite_array(struct tileset *t,
   int tileno, dir;
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
+  struct player *owner = NULL;
 
   /* Unit drawing is disabled if the view options is turned off, but only
    * if we're drawing on the mapview. */
@@ -3244,20 +3244,18 @@ int fill_sprite_array(struct tileset *t,
 
   switch (layer) {
   case LAYER_BACKGROUND:
-    if (ptile && tile_get_known(ptile) == TILE_UNKNOWN) {
-      ADD_BG(COLOR_STD_BLACK);
-      return sprs - save_sprs;
-    }
-
     /* Set up background color. */
     if (solid_color_behind_units) {
       if (do_draw_unit) {
-	ADD_BG(player_color(unit_owner(punit)));
+	owner = unit_owner(punit);
       } else if (pcity && draw_cities) {
-	ADD_BG(player_color(city_owner(pcity)));
+	owner = city_owner(pcity);
       }
+    }
+    if (owner) {
+      ADD_SPRITE_SIMPLE(sprites.backgrounds.player[owner->player_no]);
     } else if (ptile && !draw_terrain) {
-      ADD_BG(COLOR_STD_BACKGROUND);
+      ADD_SPRITE_SIMPLE(sprites.backgrounds.background);
     }
     break;
 

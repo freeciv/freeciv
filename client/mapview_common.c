@@ -868,51 +868,31 @@ static void put_drawn_sprites(struct canvas *pcanvas,
   for (i = 0; i < count; i++) {
     int ox, oy, dx, dy;
 
-    switch (pdrawn[i].type) {
-    case DRAWN_SPRITE:
-      if (!pdrawn[i].data.sprite.sprite) {
-	/* This can happen, although it should probably be avoided. */
-	break;
-      }
-      ox = pdrawn[i].data.sprite.offset_x;
-      oy = pdrawn[i].data.sprite.offset_y;
-      if (pdrawn[i].data.sprite.style == DRAW_FULL) {
-	dx = UNIT_TILE_WIDTH - NORMAL_TILE_WIDTH;
-	dy = UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT;
-      } else {
-	dx = dy = 0;
-      }
-      if (fog && pdrawn[i].data.sprite.foggable) {
-	canvas_put_sprite_fogged(pcanvas,
-				 canvas_x + ox - dx, canvas_y + oy - dy,
-				 pdrawn[i].data.sprite.sprite,
-				 TRUE,
-				 canvas_x, canvas_y);
-      } else {
-	/* We avoid calling canvas_put_sprite_fogged, even though it
-	 * should be a valid thing to do, because gui-gtk-2.0 doesn't have
-	 * a full implementation. */
-	canvas_put_sprite_full(pcanvas,
+    if (!pdrawn[i].sprite) {
+      /* This can happen, although it should probably be avoided. */
+      continue;
+    }
+    ox = pdrawn[i].offset_x;
+    oy = pdrawn[i].offset_y;
+    if (pdrawn[i].style == DRAW_FULL) {
+      dx = UNIT_TILE_WIDTH - NORMAL_TILE_WIDTH;
+      dy = UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT;
+    } else {
+      dx = dy = 0;
+    }
+    if (fog && pdrawn[i].foggable) {
+      canvas_put_sprite_fogged(pcanvas,
 			       canvas_x + ox - dx, canvas_y + oy - dy,
-			       pdrawn[i].data.sprite.sprite);
-      }
-      break;
-    case DRAWN_BG:
-      /*** Background color. ***/
-      if (tileset_is_isometric()) {
-	canvas_fill_sprite_area(pcanvas, sprites.mask.tile,
-				pdrawn[i].data.bg.color,
-				canvas_x, canvas_y);
-	if (fog) {
-	  canvas_fog_sprite_area(pcanvas, sprites.mask.tile,
-				 canvas_x, canvas_y);
-	}
-      } else {
-	canvas_put_rectangle(pcanvas, pdrawn[i].data.bg.color,
-			     canvas_x, canvas_y,
-			     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      }
-      break;
+			       pdrawn[i].sprite,
+			       TRUE,
+			       canvas_x, canvas_y);
+    } else {
+      /* We avoid calling canvas_put_sprite_fogged, even though it
+       * should be a valid thing to do, because gui-gtk-2.0 doesn't have
+       * a full implementation. */
+      canvas_put_sprite_full(pcanvas,
+			     canvas_x + ox - dx, canvas_y + oy - dy,
+			     pdrawn[i].sprite);
     }
   }
 }
