@@ -625,9 +625,9 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
     }
   } players_iterate_end;
 
-  /* Modify by hatred */
+  /* Modify by love */
   if (adip->love < 0) {
-    kill_desire += kill_desire / 100 * adip->love;
+    kill_desire -= kill_desire * adip->love / 100;
   }
 
   /* Amortize by distance */
