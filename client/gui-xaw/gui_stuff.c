@@ -204,6 +204,9 @@ Pixmap x_scale_pixmap(Pixmap src, int src_w, int src_h, int dst_w, int dst_h,
   dst=XCreatePixmap(display, root, dst_w, dst_h, display_depth);
   XPutImage(display, dst, civ_gc, xi_dst, 0, 0, 0, 0, dst_w, dst_h);
 
+  xi_src->f.destroy_image(xi_src);
+  xi_dst->f.destroy_image(xi_dst);
+
   return dst;
 }
 
