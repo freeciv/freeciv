@@ -126,7 +126,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
 
   gtk_widget_show(dialog);
   gtk_entry_set_visibility(GTK_ENTRY(iinput), FALSE);
-  gtk_set_label(ilabel, _("Password:"));
+  gtk_label_set_text(GTK_LABEL(ilabel), _("Password:"));
 }
 
 /**************************************************************************

@@ -119,7 +119,7 @@ void update_timeout_label(void)
     sz_strlcpy(buffer, Q_("?timeout:off"));
   else
     format_duration(buffer, sizeof(buffer), seconds_to_turndone);
-  gtk_set_label(timeout_label, buffer);
+  gtk_label_set_text(GTK_LABEL(timeout_label), buffer);
 }
 
 /**************************************************************************
@@ -143,7 +143,7 @@ void update_info_label( void )
 	      game.player_ptr->economic.luxury,
 	      game.player_ptr->economic.science);
 
-  gtk_set_label(main_label_info, buffer);
+  gtk_label_set_text(GTK_LABEL(main_label_info), buffer);
 
   sol = client_warming_sprite();
   flake = client_cooling_sprite();
@@ -245,7 +245,7 @@ void update_unit_info_label(struct unit *punit)
 		map_get_infrastructure_text(infrastructure) : "",
 		infrastructure ? "\n" : "", pcity ? pcity->name : "",
 		infrastructure ? "" : "\n");
-    gtk_set_label( unit_info_label, buffer);
+    gtk_label_set_text(GTK_LABEL(unit_info_label), buffer);
 
     if (hover_unit != punit->id)
       set_hover_state(NULL, HOVER_NONE);
@@ -270,7 +270,7 @@ void update_unit_info_label(struct unit *punit)
     }
   } else {
     gtk_frame_set_label( GTK_FRAME(unit_info_frame),"");
-    gtk_set_label(unit_info_label,"\n\n\n");
+    gtk_label_set_text(GTK_LABEL(unit_info_label), "\n\n\n");
     gdk_window_set_cursor(root_window, NULL);
   }
   update_unit_pix_label(punit);

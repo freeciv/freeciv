@@ -15,10 +15,7 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel);
 GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text);
-void gtk_set_label(GtkWidget *w, char *text);
-void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm);
 void gtk_expose_now(GtkWidget *w);
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
 

@@ -1341,7 +1341,7 @@ static void city_dialog_update_information(GtkWidget **info_label,
   /* stick 'em in the labels */
 
   for (i = 0; i < NUM_INFO_FIELDS; i++) {
-    gtk_set_label(info_label[i], buf[i]);
+    gtk_label_set_text(GTK_LABEL(info_label[i]), buf[i]);
   }
 
   /* 

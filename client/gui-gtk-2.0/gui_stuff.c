@@ -55,32 +55,6 @@ void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
   gtk_window_move(GTK_WINDOW(w), x, y);
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-void gtk_set_label(GtkWidget *w, char *text)
-{
-  const char *str;
-
-  if (!GTK_IS_LABEL(w))
-    return;
-  str = gtk_label_get_text(GTK_LABEL(w));
-  if(strcmp(str, text) != 0) {
-    gtk_label_set_text(GTK_LABEL(w), text);
-    gtk_expose_now(w);
-  }
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel)
-{
-  return gtk_button_new_with_mnemonic(label);
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
