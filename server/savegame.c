@@ -1760,6 +1760,9 @@ void game_load(struct section_file *file)
     game.citymindist  = secfile_lookup_int_default(file,
       GAME_DEFAULT_CITYMINDIST, "game.citymindist");
 
+    game.rapturedelay  = secfile_lookup_int_default(file,
+      GAME_DEFAULT_RAPTUREDELAY, "game.rapturedelay");
+
     if (has_capability("watchtower", savefile_options)) {
       game.watchtower_extra_vision =
 	  secfile_lookup_int(file, "game.watchtower_extra_vision");
@@ -2117,6 +2120,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
   secfile_insert_int(file, game.citymindist, "game.citymindist");
   secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");
+  secfile_insert_int(file, game.rapturedelay, "game.rapturedelay");
   secfile_insert_int(file, game.diplcost, "game.diplcost");
   secfile_insert_int(file, game.freecost, "game.freecost");
   secfile_insert_int(file, game.conquercost, "game.conquercost");

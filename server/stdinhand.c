@@ -475,6 +475,13 @@ static struct settings_s settings[] = {
 	  GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST,
 	  GAME_DEFAULT_CITYMINDIST)
   
+  GEN_INT("rapturedelay", game.rapturedelay, SSET_RULES, SSET_TO_CLIENT,
+          N_("Sets number of turns between rapture effect."),
+          N_("Sets the number of turns between rapture growth of a city. "
+             "If set to n a city will grow after rapturing n+1 turns."), NULL,
+          GAME_MIN_RAPTUREDELAY, GAME_MAX_RAPTUREDELAY,
+          GAME_DEFAULT_RAPTUREDELAY)
+
   GEN_INT("razechance", game.razechance, SSET_RULES, SSET_TO_CLIENT,
 	  N_("Chance for conquered building destruction"),
 	  N_("When a player conquers a city, each City Improvement has this "

@@ -673,6 +673,7 @@ void game_init(void)
   game.cityfactor  = GAME_DEFAULT_CITYFACTOR;
   game.citymindist = GAME_DEFAULT_CITYMINDIST;
   game.civilwarsize= GAME_DEFAULT_CIVILWARSIZE;
+  game.rapturedelay= GAME_DEFAULT_RAPTUREDELAY;
   game.savepalace  = GAME_DEFAULT_SAVEPALACE;
   game.natural_city_names = GAME_DEFAULT_NATURALCITYNAMES;
   game.unhappysize = GAME_DEFAULT_UNHAPPYSIZE;

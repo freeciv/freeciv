@@ -1036,8 +1036,10 @@ called after .was_happy was updated.
 bool city_rapture_grow(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
-  return (pcity->rapture>0 && pcity->food_surplus>0 &&
-	  government_has_flag(g, G_RAPTURE_CITY_GROWTH));
+
+  return (pcity->rapture > 0 && pcity->food_surplus > 0
+	  && (pcity->rapture % game.rapturedelay) == 0
+	  && government_has_flag(g, G_RAPTURE_CITY_GROWTH));
 }
 
 /**************************************************************************

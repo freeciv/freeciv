@@ -80,6 +80,7 @@ struct civ_game {
   int cityfactor;
   int citymindist;
   int civilwarsize;
+  int rapturedelay;
   int min_players, max_players, nplayers;
   int aifill;
   int notradesize, fulltradesize;
@@ -338,6 +339,10 @@ extern bool is_server;
 #define GAME_MIN_CIVILWARSIZE        6
 #define GAME_MAX_CIVILWARSIZE        1000
 
+#define GAME_DEFAULT_RAPTUREDELAY    1
+#define GAME_MIN_RAPTUREDELAY        1
+#define GAME_MAX_RAPTUREDELAY        99 /* 99 practicaly disables rapturing */
+ 
 #define GAME_DEFAULT_SAVEPALACE      TRUE
 
 #define GAME_DEFAULT_NATURALCITYNAMES TRUE
