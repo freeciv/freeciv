@@ -49,7 +49,7 @@ enum client_states client_state=CLIENT_BOOT_STATE;
 int use_solid_color_behind_units;
 int sound_bell_at_new_turn;
 int smooth_move_units=1;
-int flags_are_transparent=0;
+int flags_are_transparent=1;
 int ai_popup_windows=0;
 int ai_manual_turn_done=1;
 int auto_center_on_unit=1;
