@@ -261,7 +261,7 @@ void game_init(void)
 #else
   game.save_compress_level = GAME_NO_COMPRESS_LEVEL;
 #endif
-  game.randseed=GAME_DEFAULT_RANDSEED;
+  game.seed = GAME_DEFAULT_SEED;
   game.watchtower_vision=GAME_DEFAULT_WATCHTOWER_VISION;
   game.watchtower_extra_vision=GAME_DEFAULT_WATCHTOWER_EXTRA_VISION,
   game.allowed_city_names = GAME_DEFAULT_ALLOWED_CITY_NAMES;

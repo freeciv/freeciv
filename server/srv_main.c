@@ -150,14 +150,14 @@ static bool has_been_srv_init = FALSE;
 **************************************************************************/
 void init_game_seed(void)
 {
-  if (game.randseed == 0) {
+  if (game.seed == 0) {
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
-    game.randseed = time(NULL) & (MAX_UINT32 >> 1);
+    game.seed = time(NULL) & (MAX_UINT32 >> 1);
   }
  
   if (!myrand_is_init()) {
-    mysrand(game.randseed);
+    mysrand(game.seed);
   }
 }
 

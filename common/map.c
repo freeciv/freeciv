@@ -193,7 +193,7 @@ void map_init(void)
   map.xsize = MAP_MIN_LINEAR_SIZE;  
   map.ysize = MAP_MIN_LINEAR_SIZE;
 
-  map.seed                  = MAP_DEFAULT_SEED;
+  map.seed = MAP_DEFAULT_SEED;
   map.riches                = MAP_DEFAULT_RICHES;
   map.huts                  = MAP_DEFAULT_HUTS;
   map.landpercent           = MAP_DEFAULT_LANDMASS;

@@ -2998,8 +2998,8 @@ void game_load(struct section_file *file)
 			     1.10.0 */
     game.occupychance = secfile_lookup_int_default(file, game.occupychance,
 						   "game.occupychance");
-    game.randseed = secfile_lookup_int_default(file, game.randseed,
-					       "game.randseed");
+    game.seed = secfile_lookup_int_default(file, game.seed,
+					   "game.randseed");
     game.allowed_city_names =
 	secfile_lookup_int_default(file, game.allowed_city_names,
 				   "game.allowed_city_names"); 
@@ -3492,7 +3492,7 @@ void game_save(struct section_file *file)
     secfile_insert_bool(file, map.separatepoles, "map.separatepoles");
   } 
 
-  secfile_insert_int(file, game.randseed, "game.randseed");
+  secfile_insert_int(file, game.seed, "game.randseed");
   
   if (myrand_is_init() && game.save_options.save_random) {
     RANDOM_STATE rstate = get_myrand_state();

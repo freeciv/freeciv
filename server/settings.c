@@ -346,7 +346,7 @@ struct settings_s settings[] = {
 	  N_("Amount of desert squares"), "", NULL, 
 	  MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS)
 
-  GEN_INT("seed", map.seed,
+  GEN_INT("mapseed", map.seed,
 	  SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
 	  N_("Map generation random seed"),
 	  N_("The same seed will always produce the same map; "
@@ -354,17 +354,17 @@ struct settings_s settings[] = {
 	     "the time, to give a random map."), NULL, 
 	  MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED)
 
-  /* Map additional stuff: huts and specials.  randseed also goes here
-   * because huts and specials are the first time the randseed gets used (?)
+  /* Map additional stuff: huts and specials.  gameseed also goes here
+   * because huts and specials are the first time the gameseed gets used (?)
    * These are done when the game starts, so these are historical and
    * fixed after the game has started.
    */
-  GEN_INT("randseed", game.randseed,
+  GEN_INT("gameseed", game.seed,
 	  SSET_MAP_ADD, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
 	  N_("General random seed"),
 	  N_("For zero (the default) a seed will be chosen based "
 	     "on the time."), NULL, 
-	  GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED)
+	  GAME_MIN_SEED, GAME_MAX_SEED, GAME_DEFAULT_SEED)
 
   GEN_INT("specials", map.riches,
 	  SSET_MAP_ADD, SSET_ECOLOGY, SSET_VITAL, SSET_TO_CLIENT,

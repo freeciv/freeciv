@@ -129,7 +129,7 @@ struct civ_game {
   int techpenalty;
   int razechance;
   bool scorelog;
-  int randseed;
+  int seed;
   int aqueduct_size;
   int add_to_size_limit;
   bool savepalace;
@@ -288,9 +288,9 @@ const char *population_to_text(int thousand_citizen);
 extern struct civ_game game;
 extern bool is_server;
 
-#define GAME_DEFAULT_RANDSEED        0
-#define GAME_MIN_RANDSEED            0
-#define GAME_MAX_RANDSEED            (MAX_UINT32 >> 1)
+#define GAME_DEFAULT_SEED        0
+#define GAME_MIN_SEED            0
+#define GAME_MAX_SEED            (MAX_UINT32 >> 1)
 
 #define GAME_DEFAULT_GOLD        50
 #define GAME_MIN_GOLD            0

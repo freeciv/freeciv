@@ -61,8 +61,8 @@ fixed bug, or as a random sequence of games in a while loop overnight.
 To start a server game with all AI players, create a file (below named
 civ.serv) with lines such as the following:
 
-# set randseed 42       # repeat a particular game (random) sequence
-# set seed 42           # repeat a particular map generation sequence
+# set gameseed 42       # repeat a particular game (random) sequence
+# set mapseed 42        # repeat a particular map generation sequence
 # set timeout 3         # run a client/server autogame
 set timeout -1          # run a server only autogame
 set aifill 7            # fill to 7 players
