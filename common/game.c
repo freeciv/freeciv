@@ -222,21 +222,6 @@ int civ_population(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-struct city *game_find_city_by_coor(int x, int y)
-{
-  int i;
-  struct city *pcity;
-
-  for(i=0; i<game.nplayers; i++)
-    if((pcity=city_list_find_coor(&game.players[i].cities, x, y)))
-      return pcity;
-
-  return 0;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 struct city *game_find_city_by_id(int city_id)
 {
   int i;

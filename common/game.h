@@ -85,7 +85,6 @@ void game_next_year(void);
 
 int civ_population(struct player *pplayer);
 struct unit *game_find_unit_by_id(int unit_id);
-struct city *game_find_city_by_coor(int x, int y);
 struct city *game_find_city_by_id(int city_id);
 struct city *game_find_city_by_name(char *name);
 
