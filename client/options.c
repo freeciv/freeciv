@@ -97,7 +97,7 @@ client_option options[] = {
   GEN_INT_OPTION(smooth_move_unit_steps,    N_("Smooth unit move steps")),
   GEN_BOOL_OPTION(do_combat_animation,      N_("Show combat animation")),
   GEN_BOOL_OPTION(ai_popup_windows,         N_("Popup dialogs in AI Mode")),
-/*  GEN_BOOL_OPTION(ai_manual_turn_done,      N_("Manual Turn Done in AI Mode")), */
+  GEN_BOOL_OPTION(ai_manual_turn_done,      N_("Manual Turn Done in AI Mode")),
   GEN_BOOL_OPTION(auto_center_on_unit,      N_("Auto Center on Units")),
   GEN_BOOL_OPTION(auto_center_on_combat,    N_("Auto Center on Combat")),
   GEN_BOOL_OPTION(wakeup_focus,             N_("Focus on Awakened Units")),

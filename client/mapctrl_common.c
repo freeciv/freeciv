@@ -53,7 +53,6 @@ void update_turn_done_button_state()
 
   new_state = (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	       && !game.player_ptr->turn_done && !agents_busy()
-	       && (!game.player_ptr->ai.control || ai_manual_turn_done)
 	       && !client_is_observer()
 	       && !turn_done_sent);
   if (new_state == turn_done_state) {
