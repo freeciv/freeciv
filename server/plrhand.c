@@ -215,6 +215,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   int i;
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
+  bool macro_polo_was_obsolete = wonder_obsolete(B_MARCO);
   int saved_bulbs;
   struct city *pcity;
 
@@ -324,6 +325,35 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 			   "an immediate advance."));
     }
     tech_researched(plr);
+  }
+  
+  /*
+   * Update all cities if the new tech affects happiness.
+   */
+  if (tech_found == game.rtech.cathedral_plus
+      || tech_found == game.rtech.cathedral_minus
+      || tech_found == game.rtech.colosseum_plus
+      || tech_found == game.rtech.temple_plus) {
+    city_list_iterate(plr->cities, pcity) {
+      city_refresh(pcity);
+      send_city_info(plr, pcity);
+    } city_list_iterate_end;
+  }
+
+  /*
+   * Send all player an updated info of the owner of the Marco Polo
+   * Wonder if this wonder has become obsolete.
+   */
+  if (!macro_polo_was_obsolete && wonder_obsolete(B_MARCO)) {
+    struct city *pcity = find_city_wonder(B_MARCO);
+
+    if (pcity) {
+      struct player *owner = city_owner(pcity);
+
+      players_iterate(other_player) {
+	send_player_info(owner, other_player);
+      } players_iterate_end;
+    }
   }
 }
 
