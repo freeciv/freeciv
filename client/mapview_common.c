@@ -187,34 +187,42 @@ static void canvas_pos_to_map_pos(int canvas_x, int canvas_y,
 				  int map_view_topleft_map_y)
 {
   if (is_isometric) {
-    *map_x = map_view_topleft_map_x;
-    *map_y = map_view_topleft_map_y;
+    /* The basic operation here is a simple pi/4 rotation; however, we
+     * have to first scale because the tiles have different width and
+     * height.  Mathematically, this looks like
+     *   | 1/W  1/H | |x|    |x`|
+     *   |          | | | -> |  |
+     *   |-1/W  1/H | |y|    |y`|
+     *
+     * Where W is the tile width and H the height.
+     *
+     * In simple terms, this is
+     *   map_x = [   x / W + y / H ]
+     *   map_y = [ - x / W + y / H ]
+     * where [q] stands for integer part of q.
+     *
+     * Here the division is proper mathematical floating point division.
+     *
+     * A picture demonstrating this can be seen at
+     * http://rt.freeciv.org/Ticket/Attachment/16782/9982/grid1.png.
+     *
+     * The calculation is complicated somewhat because of two things: we
+     * only use integer math, and C integer division rounds toward zero
+     * instead of rounding down.
+     *
+     * For another example of this math, see canvas_pos_to_city_pos().
+     */
+    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
 
-    /* first find an equivalent position on the left side of the screen. */
-    *map_x += canvas_x / NORMAL_TILE_WIDTH;
-    *map_y -= canvas_x / NORMAL_TILE_WIDTH;
-    canvas_x %= NORMAL_TILE_WIDTH;
-
-    /* Then move op to the top corner. */
-    *map_x += canvas_y / NORMAL_TILE_HEIGHT;
-    *map_y += canvas_y / NORMAL_TILE_HEIGHT;
-    canvas_y %= NORMAL_TILE_HEIGHT;
-
-    /* We are inside a rectangle, with 2 half tiles starting in the
-       corner, and two tiles further out. Draw a grid to see how this
-       works :). */
-    assert(NORMAL_TILE_WIDTH == 2 * NORMAL_TILE_HEIGHT);
-    canvas_y *= 2;		/* now we have a square. */
-    if (canvas_x > canvas_y) {
-      *map_y -= 1;
-    }
-    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH) {
-      *map_x += 1;
-    }
+    *map_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
+    *map_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
   } else {			/* is_isometric */
-    *map_x = map_view_topleft_map_x + canvas_x / NORMAL_TILE_WIDTH;
-    *map_y = map_view_topleft_map_y + canvas_y / NORMAL_TILE_HEIGHT;
+    *map_x = canvas_x / NORMAL_TILE_WIDTH;
+    *map_y = canvas_y / NORMAL_TILE_HEIGHT;
   }
+
+  *map_x += map_view_topleft_map_x;
+  *map_y += map_view_topleft_map_y;
 
   /*
    * If we are outside the map find the nearest tile, with distance as

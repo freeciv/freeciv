@@ -55,35 +55,30 @@ This converts a citymap canvas position to a city coordinate position
 **************************************************************************/
 void canvas_pos_to_city_pos(int canvas_x, int canvas_y, int *map_x, int *map_y)
 {
+  int orig_canvas_x = canvas_x, orig_canvas_y = canvas_y;
+
   if (is_isometric) {
-    *map_x = -2;
-    *map_y = 2;
+    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
 
-    /* first find an equivalent position on the left side of the screen. */
-    *map_x += canvas_x / NORMAL_TILE_WIDTH;
-    *map_y -= canvas_x / NORMAL_TILE_WIDTH;
-    canvas_x %= NORMAL_TILE_WIDTH;
+    /* Shift the tile right so the top corner of tile (-2,2) is at
+       canvas position (0,0). */
+    canvas_y += H / 2;
 
-    /* Then move op to the top corner. */
-    *map_x += canvas_y / NORMAL_TILE_HEIGHT;
-    *map_y += canvas_y / NORMAL_TILE_HEIGHT;
-    canvas_y %= NORMAL_TILE_HEIGHT;
+    /* Perform a pi/4 rotation, with scaling.  See canvas_pos_to_map_pos
+       for a full explanation. */
+    *map_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
+    *map_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
 
-    assert(NORMAL_TILE_WIDTH == 2 * NORMAL_TILE_HEIGHT);
-    canvas_y *= 2;		/* now we have a square. */
-    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH / 2)
-      (*map_x)++;
-    if (canvas_x + canvas_y > 3 * NORMAL_TILE_WIDTH / 2)
-      (*map_x)++;
-    if (canvas_x - canvas_y > NORMAL_TILE_WIDTH / 2)
-      (*map_y)--;
-    if (canvas_y - canvas_x > NORMAL_TILE_WIDTH / 2)
-      (*map_y)++;
+    /* Add on the offset of the top-left corner to get the final
+       coordinates (like in canvas_pos_to_map_pos). */
+    *map_x -= 2;
+    *map_y += 2;
   } else {
     *map_x = canvas_x / NORMAL_TILE_WIDTH;
     *map_y = canvas_y / NORMAL_TILE_HEIGHT;
   }
-  freelog(LOG_DEBUG, "canvas_pos_to_city_pos(pos=(%d,%d))=(%d,%d)", canvas_x, canvas_y, *map_x, *map_y);
+  freelog(LOG_DEBUG, "canvas_pos_to_city_pos(pos=(%d,%d))=(%d,%d)",
+	  orig_canvas_x, orig_canvas_y, *map_x, *map_y);
 }
 
 /**************************************************************************
