@@ -1,3 +1,3578 @@
+Wed Jun 21 15:07:48 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/unitfunc.c:
+
+	When change ocean to land, and new land blocks river estuary, add
+	river to new land.  Patch submitted by Cameron Morland
+	<cjmorlan@uwaterloo.ca>.
+
+Wed Jun 21 14:27:14 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/climisc.c, client/packhand.c, client/gui-gtk/mapview.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/mapview.c:
+
+	Fix bug that disbanding a unit via city dialog did not update the
+	unit pixmaps on the left-hand side.  Bug (PR#396) reported by
+	Stepan Roh <sroh7497@ss1000.ms.mff.cuni.cz>.  Also fix bug that hp
+	bar of active unit on left-hand side was not always updated
+	correctly.  Make left-hand "other/below" unit icons clickable (to
+	select) in Xaw client (already the case in Gtk+ client).  Change a
+	game_remove_unit() to client_remove_unit() in packhand.c.  (Leave
+	more extensive changes for later.)
+
+Wed Jun 21 14:26:25 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/de.po:
+
+	Removed a check_po.pl warning from de.po.
+
+Wed Jun 21 14:10:08 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/pl.po:
+
+	Updated Polish (pl) translation.  Patch submitted by Tomasz
+	Wegrzanowski <maniek@beer.com>.
+
+Wed Jun 21 13:46:46 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE:
+
+	Further updates to PEOPLE for Version 1.11.0 release.
+
+Wed Jun 21 13:44:13 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Wed Jun 21 06:38:16 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE:
+
+	Updated PEOPLE for Version 1.11.0 release.
+
+Wed Jun 21 01:19:27 2000  Joseph Beckenbach <jrb3@bdhsw.com>:
+
+	* client/gui-beos/lib/Bdh:
+
+	Directory /home/freeciv/CVS/freeciv/client/gui-beos/lib/Bdh added
+	to the repository
+
+Wed Jun 21 01:19:27 2000  Joseph Beckenbach <jrb3@bdhsw.com>:
+
+	* client/gui-beos/lib/BdhGame:
+
+	Directory /home/freeciv/CVS/freeciv/client/gui-beos/lib/BdhGame
+	added to the repository
+
+Wed Jun 21 01:18:19 2000  Joseph Beckenbach <jrb3@bdhsw.com>:
+
+	* client/gui-beos/lib:
+
+	Directory /home/freeciv/CVS/freeciv/client/gui-beos/lib added to
+	the repository
+
+Tue Jun 20 17:12:00 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* NEWS:
+
+	Updated NEWS for Version 1.10.0 release.
+
+Tue Jun 20 13:39:26 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* BUGS, README:
+
+	Updated BUGS and README for 1.11 release.
+
+Tue Jun 20 12:34:57 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/cityturn.c:
+
+	I18n'd a missed string.  Bug reported by Gerhard Killesreiter
+	<killesreiter@physik.uni-freiburg.de>.
+
+Mon Jun 19 23:28:16 2000  Joseph Beckenbach <jrb3@bdhsw.com>:
+
+	* client/gui-beos/.cvsignore, client/gui-beos/About.hpp,
+	client/gui-beos/App.cpp, client/gui-beos/App.hpp,
+	client/gui-beos/Defs.hpp, client/gui-beos/FreeCiv.rsrc,
+	client/gui-beos/Makefile, client/gui-beos/Makefile.am,
+	client/gui-beos/Makefile.in, client/gui-beos/README.BeOS,
+	client/gui-beos/chatline.cpp, client/gui-beos/chatline.h,
+	client/gui-beos/citydlg.cpp, client/gui-beos/citydlg.h,
+	client/gui-beos/cityrep.cpp, client/gui-beos/cityrep.h,
+	client/gui-beos/civ, client/gui-beos/colors.cpp,
+	client/gui-beos/colors.hpp, client/gui-beos/connectdlg.cpp,
+	client/gui-beos/connectdlg.h, client/gui-beos/dialogs.cpp,
+	client/gui-beos/dialogs.h, client/gui-beos/diplodlg.cpp,
+	client/gui-beos/diplodlg.h, client/gui-beos/finddlg.cpp,
+	client/gui-beos/finddlg.hpp, client/gui-beos/gotodlg.cpp,
+	client/gui-beos/gotodlg.h, client/gui-beos/graphics.cpp,
+	client/gui-beos/graphics.hpp, client/gui-beos/gui_main.c,
+	client/gui-beos/gui_main.h, client/gui-beos/helpdlg.cpp,
+	client/gui-beos/helpdlg.hpp, client/gui-beos/inteldlg.cpp,
+	client/gui-beos/mapctrl.cpp, client/gui-beos/mapctrl.h,
+	client/gui-beos/mapview.cpp, client/gui-beos/mapview.h,
+	client/gui-beos/menu.cpp, client/gui-beos/menu.hpp,
+	client/gui-beos/messagedlg.cpp, client/gui-beos/messagedlg.hpp,
+	client/gui-beos/messagewin.cpp, client/gui-beos/messagewin.h,
+	client/gui-beos/optiondlg.cpp, client/gui-beos/optiondlg.hpp,
+	client/gui-beos/plrdlg.cpp, client/gui-beos/plrdlg.h,
+	client/gui-beos/ratesdlg.cpp, client/gui-beos/ratesdlg.hpp,
+	client/gui-beos/repodlgs.cpp, client/gui-beos/repodlgs.h,
+	client/gui-beos/spaceshipdlg.cpp, client/gui-beos/spaceshipdlg.h,
+	client/gui-beos/wldlg.cpp, client/gui-beos/wldlg.hpp:
+
+	Proof of BeOS client.  Everything of any interest is stubbed out. 
+	This is NOT going into the current beta (which leads up to
+	1.11.0).  See README.BeOS for current hand-kluging required to
+	build it.  (Note the BeOS client does not participate in the
+	current build scheme yet.) All linkages are satisfied, and it
+	runs, popping up a few alerts along the way.
+
+Mon Jun 19 21:32:59 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/.cvsignore:
+
+	Removed mistakenly added file from .cvsignore file.
+
+Mon Jun 19 21:22:17 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gamedlgs.c:
+
+	Added a small spacing to options with integer fields in the "set
+	local options" dialog.
+
+Mon Jun 19 21:20:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/diplodlg.c, client/gui-xaw/diplodlg.c:
+
+	When initializing the city list in a diplomacy dialog, avoid
+	malloc'ing 0 bytes if no cities are known. Also, free the memory
+	afterwards...  Cut-pastes the code to sort cities from the xaw
+	client into the gtk client.
+
+Mon Jun 19 21:09:29 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c:
+
+	Enabled info popup code (visible by clicking in the info label on
+	the toplevel window).
+
+Mon Jun 19 20:57:23 2000  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/.cvsignore, po/ja.po:
+
+	Update ja.po from 819t+42f+1318u+10o to 1073t+40f+1066u+12o.
+
+Mon Jun 19 20:40:43 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* TODO:
+
+	Remove FoW and edit allience stuff in TODO file.
+
+Mon Jun 19 16:14:06 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Mon Jun 19 15:56:38 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unithand.c:
+
+	Insert a check for sailing units entering non_allied cities in
+	handle_unit_move_request() to get the correct error message.
+
+	Bug reported by Christian Knoke <ChrisK@enter.de>
+
+Mon Jun 19 14:54:46 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unithand.c, server/unittools.c:
+
+	Fix abort bug in can_unit_attack_unit_at_tile().  The error was
+	this code: /* Shore bombardement */ if (fromtile==T_OCEAN &&
+	is_sailing_unit(punit) && totile!=T_OCEAN) return
+	(get_attack_power(punit)>0);
+
+	if (!players_at_war(punit->owner, pdefender->owner)) return 0;
+	where those two should of course have been switched.
+
+	Also makes a small change to handle_unit_move_request, to get the
+	non_attack case handled with a better message to the player (but
+	no new strings to translate)
+
+	Bug reported by Christian Knoke <ChrisK@enter.de>
+
+Mon Jun 19 13:22:31 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/POTFILES.in:
+
+	Added estonian.ruleset, filipino.ruleset and latvian.ruleset to
+	POTFILES.in.  Bug reported by Egbert Hinzen <garfy@ehinzen.de>.
+
+Mon Jun 19 06:46:31 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Sun Jun 18 21:45:33 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/plrhand.c:
+
+	Added some of the historians other than Herodotus (Herodot?), and
+	made the historical report gives civs the same rank if they're
+	tied in what's surveyed.  Patch submitted by Robert Rendell
+	<rob@universe.serc.rmit.edu.au>.
+
+Sun Jun 18 21:23:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	Unsentry units moved as a consequense of an ocean land change.
+
+	Suggested by Cameron Morland <cjmorlan@uwaterloo.ca>
+
+Sun Jun 18 20:42:36 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/climisc.c, client/climisc.h, client/gui-gtk/mapview.c,
+	client/gui-mui/mapview.c, client/gui-xaw/mapview.c,
+	server/civserver.c:
+
+	Improved the global warming danger indicator.  Idea submitted by
+	Robert Rendell <rob@universe.serc.rmit.edu.au>.
+
+Sun Jun 18 20:05:47 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/player.c, common/player.h, server/plrhand.c:
+
+	Prevent a player suffering the techpenalty more than once in the
+	same turn, and allowing them to change back to the tech they
+	originally changed from and get all research back again.  This is
+	kinder to civ-newbies who don't realize that they'll lose all
+	their research when they change topics, and want to undo the
+	change.  Patch submitted by Robert Rendell
+	<rob@universe.serc.rmit.edu.au>.
+
+Sun Jun 18 19:55:24 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Sun Jun 18 19:52:26 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, client/control.h, client/packhand.c,
+	server/unitfunc.c:
+
+	Fixed bug in autocenter whereby if had auto-explore units, and
+	forced turn done (with some unit(s) having moves left), the
+	display remained centered on the last unit to move (an
+	auto-explore unit).  Fixes PR#386.  Bug reported by Shalon Wood
+	<dstar@pele.cx>.
+
+Sun Jun 18 19:12:27 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/options.c, client/options.h, client/tilespec.c,
+	client/gui-gtk/gamedlgs.c, client/gui-gtk/graphics.c,
+	client/gui-gtk/mapview.c, client/gui-mui/mapclass.c,
+	client/gui-xaw/graphics.c, client/gui-xaw/mapview.c,
+	client/gui-xaw/optiondlg.c, data/Freeciv:
+
+	Fixed a bug in both the GTK+ and Xaw clients'
+	move_unit_map_canvas() routines: the intermediate images as drawn
+	contained a bunch of garbage around the edges (if solid color off
+	and flags transparent).  (Actually, in GTK+ the "garbage" was a
+	solid white background.)
+
+	Well, to fix the bug, it helps to see it -- and to see this bug
+	when running the clients, I had to throttle the smooth move
+	drawing.  This being a request from awhile ago, I decided to
+	implement it for real (rather than just for test purposes).  To
+	put the throttling under user control, I needed to implement
+	client options that were integers (rather than just booleans).
+
+Sun Jun 18 18:49:52 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/cityturn.c:
+
+	Fixed bug in recent city-growth warning whereby it sometimes
+	reported on growth of a city in rapture.
+
+Sun Jun 18 18:21:53 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aicity.c, server/cityhand.c, server/unitfunc.c,
+	server/unithand.c:
+
+	Fixed inconsistent currency use by changing all "credits" to
+	"gold".  Fixes PR#170.  Bug reported by Anthony DeRobertis
+	<derobert@erols.com>.
+
+Sun Jun 18 18:15:08 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po:
+
+	Updated Portuguese (pt) translation.
+
+Sun Jun 18 17:59:57 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE:
+
+	Changed Lalo's e-mail address in PEOPLE file.
+
+Sun Jun 18 17:51:48 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/shared.c, server/stdinhand.c:
+
+	Fixed a bug in the i18n use of match result strings.  Bug reported
+	by Egbert Hinzen <garfy@ehinzen.de>.
+
+Sun Jun 18 15:50:20 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/options.c, common/events.h, server/cityturn.c,
+	server/cityturn.h, server/civserver.c, server/plrhand.c,
+	server/plrhand.h:
+
+	New event: warning of city growth in next turn.  Only sent in case
+	of natural growth (not, e.g., in case of rapture growth).  Patch
+	submitted by Tomasz Wegrzanowski <maniek@beer.com>, committed with
+	several changes by me.
+
+Sun Jun 18 14:41:11 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/pl.po:
+
+	Updated Polish (pl) translation.  Patch submitted by Tomasz
+	Wegrzanowski <maniek@beer.com>.
+
+Sun Jun 18 11:35:09 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/gui-mui/mapview.c:
+
+	Implemented missing timeout info into the MUI client and the turn
+	done button toggle function.
+
+Sun Jun 18 09:20:12 2000  freeciv :
+
+	* po/de.po:
+
+	Additions and improvements by Christian Knoke <ChrisK@enter.de>
+
+Sat Jun 17 20:01:04 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/ReadMe, amiga/smakefile, client/gui-mui/citydlg.c,
+	client/gui-mui/colors.h, client/gui-mui/dialogs.c,
+	client/gui-mui/diplodlg.c, client/gui-mui/overviewclass.c,
+	client/gui-mui/plrdlg.c, server/stdinhand.c:
+
+	Updated the amiga client to the latest changes.
+
+	Renamed CMD_START, CMD_READ and CMD_WRITE to CMD_START_GAME,
+	CMD_READ_SCRIPT and CMD_WRITE_SCRIPT because the previous defines
+	are already used in some amiga specific includes
+
+Sat Jun 17 18:07:15 2000  freeciv :
+
+	* po/de.po:
+
+	Patches until 06/17/00 included.
+
+Sat Jun 17 15:21:28 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/helpdlg.c:
+
+	Internationalized the F/R/T strings in GTK+ help dialog.
+
+Sat Jun 17 14:21:05 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c, server/sernet.c:
+
+	Added checking for exception conditions on select() calls.
+
+	Bug reported by Peter Zelezny <zed@linux.com>.
+
+Sat Jun 17 13:10:49 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/civ1/buildings.ruleset, data/civ2/buildings.ruleset,
+	data/default/buildings.ruleset:
+
+	Fixed erronious help text for Solar Plants.  Bug reported by
+	Christian Knoke <chrisk@enter.de>.
+
+Sat Jun 17 12:32:56 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/plrhand.c:
+
+	Make old buggy savegames created with some versions of the
+	pre-1.11 CVS work by doing some more checking when loading.
+
+	Bug reported by David Pfitzner <dwp@mso.anu.edu.au>
+
+Sat Jun 17 00:27:05 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/civclient.c:
+
+	Fixed bug in client '--help' text: '--tiles' specifies a file name
+	fragment, not a subdirectory name.  Bug reported by Marko
+	Lindqvist <caz@assari.cc.tut.fi>.
+
+Fri Jun 16 22:23:57 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c, client/gui-xaw/gui_main.c:
+
+	Fix to restore the cursor in case of disconnect.
+
+	Bug reported by Thue Janus Kristensen.
+
+Fri Jun 16 21:57:15 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/dialogs.c:
+
+	Fixed gtk+ client crash bug when a client was cut while selecting
+	race.
+
+	Bug reported by Thue Janus Kristensen.
+
+Fri Jun 16 20:09:45 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* server/sernet.c:
+
+	Added callback to close the client connection in case of an error
+	while writing to the client socket.
+
+Fri Jun 16 20:08:13 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* server/stdinhand.c:
+
+	Changed 'cut' command a bit to be more like the player removal on
+	sniff_packets().
+
+Fri Jun 16 20:04:57 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c, common/packets.h:
+
+	Added support for a callback function to close a player connection
+	in case of a problem on writing to the connection socket arises.
+
+Fri Jun 16 18:35:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unittools.c:
+
+	Fix an unintended change in ZOC rules that had somehow gotten into
+	CVS.
+
+	Bug report by Jussi Asp<ja66598@uta.fi>
+
+Fri Jun 16 18:28:34 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	For some reason the civ 2 rule that firepower is reduced to 1 for
+	both the defender and the attacker when a ship bombards a land
+	unit was taken into account in the AI, but not the actual combat
+	function. This fixes the bug by changing the combat function to
+	civ 2 compliance.
+
+Fri Jun 16 17:01:29 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/helpdata.c, client/packhand.c, common/game.c,
+	server/citytools.c:
+
+	Fix 5 memory leaks in the client, and one in the server (same as
+	one of the leaks in the client)
+
+Thu Jun 15 14:44:21 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/nation/swedish.ruleset:
+
+	Fixed misspelling of "Sollentuna".  Patch submitted by Peter
+	Welzien <welzien@canit.se>.
+
+Thu Jun 15 14:41:20 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/POTFILES.in:
+
+	Minor change to comment.
+
+Thu Jun 15 13:45:00 2000  freeciv :
+
+	* po/POTFILES.in:
+
+	Minor change to comment.
+
+Thu Jun 15 00:13:31 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, common/version.h, data/Freeciv:
+
+	Bump version from 1.10.2 (beta) to 1.10.3-devel (beta).
+
+Wed Jun 14 23:25:37 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/Makefile.am, data/Makefile.in:
+
+	Added missing freeciv.rc to list of Makefile.am data files.
+
+Wed Jun 14 22:22:09 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, common/version.h, data/Freeciv,
+	po/de.po, po/en_GB.po, po/es.po, po/fr.po, po/hu.po, po/ja.po,
+	po/nl.po, po/no.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ru.po:
+
+	Begin beta-test period leading to version 1.11.0: - Changed
+	version to 1.10.2 (beta).  - Ran msgmerge on all .po files (normal
+	part of 'make dist').
+
+Wed Jun 14 15:16:40 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/packets.c, common/support.h, server/sernet.c:
+
+	Changed to use the system's FD_ZERO if it exists; fallback to the
+	"memset" version if not.  Patch submitted by Dan Gohman
+	<gohmandj@mrs.umn.edu>.
+
+Tue Jun 13 23:18:18 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	Bugfix for client crash upon disconnection while receiving a
+	packet followed by reconnection to the game.
+
+Tue Jun 13 22:19:52 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/settlers.c, server/settlers.h:
+
+	Adds comments and renames variables in amortize().  Function
+	decoded by Robert Rendell <rob@universe.serc.rmit.edu.au> and
+	Andrew McGuinness <cogers@yahoo.com>
+
+Tue Jun 13 21:18:52 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/gotohand.c:
+
+	Adds a few comments.
+
+Tue Jun 13 20:18:32 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/city.c:
+
+	Fix bug where the river trade bonus was being added on an ocean
+	tile when autosettlers calculated the value of transforming a
+	tile.
+
+Tue Jun 13 19:05:31 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/map.c, server/mapgen.c:
+
+	Removes infinite loop potential by allowing starts on rivers. 
+	(Disallowing them seems to have been an error in the
+	rivers-as-specials implementation.) Patch submitted by Thue Janus
+	Kristensen <thue@diku.dk>.
+
+Tue Jun 13 18:27:22 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c, server/unithand.c:
+
+	Kludge away an incompatability between the AI and the new handling
+	of transporters. This should be fixed later by altering the AI
+	code.
+
+Tue Jun 13 15:05:07 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ai/aiunit.c, ai/aiunit.h, common/map.c, common/map.h,
+	server/gotohand.c, server/gotohand.h, server/unittools.c,
+	server/unittools.h:
+
+	Cleans up and documents gotohand.c
+
+	Fixes bug that sometimes a path would be chosen when another path
+	with lower move cost was available.
+
+	Fixes bug with the adjustment of y values at the poles.
+
+	Fixes RR loop bug on maps with uneven map.xsize.  (PR#160,
+	reported by Mario <gianmario.scotti@nokia.com>)
+
+Tue Jun 13 13:54:58 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/unit.c, server/maphand.c, server/settlers.c,
+	server/unitfunc.c, server/unitfunc.h:
+
+	Resolves some problems in relation to ocean<->land changes.  -Land
+	units on a square just transformed to ocean are now moved to land
+	or a nearby transport automaticaly (or disbanded if they can't be
+	moved) -Stop the autosettlers from changing a square with a city
+	to ocean.  -To make sure a settler on a transport transforming
+	ocean to land can not move be moved while transforming, reset some
+	unit activities when moving a unit.
+
+	A bit unrelated, we also check unit activities when global warming
+	changes the terrain of a tile.
+
+Tue Jun 13 13:53:41 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/menu.c, client/gui-xaw/menu.c:
+
+	Remove the redundent word "Help" from the beginning of each item
+	in the Help menu.  GTK change by Tuomas Airaksinen
+	<tuma@linuxfan.com>, Xaw change by me.
+
+Tue Jun 13 13:05:06 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/settlers.c:
+
+	Fix a bug where autosettlers without the F_TRANSFORM flag would
+	transform anyway.
+
+Mon Jun 12 18:09:17 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/settlers.c, server/settlers.h:
+
+	Clean up auto_settler_findwork().  Adds allowance for settlers to
+	improve squares that are not in use by a city.  Patch submitted by
+	Robert Rendell <rob@universe.serc.rmit.edu.au>, with a few fixes
+	by me.
+
+Sun Jun 11 21:41:03 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/barbarian.c:
+
+	Make sure there is always a chance of barbarians appearing, even
+	if the map area is smaller than MAP_FACTOR.
+
+Sat Jun 10 20:47:04 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/game.c:
+
+	Reinsert code into remove_player() for the client to handle
+	disconnect-connect properly.
+
+Fri Jun  9 13:26:13 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/options.c, client/gui-gtk/diplodlg.c,
+	client/gui-gtk/plrdlg.c, common/capstr.c, common/events.h,
+	common/map.h, common/player.c, common/player.h,
+	server/barbarian.c, server/cityhand.c, server/civserver.c,
+	server/gamehand.c, server/plrhand.c, server/plrhand.h,
+	server/stdinhand.c, server/unitfunc.c, server/unithand.c:
+
+	Creates the DS_NO_CONTACT state. Treated like DS_WAR for AI
+	purposes.  Moves DS_NEUTRAL from players_at_war to
+	players_non_attack, ie you must declaire war before you can
+	attack.  Every time -a unit moves -a unit is created -a city is
+	created it is checked if there is made contact. Each turn we also
+	try to make contact via the marco polo wonder.
+
+Fri Jun  9 11:57:01 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/climisc.c, common/game.c, server/maphand.c,
+	server/maphand.h, server/plrhand.c, server/stdinhand.c:
+
+	Disables the remove <player> command once the game has started. It
+	still works in the pregame state to allow people to disconnect. 
+	This is done as it was becoming very messy to adjust data
+	structures once the game had started, and the bugs just kept
+	piling up.
+
+Wed Jun  7 16:20:31 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* doc/README.de, po/de.po:
+
+	Updated German (de) translation and README file.  Patch submitted
+	by Egbert Hinzen <garfy@ehinzen.de>.
+
+Wed Jun  7 16:17:37 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/climisc.c, client/climisc.h, client/packhand.c,
+	client/gui-gtk/gui_main.c, client/gui-gtk/mapview.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/mapview.c,
+	common/capstr.c, common/game.h, common/packets.c,
+	common/packets.h, server/civserver.c, server/gamehand.c,
+	server/sernet.c, server/stdinhand.c:
+
+	Improve timeout handling: * Fixes a bug which made the turn end
+	immediately when a timeout was first set.  * When you set the
+	timeout, it applies to the current turn, and the updated timeout
+	info is sent to the clients.  * Timeouts can be much longer, and
+	will come up in the clients in minutes or hours rather than
+	seconds if appropriate.  * A new option, "fixedlength", is
+	available at the server.  If set to 1, turns always run for the
+	full length of the timeout, irresepective of players hitting "Turn
+	Done" (if no timeout is set, fixedlength has no effect).  Patch
+	submitted by Robert Rendell <rob@universe.serc.rmit.edu.au>.
+
+Wed Jun  7 14:11:45 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/wldlg.c, client/gui-xaw/wldlg.c, common/map.c,
+	server/cityhand.c, server/unithand.c:
+
+	Fixes four bugs...  * the memory allocated for worklist names in
+	the xaw and gtk clients could potentially be overrun (this patch
+	actually only fixes the xaw client, because the gtk client is
+	fixed in the "worklist.diff" patch) * isnt_terrain_near_tile
+	tested whether *any* tile nearby wasn't of the nominated type,
+	rather than whether *every* tile wasn't.  That is, if you called
+	isnt_terrain_near_tile(x,y,T_OCEAN), and there was grassland (say)
+	to the north-west of (x,y), it would return true, even if there
+	was ocean everywhere else.  (isnt_terrain_near_tile isn't actually
+	called anywhere in the code, but it still should be correct.) * an
+	exploitable bug: changing a city's production to something of the
+	same type would set turn_changed_target, which meant that further
+	changes could be made in the same turn to productions of different
+	types without incurring any resource loss at all.  * not strictly
+	a bug, but incorrect behaviour: when a unit changed home cities,
+	the previous home and the new home didn't get recalced.  Patch
+	submitted by Robert Rendell <rob@universe.serc.rmit.edu.au>.
+
+Wed Jun  7 13:29:25 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, client/tilespec.c, client/tilespec.h,
+	client/gui-gtk/mapview.c, client/gui-xaw/mapview.c:
+
+	Fixes a few small problems with city and unit visibility.  It also
+	does a little clean-up.
+
+	The city visibility problem is that when the focus unit is in a
+	city, and its icon is flashing, when the unit icon was seen,
+	_nothing_ of the city was -and- when the unit icon was not seen,
+	the city's "occupied" flag was not shown.
+
+	Now, the city is always fully displayed "under" the flashing unit
+	icon.
+
+	The unit visibility problem is one that was introduced since
+	1.10.0 (though, I don't know exactly when).  When a unit is
+	defending a city, the attacker should see the unit.  Currently,
+	the attacker only sees the city.
+
+	Now, the defending unit is visible to the attacker.
+
+	Fixed player_color to return a color in proper range (broken when
+	MAX_NUM_PLAYERS was increased).
+
+Wed Jun  7 12:23:29 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/civclient.c, client/control.c, client/control.h,
+	client/packhand.c, common/capstr.c, common/packets.c,
+	common/packets.h, server/unitfunc.c, server/unitfunc.h,
+	server/unithand.c, server/unithand.h:
+
+	Makes unit selection by players more explicit.  Fixes a bug
+	whereby the "cross" was not always displayed correctly.
+
+Tue Jun  6 19:43:52 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ai/aiunit.c, ai/aiunit.h, server/unitfunc.c, server/unithand.c:
+
+	Put explorers on ACTIVITY_IDLE when they can find no more
+	territory to explore.
+
+Tue Jun  6 19:35:18 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/settlers.c:
+
+	Fix bug in autosettler territory assignment. Code assumed type
+	short, but it was changed to int when MAX_NUM_PLAYERS was raised
+	to 30.  Also remove an outdated comment and a new comment.
+
+Sat Jun  3 23:44:05 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unithand.c:
+
+	Added comments to handle_unit_attack_request().
+
+Sat Jun  3 12:46:28 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/stdinhand.c:
+
+	When trying to assign an out of range argument in the server, make
+	the error message report the range of correct values.
+
+	Patch by Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
+
+Wed May 31 13:35:16 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/tech.c, common/tech.h, server/plrhand.c,
+	server/settlers.c:
+
+	Updates/adds a few comments.
+
+	Patch by Robert Rendell <rob@universe.serc.rmit.edu.au>
+
+Wed May 31 12:27:04 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/citydlg.c, client/gui-xaw/citydlg.c:
+
+	Disables the homecity button in the citydialog unit popup when the
+	city is already the unit's homecity.
+
+Wed May 31 12:21:55 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/game.c, server/unitfunc.c, server/unitfunc.h,
+	server/unithand.c, server/unithand.h:
+
+	Makes the functions server_remove_unit() and send_remove unit
+	unavailable except as static helper functions for wipe_unit(). 
+	Use wipe_unit() instead.
+
+Mon May 29 22:04:46 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* Makefile.in, ai/Makefile.in, client/gui-gtk/Makefile.in,
+	client/Makefile.in, client/gui-stub/Makefile.in,
+	client/gui-win32/Makefile.in, client/include/Makefile.in,
+	client/gui-xaw/Makefile.in, common/Makefile.in,
+	data/civ1/Makefile.in, data/Makefile.in, data/classic/Makefile.in,
+	data/civ2/Makefile.in, data/default/Makefile.in,
+	data/default/nations.ruleset, data/misc/Makefile.in,
+	data/engels/Makefile.in, data/nation/Makefile.am,
+	data/nation/Makefile.in, data/nation/boer.ruleset,
+	data/scenario/Makefile.in, doc/Makefile.in,
+	data/trident/Makefile.in, po/POTFILES.in, server/Makefile.in:
+
+	Add the Boer nation.  Patch submitted by Tomasz Wegrzanowski
+	<maniek@beer.com>.
+
+Mon May 29 21:28:22 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/nation/lithuanian.ruleset, data/nation/misc_cities.ruleset,
+	data/nation/polish.ruleset:
+
+	Changes to Lithuanian, Polish and "misc" city sets.  Patch
+	submitted by Tomasz Wegrzanowski <maniek@beer.com>.
+
+Mon May 29 21:05:28 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* doc/README.de, po/ru.po:
+
+	Changed some "FreeCiv"s that have snuck in into "Freeciv"s.
+
+Mon May 29 21:01:32 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* doc/README.de:
+
+	Update German (de) README file.  Patch submitted by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Mon May 29 20:58:24 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* BUGS, README:
+
+	Update mailing list part of README file.  Inspired by Egbert
+	Hinzen <garfy@ehinzen.de>.
+
+Mon May 29 20:36:04 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/de.po:
+
+	Update German (de) translation.  Patch submitted by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Mon May 29 19:07:05 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/de.po:
+
+	Update German (de) translation.  Patch submitted by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Mon May 29 18:34:10 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/civ1/buildings.ruleset, data/civ2/buildings.ruleset,
+	data/default/buildings.ruleset:
+
+	Fix a few mistakes in the help text in the buildings.rulesets
+	files.  Problems reported by Egbert Hinzen <garfy@ehinzen.de>.
+
+Mon May 29 13:23:23 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/packhand.c, common/game.c, common/game.h,
+	common/packets.c, common/packets.h, common/player.c,
+	common/player.h, common/shared.h, server/barbarian.c,
+	server/citytools.c, server/plrhand.c, server/unitfunc.c:
+
+	Corrects lenght of dipl_states array from MAX_NUM_PLAYERS to
+	MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS.  Corrects an index error in
+	game_renumber_players (off by 1).
+
+Sat May 27 22:06:15 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ai/aiunit.c, client/climisc.c, client/climisc.h,
+	client/control.c, client/options.c, client/packhand.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/diplodlg.c, client/gui-gtk/plrdlg.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/diplodlg.c,
+	client/gui-xaw/plrdlg.c, common/capstr.c, common/diptreaty.c,
+	common/diptreaty.h, common/events.h, common/game.c, common/game.h,
+	common/packets.c, common/packets.h, common/player.c,
+	common/player.h, common/unit.c, data/Freeciv, server/autoattack.c,
+	server/barbarian.c, server/citytools.c, server/cityturn.c,
+	server/civserver.c, server/diplhand.c, server/gotohand.c,
+	server/plrhand.c, server/plrhand.h, server/settlers.c,
+	server/stdinhand.c, server/unitfunc.c, server/unithand.c,
+	server/unittools.c, server/unittools.h:
+
+	Diplomatic states.  Introduces war, neutral, ceasefire peace and
+	alliance between players.  Players now also have a reputation that
+	is affected by their actions.  When players have ceasefire, peace
+	or alliance their units cannot attack each other unless a war is
+	declaired first. The spy actions allowed varies depending on the
+	players' diplomatic state.  Allied players' units can overlap, and
+	do not cause ZOC against each other.
+
+	What needs to be done: -Reputation has no effect other than
+	cosmetic.  -Senate not implemented, ie you can always declaire
+	war.  -The ai is always at war with everybody, and will declaire
+	war automatically if toggled on to a player that is not at war
+	with everybody.
+
+	Patch by Paul Thomas <Paul.Thomas@cmis.CSIRO.AU> Falk Hueffner
+	falk.hueffner@student.uni-tuebingen.de Jeff Mallatt
+	<jjm@codewell.com> and me
+
+Sat May 27 08:43:03 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ1/buildings.ruleset, data/civ2/buildings.ruleset,
+	data/default/buildings.ruleset:
+
+	Avoid gettext warnings about unterminated character constants.
+
+Thu May 25 14:37:29 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/map.c, server/cityhand.c, server/cityhand.h:
+
+	Fixes bug where a settler building a city on top of others
+	settlers who were in the process of changing the tile terrain to
+	ocean would result in a city on water.  Also, when a tile with
+	rivers were changed to ocean we now remove the rivers. Later this
+	should be changed so that rivers have no effect on ocean tiles and
+	are not drawn in the client, meaning that they don't have to be
+	removed and will reappeared if the tile is later transformed to
+	land again.  And finally, removes misuse of x and y arguments as
+	iterators in create_city.
+
+	Patch by me and Jeff Mallatt <jjm@codewell.com>.
+
+Wed May 24 19:12:56 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/advmilitary.c, ai/aicity.c, ai/aitech.c, client/helpdata.c,
+	client/packhand.c, client/gui-gtk/helpdlg.c,
+	client/gui-gtk/mapview.c, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/mapview.c, client/gui-mui/helpdlg.c,
+	client/gui-mui/mapclass.c, data/civ1/buildings.ruleset,
+	common/Makefile.am, common/Makefile.in, common/capstr.c,
+	common/city.c, common/city.h, common/game.c, common/map.c,
+	common/map.h, common/packets.c, common/packets.h, common/player.c,
+	common/terrain.h, common/unit.c, common/unit.h,
+	data/civ2/buildings.ruleset, data/default/buildings.ruleset,
+	server/cityturn.c, server/ruleset.c:
+
+	Generalized Improvements, first phase.  This adds new fields to
+	the buildings.ruleset files; adds the code to parse these fields,
+	store and transmit them to the client.  So far, none of this new
+	information is used, and this patch should have no affect on the
+	existing game.  Partial fix for PR#243.  Patch submitted by IQ
+	<iquin@technologist.com>, with re-engineering by me.
+
+Tue May 23 22:09:50 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ai/aiunit.c, common/unit.c, common/unit.h, server/gotohand.c,
+	server/settlers.c, server/unitfunc.c, server/unittools.c:
+
+	Airunits that can transport groundunits now work.  (configurable
+	in the units.ruleset) This patch makes sure that an airunit
+	transporting ground units and is on board a carrier does leave the
+	ground units behind in the water when the carrier moves.
+
+Tue May 23 20:59:57 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/packhand.c:
+
+	Deletion of a unit in packhand.c changed to use
+	game_remove_unit().
+
+Tue May 23 20:47:15 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	send_all_known_units() now only send the known units, not ALL
+	units.
+
+Mon May 22 18:11:08 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/city.c:
+
+	Since Hoover Dam can now be built anywhere, relaxed constraint
+	which kept it out of the worklists.  Bug reported by Richard
+	Atkins <rja@pcug.org.au>.  Patch submitted by Daniel Zinsli
+	<s830+priv@ii.uib.no>.
+
+Sun May 21 20:04:59 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/ratesdlg.c:
+
+	Swapped motion direction of sliders in Xaw client's Tax Rates
+	dialog.  Bug reported by Reinier Post <reinpost@win.tue.nl>.
+
+Sun May 21 19:53:41 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/gui_main.c:
+
+	Add gtk_set_locale() call, which informs GTK+ of the locale. 
+	Patch submitted by Sawada Katsuya <amanatto@mail2.dddd.ne.jp>.
+
+Sun May 21 13:20:37 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/control.c, client/packhand.c, common/packets.c,
+	common/packets.h, server/unitfunc.c, server/unitfunc.h:
+
+	The server now tells the client whether a moved unit was carried
+	aboard a transport (the client need to know to draw the movement
+	correctly).  This removes some ugly hacks in the client, which
+	anyway didn't always work, beside making the code clearer.
+
+Sat May 20 17:41:57 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/ja.po:
+
+	Added the Japanese (ja) locale.  Initial ja.po file provided by
+	Sawada Katsuya <amanatto@mail2.dddd.ne.jp>.
+
+Sat May 20 17:39:52 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in:
+
+	Added the Japanese (ja) locale.  Initial ja.po file provided by
+	Sawada Katsuya <amanatto@mail2.dddd.ne.jp>.
+
+Sat May 20 15:46:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	Restore functionality to the moving of units on board a
+	transporter to not revert the order of the units for every move.
+
+Sat May 20 04:11:48 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/aiunit.c, common/city.c, common/city.h,
+	common/game.c, common/game.h, server/gotohand.c:
+
+	Fix some spelling.
+
+Fri May 19 22:59:15 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	Remove obsolete comment from handle_unit_move_consequences().
+
+Thu May 18 19:46:25 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/packhand.c:
+
+	Previously the client removed units due to FoW if a tile went from
+	TILE_KNOWN to TILE_KNOWN_FOGGED. For greater flexibility it now
+	also do so if a tile goes from TILE_KNOWN to TILE_UNKNOWN. (though
+	it isn't currently used)
+
+Thu May 18 19:10:06 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/shared.h, server/maphand.c, server/maphand.h,
+	server/plrhand.c:
+
+	Make the remove command work again after it was broken with the
+	introduction of FoW.
+
+Thu May 18 18:45:06 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/map.c, common/map.h, server/barbarian.c,
+	server/cityhand.c, server/civserver.c, server/diplhand.c,
+	server/gotohand.c, server/maphand.c, server/maphand.h,
+	server/plrhand.c, server/unitfunc.c, server/unithand.c,
+	server/unittools.c:
+
+	Move the seen field from the common map to the player map (saves a
+	good deal of memory) There was a bug when a new player is created
+	(revolution or barbarians) while fog is toggled of, and fog later
+	is toggled back on.  Many functions take struct player *pplayer as
+	argument when what they need is really the player id (for lookup
+	in a bitvector). This patch corrects a few cases of that.  Change
+	the order of function argument from (player, x, y) to (x, y,
+	player) in some functions for consistency. More functions need to
+	be changed.
+
+Thu May 18 00:02:13 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unithand.c:
+
+	Reinsert code into handle_unit_move_request() that checks if an
+	attacker has an attack power >0. It was deleted as I assumed this
+	was taken care of in can_unit_attack_unit_at_tile().
+
+Wed May 17 21:00:47 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/maphand.c:
+
+	Fix compile-time error in recent commit.
+
+Wed May 17 16:48:36 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	Updated the comment for send_unit_info()
+
+Wed May 17 13:32:07 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/civserver.c, server/gamehand.c, server/maphand.c,
+	server/stdinhand.c:
+
+	Remove the restriction that the number of starting positions in a
+	scenario must be >= MAX_NUM_PLAYERS.  This makes the scenarios
+	work wotk CVS again after MAX_NUM_PLAYERS was increased from 14 to
+	30.
+
+	Bug reported by David Pfitzner <dwp@mso.anu.edu.au>
+
+Wed May 17 12:41:42 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	Send player info after inciting a revolt in a city, to update the
+	player's amount of gold in the client.
+
+	Bug report and patch by Daniel Sjolie <deepone@acc.umu.se>
+
+Tue May 16 22:53:06 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ai/aicity.c, ai/aiunit.c, server/barbarian.c, server/cityhand.c,
+	server/citytools.c, server/cityturn.c, server/unitfunc.c,
+	server/unitfunc.h, server/unithand.c, server/unittools.c:
+
+	Remove unused (and unneccesary) dest argument for wipe_unit().
+
+Tue May 16 22:27:48 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/unit.c, common/unit.h, server/plrhand.c,
+	server/unitfunc.c, server/unitfunc.h, server/unithand.c,
+	server/unittools.c, server/unittools.h:
+
+	Moves the calls common to functions handle_unit_move_request(),
+	do_airline(), do_paradrop() and teleport_unit_to_city() down into
+	a new function move_unit().  The new function doesn't do any
+	checks, just links and unlinks (and handles various consequences
+	of the move). If told so it also takes care of units transported
+	by the unit.
+
+	Moving transporter cargo units now is much more intelligent: -If
+	two transporters accidentally share a square they will remember
+	which transported units belong to who.  -A transporter on a goto
+	will not pick up units it accidentally moves across, even if they
+	are sentried in cities. If given the goto order from within the
+	city it will pick sentried units up. I made sure that ai
+	controlled transporter always pick up units to be sure I didn't
+	break anything.  -Made groundunits that are transporters work
+	better, but there is a redraw bug in the client because it assumes
+	all transporters are sea units. (I didn't introduce it and I
+	didn't fix it in this patch)
+
+	I added a field transported_by in the unit struct for the
+	transporter purpose (yes, old savegames work).
+
+Tue May 16 19:28:43 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/map.h, common/unit.c, common/unit.h, server/gotohand.c,
+	server/gotohand.h, server/unitfunc.c, server/unittools.c,
+	server/unittools.h:
+
+	Airunit autoreturn home. When an airunit is running out of fuel
+	and will otherwise crash it will automatically try to fly to the
+	nearest place where it can refuel.
+
+	Patch by me with some edits by Jeff Mallatt <jjm@codewell.com>
+
+Tue May 16 13:27:15 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/plrhand.c:
+
+	Unfog the map for a dead player when loading a savegame.
+
+Mon May 15 16:40:44 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/gotohand.c:
+
+	Add some comments after Thue comments.
+
+Mon May 15 01:28:52 2000  Paul Zastoupil <paulz@adnc.com>:
+
+	* PEOPLE:
+
+	Updated email address for Paul Zastoupil
+
+Mon May 15 00:40:18 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in:
+
+	Silenced many "extension ... is unknown; will try C" warnings
+	emitted by xgettext by modifying po/Makefile to filter xgettext's
+	output.  Bug reported by Thue Janus Kristensen <thue@diku.dk>.
+
+Mon May 15 00:30:29 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/maphand.c, server/unithand.c:
+
+	Fixed several recent LOG_FATALs to be either LOG_NORMAL or really
+	fatal.
+
+Sun May 14 21:21:25 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* ai/advdomestic.c, common/city.c, common/city.h, common/game.c,
+	common/game.h, server/barbarian.c, server/gamehand.c,
+	server/plrhand.c:
+
+	Robert Brady <rwb197@zepler.org> has reported the following bug
+	(PR#284) :
+
+	The AI will sometimes build the Great Library when there is only
+	one other living nation in the game.
+
+	A fix is to ignore Great Library if there are less than 3 players.
+	Barbarians aren't counted in this number. A variable nbarbarains
+	is added to the struct game. Each time create_barbarian_player is
+	successfully called, this number is increased. So, if
+	game.nplayers - game.nbarbarians < 3, AI will ignore the great
+	library.
+
+	Also, each time a player is removed via game_remove_player,
+	nbarbarians is decreased. Each time a game is reload, nbarbarians
+	is counted in the function player_load.
+
+	Patch submitted by brunel@esil.univ-mrs.fr
+
+Sun May 14 20:53:48 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/unithand.c:
+
+	The AI diplomats use gotos to get to their targets, and that
+	worked fine in 1.10 where gotos didn't trigger popped up diplomat
+	dialogs.  But that functionality has now been implemented. Here is
+	a small patch to stop doing it when in AI mode.
+
+	Patch ( and bug report ) submitted by Thue Janus Kristensen
+	<thue@diku.dk>
+
+Sun May 14 12:59:51 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/dialogs.c:
+
+	Recent commit to CVS does not compile cleanly.  Fixed.
+
+Sun May 14 11:38:41 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/dialogs.c:
+
+	The message dialog now gives focus to the first button in it by
+	default.
+
+Sun May 14 11:36:55 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/mapctrl.c:
+
+	Makes clicking on the main map give focus to the turn done button.
+
+Sat May 13 23:08:52 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/gotohand.c:
+
+	Cleans up and documents find_the_shortest_path. Adds a seperate
+	case for air units.  Air units now don't go out of their way to
+	avoid fog of war, and an optimization from the ground and sea
+	movement that would sometimes make units take a suboptimal paths
+	is removed in the air case. (making sure air units don't run out
+	of fuel)
+
+	Hopefully fixes PR#350, reported by Laurent Vibert
+	<lvibert@irisa.fr>
+
+Sat May 13 20:22:02 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ai/aicity.c, server/barbarian.c, server/cityhand.c,
+	server/citytools.c, server/cityturn.c, server/unitfunc.c:
+
+	Make all calls to wipe_unit() inside unit_list_iterate into
+	wipe_unit_safe(). No reason not to be on the safe side, even it
+	only 2 of them were actual crash bugs.
+
+Sat May 13 19:58:52 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/cityhand.c:
+
+	Remove a call to resolve_unit_stack in remove_city. It was
+	unneccesary, as the resolving was allready done by a previous call
+	to wipe_unit_spec_safe, and if it should at some point be given
+	functionality it would be possible for it to delete the unit that
+	a unit_list_iterate iterator pointed at.
+
+Sat May 13 19:44:33 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/cityhand.c, server/citytools.c:
+
+	Correct one case (not 2 as I said in my mail) of disbanding a unit
+	inside a unit_list_iterate loop with the possible consequence that
+	the unit unit the unit_list_iterate iterator pointed at could be
+	deleted. (Used functionality allready in wipe_unit_spec_safe to
+	awoid this).  Make transfer_city_units take into account that the
+	argument "pcity" can be NULL.
+
+Sat May 13 15:55:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/ruleset.c:
+
+	When inserting a role into the a unittype's roles bitvector, make
+	sure to substract L_START from the role value gotten from
+	unit_role_from_str().  Previously we didn't do this, with the
+	result that the value we shifted 1 with to get the bitvector was
+	L_START (64) too big. For some mysterious reason this worked as if
+	we had indeed substracted L_START before we shifted, except on
+	netwinder ARM, where this bug was expressed.
+
+	Bug reported, and login on his netwinder computer made available
+	for freeciv debugging, by Patrice LaFlamme <patrix@patrix.org>
+
+Sat May 13 03:35:12 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/game.h, server/sernet.h:
+
+	Fix #PR363 Server Frozen.  The maximum number of players was
+	increased but not the number of connections.
+
+Sat May 13 02:45:09 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* ai/aiunit.c:
+
+	In function, AI find something to kill, AI was calling
+	city_reinforcements_cost_and_value even for its own cities. Now, a
+	test prevents this.
+
+Sat May 13 01:41:15 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/de.po:
+
+	Updated German (de) translation.  Patch submitted by Egbert Hinzen
+	<garfy@ehinzen.de>, with some corrections by Frank Osterfeld
+	<fraos@gmx.de>, and a small change by me to silence a check_po.pl
+	warning.
+
+Sat May 13 01:29:37 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* doc/INSTALL.de:
+
+	Updated German INSTALL file.  Patch submitted by Jens Georg
+	<jgeorg@ldknet.org>.
+
+Sat May 13 01:16:49 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/civ2/governments.ruleset, data/default/governments.ruleset:
+
+	Added maximum tax rate information to help text for governments. 
+	Fixes PR#362.  Bug reported by Vincent <skorpion@optonline.net>. 
+	Patch submitted by Greg Wooledge <wooledge@kellnet.com>.
+
+Fri May 12 09:13:30 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/helpdlg.c:
+
+	Backed-out Gtk client help dialog terrain pixmap display patch
+	until it can be fixed.  It tries to display non-existent specials
+	and the author admits it may leak memory.
+
+Thu May 11 14:58:52 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/unithand.c:
+
+	Fixed some grammar.
+
+Thu May 11 13:10:27 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-mui/dialogs.c, client/gui-xaw/dialogs.c:
+
+	Complete recent patch so rest of CVS can compile.
+
+Wed May 10 17:51:44 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/civserver.c:
+
+	Remove an obsolete comment.
+
+Tue May  9 23:30:17 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unithand.c:
+
+	Clean up handle_unit_move_request().  Add a check for gotoing
+	units to stop most unintented attacks.
+
+Tue May  9 22:38:52 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/maphand.c:
+
+	Changes map_startpos_load to make pre30players savegames loadable.
+	This is done simply by filling in with 0,0 positions. For normal
+	savegames this doesn't make a difference, as the starts are not
+	used.  The scenario files does not work quite right (players are
+	started at 0,0), and this should be fixed later.
+
+Tue May  9 22:26:16 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/control.c, client/control.h, client/packhand.c,
+	client/gui-gtk/dialogs.c, server/unithand.c:
+
+	Let handle_unit_move_request handle the case where a diplomat
+	enters a tile with an enemy unit. Also changes some client
+	diplomat event handling to make it work.  Fixes a bug reported by
+	Nicolas BRUNEL <brunel@ham.esil.univ-mrs.fr>
+
+Tue May  9 20:48:26 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	Replaces 2 occurences of send_unit_info with
+	send_unit_info_to_onlookers, and makes sure information about an
+	airlift is sent to all.
+
+Tue May  9 18:33:58 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/climisc.c, client/tilespec.c, client/gui-gtk/citydlg.c,
+	client/gui-gtk/gtkpixcomm.c, client/gui-mui/citydlg.c,
+	client/gui-xaw/citydlg.c:
+
+	Yet more variables renamed to be nice to C++ compilers.
+
+Tue May  9 18:13:50 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/helpdlg.c:
+
+	Improved Gtk+ client's technology help dialog.  Patch submitted by
+	Richard Atkins <rja@pcug.org.au>.
+
+Tue May  9 17:14:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/ruleset.c, server/unitfunc.c:
+
+	Even more variables renamed to be nice to C++ compilers.  Patch by
+	Dan Gohman <gohmandj@mrs.umn.edu>
+
+Tue May  9 16:58:09 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/civserver.c:
+
+	Rename variable "try" to be nice to C++ compilers.  Patch by Dan
+	Gohman <gohmandj@mrs.umn.edu>
+
+Mon May  8 17:53:46 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	Remove crash bug in diplomat_incite() when trying to access pcity
+	after it had been remove_city()'ed as part of transfer_city.
+
+Sun May  7 01:38:46 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	changed function declaration to static.
+
+Sun May  7 00:20:20 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	changed socket writing functions to minimize possible client
+	crashes.
+
+Sat May  6 22:37:10 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ai/aicity.c:
+
+	Make code in aicity use upgrade_unit() to upgrade units, making
+	sure they update FoW properly. (They didn't, so when a unit was
+	upgraded to a unit with larger sight range the server bugged).
+
+Sat May  6 13:23:50 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, ai/aiunit.c, client/control.c,
+	client/helpdata.c, common/capstr.c, common/packets.c,
+	common/unit.c, common/unit.h, data/civ1/units.ruleset,
+	data/civ2/units.ruleset, data/default/units.ruleset,
+	server/ruleset.c, server/settlers.c, server/unitfunc.c,
+	server/unittools.c:
+
+	Split unit flag F_SUBMARINE into several distinct effects:
+
+	- F_PARTIAL_INVIS = invisibility effect (usefulness reduced by fog
+	of war, but still some effect vs cities and visibility-2 units); -
+	F_MISSILE_CARRIER = transport_capacity is for F_MISSILE units
+	only; - F_NO_LAND_ATTACK = cannot attack vs land (no shore
+	bombardment).
+
+	Old ruleset files are still read ok, and network compatibility is
+	ok for standard rulesets.
+
+Sat May  6 12:54:10 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.am, Makefile.in, diff_ignore,
+	freeciv_hackers_guide.txt:
+
+	Added sample diff_ignore file to distribution, and changed
+	corresponding section in freeciv_hackers_guide.txt.  Sample file
+	based on contributions from a number of people.
+
+Sat May  6 01:33:02 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/gotohand.c:
+
+	Make make_list_of_refuel_points() NOT assume that there is always
+	a unit on a tile with an airbase. D'uh.
+
+Fri May  5 22:22:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/cityturn.c:
+
+	A "short" in the code to place workers for a city needed to be
+	replaced with an int. (missed in the patch to increase the number
+	of players from 14 to 30).  I checked the rest of the code once
+	again for missed shorts.
+
+Fri May  5 10:22:33 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* Makefile.in, ai/Makefile.in, client/Makefile.in,
+	client/gui-gtk/Makefile.in, client/gui-stub/Makefile.in,
+	client/gui-win32/Makefile.in, client/gui-xaw/Makefile.in,
+	client/include/Makefile.in, common/Makefile.in, data/Makefile.in,
+	data/civ1/Makefile.in, data/civ2/Makefile.in,
+	data/classic/Makefile.in, data/default/Makefile.in,
+	data/engels/Makefile.in, data/misc/Makefile.in,
+	data/nation/Makefile.am, data/nation/Makefile.in,
+	data/scenario/Makefile.in, data/trident/Makefile.in,
+	doc/Makefile.in, server/Makefile.in:
+
+	filipino.ruleset estonian.ruleset and latvian.ruleset were missing
+	in data/nation/Makefile.am .  I added them. And run automake. 
+	This bug was reported by Lance Levsen <l.levsen@printwest.com>
+
+Thu May  4 22:55:25 2000  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/gotohand.c:
+
+	warmap could be initialized in two places : init_warmap and
+	init_gotomap.  Now, only init_warmap can init warmap. And,
+	init_gotmap calls init_warmap to initialize the warmap.
+
+Wed May  3 12:51:10 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/game.c, common/speclist_c.h:
+
+	Change occurences of variable "this" to "tthis" to be nice to C++
+	compilers. Patch submitted by Dan Gohman <gohmandj@mrs.umn.edu>
+
+Wed May  3 12:48:48 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/cityturn.c, server/plrhand.c:
+
+	Refresh and send a player's cities when changing government.  Make
+	sure unit info it sent when a unit's contribution to the resource
+	use and unhappiness in a city changes (the little
+	shields/food/angry face icons)
+
+Wed May  3 12:44:00 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/capstr.c, common/map.h, common/packets.c,
+	common/shared.h, server/plrhand.c, server/settlers.c:
+
+	Increase the maximum number of players from 14 to 30 at the cost
+	of a small amount of RAM (4 player bitvectors changed from short
+	to int)
+
+Mon May  1 22:43:20 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c, server/unitfunc.h, server/unithand.c,
+	server/unithand.h, server/unittools.c:
+
+	Creates a function handle_unit_move_consequences(). It takes care
+	of -moving the units sight points -waking neightboring units on
+	sentry -calling handle_unit_enter_city -handle the consequences if
+	there is a hut on the target tile.  -if a unit entering or leaving
+	a city or a fortress changes the happiness of the city/the units
+	homecity the relevant cities are refreshed and resent.  This
+	should be used whenever a unit changes position on the map.  As it
+	would result in some slowdown of the allready slow AI turn if
+	cities were refreshed every time a unit entered or left a city the
+	city update is only done for the units controlled by a player.
+
+	The patch also modifies server_remove_unit() to refresh a units
+	homecity and the city the unit is in when called. Code that
+	allready did this in some cases removed from
+	remove_unit_spec_safe().
+
+Mon May  1 06:55:36 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/ReadMe, amiga/smakefile:
+
+	Updated amiga/smakefile and amiga/ReadMe files.
+
+Sun Apr 30 23:44:21 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	this patch attempts to fix the networking problems of missing
+	packets which cause client crashes.
+
+Sun Apr 30 23:14:54 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unithand.c:
+
+	Make transporter_cargo_move_to_tile use unit_list_iterate.
+
+Sun Apr 30 23:11:31 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/control.c, client/gui-gtk/menu.c,
+	client/gui-mui/gui_main.c, client/gui-mui/mapclass.c,
+	client/gui-xaw/menu.c, common/unit.c, common/unit.h,
+	server/unitfunc.c:
+
+	Clean up do_paradrop().  Rename can_unit_paradropped to
+	can_unit_paradrop().  Fix a bug in the client where the cursor
+	would not get updated if the paradrop failed.
+
+Sun Apr 30 13:51:25 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/tilespec.c:
+
+	Draw "fog" graphic over top of cities, so that it is more apparent
+	when the city square is fogged.  Move city size graphics to top
+	(ie, top of graphics stack), so size is always readable and
+	unobscured.
+
+Sun Apr 30 13:34:36 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/plrhand.c:
+
+	Initialize unit upkeep fields (to zero) on reload, since otherwise
+	units without homecity had junk values, sometimes used by AI
+	calculations etc.
+
+Sun Apr 30 13:17:08 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/maphand.c:
+
+	Remove some trailing newlines in freelog calls.
+
+Sun Apr 30 13:15:38 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/packhand.c, common/Makefile.am,
+	common/Makefile.in, common/city.c, common/city.h, common/game.c,
+	common/game.h, common/hash.c, common/hash.h, common/idex.c,
+	common/idex.h, common/player.c, common/unit.c, common/unit.h,
+	server/cityhand.c, server/citytools.c, server/civserver.c,
+	server/plrhand.c, server/settlers.c, server/unitfunc.c:
+
+	Generalize the city "citycache" into "idex": "ident index" for
+	both cities and units, in both server and client.  This is done
+	using hashes from id values to pointers (separate hashes for
+	cities and units, for code simplicity).
+
+Sun Apr 30 07:28:21 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* acconfig.h, config.h.in, amiga/config.h, client/options.c,
+	client/gui-mui/gui_main.c, common/tech.c:
+
+	Allow the changing of the clients options file name by a config.h
+	define (OPTION_FILE_NAME)
+
+	Enabeld the options file saving in the Mui Client.
+
+	Changed the "double res" declaration in tech_turns_to_advance() of
+	common/tech.c to "int res".
+
+Sat Apr 29 15:59:03 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/barbarian.c:
+
+	Make sure the server sends tile info when hut is removed.  Fixes
+	bug #288 reported by rizos <rizos@rice.edu>
+
+Sat Apr 29 14:35:39 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/capstr.c, server/gotohand.c:
+
+	Fix typos in definition, comment and usage of advance_focus_packet
+	capability string.
+
+Sat Apr 29 10:12:11 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/gui-mui/citydlg.c, client/gui-mui/dialogs.c,
+	client/gui-mui/gui_main.c, client/gui-mui/gui_main.h,
+	client/gui-mui/helpdlg.c, client/gui-mui/mapclass.c,
+	client/gui-mui/mapclass.h, client/gui-mui/muistuff.h,
+	client/gui-mui/overviewclass.c, client/gui-mui/repodlgs.c:
+
+	Mui client: Updated to the latest changes (Diplomat goto, turns
+	per tech, city production on the map) Changed layout of the city
+	window and fixed some bugs within the city map.  (Reported by
+	Thomas Aglassinger <agi@rieska.oulu.fi>) The special info and
+	graphics in the terrain help are displayed now.
+
+Fri Apr 28 20:25:34 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Changes the city configuration dialog to: - Explain what the first
+	option displayed does (like the mui client) - Remove the "triggle"
+	button, and replace it with three radio buttons labelled
+	correctly.  Patch submitted by Richard Atkins <rja@pcug.org.au>,
+	with some changes by me.
+
+Fri Apr 28 20:20:09 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po:
+
+	Updated Portuguese (pt) translation.
+
+Thu Apr 27 22:10:01 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/gotohand.c:
+
+	Corrected a comment in find_air_first_destination()
+
+Thu Apr 27 22:04:17 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/capstr.c, server/gotohand.c:
+
+	Adds a capability string for the airplane goto patch since that
+	patch added a new packet PACKET_ADVANCE_FOCUS . if the client does
+	not have the capability the packet isn't sent, which is acceptable
+	(an airplane on an unfinished goto will just not lose focus by
+	itself)
+
+Wed Apr 26 21:07:52 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/civclient.c, client/control.c, client/control.h,
+	common/packets.c, common/packets.h, server/gotohand.c:
+
+	Goto for airplanes. This makes airplanes automatically stop in
+	cities and on airbases to refuel.  Adds a new packet
+	ADVANCE_UNIT_FOCUS as a way to tell the client that the server
+	does not intent to continue moving the plane, even if it has
+	movement points left.  Also makes sure that units on goto will be
+	put on activity_idle after completing one attack (ie disables
+	multiple attacks).
+
+Wed Apr 26 16:16:17 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/cityhand.c:
+
+	When creating a city unfog the cityarea before the workers are
+	arranged, so newly discovered tiles as a result of the city being
+	build will not be shown as unavailable when they in fact are
+	available.
+
+Wed Apr 26 16:12:40 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unittools.c:
+
+	Now also takes into account that a unit may be in an enemy city,
+	in which case we teleport the unit to the nearest city owned by
+	the unit owner.
+
+Wed Apr 26 15:07:30 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/unittools.c:
+
+	Further refinement of comments in resolve_unit_stack().
+
+Tue Apr 25 17:34:57 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unittools.c:
+
+	Corrected a misleading comment in resolve_unit_stack
+
+Tue Apr 25 14:54:38 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/cityturn.c:
+
+	Rename static upgrade_unit() in cityturn.c, so it doesn't clash
+	with the global one in unithand.[hc].  Renamed static
+	upgrade_improvement() in cityturn.c, so it remains consistently
+	named.  Bug reported by David Pfitzner <dwp@mso.anu.edu.au>.
+
+Tue Apr 25 14:16:47 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/barbarian.c, server/citytools.c, server/civserver.c,
+	server/civserver.h, server/plrhand.c, server/plrhand.h:
+
+	Fixed bugs caused by player map being initialized with default
+	size values, and then having the size change later.  Fixes PR#333.
+	Bug reported by Tuomas Airaksinen <tuma@linuxfan.com>.  Patch
+	submitted by Thue Janus Kristensen <thue@diku.dk>.
+
+Tue Apr 25 12:14:00 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aiunit.c, server/autoattack.c, server/unitfunc.c,
+	server/unithand.c, server/unithand.h:
+
+	Makes units given an Auto-Explore order begin the exploration
+	immediately.  Also, removes the unused "pplayer" argument from the
+	handle_unit_activity_request() and
+	handle_unit_activity_request_targeted() functions.  Patch
+	submitted by Thue Janus Kristensen <thue@diku.dk>.
+
+Tue Apr 25 12:00:52 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/climisc.c, client/packhand.c, common/map.c,
+	common/unit.c, data/default/terrain.ruleset, server/gamelog.c,
+	server/unitfunc.c:
+
+	Fixes bugs in the recent code which allows ocean to be changed
+	into land.
+
+	Continent information was not being updated:
+
+	- Adds check_terrain_ocean_land_change() to unitfunc.c to handle
+	side-effects.
+
+	- Calls check_terrain_ocean_land_change() from all three of the
+	Mining, Irrigation and Transforming sections of
+	update_unit_activity().
+
+	- Adds a new clause to the "if" statement in handle_tile_info() in
+	packhand.c so that climap_update_continents() is called whenever
+	ocean is changed into land.
+
+	The terrain ruleset allows for changing land into ocean -- but the
+	code didn't handle this case correctly.  The gamelog map becomes
+	out of date whenever ocean is changed into land (or vice-versa):
+
+	- Makes sure the new check_terrain_ocean_land_change() can handle
+	changing land into ocean.
+
+	- Changes can_unit_do_activity_targeted() to not allow changing
+	the land on which a city sits into ocean.
+
+	- Changes map_mine_tile(), map_irrigate_tile() and
+	map_transform_tile() to clear all infrastructure when changing
+	from land to ocean.
+
+	- Adds a new case in handle_tile_info() that recomputes the
+	client's continents whenever land is changed into ocean.
+
+	- Makes a small change to climap_update_continents() which allows
+	it to work in the case where the tile "known" flags are set, but
+	the tile "continent" values are not (it should not affect normal
+	operation).  This allows a simple implementation of the previous
+	change.
+
+	- Adds gamelog() calls to the new
+	check_terrain_ocean_land_change() function.
+
+	- Does a klugey thing in gamelog() itself (we should fix the
+	gamelog format and open/close semantics someday...).
+
+	- Finally, to make use of all this, changes
+	default/terrain.ruleset to allow Transforming Swamp into Ocean
+	(was Swamp->Plains; may still do Swamp->Forest->Plains (and it's
+	faster!)), and Mining Forest into Swamp.
+
+	Finally:
+
+	- Fixes an unrelated bug in the ACTIVITY_MINE case of
+	can_unit_do_activity_targeted().
+
+	Bug reported by Cameron Morland <cjmorland@uwaterloo.ca>.
+
+Tue Apr 25 08:17:14 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, ai/aiunit.c, client/climisc.c,
+	client/control.c, client/packhand.c, client/gui-gtk/citydlg.c,
+	client/gui-gtk/dialogs.c, client/gui-gtk/mapctrl.c,
+	client/gui-gtk/mapview.c, client/gui-mui/citydlg.c,
+	client/gui-mui/dialogs.c, client/gui-mui/mapclass.c,
+	client/gui-mui/mapview.c, client/gui-xaw/citydlg.c,
+	client/gui-xaw/dialogs.c, client/gui-xaw/mapctrl.c,
+	client/gui-xaw/mapview.c, common/unit.c, server/cityturn.c,
+	server/gotohand.c, server/settlers.c, server/unitfunc.c,
+	server/unithand.c:
+
+	Convert many calls of unit_list_find(&pplayer->units) to new
+	function player_find_unit_by_id(), and similarly some calls of
+	city_list_find() to player_find_city_by_id(), in preparation for
+	future optimisations.
+
+Tue Apr 25 07:39:13 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/player.c, common/player.h:
+
+	Add function player_find_unit_by_id(), currently just a wrapper
+	for unit_list_find(&pplayer->units), but planned to be optimised.
+
+Tue Apr 25 07:36:51 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/climisc.c, client/packhand.c, common/game.c,
+	common/game.h:
+
+	Remove function game_find_unit_by_id() in favour of existing
+	identical function find_unit_by_id().
+
+Mon Apr 24 13:15:35 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/maphand.c:
+
+	Move misplaced LOG_DEBUG calls in map_fog_city_area() and
+	map_unfog_city_area()
+
+Mon Apr 24 01:32:44 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/de.po:
+
+	Updated German (de) translation.  Patch submitted by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Sun Apr 23 23:28:03 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/gui_main.c, client/gui-gtk/mapview.c:
+
+	Allow the player to select one of the unit under the currently
+	selected unit by simply clicking on one the pixmaps displayed on
+	the left of the screen. GTK client only.  Patch submitted by Eric
+	Brunet <ebrunet@clipper.ens.fr>
+
+Sun Apr 23 23:13:57 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/citytools.c:
+
+	Fixes bug where the unit conquering a city were afterwards
+	supported by the conquered city.  Bug report and patch by Anders
+	Wegge Jakobsen <wegge@wegge.dk> with a little cleanup by me.
+
+Sun Apr 23 22:53:13 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/citytools.c, server/citytools.h, server/diplhand.c,
+	server/unitfunc.c, server/unithand.c:
+
+	Moving call to raze_city into transfer_city, noticably before
+	send_city_info, to make sure the effects are send to the clients.
+	Fixes bugs where palace and shield stock were percieved to not be
+	erazed.  Bug reported by Cameron Morland <cjmorlan@uwaterloo.ca>
+	and Jan Felix Heidefuﬂ
+
+Sun Apr 23 11:31:49 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/hash.c:
+
+	In hash_key_exists() and hash_lookup_data(), check bucket->used
+	against BUCKET_USED, not just boolean value, in case
+	BUCKET_DELETED.  (Doesn't fix any user-visible bugs, because
+	freeciv code currently doesn't use hash_delete_entry(); also
+	hash_lookup_data() was accidently ok before because deleted
+	buckets are zeroed.)
+
+Sun Apr 23 05:27:22 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c:
+
+	Add a timer (with --debug 2) for total end/start-turn server/ai
+	activities.
+
+Sun Apr 23 05:26:27 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/nation/latvian.ruleset:
+
+	Fix capitalisation of "Cure For Cancer" in Latvian nation ruleset,
+	so that it matches correctly.
+
+Sat Apr 22 16:07:32 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/citytools.c, server/citytools.h, server/cityturn.c,
+	server/unitfunc.c, server/unittools.c, server/unittools.h:
+
+	Bug fixes and general clean-up of unit transfer and unit stack
+	conflict resolution code.  Especially fixes bug causing an
+	infinite loop in resolve_unit_stack().  Patch submitted by Thue
+	Janus Kristensen <thue@diku.dk>.
+
+Fri Apr 21 13:05:31 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/cityturn.c:
+
+	Fix bug in recent transitive unit upgrade patch whereby unit
+	production in cities were upgraded to themselves each turn.
+
+Fri Apr 21 03:09:37 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/chatline.c, client/gui-gtk/chatline.h,
+	client/gui-gtk/gui_main.c:
+
+	Fix problem that Gtk+ client always put extra line (ie extra
+	newline) at end of output window, wasting space.  Bug (PR#328)
+	reported by Urban <mueller@relog.ch>.
+
+Thu Apr 20 19:55:18 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapview.c, client/gui-xaw/mapview.c:
+
+	Make the Xaw and Gtk clients actually update the overview map all
+	the time.  The code didn't take into account the possibility that
+	pos could be less than zero.  Patch submitted by Thue Janus
+	Kristensen <thue@diku.dk>.
+
+Thu Apr 20 18:33:37 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/city.c, common/unit.c, server/cityturn.c:
+
+	Made unit upgrades transitive.  Patch submitted by Thue Janus
+	Kristensen <thue@diku.dk>.
+
+Thu Apr 20 16:12:24 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/unitfunc.c:
+
+	Fix bug whereby when a unit was airlifted (via do_airline()) the
+	sight- points weren't being transferred.  Patch submitted by Thue
+	Janus Kristensen <thue@diku.dk>.
+
+Sun Apr 16 16:45:12 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/de.po:
+
+	Updated German (de) translation.  Patch submitted by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Sun Apr 16 16:31:39 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset, data/engels/flags.spec,
+	data/engels/flags.xpm, data/misc/shields.spec,
+	data/misc/shields.xpm, data/nation/estonian.ruleset,
+	data/nation/filipino.ruleset, data/nation/latvian.ruleset,
+	data/trident/flags.spec, data/trident/flags.xpm:
+
+	Added the Estonian, Filipino and Latvian nations.  Nation data by
+	Robert Brady <rwb197@ecs.soton.ac.uk>, flags by me.
+
+Sun Apr 16 14:35:39 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/civclient.c, client/control.c, client/control.h,
+	client/packhand.c, client/packhand.h, client/gui-gtk/dialogs.c,
+	client/gui-stub/dialogs.c, client/gui-mui/dialogs.c,
+	client/include/dialogs_g.h, client/gui-xaw/dialogs.c,
+	common/capstr.c, common/packets.h, common/unit.c, common/unit.h,
+	server/unithand.c:
+
+	Fixed bug whereby Diplomats/Spies moving by GoTo would not pop-up
+	the Diplomat/Spy command dialog when they reached a city.  Fixes
+	PR#37 and PR#306.  Bug reported by AP Remmers
+	<aremmers@nerdherd.org> and Mark Nettle
+	<markn@teach.bhs.mq.edu.au>.  Solution proposed by David Pfitzner
+	<dwp@mso.anu.edu.au>.  Implementation by Thue Janus Kristensen
+	<thue@diku.dk> and me.
+
+Sun Apr 16 13:10:25 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/POTFILES.in, server/gamehand.c, server/plrhand.c:
+
+	Fixed bug where the "Year: " message sent to the message window
+	was one off from the actual year (as displayed in the info box). 
+	Patch submitted by Thue Janus Kristensen <thue@diku.dk>, with i18n
+	support added.
+
+Sun Apr 16 12:53:21 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/packhand.c, common/capstr.c, common/map.h,
+	common/packets.c, common/unit.c, common/unit.h,
+	data/civ1/terrain.ruleset, data/civ2/terrain.ruleset,
+	data/classic/terrain.ruleset, data/default/terrain.ruleset,
+	server/ruleset.c, server/unitfunc.c, server/unithand.c:
+
+	Fixed terrain ruleset code to allow
+	irrigation/mining/transformation of ocean tiles into land tiles. 
+	(The ruleset structure appeared to support this, but the code
+	didn't.)  Added an extra constraint to changing ocean to land:
+	must have at least "ocean_reclaim_requirement" land tiles adjacent
+	to the ocean tile being changed.  The default ruleset allows
+	Engineering Transformation of Ocean to Swamp.  Patch submitted by
+	Cameron Morland <cjmorland@uwaterloo.ca>, committed with several
+	fixes.
+
+Fri Apr 14 13:52:28 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/unit.c, server/unittools.c:
+
+	Fixes transporter space functions.  Specifically: - Changed
+	is_enough_transporter_space() to count only the given player's
+	transporters and units.  (It is currently only used where only one
+	players units are on the tile so this won't fix any bugs.) -
+	Changed is_transporter_with_free_space() to report only on given
+	players' units (as it seems was intended).  - Also, while looking
+	at how is_enough_transporter_space() was called, it seemed to me
+	that there was a bug in the code near the end of
+	resolve_unit_stack() -- the comment says to teleport the *surplus*
+	units, but the code teleports *all* units.  This is also fixed. 
+	Patch submitted by Thue Janus Kristensen <thue@diku.dk>.  Second
+	and third changes by me.
+
+Fri Apr 14 12:53:07 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/citytools.c, server/unithand.c, server/unittools.c:
+
+	Fixes potential infinite loop in server.  Specifically: -
+	Conditionalizes the resolve_unit_stack() call in the loop in
+	transfer_city_units() on x,y not being a city location.  - Minor
+	clean-up of resolve_unit_stack().  - Removes re-use of x and y in
+	transfer_city_units().  - Changes transfer_city() call in
+	civil_war() to not ask for resolving stack conflicts.  - Adds a
+	stack conflict resolution loop just before the short-circuit
+	'return;' in civil_war().  - Adds "if (do_civil_war)
+	civil_war(cplayer);" before the short-circuit 'return;' in
+	handle_unit_enter_city().
+
+Mon Apr 10 21:55:11 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Increased the default width of the change dialog by 30 pixels.
+
+Mon Apr 10 21:28:54 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	Attempt to fix the Apollo Program map bug.
+
+Sun Apr  9 04:59:34 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/chatline.c:
+
+	Changed type of windowwth in append_output_window() from 'int' to
+	'Dimension'.  (Was seeing strange output window wrapping behaviour
+	in Xaw client, traced to bogus values for windowwth.)
+
+Sun Apr  9 04:58:26 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/worklist.c:
+
+	In init_worklist() initialize all ids (not just first) to avoid
+	junk values in savegames.
+
+Sun Apr  9 04:57:40 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aiunit.c:
+
+	Fix bug that AI may use uninitialized data, specifically
+	pcity->ai.wallvalue via assess_defense() when called for "foreign"
+	cities, in invasion_funct() and ai_military_gothere(). 
+	(pcity->ai.wallvalue is only calculated for AI players, and maybe
+	only reliable for the "current" ai player?) Replaced these calls
+	to assess_defense() with new function has_defense(), which is a
+	simplified version of assess_defense() which only returns boolean
+	value and doesn't use pcity->ai.wallvalue.
+
+Sun Apr  9 04:42:40 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/chatline.c:
+
+	Add explicit 'int' type for variable m_width in
+	append_output_window() (prevents gcc warning).
+
+Fri Apr  7 22:14:42 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, common/unit.c, common/unit.h:
+
+	Removed raise_unit_top() function.  It and calls to it made
+	obsolete when find_visible_unit() was made independent of unit
+	genlist order.  Patch submitted by Thue Janus Kristensen
+	<thue@diku.dk>.
+
+Fri Apr  7 22:06:13 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, client/control.h, client/gui-gtk/mapview.c,
+	client/gui-mui/mapview.c, client/gui-stub/mapview.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/mapview.c,
+	client/include/mapview_g.h:
+
+	Cleanup blink_active_unit() function: 1) move it to control.c as
+	it seems to be gui-independent; 2) remove legacy code (putting a
+	unit on top of linked list) made obsolete by the changes in
+	find_visible_unit().  Patch submitted by Thue Janus Kristensen
+	<thue@diku.dk>.
+
+Fri Apr  7 21:37:39 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* freeciv_hackers_guide.txt, ai/aicity.c, ai/aihand.c,
+	client/civclient.c, client/packhand.c, client/packhand.h,
+	client/tilespec.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/dialogs.h, client/gui-mui/dialogs.c,
+	client/gui-stub/dialogs.c, client/include/dialogs_g.h,
+	client/gui-xaw/dialogs.c, common/capstr.c, common/packets.c,
+	common/packets.h, common/player.c, common/unit.c, common/unit.h,
+	server/barbarian.c, server/cityhand.c, server/cityhand.h,
+	server/citytools.c, server/citytools.h, server/cityturn.c,
+	server/civserver.c, server/diplhand.c, server/gamehand.c,
+	server/maphand.c, server/maphand.h, server/plrhand.c,
+	server/plrhand.h, server/settlers.c, server/stdinhand.c,
+	server/unitfunc.c, server/unitfunc.h, server/unithand.c,
+	server/unittools.c:
+
+	Implemented Full Fog of War.  Now, terrain changes (including
+	building infrastructure and cities) will not be seen unless a
+	player has a unit or city close enough to witness the change. 
+	Patch submitted by Thue Janus Kristensen <thue@diku.dk>.
+
+Fri Apr  7 21:14:41 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapview.c:
+
+	Fix bug in Gtk+ client where scrollbars were not initialized
+	correctly if the map size was other than 80x50.  Bug reported and
+	patch submitted by Thue Janus Kristensen <thue@diku.dk>.
+
+Fri Apr  7 18:45:45 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* freeciv_hackers_guide.txt:
+
+	Updated Mini Style Guide section of the Hacker's Guide.
+
+Fri Apr  7 15:59:06 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/unit.c, server/gotohand.c:
+
+	Removed complexity from do_unit_goto() rendered needless by the
+	patch which allowed setting unit activity with zero movement. 
+	Also removed a "moves_left" that had escaped deletion in
+	can_unit_do_activity_targeted().  Patch submitted by Thue Janus
+	Kristensen <thue@diku.dk>.
+
+Fri Apr  7 15:39:49 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/chatline.c:
+
+	Changed Xaw client output window to wrap based on actual width of
+	window and (assumed fixed) width of font.
+
+Fri Apr  7 15:29:01 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in:
+
+	Add --with-xaw and --enable-client=xaw3d options to ./configure
+	script.  Suggested by David Pfitzner <dwp@mso.anu.edu.au>.
+
+Fri Apr  7 15:03:33 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/.cvsignore, client/gui-gtk/Makefile.am,
+	client/gui-gtk/Makefile.in, client/gui-xaw/.cvsignore,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/Makefile.am,
+	client/gui-xaw/Makefile.in:
+
+	Remove gui-xaw/Freeciv.h from CVS.  Arranged CVS and make so as to
+	not have gui-xaw/Freeciv.h and gui-gtk/Freeciv.h included in the
+	CVS.  Developers will want to add Freeciv.h to their "diff -X"
+	exclude file.  Suggestion by David Pfitzner <dwp@mso.anu.edu.au>.
+
+Mon Apr  3 12:24:23 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c, common/registry.h:
+
+	Revert previous change of use of hashing in registry: it had a
+	bigger impact on time to save a game than I had realized.
+
+Mon Apr  3 12:23:22 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c:
+
+	Added timing of save_game (with --debug 2).
+
+Sun Apr  2 17:43:02 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/helpdlg.c, client/gui-xaw/helpdlg.c:
+
+	Display in help dialog which buildings an advance will obsolete. 
+	Patch submitted by Moses Lei <trumpkin@wizard.net>, with Xaw
+	implementation by me.
+
+Sun Apr  2 17:26:54 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, client/control.h, client/options.c,
+	client/options.h, client/packhand.c, client/tilespec.c,
+	client/tilespec.h, client/gui-gtk/gui_main.c,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/mapview.c,
+	client/gui-gtk/menu.c, client/gui-mui/mapview.c,
+	client/gui-stub/mapview.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/actions.c, client/gui-xaw/gui_main.c,
+	client/gui-xaw/mapview.c, client/gui-xaw/menu.c,
+	client/gui-xaw/menu.h, client/include/mapview_g.h, data/Freeciv,
+	data/engels.tilespec, data/engels_shields.tilespec,
+	data/trident.tilespec, data/trident_shields.tilespec:
+
+	Add showing city productions on main map.  This is optional. 
+	Also, makes display of city names on main map an option.  Patch
+	submitted by Raimar Falke <rf13@inf.tu-dresden.de>, with Xaw
+	implementation and some fixes by me.
+
+Sun Apr  2 16:48:23 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-stub/Makefile.am, client/gui-stub/Makefile.in,
+	client/gui-stub/dialogs.c, client/gui-stub/graphics.c,
+	client/gui-stub/wldlg.c, client/gui-stub/wldlg.h:
+
+	Bring gui-stub up to date.
+
+Sun Apr  2 16:11:05 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/packets.c:
+
+	Fixed two bugs in get_packet_from_connection():  1. The test for
+	having received at least the minimum packet length was incorrect; 
+	2. When a byte-swapped packet was received, its corrected length
+	was written into the packet buffer before the test for having
+	received a complete packet was performed.
+
+Sun Apr  2 01:08:07 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/aicity.c, client/cityrepdata.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/cityrep.c,
+	client/gui-gtk/dialogs.c, client/gui-gtk/wldlg.c,
+	client/gui-mui/citydlg.c, client/gui-mui/worklistclass.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/cityrep.c,
+	client/gui-xaw/dialogs.c, client/gui-xaw/wldlg.c, common/city.c,
+	common/city.h, common/player.c, common/player.h,
+	server/cityhand.c, server/citytools.c, server/citytools.h,
+	server/cityturn.c, server/plrhand.c:
+
+	Minor changes to prepare for future buildings generalisation: -
+	Introduced Impr_Type_id typdef, currently to enum
+	improvement_type_id; - Renamed get_imp_name_ex() to
+	get_impr_name_ex() for consistency or future consistency (?), and
+	some other _imp_ functions similarly.
+
+Fri Mar 31 07:06:19 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/game.c, common/game.h, server/civserver.c,
+	server/gamehand.c, server/stdinhand.c, server/stdinhand.h:
+
+	Added server option "autotoggle", which toggles AI status on and
+	off as players connect and disconnect.
+
+	Added a call to lost_connection_to_player() in
+	cut_player_connection(), to tell other clients about the removal
+	(probably why 'cut' appeared not to work for some people).
+
+	Removed a call to lost_connection_to_player() in
+	handle_request_join_game(), which simply generated messages about
+	"lost connection to unknown" when a player tried to connect with a
+	wrong name.
+
+Fri Mar 31 07:02:13 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c:
+
+	Show barbarian players in the server-side player list (on console
+	or for players with cmdlevel ctrl or better).  Eg, allows seeing
+	their name and current skill level.
+
+Fri Mar 31 07:00:16 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/barbarian.c:
+
+	Made default barbarian skill level be game.skill_level.
+
+Fri Mar 31 06:59:16 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/hash.c:
+
+	Added some more comments about memory management of keys and
+	user-data when using hash tables.
+
+Fri Mar 31 06:57:17 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c, common/registry.h:
+
+	Change registry to make better and more consistent use of hashing.
+	Instead of building a static hash table at the end, the
+	section_file is kept always hashed dynamically, which allows
+	simpler code for insertions and lookups.  There is a small
+	performance penalty for this extra flexibility, but shouldn't be
+	noticeble in practice (eg, < 10% loading typical savegame).
+
+Fri Mar 31 06:54:19 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/tilespec.c:
+
+	Clean up the tilespec code to use a hash table directly, rather
+	than via registry.  Since the raw hash table can easily store
+	pointers directly, this allows removing the tile_sprites array and
+	related code (used to store indices in registry).  This also
+	removes the limitation that tilespec tags must be in
+	"section.entry" form (ie, contain a '.').
+
+Fri Mar 31 06:52:31 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/hash.c, common/hash.h:
+
+	Extends the functionality of common/hash.c, to remove the previous
+	main limitations: individual elements can now be deleted, and the
+	hash table dynamically resizes as new elements are added.
+
+Wed Mar 29 21:23:05 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/civ2/buildings.ruleset, data/default/buildings.ruleset,
+	server/civserver.c, server/stdinhand.c:
+
+	Added correct Civ2 style of Apollo wonder (shows entire map,
+	rather than just cities).  Selected by civstyle server option. 
+	Bug reported by Tuomas Airaksinen <tuma@linuxfan.com>.
+
+Wed Mar 29 19:09:14 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/ruleset.c:
+
+	Fixed bug where game.add_to_size_limit was not being communicated
+	correctly to the client.
+
+Tue Mar 28 22:08:24 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	Added more debug log messages.
+
+Sun Mar 26 04:22:38 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt:
+
+	Fix "thedefender" typo in helptext due to missing space.  Bug
+	report and patch submitted by Paul Zastoupil <paulz@adnc.com>.
+
+Sun Mar 26 03:42:03 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, client/Makefile.am, client/Makefile.in:
+
+	Adjust BeOS stuff in configure:  Remove client/gui-beos/Makefile
+	from generation list, because client/gui-beos will not participate
+	in the automake machinery.  Adjust flag-handling for recent
+	changes to configure.in debug enabling, and allowing
+	client/civclient to compile into an executable on this platform
+	(using some libraries to come later).  Patch (PR#315) submitted by
+	Joseph Beckenbach <jrb3@bdhsw.com>.  Also remove gui-beos from
+	client/Makefile.am so, eg, 'make dist' works.
+
+Sat Mar 25 02:47:31 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/freeciv.rc:
+
+	Change help text font for Gtk+ client (back) to explicitly specify
+	iso8859 registry, to display non-ascii letters properly.  Problem
+	reported by Egbert Hinzen <egbert@ehinzen.de>.  Fix suggested by
+	Jeff Mallatt <jjm@codewell.com>.
+
+Wed Mar 22 22:29:55 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/amigaserver.c, amiga/smakefile:
+
+	Updated amiga/smakefile.
+
+	Fixed Enforcer hit in in amiga/amigaserver.c.
+
+Tue Mar 21 18:02:15 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/actions.c,
+	client/gui-xaw/chatline.c, client/gui-xaw/chatline.h,
+	client/gui-xaw/citydlg.c, client/gui-xaw/citydlg.h,
+	client/gui-xaw/connectdlg.c, client/gui-xaw/connectdlg.h,
+	client/gui-xaw/dialogs.c, client/gui-xaw/dialogs.h,
+	client/gui-xaw/diplodlg.c, client/gui-xaw/diplodlg.h,
+	client/gui-xaw/gui_main.c, client/gui-xaw/inputdlg.c,
+	client/gui-xaw/inputdlg.h, client/gui-xaw/spaceshipdlg.c,
+	client/gui-xaw/spaceshipdlg.h, data/Freeciv:
+
+	Further cleanup of Xaw client key dispatching.  All key
+	translations are now specified in the resource file -- none are
+	hard-coded.
+
+Tue Mar 21 17:53:33 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/maphand.c:
+
+	Fix bug in show_area() whereby when fogofwar was off, unit info
+	was not sent.  Bug reported and patch submitted by Thue Janus
+	Kristensen <thue@diku.dk>.
+
+Tue Mar 21 17:43:45 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/unitfunc.c:
+
+	Fixes bug whereby if a Trireme was in a city on a single-square
+	island, it was susceptible to sinking.  Bug reported and patch
+	submitted by cjmorland <cjmorland@uwaterloo.ca>.
+
+Tue Mar 21 15:43:42 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aicity.c:
+
+	Changed ai_new_spend_gold() to discount the "gold reserve".  Patch
+	submitted by Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>.
+
+Tue Mar 21 14:42:58 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/plrdlg.c:
+
+	Xaw client truncate long leader names in Players dialog.
+
+Tue Mar 21 14:34:42 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/dialogs.c:
+
+	Fixed a bug in Gtk+ Select Nation dialog whereby when one player
+	joins, the wrong nation was disabled in all the other clients. 
+	Also added random nation and leader selection.  Patch submitted by
+	Raimar Falke <rf13@inf.tu-dresden.de>; random selection idea by
+	David Pfitzner <dwp@mso.anu.edu.au>.
+
+Tue Mar 21 14:17:38 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/dialogs.c, client/gui-xaw/repodlgs.c:
+
+	Xaw client implementation of sorting in Science Advisor dialog and
+	Select Nation dialog.  Also adds random selection of nation and
+	leader.  Random selection idea by David Pfitzner
+	<dwp@mso.anu.edu.au>.
+
+Tue Mar 21 14:02:13 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/finddlg.c, po/POTFILES.in:
+
+	Internationalized gui-gtk/finddlg.c.  Patch submitted by Pieter J.
+	Kersten <kersten@dia.eur.nl>.
+
+Tue Mar 21 13:48:49 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/dialogs.c, client/gui-gtk/dialogs.c,
+	data/default/nations.ruleset, data/engels/flags.spec,
+	data/engels/flags.xpm, data/misc/shields.spec,
+	data/misc/shields.xpm, data/nation/Makefile.am,
+	data/nation/Makefile.in, data/nation/brazilian.ruleset,
+	data/nation/cornish.ruleset, data/nation/english.ruleset,
+	data/nation/irish.ruleset, data/nation/italian.ruleset,
+	data/nation/misc_cities.ruleset, data/nation/roman.ruleset,
+	po/POTFILES.in, data/trident/flags.spec, data/trident/flags.xpm:
+
+	Adds new nations and minor fixes/additions to existing ones: *
+	adds Irish, Cornish and Italians * makes Romans use Roman flag,
+	not Italian flag * female Dictators are Dictatrices * fiddle a bit
+	with the English * make Dutch use f.netherlands, not f.holland *
+	adds many UK villages and towns with strange names to misc cities
+	Patch submitted by Robert Brady <rwb197@ecs.soton.ac.uk>, with
+	some fixes and Engels and Shields flags by me.
+
+Tue Mar 21 11:33:55 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/hash.c,
+	common/hash.h, common/registry.c:
+
+	Split hash table functionality from registry.c out into a separate
+	module common/hash.  Initially hash.c is missing some important
+	functionality in terms of being a general hashing implementation
+	(resizing the table and deleting elements), but it should be
+	straightforward to extend.
+
+Tue Mar 21 11:26:10 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, data/Makefile.am, data/Makefile.in,
+	data/civ1.serv, data/civ1/Makefile.am, data/civ1/Makefile.in,
+	data/civ1/nations.ruleset, data/default/nations.ruleset,
+	data/nation/.cvsignore, data/nation/Makefile.am,
+	data/nation/Makefile.in, data/nation/american.ruleset,
+	data/nation/arab.ruleset, data/nation/argentine.ruleset,
+	data/nation/australian.ruleset, data/nation/aztec.ruleset,
+	data/nation/babylonian.ruleset, data/nation/barbarian.ruleset,
+	data/nation/bavarian.ruleset, data/nation/brazilian.ruleset,
+	data/nation/canadian.ruleset, data/nation/carthaginian.ruleset,
+	data/nation/chinese.ruleset, data/nation/czech.ruleset,
+	data/nation/danish.ruleset, data/nation/dunedain.ruleset,
+	data/nation/dutch.ruleset, data/nation/egyptian.ruleset,
+	data/nation/english.ruleset, data/nation/finnish.ruleset,
+	data/nation/french.ruleset, data/nation/german.ruleset,
+	data/nation/greek.ruleset, data/nation/hungarian.ruleset,
+	data/nation/inca.ruleset, data/nation/indian.ruleset,
+	data/nation/israeli.ruleset, data/nation/japanese.ruleset,
+	data/nation/kenyan.ruleset, data/nation/korean.ruleset,
+	data/nation/krevi.ruleset, data/nation/lithuanian.ruleset,
+	data/nation/misc_cities.ruleset, data/nation/mongol.ruleset,
+	data/nation/mordor.ruleset, data/nation/olympic.ruleset,
+	data/nation/persian.ruleset, data/nation/polish.ruleset,
+	data/nation/portuguese.ruleset, data/nation/roman.ruleset,
+	data/nation/russian.ruleset, data/nation/scottish.ruleset,
+	data/nation/sioux.ruleset, data/nation/spanish.ruleset,
+	data/nation/swedish.ruleset, data/nation/thai.ruleset,
+	data/nation/turk.ruleset, data/nation/ukrainian.ruleset,
+	data/nation/vietnamese.ruleset, data/nation/viking.ruleset,
+	data/nation/welsh.ruleset, data/nation/zulu.ruleset,
+	po/POTFILES.in:
+
+	Split nations.ruleset up into separate files, one per nation, in
+	new data/nation directory.  Added civ1/nations.ruleset, though not
+	used by default, even using civ1.serv.
+
+Tue Mar 21 11:13:55 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/nation:
+
+	Directory /home/freeciv/CVS/freeciv/data/nation added to the
+	repository
+
+Mon Mar 20 07:15:39 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in:
+
+	Attempt to fix problem that -lintl on link line is required on
+	some systems but not put there by AM_GNU_GETTEXT in configure. 
+	(Add -lintl to LIBS when $gt_cv_func_gettext_libintl is "yes".)
+	Problem reported by a number of people including: David Lang
+	<dlang@dlang.diginsite.com>, Luis Lastras
+	<lastras@ee.cornell.edu>, Johan Andersson <zrq501j@tninet.se>, Jan
+	Riedinger <jan@physik.TU-Berlin.DE>, Piotr Sulecki
+	<Piotr.Sulecki@ios.krakow.pl>.  Bugs PR#162, PR#190, PR#247,
+	PR#255, PR#268.
+
+Sun Mar 19 14:35:56 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* acconfig.h, config.h.in, configure, configure.in,
+	amiga/.cvsignore, amiga/amigaserver.c, common/packets.c,
+	server/sernet.c:
+
+	Added check for the fcntl and ioctl functions in configure. 
+	Changed server/sernet.c also to use ioctl() to switch to non
+	blocking mode (if fcntl() is not available).  Added and use
+	NONBLOCKING_SOCKETS define (will be set in configure if fcntl() or
+	ioctl() is available)
+
+	Addapted the amiga/amigaserver.c (provide a ioctl() stub)
+
+	Forgot to commit the amiga/.cvsignore file in my last patch.
+
+Sun Mar 19 13:45:21 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/mapview.c:
+
+	Fixed bug in Xaw client introduced by "extra bottom line" display
+	patch whereby the vertical scrollbar wasn't handled correctly. 
+	Bug reported by David Pfitzner <dwp@mso.anu.edu.au>.
+
+Sun Mar 19 04:29:17 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c:
+
+	Made 'barbarians' and 'onsetbarbs' server options
+	SSET_RULES_FLEXIBLE so that they can be changed during a game. 
+	Added some altered and slightly more extensive comments about
+	which options should be SSET_RULES_FLEXIBLE.
+
+Sun Mar 19 04:05:00 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/log.c, common/log.h, common/speclist.h:
+
+	Renamed variables called 'this' to be kind to C++ compilers. 
+	Problem reported by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+	and Joseph Beckenbach <jrb3@bdhsw.com>.  Patch submitted by Joseph
+	Beckenbach <jrb3@bdhsw.com>.
+
+Sat Mar 18 09:54:41 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/ReadMe, amiga/ReadMe.2Amigas, amiga/amigaclient.c,
+	amiga/amigaserver.c, amiga/makedirs, amiga/smakefile,
+	client/gui-mui/citydlg.c, client/gui-mui/connectdlg.c,
+	client/gui-mui/dialogs.c, client/gui-mui/gui_main.c,
+	client/gui-mui/helpdlg.c, client/gui-mui/mapclass.c,
+	client/gui-mui/mapclass.h, client/gui-mui/mapview.c,
+	client/gui-mui/muistuff.h, client/gui-mui/objecttreeclass.c,
+	client/gui-mui/scrollbuttonclass.c,
+	client/gui-mui/scrollbuttonclass.h,
+	client/gui-mui/worklistclass.c, server/cityturn.c,
+	server/civserver.c, server/ruleset.c, server/settlers.c,
+	server/unitfunc.c:
+
+	Mui client: Now closes the city worklist window if the city window
+	is closed.  Added two balance objects in the help window and
+	changed the tech tree layout a little bit.  Added a scrollbutton
+	for the Map.  Reindented client/gui-mui/connectdlg.c.
+
+	Added amiga/ReadMe.2Amigas document by Ivan kosak
+	<ivan.kosak@sk.tel.hr>.
+
+	Improved amiga/smakefile.  Removed amiga/makedirs script (no
+	longer required).  Updated amiga/.cvsignore
+
+	select() stub in amiga/amigaclient.c inet_ntoa() stub in
+	amiga/amigaserver.c
+
+	Adding some missing static's in some server source files.  Minor
+	layout changes in some server source files (to allow compiliation
+	with VBCC).
+
+	Removed the inputhandler from amiga/amigaserver.c and use packets
+	of dos.library instead.  Modified amiga/amigaserver.c to allow
+	compiliation with VBCC.
+
+	The last two things done with help of Tajti Attila
+	<hilandr@freemail.hu>.
+
+Sat Mar 18 00:14:14 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	Bug fix to enable correct compilation on machines without fcntl().
+
+Fri Mar 17 18:06:46 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/cityturn.c:
+
+	Fix bug where, just after building a Settlers, workers were
+	arranged without regard to the newly created unit (hence, the unit
+	was immediately disbanded).  Fixes PR#298.  Bug reported by
+	Reinier Post <rp@win.tue.nl>.  Fix by Reinier Post <rp@win.tue.nl>
+	and me.
+
+Fri Mar 17 17:52:36 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/connectdlg.c, client/gui-xaw/connectdlg.c:
+
+	Disables the Turn Done button for when a game is not yet started. 
+	Patch submitted by Mika Korhonen <mikak@ee.oulu.fi>, with Xaw
+	implementation and minor fix by me.
+
+Fri Mar 17 17:23:19 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/game.c, common/game.h, common/unit.c, common/unit.h,
+	data/helpdata.txt, server/gamehand.c, server/stdinhand.c,
+	server/unithand.c:
+
+	Add server option "killcitizen", which determines the types of
+	units that cause a city to lose population after a successful
+	attack.  Patch submitted by Tomasz Wegrzanowski <maniek@beer.com>.
+
+Fri Mar 17 17:06:12 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, client/control.h, client/packhand.c,
+	client/tilespec.c, client/gui-gtk/mapctrl.c,
+	client/gui-gtk/mapview.c, client/gui-mui/mapclass.c,
+	client/gui-mui/overviewclass.c, client/gui-xaw/mapctrl.c,
+	client/gui-xaw/mapview.c, common/player.c, common/player.h:
+
+	Fixes bug where transporters contents were shown on top of
+	transporter even when not in focus.  Also, never show to enemies
+	(except during combat).  Cleans-up focus-unit handling and
+	display.  Patch submitted by Thue Janus Kristensen <thue@diku.dk>,
+	committed with minor fixes.
+
+Fri Mar 17 16:44:29 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Corrected a couple Spanish city names.  Patch submitted by martin
+	<martin.mcmahon@ukonline.co.uk>.
+
+Fri Mar 17 13:25:44 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/nl.po:
+
+	Updated Dutch (nl) translation.  Patch submitted by Pieter J.
+	Kersten <kersten@dia.eur.nl>.
+
+Thu Mar 16 19:55:30 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, po/nl.po:
+
+	Added the Dutch (nl) translation.  Translation submitted by Pieter
+	J. Kersten <kersten@dia.eur.nl>.
+
+Wed Mar 15 20:15:33 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, client/gui-gtk/mapctrl.c,
+	client/gui-mui/gui_main.c, client/gui-xaw/mapctrl.c:
+
+	Minor clean-up of focus unit handling.  Made punit_focus static. 
+	(MUI client needs to be checked.)
+
+Wed Mar 15 19:43:04 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/city.c:
+
+	Allow Hoover Dam to be built anywhere, to conform to Civ2.  Patch
+	submitted by Daniel Zinsli <s830+priv@ii.uib.no>.
+
+Wed Mar 15 19:32:33 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Added accents to several Spanish nation city names.  Patch
+	submitted by Joaquin Cuenca Abela <cuenca@ie2.u-psud.fr>.
+
+Wed Mar 15 19:18:53 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/de.po:
+
+	Updated German (de) translation.  Patch submitted by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Wed Mar 15 19:01:45 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/cityrep.c, client/gui-gtk/repodlgs.c,
+	client/gui-xaw/repodlgs.c, common/tech.c, common/tech.h:
+
+	Display research turns per advance in Science Advisor dialog. 
+	Patch submitted by Daniel Zinsli <s830+priv@ii.uib.no>, with Xaw
+	implementation by me.
+
+Wed Mar 15 18:44:39 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/dialogs.c, client/gui-gtk/repodlgs.c:
+
+	Added sorting to Nation Select and Science Advisor dialogs.  Patch
+	submitted by Raimar Falke <hawk@A315-2b.wh8.tu-dresden.de>,
+	committed with a few bug fixes.
+
+Wed Mar 15 18:08:40 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/unit.c:
+
+	Changed can_unit_do_activity_targeted() to allow units to change
+	activity without being in ACTIVITY_IDLE state.  Patch submitted by
+	Thue Janus Kristensen <thue@diku.dk>.
+
+Wed Mar 15 17:58:26 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, client/control.h, client/gui-gtk/citydlg.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/citydlg.c, data/Freeciv:
+
+	Adds the Sentry and Fortify items to the Xaw City dialog Unit
+	pop-up, as were previously added to the GTK+ client.  I moved the
+	routines that request the activity change to control.[hc], to
+	conform with other usage and so that the Xaw client could use the
+	same code.
+
+Wed Mar 15 17:27:49 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/gui_main.c, client/gui-xaw/mapview.c,
+	client/gui-xaw/mapview.h:
+
+	Fixed Xaw client bug whereby the bottom fractional row was not
+	being drawn when a game was loaded/started.
+
+Wed Mar 15 17:18:38 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapview.c, client/gui-mui/mapview.c,
+	client/gui-xaw/mapview.c:
+
+	Fix automatic recentering: 1) Recenter the map when a unit is 2
+	tiles from the edge of the screen, instead of 1 as before.  2)
+	When moving a unit at the poles previously it would, since the
+	pole is at the edge of the map, recenter the screen at every
+	move... DUH :) Adds a little extra check to prevent this.  Patch
+	submitted by Thue Janus Kristensen <thue@diku.dk>.
+
+Wed Mar 15 16:10:23 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapview.c, client/gui-xaw/mapview.c:
+
+	Changed drawing so that bottom row is fully visible.
+
+	As of now the top left corner is always aligned with the tiles.
+	This is what causes the problem in the first place. The ideal
+	solution would be to align the window with the bottom left tiles
+	if you tried to center the window on a tile closer than
+	(screen_tiles_height/2 -1) to the south pole.
+
+	But, for now, I just grepped for occurrences where the ysize (or
+	the values derived from it) were used, and those places that had
+	relevance to drawing the map, and I added 1 (using the
+	EXTRA_BOTTOM_ROW constant).
+
+	Patch submitted by Thue Janus Kristensen <thue@diku.dk>, with Xaw
+	implementation by me.
+
+Wed Mar 15 14:56:42 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/game.h:
+
+	Changed default for "onsetbarbs" server option to be 1/3 of the
+	way from the default game start to the default game end. 
+	Suggested by Tomasz Wegrzanowski <maniek@beer.com>.
+
+Wed Mar 15 14:34:53 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/city.h, server/settlers.c:
+
+	When it was made illegal to make cities adjacent to one another
+	you forgot to tell the ai autosettlers. As a result, at some point
+	most ai autosettlers will just stand and try to make a city turn
+	after turn.  This patch fixes that. Note that the patch does not
+	just stop the ai settlers from building cities next right next to
+	other cities (the actual bug), but also from inside the worked
+	area of other cities. The ai did this late in the game on well
+	developed continents (because it had a large surplus of settlers
+	and no obvious cities to add to within the range they checked, I
+	think), as such robbing the existing big cities of their land. 
+	Patch submitted by Thue Janus Kristensen <thue@diku.dk>.
+
+Wed Mar 15 14:14:01 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, client/options.c, client/options.h:
+
+	Added "End Turn when done moving" local option.  Patch submitted
+	by Daniel Zinsli <s830+priv@ii.uib.no>.
+
+Wed Mar 15 14:03:17 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/advmilitary.c, ai/aiunit.c, client/control.c,
+	client/tilespec.c, client/tilespec.h, client/gui-gtk/citydlg.c,
+	client/gui-gtk/menu.c, client/gui-mui/gui_main.c,
+	client/gui-mui/mapclass.c, client/gui-xaw/menu.c, common/capstr.c,
+	common/unit.c, common/unit.h, data/engels/tiles.spec,
+	data/engels/tiles.xpm, data/trident/tiles.spec,
+	data/trident/tiles.xpm, server/plrhand.c, server/unitfunc.c,
+	server/unithand.c, server/unittools.c:
+
+	Split ACTIVITY_FORTIFY up into ACTIVITY_FORTIFYING and
+	ACTIVITY_FORTIFIED.  Now, when you fortify a unit it starts out as
+	ACTIVITY_FORTIFYING and after one turn is changed to
+	ACTIVITY_FORTYFIED. If the unit has 0 movepoints when the order is
+	given it takes 2 turns. I believe this is how fortifying worked in
+	payciv. Also allows you to give settlers orders even when they
+	have 0 movement points left.  Patch submitted by Thue Janus
+	Kristensen <thue@diku.dk>, with artwork by me (so blame me, not
+	him :).
+
+Tue Mar 14 13:30:55 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Changed Sioux to use f.cheyenne flag.
+
+Tue Mar 14 12:54:48 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset, data/engels/flags.spec,
+	data/misc/shields.spec, data/trident/flags.spec:
+
+	Name the Cheyenne flag correctly (was named f.sioux).  Patch
+	submitted by Lalo Martins <lalo@debian.org>.
+
+Tue Mar 14 12:25:21 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Added Brazilian nation.  Patch submitted by Lalo Martins
+	<lalo@debian.org> and Richard Garrel <rgarrel@bhnet.com.br>.
+
+Mon Mar 13 23:18:24 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Added some Polish town names to the misc city names list.  Patch
+	submitted by Tomasz Wegrzanowski <maniek@beer.com>.
+
+Mon Mar 13 07:58:52 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapctrl.c:
+
+	Marked a string in GTK+ middle-button popup.  Bug reported by
+	Egbert Hinzen <garfy@ehinzen.de>.
+
+Mon Mar 13 04:32:27 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* freeciv_hackers_guide.txt, ai/aicity.c, ai/aitools.c,
+	ai/aiunit.c, client/climisc.c, client/control.c,
+	client/packhand.c, client/tilespec.c, client/tilespec.h,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/mapview.c,
+	client/gui-mui/mapclass.c, client/gui-xaw/mapctrl.c,
+	common/capstr.c, common/game.c, common/game.h, common/map.c,
+	common/map.h, data/engels/tiles.spec, data/engels/tiles.xpm,
+	data/trident/tiles.spec, data/trident/tiles.xpm,
+	server/autoattack.c, server/barbarian.c, server/cityhand.c,
+	server/citytools.c, server/cityturn.c, server/civserver.c,
+	server/diplhand.c, server/gamehand.c, server/gotohand.c,
+	server/maphand.c, server/maphand.h, server/plrhand.c,
+	server/settlers.c, server/stdinhand.c, server/unitfunc.c,
+	server/unitfunc.h, server/unithand.c, server/unithand.h,
+	server/unittools.c:
+
+	Fog of War for units.  Patch submitted by Thue Janus Kristensen
+	<thue@diku.dk>.
+
+Mon Mar 13 01:48:45 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Added Finnish leader; fixed some names.  Patch submitted by Tuomas
+	Airaksinen <tuma@linuxfan.com>.
+
+Sun Mar 12 23:50:58 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset, data/engels/flags.spec,
+	data/engels/flags.xpm, data/misc/shields.spec,
+	data/misc/shields.xpm, data/trident/flags.spec,
+	data/trident/flags.xpm:
+
+	Added the Bavarian nation and flags.  Patch submitted by Jan
+	Heidefuss <jan_heidefuss@yahoo.de>.
+
+Sun Mar 12 22:39:41 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset, data/engels/flags.spec,
+	data/engels/flags.xpm, data/misc/shields.spec,
+	data/misc/shields.xpm, data/trident/flags.spec,
+	data/trident/flags.xpm:
+
+	Added Mordor nation and flags.  Patch submitted by Paul Zastoupil
+	<paulz@adnc.com>.
+
+Sun Mar 12 22:05:21 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Changed section names in nations.ruleset from [nation#] to
+	[nation_name].  Patch suggested by David Pfitzner
+	<dwp@mso.anu.edu.au>.
+
+Sun Mar 12 21:08:33 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/engels/flags.spec, data/engels/flags.xpm,
+	data/misc/shields.spec, data/misc/shields.xpm,
+	data/trident/flags.spec, data/trident/flags.xpm:
+
+	Added flags for Bulgaria, Armenia, Azerbaijan and Boer.  Patch
+	submitted by Tomasz Wegrzanowski <maniek@beer.com>.
+
+Sun Mar 12 07:06:20 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c:
+
+	Do not list barbarian players in metaserver, and do not allow
+	connections to barbarian players.  Bug (PR#290, PR#295) reported
+	by Rizos Sakellariou <rizos@rice.edu>, Tuomas Airaksinen
+	<tuma@linuxfan.com>, and others.  Patch submitted by Reinier Post
+	<rp@win.tue.nl>.
+
+Sat Mar 11 14:11:57 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityturn.c:
+
+	Fix bug that penalty for production change was not applied when a
+	city had been prevented from finishing building a Settler due to
+	being size 1.  (Fix: don't update pcity-> turn_last_built until
+	unit is actually built.) Bug (PR#281) reported by Mark Hayden
+	<hayden@ispchannel.com>.
+
+Sat Mar 11 13:07:58 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/cityrep.c:
+
+	Add a cast to avoid another Solaris cc warning.
+
+Sat Mar 11 13:02:35 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/log.c:
+
+	Fudge FRETURN macro (no effective change) to avoid spurious
+	warning message from Solaris cc.  Warning reported in PR#269 by
+	Reinier Post <rp@win.tue.nl>.
+
+Sat Mar 11 12:50:31 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/cityrep.c:
+
+	Fix bug that using Change (to unit) for multiple cities in Gtk+
+	city report only changed the first city.   Bug (PR#270) reported
+	by "jf" <jean-francois.bonnet@math-info.univ-paris5.fr>.
+
+Sat Mar 11 12:21:17 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c:
+
+	Removed an unnecessary/duplicate check for req==A_LAST in
+	could_player_eventually_build_improvement().
+
+Fri Mar 10 21:44:04 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/helpdata.c, common/unit.c, common/unit.h,
+	server/unittools.c:
+
+	Added "IgTired" unit flag.  Units with this flag do not suffer an
+	attack penalty when they have less than one movement point left. 
+	Useful for modpacks about guerrilla warfare.  Patch submitted by
+	Tomasz Wegrzanowski <maniek@beer.com>, though without changes to
+	default units.ruleset.
+
+Fri Mar 10 19:45:51 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* freeciv_hackers_guide.txt:
+
+	Removed out of date, maintainer-specific information from hacker's
+	guide.
+
+Fri Mar 10 06:03:34 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/nations.ruleset, data/engels/flags.spec,
+	data/misc/shields.spec, data/trident/flags.spec:
+
+	Changed tag "f.holland" to more accurate "f.netherlands", as
+	suggested by Reinier Post <rp@win.tue.nl>.  Old tag kept as alias,
+	for backward compatibility.
+
+Fri Mar 10 00:45:41 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Added sentry and fortify options to the present units popup. 
+	Patch submitted by Thue Janus Kristensen.
+
+Fri Mar 10 00:17:48 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c:
+
+	patch to fix a cut in the right of the progress bar.  Bug reported
+	by Thue Janus Kristensen.
+
+Sun Mar  5 16:13:14 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* config.h.in, configure:
+
+	Ran autoheader;autoconf for non-blocking sockets changes. 
+	Requested by Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>.
+
+Sun Mar  5 16:00:51 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	oops, forgot a default: in the switch, messy.
+
+Sun Mar  5 15:59:06 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	Added a 5 second timeout to write().
+
+Sun Mar  5 15:00:56 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* configure.in, common/packets.c, client/clinet.c,
+	server/sernet.c:
+
+	Added support for non-blocking sockets (only for reads, writes
+	still block)
+
+Sun Mar  5 13:51:50 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aiunit.c:
+
+	Re-implemented ai_manage_units() in a way that, I hope, will avoid
+	all possible subordinate-routine wipe_unit()-caused dangling
+	pointer problems.  Fixes PR#263 (part 3), PR#267.  Bug reported by
+	Mike Jing <miky40@hotmail.com> and Tuomas Airaksinen
+	<tuma@linuxfan.com>.
+
+Sun Mar  5 13:39:29 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aiunit.c:
+
+	Fix bug whereby when a boat fails an attack, it causes a core dump
+	because the code doesn't check for its death (in
+	ai_military_gothere()).  Partial fix for PR#263, PR#267.  Bug
+	reported by Mike Jing <miky40@hotmail.com> and Tuomas Airaksinen
+	<tuma@linuxfan.com>.
+
+Sun Mar  5 13:28:46 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* server/meta.c:
+
+	Put inet_addr() and bind() calls back in.  It seems that 'named'
+	could not be running and cause gethostbyname() to fail.  This way
+	we can still rely on numbers and dots addresses.  Also since this
+	is a datagram socket we should call bind() first.  (It still
+	worked without bind() though).
+
+Sun Mar  5 01:27:22 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/Makefile.in:
+
+	Automake update for Gtk+ resources changes, requested by Vasco.
+
+Sat Mar  4 20:09:25 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/Makefile.am, client/gui-gtk/citydlg.c,
+	client/gui-gtk/dialogs.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/spaceshipdlg.c:
+
+	Made changes to remove hardcode values and enable gtk+ resource
+	file loading.
+
+Sat Mar  4 20:07:13 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* data/freeciv.rc:
+
+	Added gtk+ resource file for the client.
+
+Sat Mar  4 20:06:16 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/rc2c, client/gui-gtk/resources.c,
+	client/gui-gtk/resources.h:
+
+	Added files for gtk+ resource file loading.
+
+Sat Mar  4 18:34:15 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/packets.c, server/meta.c:
+
+	Fixed a couple of "missing prototype" errors introduced by recent
+	patches.
+
+Sat Mar  4 15:59:31 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* server/meta.c:
+
+	removed redundant call to 'inet_addr', removed unnecessary call to
+	'bind', removed some global vars and cleaned up the code a bit.
+
+Sat Mar  4 15:58:13 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/hu.po:
+
+	Update Hungarian (hu) translation.  Patch submitted by Gabor Dukai
+	<dukai@EUnet.yu>, committed with one format mismatch fix.
+
+Sat Mar  4 15:50:27 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/de.po:
+
+	Update German (de) translation.  Patch submitted by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Sat Mar  4 15:40:33 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* common/packets.c:
+
+	fixes the incomplete writes problem and has some minor cleanups.
+
+Sat Mar  4 14:31:19 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Added more cities to Dunedain nation.  Patch submitted by Paul
+	Zastoupil <paulz@adnc.com>.
+
+Sat Mar  4 03:55:27 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advattitude.c, ai/advforeign.c, ai/advisland.c,
+	ai/advscience.c, ai/advspace.h, ai/advtrade.c, ai/aitools.h,
+	common/nation.h, server/cityhand.h, server/ruleset.h,
+	server/sernet.h, server/settlers.h, server/unittools.h:
+
+	Remove some unnecessary includes in headers, and related
+	adjustments.
+
+Sat Mar  4 02:42:27 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/inputfile.c:
+
+	Put string_end_line into struct inputfile for better and more
+	consistent inf_log messages regarding multi-line strings.
+
+Sat Mar  4 01:42:38 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c, common/registry.h, server/civserver.c:
+
+	Allow duplicate entries in registry files.  This is mainly to
+	allow "overriding" entries included from another file.  Does not
+	apply to savefiles, where a duplicate entry probably indicates
+	that something is wrong in the code which wrote the savefile.
+
+Sat Mar  4 01:41:39 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c:
+
+	Allow duplicate section tags in registry files, equating to the
+	same section.  Main use is with included files, so that different
+	files can contribute or override entries for a single section.
+
+Sat Mar  4 01:39:49 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdata.c, common/inputfile.c, common/inputfile.h,
+	common/registry.c, server/ruleset.c:
+
+	Allow "include" lines in registry files, with multiple levels of
+	includes.  Included files are searched in FREECIV_PATH, by calling
+	datafilename().  This means reading a file may change the
+	datafilename() static buffer, so some other code modified to
+	account for this possibility.
+
+Thu Mar  2 19:41:44 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/mapctrl.c:
+
+	Fixed the "double click" problem in the minimap. Where a "double
+	click" caused three calls instead of two.
+
+Thu Mar  2 07:02:22 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/inputfile.c:
+
+	Fix bug that sometimes reading registry-format files would
+	mysteriously fail.
+
+	Fixes bugs PR#165, PR#168, PR#275; bugs reported by: David Chester
+	<David@chescam.demon.co.uk>, Jim Smith <atilla_ca@yahoo.com>,
+	Jamie Love <jdl28@cosc.canterbury.ac.nz>, Igor Nazarov
+	<nazarov@math.unm.edu>.
+
+	(Also fixes small bug that previously registry files could not
+	have strings with trailing backslash.)
+
+Mon Feb 28 21:08:15 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/unitfunc.c, server/unithand.c:
+
+	Reorder reports of conquering, getting advances and focusing on
+	new goal.  Bugs reported by Mike Jing <miky40@hotmail.com> and
+	Paul Zastoupil <paulz@adnc.com>.  Patch submitted by Mike Jing
+	<miky40@hotmail.com>, applied with fix for Paul's bug.
+
+Mon Feb 28 20:59:59 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aiunit.c, client/gui-xaw/dialogs.c, client/gui-xaw/wldlg.c,
+	client/include/freeciv.ico:
+
+	Cleaned-up some Sun cc warnings.  Warnings reported by Reinier
+	Post <rp@win.tue.nl>.
+
+Mon Feb 28 20:52:25 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/packhand.c:
+
+	Inhibit a couple more popups if watching an AI player.  (Most of
+	the rest already are inhibited).  One suggested by Anthony J.
+	Stuckey <stuckey@jaka.ece.uiuc.edu>.
+
+Mon Feb 28 20:43:48 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/civserver.c:
+
+	I noticed that messages about random barbarian uprisings get lost
+	from the messages window, because summon_barbarians() occurs on
+	the wrong side of before_end_year().  This patch moves
+	before_end_year() and adds a longer comment.
+
+	But its hard to test this patch, because even with maximum
+	barbarians and hard skill level, I hardly ever see such messages
+	(using also Popup for Barbarian Uprisings in Message Options, to
+	make sure I see them).  I guess because I mostly see sea
+	barbarians, coming from unknown squares so I don't get the
+	message.  (Another possible case is if I'm not the "real" victim,
+	but that would seem less often.)
+
+	This seems a bit of a problem, in terms of not getting a warning
+	even when the barbarians do then come within visible range, but
+	I'm not sure how to fix.  Maybe the client could generate a
+	message when a barbarian unit first comes "on-screen"? 
+	("Barbarians sighted near ...")
+
+	Patch submitted by David Pfitzner <dwp@mso.anu.edu.au>.
+
+Mon Feb 28 20:35:03 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/packets.c:
+
+	Hack to get rid of "bad string in packet" messages.
+
+	Some similar cases were fixed before 1.10.0, but I found that
+	there are still more cases where you can get "bad string in
+	packet" messages, from using uninitialised strings (ie, the string
+	data is not actually used by the server, but is included in the
+	packet anyway, causing problems).
+
+	In particular I saw cases with setting the Research and Goal
+	techs, but looking at the code other cases with
+	packet_player_request are also potential problems.
+
+	Looking into this, I don't understand why the worklist stuff was
+	included into packet_player_request, along with tax/sci/lux rates,
+	government choice, and tech/goal.  Because we only ever use part
+	of the packet at a time, but we send the whole lot every time
+	(with unused parts containing uninitialised "junk" data).  Using
+	separate packets would have avoided the above problem as well as
+	using less bandwidth.
+
+	(Actually, this isn't really the fault of the worklist
+	implementation, since even beforehand the non-rates stuff could
+	have just been sent as individual values.  The worklist stuff just
+	perpetuated the problem, and made it significantly worse by
+	happening to contain a string as part of the data.)
+
+	Well, I guess we don't want to change the protocol so soon after
+	introducing capstr "+1.10" :-/ But I didn't like trying to find
+	all the problem instances, and adding many duplicate lines
+	initialising req.worklist.name in non-worklist code.  So the
+	attached patch is a slightly hack-ish work-around.
+
+	Patch submitted by David Pfitzner <dwp@mso.anu.edu.au>.
+
+Mon Feb 28 20:12:23 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/civserver.c, server/plrhand.c, server/plrhand.h:
+
+	Show map to all players at end of game.  Patch submitted by Mike
+	Jing <miky40@hotmail.com>.
+
+Mon Feb 28 19:56:31 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/unit.c:
+
+	Disallow stealing tech and establishing embassies with barbarians.
+	Patch submitted by Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>.
+
+Mon Feb 28 19:50:21 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/unithand.c:
+
+	Have server automatically sentry units which board a ship on an
+	ocean tile.  Patch submitted by Thue Janus Kristensen
+	<thue@diku.dk>.
+
+Mon Feb 28 18:20:16 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po:
+
+	Updated Portuguese (pt) translation.
+
+Mon Feb 28 18:07:47 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/repodlgs.c:
+
+	Fixed bug in the city production dialog.  Changed look of the city
+	production dialog.  Changed look of the tech list in the science
+	dialog.  Added keyboard shortcuts to message windows.  Minor
+	change to progress bar in the city dialog.
+
+Mon Feb 28 03:43:48 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/hu.po:
+
+	Update Hungarian (hu) translation.  Patch submitted by Gabor Dukai
+	<dukai@EUnet.yu>.
+
+Mon Feb 28 03:39:22 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/pl.po:
+
+	Update Polish (pl) translation.  Patch submitted by Tomasz
+	Wegrzanowski <maniek@beer.com>.
+
+Mon Feb 28 00:44:11 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/dialogs.c:
+
+	There was a typo in the spy code causing errors sometimes a client
+	chrash when stealing tech using a spy.  Bug reported by Karl-Ingo
+	Friese. Fix by Thue Janus Kristensen.
+
+Mon Feb 28 00:06:55 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c:
+
+	added a progress bar to replace the progress label, like in the
+	Amiga client.
+
+Sun Feb 27 16:01:43 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* README.rulesets:
+
+	Update Michelangelo's info in README.rulesets.  Patch submitted by
+	Tomasz Wegrzanowski <maniek@beer.com>.
+
+Sun Feb 27 15:27:18 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/nations.ruleset:
+
+	Fixed bugs in, and added cities to, the Argentine nation.  Patch
+	submitted by riq <riq@ciudad.com.ar>.
+
+Sun Feb 27 13:30:13 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE:
+
+	Update an address.
+
+Fri Feb 25 11:56:59 2000  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/ReadMe, client/gui-mui/citydlg.c,
+	client/gui-mui/gui_main.c, client/gui-mui/mapclass.c,
+	client/gui-mui/objecttreeclass.c:
+
+	Mui client:
+
+	When investigating an unfriendly city now longer display the
+	browse buttons.
+
+	Now display the unexploxed tiles in the city map as black tiles
+	(like on the other clients)
+
+	Fix some problems in the help window in conjunction with the tech
+	tree.
+
+	Minor fixes in amiga/ReadMe
+
+Fri Feb 25 00:16:55 2000  Lalo Martins <lalo@debian.org>:
+
+	* po/pt_BR.po:
+
+	Updated a lot of annoyances in the Brazilian Portuguese
+	translation.
+
+Fri Feb 25 00:14:48 2000  Lalo Martins <lalo@debian.org>:
+
+	* debian/freeciv-xaw.dirs, debian/freeciv-xaw.menu,
+	debian/freeciv-xaw.postinst, debian/freeciv-xaw.postrm,
+	debian/freeciv-xaw.xaw:
+
+	removing some files we don't use anymore.
+
+Thu Feb 24 23:58:53 2000  Lalo Martins <lalo@debian.org>:
+
+	* debian/changelog, debian/control, debian/copyright, debian/dirs,
+	debian/freeciv-gtk.dirs, debian/freeciv-gtk.menu,
+	debian/freeciv-gtk.postinst, debian/freeciv-gtk.postrm,
+	debian/freeciv-xaw3d.dirs, debian/freeciv-xaw3d.menu,
+	debian/freeciv-xaw3d.postinst, debian/freeciv-xaw3d.postrm,
+	debian/menu, debian/rules:
+
+	Merging in the changes to the Debian build process by Torsten
+	Landschoff (NMU 1.9.0-2.1) which fixed a lot of bugs, and updating
+	everything for 1.10.0.
+
+Tue Feb 22 23:16:45 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE:
+
+	Fix minor format error in PEOPLE file.
+
+Mon Feb 21 23:31:58 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, client/gui-xaw/Freeciv.h,
+	common/version.h, data/Freeciv:
+
+	Bump version from 1.10.0 to 1.10.1-devel.
+
+Mon Feb 21 21:57:51 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ChangeLog:
+
+	Final ChangeLog update for Version 1.10.0 release.
+
+Mon Feb 21 21:43:07 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, client/gui-xaw/Freeciv.h,
+	common/version.h, data/Freeciv, po/de.po, po/en_GB.po, po/es.po,
+	po/fr.po, po/hu.po, po/no.po, po/pl.po, po/pt.po, po/pt_BR.po,
+	po/ru.po:
+
+	Final source update for Version 1.10.0 release.
+
 Mon Feb 21 20:52:22 2000  Jeff Mallatt <jjm@codewell.com>:
 
 	* PEOPLE:
