@@ -80,6 +80,7 @@ void save_restore_random(void);
 char *remove_leading_spaces(char *s);
 void remove_trailing_spaces(char *s);
 void remove_trailing_char(char *s, char trailing);
+int wordwrap_string(char *s, int len);
 
 char *user_home_dir(void);
 char *datafilename(char *filename);

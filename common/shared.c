@@ -405,6 +405,52 @@ void remove_trailing_char(char *s, char trailing)
 }
 
 /***************************************************************************
+  Change spaces in s into newlines, so as to keep lines length len
+  or shorter.  That is, modifies s.
+  Returns number of lines in modified s.
+***************************************************************************/
+int wordwrap_string(char *s, int len)
+{
+  int num_lines = 0;
+  
+  /* At top of this loop, s points to the rest of string,
+   * either at start or after inserted newline: */
+ top:
+  if (s && *s && strlen(s) > len) {
+    char *c;
+
+    num_lines++;
+    
+    /* check if there is already a newline: */
+    for(c=s; c<s+len; c++) {
+      if (*c == '\n') {
+	s = c+1;
+	goto top;
+      }
+    }
+    
+    /* find space and break: */
+    for(c=s+len; c>s; c--) {
+      if (isspace(*c)) {
+	*c = '\n';
+	s = c+1;
+	goto top;
+      }
+    }
+
+    /* couldn't find a good break; settle for a bad one... */
+    for(c=s+len+1; *c; c++) {
+      if (isspace(*c)) {
+	*c = '\n';
+	s = c+1;
+	goto top;
+      }
+    }
+  }
+  return num_lines;
+}
+
+/***************************************************************************
   Returns string which gives users home dir, as specified by $HOME.
   Gets value once, and then caches result.
   If $HOME is not set, give a log message and returns NULL.

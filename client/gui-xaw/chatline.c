@@ -20,6 +20,7 @@
 
 #include "mem.h"
 #include "packets.h"
+#include "shared.h"		/* wordwrap_string() */
 
 #include "clinet.h"
 #include "gui_stuff.h"
@@ -27,6 +28,8 @@
 #include "chatline.h"
 
 extern Widget inputline_text, outputwindow_text;
+
+#define OUTPUT_MAXLEN 95
 
 /**************************************************************************
 ...
@@ -49,19 +52,32 @@ void inputline_return(Widget w, XEvent *event, String *params,
   XtVaSetValues(w, XtNstring, empty, NULL);
 }
 
-char *buf;
 /**************************************************************************
  this is properly a bad way to append to a text widget. Using the 
  "useStringInPlace" resource and doubling mem alloc'ing would be better.  
  Nope - tried it and many other variations and it wasn't any better. 
  I'll replace this widget with a widget supportting hyperlinks later, so
  leth's forget the problem.
- **************************************************************************/
+
+ There seems to be an Xaw problem with doing both wrap and scroll:
+ its supposed to automatically scroll to end when we change the insertion
+ point, but if a line is wrapped the scroll lags behind a line, and
+ stays behind on subsequent additions, until the too-long line scrolls
+ off the top.  (I tried setting the insert position to the last char,
+ instead of the start of line as below, but that didn't help.)  So we
+ split the line ourselves.  I'm just using a fixed length split; should
+ perhaps check and use width of output window (but font size?)  -dwp
+**************************************************************************/
 void append_output_window(char *astring)
 {
-
   String theoutput;
   char *newout, *rmcr;
+  char *input_string = astring;
+
+  if (strlen(astring) > OUTPUT_MAXLEN) {
+    astring = mystrdup(astring);
+    wordwrap_string(astring, OUTPUT_MAXLEN);
+  }
   
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
   newout=fc_malloc(strlen(astring)+strlen(theoutput)+2);
@@ -81,6 +97,9 @@ void append_output_window(char *astring)
   XawTextEnableRedisplay(outputwindow_text);
   
   free(newout);
+  if (astring != input_string) {
+    free(astring);
+  }
 }
 
 /**************************************************************************
