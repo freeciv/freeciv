@@ -733,6 +733,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Branch>"	},
   { "/" N_("View") "/tearoff1",				NULL,
 	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("View") "/" N_("City Outlines"), "<control>y",
+    view_menu_callback, MENU_VIEW_SHOW_CITY_OUTLINES, "<CheckItem>"},
   { "/" N_("View") "/" N_("Map _Grid"),			"<control>g",
 	view_menu_callback,	MENU_VIEW_SHOW_MAP_GRID,		"<CheckItem>"	},
   { "/" N_("View") "/" N_("National _Borders"),		"<control>b",
@@ -1286,6 +1288,7 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Reports/S_paceship",
 			(game.player_ptr->spaceship.state!=SSHIP_NONE));
 
+    menus_set_active("<main>/_View/City Outlines", draw_city_outlines);
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);
     menus_set_sensitive("<main>/_View/National _Borders", game.borders > 0);
     menus_set_active("<main>/_View/National _Borders", draw_borders);
