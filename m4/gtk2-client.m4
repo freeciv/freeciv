@@ -9,7 +9,7 @@ AC_DEFUN([FC_GTK2_CLIENT],
     AM_PATH_GTK_2_0(2.2.1,
       [
         client="gtk-2.0"
-        CLIENT_CFLAGS="$GTK_CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+        CLIENT_CFLAGS="$GTK_CFLAGS"
         CLIENT_LIBS="$GTK_LIBS"
         if test x"$MINGW32" = "xyes"; then
           dnl Required to compile gtk2 on Windows platform
