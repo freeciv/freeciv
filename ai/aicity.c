@@ -314,7 +314,7 @@ unit_types[punit->type].name, unit_types[id].name); */
             bestchoice.choice == U_MUSKETEERS))  {
           if (!did_upgrade) { /* might want to disband */
             build = pcity->shield_stock + (get_unit_type(punit->type)->build_cost>>1);
-            total = get_unit_type(id)->build_cost;
+            total = get_unit_type(bestchoice.choice)->build_cost;
             cost=(total-build)*2+(total-build)*(total-build)/20;
             if ((bestchoice.want <= 100 && build >= total) ||
                   (pplayer->economic.gold >= cost)) {

@@ -698,7 +698,7 @@ unit_types[punit->type].name, punit->id, punit->x, punit->y, dest_x, dest_y);*/
 
 int unit_can_defend(int type)
 {
-  if (unit_types[type].move_rate != LAND_MOVING) return 0; /* temporary kluge */
+  if (unit_types[type].move_type != LAND_MOVING) return 0; /* temporary kluge */
   if (unit_types[type].defense_strength * 
       (unit_types[type].hp > 10 ? 5 : 3) >=
       unit_types[type].attack_strength * 4 &&
