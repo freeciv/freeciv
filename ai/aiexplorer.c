@@ -248,8 +248,9 @@ bool ai_manage_explorer(struct unit *punit)
   /* Loop prevention */
   struct tile *ptile = punit->tile;
 
-  /* The want of the most desirable tile, given nearby water, cities, etc. */
-  float most_desirable = 0;
+  /* The log of the want of the most desirable tile, 
+   * given nearby water, cities, etc. */
+  double log_most_desirable = -FC_INFINITY;
 
   /* The maximum distance we are willing to search. It decreases depending
    * on the want of already discovered tagets.  It is defined as the distance
@@ -258,14 +259,18 @@ bool ai_manage_explorer(struct unit *punit)
   int max_dist = FC_INFINITY;
 
   /* Coordinates of most desirable tile. Initialized to make 
-   * compiler happy. */
+   * compiler happy. Also MC to the best tile. */
   struct tile *best_tile = NULL;
+  int best_MC = FC_INFINITY;
 
   /* Path-finding stuff */
   struct pf_map *map;
   struct pf_parameter parameter;
 
 #define DIST_FACTOR   0.6
+
+  double logDF = log(DIST_FACTOR);
+  double logBPS = log(BEST_POSSIBLE_SCORE);
 
   pft_fill_unit_parameter(&parameter, punit);
   parameter.get_TB = no_fights_or_unknown;
@@ -274,7 +279,8 @@ bool ai_manage_explorer(struct unit *punit)
 
   map = pf_create_map(&parameter);
   while (pf_next(map)) {
-    float desirable;
+    int desirable;
+    double log_desirable;
     struct pf_position pos;
 
     pf_next_get_position(map, &pos);
@@ -283,25 +289,49 @@ bool ai_manage_explorer(struct unit *punit)
     assert(map_is_known(pos.tile, pplayer));
     
     desirable = explorer_desirable(pos.tile, pplayer, punit);
-    if (desirable == 0) { 
+
+    if (desirable <= 0) { 
       /* Totally non-desirable tile. No need to continue. */
       continue;
     }
-    desirable *= pow(DIST_FACTOR, pos.total_MC);
 
-    if (desirable > most_desirable) {
-      most_desirable = desirable;
+    /* take the natural log */
+    log_desirable = log(desirable);
+
+    /* Ok, the way we calculate goodness is taking the base tile 
+     * desirability amortized by the time it takes to get there:
+     *
+     *     goodness = desirability * DIST_FACTOR^total_MC
+     *
+     * TODO: JDS notes that we should really make our exponential
+     *       term dimensionless by dividing by move_rate.
+     * 
+     * We want to truncate our search, so we calculate a maximum distance
+     * that we would move to find the tile with the most possible desirability
+     * (BEST_POSSIBLE_SCORE) that gives us the same goodness as the current
+     * tile position we're looking at. Therefore we have:
+     *
+     *   desirability * DIST_FACTOR^total_MC = 
+     *               BEST_POSSIBLE_SCORE * DIST_FACTOR^(max distance)      (1)
+     *
+     * and then solve for max_dist. We only want to change max_dist when
+     * we find a tile that has better goodness than we've found so far; hence
+     * the conditional below. It looks cryptic, but all it is is testing which
+     * of two goodnesses is bigger after taking the natural log of both sides.
+     */
+    if (log_desirable + pos.total_MC * logDF 
+	> log_most_desirable + best_MC * logDF) {
+
+      log_most_desirable = log_desirable;
       best_tile = pos.tile;
-      /* We want to break when
-       *   most_desirable > BEST_POSSIBLE_SCORE * DIST_FACTOR^dist
-       * which is equivalent to
-       *   most_desirable/BEST_POSSIBLE_SCORE > DIST_FACTOR^dist
-       *   log(most_desirable/BEST_POSSIBLE_SCORE) > dist * log(DIST_FACTOR)
-       *   log(most_desirable/BEST_POSSIBLE_SCORE)/log(DIST_FACTOR) > dist
-       */
-      max_dist = log(most_desirable / BEST_POSSIBLE_SCORE) / log(DIST_FACTOR);
+      best_MC = pos.total_MC;
+
+      /* take the natural log and solve equation (1) above.  We round
+       * max_dist down (is this correct?). */
+      max_dist = best_MC + (log_most_desirable - logBPS)/logDF;
     }
 
+    /* let's not go further than this */
     if (pos.total_MC > max_dist) {
       break;
     }
@@ -309,7 +339,7 @@ bool ai_manage_explorer(struct unit *punit)
   pf_destroy_map(map);
 
   /* Go to the best tile found. */
-  if (most_desirable > 0) {
+  if (best_tile != NULL) {
     /* TODO: read the path off the map we made.  Then we can make a path 
      * which goes beside the unknown, with a good EC callback... */
     if (!ai_unit_goto(punit, best_tile)) {
