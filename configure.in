@@ -556,25 +556,27 @@ if test -n "$WITH_EFENCE"; then
 fi
 
 dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
-dnl translatable strings.  Since the Gettext supplied Autoconf support
+dnl translatable strings and macro PL_() to handle plural forms.
+dnl Since the Gettext supplied Autoconf support
 dnl doesn't seem to have a way to add new keywords to its xgettext call,
 dnl we do the following.
 dnl The Gettext supplied Autoconf support starts with 'po/Makefile.in.in',
 dnl and builds 'po/Makefile.in' then 'po/Makefile'.  In order for the
 dnl commonly used _() and N_() macros to work, there should be somewhere
 dnl in that 'po/Makefile' a call to xgettext with "--keyword=_" and
-dnl "--keyword=N_" as arguments.  To support Q_(), the following simply
-dnl replaces instances of "--keyword=N_" with "--keyword=N_ --keyword=Q_"
+dnl "--keyword=N_" as arguments.  To support Q_() and PL_(),
+dnl the following simply dnl replaces instances of 
+dnl "--keyword=N_" with "--keyword=N_ --keyword=Q_ --keyword=PL_"
 dnl in the 'po/Makefile' file.
 AC_OUTPUT_COMMANDS(
   [if test -f po/Makefile ; then
-     if grep 'keyword=N_ --keyword=Q_' po/Makefile >/dev/null 2>&1 ; then
+     if grep 'keyword=N_ --keyword=Q_ --keyword=PL_' po/Makefile >/dev/null 2>&1 ; then
        # has already been extended
        :
      else
        echo extending po/Makefile
        mv -f po/Makefile po/Makefile.tmp
-       sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_/g' po/Makefile.tmp > po/Makefile
+       sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_ --keyword=PL_/g' po/Makefile.tmp > po/Makefile
        rm po/Makefile.tmp
      fi
    fi])
