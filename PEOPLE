@@ -86,6 +86,7 @@ contributions to the Freeciv project.
      Michael Stefaniuc <mstefani@redhat.de> (patch)
      Gregory Berkolaiko <Gregory.Berkolaiko@weizmann.ac.il> (patch)
      Reinier Post <reinpost@win.tue.nl> (patch)
+     Jason Dorje Short <jshort@devon.dhs.org> (patches)
 
   Coders up to 1.11.4 release:
 
@@ -629,6 +630,8 @@ contributions to the Freeciv project.
      Gábor Dukai <dukai@EUnet.yu> (hu.po)
      Christian Knoke <ChrisK@enter.de> (NEWS.de, de.po)
      Michael Stefaniuc <mstefani@redhat.de> (ro.po)
+     Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt> (pt.po)
+     Stig Erik Sandoe <stig@ii.uib.no> (no.po)
 
   Localization (l10n) up to 1.11.4 release:
 
