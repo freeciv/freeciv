@@ -130,7 +130,7 @@ extern GC fill_bg_gc;
 extern XFontStruct *main_font_struct;
 extern Window root_window;
 
-extern Widget map_canvas, info_command, turn_done_button;
+extern Widget map_canvas, map_form, info_command, turn_done_button;
 extern Widget map_vertical_scrollbar, map_horizontal_scrollbar;
 extern Widget overview_canvas, main_form, left_column_form;
 extern Widget econ_label[10];
@@ -240,7 +240,13 @@ void blink_active_unit(void)
 **************************************************************************/
 void set_overview_dimensions(int x, int y)
 {
+  Dimension h;
+
   XtVaSetValues(overview_canvas, XtNwidth, 2*x, XtNheight, 2*y, NULL);
+
+  XtVaGetValues(left_column_form, XtNheight, &h, NULL);
+  XtVaSetValues(map_form, XtNheight, h, NULL);
+
   overview_canvas_store_width=2*x;
   overview_canvas_store_height=2*y;
 

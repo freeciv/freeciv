@@ -2210,6 +2210,7 @@ Freeciv.iconName: Freeciv
 *mapform.right:                             chainRight
 *mapform.fromHoriz:                         leftcolumnform
 *mapform.background:                        lightblue
+*mapform.resizable:                         True
 
 
 !
