@@ -546,6 +546,42 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
   return buf;
 }
 
+#define techs_with_flag_iterate(flag, tech_id)				    \
+{									    \
+  Tech_Type_id tech_id = 0;						    \
+									    \
+  while ((tech_id = find_tech_by_flag(tech_id, (flag))) != A_LAST) {
+
+#define techs_with_flag_iterate_end		\
+    tech_id++;					\
+  }						\
+}
+
+/****************************************************************************
+  Return a string containing the techs that have the flag.  Returns the
+  number of techs found.
+****************************************************************************/
+static int techs_with_flag_string(enum tech_flag_id flag,
+				  char *buf, size_t bufsz)
+{
+  int count = 0;
+
+  assert(bufsz > 0);
+  buf[0] = '\0';
+  techs_with_flag_iterate(flag, tech_id) {
+    const char *name = get_tech_name(NULL, tech_id);
+
+    if (buf[0] == '\0') {
+      my_snprintf(buf, bufsz, "%s", name);
+    } else {
+      my_snprintf(buf + strlen(buf), bufsz - strlen(buf), ", %s", name);
+    }
+    count++;
+  } techs_with_flag_iterate_end;
+
+  return count;
+}
+
 /****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
@@ -562,6 +598,21 @@ void helptext_unit(char *buf, int i, const char *user_text)
   utype = get_unit_type(i);
   
   buf[0] = '\0';
+  if (unit_type_flag(i, F_NOBUILD)) {
+    sprintf(buf + strlen(buf),
+	    _("* May not be built in cities.\n"));
+  }
+  if (unit_type_flag(i, F_NOHOME)) {
+    sprintf(buf + strlen(buf), _("* Never has a home city.\n"));
+  }
+  if (unit_type_flag(i, F_GAMELOSS)) {
+    sprintf(buf + strlen(buf),
+	    _("* Losing this unit will lose you the game!\n"));
+  }
+  if (unit_type_flag(i, F_UNIQUE)) {
+    sprintf(buf + strlen(buf),
+	    _("* Each player may only have one of this type of unit.\n"));
+  }
   if (utype->pop_cost > 0) {
     sprintf(buf + strlen(buf), _("* Requires %d population to build.\n"),
 	    utype->pop_cost);
@@ -588,13 +639,82 @@ void helptext_unit(char *buf, int i, const char *user_text)
     sprintf(buf + strlen(buf), _("* Can establish trade routes.\n"));
   }
   if (unit_type_flag(i, F_HELP_WONDER)) {
-    sprintf(buf + strlen(buf), _("* Can help build wonders.\n"));
+    sprintf(buf + strlen(buf),
+	    _("* Can help build wonders (adds %d production).\n"),
+	    utype->build_cost);
+  }
+  if (unit_type_flag(i, F_UNDISBANDABLE)) {
+    sprintf(buf + strlen(buf), _("* May not be disbanded.\n"));
+  } else {
+    sprintf(buf + strlen(buf), _("* May be disbanded in a city to "
+				 "recover 50%% of the production cost.\n"));
   }
   if (unit_type_flag(i, F_CITIES)) {
     sprintf(buf+strlen(buf), _("* Can build new cities.\n"));
   }
+  if (unit_type_flag(i, F_ADD_TO_CITY)) {
+    sprintf(buf + strlen(buf), _("* Can add on %d population to "
+				 "cities of no more than size %d.\n"),
+	    unit_pop_value(i), game.add_to_size_limit - unit_pop_value(i));
+  }
   if (unit_type_flag(i, F_SETTLERS)) {
-    sprintf(buf+strlen(buf), _("* Can perform settler actions.\n"));
+    char buf2[1024];
+
+    /* Roads, rail, mines, irrigation. */
+    sprintf(buf + strlen(buf), _("* Can build roads and railroads.\n"));
+    sprintf(buf + strlen(buf), _("* Can build mines on tiles.\n"));
+    sprintf(buf + strlen(buf), _("* Can build irrigation on tiles.\n"));
+
+    /* Farmland. */
+    switch (techs_with_flag_string(TF_FARMLAND, buf2, sizeof(buf2))) {
+    case 0:
+      sprintf(buf + strlen(buf), _("* Can build farmland.\n"));
+      break;
+    case 1:
+      sprintf(buf + strlen(buf),
+	      _("* Can build farmland (if %s is known).\n"), buf2);
+      break;
+    default:
+      sprintf(buf + strlen(buf),
+	      _("* Can build farmland (if any of the following are "
+		"known: %s).\n"), buf2);
+      break;
+    }
+
+    /* Fortress. */
+    switch (techs_with_flag_string(TF_FORTRESS, buf2, sizeof(buf2))) {
+    case 0:
+      sprintf(buf + strlen(buf), _("* Can build fortresses.\n"));
+      break;
+    case 1:
+      sprintf(buf + strlen(buf),
+	      _("* Can build fortresses (if %s is known).\n"), buf2);
+      break;
+    default:
+      sprintf(buf + strlen(buf),
+	      _("* Can build fortresses (if any of the following are "
+		"known: %s).\n"), buf2);
+      break;
+    }
+
+    /* Pollution, fallout. */
+    sprintf(buf + strlen(buf), _("* Can clean pollution from tiles.\n"));
+    sprintf(buf + strlen(buf),
+	    _("* Can clean nuclear fallout from tiles.\n"));
+  }
+  if (unit_type_flag(i, F_TRANSFORM)) {
+    sprintf(buf + strlen(buf), _("* Can transform tiles.\n"));
+  }
+  if (unit_type_flag(i, F_AIRBASE)) {
+    sprintf(buf + strlen(buf), _("* Can build airbases.\n"));
+  }
+  if (is_ground_unittype(i) && !unit_type_flag(i, F_SETTLERS)) {
+    sprintf(buf + strlen(buf),
+	    _("* May fortify, granting a 50%% defensive bonus.\n"));
+  }
+  if (is_ground_unittype(i)) {
+    sprintf(buf + strlen(buf),
+	    _("* May pillage to destroy infrastructure from tiles.\n"));
   }
   if (unit_type_flag(i, F_DIPLOMAT)) {
     if (unit_type_flag(i, F_SPY)) 
@@ -602,6 +722,13 @@ void helptext_unit(char *buf, int i, const char *user_text)
 				 " plus special spy abilities.\n"));
     else 
       sprintf(buf+strlen(buf), _("* Can perform diplomatic actions.\n"));
+  }
+  if (unit_type_flag(i, F_SUPERSPY)) {
+    sprintf(buf + strlen(buf), _("* Will never lose a "
+				 "diplomat-versus-diplomat fight.\n"));
+  }
+  if (unit_type_flag(i, F_UNBRIBABLE)) {
+    sprintf(buf + strlen(buf), _("* May not be bribed.\n"));
   }
   if (unit_type_flag(i, F_FIGHTER)) {
     sprintf(buf+strlen(buf), _("* Can attack enemy air units.\n"));
@@ -640,8 +767,18 @@ void helptext_unit(char *buf, int i, const char *user_text)
     sprintf(buf+strlen(buf),
 	    _("* This unit's attack causes a nuclear explosion!\n"));
   }
+  if (unit_type_flag(i, F_CITYBUSTER)) {
+    sprintf(buf + strlen(buf),
+	    _("* Gets double firepower when attacking cities.\n"));
+  }
   if (unit_type_flag(i, F_IGWALL)) {
     sprintf(buf+strlen(buf), _("* Ignores the effects of city walls.\n"));
+  }
+  if (unit_type_flag(i, F_BOMBARDER)) {
+    sprintf(buf + strlen(buf),
+	    _("* Does bombard attacks (%d per turn).  These attacks will "
+	      "only damage (never kill) the defender but has no risk to "
+	      "the attacker.\n"), utype->bombard_rate);
   }
   if (unit_type_flag(i, F_AEGIS)) {
     sprintf(buf+strlen(buf),
@@ -665,6 +802,13 @@ void helptext_unit(char *buf, int i, const char *user_text)
   if (unit_type_flag(i, F_FIELDUNIT)) {
     sprintf(buf+strlen(buf), _("* A field unit: one unhappiness applies"
 			       " even when non-aggressive.\n"));
+  }
+  if (unit_type_flag(i, F_NO_VETERAN)) {
+    sprintf(buf + strlen(buf),
+	    _("* Will never achieve veteran status.\n"));
+  } else {
+    sprintf(buf + strlen(buf),
+	    _("* May become veteran through training or combat.\n"));
   }
   if (unit_type_flag(i, F_TRIREME)) {
     Tech_Type_id tech1 = find_tech_by_flag(0, TF_REDUCE_TRIREME_LOSS1);
