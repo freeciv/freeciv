@@ -282,8 +282,10 @@ char *get_units_with_flag_string(int flag)
       }
       else {
         if(count != 0) {
-          astr_minsize(&astr,astr.n+strlen(", "));
-          strcat(astr.str,", ");
+	  char *and_comma = Q_("?and:, ");
+
+	  astr_minsize(&astr, astr.n + strlen(and_comma));
+	  strcat(astr.str, and_comma);
         }
         else return astr.str;
       }
