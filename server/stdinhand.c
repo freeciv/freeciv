@@ -1129,7 +1129,7 @@ static const struct command commands[] = {
       "to <turn> and multiply <value> by <valuemult>.  Use this command in "
       "concert with the option \"timeout\". Defaults are 0 0 0 1")
   },
-  {"endgame",	ALLOW_CTRL,
+  {"endgame",	ALLOW_HACK,
    "endgame",
    N_("End the game."),
    N_("This command ends the game immediately.")
