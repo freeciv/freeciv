@@ -61,8 +61,15 @@ libcivcommon_a_SOURCES = \
 		version.h
 
 BUILT_SOURCES = packets_gen.c packets_gen.h
-packets_gen.h packets_gen.c: packets.def generate_packets.py
+
+# ./generate_packets makes both packets_gen.[ch]
+# Feed the dependence through a fake intermediate file to avoid
+# a race condition in a parallel build (like make -j2).
+packets_gen.h packets_gen.c: packets_generate
+.INTERMEDIATE: packets_generate
+packets_generate: packets.def generate_packets.py
 	./generate_packets.py
+	touch packets_generate
 
 #libcivcommon_a_DEPENDENCIES = ../utility/libcivutility.a
 #libcivcommon_a_LIBADD       = ../utility/libcivutility.a
