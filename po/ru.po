@@ -163,9 +163,7 @@ msgstr "Радиация"
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
-msgstr ""
-"Сервер, к которому вы пытались подключиться,- слишком старый (версия 1.12.0 "
-"или ранее). Пожалуйста, выберите другой сервер в следующий раз. До свидания."
+msgstr "Сервер, к которому Вы пытались подключиться,- слишком старый (версия 1.12.0 или ранее). Пожалуйста, выберите другой сервер в следующий раз. До свидания."
 
 #: common/player.c:539
 msgid "Spotless"
@@ -568,9 +566,7 @@ msgstr "*%s (компьютер)* Тебе не удастся увильнуть так легко, %s."
 #, c-format
 msgid ""
 "*%s (AI)* %s recommended that I give you a ceasefire. This is your lucky day."
-msgstr ""
-"*%s (компьютер)* %s рекомендует, чтобы я заключил с вами перемирие. Вам "
-"повезло."
+msgstr "*%s (компьютер)* %s рекомендует, чтобы я заключил с Вами перемирие. Вам повезло."
 
 #: ai/advdiplomacy.c:293
 #, c-format
@@ -585,12 +581,12 @@ msgstr "*%s (компьютер)* Давайте сначала заключим мир, %s"
 #: ai/advdiplomacy.c:353
 #, c-format
 msgid "*%s (AI)* You don't have the offered city!"
-msgstr "*%s (компьютер)* У вас нет города, который вы предложили!"
+msgstr "*%s (компьютер)* У Вас нет города, который Вы предложили!"
 
 #: ai/advdiplomacy.c:460
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr "*%s (компьютер)* Приветствую вас как союзника, %s!"
+msgstr "*%s (компьютер)* Приветствую Вас как союзника, %s!"
 
 #: ai/advdiplomacy.c:463
 #, c-format
@@ -617,9 +613,7 @@ msgstr "*%s (компьютер)* Ваше поведение нетерпимо! Быть ВОЙНЕ!"
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
 "intentions, and I will have no more of our alliance!"
-msgstr ""
-"*%s (компьютер)* Ваши попытки овладеть космическим пространством только для "
-"вас самих выдают ваши истинные замыслы. Я разрываю наш союз!"
+msgstr "*%s (компьютер)* Ваши попытки овладеть космическим пространством только для Вас самих выдают Ваши истинные замыслы. Я разрываю наш союз!"
 
 #: ai/advdiplomacy.c:897
 #, c-format
@@ -635,9 +629,7 @@ msgstr ""
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
-msgstr ""
-"*%s (компьютер)* Если вы не прекратите строить космический корабль, я буду "
-"вынуждены принять меры!"
+msgstr "*%s (компьютер)* Если Вы не прекратите строить космический корабль, я буду вынуждены принять меры!"
 
 #: ai/advdiplomacy.c:923
 #, c-format
@@ -679,9 +671,7 @@ msgstr ""
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
 "s. Why do I need to remind you of your promises?"
-msgstr ""
-"*%s (компьютер)* Приветствую вас, союзник. Я вижу вы все еще не напали на "
-"нашего врага (%s). Должен ли я напомнить вам о ваших обещаниях?"
+msgstr "*%s (компьютер)* Приветствую Вас, союзник. Я вижу Вы все еще не напали на нашего врага (%s). Должен ли я напоминать Вам о Ваших обещаниях?"
 
 #: ai/advdiplomacy.c:1040
 #, c-format
@@ -689,10 +679,7 @@ msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable, our alliance is no "
 "more!"
-msgstr ""
-"*%s (компьютер)* Ваше поведение бесчестно! Мы заключили союз, но вы по-"
-"прежнему не напали на наших врагов (%s). Мы вынуждены расторгнуть наш союз с "
-"вами!"
+msgstr "*%s (компьютер)* Ваше поведение бесчестно! Мы заключили союз, но Вы по-прежнему не напали на наших врагов (%s). Мы вынуждены расторгнуть наш союз с Вами!"
 
 #: ai/advdiplomacy.c:1070
 #, c-format
@@ -705,9 +692,7 @@ msgstr ""
 #, c-format
 msgid ""
 "*%s (AI)* Greetings neighbour, may we suggest a joint campaign against %s?"
-msgstr ""
-"*%s (компьютер)* Приветствую вас, сосед. Не хотите ли поучаствовать в "
-"совместной кампании против %s?"
+msgstr "*%s (компьютер)* Приветствую Вас, сосед. Не хотите ли поучаствовать в совместной кампании против %s?"
 
 #: ai/advdiplomacy.c:1099
 #, c-format
@@ -784,7 +769,7 @@ msgstr "Игра: %s - не является действительным именем."
 #: server/citytools.c:224
 #, c-format
 msgid "Game: You already have a city called %s"
-msgstr "Игра: У вас уже есть город под названием %s."
+msgstr "Игра: У Вас уже есть город под названием %s."
 
 #: server/citytools.c:247
 #, c-format
@@ -836,8 +821,7 @@ msgstr ""
 #: server/citytools.c:853
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
-msgstr ""
-"У вас уже был город под названием %s. Этот город был переименован в %s."
+msgstr "У Вас уже был город под названием %s. Этот город был переименован в %s."
 
 #: server/citytools.c:942
 #, c-format
@@ -845,7 +829,7 @@ msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
-"Игра: Люди в городе %s потрясены вашеми технологическими достижениями!\n"
+"Игра: Люди в городе %s потрясены Вашими технологическими достижениями!\n"
 "      Рабочие неожиданно собираются и строят в городе железную дорогу."
 
 #: server/citytools.c:953 server/citytools.c:1083
@@ -1084,7 +1068,7 @@ msgstr "Игра: %s построил %s."
 #: server/cityturn.c:971
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
-msgstr "Игра: %s ускоряет исследования, вы совершаете 2 немедленных отркытия."
+msgstr "Игра: %s ускоряет исследования, Вы совершаете 2 немедленных отркытия."
 
 #: server/cityturn.c:987
 #, c-format
@@ -1292,7 +1276,7 @@ msgstr "Сервер: %s подключился из %s."
 
 #: server/connecthand.c:140
 msgid "Couldn't attach your connection to new player."
-msgstr "Не можем подключить вас к новому игроку."
+msgstr "Не можем подключить Вас к новому игроку."
 
 #: server/connecthand.c:149
 #, c-format
@@ -1499,8 +1483,7 @@ msgstr "Игра: У Вас нет технологии %s, невозможно заключить договор."
 
 #: server/diplhand.c:180
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr ""
-"Города, который вы пытаетесь отдать, не существует. Нельзя заключить договор."
+msgstr "Города, который Вы пытаетесь отдать, не существует. Нельзя заключить договор."
 
 #: server/diplhand.c:186
 #, c-format
@@ -1510,7 +1493,7 @@ msgstr "Вы не владеете %s, нельзя заключить договор."
 #: server/diplhand.c:192
 #, c-format
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
-msgstr "Игра: Требуют вашу столицу (%s), нельзя заключить договор."
+msgstr "Игра: Требуют Вашу столицу (%s), нельзя заключить договор."
 
 #: server/diplhand.c:201 server/diplhand.c:305
 #, c-format
@@ -1525,13 +1508,11 @@ msgstr ""
 msgid ""
 "Game: %s is at war with one of your allies - an alliance with %s is "
 "impossible."
-msgstr ""
-"Игра: %s находится в состоянии войны с одним из ваших союзников, союз с %s "
-"невозможен."
+msgstr "Игра: %s находится в состоянии войны с одним из Ваших союзников, союз с %s невозможен."
 
 #: server/diplhand.c:217
 msgid "Game: You don't have enough gold, you can't accept treaty."
-msgstr "Игра: У вас недостаточно денег, невозможно заключить договор."
+msgstr "Игра: У Вас недостаточно денег, невозможно заключить договор."
 
 #: server/diplhand.c:249 server/diplhand.c:254
 #, c-format
@@ -1620,12 +1601,12 @@ msgstr "Игра: Вы заключили союз с %s."
 #: server/diplhand.c:451
 #, c-format
 msgid "Game: You give shared vision to %s."
-msgstr "Игра: Вы поделились вашим зрением с %s."
+msgstr "Игра: Вы поделились Вашим зрением с %s."
 
 #: server/diplhand.c:454
 #, c-format
 msgid "Game: %s gives you shared vision."
-msgstr "Игра: %s поделились с вами своим зрением."
+msgstr "Игра: %s поделились с Вами своим зрением."
 
 #: server/diplhand.c:580
 #, c-format
@@ -1814,7 +1795,7 @@ msgstr "Игра: Вы поймали %s %s при попытке взбунтовать %s!"
 #: server/diplomats.c:794
 #, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
-msgstr "Игра: Революция в %s, теперь город ваш!"
+msgstr "Игра: Революция в %s, теперь город Ваш!"
 
 #: server/diplomats.c:797
 #, c-format
@@ -1921,7 +1902,7 @@ msgstr "Игра: Вы произвели инцидент во время подкупа %s %s."
 #: server/diplomats.c:1267
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
-msgstr "Игра: %s произвели инцидент во время подкупа ваших %s."
+msgstr "Игра: %s произвели инцидент во время подкупа Ваших %s."
 
 #: server/diplomats.c:1274
 #, c-format
@@ -1931,7 +1912,7 @@ msgstr "Игра: Вы произвели инцидент при попытке похитить технологию из %s."
 #: server/diplomats.c:1278
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
-msgstr "Игра: %s вызвали инцидент при попытке похитить вашу технологию."
+msgstr "Игра: %s вызвали инцидент при попытке похитить Вашу технологию."
 
 #: server/diplomats.c:1284
 #, c-format
@@ -2064,7 +2045,7 @@ msgid ""
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Игра: Люди рады слышать, что ваши ученые наконец узнали о железных дорогах.\n"
+"Игра: Люди рады слышать, что Ваши ученые наконец узнали о железных дорогах.\n"
 "      Рабочие неожиданно собираются и строят железные дороги во всех городах."
 
 #: server/maphand.c:1449
@@ -2147,9 +2128,7 @@ msgstr "Игра: Открытие науки \"%s\" отменяет %s в %s!"
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
-msgstr ""
-"Игра: Открытие науки \"%s\" делает доступной новую форму управления: %s. "
-"Возможно вам следует подумать о революции."
+msgstr "Игра: Открытие науки \"%s\" делает доступной новую форму управления: %s. Возможно Вам следует подумать о революции."
 
 #: server/plrhand.c:351
 #, c-format
@@ -2180,9 +2159,7 @@ msgstr "Игра: %s"
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
-msgstr ""
-"Игра: Величайшие ученые всего мира присоединились к вашей цивилизации; вы "
-"получили немедленный прогресс."
+msgstr "Игра: Величайшие ученые всего мира присоединились к Вашей цивилизации; Вы получили немедленное открытие."
 
 #: server/plrhand.c:455
 #, c-format
@@ -2222,7 +2199,7 @@ msgstr "Игра: Вы украли науку \"%s\" у народа, именуемого %s."
 #: server/plrhand.c:693
 #, c-format
 msgid "Game: The %s stole %s from you!"
-msgstr "Игра: %s украли у вас %s!"
+msgstr "Игра: %s украли у Вас %s!"
 
 #: server/plrhand.c:718
 msgid "Game: Cannot change rates before game start."
@@ -2291,7 +2268,7 @@ msgstr "%s больше не делятся своим зрением!"
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
-msgstr "Сенат пропускает ваш закон из-за постоянных провокаций %s."
+msgstr "Сенат принимает Ваше предложение из-за постоянных провокаций %s."
 
 #: server/plrhand.c:966
 #, c-format
@@ -2302,8 +2279,7 @@ msgstr "Игра: Ваша репутация сейчас %s."
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
-msgstr ""
-"Игра: Сенат решает распуститься, лишь бы не поддерживать ваши действия."
+msgstr "Игра: Сенат решает распуститься, лишь бы не поддерживать Ваши действия."
 
 #: server/plrhand.c:1012
 #, c-format
@@ -2772,9 +2748,7 @@ msgstr ""
 
 #: server/spacerace.c:202
 msgid "Game: Spaceship action received, but you don't have a spaceship!"
-msgstr ""
-"Игра: принято действие космического корабля, но вы не имеете космического "
-"корабля!"
+msgstr "Игра: принято действие космического корабля, но Вы не имеете космического корабля!"
 
 #: server/spacerace.c:211
 msgid "Game: You can't modify your spaceship after launch!"
@@ -2783,7 +2757,7 @@ msgstr ""
 
 #: server/spacerace.c:220
 msgid "Game: You don't have any unplaced Space Structurals!"
-msgstr "Игра: У вас нет неустановленных космических структур!"
+msgstr "Игра: У Вас нет неустановленных космических структур!"
 
 #: server/spacerace.c:225
 msgid "Game: That Space Structural would not be connected!"
@@ -2791,7 +2765,7 @@ msgstr "Игра: Эта космическая структура не будет соединена!"
 
 #: server/spacerace.c:239 server/spacerace.c:258
 msgid "Game: You don't have any unplaced Space Components!"
-msgstr "Игра: У вас нет неустановленных космических компонентов!"
+msgstr "Игра: У Вас нет неустановленных космических компонентов!"
 
 #: server/spacerace.c:244
 msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
@@ -2807,7 +2781,7 @@ msgstr ""
 
 #: server/spacerace.c:278 server/spacerace.c:298 server/spacerace.c:318
 msgid "Game: You don't have any unplaced Space Modules!"
-msgstr "Игра: У вас нет неустановленных космических модулей!"
+msgstr "Игра: У Вас нет неустановленных космических модулей!"
 
 #: server/spacerace.c:283
 msgid ""
@@ -2878,8 +2852,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
-msgstr ""
-"Игра: Перемирие с %s закончилось. Теперь вы нейтральны по отношению к %s"
+msgstr "Игра: Перемирие с %s закончилось. Теперь Вы нейтральны по отношению к %s"
 
 #: server/srv_main.c:576
 #, c-format
@@ -3249,10 +3222,7 @@ msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points.  This "
 "does not apply if you have just gained tech this turn."
-msgstr ""
-"Если вы меняете вашу текущую исследуемую технологию и у вас положительное "
-"число исследовательских очков, вы теряете такой процент этих очков. Это не "
-"действует, если вы только что получили технологию в этот ход."
+msgstr "Если Вы меняете Вашу текущую исследуемую технологию и у Вас положительное число исследовательских очков, Вы теряете такой процент этих очков. Это правило не действует, если Вы только что получили технологию в этот ход."
 
 #: server/stdinhand.c:411
 msgid "Penalty when getting tech from treaty"
@@ -3263,10 +3233,7 @@ msgid ""
 "For each advance you gain from a diplomatic treaty, you lose research points "
 "equal to this percentage of the cost to research an new advance.  You can "
 "end up with negative research points if this is non-zero."
-msgstr ""
-"За каждую технологию, полученное по договору вы теряете количество очков "
-"равное этому проценту от стоимости новой технологии. В результате у вас "
-"может оказаться отрицательное число очков."
+msgstr "За каждую технологию, полученное по договору Вы теряете количество очков равное этому проценту от стоимости новой технологии. В результате у Вас может оказаться отрицательное число очков."
 
 #: server/stdinhand.c:419
 msgid "Penalty when getting tech from conquering"
@@ -3277,10 +3244,7 @@ msgid ""
 "For each advance you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research an new advance.  You "
 "can end up with negative research points if this is non-zero."
-msgstr ""
-"За каждую технологию, полученное при завоевании города врага вы теряете "
-"количество очков равное этому проценту от стоимости новой технологии. В "
-"результате у вас может оказаться отрицательное число очков."
+msgstr "За каждую технологию, полученное при завоевании города врага Вы теряете количество очков равное этому проценту от стоимости новой технологии. В результате у Вас может оказаться отрицательное число очков."
 
 #: server/stdinhand.c:428
 msgid "Penalty when getting a free tech"
@@ -3292,11 +3256,7 @@ msgid ""
 "conquercost: specifically, from huts or from the Great Library), you lose "
 "research points equal to this percentage of the cost to research a new "
 "advance.  You can end up with negative research points if this is non-zero."
-msgstr ""
-"За каждую технологию, полученное \"даром\" (т.е. любая кроме покрываемых "
-"diplcost или conquercost, а именно: из деревень или Великой Библиотеки) вы "
-"теряете количество очков равное этому проценту от стоимости новой "
-"технологии. В результате у вас может оказаться отрицательное число очков."
+msgstr "За каждую технологию, полученную \"даром\" (т.е. любую, кроме покрываемых diplcost или conquercost, а именно: из деревень или Великой Библиотеки) Вы теряете количество очков равное этому проценту от стоимости новой технологии. В результате у Вас может оказаться отрицательное число очков."
 
 #: server/stdinhand.c:438
 msgid "Food required for a city to grow"
@@ -3449,11 +3409,7 @@ msgid ""
 "if they win the combat (and no enemy units remain in the tile).  If set to a "
 "value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
-msgstr ""
-"Если установлено в 0, сражение происходит в стиле Civ1/2 (когда вы атакуете, "
-"вы остаетесь на месте). Если установлено в 100, атакующие соединения всегда "
-"двигаютсщ вперед после атаки, если они победили и на этом месте нет войск "
-"протвника. Если установлено межфу 0 и 100, означает вероятность продвижения."
+msgstr "Если установлено в 0, сражение происходит в стиле Civ1/2 (когда Вы атакуете, Вы остаетесь на месте). Если установлено в 100, атакующие соединения всегда двигаютсщ вперед после атаки, если они победили и на этом месте нет войск протвника. Если установлено межфу 0 и 100, означает вероятность продвижения."
 
 #: server/stdinhand.c:539
 msgid "Reduce city population after attack"
@@ -3594,10 +3550,7 @@ msgid ""
 "If this is set to 1, only those units and cities within the sightrange of "
 "your own units and cities will be revealed to you. You will not see new "
 "cities or terrain changes in squares not observed."
-msgstr ""
-"Если установлено в 1, только соединения и города на расстоянии меньшем "
-"sightrange ваших городов и соединений будут показаны вам. Вы не увидите "
-"новые города или изменения рельефа на ненаблюдаемых квадратах"
+msgstr "Если установлено в 1, только соединения и города на расстоянии меньшем sightrange от Ваших городов и соединений будут показаны Вам. Вы не увидите новые города или изменения рельефа на ненаблюдаемых квадратах."
 
 #: server/stdinhand.c:643
 msgid "Chance in diplomat/spy contests"
@@ -3762,23 +3715,14 @@ msgid ""
 "turn ends automatically. Zero means there is no timeout. In DEBUG servers, a "
 "timeout of -1 sets the autogame test mode. Use this with the command "
 "\"timeoutincrease\" to have a dynamic timer."
-msgstr ""
-"Если все игроки не нажали \"Конец хода\" пока это время не истекло, ход "
-"заканчивается автоматически. Ноль значит время не ограничено. В серверах в "
-"режиме отладки таймаут=-1 включает режим тестирования - автоматическую игру. "
-"Используйте вместе с командой \"timeoutincrease\", если вам нужен "
-"динамический таймер."
+msgstr "Если все игроки не нажали \"Конец хода\" пока это время не истекло, ход заканчивается автоматически. Ноль значит время не ограничено. В серверах в режиме отладки таймаут=-1 включает режим тестирования - автоматическую игру. Используйте вместе с командой \"timeoutincrease\", если Вам нужен динамический таймер."
 
 #: server/stdinhand.c:756
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. Use this with the "
 "command \"timeoutincrease\" to have a dynamic timer."
-msgstr ""
-"Если все игроки не нажали \"Конец хода\" пока это время не истекло, ход "
-"заканчивается автоматически. Ноль значит время не ограничено. Используйте "
-"вместе с командой \\\"timeoutincrease\\\", если вам нужен динамический "
-"таймер."
+msgstr "Если все игроки не нажали \"Конец хода\" пока это время не истекло, ход заканчивается автоматически. Ноль значит время не ограничено. Используйте вместе с командой \\\"timeoutincrease\\\", если Вам нужен динамический таймер."
 
 #: server/stdinhand.c:764
 msgid "Seconds to let a client connection block"
@@ -4156,7 +4100,7 @@ msgstr "rulesetdir <каталог>"
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
-msgstr "Выбрать новый каталог с набором правил или модпак. Если вы вызовете эту команду без аргументов, она покажет вам набор правил, выбранный в настоящий момент."
+msgstr "Выбрать новый каталог с набором правил или модпак. Если Вы вызовете эту команду без аргументов, она покажет Вам набор правил, выбранный в настоящий момент."
 
 #: server/stdinhand.c:1167
 msgid "This command is not currently implemented."
@@ -4757,7 +4701,7 @@ msgstr "Не удалось записать скрипт-файл '%s'."
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
-msgstr "Невозможно уменьшить уровень комманд '%s' для подключения '%s'; ваш уровень только '%s'."
+msgstr "Невозможно уменьшить уровень комманд '%s' для подключения '%s'; Ваш уровень только '%s'."
 
 #: server/stdinhand.c:2184
 #, c-format
@@ -4793,7 +4737,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
-msgstr "Невозможно увеличить уровень комманд до '%s'; у вас только '%s'"
+msgstr "Невозможно увеличить уровень комманд до '%s'; у Вас только '%s'"
 
 #: server/stdinhand.c:2266 server/stdinhand.c:2313
 #, c-format
@@ -4962,7 +4906,7 @@ msgstr "%s вернулся к игре."
 #: server/stdinhand.c:2731
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr "Извините, вы не имеете доступа к просмотру настройки '%s'."
+msgstr "Извините, Вы не имеете доступа к просмотру настройки '%s'."
 
 #: server/stdinhand.c:2736
 #, c-format
@@ -4971,7 +4915,7 @@ msgstr "Неизвестная настройка '%s'."
 
 #: server/stdinhand.c:2753
 msgid "+ means you may change the option"
-msgstr "+ значит вы можете менять настройку"
+msgstr "+ значит Вы можете менять настройку"
 
 #: server/stdinhand.c:2754
 msgid "= means the option is on its default value"
@@ -5130,14 +5074,14 @@ msgstr "Настройка '%s' не может быть изменена после запуска игры."
 msgid ""
 "You are not allowed to set option '%s', so you may not prevent it from being "
 "set, either."
-msgstr "Вы не имеете права установить настройку '%s', так что вы не можете и запретить кому-то ее установить."
+msgstr "Вы не имеете права установить настройку '%s', так что Вы не можете и запретить кому-то ее установить."
 
 #: server/stdinhand.c:3238
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not allow it to be set, "
 "either."
-msgstr "Вы не имеете права установить настройку '%s', так что вы не можете и разрешить кому-то ее установить."
+msgstr "Вы не имеете права установить настройку '%s', так что Вы не можете и разрешить кому-то ее установить."
 
 #: server/stdinhand.c:3248
 #, c-format
@@ -5204,7 +5148,7 @@ msgstr "Использование: observe [имя-игрока]"
 #: server/stdinhand.c:3427
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
-msgstr "%s итак контролирует %s. Если вы используете команду 'observe', это уберет %s"
+msgstr "%s итак контролирует %s. Если Вы используете команду 'observe', это уберет %s"
 
 #: server/stdinhand.c:3476
 #, c-format
@@ -5296,7 +5240,7 @@ msgstr "Пока."
 
 #: server/stdinhand.c:3874
 msgid "Sorry, you are not allowed to use server commands."
-msgstr "Извините, вы не можете использовать команды сервера."
+msgstr "Извините, Вы не можете использовать команды сервера."
 
 #: server/stdinhand.c:3909
 #, c-format
@@ -5320,7 +5264,7 @@ msgstr "(приглашение сервера)"
 
 #: server/stdinhand.c:4048
 msgid "The game must be running before you can see the score."
-msgstr "Игра должна начаться прежде чем вы сможете посмотреть счет."
+msgstr "Игра должна начаться, прежде чем Вы сможете посмотреть счет."
 
 #: server/stdinhand.c:4103
 msgid "Not enough players, game will not start."
@@ -5587,7 +5531,7 @@ msgstr "Игра: %s слишком велик, чтобы добавить %s."
 #: server/unithand.c:494 server/unithand.c:500
 #, c-format
 msgid "Game: %s needs %s to grow, so you cannot add %s."
-msgstr "Игра: %s нуждается в %s для роста, поэтому вы не можете добавить %s."
+msgstr "Игра: %s нуждается в %s для роста, поэтому Вы не можете добавить %s."
 
 #: server/unithand.c:509
 #, c-format
@@ -5671,7 +5615,7 @@ msgstr "Игра: Невозможно атаковать соединение %s, так как Вы не воюете с %s."
 #: server/unithand.c:1039
 #, c-format
 msgid "Game: Can't attack %s's unitbecause you are not at war with %s."
-msgstr "Игра: Невозможно атаковать соединения %s, т.к. вы не воюете с %s."
+msgstr "Игра: Невозможно атаковать соединения %s, т.к. Вы не воюете с %s."
 
 #: server/unithand.c:1054
 msgid "Game: You can't attack there."
@@ -5699,7 +5643,7 @@ msgstr "Игра: Ваш %s помогает строить %s в %s (%d - лишнее)."
 #: server/unithand.c:1213 server/unithand.c:1230
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
-msgstr "Игра: Извините, ваш %s не может установить здесь торговый путь!"
+msgstr "Игра: Извините, Ваш %s не может установить здесь торговый путь!"
 
 #: server/unithand.c:1216 server/unithand.c:1233
 #, c-format
@@ -5824,7 +5768,7 @@ msgstr " возле %s"
 #: server/unittools.c:1298
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
-msgstr "Игра: Перенесено ваш %s с (%d, %d) в %s."
+msgstr "Игра: Перенесено Ваш %s с (%d, %d) в %s."
 
 #: server/unittools.c:1324
 #, c-format
@@ -5897,7 +5841,7 @@ msgstr "Игра: Ваш %s был взорван атомной бомбой %s."
 
 #: server/unittools.c:2043 server/unittools.c:2059
 msgid "yourself"
-msgstr "вы"
+msgstr "Вы"
 
 #: server/unittools.c:2047
 #, c-format
@@ -5974,7 +5918,7 @@ msgstr "Игра: %s получили %s из древних манускриптов."
 
 #: server/unittools.c:2297
 msgid "Game: A band of friendly mercenaries joins your cause."
-msgstr "Игра: Группа дружественных наемников присоединяется к вам."
+msgstr "Игра: Группа дружественных наемников присоединяется к Вам."
 
 #: server/unittools.c:2315
 msgid "Game: An abandoned village is here."
@@ -5995,13 +5939,11 @@ msgstr "Игра: Вы нашли дружественный город."
 
 #: server/unittools.c:2350
 msgid "Game: Friendly nomads are impressed by you, and join you."
-msgstr ""
-"Игра: К вам присоединились дружественные кочевники, потрясенные вашим "
-"могуществом."
+msgstr "Игра: К Вам присоединились дружественные кочевники, потрясенные Вашим могуществом."
 
 #: server/unittools.c:2375
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
-msgstr "Игра: ваш перелет пугает племя, оно разбегается в ужасе."
+msgstr "Игра: Ваш перелет пугает племя, оно разбегается в ужасе."
 
 #: server/unittools.c:3082
 #, c-format
@@ -6107,7 +6049,7 @@ msgstr "Возможна неверная конфигурация или неправильные права доступа"
 #: client/audio.c:311
 #, c-format
 msgid "Cannot find audio file %s"
-msgstr "Не могу найти ваш аудио-файл %s"
+msgstr "Не могу найти аудио-файл %s"
 
 #: client/audio_esd.c:122
 #, c-format
@@ -6289,20 +6231,20 @@ msgstr "Особое"
 
 #: client/cityrepdata.c:442
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr "?Развлекающие/ученые/налогосборщики:Р/У/Н"
+msgstr "?Артисты/ученые/налогосборщики:А/У/Н"
 
 #: client/cityrepdata.c:443
 msgid "Entertainers, Scientists, Taxmen"
-msgstr "Развлекающие, Ученые, сборщики Налогов"
+msgstr "Артисты, Ученые, сборщики Налогов"
 
 #: client/cityrepdata.c:445
 msgid "?Entertainers:E"
-msgstr "?Развлекающие:Р"
+msgstr "?Артисты:А"
 
 #: client/cityrepdata.c:445 client/gui-gtk-2.0/citydlg.c:905
 #: client/gui-gtk/citydlg.c:1273
 msgid "Entertainers"
-msgstr "Развлекающие"
+msgstr "Артисты"
 
 #: client/cityrepdata.c:447
 msgid "?Scientists:S"
@@ -6564,9 +6506,8 @@ msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
-"      --\t\tПередать все следующие опции графическому интерфейсу.\n"
-"\t\t\tПопробуйте \"%s -- --help\", если вам нужна дополнительная "
-"информация.\n"
+"      --\t\tПередать все следующие настройки графическому интерфейсу.\n"
+"\t\t\tПопробуйте \"%s -- --help\", если Вам нужна дополнительная информация.\n"
 
 #: client/civclient.c:185
 #, c-format
@@ -6779,7 +6720,7 @@ msgstr "Игра: Вы не купили %s в %s!"
 #: client/climisc.c:1168
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
-msgstr "Игра: %s стоит %d золотых, а у вас только %d золотых."
+msgstr "Игра: %s стоит %d золотых, а у Вас только %d золотых."
 
 #: client/clinet.c:117
 msgid "Lost connection to server!"
@@ -6847,7 +6788,7 @@ msgstr "Игра: Извините, патрулирование воздушными войсками еще не работает."
 
 #: client/control.c:1502
 msgid "Game: Oh my! You seem to have no capital!"
-msgstr "Игра: Ой! А у вас вроде бы нет столицы!"
+msgstr "Игра: Ой! А у Вас вроде бы нет столицы!"
 
 #: client/helpdata.c:107
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -6882,14 +6823,14 @@ msgstr ""
 #: client/helpdata.c:509 client/helpdata.c:520
 #, c-format
 msgid "Allows a city to grow larger than size %d.  "
-msgstr "Позволяет городу вырасти больше чем до %d.  "
+msgstr "Позволяет городу вырасти сверх %d жителей.  "
 
 #: client/helpdata.c:514
 #, c-format
 msgid ""
 "(The %s improvement is also required for a city to grow larger than size %"
 "d.)  "
-msgstr "(%s также требуется, чтобы город мог вырости больше чем до %d.)  "
+msgstr "(%s также требуется, чтобы город мог вырасти сверх %d жителей.)  "
 
 #: client/helpdata.c:530
 #, c-format
@@ -6897,10 +6838,7 @@ msgid ""
 "\n"
 "\n"
 "Note that discovering %s or %s will obsolete any existing %s.  "
-msgstr ""
-"\n"
-"\n"
-"Заметьте, что открытие %s или %s сделает устаревшим все существующие %s.  "
+msgstr "\n\nЗаметьте, что открытие %s или %s сделает устаревшими все существующие %s.  "
 
 #: client/helpdata.c:539
 #, c-format
@@ -6916,7 +6854,7 @@ msgstr ""
 #: client/helpdata.c:566
 #, c-format
 msgid "Allows all players with knowledge of %s to build %s units.  "
-msgstr "Позволяет всем игрокам знающим %s строить %s.  "
+msgstr "Позволяет всем игрокам знающим технологию %s строить %s.  "
 
 #: client/helpdata.c:597
 #, c-format
@@ -7791,8 +7729,7 @@ msgstr "Сохранение не удалось, не могу найти имя файла."
 
 #: client/options.c:593
 msgid "If you add a preset by hand, also update \"number_of_presets\""
-msgstr ""
-"Если вы добавили пре-установку вручную, также иземните \"number_of_presets\""
+msgstr "Если Вы добавили пре-установку вручную, также измените \"number_of_presets\""
 
 #: client/options.c:604
 #, c-format
@@ -7977,7 +7914,7 @@ msgstr ""
 "Произвоство: %10s Роскошь: %10s\n"
 "Торговля:    %10s Наука:   %10s\n"
 "\n"
-"   Люди (Рб/Рз/Уч/Нл): %s\n"
+"       Люди (Р/A/У/Н): %s\n"
 "         Город растет: %s\n"
 "Производство окончено: %s"
 
@@ -8926,7 +8863,7 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:882 client/gui-gtk/dialogs.c:1027
 #: client/gui-win32/dialogs.c:1606
 msgid " Choose Your Diplomat's Strategy"
-msgstr " Выберите стратегию вашего дипломата"
+msgstr " Выберите стратегию Вашего дипломата"
 
 #: client/gui-gtk-2.0/dialogs.c:883 client/gui-gtk-2.0/dialogs.c:907
 #: client/gui-gtk/dialogs.c:1029 client/gui-gtk/dialogs.c:1054
@@ -8968,7 +8905,7 @@ msgstr "Продолжить движение"
 #: client/gui-mui/dialogs.c:848 client/gui-sdl/dialogs.c:2438
 #: client/gui-win32/dialogs.c:1627 data/Freeciv:2290
 msgid "Choose Your Spy's Strategy"
-msgstr "Выбрать стратегию вашего шпиона"
+msgstr "Выбрать стратегию Вашего шпиона"
 
 #: client/gui-gtk-2.0/dialogs.c:908 client/gui-gtk/dialogs.c:1055
 #: client/gui-win32/dialogs.c:1629
@@ -8995,13 +8932,13 @@ msgstr "Переманить вражеское соединение"
 #: client/gui-mui/dialogs.c:782 client/gui-mui/dialogs.c:885
 #: client/gui-win32/dialogs.c:1660 client/gui-xaw/dialogs.c:1121
 msgid "Sir, the diplomat is waiting for your command"
-msgstr "Сэр, дипломат ожидает вашей команды"
+msgstr "Сэр, дипломат ожидает Вашей команды"
 
 #: client/gui-gtk-2.0/dialogs.c:950 client/gui-gtk/dialogs.c:1090
 #: client/gui-mui/dialogs.c:849 client/gui-mui/dialogs.c:886
 #: client/gui-win32/dialogs.c:1661 client/gui-xaw/dialogs.c:1122
 msgid "Sir, the spy is waiting for your command"
-msgstr "Сэр, шпион ожидает вашей команды"
+msgstr "Сэр, шпион ожидает Вашей команды"
 
 #: client/gui-gtk-2.0/dialogs.c:951 client/gui-gtk/dialogs.c:1092
 #: client/gui-mui/dialogs.c:863 client/gui-win32/dialogs.c:1662
@@ -9049,19 +8986,19 @@ msgstr "Помочь строить чудо"
 #: client/gui-mui/dialogs.c:1078 client/gui-sdl/dialogs.c:3867
 #: client/gui-win32/dialogs.c:951
 msgid "Choose Your New Government"
-msgstr "Выберите Ваше новое правительство"
+msgstr "Выберите Ваше новую форму правления"
 
 #: client/gui-gtk-2.0/dialogs.c:1109 client/gui-gtk/dialogs.c:1242
 #: client/gui-mui/dialogs.c:1079 client/gui-win32/dialogs.c:952
 #: data/Freeciv:2485
 msgid "Select government type:"
-msgstr "Выберите тип правительства:"
+msgstr "Выберите форму правления:"
 
 #: client/gui-gtk-2.0/dialogs.c:1180 client/gui-gtk/dialogs.c:1260
 #: client/gui-mui/dialogs.c:1100 client/gui-sdl/dialogs.c:3739
 #: client/gui-win32/dialogs.c:901 client/gui-xaw/dialogs.c:1333
 msgid "You say you wanna revolution?"
-msgstr "Вы сказали что хотите револицию?"
+msgstr "Вы сказали, что хотите революцию?"
 
 #: client/gui-gtk-2.0/dialogs.c:1181 client/gui-gtk/dialogs.c:1259
 #: client/gui-mui/dialogs.c:1100 client/gui-sdl/dialogs.c:3728
@@ -9323,7 +9260,7 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"Freeciv является бесплатным продуктом и вы имеете право распространять его копии\n"
+"Freeciv является бесплатным продуктом и Вы имеете право распространять его копии\n"
 "при определенных условиях; смотрите пункт \"Копирование\" в меню Справка\n"
 "А теперь... Пусть всем чертям станет тошно!"
 
@@ -9735,7 +9672,7 @@ msgstr "Правитель: %s %s"
 #: client/gui-xaw/inteldlg.c:111
 #, c-format
 msgid "Government: %s"
-msgstr "Правительство: %s"
+msgstr "Форма правления: %s"
 
 #: client/gui-gtk-2.0/inteldlg.c:121 client/gui-gtk/inteldlg.c:112
 #: client/gui-mui/inteldlg.c:141 client/gui-mui/mapview.c:199
@@ -9816,9 +9753,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/mapview.c:258
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
-msgstr ""
-"Показывает ваши нынешние уровни налогов/роскоши/науки; нажмите мышкой, чтобы "
-"их переключить."
+msgstr "Показывает Ваши нынешние уровни налогов/роскоши/науки; нажмите мышкой, чтобы их переключить."
 
 #: client/gui-gtk-2.0/mapview.c:262
 #, c-format
@@ -9853,7 +9788,7 @@ msgid ""
 "Shows your current government:\n"
 "%s."
 msgstr ""
-"Показывает ваш нынешний строй:\n"
+"Показывает Вашу нынешнюю форму правления:\n"
 "%s."
 
 #: client/gui-gtk-2.0/mapview.c:310 client/gui-gtk/mapview.c:270
@@ -9961,7 +9896,7 @@ msgstr "Рабочие списки"
 #: client/gui-gtk/menu.c:618 client/gui-gtk/menu.c:799
 #: client/gui-win32/menu.c:383
 msgid "_Government"
-msgstr "Правительство"
+msgstr "Форма правления"
 
 #: client/gui-gtk-2.0/menu.c:614 client/gui-win32/menu.c:298
 msgid "_Revolution"
@@ -11775,7 +11710,7 @@ msgstr "Удалить пре-установку"
 
 #: client/gui-mui/citydlg.c:1584
 msgid "People (W/E/S/T):"
-msgstr "Люди (Рб/Рз/Уч/Нл):"
+msgstr "Люди (Р/A/У/Н):"
 
 #: client/gui-mui/citydlg.c:1587
 msgid "City grows:"
@@ -13475,7 +13410,7 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
 msgstr ""
-"Правитель: %s %s  Строй: %s\n"
+"Правитель: %s %s  Форма правления: %s\n"
 "Столица: %s   Золото: %d\n"
 "Налог: %d%%  Наука:%d%% Роскошь:%d%%\n"
 "Ислледуем: %s(%d/%d)"
@@ -14289,7 +14224,7 @@ msgstr "Начать игру."
 
 #: client/gui-win32/connectdlg.c:1207
 msgid "What do you wish to to?"
-msgstr "Что вы хотите сделать?"
+msgstr "Что Вы хотите сделать?"
 
 #: client/gui-win32/connectdlg.c:1208
 msgid "New Game"
@@ -14484,7 +14419,7 @@ msgstr "Нет номера версии в ресурсах."
 
 #: client/gui-xaw/gui_main.c:306
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
-msgstr "По видимому у вас старый (около v1.0) файл ресурсов Freeciv."
+msgstr "По видимому у Вас старый (около v1.0) файл ресурсов Freeciv."
 
 #: client/gui-xaw/gui_main.c:314
 msgid "Game version does not match Resource version."
@@ -14592,7 +14527,7 @@ msgstr "Зоны контроля"
 
 #: client/gui-xaw/menu.c:230 data/helpdata.txt:1208
 msgid "Government"
-msgstr "Правительство"
+msgstr "Форма правления"
 
 #: client/gui-xaw/menu.c:232 data/helpdata.txt:1352
 msgid "Space Race"
@@ -14820,7 +14755,7 @@ msgstr "Промышленный саботаж"
 
 #: data/Freeciv:2483
 msgid "Your New Government"
-msgstr "Ваше новое правительство"
+msgstr "Ваша новая форма правления"
 
 #: data/Freeciv:3018
 msgid " Sell "
@@ -14868,7 +14803,7 @@ msgstr "Выберите имя"
 
 #: data/Freeciv:3117
 msgid "Select your sex:"
-msgstr "Выберите ваш пол:"
+msgstr "Выберите Ваш пол:"
 
 #: data/Freeciv:3121
 msgid "Male  "
@@ -14923,8 +14858,7 @@ msgid ""
 "\n"
 "or by sending email to:  bugs@cvs.freeciv.org"
 msgstr ""
-"Если вы нашли ошибку напишите нам об этом. Лучше всего это сделать, посетив "
-"Freeciv Bug Tracking System, на:\n"
+"Если Вы нашли ошибку напишите нам об этом (по-английски). Лучше всего это сделать, посетив Freeciv Bug Tracking System, на:\n"
 "\n"
 "  http://www.freeciv.org/cgi-bin/bugs\n"
 "\n"
@@ -14961,19 +14895,15 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Freeciv поддерживает несколько разных языков. См. секцию Native Language "
-"Support в файле README за инструкциями о том как использовать один из этих "
-"языков.\n"
+"Freeciv поддерживает несколько разных языков. См. секцию Native Language Support в файле README за инструкциями о том как использовать один из этих языков.\n"
 "\n"
-"Если вы хотите добавить локализацию (перевод) на ваш язык, см. инструкции "
-"на:\n"
+"Если Вы хотите добавить локализацию (перевод) на Ваш язык, см. инструкции на:\n"
 "\n"
 "  http://www.freeciv.org/l10n.phtml\n"
 "\n"
 "(Сначала проверьте, не переводит ли кто-то уже на этот язык)\n"
 "\n"
-"Если хотите, можете также послать ваши вопросы на лист рассылки "
-"разработчиков Freeciv:\n"
+"Если хотите, можете также послать Ваши вопросы на лист рассылки разработчиков Freeciv:\n"
 "\n"
 "  freeciv-dev@freeciv.org"
 
@@ -14998,11 +14928,7 @@ msgid ""
 "\n"
 "before starting civclient."
 msgstr ""
-"Клиент также может получить эту страницу: используйте кнопку Метасервер в "
-"диалоге подключения. Если в нем никогда не показываются результаты, "
-"проверьте, не использует ли ваш WWW броузер прокси-сервер HTTP; чтобы "
-"заставить клиент Freeciv использовать тот же прокси, установите переменную "
-"окружения $http_proxy в\n"
+"Клиент также может получить эту страницу: используйте кнопку Метасервер в диалоге подключения. Если в нем никогда не показываются результаты, проверьте, не использует ли Ваш WWW броузер прокси-сервер HTTP; чтобы заставить клиент Freeciv использовать тот же прокси, установите переменную окружения $http_proxy в\n"
 "\n"
 "  http://имя-прокси:номер-порта-прокси/\n"
 "\n"
@@ -15016,7 +14942,7 @@ msgid ""
 "you lose connection early in the game and reconnect, use the name you chose "
 "for your ruler, not your original nickname!  If the server is reporting on "
 "the metaserver, the player names can be found there."
-msgstr "Когда игра уже началась, каждый может подключиться как лювой игрок, который не подключен в данный момент, включая компьютерных игроков. Подключение к компьютерному игроку не переключает контроль на человека, это независимая настройка сервера. Если вы потеряли связь в начале игры и хотите подключиться заново, используйте имя вы выбрали для вашего правителя страны, не ваше начальное имя. Если сервер подключен к метасерверу, имена игроков могут быть найдены на нем."
+msgstr "Когда игра уже началась, каждый может подключиться как любой игрок, который не подключен в данный момент, включая компьютерных игроков. Подключение к компьютерному игроку не переключает контроль на человека, это независимая настройка сервера. Если Вы потеряли связь в начале игры и хотите подключиться заново, используйте имя, которов Вы выбрали для Вашего правителя страны, не Ваше начальное имя. Если сервер подключен к метасерверу, имена игроков могут быть найдены на нем."
 
 #: data/helpdata.txt:431
 msgid ""
@@ -15133,11 +15059,11 @@ msgstr ""
 "  W: разбудить другие соед в квадрате\n"
 "  x: авто-исследовать\n"
 "\n"
-"  1: идти на юго-запад            F1: открыть Городской доклад\n"
-"  2: идти на юг                   F2: открыть Военный доклад\n"
+"  1: идти на юго-запад            F1: открыть Городской отчет\n"
+"  2: идти на юг                   F2: открыть Военный отчет\n"
 "  3: идти на юго-восток           F3: открыть диалог Игроки\n"
-"  4: идти на запад                F5: открыть Торговый доклад\n"
-"  5: фокус. на след. соед.        F6: открыть Научный доклад\n"
+"  4: идти на запад                F5: открыть Торговый отчет\n"
+"  5: фокус. на след. соед.        F6: открыть Научный отчет\n"
 "  6: идти на восток               F7: открыть Чудеса Света\n"
 "  7: идти на северо-запад         F8: открыть Пять Лучших городов\n"
 "  8: идти на север                F10: открыть диалог Сообщения\n"
@@ -15153,9 +15079,7 @@ msgstr ""
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
-msgstr ""
-"Клиент имеет примитивный разговорный интерфейс. Строки которые вы пишете "
-"посылаются всем игрокам, кроме:"
+msgstr "Клиент имеет примитивный разговорный интерфейс. Строки которые Вы пишете посылаются всем игрокам, кроме:"
 
 #: data/helpdata.txt:501
 msgid ""
@@ -15170,10 +15094,7 @@ msgid ""
 "  - Messages starting with '/' are interpreted as server commands (if the "
 "server is recent enough; regular 1.8.0 servers are not) and executed, if you "
 "have the required access rights."
-msgstr ""
-"  - Сообщения начинающиеся с '/' интерпретируются как команды сервера (если "
-"сервер достаточно новый, серверы версии 1.8.0 не являются таковыми) и "
-"выполняются, если у вас есть достаточные привилегии доступа."
+msgstr "  - Сообщения начинающиеся с '/' интерпретируются как команды сервера (если сервер достаточно новый, серверы версии 1.8.0 не являются таковыми) и выполняются, если у Вас есть достаточные привилегии доступа."
 
 #: data/helpdata.txt:511
 msgid "Worklist Editor"
@@ -15184,11 +15105,7 @@ msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
 "specifying what to build in the turns to come."
-msgstr ""
-"Редактор рабочих списков используется для редактирования рабочих списков "
-"всех городов (из городского диалога) и глобальных рабочих списков. Используя "
-"этот редактор, вы можете создавать списки, указывая, что строить в течение "
-"следующих ходов."
+msgstr "Редактор рабочих списков используется для редактирования рабочих списков всех городов (из городского диалога) и глобальных рабочих списков. Используя этот редактор, Вы можете создавать списки, указывая, что строить в течение следующих ходов."
 
 #: data/helpdata.txt:516
 msgid ""
@@ -15217,20 +15134,13 @@ msgid ""
 "list, PageUp/Down to move items up/down in the worklist, Insert to insert "
 "items from the available list into the worklist and Delete to delete the "
 "selected item from the worklist."
-msgstr ""
-"\"Горячие клавиши\": Home фокуцирует рабочий список, End фокуцирует список "
-"доступных элементов, стрелки вверх/вниз выбирают элемент в списке, PageUp и "
-"PageDown двигают элементы в списке вверх/вниз, Insert вставляет элементы из "
-"списка доступных элементов в рабочий список, Delete удаляет выбранный "
-"элемент из рабочего списка."
+msgstr "\"Горячие клавиши\": Home фокусирует рабочий список, End фокусирует список доступных элементов, стрелки вверх/вниз выбирают элемент в списке, PageUp и PageDown двигают элементы в списке вверх/вниз, Insert вставляет элементы из списка доступных элементов в рабочий список, Delete удаляет выбранный элемент из рабочего списка."
 
 #: data/helpdata.txt:529
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
-msgstr ""
-"Если вы хотите купить соединение, которое является первым в списке, вы "
-"можете сделать это в окне \"Обзор Города\"."
+msgstr "Если Вы хотите купить соединение, которое является первым в списке, Вы можете сделать это в окне \"Обзор Города\"."
 
 #: data/helpdata.txt:535
 msgid "Strategy and tactics"
@@ -15270,7 +15180,7 @@ msgstr ""
 " 3. Выбор, какие соединения строить первыми.\n"
 " 4. Постройка сельскохозяйственных зданий.\n"
 " 5. Выбор места постройки городов.\n"
-" 6. Забота о городах\n"
+" 6. Забота о городах.\n"
 " 7. Исследование мира.\n"
 " 8. Вещи, которые нужно иметь в виду.\n"
 " 9. Создание стратегии для игры.\n"
@@ -15290,13 +15200,7 @@ msgid ""
 msgstr ""
 " 0. Выбор места для первого города.\n"
 "\n"
-"    Начните игру, НЕДОЛГО блуждая вокруг, чтобы найти хорошее место для "
-"постройки первого города. Не пытайтесь исследовать деревни с желтыми крышами "
-"- они могут содержать варварские племена. Стройте город близко к ресурсам и "
-"возможно близко к морю. Имейте в виду, что город, который вы построите "
-"первым, будет вашей столицей! Идея состоит в том, чтобы балансировать "
-"потраченное время, ища хорошее место, против постройки вашего первого города "
-"как можно раньше."
+"    Начните игру, НЕДОЛГО блуждая вокруг, чтобы найти хорошее место для постройки первого города. Не пытайтесь исследовать деревни с желтыми крышами - они могут содержать варварские племена. Стройте город близко к ресурсам и возможно близко к морю. Имейте в виду, что город, который Вы построите первым, будет Вашей столицей! Идея состоит в том, чтобы балансировать потраченное время, ища хорошее место, против постройки Вашего первого города как можно раньше."
 
 #: data/helpdata.txt:565
 msgid ""
@@ -15330,12 +15234,7 @@ msgid ""
 msgstr ""
 " 2. Защита городов.\n"
 "\n"
-"    В этот момент, защитите ваши города, всегда оставляя в них воина. "
-"Поскольку ваша цивилизация получает возможность производить соединения с "
-"большей силой защиты, заменяйте устаревшие соединения новыми, чтобы "
-"обеспечить максимальную защиту вашим городам. Соединения, наиболее часто "
-"используемые для защиты - (в порядке усиления): Воин, Фаланга, Копейщики, "
-"Мушкетеры, и Стрелки."
+"    В этот момент, защитите Ваши города, всегда оставляя в них воина. Поскольку Ваша цивилизация получает возможность производить соединения с большей силой защиты, заменяйте устаревшие соединения новыми, чтобы обеспечить максимальную защиту Вашим городам. Соединения, наиболее часто используемые для защиты - (в порядке усиления): Воин, Фаланга, Копейщики, Мушкетеры, и Стрелки."
 
 #: data/helpdata.txt:584
 #, no-c-format
@@ -15345,12 +15244,7 @@ msgid ""
 "a unit is inside a city, it gets a 50% defensive bonus, as if fortified.  "
 "When a new city is built, the city starts to build the best available "
 "defensive unit from the above list."
-msgstr ""
-"   Имейте в виду, что с некоторыми типами правительств, войска внутри или "
-"снаружи городов могут создавать или уменьшать несчастье. Также помните, что, "
-"когда соединение внутри города, оно получает защитную премию 50%, как "
-"фортифицированное. Когда строится новый город, он начинает строить лучшее "
-"доступное защитное соединение из вышеупомянутого списка."
+msgstr "   Имейте в виду, что с некоторыми формами правления, войска внутри или снаружи городов могут создавать или уменьшать несчастье. Также помните, что, когда соединение внутри города, оно получает защитную премию 50%, как укрепленное. Когда строится новый город, он начинает строить лучшее доступное защитное соединение из вышеупомянутого списка."
 
 #: data/helpdata.txt:591
 msgid ""
@@ -15366,14 +15260,7 @@ msgid ""
 msgstr ""
 " 3. Выбор, какие соединения строить первыми.\n"
 "\n"
-"    После создания одной или двух соединений Воина, начните строить "
-"Колонистов. Второй Колонист может использоваться, чтобы строить дороги и "
-"орошать сельхозугодья близко к городу, а третий может использоваться, чтобы "
-"построить новый город. Или, Вы можете использовать второго Колониста, чтобы "
-"построить другой город, и использовать третьего Колониста для  "
-"усовершенствования сельхозугодий вокруг городов. Имейте в виду, что большое "
-"население увеличивает и производительность, и скорость исследований вашей "
-"цивилизации."
+"    После создания одной или двух соединений Воина, начните строить Колонистов. Второй Колонист может использоваться, чтобы строить дороги и орошать сельхозугодья близко к городу, а третий может использоваться, чтобы построить новый город. Или, Вы можете использовать второго Колониста, чтобы построить другой город, и использовать третьего Колониста для  усовершенствования сельхозугодий вокруг городов. Имейте в виду, что большое население увеличивает и производительность, и скорость исследований Вашей цивилизации."
 
 #: data/helpdata.txt:602
 msgid ""
@@ -15386,11 +15273,7 @@ msgid ""
 msgstr ""
 " 4. Постройка сельскохозяйственных зданий.\n"
 "\n"
-"    Каждый город имеет область сельхозугодий вокруг него, которая может "
-"использоваться для выращивания продовольствия, производства товаров, и "
-"торговли. Все эти показатели могут быть увеличены, используя Колонистов, "
-"чтобы улучшить сельхозугодья. Земля может быть улучшена дорогами, орошением, "
-"шахтами, и другими."
+"    Каждый город имеет область сельхозугодий вокруг него, которая может использоваться для выращивания продовольствия, производства товаров, и торговли. Все эти показатели могут быть увеличены, используя Колонистов. Земля может быть улучшена дорогами, орошением, шахтами, и другими постройками."
 
 #: data/helpdata.txt:610
 msgid ""
@@ -15405,12 +15288,7 @@ msgid ""
 msgstr ""
 " 5. Выбор места постройки городов.\n"
 "\n"
-"    Лучшее местоположение для города - вопрос вкуса. Город, который помещен "
-"около моря, будет раньше найден противниками, но может также служить как "
-"порт для морских соединений. (Они также обычно требуют прибрежную защиту "
-"несколько позже.) Лучшая стратегия состоит в том, чтобы строить и такие, и "
-"такие, но имейте в виду, что вашим противникам будет сложнее найти город, "
-"если он не находится у побережья."
+"    Лучшее местоположение для города - вопрос вкуса. Город, который помещен около моря, будет раньше найден противниками, но может также служить как порт для морских соединений. (Они также обычно требуют прибрежную защиту несколько позже.) Лучшая стратегия состоит в том, чтобы строить и такие, и такие, но имейте в виду, что Вашим противникам будет сложнее найти город, если он не находится у побережья."
 
 #: data/helpdata.txt:619
 msgid ""
@@ -15423,15 +15301,9 @@ msgid ""
 "the start of the game, care should be taken to ensure that the citizens are "
 "employed so that they maximise growth, trade and production."
 msgstr ""
-" 6. Забота о городах\n"
+" 6. Забота о городах.\n"
 "\n"
-"    Каждый город имеет некоторое кол-во 'граждан'. Число граждан зависит от "
-"населения города. Когда Вы щелкаете на городе, Вы можете видеть, как "
-"используются сельхозугодья вокруг города. Вы можете назначать ваших граждан "
-"на сельхозугодья, или они могут быть учеными, развлекателями или сборщиками "
-"налогов. Особенно в начале игры, нужно быть осторожным, чтобы гарантировать, "
-"что граждане используются так, чтобы они максимизировали рост, торговлю и "
-"производство."
+"    Каждый город имеет некоторое количество 'граждан'. Число граждан зависит от населения города. Когда Вы щелкаете на городе, Вы можете видеть, как используются сельхозугодья вокруг города. Вы можете назначать Ваших граждан на сельхозугодья, или они могут быть учеными, артистами или сборщиками налогов. Особенно в начале игры, нужно быть осторожным, чтобы гарантировать, что граждане используются так, чтобы они максимизировали рост, торговлю и производство."
 
 #: data/helpdata.txt:629
 msgid ""
@@ -15449,10 +15321,7 @@ msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
 "food production."
-msgstr ""
-"    Если вы вернете всех ваших граждан в город, и нажмите прамой кнопкой "
-"мыши на центральный квадрат, граждане будут реорганизоавны, чтобы "
-"максимизировать производство еды."
+msgstr "    Если Вы вернете всех Ваших граждан в город, и нажмете правой кнопкой мыши на центральный квадрат, граждане будут реорганизоавны, чтобы максимизировать производство еды."
 
 #: data/helpdata.txt:640
 msgid ""
@@ -15460,11 +15329,7 @@ msgid ""
 "least as many happy citizens as unhappy citizens.  A city where this is not "
 "so is labelled with a lightning bolt.  Take care not to let this happen to "
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
-msgstr ""
-"    Золотое правило заботы о городе - то, что должны быть по крайней мере "
-"так много счастливых граждан, как несчастных граждан. Город, где это не так, "
-"маркирован знаком молнии. Заботьтесь о том, чтобы этого не происходило, "
-"поскольку несчастные города не производят ничего, и скоро восстанут."
+msgstr "    Золотое правило заботы о городе - должно быть по крайней мере так много счастливых граждан, как несчастных граждан. Город, где это не так, отмечен знаком молнии. Заботьтесь о том, чтобы этого не происходило, поскольку несчастные города не производят ничего, и скоро восстанут."
 
 #: data/helpdata.txt:646
 msgid ""
@@ -15479,13 +15344,7 @@ msgid ""
 msgstr ""
 " 7. Исследование мира.\n"
 "\n"
-"    После того, как Вы укрепили ваши города войсками, стройте Триремы в "
-"городах около моря. Используйте Триремы, чтобы создать карту мира в поиске "
-"противников и новых земель. Если Вы находитесь на острове, Вы должны тратить "
-"меньше на войска и больше на расширение. Или если Вы расположены близко к "
-"противнику, стоит заключить мирный договор и поделиться научными "
-"достижениями, которые Вы сделали. Дипломатические соединения очень полезны "
-"здесь и оплатятся позже."
+"    После того, как Вы укрепили Ваши города войсками, стройте Триремы в городах около моря. Используйте Триремы, чтобы создать карту мира в поиске противников и новых земель. Если Вы находитесь на острове, Вы должны тратить меньше на войска и больше на расширение. Или если Вы расположены близко к противнику, стоит заключить мирный договор и поделиться научными достижениями, которые Вы сделали. Дипломатические соединения очень полезны здесь и оплатятся позже."
 
 #: data/helpdata.txt:656
 msgid ""
@@ -15501,9 +15360,9 @@ msgid ""
 msgstr ""
 " 8. Вещи, которые нужно иметь в виду.\n"
 "\n"
-"  - Какую следующую науку вам нужно изучать.\n"
+"  - Какую следующую науку Вам нужно изучать.\n"
 "\n"
-"  - Каков ваш нынешний уровень налогов, науки и роскоши.\n"
+"  - Каков Ваш нынешний уровень налогов, науки и роскоши.\n"
 "\n"
 "  - Договоры часто нарушают, так что не забывайте о защите...\n"
 "\n"
@@ -15521,16 +15380,10 @@ msgid ""
 "You'll find more tips for playing, and details of how to contact other "
 "players."
 msgstr ""
-" 9. Создание стратегию для игры.\n"
+" 9. Создание стратегии для игры.\n"
 "\n"
-"    Эти основные концепции позволят Вам довольно неплохо играть, особенно в "
-"начале игры. Но чтобы улучшить ваш уровень игры, Вы должны изучить различные "
-"соединения и науки, и ПРАКТИКОВАТЬСЯ, ПРАКТИКОВАТЬСЯ, ПРАКТИКОВАТЬСЯ! "
-"Freeciv имеет много интересных поворотов, так что если Вы не играли в "
-"подобную игру прежде, попробуйте посмотреть с WWW страницы Freeciv на http://"
-"www.freeciv.org/\n"
-"Там вы найдете большее количество информации об игре, и деталей того, как "
-"войти в контакт с другими игроками."
+"    Эти основные идеи позволят Вам довольно неплохо играть, особенно в начале игры. Но чтобы улучшить Ваш уровень игры, Вы должны изучить различные соединения и науки, и ПРАКТИКОВАТЬСЯ, ПРАКТИКОВАТЬСЯ, ПРАКТИКОВАТЬСЯ! Freeciv имеет много интересных поворотов, так что если Вы не играли в подобную игру прежде, попробуйте зайти на WWW страницу Freeciv по адресу http://www.freeciv.org/\n"
+"Там Вы найдете большее количество информации об игре, и деталей того, как связаться с другими игроками."
 
 #: data/helpdata.txt:678
 msgid ""
@@ -15563,7 +15416,7 @@ msgid ""
 "\n"
 "   - and Give Gold."
 msgstr ""
-"    В этом меню вы можете:\n"
+"    В этом меню Вы можете:\n"
 "\n"
 "   - Обменяться картами (морскими или полными),\n"
 "\n"
@@ -15591,9 +15444,9 @@ msgid ""
 msgstr ""
 "    Несколько замечаний:\n"
 "\n"
-"   - Вы не можете отдать вашу столицу.\n"
+"   - Вы не можете отдать Вашу столицу.\n"
 "\n"
-"   - Если вы не видите город на вашей карте, вы не можете его запросить."
+"   - Если Вы не видите город на Вашей карте, Вы не можете его запросить."
 
 #: data/helpdata.txt:708
 msgid ""
@@ -15602,12 +15455,7 @@ msgid ""
 "note: any units in the field and supported by that city are also transferred "
 "(but not those sitting in other cities).  So make sure the other player "
 "isn't getting a better deal than you expect."
-msgstr ""
-"     Конечно, владелец этого города может дать его Вам даже в этом случае. "
-"Тогда область вокруг города показывается на вашей карте. Обратите внимание "
-"на одну важную вещь: любые соединения снаружи городов и поддерживаемые этим "
-"городом также передаются вместе с ним (но не находящиеся в других городах). "
-"Так что удостоверьтесь, что другой игрок не получает больше, чем Вы ожидаете."
+msgstr "     Конечно, владелец этого города может дать его Вам даже в этом случае. Тогда область вокруг города показывается на Вашей карте. Обратите внимание на одну важную вещь: любые соединения снаружи городов и поддерживаемые этим городом также передаются вместе с ним (но не находящиеся в других городах). Так что удостоверьтесь, что другой игрок не получает больше, чем Вы ожидаете."
 
 #: data/helpdata.txt:719
 msgid ""
@@ -15653,21 +15501,21 @@ msgid ""
 "background information, and some preset examples in the file README.cma, "
 "included with Freeciv.\n"
 msgstr ""
-"Агент Управления Гражданами (АУГ) помогает Вам управлять городами. Он распределяет доступных рабочих на свободных квадратах вокруг города, пытаясь максимизировать полезность города. Он также превращает рабочих в ученых, налоговых работников или развлекателей в случае необходимости. Кроме этого, АУГ делает население ваших городов довольным (если возможно).\n"
+"Агент Управления Гражданами (АУГ) помогает Вам управлять городами. Он распределяет доступных рабочих на свободных квадратах вокруг города, пытаясь максимизировать полезность города. Он также превращает рабочих в ученых, налоговых работников или артистов в случае необходимости. Кроме этого, АУГ делает население Ваших городов довольным (если возможно).\n"
 "\n"
-"Есть несколько способов сообщить АУГ, что именно вы хотите. Откройте окно города и нажмите на панель АУГ. Вы видете два типа полос прокрутки: слева вы можете установить минимальный избыток для каждого типа продукции, например Золото=3 значит, что город должен зарабатывать на 3 золотых больше, чем он тратит на поддержку зданий. Справа вы можете выбрать насколько вы предпочитаете один тип продукции другому. Например, установление науки=3 означает, что вы предпочитаете одну лампочку трем щитам (золоту, торговле, ...). Вы можете установить разные факторы для каждого типа продукции.\n"
+"Есть несколько способов сообщить АУГ, что именно Вы хотите. Откройте окно города и нажмите на панель АУГ. Вы видете два типа полос прокрутки: слева Вы можете установить минимальный избыток для каждого типа продукции, например Золото=3 значит, что город должен зарабатывать на 3 золотых больше, чем он тратит на поддержку зданий. Справа Вы можете выбрать насколько Вы предпочитаете один тип продукции другому. Например, установление науки=3 означает, что Вы предпочитаете одну лампочку трем щитам (золоту, торговле, ...). Вы можете установить разные факторы для каждого типа продукции.\n"
 "\n"
-"Если вы установите минимальные избытки, которые невозможно выполнить, АУГ не сможет действовать. Если в какой-либо момент АУГ не может справиться со своей задачей, он вернет управление вам. Так что не устанавливайте высокие избытки, используйте факторы для достижения ваших целей.\n"
+"Если Вы установите минимальные избытки, которые невозможно выполнить, АУГ не сможет действовать. Если в какой-либо момент АУГ не может справиться со своей задачей, он вернет управление Вам. Так что не устанавливайте высокие избытки, используйте факторы для достижения Ваших целей.\n"
 "\n"
-"Позиция для отметки \"Праздник\" позволяет вашему городу праздновать. Это работает только при высоком уровне роскоши. См. справку о \"Счастье\".\n"
+"Позиция для отметки \"Праздник\" позволяет Вашему городу праздновать. Это работает только при высоком уровне роскоши. См. справку о \"Счастье\".\n"
 "\n"
-"Нажатие на \"Контролировать город\" отдает город под контроль АУГ, \"Отпустить город\" возвращает вам контроль.\n"
+"Нажатие на \"Контролировать город\" отдает город под контроль АУГ, \"Отпустить город\" возвращает Вам контроль.\n"
 "\n"
-"Для простоты использования вы можете сохраните свои установки как пре-установку с именем. Нажмите на 'добавить пре-установку' и введите имя. Вы можете использовать эту пре-установку во всех городах, просто нажимая на ее имя. Также вы можете контролировать из городского доклада, в колонке АУГ. Вы можете и изменить его там (нажмите 'Изменить' - 'АУГ'), если она сохранена как пре-установка.\n"
+"Для простоты использования Вы можете сохранить свои установки как пре-установку с именем. Нажмите на 'добавить пре-установку' и введите имя. Вы можете использовать эту пре-установку во всех городах, просто нажимая на ее имя. Также Вы можете контролировать из городского отчета, в колонке АУГ. Вы можете и изменить его там (нажмите 'Изменить' - 'АУГ'), если она сохранена как пре-установка.\n"
 "\n"
-"Используйте 'Игра' --> 'Сохранить установки', чтобы сохранить ваши пре-установки постоянно.\n"
+"Используйте 'Игра' --> 'Сохранить установки', чтобы сохранить Ваши пре-установки постоянно.\n"
 "\n"
-"Но будьте осторожны! Если вы используете АУГ для некоторых из ваших городов, у вас могу быть некоторые сложности с управлением соседними городами. Лучше всего управлять всеми городами на острове либо с помощью АУГ, либо вручную. Дополнительная информация и несколько примеров пре-установок доступны в файле README.cma, распространяемым вместе с Freeciv.\n"
+"Но будьте осторожны! Если Вы используете АУГ для некоторых из Ваших городов, у Вас могу быть некоторые сложности с управлением соседними городами. Лучше всего управлять всеми городами на острове либо с помощью АУГ, либо вручную. Дополнительная информация и несколько примеров пре-установок доступны в файле README.cma, распространяемым вместе с Freeciv.\n"
 
 #: data/helpdata.txt:769
 msgid ""
@@ -15675,37 +15523,26 @@ msgid ""
 "science production, etc.  Most improvements require you to pay an upkeep "
 "every turn.  If you can't afford the upkeep for a building, then it'll be "
 "automatically sold."
-msgstr ""
-"Городские здания строятся в каждом из ваших городов, чтобы увеличить уровень "
-"доходов, науку, и т.п. Каждое здание требует определенное кол-во денег "
-"каждый ход. Если у вас не хватает на это денег, здание будет продано "
-"автоматически."
+msgstr "Городские здания строятся в каждом из Ваших городов, чтобы увеличить уровень доходов, науку, и т.п. Каждое здание требует определенное кол-во денег каждый ход. Если у Вас не хватает на это денег, здание будет продано автоматически."
 
 #: data/helpdata.txt:786
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
-msgstr ""
-"Научные исследование необходимы для улучшения возможностей вашей цивилизации "
-"в производстве новый военных соединений и зданий"
+msgstr "Научные исследования необходимы для улучшения возможностей Вашей цивилизации в производстве новых военных соединений и зданий"
 
 #: data/helpdata.txt:797
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
-msgstr ""
-"Каждое чудо дает определенные преимущества вашей цивилизации. Каждое чудо "
-"уникально и устанавливается в городе, который его построил."
+msgstr "Каждое чудо дает определенные преимущества Вашей цивилизации. Каждое чудо уникально и устанавливается в городе, который его построил."
 
 #: data/helpdata.txt:808
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
 "unit's strength in attack and defense, and its ability to move."
-msgstr ""
-"Соединения могут быть использованы для трех целей: атака, оборона и "
-"разведка. Насколько полезно каждое соедиение для этих целей зависит на силе "
-"соединения в атаке и обороне и его возможности двигаться."
+msgstr "Соединения могут быть использованы для трех целей: атака, оборона и разведка. Насколько полезно каждое соедиение для этих целей зависит от силy соединения в атаке и обороне и его возможности двигаться."
 
 #: data/helpdata.txt:813
 msgid ""
@@ -15731,19 +15568,7 @@ msgid ""
 "Land units with zero attack strength are non-military units: they require no "
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
-msgstr ""
-"Наземные войска двигаются по земле, и переносят эффекты движения рельефа, но "
-"выигрывают от дорог и железных дорог. Они не могут двигаться по океанским "
-"квадратам, кроме как на борту соответствующего морского соединения. Когда в "
-"море, они не могут нападать или защищаться сами, но полагаться на морское "
-"соединение, их несущее. Наземные соединения - единственные соединения, "
-"подчиненные зонам контроля. На земле, наземные соединения могут "
-"фортифицироваться, чтобы получить защитную премию в 50 %; наземные "
-"соединения в городах автоматически получают эту премию, фортифицированные "
-"или нет. Когда наземное соединение успешно атакует город без Городских Стен, "
-"население города уменьшается на один элемент населения. Наземные соединения "
-"с атакой 0 - невоенные войска: они не требуют поддержки, не имеют эффекта на "
-"счастье и не могут атаковать вражеские войска и захватывать вражеские города."
+msgstr "Наземные войска двигаются по земле, и скорость их движения зависит от рельефа, но с этим помагают дороги и железные дороги. Наземные войска не могут двигаться по океанским квадратам, кроме как на борту соответствующего морского соединения. Когда в море, они не могут нападать или защищаться сами, но полагаются на морское соединение, их несущее. Наземные соединения - единственные соединения, подчиненные зонам контроля. На земле, наземные соединения могут укрепиться, чтобы получить защитную премию в 50 %; наземные соединения в городах автоматически получают эту премию, укрепленные или нет. Когда наземное соединение успешно атакует город без Городских Стен, население города уменьшается на единицу. Наземные соединения с атакой 0 - невоенные соединения: они не требуют поддержки, не имеют эффекта на счастье и не могут атаковать вражеские войска и захватывать вражеские города."
 
 #: data/helpdata.txt:831
 msgid ""
@@ -15784,13 +15609,7 @@ msgid ""
 "health for every turn not spent in a city or an Airbase, unless you have the "
 "United Nations wonder.  Unlike other air units, Helicopters can capture "
 "enemy cities."
-msgstr ""
-"Подобно воздушным соединениям, Вертолеты могут двигаться в любой квадрат, не "
-"занятый вражеским соединением или вражеским городом, и на их скорость "
-"движения не воздействует потеря здоровья. Вертолеты не требуют топлива, но "
-"они теряют маленькое количество здоровья для каждого хода, не провденного в "
-"городе или аэродроме, если Вы не имеете чуда ООН. В отличие от других "
-"воздушных соединений, Вертолеты могут захватывать вражеские города."
+msgstr "Подобно воздушным соединениям, Вертолеты могут двигаться в любой квадрат, не занятый вражеским соединением или вражеским городом, и на их скорость движения не воздействует потеря здоровья. Вертолеты не требуют топлива, но они теряют маленькое количество здоровья за каждый хода, не провденный в городе или аэродроме, если Вы не имеете чуда ООН. В отличие от других воздушных соединений, Вертолеты могут захватывать вражеские города."
 
 #: data/helpdata.txt:857
 msgid ""
@@ -15808,22 +15627,7 @@ msgid ""
 "points (or gain two hit points less than they otherwise would) each turn "
 "that they do not end in a city.  Damaged units in Sentry mode will wake up "
 "when they have regained all of their hit points."
-msgstr ""
-"Соединения, которые были повреждены в бою, восстановят здоровье каждый ход, "
-"в который они не перемещаются. Обычно, соединение, которое не передвигалось, "
-"восстановит очко здоровья в ход. Наземное соединение в городе с Казармами, "
-"или морскоe соединение в городе с Портoм, или воздушноe соединение в городе "
-"с Аэропортом, восстановит все потерянные очки здоровья, если полный ход "
-"потрачен (без движения) в городе. Иначе, соединение, которое проводит ход в "
-"городе, восстанавливает третью часть его базового здоровья. Соединение, "
-"которое проводит ход в крепости востанавливает лишнюю четверть базвого "
-"здоровья. Соединения, которые укреплены, восстанавливают дополнительное очко "
-"здоровья. Если игрок имеет чудо ООН, то соединения игрока восстанавливаются "
-"дополнительные два очка за ход, даже соединения, которые передвигались. В "
-"дополнение ко всем другим эффектам, Вертолеты теряют два очка здоровья (или "
-"получают на два очка меньше, чем могли бы) каждый ход, который они не "
-"заканчивают в городе. Поврежденные соединия в режиме Сторож пробудятся, "
-"когда они восстановят все очки здоровья."
+msgstr "Соединения, которые были повреждены в бою, восстанавливают здоровье за следующие ходы, если они не перемещаются. Обычно, соединение, которое не передвигалось, восстановит очко здоровья в ход. Наземное соединение в городе с Казармами, или морскоe соединение в городе с Портoм, или воздушноe соединение в городе с Аэропортом, восстановит все потерянные очки здоровья, если полный ход потрачен (без движения) в городе. Иначе, соединение, которое проводит ход в городе, восстанавливает третью часть его базового здоровья. Соединение, которое проводит ход в крепости востанавливает лишнюю четверть базвого здоровья. Соединения, которые укреплены, восстанавливают дополнительное очко здоровья. Если игрок имеет чудо ООН, то соединения игрока дополнительно восстанавливаются на два очка за ход; даже те соединения, которые передвигались. В дополнение ко всем другим эффектам, Вертолеты теряют два очка здоровья (или получают на два очка меньше, чем могли бы) каждый ход, который они не заканчивают в городе. Поврежденные соединия в режиме Сторож пробудятся, когда они восстановят все очки здоровья."
 
 #: data/helpdata.txt:874
 msgid ""
@@ -15837,10 +15641,7 @@ msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
-msgstr ""
-"Когда одно соединение атакует другое, либо атакующий, либо защитник "
-"погибнет, но никогда не оба (если атакующий не ракета). Результат битвы "
-"зависит от нескольких факторов, включая случайный элемент."
+msgstr "Когда одно соединение атакует другое, погибнет либо атакующий, либо защитник, но никогда оба (если атакующий не ракета). Результат битвы зависит от нескольких факторов, включая случайный элемент."
 
 #: data/helpdata.txt:890
 msgid "First, the attacker's strength is modified."
@@ -15874,17 +15675,13 @@ msgstr " - Если защитник - ветеран, его сила умножается на 1,5."
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
-msgstr ""
-" - Затем сила защитника умножается на коэфициент защиты для типа рельефа в "
-"квадрате, который он занимает."
+msgstr " - Затем сила защитника умножается на коэффициент защиты для типа рельефа в квадрате, который он занимает."
 
 #: data/helpdata.txt:908
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
-msgstr ""
-" - Затем, сила защитника удваивается если это копейщик, защищающийся против "
-"конного соединения."
+msgstr " - Затем, сила защитника удваивается если это Копейщик, защищающийся против конного соединения."
 
 #: data/helpdata.txt:911
 msgid ""
@@ -15937,9 +15734,7 @@ msgstr ""
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
-msgstr ""
-" - Наконец, если защитник - наземное соединение, и либо фортифицирован либо "
-"в городе, его сила умножается на 1,5."
+msgstr " - Наконец, если защитник - наземное соединение, либо укрепленое, либо находящееся в городе, его сила умножается на 1,5."
 
 #: data/helpdata.txt:935
 msgid ""
@@ -16003,19 +15798,13 @@ msgid ""
 "was not a veteran already.  If the winner's civilization has the Sun Tzu's "
 "War Academy (and if it isn't obsolete), the unit will always become a "
 "veteran.  Otherwise, the chance of becoming a veteran is 50%."
-msgstr ""
-"Соединение, выжившее в бою имеет шанс стать ветераном, если оно уже не "
-"ветеран. Если цивилизация победителя владеет Академией Сон Цзу (и если она "
-"не устарела), соединение всегда становится ветераном. В противном случае оно "
-"имеет 50% шанс."
+msgstr "Соединение, выжившее в бою имеет шанс стать ветераном, если оно еще не ветеран. Если цивилизация победителя владеет Академией Сон Цзу (и если она не устарела), соединение всегда становится ветераном. В противном случае оно имеет 50% шанс."
 
 #: data/helpdata.txt:971
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
-msgstr ""
-"Если атакующий - наземное соединение и побеждает, и защитник находился в "
-"городе без Городских Стен, размер города уменьшается на 1."
+msgstr "Если атакующий - наземное соединение и побеждает, а защитник находился в городе без Городских Стен, размер города уменьшается на 1."
 
 #: data/helpdata.txt:974
 msgid ""
@@ -16043,9 +15832,7 @@ msgstr ""
 msgid ""
 "The attacker's base strength is 8.  Veteran status makes this 12, but "
 "because it only has 2/3 movement points its final strength is 8."
-msgstr ""
-"Базовая сила атакующего 8. Статус ветерана превращает ето в 12, но 2/3 хода "
-"меняют ее снова в 8."
+msgstr "Базовая сила атакующего 8. Статус ветерана превращает ее в 12, но 2/3 хода меняют ее снова на 8."
 
 #: data/helpdata.txt:989
 msgid ""
@@ -16053,10 +15840,7 @@ msgid ""
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
 "to 13.5.  It is a ground unit inside a city, so its strength is increased to "
 "20.25."
-msgstr ""
-"Базовая сила защитника - 3. Т.к. рельеф места - Лес, сила становится 4.5. "
-"Стены утраивают силу, 13.5. Это наземное соединение в городе, следовательно "
-"сила - 20.25."
+msgstr "Базовая сила защитника - 3. Т.к. рельеф места - Лес, сила становится 4,5. Стены утраивают силу, 13,5. Это наземное соединение в городе, следовательно сила - 20,25."
 
 #: data/helpdata.txt:994
 msgid ""
@@ -16106,10 +15890,7 @@ msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
 "on a Grassland tile, with City Walls and a Coastal Defense."
-msgstr ""
-"Предположим ветеран-Линкор (А:12, З:12, Зд:40, Ог:2) с 3 ходами атакует "
-"ветеран-Алпийские войска (А:5, З:5, Зд: 20, Ог:1) внутри города в Степи с "
-"Городскими Стенами и Береговой Защитой."
+msgstr "Предположим ветеран-Линкор (А:12, З:12, Зд:40, Ог:2) с 3 ходами атакует ветеранa-Альпийских стрелков (А:5, З:5, Зд: 20, Ог:1) внутри города в Степи с Городскими Стенами и Береговой Защитой."
 
 #: data/helpdata.txt:1028
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
@@ -16122,11 +15903,7 @@ msgid ""
 "defender's strength to 15. (The City Walls have no effect against attacking "
 "sea units.) The defender is a ground unit inside a city, so its total "
 "strength is 22.5."
-msgstr ""
-"Сила защитника - 5, ветеранский статус - 7.5, фактор рельефа - 1 (нет "
-"эффекта). Береговая защита удваивает силу защитника до 15. (Городские стены "
-"не действуют против атакующего морского соединения). Защитник - наземное "
-"соединение внутри города, т.е. окончательная сила - 22.5."
+msgstr "Сила защитника - 5, ветеранский статус - 7,5, фактор рельефа - 1 (нет эффекта). Береговая защита удваивает силу защитника до 15. (Городские стены не действуют против атакующего морского соединения). Защитник - наземное соединение внутри города, т.е. окончательная сила - 22,5."
 
 #: data/helpdata.txt:1037
 msgid ""
@@ -16146,10 +15923,7 @@ msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
 "than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, "
 "the attacker loses 1 hit point."
-msgstr ""
-"Каждый раунд, генерируется случайное число от 1 до 405. Если оно больше чем "
-"225 (примерно 44% вероятность) защитник теряет 1 очко здоровья. В протибном "
-"случае, атакующий теряет 1 очко здоровья."
+msgstr "Каждый раунд, генерируется случайное число от 1 до 405. Если оно больше чем 225 (примерно 44% вероятность) защитник теряет 1 очко здоровья. В противном случае, атакующий теряет 1 очко здоровья."
 
 #: data/helpdata.txt:1054
 #, no-c-format
@@ -16159,11 +15933,7 @@ msgid ""
 "twice as many hit points. The Battleship should expect to lose about 60% of "
 "its hit points during the fight, and should expect to have no movement "
 "points left."
-msgstr ""
-"В этом случае у атакующего гораздо больше шансов, чем у защитника. Линкор "
-"25% менее вероятен попасть в противника в каждом раунде, но у него вдвое "
-"больше здоровья. Линкор потеряет порядка 60% своего здоровья в результате "
-"битвы, после чего он не сможет двигаться."
+msgstr "В этом случае у атакующего гораздо больше шансов, чем у защитника. Линкор 25% менее вероятен попасть в противника в каждом раунде, но у него вдвое больше здоровья. Линкор потеряет порядка 60% своего здоровья в результате битвы, после чего он не сможет двигаться."
 
 #: data/helpdata.txt:1063
 msgid "Zones of Control"
@@ -16173,10 +15943,7 @@ msgstr "Зоны контроля"
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
-msgstr ""
-"Зоны контроля (ЗК) это одно из правил игры, которое предоствращает игрока "
-"против движения в зонах конктролируемых (или частично контролируемых) другим "
-"игроком."
+msgstr "Зоны контроля (ЗК) это одно из правил игры, которое предотвращает движение игрока в зонах, конктролируемых (или частично контролируемых) другим игроком."
 
 #: data/helpdata.txt:1068
 msgid ""
@@ -16252,12 +16019,7 @@ msgid ""
 "now occupied by the Diplomat. By repeating this process (and optionally "
 "leaving some units behind to keep squares occupied), you can make a path "
 "through enemy territory."
-msgstr ""
-"Совет:  Вы можете проникнуть в ЗК противника двигая сначала Дипломата (или "
-"другое соединение, игнорирующее ЗК), а потом обычные соединения следом за "
-"ним. Повторяя этот процесс (и возможно оставляя часть соединений на месте "
-"чтобы квадраты оставались занятыми) вы можете проложить дорогу через "
-"территорию противника."
+msgstr "Совет:  Вы можете проникнуть в ЗК противника двигая сначала Дипломата (или другое соединение, игнорирующее ЗК), а потом обычные соединения следом за ним. Повторяя этот процесс (и возможно оставляя часть соединений на месте чтобы квадраты оставались занятыми) Вы можете проложить дорогу через территорию противника."
 
 #: data/helpdata.txt:1107
 msgid ""
@@ -16276,18 +16038,13 @@ msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
 "producing squares nearby to support your growing population."
-msgstr ""
-"Каждый из видов рельефа имеет свои плюсы и минусы. Выбирая место для "
-"постройки города, убедитесь, что рядом достаточно квадратов, производящих "
-"еду, для поддержки вашего растущего населения."
+msgstr "Каждый из видов рельефа имеет свои плюсы и минусы. Выбирая место для постройки города, убедитесь, что рядом достаточно квадратов, производящих еду, для поддержки Вашего растущего населения."
 
 #: data/helpdata.txt:1121
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
-msgstr ""
-"Окончательное количество ресурсов, производимое квадратом, зависит от типа "
-"вашего правительства, а также зданий в городах и чудес света."
+msgstr "Окончательное количество ресурсов, производимое квадратом, зависит от формы Вашего правления, а также от зданий в городах и чудес света."
 
 #: data/helpdata.txt:1130
 msgid " Terrain Alterations"
@@ -16331,12 +16088,7 @@ msgid ""
 "road or railroad on a River square, though, you must know Bridge Building.)  "
 "Roads and railroads allow your units to move more quickly, and they increase "
 "the resources produced in cities."
-msgstr ""
-"Дороги и железные дороги могут быть построены на любом квадрате кроме "
-"океанских. (Однако, чтобы построить дорогу или железную дорогу на речном "
-"квадрате, вы должны знать Мостостроительство). Дороги и железные дороги "
-"позволяют вашим соединениям перемещаться быстрее и увеличивают ресурсы, "
-"производимые в городах."
+msgstr "Дороги и железные дороги могут быть построены на любом квадрате кроме океанских. (Однако, чтобы построить дорогу или железную дорогу на речном квадрате, Вы должны знать Мостостроительство). Дороги и железные дороги позволяют Вашим соединениям перемещаться быстрее и увеличивают ресурсы, производимые в городах."
 
 #: data/helpdata.txt:1150
 msgid ""
@@ -16366,11 +16118,7 @@ msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
 "resources, or may increase shield resources by an amount other than 50%.)"
-msgstr ""
-" - Железная дорога увеличивает производство щитов в квадрате на 50%.  (В "
-"зависимости от установок сервера, железная дорога может также увеличивать "
-"производство еды и торговых ресурсов, или увеличивать производство щитов не "
-"на 50%.)"
+msgstr " - Железная дорога увеличивает производство щитов в квадрате на 50%.  (В зависимости от установок сервера, железная дорога может также увеличивать производство еды и торговых ресурсов, или увеличивать производство щитов на другой процент.)"
 
 #: data/helpdata.txt:1164
 msgid ""
@@ -16385,9 +16133,7 @@ msgstr ""
 #: data/helpdata.txt:1169
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
-msgstr ""
-"Вы также можете строить аэродромы, на которые ваши воздушные соединения "
-"могут приземлиться для дозаправки."
+msgstr "Вы также можете строить аэродромы, на которые Ваши воздушные соединения могут приземлиться для дозаправки."
 
 #: data/helpdata.txt:1172
 msgid ""
@@ -16411,12 +16157,7 @@ msgid ""
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
 "Depending upon server settings, you may be given a choice of which terrain "
 "alteration to pillage, or they will be pillaged in the following order:"
-msgstr ""
-"Все наземные соединения могут уничтожать изменения рельефа, с помощью "
-"команды 'Разрушить'. Разрушение уничтожает 1 изменение рельефа за ход на "
-"соединение. В зависимости от установок сервера, вам может быть предоставлен "
-"выбор: какое изменение рельефа уничтожить, или они будут уничтожаться в "
-"следующем порядке:"
+msgstr "Все наземные соединения могут уничтожать изменения рельефа, с помощью команды 'Разрушить'. Разрушение уничтожает 1 изменение рельефа за ход на соединение. В зависимости от установок сервера, Вам может быть предоставлен выбор: какое изменение рельефа уничтожить, или они будут уничтожаться в следующем порядке:"
 
 #: data/helpdata.txt:1189
 msgid ""
@@ -16444,22 +16185,13 @@ msgid ""
 "example, if you have irrigated a Forest tile to convert it into a Plain, "
 "pillaging will not convert it back into a Forest -- to do so, you would have "
 "to convert the tile again with a Settler or Engineer."
-msgstr ""
-"Квадраты, не имеющие изменений рельефа (фермы, орошения, шахты, крепости, "
-"аэродрома, железной дороги или дороги) не может быть подвергнут разрушению. "
-"Кроме этого, некоторые изменения и трансформации рельефа не могут быть "
-"возвращены в исходное состояние разрушением. Например, если вы произвели "
-"орошение на лесном квадрате, превратив его в равнину, разрушение не "
-"превратит его назад в лес. Чтобы добиться этого результата, вам придется "
-"использовать колонистов или инженеров."
+msgstr "Квадраты, не имеющие изменений рельефа (фермы, орошения, шахты, крепости, аэродрома, железной дороги или дороги) не может быть подвергнут разрушению. Кроме этого, некоторые изменения и трансформации рельефа не могут быть возвращены в исходное состояние разрушением. Например, если Вы произвели орошение на лесном квадрате, превратив его в равнину, разрушение не превратит его назад в лес. Чтобы добиться этого результата, Вам придется использовать колонистов или инженеров."
 
 #: data/helpdata.txt:1209
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
-msgstr ""
-"Тип вашего правительства влияет на производительность ваших городов, на "
-"уровень счастья ваших граждан и на много других элементов игры."
+msgstr "Форма Вашего правления влияет на производительность Ваших городов, на уровень счастья Ваших граждан и на много других элементов игры."
 
 #: data/helpdata.txt:1212
 msgid ""
@@ -16468,12 +16200,7 @@ msgid ""
 "to change your form of government, you must start a revolution.  This will "
 "cause your civilization to undergo a period of Anarchy (lasting 1-5 turns); "
 "at the end of this time, you will be able to choose your new government."
-msgstr ""
-"Ваша цивилизация начинает при Деспотизме.  По мере развития ваших "
-"технологий, вы можете избрать другой тип правительства (см. список ниже). "
-"Для того, чтобы сменить тип правительства, вы должны произвести революцию. В "
-"результате вы окажетесь в периоде анархии (1-5 ходов), после чего вы сможете "
-"избрать новый тип правительства."
+msgstr "Ваша цивилизация начинает при Деспотизме.  По мере развития Ваших технологий, Вы можете избрать другую форму правления (см. список ниже). Для того, чтобы сменить форму правления, Вы должны произвести революцию. В результате Вы окажетесь в периоде анархии (1-5 ходов), после чего Вы сможете избрать новую форму правления."
 
 #: data/helpdata.txt:1219
 msgid ""
@@ -16482,12 +16209,7 @@ msgid ""
 "trade will be lost to corruption.  (If you do not have a capital, your "
 "cities will suffer extremely high levels of corruption.)  A Courthouse will "
 "reduce the level of corruption in a city."
-msgstr ""
-"Коррупция - это потери в торговле из-за неэффективности и жадности. При "
-"большинстве форм государственного устройства, чем дальше город от столицы, "
-"тем больший процент торговли он теряет из-за коррупции. (Если у вас нет "
-"столицы, вы будете страдать от очень высокого уровня коррупции). Суд "
-"уменьшит уровень коррупции в городе."
+msgstr "Коррупция - это потери в торговле из-за неэффективности и жадности. При большинстве форм государственного устройства, чем дальше город от столицы, тем больший процент торговли он теряет из-за коррупции. (Если у Вас нет столицы, Вы будете страдать от очень высокого уровня коррупции). Суд уменьшит уровень коррупции в городе."
 
 #: data/helpdata.txt:1226
 msgid ""
@@ -16496,12 +16218,7 @@ msgid ""
 "will be lost to waste.  (If you do not have a capital, your cities will "
 "suffer extremely high levels of waste.)  A Courthouse will reduce the level "
 "of waste in a city. Waste can result in your cities not building anything."
-msgstr ""
-"Растрата - это потери в торговле из-за неэффективности и жадности. При "
-"большинстве форм государственного устройства, чем дальше город от столицы, "
-"тем больший процент торговли он теряет из-за растраты. (Если у вас нет "
-"столицы, вы будете страдать от очень высокого уровня растраты). Суд уменьшит "
-"уровень растраты в городе."
+msgstr "Растрата - это потери в торговле из-за неэффективности и жадности. При большинстве форм государственного устройства, чем дальше город от столицы, тем больший процент торговли он теряет из-за растраты. (Если у Вас нет столицы, вы будете страдать от очень высокого уровня растраты). Суд уменьшит уровень растраты в городе."
 
 #: data/helpdata.txt:1233
 msgid ""
@@ -16509,11 +16226,7 @@ msgid ""
 "Democratic governments unless you give your citizens lots of luxuries to "
 "keep them happy.  When conquering other civilizations, it may be helpful to "
 "switch to one of the more militant styles of government."
-msgstr ""
-"Совет 1:  Атакующие военные кампании трудно проводить при Республиканском "
-"или Демократическом типе правительства, разве что вам удастся обеспечить "
-"высокий уровень роскоши в государстве. Во время захватнических войн возможно "
-"стоит переключиться на один из более агрессивных типов правительства."
+msgstr "Совет 1:  Атакующие военные кампании трудно проводить при Республиканском или Демократической форме правления, разве что Вам удастся обеспечить высокий уровень роскоши в государстве. Во время захватнических войн возможно стоит переключиться на одну из более агрессивных форм правления."
 
 #: data/helpdata.txt:1239
 msgid ""
@@ -16521,11 +16234,7 @@ msgid ""
 "easier to achieve under Republican and Democratic governments.  Consider "
 "switching to the Republic as soon as you can; gaining advanced technology "
 "early in the game puts you at an advantage."
-msgstr ""
-"Совет 2: Научный прогресс требует высоких уровней торговли, которые легче "
-"достичь при республиканском и демократическом типе управления. Подумайте о "
-"том, чтобы переключиться на республиканский тип управления как можно раньше: "
-"получение развитых технологий в начале игры дает преимущество."
+msgstr "Совет 2: Научный прогресс требует высоких уровней торговли, которые легче достичь при республиканской и демократической форме правления. Подумайте о том, чтобы переключиться на республиканскую форму правления как можно раньше: получение развитых технологий в начале игры дает преимущество."
 
 #: data/helpdata.txt:1248
 msgid " Civil War"
@@ -16537,12 +16246,7 @@ msgid ""
 "capital (palace).  Up to half of your cities will rebel and declare "
 "allegiance to a new (AI) leader, who will loot half of your treasury and "
 "retain all of your scientific advances."
-msgstr ""
-"Гражданская война приводит к ужасным последствиям для любой империи. "
-"Гражданская война происходит в случае потери столицы (дворца). До половины "
-"городов взбунтуется и перейдет под руководство нового игрока "
-"(компьютерного). Новый игрок заберет половину ваших денег и сохранит все "
-"ваши научные достижения."
+msgstr "Гражданская война приводит к ужасным последствиям для любой империи. Гражданская война происходит в случае потери столицы (дворца). До половины городов взбунтуется и перейдет под руководство нового игрока (компьютерного). Новый игрок заберет половину Ваших денег и сохранит все Ваши научные достижения."
 
 #: data/helpdata.txt:1255
 msgid ""
@@ -16558,21 +16262,14 @@ msgid ""
 "treated your people with kindness, you are more likely to retain their "
 "loyalty.  Each city that is celebrating reduces the chance of civil war, "
 "while each revolting city increases the likelihood."
-msgstr ""
-"Захват вашей столицы не всегда вызывает гражданскую войну. Если вы хорошо "
-"относились к гражданам вашей империи, шансы гражданской войны понижаются. "
-"Каждый город в состоянии праздника уменьшает вероятность гражданской войны, "
-"каждый город в состоянии беспорядков увеличивает эти шансы."
+msgstr "Захват Вашей столицы не всегда вызывает гражданскую войну. Если Вы хорошо относились к гражданам Вашей империи, шансы гражданской войны понижаются. Каждый город в состоянии праздника уменьшает вероятность гражданской войны, каждый город в состоянии беспорядков увеличивает эти шансы."
 
 #: data/helpdata.txt:1264
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
 "revolt than those more despotic in nature."
-msgstr ""
-"В дополнение, тип правительства также имеет значение для вероятности "
-"гражданской войны. Эта вероятность ниже для более демократических видов "
-"управления."
+msgstr "В дополнение, форма правления также имеет значение для вероятности гражданской войны. Эта вероятность ниже для более демократических форм правления."
 
 #: data/helpdata.txt:1268
 msgid ""
@@ -16593,12 +16290,7 @@ msgid ""
 "Freeciv.  When your citizens become unhappy, your cities will fall into "
 "disorder (which disrupts production); but when your citizens are happy, your "
 "cities will celebrate, and your production will increase greatly."
-msgstr ""
-"Жители городов могут быть счастливыми, нейтральными или несчастными. Одна из "
-"важнейших задач игрока - поддерживать их в счастливом (или по крайней мере "
-"нейтральном) состоянии. Когда жители становятся несчастными, в ваших городах "
-"начинаются беспорядки (что мешает производству), а если жители счастливы, в "
-"городе начинается праздник и производство сильно растет."
+msgstr "Жители городов могут быть счастливыми, нейтральными или несчастными. Одна из важнейших задач игрока - поддерживать их в счастливом (или по крайней мере нейтральном) состоянии. Когда жители становятся несчастными, в Ваших городах начинаются беспорядки (что мешает производству), а если жители счастливы, в городе начинается праздник и производство сильно растет."
 
 #: data/helpdata.txt:1287
 msgid ""
@@ -16607,13 +16299,7 @@ msgid ""
 "produces nothing.  Cities which are in disorder are easier for enemy "
 "Diplomats and Spies to incite to revolt. Prolonged disorder under Democracy "
 "can lead to a spontaneous revolution, overthrowing your government."
-msgstr ""
-"Если число несчастных жителей в городе больше, чем число счастливых жителей, "
-"в городе начинаются беспорядки. Когда в городе беспорядки, производство в "
-"этом городе останавливается. Города, в которых беспорядки, легко поддаются "
-"попыткам Дипломатов и Шпионов переманить их на свою сторону. При Демократии "
-"продолжающиеся беспорядки могут вызвать революцию, сбрасывающую ваше "
-"правительство."
+msgstr "Если число несчастных жителей в городе больше, чем число счастливых жителей, в городе начинаются беспорядки. Когда в городе беспорядки, производство в этом городе останавливается. Города, в которых беспорядки, легко поддаются попыткам Дипломатов и Шпионов переманить их на свою сторону. При Демократии продолжающиеся беспорядки могут вызвать революцию, сбрасывающую Ваше правительство."
 
 #: data/helpdata.txt:1294
 msgid ""
@@ -16622,31 +16308,21 @@ msgid ""
 "city, and the city has at least 3 citizens, then the city celebrates.  This "
 "is designated by the term \"Rapture\" on the City Report.  The effects of "
 "celebration vary depending on your government type:"
-msgstr ""
-"Однако если число счастливых жителей больше или равно числу нейтральных, и в "
-"городе нет несчастных жителей, и в городе по крайней мере 3 жителя, в городе "
-"начинается праздник. Это состояние обозначается как \"Бум\" в Городском "
-"Докладе. Эффекты празднования зависят от типа правительства:"
+msgstr "Однако если число счастливых жителей больше или равно числу нейтральных, и в городе нет несчастных жителей, и в городе по крайней мере 3 жителя, в городе начинается праздник. Это состояние обозначается как \"Бум\" в Городском отчете. Эффекты празднования зависят от формы правления:"
 
 #: data/helpdata.txt:1301
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
 "shields or trade)."
-msgstr ""
-" - При Анархии или Деспотизме вы не страдаете от стандартного штрафа "
-"производства для квадратов, производяших 2 или более единицы любого ресурса "
-"(еды, щитов или торговли)."
+msgstr " - При Анархии или Деспотизме Вы не страдаете от стандартного штрафа производства для квадратов, производяших 2 или более единицы любого ресурса (еды, щитов или торговли)."
 
 #: data/helpdata.txt:1305
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
 "produces at least 1 trade."
-msgstr ""
-" - При Монархии или Коммунизме ваш город приобретает торговые преимущества "
-"Республиканского/Демократического строя: +1 торговый ресурс в каждом "
-"квадрате, уже производящем торговые ресурсы."
+msgstr " - При Монархии или Коммунизме Ваш город приобретает торговые преимущества Республиканской/Демократической формы правления: +1 торговый ресурс в каждом квадрате, уже производящем торговые ресурсы."
 
 #: data/helpdata.txt:1309
 msgid ""
@@ -16666,13 +16342,7 @@ msgid ""
 "server) will be generated unhappy, instead of content.  If you have a large "
 "number of cities (depending on your government as well as the server option "
 "cityfactor), the limit on content citizens is reduced to 3."
-msgstr ""
-"Нормальное состояние жителя - нейтральное. Однако, по мере роста ваших "
-"городов, недостаток места делает жителей несчастными. Каждый житель после "
-"четвертого (зависит от опции unhappysize, 4 - ее значение по умолчанию) "
-"будет создан несчастным. Если у вас много городов (зависит от типа "
-"правительства и опции cityfactor), ограничение на нейтральных жителей будет "
-"уменьшено до 3."
+msgstr "Нормальное состояние жителя - нейтральное. Однако, по мере роста Ваших городов, недостаток места делает жителей несчастными. Каждый житель после четвертого (зависит от настройки сервера \"unhappysize\", 4 - ее значение по умолчанию) будет рожден несчастным. Если у Вас много городов (зависит от формы правления и настройки сервера \"cityfactor\"), ограничение на нейтральных жителей будет уменьшено до 3."
 
 #: data/helpdata.txt:1324
 msgid ""
@@ -16684,15 +16354,7 @@ msgid ""
 "After converting all content citizens to happy citizens, unhappy citizens "
 "are converted to happy and/or content.  Some wonders of the world have also "
 "effects on citizens' happiness (see the appropriate sections for details)."
-msgstr ""
-"Чтобы противодействовать несчастности жителей, вы можете строить здания, "
-"которые делают несчастных жителей - нейтральными (например Храм, Колизей или "
-"Собор, а при Демократии и Суд), а также определенные Чудеса Света, или "
-"переводить часть вашей торговли в производство Роскоши. Каждые 2 единицы "
-"роскоши, произведенные в городе делают одного нейтрального гражданина "
-"счастливым. Если нейтральных граждан не осталось, несчастные граждане "
-"превращаются в нейтральных и счастливых. Некоторые чудеса света влияют на "
-"счастливость жителей (см. соответсвующие секции)."
+msgstr "Чтобы противодействовать несчастности жителей, Вы можете строить здания, которые делают несчастных жителей - нейтральными (например Храм, Колизей или Собор, а при Демократии и Суд), а также определенные Чудеса Света, или переводить часть Вашей торговли в производство Роскоши. Каждые 2 единицы роскоши, произведенные в городе делают одного нейтрального гражданина счастливым. Если нейтральных граждан не осталось, несчастные граждане превращаются в нейтральных и счастливых. Некоторые чудеса света влияют на счастливость жителей (см. соответсвующие секции)."
 
 #: data/helpdata.txt:1334
 msgid ""
@@ -16708,17 +16370,7 @@ msgid ""
 "this case, since it counts as a Cathedral in every city or double effects of "
 "Cathedrals, depending on ruleset), or converting part of your trade into "
 "luxuries."
-msgstr ""
-"При многих формах правления присустствие военных соединений делает часть "
-"несчастных граждан нейтральными, вводя военное положение. Однако при "
-"Републике или Демократии военные соединения могут вызывать недовольство (см. "
-"секции о Правительстве). В этом случар обычные здания не имеют эффекта. Этой "
-"форме недовольства могут противодействовать Полицейских Участок и "
-"определенные Чудеса Света (Висячие Сады, Собор Баха, Лекарство от Рака, "
-"Театр Шекспира и Избирательное Право для Женщин. Заметьте однако, что "
-"Часовня Микеланджело не имеет эффекта, т.к. она эквивалентнаСобору в каждом "
-"городе, ливо удваивает эффект Соборов, в зависимости от набора правил), а "
-"также перевод части тороговли в роскошь."
+msgstr "При многих формах правления присутствие военных соединений делает часть несчастных граждан нейтральными, вводя военное положение. Однако при Републике или Демократии военные соединения могут вызывать недовольство (см. секции о Форме Правления). В этом случае обычные здания не имеют эффекта. Этой форме недовольства могут противодействовать Полицейский Участок и определенные Чудеса Света (Висячие Сады, Собор Баха, Лекарство От Рака, Театр Шекспира и Избирательное Право Для Женщин. Заметьте однако, что Часовня Микеланджело не имеет эффекта, т.к. она эквивалентна Собору в каждом городе, либо удваивает эффект Соборов, в зависимости от набора правил), а также перевод части тороговли в роскошь."
 
 #: data/helpdata.txt:1353
 msgid ""
@@ -16726,10 +16378,7 @@ msgid ""
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
 "game is over and you have won. (However it is possible for this option to be "
 "off as a server option.)"
-msgstr ""
-"Космическая гонка - это второй способ выиграть игру, кроме уничтожения всех "
-"противников. Если ваш корабль первым доберется до Альфа Центавра, игра "
-"закончится и вы выиграете. (Эту опцию можно отключить на сервере)"
+msgstr "Космическая гонка - это второй способ выиграть игру, кроме уничтожения всех противников. Если Ваш корабль первым доберется до Альфа Центавра, игра закончится и Вы выиграете. (Эту настройку можно отключить на сервере)"
 
 #: data/helpdata.txt:1359
 msgid ""
@@ -16739,51 +16388,34 @@ msgid ""
 "Component, and Space Module, under City Improvements.  (If there are no help "
 "texts for these items, it probably means the spacerace server option is off "
 "for your game.)"
-msgstr ""
-"Прежде, чем вы сможете строить части космического корабля, один из игроков "
-"должен построить чудо 'Программа Аполлон'. Вам также нужны определенные "
-"технологии для производства конкретных частей корабля, см. справку для "
-"Космических структур, компонентов и модулей. (Если вы не видите справки по "
-"этим пунктам, опция сервера связанная с Космической Гонкой скорее всего "
-"выключена."
+msgstr "Прежде, чем Вы сможете строить части космического корабля, один из игроков должен построить чудо 'Программа Аполлон'. Вам также нужны определенные технологии для производства конкретных частей корабля, см. справку для Космических структур, компонентов и модулей. (Если Вы не видите справки по этим пунктам, настройка сервера \"spacerace\" - Космическая Гонка скорее всего выключена.)"
 
 #: data/helpdata.txt:1367
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
 "players, select the player in the Players dialog and click \"Spaceship\"."
-msgstr ""
-"Когда вы начнете строить ваш корабль, вы сможете посмотреть на него с "
-"помощью команды \"Космический Корабль\" в меню Доклад. Чтобы посмотреть на "
-"Корабли своих протвников, выберите игрока из списка в диалоге Игроки и "
-"нажмите на \"Космический Корабль\"."
+msgstr "Когда Вы начнете строить корабль, Вы сможете посмотреть на него с помощью команды \"Космический Корабль\" в меню Отчеты. Чтобы посмотреть на Корабли своих противников, выберите игрока из списка в диалоге Игроки и нажмите на \"Космический Корабль\"."
 
 #: data/helpdata.txt:1372
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
 "spaceship, but it still counts as a win."
-msgstr ""
-"Если вероятность успеха меньше 100%, часть людей на корабле может погибнуть, "
-"что уменьшит ваш счет, но все равно зачтется как победа."
+msgstr "Если вероятность успеха меньше 100%, часть людей на корабле может погибнуть, что уменьшит Ваш счет, но все равно зачтется как победа."
 
 #: data/helpdata.txt:1376
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
-msgstr ""
-"Если столица цивилизации захватывается врагом, космический корабль будет "
-"потерян, так что защищайте вашу столицу!"
+msgstr "Если столица цивилизации захватывается врагом, космический корабль будет потерян, так что защищайте Вашу столицу!"
 
 #: data/helpdata.txt:1379
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
 "earlier.  The only other option is to capture their capital."
-msgstr ""
-"СОВЕТ: Если противник отправил космический корабль, попробуйте построить "
-"легкий корабль с большим количеством топлива и двигателей, чтобы ваш корабль "
-"успел первым. Единственный другой вариант - захватить столицу врага."
+msgstr "СОВЕТ: Если противник отправил космический корабль, попробуйте построить легкий корабль с большим количеством топлива и двигателей, чтобы Ваш корабль успел первым. Единственный другой вариант - захватить столицу врага."
 
 #: data/civ1/buildings.ruleset:51 data/civ2/buildings.ruleset:51
 #: data/default/buildings.ruleset:98 data/history/buildings.ruleset:51
@@ -16796,13 +16428,9 @@ msgid ""
 "the unit's movement points.  A unit must have some movement points left to "
 "be airlifted."
 msgstr ""
-"Позволяет городу производить воздушные соединения-ветераны. Также, "
-"поврежденные воздушные соединения которые остаются в городе в течение одного "
-"хода без движения восстанвливаются полностью.\n"
+"Позволяет городу производить воздушные соединения-ветераны. Также, поврежденные воздушные соединения которые остаются в городе в течение одного хода без движения восстанвливаются полностью.\n"
 "\n"
-"Два города с аэропортами позволяют переброску одного соедиения за ход. "
-"Переброска моментально переностит соединение из одного города в другой, "
-"используя все ходы соединения."
+"Два города с аэропортами позволяют переброску одного соедиения за ход. Переброска моментально переносит соединение из одного города в другой, используя все ходы соединения."
 
 #: data/civ1/buildings.ruleset:63 data/civ2/buildings.ruleset:63
 #: data/default/buildings.ruleset:110 data/history/buildings.ruleset:63
@@ -16863,11 +16491,7 @@ msgid ""
 "of a Cathedral, making an additional unhappy citizen content.  The discovery "
 "of Communism lessens the effect of a Cathedral, reducing by one the number "
 "of unhappy citizens made content."
-msgstr ""
-"Собор делает 3х несчастных гразждан нейтральными, делая поддержание порядка "
-"в городе более легким. Открытие Теологии увеличивает эффект Собора, делая "
-"дополнительного несчастного гражданина нейтральным. Открытие Коммунизма "
-"уменьшает эффект Собора на единицу."
+msgstr "Собор делает 3-х несчастных гразждан нейтральными, делая поддержание порядка в городе более легким. Открытие Теологии увеличивает эффект Собора, делая дополнительного несчастного гражданина нейтральным. Открытие Коммунизма уменьшает эффект Собора на единицу."
 
 #: data/civ2/buildings.ruleset:272 data/default/buildings.ruleset:319
 #: data/history/buildings.ruleset:272
@@ -16945,10 +16569,7 @@ msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
-msgstr ""
-"Количество сохраненной еды будет установлено в наполовину заполненное, когда "
-"город с Амбаром растет или уменьшается. Это позволяет городу расти быстрее и "
-"легче выдерживать голод."
+msgstr "Количество сохраненной еды будет установлено как наполовину заполненное, когда город с Амбаром растет или уменьшается. Это позволяет городу расти быстрее и легче выдерживать голод."
 
 #: data/civ1/buildings.ruleset:442 data/civ2/buildings.ruleset:425
 #: data/default/buildings.ruleset:474 data/history/buildings.ruleset:427
@@ -16960,9 +16581,7 @@ msgstr "Гавань"
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
-msgstr ""
-"Добавляет 1 лишний ресурс еды ко всем океанским квадратам. Город должен быть "
-"на побережье для постройки этого здания."
+msgstr "Добавляет 1 лишний ресурс еды ко всем океанским квадратам. Для постройки этого здания город должен быть на побережье."
 
 #: data/civ1/buildings.ruleset:469 data/civ2/buildings.ruleset:452
 #: data/default/buildings.ruleset:501 data/history/buildings.ruleset:454
@@ -16999,7 +16618,7 @@ msgstr "Библиотека"
 #: data/default/buildings.ruleset:566 data/history/buildings.ruleset:519
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
-msgstr "Увеличивает выход научной деятельности на 50%."
+msgstr "Увеличивает производство научной деятельности на 50%."
 
 #: data/civ1/buildings.ruleset:533 data/civ2/buildings.ruleset:518
 #: data/default/buildings.ruleset:571 data/history/buildings.ruleset:524
@@ -17054,13 +16673,9 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Уменьшает количество загразнений, производимых производством в городе на "
-"50%. Также увеличивает производство щитов Фабрикой или Заводом в городе: "
-"Фабрика и Атомная электростанция вместе дают 75% премию, а Фабрика, Завод и "
-"Атомная электростанция вместе дают 150% премию\n"
+"Уменьшает количество загрязнений, производимых производством в городе на 50%. Также увеличивает производство щитов Фабрикой или Заводом в городе: Фабрика и Атомная электростанция вместе дают 75% премию, а Фабрика, Завод и Атомная электростанция вместе дают 150% премию\n"
 "\n"
-"Город может иметь только одну из электростанций: Гидро, Тепловую(обычную) "
-"или Ядерную."
+"Город может иметь только одну из электростанций: Гидро, Тепловую(обычную) или Ядерную."
 
 #: data/civ1/buildings.ruleset:656 data/civ2/buildings.ruleset:643
 #: data/default/buildings.ruleset:699 data/history/buildings.ruleset:652
@@ -17094,14 +16709,9 @@ msgid ""
 "plunging into civil war. Losing your current palace also results in losing "
 "whatever spaceship you might have."
 msgstr ""
-"Делает город столицей и центром вашего правительства.  Коррупция в других "
-"городах зависит от того, насколько далеко они от столицы, за исключением "
-"Демократии и Коммунизма. Стоимость переманивания городов также зависит от "
-"расстояния до столицы (при всех формах управления).\n"
+"Делает город столицей и центром Вашего правительства.  Коррупция в других городах зависит от того, насколько далеко они от столицы, за исключением Демократии и Коммунизма. Стоимость переманивания городов также зависит от расстояния до столицы (при всех формах правления).\n"
 "\n"
-"Внимательно следите за вашей столицей, т.к. если вы ее потеряете, в вашей "
-"стране может начаться гражданская война. Потеря вашего дворца также вызывает "
-"потерю вашего космического корабля."
+"Внимательно следите за Вашей столицей, т.к. если Вы ее потеряете, в Вашей стране может начаться гражданская война. Потеря Вашего дворца также вызывает потерю Вашего космического корабля."
 
 #: data/civ1/buildings.ruleset:719 data/civ2/buildings.ruleset:707
 #: data/default/buildings.ruleset:763 data/history/buildings.ruleset:716
@@ -17114,9 +16724,7 @@ msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
 "governments."
-msgstr ""
-"Уменьшает несчастье, создаваемое военными соединениями вне города на 2 при "
-"Демократии и на 1 при Республике. Не действует при других типах управления."
+msgstr "Уменьшает несчастье, создаваемое военными соединениями вне города на 2 при Демократии и на 1 при Республике. Не действует при других формах правления."
 
 #: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:736
 #: data/default/buildings.ruleset:795 data/history/buildings.ruleset:748
@@ -17250,7 +16858,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:993 data/civ2/buildings.ruleset:984
 #: data/default/buildings.ruleset:1051 data/history/buildings.ruleset:1004
 msgid "Space Component"
-msgstr "Космической компонент"
+msgstr "Космический компонент"
 
 #: data/civ1/buildings.ruleset:1014 data/civ2/buildings.ruleset:1005
 #: data/default/buildings.ruleset:1072 data/history/buildings.ruleset:1025
@@ -17262,12 +16870,9 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
-"Космические компоненты бывают двух типов: Реактивные и Топливные. Каждая "
-"пара уменьшает время полета вашего космического корабля. Вы можете построить "
-"до 8 пар.\n"
+"Космические компоненты бывают двух типов: Реактивные и Топливные. Каждая пара уменьшает время полета Вашего космического корабля. Вы можете построить до 8 пар.\n"
 "\n"
-"Прежде, чем вы сможете строить любые части космического корабля, чудо "
-"Программа Аполлон должно быть построено любым игроком."
+"Прежде, чем Вы сможете строить любые части космического корабля, чудо Программа Аполлон должно быть построено любым игроком."
 
 #: data/civ1/buildings.ruleset:1024 data/civ2/buildings.ruleset:1015
 #: data/default/buildings.ruleset:1082 data/history/buildings.ruleset:1035
@@ -17293,17 +16898,15 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
-"Космические модули - это самые дорогие части космического корабля. "
-"Существуют 3 типа космических модулей:\n"
-"- Жилой модуль: предоставляет место для жизни 10,000 чесловек/\n"
+"Космические модули - это самые дорогие части космического корабля. Существуют 3 типа космических модулей:\n"
+"- Жилой модуль: предоставляет место для жизни 10,000 человек.\n"
 "\n"
 "- Модуль поддержки: предоставляет еду и воду для населения жилого модуля.\n"
 "\n"
 "- Солнечная батарея: предоставляет энергию для любых 2 других модулей.\n"
 "\n"
 "Вы можете построить до 4 модулей каждого типа.\n"
-"Прежде, чем вы сможете строить любые части космического корабля, чудо "
-"Программа Аполлон должно быть построено любым игроком."
+"Прежде, чем Вы сможете строить какие-либо части космического корабля, чудо Программа Аполлон должно быть построено любым из игроков."
 
 #: data/civ1/buildings.ruleset:1064 data/civ2/buildings.ruleset:1055
 #: data/default/buildings.ruleset:1122 data/history/buildings.ruleset:1075
@@ -17320,12 +16923,9 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
-"Космические структуры состовляют основу вашего корабля. Все другие части "
-"корабля должны быть соединены со структурами для работы. Вы можете построить "
-"до 32 структур.\n"
+"Космические структуры составляют основу Вашего корабля. Все другие части корабля должны быть соединены со структурами для работы. Вы можете построить до 32 структур.\n"
 "\n"
-"Прежде, чем вы сможете строить любые части космического корабля, чудо "
-"Программа Аполлон должно быть построено любым игроком."
+"Прежде, чем Вы сможете строить какие-либо части космического корабля, чудо Программа Аполлон должно быть построено любым из игроков."
 
 #: data/civ1/buildings.ruleset:1095 data/civ2/buildings.ruleset:1086
 #: data/default/buildings.ruleset:1153 data/history/buildings.ruleset:1106
@@ -17384,10 +16984,7 @@ msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
 "citizens are made content."
-msgstr ""
-"Делает одного несчастного гражданина нейтральным. Открытие Мистицизма и "
-"постройка чуда Оракул каждое удваивает этот эффект. Оба вместе делают "
-"нейтральными 4 граждан."
+msgstr "Делает одного несчастного гражданина нейтральным. Открытие Мистицизма удваивает этот эффект, также постройка чуда Оракул удваивает этот эффект. Оба вместе делают нейтральными 4-x граждан."
 
 #: data/civ1/buildings.ruleset:1211 data/civ1/techs.ruleset:559
 #: data/civ2/buildings.ruleset:1202 data/civ2/techs.ruleset:559
@@ -17486,9 +17083,7 @@ msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
 "technology advances."
-msgstr ""
-"Путешествие Дарвина вызвало открытие эволюции видов, что вызвало увеличение "
-"веры в науку. Дает два немедленных научных открытия."
+msgstr "Путешествие Дарвина привело к открытию эволюции видов, что вызвало увеличение веры в науку. Дает два немедленных научных открытия."
 
 #: data/civ1/buildings.ruleset:1402 data/civ2/buildings.ruleset:1395
 #: data/default/buildings.ruleset:1465 data/history/buildings.ruleset:1418
@@ -17500,9 +17095,7 @@ msgstr "Эйфелева башня"
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
-msgstr ""
-"Когда построена, отношение каждой цивилизации по отношению к вам улучшается "
-"на 25%."
+msgstr "Когда построена, отношение каждой цивилизации по отношению к Вам улучшается на 25%."
 
 #: data/civ1/buildings.ruleset:1432 data/civ2/buildings.ruleset:1425
 #: data/default/buildings.ruleset:1495 data/history/buildings.ruleset:1448
@@ -17646,7 +17239,7 @@ msgstr "Посольство Марко Поло"
 #: data/civ1/buildings.ruleset:1765 data/civ2/buildings.ruleset:1750
 #: data/default/buildings.ruleset:1821 data/history/buildings.ruleset:1774
 msgid "The player who owns it gets an embassy with all players."
-msgstr "Игрок имеющий это чудо, получает посольство со всеми игроками."
+msgstr "Игрок имеющий это чудо, получает посольствa со всеми игроками."
 
 #: data/civ1/buildings.ruleset:1770 data/civ2/buildings.ruleset:1755
 #: data/default/buildings.ruleset:1826 data/history/buildings.ruleset:1779
@@ -17661,11 +17254,7 @@ msgid ""
 "effect of a Cathedral, making an additional unhappy citizen content.  The "
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
-msgstr ""
-"Считается как наличие Собора во всех ваших городах. (Это делает 3х "
-"несчастных граждан счастливыми в каждом городе. Открытие Теологии "
-"увеличивает эффект на единицу, а открытие Коммунизма уменьшает его на "
-"единицу.)"
+msgstr "Считается как наличие Собора во всех Ваших городах. (Это делает 3-х несчастных граждан счастливыми в каждом городе. Открытие Теологии увеличивает эффект на единицу, а открытие Коммунизма уменьшает его на единицу.)"
 
 #: data/civ1/buildings.ruleset:1797 data/civ2/buildings.ruleset:1788
 #: data/default/buildings.ruleset:1859 data/history/buildings.ruleset:1812
@@ -17723,9 +17312,7 @@ msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
 "Anarchy."
-msgstr ""
-"Позволяет вам выбрать любое правительство, в том числе то, которое еще не "
-"было открыто вашей цивилизацией без переходного периода анархии."
+msgstr "Позволяет Вам выбрать любую форму правления, в том числе ту, которая еще не была открыта Вашей цивилизацией без переходного периода анархии."
 
 #: data/civ1/buildings.ruleset:1936 data/civ2/buildings.ruleset:1923
 #: data/default/buildings.ruleset:1994 data/history/buildings.ruleset:1947
@@ -17737,9 +17324,7 @@ msgstr "Военная академия Сон Цзу"
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
-msgstr ""
-"Все ваши новые наземные соединения становятся ветеранами (для всех городов). "
-"Шансы соединения стать ветераном после битвы увеличиваются с 50% до 100%."
+msgstr "Все Ваши новые наземные соединения становятся ветеранами (для всех городов). Шансы соединения стать ветераном после битвы увеличиваются с 50% до 100%."
 
 #: data/civ1/buildings.ruleset:1965 data/civ2/buildings.ruleset:1952
 #: data/default/buildings.ruleset:2023 data/history/buildings.ruleset:1976
@@ -17762,10 +17347,7 @@ msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
 "under Republic.  This wonder has no effect under other governments.)"
-msgstr ""
-"Считается как Полицейский Участок в каждом городе. (Т.е. в каждом городе "
-"уменьшает несчастье для военных соединений на 2 при Демократии и  на 1 при "
-"Республике. Не действует при других типах правления."
+msgstr "Считается как Полицейский Участок в каждом городе. (Т.е. в каждом городе уменьшает несчастье для военных соединений на 2 при Демократии и на 1 при Республике. Не действует при других формах правления."
 
 #: data/default/buildings.ruleset:2099 data/history/buildings.ruleset:2052
 msgid "Coinage"
@@ -17776,9 +17358,7 @@ msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
-msgstr ""
-"Это не обычное здание. Устанавливая производство в Монетный двор, вы "
-"направляете производство щитов на производство налогов (денег, монет)."
+msgstr "Это не обычное здание. Устанавливая производство в Монетный двор, Вы направляете производство щитов на производство налогов (денег, монет)."
 
 #: data/civ2/buildings.ruleset:330
 msgid ""
@@ -17872,9 +17452,7 @@ msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
 "(money)."
-msgstr ""
-"Это не обычное здание. Устанавливая производство в Капитализацию, вы "
-"направляете производство щитов на производство денег."
+msgstr "Это не обычное здание. Устанавливая производство в Капитализацию, Вы направляете производство щитов на производство денег."
 
 #: data/civ1/buildings.ruleset:152 data/civ1/buildings.ruleset:191
 #: data/civ1/buildings.ruleset:230
@@ -17930,19 +17508,14 @@ msgstr ""
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
-msgstr ""
-"Позволяет городу вырасти сверх 12 жителей. Акведук также необходим для роста "
-"свыше 8 жителей."
+msgstr "Позволяет городу вырасти сверх 12 жителей. Акведук также необходим для роста свыше 8 жителей."
 
 #: data/civ1/buildings.ruleset:1259
 msgid ""
 "All cities on the map become visible for the player who owns it.  It allows "
 "all players to start building spaceship parts (assuming they have researched "
 "the necessary technologies)."
-msgstr ""
-"Все города на карте становятся видны для игрока, который владеет этим. Также "
-"позволяет всем игрокам начать строительство деталей космического корабля "
-"(предполагается что они исследовали все необходимые технологии)."
+msgstr "Все города на карте становятся видны для игрока, который владеет этим чудом. Также позволяет всем игрокам начать строительство деталей космического корабля (предполагается что они исследовали все необходимые технологии)."
 
 #: data/civ1/buildings.ruleset:1544
 msgid ""
@@ -17957,9 +17530,7 @@ msgstr ""
 msgid ""
 "Makes two unhappy citizens content in every city of yours on the same "
 "continent where the wonder is built."
-msgstr ""
-"Делает двух несчастных граждан нейтральными в каждом вашем городе на том "
-"материке, на котором построено чудо."
+msgstr "Делает двух несчастных граждан нейтральными в каждом Вашем городе на том материке, на котором построено чудо."
 
 #: data/civ1/buildings.ruleset:1714
 msgid "Gives all sea units 1 additional movement point."
@@ -18073,22 +17644,15 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Анархия это просто  отсутствие любого правительсятва. При этом жители "
-"неорганизованы и не выполняют своей работы, тратя все деньги, не платя "
-"налогов и ничего не исследуя.\n"
+"Анархия это просто отсутствие любого правительства. При этом жители неорганизованы и не выполняют своей работы, тратя все деньги, не платя налогов и ничего не исследуя.\n"
 "\n"
-"Коррупция при анархии немного меньше, чем при Деспотизме, но мораль немного "
-"ниже.\n"
+"Коррупция при анархии немного меньше, чем при Деспотизме, но мораль немного ниже.\n"
 "\n"
-"При Анархии колонисты потребляют 1 единицу пищи. Клетки с продуктивностью "
-"(пищей, наукой) больше двух теряют 1 (т.е. вместо 4 будут добывать 3, если "
-"только в городе нет празднования; см. раздел Счастье)\n"
+"При Анархии колонисты потребляют 1 единицу пищи. Клетки с продуктивностью (пищей, наукой) больше двух теряют 1 (т.е. вместо 4 будут добывать 3, если только в городе нет празднования; см. раздел Счастье)\n"
 "\n"
-"Каждый город может бесплатно поддеживать столько единиц техники, каков "
-"размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
+"Каждый город может бесплатно поддеживать столько единиц техники, каков размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
 "\n"
-"При помощи единицы военной техники в городах вы можете подавить 1 "
-"несчастного жителя, делая его нейтральным."
+"При помощи единицы военной техники в городах Вы можете подавить 1 несчастного жителя, делая его нейтральным."
 
 #: data/civ1/governments.ruleset:195 data/civ2/governments.ruleset:193
 #: data/default/governments.ruleset:194 data/history/governments.ruleset:194
@@ -18132,20 +17696,15 @@ msgid ""
 msgstr ""
 "При Деспотизме Вы - абсолютный монарх.\n"
 "\n"
-"Уровень коррупции при деспотизме выше, чем при всех прочих формах "
-"правления.\n"
+"Уровень коррупции при деспотизме выше, чем при всех прочих формах правления.\n"
 "\n"
-"Колонисты потребляют 1 единицу пиши. Клетки с продуктивностью (пищей, "
-"наукой) больше двух теряют 1 (т.е. вместо 4 будут добывать 3, если только в "
-"городе нет празднования; см. раздел Счастье)\n"
+"Колонисты потребляют 1 единицу пиши. Клетки с продуктивностью (пищей, наукой) больше двух теряют 1 (т.е. вместо 4 будут добывать 3, если только в городе нет празднования; см. раздел Счастье)\n"
 "\n"
 "Максимальный уровень налогов равен 60%\n"
 "\n"
-"Каждый город может бесплатно поддеживать столько соединений, каков размер "
-"города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
+"Каждый город может бесплатно поддеживать столько соединений, каков размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
 "\n"
-"При помощи военного соединения в городах вы можете подавить 1 несчастного "
-"жителя, делая его нейтральным."
+"При помощи военного соединения в городах Вы можете подавить 1 несчастного жителя, делая его нейтральным."
 
 #: data/civ1/governments.ruleset:272 data/civ1/techs.ruleset:367
 #: data/civ2/governments.ruleset:272 data/civ2/techs.ruleset:367
@@ -18326,34 +17885,23 @@ msgid ""
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
 msgstr ""
-"При Республиканском правительстве граждане выбирают представителей, которые "
-"будут управлять ими; так как избранный лидер должен сохранять популярность, "
-"чтобы не потерять управление, граждане получают большую степень свободы.  "
-"Жители при Республике легко становятся несчастными, но самодостаточность "
-"Ваших граждан позволяет больший уровень торговли.\n"
+"При Республиканской форме правления граждане выбирают представителей, которые будут управлять ими; так как избранный лидер должен сохранять популярность, чтобы не потерять управление, граждане получают большую степень свободы.  Жители при Республике легко становятся несчастными, но самодостаточность Ваших граждан позволяет больший уровень торговли.\n"
 "\n"
 "Города при Республике слабо подвержены коррупции.\n"
 "\n"
-"Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по "
-"крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
+"Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
 "\n"
-"Если в Республиканском городе проходит празднование, то город растет со "
-"скоростью 1 житель/ход.  См. раздел Счастье.\n"
+"Если в Республиканском городе проходит празднование, то город растет со скоростью 1 житель/ход.  См. раздел Счастье.\n"
 "\n"
-"Максимальный уровень налогов, науки или роскоши, который Вы можете "
-"установить, равен 80%.\n"
+"Максимальный уровень налогов, науки или роскоши, который Вы можете установить, равен 80%.\n"
 "\n"
-"При Республике каждое военное соединение требует поддержки в один ресурс.  "
-"Вдобавок, следующие соединения считаются агрессивными:\n"
+"При Республике каждое военное соединение требует поддержки в один ресурс.  Вдобавок, следующие соединения считаются агрессивными:\n"
 "\n"
-"- Соединения с атакой большей 0, которые находятся вне городов и вне "
-"крепостей, находящихся в радиусе 3 квадратов от дружественного города.\n"
+"- Соединения с атакой большей 0, которые находятся вне городов и вне крепостей, находящихся в радиусе 3 квадратов от дружественного города.\n"
 "\n"
-"- Воздушные соединения (включая ракеты и вертолеты, но не истребители) с "
-"атакой большей 0, независимо от их местоположения.\n"
+"- Воздушные соединения (включая ракеты и вертолеты, но не истребители) с атакой большей 0, независимо от их местоположения.\n"
 "\n"
-"Горожане спокойно относятся к одному агрессивному соединению; каждое "
-"последующее агрессивное соединение делает одного горожанина несчастным."
+"Горожане спокойно относятся к одному агрессивному соединению; каждое последующее агрессивное соединение делает одного горожанина несчастным."
 
 #: data/civ1/governments.ruleset:516 data/civ1/techs.ruleset:169
 #: data/civ2/governments.ruleset:613 data/civ2/techs.ruleset:169
@@ -18465,22 +18013,15 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Анархия это просто  отсутствие любого правительсятва. При этом жители "
-"неорганизованы и не выполняют своей работы, тратя все деньги, не платя "
-"налогов и ничего не исследуя.\n"
+"Анархия это просто отсутствие любого правительства. При этом жители неорганизованы и не выполняют своей работы, тратя все деньги, не платя налогов и ничего не исследуя.\n"
 "\n"
-"Коррупция и растраты при анархии немного меньше, чем при Деспотизме, но люди "
-"немного более несчастливы.\n"
+"Коррупция и растраты при анархии немного меньше, чем при Деспотизме, но люди немного более несчастливы.\n"
 "\n"
-"При Анархии колонисты потребляют 1 единицу пищи. Клетки с продуктивностью "
-"(пищей, наукой) больше двух теряют 1 (т.е. вместо 3 будут добывать 2, если "
-"только в городе нет празднования; см. раздел Счастье)\n"
+"При Анархии колонисты потребляют 1 единицу пищи. Клетки с продуктивностью (пищей, наукой) больше двух теряют 1 (т.е. вместо 3 будут добывать 2, если только в городе нет празднования; см. раздел Счастье)\n"
 "\n"
-"Каждый город может бесплатно поддеживать столько единиц техники, каков "
-"размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
+"Каждый город может бесплатно поддеживать столько единиц техники, каков размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
 "\n"
-"При помощи единицы военной техники в городах вы можете подавить 1 "
-"несчастного жителя, делая его нейтральным."
+"При помощи единицы военной техники в городах Вы можете подавить 1 несчастного жителя, делая его нейтральным."
 
 #: data/civ2/governments.ruleset:244 data/history/governments.ruleset:245
 msgid ""
@@ -18508,20 +18049,15 @@ msgid ""
 msgstr ""
 "При Деспотизме Вы - абсолютный монарх.\n"
 "\n"
-"Уровень коррупции при деспотизме выше, чем при всех прочих формах "
-"правления.\n"
+"Уровень коррупции при деспотизме выше, чем при всех прочих формах правления.\n"
 "\n"
-"Колонисты потребляют 1 единицу пищи. Клетки с продуктивностью (пищей, "
-"наукой) больше двух теряют 1 (т.е. вместо 3 будут добывать 2, если только в "
-"городе нет празднования; см. раздел Счастье)\n"
+"Колонисты потребляют 1 единицу пищи. Клетки с продуктивностью (пищей, наукой) больше двух теряют 1 (т.е. вместо 3 будут добывать 2, если только в городе нет празднования; см. раздел Счастье)\n"
 "\n"
 "Максимальный уровень налогов равен 60%\n"
 "\n"
-"Каждый город может бесплатно поддеживать столько соединений, каков размер "
-"города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
+"Каждый город может бесплатно поддеживать столько соединений, каков размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
 "\n"
-"При помощи военного соединения в городах вы можете подавить 1 несчастного "
-"жителя, делая его нейтральным."
+"При помощи военного соединения в городах Вы можете подавить 1 несчастного жителя, делая его нейтральным."
 
 #: data/civ2/governments.ruleset:323 data/history/governments.ruleset:324
 msgid ""
@@ -18727,34 +18263,23 @@ msgid ""
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
 msgstr ""
-"При Республиканском правительстве граждане выбирают представителей, которые "
-"будут управлять ими; так как избранный лидер должен сохранять популярность, "
-"чтобы не потерять управление, граждане получают большую степень свободы.  "
-"Жители при Республике легко становятся несчастными, но самодостаточность "
-"Ваших граждан позволяет больший уровень торговли.\n"
+"При Республиканской форме правления граждане выбирают представителей, которые будут управлять ими; так как избранный лидер должен сохранять популярность, чтобы не потерять управление, граждане получают большую степень свободы.  Жители при Республике легко становятся несчастными, но самодостаточность Ваших граждан позволяет больший уровень торговли.\n"
 "\n"
 "Города при Республике слабо подвержены коррупции.\n"
 "\n"
-"Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по "
-"крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
+"Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
 "\n"
-"Если в Республиканском городе проходит празднование, то город растет со "
-"скоростью 1 житель/ход.  См. раздел Счастье.\n"
+"Если в Республиканском городе проходит празднование, то город растет со скоростью 1 житель/ход.  См. раздел Счастье.\n"
 "\n"
-"Максимальный уровень налогов, науки или роскоши, который Вы можете "
-"установить, равен 80%.\n"
+"Максимальный уровень налогов, науки или роскоши, который Вы можете установить, равен 80%.\n"
 "\n"
-"При Республике каждое военное соединение требует поддержки в один ресурс.  "
-"Вдобавок, следующие соединения считаются агрессивными:\n"
+"При Республике каждое военное соединение требует поддержки в один ресурс.  Вдобавок, следующие соединения считаются агрессивными:\n"
 "\n"
-"- Соединения с атакой большей 0, которые находятся вне городов и вне "
-"крепостей, находящихся в радиусе 3 квадратов от дружественного города.\n"
+"- Соединения с атакой большей 0, которые находятся вне городов и вне крепостей, находящихся в радиусе 3 квадратов от дружественного города.\n"
 "\n"
-"- Воздушные соединения (включая ракеты и вертолеты, но не истребители) с "
-"атакой большей 0, независимо от их местоположения.\n"
+"- Воздушные соединения (включая ракеты и вертолеты, но не истребители) с атакой большей 0, независимо от их местоположения.\n"
 "\n"
-"Горожане спокойно относятся к одному агрессивному соединению; каждое "
-"последующее агрессивное соединение делает одного горожанина несчастным."
+"Горожане спокойно относятся к одному агрессивному соединению; каждое последующее агрессивное соединение делает одного горожанина несчастным."
 
 #: data/civ2/governments.ruleset:665 data/history/governments.ruleset:576
 msgid ""
@@ -18983,31 +18508,21 @@ msgid ""
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
 msgstr ""
-"При Республиканском правительстве граждане выбирают представителей, которые "
-"будут управлять ими; так как избранный лидер должен сохранять популярность, "
-"чтобы не потерять управление, граждане получают большую степень свободы.  "
-"Жители при Республике легко становятся несчастными, но самодостаточность "
-"Ваших граждан позволяет больший уровень торговли.\n"
+"При Республиканской форме правления граждане выбирают представителей, которые будут управлять ими; так как избранный лидер должен сохранять популярность, чтобы не потерять управление, граждане получают большую степень свободы.  Жители при Республике легко становятся несчастными, но самодостаточность Ваших граждан позволяет больший уровень торговли.\n"
 "\n"
 "Города при Республике слабо подвержены коррупции.\n"
 "\n"
-"Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по "
-"крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
+"Колонисты потребляют две единицы пищи за ход.  Квадраты, производящие по крайней мере 1 единицу торговли, получают бонус в 1 единицу торговли.\n"
 "\n"
-"Если в Республиканском городе проходит празднование, то город растет со "
-"скоростью 1 житель/ход.  См. раздел Счастье.\n"
+"Если в Республиканском городе проходит празднование, то город растет со скоростью 1 житель/ход.  См. раздел Счастье.\n"
 "\n"
-"При Республике каждое военное соединение требует поддержки в один ресурс.  "
-"Вдобавок, следующие соединения считаются агрессивными:\n"
+"При Республике каждое военное соединение требует поддержки в один ресурс.  Вдобавок, следующие соединения считаются агрессивными:\n"
 "\n"
-"- Соединения с атакой большей 0, которые находятся вне городов и вне "
-"крепостей, находящихся в радиусе 3 квадратов от дружественного города.\n"
+"- Соединения с атакой большей 0, которые находятся вне городов и вне крепостей, находящихся в радиусе 3 квадратов от дружественного города.\n"
 "\n"
-"- Воздушные соединения (включая ракеты и вертолеты) с атакой большей 0, "
-"независимо от их местоположения.\n"
+"- Воздушные соединения (включая ракеты и вертолеты) с атакой большей 0, независимо от их местоположения.\n"
 "\n"
-"Горожане спокойно относятся к одному агрессивному соединению; каждое "
-"последующее агрессивное соединение делает одного горожанина несчастным."
+"Горожане спокойно относятся к одному агрессивному соединению; каждое последующее агрессивное соединение делает одного горожанина несчастным."
 
 #: data/civ1/governments.ruleset:567
 msgid ""
@@ -19402,9 +18917,7 @@ msgstr "Философия"
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
-msgstr ""
-"Величайшие философы всего мира присоединились к вашей цивилизации; вы "
-"получили немедленный прогресс."
+msgstr "Величайшие философы всего мира присоединились к Вашей цивилизации; Вы получили немедленнoe открытие."
 
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
 #: data/default/techs.ruleset:544 data/history/techs.ruleset:418
@@ -19554,14 +19067,9 @@ msgid ""
 "Roads and railroads can only be built on River squares if your civilization "
 "has learned Bridge Building technology."
 msgstr ""
-"На любом из типов рельефа (кроме Океана) может находиться Река. Река "
-"добавляет один ресурс торговли к ресурсам, производимым этим квадратом. Она "
-"также увеличивает защитный фактор квдарта на 50%. Наконец, наземные "
-"соединения могут двигаться по реке (но не по диагонали к ней), стоимость "
-"такого движения - 1/3 единицы движения.\n"
+"На любом из типов рельефа (кроме Океана) может находиться Река. Река добавляет один ресурс торговли к ресурсам, производимым этим квадратом. Она также увеличивает защитный фактор квдарта на 50%. Наконец, наземные соединения могут двигаться по реке (но не по диагонали к ней), стоимость такого движения - 1/3 единицы движения.\n"
 "\n"
-"Дороги и железные дороги могут быть построены на квадратах с Рекой, если "
-"ваша цивилизация научилась Мостостроению."
+"Дороги и железные дороги могут быть построены на квадратах с Рекой, если Ваша цивилизация научилась Мостостроению."
 
 #: data/civ2/terrain.ruleset:152 data/default/terrain.ruleset:152
 #: data/history/terrain.ruleset:152
@@ -19837,11 +19345,9 @@ msgid ""
 "Roads and railroads can only be built on River squares if your civilization "
 "has learned Bridge Building technology."
 msgstr ""
-"В дополнение к рыбной ловле, Реки являются великолепными торговыми и "
-"военными путями.\n"
+"В дополнение к рыбной ловле, Реки являются великолепными торговыми и военными путями.\n"
 "\n"
-"Дороги и железные дороги могут быть построены на Речных квадратах только "
-"после того, как ваша цивилизация научится Мостостроению."
+"Дороги и железные дороги могут быть построены на Речных квадратах только после того, как Ваша цивилизация научится Мостостроению."
 
 #: data/civ1/units.ruleset:75 data/civ2/units.ruleset:66
 #: data/default/units.ruleset:156 data/history/units.ruleset:139
@@ -19966,21 +19472,20 @@ msgid ""
 "\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
-"Некоторое количество партизан вы получаете даром, когда противник "
-"захватывает ваш город при выполнении следующих условий:\n"
+"Некоторое количество партизан Вы получаете даром, когда противник захватывает Ваш город при выполнении следующих условий:\n"
 "\n"
 " - Партизанская Война должна быть изобретена хотя бы одним игроком.\n"
 "\n"
-" - Город должен был быть построен вами.\n"
+" - Город должен был быть построен Вами.\n"
 "\n"
 " - Вы должны знать Коммунизм и Порох\n"
 "\n"
-" - Ваш тип правительства должен быть либо Коммунизм, либо Демократия."
+" - Ваша форма правления должна быть либо Коммунизм, либо Демократия."
 
 #: data/civ1/units.ruleset:376 data/civ2/units.ruleset:398
 #: data/default/units.ruleset:482 data/history/units.ruleset:465
 msgid "Alpine Troops"
-msgstr "Альпийские войска"
+msgstr "Альпийские стрелки"
 
 #: data/civ1/units.ruleset:404 data/civ2/units.ruleset:426
 #: data/default/units.ruleset:510 data/history/units.ruleset:493
@@ -20093,11 +19598,7 @@ msgid ""
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
 "health for every turn not spent in a city, unless you have the United "
 "Nations wonder."
-msgstr ""
-"Вертолет - очень мощное соединение, т.к. оно может летать и в то же время "
-"захватывать города. Необходимо проявлять внимание, т.к. вертолеты теряют "
-"небольшое количество здоровья каждый ход, когда они не в городе, разве что у "
-"вас есть ООН."
+msgstr "Вертолет - очень мощное соединение, т.к. оно может летать и в то же время захватывать города. Необходимо проявлять внимание, т.к. вертолеты теряют небольшое количество здоровья каждый ход, когда они не в городе, разве что у Вас есть ООН."
 
 #: data/civ1/units.ruleset:942 data/civ2/units.ruleset:974
 #: data/default/units.ruleset:1058 data/history/units.ruleset:1041
@@ -20215,9 +19716,7 @@ msgstr "Ракета короткой дальности"
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
-msgstr ""
-"Совет: Несколько таких ракет могут успешно уничтожать все корабли противника "
-"в ваших водах."
+msgstr "Совет: Несколько таких ракет могут успешно уничтожать все корабли противника в Ваших водах."
 
 #: data/civ1/units.ruleset:1371 data/civ2/units.ruleset:1420
 #: data/default/units.ruleset:1504 data/history/units.ruleset:1487
@@ -20284,22 +19783,15 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
-"- Дипломат может создать посольство у другой цивилизации, входя в город этой "
-"цивилизации.\n"
+"- Дипломат может создать посольство у другой цивилизации, входя в город этой цивилизации.\n"
 "\n"
-"- Дипломаты также могут попытаться саботировать вражеское производство, или "
-"украсть технологию из вражеского города. (Из каждого города можно украсть "
-"только одну технологию).\n"
+"- Дипломаты также могут попытаться саботировать вражеское производство, или украсть технологию из вражеского города. (Из каждого города можно украсть только одну технологию).\n"
 "\n"
-"- Дипломат может подкупить вражеское соединение, если оно только одно на "
-"данном квадрате.\n"
+"- Дипломат может подкупить вражеское соединение, если оно только одно на данном квадрате.\n"
 "\n"
-"- Дипломат может начать революцию во вражеском городе, и превратить его в "
-"ваш, если у вас есть деньги!\n"
+"- Дипломат может начать революцию во вражеском городе, и превратить его в Ваш, если у Вас есть деньги!\n"
 "\n"
-"- В определенных стратегиях орды димпломатов могут использоваться для "
-"насенений серьезного вреда противнику. Неудивительно, что дипломаты часто "
-"рассматриваются с подозрением и страхом."
+"- В определенных стратегиях орды димпломатов могут использоваться для насенений серьезного вреда противнику. Неудивительно, что дипломаты часто рассматриваются с подозрением и страхом."
 
 #: data/civ1/units.ruleset:1464 data/civ2/units.ruleset:1513
 #: data/default/units.ruleset:1597 data/history/units.ruleset:1580
@@ -20394,10 +19886,7 @@ msgstr "Вождь варваров"
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
-msgstr ""
-"Когда лидер варваров убивается на квадрате без каких-либо защитных "
-"соединений, вы получаете выкуп в 100 золотых монет, но только если вы убили "
-"лидера наземным соединением или вертолетом."
+msgstr "Когда лидер варваров убивается на квадрате без каких-либо защитных соединений, Вы получаете выкуп в 100 золотых монет, но только если Вы убили лидера наземным соединением или вертолетом."
 
 #: data/default/units.ruleset:1775
 msgid "AWACS"
@@ -20476,30 +19965,19 @@ msgid ""
 "ready to fix the fallout on the same turn it occurs!  This minimizes the "
 "chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"Вы можете построить ядерные боеголовки, когда исследуете необходимые "
-"технологии и кто-нибудь из игроков построит Проект Манхэттен.\n"
+"Вы можете построить ядерные боеголовки, когда исследуете необходимые технологии и кто-нибудь из игроков построит Проект Манхэттен.\n"
 "\n"
-"При взрыве, атомная бомба уничтожит все соединения(в том числе и "
-"дружественные) в квадрате 3x3. При взрыве в городе, население уменьшится в 2 "
-"раза и прилегающие площади будут загрязнены радиацией. \n"
+"При взрыве, атомная бомба уничтожит все соединения(в том числе и дружественные) в квадрате 3x3. При взрыве в городе, население уменьшится в 2 раза и прилегающие площади будут загрязнены радиацией. \n"
 "\n"
-"Совет: Загрязнения не происходит в океане, поэтому атомные бомбы являются "
-"отличным оружием против вражеских кораблей.\n"
+"Совет: Загрязнения не происходит в океане, поэтому атомные бомбы являются отличным оружием против вражеских кораблей.\n"
 "\n"
-"Совет: Бывают ситуации, когда вы в основном завоевали вражескую территорию, "
-"но осталось несколько слишком сильных городов. Прежде чем использовать "
-"атомные бомбы, заранее подтяните поближе инженеров к предполагаемому "
-"эпицентру взрыва, и сразу послу взрыва начинайте очищать территории. Это "
-"уменьшит вероятность возникновения ядерной зимы."
+"Совет: Бывают ситуации, когда Вы в основном завоевали вражескую территорию, но осталось несколько слишком сильных городов. Прежде чем использовать атомные бомбы, заранее подтяните поближе инженеров к предполагаемому эпицентру взрыва, и сразу послу взрыва начинайте очищать территории. Это уменьшит вероятность возникновения ядерной зимы."
 
 #: data/civ1/units.ruleset:1610
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
-msgstr ""
-"Если вы убиваете вождя варваров в квадрате, где нет других соединений, вы "
-"получаете 100 золотых выкупа, но только если вы сделали это наземным "
-"соединением."
+msgstr "Если Вы убиваете вождя варваров в квадрате, где нет других соединений, Вы получаете 100 золотых выкупа, но только если Вы сделали это наземным соединением."
 
 #: data/nation/american.ruleset:3
 msgid "American"
