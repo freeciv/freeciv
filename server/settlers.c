@@ -554,8 +554,8 @@ static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
 /**************************************************************************
   Calculate the benefit of irrigating the given tile.
 
-    (mx, my) is the map position of the tile.
-    (cx, cy) is the city position of the tile with respect to pcity.
+    (map_x, map_y) is the map position of the tile.
+    (city_x, city_y) is the city position of the tile with respect to pcity.
     pplayer is the player under consideration.
 
   The return value is the goodness of the tile after the irrigation.  This
@@ -564,54 +564,52 @@ static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
   values).
 **************************************************************************/
 static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
-			    int cx, int cy, int mx, int my)
+			    int city_x, int city_y, int map_x, int map_y)
 {
-  int m;
-  struct tile *ptile = map_get_tile(mx, my);
-  enum tile_terrain_type t = ptile->terrain;
-  struct tile_type *type = get_tile_type(t);
-  enum tile_special_type s = ptile->special;
+  int goodness;
+  struct tile *ptile = map_get_tile(map_x, map_y);
+  enum tile_terrain_type old_terrain = ptile->terrain;
+  enum tile_special_type old_special = ptile->special;
+  struct tile_type *type = get_tile_type(old_terrain);
+  enum tile_terrain_type new_terrain = type->irrigation_result;
 
-  if (ptile->terrain != type->irrigation_result
-      && type->irrigation_result != T_LAST) {
+  if (old_terrain != new_terrain && new_terrain != T_LAST) {
     /* Irrigation would change the terrain type, clearing the mine
      * in the process.  Calculate the benefit of doing so. */
-    if (ptile->city && is_ocean(type->irrigation_result)) {
+    if (ptile->city && terrain_has_flag(new_terrain, TER_NO_CITIES)) {
       return -1;
     }
-    ptile->terrain = type->irrigation_result;
-    map_clear_special(mx, my, S_MINE);
-    m = city_tile_value(pcity, cx, cy, 0, 0);
-    ptile->terrain = t;
-    ptile->special = s;
-    return m;
-  } else if (ptile->terrain == type->irrigation_result
+    ptile->terrain = new_terrain;
+    map_clear_special(map_x, map_y, S_MINE);
+    goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+    ptile->terrain = new_terrain;
+    ptile->special = old_special;
+    return goodness;
+  } else if (old_terrain == new_terrain
 	     && !tile_has_special(ptile, S_IRRIGATION)
-	     && !ptile->city
-	     && is_wet_or_is_wet_cardinal_around(pplayer, mx, my)) {
+	     && is_wet_or_is_wet_cardinal_around(pplayer, map_x, map_y)) {
     /* The tile is currently unirrigated; irrigating it would put an
      * S_IRRIGATE on it replacing any S_MINE already there.  Calculate
      * the benefit of doing so. */
-    map_clear_special(mx, my, S_MINE);
-    map_set_special(mx, my, S_IRRIGATION);
-    m = city_tile_value(pcity, cx, cy, 0, 0);
-    ptile->special = s;
-    assert(ptile->terrain == t);
-    return m;
-  } else if (ptile->terrain == type->irrigation_result
+    map_clear_special(map_x, map_y, S_MINE);
+    map_set_special(map_x, map_y, S_IRRIGATION);
+    goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+    ptile->special = old_special;
+    assert(ptile->terrain == old_terrain);
+    return goodness;
+  } else if (old_terrain == new_terrain
 	     && tile_has_special(ptile, S_IRRIGATION)
 	     && !tile_has_special(ptile, S_FARMLAND)
 	     && player_knows_techs_with_flag(pplayer, TF_FARMLAND)
-	     && !ptile->city
-	     && is_wet_or_is_wet_cardinal_around(pplayer, mx, my)) {
+	     && is_wet_or_is_wet_cardinal_around(pplayer, map_x, map_y)) {
     /* The tile is currently irrigated; irrigating it more puts an
      * S_FARMLAND on it.  Calculate the benefit of doing so. */
     assert(!tile_has_special(ptile, S_MINE));
-    map_set_special(mx, my, S_FARMLAND);
-    m = city_tile_value(pcity, cx, cy, 0, 0);
-    map_clear_special(mx, my, S_FARMLAND);
-    assert(ptile->terrain == t && ptile->special == s);
-    return m;
+    map_set_special(map_x, map_y, S_FARMLAND);
+    goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+    map_clear_special(map_x, map_y, S_FARMLAND);
+    assert(ptile->terrain == old_terrain && ptile->special == old_special);
+    return goodness;
   } else {
     return -1;
   }
@@ -620,8 +618,8 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 /**************************************************************************
   Calculate the benefit of mining the given tile.
 
-    (mx, my) is the map position of the tile.
-    (cx, cy) is the city position of the tile with respect to pcity.
+    (map_x, map_y) is the map position of the tile.
+    (city_x, city_y) is the city position of the tile with respect to pcity.
     pplayer is the player under consideration.
 
   The return value is the goodness of the tile after the mining.  This
@@ -629,73 +627,104 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int ai_calc_mine(struct city *pcity, int cx, int cy, int mx, int my)
+static int ai_calc_mine(struct city *pcity,
+			int city_x, int city_y, int map_x, int map_y)
 {
-  int m;
-  struct tile *ptile = map_get_tile(mx, my);
-  enum tile_special_type s = ptile->special;
+  int goodness;
+  struct tile *ptile = map_get_tile(map_x, map_y);
+  enum tile_terrain_type old_terrain = ptile->terrain;
+  enum tile_special_type old_special = ptile->special;
+  struct tile_type *type = get_tile_type(old_terrain);
+  enum tile_terrain_type new_terrain = type->mining_result;
 
-  /* FIXME: currently this only handles building a mine on a hill or
-   * mountain terrain.  It should instead work the same way as
-   * ai_calc_irrigate does, by looking at mining_result. */
-
-  if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS)
-      && !tile_has_special(ptile, S_MINE)) {
-    /* The tile is currently unmined; mining it would put an S_MINE
-     * on it replacing any S_IRRIGATION/S_FARMLAND already there.  Calculate
+  if (old_terrain != new_terrain && new_terrain != T_LAST) {
+    /* Mining would change the terrain type, clearing the irrigation
+     * in the process.  Calculate the benefit of doing so. */
+    if (ptile->city && terrain_has_flag(new_terrain, TER_NO_CITIES)) {
+      return -1;
+    }
+    ptile->terrain = new_terrain;
+    map_clear_special(map_x, map_y, S_IRRIGATION);
+    map_clear_special(map_x, map_y, S_FARMLAND);
+    goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+    ptile->terrain = old_terrain;
+    ptile->special = old_special;
+    return goodness;
+  } else if (old_terrain == new_terrain
+	     && !tile_has_special(ptile, S_MINE)) {
+    /* The tile is currently unmined; mining it would put an S_MINE on it
+     * replacing any S_IRRIGATION/S_FARMLAND already there.  Calculate
      * the benefit of doing so. */
-    map_clear_special(mx, my, S_IRRIGATION);
-    map_clear_special(mx, my, S_FARMLAND);
-    map_set_special(mx, my, S_MINE);
-    m = city_tile_value(pcity, cx, cy, 0, 0);
-    ptile->special = s;
-    return m;
+    map_clear_special(map_x, map_y, S_IRRIGATION);
+    map_clear_special(map_x, map_y, S_FARMLAND);
+    map_set_special(map_x, map_y, S_MINE);
+    goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+    ptile->special = old_special;
+    assert(ptile->terrain == old_terrain);
+    return goodness;
   } else {
     return -1;
   }
+  return goodness;
 }
 
 /**************************************************************************
-  Calculates the value of doing a terrain transformation.
+  Calculate the benefit of transforming the given tile.
+
+    (map_x, map_y) is the map position of the tile.
+    (city_x, city_y) is the city position of the tile with respect to pcity.
+    pplayer is the player under consideration.
+
+  The return value is the goodness of the tile after the transform.  This
+  should be compared to the goodness of the tile currently (see
+  city_tile_value(); note that this depends on the AI's weighting
+  values).
 **************************************************************************/
-static int ai_calc_transform(struct city *pcity, int cx, int cy, int mx,
-			     int my)
+static int ai_calc_transform(struct city *pcity,
+			     int city_x, int city_y, int map_x, int map_y)
 {
-  int m;
-  struct tile *ptile = map_get_tile(mx, my);
-  enum tile_terrain_type t = ptile->terrain;
-  struct tile_type *type = get_tile_type(t);
-  enum tile_special_type s = ptile->special;
-  enum tile_terrain_type r = type->transform_result;
+  int goodness;
+  struct tile *ptile = map_get_tile(map_x, map_y);
+  enum tile_terrain_type old_terrain = ptile->terrain;
+  enum tile_special_type old_special = ptile->special;
+  struct tile_type *type = get_tile_type(old_terrain);
+  enum tile_terrain_type new_terrain = type->transform_result;
 
-  if (is_ocean(t) && !can_reclaim_ocean(mx, my)) {
-    return -1;
-  }
-  if (is_ocean(r) && !can_channel_land(mx, my)) {
+  if (old_terrain == new_terrain || new_terrain == T_LAST) {
     return -1;
   }
 
-  if ((t == T_ARCTIC || t == T_DESERT || t == T_JUNGLE || t == T_SWAMP  || 
-       t == T_TUNDRA || t == T_MOUNTAINS) && r != T_LAST) {
-    if (is_ocean(r) && ptile->city) {
-      return -1;
-    }
+  if (is_ocean(old_terrain) && !is_ocean(new_terrain)
+      && !can_reclaim_ocean(map_x, map_y)) {
+    /* Can't change ocean into land here. */
+    return -1;
+  }
+  if (is_ocean(new_terrain) && !is_ocean(old_terrain)
+      && !can_channel_land(map_x, map_y)) {
+    /* Can't change land into ocean here. */
+    return -1;
+  }
 
-    ptile->terrain = r;
+  if (ptile->city && terrain_has_flag(new_terrain, TER_NO_CITIES)) {
+    return -1;
+  }
 
-    if (get_tile_type(r)->mining_result != r) 
-      map_clear_special(mx, my, S_MINE);
+  ptile->terrain = new_terrain;
 
-    if (get_tile_type(r)->irrigation_result != r) {
-      map_clear_special(mx, my, S_FARMLAND);
-      map_clear_special(mx, my, S_IRRIGATION);
-    }
+  if (get_tile_type(new_terrain)->mining_result != new_terrain) {
+    map_clear_special(map_x, map_y, S_MINE);
+  }
+  if (get_tile_type(new_terrain)->irrigation_result != new_terrain) {
+    map_clear_special(map_x, map_y, S_FARMLAND);
+    map_clear_special(map_x, map_y, S_IRRIGATION);
+  }
     
-    m = city_tile_value(pcity, cx, cy, 0, 0);
-    ptile->terrain = t;
-    ptile->special = s;
-    return(m);
-  } else return(-1);
+  goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
+
+  ptile->terrain = old_terrain;
+  ptile->special = old_special;
+
+  return goodness;
 }
 
 /**************************************************************************
