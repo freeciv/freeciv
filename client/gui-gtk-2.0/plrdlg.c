@@ -108,7 +108,7 @@ static void update_players_menu(void)
     struct player *plr;
     gint plrno;
 
-    gtk_tree_model_get(model, &it, (NUM_PLAYER_DLG_COLUMNS+1), &plrno, -1);
+    gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
     plr = &game.players[plrno];
   
     if (plr->spaceship.state != SSHIP_NONE) {
@@ -166,7 +166,8 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
       gtk_tree_model_get_iter(GTK_TREE_MODEL(store), &it, path);
       gtk_tree_path_free(path);
 
-      gtk_tree_model_get(GTK_TREE_MODEL(store), &it, (NUM_PLAYER_DLG_COLUMNS+1), &id, -1);
+      gtk_tree_model_get(GTK_TREE_MODEL(store), &it,
+	  (num_player_dlg_columns+1), &id, -1);
       plr = get_player(id);
 
       if (ev->button == 1) {
@@ -186,28 +187,31 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
 **************************************************************************/
 static void create_store(void)
 {
-  int num = NUM_PLAYER_DLG_COLUMNS;
-  GType* model_types = fc_malloc((num + 2) * sizeof(GType));
+  GType model_types[num_player_dlg_columns + 2];
   int i;
-  for (i = 0; i < num; i++) {
+
+  for (i = 0; i < num_player_dlg_columns; i++) {
     switch (player_dlg_columns[i].type) {
     case COL_FLAG:
-      model_types[i] = GDK_TYPE_PIXBUF; break;
+      model_types[i] = GDK_TYPE_PIXBUF;
+      break;
     case COL_COLOR:
-      model_types[i] = GDK_TYPE_COLOR; break;
+      model_types[i] = GDK_TYPE_COLOR;
+      break;
     case COL_BOOLEAN:
-      model_types[i] = G_TYPE_BOOLEAN; break;
+      model_types[i] = G_TYPE_BOOLEAN;
+      break;
     case COL_TEXT:
     case COL_RIGHT_TEXT:
-      model_types[i] = G_TYPE_STRING; break;
+      model_types[i] = G_TYPE_STRING;
+      break;
     }
   }
   /* special (invisible rows) - Text color and player id */
-  model_types[num] = GDK_TYPE_COLOR;
-  model_types[num+1] = G_TYPE_INT;
+  model_types[i] = GDK_TYPE_COLOR;
+  model_types[i+1] = G_TYPE_INT;
   
-  store = gtk_list_store_newv(num+2, model_types);  
-  free(model_types);
+  store = gtk_list_store_newv(num_player_dlg_columns + 2, model_types);  
 }
 
 /**************************************************************************
@@ -227,7 +231,7 @@ static GtkWidget* create_show_menu(void)
 {
   int i;
   GtkWidget* menu = gtk_menu_new();
-  for (i = 1; i < NUM_PLAYER_DLG_COLUMNS; i++) {
+  for (i = 1; i < num_player_dlg_columns; i++) {
     GtkWidget* item;    
     struct player_dlg_column* pcol;
     
@@ -279,7 +283,7 @@ void create_players_dialog(void)
   g_signal_connect(players_list, "button_press_event",
       G_CALLBACK(button_press_callback), NULL);
 
-  for (i = 0; i < NUM_PLAYER_DLG_COLUMNS; i++) {
+  for (i = 0; i < num_player_dlg_columns; i++) {
     struct player_dlg_column *pcol;
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *col;
@@ -311,7 +315,7 @@ void create_players_dialog(void)
       g_object_set(renderer, "weight", "bold", NULL);
 
       col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
-        "text", i, "foreground-gdk", NUM_PLAYER_DLG_COLUMNS, NULL);
+        "text", i, "foreground-gdk", num_player_dlg_columns, NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
       break;
     case COL_RIGHT_TEXT:
@@ -319,7 +323,7 @@ void create_players_dialog(void)
       g_object_set(renderer, "weight", "bold", NULL);
 
       col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
-        "text", i, "foreground-gdk", NUM_PLAYER_DLG_COLUMNS, NULL);
+        "text", i, "foreground-gdk", num_player_dlg_columns, NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
 
       if (pcol->type == COL_RIGHT_TEXT) {
@@ -476,7 +480,7 @@ static void build_row(GtkTreeIter *it, int i)
   int k;
   gchar* p;
 
-  for (k = 0; k < NUM_PLAYER_DLG_COLUMNS; k++) {
+  for (k = 0; k < num_player_dlg_columns; k++) {
     struct player_dlg_column* pcol = &player_dlg_columns[k];
     switch(pcol->type) {
       case COL_TEXT:
@@ -501,7 +505,7 @@ static void build_row(GtkTreeIter *it, int i)
 
   /* The playerid */
   gtk_list_store_set(store, it,
-    NUM_PLAYER_DLG_COLUMNS+1, (gint)i,
+    num_player_dlg_columns+1, (gint)i,
     -1);
 
    /* now add some eye candy ... */
@@ -516,7 +520,7 @@ static void build_row(GtkTreeIter *it, int i)
    default:
      state_col = colors_standard[COLOR_STD_BLACK];
    }
-   gtk_list_store_set(store, it, NUM_PLAYER_DLG_COLUMNS, state_col, -1);
+   gtk_list_store_set(store, it, num_player_dlg_columns, state_col, -1);
 }
 
 
@@ -541,7 +545,7 @@ void update_players_dialog(void)
       it_next = it;
       itree_next(&it_next);
 
-      itree_get(&it, (NUM_PLAYER_DLG_COLUMNS+1), &plrno, -1);
+      itree_get(&it, (num_player_dlg_columns+1), &plrno, -1);
 
       /*
        * The nation already had a row in the player report. In that
@@ -595,7 +599,7 @@ void players_meet_callback(GtkMenuItem *item, gpointer data)
   if (!gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     return;
   }
-  gtk_tree_model_get(model, &it, (NUM_PLAYER_DLG_COLUMNS+1), &plrno, -1);
+  gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
 
   dsend_packet_diplomacy_init_meeting_req(&aconnection, plrno);
 }
@@ -611,7 +615,7 @@ void players_war_callback(GtkMenuItem *item, gpointer data)
   if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     gint plrno;
 
-    gtk_tree_model_get(model, &it, (NUM_PLAYER_DLG_COLUMNS+1), &plrno, -1);
+    gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
 
     /* can be any pact clause */
     dsend_packet_diplomacy_cancel_pact(&aconnection, plrno,
@@ -630,7 +634,7 @@ void players_vision_callback(GtkMenuItem *item, gpointer data)
   if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     gint plrno;
 
-    gtk_tree_model_get(model, &it, (NUM_PLAYER_DLG_COLUMNS+1), &plrno, -1);
+    gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
 
     dsend_packet_diplomacy_cancel_pact(&aconnection, plrno, CLAUSE_VISION);
   }
@@ -647,7 +651,7 @@ void players_intel_callback(GtkMenuItem *item, gpointer data)
 
   if (!gtk_tree_selection_get_selected(players_selection, &model, &it))
     return;
-  gtk_tree_model_get(model, &it, (NUM_PLAYER_DLG_COLUMNS+1), &plrno, -1);
+  gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
 
   if (can_intel_with_player(&game.players[plrno])) {
     popup_intel_dialog(&game.players[plrno]);
@@ -665,7 +669,7 @@ void players_sship_callback(GtkMenuItem *item, gpointer data)
 
   if (!gtk_tree_selection_get_selected(players_selection, &model, &it))
     return;
-  gtk_tree_model_get(model, &it, (NUM_PLAYER_DLG_COLUMNS+1), &plrno, -1);
+  gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
 
   popup_spaceship_dialog(&game.players[plrno]);
 }
@@ -676,7 +680,7 @@ void players_sship_callback(GtkMenuItem *item, gpointer data)
 static void update_views(void)
 {
   int i;
-  for (i = 0; i < NUM_PLAYER_DLG_COLUMNS; i++) {
+  for (i = 0; i < num_player_dlg_columns; i++) {
     GtkTreeViewColumn *col;
     col = gtk_tree_view_get_column(GTK_TREE_VIEW(players_list), i);
     gtk_tree_view_column_set_visible(col, player_dlg_columns[i].show);

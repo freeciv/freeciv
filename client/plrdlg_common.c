@@ -184,6 +184,7 @@ static const char *col_idle(struct player *plr)
 {
   int idle;
   static char buf[100];
+
   if (plr->nturns_idle > 3) {
     idle = plr->nturns_idle - 1;
   } else {
@@ -215,7 +216,10 @@ const char *get_ping_time_text(struct player *pplayer)
   return buffer;
 }
 
-struct player_dlg_column player_dlg_columns[NUM_PLAYER_DLG_COLUMNS] = {
+/******************************************************************
+ ...
+*******************************************************************/
+struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_TEXT, N_("?Player:Name"), col_name, NULL, "name"},
   {TRUE, COL_FLAG, N_("Flag"), NULL, NULL, "flag"},
   {TRUE, COL_TEXT, N_("Nation"), col_nation, NULL, "nation"},
@@ -232,6 +236,8 @@ struct player_dlg_column player_dlg_columns[NUM_PLAYER_DLG_COLUMNS] = {
   {TRUE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, NULL, "ping"}
 };
 
+int num_player_dlg_columns;
+
 /******************************************************************
  ...
 *******************************************************************/
@@ -246,7 +252,10 @@ int player_dlg_default_sort_column(void)
 void init_player_dlg_common()
 {
   int i;
-  for (i = 0; i < NUM_PLAYER_DLG_COLUMNS; i++) {
+
+  num_player_dlg_columns = ARRAY_SIZE(player_dlg_columns);
+
+  for (i = 0; i < num_player_dlg_columns; i++) {
     player_dlg_columns[i].title = Q_(player_dlg_columns[i].title);
   }
 }

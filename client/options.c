@@ -480,7 +480,7 @@ void load_general_options(void)
 				     city_report_spec_tagname(i));
   }
   
-  for(i = 1; i < NUM_PLAYER_DLG_COLUMNS; i++) {
+  for(i = 1; i < num_player_dlg_columns; i++) {
     bool *show = &(player_dlg_columns[i].show);
     *show = secfile_lookup_bool_default(&sf, *show, "%s.player_dlg_%s", prefix,
                                         player_dlg_columns[i].tagname);
@@ -581,7 +581,7 @@ void save_options(void)
 		       city_report_spec_tagname(i));
   }
   
-  for (i = 1; i < NUM_PLAYER_DLG_COLUMNS; i++) {
+  for (i = 1; i < num_player_dlg_columns; i++) {
     secfile_insert_bool(&sf, player_dlg_columns[i].show,
                         "client.player_dlg_%s",
                         player_dlg_columns[i].tagname);
