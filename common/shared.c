@@ -37,6 +37,7 @@
 #include <events.h> /* for WaitNextEvent() */
 #endif
 
+#include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 
@@ -643,6 +644,20 @@ char *datafilename_required(char *filename)
   }
 }
 
+
+/***************************************************************************
+  Setup for Native Language Support, if configured to use it.
+***************************************************************************/
+void init_nls(void)
+{
+#ifdef ENABLE_NLS
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
+#endif
+}
+
+
 /***************************************************************************
   If we have root privileges, die with an error.
   (Eg, for security reasons.)
@@ -665,4 +680,3 @@ void dont_run_as_root(const char *argv0, const char *fallback)
   }
 #endif
 }
-

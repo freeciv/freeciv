@@ -166,12 +166,7 @@ int main(int argc, char *argv[])
   bool done;
 #endif
 
-#ifdef ENABLE_NLS
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
-#endif
-
+  init_nls();
   dont_run_as_root(argv[0], "freeciv_server");
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);

@@ -81,12 +81,7 @@ char usage[] =
 
 int main(int argc, char *argv[])
 {
-#ifdef ENABLE_NLS
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
-#endif
-
+  init_nls();
   dont_run_as_root(argv[0], "freeciv_client");
   
   if(argc>1 && strstr(argv[1],"-help")) {

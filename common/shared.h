@@ -70,6 +70,7 @@ char *user_home_dir(void);
 char *datafilename(char *filename);
 char *datafilename_required(char *filename);
 
+void init_nls(void);
 void dont_run_as_root(const char *argv0, const char *fallback);
 
 /*Mac constants-resource IDs*/
