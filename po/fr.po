@@ -9843,7 +9843,7 @@ msgstr "Tours"
 
 #: client/gui-gtk-2.0/wldlg.c:897
 msgid "Source _Tasks:"
-msgstr "_Tâches préalables:"
+msgstr "_Tâches possibles :"
 
 #: client/gui-gtk-2.0/wldlg.c:902
 msgid "Show _Future Targets"
