@@ -249,11 +249,6 @@ void auto_arrange_workers(struct city *pcity)
     cm_query_result(pcity, &cmp, &cmr);
   }
   if (!cmr.found_a_valid) {
-    cmp.minimal_surplus[O_FOOD] = -(pcity->food_stock);
-    cmp.minimal_surplus[O_TRADE] = -FC_INFINITY;
-    cm_query_result(pcity, &cmp, &cmr);
-  }
-  if (!cmr.found_a_valid) {
     /* Emergency management.  Get _some_ result.  This doesn't use
      * cm_init_emergency_parameter so we can keep the factors from
      * above. */
