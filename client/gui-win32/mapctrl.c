@@ -51,10 +51,7 @@
 #include "mapctrl.h"
 #include "gui_main.h"
 
-extern HCURSOR goto_cursor;
-extern HCURSOR drop_cursor;
-extern HCURSOR nuke_cursor;
-extern HCURSOR patrol_cursor;
+extern HCURSOR cursors[];
 
 HWND popit_popup=NULL;
 static bool popit_is_orders;
@@ -226,17 +223,17 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       SetCursor (LoadCursor(NULL, IDC_ARROW));
       break;
     case HOVER_PATROL:
-      SetCursor (patrol_cursor);
+      SetCursor (cursors[CURSOR_PATROL]);
       break;
     case HOVER_GOTO:
     case HOVER_CONNECT:
-      SetCursor (goto_cursor);
+      SetCursor (cursors[CURSOR_GOTO]);
       break;
     case HOVER_NUKE:
-      SetCursor (nuke_cursor);
+      SetCursor (cursors[CURSOR_NUKE]);
       break;
     case HOVER_PARADROP:
-      SetCursor (drop_cursor);
+      SetCursor (cursors[CURSOR_PARADROP]);
       break;
     }
     break;

@@ -49,10 +49,7 @@
 #include "mapview.h"
 #include "text.h"
 
-extern HCURSOR goto_cursor;
-extern HCURSOR drop_cursor;
-extern HCURSOR nuke_cursor;
-extern HCURSOR patrol_cursor;
+extern HCURSOR cursors[];
 
 static struct Sprite *indicator_sprite[3];
 
@@ -304,17 +301,17 @@ update_unit_info_label(struct unit *punit)
 	SetCursor (LoadCursor(NULL, IDC_ARROW));
 	break;
       case HOVER_PATROL:
-	SetCursor (patrol_cursor);
+	SetCursor (cursors[CURSOR_PATROL]);
 	break;
       case HOVER_GOTO:
       case HOVER_CONNECT:
-	SetCursor (goto_cursor);
+	SetCursor (cursors[CURSOR_GOTO]);
 	break;
       case HOVER_NUKE:
-	SetCursor (nuke_cursor);
+	SetCursor (cursors[CURSOR_NUKE]);
 	break;
       case HOVER_PARADROP:
-	SetCursor (drop_cursor);
+	SetCursor (cursors[CURSOR_PARADROP]);
 	break;
     }
   } else {
@@ -830,7 +827,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
   POINT points[4];
 
   /* FIXME: give a real implementation of this function. */
-  assert(psprite == sprites.tile.mask);
+  assert(psprite == sprites.mask.tile);
 
   points[0].x = canvas_x + NORMAL_TILE_WIDTH / 2;
   points[0].y = canvas_y;
