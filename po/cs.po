@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-10 20:37+0100\n"
+"PO-Revision-Date: 2005-01-16 14:00+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15219,9 +15219,9 @@ msgstr "Licenční ujednání"
 #: client/gui-xaw/repodlgs.c:392
 #: client/gui-xaw/repodlgs.c:485
 #: client/gui-xaw/repodlgs.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %d/%d"
-msgstr "Bádá se nad %s."
+msgstr "Zkoumá se %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:224
 #: client/gui-xaw/repodlgs.c:229
@@ -15472,15 +15472,15 @@ msgstr "<tr><td>Údržba: <td>%d</tr>\n"
 
 #: manual/civmanual.c:314
 #: manual/civmanual.c:343
-#, fuzzy, c-format
+#, c-format
 msgid "<tr><td>Tech required: <td>%s</tr>\n"
-msgstr "<tr><td><i>Požadavky na přerušení</i></td><td>%1</td></tr>"
+msgstr "<tr><td>Potřebná technologie: <td>%s</tr>\n"
 
 #: manual/civmanual.c:318
 #: manual/civmanual.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
-msgstr "<tr><td><i>Požadavky na přerušení</i></td><td>%1</td></tr>"
+msgstr "<tr><td>Zastarává objevem: <td>%s</tr>\n"
 
 #: manual/civmanual.c:327
 #, c-format
