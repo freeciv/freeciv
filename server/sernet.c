@@ -278,8 +278,10 @@ int server_open_socket(void)
 
 
   /* broken pipes are ignored. */
+#ifdef SIGPIPE
   signal (SIGPIPE, SIG_IGN);
-  
+#endif
+
   if((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
     freelog(LOG_FATAL, "socket failed: %s", mystrerror(errno));
     exit(1);
