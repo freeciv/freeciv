@@ -570,7 +570,7 @@ int find_a_direction(struct unit *punit)
 /*if (passenger) printf("%d@(%d,%d) evaluating (%d,%d)[%d/%d]\n",
 punit->id, punit->x, punit->y, x, y, c, punit->moves_left);*/
       ptile = map_get_tile(x, y);
-      d0 = get_virtual_defense_power(U_HOWITZER, punit->type, x, y);
+      d0 = get_simple_defense_power(punit->type, x, y);
       pcity = map_get_city(x, y);
       n = 2;
       if (pcity) { /* this code block inspired by David Pfitzner -- Syela */
@@ -585,7 +585,7 @@ punit->id, punit->x, punit->y, x, y, c, punit->moves_left);*/
         if (aunit->owner != punit->owner) d1 = -1; /* MINIMUM priority */
         else {
           u++;
-          a = get_virtual_defense_power(U_HOWITZER, aunit->type, x, y) * n / 2;
+          a = get_simple_defense_power(aunit->type, x, y) * n / 2;
           if (a * aunit->hp > d1 * h1) { d1 = a; h1 = aunit->hp; }
         }
       unit_list_iterate_end;

@@ -914,6 +914,32 @@ int get_total_attack_power(struct unit *attacker, struct unit *defender)
   return attackpower;
 }
 
+/***************************************************************************
+ Like get_virtual_defense_power, but don't include most of the modifications.
+ (For calls which used to be g_v_d_p(U_HOWITZER,...))
+ Specifically, include:
+ unit def, terrain effect, fortress effect, ground unit in city effect
+***************************************************************************/
+int get_simple_defense_power(int d_type, int x, int y)
+{
+  int defensepower=unit_types[d_type].defense_strength;
+  struct city *pcity = map_get_city(x, y);
+  enum tile_terrain_type t = map_get_terrain(x, y);
+
+  if (unit_types[d_type].move_type == LAND_MOVING && t == T_OCEAN) return 0;
+/* I had this dorky bug where transports with mech inf aboard would go next
+to enemy ships thinking the mech inf would defend them adequately. -- Syela */
+
+  defensepower *= get_tile_type(t)->defense_bonus;
+
+  if (map_get_special(x, y)&S_FORTRESS && !pcity)
+    defensepower*=2;
+  if (pcity && unit_types[d_type].move_type == LAND_MOVING)
+    defensepower*=1.5;
+
+  return defensepower;
+}
+
 int get_virtual_defense_power(int a_type, int d_type, int x, int y)
 {
   int defensepower=unit_types[d_type].defense_strength;
