@@ -3121,6 +3121,27 @@ void connection_do_unbuffer(struct connection *pc)
   }
 }
 
+
+/********************************************************************
+ if this gives errors on very long blocks try lowering the max block
+ size --vasc
+********************************************************************/
+int write_socket_data(struct connection *pc, unsigned char *data, int len)
+{
+  int start;
+  int nput;
+  int nblock;
+
+  for(start=0; start<len; start+=nput) {
+    nblock=MIN(len-start, MAX_LEN_PACKET);
+    if((nput=write(pc->sock, (const char *)data+start, nblock)) == -1) {
+      freelog(LOG_NORMAL, "failed writing to socket");
+      return -1;
+    }
+  }
+  return 0;
+}
+
 /********************************************************************
   flush'em
 ********************************************************************/
@@ -3128,10 +3149,7 @@ void flush_connection_send_buffer(struct connection *pc)
 {
   if(pc) {
     if(pc->send_buffer.ndata) {
-      if(write(pc->sock, (const char *)pc->send_buffer.data, pc->send_buffer.ndata)!=
-	 pc->send_buffer.ndata) {
-	freelog(LOG_NORMAL, "failed writing data to socket");
-      }
+      write_socket_data(pc, pc->send_buffer.data, pc->send_buffer.ndata);
       pc->send_buffer.ndata=0;
     }
   }
@@ -3156,13 +3174,9 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
       }
     }
     else {
-      if(write(pc->sock, (const char *)data, len)!=len) {
-	freelog(LOG_NORMAL, "failed writing data to socket");
-	return -1;
-      }
-      
+      if (write_socket_data(pc, data, len) == -1)
+        return -1;
     }
-
   }
   return 0;
 }
@@ -3179,15 +3193,17 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
 {
   int didget;
 
-  if((didget=read(sock, (char *)(buffer->data+buffer->ndata), 
-		  MAX_LEN_PACKET-buffer->ndata))<=0)
+  didget=read(sock, (char *)(buffer->data+buffer->ndata), 
+	      MAX_LEN_PACKET-buffer->ndata);
+
+  if (didget > 0) {
+    buffer->ndata+=didget;
+    freelog(LOG_DEBUG, "didget:%d", didget);
+    return didget;
+  }
+  else if (didget == 0) {
+    freelog(LOG_DEBUG, "EOF on socket read");
     return -1;
- 
-  buffer->ndata+=didget;
-  
-  freelog(LOG_DEBUG, "didget:%d", didget); 
-
-  return didget;
+  }
+  return -1;
 }
-
-
