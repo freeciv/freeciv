@@ -129,6 +129,19 @@ static void make_polar(void)
       }
     }
   }
+
+  /* only arctic and tundra allowed at the poles (first and last two lines,
+     as defined in make_passable() ), to be consistent with generator>1. 
+     turn every land tile on the second lines that is not arctic into tundra,
+     since the first lines has already been set to all arctic above. */
+  for (x=0;x<map.xsize;x++) {
+    if (map_get_terrain(x, 1)!=T_ARCTIC &&
+	map_get_terrain(x, 1)!=T_OCEAN)
+      map_set_terrain(x, 1, T_TUNDRA);
+    if (map_get_terrain(x, map.ysize-2)!=T_ARCTIC && 
+	map_get_terrain(x, map.ysize-2)!=T_OCEAN)
+      map_set_terrain(x, map.ysize-2, T_TUNDRA);
+  }
 }
 
 /**************************************************************************
