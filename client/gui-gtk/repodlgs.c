@@ -726,9 +726,7 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
 		|| wonder_replacement(pcity, row_type.type))) {
  	  count++;
 	  gold += improvement_value(row_type.type);
- 	  packet.city_id = pcity->id;
- 	  packet.build_id = row_type.type;
- 	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+	  city_sell_improvement(pcity, row_type.type);
 	}
       } city_list_iterate_end;
       
