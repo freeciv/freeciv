@@ -97,8 +97,7 @@
 		      secfile_insert_str(secfile, line, secfile_name,     \
 					 plrno, y))
 
-/*
- * This loops over the entire map to load data. It loads all the data
+/* This loops over the entire map to load data. It loads all the data
  * of a line using secfile_lookup_line and then executes the
  * set_xy_char code for every position in that line. The macro
  * provides the variables x and y and ch (ch is the current character
@@ -106,14 +105,16 @@
  * - set_xy_char: code that sets the character for each (x, y)
  * coordinate.
  *  - secfile_lookup_line: code which is executed every time a line is
- *  processed; it returns a char* for the line
- */
-/* Note: some of the code this is replacing used to skip over lines
-   that did not exist.  It is unknown whether this was for backwards-
-   compatibility or just because the loops were written differently.
-   This macro will fail if any line does not exist.  Hopefully this
-   will never happen, but if so we at least show an informative
-   message. */
+ *  processed; it returns a char* for the line */
+
+/* Note: some (but not all) of the code this is replacing used to
+ * skip over lines that did not exist.  This allowed for
+ * backward-compatibility.  We could add another parameter that
+ * specified whether it was OK to skip the data, but there's not
+ * really much advantage to exiting early in this case.  Instead,
+ * we let any map data type to be empty, and just print an
+ * informative warning message about it. */
+
 #define LOAD_MAP_DATA(secfile_lookup_line, set_xy_char)       \
 {                                                             \
   int y;                                                      \
@@ -121,10 +122,11 @@
     char *line = secfile_lookup_line;                         \
     int x;                                                    \
     if (!line || strlen(line) != map.xsize) {                 \
-      freelog(LOG_FATAL, "Invalid map line for y=%d.  "       \
-	      "This may be a bug in FreeCiv; see "            \
-	      "http://www.freeciv.org/ if you think so.", y); \
-      exit(1);                                                \
+      freelog(LOG_ERROR, "The save file contains incomplete " \
+              "map data.  This can happen with old saved "    \
+              "games, or it may indicate an invalid saved "   \
+              "game file.  Proceed at your own risk.");       \
+      continue;                                               \
     }                                                         \
     for(x = 0; x < map.xsize; x++) {                          \
       char ch = line[x];                                      \
