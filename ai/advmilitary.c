@@ -100,6 +100,35 @@ int assess_defense_igwall(struct city *pcity)
   return(assess_defense_backend(pcity, 1));
 }
 
+int dangerfunct(int v, int m, int dist)
+{
+#ifdef OLDCODE
+  if (dist * dist < m * 3) { v *= m; v /= 3; } /* knights can't attack more than twice */
+  else { v *= m * m; v /= dist * dist; }
+  return(v);
+#else
+  int num, denom;
+  num = m * 4; denom = m * 4;
+  v *= 2;
+  while (dist >= m) {
+    v /= 2;
+    dist -= m;
+  }
+  m /= 3;
+  while (dist && dist >= m) {
+    num *= 4;
+    denom *= 5;
+    dist -= m;
+  }
+  while (dist) {
+    denom += (denom + m * 2) / (m * 4);
+    dist--;
+  }
+  v = (v*num + (denom>>1)) / denom;
+  return(v);
+#endif
+}
+
 int assess_danger(struct city *pcity)
 {
   int i, danger = 0, v, dist, con, m;
@@ -148,7 +177,8 @@ int assess_danger(struct city *pcity)
         if (city_got_building(pcity, B_COASTAL) && is_sailing_unit(punit)) v >>= 1;
         if (city_got_building(pcity, B_SAM) && is_air_unit(punit)) v >>= 1;
 
-        if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
+        if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) dist = 3;
+        else if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
         else if (!is_ground_unit(punit))
           dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * 3;
         else if (unit_flag(punit->type, F_IGTER))
@@ -164,7 +194,14 @@ int assess_danger(struct city *pcity)
             !unit_flag(punit->type, F_SUBMARINE) &&
             !unit_flag(punit->type, F_CARRIER))) {
           if (dist <= m * 3) urgency++;
-          if (dist <= m) pcity->ai.grave_danger = punit;
+          if (dist <= m) pcity->ai.grave_danger++;
+/* NOTE: This should actually implement grave_danger, which is supposed
+to be a feedback-sensitive formula for immediate danger.  I'm having
+second thoughts about the best implementation, and therefore this
+will have to wait until after 1.7.0.  I don't want to do anything I'm
+not totally sure about and can't thoroughly test in the hours before
+the release.  The AI is in fact vulnerable to gang-attacks, but I'm
+content to let it remain that way for now. -- Syela 980805 */
         }
 
         if (is_ground_unit(punit) && boatid &&
@@ -178,13 +215,14 @@ int assess_danger(struct city *pcity)
           if (dist < 3) dist = 3;
         }
 
+        v /= 30; /* rescaling factor to stop the overflow nonsense */
+
         if (unit_flag(punit->type, F_HORSE)) {
           if (pikemen) v >>= 1;
           else if (get_invention(pplayer, A_FEUDALISM) != TECH_KNOWN)
             pplayer->ai.tech_want[A_FEUDALISM] += v * m / (dist<<1);
         }
 
-        v /= 30; /* rescaling factor to stop the overflow nonsense */
         v *= v;
 
         if (!igwall) danger2 += v * m / dist;
@@ -192,8 +230,7 @@ int assess_danger(struct city *pcity)
         else if (is_air_unit(punit) && punit->type != U_NUCLEAR) danger4 += v * m / dist;
         if (unit_flag(punit->type, F_MISSILE)) danger5 += v * m / MAX(m, dist);
         if (punit->type != U_NUCLEAR) { /* only SDI helps against NUCLEAR */
-          if (dist * dist < m * 3) { v *= m; v /= 3; } /* knights can't attack more than twice */
-          else { v *= m * m; v /= dist * dist; }
+          v = dangerfunct(v, m, dist);
           danger += v;
           if (igwall) badmojo += v;
         }
@@ -633,11 +670,15 @@ code was added and walls got built, but now danger -= def would be very bad -- S
     if (danger >= def) {
       if (!urgency) danger = 100; /* don't waste money otherwise */
       else if (danger >= def * 2) danger = 200 + urgency;
-      else { danger *= 100; danger /= def; }
+      else { danger *= 100; danger /= def; danger += urgency; }
+/* without the += urgency, wasn't buying with danger == def.  Duh. -- Syela */
     } else { danger *= 100; danger /= def; }
     if (pcity->ai.building_want[B_CITY] && def && can_build_improvement(pcity, B_CITY)
-        && (danger < 101 || unit_list_size(&ptile->units) > 1)) {
+        && (danger < 101 || unit_list_size(&ptile->units) > 1 ||
 /* walls before a second defender, unless we need it RIGHT NOW */
+         (!pcity->ai.grave_danger && /* I'm not sure this is optimal */
+         pplayer->economic.gold > (80 - pcity->shield_stock) * 2))) {
+/* or we can afford just to buy walls.  Added 980805 -- Syela */
       choice->choice = B_CITY; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_CITY]; /* hacked by assess_danger */
       if (!urgency && choice->want > 100) choice->want = 100;
