@@ -655,6 +655,11 @@ void helptext_unit(char *buf, int i, const char *user_text)
   }
   
   buf[0] = '\0';
+  if (utype->gov_requirement != G_MAGIC) {
+    sprintf(buf + strlen(buf),
+	    _("* Can only be built with %s as government.\n"), 
+            get_government_name(utype->gov_requirement));
+  }
   if (unit_type_flag(i, F_NOBUILD)) {
     sprintf(buf + strlen(buf),
 	    _("* May not be built in cities.\n"));
@@ -1157,6 +1162,14 @@ void helptext_government(char *buf, int i, const char *user_text)
   if (gov->helptext[0] != '\0') {
     sprintf(buf, "%s\n\n", _(gov->helptext));
   }
+  unit_type_iterate(ut) {
+    struct unit_type *utype = get_unit_type(ut);
+
+    if (utype->gov_requirement == i) {
+      sprintf(buf + strlen(buf),
+	      _("* Allows you to build %s.\n"), unit_name(ut));
+    }
+  } unit_type_iterate_end;
   strcat(buf, user_text);
   wordwrap_string(buf, 68);
 }

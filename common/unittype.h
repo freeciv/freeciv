@@ -191,6 +191,7 @@ struct unit_type {
   int move_rate;
   int tech_requirement;
   int impr_requirement;		/* should be Impr_Type_id */
+  int gov_requirement;
   int vision_range;
   int transport_capacity;
   int hp;

@@ -2212,6 +2212,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->move_rate          = p->move_rate;
   u->tech_requirement   = p->tech_requirement;
   u->impr_requirement   = p->impr_requirement;
+  u->gov_requirement    = p->gov_requirement;
   u->vision_range       = p->vision_range;
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;

@@ -347,6 +347,7 @@ roles         = "DefendGood", "FirstBuild", "HutTech",
 name          = _("Fanatics")
 move_type     = "Land"
 tech_req      = "Fundamentalism"
+gov_req       = "Fundamentalism"
 obsolete_by   = "None"
 graphic       = "u.fanatics"
 graphic_alt   = "-"
@@ -371,8 +372,6 @@ uk_gold       = 0
 flags         = "Fanatic"
 roles         = "DefendGood"
 helptext      = _("\
-Only Fundamentalist nations can build Fanatic units.\
-\n\n\
 Fundamentalist nations can maintain Fanatic units without\
  having to pay any shields for upkeep.\
 ")

@@ -940,6 +940,7 @@ PACKET_RULESET_UNIT=96;sc,lsend
   UINT8 move_rate;
   TECH tech_requirement;
   UINT8 impr_requirement;
+  GOVERNMENT gov_requirement; add-cap(gov_req)
   UINT8 vision_range;
   UINT8 transport_capacity;
   UINT8 hp;

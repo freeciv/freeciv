@@ -703,6 +703,7 @@ struct packet_ruleset_unit {
   int move_rate;
   int tech_requirement;
   int impr_requirement;
+  int gov_requirement;
   int vision_range;
   int transport_capacity;
   int hp;

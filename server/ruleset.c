@@ -875,11 +875,20 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   if (def_vblist) {
     free(def_vblist);
   }
-  
+
+  /* Tech and Gov requirements */  
   unit_type_iterate(i) {
     u = &unit_types[i];
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
 				      TRUE, filename, u->name);
+    if (section_file_lookup(file, "%s.gov_req", sec[i])) {
+      char tmp[200] = "\0";
+      mystrlcat(tmp, sec[i], 200);
+      mystrlcat(tmp, ".gov_req", 200);
+      u->gov_requirement = lookup_government(file, tmp, filename);
+    } else {
+      u->gov_requirement = G_MAGIC; /* no requirement */
+    }
   } unit_type_iterate_end;
   
   unit_type_iterate(i) {
@@ -2809,6 +2818,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.move_rate = u->move_rate;
     packet.tech_requirement = u->tech_requirement;
     packet.impr_requirement = u->impr_requirement;
+    packet.gov_requirement = u->gov_requirement;
     packet.vision_range = u->vision_range;
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;

@@ -454,9 +454,14 @@ bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
   if (unit_type_flag(id, F_NOBUILD)) {
     return FALSE;
   }
-  if (unit_type_flag(id, F_FANATIC)
-      && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS))
+  if (unit_types[id].gov_requirement != G_MAGIC
+      && unit_types[id].gov_requirement != p->government) {
     return FALSE;
+  }
+  if (unit_type_flag(id, F_FANATIC)
+      && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS)) {
+    return FALSE;
+  }
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
     return FALSE;
   if (unit_type_flag(id, F_UNIQUE)) {
