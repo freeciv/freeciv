@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2003-11-08 22:03-0800\n"
-"PO-Revision-Date: 2003-11-13 14:10+0900\n"
+"PO-Revision-Date: 2003-11-14 13:40+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -6657,10 +6657,10 @@ msgstr "汚職"
 msgid "?waste:Was"
 msgstr ""
 
+# ntaka
 #: client/cityrepdata.c:489
-#, fuzzy
 msgid "Waste"
-msgstr "待機"
+msgstr "浪費"
 
 #: client/cityrepdata.c:490 client/gui-gtk-2.0/cityrep.c:1323
 #: client/gui-gtk-2.0/cityrep.c:1600 client/gui-gtk/cityrep.c:560
@@ -7435,9 +7435,9 @@ msgid " with City Walls"
 msgstr "城壁付き"
 
 #: client/mapctrl_common.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "Infrastructure: %s"
-msgstr "インフラ: "
+msgstr "インフラ: %s"
 
 #: client/mapctrl_common.c:385
 #, fuzzy, c-format
@@ -7569,18 +7569,20 @@ msgstr "Alt/Meta でアクセラレータ(GTKのみ)"
 msgid "Show Map Scrollbars (GTK+ only)"
 msgstr "地図のスクロールバーを表示(GTKのみ)"
 
+# ntaka
 #: client/options.c:123
 msgid "Keep dialogs on top (GTK+ 2.0 only)"
-msgstr ""
+msgstr "ダイアログをトップレベルに保つ (GTK2のみ)"
 
+# ntaka
 #: client/options.c:124 client/gui-sdl/optiondlg.c:1199
-#, fuzzy
 msgid "Prompt for city names"
-msgstr "都市名の許可"
+msgstr "新しい都市を作る時に都市名を尋ねる"
 
+# ntaka
 #: client/options.c:125 client/gui-sdl/optiondlg.c:1173
 msgid "Pop up city dialog for new cities"
-msgstr ""
+msgstr "新しい都市を作る時に都市ウィンドウを開く"
 
 #: client/options.c:199
 msgid "City: Building Unavailable Item"
@@ -8192,9 +8194,8 @@ msgstr "汚職:"
 
 #: client/gui-gtk-2.0/citydlg.c:496 client/gui-gtk/citydlg.c:579
 #: client/gui-mui/citydlg.c:1346
-#, fuzzy
 msgid "Waste:"
-msgstr "待機"
+msgstr "浪費:"
 
 #: client/gui-gtk-2.0/citydlg.c:497 client/gui-gtk/citydlg.c:580
 #: client/gui-mui/citydlg.c:1348
@@ -8240,7 +8241,7 @@ msgstr "建造物(_I)"
 
 #: client/gui-gtk-2.0/citydlg.c:754
 msgid "Pro_duction"
-msgstr "生産物(_d)"
+msgstr "生産物(_D)"
 
 #: client/gui-gtk-2.0/citydlg.c:783 client/gui-gtk-2.0/cityrep.c:846
 #: client/gui-gtk/citydlg.c:846 client/gui-gtk/cityrep.c:643
@@ -8567,20 +8568,20 @@ msgstr "新しい都市名を何と名づけますか?"
 msgid "_Change"
 msgstr "変更(_C)"
 
+# ntaka
+# 当初、作業リストの、と書いていたが、長いので省略。
+# 元の英語自体省略してあるし。
 #: client/gui-gtk-2.0/cityrep.c:707
-#, fuzzy
 msgid "Add _First"
-msgstr "プリセット追加"
+msgstr "先頭に加える(_F)"
 
 #: client/gui-gtk-2.0/cityrep.c:712
-#, fuzzy
 msgid "Add _Next"
-msgstr "プリセット追加"
+msgstr "次の項目として加える(_N)"
 
 #: client/gui-gtk-2.0/cityrep.c:717
-#, fuzzy
 msgid "Add _Last"
-msgstr "プリセット追加"
+msgstr "最後に加える(_L)"
 
 # ntaka
 #: client/gui-gtk-2.0/cityrep.c:722
@@ -8727,9 +8728,8 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:201
-#, fuzzy
 msgid "_Presets:"
-msgstr "プリセット"
+msgstr "プリセット(_P):"
 
 #: client/gui-gtk-2.0/cma_fe.c:236 client/gui-gtk/cma_fe.c:211
 #: client/gui-gtk/repodlgs.c:766 client/gui-mui/citydlg.c:1557
@@ -9269,12 +9269,10 @@ msgid "Unit selection"
 msgstr "部隊の選択"
 
 #: client/gui-gtk-2.0/dialogs.c:1676
-#, fuzzy
 msgid "_Ready all"
-msgstr "全準備"
+msgstr "全準備(_R)"
 
 #: client/gui-gtk-2.0/dialogs.c:1684
-#, fuzzy
 msgid "_Sentry idle"
 msgstr "手空き部隊を見張り番へ(_S)"
 
@@ -9335,7 +9333,7 @@ msgstr "都市スタイル(_C):"
 
 #: client/gui-gtk-2.0/dialogs.c:1938
 msgid "L_egend"
-msgstr "伝説(_e)"
+msgstr "伝説(_E)"
 
 #: client/gui-gtk-2.0/dialogs.c:2271 client/gui-gtk/dialogs.c:2449
 #: client/gui-xaw/dialogs.c:2300
@@ -9403,11 +9401,11 @@ msgstr "会合中止(_C)"
 
 #: client/gui-gtk-2.0/diplodlg.c:464
 msgid "Accept _treaty"
-msgstr "条約調印(_t)"
+msgstr "条約調印(_T)"
 
 #: client/gui-gtk-2.0/diplodlg.c:493
 msgid "C_lauses:"
-msgstr "条項(_l):"
+msgstr "条項(_L):"
 
 #: client/gui-gtk-2.0/diplodlg.c:540 client/gui-gtk-2.0/diplodlg.c:596
 msgid "_Gold:"
@@ -9431,9 +9429,8 @@ msgid "Find City"
 msgstr "都市をさがす"
 
 #: client/gui-gtk-2.0/finddlg.c:118 client/gui-gtk-2.0/gotodlg.c:180
-#, fuzzy
 msgid "Ci_ties:"
-msgstr "都市"
+msgstr "都市(T):"
 
 #: client/gui-gtk-2.0/gamedlgs.c:232 client/gui-gtk/gamedlgs.c:240
 #: client/gui-win32/ratesdlg.c:301
@@ -10001,37 +9998,46 @@ msgstr ""
 "金 %d\n"
 "税: %d 贅沢: %d 科学: %d"
 
+# ntaka
 #: client/gui-gtk-2.0/mapview.c:258
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
-msgstr ""
+msgstr "現在の贅沢/科学/税の比率; クリックで切り替える"
 
+# ntaka
 #: client/gui-gtk-2.0/mapview.c:262
 #, c-format
 msgid ""
 "Shows your progress in researching the current technology.\n"
 "%s: %d/%d."
-msgstr ""
+msgstr "現在研究中の科学の進行度\n"
+"%s: %d/%d"
 
+# ntaka
 #: client/gui-gtk-2.0/mapview.c:271
 #, c-format
 msgid ""
 "Shows the progress of global warming:\n"
 "%d."
-msgstr ""
+msgstr "地球温暖化の進行度:\n"
+"%d"
 
+# ntaka
 #: client/gui-gtk-2.0/mapview.c:277
 #, c-format
 msgid ""
 "Shows the progress of nuclear winter:\n"
 "%d."
-msgstr ""
+msgstr "核の冬の進行度:\n"
+"%d"
 
+# ntaka
 #: client/gui-gtk-2.0/mapview.c:283
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Shows your current government:\n"
 "%s."
-msgstr "現在の得点を表示する。"
+msgstr "現在の政治体制:\n"
+"%s"
 
 #: client/gui-gtk-2.0/mapview.c:310 client/gui-gtk/mapview.c:270
 #: client/gui-win32/mapview.c:360 client/gui-xaw/mapview.c:254
@@ -10938,88 +10944,84 @@ msgid "Totals:"
 msgstr "合計:"
 
 #: client/gui-gtk-2.0/repodlgs.c:1325 client/gui-gtk/repodlgs.c:1145
-#, fuzzy
 msgid "Player\n"
-msgstr "プレイヤー"
+msgstr "プレイヤー\n"
 
+# ntaka
 #: client/gui-gtk-2.0/repodlgs.c:1326 client/gui-gtk/repodlgs.c:1146
-#, fuzzy
 msgid "Score\n"
-msgstr "スコア取得"
+msgstr "取得スコア\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1327 client/gui-gtk/repodlgs.c:1147
-#, fuzzy
 msgid "Population\n"
-msgstr "人口"
+msgstr "人口\n"
 
+# ntaka
 #: client/gui-gtk-2.0/repodlgs.c:1328 client/gui-gtk/repodlgs.c:1148
-#, fuzzy
 msgid ""
 "Trade\n"
 "(M goods)"
-msgstr "00万品"
+msgstr "交易\n"
+"(百万品)"
 
+# ntaka
 #: client/gui-gtk-2.0/repodlgs.c:1329 client/gui-gtk/repodlgs.c:1149
-#, fuzzy
 msgid ""
 "Production\n"
 "(M tons)"
-msgstr "生産物"
+msgstr "生産物\n"
+"(メガトン)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1330 client/gui-gtk/repodlgs.c:1150
-#, fuzzy
 msgid "Cities\n"
-msgstr "都市"
+msgstr "都市数\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1331 client/gui-gtk/repodlgs.c:1151
-#, fuzzy
 msgid "Technologies\n"
-msgstr "科学"
+msgstr "科学\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1332 client/gui-gtk/repodlgs.c:1152
-#, fuzzy
 msgid ""
 "Military Service\n"
 "(months)"
-msgstr "兵役"
+msgstr "兵役\n"
+"(月)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1333 client/gui-gtk/repodlgs.c:1153
-#, fuzzy
 msgid "Wonders\n"
-msgstr "不思議"
+msgstr "不思議\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1334 client/gui-gtk/repodlgs.c:1154
-#, fuzzy
 msgid ""
 "Research Speed\n"
 "(%)"
-msgstr "研究スピード"
+msgstr "研究スピード\n"
+"(%)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1335 client/gui-gtk/repodlgs.c:1155
-#, fuzzy
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
-msgstr "土地面積"
+msgstr "土地面積\n"
+"(平方マイル)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1336 client/gui-gtk/repodlgs.c:1156
-#, fuzzy
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
-msgstr "入植面積"
+msgstr "入植面積\n"
+"(平方マイル)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1337 client/gui-gtk/repodlgs.c:1157
-#, fuzzy
 msgid ""
 "Literacy\n"
 "(%)"
-msgstr "読み書き"
+msgstr "読み書き\n"
+"(%)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1338 client/gui-gtk/repodlgs.c:1158
-#, fuzzy
 msgid "Spaceship\n"
-msgstr "宇宙船"
+msgstr "宇宙船\n"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:228 client/gui-mui/spaceshipdlg.c:234
 msgid "_Launch"
@@ -11065,7 +11067,7 @@ msgstr "利用できる作業リスト"
 
 #: client/gui-gtk-2.0/wldlg.c:982
 msgid "Chan_ge Production"
-msgstr "生産物の変更(_g)"
+msgstr "生産物の変更(_G)"
 
 #: client/gui-gtk/citydlg.c:625
 msgid "City improvements"
@@ -15451,11 +15453,13 @@ msgstr ""
 "リストへアイテムを挿入する, Delete＝作業リストから選択されているアイテムを削"
 "除する"
 
+# ntaka
 #: data/helpdata.txt:529
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
-msgstr ""
+msgstr "もし作業リストの先頭に載せられている生産物を購入したい場合は、"
+"都市ウィンドウの概観ページから購入できます。"
 
 # yasu
 #: data/helpdata.txt:535
@@ -16124,7 +16128,6 @@ msgid ""
 msgstr " - それから防御側の地形に応じた係数を強さに掛けます。"
 
 #: data/helpdata.txt:908
-#, fuzzy
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
@@ -16720,8 +16723,10 @@ msgstr ""
 "都がなければ、全ての都市にひどい汚職がはびこるでしょう。) 裁判所は都市の汚職"
 "を減らします。"
 
+# ntaka
+# 場所によって、シールド、シールド生産物、生産、資源、、、
+# どう訳せばよい? (ここでは、都市の生産)
 #: data/helpdata.txt:1226
-#, fuzzy
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -16729,10 +16734,11 @@ msgid ""
 "suffer extremely high levels of waste.)  A Courthouse will reduce the level "
 "of waste in a city. Waste can result in your cities not building anything."
 msgstr ""
-"汚職とは、非効率や貪欲が原因となって起こる交易の損失のことです。ほとんどの形"
-"式の政府で、首都から都市が遠くなるほど汚職による交易の損失が増えます。(もし首"
-"都がなければ、全ての都市にひどい汚職がはびこるでしょう。) 裁判所は都市の汚職"
-"を減らします。"
+"浪費とは、非効率や貪欲が原因となって起こる生産の損失のことです。"
+"ほとんどの形式の政府で、首都から都市が遠くなるほど浪費による生産の損失が"
+"増えます。(もし首都がなければ、全ての都市にひどい浪費がはびこるでしょう。)"
+" 裁判所は都市の浪費を減らします。浪費は都市で何も生産物を作れない"
+"という結果を招く事があります。"
 
 #: data/helpdata.txt:1233
 msgid ""
@@ -17139,14 +17145,14 @@ msgid "Courthouse"
 msgstr "裁判所"
 
 #: data/default/buildings.ruleset:408 data/civ2/buildings.ruleset:359
-#, fuzzy
 msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
 msgstr ""
-"都市での汚職を 50% 減らします。反乱コストを計算するために使われる首都からの距"
-"離による影響を半減します。民主制下では、不幸市民 1を収容します。"
+"都市での汚職と浪費を 50% 減らします。"
+"反乱コストを計算するために使われる首都からの距離による影響を半減します。"
+"民主制下では、不幸市民1を収容します。"
 
 #: data/default/buildings.ruleset:416 data/civ2/buildings.ruleset:367
 #: data/civ1/buildings.ruleset:384 data/history/buildings.ruleset:369
@@ -18441,9 +18447,9 @@ msgstr "共産主義"
 msgid "Comrade"
 msgstr "同志"
 
+# ntaka なんでここだけ waste が無い？
 # yasu
 #: data/default/governments.ruleset:402
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -18477,7 +18483,7 @@ msgstr ""
 "はなく国に寄与します。共産主義は政府の軍国主義と商業主義のバランスをもたらし"
 "ます。\n"
 "\n"
-"共産主義では汚職は、都市からの距離によっては変わりません。全ての都市(首都も含"
+"共産主義では汚職は、首都からの距離によっては変わりません。全ての都市(首都も含"
 "む)で中等度の汚職があります。さらに、革命を起こすコストを計算する場合、首都よ"
 "り11マス以上遠い都市でも10マスしか離れていないとみなされます。部隊、外交参"
 "照。\n"
@@ -18485,7 +18491,7 @@ msgstr ""
 "開拓者は、ターン毎に2ポイントの食料を消費します。\n"
 "\n"
 "共産主義下で祝典中の都市は、既に1ポイント以上の交易生産を行っているマスは更に"
-"1ポイント生産が増えます。詳細については幸福参照。\n"
+"1ポイント交易生産が増えます。詳細については幸福参照。\n"
 "\n"
 "税・贅沢・科学比率の上限は80%です。\n"
 "\n"
@@ -18589,9 +18595,8 @@ msgstr "民主制"
 msgid "President"
 msgstr "大統領"
 
-# ama, yasu, clefs
+# ama, yasu, clefs ntaka
 #: data/default/governments.ruleset:577
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -18790,7 +18795,6 @@ msgstr ""
 
 # yasu
 #: data/civ2/governments.ruleset:401
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -18824,15 +18828,15 @@ msgstr ""
 "はなく国に寄与します。共産主義は政府の軍国主義と商業主義のバランスをもたらし"
 "ます。\n"
 "\n"
-"共産主義では汚職は、都市からの距離によっては変わりません。全ての都市(首都も含"
-"む)で中等度の汚職があります。さらに、革命を起こすコストを計算する場合、首都よ"
+"共産主義では汚職と浪費は、首都からの距離によっては変わりません。全ての都市(首都も含"
+"む)で中等度の汚職と浪費があります。さらに、革命を起こすコストを計算する場合、首都よ"
 "り11マス以上遠い都市でも10マスしか離れていないとみなされます。部隊、外交参"
 "照。\n"
 "\n"
 "開拓者は、ターン毎に2ポイントの食料を消費します。\n"
 "\n"
 "共産主義下で祝典中の都市は、既に1ポイント以上の交易生産を行っているマスは更に"
-"1ポイント生産が増えます。詳細については幸福参照。\n"
+"1ポイント交易生産が増えます。詳細については幸福参照。\n"
 "\n"
 "税・贅沢・科学比率の上限は80%です。\n"
 "\n"
@@ -19109,7 +19113,6 @@ msgstr ""
 
 # yasu
 #: data/civ1/governments.ruleset:398
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19141,15 +19144,15 @@ msgstr ""
 "はなく国に寄与します。共産主義は政府の軍国主義と商業主義のバランスをもたらし"
 "ます。\n"
 "\n"
-"共産主義では汚職は、都市からの距離によっては変わりません。全ての都市(首都も含"
-"む)で中等度の汚職があります。さらに、革命を起こすコストを計算する場合、首都よ"
+"共産主義では汚職と浪費は、首都からの距離によっては変わりません。全ての都市(首都も含"
+"む)で中等度の汚職と浪費があります。さらに、革命を起こすコストを計算する場合、首都よ"
 "り11マス以上遠い都市でも10マスしか離れていないとみなされます。部隊、外交参"
 "照。\n"
 "\n"
 "開拓者は、ターン毎に2ポイントの食料を消費します。\n"
 "\n"
 "共産主義下で祝典中の都市は、既に1ポイント以上の交易生産を行っているマスは更に"
-"1ポイント生産が増えます。詳細については幸福参照。\n"
+"1ポイント交易生産が増えます。詳細については幸福参照。\n"
 "\n"
 "税・贅沢・科学比率の上限は80%です。\n"
 "\n"
@@ -19252,7 +19255,6 @@ msgstr ""
 
 # yasu
 #: data/history/governments.ruleset:402
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19286,15 +19288,15 @@ msgstr ""
 "はなく国に寄与します。共産主義は政府の軍国主義と商業主義のバランスをもたらし"
 "ます。\n"
 "\n"
-"共産主義では汚職は、都市からの距離によっては変わりません。全ての都市(首都も含"
-"む)で中等度の汚職があります。さらに、革命を起こすコストを計算する場合、首都よ"
+"共産主義では汚職と浪費は、首都からの距離によっては変わりません。全ての都市(首都も含"
+"む)で中等度の汚職と浪費があります。さらに、革命を起こすコストを計算する場合、首都よ"
 "り11マス以上遠い都市でも10マスしか離れていないとみなされます。部隊、外交参"
 "照。\n"
 "\n"
 "開拓者は、ターン毎に2ポイントの食料を消費します。\n"
 "\n"
 "共産主義下で祝典中の都市は、既に1ポイント以上の交易生産を行っているマスは更に"
-"1ポイント生産が増えます。詳細については幸福参照。\n"
+"1ポイント交易生産が増えます。詳細については幸福参照。\n"
 "\n"
 "税・贅沢・科学比率の上限は80%です。\n"
 "\n"
