@@ -591,11 +591,9 @@ void popit(int xin, int yin, int xtile, int ytile)
     }
     
     if(unit_list_size(&ptile->units) && !pcity) {
-      struct unit_type *ut;
       char cn[64];
       struct unit *punit=unit_list_get(&ptile->units, 0);
       struct unit_type *ptype=get_unit_type(punit->type);
-      ut = get_unit_type(punit->type);
       cn[0]='\0';
       if(punit->owner==game.player_idx) {
 	struct city *pcity;
@@ -607,7 +605,15 @@ void popit(int xin, int yin, int xtile, int ytile)
 	      get_race_name(game.players[punit->owner].race), cn);
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 
-      sprintf(s, "A:%d D:%d FP:%d", ut->attack_strength, ut->defense_strength, ut->firepower);
+      if(punit->owner==game.player_idx)  {
+        sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s", ptype->attack_strength, 
+	  ptype->defense_strength, ptype->firepower, punit->hp, 
+	  ptype->hp, punit->veteran?" V":"");
+      } else {
+        sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength, 
+	  ptype->defense_strength, ptype->firepower, 
+	  (punit->hp*100/ptype->hp + 9)/10 );
+      };
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
     
