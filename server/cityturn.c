@@ -200,7 +200,7 @@ void auto_arrange_workers(struct city *pcity)
   if (!cmr.found_a_valid) {
     cmp.minimal_surplus[FOOD] = 0;
     cmp.minimal_surplus[SHIELD] = 0;
-    cmp.minimal_surplus[GOLD] = -20;
+    cmp.minimal_surplus[GOLD] = -FC_INFINITY;
     cm_query_result(pcity, &cmp, &cmr);
   }
 
@@ -219,8 +219,6 @@ void auto_arrange_workers(struct city *pcity)
     CITY_LOG(LOG_DEBUG, pcity, "emergency management");
     cmp.minimal_surplus[FOOD] = -20;
     cmp.minimal_surplus[SHIELD] = -20;
-    cmp.minimal_surplus[TRADE] = -20;
-    cmp.minimal_surplus[GOLD] = -20;
     cmp.minimal_surplus[LUXURY] = -20;
     cmp.minimal_surplus[SCIENCE] = -20;
     cmp.allow_disorder = TRUE;
