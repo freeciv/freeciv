@@ -847,12 +847,12 @@ int collect_cids3(cid * dest_cids)
 {
   int id, cids_used = 0;
 
-  for (id = 0; id < B_LAST; id++) {
+  impr_type_iterate(id) {
     if (can_player_build_improvement(game.player_ptr, id)) {
       dest_cids[cids_used] = cid_encode(FALSE, id);
       cids_used++;
     }
-  }
+  } impr_type_iterate_end;
 
   for (id = 0; id < U_LAST; id++) {
     if (can_player_build_unit(game.player_ptr, id)) {

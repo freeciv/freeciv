@@ -1422,7 +1422,6 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 static struct city_dialog *create_city_dialog(struct city *pcity,
 					      bool make_modal)
 {
-  int i;
   struct city_dialog *pdialog;
 
   GtkWidget *close_command;
@@ -1574,8 +1573,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
   dialog_list_insert(&dialog_list, pdialog);
 
-  for (i = 0; i < B_LAST; i++)
+  impr_type_iterate(i) {
     pdialog->last_improvlist_seen[i] = 0;
+  } impr_type_iterate_end;
 
   refresh_city_dialog(pdialog->pcity);
 

@@ -339,7 +339,8 @@ economy_report_dialog_update(void)
   row[3] = buf3;
   pcity = city_list_get(&game.player_ptr->cities,0);
   if(pcity)  {
-    for (j=0;j<B_LAST;j++)
+
+    impr_type_iterate(j) {
       if(!is_wonder(j)) {
 	count = 0;
 	city_list_iterate(game.player_ptr->cities,pcity)
@@ -364,7 +365,8 @@ economy_report_dialog_update(void)
 	    pcity->currently_building==B_CAPITAL)
 	  tax+=pcity->shield_surplus;
       } city_list_iterate_end;
-    }     
+    } impr_type_iterate_end;
+
     my_snprintf(economy_total, sizeof(economy_total),
 		_("Income:%6d    Total Costs: %6d"), tax, total);
     SetWindowText(GetDlgItem(economy_dlg,ID_TRADEREP_CASH),economy_total);

@@ -194,9 +194,9 @@ int city_dialog_is_open(struct city *pcity)
 
 void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
-  int i, n, flag;
+  int i, n = 0, flag = 0;
   
-  for(i=0, n=0, flag=0; i<B_LAST; ++i)
+  impr_type_iterate(i) {
     if(pdialog->pcity->improvements[i]) {
       if(!pdialog->improvlist_names_ptrs[n] ||
          strcmp(pdialog->improvlist_names_ptrs[n],
@@ -207,6 +207,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
       pdialog->improvlist_names_ptrs[n]=pdialog->improvlist_names[n];
       n++;
     }
+  } impr_type_iterate_end;
  
   if(pdialog->improvlist_names_ptrs[n]!=0) {
     pdialog->improvlist_names_ptrs[n]=0;
@@ -979,7 +980,7 @@ void sell_callback(struct city_dialog *pdialog)
   if (row!=LB_ERR)
     {
       row=ListBox_GetItemData(pdialog->buildings_list,row);
-       for(i=0, n=0; i<B_LAST; i++)
+      impr_type_iterate(i) {
       if(pdialog->pcity->improvements[i]) {
         if(n==row) {
           char buf[512];
@@ -998,7 +999,8 @@ void sell_callback(struct city_dialog *pdialog)
           return;
         }
         n++;
-      }    
+      }
+      } impr_type_iterate_end;
     }
 }
 

@@ -125,13 +125,12 @@ static void cityrep_active(void)
 
     flag = 0;
 
-    for (i = 0; i < B_LAST; i++)
-    {
+    impr_type_iterate(i) {
       if (can_build_improvement(pcity, i))
       {
 	flag = 1;
       }
-    }
+    } impr_type_iterate_end;
 
     unit_type_iterate(i) {
       if (can_build_unit(pcity, i))
