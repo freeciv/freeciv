@@ -186,13 +186,13 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
      As this is a special case we bypass send_unit_info. */
   first_packet = TRUE;
   unit_list_iterate(pcity->units_supported, punit) {
-    package_unit(punit, &unit_packet, punit->x, punit->y, FALSE, FALSE,
+    package_unit(punit, &unit_packet, FALSE, FALSE,
 		 UNIT_INFO_CITY_SUPPORTED, pcity->id, first_packet);
     send_packet_unit_info(pplayer->conn, &unit_packet);
     first_packet = FALSE;
   } unit_list_iterate_end;
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
-    package_unit(punit, &unit_packet, punit->x, punit->y, FALSE, FALSE,
+    package_unit(punit, &unit_packet, FALSE, FALSE,
 		 UNIT_INFO_CITY_PRESENT, pcity->id, first_packet);
     send_packet_unit_info(pplayer->conn, &unit_packet);
     first_packet = FALSE;
@@ -2938,37 +2938,43 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 }
 
 /**************************************************************************
-  send the unit to the players who need the info.
-  dest = NULL means all players.
-  x and y is where the unit came from, so that the info can be sent if
-  the other players can see either the target or destination tile.
+  Send the unit into to those connections in dest which can see the units
+  position, or the specified (x,y) (if different).
+  Eg, use x and y as where the unit came from, so that the info can be
+  sent if the other players can see either the target or destination tile.
+  dest = NULL means all connections (game.game_connections)
 **************************************************************************/
-void send_unit_info_to_onlookers(struct player *dest, struct unit *punit,
+void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 				 int x, int y, int carried, int select_it)
 {
-  int o;
   struct packet_unit_info info;
 
-  package_unit(punit, &info, x, y, carried, select_it,
+  if (dest==NULL) dest = &game.game_connections;
+  
+  package_unit(punit, &info, carried, select_it,
 	       UNIT_INFO_IDENTITY, 0, FALSE);
 
-  for (o=0; o<game.nplayers; o++) {          /* dests */
-    if (!dest || &game.players[o]==dest) {
-      if (map_get_known_and_seen(info.x, info.y, o) ||
-	  map_get_known_and_seen(x, y, o)) {
-	send_packet_unit_info(get_player(o)->conn, &info);
-      }
+  conn_list_iterate(*dest, pconn) {
+    struct player *pplayer = pconn->player;
+    if (pplayer==NULL && !pconn->observer) continue;
+    if (pplayer==NULL
+	|| map_get_known_and_seen(info.x, info.y, pplayer->player_no)
+	|| map_get_known_and_seen(x, y, pplayer->player_no)) {
+      send_packet_unit_info(pconn, &info);
     }
   }
+  conn_list_iterate_end;
 }
 
 /**************************************************************************
   send the unit to the players who need the info 
-  dest = NULL means all players.
+  dest = NULL means all connections (game.game_connections)
 **************************************************************************/
 void send_unit_info(struct player *dest, struct unit *punit)
 {
-  send_unit_info_to_onlookers(dest, punit, punit->x, punit->y, 0, 0);
+  struct conn_list *conn_dest = (dest ? &dest->connections
+				 : &game.game_connections);
+  send_unit_info_to_onlookers(conn_dest, punit, punit->x, punit->y, 0, 0);
 }
 
 /**************************************************************************
@@ -3058,23 +3064,33 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
 }
 
 /**************************************************************************
-...
+  For each specified connections, send information about all the units
+  known to that player/conn.
 **************************************************************************/
-void send_all_known_units(struct player *dest)
+void send_all_known_units(struct conn_list *dest)
 {
-  int o,p;
-  for(p=0; p<game.nplayers; p++) { /* send the players units */
-    struct player *unitowner = &game.players[p];
-    for(o=0; o<game.nplayers; o++) { /* dests */
-      if(!dest || &game.players[o]==dest) {
-	struct player *pplayer = get_player(o);
-	unit_list_iterate(unitowner->units,punit)
-	  if (map_get_known_and_seen(punit->x, punit->y, o))
-	    send_unit_info(pplayer, punit);
-	unit_list_iterate_end;
+  int p;
+  
+  conn_list_do_buffer(dest);
+  conn_list_iterate(*dest, pconn) {
+    struct player *pplayer = pconn->player;
+    if (pconn->player==NULL && !pconn->observer) {
+      continue;
+    }
+    for(p=0; p<game.nplayers; p++) { /* send the players units */
+      struct player *unitowner = &game.players[p];
+      unit_list_iterate(unitowner->units, punit) {
+	if (pplayer==NULL
+	    || map_get_known_and_seen(punit->x, punit->y, pplayer->player_no)) {
+	  send_unit_info_to_onlookers(&pconn->self, punit,
+				      punit->x, punit->y, 0, 0);
+	}
       }
+      unit_list_iterate_end;
     }
   }
+  conn_list_iterate_end;
+  conn_list_do_unbuffer(dest);
 }
 
 /**************************************************************************
@@ -3128,7 +3144,7 @@ This function is getting a bit larger and ugly. Perhaps it would be nicer
 if it was recursive!?
 
 FIXME: If in the open (not city), and leaving with only those units that are
-       allready assigned to us would strand some units try to reassign the
+       already assigned to us would strand some units try to reassign the
        transports. This reassign sometimes makes more changes than it needs to.
 
        Groundunit ground unit transports moving to and from ships never take
@@ -3202,7 +3218,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
       }
     } else { /** We are on a land tile **/
       /* If ordered to do so we take extra units with us, provided they
-	 are not allready commited to another transporter on the tile */
+	 are not already commited to another transporter on the tile */
       if (take_from_land) {
 	unit_list_iterate(ptile->units, pcargo) {
 	  if (capacity == 0)

@@ -13,13 +13,12 @@
 #ifndef FC__GAMEHAND_H
 #define FC__GAMEHAND_H
 
-struct player;
 struct section_file;
 struct conn_list;
 
 void init_new_game(void);
 void send_year_to_clients(int year);
-void send_game_info(struct player *dest);
+void send_game_info(struct conn_list *dest);
 void send_game_state(struct conn_list *dest, int state);
 
 void game_load(struct section_file *file);

@@ -61,8 +61,7 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove);
 void handle_incite_inq(struct player *pplayer,
 		       struct packet_generic_integer *packet);
 void package_unit(struct unit *punit, struct packet_unit_info *packet,
-		  int x, int y, int carried, int select_it,
-		  enum unit_info_use packet_use, int info_city_id,
-		  int new_serial_num);
+		  int carried, int select_it, enum unit_info_use packet_use,
+		  int info_city_id, int new_serial_num);
 
 #endif  /* FC__UNITHAND_H */

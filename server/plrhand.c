@@ -1270,17 +1270,29 @@ log_civ_score_disable:
 }
 
 /**************************************************************************
-Send end-of-turn notifications to pplayer.
-If pplayer is NULL, send to all players.
+  Send end-of-turn notifications relevant to specified dests.
+  If dest is NULL, do all players, sending to pplayer->connections.
 **************************************************************************/
-void send_player_turn_notifications(struct player *pplayer)
+void send_player_turn_notifications(struct conn_list *dest)
 {
-  int index;
-
-  for (index = 0; index < game.nplayers; index++) {	/* dests */
-    if (!pplayer || (&game.players[index] == pplayer)) {
-      city_list_iterate(game.players[index].cities, pcity) {
-	send_city_turn_notifications(&game.players[index], pcity);
+  if (dest) {
+    conn_list_iterate(*dest, pconn) {
+      struct player *pplayer = pconn->player;
+      if (pplayer) {
+	city_list_iterate(pplayer->cities, pcity) {
+	  send_city_turn_notifications(&pconn->self, pcity);
+	}
+	city_list_iterate_end;
+      }
+    }
+    conn_list_iterate_end;
+  }
+  else {
+    int i;
+    for (i=0; i<game.nplayers; i++) {
+      struct player *pplayer = &game.players[i];
+      city_list_iterate(pplayer->cities, pcity) {
+	send_city_turn_notifications(&pplayer->connections, pcity);
       }
       city_list_iterate_end;
     }
@@ -2164,64 +2176,75 @@ void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
 }
 
 /**************************************************************************
-both src and dest can be NULL
-NULL means all players
+  Send information about player src, or all players if src is NULL,
+  to specified clients dest (dest may not be NULL).
+**************************************************************************/
+void send_player_info_c(struct player *src, struct conn_list *dest)
+{
+  int i, j;
+
+  for(i=0; i<game.nplayers; i++) {    /* srcs  */
+    if(!src || &game.players[i]==src) {
+      struct packet_player_info info;
+      info.playerno=i;
+      sz_strlcpy(info.name, game.players[i].name);
+      info.nation=game.players[i].nation;
+      info.is_male=game.players[i].is_male;
+
+      info.gold=game.players[i].economic.gold;
+      info.tax=game.players[i].economic.tax;
+      info.science=game.players[i].economic.science;
+      info.luxury=game.players[i].economic.luxury;
+      info.government=game.players[i].government;
+      info.embassy=game.players[i].embassy;
+      info.city_style=game.players[i].city_style;
+
+      info.reputation=game.players[i].reputation;
+      for(j=0; j<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; j++) {
+	info.diplstates[j].type=game.players[i].diplstates[j].type;
+	info.diplstates[j].turns_left=game.players[i].diplstates[j].turns_left;
+	info.diplstates[j].has_reason_to_cancel =
+	  game.players[i].diplstates[j].has_reason_to_cancel;
+      }
+
+      info.researched=game.players[i].research.researched;
+      info.researchpoints=game.players[i].research.researchpoints;
+      info.researching=game.players[i].research.researching;
+      info.tech_goal=game.players[i].ai.tech_goal;
+      for(j=0; j<game.num_tech_types; j++)
+	info.inventions[j]=game.players[i].research.inventions[j]+'0';
+      info.inventions[j]='\0';
+      info.future_tech=game.players[i].future_tech;
+      info.turn_done=game.players[i].turn_done;
+      info.nturns_idle=game.players[i].nturns_idle;
+      info.is_alive=game.players[i].is_alive;
+      info.is_connected=game.players[i].is_connected;
+      sz_strlcpy(info.addr, game.players[i].addr);
+      info.revolution=game.players[i].revolution;
+      info.ai=game.players[i].ai.control;
+      info.is_barbarian=game.players[i].ai.is_barbarian;
+      if(game.players[i].conn)
+	sz_strlcpy(info.capability,game.players[i].conn->capability);
+      
+      for (j = 0; j < MAX_NUM_WORKLISTS; j++)
+	copy_worklist(&info.worklists[j], &game.players[i].worklists[j]);
+      
+      lsend_packet_player_info(dest, &info);
+    }
+  }
+}
+
+/**************************************************************************
+  Convenience form of send_player_info_c.
+  Send information about player src, or all players if src is NULL,
+  to specified players dest (that is, to dest->connections).
+  As convenience to old code, dest may be NULL meaning send to
+  game.est_connections.  (In general this may be overkill and may only
+  want game.game_connections, but this is safest for now...?)
 **************************************************************************/
 void send_player_info(struct player *src, struct player *dest)
 {
-  int o, i, j;
-
-  for(o=0; o<game.nplayers; o++)           /* dests */
-     if(!dest || &game.players[o]==dest)
-        for(i=0; i<game.nplayers; i++)     /* srcs  */
-           if(!src || &game.players[i]==src) {
-             struct packet_player_info info;
-             info.playerno=i;
-             sz_strlcpy(info.name, game.players[i].name);
-             info.nation=game.players[i].nation;
-             info.is_male=game.players[i].is_male;
-
-             info.gold=game.players[i].economic.gold;
-             info.tax=game.players[i].economic.tax;
-             info.science=game.players[i].economic.science;
-             info.luxury=game.players[i].economic.luxury;
-	     info.government=game.players[i].government;
-	     info.embassy=game.players[i].embassy;
-             info.city_style=game.players[i].city_style;
-
-	     info.reputation=game.players[i].reputation;
-	     for(j=0; j<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; j++) {
-	       info.diplstates[j].type=game.players[i].diplstates[j].type;
-	       info.diplstates[j].turns_left=game.players[i].diplstates[j].turns_left;
-	       info.diplstates[j].has_reason_to_cancel =
-		 game.players[i].diplstates[j].has_reason_to_cancel;
-	     }
-
-	     info.researched=game.players[i].research.researched;
-             info.researchpoints=game.players[i].research.researchpoints;
-             info.researching=game.players[i].research.researching;
-             info.tech_goal=game.players[i].ai.tech_goal;
-             for(j=0; j<game.num_tech_types; j++)
-               info.inventions[j]=game.players[i].research.inventions[j]+'0';
-             info.inventions[j]='\0';
-             info.future_tech=game.players[i].future_tech;
-             info.turn_done=game.players[i].turn_done;
-             info.nturns_idle=game.players[i].nturns_idle;
-             info.is_alive=game.players[i].is_alive;
-             info.is_connected=game.players[i].is_connected;
-             sz_strlcpy(info.addr, game.players[i].addr);
-	     info.revolution=game.players[i].revolution;
-	     info.ai=game.players[i].ai.control;
-	     info.is_barbarian=game.players[i].ai.is_barbarian;
-	     if(game.players[i].conn)
-	       sz_strlcpy(info.capability,game.players[i].conn->capability);
-	     
-	     for (j = 0; j < MAX_NUM_WORKLISTS; j++)
-	       copy_worklist(&info.worklists[j], 
-			     &game.players[i].worklists[j]);
-
-             send_packet_player_info(game.players[o].conn, &info);
-	   }
+  send_player_info_c(src, (dest ? &dest->connections : &game.est_connections));
 }
 
 /***************************************************************

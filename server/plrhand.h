@@ -36,6 +36,7 @@ void maybe_make_first_contact(int x, int y, int playerid);
 void neutralize_ai_player(struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
+void send_player_info_c(struct player *src, struct conn_list *dest);
 
 void page_conn(struct conn_list *dest, char *caption, char *headline,
 	       char *lines);
@@ -79,7 +80,7 @@ void report_wonders_of_the_world(struct conn_list *dest);
 void report_top_five_cities(struct conn_list *dest);
 void report_demographics(struct connection *pconn);
 
-void send_player_turn_notifications(struct player *pplayer);
+void send_player_turn_notifications(struct conn_list *dest);
 
 void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);

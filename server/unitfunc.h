@@ -13,9 +13,13 @@
 #ifndef FC__UNITFUNC_H
 #define FC__UNITFUNC_H
 
-#include "packets.h"
-#include "unit.h"
-#include "gotohand.h"
+#include "gotohand.h"		/* enum goto_move_restriction */
+#include "unit.h"		/* Unit_Type_id, enum unit_activity */
+
+struct player;
+struct city;
+struct conn_list;
+struct genlist_iterator;
 
 void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 			  struct city *pcity);
@@ -51,7 +55,7 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 
 void kill_unit(struct unit *pkiller, struct unit *punit);
 void send_unit_info(struct player *dest, struct unit *punit);
-void send_unit_info_to_onlookers(struct player *dest, struct unit *punit,
+void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit, 
 				 int x, int y, int carried, int select_it);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
 int get_total_attack_power(struct unit *attacker, struct unit *defender);
@@ -65,7 +69,7 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y);
 void raze_city(struct city *pcity);
 void get_a_tech(struct player *pplayer, struct player *target);
 void make_partisans(struct city *pcity);
-void send_all_known_units(struct player *dest);
+void send_all_known_units(struct conn_list *dest);
 void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
 int move_unit(struct unit *punit, const int dest_x, const int dest_y,
 	      int transport_units, int take_from_land, int move_cost);

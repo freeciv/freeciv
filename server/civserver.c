@@ -95,7 +95,7 @@
 static void begin_turn(void);
 static void before_end_year(void);
 static int end_turn(void);
-static void send_all_info(struct player *dest);
+static void send_all_info(struct conn_list *dest);
 static void shuffle_players(void);
 static void ai_start_turn(void);
 static int is_game_over(void);
@@ -473,7 +473,7 @@ main_start_players:
     }
   }
   
-  send_all_info(0);
+  send_all_info(&game.game_connections);
   
   if(game.is_new_game)
     init_new_game();
@@ -672,14 +672,14 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
 }
 
 /**************************************************************************
-dest can be NULL meaning all players
+  Send all information for when game starts or client reconnects.
+  Ruleset information should have been sent before this.
 **************************************************************************/
-static void send_all_info(struct player *dest)
+static void send_all_info(struct conn_list *dest)
 {
-/*  send_rulesets(dest); */
   send_game_info(dest);
   send_map_info(dest);
-  send_player_info(0, dest);
+  send_player_info_c(0, dest);
   send_spaceship_info(0, dest);
   send_all_known_tiles(dest);
   send_all_known_cities(dest);
@@ -707,8 +707,8 @@ static void do_apollo_program(void)
       }
     } else {
       map_know_all(pplayer);
-      send_all_known_tiles(pplayer);
-      send_all_known_cities(pplayer);
+      send_all_known_tiles(&pplayer->connections);
+      send_all_known_cities(&pplayer->connections);
     }
   }
 }
@@ -754,7 +754,7 @@ static void update_environmental_upset(enum tile_special_type cause,
       upset_action_fn((map.xsize / 10) + (map.ysize / 10) + ((*accum) * 5));
       *accum = 0;
       *level+=4;
-      send_all_known_tiles(0);
+      send_all_known_tiles(&game.game_connections);
     }
   }
 
@@ -922,9 +922,7 @@ static int end_turn(void)
   do_apollo_program();
   marco_polo_make_contact();
   make_history_report();
-  for (i=0; i<game.nplayers;i++) {
-    send_player_turn_notifications(&game.players[i]);
-  }
+  send_player_turn_notifications(NULL);
   freelog(LOG_DEBUG, "Turn ended.");
   game.turn_start = time(NULL);
   return 1;
@@ -1713,7 +1711,7 @@ static void handle_request_join_game(struct connection *pconn,
       introduce_game_to_connection(pconn);
       if(server_state==RUN_GAME_STATE) {
         send_rulesets(&pconn->self);
-	send_all_info(pplayer);
+	send_all_info(&pconn->self);
         send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
 	send_player_info(NULL,NULL);
       }
@@ -2033,7 +2031,7 @@ static void enable_fog_of_war_player(struct player *pplayer)
       if (map_get_seen(x, y, playerid) == 0)
 	update_player_tile_last_seen(pplayer, x, y);
     }
-  send_all_known_tiles(pplayer);
+  send_all_known_tiles(&pplayer->connections);
 }
 
 /*************************************************************************
@@ -2064,9 +2062,9 @@ static void disable_fog_of_war_player(struct player *pplayer)
       }
     }
   }
-  send_all_known_tiles(pplayer);
-  send_all_known_units(pplayer);
-  send_all_known_cities(pplayer);
+  send_all_known_tiles(&pplayer->connections);
+  send_all_known_units(&pplayer->connections);
+  send_all_known_cities(&pplayer->connections);
 }
 
 /*************************************************************************

@@ -16,9 +16,10 @@
 struct player;
 struct player_spaceship;
 struct packet_spaceship_action;
+struct conn_list;
 
 void spaceship_calc_derived(struct player_spaceship *ship);
-void send_spaceship_info(struct player *src, struct player *dest);
+void send_spaceship_info(struct player *src, struct conn_list *dest);
 void spaceship_lost(struct player *pplayer);
 void check_spaceship_arrivals(void);
 

@@ -107,46 +107,45 @@ void spaceship_calc_derived(struct player_spaceship *ship)
 }
 
 /**************************************************************************
-both src and dest can be NULL
-NULL means all players
+  Send details of src's spaceship (or spaceships of all players
+  if src is NULL) to specified destinations.  If dest is NULL then
+  game.game_connections is used.
 **************************************************************************/
-void send_spaceship_info(struct player *src, struct player *dest)
+void send_spaceship_info(struct player *src, struct conn_list *dest)
 {
-  int o, i, j;
+  int i, j;
+
+  if (dest==NULL) dest = &game.game_connections;
   
-  for(o=0; o<game.nplayers; o++) {          /* dests */
-    if(!dest || &game.players[o]==dest) {
-      for(i=0; i<game.nplayers; i++) {      /* srcs  */
-	if(!src || &game.players[i]==src) {
-	  struct packet_spaceship_info info;
-	  struct player_spaceship *ship = &game.players[i].spaceship;
+  for(i=0; i<game.nplayers; i++) {      /* srcs  */
+    if(!src || &game.players[i]==src) {
+      struct packet_spaceship_info info;
+      struct player_spaceship *ship = &game.players[i].spaceship;
 	  
-	  info.player_num = i;
-	  info.sship_state = ship->state;
-	  info.structurals = ship->structurals;
-	  info.components = ship->components;
-	  info.modules = ship->modules;
-	  info.fuel = ship->fuel;
-	  info.propulsion = ship->propulsion;
-	  info.habitation = ship->habitation;
-	  info.life_support = ship->life_support;
-	  info.solar_panels = ship->solar_panels;
-	  info.launch_year = ship->launch_year;
-	  info.population = ship->population;
-	  info.mass = ship->mass;
-	  info.support_rate = ship->support_rate;
-	  info.energy_rate = ship->energy_rate;
-	  info.success_rate = ship->success_rate;
-	  info.travel_time = ship->travel_time;
-	  
-	  for(j=0; j<NUM_SS_STRUCTURALS; j++) {
-	    info.structure[j] = ship->structure[j] + '0';
-	  }
-	  info.structure[j] = '\0';
-	  
-	  send_packet_spaceship_info(game.players[o].conn, &info);
-	}
+      info.player_num = i;
+      info.sship_state = ship->state;
+      info.structurals = ship->structurals;
+      info.components = ship->components;
+      info.modules = ship->modules;
+      info.fuel = ship->fuel;
+      info.propulsion = ship->propulsion;
+      info.habitation = ship->habitation;
+      info.life_support = ship->life_support;
+      info.solar_panels = ship->solar_panels;
+      info.launch_year = ship->launch_year;
+      info.population = ship->population;
+      info.mass = ship->mass;
+      info.support_rate = ship->support_rate;
+      info.energy_rate = ship->energy_rate;
+      info.success_rate = ship->success_rate;
+      info.travel_time = ship->travel_time;
+      
+      for(j=0; j<NUM_SS_STRUCTURALS; j++) {
+	info.structure[j] = ship->structure[j] + '0';
       }
+      info.structure[j] = '\0';
+	  
+      lsend_packet_spaceship_info(dest, &info);
     }
   }
 }

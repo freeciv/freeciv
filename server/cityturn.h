@@ -17,6 +17,7 @@
 struct city;
 struct player;
 struct unit;
+struct conn_list;
 
 int unit_being_aggressive(struct unit *punit);
 
@@ -30,7 +31,7 @@ void city_check_workers(struct player *pplayer, struct city *pcity);
 /**** This part isn't meant to be used ****/  /* huh? which part?  --dwp */
 
 void city_auto_remove_worker(struct city *pcity); 
-void send_city_turn_notifications(struct player *pplayer, struct city *pcity);
+void send_city_turn_notifications(struct conn_list *dest, struct city *pcity);
 void begin_cities_turn(struct player *pplayer);
 void update_city_activities(struct player *pplayer);
 void city_incite_cost(struct city *pcity);

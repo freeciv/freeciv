@@ -1393,9 +1393,8 @@ void handle_unit_paradrop_to(struct player *pplayer,
 ...
 **************************************************************************/
 void package_unit(struct unit *punit, struct packet_unit_info *packet,
-		  int x, int y, int carried, int select_it,
-		  enum unit_info_use packet_use, int info_city_id,
-		  int new_serial_num)
+		  int carried, int select_it, enum unit_info_use packet_use,
+		  int info_city_id, int new_serial_num)
 {
   static unsigned int serial_num = 0;
 

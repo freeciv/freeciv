@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -737,21 +738,78 @@ void send_adjacent_cities(struct city *pcity)
 }
 
 /**************************************************************************
-A wrapper. Yes I know that in most cases the x and y of the city is
-unpacked and then the city is found again, but as the function isn't used
-that much the advantage of not cut-pasting code is worth it.
+  Broadcast info about a city to all players who observe the tile. 
+  If the player can see the city we update the city info first.
+  If not we just use the info from the players private map.
+  See also comments to send_city_info_at_tile().
+  (Split off from send_city_info_at_tile() because that was getting
+  too difficult for me to understand... --dwp)
 **************************************************************************/
-void send_city_info(struct player *dest, struct city *pcity)
+static void broadcast_city_info(struct city *pcity)
 {
-  send_city_info_at_tile(dest, pcity->x, pcity->y);
+  int o;
+  struct player *powner = city_owner(pcity);
+  struct packet_city_info packet;
+
+  /* nocity_send is used to inhibit sending cities to the owner between
+   * turn updates
+   */
+  if (!nocity_send) {    /* first send all info to the owner */
+    update_dumb_city(powner, pcity);
+    package_city(pcity, &packet, FALSE);
+    lsend_packet_city_info(&powner->connections, &packet);
+  }
+
+  /* send to all others who can see the city: */
+  for(o=0; o<game.nplayers; o++) {
+    struct player *pplayer = &game.players[o];
+    if(pcity->owner==o) continue; /* already sent above */
+    if(map_get_known_and_seen(pcity->x, pcity->y, o)) {
+      update_dumb_city(pplayer, pcity);
+      package_dumb_city(pplayer, pcity->x, pcity->y, &packet);
+      lsend_packet_city_info(&pplayer->connections, &packet);
+    }
+  }
+  /* send to non-player observers:
+   * should these only get dumb_city type info?
+   */
+  conn_list_iterate(game.game_connections, pconn) {
+    if (pconn->player==NULL && pconn->observer) {
+      package_city(pcity, &packet, FALSE);
+      send_packet_city_info(pconn, &packet);
+    }
+  }
+  conn_list_iterate_end;
 }
 
 /**************************************************************************
-Send info about a city. If the player can see the city we update the city
+  A wrapper, accessing either broadcast_city_info() (dest==NULL),
+  or a convenience case of send_city_info_at_tile().
+  Must specify non-NULL pcity.
+**************************************************************************/
+void send_city_info(struct player *dest, struct city *pcity)
+{
+  assert(pcity);
+  if (dest==NULL) {
+    broadcast_city_info(pcity);
+  } else {
+    send_city_info_at_tile(dest, &dest->connections, pcity, pcity->x, pcity->y);
+  }
+}
+
+/**************************************************************************
+Send info about a city, as seen by pviewer, to dest (usually dest will
+be pviewer->connections). If pplayer can see the city we update the city
 info first. If not we just use the info from the players private map.
-If (dest == NULL) it is considered a broadcast, and info is sent to all
-players who observe the tile. This may only be used if there actually is a
-city at the tile.
+
+If (pviewer == NULL) this is for observers, who see everything (?)
+For this function dest may not be NULL.  See send_city_info() and
+broadcast_city_info().
+
+If pcity is non-NULL it should be same as map_get_city(x,y); if pcity
+is NULL, this function calls map_get_city(x,y) (it is ok if this
+returns NULL).
+
 Sometimes a player's map contain a city that doesn't actually exist. Use
 reality_check_city(pplayer, x,y) to update that. Remember to NOT send info
 about a city to a player who thinks the tile contains another city. If you
@@ -759,53 +817,49 @@ want to update the clients info of the tile you must use
 reality_check_city(pplayer, x, y) first. This is generally taken care of
 automatically when a tile becomes visible.
 **************************************************************************/
-void send_city_info_at_tile(struct player *dest, int x, int y)
+void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
+			    struct city *pcity, int x, int y)
 {
-  int o;
-  struct city *pcity = map_get_city(x,y);
   struct player *powner = NULL;
   struct packet_city_info packet;
   struct dumb_city *pdcity;
+
+  if (pcity==NULL)
+    pcity = map_get_city(x,y);
   if (pcity)
     powner = city_owner(pcity);
 
-  if (!dest && !pcity)
-    freelog(LOG_FATAL, "You can't broadcast a nonexistent city (at %i,%i)\n",x,y);
-
-  /* nocity_send is used to inhibit sending cities to the owner between turn updates */
-  if (pcity && (!dest || powner == dest) && !nocity_send) {
-    /* send all info to the owner */
-    update_dumb_city(powner, pcity);
-    package_city(pcity, &packet, FALSE);
-    send_packet_city_info(powner->conn, &packet);
-  }
-
-  if (dest && powner != dest) { /* send info to specific player. */
-    if (map_get_known_and_seen(x, y, dest->player_no)) {
-      if (pcity) { /* it's there and we see it; update and send */
-	update_dumb_city(dest, pcity);
-	package_dumb_city(dest, x, y, &packet);
-	send_packet_city_info(dest->conn, &packet);
-      }
-    } else { /* not seen; send old info */
-      pdcity = map_get_player_tile(x, y, dest->player_no)->city;
-      if (pdcity) {
-	package_dumb_city(dest, x, y, &packet);
-	send_packet_city_info(dest->conn, &packet);
-      }
+  if (powner == pviewer) {
+    /* send info to owner */
+    /* This case implies powner non-NULL which means pcity non-NULL */
+    /* nocity_send is used to inhibit sending cities to the owner between
+       turn updates */
+    if (!nocity_send) {
+      /* send all info to the owner */
+      update_dumb_city(powner, pcity);
+      package_city(pcity, &packet, FALSE);
+      lsend_packet_city_info(dest, &packet);
     }
   }
-
-  /* send to all (we just sent to the owner).
-     This is only used if there actually is a city (checked above) */
-  if(!dest) {
-    for(o=0; o<game.nplayers; o++) {
-      if(pcity->owner==o) continue; /* allready send above */
-      if(map_get_known_and_seen(pcity->x, pcity->y, o)) {
-	update_dumb_city(&game.players[o], pcity);
-	package_dumb_city(&game.players[o], pcity->x, pcity->y, &packet);
-	send_packet_city_info(game.players[o].conn, &packet);
-      } /* broadcast is only used to send to players that can see the tile */
+  else {
+    /* send info to non-owner */
+    if (pviewer==NULL) {	/* observer */
+      if (pcity) {
+	package_city(pcity, &packet, FALSE);   /* should be dumb_city info? */
+	lsend_packet_city_info(dest, &packet);
+      }
+    } else if (map_get_known_and_seen(x, y, pviewer->player_no)) {
+      if (pcity) { /* it's there and we see it; update and send */
+	update_dumb_city(pviewer, pcity);
+	package_dumb_city(pviewer, x, y, &packet);
+	lsend_packet_city_info(dest, &packet);
+      }
+    } else { /* not seen; send old info */
+      pdcity = map_get_player_tile(x, y, pviewer->player_no)->city;
+      if (pdcity) {
+	package_dumb_city(pviewer, x, y, &packet);
+	lsend_packet_city_info(dest, &packet);
+      }
     }
   }
 }
@@ -1087,8 +1141,8 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
 }
 
 /**************************************************************************
-updates a players knowledge about a city. If the player_tile allready
-contains a city it must be the same city (avoid problems by allways calling
+updates a players knowledge about a city. If the player_tile already
+contains a city it must be the same city (avoid problems by always calling
 reality_check city first)
 **************************************************************************/
 void update_dumb_city(struct player *pplayer, struct city *pcity)
@@ -1123,7 +1177,8 @@ void reality_check_city(struct player *pplayer,int x, int y)
     pcity = map_get_tile(x,y)->city;
     if (!pcity || (pcity && pcity->id != pdcity->id)) {
       packet.value=pdcity->id;
-      send_packet_generic_integer(pplayer->conn,PACKET_REMOVE_CITY,&packet);
+      lsend_packet_generic_integer(&pplayer->connections, PACKET_REMOVE_CITY,
+				   &packet);
       free(pdcity);
       map_get_player_tile(x, y, pplayer->player_no)->city = NULL;
     }
@@ -1131,21 +1186,27 @@ void reality_check_city(struct player *pplayer,int x, int y)
 }
 
 /**************************************************************************
-dest can be NULL meaning all players
+  Send to each client information about the cities it knows about.
+  dest may not be NULL
 **************************************************************************/
-void send_all_known_cities(struct player *dest)
+void send_all_known_cities(struct conn_list *dest)
 {
-  int o;
-
-  for(o=0; o<game.nplayers; o++)           /* dests */
-    if(!dest || &game.players[o]==dest) {
-      int x, y;
-      struct player *pplayer=&game.players[o];
-      connection_do_buffer(pplayer->conn);
-      for(y=0; y<map.ysize; y++)
-        for(x=0; x<map.xsize; x++)
-          if(map_get_player_tile(x, y, pplayer->player_no)->city)
-            send_city_info_at_tile(pplayer, x, y);
-      connection_do_unbuffer(pplayer->conn);
+  conn_list_do_buffer(dest);
+  conn_list_iterate(*dest, pconn) {
+    int x, y;
+    struct player *pplayer = pconn->player;
+    if (pplayer==NULL && !pconn->observer) {
+      continue;
     }
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++) {
+	if (pplayer==NULL
+	    || map_get_player_tile(x, y, pplayer->player_no)->city) {
+	  send_city_info_at_tile(pplayer, &pconn->self, NULL, x, y);
+	}
+      }
+    }
+  }
+  conn_list_iterate_end;
+  conn_list_do_unbuffer(dest);
 }

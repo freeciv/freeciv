@@ -199,12 +199,15 @@ void send_game_state(struct conn_list *dest, int state)
 
 
 /**************************************************************************
-dest can be NULL meaning all players
+  Send game_info packet; some server options and various stuff...
+  dest==NULL means game.est_connections
 **************************************************************************/
-void send_game_info(struct player *dest)
+void send_game_info(struct conn_list *dest)
 {
-  int i, o;
   struct packet_game_info ginfo;
+  int i;
+
+  if (dest==NULL) dest = &game.est_connections;
   
   ginfo.gold=game.gold;
   ginfo.tech=game.tech;
@@ -233,12 +236,12 @@ void send_game_info(struct player *dest)
   if (game.timeout)
     ginfo.seconds_to_turndone=game.turn_start + game.timeout - time(NULL);
 
-  for(o=0; o<game.nplayers; o++)           /* dests */
-    if(!dest || &game.players[o]==dest) {
-      struct player *pplayer=&game.players[o];
-      ginfo.player_idx=o;
-      send_packet_game_info(pplayer->conn, &ginfo);
-    }
+  conn_list_iterate(*dest, pconn) {
+    /* ? fixme: check for non-players: */
+    ginfo.player_idx = (pconn->player ? pconn->player->player_no : -1);
+    send_packet_game_info(pconn, &ginfo);
+  }
+  conn_list_iterate_end;
 }
 
 /***************************************************************

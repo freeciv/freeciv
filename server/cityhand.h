@@ -17,11 +17,13 @@
 
 struct player;
 struct city;
+struct conn_list;
 
 void create_city(struct player *pplayer, const int x, const int y, char *name);
 void remove_city(struct city *pcity);
 void send_city_info(struct player *dest, struct city *pcity);
-void send_city_info_at_tile(struct player *dest, int x, int y);
+void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
+			    struct city *pcity, int x, int y);
 void send_adjacent_cities(struct city *pcity);
 
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
@@ -60,7 +62,7 @@ void handle_city_name_suggest_req(struct player *pplayer,
 char *city_name_suggestion(struct player *pplayer);
 void reality_check_city(struct player *pplayer,int x, int y);
 void update_dumb_city(struct player *pplayer, struct city *pcity);
-void send_all_known_cities(struct player *dest);
+void send_all_known_cities(struct conn_list *dest);
 void package_city(struct city *pcity, struct packet_city_info *packet,
 		  int dipl_invest);
 

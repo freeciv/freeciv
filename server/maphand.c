@@ -42,7 +42,10 @@ static void player_tile_init(struct player_tile *ptile);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 struct player *pdest,
 						 int x, int y);
-static void send_NODRAW_tiles(struct player *pplayer, int x, int y, int len);
+static void send_tile_info_always(struct player *pplayer,
+				  struct conn_list *dest, int x, int y);
+static void send_NODRAW_tiles(struct player *pplayer,
+			      struct conn_list *dest, int x, int y, int len);
 static int map_get_sent(int x, int y, struct player *pplayer);
 static void map_set_sent(int x, int y, struct player *pplayer);
 static void map_clear_sent(int x, int y, struct player *pplayer);
@@ -221,38 +224,93 @@ void give_citymap_from_player_to_player(struct city *pcity,
 }
 
 /**************************************************************************
-dest can be NULL meaning all players
+  Send all tiles known to specified clients.
+  If dest is NULL means game.game_connections.
+  
+  Note for multiple connections this may change "sent" multiple times
+  for single player.  This is ok, because "sent" data is just optimised
+  calculations, so it will be correct before this, for each connection
+  during this, and at end.
 **************************************************************************/
-void send_all_known_tiles(struct player *dest)
+void send_all_known_tiles(struct conn_list *dest)
 {
-  int o;
+  int x, y;
+  
+  if (dest==NULL) dest = &game.game_connections;
+  
+  conn_list_do_buffer(dest);
 
-  for(o=0; o<game.nplayers; o++)           /* dests */
-    if(!dest || &game.players[o]==dest) {
-      int x, y;
-      struct player *pplayer=&game.players[o];
-      set_unknown_tiles_to_unsent(pplayer);      
-      connection_do_buffer(pplayer->conn);
-      for(y=0; y<map.ysize; y++)
-        for(x=0; x<map.xsize; x++)
-          if(map_get_known(x, y, pplayer)) {
-	    send_NODRAW_tiles(pplayer, x, y, 0);
-            send_tile_info(pplayer, x, y);
-          }
-      connection_do_unbuffer(pplayer->conn);
+  conn_list_iterate(*dest, pconn) {
+    struct player *pplayer = pconn->player;
+
+    if (pplayer) {
+      set_unknown_tiles_to_unsent(pplayer);
+    } else if(!pconn->observer) {
+      continue;			/* no map needed */
     }
+  
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++) {
+	if (pplayer==NULL || map_get_known(x, y, pplayer)) {
+	  if (pplayer) {
+	    send_NODRAW_tiles(pplayer, &pconn->self, x, y, 0);
+	  }
+	  send_tile_info_always(pplayer, &pconn->self, x, y);
+	}
+      }
+    }
+  }
+  conn_list_iterate_end;
+  
+  conn_list_do_unbuffer(dest);
 }
 
 /**************************************************************************
-dest can be NULL meaning all players
-if(dest==NULL) we send to all the players that map_get_known_and_seen the tile
-
-If the tile is seen we update the players private map. If it is known but
-unseen we sent the info from the players private map
+  Send tile information to all the clients in dest which know and see
+  the tile.  Also updates player knowledge.  If dest is NULL, sends to
+  all clients (game.game_connections) which know and see tile.
 **************************************************************************/
-void send_tile_info(struct player *dest, int x, int y)
+void send_tile_info(struct conn_list *dest, int x, int y)
 {
-  int o;
+  struct packet_tile_info info;
+  struct tile *ptile;
+
+  if (dest==NULL) dest = &game.game_connections;
+
+  ptile = map_get_tile(x, y);
+
+  info.x = x;
+  info.y = y;
+
+  conn_list_iterate(*dest, pconn) {
+    struct player *pplayer = pconn->player;
+    if (pplayer==NULL && !pconn->observer) {
+      continue;
+    }
+    if(pplayer==NULL || map_get_known_and_seen(x, y, pplayer->player_no)) {
+      info.known = TILE_KNOWN;
+      info.type = ptile->terrain;
+      info.special = ptile->special;
+      if (pplayer) {
+	update_tile_knowledge(pplayer,x,y);
+      }
+      send_packet_tile_info(pconn, &info);
+    }
+  }
+  conn_list_iterate_end;
+}
+
+/**************************************************************************
+  Send the tile information, as viewed by pplayer, to all specified
+  connections.   The tile info is sent even if pplayer doesn't see or
+  know the tile (setting appropriate info.known), as required for
+  client drawing requirements in some cases (see freeciv_hackers_guide.txt).
+  Also updates pplayer knowledge if known and seen, else used old.
+  pplayer==NULL means send "real" data, for observers
+**************************************************************************/
+void send_tile_info_always(struct player *pplayer, struct conn_list *dest,
+			   int x, int y)
+{
   struct packet_tile_info info;
   struct tile *ptile;
   struct player_tile *plrtile;
@@ -262,48 +320,44 @@ void send_tile_info(struct player *dest, int x, int y)
   info.x = x;
   info.y = y;
 
-  for(o=0; o<game.nplayers; o++) {          /* dests */
-    if(!dest && map_get_known_and_seen(x, y, o)) {
-      info.known = TILE_KNOWN;
-      info.type = ptile->terrain;
-      info.special = ptile->special;
-      update_tile_knowledge(&game.players[o],x,y);
-      send_packet_tile_info(game.players[o].conn, &info);
-      continue;
-    }
-    if(&game.players[o]==dest) { /* specific player */
-      if (map_get_known(x,y,&game.players[o])) {
-	if (map_get_seen(x, y, o)) { /* known and seen */
-	  update_tile_knowledge(&game.players[o],x,y); /* visible; update info */
-	  info.known=TILE_KNOWN;
-	} else /* known but not seen */
-	  info.known = TILE_KNOWN_FOGGED;
-	plrtile = map_get_player_tile(x, y, o);
-	info.type = plrtile->terrain;
-	info.special = plrtile->special;
-      } else { /* unknown (the client needs these sometimes to draw correctly) */
-	info.known = TILE_UNKNOWN;
-	info.type = ptile->terrain;
-	info.special = ptile->special;
-      }
-      send_packet_tile_info(game.players[o].conn, &info);
-    }
+  if (pplayer==NULL) {	/* observer sees all */
+    info.known=TILE_KNOWN;
+    info.type = ptile->terrain;
+    info.special = ptile->special;
   }
+  else if (map_get_known(x, y, pplayer)) {
+    if (map_get_seen(x, y, pplayer->player_no)) { /* known and seen */
+      update_tile_knowledge(pplayer,x,y); /* visible; update info */
+      info.known = TILE_KNOWN;
+    } else { /* known but not seen */
+      info.known = TILE_KNOWN_FOGGED;
+    }
+    plrtile = map_get_player_tile(x, y, pplayer->player_no);
+    info.type = plrtile->terrain;
+    info.special = plrtile->special;
+  } else { /* unknown (the client needs these sometimes to draw correctly) */
+    info.known = TILE_UNKNOWN;
+    info.type = ptile->terrain;
+    info.special = ptile->special;
+  }
+  lsend_packet_tile_info(dest, &info);
 }
 
 /**************************************************************************
-Add an exstra point of visibility to a square centered at x,y with
-sidelength 1+2*len, ie length 1 is normal sightrange for a unit.
+  Add an extra point of visibility to a square centered at x,y with
+  sidelength 1+2*len, ie length 1 is normal sightrange for a unit.
+  pplayer may not be NULL.
 **************************************************************************/
 void unfog_area(struct player *pplayer, int x, int y, int len)
 {
   int abs_x, abs_y;
   int playerid = pplayer->player_no;
   struct city *pcity;
-  send_NODRAW_tiles(pplayer,x,y,len);
-  connection_do_buffer(pplayer->conn);
+  
+  conn_list_do_buffer(&pplayer->connections);
+  send_NODRAW_tiles(pplayer, &pplayer->connections, x, y, len);
+  
   square_iterate(x, y, len, abs_x, abs_y) {
-	
     freelog (LOG_DEBUG, "Unfogging %i,%i. Previous fog: %i.",
 	     abs_x, abs_y, map_get_seen(abs_x, abs_y, playerid));
 	
@@ -326,40 +380,44 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 	send_city_info(pplayer, pcity);
 
       /* send info about the tile itself */
-      send_tile_info(pplayer, abs_x, abs_y);
+      send_tile_info_always(pplayer, &pplayer->connections, abs_x, abs_y);
     } else {
       map_change_seen(abs_x, abs_y, playerid, +1);
     }
   } square_iterate_end;
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 }
 
 /**************************************************************************
-send KNOWN_NODRAW tiles
-We send only the unknown tiles around the square with lenght len
+  Send KNOWN_NODRAW tiles as required by pplayer, to specified connections.
+  We send only the unknown tiles around the square with length len.
+  pplayer must not be NULL.
 **************************************************************************/
-static void send_NODRAW_tiles(struct player *pplayer, int x, int y, int len)
+static void send_NODRAW_tiles(struct player *pplayer, struct conn_list *dest,
+			      int x, int y, int len)
 {
   int abs_x,abs_y;
-  connection_do_buffer(pplayer->conn);
+  
+  conn_list_do_buffer(dest);
   square_iterate(x, y, len+1, abs_x, abs_y) {
     if (!map_get_sent(abs_x, abs_y, pplayer)) {
-      send_tile_info(pplayer, abs_x, abs_y);
+      send_tile_info_always(pplayer, dest, abs_x, abs_y);
       map_set_sent(abs_x, abs_y, pplayer);
     }
   } square_iterate_end;
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(dest);
 }
 
 /**************************************************************************
-Remove a point of visibility from a square centered at x,y with
-sidelenght 1+2*len, ie lenght 1 is normal sightrange for a unit.
+  Remove a point of visibility from a square centered at x,y with
+  sidelength 1+2*len, ie length 1 is normal sightrange for a unit.
 **************************************************************************/
 void fog_area(struct player *pplayer, int x, int y, int len)
 {
   int abs_x, abs_y, seen;
   int playerid = pplayer->player_no;
-  connection_do_buffer(pplayer->conn);
+  
+  conn_list_do_buffer(&pplayer->connections);
   square_iterate(x, y, len, abs_x, abs_y) {
     freelog (LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.",
 	     abs_x, abs_y, map_get_seen(abs_x, abs_y, playerid));
@@ -374,10 +432,10 @@ void fog_area(struct player *pplayer, int x, int y, int len)
 
     if (seen == 0) {
       update_player_tile_last_seen(pplayer, abs_x, abs_y);
-      send_tile_info(pplayer, abs_x, abs_y);
+      send_tile_info_always(pplayer, &pplayer->connections, abs_x, abs_y);
     }
   } square_iterate_end;
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 }
 
 /***************************************************************
@@ -393,7 +451,7 @@ void upgrade_city_rails(struct player *pplayer, int discovery)
     return;
   }
 
-  connection_do_buffer(pplayer->conn);
+  conn_list_do_buffer(&pplayer->connections);
 
   if (discovery) {
     notify_player(pplayer,
@@ -415,26 +473,21 @@ void upgrade_city_rails(struct player *pplayer, int discovery)
   }
   city_list_iterate_end;
 
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 }
 
 /**************************************************************************
-...
+  Send basic map information: map size, and is_earth.
 **************************************************************************/
-void send_map_info(struct player *dest)
+void send_map_info(struct conn_list *dest)
 {
-  int o;
   struct packet_map_info minfo;
 
   minfo.xsize=map.xsize;
   minfo.ysize=map.ysize;
   minfo.is_earth=map.is_earth;
  
-  for(o=0; o<game.nplayers; o++)           /* dests */
-    if(!dest || &game.players[o]==dest) {
-      struct player *pplayer=&game.players[o];
-      send_packet_map_info(pplayer->conn, &minfo);
-    }
+  lsend_packet_map_info(dest, &minfo);
 }
 
 /***************************************************************
@@ -884,8 +937,8 @@ void show_area(struct player *pplayer, int x, int y, int len)
 
   freelog(LOG_DEBUG, "Showing %i,%i, len %i",x,y,len);
 
-  connection_do_buffer(pplayer->conn);  
-  send_NODRAW_tiles(pplayer, x, y, len);
+  conn_list_do_buffer(&pplayer->connections);  
+  send_NODRAW_tiles(pplayer, &pplayer->connections, x, y, len);
   square_iterate(x, y, len, abs_x, abs_y) {
     if (!map_get_known_and_seen(abs_x, abs_y, playerid) && is_real_tile(x, y)) {
       map_set_known(abs_x, abs_y, pplayer);
@@ -894,7 +947,7 @@ void show_area(struct player *pplayer, int x, int y, int len)
       update_tile_knowledge(pplayer, abs_x, abs_y);
       update_player_tile_last_seen(pplayer, abs_x, abs_y);
 
-      send_tile_info(pplayer, abs_x, abs_y);
+      send_tile_info_always(pplayer, &pplayer->connections, abs_x, abs_y);
 
       /* remove old cities that exist no more */
       reality_check_city(pplayer, abs_x, abs_y);
@@ -911,7 +964,7 @@ void show_area(struct player *pplayer, int x, int y, int len)
       }
     }
   } square_iterate_end;
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 }
 
 /***************************************************************
@@ -978,7 +1031,7 @@ void map_know_all(struct player *pplayer)
     for (y = 0; y < map.ysize; ++y) {
       map_set_known(x, y, pplayer);
       update_tile_knowledge(pplayer, x, y);
-      send_tile_info(pplayer, x, y);
+      send_tile_info_always(pplayer, &pplayer->connections, x, y);
       reality_check_city(pplayer, x, y);
       if ((pcity = map_get_city(x, y))) {
 	update_dumb_city(pplayer, pcity);
@@ -1001,7 +1054,7 @@ void map_know_and_see_all(struct player *pplayer)
       map_set_known(x, y, pplayer);
       map_change_seen(x, y, playerid, +1);
 
-      send_tile_info(pplayer, x, y);
+      send_tile_info_always(pplayer, &pplayer->connections, x, y);
 
       reality_check_city(pplayer, x, y);
       if ((pcity = map_get_city(x,y)))
@@ -1157,8 +1210,8 @@ static void give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->terrain = from_tile->terrain;
       dest_tile->special = from_tile->special;
       dest_tile->last_updated = from_tile->last_updated;
-      send_NODRAW_tiles(pdest, x, y, 0);
-      send_tile_info(pdest, x, y);
+      send_NODRAW_tiles(pdest, &pdest->connections, x, y, 0);
+      send_tile_info_always(pdest, &pdest->connections, x, y);
 	
       /* update and send city knowledge */
       /* remove outdated cities */
@@ -1183,7 +1236,7 @@ static void give_tile_info_from_player_to_player(struct player *pfrom,
 	dest_city->size = from_city->size;
 	dest_city->has_walls = from_city->has_walls;
 	dest_city->owner = from_city->owner;
-	send_city_info_at_tile(pdest,x,y);
+	send_city_info_at_tile(pdest, &pdest->connections, NULL, x, y);
       }
     }
   }

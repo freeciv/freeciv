@@ -732,9 +732,10 @@ void auto_arrange_workers(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Send turn notifications for specified city to specified connections.
+  Neither dest nor pcity may be NULL.
 **************************************************************************/
-void send_city_turn_notifications(struct player *pplayer, struct city *pcity)
+void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 {
   int turns_growth, turns_granary;
 
@@ -750,7 +751,7 @@ void send_city_turn_notifications(struct player *pplayer, struct city *pcity)
 	 preserves food.  -AJS */
       if ((turns_growth < 5) && (turns_granary < 5) &&
 	  (turns_growth < turns_granary)) {
-	notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
+	notify_conn_ex(dest, pcity->x, pcity->y,
 			 E_CITY_GRAN_THROTTLE,
 			 _("Game: Suggest throttling growth in %s to use %s "
 			   "(being built) more effectively."), pcity->name,
@@ -759,7 +760,7 @@ void send_city_turn_notifications(struct player *pplayer, struct city *pcity)
     }
 
     if ((turns_growth <= 0) && !city_celebrating(pcity)) {
-      notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
+      notify_conn_ex(dest, pcity->x, pcity->y,
 		       E_CITY_MAY_SOON_GROW,
 		       _("Game: %s may soon grow to size %i."),
 		       pcity->name, pcity->size + 1);
