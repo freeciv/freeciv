@@ -997,10 +997,15 @@ static void worklist_insert_item(struct worklist_editor *peditor)
   int where, index, len;
   wid wid;
 
-  if (!listSelection)
+  if (!listSelection) {
     where = MAX_LEN_WORKLIST;
-  else
+  } else {
     where = GPOINTER_TO_INT(listSelection->data);
+    if(peditor->pcity->did_buy && where == 0) {
+      append_output_window(_("Game: You have bought this turn, can't change."));
+      where = 1;
+    }
+  }
 
   /* Is there anything selected to insert? */
   if (!availSelection) {
@@ -1169,6 +1174,12 @@ static void worklist_swap_up_callback(GtkWidget * w, gpointer data)
   if (idx == 0)
     return;
 
+  if(idx == 1 && peditor->pcity->did_buy) {
+    /* Refuse to swap the first item if we've bought. */
+    append_output_window(_("Game: You have bought this turn, can't change."));
+    return;
+  }
+
   worklist_swap_entries(idx, idx - 1, peditor);
   worklist_list_update(peditor);
   gtk_clist_select_row(GTK_CLIST(peditor->worklist), idx - 1, 0);
@@ -1189,6 +1200,12 @@ static void worklist_swap_down_callback(GtkWidget * w, gpointer data)
     return;
 
   idx = GPOINTER_TO_INT(selection->data);
+
+  if(idx == 0 && peditor->pcity->did_buy) {
+    /* Refuse to swap the first item if we've bought. */
+    append_output_window(_("Game: You have bought this turn, can't change."));
+    return;
+  }
 
   if (idx == MAX_LEN_WORKLIST - 1 ||
       peditor->worklist_wids[idx + 1] == WORKLIST_END) return;

@@ -43,6 +43,7 @@
 #include "options.h"
 #include "tilespec.h"
 
+#include "chatline.h"
 #include "cityrep.h"
 #include "cma_fe.h"
 #include "colors.h"
