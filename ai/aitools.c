@@ -279,6 +279,10 @@ void ai_unit_attack(struct unit *punit, int x, int y)
   pmove.x = x;
   pmove.y = y;
   pmove.unid = punit->id;
+  if (punit->activity != ACTIVITY_IDLE
+      && punit->activity != ACTIVITY_GOTO) {
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  }
   handle_move_unit(unit_owner(punit), &pmove);
 
   if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
