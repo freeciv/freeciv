@@ -21,21 +21,26 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "capability.h"
-#include "city.h"
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
-#include "idex.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"
 #include "support.h"
+
+#include "capability.h"
+#include "city.h"
+#include "game.h"
+#include "government.h"
+#include "idex.h"
+#include "map.h"
 #include "unit.h"
 #include "version.h"
+
+#include "aicity.h"
+#include "aidata.h"
+#include "aiunit.h"
 
 #include "citytools.h"
 #include "cityturn.h"
@@ -45,16 +50,12 @@
 #include "meta.h"
 #include "plrhand.h"
 #include "ruleset.h"
+#include "savegame.h"
+#include "score.h"
 #include "spacerace.h"
 #include "srv_main.h"
 #include "stdinhand.h"
 #include "unittools.h"
-
-#include "aicity.h"
-#include "aidata.h"
-#include "aiunit.h"
-
-#include "savegame.h"
 
 /* 
  * This loops over the entire map to save data. It collects all the data of
@@ -3538,6 +3539,10 @@ void game_load(struct section_file *file)
         bounce_unit(punit, TRUE);
       }
     } unit_list_iterate_safe_end;
+  } players_iterate_end;
+
+  players_iterate(pplayer) {
+    calc_civ_score(pplayer);
   } players_iterate_end;
 
   return;
