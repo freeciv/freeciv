@@ -2266,14 +2266,17 @@ int city_corruption(struct city *pcity, int trade)
   }
   dist =
       dist * g->corruption_distance_factor + g->extra_corruption_distance;
-  val = trade * dist / g->corruption_modifier;
 
+  /* Now calculate the final corruption.  Ordered to reduce integer
+   * roundoff errors. */
+  val = (trade * dist) * g->corruption_level;
   if (city_got_building(pcity, B_COURTHOUSE) ||
-      city_got_building(pcity, B_PALACE)) val /= 2;
-  val *= g->corruption_level;
-  val /= 100;
+      city_got_building(pcity, B_PALACE)) {
+    val /= 2;
+  }
+  val /= 100 * g->corruption_modifier;
   val = CLIP(trade_penalty, val, trade);
-  return (val);			/* how did y'all let me forget this one? -- Syela */
+  return val;
 }
 
 /************************************************************************** 
