@@ -42,6 +42,7 @@ data/Freeciv
 data/default/buildings.ruleset
 data/civ2/buildings.ruleset
 data/civ1/buildings.ruleset
+data/default/cities.ruleset
 data/default/governments.ruleset
 data/civ2/governments.ruleset
 data/civ1/governments.ruleset

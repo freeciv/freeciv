@@ -184,5 +184,8 @@ Returns nation's city style
 ***************************************************************/
 int get_nation_city_style(Nation_Type_id nation)
 {
+  if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_city_style")) {
+    exit(1);
+  }
   return nations[nation].city_style;
 }

@@ -1765,11 +1765,11 @@ void create_races_dialog(void)
     }
   }
 
-  races_style_label = XtVaCreateManagedWidget("racesstylelabel", 
+  races_style_label = I_L(XtVaCreateManagedWidget("racesstylelabel", 
 					      labelWidgetClass, 
 					      races_form,
 					      XtNfromVert, races_sex_form, 
-					      NULL);  
+					      NULL));  
 
   races_style_form = XtVaCreateManagedWidget("racesstyleform", 
 					       formWidgetClass, 
@@ -2118,17 +2118,17 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
   struct packet_alloc_nation packet;
 
   if((selected=races_buttons_get_current())==-1) {
-    append_output_window("You must select a nation.");
+    append_output_window(_("You must select a nation."));
     return;
   }
 
   if((selected_sex=races_sex_buttons_get_current())==-1) {
-    append_output_window("You must select your sex.");
+    append_output_window(_("You must select your sex."));
     return;
   }
 
   if((selected_style=races_style_buttons_get_current())==-1) {
-    append_output_window("You must select your city style.");
+    append_output_window(_("You must select your city style."));
     return;
   }
 
@@ -2143,7 +2143,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
   packet.name[MAX_LEN_NAME-1]='\0';
   
   if(!get_sane_name(packet.name)) {
-    append_output_window("You must type a legal name.");
+    append_output_window(_("You must type a legal name."));
     return;
   }
 

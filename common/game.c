@@ -957,4 +957,9 @@ void translate_data_names(void)
     strcpy(this->name_plural_orig, this->name_plural);
     strcpy(this->name_plural, _(this->name_plural_orig));
   }
+  for (i=0; i<game.styles_count; i++) {
+    struct citystyle *this = &city_styles[i];
+    strcpy(this->name_orig, this->name);
+    strcpy(this->name, _(this->name_orig));
+  }
 }

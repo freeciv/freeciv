@@ -195,6 +195,7 @@ struct city {
 
 struct citystyle {
   char name[MAX_LEN_NAME];
+  char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   int techreq;                  /* tech required to use a style      */

@@ -1919,7 +1919,7 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
   }
 
   if((selected_style=city_style_get_current())==-1) {
-    append_output_window("You must select your city style.");
+    append_output_window(_("You must select your city style."));
     return;
   }
 

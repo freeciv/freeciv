@@ -1,6 +1,6 @@
 
 ; Modifying this file:
-; You shouldn't modify this file except to make bugfixes or
+; You should not modify this file except to make bugfixes or
 ; for other "maintenance".  If you want to make custom changes
 ; you should create a new datadir subdirectory and copy this file
 ; into that directory, and then modify that copy.  Then use the
@@ -20,28 +20,28 @@ options="1.8.2"
 ; replaced_by = which style replaced this one
 
 [citystyle_european]
-name        = "European"
+name        = _("European")
 graphic     = "city.european"
 graphic_alt = "-"
 tech        = "None"
 replaced_by = "Industrial"
 
 [citystyle_classical]
-name        = "Classical"
+name        = _("Classical")
 graphic     = "city.classical"
 graphic_alt = "-"
 tech        = "None"
 replaced_by = "Industrial"
 
 [citystyle_industrial]
-name        = "Industrial"
+name        = _("Industrial")
 graphic     = "city.industrial"
 graphic_alt = "-"
 tech        = "Railroad"
 replaced_by = "Modern"
 
 [citystyle_modern]
-name        = "Modern"
+name        = _("Modern")
 graphic     = "city.modern"
 graphic_alt = "-"
 tech        = "Automobile"

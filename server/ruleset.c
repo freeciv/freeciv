@@ -1472,50 +1472,45 @@ static void load_ruleset_cities(char *ruleset_subdir)
 {
   struct section_file file;
   char *filename, *datafile_options;
-  char **styles, **replacements, temp_str[64];
+  char **styles, *replacement;
   int i, nval;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "cities");
   datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
-  /* The names: */
+  /* The sections: */
   styles = secfile_get_secnames_prefix(&file, "citystyle_", &nval);
   game.styles_count = nval;
   city_styles = fc_calloc( game.styles_count, sizeof(struct citystyle) );
 
-  replacements = fc_calloc(nval, sizeof(char*));
+  /* Get names, so can lookup for replacements: */
   for( i=0; i<game.styles_count; i++) {
     strcpy( city_styles[i].name, 
             secfile_lookup_str(&file, "%s.name", styles[i]) );
+  }
+  /* Get rest: */
+  for( i=0; i<game.styles_count; i++) {
     strcpy( city_styles[i].graphic, 
             secfile_lookup_str(&file, "%s.graphic", styles[i]) );
     strcpy( city_styles[i].graphic_alt, 
             secfile_lookup_str(&file, "%s.graphic_alt", styles[i]) );
     city_styles[i].techreq = lookup_tech(&file, styles[i], "tech", 1,
                                          filename, city_styles[i].name);
-    strcpy( temp_str,
-            secfile_lookup_str(&file, "%s.replaced_by", styles[i]) );
-    replacements[i] = fc_malloc(strlen(temp_str)+1);
-    strcpy(replacements[i], temp_str);
-  }
-  free(styles);
-
-  /* convert 'replaced_by' style names to numbers */
-  for( i=0; i<nval; i++) {
-    if( !strcmp(replacements[i],"-") ) 
+    
+    replacement = secfile_lookup_str(&file, "%s.replaced_by", styles[i]);
+    if( strcmp(replacement, "-") == 0) {
       city_styles[i].replaced_by = -1;
-    else {
-      city_styles[i].replaced_by = get_style_by_name(replacements[i]);
+    } else {
+      city_styles[i].replaced_by = get_style_by_name(replacement);
       if(city_styles[i].replaced_by == -1) {
         freelog(LOG_FATAL, "Style %s replacement %s not found",
-                city_styles[i].name, replacements[i]);
+                city_styles[i].name, replacement);
         exit(1);
       }
     }
-    free(replacements[i]);
   }
-  free(replacements);
+  free(styles);
 
   section_file_check_unused(&file, filename);
   section_file_free(&file);
@@ -1830,7 +1825,7 @@ static void send_ruleset_cities(struct player *dest)
     city_p.techreq = city_styles[k].techreq;
     city_p.replaced_by = city_styles[k].replaced_by;
 
-    strcpy(city_p.name, city_styles[k].name);
+    strcpy(city_p.name, city_styles[k].name_orig);
     strcpy(city_p.graphic, city_styles[k].graphic);
     strcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
 
