@@ -429,10 +429,10 @@ main_start_players:
   server_state=RUN_GAME_STATE;
   send_server_info_to_metaserver(1,0);
 
-  /* Before the player map is allocated (and initiailzed)! */
-  game.fogofwar_old = game.fogofwar;
-
   if(game.is_new_game) {
+    /* Before the player map is allocated (and initiailized)! */
+    game.fogofwar_old = game.fogofwar;
+
     for(i=0; i<game.nplayers; i++) {
       struct player *pplayer = &game.players[i];
       player_map_allocate(pplayer);
