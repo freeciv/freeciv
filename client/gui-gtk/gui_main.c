@@ -564,6 +564,11 @@ void ui_main(int argc, char **argv)
 
   parse_options(argc, argv);
 
+  /* tell GTK+ library which locale */
+#ifdef ENABLE_NLS
+  gtk_set_locale();
+#endif
+
   /* GTK withdraw gtk options */
   /* Process GTK arguments */
   gtk_init(&argc, &argv);
