@@ -1601,7 +1601,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     gtk_widget_destroy(pdialog->overview.supported_unit_nodes[i].cmd);
   }
 
-  gtk_table_resize(GTK_TABLE(pdialog->overview.supported_unit_table), 1, n);
+  gtk_table_resize(GTK_TABLE(pdialog->overview.supported_unit_table),
+		   1, MAX(n, 1));
 
   pdialog->overview.supported_unit_nodes =
     realloc(pdialog->overview.supported_unit_nodes,
@@ -1699,7 +1700,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     gtk_widget_destroy(pdialog->overview.present_unit_nodes[i].cmd);
   }
 
-  gtk_table_resize(GTK_TABLE(pdialog->overview.present_unit_table), 1, n);
+  gtk_table_resize(GTK_TABLE(pdialog->overview.present_unit_table),
+		   1, MAX(n, 1));
 
   pdialog->overview.present_unit_nodes =
     realloc(pdialog->overview.present_unit_nodes,

@@ -481,6 +481,7 @@ static void create_help_dialog(void)
 		   G_CALLBACK(activated_topic), NULL);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(help_view));
+  gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(NULL, rend, "text", 0, NULL);

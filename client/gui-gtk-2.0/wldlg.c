@@ -630,34 +630,107 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
 /****************************************************************
 ...
 *****************************************************************/
+static void list_swap(GtkListStore *store, GtkTreeIter *a, GtkTreeIter *b)
+{
+  gint ncols, i;
+  GtkTreeModel *model;
+
+  model = GTK_TREE_MODEL(store);
+  ncols = gtk_tree_model_get_n_columns(model);
+
+  for (i = 0; i < ncols; i++) {
+    GValue va = { 0, }, vb = { 0, };
+    
+    gtk_tree_model_get_value(model, a, i, &va);
+    gtk_tree_model_get_value(model, b, i, &vb);
+    gtk_list_store_set_value(store, a, i, &vb);
+    gtk_list_store_set_value(store, b, i, &va);
+    g_value_unset(&va);
+    g_value_unset(&vb);
+  }
+}
+  
+/****************************************************************
+...
+*****************************************************************/
 static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
 				       gpointer data)
 {
+  GtkTreeModel *model;
+  struct worklist_data *ptr;
+
+  ptr = data;
+  model = GTK_TREE_MODEL(ptr->dst);
+
   if (ev->keyval == GDK_Delete) {
-    GtkTreeModel *model;
-    GtkTreeIter it;
-    GtkTreePath *path;
-    struct worklist_data *ptr;
+    GtkTreeIter it, it_next;
+    bool deleted;
 
-    ptr = data;
-    model = GTK_TREE_MODEL(ptr->dst);
+    deleted = FALSE;
+    if (gtk_tree_model_get_iter_first(model, &it)) {
+      bool more;
 
-    /* this is bloody slow but since the list is short, no problem. */
-    path = gtk_tree_path_new_first();
-    
-    while (gtk_tree_model_get_iter(model, &it, path)) {
+      do {
+	it_next = it;
+	more = gtk_tree_model_iter_next(model, &it_next);
 
-      if (gtk_tree_selection_iter_is_selected(ptr->dst_selection, &it)) {
-	gtk_list_store_remove(GTK_LIST_STORE(model), &it);
-      } else {
-	gtk_tree_path_next(path);
-      }
+	if (gtk_tree_selection_iter_is_selected(ptr->dst_selection, &it)) {
+	  gtk_list_store_remove(GTK_LIST_STORE(model), &it);
+	  deleted = TRUE;
+	}
+	it = it_next;
+
+      } while (more);
     }
 
-    gtk_tree_path_free(path);
-
-    commit_worklist(ptr);
+    if (deleted) {
+      commit_worklist(ptr);
+    }
     return TRUE;
+
+  } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_Up) {
+    GtkTreePath *path;
+    GtkTreeViewColumn *col;
+
+    gtk_tree_view_get_cursor(GTK_TREE_VIEW(w), &path, &col);
+    if (path) {
+      GtkTreeIter it, it_prev;
+
+      if (gtk_tree_path_prev(path)) {
+	gtk_tree_model_get_iter(model, &it_prev, path);
+	it = it_prev;
+	gtk_tree_model_iter_next(model, &it);
+      
+        list_swap(GTK_LIST_STORE(model), &it, &it_prev);
+
+	gtk_tree_view_set_cursor(GTK_TREE_VIEW(w), path, col, FALSE);
+	commit_worklist(ptr);
+      }
+    }
+    gtk_tree_path_free(path);
+    return TRUE;
+    
+  } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_Down) {
+    GtkTreePath *path;
+    GtkTreeViewColumn *col;
+
+    gtk_tree_view_get_cursor(GTK_TREE_VIEW(w), &path, &col);
+    if (path) {
+      GtkTreeIter it, it_next;
+
+      gtk_tree_model_get_iter(model, &it, path);
+      it_next = it;
+      if (gtk_tree_model_iter_next(model, &it_next)) {
+        list_swap(GTK_LIST_STORE(model), &it, &it_next);
+
+	gtk_tree_path_next(path);
+	gtk_tree_view_set_cursor(GTK_TREE_VIEW(w), path, col, FALSE);
+	commit_worklist(ptr);
+      }
+    }
+    gtk_tree_path_free(path);
+    return TRUE;
+
   } else {
     return FALSE;
   }
@@ -891,7 +964,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
 		     G_CALLBACK(dst_key_press_callback), ptr);
    
     if (pcity) {
-      button = gtk_button_new_with_mnemonic("_Change Production");
+      button = gtk_button_new_with_mnemonic("Chan_ge Production");
       gtk_container_add(GTK_CONTAINER(bbox), button);
       g_signal_connect(button, "clicked",
 		       G_CALLBACK(change_callback), ptr);
@@ -934,8 +1007,14 @@ void refresh_worklist(struct worklist *pwl)
 
     GtkTreePath *path;
 
+    GtkTreeView *src_view, *dst_view;
+    GtkTreeModel *model;
+    gboolean exists;
+      
 
     ptr = g_object_get_data(G_OBJECT(editor), "data");
+    src_view = gtk_tree_selection_get_tree_view(ptr->src_selection);
+    dst_view = gtk_tree_selection_get_tree_view(ptr->dst_selection);
 
     /* refresh source tasks. */
     if (gtk_tree_selection_get_selected(ptr->src_selection, NULL, &it)) {
@@ -959,17 +1038,15 @@ void refresh_worklist(struct worklist *pwl)
       }
     }
     if (path) {
-      GtkTreeView *view;
-
-      view = gtk_tree_selection_get_tree_view(ptr->src_selection);
-      gtk_tree_view_set_cursor(view, path, NULL, FALSE);
+      gtk_tree_view_set_cursor(src_view, path, NULL, FALSE);
       gtk_tree_path_free(path);
     }
     
 
     /* refresh target worklist. */
-    gtk_list_store_clear(ptr->dst);
-
+    model = GTK_TREE_MODEL(ptr->dst);
+    exists = gtk_tree_model_get_iter_first(model, &it);
+    
     for (i = 0; i < MAX_LEN_WORKLIST; i++) {
       cid cid;
 
@@ -979,8 +1056,25 @@ void refresh_worklist(struct worklist *pwl)
 
       cid = cid_encode(pwl->wlefs[i] == WEF_UNIT, pwl->wlids[i]);
       
-      gtk_list_store_append(ptr->dst, &it);
+      if (!exists) {
+        gtk_list_store_append(ptr->dst, &it);
+      }
+
       gtk_list_store_set(ptr->dst, &it, 0, (gint) cid, -1);
+
+      if (exists) {
+	exists = gtk_tree_model_iter_next(model, &it);
+      }
+    }
+
+    if (exists) {
+      GtkTreeIter it_next;
+      
+      do {
+	it_next = it;
+	gtk_list_store_remove(ptr->dst, &it);
+	
+      } while (gtk_tree_model_iter_next(model, &it_next));
     }
   }
 }
