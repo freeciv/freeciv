@@ -532,7 +532,7 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
   *prodneed -= (*workers - 1);
 
   city_map_iterate(x, y) {
-    conflict[x][y] = -1 - minimap[map_adjust_x(pcity->x+2-2)][map_adjust_y(pcity->y+y-2)];
+    conflict[x][y] = -1 - minimap[map_adjust_x(pcity->x+x-2)][map_adjust_y(pcity->y+y-2)];
   } /* better than nothing, not as good as a global worker allocation -- Syela */
 
   do {
