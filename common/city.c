@@ -95,7 +95,7 @@ char *default_american_city_names[] = {
   "Nashville", "Hartford", "Charlotte", "El Paso", "Anchorage",
   "Spokane", "Tacoma", "Fort Worth", "Austin", "Sacramento", "Oklahoma City",
   "St. Paul", "Jacksonville", "Sioux Falls", "Madison", "Lubbock",
-  "Amarillo", "Omaha", "Baton Rouge", "Little Rock", "Tuscon",
+  "Amarillo", "Omaha", "Baton Rouge", "Little Rock", "Tucson",
   "Erie", "Flint",  "Trenton", "Newark", "Arlington", "Richmond", "Reno",
   "Santa Fe", "Tulsa", "Anapolis", "Dover", "Akron", "Urbana-Champaign", 
   (char *)0
