@@ -29,7 +29,9 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
+#ifdef ISOMETRIC
 #include "log.h"
+#endif
 #include "map.h"
 #include "player.h"
 #include "rand.h"
