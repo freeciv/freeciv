@@ -1496,8 +1496,8 @@ static void create_ai_player(struct player *caller, char *arg)
     return;
   }
 
-  pplayer->ai.control = !pplayer->ai.control;
-  pplayer->ai.skill_level = game.skill_level;
+  pplayer->ai.control = 1;
+  set_ai_level_directer(pplayer, game.skill_level);
   cmd_reply(CMD_CREATE, caller, C_OK,
 	    _("Created new AI player: %s."), pplayer->name);
 }
