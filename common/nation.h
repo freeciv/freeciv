@@ -14,6 +14,7 @@
 #define FC__NATION_H
 
 #include "shared.h"		/* MAX_LEN_NAME */
+#include "terrain.h"		/* T_COUNT */
 
 #define MAX_NUM_TECH_GOALS 10
 #define MAX_NUM_NATIONS  63
