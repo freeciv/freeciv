@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2000-07-24 15:26+0200\n"
+"POT-Creation-Date: 2000-07-27 14:26+0200\n"
 "PO-Revision-Date: 2000-07-24 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -69,19 +69,19 @@ msgstr "laatste bericht eenmaal herhaald"
 msgid "Special1"
 msgstr "Speciaal1"
 
-#: common/map.c:52 common/map.c:655 common/unit.c:745
+#: common/map.c:52 common/map.c:622 common/unit.c:745
 msgid "Road"
 msgstr "Weg"
 
-#: common/map.c:53 common/map.c:659 common/unit.c:747
+#: common/map.c:53 common/map.c:626 common/unit.c:747
 msgid "Irrigation"
 msgstr "Irrigatie"
 
-#: common/map.c:54 common/map.c:657 common/unit.c:752 data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439 data/default/techs.ruleset:439
+#: common/map.c:54 common/map.c:624 common/unit.c:752 data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439 data/default/techs.ruleset:439
 msgid "Railroad"
 msgstr "Spoorlijn"
 
-#: common/map.c:55 common/map.c:663 common/unit.c:746
+#: common/map.c:55 common/map.c:630 common/unit.c:746
 msgid "Mine"
 msgstr "Mijn"
 
@@ -93,7 +93,7 @@ msgstr "Verontreiniging"
 msgid "Hut"
 msgstr ""
 
-#: common/map.c:58 common/map.c:665 common/unit.c:750
+#: common/map.c:58 common/map.c:632 common/unit.c:750
 msgid "Fortress"
 msgstr "Fort"
 
@@ -105,11 +105,11 @@ msgstr "Speciaal2"
 msgid "River"
 msgstr "Rivier"
 
-#: common/map.c:61 common/map.c:661
+#: common/map.c:61 common/map.c:628
 msgid "Farmland"
 msgstr "Landbouwgrond"
 
-#: common/map.c:62 common/map.c:667 common/unit.c:757
+#: common/map.c:62 common/map.c:634 common/unit.c:757
 msgid "Airbase"
 msgstr "Luchthaven"
 
@@ -193,54 +193,54 @@ msgstr "%d VC"
 msgid "%d AD"
 msgstr "%d AD"
 
-#: client/tilespec.c:139 common/shared.c:579
+#: client/tilespec.c:139 common/shared.c:614
 #, c-format
 msgid "Could not find readable file \"%s\" in data path."
 msgstr "Kon geen leesbaar bestand \"%s\" in data pad vinden."
 
-#: client/tilespec.c:141 common/shared.c:581 server/ruleset.c:101
+#: client/tilespec.c:141 common/shared.c:616 server/ruleset.c:101
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "Het data pad mag via de shellvariabele FREECIV_PATH opgegeven worden."
 
-#: client/tilespec.c:143 common/shared.c:583 server/ruleset.c:103
+#: client/tilespec.c:143 common/shared.c:618 server/ruleset.c:103
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Huidig data pad is: \"%s\""
 
-#: common/shared.c:618
+#: common/shared.c:653
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Fatale fout: u probeert me als superuser te starten!\n"
 
-#: common/shared.c:620
+#: common/shared.c:655
 msgid "Use a non-privileged account instead.\n"
 msgstr "Gebruik inplaats daarvan een normaal account.\n"
 
-#: common/shared.c:637
+#: common/shared.c:672
 msgid "exact match"
 msgstr "exacte overeenkomst"
 
-#: common/shared.c:638
+#: common/shared.c:673
 msgid "only match"
 msgstr "komt alleen overeen met"
 
-#: common/shared.c:639
+#: common/shared.c:674
 msgid "ambiguous"
 msgstr "dubbelzinnig"
 
-#: common/shared.c:640
+#: common/shared.c:675
 msgid "empty"
 msgstr "leeg"
 
-#: common/shared.c:641
+#: common/shared.c:676
 msgid "too long"
 msgstr "te lang"
 
-#: common/shared.c:642
+#: common/shared.c:677
 msgid "non-match"
 msgstr "niet overeenkomend met"
 
-#: common/shared.c:702
+#: common/shared.c:737
 msgid "'Cause civilization should be free!"
 msgstr "Omdat beschaving vrij zou moeten zijn!"
 
@@ -809,106 +809,120 @@ msgstr "Het spel is al begonnen."
 msgid "Starting game."
 msgstr "Spel begint."
 
-#: server/civserver.c:1322
+#: server/civserver.c:1317
+msgid "Please choose a non-blank name."
+msgstr "Kiest alstublieft een niet-lege naam."
+
+#: server/civserver.c:1330
 #, c-format
 msgid "Another player named '%s' has already joined the game.  Please choose another name."
 msgstr "Er is al een speler met de naam '%s' in het spel. Kies alstublieft een andere naam."
 
-#: server/civserver.c:1328
+#: server/civserver.c:1336
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s is de %s heerser %s."
 
-#: server/civserver.c:1355
+#: server/civserver.c:1363
 msgid "Sorry, you can't play.  There are no nations left."
 msgstr "Sorry, u kunt niet meedoen. Er zijn geen naties meer over."
 
-#: server/civserver.c:1358 server/civserver.c:1685
+#: server/civserver.c:1366 server/civserver.c:1707
 #, c-format
 msgid "Game full - %s was rejected."
 msgstr "Spel vol - %s is geweigerd."
 
-#: server/civserver.c:1410
+#: server/civserver.c:1418
 #, c-format
 msgid "<%s@%s> has rejoined the game."
 msgstr "<%s@%s> speelt weer mee."
 
-#: server/civserver.c:1413
+#: server/civserver.c:1421
 #, c-format
 msgid "<%s@%s> has joined the game."
 msgstr "<%s@%s> speelt mee."
 
-#: server/civserver.c:1420
+#: server/civserver.c:1428
 #, c-format
 msgid "Game: Player <%s@%s> has reconnected."
 msgstr "Spel: Speler <%s@%s> heeft opnieuw verbinding gemaakt."
 
-#: server/civserver.c:1424
+#: server/civserver.c:1432
 #, c-format
 msgid "Game: Player <%s@%s> has connected."
 msgstr "Spel: Speler <%s@%s> heeft verbinding gemaakt."
 
-#: server/civserver.c:1444
+#: server/civserver.c:1452
 #, c-format
 msgid "Welcome to the %s Server running at %s."
 msgstr "Welkom bij de %s Server, draaiend op %s."
 
-#: server/civserver.c:1447
+#: server/civserver.c:1455
 #, c-format
 msgid "Welcome to the %s Server."
 msgstr "Welkom bij de %s Server."
 
-#: server/civserver.c:1464
+#: server/civserver.c:1472
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Wissel-beurt spel: wacht tot %s zijn zet heeft gedaan..."
 
-#: server/civserver.c:1480
+#: server/civserver.c:1488
 #, c-format
 msgid "There are currently %d players connected:"
 msgstr "Er zijn op dit moment %d spelers verbonden:"
 
-#: server/civserver.c:1483
+#: server/civserver.c:1491
 msgid "There is currently 1 player connected:"
 msgstr "Er is op dit moment 1 speler verbonden:"
 
-#: server/civserver.c:1489 server/civserver.c:1505
+#: server/civserver.c:1497 server/civserver.c:1513
 msgid " (R.I.P.)"
 msgstr " (R.I.V.)"
 
-#: server/civserver.c:1490
+#: server/civserver.c:1498
 msgid " (AI mode)"
 msgstr " (KI-modus)"
 
-#: server/civserver.c:1496
+#: server/civserver.c:1504
 msgid "There is 1 other player:"
 msgstr "Er is 1 andere speler:"
 
-#: server/civserver.c:1498
+#: server/civserver.c:1506
 #, c-format
 msgid "There are %d other players:"
 msgstr "Er zijn %d andere spelers:"
 
-#: server/civserver.c:1506
+#: server/civserver.c:1514
 msgid " (an AI player)"
 msgstr " (een KI-speler)"
 
-#: server/civserver.c:1539
+#: server/civserver.c:1547
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s is toegevoegd als een KI-gestuurde speler."
 
-#: server/civserver.c:1541
+#: server/civserver.c:1549
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Spel: %s is toegevoegd als een KI-gestuurde speler."
 
-#: server/civserver.c:1576
+#: server/civserver.c:1589
+#, c-format
+msgid "Invalid name '%s'"
+msgstr "Ongeldige naam '%s'"
+
+#: server/civserver.c:1591
+#, c-format
+msgid "Rejected connection from %s with invalid name."
+msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
+
+#: server/civserver.c:1598
 #, c-format
 msgid "Connection request from %s with client version %d.%d.%d%s"
 msgstr "Verzoek tot verbinding van %s met client versie %d.%d.%d%s"
 
-#: server/civserver.c:1586
+#: server/civserver.c:1608
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -917,12 +931,12 @@ msgstr ""
 "De client mist een mogelijkheid die deze server nodig heeft.\n"
 "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
 
-#: server/civserver.c:1593
+#: server/civserver.c:1615
 #, c-format
 msgid "%s was rejected: mismatched capabilities."
 msgstr "%s is geweigerd: afwijkende mogelijkheden."
 
-#: server/civserver.c:1602
+#: server/civserver.c:1624
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -931,48 +945,48 @@ msgstr ""
 "De server mist een mogelijkheid die de client nodig heeft.\n"
 "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
 
-#: server/civserver.c:1609
+#: server/civserver.c:1631
 #, c-format
 msgid "%s was rejected: mismatched capabilities"
 msgstr "%s is geweigerd: afwijkende mogelijkheden."
 
-#: server/civserver.c:1621
+#: server/civserver.c:1643
 msgid "Sorry, no observation of barbarians this game."
 msgstr "Barbaren kunnen niet bekeken worden in dit spel."
 
-#: server/civserver.c:1624
+#: server/civserver.c:1646
 #, c-format
 msgid "No observation of barbarians - %s was rejected."
 msgstr "Barbaren kunnen niet bekeken worden - %s is geweigerd."
 
-#: server/civserver.c:1632
+#: server/civserver.c:1654
 msgid "Sorry, no observation of dead players this game."
 msgstr "Sorry, dode spelers kunnen niet bekeken worden in dit spel."
 
-#: server/civserver.c:1635
+#: server/civserver.c:1657
 #, c-format
 msgid "No observation of dead players - %s was rejected."
 msgstr "Dode spelers kunnen niet bekeken worden - %s is geweigerd."
 
-#: server/civserver.c:1643
+#: server/civserver.c:1665
 msgid "Sorry, no observation of AI players this game."
 msgstr "Sorry, KI-spelers kunnen in dit spel niet bekeken worden."
 
-#: server/civserver.c:1646
+#: server/civserver.c:1668
 #, c-format
 msgid "No observation of AI players - %s was rejected."
 msgstr "KI-spelers kunnen niet bekeken worden - %s is geweigerd."
 
-#: server/civserver.c:1654
+#: server/civserver.c:1676
 msgid "Sorry, no reconnections to human-mode players this game."
 msgstr "Sorry, geen verbindingsherstel met menselijke-modus spelers in dit spel."
 
-#: server/civserver.c:1657
+#: server/civserver.c:1679
 #, c-format
 msgid "No reconnection to human players - %s was rejected."
 msgstr "Verbindingen met menselijke spelers kunnen niet hersteld worden - %s is geweigerd."
 
-#: server/civserver.c:1684 server/civserver.c:1726
+#: server/civserver.c:1706 server/civserver.c:1748
 msgid "Sorry, you can't join.  The game is full."
 msgstr "Sorry, u kunt niet meedoen. Het spel is vol."
 
@@ -981,99 +995,99 @@ msgstr "Sorry, u kunt niet meedoen. Het spel is vol."
 #. * because they are used to identify players for various
 #. * server commands. --dwp
 #.
-#: server/civserver.c:1695
+#: server/civserver.c:1717
 msgid "Sorry, someone else already has that name."
 msgstr "Sorry, iemand anders heeft al die naam."
 
-#: server/civserver.c:1697
+#: server/civserver.c:1719
 #, c-format
 msgid "%s was rejected, name already used."
 msgstr "%s is geweigerd, naam al in gebruik."
 
-#: server/civserver.c:1705
+#: server/civserver.c:1727
 #, c-format
 msgid "You can't join the game.  %s is already connected."
 msgstr "U kunt niet meedoen. %s is al verbonden."
 
-#: server/civserver.c:1708
+#: server/civserver.c:1730
 #, c-format
 msgid "%s was rejected."
 msgstr "%s is geweigerd."
 
-#: server/civserver.c:1717
+#: server/civserver.c:1739
 msgid "Sorry, you can't join.  The game is already running."
 msgstr "Sorry, u kunt niet meedoen. Het spel is al begonnen."
 
-#: server/civserver.c:1719
+#: server/civserver.c:1741
 #, c-format
 msgid "Game running - %s was rejected."
 msgstr "Spel begonnen - %s is geweigerd."
 
-#: server/civserver.c:1727
+#: server/civserver.c:1749
 #, c-format
 msgid "game full - %s was rejected."
 msgstr "spel vol - %s is geweigerd."
 
-#: server/civserver.c:1735
+#: server/civserver.c:1757
 msgid "Sorry, no new players this game."
 msgstr "Sorry, geen nieuwe spelers in dit spel."
 
-#: server/civserver.c:1736
+#: server/civserver.c:1758
 #, c-format
 msgid "No connections as new player - %s was rejected."
 msgstr "Geen verbindingen als nieuwe speler - %s is geweigerd."
 
 #. This happens eg if the player has not yet joined properly.
-#: server/civserver.c:1754
+#: server/civserver.c:1776
 msgid "Lost connection to <unknown>."
 msgstr "Verbinding verbroken met <onbekend>."
 
-#: server/civserver.c:1758
+#: server/civserver.c:1780
 #, c-format
 msgid "Lost connection to %s."
 msgstr "Verbinding verbroken met %s."
 
-#: server/civserver.c:1765
+#: server/civserver.c:1787
 #, c-format
 msgid "Game: Lost connection to %s."
 msgstr "Spel: Verbinding verbroken met %s."
 
-#: server/civserver.c:1811
+#: server/civserver.c:1833
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Geen naties meer.  KI-gestuurde speler %s niet gemaakt."
 
-#: server/civserver.c:1843
+#: server/civserver.c:1865
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/civserver.c:1850
+#: server/civserver.c:1872
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/civserver.c:1872
+#: server/civserver.c:1894
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fout bij maken nieuwe KI-speler: %s\n"
 
-#: server/civserver.c:1920
+#: server/civserver.c:1942
 #, c-format
 msgid "Player %d"
 msgstr "Speler %d"
 
 #. no more unused nation
-#: server/civserver.c:1935
+#: server/civserver.c:1957
 msgid "Argh! ran out of nations!"
 msgstr "Nee hè, geen naties meer!"
 
-#: server/civserver.c:1952
+#: server/civserver.c:1974
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI bestuurt de %s geregeerd door %s."
 
-#: server/civserver.c:1958
+#: server/civserver.c:1980
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spel: %s regeert de %s."
@@ -1206,23 +1220,23 @@ msgstr "Generator 3 kon niet alle grote eilanden plaatsen."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 liet %li landmassa ongeplaatst."
 
-#: server/maphand.c:113
+#: server/maphand.c:125
 msgid "Game: Global warming has occurred!"
 msgstr "Spel: Wereldwijde opwarming is opgetreden!"
 
-#: server/maphand.c:114
+#: server/maphand.c:126
 msgid "Game: Coastlines have been flooded and vast ranges of grassland have become deserts."
 msgstr "Spel: Kustlijnen zijn overstroomd en grote gebieden grasland zijn woestijn geworden."
 
-#: server/maphand.c:160
+#: server/maphand.c:173
 msgid "Game: Nuclear winter has occurred!"
 msgstr "Spel: Nucleaire winter is opgetreden!"
 
-#: server/maphand.c:161
+#: server/maphand.c:174
 msgid "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr "Spel: Moerassen zijn opgedroogd en grote gebieden grasland zijn toendra geworden."
 
-#: server/maphand.c:417
+#: server/maphand.c:430
 msgid ""
 "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
@@ -1230,7 +1244,7 @@ msgstr ""
 "Spel: Nieuwe hoop stroomt als een lopend vuurt door het land als de ontdekking van de spoorweg bekend wordt.\n"
 "       Arbeiders verzamelen zich spontaan en voorzien alle steden van spoorwegen."
 
-#: server/maphand.c:423
+#: server/maphand.c:436
 msgid ""
 "Game: The people are pleased to hear that your scientists finally know about railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
@@ -1238,7 +1252,7 @@ msgstr ""
 "Spel: De mensen zijn blij te horen dat uw wetenschappers eindelijk iets van spoorwegen afweten.\n"
 "       Arbeiders verzamelen zich spontaan en voorzien alle steden van spoorwegen."
 
-#: server/maphand.c:581
+#: server/maphand.c:594
 #, c-format
 msgid "Number of starts (%d) are lower than max_players (%d), lowering max_players."
 msgstr "Aantal startplaatsen (%d) is lager dan max_players (%d), ik verlaag max_players."
@@ -4303,31 +4317,31 @@ msgstr "De partijen gaan akkoord met vrede"
 msgid "The parties create an alliance"
 msgstr "De partijen sluiten een alliantie"
 
-#: client/clinet.c:87
+#: client/clinet.c:107
 msgid "Lost connection to server!"
 msgstr "Verbinding met server verloren!"
 
-#: client/clinet.c:115
+#: client/clinet.c:132
 msgid "Invalid hostname"
 msgstr "Ongeldige hostnaam"
 
-#: client/clinet.c:122 client/clinet.c:273
+#: client/clinet.c:139 client/clinet.c:298
 msgid "Failed looking up host"
 msgstr "Kon host niet vinden"
 
-#: client/clinet.c:175
+#: client/clinet.c:202
 msgid "Disconnecting from server."
 msgstr "Verbreek verbinding met server."
 
-#: client/clinet.c:227
+#: client/clinet.c:252
 msgid "Invalid $http_proxy value, must start with 'http://'"
 msgstr "Ongeldige $http_proxy waarde, moet met 'http://' beginnen"
 
-#: client/clinet.c:234
+#: client/clinet.c:259
 msgid "Invalid metaserver URL, must start with 'http://'"
 msgstr "Ongeldige metaserver URL, moet met 'http://' beginnen"
 
-#: client/clinet.c:264
+#: client/clinet.c:289
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ongeldige $http_proxy waarde, kan geen scheidend '/' vinden"
 
@@ -4938,16 +4952,16 @@ msgstr ""
 msgid "Server capability string: %s"
 msgstr ""
 
-#: client/packhand.c:890
+#: client/packhand.c:892
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI-modus is nu %s."
 
-#: client/packhand.c:891
+#: client/packhand.c:893
 msgid "ON"
 msgstr "AAN"
 
-#: client/packhand.c:891
+#: client/packhand.c:893
 msgid "OFF"
 msgstr "UIT"
 
@@ -5914,7 +5928,7 @@ msgstr "Kies belasting-, luxe- en wetenschapswaarden"
 msgid "Lock"
 msgstr "Op slot"
 
-#: client/gui-gtk/gamedlgs.c:361
+#: client/gui-gtk/gamedlgs.c:361 client/gui-xaw/ratesdlg.c:97
 msgid "%s max rate: %d%%"
 msgstr "%s max waarde: %d%%"
 
@@ -10477,7 +10491,7 @@ msgstr "Australische"
 msgid "?plural:Australians"
 msgstr "?plural:Australiërs"
 
-#: data/nation/australian.ruleset:12 data/nation/brazilian.ruleset:15 data/nation/canadian.ruleset:11 data/nation/danish.ruleset:19 data/nation/dutch.ruleset:11 data/nation/english.ruleset:13 data/nation/finnish.ruleset:15 data/nation/greek.ruleset:11 data/nation/israeli.ruleset:12 data/nation/japanese.ruleset:13 data/nation/portuguese.ruleset:12 data/nation/scottish.ruleset:15 data/nation/silesian.ruleset:13 data/nation/spanish.ruleset:11 data/nation/swedish.ruleset:11 data/nation/welsh.ruleset:19
+#: data/nation/australian.ruleset:12 data/nation/brazilian.ruleset:15 data/nation/canadian.ruleset:11 data/nation/danish.ruleset:19 data/nation/dutch.ruleset:11 data/nation/english.ruleset:13 data/nation/finnish.ruleset:15 data/nation/greek.ruleset:11 data/nation/israeli.ruleset:12 data/nation/japanese.ruleset:13 data/nation/portuguese.ruleset:12 data/nation/scottish.ruleset:15 data/nation/silesian.ruleset:13 data/nation/singaporean.ruleset:13 data/nation/singaporean.ruleset:14 data/nation/spanish.ruleset:11 data/nation/swedish.ruleset:11 data/nation/welsh.ruleset:19
 msgid "Prime Minister"
 msgstr "Minister President"
 
@@ -10960,6 +10974,18 @@ msgstr "Prins"
 #: data/nation/silesian.ruleset:12 data/nation/welsh.ruleset:18
 msgid "Princess"
 msgstr "Prinses"
+
+#: data/nation/singaporean.ruleset:3
+msgid "Singaporean"
+msgstr "Singaporese"
+
+#: data/nation/singaporean.ruleset:4
+msgid "?plural:Singaporeans"
+msgstr "?plural:Singaporeanen"
+
+#: data/nation/singaporean.ruleset:12
+msgid "Ah"
+msgstr ""
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
