@@ -619,6 +619,12 @@ dnl Rebuild 'configure' whenever version.in changes, if maintainer mode enabled.
 CONFIGURE_DEPENDENCIES="$CONFIGURE_DEPENDENCIES \$(top_srcdir)/version.in"
 AC_SUBST([CONFIGURE_DEPENDENCIES])
 
+dnl Make sure that config.h changes when ever CPPFLAGS or CFLAGS
+dnl change so everything gets rebuilt. LDFLAGS is not handled here
+dnl since change in it should not cause recompilation, only relinking.
+AC_DEFINE_UNQUOTED(FC_STORE_CPPFLAGS, "$CPPFLAGS")
+AC_DEFINE_UNQUOTED(FC_STORE_CFLAGS, "$CFLAGS")
+
 AC_OUTPUT(Makefile
           data/Makefile 
 	  data/flags/Makefile

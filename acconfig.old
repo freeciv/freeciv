@@ -67,6 +67,8 @@
 #undef WINMM
 #undef HAVE_GETTIMEOFDAY
 #undef HAVE_WORKING_FORK
+#undef FC_STORE_CPPFLAGS
+#undef FC_STORE_CFLAGS
 @BOTTOM@
 
 #endif /* FC_CONFIG_H */
