@@ -1237,6 +1237,7 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
  Copies a string and does '\n' -> newline translation.
  Other '\c' sequences (any character 'c') are just passed
  through with the '\' removed (eg, includes '\\', '\"')
+ Backslash followed by a genuine newline removes the newline.
 ***************************************************************/
 static char *minstrdup(struct sbuffer *sb, const char *str)
 {
@@ -1251,6 +1252,9 @@ static char *minstrdup(struct sbuffer *sb, const char *str)
 	  str++;
 	} else if (*str=='n') {
 	  *dest++='\n';
+	  str++;
+	} else if (*str=='\n') {
+	  /* skip */
 	  str++;
 	}
       } else {
