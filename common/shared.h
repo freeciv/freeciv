@@ -120,12 +120,21 @@ typedef unsigned int fc_bool;
 #define _BV_BYTES(bits)		((((bits) - 1) / 8) + 1)
 #define _BV_BYTE_INDEX(bits)	((bits) / 8)
 #define _BV_BITMASK(bit)	(1u << ((bit) & 0x7))
+#ifdef DEBUG
+#  define _BV_ASSERT(bv, bit) assert((bit) >= 0 \
+                                     && (bit) < sizeof((bv).vec) * 8)
+#else
+#  define _BV_ASSERT(bv, bit) (void)0
+#endif
 #define BV_ISSET(bv, bit) \
-  (((bv).vec[_BV_BYTE_INDEX(bit)] & _BV_BITMASK(bit)) != 0)
+  (_BV_ASSERT(bv, bit), \
+   ((bv).vec[_BV_BYTE_INDEX(bit)] & _BV_BITMASK(bit)) != 0)
 #define BV_SET(bv, bit) \
-  do { (bv).vec[_BV_BYTE_INDEX(bit)] |= _BV_BITMASK(bit); } while(FALSE)
+  do { _BV_ASSERT(bv, bit); \
+       (bv).vec[_BV_BYTE_INDEX(bit)] |= _BV_BITMASK(bit); } while(FALSE)
 #define BV_CLR(bv, bit) \
-  do { (bv).vec[_BV_BYTE_INDEX(bit)] &= ~_BV_BITMASK(bit); } while(FALSE)
+  do { _BV_ASSERT(bv, bit); \
+       (bv).vec[_BV_BYTE_INDEX(bit)] &= ~_BV_BITMASK(bit); } while(FALSE)
 #define BV_CLR_ALL(bv) \
   do { memset((bv).vec, 0, sizeof((bv).vec)); } while(FALSE)
 bool bv_check_mask(unsigned char *vec1, unsigned char *vec2, size_t size1,
