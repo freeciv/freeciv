@@ -92,6 +92,7 @@ enum mapview_layer {
   LAYER_SPECIAL3,
   LAYER_GRID2,
   LAYER_OVERLAYS,
+  LAYER_GOTO,
   LAYER_COUNT
 };
 

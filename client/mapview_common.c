@@ -856,46 +856,6 @@ bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
 }
 
 /**************************************************************************
-  Draw the length of the path on top of the tile.
-**************************************************************************/
-static void put_path_length(void)
-{
-  if (goto_is_active()) {
-    int length = get_goto_turns();
-    int units = length % NUM_TILES_DIGITS;
-    int tens = (length / 10) % NUM_TILES_DIGITS;
-    int canvas_x, canvas_y;
-    struct tile *ptile;
-
-    ptile = get_line_dest();
-    length = get_goto_turns();
-
-    if (length >= 100) {
-      static bool reported = FALSE;
-
-      if (!reported) {
-	freelog(LOG_ERROR,
-		_("Paths longer than 99 turns are not supported.\n"
-		  "Report this bug to bugs@freeciv.org."));
-	reported = TRUE;
-      }
-      tens = units = 9;
-    }
-
-    if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-      if (sprites.path.turns[units]) {
-	canvas_put_sprite_full(mapview.store, canvas_x, canvas_y,
-			       sprites.path.turns[units]);
-      }
-      if (tens > 0 && sprites.path.turns_tens[tens]) {
-	canvas_put_sprite_full(mapview.store, canvas_x, canvas_y,
-			       sprites.path.turns_tens[tens]);
-      }
-    }
-  }
-}
-
-/**************************************************************************
   Draw an array of drawn sprites onto the canvas.
 **************************************************************************/
 static void put_drawn_sprites(struct canvas *pcanvas,
@@ -1325,9 +1285,6 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       }
     }
   } gui_rect_iterate_end;
-
-  /* Put goto target. */
-  put_path_length();
 
   show_city_descriptions(canvas_x, canvas_y, width, height);
 

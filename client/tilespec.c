@@ -50,6 +50,7 @@
 #include "civclient.h"		/* for get_client_state() */
 #include "climap.h"		/* for tile_get_known() */
 #include "control.h"		/* for fill_xxx */
+#include "goto.h"
 #include "options.h"		/* for fill_xxx */
 
 #include "tilespec.h"
@@ -3131,6 +3132,46 @@ static int fill_grid_sprite_array(struct tileset *t,
 }
 
 /****************************************************************************
+  Fill in the given sprite array with any needed goto sprites.
+****************************************************************************/
+static int fill_goto_sprite_array(struct tileset *t,
+				  struct drawn_sprite *sprs,
+				  const struct tile *ptile,
+				  const struct tile_edge *pedge,
+				  const struct tile_corner *pcorner)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+
+  if (!goto_is_active()) {
+    return 0;
+  }
+  if (ptile && ptile == get_line_dest()) {
+    int length = get_goto_turns();
+    int units = length % NUM_TILES_DIGITS;
+    int tens = (length / 10) % NUM_TILES_DIGITS;
+
+    if (length >= 100) {
+      static bool reported = FALSE;
+
+      if (!reported) {
+	freelog(LOG_ERROR,
+		_("Paths longer than 99 turns are not supported.\n"
+		  "Report this bug to bugs@freeciv.org."));
+	reported = TRUE;
+      }
+      tens = units = 9;
+    }
+
+    ADD_SPRITE_SIMPLE(sprites.path.turns[units]);
+    if (tens > 0) {
+      ADD_SPRITE_SIMPLE(sprites.path.turns[tens]);
+    }
+  }
+
+  return sprs - saved_sprs;
+}
+
+/****************************************************************************
   Fill in the sprite array for the given tile, city, and unit.
 
   ptile, if specified, gives the tile.  If specified the terrain and specials
@@ -3392,6 +3433,10 @@ int fill_sprite_array(struct tileset *t,
     if (ptile && map_deco[ptile->index].crosshair > 0) {
       ADD_SPRITE_SIMPLE(sprites.user.attention);
     }
+    break;
+
+  case LAYER_GOTO:
+    sprs += fill_goto_sprite_array(t, sprs, ptile, pedge, pcorner);
     break;
 
   case LAYER_COUNT:
