@@ -263,7 +263,11 @@ static int pollution_benefit(struct player *pplayer, struct city *pcity,
   
   return cost;
 }
- 
+
+/**************************************************************************
+Evaluate the current desirability of all city improvements for the given city
+to update pcity->ai.building_want.
+**************************************************************************/
 void ai_eval_buildings(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
@@ -628,130 +632,182 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
 }
 
 /********************************************************************** 
-... this function should assign a value to choice and want and type, where 
-    want is a value between 1 and 100.
-    if want is 0 this advisor doesn't want anything
+This function should assign a value, want and type to choice (that means what
+to build and how important it is).
+
+If want is 0, this advisor doesn't want anything.
 ***********************************************************************/
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
-  struct government *g = get_gov_pplayer(pplayer);
-  int con, want, dw;
-  Unit_Type_id utid, iunit;
-  struct ai_choice cur;
-  int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
-  int vans = 0;
-/* had to add the scientist guess here too -- Syela */
+  /* Government of the player */
+  struct government *gov = get_gov_pplayer(pplayer);
+  /* Unit type with certain role */
+  Unit_Type_id unit_type;
+  /* Food surplus assuming that workers and elvii are already accounted for
+   * and properly balanced. */
+  int est_food = pcity->food_surplus
+                 + 2 * pcity->ppl_scientist
+                 + 2 * pcity->ppl_taxman;
+  /* Total count of caravans available or already being built */
+  int caravans = 0;
+  /* Continent where the city is - important for caravans */
+  int continent = map_get_continent(pcity->x, pcity->y);
 
   choice->choice = 0;
   choice->want   = 0;
   choice->type   = CT_NONE;
-  con = map_get_continent(pcity->x, pcity->y);
 
-  utid = best_role_unit(pcity, F_SETTLERS);
+  /* Find out desire for settlers */
 
-  if (est_food > utype_food_cost(get_unit_type(utid), g)) {
-/* allowing multiple settlers per city now.  I think this is correct. -- Syela */
-/* settlers are an option */
-/* settler_want calculated in settlers.c, called from ai_manage_city */
-    want = pcity->ai.settler_want;
+  unit_type = best_role_unit(pcity, F_SETTLERS);
 
+  if (est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
+    /* settler_want calculated in settlers.c called from ai_manage_city() */
+    int want = pcity->ai.settler_want;
+
+    /* Allowing multiple settlers per city now. I think this is correct.
+     * -- Syela */
+    
     if (want > 0) {
       freelog(LOG_DEBUG, "%s (%d, %d) desires settlers with passion %d",
-	      pcity->name, pcity->x, pcity->y, want);
+              pcity->name, pcity->x, pcity->y, want);
       choice->want = want;
       choice->type = CT_NONMIL;
       ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);
-    } else if (want < 0) { /* need boats to colonize! */
+      
+    } else if (want < 0) {
+      /* Negative value is a hack to tell us that we need boats to colonize.
+       * abs(want) is desire for the boats. */
       choice->want = 0 - want;
       choice->type = CT_NONMIL;
-      choice->choice = best_role_unit(pcity, F_SETTLERS); /* default */
+      choice->choice = unit_type; /* default */
       ai_choose_ferryboat(pplayer, pcity, choice);
     }
   }
 
-  /* basically, copied from above and adjusted to handle city founders -- jjm */
-  /* founder_want calculated in settlers.c, called from ai_manage_city */
-  utid = best_role_unit(pcity, F_CITIES);
+  /* Find out desire for city founders */
+  /* Basically, copied from above and adjusted. -- jjm */
 
-  if (est_food > utype_food_cost(get_unit_type(utid), g)) {
-    want = pcity->ai.founder_want;
+  unit_type = best_role_unit(pcity, F_CITIES);
+
+  if (est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
+    /* founder_want calculated in settlers.c, called from ai_manage_city(). */
+    int want = pcity->ai.founder_want;
 
     if (want > choice->want) {
       freelog(LOG_DEBUG, "%s (%d, %d) desires founders with passion %d",
-	      pcity->name, pcity->x, pcity->y, want);
+              pcity->name, pcity->x, pcity->y, want);
       choice->want = want;
       choice->type = CT_NONMIL;
       ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, want);
-    } else if (want < -choice->want) { /* need boats to colonize! */
+      
+    } else if (want < -choice->want) {
+      /* We need boats to colonize! */
       choice->want = 0 - want;
       choice->type = CT_NONMIL;
-      choice->choice = best_role_unit(pcity, F_CITIES); /* default */
+      choice->choice = unit_type; /* default */
       ai_choose_ferryboat(pplayer, pcity, choice);
     }
   }
 
-  unit_list_iterate(pplayer->units, punit)
-    if (unit_flag(punit, F_CARAVAN) &&
-        map_get_continent(punit->x, punit->y) == con) vans++;
-  unit_list_iterate_end;
-  city_list_iterate(pplayer->cities, acity)
-    if (acity->is_building_unit && acity->shield_stock >= 50 &&
-        unit_type_flag(acity->currently_building, F_CARAVAN) &&
-        map_get_continent(acity->x, acity->y) == con) vans++;
-  city_list_iterate_end;
+  /* Count existing caravans */
+  unit_list_iterate(pplayer->units, punit) {
+    if (unit_flag(punit, F_CARAVAN)
+        && map_get_continent(punit->x, punit->y) == continent)
+      caravans++;
+  } unit_list_iterate_end;
 
-  city_list_iterate(pplayer->cities, acity)
-    if (!acity->is_building_unit && is_wonder(acity->currently_building)
-        && map_get_continent(acity->x, acity->y) == con /* VERY important! */
-        && acity != pcity && build_points_left(acity) > 50 * vans) {
-      want = pcity->ai.building_want[acity->currently_building];
-/* distance to wonder city was established after manage_bu and before this */
-/* if we just started building a wonder during a_c_c_b, the started_building */
-/* notify comes equipped with an update.  It calls generate_warmap, but this */
-/* is a lot less warmap generation than there would be otherwise. -- Syela */
-      iunit = best_role_unit(pcity, F_CARAVAN);
-      dw = pcity->ai.distance_to_wonder_city * 8 /
-	((iunit==U_LAST) ? SINGLE_MOVE : get_unit_type(iunit)->move_rate);
-      want -= dw;
-      /* value of 8 is a total guess and could be wrong,
-       * but it's better than 0 -- Syela */
-      iunit = get_role_unit(F_CARAVAN, 0);
-      if (can_build_unit_direct(pcity, iunit)) {
+  /* Count caravans being built */
+  city_list_iterate(pplayer->cities, acity) {
+    if (acity->is_building_unit
+        && unit_type_flag(acity->currently_building, F_CARAVAN)
+        && acity->shield_stock >=
+             get_unit_type(acity->currently_building)->build_cost
+        && map_get_continent(acity->x, acity->y) == continent)
+      caravans++;
+  } city_list_iterate_end;
+
+  /* Check all wonders in our cities being built, if one isn't worth a little
+   * help */
+  city_list_iterate(pplayer->cities, acity) {  
+    unit_type = best_role_unit(pcity, F_CARAVAN);
+    
+    /* If we are building wonder there, the city is on same continent, we
+     * aren't in that city (stopping building wonder in order to build caravan
+     * to help it makes no sense) and we already didn't build enough caravans
+     * to finish the wonder. */
+    if (!acity->is_building_unit
+        && is_wonder(acity->currently_building)
+        && map_get_continent(acity->x, acity->y) == continent
+        && acity != pcity
+        && build_points_left(acity) >
+             get_unit_type(unit_type)->build_cost * caravans) {
+      
+      /* Desire for the wonder we are going to help - as much as we want to
+       * build it we want to help building it as well. */
+      int want = pcity->ai.building_want[acity->currently_building];
+
+      /* Distance to wonder city was established after ai_manage_buildings()
+       * and before this.  If we just started building a wonder during
+       * ai_city_choose_build(), the started_building notify comes equipped
+       * with an update.  It calls generate_warmap(), but this is a lot less
+       * warmap generation than there would be otherwise. -- Syela */
+      int dist;
+      
+      /* Value of 8 is a total guess and could be wrong, but it's still better
+       * than 0. -- Syela */
+      dist = pcity->ai.distance_to_wonder_city * 8 /
+             ((unit_type == U_LAST) ? SINGLE_MOVE
+                                    : get_unit_type(unit_type)->move_rate);
+      want -= dist;
+      
+      unit_type = get_role_unit(F_CARAVAN, 0);
+      if (can_build_unit_direct(pcity, unit_type)) {
         if (want > choice->want) {
           choice->want = want;
           choice->type = CT_NONMIL;
-	  ai_choose_role_unit(pplayer, pcity, choice, F_CARAVAN, dw/2);
+          ai_choose_role_unit(pplayer, pcity, choice, F_CARAVAN, dist / 2);
         }
-      } else
-	pplayer->ai.tech_want[get_unit_type(iunit)->tech_requirement] += want;
-    }
-  city_list_iterate_end;
+      } else {
+        int tech_req = get_unit_type(unit_type)->tech_requirement;
 
-  ai_advisor_choose_building(pcity, &cur);
-  if (cur.want > choice->want) {
-    choice->choice = cur.choice;
-    choice->want = cur.want;
-/*    if (choice->want > 100) choice->want = 100; */
-/* want > 100 means BUY RIGHT NOW */
-    choice->type = CT_BUILDING;
+        /* XXX (FIXME): Had to add the scientist guess here too. -- Syela */
+        pplayer->ai.tech_want[tech_req] += want;
+      }
+    }
+  } city_list_iterate_end;
+
+  {
+    struct ai_choice cur;
+    
+    ai_advisor_choose_building(pcity, &cur);
+    /* Allowing buy of peaceful units after much testing. -- Syela */
+    /* want > 100 means BUY RIGHT NOW */
+    /* if (choice->want > 100) choice->want = 100; */
+    copy_if_better_choice(&cur, choice);
   }
-/* allowing buy of peaceful units after much testing -- Syela */
 
-  if (!choice->want) { /* oh dear, better think of something! */
-    iunit = best_role_unit(pcity, F_CARAVAN);
-    if (iunit == U_LAST) {
-      iunit = best_role_unit(pcity, F_DIPLOMAT);
-      /* someday, real diplomat code will be here! */
+  /* FIXME: rather !is_valid_choice() --rwetmore */
+  if (!choice->want) {
+    /* Oh dear, better think of something! */
+    unit_type = best_role_unit(pcity, F_CARAVAN);
+    
+    if (unit_type == U_LAST) {
+      unit_type = best_role_unit(pcity, F_DIPLOMAT);
+      /* Someday, real diplomat code will be here! */
     }
-    if (iunit != U_LAST) {
+    
+    if (unit_type != U_LAST) {
       choice->want = 1;
       choice->type = CT_NONMIL;
-      choice->choice = iunit;
+      choice->choice = unit_type;
     }
   }
-  if (choice->want >= 200) choice->want = 199; /* otherwise we buy caravans in
-city X when we should be saving money to buy defenses for city Y. -- Syela */
+  
+  /* If we don't do following, we buy caravans in city X when we should be
+   * saving money to buy defenses for city Y. -- Syela */
+  if (choice->want >= 200) choice->want = 199;
 
   return;
 }
