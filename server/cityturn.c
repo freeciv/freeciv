@@ -144,7 +144,7 @@ void remove_obsolete_buildings(struct player *pplayer)
 /**************************************************************************
   Hard check that the numbers of city workers/specialists add up.
 **************************************************************************/
-void sanity_check_city(struct city *pcity)
+void real_sanity_check_city(struct city *pcity, const char *file, int line)
 {
   int worker = 0;
 
@@ -154,9 +154,9 @@ void sanity_check_city(struct city *pcity)
     }
   } city_map_iterate_end;
   if (worker + city_specialists(pcity) != pcity->size + 1) {
-    die("%s is illegal (size%d w%d e%d t%d s%d)",
+    die("%s is illegal (size%d w%d e%d t%d s%d) in %s line %d",
         pcity->name, pcity->size, worker, pcity->ppl_elvis,
-        pcity->ppl_taxman, pcity->ppl_scientist);
+        pcity->ppl_taxman, pcity->ppl_scientist, file, line);
   }
 }
 
