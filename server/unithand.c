@@ -434,12 +434,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   struct city *pcity;
   struct city *incity, *nearcity1, *nearcity2;
   incity = map_get_city(pdefender->x, pdefender->y);
-  punit->moves_left-=3;
-    
-  if(punit->moves_left<0)
-    punit->moves_left=0;
   
-
   if(unit_flag(punit->type, F_NUCLEAR)) {
     struct packet_nuke_tile packet;
     
@@ -464,6 +459,13 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   }
   
   unit_versus_unit(punit, pdefender);
+
+  /* Adjust attackers moves_left _after_ unit_versus_unit() so that
+   * the movement attack modifier is correct! --dwp
+   */
+  punit->moves_left-=3;
+  if(punit->moves_left<0)
+    punit->moves_left=0;
 
   if (punit->hp && (pcity=map_get_city(pdefender->x, pdefender->y)) && pcity->size>1 && !city_got_citywalls(pcity) && is_ground_unit(punit)) {
     pcity->size--;
