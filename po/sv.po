@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.36\n"
-"POT-Creation-Date: 2002-10-05 16:16+0200\n"
+"POT-Creation-Date: 2002-10-09 16:25+0200\n"
 "PO-Revision-Date: 2002-10-06 10:38+0200\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
@@ -162,7 +162,7 @@ msgstr "Radioaktivt nedfall"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Slut på minne vid försök att %s %lu byte på rad %d av %s."
 
-#: common/packets.c:3068
+#: common/packets.c:3028
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -942,7 +942,7 @@ msgstr "Detta är servern för %s."
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Man kan lära sig mycket om Freeciv vid %s."
 
-#: server/civserver.c:129 client/civclient.c:126
+#: server/civserver.c:129 client/civclient.c:128
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -951,14 +951,14 @@ msgstr ""
 "Användning: %s [valmöjlighet ...]\n"
 "Giltiga valmöjligheter är:\n"
 
-#: server/civserver.c:131 client/civclient.c:130
+#: server/civserver.c:131 client/civclient.c:132
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUMMER\tSätt avlusningsloggningsläget (0 till 4, eller 4:file1,"
 "min,max:...)\n"
 
-#: server/civserver.c:134 client/civclient.c:133
+#: server/civserver.c:134 client/civclient.c:135
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUMMER\tSätt avlusningsloggningsläge (0 till 3)\n"
 
@@ -970,7 +970,7 @@ msgstr "  -f, --file FIL\tLadda sparat spel FIL\n"
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FIL\tAnvänd FIL som spelloggningsfil\n"
 
-#: server/civserver.c:138 client/civclient.c:135
+#: server/civserver.c:138 client/civclient.c:137
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h , --help\t\tSkriv en sammanfattning av valmöjligheterna\n"
 
@@ -978,7 +978,7 @@ msgstr "  -h , --help\t\tSkriv en sammanfattning av valmöjligheterna\n"
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\tYtterligare information för metaservern\n"
 
-#: server/civserver.c:140 client/civclient.c:136
+#: server/civserver.c:140 client/civclient.c:138
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log FIL\tAnvänd FIL som loggningsfil\n"
 
@@ -1003,7 +1003,7 @@ msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr ""
 "  -r, --read FIL\tLäs FIL innehållande skript vid programkörningens början\n"
 
-#: server/civserver.c:147 client/civclient.c:147
+#: server/civserver.c:147 client/civclient.c:149
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --verison\t\tSkriv versionsnumret\n"
 
@@ -1829,26 +1829,26 @@ msgstr ""
 "Spel: %s avbröt det diplomatiska samförståndet! Det diplomatiska "
 "förhållandet mellan %s och %s är nu %s."
 
-#: server/plrhand.c:1335
+#: server/plrhand.c:1336
 #, c-format
 msgid "Removing player %s."
 msgstr "Tar bort spelare %s."
 
-#: server/plrhand.c:1336
+#: server/plrhand.c:1337
 msgid "Game: You've been removed from the game!"
 msgstr "Spel: Du har blivit borttagen från spelet!"
 
-#: server/plrhand.c:1346
+#: server/plrhand.c:1347
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spel: %s har blivit borttagen från spelet."
 
-#: server/plrhand.c:1377 server/plrhand.c:1381
+#: server/plrhand.c:1378 server/plrhand.c:1382
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spel: Vi har fått förbindelse med %s regerade av %s."
 
-#: server/plrhand.c:1743
+#: server/plrhand.c:1744
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1857,12 +1857,12 @@ msgstr ""
 "Spel: Vår stat är i inbördeskrig, %s är utsedd till ledare över "
 "upprorsmakarna."
 
-#: server/plrhand.c:1763
+#: server/plrhand.c:1764
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spel: %s svär trohet till %s."
 
-#: server/plrhand.c:1786
+#: server/plrhand.c:1787
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -4645,6 +4645,11 @@ msgstr "Okänt kommando. Försök med \"%shelp\"."
 msgid "You are not allowed to use this command."
 msgstr "Du har inte tillåtelse att använda detta kommando."
 
+#: server/stdinhand.c:3077
+#, fuzzy
+msgid "(server prompt)"
+msgstr " (iakktagningsläge)"
+
 #: server/stdinhand.c:3157
 msgid "The game must be running before you can see the score."
 msgstr "Spelet måste pågå för att man ska kunna se värderingen."
@@ -5643,50 +5648,50 @@ msgstr "Bygger"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(förråd, mål, omgångar, köpkostnad)"
 
-#: client/civclient.c:128
+#: client/civclient.c:130
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tVisa inte anslutningsdialog\n"
 
-#: client/civclient.c:137
+#: client/civclient.c:139
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta VÄRD\tAnslut till metaservern vid VÄRD\n"
 
-#: client/civclient.c:139
+#: client/civclient.c:141
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAMN\tAnvänd NAMN som namn\n"
 
-#: client/civclient.c:140
+#: client/civclient.c:142
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\t\tAnslut till serverport PORT\n"
 
-#: client/civclient.c:141
+#: client/civclient.c:143
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr ""
 "  -P, --Plugin INSTICKSPROGRAM\tAnvänd INSTICKSPROGRAM för ljudutmatning %s\n"
 
-#: client/civclient.c:143
+#: client/civclient.c:145
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server VÄRD\tAnslut till server vid VÄRD\n"
 
-#: client/civclient.c:144
+#: client/civclient.c:146
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FIL\tLäs ljudmärken från FIL\n"
 
-#: client/civclient.c:145
+#: client/civclient.c:147
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t,   --tiles FIL\tAnvänd datafilen FIL.tilespec för rutbilder\n"
 
-#: client/civclient.c:178
+#: client/civclient.c:180
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Okänd valmöjlighet: \"%s\"\n"
 
-#: client/civclient.c:645
+#: client/civclient.c:655
 msgid "Game started."
 msgstr "Spel påbörjat."
 
-#: client/civclient.c:667
+#: client/civclient.c:677
 msgid "There was an error while auto connecting; aborting."
 msgstr "Ett fel uppstod vid självständig anslutning; avbryter."
 

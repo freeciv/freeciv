@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.14\n"
-"POT-Creation-Date: 2002-10-05 23:20+0200\n"
+"POT-Creation-Date: 2002-10-09 16:25+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Language-Team: \n"
@@ -193,7 +193,7 @@ msgstr "Fallout"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Out of memory trying to %s %lu bytes at line %d of %s."
 
-#: common/packets.c:3068
+#: common/packets.c:3028
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -988,7 +988,7 @@ msgstr "%s Server"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Weitere Informationen zu Freeciv finden Sie auf %s."
 
-#: server/civserver.c:129 client/civclient.c:126
+#: server/civserver.c:129 client/civclient.c:128
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -997,13 +997,13 @@ msgstr ""
 "Syntax: %s [option ...]\n"
 "Gültige Optionen sind:\n"
 
-#: server/civserver.c:131 client/civclient.c:130
+#: server/civserver.c:131 client/civclient.c:132
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tSetze Debugloglevel (0-4 oder 4:Datei1,min,max:...)\n"
 
-#: server/civserver.c:134 client/civclient.c:133
+#: server/civserver.c:134 client/civclient.c:135
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tSetze Debugloglevel (0-3)\n"
 
@@ -1015,7 +1015,7 @@ msgstr "  -f, --file DATEI\tGespeichertes Spiel DATEI laden\n"
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog DATEI\tSpiel in DATEI protokollieren\n"
 
-#: server/civserver.c:138 client/civclient.c:135
+#: server/civserver.c:138 client/civclient.c:137
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tZeigt diesen Text\n"
 
@@ -1023,7 +1023,7 @@ msgstr "  -h, --help\t\tZeigt diesen Text\n"
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\tZusätzliche Infos für den Metaserver\n"
 
-#: server/civserver.c:140 client/civclient.c:136
+#: server/civserver.c:140 client/civclient.c:138
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log DATEI\tDATEI als Logfile benutzen\n"
 
@@ -1047,7 +1047,7 @@ msgstr "  -q, --quitidle ZEIT\tAbbrechen wenn ZEIT Sekunden ohne Spieler\n"
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read DATEI\tStartscript DATEI laden\n"
 
-#: server/civserver.c:147 client/civclient.c:147
+#: server/civserver.c:147 client/civclient.c:149
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
@@ -1904,26 +1904,26 @@ msgstr ""
 "Spiel: Die %s haben das Abkommen gekündigt! Zwischen den %s und den %s "
 "herrscht nun %s."
 
-#: server/plrhand.c:1335
+#: server/plrhand.c:1336
 #, c-format
 msgid "Removing player %s."
 msgstr "Spieler %s wird entfernt."
 
-#: server/plrhand.c:1336
+#: server/plrhand.c:1337
 msgid "Game: You've been removed from the game!"
 msgstr "Spiel: Sie wurden aus dem Spiel entfernt."
 
-#: server/plrhand.c:1346
+#: server/plrhand.c:1347
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 
-#: server/plrhand.c:1377 server/plrhand.c:1381
+#: server/plrhand.c:1378 server/plrhand.c:1382
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spiel: Die %s entdeckt. Ihr Herrscher ist %s."
 
-#: server/plrhand.c:1743
+#: server/plrhand.c:1744
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1932,12 +1932,12 @@ msgstr ""
 "Spiel: Die Nation wird vom Bürgerkrieg gespalten. %s ist der Anführer der "
 "revoltierenden Provinzen."
 
-#: server/plrhand.c:1763
+#: server/plrhand.c:1764
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spiel: %s erklärt ihre Loyalität zu %s."
 
-#: server/plrhand.c:1786
+#: server/plrhand.c:1787
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2174,8 +2174,8 @@ msgstr "."
 #: server/report.c:542
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr ""
-"Der Optionsstring zur 'Lage der Nation' enthält ungültige Einträge. "
-"Nähere Informationen sind mit 'help demography' erhältlich."
+"Der Optionsstring zur 'Lage der Nation' enthält ungültige Einträge. Nähere "
+"Informationen sind mit 'help demography' erhältlich."
 
 #: server/report.c:582 server/report.c:600
 msgid "Demographics Report:"
@@ -4722,6 +4722,11 @@ msgstr "Unbekannter Befehl. '%shelp' gibt nähere Informationen."
 msgid "You are not allowed to use this command."
 msgstr "Keine Berechtigung zur Erteilung dieses Befehls."
 
+#: server/stdinhand.c:3077
+#, fuzzy
+msgid "(server prompt)"
+msgstr " (Beobachtermodus)"
+
 #: server/stdinhand.c:3157
 msgid "The game must be running before you can see the score."
 msgstr "Punktestände können erst nach Spielbeginn angesehen werden."
@@ -5725,49 +5730,49 @@ msgstr "derzeitiges Projekt"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(aktuell/benötigt/Runden/Preis)"
 
-#: client/civclient.c:128
+#: client/civclient.c:130
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnnect\tAuswahlmenu zur Serverwahl unterdrücken\n"
 
-#: client/civclient.c:137
+#: client/civclient.c:139
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --metaserver HOST\tmit Metaserver auf HOST verbinden\n"
 
-#: client/civclient.c:139
+#: client/civclient.c:141
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\tBenutze NAME als Alias\n"
 
-#: client/civclient.c:140
+#: client/civclient.c:142
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tPortnummer PORT benutzen\n"
 
-#: client/civclient.c:141
+#: client/civclient.c:143
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tPLUGIN zur Soundausgabe benutzen %s\n"
 
-#: client/civclient.c:143
+#: client/civclient.c:145
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tmit Server auf HOST verbinden\n"
 
-#: client/civclient.c:144
+#: client/civclient.c:146
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound DATEI\tSounds aus DATEI laden\n"
 
-#: client/civclient.c:145
+#: client/civclient.c:147
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles DATEI\tTiles aus DATEI.tilespec verwenden\n"
 
-#: client/civclient.c:178
+#: client/civclient.c:180
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Unbekannte Option: '%s'\n"
 
-#: client/civclient.c:645
+#: client/civclient.c:655
 msgid "Game started."
 msgstr "Spiel begonnen."
 
-#: client/civclient.c:667
+#: client/civclient.c:677
 msgid "There was an error while auto connecting; aborting."
 msgstr "Fehler bei automatischem Verbindungsaubau: Abbruch."
 

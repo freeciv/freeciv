@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.4\n"
-"POT-Creation-Date: 2002-10-07 12:51+0200\n"
+"POT-Creation-Date: 2002-10-09 16:25+0200\n"
 "PO-Revision-Date: 2002-10-07 12:52+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -116,7 +116,7 @@ msgstr "Irrigatie"
 
 #: common/map.c:56 common/map.c:612 common/unit.c:549
 #: data/default/techs.ruleset:448 data/civ2/techs.ruleset:439
-#: data/civ1/techs.ruleset:439 data/history/techs.ruleset:448
+#: data/civ1/techs.ruleset:439
 msgid "Railroad"
 msgstr "Spoorlijn"
 
@@ -162,7 +162,7 @@ msgstr "Radioactief"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Te weinig geheugen bij proberen om %s %lu bytes op regel %d van %s."
 
-#: common/packets.c:3068
+#: common/packets.c:3028
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -939,7 +939,7 @@ msgstr "Dit is de server voor %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "U kunt veel leren over Freeciv op %s"
 
-#: server/civserver.c:129 client/civclient.c:126
+#: server/civserver.c:129 client/civclient.c:128
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -948,14 +948,14 @@ msgstr ""
 "Gebruik: %s [optie ...]\n"
 "Geldige opties zijn:\n"
 
-#: server/civserver.c:131 client/civclient.c:130
+#: server/civserver.c:131 client/civclient.c:132
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug GETAL\tZet debug-logniveau (0 tot 4,of 4:bestand1,min,"
 "max:...)\n"
 
-#: server/civserver.c:134 client/civclient.c:133
+#: server/civserver.c:134 client/civclient.c:135
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug GETAL\tZet debug-logniveau (0 tot 3)\n"
 
@@ -967,7 +967,7 @@ msgstr "  -f, --file BESTAND\tLaad opgeslagen spel BESTAND\n"
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog BESTAND\tGebruik BESTAND als spel logbestand\n"
 
-#: server/civserver.c:138 client/civclient.c:135
+#: server/civserver.c:138 client/civclient.c:137
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tGeef een samenvatting van de opties\n"
 
@@ -975,7 +975,7 @@ msgstr "  -h, --help\t\tGeef een samenvatting van de opties\n"
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\t\tExtra info voor de metaserver\n"
 
-#: server/civserver.c:140 client/civclient.c:136
+#: server/civserver.c:140 client/civclient.c:138
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log BESTAND\tGebruik BESTAND als logbestand\n"
 
@@ -1000,7 +1000,7 @@ msgstr ""
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read BESTAND\tLees startscript BESTAND\n"
 
-#: server/civserver.c:147 client/civclient.c:147
+#: server/civserver.c:147 client/civclient.c:149
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tToon het versienummer\n"
 
@@ -1831,26 +1831,26 @@ msgstr ""
 "Spel: %s beëindigde de politieke overeenkomst! De diplomatieke toestand "
 "tussen de %s en de %s is nu %s."
 
-#: server/plrhand.c:1335
+#: server/plrhand.c:1336
 #, c-format
 msgid "Removing player %s."
 msgstr "Verwijder speler %s."
 
-#: server/plrhand.c:1336
+#: server/plrhand.c:1337
 msgid "Game: You've been removed from the game!"
 msgstr "Spel: U bent uit het spel verwijderd!"
 
-#: server/plrhand.c:1346
+#: server/plrhand.c:1347
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spel: %s is uit het spel verwijderd."
 
-#: server/plrhand.c:1377 server/plrhand.c:1381
+#: server/plrhand.c:1378 server/plrhand.c:1382
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spel: U hebt contact gemaakt met de %s, geregeerd door %s."
 
-#: server/plrhand.c:1743
+#: server/plrhand.c:1744
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1859,12 +1859,12 @@ msgstr ""
 "Spel: Uw natie is verzonken in burgeroorlog, %s is benoemd als de leider van "
 "de rebellerende staten."
 
-#: server/plrhand.c:1763
+#: server/plrhand.c:1764
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spel: %s verklaart alliantie aan %s."
 
-#: server/plrhand.c:1786
+#: server/plrhand.c:1787
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -1953,7 +1953,6 @@ msgstr "Onderzoekssnelheid"
 
 #: server/report.c:105 data/default/techs.ruleset:308
 #: data/civ2/techs.ruleset:301 data/civ1/techs.ruleset:301
-#: data/history/techs.ruleset:308
 msgid "Literacy"
 msgstr "Geletterdheid"
 
@@ -1963,7 +1962,6 @@ msgstr "Productie"
 
 #: server/report.c:107 data/default/techs.ruleset:182
 #: data/civ2/techs.ruleset:175 data/civ1/techs.ruleset:175
-#: data/history/techs.ruleset:182
 msgid "Economics"
 msgstr "Economie"
 
@@ -2102,7 +2100,8 @@ msgstr "de"
 
 #: server/report.c:542
 msgid "Demography string contains invalid characters. Try \"help demography\"."
-msgstr "Volkenkundig formaat bevat ongeldige tekens. Probeer \"help demography\"."
+msgstr ""
+"Volkenkundig formaat bevat ongeldige tekens. Probeer \"help demography\"."
 
 #: server/report.c:582 server/report.c:600
 msgid "Demographics Report:"
@@ -4677,6 +4676,11 @@ msgstr "Onbekende opdracht. Probeer '%shelp'."
 msgid "You are not allowed to use this command."
 msgstr "U mag deze opdracht niet gebruiken."
 
+#: server/stdinhand.c:3077
+#, fuzzy
+msgid "(server prompt)"
+msgstr " (waarnemers modus)"
+
 #: server/stdinhand.c:3157
 msgid "The game must be running before you can see the score."
 msgstr "Het spel moet begonnen zijn voordat u de score kunt zien."
@@ -5675,49 +5679,49 @@ msgstr "In Aanbouw"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Voorraad,Doel,Zetten,Koop)"
 
-#: client/civclient.c:128
+#: client/civclient.c:130
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tSla verbindingsdialoog over\n"
 
-#: client/civclient.c:137
+#: client/civclient.c:139
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tVerbind met de metaserver op HOST\n"
 
-#: client/civclient.c:139
+#: client/civclient.c:141
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAAM\tGebruik NAAM als naam\n"
 
-#: client/civclient.c:140
+#: client/civclient.c:142
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port POORT\tVerbind met server poort POORT\n"
 
-#: client/civclient.c:141
+#: client/civclient.c:143
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tGebruik PLUGIN voor geluidsuitvoer %s\n"
 
-#: client/civclient.c:143
+#: client/civclient.c:145
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tVerbind met de server op HOST\n"
 
-#: client/civclient.c:144
+#: client/civclient.c:146
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound BESTAND\tLees geluids info van BESTAND\n"
 
-#: client/civclient.c:145
+#: client/civclient.c:147
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles BESTAND\tKijk in data bestand BESTAND voor vlakken\n"
 
-#: client/civclient.c:178
+#: client/civclient.c:180
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Niet-herkende optie: \"%s\"\n"
 
-#: client/civclient.c:645
+#: client/civclient.c:655
 msgid "Game started."
 msgstr "Spel begonnen."
 
-#: client/civclient.c:667
+#: client/civclient.c:677
 msgid "There was an error while auto connecting; aborting."
 msgstr ""
 "Er trad een fout op bij het automatisch maken van een verbinding; afbreken."
@@ -6850,14 +6854,13 @@ msgstr "Schild"
 #: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
-#: data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Handel"
 
 #: client/agents/cma_core.c:2015 client/gui-gtk-2.0/citydlg.c:549
 #: client/gui-gtk/citydlg.c:546 client/gui-mui/citydlg.c:1687
 #: data/default/terrain.ruleset:376 data/civ2/terrain.ruleset:376
-#: data/civ1/terrain.ruleset:368 data/history/terrain.ruleset:376
+#: data/civ1/terrain.ruleset:368
 msgid "Gold"
 msgstr "Goud"
 
@@ -13918,12 +13921,12 @@ msgstr ""
 "hoofdstad te veroveren."
 
 #: data/default/buildings.ruleset:219 data/civ2/buildings.ruleset:28
-#: data/civ1/buildings.ruleset:28 data/history/buildings.ruleset:28
+#: data/civ1/buildings.ruleset:28
 msgid "Airport"
 msgstr "Luchthaven"
 
 #: data/default/buildings.ruleset:240 data/civ2/buildings.ruleset:49
-#: data/civ1/buildings.ruleset:49 data/history/buildings.ruleset:49
+#: data/civ1/buildings.ruleset:49
 msgid ""
 "Allows a city to produce veteran air units.  Also, damaged air units which "
 "stay in town for one full turn without moving are completely restored.\n"
@@ -13943,17 +13946,17 @@ msgstr ""
 "moet enige beweginspunten overhebben om overgevlogen te kunnen worden."
 
 #: data/default/buildings.ruleset:252 data/civ2/buildings.ruleset:61
-#: data/civ1/buildings.ruleset:61 data/history/buildings.ruleset:61
+#: data/civ1/buildings.ruleset:61
 msgid "Aqueduct"
 msgstr "Aquaduct"
 
 #: data/default/buildings.ruleset:280 data/civ2/buildings.ruleset:89
-#: data/civ1/buildings.ruleset:88 data/history/buildings.ruleset:89
+#: data/civ1/buildings.ruleset:88
 msgid "Bank"
 msgstr "Bank"
 
 #: data/default/buildings.ruleset:301 data/civ2/buildings.ruleset:110
-#: data/civ1/buildings.ruleset:109 data/history/buildings.ruleset:110
+#: data/civ1/buildings.ruleset:109
 #, no-c-format
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
@@ -13963,15 +13966,13 @@ msgstr ""
 "binnen een stad met 100%."
 
 #: data/default/buildings.ruleset:307 data/civ2/buildings.ruleset:116
-#: data/civ1/buildings.ruleset:115 data/history/buildings.ruleset:116
+#: data/civ1/buildings.ruleset:115
 msgid "Barracks"
 msgstr "Barakken"
 
 #: data/default/buildings.ruleset:327 data/default/buildings.ruleset:356
 #: data/default/buildings.ruleset:385 data/civ2/buildings.ruleset:136
 #: data/civ2/buildings.ruleset:165 data/civ2/buildings.ruleset:194
-#: data/history/buildings.ruleset:136 data/history/buildings.ruleset:165
-#: data/history/buildings.ruleset:194
 msgid ""
 "With a Barracks, each new land unit built in a city will automatically have "
 "Veteran status, which means that its attack and defence strengths are "
@@ -13984,22 +13985,21 @@ msgstr ""
 "beurt zonder verplaatsing in de stad blijven volledig hersteld."
 
 #: data/default/buildings.ruleset:336 data/civ2/buildings.ruleset:145
-#: data/civ1/buildings.ruleset:153 data/history/buildings.ruleset:145
+#: data/civ1/buildings.ruleset:153
 msgid "Barracks II"
 msgstr "Barakken II"
 
 #: data/default/buildings.ruleset:365 data/civ2/buildings.ruleset:174
-#: data/civ1/buildings.ruleset:190 data/history/buildings.ruleset:174
+#: data/civ1/buildings.ruleset:190
 msgid "Barracks III"
 msgstr "Barakken III"
 
 #: data/default/buildings.ruleset:394 data/civ2/buildings.ruleset:203
-#: data/civ1/buildings.ruleset:227 data/history/buildings.ruleset:203
+#: data/civ1/buildings.ruleset:227
 msgid "Cathedral"
 msgstr "Kathedraal"
 
 #: data/default/buildings.ruleset:415 data/civ2/buildings.ruleset:224
-#: data/history/buildings.ruleset:224
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city.  The discovery of Theology increases the effect "
@@ -14015,12 +14015,11 @@ msgstr ""
 "tevreden."
 
 #: data/default/buildings.ruleset:425 data/civ2/buildings.ruleset:234
-#: data/civ1/buildings.ruleset:252 data/history/buildings.ruleset:234
+#: data/civ1/buildings.ruleset:252
 msgid "City Walls"
 msgstr "Stadswallen"
 
 #: data/default/buildings.ruleset:447 data/civ2/buildings.ruleset:256
-#: data/history/buildings.ruleset:256
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against ground and helicopter units.  They "
@@ -14035,12 +14034,12 @@ msgstr ""
 "optreedt als een verdedigende eenheid wordt vernietigd door een landeenheid."
 
 #: data/default/buildings.ruleset:456 data/civ2/buildings.ruleset:265
-#: data/civ1/buildings.ruleset:284 data/history/buildings.ruleset:265
+#: data/civ1/buildings.ruleset:284
 msgid "Coastal Defense"
 msgstr "Kustverdediging"
 
 #: data/default/buildings.ruleset:475 data/civ2/buildings.ruleset:284
-#: data/civ1/buildings.ruleset:303 data/history/buildings.ruleset:284
+#: data/civ1/buildings.ruleset:303
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
@@ -14049,11 +14048,11 @@ msgstr ""
 "wanneer zij zich verdedigen tegen bombardementen vanaf vijandelijke schepen."
 
 #: data/default/buildings.ruleset:481 data/civ2/buildings.ruleset:290
-#: data/civ1/buildings.ruleset:309 data/history/buildings.ruleset:290
+#: data/civ1/buildings.ruleset:309
 msgid "Colosseum"
 msgstr "Colosseum"
 
-#: data/default/buildings.ruleset:501 data/history/buildings.ruleset:310
+#: data/default/buildings.ruleset:501
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
@@ -14062,12 +14061,12 @@ msgstr ""
 "stedelingen tevreden. (Vier na de ontdekking van Electriciteit"
 
 #: data/default/buildings.ruleset:509 data/civ2/buildings.ruleset:316
-#: data/civ1/buildings.ruleset:333 data/history/buildings.ruleset:318
+#: data/civ1/buildings.ruleset:333
 msgid "Courthouse"
 msgstr "Gerechtshof"
 
 #: data/default/buildings.ruleset:530 data/civ2/buildings.ruleset:337
-#: data/civ1/buildings.ruleset:354 data/history/buildings.ruleset:339
+#: data/civ1/buildings.ruleset:354
 msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
@@ -14078,12 +14077,12 @@ msgstr ""
 "afstand tot de hoofdstad in de berekening van de kosten van een opstand."
 
 #: data/default/buildings.ruleset:538 data/civ2/buildings.ruleset:345
-#: data/civ1/buildings.ruleset:362 data/history/buildings.ruleset:347
+#: data/civ1/buildings.ruleset:362
 msgid "Factory"
 msgstr "Fabriek"
 
 #: data/default/buildings.ruleset:557 data/civ2/buildings.ruleset:364
-#: data/civ1/buildings.ruleset:381 data/history/buildings.ruleset:366
+#: data/civ1/buildings.ruleset:381
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
@@ -14092,12 +14091,12 @@ msgstr ""
 "aanzienlijk bijdragen aan vervuiling."
 
 #: data/default/buildings.ruleset:563 data/civ2/buildings.ruleset:370
-#: data/civ1/buildings.ruleset:387 data/history/buildings.ruleset:372
+#: data/civ1/buildings.ruleset:387
 msgid "Granary"
 msgstr "Graansilo"
 
 #: data/default/buildings.ruleset:582 data/civ2/buildings.ruleset:389
-#: data/civ1/buildings.ruleset:406 data/history/buildings.ruleset:391
+#: data/civ1/buildings.ruleset:406
 msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
@@ -14108,12 +14107,12 @@ msgstr ""
 "en gemakkelijker te groeien zonder angst voor hongersnood."
 
 #: data/default/buildings.ruleset:592 data/civ2/buildings.ruleset:399
-#: data/civ1/buildings.ruleset:416 data/history/buildings.ruleset:401
+#: data/civ1/buildings.ruleset:416
 msgid "Harbour"
 msgstr "Haven"
 
 #: data/default/buildings.ruleset:611 data/civ2/buildings.ruleset:418
-#: data/civ1/buildings.ruleset:435 data/history/buildings.ruleset:420
+#: data/civ1/buildings.ruleset:435
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
@@ -14122,11 +14121,11 @@ msgstr ""
 "liggen om deze verbetering te kunnen bouwen."
 
 #: data/default/buildings.ruleset:617 data/civ2/buildings.ruleset:424
-#: data/civ1/buildings.ruleset:441 data/history/buildings.ruleset:426
+#: data/civ1/buildings.ruleset:441
 msgid "Hydro Plant"
 msgstr "Waterkracht Centrale"
 
-#: data/default/buildings.ruleset:639 data/history/buildings.ruleset:448
+#: data/default/buildings.ruleset:639
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -14149,34 +14148,34 @@ msgstr ""
 "bouwen als het op of naast een Berg- of Riviervlak ligt."
 
 #: data/default/buildings.ruleset:658 data/civ2/buildings.ruleset:461
-#: data/civ1/buildings.ruleset:476 data/history/buildings.ruleset:467
+#: data/civ1/buildings.ruleset:476
 msgid "Library"
 msgstr "Bibliotheek"
 
 #: data/default/buildings.ruleset:678 data/civ2/buildings.ruleset:481
-#: data/civ1/buildings.ruleset:496 data/history/buildings.ruleset:487
+#: data/civ1/buildings.ruleset:496
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "Verhoogt de wetenschapelijke opbrengsten van een stad met 50%."
 
 #: data/default/buildings.ruleset:683 data/civ2/buildings.ruleset:486
-#: data/civ1/buildings.ruleset:501 data/history/buildings.ruleset:492
+#: data/civ1/buildings.ruleset:501
 msgid "Marketplace"
 msgstr "Marktplein"
 
 #: data/default/buildings.ruleset:704 data/civ2/buildings.ruleset:507
-#: data/civ1/buildings.ruleset:522 data/history/buildings.ruleset:513
+#: data/civ1/buildings.ruleset:522
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "Verhoogt de luxe- en belastingsopbrengsten in een stad met 50%."
 
 #: data/default/buildings.ruleset:709 data/civ2/buildings.ruleset:512
-#: data/civ1/buildings.ruleset:527 data/history/buildings.ruleset:518
+#: data/civ1/buildings.ruleset:527
 msgid "Mass Transit"
 msgstr "Massavervoer"
 
 #: data/default/buildings.ruleset:728 data/civ2/buildings.ruleset:531
-#: data/civ1/buildings.ruleset:546 data/history/buildings.ruleset:537
+#: data/civ1/buildings.ruleset:546
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
@@ -14186,12 +14185,12 @@ msgstr ""
 "hoeveelheid verontreiniging die een stad produceert."
 
 #: data/default/buildings.ruleset:735 data/civ2/buildings.ruleset:538
-#: data/civ1/buildings.ruleset:553 data/history/buildings.ruleset:544
+#: data/civ1/buildings.ruleset:553
 msgid "Mfg. Plant"
 msgstr "Assemblagehal"
 
 #: data/default/buildings.ruleset:755 data/civ2/buildings.ruleset:558
-#: data/civ1/buildings.ruleset:573 data/history/buildings.ruleset:564
+#: data/civ1/buildings.ruleset:573
 #, no-c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
@@ -14201,11 +14200,11 @@ msgstr ""
 "stad met 100%."
 
 #: data/default/buildings.ruleset:761 data/civ2/buildings.ruleset:564
-#: data/civ1/buildings.ruleset:579 data/history/buildings.ruleset:570
+#: data/civ1/buildings.ruleset:579
 msgid "Nuclear Plant"
 msgstr "Kerncentrale"
 
-#: data/default/buildings.ruleset:783 data/history/buildings.ruleset:592
+#: data/default/buildings.ruleset:783
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -14224,12 +14223,12 @@ msgstr ""
 "of één Kerncentrale bezitten."
 
 #: data/default/buildings.ruleset:803 data/civ2/buildings.ruleset:603
-#: data/civ1/buildings.ruleset:616 data/history/buildings.ruleset:612
+#: data/civ1/buildings.ruleset:616
 msgid "Offshore Platform"
 msgstr "Booreiland"
 
 #: data/default/buildings.ruleset:822 data/civ2/buildings.ruleset:622
-#: data/civ1/buildings.ruleset:635 data/history/buildings.ruleset:631
+#: data/civ1/buildings.ruleset:635
 msgid ""
 "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs "
 "to be coastal to build this improvement."
@@ -14238,12 +14237,12 @@ msgstr ""
 "de kust liggen om deze verbetering te kunnen bouwen."
 
 #: data/default/buildings.ruleset:828 data/civ2/buildings.ruleset:628
-#: data/civ1/buildings.ruleset:641 data/history/buildings.ruleset:637
+#: data/civ1/buildings.ruleset:641
 msgid "Palace"
 msgstr "Paleis"
 
 #: data/default/buildings.ruleset:849 data/civ2/buildings.ruleset:649
-#: data/civ1/buildings.ruleset:661 data/history/buildings.ruleset:658
+#: data/civ1/buildings.ruleset:661
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -14266,12 +14265,12 @@ msgstr ""
 "paleis zorgt ook voor het verlies van uw eventuele ruimteschip."
 
 #: data/default/buildings.ruleset:863 data/civ2/buildings.ruleset:663
-#: data/civ1/buildings.ruleset:675 data/history/buildings.ruleset:672
+#: data/civ1/buildings.ruleset:675
 msgid "Police Station"
 msgstr "Politiebureau"
 
 #: data/default/buildings.ruleset:883 data/civ2/buildings.ruleset:683
-#: data/civ1/buildings.ruleset:695 data/history/buildings.ruleset:692
+#: data/civ1/buildings.ruleset:695
 msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
@@ -14282,12 +14281,12 @@ msgstr ""
 "Deze verbetering heeft geen effect onder andere regeringsvormen."
 
 #: data/default/buildings.ruleset:893 data/civ2/buildings.ruleset:690
-#: data/civ1/buildings.ruleset:702 data/history/buildings.ruleset:702
+#: data/civ1/buildings.ruleset:702
 msgid "Port Facility"
 msgstr "Haven Faciliteiten"
 
 #: data/default/buildings.ruleset:913 data/civ2/buildings.ruleset:710
-#: data/civ1/buildings.ruleset:722 data/history/buildings.ruleset:722
+#: data/civ1/buildings.ruleset:722
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
@@ -14297,11 +14296,11 @@ msgstr ""
 "blijven in één enkele beurt volledig hersteld."
 
 #: data/default/buildings.ruleset:920 data/civ2/buildings.ruleset:717
-#: data/civ1/buildings.ruleset:729 data/history/buildings.ruleset:729
+#: data/civ1/buildings.ruleset:729
 msgid "Power Plant"
 msgstr "Electriciteits Centrale"
 
-#: data/default/buildings.ruleset:941 data/history/buildings.ruleset:750
+#: data/default/buildings.ruleset:941
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -14320,12 +14319,12 @@ msgstr ""
 "of één Kerncentrale bezitten."
 
 #: data/default/buildings.ruleset:956 data/civ2/buildings.ruleset:749
-#: data/civ1/buildings.ruleset:761 data/history/buildings.ruleset:765
+#: data/civ1/buildings.ruleset:761
 msgid "Recycling Center"
 msgstr "Kringloopcentrum"
 
 #: data/default/buildings.ruleset:976 data/civ2/buildings.ruleset:769
-#: data/civ1/buildings.ruleset:781 data/history/buildings.ruleset:785
+#: data/civ1/buildings.ruleset:781
 #, no-c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
@@ -14335,12 +14334,12 @@ msgstr ""
 "verontreiniging die een stad maakt met 66%."
 
 #: data/default/buildings.ruleset:982 data/civ2/buildings.ruleset:775
-#: data/civ1/buildings.ruleset:787 data/history/buildings.ruleset:791
+#: data/civ1/buildings.ruleset:787
 msgid "Research Lab"
 msgstr "Onderzoeks Laboratorium"
 
 #: data/default/buildings.ruleset:1001 data/civ2/buildings.ruleset:794
-#: data/civ1/buildings.ruleset:806 data/history/buildings.ruleset:810
+#: data/civ1/buildings.ruleset:806
 msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
@@ -14352,12 +14351,12 @@ msgstr ""
 "stad met 150% verhoogt."
 
 #: data/default/buildings.ruleset:1009 data/civ2/buildings.ruleset:802
-#: data/civ1/buildings.ruleset:814 data/history/buildings.ruleset:818
+#: data/civ1/buildings.ruleset:814
 msgid "SAM Battery"
 msgstr "SAM Batterij"
 
 #: data/default/buildings.ruleset:1029 data/civ2/buildings.ruleset:822
-#: data/civ1/buildings.ruleset:834 data/history/buildings.ruleset:838
+#: data/civ1/buildings.ruleset:834
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
@@ -14366,12 +14365,12 @@ msgstr ""
 "worden aangevallen door niet-nucleaire eenheden."
 
 #: data/default/buildings.ruleset:1035 data/civ2/buildings.ruleset:828
-#: data/civ1/buildings.ruleset:840 data/history/buildings.ruleset:844
+#: data/civ1/buildings.ruleset:840
 msgid "SDI Defense"
 msgstr "SDI Verdediging"
 
 #: data/default/buildings.ruleset:1055 data/civ2/buildings.ruleset:848
-#: data/civ1/buildings.ruleset:860 data/history/buildings.ruleset:864
+#: data/civ1/buildings.ruleset:860
 msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
@@ -14382,16 +14381,16 @@ msgstr ""
 "verdedigingskracht tegen niet-nucleaire raketten."
 
 #: data/default/buildings.ruleset:1064 data/civ2/buildings.ruleset:857
-#: data/civ1/buildings.ruleset:869 data/history/buildings.ruleset:873
+#: data/civ1/buildings.ruleset:869
 msgid "Sewer System"
 msgstr "Riolering"
 
 #: data/default/buildings.ruleset:1092 data/civ2/buildings.ruleset:885
-#: data/civ1/buildings.ruleset:894 data/history/buildings.ruleset:901
+#: data/civ1/buildings.ruleset:894
 msgid "Solar Plant"
 msgstr "Zonnekrachtcentrale"
 
-#: data/default/buildings.ruleset:1115 data/history/buildings.ruleset:924
+#: data/default/buildings.ruleset:1115
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -14412,12 +14411,12 @@ msgstr ""
 "één Electriciteitscentrale of één Kerncentrale bezitten."
 
 #: data/default/buildings.ruleset:1133 data/civ2/buildings.ruleset:922
-#: data/civ1/buildings.ruleset:931 data/history/buildings.ruleset:942
+#: data/civ1/buildings.ruleset:931
 msgid "Space Component"
 msgstr "Ruimtecomponent"
 
 #: data/default/buildings.ruleset:1152 data/civ2/buildings.ruleset:941
-#: data/civ1/buildings.ruleset:950 data/history/buildings.ruleset:961
+#: data/civ1/buildings.ruleset:950
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -14434,12 +14433,12 @@ msgstr ""
 "door één van de spelers gebouwd zijn."
 
 #: data/default/buildings.ruleset:1162 data/civ2/buildings.ruleset:951
-#: data/civ1/buildings.ruleset:960 data/history/buildings.ruleset:971
+#: data/civ1/buildings.ruleset:960
 msgid "Space Module"
 msgstr "Ruimtemodule"
 
 #: data/default/buildings.ruleset:1181 data/civ2/buildings.ruleset:970
-#: data/civ1/buildings.ruleset:979 data/history/buildings.ruleset:990
+#: data/civ1/buildings.ruleset:979
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:\n"
@@ -14470,12 +14469,12 @@ msgstr ""
 "het Apollo Programma wonder door één van de spelers gebouwd zijn."
 
 #: data/default/buildings.ruleset:1200 data/civ2/buildings.ruleset:989
-#: data/civ1/buildings.ruleset:998 data/history/buildings.ruleset:1009
+#: data/civ1/buildings.ruleset:998
 msgid "Space Structural"
 msgstr "Ruimtestruktuur"
 
 #: data/default/buildings.ruleset:1219 data/civ2/buildings.ruleset:1008
-#: data/civ1/buildings.ruleset:1017 data/history/buildings.ruleset:1028
+#: data/civ1/buildings.ruleset:1017
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -14492,12 +14491,12 @@ msgstr ""
 "het Apollo Programma wonder door één van de spelers gebouwd zijn."
 
 #: data/default/buildings.ruleset:1229 data/civ2/buildings.ruleset:1018
-#: data/civ1/buildings.ruleset:1027 data/history/buildings.ruleset:1038
+#: data/civ1/buildings.ruleset:1027
 msgid "Stock Exchange"
 msgstr "Optiebeurs"
 
 #: data/default/buildings.ruleset:1250 data/civ2/buildings.ruleset:1039
-#: data/civ1/buildings.ruleset:1048 data/history/buildings.ruleset:1059
+#: data/civ1/buildings.ruleset:1048
 #, no-c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
@@ -14507,12 +14506,12 @@ msgstr ""
 "en luxe-opbrengsten in een stad met 150%."
 
 #: data/default/buildings.ruleset:1256 data/civ2/buildings.ruleset:1045
-#: data/civ1/buildings.ruleset:1054 data/history/buildings.ruleset:1065
+#: data/civ1/buildings.ruleset:1054
 msgid "Super Highways"
 msgstr "Snelwegen"
 
 #: data/default/buildings.ruleset:1276 data/civ2/buildings.ruleset:1066
-#: data/civ1/buildings.ruleset:1075 data/history/buildings.ruleset:1085
+#: data/civ1/buildings.ruleset:1075
 #, no-c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
@@ -14520,12 +14519,12 @@ msgstr ""
 "Vergroot de handelsopbrengst met 50% op alle vlakken met wegen of spoorwegen."
 
 #: data/default/buildings.ruleset:1284 data/civ2/buildings.ruleset:1072
-#: data/civ1/buildings.ruleset:1081 data/history/buildings.ruleset:1093
+#: data/civ1/buildings.ruleset:1081
 msgid "Supermarket"
 msgstr "Supermarkt"
 
 #: data/default/buildings.ruleset:1304 data/civ2/buildings.ruleset:1092
-#: data/civ1/buildings.ruleset:1101 data/history/buildings.ruleset:1113
+#: data/civ1/buildings.ruleset:1101
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
@@ -14536,12 +14535,12 @@ msgstr ""
 "rond de stad. Weilandvlakken zijn die vlakken die tweemaal geïrigeerd zijn."
 
 #: data/default/buildings.ruleset:1311 data/civ2/buildings.ruleset:1099
-#: data/civ1/buildings.ruleset:1108 data/history/buildings.ruleset:1120
+#: data/civ1/buildings.ruleset:1108
 msgid "Temple"
 msgstr "Tempel"
 
 #: data/default/buildings.ruleset:1331 data/civ2/buildings.ruleset:1119
-#: data/civ1/buildings.ruleset:1128 data/history/buildings.ruleset:1140
+#: data/civ1/buildings.ruleset:1128
 msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
@@ -14552,14 +14551,13 @@ msgstr ""
 "vier burgers tevreden."
 
 #: data/default/buildings.ruleset:1338 data/civ2/buildings.ruleset:1126
-#: data/civ1/buildings.ruleset:1135 data/history/buildings.ruleset:1147
-#: data/default/techs.ruleset:568 data/civ2/techs.ruleset:559
-#: data/civ1/techs.ruleset:559 data/history/techs.ruleset:568
+#: data/civ1/buildings.ruleset:1135 data/default/techs.ruleset:568
+#: data/civ2/techs.ruleset:559 data/civ1/techs.ruleset:559
 msgid "University"
 msgstr "Universiteit"
 
 #: data/default/buildings.ruleset:1358 data/civ2/buildings.ruleset:1146
-#: data/civ1/buildings.ruleset:1155 data/history/buildings.ruleset:1167
+#: data/civ1/buildings.ruleset:1155
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
@@ -14569,12 +14567,11 @@ msgstr ""
 "onderzoek van een stad met 100%."
 
 #: data/default/buildings.ruleset:1364 data/civ2/buildings.ruleset:1152
-#: data/civ1/buildings.ruleset:1161 data/history/buildings.ruleset:1173
+#: data/civ1/buildings.ruleset:1161
 msgid "Apollo Program"
 msgstr "Het Apollo Programma"
 
 #: data/default/buildings.ruleset:1384 data/civ2/buildings.ruleset:1172
-#: data/history/buildings.ruleset:1193
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
@@ -14586,12 +14583,12 @@ msgstr ""
 "hebben)."
 
 #: data/default/buildings.ruleset:1391 data/civ2/buildings.ruleset:1179
-#: data/civ1/buildings.ruleset:1186 data/history/buildings.ruleset:1200
+#: data/civ1/buildings.ruleset:1186
 msgid "A.Smith's Trading Co."
 msgstr "De V.O.C."
 
 #: data/default/buildings.ruleset:1410 data/civ2/buildings.ruleset:1198
-#: data/civ1/buildings.ruleset:1205 data/history/buildings.ruleset:1219
+#: data/civ1/buildings.ruleset:1205
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
@@ -14600,12 +14597,12 @@ msgstr ""
 "van onderhoud voor alle steden."
 
 #: data/default/buildings.ruleset:1416 data/civ2/buildings.ruleset:1204
-#: data/civ1/buildings.ruleset:1211 data/history/buildings.ruleset:1225
+#: data/civ1/buildings.ruleset:1211
 msgid "Colossus"
 msgstr "De Colossus"
 
 #: data/default/buildings.ruleset:1435 data/civ2/buildings.ruleset:1223
-#: data/civ1/buildings.ruleset:1230 data/history/buildings.ruleset:1244
+#: data/civ1/buildings.ruleset:1230
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -14614,12 +14611,12 @@ msgstr ""
 "produceert krijgt een extra handelspunt."
 
 #: data/default/buildings.ruleset:1441 data/civ2/buildings.ruleset:1229
-#: data/civ1/buildings.ruleset:1236 data/history/buildings.ruleset:1250
+#: data/civ1/buildings.ruleset:1236
 msgid "Copernicus' Observatory"
 msgstr "Copernicus's Observatorium"
 
 #: data/default/buildings.ruleset:1461 data/civ2/buildings.ruleset:1249
-#: data/civ1/buildings.ruleset:1256 data/history/buildings.ruleset:1270
+#: data/civ1/buildings.ruleset:1256
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr ""
@@ -14627,12 +14624,12 @@ msgstr ""
 "gebouwd is."
 
 #: data/default/buildings.ruleset:1466 data/civ2/buildings.ruleset:1254
-#: data/civ1/buildings.ruleset:1261 data/history/buildings.ruleset:1275
+#: data/civ1/buildings.ruleset:1261
 msgid "Cure For Cancer"
 msgstr "Genezing voor Kanker"
 
 #: data/default/buildings.ruleset:1485 data/civ2/buildings.ruleset:1273
-#: data/civ1/buildings.ruleset:1280 data/history/buildings.ruleset:1294
+#: data/civ1/buildings.ruleset:1280
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
@@ -14641,12 +14638,12 @@ msgstr ""
 "tevreden in elke stad."
 
 #: data/default/buildings.ruleset:1493 data/civ2/buildings.ruleset:1279
-#: data/civ1/buildings.ruleset:1286 data/history/buildings.ruleset:1302
+#: data/civ1/buildings.ruleset:1286
 msgid "Darwin's Voyage"
 msgstr "Darwin's Reis"
 
 #: data/default/buildings.ruleset:1512 data/civ2/buildings.ruleset:1298
-#: data/civ1/buildings.ruleset:1305 data/history/buildings.ruleset:1321
+#: data/civ1/buildings.ruleset:1305
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -14657,12 +14654,12 @@ msgstr ""
 "twee onmiddelijke technologische vooruitgangen."
 
 #: data/default/buildings.ruleset:1519 data/civ2/buildings.ruleset:1305
-#: data/civ1/buildings.ruleset:1312 data/history/buildings.ruleset:1328
+#: data/civ1/buildings.ruleset:1312
 msgid "Eiffel Tower"
 msgstr "De Eiffeltoren"
 
 #: data/default/buildings.ruleset:1539 data/civ2/buildings.ruleset:1325
-#: data/civ1/buildings.ruleset:1332 data/history/buildings.ruleset:1348
+#: data/civ1/buildings.ruleset:1332
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
@@ -14671,12 +14668,12 @@ msgstr ""
 "opzichte van u met 25%."
 
 #: data/default/buildings.ruleset:1547 data/civ2/buildings.ruleset:1333
-#: data/civ1/buildings.ruleset:1340 data/history/buildings.ruleset:1356
+#: data/civ1/buildings.ruleset:1340
 msgid "Great Library"
 msgstr "De Grote Bibliotheek"
 
 #: data/default/buildings.ruleset:1566 data/civ2/buildings.ruleset:1352
-#: data/civ1/buildings.ruleset:1359 data/history/buildings.ruleset:1375
+#: data/civ1/buildings.ruleset:1359
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
@@ -14685,22 +14682,22 @@ msgstr ""
 "tenminste twee andere beschavingen kregen."
 
 #: data/default/buildings.ruleset:1572 data/civ2/buildings.ruleset:1358
-#: data/civ1/buildings.ruleset:1365 data/history/buildings.ruleset:1381
+#: data/civ1/buildings.ruleset:1365
 msgid "Great Wall"
 msgstr "De Chinese Muur"
 
 #: data/default/buildings.ruleset:1592 data/civ2/buildings.ruleset:1379
-#: data/civ1/buildings.ruleset:1386 data/history/buildings.ruleset:1401
+#: data/civ1/buildings.ruleset:1386
 msgid "Works as a City Wall in all cities."
 msgstr "Werkt als Stadswallen in elke stad."
 
 #: data/default/buildings.ruleset:1600 data/civ2/buildings.ruleset:1386
-#: data/civ1/buildings.ruleset:1393 data/history/buildings.ruleset:1409
+#: data/civ1/buildings.ruleset:1393
 msgid "Hanging Gardens"
 msgstr "De Hangende Tuinen"
 
 #: data/default/buildings.ruleset:1620 data/civ2/buildings.ruleset:1406
-#: data/civ1/buildings.ruleset:1413 data/history/buildings.ruleset:1429
+#: data/civ1/buildings.ruleset:1413
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -14715,12 +14712,11 @@ msgstr ""
 "(maakt ze in plaats daarvan tevreden)."
 
 #: data/default/buildings.ruleset:1629 data/civ2/buildings.ruleset:1415
-#: data/civ1/buildings.ruleset:1422 data/history/buildings.ruleset:1438
+#: data/civ1/buildings.ruleset:1422
 msgid "Hoover Dam"
 msgstr "De Hoover Dam"
 
 #: data/default/buildings.ruleset:1651 data/civ2/buildings.ruleset:1436
-#: data/history/buildings.ruleset:1460
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
@@ -14729,12 +14725,12 @@ msgstr ""
 "verontreiniging en verhoogt het effect van Fabrieken en Assemblagehallen.)"
 
 #: data/default/buildings.ruleset:1657 data/civ2/buildings.ruleset:1442
-#: data/civ1/buildings.ruleset:1452 data/history/buildings.ruleset:1466
+#: data/civ1/buildings.ruleset:1452
 msgid "Isaac Newton's College"
 msgstr "Isaac Newton's School"
 
 #: data/default/buildings.ruleset:1677 data/civ2/buildings.ruleset:1462
-#: data/civ1/buildings.ruleset:1472 data/history/buildings.ruleset:1486
+#: data/civ1/buildings.ruleset:1472
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr ""
@@ -14742,44 +14738,43 @@ msgstr ""
 "gebouwd is."
 
 #: data/default/buildings.ruleset:1682 data/civ2/buildings.ruleset:1467
-#: data/civ1/buildings.ruleset:1477 data/history/buildings.ruleset:1491
+#: data/civ1/buildings.ruleset:1477
 msgid "J.S. Bach's Cathedral"
 msgstr "J.S. Bach's Kathedraal"
 
 #: data/default/buildings.ruleset:1701 data/civ2/buildings.ruleset:1486
-#: data/history/buildings.ruleset:1510
 msgid "Makes two unhappy citizens content in every city."
 msgstr "Maakt twee ontevreden burgers tevreden in elke stad."
 
 #: data/default/buildings.ruleset:1706 data/civ2/buildings.ruleset:1491
-#: data/civ1/buildings.ruleset:1503 data/history/buildings.ruleset:1515
+#: data/civ1/buildings.ruleset:1503
 msgid "King Richard's Crusade"
 msgstr "Koning Richard's Kruistocht"
 
 #: data/default/buildings.ruleset:1725 data/civ2/buildings.ruleset:1510
-#: data/civ1/buildings.ruleset:1522 data/history/buildings.ruleset:1534
+#: data/civ1/buildings.ruleset:1522
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
 msgstr "Geeft een extra hulpbron op elk vlak rond de stad waar het gebouwd is."
 
 #: data/default/buildings.ruleset:1731 data/civ2/buildings.ruleset:1516
-#: data/civ1/buildings.ruleset:1528 data/history/buildings.ruleset:1540
+#: data/civ1/buildings.ruleset:1528
 msgid "Leonardo's Workshop"
 msgstr "Leonardo's Werkplaats"
 
 #: data/default/buildings.ruleset:1750 data/civ2/buildings.ruleset:1535
-#: data/civ1/buildings.ruleset:1547 data/history/buildings.ruleset:1559
+#: data/civ1/buildings.ruleset:1547
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "Waardeert elke beurt een verouderde eenheid op."
 
 #: data/default/buildings.ruleset:1755 data/civ2/buildings.ruleset:1540
-#: data/civ1/buildings.ruleset:1552 data/history/buildings.ruleset:1564
+#: data/civ1/buildings.ruleset:1552
 msgid "Lighthouse"
 msgstr "De Vuurtoren"
 
 #: data/default/buildings.ruleset:1776 data/civ2/buildings.ruleset:1561
-#: data/civ1/buildings.ruleset:1573 data/history/buildings.ruleset:1585
+#: data/civ1/buildings.ruleset:1573
 msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
@@ -14790,37 +14785,35 @@ msgstr ""
 "veteraan (voor alle steden)."
 
 #: data/default/buildings.ruleset:1783 data/civ2/buildings.ruleset:1568
-#: data/civ1/buildings.ruleset:1582 data/history/buildings.ruleset:1592
+#: data/civ1/buildings.ruleset:1582
 msgid "Magellan's Expedition"
 msgstr "Magellan's Expeditie"
 
 #: data/default/buildings.ruleset:1802 data/civ2/buildings.ruleset:1587
-#: data/history/buildings.ruleset:1611
 msgid "Gives all sea units 2 additional movement points."
 msgstr "Geeft alle zee-eenheden twee extra bewegingspunten."
 
 #: data/default/buildings.ruleset:1807 data/civ2/buildings.ruleset:1592
-#: data/civ1/buildings.ruleset:1607 data/history/buildings.ruleset:1616
+#: data/civ1/buildings.ruleset:1607
 msgid "Manhattan Project"
 msgstr "Het Manhattan Project"
 
 #: data/default/buildings.ruleset:1830 data/civ2/buildings.ruleset:1615
-#: data/civ1/buildings.ruleset:1630 data/history/buildings.ruleset:1639
+#: data/civ1/buildings.ruleset:1630
 msgid "Marco Polo's Embassy"
 msgstr "Marco Polo's Ambassade"
 
 #: data/default/buildings.ruleset:1849 data/civ2/buildings.ruleset:1634
-#: data/civ1/buildings.ruleset:1649 data/history/buildings.ruleset:1658
+#: data/civ1/buildings.ruleset:1649
 msgid "The player who owns it gets an embassy with all players."
 msgstr "De speler die dit bezit krijgt een ambassade bij alle spelers."
 
 #: data/default/buildings.ruleset:1854 data/civ2/buildings.ruleset:1639
-#: data/civ1/buildings.ruleset:1654 data/history/buildings.ruleset:1663
+#: data/civ1/buildings.ruleset:1654
 msgid "Michelangelo's Chapel"
 msgstr "Michelangelo's Kapel"
 
 #: data/default/buildings.ruleset:1875 data/civ2/buildings.ruleset:1660
-#: data/history/buildings.ruleset:1684
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city.  The discovery of Theology increases the "
@@ -14835,32 +14828,30 @@ msgstr ""
 "Kathedraal, er wordt dan één ontevreden burger minder tevreden."
 
 #: data/default/buildings.ruleset:1885 data/civ2/buildings.ruleset:1670
-#: data/civ1/buildings.ruleset:1679 data/history/buildings.ruleset:1694
+#: data/civ1/buildings.ruleset:1679
 msgid "Oracle"
 msgstr "Het Orakel"
 
 #: data/default/buildings.ruleset:1905 data/civ2/buildings.ruleset:1690
-#: data/civ1/buildings.ruleset:1699 data/history/buildings.ruleset:1714
+#: data/civ1/buildings.ruleset:1699
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "Verdubbelt het effect van Tempels in alle steden."
 
 #: data/default/buildings.ruleset:1910 data/civ2/buildings.ruleset:1695
-#: data/civ1/buildings.ruleset:1704 data/history/buildings.ruleset:1719
+#: data/civ1/buildings.ruleset:1704
 msgid "Pyramids"
 msgstr "De Pyramiden"
 
 #: data/default/buildings.ruleset:1929 data/civ2/buildings.ruleset:1714
-#: data/history/buildings.ruleset:1738
 msgid "Counts as having a Granary in every city."
 msgstr "Telt als een Graansilo in elke stad."
 
 #: data/default/buildings.ruleset:1934 data/civ2/buildings.ruleset:1719
-#: data/civ1/buildings.ruleset:1732 data/history/buildings.ruleset:1743
+#: data/civ1/buildings.ruleset:1732
 msgid "SETI Program"
 msgstr "Het SETI Programma"
 
 #: data/default/buildings.ruleset:1953 data/civ2/buildings.ruleset:1738
-#: data/history/buildings.ruleset:1762
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
@@ -14869,23 +14860,23 @@ msgstr ""
 "een onderzoekslab in elke stad.)"
 
 #: data/default/buildings.ruleset:1959 data/civ2/buildings.ruleset:1744
-#: data/civ1/buildings.ruleset:1757 data/history/buildings.ruleset:1768
+#: data/civ1/buildings.ruleset:1757
 msgid "Shakespeare's Theatre"
 msgstr "Shakespeare's Theater"
 
 #: data/default/buildings.ruleset:1978 data/civ2/buildings.ruleset:1763
-#: data/civ1/buildings.ruleset:1776 data/history/buildings.ruleset:1787
+#: data/civ1/buildings.ruleset:1776
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "Maakt alle ontevreden burgers tevreden in de stad waar hij staat."
 
 #: data/default/buildings.ruleset:1983 data/civ2/buildings.ruleset:1768
-#: data/civ1/buildings.ruleset:1781 data/history/buildings.ruleset:1792
+#: data/civ1/buildings.ruleset:1781
 msgid "Statue of Liberty"
 msgstr "Het Vrijheidsbeeld"
 
 #: data/default/buildings.ruleset:2003 data/civ2/buildings.ruleset:1788
 #: data/civ1/buildings.ruleset:1725 data/civ1/buildings.ruleset:1801
-#: data/civ1/buildings.ruleset:1856 data/history/buildings.ruleset:1812
+#: data/civ1/buildings.ruleset:1856
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -14895,12 +14886,12 @@ msgstr ""
 "onderzocht hebt en zonder de overgangsperiode van Anarchie."
 
 #: data/default/buildings.ruleset:2010 data/civ2/buildings.ruleset:1795
-#: data/civ1/buildings.ruleset:1808 data/history/buildings.ruleset:1819
+#: data/civ1/buildings.ruleset:1808
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzu's Militaire Academie"
 
 #: data/default/buildings.ruleset:2030 data/civ2/buildings.ruleset:1815
-#: data/civ1/buildings.ruleset:1828 data/history/buildings.ruleset:1839
+#: data/civ1/buildings.ruleset:1828
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
@@ -14909,22 +14900,20 @@ msgstr ""
 "een eenheid veteraan wordt na een slag wordt verhoogd van 50% naar 100%."
 
 #: data/default/buildings.ruleset:2037 data/civ2/buildings.ruleset:1822
-#: data/civ1/buildings.ruleset:1835 data/history/buildings.ruleset:1846
+#: data/civ1/buildings.ruleset:1835
 msgid "United Nations"
 msgstr "De Verenigde Naties"
 
 #: data/default/buildings.ruleset:2060 data/civ2/buildings.ruleset:1845
-#: data/history/buildings.ruleset:1869
 msgid "Units regain two extra hitpoints per turn."
 msgstr "Eenheden herstellen twee extra gevechtspunten per beurt."
 
 #: data/default/buildings.ruleset:2073 data/civ2/buildings.ruleset:1858
-#: data/civ1/buildings.ruleset:1868 data/history/buildings.ruleset:1882
+#: data/civ1/buildings.ruleset:1868
 msgid "Women's Suffrage"
 msgstr "Vrouwen Kiesrecht"
 
 #: data/default/buildings.ruleset:2093 data/civ2/buildings.ruleset:1878
-#: data/history/buildings.ruleset:1902
 msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
@@ -14935,11 +14924,11 @@ msgstr ""
 "afneemt, en onder Republiek met 1. Dit wonder heeft geen effect onder andere "
 "regeringsvormen.)"
 
-#: data/default/buildings.ruleset:2109 data/history/buildings.ruleset:1918
+#: data/default/buildings.ruleset:2109
 msgid "Coinage"
 msgstr "Munten"
 
-#: data/default/buildings.ruleset:2134 data/history/buildings.ruleset:1943
+#: data/default/buildings.ruleset:2134
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -15170,22 +15159,22 @@ msgid "PostModern"
 msgstr "Postmodern"
 
 #: data/default/governments.ruleset:102 data/civ2/governments.ruleset:101
-#: data/civ1/governments.ruleset:103 data/history/governments.ruleset:102
+#: data/civ1/governments.ruleset:103
 msgid "Anarchy"
 msgstr "Anarchie"
 
 #: data/default/governments.ruleset:143 data/civ2/governments.ruleset:142
-#: data/civ1/governments.ruleset:144 data/history/governments.ruleset:143
+#: data/civ1/governments.ruleset:144
 msgid "Mr."
 msgstr "Dhr."
 
 #: data/default/governments.ruleset:144 data/civ2/governments.ruleset:143
-#: data/civ1/governments.ruleset:145 data/history/governments.ruleset:144
+#: data/civ1/governments.ruleset:145
 msgid "Ms."
 msgstr "Mevr."
 
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:145
-#: data/civ1/governments.ruleset:147 data/history/governments.ruleset:146
+#: data/civ1/governments.ruleset:147
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -15231,23 +15220,21 @@ msgstr ""
 "zullen zich tevreden gedragen en zullen geen wanorde veroorzaken.)"
 
 #: data/default/governments.ruleset:173 data/civ2/governments.ruleset:172
-#: data/civ1/governments.ruleset:174 data/history/governments.ruleset:173
+#: data/civ1/governments.ruleset:174
 msgid "Despotism"
 msgstr "Dictatuur"
 
 #: data/default/governments.ruleset:213 data/civ2/governments.ruleset:212
-#: data/civ1/governments.ruleset:214 data/history/governments.ruleset:213
-#: data/nation/chinese.ruleset:13
+#: data/civ1/governments.ruleset:214 data/nation/chinese.ruleset:13
 msgid "Emperor"
 msgstr "Regent"
 
 #: data/default/governments.ruleset:214 data/civ2/governments.ruleset:213
-#: data/civ1/governments.ruleset:215 data/history/governments.ruleset:214
+#: data/civ1/governments.ruleset:215
 msgid "Empress"
 msgstr "Regentes"
 
 #: data/default/governments.ruleset:216 data/civ2/governments.ruleset:215
-#: data/history/governments.ruleset:216
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -15293,30 +15280,26 @@ msgstr ""
 "zullen zich gedragen en zullen geen wanorde veroorzaken.)"
 
 #: data/default/governments.ruleset:244 data/civ2/governments.ruleset:243
-#: data/civ1/governments.ruleset:243 data/history/governments.ruleset:244
-#: data/default/techs.ruleset:374 data/civ2/techs.ruleset:367
-#: data/civ1/techs.ruleset:367 data/history/techs.ruleset:374
+#: data/civ1/governments.ruleset:243 data/default/techs.ruleset:374
+#: data/civ2/techs.ruleset:367 data/civ1/techs.ruleset:367
 msgid "Monarchy"
 msgstr "Monarchie"
 
 #: data/default/governments.ruleset:284 data/civ2/governments.ruleset:283
-#: data/civ1/governments.ruleset:283 data/history/governments.ruleset:284
-#: data/nation/croatian.ruleset:18 data/nation/dunedain.ruleset:16
-#: data/nation/polish.ruleset:17 data/nation/serbian.ruleset:16
-#: data/nation/spanish.ruleset:15
+#: data/civ1/governments.ruleset:283 data/nation/croatian.ruleset:18
+#: data/nation/dunedain.ruleset:16 data/nation/polish.ruleset:17
+#: data/nation/serbian.ruleset:16 data/nation/spanish.ruleset:15
 msgid "King"
 msgstr "Koning"
 
 #: data/default/governments.ruleset:285 data/civ2/governments.ruleset:284
-#: data/civ1/governments.ruleset:284 data/history/governments.ruleset:285
-#: data/nation/croatian.ruleset:18 data/nation/dunedain.ruleset:16
-#: data/nation/polish.ruleset:17 data/nation/serbian.ruleset:16
-#: data/nation/spanish.ruleset:15
+#: data/civ1/governments.ruleset:284 data/nation/croatian.ruleset:18
+#: data/nation/dunedain.ruleset:16 data/nation/polish.ruleset:17
+#: data/nation/serbian.ruleset:16 data/nation/spanish.ruleset:15
 msgid "Queen"
 msgstr "Koningin"
 
 #: data/default/governments.ruleset:287 data/civ2/governments.ruleset:286
-#: data/history/governments.ruleset:287
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -15361,21 +15344,18 @@ msgstr ""
 "tevreden."
 
 #: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
-#: data/default/techs.ruleset:146 data/civ2/techs.ruleset:139
-#: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
+#: data/civ1/governments.ruleset:311 data/default/techs.ruleset:146
+#: data/civ2/techs.ruleset:139 data/civ1/techs.ruleset:139
 msgid "Communism"
 msgstr "Communisme"
 
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
 #: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
-#: data/history/governments.ruleset:354 data/history/governments.ruleset:355
 msgid "Comrade"
 msgstr "Kameraad"
 
 #: data/default/governments.ruleset:357 data/civ2/governments.ruleset:356
-#: data/history/governments.ruleset:357
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15437,19 +15417,17 @@ msgstr ""
 "burgers tevreden."
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/civ1/governments.ruleset:386
 msgid "Republic"
 msgstr "Republiek"
 
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
 #: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
-#: data/history/governments.ruleset:431 data/history/governments.ruleset:432
 msgid "Consul"
 msgstr "Consul"
 
 #: data/default/governments.ruleset:434 data/civ2/governments.ruleset:513
-#: data/history/governments.ruleset:434
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -15510,16 +15488,14 @@ msgstr ""
 "eenheid veroorzaakt elk 1 opstandige burger."
 
 #: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
-#: data/default/techs.ruleset:176 data/civ2/techs.ruleset:169
-#: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
+#: data/civ1/governments.ruleset:464 data/default/techs.ruleset:176
+#: data/civ2/techs.ruleset:169 data/civ1/techs.ruleset:169
 msgid "Democracy"
 msgstr "Democratie"
 
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
 #: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
-#: data/history/governments.ruleset:512 data/history/governments.ruleset:513
 #: data/nation/brazilian.ruleset:15 data/nation/catalan.ruleset:16
 #: data/nation/chilean.ruleset:19 data/nation/croatian.ruleset:19
 #: data/nation/croatian.ruleset:20 data/nation/finnish.ruleset:14
@@ -15530,7 +15506,6 @@ msgid "President"
 msgstr "President"
 
 #: data/default/governments.ruleset:515 data/civ2/governments.ruleset:594
-#: data/history/governments.ruleset:515
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -15599,7 +15574,6 @@ msgstr ""
 
 #: data/civ2/governments.ruleset:390 data/default/techs.ruleset:236
 #: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
-#: data/history/techs.ruleset:236
 msgid "Fundamentalism"
 msgstr "Fundamentalisme"
 
@@ -15927,82 +15901,82 @@ msgstr ""
 "verleid door Diplomaten of Spionnen."
 
 #: data/default/techs.ruleset:56 data/civ2/techs.ruleset:49
-#: data/civ1/techs.ruleset:49 data/history/techs.ruleset:56
+#: data/civ1/techs.ruleset:49
 msgid "Advanced Flight"
 msgstr "Moderne Luchtvaart"
 
 #: data/default/techs.ruleset:62 data/civ2/techs.ruleset:55
-#: data/civ1/techs.ruleset:55 data/history/techs.ruleset:580
+#: data/civ1/techs.ruleset:55
 msgid "Alphabet"
 msgstr "Alfabet"
 
 #: data/default/techs.ruleset:68 data/civ2/techs.ruleset:61
-#: data/civ1/techs.ruleset:61 data/history/techs.ruleset:68
+#: data/civ1/techs.ruleset:61
 msgid "Amphibious Warfare"
 msgstr "Amfibische Oorlogvoering"
 
 #: data/default/techs.ruleset:74 data/civ2/techs.ruleset:67
-#: data/civ1/techs.ruleset:67 data/history/techs.ruleset:74
+#: data/civ1/techs.ruleset:67
 msgid "Astronomy"
 msgstr "Astronomie"
 
 #: data/default/techs.ruleset:80 data/civ2/techs.ruleset:73
-#: data/civ1/techs.ruleset:73 data/history/techs.ruleset:80
+#: data/civ1/techs.ruleset:73
 msgid "Atomic Theory"
 msgstr "Atoom Theorie"
 
 #: data/default/techs.ruleset:86 data/civ2/techs.ruleset:79
-#: data/civ1/techs.ruleset:79 data/history/techs.ruleset:86
+#: data/civ1/techs.ruleset:79
 msgid "Automobile"
 msgstr "Automobielen"
 
 #: data/default/techs.ruleset:92 data/civ2/techs.ruleset:85
-#: data/civ1/techs.ruleset:85 data/history/techs.ruleset:92
+#: data/civ1/techs.ruleset:85
 msgid "Banking"
 msgstr "Bankieren"
 
 #: data/default/techs.ruleset:98 data/civ2/techs.ruleset:91
-#: data/civ1/techs.ruleset:91 data/history/techs.ruleset:98
+#: data/civ1/techs.ruleset:91
 msgid "Bridge Building"
 msgstr "Bruggenbouw"
 
 #: data/default/techs.ruleset:104 data/civ2/techs.ruleset:97
-#: data/civ1/techs.ruleset:97 data/history/techs.ruleset:104
+#: data/civ1/techs.ruleset:97
 msgid "Bronze Working"
 msgstr "Bronsbewerking"
 
 #: data/default/techs.ruleset:110 data/civ2/techs.ruleset:103
-#: data/civ1/techs.ruleset:103 data/history/techs.ruleset:110
+#: data/civ1/techs.ruleset:103
 msgid "Ceremonial Burial"
 msgstr "Ceremoniële Begrafenis"
 
 #: data/default/techs.ruleset:116 data/civ2/techs.ruleset:109
-#: data/civ1/techs.ruleset:109 data/history/techs.ruleset:116
+#: data/civ1/techs.ruleset:109
 msgid "Chemistry"
 msgstr "Chemie"
 
 #: data/default/techs.ruleset:122 data/civ2/techs.ruleset:115
-#: data/civ1/techs.ruleset:115 data/history/techs.ruleset:122
+#: data/civ1/techs.ruleset:115
 msgid "Chivalry"
 msgstr "Ridderschap"
 
 #: data/default/techs.ruleset:128 data/civ2/techs.ruleset:121
-#: data/civ1/techs.ruleset:121 data/history/techs.ruleset:128
+#: data/civ1/techs.ruleset:121
 msgid "Code of Laws"
 msgstr "Wetboek"
 
 #: data/default/techs.ruleset:134 data/civ2/techs.ruleset:127
-#: data/civ1/techs.ruleset:127 data/history/techs.ruleset:134
+#: data/civ1/techs.ruleset:127
 msgid "Combined Arms"
 msgstr "Gecombineerde Wapens"
 
 #: data/default/techs.ruleset:140 data/civ2/techs.ruleset:133
-#: data/civ1/techs.ruleset:133 data/history/techs.ruleset:140
+#: data/civ1/techs.ruleset:133
 msgid "Combustion"
 msgstr "Verbranding"
 
 #: data/default/techs.ruleset:152 data/civ2/techs.ruleset:145
-#: data/civ1/techs.ruleset:145 data/history/techs.ruleset:152
+#: data/civ1/techs.ruleset:145
 msgid "Computers"
 msgstr "Computers"
 
@@ -16012,22 +15986,22 @@ msgid "Conscription"
 msgstr "Dienstplicht"
 
 #: data/default/techs.ruleset:164 data/civ2/techs.ruleset:157
-#: data/civ1/techs.ruleset:157 data/history/techs.ruleset:164
+#: data/civ1/techs.ruleset:157
 msgid "Construction"
 msgstr "Constructie"
 
 #: data/default/techs.ruleset:170 data/civ2/techs.ruleset:163
-#: data/civ1/techs.ruleset:163 data/history/techs.ruleset:170
+#: data/civ1/techs.ruleset:163
 msgid "Currency"
 msgstr "Geld"
 
 #: data/default/techs.ruleset:188 data/civ2/techs.ruleset:181
-#: data/civ1/techs.ruleset:181 data/history/techs.ruleset:188
+#: data/civ1/techs.ruleset:181
 msgid "Electricity"
 msgstr "Electriciteit"
 
 #: data/default/techs.ruleset:194 data/civ2/techs.ruleset:187
-#: data/civ1/techs.ruleset:187 data/history/techs.ruleset:194
+#: data/civ1/techs.ruleset:187
 msgid "Electronics"
 msgstr "Electronica"
 
@@ -16037,166 +16011,166 @@ msgid "Engineering"
 msgstr "Werktuigbouw"
 
 #: data/default/techs.ruleset:206 data/civ2/techs.ruleset:199
-#: data/civ1/techs.ruleset:199 data/history/techs.ruleset:206
+#: data/civ1/techs.ruleset:199
 msgid "Environmentalism"
 msgstr "Milieutechniek"
 
 #: data/default/techs.ruleset:212 data/civ2/techs.ruleset:205
-#: data/civ1/techs.ruleset:205 data/history/techs.ruleset:212
+#: data/civ1/techs.ruleset:205
 msgid "Espionage"
 msgstr "Spionage"
 
 #: data/default/techs.ruleset:218 data/civ2/techs.ruleset:211
-#: data/civ1/techs.ruleset:211 data/history/techs.ruleset:218
+#: data/civ1/techs.ruleset:211
 msgid "Explosives"
 msgstr "Explosieven"
 
 #: data/default/techs.ruleset:224 data/civ2/techs.ruleset:217
-#: data/civ1/techs.ruleset:217 data/history/techs.ruleset:224
+#: data/civ1/techs.ruleset:217
 msgid "Feudalism"
 msgstr "Feodalisme"
 
 #: data/default/techs.ruleset:230 data/civ2/techs.ruleset:223
-#: data/civ1/techs.ruleset:223 data/history/techs.ruleset:230
+#: data/civ1/techs.ruleset:223
 msgid "Flight"
 msgstr "Luchtvaart"
 
 #: data/default/techs.ruleset:242 data/civ2/techs.ruleset:235
-#: data/civ1/techs.ruleset:235 data/history/techs.ruleset:242
+#: data/civ1/techs.ruleset:235
 msgid "Fusion Power"
 msgstr "Kernfusie"
 
 #: data/default/techs.ruleset:248 data/civ2/techs.ruleset:241
-#: data/civ1/techs.ruleset:241 data/history/techs.ruleset:248
+#: data/civ1/techs.ruleset:241
 msgid "Genetic Engineering"
 msgstr "Genetische Manipulatie"
 
 #: data/default/techs.ruleset:254 data/civ2/techs.ruleset:247
-#: data/civ1/techs.ruleset:247 data/history/techs.ruleset:254
+#: data/civ1/techs.ruleset:247
 msgid "Guerilla Warfare"
 msgstr "Guerilla Oorlogvoering"
 
 #: data/default/techs.ruleset:260 data/civ2/techs.ruleset:253
-#: data/civ1/techs.ruleset:253 data/history/techs.ruleset:260
+#: data/civ1/techs.ruleset:253
 msgid "Gunpowder"
 msgstr "Buskruit"
 
 #: data/default/techs.ruleset:266 data/civ2/techs.ruleset:259
-#: data/civ1/techs.ruleset:259 data/history/techs.ruleset:266
+#: data/civ1/techs.ruleset:259
 msgid "Horseback Riding"
 msgstr "Paardrijden"
 
 #: data/default/techs.ruleset:272 data/civ2/techs.ruleset:265
-#: data/civ1/techs.ruleset:265 data/history/techs.ruleset:272
+#: data/civ1/techs.ruleset:265
 msgid "Industrialization"
 msgstr "Industrialisatie"
 
 #: data/default/techs.ruleset:278 data/civ2/techs.ruleset:271
-#: data/civ1/techs.ruleset:271 data/history/techs.ruleset:278
+#: data/civ1/techs.ruleset:271
 msgid "Invention"
 msgstr "Uitvinding"
 
 #: data/default/techs.ruleset:284 data/civ2/techs.ruleset:277
-#: data/civ1/techs.ruleset:277 data/history/techs.ruleset:284
+#: data/civ1/techs.ruleset:277
 msgid "Iron Working"
 msgstr "IJzer Bewerking"
 
 #: data/default/techs.ruleset:290 data/civ2/techs.ruleset:283
-#: data/civ1/techs.ruleset:283 data/history/techs.ruleset:290
+#: data/civ1/techs.ruleset:283
 msgid "Labor Union"
 msgstr "Vakbond"
 
 #: data/default/techs.ruleset:296 data/civ2/techs.ruleset:289
-#: data/civ1/techs.ruleset:289 data/history/techs.ruleset:296
+#: data/civ1/techs.ruleset:289
 msgid "Laser"
 msgstr "Laser"
 
 #: data/default/techs.ruleset:302 data/civ2/techs.ruleset:295
-#: data/civ1/techs.ruleset:295 data/history/techs.ruleset:302
+#: data/civ1/techs.ruleset:295
 msgid "Leadership"
 msgstr "Leiderschap"
 
 #: data/default/techs.ruleset:314 data/civ2/techs.ruleset:307
-#: data/civ1/techs.ruleset:307 data/history/techs.ruleset:314
+#: data/civ1/techs.ruleset:307
 msgid "Machine Tools"
 msgstr "Machinale Werktuigen"
 
 #: data/default/techs.ruleset:320 data/civ2/techs.ruleset:313
-#: data/civ1/techs.ruleset:313 data/history/techs.ruleset:320
+#: data/civ1/techs.ruleset:313
 msgid "Magnetism"
 msgstr "Magnetisme"
 
 #: data/default/techs.ruleset:326 data/civ2/techs.ruleset:319
-#: data/civ1/techs.ruleset:319 data/history/techs.ruleset:490
+#: data/civ1/techs.ruleset:319
 msgid "Map Making"
 msgstr "Landkaarten Maken"
 
 #: data/default/techs.ruleset:332 data/civ2/techs.ruleset:325
-#: data/civ1/techs.ruleset:325 data/history/techs.ruleset:332
+#: data/civ1/techs.ruleset:325
 msgid "Masonry"
 msgstr "Bouwkunde"
 
 #: data/default/techs.ruleset:338 data/civ2/techs.ruleset:331
-#: data/civ1/techs.ruleset:331 data/history/techs.ruleset:338
+#: data/civ1/techs.ruleset:331
 msgid "Mass Production"
 msgstr "Massaproductie"
 
 #: data/default/techs.ruleset:344 data/civ2/techs.ruleset:337
-#: data/civ1/techs.ruleset:337 data/history/techs.ruleset:344
+#: data/civ1/techs.ruleset:337
 msgid "Mathematics"
 msgstr "Wiskunde"
 
 #: data/default/techs.ruleset:350 data/civ2/techs.ruleset:343
-#: data/civ1/techs.ruleset:343 data/history/techs.ruleset:350
+#: data/civ1/techs.ruleset:343
 msgid "Medicine"
 msgstr "Medicijnen"
 
 #: data/default/techs.ruleset:356 data/civ2/techs.ruleset:349
-#: data/civ1/techs.ruleset:349 data/history/techs.ruleset:356
+#: data/civ1/techs.ruleset:349
 msgid "Metallurgy"
 msgstr "Metallurgie"
 
 #: data/default/techs.ruleset:362 data/civ2/techs.ruleset:355
-#: data/civ1/techs.ruleset:355 data/history/techs.ruleset:362
+#: data/civ1/techs.ruleset:355
 msgid "Miniaturization"
 msgstr "Miniaturisering"
 
 #: data/default/techs.ruleset:368 data/civ2/techs.ruleset:361
-#: data/civ1/techs.ruleset:361 data/history/techs.ruleset:368
+#: data/civ1/techs.ruleset:361
 msgid "Mobile Warfare"
 msgstr "Mobiele Oorlogvoering"
 
 #: data/default/techs.ruleset:380 data/civ2/techs.ruleset:373
-#: data/civ1/techs.ruleset:373 data/history/techs.ruleset:380
+#: data/civ1/techs.ruleset:373
 msgid "Monotheism"
 msgstr "Monotheïsme"
 
 #: data/default/techs.ruleset:386 data/civ2/techs.ruleset:379
-#: data/civ1/techs.ruleset:379 data/history/techs.ruleset:386
+#: data/civ1/techs.ruleset:379
 msgid "Mysticism"
 msgstr "Mystiek"
 
 #: data/default/techs.ruleset:392 data/civ2/techs.ruleset:385
-#: data/civ1/techs.ruleset:385 data/history/techs.ruleset:392
+#: data/civ1/techs.ruleset:385
 msgid "Navigation"
 msgstr "Navigatie"
 
 #: data/default/techs.ruleset:398 data/civ2/techs.ruleset:391
-#: data/civ1/techs.ruleset:391 data/history/techs.ruleset:398
+#: data/civ1/techs.ruleset:391
 msgid "Nuclear Fission"
 msgstr "Kernsplitsing"
 
 #: data/default/techs.ruleset:404 data/civ2/techs.ruleset:397
-#: data/civ1/techs.ruleset:397 data/history/techs.ruleset:404
+#: data/civ1/techs.ruleset:397
 msgid "Nuclear Power"
 msgstr "Kernenergie"
 
 #: data/default/techs.ruleset:410 data/civ2/techs.ruleset:403
-#: data/civ1/techs.ruleset:403 data/history/techs.ruleset:410
+#: data/civ1/techs.ruleset:403
 msgid "Philosophy"
 msgstr "Filosofie"
 
-#: data/default/techs.ruleset:414 data/history/techs.ruleset:414
+#: data/default/techs.ruleset:414
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
@@ -16205,127 +16179,126 @@ msgstr ""
 "onmiddelijke voorsprong."
 
 #: data/default/techs.ruleset:418 data/civ2/techs.ruleset:409
-#: data/civ1/techs.ruleset:409 data/history/techs.ruleset:418
+#: data/civ1/techs.ruleset:409
 msgid "Physics"
 msgstr "Natuurkunde"
 
 #: data/default/techs.ruleset:424 data/civ2/techs.ruleset:415
-#: data/civ1/techs.ruleset:415 data/history/techs.ruleset:424
+#: data/civ1/techs.ruleset:415
 msgid "Plastics"
 msgstr "Plastic"
 
 #: data/default/techs.ruleset:430 data/civ2/techs.ruleset:421
-#: data/civ1/techs.ruleset:421 data/history/techs.ruleset:430
+#: data/civ1/techs.ruleset:421
 msgid "Polytheism"
 msgstr "Polytheïsme"
 
 #: data/default/techs.ruleset:436 data/civ2/techs.ruleset:427
-#: data/civ1/techs.ruleset:427 data/history/techs.ruleset:436
+#: data/civ1/techs.ruleset:427
 msgid "Pottery"
 msgstr "Pottenbakken"
 
 #: data/default/techs.ruleset:442 data/civ2/techs.ruleset:433
-#: data/civ1/techs.ruleset:433 data/history/techs.ruleset:442
+#: data/civ1/techs.ruleset:433
 msgid "Radio"
 msgstr "Radio"
 
 #: data/default/techs.ruleset:454 data/civ2/techs.ruleset:445
-#: data/civ1/techs.ruleset:445 data/history/techs.ruleset:454
+#: data/civ1/techs.ruleset:445
 msgid "Recycling"
 msgstr "Hergebruik"
 
 #: data/default/techs.ruleset:460 data/civ2/techs.ruleset:451
-#: data/civ1/techs.ruleset:451 data/history/techs.ruleset:460
+#: data/civ1/techs.ruleset:451
 msgid "Refining"
 msgstr "Raffinage"
 
 #: data/default/techs.ruleset:466 data/civ2/techs.ruleset:457
-#: data/civ1/techs.ruleset:457 data/history/techs.ruleset:466
+#: data/civ1/techs.ruleset:457
 msgid "Refrigeration"
 msgstr "Koeling"
 
 #: data/default/techs.ruleset:472 data/civ2/techs.ruleset:463
-#: data/civ1/techs.ruleset:463 data/history/techs.ruleset:472
+#: data/civ1/techs.ruleset:463
 msgid "Robotics"
 msgstr "Robots"
 
 #: data/default/techs.ruleset:478 data/civ2/techs.ruleset:469
-#: data/civ1/techs.ruleset:469 data/history/techs.ruleset:478
+#: data/civ1/techs.ruleset:469
 msgid "Rocketry"
 msgstr "Raketten"
 
 #: data/default/techs.ruleset:484 data/civ2/techs.ruleset:475
-#: data/civ1/techs.ruleset:475 data/history/techs.ruleset:484
+#: data/civ1/techs.ruleset:475
 msgid "Sanitation"
 msgstr "Reiniging"
 
 #: data/default/techs.ruleset:490 data/civ2/techs.ruleset:481
-#: data/civ1/techs.ruleset:481 data/history/techs.ruleset:326
+#: data/civ1/techs.ruleset:481
 msgid "Seafaring"
 msgstr "Zeevaart"
 
 #: data/default/techs.ruleset:496 data/civ2/techs.ruleset:487
-#: data/civ1/techs.ruleset:487 data/history/techs.ruleset:496
+#: data/civ1/techs.ruleset:487
 msgid "Space Flight"
 msgstr "Ruimtevaart"
 
 #: data/default/techs.ruleset:502 data/civ2/techs.ruleset:493
-#: data/civ1/techs.ruleset:493 data/history/techs.ruleset:502
+#: data/civ1/techs.ruleset:493
 msgid "Stealth"
 msgstr "Stealth"
 
 #: data/default/techs.ruleset:508 data/civ2/techs.ruleset:499
-#: data/civ1/techs.ruleset:499 data/history/techs.ruleset:508
+#: data/civ1/techs.ruleset:499
 msgid "Steam Engine"
 msgstr "Stoommachine"
 
 #: data/default/techs.ruleset:514 data/civ2/techs.ruleset:505
-#: data/civ1/techs.ruleset:505 data/history/techs.ruleset:514
+#: data/civ1/techs.ruleset:505
 msgid "Steel"
 msgstr "Staal"
 
 #: data/default/techs.ruleset:520 data/civ2/techs.ruleset:511
-#: data/civ1/techs.ruleset:511 data/history/techs.ruleset:520
+#: data/civ1/techs.ruleset:511
 msgid "Superconductors"
 msgstr "Supergeleiders"
 
 #: data/default/techs.ruleset:526 data/civ2/techs.ruleset:517
-#: data/civ1/techs.ruleset:517 data/history/techs.ruleset:526
+#: data/civ1/techs.ruleset:517
 msgid "Tactics"
 msgstr "Tactiek"
 
 #: data/default/techs.ruleset:532 data/civ2/techs.ruleset:523
-#: data/civ1/techs.ruleset:523 data/history/techs.ruleset:532
+#: data/civ1/techs.ruleset:523
 msgid "The Corporation"
 msgstr "De Corporatie"
 
 #: data/default/techs.ruleset:538 data/civ2/techs.ruleset:529
-#: data/civ1/techs.ruleset:529 data/history/techs.ruleset:538
+#: data/civ1/techs.ruleset:529
 msgid "The Republic"
 msgstr "De Republiek"
 
 #: data/default/techs.ruleset:544 data/civ2/techs.ruleset:535
-#: data/civ1/techs.ruleset:535 data/history/techs.ruleset:544
+#: data/civ1/techs.ruleset:535
 msgid "The Wheel"
 msgstr "Het Wiel"
 
 #: data/default/techs.ruleset:550 data/civ2/techs.ruleset:541
-#: data/history/techs.ruleset:550
 msgid "Theology"
 msgstr "Theologie"
 
 #: data/default/techs.ruleset:556 data/civ2/techs.ruleset:547
-#: data/civ1/techs.ruleset:547 data/history/techs.ruleset:556
+#: data/civ1/techs.ruleset:547
 msgid "Theory of Gravity"
 msgstr "Zwaartekracht Theorie"
 
 #: data/default/techs.ruleset:574 data/civ2/techs.ruleset:565
-#: data/civ1/techs.ruleset:565 data/history/techs.ruleset:574
+#: data/civ1/techs.ruleset:565
 msgid "Warrior Code"
 msgstr "Strijders Code"
 
 #: data/default/techs.ruleset:580 data/civ2/techs.ruleset:571
-#: data/civ1/techs.ruleset:571 data/history/techs.ruleset:62
+#: data/civ1/techs.ruleset:571
 msgid "Writing"
 msgstr "Schrijven"
 
@@ -16333,16 +16306,7 @@ msgstr "Schrijven"
 msgid "Religion"
 msgstr "Religie"
 
-#: data/history/techs.ruleset:158
-msgid "Riflery"
-msgstr "Infanterie"
-
-#: data/history/techs.ruleset:200
-msgid "Milling"
-msgstr "Molenbouw"
-
 #: data/default/terrain.ruleset:51 data/civ2/terrain.ruleset:51
-#: data/history/terrain.ruleset:51
 msgid ""
 "Any terrain type (except Ocean) may have a River on it.  A River adds 1 "
 "trade to the resources produced by that tile.  It also increases a tile's "
@@ -16362,24 +16326,20 @@ msgstr ""
 "beschaving Bruggenbouw geleerd heeft."
 
 #: data/default/terrain.ruleset:152 data/civ2/terrain.ruleset:152
-#: data/history/terrain.ruleset:152
 msgid "Glacier"
 msgstr "Gletsjer"
 
 #: data/default/terrain.ruleset:160 data/civ2/terrain.ruleset:160
-#: data/history/terrain.ruleset:160
 msgid "Ivory"
 msgstr "Ivoor"
 
 #: data/default/terrain.ruleset:166 data/default/terrain.ruleset:203
 #: data/civ2/terrain.ruleset:166 data/civ2/terrain.ruleset:203
-#: data/civ1/terrain.ruleset:517 data/history/terrain.ruleset:166
-#: data/history/terrain.ruleset:203
+#: data/civ1/terrain.ruleset:517
 msgid "Oil"
 msgstr "Olie"
 
 #: data/default/terrain.ruleset:182 data/civ2/terrain.ruleset:182
-#: data/history/terrain.ruleset:182
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
@@ -16389,17 +16349,17 @@ msgstr ""
 "werken."
 
 #: data/default/terrain.ruleset:189 data/civ2/terrain.ruleset:189
-#: data/civ1/terrain.ruleset:181 data/history/terrain.ruleset:189
+#: data/civ1/terrain.ruleset:181
 msgid "Desert"
 msgstr "Woestijn"
 
 #: data/default/terrain.ruleset:197 data/civ2/terrain.ruleset:197
-#: data/civ1/terrain.ruleset:189 data/history/terrain.ruleset:197
+#: data/civ1/terrain.ruleset:189
 msgid "Oasis"
 msgstr "Oase"
 
 #: data/default/terrain.ruleset:219 data/civ2/terrain.ruleset:219
-#: data/civ1/terrain.ruleset:211 data/history/terrain.ruleset:219
+#: data/civ1/terrain.ruleset:211
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
@@ -16408,59 +16368,55 @@ msgstr ""
 "bemoeilijkt."
 
 #: data/default/terrain.ruleset:225 data/civ2/terrain.ruleset:225
-#: data/civ1/terrain.ruleset:217 data/history/terrain.ruleset:225
+#: data/civ1/terrain.ruleset:217
 msgid "Forest"
 msgstr "Bossen"
 
 #: data/default/terrain.ruleset:233 data/civ2/terrain.ruleset:233
-#: data/history/terrain.ruleset:233
 msgid "Pheasant"
 msgstr "Fazanten"
 
 #: data/default/terrain.ruleset:239 data/civ2/terrain.ruleset:239
-#: data/history/terrain.ruleset:239
 msgid "Silk"
 msgstr "Zijde"
 
 #: data/default/terrain.ruleset:255 data/civ2/terrain.ruleset:255
-#: data/civ1/terrain.ruleset:247 data/history/terrain.ruleset:255
+#: data/civ1/terrain.ruleset:247
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "Bossen zijn dicht begroeid, wat landbouw enigzins bemoeilijkt."
 
 #: data/default/terrain.ruleset:261 data/civ2/terrain.ruleset:261
-#: data/civ1/terrain.ruleset:253 data/history/terrain.ruleset:261
+#: data/civ1/terrain.ruleset:253
 msgid "Grassland"
 msgstr "Grasland"
 
 #: data/default/terrain.ruleset:269 data/default/terrain.ruleset:275
 #: data/civ2/terrain.ruleset:269 data/civ2/terrain.ruleset:275
 #: data/civ1/terrain.ruleset:261 data/civ1/terrain.ruleset:478
-#: data/history/terrain.ruleset:269 data/history/terrain.ruleset:275
 msgid "Resources"
 msgstr "Hulpbronnen"
 
 #: data/default/terrain.ruleset:291 data/civ2/terrain.ruleset:291
-#: data/civ1/terrain.ruleset:283 data/history/terrain.ruleset:291
+#: data/civ1/terrain.ruleset:283
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "Graslanden bieden uitzonderlijke landbouw mogelijkheden."
 
 #: data/default/terrain.ruleset:296 data/civ2/terrain.ruleset:296
-#: data/civ1/terrain.ruleset:288 data/history/terrain.ruleset:296
+#: data/civ1/terrain.ruleset:288
 msgid "Hills"
 msgstr "Heuvels"
 
 #: data/default/terrain.ruleset:304 data/civ2/terrain.ruleset:304
-#: data/civ1/terrain.ruleset:296 data/history/terrain.ruleset:304
+#: data/civ1/terrain.ruleset:296
 msgid "Coal"
 msgstr "Kolen"
 
 #: data/default/terrain.ruleset:310 data/civ2/terrain.ruleset:310
-#: data/history/terrain.ruleset:310
 msgid "Wine"
 msgstr "Wijn"
 
 #: data/default/terrain.ruleset:326 data/civ2/terrain.ruleset:326
-#: data/civ1/terrain.ruleset:318 data/history/terrain.ruleset:326
+#: data/civ1/terrain.ruleset:318
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
@@ -16468,37 +16424,35 @@ msgstr ""
 "Naast de geschiktheid voor landbouw, zijn Heuvels vaak rijk aan hulpbronnen."
 
 #: data/default/terrain.ruleset:332 data/civ2/terrain.ruleset:332
-#: data/civ1/terrain.ruleset:324 data/history/terrain.ruleset:332
+#: data/civ1/terrain.ruleset:324
 msgid "Jungle"
 msgstr "Oerwoud"
 
 #: data/default/terrain.ruleset:340 data/civ2/terrain.ruleset:340
-#: data/civ1/terrain.ruleset:332 data/history/terrain.ruleset:340
+#: data/civ1/terrain.ruleset:332
 msgid "Gems"
 msgstr "Edelstenen"
 
 #: data/default/terrain.ruleset:346 data/civ2/terrain.ruleset:346
-#: data/history/terrain.ruleset:346
 msgid "Fruit"
 msgstr "Fruit"
 
 #: data/default/terrain.ruleset:362 data/civ2/terrain.ruleset:362
-#: data/civ1/terrain.ruleset:354 data/history/terrain.ruleset:362
+#: data/civ1/terrain.ruleset:354
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr "Oerwoud zijn dicht begroeid, wat landbouw enigzins bemoeilijkt."
 
 #: data/default/terrain.ruleset:368 data/civ2/terrain.ruleset:368
-#: data/civ1/terrain.ruleset:360 data/history/terrain.ruleset:368
+#: data/civ1/terrain.ruleset:360
 msgid "Mountains"
 msgstr "Bergen"
 
 #: data/default/terrain.ruleset:382 data/civ2/terrain.ruleset:382
-#: data/history/terrain.ruleset:382
 msgid "Iron"
 msgstr "IJzer"
 
 #: data/default/terrain.ruleset:398 data/civ2/terrain.ruleset:398
-#: data/civ1/terrain.ruleset:390 data/history/terrain.ruleset:398
+#: data/civ1/terrain.ruleset:390
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
@@ -16507,22 +16461,21 @@ msgstr ""
 "bemoeilijken."
 
 #: data/default/terrain.ruleset:404 data/civ2/terrain.ruleset:404
-#: data/civ1/terrain.ruleset:396 data/history/terrain.ruleset:404
+#: data/civ1/terrain.ruleset:396
 msgid "Ocean"
 msgstr "Oceaan"
 
 #: data/default/terrain.ruleset:412 data/civ2/terrain.ruleset:412
-#: data/civ1/terrain.ruleset:404 data/history/terrain.ruleset:412
+#: data/civ1/terrain.ruleset:404
 msgid "Fish"
 msgstr "Vis"
 
 #: data/default/terrain.ruleset:418 data/civ2/terrain.ruleset:418
-#: data/history/terrain.ruleset:418
 msgid "Whales"
 msgstr "Walvissen"
 
 #: data/default/terrain.ruleset:434 data/civ2/terrain.ruleset:434
-#: data/civ1/terrain.ruleset:426 data/history/terrain.ruleset:434
+#: data/civ1/terrain.ruleset:426
 msgid ""
 "Oceans cover much of the world, and only sea units (Triremes and other "
 "boats) can travel on them.\n"
@@ -16536,22 +16489,20 @@ msgstr ""
 "radioactiviteit."
 
 #: data/default/terrain.ruleset:442 data/civ2/terrain.ruleset:442
-#: data/civ1/terrain.ruleset:434 data/history/terrain.ruleset:442
+#: data/civ1/terrain.ruleset:434
 msgid "Plains"
 msgstr "Vlakten"
 
 #: data/default/terrain.ruleset:450 data/civ2/terrain.ruleset:450
-#: data/history/terrain.ruleset:450
 msgid "Buffalo"
 msgstr "Buffels"
 
 #: data/default/terrain.ruleset:456 data/civ2/terrain.ruleset:456
-#: data/history/terrain.ruleset:456
 msgid "Wheat"
 msgstr "Tarwe"
 
 #: data/default/terrain.ruleset:472 data/civ2/terrain.ruleset:472
-#: data/civ1/terrain.ruleset:464 data/history/terrain.ruleset:472
+#: data/civ1/terrain.ruleset:464
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
@@ -16560,22 +16511,20 @@ msgstr ""
 "bemoeilijken."
 
 #: data/default/terrain.ruleset:510 data/civ2/terrain.ruleset:510
-#: data/civ1/terrain.ruleset:509 data/history/terrain.ruleset:510
+#: data/civ1/terrain.ruleset:509
 msgid "Swamp"
 msgstr "Moeras"
 
 #: data/default/terrain.ruleset:518 data/civ2/terrain.ruleset:518
-#: data/history/terrain.ruleset:518
 msgid "Peat"
 msgstr "Turf"
 
 #: data/default/terrain.ruleset:524 data/civ2/terrain.ruleset:524
-#: data/history/terrain.ruleset:524
 msgid "Spice"
 msgstr "Specerijen"
 
 #: data/default/terrain.ruleset:540 data/civ2/terrain.ruleset:540
-#: data/civ1/terrain.ruleset:539 data/history/terrain.ruleset:540
+#: data/civ1/terrain.ruleset:539
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
@@ -16584,23 +16533,21 @@ msgstr ""
 "bemoeilijkt."
 
 #: data/default/terrain.ruleset:546 data/civ2/terrain.ruleset:546
-#: data/civ1/terrain.ruleset:545 data/history/terrain.ruleset:546
+#: data/civ1/terrain.ruleset:545
 msgid "Tundra"
 msgstr "Toendra"
 
 #: data/default/terrain.ruleset:554 data/civ2/terrain.ruleset:554
 #: data/civ1/terrain.ruleset:225 data/civ1/terrain.ruleset:553
-#: data/history/terrain.ruleset:554
 msgid "?animals:Game"
 msgstr "?dieren:Jacht"
 
 #: data/default/terrain.ruleset:560 data/civ2/terrain.ruleset:560
-#: data/history/terrain.ruleset:560
 msgid "Furs"
 msgstr "Pelzen"
 
 #: data/default/terrain.ruleset:576 data/civ2/terrain.ruleset:576
-#: data/civ1/terrain.ruleset:575 data/history/terrain.ruleset:576
+#: data/civ1/terrain.ruleset:575
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
@@ -16643,12 +16590,11 @@ msgstr ""
 "beschaving Bruggenbouw heeft geleerd."
 
 #: data/default/units.ruleset:139 data/civ2/units.ruleset:70
-#: data/civ1/units.ruleset:77 data/history/units.ruleset:139
+#: data/civ1/units.ruleset:77
 msgid "Settlers"
 msgstr "Kolonisten"
 
 #: data/default/units.ruleset:165 data/civ2/units.ruleset:96
-#: data/history/units.ruleset:165
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses, airbases and "
@@ -16679,12 +16625,11 @@ msgstr ""
 "Kolonisten en/of Ingenieuers is zeer kwetsbaar voor vijandelijke aanvallen."
 
 #: data/default/units.ruleset:183 data/civ2/units.ruleset:114
-#: data/civ1/units.ruleset:121 data/history/units.ruleset:183
+#: data/civ1/units.ruleset:121
 msgid "Engineers"
 msgstr "Ingenieurs"
 
 #: data/default/units.ruleset:209 data/civ2/units.ruleset:140
-#: data/history/units.ruleset:209
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -16710,12 +16655,11 @@ msgstr ""
 "Kolonisten gratis opgewaardeerd."
 
 #: data/default/units.ruleset:224 data/civ2/units.ruleset:155
-#: data/history/units.ruleset:224
 msgid "Warriors"
 msgstr "Krijgers"
 
 #: data/default/units.ruleset:250 data/civ2/units.ruleset:181
-#: data/civ1/units.ruleset:175 data/history/units.ruleset:250
+#: data/civ1/units.ruleset:175
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
 msgstr ""
@@ -16723,42 +16667,41 @@ msgstr ""
 "zwakste eenheid."
 
 #: data/default/units.ruleset:256 data/civ2/units.ruleset:187
-#: data/civ1/units.ruleset:181 data/history/units.ruleset:256
+#: data/civ1/units.ruleset:181
 msgid "Phalanx"
 msgstr "Phalanx"
 
 #: data/default/units.ruleset:284 data/civ2/units.ruleset:215
-#: data/civ1/units.ruleset:209 data/history/units.ruleset:284
+#: data/civ1/units.ruleset:209
 msgid "Archers"
 msgstr "Boogschutters"
 
 #: data/default/units.ruleset:312 data/civ2/units.ruleset:243
-#: data/civ1/units.ruleset:237 data/history/units.ruleset:312
+#: data/civ1/units.ruleset:237
 msgid "Legion"
 msgstr "Legioen"
 
 #: data/default/units.ruleset:340 data/civ2/units.ruleset:271
-#: data/civ1/units.ruleset:265 data/history/units.ruleset:340
+#: data/civ1/units.ruleset:265
 msgid "Pikemen"
 msgstr "Piekeniers"
 
 #: data/default/units.ruleset:368 data/civ2/units.ruleset:299
-#: data/civ1/units.ruleset:293 data/history/units.ruleset:368
+#: data/civ1/units.ruleset:293
 msgid "Musketeers"
 msgstr "Musketiers"
 
 #: data/default/units.ruleset:397 data/civ2/units.ruleset:328
-#: data/civ1/units.ruleset:322 data/history/units.ruleset:397
+#: data/civ1/units.ruleset:322
 msgid "Fanatics"
 msgstr "Fanatici"
 
 #: data/default/units.ruleset:425 data/civ2/units.ruleset:362
-#: data/civ1/units.ruleset:350 data/history/units.ruleset:425
+#: data/civ1/units.ruleset:350
 msgid "Partisan"
 msgstr "Partisaan"
 
 #: data/default/units.ruleset:451 data/civ2/units.ruleset:388
-#: data/history/units.ruleset:451
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -16783,32 +16726,32 @@ msgstr ""
 " - U moet een Communistisch of Democratisch bewind voeren."
 
 #: data/default/units.ruleset:465 data/civ2/units.ruleset:402
-#: data/civ1/units.ruleset:378 data/history/units.ruleset:465
+#: data/civ1/units.ruleset:378
 msgid "Alpine Troops"
 msgstr "Bergtroepen"
 
 #: data/default/units.ruleset:493 data/civ2/units.ruleset:430
-#: data/civ1/units.ruleset:406 data/history/units.ruleset:493
+#: data/civ1/units.ruleset:406
 msgid "Riflemen"
 msgstr "Jagers"
 
 #: data/default/units.ruleset:521 data/civ2/units.ruleset:458
-#: data/civ1/units.ruleset:434 data/history/units.ruleset:521
+#: data/civ1/units.ruleset:434
 msgid "Marines"
 msgstr "Mariniers"
 
 #: data/default/units.ruleset:549 data/civ2/units.ruleset:486
-#: data/civ1/units.ruleset:462 data/history/units.ruleset:549
+#: data/civ1/units.ruleset:462
 msgid "Paratroopers"
 msgstr "Paratroepen"
 
 #: data/default/units.ruleset:581 data/civ2/units.ruleset:518
-#: data/civ1/units.ruleset:490 data/history/units.ruleset:581
+#: data/civ1/units.ruleset:490
 msgid "Mech. Inf."
 msgstr "Grenadiers"
 
 #: data/default/units.ruleset:607 data/civ2/units.ruleset:544
-#: data/civ1/units.ruleset:516 data/history/units.ruleset:607
+#: data/civ1/units.ruleset:516
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
@@ -16818,82 +16761,79 @@ msgstr ""
 "ontwikkeling beschikbaar."
 
 #: data/default/units.ruleset:614 data/civ2/units.ruleset:551
-#: data/history/units.ruleset:614
 msgid "Horsemen"
 msgstr "Ruiters"
 
 #: data/default/units.ruleset:642 data/civ2/units.ruleset:579
-#: data/civ1/units.ruleset:551 data/history/units.ruleset:642
+#: data/civ1/units.ruleset:551
 msgid "Chariot"
 msgstr "Strijdwagens"
 
 #: data/default/units.ruleset:670 data/civ2/units.ruleset:607
-#: data/civ1/units.ruleset:579 data/history/units.ruleset:670
+#: data/civ1/units.ruleset:579
 msgid "Elephants"
 msgstr "Olifanten"
 
 #: data/default/units.ruleset:698 data/civ2/units.ruleset:635
-#: data/civ1/units.ruleset:607 data/history/units.ruleset:698
+#: data/civ1/units.ruleset:607
 msgid "Crusaders"
 msgstr "Kruisvaarders"
 
 #: data/default/units.ruleset:726 data/civ2/units.ruleset:663
-#: data/civ1/units.ruleset:635 data/history/units.ruleset:726
+#: data/civ1/units.ruleset:635
 msgid "Knights"
 msgstr "Ridders"
 
 #: data/default/units.ruleset:755 data/civ2/units.ruleset:692
-#: data/civ1/units.ruleset:664 data/history/units.ruleset:755
+#: data/civ1/units.ruleset:664
 msgid "Dragoons"
 msgstr "Huzaren"
 
 #: data/default/units.ruleset:783 data/civ2/units.ruleset:720
-#: data/civ1/units.ruleset:523 data/history/units.ruleset:783
+#: data/civ1/units.ruleset:523
 msgid "Cavalry"
 msgstr "Cavalerie"
 
 #: data/default/units.ruleset:811 data/civ2/units.ruleset:748
-#: data/civ1/units.ruleset:720 data/history/units.ruleset:811
+#: data/civ1/units.ruleset:720
 msgid "Armor"
 msgstr "Tank"
 
 #: data/default/units.ruleset:839 data/civ2/units.ruleset:776
-#: data/civ1/units.ruleset:748 data/history/units.ruleset:839
+#: data/civ1/units.ruleset:748
 msgid "Catapult"
 msgstr "Katapult"
 
 #: data/default/units.ruleset:867 data/civ2/units.ruleset:804
-#: data/civ1/units.ruleset:776 data/history/units.ruleset:867
+#: data/civ1/units.ruleset:776
 msgid "Cannon"
 msgstr "Kanon"
 
 #: data/default/units.ruleset:895 data/civ2/units.ruleset:832
-#: data/civ1/units.ruleset:832 data/history/units.ruleset:895
+#: data/civ1/units.ruleset:832
 msgid "Artillery"
 msgstr "Artillerie"
 
 #: data/default/units.ruleset:923 data/civ2/units.ruleset:860
-#: data/history/units.ruleset:923
 msgid "Howitzer"
 msgstr "Houwitzer"
 
 #: data/default/units.ruleset:951 data/civ2/units.ruleset:888
-#: data/civ1/units.ruleset:860 data/history/units.ruleset:951
+#: data/civ1/units.ruleset:860
 msgid "Fighter"
 msgstr "Jachtvliegtuig"
 
 #: data/default/units.ruleset:979 data/civ2/units.ruleset:916
-#: data/civ1/units.ruleset:888 data/history/units.ruleset:979
+#: data/civ1/units.ruleset:888
 msgid "Bomber"
 msgstr "Bommenwerper"
 
 #: data/default/units.ruleset:1007 data/civ2/units.ruleset:944
-#: data/civ1/units.ruleset:916 data/history/units.ruleset:1007
+#: data/civ1/units.ruleset:916
 msgid "Helicopter"
 msgstr "Helicopter"
 
 #: data/default/units.ruleset:1033 data/civ2/units.ruleset:970
-#: data/history/units.ruleset:1033
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -16906,61 +16846,57 @@ msgstr ""
 "een stad doorbrengen, tenzij u het Verenigde Naties wonder hebt."
 
 #: data/default/units.ruleset:1041 data/civ2/units.ruleset:978
-#: data/civ1/units.ruleset:944 data/history/units.ruleset:1041
+#: data/civ1/units.ruleset:944
 msgid "Stealth Fighter"
 msgstr "Stealth Jachtvliegtuig"
 
 #: data/default/units.ruleset:1067 data/civ2/units.ruleset:1004
-#: data/history/units.ruleset:1067
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "Een verbeterd Jachtvliegtuig met een vebeterde aanval en een grotere "
 "bewegings radius."
 
 #: data/default/units.ruleset:1073 data/civ2/units.ruleset:1010
-#: data/civ1/units.ruleset:972 data/history/units.ruleset:1073
+#: data/civ1/units.ruleset:972
 msgid "Stealth Bomber"
 msgstr "Stealth Bommenwerper"
 
 #: data/default/units.ruleset:1099 data/civ2/units.ruleset:1036
-#: data/history/units.ruleset:1099
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
 "Een verbeterde Bommenwerper, met een verbeterde aanval en een grotere "
 "bewegingsradius."
 
 #: data/default/units.ruleset:1105 data/civ2/units.ruleset:1042
-#: data/civ1/units.ruleset:1000 data/history/units.ruleset:1105
+#: data/civ1/units.ruleset:1000
 msgid "Trireme"
 msgstr "Trireem"
 
 #: data/default/units.ruleset:1133 data/civ2/units.ruleset:1070
-#: data/history/units.ruleset:1133
 msgid "Caravel"
 msgstr "Karavel"
 
 #: data/default/units.ruleset:1161 data/civ2/units.ruleset:1098
-#: data/civ1/units.ruleset:1056 data/history/units.ruleset:1161
+#: data/civ1/units.ruleset:1056
 msgid "Galleon"
 msgstr "Galjoen"
 
 #: data/default/units.ruleset:1189 data/civ2/units.ruleset:1126
-#: data/civ1/units.ruleset:1084 data/history/units.ruleset:1189
+#: data/civ1/units.ruleset:1084
 msgid "Frigate"
 msgstr "Fregat"
 
 #: data/default/units.ruleset:1217 data/civ2/units.ruleset:1154
-#: data/civ1/units.ruleset:1112 data/history/units.ruleset:1217
+#: data/civ1/units.ruleset:1112
 msgid "Ironclad"
 msgstr "Pantserschip"
 
 #: data/default/units.ruleset:1245 data/civ2/units.ruleset:1182
-#: data/civ1/units.ruleset:1140 data/history/units.ruleset:1245
+#: data/civ1/units.ruleset:1140
 msgid "Destroyer"
 msgstr "Torpedojager"
 
 #: data/default/units.ruleset:1271 data/civ2/units.ruleset:1208
-#: data/history/units.ruleset:1271
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
@@ -16969,39 +16905,39 @@ msgstr ""
 "vijandelijke Vrachtschepen."
 
 #: data/default/units.ruleset:1277 data/civ2/units.ruleset:1214
-#: data/civ1/units.ruleset:1168 data/history/units.ruleset:1277
+#: data/civ1/units.ruleset:1168
 msgid "Cruiser"
 msgstr "Kruiser"
 
 #: data/default/units.ruleset:1305 data/civ2/units.ruleset:1242
-#: data/civ1/units.ruleset:1196 data/history/units.ruleset:1305
+#: data/civ1/units.ruleset:1196
 msgid "AEGIS Cruiser"
 msgstr "AEGIS Kruiser"
 
 #: data/default/units.ruleset:1333 data/civ2/units.ruleset:1270
-#: data/civ1/units.ruleset:1224 data/history/units.ruleset:1333
+#: data/civ1/units.ruleset:1224
 msgid "Battleship"
 msgstr "Slagschip"
 
 #: data/default/units.ruleset:1361 data/civ2/units.ruleset:1298
-#: data/civ1/units.ruleset:1252 data/history/units.ruleset:1361
+#: data/civ1/units.ruleset:1252
 msgid "Submarine"
 msgstr "Onderzeeër"
 
 #: data/default/units.ruleset:1388 data/civ2/units.ruleset:1325
-#: data/civ1/units.ruleset:1278 data/history/units.ruleset:1388
+#: data/civ1/units.ruleset:1278
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr ""
 "Onderzeeërs hebben een zeer hoge strategische waarde, maar hebben een zwakke "
 "verdediging."
 
 #: data/default/units.ruleset:1394 data/civ2/units.ruleset:1331
-#: data/civ1/units.ruleset:1284 data/history/units.ruleset:1394
+#: data/civ1/units.ruleset:1284
 msgid "Carrier"
 msgstr "Vliegkampschip"
 
 #: data/default/units.ruleset:1420 data/civ2/units.ruleset:1357
-#: data/civ1/units.ruleset:1310 data/history/units.ruleset:1420
+#: data/civ1/units.ruleset:1310
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
@@ -17011,17 +16947,16 @@ msgstr ""
 "ERG pijnlijk en kostbaar."
 
 #: data/default/units.ruleset:1427 data/civ2/units.ruleset:1364
-#: data/civ1/units.ruleset:1317 data/history/units.ruleset:1427
+#: data/civ1/units.ruleset:1317
 msgid "Transport"
 msgstr "Vrachtschip"
 
 #: data/default/units.ruleset:1455 data/civ2/units.ruleset:1392
-#: data/civ1/units.ruleset:1345 data/history/units.ruleset:1455
+#: data/civ1/units.ruleset:1345
 msgid "Cruise Missile"
 msgstr "Kruisraket"
 
 #: data/default/units.ruleset:1481 data/civ2/units.ruleset:1418
-#: data/history/units.ruleset:1481
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
@@ -17030,12 +16965,11 @@ msgstr ""
 "vaderland vrij van vijandelijke schepen houden."
 
 #: data/default/units.ruleset:1487 data/civ2/units.ruleset:1424
-#: data/civ1/units.ruleset:1373 data/history/units.ruleset:1487
+#: data/civ1/units.ruleset:1373
 msgid "Nuclear"
 msgstr "Kernraket"
 
 #: data/default/units.ruleset:1513 data/civ2/units.ruleset:1450
-#: data/history/units.ruleset:1513
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -17072,12 +17006,12 @@ msgstr ""
 "nucleaire winter. Milieu-vriendelijke kernraketten!"
 
 #: data/default/units.ruleset:1534 data/civ2/units.ruleset:1471
-#: data/civ1/units.ruleset:1420 data/history/units.ruleset:1534
+#: data/civ1/units.ruleset:1420
 msgid "Diplomat"
 msgstr "Diplomaat"
 
 #: data/default/units.ruleset:1560 data/civ2/units.ruleset:1497
-#: data/civ1/units.ruleset:1446 data/history/units.ruleset:1560
+#: data/civ1/units.ruleset:1446
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
 "another player's city.\n"
@@ -17113,12 +17047,11 @@ msgstr ""
 "angst worden bekeken!"
 
 #: data/default/units.ruleset:1580 data/civ2/units.ruleset:1517
-#: data/civ1/units.ruleset:1466 data/history/units.ruleset:1580
+#: data/civ1/units.ruleset:1466
 msgid "Spy"
 msgstr "Spion"
 
 #: data/default/units.ruleset:1606 data/civ2/units.ruleset:1543
-#: data/history/units.ruleset:1606
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
 "arts of espionage than her Diplomat predecessor.\n"
@@ -17158,12 +17091,12 @@ msgstr ""
 "eenheden saboteren en ze kan ze overhalen om over te lopen."
 
 #: data/default/units.ruleset:1627 data/civ2/units.ruleset:1564
-#: data/civ1/units.ruleset:1494 data/history/units.ruleset:1627
+#: data/civ1/units.ruleset:1494
 msgid "Caravan"
 msgstr "Karavaan"
 
 #: data/default/units.ruleset:1653 data/civ2/units.ruleset:1590
-#: data/civ1/units.ruleset:1520 data/history/units.ruleset:1653
+#: data/civ1/units.ruleset:1520
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder.\n"
@@ -17180,35 +17113,32 @@ msgstr ""
 "gehele bouwwerk in een enkele beurt te voltooien!"
 
 #: data/default/units.ruleset:1663 data/civ2/units.ruleset:1600
-#: data/civ1/units.ruleset:1530 data/history/units.ruleset:1663
+#: data/civ1/units.ruleset:1530
 msgid "Freight"
 msgstr "Vrachtwagen"
 
 #: data/default/units.ruleset:1689 data/civ2/units.ruleset:1626
-#: data/history/units.ruleset:1689
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "De Vrachtwagen eenheid vervangt de Karavaan en beweegt met de dubbele "
 "snelheid."
 
 #: data/default/units.ruleset:1694 data/civ2/units.ruleset:1631
-#: data/civ1/units.ruleset:1558 data/history/units.ruleset:1694
+#: data/civ1/units.ruleset:1558
 msgid "Explorer"
 msgstr "Verkenner"
 
 #: data/default/units.ruleset:1720 data/civ2/units.ruleset:1657
-#: data/history/units.ruleset:1720
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr ""
 "Verkenners zijn zeer bruikbaar voor het in kaart brengen van onbekend gebied."
 
 #: data/default/units.ruleset:1725 data/civ2/units.ruleset:1662
-#: data/civ1/units.ruleset:1586 data/history/units.ruleset:1725
+#: data/civ1/units.ruleset:1586
 msgid "Barbarian Leader"
 msgstr "Barbarenleider"
 
 #: data/default/units.ruleset:1751 data/civ2/units.ruleset:1688
-#: data/history/units.ruleset:1751
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -18064,6 +17994,12 @@ msgstr "Zoeloe"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zoeloes"
+
+#~ msgid "Riflery"
+#~ msgstr "Infanterie"
+
+#~ msgid "Milling"
+#~ msgstr "Molenbouw"
 
 #~ msgid "Sz"
 #~ msgstr "Gr"
