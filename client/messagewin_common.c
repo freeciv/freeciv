@@ -109,10 +109,6 @@ void add_notify_window(char *message, struct tile *ptile,
 		       enum event_type event)
 {
   const size_t min_msg_len = 50;
-  const char *game_prefix1 = "";
-  const char *game_prefix2 = _("");
-  size_t gp_len1 = strlen(game_prefix1);
-  size_t gp_len2 = strlen(game_prefix2);
   size_t msg_len = strlen(message);
   char *s = fc_malloc(MAX(msg_len, min_msg_len) + 1);
   int i, nspc;
@@ -124,13 +120,7 @@ void add_notify_window(char *message, struct tile *ptile,
     messages = fc_realloc(messages, messages_alloc * sizeof(*messages));
   }
 
-  if (strncmp(message, game_prefix1, gp_len1) == 0) {
-    strcpy(s, message + gp_len1);
-  } else if (strncmp(message, game_prefix2, gp_len2) == 0) {
-    strcpy(s, message + gp_len2);
-  } else {
-    strcpy(s, message);
-  }
+  strcpy(s, message);
 
   nspc = min_msg_len - strlen(s);
   if (nspc > 0) {
