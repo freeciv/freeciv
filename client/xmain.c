@@ -633,6 +633,8 @@ void show_info_popup(Widget w, XEvent *event, String *argv, Cardinal *argc)
 			 overrideShellWidgetClass, 
 			 info_command, NULL, 0);
 
+    XtAddCallback(p,XtNpopdownCallback,destroy_me_callback,NULL);
+
     XtVaCreateManagedWidget("fullinfopopuplabel", 
 			      labelWidgetClass,
 			      p,
