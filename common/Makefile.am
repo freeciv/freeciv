@@ -97,5 +97,6 @@ libcivcommon_a_SOURCES = \
 		version.c	\
 		version.h
 
+BUILT_SOURCES = packets_gen.c packets_gen.h
 packets_gen.h packets_gen.c: packets.def generate_packets.py
 	./generate_packets.py
