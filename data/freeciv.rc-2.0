@@ -50,25 +50,12 @@ style "chatline"
   text[INSENSITIVE] = "black"
 }
 
-style "monospace_label"
-{
-  font_name = "Monospace 9"
-}
-
 style "comment_label"
 {
   font_name = "Sans Italic 9"
   fg[NORMAL] = "blue"
   fg[PRELIGHT] = "blue"
 }
-
-style "dialog"
-{
-  GtkDialog::content_area_border = 6
-  GtkDialog::action_area_border = 0
-}
-
-class	"GtkDialog"   	    	    	style	"dialog"
 
 widget	"Freeciv*.city label"		style	"city_label"
 widget	"Freeciv*.notify label"		style	"notify_label"
