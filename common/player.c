@@ -232,7 +232,7 @@ bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
   struct city *pcity;
 
   /* If the player can't even see the tile... */
-  if (!map_get_known(x, y, pplayer) == TILE_KNOWN) {
+  if (map_get_known(x, y, pplayer) != TILE_KNOWN) {
     return FALSE;
   }
 
