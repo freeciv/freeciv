@@ -165,31 +165,6 @@ static int ai_eval_threat_missile(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-Get value of best usable tile on city map.
-**************************************************************************/
-static int ai_best_tile_value(struct city *pcity)
-{
-  int best = 0;
-  int food;
-
-  /* food = (pcity->size * 2 - get_food_tile(2,2, pcity)) + settler_eats(pcity); */
-  /* Following simply works better, as far as I can tell. */
-  food = 0;
-  
-  city_map_iterate(x, y) {
-    if (can_place_worker_here(pcity, x, y)) {
-      int value = city_tile_value(pcity, x, y, food, 0);
-      
-      if (value > best) {
-	best = value;
-      }
-    }
-  } city_map_iterate_end;
-  
-  return best;
-}
-
-/**************************************************************************
 Returns the value (desire to build it) of the improvement for keeping
 of order in the city.
 
@@ -414,6 +389,72 @@ static bool built_elsewhere(struct city *pcity, Impr_Type_id wonder)
 }
 
 /**************************************************************************
+  Returns the city_tile_value of the worst tile worked by pcity 
+  (not including the city center).  Returns 0 if no tiles are worked.
+**************************************************************************/
+static int worst_worker_tile_value(struct city *pcity)
+{
+  int worst = 0;
+
+  city_map_iterate(x, y) {
+    if (is_city_center(x, y)) {
+      continue;
+    }
+    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
+      int tmp = city_tile_value(pcity, x, y, 0, 0);
+
+      if (tmp < worst || worst == 0) {
+	worst = tmp;
+      }
+    }
+  } city_map_iterate_end;
+
+  return worst;
+}
+
+/**************************************************************************
+  Get city_tile_value of best unused tile available to pcity.  Returns
+  0 if no tiles are available.
+**************************************************************************/
+static int best_free_tile_value(struct city *pcity)
+{
+  int best = 0;
+
+  city_map_iterate(x, y) {
+    if (get_worker_city(pcity, x, y) == C_TILE_EMPTY) {
+      int tmp = city_tile_value(pcity, x, y, 0, 0);
+      
+      if (tmp > best) {
+	best = tmp;
+      }
+    }
+  } city_map_iterate_end;
+  
+  return best;
+}
+
+/**************************************************************************
+  Returns the amount of food consumed by pcity's units.
+**************************************************************************/
+static int settler_eats(struct city *pcity)
+{
+  struct government *gov = get_gov_pcity(pcity);
+  int free_food = citygov_free_food(pcity, gov);
+  int eat = 0;
+
+  unit_list_iterate(pcity->units_supported, this_unit) {
+    int food_cost = utype_food_cost(unit_type(this_unit), gov);
+
+    adjust_city_free_cost(&free_food, &food_cost);
+    if (food_cost > 0) {
+      eat += food_cost;
+    }
+  } unit_list_iterate_end;
+
+  return eat;
+}
+
+/**************************************************************************
   Evaluate the current desirability of all city improvements for the given 
   city to update pcity->ai.building_want.
 **************************************************************************/
@@ -449,7 +490,7 @@ void ai_eval_buildings(struct city *pcity)
     (pcity->shield_prod * SHIELD_WEIGHTING * 100) / city_shield_bonus(pcity);
   needpower = (city_got_building(pcity, B_MFG) ? 2 :
               (city_got_building(pcity, B_FACTORY) ? 1 : 0));
-  val = ai_best_tile_value(pcity);
+  val = best_free_tile_value(pcity);
   wwtv = worst_worker_tile_value(pcity);
 
   /* because the benefit doesn't come immediately, and to stop stupidity   */

@@ -34,18 +34,12 @@ bool city_got_barracks(struct city *pcity);
 bool can_sell_building(struct city *pcity, Impr_Type_id id);
 struct city *find_city_wonder(Impr_Type_id id);
 int build_points_left(struct city *pcity);
-bool is_worked_here(int x, int y);
-int food_weighting(int city_size);
-int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
-int settler_eats(struct city *pcity);
 int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
 int city_shield_bonus(struct city *pcity);
 int city_luxury_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 
-int worst_worker_tile_value(struct city *pcity);
-int best_worker_tile_value(struct city *pcity);
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct unit_list *units, struct city *pcity,
 			 struct city *exclude_city,
