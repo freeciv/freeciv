@@ -1,6 +1,7 @@
 /Makefile
 /Makefile.in
 /POTFILES
+/freeciv.pot
 /stamp-cat-id
 /cat-id-tbl.c
 /es.mo
