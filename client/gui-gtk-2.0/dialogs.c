@@ -1598,7 +1598,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group, in
   /* Populate nation list store. */
   for (i = 0; i < game.playable_nation_count; i++) {
     struct nation_type *nation;
-    SPRITE *s;
+    struct Sprite *s;
     GdkPixbuf *img;
     GtkTreeIter it;
     GValue value = { 0, };
@@ -1805,7 +1805,7 @@ static void create_races_dialog(void)
   /* Populate city style store. */
   for (i = 0; i < game.styles_count; i++) {
     GdkPixbuf *img;
-    SPRITE *s;
+    struct Sprite *s;
     GtkTreeIter it;
 
     if (city_styles[i].techreq != A_NONE) {

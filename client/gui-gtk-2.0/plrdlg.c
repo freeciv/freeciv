@@ -478,7 +478,7 @@ static GdkPixbuf *get_flag(struct nation_type *nation)
 {
   int x0, y0, x1, y1, w, h;
   GdkPixbuf *im, *im2;
-  SPRITE *flag;
+  struct Sprite *flag;
 
   flag = nation->flag_sprite;
 

@@ -41,8 +41,8 @@
 
 #include "graphics.h"
 
-SPRITE *               intro_gfx_sprite;
-SPRITE *               radar_gfx_sprite;
+struct Sprite *intro_gfx_sprite;
+struct Sprite *radar_gfx_sprite;
 
 GdkCursor *fc_cursors[CURSOR_LAST];
 

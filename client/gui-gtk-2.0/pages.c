@@ -1435,7 +1435,7 @@ static GdkPixbuf *get_flag(char *flag_str)
 {
   int x0, y0, x1, y1, w, h;
   GdkPixbuf *im, *im2;
-  SPRITE *flag;
+  struct Sprite *flag;
 
   flag = load_sprite(tileset, flag_str);
 

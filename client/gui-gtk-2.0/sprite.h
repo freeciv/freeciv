@@ -32,8 +32,6 @@ struct Sprite
   int	     height;
 };
 
-typedef struct Sprite SPRITE;
-
 struct Sprite *ctor_sprite(GdkPixbuf *pixbuf);
 struct Sprite *sprite_scale(struct Sprite *src, int new_w, int new_h);
 void sprite_get_bounding_box(struct Sprite *sprite, int *start_x,
@@ -43,7 +41,7 @@ struct Sprite *crop_blankspace(struct Sprite *s);
 /********************************************************************
   Note: a sprite cannot be changed after these functions are called!
 ********************************************************************/
-GdkPixbuf *sprite_get_pixbuf(SPRITE *sprite);
+GdkPixbuf *sprite_get_pixbuf(struct Sprite *sprite);
 GdkBitmap *sprite_get_mask(struct Sprite *sprite);
 
 #endif  /* FC__SPRITE_H */
