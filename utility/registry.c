@@ -732,8 +732,24 @@ bool section_file_save(struct section_file *my_section_file,
 	  /* break out of tabular if doesn't match: */
 	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
 	    if(icol != 0) {
-	      freelog(LOG_ERROR, "unexpected exit from tabular at %s (%s)",
-		      pentry->name, real_filename);
+	      /* If the second or later row of a table is missing some
+	       * entries that the first row had, we drop out of the tabular
+	       * format.  This is inefficient so we print a warning message;
+	       * the calling code probably needs to be fixed so that it can
+	       * use the more efficient tabular format.
+	       *
+	       * FIXME: If the first row is missing some entries that the
+	       * second or later row has, then we'll drop out of tabular
+	       * format without an error message. */
+	      freelog(LOG_ERROR,
+		      "In file %s, there is no entry in the registry for \n"
+		      "%s (or the entries are out of order. This means a \n"
+		      "less efficient non-tabular format will be used. To\n"
+		      "avoid this make sure all rows of a table are filled\n"
+		      "out with an entry for every column.  This is surely\n"
+		      "a bug so if you're reading this message, report it\n"
+		      "to bugs@freeciv.org.",
+		      real_filename, expect);
 	      fz_fprintf(fs, "\n");
 	    }
 	    fz_fprintf(fs, "}\n");

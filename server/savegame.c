@@ -2668,8 +2668,9 @@ static void player_save(struct player *plr, int plrno,
       secfile_insert_str(file, act_buf,
 			 "player%d.u%d.activity_list", plrno, i);
     } else {
-      /* Put all the same fields into the savegame.  Otherwise the
-       * registry code gets confused (although it still works). */
+      /* Put all the same fields into the savegame - otherwise the
+       * registry code can't correctly use a tabular format and the
+       * savegame will be bigger. */
       secfile_insert_int(file, 0, "player%d.u%d.orders_length", plrno, i);
       secfile_insert_int(file, 0, "player%d.u%d.orders_index", plrno, i);
       secfile_insert_bool(file, FALSE,
@@ -2680,6 +2681,8 @@ static void player_save(struct player *plr, int plrno,
 			 "player%d.u%d.orders_list", plrno, i);
       secfile_insert_str(file, "-",
 			 "player%d.u%d.dir_list", plrno, i);
+      secfile_insert_str(file, "-",
+			 "player%d.u%d.activity_list", plrno, i);
     }
   }
   unit_list_iterate_end;
