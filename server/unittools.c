@@ -1306,7 +1306,7 @@ bool enemies_at(struct unit *punit, int x, int y)
   db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
   if (map_has_special(x, y, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
-  d = unit_vulnerability_virtual(punit) * db;
+  d = unit_def_rating_basic_sq(punit) * db;
 
   adjc_iterate(x, y, x1, y1) {
     if (ai_handicap(pplayer, H_FOG)

@@ -69,7 +69,7 @@ static bool ai_military_rampage(struct unit *punit, int threshold);
 
 static int unit_move_turns(struct unit *punit, int x, int y);
 static bool unit_role_defender(Unit_Type_id type);
-static int unit_vulnerability(struct unit *punit, struct unit *pdef);
+static int unit_def_rating_sq(struct unit *punit, struct unit *pdef);
 
 /*
  * Cached values. Updated by update_simple_ai_types.
@@ -846,49 +846,57 @@ static int unit_att_rating_sq(struct unit *punit)
 }
 
 /********************************************************************** 
-  ...
+  Defence rating of this particular unit against this attacker.
 ***********************************************************************/
-static int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
+static int unit_def_rating(struct unit *attacker, struct unit *defender)
 {
-  return (get_total_defense_power(punit, pdef) *
-	  (punit->id != 0 ? pdef->hp : unit_type(pdef)->hp) *
-	  unit_type(pdef)->firepower / POWER_DIVIDER);
+  return get_total_defense_power(attacker, defender) *
+         (attacker->id != 0 ? defender->hp : unit_type(defender)->hp) *
+         unit_type(defender)->firepower / POWER_DIVIDER;
 }
 
 /********************************************************************** 
-  ...
+  Square of the previous function - used in actual computations.
 ***********************************************************************/
-int unit_vulnerability_virtual(struct unit *punit)
+static int unit_def_rating_sq(struct unit *attacker,
+                              struct unit *defender)
 {
-  int v = base_get_defense_power(punit) * punit->hp / POWER_DIVIDER;
+  int v = unit_def_rating(attacker, defender);
+  return v * v;
+}
 
+/********************************************************************** 
+  Basic (i.e. not taking attacker specific corections into account) 
+  defence rating of this particular unit.
+***********************************************************************/
+int unit_def_rating_basic(struct unit *punit)
+{
+  return base_get_defense_power(punit) * punit->hp *
+         unit_types[punit->type].firepower / POWER_DIVIDER;
+}
+
+/********************************************************************** 
+  Square of the previous function - used in actual computations.
+***********************************************************************/
+int unit_def_rating_basic_sq(struct unit *punit)
+{
+  int v = unit_def_rating_basic(punit);
   return v * v;
 }
 
 /**************************************************************************
+  Defence rating of def_type unit against att_type unit, squared.
   See get_virtual_defense_power for the arguments att_type, def_type,
-  x, y, fortified and veteran. If use_alternative_hp is FALSE the
-  (maximum) hps of the given unit type is used. If use_alternative_hp
-  is TRUE the given alternative_hp value is used.
+  x, y, fortified and veteran.
 **************************************************************************/
-int unit_vulnerability_virtual2(Unit_Type_id att_type, Unit_Type_id def_type,
-				int x, int y, bool fortified, bool veteran,
-				bool use_alternative_hp, int alternative_hp)
+int unittype_def_rating_sq(Unit_Type_id att_type, Unit_Type_id def_type,
+                           int x, int y, bool fortified, bool veteran)
 {
-  int v = (get_virtual_defense_power(att_type, def_type, x, y, fortified,
-				     veteran) *
-	   (use_alternative_hp ? alternative_hp : unit_types[def_type].
-	    hp) * unit_types[def_type].firepower / POWER_DIVIDER);
+  int v = get_virtual_defense_power(att_type, def_type, x, y,
+                                    fortified, veteran) *
+          unit_types[def_type].hp *
+          unit_types[def_type].firepower / POWER_DIVIDER;
   return v * v;
-}
-
-/********************************************************************** 
-  ...
-***********************************************************************/
-static int unit_vulnerability(struct unit *punit, struct unit *pdef)
-{
-  int v = unit_vulnerability_basic(punit, pdef);
-  return (v * v);
 }
 
 /********************************************************************** 
@@ -1088,7 +1096,7 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
                 unit_owner(pdef)->name, unit_type(pdef)->name, punit->x, punit->y);
       } else {
         /* See description of kill_desire() about this variables. */
-        int vuln = unit_vulnerability(punit, pdef);
+        int vuln = unit_def_rating_sq(punit, pdef);
         int attack = reinforcements_value(punit, pdef->x, pdef->y)
                      + attack_power;
         int benefit = unit_type(pdef)->build_cost;
@@ -1545,7 +1553,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity)
 {
   int dist, def, best = 0;
-  int toughness = unit_vulnerability_virtual(punit);
+  int toughness = unit_def_rating_basic_sq(punit);
 
   if (toughness == 0) {
     /* useless */
@@ -1564,7 +1572,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
       continue;
     }
     dist = unit_move_turns(punit, buddy->x, buddy->y);
-    def = (toughness - unit_vulnerability_virtual(buddy));
+    def = (toughness - unit_def_rating_basic_sq(buddy));
     if (get_transporter_capacity(buddy) == 0) {
       /* Reduce want based on distance. We can't do this for
        * transports since they move around all the time, leading
@@ -1634,10 +1642,16 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
             if (assess_defense_unit(pcity, pdef, FALSE) >= val) val = 0;
           }
         unit_list_iterate_end; /* was getting confused without the is_military part in */
-        if (unit_vulnerability_virtual(punit) == 0) q = 0; /* thanks, JMT, Paul */
-        else q = (pcity->ai.danger * 2 - def * unit_type(punit)->attack_strength /
-             unit_type(punit)->defense_strength);
-/* this was a WAG, but it works, so now it's just good code! -- Syela */
+        if (unit_def_rating_basic_sq(punit) == 0) {
+          /* thanks, JMT, Paul */
+          q = 0;
+        } else { 
+          /* this was a WAG, but it works, so now it's just good code! 
+           * -- Syela */
+          q = (pcity->ai.danger * 2 
+               - (def * unit_type(punit)->attack_strength /
+                  unit_type(punit)->defense_strength));
+        }
         if (val > 0 || q > 0) { /* Guess I better stay */
           ;
         } else q = 0;
@@ -1664,10 +1678,9 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     /* Check if city we are on our way to rescue is still in danger,
      * or unit we should protect is still alive */
     if ((aunit && aunit->ai.bodyguard != BODYGUARD_NONE 
-         && unit_vulnerability_virtual(punit) >
-         unit_vulnerability_virtual(aunit)) ||
-         (acity && acity->owner == punit->owner && acity->ai.urgency != 0 &&
-          acity->ai.danger > assess_defense_quadratic(acity))) {
+         && unit_def_rating_basic(punit) > unit_def_rating_basic(aunit)) 
+        || (acity && acity->owner == punit->owner && acity->ai.urgency != 0 
+            && acity->ai.danger > assess_defense_quadratic(acity))) {
       assert(punit->ai.ai_role == AIUNIT_ESCORT);
       return;
     } else {
@@ -1702,7 +1715,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 
   if (q > 0) {
     q *= 100;
-    q /= unit_vulnerability_virtual(punit);
+    q /= unit_def_rating_basic_sq(punit);
     q >>= unit_move_turns(punit, pcity->x, pcity->y);
   }
 
@@ -2071,7 +2084,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
       
       if ((pdef = get_defender(punit, acity->x, acity->y))) {
-        vuln = unit_vulnerability(punit, pdef);
+        vuln = unit_def_rating_sq(punit, pdef);
         benefit = unit_type(pdef)->build_cost;
       } else { 
         vuln = 0; 
@@ -2083,11 +2096,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
       if (move_time > 1) {
         Unit_Type_id def_type = ai_choose_defender_versus(acity, punit->type);
-        int v 
-          = unit_vulnerability_virtual2(punit->type, def_type, acity->x,
-                                        acity->y, FALSE,
-                                        do_make_unit_veteran(acity, def_type),
-                                        FALSE, 0);
+        int v = unittype_def_rating_sq(punit->type, def_type,
+                                       acity->x, acity->y, FALSE,
+                                       do_make_unit_veteran(acity, def_type));
         if (v > vuln) {
           /* They can build a better defender! */ 
           vuln = v; 
@@ -2234,7 +2245,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
 
-      vuln = unit_vulnerability(punit, aunit);
+      vuln = unit_def_rating_sq(punit, aunit);
       benefit = unit_type(aunit)->build_cost;
  
       move_time = turns_to_enemy_unit(punit->type, move_rate, 

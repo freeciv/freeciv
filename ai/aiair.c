@@ -117,16 +117,9 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
     victim_cost -= unit_type(punit)->build_cost;
   }
 
-  /* Attack value of our unit
-  unit_attack = unit_att_rating(punit) / 10;
-  Punish unhealthy units 
-  unit_attack = unit_attack * punit->hp / unit_type(punit)->hp;
-  */
   unit_attack = (int) (PROB_MULTIPLIER 
                        * unit_win_chance(punit, pdefender));
 
-  /* Defence value of the enemy 
-     victim_defence = unit_vulnerability_basic(punit, pdefender) / 10; */
   victim_defence = PROB_MULTIPLIER - unit_attack;
 
   balanced_cost = build_cost_balanced(punit->type);

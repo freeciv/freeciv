@@ -811,8 +811,8 @@ static void process_attacker_want(struct city *pcity,
 
       /* Estimate strength of the enemy. */
       
-      vuln = unit_vulnerability_virtual2(unit_type, victim_unit_type, x, y,
-                                         FALSE, veteran, FALSE, 0);
+      vuln = unittype_def_rating_sq(unit_type, victim_unit_type,
+                                    x, y, FALSE, veteran);
 
       /* Not bothering to s/!vuln/!pdef/ here for the time being. -- Syela
        * (this is noted elsewhere as terrible bug making warships yoyoing) 
@@ -1002,14 +1002,14 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     go_by_boat = !(goto_is_sane(myunit, acity->x, acity->y, TRUE) 
                   && WARMAP_COST(x, y) <= (MIN(6, move_rate) * THRESHOLD));
-    move_time = turns_to_enemy_city(myunit->type, acity, move_rate, go_by_boat,
-                                    ferryboat, boattype);
+    move_time = turns_to_enemy_city(myunit->type, acity, move_rate, 
+                                    go_by_boat, ferryboat, boattype);
 
     def_type = ai_choose_defender_versus(acity, myunit->type);
     if (move_time > 1) {
       def_vet = do_make_unit_veteran(acity, def_type);
-      vuln = unit_vulnerability_virtual2(myunit->type, def_type, x, y, FALSE,
-                                         def_vet, FALSE, 0);
+      vuln = unittype_def_rating_sq(myunit->type, def_type,
+                                    x, y, FALSE, def_vet);
       benefit = unit_types[def_type].build_cost;
     } else {
       vuln = 0;
@@ -1019,8 +1019,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     pdef = get_defender(myunit, x, y);
     if (pdef) {
-      int m = unit_vulnerability_virtual2(myunit->type, pdef->type, x, y, FALSE,
-                                          pdef->veteran, FALSE, 0);
+      int m = unittype_def_rating_sq(myunit->type, pdef->type,
+                                     x, y, FALSE, pdef->veteran);
       if (vuln < m) {
         vuln = m;
         benefit = unit_type(pdef)->build_cost;

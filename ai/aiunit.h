@@ -65,10 +65,10 @@ int build_cost_balanced(Unit_Type_id type);
 int unittype_att_rating(Unit_Type_id type, bool veteran,
                         int moves_left, int hp);
 int unit_att_rating(struct unit *punit);
-int unit_vulnerability_virtual(struct unit *punit);
-int unit_vulnerability_virtual2(Unit_Type_id att_type, Unit_Type_id def_type,
-				int x, int y, bool fortified, bool veteran,
-				bool use_alternative_hp, int alternative_hp);
+int unit_def_rating_basic(struct unit *punit);
+int unit_def_rating_basic_sq(struct unit *punit);
+int unittype_def_rating_sq(Unit_Type_id att_type, Unit_Type_id def_type,
+                           int x, int y, bool fortified, bool veteran);
 int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 
 bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base);

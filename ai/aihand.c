@@ -259,8 +259,8 @@ static void ai_manage_taxes(struct player *pplayer)
 	   */
           if (incity == pcity) {
             if (defender) {
-              if (unit_vulnerability_virtual(punit) <
-                  unit_vulnerability_virtual(defender)) {
+              if (unit_def_rating_basic(punit) <
+                  unit_def_rating_basic(defender)) {
 		freelog(LOG_VERBOSE, "Disbanding %s in %s",
 			unit_type(punit)->name, pcity->name);
                 pack.unit_id = punit->id;
