@@ -466,6 +466,8 @@ static unsigned int assess_danger(struct city *pcity)
     if (!is_player_dangerous(city_owner(pcity), aplayer)) {
       continue;
     }
+    /* Note that we still consider the units of players we are not (yet)
+     * at war with. */
 
     /* Look for enemy units */
     unit_list_iterate(aplayer->units, punit) {
@@ -473,6 +475,9 @@ static unsigned int assess_danger(struct city *pcity)
       int move_rate = unit_move_rate(punit);
       unsigned int vulnerability = assess_danger_unit(pcity, punit);
       int dist = assess_distance(pcity, punit, move_rate);
+      /* Although enemy units will not be in our cities,
+       * we might stll consider allies to be dangerous,
+       * so dist can be 0. */
       bool igwall = unit_really_ignores_citywalls(punit);
 
       if (unit_flag(punit, F_PARATROOPERS)) {
