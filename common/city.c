@@ -1601,7 +1601,7 @@ static void citizen_happy_size(struct city *pcity)
   if (game.angrycitizen == 0)
     pcity->ppl_angry[0] = 0;
   else
-    pcity->ppl_angry[0] = MIN(MAX(0, -tmp), pcity->size);
+    pcity->ppl_angry[0] = MIN(MAX(0, -tmp), workers);
   pcity->ppl_unhappy[0] =
       workers - pcity->ppl_content[0] - pcity->ppl_angry[0];
   pcity->ppl_happy[0] = 0;	/* no one is born happy */
