@@ -173,7 +173,7 @@ pedantic name enforcer - at most one space between words
 ***************************************************************/
 char *get_sane_name(char *name)
 {
-  static char str[MAX_LENGTH_NAME];
+  static char str[MAX_LEN_NAME];
   char *cp;
   
   if(!isalpha(*name))                      /* first char not a letter? */ 
@@ -183,8 +183,8 @@ char *get_sane_name(char *name)
   if(*cp)
     return 0; 
 
-  strncpy(str, name, MAX_LENGTH_NAME-1);
-  str[MAX_LENGTH_NAME-1]='\0';
+  strncpy(str, name, MAX_LEN_NAME-1);
+  str[MAX_LEN_NAME-1]='\0';
   
   *str=toupper(*str);
   return str;
@@ -206,15 +206,15 @@ static int iso_latin1(char ch)
 
 char *get_sane_name(char *name)
 {
-  static char str[MAX_LENGTH_NAME];
+  static char str[MAX_LEN_NAME];
   char *cp;
   
   for(cp=name; iso_latin1(*cp); cp++);
   if(*cp)
     return 0; 
 
-  strncpy(str, name, MAX_LENGTH_NAME-1);
-  str[MAX_LENGTH_NAME-1]='\0';
+  strncpy(str, name, MAX_LEN_NAME-1);
+  str[MAX_LEN_NAME-1]='\0';
   
   return str;
 }

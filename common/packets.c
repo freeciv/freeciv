@@ -682,7 +682,7 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
 int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
 			       struct packet_diplomacy_info *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, pt);
   
   cptr=put_int32(cptr, packet->plrno0);
@@ -725,7 +725,7 @@ receive_packet_diplomacy_info(struct connection *pc)
 int send_packet_diplomat_action(struct connection *pc, 
 				struct packet_diplomat_action *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_DIPLOMAT_ACTION);
   
   cptr=put_int8(cptr, packet->action_type);
@@ -765,7 +765,7 @@ receive_packet_diplomat_action(struct connection *pc)
 int send_packet_nuke_tile(struct connection *pc, 
 			  struct packet_nuke_tile *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_NUKE_TILE);
   
   cptr=put_int8(cptr, packet->x);
@@ -803,7 +803,7 @@ receive_packet_nuke_tile(struct connection *pc)
 int send_packet_unit_combat(struct connection *pc, 
 			    struct packet_unit_combat *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_UNIT_COMBAT);
   
   cptr=put_int16(cptr, packet->attacker_unit_id);
@@ -848,7 +848,7 @@ int send_packet_unit_request(struct connection *pc,
 			     struct packet_unit_request *packet,
 			     enum packet_type req_type)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, req_type);
   cptr=put_int16(cptr, packet->unit_id);
   cptr=put_int16(cptr, packet->city_id);
@@ -893,7 +893,7 @@ int send_packet_player_request(struct connection *pc,
 			       struct packet_player_request *packet,
 			       enum packet_type req_type)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, req_type);
   cptr=put_int8(cptr, packet->tax);
   cptr=put_int8(cptr, packet->luxury);
@@ -937,7 +937,7 @@ int send_packet_city_request(struct connection *pc,
 			     struct packet_city_request *packet,
 			     enum packet_type req_type)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, req_type);
   cptr=put_int16(cptr, packet->city_id);
   cptr=put_int8(cptr, packet->build_id);
@@ -985,7 +985,7 @@ receive_packet_city_request(struct connection *pc)
 **************************************************************************/
 int send_packet_player_info(struct connection *pc, struct packet_player_info *pinfo)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_PLAYER_INFO);
   cptr=put_int8(cptr, pinfo->playerno);
   cptr=put_string(cptr, pinfo->name);
@@ -1075,7 +1075,7 @@ receive_packet_player_info(struct connection *pc)
 int send_packet_game_info(struct connection *pc, 
 			  struct packet_game_info *pinfo)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
   
   cptr=put_int8(buffer+2, PACKET_GAME_INFO);
@@ -1186,7 +1186,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
 int send_packet_map_info(struct connection *pc, 
 			 struct packet_map_info *pinfo)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
   cptr=put_int8(buffer+2, PACKET_MAP_INFO);
   cptr=put_int8(cptr, pinfo->xsize);
@@ -1264,7 +1264,7 @@ int send_packet_tile_info(struct connection *pc,
 			  struct packet_tile_info *pinfo)
 
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
   cptr=put_int8(buffer+2, PACKET_TILE_INFO);
   cptr=put_int8(cptr, pinfo->x);
@@ -1283,7 +1283,7 @@ int send_packet_tile_info(struct connection *pc,
 int send_packet_new_year(struct connection *pc, struct 
 			 packet_new_year *request)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_NEW_YEAR);
   cptr=put_int32(cptr, request->year);
   put_int16(buffer, cptr-buffer);
@@ -1295,7 +1295,7 @@ int send_packet_new_year(struct connection *pc, struct
 **************************************************************************/
 int send_packet_unittype_info(struct connection *pc, int type, int action)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_UNITTYPE_UPGRADE);
   cptr=put_int8(cptr, type);
   cptr=put_int8(cptr, action);
@@ -1321,7 +1321,7 @@ receive_packet_before_new_year(struct connection *pc)
 
 int send_packet_before_end_year(struct connection *pc)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_BEFORE_NEW_YEAR);
   put_int16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1333,7 +1333,7 @@ int send_packet_before_end_year(struct connection *pc)
 int send_packet_unit_info(struct connection *pc, 
 			    struct packet_unit_info *req)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   unsigned char pack;
 
   cptr=put_int8(buffer+2, PACKET_UNIT_INFO);
@@ -1362,7 +1362,7 @@ int send_packet_unit_info(struct connection *pc,
 **************************************************************************/
 int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int data;
   cptr=put_int8(buffer+2, PACKET_CITY_INFO);
   cptr=put_int16(cptr, req->id);
@@ -1561,7 +1561,7 @@ receive_packet_new_year(struct connection *pc)
 int send_packet_move_unit(struct connection *pc, struct 
 			  packet_move_unit *request)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
   cptr=put_int8(buffer+2, PACKET_MOVE_UNIT);
   cptr=put_int8(cptr, request->x);
@@ -1600,7 +1600,7 @@ struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
 int send_packet_req_join_game(struct connection *pc, struct 
 			      packet_req_join_game *request)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_REQUEST_JOIN_GAME);
   cptr=put_string(cptr, request->name);
   cptr=put_int32(cptr, request->major_version);
@@ -1618,7 +1618,7 @@ int send_packet_req_join_game(struct connection *pc, struct
 int send_packet_join_game_reply(struct connection *pc, struct 
 			        packet_join_game_reply *reply)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_JOIN_GAME_REPLY);
   cptr=put_int32(cptr, reply->you_can_join);
   /* if other end is byte swapped, you_can_join should be 0,
@@ -1642,7 +1642,7 @@ int send_packet_join_game_reply(struct connection *pc, struct
 int send_packet_generic_message(struct connection *pc, int type,
 				struct packet_generic_message *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, type);
   cptr=put_int8(cptr, packet->x);
   cptr=put_int8(cptr, packet->y);
@@ -1660,7 +1660,7 @@ int send_packet_generic_message(struct connection *pc, int type,
 int send_packet_generic_integer(struct connection *pc, int type,
 				struct packet_generic_integer *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, type);
   cptr=put_int32(cptr, packet->value);
   put_int16(buffer, cptr-buffer);
@@ -1758,7 +1758,7 @@ receive_packet_generic_integer(struct connection *pc)
 int send_packet_alloc_race(struct connection *pc, 
 			   struct packet_alloc_race *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_ALLOC_RACE);
   cptr=put_int32(cptr, packet->race_no);
   cptr=put_string(cptr, packet->name);
@@ -1793,7 +1793,7 @@ receive_packet_alloc_race(struct connection *pc)
 int send_packet_generic_values(struct connection *pc, int type,
 			       struct packet_generic_values *req)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   
   cptr=put_int8(buffer+2, type);
   cptr=put_int16(cptr, req->id);
@@ -1840,7 +1840,7 @@ receive_packet_generic_values(struct connection *pc)
 int send_packet_ruleset_unit(struct connection *pc,
 			     struct packet_ruleset_unit *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_RULESET_UNIT);
   
   cptr=put_int8(cptr, packet->id);
@@ -1908,7 +1908,7 @@ receive_packet_ruleset_unit(struct connection *pc)
 int send_packet_ruleset_tech(struct connection *pc,
 			     struct packet_ruleset_tech *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_RULESET_TECH);
   
   cptr=put_int8(cptr, packet->id);
@@ -1948,7 +1948,7 @@ receive_packet_ruleset_tech(struct connection *pc)
 int send_packet_ruleset_building(struct connection *pc,
 			     struct packet_ruleset_building *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_RULESET_BUILDING);
   
   cptr=put_int8(cptr, packet->id);
@@ -1996,7 +1996,7 @@ receive_packet_ruleset_building(struct connection *pc)
 int send_packet_spaceship_info(struct connection *pc,
 			       struct packet_spaceship_info *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_SPACESHIP_INFO);
   
   cptr=put_int8(cptr, packet->player_num);
@@ -2075,7 +2075,7 @@ receive_packet_spaceship_info(struct connection *pc)
 int send_packet_spaceship_action(struct connection *pc,
 				 struct packet_spaceship_action *packet)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_SPACESHIP_ACTION);
   
   cptr=put_int8(cptr, packet->action);
@@ -2162,7 +2162,7 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
   if(pc) {
     if(pc->send_buffer.do_buffer_sends) {
-      if(10*MAX_PACKET_SIZE-pc->send_buffer.ndata >= len) { /* room for more?*/
+      if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more?*/
 	memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
 	pc->send_buffer.ndata+=len;
       }
@@ -2197,7 +2197,7 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
   int didget;
 
   if((didget=read(sock, (char *)(buffer->data+buffer->ndata), 
-		  MAX_PACKET_SIZE-buffer->ndata))<=0)
+		  MAX_LEN_PACKET-buffer->ndata))<=0)
     return -1;
  
   buffer->ndata+=didget;

@@ -14,10 +14,10 @@
 #include <string.h>
 #include <stdlib.h>		/* getenv() */
 
-#include "packets.h"		/* MAX_CAPSTR_LEN */
+#include "packets.h"		/* MAX_LEN_CAPSTR */
 #include "capstr.h"
 
-static char our_capability_internal[MAX_CAPSTR_LEN];
+static char our_capability_internal[MAX_LEN_CAPSTR];
 const char * const our_capability = our_capability_internal;
 
 /* Capabilities: original author: Mitch Davis (mjd@alphalink.com.au)
@@ -90,5 +90,5 @@ void init_our_capability(void)
   if (s == NULL) {
     s = CAPABILITY;
   }
-  strncpy(our_capability_internal, s, MAX_CAPSTR_LEN-1);
+  strncpy(our_capability_internal, s, MAX_LEN_CAPSTR-1);
 }

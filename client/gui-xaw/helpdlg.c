@@ -165,7 +165,7 @@ void boot_help_texts(void)
   FILE *fs;
   char *dfname;
   char buf[512], *p;
-  char expect[32], name[MAX_LENGTH_NAME+2];
+  char expect[32], name[MAX_LEN_NAME+2];
   char seen[MAX_LAST], *pname;
   int len;
   struct help_item *pitem = NULL;
@@ -500,7 +500,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   Widget l;
   int type;
   char *bg="";
-  char label[MAX_LENGTH_NAME+3];
+  char label[MAX_LEN_NAME+3];
   
   type = (tech==A_LAST) ? TECH_UNKNOWN : get_invention(game.player_ptr, tech);
   switch(type) {

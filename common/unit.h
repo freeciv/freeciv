@@ -186,7 +186,7 @@ enum unit_role_id {
 };
 
 struct unit_type {
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
   int graphics;
   enum unit_move_type move_type;
   int build_cost;

@@ -21,9 +21,9 @@
 
 #define BROADCAST_EVENT -2
 
-#define MAX_PLAYERS 14
-#define MAX_LENGTH_NAME 32
-#define MAX_LENGTH_ADDRESS 32
+#define MAX_NUM_PLAYERS  14
+#define MAX_LEN_NAME     32
+#define MAX_LEN_ADDR     32
 
 #ifndef MAX
 #define MAX(x,y) (((x)>(y))?(x):(y))

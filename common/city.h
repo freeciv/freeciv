@@ -14,7 +14,7 @@
 #define FC__CITY_H
 
 #include "genlist.h"
-#include "shared.h"		/* MAX_LENGTH_NAME */
+#include "shared.h"		/* MAX_LEN_NAME */
 #include "unit.h"		/* struct unit_list */
 
 struct player;
@@ -37,7 +37,7 @@ enum improvement_type_id {
 };
 
 struct improvement_type {
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
   int is_wonder;
   int tech_requirement;
   int build_cost;
@@ -123,7 +123,7 @@ struct city {
   int id;
   int owner;
   int x, y;
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
 
   /* the people */
   int size;

@@ -107,7 +107,7 @@ char metaserver_info_line[256];
 /* server name for metaserver to use for us */
 char metaserver_servername[64]="";
 
-struct player *shuffled[MAX_PLAYERS];
+struct player *shuffled[MAX_NUM_PLAYERS];
 
 /* this counter creates all the id numbers used */
 /* use get_next_id_number()                     */
@@ -1393,7 +1393,7 @@ static void handle_request_join_game(struct connection *pconn,
 				     struct packet_req_join_game *req)
 {
   struct player *pplayer;
-  char msg[MSG_SIZE];
+  char msg[MAX_LEN_MSG];
   
   freelog(LOG_NORMAL, "Connection request from %s with client version %d.%d.%d",
        req->name, req->major_version, req->minor_version, req->patch_version);
@@ -1539,7 +1539,7 @@ generate_ai_players() - Selects a race for players created with server's
 static void generate_ai_players(void)
 {
   int i,player,race;
-  char player_name[MAX_LENGTH_NAME];
+  char player_name[MAX_LEN_NAME];
 
   /* Select races for AI players generated with server 'create <name>' command */
 

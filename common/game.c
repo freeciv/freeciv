@@ -289,7 +289,7 @@ void game_init(void)
   
   map_init();
   
-  for(i=0; i<MAX_PLAYERS; i++)
+  for(i=0; i<MAX_NUM_PLAYERS; i++)
     player_init(&game.players[i]);
   for (i=0; i<A_LAST; i++) 
     game.global_advances[i]=0;

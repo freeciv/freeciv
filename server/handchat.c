@@ -78,10 +78,10 @@ void handle_chat_msg(struct player *pplayer,
   if (cp != NULL && (cp != &packet->message[0])) {
     struct player *pdest=0;
     int nlen, nmatches=0;
-    char name[MAX_LENGTH_NAME];
+    char name[MAX_LEN_NAME];
     char *cpblank;
 
-    nlen=MIN(MAX_LENGTH_NAME-1, cp-packet->message);
+    nlen=MIN(MAX_LEN_NAME-1, cp-packet->message);
     strncpy(name, packet->message, nlen);
     name[nlen]='\0';
      

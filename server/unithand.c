@@ -794,7 +794,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
           }
         }
         if (get_unit_type(punit->type)->attack_strength == 0) {
-          char message[MAX_LENGTH_NAME + 64];
+          char message[MAX_LEN_NAME + 64];
           sprintf(message, "Game: A %s cannot attack other units.",
                            unit_name(punit->type));
           notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,

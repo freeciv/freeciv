@@ -44,7 +44,7 @@ enum tech_type_id {
 #define TECH_MARKED 3
 
 struct advance {
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
   int req[2];
 };
 

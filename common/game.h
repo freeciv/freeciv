@@ -55,7 +55,7 @@ struct civ_game {
   char *startmessage;
   int player_idx;
   struct player *player_ptr;
-  struct player players[MAX_PLAYERS];   
+  struct player players[MAX_NUM_PLAYERS];   
   int global_advances[A_LAST];             /* a counter */
   int global_wonders[B_LAST];              /* contains city id's */
          /* global_wonders[] may also be (-1), or the id of a city
@@ -65,7 +65,7 @@ struct civ_game {
   int rail_food, rail_trade, rail_prod;
   int heating;
   int warminglevel;
-  char save_name[MAX_LENGTH_NAME];
+  char save_name[MAX_LEN_NAME];
   int save_nturns;
   int scenario;
   int foodbox;
@@ -78,9 +78,9 @@ struct civ_game {
   int sewer_size;
   int spacerace;
   struct {
-    char techs[MAX_LENGTH_NAME];
-    char units[MAX_LENGTH_NAME];
-    char buildings[MAX_LENGTH_NAME];
+    char techs[MAX_LEN_NAME];
+    char units[MAX_LEN_NAME];
+    char buildings[MAX_LEN_NAME];
   } ruleset;
   int firepower_factor;		/* See README.rulesets */
   struct {
@@ -150,11 +150,11 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_MIN_PLAYERS     1
 #define GAME_MIN_MIN_PLAYERS         1
-#define GAME_MAX_MIN_PLAYERS         MAX_PLAYERS
+#define GAME_MAX_MIN_PLAYERS         MAX_NUM_PLAYERS
 
 #define GAME_DEFAULT_MAX_PLAYERS     14
 #define GAME_MIN_MAX_PLAYERS         1
-#define GAME_MAX_MAX_PLAYERS         MAX_PLAYERS
+#define GAME_MAX_MAX_PLAYERS         MAX_NUM_PLAYERS
 
 #define GAME_DEFAULT_AIFILL          0
 #define GAME_MIN_AIFILL              0

@@ -1757,7 +1757,7 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
 static char *get_location_str(struct player *pplayer, int x, int y,
 				       char *prefix, int use_at)
 {
-  static char buffer[MAX_LENGTH_NAME+64];
+  static char buffer[MAX_LEN_NAME+64];
   struct city *incity, *nearcity;
 
   incity = map_get_city(x, y);

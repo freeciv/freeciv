@@ -50,7 +50,7 @@
 
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 
-struct connection connections[MAX_CONNECTIONS];
+struct connection connections[MAX_NUM_CONNECTIONS];
 
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac network globals */
 TEndpointInfo serv_info;
@@ -82,7 +82,7 @@ void close_connections_and_socket(void)
 {
   int i;
   
-  for(i=0; i<MAX_CONNECTIONS; i++) {
+  for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
     if(connections[i].used) {
       close_connection(&connections[i]);
     }
@@ -132,7 +132,7 @@ int sniff_packets(void)
     FD_SET(sock, &readfs);
     max_desc=sock;
     
-    for(i=0; i<MAX_CONNECTIONS; i++) {
+    for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       if(connections[i].used) {
 	FD_SET(connections[i].sock, &readfs);
       }
@@ -169,7 +169,7 @@ int sniff_packets(void)
       handle_stdin_input((struct player *)NULL, buf);
     }
     else {                             /* input from a player */
-      for(i=0; i<MAX_CONNECTIONS; i++)
+      for(i=0; i<MAX_NUM_CONNECTIONS; i++)
 	if(connections[i].used && FD_ISSET(connections[i].sock, &readfs)) {
 	  if(read_socket_data(connections[i].sock, 
 			      &connections[i].buffer)>0) {
@@ -214,7 +214,7 @@ int server_accept_connection(int sockfd)
 
   if(new_sock!=-1) {
     int i;
-    for(i=0; i<MAX_CONNECTIONS; i++) {
+    for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       if(!connections[i].used) {
 	connections[i].used=1;
 	connections[i].sock=new_sock;
@@ -225,8 +225,8 @@ int server_accept_connection(int sockfd)
 	connections[i].access_level=default_access_level;
 
 	if(from) {
-	  strncpy(connections[i].addr, from->h_name, ADDR_LENGTH);
-	  connections[i].addr[ADDR_LENGTH-1]='\0';
+	  strncpy(connections[i].addr, from->h_name, MAX_LEN_ADDR);
+	  connections[i].addr[MAX_LEN_ADDR-1]='\0';
 	}
 	else {
 	   strcpy(connections[i].addr, "unknown");
@@ -278,7 +278,7 @@ int server_open_socket(void)
     exit(1);
   }
 
-  if(listen(sock, MAX_CONNECTIONS) < 0) {
+  if(listen(sock, MAX_NUM_CONNECTIONS) < 0) {
     freelog(LOG_FATAL, "listen failed: %s", mystrerror(errno));
     exit(1);
   }
@@ -293,7 +293,7 @@ int server_open_socket(void)
 void init_connections(void)
 {
   int i;
-  for(i=0; i<MAX_CONNECTIONS; i++) { 
+  for(i=0; i<MAX_NUM_CONNECTIONS; i++) { 
     connections[i].used=0;
     connections[i].buffer.ndata=0;
   }

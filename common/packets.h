@@ -14,13 +14,18 @@
 #define FC__PACKETS_H
 
 #include "player.h"
+#include "shared.h"		/* MAX_LEN_NAME, MAX_LEN_ADDR */
 #include "spaceship.h"
 
-#define MAX_PACKET_SIZE   4096
-#define NAME_SIZE           10
-#define MSG_SIZE          1536
-#define ADDR_LENGTH         32
-#define MAX_CAPSTR_LEN     512
+#define MAX_LEN_PACKET    4096
+#define MAX_LEN_USERNAME    10	     /* see below */
+#define MAX_LEN_MSG       1536
+#define MAX_LEN_CAPSTR     512
+
+/* Note that MAX_LEN_USERNAME cannot be expanded, because it
+   is used for the name in the first packet sent by the client,
+   before we have the capability string.
+*/
 
 enum packet_type {
   PACKET_REQUEST_JOIN_GAME,
@@ -163,7 +168,7 @@ struct packet_unit_request
   int unit_id;
   int city_id;
   int x, y;
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
 };
 
 /*********************************************************
@@ -195,7 +200,7 @@ struct packet_city_request
   int is_build_id_unit_id;               /* change */
   int worker_x, worker_y;                /* make_worker, make_specialist */
   int specialist_from, specialist_to;    /* change_specialist */
-  char name[MAX_LENGTH_NAME];            /* rename */
+  char name[MAX_LEN_NAME];            /* rename */
 };
 
 
@@ -261,7 +266,7 @@ struct packet_city_info {
   int id;
   int owner;
   int x, y;
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
 
   int size;
   int ppl_happy, ppl_content, ppl_unhappy;
@@ -297,11 +302,11 @@ struct packet_city_info {
  the player hasn't been accepted yet.
 *********************************************************/
 struct packet_req_join_game {
-  char name[NAME_SIZE];
+  char name[MAX_LEN_USERNAME];
   int major_version;
   int minor_version;
   int patch_version;
-  char capability[MAX_CAPSTR_LEN];
+  char capability[MAX_LEN_CAPSTR];
 };
 
 
@@ -310,8 +315,8 @@ struct packet_req_join_game {
 *********************************************************/
 struct packet_join_game_reply {
   int you_can_join;             /* true/false */
-  char message[MSG_SIZE];
-  char capability[MAX_CAPSTR_LEN];
+  char message[MAX_LEN_MSG];
+  char capability[MAX_LEN_CAPSTR];
 };
 
 
@@ -320,7 +325,7 @@ struct packet_join_game_reply {
 *********************************************************/
 struct packet_alloc_race {
   int race_no;
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
 };
 
 
@@ -331,7 +336,7 @@ struct packet_alloc_race {
  blah blah..
 *********************************************************/
 struct packet_generic_message {
-  char message[MSG_SIZE];
+  char message[MAX_LEN_MSG];
   int x,y,event;
 };
 
@@ -349,7 +354,7 @@ struct packet_generic_integer {
 *********************************************************/
 struct packet_player_info {
   int playerno;
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
   int government;
   int embassy;
   int race;
@@ -363,10 +368,10 @@ struct packet_player_info {
   int tech_goal;
   unsigned char inventions[A_LAST+1];
   int is_connected;
-  char addr[MAX_LENGTH_ADDRESS];
+  char addr[MAX_LEN_ADDR];
   int revolution;
   int ai;
-  char capability[MAX_CAPSTR_LEN];
+  char capability[MAX_LEN_CAPSTR];
 };
 
 /*********************************************************
@@ -415,7 +420,7 @@ Specify all the fields of a struct unit_type
 *********************************************************/
 struct packet_ruleset_unit {
   int id;			/* index for unit_types[] */
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
   int graphics;
   int move_type;
   int build_cost;
@@ -435,12 +440,12 @@ struct packet_ruleset_unit {
 
 struct packet_ruleset_tech {
   int id, req[2];		/* indices for advances[] */
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
 };
 
 struct packet_ruleset_building {
   int id;			/* index for improvement_types[] */
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
   int is_wonder;
   int tech_requirement;
   int build_cost;
@@ -509,7 +514,7 @@ arrives to the client/server.
 struct socket_packet_buffer {
   int ndata;
   int do_buffer_sends;
-  unsigned char data[10*MAX_PACKET_SIZE];
+  unsigned char data[10*MAX_LEN_PACKET];
 };
 
 
@@ -521,8 +526,8 @@ struct connection {
   char *player; 
   struct socket_packet_buffer buffer;
   struct socket_packet_buffer send_buffer;
-  char addr[ADDR_LENGTH];
-  char capability[MAX_CAPSTR_LEN];
+  char addr[MAX_LEN_ADDR];
+  char capability[MAX_LEN_CAPSTR];
   /* "capability" gives the capability string of the executable (be it
    * a client or server) at the other end of the connection.
    */

@@ -90,8 +90,8 @@ static void name_new_city_callback(Widget w, XtPointer client_data,
   if((unit_id=(size_t)client_data)) {
     struct packet_unit_request req;
     req.unit_id=unit_id;
-    strncpy(req.name, input_dialog_get_input(w), MAX_LENGTH_NAME);
-    req.name[MAX_LENGTH_NAME-1]='\0';
+    strncpy(req.name, input_dialog_get_input(w), MAX_LEN_NAME);
+    req.name[MAX_LEN_NAME-1]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
   }
     

@@ -154,8 +154,8 @@ void update_players_dialog(void)
    if(players_dialog_shell) {
     int i;
     Dimension width;
-    static char *namelist_ptrs[MAX_PLAYERS];
-    static char namelist_text[MAX_PLAYERS][256];
+    static char *namelist_ptrs[MAX_NUM_PLAYERS];
+    static char namelist_text[MAX_NUM_PLAYERS][256];
     
     for(i=0; i<game.nplayers; i++) {
       char idlebuf[32], statebuf[32], namebuf[32];

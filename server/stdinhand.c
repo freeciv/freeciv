@@ -35,7 +35,7 @@
 
 #include "stdinhand.h"
 
-#define MAX_CMD_LEN MAX_PACKET_SIZE
+#define MAX_LEN_CMD MAX_LEN_PACKET
   /* to be used more widely - rp */
 
 extern int gamelog_level;
@@ -722,7 +722,7 @@ static int may_set_option_now(struct player *pplayer, int option_idx)
 static void cmd_reply(enum command_id cmd, struct player *caller,
 		      int console_id, char *format, ...)
 {
-  char line[MAX_CMD_LEN];
+  char line[MAX_LEN_CMD];
   va_list ap;
   char *cmdname = cmd < CMD_NUM ? commands[cmd].name :
                   cmd == CMD_AMBIGUOUS ? "(ambiguous)" :
@@ -730,7 +730,7 @@ static void cmd_reply(enum command_id cmd, struct player *caller,
 			"(?!?)";  /* this case is a bug! */
 
   va_start(ap,format);
-  /* (void)vsnprintf(line,MAX_CMD_LEN-1,format,ap); */
+  /* (void)vsnprintf(line,MAX_LEN_CMD-1,format,ap); */
     /*
      * no snprintf() in ANSI C and I don't know how to do it otherwise;
      * then again, there are plenty of other places in which this overflow
@@ -1026,8 +1026,8 @@ static int set_cmdlevel(struct player *caller, struct player *pplayer,
 **************************************************************************/
 static void cmdlevel_command(struct player *caller, char *str)
 {
-  char arg_level[MAX_CMD_LEN+1]; /* info, ctrl etc */
-  char arg_name[MAX_CMD_LEN+1];	 /* a player name, or "new" */
+  char arg_level[MAX_LEN_CMD+1]; /* info, ctrl etc */
+  char arg_name[MAX_LEN_CMD+1];	 /* a player name, or "new" */
   char *cptr_s, *cptr_d;	 /* used for string ops */
 
   enum cmdlevel_id level;
@@ -1179,7 +1179,7 @@ static int lookup_option(char *find)
 **************************************************************************/
 static void explain_option(struct player *caller, char *str)
 {
-  char command[MAX_CMD_LEN+1], *cptr_s, *cptr_d;
+  char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int cmd,i;
 
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
@@ -1239,7 +1239,7 @@ static void explain_option(struct player *caller, char *str)
 	cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, "%s", settings[i].name);
       }
     } else {
-      char buf[MAX_CMD_LEN+1];
+      char buf[MAX_LEN_CMD+1];
       buf[0] = '\0';
       for (i=0; settings[i].name; i++) {
 	sprintf(&buf[strlen(buf)], "%-19s", settings[i].name);
@@ -1378,8 +1378,8 @@ which we let overflow their columns.  (And endyear may have '-'.)
 ******************************************************************/
 static void show_command(struct player *caller, char *str)
 {
-  char buf[MAX_CMD_LEN+1];  /* length is not checked ... - rp */
-  char command[MAX_CMD_LEN+1], *cptr_s, *cptr_d;
+  char buf[MAX_LEN_CMD+1];  /* length is not checked ... - rp */
+  char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int cmd,i,len1;
 
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
@@ -1456,7 +1456,7 @@ static void show_command(struct player *caller, char *str)
 
 static void set_command(struct player *caller, char *str) 
 {
-  char command[MAX_CMD_LEN+1], arg[MAX_CMD_LEN+1], *cptr_s, *cptr_d;
+  char command[MAX_LEN_CMD+1], arg[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int val, cmd;
   struct settings_s *op;
 
@@ -1513,7 +1513,7 @@ static void set_command(struct player *caller, char *str)
 	"Value out of range. Usage: set <option> <value>.");
     }
   } else {
-    if (strlen(arg)<MAX_LENGTH_NAME) {
+    if (strlen(arg)<MAX_LEN_NAME) {
       strcpy(op->svalue, arg);
       cmd_reply(CMD_SET, caller, C_OK,
 		"Option: %s has been set to \"%s\".",
@@ -1534,7 +1534,7 @@ static void set_command(struct player *caller, char *str)
 **************************************************************************/
 void handle_stdin_input(struct player *caller, char *str)
 {
-  char command[MAX_CMD_LEN+1], arg[MAX_CMD_LEN+1], *cptr_s, *cptr_d;
+  char command[MAX_LEN_CMD+1], arg[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int i;
   enum command_id cmd;
 
@@ -1587,8 +1587,8 @@ void handle_stdin_input(struct player *caller, char *str)
   }
 
   for(; *cptr_s && isspace(*cptr_s); cptr_s++);
-  strncpy(arg, cptr_s, MAX_CMD_LEN);
-  arg[MAX_CMD_LEN]='\0';
+  strncpy(arg, cptr_s, MAX_LEN_CMD);
+  arg[MAX_LEN_CMD]='\0';
 
   i=strlen(arg)-1;
   while(i>0 && isspace(arg[i]))

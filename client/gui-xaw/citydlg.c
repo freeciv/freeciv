@@ -886,8 +886,8 @@ static void rename_city_callback(Widget w, XtPointer client_data,
 
   if((pdialog=(struct city_dialog *)client_data)) {
     packet.city_id=pdialog->pcity->id;
-    strncpy(packet.name, input_dialog_get_input(w), MAX_LENGTH_NAME);
-    packet.name[MAX_LENGTH_NAME-1]='\0';
+    strncpy(packet.name, input_dialog_get_input(w), MAX_LEN_NAME);
+    packet.name[MAX_LEN_NAME-1]='\0';
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
   }
   input_dialog_destroy(w);

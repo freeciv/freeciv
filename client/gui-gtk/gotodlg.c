@@ -158,7 +158,7 @@ static struct city *get_selected_city(void)
   gtk_clist_get_text(GTK_CLIST(goto_list), (gint)selection->data, 0, &string);
 
   if(strlen(string)>3 && strcmp(string+strlen(string)-3, "(A)")==0) {
-    char name[MAX_LENGTH_NAME];
+    char name[MAX_LEN_NAME];
     strncpy(name, string, strlen(string)-3);
     name[strlen(string)-3]='\0';
     return game_find_city_by_name(name);
@@ -174,7 +174,7 @@ void update_goto_dialog(GtkWidget *goto_list)
   int    i, j;
   int    all_cities;
   gchar *row	[1];
-  char   name	[MAX_LENGTH_NAME+3];
+  char   name	[MAX_LEN_NAME+3];
   
   all_cities=GTK_TOGGLE_BUTTON(goto_all_toggle)->active;
 

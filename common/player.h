@@ -54,8 +54,8 @@ enum handicap_type {
 };
 
 struct player_race {
-  char name[MAX_LENGTH_NAME];
-  char name_plural[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
+  char name_plural[MAX_LEN_NAME];
   int attack;     /* c 0 = optimize for food, 2 =  optimize for prod  */
                   /* c0 = large amount of buildings, 2 = units */
 /* attack has been un-implemented for the time being. -- Syela */
@@ -143,7 +143,7 @@ enum cmdlevel_id {    /* access levels for users to issue commands        */
 
 struct player {
   int player_no;
-  char name[MAX_LENGTH_NAME];
+  char name[MAX_LEN_NAME];
   enum government_type government;
   enum race_type race;
   int turn_done;
@@ -163,7 +163,7 @@ struct player {
   struct player_ai ai;
   int is_connected;
   struct connection *conn;
-  char addr[MAX_LENGTH_ADDRESS];
+  char addr[MAX_LEN_ADDR];
 };
 
 void player_init(struct player *plr);

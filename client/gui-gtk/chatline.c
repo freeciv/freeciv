@@ -35,8 +35,8 @@ void inputline_return(GtkWidget *w, gpointer data)
   theinput = gtk_entry_get_text(GTK_ENTRY(w));
   
   if(*theinput) {
-    strncpy(apacket.message, theinput, MSG_SIZE-NAME_SIZE);
-    apacket.message[MSG_SIZE-NAME_SIZE]='\0';
+    strncpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME);
+    apacket.message[MAX_LEN_MSG-MAX_LEN_USERNAME]='\0';
     send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
   }
 

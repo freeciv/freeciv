@@ -59,7 +59,7 @@ extern struct city *city_workers_display;
 **************************************************************************/
 void handle_join_game_reply(struct packet_join_game_reply *packet)
 {
-  char msg[MSG_SIZE];
+  char msg[MAX_LEN_MSG];
   char *s_capability = aconnection.capability;
 
   strcpy(s_capability, packet->capability);
@@ -623,7 +623,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 {
   int i;
   int poptechup;
-  char msg[MSG_SIZE];
+  char msg[MAX_LEN_MSG];
   struct player *pplayer=&game.players[pinfo->playerno];
   
   strcpy(pplayer->name, pinfo->name);

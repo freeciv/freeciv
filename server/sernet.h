@@ -15,7 +15,7 @@
 
 #include "packets.h"
 
-#define MAX_CONNECTIONS 16
+#define MAX_NUM_CONNECTIONS 16
 #define DEFAULT_SOCK_PORT 5555
 #define BUF_SIZE 512
 

@@ -182,7 +182,7 @@ static struct city *get_selected_city(void)
     return 0;
   
   if(strlen(ret->string)>3 && strcmp(ret->string+strlen(ret->string)-3, "(A)")==0) {
-    char name[MAX_LENGTH_NAME];
+    char name[MAX_LEN_NAME];
     strncpy(name, ret->string, strlen(ret->string)-3);
     name[strlen(ret->string)-3]='\0';
     return game_find_city_by_name(name);
@@ -211,7 +211,7 @@ void update_goto_dialog(Widget goto_list)
   for(i=0, j=0; i<game.nplayers; i++) {
     if(!all_cities && i!=game.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
-      char name[MAX_LENGTH_NAME+3];
+      char name[MAX_LEN_NAME+3];
       strcpy(name, pcity->name);
       if(pcity->improvements[B_AIRPORT]==1)
 	strcat(name, "(A)");

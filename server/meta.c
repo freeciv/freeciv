@@ -49,7 +49,7 @@ static struct sockaddr_in	cli_addr,serv_addr;
 
 int send_to_metaserver(char *desc, char *info)
 {
-  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac alternate networking */
   struct TUnitData xmit;
   OSStatus err;
