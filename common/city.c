@@ -2233,6 +2233,7 @@ void generic_city_refresh(struct city *pcity,
   if (full_refresh) {
     set_city_bonuses(pcity);	/* Calculate the bonus[] array values. */
     set_city_tile_output(pcity); /* Calculate the tile_output[] values. */
+    city_support(pcity, send_unit_info); /* manage settlers, and units */
   }
   get_citizen_output(pcity, pcity->citizen_base); /* Calculate output from citizens. */
   set_city_production(pcity);
@@ -2240,7 +2241,6 @@ void generic_city_refresh(struct city *pcity,
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   citizen_content_buildings(pcity);	/* temple cathedral colosseum */
-  city_support(pcity, send_unit_info);	/* manage settlers, and units */
   citizen_happy_units(pcity); /* Martial law & unrest from units */
   citizen_happy_wonders(pcity);	/* happy wonders & fundamentalism */
   unhappy_city_check(pcity);
