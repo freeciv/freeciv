@@ -441,16 +441,12 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
   if(draw_map_grid &&
      is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE) {
     /* just to update grid; slow, but doesn't happen very often --jjm */
-    int r=((CITY_MAP_SIZE+1)/2);
-    int d=(2*r)+1;
-    int x=map_adjust_x(pcity->x - r);
-    int y=map_adjust_y(pcity->y - r);
-    update_map_canvas
-    (
-     x, y,
-     d, d,
-     1
-    );
+    int r = ((CITY_MAP_SIZE + 1) / 2);
+    int d = (2 * r) + 1;
+    int x = pcity->x - r;
+    int y = pcity->y - r;
+    normalize_map_pos(&x, &y);
+    update_map_canvas(x, y, d, d, 1);
   } else {
     refresh_tile_mapcanvas(pcity->x, pcity->y, 1);
   }
@@ -1426,16 +1422,17 @@ void handle_tile_info(struct packet_tile_info *packet)
   } else if (old_known >= TILE_KNOWN_FOGGED &&
 	     ((old_terrain != T_OCEAN) && (ptile->terrain == T_OCEAN))) {
     /* land changed into ocean -- rebuild continents map from scratch */
-    int x, y;
-    for (y = 0; y < map.ysize; y++)
-      for (x = 0; x < map.xsize; x++)
-	map_set_continent(x, y, 0);
+    whole_map_iterate(x, y) {
+      map_set_continent(x, y, 0);
+    }
+    whole_map_iterate_end;
     climap_init_continents();
-    for (y = 0; y < map.ysize; y++)
-      for (x = 0; x < map.xsize; x++)
-	if ((tile_is_known(x, y) >= TILE_KNOWN_FOGGED) &&
-	    (map_get_terrain(x, y) != T_OCEAN))
-	  climap_update_continents(x, y);
+    whole_map_iterate(x, y) {
+      if ((tile_is_known(x, y) >= TILE_KNOWN_FOGGED) &&
+	  (map_get_terrain(x, y) != T_OCEAN))
+	climap_update_continents(x, y);
+    }
+    whole_map_iterate_end;
   }
 
   /* refresh tiles */
@@ -1449,35 +1446,22 @@ void handle_tile_info(struct packet_tile_info *packet)
     /* if the terrain or the specials of the tile
        have changed it affects the adjacent tiles */
     if (tile_changed) {
-      if (tile_is_known(x-1, y) >= TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x-1, y, 1);
-      if (tile_is_known(x+1, y) >= TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x+1, y, 1);
-      if (tile_is_known(x, y-1) >= TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x, y-1, 1);
-      if (tile_is_known(x, y+1) >= TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x, y+1, 1);
-      if (tile_is_known(x-1, y+1) >= TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x-1, y+1, 1);
-      if (tile_is_known(x+1, y+1) >= TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x+1, y+1, 1);
-      if (tile_is_known(x+1, y-1) >= TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x+1, y-1, 1);
-      if (tile_is_known(x-1, y-1) >= TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x-1, y-1, 1);
+      adjc_iterate(x, y, x1, y1) {
+	if (tile_is_known(x1, y1) >= TILE_KNOWN_FOGGED)
+	  refresh_tile_mapcanvas(x1, y1, 1);
+      }
+      adjc_iterate_end;
       return;
     }
 
-    /* the "furry edges" on tiles adjacent to an TILE_UNKNOWN tile are removed here */
+    /* the "furry edges" on tiles adjacent to an TILE_UNKNOWN tile are
+       removed here */
     if (old_known == TILE_UNKNOWN && packet->known >= TILE_KNOWN_FOGGED) {     
-      if(tile_is_known(x-1, y)>=TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x-1, y, 1);
-      if(tile_is_known(x+1, y)>=TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x+1, y, 1);
-      if(tile_is_known(x, y-1)>=TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x, y-1, 1);
-      if(tile_is_known(x, y+1)>=TILE_KNOWN_FOGGED)
-	refresh_tile_mapcanvas(x, y+1, 1);
+      cartesian_adjacent_iterate(x, y, x1, y1) {
+	if (tile_is_known(x1, y1) >= TILE_KNOWN_FOGGED)
+	  refresh_tile_mapcanvas(x1, y1, 1);
+      }
+      cartesian_adjacent_iterate_end;
     }
   }
 
