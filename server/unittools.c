@@ -1537,108 +1537,76 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
   conn_list_do_unbuffer(&pplayer->connections);
 }
 
-/**************************************************************************
- creates a unit, and set it's initial values, and put it into the right 
- lists.
-**************************************************************************/
-
-/* This is a wrapper */
-
-struct unit *create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
-			 bool make_veteran, int homecity_id, int moves_left)
+/************************************************************************* 
+  Wrapper of the below
+*************************************************************************/
+struct unit *create_unit(struct player *pplayer, int x, int y, 
+                         Unit_Type_id type, bool make_veteran, 
+                         int homecity_id, int moves_left)
 {
-  return create_unit_full(pplayer,x,y,type,make_veteran,homecity_id,moves_left,-1);
+  return create_unit_full(pplayer, x, y, type, make_veteran, homecity_id, 
+                          moves_left, -1);
 }
 
-/* This is the full call.  We don't want to have to change all other calls to
-   this function to ensure the hp are set */
+/**************************************************************************
+  Creates a unit, and set it's initial values, and put it into the right 
+  lists.
+**************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, int x, int y,
-			      Unit_Type_id type, bool make_veteran, int homecity_id,
-			      int moves_left, int hp_left)
+			      Unit_Type_id type, bool veteran, 
+                              int homecity_id, int moves_left, int hp_left)
 {
-  struct unit *punit;
+  struct unit *punit = create_unit_virtual(pplayer, NULL, type, veteran);
   struct city *pcity;
-  punit=fc_calloc(1,sizeof(struct unit));
 
-  punit->type=type;
-  punit->id=get_next_id_number();
+  /* Register unit */
+  punit->id = get_next_id_number();
   idex_register_unit(punit);
-  punit->owner=pplayer->player_no;
 
   CHECK_MAP_POS(x, y);
   punit->x = x;
   punit->y = y;
 
-  punit->goto_dest_x=0;
-  punit->goto_dest_y=0;
-  
-  pcity=find_city_by_id(homecity_id);
-  punit->veteran=make_veteran;
-  punit->homecity=homecity_id;
+  pcity = find_city_by_id(homecity_id);
+  punit->homecity = homecity_id;
 
-  if(hp_left == -1)
-    punit->hp=unit_type(punit)->hp;
-  else
+  if (hp_left >= 0) {
+    /* Override default full HP */
     punit->hp = hp_left;
-  set_unit_activity(punit, ACTIVITY_IDLE);
+  }
 
-  punit->upkeep=0;
-  punit->upkeep_food=0;
-  punit->upkeep_gold=0;
-  punit->unhappiness=0;
+  if (moves_left >= 0) {
+    /* Override default full MP */
+    punit->moves_left = moves_left;
+  }
 
-  /* 
-     See if this is a spy that has been moved (corrupt and therefore unable 
-     to establish an embassy.
-  */
-  if(moves_left != -1 && unit_flag(punit, F_SPY))
-    punit->foul = TRUE;
-  else
-    punit->foul = FALSE;
-  
-  punit->fuel=unit_type(punit)->fuel;
-  punit->ai.control = FALSE;
-  punit->ai.ai_role = AIUNIT_NONE;
-  punit->ai.ferryboat = 0;
-  punit->ai.passenger = 0;
-  punit->ai.bodyguard = 0;
-  punit->ai.charge = 0;
+  /* Assume that if moves_left < 0 then the unit is "fresh",
+   * and not moved; else the unit has had something happen
+   * to it (eg, bribed) which we treat as equivalent to moved.
+   * (Otherwise could pass moved arg too...)  --dwp */
+  punit->moved = (moves_left >= 0);
+
+  /* See if this is a spy that has been moved (corrupt and therefore 
+   * unable to establish an embassy. */
+  punit->foul = (moves_left != -1 && unit_flag(punit, F_SPY));
+
   unit_list_insert(&pplayer->units, punit);
   unit_list_insert(&map_get_tile(x, y)->units, punit);
   if (pcity) {
+    assert(city_owner(pcity) == pplayer);
     unit_list_insert(&pcity->units_supported, punit);
     assert(city_owner(pcity) == pplayer);
+    /* Refresh the unit's homecity. */
+    city_refresh(pcity);
+    send_city_info(pplayer, pcity);
   }
-  punit->bribe_cost=-1;		/* flag value */
-  if(moves_left < 0)  
-    punit->moves_left=unit_move_rate(punit);
-  else
-    punit->moves_left=moves_left;
-
-  /* Assume that if moves_left<0 then the unit is "fresh",
-     and not moved; else the unit has had something happen
-     to it (eg, bribed) which we treat as equivalent to moved.
-     (Otherwise could pass moved arg too...)  --dwp
-  */
-  punit->moved = (moves_left>=0);
-
-  /* Probably not correct when unit changed owner (e.g. bribe) */
-  punit->paradropped = FALSE;
-
-  if( is_barbarian(pplayer) )
-    punit->fuel = BARBARIAN_LIFE;
-
-  /* ditto for connecting units */
-  punit->connecting = FALSE;
-
-  punit->transported_by = -1;
-  punit->pgr = NULL;
 
   if (map_has_special(x, y, S_FORTRESS)
-      && unit_profits_of_watchtower(punit))
+      && unit_profits_of_watchtower(punit)) {
     unfog_area(pplayer, punit->x, punit->y, get_watchtower_vision(punit));
-  else
+  } else {
     unfog_area(pplayer, x, y, unit_type(punit)->vision_range);
+  }
 
   send_unit_info(NULL, punit);
   maybe_make_contact(x, y, unit_owner(punit));
@@ -1646,21 +1614,12 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
 
   /* The unit may have changed the available tiles in nearby cities. */
   map_city_radius_iterate(x, y, x1, y1) {
-    struct city *pcity = map_get_city(x1, y1);
-    if (pcity) {
-      update_city_tile_status_map(pcity, x, y);
+    struct city *acity = map_get_city(x1, y1);
+
+    if (acity) {
+      update_city_tile_status_map(acity, x, y);
     }
   } map_city_radius_iterate_end;
-
-  /* Refresh the unit's homecity. */
-  {
-    struct city *pcity = find_city_by_id(homecity_id);
-    if (pcity) {
-      assert(city_owner(pcity) == pplayer);
-      city_refresh(pcity);
-      send_city_info(pplayer, pcity);
-    }
-  }
 
   sync_cities();
 
@@ -1687,12 +1646,6 @@ static void server_remove_unit(struct unit *punit)
   }
 
   remove_unit_sight_points(punit);
-
-  if (punit->pgr) {
-    free(punit->pgr->pos);
-    free(punit->pgr);
-    punit->pgr = NULL;
-  }
 
   packet.value = punit->id;
   players_iterate(pplayer) {

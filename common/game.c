@@ -580,9 +580,8 @@ struct unit *find_unit_by_id(int id)
   return idex_lookup_unit(id);
 }
 
-
 /**************************************************************************
-If in the server use wipe_unit().
+  In the server call wipe_unit(), and never this function directly.
 **************************************************************************/
 void game_remove_unit(struct unit *punit)
 {
@@ -594,8 +593,9 @@ void game_remove_unit(struct unit *punit)
 	  unit_name(punit->type), punit->x, punit->y, punit->homecity);
 
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
-  if (pcity)
+  if (pcity) {
     unit_list_unlink(&pcity->units_supported, punit);
+  }
 
   if (pcity) {
     freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
@@ -608,9 +608,10 @@ void game_remove_unit(struct unit *punit)
 
   idex_unregister_unit(punit);
 
-  if (is_server)
+  if (is_server) {
     dealloc_id(punit->id);
-  free(punit);
+  }
+  destroy_unit_virtual(punit);
 }
 
 /**************************************************************************

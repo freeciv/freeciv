@@ -81,12 +81,9 @@ static int reports_thaw_requests_size = 0;
 static void unpackage_unit(struct unit *punit, struct packet_unit_info *packet)
 {
   punit->id = packet->id;
-  punit->owner = packet->owner;
   punit->x = packet->x;
   punit->y = packet->y;
   punit->homecity = packet->homecity;
-  punit->veteran = packet->veteran;
-  punit->type = packet->type;
   punit->moves_left = packet->movesleft;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
@@ -102,14 +99,6 @@ static void unpackage_unit(struct unit *punit, struct packet_unit_info *packet)
   punit->activity_target = packet->activity_target;
   punit->paradropped = packet->paradropped;
   punit->connecting = packet->connecting;
-  /* not in packet, only in unit struct */
-  punit->focus_status = FOCUS_AVAIL;
-  punit->bribe_cost = 0;	/* done by handle_incite_cost() */
-  punit->foul = FALSE;		/* never used in client/ */
-  punit->ord_map = 0;		/* never used in client/ */
-  punit->ord_city = 0;		/* never used in client/ */
-  punit->moved = FALSE;		/* never used in client/ */
-  punit->transported_by = 0;	/* never used in client/ */
 }
 
 /**************************************************************************
@@ -1057,18 +1046,19 @@ void handle_unit_info(struct packet_unit_info *packet)
       refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
     }
     agents_unit_changed(punit);
-  }
-
-  else {      /* create new unit */
-    punit=fc_malloc(sizeof(struct unit));
+  } else {
+    /* create new unit */
+    punit = create_unit_virtual(get_player(packet->owner), NULL,
+                                packet->type, packet->veteran);
     unpackage_unit(punit, packet);
     idex_register_unit(punit);
 
     unit_list_insert(&get_player(packet->owner)->units, punit);
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
-    if((pcity=find_city_by_id(punit->homecity)))
+    if((pcity=find_city_by_id(punit->homecity))) {
       unit_list_insert(&pcity->units_supported, punit);
+    }
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
 	   get_nation_name(unit_owner(punit)->nation),

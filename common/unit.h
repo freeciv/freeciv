@@ -21,6 +21,8 @@ struct city;
 struct goto_route;
 struct tile;
 
+#define BARBARIAN_LIFE    5
+
 enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE,
   ACTIVITY_IRRIGATE, ACTIVITY_FORTIFIED, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
@@ -261,5 +263,9 @@ bool unit_type_really_ignores_zoc(Unit_Type_id type);
 bool zoc_ok_move(struct unit *punit, int x, int y);
 
 bool is_build_or_clean_activity(enum unit_activity activity);
+
+struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
+                                 Unit_Type_id type, bool make_veteran);
+void destroy_unit_virtual(struct unit *punit);
 
 #endif  /* FC__UNIT_H */

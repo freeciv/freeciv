@@ -39,9 +39,6 @@ enum bodyguard_enum {
 
 int military_amortize(struct player *pplayer, struct city *pcity, 
                       int value, int delay, int build_cost);
-struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
-                                 Unit_Type_id type, bool make_veteran);
-void destroy_unit_virtual(struct unit *punit);
 int stack_cost(struct unit *pdef);
 
 bool ai_unit_gothere(struct unit *punit);

@@ -21,6 +21,7 @@
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 #include "player.h"
 #include "shared.h"
 #include "support.h"
@@ -1403,4 +1404,74 @@ bool is_build_or_clean_activity(enum unit_activity activity)
   default:
     return FALSE;
   }
+}
+
+/**************************************************************************
+  Create a virtual unit skeleton. pcity can be NULL, but then you need
+  to set x, y and homecity yourself.
+**************************************************************************/
+struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
+                                 Unit_Type_id type, bool make_veteran)
+{
+  struct unit *punit = fc_calloc(1, sizeof(struct unit));
+
+  punit->type = type;
+  punit->owner = pplayer->player_no;
+  if (pcity) {
+    CHECK_MAP_POS(pcity->x, pcity->y);
+    punit->x = pcity->x;
+    punit->y = pcity->y;
+    punit->homecity = pcity->id;
+  } else {
+    punit->x = -1;
+    punit->y = -1;
+    punit->homecity = 0;
+  }
+  punit->goto_dest_x = 0;
+  punit->goto_dest_y = 0;
+  punit->veteran = make_veteran;
+  punit->upkeep = 0;
+  punit->upkeep_food = 0;
+  punit->upkeep_gold = 0;
+  punit->unhappiness = 0;
+  /* A unit new and fresh ... */
+  punit->foul = FALSE;
+  punit->fuel = unit_type(punit)->fuel;
+  punit->hp = unit_type(punit)->hp;
+  punit->moves_left = unit_move_rate(punit);
+  punit->moved = FALSE;
+  punit->paradropped = FALSE;
+  punit->connecting = FALSE;
+  if (is_barbarian(pplayer)) {
+    punit->fuel = BARBARIAN_LIFE;
+  }
+  punit->ai.control = FALSE;
+  punit->ai.ai_role = AIUNIT_NONE;
+  punit->ai.ferryboat = 0;
+  punit->ai.passenger = 0;
+  punit->ai.bodyguard = 0;
+  punit->ai.charge = 0;
+  punit->bribe_cost = -1; /* flag value */
+  punit->transported_by = -1;
+  punit->pgr = NULL;
+  punit->focus_status = FOCUS_AVAIL;
+  punit->ord_map = 0;
+  punit->ord_city = 0;
+  set_unit_activity(punit, ACTIVITY_IDLE);
+
+  return punit;
+}
+
+/**************************************************************************
+  Free the memory used by virtual unit. By the time this function is
+  called, you should already have unregistered it everywhere.
+**************************************************************************/
+void destroy_unit_virtual(struct unit *punit)
+{
+  if (punit->pgr) {
+    free(punit->pgr->pos);
+    free(punit->pgr);
+    punit->pgr = NULL;
+  }
+  free(punit);
 }
