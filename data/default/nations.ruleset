@@ -890,8 +890,8 @@ name=_("Dutch")
 plural=_("?plural:Dutch")
 leader="Willem", "Beatrix"
 leader_sex="Male", "Female"
-flag="f.holland"
-flag_alt = "-"
+flag="f.netherlands"
+flag_alt = "f.holland"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
