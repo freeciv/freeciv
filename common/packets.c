@@ -185,7 +185,7 @@ return a NULL packet even if everything is OK (receive_packet_goto_route).
 void *get_packet_from_connection(struct connection *pc,
 				 enum packet_type *ptype, bool * presult)
 {
-  int len;
+  int len, itype;
   enum packet_type type;
   struct data_in din;
 
@@ -199,7 +199,8 @@ void *get_packet_from_connection(struct connection *pc,
 
   dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
   dio_get_uint16(&din, &len);
-  dio_get_uint8(&din, (int *) &type);
+  dio_get_uint8(&din, &itype);
+  type = itype;
 
   if(pc->first_packet) {
     /* the first packet better be short: */
@@ -2890,7 +2891,7 @@ if the received piece isn't the last one.
 struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
 {
   struct data_in din;
-  int i, num_valid = 0;
+  int i, num_valid = 0, itype;
   enum packet_goto_route_type type;
   struct map_position pos[GOTO_CHUNK];
   struct map_position *pos2;
@@ -2901,7 +2902,8 @@ struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
   dio_get_uint16(&din, NULL);
   dio_get_uint8(&din, NULL);
 
-  dio_get_uint8(&din, (int *)&type);
+  dio_get_uint8(&din, &itype);
+  type = itype;
   for (i = 0; i < GOTO_CHUNK; i++) {
     dio_get_uint8(&din, &pos[i].x);
     dio_get_uint8(&din, &pos[i].y);
