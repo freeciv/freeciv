@@ -111,9 +111,6 @@ options="1.9"
 *include "nation/slovenian.ruleset"
 *include "nation/serbian.ruleset"
 
-;*include "nation/olympic.ruleset"
-;*include "nation/krevi.ruleset"
-
 ;
 ; barbarians MUST go last
 ;
