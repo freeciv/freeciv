@@ -106,6 +106,14 @@ enum sset_to_client {
 struct settings_s {
   char *name;
   int *value;
+  /* if the function is non-NULL the value should be modified through it.
+     The function returns whether the change was legal. The char * is
+     for returning an error message in the case of reject. */
+  int (*func_change)(int, char *);
+  /* The same, just for string settings. The first char* is the new
+     value as an argument, the second is for returning the error
+     message. */
+  int (*func_change_s)(char *, char *);
   enum sset_class sclass;
   enum sset_to_client to_client;
   int min_value, max_value, default_value;
@@ -130,6 +138,8 @@ struct settings_s {
   size_t sz_svalue;		/* max size we can write into svalue */
 };
 
+static int autotoggle(int value, char *reject_message);
+
 #define SETTING_IS_INT(s) ((s)->value!=NULL)
 #define SETTING_IS_STRING(s) ((s)->value==NULL)
 
@@ -138,12 +148,12 @@ static struct settings_s settings[] = {
   /* These should be grouped by sclass */
   
 /* Map size parameters: adjustable if we don't yet have a map */  
-  { "xsize", &map.xsize,
+  { "xsize", &map.xsize, NULL, NULL,
     SSET_MAP_SIZE, SSET_TO_CLIENT,
     MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH,
     N_("Map width in squares"), "" },
   
-  { "ysize", &map.ysize,
+  { "ysize", &map.ysize, NULL, NULL,
     SSET_MAP_SIZE, SSET_TO_CLIENT,
     MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT,
     N_("Map height in squares"), "" }, 
@@ -151,7 +161,7 @@ static struct settings_s settings[] = {
 /* Map generation parameters: once we have a map these are of historical
  * interest only, and cannot be changed.
  */
-  { "generator", &map.generator, 
+  { "generator", &map.generator, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR,
     N_("Method used to generate map"),
@@ -166,44 +176,44 @@ static struct settings_s settings[] = {
        "Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
        "(Zero indicates a scenario map.)") },
 
-  { "landmass", &map.landpercent,
+  { "landmass", &map.landpercent, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS,
     N_("Amount of land vs ocean"), "" },
 
-  { "mountains", &map.mountains,
+  { "mountains", &map.mountains, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS,
     N_("Amount of hills/mountains"),
     N_("Small values give flat maps, higher values give more "
        "hills and mountains.")},
 
-  { "rivers", &map.riverlength, 
+  { "rivers", &map.riverlength, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS,
     N_("Amount of river squares"), "" },
 
-  { "grass", &map.grasssize, 
+  { "grass", &map.grasssize, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_GRASS, MAP_MAX_GRASS, MAP_DEFAULT_GRASS,
     N_("Amount of grass squares"), "" },
 
-  { "forests", &map.forestsize, 
+  { "forests", &map.forestsize, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS,
     N_("Amount of forest squares"), "" },
 
-  { "swamps", &map.swampsize, 
+  { "swamps", &map.swampsize, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS,
     N_("Amount of swamp squares"), "" },
     
-  { "deserts", &map.deserts, 
+  { "deserts", &map.deserts, NULL, NULL,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS,
     N_("Amount of desert squares"), "" },
 
-  { "seed", &map.seed, 
+  { "seed", &map.seed, NULL, NULL,
     SSET_MAP_GEN, SSET_SERVER_ONLY,
     MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED,
     N_("Map generation random seed"),
@@ -216,20 +226,20 @@ static struct settings_s settings[] = {
  * These are done when the game starts, so these are historical and
  * fixed after the game has started.
  */
-  { "randseed", &game.randseed, 
+  { "randseed", &game.randseed, NULL, NULL,
     SSET_MAP_ADD, SSET_SERVER_ONLY,
     GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED,
     N_("General random seed"),
     N_("For zero (the default) a seed will be chosen based on the time.") },
 
-  { "specials", &map.riches, 
+  { "specials", &map.riches, NULL, NULL,
     SSET_MAP_ADD, SSET_TO_CLIENT,
     MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES,
     N_("Amount of \"special\" resource squares"), 
     N_("Special resources improve the basic terrain type they are on.  " 
        "The server variable's scale is parts per thousand.") },
 
-  { "huts", &map.huts, 
+  { "huts", &map.huts, NULL, NULL,
     SSET_MAP_ADD, SSET_TO_CLIENT,
     MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS,
     N_("Amount of huts (minor tribe villages)"), "" },
@@ -239,21 +249,21 @@ static struct settings_s settings[] = {
  * (Actually, minplayers does also affect reloads: you can't start a
  * reload game until enough players have connected (or are AI).)
  */
-  { "minplayers", &game.min_players,
+  { "minplayers", &game.min_players, NULL, NULL,
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS,
     N_("Minimum number of players"),
     N_("There must be at least this many players (connected players or AI's) "
        "before the game can start.") },
   
-  { "maxplayers", &game.max_players,
+  { "maxplayers", &game.max_players, NULL, NULL,
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS,
     N_("Maximum number of players"),
     N_("For new games, the game will start automatically if/when this "
        "number of players are connected or (for AI's) created.") },
 
-  { "aifill", &game.aifill, 
+  { "aifill", &game.aifill, NULL, NULL,
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL,
     N_("Number of players to fill to with AI's"),
@@ -264,35 +274,35 @@ static struct settings_s settings[] = {
 /* Game initialization parameters (only affect the first start of the game,
  * and not reloads).  Can not be changed after first start of game.
  */
-  { "settlers", &game.settlers,
+  { "settlers", &game.settlers, NULL, NULL,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS,
     N_("Number of initial settlers per player"), "" },
 
-  { "explorer", &game.explorer,
+  { "explorer", &game.explorer, NULL, NULL,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER,
     N_("Number of initial explorers per player"), "" },
 
-  { "dispersion", &game.dispersion,
+  { "dispersion", &game.dispersion, NULL, NULL,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_DISPERSION, GAME_MAX_DISPERSION, GAME_DEFAULT_DISPERSION,
     N_("Area where initial units are located"),
     N_("This is half the length of a side of the square within "
        "which the initial units are dispersed.") },
 
-  { "gold", &game.gold,
+  { "gold", &game.gold, NULL, NULL,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD,
     N_("Starting gold per player"), "" },
 
-  { "techlevel", &game.tech, 
+  { "techlevel", &game.tech, NULL, NULL,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL,
     N_("Number of initial advances per player"), "" },
 
 /* Various rules: these cannot be changed once the game has started. */
-  { "techs", NULL,
+  { "techs", NULL, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing techs.ruleset"),
@@ -304,7 +314,7 @@ static struct settings_s settings[] = {
     game.ruleset.techs, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.techs) },
 
-  { "governments", NULL,
+  { "governments", NULL, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing governments.ruleset"),
@@ -316,7 +326,7 @@ static struct settings_s settings[] = {
     game.ruleset.governments, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.governments) },
 
-  { "units", NULL,
+  { "units", NULL, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing units.ruleset"),
@@ -328,7 +338,7 @@ static struct settings_s settings[] = {
     game.ruleset.units, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.units) },
 
-  { "buildings", NULL,
+  { "buildings", NULL, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing buildings.ruleset"),
@@ -340,7 +350,7 @@ static struct settings_s settings[] = {
     game.ruleset.buildings, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.buildings) },
 
-  { "terrain", NULL,
+  { "terrain", NULL, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing terrain.ruleset"),
@@ -352,7 +362,7 @@ static struct settings_s settings[] = {
     game.ruleset.terrain, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.terrain) },
 
-  { "nations", NULL,
+  { "nations", NULL, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing nations.ruleset"),
@@ -364,7 +374,7 @@ static struct settings_s settings[] = {
     game.ruleset.nations, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.nations) },
 
-  { "cities", NULL,
+  { "cities", NULL, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing cities.ruleset"),
@@ -375,7 +385,7 @@ static struct settings_s settings[] = {
     game.ruleset.cities, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.cities) },
 
-  { "game", NULL,
+  { "game", NULL, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing game.ruleset"),
@@ -386,13 +396,13 @@ static struct settings_s settings[] = {
     game.ruleset.game, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.game) },
 
-  { "researchspeed", &game.techlevel,
+  { "researchspeed", &game.techlevel, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,
     N_("Points required to gain a new advance"),
     N_("This affects how quickly players can research new technology.") },
 
-  { "techpenalty", &game.techpenalty,
+  { "techpenalty", &game.techpenalty, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY,
     N_("Percentage penalty when changing tech"),
@@ -401,7 +411,7 @@ static struct settings_s settings[] = {
        "research points.  This does not apply if you have just gained "
        "tech this turn.") },
 
-  { "diplcost", &game.diplcost,
+  { "diplcost", &game.diplcost, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST,
     N_("Penalty when getting tech from treaty"),
@@ -410,7 +420,7 @@ static struct settings_s settings[] = {
        "research an new advance.  "
        "You can end up with negative research points if this is non-zero.") },
 
-  { "conquercost", &game.conquercost,
+  { "conquercost", &game.conquercost, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST, GAME_DEFAULT_CONQUERCOST,
     N_("Penalty when getting tech from conquering"),
@@ -419,7 +429,7 @@ static struct settings_s settings[] = {
        "to research an new advance.  "
        "You can end up with negative research points if this is non-zero.") },
   
-  { "freecost", &game.freecost,
+  { "freecost", &game.freecost, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST,
     N_("Penalty when getting a free tech"),
@@ -429,12 +439,12 @@ static struct settings_s settings[] = {
        "percentage of the cost to research a new advance.  "
        "You can end up with negative research points if this is non-zero.") },
 
-  { "foodbox", &game.foodbox, 
+  { "foodbox", &game.foodbox, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX,
     N_("Food required for a city to grow"), "" },
 
-  { "aqueductloss", &game.aqueductloss,
+  { "aqueductloss", &game.aqueductloss, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS,
     N_("Percentage food lost when need aqueduct"),
@@ -442,7 +452,7 @@ static struct settings_s settings[] = {
        "(or Sewer System), it loses this percentage of its foodbox "
        "(or half that amount if it has a Granary).") },
   
-  { "unhappysize", &game.unhappysize,
+  { "unhappysize", &game.unhappysize, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE,
     N_("City size before people become unhappy"),
@@ -450,7 +460,7 @@ static struct settings_s settings[] = {
        "city are content, and subsequent citizens are unhappy.  "
        "See also cityfactor.") },
 
-  { "cityfactor", &game.cityfactor,
+  { "cityfactor", &game.cityfactor, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR,
     N_("Number of cities for higher unhappiness"),
@@ -460,14 +470,14 @@ static struct settings_s settings[] = {
        "Democracy; for other governments the effect occurs at "
        "smaller numbers of cities.") },
 
-  { "razechance", &game.razechance,
+  { "razechance", &game.razechance, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE,
     N_("Chance for conquered building destruction"),
     N_("When a player conquers a city, each City Improvement has this "
        "percentage chance to be destroyed.") },
 
-  { "civstyle", &game.civstyle,
+  { "civstyle", &game.civstyle, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE,
     N_("Style of Civ rules"),
@@ -476,7 +486,7 @@ static struct settings_s settings[] = {
        "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
        "See also README.rulesets.") },
 
-  { "occupychance", &game.occupychance,
+  { "occupychance", &game.occupychance, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, GAME_DEFAULT_OCCUPYCHANCE,
     N_("Chance of moving into tile after attack"),
@@ -486,7 +496,7 @@ static struct settings_s settings[] = {
        "in the tile).  If set to a value between 0 and 100, this will be used "
        "as the percent chance of \"occupying\" territory.") },
 
-  { "killcitizen", &game.killcitizen,
+  { "killcitizen", &game.killcitizen, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN, GAME_DEFAULT_KILLCITIZEN,
     N_("Reduce city population after attack"),
@@ -510,7 +520,7 @@ static struct settings_s settings[] = {
  *      packet_game_info) should probably not be flexible, or at
  *      least need extra care to be flexible.
  */
-  { "barbarians", &game.barbarianrate,
+  { "barbarians", &game.barbarianrate, NULL, NULL,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_BARBARIANRATE, GAME_MAX_BARBARIANRATE, GAME_DEFAULT_BARBARIANRATE,
     N_("Barbarian appearance frequency"),
@@ -520,13 +530,13 @@ static struct settings_s settings[] = {
     "3 - frequent barbarian uprising \n"
     "4 - raging hordes, lots of barbarians") },
 
-  { "onsetbarbs", &game.onsetbarbarian,
+  { "onsetbarbs", &game.onsetbarbarian, NULL, NULL,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, GAME_DEFAULT_ONSETBARBARIAN,
     N_("Barbarian onset year"),
     N_("Barbarians will not appear before this year.") },
 
-  { "fogofwar", &game.fogofwar,
+  { "fogofwar", &game.fogofwar, NULL, NULL,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_FOGOFWAR, GAME_MAX_FOGOFWAR, GAME_DEFAULT_FOGOFWAR,
     N_("Whether to enable fog of war"),
@@ -534,7 +544,7 @@ static struct settings_s settings[] = {
        "of your own units and cities will be revealed to you. You will not see "
        "new cities or terrain changes in squares not observed.") },
 
-  { "diplchance", &game.diplchance,
+  { "diplchance", &game.diplchance, NULL, NULL,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE,
     N_("Chance in diplomat/spy contests"),
@@ -546,13 +556,13 @@ static struct settings_s settings[] = {
        "Defending Spys are generally twice as capable as Diplomats, "
        "veteran units 50% more capable than non-veteran ones.") },
 
-  { "spacerace", &game.spacerace,
+  { "spacerace", &game.spacerace, NULL, NULL,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_SPACERACE, GAME_MAX_SPACERACE, GAME_DEFAULT_SPACERACE,
     N_("Whether to allow space race"),
     N_("If this option is 1, players can build spaceships.") },
 
-  { "civilwarsize", &game.civilwarsize,
+  { "civilwarsize", &game.civilwarsize, NULL, NULL,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, GAME_DEFAULT_CIVILWARSIZE,
     N_("Minimum number of cities for civil war"),
@@ -567,7 +577,7 @@ static struct settings_s settings[] = {
  * affect what happens in the game, it just determines when the
  * players stop playing and look at the score.)
  */
-  { "allowconnect", NULL,
+  { "allowconnect", NULL, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 0, 0,
     N_("What connections are allowed"),
@@ -599,7 +609,7 @@ static struct settings_s settings[] = {
     game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT,
     sizeof(game.allow_connect) },
 
-  { "autotoggle", &game.auto_ai_toggle,
+  { "autotoggle", &game.auto_ai_toggle, autotoggle, NULL,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_AUTO_AI_TOGGLE, GAME_MAX_AUTO_AI_TOGGLE,
     GAME_DEFAULT_AUTO_AI_TOGGLE,
@@ -607,19 +617,19 @@ static struct settings_s settings[] = {
     N_("If this is set to 1, AI status is turned off when a player "
        "connects, and on when a player disconnects.") },
 
-  { "endyear", &game.end_year,
+  { "endyear", &game.end_year, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR,
     N_("Year the game ends"), "" },
 
-  { "timeout", &game.timeout,
+  { "timeout", &game.timeout, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT,
     N_("Maximum seconds per turn"),
     N_("If all players have not hit \"Turn Done\" before this time is up, "
        "then the turn ends automatically.  Zero means there is no timeout.") },
 
-  { "tcptimeout", &game.tcptimeout,
+  { "tcptimeout", &game.tcptimeout, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_TCPTIMEOUT, GAME_MAX_TCPTIMEOUT, GAME_DEFAULT_TCPTIMEOUT,
     N_("Seconds to let a client connection block"),
@@ -627,7 +637,7 @@ static struct settings_s settings[] = {
        "then the TCP connection is closed. Zero means there is no timeout "
        "beyond that enforced by the TCP protocol implementation itself.") },
 
-  { "netwait", &game.netwait,
+  { "netwait", &game.netwait, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_NETWAIT, GAME_MAX_NETWAIT, GAME_DEFAULT_NETWAIT,
     N_("Max seconds for TCP buffers to drain"),
@@ -635,21 +645,21 @@ static struct settings_s settings[] = {
        "seconds, for all client connection TCP buffers to unblock. Zero means "
        "the server will not wait at all.") },
 
-  { "turnblock", &game.turnblock,
+  { "turnblock", &game.turnblock, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 1, 0,
     N_("Turn-blocking game play mode"),
     N_("If this is set to 1 the game turn is not advanced until all players "
        "have finished their turn, including disconnected players.") },
 
-  { "fixedlength", &game.fixedlength,
+  { "fixedlength", &game.fixedlength, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 1, 0,
     N_("Fixed-length turns play mode"),
     N_("If this is set to 1 the game turn will not advance until the timeout "
        "has expired, irrespective of players clicking on \"Turn Done\".") },
 
-  { "demography", NULL,
+  { "demography", NULL, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 0, 0,
     N_("What is in the Demographics report"),
@@ -669,7 +679,7 @@ static struct settings_s settings[] = {
     game.demography, GAME_DEFAULT_DEMOGRAPHY,
     sizeof(game.demography) },
 
-  { "saveturns", &game.save_nturns,
+  { "saveturns", &game.save_nturns, NULL, NULL,
     SSET_META, SSET_SERVER_ONLY,
     0, 200, 10,
     N_("Turns per auto-save"),
@@ -679,7 +689,7 @@ static struct settings_s settings[] = {
   /* Could undef entire option if !HAVE_LIBZ, but this way users get to see
    * what they're missing out on if they didn't compile with zlib?  --dwp
    */
-  { "compress", &game.save_compress_level,
+  { "compress", &game.save_compress_level, NULL, NULL,
     SSET_META, SSET_SERVER_ONLY,
 #ifdef HAVE_LIBZ
     GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
@@ -692,7 +702,7 @@ static struct settings_s settings[] = {
        "Larger values will give better compression but take longer.  If the "
        "maximum is zero this server was not compiled to use zlib.") },
 
-  { "savename", NULL,
+  { "savename", NULL, NULL, NULL,
     SSET_META, SSET_SERVER_ONLY,
     0, 0, 0,
     N_("Auto-save name prefix"),
@@ -701,7 +711,7 @@ static struct settings_s settings[] = {
     game.save_name, GAME_DEFAULT_SAVE_NAME,
     sizeof(game.save_name) },
 
-  { "scorelog", &game.scorelog,
+  { "scorelog", &game.scorelog, NULL, NULL,
     SSET_META, SSET_SERVER_ONLY,
     GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG,
     N_("Whether to log player statistics"),
@@ -709,7 +719,7 @@ static struct settings_s settings[] = {
        "\"civscore.log\" every turn.  These statistics can be used to "
        "create power graphs after the game.") },
 
-  { "gamelog", &gamelog_level,
+  { "gamelog", &gamelog_level, NULL, NULL,
     SSET_META, SSET_SERVER_ONLY,
     0, 40, 20,
     N_("Detail level for logging game events"),
@@ -718,7 +728,7 @@ static struct settings_s settings[] = {
        "Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
        "40=debuging logging.") },
 
-  { NULL, NULL,
+  { NULL, NULL, NULL, NULL,
     SSET_LAST, SSET_SERVER_ONLY,
     0, 0, 0,
     NULL, NULL }
@@ -2501,34 +2511,47 @@ static void set_command(struct connection *caller, char *str)
   if (SETTING_IS_INT(op)) {
     val = atoi(arg);
     if (val >= op->min_value && val <= op->max_value) {
-      *(op->value) = val;
-      cmd_reply(CMD_SET, caller, C_OK, _("Option: %s has been set to %d."), 
-		settings[cmd].name, val);
-      if (sset_is_to_client(cmd)) {
-	notify_player(0, _("Option: %s has been set to %d."), 
-		      settings[cmd].name, val);
-	/* canonify map generator settings( all of which are int ) */
-	adjust_terrain_param();
-	/* send any modified game parameters to the clients --
-	   if sent before RUN_GAME_STATE, triggers a popdown_races_dialog()
-	   call in client/packhand.c#handle_game_info() */
-	if (server_state==RUN_GAME_STATE)
-	  send_game_info(0);
+      char *reject_message = NULL;
+      if (!settings[cmd].func_change || settings[cmd].func_change(val, reject_message)) {
+	*(op->value) = val;
+	cmd_reply(CMD_SET, caller, C_OK, _("Option: %s has been set to %d."), 
+		  settings[cmd].name, val);
+	if (sset_is_to_client(cmd)) {
+	  notify_player(0, _("Option: %s has been set to %d."), 
+			settings[cmd].name, val);
+	  /* canonify map generator settings( all of which are int ) */
+	  adjust_terrain_param();
+	  /* send any modified game parameters to the clients --
+	     if sent before RUN_GAME_STATE, triggers a popdown_races_dialog()
+	     call in client/packhand.c#handle_game_info() */
+	  if (server_state==RUN_GAME_STATE)
+	    send_game_info(0);
+	}
+      } else { /* check function returned an error */
+	cmd_reply(CMD_SET, caller, C_SYNTAX,
+		  reject_message,
+		  op->min_value, op->max_value);
       }
-    } else {
+    } else { /* not in valid range */
       cmd_reply(CMD_SET, caller, C_SYNTAX,
 		_("Value out of range (minimum: %d, maximum: %d)."),
 		op->min_value, op->max_value);
     }
   } else {
     if (strlen(arg)<op->sz_svalue) {
-      strcpy(op->svalue, arg);
-      cmd_reply(CMD_SET, caller, C_OK,
-		_("Option: %s has been set to \"%s\"."),
-		op->name, op->svalue);
-      if (sset_is_to_client(cmd)) {
-	notify_player(0, _("Option: %s has been set to \"%s\"."), 
-		      op->name, op->svalue);
+      char *reject_message = NULL;
+      if (!settings[cmd].func_change_s
+	  || settings[cmd].func_change_s(arg, reject_message)) {
+	strcpy(op->svalue, arg);
+	cmd_reply(CMD_SET, caller, C_OK,
+		  _("Option: %s has been set to \"%s\"."),
+		  op->name, op->svalue);
+	if (sset_is_to_client(cmd)) {
+	  notify_player(0, _("Option: %s has been set to \"%s\"."), 
+			op->name, op->svalue);
+	}
+      } else { /* func_change_s barked. */
+	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
       }
     } else {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
@@ -3148,6 +3171,21 @@ static void show_connections(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
+static int autotoggle(int value, char *reject_message)
+{
+  if (value == 0)
+    return 1;
+
+  players_iterate(pplayer) {
+    if (!pplayer->ai.control
+	&& !pplayer->is_connected) {
+      toggle_ai_player_direct(NULL, pplayer);
+    }
+  } players_iterate_end;
+
+  reject_message = NULL; /* we should modify this, but since we cannot fail... */
+  return 1;
+}
 
 #ifdef HAVE_LIBREADLINE
 /********************* RL completion functions ***************************/
