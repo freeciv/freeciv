@@ -167,6 +167,8 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   
   gtk_container_border_width( GTK_CONTAINER(GTK_DIALOG(notify_dialog_shell)->vbox), 5 );
 
+  gtk_widget_realize (notify_dialog_shell);
+
   notify_headline = gtk_label_new( headline);   
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->vbox ),
 	notify_headline, FALSE, FALSE, 0 );
