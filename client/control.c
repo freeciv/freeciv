@@ -663,9 +663,14 @@ void request_unit_airlift(struct unit *punit, struct city *pcity)
 **************************************************************************/
 void request_unit_return(struct unit *punit)
 {
-  struct pf_path *path = path_to_nearest_allied_city(punit);
+  struct pf_path *path;
 
-  if (path) {
+  if (is_air_unit(punit) || is_heli_unit(punit)) {
+    /* PF doesn't support air or helicopter units yet. */
+    return;
+  }
+
+  if ((path = path_to_nearest_allied_city(punit))) {
     send_goto_path(punit, path);
     pf_destroy_path(path);
   }

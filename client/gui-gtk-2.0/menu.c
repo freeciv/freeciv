@@ -1169,6 +1169,8 @@ void update_menus(void)
                           can_unit_do_connect(punit, ACTIVITY_IDLE));
       menus_set_sensitive("<main>/_Orders/Patrol (_Q)",
                           can_unit_do_activity(punit, ACTIVITY_PATROL));
+      menus_set_sensitive("<main>/_Orders/Return to nearest city",
+			  !(is_air_unit(punit) || is_heli_unit(punit)));
       menus_set_sensitive("<main>/_Orders/Diplomat\\/Spy Actions",
                           (is_diplomat_unit(punit)
                            && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
