@@ -2976,26 +2976,37 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
       && pdesttile->terrain == T_OCEAN)
     transport_units = 0;
 
-  if (get_transporter_capacity(punit) && transport_units) {
-    assign_units_to_transporter(punit, take_from_land);
+  /* Make sure we don't accidentally insert units into a transporters list */
+  unit_list_iterate(pdesttile->units, pcargo) { 
+    if (pcargo->transported_by == punit->id)
+      pcargo->transported_by = -1;
+  } unit_list_iterate_end;
 
+  /* The way we first make a list of the units to be moved with a transporter
+     and then we insert them again. The way this is done makes sure that the
+     units stay in the same order. */
+  if (get_transporter_capacity(punit) && transport_units) {
+    struct unit_list cargo_units;
+
+    /* First make a list of the units to be moved. */
+    unit_list_init(&cargo_units);
+    assign_units_to_transporter(punit, take_from_land);
     unit_list_iterate(psrctile->units, pcargo) {
       if (pcargo->transported_by == punit->id) {
-	/* At this point the iterator has allready been advanced,
-	   so this is safe. */
 	unit_list_unlink(&psrctile->units, pcargo);
-	pcargo->x = dest_x;
-	pcargo->y = dest_y;
-	unit_list_insert(&pdesttile->units, pcargo);
-	send_unit_info_to_onlookers(0, pcargo, src_x, src_y);
-	handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
+	unit_list_insert(&cargo_units, pcargo);
       }
     } unit_list_iterate_end;
-  } else {
-    unit_list_iterate(pdesttile->units, pcargo) { 
-      if (pcargo->transported_by == punit->id)
-	pcargo->transported_by = -1;
+
+    /* Insert them again. */
+    unit_list_iterate(cargo_units, pcargo) {
+      pcargo->x = dest_x;
+      pcargo->y = dest_y;
+      unit_list_insert(&pdesttile->units, pcargo);
+      send_unit_info_to_onlookers(0, pcargo, src_x, src_y);
+      handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
+    unit_list_unlink_all(&cargo_units);
   }
 
   unit_list_unlink(&psrctile->units, punit);
