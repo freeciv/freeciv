@@ -936,8 +936,7 @@ static void update_unit_activity(struct unit *punit)
 	    notify_player_ex(unit_owner(punit2),
 			     punit2->x, punit2->y, E_UNIT_RELOCATED,
 			     _("Game: Moved your %s due to changing"
-			       " land to sea at (%d, %d)."),
-			     unit_name(punit2->type), punit2->x, punit2->y);
+			       " land to sea."), unit_name(punit2->type));
 	    (void) move_unit(punit2, x, y, TRUE, FALSE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
@@ -959,8 +958,7 @@ static void update_unit_activity(struct unit *punit)
 	    notify_player_ex(unit_owner(punit2),
 			     punit2->x, punit2->y, E_UNIT_RELOCATED,
 			     _("Game: Embarked your %s due to changing"
-			       " land to sea at (%d, %d)."),
-			     unit_name(punit2->type), punit2->x, punit2->y);
+			       " land to sea."), unit_name(punit2->type));
 	    (void) move_unit(punit2, x, y, TRUE, FALSE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
@@ -975,8 +973,7 @@ static void update_unit_activity(struct unit *punit)
 	notify_player_ex(unit_owner(punit2),
 			 punit2->x, punit2->y, E_UNIT_LOST,
 			 _("Game: Disbanded your %s due to changing"
-			   " land to sea at (%d, %d)."),
-			 unit_name(punit2->type), punit2->x, punit2->y);
+			   " land to sea."), unit_name(punit2->type));
 	wipe_unit_spec_safe(punit2, FALSE);
 	goto START;
       }
@@ -997,10 +994,9 @@ static void update_unit_activity(struct unit *punit)
 		    unit_owner(punit2)->name, unit_name(punit2->type),
 		    punit2->x, punit2->y);
 	    notify_player_ex(unit_owner(punit2),
-			  punit2->x, punit2->y, E_UNIT_RELOCATED,
-			  _("Game: Moved your %s due to changing"
-			    " sea to land at (%d, %d)."),
-			  unit_name(punit2->type), punit2->x, punit2->y);
+			     punit2->x, punit2->y, E_UNIT_RELOCATED,
+			     _("Game: Moved your %s due to changing"
+			       " sea to land."), unit_name(punit2->type));
 	    (void) move_unit(punit2, x, y, TRUE, TRUE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
@@ -1021,8 +1017,7 @@ static void update_unit_activity(struct unit *punit)
 	    notify_player_ex(unit_owner(punit2),
 			     punit2->x, punit2->y, E_UNIT_RELOCATED,
 			     _("Game: Docked your %s due to changing"
-			       " sea to land at (%d, %d)."),
-			     unit_name(punit2->type), punit2->x, punit2->y);
+			       " sea to land."), unit_name(punit2->type));
 	    (void) move_unit(punit2, x, y, TRUE, TRUE, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
@@ -1037,8 +1032,7 @@ static void update_unit_activity(struct unit *punit)
 	notify_player_ex(unit_owner(punit2),
 			 punit2->x, punit2->y, E_UNIT_LOST,
 			 _("Game: Disbanded your %s due to changing"
-			   " sea to land at (%d, %d)."),
-			 unit_name(punit2->type), punit2->x, punit2->y);
+			   " sea to land."), unit_name(punit2->type));
 	wipe_unit_spec_safe(punit2, FALSE);
 	goto START;
       }
@@ -1294,9 +1288,9 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 	    unit_owner(punit)->name, unit_name(punit->type),
 	    src_x, src_y, pcity->name);
     if (verbose) {
-      notify_player(unit_owner(punit),
-		    _("Game: Teleported your %s from (%d, %d) to %s."),
-		    unit_name(punit->type), src_x, src_y, pcity->name);
+      notify_player_ex(unit_owner(punit), pcity->x, pcity->y, E_NOEVENT,
+		       _("Game: Teleported your %s to %s."),
+		       unit_name(punit->type), pcity->name);
     }
 
     if (move_cost == -1)
@@ -1320,9 +1314,9 @@ void bounce_unit(struct unit *punit, bool verbose)
   } else {
     /* remove it */
     if (verbose) {
-      notify_player(unit_owner(punit),
-                    _("Game: Disbanded your %s at (%d, %d)."),
-                    unit_name(punit->type), punit->x, punit->y);
+      notify_player_ex(unit_owner(punit), punit->x, punit->y, E_NOEVENT,
+		       _("Game: Disbanded your %s."),
+		       unit_name(punit->type));
     }
     wipe_unit(punit);
   }
