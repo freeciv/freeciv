@@ -2883,7 +2883,9 @@ msgstr ""
 
 #: server/stdinhand.c:500
 msgid "Reduce city population after attack"
-msgstr "Verminderung der Bevölkerung nach einem Angriff"
+msgstr ""
+"Verminderung der Bevölkerung\n"
+"                                      nach einem Angriff"
 
 #: server/stdinhand.c:501
 msgid ""
