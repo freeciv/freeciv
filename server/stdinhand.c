@@ -106,11 +106,11 @@ struct settings_s {
   /* Validating function for integer settings.  If the function is non-NULL,
      it is called with the new value, and returns whether the change is
      legal.  The char * is an error message in the case of reject. */
-  int (*func_change)(int, char **);
+  bool (*func_change)(int, char **);
   /* The same, for string settings. The first char* is the new
      value as an argument, the second is for returning the error
      message. */
-  int (*func_change_s)(char *, char **);
+  bool (*func_change_s)(char *, char **);
   enum sset_class sclass;
   enum sset_to_client to_client;
   int min_value, max_value, default_value;
@@ -1296,7 +1296,7 @@ static const char *cmdname_accessor(int i) {
   (This is a trick to allow ambiguity to be handled in a flexible way
   without importing notify_player() messages inside this routine - rp)
 **************************************************************************/
-static enum command_id command_named(const char *token, int accept_ambiguity)
+static enum command_id command_named(const char *token, bool accept_ambiguity)
 {
   enum m_pre_result result;
   int ind;
@@ -2774,7 +2774,8 @@ static void set_command(struct connection *caller, char *str)
 **************************************************************************/
 static void cut_comment(char *str)
 {
-  int i, in_single_quotes = FALSE, in_double_quotes = FALSE;
+  int i;
+  bool in_single_quotes = FALSE, in_double_quotes = FALSE;
 
   freelog(LOG_DEBUG,"cut_comment(str='%s')",str);
 

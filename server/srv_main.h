@@ -51,7 +51,7 @@ void save_game(char *orig_filename);
 void pick_ai_player_name(Nation_Type_id nation, char *newname);
 
 void dealloc_id(int id);
-int is_id_allocated(int id);
+bool is_id_allocated(int id);
 void alloc_id(int id);
 int get_next_id_number(void);
 

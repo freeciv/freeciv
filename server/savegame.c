@@ -495,7 +495,8 @@ static void worklist_load(struct section_file *file,
 {
   char efpath[64];
   char idpath[64];
-  int i, end = FALSE;
+  int i;
+  bool end = FALSE;
 
   sz_strlcpy(efpath, path);
   sz_strlcat(efpath, ".wlef%d");
@@ -534,7 +535,8 @@ static void worklist_load_old(struct section_file *file,
 			      char *path, int plrno, int wlinx,
 			      struct worklist *pwl)
 {
-  int i, id, end = FALSE;
+  int i, id;
+  bool end = FALSE;
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     if (end) {
@@ -852,7 +854,8 @@ static void player_load(struct player *plr, int plrno,
 			  city_map_to_map(&map_x, &map_y, pcity, x, y) ?
 			  C_TILE_EMPTY : C_TILE_UNAVAILABLE);
 	} else if (*p=='1') {
-	  int map_x, map_y, is_real;
+	  int map_x, map_y;
+	  bool is_real;
 
 	  is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
 	  assert(is_real);
@@ -1654,7 +1657,7 @@ Old savegames have defects...
 static void check_city(struct city *pcity)
 {
   city_map_iterate(x, y) {
-    int res = city_can_work_tile(pcity, x, y);
+    bool res = city_can_work_tile(pcity, x, y);
     switch (pcity->city_map[x][y]) {
     case C_TILE_EMPTY:
       if (!res) {
@@ -1664,7 +1667,8 @@ static void check_city(struct city *pcity)
       break;
     case C_TILE_WORKER:
       if (!res) {
-	int map_x, map_y, is_real;
+	int map_x, map_y;
+	bool is_real;
 
 	pcity->ppl_elvis++;
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);

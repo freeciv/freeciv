@@ -573,7 +573,7 @@ void dealloc_id(int id)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_id_allocated(int id)
+bool is_id_allocated(int id)
 {
   return TEST_BIT(used_ids[id / 8], id % 8);
 }

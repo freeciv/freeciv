@@ -642,7 +642,7 @@ Calculate the attractiveness
 static int road_bonus(int x, int y, int spc)
 {
   int m = 0, k;
-  int rd[12], te[12];
+  bool rd[12], te[12];
   int ii[12] = { -1, 0, 1, -1, 1, -1, 0, 1, 0, -2, 2, 0 };
   int jj[12] = { -1, -1, -1, 0, 0, 1, 1, 1, -2, 0, 0, 2 };
   struct tile *ptile;
@@ -850,12 +850,12 @@ struct unit *other_passengers(struct unit *punit)
 ...
 **************************************************************************/
 static void consider_settler_action(struct player *pplayer, enum unit_activity act,
-				    int extra, int newv, int oldv, int in_use,
+				    int extra, int newv, int oldv, bool in_use,
 				    int d, int *best_newv, int *best_oldv,
 				    int *best_act, int *gx, int *gy, int x, int y)
 {
   int a, b=0;
-  int consider;
+  bool consider;
 
   if (extra >= 0) {
     consider = TRUE;
@@ -940,7 +940,7 @@ static int evaluate_city_building(struct unit *punit,
   struct city *mycity = map_get_city(punit->x, punit->y);
   int newv, b, d;
   struct player *pplayer = unit_owner(punit);
-  int nav_known          = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
+  bool nav_known          = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
   int ucont              = map_get_continent(punit->x, punit->y);
   int mv_rate            = unit_type(punit)->move_rate;
   int food_upkeep        = unit_food_upkeep(punit);
@@ -966,7 +966,7 @@ static int evaluate_city_building(struct unit *punit,
  /* hope 11 is far enough -- Syela */
   square_iterate(punit->x, punit->y, 11, x, y) {
     int near = real_map_distance(punit->x, punit->y, x, y);
-    int w_virtual = FALSE;	/* I'm no entirely sure what this is --dwp */
+    bool w_virtual = FALSE;	/* I'm no entirely sure what this is --dwp */
     int mv_cost;
     if (!is_already_assigned(punit, pplayer, x, y)
 	&& map_get_terrain(x, y) != T_OCEAN
@@ -1072,7 +1072,7 @@ static int evaluate_improvements(struct unit *punit,
 {
   struct city *mycity = map_get_city(punit->x, punit->y);
   struct player *pplayer = unit_owner(punit);
-  int in_use;			/* true if the target square is being used
+  bool in_use;			/* true if the target square is being used
 				   by one of our cities */
   int ucont           = map_get_continent(punit->x, punit->y);
   int mv_rate         = unit_type(punit)->move_rate;
@@ -1083,7 +1083,7 @@ static int evaluate_improvements(struct unit *punit,
 				   so that newv=0 activities are not chosen */
   int food_upkeep        = unit_food_upkeep(punit);
   int food_cost          = unit_food_cost(punit);
-  int can_rr = player_knows_techs_with_flag(pplayer, TF_RAILROAD);
+  bool can_rr = player_knows_techs_with_flag(pplayer, TF_RAILROAD);
 
   int best_newv = 0;
 

@@ -319,7 +319,7 @@ bool terrain_is_clean(int x, int y);
 bool is_at_coast(int x, int y);
 bool is_hut_close(int x, int y);
 bool is_starter_close(int x, int y, int nr, int dist); 
-bool is_good_tile(int x, int y);
+int is_good_tile(int x, int y);
 bool is_special_close(int x, int y);
 bool is_sea_usable(int x, int y);
 int get_tile_food_base(struct tile * ptile);

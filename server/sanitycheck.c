@@ -186,7 +186,8 @@ static void check_cities(void)
     struct tile *ptile = map_get_tile(x, y);
     if (ptile->worked) {
       struct city *pcity = ptile->worked;
-      int city_x, city_y, is_valid;
+      int city_x, city_y;
+      bool is_valid;
 
       is_valid = map_to_city_map(&city_x, &city_y, pcity, x, y);
       assert(is_valid);

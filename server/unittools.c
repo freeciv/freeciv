@@ -722,7 +722,7 @@ static void ocean_to_land_fix_rivers(int x, int y)
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
     if (map_has_special(x1, y1, S_RIVER)) {
-      int ocean_near = FALSE;
+      bool ocean_near = FALSE;
       cartesian_adjacent_iterate(x1, y1, x2, y2) {
 	if (map_get_terrain(x2, y2) == T_OCEAN)
 	  ocean_near = TRUE;

@@ -1440,7 +1440,7 @@ struct gen234_state {
   long int totalmass;
 };
 
-static int is_cold(int x, int y){
+static bool is_cold(int x, int y){
   return ( y * 5 < map.ysize || y * 5 > map.ysize * 4 );
 }
 
@@ -1451,7 +1451,7 @@ static void get_random_map_position_from_state(int *x, int *y,
 					       const struct gen234_state
 					       *const pstate)
 {
-  int is_real;
+  bool is_real;
 
   *x = pstate->w;
   *y = pstate->n;
@@ -1583,7 +1583,7 @@ static long int checkmass;
 /**************************************************************************
   finds a place and drop the island created when called with islemass != 0
 **************************************************************************/
-static int place_island(struct gen234_state *pstate)
+static bool place_island(struct gen234_state *pstate)
 {
   int x, y, xo, yo, i=0;
   rand_map_pos(&xo, &yo);
@@ -1617,7 +1617,7 @@ static int place_island(struct gen234_state *pstate)
       if (hmap(x, y)) {
 	int map_x = x + xo - pstate->w;
 	int map_y = y + yo - pstate->n;
-	int is_real;
+	bool is_real;
 
 	is_real = normalize_map_pos(&map_x, &map_y);
 	assert(is_real);
@@ -1644,7 +1644,7 @@ static int place_island(struct gen234_state *pstate)
 /**************************************************************************
   finds a place and drop the island created when called with islemass != 0
 **************************************************************************/
-static int create_island(int islemass, struct gen234_state *pstate)
+static bool create_island(int islemass, struct gen234_state *pstate)
 {
   int x, y, i;
   long int tries=islemass*(2+islemass/20)+99;
