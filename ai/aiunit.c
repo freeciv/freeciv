@@ -963,11 +963,14 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
       /* FIXME: The get_total_defense_power(pdef, punit) should probably use
        * patt rather than pdef. There also ought to be a better metric for
        * determining this. */
-      if (map_get_city(x, y) && get_total_defense_power(pdef, punit) *
-                                get_total_defense_power(punit, pdef) >=
-                                get_total_attack_power(patt, punit) *
-                                get_total_attack_power(punit, pdef)
-          && stack_size < 2 && get_total_attack_power(patt, punit) > 0) {
+      if (patt
+          && map_get_city(x, y) 
+          && get_total_defense_power(pdef, punit) *
+             get_total_defense_power(punit, pdef) >=
+             get_total_attack_power(patt, punit) *
+             get_total_attack_power(punit, pdef)
+          && stack_size < 2
+          && get_total_attack_power(patt, punit) > 0) {
         freelog(LOG_DEBUG, "%s's %s defending %s from %s's %s at (%d, %d)",
                 pplayer->name, unit_type(punit)->name, map_get_city(x, y)->name,
                 unit_owner(pdef)->name, unit_type(pdef)->name, punit->x, punit->y);
