@@ -33,6 +33,11 @@
 
 struct canvas mapview_canvas;
 
+/* Coordinates of the upper left corner of the map overview. */
+int map_overview_x0;
+
+static void center_tile_overviewcanvas(int map_x, int map_y);
+
 /**************************************************************************
  Refreshes a single tile on the map canvas.
 **************************************************************************/
@@ -307,8 +312,10 @@ void get_center_tile_mapcanvas(int *map_x, int *map_y)
 /**************************************************************************
   Centers the mapview around (map_x, map_y).
 **************************************************************************/
-void center_tile_mapcanvas(int map_x, int map_y)
+void center_tile_mapcanvas(int map_center_x, int map_center_y)
 {
+  int map_x = map_center_x, map_y = map_center_y;
+
   /* Find top-left corner. */
   if (is_isometric) {
     map_x -= mapview_canvas.tile_width / 2;
@@ -331,6 +338,7 @@ void center_tile_mapcanvas(int map_x, int map_y)
   /* Now that we've determined the new origin, update everything. */
   mapview_canvas.map_x0 = map_x;
   mapview_canvas.map_y0 = map_y;
+  center_tile_overviewcanvas(map_center_x, map_center_y);
   update_map_canvas_visible();
   update_map_canvas_scrollbars();
   refresh_overview_viewrect();
@@ -1104,10 +1112,9 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 }
 
 /**************************************************************************
-  Return the map coordinates of the origin (top-left) corner of the
-  overview window.  Currently this is calculated on demand.
+  Center the overview around the mapview.
 **************************************************************************/
-int get_overview_x0(void)
+static void center_tile_overviewcanvas(int map_x, int map_y)
 {
   int screen_width;
 
@@ -1117,8 +1124,8 @@ int get_overview_x0(void)
     screen_width = mapview_canvas.tile_width;
   }
 
-  return map_adjust_x((mapview_canvas.map_x0 + screen_width / 2)
-		      - map.xsize / 2);
+  /* Currently we just center the overview canvas around the tile. */
+  map_overview_x0 = map_adjust_x(map_x + screen_width / 2 - map.xsize / 2);
 }
 
 /**************************************************************************
@@ -1127,9 +1134,7 @@ int get_overview_x0(void)
 void map_to_overview_pos(int *overview_x, int *overview_y,
 			 int map_x, int map_y)
 {
-  int overview_x0 = get_overview_x0();
-
-  *overview_x = OVERVIEW_TILE_WIDTH * map_adjust_x(map_x - overview_x0);
+  *overview_x = OVERVIEW_TILE_WIDTH * map_adjust_x(map_x - map_overview_x0);
   *overview_y = OVERVIEW_TILE_HEIGHT * map_y;
 }
 
@@ -1139,8 +1144,6 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
 void overview_to_map_pos(int *map_x, int *map_y,
 			 int overview_x, int overview_y)
 {
-  int overview_x0 = get_overview_x0();
-
-  *map_x = map_adjust_x(overview_x / OVERVIEW_TILE_WIDTH + overview_x0);
+  *map_x = map_adjust_x(overview_x / OVERVIEW_TILE_WIDTH + map_overview_x0);
   *map_y = overview_y / OVERVIEW_TILE_HEIGHT;
 }

@@ -907,7 +907,6 @@ refresh_overview_canvas(void)
 void
 refresh_overview_viewrect_real(HDC hdcp)
 {
-  int map_overview_x0 = get_overview_x0();
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
   int dy = OVERVIEW_TILE_HEIGHT * map.ysize;

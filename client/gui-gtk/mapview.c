@@ -467,7 +467,6 @@ void overview_update_tile(int x, int y)
 **************************************************************************/
 void refresh_overview_viewrect(void)
 {
-  int map_overview_x0 = get_overview_x0();
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
   int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
