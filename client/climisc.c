@@ -191,36 +191,42 @@ void client_change_all(cid x, cid y)
 }
 
 /***************************************************************************
-Return a string indicating one nation's embassy status with another
+  Return a string indicating one nation's embassy status with another
 ***************************************************************************/
 const char *get_embassy_status(struct player *me, struct player *them)
 {
-  if (me == them) return "-";
+  if (me == them) {
+    return "-";
+  }
   if (player_has_embassy(me, them)) {
-    if (player_has_embassy(them, me))
+    if (player_has_embassy(them, me)) {
       return Q_("?embassy:Both");
-    else
+    } else {
       return Q_("?embassy:Yes");
-  } else if (player_has_embassy(them, me))
+    }
+  } else if (player_has_embassy(them, me)) {
     return Q_("?embassy:With Us");
-  else
+  } else {
     return "";
+  }
 }
 
 /***************************************************************************
-Return a string indicating one nation's shaed vision status with another
+  Return a string indicating one nation's shaed vision status with another
 ***************************************************************************/
 const char *get_vision_status(struct player *me, struct player *them)
 {
   if (gives_shared_vision(me, them)) {
-    if (gives_shared_vision(them, me))
+    if (gives_shared_vision(them, me)) {
       return Q_("?vision:Both");
-    else
+    } else {
       return Q_("?vision:To Them");
-  } else if (gives_shared_vision(them, me))
+    }
+  } else if (gives_shared_vision(them, me)) {
     return Q_("?vision:To Us");
-  else
+  } else {
     return "";
+  }
 }
 
 /**************************************************************************
