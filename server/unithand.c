@@ -873,7 +873,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     if (punit->activity == ACTIVITY_GOTO &&
  	(dest_x != punit->goto_dest_x || dest_y != punit->goto_dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
- 		       _("Game: %s aborted goto as there was units in the way"),
+ 		       _("Game: %s aborted GOTO as there are units in the way."),
  		       unit_types[punit->type].name);
       return 0;
     }
