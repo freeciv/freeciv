@@ -36,7 +36,19 @@
 
 #include "aitools.h"
 
-#define LOG_BODYGUARD LOG_DEBUG
+/**************************************************************************
+  Ensure unit sanity
+**************************************************************************/
+void ai_unit_new_role(struct unit *punit, enum ai_unit_task task)
+{
+  struct unit *charge = find_unit_by_id(punit->ai.charge);
+  if (charge && (charge->ai.bodyguard == punit->id)) {
+    /* ensure we don't let the unit believe we bodyguard it */
+    charge->ai.bodyguard = BODYGUARD_NONE; 
+  }
+  punit->ai.charge = BODYGUARD_NONE;
+  punit->ai.ai_role = task;
+}
 
 /**************************************************************************
   Move a bodyguard along with another unit. We assume that unit has already
@@ -90,7 +102,7 @@ static void ai_unit_bodyguard_move(int unitid, int x, int y)
 static bool has_bodyguard(struct unit *punit)
 {
   struct unit *guard;
-  if (punit->ai.bodyguard > 0) {
+  if (punit->ai.bodyguard > BODYGUARD_NONE) {
     if ((guard = find_unit_by_id(punit->ai.bodyguard))) {
       if (guard->ai.charge != punit->id) {
         freelog(LOG_BODYGUARD, "%s: %s didn't know it had %s for bodyguard "
@@ -100,7 +112,7 @@ static bool has_bodyguard(struct unit *punit)
       guard->ai.charge = punit->id; /* ensure sanity */
       return TRUE;
     } else {
-      punit->ai.bodyguard = 0;
+      punit->ai.bodyguard = BODYGUARD_NONE;
       freelog(LOG_BODYGUARD, "%s: %s's bodyguard has disappeared at (%d,%d)!",
               unit_owner(punit)->name, unit_type(punit)->name, punit->x, punit->y);
     }

@@ -14,12 +14,21 @@
 #define FC__AITOOLS_H
 
 #include "shared.h"		/* bool type */
+#include "unit.h"
 
 struct ai_choice;
 struct city;
 struct government;
 struct player;
 
+#define LOG_BODYGUARD LOG_DEBUG
+
+enum bodyguard_enum {
+  BODYGUARD_WANTED=-1,
+  BODYGUARD_NONE
+};
+
+void ai_unit_new_role(struct unit *punit, enum ai_unit_task utask);
 void ai_unit_attack(struct unit *punit, int x, int y);
 bool ai_unit_move(struct unit *punit, int x, int y);
 
