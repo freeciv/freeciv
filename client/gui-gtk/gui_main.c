@@ -67,7 +67,7 @@ extern SPRITE *		intro_gfx_sprite;
 extern SPRITE *		radar_gfx_sprite;
 
 
-
+extern char     metaserver      [];
 extern char	server_host	[];
 extern char	name		[];
 extern int	server_port;
@@ -166,6 +166,7 @@ static void print_usage(const char *argv0)
   fprintf(stderr, "  -N, --Name=NAME\tUse NAME.\n");
   fprintf(stderr, "  -p, --port=PORT\tConnect to PORT.\n");
   fprintf(stderr, "  -s, --server=SERVER\tConnect to the server SERVER.\n");
+  fprintf(stderr, "  -m, --metaserver=METASERVER\tSet metaserver address to METASERVER.\n");
 #ifdef DEBUG
   fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,"
 	                                          "or 3:file1,min,max:...)\n");
@@ -190,6 +191,7 @@ static void parse_options(int argc, char **argv)
   loglevel=LOG_NORMAL;
   server_port=DEFAULT_SOCK_PORT;
   strcpy(server_host, "localhost");
+  strcpy(metaserver, METALIST_ADDR);
   name[0] = '\0';
 
   i = 1;
@@ -209,6 +211,8 @@ static void parse_options(int argc, char **argv)
       logfile = mystrdup(option); /* never free()d */
     else if ((option = get_option("--name",argv,&i,argc)) != NULL)
       strcpy(name, option);
+    else if ((option = get_option("--metaserver",argv,&i,argc)) != NULL)
+      strcpy(metaserver,option);
     else if ((option = get_option("--port",argv,&i,argc)) != NULL)
       server_port=atoi(option);
     else if ((option = get_option("--server",argv,&i,argc)) != NULL)

@@ -32,6 +32,7 @@
 #include "mapgen.h"
 #include "plrhand.h"
 #include "sernet.h"
+#include "meta.h"
 
 #include "stdinhand.h"
 
@@ -40,6 +41,7 @@
 
 extern int gamelog_level;
 extern char metaserver_info_line[256];
+extern char metaserver_addr[256];
 
 enum cmdlevel_id default_access_level = ALLOW_INFO;
 
@@ -584,6 +586,8 @@ enum command_id {
   CMD_SET,
   CMD_RENAME,
   CMD_META,
+  CMD_METASERVER,
+  CMD_NOMETA,
   CMD_AITOGGLE,
   CMD_CREATE,
   CMD_EASY,
@@ -621,6 +625,8 @@ static struct command commands[] = {
   {"set",	ALLOW_CTRL},
   {"rename",	ALLOW_CTRL},
   {"meta",	ALLOW_CTRL},
+  {"metaserver",ALLOW_HACK},
+  {"nometa",    ALLOW_HACK},
   {"aitoggle",	ALLOW_CTRL},
   {"create",	ALLOW_CTRL},
   {"easy",	ALLOW_CTRL},
@@ -772,13 +778,46 @@ static void meta_command(struct player *caller, char *arg)
 {
   strncpy(metaserver_info_line, arg, 256);
   metaserver_info_line[256-1]='\0';
-  if (send_server_info_to_metaserver(1) == 0) {
+  if (send_server_info_to_metaserver(1,0) == 0) {
     cmd_reply(CMD_META, caller, C_METAERROR,
-	      "Not reporting to the metaserver in this game.");
+	      "Not reporting to the metaserver.");
   } else {
     notify_player(0,"Metaserver infostring set to '%s'", metaserver_info_line);
     cmd_reply(CMD_META, caller, C_OK,
 	      "Metaserver info string set.", arg);
+  }
+}
+
+/**************************************************************************
+Is this function really usefull and safe ? --nb
+**************************************************************************/
+
+static void close_udp_safe(struct player *caller)
+{
+  if (send_server_info_to_metaserver(1,1))
+  {
+    server_close_udp();
+    notify_player(0,"Close metaserver connection to '%s'", metaserver_addr);
+    cmd_reply(CMD_META, caller, C_OK,
+	      "Metaserver connection closed.");
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void set_metaserver(struct player *caller, char *arg)
+{
+  close_udp_safe(caller);
+
+  strncpy(metaserver_addr, arg, 256);
+  metaserver_addr[256-1]='\0';
+  server_open_udp(); 
+  if (send_server_info_to_metaserver(1,0))
+  { 
+    notify_player(0,"Metaserver is now '%s'", metaserver_addr);
+    cmd_reply(CMD_META, caller, C_OK,
+	      "Metaserver connection opened.");
   }
 }
 
@@ -1624,8 +1663,14 @@ void handle_stdin_input(struct player *caller, char *str)
   case CMD_SAVE:
     save_command(caller,arg);
     break;
+  case CMD_NOMETA:
+    close_udp_safe(caller);
+    break;
   case CMD_META:
     meta_command(caller,arg);
+    break;
+  case CMD_METASERVER:
+    set_metaserver(caller,arg);
     break;
   case CMD_HELP:
     show_help(caller);
@@ -1811,6 +1856,10 @@ void show_help(struct player *caller)
 	"list            - list players");
   cmd_reply_help(CMD_META,
 	"meta M          - Set meta-server infoline to M");
+  cmd_reply_help(CMD_METASERVER,
+	"metaserver A    - Game are reported to address A");
+  cmd_reply_help(CMD_NOMETA,
+	"nometa          - Close connection to the metaserver");
   cmd_reply_help(CMD_NORMAL,
 	"normal          - All AI players will be normal");
   cmd_reply_help(CMD_NORMAL,

@@ -66,6 +66,7 @@ extern GtkWidget *toplevel;
 static GtkWidget *dialog;
 
 /* meta Server */
+extern char metaserver[];
 int  update_meta_dialog(GtkWidget *meta_list);
 void meta_list_callback(GtkWidget *w, gint row, gint column);
 void meta_update_callback(GtkWidget *w, gpointer data);
@@ -294,11 +295,11 @@ static int get_meta_list(GtkWidget *list, char *errbuf)
     }
     strncpy(urlbuf,proxy_url,511);
   } else {
-    if (strncmp(METALIST_ADDR,"http://",strlen("http://"))) {
+    if (strncmp(metaserver,"http://",strlen("http://"))) {
       strcpy(errbuf, "Invalid metaserver URL, must start with 'http://'");
       return -1;
     }
-    strncpy(urlbuf,METALIST_ADDR,511);
+    strncpy(urlbuf,metaserver,511);
   }
   server = &urlbuf[strlen("http://")];
 
@@ -355,7 +356,7 @@ static int get_meta_list(GtkWidget *list, char *errbuf)
   fprintf(f,"GET %s%s%s HTTP/1.0\r\n\r\n",
     proxy_url ? "" : "/",
     urlpath,
-    proxy_url ? METALIST_ADDR : "");
+    proxy_url ? metaserver : "");
   fflush(f);
 
 #define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;

@@ -78,6 +78,7 @@ AppResources appResources;
 extern String fallback_resources[];
 extern char name[];
 extern char server_host[];
+extern char metaserver[];
 extern int  server_port;
 
 extern int num_units_below;
@@ -96,6 +97,8 @@ XtResource resources[] = {
       XtOffset(AppResources *,port), XtRImmediate, (XtPointer)False},
     { "server", "Server", XtRString, sizeof(String),
       XtOffset(AppResources *,server), XtRImmediate, (XtPointer)False},
+    { "metaserver", "Metaserver", XtRString, sizeof(String),
+      XtOffset(AppResources *,metaserver), XtRImmediate, (XtPointer)False},
     { "logLevel", "LogLevel", XtRString, sizeof(String),
       XtOffset(AppResources *,loglevel_str), XtRImmediate, (XtPointer)False},
     { "version", "Version", XtRString, sizeof(String),
@@ -119,6 +122,7 @@ static XrmOptionDescRec cmd_options[] = {
  { "-name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
  { "-port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "-server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
+ { "-metaserver",".metaserver",XrmoptionSepArg, (XPointer)"True" },
  { "-debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "-tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" },
 /* { "-version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" },*/
@@ -128,6 +132,7 @@ static XrmOptionDescRec cmd_options[] = {
  { "--port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "--debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "--server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
+ { "--metaserver",".metaserver",XrmoptionSepArg, (XPointer)"True" },
  { "--tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" }
 /* { "--version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" }*/
 };
@@ -379,6 +384,12 @@ void ui_main(int argc, char *argv[])
     strcpy(server_host, appResources.server);
   else {
     strcpy(server_host, "localhost");
+  }
+
+  if(appResources.metaserver)
+    strcpy(metaserver, appResources.metaserver);
+  else {
+    strcpy(metaserver, METALIST_ADDR);
   }
     
   if(appResources.port)

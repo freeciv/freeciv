@@ -3,6 +3,7 @@
 /**************************************************/
 "Freeciv*gotAppDefFile:                       True",
 "Freeciv*server:                              localhost",
+"Freeciv*metaserver:             http://www.daimi.aau.dk/~lancelot/freeciv.html ",
 "Freeciv*port:                                5555",
 "Freeciv*version:                             1.8.1",
 "Freeciv*logLevel:                            1",

@@ -37,6 +37,7 @@
 #include "gamehand.h"
 
 extern char metaserver_info_line[];
+extern char metaserver_addr[];
 extern RANDOM_TYPE RandomState[];
 extern int iRandJ, iRandK, iRandX; 
 extern int rand_init;
@@ -237,6 +238,9 @@ int game_load(struct section_file *file)
   strcpy(metaserver_info_line,
 	 secfile_lookup_str_default(file, DEFAULT_META_SERVER_INFO_STRING,
 				    "game.metastring"));
+  strcpy(metaserver_addr,
+	 secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
+				    "game.metaserver"));
   
   game.gold          = secfile_lookup_int(file, "game.gold");
   game.tech          = secfile_lookup_int(file, "game.tech");
@@ -432,6 +436,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, version, "game.version");
   secfile_insert_int(file, (int) server_state, "game.server_state");
   secfile_insert_str(file, metaserver_info_line, "game.metastring");
+  secfile_insert_str(file, metaserver_addr, "game.metaserver");
 
   if(server_state!=PRE_GAME_STATE) {
     secfile_insert_str(file, SAVEFILE_OPTIONS, "savefile.options");

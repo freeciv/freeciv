@@ -160,7 +160,7 @@ int sniff_packets(void)
     con_prompt_off();		/* output doesn't generate a new prompt */
     
     if(select(max_desc+1, &readfs, NULL, NULL, &tv)==0) { /* timeout */
-      send_server_info_to_metaserver(0);
+      send_server_info_to_metaserver(0,0);
       if((game.timeout) 
 	&& (time(NULL)>time_at_turn_end)
 	&& (server_state == RUN_GAME_STATE)){

@@ -59,6 +59,7 @@ TEndpointInfo meta_info;
 EndpointRef meta_ep;
 InetAddress serv_addr;
 #else /* Unix network globals */
+extern char metaserver_addr[];
 static int			sockfd,n,in_size;
 static struct sockaddr_in	cli_addr,serv_addr;
 #endif /* end network global selector */
@@ -100,7 +101,7 @@ void server_close_udp(void)
 
 void server_open_udp(void)
 {
-  char servername[]=METASERVER_ADDR;
+  char *servername=metaserver_addr;
   int bad;
 #ifdef GENERATING_MAC  /* mac networking */
   OSStatus err1;

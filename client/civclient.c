@@ -55,6 +55,7 @@
 
 #include "civclient.h"
 
+char metaserver[256]="";
 char server_host[512];
 char name[512];
 int server_port;
@@ -92,6 +93,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -name N\tUse N as name\n");
     fprintf(stderr, "  -port N\tconnect to port N\n");
     fprintf(stderr, "  -server S\tConnect to the server at S\n");
+    fprintf(stderr, "  -metaserver A\tConnect to the metaserver at A\n");
 #ifdef DEBUG
     fprintf(stderr, "  -debug N\tSet debug log level (0,1,2,3,"
 	                          "or 3:file1,min,max:...)\n");

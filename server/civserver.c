@@ -120,6 +120,7 @@ enum server_states server_state;
 */
 int force_end_of_sniff;
 char metaserver_info_line[256];
+char metaserver_addr[256];
 /* server name for metaserver to use for us */
 char metaserver_servername[64]="";
 
@@ -152,7 +153,7 @@ int rand_init=0;
 **************************************************************************/
 int main(int argc, char *argv[])
 {
-  int h=0, v=0, n=1;
+  int h=0, v=0, no_meta=1;
   char *log_filename=NULL;
   char *gamelog_filename=NULL;
   char *load_filename=NULL;
@@ -166,6 +167,7 @@ int main(int argc, char *argv[])
   dont_run_as_root(argv[0], "freeciv_server");
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
+  strcpy(metaserver_addr, DEFAULT_META_SERVER_ADDR);
 
 #ifdef GENERATING_MAC
   Mac_options(&argc, argv);
@@ -190,7 +192,12 @@ int main(int argc, char *argv[])
       h=1;
     }
     else if(is_option("--meta", argv[i]))
-        n=0;
+        no_meta=0;
+    else if ((option = get_option("--Metaserver",argv,&i,argc)) != NULL)
+    {
+	strcpy(metaserver_addr,argv[i]);
+	no_meta = 0; /* implies --meta */
+    }
     else if ((option = get_option("--port",argv,&i,argc)) != NULL)
 	port=atoi(option);
     else if ((option = get_option("--read",argv,&i,argc)) != NULL)
@@ -231,6 +238,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -h, --help\t\tPrint a summary of the options\n");
     fprintf(stderr, "  -l, --log F\t\tUse F as logfile\n");
     fprintf(stderr, "  -m, --meta\t\tSend info to Metaserver\n");
+    fprintf(stderr, "  -M, --Metaserver\tSet Metaserver address.\n");
     fprintf(stderr, "  -p, --port N\t\tconnect to port N\n");
     fprintf(stderr, "  -r, --read\t\tRead startup script\n");
     fprintf(stderr, "  -s, --server H\tList this server as host H\n");
@@ -305,13 +313,13 @@ int main(int argc, char *argv[])
   /* init network */  
   init_connections(); 
   server_open_socket();
-  if(n==0) {
+  if(no_meta==0) {
     freelog(LOG_NORMAL, "Sending info to metaserver[%s %d]",
-	    METASERVER_ADDR, METASERVER_PORT);
+	    metaserver_addr, METASERVER_PORT);
     server_open_udp(); /* open socket for meta server */ 
   }
 
-  send_server_info_to_metaserver(1);
+  send_server_info_to_metaserver(1,0);
   
   /* accept new players, wait for serverop to start..*/
   freelog(LOG_NORMAL, "Now accepting new client connections");
@@ -323,7 +331,7 @@ int main(int argc, char *argv[])
   while(server_state==PRE_GAME_STATE)
     sniff_packets();
 
-  send_server_info_to_metaserver(1);
+  send_server_info_to_metaserver(1,0);
 
   if(is_new_game) {
     load_rulesets();
@@ -380,7 +388,7 @@ int main(int argc, char *argv[])
   /* start the game */
 
   server_state=RUN_GAME_STATE;
-  send_server_info_to_metaserver(1);
+  send_server_info_to_metaserver(1,0);
 
   if(is_new_game) {
     int i;
@@ -460,7 +468,7 @@ int main(int argc, char *argv[])
     freelog(LOG_DEBUG, "Sendyeartoclients");
     send_year_to_clients(game.year);
     freelog(LOG_DEBUG, "Sendinfotometaserver");
-    send_server_info_to_metaserver(0);
+    send_server_info_to_metaserver(0,0);
     for(i=0;i<game.nplayers;i++)
       connection_do_unbuffer(game.players[i].conn);
       
@@ -523,11 +531,19 @@ static void read_init_script(char *script_filename)
 ...
 **************************************************************************/
 
-int send_server_info_to_metaserver(int do_send)
+int send_server_info_to_metaserver(int do_send,int reset_timer)
 {
   static struct timer *time_since_last_send = NULL;
   char desc[4096], info[4096];
   int i;
+
+  if (reset_timer && time_since_last_send)
+  {
+    free_timer(time_since_last_send);
+    time_since_last_send = NULL;
+    return 1;
+     /* use when we close the connection to a metaserver */
+  }
 
   if(!do_send && (time_since_last_send!=NULL)
      && (read_timer_seconds(time_since_last_send)
@@ -1254,7 +1270,7 @@ void accept_new_player(char *name, struct connection *pconn)
     server_state=SELECT_RACES_STATE;
 
   introduce_game_to_player(pplayer);
-  send_server_info_to_metaserver(1);
+  send_server_info_to_metaserver(1,0);
 }
   
 /**************************************************************************
@@ -1466,7 +1482,7 @@ static void generate_ai_players(void)
 	  con_write(C_FAIL, "Error creating new ai player: %s\n", player_name);
    }
 
-  send_server_info_to_metaserver(1);
+  send_server_info_to_metaserver(1,0);
 
 }
 

@@ -23,7 +23,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type);
 void lost_connection_to_player(struct connection *pconn);
 void accept_new_player(char *name, struct connection *pconn);
 int check_for_full_turn_done(void);
-int send_server_info_to_metaserver(int do_send);
+int send_server_info_to_metaserver(int do_send,int reset_timer);
 void start_game(void);
 void save_game(char *filename);
 void pick_ai_player_name(enum race_type race, char *newname);

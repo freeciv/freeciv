@@ -25,6 +25,7 @@ typedef struct _AppResources {
   String  name;
   int     port;
   String  server;
+  String  metaserver;
   String  version;
   String  tileset;
 } AppResources;

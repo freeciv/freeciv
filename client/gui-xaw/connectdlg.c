@@ -76,6 +76,7 @@ void connect_meta_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
 
 /* Meta Server */
+extern char metaserver[];
 Widget meta_dialog_shell=0;
 char *server_list[64]={NULL};
 
@@ -304,11 +305,11 @@ static int get_meta_list(char **list, char *errbuf)
     }
     strncpy(urlbuf,proxy_url,511);
   } else {
-    if (strncmp(METALIST_ADDR,"http://",strlen("http://"))) {
+    if (strncmp(metaserver,"http://",strlen("http://"))) {
       strcpy(errbuf, "Invalid metaserver URL, must start with 'http://'");
       return -1;
     }
-    strncpy(urlbuf,METALIST_ADDR,511);
+    strncpy(urlbuf,metaserver,511);
   }
   server = &urlbuf[strlen("http://")];
 
@@ -365,7 +366,7 @@ static int get_meta_list(char **list, char *errbuf)
   fprintf(f,"GET %s%s%s HTTP/1.0\r\n\r\n",
     proxy_url ? "" : "/",
     urlpath,
-    proxy_url ? METALIST_ADDR : "");
+    proxy_url ? metaserver : "");
   fflush(f);
 
 #define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;

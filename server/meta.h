@@ -38,7 +38,7 @@ The info string should look like this:
 #include "version.h"
 
 #define	METASERVER_PORT	12245
-#define	METASERVER_ADDR	"platinum.daimi.aau.dk"
+#define	DEFAULT_META_SERVER_ADDR	"platinum.daimi.aau.dk"
 #define METASERVER_UPDATE_INTERVAL 3*60
 #if IS_BETA_VERSION
 #  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.8: beware"
