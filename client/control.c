@@ -362,6 +362,26 @@ void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity a
   send_unit_info(&req_unit);
 }
 
+/****************************************************************
+...
+*****************************************************************/
+void request_unit_sentry(struct unit *punit)
+{
+  if(punit->activity!=ACTIVITY_SENTRY &&
+     can_unit_do_activity(punit, ACTIVITY_SENTRY))
+    request_new_unit_activity(punit, ACTIVITY_SENTRY);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void request_unit_fortify(struct unit *punit)
+{
+  if(punit->activity!=ACTIVITY_FORTIFYING &&
+     can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
+    request_new_unit_activity(punit, ACTIVITY_FORTIFYING);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/

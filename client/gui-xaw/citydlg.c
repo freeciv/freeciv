@@ -1256,6 +1256,35 @@ static void supported_units_activate_close_callback(Widget w,
 }
 
 
+/****************************************************************
+...
+*****************************************************************/
+static void present_units_sentry_callback(Widget w, XtPointer client_data, 
+					   XtPointer call_data)
+{
+  struct unit *punit;
+
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)))
+    request_unit_sentry(punit);
+
+  destroy_message_dialog(w);
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
+static void present_units_fortify_callback(Widget w, XtPointer client_data, 
+					   XtPointer call_data)
+{
+  struct unit *punit;
+
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)client_data)))
+    request_unit_fortify(punit);
+
+  destroy_message_dialog(w);
+}
+
 
 /****************************************************************
 ...
@@ -1324,13 +1353,24 @@ void present_units_callback(Widget w, XtPointer client_data,
 			    unit_description(punit),
 			    present_units_activate_callback, punit->id, 1,
 			    present_units_activate_close_callback, punit->id, 1,
+			    present_units_sentry_callback, punit->id, 1,
+			    present_units_fortify_callback, punit->id, 1,
 			    present_units_disband_callback, punit->id, 1,
 			    present_units_homecity_callback, punit->id, 1,
 			    upgrade_callback, punit->id, 1,
 			    present_units_cancel_callback, 0, 0, 
 			    NULL);
+
+    if (punit->activity == ACTIVITY_SENTRY
+	|| !can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+      XtSetSensitive(XtNameToWidget(wd, "*button2"), FALSE);
+    }
+    if (punit->activity == ACTIVITY_FORTIFYING
+	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+      XtSetSensitive(XtNameToWidget(wd, "*button3"), FALSE);
+    }
     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
-      XtSetSensitive(XtNameToWidget(wd, "*button4"), FALSE);
+      XtSetSensitive(XtNameToWidget(wd, "*button6"), FALSE);
     }
   }
 }

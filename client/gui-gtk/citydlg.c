@@ -658,23 +658,6 @@ static void activate_unit(struct unit *punit)
   set_unit_focus(punit);
 }
 
-static void sentry_unit(struct unit *punit)
-{
-  if(punit->activity!=ACTIVITY_SENTRY &&
-     can_unit_do_activity(punit, ACTIVITY_SENTRY))
-    request_new_unit_activity(punit, ACTIVITY_SENTRY);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void fortify_unit(struct unit *punit)
-{
-  if(punit->activity!=ACTIVITY_FORTIFYING &&
-     can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
-    request_new_unit_activity(punit, ACTIVITY_FORTIFYING);
-}
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -714,7 +697,7 @@ static void present_units_sentry_callback(GtkWidget *w, gpointer data)
   struct unit *punit;
 
   if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
-    sentry_unit(punit);
+    request_unit_sentry(punit);
   destroy_message_dialog(w);
 }
 
@@ -726,7 +709,7 @@ static void present_units_fortify_callback(GtkWidget *w, gpointer data)
   struct unit *punit;
 
   if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
-    fortify_unit(punit);
+    request_unit_fortify(punit);
   destroy_message_dialog(w);
 }
 

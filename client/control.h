@@ -28,6 +28,8 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity act,
 					int tgt);
 void request_unit_pillage(struct unit *punit);
+void request_unit_sentry(struct unit *punit);
+void request_unit_fortify(struct unit *punit);
 void request_unit_auto(struct unit *punit);
 void request_unit_build_city(struct unit *punit);
 void request_unit_caravan_action(struct unit *punit, enum packet_type action);
