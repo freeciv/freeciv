@@ -1088,17 +1088,16 @@ void handle_nation_select_req(struct player *pplayer,
 static void send_select_nation(struct player *pplayer)
 {
   struct packet_nation_unavailable packet;
+  Nation_Type_id nation;
 
   lsend_packet_select_races(&pplayer->connections);
 
-  players_iterate(other_player) {
-    if (other_player->nation == NO_NATION_SELECTED) {
-      continue;
+  for (nation = 0; nation < game.playable_nation_count; nation++) {
+    if (!nations_available[nation]) {
+      packet.nation = nation;
+      lsend_packet_nation_unavailable(&pplayer->connections, &packet);
     }
-
-    packet.nation = other_player->nation;
-    lsend_packet_nation_unavailable(&pplayer->connections, &packet);
-  } players_iterate_end;
+  }
 }
 
 /**************************************************************************
@@ -1567,6 +1566,7 @@ void srv_main(void)
 static void srv_loop(void)
 {
   int i;
+  bool start_nations;
 
   freelog(LOG_NORMAL, _("Now accepting new client connections."));
   while(server_state == PRE_GAME_STATE) {
@@ -1588,8 +1588,31 @@ main_start_players:
 
   send_rulesets(&game.game_connections);
 
-  for (i = 0; i < game.playable_nation_count; i++) {
-    nations_available[i] = TRUE;
+  if (map.num_start_positions > 0) {
+    start_nations = TRUE;
+
+    for (i = 0; i < map.num_start_positions; i++) {
+      if (map.start_positions[i].nation == NO_NATION_SELECTED) {
+	start_nations = FALSE;
+	break;
+      }
+    }
+  } else {
+    start_nations = FALSE;
+  }
+
+  if (start_nations) {
+    for (i = 0; i < game.playable_nation_count; i++) {
+      nations_available[i] = FALSE;
+    }
+    for (i = 0; i < map.num_start_positions; i++) {
+      nations_available[map.start_positions[i].nation] = TRUE;
+    }
+    
+  } else {
+    for (i = 0; i < game.playable_nation_count; i++) {
+      nations_available[i] = TRUE;
+    }
   }
 
   if (game.auto_ai_toggle) {
