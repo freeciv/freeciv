@@ -125,6 +125,10 @@ char *default_race_leader_names[] = {
   "Genghis"
 };
 
+int government_rates[G_LAST] = {
+  60, 60, 70, 80, 80, 100
+};
+
 char *government_names[G_LAST] = {
   "Anarchy", "Despotism", "Monarchy",
   "Communism", "Republic", "Democracy"
@@ -180,6 +184,14 @@ struct player_race *get_race(struct player *plr)
 char *get_ruler_title(enum government_type type)
 {
   return ruler_titles[type];
+}
+
+/***************************************************************
+...
+***************************************************************/
+int get_government_max_rate(enum government_type type)
+{
+  return government_rates[type];
 }
 
 /***************************************************************

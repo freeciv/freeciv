@@ -989,8 +989,14 @@ Freeciv.iconName: Freeciv
 *rateslabel.borderWidth:        0
 *rateslabel.background:         lightblue
 
+*ratesgovlabel.fromVert:        rateslabel
+*ratesgovlabel.borderWidth:     0
+*ratesgovlabel.width:           300
+*ratesgovlabel.background:      lightblue
+*ratesgovlabel.justify:         left
+
 *ratestaxlabel.label:           Tax:   0%
-*ratestaxlabel.fromVert:        rateslabel
+*ratestaxlabel.fromVert:        ratesgovlabel
 *ratestaxlabel.borderWidth:     0
 *ratestaxlabel.justify:         left
 *ratestaxlabel.background:      lightblue

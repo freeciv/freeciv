@@ -714,15 +714,24 @@ void init_tech(struct player *plr, int tech)
 void handle_player_rates(struct player *pplayer, 
                          struct packet_player_request *preq)
 {
+  int maxrate;
+  
   if (preq->tax+preq->luxury+preq->science!=100)
     return;
   if (preq->tax<0 || preq->tax >100) return;
   if (preq->luxury<0 || preq->luxury > 100) return;
   if (preq->science<0 || preq->science >100) return;
-  pplayer->economic.tax=preq->tax;
-  pplayer->economic.luxury=preq->luxury;
-  pplayer->economic.science=preq->science;
-  send_player_info(pplayer, pplayer); 
+  maxrate=get_government_max_rate (pplayer->government);
+  if (preq->tax>maxrate || preq->luxury>maxrate || preq->science>maxrate) {
+    notify_player(pplayer, "Game: %s rate exceeds the max rate for %s.",
+		  (preq->tax>maxrate ? "Tax"
+		   : preq->luxury>maxrate ? "Luxury" : "Science"));
+  } else {
+    pplayer->economic.tax=preq->tax;
+    pplayer->economic.luxury=preq->luxury;
+    pplayer->economic.science=preq->science;
+    send_player_info(pplayer, pplayer);
+  }
 }
 
 /**************************************************************************

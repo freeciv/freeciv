@@ -41,6 +41,7 @@ extern Display	*display;
 
 /******************************************************************/
 Widget rates_dialog_shell;
+Widget rates_gov_label;
 Widget rates_tax_label, rates_tax_scroll, rates_tax_toggle;
 Widget rates_lux_label, rates_lux_scroll, rates_lux_toggle;
 Widget rates_sci_label, rates_sci_scroll, rates_sci_toggle;
@@ -73,6 +74,7 @@ void popup_rates_dialog(void)
 {
   Position x, y;
   Dimension width, height;
+  char buf[50];
 
   XtSetSensitive(main_form, FALSE);
 
@@ -83,6 +85,11 @@ void popup_rates_dialog(void)
   XtTranslateCoords(toplevel, (Position) width/10, (Position) height/10,
 		    &x, &y);
   XtVaSetValues(rates_dialog_shell, XtNx, x, XtNy, y, NULL);
+
+  sprintf(buf, "%s max rate: %d%%",
+	  get_government_name(game.player_ptr->government),
+	  get_government_max_rate(game.player_ptr->government));
+  xaw_set_label(rates_gov_label, buf);
   
   XtPopup(rates_dialog_shell, XtGrabNone);
 }
@@ -110,6 +117,10 @@ void create_rates_dialog(void)
   XtVaCreateManagedWidget("rateslabel", 
 			  labelWidgetClass, 
 			  rates_form, NULL);   
+
+  rates_gov_label = XtVaCreateManagedWidget("ratesgovlabel",
+					    labelWidgetClass,
+					    rates_form, NULL);
   
   rates_tax_label = XtVaCreateManagedWidget("ratestaxlabel", 
 					    labelWidgetClass, 
@@ -241,29 +252,36 @@ void rates_set_values(int tax, int no_tax_scroll,
 {
   char buf[16];
   Boolean tax_lock, lux_lock, sci_lock;
+  int maxrate;
   
   XtVaGetValues(rates_tax_toggle, XtNstate, &tax_lock, NULL);
   XtVaGetValues(rates_lux_toggle, XtNstate, &lux_lock, NULL);
   XtVaGetValues(rates_sci_toggle, XtNstate, &sci_lock, NULL);
   
+  maxrate=get_government_max_rate(game.player_ptr->government);
+  /* This's quite a simple-minded "double check".. */
+  tax=MIN(tax, maxrate);
+  lux=MIN(lux, maxrate);
+  sci=MIN(sci, maxrate);
+  
   if(tax+sci+lux!=100) {
     if(tax!=rates_tax_value) {
       if(!lux_lock)
-	lux=MAX(100-tax-sci, 0);
+	lux=MIN(MAX(100-tax-sci, 0), maxrate);
       if(!sci_lock)
-	sci=MAX(100-tax-lux, 0);
+	sci=MIN(MAX(100-tax-lux, 0), maxrate);
     }
     else if(lux!=rates_lux_value) {
       if(!tax_lock)
-	tax=MAX(100-lux-sci, 0);
+	tax=MIN(MAX(100-lux-sci, 0), maxrate);
       if(!sci_lock)
-	sci=MAX(100-lux-tax, 0);
+	sci=MIN(MAX(100-lux-tax, 0), maxrate);
     }
     else if(sci!=rates_sci_value) {
       if(!lux_lock)
-	lux=MAX(100-tax-sci, 0);
+	lux=MIN(MAX(100-tax-sci, 0), maxrate);
       if(!tax_lock)
-	tax=MAX(100-lux-sci, 0);
+	tax=MIN(MAX(100-lux-sci, 0), maxrate);
     }
     
     if(tax+sci+lux!=100) {
