@@ -357,21 +357,26 @@ void handle_unit_change_homecity(struct player *pplayer,
   struct unit *punit;
   
   if ((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
-    struct city *pcity;
-    if ((pcity=player_find_city_by_id(pplayer, req->city_id))
-	&& pcity->owner == punit->owner) {
-      unit_list_insert(&pcity->units_supported, punit);
-      city_refresh(pcity);
-      send_city_info(pplayer, pcity);
+    struct city *old_pcity =
+	player_find_city_by_id(pplayer, punit->homecity);
+    struct city *new_pcity = player_find_city_by_id(pplayer, req->city_id);
 
-      if((pcity=player_find_city_by_id(pplayer, punit->homecity))) {
-	unit_list_unlink(&pcity->units_supported, punit);
-	city_refresh(pcity);
-	send_city_info(pplayer, pcity);
+    if (new_pcity && new_pcity->owner == punit->owner) {
+      unit_list_insert(&new_pcity->units_supported, punit);
+      if (old_pcity) {
+	unit_list_unlink(&old_pcity->units_supported, punit);
       }
 
-      punit->homecity=req->city_id;
+      punit->homecity = req->city_id;
       send_unit_info(pplayer, punit);
+
+      city_refresh(new_pcity);
+      send_city_info(pplayer, new_pcity);
+
+      if (old_pcity) {
+	city_refresh(old_pcity);
+	send_city_info(pplayer, old_pcity);
+      }
     }
   }
 }
