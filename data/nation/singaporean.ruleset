@@ -1,38 +1,60 @@
 [nation_singaporean]
 
+; area: 620 sq km population: 4+ millions
+; capital: Singapore population: 4+ millions
+; language: Malay, English, Chinese, Tamil
+; religion: Buddhism, Taoism, Confucianism
+; currency: dollar
+; international organisation: ASEAN, Commonwealth
+; exports: petroleum and products, electrical machinery, rubber, manufactured goods
+; export trading parters: U.S.A., Malaysia, Japan, Hong Kong
+; imports: petroleum, machinery, transport equipment, textile yarn, crude rubber
+; import trading parters: Japan, Saudi Arabia, U.S.A., Malaysia
+; above data are for 1986, trying to find newer data
+
 name=_("Singaporean")
 plural=_("?plural:Singaporeans")
-leader="Lee Kuan Yew", "Yusof bin Ishak", "Ah Beng", "Ah Lian"
-leader_sex="Male", "Male", "Male", "Female"
+leader="Tengku Long", "Stamford Raffles", "W.A. Pickering", "Ong Teng Cheong",
+  "S.R. Nathan", "Lee Kuan Yew", "Yusof bin Ishak", "Ah Beng", "Ah Lian"
+leader_sex="Male", "Male", "Male", "Male",
+  "Male", "Male", "Male", "Male", "Female"
 flag="f.singapore"
 flag_alt = "-"
 city_style = "European"
 
-ruler_titles = { "government",   "male_title",         "female_title"
-                 "Despotism",    _("Ah"),              _("Ah")
-                 "Republic",     _("Prime Minister"),  _("Prime Minister")
-                 "Democracy",    _("Prime Minister"),  _("Prime Minister")
+ruler_titles = { "government",	"male_title",		"female_title"
+		 "Despotism",	_("Ah"),		_("Ah")
+		 "Monarchy",	_("Sultan"),		_("Sultan")
+		 "Communism",	_("Encik"),		_("Encik")
+		 "Republic",	_("President"),		_("President")
+		 "Democracy",	_("Prime Minister"),	_("Prime Minister")
 }
 
 attack=1
-expand=1
-civilized=1
+expand=2
+civilized=2
 advisors=100,100,100,100,100,100,100
-tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working",
-             "Engineering", "Railroad"
-wonder="Lighthouse"
+tech_goals = "Monarchy", "Iron Working", "Trade", "Monotheism", "Navigation",
+  "Railroad", "Steel", "Industrialization"
+wonder="J.S. Bach's Cathedral"
 government="Republic"
 
 cities =
-  "Raffles Place", "Orchard", "Chinatown", "Robinson", "Tanjong Pagar",
-  "Serangoon", "City Hall", "Telok Blangah", "Red Hill", "Bukit Timah",
-  "Rochor Canal", "Palau Ubin", "Sentosa", "MacRitchie", "Outram",
-  "Kallang", "Newton", "Brani", "Tanah Merah", "Bukit Batok",
-  "Changi", "Woodland", "Sembawang", "Mountbatten", "Teck Whye",
-  "Clementi", "Jurong", "Choa Chu Kang", "Tuas", "Yishun",
-  "Ang Mo Kio", "Queensway", "East Cost", "Seletar", "Geylang",
-  "Buona Vista", "Paya Lebar", "Marsiling", "Simei", "Braddell",
-  "Marina", "Keppel", "Faber", "Eunos", "Mandai",
-  "Palau Tekong", "Kent Ridge", "Dover", "Commonwealth", "Kranji",
-  "Pasir Panjang", "Bishan", "Tampines", "West Cost", "Ayer Rajah",
-  "Somerset", "Pasir Ris", "Boon Lay", "Yio Chu Kang"
+  "Singapore", "Esplanade", "Tumasik", "Raffles Place", "Keppel", "Chinatown",
+  "Orchard", "Istana", "Tanjong Pagar", "Jalan Besar", "Telok Ayer",
+  "Kreta Ayer", "Whampoa", "Tiong Bahru", "Toa Payoh", "Kampong Glam",
+  "City Hall", "Telok Blangah", "Red Hill", "Bukit Timah", "Serangoon",
+  "Geylang", "Rochor", "Palau Ubin", "Outram", "Kallang",
+  "Newton", "Tanah Merah", "Bukit Batok", "Changi", "Woodland",
+  "Sembawang", "Ang Mo Kio", "Sentosa", "Clementi", "Jurong",
+  "Pasir Panjang", "Bishan", "Tampines", "Tuas", "Bedok",
+  "Nee Soon", "Buona Vista", "Paya Lebar", "Braddell", "Marina",
+  "Eunos", "Mandai", "Punggo", "Bukit Panjang", "Pasir Ris",
+  "Yio Chu Kang", "Queensway", "Gelang Serai", "Siglap", "Chong Pang",
+  "Ama Keng", "Tanglin", "Ulu Pandan", "Seletar", "Marsiling",
+  "Simei", "MacRitchie", "Brani", "Palau Tekong", "Kent Ridge",
+  "Commonwealth", "Kranji", "Mountbatten", "West Cost", "Ayer Rajah",
+  "Somerset", "Pulau Tekong", "Lim Chu Kang", "Bukit Gombak", "Bukit Saleh",
+  "Thompson", "Feng Shan", "Kampong Empat", "Kaki Bukit", "Yew Tee",
+  "Robinson", "Teck Whye", "Choa Chu Kang", "Yishun", "East Cost", "Faber",
+  "Dover", "Boon Lay"
