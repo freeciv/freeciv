@@ -8,6 +8,8 @@ pkgdata_DATA =          \
 	cities.spec	\
 	fog.png		\
 	fog.spec	\
+	grid.png	\
+	grid.spec	\
 	morecities.png	\
 	morecities.spec	\
 	nuke.spec	\

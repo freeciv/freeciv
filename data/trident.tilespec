@@ -45,10 +45,12 @@ minimap_intro_file = "misc/radar"
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
 files = 
+  "misc/colors.spec",
   "trident/tiles.spec",
   "misc/small.spec",
   "trident/units.spec",
   "misc/flags.spec",
+  "trident/grid.spec",
   "trident/roads.spec",
   "misc/buildings.spec",
   "misc/space.spec",

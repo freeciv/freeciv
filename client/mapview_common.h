@@ -154,11 +154,11 @@ extern bool can_slide;
 	    pedge->tile[1] = map_pos_to_tile((GRI_sum - 4) / 4, /* S */	    \
 					     (GRI_diff + 2) / 4);	    \
 	  } else {							    \
-	    pedge->type = EDGE_EW;					    \
+	    pedge->type = EDGE_WE;					    \
 	    pedge->tile[0] = map_pos_to_tile((GRI_sum - 6) / 4,		    \
-					     GRI_diff / 4); /* E */	    \
-	    pedge->tile[1] = map_pos_to_tile((GRI_sum - 2) / 4,		    \
 					     GRI_diff / 4); /* W */	    \
+	    pedge->tile[1] = map_pos_to_tile((GRI_sum - 2) / 4,		    \
+					     GRI_diff / 4); /* E */	    \
 	  }								    \
 	}								    \
       } else {								    \
@@ -183,17 +183,17 @@ extern bool can_slide;
 	  /* Edge. */							    \
 	  pedge = &GRI_edge;						    \
 	  if (GRI_y_itr % 2 == 0) {					    \
-	    pedge->type = EDGE_EW;					    \
-	    pedge->tile[0] = map_pos_to_tile(GRI_x_itr / 2 - 1,		    \
-					     (GRI_y_itr - 1) / 2);	    \
-	    pedge->tile[1] = map_pos_to_tile(GRI_x_itr / 2,		    \
-					     (GRI_y_itr - 1) / 2);	    \
-	  } else {							    \
 	    pedge->type = EDGE_NS;					    \
-	    pedge->tile[0] = map_pos_to_tile((GRI_x_itr - 1) / 2,	    \
+	    pedge->tile[0] = map_pos_to_tile((GRI_x_itr - 1) / 2, /* N */   \
 					     GRI_y_itr / 2 - 1);	    \
-	    pedge->tile[1] = map_pos_to_tile((GRI_x_itr - 1) / 2,	    \
+	    pedge->tile[1] = map_pos_to_tile((GRI_x_itr - 1) / 2, /* S */   \
 					     GRI_y_itr / 2);		    \
+	  } else {							    \
+	    pedge->type = EDGE_WE;					    \
+	    pedge->tile[0] = map_pos_to_tile(GRI_x_itr / 2 - 1,	/* W */	    \
+					     (GRI_y_itr - 1) / 2);	    \
+	    pedge->tile[1] = map_pos_to_tile(GRI_x_itr / 2, /* E */	    \
+					     (GRI_y_itr - 1) / 2);	    \
 	  }								    \
 	}								    \
       }									    \

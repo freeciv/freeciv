@@ -8,6 +8,8 @@ pkgdata_DATA =          \
 	buildings.spec	\
 	chiefs.png	\
 	chiefs.spec	\
+	colors.png	\
+	colors.spec	\
 	flags.spec	\
 	intro.png	\
 	radar.png	\

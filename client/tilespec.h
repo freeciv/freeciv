@@ -27,10 +27,12 @@
 struct Sprite;			/* opaque; gui-dep */
 
 /* An edge is the border between two tiles.  This structure represents one
- * edge.  The tiles are in unspecified order for the moment. */
+ * edge.  The tiles are given in the same order as the enumeration name. */
 struct tile_edge {
   enum {
-    EDGE_NS, EDGE_EW
+    EDGE_NS, /* North and south */
+    EDGE_WE, /* West and east */
+    EDGE_COUNT
   } type;
 #define NUM_EDGE_TILES 2
   const struct tile *tile[NUM_EDGE_TILES];
@@ -322,6 +324,20 @@ struct named_sprites {
       *darkness[MAX_INDEX_CARDINAL],         /* first unused */
       *river_outlet[4];		/* indexed by enum direction4 */
   } tx;				/* terrain extra */
+  struct {
+    struct Sprite
+      *main[EDGE_COUNT],
+      *city[EDGE_COUNT],
+      *worked[EDGE_COUNT],
+      *unavailable[EDGE_COUNT],
+      *selected[EDGE_COUNT],
+      *coastline[EDGE_COUNT],
+      *borders[EDGE_COUNT][2],
+      *player_borders[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS][EDGE_COUNT][2];
+  } grid;
+  struct {
+    struct Sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  } colors;
 
   struct terrain_drawing_data *terrain[MAX_NUM_TERRAINS];
 };

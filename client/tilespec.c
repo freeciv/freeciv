@@ -1463,6 +1463,54 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.airbase,    "tx.airbase");
   SET_SPRITE(tx.fog,        "tx.fog");
 
+  if (load_sprite("grid.main.ns")) {
+    for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+      my_snprintf(buffer, sizeof(buffer), "colors.player%d", i);
+      SET_SPRITE(colors.player[i], buffer);
+    }
+
+    for (i = 0; i < EDGE_COUNT; i++) {
+      char *name[EDGE_COUNT] = {"ns", "we"};
+      int j, p;
+
+      my_snprintf(buffer, sizeof(buffer), "grid.main.%s", name[i]);
+      SET_SPRITE(grid.main[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "grid.city.%s", name[i]);
+      SET_SPRITE(grid.city[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "grid.worked.%s", name[i]);
+      SET_SPRITE(grid.worked[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "grid.unavailable.%s", name[i]);
+      SET_SPRITE(grid.unavailable[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "grid.selected.%s", name[i]);
+      SET_SPRITE(grid.selected[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "grid.coastline.%s", name[i]);
+      SET_SPRITE(grid.coastline[i], buffer);
+
+      for (j = 0; j < 2; j++) {
+	struct Sprite *s;
+
+	my_snprintf(buffer, sizeof(buffer), "grid.borders.%c", name[i][j]);
+	SET_SPRITE(grid.borders[i][j], buffer);
+
+	for (p = 0; p < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; p++) {
+	  if (sprites.colors.player[p] && sprites.grid.borders[i][j]) {
+	    s = crop_sprite(sprites.colors.player[p],
+			    0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+			    sprites.grid.borders[i][j], 0, 0);
+	  } else {
+	    s = sprites.grid.borders[i][j];
+	  }
+	  sprites.grid.player_borders[p][i][j] = s;
+	}
+      }
+    }
+  }
+
   for (i = 0; i < num_index_cardinal; i++) {
     my_snprintf(buffer, sizeof(buffer), "tx.s_river_%s",
 		cardinal_index_str(i));
@@ -2739,6 +2787,110 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 
 
 /****************************************************************************
+  Fill in the grid sprites for the given tile, city, and unit.
+****************************************************************************/
+static int fill_grid_sprite_array(struct drawn_sprite *sprs,
+				  const struct tile *ptile,
+				  const struct tile_edge *pedge,
+				  const struct tile_corner *pcorner,
+				  const struct unit *punit,
+				  const struct city *pcity,
+				  const struct city *citymode)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+
+  if (!sprites.grid.main[EDGE_NS]) {
+    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+      /* Add grid.  In classic view this is done later. */
+      ADD_GRID(ptile, citymode);
+    }
+  } else if (pedge) {
+    bool known[EDGE_COUNT], city[EDGE_COUNT], unit[EDGE_COUNT];
+    bool worked[EDGE_COUNT], blocked[EDGE_COUNT];
+    int i;
+    struct unit *pfocus = get_unit_in_focus();
+
+    for (i = 0; i < 2; i++) {
+      const struct tile *tile = pedge->tile[i];
+      struct player *powner = tile ? map_get_owner(tile) : NULL;
+      int dummy_x, dummy_y;
+
+      known[i] = tile && tile_get_known(tile) != TILE_UNKNOWN;
+      city[i] = tile && (powner == NULL || powner == game.player_ptr)
+	&& player_in_city_radius(game.player_ptr, tile);
+      unit[i] = tile && pfocus && unit_flag(pfocus, F_CITIES)
+	&& city_can_be_built_here(pfocus->tile, pfocus)
+	&& base_map_to_city_map(&dummy_x, &dummy_y, pfocus->tile, tile);
+      worked[i] = blocked[i] = FALSE;
+      if (city[i]) {
+	enum city_tile_type ttype;
+	struct city *dummy;
+
+	get_worker_on_map_position(tile, &ttype, &dummy);
+	switch (ttype) {
+	case C_TILE_EMPTY:
+	  break;
+	case C_TILE_WORKER:
+	  worked[i] = TRUE;
+	  break;
+	case C_TILE_UNAVAILABLE:
+	  blocked[i] = TRUE;
+	  break;
+	}
+      }
+    }
+
+    if ((pedge->tile[0]
+	 && map_deco[pedge->tile[0]->index].hilite == HILITE_CITY)
+	|| (pedge->tile[1]
+	    && map_deco[pedge->tile[1]->index].hilite == HILITE_CITY)) {
+      ADD_SPRITE_SIMPLE(sprites.grid.selected[pedge->type]);
+    } else if (!draw_terrain && draw_coastline
+	       && pedge->tile[0] && pedge->tile[1]
+	       && known[0] && known[1]
+	       && (is_ocean(pedge->tile[0]->terrain)
+		   ^ is_ocean(pedge->tile[1]->terrain))) {
+      ADD_SPRITE_SIMPLE(sprites.grid.coastline[pedge->type]);
+    } else if (draw_map_grid) {
+      if (blocked[0] || blocked[1]) {
+	ADD_SPRITE_SIMPLE(sprites.grid.unavailable[pedge->type]);
+      } else if (worked[0] || worked[1]) {
+	ADD_SPRITE_SIMPLE(sprites.grid.worked[pedge->type]);
+      } else if (city[0] || city[1]) {
+	ADD_SPRITE_SIMPLE(sprites.grid.city[pedge->type]);
+      } else if (known[0] || known[1]) {
+	ADD_SPRITE_SIMPLE(sprites.grid.main[pedge->type]);
+      }
+    } else if (draw_city_outlines) {
+      if (XOR(city[0], city[1])) {
+	ADD_SPRITE_SIMPLE(sprites.grid.city[pedge->type]);
+      }
+      if (XOR(unit[0], unit[1])) {
+	ADD_SPRITE_SIMPLE(sprites.grid.worked[pedge->type]);
+      }
+    }
+
+    if (draw_borders && game.borders > 0 && known[0] && known[1]) {
+      struct player *owner0 = map_get_owner(pedge->tile[0]);
+      struct player *owner1 = map_get_owner(pedge->tile[1]);
+
+      if (owner0 != owner1) {
+	if (owner0) {
+	  ADD_SPRITE_SIMPLE(sprites.grid.player_borders
+			    [owner0->player_no][pedge->type][0]);
+	}
+	if (owner1) {
+	  ADD_SPRITE_SIMPLE(sprites.grid.player_borders
+			    [owner1->player_no][pedge->type][1]);
+	}
+      }
+    }
+  }
+
+  return sprs - saved_sprs;
+}
+
+/****************************************************************************
   Fill in the sprite array for the given tile, city, and unit.
 
   ptile, if specified, gives the tile.  If specified the terrain and specials
@@ -2900,9 +3052,9 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
     break;
 
   case LAYER_GRID1:
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN && is_isometric) {
-      /* Add grid.  In classic view this is done later. */
-      ADD_GRID(ptile, citymode);
+    if (is_isometric) {
+      sprs += fill_grid_sprite_array(sprs, ptile, pedge, pcorner,
+				     punit, pcity, citymode);
     }
     break;
 
@@ -2985,9 +3137,9 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
     break;
 
   case LAYER_GRID2:
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN && !is_isometric) {
-      /* Add grid.  In iso-view this is done earlier. */
-      ADD_GRID(ptile, citymode);
+    if (!is_isometric) {
+      sprs += fill_grid_sprite_array(sprs, ptile, pedge, pcorner,
+				     punit, pcity, citymode);
     }
     break;
 
