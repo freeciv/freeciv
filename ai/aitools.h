@@ -16,12 +16,70 @@
 #include "shared.h"		/* bool type */
 #include "unit.h"
 
+/* 
+ * Change these and remake to watch logs from a specific 
+ * part of the AI code.
+ */
+#define LOGLEVEL_BODYGUARD LOG_DEBUG
+#define LOGLEVEL_UNIT LOG_DEBUG
+#define LOGLEVEL_GOTO LOG_DEBUG
+#define LOGLEVEL_CITY LOG_DEBUG
+
+/* General AI logging macros */
+
+#define CITY_LOG(level, pcity, msg...)                       \
+  {                                                          \
+    char buffer[500];                                        \
+    sprintf(buffer, "%s's %s(%d,%d) [s%d d%d u%d] ",         \
+            city_owner(pcity)->name, pcity->name,            \
+            pcity->x, pcity->y, pcity->size,                 \
+            pcity->ai.danger, pcity->ai.urgency);            \
+    cat_snprintf(buffer, sizeof(buffer), msg);               \
+    freelog(MIN(LOGLEVEL_CITY, level), buffer);              \
+  }
+
+#define UNIT_LOG(level, punit, msg...)                       \
+  {                                                          \
+    char buffer[500];                                        \
+    sprintf(buffer, "%s's %s[%d] (%d,%d)->(%d,%d) ",         \
+            unit_owner(punit)->name, unit_type(punit)->name, \
+          punit->id, punit->x, punit->y,                     \
+          punit->goto_dest_x, punit->goto_dest_y);           \
+    cat_snprintf(buffer, sizeof(buffer), msg);               \
+    freelog(MIN(LOGLEVEL_UNIT, level), buffer);              \
+  }
+
+/* Only makes a log message when a GOTO fails */
+#define GOTO_LOG(level, punit, result, msg...)                    \
+  if (result == GR_FAILED || result == GR_FOUGHT) {               \
+    char buffer[500];                                             \
+    sprintf(buffer, "%s's %s[%d] on GOTO (%d,%d)->(%d,%d) %s : ", \
+          unit_owner(punit)->name, unit_type(punit)->name,        \
+          punit->id, punit->x, punit->y,                          \
+          punit->goto_dest_x, punit->goto_dest_y,                 \
+          (result==GR_FAILED) ? "failed" : "fought");             \
+    cat_snprintf(buffer, sizeof(buffer), msg);                    \
+    freelog(MIN(LOGLEVEL_GOTO, level), buffer);                   \
+  }                                                               \
+
+#define BODYGUARD_LOG(level, punit, msg)                        \
+  {                                                             \
+    char buffer[500];                                           \
+    struct unit *pcharge = find_unit_by_id(punit->ai.charge);   \
+    sprintf(buffer, "%s's bodyguard %s[%d] (%d,%d)[%d@%d,%d]->(%d,%d) ",\
+          unit_owner(punit)->name, unit_type(punit)->name,      \
+          punit->id, punit->x, punit->y,                        \
+          pcharge ? pcharge->id : -1, pcharge ? pcharge->x : -1,\
+          pcharge ? pcharge->y : -1,                            \
+          punit->goto_dest_x, punit->goto_dest_y);              \
+    cat_snprintf(buffer, sizeof(buffer), msg);                  \
+    freelog(MIN(LOGLEVEL_BODYGUARD, level), buffer);            \
+  }
+
 struct ai_choice;
 struct city;
 struct government;
 struct player;
-
-#define LOG_BODYGUARD LOG_DEBUG
 
 enum bodyguard_enum {
   BODYGUARD_WANTED=-1,

@@ -71,23 +71,17 @@ static void ai_unit_bodyguard_move(int unitid, int x, int y)
   assert(punit);
 
   if (!is_tiles_adjacent(x, y, bodyguard->x, bodyguard->y)) {
-    freelog(LOG_BODYGUARD, "%s: %s (%d,%d) is too far from its charge (%d,%d)!",
-            pplayer->name, unit_type(bodyguard)->name, bodyguard->x, 
-            bodyguard->y, x, y);
+    BODYGUARD_LOG(LOG_DEBUG, bodyguard, "is too far from its charge");
     return;
   }
 
   if (bodyguard->moves_left <= 0) {
     /* should generally should not happen */
-    freelog(LOG_BODYGUARD, "%s: %s left its %s bodyguard behind at (%d,%d)!",
-            pplayer->name, unit_type(punit)->name, 
-            unit_type(bodyguard)->name, x, y);
+    BODYGUARD_LOG(LOG_DEBUG, bodyguard, "was left behind by charge");
     return;
   }
 
-  freelog(LOG_BODYGUARD, "%s: Dragging %s's bodyguard %s to (%d,%d)",
-          pplayer->name, unit_type(punit)->name, unit_type(bodyguard)->name, 
-          x, y);
+  BODYGUARD_LOG(LOG_DEBUG, bodyguard, "was dragged along by charge");
 
   handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
   (void) ai_unit_move(bodyguard, x, y);
@@ -105,16 +99,13 @@ static bool has_bodyguard(struct unit *punit)
   if (punit->ai.bodyguard > BODYGUARD_NONE) {
     if ((guard = find_unit_by_id(punit->ai.bodyguard))) {
       if (guard->ai.charge != punit->id) {
-        freelog(LOG_BODYGUARD, "%s: %s didn't know it had %s for bodyguard "
-                "at (%d,%d)!", unit_owner(punit)->name, unit_type(punit)->name,
-                unit_type(guard)->name, punit->x, punit->y);
+        BODYGUARD_LOG(LOG_VERBOSE, guard, "my charge didn't know about me!");
       }
       guard->ai.charge = punit->id; /* ensure sanity */
       return TRUE;
     } else {
       punit->ai.bodyguard = BODYGUARD_NONE;
-      freelog(LOG_BODYGUARD, "%s: %s's bodyguard has disappeared at (%d,%d)!",
-              unit_owner(punit)->name, unit_type(punit)->name, punit->x, punit->y);
+      UNIT_LOG(LOG_VERBOSE, punit, "bodyguard disappeared!");
     }
   }
   return FALSE;
@@ -181,8 +172,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
       && (bodyguard = find_unit_by_id(punit->ai.bodyguard))
       && same_pos(punit->x, punit->y, bodyguard->x, bodyguard->y)
       && bodyguard->moves_left == 0) {
-    freelog(LOG_BODYGUARD, "%s's %s does not want to leave its %s bodyguard.",
-            pplayer->name, unit_type(punit)->name, unit_type(bodyguard)->name);
+    UNIT_LOG(LOG_DEBUG, punit, "does not want to leave its bodyguard");
     return FALSE;
   }
 
@@ -191,8 +181,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
       && unit_type(punit)->move_rate > map_move_cost(punit, x, y)
       && enemies_at(punit, x, y)
       && !enemies_at(punit, punit->x, punit->y)) {
-    freelog(LOG_DEBUG, "%s's %s ending move early to stay out of trouble.",
-            pplayer->name, unit_type(punit)->name);
+    UNIT_LOG(LOG_DEBUG, punit, "ending move early to stay out of trouble");
     return FALSE;
   }
 

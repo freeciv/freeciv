@@ -223,9 +223,8 @@ static int unit_move_turns(struct unit *punit, int x, int y)
   default:
     freelog(LOG_FATAL, "In ai/aiunit.c: function unit_move_turns");
     freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
-    assert(0);
+    assert(FALSE);
     exit(EXIT_FAILURE);
-    move_time = -1;
   }
   return move_time;
 }
@@ -334,14 +333,18 @@ bool ai_manage_explorer(struct unit *punit)
     } iterate_outward_end;
     
     if (bestcost <= maxmoves * SINGLE_MOVE) {
+      enum goto_result result;
+
       /* Go there! */
       punit->goto_dest_x = best_x;
       punit->goto_dest_y = best_y;
       set_unit_activity(punit, ACTIVITY_GOTO);
-      if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      if (result == GR_DIED) {
         /* We're dead. */
         return FALSE;
       }
+      GOTO_LOG(LOG_DEBUG, punit, result, "exploring huts");
 
       /* TODO: Take more advantage from the do_unit_goto() return value. */
 
@@ -509,14 +512,18 @@ bool ai_manage_explorer(struct unit *punit)
     } whole_map_iterate_end;
 
     if (most_unknown > 0) {
+      enum goto_result result;
+
       /* Go there! */
-      
       punit->goto_dest_x = best_x;
       punit->goto_dest_y = best_y;
       handle_unit_activity_request(punit, ACTIVITY_GOTO);
-      do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      if (result == GR_DIED) {
+        return FALSE;
+      }
+      GOTO_LOG(LOG_DEBUG, punit, result, "exploring territory");
 
-      /* FIXME? Why we don't test if the unit is still alive? */
       /* TODO: Take more advantage from the do_unit_goto() return value. */
       
       if (punit->moves_left > 0) {
@@ -541,9 +548,7 @@ bool ai_manage_explorer(struct unit *punit)
   }
 
   /* We have nothing to explore, so we can go idle. */
-  
-  freelog(LOG_DEBUG, "%s's %s at (%d,%d) failed to explore.",
-          pplayer->name, unit_type(punit)->name, punit->x, punit->y);
+  UNIT_LOG(LOG_DEBUG, punit, "failed to explore more");
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
   
   /* 
@@ -552,21 +557,39 @@ bool ai_manage_explorer(struct unit *punit)
    * --pasky), we will return to our homecity, maybe even to another continent.
    */
   
-  if (pplayer->ai.control && is_military_unit(punit)) {
+  if (pplayer->ai.control) {
     /* Unit's homecity */
     struct city *pcity = find_city_by_id(punit->homecity);
 
-    if (pcity) {
+    /* No homecity? Find one! */
+    if (!pcity) {
+      pcity = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, FALSE);
+      if (pcity) {
+        struct packet_unit_request packet;
+        packet.unit_id = punit->id;
+        packet.city_id = pcity->id;
+        packet.x = punit->x;
+        packet.y = punit->y;
+        packet.name[0] = '\0';
+        handle_unit_change_homecity(pplayer, &packet);
+      }
+    }
+
+    if (pcity && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       if (map_get_continent(pcity->x, pcity->y) == continent) {
+        UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by foot");
         ai_military_gohome(pplayer, punit);
       } else {
         /* Sea travel */
         if (find_boat(pplayer, &x, &y, 0) == 0) {
           punit->ai.ferryboat = -1;
         } else {
+          enum goto_result result;
+          UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by boat");
           punit->goto_dest_x = x;
           punit->goto_dest_y = y;
-          do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+          result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+          GOTO_LOG(LOG_DEBUG, punit, result, "explorer sail home");
         }
       }
     }
@@ -1000,11 +1023,9 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
                                 get_total_attack_power(patt, punit) *
                                 get_total_attack_power(punit, pdef)
           && stack_size < 2 && get_total_attack_power(patt, punit) > 0) {
-        freelog(LOG_DEBUG, "%s defending %s from %s's %s",
-                unit_type(punit)->name,
-                map_get_city(x, y)->name,
-                unit_owner(pdef)->name, unit_type(pdef)->name);
-        
+        freelog(LOG_DEBUG, "%s's %s defending %s from %s's %s at (%d, %d)",
+                pplayer->name, unit_type(punit)->name, map_get_city(x, y)->name,
+                unit_owner(pdef)->name, unit_type(pdef)->name, punit->x, punit->y);
       } else {
         /* See description of kill_desire() about this variables. */
         int vuln = unit_vulnerability(punit, pdef);
@@ -1109,7 +1130,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   }
   
   if (aunit) {
-    freelog(LOG_DEBUG, "%s#%d@(%d,%d) -> %s#%d@(%d,%d) [body=%d]",
+    freelog(LOG_DEBUG, "%s#%d@(%d,%d) to meet charge %s#%d@(%d,%d)[body=%d]",
 	    unit_type(punit)->name, punit->id, punit->x, punit->y,
 	    unit_type(aunit)->name, aunit->id, aunit->x, aunit->y,
 	    aunit->ai.bodyguard);
@@ -1117,9 +1138,13 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 
   if (!same_pos(punit->x, punit->y, x, y)) {
     if (goto_is_sane(punit, x, y, TRUE)) {
+      enum goto_result result;
       punit->goto_dest_x = x;
       punit->goto_dest_y = y;
-      do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      if (result != GR_DIED) {
+        GOTO_LOG(LOGLEVEL_BODYGUARD, punit, result, "bodyguard meet");
+      }
     } else {
       /* can't possibly get there to help */
       ai_unit_new_role(punit, AIUNIT_NONE);
@@ -1441,7 +1466,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
     }
   } city_list_iterate_end;
 
-  freelog(LOG_BODYGUARD, "%s: %s (%d@%d,%d) looking for charge; %d/%d",
+  freelog(LOG_DEBUG, "%s: %s (%d@%d,%d) looking for charge; %d/%d",
 	  pplayer->name, unit_type(punit)->name, punit->id,
 	  punit->x, punit->y, best, best * 100 / toughness);
 
@@ -1517,6 +1542,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 
   /* ok, what if I'm somewhere new? - ugly, kludgy code by Syela */
   if (stay_and_defend_city(punit)) {
+    UNIT_LOG(LOG_DEBUG, punit, "stays to defend city");
     return;
   }
 
@@ -2269,7 +2295,7 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
     ai_manage_explorer(punit);
     break;
   default:
-    abort();
+    assert(FALSE);
   }
 
   if ((punit = find_unit_by_id(id))) {

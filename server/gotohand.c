@@ -1364,7 +1364,6 @@ enum goto_result do_unit_goto(struct unit *punit,
       }
 
       if(punit->x!=x || punit->y!=y) {
-	freelog(LOG_DEBUG, "Aborting, out of movepoints.");
 	send_unit_info(NULL, punit);
 	return GR_OUT_OF_MOVEPOINTS;
       }
