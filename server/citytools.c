@@ -802,8 +802,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 		   int kill_outside, bool transfer_unit_verbose,
 		   bool resolve_stack, bool raze)
 {
-  struct map_position *resolve_list = NULL;
-  int i, no_units = 0;
+  int i;
   struct unit_list old_city_units;
   struct player *pgiver = city_owner(pcity);
   int old_trade_routes[NUM_TRADEROUTES];
@@ -850,24 +849,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   pcity->owner = ptaker->player_no;
   city_list_insert(&ptaker->cities, pcity);
 
-  /* transfer_city_units() destroys the city's units_supported
-     list; we save the list so we can resolve units afterwards. */
-  if (resolve_stack) {
-    no_units = unit_list_size(&old_city_units);
-    if (no_units > 0) {
-      resolve_list = fc_malloc((no_units + 1) * sizeof(struct map_position));
-      i = 0;
-      unit_list_iterate(old_city_units, punit) {
-	resolve_list[i].x = punit->x;
-	resolve_list[i].y = punit->y;
-	i++;
-      } unit_list_iterate_end;
-      resolve_list[i].x = pcity->x;
-      resolve_list[i].y = pcity->y;
-      assert(i == no_units);
-    }
-  }
-
   transfer_city_units(ptaker, pgiver, &old_city_units,
 		      pcity, NULL,
 		      kill_outside, transfer_unit_verbose);
@@ -875,12 +856,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   unit_list_unlink_all(&old_city_units);
   reset_move_costs(pcity->x, pcity->y);
 
-  if (resolve_stack && (no_units > 0) && resolve_list) {
-    for (i = 0; i < no_units+1 ; i++)
-      resolve_unit_stack(resolve_list[i].x, resolve_list[i].y,
-			 transfer_unit_verbose);
-    free(resolve_list);
-    resolve_list = NULL;
+  if (resolve_stack && !pplayers_allied(pgiver, ptaker)) {
+    resolve_unit_stacks(pgiver, ptaker, transfer_unit_verbose);
   }
 
   /* Update the city's trade routes. */

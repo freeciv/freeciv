@@ -1375,102 +1375,69 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 }
 
 /**************************************************************************
-  Resolve unit stack
+  Teleport or remove a unit due to stack conflict.
+**************************************************************************/
+static void bounce_unit(struct unit *punit, bool verbose)
+{
+  struct player *pplayer = unit_owner(punit);
+  struct city *pcity = find_closest_owned_city(pplayer, punit->x, punit->y,
+                                               is_sailing_unit(punit), NULL);
 
-  When in civil war (or an alliance breaks) there will potentially be units 
+  if (pcity) {
+    (void) teleport_unit_to_city(punit, pcity, 0, verbose);
+  } else {
+    disband_stack_conflict_unit(punit, verbose);
+  }
+}
+
+/**************************************************************************
+  When in civil war or an alliance breaks there will potentially be units 
   from both sides coexisting on the same squares.  This routine resolves 
-  this by teleporting the units in multiowner stacks to the closest city.
-
-  That is, if a unit is closer to its city than the coexistent enemy unit,
-  then the enemy unit is teleported to its owner's closest city.
-
-                         - Kris Bubendorfer
+  this by first bouncing off non-allied units from their cities, then by 
+  bouncing both players' units in now illegal multiowner stacks.  To avoid
+  drowning due to removal of transports, we bounce everyone (including
+  third parties' units) from ocean tiles.
 
   If verbose is true, the unit owner gets messages about where each
-  units goes.  --dwp
+  units goes.
 **************************************************************************/
-void resolve_unit_stack(int x, int y, bool verbose)
+void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
+                         bool verbose)
 {
-  struct unit *punit, *cunit;
-  struct tile *ptile = map_get_tile(x,y);
-
-  /* We start by reducing the unit list until we only have allied units */
-  while(TRUE) {
-    struct city *pcity, *ccity;
-
-    if (unit_list_size(&ptile->units) == 0)
-      return;
-
-    punit = unit_list_get(&(ptile->units), 0);
-    pcity = find_closest_owned_city(unit_owner(punit), x, y,
-				    is_sailing_unit(punit), NULL);
-
-    /* If punit is in an enemy city we send it to the closest friendly city
-       This is not always caught by the other checks which require that
-       there are units from two nations on the tile */
-    if (ptile->city && !is_allied_city_tile(ptile, unit_owner(punit))) {
-      if (pcity)
-	(void) teleport_unit_to_city(punit, pcity, 0, verbose);
-      else
-	disband_stack_conflict_unit(punit, verbose);
-      continue;
+  /* Throw aplayer's units out of pplayer's cities */
+  city_list_iterate(pplayer->cities, pcity) {
+    struct unit *punit;
+    while ((punit = is_non_allied_unit_tile(map_get_tile(pcity->x, pcity->y),
+                                            pplayer))) {
+      bounce_unit(punit, verbose);
     }
+  } city_list_iterate_end;
 
-    cunit = is_non_allied_unit_tile(ptile, unit_owner(punit));
-    if (!cunit)
-      break;
-
-    ccity = find_closest_owned_city(unit_owner(cunit), x, y,
-				    is_sailing_unit(cunit), NULL);
-
-    if (pcity && ccity) {
-      /* Both unit owners have cities; teleport unit farthest from its
-	 owner's city to that city. This also makes sure we get no loops
-	 from when we resolve the stack inside a city. */
-      if (map_distance(x, y, pcity->x, pcity->y) 
-	  < map_distance(x, y, ccity->x, ccity->y))
-	(void) teleport_unit_to_city(cunit, ccity, 0, verbose);
-      else
-	(void) teleport_unit_to_city(punit, pcity, 0, verbose);
-    } else {
-      /* At least one of the unit owners doesn't have any cities;
-	 if the other owner has any cities we teleport his units to
-	 the closest. We take care not to teleport the unit to the
-	 original square, as that would cause the while loop in this
-	 function to potentially never stop. */
-      if (pcity) {
-	if (same_pos(x, y, pcity->x, pcity->y))
-	  disband_stack_conflict_unit(cunit, verbose);
-	else
-	  (void) teleport_unit_to_city(punit, pcity, 0, verbose);
-      } else if (ccity) {
-	if (same_pos(x, y, ccity->x, ccity->y))
-	  disband_stack_conflict_unit(punit, verbose);
-	else
-	  (void) teleport_unit_to_city(cunit, ccity, 0, verbose);
-      } else {
-	/* Neither unit owners have cities;
-	   disband both units. */
-	disband_stack_conflict_unit(punit, verbose);
-	disband_stack_conflict_unit(cunit, verbose);
-      }      
+  /* Throw pplayer's units out of aplayer's cities */
+  city_list_iterate(aplayer->cities, pcity) {
+    struct unit *punit;
+    while ((punit = is_non_allied_unit_tile(map_get_tile(pcity->x, pcity->y),
+                                            aplayer))) {
+      bounce_unit(punit, verbose);
     }
-  } /* end while */
+  } city_list_iterate_end;
 
-  /* There are only allied units left on this square.  If there is not enough 
-     transporter capacity left, send surplus to the closest friendly city. */
-  unit_list_iterate_safe(ptile->units, aunit) {
-    if (ground_unit_transporter_capacity(x, y, unit_owner(aunit)) < 0
-        && is_ground_unit(aunit)) {
-      struct city *acity =
-                find_closest_owned_city(unit_owner(aunit), x, y, FALSE, NULL);
+  /* Now cities are clean - do non-city stacks. For each unit, check
+   * if we stack illegally, if so, bounce both players' units. If
+   * on ocean tile, bounce everyone to avoid drowning. */
+  unit_list_iterate_safe(pplayer->units, punit) {
+    int x = punit->x, y = punit->y;
+    struct tile *ptile = map_get_tile(x, y);
 
-      if (acity) {
-        (void) teleport_unit_to_city(aunit, acity, 0, verbose);
-      } else {
-        disband_stack_conflict_unit(aunit, verbose);
-      }
-    }
+    if (is_non_allied_unit_tile(ptile, pplayer)) {
+      unit_list_iterate(ptile->units, aunit) {
+        if (unit_owner(aunit) == pplayer
+            || unit_owner(aunit) == aplayer
+            || is_ocean(ptile->terrain)) {
+          bounce_unit(aunit, verbose);
+        }
+      } unit_list_iterate_end;
+    }    
   } unit_list_iterate_safe_end;
 }
 

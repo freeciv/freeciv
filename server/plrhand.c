@@ -907,12 +907,9 @@ void handle_player_cancel_pact(struct player *pplayer,
   send_player_info(pplayer2, NULL);
 
   /* If the old state was alliance, the players' units can share tiles
-     illegally, and we need to call resolve_unit_stack() on all the players'
-     potentially shared unit positions. */
+     illegally, and we need to call resolve_unit_stacks() */
   if (old_type == DS_ALLIANCE) {
-    unit_list_iterate_safe(pplayer->units, punit) {
-      resolve_unit_stack(punit->x, punit->y, TRUE);
-    } unit_list_iterate_safe_end;
+    resolve_unit_stacks(pplayer, pplayer2, TRUE);
   }
 
   /* 
@@ -1713,17 +1710,8 @@ void civil_war(struct player *pplayer)
   city_list_iterate_end;
 
   i = 0;
-  
-  unit_list_iterate(pplayer->units, punit) 
-    resolve_unit_stack(punit->x, punit->y, FALSE);
-  unit_list_iterate_end;
-  city_list_iterate(pplayer->cities, pcity) {
-    resolve_unit_stack(pcity->x, pcity->y, FALSE);
-  } city_list_iterate_end;
-  city_list_iterate(cplayer->cities, pcity) {
-    resolve_unit_stack(pcity->x, pcity->y, FALSE);
-  } city_list_iterate_end;
 
+  resolve_unit_stacks(pplayer, cplayer, FALSE);
 
   notify_player(NULL,
 		_("Game: The capture of %s's capital and the destruction "
