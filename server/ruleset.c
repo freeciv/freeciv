@@ -291,8 +291,13 @@ static int lookup_unit_type(struct section_file *file, const char *prefix,
   char *sval;
   int i;
   
-  sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
-  if (!required && strcmp(sval, "None")==0) {
+  if (required) {
+    sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
+  } else {
+    sval = secfile_lookup_str_default(file, "None", "%s.%s", prefix, entry);
+  }
+
+  if (strcmp(sval, "None")==0) {
     i = -1;
   } else {
     i = find_unit_type_by_name(sval);
@@ -324,8 +329,13 @@ static Impr_Type_id lookup_impr_type(struct section_file *file, const char *pref
   char *sval;
   int id;
 
-  sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
-  if (!required && strcmp(sval, "None")==0) {
+  if (required) {
+    sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
+  } else {
+    sval = secfile_lookup_str_default(file, "None", "%s.%s", prefix, entry);
+  }
+
+  if (strcmp(sval, "None")==0) {
     id = B_LAST;
   } else {
     id = find_improvement_by_name(sval);
@@ -727,7 +737,7 @@ static void load_ruleset_units(struct section_file *file)
     sz_strlcpy(u->graphic_str,
 	       secfile_lookup_str(file,"%s.graphic", sec[i]));
     sz_strlcpy(u->graphic_alt,
-	       secfile_lookup_str(file,"%s.graphic_alt", sec[i]));
+	       secfile_lookup_str_default(file, "-", "%s.graphic_alt", sec[i]));
     
     u->build_cost =
       secfile_lookup_int(file,"%s.build_cost", sec[i]);
