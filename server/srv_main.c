@@ -427,6 +427,17 @@ main_start_players:
     freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
 	    read_timer_seconds(eot_timer));
 
+    /* Do auto-saves just before starting sniff_packets(), so that
+     * autosave happens effectively "at the same time" as manual
+     * saves, from the point of view of restarting and AI players.
+     * Post-increment so we don't count the first loop.
+     */
+    if(save_counter >= game.save_nturns && game.save_nturns>0) {
+      save_counter=0;
+      save_game_auto();
+    }
+    save_counter++;
+    
     freelog(LOG_DEBUG, "sniffingpackets");
     while(sniff_packets()==1);
 
@@ -469,10 +480,6 @@ main_start_players:
 
     conn_list_do_unbuffer(&game.game_connections);
 
-    if(++save_counter>=game.save_nturns && game.save_nturns>0) {
-      save_counter=0;
-      save_game_auto();
-    }
     if (game.year>game.end_year || is_game_over()) 
       server_state=GAME_OVER_STATE;
   }
