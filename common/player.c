@@ -381,8 +381,10 @@ int num_known_tech_with_flag(struct player *pplayer, enum tech_flag_id flag)
 
 /**************************************************************************
   Return the expected net income of the player this turn.  This includes
-  tax revenue and upkeep, but not one-time purchases or found gold.  Does
-  not depend on pcity->total_tax being set correctly.
+  tax revenue and upkeep, but not one-time purchases or found gold.
+
+  This function depends on pcity->tax_total being set for all cities, so
+  make sure the player's cities have been refreshed.
 **************************************************************************/
 int player_get_expected_income(struct player *pplayer)
 {
@@ -390,31 +392,14 @@ int player_get_expected_income(struct player *pplayer)
 
   /* City income/expenses. */
   city_list_iterate(pplayer->cities, pcity) {
-    int lux, tax, sci, trade = pcity->trade_prod;
-
-    get_tax_income(pplayer, trade, &sci, &lux, &tax);
-    income += tax;
-    income += pcity->specialists[SP_TAXMAN]
-            * game.rgame.specialists[SP_TAXMAN].bonus;
-    income += get_city_tithes_bonus(pcity);
-
-    /* Improvement upkeep. */
-    impr_type_iterate(impr_id) {
-      if (city_got_building(pcity, impr_id)) {
-	income -= improvement_upkeep(pcity, impr_id);
-      }
-    } impr_type_iterate_end;
+    /* Gold suplus accounts for imcome plus building and unit upkeep. */
+    income += city_gold_surplus(pcity, pcity->tax_total);
 
     /* Capitalization income. */
     if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
       income += pcity->shield_stock + pcity->shield_surplus;
     }
   } city_list_iterate_end;
-
-  /* Unit upkeep. */
-  unit_list_iterate(pplayer->units, punit) {
-    income -= punit->upkeep_gold;
-  } unit_list_iterate_end;
 
   return income;
 }
