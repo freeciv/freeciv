@@ -152,7 +152,7 @@ client/gui-sdl/messagewin.c
 client/gui-sdl/optiondlg.c
 client/gui-sdl/plrdlg.c
 client/gui-sdl/repodlgs.c
-client-gui-sdl/spaceshipdlg.c
+client/gui-sdl/spaceshipdlg.c
 client/gui-sdl/wldlg.c
 client/gui-win32/chatline.c
 client/gui-win32/citydlg.c
