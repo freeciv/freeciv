@@ -15,6 +15,7 @@
 
 struct city;
 struct Clause;
+typedef int cid;
 
 void client_remove_player(int plr_id);
 void client_remove_city(struct city *pcity);
@@ -48,6 +49,7 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y);
  * (including wonders). A cid >= B_LAST denotes a unit with the
  * unit_type_id of (cid - B_LAST).
  */
+
 cid cid_encode(int is_unit, int id);
 cid cid_encode_from_city(struct city *pcity);
 void cid_decode(cid cid, int *is_unit, int *id);
