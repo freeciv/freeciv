@@ -208,9 +208,12 @@ static void pf_init_node(struct pf_map *pf_map, struct pf_node * node,
     bool my_zoc = (tile->city || tile->terrain == T_OCEAN
 		   || is_my_zoc(params->owner, x, y));
     bool allied = (is_allied_unit_tile(tile, params->owner) != NULL);
+    bool enemy = (is_enemy_unit_tile(tile, params->owner) != NULL);
 
     /* if my zoc 2 else if allied 1 else 0 */
-    node->zoc_number = (my_zoc ? 2 : (allied ? 1 : 0));
+    /* Essentially, enemy tile is like allied tile, we should be allowed
+     * to go there (attack), but not to leave, necessarily */
+    node->zoc_number = (my_zoc ? 2 : ((allied || enemy) ? 1 : 0));
   }
 
   /* Evaluate the extra cost of the destination */
@@ -576,8 +579,8 @@ static struct pf_path* pf_construct_path(const struct pf_map *pf_map,
 
     dir_next = node->dir_to_here;
 
-    /* Step further back */
-    if (!MAPSTEP(x, y, x, y, DIR_REVERSE(dir_next))) {
+    /* Step further back, if we haven't finished yet */
+    if (i > 0 && !MAPSTEP(x, y, x, y, DIR_REVERSE(dir_next))) {
       die("pf_next_get_path: wrong directions recorded!");
       return NULL;
     }
@@ -633,14 +636,20 @@ void pf_print_path(int log_level, const struct pf_path *path)
 {
   int i;
 
-  freelog(log_level, "PF: path (at %p) consists of %d positions:", path,
-	  path->length);
+  if (path) {
+    freelog(log_level, "PF: path (at %p) consists of %d positions:", path,
+	    path->length);
+  } else {
+    freelog(log_level, "PF: path is NULL");
+    return;
+  }
 
   for (i = 0; i < path->length; i++) {
     freelog(log_level,
-	    "PF:   %2d/%2d: (%2d,%2d) cost=%2d (%2d, %d) EC=%d",
+	    "PF:   %2d/%2d: (%2d,%2d) dir=%2s cost=%2d (%2d, %d) EC=%d",
 	    i + 1, path->length,
 	    path->positions[i].x, path->positions[i].y,
+	    dir_get_name(path->positions[i].dir_to_next_pos),
 	    path->positions[i].total_MC, path->positions[i].turn,
 	    path->positions[i].moves_left, path->positions[i].total_EC);
   }
@@ -942,6 +951,13 @@ static struct pf_path *pf_danger_construct_path(const struct pf_map *pf_map,
     die("illegal TM in path-finding with danger");
     return NULL;
   }
+
+  if (d_node->is_dangerous) {
+    /* "Best" path to a dangerous tile is undefined */
+    /* TODO: return the "safest" path */
+    return NULL;
+  }
+
 
   path->positions 
     = fc_malloc((d_node->step + 1) * sizeof(struct pf_position));
