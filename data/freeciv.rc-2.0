@@ -28,8 +28,16 @@ style "help_text"
   font_name = "Fixed 12"
 }
 
+style "monospace_label"
+{
+  font_name = "LucidaTypewriter 10"
+  fg[NORMAL] = { 0.0, 0.0, 1.0 }
+  fg[PRELIGHT] = { 0.0, 0.0, 1.0 }
+}
+
 widget	"Freeciv*.city label"		style	"city_label"
 widget	"Freeciv*.notify label"		style	"notify_label"
 widget	"Freeciv*.spaceship label"	style	"spaceship_label"
 widget	"Freeciv*.help label"		style	"help_label"
 widget	"Freeciv*.help text"		style	"help_text"
+widget	"*.prodmenu*.GtkAccelLabel"	style	"monospace_label"
