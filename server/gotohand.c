@@ -857,6 +857,24 @@ static bool find_the_shortest_path(struct unit *punit,
   return TRUE;
 }
 
+/****************************************************************************
+  Can the player see that the given ocean tile is along the coastline?
+****************************************************************************/
+static bool is_coast_seen(int map_x, int map_y, struct player *pplayer)
+{
+  bool ai_always_see_map = !ai_handicap(pplayer, H_MAP);
+
+  adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
+    /* Is there land here, and if so can we see it? */
+    if (!is_ocean(map_get_terrain(adjc_x, adjc_y))
+	&& (ai_always_see_map || map_is_known(adjc_x, adjc_y, pplayer))) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
+}
+
 /**************************************************************************
 This is used to choose among the valid directions marked on the warmap
 by the find_the_shortest_path() function. Returns a direction or -1 if

@@ -1269,40 +1269,6 @@ void disable_fog_of_war(void)
   } players_iterate_end;
 }
 
-/***************************************************************
-Can pplayer conclude (at least by circumstantial evidence) that
-(x,y) is on coastline?  Remember, coastline ocean tiles have a 
-small stripe of land in them, even if the actual continent is 
-not seen.
-***************************************************************/
-bool is_coast_seen(int x, int y, struct player *pplayer)
-{
-  bool ai_always_see_map = !ai_handicap(pplayer, H_MAP);
-
-  square_iterate(x, y, 1, x1, y1) {
-    if (is_ocean(map_get_terrain(x1, y1))) {
-      continue;
-    }
-    /* Found land next to (x,y).  Can we see it? */
-    if (ai_always_see_map || map_is_known(x1, y1, pplayer)) {
-      /* Yes, we can see it */
-      return TRUE;
-    }
-    /* No, we cannot see it, but maybe we can see the strip of land
-     * on a tile next to it? */
-    cardinal_adjc_iterate(x1, y1, x2, y2) {
-      if (map_is_known(x2, y2, pplayer)) {
-        /* Yes, we can see (x2, y2) and it will display
-         * the strip of land.  We can conclude that (x1, y1) is land
-         * and therefore (x,y) is right next to (or on) the land */
-        return TRUE;
-      }
-    } cardinal_adjc_iterate_end; /* around x1,y1 */
-  } square_iterate_end; /* around x,y */
-
-  return FALSE;
-}
-
 /**************************************************************************
   Set the tile to be a river if required.
   It's required if one of the tiles nearby would otherwise be part of a

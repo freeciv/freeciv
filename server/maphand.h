@@ -89,7 +89,6 @@ void remove_shared_vision(struct player *pfrom, struct player *pto);
 
 void enable_fog_of_war(void);
 void disable_fog_of_war(void);
-bool is_coast_seen(int x, int y, struct player *pplayer);
 
 void map_update_borders_city_destroyed(int x, int y);
 void map_update_borders_city_change(struct city *pcity);
