@@ -2242,8 +2242,10 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
   secfile_insert_str(file, get_nation_name_orig(plr->nation),
 		     "player%d.nation", plrno);
-  /* 1.15 and later won't use the race field, they key on the nation string */
-  secfile_insert_int(file, plr->nation, "player%d.race", plrno);
+  /* 1.15 and later won't use the race field, they key on the nation string 
+   * This field is kept only for forward compatibility
+   * Nations can't be saved correctly because race must be < 62 */
+  secfile_insert_int(file, plrno, "player%d.race", plrno);
   if (plr->team != TEAM_NONE) {
     secfile_insert_str(file, (char *) team_get_by_id(plr->team)->name, 
                        "player%d.team", plrno);
