@@ -58,8 +58,6 @@ enum tech_state get_invention(struct player *pplayer, Tech_Type_id tech)
 void set_invention(struct player *pplayer, Tech_Type_id tech,
 		   enum tech_state value)
 {
-  assert(!is_barbarian(pplayer));
-
   if (pplayer->research.inventions[tech].state == value) {
     return;
   }
@@ -341,11 +339,13 @@ int total_bulbs_required(struct player *pplayer)
      style 1.
 
  tech_leakage:
- 0 - No leak
- 1 - Tech costs are multiplied by
-     (num_players-civs_with_tech)/num_players
- 2 - Same as 1, but civs_with_tech is only counted from players you
-     have embassy with
+ 0 - No reduction of the technology cost.
+ 1 - Technology cost is reduced depending on the number of players
+     which already know the tech and you have an embassy with.
+ 2 - Technology cost is reduced depending on the number of all players
+     (human, AI and barbarians) which already know the tech.
+ 3 - Technology cost is reduced depending on the number of normal
+     players (human and AI) which already know the tech.
 **************************************************************************/
 int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
 {
@@ -396,23 +396,9 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
 
   case 1:
     {
-      int players = get_num_human_and_ai_players();
-      if (players > 0) {
-	/* Every non barbarian-only game */
-	assert(players >= game.global_advances[tech]);
-	cost = ((players - game.global_advances[tech]) * cost) / players;
-      }
-    }
-    break;
-
-  case 2:
-    {
       int players = 0, players_with_tech_and_embassy = 0;
 
       players_iterate(other) {
-	if (is_barbarian(other)) {
-	  continue;
-	}
 	players++;
 	if (get_invention(other, tech) == TECH_KNOWN
 	    && player_has_embassy(pplayer, other)) {
@@ -421,6 +407,39 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
       } players_iterate_end;
 
       cost = ((players - players_with_tech_and_embassy) * cost) / players;
+    }
+    break;
+
+  case 2:
+    {
+      int players = 0, players_with_tech = 0;
+
+      players_iterate(other) {
+	players++;
+	if (get_invention(other, tech) == TECH_KNOWN) {
+	  players_with_tech++;
+	}
+      } players_iterate_end;
+
+      cost = ((players - players_with_tech) * cost) / players;
+    }
+    break;
+
+  case 3:
+    {
+      int players = 0, players_with_tech = 0;
+
+      players_iterate(other) {
+	if (is_barbarian(other)) {
+	  continue;
+	}
+	players++;
+	if (get_invention(other, tech) == TECH_KNOWN) {
+	  players_with_tech++;
+	}
+      } players_iterate_end;
+
+      cost = ((players - players_with_tech) * cost) / players;
     }
     break;
 

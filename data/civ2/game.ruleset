@@ -57,8 +57,11 @@ granary_food_inc	= 100
 tech_cost_style = 0
 
 ; Technology leak from other civilizations
-;   0 - No leak
-;   1 - Tech costs are multiplied by (num_players-civs_with_tech)/num_players
-;   2 - Same as 1, but civs_with_tech is only counted from players you have
-;       embassy with
+; 0 - No reduction of the technology cost.
+; 1 - Technology cost is reduced depending on the number of players
+;     which already know the tech and you have an embassy with.
+; 2 - Technology cost is reduced depending on the number of all players
+;     (human, AI and barbarians) which already know the tech.
+; 3 - Technology cost is reduced depending on the number of normal
+;     players (human and AI) which already know the tech.
 tech_leakage = 0

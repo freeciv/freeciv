@@ -2257,7 +2257,7 @@ static void load_ruleset_game(char *ruleset_subdir)
 
   game.rgame.tech_leakage =
       secfile_lookup_int(&file, "civstyle.tech_leakage");
-  if (game.rgame.tech_leakage < 0 || game.rgame.tech_leakage > 2) {
+  if (game.rgame.tech_leakage < 0 || game.rgame.tech_leakage > 3) {
     freelog(LOG_ERROR, "Bad value %i for tech_leakage. Using 0.",
 	    game.rgame.tech_leakage);
     game.rgame.tech_leakage = 0;
