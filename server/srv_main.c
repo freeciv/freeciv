@@ -199,7 +199,7 @@ static bool is_game_over(void)
   /* quit if we are past the year limit */
   if (game.year > game.end_year) {
     notify_conn(&game.est_connections, 
-       "Game ended in a draw as end year exceeded");
+       _("Game ended in a draw as end year exceeded"));
     gamelog(GAMELOG_NORMAL, _("Game ended in a draw as end year exceeded"));
     return TRUE;
   }
@@ -228,7 +228,7 @@ static bool is_game_over(void)
   team_iterate(pteam) {
     if (team_count_members_alive(pteam->id) == alive) {
       notify_conn(&game.est_connections, 
-          "Team victory to %s", pteam->name);
+          _("Team victory to %s"), pteam->name);
       gamelog(GAMELOG_NORMAL, _("Team victory to %s"), pteam->name);
       gamelog(GAMELOG_TEAM, "TEAMVICTORY %s", pteam->name);
       return TRUE;
@@ -238,13 +238,13 @@ static bool is_game_over(void)
   /* quit if only one player is left alive */
   if (alive == 1) {
     notify_conn(&game.est_connections, 
-        "Game ended in victory for %s", victor->name);
+        _("Game ended in victory for %s"), victor->name);
     gamelog(GAMELOG_NORMAL, _("Game ended in victory for %s"), 
         victor->name);
     gamelog(GAMELOG_TEAM, "SINGLEWINNER %s", victor->name);
     return TRUE;
   } else if (alive == 0) {
-    notify_conn(&game.est_connections, "Game ended in a draw");
+    notify_conn(&game.est_connections, _("Game ended in a draw"));
     gamelog(GAMELOG_NORMAL, _("Game ended in a draw"));
     gamelog(GAMELOG_TEAM, "NOWINNER");
     return TRUE;
@@ -637,7 +637,7 @@ static void handle_report_request(struct connection *pconn,
     break;
   case REPORT_SERVER_OPTIONS: /* obsolete */
   default:
-    notify_conn(dest, "Game: request for unknown report (type %d)", type);
+    notify_conn(dest, _("Game: request for unknown report (type %d)"), type);
   }
 }
 
@@ -1171,7 +1171,7 @@ static void introduce_game_to_connection(struct connection *pconn)
    */
   show_players(pconn);
 
-  /* notify_conn(dest, "Waiting for the server to start the game."); */
+  /* notify_conn(dest, _("Waiting for the server to start the game.")); */
   /* I would put this here, but then would need another message when
      the game is started. --dwp */
 }
