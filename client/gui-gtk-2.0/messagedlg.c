@@ -62,11 +62,11 @@ static GtkWidget *create_messageopt_dialog(void)
   	GTK_WINDOW(toplevel),
 	0,
 	GTK_STOCK_CANCEL,
-	GTK_RESPONSE_REJECT,
+	GTK_RESPONSE_CANCEL,
 	GTK_STOCK_OK,
-	GTK_RESPONSE_ACCEPT,
+	GTK_RESPONSE_OK,
 	NULL);
-  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   gtk_widget_set_name(shell, "Freeciv");
 
@@ -176,7 +176,7 @@ static void messageopt_destroy_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void messageopt_command_callback(GtkWidget *w, gint response_id)
 {
-  if (response_id == GTK_RESPONSE_ACCEPT) {
+  if (response_id == GTK_RESPONSE_OK) {
     ITree it;
     gint n, j, i;
     gboolean toggle;

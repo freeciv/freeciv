@@ -196,7 +196,7 @@ static void rates_changed_callback(GtkAdjustment *adj)
 **************************************************************************/
 static void rates_command_callback(GtkWidget *w, gint response_id)
 {
-  if (response_id == GTK_RESPONSE_ACCEPT) {
+  if (response_id == GTK_RESPONSE_OK) {
     struct packet_player_request packet;
   
 
@@ -233,11 +233,11 @@ static GtkWidget *create_rates_dialog(void)
   	GTK_WINDOW(toplevel),
 	0,
 	GTK_STOCK_CANCEL,
-	GTK_RESPONSE_REJECT,
+	GTK_RESPONSE_CANCEL,
 	GTK_STOCK_OK,
-	GTK_RESPONSE_ACCEPT,
+	GTK_RESPONSE_OK,
 	NULL);
-  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
   rates_gov_label = gtk_label_new("");

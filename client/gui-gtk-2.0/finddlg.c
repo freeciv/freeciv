@@ -67,7 +67,7 @@ void popup_find_dialog(void)
   	GTK_WINDOW(toplevel),
 	0,
 	GTK_STOCK_CANCEL,
-	GTK_RESPONSE_REJECT,
+	GTK_RESPONSE_CANCEL,
 	GTK_STOCK_FIND,
 	GTK_RESPONSE_ACCEPT,
 	NULL);
