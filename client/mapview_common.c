@@ -939,7 +939,7 @@ static void tile_draw_borders(struct canvas *pcanvas,
   struct player *this_owner = map_get_owner(map_x, map_y), *adjc_owner;
   int start_x, start_y, end_x, end_y;
 
-  if (!draw_borders || game.borders == 0 || !this_owner) {
+  if (!draw_borders || game.borders == 0) {
     return;
   }
 
@@ -952,7 +952,8 @@ static void tile_draw_borders(struct canvas *pcanvas,
      * to do the drawing in layers rather than per-tile.  In the meantime
      * we use this hack. */
     adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
-      if (dir < 4
+      if ((dir == DIR8_WEST || dir == DIR8_NORTHWEST
+	   || dir == DIR8_NORTH || dir == DIR8_NORTHEAST)
 	  && get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
 				  &start_x, &start_y, &end_x, &end_y)
 	  && tile_get_known(adjc_x, adjc_y)
@@ -971,6 +972,9 @@ static void tile_draw_borders(struct canvas *pcanvas,
       }
     } adjc_dir_iterate_end;
   } else {
+    if (!this_owner) {
+      return;
+    }
     adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
       if (get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
 			      &start_x, &start_y, &end_x, &end_y)
