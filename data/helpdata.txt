@@ -1288,7 +1288,7 @@ they have regained all of their hit points.
 ---
 @START_UNITS
 # AEGIS Cruiser
-%% Doubles defence against missiles and aircraft.
+%% Quintuples defence against missiles and aircraft.
 ---
 # Alpine Troops
 %% Alpine Troops treat all squares as if they have roads.
@@ -1582,9 +1582,11 @@ Next, the defender's strength is modified.
    of the terrain it occupies.
 
  - Next, the defender's strength is doubled if it is a Pikeman unit
-   defending against horsemen, or if it is an AEGIS Cruiser
-   defending against airborne units (including missiles and
-   Helicopters).
+   defending against horsemen.
+
+ - If the defender is an AEGIS Cruiser defending against airborne
+   units (including missiles and Helicopters), the defense is
+   quintupled.
 
  - The defender's strength is doubled again if it is in a city with
    a SAM Battery and the attacker is an air unit (other than a
